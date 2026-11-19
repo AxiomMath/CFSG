@@ -53,11 +53,14 @@ private def sl2inv_I {q : ℕ} {E : Subgroup G} (hE : IsElemAbelian q E) (h₀ :
     calc h₀ * x⁻¹ * h₀⁻¹ = (h₀ * x * h₀⁻¹)⁻¹ := by group
       _ = (x⁻¹)⁻¹ := h
 
+omit [Finite G] in
 private lemma sl2inv_C_le {h₀ : G} {E : Subgroup G} : sl2inv_C h₀ E ≤ E := fun _ hx => hx.1
 
+omit [Finite G] in
 private lemma sl2inv_I_le {q : ℕ} {E : Subgroup G} (hE : IsElemAbelian q E) {h₀ : G} :
     sl2inv_I hE h₀ ≤ E := fun _ hx => hx.1
 
+omit [Finite G] in
 private lemma sl2inv_conj_sq_eq_self {h₀ : G} {E : Subgroup G}
     (h₀2 : h₀ * h₀ ∈ Subgroup.centralizer (E : Set G)) {x : G} (hx : x ∈ E) :
     h₀ * (h₀ * x * h₀⁻¹) * h₀⁻¹ = x := by
@@ -66,11 +69,13 @@ private lemma sl2inv_conj_sq_eq_self {h₀ : G} {E : Subgroup G}
   calc h₀ * (h₀ * x * h₀⁻¹) * h₀⁻¹ = (h₀ * h₀) * x * (h₀ * h₀)⁻¹ := by group
     _ = x := by rw [hcomm.symm]; group
 
+omit [Finite G] in
 private lemma sl2inv_conj_mem {h₀ : G} {E : Subgroup G}
     (h₀N : h₀ ∈ Subgroup.normalizer (E : Set G)) {x : G} (hx : x ∈ E) :
     h₀ * x * h₀⁻¹ ∈ E :=
   (Subgroup.mem_normalizer_iff.mp h₀N x).mp hx
 
+omit [Finite G] in
 private lemma sl2inv_C_inf_I_eq_bot {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) {E : Subgroup G}
     (hE : IsElemAbelian q E) {h₀ : G} :
     sl2inv_C h₀ E ⊓ sl2inv_I hE h₀ = ⊥ := by
@@ -92,6 +97,7 @@ private lemma sl2inv_C_inf_I_eq_bot {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) {E 
     exact Nat.dvd_one.mp (by simpa [hgcd] using Nat.dvd_gcd h2dvd hqdvd)
   exact orderOf_eq_one_iff.mp h1
 
+omit [Finite G] in
 private lemma sl2inv_sup_C_I_eq {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) {E : Subgroup G}
     (hE : IsElemAbelian q E) {h₀ : G}
     (h₀N : h₀ ∈ Subgroup.normalizer (E : Set G))
@@ -135,6 +141,7 @@ private lemma sl2inv_sup_C_I_eq {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) {E : Su
   rw [hxpow]
   exact Subgroup.pow_mem _ hx2_mem _
 
+omit [Finite G] in
 private lemma sl2inv_conj_h_conj_h₀ {h₀ h c : G} {E : Subgroup G}
     (h₀N : h₀ ∈ Subgroup.normalizer (E : Set G))
     (hN : h ∈ Subgroup.normalizer (E : Set G))
@@ -158,6 +165,7 @@ private lemma sl2inv_conj_h_conj_h₀ {h₀ h c : G} {E : Subgroup G}
           rw [hca]
           group
 
+omit [Finite G] in
 private lemma sl2inv_H_le_normalizer_C {h₀ : G} {E H : Subgroup G}
     (hHE : H ≤ Subgroup.normalizer (E : Set G))
     (h₀N : h₀ ∈ Subgroup.normalizer (E : Set G))
@@ -184,6 +192,7 @@ private lemma sl2inv_H_le_normalizer_C {h₀ : G} {E H : Subgroup G}
       rw [hc.2] at hform
       simpa [hinner] using hform
 
+omit [Finite G] in
 private lemma sl2inv_H_le_normalizer_I {q : ℕ} {E H : Subgroup G} {h₀ : G}
     (hE : IsElemAbelian q E)
     (hHE : H ≤ Subgroup.normalizer (E : Set G))
@@ -345,10 +354,10 @@ private lemma sl2inv_A_mul_B_ne_B_mul_A (q : ℕ) [Fact q.Prime] :
   change ((!![1, 1; 0, 1] * !![1, 0; 1, 1] : Matrix (Fin 2) (Fin 2) (ZMod q)) 0 0) =
     ((!![1, 0; 1, 1] * !![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) (ZMod q)) 0 0) at h00
   have h21 : (2 : ZMod q) = 1 := by
-    simpa [Matrix.mul_apply, Fin.sum_univ_two] using h00
+    simp [Matrix.mul_apply, Fin.sum_univ_two] at h00
   have h1 : (1 : ZMod q) ≠ 0 := by
     intro hz
-    have hdvd : q ∣ 1 := (ZMod.natCast_eq_zero_iff 1 q).mp (by simpa using hz)
+    have hdvd : q ∣ 1 := (ZMod.natCast_eq_zero_iff 1 q).mp (by simp at hz)
     exact (Fact.out : q.Prime).not_dvd_one hdvd
   apply h1
   calc (1 : ZMod q) = 2 - 1 := by ring
@@ -373,13 +382,12 @@ theorem exists_inverting_of_sl2_quotient {G : Type*} [Group G] [Finite G] {q : �
     have h := CFSG.Semidihedral.OddFieldSL2.minusIdentity_ne_one (ZMod q) h2z
     simpa [CFSG.Semidihedral.OddFieldSL2.minusIdentity] using h
   have hneg_sq : (-1 : sl2inv_SL2 q) ^ 2 = 1 := by
-    simpa [CFSG.Semidihedral.OddFieldSL2.minusIdentity] using
-      CFSG.Semidihedral.OddFieldSL2.minusIdentity_square (ZMod q)
+    simp
   have hneg_comm : ∀ s : sl2inv_SL2 q, (-1 : sl2inv_SL2 q) * s = s * (-1) := by
     intro s
     have hcenter := CFSG.Semidihedral.OddFieldSL2.minusIdentity_mem_center (ZMod q)
     have h := (Subgroup.mem_center_iff.mp hcenter) s
-    simpa [CFSG.Semidihedral.OddFieldSL2.minusIdentity] using h.symm
+    simp
   obtain ⟨h₀, hh₀φ⟩ := hφ (-1 : sl2inv_SL2 q)
   have h₀_not_cent : (h₀ : G) ∉ Subgroup.centralizer (E : Set G) := by
     intro hc

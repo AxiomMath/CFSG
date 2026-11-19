@@ -367,7 +367,7 @@ private lemma genC_block (K : Type) [Field K] (m : ℕ) [NeZero m] (j : Fin m) (
       1 := by
   rw [Matrix.transpose_add, Matrix.transpose_one, Matrix.transpose_single]
   have hXX : Matrix.single j (0 : Fin m) (1 : K) * Matrix.single j (0 : Fin m) (1 : K) = 0 := by
-    simp [hj, Ne.symm hj]
+    simp [Ne.symm hj]
   rw [Matrix.add_mul, Matrix.mul_sub, Matrix.mul_sub, Matrix.one_mul, Matrix.one_mul,
     Matrix.mul_one, hXX]
   abel

@@ -62,10 +62,10 @@ private theorem rckRPfsl_ne_zero
     (φ : (ggU .PSL m g).K →* X) (hφr : φ.range = K)
     (hJ : IsComponentOf J (K ⊓ Subgroup.centralizer {d})) : m ≠ 0 := by
   rintro rfl
-  haveI : Subsingleton (ggU .PSL 0 g).K := by
+  have : Subsingleton (ggU .PSL 0 g).K := by
     show Subsingleton (Matrix.SpecialLinearGroup (Fin 1) (ZMod 2))
     infer_instance
-  haveI : Subsingleton ↥(φ.range) := (MonoidHom.rangeRestrict_surjective φ).subsingleton
+  have : Subsingleton ↥(φ.range) := (MonoidHom.rangeRestrict_surjective φ).subsingleton
   have hKbot : K = ⊥ := by rw [← hφr]; exact Subgroup.eq_bot_of_subsingleton _
   have hle : J ≤ (⊥ : Subgroup X) := by
     calc J ≤ K ⊓ Subgroup.centralizer ({d} : Set X) := hJ.1

@@ -102,13 +102,13 @@ theorem l05nBL_align (hConj : GGWeylSimpleSystemsConjInput) {G : Type} [Group G]
   obtain ⟨ΛL, i1L, i2L, S, ML, CL, MJL, VL, i3L, i4L, ιL, φL, hL1, αL,
     hS1, hS2, hWML, hCLL, hWMJL, hMJL, hlinL, hreflL, hpairL, hfLex, hclosL, hfJLex, hclosJL,
     hconjL⟩ := hL
-  letI := i1L; letI := i2L; letI := i3L; letI := i4L
+  let := i1L; let := i2L; let := i3L; let := i4L
   obtain ⟨fL, hfL⟩ := hfLex
   obtain ⟨fJL, hfJL⟩ := hfJLex
   obtain ⟨Λj, i1K, i2K, Λa, i3K, i4K, MK0, CKraw, MJK, VK, i5K, i6K, ιK, φK0, hK0, αK0,
     hcard1, hcard2, hkK, hWMK0, hCKK0, hWMJK, hMJKK, hlinK0, hreflK0, hpairK0, hfK0ex, hclosK0,
     hfJKex, hclosJK, hconjK⟩ := hK
-  letI := i1K; letI := i2K; letI := i5K; letI := i6K
+  let := i1K; let := i2K; let := i5K; let := i6K
   obtain ⟨fK0, hfK0⟩ := hfK0ex
   obtain ⟨fJK, hfJK⟩ := hfJKex
   have hT : ∀ k : Λj, ∃ (u : ↥(ggAutomizer J Bs)) (i : {i : ΛL // i ∉ S}),

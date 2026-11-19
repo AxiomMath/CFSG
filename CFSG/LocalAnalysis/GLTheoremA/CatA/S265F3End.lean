@@ -24,8 +24,8 @@ theorem qUConcl_of_model {p : ℕ} {S B T : Subgroup Ω} {x b : Ω} (cfg : QUCfg
     QUConcl p S B x b := by
   classical
   have hp := cfg.prime
-  haveI := Fact.mk hp
-  haveI := cfg.normal
+  have := Fact.mk hp
+  have := cfg.normal
   have hnorm : ∀ g : Ω, g ∈ Subgroup.normalizer (S : Set Ω) := fun g => by
     rw [Subgroup.normalizer_eq_top]
     exact Subgroup.mem_top g
@@ -71,7 +71,6 @@ theorem qUConcl_of_model {p : ℕ} {S B T : Subgroup Ω} {x b : Ω} (cfg : QUCfg
     rw [Subgroup.mem_centralizer_singleton_iff]
     first
     | exact cfg.xcen s
-    | exact (cfg.xcen s).symm
   exact Or.inl (exists_e3_of_layer hp cfg.elem cfg.xB cfg.x1 hSx cfg.hb cfg.hbx (hE₁B he₀E) he₀D hne)
 
 end CFSG.LocalAnalysis.GLTheoremA.S265F3

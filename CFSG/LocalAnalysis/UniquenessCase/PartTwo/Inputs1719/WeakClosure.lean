@@ -56,6 +56,7 @@ theorem isE_not_le_pCoreOf {H S A : Subgroup G} {k : ℕ} (hK : E1.IsE k H S A H
     · rw [hbarRad, hcard_bot'] at hcard
       exact absurd hcard (by norm_num)
 
+omit [Finite G] in
 private theorem map_conj_eq_conjSubgroup (X : Subgroup G) (x : G) :
     X.map (MulAut.conj x).toMonoidHom = conjSubgroup X x⁻¹ := by
   rw [CFSG.Quasithin.conjSubgroup, inv_inv]
@@ -76,6 +77,7 @@ private theorem isE_conj' {x : G} {i : ℕ} {H S A K : Subgroup G} :
   have h := E1.isE_map_mulEquiv (e := MulAut.conj x) (i := i) (H := H) (T := S) (A := A) (K := K)
   simpa only [map_conj_eq_conjSubgroup] using h
 
+omit [Finite G] in
 private theorem isSylowIn_conj' {x : G} {p : ℕ} {P H : Subgroup G} :
     IsSylowIn p (conjSubgroup P x⁻¹) (conjSubgroup H x⁻¹) ↔ IsSylowIn p P H := by
   have h := E1.isSylowIn_conj_iff (g := x) (p := p) (P := P) (H := H)

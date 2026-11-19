@@ -46,18 +46,18 @@ theorem commutator_centralizer_s_facts (C : ThCore G)
     intro y
     apply Subtype.ext
     simpa using Subgroup.mem_centralizer_singleton_iff.mp y.2
-  haveI : N.Normal := Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hcenter)
+  have : N.Normal := Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hcenter)
   let X : Type := ↥CS ⧸ N
   let π : ↥CS →* X := QuotientGroup.mk' N
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective N
   have hπker : π.ker = N := QuotientGroup.ker_mk' N
-  letI : Finite X := Finite.of_surjective π hπsurj
+  let : Finite X := Finite.of_surjective π hπsurj
   obtain ⟨hcent, hO, j, hj⟩ := quotient_centralizer_facts C sM hsM hM7 π hπsurj hπker
   have hjne : j ≠ 1 := by
     intro h
     rw [h, orderOf_one] at hj
     exact absurd hj (by norm_num)
-  haveI : Nontrivial X := ⟨j, 1, hjne⟩
+  have : Nontrivial X := ⟨j, 1, hjne⟩
   have h7or9 := CFSG.statedClassicalModel_psl_two_seven_or_nine_of_centralizers hO hcent
   have hXcard : Nat.card X = 168 ∨ Nat.card X = 360 := by
     rcases h7or9 with h | h
@@ -67,12 +67,12 @@ theorem commutator_centralizer_s_facts (C : ThCore G)
     rcases h7or9 with h | h
     · exact CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel_psl_two h
     · exact CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel_psl_two h
-  haveI : IsSimpleGroup X := hXsimple
+  have : IsSimpleGroup X := hXsimple
   have hXperfect : commutator X = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator X) with h | h
     · exfalso
       have hcomm : IsMulCommutative X := (commutator_eq_bot_iff X).mp h
-      haveI : IsMulCommutative X := hcomm
+      have : IsMulCommutative X := hcomm
       have hprime : Nat.Prime (Nat.card X) :=
         (Group.is_simple_iff_prime_card (α := X)).mp hXsimple
       rcases hXcard with hc | hc <;> rw [hc] at hprime <;> norm_num at hprime
@@ -86,9 +86,9 @@ theorem commutator_centralizer_s_facts (C : ThCore G)
     rw [mul_comm]
     exact h
   have hPcomm : ∃ P : Sylow 7 ↥CS, IsMulCommutative ↥P := by
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     let P : Sylow 7 ↥CS := Classical.choice Sylow.nonempty
-    have hexp : ∃ n, Nat.card ↥P = 7 ^ n := IsPGroup.iff_card.mp P.isPGroup'
+    have hexp : ∃ n, Nat.card ↥P = 7 ^ n := IsPGroup.iff_card.mp P.isPGroup
     obtain ⟨n, hn⟩ := hexp
     have hdvd : 7 ^ n ∣ 7 * Nat.card X := by
       rw [← hcardCS, ← hn]
@@ -106,15 +106,15 @@ theorem commutator_centralizer_s_facts (C : ThCore G)
     have hab : IsMulCommutative ↥P := by
       interval_cases n
       · have h1 : Nat.card ↥P = 1 := by rw [hn]; norm_num
-        haveI : Subsingleton ↥P := (Nat.card_eq_one_iff_unique.mp h1).1
+        have : Subsingleton ↥P := (Nat.card_eq_one_iff_unique.mp h1).1
         exact IsMulCommutative.of_comm fun a b => Subsingleton.elim _ _
-      · haveI : IsCyclic ↥P := isCyclic_of_prime_card (p := 7) (by rw [hn]; norm_num)
+      · have : IsCyclic ↥P := isCyclic_of_prime_card (p := 7) (by rw [hn]; norm_num)
         exact IsCyclic.isMulCommutative
       · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 7) (by rw [hn])
     exact ⟨P, hab⟩
   obtain ⟨P, hPcomm⟩ := hPcomm
   have hinf : commutator ↥CS ⊓ N = ⊥ := by
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     exact CFSG.GroupTheory.commutator_inf_zpowers_eq_bot P hPcomm hcenter hšord
   have hmap : Subgroup.map π (commutator ↥CS) = ⊤ := by
     change Subgroup.map π ⁅(⊤ : Subgroup ↥CS), ⊤⁆ = ⊤
@@ -200,7 +200,7 @@ theorem psi_D8_le_L (C : ThCore G)
     intro y
     apply Subtype.ext
     simpa using Subgroup.mem_centralizer_singleton_iff.mp y.2
-  haveI : N.Normal := Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hcenter)
+  have : N.Normal := Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hcenter)
   have hA := commutator_centralizer_s_facts C sM hsM hM7
   have hdisj : L ⊓ Subgroup.zpowers s = ⊥ := hA.1
   have hsupL : L ⊔ Subgroup.zpowers s = CS := hA.2.1
@@ -388,8 +388,8 @@ theorem t_centralizes_L (C : ThCore G)
   have hOut : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥L) ∣ 4 := by
     rcases hmodel with h | h
     · obtain ⟨-, F, hField, hFinite, hF, ⟨e⟩⟩ := h
-      letI : Field F := hField
-      letI : Finite F := hFinite
+      let : Field F := hField
+      let : Finite F := hFinite
       have e' : ↥L ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) F :=
         e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F).symm
       have hdiv := (CFSG.LocalAnalysis.ComponentInitial.linear_two_outer_order_divisor
@@ -397,8 +397,8 @@ theorem t_centralizes_L (C : ThCore G)
       rw [show (1 : ℕ) * Nat.gcd 2 (7 ^ 1 - 1) = 2 by norm_num] at hdiv
       exact hdiv.trans (by norm_num : 2 ∣ 4)
     · obtain ⟨-, F, hField, hFinite, hF, ⟨e⟩⟩ := h
-      letI : Field F := hField
-      letI : Finite F := hFinite
+      let : Field F := hField
+      let : Finite F := hFinite
       have e' : ↥L ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) F :=
         e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F).symm
       have hdiv := (CFSG.LocalAnalysis.ComponentInitial.linear_two_outer_order_divisor
@@ -422,10 +422,10 @@ theorem t_centralizes_L (C : ThCore G)
     rcases hmodel with h | h
     · exact CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel_psl_two h
     · exact CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel_psl_two h
-  haveI : IsSimpleGroup ↥L := hLsimple
+  have : IsSimpleGroup ↥L := hLsimple
   have hLnoncomm : ¬ IsMulCommutative ↥L := by
     intro hcomm
-    haveI : IsMulCommutative ↥L := hcomm
+    have : IsMulCommutative ↥L := hcomm
     have hprime : Nat.Prime (Nat.card ↥L) :=
       (Group.is_simple_iff_prime_card (α := ↥L)).mp hLsimple
     rcases hmodel with h | h
@@ -448,7 +448,7 @@ theorem t_centralizes_L (C : ThCore G)
       have hconj : MulAut.conj (g ^ 3) = 1 := by
         rw [MulAut.conj.map_pow, hg, hα3]
       have h := congrArg (fun e : MulAut ↥L => e y) hconj
-      simp only [MulAut.conj_apply, OneHom.one_apply] at h
+      simp only [MulAut.conj_apply] at h
       have h' : g ^ 3 * y * (g ^ 3)⁻¹ = y := by simpa using h
       calc y * g ^ 3 = (g ^ 3 * y * (g ^ 3)⁻¹) * g ^ 3 := by rw [h']
         _ = g ^ 3 * y := by group
@@ -541,7 +541,7 @@ theorem t_centralizes_L (C : ThCore G)
     show (y : G) * (x : G) = (x : G) * (y : G)
     rw [← hk]
     exact (hcomm.zpow_right k).eq
-  haveI : NE.Normal := hNE_normal
+  have : NE.Normal := hNE_normal
   let gE : ↥E := ⟨(g : G), hgE⟩
   have hgE_sup : gE ∈ NE ⊔ DE := by
     rw [show NE ⊔ DE = ⊤ by rw [sup_comm, hDE_sup]]
@@ -653,10 +653,10 @@ theorem commutator_centralizer_s_psl_two_seven (C : ThCore G)
     rcases hmodel with h | h
     · exact CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel_psl_two h
     · exact CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel_psl_two h
-  haveI : IsSimpleGroup ↥L := hLsimple
+  have : IsSimpleGroup ↥L := hLsimple
   have hLnoncomm : ¬ IsMulCommutative ↥L := by
     intro hcomm
-    haveI : IsMulCommutative ↥L := hcomm
+    have : IsMulCommutative ↥L := hcomm
     have hprime : Nat.Prime (Nat.card ↥L) :=
       (Group.is_simple_iff_prime_card (α := ↥L)).mp hLsimple
     rcases hmodel with h | h

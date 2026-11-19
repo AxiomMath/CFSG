@@ -84,6 +84,7 @@ theorem le_wGen_of_commute {k : ℕ} {P Q A₁ V : Subgroup G} (hA₁ : A₁ ∈
       (hA₁.2.2 B' hB'P hB').trans (Nat.mul_le_mul_left _ (Subgroup.card_le_of_le le_sup_right))⟩
   exact le_sup_left.trans (E5.le_wGen hmem)
 
+omit [Finite G] in
 theorem omegaOneCenter_le_of_tau {P A K : Subgroup G} {n : ℕ} (hAJ : A ≤ H13.thompsonJk n P)
     (hτ : E1.tauOf ⊤ P A ≤ P ⊓ K) : omegaOneCenterOf (H13.thompsonJk n P) ≤ K := by
   intro d hd

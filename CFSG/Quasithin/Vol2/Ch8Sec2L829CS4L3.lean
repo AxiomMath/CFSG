@@ -10,7 +10,7 @@ namespace CFSG.Quasithin.H13
 
 open CFSG.Open CFSG.Quasithin
 
-theorem not_surv2b_of_pRank {G : Type} [Group G] [Finite G] {H K M : Subgroup G} (hKH : K ≤ H)
+theorem not_surv2b_of_pRank {G : Type} [Group G] [Finite G] {H K M : Subgroup G} (_hKH : K ≤ H)
     (hJ : ∀ x : G, x ∈ kerIn M H ↔
       x ∈ K ⊔ pCoreOf 2 H ∧ ∀ y ∈ K ⊔ pCoreOf 2 H, x * y * x⁻¹ * y⁻¹ ∈ pCoreOf 2 H)
     (hn : ∃ n : ℕ, 1 ≤ n ∧
@@ -22,10 +22,10 @@ theorem not_surv2b_of_pRank {G : Type} [Group G] [Finite G] {H K M : Subgroup G}
     · exact R3c3.two_le_pRank_three_isPSL_three_two_even hev hL
     · unfold E2.IsSp4Prime at hSp
       by_cases h1 : n = 1
-      · rw [if_pos h1] at hSp
+      · rw [ite_eq_left h1] at hSp
         obtain ⟨e⟩ := hSp
         exact R3c3.two_le_pRank_three_alt (le_refl 6) e
-      · rw [if_neg h1] at hSp
+      · rw [ite_eq_right h1] at hSp
         exact R3c3.two_le_pRank_three_isPSp_two hSp
   obtain ⟨E₀, hE₀, hE₀9⟩ := exists_elemAb9_of_two_le_pRank hrk
   set Y : Subgroup H := (kerIn M H).subgroupOf H with hYdef

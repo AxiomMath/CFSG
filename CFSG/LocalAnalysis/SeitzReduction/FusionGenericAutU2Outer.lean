@@ -123,6 +123,6 @@ theorem commutator_mem_of_sylow_le_centralizer_of_isCyclic_outer_two [Finite G] 
       IsCyclic (B.map (QuotientGroup.mk' (inner L)))) :
     ∀ S : Sylow 2 G, (S : Subgroup G) ≤ centralizer ({t} : Set G) →
       ∀ y ∈ (S : Subgroup G), ∀ z ∈ (S : Subgroup G), y * z * y⁻¹ * z⁻¹ ∈ L :=
-  fun S hSt => commutator_mem_of_isPGroup_of_isCyclic_outer htC ht hCN hK hcyc S.isPGroup' hSt
+  fun S hSt => commutator_mem_of_isPGroup_of_isCyclic_outer htC ht hCN hK hcyc S.isPGroup hSt
 
 end CFSG.SeitzReduction

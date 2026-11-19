@@ -57,8 +57,8 @@ private theorem commutator_root (m : ℕ) (hm : 0 < m) :
 
 theorem frattini_root (m : ℕ) (hm : 0 < m) :
     frattini (suzukiCoverRoot m) = Subgroup.center (suzukiCoverRoot m) := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 (suzukiCoverRoot m)) := ⟨isPGroup_root m hm⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 (suzukiCoverRoot m)) := ⟨isPGroup_root m hm⟩
   apply le_antisymm
   · rw [frattini_eq_closure_commutator_union_powers (p := 2), Subgroup.closure_le]
     rintro x (hx | ⟨y, rfl⟩)
@@ -121,7 +121,7 @@ theorem isCyclic_normalizer_root_quotient (m : ℕ) (hm : 0 < m) :
   let R := suzukiCoverRoot m
   let T := suzukiCoverTorus m
   have hN_eq : N = suzukiCoverRoot m ⊔ suzukiCoverTorus m := normalizer_root m hm
-  haveI : IsCyclic T := isCyclic_torus m hm
+  have : IsCyclic T := isCyclic_torus m hm
   have hT_le : T ≤ N := by
     rw [hN_eq]
     exact le_sup_right
@@ -281,9 +281,9 @@ theorem sylowPoint_smul (m : ℕ) (hm : 0 < m) (g : G m) (U : Sylow 2 (G m)) :
 
 theorem sylowPoint_surjective (m : ℕ) (hm : 0 < m) :
     Function.Surjective (sylowPoint m hm) := by
-  haveI : MulAction.IsMultiplyPretransitive (G m) (SzOvoid m) 2 :=
+  have : MulAction.IsMultiplyPretransitive (G m) (SzOvoid m) 2 :=
     suzuki_ovoid_two_transitive m
-  haveI : MulAction.IsPretransitive (G m) (SzOvoid m) :=
+  have : MulAction.IsPretransitive (G m) (SzOvoid m) :=
     MulAction.isPretransitive_of_is_two_pretransitive
   intro p
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (G m) (ovoidInfinity m) p
@@ -315,7 +315,7 @@ noncomputable def sylowPointEquiv (m : ℕ) (hm : 0 < m) :
 private theorem ovoid_fixes_le_two (m : ℕ) (hm : 0 < m) {x : G m} (hx : x ≠ 1) :
     Nat.card {p : SzOvoid m // x • p = p} ≤ 2 := by
   classical
-  letI : Fintype (SzOvoid m) := Fintype.ofFinite _
+  let : Fintype (SzOvoid m) := Fintype.ofFinite _
   by_contra h
   have h2 : 2 < Fintype.card {p : SzOvoid m // x • p = p} := by
     rw [← Nat.card_eq_fintype_card]
@@ -330,13 +330,12 @@ theorem fixes_le_two_model (m : ℕ) (hm : 0 < m) :
   intro x hx
   let e : {U : Sylow 2 (G m) // x • U = U} ≃ {p : SzOvoid m // x • p = p} :=
     (sylowPointEquiv m hm).subtypeEquiv (fun U => by
-      change (x • U = U) ↔ (x • sylowPointEquiv m hm U = sylowPointEquiv m hm U)
       rw [show sylowPointEquiv m hm U = sylowPoint m hm U from rfl]
       rw [← sylowPoint_smul]
       exact (sylowPointEquiv m hm).injective.eq_iff.symm)
   exact (Nat.card_congr e).trans_le (ovoid_fixes_le_two m hm hx)
 
-theorem root_regular_point (m : ℕ) (hm : 0 < m) {a b : SzOvoid m}
+theorem root_regular_point (m : ℕ) (_hm : 0 < m) {a b : SzOvoid m}
     (ha : a ≠ ovoidInfinity m) (hb : b ≠ ovoidInfinity m) :
     ∃! r : suzukiCoverRoot m, r • a = b := by
   have ha' : (a.val : Projectivization (K m) (Fin 4 → K m)) ≠
@@ -494,8 +493,8 @@ private theorem card_other_sylow (m : ℕ) (hm : 0 < m) (U : Sylow 2 (G m)) :
   classical
   have hcardS : Nat.card (Sylow 2 (G m)) = q m ^ 2 + 1 := by
     rw [card_sylow_eq_ovoid m hm, suzuki_ovoid_card]
-  haveI : Finite (Sylow 2 (G m)) := SuzukiTorusData.sylow_finite
-  letI : Fintype (Sylow 2 (G m)) := Fintype.ofFinite _
+  have : Finite (Sylow 2 (G m)) := SuzukiTorusData.sylow_finite
+  let : Fintype (Sylow 2 (G m)) := Fintype.ofFinite _
   have h : Nat.card {P : Sylow 2 (G m) // P ≠ U} = Nat.card (Sylow 2 (G m)) - 1 := by
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     exact Set.card_ne_eq U
@@ -509,12 +508,12 @@ private theorem card_inf_normalizer_aux (m : ℕ) (hm : 0 < m) {U V : Sylow 2 (G
   classical
   let N := Subgroup.normalizer ((U : Subgroup (G m)) : Set (G m))
   let D := N ⊓ Subgroup.normalizer ((V : Subgroup (G m)) : Set (G m))
-  letI : MulAction ↥N {P : Sylow 2 (G m) // P ≠ U} := sylowNormalizerAction m U
+  let : MulAction ↥N {P : Sylow 2 (G m) // P ≠ U} := sylowNormalizerAction m U
   have htrans : MulAction.IsPretransitive ↥N {P : Sylow 2 (G m) // P ≠ U} :=
     ⟨fun P Q => by
       obtain ⟨u, hu, -⟩ := regular_sylow m hm U P.1 Q.1 P.2 Q.2
       exact ⟨⟨(u : G m), Subgroup.le_normalizer u.2⟩, Subtype.ext hu⟩⟩
-  letI : MulAction.IsPretransitive ↥N {P : Sylow 2 (G m) // P ≠ U} := htrans
+  let : MulAction.IsPretransitive ↥N {P : Sylow 2 (G m) // P ≠ U} := htrans
   let Vbar : {P : Sylow 2 (G m) // P ≠ U} := ⟨V, hUV.symm⟩
   have hidx := MulAction.index_stabilizer_of_transitive (↥N) Vbar
   let e : MulAction.stabilizer ↥N Vbar ≃ ↥D :=

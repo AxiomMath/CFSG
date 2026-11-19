@@ -74,11 +74,11 @@ theorem pRank_component_le (h : T29Setup X L x) :
 theorem false_of_centRankAt (h : T29Setup X L x) (hZ : center ↥L = ⊥)
     {d : ValidLieTypeIndex} (e : (↥L ⧸ center ↥L) ≃* (CFSGIndex.lie d).Group)
     (hd : CentRankAt d) : False := by
-  haveI : L.Normal := h.normal
+  have : L.Normal := h.normal
   have hC : centralizer (L : Set X) = ⊥ := h.centralizer_eq_bot hZ
   let f : ↥L ≃* (↥L ⧸ center ↥L) := mulEquivQuotientCenter hZ
-  haveI : IsSimpleGroup (↥L ⧸ center ↥L) := h.comp.2.2.2
-  haveI : IsSimpleGroup ↥L := f.isSimpleGroup
+  have : IsSimpleGroup (↥L ⧸ center ↥L) := h.comp.2.2.2
+  have : IsSimpleGroup ↥L := f.isSimpleGroup
   have hnab : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := ((CFSG.isComponent_iff_open L).mpr h.comp).1.2.2
     refine ⟨f.symm a, f.symm b, fun hc => hab ?_⟩

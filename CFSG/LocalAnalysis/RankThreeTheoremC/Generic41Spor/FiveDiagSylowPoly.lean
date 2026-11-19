@@ -13,7 +13,7 @@ namespace CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.FiveDiagAux
 theorem not_dvd_pow_sub_one {Q : ℕ} (hQ : 2 ≤ Q) (h5 : 5 ∣ Q - 1) (h25 : ¬ 25 ∣ Q - 1) {d : ℕ}
     (hd1 : 1 ≤ d) :
     (d ≤ 4 → ¬ 25 ∣ Q ^ d - 1) ∧ (d = 5 → ¬ 125 ∣ Q ^ d - 1) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hodd : Odd 5 := by decide
   have hQ1 : Q - 1 ≠ 0 := by omega
   have hv1 : padicValNat 5 (Q - 1) = 1 := by
@@ -96,7 +96,7 @@ theorem pow_eq_one_of_isIntegral {F L : Type} [Field F] [Finite F] [Field L] [Al
 
 theorem exists_algebraMap_eq_of_pow_five {F L : Type} [Field F] [Finite F] [Field L] [Algebra F L]
     (h5 : 5 ∣ Nat.card F - 1) {x : L} (hx : x ^ 5 = 1) : ∃ c : F, algebraMap F L c = x := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcard : 5 ∣ Nat.card Fˣ := by rwa [Nat.card_units]
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) 5 hcard
   have hprim : IsPrimitiveRoot (ζ : F) 5 := by
@@ -113,7 +113,7 @@ theorem exists_scalar_pow_five {F : Type} [Field F] [Finite F] (h5 : 5 ∣ Nat.c
   classical
   have h5F : (5 : F) ≠ 0 := by
     intro h0
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     have hQ0 : ((Nat.card F : ℕ) : F) = 0 := by
       rw [Nat.card_eq_fintype_card]
       exact FiniteField.cast_card_eq_zero F
@@ -183,7 +183,7 @@ theorem exists_scalar_pow_five {F : Type} [Field F] [Finite F] (h5 : 5 ∣ Nat.c
         Multiset.le_iff_subset (nodup_roots (hsep.map (f := algebraMap F L)))]
       intro r hr
       have hr' : aeval r μ = 0 := (mem_aroots'.1 hr).2
-      exact (mem_aroots').2 ⟨hX0, by simp [hall r hr', sub_eq_zero]⟩
+      exact (mem_aroots').2 ⟨hX0, by simp [hall r hr']⟩
     refine ⟨1, ?_⟩
     obtain ⟨q, hq⟩ := hdvd5
     have h0 : aeval g (X ^ 5 - 1 : F[X]) = 0 := by

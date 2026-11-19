@@ -291,7 +291,7 @@ theorem quasisimple_Le_six (hLV : L ≤ normalizer (V : Set G))
         set P₁ : Subgroup (↥L ⧸ CFSG.pCore 2 ↥L) := (P₀ : Subgroup R).map R.subtype with hP₁
         have hP₁card : Nat.card P₁ = 3 ^ 3 := by
           rw [hP₁, Subgroup.card_map_of_injective R.subtype_injective, hP₀]
-        have hP₁3 : IsPGroup 3 P₁ := P₀.isPGroup'.map R.subtype
+        have hP₁3 : IsPGroup 3 P₁ := P₀.isPGroup.map R.subtype
         have hP₁idx : ¬ 3 ∣ P₁.index := by
           have h1 := P₁.index_mul_card
           rw [hP₁card, hcardQ] at h1

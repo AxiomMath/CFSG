@@ -49,24 +49,33 @@ variable (D : FzRNum t x₁ x₂ lam rho tau T₂)
 
 @[expose] def fzrTh (n : ℕ) : Prop := n < 512 ∧ ∃ g : G, g * t * g⁻¹ = fzrMu D n
 
+omit [Finite G] in
 theorem fzrMu_mem (n : ℕ) : fzrMu D n ∈ T₂ := D.mu_mem n
 
+omit [Finite G] in
 theorem fzrMu_zero : fzrMu D 0 = 1 := D.mu_zero
 
+omit [Finite G] in
 theorem fzrMu_mul {n m : ℕ} (hn : n < 512) (hm : m < 512) :
     fzrMu D ((fzrPar D).e n m) = fzrMu D n * fzrMu D m := D.mu_mul n m hn hm
 
+omit [Finite G] in
 theorem fzrMu_inj {n m : ℕ} (hn : n < 512) (hm : m < 512) (h : fzrMu D n = fzrMu D m) :
     n = m := D.mu_inj n m hn hm h
 
+omit [Finite G] in
 theorem fzrMu_surj {g : G} (hg : g ∈ T₂) : ∃ n, n < 512 ∧ fzrMu D n = g := D.mu_surj g hg
 
+omit [Finite G] in
 theorem fzrMu_tI : fzrMu D 64 = t := D.mu_tI
 
+omit [Finite G] in
 theorem fzrMu_sI : fzrMu D 128 = tau := D.mu_sI
 
+omit [Finite G] in
 theorem fzrPar_nums : (fzrPar D).tI = 64 ∧ (fzrPar D).sI = 128 := ⟨D.tI_eq, D.sI_eq⟩
 
+omit [Finite G] in
 theorem fzrPar_mul : FzMul (fzrPar D).e := by
   refine ⟨?_, ?_, ?_, ?_⟩
   · intro x y hx hy
@@ -92,6 +101,7 @@ theorem fzrPar_mul : FzMul (fzrPar D).e := by
     rw [fzrMu_zero, one_mul] at h
     exact h
 
+omit [Finite G] in
 theorem fzrPar_lt : (fzrPar D).tI < 512 ∧ (fzrPar D).sI < 512 ∧
     (∀ g ∈ (fzrPar D).gens.toList, g < 512) ∧ (∀ x, x < 256 → (fzrPar D).rhoMap x < 512) := by
   refine ⟨?_, ?_, D.gens_lt, D.rho_lt⟩
@@ -102,15 +112,19 @@ theorem fzrPar_lt : (fzrPar D).tI < 512 ∧ (fzrPar D).sI < 512 ∧
     rw [D.sI_eq]
     decide
 
+omit [Finite G] in
 theorem fzrMu_rho {x : ℕ} (hx : x < 256) :
     fzrMu D ((fzrPar D).rhoMap x) = rho * fzrMu D x * rho⁻¹ := D.mu_rho x hx
 
+omit [Finite G] in
 theorem fzrMu_inW {x : ℕ} (h : (fzrPar D).inW x = true) : fzrMu D x ∈ ctxW t x₁ x₂ :=
   D.mu_inW x h
 
+omit [Finite G] in
 theorem fzrMu_inTL {x : ℕ} (hx : x < 512) (h : (fzrPar D).inTL x = true) :
     fzrMu D x ∈ wreathGrp x₁ x₂ lam := D.mu_inTL x hx h
 
+omit [Finite G] in
 theorem fzrMu_inTZ {z : G} (hz : z ∈ fourGrp x₁ x₂) {x : ℕ} (hx : x < 512)
     (h : fzrMu D x = t * z) : (fzrPar D).inTZ x = true := D.mu_inTZ z hz x hx h
 
@@ -119,6 +133,7 @@ private noncomputable def fzrAux_pow2 (x : ℕ) : ℕ → ℕ
   | 0 => x
   | n + 1 => (fzrPar D).e (fzrAux_pow2 x n) (fzrAux_pow2 x n)
 
+omit [Finite G] in
 private theorem fzrAux_pow2_lt (x : ℕ) (hx : x < 512) (n : ℕ) :
     fzrAux_pow2 D x n < 512 := by
   induction n with
@@ -127,6 +142,7 @@ private theorem fzrAux_pow2_lt (x : ℕ) (hx : x < 512) (n : ℕ) :
       simpa [fzrAux_pow2] using
         (fzrPar_mul D).lt (fzrAux_pow2 D x n) (fzrAux_pow2 D x n) ih ih
 
+omit [Finite G] in
 private theorem fzrAux_pow2_mu (x : ℕ) (hx : x < 512) (n : ℕ) :
     fzrMu D (fzrAux_pow2 D x n) = (fzrMu D x) ^ (2 ^ n) := by
   induction n with
@@ -139,6 +155,7 @@ private theorem fzrAux_pow2_mu (x : ℕ) (hx : x < 512) (n : ℕ) :
         ring
       rw [← pow_add, h2]
 
+omit [Finite G] in
 private theorem fzrAux_eq_zero_iff (y : ℕ) (hy : y < 512) :
     y = 0 ↔ fzrMu D y = 1 := by
   constructor
@@ -148,10 +165,12 @@ private theorem fzrAux_eq_zero_iff (y : ℕ) (hy : y < 512) :
     apply fzrMu_inj D hy (by decide)
     rw [h, fzrMu_zero]
 
+omit [Finite G] in
 private theorem fzrAux_pow2_zero (x : ℕ) (hx : x < 512) (n : ℕ) :
     fzrAux_pow2 D x n = 0 ↔ (fzrMu D x) ^ (2 ^ n) = 1 := by
   rw [fzrAux_eq_zero_iff D _ (fzrAux_pow2_lt D x hx n), fzrAux_pow2_mu D x hx n]
 
+omit [Finite G] in
 theorem fzrMu_kord {x : ℕ} (hx : x < 512) :
     kord (fzrPar D).e x = fzrOrdClass (fzrMu D x) := by
   classical

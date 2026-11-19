@@ -39,7 +39,7 @@ theorem oddCoreIn_le_of_inO2_gen {G : Type} [Group G] [Finite G] {z u : G}
       ∀ n ∈ N, h * n * h⁻¹ ∈ N)
     (hodd : Odd (Nat.card N)) :
     N ≤ oddCoreIn (Subgroup.centralizer ({u} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := Subgroup.centralizer ({u} : Set G) with hH
   have hNH : N ≤ H := hNH
   have hzH : z ∈ H := Subgroup.mem_centralizer_singleton_iff.mpr hzu

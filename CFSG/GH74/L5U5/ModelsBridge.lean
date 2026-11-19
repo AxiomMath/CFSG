@@ -419,7 +419,7 @@ theorem center_sylow_centralizerBar (hG : Gen4 G) {x : G} (hx : orderOf x = 2)
     have hTle : Subgroup.zpowers (g⁻¹ * s * g) ≤ (S₁ : Subgroup (CentralizerBar x)) :=
       (Subgroup.zpowers_le).2 hs₁
     have hT2 : IsPGroup 2 (Subgroup.zpowers (g⁻¹ * s * g)) :=
-      S₁.isPGroup'.to_le hTle
+      S₁.isPGroup.to_le hTle
     have hcomm : ∀ (a : Q8 × Q8) (t : CentralizerBar x), t ∈ Subgroup.zpowers (g⁻¹ * s * g) →
         Φ a * t = t * Φ a := by
       intro a t ht
@@ -517,7 +517,7 @@ theorem xH_mem_sylow {x : G} (hx : orderOf x = 2)
 
 theorem eq_one_of_mem_sylow_of_mem_pPrimeCore {H : Type*} [Group H] [Finite H] (S : Sylow 2 H)
     {n : H} (hS : n ∈ (S : Subgroup H)) (hN : n ∈ pPrimeCore 2 H) : n = 1 := by
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨n, hS⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨n, hS⟩
   have hk' : n ^ (2 ^ k) = 1 := by simpa using congrArg Subtype.val hk
   have h1 : orderOf n ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk'
   have h2 : orderOf n ∣ Nat.card (pPrimeCore 2 H) := Subgroup.orderOf_dvd_natCard _ hN
@@ -584,7 +584,7 @@ theorem sylow_centralizer_isSylow (hG : Gen4 G) {x : G} (hx : orderOf x = 2)
         c ∈ Subgroup.zpowers x := by
   let H : Subgroup G := Subgroup.centralizer ({x} : Set G)
   let St : Subgroup G := (S : Subgroup ↥H).map H.subtype
-  have hSt : IsPGroup 2 ↥St := S.isPGroup'.map H.subtype
+  have hSt : IsPGroup 2 ↥St := S.isPGroup.map H.subtype
   obtain ⟨T₁, hT₁⟩ := hSt.exists_le_sylow
   have hxSt : x ∈ St := ⟨xH x, xH_mem_sylow hx S, rfl⟩
   have hxT₁ : x ∈ (T₁ : Subgroup G) := hT₁ hxSt
@@ -600,7 +600,7 @@ theorem sylow_centralizer_isSylow (hG : Gen4 G) {x : G} (hx : orderOf x = 2)
     have hle : St ⊔ Subgroup.zpowers c ≤ (T₁ : Subgroup G) :=
       sup_le hT₁ ((Subgroup.zpowers_le).2 hcT)
     have hQ2 : IsPGroup 2 ↥((St ⊔ Subgroup.zpowers c).subgroupOf H) :=
-      isPGroup_subgroupOf (T₁.isPGroup'.to_le hle) H
+      isPGroup_subgroupOf (T₁.isPGroup.to_le hle) H
     have hSQ : (S : Subgroup ↥H) ≤ (St ⊔ Subgroup.zpowers c).subgroupOf H := fun s hs =>
       Subgroup.mem_subgroupOf.2 (Subgroup.mem_sup_left (⟨s, hs, rfl⟩ : (s : G) ∈ St))
     have hQS := (S.maximal_isPGroup.eq_of_le hQ2 hSQ).symm
@@ -619,7 +619,7 @@ theorem sylow_centralizer_isSylow (hG : Gen4 G) {x : G} (hx : orderOf x = 2)
     rw [h, orderOf_one] at hx
     exact absurd hx (by norm_num)
   have : Nontrivial ↥(T₁ : Subgroup G) := ⟨⟨⟨x, hxT₁⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
-  have := T₁.isPGroup'.center_nontrivial
+  have := T₁.isPGroup.center_nontrivial
   obtain ⟨⟨c, hc⟩, hcne⟩ := exists_ne (1 : ↥(Subgroup.center ↥(T₁ : Subgroup G)))
   have hcc : ∀ t ∈ (T₁ : Subgroup G), t * (c : G) = (c : G) * t := fun t ht =>
     congrArg Subtype.val (Subgroup.mem_center_iff.1 hc ⟨t, ht⟩)
@@ -641,7 +641,7 @@ theorem sylow_centralizer_isSylow (hG : Gen4 G) {x : G} (hx : orderOf x = 2)
       subst hh
       exact (hxc t ht).symm)
   have hQ2 : IsPGroup 2 ↥((T₁ : Subgroup G).subgroupOf H) :=
-    isPGroup_subgroupOf T₁.isPGroup' H
+    isPGroup_subgroupOf T₁.isPGroup H
   have hSQ : (S : Subgroup ↥H) ≤ (T₁ : Subgroup G).subgroupOf H := fun s hs =>
     Subgroup.mem_subgroupOf.2 (hT₁ (⟨s, hs, rfl⟩ : (s : G) ∈ St))
   have hQS := (S.maximal_isPGroup.eq_of_le hQ2 hSQ).symm

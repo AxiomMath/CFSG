@@ -99,7 +99,7 @@ private theorem CFSG.derivedSubgroup_isPGroup_of_faithful_elementaryAbelian_card
       exact hcomm_le_C
     have hDsub_p : IsPGroup p (D.subgroupOf (C : Subgroup B)) := by
       simpa [ZMod.ringChar_zmod_n] using
-        C.isPGroup'.to_subgroup (D.subgroupOf (C : Subgroup B))
+        C.isPGroup.to_subgroup (D.subgroupOf (C : Subgroup B))
     have hDmap_p : IsPGroup p ((D.subgroupOf (C : Subgroup B)).map (C : Subgroup B).subtype) :=
       IsPGroup.map (p := p) (H := D.subgroupOf (C : Subgroup B)) hDsub_p
         (C : Subgroup B).subtype

@@ -118,7 +118,7 @@ theorem Kperm_le_stab : Kperm ≤ stabUTP :=
 
 theorem Kperm_normal :
     (Kperm.subgroupOf stabUTP).Normal :=
-  ⟨fun n hn g => Subgroup.mem_subgroupOf.2
+  ⟨fun _n hn g => Subgroup.mem_subgroupOf.2
     (Kperm_conj g.2 (Subgroup.mem_subgroupOf.1 hn))⟩
 
 theorem Kperm_le_pCoreOf :
@@ -292,7 +292,7 @@ theorem card_autSub_trQ :
 theorem pCoreOf_cent
     {σ : Equiv.Perm (Fin 24)} (hσ : σ ∈ pCoreOf 2 stabUTP) (hA : σ ∈ AutPerm) :
     rhoM24 ⟨σ, hA⟩ ∈ centSub UT := by
-  haveI : IsSimpleGroup ↥(autSub (img11 trQ) UT) := (lu_coc_std card_stab_UT_le).2.2.1
+  have : IsSimpleGroup ↥(autSub (img11 trQ) UT) := (lu_coc_std card_stab_UT_le).2.2.1
   have hQle : pCoreOf 2 stabUTP ≤ trQ := pCoreOf_le_trQ
   have hQp : IsPGroup 2 ↥(pCoreOf 2 stabUTP) := CFSG.pCore_isPGroup.map _
   let Qt : Subgroup ↥trQ := (pCoreOf 2 stabUTP).subgroupOf trQ

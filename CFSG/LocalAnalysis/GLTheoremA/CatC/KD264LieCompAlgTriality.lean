@@ -37,16 +37,16 @@ theorem exists_langSetup_of_inner_triD4_eq_kd264alg
       rootDiagUnit Tag.D4 a ∈ S.D.torus ∧ (∀ i, a i ^ p = 1) ∧ rootDiagUnit Tag.D4 a ≠ 1 ∧
       Function.Injective ι ∧ ι.range = S.Γ ∧ ι x = rootDiagUnit Tag.D4 a := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 3)
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   have hFr : ∀ c : L, iterateFrobenius L ℓ f c = c ^ (ℓ ^ f) := fun c =>
     iterateFrobenius_def ℓ f c
   have hcomm : (algebraMap K L).comp σ.toRingHom =
@@ -82,8 +82,8 @@ theorem compAlgAt_trialityModel
   intro β hβmem hβ3 hβ1 J hJ e he hiso x' hx'mem _ hβx' hx'stab
   have hK' : Nat.card K = (2 ^ 3) ^ 3 := by rw [hK]; norm_num
   have hσ' : ∀ c, σ c = c ^ (2 ^ 3) := fun c => by rw [hσ c]; norm_num
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have hinn : innAutDerived ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) ≤
       (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) →*
         MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range :=
@@ -103,10 +103,10 @@ theorem compAlgAt_trialityModel
     exists_langSetup_of_inner_triD4_eq_kd264alg Nat.prime_two (by norm_num) hK' σ hσ'
       Nat.prime_three (by norm_num) Nat.prime_three (by norm_num) (Or.inr (by norm_num)) hmon x hx3
       hx1
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 3 * 3)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 3 * 3)
     (by rw [← Nat.card_eq_fintype_card, hK', ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hpL : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 :=
     natCast_ne_zero_algebraicClosure_of_ne Nat.prime_two Nat.prime_three hK' (by norm_num)
@@ -134,8 +134,8 @@ theorem lieCompAlg_triality :
       exact hfield
     obtain ⟨K, hfield', hfinite, σ, hK, hσ, -, ⟨eK⟩⟩ :=
       CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
-    letI := hfield'
-    letI := hfinite
+    let := hfield'
+    let := hfinite
     rw [hq8] at hK hσ
     exact compAlgAt_of_mulEquiv eK.symm (compAlgAt_trialityModel hK σ hσ)
   | _ => exact absurd hP (by simp [isTrialityIdx])

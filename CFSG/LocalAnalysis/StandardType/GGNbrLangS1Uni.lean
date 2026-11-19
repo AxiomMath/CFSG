@@ -226,7 +226,7 @@ theorem ggNbrLangAxisOuterOn_s1Uni (hsub : GGNbrSubcomponentInput)
     have hc := congrArg (fun z : ↥K => (z : G))
       (Subgroup.mem_center_iff.mp hjZ (Subgroup.inclusion hJK y))
     simpa using hc
-  haveI : Group.IsPerfect ↥J := ⟨hJperf⟩
+  have : Group.IsPerfect ↥J := ⟨hJperf⟩
   let e' : ↥J ⧸ Subgroup.center ↥J ≃* ↥J₀R ⧸ Subgroup.center ↥J₀R :=
     CFSG.ComponentClassification.PerfectCentralQuotient.equivalence ρJ hρJsurj hkerJ
   have hφ : ∃ u ∈ I, ∃ f ∈ Subgroup.closure F, ggLAut K θ ⟨x, hN hxBs⟩ = u * f :=
@@ -273,14 +273,14 @@ theorem ggNbrLangAxisOuterOn_s1Uni (hsub : GGNbrSubcomponentInput)
     exact hlabel
   rw [LargeEvenRecipeUnitary] at hlabel'
   obtain ⟨E, hEfield, -, hEcard, ⟨iso⟩⟩ := hlabel'
-  letI : Field E := hEfield
+  let : Field E := hEfield
   have hE : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 nj E :=
     unitaryFieldData_of_card hn1 hEcard
   let σ : ↥J ⧸ Subgroup.center ↥J ≃*
       LargeEvenProj (LargeEvenSUGroup (Fin (lab.rank + 1)) E (2 ^ nj)) := e'.trans iso
   obtain ⟨E', hE'field, m', hE'data, θJ, At, hAt, hAtJ⟩ :=
     ggConfig_exists_abelianPreimage_psu hcfg hID hQ2U hIDJ hpd hE hpm hdm σ
-  letI : Field E' := hE'field
+  let : Field E' := hE'field
   obtain ⟨θ₀, hAt'⟩ := ggNbrLangS1UniAux_thetaAt hN hJK hE'data θJ hAt hAtJ
   have hallA : ∀ α ∈ (ggBsAut hN).range, ∃ u ∈ I, ∃ f ∈ Subgroup.closure F,
       kgInducedAut θ α = u * f := by

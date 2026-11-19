@@ -25,7 +25,7 @@ private theorem expVec_mul {G : Type*} [CommGroup G] (m : ℕ) (c c' : Fin 4 →
     expVec m (c * c') = expVec m c * expVec m c' := by
   funext i
   refine Fin.addCases (fun j => ?_) (fun j => ?_) i
-  · fin_cases j <;> simp [expVec, mul_comm, mul_left_comm, mul_assoc, mul_inv]
+  · fin_cases j <;> simp [expVec, mul_comm, mul_left_comm, mul_assoc]
   · simp [expVec]
 
 private theorem prod_expVec {G : Type*} [CommGroup G] (m : ℕ) (c : Fin 4 → G) :
@@ -153,7 +153,7 @@ private theorem rot_mem_normalizer_torus5 {L : Type} [Field L] {ζ : Lˣ} (σ : 
 
 private theorem isPGroup_torus5_sup {L : Type} [Field L] {ζ : Lˣ} (hζ : orderOf ζ = 5) :
     IsPGroup 5 ↥(torus5 ζ ⊔ Subgroup.zpowers (permGL 5 (finRotate 5) : GL (Fin 5) L)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hT : IsPGroup 5 ↥(torus5 ζ : Subgroup (GL (Fin 5) L)) := by
     intro x
     exact ⟨1, by apply Subtype.ext; simpa using pow_five_of_mem_torus5 hζ x.2⟩
@@ -175,7 +175,7 @@ theorem exists_not_cyclic_derived_projFive {L : Type} [Field L] [Finite L] {ζ :
     (hζ : orderOf ζ = 5) (H : Subgroup (GL (Fin 5) L))
     (hd : diagGL 5 ![ζ, ζ⁻¹, 1, 1, 1] ∈ H) (hc : permGL 5 (finRotate 5) ∈ H) :
     ∃ U : Subgroup (StatedProj H), IsPGroup 5 U ∧ ¬ IsCyclic ↥⁅U, U⁆ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hv : ∀ i, (![ζ, ζ⁻¹, 1, 1, 1] : Fin 5 → Lˣ) i ∈ Subgroup.zpowers ζ := by
     intro i
     fin_cases i
@@ -222,12 +222,12 @@ theorem exists_not_cyclic_derived_projFive {L : Type} [Field L] [Finite L] {ζ :
     have r2 : (finRotate 5)⁻¹ 2 = 1 := by decide
     have r3 : (finRotate 5)⁻¹ 3 = 2 := by decide
     have r4 : (finRotate 5)⁻¹ 4 = 3 := by decide
-    have ha0 : a 0 = ζ⁻¹ := by simp [a, v, r0]
-    have ha2 : a 2 = ζ⁻¹ := by simp [a, v, r2]
-    have ha3 : a 3 = 1 := by simp [a, v, r3]
-    have ha4 : a 4 = 1 := by simp [a, v, r4]
-    have hb3 : b 3 = ζ⁻¹ := by simp [b, r3, ha2, ha3]
-    have hb4 : b 4 = 1 := by simp [b, r4, ha3, ha4]
+    have ha0 : a 0 = ζ⁻¹ := by simp [a, v]
+    have ha2 : a 2 = ζ⁻¹ := by simp [a, v]
+    have ha3 : a 3 = 1 := by simp [a, v]
+    have ha4 : a 4 = 1 := by simp [a, v]
+    have hb3 : b 3 = ζ⁻¹ := by simp [b, ha2, ha3]
+    have hb4 : b 4 = 1 := by simp [b, ha3, ha4]
     have hax : ((⁅c', d'⁆ : H) : GL (Fin 5) L) = diagGL 5 a :=
       comm_permGL_diagGL 5 (finRotate 5) v
     have hbx : ((⁅c', ⁅c', d'⁆⁆ : H) : GL (Fin 5) L) = diagGL 5 b := by

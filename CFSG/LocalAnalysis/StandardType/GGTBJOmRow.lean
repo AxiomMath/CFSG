@@ -14,7 +14,7 @@ namespace CFSG.StandardType
 open CFSG CFSG.Assembly TableB OrthExc
 
 theorem ggO1Row_recipe_adjoint
-    {m n p : ℕ} (hp : p.Prime) (hn : 1 ≤ n)
+    {m n p : ℕ} (_hp : p.Prime) (hn : 1 ≤ n)
     (hpn : p ∣ 2 ^ n - 1 ∨ (Odd m ∧ p ∣ 2 ^ n + 1)) (hm : 3 ≤ m) {Q : LargeEvenRawCont}
     (hQ : LargeEvenRecipeOmegaMinus m (2 ^ n) Q) :
     LargeEvenRecipeOmegaMinus m (2 ^ n) fun R _ I F =>

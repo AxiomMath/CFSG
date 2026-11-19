@@ -186,7 +186,7 @@ theorem isSimpleGroup_of_minimal_normal (hcore : CFSG.pPrimeCore 2 Q = ⊥) {L :
   have hall : ∀ u : Q, orderOf u = 2 → u ∈ K.map L.subtype := by
     intro u hu
     obtain ⟨Su, fu, hfu⟩ := exists_centered_semidihedral_sylow n hn SQ fQ hQ2 u hu
-    have hSuL : (Su : Subgroup Q) ≤ L := le_of_isPGroup_of_odd_index hodd Su.isPGroup'
+    have hSuL : (Su : Subgroup Q) ≤ L := le_of_isPGroup_of_odd_index hodd Su.isPGroup
     have hk2 : IsPGroup 2 (Subgroup.zpowers (k0 : L)) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hk, pow_one])
     obtain ⟨y, hky⟩ := exists_ambient_conjugate_mem_sylow (sylowOfOddIndex hodd Su hSuL) _ hk2
@@ -217,7 +217,7 @@ theorem isSimpleGroup_of_minimal_normal (hcore : CFSG.pPrimeCore 2 Q = ⊥) {L :
       rw [h, Subgroup.mem_bot] at hmem
       have h2 : ((y : L) : Q) = 1 := congrArg (fun a : Su => (a : Q)) hmem
       exact hy1 (Subtype.ext h2)
-    have hnil : Group.IsNilpotent Su := Su.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent Su := Su.isPGroup.isNilpotent
     obtain ⟨w, hw1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
       (Group.IsNilpotent.inf_center_ne_bot_of_normal hM1)
     have hZcard : Nat.card (Subgroup.center Su) = 2 := by

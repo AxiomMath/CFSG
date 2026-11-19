@@ -88,7 +88,7 @@ noncomputable instance moduleFinite
   let s : Set k :=
     Set.range (fun (ζ : rootsOfUnity (Nat.card G) k) => (ζ.val : k))
 
-  letI : Fintype (rootsOfUnity (Nat.card G) k) :=
+  let : Fintype (rootsOfUnity (Nat.card G) k) :=
     Fintype.ofFinite (rootsOfUnity (Nat.card G) k)
 
   have h_fin : s.Finite := Set.finite_range _
@@ -100,10 +100,10 @@ noncomputable instance moduleFinite
 
   let A : Subalgebra ℤ k := Algebra.adjoin ℤ s
 
-  haveI : Module.Finite ℤ A :=
+  have : Module.Finite ℤ A :=
     Algebra.finite_adjoin_of_finite_of_isIntegral h_fin h_int
 
-  haveI : IsNoetherian ℤ A := inferInstance
+  have : IsNoetherian ℤ A := inferInstance
 
   have h_le : ∀ x ∈ Lambda k G, x ∈ A := by
     intro x hx
@@ -132,7 +132,7 @@ noncomputable instance moduleFree
     (k : Type u) [Field k] [CharZero k]
     (G : Type v) [Group G]
     [Module.Finite ℤ (Lambda k G)] : Module.Free ℤ (Lambda k G) := by
-  haveI : NoZeroSMulDivisors ℤ (Lambda k G) := by
+  have : NoZeroSMulDivisors ℤ (Lambda k G) := by
     constructor
     intro a x h_smul
     have h_field :
@@ -249,7 +249,7 @@ lemma linearChar_apply_mem_Lambda
     {k : Type u} [CommRing k] [Finite G]
     (χ : G →* kˣ) (g : G) :
     ((χ g : kˣ) : k) ∈ Lambda k G := by
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
 
   have hg : g ^ Fintype.card G = 1 := by exact pow_card_eq_one
 
@@ -280,7 +280,7 @@ lemma linearChar_subgroup_apply_mem_Lambda
     {H : Subgroup G}
     (χ : H →* kˣ) (h : H) :
     ((χ h : kˣ) : k) ∈ Lambda k G := by
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
 
   have hG : (h : G) ^ Fintype.card G = 1 := by
     exact pow_card_eq_one

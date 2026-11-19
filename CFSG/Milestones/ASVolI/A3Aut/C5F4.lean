@@ -49,17 +49,17 @@ theorem burnsideAut_c5F4_fieldAut_injective (ha : 1 ≤ a) (hK : Nat.card K = 2 
 theorem burnsideAut_a315_2F4 {G : Type} [Group G] {L T B : Subgroup G}
     (h : CFSG.Quasithin.A315Hyp L T B) {n : ℕ} (hodd : Odd n) (h3 : 3 ≤ n)
     (hL : CFSG.Quasithin.Is2F4 n ↥L) : ChA.A315Case5Concrete L T B := by
-  haveI := h.sqtk.finite
-  haveI hLn : L.Normal := burnsideA315x_normal h
+  have := h.sqtk.finite
+  have hLn : L.Normal := burnsideA315x_normal h
   have hLie : CFSG.Quasithin.A315.IsLieChar2 n ↥L :=
     Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr hL))))))
   obtain ⟨-, a, hna, K, _, _, hK, ⟨e₀⟩⟩ := id hL
   subst hna
   have ha : 1 ≤ a := by omega
-  haveI : CharP K 2 := burnsideA26_charP_two hK
-  haveI : CharP K F4.prime := (inferInstance : CharP K 2)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL F4.tag K) := finite_modGL
+  have : CharP K 2 := burnsideA26_charP_two hK
+  have : CharP K F4.prime := (inferInstance : CharP K 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL F4.tag K) := finite_modGL
   set H : Subgroup (ModGL Tag.F4 K) :=
     reeFixedGroup Tag.F4 K reeF4Perm fun i => if i ∈ reeF4Long then 2 ^ a else 2 ^ (a + 1)
     with hHdef
@@ -109,7 +109,7 @@ theorem burnsideAut_a315_2F4 {G : Type} [Group G] {L T B : Subgroup G}
   · exact burnsideAut_map_inn_le_innDiag e
   · rintro _ ⟨σ, rfl⟩ _ ⟨τ, rfl⟩
     rw [← map_mul, ← map_mul, ringAut_mul_comm K σ τ]
-  · haveI := burnsideAut_inn_normal' (F4.reeGamma K a)
+  · have := burnsideAut_inn_normal' (F4.reeGamma K a)
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   · rw [eq_bot_iff]

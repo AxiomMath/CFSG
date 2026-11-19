@@ -36,7 +36,7 @@ theorem sec4I_exists_twisted_of_hasType [Finite G] (hL : IsOmega7Group L)
     have h2 : (⟨v, hvL⟩ : ↥L) = 1 := Subtype.ext h1
     rw [h2, map_one] at hρv
     exact hu4.1 (congrArg Subtype.val hρv.symm)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨v, (sec4I_isI4PlusIn_iff hL e).mpr ⟨hvL, orderOf_eq_prime (by rw [pow_two, hvv]) hv1,
     ?_⟩, Subgroup.mem_centralizer_singleton_iff.mpr hsv.symm, b⁻¹, L.inv_mem hbL, ?_⟩
   · rw [show (e (QuotientGroup.mk (⟨v, hvL⟩ : ↥L)) : Sec4IOmega) = u from

@@ -13,7 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
 private theorem s16h_e3_CycTwoP7M6A_dParam_seven : dParam 7 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 
@@ -32,7 +32,7 @@ theorem s16h_e3_CycTwoP7M6_bad
     (hbad : ¬ ∀ w ∈ wSub V₀ V hV L, w ≠ 1 →
       UniqueMax D.M (D.M ⊓ centralizer ({w} : Set G))) :
     Case164_4 D V₀ V hV L := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hsig : D.sig = {7} :=
     s16h_e3_CycTwoP7M6A_sig_eq D S hr3 hσ hV h hc hp hLp hχ hs2 hres hp7 hm hbad
   have h7 : 7 ∈ D.sig := by rw [hsig]; exact Set.mem_singleton 7

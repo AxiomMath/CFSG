@@ -28,7 +28,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem inFAS_of_inF {j : ℕ} {H : Subgroup G}
     (h : CFSG.LocalAnalysis.UniquenessCase.UC22.F12.InF j H) : InFAS j H := by
   intro T hT Ω hΩ hne hbot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hprod := h T (CFSG.ABGLocalTools.isSylowOf_iff.mpr hT) Ω hΩ hne hbot
   have hle : CFSG.LocalAnalysis.UniquenessCase.UC22.F12.eGenP j H T Ω ≤ E1.eGen j H T Ω :=
     iSup₂_le fun A hA => iSup_le fun hAT => iSup₂_le fun K hK =>
@@ -54,7 +54,7 @@ theorem asch4_3E_AS_holds :
   intro G _ _ T j hj hT h
   have hHT : RonanE111.HypT j G T := by
     intro M N _ hNM hMsub _ hsimple _
-    haveI : Finite (MulAut (↥M ⧸ N.subgroupOf M)) := MulEquiv.finite_left
+    have : Finite (MulAut (↥M ⧸ N.subgroupOf M)) := MulEquiv.finite_left
     exact (E1.nParam_le_iff hj).2 (h M N hNM
       (Subgroup.IsSubnormal.trans hNM (Subgroup.Normal.isSubnormal ‹_›) hMsub) hMsub hsimple)
   exact (E1.nParam_le_iff hj).1
@@ -67,7 +67,7 @@ theorem asch4_3E_AS_holds :
     (∀ p : ℕ, p.Prime → p ≠ 2 →
       CFSG.Open.pRank p H ≤ 3 ∨ CFSG.Open.pRank p (lGen IsCalL0 H T) ≤ 1) →
     (calNIn H T = {lGen IsCalL0 H T} ∧
-      (IsSolvable ↥H ∨ ∃ L : Subgroup Q, IsComponentModN (OInf H) H L ∧ L ⊔ T = H)) ∧
+      (Group.IsSolvable ↥H ∨ ∃ L : Subgroup Q, IsComponentModN (OInf H) H L ∧ L ⊔ T = H)) ∧
     (InFSqAS 1 H ∨
       (InFSqAS 2 H ∧ ∃ L : Subgroup Q, IsComponentModN (OInf H) H L ∧ L ⊔ T = H ∧
         (HasQuotShape L (OInf H : Set Q) (fun X _ => IsL2 X 2) ∨

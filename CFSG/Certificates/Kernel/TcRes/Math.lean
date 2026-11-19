@@ -131,7 +131,7 @@ theorem exists_reduced {P : Submodule F (Fin n → F)} (hP : Module.finrank F P 
     have hmono := Submodule.finrank_mono hle
     rw [hP, finrank_span_singleton ha0] at hmono
     omega
-  obtain ⟨b, hbP, hba⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨b, hbP, hba⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   set b' : Fin n → F := b - b i • a with hb'
   have hb'P : b' ∈ P := P.sub_mem hbP (P.smul_mem _ haP)
   have hb'i : b' i = 0 := by
@@ -183,7 +183,7 @@ theorem linearIndependent_of_pivots (b : Fin d → Fin n → F) (pv : Fin d → 
   intro c hc k
   have h := congrFun hc (pv k)
   simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, hpv, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true, Pi.zero_apply] at h
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true, Pi.zero_apply] at h
   exact h
 
 theorem le_finrank_range_vecMul (A : Matrix (Fin n) (Fin m) F) (ma : Fin k → Fin n)
@@ -273,7 +273,7 @@ theorem mem_of_chain {nd : ℕ → List ℕ} {tot L β : ℕ} {ok : List ℕ →
           omega
         obtain ⟨c, hc, hceq⟩ := hch j hj hlen t[k] (by rw [hjeq]; exact hok k hklt hkpos)
         refine ⟨c, hc, ?_⟩
-        rw [hceq, hjeq, List.take_succ, List.getElem?_eq_getElem hklt]
+        rw [hceq, hjeq, List.take_add_one, List.getElem?_eq_getElem hklt]
         rfl
   have hpos : 1 ≤ t.length := by
     cases t with

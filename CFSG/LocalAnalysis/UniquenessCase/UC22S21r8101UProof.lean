@@ -28,7 +28,7 @@ variable {D : Data G} {L K : Subgroup G} {n : ℕ}
 theorem u81_normalizer_le
     (u : U4X D L K n) (hsp : IsStronglyPEmbedded n D.M) (hfour : 4 ≤ CFSG.Open.pRank n D.M)
     (h847 : F08.R847 D) (he : 3 < CFSG.Open.evenRank G) (h869 : F08.R869NS5 D)
-    (hGL : GL3Excl.GL3Excl) {R B : Subgroup G}
+    (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) {R B : Subgroup G}
     (hR : CFSG.ABGLocalTools.IsSylowOf (2 ^ n - 1) R D.M) (hBR : B ≤ R)
     (hRB : R ≤ centralizer (B : Set G)) (hBel : IsElemAbelian (2 ^ n - 1) B)
     (hΩ : ∀ x ∈ R, x ^ (2 ^ n - 1) = 1 → x ∈ B) (hr3 : CFSG.Open.pRank (2 ^ n - 1) D.M ≤ 3)
@@ -42,9 +42,9 @@ theorem u81_normalizer_le
   have hn : n.Prime := u.prime_n
   have hr := u.prime_r
   have hr2 := u.r_ne_two
-  haveI : Fact n.Prime := ⟨hn⟩
-  haveI : Fact (2 ^ n - 1).Prime := ⟨hr⟩
-  haveI : NeZero (2 ^ n - 1) := ⟨hr.ne_zero⟩
+  have : Fact n.Prime := ⟨hn⟩
+  have : Fact (2 ^ n - 1).Prime := ⟨hr⟩
+  have : NeZero (2 ^ n - 1) := ⟨hr.ne_zero⟩
   have hn2 : n ≠ 2 := by rcases u.hLS with ⟨rfl, -⟩ | ⟨rfl, -⟩ <;> norm_num
   have hrp : 2 ^ n - 1 = 7 ∧ n = 3 ∨ 2 ^ n - 1 = 31 ∧ n = 5 := by
     rcases u.hLS with ⟨rfl, -⟩ | ⟨rfl, -⟩
@@ -133,7 +133,7 @@ theorem u81_normalizer_le
       (((normalizer (B : Set G) ⊓ D.M).subgroupOf (normalizer (B : Set G))).map hb.frame.rho) hW
       (Subgroup.map_le_range _ _) hemb hrH hstab _ (hmemY ht₁) hd₁ _ (hmemY ht₂) hd₂ _
       (hmemY hyNM) hyp α hα hns
-  push_neg at hns
+  push Not at hns
   have hcent : ∀ w : GL (Fin 3) (ZMod (2 ^ n - 1)),
       w * hb.frame.rho ⟨y, hyNM.1⟩ = hb.frame.rho ⟨y, hyNM.1⟩ * w := by
     intro w

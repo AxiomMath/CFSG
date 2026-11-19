@@ -8,6 +8,7 @@ open Subgroup
 section
 variable {G M : Type*} [Group G] [Finite G] [AddCommGroup M] [Finite M] [DistribMulAction G M]
 
+omit [Finite G] in
 theorem frame_facts {d : Fin 3 → G} {t : G} (hd : ∀ i, d i * d i = 1)
     (hdc : ∀ i j, d i * d j = d j * d i) (hdn : ∀ i j, i ≠ j → d i ≠ d j)
     (ht : ∀ i, t * d i * t⁻¹ = d (i + 1)) {c : G} (hcdef : c = d 0 * d 1 * d 2)
@@ -61,6 +62,7 @@ theorem frame_facts {d : Fin 3 → G} {t : G} (hd : ∀ i, d i * d i = 1)
       hd 1, hd 2, mul_one, mul_one]
   exact ⟨hc, hz, hz2, hcz, h01, hn0, hn1, hn01, htz, htc, hd0, hz0, hz1⟩
 
+omit [Finite G] in
 theorem la_frame (hModd : Odd (Nat.card M)) {d : Fin 3 → G} {t : G} (hd : ∀ i, d i * d i = 1)
     (hdc : ∀ i j, d i * d j = d j * d i) (hdn : ∀ i j, i ≠ j → d i ≠ d j)
     (ht : ∀ i, t * d i * t⁻¹ = d (i + 1))
@@ -100,15 +102,15 @@ theorem exists_hyperplane {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Nat.card M) {
     ∃ H : Subgroup G, H ≤ V ∧ H ≠ V ∧ (∀ K : Subgroup G, H ≤ K → K ≤ V → K = H ∨ K = V) ∧
       ∃ x : M, x ≠ 0 ∧ ∀ h ∈ H, h • x = x := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  letI iC : CommGroup V :=
+  have : Fact r.Prime := ⟨hr⟩
+  let iC : CommGroup V :=
     { (inferInstance : Group V) with
       mul_comm := fun a b => Subtype.ext (hVab a a.2 b b.2) }
-  haveI : CFSG.IsElementaryAbelian r V :=
+  have : CFSG.IsElementaryAbelian r V :=
     { toIsMulCommutative := ⟨⟨fun a b => Subtype.ext (hVab a a.2 b b.2)⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
         Subtype.ext (by simpa using hVr g g.2) }
-  haveI : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).mpr hV1
+  have : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).mpr hV1
   let α : V →* MulAut (Multiplicative M) :=
     { toFun := fun a =>
         { toFun := fun x => Multiplicative.ofAdd ((a : G) • x.toAdd)
@@ -125,7 +127,7 @@ theorem exists_hyperplane {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ Nat.card M) {
   have hex : ∃ B : Subgroup V, B.index = r ∧
       ∃ x ∈ CFSG.SolvableSignalizer.fixedBySubgroup α B, x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : (⨆ (B : Subgroup V) (_ : B.index = r),
         CFSG.SolvableSignalizer.fixedBySubgroup α B) ≤ ⊥ :=
       iSup₂_le fun B hB x hx => (Subgroup.mem_bot).mpr (hcon B hB x hx)
@@ -185,7 +187,7 @@ theorem false_of_propS_counterexample {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ N
     (hS1 : ∃ x ∈ Q, d 0 * x * (d 0)⁻¹ * x⁻¹ ∉ Q₀)
     (hgen : normalClosure ({d 0} : Set G) = ⊤) : False := by
   classical
-  haveI hQ₀n : Q₀.Normal := ⟨fun n hn g => by
+  have hQ₀n : Q₀.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_center_iff.mp (hQ₀Z hn) g, mul_inv_cancel_right]; exact hn⟩
   have hQ₀c : ∀ q ∈ Q₀, ∀ g : G, g * q * g⁻¹ = q := fun q hq g => by
     rw [Subgroup.mem_center_iff.mp (hQ₀Z hq) g, mul_inv_cancel_right]
@@ -205,7 +207,7 @@ theorem false_of_propS_counterexample {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ N
         have h := Q₀.inv_mem (ha.2 _ (hconjQ a x hx))
         convert h using 1
         group⟩ }
-  haveI hR₁n : R₁.Normal := ⟨fun y hy g => ⟨hRn.conj_mem y hy.1 g, fun x hx => by
+  have hR₁n : R₁.Normal := ⟨fun y hy g => ⟨hRn.conj_mem y hy.1 g, fun x hx => by
     have := hQ₀n.conj_mem _ (hy.2 _ (hconjQ g x hx)) g
     convert this using 1
     group⟩⟩
@@ -230,7 +232,7 @@ theorem false_of_propS_counterexample {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ N
       one_mem' := ⟨Q.one_mem, by simp⟩
       inv_mem' := fun {a} ha => ⟨Q.inv_mem ha.1, by
         rw [show c * a⁻¹ * c⁻¹ = (c * a * c⁻¹)⁻¹ by group, ha.2]⟩ }
-  haveI hVn : V.Normal := ⟨fun v hv g => ⟨hQn.conj_mem v hv.1 g, by
+  have hVn : V.Normal := ⟨fun v hv g => ⟨hQn.conj_mem v hv.1 g, by
     have hr' := hrQ g⁻¹ v hv.1
     calc c * (g * v * g⁻¹) * c⁻¹
         = g * (c * ((c⁻¹ * (g⁻¹ * c * g⁻¹⁻¹)) * v * (c⁻¹ * (g⁻¹ * c * g⁻¹⁻¹))⁻¹) * c⁻¹) * g⁻¹ := by
@@ -247,7 +249,7 @@ theorem false_of_propS_counterexample {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ N
     Odd.of_dvd_nat hQodd (Subgroup.card_dvd_of_le (fun x hx => hx.1))
   have hVr : ∀ v ∈ V, v ^ r = 1 := fun v hv =>
     hVQ₀ _ ⟨pow_mem hv.1 r, by rw [← conj_pow, hv.2, inv_pow]⟩ (hQr v hv.1)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hVp : IsPGroup r V := fun v => ⟨1, Subtype.ext (by simpa using hVr v v.2)⟩
   have hcop : Nat.Coprime (Nat.card V) (Nat.card M) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hVp
@@ -295,7 +297,7 @@ theorem false_of_propS_counterexample {r : ℕ} (hr : r.Prime) (hrM : ¬ r ∣ N
         exact this v hv
   have hMnt : ∃ m : M, m ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hV1
     rw [eq_bot_iff]
     intro v _

@@ -45,6 +45,7 @@ theorem sec125_cent_A (F : Sec12Frame t L S) (hE : IsSylow2Of E (secCMB t S L))
       _ = (y * v) * t := by rw [hvy]
       _ = y * (v * t) := by group
 
+omit [Finite G] in
 theorem sec125_comm_t {x : G} (hx : x ∈ secCMt t S L) : x * t = t * x :=
   (Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hx).2 t (Set.mem_singleton t)).symm
 

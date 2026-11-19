@@ -225,14 +225,14 @@ private theorem classAux_repD5 :
     · exact absurd h1 (by decide +kernel)
     · rw [classAux_succ]
       rw [classStep_repD5_2]
-      simp only [List.isEmpty_nil, if_true]
-      simp [lD5, List.singleton_append]
+      simp only [List.isEmpty_nil, ite_true]
+      simp [lD5]
 
 private theorem kerRoots_repD5_subset : ∀ x ∈ kerRoots repD5, x ∈ lD5 := by
   have h : (kerRoots repD5).all (fun x => lD5.contains x) = true := by
     decide +kernel
   intro x hx
-  exact List.contains_iff.mp (List.all_eq_true.mp h x hx)
+  exact _root_.List.contains_iff_mem.mp (List.all_eq_true.mp h x hx)
 
 private theorem foldl_repD5_skip (acc : List (List Vec)) (L : List Vec)
     (hL : ∀ y ∈ L, y ∈ lD5) :
@@ -244,7 +244,7 @@ private theorem foldl_repD5_skip (acc : List (List Vec)) (L : List Vec)
   | nil => rfl
   | cons x xs ih =>
     rw [List.foldl_cons]
-    have hx : lD5.contains x = true := List.contains_iff.mpr (hL x (by simp))
+    have hx : lD5.contains x = true := _root_.List.contains_iff_mem.mpr (hL x (by simp))
     rw [hx]
     exact ih acc (fun y hy => hL y (List.mem_cons_of_mem x hy))
 
@@ -263,8 +263,7 @@ private theorem classesOf_repD5 : classesOf (kerRoots repD5) = [lD5] := by
   rw [show kerRoots repD5 = xD5 :: t from hKt.symm]
   unfold classesOf
   rw [List.foldl_cons]
-  simp only [List.contains_nil, Bool.false_or, Bool.false_eq_true, if_false, List.append_nil,
-    List.nil_append]
+  simp only [List.contains_nil, Bool.false_eq_true, ite_false, List.nil_append]
   rw [hKt, classAux_repD5]
   have hskip := foldl_repD5_skip [lD5] t (fun y hy =>
     kerRoots_repD5_subset y (by rw [hK]; exact List.mem_cons_of_mem a hy))
@@ -352,16 +351,16 @@ private theorem classes_facts (k : Fin 5) :
       exact beq_iff_eq.mp (List.all_eq_true.mp hlen x hx)
     · exact List.isEmpty_eq_false_iff.mp (by simpa [Bool.not_eq_true'] using hne)
     · intro x hx
-      exact List.contains_iff.mp (List.all_eq_true.mp h2 x hx)
+      exact _root_.List.contains_iff_mem.mp (List.all_eq_true.mp h2 x hx)
     · intro x hx y hy hif
       have hy' := List.all_eq_true.mp (List.all_eq_true.mp h3 x hx) y hy
       rw [Bool.or_eq_true_iff, Bool.not_eq_true', bne_eq_false_iff_eq] at hy'
       rcases hy' with h0 | hyl
       · exact absurd h0 hif
-      · exact List.contains_iff.mp hyl
+      · exact _root_.List.contains_iff_mem.mp hyl
   · intro x hx
     rcases List.any_eq_true.mp (hcv x hx) with ⟨l, hl, hc'⟩
-    exact ⟨l, hl, List.contains_iff.mp hc'⟩
+    exact ⟨l, hl, _root_.List.contains_iff_mem.mp hc'⟩
 
 private theorem reps_getD_length (k : Fin 5) : (reps.getD k []).length = 6 := by
   fin_cases k <;> rfl
@@ -415,7 +414,7 @@ private theorem classStep_witness {K acc frontier : List Vec} {b : Vec}
     (hb : b ∈ classStep K acc frontier) : b ∈ K ∧ ∃ a ∈ frontier, iform a b ≠ 0 := by
   rw [classStep_eq] at hb
   rcases foldl_cstep_witness K frontier (acc, []) b hb with h | h
-  · simpa using h
+  · simp at h
   · exact h
 
 private theorem classAux_zero (K acc frontier : List Vec) : classAux 0 K acc frontier = acc := rfl
@@ -459,8 +458,8 @@ private theorem mem_fold_classesOf (K L : List Vec) (p : List (List Vec) × List
         else (p.1 ++ [classAux K.length K [x] [x]], p.2 ++ classAux K.length K [x] [x]))
       l hl with h | h
     · by_cases hc : p.2.contains x
-      · rw [if_pos hc] at h; exact Or.inl h
-      · rw [if_neg hc] at h
+      · rw [ite_eq_left hc] at h; exact Or.inl h
+      · rw [ite_eq_right hc] at h
         rcases List.mem_append.mp h with h1 | h1
         · exact Or.inl h1
         · rw [List.mem_singleton] at h1
@@ -471,7 +470,7 @@ private theorem mem_fold_classesOf (K L : List Vec) (p : List (List Vec) × List
 private theorem exists_classAux_of_mem_classesOf {K : List Vec} {l : List Vec}
     (hl : l ∈ classesOf K) : ∃ x ∈ K, l = classAux K.length K [x] [x] := by
   rcases mem_fold_classesOf K K ([], []) l hl with h | h
-  · simpa using h
+  · simp at h
   · exact h
 
 private theorem mem_iff_of_eqvGen_classRel {K : List Vec} {x y : Vec}
@@ -515,8 +514,8 @@ private theorem eqvGen_subtype_of_classRel (K : List Vec)
 private theorem isClass_mem_iff_of_subtype_eqvGen (K : List Vec)
     (χ : Multiplicative (Fin Tag.E6.rank → ℤ) →* Multiplicative (ZMod 3))
     (hA : ∀ γ : Fin Tag.E6.rank → ℤ, γ ∈ kernelRoots χ ↔ List.ofFn γ ∈ K)
-    (hlen : ∀ x ∈ K, x.length = 6) (l : List Vec)
-    (hlK : ∀ x ∈ l, x ∈ K)
+    (_hlen : ∀ x ∈ K, x.length = 6) (l : List Vec)
+    (_hlK : ∀ x ∈ l, x ∈ K)
     (hclosed : ∀ x ∈ l, ∀ y ∈ K, iform x y ≠ 0 → y ∈ l) {u v : kernelRoots χ}
     (h : Relation.EqvGen (subRel χ) u v) :
     (List.ofFn (u : Fin Tag.E6.rank → ℤ) ∈ l ↔
@@ -666,12 +665,11 @@ theorem classSet_ncard (k : Fin 5) (l : List Vec) (hl : l ∈ classes (reps.getD
   have himg : classSet l =
       (fun x : Vec => fun i : Fin Tag.E6.rank => x.getD i.val 0) '' (l.toFinset : Set Vec) := by
     ext γ
-    simp only [classSet, Set.mem_setOf_eq, Set.mem_image, Finset.mem_coe, List.mem_toFinset]
+    simp only [classSet, Set.mem_ofPred_eq, Set.mem_image, Finset.mem_coe, List.mem_toFinset]
     constructor
     · intro hγ
       exact ⟨List.ofFn γ, hγ, funext fun i => getD_ofFn γ i⟩
     · rintro ⟨x, hx, rfl⟩
-      change List.ofFn (fun i : Fin Tag.E6.rank => x.getD i.val 0) ∈ l
       rwa [ofFn_getD x (hlen x hx)]
   have hinj : Set.InjOn (fun x : Vec => fun i : Fin Tag.E6.rank => x.getD i.val 0)
       (l.toFinset : Set Vec) := by

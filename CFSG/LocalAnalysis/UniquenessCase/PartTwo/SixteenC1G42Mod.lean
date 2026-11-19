@@ -24,9 +24,9 @@ theorem s16c1G_exists_const_of_fixed {W : Type*} [CommGroup W] [Finite W] (φ : 
     {A : Subgroup W} (hA : Nat.card W ≤ 2 * Nat.card A) (hfix : ∀ a ∈ A, φ a = a) :
     ∃ c : W, ∀ w : W, φ w = w ∨ φ w = w * c := by
   have hcard := Subgroup.card_mul_index A
-  haveI : Nonempty A := ⟨1⟩
+  have : Nonempty A := ⟨1⟩
   have hpos : 0 < Nat.card A := Nat.card_pos
-  haveI : Nonempty W := ⟨1⟩
+  have : Nonempty W := ⟨1⟩
   have hWpos : 0 < Nat.card W := Nat.card_pos
   have hidx_pos : 0 < A.index := by
     by_contra h
@@ -93,7 +93,7 @@ theorem s16c1G_card_le_of_singular_commutator {W : Type} [CommGroup W] [Finite W
   by_cases hgH : g ∈ H
   · have hg1 : g = 1 := hnt g hgH c hc_ne (fun x => hc x)
     rw [hg1] at hgw_ne
-    simpa using hgw_ne
+    simp at hgw_ne
   · obtain ⟨x, hx⟩ := hout Q hQ hQi g hg hgH
     rcases hc x with h | h
     · apply hx

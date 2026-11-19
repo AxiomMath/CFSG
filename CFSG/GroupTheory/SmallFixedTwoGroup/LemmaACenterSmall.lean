@@ -34,8 +34,8 @@ theorem card_center_le_two_of_not_commutative {B : Type*} [Group B] [Finite B]
     apply isCyclic_of_card_dvd_prime (p := 2)
     rw [← Subgroup.index_eq_card]
     exact hdvd
-  letI : IsCyclic (B ⧸ center B) := hcyc
-  letI : CommGroup B :=
+  let : IsCyclic (B ⧸ center B) := hcyc
+  let : CommGroup B :=
     commGroupOfCyclicCenterQuotient (QuotientGroup.mk' (center B))
       (QuotientGroup.ker_mk' (center B)).le
   exact hnc fun a b => mul_comm a b

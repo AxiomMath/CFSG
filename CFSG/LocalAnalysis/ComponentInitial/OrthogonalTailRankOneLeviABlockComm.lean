@@ -104,7 +104,7 @@ theorem tailRankOneLeviHom_aut_comm [FiniteDimensional K A] {i : Fin r} (hi : i.
     exact hScomm u' hu' v' hv'
   have hclosure : Subgroup.closure (τ '' S) = τ.range := by
     rw [← MonoidHom.map_closure τ S, hgen, Subgroup.map_top]
-  haveI : IsMulCommutative τ.range := hclosure ▸ Subgroup.isMulCommutative_closure hpair
+  have : IsMulCommutative τ.range := hclosure ▸ Subgroup.isMulCommutative_closure hpair
   exact congrArg Subtype.val
     (mul_comm' (⟨τ x, ⟨x, rfl⟩⟩ : τ.range) ⟨τ y, ⟨y, rfl⟩⟩)
 

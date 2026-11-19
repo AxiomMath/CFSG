@@ -21,7 +21,7 @@ theorem mem_of_pow_eq_one_of_lt_of_isCyclic_quotient [Finite Q] (hq : q.Prime)
   have := Fact.mk hq
   set f := QuotientGroup.mk' D with hf
   have hne : Q1.map f ≠ ⊥ := by
-    obtain ⟨y, hyQ1, hyD⟩ := SetLike.exists_of_lt hD1
+    obtain ⟨y, hyQ1, hyD⟩ := _root_.IsConcreteLE.exists_of_lt hD1
     intro h
     have hy : f y ∈ Q1.map f := Subgroup.mem_map_of_mem _ hyQ1
     rw [h, Subgroup.mem_bot] at hy

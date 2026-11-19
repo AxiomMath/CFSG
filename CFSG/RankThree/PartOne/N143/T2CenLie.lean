@@ -55,7 +55,7 @@ open CFSG.HardMathSupport.Solomon.LocalBalance.Lemma25Ns (IsLThreeEps)
 
 theorem finiteField_card_primePow (K : Type) [Field K] [Finite K] :
     ∃ p n : ℕ, p.Prime ∧ 1 ≤ n ∧ Nat.card K = p ^ n := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨p, -, n, hp, hn⟩ := FiniteField.card' K
   refine ⟨p, (n : ℕ), hp, ?_, ?_⟩
   · have := n.pos

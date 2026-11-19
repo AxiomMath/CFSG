@@ -83,8 +83,8 @@ theorem conjCocycle_mul_mem_of_perfect {G : Type*} [Group G]
     exact hpair.1
   let φ : ↥L →* ↥D :=
     MonoidHom.mk' (fun l => ⟨d l, hdD l⟩) (fun l₁ l₂ => Subtype.ext (hd_mul l₁ l₂))
-  haveI hperfL : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hperf
-  haveI hcommD : IsMulCommutative ↥D :=
+  have hperfL : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hperf
+  have hcommD : IsMulCommutative ↥D :=
     IsMulCommutative.of_comm (fun a b => Subtype.ext (hDc a.1 a.2 b.1 b.2))
   have hdtriv : ∀ l : ↥L, d l = 1 := fun l => by
     have hmemker : l ∈ φ.ker :=
@@ -133,7 +133,7 @@ theorem exists_mul_mem_centralizer_of_cocycle {G : Type} [Group G] [Finite G]
     rw [hw_one, inv_one, one_mul]
   have hTmul : ∀ a b : ↥V, T (a * b) = T a * T b := by
     intro a b
-    haveI : IsMulCommutative ↥V :=
+    have : IsMulCommutative ↥V :=
       IsMulCommutative.of_comm (fun x y => Subtype.ext (hVc x.1 x.2 y.1 y.2))
     change (a * b)⁻¹ * w (a * b) = (a⁻¹ * w a) * (b⁻¹ * w b)
     rw [hw_mul, mul_inv_rev]
@@ -163,7 +163,7 @@ theorem exists_mul_mem_centralizer_of_cocycle {G : Type} [Group G] [Finite G]
       have := congrArg (fun x : ↥V => x * b) hc
       simpa [mul_assoc] using this
     exact this
-  haveI : Finite ↥V := inferInstance
+  have : Finite ↥V := inferInstance
   have hTsurj : Function.Surjective T := Finite.injective_iff_surjective.mp hTinj
   have hcoc : ∀ l ∈ L, δ z * (z * δ l * z⁻¹) = δ l * (l * δ z * l⁻¹) := by
     intro l hl

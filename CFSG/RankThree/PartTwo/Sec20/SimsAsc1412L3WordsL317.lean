@@ -393,7 +393,7 @@ private theorem l317Yi_pow (h17 : (17 : K) = 0) :
   rw [q1, q2, q3, q4]
   exact Matrix.one_fin_three.symm
 
-private theorem l317_word (h17 : (17 : K) = 0) :
+private theorem l317_word (_h17 : (17 : K) = 0) :
     (!![-1, 0, 0; 0, -1, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) K) *
       !![0, 1, 0; -1, 0, -1; -1, -1, 0] *
       !![-1, 0, 0; 0, -1, 0; 0, 0, 1] * !![-1, 0, -1; 1, 0, 0; 1, -1, 1] *
@@ -580,10 +580,11 @@ private theorem orderOf_l317Yi : orderOf (proj 3 (GaloisField 17 1) l317YiSL) = 
     change (l317Yi : Matrix (Fin 3) (Fin 3) (GaloisField 17 1)) 0 1 ≠ 0
     have h17 := seventeen_eq_zero_L3_17
     simp only [l317Yi, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons]
+      Matrix.empty_val', Matrix.cons_val_fin_one]
     intro h
     exact one_ne_zero (α := GaloisField 17 1) (by linear_combination h17 + 8 * h))
 
+omit [Fact (Nat.Prime 17)] in
 private theorem not_dvd_307 : ∀ e : ℕ, 1 ≤ e → e ≤ 12 → ¬ 307 ^ 1 ∣ 2 ^ e - 1 := by
   intro e he1 he12
   interval_cases e <;> norm_num

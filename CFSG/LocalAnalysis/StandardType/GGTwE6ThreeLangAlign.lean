@@ -67,9 +67,9 @@ theorem exists_twInndiag_mul_eq {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [F
     ∃ r ∈ RecipeExcLang.twInndiagGroup K σ,
       baseChangeGL (algebraMap K (AlgebraicClosure K)) r *
         baseChangeGL (algebraMap K (AlgebraicClosure K)) (langIso σ l) = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
   let ι := algebraMap K (AlgebraicClosure K)
   have hσ2 : ∀ c, σ.toRingHom (σ.toRingHom c) = c := by
@@ -129,11 +129,11 @@ theorem exists_aligned_three {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Fini
             ((RecipeExcLang.twConj K σ r⁻¹ (ψ₀ y) : ↥(twistedE6RootGroup K σ)) :
               ModGL TwistTag.E6.tag K) *
             (langFrameMat σ l ζ hζ (Multiplicative.toAdd (κ a)))⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   let Fr : AlgebraicClosure K →+* AlgebraicClosure K := iterateFrobenius (AlgebraicClosure K) 2 n
   have hFr : ∀ c, Fr c = c ^ 2 ^ n := fun c =>

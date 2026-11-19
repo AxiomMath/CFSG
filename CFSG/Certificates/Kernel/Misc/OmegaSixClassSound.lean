@@ -206,8 +206,8 @@ theorem sumBelow_eq_sumO (m hi : ℕ) (f : ℕ → ℕ) (hm : m ≤ 64 * hi) :
   exact Finset.sum_congr rfl fun i hi => ite_eq_left (Finset.mem_range.1 hi)
 
 theorem centCount_eq {E : Enum} {R : ℕ → ℕ} {o n Y : ℕ} (hsz : E.elems.size = n)
-    (hel : ∀ t < n, E.elems[t]! = arrF (recX R o t)) (hlt : ∀ t < n, recX R o t < 2 ^ 36)
-    (hY : Y < 2 ^ 36) :
+    (hel : ∀ t < n, E.elems[t]! = arrF (recX R o t)) (_hlt : ∀ t < n, recX R o t < 2 ^ 36)
+    (_hY : Y < 2 ^ 36) :
     Nat.count (fun i => commB E.elems[i]! (arrF Y) = true) E.elems.size = cntK R o n Y := by
   have hm : n ≤ 64 * Nat.add (Nat.shiftRight n 6) 1 := by
     change n ≤ 64 * (n >>> 6 + 1)

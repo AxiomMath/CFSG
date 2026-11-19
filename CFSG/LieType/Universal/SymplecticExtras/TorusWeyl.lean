@@ -64,18 +64,18 @@ theorem character_eq_prod (r : RootSubgroupIndex n) (t : Fin n → Fˣ) :
   | positiveLong i =>
     rw [RootSubgroupIndex.character_positiveLong,
       Finset.prod_eq_single_of_mem (s := Finset.univ) i (Finset.mem_univ i)]
-    · rw [stdVec_apply_positiveLong i i, if_pos rfl]
+    · rw [stdVec_apply_positiveLong i i, ite_eq_left rfl]
       exact (zpow_two (t i)).symm
     · intro b _ hb
-      rw [stdVec_apply_positiveLong i b, if_neg hb]
+      rw [stdVec_apply_positiveLong i b, ite_eq_right hb]
       simp
   | negativeLong i =>
     rw [RootSubgroupIndex.character_negativeLong,
       Finset.prod_eq_single_of_mem (s := Finset.univ) i (Finset.mem_univ i)]
-    · rw [stdVec_apply_negativeLong i i, if_pos rfl,
+    · rw [stdVec_apply_negativeLong i i, ite_eq_left rfl,
         show (-2 : ℤ) = -(2 : ℤ) by norm_num, _root_.zpow_neg, zpow_two, _root_.mul_inv_rev]
     · intro b _ hb
-      rw [stdVec_apply_negativeLong i b, if_neg hb]
+      rw [stdVec_apply_negativeLong i b, ite_eq_right hb]
       simp
   | difference i j hij =>
     rw [RootSubgroupIndex.character_difference,
@@ -85,7 +85,7 @@ theorem character_eq_prod (r : RootSubgroupIndex n) (t : Fin n → Fˣ) :
       simp [hij.symm]
     · intro b hb hbj
       simp only [Finset.mem_sdiff, Finset.mem_singleton] at hb
-      rw [stdVec_apply_difference hij b, if_neg hb.2, if_neg hbj]
+      rw [stdVec_apply_difference hij b, ite_eq_right hb.2, ite_eq_right hbj]
       simp
   | positiveSum i j hij =>
     rw [RootSubgroupIndex.character_positiveSum,
@@ -95,7 +95,7 @@ theorem character_eq_prod (r : RootSubgroupIndex n) (t : Fin n → Fˣ) :
       simp [hij.ne']
     · intro b hb hbj
       simp only [Finset.mem_sdiff, Finset.mem_singleton] at hb
-      rw [stdVec_apply_positiveSum hij b, if_neg hb.2, if_neg hbj]
+      rw [stdVec_apply_positiveSum hij b, ite_eq_right hb.2, ite_eq_right hbj]
       simp
   | negativeSum i j hij =>
     rw [RootSubgroupIndex.character_negativeSum,
@@ -105,7 +105,7 @@ theorem character_eq_prod (r : RootSubgroupIndex n) (t : Fin n → Fˣ) :
       simp [hij.ne', mul_comm]
     · intro b hb hbj
       simp only [Finset.mem_sdiff, Finset.mem_singleton] at hb
-      rw [stdVec_apply_negativeSum hij b, if_neg hb.2, if_neg hbj]
+      rw [stdVec_apply_negativeSum hij b, ite_eq_right hb.2, ite_eq_right hbj]
       simp
 
 theorem diagHom_conj_elt (t : Fin n → Fˣ) (r : RootSubgroupIndex n) (c : F) :

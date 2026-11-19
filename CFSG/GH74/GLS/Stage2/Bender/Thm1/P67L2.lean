@@ -67,7 +67,7 @@ theorem L2_cover_odd (hGA : CFSG.Open.GriessAllModelsStatement)
       unfold exceptionalOrders; split <;> simp_all
     have hne : (genericOrders .PSL 2 p f).1 * (genericOrders .PSL 2 p f).2 *
         ((exceptionalOrders .PSL 2 p f).1 * (exceptionalOrders .PSL 2 p f).2) ≠ 0 := by
-      rw [hex, hgen]; simpa using hpos.ne'
+      rw [hex, hgen]; simp
     have h := hd.trans (card_center_dvd_table hGA hJ hM hne)
     rw [hex, hgen] at h
     have h2' : r ∣ 2 := by

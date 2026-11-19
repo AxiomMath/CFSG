@@ -36,7 +36,7 @@ theorem HalfPair.comm_mem_inf (h : HalfPair P R) {f l : Γ}
   refine ⟨hk, ?_⟩
   by_cases hf1 : f = 1
   · subst hf1
-    simpa using (Subgroup.normalizer (R : Set Γ)).one_mem
+    simp
   refine h.halfPR f hf.1 hf1 hf.2 _ hk ?_
   have hfi : f⁻¹ = f := inv_eq_of_mul_eq_one_right (h.sqR f hf.1)
   have hli : l⁻¹ = l := inv_eq_of_mul_eq_one_right (h.sqP l hl)
@@ -86,7 +86,7 @@ private theorem HalfPair.card_ker_le [Finite P] (h : HalfPair P R) {f : Γ}
     (hf : f ∈ R ⊓ Subgroup.normalizer (P : Set Γ)) (hf1 : f ≠ 1) :
     Nat.card (h.commHom hf).ker ≤
       Nat.card ↥(P ⊓ Subgroup.normalizer (R : Set Γ)) := by
-  haveI := finite_inf (P := P) (Subgroup.normalizer (R : Set Γ))
+  have := finite_inf (P := P) (Subgroup.normalizer (R : Set Γ))
   refine Nat.card_le_card_of_injective
     (fun x : (h.commHom hf).ker =>
       (⟨((x : ↥P) : Γ), (x : ↥P).2, ?_⟩ :
@@ -105,7 +105,7 @@ private theorem HalfPair.card_range_le [Finite P] (h : HalfPair P R) {f : Γ}
     (hf : f ∈ R ⊓ Subgroup.normalizer (P : Set Γ)) :
     Nat.card (h.commHom hf).range ≤
       Nat.card ↥(P ⊓ Subgroup.normalizer (R : Set Γ)) := by
-  haveI := finite_inf (P := P) (Subgroup.normalizer (R : Set Γ))
+  have := finite_inf (P := P) (Subgroup.normalizer (R : Set Γ))
   refine Nat.card_le_card_of_injective
     (fun x : (h.commHom hf).range =>
       (⟨((x : ↥P) : Γ), (x : ↥P).2, ?_⟩ :
@@ -120,7 +120,7 @@ private theorem HalfPair.card_range_le [Finite P] (h : HalfPair P R) {f : Γ}
 theorem HalfPair.card_le_sq [Finite P] (h : HalfPair P R) {f : Γ}
     (hf : f ∈ R ⊓ Subgroup.normalizer (P : Set Γ)) (hf1 : f ≠ 1) :
     Nat.card P ≤ Nat.card ↥(P ⊓ Subgroup.normalizer (R : Set Γ)) ^ 2 := by
-  haveI := finite_inf (P := P) (Subgroup.normalizer (R : Set Γ))
+  have := finite_inf (P := P) (Subgroup.normalizer (R : Set Γ))
   have hcard : Nat.card P =
       Nat.card (h.commHom hf).ker * Nat.card (h.commHom hf).range := by
     rw [← Subgroup.index_ker, Subgroup.card_mul_index]
@@ -131,7 +131,7 @@ theorem HalfPair.card_le [Finite P] (h : HalfPair P R) {l : Γ} (hl : l ∈ P)
     (hlN : l ∉ Subgroup.normalizer (R : Set Γ)) :
     Nat.card ↥(R ⊓ Subgroup.normalizer (P : Set Γ)) ≤
       Nat.card ↥(P ⊓ Subgroup.normalizer (R : Set Γ)) := by
-  haveI := finite_inf (P := P) (Subgroup.normalizer (R : Set Γ))
+  have := finite_inf (P := P) (Subgroup.normalizer (R : Set Γ))
   exact Nat.card_le_card_of_injective
     (fun f : ↥(R ⊓ Subgroup.normalizer (P : Set Γ)) =>
       (⟨f * l * (f : Γ)⁻¹ * l⁻¹, h.comm_mem_inf f.2 hl⟩ : ↥(P ⊓ Subgroup.normalizer (R : Set Γ))))
@@ -149,7 +149,7 @@ theorem HalfPair.exists_comm_eq [Finite P] [Finite R] (h : HalfPair P R) {r : Γ
     (hlN : l ∉ Subgroup.normalizer (R : Set Γ)) {e : Γ}
     (he : e ∈ P ⊓ Subgroup.normalizer (R : Set Γ)) :
     ∃ g ∈ R ⊓ Subgroup.normalizer (P : Set Γ), e = l * g * l⁻¹ * g⁻¹ := by
-  haveI := finite_inf (P := P) (Subgroup.normalizer (R : Set Γ))
+  have := finite_inf (P := P) (Subgroup.normalizer (R : Set Γ))
   let ψ : ↥(R ⊓ Subgroup.normalizer (P : Set Γ)) → ↥(P ⊓ Subgroup.normalizer (R : Set Γ)) :=
     fun f => ⟨f * l * (f : Γ)⁻¹ * l⁻¹, h.comm_mem_inf f.2 hl⟩
   have hinj : Function.Injective ψ := fun f f' hff' =>

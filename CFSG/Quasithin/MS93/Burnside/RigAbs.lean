@@ -19,7 +19,7 @@ variable {𝔾 : Type} [Group 𝔾]
 
 theorem burnsideRig_le_of_torus {A B S' St : Subgroup 𝔾} {e : 𝔾}
     (hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) (hBA : B ≤ A)
-    (heA : ∀ a ∈ A, e * a * e⁻¹ ∈ A) (heB : ∀ b ∈ B, e * b * e⁻¹ ∈ B)
+    (_heA : ∀ a ∈ A, e * a * e⁻¹ ∈ A) (heB : ∀ b ∈ B, e * b * e⁻¹ ∈ B)
     (heSt : ∀ s ∈ St, e * s * e⁻¹ ∈ St)
     (htriv : ∀ a ∈ A, e * a * e⁻¹ * a⁻¹ ∈ S')
     (hsurj : ∀ a ∈ A, ∃ y ∈ A, (e * y * e⁻¹ * y⁻¹)⁻¹ * a ∈ B)
@@ -114,7 +114,7 @@ variable {Γ : Type} [Group Γ] {F : Type} [Field F]
 
 theorem burnsideRig_card_le_of_isSum_two [Finite F] {K W Z X Q : Subgroup Γ} [Finite ↥Z]
     {ψ : ↥K →* ↥(StatedSL 3 F)} (hW : IsSumOfNaturalModulesVia K W Z ψ true 2) (hXW : X ≤ W)
-    (hQK : Q ≤ K) (hQ : 2 ≤ Module.finrank F (commN (natImage ψ Q)))
+    (_hQK : Q ≤ K) (hQ : 2 ≤ Module.finrank F (commN (natImage ψ Q)))
     (hX : ∀ x ∈ X, ∀ t ∈ Q, ⁅x, t⁆ ∈ Z) :
     Nat.card ↥X ≤ Nat.card ↥Z * Nat.card F ^ 2 := by
   obtain ⟨hKW, hZW, β, -, hβker, hβeq⟩ := hW

@@ -51,9 +51,9 @@ theorem ker_le_center_of_totient_lt_card {Q S : Type*} [Group Q] [Group S] (f : 
 theorem ker_le_center_of_card_ker_eq_three {Q S : Type*} [Group Q] [Group S] (f : Q →* S)
     (hf : Function.Surjective f) (hS : IsSimpleGroup S) (hS2 : 2 < Nat.card S)
     (hk : Nat.card f.ker = 3) : f.ker ≤ Subgroup.center Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite f.ker := Nat.finite_of_card_ne_zero (by omega)
-  haveI : IsCyclic f.ker := isCyclic_of_prime_card hk
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite f.ker := Nat.finite_of_card_ne_zero (by omega)
+  have : IsCyclic f.ker := isCyclic_of_prime_card hk
   refine ker_le_center_of_totient_lt_card f hf hS ?_
   rw [hk, Nat.totient_prime Nat.prime_three]
   exact hS2

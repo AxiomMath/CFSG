@@ -20,6 +20,7 @@ open Polynomial Module QuadraticMap CFSG.ClassicalGroups.Orthogonal CFSG.LieType
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [CharP F 2] in
 theorem apply_mem_of_mem_frame {m : ℕ} {U : Fin m → Submodule F V} {e : Fin m → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)} (hd : d ∈ Bb)
     (j : Fin m) {x : V} (hx : x ∈ U j) : (d : V ≃ₗ[F] V) x ∈ U j := by
@@ -35,6 +36,7 @@ theorem apply_mem_of_mem_frame {m : ℕ} {U : Fin m → Submodule F V} {e : Fin 
   rw [hk x hx]
   exact hpow k x hx
 
+omit [Finite F] [CharP F 2] in
 theorem finrank_iSup_eq_of_isPlaneSystem {k : ℕ} {U : Fin k → Submodule F V} (hU : IsPlaneSystem Q U) :
     Module.finrank F (⨆ j, U j : Submodule F V) = 2 * k := by
   have h1 := hU.finrank_biSup (Finset.univ : Finset (Fin k))
@@ -42,6 +44,7 @@ theorem finrank_iSup_eq_of_isPlaneSystem {k : ℕ} {U : Fin k → Submodule F V}
   rw [e] at h1
   simpa [Finset.card_univ, Fintype.card_fin] using h1
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem specialBlock_le_orthDerived {x : V ≃ₗ[F] V} {h : F[X]}
     (hperf : Group.IsPerfect ↥(specialBlock Q x h)) : specialBlock Q x h ≤ orthDerived Q :=
   specialBlock_le_orthDerived_of_perfect hperf
@@ -59,9 +62,9 @@ theorem eichlerGroupOn_le_map_closureIn (hQ : (QuadraticMap.polarBilin Q).Nondeg
     eichlerGroupOn Q (⨆ j, U j) ≤ (closureIn (GLALayer (Subgroup.centralizer {d}))
       (Subgroup.normalizer (Bb : Set ↥(orthDerived Q)))).map (orthDerived Q).subtype := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hord : orderOf d = p := orderOf_eq_prime (hF.isElemAbelian.2 d hd) hd1
   have hx : OddOrderIsometry Q p (d : V ≃ₗ[F] V) :=
@@ -94,9 +97,9 @@ theorem layer_le_subgroupOf_eichlerGroupOn {n : ℕ} (hn : 4 ≤ n) (hp : p.Prim
       (specialBlock Q (d : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q)) :
     GLALayer (Subgroup.centralizer {d}) ≤ (eichlerGroupOn Q (⨆ j, U j)).subgroupOf (orthDerived Q) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hord : orderOf d = p := orderOf_eq_prime (hF.isElemAbelian.2 d hd) hd1
   have hx : OddOrderIsometry Q p (d : V ≃ₗ[F] V) :=
@@ -198,9 +201,9 @@ theorem type126_closureIn_of_fullSupport (hQ : (QuadraticMap.polarBilin Q).Nonde
       (closureIn (GLALayer (Subgroup.centralizer {d}))
         (Subgroup.normalizer (Bb : Set ↥(orthDerived Q)))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hord : orderOf d = p := orderOf_eq_prime (hF.isElemAbelian.2 d hd) hd1
   have hmult := primaryMultiplicity_eq_of_frame hQ hdim hn hp hp2 hpq hF hd hh hh1 hUh

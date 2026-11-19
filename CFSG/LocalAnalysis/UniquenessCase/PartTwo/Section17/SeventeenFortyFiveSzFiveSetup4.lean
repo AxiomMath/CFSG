@@ -19,7 +19,7 @@ theorem gap17_45_uniqueMaxFive_of_SE
     (hSE : PartOne.Section7.StronglyEmbeddedFive)
     (hSS : PartOne.Section7.StronglyEmbeddedSolvable)
     (hSE3 : PartOne.Section7.StronglyEmbeddedThree) (hB : PartOne.Section7.BadNoStrongThree)
-    (hGL : GL3Excl.GL3Excl) (hS : Standing4 G) (hU : CFSG.Open.uniqueFourUnique G)
+    (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) (hS : Standing4 G) (hU : CFSG.Open.uniqueFourUnique G)
     (S : Setup4 G) (hMS : S.InMSigma) (hPart : PartIAt S.M)
     (h847 : F08.R847 (UC6.dataOfSetup4 hS hU S)) (V₀ V : Subgroup G)
     (hg5 : S17.Gap17_45_UniqueMaxFiveSE (UC6.dataOfSetup4 hS hU S) V₀ V) :
@@ -39,7 +39,7 @@ theorem gap17_45_uniqueMaxFive_setup4_of_nonabChief
     (hSE : PartOne.Section7.StronglyEmbeddedFive)
     (hSS : PartOne.Section7.StronglyEmbeddedSolvable)
     (hSE3 : PartOne.Section7.StronglyEmbeddedThree) (hB : PartOne.Section7.BadNoStrongThree)
-    (hGL : GL3Excl.GL3Excl) (hS : Standing4 G) (hU : CFSG.Open.uniqueFourUnique G)
+    (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) (hS : Standing4 G) (hU : CFSG.Open.uniqueFourUnique G)
     (S : Setup4 G) (hMS : S.InMSigma) (hPart : PartIAt S.M)
     (h847 : F08.R847 (UC6.dataOfSetup4 hS hU S)) (V₀ V : Subgroup G)
     (hN : S17.Gap17_45_NonabChief (UC6.dataOfSetup4 hS hU S) V₀ V) :

@@ -24,7 +24,7 @@ theorem exists_plane_through {H : Type*} [Group H] {E I : Subgroup H}
     (hE : CFSG.Open.IsElemAbelian 3 E) (hEI : ¬ E ≤ I) {c : H} (hcE : c ∈ E) (hcI : c ∈ I)
     (hc1 : c ≠ 1) :
     ∃ F : Subgroup H, F ≤ E ∧ Nat.card F = 3 ^ 2 ∧ c ∈ F ∧ ¬ F ≤ I := by
-  obtain ⟨d, hdE, hdI⟩ := SetLike.not_le_iff_exists.1 hEI
+  obtain ⟨d, hdE, hdI⟩ := IsConcreteLE.not_le_iff_exists.1 hEI
   have hdc : d ∉ Subgroup.zpowers c := fun h => hdI ((Subgroup.zpowers_le.2 hcI) h)
   have hcomm : Commute c d := congrArg Subtype.val (hE.1.is_comm.comm ⟨c, hcE⟩ ⟨d, hdE⟩)
   refine ⟨Subgroup.zpowers c ⊔ Subgroup.zpowers d,
@@ -36,9 +36,9 @@ theorem exists_plane_through {H : Type*} [Group H] {E I : Subgroup H}
 theorem mem_zpowers_of_mem_inf {H : Type*} [Group H] {F I : Subgroup H} (hF : Nat.card F = 3 ^ 2)
     (hFI : ¬ F ≤ I) {c : H} (hcF : c ∈ F) (hcI : c ∈ I) (hc1 : c ≠ 1) (hc3 : c ^ 3 = 1)
     {f : H} (hfF : f ∈ F) (hfI : f ∈ I) : f ∈ Subgroup.zpowers c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
-  haveI : Finite ↥(F ⊓ I) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
+  have : Finite ↥(F ⊓ I) :=
     Finite.of_injective (Subgroup.inclusion (inf_le_left : F ⊓ I ≤ F))
       (Subgroup.inclusion_injective _)
   have hz : Subgroup.zpowers c ≤ F ⊓ I :=

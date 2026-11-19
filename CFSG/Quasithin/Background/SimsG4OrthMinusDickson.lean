@@ -32,7 +32,7 @@ theorem trace_eq_zero_of_mul_self {a : Matrix (Fin 2) (Fin 2) F} (hdet : a.det =
   have e10 := congrFun (congrFun ha 1) 0
   have e11 := congrFun (congrFun ha 1) 1
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons, Matrix.one_apply_eq,
+    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.one_apply_eq,
     Matrix.one_apply_ne, ne_eq, zero_ne_one, one_ne_zero, not_false_eq_true] at e00 e01 e10 e11
   rw [Matrix.trace_fin_two_of]
   by_contra ht
@@ -100,6 +100,7 @@ theorem exists_conj_eq_uMat {a : Matrix (Fin 2) (Fin 2) F} (hdet : a.det = 1) (h
       · field_simp
         linear_combination p * h2
 
+omit [CharP F 2] in
 theorem entries_mem_of_traces (K₀ : Subfield F) {c : F} (hc : c ≠ 0) (hcK : c ∈ K₀)
     (y : Matrix (Fin 2) (Fin 2) F) (h0 : y.trace ∈ K₀) (h1 : (uMat * y).trace ∈ K₀)
     (h2 : (!![0, c⁻¹; c, 0] * y).trace ∈ K₀) (h3 : (uMat * !![0, c⁻¹; c, 0] * y).trace ∈ K₀)
@@ -108,8 +109,7 @@ theorem entries_mem_of_traces (K₀ : Subfield F) {c : F} (hc : c ≠ 0) (hcK : 
   rw [uMat, Matrix.trace_fin_two] at h1 h3
   rw [Matrix.trace_fin_two] at h2
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val',
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-    Matrix.head_cons, Matrix.head_fin_const] at h1 h2 h3
+    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one] at h1 h2 h3
   have hci : c⁻¹ ∈ K₀ := K₀.inv_mem hcK
   have e10 : y 1 0 ∈ K₀ := by
     have : y 1 0 = (1 * y 0 0 + 1 * y 1 0 + (0 * y 0 1 + 1 * y 1 1)) - (y 0 0 + y 1 1) := by ring
@@ -287,6 +287,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2]
     Set (SpecialLinearGroup (Fin 2) F) :=
   {m | m ∈ M ∧ m ^ n = 1}
 
+omit [Finite F] [CharP F 2] in
 theorem closure_powOneSet_eq (M : Subgroup (SpecialLinearGroup (Fin 2) F)) {n : ℕ}
     (hn : ∀ m ∈ M, m ^ n = 1) : Subgroup.closure (powOneSet M n) = M := by
   apply le_antisymm
@@ -295,6 +296,7 @@ theorem closure_powOneSet_eq (M : Subgroup (SpecialLinearGroup (Fin 2) F)) {n : 
   · intro m hm
     exact Subgroup.subset_closure ⟨hm, hn m hm⟩
 
+omit [Finite F] [CharP F 2] in
 theorem pow_natCard_eq_one (M : Subgroup (SpecialLinearGroup (Fin 2) F)) {m}
     (hm : m ∈ M) : m ^ Nat.card M = 1 := by
   have h := pow_card_eq_one' (G := M) (x := ⟨m, hm⟩)
@@ -397,7 +399,7 @@ theorem eq_top_of_dickson (M : Subgroup (SpecialLinearGroup (Fin 2) F)) (hM : M 
     exfalso
     apply hsqM
     intro x hx
-    haveI := hEl
+    have := hEl
     have h := elemPow_eq_one_of_isElementaryAbelian (p := 2) (A := H) (ε x) ⟨x, hx, rfl⟩
     apply hε
     rw [map_pow, h, map_one]

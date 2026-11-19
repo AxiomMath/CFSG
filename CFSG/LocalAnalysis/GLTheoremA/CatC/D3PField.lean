@@ -28,7 +28,7 @@ open CFSG.Open CFSG.HardMathSupport.Dickson.Bal207.D4Graph
 theorem d3FieldPair_holds : D3FieldPair := by
   intro K _ _ n hK y b hy3 hb3 hyb hyQ hyI hbQ A hA hfy hfb
   classical
-  haveI := charP_three_of_card hK
+  have := charP_three_of_card hK
   let φ : D4Model K ≃* ↥(adjointGroup Tag.D4 K) :=
     (coordinatePlusWitnessEquiv K (isoAdj K).symm).symm
   have hb3' : b * b * b = 1 := by rw [← pow_three']; exact hb3
@@ -68,7 +68,7 @@ theorem d3FieldPair_holds : D3FieldPair := by
     change αb (φ a) = φ a
     rw [hαb, MulAut.congr_apply]
     simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply, hfb a ha]
-  haveI : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
+  have : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
   obtain ⟨S, hAS, hSy, hSb⟩ := D3P.exists_stable_sylow_fixing_pair αy αb hαy3 hαb3 hαyb _ hA' hfy' hfb'
   obtain ⟨x, hmemS⟩ := exists_conj_to_U S
   have hUy := stable_of_sylow_conj hmemS hSy
@@ -116,14 +116,14 @@ theorem d3FieldPair_holds : D3FieldPair := by
     rintro _ ⟨a, ha, rfl⟩
     have e : y' ((MulAut.conj x)⁻¹ a) = (MulAut.conj x)⁻¹ (αy a) := by
       rw [hy']
-      simp [MulAut.conj_apply, MulAut.conj_inv_apply, mul_assoc]
+      simp [MulAut.conj_apply, mul_assoc]
     change y' ((MulAut.conj x)⁻¹ a) = (MulAut.conj x)⁻¹ a
     rw [e, hfy' a ha]
   have hfixb : ∀ a ∈ A'', b' a = a := by
     rintro _ ⟨a, ha, rfl⟩
     have e : b' ((MulAut.conj x)⁻¹ a) = (MulAut.conj x)⁻¹ (αb a) := by
       rw [hb']
-      simp [MulAut.conj_apply, MulAut.conj_inv_apply, mul_assoc]
+      simp [MulAut.conj_apply, mul_assoc]
     change b' ((MulAut.conj x)⁻¹ a) = (MulAut.conj x)⁻¹ a
     rw [e, hfb' a ha]
   have hcard := fieldpair_stable hy'3 hb'3 hyb' hUy hUb hyn' hbn' hybn' hybbn' hA0 hfixy hfixb

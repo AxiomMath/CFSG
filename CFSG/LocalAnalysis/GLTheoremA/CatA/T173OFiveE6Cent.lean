@@ -118,7 +118,7 @@ private theorem not_e6TorusThree_le_zpowers {ζ : Fˣ} (hζ : orderOf ζ = 3)
     change (torusEltHom (τ := Tag.E6) (K := F) 1 ζ) ^ 3 = 1
     rw [← map_pow, hζ3, map_one]
   set C : Subgroup (ModGL Tag.E6 F) := Subgroup.zpowers g with hC
-  haveI : IsCyclic ↥C := Subgroup.isCyclic_zpowers g
+  have : IsCyclic ↥C := Subgroup.isCyclic_zpowers g
   have hxT : torusElt Tag.E6 F 0 ζ ∈ e6TorusThree F ζ :=
     Subgroup.subset_closure (Set.mem_range_self (0 : Fin Tag.E6.rank))
   have hyT : torusElt Tag.E6 F 1 ζ ∈ e6TorusThree F ζ :=
@@ -131,10 +131,10 @@ private theorem not_e6TorusThree_le_zpowers {ζ : Fˣ} (hζ : orderOf ζ = 3)
   have hy3C : yC ^ 3 = 1 := Subtype.ext hy3
   have hx1C : xC ≠ 1 := fun h => hx1 (congrArg Subtype.val h)
   have hy1C : yC ≠ 1 := fun h => hy1 (congrArg Subtype.val h)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxo : orderOf xC = 3 := orderOf_eq_prime hx3C hx1C
   have hyo : orderOf yC = 3 := orderOf_eq_prime hy3C hy1C
-  haveI : Finite ↥(Subgroup.zpowers xC) :=
+  have : Finite ↥(Subgroup.zpowers xC) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hxo]; norm_num)
   have hle' : Subgroup.zpowers xC ≤ Subgroup.zpowers yC := by
     rw [IsCyclic.subgroup_le_iff_card_dvd, Nat.card_zpowers, Nat.card_zpowers, hxo, hyo]
@@ -207,7 +207,7 @@ private theorem false_of_component_le_torus {L M H X : Subgroup (ModGL Tag.E6 F)
     rwa [Subgroup.map_subgroupOf_eq_of_le hLmem,
       Subgroup.map_subgroupOf_eq_of_le hMX] at h
   have hLH : L ≤ H := hM ▸ hLM'
-  haveI : Group.IsSolvable ↥H := hH ▸ isSolvable_torusGroup
+  have : Group.IsSolvable ↥H := hH ▸ isSolvable_torusGroup
   exact CFSG.LocalAnalysis.ComponentInitial.not_le_of_isQuasisimple_of_isSolvable
     hls ‹Group.IsSolvable ↥H› hLH
 
@@ -275,8 +275,8 @@ theorem rootCharKernel_nonempty_of_torusThree_le {F : Type} [Field F] [Finite F]
   have hcompA : CFSG.Assembly.IsComponentOf L X := (CFSG.Assembly.isComponentOf_iff_open).2 hcomp
   have hcompC : CFSG.IsComponent (L.subgroupOf X) :=
     (CFSG.LocalAnalysis.ComponentInitial.isComponentOf_iff_isComponent_subgroupOf hLmem).1 hcompA
-  haveI : Finite (ModGL Tag.E6 F) := finite_modGL
-  haveI : Finite ↥X := Subtype.finite
+  have : Finite (ModGL Tag.E6 F) := finite_modGL
+  have : Finite ↥X := Subtype.finite
   rcases CFSG.LocalCores.component_normal_subgroup hcompC hMN with hLM | hcomm
   · exact false_of_component_le_torus hLmem hMX hM hHdef hcompA.2.2 hLM
   · exact false_of_commutator_component_toralRootGroup hζ hLmem hMX hM hA hcent hcomm

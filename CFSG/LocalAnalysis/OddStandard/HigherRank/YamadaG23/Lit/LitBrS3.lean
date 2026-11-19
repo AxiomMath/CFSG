@@ -37,7 +37,7 @@ theorem lit_hO [(Zh.subgroupOf Gh).Normal] (c : LitCtx (Zh.subgroupOf Gh) (Ah.su
     intro x hx
     apply Subtype.ext
     exact hb_comm (x : Γ) (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩)
-  haveI : (litP (Zh.subgroupOf Gh)).Normal := Subgroup.sup_normal _ _
+  have : (litP (Zh.subgroupOf Gh)).Normal := Subgroup.sup_normal _ _
   exact lit_s3b c (QuotientGroup.mk'_surjective (litP (Zh.subgroupOf Gh)))
     (QuotientGroup.ker_mk' (litP (Zh.subgroupOf Gh))) φ hφs hφk hb'A hb'Z hb''
 

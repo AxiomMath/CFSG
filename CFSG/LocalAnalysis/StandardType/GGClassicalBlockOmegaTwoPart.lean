@@ -263,7 +263,7 @@ private lemma ggOmW2_isSemisimple {ι K : Type} [Fintype ι] [DecidableEq ι] [F
   refine Module.End.isSemisimple_of_squarefree_aeval_eq_zero
     (p := (Polynomial.X : Polynomial (AlgebraicClosure K)) ^ n - 1) ?_ ?_
   · exact (Polynomial.X_pow_sub_one_separable_iff.mpr hn).squarefree
-  · simpa [Polynomial.aeval_X, hfpow]
+  · simp [Polynomial.aeval_X, hfpow]
 
 private lemma ggOmW2_eigDim_eq_rootMultiplicity {ι K : Type} [Fintype ι] [DecidableEq ι]
     [Field K] (M : Matrix ι ι K) (n : ℕ) (hn : (n : AlgebraicClosure K) ≠ 0)
@@ -303,7 +303,7 @@ private lemma ggOmW2_matrix_pow_orderOf {ι K : Type} [Fintype ι] [DecidableEq 
 private lemma ggOmW2_cast_orderOf_ne_zero {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
     [CharP K 2] {b : GL ι K} (hodd : Odd (orderOf b)) :
     (orderOf b : AlgebraicClosure K) ≠ 0 := by
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   intro h0
   have h2 : (2 : ℕ) ∣ orderOf b :=
@@ -314,7 +314,7 @@ private lemma ggOmW2_finrank_range_toLin'_ne_zero {K : Type} [Field K] {m : Type
     [Fintype m] [DecidableEq m] {e : Matrix m m K} (he : e ≠ 0) :
     Module.finrank K (LinearMap.range (Matrix.toLin' e)) ≠ 0 := by
   intro h0
-  haveI : Subsingleton ↥(LinearMap.range (Matrix.toLin' e)) := (Module.finrank_zero_iff).mp h0
+  have : Subsingleton ↥(LinearMap.range (Matrix.toLin' e)) := (Module.finrank_zero_iff).mp h0
   have hbot : LinearMap.range (Matrix.toLin' e) = ⊥ := by
     rw [Submodule.eq_bot_iff]
     intro v hv
@@ -479,8 +479,8 @@ private lemma ggOmW2_commute {ι K : Type} [Fintype ι] [DecidableEq ι] [Field 
     subst hs
     subst ht
     exact Commute.refl _
-  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
-  letI : CommRing A := IsMulCommutative.instCommRing
+  let : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
+  let : CommRing A := IsMulCommutative.instCommRing
   have h := mul_comm (⟨x, hx⟩ : A) (⟨y, hy⟩ : A)
   exact congrArg Subtype.val h
 
@@ -513,7 +513,7 @@ private lemma ggOmW2_formAdj_invol {ι K : Type} [Fintype ι] [DecidableEq ι] [
     {G : Matrix ι ι K} (hG : IsUnit G.det)
     (hgsym : Matrix.transpose (G.map (RingHom.id K)) = G) (a : Matrix ι ι K) :
     formAdj (RingHom.id K) G (formAdj (RingHom.id K) G a) = a :=
-  CFSG.StandardType.ClassicalPosition.Geo.formAdj_formAdj (RingHom.id K) (fun x => rfl) hG hgsym a
+  CFSG.StandardType.ClassicalPosition.Geo.formAdj_formAdj (RingHom.id K) (fun _x => rfl) hG hgsym a
 
 private lemma ggOmW2_formAdj_prim {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K] [Finite K]
     {G : Matrix ι ι K} (hG : IsUnit G.det)
@@ -773,9 +773,9 @@ private lemma ggOmW2_eigDimOn_one_prim {ι K : Type} [Fintype ι] [DecidableEq �
         Module.finrank K (LinearMap.range (Matrix.toLin' e)) else 0 := by
   classical
   by_cases h : (b : Matrix ι ι K) * e = e
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact (eigDimOn_one_of_isPrimIdemIn (K := K) hodd he).1 h
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact (eigDimOn_one_of_isPrimIdemIn (K := K) hodd he).2 h
 
 private lemma ggOmW2_eigDimOn_primAdj_one {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
@@ -842,13 +842,13 @@ private lemma ggOmW2_eigDimOn_primAdj_one {ι K : Type} [Fintype ι] [DecidableE
           formAdj (RingHom.id K) G e =
           formAdj (RingHom.id K) G e :=
         (ggOmW2_b_mul_formAdj_iff hG hgram he.1).2 h
-      rw [if_pos h, if_pos hAdj, if_pos (hbε.2 h)]
+      rw [ite_eq_left h, ite_eq_left hAdj, ite_eq_left (hbε.2 h)]
       exact (ggOmW2_finrank_range_add_matrix he.2.1 heAdjPrim.2.1 horth horth').symm
     · have hAdj : ¬ ((b : Matrix ι ι K) *
           formAdj (RingHom.id K) G e =
           formAdj (RingHom.id K) G e) :=
         fun hc => h ((ggOmW2_b_mul_formAdj_iff hG hgram he.1).1 hc)
-      rw [if_neg h, if_neg hAdj, if_neg (fun hc => h (hbε.1 hc))]
+      rw [ite_eq_right h, ite_eq_right hAdj, ite_eq_right (fun hc => h (hbε.1 hc))]
 
 private lemma ggOmW2_unique_one_block {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
     [Fintype K] [CharP K 2] {G : Matrix ι ι K} (hG : IsUnit G.det)
@@ -992,8 +992,8 @@ private lemma ggOmW2_block_data {ι K : Type} [Fintype ι] [DecidableEq ι] [Fie
         if l ∈ S then t else 0 := by
     intro e₀ S t hon hoff l
     by_cases hl : l ∈ S
-    · rw [if_pos hl]; exact hon l hl
-    · rw [if_neg hl]; exact hoff l hl
+    · rw [ite_eq_left hl]; exact hon l hl
+    · rw [ite_eq_right hl]; exact hoff l hl
   have hRcomb := hcombine e R m hRon hRoff
   have hR'comb := hcombine (formAdj (RingHom.id K) G e) R' m' hR'on hR'off
   rcases hcase with hcase | ⟨hne, hneadj, hεeq⟩
@@ -1030,13 +1030,13 @@ private lemma ggOmW2_block_data {ι K : Type} [Fintype ι] [DecidableEq ι] [Fie
         (ggOmW2_commute b (Algebra.subset_adjoin (by simp)) heAdj.1) horth horth' l]
       rw [hRcomb l, hR'comb l, ← hmEq]
       by_cases hl : l ∈ R
-      · rw [if_pos hl, if_pos (Finset.mem_union_left _ hl),
-          if_neg (Finset.disjoint_left.mp hdisj hl)]
+      · rw [ite_eq_left hl, ite_eq_left (Finset.mem_union_left _ hl),
+          ite_eq_right (Finset.disjoint_left.mp hdisj hl)]
         ring
       · by_cases hl' : l ∈ R'
-        · rw [if_neg hl, if_pos hl', if_pos (Finset.mem_union_right _ hl'), zero_add]
-        · rw [if_neg hl, if_neg hl',
-            if_neg (fun h => (Finset.mem_union.mp h).elim hl hl'), add_zero]
+        · rw [ite_eq_right hl, ite_eq_left hl', ite_eq_left (Finset.mem_union_right _ hl'), zero_add]
+        · rw [ite_eq_right hl, ite_eq_right hl',
+            ite_eq_right (fun h => (Finset.mem_union.mp h).elim hl hl'), add_zero]
     · have hR'm : R'.card * m = Module.finrank K (LinearMap.range
           (Matrix.toLin' (formAdj (RingHom.id K) G e))) := by
         rw [hmEq, hR'm']
@@ -1144,8 +1144,8 @@ private lemma ggOmW2b_odd_orderOf_of_dicksonHom_eq_one {K W : Type} [Field K] [F
   have heven : Even (orderOf g) := Nat.not_odd_iff_even.mp h
   obtain ⟨k, hk⟩ := heven
   have hk2 : orderOf g = 2 * k := by omega
-  haveI : Finite (W ≃ₗ[K] W) := ggOmW2b_finite_linearEquiv
-  haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup R) :=
+  have : Finite (W ≃ₗ[K] W) := ggOmW2b_finite_linearEquiv
+  have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup R) :=
     Finite.of_injective (fun x => (x : W ≃ₗ[K] W)) fun _ _ h => Subtype.ext h
   have hpos : 0 < orderOf g := orderOf_pos_iff.mpr (isOfFinOrder_of_finite g)
   have hkne : k ≠ 0 := by omega
@@ -1212,7 +1212,7 @@ private theorem ggOmW2_factorization_two_card_statedOmega {ι K : Type} [Fintype
         rwa [hord] at hoddO
       by_contra h
       have heven : Even (Nat.card ↥(orthDerived Q)) := Nat.not_odd_iff_even.mp h
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥(orthDerived Q)) 2
         (even_iff_two_dvd.mp heven)
       have := hodd_elem g
@@ -1324,11 +1324,11 @@ private lemma ggOmW2d_finset_eq_of_eigDimOn {ι K : Type} [Fintype ι] [Decidabl
     rw [hSk l]
     constructor
     · intro hl h0
-      rw [if_pos hl] at h0
+      rw [ite_eq_left hl] at h0
       exact hk.ne' h0
     · intro hne
       by_contra hl
-      rw [if_neg hl] at hne
+      rw [ite_eq_right hl] at hne
       exact hne rfl
   exact Finset.ext fun l => (hmem R m hm hR l).trans (hmem R' m' hm' hR' l).symm
 
@@ -1412,10 +1412,10 @@ private theorem ggOmW2_blockExp_eq_true {ι K : Type} [Fintype ι] [DecidableEq 
           (ggOmW2_one_block_prim hG hgsym hgram hodd (hPprim ε hεP) h1) h1 hl1)
       refine ⟨ε, ⟨hεP, hbne⟩, ?_⟩
       by_contra hlR
-      exact hεne (by rw [hOf ε hεP l, if_neg hlR])
+      exact hεne (by rw [hOf ε hεP l, ite_eq_right hlR])
     · rintro ⟨ε, ⟨hεP, hbne⟩, hlR⟩
       have hne0 : eigDimOn (b : Matrix ι ι K) ε l ≠ 0 := by
-        rw [hOf ε hεP l, if_pos hlR]
+        rw [hOf ε hεP l, ite_eq_left hlR]
         exact (hOf_pos ε hεP hbne).ne'
       have hd : eigDim (b : Matrix ι ι K) l ≠ 0 := by
         intro h0
@@ -1435,7 +1435,7 @@ private theorem ggOmW2_blockExp_eq_true {ι K : Type} [Fintype ι] [DecidableEq 
     obtain ⟨e₀, _, _, hprim, heε, hcase, _, _, _, _, _, _⟩ :=
       ggOmW2_block_data G b hodd hG hgsym hgram (hPprim ε hε) h1
     have hne : eigDimOn (b : Matrix ι ι K) ε a ≠ 0 := by
-      rw [hOf ε hε a, if_pos ha]
+      rw [hOf ε hε a, ite_eq_left ha]
       exact (hOf_pos ε hε h1).ne'
     rcases hcase with hcase | ⟨hne', hneadj, hεeq⟩
     · refine ⟨e₀, hprim, heε, ?_⟩
@@ -1498,18 +1498,18 @@ private theorem ggOmW2_blockExp_eq_true {ι K : Type} [Fintype ι] [DecidableEq 
     · intro ε' hε' hne'
       rw [hOf ε' hε' l]
       by_cases hl' : l ∈ ROf ε'
-      · rw [if_pos hl']
+      · rw [ite_eq_left hl']
         by_cases h1' : (b : Matrix ι ι K) * ε' = ε'
         · have hzero := ggOmW2_eigDimOn_eq_zero_of_b_mul_eq hodd
             (ggOmW2_one_block_prim hG hgsym hgram hodd (hPprim ε' hε') h1') h1' hl1
           have hstep : eigDimOn (b : Matrix ι ι K) ε' l = mOf ε' := by
-            rw [hOf ε' hε' l, if_pos hl']
+            rw [hOf ε' hε' l, ite_eq_left hl']
           rw [← hstep]
           exact hzero
         · exact absurd hl' (Finset.disjoint_left.mp
             (hdisjR ε hε h1 ε' hε' h1' (Ne.symm hne')) hl)
-      · rw [if_neg hl']
-    · rw [hOf ε hε l, if_pos hl]
+      · rw [ite_eq_right hl']
+    · rw [hOf ε hε l, ite_eq_left hl]
   have hsum1 : ∑ l ∈ ggOmW2_R (b : Matrix ι ι K),
         eigDim (b : Matrix ι ι K) l * (eigDim (b : Matrix ι ι K) l - 1) / 2 =
       ∑ ε ∈ P.filter (fun ε => (b : Matrix ι ι K) * ε ≠ ε),
@@ -1566,11 +1566,11 @@ private theorem ggOmW2_block_order {ι K : Type} [Fintype ι] [DecidableEq ι] [
   have hgram : ggOmW2_GramIso (ggOmW2_G Φ) b := ggOmW2_gram Φ hb
   intro ε hε
   by_cases h1 : (b : Matrix ι ι K) * ε = ε
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     obtain ⟨ι₁, instF, instD, Q₁, hcardι₁, hΦ₁, hbranch⟩ :=
       blockGroup_iso_Omega_one Φ hΦ h8 b hb hodd (hPprim ε hε) h1
-    letI := instF
-    letI := instD
+    let := instF
+    let := instD
     obtain ⟨Φ₁, hΦ₁eq, hΦ₁nd⟩ := hΦ₁
     have heven : Even (Fintype.card ι₁) := by
       rw [← Module.finrank_fintype_fun_eq_card (R := K)]
@@ -1599,7 +1599,7 @@ private theorem ggOmW2_block_order {ι K : Type} [Fintype ι] [DecidableEq ι] [
       have hdim : Module.finrank K (LinearMap.range (Matrix.toLin' ε)) = 4 := by
         rw [← hcardι₁, hcard4]
       rw [hf1, hdim]
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     obtain ⟨e, R, m, he, heε, hcase, hOfR, hRm, h1R, hmPos, hcard, h2deg⟩ :=
       ggOmW2_block_data (ggOmW2_G Φ) b hodd hG hgsym hgram (hPprim ε hε) h1
     have hROf : ROf ε = R :=
@@ -1608,8 +1608,8 @@ private theorem ggOmW2_block_order {ι K : Type} [Fintype ι] [DecidableEq ι] [
     rcases hcase with hcase | ⟨hne, hneadj, hεeq⟩
     · obtain ⟨d, mb, E, instFE, instFinE, hd1, hcardE, hdim, hdeg, ⟨eG⟩⟩ :=
         blockGroup_iso_Omega_unitary Φ hΦ h8 b hb hodd (hPprim ε hε) (hcase ▸ he) h1
-      letI := instFE
-      letI := instFinE
+      let := instFE
+      let := instFinE
       have hd2 : (ROf ε).card = 2 * d := by
         rw [hROf, hcard hcase, hcase, hdeg]
       have hd : d = (ROf ε).card / 2 := by
@@ -1629,8 +1629,8 @@ private theorem ggOmW2_block_order {ι K : Type} [Fintype ι] [DecidableEq ι] [
     · obtain ⟨d, mb, E, instFE, instFinE, hd1, hcardE, hdim, hdeg, ⟨eG⟩⟩ :=
         blockGroup_iso_Omega_linear Φ hΦ h8 b hb hodd (hPprim ε hε) he
           (ggOmW2_formAdj_prim hG hgsym hgram he) (Ne.symm hneadj) hεeq
-      letI := instFE
-      letI := instFinE
+      let := instFE
+      let := instFinE
       have hd2 : (ROf ε).card = 2 * d := by
         rw [hROf, h2deg hne, hdeg]
       have hd : d = (ROf ε).card / 2 := by
@@ -1677,7 +1677,7 @@ private theorem ggOmW2_fixed_block_dim_le {ι K : Type} [Fintype ι] [DecidableE
     rw [hblockExp] at h0
     exact h0
   have hA : (eigDim (b : Matrix ι ι K) 1 / 2) *
-      (eigDim (b : Matrix ι ι K) 1 / 2 - 1) = 0 := (Nat.add_eq_zero.mp hzero).1
+      (eigDim (b : Matrix ι ι K) 1 / 2 - 1) = 0 := (_root_.Nat.add_eq_zero_iff.mp hzero).1
   have hdim : eigDim (b : Matrix ι ι K) 1 ≤ 3 := by
     have hhalf : eigDim (b : Matrix ι ι K) 1 / 2 ≤ 1 := by
       rcases Nat.eq_zero_or_pos (eigDim (b : Matrix ι ι K) 1 / 2) with hz | hp
@@ -1691,14 +1691,14 @@ private theorem ggOmW2_fixed_block_dim_le {ι K : Type} [Fintype ι] [DecidableE
     refine Finset.sum_eq_single ε ?_ ?_
     · intro ε' hε' hne'
       by_cases h1' : (b : Matrix ι ι K) * ε' = ε'
-      · rw [if_pos h1']
+      · rw [ite_eq_left h1']
         exact absurd
           (ggOmW2_unique_one_block hG hgsym hgram hodd hPprim hPorth hε' hε h1' h1) hne'
-      · rw [if_neg h1']
+      · rw [ite_eq_right h1']
     · intro hnot; exact absurd hε hnot
   have heq : Module.finrank K (LinearMap.range (Matrix.toLin' ε)) =
       eigDim (b : Matrix ι ι K) 1 := by
-    rw [heig1, hsingle, if_pos h1]
+    rw [heig1, hsingle, ite_eq_left h1]
   omega
 
 private theorem ggOmW2f_mOf_eq_one {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
@@ -1719,7 +1719,7 @@ private theorem ggOmW2f_mOf_eq_one {ι K : Type} [Fintype ι] [DecidableEq ι] [
   have hsum0 : ∑ ε ∈ P.filter (fun ε => (b : Matrix ι ι K) * ε ≠ ε),
         (ROf ε).card / 2 * (mOf ε * (mOf ε - 1) / 2) = 0 := by
     rw [hblockExp] at h0
-    exact (Nat.add_eq_zero.mp h0).2
+    exact (_root_.Nat.add_eq_zero_iff.mp h0).2
   intro ε hε h1
   have hterm : (ROf ε).card / 2 * (mOf ε * (mOf ε - 1) / 2) = 0 :=
     (Finset.sum_eq_zero_iff.mp hsum0) ε (Finset.mem_filter.mpr ⟨hε, h1⟩)
@@ -1850,12 +1850,12 @@ private theorem ggOmW2_blocks_abelian {ι K : Type} [Fintype ι] [DecidableEq ι
       · intro hl
         by_contra hnot
         have h2l := hOfR l
-        rw [if_neg hnot, hOf ε hε l, if_pos hl] at h2l
+        rw [ite_eq_right hnot, hOf ε hε l, ite_eq_left hl] at h2l
         exact (hOf_pos ε hε h1).ne' h2l
       · intro hl
         by_contra hnot
         have h2l := hOfR l
-        rw [if_pos hl, hOf ε hε l, if_neg hnot] at h2l
+        rw [ite_eq_left hl, hOf ε hε l, ite_eq_right hnot] at h2l
         exact hmPos.ne' h2l.symm
     have hROf : ROf ε = R := Finset.ext hRmem
     have hm_eq : m = mOf ε := by
@@ -1865,9 +1865,9 @@ private theorem ggOmW2_blocks_abelian {ι K : Type} [Fintype ι] [DecidableEq ι
         rw [hc, zero_mul] at hm
         exact ggOmW2_finrank_range_toLin'_ne_zero (hPprim ε hε).2.2.1 hm.symm
       obtain ⟨l, hl⟩ := Finset.card_pos.mp (Nat.pos_of_ne_zero hcard_ne)
-      have h1l : eigDimOn (b : Matrix ι ι K) ε l = m := by rw [hOfR l, if_pos hl]
+      have h1l : eigDimOn (b : Matrix ι ι K) ε l = m := by rw [hOfR l, ite_eq_left hl]
       have h2l : eigDimOn (b : Matrix ι ι K) ε l = mOf ε := by
-        rw [hOf ε hε l, if_pos (by rw [hROf]; exact hl)]
+        rw [hOf ε hε l, ite_eq_left (by rw [hROf]; exact hl)]
       rw [h1l] at h2l
       exact h2l
     rcases hcase with hcase | ⟨hne, hneadj, hεeq⟩
@@ -1956,36 +1956,36 @@ theorem two_part_centralizer_Omega {ι K : Type} [Fintype ι] [DecidableEq ι] [
   have hOf : ∀ ε (hε : ε ∈ P), ∀ l, eigDimOn (b : Matrix ι ι K) ε l =
       if l ∈ ROf ε then mOf ε else 0 := by
     intro ε hε l
-    simp only [ROf, mOf, dif_pos hε]
+    simp only [ROf, mOf, dite_eq_left hε]
     by_cases h1 : (b : Matrix ι ι K) * ε = ε
-    · simp only [dif_pos h1]
+    · simp only [dite_eq_left h1]
       by_cases hl : l = 1
       · subst hl
-        rw [if_pos (Finset.mem_singleton_self 1)]
-        exact (ggOmW2_eigDimOn_primAdj_one hG hgsym hgram hodd (hPprim ε hε)).trans (if_pos h1)
-      · rw [if_neg (fun h => hl (Finset.mem_singleton.mp h))]
+        rw [ite_eq_left (Finset.mem_singleton_self 1)]
+        exact (ggOmW2_eigDimOn_primAdj_one hG hgsym hgram hodd (hPprim ε hε)).trans (ite_eq_left h1)
+      · rw [ite_eq_right (fun h => hl (Finset.mem_singleton.mp h))]
         exact ggOmW2_eigDimOn_eq_zero_of_b_mul_eq hodd
           (ggOmW2_one_block_prim hG hgsym hgram hodd (hPprim ε hε) h1) h1 hl
-    · simp only [dif_neg h1]
+    · simp only [dite_eq_right h1]
       exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
         (ggOmW2_block_data (ggOmW2_G Φ) b hodd hG hgsym hgram (hPprim ε hε) h1)))).2.2.2.1 l
   have hOf_one : ∀ ε (hε : ε ∈ P),
       (b : Matrix ι ι K) * ε ≠ ε → 1 ∉ ROf ε := by
     intro ε hε h1
-    simp only [ROf, dif_pos hε, dif_neg h1]
+    simp only [ROf, dite_eq_left hε, dite_eq_right h1]
     exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
       (ggOmW2_block_data (ggOmW2_G Φ) b hodd hG hgsym hgram (hPprim ε hε) h1)))).2.2.2.2.2.1
   have hOf_pos : ∀ ε (hε : ε ∈ P),
       (b : Matrix ι ι K) * ε ≠ ε → 0 < mOf ε := by
     intro ε hε h1
-    simp only [mOf, dif_pos hε, dif_neg h1]
+    simp only [mOf, dite_eq_left hε, dite_eq_right h1]
     exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
       (ggOmW2_block_data (ggOmW2_G Φ) b hodd hG hgsym hgram (hPprim ε hε) h1)))).2.2.2.2.2.2.1
   have hOf_mul : ∀ ε (hε : ε ∈ P),
       (b : Matrix ι ι K) * ε ≠ ε →
       (ROf ε).card * mOf ε = Module.finrank K (LinearMap.range (Matrix.toLin' ε)) := by
     intro ε hε h1
-    simp only [ROf, mOf, dif_pos hε, dif_neg h1]
+    simp only [ROf, mOf, dite_eq_left hε, dite_eq_right h1]
     exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
       (ggOmW2_block_data (ggOmW2_G Φ) b hodd hG hgsym hgram (hPprim ε hε) h1)))).2.2.2.2.1
   have hOf_even : ∀ ε (hε : ε ∈ P), (b : Matrix ι ι K) * ε ≠ ε →
@@ -2015,10 +2015,10 @@ theorem two_part_centralizer_Omega {ι K : Type} [Fintype ι] [DecidableEq ι] [
         ∑ ε ∈ P,
           (Nat.card ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε)).factorization 2 := by
       rw [hPcard, Nat.factorization_prod (fun ε _ => by
-        haveI : Nonempty ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) :=
+        have : Nonempty ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) :=
           ⟨⟨1, (glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε).one_mem⟩⟩
         exact Nat.card_pos.ne')]
-      simp only [Finsupp.coe_finset_sum, Finset.sum_apply]
+      simp only [_root_.Finsupp.coe_finsetSum, Finset.sum_apply]
     have hsum : ∑ ε ∈ P, (if (b : Matrix ι ι K) * ε = ε then
             (Module.finrank K (LinearMap.range (Matrix.toLin' ε)) / 2) *
               (Module.finrank K (LinearMap.range (Matrix.toLin' ε)) / 2 - 1)
@@ -2033,7 +2033,7 @@ theorem two_part_centralizer_Omega {ι K : Type} [Fintype ι] [DecidableEq ι] [
             (Module.finrank K (LinearMap.range (Matrix.toLin' ε)) / 2 - 1)
           else (ROf ε).card / 2 * (mOf ε * (mOf ε - 1) / 2))]
       congr 1
-      · rw [Finset.sum_congr rfl (fun ε hε => if_pos (Finset.mem_filter.mp hε).2)]
+      · rw [Finset.sum_congr rfl (fun ε hε => ite_eq_left (Finset.mem_filter.mp hε).2)]
         have hf1 : eigDim (b : Matrix ι ι K) 1 =
             ∑ ε ∈ P.filter (fun ε => (b : Matrix ι ι K) * ε = ε),
               Module.finrank K (LinearMap.range (Matrix.toLin' ε)) := by
@@ -2051,7 +2051,7 @@ theorem two_part_centralizer_Omega {ι K : Type} [Fintype ι] [DecidableEq ι] [
               (Finset.mem_filter.mp hε).1 (Finset.mem_filter.mp hε₁).1
               (Finset.mem_filter.mp hε).2 (Finset.mem_filter.mp hε₁).2
           rw [hsingle, Finset.sum_singleton, Finset.sum_singleton]
-      · rw [Finset.sum_congr rfl (fun ε hε => if_neg (Finset.mem_filter.mp hε).2)]
+      · rw [Finset.sum_congr rfl (fun ε hε => ite_eq_right (Finset.mem_filter.mp hε).2)]
     rw [hcardprod]
     rw [Finset.sum_congr rfl hblock]
     rw [← Finset.mul_sum, hsum]
@@ -2091,36 +2091,36 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Omega {ι K : Type} [Fintype
   have hOf : ∀ ε (hε : ε ∈ P), ∀ l, eigDimOn (b : Matrix ι ι K) ε l =
       if l ∈ ROf ε then mOf ε else 0 := by
     intro ε hε l
-    simp only [ROf, mOf, dif_pos hε]
+    simp only [ROf, mOf, dite_eq_left hε]
     by_cases h1 : (b : Matrix ι ι K) * ε = ε
-    · simp only [dif_pos h1]
+    · simp only [dite_eq_left h1]
       by_cases hl : l = 1
       · subst hl
-        rw [if_pos (Finset.mem_singleton_self 1)]
-        exact (ggOmW2_eigDimOn_primAdj_one hG hgsym hgram hodd (hPprim ε hε)).trans (if_pos h1)
-      · rw [if_neg (fun h => hl (Finset.mem_singleton.mp h))]
+        rw [ite_eq_left (Finset.mem_singleton_self 1)]
+        exact (ggOmW2_eigDimOn_primAdj_one hG hgsym hgram hodd (hPprim ε hε)).trans (ite_eq_left h1)
+      · rw [ite_eq_right (fun h => hl (Finset.mem_singleton.mp h))]
         exact ggOmW2_eigDimOn_eq_zero_of_b_mul_eq hodd
           (ggOmW2_one_block_prim hG hgsym hgram hodd (hPprim ε hε) h1) h1 hl
-    · simp only [dif_neg h1]
+    · simp only [dite_eq_right h1]
       exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
         (ggOmW2_block_data (ggOmW2_G Φ) b hodd hG hgsym hgram (hPprim ε hε) h1)))).2.2.2.1 l
   have hOf_one : ∀ ε (hε : ε ∈ P),
       (b : Matrix ι ι K) * ε ≠ ε → 1 ∉ ROf ε := by
     intro ε hε h1
-    simp only [ROf, dif_pos hε, dif_neg h1]
+    simp only [ROf, dite_eq_left hε, dite_eq_right h1]
     exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
       (ggOmW2_block_data (ggOmW2_G Φ) b hodd hG hgsym hgram (hPprim ε hε) h1)))).2.2.2.2.2.1
   have hOf_pos : ∀ ε (hε : ε ∈ P),
       (b : Matrix ι ι K) * ε ≠ ε → 0 < mOf ε := by
     intro ε hε h1
-    simp only [mOf, dif_pos hε, dif_neg h1]
+    simp only [mOf, dite_eq_left hε, dite_eq_right h1]
     exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
       (ggOmW2_block_data (ggOmW2_G Φ) b hodd hG hgsym hgram (hPprim ε hε) h1)))).2.2.2.2.2.2.1
   have hOf_mul : ∀ ε (hε : ε ∈ P),
       (b : Matrix ι ι K) * ε ≠ ε →
       (ROf ε).card * mOf ε = Module.finrank K (LinearMap.range (Matrix.toLin' ε)) := by
     intro ε hε h1
-    simp only [ROf, mOf, dif_pos hε, dif_neg h1]
+    simp only [ROf, mOf, dite_eq_left hε, dite_eq_right h1]
     exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
       (ggOmW2_block_data (ggOmW2_G Φ) b hodd hG hgsym hgram (hPprim ε hε) h1)))).2.2.2.2.1
   have hOf_even : ∀ ε (hε : ε ∈ P), (b : Matrix ι ι K) * ε ≠ ε →
@@ -2156,8 +2156,7 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Omega {ι K : Type} [Fintype
       · intro i x hx
         refine Subgroup.iSup_induction' (fun (_ : i ∈ P) => H i)
           (C := fun x _ => ∀ y ∈ (⨆ ε ∈ P, H ε), x * y = y * x) ?_ ?_ ?_ hx
-        · intro hi x hx
-          intro y hy
+        · intro hi x hx y hy
           refine Subgroup.iSup_induction' (fun ε => ⨆ (_ : ε ∈ P), H ε)
             (C := fun y _ => x * y = y * x) ?_ ?_ ?_ hy
           · intro j y hy

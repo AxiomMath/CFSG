@@ -30,15 +30,15 @@ section Input
 theorem ggExcAdjLayerCentInvolTrivial_of_oddLayer {τ : Tag} (h : GGExcAdjOddLayerCores τ) :
     GGExcAdjLayerCentInvolTrivial τ := by
   intro K _ _ _ p hp hp2 _ A hA hAc _ _
-  haveI := generated_group_finite τ K
+  have := generated_group_finite τ K
   obtain ⟨_, _, hT⟩ := h K A (LayerCores.odd_card_of_isPGroup hp hp2 hA) hAc
   exact LayerCores.layerCentre_of_isSubCoreFamily hT
 
 theorem ggE6InndiagLayerCentInvolTrivial_of_oddLayer (h : GGE6InndiagOddLayerCores) :
     GGE6InndiagLayerCentInvolTrivial := by
   intro K _ _ _ p hp hp2 _ A hA hAc hAi _ _
-  haveI := generated_group_finite .E6 K
-  haveI := finite_mulAut_oddLayer ↥(adjointGroup .E6 K)
+  have := generated_group_finite .E6 K
+  have := finite_mulAut_oddLayer ↥(adjointGroup .E6 K)
   obtain ⟨_, _, hT⟩ := h K A (LayerCores.odd_card_of_isPGroup hp hp2 hA) hAc hAi
   exact LayerCores.layerCentre_of_isSubCoreFamily hT
 
@@ -63,13 +63,13 @@ section Bundle
 theorem ggTwE6LayerCentInvolTrivial_of_oddLayer (h : GGTwE6OddLayerCores) :
     GGTwE6LayerCentInvolTrivial := by
   intro f hf p hp hp2 A hA hAc hAi _ _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) := by
     have : Finite (Module.End (GaloisField 2 (2 * f))
       (RootModule TwistTag.E6.tag (GaloisField 2 (2 * f)))) :=
       Module.finite_of_finite (GaloisField 2 (2 * f))
     infer_instance
-  haveI := finite_mulAut_oddLayer ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
+  have := finite_mulAut_oddLayer ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
     (frobQ 2 f))
   obtain ⟨_, _, hT⟩ := h f hf A (LayerCores.odd_card_of_isPGroup hp hp2 hA) hAc hAi
   exact LayerCores.layerCentre_of_isSubCoreFamily hT

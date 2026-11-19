@@ -12,7 +12,7 @@ theorem card_dvd_sum_card_fixed {H : Type*} [Group H] [Fintype H] {α : Type*} [
     [DecidableEq α] (φ : H →* Equiv.Perm α) :
     Fintype.card H ∣ ∑ h : H, Fintype.card {a : α // φ h a = a} := by
   classical
-  letI : MulAction H α := MulAction.compHom α φ
+  let : MulAction H α := MulAction.compHom α φ
   have hsum : (∑ h : H, Fintype.card {a : α // φ h a = a}) =
       ∑ h : H, Fintype.card ↥(MulAction.fixedBy α h) := by
     refine Finset.sum_congr rfl fun h _ => ?_
@@ -45,8 +45,8 @@ theorem mem_of_mul_self_eq_one_of_fixedPoints {Y : Type} [Group Y] [Finite Y] {�
     {x : Y} (hx : x ∈ Subgroup.centralizer (T : Set Y)) (hx2 : x * x = 1) : x ∈ T := by
   classical
   by_contra hxT
-  haveI : Fintype Y := Fintype.ofFinite Y
-  haveI : Fintype α := Fintype.ofFinite α
+  have : Fintype Y := Fintype.ofFinite Y
+  have : Fintype α := Fintype.ofFinite α
   set fc : Y → ℕ := fun y => Nat.card {i : α // φ y i = i} with hfc
   have hfc1 : fc 1 = N := by
     rw [← hα]
@@ -63,7 +63,7 @@ theorem mem_of_mul_self_eq_one_of_fixedPoints {Y : Type} [Group Y] [Finite Y] {�
     rw [Finset.sum_congr rfl (fun h _ => h1 h),
       ← Finset.add_sum_erase _ _ (Finset.mem_univ (1 : ↥T))]
     have h2 : ∑ x ∈ Finset.univ.erase (1 : ↥T), (if x = 1 then N else c) = (2 ^ m - 1) * c := by
-      rw [Finset.sum_congr rfl (fun x hx => by rw [if_neg (Finset.ne_of_mem_erase hx)]),
+      rw [Finset.sum_congr rfl (fun x hx => by rw [ite_eq_right (Finset.ne_of_mem_erase hx)]),
         Finset.sum_const, Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ,
         ← Nat.card_eq_fintype_card, hTcard, smul_eq_mul]
     rw [h2]
@@ -120,7 +120,7 @@ theorem mem_of_mul_self_eq_one_of_fixedPoints {Y : Type} [Group Y] [Finite Y] {�
       refine hE0 e e.2 fun heT => he ?_
       exact Finset.mem_image.2 ⟨⟨e, heT⟩, Finset.mem_univ _, rfl⟩
   have hE2 : IsPGroup 2 E := hE.isPGroup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, hj⟩ := hE2.exists_card_eq
   have hlt : Nat.card T < Nat.card E := Subgroup.card_lt_of_lt hTE
   rw [hTcard, hj] at hlt

@@ -245,7 +245,7 @@ theorem exists_stabilizer_hom (h : UnitaryFieldData 2 n K) (w : Fin 3 → K) (hw
     apply Units.ext
     rw [psiHom_apply, heig, hdetc]
     simp only [Units.val_mul, Units.val_pow_eq_pow_val, Units.val_inv_eq_inv_val, Units.coe_map,
-      Units.val_one, MonoidHom.coe_coe]
+      Units.val_one]
     have hcne : (c : K) ≠ 0 := c.ne_zero
     have hbar : h.bar (c : K) ≠ 0 := by
       intro h0
@@ -258,7 +258,7 @@ theorem exists_stabilizer_hom (h : UnitaryFieldData 2 n K) (w : Fin 3 → K) (hw
     have hψ := congrArg Units.val hA
     rw [psiHom_apply] at hψ
     simp only [Units.val_mul, Units.val_pow_eq_pow_val, Units.val_inv_eq_inv_val, Units.coe_map,
-      Units.val_one, MonoidHom.coe_coe, RingHom.toMonoidHom_eq_coe, coe_eigHom,
+      Units.val_one, _root_.MonoidHom.coe_ofClass, RingHom.toMonoidHom_eq_coe, coe_eigHom,
       Matrix.GeneralLinearGroup.val_det_apply] at hψ
     have hdA : ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).det ≠ 0 :=
       Matrix.GeneralLinearGroup.det_ne_zero _
@@ -266,7 +266,7 @@ theorem exists_stabilizer_hom (h : UnitaryFieldData 2 n K) (w : Fin 3 → K) (hw
     field_simp at hψ
     have hdet : ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).det * h.bar (eigval h w A) =
         eigval h w A ^ 2 := by
-      first | linear_combination -hψ | linear_combination hψ
+      first | linear_combination -hψ
     obtain ⟨R, hR, hRw⟩ := exists_witt_matrix h w hw0 hw
     have hAw : ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ (R *ᵥ Pi.single 0 1) =
         eigval h w A • (R *ᵥ Pi.single 0 1) := by

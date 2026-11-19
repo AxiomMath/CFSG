@@ -218,12 +218,12 @@ theorem exists_conj_eq_thetaSL2_pow_of_coroot_conj {K : Type} [Field K] [Finite 
 theorem exists_conj_eq_thetaSL2_pow {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {f : ℕ}
     (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2) (hσ : ∀ c, σ c = c ^ 2 ^ f) {k : Type}
     [Field k] [Algebra k K] (hk : Nat.card k = 2 ^ f)
-    (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (hFr : ∀ c, Fr c = c ^ 2 ^ f)
+    (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (_hFr : ∀ c, Fr c = c ^ 2 ^ f)
     (v : WeylGroup TwistTag.E6.tag)
-    (hv : ∀ γ : Fin TwistTag.E6.tag.rank → ℤ, v • permLattice TwistTag.E6.perm γ = -γ)
+    (_hv : ∀ γ : Fin TwistTag.E6.tag.rank → ℤ, v • permLattice TwistTag.E6.perm γ = -γ)
     (g0 : ModGL TwistTag.E6.tag (AlgebraicClosure K))
     (hg0C : g0 ∈ adjointGroup TwistTag.E6.tag (AlgebraicClosure K))
-    (hg0 : twistHom TwistTag.E6 (AlgebraicClosure K) Fr g0 =
+    (_hg0 : twistHom TwistTag.E6 (AlgebraicClosure K) Fr g0 =
       g0 * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) v)
     (t : ModGL TwistTag.E6.tag K) (_ht : t ∈ twistedE6InndiagGL K σ)
     (γ : Fin TwistTag.E6.tag.rank → ℤ) (hγ : IsRoot TwistTag.E6.tag γ) (p : ℕ) (_hp : p.Prime)

@@ -28,13 +28,13 @@ noncomputable def code (h : EnumCert gens E) (g : V₀ ≃ₗ[ZMod 2] V₀) : �
 theorem code_mem (h : EnumCert gens E) {g : V₀ ≃ₗ[ZMod 2] V₀}
     (hg : g ∈ codeSubgroup gens) : h.code g ∈ E := by
   unfold code
-  rw [dif_pos hg]
+  rw [dite_eq_left hg]
   exact (Classical.choose_spec (h.exists_code_mem hg)).1
 
 theorem hasCode_code (h : EnumCert gens E) {g : V₀ ≃ₗ[ZMod 2] V₀}
     (hg : g ∈ codeSubgroup gens) : Code.HasCode (g : V₀ →ₗ[ZMod 2] V₀) (h.code g) := by
   unfold code
-  rw [dif_pos hg]
+  rw [dite_eq_left hg]
   exact (Classical.choose_spec (h.exists_code_mem hg)).2
 
 noncomputable def elem (h : EnumCert gens E) (c : ℕ) : V₀ ≃ₗ[ZMod 2] V₀ := by
@@ -44,13 +44,13 @@ noncomputable def elem (h : EnumCert gens E) (c : ℕ) : V₀ ≃ₗ[ZMod 2] V�
 theorem elem_mem (h : EnumCert gens E) {c : ℕ} (hc : c ∈ E) :
     h.elem c ∈ codeSubgroup gens := by
   unfold elem
-  rw [dif_pos hc]
+  rw [dite_eq_left hc]
   exact (Classical.choose_spec (h.exists_mem hc)).1
 
 theorem hasCode_elem (h : EnumCert gens E) {c : ℕ} (hc : c ∈ E) :
     Code.HasCode (h.elem c : V₀ →ₗ[ZMod 2] V₀) c := by
   unfold elem
-  rw [dif_pos hc]
+  rw [dite_eq_left hc]
   exact (Classical.choose_spec (h.exists_mem hc)).2
 
 theorem code_elem (h : EnumCert gens E) {c : ℕ} (hc : c ∈ E) : h.code (h.elem c) = c := by

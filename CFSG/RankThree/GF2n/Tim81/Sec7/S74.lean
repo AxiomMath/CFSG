@@ -49,6 +49,7 @@ theorem Sec5Hyp.iSup_sigmaAt_le (hS : Sec5Hyp M V) {A B : Subgroup G} {g : G}
     have h := le_m0Of_of_mem_sigmaSet hC'
     rwa [m0Of_conjSubgroup g] at h
 
+omit [Finite G] in
 theorem Sec7.Stmt73.y0Of_eq (h73 : Sec7.Stmt73 M V n f) {A B : Subgroup G} {h : G}
     (hX : L2Datum M V A B h) : y0Of V (A ⊔ B) = y0Of V (Subgroup.zpowers h) := by
   obtain ⟨hYc, hYconj, -⟩ := h73 A B h hX

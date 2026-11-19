@@ -13,12 +13,14 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sec8t84g_isPGroup_of_sq {g : G} (hg : g * g = 1) : IsPGroup 2 ↥(zpowers g) := by
   have h2 : g ^ 2 = 1 := by rw [pow_two]; exact hg
   rcases (Nat.dvd_prime Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one h2) with h | h
   · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h]; rfl)
   · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h]; rfl)
 
+omit [Finite G] in
 theorem sec8t84g_map_conj_mul (g h : G) (X : Subgroup G) :
     X.map (MulAut.conj (g * h)).toMonoidHom =
       (X.map (MulAut.conj h).toMonoidHom).map (MulAut.conj g).toMonoidHom := by
@@ -27,6 +29,7 @@ theorem sec8t84g_map_conj_mul (g h : G) (X : Subgroup G) :
   ext x
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite G] in
 theorem sec8t84g_map_E8 {T A : Subgroup G} {δ : G} (hδ : δ ∈ normalizer (T : Set G))
     (hA : A ≤ T) (h8 : IsElemAb2 A 8) :
     A.map (MulAut.conj δ).toMonoidHom ≤ T ∧ IsElemAb2 (A.map (MulAut.conj δ).toMonoidHom) 8 := by

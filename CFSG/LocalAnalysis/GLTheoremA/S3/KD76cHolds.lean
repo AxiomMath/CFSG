@@ -141,7 +141,7 @@ private theorem kd76c_card_map_eq {A Q : Type} [Group A] [Group Q] (ψ : A →* 
 
 private theorem kd76c_card_le_outer {S : Type} [Group S] [Finite S] {D : Subgroup (MulAut S)}
     (hDI : D ⊓ inner S = ⊥) : Nat.card D ≤ Nat.card (Outer S) := by
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   have h1 := kd76c_card_map_eq (QuotientGroup.mk' (inner S)) D
   rw [QuotientGroup.ker_mk' (inner S), hDI, Subgroup.card_bot, one_mul] at h1
   rw [h1]
@@ -150,7 +150,7 @@ private theorem kd76c_card_le_outer {S : Type} [Group S] [Finite S] {D : Subgrou
 private theorem kd76c_card_eq_map {S : Type} [Group S] [Finite S] {D : Subgroup (MulAut S)}
     (hDI : D ⊓ inner S = ⊥) :
     Nat.card D = Nat.card ↥(D.map (QuotientGroup.mk' (inner S))) := by
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   have h1 := kd76c_card_map_eq (QuotientGroup.mk' (inner S)) D
   rw [QuotientGroup.ker_mk' (inner S), hDI, Subgroup.card_bot, one_mul] at h1
   exact h1
@@ -205,7 +205,7 @@ theorem kd76c_coprime_linearQuot {p : ℕ} (hp : p.Prime) {K : Type} [Field K] [
   refine Nat.Coprime.coprime_dvd_right (kd76c_card_linearQuot_dvd hn) ?_
   rw [Nat.Prime.coprime_iff_not_dvd hp]
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hxp : x ^ p = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   have hK : (x : K) ^ p = 1 := by
@@ -346,7 +346,7 @@ theorem kd76c_cover (d : TauCeti.LieTypeIndex) (hv : d.Valid) (h : ¬ KDOpenFam 
 theorem kd76c_U42 (S : Type) [Group S] [Finite S] (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.twistedA 3 q).Valid) (hq : q.card = 2)
     (e : S ≃* (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group)
-    (D : Subgroup (MulAut S)) (hD : IsElemAbelian 3 D) (hcard : Nat.card D = 3 ^ 2)
+    (D : Subgroup (MulAut S)) (_hD : IsElemAbelian 3 D) (hcard : Nat.card D = 3 ^ 2)
     (hDI : D ⊓ inner S = ⊥) : False := by
   have hpq : q.p ^ q.exponent = 2 := by rw [← TauCeti.PrimePower.card_def]; exact hq
   have hf : q.exponent = 1 := by
@@ -366,7 +366,7 @@ theorem kd76c_U42 (S : Type) [Group S] [Finite S] (q : TauCeti.PrimePower)
       TauCeti.ValidLieTypeIndex) = 1 := by
     simp only [TauCeti.ValidLieTypeIndex.fieldExponent,
       TauCeti.LieTypeIndex.fieldExponent_twistedA, hf]
-  haveI : Fact (TauCeti.ValidLieTypeIndex.characteristic (⟨.twistedA 3 q, hv⟩ :
+  have : Fact (TauCeti.ValidLieTypeIndex.characteristic (⟨.twistedA 3 q, hv⟩ :
       TauCeti.ValidLieTypeIndex)).Prime :=
     ⟨TauCeti.ValidLieTypeIndex.characteristic_prime _⟩
   obtain ⟨eM⟩ := kd76c_U42_model _ _ hchar hfe
@@ -464,7 +464,7 @@ theorem kd76c_coprime_units {p : ℕ} (hp : p.Prime) {K : Type} [Field K] [Finit
     Nat.Coprime p (Nat.card Kˣ) := by
   rw [Nat.Prime.coprime_iff_not_dvd hp]
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hxp : x ^ p = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   have hK : (x : K) ^ p = 1 := by
@@ -476,7 +476,7 @@ theorem kd76c_coprime_units {p : ℕ} (hp : p.Prime) {K : Type} [Field K] [Finit
   rw [h2, orderOf_one] at hx
   exact hp.one_lt.ne hx
 
-theorem kd76c_mem_of_pow_coprime {G : Type} [Group G] {p : ℕ} (hp : p.Prime) (Dl I : Subgroup G)
+theorem kd76c_mem_of_pow_coprime {G : Type} [Group G] {p : ℕ} (_hp : p.Prime) (Dl I : Subgroup G)
     [I.Normal] (hcop : Nat.Coprime p (Nat.card (Dl ⧸ I.subgroupOf Dl))) (x : G) (hx : x ∈ Dl)
     (hxp : x ^ p = 1) : x ∈ I := by
   have h1 : (QuotientGroup.mk ⟨x, hx⟩ : Dl ⧸ I.subgroupOf Dl) ^ p = 1 := by
@@ -585,7 +585,7 @@ theorem kd76c_exists_inner_projectiveSp {p : ℕ} (hp : p.Prime) {K : Type} [Fie
   have hcardD' : p < Nat.card (D.subgroupOf Es) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDE).toEquiv]
     exact hcard
-  haveI : Finite Es := Finite.of_injective (fun y : Es => (y : MulAut (StatedProj (StatedSp r K))))
+  have : Finite Es := Finite.of_injective (fun y : Es => (y : MulAut (StatedProj (StatedSp r K))))
     Subtype.coe_injective
   obtain ⟨x, hx, hx1⟩ := kd76c_exists_of_cyclic (E := Es) hp F (I.subgroupOf Es)
     (fun y hy hyp => by
@@ -637,8 +637,8 @@ theorem kd76cLieP_C {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
   exact kd76c_absurd hDI hx hx1
 
 theorem kd76c_charP_of_card {K : Type} [Field K] [Finite K] {ℓ m : ℕ} (hℓ : ℓ.Prime)
-    (hK : Nat.card K = ℓ ^ m) (hm : m ≠ 0) : CharP K ℓ := by
-  haveI := Fintype.ofFinite K
+    (hK : Nat.card K = ℓ ^ m) (_hm : m ≠ 0) : CharP K ℓ := by
+  have := Fintype.ofFinite K
   obtain ⟨c, hc, n, hcp, hcard⟩ := FiniteField.card' K
   rw [Nat.card_eq_fintype_card] at hK
   have hdvd : c ∣ ℓ ^ m := by
@@ -724,7 +724,7 @@ theorem kd76cLieP_twistedA {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
   obtain ⟨⟨hℓ, hf, hn, hq⟩, K, _, _, hK, ⟨eT⟩⟩ := hm
   have h : UnitaryFieldData q.p q.exponent K := ⟨hℓ, hf, by rw [hK, ← pow_mul, mul_comm]⟩
   have hfin : Finite K := h.finite
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     kd76c_charP_of_card (m := 2 * q.exponent) hℓ h.card (by have := q.exponent_pos; omega)
   have hq' : ¬(r + 1 = 3 ∧ q.p ^ q.exponent = 2) := fun ⟨h1, h2⟩ => hq (by rw [h1, h2])
   obtain ⟨eP⟩ := nonempty_primeFormP_mulEquiv h (isPrimeFormGram_one (n := r + 1) (K := K))

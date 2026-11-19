@@ -92,7 +92,7 @@ private theorem pairMap_pairMap (τ : K) (β : K × K) (hβ : rotForm K β = 1 -
 
 private noncomputable def pairEquiv (τ : K) (β : K × K) (hβ : rotForm K β = 1 - τ ^ 2) :
     ((K × K) × (K × K)) ≃ₗ[K] ((K × K) × (K × K)) :=
-  LinearEquiv.ofLinear (pairMap (0, -τ) β) (τ • 1 - pairMap (0, -τ) β)
+  LinearEquiv.ofLinearMap (pairMap (0, -τ) β) (τ • 1 - pairMap (0, -τ) β)
     (by
       refine LinearMap.ext fun z => ?_
       simp only [LinearMap.comp_apply, LinearMap.sub_apply, LinearMap.smul_apply,
@@ -115,8 +115,8 @@ private theorem pairEquiv_sq (τ : K) (β : K × K) (hβ : rotForm K β = 1 - τ
     (pairEquiv τ β hβ : Module.End K ((K × K) × (K × K))) ^ 2
       = τ • (pairEquiv τ β hβ : Module.End K ((K × K) × (K × K))) - 1 := by
   refine LinearMap.ext fun z => ?_
-  simp only [Module.End.mul_apply, LinearMap.sub_apply, LinearMap.smul_apply,
-    Module.End.one_apply, pairEquiv_apply]
+  simp only [LinearMap.sub_apply, LinearMap.smul_apply,
+    Module.End.one_apply]
   exact pairMap_pairMap τ β hβ z
 
 private theorem det_eq_one_of_odd_orderOf
@@ -406,7 +406,7 @@ theorem exists_pairIsometry [Finite K] (h3 : (3 : K) ≠ 0)
       (∀ g' : (K × K) ≃ₗ[K] (K × K), Commute m (wExtend K g')) ∧
       ∀ q : K × K, m (wVec q) = wVec q := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdet := det_eq_one_of_odd_orderOf hg hbc hp hp2 hgp
   obtain ⟨τ, hτ⟩ := exists_trace_sq_eq hdet
   obtain ⟨β, hβ⟩ := exists_rotForm_eq h3 (1 - τ ^ 2)

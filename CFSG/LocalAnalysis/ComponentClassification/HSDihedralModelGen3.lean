@@ -135,7 +135,7 @@ theorem tbar_dihedral (hodd : IsOddPrimePower (Nat.card F)) (T : Sylow 2 (PSL2 F
   have hV : IsPGroup 2 V := hTb2.comap_of_injective _ SemidirectProduct.inl_injective
   obtain ⟨P₁, hVP⟩ := hV.exists_le_sylow
   set W := (P₁ : Subgroup (PGL2 F)).map (inlL F)
-  have hW2 : IsPGroup 2 W := P₁.isPGroup'.map _
+  have hW2 : IsPGroup 2 W := P₁.isPGroup.map _
   have hW1 : ∀ x ∈ W, x.right = 1 := by
     rintro _ ⟨v, -, rfl⟩
     rfl

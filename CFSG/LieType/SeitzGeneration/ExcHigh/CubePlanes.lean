@@ -69,7 +69,7 @@ theorem exists_conj_of_sylowTorus_cube {G : Type*} [Group G] {p m : ℕ} (hp : p
           exact h1
         exact (MulAut.conj a).injective (this.trans (map_one _).symm)
       exact ⟨t, hV0tor t ht htp, hxt⟩
-    haveI : Finite (V0.map (MulAut.conj a).toMonoidHom) := by
+    have : Finite (V0.map (MulAut.conj a).toMonoidHom) := by
       have := hfin hV0c
       exact Finite.of_equiv V0 (V0.equivMapOfInjective _ (MulAut.conj a).injective).toEquiv
     refine Subgroup.eq_of_le_of_card_ge hle ?_
@@ -164,7 +164,7 @@ theorem not_dvd_sq_sub_one_of_orderOf {p q e : ℕ} (hp : p.Prime) (hq : 1 ≤ q
 
 theorem seven_le_of_orderOf_three {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (h : orderOf ((q : ℕ) : ZMod p) = 3) : 7 ≤ p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have h0 : ((q : ℕ) : ZMod p) ≠ 0 := by
     intro h0
     rw [h0, orderOf_zero] at h
@@ -176,7 +176,7 @@ theorem seven_le_of_orderOf_three {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
 
 theorem seven_le_of_orderOf_six {p q : ℕ} (hp : p.Prime)
     (h : orderOf ((q : ℕ) : ZMod p) = 6) : 7 ≤ p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have h0 : ((q : ℕ) : ZMod p) ≠ 0 := by
     intro h0
     rw [h0, orderOf_zero] at h

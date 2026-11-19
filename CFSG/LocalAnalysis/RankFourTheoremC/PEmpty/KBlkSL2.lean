@@ -19,8 +19,8 @@ theorem closure_fixed_sup_sylow (hp : p.Prime) (hp2 : p ≠ 2)
     (hcop : ¬ p ∣ Nat.card Y) {n : ℕ} (hK : BenderType (Y ⧸ N') n 1 1) (T : Subgroup Y)
     (hNT : N' ≤ T) (hT2 : IsPGroup 2 T) (hTi : ¬ 2 ∣ T.index) (hTσ : ∀ t ∈ T, σ t ∈ T) :
     Subgroup.closure ({c : Y | σ c = c} ∪ (T : Set Y)) = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp0 : 0 < p := hp.pos
   let A : Subgroup (MulAut Y) := zpowers σ
   let α : ↥A →* MulAut Y := A.subtype
@@ -28,7 +28,7 @@ theorem closure_fixed_sup_sylow (hp : p.Prime) (hp2 : p ≠ 2)
   have hN' : ∀ a : ↥A, ∀ x ∈ N', α a x ∈ N' := fun a x hx =>
     mem_of_mem_zpowers hσ hp0 hN a.2 hx
   let β : ↥A →* MulAut (Y ⧸ N') := quotientAction α N' hN'
-  letI : MulDistribMulAction ↥A (Y ⧸ N') := MulDistribMulAction.compHom (Y ⧸ N') β
+  let : MulDistribMulAction ↥A (Y ⧸ N') := MulDistribMulAction.compHom (Y ⧸ N') β
   have hKp : ¬ p ∣ Nat.card (Y ⧸ N') := fun h =>
     hcop (h.trans (Subgroup.card_quotient_dvd_card N'))
   let π : Y →* Y ⧸ N' := QuotientGroup.mk' N'

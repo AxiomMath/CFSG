@@ -54,7 +54,7 @@ theorem eq_top_of_normal {Q : Type} [Group Q] (H N : Subgroup Q) [H.Normal]
     subst hyz
     show (QuotientGroup.mk z : Q ⧸ H) = QuotientGroup.mk (y * z)
     rw [QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff y).mpr hy, one_mul]
-  haveI : Group.IsSolvable (Q ⧸ H) := Group.isSolvable_of_surjective hφ
+  have : Group.IsSolvable (Q ⧸ H) := Group.isSolvable_of_surjective hφ
   have hperf := perfect_map_of_surjective (QuotientGroup.mk' H) (QuotientGroup.mk'_surjective H) hQ
   have hsub := subsingleton_of_perfect_solvable (Q ⧸ H) hperf
   rw [eq_top_iff]
@@ -85,7 +85,7 @@ theorem eq_top_of_isSubnormal_sup {Q : Type} [Group Q] (N : Subgroup Q) [Group.I
 
 theorem eq_bot_of_perfect_le {Q : Type} [Group Q] {N K : Subgroup Q} [Group.IsSolvable N]
     (hKN : K ≤ N) (hK : ⁅K, K⁆ = K) : K = ⊥ := by
-  haveI : Group.IsSolvable K :=
+  have : Group.IsSolvable K :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hKN)
   have hsub := subsingleton_of_perfect_solvable K (perfect_top_subgroup hK)
   ext x

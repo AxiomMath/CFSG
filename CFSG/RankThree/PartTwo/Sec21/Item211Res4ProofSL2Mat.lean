@@ -82,11 +82,11 @@ theorem eq_add_smul_of_commute {X W : Matrix (Fin 2) (Fin 2) F} (hX : ¬ IsScala
       refine ⟨W 0 0 - W 1 0 / X 1 0 * X 0 0, W 1 0 / X 1 0, ?_⟩
       ext i j
       fin_cases i <;> fin_cases j <;> simp [h01, hw01] <;> field_simp
-      first | ring1 | linear_combination c3
+      linear_combination c3
   · refine ⟨W 0 0 - W 0 1 / X 0 1 * X 0 0, W 0 1 / X 0 1, ?_⟩
     ext i j
     fin_cases i <;> fin_cases j <;> simp <;> field_simp <;>
-      first | ring1 | linear_combination c1 | linear_combination -c1 | linear_combination c2 |
+      first | linear_combination c1 | linear_combination -c1 | linear_combination c2 |
         linear_combination -c2
 
 theorem det_zMat {X : Matrix (Fin 2) (Fin 2) F} (hdet : X.det = 1) (htr : X.trace = -1)

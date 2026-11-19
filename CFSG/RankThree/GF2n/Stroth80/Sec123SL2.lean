@@ -31,6 +31,7 @@ structure ActionData (hc : Ctx M Q Z B) (M₀ : Tim79.QuadModel Q Z K γ) where
       orthogonalGroup M₀.toQuadraticForm⁆).map (C m).toMonoidHom =
     ⁅orthogonalGroup M₀.toQuadraticForm, orthogonalGroup M₀.toQuadraticForm⁆
 
+omit [CharP K 2] in
 theorem exists_actionData (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) :
     Nonempty (ActionData hc M₀) := by
   obtain ⟨Ψ, hΨπ, hΨker, hΨiso⟩ := exists_actionHom_H0 hc.hyp h
@@ -91,6 +92,8 @@ variable {hc : Ctx M Q Z B} (D : ActionData hc M₀)
 @[expose] def img (X : Subgroup G) : Subgroup (M₀.E ≃ₗ[K] M₀.E) :=
   (X.subgroupOf (H0 M Z)).map D.Ψ
 
+omit [Finite K] [CharP K 2] in
+omit [Finite G] in
 theorem mem_img {X : Subgroup G} {g : M₀.E ≃ₗ[K] M₀.E} :
     g ∈ D.img X ↔ ∃ l : H0 M Z, (l : G) ∈ X ∧ D.Ψ l = g := by
   unfold img
@@ -100,11 +103,15 @@ theorem mem_img {X : Subgroup G} {g : M₀.E ≃ₗ[K] M₀.E} :
   · rintro ⟨l, hl, rfl⟩
     exact ⟨l, Subgroup.mem_subgroupOf.mpr hl, rfl⟩
 
+omit [Finite K] [CharP K 2] in
+omit [Finite G] in
 theorem img_mono {X Y : Subgroup G} (h : X ≤ Y) : D.img X ≤ D.img Y := by
   intro g hg
   obtain ⟨l, hl, rfl⟩ := D.mem_img.mp hg
   exact D.mem_img.mpr ⟨l, h hl, rfl⟩
 
+omit [Finite K] [CharP K 2] in
+omit [Finite G] in
 theorem img_conj {X : Subgroup G} (hX : X ≤ H0 M Z) (m : ↥M) :
     D.img (conjSubgroup (m : G) X) = (D.img X).map (D.C m).toMonoidHom := by
   ext g
@@ -130,6 +137,8 @@ theorem img_conj {X : Subgroup G} (hX : X ≤ H0 M Z) (m : ↥M) :
       exact hl
     · exact D.hΨC m l
 
+omit [Finite K] [CharP K 2] in
+omit [Finite G] in
 theorem range_eq_img {X : Subgroup G} (hX : X ≤ H0 M Z) :
     (D.Ψ.comp (Subgroup.inclusion hX)).range = D.img X := by
   ext g
@@ -140,6 +149,8 @@ theorem range_eq_img {X : Subgroup G} (hX : X ≤ H0 M Z) :
     obtain ⟨l, hl, rfl⟩ := D.mem_img.mp hg
     exact ⟨⟨l, hl⟩, rfl⟩
 
+omit [Finite K] [CharP K 2] in
+omit [Finite G] in
 theorem card_img {X : Subgroup G} (hQX : Q ≤ X) (hX : X ≤ H0 M Z) :
     Nat.card X = Nat.card Q * Nat.card (D.img X) := by
   have hker : ∀ r : ↥X, (D.Ψ.comp (Subgroup.inclusion hX)) r = 1 ↔ (r : G) ∈ Q :=
@@ -148,6 +159,8 @@ theorem card_img {X : Subgroup G} (hQX : Q ≤ X) (hX : X ≤ H0 M Z) :
   rw [D.range_eq_img hX] at h1
   exact h1
 
+omit [Finite K] [CharP K 2] in
+omit [Finite G] in
 theorem isPGroup_img {X : Subgroup G} (hX : X ≤ H0 M Z) (hX2 : IsPGroup 2 ↥X) :
     IsPGroup 2 ↥(D.img X) := by
   have h := hX2.of_surjective (D.Ψ.comp (Subgroup.inclusion hX)).rangeRestrict
@@ -163,6 +176,7 @@ variable {hc : Ctx M Q Z B} (D : ActionData hc M₀)
 @[expose] def pre (N : Subgroup (M₀.E ≃ₗ[K] M₀.E)) : Subgroup G :=
   (N.comap (D.Ψ.comp (Subgroup.inclusion hc.LB_le_H0'))).map (LB M Q B).subtype
 
+omit [Finite K] [CharP K 2] in
 theorem mem_pre {N : Subgroup (M₀.E ≃ₗ[K] M₀.E)} {l : G} :
     l ∈ D.pre N ↔ ∃ hl : l ∈ LB M Q B, D.Ψ (Subgroup.inclusion hc.LB_le_H0' ⟨l, hl⟩) ∈ N := by
   unfold pre
@@ -172,10 +186,12 @@ theorem mem_pre {N : Subgroup (M₀.E ≃ₗ[K] M₀.E)} {l : G} :
   · rintro ⟨hl, hN⟩
     exact ⟨⟨l, hl⟩, hN, rfl⟩
 
+omit [Finite K] [CharP K 2] in
 theorem pre_le (N : Subgroup (M₀.E ≃ₗ[K] M₀.E)) : D.pre N ≤ LB M Q B := by
   intro l hl
   exact (D.mem_pre.mp hl).1
 
+omit [Finite K] [CharP K 2] in
 theorem Q_le_pre (N : Subgroup (M₀.E ≃ₗ[K] M₀.E)) : Q ≤ D.pre N := by
   intro q hq
   have hqL : q ∈ LB M Q B := sec39_Q_le_LB hq
@@ -185,6 +201,7 @@ theorem Q_le_pre (N : Subgroup (M₀.E ≃ₗ[K] M₀.E)) : Q ≤ D.pre N := by
   rw [this]
   exact N.one_mem
 
+omit [Finite K] [CharP K 2] in
 theorem img_pre (N : Subgroup (M₀.E ≃ₗ[K] M₀.E)) :
     D.img (D.pre N) = N ⊓ D.img (LB M Q B) := by
   ext g
@@ -199,9 +216,10 @@ theorem img_pre (N : Subgroup (M₀.E ≃ₗ[K] M₀.E)) :
 
 end ActionData
 
+omit [Finite G] [CharP K 2] in
 theorem finite_linearEquiv_model (M₀ : Tim79.QuadModel Q Z K γ) : Finite (M₀.E ≃ₗ[K] M₀.E) := by
-  haveI : Module.Finite K M₀.E := M₀.fin
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Module.Finite K M₀.E := M₀.fin
+  have : Finite M₀.E := Module.finite_of_finite K
   exact Finite.of_injective (fun f : M₀.E ≃ₗ[K] M₀.E => (f : M₀.E → M₀.E))
     (fun f g h => LinearEquiv.ext (congrFun h))
 
@@ -209,6 +227,7 @@ namespace ActionData
 
 variable {hc : Ctx M Q Z B} (D : ActionData hc M₀)
 
+omit [CharP K 2] in
 theorem card_inf_img_dvd (hw : Width Q Z 2) {τ' : G} (hτ'M : τ' ∈ M)
     (hord : orderOf τ' = Nat.card Z - 1)
     (hτ'L : ∀ l ∈ LB M Q B, τ' * l * τ'⁻¹ ∈ LB M Q B)
@@ -255,7 +274,7 @@ theorem card_inf_img_dvd (hw : Width Q Z 2) {τ' : G} (hτ'M : τ' ∈ M)
       exact (Nat.coprime_two_right.mpr (by rwa [← hr])).pow_right r
     rw [hQ]
     exact h1.pow_right 5
-  haveI : Finite (M₀.E ≃ₗ[K] M₀.E) := finite_linearEquiv_model M₀
+  have : Finite (M₀.E ≃ₗ[K] M₀.E) := finite_linearEquiv_model M₀
   have hpos : 0 < Nat.card ↥(N ⊓ D.img (LB M Q B)) := Nat.card_pos
   have e2 : Nat.card Q * Nat.card ↥(N ⊓ D.img (LB M Q B)) - Nat.card Q =
       Nat.card Q * (Nat.card ↥(N ⊓ D.img (LB M Q B)) - 1) := by
@@ -269,6 +288,7 @@ namespace ActionData
 
 variable {hc : Ctx M Q Z B} (D : ActionData hc M₀)
 
+omit [Finite K] [CharP K 2] in
 theorem card_img_LB (hL : Nat.card (LB M Q B) = Nat.card Q * Nat.card Z) :
     Nat.card (D.img (LB M Q B)) = Nat.card Z := by
   have h := D.card_img sec39_Q_le_LB hc.LB_le_H0'
@@ -298,12 +318,12 @@ theorem card_le_two_mul_of_cover {Γ : Type*} [Group Γ] [Finite Γ] {J Λ : Sub
     have hinj : Function.Injective f := by
       intro a b hab
       by_cases ha : (a : Γ) ∈ J <;> by_cases hb : (b : Γ) ∈ J
-      · simp only [f, ha, hb, dif_pos, Sum.inl.injEq] at hab
+      · simp only [f, ha, hb, dite_eq_left, Sum.inl.injEq] at hab
         have h1 : (a : Γ) = (b : Γ) := congrArg (fun x : ↥(J ⊓ Λ) => (x : Γ)) hab
         exact Subtype.ext h1
       · simp [f, ha, hb] at hab
       · simp [f, ha, hb] at hab
-      · simp only [f, ha, hb, dif_neg, not_false_eq_true, Sum.inr.injEq] at hab
+      · simp only [f, ha, hb, dite_eq_right, not_false_eq_true, Sum.inr.injEq] at hab
         have h1 : (a : Γ) * T₀⁻¹ = (b : Γ) * T₀⁻¹ :=
           congrArg (fun x : ↥(J ⊓ Λ) => (x : Γ)) hab
         exact Subtype.ext (mul_right_cancel h1)
@@ -311,6 +331,7 @@ theorem card_le_two_mul_of_cover {Γ : Type*} [Group Γ] [Finite Γ] {J Λ : Sub
     rw [Nat.card_sum] at this
     omega
 
+omit [CharP K 2] in
 theorem img_LB_le (hw : Width Q Z 2) (hL : Nat.card (LB M Q B) = Nat.card Q * Nat.card Z)
     {τ : G} (hτM : τ ∈ M) (hord : orderOf τ = Nat.card Z - 1)
     (hτL : ∀ l ∈ LB M Q B, τ * l * τ⁻¹ ∈ LB M Q B)
@@ -320,7 +341,7 @@ theorem img_LB_le (hw : Width Q Z 2) (hL : Nat.card (LB M Q B) = Nat.card Q * Na
     {t₀ : M₀.E ≃ₗ[K] M₀.E} (hidx : ∀ T ∈ D.img (LB M Q B), T ∈ J ∨ T * t₀ ∈ J) :
     D.img (LB M Q B) ≤ J := by
   classical
-  haveI : Finite (M₀.E ≃ₗ[K] M₀.E) := finite_linearEquiv_model M₀
+  have : Finite (M₀.E ≃ₗ[K] M₀.E) := finite_linearEquiv_model M₀
   have hdvd := D.card_inf_img_dvd hw hτM hord hτL hfree J hJ
   have hcard := D.card_img_LB hL
   have h2 := card_le_two_mul_of_cover (J := J) (Λ := D.img (LB M Q B)) hidx
@@ -348,6 +369,7 @@ namespace ActionData
 
 variable {hc : Ctx M Q Z B} (D : ActionData hc M₀)
 
+omit [CharP K 2] in
 theorem inf_img_eq_bot_or_eq (hw : Width Q Z 2)
     (hL : Nat.card (LB M Q B) = Nat.card Q * Nat.card Z) {τ : G} (hτM : τ ∈ M)
     (hord : orderOf τ = Nat.card Z - 1)
@@ -358,7 +380,7 @@ theorem inf_img_eq_bot_or_eq (hw : Width Q Z 2)
     (hN : ∀ g ∈ N, D.C ⟨τ * τ, M.mul_mem hτM hτM⟩ g ∈ N) :
     N ⊓ D.img (LB M Q B) = ⊥ ∨ N ⊓ D.img (LB M Q B) = D.img (LB M Q B) := by
   classical
-  haveI : Finite (M₀.E ≃ₗ[K] M₀.E) := finite_linearEquiv_model M₀
+  have : Finite (M₀.E ≃ₗ[K] M₀.E) := finite_linearEquiv_model M₀
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
   obtain ⟨r, -, hr, -⟩ := hc.hyp.cp
   have hodd : Odd (Nat.card Z - 1) := by
@@ -429,6 +451,7 @@ theorem Lgen_le_H0 (hc : Ctx M Q Z B) : Lgen M (LB M Q B) ≤ H0 M Z := by
   have e : (m : G) * ((m : G)⁻¹ * x * (m : G)) * (m : G)⁻¹ = x := by group
   rwa [e] at h2
 
+omit [Finite K] [CharP K 2] in
 theorem eq_bot_of_normal_pGroup (R : Subgroup (M₀.E ≃ₗ[K] M₀.E))
     (hRS : R ≤ D.img (Lgen M (LB M Q B)))
     (hRn : ∀ s ∈ D.img (Lgen M (LB M Q B)), ∀ r ∈ R, s * r * s⁻¹ ∈ R)
@@ -533,6 +556,7 @@ namespace ActionData
 
 variable {hc : Ctx M Q Z B} (D : ActionData hc M₀)
 
+omit [Finite K] [CharP K 2] in
 theorem not_omega_le_img (hw : Width Q Z 2) (h : GlobalModelData M Q Z γ M₀)
     (hJ : ⁅orthogonalGroup M₀.toQuadraticForm, orthogonalGroup M₀.toQuadraticForm⁆ ≤
       D.img (Lgen M (LB M Q B))) : False := by
@@ -541,6 +565,7 @@ theorem not_omega_le_img (hw : Width Q Z 2) (h : GlobalModelData M Q Z γ M₀)
   obtain ⟨l, hl, rfl⟩ := D.mem_img.mp (hJ hT)
   exact ⟨(l : G), hl, fun x hx => D.hΨπ l x hx⟩
 
+omit [Finite K] [CharP K 2] in
 theorem img_Lgen_eq_iSup :
     D.img (Lgen M (LB M Q B)) = ⨆ m : ↥M, (D.img (LB M Q B)).map (D.C m).toMonoidHom := by
   have hLgH0 : Lgen M (LB M Q B) ≤ H0 M Z := Lgen_le_H0 hc
@@ -590,8 +615,8 @@ theorem sl2_core (hw : Width Q Z 2) (h : GlobalModelData M Q Z γ M₀)
       τ ^ i * l * (τ ^ i)⁻¹ * l⁻¹ ∈ Q → l ∈ Q) :
     Nonempty (↥(D.img (Lgen M (LB M Q B))) ≃* Matrix.SpecialLinearGroup (Fin 2) K) := by
   classical
-  haveI : Module.Finite K M₀.E := M₀.fin
-  haveI : Finite (M₀.E ≃ₗ[K] M₀.E) := finite_linearEquiv_model M₀
+  have : Module.Finite K M₀.E := M₀.fin
+  have : Finite (M₀.E ≃ₗ[K] M₀.E) := finite_linearEquiv_model M₀
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
   have hKcard : Nat.card K = Nat.card Z := h.card
   have h4 : 4 ≤ Nat.card K := by omega
@@ -635,8 +660,8 @@ theorem sl2_core (hw : Width Q Z 2) (h : GlobalModelData M Q Z γ M₀)
     D.img_LB_le hw hL hτM hord hτL hfree ρ.range (fun g hg => by
       obtain ⟨z, rfl⟩ := hg
       exact hφ ⟨τ, hτM⟩ z) (fun T hT => hidx T (hΛO T hT))
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) := SL2Grp.sl2_isSimpleGroup h4
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 2) K) := SL2Grp.sl2_finite K
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) := SL2Grp.sl2_isSimpleGroup h4
+  have : Finite (Matrix.SpecialLinearGroup (Fin 2) K) := SL2Grp.sl2_finite K
   have hX := SL2Grp.sl2_nonabelian (K := K)
   have hnot := SL2Grp.sl2_not_isPGroup h4
   have hgen : ∀ P P' : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K), IsPGroup 2 ↥P →
@@ -760,7 +785,7 @@ theorem stroth123SL2_holds : Stroth123SL2Statement := by
   classical
   intro G _ _ M Q Z B hc hw hL
   obtain ⟨K, _, _, hchar, γ, M₀, h⟩ := stroth_globalModelData hc.hyp
-  haveI := hchar
+  have := hchar
   obtain ⟨D⟩ := exists_actionData hc h
   obtain ⟨τ, hτM, hord, hτL, hfree⟩ := stroth123Fpf_holds G M Q Z B hc hw
   obtain ⟨e⟩ := D.sl2_core hw h hL hτM hord hτL hfree

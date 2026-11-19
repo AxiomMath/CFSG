@@ -73,8 +73,7 @@ private theorem langRatFC_exists_unit_pow_eq {L : Type} [Field L] [IsAlgClosed L
 private theorem langRatFC_tsc_divisible {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
     (Ψ : Set (Fin τ.rank → ℤ)) {c : ℕ} (hc : 0 < c)
     (t : TSc Ψ L) : ∃ z : TSc Ψ L, (c : ℤ) • z = t := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, smul_zero _⟩
+  induction t using TensorProduct.inductionOn with
   | tmul γ u =>
     obtain ⟨v, hv⟩ := langRatFC_exists_unit_pow_eq (Additive.toMul u) hc
     refine ⟨γ ⊗ₜ[ℤ] Additive.ofMul v, ?_⟩
@@ -142,8 +141,7 @@ private theorem langRatFC_sigmaT_pow_apply {τ : Tag} {L : Type} [Field L]
     apply Subtype.ext
     rw [langRatWRestrict_pow_coe, Module.End.one_apply]
     exact hwn _ hψ
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul ψ v =>
     rw [langRatFC_sigmaT_pow_tmul, hW, Module.End.one_apply]
     exact TensorProduct.tmul_smul (R := ℤ) (R' := ℤ) (M := ↥(Submodule.span ℤ Ψ))
@@ -156,8 +154,7 @@ theorem langRatSigmaT_pow_apply {τ : Tag} {L : Type} [Field L] (Ψ : Set (Fin �
     ((langRatSigmaT Ψ L w hw q : Module.End ℤ (TSc Ψ L)) ^ k) z =
       (q ^ k : ℤ) • (TensorProduct.map ((wRestrict Ψ w hw) ^ k)
         (LinearMap.id : Additive Lˣ →ₗ[ℤ] Additive Lˣ) z) := by
-  induction z using TensorProduct.induction_on with
-  | zero => simp
+  induction z using TensorProduct.inductionOn with
   | tmul ψ v =>
     rw [langRatFC_sigmaT_pow_tmul, TensorProduct.map_tmul, LinearMap.id_apply]
     exact TensorProduct.tmul_smul (R := ℤ) (R' := ℤ) (M := ↥(Submodule.span ℤ Ψ))
@@ -212,8 +209,7 @@ theorem langRatNormGeneration {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
   have hgood : langRatFC_NGGood Ψ L (q ^ n) y := by
     rw [← hy']
     clear hy'
-    induction y' using TensorProduct.induction_on with
-    | zero => rw [map_zero]; exact langRatFC_NGGood.zero Ψ _
+    induction y' using TensorProduct.inductionOn with
     | tmul ψ κ =>
       rw [LinearMap.lTensor_tmul]
       refine langRatFC_NGGood.tmul ψ (κ : Additive Lˣ) ?_
@@ -322,7 +318,7 @@ theorem langRatFC_exists_unit_root_fixed {L : Type} [Field L] [IsAlgClosed L] [C
   have hqm2 : q ^ m = 2 ^ (e * m) := by rw [hqe, ← pow_mul]
   have h2 : ((v ^ (q ^ n) : Lˣ) : L) ^ (2 ^ (e * m)) = (v : L) ^ (2 ^ (e * m)) := by
     rw [← hqm2, ← Units.val_pow_eq_pow_val, ← Units.val_pow_eq_pow_val, h1]
-  haveI : ExpChar L 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar L 2 := ExpChar.prime Nat.prime_two
   have h3 := iterateFrobenius_inj L 2 (e * m) h2
   exact Units.ext h3
 

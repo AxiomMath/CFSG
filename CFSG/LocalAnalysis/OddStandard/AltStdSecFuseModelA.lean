@@ -114,7 +114,7 @@ theorem exists_model (n : ℕ) (P : Subgroup (Equiv.Perm (Fin n)))
   let M : Sylow 2 (Equiv.Perm (Fin n)) := Sylow.ofCard f.range hcard
   obtain ⟨S, hSP⟩ := hp.exists_le_sylow
   have hSA : (S : Subgroup (Equiv.Perm (Fin n))) ⊓ alternatingGroup (Fin n) = P :=
-    hmax _ inf_le_right S.isPGroup'.to_inf_left (le_inf hSP hP)
+    hmax _ inf_le_right S.isPGroup.to_inf_left (le_inf hSP hP)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (Equiv.Perm (Fin n)) M S
   let ι : Gam l →* Equiv.Perm (Fin n) := (MulAut.conj g).toMonoidHom.comp f
   have hSmem : ∀ x, x ∈ (S : Subgroup (Equiv.Perm (Fin n))) ↔ ∃ γ, ι γ = x := by

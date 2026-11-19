@@ -221,7 +221,7 @@ private theorem exists_layer_coverComponent_suBlock (hK : Nat.card K = 4)
   obtain ⟨hzBs, hJq, hfix, hnorm, hbig, hmark⟩ :=
     exists_unitaryBlock_data (hK := hK) (hζ := hζ) (hI := hI) (h5 := h5) (hId := hId)
       (hdI := hdI) (hDB := hDB) (hBs := hBs) (ψ := ψ) (hψG := hψG)
-  have hsolv : IsSolvable (↥(TauCeti.fixedSubgroup (ψ z).toMonoidHom) ⧸
+  have hsolv : Group.IsSolvable (↥(TauCeti.fixedSubgroup (ψ z).toMonoidHom) ⧸
       (suBlock hK I).subgroupOf (TauCeti.fixedSubgroup (ψ z).toMonoidHom)) :=
     @isSolvable_fixedSubgroup_quotient_suBlock K _ d hK ζ hζ (w z) t I hI (by omega) hdI
       (ψ z) (hψG z hzBs) hnorm

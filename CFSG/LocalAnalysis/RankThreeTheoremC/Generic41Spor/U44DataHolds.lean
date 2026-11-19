@@ -19,7 +19,7 @@ theorem u44_u2_aux {K : Type} [Group K] [Finite K] {Q : Subgroup K} (M : TorusMo
     (hAb : Nonempty (↥Jb ⧸ primeComplementCore (G := ↥Jb) 5 ≃* alternatingGroup (Fin 5)))
     (h9 : 9 ∣ Nat.card ↥(Subgroup.centralizer ({x} : Set K))) {a : K} (haQ : a ∈ Q) (haJ : a ∈ Ja)
     (ha1 : a ≠ 1) (φ : MulAut K) (hφ : φ x ∈ Subgroup.zpowers a) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have ha5 : a ^ 5 = 1 := M.pow_five_of_mem haQ
   have hx5 : x ^ 5 = 1 := M.pow_five_of_mem hxQ
   have hzx : Subgroup.zpowers x ≠ Subgroup.zpowers a := by

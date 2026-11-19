@@ -28,6 +28,7 @@ private theorem closureL_fix_x {g : Mat6} (hg : g ∈ closureL) :
   | one => rw [Matrix.one_mulVec]
   | mul g h _ _ ihg ihh => rw [← Matrix.mulVec_mulVec, ihh, ihg]
 
+omit [Finite G] in
 private theorem transfer {Bs L : Subgroup G} {x : G}
     (hBsN : Bs ≤ Subgroup.normalizer (L : Set G))
     (hBsL : ∀ b ∈ Bs, ∃ l ∈ L, ∃ k : ℕ, b = l * x ^ k)
@@ -113,7 +114,7 @@ theorem ggE6Dep_automizer_closureL {B Bs : Subgroup G} {x : G} {L D J : Subgroup
     (hcfg : GGConfig 3 B Bs x L D J) (hBsN : Bs ≤ Subgroup.normalizer (L : Set G))
     (hxBs : x ∈ Bs) (hZ : ¬ 3 ∣ Nat.card ↥(Subgroup.center ↥L))
     (hBsL : ∀ b ∈ Bs, ∃ l ∈ L, ∃ k : ℕ, b = l * x ^ k)
-    (hcard : Nat.card (ggGamma L hBsN).range = 3 ^ 5) {Z : Subgroup ↥L}
+    (_hcard : Nat.card (ggGamma L hBsN).range = 3 ^ 5) {Z : Subgroup ↥L}
     {Φ : ↥(ggGamma L hBsN).range →* Multiplicative (Fin 6 → ZMod 3)} {T : Subgroup ↥L}
     {w : Fin 6 → ↥L} (hmodel : GGE6ThreeWeylModelWith Z (ggGamma L hBsN).range Φ T w)
     (ι : Additive ↥Bs ≃+ Vec6) (hι5 : ι (Additive.ofMul ⟨x, hxBs⟩) = Pi.single 5 1)

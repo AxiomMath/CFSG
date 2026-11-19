@@ -14,7 +14,7 @@ public section
 
 namespace CFSG.LocalAnalysis.WeakClosure81
 
-private theorem b12_TwelveThreeArith_exists_mul {n k : ℕ} (hk : 1 ≤ k) (hkn : k ∣ n)
+private theorem b12_TwelveThreeArith_exists_mul {n k : ℕ} (_hk : 1 ≤ k) (hkn : k ∣ n)
     (hlt : k < n) : ∃ j : ℕ, n = k * j ∧ 2 ≤ j := by
   obtain ⟨j, rfl⟩ := hkn
   refine ⟨j, rfl, ?_⟩

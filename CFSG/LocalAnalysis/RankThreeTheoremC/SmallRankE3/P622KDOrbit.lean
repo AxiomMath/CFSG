@@ -12,7 +12,7 @@ open CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L6KD
 
 variable {G : Type} [Group G]
 
-theorem p622_le_of_orbit_length_one [Finite G] (z : G) (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2)
+theorem p622_le_of_orbit_length_one [Finite G] (z : G) (p : ℕ) (hp : p.Prime) (_hp2 : p ≠ 2)
     (hzp : z ^ p = 1) (L : Subgroup G) (hLz : ∀ g : G, g ∈ L ↔ z * g * z⁻¹ ∈ L)
     (hsimp : IsSimpleGroup ↥L) (hnab : ¬ ∀ a b : ↥L, a * b = b * a)
     (hK : CFSG.Open.IsKGroup ↥L) (hpL : ¬ p ∣ Nat.card ↥L)
@@ -29,10 +29,10 @@ theorem p622_le_of_orbit_length_one [Finite G] (z : G) (p : ℕ) (hp : p.Prime) 
     exact hC x hx (hcent x hx)
   obtain ⟨g₀, hg₀, hg₀z⟩ : ∃ g ∈ L, z * g ≠ g * z := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hcent h
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hαord : orderOf (conjAutOf z L hLz) = p :=
     orderOf_eq_prime (conjAutOf_pow_eq_one z p hzp L hLz)
       (conjAutOf_ne_one z L hLz g₀ hg₀ hg₀z)

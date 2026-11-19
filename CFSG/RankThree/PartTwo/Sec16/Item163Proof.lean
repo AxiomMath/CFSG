@@ -335,7 +335,7 @@ theorem exists_scriptQPi_two_of_j2
     norm_num
   have h2Sb : 2 ∣ Nat.card Sb := by
     rw [Nat.card_congr e.toEquiv]
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup
     have h1 := (Subgroup.one_lt_card_iff_ne_bot _).mpr (T.ne_bot_of_dvd_card hL34)
     rw [hk] at h1 ⊢
     rcases k with _ | k

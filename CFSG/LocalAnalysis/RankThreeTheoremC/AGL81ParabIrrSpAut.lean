@@ -20,7 +20,7 @@ theorem exists_conj_fieldSp_of_three_le [Finite K] [CharP K 2] (hr : 3 ≤ r)
     (α : MulAut (StatedSp r K)) :
     ∃ (g : StatedSp r K) (σ : K ≃+* K), ∀ x, α x = g * fieldSp r K σ x * g⁻¹ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let e : StatedSp r K ≃* StatedProj (StatedSp r K) :=
     MulEquiv.ofBijective (SymplecticFlag.proj r K)
       ⟨proj_injective, SymplecticHigher.proj_surjective⟩
@@ -39,7 +39,7 @@ theorem exists_conj_fieldSp_of_three_le [Finite K] [CharP K 2] (hr : 3 ≤ r)
   obtain ⟨ν₀, hν₀⟩ := FiniteField.isSquare_of_char_two (ringChar.eq K 2) (μ : K)
   have hν₀ne : ν₀ ≠ 0 := by
     rintro rfl
-    exact μ.ne_zero (by simpa using hν₀)
+    exact μ.ne_zero (by simp at hν₀)
   set ν : Kˣ := Units.mk0 ν₀ hν₀ne with hν
   set z : GL (Fin r ⊕ Fin r) K := Matrix.GeneralLinearGroup.scalar _ ν⁻¹ with hz
   have hzc : z ∈ Subgroup.center (GL (Fin r ⊕ Fin r) K) := by
@@ -99,7 +99,7 @@ theorem exists_conj_fieldSp_flag_of_three_le [Finite K] [CharP K 2] (hr : 3 ≤ 
 theorem exists_frobenius_two_pow [Finite K] [CharP K 2] (σ : K ≃+* K) :
     ∃ k : ℕ, ∀ a, σ a = a ^ 2 ^ k := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   obtain ⟨k, -, hk⟩ := CFSG.GH74.GLS.Stage2.OddAut.exists_frobenius_pow Nat.prime_two n.pos
     (by rw [Nat.card_eq_fintype_card]; exact hn) σ

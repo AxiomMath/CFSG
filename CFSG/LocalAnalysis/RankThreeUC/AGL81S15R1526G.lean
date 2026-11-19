@@ -19,18 +19,18 @@ theorem isSolvable_of_card_two_pow_mul_three_pow_aux {H : Type} [Group H] [Finit
     Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card]; exact h)
 
 theorem gl_zmod3_isSolvable_aux (d : ℕ) (hd : d ≤ 2) : Group.IsSolvable (GL (Fin d) (ZMod 3)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   interval_cases d
   · exact isSolvable_of_card_two_pow_mul_three_pow_aux (a := 0) (b := 0)
       (by rw [CFSG.SectionRank.Ccomm.card_GL_zmod]; simp)
   · exact isSolvable_of_card_two_pow_mul_three_pow_aux (a := 1) (b := 0)
-      (by rw [CFSG.SectionRank.Ccomm.card_GL_zmod]; simp [Fin.prod_univ_one])
+      (by rw [CFSG.SectionRank.Ccomm.card_GL_zmod]; simp)
   · exact isSolvable_of_card_two_pow_mul_three_pow_aux (a := 4) (b := 1)
       (by rw [CFSG.SectionRank.Ccomm.card_GL_zmod]; simp [Fin.prod_univ_two])
 
 theorem isSolvable_mulAut_of_isElemAbelian {Y : Type} [Group Y] [Finite Y] {F : Subgroup Y}
     (hF : IsElemAbelian 3 F) (hr : CFSG.Open.pRank 3 F ≤ 2) : Group.IsSolvable (MulAut ↥F) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : ∀ a b : ↥F, a * b = b * a := fun a b => hF.1.is_comm.comm a b
   have hpow : ∀ a : ↥F, a ^ 3 = 1 := fun a => Subtype.ext (by simpa using hF.2 a a.2)
   have hF3 : IsPGroup 3 ↥F := fun w => ⟨1, by rw [pow_one, hpow]⟩
@@ -47,8 +47,8 @@ theorem isSolvable_mulAut_of_isElemAbelian {Y : Type} [Group Y] [Finite Y] {F : 
   have hr' : sSup {k : ℕ | ∃ E : Subgroup Y, E ≤ F ∧ IsElemAbelian 3 E ∧ Nat.card E = 3 ^ k} ≤ 2 := hr
   have hd2 : d ≤ 2 := le_trans (le_csSup hbdd hdS) hr'
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary hcomm hpow hd
-  haveI := gl_zmod3_isSolvable_aux d hd2
-  exact solvable_of_solvable_injective (f := (CFSG.SectionRank.Ccomm.elemAutEquivGL e).toMonoidHom)
+  have := gl_zmod3_isSolvable_aux d hd2
+  exact Group.isSolvable_of_isSolvable_injective (f := (CFSG.SectionRank.Ccomm.elemAutEquivGL e).toMonoidHom)
     (CFSG.SectionRank.Ccomm.elemAutEquivGL e).injective
 
 variable {X : Type} [Group X] [Finite X] {G : Type} [Group G] [Finite G]

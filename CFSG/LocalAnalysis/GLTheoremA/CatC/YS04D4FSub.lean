@@ -19,7 +19,7 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalPointReindexCovariance
 
 theorem orthPlus_subfield_any {n ℓ e p : ℕ} (hadm : StatedLieAdmissible .POmegaPlus n ℓ e)
     (hp : p.Prime) (hp2 : p ≠ 2) (K : Type) [Field K] [Finite K] (k : Subfield K)
-    (hk : Nat.card k = ℓ ^ e) (hK : Nat.card K = ℓ ^ (e * p)) (σ : K ≃+* K)
+    (_hk : Nat.card k = ℓ ^ e) (hK : Nat.card K = ℓ ^ (e * p)) (σ : K ≃+* K)
     (hσ : orderOf σ = p) (hσk : ∀ x, x ∈ k ↔ σ x = x) :
     StatedClassicalModel (matrixProjectiveDerived (coordinateQuadPlus n K)) .POmegaPlus n ℓ
         (e * p) ∧

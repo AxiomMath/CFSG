@@ -44,7 +44,7 @@ theorem ncard_conj_tr_le (e : ↥(CFSG.Quasithin.A94.Cz D.tb) ≃* CFSG.Quasithi
     (hX ▸ D.isElemAbelian_Rstar hOut hTw hHat)
   have hXcard : Nat.card X = 64 := by
     rw [← CFSG.Quasithin.A94.card_tr e, hX, D.card_Rstar hOut hTw hHat]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXp : IsPGroup 2 X := IsPGroup.of_card (n := 6) (by rw [hXcard]; norm_num)
   obtain ⟨P, hXP⟩ := hXp.exists_le_sylow
   have hfac : (Nat.card CFSG.Quasithin.A94.L52.Hc).factorization 2 = 10 := by

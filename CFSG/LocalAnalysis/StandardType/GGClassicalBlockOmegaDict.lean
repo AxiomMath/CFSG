@@ -217,7 +217,7 @@ lemma ggOmegaBlk_prim_idem_eq_primaryProjection
     rw [ggOmegaBlk_toLinAlgEquiv'_eq_toLin']
   have hA' : A.map φ = A' := by
     rw [AlgHom.map_adjoin]
-    simp only [A, A', Set.image_singleton, AlgEquiv.coe_toAlgHom, hφb]
+    simp only [A', Set.image_singleton, AlgEquiv.coe_toAlgHom, hφb]
   have heA : φ e ∈ A' := by
     rw [← hA']
     exact ⟨e, he.1, rfl⟩

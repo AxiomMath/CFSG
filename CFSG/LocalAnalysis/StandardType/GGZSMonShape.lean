@@ -69,7 +69,7 @@ theorem IsTwistedSwap.mul_isDiagonal {s t : U ≃ₗ[ZMod p] U} {x y : Fin n} {c
       simp only [LinearEquiv.mul_apply, ht.2.2.1, map_smul, hs.2.1, smul_smul, pairUnit]
       simp [hkx, Units.val_mul, mul_inv_rev, inv_inv, mul_comm]
     · simp only [LinearEquiv.mul_apply, ht.2.2.2 k hkx hky, hs.2.2.2 k hkx hky, pairUnit,
-        if_neg hkx, if_neg hky]
+        ite_eq_right hkx, ite_eq_right hky]
       simp [Units.val_one]
 
 theorem IsDiagonal.conj_isTwistedSwap {δ t : U ≃ₗ[ZMod p] U} {e : Fin n → (ZMod p)ˣ}

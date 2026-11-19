@@ -37,10 +37,10 @@ private theorem sq_eq_one_of_mem_zRad {g : hypSU h 2 0} (hg : g ∈ zRad h) : g 
   simp [sMat_apply]
 
 theorem isSpecialPow_radQ : IsSpecialPow 2 (2 ^ m) 2 ↥(radQ h) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q := radQ h with hQ
-  haveI : Finite (hypSU h 2 0) := finite_hypSU h
-  haveI : Finite ↥Q := inferInstance
+  have : Finite (hypSU h 2 0) := finite_hypSU h
+  have : Finite ↥Q := inferInstance
   have hP : IsPGroup 2 ↥Q := by rw [hQ]; exact radQ_isPGroup h
   have hcenter : Subgroup.center ↥Q = (zRad h).subgroupOf Q := by
     apply Subgroup.map_injective Q.subtype_injective
@@ -58,7 +58,7 @@ theorem isSpecialPow_radQ : IsSpecialPow 2 (2 ^ m) 2 ↥(radQ h) := by
     rw [hcenter, Subgroup.mem_subgroupOf]
     simpa [Subgroup.coe_pow] using sq_mem_zRad h a.2
   have hfrattini : frattini ↥Q = Subgroup.center ↥Q := by
-    haveI : (Subgroup.center ↥Q).Normal := inferInstance
+    have : (Subgroup.center ↥Q).Normal := inferInstance
     refine CFSG.Sporadic.Recognition.LyonsSims.frattini_eq_of_commutator_eq hP ?_ ?_
     · rw [← commutator_def]
       exact hcomm

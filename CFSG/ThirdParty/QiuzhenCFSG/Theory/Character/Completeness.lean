@@ -651,7 +651,7 @@ public theorem classFunction_span_irreducible_characters
           (blockCharacter (G := G) j) = 1 := by
       rw [hij]
       exact (blockCharacter_irreducible (G := G) j).2
-    rw [blockCharacters_orthonormal (G := G), if_neg hne] at hnorm
+    rw [blockCharacters_orthonormal (G := G), ite_eq_right hne] at hnorm
     exact zero_ne_one hnorm
 
 end CFSG.Theory.Character

@@ -16,7 +16,7 @@ theorem orderOf_chain {τ : Tag} {p : ℕ} (hp : p.Prime) (l : List (Fin τ.rank
     (hpow : ∀ i : Fin τ.rank, (fun v => l.foldr (reflect τ) v)^[p] (Pi.single i 1) = Pi.single i 1)
     (hne : ∃ i : Fin τ.rank, l.foldr (reflect τ) (Pi.single i 1) ≠ Pi.single i 1) :
     orderOf (l.map (simple τ)).prod = p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   set w₀ := (l.map (simple τ)).prod
   have hact : (fun v => w₀ • v) = fun v => l.foldr (reflect τ) v :=
     funext (CFSG.HardMathSupport.C14Lattice.lattice_list_prod_simple_smul l)
@@ -457,7 +457,7 @@ theorem pSat_roots (τ : Tag) {p : ℕ}
     · rw [card_weylGroup_G2']
       intro h
       have := Nat.le_of_dvd (by norm_num) h
-      interval_cases p <;> first | (norm_num at h; done) | (norm_num at hp; done)
+      interval_cases p <;> first | (norm_num at h; done) | (norm_num at hp)
     · exact CFSG.RankThree.PartOne.KE.not_dvd_card_weylGroup_F4 hp (by omega)
     · exact CFSG.RankThree.PartOne.KGD.not_dvd_card_weylGroup_D4 hp (by omega)
     · exact CFSG.RankThree.PartOne.KE.not_dvd_card_weylGroup_E hp hp7 (Or.inl rfl)

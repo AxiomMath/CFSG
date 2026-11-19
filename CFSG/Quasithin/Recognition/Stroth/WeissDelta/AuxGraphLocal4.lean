@@ -22,7 +22,7 @@ variable {V : Type} {Γ : SimpleGraph V} {H : Type} [Group H] [MulAction H V] [G
 attribute [local instance] auxAction
 
 private noncomputable def auxLocal [Finite V] [Finite H] {W : ClosedGoodPath H Γ}
-    (hQ : W.QuarterHyp) (u : ↥(auxComp Γ (W.kernelAt 0) (W.x 0))) :
+    (_hQ : W.QuarterHyp) (u : ↥(auxComp Γ (W.kernelAt 0) (W.x 0))) :
     Subgroup (Equiv.Perm {y : V // Γ.Adj (u : V) y}) :=
   ((auxGroup Γ (W.kernelAt 0) (W.x 0) ⊓ MulAction.stabilizer H (u : V)).subgroupOf
     (MulAction.stabilizer H (u : V))).map (localPermHom (H := H) Γ (u : V))
@@ -248,7 +248,7 @@ private theorem pathRootGroup_le_auxGroup [Finite V] [Finite H] {W : ClosedGoodP
 private theorem isMultiplyPretransitive_of_root_subgroups {Ω : Type*} [Nonempty Ω]
     (Y R R' : Subgroup (Equiv.Perm Ω)) (hR : R ≤ Y) (hR' : R' ≤ Y)
     {ω ω' : Ω} (hne : ω ≠ ω') (h3 : ∃ x : Ω, x ≠ ω ∧ x ≠ ω')
-    (hRfix : ∀ r ∈ R, r ω = ω) (hR'fix : ∀ r ∈ R', r ω' = ω')
+    (hRfix : ∀ r ∈ R, r ω = ω) (_hR'fix : ∀ r ∈ R', r ω' = ω')
     (hRtrans : ∀ a b : Ω, a ≠ ω → b ≠ ω → ∃ r ∈ R, r a = b)
     (hR'trans : ∀ a b : Ω, a ≠ ω' → b ≠ ω' → ∃ r ∈ R', r a = b) :
     MulAction.IsMultiplyPretransitive Y Ω 2 := by
@@ -368,7 +368,7 @@ private theorem auxLocal_twoTransitive [Finite V] [Finite H] {W : ClosedGoodPath
     obtain ⟨x, hx, hx0, hx1⟩ := hQ.three (u : V) ω0 ω1 hω0 hω1
     exact ⟨⟨x, hx⟩, fun h => hx0 (congrArg Subtype.val h),
       fun h => hx1 (congrArg Subtype.val h)⟩
-  haveI : Nonempty Ω := ⟨h3.choose⟩
+  have : Nonempty Ω := ⟨h3.choose⟩
   exact isMultiplyPretransitive_of_root_subgroups (auxLocal hQ u) R0' R1' hR0'sub hR1'sub
     (fun h => hω10 (congrArg Subtype.val h).symm) h3 hR0'fix hR1'fix hR0'trans hR1'trans
 
@@ -554,9 +554,9 @@ theorem ClosedGoodPath.QuarterHyp.isLocalSz_aux_of_one_le [Finite V] [Finite H]
     rw [← hg]
     exact isLocalSz_smul hT0 g
   obtain ⟨hcard, h2, N, hN, ⟨eN⟩⟩ := hTu
-  haveI : IsSimpleGroup ↥(CFSG.Open.Sz a) :=
+  have : IsSimpleGroup ↥(CFSG.Open.Sz a) :=
     CFSG.SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup (n := a) ha
-  haveI : IsSimpleGroup ↥N := MulEquiv.isSimpleGroup eN
+  have : IsSimpleGroup ↥N := MulEquiv.isSimpleGroup eN
   have hNne : N ≠ ⊥ := by
     intro hbot
     have hcard1 : Nat.card ↥N = 1 := by rw [hbot, Subgroup.card_bot]
@@ -569,7 +569,7 @@ theorem ClosedGoodPath.QuarterHyp.isLocalSz_aux_of_one_le [Finite V] [Finite H]
   have h2dvd : 2 ∣ Nat.card ↥N := by
     rw [Nat.card_congr eN.toEquiv]
     exact two_dvd_card_sz a
-  haveI : Nonempty {y : V // Γ.Adj (u : V) y} :=
+  have : Nonempty {y : V // Γ.Adj (u : V) y} :=
     Nat.card_pos_iff.mp (by rw [hcard]; positivity) |>.1
   have hdegdvd : Nat.card {y : V // Γ.Adj (u : V) y} ∣ Nat.card ↥N :=
     TauCeti.natCard_dvd_natCard_of_isPretransitive ↥N
@@ -580,7 +580,7 @@ theorem ClosedGoodPath.QuarterHyp.isLocalSz_aux_of_one_le [Finite V] [Finite H]
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ (2 * (2 * a + 1)) := Nat.pow_le_pow_right (by norm_num) (by omega)
       omega
-    haveI : Nonempty ↥N := ⟨⟨1, N.one_mem⟩⟩
+    have : Nonempty ↥N := ⟨⟨1, N.one_mem⟩⟩
     have hNpos : 0 < Nat.card ↥N := Nat.card_pos
     exact lt_of_lt_of_le (by omega) (le_trans h5 (Nat.le_of_dvd hNpos hdegdvd))
   have hnoncomm : ¬ IsMulCommutative ↥N :=
@@ -609,9 +609,9 @@ private theorem isLocalL2_aux_of_two_le [Finite V] [Finite H] {W : ClosedGoodPat
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 m)) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 m)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hF
-  haveI : IsSimpleGroup ↥N := MulEquiv.isSimpleGroup eN
+  have : IsSimpleGroup ↥N := MulEquiv.isSimpleGroup eN
   have h2dvd : 2 ∣ Nat.card ↥N := by
     rw [Nat.card_congr eN.toEquiv]
     exact CFSG.RankThree.PartTwo.Sec4.Census.two_dvd_card_PSL2 (GaloisField 2 m)
@@ -621,7 +621,7 @@ private theorem isLocalL2_aux_of_two_le [Finite V] [Finite H] {W : ClosedGoodPat
     norm_num at h2dvd
   have htrans : MulAction.IsPretransitive ↥N {y : V // Γ.Adj (u : V) y} :=
     CFSG.GH74.Uniqueness.Hering.isPretransitive_of_normal h2 N hNne
-  haveI : Nonempty {y : V // Γ.Adj (u : V) y} :=
+  have : Nonempty {y : V // Γ.Adj (u : V) y} :=
     Nat.card_pos_iff.mp (by rw [hcard]; positivity) |>.1
   have hdegdvd : Nat.card {y : V // Γ.Adj (u : V) y} ∣ Nat.card ↥N :=
     TauCeti.natCard_dvd_natCard_of_isPretransitive ↥N
@@ -632,7 +632,7 @@ private theorem isLocalL2_aux_of_two_le [Finite V] [Finite H] {W : ClosedGoodPat
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
       omega
-    haveI : Nonempty ↥N := ⟨⟨1, N.one_mem⟩⟩
+    have : Nonempty ↥N := ⟨⟨1, N.one_mem⟩⟩
     have hNpos : 0 < Nat.card ↥N := Nat.card_pos
     exact lt_of_lt_of_le (by omega) (le_trans h5 (Nat.le_of_dvd hNpos hdegdvd))
   have hnoncomm : ¬ IsMulCommutative ↥N :=
@@ -662,7 +662,7 @@ private theorem isLocalL2_aux_of_small [Finite V] [Finite H] {W : ClosedGoodPath
     have : 1 ≤ 2 ^ m := Nat.one_le_two_pow
     omega
   have hXtop : localGroup H Γ (u : V) = ⊤ := by
-    haveI : MulAction.IsMultiplyPretransitive ↥(localGroup H Γ (u : V))
+    have : MulAction.IsMultiplyPretransitive ↥(localGroup H Γ (u : V))
         {y : V // Γ.Adj (u : V) y} 2 := h2
     apply Equiv.Perm.eq_top_of_isMultiplyPretransitive
     have hα : (2 : ℕ∞) ≤ ENat.card {y : V // Γ.Adj (u : V) y} := by
@@ -671,7 +671,7 @@ private theorem isLocalL2_aux_of_small [Finite V] [Finite H] {W : ClosedGoodPath
     exact MulAction.isMultiplyPretransitive_of_le'
       (m := Nat.card {y : V // Γ.Adj (u : V) y} - 1) (n := 2) (by omega) hα
   have hYtop : auxLocal hQ u = ⊤ := by
-    haveI : MulAction.IsMultiplyPretransitive ↥(auxLocal hQ u)
+    have : MulAction.IsMultiplyPretransitive ↥(auxLocal hQ u)
         {y : V // Γ.Adj (u : V) y} 2 := auxLocal_twoTransitive hQ u
     apply Equiv.Perm.eq_top_of_isMultiplyPretransitive
     have hα : (2 : ℕ∞) ≤ ENat.card {y : V // Γ.Adj (u : V) y} := by
@@ -680,7 +680,7 @@ private theorem isLocalL2_aux_of_small [Finite V] [Finite H] {W : ClosedGoodPath
     exact MulAction.isMultiplyPretransitive_of_le'
       (m := Nat.card {y : V // Γ.Adj (u : V) y} - 1) (n := 2) (by omega) hα
   have hNle : N ≤ (auxLocal hQ u).subgroupOf (localGroup H Γ (u : V)) := by
-    simp [hYtop, hXtop]
+    simp [hYtop]
   exact isLocalL2_aux_of_auxLocal hQ u hcard N hN hNle ⟨eN⟩
 
 theorem ClosedGoodPath.QuarterHyp.isLocalL2_aux [Finite V] [Finite H]

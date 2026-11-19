@@ -21,9 +21,11 @@ variable (K : Subgroup Y) (hK : K.Normal) (eK : ↥K ⧸ Subgroup.center ↥K �
 @[expose] def piK : ↥K →* S :=
   eK.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥K))
 
+omit [Finite Y] in
 theorem piK_surjective : Function.Surjective (piK K eK) :=
   eK.surjective.comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite Y] in
 theorem piK_eq_one_iff (k : ↥K) : piK K eK k = 1 ↔ k ∈ Subgroup.center ↥K := by
   rw [piK, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.map_eq_one_iff,
     QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
@@ -31,6 +33,7 @@ theorem piK_eq_one_iff (k : ↥K) : piK K eK k = 1 ↔ k ∈ Subgroup.center ↥
 @[expose] def alphaQ (y : Y) : S ≃* S :=
   eK.symm.trans ((KD1426Psi.cqEquiv K hK y).trans eK)
 
+omit [Finite Y] in
 theorem alphaQ_piK (y : Y) (k : ↥K) :
     alphaQ K hK eK y (piK K eK k) = piK K eK (conjKequiv K hK y k) := by
   simp only [alphaQ, piK, MulEquiv.trans_apply, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
@@ -54,10 +57,12 @@ theorem alphaQ_piK (y : Y) (k : ↥K) :
     ext
     simp [conjKequiv_apply, mul_assoc]
 
+omit [Finite Y] in
 theorem alphaHom_piK (y : Y) (k : ↥K) :
     alphaHom K hK eK y (piK K eK k) = piK K eK (conjKequiv K hK y k) :=
   alphaQ_piK K hK eK y k
 
+omit [Finite Y] in
 theorem alphaHom_pow_eq_one {y : Y} (hy : y ^ 3 = 1) : (alphaHom K hK eK y) ^ 3 = 1 := by
   rw [← map_pow, hy, map_one]
 
@@ -80,10 +85,12 @@ variable (hInn : ∀ α : MulAut S, α ^ 3 = 1 → ∃ x : S, α = MulAut.conj x
 @[expose] noncomputable def psiFun (y : Y) (hy : y ^ 3 = 1) : S :=
   Classical.choose (hInn _ (alphaHom_pow_eq_one K hK eK hy))
 
+omit [Finite Y] in
 theorem psiFun_spec (y : Y) (hy : y ^ 3 = 1) :
     MulAut.conj (psiFun K hK eK hInn y hy) = alphaHom K hK eK y :=
   (Classical.choose_spec (hInn _ (alphaHom_pow_eq_one K hK eK hy))).symm
 
+omit [Finite Y] in
 theorem psiFun_equiv (y : Y) (hy : y ^ 3 = 1) (k : ↥K) :
     piK K eK (conjKequiv K hK y k) =
       psiFun K hK eK hInn y hy * piK K eK k * (psiFun K hK eK hInn y hy)⁻¹ := by
@@ -100,10 +107,12 @@ variable (hZ : Subgroup.center S = ⊥)
     rw [map_mul (MulAut.conj), psiFun_spec, psiFun_spec, psiFun_spec, Subgroup.coe_mul,
       map_mul (alphaHom K hK eK)])
 
+omit [Finite Y] in
 theorem psiB_apply (B : Subgroup Y) (hB : ∀ b ∈ B, b ^ 3 = 1) (b : B) :
     psiB K hK eK hInn hZ B hB b = psiFun K hK eK hInn (b : Y) (hB b b.2) := by
   simp only [psiB, MonoidHom.mk'_apply]
 
+omit [Finite Y] in
 theorem conjK_eq_of_perfect (hq : CFSG.Open.IsQuasisimple ↥K) (y : Y)
     (hy : ∀ k : ↥K, piK K eK (conjKequiv K hK y k) = piK K eK k) (k : ↥K) :
     conjKequiv K hK y k = k := by
@@ -139,6 +148,7 @@ theorem conjK_eq_of_perfect (hq : CFSG.Open.IsQuasisimple ↥K) (y : Y)
   exact mul_inv_eq_one.1 hφ
 
 include hZ in
+omit [Finite Y] in
 theorem psiFun_eq_one_iff (hq : CFSG.Open.IsQuasisimple ↥K) (y : Y) (hy : y ^ 3 = 1) :
     psiFun K hK eK hInn y hy = 1 ↔ y ∈ Subgroup.centralizer (K : Set Y) := by
   have hspec := psiFun_spec K hK eK hInn y hy
@@ -176,7 +186,7 @@ theorem exists_lift [Finite S] {K : Subgroup Y} (hZp : IsPGroup 3 ↥(Subgroup.c
     ∃ TK : Subgroup ↥K, Nat.card TK = 4 ∧ TK ⊓ Subgroup.center ↥K = ⊥ ∧
       TK ⊔ Subgroup.center ↥K = T0.comap (piK K eK) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := piK K eK with hπ
   set Z := Subgroup.center ↥K with hZdef
   obtain ⟨m, hm⟩ := hZp.exists_card_eq
@@ -283,14 +293,14 @@ theorem kd1426_core [Finite S] (K B : Subgroup Y) (hK : K.Normal)
   have hR9 : Nat.card ψ.range ≤ 9 := h9 _ (isElemAbelian_range hB ψ)
   have hB0le : Nat.card B0 ≤ 9 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hB0el : ∀ g ∈ B0, g ^ 3 = 1 := fun g hg => hB3 g (Subgroup.mem_inf.1 hg).1
     obtain ⟨m, hm⟩ := KD1426AltSeven.card_three_pow hB0el
     have hm3 : 3 ≤ m := by
       by_contra h
-      push_neg at h
+      push Not at h
       interval_cases m <;> simp_all
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨E0, hE0⟩ := Sylow.exists_subgroup_card_pow_prime 3 (n := 3)
       (by rw [hm]; exact pow_dvd_pow 3 hm3)
     set E : Subgroup Y := E0.map B0.subtype with hEdef
@@ -318,7 +328,7 @@ theorem kd1426_core [Finite S] (K B : Subgroup Y) (hK : K.Normal)
   have hc81 : 81 ≤ Nat.card B := by norm_num at hcard; exact hcard
   have hB0ge : 9 ≤ Nat.card B0 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h8 : Nat.card B0 ≤ 8 := by omega
     have := Nat.mul_le_mul h8 hR9
     omega
@@ -346,7 +356,7 @@ theorem kd1426_core [Finite S] (K B : Subgroup Y) (hK : K.Normal)
   set Z : Subgroup ↥K := Subgroup.center ↥K with hZdef
   have hz2 : ∀ z ∈ Z, z ^ 2 = 1 → z = 1 := by
     intro z hz h2
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨k, hk⟩ := hZp ⟨z, hz⟩
     have hk' : z ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hd : orderOf z ∣ Nat.gcd (3 ^ k) 2 :=

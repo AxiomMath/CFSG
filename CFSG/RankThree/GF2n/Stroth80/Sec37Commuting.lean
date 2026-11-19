@@ -60,7 +60,7 @@ theorem stroth37Commuting_of_dichotomy (h34 : Stroth34Statement)
     (hD : Form2DichotomyStatement) (hE : Eleven37Statement)
     (hF2 : CFSG.LargeExtraspecial.S4.Form2StrongStmt) : Stroth37CommutingStatement := by
   intro G _ _ M Q Z B hc n hw hn hno hgen hTI m hm hcomm
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
   have hcard : Nat.card (bar M Q (LB M Q B)) = Nat.card Z ^ (n - 1) :=
     card_bar_LB_eq hc hw hno (by omega)

@@ -22,7 +22,7 @@ theorem isCoatom_normalizer_of_j2 {K : Type} [Group K] [Finite K]
     IsCoatom (Subgroup.normalizer (A : Set K)) := by
   obtain ⟨e₁⟩ := hK
   obtain ⟨e₂⟩ := CFSG.Sporadic.Bridge.J2.nonempty_mulEquiv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hAS, hAC⟩ := Hering432.exists_sylow_le_center_of_weaklyClosed hA hwc
   have hP3 : Nat.card J2.P3 = 3 ^ (Nat.card J2.GJ).factorization 3 := by
     rw [J2.card_P3, J2.card_GJ, CFSG.RankThree.Asc83Table.factorization_eq_of_eq Nat.prime_three

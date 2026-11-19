@@ -57,11 +57,11 @@ private theorem orbRow_rowK {n w m : ℕ} {S : List ℕ} {k lv D b p d r : ℕ}
   rw [orbRow_bIf] at h
   by_cases h1 : Nat.beq d 255 = true
   · exact Or.inl ((orbRow_beq _ _).1 h1)
-  rw [if_neg h1, orbRow_bIf] at h
+  rw [ite_eq_right h1, orbRow_bIf] at h
   by_cases h2 : Nat.beq d 0 = true
-  · rw [if_pos h2] at h
+  · rw [ite_eq_left h2] at h
     exact Or.inr (Or.inl ⟨(orbRow_beq _ _).1 h2, (orbRow_beq _ _).1 h⟩)
-  rw [if_neg h2, orbRow_strictB, orbRow_strictB] at h
+  rw [ite_eq_right h2, orbRow_strictB, orbRow_strictB] at h
   simp only [orbRow_bAnd, Bool.and_eq_true] at h
   obtain ⟨hq, hj, hb, hd, hp⟩ := h
   exact Or.inr (Or.inr ⟨_, _, (orbRow_blt _ _).1 hq,
@@ -102,7 +102,7 @@ private theorem orbRow_rowsFrom {n w m : ℕ} {S : List ℕ} {k lv D b cnt : ℕ
     · rw [← hcnt]
       by_cases hd : depD D p = 255
       · have hb : Nat.beq (depD D p) 255 = true := (orbRow_beq _ _).2 hd
-        rw [if_pos hb]
+        rw [ite_eq_left hb]
         have hA : (Finset.range n).filter (fun x => p ≤ x ∧ depD D x ≠ 255) =
             (Finset.range n).filter (fun x => Nat.succ p ≤ x ∧ depD D x ≠ 255) := by
           ext x
@@ -117,7 +117,7 @@ private theorem orbRow_rowsFrom {n w m : ℕ} {S : List ℕ} {k lv D b cnt : ℕ
             exact ⟨h1, by omega, h3⟩
         rw [hA]
       · have hb : ¬ Nat.beq (depD D p) 255 = true := fun hb => hd ((orbRow_beq _ _).1 hb)
-        rw [if_neg hb]
+        rw [ite_eq_right hb]
         have hA : (Finset.range n).filter (fun x => p ≤ x ∧ depD D x ≠ 255) =
             insert p ((Finset.range n).filter (fun x => Nat.succ p ≤ x ∧ depD D x ≠ 255)) := by
           ext x
@@ -183,7 +183,7 @@ theorem fixLvK_sound {w m : ℕ} {S : List ℕ} {k lv : ℕ} {B : List ℕ} {i :
     (h : fixLvK w m S k lv B i = true) {j : ℕ} (hj : lvOk k lv j) {t : ℕ} (ht : t < i) :
     pg w m (getS S j) (getS B t) = getS B t := by
   have h1 := CFSG.KS.allN_spec h j hj.1
-  rw [orbRow_bIf, if_pos ((lvBit_iff _ _).2 hj.2)] at h1
+  rw [orbRow_bIf, ite_eq_left ((lvBit_iff _ _).2 hj.2)] at h1
   have h2 := CFSG.KS.allN_spec h1 t ht
   rw [orbRow_strictB] at h2
   exact (orbRow_beq _ _).1 h2

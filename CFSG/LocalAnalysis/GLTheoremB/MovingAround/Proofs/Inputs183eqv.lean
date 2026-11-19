@@ -92,7 +92,7 @@ theorem eq_of_gen {p : ℕ} (hp : p.Prime) {L M : Subgroup Y} {𝓛 : Set (Subgr
         M.subtype with hS
     have hDS : ∀ X ∈ 𝓛, D X ≤ S := by
       intro X hX
-      haveI : ((D X).subgroupOf M).Normal :=
+      have : ((D X).subgroupOf M).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer (hDM X hX)).2 fun m hm => hDN X hX m hm
       rcases CFSG.HardMathSupport.Solomon.Coordinator.i183_le_or_commutator_eq_bot hp hR
           (hDM X hX) with h | h
@@ -175,7 +175,7 @@ theorem eq_comp_of_centralizes {p : ℕ} (hp : p.Prime) {𝓛 : Set (Subgroup Y)
     intro X hX
     rw [Input183.OJ_eq_fin hb hp0]
     simp only [horb X hX]
-    haveI : Nonempty (Fin p) := ⟨⟨0, hp0⟩⟩
+    have : Nonempty (Fin p) := ⟨⟨0, hp0⟩⟩
     exact iSup_const
   have hDM : ∀ X ∈ 𝓛, X ≤ L ⊓ Subgroup.centralizer ({b} : Set Y) := fun X hX x hx =>
     Subgroup.mem_inf.2 ⟨hXL X hX hx, Subgroup.mem_centralizer_singleton_iff.2
@@ -220,7 +220,7 @@ theorem eq_diag_of_moves {p : ℕ} (hp : p.Prime) {𝓛 : Set (Subgroup Y)} {b :
   let Dg : Subgroup Y → Subgroup Y := fun X =>
     if h : X ∈ 𝓛 then (diagSub b p X (hAcomm_of X h)).range else ⊥
   have hDg : ∀ X (hX : X ∈ 𝓛), Dg X = (diagSub b p X (hAcomm_of X hX)).range :=
-    fun X hX => dif_pos hX
+    fun X hX => dite_eq_left hX
   have hdiag_fixed : ∀ X (hX : X ∈ 𝓛) (x : ↥X),
       b * diagSub b p X (hAcomm_of X hX) x * b⁻¹ = diagSub b p X (hAcomm_of X hX) x :=
     fun X hX x => Input183.diag_shift hb hp0 (hAcomm_of X hX) (x : Y) x.2
@@ -275,10 +275,12 @@ variable {G : Type} [Group G] [Finite G]
   ((QuotientGroup.mk' (GLAPPrimeCore p ↥C)).comp (Subgroup.inclusion hJC)).codRestrict (barX p C J)
     (fun x => ⟨⟨x, hJC x.2⟩, Subgroup.mem_subgroupOf.2 x.2, rfl⟩)
 
+omit [Finite G] in
 theorem toImg_apply (p : ℕ) {C J : Subgroup G} (hJC : J ≤ C) (x : ↥J) :
     ((toImg p hJC x : ↥(barX p C J)) : ↥C ⧸ GLAPPrimeCore p ↥C) =
       QuotientGroup.mk' (GLAPPrimeCore p ↥C) ⟨x, hJC x.2⟩ := rfl
 
+omit [Finite G] in
 theorem toImg_surjective (p : ℕ) {C J : Subgroup G} (hJC : J ≤ C) :
     Function.Surjective (toImg p hJC) := by
   rintro ⟨_, ⟨⟨l, hlC⟩, hl, rfl⟩⟩
@@ -286,7 +288,7 @@ theorem toImg_surjective (p : ℕ) {C J : Subgroup G} (hJC : J ≤ C) :
 
 theorem ker_toImg_le {p : ℕ} (hp : p.Prime) {C J : Subgroup G} (hJC : J ≤ C) :
     (toImg p hJC).ker ≤ GLAPPrimeCore p ↥J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime p (Nat.card (toImg p hJC).ker) := by
     rw [Nat.Prime.coprime_iff_not_dvd hp]
     intro hdvd
@@ -310,7 +312,7 @@ theorem ker_toImg_le {p : ℕ} (hp : p.Prime) {C J : Subgroup G} (hJC : J ≤ C)
 
 theorem not_dvd_card_ker_toImg {p : ℕ} (hp : p.Prime) {C J : Subgroup G} (hJC : J ≤ C) :
     ¬ p ∣ Nat.card (toImg p hJC).ker := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro h
   have h1 := Subgroup.card_dvd_of_le (ker_toImg_le hp hJC)
   exact (Nat.Prime.coprime_iff_not_dvd hp).1 CFSG.pPrimeCore_coprime_card (h.trans h1)
@@ -332,6 +334,7 @@ theorem sigmaHom_toImg {p : ℕ} (hp : p.Prime) {C J : Subgroup G} (hJC : J ≤ 
   rw [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, h1, QuotientGroup.lift_mk,
     QuotientGroup.mk'_apply]
 
+omit [Finite G] in
 theorem map_toImg_subtype (p : ℕ) {C Y T : Subgroup G} (hYC : Y ≤ C) (hTY : T ≤ Y) :
     ((T.subgroupOf Y).map (toImg p hYC)).map (barX p C Y).subtype = barX p C T := by
   ext z
@@ -345,7 +348,7 @@ theorem map_toImg_subtype (p : ℕ) {C Y T : Subgroup G} (hYC : Y ≤ C) (hTY : 
 theorem eq_of_barX_eq {p : ℕ} (hp : p.Prime) {C Y J J' : Subgroup G} (hYC : Y ≤ C)
     (hJ : GLAPComponent p Y J) (hJ' : GLAPComponent p Y J') (h : barX p C J = barX p C J') :
     J = J' := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hJY, hL⟩ :=
     (CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent hp).1 hJ
   obtain ⟨hJ'Y, hL'⟩ :=
@@ -399,8 +402,8 @@ theorem final {p : ℕ} (hp : p.Prime) {C K B J : Subgroup G} {b : G} (hK : GLAP
       CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent hp hK
     have hqJ : CFSG.Open.IsQuasisimple (barOf p J) :=
       CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent hp hJ
-    haveI : Nontrivial (barOf p J ⧸ Subgroup.center (barOf p J)) := hqJ.2.toNontrivial
-    haveI : Nontrivial (barOf p J) :=
+    have : Nontrivial (barOf p J ⧸ Subgroup.center (barOf p J)) := hqJ.2.toNontrivial
+    have : Nontrivial (barOf p J) :=
       (QuotientGroup.mk_surjective (s := Subgroup.center (barOf p J))).nontrivial
     have hne : π.ker ≠ ⊤ := by
       intro htop
@@ -504,7 +507,7 @@ theorem input18_3_eqv_main (G : Type) [Group G] [Finite G] (p : ℕ) (hp : p.Pri
         ∃ hxJ : x ∈ Subgroup.normalizer (J : Set G),
           ∀ k : barOf p K, π (barAut p K ⟨x, hxK⟩ k) = barAut p J ⟨x, hxJ⟩ (π k) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBab : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hBel.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hbp : b ^ p = 1 := hBel.2 b hbB

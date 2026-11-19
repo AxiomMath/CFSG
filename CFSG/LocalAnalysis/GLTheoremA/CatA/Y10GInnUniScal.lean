@@ -23,13 +23,13 @@ theorem uScal_entry_torus_mul {K : Type} [Field K] {d : ℕ} (u : Kˣ) {a b : Fi
 theorem uniScalar_holds : UniScalar := by
   intro K _ _ Q d τ hτ hτQ hcard hd hdQ B hB
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, -, n, hp, hpn⟩ := FiniteField.card' K
   have hdvd : Q ∣ p ^ (n : ℕ) := by
     rw [← hpn, ← Nat.card_eq_fintype_card, hcard]
     exact dvd_pow_self Q two_ne_zero
   obtain ⟨m, -, rfl⟩ := (Nat.dvd_prime_pow hp).1 hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : Group.IsPerfect (StatedSU d (p ^ m) K) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hcard hd hdQ
   have hcomm := uScal_commute_of_isPerfect (StatedSU d (p ^ m) K) B hB
@@ -132,8 +132,8 @@ theorem uniScalar_holds : UniScalar := by
   ext x y
   by_cases hxy : x = y
   · subst hxy
-    simp [Matrix.one_apply, hsame x i0]
-  · simp [Matrix.one_apply, hxy, hdiagB x y hxy]
+    simp [hsame x i0]
+  · simp [hxy, hdiagB x y hxy]
 
 end CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni
 

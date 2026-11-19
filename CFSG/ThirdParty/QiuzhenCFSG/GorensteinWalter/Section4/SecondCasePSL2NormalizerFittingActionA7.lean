@@ -57,7 +57,7 @@ of `F` that normalize `X` lie in `O₂'(N)`, so the layer of `N` centralizes
 them. -/
 public theorem secondCase_psl2_normalizer_fitting_action_of_a7_quotient
     {G : Type u} [Group G] [Finite G]
-    (hmin : IsMinimalCounterexample G)
+    (_hmin : IsMinimalCounterexample G)
     (c : CentralizerSetup G) (w : SecondCaseWitness c)
     (d : SecondCaseComponentData w)
     (K : Type u) [Field K] [Finite K]
@@ -65,7 +65,7 @@ public theorem secondCase_psl2_normalizer_fitting_action_of_a7_quotient
     (e : Nonempty ((d.E ⧸ Subgroup.center d.E) ≃* PSL2 K))
     (F X : Subgroup G)
     (s : d.E)
-    (hF_eq : F = centralizerIn (c.FU ⊓ w.M) (s : G))
+    (_hF_eq : F = centralizerIn (c.FU ⊓ w.M) (s : G))
     (hrefl : c.IsReflection (s : G))
     (hFleFU : F ≤ c.FU) (hFleM : F ≤ w.M)
     (hFcentE : F ≤ Subgroup.centralizer (d.E : Set G))

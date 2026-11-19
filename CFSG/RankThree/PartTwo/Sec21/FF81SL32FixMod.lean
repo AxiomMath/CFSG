@@ -52,7 +52,7 @@ variable [Group V]
 
 theorem tr_fixed (hcomm : ∀ a b : V, a * b = b * a) (ρ : G →* MulAut V) {y : G}
     (hy : y * y * y = 1) (h : List G) (v : V) : ρ y (tr ρ y h v) = tr ρ y h v := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hcomm }
+  let : CommGroup V := { ‹Group V› with mul_comm := hcomm }
   unfold tr
   rw [map_list_prod, List.map_map]
   congr 1
@@ -69,7 +69,7 @@ theorem tr_fixed (hcomm : ∀ a b : V, a * b = b * a) (ρ : G →* MulAut V) {y 
 theorem prod_map_eq_of_parity [DecidableEq G] (hcomm : ∀ a b : V, a * b = b * a)
     (hV : ∀ v : V, v * v = 1) (f : G → V) (T : List G) (hodd : T.count 1 % 2 = 1)
     (heven : ∀ x ∈ T, x ≠ 1 → T.count x % 2 = 0) : (T.map f).prod = f 1 := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hcomm }
+  let : CommGroup V := { ‹Group V› with mul_comm := hcomm }
   have hsq : ∀ v : V, v ^ 2 = 1 := fun v => by rw [pow_two]; exact hV v
   have hpow : ∀ (v : V) (n : ℕ), n % 2 = 0 → v ^ n = 1 := by
     intro v n hn

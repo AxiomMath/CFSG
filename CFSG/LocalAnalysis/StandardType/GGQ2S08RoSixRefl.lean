@@ -70,14 +70,14 @@ private theorem ggQ2s08r6_A_adj (k l : Fin 5) (h : (k : ℕ) + 1 = l ∨ (l : �
   rw [show (CoxeterMatrix.A 5) k l =
     (if k = l then (1 : ℕ) else if (l : ℕ) + 1 = k ∨ (k : ℕ) + 1 = l then 3 else 2) from rfl]
   rcases h with h | h
-  · rw [if_neg hkl, if_pos (Or.inr h)]
-  · rw [if_neg hkl, if_pos (Or.inl h)]
+  · rw [ite_eq_right hkl, ite_eq_left (Or.inr h)]
+  · rw [ite_eq_right hkl, ite_eq_left (Or.inl h)]
 
 private theorem ggQ2s08r6_A_nonadj (k l : Fin 5) (hkl : k ≠ l) (h1 : (k : ℕ) + 1 ≠ l)
     (h2 : (l : ℕ) + 1 ≠ k) : (CoxeterMatrix.A 5) k l = 2 := by
   rw [show (CoxeterMatrix.A 5) k l =
     (if k = l then (1 : ℕ) else if (l : ℕ) + 1 = k ∨ (k : ℕ) + 1 = l then 3 else 2) from rfl]
-  rw [if_neg hkl, if_neg (fun h => h.elim h2 h1)]
+  rw [ite_eq_right hkl, ite_eq_right (fun h => h.elim h2 h1)]
 
 private theorem ggQ2s08r6_cartan_eq_zero_of_cox_two (M : GGQ2LDatum 3 Bs L x)
     {i j : M.Λ} (hij : i ≠ j) (h : M.coxeter i j = 2) :
@@ -140,14 +140,14 @@ private theorem ggQ2s08r6_exists_root_vals (M : GGQ2LDatum 3 Bs L x) (hShape : M
     simpa only [GGQ2LDatum.rootMap, LinearMap.pi_apply] using h⟩
 
 theorem ggQ2s08r6_S_ne_mod (M : GGQ2LDatum 3 Bs L x) (hShape : M.ShapeA) {e : Fin 5 ≃ M.Λ}
-    (he : M.coxeter = (CoxeterMatrix.A 5).reindex e) {k l : Fin 5} (hkl : k ≠ l) :
+    (_he : M.coxeter = (CoxeterMatrix.A 5).reindex e) {k l : Fin 5} (hkl : k ≠ l) :
     ∃ v : M.V, ggQ2s08r6S M (e k) v - ggQ2s08r6S M (e l) v ∉ Submodule.span (ZMod 3) {M.xV} := by
   obtain ⟨v, hv⟩ := ggQ2s08r6_exists_root_vals M hShape
     (fun m => if m = e k then (1 : ZMod 3) else 0)
   have hk : M.root (e k) v = 1 := by simpa using hv (e k)
   have hl : M.root (e l) v = 0 := by
     have h := hv (e l)
-    rw [if_neg (fun hlk : e l = e k => hkl (e.injective hlk.symm))] at h
+    rw [ite_eq_right (fun hlk : e l = e k => hkl (e.injective hlk.symm))] at h
     exact h
   refine ⟨v, ?_⟩
   have hdiff : ggQ2s08r6S M (e k) v - ggQ2s08r6S M (e l) v = -M.coroot (e k) := by
@@ -169,7 +169,7 @@ theorem ggQ2s08r6_S_noncomm_mod (M : GGQ2LDatum 3 Bs L x) (hShape : M.ShapeA)
   have hk : M.root (e k) v = 1 := by simpa using hv (e k)
   have hl : M.root (e l) v = 0 := by
     have h := hv (e l)
-    rw [if_neg (fun hlk : e l = e k => hklne (e.injective hlk.symm))] at h
+    rw [ite_eq_right (fun hlk : e l = e k => hklne (e.injective hlk.symm))] at h
     exact h
   have hcx : M.coxeter (e k) (e l) = 3 := by
     rw [ggQ2s08r6_coxeter_apply M he k l, ggQ2s08r6_A_adj k l (Or.inl hkl)]

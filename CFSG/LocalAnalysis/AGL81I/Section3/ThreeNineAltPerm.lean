@@ -112,7 +112,7 @@ theorem ncard_fixed_modEq {p : ℕ} [Fact p.Prime] {R : Subgroup (Perm Ω)} (hRp
   have h := card_fixSet_modEq hz
   have hfix : fixSet (Subgroup.zpowers r) = {x | r x = x} := by
     ext x
-    simp only [fixSet, Set.mem_setOf_eq]
+    simp only [fixSet, Set.mem_ofPred_eq]
     constructor
     · intro hx
       exact hx r (Subgroup.mem_zpowers r)

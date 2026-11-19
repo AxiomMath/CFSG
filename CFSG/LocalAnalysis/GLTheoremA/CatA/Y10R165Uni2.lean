@@ -31,10 +31,10 @@ private theorem exceptionalOrders_PSU_eq_one_of_seven_le {N : ℕ} (hN : 7 ≤ N
   split <;> simp_all
 
 private theorem card_center_statedSU_dvd_two_pow_add_one {N n : ℕ} {F : Type} [Field F]
-    [Finite F] (hcard : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) (hN3 : 3 ≤ N)
+    [Finite F] (hcard : Nat.card F = (2 ^ n) ^ 2) (_hn : 1 ≤ n) (hN3 : 3 ≤ N)
     (hnq : (N, 2 ^ n) ≠ (3, 2)) :
     Nat.card (Subgroup.center (StatedSU N (2 ^ n) F)) ∣ 2 ^ n + 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperf : Group.IsPerfect (StatedSU N (2 ^ n) F) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hcard hN3 hnq
   have hsimple : IsSimpleGroup (StatedProj (StatedSU N (2 ^ n) F)) :=
@@ -67,9 +67,9 @@ theorem exists_mulEquiv_statedSU_quot_of_isLabel_of_one
       CFSG.StandardType.markDeg] using hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
     hM'.statedClassicalModel (by decide : StatedLieTag.PSU ∈ CFSG.Blueprint.classicalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hFcard
+  let : Field F := hFld
+  let : Finite F := hFin
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hFcard
   have hperfK : Group.IsPerfect K := Group.isPerfect_def.mpr hQ.1
   have hℓ : 2 ≤ ℓ := hlab.2.1
   have hd3 : 3 ≤ ℓ + 1 := by omega
@@ -111,7 +111,7 @@ private theorem not_dvd_two_pow_add_one_of_rk2Ord_ne_two {p n : ℕ} (hp : p.Pri
 private theorem four_le_eM_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hm0ne : rk2Ord p 1 ≠ 2) : 4 ≤ eM 2 p := by
   by_contra hlt
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpos : 0 < eM 2 p := by
     unfold eM
     refine orderOf_pos_iff.mpr ?_
@@ -222,7 +222,7 @@ private theorem concl165Avoid_of_engine (hE : SU165EngineTwA) {ℓ n p q : ℕ} 
   refine ⟨D, E, F', J, hDE, hEA, hD, hE, hJ, hAJ, hlay, hFD, hF, hFJ, hF3, ?_⟩
   have hperf : Group.IsPerfect (StatedSU (ℓ + 1) (2 ^ n) F) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hFcard (by omega) hnq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsimple : IsSimpleGroup (StatedProj (StatedSU (ℓ + 1) (2 ^ n) F)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 n hFcard
       (ℓ + 1) (by omega) hnq
@@ -237,7 +237,7 @@ private theorem pRank_eq_pRank_map_of_isPGroup {H K : Type} [Group H] [Finite H]
     [Finite K] {p : ℕ} (hp : p.Prime) {π : H →* K} (hpk : ¬ p ∣ Nat.card π.ker)
     {R : Subgroup H} (hRp : IsPGroup p R) :
     CFSG.Open.pRank p R = CFSG.Open.pRank p (R.map π) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hinj : Function.Injective (π.comp R.subtype) := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
     intro x hx
@@ -272,10 +272,10 @@ theorem i165On_famTwA_of_engine (hE : SU165EngineTwA) : I165On i165FamTwA := by
       (by have := pRank_mono hp.one_lt (le_top : A ≤ (⊤ : Subgroup K)); omega)
   obtain ⟨F, hFld, hFin, hChar, C, hCn, hFcard, hCcen, ⟨e⟩⟩ :=
     exists_statedSU_cover hK hn1 hN12
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
-  haveI : C.Normal := hCn
+  let : Field F := hFld
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
+  have : C.Normal := hCn
   have hnq : (ℓ + 1, 2 ^ n) ≠ (3, 2) := by
     intro h
     have h1 : ℓ + 1 = 3 := congrArg Prod.fst h
@@ -305,7 +305,7 @@ theorem i165On_famTwA_of_engine (hE : SU165EngineTwA) : I165On i165FamTwA := by
   obtain ⟨R, -, hRe, hRmap, -⟩ :=
     CFSG.HardMathSupport.Curtis.NaturalModuleCensus.AltIb.exists_elemAbelian_lift hp hpk
       (Subgroup.map_comap_eq_self_of_surjective hπ A) hAe
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hquot : CFSG.Open.pRank p (⊤ : Subgroup (StatedSU (ℓ + 1) (2 ^ n) F ⧸ π.ker)) =
       CFSG.Open.pRank p (⊤ : Subgroup (StatedSU (ℓ + 1) (2 ^ n) F)) :=
     CFSG.SectionRank.pRank_quotient_eq π.ker hpk

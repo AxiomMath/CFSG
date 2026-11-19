@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique Subgroup
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isCalH0_of_le_normalizer {V H : Subgroup G} (hV : IsElemAbelian 2 V) (hH : IsCalH V H)
     (hHM : H ≤ Subgroup.normalizer (V : Set G)) : IsCalH0 V H :=
   ⟨hH, CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hH.1 hHM hV.isPGroup⟩
@@ -23,8 +24,8 @@ private theorem inf_centralizer_ne_bot_of_le_normalizer {X T : Subgroup G}
     (hXT : X ≤ T) (hTX : T ≤ Subgroup.normalizer (X : Set G))
     (hT2 : IsPGroup 2 T) (hXne : X ≠ ⊥) :
     X ⊓ Subgroup.centralizer (T : Set G) ≠ ⊥ := by
-  haveI : Group.IsNilpotent ↥T := hT2.isNilpotent
-  haveI : (X.subgroupOf T).Normal :=
+  have : Group.IsNilpotent ↥T := hT2.isNilpotent
+  have : (X.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hXT).mpr hTX
   have hXsubne : X.subgroupOf T ≠ ⊥ := by
     intro h

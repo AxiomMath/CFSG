@@ -320,12 +320,12 @@ theorem normal_of_goldschmidt_conclusion_of_section {X : Type} [Group X] [Finite
       eq_inf_of_isPGroup S (hC2.to_le hRC) inf_le_right (inf_le_inf_right _ hSN)
     obtain ⟨P, hP⟩ : ∃ P : Sylow 2 (E.map ι),
         (P : Subgroup (E.map ι)) = ((S : Subgroup X) ⊓ E.map ι).subgroupOf (E.map ι) := by
-      obtain ⟨P, hP⟩ := ((S.isPGroup'.to_le (inf_le_left :
+      obtain ⟨P, hP⟩ := ((S.isPGroup.to_le (inf_le_left :
         (S : Subgroup X) ⊓ E.map ι ≤ S)).comap_of_injective _
           (E.map ι).subtype_injective).exists_le_sylow
       refine ⟨P, ?_⟩
       have h := eq_inf_of_isPGroup S (R := (P : Subgroup (E.map ι)).map (E.map ι).subtype)
-        (P.isPGroup'.map _) (Subgroup.map_subtype_le _)
+        (P.isPGroup.map _) (Subgroup.map_subtype_le _)
         (fun x hx => ⟨⟨x, hx.2⟩, hP hx, rfl⟩)
       rw [← h, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective
         (E.map ι).subtype_injective]
@@ -333,7 +333,7 @@ theorem normal_of_goldschmidt_conclusion_of_section {X : Type} [Group X] [Finite
       intro p hp
       rw [hP, Subgroup.mem_subgroupOf, ← hReq] at hp
       exact hRC hp
-    have hV2 : IsPGroup 2 V := S.isPGroup'.to_le hVS
+    have hV2 : IsPGroup 2 V := S.isPGroup.to_le hVS
     have h2V : 2 ∣ Nat.card V := by
       rcases hV2.card_eq_or_dvd with h | h
       · exact absurd (Subgroup.card_eq_one.1 h) hV1

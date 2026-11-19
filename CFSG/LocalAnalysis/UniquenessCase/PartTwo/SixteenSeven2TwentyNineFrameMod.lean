@@ -32,7 +32,7 @@ theorem s16c167_frame_faithful_of_conj_sup {W : Type*} [CommGroup W] {X Z : Subg
     intro u hu
     exact not_not.mp (not_and.mp (hcon u) hu)
   have hzK : z ∈ K := hfix
-  haveI : Fact (Nat.card ↥Z).Prime := ⟨by rw [hZ]; exact hp⟩
+  have : Fact (Nat.card ↥Z).Prime := ⟨by rw [hZ]; exact hp⟩
   have hZK : Z ≤ K := by
     have hmem : (⟨z, hzZ⟩ : ↥Z) ∈ K.subgroupOf Z := by
       rw [Subgroup.mem_subgroupOf]; exact hzK
@@ -40,8 +40,8 @@ theorem s16c167_frame_faithful_of_conj_sup {W : Type*} [CommGroup W] {X Z : Subg
       intro h
       exact hz1 (by simpa using Subtype.ext_iff.mp h)
     have hkey : K.subgroupOf Z = ⊥ ∨ K.subgroupOf Z = ⊤ := by
-      haveI : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZ]; exact hp.ne_zero)
-      haveI : Finite ↥(K.subgroupOf Z) := inferInstance
+      have : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZ]; exact hp.ne_zero)
+      have : Finite ↥(K.subgroupOf Z) := inferInstance
       have hdvd := Subgroup.card_subgroup_dvd_card (K.subgroupOf Z)
       rw [hZ, Nat.dvd_prime hp] at hdvd
       rcases hdvd with h1 | h1

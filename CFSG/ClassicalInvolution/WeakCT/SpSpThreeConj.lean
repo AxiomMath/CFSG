@@ -103,7 +103,7 @@ private theorem rot_win_val (s : ℕ) (i : Fin (s + 2)) :
     rw [Fin.val_castLE] at h1
     have := i.isLt
     omega
-  rw [coe_finRotate, if_neg hw, Fin.val_castLE]
+  rw [coe_finRotate, ite_eq_right hw, Fin.val_castLE]
 
 private theorem rot_win_mk {s : ℕ} {k : ℕ} (hk : k < s + 1) :
     rot s (win s (⟨k, by omega⟩ : Fin (s + 2))) =
@@ -124,7 +124,7 @@ private theorem rot_mk {s : ℕ} {k : ℕ} (hk : k < s + 3) :
     intro h
     have h1 : k = s + 3 := by simpa using congrArg Fin.val h
     omega
-  rw [coe_finRotate, if_neg hne, Fin.val_mk]
+  rw [coe_finRotate, ite_eq_right hne, Fin.val_mk]
 
 private theorem mu_win_s1 (s : ℕ) (hs : 3 ≤ s) :
     mu s (win s (⟨s + 1, by omega⟩ : Fin (s + 2))) =
@@ -388,7 +388,7 @@ private theorem range_castSucc_eq_N0 (s : ℕ) :
     Set.range (Fin.castSucc : Fin (s + 1) → Fin (s + 2)) = ↑(N0 s) := by
   rw [Fin.range_castSucc, N0, Finset.coe_compl, Finset.coe_singleton]
   ext i
-  simp only [Set.mem_setOf_eq, Set.mem_compl_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_compl_iff, Set.mem_singleton_iff]
   constructor
   · rintro h rfl
     simp at h

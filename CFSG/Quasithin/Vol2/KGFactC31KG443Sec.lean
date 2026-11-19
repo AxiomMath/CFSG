@@ -214,7 +214,7 @@ theorem not_secOnto_sl2_of {p : ℕ} [Fact p.Prime] (hp3 : p ≠ 3) {T : Type} [
   have hι : Injective ι := Y.subtype_injective.comp Q.subtype_injective
   have hcyc : IsCyclic ↥((P : Subgroup ↥Q).map ι) :=
     CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) le_top
-      (P.isPGroup'.map ι) hr
+      (P.isPGroup.map ι) hr
   have hcycP : IsCyclic ↥(P : Subgroup ↥Q) :=
     (MulEquiv.isCyclic ((P : Subgroup ↥Q).equivMapOfInjective ι hι)).2 hcyc
   have hcycI : IsCyclic ↥((P : Subgroup ↥Q).map φQ) :=

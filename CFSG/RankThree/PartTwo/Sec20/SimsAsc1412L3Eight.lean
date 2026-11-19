@@ -197,7 +197,7 @@ private theorem mk_eq_one_iff (g : ↥Y) :
 
 private theorem img_normal {S : Subgroup G} (hS : Y ≤ normalizer (S : Set G)) :
     (img Y N S).Normal := by
-  haveI : (S.subgroupOf Y).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hS
+  have : (S.subgroupOf Y).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hS
   exact Subgroup.Normal.map this _ (QuotientGroup.mk'_surjective _)
 
 private theorem img_mono {S S' : Subgroup G} (h : S ≤ S') : img Y N S ≤ img Y N S' :=
@@ -332,7 +332,7 @@ private theorem false_of_section_reduction {Y P W L₀ A N : Subgroup G} (hPY : 
     (hL₀D : L₀ ≤ closure (Set.range u) ⊔ P) {y₀ : G} (hy₀ : y₀ ∈ Y)
     (hy₀2 : ∃ n : ℕ, y₀ ^ 2 ^ n = 1)
     (hTR : ∀ C : Subgroup G, C ≤ Y → Y ≤ normalizer (C : Set G) → y₀ ^ 4 ∈ C → L₀ ≤ C ⊔ P)
-    (hAW : A ≤ W) (hNA : N ≤ A) (hAn : Y ≤ normalizer (A : Set G))
+    (hAW : A ≤ W) (_hNA : N ≤ A) (hAn : Y ≤ normalizer (A : Set G))
     (hNn : Y ≤ normalizer (N : Set G)) (hAPN : ∀ a ∈ A, ∀ p ∈ P, a * p * a⁻¹ * p⁻¹ ∈ N)
     (hnst : ¬ ∀ a ∈ A, ∀ l ∈ L₀, l * a * l⁻¹ * a⁻¹ ∈ N) : False := by
   have hAY : A ≤ Y := hAW.trans (hWP.trans hPY)
@@ -345,9 +345,9 @@ private theorem false_of_section_reduction {Y P W L₀ A N : Subgroup G} (hPY : 
       (Subgroup.relIndex_le_of_le_right hAW Subgroup.index_ne_zero_of_finite).trans (hu2 i))
   have hU8 : Nat.card U ≤ 8 := by simpa using hUcard
   have hUY : U ≤ Y := hUA.trans hAY
-  haveI hNN : (N.subgroupOf Y).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNn
-  haveI : (img Y N A).Normal := img_normal hAn
-  haveI : (img Y N L₀).Normal := img_normal hL₀n
+  have hNN : (N.subgroupOf Y).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNn
+  have : (img Y N A).Normal := img_normal hAn
+  have : (img Y N L₀).Normal := img_normal hL₀n
   have hI : Sec3.IsElemTwo (img Y N A) := by
     refine ⟨?_, ?_⟩
     · rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩

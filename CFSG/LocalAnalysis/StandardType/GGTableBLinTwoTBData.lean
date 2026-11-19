@@ -173,16 +173,16 @@ theorem eq_of_invariant (hA : D.IsTorusAut A) {A' : Subgroup (MulAut G)} (hle : 
     { carrier := {v | MulAut.conj (D.el v) ∈ A'}
       add_mem' := by
         intro v w hv hw
-        simp only [Set.mem_setOf_eq] at hv hw ⊢
+        simp only [Set.mem_ofPred_eq] at hv hw ⊢
         rw [D.el_add, map_mul]
         exact A'.mul_mem hv hw
       zero_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         rw [D.el_zero, map_one]
         exact A'.one_mem
       neg_mem' := by
         intro v hv
-        simp only [Set.mem_setOf_eq] at hv ⊢
+        simp only [Set.mem_ofPred_eq] at hv ⊢
         rw [D.el_neg, map_inv]
         exact A'.inv_mem hv }
   have hmem : ∀ v, v ∈ F ↔ MulAut.conj (D.el v) ∈ A' := fun v => Iff.rfl
@@ -346,14 +346,14 @@ theorem nbr_core (hZ : ∀ g h : G, MulAut.conj g = MulAut.conj h → g = h) (hA
       { carrier := {v | φ (D.el v) = D.el v}
         add_mem' := by
           intro v w hv hw
-          simp only [Set.mem_setOf_eq] at hv hw ⊢
+          simp only [Set.mem_ofPred_eq] at hv hw ⊢
           rw [D.el_add, map_mul, hv, hw]
         zero_mem' := by
-          simp only [Set.mem_setOf_eq]
+          simp only [Set.mem_ofPred_eq]
           rw [D.el_zero, map_one]
         neg_mem' := by
           intro v hv
-          simp only [Set.mem_setOf_eq] at hv ⊢
+          simp only [Set.mem_ofPred_eq] at hv ⊢
           rw [D.el_neg, map_inv, hv] }
     have hS : S = ⊤ := eq_top_of_single_one S hfixbasis
     intro v
@@ -502,18 +502,18 @@ theorem exists_wsub_fix {wt : G → ℕ} {e : ℕ} (he : 0 < e)
     { carrier := {v | (n * w⁻¹) * D.el v * (n * w⁻¹)⁻¹ = D.el v}
       add_mem' := by
         intro v v' hv hv'
-        simp only [Set.mem_setOf_eq] at hv hv' ⊢
+        simp only [Set.mem_ofPred_eq] at hv hv' ⊢
         calc n * w⁻¹ * D.el (v + v') * (n * w⁻¹)⁻¹
             = (n * w⁻¹ * D.el v * (n * w⁻¹)⁻¹) * (n * w⁻¹ * D.el v' * (n * w⁻¹)⁻¹) := by
               rw [D.el_add]; group
           _ = D.el (v + v') := by rw [hv, hv', D.el_add]
       zero_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         rw [D.el_zero]
         group
       neg_mem' := by
         intro v hv
-        simp only [Set.mem_setOf_eq] at hv ⊢
+        simp only [Set.mem_ofPred_eq] at hv ⊢
         calc n * w⁻¹ * D.el (-v) * (n * w⁻¹)⁻¹
             = (n * w⁻¹ * D.el v * (n * w⁻¹)⁻¹)⁻¹ := by rw [D.el_neg]; group
           _ = D.el (-v) := by rw [hv, D.el_neg] }

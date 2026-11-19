@@ -52,10 +52,10 @@ theorem isCoatom_centralizer_swap {m : ℕ} (hm : 5 ≤ m) {a b : Fin m} (hab : 
   let s : Set.powersetCard (Fin m) 2 := Set.powersetCard.ofCard hpair
   have hs : (s : Set (Fin m)) = {a, b} := by
     rw [← Set.powersetCard.coe_coe, Set.powersetCard.val_ofCard, Finset.coe_pair]
-  haveI : Nontrivial (Set.powersetCard (Fin m) 2) :=
+  have : Nontrivial (Set.powersetCard (Fin m) 2) :=
     Set.powersetCard.nontrivial' (α := Fin m) (n := 2) (by norm_num)
       (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
-  haveI : MulAction.IsPreprimitive (Perm (Fin m)) (Set.powersetCard (Fin m) 2) :=
+  have : MulAction.IsPreprimitive (Perm (Fin m)) (Set.powersetCard (Fin m) 2) :=
     Set.powersetCard.isPreprimitive_perm (α := Fin m) (n := 2) (by norm_num)
       (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
       (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
@@ -109,8 +109,8 @@ theorem exists_second_two_cycle {m : ℕ} (hm : 5 ≤ m) {σ : Perm (Fin m)}
       exact hpa hpa'
 
 theorem exchange_two_cycles_mem_centralizer {m : ℕ} {σ : Perm (Fin m)} (hσ : ∀ x, σ (σ x) = x)
-    {a b c d : Fin m} (hσa : σ a = b) (hσc : σ c = d) (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d)
-    (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d) :
+    {a b c d : Fin m} (hσa : σ a = b) (hσc : σ c = d) (hab : a ≠ b) (_hac : a ≠ c) (had : a ≠ d)
+    (_hbc : b ≠ c) (_hbd : b ≠ d) (hcd : c ≠ d) :
     (swap a c * swap b d) * σ = σ * (swap a c * swap b d) ∧
       (swap a c * swap b d) * swap a b * (swap a c * swap b d)⁻¹ = swap c d := by
   constructor

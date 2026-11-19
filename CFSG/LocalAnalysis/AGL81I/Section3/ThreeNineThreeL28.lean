@@ -78,7 +78,7 @@ theorem exists_orderOf_eq_21_of_card_eq_63 {G : Type*} [Group G] [Finite G]
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup f.ker,
       Nat.card_congr (QuotientGroup.quotientKerEquivRange f).toEquiv]
   have hAut : Nat.card (MulAut H) = 6 := by
-    haveI : IsCyclic H := isCyclic_of_prime_card hP
+    have : IsCyclic H := isCyclic_of_prime_card hP
     rw [IsCyclic.card_mulAut, hP]
     decide
   have hr : Nat.card f.range ∣ 6 := hAut ▸ Subgroup.card_subgroup_dvd_card f.range
@@ -154,7 +154,7 @@ theorem false_of_threeNineHyp_L28 (h : ThreeNineHyp K E D X₁ 3 d)
   obtain ⟨Q, hEQ⟩ := (CFSG.Open.IsElemAbelian.isPGroup h.elem).exists_le_sylow
   have hQtop : CFSG.ABGLocalTools.IsSylowOf 3 (Q : Subgroup X) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, Q.isPGroup', ?_⟩
+    refine ⟨le_top, Q.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Q.not_dvd_index
   have hQK : CFSG.ABGLocalTools.IsSylowOf 3 ((Q : Subgroup X) ⊓ K) K :=
@@ -163,7 +163,7 @@ theorem false_of_threeNineHyp_L28 (h : ThreeNineHyp K E D X₁ 3 d)
   have hQY : ((Q : Subgroup X) ⊓ K).subgroupOf K ≤ X₁.subgroupOf K := by
     intro x hx
     rw [Subgroup.mem_subgroupOf] at hx ⊢
-    exact h.normQ Q Q.isPGroup' hEQ
+    exact h.normQ Q Q.isPGroup hEQ
       (Subgroup.mem_inf.mpr ⟨Subgroup.le_normalizer (Subgroup.mem_inf.mp hx).1,
         le_sup_left (a := K) (Subgroup.mem_inf.mp hx).2⟩)
   have h9 : (3 : ℕ) ^ (504 : ℕ).factorization 3 = 9 :=

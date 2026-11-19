@@ -59,7 +59,7 @@ private theorem isSimple_autFixed (r : R)
     (h : IsSimpleGroup
       (Subgroup.centralizer {(r : Equiv.Perm (Fin 42))} ⊓ S : Subgroup (Equiv.Perm (Fin 42)))) :
     IsSimpleGroup (autFixed (conjAutS r)) := by
-  haveI := h
+  have := h
   exact MulEquiv.isSimpleGroup
     ((Subgroup.equivMapOfInjective (autFixed (conjAutS r)) S.subtype
       S.subtype_injective).trans (MulEquiv.subgroupCongr (map_autFixed r)))

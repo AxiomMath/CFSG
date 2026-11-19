@@ -16,7 +16,7 @@ open CFSG.Timmesfeld.Bridge.Asc72 CFSG.Timmesfeld.Connectivity
 
 private theorem s11m_odd_card_oddCore (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : CFSG.oddCore X = CFSG.pPrimeCore 2 X := by
     unfold CFSG.oddCore CFSG.pPrimeCore
     simp_rw [Nat.coprime_two_left]
@@ -100,7 +100,7 @@ theorem theorem11_1_holds (hW : WongPSp4Five) : Theorem11_1 := by
       intro h1
       exact mul_notMem_of_orderOf_eq_two hu hv2 hne (by simp [h1])
     have huv_order : orderOf (hC.d * (v : G)) = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime huv_sq huv_ne
     have hdvd : orderOf (hC.d * (v : G)) ∣ Nat.card (CFSG.oddCore G) := by
       have hh := orderOf_dvd_natCard (⟨hC.d * (v : G), hO⟩ : CFSG.oddCore G)
@@ -128,7 +128,7 @@ theorem theorem11_1_holds (hW : WongPSp4Five) : Theorem11_1 := by
     have hL1L2 : liftH hC A = liftH hC B := hfix.symm.trans hsw
     have hLM : liftH hC A = Malpha D hC.alpha := by
       rw [← hinfM, hL1L2, inf_idem]
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨e⟩ := hL1e
     have hcard120 : Nat.card (liftH hC A) = 120 := by
       rw [Nat.card_congr e.toEquiv, Matrix.card_SL_field]

@@ -22,22 +22,22 @@ theorem embed_vec_ι₀ (a : Wr 4) (x : Fin 6) :
     (embed ι₀ a).vec x = if h : x.val < 4 then a.vec ⟨x.val, h⟩ else 0 := by
   rw [embed_vec]
   by_cases hx : x.val < 4
-  · rw [dif_pos hx]
+  · rw [dite_eq_left hx]
     have : x = ι₀ ⟨x.val, hx⟩ := Fin.ext rfl
     conv_lhs => rw [this]
     exact embedVec_apply ι₀ a.vec _
-  · rw [dif_neg hx]
+  · rw [dite_eq_right hx]
     exact embedVec_of_not_mem ι₀ _ (fun h => hx (mem_range_ι₀.mp h))
 
 theorem embed_perm_ι₀ (a : Wr 4) (x : Fin 6) :
     (embed ι₀ a).perm x = if h : x.val < 4 then ι₀ (a.perm ⟨x.val, h⟩) else x := by
   rw [embed_perm]
   by_cases hx : x.val < 4
-  · rw [dif_pos hx]
+  · rw [dite_eq_left hx]
     have : x = ι₀ ⟨x.val, hx⟩ := Fin.ext rfl
     conv_lhs => rw [this]
     exact embedPerm_apply ι₀ a.perm _
-  · rw [dif_neg hx]
+  · rw [dite_eq_right hx]
     exact embedPerm_of_not_mem ι₀ _ (fun h => hx (mem_range_ι₀.mp h))
 
 @[expose] def d1 : Perm (Fin 6) := swap 0 1 * swap 2 3
@@ -142,7 +142,7 @@ theorem wsum_ofPerm (π : Perm (Fin 6)) : wsum (ofPerm π) = 0 := by
 theorem conj_ofPerm_mem_aeSub {t : Wr 6} (ht : t ∈ aeSub 6) (π : Perm (Fin 6)) :
     ofPerm π * t * (ofPerm π)⁻¹ ∈ aeSub 6 := by
   refine ⟨?_, ?_⟩
-  · simp only [wsum_mul, wsum_inv, wsum_ofPerm, zero_add, add_zero, ht.1]
+  · simp only [wsum_mul, wsum_inv, wsum_ofPerm, add_zero, ht.1]
   · have := ht.2
     simp only [mul_perm, inv_perm, map_mul, map_inv]
     show Perm.sign (ofPerm π).perm * Perm.sign t.perm * (Perm.sign (ofPerm π).perm)⁻¹ = 1

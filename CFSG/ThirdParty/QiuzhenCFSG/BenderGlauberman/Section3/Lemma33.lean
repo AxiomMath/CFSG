@@ -184,7 +184,7 @@ private lemma theta_pair_scalar_H0 (c : Hyp11 G) (h12 : Hyp12 c)
         rw [hx]
       rw [h1, h2]
     rw [hθ₁, hθ₂]
-    simp [map_add, add_mul, mul_add, mul_assoc, mul_left_comm, mul_comm]
+    simp [add_mul, mul_add]
     ring
   change (Nat.card (↥c.H0) : ℂ)⁻¹ * (∑ y : ↥c.H0,
       (inducedFromSub (h12.H0_normal_in_H).1 ν₁) ⟨(y : G), (h12.H0_normal_in_H).1 y.2⟩ *
@@ -195,8 +195,8 @@ private lemma theta_pair_scalar_H0 (c : Hyp11 G) (h12 : Hyp12 c)
 set_option maxHeartbeats 20000000 in
 private lemma theta_pair_scalar_H (c : Hyp11 G) (h12 : Hyp12 c)
     (hH0index : (c.H0.subgroupOf c.H).index = 2)
-    {ν₁ ν₂ : ClassFunction (↥c.H0)} (hν₁ : IsIrreducibleCharacter ν₁)
-    (hν₂ : IsIrreducibleCharacter ν₂) :
+    {ν₁ ν₂ : ClassFunction (↥c.H0)} (_hν₁ : IsIrreducibleCharacter ν₁)
+    (_hν₂ : IsIrreducibleCharacter ν₂) :
     scalarProduct (↥c.H) (inducedFromSub (h12.H0_normal_in_H).1 ν₁)
         (inducedFromSub (h12.H0_normal_in_H).1 ν₂) =
       (2 : ℂ)⁻¹ * scalarProduct (↥c.H0)
@@ -376,12 +376,12 @@ private lemma orbit_eq_of_mem (c : Hyp11 G) [Fintype ↥(LambdaHom c.H0 c.U)]
     refine Finset.mem_image.mpr ⟨l * l₀, Finset.mem_univ _, ?_⟩
     rw [← hEq₀]
     ext x
-    simp [LambdaChar, map_mul, mul_assoc]
+    simp [LambdaChar, mul_assoc]
   · intro hψ
     rcases (Finset.mem_image.mp hψ) with ⟨l, hl, rfl⟩
     refine Finset.mem_image.mpr ⟨l * l₀⁻¹, Finset.mem_univ _, ?_⟩
     ext x
-    simp [LambdaChar, map_mul, map_inv, Units.val_inv, mul_assoc]
+    simp [LambdaChar, mul_assoc]
     have hμx : μ x = (l₀.1 x : ℂ) * ν x := (congrFun hEq₀ x).symm
     rw [hμx]
     have hne : (l₀.1 x : ℂ) ≠ 0 := unit_val_ne_zero (l₀.1 x)
@@ -478,7 +478,7 @@ private lemma scalarProduct_star_comm' {G : Type u} [Group G] [Fintype G]
     star (scalarProduct G φ ψ) = scalarProduct G ψ φ := by
   classical
   unfold scalarProduct
-  simp [map_sum, map_mul, map_star, mul_comm, mul_left_comm, mul_assoc]
+  simp [mul_comm]
 
 private lemma theta_pair_orth (c : Hyp11 G) (h12 : Hyp12 c)
     (hH0index : (c.H0.subgroupOf c.H).index = 2)
@@ -1078,7 +1078,7 @@ private lemma BOf_orbit_pair_conj (c : Hyp11 G) (h12 : Hyp12 c)
                 refine Finset.sum_congr rfl ?_
                 intro x hx
                 have hmem : x⁻¹ * 1 * x ∈ c.H0 := by simp
-                rw [dif_pos hmem]
+                rw [dite_eq_left hmem]
                 apply congrArg (μ.1 - ν.1)
                 apply Subtype.ext
                 simp
@@ -1161,7 +1161,7 @@ private lemma fixed_orbit_delta_norm (c : Hyp11 G) (h12 : Hyp12 c)
   rw [theta_norm c h12 (H0_index c h12) ν.2]
   norm_num [hfix, hμs]
 
-private lemma fixed_orbit_delta_degree_zero (c : Hyp11 G) (h12 : Hyp12 c)
+private lemma fixed_orbit_delta_degree_zero (c : Hyp11 G) (_h12 : Hyp12 c)
     {ν : Irr (↥c.H0)} {μ : ClassFunction (↥c.H0)}
     (hμL : μ ∈ orbit c.H0 c.U ν.1) :
     inducedClassFunction c.H0 (μ - ν.1) 1 = 0 := by
@@ -1176,7 +1176,7 @@ private lemma fixed_orbit_delta_degree_zero (c : Hyp11 G) (h12 : Hyp12 c)
               refine Finset.sum_congr rfl ?_
               intro x hx
               have hmem : x⁻¹ * 1 * x ∈ c.H0 := by simp
-              rw [dif_pos hmem]
+              rw [dite_eq_left hmem]
               apply congrArg (μ - ν.1)
               apply Subtype.ext
               simp
@@ -1232,13 +1232,13 @@ private lemma fixed_orbit_delta_orthogonal (c : Hyp11 G) (h12 : Hyp12 c)
     {ν₁ ν₂ : Irr (↥c.H0)}
     (hν₁B : ν₁ ∈ BOf c h12 χ) (hν₂B : ν₂ ∈ BOf c h12 χ)
     (hν₁fix : conjChar c.H0 (s_normalizes_H0 c h12) ν₁.1 = ν₁.1)
-    (hν₂fix : conjChar c.H0 (s_normalizes_H0 c h12) ν₂.1 = ν₂.1)
+    (_hν₂fix : conjChar c.H0 (s_normalizes_H0 c h12) ν₂.1 = ν₂.1)
     (hν₁ν₂ : ν₁ ≠ ν₂)
     {μ₁ μ₂ : ClassFunction (↥c.H0)}
     (hμ₁L : μ₁ ∈ orbit c.H0 c.U ν₁.1)
     (hμ₂L : μ₂ ∈ orbit c.H0 c.U ν₂.1)
-    (hμ₁s : conjChar c.H0 (s_normalizes_H0 c h12) μ₁ ≠ μ₁)
-    (hμ₂s : conjChar c.H0 (s_normalizes_H0 c h12) μ₂ ≠ μ₂) :
+    (_hμ₁s : conjChar c.H0 (s_normalizes_H0 c h12) μ₁ ≠ μ₁)
+    (_hμ₂s : conjChar c.H0 (s_normalizes_H0 c h12) μ₂ ≠ μ₂) :
     scalarProduct G (inducedClassFunction c.H0 (μ₁ - ν₁.1))
         (inducedClassFunction c.H0 (μ₂ - ν₂.1)) = 0 := by
   classical
@@ -1515,7 +1515,7 @@ private lemma b_mem_fixedSubgroup' (c : Hyp11 G) {b : G} (hbB : b ∈ c.B) :
     have ht1S : t1S ∉ (c.S0 : Subgroup G).subgroupOf (c.S : Subgroup G) := by
       exact fun h => c.t1_not_mem_S0 (Subgroup.mem_subgroupOf.mp h)
     have hmul : aS * t1S ∈ (c.S0 : Subgroup G).subgroupOf (c.S : Subgroup G) := by
-      exact (Subgroup.mul_mem_iff_of_index_two (S0_index c)).2 (by simpa [haS, ht1S])
+      exact (Subgroup.mul_mem_iff_of_index_two (S0_index c)).2 (by simp [haS, ht1S])
     have hrS0 : (a : G) * c.t1 ∈ (c.S0 : Subgroup G) := by
       simpa [aS, t1S, Subgroup.coe_mul] using (Subgroup.mem_subgroupOf.mp hmul)
     rcases (Subgroup.mem_zpowers_iff.mp (by simpa [c.S0_eq_zpowers] using hrS0)) with
@@ -1771,8 +1771,9 @@ private lemma odd_degree_one (c : Hyp11 G) (α : Irr (↥c.U)) :
     ∃ d : ℕ, Odd d ∧ (d : ℂ) = α.1 (1 : ↥c.U) := by
   exact irr_degree_odd (U_coprime_two c) α
 
+omit [Fintype G] in
 private lemma chi_one_half_int_of_congruence {ν₁₁ ν₂₁ : ℂ} (χ : ClassFunction G)
-    (hχ : IsPMIrr G χ)
+    (_hχ : IsPMIrr G χ)
     (hχ1 : ∃ m : ℤ, (χ 1 : ℂ) = (m : ℂ))
     (hcong : CongruentModTwo (χ 1) (ν₁₁ + ν₂₁))
     (hν₁₁ : ∃ a₁ : ℤ, (ν₁₁ : ℂ) = (a₁ : ℂ))
@@ -1818,7 +1819,7 @@ private lemma chi_one_half_int_of_congruence {ν₁₁ ν₂₁ : ℂ} (χ : Cla
   norm_num
 
 private lemma not_F_congruent_zero_on_B (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Section3Hyp c)
-    {χ : ClassFunction G} (hχ : IsPMIrr G χ)
+    {χ : ClassFunction G} (_hχ : IsPMIrr G χ)
     (hBOfle : (BOf c h12 χ).card ≤ 3)
     {ν : Irr (↥c.H0)} (hνB : ν ∈ BOf c h12 χ) (hνnotF : ν ∉ F c h12 χ)
     {ν₁ ν₂ : Irr (↥c.H0)}
@@ -2081,7 +2082,7 @@ private lemma exists_not_congruent_zero_on_B (c : Hyp11 G) (h12 : Hyp12 c) (hSC 
     exact Subtype.ext hEq'.symm
   have hcongB := chi_congruent_sum_two_on_B c h12 hSC hχ hBOfle hν₁F hν₂F hν₁ν₂ hFcard hres₁ hres₂
   have hcorr := glauberman_correspondence (S := ↥(c.S : Subgroup G)) (U := ↥c.U)
-    c.S.isPGroup' (U_coprime_two c)
+    c.S.isPGroup (U_coprime_two c)
   rcases hcorr with ⟨e, he⟩
   let β₁ : IrrBG19 (↥(fixedSubgroup (c.S : Subgroup G) c.U)) := e ⟨α₁, hfix₁⟩
   let β₂ : IrrBG19 (↥(fixedSubgroup (c.S : Subgroup G) c.U)) := e ⟨α₂, hfix₂⟩
@@ -2141,7 +2142,7 @@ private lemma exists_not_congruent_zero_on_B (c : Hyp11 G) (h12 : Hyp12 c) (hSC 
         · intro hEq
           apply hβne
           have hβi : β i = β₁.1 := by simp [β, hi]
-          have hβj : β j = β₂.1 := by simp [β, hj, hmem, hν₁ν₂.symm]
+          have hβj : β j = β₂.1 := by simp [β, hmem, hν₁ν₂.symm]
           rw [hβi, hβj] at hEq
           exact Subtype.ext hEq
     · by_cases hj : j.1 = ν₁
@@ -2153,7 +2154,7 @@ private lemma exists_not_congruent_zero_on_B (c : Hyp11 G) (h12 : Hyp12 c) (hSC 
         · exact False.elim (hi hmem)
         · intro hEq
           apply hβne
-          have hβi : β i = β₂.1 := by simp [β, hi, hmem, hν₁ν₂.symm]
+          have hβi : β i = β₂.1 := by simp [β, hmem, hν₁ν₂.symm]
           have hβj : β j = β₁.1 := by simp [β, hj]
           rw [hβi, hβj] at hEq
           exact Subtype.ext hEq.symm
@@ -2191,7 +2192,7 @@ private lemma exists_not_congruent_zero_on_B (c : Hyp11 G) (h12 : Hyp12 c) (hSC 
         simp
     rw [huniv]
     rw [Finset.sum_pair (f := fun i : I => coef i * β i b)]
-    · simp [coef, β, hν₁ν₂, hν₁ν₂.symm]
+    · simp [coef, β, hν₁ν₂.symm]
     · intro hEq
       exact hν₁ν₂ (by simpa using congrArg Subtype.val hEq)
   have h0 : ∀ b : ↥(fixedSubgroup (c.S : Subgroup G) c.U),
@@ -2246,7 +2247,7 @@ private lemma not_exactly_two_fixed (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Section
   exact hb (hzero b)
 
 private lemma not_three_fixed_of_S_ge_eight (c : Hyp11 G) (h12 : Hyp12 c)
-    (hSC : Section3Hyp c) {χ : ClassFunction G} (hχ : IsPMIrr G χ)
+    (_hSC : Section3Hyp c) {χ : ClassFunction G} (hχ : IsPMIrr G χ)
     (hFcard : ((BOf c h12 χ).filter (fun ν : Irr (↥c.H0) =>
       conjChar c.H0 (s_normalizes_H0 c h12) ν.1 = ν.1 ∧
         (orbit c.H0 c.U ν.1).card = (c.U.subgroupOf c.H0).index)).card = 3)
@@ -2377,7 +2378,7 @@ private lemma not_three_fixed_of_S_ge_eight (c : Hyp11 G) (h12 : Hyp12 c)
     have ha1s : a₁ * a₁ = 1 := by rcases ha₁ with h | h <;> simp [h]
     have ha2s : a₂ * a₂ = 1 := by rcases ha₂ with h | h <;> simp [h]
     have ha3s : a₃ * a₃ = 1 := by rcases ha₃ with h | h <;> simp [h]
-    simp [ha1star, ha2star, ha3star, ha1s, ha2s, ha3s]
+    simp [ha1star, ha2star, ha3star]
     ring_nf
     simp [pow_two, ha1s, ha2s, ha3s]
     norm_num

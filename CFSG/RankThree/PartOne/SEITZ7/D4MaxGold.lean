@@ -105,7 +105,7 @@ theorem goldschmidt_finish2 (hgold : CFSG.Goldschmidt.TopStatement)
   have hO2 : ∀ R : Subgroup X, R.Normal → IsPGroup 2 R → R = ⊥ := by
     intro R hRn hR
     have hRS : R ≤ (S : Subgroup X) := by
-      have hsup := IsPGroup.to_sup_of_normal_right S.isPGroup' hR
+      have hsup := IsPGroup.to_sup_of_normal_right S.isPGroup hR
       exact le_sup_right.trans (S.maximal_isPGroup.2 hsup le_sup_left)
     have hR' : (R.comap φ) = ⊥ := by
       have : (R.comap φ).Normal := Subgroup.Normal.comap hRn φ

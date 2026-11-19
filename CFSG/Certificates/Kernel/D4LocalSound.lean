@@ -57,12 +57,12 @@ private theorem rankAt_spec {f : ℕ → Bool} {I R : ℕ → ℕ} {i : ℕ} (h 
   unfold rankAt at h
   rw [Orb.bIf_eq] at h
   by_cases hf : f i = true
-  · rw [if_pos hf, Orb.bAnd_eq, Bool.and_eq_true] at h
+  · rw [ite_eq_left hf, Orb.bAnd_eq, Bool.and_eq_true] at h
     obtain ⟨h1, h2⟩ := h
-    exact ⟨by rw [if_pos hf]; exact Nat.eq_of_beq_eq_true h2,
+    exact ⟨by rw [ite_eq_left hf]; exact Nat.eq_of_beq_eq_true h2,
       fun _ => Nat.eq_of_beq_eq_true h1⟩
-  · rw [if_neg hf] at h
-    exact ⟨by rw [if_neg hf]; exact (Nat.eq_of_beq_eq_true h).trans (Nat.add_zero _).symm,
+  · rw [ite_eq_right hf] at h
+    exact ⟨by rw [ite_eq_right hf]; exact (Nat.eq_of_beq_eq_true h).trans (Nat.add_zero _).symm,
       fun h' => absurd h' hf⟩
 
 private theorem rank_mono {R : ℕ → ℕ} {N : ℕ} (h : ∀ i < N, R i ≤ R (i + 1)) :
@@ -100,7 +100,7 @@ private theorem ranks_of {fl : Array Bool} {N c : ℕ} {f : ℕ → Bool} {I R :
   refine ⟨fun i hi => h1 i (by omega), by rw [h2, hN, hc'], fun i hi hfl => ?_⟩
   have hfi : f i = true := (hf i hi) ▸ hfl
   have hs := hstep i hi
-  rw [if_pos hfl] at hs
+  rw [ite_eq_left hfl] at hs
   refine ⟨?_, (rankAt_spec (hr i hi)).2 hfi⟩
   have := rank_mono hmono N le_rfl (i + 1) (by omega)
   omega
@@ -120,7 +120,7 @@ private theorem periodGoK_eq {n : ℕ} {f f' : ℕ → ℕ} {i : ℕ} (hlt : ∀
     rw [← hag cur hc]
     by_cases h : f cur = i
     · simp [h]
-    · simp only [h, Nat.beq_eq, if_false]
+    · simp only [h, Nat.beq_eq, ite_false]
       exact ih (f cur) (l + 1) (hlt cur hc)
 
 private theorem periodK_eq {n : ℕ} {f f' : ℕ → ℕ} {i : ℕ} (hi : i < n) (hlt : ∀ q < n, f q < n)

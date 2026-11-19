@@ -288,7 +288,7 @@ theorem exists_sylow_le_of_isPGroup (K W : Subgroup G) (hWK : W ≤ K) (hW : IsP
   refine ⟨(P' : Subgroup ↥K).map K.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
   · intro x hx
     exact ⟨⟨x, hWK hx⟩, hP' (Subgroup.mem_subgroupOf.2 hx), rfl⟩
-  · exact P'.isPGroup'.map K.subtype
+  · exact P'.isPGroup.map K.subtype
   · have e : ((P' : Subgroup ↥K).map K.subtype).relIndex K = (P' : Subgroup ↥K).index := by
       show (((P' : Subgroup ↥K).map K.subtype).comap K.subtype).index = _
       rw [Subgroup.comap_map_eq_self_of_injective K.subtype_injective]

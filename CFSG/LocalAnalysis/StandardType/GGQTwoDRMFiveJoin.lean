@@ -204,7 +204,7 @@ theorem qtwoD5_join_dichotomy (hcfg : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦)
   · refine dichotomy_of_weyl (M := ggCoxeterMatrixD 5) hcfg hAL β hβ hK
       (Or.inl ⟨5, Equiv.refl _, by norm_num, Or.inr (Or.inr ⟨by norm_num, rfl⟩)⟩) ?_ htype
     intro i j hij
-    rw [ggCoxeterMatrixD_apply, if_neg hij]
+    rw [ggCoxeterMatrixD_apply, ite_eq_right hij]
     split_ifs <;> norm_num
 
 end

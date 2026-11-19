@@ -56,7 +56,7 @@ private lemma zlb_reflMat_mulVec (α h u : Vec6) :
 
 private lemma zlb_one_apply (i : Fin 6) : (1 : Mat6) i = Pi.single i 1 := by
   funext j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply, Pi.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 private lemma zlb_indepGens_mulVec (i : Fin 6) (c : Vec6) :
     (indepGens i).mulVec c = c - (cartanE6 i ⬝ᵥ c) • (Pi.single i 1) := by
@@ -68,7 +68,7 @@ private lemma zlb_phi_single {V : Type*} [AddCommGroup V] [Module (ZMod 3) V]
   rw [zlb_phi_apply, Finset.sum_eq_single i]
   · simp
   · intro j _ hj
-    simp [Pi.single_apply, hj]
+    simp [hj]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
@@ -88,7 +88,7 @@ theorem zl_frame_basis {V : Type} [AddCommGroup V] [Finite V] (hcard : Nat.card 
     ∃ ι : V ≃+ Vec6, (∃ a : ZMod 3, a ≠ 0 ∧ ι x = a • kappa) ∧
       (∀ v, Φ v = cartanM.mulVec (ι v)) ∧ ∀ i v, ι (σ i v) = (indepGens i).mulVec (ι v) := by
   classical
-  letI : Module (ZMod 3) V := AddCommGroup.zmodModule (n := 3) hexp
+  let : Module (ZMod 3) V := AddCommGroup.zmodModule (n := 3) hexp
   let S : AddSubgroup V := AddSubgroup.closure (Set.range h)
   have hxS : x ∈ S := by
     have hsub : ({u : V | ∃ (i : Fin 6) (v : V), u = σ i v - v} : Set V) ⊆ S := by

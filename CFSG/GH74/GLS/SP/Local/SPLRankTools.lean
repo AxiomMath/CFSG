@@ -38,7 +38,7 @@ theorem rankCertified_one_of_quasisimple {K : Type} [Group K] [Finite K]
   have hnc : ¬ IsCyclic ↥(S : Subgroup K) :=
     CFSG.TwoRankLowerBound.Helpers.sylow_two_not_isCyclic_of_perfect K heven S
   refine rankCertified_of_not_sectionalTwoRankLE fun hle => hnc ?_
-  obtain ⟨s, hs, hcl⟩ := hle (S : Subgroup K) S.isPGroup'
+  obtain ⟨s, hs, hcl⟩ := hle (S : Subgroup K) S.isPGroup
   rw [← hcl]
   exact isCyclic_closure_of_card_le_one s hs
 

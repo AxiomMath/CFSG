@@ -16,7 +16,7 @@ section Group
 theorem exists_sylow_mem_pair {C : Type*} [Group C] [Finite C] {x y : C} (hx : x ^ 3 = 1)
     (hy : y ^ 3 = 1) (hxy : x * y = y * x) :
     ∃ Q : Sylow 3 C, x ∈ (Q : Subgroup C) ∧ y ∈ (Q : Subgroup C) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set K : Subgroup C := closure ({x, y} : Set C) with hK
   have hpair : ({x, y} : Set C).Pairwise Commute := by
     intro u hu v hv _
@@ -81,7 +81,7 @@ theorem mem_zpowers_of_sylow_nine {C : Type*} [Group C] [Finite C]
     (hfac : (Nat.card C).factorization 3 = 2) {c : C} (hc : orderOf c = 9) {x y : C}
     (hx : x ^ 3 = 1) (hy : y ^ 3 = 1) (hxy : x * y = y * x) (hx1 : x ≠ 1) :
     y ∈ zpowers x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q₁, hxQ, hyQ⟩ := exists_sylow_mem_pair hx hy hxy
   have hcp : IsPGroup 3 (zpowers c) := by
     intro g
@@ -126,7 +126,7 @@ theorem mem_zpowers_of_sylow_three {C : Type*} [Group C] [Finite C]
     (hfac : (Nat.card C).factorization 3 = 1) {x y : C}
     (hx : x ^ 3 = 1) (hy : y ^ 3 = 1) (hxy : x * y = y * x) (hx1 : x ≠ 1) :
     y ∈ zpowers x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hxQ, hyQ⟩ := exists_sylow_mem_pair hx hy hxy
   have hQcard : Nat.card Q = 3 := by rw [Sylow.card_eq_multiplicity, hfac]; norm_num
   have hxo : orderOf x = 3 := orderOf_eq_prime hx hx1
@@ -234,7 +234,7 @@ theorem j3_perm_no_involution
     {r x y : Equiv.Perm (Fin 6156)} (hr : r ∈ j3R) (hr2 : r * r = 1) (hr1 : r ≠ 1)
     (hx : x ∈ j3P) (hy : y ∈ j3P) (hx3 : x ^ 3 = 1) (hy3 : y ^ 3 = 1) (hxy : x * y = y * x)
     (hx1 : x ≠ 1) (hrx : r * x = x * r) (hry : r * y = y * r) : y ∈ Subgroup.zpowers x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, -, hrows, hcover, -, -, -⟩ :=
     ctuc_j3_all_involution_fixed_subgroups_odd_core_trivial
   have hord : orderOf r = 2 := orderOf_eq_prime (by rw [sq]; exact hr2) hr1
@@ -321,8 +321,8 @@ theorem j3_aut_to_perm
 theorem j3SylowDichotomy_of_cert :
     J3SylowDichotomy := by
   obtain ⟨hfin, -, -⟩ := CFSG.Sporadic.J3.fam_j3_simplicity
-  haveI := hfin
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hfin
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P₀⟩ := (inferInstance : Nonempty (Sylow 3 NativeSporadic.J3))
   refine ⟨P₀, fun x y _ _ hx3 hy3 hxy hx1 hyx => Or.inr fun τ hτ2 hτ1 ⟨hτx, hτy⟩ => ?_⟩
   obtain ⟨r, hrR, hr2, hr1, hrx, hry⟩ :=

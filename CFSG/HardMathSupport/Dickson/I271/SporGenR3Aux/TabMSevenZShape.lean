@@ -33,7 +33,7 @@ theorem tabMSeven_shape_of_not_conj_dG
     (hQ16 : ∃ S : Subgroup Gmat, S ≤ Subgroup.centralizer ({z} : Set Gmat) ∧
       Nonempty (↥S ≃* QuaternionGroup 4)) :
     ShapeRkAt' 7 (GoodSpor 7 [.He]) (RkSpor 7 [.He]) z := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   have hO : GLAPPrimeCoreOf 7 (Subgroup.centralizer ({z} : Set Gmat)) = ⊥ :=
     gLAPPrimeCoreOf_eq_bot_of_isConj' (isConj_zG_of_not_conj hz hzd).symm gLAPPrimeCoreOf_zG
   obtain ⟨S, hSC, ⟨eS⟩⟩ := hQ16

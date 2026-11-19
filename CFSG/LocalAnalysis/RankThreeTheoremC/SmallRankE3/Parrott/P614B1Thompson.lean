@@ -39,7 +39,7 @@ theorem hasNormalPComplement_centralizer_of_inf (hS : Setting G) (hU0 : FullCore
     (hx : SmallRankPoint P M x) (hz : SmallRankCentral P z)
     (hMC : CFSG.HasNormalPComplement 3 ↥(M ⊓ centralizer ({x} : Set G))) :
     CFSG.HasNormalPComplement 3 ↥(centralizer ({x} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPM : (P : Subgroup G) ≤ M :=
     (sylow_le_of_isCoreMaxLocal hS hsit.mem_sigmaA hsit.isCoreMaxLocal).1
   have hCx : CFSG.Open.pRank 3 (centralizer ({x} : Set G)) ≤ 2 := by
@@ -53,7 +53,7 @@ theorem hasNormalPComplement_centralizer_of_inf (hS : Setting G) (hU0 : FullCore
   have hpl := SmallRankPlane.of_situation hS hsit hx hz
   have hNB : normalizer (B : Set G) ≤ M := normalizer_plane_le hS hU0 hsit hx hz
   have hPxC : Px ≤ C := inf_le_right
-  have hPx3 : IsPGroup 3 Px := P.isPGroup'.to_le inf_le_left
+  have hPx3 : IsPGroup 3 Px := P.isPGroup.to_le inf_le_left
   have hBC : B ≤ C := sup_le (zpowers_le.mpr (mem_centralizer_singleton_iff.mpr rfl))
     (zpowers_le.mpr (mem_centralizer_singleton_iff.mpr
       (mem_centralizer_iff.mp hz.centralizes x hx.mem).symm))

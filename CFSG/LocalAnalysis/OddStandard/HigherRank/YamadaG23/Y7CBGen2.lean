@@ -26,7 +26,7 @@ private theorem isElemAbelian_top_iff {Γ : Type} [Group Γ] {X : Subgroup Γ} :
       have hx2 := h.2 ⟨x, hx⟩ trivial
       simpa using congrArg (fun z : X => (z : Γ)) hx2
   · intro h
-    haveI := h.1
+    have := h.1
     refine ⟨IsMulCommutative.of_comm ?_, ?_⟩
     · intro a b
       exact Subtype.ext (mul_comm' a.1 b.1)

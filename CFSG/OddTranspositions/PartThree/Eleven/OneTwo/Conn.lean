@@ -53,8 +53,8 @@ theorem not_almostSimpleCase_of_localTwoA5 (h91 : Theorem9_1)
   intro hAS
   classical
   obtain ⟨M, hMnorm, hMmin, hMuniq, hMsimple, hCen, hidx, hW, hclass⟩ := hAS
-  haveI : M.Normal := hMnorm
-  haveI : IsSimpleGroup M := hMsimple
+  have : M.Normal := hMnorm
+  have : IsSimpleGroup M := hMsimple
   let N : Subgroup Y := M ⊔ Subgroup.zpowers d
   have hdN : d ∈ N := Subgroup.mem_sup_right (Subgroup.mem_zpowers d)
   let dN : N := ⟨d, hdN⟩
@@ -208,7 +208,7 @@ theorem not_almostSimpleCase_of_localTwoA5 (h91 : Theorem9_1)
             rw [← hmap]
             exact (Subgroup.map_eq_bot_iff (commutator Y) (f := π)).mpr
               (by rw [QuotientGroup.ker_mk']; exact hcomm_le_M)
-          haveI hcommQ : IsMulCommutative (Y ⧸ M) :=
+          have hcommQ : IsMulCommutative (Y ⧸ M) :=
             (commutator_eq_bot_iff (Y ⧸ M)).mp hbot
           intro a b
           exact hcommQ.is_comm.comm (π a) (π b)

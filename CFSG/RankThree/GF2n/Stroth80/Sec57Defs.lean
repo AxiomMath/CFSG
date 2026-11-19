@@ -28,7 +28,7 @@ theorem genByB_of_CQt (hc : Ctx M Q Z B) (hgen : GenByB M Q B) (h5 :
     {B' : Subgroup G} (hc' : Ctx M Q Z B') : GenByB M Q B' := by
   classical
   have H := hc.hyp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZn : ∀ m ∈ M, ∀ z ∈ Z, m * z * m⁻¹ ∈ Z := fun m hm z hz =>
     (Subgroup.mem_normalizer_iff.mp (H.Z_normal.2 hm) z).mp hz
   have hZQ : Z ≤ Q := H.Z_normal.1
@@ -70,7 +70,7 @@ theorem genByB_of_CQt (hc : Ctx M Q Z B) (hgen : GenByB M Q B) (h5 :
       simp only [f, Subgroup.coe_mul, Subgroup.coe_inv]; group
     rw [this]
     exact hZn l (hLM l.2) _ (by simpa using hab)
-  letI act : MulAction ↥L (↥N ⧸ Z.subgroupOf N) :=
+  let act : MulAction ↥L (↥N ⧸ Z.subgroupOf N) :=
     { smul := fun l => Quotient.map' (f l) (fun a b hab => by
         rw [QuotientGroup.leftRel_apply] at hab ⊢; exact hf l a b hab)
       one_smul := fun q => by
@@ -121,7 +121,7 @@ theorem genByB_of_CQt (hc : Ctx M Q Z B) (hgen : GenByB M Q B) (h5 :
   obtain ⟨q, hqfix, hq1⟩ : ∃ q ∈ MulAction.fixedPoints ↥L (↥N ⧸ Z.subgroupOf N),
       q ≠ ((1 : ↥N) : ↥N ⧸ Z.subgroupOf N) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : (MulAction.fixedPoints ↥L (↥N ⧸ Z.subgroupOf N)).Subsingleton :=
       fun a ha b hb => (hcon a ha).trans (hcon b hb).symm
     have hcard : Nat.card (MulAction.fixedPoints ↥L (↥N ⧸ Z.subgroupOf N)) = 1 := by
@@ -176,7 +176,7 @@ theorem genByB_of_CQt (hc : Ctx M Q Z B) (hgen : GenByB M Q B) (h5 :
   clear_value a
   obtain ⟨c, hcQ, hca⟩ : ∃ c ∈ Q, c * a ≠ a * c := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply haZ
     rw [H.hZ, cen_eq]
     exact Subgroup.mem_inf.mpr ⟨haQ, Subgroup.mem_centralizer_iff.mpr fun c hc => (hcon c hc)⟩

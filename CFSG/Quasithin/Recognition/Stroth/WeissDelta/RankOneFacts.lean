@@ -48,7 +48,7 @@ private lemma card_eq_of_regular {X Ω : Type*} [Group X] [Finite X] [MulAction 
       exact ⟨r, Subtype.ext hr⟩
   let e : R ≃ {α : Ω // α ≠ ω} := Equiv.ofBijective _ hbij
   have hcardR : Nat.card R = Nat.card {α : Ω // α ≠ ω} := Nat.card_congr e
-  haveI : Finite {α : Ω // α ≠ ω} := Finite.of_injective e.symm e.symm.injective
+  have : Finite {α : Ω // α ≠ ω} := Finite.of_injective e.symm e.symm.injective
   have hcardΩ : Nat.card Ω = Nat.card {α : Ω // α ≠ ω} + 1 := by
     rw [← Nat.card_congr (Equiv.optionSubtypeNe ω)]
     exact Finite.card_option
@@ -297,7 +297,7 @@ theorem rankOneRoot_of_centralizer {X Ω : Type*} [Group X] [Finite X]
     refine ⟨(Subgroup.le_normalizer_iff.mp hTnormSup) t ht q hq.1, ?_⟩
     exact Gω'.mul_mem (Gω'.mul_mem ht.2 hq.2) (Gω'.inv_mem ht.2)
   have hcop : Nat.Coprime (Nat.card Q₁) (Nat.card T) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := hQ₁2.exists_card_eq
     rw [hk]
     exact (Nat.coprime_two_left.mpr
@@ -422,7 +422,7 @@ theorem rankOneTransitive_of_zassenhaus {X Ω : Type*} [Group X] [Finite X]
       intro h1
       exact hconj_ne t (congrArg Subtype.val h1)⟩
   have hSubCard : Nat.card {r : R // r ≠ 1} = Nat.card T := by
-    haveI : Fintype R := Fintype.ofFinite R
+    have : Fintype R := Fintype.ofFinite R
     have h1 : Nat.card {r : R // r ≠ 1} = Nat.card R - 1 := by
       rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card,
         Fintype.card_subtype_compl (fun r : R => r = 1)]

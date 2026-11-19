@@ -34,7 +34,7 @@ theorem card_alternatingGroup_fin_six : Nat.card (alternatingGroup (Fin 6)) = 36
 
 theorem center_eq_bot_of_alt7 {X : Type} [Group X] (e : X ≃* alternatingGroup (Fin 7)) :
     center X = ⊥ := by
-  haveI := alt7_simple
+  have := alt7_simple
   rw [eq_bot_iff]
   intro x hx
   rw [Subgroup.mem_bot]
@@ -57,7 +57,7 @@ theorem card_quotient_center_alt7 {X : Type} [Group X] (e : X ≃* alternatingGr
 
 theorem isComponent_of_alt7 {G : Type} [Group G] (D : Subgroup G) [D.Normal]
     (e : ↥D ≃* alternatingGroup (Fin 7)) : CFSG.IsComponent D := by
-  haveI := alt7_simple
+  have := alt7_simple
   have hs : IsSimpleGroup ↥D := e.isSimpleGroup
   have hna : ∃ a b : ↥D, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := alt7_nonab
@@ -114,7 +114,7 @@ theorem noInnerZ2_alt7 : NoInnerZ2 (alternatingGroup (Fin 7)) := by
   have hfix : fixedSubgroup (MulAut.conj z : MulAut S) = centralizer ({z} : Set S) :=
     CFSG.SeitzReduction.SporadicRefine.fixedSubgroup_conj_eq_centralizerOf z
   obtain ⟨D, hDn, ⟨eD⟩⟩ := exists_normal_alt7_of_prod ((MulEquiv.subgroupCongr hfix).trans e)
-  haveI := hDn
+  have := hDn
   have hD : CFSG.IsComponent D := isComponent_of_alt7 D eD
   have hcard : Nat.card (↥D ⧸ center ↥D) = 2520 := card_quotient_center_alt7 eD
   obtain ⟨eQ⟩ := quotient_center_iso_alt7 eD
@@ -164,7 +164,7 @@ theorem noOuterFixed_alt7 : NoOuterFixed (alternatingGroup (Fin 7)) := by
 
 theorem catZ2A7_holds :
     CFSG.EvenSporadicStandard.CatNoAlmostSimpleZ2 (alternatingGroup (Fin 7)) := by
-  haveI := alt7_simple
+  have := alt7_simple
   exact catNoAlmostSimpleZ2_of_noInner_noOuter alt7_nonab noInnerZ2_alt7 noOuterFixed_alt7
 
 end CFSG.ComponentClassification.CatFC

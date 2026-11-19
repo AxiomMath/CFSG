@@ -21,7 +21,7 @@ theorem exists_fourGroup_of_classicalMember
       IsTwoComponentIn (J.map L.subtype) (centralizer (W : Set G)) ∧
       IsMTypeSchur p ↥(J.map L.subtype) ∧
       IsSLTwoOver (p ^ f) (↥(J.map L.subtype) ⧸ pPrimeCore 2 ↥(J.map L.subtype)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hu'2 : orderOf ((u : ↥L) : G) = 2 := by
     rw [Subgroup.orderOf_coe, hJ.orderOf_eq_two]
   have ht1 : t ≠ 1 := by
@@ -73,7 +73,7 @@ theorem exists_fourGroup_of_classicalMember
   have eQ : (↥J ⧸ pPrimeCore 2 ↥J) ≃*
       (↥(J.map L.subtype) ⧸ pPrimeCore 2 ↥(J.map L.subtype)) :=
     QuotientGroup.congr _ _ eJ (CFSG.pPrimeCore_map_iso 2 eJ)
-  letI hFintype : Fintype (GaloisField p f) := Fintype.ofFinite _
+  let hFintype : Fintype (GaloisField p f) := Fintype.ofFinite _
   have hcard : Fintype.card (GaloisField p f) = p ^ f := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card p f (by omega)
@@ -82,7 +82,7 @@ theorem exists_fourGroup_of_classicalMember
     ⟨GaloisField p f, inferInstance, hFintype, hcard,
       ⟨eQ.symm.trans (eO.symm.trans eSL)⟩⟩
   have hperfJ' : Group.IsPerfect ↥(J.map L.subtype) := by
-    haveI : Group.IsPerfect ↥J := hJ.perfect
+    have : Group.IsPerfect ↥J := hJ.perfect
     exact Group.IsPerfect.ofSurjective (f := eJ.toMonoidHom) eJ.surjective
   have hqJ' : IsTwoQuasisimple ↥(J.map L.subtype) :=
     ⟨hperfJ', (Lemma47.sl2_facts (Fact.out : p.Prime) hp2 hf h5 hsl').1⟩

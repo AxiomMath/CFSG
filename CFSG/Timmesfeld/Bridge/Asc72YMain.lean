@@ -91,7 +91,7 @@ theorem q4_data [Finite G] (hS : Setup G D)
   obtain ⟨T₀, hT₀⟩ := hA.exists_le_sylow
   have hmemT : ∀ s ∈ ({u', v', d'} : Set H), s ∈ T₀ := fun s hs =>
     hT₀ (Subgroup.subset_closure hs)
-  obtain ⟨S₀, hS₀⟩ := (T₀.isPGroup'.map H.subtype).exists_le_sylow
+  obtain ⟨S₀, hS₀⟩ := (T₀.isPGroup.map H.subtype).exists_le_sylow
   have hTS : ∀ x : H, x ∈ T₀ → (x : G) ∈ S₀ := fun x hx => hS₀ ⟨x, hx, rfl⟩
   have huS : u ∈ S₀ := hTS u' (hmemT u' (by simp))
   have hvS : v ∈ S₀ := hTS v' (hmemT v' (by simp))

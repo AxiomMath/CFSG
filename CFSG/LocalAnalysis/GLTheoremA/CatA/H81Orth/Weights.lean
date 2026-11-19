@@ -55,7 +55,7 @@ variable [Finite A]
 
 theorem card_subgroup_ne_zero (hp : p.Prime) (hA : ∀ a : A, a ^ p = 1) (hpK : (p : K) ≠ 0)
     (U : Subgroup A) : (Nat.card U : K) ≠ 0 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hP : IsPGroup p U := fun u => ⟨1, Subtype.ext (by simp [hA])⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hP
   rw [hn, Nat.cast_pow]
@@ -63,7 +63,7 @@ theorem card_subgroup_ne_zero (hp : p.Prime) (hA : ∀ a : A, a ^ p = 1) (hpK : 
 
 theorem of_mul_eSub {U : Subgroup A} {a : A} (ha : a ∈ U) :
     MonoidAlgebra.of K A a * eSub U = eSub U := by
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   rw [eSub_eq_sum, mul_smul_comm, Finset.mul_sum]
   simp only [← map_mul]
   congr 1
@@ -75,7 +75,7 @@ include hp hA hpK
 
 theorem mul_eSub_of_invariant {U : Subgroup A} {X : MonoidAlgebra K A}
     (hX : ∀ a ∈ U, MonoidAlgebra.of K A a * X = X) : X * eSub U = X := by
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   rw [eSub_eq_sum, mul_smul_comm, Finset.mul_sum]
   have h1 : ∀ u : U, X * MonoidAlgebra.of K A (u : A) = X := fun u => by
     rw [mul_comm]
@@ -154,24 +154,24 @@ theorem orthogonalIdempotents_eps : OrthogonalIdempotents (eps K A p) := by
 theorem span_eps_eq_top : Ideal.span (Set.range (eps K A p)) = ⊤ := by
   by_contra hne
   obtain ⟨M, hM, hle⟩ := Ideal.exists_le_maximal _ hne
-  letI : Field (MonoidAlgebra K A ⧸ M) := Ideal.Quotient.field M
+  let : Field (MonoidAlgebra K A ⧸ M) := Ideal.Quotient.field M
   let f : MonoidAlgebra K A →ₐ[K] MonoidAlgebra K A ⧸ M := Ideal.Quotient.mkₐ K M
   let φ : A →* (MonoidAlgebra K A ⧸ M) :=
     (f : MonoidAlgebra K A →* MonoidAlgebra K A ⧸ M).comp (MonoidAlgebra.of K A)
   let χ : A →* (MonoidAlgebra K A ⧸ M)ˣ := φ.toHomUnits
-  haveI : Finite χ.range := Finite.of_surjective χ.rangeRestrict χ.rangeRestrict_surjective
+  have : Finite χ.range := Finite.of_surjective χ.rangeRestrict χ.rangeRestrict_surjective
   have hχp : ∀ g : χ.range, g ^ p = 1 := by
     rintro ⟨_, a, rfl⟩
     apply Subtype.ext
     simp [← map_pow, hA a]
-  haveI : IsCyclic χ.range :=
+  have : IsCyclic χ.range :=
     isCyclic_of_injective_ringHom ((Units.coeHom _).comp χ.range.subtype)
       (fun x y hxy => Subtype.ext (Units.ext hxy))
   have hidx : χ.ker.index ∣ p := by
     rw [Subgroup.index_ker, ← IsCyclic.exponent_eq_card]
     exact Monoid.exponent_dvd_of_forall_pow_eq_one hχp
   have himg : f (eSub χ.ker) = 1 := by
-    haveI : Fintype χ.ker := Fintype.ofFinite _
+    have : Fintype χ.ker := Fintype.ofFinite _
     rw [eSub_eq_sum, map_smul, map_sum]
     have h1 : ∀ u : χ.ker, f (MonoidAlgebra.of K A (u : A)) = 1 := fun u => by
       have hu : χ (u : A) = 1 := u.2
@@ -303,11 +303,13 @@ theorem apply_eq_of_mem_weightSpace {H : Subgroup A} {h : A} (hh : h ∈ H) {v :
       rw [mul_sub, of_mul_eSub hh, of_mul_eSub (Subgroup.mem_top h)])
   simpa [map_mul, Representation.asAlgebraHom_of, Module.End.mul_apply] using this
 
+omit [Finite A] in
 theorem apply_asAlgebraHom_comm (X : MonoidAlgebra K A) (a : A) (v : V) :
     ρ a (ρ.asAlgebraHom X v) = ρ.asAlgebraHom X (ρ a v) := by
   have := congrArg (fun x => ρ.asAlgebraHom x v) (mul_comm (MonoidAlgebra.of K A a) X)
   simpa [map_mul, Representation.asAlgebraHom_of, Module.End.mul_apply] using this
 
+omit [Finite A] in
 theorem apply_mem_weightSpace (H : Subgroup A) (a : A) {v : V} (hv : v ∈ weightSpace ρ H) :
     ρ a v ∈ weightSpace ρ H := by
   obtain ⟨w, rfl⟩ := hv
@@ -319,7 +321,7 @@ include hp hA hpK
 
 theorem asAlgebraHom_eSub_apply_of_mem {U : Subgroup A} {v : V} (hv : v ∈ fixedSpace ρ U) :
     ρ.asAlgebraHom (eSub U) v = v := by
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   rw [asAlgebraHom_eSub, LinearMap.smul_apply, LinearMap.sum_apply]
   have h1 : ∀ u : U, ρ (u : A) v = v := fun u => hv u u.2
   simp only [h1, Finset.sum_const, Finset.card_univ]
@@ -370,7 +372,7 @@ theorem iSupIndep_weightFamily : iSupIndep (weightFamily (p := p) ρ) :=
   iSupIndep_range_of_orthogonalIdempotents (orthogonalIdempotents_asAlgebraHom_eps ρ hp hA hpK)
 
 theorem iSup_weightFamily : ⨆ i, weightFamily (p := p) ρ i = ⊤ := by
-  haveI := Fintype.ofFinite (Option (Hyperplane A p))
+  have := Fintype.ofFinite (Option (Hyperplane A p))
   exact iSup_range_eq_top_of_sum_eq_one (sum_asAlgebraHom_eps ρ hp hA hpK)
 
 theorem finrank_eq_fixedSpace_add_sum [FiniteDimensional K V] [Fintype (Hyperplane A p)] :
@@ -519,11 +521,13 @@ private theorem polar_sum_right {ι : Type*} (s : Finset ι) (x : V) (f : ι →
     rw [Finset.sum_insert ha, Finset.sum_insert ha, QuadraticMap.polar_add_right, ih]
 
 include hρQ in
+omit [Finite A] in
 theorem polar_apply_apply (a : A) (x y : V) :
     QuadraticMap.polar Q (ρ a x) (ρ a y) = QuadraticMap.polar Q x y := by
   simp only [QuadraticMap.polar, ← map_add, hρQ]
 
 include hρQ in
+omit [Finite A] in
 theorem polar_apply_left (a : A) (x y : V) :
     QuadraticMap.polar Q (ρ a x) y = QuadraticMap.polar Q x (ρ a⁻¹ y) := by
   have h := polar_apply_apply ρ Q hρQ a x (ρ a⁻¹ y)
@@ -533,7 +537,7 @@ include hρQ in
 theorem polar_asAlgebraHom_eSub_left (U : Subgroup A) (x y : V) :
     QuadraticMap.polar Q (ρ.asAlgebraHom (eSub U) x) y =
       QuadraticMap.polar Q x (ρ.asAlgebraHom (eSub U) y) := by
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   rw [asAlgebraHom_eSub, LinearMap.smul_apply, LinearMap.smul_apply,
     QuadraticMap.polar_smul_left, QuadraticMap.polar_smul_right, LinearMap.sum_apply,
     LinearMap.sum_apply, polar_sum_left, polar_sum_right]
@@ -625,6 +629,7 @@ variable {K : Type*} [Field K] {A : Type*} [CommGroup A] {p : ℕ} [Finite A]
 variable {V : Type*} [AddCommGroup V] [Module K V] (ρ : Representation K A V)
 variable (hp : p.Prime) (hA : ∀ a : A, a ^ p = 1) (hpK : (p : K) ≠ 0)
 
+omit [Finite A] in
 private theorem index_biInf_le (s : Finset (Hyperplane A p)) :
     (⨅ H ∈ s, H.1).index ≤ p ^ s.card := by
   classical
@@ -636,6 +641,7 @@ private theorem index_biInf_le (s : Finset (Hyperplane A p)) :
       _ = p * (⨅ H ∈ s, H.1).index := by rw [a.2]
       _ ≤ p * p ^ s.card := Nat.mul_le_mul_left p ih
 
+omit [Finite A] in
 private theorem card_biInf_erase [DecidableEq (Hyperplane A p)] (hp : p.Prime)
     {T : Finset (Hyperplane A p)} (hT0 : ⨅ H ∈ T, H.1 = ⊥) (hcard : Nat.card A = p ^ T.card)
     {H₀ : Hyperplane A p} (hH₀ : H₀ ∈ T) :
@@ -667,7 +673,7 @@ theorem fixedSpace_eq_biSup (U : Subgroup A) (I : Finset (Option (Hyperplane A p
     (hI' : ∀ i ∉ I, ∀ v ∈ weightFamily ρ i, (∀ u ∈ U, ρ u v = v) → v = 0) :
     fixedSpace ρ U = ⨆ i ∈ I, weightFamily (p := p) ρ i := by
   classical
-  haveI : Fintype (Option (Hyperplane A p)) := Fintype.ofFinite _
+  have : Fintype (Option (Hyperplane A p)) := Fintype.ofFinite _
   apply le_antisymm
   · intro v hv
     have hsum : ∑ i, ρ.asAlgebraHom (eps K A p i) v = v := by
@@ -712,7 +718,7 @@ theorem finrank_fixedSpace_eq [FiniteDimensional K V] {T : Finset (Hyperplane A 
         exact hv
       · have hUH : ¬ U ≤ H.1 := fun hle => hi (Finset.mem_insert_of_mem
           (Finset.mem_image_of_mem some ((hmem H).mpr ⟨hbot, hle⟩)))
-        obtain ⟨u, huU, huH⟩ := SetLike.not_le_iff_exists.mp hUH
+        obtain ⟨u, huU, huH⟩ := IsConcreteLE.not_le_iff_exists.mp hUH
         exact eq_zero_of_mem_weightSpace_of_fixed ρ hp hA hpK huH hv (hfix u huU)
 
 include hp hA hpK in
@@ -728,7 +734,7 @@ theorem apply_sub_mem_weightSpace {H₁ : Hyperplane A p} {y : A}
     (hy : ∀ H : Hyperplane A p, H ≠ H₁ → weightSpace ρ H.1 ≠ ⊥ → y ∈ H.1) (v : V) :
     ρ y v - v ∈ weightSpace ρ H₁.1 := by
   classical
-  haveI : Fintype (Option (Hyperplane A p)) := Fintype.ofFinite _
+  have : Fintype (Option (Hyperplane A p)) := Fintype.ofFinite _
   have hsum : ∑ i, ρ.asAlgebraHom (eps K A p i) v = v := by
     have := congrArg (fun f : Module.End K V => f v) (sum_asAlgebraHom_eps ρ hp hA hpK)
     simpa [LinearMap.sum_apply] using this
@@ -771,7 +777,7 @@ private theorem exists_planes_aux [FiniteDimensional K V] (hρ : Function.Inject
         a ∈ Subgroup.zpowers yy) ∧
       ∀ v : V, ρ zz (ρ yy v - v) = ρ yy v - v := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hT0 : ⨅ H ∈ T, H.1 = ⊥ := iInf_eq_bot_of_faithful ρ hp hA hpK hρ hT
   have hcard' : Nat.card A = p ^ T.card := by rw [hTcard]; exact hcard
   have key : ∀ H₀ ∈ T, ∃ y : A, y ≠ 1 ∧ y ∈ (⨅ H ∈ T.erase H₀, H.1 : Subgroup A) ∧
@@ -871,7 +877,7 @@ theorem exists_planes_of_mem [FiniteDimensional K V] [DecidableEq (Hyperplane A 
         a ∈ Subgroup.zpowers yy) ∧
       ∀ v : V, ρ zz (ρ yy v - v) = ρ yy v - v := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hT0 : ⨅ H ∈ T, H.1 = ⊥ := iInf_eq_bot_of_faithful ρ hp hA hpK hρ hT
   have hcard' : Nat.card A = p ^ T.card := by rw [hTcard]; exact hcard
   have key : ∀ H₀ ∈ T, ∃ y : A, y ≠ 1 ∧ y ∈ (⨅ H ∈ T.erase H₀, H.1 : Subgroup A) ∧
@@ -957,7 +963,7 @@ theorem exists_support [FiniteDimensional K V] {r : ℕ} (hcard : Nat.card A = p
       (∀ H ∈ T, 2 ≤ Module.finrank K (weightSpace ρ H.1)) ∧
       Even (∑ H ∈ T, Module.finrank K (weightSpace ρ H.1)) := by
   classical
-  haveI : Fintype (Hyperplane A p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane A p) := Fintype.ofFinite _
   set T : Finset (Hyperplane A p) := Finset.univ.filter (fun H => weightSpace ρ H.1 ≠ ⊥) with hTdef
   have hT : ∀ H : Hyperplane A p, H ∈ T ↔ weightSpace ρ H.1 ≠ ⊥ := fun H => by simp [hTdef]
   refine ⟨T, hT, ?_, ?_, ?_, ?_⟩
@@ -999,7 +1005,7 @@ theorem exists_config_seven (hcard : Nat.card A = p ^ 3) (hV : Module.finrank K 
       Module.finrank K (weightSpace ρ H₃.1) = 2 ∧
       ∀ H : Hyperplane A p, H ≠ H₁ → H ≠ H₂ → H ≠ H₃ → weightSpace ρ H.1 = ⊥ := by
   classical
-  haveI : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
   obtain ⟨T, hT, hTc, hd, hsum⟩ :=
     exists_support_two ρ hp hA hpK Q hQ h2 hρQ hp2 hρ hcard (r := 3) (by omega)
   obtain ⟨H₁, H₂, H₃, h12, h13, h23, rfl⟩ := Finset.card_eq_three.mp hTc
@@ -1029,7 +1035,7 @@ theorem exists_config_eight_four (hcard : Nat.card A = p ^ 4) (hV : Module.finra
       Module.finrank K (weightSpace ρ H₃.1) = 2 ∧ Module.finrank K (weightSpace ρ H₄.1) = 2 ∧
       ∀ H : Hyperplane A p, H ≠ H₁ → H ≠ H₂ → H ≠ H₃ → H ≠ H₄ → weightSpace ρ H.1 = ⊥ := by
   classical
-  haveI : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
   obtain ⟨T, hT, hTc, hd, hsum⟩ :=
     exists_support_two ρ hp hA hpK Q hQ h2 hρQ hp2 hρ hcard (r := 4) (by omega)
   obtain ⟨H₄, t, hH₄, rfl, ht⟩ := Finset.card_eq_succ.mp hTc
@@ -1065,7 +1071,7 @@ theorem exists_config_eight_three (hcard : Nat.card A = p ^ 3) (hV : Module.finr
       Module.finrank K (weightSpace ρ H₃.1) = 2 ∧
       ∀ H : Hyperplane A p, H ≠ H₁ → H ≠ H₂ → H ≠ H₃ → weightSpace ρ H.1 = ⊥ := by
   classical
-  haveI : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
   have hc : Module.finrank K (fixedSpace ρ ⊤) ≠ 0 := fun h =>
     hfix (Submodule.finrank_eq_zero.mp h)
   obtain ⟨T, hT, hTc, hd, hsum⟩ :=
@@ -1098,7 +1104,7 @@ theorem exists_planes_seven (hcard : Nat.card A = p ^ 3) (hV : Module.finrank K 
         a ∈ Subgroup.zpowers yy) ∧
       ∀ v : V, ρ zz (ρ yy v - v) = ρ yy v - v := by
   classical
-  haveI : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
   obtain ⟨T, hT, hTc, hd, hsum⟩ :=
     exists_support_two ρ hp hA hpK Q hQ h2 hρQ hp2 hρ hcard (r := 3) (by omega)
   obtain ⟨yy, zz, h1, h2', h3, h4, h5⟩ :=
@@ -1114,7 +1120,7 @@ theorem exists_planes_eight_four (hcard : Nat.card A = p ^ 4) (hV : Module.finra
         a ∈ Subgroup.zpowers yy) ∧
       ∀ v : V, ρ zz (ρ yy v - v) = ρ yy v - v := by
   classical
-  haveI : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
   obtain ⟨T, hT, hTc, hd, hsum⟩ :=
     exists_support_two ρ hp hA hpK Q hQ h2 hρQ hp2 hρ hcard (r := 4) (by omega)
   obtain ⟨yy, zz, h1, h2', h3, h4, h5⟩ :=
@@ -1131,7 +1137,7 @@ theorem exists_planes_eight_three (hcard : Nat.card A = p ^ 3) (hV : Module.finr
         a ∈ Subgroup.zpowers yy) ∧
       ∀ v : V, ρ zz (ρ yy v - v) = ρ yy v - v := by
   classical
-  haveI : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K V := Module.finite_of_finrank_pos (by omega)
   have hc : Module.finrank K (fixedSpace ρ ⊤) ≠ 0 := fun h =>
     hfix (Submodule.finrank_eq_zero.mp h)
   obtain ⟨T, hT, hTc, hd, hsum⟩ :=

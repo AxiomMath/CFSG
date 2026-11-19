@@ -19,7 +19,7 @@ theorem burnsideF48d_W2_eq {H : Type*} [Group H] (g : Fin 17 → H)
   have e : burnsideF48s_ev g burnsideF48d_W2 =
       g 5 * (g 0 * g 1 * g 0) * g 12 * (g 0 * g 1 * g 0)⁻¹ * g 5 * (g 0)⁻¹ := by
     simp only [burnsideF48d_W2, burnsideF48s_ev, List.map_cons, List.map_nil, List.prod_cons,
-      List.prod_nil, cond_true, cond_false]
+      List.prod_nil, _root_.Bool.cond_true, Bool.cond_false]
     group
   rw [e] at h
   exact (mul_inv_eq_one.1 h).symm
@@ -266,7 +266,7 @@ theorem burnsideF48d_P1_max : burnsideF48d_P1 ⊓ burnsideF48d_P2 ≤ burnsideF4
     rw [burnsideF48d_mem_P1, burnsideF48d_xy_apt.2.2.2.2.2.2.1] at h1
     exact absurd h1 (by decide)
   · have hcard := burnsideF48d_card_inv_P1 (burnsideF48d_orbF_inv hR.le 0)
-    rw [if_pos (burnsideF48d_self_mem_orbF R 0)] at hcard
+    rw [ite_eq_left (burnsideF48d_self_mem_orbF R 0)] at hcard
     have hRS : Nat.card ↥R = (burnsideF48d_orbF R 0).card * 773778096 := by
       rw [burnsideF48d_card_R R 0, burnsideF48d_stab0, inf_eq_right.2 hR.le, burnsideF48d_card_P1]
     have hdvd : (burnsideF48d_orbF R 0).card ∣ 26572 := by
@@ -312,17 +312,17 @@ theorem burnsideF48d_B_max {Q : Subgroup ↥burnsideF48d_X} (h1 : burnsideF48d_P
     have h0 := (burnsideF48d_mem_P1 z).1 (h2 hz)
     rw [← h0] at hz6
     exact absurd ((z : Equiv.Perm (Fin 26572)).injective hz6) (by decide)
-  rw [if_neg hn0, if_pos (burnsideF48d_self_mem_orbF Q 6),
-    if_neg (hnot 479 (by rw [o479]; norm_num)), if_neg (hnot 15916 (by rw [o15916]; norm_num)),
-    if_neg (hnot 26571 (by rw [o26571]; norm_num))] at hcard
+  rw [ite_eq_right hn0, ite_eq_left (burnsideF48d_self_mem_orbF Q 6),
+    ite_eq_right (hnot 479 (by rw [o479]; norm_num)), ite_eq_right (hnot 15916 (by rw [o15916]; norm_num)),
+    ite_eq_right (hnot 26571 (by rw [o26571]; norm_num))] at hcard
   have hQ : Nat.card ↥Q = (burnsideF48d_orbF Q 6).card * 9211644 := by
     rw [burnsideF48d_card_R Q 6, burnsideF48d_P1_6_eq Q h1 h2, burnsideF48d_card_P1_6]
   by_cases h186 : (186 : Fin 26572) ∈ burnsideF48d_orbF Q 6
-  · rw [if_pos h186] at hcard
+  · rw [ite_eq_left h186] at hcard
     right
     refine Subgroup.eq_of_le_of_card_ge h2 ?_
     rw [hQ, hcard, burnsideF48d_card_P1]
-  · rw [if_neg h186] at hcard
+  · rw [ite_eq_right h186] at hcard
     left
     refine (Subgroup.eq_of_le_of_card_ge h1 ?_).symm
     rw [hQ, hcard, burnsideF48d_card_B]
@@ -350,7 +350,7 @@ theorem burnsideF48d_P2_max :
     rcases burnsideF48d_B_max hB inf_le_right with hRB | hRP
     ·
       have hcard := burnsideF48d_card_inv_P2 (burnsideF48d_orbF_inv hR.le 0)
-      rw [if_pos (burnsideF48d_self_mem_orbF R 0)] at hcard
+      rw [ite_eq_left (burnsideF48d_self_mem_orbF R 0)] at hcard
       have hRS : Nat.card ↥R = (burnsideF48d_orbF R 0).card * 27634932 := by
         rw [burnsideF48d_card_R R 0, burnsideF48d_stab0, hRB, burnsideF48d_card_B]
       have hdvd : (burnsideF48d_orbF R 0).card ∣ 744016 := by
@@ -359,12 +359,12 @@ theorem burnsideF48d_P2_max :
         exact Nat.dvd_of_mul_dvd_mul_right (by norm_num) h
       have h186 : (186 : Fin 26572) ∈ burnsideF48d_orbF R 0 := by
         by_contra h186
-        rw [if_neg h186] at hcard
+        rw [ite_eq_right h186] at hcard
         by_cases h26571 : (26571 : Fin 26572) ∈ burnsideF48d_orbF R 0
-        · rw [if_pos h26571] at hcard
+        · rw [ite_eq_left h26571] at hcard
           rw [hcard] at hdvd
           norm_num at hdvd
-        · rw [if_neg h26571] at hcard
+        · rw [ite_eq_right h26571] at hcard
           have hle : Nat.card ↥R ≤ Nat.card ↥burnsideF48d_P2 := by
             rw [hRS, hcard, burnsideF48d_card_P2]
           exact hR.ne (Subgroup.eq_of_le_of_card_ge hR.le hle)

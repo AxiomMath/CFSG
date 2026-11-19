@@ -168,7 +168,7 @@ private lemma herm_shift_self {y : Fin m → F} (hinvol : ∀ c, σ (σ c) = c)
   have hye' : herm σ y e = 0 := herm_eq_zero_comm σ hinvol hye
   have hyf' : herm σ y f = 0 := herm_eq_zero_comm σ hinvol hyf
   simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, hf, he,
-    hye, hyf, hye', hyf', hef, hfe, mul_zero, mul_one, zero_mul, add_zero, zero_add]
+    hye, hyf, hye', hyf', hef, hfe, mul_zero, mul_one, add_zero, zero_add]
   ring
 
 theorem suConf_center_f [CharP F 2] (he : herm σ e e = 0) (hf : herm σ f f = 0)

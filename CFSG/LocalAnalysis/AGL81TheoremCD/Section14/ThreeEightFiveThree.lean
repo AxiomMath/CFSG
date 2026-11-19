@@ -31,9 +31,9 @@ theorem centralizerHasPElementOutside_three_of_nineFourListGroup {X : Type} [Gro
     {N : Subgroup X} (hN : IsStronglyPEmbedded 3 N) :
     CentralizerHasPElementOutside 3 N := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar Nat.prime_three hO hN
-  haveI : (CFSG.generalizedFitting X).Normal := hKn
+  have : (CFSG.generalizedFitting X).Normal := hKn
   obtain ⟨-, i, hi, ⟨e⟩⟩ := hF
   cases i with
   | cyclic _ _ => exact hi.elim

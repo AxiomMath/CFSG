@@ -29,7 +29,7 @@ theorem exists_radicals (c : L34Cover A) (hNZ : standardComponentOddCore A ≤ c
   have hN : Odd (Nat.card N) := RankTwoSporadic.odd_card_standardComponentOddCore
   set p := QuotientGroup.mk' N with hpdef
   have hp : Function.Surjective p := QuotientGroup.mk'_surjective N
-  have hTN : (T : Subgroup A) ⊓ N = ⊥ := inf_eq_bot_of_isPGroup T.isPGroup' hN
+  have hTN : (T : Subgroup A) ⊓ N = ⊥ := inf_eq_bot_of_isPGroup T.isPGroup hN
   obtain ⟨π', hsurj', hker', hTb⟩ := exists_std_cover c T
   have hCZ' : π'.ker ≤ center (A ⧸ N) := hker' ▸ c.ker_le_center
   have helem' : CFSG.IsElementaryAbelian 2 π'.ker := hker' ▸ c.elem

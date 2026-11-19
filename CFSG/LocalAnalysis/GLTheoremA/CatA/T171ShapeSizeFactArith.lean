@@ -30,7 +30,7 @@ private theorem te6P_odd {n : ℕ} (hn : 1 ≤ n) : Odd (te6P (2 ^ n)) := by
     (odd_pow_two_pow_add_one hn (by norm_num))).mul
     (odd_pow_two_pow_sub_one hn (by norm_num))
 
-private theorem gcd_dvd_te6P {n : ℕ} (hn : 1 ≤ n) : Nat.gcd 3 (2 ^ n + 1) ∣ te6P (2 ^ n) := by
+private theorem gcd_dvd_te6P {n : ℕ} (_hn : 1 ≤ n) : Nat.gcd 3 (2 ^ n + 1) ∣ te6P (2 ^ n) := by
   have h9 : Nat.gcd 3 (2 ^ n + 1) ∣ (2 ^ n) ^ 9 + 1 := by
     have h := Odd.nat_add_dvd_pow_add_pow (2 ^ n) 1 (by decide : Odd 9)
     rw [one_pow] at h

@@ -10,6 +10,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem conj_inv_mul_comm {g x y : G} (h : x * (g * y * g⁻¹) = g * y * g⁻¹ * x) :
     g⁻¹ * x * g⁻¹⁻¹ * y = y * (g⁻¹ * x * g⁻¹⁻¹) :=
   calc g⁻¹ * x * g⁻¹⁻¹ * y = g⁻¹ * (x * (g * y * g⁻¹)) * g := by group

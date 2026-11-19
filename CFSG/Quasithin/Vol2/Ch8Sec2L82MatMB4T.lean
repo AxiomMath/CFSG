@@ -63,7 +63,7 @@ theorem mb4bc_of_map (e : V ≃* W) (H X : Subgroup (MulAut V))
         rw [hs, map_mul, map_inv]
       show congrHom e z (e.toMonoidHom b) * (e.toMonoidHom b)⁻¹ ∈ fixV (X.map (congrHom e))
       rw [fixV_map_congrHom]
-      exact ⟨_, hzb, by simpa using e1.symm⟩
+      exact ⟨_, hzb, by simp⟩
   ·
     intro S hSN hSp hidx
     have hS' : S.map (congrHom e) ≤ H.map (congrHom e) ⊓ stabSub (fixV (X.map (congrHom e))) := by

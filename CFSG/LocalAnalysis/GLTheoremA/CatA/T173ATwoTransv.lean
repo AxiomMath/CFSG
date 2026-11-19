@@ -62,8 +62,8 @@ theorem lin_two_nsub_generate {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     match o with
     | none => Fin (Module.finrank (ZMod 2) V0)
     | some _ => Fin 2
-  letI : ∀ o, Fintype (α o) := fun o => by cases o <;> infer_instance
-  letI : ∀ o, DecidableEq (α o) := fun o => by cases o <;> infer_instance
+  let : ∀ o, Fintype (α o) := fun o => by cases o <;> infer_instance
+  let : ∀ o, DecidableEq (α o) := fun o => by cases o <;> infer_instance
   let v : ∀ o, Basis (α o) (ZMod 2) (S o) := fun o =>
     match o with
     | none => Module.finBasis (ZMod 2) V0
@@ -94,15 +94,15 @@ theorem lin_two_nsub_generate {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
       cases hi : i.1 with
       | none =>
         cases hj : j.1 with
-        | none => exact ⟨⟨0, by omega⟩, by simp [hi], by simp [hj]⟩
+        | none => exact ⟨⟨0, by omega⟩, by simp, by simp⟩
         | some c' =>
           obtain ⟨k, hk⟩ := exists_fin_ne_two hr c' c'
-          exact ⟨k, by simp [hi], by simpa [hj] using (Ne.symm hk.1)⟩
+          exact ⟨k, by simp, by simpa [hj] using (Ne.symm hk.1)⟩
       | some a =>
         cases hj : j.1 with
         | none =>
           obtain ⟨k, hk⟩ := exists_fin_ne_two hr a a
-          exact ⟨k, by simpa [hi] using (Ne.symm hk.1), by simp [hj]⟩
+          exact ⟨k, by simpa [hi] using (Ne.symm hk.1), by simp⟩
         | some c' =>
           obtain ⟨k, hk⟩ := exists_fin_ne_two hr a c'
           exact ⟨k, by simpa [hi] using (Ne.symm hk.1),
@@ -153,7 +153,7 @@ theorem lin_two_nsub_generate {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
       constructor
       · rintro ⟨a, ha, rfl⟩
         obtain ⟨o, a'⟩ := a
-        simp only [tIdx, Set.mem_setOf_eq] at ha
+        simp only [tIdx, Set.mem_ofPred_eq] at ha
         change o = some k at ha
         subst o
         exact ⟨a', rfl⟩

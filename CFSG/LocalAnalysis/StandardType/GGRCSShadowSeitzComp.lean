@@ -35,7 +35,7 @@ theorem ggShadow_spEight_component (hyp : GGHypThreeSixteenFlat p H E)
     ggSeitzExc_subgroupOf_ne_top hKH (top_le_iff.mp (h ▸ hD))
   obtain ⟨c⟩ := SpEight.nonempty_mulEquiv_matrixOrthogonal_of_fixedClosure_le e'' E'
     (hp ▸ hE'el) (by rw [hE'card, hp]) hD' hD (ggSeitzExc_subgroupOf_ne_top hKH)
-  haveI := SpEight.isSimpleGroup_commutator_matrixOrthogonal
+  have := SpEight.isSimpleGroup_commutator_matrixOrthogonal
   let c' := SylowOvergroup.commutatorEquiv c
   have hs : IsSimpleGroup ↥(commutator ↥(H.subgroupOf (CFSG.generalizedFitting W))) :=
     c'.isSimpleGroup

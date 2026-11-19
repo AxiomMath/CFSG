@@ -21,8 +21,8 @@ theorem sqt_quotient_center
   let N : Subgroup (⊤ : Subgroup S) := (φ.comp (⊤ : Subgroup S).subtype).ker
   let e : ((⊤ : Subgroup S) ⧸ N) ≃* S ⧸ Subgroup.center S :=
     QuotientGroup.quotientKerEquivOfSurjective _ hsurj
-  haveI : IsSimpleGroup (S ⧸ Subgroup.center S) := hq.2.1
-  haveI : IsSimpleGroup ((⊤ : Subgroup S) ⧸ N) := e.isSimpleGroup
+  have : IsSimpleGroup (S ⧸ Subgroup.center S) := hq.2.1
+  have : IsSimpleGroup ((⊤ : Subgroup S) ⧸ N) := e.isSimpleGroup
   have hnonab : ∃ a b : (⊤ : Subgroup S) ⧸ N, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hq.2.2
     refine ⟨e.symm a, e.symm b, fun h => hab ?_⟩
@@ -37,7 +37,7 @@ theorem false_of_exceptional_odd
     {t : StatedLieTag} {p f : ℕ} (hp2 : p ≠ 2) (hm : ChevalleyExceptionalModel X t p f) :
     False := by
   obtain ⟨⟨hp, hf, hadm⟩, hm'⟩ := hm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfalse : ∀ r : ℕ, r.Prime → r ≠ 2 → 3 ≤ CFSG.Open.pRank r (⊤ : Subgroup X) → False :=
     fun r hr hr2 hrk => by
       have := hX r hr hr2

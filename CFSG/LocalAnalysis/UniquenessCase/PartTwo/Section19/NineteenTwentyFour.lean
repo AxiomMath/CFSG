@@ -39,7 +39,7 @@ theorem nineteen_twentyfour_one (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L 
   have hOodd_le : Oodd H ≤ H := Subgroup.map_subtype_le _
   have hEq : (Oodd H).subgroupOf H = CFSG.pPrimeCore 2 ↥H := by
     ext x
-    simp [Oodd, Subgroup.mem_subgroupOf, Subgroup.mem_map]
+    simp [Oodd]
   have hHnormO : H ≤ normalizer (Oodd H : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hOodd_le).mp (by
       rw [hEq]
@@ -60,7 +60,7 @@ theorem nineteen_twentyfour_one (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L 
     exact (Oodd H).mul_mem
       ((Subgroup.mem_normalizer_iff.mp (hHnormO (hV0H hv)) m).1 hm) ((Oodd H).inv_mem hm)
   have hinf : V₀ ⊓ Oodd H = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     have hp : Nat.card V₀ = 2 ^ mSub V₀ := card_eq_two_pow_mSub hV0p
     have hOodd_card : Nat.card (Oodd H) = Nat.card (CFSG.pPrimeCore 2 ↥H) :=
       Subgroup.card_map_of_injective (K := CFSG.pPrimeCore 2 ↥H) (f := H.subtype)

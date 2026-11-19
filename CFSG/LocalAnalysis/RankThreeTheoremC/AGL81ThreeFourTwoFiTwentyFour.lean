@@ -22,7 +22,7 @@ theorem fi24Seven_sylow_facts
     (hK : Nonempty (K ≃* (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group)) :
     (Nat.card K).factorization 7 = 3 ∧
       ∀ T : Sylow 7 K, ∃ x ∈ (T : Subgroup K), ∃ y ∈ (T : Subgroup K), x * y ≠ y * x := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨eC⟩ := nonempty_mulEquiv_carrier_of_sporadicIndex (s := .Fi24Prime)
     CFSG.Sporadic.Bridge.Fi24.nonempty_mulEquiv hK
   refine ⟨?_, fun T => ?_⟩

@@ -89,7 +89,7 @@ private noncomputable def rckPS_gspIsometryGroupEquiv
     (MulEquiv.subgroupCongr (rckPS_bilinIsometryGroup_map_generalLinearEquiv B))
 
 private theorem rckPS_hom_of_inner {X : Type} [Group X] (G₀ D : Subgroup X)
-    (hDN : D ≤ Subgroup.normalizer (G₀ : Set X))
+    (_hDN : D ≤ Subgroup.normalizer (G₀ : Set X))
     (hZG : Subgroup.center ↥G₀ = ⊥)
     (hinner : ∀ d ∈ D, ∃ g ∈ G₀, d * g ∈ Subgroup.centralizer (G₀ : Set X)) :
     ∃ φ : D →* ↥G₀, ∀ (d : D) (h : ↥G₀),
@@ -263,7 +263,7 @@ private theorem rckPS_simple_statedSp_one {K : Type} [Field K] [Finite K] [CharP
   have hproj : IsSimpleGroup (StatedProj (StatedSp 1 K)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp K 1 (by omega)
       (Or.inl (Or.inr h4))
-  haveI : IsSimpleGroup
+  have : IsSimpleGroup
       (StatedSp 1 K ⧸ (StatedScalars (Fin 1 ⊕ Fin 1) K).subgroupOf (StatedSp 1 K)) := hproj
   have q : (StatedSp 1 K ⧸ (StatedScalars (Fin 1 ⊕ Fin 1) K).subgroupOf (StatedSp 1 K)) ≃*
       StatedSp 1 K :=
@@ -306,7 +306,7 @@ private theorem rckPS_fixer_center_bot {F : Type} [Field F] {V : Type} [AddCommG
           Subgroup.card_eq_card_quotient_mul_card_subgroup _
       _ = 360 * Nat.card (Subgroup.center ↥J) := by rw [h1]
   have hcpos : 1 ≤ Nat.card (Subgroup.center ↥J) := by
-    haveI : Nonempty (Subgroup.center ↥J) := ⟨1, Subgroup.one_mem _⟩
+    have : Nonempty (Subgroup.center ↥J) := ⟨1, Subgroup.one_mem _⟩
     exact Nat.card_pos
   have hJdvdH : Nat.card ↥J ∣ Nat.card ↥H := by
     have hcard' : Nat.card ↥(J.subgroupOf H) = Nat.card ↥J :=
@@ -331,7 +331,7 @@ private theorem rckPS_fixer_center_bot {F : Type} [Field F] {V : Type} [AddCommG
       exact (Subgroup.map_eq_bot_iff_of_injective (Subgroup.center ↥H) e.injective).mp hmap
     have hsimple_goal : IsSimpleGroup ↥H → Subgroup.center ↥J = ⊥ := by
       intro hsimpleH
-      haveI : IsSimpleGroup ↥H := hsimpleH
+      have : IsSimpleGroup ↥H := hsimpleH
       have hsubH : (J.subgroupOf H).IsSubnormal := hJ.2.1.subgroupOf
       rcases Subgroup.IsSubnormal.eq_bot_or_top_of_isSimpleGroup hsimpleH hsubH with hbot | htop
       · have hJbot : J = ⊥ := by
@@ -366,7 +366,7 @@ private theorem rckPS_fixer_center_bot {F : Type} [Field F] {V : Type} [AddCommG
           rw [hcard]
           calc 4 = 2 ^ 2 := by norm_num
             _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf2
-        haveI : IsSimpleGroup (StatedSp 1 F) :=
+        have : IsSimpleGroup (StatedSp 1 F) :=
           (rckPS_simple_statedSp_one (K := F) hcard h4).2
         exact hsimple_goal (MulEquiv.isSimpleGroup e)
     · by_cases hr2 : r = 2
@@ -388,7 +388,7 @@ private theorem rckPS_fixer_center_bot {F : Type} [Field F] {V : Type} [AddCommG
             omega
           rw [Subgroup.eq_bot_iff_forall]
           intro z hz
-          haveI : Subsingleton (Subgroup.center ↥J) :=
+          have : Subsingleton (Subgroup.center ↥J) :=
             Finite.card_le_one_iff_subsingleton.mp (le_of_eq hc1)
           exact congrArg Subtype.val (Subsingleton.elim (⟨z, hz⟩ : Subgroup.center ↥J) 1)
         · have h4 : 4 ≤ Nat.card F := by
@@ -403,7 +403,7 @@ private theorem rckPS_fixer_center_bot {F : Type} [Field F] {V : Type} [AddCommG
           have hne : (2, 2 ^ f) ≠ (2, 2) := by
             intro h
             exact hF2 (hcard.trans (congrArg Prod.snd h))
-          haveI : IsSimpleGroup (StatedSp 2 F) :=
+          have : IsSimpleGroup (StatedSp 2 F) :=
             (rckPS_simple_statedSp (K := F) (n := 2) (e := f) (by omega) hcard hne).2
           exact hsimple_goal (MulEquiv.isSimpleGroup e)
       · have hr3 : 3 ≤ r := by omega
@@ -411,7 +411,7 @@ private theorem rckPS_fixer_center_bot {F : Type} [Field F] {V : Type} [AddCommG
           intro h
           have := congrArg Prod.fst h
           omega
-        haveI : IsSimpleGroup (StatedSp r F) :=
+        have : IsSimpleGroup (StatedSp r F) :=
           (rckPS_simple_statedSp (K := F) (n := r) (e := f) (by omega) hcard hne).2
         exact hsimple_goal (MulEquiv.isSimpleGroup e)
 
@@ -471,7 +471,7 @@ private theorem rckPS_center_bot_of_component {F : Type} [Field F] {V : Type} [A
     Subgroup.center ↥J = ⊥ := by
   classical
   have hfin : Finite (V ≃ₗ[F] V) := finite_linearEquiv (K := F) (V := V)
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype P := Fintype.ofFinite P
   let W : Submodule F V := ggA6SpFixed P
   let W' : Submodule F V := B.orthogonal W
   obtain ⟨hWnd, hWcompl⟩ := ggA6_sp_fixed_nondegenerate B hB hnd P hPB hodd
@@ -492,7 +492,7 @@ private theorem rckPS_center_bot_of_component {F : Type} [Field F] {V : Type} [A
       IsComponentOf.of_le_of_le hJ hJleFixer hFixer_le
     exact rckPS_fixer_center_bot B hB hnd W hWnd hcard hJcomp hA6 hZ
   · exfalso
-    haveI : IsMulCommutative ↥P := ⟨⟨fun a b => Subtype.ext (hab a.1 a.2 b.1 b.2)⟩⟩
+    have : IsMulCommutative ↥P := ⟨⟨fun a b => Subtype.ext (hab a.1 a.2 b.1 b.2)⟩⟩
     have hnil : Group.IsNilpotent ↥P := inferInstance
     have hlie : GGA6CharTwoLie ↥J := ggA6_sp_freeShape B hB hnd P hPB hodd hnil hJ hJfixW
     have hA6c : Subgroup.center (alternatingGroup (Fin 6)) = ⊥ :=
@@ -644,7 +644,7 @@ theorem rck_A6_PSp_center
     intro h2
     exact hoddD (h2.trans hdvd)
   have habPiso : ∀ a ∈ Piso, ∀ b ∈ Piso, a * b = b * a := by
-    haveI : IsMulCommutative ↥D := hD.1
+    have : IsMulCommutative ↥D := hD.1
     intro a ha b hb
     rcases ha with ⟨a', ha', rfl⟩
     rcases hb with ⟨b', hb', rfl⟩

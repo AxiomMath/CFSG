@@ -445,7 +445,7 @@ private theorem nine3_closure_card :
       Nat.card ↥(Subgroup.closure (Star3T.cent (Set.range nine3D) (nine3D 0))) :=
     Nat.card_le_card_of_injective f hf
   have h2 : Nat.card (Fin 4 → Bool) = 16 := by
-    simp [Nat.card_eq_fintype_card, Fintype.card_fun]
+    simp [Nat.card_eq_fintype_card]
   omega
 
 theorem nine3_weylD4_recognition {D : Set Γ} (hTT : Star3T.IsTT D) (hS : Star3T.IsStar D)
@@ -505,10 +505,10 @@ theorem nine3OddFrame_four_equiv {π : Γ →* Equiv.Perm (ZMod 3)} {D : Set Γ}
     have hcomm : F.Pairwise Commute := by
       intro u hu v hv _
       exact h.comm u hu.1 v hv.1 (hu.2.trans hv.2.symm)
-    haveI : Finite ↥F := Finite.of_injective (Subtype.val : ↥F → Γ) Subtype.val_injective
-    haveI : Fintype ↥F := Fintype.ofFinite ↥F
-    haveI : IsMulCommutative E := Subgroup.isMulCommutative_closure hcomm
-    letI : CommGroup E := IsMulCommutative.instCommGroup
+    have : Finite ↥F := Finite.of_injective (Subtype.val : ↥F → Γ) Subtype.val_injective
+    have : Fintype ↥F := Fintype.ofFinite ↥F
+    have : IsMulCommutative E := Subgroup.isMulCommutative_closure hcomm
+    let : CommGroup E := IsMulCommutative.instCommGroup
     let φ : ↥F → E := fun d => ⟨(d : Γ), Subgroup.subset_closure d.2⟩
     have hφ_sq : ∀ d : ↥F, φ d * φ d = 1 := by
       intro d

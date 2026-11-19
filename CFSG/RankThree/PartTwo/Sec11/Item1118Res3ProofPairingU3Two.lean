@@ -94,7 +94,7 @@ theorem d4PairingTransTwo_of_mod_two
     KS11Lie4Proof.d4ShortSL2 K σ.toRingHom with hS
   obtain ⟨ℓ, f, hℓ, hf, rfl⟩ :=
     CFSG.RankThree.PartTwo.Sec11.KS11Lie5Proof.exists_prime_pow_of_card_eq_cube hK
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hℓ3 : ℓ ≠ 3 := by
     rintro rfl
     have h0 : 3 ^ f % 3 = 0 := Nat.mod_eq_zero_of_dvd (dvd_pow_self 3 (by omega))

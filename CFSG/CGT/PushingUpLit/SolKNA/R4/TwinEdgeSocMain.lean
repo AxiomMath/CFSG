@@ -42,7 +42,7 @@ theorem soc_mem_normalizer_core {K D : Subgroup G} [D.Normal] {y : G}
   rw [Subgroup.mem_normalizer_iff] at hyc ⊢
   intro h
   rw [Subgroup.mem_inf, Subgroup.mem_inf, hyc h]
-  haveI hDn : D.Normal := inferInstance
+  have hDn : D.Normal := inferInstance
   exact and_congr_right fun _ => ⟨fun hh => hDn.conj_mem h hh y, fun hh => by
     have := hDn.conj_mem _ hh y⁻¹
     simpa [mul_assoc] using this⟩
@@ -77,7 +77,7 @@ variable {r : ℕ} {G : Type} [Group G] [Finite G] {J L L₀ : Subgroup G}
 theorem F2ConfigR.false_of_socleFacts (hr : 4 ≤ r) (hc : F2ConfigR r J L L₀)
     (hF : SocleFactsR ↥(socleOf L₀)) {WJ WL : Subgroup G} (hJ : EdgelessSection J WJ)
     (hL : SocTwinFreeSection L WL) : False := by
-  haveI := hc.normal
+  have := hc.normal
   obtain ⟨hJW, hJs, hJg, hJtw, hJedge⟩ := hJ
   obtain ⟨hLW, hLs, hLg, hLtw⟩ := hL
   set Δ := CoreAssembly.conjClass J ∪ CoreAssembly.conjClass L with hΔ
@@ -94,7 +94,7 @@ theorem F2ConfigR.false_of_socleFacts (hr : 4 ≤ r) (hc : F2ConfigR r J L L₀)
     intro K hK P hP
     obtain ⟨e⟩ := hΔh.quat K hK P hP
     refine ⟨e, ?_⟩
-    haveI : NeZero (2 ^ (r - 2)) := hNZ _ rfl
+    have : NeZero (2 ^ (r - 2)) := hNZ _ rfl
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
     have : r = (r - 2) + 2 := by omega
     conv_rhs => rw [this, pow_add]
@@ -184,7 +184,7 @@ theorem F2ConfigR.false_of_socleFacts (hr : 4 ≤ r) (hc : F2ConfigR r J L L₀)
     rw [hc.soc_inf_center_eq_bot hK] at this
     exact Subgroup.mem_bot.mp this
   set D : Subgroup G := L₀ ⊔ Subgroup.center G with hD
-  haveI hDn : D.Normal := inferInstance
+  have hDn : D.Normal := inferInstance
   have hDmk : ∀ {x : G}, x ∈ D → mk x ∈ socleOf L₀ := by
     intro x hx
     obtain ⟨l, hl, c, hcZ, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp hx
@@ -269,7 +269,7 @@ theorem F2ConfigR.false_of_socleFacts (hr : 4 ≤ r) (hc : F2ConfigR r J L L₀)
       have h1 : y * g⁻¹ = g⁻¹ * (g * y * g⁻¹) := by group
       rw [h1, conjSub_mul, hgyN]
     exact soc_mem_normalizer_map mk (soc_mem_normalizer_core hyM)
-  haveI hNZ' : NeZero (2 ^ (r - 2)) := hNZ _ rfl
+  have hNZ' : NeZero (2 ^ (r - 2)) := hNZ _ rfl
   have h4n : 4 ≤ 2 ^ (r - 2) := by
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ (r - 2) := hn2

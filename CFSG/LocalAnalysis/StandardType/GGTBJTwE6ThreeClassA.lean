@@ -62,7 +62,7 @@ theorem ggTwE6Three_weylLift
       GGTorusWeylElt 3 A m ∧ ∀ a : ↥A, Multiplicative.toAdd (Fm.κ (ggConjAut A hN a)) =
         adAct Tag.E6 3 (rootReflection c) (Multiplicative.toAdd (Fm.κ a)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let V : Set (Fin Tag.E6.rank → ZMod 3) := {x | Multiplicative.ofAdd x ∈ Fm.κ.range}
   have hκV : ∀ x, Multiplicative.ofAdd x ∈ Fm.κ.range ↔ x ∈ V := fun _ => Iff.rfl
   have hV : V = Set.univ ∨ V = (NoOffRest.hypE6 : Set (Fin Tag.E6.rank → ZMod 3)) :=
@@ -92,7 +92,7 @@ theorem ggTwE6Three_weylLift
   exact ⟨m, hN, hmJ, hWeyl, fun a => hcoord a⟩
 
 theorem ggTwE6Three_d4Label
-    {n : ℕ} (hn : 2 ≤ n) {K : Type} [Field K] [Finite K]
+    {n : ℕ} (_hn : 2 ≤ n) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ n) ^ 2) {σ : K ≃+* K} {L' : Type} [Group L'] [Finite L']
     {ψ₀ : L' →* ↥(twistedE6RootGroup K σ)} (hker : ψ₀.ker ≤ Subgroup.center L')
     {A : Subgroup (MulAut L')} (Fm : TwE6ThreeFrame (n := n) σ ψ₀ A) {J : Subgroup L'}
@@ -112,11 +112,11 @@ theorem ggTwE6Three_d4Label
         (fun α => v • α) '' parabolicRoots Tag.E6 {j | j ∉ ({0, 5} : Finset (Fin 6))}) :
     GGTwE6D4Label J := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hap : ∀ j, (TableBExc.E6Three.zetaVec Fm.ζ Fm.hζ t₀ j) ^ 3
       = 1 := by
@@ -166,7 +166,7 @@ theorem ggTwE6Three_classA
     (hJ : IsComponentOf J (fixSubgroup (y : MulAut L'))) :
     GGE6ThreeClassA A Fm.κ y J (GGTwE6D4Label J) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd1 := ggTwE6Three_ne_one hker hperf Fm hy1
   obtain ⟨S, e, i, he, hρ, hdT, hqi, hmap⟩ :=
     ggTBJ_twE6_class_setup (p := 3) hn hK hσ h3 Fm.F Fm.hv Fm.hζ ψ₀ hψ₀ hker
@@ -186,7 +186,7 @@ theorem ggTwE6Three_classA
       (hlow c hc)
   ·
     intro hD4
-    haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+    have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
     exact ggTwE6Three_d4Label hn hK hker Fm (Multiplicative.toAdd (Fm.κ y)) inferInstance S e i hρ
       hdT hqi hmap hD4
 

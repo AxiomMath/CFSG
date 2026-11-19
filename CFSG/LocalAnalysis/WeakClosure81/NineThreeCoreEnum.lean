@@ -36,7 +36,7 @@ theorem nine3_exists_enum (hc : Nine3Choice V T A K S X p g x)
   have he₁0 : e₁ 0 = v := by
     simp [e₁, τ₁]
   have h01 : (0 : Fin (n + 1)) ≠ 1 := by
-    haveI : NeZero n := ⟨by omega⟩
+    have : NeZero n := ⟨by omega⟩
     exact Fin.zero_ne_one' (n := n)
   have hne : e₁.symm a ≠ 0 := by
     intro h

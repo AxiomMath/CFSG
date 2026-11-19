@@ -31,7 +31,7 @@ theorem exists_sylow_data (c₁ : Coord L₁ W₁) :
   obtain ⟨Q, hQ⟩ := hPp.exists_le_sylow
   set S := (Q : Subgroup ↥Mb).map Mb.subtype with hS
   have hSM : S ≤ Mb := Subgroup.map_subtype_le _
-  have hSp : IsPGroup 2 ↥S := Q.isPGroup'.map Mb.subtype
+  have hSp : IsPGroup 2 ↥S := Q.isPGroup.map Mb.subtype
   have hSsub : S.subgroupOf Mb = Q := Subgroup.comap_map_eq_self_of_injective
     Subtype.val_injective _
   have hSyl : IsSylowIn 2 S Mb := ⟨hSM, hSp, by

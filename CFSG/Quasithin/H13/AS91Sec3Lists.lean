@@ -71,7 +71,7 @@ theorem sextOfL_sextIdx {s : List ℕ} (h : Native.sextIdx s < 1771) :
   rw [sextFin, sextList_sextIdx h]
 
 theorem smul_octFin {t : Array ℕ} {g : Equiv.Perm (Fin 24)} (h : RepT t g) {i : ℕ}
-    (hi : i < 759) : g • octFin i = maskFin (Native.img t (Native.octList ())[i]!) := by
+    (_hi : i < 759) : g • octFin i = maskFin (Native.img t (Native.octList ())[i]!) := by
   rw [octFin, maskFin_img h]
 
 theorem trioOf_sort3 (a b c : ℕ) :
@@ -80,7 +80,7 @@ theorem trioOf_sort3 (a b c : ℕ) :
   split_ifs <;> ext x <;> simp only [Finset.mem_insert, Finset.mem_singleton] <;> tauto
 
 theorem smul_trioFin {t : Array ℕ} {g : Equiv.Perm (Fin 24)} (h : RepT t g) {p : ℕ}
-    (hp : p < 3795) :
+    (_hp : p < 3795) :
     g • trioFin p = trioOf (Native.imgTrio t (Native.trioList ())[p]!) := by
   rw [trioFin, Native.imgTrio, trioOf_sort3, trioOf, Finset.smul_finset_insert,
     Finset.smul_finset_insert, Finset.smul_finset_singleton, maskFin_img h, maskFin_img h,
@@ -105,7 +105,7 @@ theorem smul_sextOfL {t : Array ℕ} {g : Equiv.Perm (Fin 24)} (h : RepT t g) (s
     exact ⟨maskFin x, ⟨x, hx, rfl⟩, (maskFin_img h x).symm⟩
 
 theorem smul_sextFin {t : Array ℕ} {g : Equiv.Perm (Fin 24)} (h : RepT t g) {q : ℕ}
-    (hq : q < 1771) :
+    (_hq : q < 1771) :
     g • sextFin q = sextOfL (Native.imgSext t (Native.sextList ())[q]!) := by
   rw [sextFin, smul_sextOfL h]
 
@@ -444,7 +444,7 @@ theorem sextList_get {q : ℕ} (hq : q < 1771) {s : List ℕ} (hs : (Native.sext
   subst hs
   have h := sextCheck_true
   simp only [Native.sextCheck, Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, Native.allLt_iff,
-    List.all_eq_true, and_assoc, bne_iff_ne, ne_eq, Bool.or_eq_true] at h
+    List.all_eq_true, and_assoc, Bool.or_eq_true] at h
   obtain ⟨-, -, hall, -, -⟩ := h
   obtain ⟨h1, -, h3, h4, h5, h6, h7, -⟩ := hall q hq
   exact ⟨h1, h3, h4, h5, h6, h7⟩
@@ -453,7 +453,7 @@ theorem sextIdx_sextOf_lt {t : ℕ} (ht : t ∈ Native.tetrads0 ()) :
     Native.sextIdx (Native.sextOf t) < 1771 := by
   have h := sextCheck_true
   simp only [Native.sextCheck, Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, Native.allLt_iff,
-    List.all_eq_true, and_assoc, bne_iff_ne, ne_eq, Bool.or_eq_true] at h
+    List.all_eq_true, and_assoc, Bool.or_eq_true] at h
   obtain ⟨-, -, -, -, htet⟩ := h
   exact (htet t ht).2
 
@@ -479,7 +479,7 @@ theorem sextIdx_imgSext_lt {q : ℕ} (hq : q < 1771) {g : Array ℕ} (hg : g ∈
     Native.sextIdx (Native.imgSext g (Native.sextList ())[q]!) < 1771 := by
   have h := sextCheck_true
   simp only [Native.sextCheck, Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, Native.allLt_iff,
-    List.all_eq_true, and_assoc, bne_iff_ne, ne_eq, Bool.or_eq_true] at h
+    List.all_eq_true, and_assoc, Bool.or_eq_true] at h
   obtain ⟨-, -, hall, -, -⟩ := h
   obtain ⟨-, -, -, -, -, -, -, hgen⟩ := hall q hq
   exact hgen g hg

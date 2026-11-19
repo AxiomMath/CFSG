@@ -41,20 +41,20 @@ private theorem hypDiagLin_apply (P : HypPair Q) (a : F) (x : W) :
 private theorem hypDiagLin_apply_e (P : HypPair Q) (a : F) :
     hypDiagLin P a P.e = a • P.e := by
   rw [hypDiagLin_apply, P.polar_ef, polar_self_eq_zero P.Q_e]
-  simp only [mul_zero, zero_smul, smul_zero, add_zero]
+  simp only [zero_smul, smul_zero, add_zero]
   module
 
 private theorem hypDiagLin_apply_f (P : HypPair Q) (a : F) :
     hypDiagLin P a P.f = a⁻¹ • P.f := by
   rw [hypDiagLin_apply, P.polar_ff, P.polar_fe]
-  simp only [mul_one, mul_zero, zero_smul, smul_zero, add_zero, zero_add, one_smul]
+  simp only [zero_smul, smul_zero, add_zero, one_smul]
   module
 
 private theorem hypDiagLin_apply_perp (P : HypPair Q) (a : F) {r : W} (hr : r ∈ P.perp) :
     hypDiagLin P a r = r := by
   rw [hypDiagLin_apply, polar_comm Q r P.f, polar_comm Q r P.e,
     (P.mem_perp.mp hr).2, (P.mem_perp.mp hr).1]
-  simp only [mul_zero, zero_smul, smul_zero, add_zero]
+  simp only [zero_smul, smul_zero, add_zero]
 
 private theorem hypDiagLin_apply_decomp (P : HypPair Q) (a α β : F) {r : W}
     (hr : r ∈ P.perp) :
@@ -114,7 +114,7 @@ private theorem map_hypDiagLin (P : HypPair Q) {a : F} (ha : a ≠ 0) (x : W) :
   simp
 
 noncomputable def hypDiag (P : HypPair Q) (a : F) (ha : a ≠ 0) : W ≃ₗ[F] W :=
-  LinearEquiv.ofLinear (hypDiagLin P a) (hypDiagLin P a⁻¹) (hypDiagLin_inv' P ha)
+  LinearEquiv.ofLinearMap (hypDiagLin P a) (hypDiagLin P a⁻¹) (hypDiagLin_inv' P ha)
     (hypDiagLin_inv P ha)
 
 private theorem hypDiag_apply (P : HypPair Q) (a : F) (ha : a ≠ 0) (x : W) :
@@ -245,15 +245,16 @@ theorem PlaneFrame.polarNondegOn (D : PlaneFrame Q) : PolarNondegOn Q D.A := by
 
 section CharTwo
 
-variable [CharP F 2]
 
 private noncomputable def hypSwapLin (P : HypPair Q) : W →ₗ[F] W :=
   LinearMap.id + LinearMap.smulRight (polarBilin Q P.e + polarBilin Q P.f) (P.e + P.f)
 
+omit [CharP F 2] in
 private theorem add_self_eq_zero_vec (x : W) (h2 : (2 : F) = 0) : x + x = 0 := by
   have h : (2 : F) • x = 0 := by rw [h2, zero_smul]
   rwa [show (2 : F) • x = x + x by rw [← one_add_one_eq_two, add_smul, one_smul]] at h
 
+omit [CharP F 2] in
 private theorem hypSwapLin_apply (P : HypPair Q) (x : W) :
     hypSwapLin P x = x + (polar Q x P.e + polar Q x P.f) • (P.e + P.f) := by
   simp only [hypSwapLin, LinearMap.add_apply, LinearMap.id_apply, LinearMap.smulRight_apply,
@@ -270,6 +271,7 @@ private theorem hypSwapLin_apply_f (P : HypPair Q) : hypSwapLin P P.f = P.e := b
   have h := add_self_eq_zero_vec (P.f) (CharTwo.two_eq_zero (R := F))
   rw [← add_assoc, add_comm P.f P.e, add_assoc, h, add_zero]
 
+omit [CharP F 2] in
 private theorem hypSwapLin_apply_perp (P : HypPair Q) {r : W} (hr : r ∈ P.perp) :
     hypSwapLin P r = r := by
   rw [hypSwapLin_apply, polar_comm Q r P.e, polar_comm Q r P.f,
@@ -318,7 +320,7 @@ private theorem map_hypSwapLin (P : HypPair Q) (x : W) : Q (hypSwapLin P x) = Q 
   rw [mul_comm, add_zero]
 
 noncomputable def hypSwap (P : HypPair Q) : W ≃ₗ[F] W :=
-  LinearEquiv.ofLinear (hypSwapLin P) (hypSwapLin P) (hypSwapLin_involutive P)
+  LinearEquiv.ofLinearMap (hypSwapLin P) (hypSwapLin P) (hypSwapLin_involutive P)
     (hypSwapLin_involutive P)
 
 private theorem hypSwap_apply (P : HypPair Q) (x : W) : hypSwap P x = hypSwapLin P x := rfl
@@ -335,6 +337,7 @@ theorem hypSwap_mul_self (P : HypPair Q) : hypSwap P * hypSwap P = 1 := by
   rw [LinearEquiv.mul_apply, hypSwap_apply, hypSwap_apply]
   exact LinearMap.congr_fun (hypSwapLin_involutive P) x
 
+omit [CharP F 2] in
 private theorem hypDiag_mul_inv (P : HypPair Q) (a : F) (ha : a ≠ 0) :
     hypDiag P a ha * hypDiag P a⁻¹ (inv_ne_zero ha) = 1 := by
   ext x
@@ -349,6 +352,7 @@ private theorem hypDiag_mul_inv (P : HypPair Q) (a : F) (ha : a ≠ 0) :
         rw [← mul_assoc, inv_mul_cancel₀ ha, one_mul]]
   rfl
 
+omit [CharP F 2] in
 private theorem hypDiag_inv (P : HypPair Q) (a : F) (ha : a ≠ 0) :
     (hypDiag P a ha)⁻¹ = hypDiag P a⁻¹ (inv_ne_zero ha) :=
   inv_eq_of_mul_eq_one_right (hypDiag_mul_inv P a ha)

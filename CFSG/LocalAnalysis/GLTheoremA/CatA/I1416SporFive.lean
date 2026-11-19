@@ -23,12 +23,12 @@ theorem compOK_of_normal_record {n p : ℕ} {P R : Subgroup (Equiv.Perm (Fin n))
     (hxo : orderOf x = p)
     (hcore : GLAPPrimeCoreOf p (Subgroup.centralizer ({x} : Set (Equiv.Perm (Fin n))) ⊓ P) = ⊥)
     (hpD : p ∣ Nat.card ↥D) (hT : TypeOK p ↥D) : CompOK p (⟨x, hxP⟩ : ↥P) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set k : ↥P := ⟨x, hxP⟩ with hk
   set Cq : Subgroup ↥P := Subgroup.centralizer ({k} : Set ↥P) with hCq
   set L : Subgroup ↥P := D.subgroupOf P with hL
   let eL : ↥L ≃* ↥D := Subgroup.subgroupOfEquivOfLe hDP
-  haveI hLs : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr eL).2 hDs
+  have hLs : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr eL).2 hDs
   have hLnab : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨g, hg, h, hh, hgh⟩ := hDnab
     refine ⟨eL.symm ⟨g, hg⟩, eL.symm ⟨h, hh⟩, fun he => hgh ?_⟩
@@ -106,7 +106,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 
 theorem row_J2_five (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) :
     I1416SporRow .J2 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, -, -, hQcard, -⟩, ⟨hlinesSet, -⟩, hrec, hgood, hbad⟩ :=
     R3E_J2_full_five_centralizer_structure
   have hM := j2_autModel
@@ -174,7 +174,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 
 theorem row_Co3_five (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) :
     I1416SporRow .Co3 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrec0, hrec25, hC0, -, hDs, hDnab, hDcard,
     hDcent, -, hC25, -, hAC, hAn, hAcard, -, -, hAc⟩ := R3E_Co3_full_five_centralizer_structures
   have e : CFSG.Blueprint.NativeSporadic.Co3 ≃* ↥co3P := co3PermEquiv
@@ -251,7 +251,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 
 theorem row_He_five (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) :
     I1416SporRow .He 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrec, ⟨hC0, -⟩,
     ⟨hDs, hDnab, hDcard, hDP, hDcent, -⟩⟩ := R3E_He_full_five_centralizer_structures
   have hM := heAutModel
@@ -314,7 +314,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 
 theorem row_Co2_five (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) :
     I1416SporRow .Co2 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrec0, hC0, -, hAC, hAn, hAcard, -, -,
     hAc, hC1, -, hDs, hDnab, hDcard, hDcent, hDcard5⟩ := R3E_Co2_full_five_centralizer_structures
   have e : CFSG.Blueprint.NativeSporadic.Co2 ≃* ↥co2P := co2PermEquiv
@@ -374,7 +374,7 @@ theorem row_Co2_five (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) :
       by_cases h : (j : ℕ) = 0
       · rw [(hrec0 j).2 h]; exact hL0
       · have h1 : co2FiveRecordOf j = 1 := by
-          simp only [co2FiveRecordOf, h, if_false]
+          simp only [co2FiveRecordOf, h, ite_false]
         rw [h1]; exact hL1
     have h := compOK_conj Nat.prime_five hnorm hjP (hmem _) hr
     have heq : (⟨co2FiveTransporter j * co2FiveLine (co2FiveRepLine (co2FiveRecordOf j)) *
@@ -399,7 +399,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 theorem row_He_seven (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) :
     I1416SporRow .He 7 := by
   have hp7 : Nat.Prime 7 := by norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨hp7⟩
+  have : Fact (Nat.Prime 7) := ⟨hp7⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrecmem, -, ⟨hC0, -⟩, ⟨hC1, -⟩, ⟨hC2, -⟩,
     ⟨hA0C, hA0n, hA0P, hA0card, -, -, hA0c⟩, ⟨hDs, hDnab, hDcard, hDP, hDcent, -⟩,
     ⟨hA2C, hA2n, hA2P, hA2card, -, hA2c⟩⟩ := R3E_He_full_seven_centralizer_structures

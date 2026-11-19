@@ -124,6 +124,7 @@ theorem IsMinFam16.mem_centralizer_of_comm_mem (h1 : W16One G) (hS : Std15 G)
   intro x hx
   exact ((Subgroup.mem_centralizer_iff.mp (hle hx)) b (Set.mem_singleton b)).symm
 
+omit [Finite G] in
 theorem mem_centralizer_of_odd_of_mul_conj {W : Subgroup G} {a c : G}
     (ha : a ∈ centralizer (W : Set G)) (hc : c ∈ normalizer (W : Set G))
     (hodd : Odd (orderOf c)) (h2 : ∃ k : ℕ, orderOf (a * c * a⁻¹ * c) = 2 ^ k) :
@@ -187,6 +188,7 @@ theorem mem_centralizer_of_odd_of_mul_conj {W : Subgroup G} {a c : G}
     simpa [pow_two] using h
   exact Subgroup.zpowers_le.mpr hcc_cent hc_z
 
+omit [Finite G] in
 private theorem le_normalizer_centralizer_of_le_normalizer {L Z : Subgroup G}
     (hZL : Z ≤ Subgroup.normalizer (L : Set G)) :
     Z ≤ Subgroup.normalizer (Subgroup.centralizer (L : Set G) : Set G) := by
@@ -254,9 +256,9 @@ theorem IsMinFam16.mQuot_inf_centralizer_le (h1 : W16One G) (h5 : W16Five G) (hS
           (V ⊔ Subgroup.centralizer (iSub16 V H : Set G)) =
         (Subgroup.centralizer (iSub16 V H : Set G)).relIndex V := by
       simp only [Subgroup.relIndex, Subgroup.index]
-      haveI : ((Subgroup.centralizer (iSub16 V H : Set G)).subgroupOf V).Normal :=
+      have : ((Subgroup.centralizer (iSub16 V H : Set G)).subgroupOf V).Normal :=
         Subgroup.normal_subgroupOf_of_le_normalizer hVCnorm
-      haveI : ((Subgroup.centralizer (iSub16 V H : Set G)).subgroupOf
+      have : ((Subgroup.centralizer (iSub16 V H : Set G)).subgroupOf
           (V ⊔ Subgroup.centralizer (iSub16 V H : Set G))).Normal :=
         Subgroup.normal_subgroupOf_sup_of_le_normalizer hVCnorm
       exact (Nat.card_congr

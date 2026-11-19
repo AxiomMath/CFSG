@@ -103,7 +103,7 @@ private theorem pk_mul_pk (w n k : ℕ) (f g : ℕ → ℕ) :
         have h1 := Finset.mem_range.1 hi
         have h2 := Finset.mem_range.1 hj
         rw [Finset.sum_ite_eq (Finset.range (n + k)) (i + j),
-          if_pos (Finset.mem_range.2 (by omega)), Nat.mul_add, Nat.pow_add]
+          ite_eq_left (Finset.mem_range.2 (by omega)), Nat.mul_add, Nat.pow_add]
         ring
 
 private theorem conv_single {n k s : ℕ} (f g : ℕ → ℕ) :
@@ -115,15 +115,15 @@ private theorem conv_single {n k s : ℕ} (f g : ℕ → ℕ) :
       if s - j = i ∧ j ≤ s then f i * g j else 0 := by
     intro i
     by_cases h : i + j = s
-    · rw [if_pos h, if_pos ⟨by omega, by omega⟩]
-    · rw [if_neg h, if_neg (by omega)]
+    · rw [ite_eq_left h, ite_eq_left ⟨by omega, by omega⟩]
+    · rw [ite_eq_right h, ite_eq_right (by omega)]
   simp only [e]
   by_cases hjs : j ≤ s
   · simp only [hjs, and_true, true_and]
     rw [Finset.sum_ite_eq]
     by_cases hn : s - j < n
-    · rw [if_pos (Finset.mem_range.2 hn), if_pos hn]
-    · rw [if_neg (fun h => hn (Finset.mem_range.1 h)), if_neg hn]
+    · rw [ite_eq_left (Finset.mem_range.2 hn), ite_eq_left hn]
+    · rw [ite_eq_right (fun h => hn (Finset.mem_range.1 h)), ite_eq_right hn]
   · simp [hjs]
 
 private theorem rep1_pk (s m : ℕ) (hs : 0 < s) : rep1 s m = pk s m (fun _ => 1) := by
@@ -165,9 +165,9 @@ private theorem CMa_eq : Nat.mul 63 (rep1 42 2187) =
   rw [Finset.sum_eq_single 0]
   · have e : 42 * i = 6 * (7 * i + 0) := by ring
     have e2 : (7 * i + 0) % 7 = 0 := by simp
-    rw [e, e2, if_pos rfl]
+    rw [e, e2, ite_eq_left rfl]
   · intro j hj hj0
-    rw [(dm_eq (i := i) (Finset.mem_range.1 hj)).2, if_neg hj0, Nat.zero_mul]
+    rw [(dm_eq (i := i) (Finset.mem_range.1 hj)).2, ite_eq_right hj0, Nat.zero_mul]
   · intro h0
     exact absurd (Finset.mem_range.2 (by norm_num)) h0
 
@@ -180,11 +180,11 @@ private theorem rows6 (g : ℕ → ℕ) :
   rw [Finset.sum_eq_single 6]
   · have e2 : (7 * i + 6) % 7 = 6 := by omega
     have e3 : (7 * i + 6) / 7 = i := by omega
-    rw [if_pos e2, e3, Nat.mul_assoc, ← Nat.pow_add]
+    rw [ite_eq_left e2, e3, Nat.mul_assoc, ← Nat.pow_add]
     congr 2
     ring
   · intro j hj hj6
-    rw [(dm_eq (i := i) (Finset.mem_range.1 hj)).2, if_neg hj6, Nat.zero_mul]
+    rw [(dm_eq (i := i) (Finset.mem_range.1 hj)).2, ite_eq_right hj6, Nat.zero_mul]
   · intro h0
     exact absurd (Finset.mem_range.2 (by norm_num)) h0
 
@@ -229,17 +229,17 @@ private theorem colm_eq {m k : ℕ} {a : ℕ → ℕ} (ha : ∀ t < 7 * m, a t <
   have hb : ∀ t < 7 * m, (if t % 7 = 0 then a (t + k) else 0) < 2 ^ 6 := by
     intro t ht
     by_cases h0 : t % 7 = 0
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       exact ha _ (hlt t ht h0)
-    · rw [if_neg h0]
+    · rw [ite_eq_right h0]
       norm_num
   rw [pk_of_fld (by norm_num) hF hb, pk_rows]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [Finset.sum_eq_single 0]
   · have e2 : (7 * i + 0) % 7 = 0 := by simp
-    rw [e2, if_pos rfl, Nat.add_zero]
+    rw [e2, ite_eq_left rfl, Nat.add_zero]
   · intro j hj hj0
-    rw [(dm_eq (i := i) (Finset.mem_range.1 hj)).2, if_neg hj0, Nat.zero_mul]
+    rw [(dm_eq (i := i) (Finset.mem_range.1 hj)).2, ite_eq_right hj0, Nat.zero_mul]
   · intro h0
     exact absurd (Finset.mem_range.2 (by norm_num)) h0
 
@@ -318,7 +318,7 @@ private theorem F1_eq {y : ℕ → ℕ} (hy : ∀ t, y t < 3) :
     by_cases h0 : y t = 0
     · simp [h0]
     · have h1 : 2 ^ 5 ≤ y t + 31 := by omega
-      simp [h0, h1]
+      simp [h0]
   · simp [ht]
 
 private theorem LV7_eq : LV7 = pk 6 7 (fun _ => 1) := by
@@ -332,7 +332,7 @@ private theorem conv7 (f : ℕ → ℕ) {r : ℕ} (hr : r < 2187) :
   rw [← Finset.sum_range_reflect]
   refine Finset.sum_congr rfl fun j hj => ?_
   have hj' := Finset.mem_range.1 hj
-  rw [if_pos ⟨by omega, by omega⟩, Nat.mul_one]
+  rw [ite_eq_left ⟨by omega, by omega⟩, Nat.mul_one]
   congr 1
   omega
 
@@ -366,13 +366,13 @@ private theorem E_eq {fl : ℕ → ℕ} (hfl : ∀ t, fl t ≤ 1) :
     ← rows6 (fun r => ∑ i ∈ Finset.range 7, fl (7 * r + i))]
   · refine pk_congr fun t ht => ?_
     by_cases h6 : t % 7 = 6
-    · rw [if_pos h6, if_pos h6]
+    · rw [ite_eq_left h6, ite_eq_left h6]
       have ht' : 7 * (t / 7) + 6 = t := by omega
       have hr : t / 7 < 2187 := by omega
       have h := conv7 fl hr
       rw [ht'] at h
       exact h
-    · rw [if_neg h6, if_neg h6]
+    · rw [ite_eq_right h6, ite_eq_right h6]
   · by_cases ht : t < 7 * 2187
     · have ht' : t < 7 * 2187 + 7 := by omega
       simp only [ht, ht', ↓reduceIte]
@@ -400,12 +400,12 @@ private theorem Z_eq {cn : ℕ → ℕ} (hcn : ∀ r, cn r ≤ 7) :
     have := hcn r
     rw [e, and_top (by omega)]
     by_cases h0 : cn r = 0
-    · simp only [h0, Nat.zero_mul, Nat.zero_add, if_pos]
+    · simp only [h0, Nat.zero_mul, Nat.zero_add, ite_eq_left]
       norm_num
     · have h1 : 2 ^ 41 ≤ cn r * 2 ^ 36 + 31 * 2 ^ 36 := by
         have : 1 ≤ cn r := by omega
         nlinarith
-      simp [h0, h1]
+      simp [h0]
   have hA : (pk 42 2187 (fun r => cn r * 2 ^ 36 + 31 * 2 ^ 36) &&& pk 42 2187 (fun _ => 32 * 2 ^ 36)) =
       pk 42 2187 (fun r => if cn r = 0 then 0 else 2 ^ 41) := by
     refine pk_of_fld (by norm_num) (fld_congr (fld_and (fld_pk (fun r _ => by
@@ -447,11 +447,11 @@ private theorem fc_eq {z : ℕ → ℕ} (hz : ∀ r, z r ≤ 1) :
   rw [e, h, conv_single, ← Finset.sum_range_reflect]
   refine Finset.sum_congr rfl fun j hj => ?_
   have hj' := Finset.mem_range.1 hj
-  rw [if_pos ⟨by omega, by omega⟩, Nat.mul_one]
+  rw [ite_eq_left ⟨by omega, by omega⟩, Nat.mul_one]
   congr 1
   omega
 
-private theorem prodR_cast {nn : ℕ → ℕ} (r i : ℕ) (hr : r < 2187) (hi : i < 7) :
+private theorem prodR_cast {nn : ℕ → ℕ} (r i : ℕ) (_hr : r < 2187) (hi : i < 7) :
     ((prodR av nn (7 * r + i) % 3 : ℕ) : ZMod 3) =
       ∑ k : Fin 7, vrow r k * ((nn (7 * k.val + i) : ℕ) : ZMod 3) := by
   obtain ⟨e1, e2⟩ := dm_eq (d := 7) (i := r) hi
@@ -475,7 +475,7 @@ private theorem cnt_zero {nn : ℕ → ℕ} {N : ℕ} (hN : N = pk 6 (7 * 7) nn)
     have h1 := h i.val (Finset.mem_range.2 i.isLt)
     have h2 : prodR av nn (7 * r + i.val) % 3 = 0 := by
       by_contra hc
-      rw [if_neg hc] at h1
+      rw [ite_eq_right hc] at h1
       exact absurd h1 one_ne_zero
     have h3 := prodR_cast (nn := nn) r i.val hr i.isLt
     rw [h2, Nat.cast_zero] at h3
@@ -493,7 +493,7 @@ private theorem cnt_zero {nn : ℕ → ℕ} {N : ℕ} (hN : N = pk 6 (7 * 7) nn)
     have h6 : prodR av nn (7 * r + i) % 3 = 0 := by
       have := congrArg ZMod.val h5
       rwa [ZMod.val_natCast, ZMod.val_zero, Nat.mod_mod] at this
-    rw [if_pos h6]
+    rw [ite_eq_left h6]
 
 private theorem contrib_parts {N : ℕ} (hN : C7 N) :
     ∃ nn' : ℕ → ℕ, N = pk 6 (7 * 7) nn' ∧ (∀ t, nn' t < 3) ∧ (∀ t < 7 * 7, nn' t < 2 ^ 6) := by
@@ -568,13 +568,13 @@ private theorem contrib_tail (Z c : ℕ) : Nat.add (Nat.add 0 Z)
     Z + ((if 243 ≤ c then Z * 2 ^ 21 else 0) + (if c ≤ 243 then 0 else 2 ^ 91854)) := by
   rw [shl', shl', Nat.one_mul]
   by_cases h1 : 243 ≤ c <;> by_cases h2 : c ≤ 243
-  · rw [if_pos h1, if_pos h2, ble_true h1, ble_true h2]
+  · rw [ite_eq_left h1, ite_eq_left h2, ble_true h1, ble_true h2]
     dsimp only
     simp only [Nat.add_eq, Nat.zero_add, Nat.add_zero]
-  · rw [if_pos h1, if_neg h2, ble_true h1, ble_false h2]
+  · rw [ite_eq_left h1, ite_eq_right h2, ble_true h1, ble_false h2]
     dsimp only
     simp only [Nat.add_eq, Nat.zero_add]
-  · rw [if_neg h1, if_pos h2, ble_false h1, ble_true h2]
+  · rw [ite_eq_right h1, ite_eq_left h2, ble_false h1, ble_true h2]
     dsimp only
     simp only [Nat.add_eq, Nat.zero_add, Nat.add_zero]
   · omega
@@ -625,8 +625,8 @@ theorem contrib_sound {N : ℕ} (hN : C7 N) :
     unfold zzF zF
     rw [e]
     by_cases h0 : (∑ i ∈ Finset.range 7, (if prodR av nn (7 * r + i) % 3 = 0 then 0 else 1)) = 0
-    · rw [if_pos h0, if_pos (h.1 h0)]
-    · rw [if_neg h0, if_neg (fun h' => h0 (h.2 h'))]
+    · rw [ite_eq_left h0, ite_eq_left (h.1 h0)]
+    · rw [ite_eq_right h0, ite_eq_right (fun h' => h0 (h.2 h'))]
   have hZfix : pk 42 2187 (zzF (cnF (flF (yF nn)))) = fixZ (mat7 N) := by
     unfold fixZ pk
     exact Finset.sum_congr rfl fun r hr => by rw [hzF r (Finset.mem_range.1 hr)]

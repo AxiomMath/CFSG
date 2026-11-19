@@ -50,7 +50,7 @@ theorem seitzHyperGamma_eq_top_of_inner_equiv {K : Type*} [Group K] [Finite K]
     (hn₁ : ∀ e ∈ (innerImage E).map ι.toMonoidHom, ∀ s ∈ H₁, e * s * e⁻¹ ∈ H₁)
     (hn₂ : ∀ e ∈ (innerImage E).map ι.toMonoidHom, ∀ s ∈ H₂, e * s * e⁻¹ ∈ H₂)
     (hgen : H₁ ⊔ H₂ = ⊤) : seitzHyperGamma p E = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : ∀ H : Subgroup P, Nat.card (H.map ι.symm.toMonoidHom) = Nat.card H := fun H =>
     Subgroup.card_map_of_injective ι.symm.injective
   have hnorm : ∀ H : Subgroup P,
@@ -88,7 +88,7 @@ theorem exists_p'Subgroups_psl {p : ℕ} (hp : p.Prime) (hpF : (p : F) ≠ 0) (h
       (∀ e ∈ E, ∀ s ∈ H₁, e * s * e⁻¹ ∈ H₁) ∧ (∀ e ∈ E, ∀ s ∈ H₂, e * s * e⁻¹ ∈ H₂) ∧
       H₁ ⊔ H₂ = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Z := Subgroup.center (SpecialLinearGroup (Fin n) F) with hZ
   set π : SpecialLinearGroup (Fin n) F →* ProjectiveSpecialLinearGroup (Fin n) F :=
     QuotientGroup.mk' Z with hπdef
@@ -119,7 +119,7 @@ theorem exists_p'Subgroups_psl {p : ℕ} (hp : p.Prime) (hpF : (p : F) ≠ 0) (h
     have := codisjoint_iff.1 hc.2
     rwa [h, sup_bot_eq] at this)
   have hr : (ringChar F).Prime := CharP.char_is_prime F (ringChar F)
-  haveI : Fact (ringChar F).Prime := ⟨hr⟩
+  have : Fact (ringChar F).Prime := ⟨hr⟩
   have hrp : ringChar F ≠ p := fun h => hpF (by rw [← h]; exact ringChar.Nat.cast_ringChar)
   have hp' : ∀ V : Submodule F (Fin n → F), ¬ p ∣ Nat.card ((unipRadSL V).map π) := fun V hd =>
     not_dvd_card_of_isPGroup' hrp (isPGroup_unipRadSL V) (hd.trans (Subgroup.card_map_dvd _ π))
@@ -333,8 +333,8 @@ theorem le_hyperClosure_of_normalized' {P : Type} [Group P] [Finite P] {p : ℕ}
       F₀.relIndex E = p ∧ ∀ f ∈ F₀, f * k = k * f} := by
   classical
   have hfp : Fact p.Prime := ⟨hp⟩
-  haveI : CFSG.IsElementaryAbelian p E := isElementaryAbelian_of_isElemAbelian hE
-  haveI : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hE1
+  have : CFSG.IsElementaryAbelian p E := isElementaryAbelian_of_isElemAbelian hE
+  have : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hE1
   have hAV : E ≤ Subgroup.normalizer (Q : Set P) := by
     intro e he
     rw [Subgroup.mem_normalizer_iff]
@@ -390,7 +390,7 @@ theorem seitzHyperGamma_eq_top_of_rGen {K : Type*} [Group K] [Finite K]
     (h : (⊤ : Subgroup (K ⧸ Subgroup.center K)) ≤
       Subgroup.closure (CFSG.LieType.Chevalley.hyperRSet ⊤ (innerImage E) r p)) :
     seitzHyperGamma p E = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine seitzHyperGamma_eq_top_of_quot hperf (isPGroup_of_isElemAbelian hE)
     (h.trans (Subgroup.closure_mono ?_))
   rintro s ⟨-, ⟨n, hn⟩, B, hB, hBi, hsB⟩
@@ -467,12 +467,12 @@ theorem seitzHyperGamma_eq_top_of_innerUDiag {K : Type} [Group K] [Finite K]
   have hfin := h.finite
   have : Fact ℓ.Prime := ⟨h.prime⟩
   have : CharP Kf ℓ := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hE₀ : IsElemAbelian p E₀ :=
     CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map p (isElemAbelian_innerImage hE) _
   have hE₀1 : E₀ ≠ ⊥ := fun h0 =>
     innerImage_ne_bot hinn hE1 ((Subgroup.map_eq_bot_iff_of_injective _ e.injective).1 h0)
-  haveI : Finite E₀ :=
+  have : Finite E₀ :=
     Finite.of_surjective (fun x : innerImage E => (⟨e x, ⟨x, x.2, rfl⟩⟩ : E₀)) (by
       rintro ⟨_, ⟨x, hx, rfl⟩⟩
       exact ⟨⟨x, hx⟩, rfl⟩)
@@ -500,7 +500,7 @@ theorem seitzHyperGamma_eq_top_of_innerUDiag {K : Type} [Group K] [Finite K]
     rw [h1]
     exact Dvd.intro_left _ rfl
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_of_dvd_natCard_sub_one hdvdK
-  haveI : NeZero (ℓ ^ f + 1) := ⟨by omega⟩
+  have : NeZero (ℓ ^ f + 1) := ⟨by omega⟩
   obtain ⟨P, hP⟩ :=
     CFSG.RankThree.PartOne.Q1327C.exists_unitary_conj_diag_m h hζ dvd_rfl Gu hGcomm hGpow
   let Pg : GL (Fin (n + 1)) Kf := (P : GL (Fin (n + 1)) Kf)
@@ -589,11 +589,11 @@ theorem seitzHyperGamma_eq_top_of_innerUDiag {K : Type} [Group K] [Finite K]
       exact absurd ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow this))
         hp2
     · exact h4
-  haveI : Group.IsPerfect (CFSG.Assembly.LowTwoRank.StatedSU 2 (ℓ ^ f) Kf) :=
+  have : Group.IsPerfect (CFSG.Assembly.LowTwoRank.StatedSU 2 (ℓ ^ f) Kf) :=
     CFSG.RankThree.SubgroupLists.isPerfect_statedSU_two h.card_eq_sq hq4
   let ε₂ : Su Kf ℓ f 2 ≃* CFSG.Assembly.LowTwoRank.StatedSU 2 (ℓ ^ f) Kf :=
     MulEquiv.subgroupCongr (CFSG.LieType.Universal.Unitary.SUid_eq_statedSU h.card_eq_sq 2)
-  haveI : Group.IsPerfect (Su Kf ℓ f 2) :=
+  have : Group.IsPerfect (Su Kf ℓ f 2) :=
     Group.IsPerfect.ofSurjective (f := ε₂.symm.toMonoidHom) ε₂.symm.surjective
   refine seitzHyperGamma_eq_top_of_perfect hperf (Set.range fun i => (g i).range) ?_ ?_ ?_
   · rintro _ ⟨i, rfl⟩
@@ -743,7 +743,7 @@ theorem seitzHyperGamma_eq_top_of_diagReducible {K : Type*} [Group K] [Finite K]
     (hE : IsElemAbelian p E) (hE1 : E ≠ ⊥) (h : DiagReducible p E) : seitzHyperGamma p E = ⊤ := by
   classical
   obtain ⟨n, F, _, _, ι, G, hGc, hpF, W, hW0, hWt, hWG, hEG⟩ := h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Z := Subgroup.center (SpecialLinearGroup (Fin n) F) with hZ
   set π : SpecialLinearGroup (Fin n) F →* ProjectiveSpecialLinearGroup (Fin n) F :=
     QuotientGroup.mk' Z with hπdef
@@ -753,7 +753,7 @@ theorem seitzHyperGamma_eq_top_of_diagReducible {K : Type*} [Group K] [Finite K]
     have := codisjoint_iff.1 hc.2
     rwa [h, sup_bot_eq] at this)
   have hr : (ringChar F).Prime := CharP.char_is_prime F (ringChar F)
-  haveI : Fact (ringChar F).Prime := ⟨hr⟩
+  have : Fact (ringChar F).Prime := ⟨hr⟩
   have hrp : ringChar F ≠ p := fun h => hpF (by rw [← h]; exact ringChar.Nat.cast_ringChar)
   have hp' : ∀ V : Submodule F (Fin n → F), ¬ p ∣ Nat.card ((unipRadSL V).map π) := fun V hd =>
     not_dvd_card_of_isPGroup' hrp (isPGroup_unipRadSL V) (hd.trans (Subgroup.card_map_dvd _ π))

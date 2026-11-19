@@ -98,7 +98,7 @@ theorem gi_h2 {i : ℕ} (hi : i < nPts) : gi hJ2 i = u2 i := by
   rw [← Nat.eq_of_beq_eq_true tr_R1, ← Nat.eq_of_beq_eq_true tr_one] at hl
   have hv := imgLeaf_sound (W := CFSG.KD.HNPt.R 1) consts_parts.1 (R_canon (by norm_num)) hb hl r hr
   have hr64 : r < 64 := Nat.lt_of_lt_of_le hr (hnxC_le b)
-  have hg : genJ 1 = hJ2 := by rw [genJ, if_pos (by norm_num), sL1]
+  have hg : genJ 1 = hJ2 := by rw [genJ, ite_eq_left (by norm_num), sL1]
   refine PK_injective _ (gi_lt _ hi) _ hu ?_
   rw [PK_gi _ hi, PK_eq hi, PK_eq hu, ← hg, ← R_mat (by norm_num), u2,
     rf_leaf UT b r 21 21 hr64 (by norm_num), hv]

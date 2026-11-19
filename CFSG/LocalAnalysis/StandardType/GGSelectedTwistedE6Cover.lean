@@ -295,10 +295,10 @@ theorem GGConfig.exists_fixed_source_centralizer_of_twistedE6_component
       CFSG.Assembly.IsComponentOf (M.map eta)
         (CFSG.LieType.Steinberg.TwistedE6.fixedGroup GGL (ggFrobT f) ⊓
           Subgroup.centralizer {t}) := by
-  letI : Algebra (GaloisField 2 (2 * f)) GGL := (ggRatEmb (2 * f)).toAlgebra
-  letI : IsScalarTower (ZMod 2) (GaloisField 2 (2 * f)) GGL :=
+  let : Algebra (GaloisField 2 (2 * f)) GGL := (ggRatEmb (2 * f)).toAlgebra
+  let : IsScalarTower (ZMod 2) (GaloisField 2 (2 * f)) GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  letI : IsAlgClosure (GaloisField 2 (2 * f)) GGL :=
+  let : IsAlgClosure (GaloisField 2 (2 * f)) GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.tower_top (K := ZMod 2)
         (L := GaloisField 2 (2 * f)) }
@@ -342,10 +342,10 @@ theorem TwistedE6SourceCover.exists_native_langSetup
       (∀ c, iota (alpha c) = rootDiagUnit TwistTag.E6.tag a * iota c * (rootDiagUnit TwistTag.E6.tag a)⁻¹) ∧
       (∀ c, S.D.g0 * iota c * S.D.g0⁻¹ =
         baseChangeGL (ggRatEmb (2 * 1)) (c : ModGL TwistTag.E6.tag (GaloisField 2 (2 * 1)))) := by
-  letI : Algebra (GaloisField 2 (2 * 1)) GGL := (ggRatEmb (2 * 1)).toAlgebra
-  letI : IsScalarTower (ZMod 2) (GaloisField 2 (2 * 1)) GGL :=
+  let : Algebra (GaloisField 2 (2 * 1)) GGL := (ggRatEmb (2 * 1)).toAlgebra
+  let : IsScalarTower (ZMod 2) (GaloisField 2 (2 * 1)) GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  letI : IsAlgClosure (GaloisField 2 (2 * 1)) GGL :=
+  let : IsAlgClosure (GaloisField 2 (2 * 1)) GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.tower_top (K := ZMod 2)
         (L := GaloisField 2 (2 * 1)) }

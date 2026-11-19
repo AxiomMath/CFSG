@@ -54,10 +54,10 @@ theorem exists_idem_normal (e : Matrix (Fin 7) (Fin 7) K) (he : e * e = e) (hr :
     (bT.prod bM).map (Submodule.prodEquivOfIsCompl T M hTM)
   have hbS_inl : ∀ i : Fin 3, bS (Sum.inl i) = (bT i : Fin 7 → K) := by
     intro i
-    simp [bS, Basis.map_apply, Basis.prod_apply_inl_fst]
+    simp [bS, Basis.map_apply]
   have hbS_inr : ∀ i : Fin 4, bS (Sum.inr i) = (bM i : Fin 7 → K) := by
     intro i
-    simp [bS, Basis.map_apply, Basis.prod_apply_inr_snd]
+    simp [bS, Basis.map_apply]
   let e7 : Fin 7 ≃ Fin 3 ⊕ Fin 4 :=
     (finCongr (rfl : 7 = 3 + 4)).trans (finSumFinEquiv (m := 3) (n := 4)).symm
   let bV : Basis (Fin 7) K (Fin 7 → K) := bS.reindex e7.symm
@@ -91,12 +91,12 @@ theorem exists_idem_normal (e : Matrix (Fin 7) (Fin 7) K) (he : e * e = e) (hr :
       (if (j : ℕ) < 3 then (1 : K) else 0) • bV j := by
     intro j
     by_cases hj : (j : ℕ) < 3
-    · rw [if_pos hj, one_smul]
+    · rw [ite_eq_left hj, one_smul]
       obtain ⟨w, hw⟩ := hmemT j hj
       have hw' : e *ᵥ w = bV j := by
         simpa [Matrix.mulVecLin_apply] using hw
       rw [← hw', Matrix.mulVec_mulVec, he]
-    · rw [if_neg hj, zero_smul]
+    · rw [ite_eq_right hj, zero_smul]
       have hM' : e *ᵥ bV j = 0 := hmemM j hj
       exact hM'
   let B : Matrix (Fin 7) (Fin 7) K := (Pi.basisFun K (Fin 7)).toMatrix bV

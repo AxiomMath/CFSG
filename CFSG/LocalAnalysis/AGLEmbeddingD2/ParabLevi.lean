@@ -182,7 +182,7 @@ theorem commutator_le_leviRad_sup_leviM {A : Subgroup K} (hBA : borel D H ≤ A)
   have htop : N.subgroupOf A ⊔ (⨆ k, H k).subgroupOf A = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hNA hTA, Subgroup.subgroupOf_eq_top, sup_comm]
     exact le_torus_sup_leviRad_sup_leviM hct hext hBA
-  haveI hcomm : IsMulCommutative ↥((⨆ k, H k).subgroupOf A) := by
+  have hcomm : IsMulCommutative ↥((⨆ k, H k).subgroupOf A) := by
     have hT := isMulCommutative_torus hext
     refine ⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩
     have := congrArg Subtype.val (hT.is_comm.comm ⟨(a : K), a.2⟩ ⟨(b : K), b.2⟩)

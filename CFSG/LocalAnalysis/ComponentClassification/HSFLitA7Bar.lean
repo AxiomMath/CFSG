@@ -74,7 +74,7 @@ theorem card_eq_two_pow_of_maximal {X : Type*} [Group X] [Finite X] {Y P : Subgr
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP' : IsPGroup 2 (P.subgroupOf Y) := hP.comap_of_injective _ (subtype_injective _)
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
-  have hQX : IsPGroup 2 ((Q : Subgroup Y).map Y.subtype) := Q.isPGroup'.map _
+  have hQX : IsPGroup 2 ((Q : Subgroup Y).map Y.subtype) := Q.isPGroup.map _
   have hPQ : P ≤ (Q : Subgroup Y).map Y.subtype := fun p hp => ⟨⟨p, hPY hp⟩, hQ hp, rfl⟩
   have heq : (Q : Subgroup Y).map Y.subtype = P :=
     le_antisymm (hmax _ hQX hPQ (map_subtype_le _)) hPQ

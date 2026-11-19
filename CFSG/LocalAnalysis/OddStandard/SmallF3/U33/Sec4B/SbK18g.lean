@@ -24,6 +24,7 @@ private theorem k18g_t2 (hc : Ctx13 t L S x₁ x₂ lam rho tau om) : t * t = 1 
   have h := (ctx13_relations hc).1
   simpa [pow_two] using h
 
+omit [Finite G] in
 private theorem k18g_exists_mul_of_abelian_sup {Q A B : Subgroup G}
     (hQab : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a) (hAQ : A ≤ Q) (hBQ : B ≤ Q)
     {q : G} (hq : q ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, q = a * b := by
@@ -56,7 +57,7 @@ private theorem k18g_inf_eq_bot_of_card_le {A B Q : Subgroup G}
   obtain ⟨hcA, hcB⟩ := Subgroup.mem_inf.mp hc
   have h1 : f (⟨c, hcA⟩, ⟨1, B.one_mem⟩) = f (⟨1, A.one_mem⟩, ⟨c, hcB⟩) := by
     apply Subtype.ext
-    simp only [f, Subtype.coe_mk, mul_one, one_mul]
+    simp only [f, mul_one, one_mul]
   have h2 := congrArg (fun p : ↥A × ↥B => (p.1 : G)) (hinj h1)
   exact Subgroup.mem_bot.mpr (by simpa using h2)
 

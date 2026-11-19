@@ -29,7 +29,7 @@ theorem exists_hom_comp_eq {G H P : Type*} [Group G] [Group H] [Group P] (ψ : G
     fun p => ?_⟩
   have h := (MonoidHom.ofInjective hψ).apply_symm_apply ⟨f p, hf p⟩
   have h' := congrArg Subtype.val h
-  simpa using h'
+  simp
 
 section Frame
 

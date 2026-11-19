@@ -26,9 +26,9 @@ theorem s16c11_case2nat_pairs_ncard_eq {L : Subgroup (MulAut W)} {L' : Subgroup 
     fun X' => ((X'.subgroupOf L').map ψ.symm.toMonoidHom).map L.subtype
   let Φ : W → W' := fun y => if hy : y ∈ J then (φ ⟨y, hy⟩ : W') else 1
   let Φ' : W' → W := fun y' => if hy' : y' ∈ J' then (φ.symm ⟨y', hy'⟩ : W) else 1
-  have hΦ : ∀ (y : W) (hy : y ∈ J), Φ y = (φ ⟨y, hy⟩ : W') := fun y hy => dif_pos hy
+  have hΦ : ∀ (y : W) (hy : y ∈ J), Φ y = (φ ⟨y, hy⟩ : W') := fun y hy => dite_eq_left hy
   have hΦ' : ∀ (y' : W') (hy' : y' ∈ J'), Φ' y' = (φ.symm ⟨y', hy'⟩ : W) :=
-    fun y' hy' => dif_pos hy'
+    fun y' hy' => dite_eq_left hy'
   have hΦJ : ∀ y ∈ J, Φ y ∈ J' := fun y hy => by rw [hΦ y hy]; exact (φ ⟨y, hy⟩).2
   have hΦ'J : ∀ y' ∈ J', Φ' y' ∈ J := fun y' hy' => by rw [hΦ' y' hy']; exact (φ.symm ⟨y', hy'⟩).2
   have hΦi : Set.InjOn Φ (J : Set W) := by

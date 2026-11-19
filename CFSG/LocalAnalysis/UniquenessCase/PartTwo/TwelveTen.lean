@@ -32,7 +32,7 @@ theorem not_normalizer_wClos_le (D : Data G) (h66 : UC6.R6_6 D) (h183 : W3Thm183
     exact h124'.1 h3
   · have hk : D.k = 2 := by
       unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam
-      rw [if_neg hsp]
+      rw [ite_eq_right hsp]
     have h3 := h2 (TwelveSix.w3Hyp182 D h66 hH₀)
       (TwelveShort.mBarGT_mono hm (le_trans (by omega) (le_max_right _ _)))
     rw [TwelveSix.hasCompFactor_calL0_iff] at h3
@@ -59,7 +59,7 @@ theorem exists_card_centralizer_ge_four {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hEcard : p ^ 3 ≤ Nat.card E) (hEV : E ≤ normalizer (V : Set G)) :
     ∃ B : Subgroup G, B ≤ E ∧ Nat.card B = p ^ 2 ∧
       4 ≤ Nat.card ↥(V ⊓ centralizer (B : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEp : IsPGroup p E := by
     intro x
     exact ⟨1, Subtype.ext (by simpa using hE.2 x x.2)⟩
@@ -122,7 +122,7 @@ theorem one_lt_rMV (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) {V : Subgrou
   have hV2 : IsPGroup 2 V := CFSG.Open.IsElemAbelian.isPGroup hV.2.2.2
   obtain ⟨p, hpσ⟩ := hx.sig_nonempty
   obtain ⟨hp, hp2⟩ := D.sig_prime p hpσ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h3 : 3 ≤ CFSG.Open.pRank p D.M := hx.three_le p hpσ
   obtain ⟨E, hEM, hEel, hEcard⟩ := CFSG.PreuniquenessRankFour.Helpers.pRank_attained p hp D.M
   obtain ⟨B, hBE, hBcard, hB4⟩ := exists_card_centralizer_ge_four hp hp2 hV2 h4 hEel

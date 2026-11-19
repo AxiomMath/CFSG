@@ -41,7 +41,7 @@ theorem rankOne_cartan_spec
     by_contra hs1
     have hspos : orderOf s ≠ 0 := (orderOf_pos s).ne'
     obtain ⟨k, hk⟩ :=
-      (IsPGroup.iff_orderOf (p := 2) (G := ↥(S : Subgroup G))).mp S.isPGroup' ⟨s, hsS⟩
+      (IsPGroup.iff_orderOf (p := 2) (G := ↥(S : Subgroup G))).mp S.isPGroup ⟨s, hsS⟩
     have hk' : orderOf s = 2 ^ k := by simpa using hk
     have hk0 : k ≠ 0 := by
       intro hk0
@@ -83,6 +83,7 @@ theorem rankOne_cartan_spec
       exact ⟨hxS, hxT⟩
     exact hx1 (Subgroup.mem_bot.mp hxbot)
 
+omit [Finite G] in
 theorem le_cartan_of_inverted {P : Subgroup G} {t : G} {T₀ : Subgroup G}
     (hB : T₀ ≤ borel P) (hinv : ∀ x ∈ T₀, t * x * t⁻¹ ∈ borel P) : T₀ ≤ cartan P t := by
   intro x hx
@@ -147,8 +148,8 @@ theorem rankOne_psl_cartan_regular
   have hcardS : Nat.card (S : Subgroup G) = 2 ^ n := (rankOne_psl_sylow_elemAbelian hG S).2
   have hcardSstar : Nat.card {y : ↥(S : Subgroup G) // y ≠ 1} = 2 ^ n - 1 := by
     classical
-    haveI hF : Fintype ↥(S : Subgroup G) := Fintype.ofFinite _
-    haveI hFs : Fintype {y : ↥(S : Subgroup G) // y ≠ 1} := Fintype.ofFinite _
+    have hF : Fintype ↥(S : Subgroup G) := Fintype.ofFinite _
+    have hFs : Fintype {y : ↥(S : Subgroup G) // y ≠ 1} := Fintype.ofFinite _
     have hS : Fintype.card ↥(S : Subgroup G) = 2 ^ n := by
       rw [← Nat.card_eq_fintype_card, hcardS]
     have hstar : Fintype.card {y : ↥(S : Subgroup G) // y ≠ 1} = 2 ^ n - 1 := by

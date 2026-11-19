@@ -19,7 +19,7 @@ theorem exists_sylow_normalized_of_mem_normalizer {X : Type*} [Group X] [Finite 
   have hyG : y ∈ G₁ := Subgroup.mem_sup_right (Subgroup.mem_zpowers y)
   have hG₁n : G₁ ≤ normalizer (N : Set X) :=
     sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr hN)
-  haveI : (N.subgroupOf G₁).Normal := Subgroup.normal_subgroupOf_iff_le_normalizer hNG |>.mpr hG₁n
+  have : (N.subgroupOf G₁).Normal := Subgroup.normal_subgroupOf_iff_le_normalizer hNG |>.mpr hG₁n
   have hy' : (⟨y, hyG⟩ : G₁) ^ f = 1 := Subtype.ext (by simpa using hy)
   obtain ⟨E', hE'N, hE'p, hE'max, hE'y, -⟩ :=
     exists_sylow_normalized (N.subgroupOf G₁) hy'

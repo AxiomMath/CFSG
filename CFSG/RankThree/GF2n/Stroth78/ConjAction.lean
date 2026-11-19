@@ -35,9 +35,10 @@ theorem conjAutQ_mul (S : Setting z E F) (h h' : ↥(H z)) :
     conjAutQ S (h * h') = conjAutQ S h * conjAutQ S h' := by
   ext x
   rw [MulAut.mul_apply, conjAutQ_apply, conjAutQ_apply, conjAutQ_apply]
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+  simp only [Subgroup.coe_mul]
   group
 
+omit [Finite G] in
 theorem ZQ_subgroupOf_eq_center (z : G) :
     (ZQ z).subgroupOf (Q z) = Subgroup.center ↥(Q z) := by
   rw [ZQ, centerIn_eq_map_center]
@@ -82,7 +83,7 @@ theorem conjQbar_mul (S : Setting z E F) (h h' : ↥(H z)) :
 
 theorem conjQbar_mem_orthogonal (S : Setting z E F) (h : ↥(H z)) :
     conjQbar S h ∈ TauCeti.QuadraticMap.orthogonalGroup (qS S) := by
-  letI := modAbF S
+  let := modAbF S
   change conjQbar S h ∈ TauCeti.QuadraticMap.orthogonalGroup (q S)
   rw [TauCeti.QuadraticMap.mem_orthogonalGroup_iff]
   intro v

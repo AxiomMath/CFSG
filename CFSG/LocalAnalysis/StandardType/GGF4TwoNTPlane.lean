@@ -65,7 +65,7 @@ private theorem rootDiagUnit_pow_three {L : Type} [Field L] (a : Fin Tag.F4.rank
 open CFSG.HardMathSupport.Timmesfeld.Steinberg in
 private theorem triPairing_eq_dotRoot (y : Fin Tag.F4.rank → ZMod 3) (α : Fin Tag.F4.rank → ℤ) :
     triPairing (τ := .F4) y α = dotRoot α y :=
-  Finset.sum_congr rfl fun i _ => mul_comm _ _
+  Finset.sum_congr rfl fun _i _ => mul_comm _ _
 
 open CFSG.HardMathSupport.Timmesfeld.Steinberg in
 private theorem card_triPairing_eq_twelve (y z : Fin Tag.F4.rank → ZMod 3) (hy : y ≠ 0)
@@ -90,8 +90,8 @@ theorem exists_regular_plane
       ∃ D : LangPlaneData .F4 K P, ∀ α, IsRoot .F4 α → ¬ D.Kills α := by
   classical
   have hK3 : ¬ 3 ∣ Nat.card K := by rw [hK]; norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have he3 : e ^ 3 = 1 := hE.2 e heE
   have hHcard : Nat.card (Subgroup.zpowers e) = 3 := by
     rw [Nat.card_zpowers, orderOf_eq_prime he3 he1]
@@ -116,7 +116,7 @@ open scoped Classical in
 open CFSG.HardMathSupport.Timmesfeld.Steinberg
   CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.NonToralCore in
 theorem threeC_data_of_regular_plane (K : Type) [Field K] [Finite K] [CharP K 2]
-    (hK : Nat.card K = 2) {P : Subgroup (adjointGroup .F4 K)} (hPc : Nat.card P = 3 ^ 2)
+    (_hK : Nat.card K = 2) {P : Subgroup (adjointGroup .F4 K)} (hPc : Nat.card P = 3 ^ 2)
     (hP3 : ∀ x ∈ P, x ^ 3 = 1) (D : LangPlaneData .F4 K P)
     (hreg : ∀ α, IsRoot .F4 α → ¬ D.Kills α) {e : adjointGroup .F4 K} (heP : e ∈ P)
     (he1 : e ≠ 1) :
@@ -125,7 +125,7 @@ theorem threeC_data_of_regular_plane (K : Type) [Field K] [Finite K] [CharP K 2]
         ((D.c * e * D.c⁻¹ : adjointGroup .F4 K) : ModGL .F4 K) * D.g0 ∧
       ((rootFinset .F4).filter fun α => rootChar a α = 1).card = 12 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHcard : Nat.card (Subgroup.zpowers e) = 3 := by
     rw [Nat.card_zpowers, orderOf_eq_prime (hP3 e heP) he1]
   have hHle : Subgroup.zpowers e ≤ P := Subgroup.zpowers_le.2 heP
@@ -135,7 +135,7 @@ theorem threeC_data_of_regular_plane (K : Type) [Field K] [Finite K] [CharP K 2]
     rw [hHcard, hPc] at hcard_eq
     norm_num at hcard_eq
   obtain ⟨-, f, hfP, hfH⟩ :=
-    (SetLike.lt_iff_le_and_exists).1 (lt_of_le_of_ne hHle hHne)
+    (IsConcreteLE.lt_iff_le_and_exists).1 (lt_of_le_of_ne hHle hHne)
   have hgen : P = Subgroup.closure ({e, f} : Set (adjointGroup .F4 K)) := by
     set C : Subgroup (adjointGroup .F4 K) :=
       Subgroup.closure ({e, f} : Set (adjointGroup .F4 K)) with hC
@@ -155,7 +155,7 @@ theorem threeC_data_of_regular_plane (K : Type) [Field K] [Finite K] [CharP K 2]
       refine lt_of_le_of_ne hHleC ?_
       intro hEq
       exact hfH (hEq ▸ hfC)
-    haveI : Finite C :=
+    have : Finite C :=
       Finite.of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective _)
     have hcard_lt : Nat.card (Subgroup.zpowers e) < Nat.card C :=
       Subgroup.card_lt_of_lt hHltC
@@ -182,7 +182,7 @@ theorem threeC_data_of_regular_plane (K : Type) [Field K] [Finite K] [CharP K 2]
   have hδ₀ : ∀ x : adjointGroup .F4 K, δ₀ x =
       D.g0⁻¹ * bc ((D.c * x * D.c⁻¹ : adjointGroup .F4 K) : ModGL .F4 K) * D.g0 := by
     intro x
-    simp only [δ₀, MonoidHom.comp_apply, MulAut.conj_apply, inv_inv]
+    simp only [δ₀, MonoidHom.comp_apply]
     rfl
   have hδtorus : ∀ x : P, δHom x ∈ torusGroup .F4 (AlgebraicClosure K) := by
     intro x

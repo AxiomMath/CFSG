@@ -17,7 +17,7 @@ theorem slice_toNat!_of {s : String.Slice} {n : Nat} (h : s.toNat? = some n) : s
   have hn := String.Slice.isNat_of_toNat?_eq_some h
   unfold String.Slice.toNat? at h
   unfold String.Slice.toNat!
-  rw [if_pos hn] at h ⊢
+  rw [ite_eq_left hn] at h ⊢
   exact Option.some.inj h
 
 theorem toNat!_natC (n : Nat) : (String.ofList (natC n)).toNat! = n := by
@@ -67,19 +67,19 @@ theorem parseInt_codeC (c : Nat) : parseInt (String.ofList (codeC c)) = decC c :
     have hd' : ¬'-' = d := fun h' => hd h'.symm
     have hs : (String.ofList (natC (c / 2))).startsWith "-" = false := by
       rw [e]
-      simp [String.startsWith_string_iff, hd']
+      simp [hd']
     unfold parseInt
-    rw [hs, if_neg (by simp), toNat!_natC]
+    rw [hs, ite_eq_right (by simp), toNat!_natC]
     unfold decC
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     rfl
   · rw [codeC_odd h]
     have hs : (String.ofList ('-' :: natC (c / 2))).startsWith "-" = true := by
       simp [String.startsWith_string_iff]
     unfold parseInt
-    rw [if_pos hs]
+    rw [ite_eq_left hs]
     unfold decC
-    rw [if_pos h]
+    rw [ite_eq_left h]
     congr 2
     apply slice_toNat!_of
     rw [← String.Slice.toNat?_copy, copy_drop_one]
@@ -131,7 +131,7 @@ theorem parse_wordC (w : List Nat) :
   · have hne : (String.ofList (wordC w)).isEmpty = false := by
       rw [String.isEmpty_eq_false_iff, Ne, String.ofList_eq_empty_iff, wordC_eq_nil]
       exact hw
-    rw [hne, if_neg (by simp), splitOn_comma', wordC, List.splitOn_intercalate ',' (fun l hl => by
+    rw [hne, ite_eq_right (by simp), splitOn_comma', wordC, List.splitOn_intercalate ',' (fun l hl => by
         obtain ⟨c, -, rfl⟩ := List.mem_map.1 hl
         exact (codeC_ok c).not_mem (by decide) (by simp)) (by simpa using hw),
       List.map_map, List.map_map]
@@ -179,7 +179,7 @@ theorem parse_pairC (p : Nat × List Nat) :
         cases l with
         | nil => simp [natC_ne_nil] at h
         | cons n' l => simp [List.intercalate_cons_cons, natC_ne_nil] at h
-    rw [hne, if_neg (by simp), splitOn_comma', List.splitOn_intercalate ',' (fun m hm => by
+    rw [hne, ite_eq_right (by simp), splitOn_comma', List.splitOn_intercalate ',' (fun m hm => by
         obtain ⟨n, -, rfl⟩ := List.mem_map.1 hm
         exact (natC_ok [] n).not_mem (by decide) (by simp)) (by simpa using hl0),
       List.map_map, List.map_map]

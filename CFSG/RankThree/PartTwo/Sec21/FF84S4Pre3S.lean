@@ -48,16 +48,16 @@ theorem pSolv3_of_normal {X : Type} [Group X] [Finite X] (N : Subgroup X) [N.Nor
 theorem three_solv_normal_sup {X : Type} [Group X] [Finite X] (hX : IsPSolvable 3 X)
     {P : Subgroup X} (hP : IsPGroup 3 P) (hP3 : Nat.card P ≤ 3) (hPi : ¬ 3 ∣ P.index) :
     (pPrimeCore 3 X ⊔ P).Normal := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := pPrimeCore 3 X with hO
-  haveI : O.Normal := pPrimeCore_normal
+  have : O.Normal := pPrimeCore_normal
   set π := QuotientGroup.mk' O with hπ
   have hbar : IsPSolvable 3 (X ⧸ O) := pSolv3_quotient hX O
   have hO1 : pPrimeCore 3 (X ⧸ O) = ⊥ := pPrimeCore_quotient_eq_bot Nat.prime_three
   have hchar : IsCharacteristicP 3 (X ⧸ O) := isCharacteristicP_of_isPSolvable hbar hO1
   have hPbn : (P.map π).Normal := by
     set R := pCore 3 (X ⧸ O) with hR
-    haveI hRn : R.Normal := pCore_normal
+    have hRn : R.Normal := pCore_normal
     have hRp : IsPGroup 3 R := pCore_isPGroup
     by_cases hRb : R = ⊥
     · have hcen : (⊤ : Subgroup (X ⧸ O)) ≤ ⊥ := by
@@ -105,7 +105,7 @@ theorem three_solv_normal_sup {X : Type} [Group X] [Finite X] (hX : IsPSolvable 
 theorem three_solv_decomp {G : Type} [Group G] [Finite G] {J P : Subgroup G}
     (hJ : IsPSolvable 3 ↥J) (hP : IsSylowOf 3 P J) (hP3 : Nat.card P = 3) :
     ∀ x ∈ J, ∃ o ∈ Opp 3 J, ∃ n ∈ J ⊓ Nor P, x = o * n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP'p : IsPGroup 3 (P.subgroupOf J) := hP.2.1.comap_subtype
   have hPi : ¬ 3 ∣ (P.subgroupOf J).index :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 hP.2.2

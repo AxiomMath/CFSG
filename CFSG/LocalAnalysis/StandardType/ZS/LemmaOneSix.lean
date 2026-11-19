@@ -1189,7 +1189,7 @@ private theorem zsr8R8_exists_refl_of_reflGen_ne_bot {H₁ : Subgroup (U ≃ₗ[
   apply hH₁1
   rw [hH₁']
   have hempty : {t : U ≃ₗ[ZMod p] U | t ∈ H₁ ∧ IsRefl p t} = ∅ := by
-    ext t; simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+    ext t; simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
     intro ht htr; exact h t ht htr
   rw [hempty, Subgroup.closure_empty]
 

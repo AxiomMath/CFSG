@@ -71,7 +71,7 @@ theorem z7_iff (x : ℕ) : z7 x = true ↔ (x : ZMod 7) = 0 := by
 
 theorem zQ_iff (A : Q) : zQ A = true ↔ dec A = 0 := by
   rw [dec_eta A, dec_mk, ← Matrix.ext_iff]
-  simp only [zQ, zV, Bool.and_eq_true, z7_iff, Fin.forall_fin_succ, Fin.forall_fin_one]
+  simp only [zQ, zV, Bool.and_eq_true, z7_iff, Fin.forall_fin_succ]
   simp [and_assoc]
 
 theorem e2_iff (p q r s : ℕ) : e2 p q r s = true ↔ (p : ZMod 7) * s = q * r := by
@@ -143,7 +143,7 @@ theorem val_cast (a : ZMod 7) : ((a.val : ℕ) : ZMod 7) = a := ZMod.natCast_zmo
 theorem dec_basQ (c : Case) : dec (basQ c.2.1.val c.2.2.1.val) = bas c := by
   rw [basQ, dec_mk, bas]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [val_cast, six_eq]
+  fin_cases i <;> fin_cases j <;> simp [six_eq]
 
 theorem dec_basInvQ (c : Case) : dec (basInvQ c.2.1.val c.2.2.1.val) = basInv c := by
   rw [basInvQ, basInvSD, dec_mk, basInv]
@@ -168,12 +168,12 @@ theorem blk_mul (M N : M3) : blk (M * N) = blk M * blk N := by
 theorem dec_psiQ (c : Case) : dec (psiQ c.1 c.2.2.2.val) = blk (psi c) := by
   obtain ⟨t, a, b, m⟩ := c
   cases t <;> simp only [psiQ, dec_mk, blk_eq, psi] <;> ext i j <;>
-    fin_cases i <;> fin_cases j <;> simp [val_cast, six_eq]
+    fin_cases i <;> fin_cases j <;> simp [six_eq]
 
 theorem dec_psiInvQ (c : Case) : dec (psiInvQ c.1 c.2.2.2.val) = blk (psiInv c) := by
   obtain ⟨t, a, b, m⟩ := c
   cases t <;> simp only [psiInvQ, psiInvN, dec_mk, blk_eq, psiInv, nmul] <;> ext i j <;>
-    fin_cases i <;> fin_cases j <;> simp [val_cast, inv7_cast]
+    fin_cases i <;> fin_cases j <;> simp [inv7_cast]
 
 theorem dec_wQ (t : Bool) (i : Fin 3) : dec (wQ t i.val) = blk (wgen t i) := by
   cases t <;> fin_cases i <;> decide
@@ -357,7 +357,7 @@ theorem coverB_sound (h : coverB (codesL wordData) (codesC excCases) = true) (c 
 theorem dec_rowsQ (r : List (List (ZMod 7))) : dec (rowsQ r) = ofRows r := by
   rw [rowsQ, dec_mk]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [rowE, ofRows, val_cast]
+  fin_cases i <;> fin_cases j <;> simp [rowE, ofRows]
 
 theorem all6_sound (f : ℕ → Bool) (h : all6 f = true) (k : Fin 6) : f k.val = true := by
   simp only [all6, Bool.and_eq_true] at h

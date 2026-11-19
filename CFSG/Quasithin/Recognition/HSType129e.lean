@@ -95,7 +95,7 @@ theorem cenQuot_s4_or_s5
   obtain ⟨S, hS⟩ := hDCp.exists_le_sylow
   have hSeq : (S : Subgroup ↥C) = DC := by
     have hP := h.eq_hsD_of_le hxH hx3 hdH hdK hd2 hdx (P := (S : Subgroup ↥C).map C.subtype)
-      (S.isPGroup'.map _) (fun y hy => ⟨⟨y, hDC hy⟩, hS (Subgroup.mem_subgroupOf.mpr hy), rfl⟩)
+      (S.isPGroup.map _) (fun y hy => ⟨⟨y, hDC hy⟩, hS (Subgroup.mem_subgroupOf.mpr hy), rfl⟩)
       (Subgroup.map_subtype_le _)
     ext c
     constructor

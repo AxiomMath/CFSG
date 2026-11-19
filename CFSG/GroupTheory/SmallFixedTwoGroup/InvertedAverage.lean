@@ -49,7 +49,7 @@ theorem exists_mem_card_mul_le_card_coset_inter [Finite G] (H : Subgroup G) (S :
     ∃ x ∈ S, Nat.card H * Nat.card S ≤
       Nat.card G * Nat.card {y : G // y ∈ S ∧ y * x⁻¹ ∈ H} := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hcard :
       Nat.card (Σ x : G, {y : G // y ∈ S ∧ y * x⁻¹ ∈ H})
         = ∑ x : G, Nat.card {y : G // y ∈ S ∧ y * x⁻¹ ∈ H} := by
@@ -92,8 +92,8 @@ theorem exists_mem_card_mul_le_card_coset_inter [Finite G] (H : Subgroup G) (S :
       simp only [Nat.card_eq_fintype_card]
     rw [hconst, ← Finset.mul_sum, hsum]
   obtain ⟨x, -, hxle⟩ := Finset.exists_le_of_sum_le Finset.univ_nonempty hle
-  haveI : Nonempty H := ⟨1⟩
-  haveI : Nonempty ↥S := hS.to_subtype
+  have : Nonempty H := ⟨1⟩
+  have : Nonempty ↥S := hS.to_subtype
   have hposHS : 0 < Nat.card H * Nat.card S := Nat.mul_pos Nat.card_pos Nat.card_pos
   have hposprod : 0 < Nat.card G * Nat.card {y : G // y ∈ S ∧ y * x⁻¹ ∈ H} :=
     lt_of_lt_of_le hposHS hxle

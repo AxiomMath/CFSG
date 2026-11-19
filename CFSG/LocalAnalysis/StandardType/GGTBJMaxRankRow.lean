@@ -71,7 +71,7 @@ theorem ggTBJ_maxRank_row_L
     hSign L₀ n' n p Bm S π coord Bl hp hp2 b hb Jm hJm labJ hΛJ hJ' htag hrank hfield
   refine ⟨labJ, ⟨.E8, 0, n⟩, hΛJ, hn, hJ, hL, ?_⟩
   rcases labJ with ⟨t, r, k⟩
-  simp only [ggRowMaxRank, LargeEvenLabel.tag, LargeEvenLabel.rank, LargeEvenLabel.n] at *
+  simp only [ggRowMaxRank] at *
   rcases htag with ht | ht
   · left
     exact ⟨by simp [hrank, ht], hp3, by simpa [hfield] using hA ht, by simp [hfield]⟩
@@ -103,7 +103,7 @@ theorem ggTBJ_maxRank_row_K
     hSign L₀ n' n p Bm S π coord Bl hp hp2 b hb Jm hJm labJ hΛJ hJ' htag hrank hfield
   refine ⟨labJ, ⟨.E8, 0, n⟩, hΛJ, hn, hJ, hK, ?_⟩
   rcases labJ with ⟨t, r, k⟩
-  simp only [ggRowMaxRank, LargeEvenLabel.tag, LargeEvenLabel.rank, LargeEvenLabel.n] at *
+  simp only [ggRowMaxRank] at *
   rcases htag with ht | ht
   · left
     exact ⟨by simp [hrank, ht], hp3, by simpa [hfield] using hA ht, by simp [hfield]⟩

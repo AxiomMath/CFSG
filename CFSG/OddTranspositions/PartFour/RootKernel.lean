@@ -103,6 +103,7 @@ private theorem rootKernel_closure_insert_eq_closure_inter (hC : HypothesisC D) 
     intro x hx
     exact hx.1
 
+omit [Finite G] in
 private theorem rootKernel_inv_mul_conj_mem_Malpha (hC : HypothesisC D) {γ : Set G}
     (hγ : γ ∈ Dalpha D hC.alpha) {c z : G} (hc : c ∈ γ)
     (hzM : z ∈ Malpha D hC.alpha) :

@@ -482,9 +482,9 @@ public theorem su_left_block_component_of_marking
     ∃ (m : ℕ) (F : Type) (_ : Field F) (_ : Finite F)
       (φ : ↥(unitarySU 2 1 F m) →* L) (I : Finset (Fin m))
       (hnorm : Bs ≤ Subgroup.normalizer (L : Set G))
-      (hdiag : ∀ a ∈ (ggGamma L hnorm).range,
+      (_hdiag : ∀ a ∈ (ggGamma L hnorm).range,
         ∃ t : Fin m → F, ActsDiagU φ a t)
-      (hφker : ∀ g : ↥(unitarySU 2 1 F m), φ g = 1 →
+      (_hφker : ∀ g : ↥(unitarySU 2 1 F m), φ g = 1 →
         ∃ c : F, ((g : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) =
           diagonal (fun _ => c)),
       Nat.card F = 4 ∧ 7 ≤ m ∧ ¬ 3 ∣ m ∧ Function.Surjective φ ∧
@@ -502,9 +502,9 @@ public theorem su_left_block_component_of_marking
   have hBs : CFSG.Open.IsElemAbelian 3 Bs := by
     simpa [hp3] using hH.1.2.1.2.1
   have hcommL : commutator ↥L = ⊤ := hM.1
-  obtain ⟨φ, hφsurj, hφker, hdiag⟩ :=
+  obtain ⟨φ, hφsurj, _hφker, _hdiag⟩ :=
     su_diagModel_of_data (I := Im) (θ := θ) hFcard hm7 hm3 hnorm hcommL hBs hIm hIle
-  have hφkerbot : φ.ker = ⊥ := su_ker_eq_bot_of_scalar hF (by omega) hm3 hφker
+  have hφkerbot : φ.ker = ⊥ := su_ker_eq_bot_of_scalar hF (by omega) hm3 _hφker
   have hZSU : Subgroup.center (unitarySU 2 1 F m) = ⊥ :=
     su_center_eq_bot_of_not_dvd_three hF (by omega) hm3
   have hZL : Subgroup.center ↥L = ⊥ :=
@@ -592,7 +592,7 @@ public theorem su_left_block_component_of_marking
             ((e * l * e⁻¹)⁻¹ * ggGamma L hnorm ⟨y, hyBs⟩ l) := by group
         _ = e * l * e⁻¹ := by rw [hz1, mul_one]
     exact congrArg Subtype.val hEqL
-  obtain ⟨t, ht⟩ := hdiag (ggGamma L hnorm ⟨y, hyBs⟩) ⟨⟨y, hyBs⟩, rfl⟩
+  obtain ⟨t, ht⟩ := _hdiag (ggGamma L hnorm ⟨y, hyBs⟩) ⟨⟨y, hyBs⟩, rfl⟩
   obtain ⟨D0, hD0norm, hD0diag, hD0act⟩ := ht
   let δ : Fin m → Fˣ := fun i => Units.mk0 (t i) (ActsDiagU.ne_zero
     ⟨D0, hD0norm, hD0diag, hD0act⟩ i)
@@ -713,7 +713,7 @@ public theorem su_left_block_component_of_marking
       intro c hc x hx
       rw [hJeq] at hx ⊢
       obtain ⟨u, hu, rfl⟩ := hx
-      obtain ⟨t, ht⟩ := hdiag (ggGamma L hnorm ⟨c, hc⟩) ⟨⟨c, hc⟩, rfl⟩
+      obtain ⟨t, ht⟩ := _hdiag (ggGamma L hnorm ⟨c, hc⟩) ⟨⟨c, hc⟩, rfl⟩
       obtain ⟨D, hDnorm, hDdiag, hDact⟩ := ht
       have hmem : conjN D hDnorm u ∈ TableBUE.blockSU (K := F) (n := 1) I :=
         diag_conj_mem_blockSU hDdiag hDnorm hu
@@ -733,7 +733,7 @@ public theorem su_left_block_component_of_marking
       simpa [mul_assoc] using hz'
   obtain ⟨ρ, hρsurj, hρker⟩ :=
     SUTorus.exists_hom_of_eq_map_blockSU hF (by rw [hψkerbot]; exact bot_le) hJeq
-  refine ⟨n + 1, F, hFld, hFfin, φ, I, hnorm, hdiag, hφker, hFcard, ?_, ?_, hφsurj,
+  refine ⟨n + 1, F, hFld, hFfin, φ, I, hnorm, _hdiag, _hφker, hFcard, ?_, ?_, hφsurj,
     by simpa [ψ] using hJeq, hI4, hNJ, ⟨ρ, hρsurj, hρker⟩, hJLie⟩
   · omega
   · omega
@@ -788,8 +788,8 @@ public theorem su_exact2_left_row_of_exact2
   obtain ⟨m, F, hFld, hFfin, φ, _I, hnorm, hdiag, hφker, hFcard, hm7, hm3, hφsurj,
     _hJeq, _hI4, _hNJ, _hcover, _hJLie⟩ :=
     su_left_block_component_of_marking hH hRig hM hp3
-  letI : Field F := hFld
-  letI : Finite F := hFfin
+  let : Field F := hFld
+  let : Finite F := hFfin
   have hF : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 F :=
     TableBU.unitaryFieldData_of_card hFcard (by norm_num)
   have hφModel : UnitTB.Model φ := ⟨hF, hφsurj, hφker⟩
@@ -820,7 +820,7 @@ public theorem su_exact2_left_row_of_exact2
   have hp2 : p ≠ 2 := by omega
   have hpq : p ∣ 2 ^ 1 + 1 := by rw [hp3]; norm_num
   have hF4 : Nat.card F = (2 ^ 1) ^ 2 := by norm_num [hFcard]
-  letI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hF4
+  let : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hF4
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, -, -, -, ⟨eL, -⟩, -⟩ :=
     exists_weyl_datum_of_diagonal_unitary_cover hF4 (by norm_num) hp2 hpq
       (by omega : 3 ≤ n) hBsP hSC hnorm hφModel hdiag
@@ -922,8 +922,8 @@ public theorem su_exact2_right_row_of_exact2
   obtain ⟨Fld, hFld, hFldfin, hFldcard, hQK⟩ :=
     hdRo7SULCoordAux_twA_rawLegacy_one htagK hnK hrawK
   obtain ⟨-, -, θK, hPK⟩ := hQK
-  letI : Field Fld := hFld
-  letI : Finite Fld := hFldfin
+  let : Field Fld := hFld
+  let : Finite Fld := hFldfin
   let ImK : Set (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin (labK.rank + 1)) Fld 2))) :=
     LargeEvenMatConjImage
       (LargeEvenProjMk (LargeEvenSUGroup (Fin (labK.rank + 1)) Fld 2))
@@ -941,7 +941,7 @@ public theorem su_exact2_right_row_of_exact2
   have hp2 : p ≠ 2 := by omega
   have hpq : p ∣ 2 ^ 1 + 1 := by rw [hp3]; norm_num
   have hF4 : Nat.card Fld = (2 ^ 1) ^ 2 := by norm_num [hFldcard]
-  letI : CharP Fld 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq
+  let : CharP Fld 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq
     (p := 2) (f := 1) hF4
   have hBsP : IsElemAbelian p Bs := hH.1.2.1.2.1
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs :=
@@ -1058,8 +1058,8 @@ theorem su_exact2_left_row_ggRowTwoNode_six
   subst lab
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨F, hField, hFinite, hFK, hQ⟩ := hraw
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   have hF : Nat.card F = 4 := by simpa using hFK
   have : CharP F 2 := charP_two_of_card (by simpa using hF : Nat.card F = 2 ^ 2)
   obtain ⟨hs, hna, θ, hP⟩ := hQ
@@ -1087,7 +1087,7 @@ theorem su_exact2_left_row_ggRowTwoNode_six
     by_contra hlt
     have hk1 : 1 ≤ S.card := by omega
     have hk3 : S.card ≤ 3 := by omega
-    haveI : Group.IsSolvable ↥(unitarySU 2 1 F S.card) :=
+    have : Group.IsSolvable ↥(unitarySU 2 1 F S.card) :=
       WitSU.isSolvable_unitarySU_two_one hKd hk1 hk3
     have hker : ((((redMkL L).range).subtype.comp φ)).ker ≤
         Subgroup.center ↥(unitarySU 2 1 F 6) :=
@@ -1097,9 +1097,9 @@ theorem su_exact2_left_row_ggRowTwoNode_six
     have hsolvJbar : Group.IsSolvable ↥((J.subgroupOf (Subgroup.normalizer (L : Set G))).map
         (redMk L)) :=
       Group.isSolvable_of_surjective (f := ρ) hρs
-    letI : Group.IsPerfect ↥((J.subgroupOf (Subgroup.normalizer (L : Set G))).map
+    let : Group.IsPerfect ↥((J.subgroupOf (Subgroup.normalizer (L : Set G))).map
         (redMk L)) := ⟨hJbarComp.2.2.1⟩
-    letI : Nontrivial ↥((J.subgroupOf (Subgroup.normalizer (L : Set G))).map
+    let : Nontrivial ↥((J.subgroupOf (Subgroup.normalizer (L : Set G))).map
         (redMk L)) := CFSG.ComponentClassification.Quasisimple.nontrivial hJbarComp.2.2
     exact Group.IsPerfect.not_isSolvable _ hsolvJbar
   let NX : Subgroup G := Subgroup.normalizer (L : Set G)
@@ -1275,7 +1275,7 @@ theorem su_exact2_left_row_ggRowTwoNode_six
     simpa [hS4eq] using h
 
   have hJperf : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJcomp.2.2.1
-  letI : Group.IsPerfect ↥J := hJperf
+  let : Group.IsPerfect ↥J := hJperf
   let fJfull : ↥J →* RedGrp L := (redMk L).comp (Subgroup.inclusion hJ_le_NX)
   have hfJfull_range : fJfull.range = Jbar := by
     dsimp [fJfull, Jbar, NX]
@@ -1347,9 +1347,9 @@ theorem su_exact2_left_row_ggRowTwoNode_large
   obtain ⟨Fld, hField, hFinite, hChar, hN, φ, hFcard, hModel, hdiag⟩ :=
     exists_diagonal_cover_of_large_unitary_L (r := rankL) (f := 1) hRig hH hr4 hr5 hpq hpd
       hhasL hlabL
-  letI : Field Fld := hField
-  letI : Finite Fld := hFinite
-  letI : CharP Fld 2 := hChar
+  let : Field Fld := hField
+  let : Finite Fld := hFinite
+  let : CharP Fld 2 := hChar
   have hF4 : Nat.card Fld = (2 ^ 1) ^ 2 := hFcard
   have hBsP : IsElemAbelian p Bs := hH.1.2.1.2.1
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs :=
@@ -1490,9 +1490,9 @@ theorem su_exact2_right_row_ggRowTwoNode_large
   obtain ⟨Fld, hField, hFinite, hChar, hN, φ, hFcard, hModel, hdiag⟩ :=
     exists_diagonal_cover_of_large_unitary_side hRig hH (Or.inr ⟨y, hnb⟩)
       hr4 hr5 hpq hpd hhasK hlabK
-  letI : Field Fld := hField
-  letI : Finite Fld := hFinite
-  letI : CharP Fld 2 := hChar
+  let : Field Fld := hField
+  let : Finite Fld := hFinite
+  let : CharP Fld 2 := hChar
   have hF4 : Nat.card Fld = (2 ^ 1) ^ 2 := hFcard
   have hBsP : IsElemAbelian p Bs := hH.1.2.1.2.1
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs :=
@@ -1663,8 +1663,8 @@ theorem su_exact2_right_row_ggRowTwoNode_six
   subst lab
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨F, hField, hFinite, hFK, hQ⟩ := hraw
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   have hF : Nat.card F = 4 := by simpa using hFK
   have : CharP F 2 := charP_two_of_card (by simpa using hF : Nat.card F = 2 ^ 2)
   obtain ⟨hs, hna, θ, hP⟩ := hQ
@@ -1693,7 +1693,7 @@ theorem su_exact2_right_row_ggRowTwoNode_six
     by_contra hlt
     have hk1 : 1 ≤ S.card := by omega
     have hk3 : S.card ≤ 3 := by omega
-    haveI : Group.IsSolvable ↥(unitarySU 2 1 F S.card) :=
+    have : Group.IsSolvable ↥(unitarySU 2 1 F S.card) :=
       WitSU.isSolvable_unitarySU_two_one hKd hk1 hk3
     have hker : ((((redMkL K).range).subtype.comp φ)).ker ≤
         Subgroup.center ↥(unitarySU 2 1 F 6) :=
@@ -1703,9 +1703,9 @@ theorem su_exact2_right_row_ggRowTwoNode_six
     have hsolvJbar : Group.IsSolvable ↥((J.subgroupOf (Subgroup.normalizer (K : Set G))).map
         (redMk K)) :=
       Group.isSolvable_of_surjective (f := ρ) hρs
-    letI : Group.IsPerfect ↥((J.subgroupOf (Subgroup.normalizer (K : Set G))).map
+    let : Group.IsPerfect ↥((J.subgroupOf (Subgroup.normalizer (K : Set G))).map
         (redMk K)) := ⟨hJbarComp.2.2.1⟩
-    letI : Nontrivial ↥((J.subgroupOf (Subgroup.normalizer (K : Set G))).map
+    let : Nontrivial ↥((J.subgroupOf (Subgroup.normalizer (K : Set G))).map
         (redMk K)) := CFSG.ComponentClassification.Quasisimple.nontrivial hJbarComp.2.2
     exact Group.IsPerfect.not_isSolvable _ hsolvJbar
   let NX : Subgroup G := Subgroup.normalizer (K : Set G)
@@ -1881,7 +1881,7 @@ theorem su_exact2_right_row_ggRowTwoNode_six
     simpa [hS4eq] using h
 
   have hJperf : Group.IsPerfect ↥J := Group.isPerfect_def.mpr hJcompG.2.2.1
-  letI : Group.IsPerfect ↥J := hJperf
+  let : Group.IsPerfect ↥J := hJperf
   let fJfull : ↥J →* RedGrp K := (redMk K).comp (Subgroup.inclusion hJ_le_NX)
   have hfJfull_range : fJfull.range = Jbar := by
     dsimp [fJfull, Jbar, NX]

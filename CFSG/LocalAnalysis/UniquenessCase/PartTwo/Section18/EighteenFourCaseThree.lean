@@ -93,6 +93,7 @@ theorem A5Config18.omegaFourSetting_of_case_three (c : A5Config18 D V₀ V L K)
     exact Subtype.ext h1
   exact QuotientGroup.lift (CFSG.pCore 2 ↥M) φ hker
 
+omit [Finite G] in
 theorem bar2ActTilHom_mk {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {M : Subgroup G}
     (hMS : M ≤ stabTil V₀ V) (h2 : barSub V₀ V hV (pCoreOf 2 M) = ⊥) (x : ↥M) :
     bar2ActTilHom hV hMS h2 (QuotientGroup.mk x) =
@@ -101,6 +102,7 @@ theorem bar2ActTilHom_mk {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {M : Sub
   rw [bar2ActTilHom, QuotientGroup.lift_mk]
   rfl
 
+omit [Finite G] in
 theorem bar2ActTilHom_surjective {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {M : Subgroup G}
     (hMS : M ≤ stabTil V₀ V) (h2 : barSub V₀ V hV (pCoreOf 2 M) = ⊥) :
     Function.Surjective (bar2ActTilHom hV hMS h2) := by

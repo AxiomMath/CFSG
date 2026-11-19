@@ -330,12 +330,12 @@ theorem ggKGTwJ_subnormal
   change Assembly.IsSubnormal (ggKGTwJ F γT) (Subgroup.centralizer
     ((ggKGTwHyp F γT : Subgroup (twistedE6RootGroup K σ)) :
       Set (twistedE6RootGroup K σ)))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   obtain ⟨ζu, hζu⟩ := CFSG.LieType.SeitzGeneration.exists_primitiveRoot_units
     (L := AlgebraicClosure K) (ℓ := 2) Nat.prime_two hp (by omega)
   let ζ : AlgebraicClosure K := ζu
@@ -419,10 +419,10 @@ theorem ggKGTwJ_layer
   have hKq : Nat.card K = q.card ^ 2 := by rw [hqcard]; exact hK
   obtain ⟨e⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.catEquiv_twistedE6_of_field
     q hvq K hKq σ hσ'
-  haveI hsimpleC : IsSimpleGroup
+  have hsimpleC : IsSimpleGroup
       (CFSG.LieType.SeitzGeneration.Cat ⟨TauCeti.LieTypeIndex.twistedE6 q, hvq⟩) :=
     CFSG.LieType.SeitzGeneration.isSimpleGroup_cat_twistedE6' hvq
-  haveI hsimpleR : IsSimpleGroup ↥(twistedE6RootGroup K σ) := e.symm.isSimpleGroup
+  have hsimpleR : IsSimpleGroup ↥(twistedE6RootGroup K σ) := e.symm.isSimpleGroup
   have hchar : (⟨TauCeti.LieTypeIndex.twistedE6 q, hvq⟩ :
       TauCeti.ValidLieTypeIndex).1.characteristic = 2 := by
     show (TauCeti.LieTypeIndex.twistedE6 q).characteristic = 2

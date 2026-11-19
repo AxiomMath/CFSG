@@ -140,19 +140,25 @@ section WDict
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F} {ω : F} {K : Type} [Field K]
   {e : K ≃+* Fσ σ}
 
+omit [Finite F] [CharP F 2] in
 private theorem u6x_val_sub (x y : E3UWspace σ e) : e3uVal (x - y) = e3uVal x - e3uVal y := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem u6x_val_smul (c : K) (x : E3UWspace σ e) :
     e3uVal (c • x) = ((e c : Fσ σ) : F) • e3uVal x := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem u6x_val_p0 : e3uVal (e3uP0 σ e) = pt0 F := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem u6x_val_mem (x : E3UWspace σ e) : e3uVal x ∈ Wsub σ :=
   mem_Wform_iff.mp (show Wform σ from x).2
 
+omit [Finite F] [CharP F 2] in
 private theorem u6x_inj {x y : E3UWspace σ e} (h : e3uVal x = e3uVal y) : x = y :=
   Subtype.ext h
 
+omit [Finite F] [CharP F 2] in
 theorem u6_mem_span_p0_of_val (hσ : ∀ c, σ (σ c) = c) {y : E3UWspace σ e} {c : F}
     (h : e3uVal y = c • pt0 F) : y ∈ Submodule.span K {e3uP0 σ e} := by
   have hσc : σ c = c :=
@@ -164,6 +170,7 @@ theorem u6_mem_span_p0_of_val (hσ : ∀ c, σ (σ c) = c) {y : E3UWspace σ e} 
     congrArg Subtype.val (e.apply_symm_apply ⟨c, hcmem⟩)
   rw [u6x_val_smul, hek, h, u6x_val_p0]
 
+omit [Finite F] in
 theorem u6_wact_mem_W0 (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1) (g : SUid σ 6)
     (hk : 2 ≤ kdimU σ hω (g : GL (Fin 6) F)) :
     e3uWact σ e g (e3uP0 σ e) ∈ Wsp (Submodule.span K {e3uP0 σ e}) (e3uU0 σ e) := by
@@ -190,6 +197,7 @@ theorem u6_wact_mem_W0 (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1) (g 
   rw [u6x_val_sub, e3uWact_val, e3uWact_val, u6x_val_p0, h1, rho_pt0_ucF hω g]
   exact h2.symm
 
+omit [Finite F] in
 theorem u6_transvec_of_kdim_one (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1)
     (e : K ≃+* Fσ σ) {g ũ ũ₂ : SUid σ 6} (hũ : ũ ∈ e3uU0Sub σ) (hũ₂ : ũ₂ ∈ e3uU0Sub σ)
     (heq : e3uWact σ e ũ = e3uWact σ e (g * ũ₂ * g⁻¹))
@@ -266,6 +274,7 @@ theorem u6_transvec_of_kdim_one (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω
   rw [hback]
   exact IsTransvec.conj' hT S
 
+omit [Finite F] in
 theorem frameInv_mulVec_T0 (hω : ω + σ ω = 1) (j : Fin 3) :
     ((frameGL σ ω hω)⁻¹ : GL (Fin 6) F).val.mulVec (e3uT0Vec j) =
       Pi.single (⟨2 * j.val, by omega⟩ : Fin 6) (1 : F) := by
@@ -273,6 +282,7 @@ theorem frameInv_mulVec_T0 (hω : ω + σ ω = 1) (j : Fin 3) :
   rw [h1, ← frameMat_mulVec_even (σ := σ) ω j, Matrix.mulVec_mulVec, frameInv_mul_frameMat hω,
     Matrix.one_mulVec]
 
+omit [Finite F] in
 theorem mem_e3uU0Sub_iff (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1) (g : SUid σ 6) :
     g ∈ e3uU0Sub σ ↔ ∀ s ∈ S0 F, ((ucF σ hω (g : GL (Fin 6) F) : GL (Fin 6) F) :
       Matrix (Fin 6) (Fin 6) F).mulVec s = s := by
@@ -298,6 +308,7 @@ theorem mem_e3uU0Sub_iff (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1) (
       exact congrArg Units.val this
     rw [e2, ← Matrix.mulVec_mulVec, h1]
 
+omit [Finite F] in
 theorem imgS0_ucF_eq (hω : ω + σ ω = 1) {h : GL (Fin 6) F} {c : F} (hc : c ≠ 0)
     (hh : rho F h (pt0 F) = c • pt0 F) : imgS0 (ucF σ hω h) = S0 F := by
   apply imgS0_eq_of_rho_p0 hc
@@ -310,6 +321,7 @@ theorem imgS0_ucF_eq (hω : ω + σ ω = 1) {h : GL (Fin 6) F} {c : F} (hc : c �
     exact h2
   exact hinj e1.symm
 
+omit [Finite F] in
 theorem conj_mem_e3uU0Sub (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1) {h : SUid σ 6} {c : F}
     (hc : c ≠ 0) (hh : rho F (h : GL (Fin 6) F) (pt0 F) = c • pt0 F) {u : SUid σ 6}
     (hu : u ∈ e3uU0Sub σ) : h * u * h⁻¹ ∈ e3uU0Sub σ := by
@@ -333,10 +345,12 @@ theorem conj_mem_e3uU0Sub (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1) 
   simp only [Units.val_mul]
   rw [← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, hinv, hfix t htS0, hts']
 
+omit [Finite F] in
 private theorem u6x_val_wact_p0 (h : SUid σ 6) :
     e3uVal (e3uWact σ e h (e3uP0 σ e)) = rho F (h : GL (Fin 6) F) (pt0 F) := by
   rw [e3uWact_val, u6x_val_p0]
 
+omit [Finite F] in
 theorem u6_U_norm (hσ : IsUnitaryInvolution σ) (hω : ω + σ ω = 1) (e : K ≃+* Fσ σ) :
     ∀ h ∈ e3uGam σ e, (∃ c : K, c ≠ 0 ∧ h (e3uP0 σ e) = c • e3uP0 σ e) →
       conjSub h (e3uU0 σ e) = e3uU0 σ e := by

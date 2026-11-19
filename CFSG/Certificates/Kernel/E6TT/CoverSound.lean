@@ -72,7 +72,7 @@ theorem dec_enc {w : Vec} (hl : w.length = 6) (hw : ∀ x ∈ w, 0 ≤ x ∧ x <
     have hf' : f' < 3 := by omega
     change [dg _ 1, dg _ 3, dg _ 9, dg _ 27, dg _ 81, dg _ 243] = _
     rw [hE]
-    simp only [dg, natDiv_eqC, natMod_eqC, List.cons.injEq, and_true, Int.ofNat_eq_coe,
+    simp only [dg, natDiv_eqC, natMod_eqC, List.cons.injEq, and_true, Int.ofNat_eq_natCast,
       Nat.cast_inj]
     refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩ <;> omega
 
@@ -126,8 +126,7 @@ theorem vecZ_genActC (j : Fin 7) (x : Vec) :
     rw [zmod3_intCastC] <;>
     push_cast <;>
     (try rw [cartan_eq_sixC]) <;>
-    simp only [getD?_eq_getDC, Fin.val_zero] <;>
-    rfl
+    simp only [getD?_eq_getDC, Fin.val_zero]
 
 @[expose] def Reached (c : Nat) : Prop :=
   ∃ k : Fin 5, Relation.ReflTransGen (fun a b => ∃ j : Fin 7, b = genActZ j a) (repZ k)
@@ -235,9 +234,9 @@ theorem e6_cover_of_coverK {CT : List Nat} (hCT : coverK CT = true)
     intro i
     rw [Nat.testBit_two_pow_mul_add _ (by norm_num), Nat.testBit_two_pow_sub_one]
     by_cases h : i < 1
-    · rw [if_pos h, Nat.zero_testBit, eq_comm, decide_eq_false_iff_not]
+    · rw [ite_eq_left h, Nat.zero_testBit, eq_comm, decide_eq_false_iff_not]
       omega
-    · rw [if_neg h, decide_eq_decide]
+    · rw [ite_eq_right h, decide_eq_decide]
       constructor
       · intro h'
         omega

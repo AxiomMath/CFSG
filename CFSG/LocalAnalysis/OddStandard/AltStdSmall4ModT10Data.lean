@@ -183,22 +183,22 @@ open T10
   carrier := {x | x.s = 0 ∧ x.a = 0 ∧ x.b = 0 ∧ x.c = 0}
   mul_mem' := by
     rintro p q ⟨hs, ha, hb, hc⟩ ⟨hs', ha', hb', hc'⟩
-    simp [Set.mem_setOf_eq, mul_s, mul_a, mul_b, mul_c, hs, ha, hb, hc, hs', ha', hb', hc']
-  one_mem' := by simp [Set.mem_setOf_eq, one_s, one_a, one_b, one_c]
+    simp [mul_s, mul_a, mul_b, mul_c, hs, ha, hb, hc, hs', ha', hb', hc']
+  one_mem' := by simp [one_s, one_a, one_b, one_c]
   inv_mem' := by
     rintro p ⟨hs, ha, hb, hc⟩
-    simp [Set.mem_setOf_eq, inv_s, inv_a, inv_b, inv_c, hs, ha, hb, hc]
+    simp [inv_s, inv_a, inv_b, inv_c, hs, ha, hb, hc]
 
 @[expose] def Mm : Subgroup T10 where
   carrier := {x | x.s = 0}
   mul_mem' := by
     intro p q hp hq
-    simp only [Set.mem_setOf_eq, mul_s] at hp hq ⊢
+    simp only [Set.mem_ofPred_eq, mul_s] at hp hq ⊢
     rw [hp, hq, add_zero]
   one_mem' := by show (1 : T10).s = 0; rfl
   inv_mem' := by
     intro p hp
-    simp only [Set.mem_setOf_eq, inv_s] at hp ⊢
+    simp only [Set.mem_ofPred_eq, inv_s] at hp ⊢
     rw [hp, neg_zero]
 
 @[expose] def inQ (x : T10) : Bool := x.s == 0 && x.a == 0 && x.b == 0 && x.c == 0

@@ -18,8 +18,8 @@ theorem eq_top_or_isAlt_of_isL2Odd {S : Type} [Group S] [Finite S]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hS : IsL2Odd S p) (Y : Subgroup S) (hY : ⁅Y, Y⁆ = Y)
     (hne : Y ≠ ⊥) : Y = ⊤ ∨ IsAlt ↥Y 5 := by
   obtain ⟨-, K, hF, hFin, hcard, ⟨eS⟩⟩ := hS.statedClassicalModel (by decide)
-  letI : Field K := hF
-  haveI : Finite K := hFin
+  let : Field K := hF
+  have : Finite K := hFin
   have hK : Nat.card K = p := by simpa using hcard
   let eP : S ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) K :=
     eS.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
@@ -45,7 +45,7 @@ theorem eq_bot_or_isSimpleGroup_of_isL2Odd {S : Type} [Group S]
       exact ((MulEquiv.subgroupCongr htop).trans Subgroup.topEquiv).isSimpleGroup_congr.mpr
         hSsimple
     · obtain ⟨e⟩ := hAlt
-      exact e.isSimpleGroup_congr.mpr alternatingGroup.isSimpleGroup_five
+      exact e.isSimpleGroup_congr.mpr (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KS23
 

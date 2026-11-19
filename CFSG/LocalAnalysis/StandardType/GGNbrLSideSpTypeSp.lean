@@ -23,21 +23,21 @@ private theorem typeSp_four_le_card {K : Type} [Field K] [Finite K]
   by_contra hlt
   have h2 : 2 ≤ Nat.card K := Nat.succ_le_of_lt Finite.one_lt_card
   have hcard : Nat.card K = 2 ∨ Nat.card K = 3 := by omega
-  haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
+  have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
     CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable K hcard
-  haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) :=
+  have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Matrix.SpecialLinearGroup.toGL :
         Matrix.SpecialLinearGroup (Fin 2) K →* Matrix.GeneralLinearGroup (Fin 2) K))
       Matrix.SpecialLinearGroup.toGL_injective
-  haveI : Group.IsSolvable (StatedSp 1 K) :=
+  have : Group.IsSolvable (StatedSp 1 K) :=
     Group.isSolvable_of_surjective (f := (longBlockEquivOne K).toMonoidHom)
       (longBlockEquivOne K).surjective
-  haveI : Group.IsSolvable ↥(commutator (StatedSp 1 K)) :=
+  have : Group.IsSolvable ↥(commutator (StatedSp 1 K)) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (commutator (StatedSp 1 K)).subtype) Subtype.val_injective
-  haveI : Group.IsPerfect ↥(commutator (StatedSp 1 K)) := hq.1
-  haveI : Nontrivial ↥(commutator (StatedSp 1 K)) :=
+  have : Group.IsPerfect ↥(commutator (StatedSp 1 K)) := hq.1
+  have : Nontrivial ↥(commutator (StatedSp 1 K)) :=
     CFSG.LocalCores.isQuasisimple_nontrivial hq
   exact Group.IsPerfect.not_isSolvable ↥(commutator (StatedSp 1 K)) inferInstance
 
@@ -51,15 +51,15 @@ private theorem typeSp_group {n s : ℕ} {K : Type} [Field K] [Finite K]
       Nat.card (↥(commutator (StatedSp s K)) ⧸
         Subgroup.center ↥(commutator (StatedSp s K))) ≤ 720 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rcases Nat.eq_zero_or_pos s with rfl | hspos
   · exfalso
     have hcard : Nat.card (StatedSp 0 K) = 1 := by
       rw [CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.card_statedSp]
       simp
-    haveI : Subsingleton (StatedSp 0 K) := (Nat.card_eq_one_iff_unique.mp hcard).1
-    haveI : Subsingleton ↥(commutator (StatedSp 0 K)) := inferInstance
-    haveI : Nontrivial ↥(commutator (StatedSp 0 K)) :=
+    have : Subsingleton (StatedSp 0 K) := (Nat.card_eq_one_iff_unique.mp hcard).1
+    have : Subsingleton ↥(commutator (StatedSp 0 K)) := inferInstance
+    have : Nontrivial ↥(commutator (StatedSp 0 K)) :=
       CFSG.LocalCores.isQuasisimple_nontrivial hq
     obtain ⟨a, b, hab⟩ := exists_pair_ne ↥(commutator (StatedSp 0 K))
     exact hab (Subsingleton.elim a b)
@@ -68,7 +68,7 @@ private theorem typeSp_group {n s : ℕ} {K : Type} [Field K] [Finite K]
       have h4 : 4 ≤ Nat.card K := typeSp_four_le_card hq
       have h4' : 4 ≤ Fintype.card K := by rwa [Nat.card_eq_fintype_card] at h4
       obtain ⟨t4, -, ht4⟩ := Finset.exists_subset_card_eq h4'
-      haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K) :=
+      have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K) :=
         (CFSG.RankThree.PartOne.KCUnitary.isQuasisimple_SL (F := K) (m := 2) le_rfl
           (Or.inr ⟨t4, ht4⟩)).1
       have hperfSp : Group.IsPerfect (StatedSp 1 K) :=
@@ -121,7 +121,7 @@ private theorem typeSp_group {n s : ℕ} {K : Type} [Field K] [Finite K]
         obtain ⟨eZc⟩ :=
           CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.nonempty_centerQuot_of_mulEquiv eTop
         have hchar : CharP K 2 := by
-          haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+          have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
           exact charP_of_card_eq_prime_pow (f := n) (by
             rw [← Nat.card_eq_fintype_card]; exact hK)
         obtain ⟨eZ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GCenterQuot.nonempty_centerQuot_sp

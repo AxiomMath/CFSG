@@ -33,8 +33,8 @@ private theorem exists_orderOf_eq_three (L : Type) [Field L] [CharP L 2] [IsAlgC
     have e : ((3 : ℕ) : L) = ((2 : ℕ) : L) + 1 := by norm_num
     rw [e, h2, zero_add]
     exact one_ne_zero
-  haveI : NeZero ((3 : ℕ) : L) := ⟨h3⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  have : NeZero ((3 : ℕ) : L) := ⟨h3⟩
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   have hu : IsUnit ζ₀ := hζ₀.isUnit (by norm_num)
   have hζ : IsPrimitiveRoot ((hu.unit : Lˣ) : L) 3 := by simpa using hζ₀
   exact ⟨hu.unit, (IsPrimitiveRoot.coe_units_iff.1 hζ).eq_orderOf.symm⟩
@@ -54,7 +54,7 @@ theorem exists_e6QPlusThreeFrame_with_coordinates
         baseChangeGL (algebraMap K (AlgebraicClosure K)) (F.frame s : ModGL .E6 K) =
           g0 * e6ThreeDiag ζ hζ s * g0⁻¹ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, _h2prime, hcard⟩ := FiniteField.card K 2
   have h3' : ¬ 3 ∣ Nat.card K - 1 := by
     obtain ⟨k, hk⟩ := h3
@@ -62,7 +62,7 @@ theorem exists_e6QPlusThreeFrame_with_coordinates
     obtain ⟨m, hm⟩ := h
     omega
   let L := AlgebraicClosure K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   let Fr : L →+* L := iterateFrobenius L 2 f
   have hFr : ∀ c, Fr c = c ^ Nat.card K := by
     intro c

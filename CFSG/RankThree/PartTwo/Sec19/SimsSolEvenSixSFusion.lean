@@ -42,6 +42,7 @@ section Group
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_of_conj_mem {N K : Subgroup G} (hnorm : ∀ k ∈ K, ∀ n ∈ N, k * n * k⁻¹ ∈ N) :
     K ≤ Subgroup.normalizer (N : Set G) := fun k hk => by
   rw [Subgroup.mem_normalizer_iff]
@@ -50,11 +51,11 @@ theorem le_normalizer_of_conj_mem {N K : Subgroup G} (hnorm : ∀ k ∈ K, ∀ n
   have := hnorm k⁻¹ (K.inv_mem hk) _ hn
   simpa [mul_assoc] using this
 
-theorem le_of_normal_isPGroup_of_odd_index {N H K : Subgroup G} (hNK : N ≤ K) (hHK : H ≤ K)
+theorem le_of_normal_isPGroup_of_odd_index {N H K : Subgroup G} (hNK : N ≤ K) (_hHK : H ≤ K)
     (hnorm : ∀ k ∈ K, ∀ n ∈ N, k * n * k⁻¹ ∈ N) (hN : IsPGroup 2 N)
     (hodd : Odd (H.subgroupOf K).index) : N ≤ H := by
   have hNn : K ≤ Subgroup.normalizer (N : Set G) := le_normalizer_of_conj_mem hnorm
-  haveI : (N.subgroupOf K).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNn
+  have : (N.subgroupOf K).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNn
   have h1 := relIndex_dvd_index_of_normal (H.subgroupOf K) (N.subgroupOf K)
   rw [Subgroup.relIndex_subgroupOf hNK] at h1
   have hodd' : Odd (H.relIndex N) := Odd.of_dvd_nat hodd h1
@@ -66,6 +67,7 @@ theorem le_of_normal_isPGroup_of_odd_index {N H K : Subgroup G} (hNK : N ≤ K) 
   have h4 : H.relIndex N = 1 := Nat.eq_one_of_dvd_coprimes hcop dvd_rfl h3
   exact Subgroup.relIndex_eq_one.1 h4
 
+omit [Finite G] in
 theorem sup_conj_mem {A B : Subgroup G} {k : G} (hA : ∀ a ∈ A, k * a * k⁻¹ ∈ A)
     (hB : ∀ b ∈ B, k * b * k⁻¹ ∈ B) : ∀ t ∈ A ⊔ B, k * t * k⁻¹ ∈ A ⊔ B := by
   intro t ht
@@ -78,6 +80,7 @@ theorem sup_conj_mem {A B : Subgroup G} {k : G} (hA : ∀ a ∈ A, k * a * k⁻�
       exact hB z hz
   exact hle ⟨t, ht, rfl⟩
 
+omit [Finite G] in
 theorem card_conjSubgroup (g : G) (H : Subgroup G) :
     Nat.card ↥(conjSubgroup g H) = Nat.card ↥H :=
   Subgroup.card_map_of_injective (MulAut.conj g).injective
@@ -564,7 +567,7 @@ theorem mem_M_of_conj_R_bar (hR : Nat.card ↥(Rc X) ≤ 2) (hsurj : Function.Su
     exact SixSFusionAux.false_of_T1_le D hR hsurj hij hQ'M hQ'ab hQnorm hN.ge
   ·
     exact SixSFusionAux.false_of_T1_le D hR hsurj hij hQ'M hQ'ab hQnorm
-      ((D.T1_le_TOf hR hsurj hg hij hIπ).trans hN.ge)
+      ((D.T1_le_TOf hR hg hij hIπ).trans hN.ge)
 
 theorem mem_M_of_conj_len_ne_two (hR : Nat.card ↥(Rc X) ≤ 2) (hsurj : Function.Surjective C.θ)
     {y : G} (hy : y ∈ CFSG.Open.pCoreOf 2 M) (hy1 : y ≠ 1)
@@ -725,7 +728,7 @@ theorem mem_M_of_conj_len_two (hR : Nat.card ↥(Rc X) ≤ 2) (hsurj : Function.
 theorem exists_sylow_le_M (hR2 : Nat.card ↥(Rc X) = 2) (hsurj : Function.Surjective C.θ) :
     ∃ S : Sylow 2 G, (S : Subgroup G) ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨D⟩ := C.exists_piData C.six_le C.even_n
   set Q : Subgroup G := CFSG.Open.pCoreOf 2 M with hQ
   have hR : Nat.card ↥(Rc X) ≤ 2 := hR2.le
@@ -774,10 +777,10 @@ theorem exists_sylow_le_M (hR2 : Nat.card ↥(Rc X) = 2) (hsurj : Function.Surje
   obtain ⟨S, hPS⟩ := hP2.exists_le_sylow
   have hSP : (S : Subgroup G) = P := by
     by_contra hne
-    obtain ⟨t, htS, htP, htN⟩ := exists_mem_normalizer_of_lt S.isPGroup' hPS (Ne.symm hne)
+    obtain ⟨t, htS, htP, htN⟩ := exists_mem_normalizer_of_lt S.isPGroup hPS (Ne.symm hne)
     have htM : t ∈ M := hN t htN
     have h2 : IsPGroup 2 ↥(P ⊔ Subgroup.zpowers t : Subgroup G) :=
-      isPGroup_of_le S.isPGroup' (sup_le hPS (Subgroup.zpowers_le.2 htS))
+      isPGroup_of_le S.isPGroup (sup_le hPS (Subgroup.zpowers_le.2 htS))
     have hle : P ⊔ Subgroup.zpowers t ≤ M := sup_le hPM (Subgroup.zpowers_le.2 htM)
     have hcard := hPmax _ ⟨hle, h2⟩
     have heq : P = P ⊔ Subgroup.zpowers t := Subgroup.eq_of_le_of_card_ge le_sup_left hcard

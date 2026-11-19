@@ -115,7 +115,7 @@ theorem isPStar_iff_T {Y : Type*} [Group Y] :
     intro t ht
     exact ⟨⟨t, hTN ht⟩, hP ht, rfl⟩
   · rintro ⟨h1, h2⟩
-    exact ⟨h1, fun N hN P => h2 N hN _ (Subgroup.map_subtype_le _) (P.isPGroup'.map N.subtype)⟩
+    exact ⟨h1, fun N hN P => h2 N hN _ (Subgroup.map_subtype_le _) (P.isPGroup.map N.subtype)⟩
 
 variable {A B : Type*} [Group A] [Group B]
 
@@ -130,7 +130,7 @@ theorem IsPStar.of_surjective [Finite A] (f : A →* B) (hf : Function.Surjectiv
   · obtain ⟨Q', hQ'⟩ := hT'.exists_le_sylow
     obtain ⟨Q, rfl⟩ := Sylow.mapSurjective_surjective hf p Q'
     set T : Subgroup A := (Q : Subgroup A) ⊓ T'.comap f with hT
-    have hTp : IsPGroup p ↥T := Q.isPGroup'.to_le inf_le_left
+    have hTp : IsPGroup p ↥T := Q.isPGroup.to_le inf_le_left
     have hmapT : T.map f = T' := by
       apply le_antisymm
       · rintro _ ⟨t, ht, rfl⟩

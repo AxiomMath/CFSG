@@ -125,7 +125,7 @@ theorem twE6LeviPlaneGeneration_of_catalogue (hcat : TwE6LeviCatalogue) :
     rw [hX, hXm, twE6LongRootLevi_map]
     exact IsPSU6Cover.of_mulEquiv ((MulAut.conj g).subgroupMap _) h0
   obtain ⟨hperf, hZ, ⟨φ⟩⟩ := hJ
-  haveI := hEab
+  have := hEab
   refine levi_le_planeClosure (twE6LongRootLevi X Xm) E CFSG.Open.isElemAbelian_of_isElementaryAbelian
     hcard (fun ε hε u hu => ?_) hperf hZ (twistedA5Index Q) ?_ ?_ trivial ?_ φ
   · exact commutator_centralizer_invariant _ ε (hSinv ε hε) hu

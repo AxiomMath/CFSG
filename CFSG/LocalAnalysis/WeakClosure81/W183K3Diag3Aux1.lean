@@ -12,6 +12,7 @@ open W183K3
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem w183k3_diag_lift {Y L A : Subgroup (LGL 2 V)} (hA : A ≤ Y)
     (hAn : A ≤ Subgroup.normalizer (L : Set (LGL 2 V)))
     (hin : alphaA Y L A ≤ alphaL Y L) {a : LGL 2 V} (ha : a ∈ A) :
@@ -28,6 +29,7 @@ theorem w183k3_diag_lift {Y L A : Subgroup (LGL 2 V)} (hA : A ≤ Y)
     (QuotientGroup.eq_one_iff (N := (alphaC Y L).subgroupOf (alphaX Y L)) _).mp hker
   simpa using Subgroup.mem_subgroupOf.mp hC
 
+omit [Finite V] in
 theorem w183k3_diag_mem_sup {Y T L₁ L₂ A : Subgroup (LGL 2 V)}
     (htwo : Br3TwoComp Y T L₁ L₂) (hA : A ≤ Y)
     (hAn₁ : A ≤ Subgroup.normalizer (L₁ : Set (LGL 2 V)))
@@ -76,6 +78,7 @@ theorem w183k3_diag_mem_sup {Y T L₁ L₂ A : Subgroup (LGL 2 V)}
   exact (L₁ ⊔ L₂).mul_mem (Subgroup.mem_sup_left (L₁.mul_mem hu₀ hxL₁))
     (Subgroup.mem_sup_right (L₂.mul_mem hv₀ hyL₂))
 
+omit [Finite V] in
 theorem w183k3_diag_split {Y T L₁ L₂ A : Subgroup (LGL 2 V)}
     (htwo : Br3TwoComp Y T L₁ L₂) (hA : A ≤ Y) (hel : IsElemAbelian 2 A)
     (hAn₁ : A ≤ Subgroup.normalizer (L₁ : Set (LGL 2 V)))
@@ -96,7 +99,7 @@ theorem w183k3_diag_unique {Y T L₁ L₂ : Subgroup (LGL 2 V)}
     {x x' y y' : LGL 2 V} (hx : x ∈ L₁) (hx' : x' ∈ L₁)
     (hxsq : x * x = 1) (hx'sq : x' * x' = 1)
     (hy : y ∈ L₂) (hy' : y' ∈ L₂)
-    (hysq : y * y = 1) (hy'sq : y' * y' = 1)
+    (_hysq : y * y = 1) (_hy'sq : y' * y' = 1)
     (h : x * y = x' * y') : x = x' ∧ y = y' := by
   have hceq : x'⁻¹ * x = y' * y⁻¹ := by
     calc x'⁻¹ * x = x'⁻¹ * (x * y) * y⁻¹ := by group
@@ -135,6 +138,7 @@ theorem w183k3_diag_unique {Y T L₁ L₂ : Subgroup (LGL 2 V)}
       _ = y' := by group
   exact ⟨hx_eq, hy_eq⟩
 
+omit [Finite V] in
 theorem w183k3_diag_comm_of_quot {Y L A : Subgroup (LGL 2 V)}
     (hodd : Odd (Nat.card ↥(Subgroup.center ↥L)))
     (hLY : L ≤ Y) (hA : A ≤ Y) (hAn : A ≤ Subgroup.normalizer (L : Set (LGL 2 V)))

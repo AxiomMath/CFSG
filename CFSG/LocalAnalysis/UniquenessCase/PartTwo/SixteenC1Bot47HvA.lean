@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c1_card_starImg_mul_card_uOne {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V)
     (hz : z ∈ V) :
     Nat.card ↥(starImg (centralizer ({z} : Set G)) V) * Nat.card ↥(uOne V z) =
@@ -28,7 +29,7 @@ theorem s16c1_card_starImg_mul_card_uOne {V : Subgroup G} {z : G} (hV : IsElemAb
     intro y hy
     rw [Set.mem_singleton_iff] at hy
     rw [hy]
-    letI : IsMulCommutative ↥V := hV.1
+    let : IsMulCommutative ↥V := hV.1
     exact congrArg Subtype.val (mul_comm' (⟨z, hz⟩ : ↥V) (⟨v, hv⟩ : ↥V))
   have hrange : ψ.range = starImg H V := by
     show (π.comp V'.subtype).range = (V.subgroupOf H).map π
@@ -81,6 +82,7 @@ theorem s16c1_card_starImg_mul_card_uOne {V : Subgroup G} {z : G} (hV : IsElemAb
   rw [mul_comm] at hmain
   exact hmain
 
+omit [Finite G] in
 theorem s16c1_card_uOne {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V) (hz : z ∈ V)
     (hV64 : Nat.card ↥V = 64) (h47 : Concl1647 V z) : Nat.card ↥(uOne V z) = 32 := by
   have h := s16c1_card_starImg_mul_card_uOne hV hz
@@ -102,6 +104,7 @@ theorem s16c1_card_ptCent_zTil (D : Data G) {V L : Subgroup G} {hV : IsElemAbeli
     exact hx1 (by rw [hx]; rfl)
   exact s16c1_card_of_isE16A5 ((hall Q hQ hQi).1 (mkTil ⊥ V hV x) hne (hsing Q hQ hQi))
 
+omit [Finite G] in
 theorem s16c1_card_imgTil_bot {V U : Subgroup G} (hV : IsElemAbelian 2 V) (hU : U ≤ V) :
     Nat.card ↥(imgTil ⊥ V hV U) = Nat.card ↥U := by
   have hinj : Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
@@ -204,7 +207,7 @@ theorem s16c1_card_N_cases (D : Data G) (hkit : OmegaKit) {V L : Subgroup G}
   have hNle : Nat.card ↥N ≤ 32 := by
     have hcard := Subgroup.card_le_of_le hNU
     rwa [hU32] at hcard
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardz : Nat.card ↥(Subgroup.zpowers x.val) = 2 := by
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime (hV.2 x.val hz) hx1

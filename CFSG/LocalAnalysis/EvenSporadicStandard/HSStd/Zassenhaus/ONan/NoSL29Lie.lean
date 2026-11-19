@@ -65,7 +65,7 @@ theorem noSL29_of_lieModel_psl_five_two {N : Type} [Group N] [Finite N]
 private theorem exists_subgroup_card_nine_of_card_eq_720 {N : Type} [Group N] [Finite N]
     (H : Subgroup N) (hH : Nat.card H = 720) :
     ∃ P : Subgroup N, P ≤ H ∧ Nat.card P = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨P', hP'⟩ :=
     Sylow.exists_subgroup_card_pow_prime (G := H) 3 (n := 2) (by rw [hH]; norm_num)
   exact ⟨P'.map H.subtype, Subgroup.map_subtype_le P', by

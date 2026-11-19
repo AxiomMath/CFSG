@@ -16,7 +16,7 @@ variable {X : Type} [Group X] [Finite X]
 
 theorem exists_sylow_three_eq_zpowers {b : X} (hb : orderOf b = 3)
     (hC : Cen b = Subgroup.zpowers b) : ∃ P : Sylow 3 X, (P : Subgroup X) = Subgroup.zpowers b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card (Subgroup.zpowers b) = 3 := by rw [Nat.card_zpowers, hb]
   have hbp : IsPGroup 3 (Subgroup.zpowers b) :=
     IsPGroup.of_card (n := 1) (by rw [hcard]; norm_num)
@@ -26,8 +26,8 @@ theorem exists_sylow_three_eq_zpowers {b : X} (hb : orderOf b = 3)
   have hb1 : b ≠ 1 := by
     rintro rfl
     simp at hb
-  haveI : Nontrivial (P : Subgroup X) := ⟨⟨⟨b, hbP⟩, 1, fun h => hb1 (congrArg Subtype.val h)⟩⟩
-  haveI := P.isPGroup'.center_nontrivial
+  have : Nontrivial (P : Subgroup X) := ⟨⟨⟨b, hbP⟩, 1, fun h => hb1 (congrArg Subtype.val h)⟩⟩
+  have := P.isPGroup.center_nontrivial
   obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center (P : Subgroup X))
   have hzc : ∀ p : (P : Subgroup X), p * (z : (P : Subgroup X)) = (z : (P : Subgroup X)) * p :=
     fun p => Subgroup.mem_center_iff.1 z.2 p
@@ -58,7 +58,7 @@ theorem exists_sylow_three_eq_zpowers {b : X} (hb : orderOf b = 3)
 
 theorem not_nine_dvd_card {b : X} (hb : orderOf b = 3) (hC : Cen b = Subgroup.zpowers b) :
     ¬ 9 ∣ Nat.card X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := exists_sylow_three_eq_zpowers hb hC
   have h1 : Nat.card (P : Subgroup X) = 3 := by rw [hP, Nat.card_zpowers, hb]
   have h2 := P.card_eq_multiplicity
@@ -75,12 +75,12 @@ theorem exists_mem_normalizer_of_lt_pGroup {p : ℕ} [Fact p.Prime] {P V : Subgr
   set VP : Subgroup P := V.subgroupOf P with hVP
   have hne : VP < ⊤ := by
     refine lt_of_le_of_ne le_top fun h => ?_
-    obtain ⟨x, hxP, hxV⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨x, hxP, hxV⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hx : (⟨x, hxP⟩ : P) ∈ VP := h ▸ Subgroup.mem_top _
     exact hxV (Subgroup.mem_subgroupOf.mp hx)
-  haveI : Group.IsNilpotent P := hP.isNilpotent
+  have : Group.IsNilpotent P := hP.isNilpotent
   have hlt' := Group.normalizerCondition_of_isNilpotent (G := P) VP hne
-  obtain ⟨y, hyN, hyV⟩ := SetLike.exists_of_lt hlt'
+  obtain ⟨y, hyN, hyV⟩ := _root_.IsConcreteLE.exists_of_lt hlt'
   refine ⟨y, y.2, fun h => hyV (Subgroup.mem_subgroupOf.mpr h), ?_⟩
   rw [Subgroup.mem_normalizer_iff]
   intro v
@@ -101,14 +101,14 @@ theorem exists_mem_normalizer_of_lt_pGroup {p : ℕ} [Fact p.Prime] {P V : Subgr
 
 theorem exists_sylow_two_eq_cen {t : X} (ht : orderOf t = 2) (e : Cen t ≃* DihedralGroup 4) :
     ∃ D : Sylow 2 X, (D : Subgroup X) = Cen t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV2 : IsPGroup 2 (Cen t) :=
     IsPGroup.of_card (n := 3) (by rw [Nat.card_congr e.toEquiv, DihedralGroup.nat_card]; norm_num)
   obtain ⟨D, hD⟩ := hV2.exists_le_sylow
   refine ⟨D, le_antisymm ?_ hD⟩
   by_contra hle
   have hlt : Cen t < (D : Subgroup X) := lt_of_le_of_ne hD fun h => hle (h ▸ le_rfl)
-  obtain ⟨x, hxD, hxV, hxN⟩ := exists_mem_normalizer_of_lt_pGroup D.isPGroup' hlt
+  obtain ⟨x, hxD, hxV, hxN⟩ := exists_mem_normalizer_of_lt_pGroup D.isPGroup hlt
   have ht1 : t ≠ 1 := fun h => by simp [h] at ht
   have htV : t ∈ Cen t := Subgroup.mem_centralizer_singleton_iff.2 rfl
   have hxt : x * t * x⁻¹ ∈ Cen t := (Subgroup.mem_normalizer_iff.1 hxN t).1 htV
@@ -133,6 +133,7 @@ theorem exists_sylow_two_eq_cen {t : X} (ht : orderOf t = 2) (e : Cen t ≃* Dih
   calc x * t = x * t * x⁻¹ * x := by group
     _ = t * x := by rw [heq]
 
+omit [Finite X] in
 theorem mem_commutator_of_cen_dihedral {t : X} (ht : orderOf t = 2)
     (e : Cen t ≃* DihedralGroup 4) : t ∈ commutator X := by
   have htV : t ∈ Cen t := Subgroup.mem_centralizer_singleton_iff.2 rfl
@@ -168,6 +169,7 @@ theorem mem_commutator_of_cen_dihedral {t : X} (ht : orderOf t = 2)
   rw [h1]
   exact hmem
 
+omit [Finite X] in
 theorem mem_zpowers_or_mul_mem_of_mem_normalizer {b t g : X} (hb : orderOf b = 3)
     (hC : Cen b = Subgroup.zpowers b) (hinv : t * b * t⁻¹ = b⁻¹)
     (hg : g ∈ Subgroup.normalizer (Subgroup.zpowers b : Set X)) :
@@ -216,7 +218,7 @@ theorem index_ne_two {b t : X} (hb : orderOf b = 3) (hC : Cen b = Subgroup.zpowe
     (hinv : t * b * t⁻¹ = b⁻¹) (htc : t ∈ commutator X) (N : Subgroup X) [N.Normal] :
     N.index ≠ 2 := by
   intro h2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := exists_sylow_three_eq_zpowers hb hC
   have hb3 : b ^ 3 = 1 := by rw [← hb]; exact pow_orderOf_eq_one b
   have hbN : b ∈ N := by
@@ -263,6 +265,7 @@ theorem isConj_of_no_index_two {D : Sylow 2 X} (e : (D : Subgroup X) ≃* Dihedr
       (by norm_num) e hu hv h
   exact hno N hN hi
 
+omit [Finite X] in
 theorem map_cen_conj (c u : X) :
     (Cen u).map (MulAut.conj c).toMonoidHom = Cen (c * u * c⁻¹) := by
   ext y
@@ -279,12 +282,14 @@ theorem map_cen_conj (c u : X) :
       _ = c⁻¹ * ((c * u * c⁻¹) * y) * c := by rw [hy]
       _ = u * (c⁻¹ * y * c) := by group
 
+omit [Finite X] in
 theorem nonempty_cen_equiv_of_isConj {u v : X} (h : IsConj u v) : Nonempty (Cen u ≃* Cen v) := by
   obtain ⟨c, hc⟩ := isConj_iff.1 h
   subst hc
   exact ⟨(MulEquiv.subgroupMap (MulAut.conj c) (Cen u)).trans
     (MulEquiv.subgroupCongr (map_cen_conj c u))⟩
 
+omit [Finite X] in
 theorem centD8_of_isConj {t : X} (e : Cen t ≃* DihedralGroup 4)
     (hconj : ∀ u : X, orderOf u = 2 → IsConj t u) : CentD8 X := by
   intro u hu
@@ -320,7 +325,7 @@ theorem nonempty_equiv_gl_three_two {b t : X} (hb : orderOf b = 3)
     (e : Cen t ≃* DihedralGroup 4) :
     Nonempty (X ≃* GL (Fin 3) (ZMod 2)) := by
   obtain ⟨K, hF, hfin, h7, ⟨eX⟩⟩ := exists_psl2_seven hb hC ht hinv e
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK : Fintype.card K = 7 := by rw [Fintype.card_eq_nat_card, h7]
   let eK : ZMod 7 ≃+* K := ZMod.ringEquivOfPrime K (by norm_num) hK
   let e7 : X ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod 7) :=

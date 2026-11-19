@@ -144,7 +144,7 @@ theorem false_of_irreducible_gl4_m11_l34 {q : ℕ} [Fact q.Prime] (_hq2 : q ≠ 
     exact hq3 ((Nat.prime_dvd_prime_iff_eq Fact.out Nat.prime_three).1 h')
   refine E9Q8.false_of_e9q8 h3 (by norm_num) ?_ hirr hab ha3 hb3 hia hib hja hjb hij ha1
   intro x y c hxy hcx hcy hc3 hfix
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h34 := UC6.K318.dvd_of_conj_eq_central_mul (s := 3) (j := 1) hxy hcx hcy
     (by rwa [pow_one]) hfix
   omega

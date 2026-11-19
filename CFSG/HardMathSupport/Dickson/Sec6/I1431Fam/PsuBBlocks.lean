@@ -76,11 +76,11 @@ theorem t6psub_derived (B : primeFormUnitary h (idGram K n))
   let ρ : (b : {b : primaryFactors (x : Module.End K (Fin n → K)) // ¬ IsGoodBlock h x b}) →
       ↥C →* blockGL (x : Module.End K (Fin n → K)) (b.1 : K[X]) :=
     fun b => (blockRestrict x (b.1 : K[X])).comp φ
-  haveI : ∀ b, Group.IsSolvable ↥(ρ b).range := fun b =>
+  have : ∀ b, Group.IsSolvable ↥(ρ b).range := fun b =>
     t6psuh_isSolvable_range_blockRestrict_of_not_good hq H b.1 b.2 φ hφU
-  haveI : Group.IsSolvable ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
+  have : Group.IsSolvable ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
       ¬ IsGoodBlock h x b}) → ↥(ρ b).range) := t6psl_isSolvable_pi
-  haveI : Group.IsSolvable ((b : primaryFactors (x : Module.End K (Fin n → K))) →
+  have : Group.IsSolvable ((b : primaryFactors (x : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) := inferInstance
   let ψ : ↥C →* ((b : primaryFactors (x : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) × ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //

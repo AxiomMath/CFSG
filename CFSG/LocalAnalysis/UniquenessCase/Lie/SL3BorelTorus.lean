@@ -21,7 +21,7 @@ theorem uc22pwI3TorusMap_dSL [CharP K 2] (ε : Bool) (i : ℕ) (a : Kˣ) :
   have hJ : (uc22pwI3Jsl K)⁻¹ = uc22pwI3Jsl K := inv_eq_of_mul_eq_one_right uc22pwI3Jsl_mul_self
   cases ε
   · simp [uc22pwI3TorusMap, map_pow]
-  · simp only [uc22pwI3TorusMap, if_true, ← map_pow, ← map_inv]
+  · simp only [uc22pwI3TorusMap, ite_true, ← map_pow, ← map_inv]
     have h := uc22pwI3Jsl_conj_dSL (K := K) (a ^ 2 ^ i)⁻¹
     rw [hJ] at h
     rw [h, map_inv, inv_inv]
@@ -62,7 +62,7 @@ theorem uc22pwI3_exists_torus_of_mem_normalizer [Finite K] [CharP K 2] {X : Type
   have hU₀ : IsPGroup 2 (unitriangular 3 K) := by
     obtain ⟨Q, hQ⟩ := exists_sylow_unitriangular (K := K) 2 (n := 3) (by norm_num)
     rw [← hQ]
-    exact Q.isPGroup'
+    exact Q.isPGroup
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hU₀
   have hpow : ∀ s ∈ unitriangular 3 K, s ^ 2 ^ k = 1 := by
     intro s hs

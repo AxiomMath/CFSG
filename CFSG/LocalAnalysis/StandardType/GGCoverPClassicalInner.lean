@@ -234,7 +234,7 @@ theorem largeEvenLabelAll_coverP_DThree {p : ℕ} (hp : p.Prime) {lab : LargeEve
   subst htag
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
-  rw [if_pos hl] at hQ ⊢
+  rw [ite_eq_left hl] at hQ ⊢
   obtain ⟨K, hfield, hfinite, hK, hQ'⟩ := hQ
   refine ⟨K, hfield, hfinite, hK, hQ', ?_⟩
   have : Fintype K := Fintype.ofFinite K

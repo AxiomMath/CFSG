@@ -52,7 +52,7 @@ theorem conj_traces_exists_intertwiner {M : Matrix (Fin 2) (Fin 2) F} (hM : M.de
   · simpa [Matrix.det_fin_two_of] using hxy
   · ext i j
     fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-      first | ring1 | linear_combination (-x) * hM | linear_combination (-y) * hM
+      first | linear_combination (-x) * hM | linear_combination (-y) * hM
 
 end Lemma18iii
 

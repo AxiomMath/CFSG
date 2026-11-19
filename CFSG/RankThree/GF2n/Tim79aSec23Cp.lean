@@ -91,7 +91,7 @@ theorem commutator_cPbar_eq_bot : ⁅cPbar V H P, cPbar V H P⁆ = ⊥ := by
   have h2 : ⁅⁅xOf V H, C⁆, C⁆ = ⊥ := by rw [Subgroup.commutator_comm (xOf V H) C]; exact h1
   have h3 : ⁅⁅C, C⁆, xOf V H⁆ = ⊥ := Subgroup.commutator_commutator_eq_bot_of_rotate h1 h2
   have hP2 : IsPGroup 2 ↥P := hc.isPGroup_P
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hP2⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hP2⟩
   have hcomm_le : ∀ a ∈ P, ∀ b ∈ P, ⁅a, b⁆ ∈ V := by
     intro a ha b hb
     have h := CFSG.commutator_le_frattini_of_isPGroup (R := ↥P) (p := 2)

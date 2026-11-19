@@ -53,7 +53,7 @@ theorem conjSub_coreLayer (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpo
 
 theorem oddCoreOf_coreLayer_le (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers c)) :
     oddCoreOf (coreLayer Ω c) ≤ oddCoreOf (Subgroup.centralizer ({c} : Set G)) :=
-  oddCoreOf_le_of_normalizes coreLayer_le_centralizer fun g hg => conjSub_coreLayer hΩ hc2 hg
+  oddCoreOf_le_of_normalizes coreLayer_le_centralizer fun _g hg => conjSub_coreLayer hΩ hc2 hg
 
 end Layer
 

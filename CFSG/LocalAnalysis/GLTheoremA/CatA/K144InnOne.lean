@@ -195,8 +195,8 @@ theorem canon_of_trivial (hRig : GGLabelRigidInput) {S : Type} [Group S] [Finite
     (hcat : catalogIs (PSimple 3 Jb) I144Cat) :
     (canonLabel labK).n = 1 ∧ ((canonLabel labK).tag = .twA ∨ (canonLabel labK).tag = .B) := by
   have hq : CFSG.Open.IsQuasisimple S := Y10F.hasLabel_isQuasisimple hlab
-  haveI : IsSimpleGroup (S ⧸ Subgroup.center S) := hq.2
-  haveI : IsSimpleGroup S := (CanonInn.quotCenterEquivOfBot hcen).symm.isSimpleGroup
+  have : IsSimpleGroup (S ⧸ Subgroup.center S) := hq.2
+  have : IsSimpleGroup S := (CanonInn.quotCenterEquivOfBot hcen).symm.isSimpleGroup
   have hfix : fixSubgroup (1 : MulAut S) = ⊤ := by
     ext x
     simp [mem_fixSubgroup]

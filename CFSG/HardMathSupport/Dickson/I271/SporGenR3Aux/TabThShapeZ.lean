@@ -17,7 +17,7 @@ section Z
 
 theorem card_centralizer_zJ_dvd :
     Nat.card (Subgroup.centralizer ({ThCent.zJ} : Set ↥CFSG.Sporadic.Th.J)) ∣ 2 ^ 3 * 3 ^ 10 := by
-  haveI : Finite ↥CFSG.Sporadic.Th.J := finite_J
+  have : Finite ↥CFSG.Sporadic.Th.J := finite_J
   obtain ⟨Q, hQ, -, hz3, hQz, ⟨u, hu, huz⟩, -⟩ := Certificates.certificate13650
   set C := Subgroup.centralizer ({ThCent.zJ} : Set ↥CFSG.Sporadic.Th.J) with hCdef
   have hle : Nat.card C ≤ 472392 := Certificates.certificate13651
@@ -67,7 +67,7 @@ theorem th_shape_Z : ShapeRkAt 3 (LeafType 3) (fun _ _ => True) thZ := by
   have hz : orderOf thZ = 3 := th_orderOf.2.1
   have hO : GLAPPrimeCoreOf 3 (Subgroup.centralizer ({thZ} : Set ↥CFSG.Sporadic.Th.J)) = ⊥ :=
     oPrimeCoreTrivialAt_Th_three_of_residual thThreeResidual_holds thZ hz
-  haveI : Finite ↥CFSG.Sporadic.Th.J := finite_J
+  have : Finite ↥CFSG.Sporadic.Th.J := finite_J
   exact pConstrainedShape_of_solvable Nat.prime_three
     (isSolvable_of_card_dvd_two_three card_centralizer_zJ_dvd) hO
 

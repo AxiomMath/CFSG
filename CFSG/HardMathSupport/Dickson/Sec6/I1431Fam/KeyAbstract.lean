@@ -57,9 +57,9 @@ theorem lift_blocks_of_orbit_family_sq {Xs : Type} [Group Xs] [Finite Xs] (q : �
       (∀ i, CFSG.IsQuasisimple (N i)) ∧
       (∃ k : ℕ, ∀ g ∈ derivedSeries ↥(Subgroup.centralizer ({a} : Set Xs)) k,
         (g : Xs) ∈ ⨆ i, N i) ∧
-      (∀ i, IsTypeL2 q (N i) → ∀ b ∈ Subgroup.centralizer ({a} : Set Xs), b ^ 3 = 1 →
-        ∃ s ∈ N i, ∀ m ∈ N i, b * m * b⁻¹ = s * m * s⁻¹) :=
-  lift_blocks_of_orbit_family q a F hc hjoin htame fun i hq hT b hb hb3 =>
+      (∀ i, IsTypeL2 q (N i) → ∀ _b ∈ Subgroup.centralizer ({a} : Set Xs), _b ^ 3 = 1 →
+        ∃ s ∈ N i, ∀ m ∈ N i, _b * m * _b⁻¹ = s * m * s⁻¹) :=
+  lift_blocks_of_orbit_family q a F hc hjoin htame fun i hq hT _b hb hb3 =>
     key_of_sq_mem (commutator_self_le (F i)) (hsq i hq hT) hb hb3
 
 end CFSG.HardMathSupport.Dickson.Sec6.I1431

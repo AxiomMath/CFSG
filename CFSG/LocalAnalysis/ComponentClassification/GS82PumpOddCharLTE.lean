@@ -30,7 +30,7 @@ theorem ordProj_lt_of_even {s x : ℕ} (hs : Odd s) (hx : x ≠ 0) (he : Even x)
 
 theorem ordProj_prod {ι : Type*} {S : Finset ι} {g : ι → ℕ} (hg : ∀ i ∈ S, g i ≠ 0) (s : ℕ) :
     ordProj[s] (∏ i ∈ S, g i) = ∏ i ∈ S, ordProj[s] (g i) := by
-  rw [Nat.factorization_prod hg, Finsupp.finset_sum_apply, Finset.prod_pow_eq_pow_sum]
+  rw [Nat.factorization_prod hg, _root_.Finsupp.finsetSum_apply, Finset.prod_pow_eq_pow_sum]
 
 theorem le_pow_sub_two {q m : ℕ} (hq : 3 ≤ q) (hm : 3 ≤ m) : m ≤ q ^ (m - 2) := by
   obtain ⟨k, rfl⟩ : ∃ k, m = k + 3 := ⟨m - 3, by omega⟩
@@ -59,7 +59,7 @@ theorem ord_pos (h : Setup s q Q) : 0 < ord s Q := by
   exact Nat.pos_of_dvd_of_pos (ZMod.orderOf_dvd_card_sub_one hQ)
     (by have := h.prime.two_le; omega)
 
-theorem dvd_fac_iff (h : Setup s q Q) (d : ℕ) : s ∣ fac Q d ↔ ord s Q ∣ d := by
+theorem dvd_fac_iff (_h : Setup s q Q) (d : ℕ) : s ∣ fac Q d ↔ ord s Q ∣ d := by
   rw [fac, ← Int.ofNat_dvd_left, ← ZMod.intCast_zmod_eq_zero_iff_dvd, ord,
     orderOf_dvd_iff_pow_eq_one]
   push_cast

@@ -11,9 +11,9 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData CFSG.Open
 
 variable {X : Type} [Group X] [Finite X]
 
-theorem ystar_eq_bot_of_isSolvable_quotient {T T₁ T₂ : Subgroup X} (hX : GNSetting X T)
+theorem ystar_eq_bot_of_isSolvable_quotient {T T₁ T₂ : Subgroup X} (_hX : GNSetting X T)
     (hquot : Group.IsSolvable (X ⧸ gnC T)) : Ystar T T₁ T₂ = ⊥ := by
-  haveI := hquot
+  have := hquot
   rw [Ystar, iSup_eq_bot]
   intro L
   rw [iSup_eq_bot]

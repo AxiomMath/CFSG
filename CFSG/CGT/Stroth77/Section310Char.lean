@@ -76,6 +76,7 @@ section Omega
 
 variable {G : Type} [Group G] [Finite G] {D : Subgroup G}
 
+omit [Finite G] in
 theorem mem_omegaIn_one_iff (hD : IsMulCommutative D) {x : G} :
     x ∈ omegaIn 1 D ↔ x ∈ D ∧ x * x = 1 := by
   refine ⟨?_, fun h => mem_omegaIn_one_of_mul_self h.1 h.2⟩
@@ -95,10 +96,12 @@ theorem mem_omegaIn_one_iff (hD : IsMulCommutative D) {x : G} :
 variable {k : Fin 3 → ℕ} (e : Additive D ≃+ Torus k)
 
 include e in
+omit [Finite G] in
 theorem mul_self_eq_one_iff_two_nsmul (y : D) : y * y = 1 ↔ 2 • e (Additive.ofMul y) = 0 := by
   rw [two_nsmul, ← map_add, ← ofMul_mul, AddEquiv.map_eq_zero_iff, ofMul_eq_zero]
 
 include e in
+omit [Finite G] in
 theorem natCard_omegaIn_one {n : ℕ} (hk : ∀ i, k i = n + 1) : Nat.card (omegaIn 1 D) = 8 := by
   have hD : IsMulCommutative D := ⟨⟨fun x y => Additive.ofMul.injective (e.injective (by
     simp only [ofMul_mul, map_add]; exact add_comm _ _))⟩⟩
@@ -113,6 +116,7 @@ theorem natCard_omegaIn_one {n : ℕ} (hk : ∀ i, k i = n + 1) : Nat.card (omeg
   rw [Nat.card_congr (E1.trans E2), natCard_two_torsion_torus hk]
 
 include e in
+omit [Finite G] in
 theorem exists_pow_four_of_mem_omegaIn {n : ℕ} (hk : ∀ i, k i = n + 3) {x : G}
     (hx : x ∈ omegaIn 1 D) : ∃ y ∈ D, x = y ^ 4 := by
   have hD : IsMulCommutative D := ⟨⟨fun x y => Additive.ofMul.injective (e.injective (by
@@ -151,7 +155,7 @@ theorem false_of_index_le_four {B : Subgroup D} (hB : B.index ≤ 4)
     (hBc : ∀ y ∈ B, (y : G) * dD.uv = dD.uv * y) (w : Fin 5 → Torus τ.k)
     (hw : ∀ i j, i ≠ j → τ.action.φuv (w j - w i) ≠ w j - w i) : False := by
   have hcomm : ∀ x y : D, x * y = y * x := fun x y => dD.isMulCommutative.is_comm.comm x y
-  haveI : B.Normal := ⟨fun n _ g => by rwa [hcomm g n, mul_inv_cancel_right]⟩
+  have : B.Normal := ⟨fun n _ g => by rwa [hcomm g n, mul_inv_cancel_right]⟩
   let x : Fin 5 → D := fun i => Additive.toMul (dD.e.symm (w i))
   have hinj : Function.Injective fun i => (x i : D ⧸ B) := by
     intro i j hij
@@ -234,7 +238,7 @@ theorem eq_one_or_eq_of_central_of_card_eight {M : Type*} [Group M] [Finite M] {
       fin_cases i <;> fin_cases j <;> simp [f] at hij' <;> (try rfl) <;>
         (try exact absurd hij'.symm hx1) <;> (try exact absurd hij' hx1) <;>
         (try exact absurd hij'.symm hne.1) <;> (try exact absurd hij' hne.1) <;>
-        (try exact absurd hij'.symm hne.2) <;> exact absurd hij' hne.2
+        (try exact absurd hij'.symm hne.2); exact absurd hij' hne.2
     simpa using Nat.card_le_card_of_injective f hf
   have hdvd : Nat.card Z ∣ 8 := hX8 ▸ Subgroup.card_subgroup_dvd_card Z
   have hcomm : ∀ p q : X, p * q = q * p := by
@@ -260,7 +264,7 @@ theorem StrothFrame.IsD.mem_normalizer_of_mem_normalizer_normalizerIn (h : F.IsD
     (hτ : τ.m = τ.n)
     (hR : (F.S : Subgroup G) ⊓ Subgroup.normalizer (D : Set G) ⊓
       Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G) = D)
-    {g : G} (hgS : g ∈ (F.S : Subgroup G))
+    {g : G} (_hgS : g ∈ (F.S : Subgroup G))
     (hgN : g ∈ Subgroup.normalizer
       (((F.S : Subgroup G) ⊓ Subgroup.normalizer (D : Set G) : Subgroup G) : Set G)) :
     g ∈ Subgroup.normalizer (D : Set G) := by
@@ -307,7 +311,7 @@ theorem StrothFrame.IsD.mem_normalizer_of_mem_normalizer_normalizerIn (h : F.IsD
     refine mem_omegaIn_one_of_mul_self ((Subgroup.mem_normalizer_iff.mp hx.2 w).mp hwD) ?_
     calc x * w * x⁻¹ * (x * w * x⁻¹) = x * (w * w) * x⁻¹ := by group
       _ = 1 := by rw [hw2, mul_one, mul_inv_cancel]
-  haveI : (Ω.subgroupOf N).Normal := ⟨fun w hw x => Subgroup.mem_subgroupOf.mpr (by
+  have : (Ω.subgroupOf N).Normal := ⟨fun w hw x => Subgroup.mem_subgroupOf.mpr (by
     simpa using hΩnorm x x.2 w (Subgroup.mem_subgroupOf.mp hw))⟩
   let θ : ↥N →* MulAut ↥(Ω.subgroupOf N) := MulAut.conjNormal
   have hθ : ∀ x : N, θ x = 1 ↔ (x : G) ∈ D := by
@@ -333,7 +337,7 @@ theorem StrothFrame.IsD.mem_normalizer_of_mem_normalizer_normalizerIn (h : F.IsD
     ((mem_omegaIn_one_iff hDc).mp (Subgroup.mem_subgroupOf.mp v.2)).2)
   have h168 : Nat.card (MulAut ↥(Ω.subgroupOf N)) = 168 :=
     CFSG.OddStandard.ChengHeld.card_mulAut_elemAb8 hV8 hV2
-  have hNp : IsPGroup 2 N := F.S.isPGroup'.to_le inf_le_left
+  have hNp : IsPGroup 2 N := F.S.isPGroup.to_le inf_le_left
   have hPp : IsPGroup 2 θ.range := hNp.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
   have hdvd8 : ∀ H : Subgroup (MulAut ↥(Ω.subgroupOf N)), H ≤ θ.range → Nat.card H ∣ 8 := by
     intro H hH
@@ -467,8 +471,8 @@ theorem StrothFrame.IsD.mem_normalizer_of_mem_normalizer_normalizerIn (h : F.IsD
           mul_one]
     have hcen : ∀ p ∈ θ.range, p * θ uvN = θ uvN * p := fun p hp => hcen' p (hgenP hp)
     have hPp' : IsPGroup 2 θ.range := hPp
-    haveI : Group.IsNilpotent θ.range := hPp'.isNilpotent
-    haveI hHn : ((K'.map θ).subgroupOf θ.range).Normal := by
+    have : Group.IsNilpotent θ.range := hPp'.isNilpotent
+    have hHn : ((K'.map θ).subgroupOf θ.range).Normal := by
       refine ⟨fun z hz p => ?_⟩
       rw [Subgroup.mem_subgroupOf] at hz ⊢
       obtain ⟨y, hy, hyz⟩ := hz
@@ -524,7 +528,7 @@ theorem StrothFrame.IsD.mem_normalizer_of_mem_normalizer_normalizerIn (h : F.IsD
         have : 2 ^ 3 ≤ 2 ^ j := Nat.pow_le_pow_right (by norm_num) (by omega)
         omega
       exact (Nat.pow_dvd_pow 2 hj2).trans (by norm_num)
-    haveI : B.Normal := ⟨fun n _ g => by rwa [hcomm' g n, mul_inv_cancel_right]⟩
+    have : B.Normal := ⟨fun n _ g => by rwa [hcomm' g n, mul_inv_cancel_right]⟩
     have h4 : ∀ x : D, x ^ 4 ∈ B := by
       intro x
       obtain ⟨c, hc⟩ := hidx4

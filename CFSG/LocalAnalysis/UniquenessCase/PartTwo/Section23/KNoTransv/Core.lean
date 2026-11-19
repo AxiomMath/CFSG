@@ -25,7 +25,7 @@ theorem exists_mcLaughlin_quotient {B : Type} [CommGroup B] [Finite B] (hB : ∀
     apply Additive.toMul.injective
     rw [toMul_add, toMul_zero]
     simpa [pow_two] using hB (Additive.toMul x)
-  haveI : Finite (Additive B) := inferInstanceAs (Finite B)
+  have : Finite (Additive B) := inferInstanceAs (Finite B)
   set Φ := Coordinator.i285_Φ (V := B)
   have hV : UniquenessMaximal.IsElemAbelianTwo B := fun b => by
     simpa [pow_two] using hB b

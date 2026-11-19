@@ -15,7 +15,7 @@ theorem w135c2_natural_data {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K
     (hreal : (FFModel.nat Γ).Realizes L ⊤ ⊥) :
     Nat.card K ≤ Nat.card ↥(LEnd L) ∧ Nat.card W = Nat.card K ^ Fintype.card ι := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [FFModel.Realizes] at hreal
   obtain ⟨π, hπ⟩ := hreal
   rw [FFModel.RealizesVia] at hπ
@@ -162,7 +162,7 @@ theorem w135c2_natural_data {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K
     have hneι : Nonempty ι := by
       by_contra h
       rw [not_nonempty_iff] at h
-      haveI : IsEmpty ι := h
+      have : IsEmpty ι := h
       have hzero : Fintype.card ι = 0 := Fintype.card_eq_zero_iff.mpr h
       have h1 : Nat.card W = 1 := by rw [hcardW, hzero, pow_zero]
       exact absurd hWlt (not_lt_of_ge (le_of_eq h1))
@@ -180,12 +180,13 @@ theorem w135c2_natural_data {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K
       rwa [AddEquiv.apply_symm_apply, AddEquiv.apply_symm_apply] at h
     exact congrFun hconst i
   have hcardLE : Nat.card K ≤ Nat.card ↥(LEnd L) := by
-    haveI : Finite ↥(LEnd L) := by
-      haveI : Finite (AddMonoid.End (Additive W)) := DFunLike.finite _
+    have : Finite ↥(LEnd L) := by
+      have : Finite (AddMonoid.End (Additive W)) := DFunLike.finite _
       infer_instance
     exact Nat.card_le_card_of_injective φ hφinj
   exact ⟨hcardLE, hcardW⟩
 
+omit [Finite W] in
 theorem w135c2_two_le_card_index {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K] [Finite K]
     {Γ : Subgroup (Matrix.GeneralLinearGroup ι K)}
     (hreal : (FFModel.nat Γ).Realizes L ⊤ ⊥) (hnab : ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a) :
@@ -194,7 +195,7 @@ theorem w135c2_two_le_card_index {ι K : Type} [Fintype ι] [DecidableEq ι] [Fi
   by_contra hlt
   rw [not_le] at hlt
   have hcard : Fintype.card ι ≤ 1 := Nat.le_of_lt_succ hlt
-  haveI : Subsingleton ι := Fintype.card_le_one_iff_subsingleton.mp hcard
+  have : Subsingleton ι := Fintype.card_le_one_iff_subsingleton.mp hcard
   have hcommMat : ∀ A B : Matrix ι ι K, A * B = B * A := by
     intro A B
     ext i j

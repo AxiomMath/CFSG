@@ -40,14 +40,14 @@ theorem charP_two_end : CharP (Module.End A X) 2 := by
   exact hX2 y
 
 theorem card_end_eq_two_pow : ∃ e : ℕ, 1 ≤ e ∧ Nat.card (Module.End A X) = 2 ^ e := by
-  haveI := charP_two_end A X
-  haveI : Fintype (Module.End A X) := Fintype.ofFinite _
+  have := charP_two_end A X
+  have : Fintype (Module.End A X) := Fintype.ofFinite _
   obtain ⟨n, -, hn⟩ := FiniteField.card (Module.End A X) 2
   exact ⟨(n : ℕ), n.pos, by rw [Nat.card_eq_fintype_card, hn]⟩
 
 private lemma exists_scalar_of_finrank_one_endField (hr : finrank (Module.End A X) X = 1) (c : A) :
     ∃ α : Module.End A X, ∀ y : X, c • y = α • y := by
-  haveI : Module.Free (Module.End A X) X := Module.Free.of_divisionRing (Module.End A X) X
+  have : Module.Free (Module.End A X) X := Module.Free.of_divisionRing (Module.End A X) X
   obtain ⟨v, -, hv⟩ := (finrank_eq_one_iff' (K := Module.End A X) (V := X)).mp hr
   obtain ⟨α, hα⟩ := hv (c • v)
   refine ⟨α, fun y => ?_⟩
@@ -74,7 +74,7 @@ theorem card_end_le
     (hX : Nat.card ↥X = 2 ∨ (Nat.card ↥X = 16 ∧ ∃ a ∈ A, ∃ b ∈ A, ∃ x ∈ X, a (b x) ≠ b (a x))) :
     Nat.card (Module.End A X) = 2 ∨ Nat.card (Module.End A X) = 4 := by
   obtain ⟨e, he1, hE⟩ := card_end_eq_two_pow A X
-  haveI : Module.Finite (Module.End A X) X := Module.finite_iff_finite.mpr inferInstance
+  have : Module.Finite (Module.End A X) X := Module.finite_iff_finite.mpr inferInstance
   have hcard : Nat.card X = 2 ^ (e * finrank (Module.End A X) X) := by
     rw [Module.natCard_eq_pow_finrank (K := Module.End A X), hE, pow_mul]
   rcases hX with h2 | ⟨h16, a, ha, b, hb, x, hx, hne⟩
@@ -89,7 +89,7 @@ theorem card_end_le
       rw [h0, mul_zero, pow_zero] at hcard
       omega
     have h' : (2 : ℕ) ^ (e * finrank (Module.End A X) X) = 2 ^ 4 := by
-      rw [← hcard, h16] <;> norm_num
+      rw [← hcard, h16]; norm_num
     have hmul : e * finrank (Module.End A X) X = 4 := Nat.pow_right_injective le_rfl h'
     have hdvd : e ∣ 4 := Dvd.intro _ hmul
     have he4 : e ≤ 4 := Nat.le_of_dvd (by norm_num) hdvd

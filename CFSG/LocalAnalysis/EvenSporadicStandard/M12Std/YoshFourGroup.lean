@@ -9,7 +9,7 @@ public section
 namespace CFSG.EvenSporadicStandard.M12Std.Yosh
 
 theorem eq_bot_of_fourGroup {Γ : Type*} [Group Γ] [Finite Γ] (K : Subgroup Γ) (a b : Γ)
-    (ha2 : a * a = 1) (hb2 : b * b = 1) (hab : a * b = b * a)
+    (ha2 : a * a = 1) (hb2 : b * b = 1) (_hab : a * b = b * a)
     (haK : ∀ k ∈ K, a * k * a⁻¹ ∈ K) (hbK : ∀ k ∈ K, b * k * b⁻¹ ∈ K)
     (h1 : ∀ k ∈ K, a * k = k * a → k = 1) (h2 : ∀ k ∈ K, b * k = k * b → k = 1)
     (h3 : ∀ k ∈ K, (a * b) * k = k * (a * b) → k = 1) : K = ⊥ := by

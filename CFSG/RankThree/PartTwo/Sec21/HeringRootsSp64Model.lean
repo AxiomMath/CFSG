@@ -28,8 +28,7 @@ theorem ext_inj : ∀ x y : Fin 3 ⊕ Fin 3, (∀ v : Fin 3 → ZMod 3, ext v x 
 theorem Jm_apply (x y : Fin 3 ⊕ Fin 3) : Jm x y = if y = x.swap then 1 else 0 := by
   rcases x with i | i <;> rcases y with j | j <;>
     first
-    | (by_cases h : i = j <;> simp [Jm, Matrix.one_apply, neg_one_F4, eq_comm, h])
-    | simp [Jm, Matrix.one_apply, neg_one_F4, eq_comm]
+    | (by_cases h : i = j <;> simp [Jm, neg_one_F4, eq_comm, h])
 
 theorem Jm_submatrix_of_mem {π : Equiv.Perm (Fin 3 ⊕ Fin 3)} (hπ : π ∈ signedPermGroup 3) :
     Jm.submatrix π π = Jm := by

@@ -38,6 +38,7 @@ theorem mapsOnto_spec {T : Table} {A B : Bits} (h : mapsOnto T A B = true) {x : 
   rw [allIn_iff] at h
   exact beq_iff_eq.1 (h x hx)
 
+set_option exponentiation.threshold 3510 in
 theorem canonKey_inj {a b : Nat} (ha : a < 2 ^ 3510) (hb : b < 2 ^ 3510)
     (h : canonKey (bitsOfNat a) = canonKey (bitsOfNat b)) : a = b := by
   apply Nat.eq_of_testBit_eq

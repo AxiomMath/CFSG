@@ -86,7 +86,7 @@ theorem markTag_exc_aux {lab : LargeEvenLabel} {t : StatedLieTag}
     lab.tag ≠ .A ∧ lab.tag ≠ .twD ∧ markDeg lab = lab.n := by
   obtain ⟨tg, rk, m⟩ := lab
   rcases ht with rfl | rfl | rfl <;> cases tg <;> simp_all [markTag, markDeg] <;>
-    split_ifs at h <;> simp_all
+    split_ifs at h
 
 
 theorem exists_label_of_isCentralQuotientOf_exc {t : StatedLieTag}

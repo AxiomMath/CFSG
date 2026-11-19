@@ -184,7 +184,7 @@ theorem three_dvd_of_scalar_pow_mul_pow (hn : 0 < n) {x y : unitarySU ℓ f K n}
     rw [mul_one, Subgroup.coe_inv, h2, map_inv]
   exact three_dvd_of_pow_mul_pow_eq_one hx3 hy3 hy1 hxy h1
 
-theorem exists_psu_lift_pair (h : UnitaryFieldData ℓ f K) (hn : 0 < n)
+theorem exists_psu_lift_pair (_h : UnitaryFieldData ℓ f K) (hn : 0 < n)
     (E : Subgroup (StatedProj (StatedSU n (ℓ ^ f) K)))
     (hcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hexp : ∀ a ∈ E, a ^ 3 = 1)
     (hcard : Nat.card E = 3 ^ 2) :

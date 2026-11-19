@@ -149,10 +149,10 @@ theorem found_indexOf_of_mem {T : Array Tab} {x : Tab} (hx : x ∈ T.toList) :
         have hins := Std.HashMap.getD_insert (m := idxFold T m) (k := T[m]!) (a := T[p]!)
           (v := m) (fallback := T.size)
         by_cases hbeq : T[m]! == T[p]!
-        · rw [if_pos hbeq] at hins
+        · rw [ite_eq_left hbeq] at hins
           rw [hins]
           exact ⟨by omega, by rwa [beq_iff_eq] at hbeq⟩
-        · rw [if_neg hbeq] at hins
+        · rw [ite_eq_right hbeq] at hins
           rw [hins]
           exact ⟨by omega, hprev.2⟩
       · rw [Std.HashMap.getD_insert_self]
@@ -461,12 +461,12 @@ private theorem bitProd_foldl_mem
     rw [List.foldl_cons]
     have hk' := hk k (List.mem_cons_self ..)
     by_cases hb : i.testBit k = true
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       exact bitProd_foldl_mem i (comp 1782 r (decs l1Decs)[k]!)
         (g * permC 1782 (decs l1Decs)[k]!) (hr.comp (tabRep_basis_l1 hk'))
         (mul_mem hg (mem_basis_l1 hk')) ks
         (fun j hj => hk j (List.mem_cons_of_mem k hj))
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       exact bitProd_foldl_mem i r g hr hg ks
         (fun j hj => hk j (List.mem_cons_of_mem k hj))
 

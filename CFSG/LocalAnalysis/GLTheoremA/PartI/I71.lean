@@ -40,7 +40,7 @@ section Aux
 
 private theorem isCatalogGroup_center_quotient {Y : Type*} [Group Y] (hY : CFSG.Open.IsKGroup Y)
     (hq : CFSG.Open.IsQuasisimple Y) : IsCatalogGroup (Y ⧸ Subgroup.center Y) := by
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
   refine hY.isCatalogGroup_of_surjective ⊤
     (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hq)
     ((QuotientGroup.mk' (Subgroup.center Y)).comp (⊤ : Subgroup Y).subtype) ?_
@@ -48,6 +48,7 @@ private theorem isCatalogGroup_center_quotient {Y : Type*} [Group Y] (hY : CFSG.
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective _ q
   exact ⟨⟨y, Subgroup.mem_top y⟩, rfl⟩
 
+omit [Finite G] in
 private theorem inducesInnerMod_of_inner {p : ℕ} {J : Subgroup G}
     [Group.IsPerfect (PQuot p J)] {g : G} (hg : g ∈ Subgroup.normalizer (J : Set G))
     (h : centerQuotientHom (PQuot p J) (barAut p J ⟨g⁻¹, Subgroup.inv_mem _ hg⟩) ∈
@@ -88,7 +89,7 @@ theorem i71UsedAt_of_kd (hOut : KDOut) (hD4 : I117D4UsedAt G) (hsimple : IsSimpl
   have hKJ : CFSG.Open.IsKGroup ↥J := CFSG.Open.IsKGroup.of_le hKC hJ.1
   have hKq : CFSG.Open.IsKGroup (PQuot p J) := CFSG.Open.IsKGroup.quotient hKJ _
   have hq : CFSG.Open.IsQuasisimple (PQuot p J) := isQuasisimple_pQuot_of_glaPComponent hp hJ
-  haveI : Group.IsPerfect (PQuot p J) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p J) := ⟨hq.1⟩
   have hsimple₀ : IsSimpleGroup (PSimple p J) := hq.2
   have hnonab₀ : ∃ a b : PSimple p J, a * b ≠ b * a :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq

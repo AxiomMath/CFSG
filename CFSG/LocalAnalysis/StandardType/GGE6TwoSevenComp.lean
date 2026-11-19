@@ -33,7 +33,7 @@ private lemma ltqL5_e6_recipe_data {Q : LargeEvenRawCont}
   simpa only [LargeEvenRawDatum, LargeEvenRecipeChevalley, pow_one] using h
 
 private lemma ltqL5_aut_eq_one_of_fix {L' R : Type} [Group L'] [Group R]
-    (ψ : L' →* R) (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
+    (ψ : L' →* R) (_hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
     (hcomm : commutator L' = ⊤) (e : MulAut L') (he : ∀ l : L', ψ (e l) = ψ l) :
     e = 1 := by
   have hmem : ∀ l : L', l⁻¹ * e l ∈ Subgroup.center L' := by
@@ -189,7 +189,7 @@ theorem ggE6TwoSevenComp_holds :
       exact eR.injective h
     rw [hr1, map_one]
   have hx : orderOf x = 7 := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact orderOf_eq_prime hx7 hx1
   have hK'' : IsComponentOf K' (Subgroup.centralizer ({r} : Set
       (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K false)))) := by
@@ -199,9 +199,9 @@ theorem ggE6TwoSevenComp_holds :
       (Subgroup.centralizer ({x} : Set (↥(adjointGroup .E6 K)))) := by
     have h := ltqL5_isComponentOf_map eR hK''
     rwa [ltqL5_centralizer_map eR r] at h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by simpa using hKcard)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := 1) (by simpa using hKcard)
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hlabel : ∃ labJ : LargeEvenLabel, labJ ∈ [⟨.A, 2, 1⟩, ⟨.triD4, 0, 1⟩] ∧
       GGHasLabel labJ (↥(K'.map eR.toMonoidHom) ⧸

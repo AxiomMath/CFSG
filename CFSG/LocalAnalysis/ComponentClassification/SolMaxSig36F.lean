@@ -134,7 +134,7 @@ theorem exists_sylow_le_of_conj_mem [Finite X] {H : Subgroup X} {t : X} (htH : t
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥H) := inferInstance
   set S₀ : Subgroup X := (P : Subgroup ↥H).map H.subtype with hS₀
   have hS₀H : S₀ ≤ H := map_subtype_le _
-  have hS₀2 : IsPGroup 2 S₀ := P.isPGroup'.map H.subtype
+  have hS₀2 : IsPGroup 2 S₀ := P.isPGroup.map H.subtype
   obtain ⟨T, hT⟩ := hS₀2.exists_le_sylow
   refine ⟨T, ?_⟩
   obtain ⟨c, hc⟩ := exists_conj_mem_of_card_eq P.card_eq_multiplicity
@@ -150,7 +150,7 @@ theorem exists_sylow_le_of_conj_mem [Finite X] {H : Subgroup X} {t : X} (htH : t
       rw [h]
       exact mem_top _
     exact hS₀H hz'
-  have : Group.IsNilpotent ↥(T : Subgroup X) := T.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(T : Subgroup X) := T.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyS⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hyu : (y : X) * ((c : X) * t * (c : X)⁻¹) * (y : X)⁻¹ ∈ S₀ := by
     have h1 := (mem_normalizer_iff.mp hyN ⟨_, hT huS⟩).mp huS
@@ -166,7 +166,7 @@ theorem exists_sylow_le_of_conj_mem [Finite X] {H : Subgroup X} {t : X} (htH : t
     rwa [mul_inv_cancel_right] at h1
   have hQ : IsPGroup 2 ↥((P : Subgroup ↥H) ⊔ zpowers (⟨y, hyH⟩ : ↥H)) := by
     have hTH' : IsPGroup 2 ↥((T : Subgroup X).subgroupOf H) :=
-      T.isPGroup'.comap_of_injective H.subtype H.subtype_injective
+      T.isPGroup.comap_of_injective H.subtype H.subtype_injective
     refine hTH'.to_le (sup_le ?_ ?_)
     · intro z hz
       exact hT ⟨z, hz, rfl⟩

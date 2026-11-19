@@ -121,8 +121,8 @@ theorem rankThreeGamma_le_of_isSL3Four_of_three_le {M L R : Subgroup G} {p : ℕ
       (by norm_num : (3 : ℕ) ≠ 2) ?_
     obtain ⟨K, hfield, hfin, hKcard, ⟨e⟩⟩ :=
       CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hSL.1.2
-    letI := hfield
-    letI := hfin
+    let := hfield
+    let := hfin
     have hk : Nat.card K = 4 := by rw [hKcard]; norm_num
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) e]
     simpa only [CFSG.SectionRank.pRank_eq_open_pRank_top] using
@@ -157,8 +157,8 @@ theorem rankThreeGamma_le_of_isSL3Four_of_three_le {M L R : Subgroup G} {p : ℕ
       2 ^ 8 * 3 ^ 3 * 5 * 7 := by
     obtain ⟨K, hfield, hfin, hKcard, ⟨e⟩⟩ :=
       CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hSL.1.2
-    letI := hfield
-    letI := hfin
+    let := hfield
+    let := hfin
     have hk : Nat.card K = 4 := by rw [hKcard]; norm_num
     rw [Nat.card_congr (MulAut.congr e).toEquiv,
       CFSG.RankThree.PartTwo.KFacts.L34.card_mulAut hk]

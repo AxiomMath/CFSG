@@ -179,7 +179,7 @@ theorem wfB0_of_facts (hcit : CIT3Below n) (hP : CFSG.ClassicalInvolution.Q3.TL4
       rcases hx with rfl | rfl
       · exact hconjT c hc
       · exact hconjS c hc
-    · simpa using Subgroup.one_mem _
+    · simp
     · intro x x' _ _ hx hx'
       have e : c * (x * x') * c⁻¹ = (c * x * c⁻¹) * (c * x' * c⁻¹) := by group
       rw [e]

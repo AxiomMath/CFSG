@@ -120,7 +120,7 @@ private theorem four_map_centralizer {A B : Type*} [Group A] [Group B] (e : A �
     (Subgroup.centralizer ({s} : Set A)).map (e : A →* B) =
       Subgroup.centralizer ({e s} : Set B) := by
   ext b
-  simp only [Subgroup.mem_map, Subgroup.mem_centralizer_singleton_iff, MonoidHom.coe_coe]
+  simp only [Subgroup.mem_map, Subgroup.mem_centralizer_singleton_iff, _root_.MonoidHom.coe_ofClass]
   constructor
   · rintro ⟨a, ha, rfl⟩
     rw [← map_mul, ← map_mul, ha]

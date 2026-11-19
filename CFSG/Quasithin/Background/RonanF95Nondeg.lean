@@ -144,7 +144,7 @@ lemma ndF95_leftTrivial {K V W : Type*} [Field K] [Finite K] [AddCommGroup V] [M
     apply hW w
     intro v'
     exact LinearMap.congr_fun hw v'
-  haveI : Finite (Module.Dual K V) := Module.finite_of_finite (R := K) (M := Module.Dual K V)
+  have : Finite (Module.Dual K V) := Module.finite_of_finite (R := K) (M := Module.Dual K V)
   have hcardD : Nat.card (Module.Dual K V) = Nat.card W := by
     rw [Module.natCard_eq_pow_finrank (K := K) (V := Module.Dual K V),
       Module.natCard_eq_pow_finrank (K := K) (V := W), Subspace.dual_finrank_eq, hfin]
@@ -311,7 +311,7 @@ theorem nondeg_of_rad_Y {A : Type*} [CommGroup A] [Finite A] (hexp : ∀ x : A, 
     (β : A → A → ZMod 2) (hβl : ∀ x y z, β (x * y) z = β x z + β y z)
     (hβr : ∀ x y z, β x (y * z) = β x y + β x z) (hβalt : ∀ x, β x x = 0)
     (X Y : Subgroup A) (hXY : IsCompl X Y) (hXX : ∀ x ∈ X, ∀ x' ∈ X, β x x' = 0)
-    (hYY : ∀ y ∈ Y, ∀ y' ∈ Y, β y y' = 0) (hcard : Nat.card X = Nat.card Y)
+    (_hYY : ∀ y ∈ Y, ∀ y' ∈ Y, β y y' = 0) (hcard : Nat.card X = Nat.card Y)
     (hY : ∀ y ∈ Y, (∀ x ∈ X, β x y = 0) → y = 1) :
     ∀ x : A, (∀ y, β x y = 0) → x = 1 := by
   intro x hx
@@ -331,10 +331,10 @@ theorem nondeg_of_rad_Y {A : Type*} [CommGroup A] [Finite A] (hexp : ∀ x : A, 
   rw [mul_one] at hx ⊢
   have hβ1 : ∀ z, β 1 z = 0 := ndF95_zero_left β hβl
   have hβ1r : ∀ z, β z 1 = 0 := ndF95_zero_right β hβr
-  letI : Module (ZMod 2) (Additive X) := AddCommGroup.zmodModule (ndF95_twoNsmul hexp X)
-  letI : Module (ZMod 2) (Additive Y) := AddCommGroup.zmodModule (ndF95_twoNsmul hexp Y)
-  haveI : Finite (Additive X) := inferInstanceAs (Finite X)
-  haveI : Finite (Additive Y) := inferInstanceAs (Finite Y)
+  let : Module (ZMod 2) (Additive X) := AddCommGroup.zmodModule (ndF95_twoNsmul hexp X)
+  let : Module (ZMod 2) (Additive Y) := AddCommGroup.zmodModule (ndF95_twoNsmul hexp Y)
+  have : Finite (Additive X) := inferInstanceAs (Finite X)
+  have : Finite (Additive Y) := inferInstanceAs (Finite Y)
   have hfin : Module.finrank (ZMod 2) (Additive X) = Module.finrank (ZMod 2) (Additive Y) := by
     have h1 := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive X)
     have h2 := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive Y)
@@ -376,7 +376,7 @@ theorem nondeg_dim_two {A : Type*} [CommGroup A] [Finite A] (hexp : ∀ x : A, x
     (q : A → ZMod 2) (β : A → A → ZMod 2)
     (hβl : ∀ x y z, β (x * y) z = β x z + β y z) (hβr : ∀ x y z, β x (y * z) = β x y + β x z)
     (hq : ∀ x y, q (x * y) = q x + q y + β x y) (hβalt : ∀ x, β x x = 0)
-    (a b : A ≃* A) (ha : ∀ x, a (a x) = x) (hb : ∀ x, b (b x) = x)
+    (a b : A ≃* A) (_ha : ∀ x, a (a x) = x) (_hb : ∀ x, b (b x) = x)
     (hqa : ∀ x, q (a x) = q x) (hqb : ∀ x, q (b x) = q x)
     (X Y : Subgroup A) (hXa : ∀ x, x ∈ X ↔ a x = x) (hYb : ∀ y, y ∈ Y ↔ b y = y)
     (haX : ∀ x, a x * x ∈ X) (hbY : ∀ y, b y * y ∈ Y)

@@ -91,7 +91,7 @@ theorem rigidSingle_false (hcen : FactCenterOddPart)
   have hPHK : PH ≤ K := hPHX.trans hXK
   have hQ'top : IsSylowOf 2 (Q' : Subgroup H) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff, relIndex_top_right]
-    exact ⟨le_top, Q'.isPGroup', Q'.not_dvd_index⟩
+    exact ⟨le_top, Q'.isPGroup, Q'.not_dvd_index⟩
   have hQK : IsSylowOf 2 ((Q' : Subgroup H) ⊓ K) K :=
     hQ'top.inf_of_le_normalizer le_top (normalizer_eq_top_iff.mpr hKn).ge
   have hOQ : (CFSG.pCore 2 X').map X'.subtype ≤ (Q' : Subgroup H) := by
@@ -107,7 +107,7 @@ theorem rigidSingle_false (hcen : FactCenterOddPart)
     mul_comm_sylow_of_core_le hX'A hPH (hQ'A.trans hAN) hOQ
   have hcop : Nat.Coprime (Nat.card PH) (Nat.card (Q' : Subgroup H)) := by
     obtain ⟨a, ha⟩ := hPH.isPGroup.exists_card_eq
-    obtain ⟨b, hb⟩ := Q'.isPGroup'.exists_card_eq
+    obtain ⟨b, hb⟩ := Q'.isPGroup.exists_card_eq
     rw [ha, hb]
     exact Nat.Coprime.pow a b ((Nat.coprime_primes hp Nat.prime_two).mpr hp2)
   have hPN : PH ≤ normalizer (K : Set H) := by

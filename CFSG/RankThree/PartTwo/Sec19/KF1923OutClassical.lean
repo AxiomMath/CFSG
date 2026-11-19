@@ -31,7 +31,7 @@ theorem card_outer_projSp_three_one (S : Type) [Group S]
     rw [QuotientGroup.eq_one_iff]
     obtain ⟨s, hs⟩ := CFSG.RankThree.PartTwo.Sec14.Ronan1422S.sp62_aut_inner_of_iso e α
     exact MonoidHom.mem_range.mpr ⟨s, hs.symm⟩
-  haveI : Subsingleton (Outer S) := ⟨fun x y => by rw [hsub x, hsub y]⟩
+  have : Subsingleton (Outer S) := ⟨fun x y => by rw [hsub x, hsub y]⟩
   rw [Nat.card_of_subsingleton (1 : Outer S)]
   exact one_dvd 2
 

@@ -130,7 +130,7 @@ theorem special_exists : ∃ g ∈ Gam K, beta K (p0 K) (g (p0 K)) = 0 ∧
       show 2 ≤ (({0, 1, 3} : Finset (Fin 6)).filter (fun i : Fin 6 => i.val % 2 = 1)).card
       decide
     have h1 := coord_eq_zero_of_mem_W0 hmem S013 hodd
-    rw [hgp, ← cubeBasis_S013, coord_cubeBasis, if_pos rfl] at h1
+    rw [hgp, ← cubeBasis_S013, coord_cubeBasis, ite_eq_left rfl] at h1
     exact one_ne_zero h1
 
 theorem opposite_exists : ∃ g ∈ Gam K, beta K (p0 K) (g (p0 K)) ≠ 0 := by

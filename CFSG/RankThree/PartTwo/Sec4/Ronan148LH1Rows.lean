@@ -42,7 +42,7 @@ theorem kH1_three (hr : (LieTypeIndex.reeG2 1).Valid) :
   rowOf427_of_lie ⟨_, hr⟩ (by simp [lieIndexChar]) (by simp [lieIndexChar]) ⟨MulEquiv.refl _⟩
 
 theorem kH1_nine_SL3 (e : ℕ) (he : 1 ≤ e) (_ : e ≤ 3) : RowOf427 (projSL 3 (GaloisField 3 e)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hv : (LieTypeIndex.A 2 ⟨3, e, Fact.out, he⟩).Valid :=
     valid_A (by norm_num) (fun h => absurd h (by norm_num)) fun _ => by
       simp only [TauCeti.PrimePower.card_def]
@@ -52,7 +52,7 @@ theorem kH1_nine_SL3 (e : ℕ) (he : 1 ≤ e) (_ : e ≤ 3) : RowOf427 (projSL 3
     ⟨(Census.typeAGroupEquivProjSL 2 ⟨3, e, Fact.out, he⟩ hv).symm⟩
 
 theorem kH1_nine_SU3 (e : ℕ) (he : 1 ≤ e) (_ : e ≤ 3) : RowOf427 (projSU 3 3 e) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hv : (LieTypeIndex.twistedA 2 ⟨3, e, Fact.out, he⟩).Valid :=
     valid_twistedA le_rfl fun _ => by
       simp only [TauCeti.PrimePower.card_def]
@@ -65,7 +65,7 @@ theorem kH1_nine_G2 : RowOf427 (TauCeti.CFSGIndex.lie g2ThreeIndex).Group :=
     (by simp [lieIndexChar, g2ThreeIndex]) ⟨MulEquiv.refl _⟩
 
 theorem kH1_nine_SL4 : RowOf427 (projSL 4 (GaloisField 3 1)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hv : (LieTypeIndex.A 3 ⟨3, 1, Fact.out, Nat.one_pos⟩).Valid :=
     valid_A (by norm_num) (fun h => absurd h (by norm_num)) fun _ => by
       simp only [TauCeti.PrimePower.card_def]
@@ -74,7 +74,7 @@ theorem kH1_nine_SL4 : RowOf427 (projSL 4 (GaloisField 3 1)) := by
     ⟨(Census.typeAGroupEquivProjSL 3 ⟨3, 1, Fact.out, Nat.one_pos⟩ hv).symm⟩
 
 theorem kH1_nine_SU4 : RowOf427 (projSU 4 3 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hv : (LieTypeIndex.twistedA 3 ⟨3, 1, Fact.out, Nat.one_pos⟩).Valid :=
     valid_twistedA (by norm_num) (by omega)
   exact rowOf427_of_lie ⟨_, hv⟩ (by simp [lieIndexChar]) (by simp [lieIndexChar])

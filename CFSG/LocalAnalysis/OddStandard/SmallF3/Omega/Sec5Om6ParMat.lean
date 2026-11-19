@@ -33,7 +33,7 @@ theorem om6par_mat2_form (σ : Mat2 ≃ₗ[ZMod 3] Mat2) {μ : ZMod 3} (hμ : μ
     rw [hpdet]; exact IsUnit.mk0 _ hμ)
   obtain ⟨u, hu⟩ := hpu
   let ρ : Mat2 ≃ₗ[ZMod 3] Mat2 :=
-    LinearEquiv.ofLinear (LinearMap.mulRight (ZMod 3) ((u⁻¹ : Mat2ˣ) : Mat2))
+    LinearEquiv.ofLinearMap (LinearMap.mulRight (ZMod 3) ((u⁻¹ : Mat2ˣ) : Mat2))
       (LinearMap.mulRight (ZMod 3) (u : Mat2))
       (by
         ext X : 1

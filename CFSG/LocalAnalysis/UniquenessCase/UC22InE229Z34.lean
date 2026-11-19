@@ -22,6 +22,7 @@ theorem uc22ine229_normalizer_le_or_inf_eq_bot (k : Sec7Core4 G) (h5 : 5 ≤ k.p
       (CFSG.SectionRank.le_pRank k.prime.one_lt
         (le_inf hB₁M (hB₁X.trans (Subgroup.centralizer_le_normalizer (X : Set G)))) hB₁ hB₁c) hQ)
 
+omit [Finite G] in
 theorem uc22ine229_le_centralizer {M Y X B₁ : Subgroup G}
     (hQ : pCoreOf 2 M ⊓ normalizer (X : Set G) = ⊥) (hB₁X : B₁ ≤ centralizer (X : Set G))
     (hB₁Y : ∀ b ∈ B₁, ∀ y ∈ Y, b * y * b⁻¹ * y⁻¹ ∈ pCoreOf 2 M) :

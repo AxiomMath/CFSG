@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem card_sup_eq_mul_of_le_normalizer' {A B : Subgroup G}
     (hBA : B ≤ Subgroup.normalizer (A : Set G)) (hinf : A ⊓ B = ⊥) :
     Nat.card ↥(A ⊔ B) = Nat.card A * Nat.card B := by
@@ -60,7 +61,7 @@ theorem sec8t84_conj_of_syl {t γ : G} {E E0 B B' : Subgroup G} (ht : t * t = 1)
     (hE8 : IsElemAb2 E 8) (hE08 : IsElemAb2 E0 8) (htE : ∀ e ∈ E, t * e * t⁻¹ ∈ E)
     (htE0 : ∀ e ∈ E0, t * e * t⁻¹ ∈ E0) (hB : E ⊓ centralizer ({t} : Set G) = B)
     (hB4 : Nat.card B = 16) (hSyl : IsSylow2Of (zpowers t ⊔ E) (centralizer (B : Set G)))
-    (hγ : γ ∈ centralizer ({t} : Set G)) (hB' : B' = B.map (MulAut.conj γ).toMonoidHom)
+    (_hγ : γ ∈ centralizer ({t} : Set G)) (hB' : B' = B.map (MulAut.conj γ).toMonoidHom)
     (hB'E0 : B' ≤ E0 ⊓ centralizer ({t} : Set G))
     (hE0c : Nat.card ↥(E0 ⊓ centralizer ({t} : Set G)) ≤ 16) :
     ∃ u : G, E0 = E.map (MulAut.conj u).toMonoidHom := by
@@ -96,7 +97,7 @@ theorem sec8t84_conj_of_syl {t γ : G} {E E0 B B' : Subgroup G} (ht : t * t = 1)
     apply htE_ne
     rw [h]
     exact E.one_mem
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard_zp : Nat.card (zpowers t) = 2 := by
     rw [Nat.card_zpowers, orderOf_eq_prime ht2 ht1]
   have htn : t ∈ Subgroup.normalizer (E : Set G) := by
@@ -174,7 +175,7 @@ theorem sec8t84_conj_of_syl {t γ : G} {E E0 B B' : Subgroup G} (ht : t * t = 1)
     exact Subgroup.map_mono (Subgroup.map_mono (le_sup_right : E ≤ zpowers t ⊔ E))
   have hA8 : IsElemAb2 A 8 := by
     rw [hA_def]
-    haveI : IsMulCommutative E := hE8.1.1
+    have : IsMulCommutative E := hE8.1.1
     refine ⟨⟨inferInstance, ?_⟩, ?_⟩
     · rintro x hx
       obtain ⟨e, he, rfl⟩ := hx

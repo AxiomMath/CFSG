@@ -31,7 +31,7 @@ theorem perfect_card_nine_gram (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4�
   obtain ⟨H, a, huniq, hself, hmult, hdeg⟩ := data_of_nine A hc hA
   have hq : 2 ≤ 2 ^ 1 := by norm_num
   have hgood : IsGoodBlock hF4 (xOf (A : GL (Fin 6) F4)) a :=
-    ⟨by omega, fun _ => by simp [hmult, hdeg]⟩
+    ⟨by omega, fun _ => by simp [hdeg]⟩
   let α := primeFormConjSU hF4 (idGram F4 6) A
   let K₀ : Subgroup ↥(gramSU hF4 (idGram F4 6)) :=
     (specialBlock (idForm hF4 6) (xOf (A : GL (Fin 6) F4)) a).comap (toLinSU hF4 6)
@@ -43,7 +43,7 @@ theorem perfect_card_nine_gram (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4�
   let eK : ↥K₀ ≃* ↥(specialBlock (idForm hF4 6) (xOf (A : GL (Fin 6) F4)) a) :=
     (Subgroup.equivMapOfInjective K₀ (toLinSU hF4 6) toLinSU_injective).trans
       (MulEquiv.subgroupCongr hFmap)
-  haveI : Group.IsPerfect ↥J := hperf
+  have : Group.IsPerfect ↥J := hperf
   have hJK₀ : J ≤ K₀ := by
     intro g hg
     rw [Subgroup.mem_comap, mem_specialBlock]
@@ -62,8 +62,8 @@ theorem perfect_card_nine_gram (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4�
     nonempty_specialBlock_mulEquiv_sesqSU hself (selfDualPrimaryBlock H a hself)
   obtain ⟨e3⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl
     (by exact hmult)
-  haveI : Finite hE.fixedField := inferInstance
-  letI : Fintype hE.fixedField := Fintype.ofFinite _
+  have : Finite hE.fixedField := inferInstance
+  let : Fintype hE.fixedField := Fintype.ofFinite _
   have hcardF : Fintype.card hE.fixedField = 2 ^ (1 * (a : F4[X]).natDegree) := by
     rw [← Nat.card_eq_fintype_card]
     exact hE.card_fixedField

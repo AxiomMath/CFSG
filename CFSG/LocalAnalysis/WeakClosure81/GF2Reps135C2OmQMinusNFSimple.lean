@@ -116,12 +116,12 @@ theorem omqnfActs_minusWeyl_of_lt {n : ℕ} {K : Type} [Field K] [CharP K 2] {b 
   refine ⟨fun x => ?_, fun p => ?_⟩
   · rcases x with a | a
     · rw [spMonoPerm_inl]
-      simp only [Pi.one_apply, if_true]
+      simp only [Pi.one_apply, ite_true]
       exact CFSG.SeitzReduction.SymplecticPilot.spinAction_minusWeyl_minusVec hirr hk a true
     · rw [spMonoPerm_inr]
-      simp only [Pi.one_apply, if_true]
+      simp only [Pi.one_apply, ite_true]
       exact CFSG.SeitzReduction.SymplecticPilot.spinAction_minusWeyl_minusVec hirr hk a false
-  · simp only [Pi.one_apply, Finset.prod_const_one, if_true]
+  · simp only [Pi.one_apply, Finset.prod_const_one, ite_true]
     exact CFSG.SeitzReduction.SymplecticPilot.spinAction_minusWeyl_planeVec hirr hk p
 
 private theorem omqnfsm_prod_spSgn {m : ℕ} (k : Fin m) : ∏ a, spSgn k a = -1 := by
@@ -147,10 +147,10 @@ theorem omqnfActs_minusWeyl_of_not_lt {n : ℕ} {K : Type} [Field K] [CharP K 2]
       by_cases ha : a = k
       · subst ha
         have : spSgn a a ≠ 1 := by simp [spSgn]
-        rw [if_neg this]
+        rw [ite_eq_right this]
         simpa [omqnfFrame, shortWeylBool] using h
       · have : spSgn k a = 1 := by simp [spSgn, ha]
-        rw [if_pos this]
+        rw [ite_eq_left this]
         simpa [omqnfFrame, shortWeylBool, ha] using h
     · rw [spMonoPerm_inr]
       have h := spinAction_shortWeyl_minusVec n hirr k a false
@@ -158,12 +158,12 @@ theorem omqnfActs_minusWeyl_of_not_lt {n : ℕ} {K : Type} [Field K] [CharP K 2]
       by_cases ha : a = k
       · subst ha
         have : spSgn a a ≠ 1 := by simp [spSgn]
-        rw [if_neg this]
+        rw [ite_eq_right this]
         simpa [omqnfFrame, shortWeylBool] using h
       · have : spSgn k a = 1 := by simp [spSgn, ha]
-        rw [if_pos this]
+        rw [ite_eq_left this]
         simpa [omqnfFrame, shortWeylBool, ha] using h
-  · rw [omqnfsm_prod_spSgn, if_neg (by norm_num)]
+  · rw [omqnfsm_prod_spSgn, ite_eq_right (by norm_num)]
     exact spinAction_shortWeyl_planeVec n hirr k p
 
 end CFSG.LocalAnalysis.WeakClosure81

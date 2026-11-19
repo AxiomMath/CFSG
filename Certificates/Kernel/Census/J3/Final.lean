@@ -194,7 +194,7 @@ theorem nodes_ok : ∀ i < j3Conj.nodes.size, pnodeOKC 6156 13 j3PS inXP (fun _ 
   · rw [hbi, hci]
     rw [hci] at hW
     cases hmono : j3Conj.nodes[i]!.wit.isMono <;>
-      simp only [hE, hW, Bool.true_and, cond_true, cond_false, Bool.true_or]
+      simp only [hE, hW, Bool.true_and, _root_.Bool.cond_true, Bool.cond_false, Bool.true_or]
   · have he := List.all_eq_true.1 kMono i (List.mem_range.2 hi)
     rw [hm, Bool.false_or] at he
     rw [bases_eq]

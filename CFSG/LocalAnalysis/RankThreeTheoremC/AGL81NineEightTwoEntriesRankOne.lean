@@ -40,14 +40,14 @@ theorem kFactNineThreeNoTwoAt_unitary {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hd : ∃ q : TauCeti.PrimePower, q.p = p ∧ d.1 = .twistedA 2 q) :
     KFactNineThreeNoTwoAt p (.lie d) := by
   intro X _ _ K hK ⟨eK⟩ _ T S hS hTS
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hu : IsUnitaryIndex p d := hd
   obtain ⟨hTcard, hcount⟩ := KFactProofs.OneLieSylow.card_sylow_unitary hu ⟨eK⟩ T
   obtain ⟨-, hf, hq, F, _, _, J, hJ, hF, hfix, ⟨e⟩⟩ :=
     UnitaryModel.exists_equiv_psu (UnitaryModel.statedClassicalModel hu ⟨eK⟩)
-  haveI : IsSimpleGroup (CFSG.BenderSuzuki.MatrixGroups.ProjectiveSpecialUnitaryMatrixGroup J) :=
+  have : IsSimpleGroup (CFSG.BenderSuzuki.MatrixGroups.ProjectiveSpecialUnitaryMatrixGroup J) :=
     isSimpleGroup_psu J _ hF hfix hq
-  haveI : IsSimpleGroup K := e.isSimpleGroup
+  have : IsSimpleGroup K := e.isSimpleGroup
   obtain ⟨R, hR⟩ := UnitaryModel.exists_sylow_eq_rootGroup J hJ hF hfix hf
   obtain ⟨e', he'⟩ := UnitaryModel.exists_equiv_map_eq e T R
   have hTc : Nat.card T = (p ^ d.1.fieldExponent) ^ 3 := hTcard
@@ -69,13 +69,13 @@ theorem kFactNineThreeNoTwoAt_ree
     {d : TauCeti.ValidLieTypeIndex}
     (hd : ∃ m : ℕ, d.1 = .reeG2 m) : KFactNineThreeNoTwoAt 3 (.lie d) := by
   intro X _ _ K hK ⟨eK⟩ _ T S hS hTS
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdR : IsReeGTwoIndex 3 d := ⟨rfl, hd⟩
   obtain ⟨hTcard, hcount⟩ := KFactProofs.OneLieSylow.card_sylow_ree hdR ⟨eK⟩ T
   obtain ⟨a, ha, hfe, ⟨e⟩⟩ := ReeModel.exists_equiv_reeGamma hdR ⟨eK⟩
   have hF : Nat.card (GaloisField 3 (2 * a + 1)) = 3 ^ (2 * a + 1) :=
     GaloisField.card 3 (2 * a + 1) (by omega)
-  haveI : IsSimpleGroup K := by
+  have : IsSimpleGroup K := by
     obtain ⟨φ⟩ := ReeModel.nonempty_derivedCentralQuotient_equiv_reeGamma ha hF
     have hm : CFSG.Blueprint.ReeTitsModel K .twistedG2 3 (2 * a + 1) :=
       ⟨⟨Nat.prime_three, by omega, rfl, rfl, ⟨a, rfl⟩, by omega⟩, a, rfl,

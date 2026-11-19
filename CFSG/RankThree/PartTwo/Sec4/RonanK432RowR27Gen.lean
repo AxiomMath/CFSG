@@ -10,7 +10,7 @@ namespace CFSG.RankThree.PartTwo.Sec4.RonanK432
 theorem exists_unit_ne_one_ne_neg_one_of_four_le {K : Type} [Field K] [Finite K]
     (h : 4 ≤ Nat.card K) : ∃ μ : Kˣ, (μ : K) ≠ 1 ∧ (μ : K) ≠ -1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   by_contra hcon
   push Not at hcon
   have hsub : (Finset.univ : Finset K) ⊆ {0, 1, -1} := by
@@ -29,7 +29,7 @@ theorem exists_unit_ne_one_ne_neg_one_of_four_le {K : Type} [Field K] [Finite K]
 
 theorem card_sylow_three_eq {S : Type} [Group S] [Finite S] (P : Sylow 3 S) {n : ℕ}
     (h1 : 3 ^ n ∣ Nat.card S) (h2 : ¬ 3 ^ (n + 1) ∣ Nat.card S) : Nat.card P = 3 ^ n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne : Nat.card S ≠ 0 := Nat.card_pos.ne'
   have a := (Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_three hne).mp h1
   have b : ¬ n + 1 ≤ (Nat.card S).factorization 3 := fun h =>

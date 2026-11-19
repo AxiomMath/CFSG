@@ -163,7 +163,7 @@ theorem zpTreeOK_of (hm : Rep 920808 (mTabs ())[0]! (gP 0) ∧ Rep 920808 (mTabs
       · rw [← hap l hl' N hN']
         exact hP N hN l hl'
       · unfold eL
-        rw [if_neg hN']
+        rw [ite_eq_right hN']
         exact hN
     · rw [← hcnt]
       exact congrArg List.length (List.filter_congr fun x hx => by

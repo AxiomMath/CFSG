@@ -19,6 +19,7 @@ structure Sec8Hyp (hc : Ctx M Q Z B) (n : ℕ) (t : G) : Prop where
   toSec5 : Sec5Hyp hc n t
   sp : ∃ m : ℕ, 2 ≤ m ∧ SpMNat hc t m
 
+omit [Finite G] in
 theorem Sec8Hyp.spNat {hc : Ctx M Q Z B} {n : ℕ} {t : G} (h : Sec8Hyp hc n t) : SpNat hc t := by
   obtain ⟨m, hm, K, iK, iF, hK, hrep⟩ := h.sp
   exact ⟨K, iK, iF, hK, m, hm, hrep⟩
@@ -56,6 +57,7 @@ structure Sec8Pts (hc : Ctx M Q Z B) (t r : G) (m : ℕ) (K : Type) [Field K] [F
   hL : ((LB M Q B).subgroupOf (Rt M (LB M Q B) t)).map φ = LspGL m K u
   hL' : ((conjSubgroup r (LB M Q B)).subgroupOf (Rt M (LB M Q B) t)).map φ = LspGL m K u'
 
+omit [Finite G] in
 theorem Sec8Pts.spMNat {hc : Ctx M Q Z B} {t r : G} {m : ℕ} {K : Type} [Field K] [Finite K]
     {φ : ↥(Rt M (LB M Q B) t) →* GL (Fin m ⊕ Fin m) K} {u u' : Fin m ⊕ Fin m → K}
     (h : Sec8Pts hc t r m K φ u u') : SpMNat hc t m :=

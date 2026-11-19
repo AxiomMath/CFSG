@@ -43,14 +43,14 @@ theorem closure_fix_conj {G : Type*} [Group G] (γ φ ψ : MulAut G)
 
 theorem kgConcl_C6 {F : Type} [Field F] [Finite F] [CharP F 2] (p : ℕ) : KGConcl (C6 F) p := by
   intro S B hS2 hnc hSI hBp hBS
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨m, -, hm⟩ := FiniteField.card F 2
   have hn : Nat.card F = 2 ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hm]
   obtain ⟨Θ, hΘ⟩ := exists_fieldGraphCoordinate_E6 F
   have hΘ' : IsCoord Θ := hΘ
   have hcomm : ∀ a b : F ≃+* F, a * b = b * a :=
     CFSG.RankThree.PartOne.OutStructure.ringAut_comm F
-  haveI hcyc : IsCyclic (F ≃+* F) :=
+  have hcyc : IsCyclic (F ≃+* F) :=
     (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_two F hn).2
   have hQ : ∀ a b : (F ≃+* F) × Multiplicative (ZMod 2), a * b = b * a := fun a b =>
     Prod.ext (hcomm _ _) (mul_comm _ _)
@@ -135,8 +135,8 @@ theorem kgConcl_C6 {F : Type} [Field F] [Finite F] [CharP F 2] (p : ℕ) : KGCon
 theorem kgConclE6_holds : KGConclE6 := by
   intro K _ _ f hm p
   obtain ⟨F, _, _, hcard, ⟨e⟩⟩ := nonempty_mulEquiv_adjointGroup Tag.E6 hm.2
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hcard])
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hcard])
   exact kgConcl_of_mulEquiv e (kgConcl_C6 p)
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.FongKGG

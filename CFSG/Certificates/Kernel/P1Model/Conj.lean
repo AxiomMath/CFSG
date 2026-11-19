@@ -92,7 +92,7 @@ theorem mem_range_T_of_mem_normalizer {P : Type*} [Group P] (M : AutModel P n)
 theorem ncard_mul_card_inf_centralizer {G : Type*} [Group G] [Finite G] (H : Subgroup G) (t : G)
     {X : Set G} (hX : ∀ x, x ∈ X ↔ ∃ h ∈ H, x = h * t * h⁻¹) :
     X.ncard * Nat.card ↥(H ⊓ centralizer ({t} : Set G)) = Nat.card H := by
-  letI : MulAction H G := MulAction.compHom G ((MulAut.conj : G →* MulAut G).comp H.subtype)
+  let : MulAction H G := MulAction.compHom G ((MulAut.conj : G →* MulAut G).comp H.subtype)
   have hs : ∀ (h : H) (x : G), h • x = (h : G) * x * (h : G)⁻¹ := fun _ _ => rfl
   have horb : MulAction.orbit H t = X := by
     ext x

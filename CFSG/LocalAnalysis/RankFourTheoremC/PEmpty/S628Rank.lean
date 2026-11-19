@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x z : G}
   {T : Subgroup G}
 
+omit [Finite G] in
 theorem s62_commutator_mem_centralizer_of_cyclic {X : Subgroup G} (hX : IsCyclic X) {a b : G}
     (ha : a ∈ normalizer (X : Set G)) (hb : b ∈ normalizer (X : Set G)) :
     ⁅a, b⁆ ∈ centralizer (X : Set G) := by
@@ -34,6 +35,7 @@ theorem s62_commutator_mem_centralizer_of_cyclic {X : Subgroup G} (hX : IsCyclic
     exact h1
   exact (mul_inv_eq_iff_eq_mul.mp h2).symm
 
+omit [Finite G] in
 theorem s62_commutator_le_centralizer_of_cyclic {X S : Subgroup G} (hX : IsCyclic X) {z : G}
     (hzX : z ∈ normalizer (X : Set G)) (hSX : S ≤ normalizer (X : Set G)) :
     ⁅zpowers z, S⁆ ≤ centralizer (X : Set G) := by
@@ -42,10 +44,10 @@ theorem s62_commutator_le_centralizer_of_cyclic {X S : Subgroup G} (hX : IsCycli
 
 theorem s62_two_le_pRank {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) {X : Subgroup G}
     (hXp : IsPGroup f X) (hX : ¬ IsCyclic X) : 2 ≤ CFSG.Open.pRank f X := by
-  haveI : Fact f.Prime := ⟨hf⟩
-  haveI : Fact (IsPGroup f X) := ⟨hXp⟩
+  have : Fact f.Prime := ⟨hf⟩
+  have : Fact (IsPGroup f X) := ⟨hXp⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hf2 hX
-  haveI := hSel
+  have := hSel
   have hSm : CFSG.IsElementaryAbelian f (S.map X.subtype) :=
     CFSG.IsElementaryAbelian.map_subtype
   have hcard : Nat.card (S.map X.subtype) = f ^ 2 := by

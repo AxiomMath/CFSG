@@ -38,12 +38,15 @@ end ConjClosure
 
 variable {Y : Type} [Group Y] [Finite Y] {A : Subgroup Y}
 
+omit [Finite Y] in
 theorem le_layerClosure : A ≤ layerClosure A :=
   le_closure_conj _ A
 
+omit [Finite Y] in
 theorem layerClosure_le (hA : A ≤ CFSG.pLayer Y 2) : layerClosure A ≤ CFSG.pLayer Y 2 :=
   closure_conj_le le_rfl hA
 
+omit [Finite Y] in
 theorem pLayer_le_normalizer_layerClosure :
     CFSG.pLayer Y 2 ≤ Subgroup.normalizer (layerClosure A : Set Y) :=
   le_normalizer_closure_conj _ A

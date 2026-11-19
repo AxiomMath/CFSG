@@ -95,11 +95,11 @@ theorem repI_bindM (hr : RepB D.n w nr REP (repT D))
   rw [getElem!_pos _ i (by simpa [hr.1] using hi), Array.getElem_map,
     ← getElem!_pos (repT D) i (by rw [hr.1]; exact hi), hr.2 i hi, inv_u (hRi i hi)]
 
-theorem dcGenerate_ofM {kN : Nat} {NG NGI : Nat → Nat} (hn : szOK D.n w = true)
+theorem dcGenerate_ofM {kN : Nat} {NG NGI : Nat → Nat} (_hn : szOK D.n w = true)
     (hGs : D.gT.size = kG) (hGb : ∀ j < kG, D.gT[j]! = unpack D.n w (Gp j))
     (hgN : GensOK D.n w kN NG (nGens D))
     (hNI : ∀ j < kN, permOK D.n w (mask w) (D.n * w) (NG j) (NGI j) = true)
-    (hr : RepB D.n w nr REP (repT D)) (hri : RepB D.n w nr REPI (repI D))
+    (hr : RepB D.n w nr REP (repT D)) (_hri : RepB D.n w nr REPI (repI D))
     (hRi : ∀ i < nr, permOK D.n w (mask w) (D.n * w) (REP i) (REPI i) = true)
     (hnr : nr = D.repW.length + 1) (hgl : D.genW.length = D.repW.length)
     (hGen : ∀ i < D.repW.length, (D.genW[i]!).length = kG ∧ ∀ j < kG,
@@ -132,19 +132,19 @@ theorem dcGenerate_ofM {kN : Nat} {NG NGI : Nat → Nat} (hn : szOK D.n w = true
     by_cases h : l < kN
     · rw [Array.getElem_append_left (by rw [hs]; exact h),
         ← getElem!_pos (nGens D) l (by rw [hs]; exact h), (hgN.2 l h).1, PK.nIf_eq,
-        if_pos (Nat.blt_eq.mpr h)]
+        ite_eq_left (Nat.blt_eq.mpr h)]
     · have hl' : l = kN := by omega
       subst hl'
-      rw [PK.nIf_eq, if_neg (by simp [Nat.blt_eq]), Array.getElem_append_right (by rw [hs])]
+      rw [PK.nIf_eq, ite_eq_right (by simp [Nat.blt_eq]), Array.getElem_append_right (by rw [hs])]
       simp [hs, hr.2 (i + 1) hi1]
   have hperm : allN (kN + 1) (fun l => permOK D.n w (mask w) (D.n * w)
       (nIf(Nat.blt l kN, NG l, REP (i + 1))) (nIf(Nat.blt l kN, NGI l, REPI (i + 1)))) = true :=
     PK.allN_iff.2 fun l hl => by
       by_cases h : l < kN
-      · rw [PK.nIf_eq, PK.nIf_eq, if_pos (Nat.blt_eq.mpr h), if_pos (Nat.blt_eq.mpr h)]
+      · rw [PK.nIf_eq, PK.nIf_eq, ite_eq_left (Nat.blt_eq.mpr h), ite_eq_left (Nat.blt_eq.mpr h)]
         exact hNI l h
-      · rw [PK.nIf_eq, PK.nIf_eq, if_neg (by simp [Nat.blt_eq]; omega),
-          if_neg (by simp [Nat.blt_eq]; omega)]
+      · rw [PK.nIf_eq, PK.nIf_eq, ite_eq_right (by simp [Nat.blt_eq]; omega),
+          ite_eq_right (by simp [Nat.blt_eq]; omega)]
         exact hRi _ hi1
   rw [hgi, wordT_u hga hperm (hw j hj), hGb j hj]
   exact beq_self_eq_true _

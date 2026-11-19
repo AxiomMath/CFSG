@@ -135,7 +135,7 @@ theorem tSeven_mem_commutator_odd (hA4 : A4) (hp : p.Prime) (hp2 : p ≠ 2)
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥(spinJ₂ K)) := inferInstance
   have hP : (P : Subgroup ↥(spinJ₂ K)).map (spinJ₂ K).subtype ≤ spinJ₂ K := map_subtype_le _
   have hP2 : IsPGroup 2 ↥((P : Subgroup ↥(spinJ₂ K)).map (spinJ₂ K).subtype) :=
-    P.isPGroup'.map _
+    P.isPGroup.map _
   have hPi : ¬ 2 ∣ ((P : Subgroup ↥(spinJ₂ K)).map (spinJ₂ K).subtype).relIndex (spinJ₂ K) := by
     have e : ((P : Subgroup ↥(spinJ₂ K)).map (spinJ₂ K).subtype).subgroupOf (spinJ₂ K) =
         (P : Subgroup ↥(spinJ₂ K)) :=

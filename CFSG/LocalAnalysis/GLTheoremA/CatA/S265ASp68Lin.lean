@@ -105,13 +105,13 @@ theorem finrank_ker_spEnd_spMap [Finite E] (ι : F →+* E) (s : StatedSp n F) :
   obtain ⟨r, hr⟩ : ∃ r, (letI := ι.toAlgebra; Module.finrank F E) = r := ⟨_, rfl⟩
   have hEF : Nat.card E = Nat.card F ^ r := by
     rw [← hr]
-    letI := ι.toAlgebra
-    haveI : Module.Finite F E := Module.Finite.of_finite
+    let := ι.toAlgebra
+    have : Module.Finite F E := Module.Finite.of_finite
     exact Module.natCard_eq_pow_finrank
   have hr0 : 0 < r := by
     rw [← hr]
-    letI := ι.toAlgebra
-    haveI : Module.Finite F E := Module.Finite.of_finite
+    let := ι.toAlgebra
+    have : Module.Finite F E := Module.Finite.of_finite
     exact Module.finrank_pos
   have hmat : ((spMap ι s : GL (Fin n ⊕ Fin n) E) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) E) - 1 =
       (((s : GL (Fin n ⊕ Fin n) F) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) - 1).map ι := by
@@ -177,10 +177,10 @@ theorem sp_eq_bot_of_normalized_two_subgroup_of_card_nine [Finite K] [CharP K 2]
     (hfix : ∀ s ∈ Ab, s ≠ 1 → Module.finrank K (LinearMap.ker (spEnd s - 1)) ≤ 2)
     (hT : IsPGroup 2 T) (hAT : Ab ≤ Subgroup.normalizer (T : Set (StatedSp n K))) :
     T = ⊥ := by
-  haveI : Finite ((Fin n ⊕ Fin n → K) ≃ₗ[K] (Fin n ⊕ Fin n → K)) :=
+  have : Finite ((Fin n ⊕ Fin n → K) ≃ₗ[K] (Fin n ⊕ Fin n → K)) :=
     Finite.of_injective (fun e : (Fin n ⊕ Fin n → K) ≃ₗ[K] (Fin n ⊕ Fin n → K) =>
       (e : (Fin n ⊕ Fin n → K) → (Fin n ⊕ Fin n → K))) fun e e' h => LinearEquiv.ext (congrFun h)
-  haveI : Fintype ↥(Ab.map (spAct n K)) := Fintype.ofFinite _
+  have : Fintype ↥(Ab.map (spAct n K)) := Fintype.ofFinite _
   have hA9 : Nat.card ↥(Ab.map (spAct n K)) = 9 := by
     rw [Subgroup.card_map_of_injective spAct_injective, h9]
   have hB : InvariantBilin (Ab.map (spAct n K)) (spForm n K) := fun a u v => by

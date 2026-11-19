@@ -23,7 +23,7 @@ theorem ThCyc.exists_fusing_element (H : ThCyc G L R t) (hS : IsThSylow L SL) :
   have hex : ∃ x ∈ (P : Subgroup G), x ∈ normalizer (S : Set G) ∧ x ∉ S := by
     by_contra hcon
     push Not at hcon
-    exact hne (eq_of_inf_normalizer_le P.isPGroup' hSP' fun x hx hn => hcon x hx hn)
+    exact hne (eq_of_inf_normalizer_le P.isPGroup hSP' fun x hx hn => hcon x hx hn)
   obtain ⟨x, hxP, hxn, hxS⟩ := hex
   have hx1 : ∀ s, s ∈ S ↔ x * s * x⁻¹ ∈ S := mem_normalizer_iff.1 hxn
   have hxinv : ∀ s ∈ S, x⁻¹ * s * x ∈ S := fun s hs => (hx1 _).2 (by simpa [mul_assoc] using hs)
@@ -45,7 +45,7 @@ theorem ThCyc.exists_fusing_element (H : ThCyc G L R t) (hS : IsThSylow L SL) :
       calc x * t = (x * t * x⁻¹) * x := by group
         _ = t * x := by rw [heq]
     have hX : IsPGroup 2 ↥(S ⊔ zpowers x) :=
-      P.isPGroup'.to_le (sup_le hSP' (zpowers_le.2 hxP))
+      P.isPGroup.to_le (sup_le hSP' (zpowers_le.2 hxP))
     exact hxS (H.sup_max hS (sup_le (H.sup_le_centralizer hS) (zpowers_le.2 hxC)) hX le_sup_left
       (Subgroup.mem_sup_right (mem_zpowers x)))
   obtain ⟨u, hu⟩ : ∃ u : G, u = x * t * x⁻¹ := ⟨_, rfl⟩

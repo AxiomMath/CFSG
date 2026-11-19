@@ -105,7 +105,7 @@ theorem sec8PointsTrans {G : Type} [Group G] [Finite G]
   obtain ⟨m, _hm, K, iK, _iF, _hK, hnat⟩ := hs.sp
   obtain ⟨φ, hφ, _hker, hact⟩ := hnat
   obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hBV : B ≤ Vt M (LB M Q B) B Z t := hc.B_le_Vt hs.toSec5.mem
   obtain ⟨b, hbB, hbZ⟩ : ∃ b ∈ B, b ∉ Z := by
     by_contra hcon

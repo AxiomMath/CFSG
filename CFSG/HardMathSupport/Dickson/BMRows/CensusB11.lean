@@ -69,9 +69,9 @@ theorem card_centralizer_yEleven_of
       Nat.card ↥(Subgroup.centralizer ({u} : Set NativeSporadic.B) ⊓
         Subgroup.centralizer ({y} : Set NativeSporadic.B)) ∣ 264) :
     Nat.card ↥(Subgroup.centralizer ({yEleven} : Set NativeSporadic.B)) = 1320 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have P := b11_parts
   obtain ⟨ψ, hψ, hc, h0, h02⟩ := exists_sym5_of_parts P
   have hyo : orderOf yEleven = 11 := orderOf_eq_prime P.y_pow P.y_ne
@@ -106,8 +106,8 @@ theorem card_centralizer_eleven_B_eq_of
         Subgroup.centralizer ({y} : Set NativeSporadic.B)) ∣ 264)
     (y : NativeSporadic.B) (hy : orderOf y = 11) :
     Nat.card ↥(Subgroup.centralizer ({y} : Set NativeSporadic.B)) = 1320 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hyo : orderOf yEleven = 11 := orderOf_eq_prime b11_parts.y_pow b11_parts.y_ne
   obtain ⟨g, k, hyk⟩ :=
     CFSG.HardMathSupport.Timmesfeld.SporadicBalance.exists_conj_pow_of_factorization_eq_one

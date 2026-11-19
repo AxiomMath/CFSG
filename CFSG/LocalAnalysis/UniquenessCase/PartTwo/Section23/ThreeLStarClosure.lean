@@ -73,6 +73,7 @@ theorem component_le_normalizer_iSup_of_isComponentOf {X : Type} [Group X] [Fini
       exact (hcomm c hc b hb).symm
     exact hcent.trans (Subgroup.centralizer_le_normalizer (B i : Set X))
 
+omit [Finite G] in
 private theorem barPreimage_barImage_eq {H K : Subgroup G} (hKH : K ≤ H) :
     barPreimage H (barImage H K) = K ⊔ pCoreOf 2 H := by
   unfold barPreimage barImage
@@ -80,6 +81,7 @@ private theorem barPreimage_barImage_eq {H K : Subgroup G} (hKH : K ≤ H) :
     sup_comm]
   rfl
 
+omit [Finite G] in
 private theorem map_conj_le_perfectCore_of_barImage_le_normalizer {H K L : Subgroup G}
     (hKH : K ≤ H) (hperf : ⁅K, K⁆ = K) (hLH : L ≤ H)
     (hbar : barImage H L ≤ Subgroup.normalizer (barImage H K : Set (Bar2 H))) {z : G}

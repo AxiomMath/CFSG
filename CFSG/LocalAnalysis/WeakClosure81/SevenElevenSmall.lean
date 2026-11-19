@@ -24,9 +24,9 @@ theorem seven_eleven_small_eq_of_mem {X : Type} [Group X] {S : Subgroup X} (hS :
 
 theorem seven_eleven_small_zpowers_eq {X : Type} [Group X] {S : Subgroup X}
     (hS : Nat.card S = 2) {s : X} (hs : s ∈ S) (hs1 : s ≠ 1) : Subgroup.zpowers s = S := by
-  haveI : Finite ↥S := Nat.finite_of_card_ne_zero (hS ▸ two_ne_zero)
+  have : Finite ↥S := Nat.finite_of_card_ne_zero (hS ▸ two_ne_zero)
   have hle : Subgroup.zpowers s ≤ S := Subgroup.zpowers_le.mpr hs
-  haveI : Finite ↥(Subgroup.zpowers s) :=
+  have : Finite ↥(Subgroup.zpowers s) :=
     Finite.of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
   refine Subgroup.eq_of_le_of_card_ge hle ?_
   have hne : Subgroup.zpowers s ≠ ⊥ := by
@@ -45,7 +45,7 @@ theorem seven_eleven_small_hyps (h : Hyp711 V H E) {X : Type} [Group X]
     (hs : s ∈ barSub (kSub V H E) φ V) (hs1 : s ≠ 1) :
     orderOf s = 2 ∧ CFSG.Timmesfeld.Bridge.Asc72.IsOddTransp {x : X | IsConj s x} ∧
       Subgroup.normalClosure ({s} : Set X) = ⊤ ∧ CFSG.pCore 2 X = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hss : s * s = 1 := elemAbelian_mul_self (isElemAbelian_barSub h.elemAbelian φ) hs
   have hpow : s ^ 2 = 1 := by rwa [pow_two]
   have hord : orderOf s = 2 := orderOf_eq_prime hpow hs1
@@ -69,7 +69,7 @@ theorem fusionOddCore_le_center_or_isSymGp (hCore : OddTranspositionCoreInputSC)
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (hS : Nat.card (barSub (kSub V H E) φ V) = 2) :
     fusionOddCore X ≤ Subgroup.center X ∨ ∃ n : ℕ, IsSymGp (X ⧸ fusionOddCore X) n := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   by_cases hOZ : fusionOddCore X ≤ Subgroup.center X
   · exact Or.inl hOZ
   · right

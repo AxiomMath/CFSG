@@ -74,6 +74,7 @@ private theorem center_He_eq_bot :
   rw [CFSG.Sporadic.He.card_He]
   norm_num
 
+omit [Finite G] in
 private theorem not_mem_of_center_eq_bot {L : Subgroup G} {a : G}
     (haC : a ∈ Subgroup.centralizer (L : Set G)) (ha1 : a ≠ 1) (hcen : Subgroup.center ↥L = ⊥) :
     a ∉ L := by

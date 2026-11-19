@@ -17,6 +17,7 @@ section Recognition
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 variable {c : Γ.Coloring (Fin 2)} {P' : Set V}
 
+omit [DecidableRel Γ.Adj] in
 theorem ncard_fullLinesThrough_eq_trace (hP : IsGeneralizedPolygon Γ 4)
     (c : Γ.Coloring (Fin 2)) {P' : Set V}
     (h0 : ∀ x ∈ P', c x = 0)
@@ -89,6 +90,7 @@ theorem ncard_fullLinesThrough_eq_trace (hP : IsGeneralizedPolygon Γ 4)
     have h3 : Γ.dist b L = 3 := hdist L hLmem
     exact (eq_proj hP h3 hwL hbw).symm
 
+omit [DecidableRel Γ.Adj] in
 theorem ncard_fullLinesThrough_eq_trace_swap (hP : IsGeneralizedPolygon Γ 4)
     (c : Γ.Coloring (Fin 2)) {P' : Set V}
     (h0 : ∀ x ∈ P', c x = 0)
@@ -104,6 +106,7 @@ theorem ncard_fullLinesThrough_eq_trace_swap (hP : IsGeneralizedPolygon Γ 4)
   rw [← hsym]
   exact ncard_fullLinesThrough_eq_trace hP c h0 hfull hb ha h4
 
+omit [DecidableRel Γ.Adj] in
 theorem ncard_fullLinesThrough_eq_of_dist_four (hP : IsGeneralizedPolygon Γ 4)
     (c : Γ.Coloring (Fin 2)) {P' : Set V}
     (h0 : ∀ x ∈ P', c x = 0)
@@ -150,7 +153,7 @@ theorem ncard_fullLinesThrough_eq_of_dist_two (hP : IsGeneralizedPolygon Γ 4)
   have hLfull : Γ.neighborSet L ⊆ P' := hLmem.2
   have hcL : c L = 1 := color_eq_one_of_adj_of_color_eq_zero (h0 a ha) hLa
   have hLdeg : Γ.degree L = s + 1 := by
-    rw [hdeg L, if_neg (by rw [hcL]; decide)]
+    rw [hdeg L, ite_eq_right (by rw [hcL]; decide)]
   have hNpos : 1 < (Γ.neighborSet L).ncard := by
     rw [ncard_neighborSet, hLdeg]
     omega
@@ -196,7 +199,7 @@ theorem ncard_fullLinesThrough_eq_of_dist_two (hP : IsGeneralizedPolygon Γ 4)
   have hMfull : Γ.neighborSet M ⊆ P' := hMmem.2
   have hcM : c M = 1 := color_eq_one_of_adj_of_color_eq_zero (h0 e heP) hMe
   have hMdeg : Γ.degree M = s + 1 := by
-    rw [hdeg M, if_neg (by rw [hcM]; decide)]
+    rw [hdeg M, ite_eq_right (by rw [hcM]; decide)]
   have hbMnot : ¬ Γ.Adj b M := by
     intro hbM
     have hbe_ne : b ≠ e := by
@@ -370,7 +373,7 @@ theorem exists_walk_subquadrangleGraph (hP : IsGeneralizedPolygon Γ 4)
       rw [SimpleGraph.Walk.mem_support_nil_iff] at hx
       subst hx
       exact ha
-    · simp [hd]
+    · simp
   · have hadj : Γ.Adj a b := SimpleGraph.dist_eq_one_iff_adj.mp hd
     rw [← hd]
     refine build ha hb (SimpleGraph.Walk.cons hadj SimpleGraph.Walk.nil) ?_ ?_
@@ -596,7 +599,7 @@ theorem exists_walk_subquadrangleGraph (hP : IsGeneralizedPolygon Γ 4)
     ·
       have hspos : 0 < (Γ.neighborSet a).ncard := by
         have hs : 2 ≤ s := two_le_s hP hT c hdeg
-        rw [ncard_neighborSet, hdeg a, if_neg (by rw [haL.1]; decide)]
+        rw [ncard_neighborSet, hdeg a, ite_eq_right (by rw [haL.1]; decide)]
         omega
       obtain ⟨x, hxN⟩ := (Set.ncard_pos (Set.toFinite _)).mp hspos
       have hax : Γ.Adj a x := hxN
@@ -696,7 +699,7 @@ theorem isGeneralizedPolygon_subquadrangleGraph (hP : IsGeneralizedPolygon Γ 4)
   let S : Set V := subquadrangleSet Γ c P'
   have hxS : F.x ∈ S := Or.inl F.hx
   have hyS : F.y ∈ S := Or.inl F.hy
-  haveI hSne : Nonempty S := ⟨⟨F.x, hxS⟩⟩
+  have hSne : Nonempty S := ⟨⟨F.x, hxS⟩⟩
   have hconn : (Γ.induce S).Connected :=
     ⟨fun u v => by
       obtain ⟨p, -⟩ := exists_walk_subquadrangleGraph hP hT c hdeg F h0 hfull u.2 v.2

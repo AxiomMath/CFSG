@@ -13,11 +13,13 @@ open scoped commutatorElement
 
 variable {X : Type*} [Group X] [Finite X]
 
+omit [Finite X] in
 private lemma mul_eq_commutator_mul (x y : X) :
     x * y = ⁅x, y⁆ * (y * x) := by
   rw [commutatorElement_def]
   group
 
+omit [Finite X] in
 private lemma sq_mul_eq_of_commutator {x y c : X} (hxy : x * y = c * (y * x))
     (hcx : c * x = x * c) (hcinv : c⁻¹ = c) :
     (x * y) ^ 2 = c * x ^ 2 * y ^ 2 := by
@@ -32,17 +34,20 @@ private lemma sq_mul_eq_of_commutator {x y c : X} (hxy : x * y = c * (y * x))
     _ = (c * x) * (x * y) * y := by rw [← hcx]
     _ = c * x ^ 2 * y ^ 2 := by rw [pow_two, pow_two]; group
 
+omit [Finite X] in
 private lemma commutatorElement_mul_right_of_central {a b c : X}
     (h : ⁅a, c⁆ * b = b * ⁅a, c⁆) :
     ⁅a, b * c⁆ = ⁅a, b⁆ * ⁅a, c⁆ := by
   rw [commutatorElement_mul_right_eq_mul_conj, mul_assoc ⁅a, b⁆ b ⁅a, c⁆, h.symm,
     ← mul_assoc ⁅a, b⁆ ⁅a, c⁆ b, mul_inv_cancel_right]
 
+omit [Finite X] in
 private lemma ncard_mul_right_image (H : Subgroup X) (g : X) :
     ((fun z : X => z * g) '' (H : Set X)).ncard = Nat.card H := by
   rw [Set.ncard_image_of_injective (H : Set X) (mul_left_injective g)]
   exact (Nat.card_coe_set_eq (H : Set X)).symm
 
+omit [Finite X] in
 private lemma key_claim {B Z1 : Subgroup X}
     (hcent : ∀ z ∈ Z1, ∀ b ∈ B, z * b = b * z)
     (hsq1 : ∀ z ∈ Z1, z ^ 2 = 1)
@@ -78,7 +83,7 @@ private lemma key_claim {B Z1 : Subgroup X}
     simpa only [mul_inv_cancel_right] using this
   rw [h2, mul_inv_rev, hsinv, ← mul_assoc, hss, one_mul]
 
-theorem lit_class2_abelian {B Z1 : Subgroup X} (hZB : Z1 ≤ B)
+theorem lit_class2_abelian {B Z1 : Subgroup X} (_hZB : Z1 ≤ B)
     (hcent : ∀ z ∈ Z1, ∀ b ∈ B, z * b = b * z) (hsq1 : ∀ z ∈ Z1, z ^ 2 = 1)
     (hcomm : ∀ a ∈ B, ∀ b ∈ B, ⁅a, b⁆ ∈ Z1) (hsq : ∀ b ∈ B, b ^ 2 ∈ Z1)
     (hcard : Nat.card B = 16 * Nat.card Z1)
@@ -139,8 +144,8 @@ theorem lit_class2_abelian {B Z1 : Subgroup X} (hZB : Z1 ≤ B)
       U.ncard ≤ (C1 ∪ C2).ncard + (C3 ∪ C4).ncard := h1
       _ ≤ (C1.ncard + C2.ncard) + (C3.ncard + C4.ncard) := add_le_add h2 h3
       _ = 4 * Nat.card Z1 := by rw [hC1, hC2, hC3, hC4]; ring
-  haveI : Nonempty B := ⟨⟨1, B.one_mem⟩⟩
-  haveI : Nonempty Z1 := ⟨⟨1, Z1.one_mem⟩⟩
+  have : Nonempty B := ⟨⟨1, B.one_mem⟩⟩
+  have : Nonempty Z1 := ⟨⟨1, Z1.one_mem⟩⟩
   have hzpos : 0 < Nat.card Z1 := Nat.card_pos
   have hU_lt : U.ncard < Nat.card B :=
     lt_of_le_of_lt hU_bound (by rw [hcard]; omega)

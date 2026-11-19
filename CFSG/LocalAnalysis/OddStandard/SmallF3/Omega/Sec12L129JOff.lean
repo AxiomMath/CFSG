@@ -17,7 +17,7 @@ theorem sec12J_offender {W Γ : Type} [Group W] [Finite W] [Group Γ] [Finite Γ
     {X : Type} [Finite X] (j : X → W) (hj : Function.Injective j) {Fb : Subgroup Γ}
     (hFb : IsElemAbelian 2 Fb) (hne : Fb ≠ ⊥)
     (hfix : ∀ b ∈ Fb, ∀ x : X, ψ b (j x) = j x) : Nat.card X * Nat.card Fb ≤ 128 := by
-  haveI : (MonoidHom.range φ).Normal := hE
+  have : (MonoidHom.range φ).Normal := hE
   have hrel : (MonoidHom.range φ).relIndex Fb ≤ 2 :=
     sec12J_relIndex_le_two (MonoidHom.range φ) Fb hidx hFb.isPGroup
   have hcard := sec12J_card_inf_mul_relIndex (MonoidHom.range φ) Fb

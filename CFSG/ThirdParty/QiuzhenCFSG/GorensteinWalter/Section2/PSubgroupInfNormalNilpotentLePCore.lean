@@ -40,7 +40,7 @@ public theorem pSubgroup_inf_normal_nilpotent_le_pCore
   have hSnormal : (S : Subgroup F).Normal :=
     Group.IsNilpotent.sylow_normal (p := p) hFnil S
   have hIFleCoreF : (U ⊓ F).subgroupOf F ≤ pCore p F :=
-    hIFleS.trans (le_sSup ⟨hSnormal, S.isPGroup'⟩)
+    hIFleS.trans (le_sSup ⟨hSnormal, S.isPGroup⟩)
   let P : Subgroup X := (pCore p F).map F.subtype
   have hIFleP : U ⊓ F ≤ P := by
     have hmap := Subgroup.map_mono (f := F.subtype) hIFleCoreF

@@ -18,6 +18,7 @@ variable {V : Type} [Group V] [Finite V]
 variable {Kh Eh : Subgroup (MulAut V)} {n : ℕ} {π : ↥Kh →* ↥(alternatingGroup (Fin n))}
   {Vv V₄ : Subgroup ↥(alternatingGroup (Fin n))}
 
+omit [Finite V] in
 theorem card_Vv_eq (d : ASData Kh Eh n π Vv V₄) : Nat.card ↥Vv = Nat.card ↥Eh :=
   LayerM.card_Vv_eq_aux d
 
@@ -49,12 +50,14 @@ theorem lift_core (d : ASData Kh Eh n π Vv V₄) {s : ℕ} (xs : Fin s → ↥(
         ∃ z ∈ Subgroup.center ↥Kh, (y : MulAut V) * (z : MulAut V) ∈ ⁅J, J⁆ :=
   LayerM.lift_core_aux d xs
 
+omit [Finite V] in
 theorem kh_le_J (d : ASData Kh Eh n π Vv V₄) {J : Subgroup (MulAut V)}
     {G : Subgroup ↥(alternatingGroup (Fin n))} (hG : ⊤ ≤ G) (hJK : ⁅J, J⁆ ≤ Kh)
     (hJ : ∀ y : ↥Kh, π y ∈ ⁅G, G⁆ →
       ∃ z ∈ Subgroup.center ↥Kh, (y : MulAut V) * (z : MulAut V) ∈ ⁅J, J⁆) : Kh ≤ J :=
   LayerM.kh_le_J_aux d hG hJK hJ
 
+omit [Finite V] in
 theorem cover_A9 (d : ASData Kh Eh n π Vv V₄) {J : Subgroup (MulAut V)}
     {G F : Subgroup ↥(alternatingGroup (Fin n))} (hFG : F ≤ G)
     (hF : Nonempty (↥F ≃* ↥(alternatingGroup (Fin 9)))) (hJK : ⁅J, J⁆ ≤ Kh)

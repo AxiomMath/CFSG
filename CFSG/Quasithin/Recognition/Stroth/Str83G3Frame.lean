@@ -16,6 +16,7 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique CFSG.LieType.BorelTits
 variable {G : Type} [Group G] [Finite G]
 variable {L1 L2 S : Subgroup G} {a : ℕ}
 
+omit [Finite G] in
 theorem eq_or_mem_pCoreOf_of_normal_of_isSimple {H K : Subgroup G}
     (hsim : IsSimpleGroup (oTwoQuot ↥H)) (hKH : K ≤ H)
     (hK : H ≤ Subgroup.normalizer (K : Set G)) (hQK : pCoreOf 2 H ≤ K) :
@@ -69,9 +70,9 @@ theorem eq_of_forall_pow_mem_of_isPerfect {H K : Subgroup G}
     (K.subgroupOf H).map (QuotientGroup.mk' (pCore 2 ↥H))
   have hKnorm : (K.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).mpr hK
-  haveI : Kq.Normal :=
+  have : Kq.Normal :=
     Subgroup.Normal.map hKnorm _ (QuotientGroup.mk'_surjective _)
-  haveI : Group.IsPerfect (oTwoQuot ↥H) := hperf
+  have : Group.IsPerfect (oTwoQuot ↥H) := hperf
   have hKqtop : Kq = ⊤ := by
     refine CFSG.Quasithin.MS93.S36.eq_top_of_perfect_of_pow_mem Kq ?_
     intro z
@@ -240,7 +241,7 @@ theorem isTwoReducedIn_z2_of_caseI {L1 L2 S : Subgroup G} {a : ℕ}
     rw [hsupQ]
     obtain ⟨eL⟩ := hL2
     exact ⟨(oTwoQuotSupEquiv hF.1.symm).trans eL⟩
-  haveI : IsSimpleGroup (oTwoQuot ↥(L2 ⊔ S)) :=
+  have : IsSimpleGroup (oTwoQuot ↥(L2 ⊔ S)) :=
     CFSG.Quasithin.S1421NS.isSimpleGroup_of_isL2Quot (by omega) hL2sup
   have hperfect : Group.IsPerfect (oTwoQuot ↥(L2 ⊔ S)) :=
     CFSG.Quasithin.F112R.isPerfect_of_isL2Quot (by omega) hL2sup

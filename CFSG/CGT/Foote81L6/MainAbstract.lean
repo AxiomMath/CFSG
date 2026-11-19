@@ -34,7 +34,7 @@ theorem sylowQuot_isPGroup_and_max (S : Sylow 2 H) {z : H}
     (hSz : (S : Subgroup H) ≤ centralizer ({z} : Set H)) :
     IsPGroup 2 (sylowQuot S z) ∧ ∀ {Q : Subgroup (centralizerQuot z)}, IsPGroup 2 Q →
       sylowQuot S z ≤ Q → Q = sylowQuot S z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S' : Sylow 2 (centralizerQuot z) :=
     (S.subtype hSz).mapSurjective (QuotientGroup.mk'_surjective (zpowers (zCent z)))
   have hEq : (S' : Subgroup (centralizerQuot z)) = sylowQuot S z := by
@@ -48,7 +48,7 @@ theorem sylowQuot_isPGroup_and_max (S : Sylow 2 H) {z : H}
     (hSz : (S : Subgroup H) ≤ centralizer ({z} : Set H)) : Sylow 2 (centralizerQuot z) where
   toSubgroup := sylowQuot S z
   maximal_isPGroup.left := (sylowQuot_isPGroup_and_max S hSz).1
-  maximal_isPGroup.right Q hQ hle := ((sylowQuot_isPGroup_and_max S hSz).2 hQ hle).le
+  maximal_isPGroup.right _Q hQ hle := ((sylowQuot_isPGroup_and_max S hSz).2 hQ hle).le
 
 end Lift
 
@@ -64,7 +64,7 @@ theorem normalQuaternionAt_of_closed (S : Sylow 2 H) {z : H}
       (QuotientGroup.mk g : centralizerQuot z) ∈ D₀.A →
       orderOf (QuotientGroup.mk g : centralizerQuot z) = 2 → (g : H) ^ 2 = z) :
     CFSG.ClassicalInvolution.NormalQuaternionAt z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C := centralizer ({z} : Set H)
   set Zc : Subgroup C := zpowers (zCent z)
   set π : C →* centralizerQuot z := QuotientGroup.mk' Zc
@@ -216,19 +216,19 @@ theorem normalQuaternionAt_of_closed (S : Sylow 2 H) {z : H}
         rw [Sylow.coe_comapOfKerIsPGroup, mem_comap, hy]
         exact a.2
       exact ⟨⟨y, hyQ⟩, Subtype.ext hy⟩
-    haveI := isCyclic_of_surjective ψ hψ
+    have := isCyclic_of_surjective ψ hψ
     obtain ⟨eA⟩ := D₀.A_iso
     let e1 : ↥(AK : Subgroup ↥K) ≃* ↥A₀ :=
       ((AK : Subgroup ↥K).equivMapOfInjective K.subtype K.subtype_injective).trans
         (MulEquiv.subgroupCongr hAKeq)
-    haveI : IsCyclic (DihedralGroup (2 ^ (m - 1))) := isCyclic_of_surjective
+    have : IsCyclic (DihedralGroup (2 ^ (m - 1))) := isCyclic_of_surjective
       ((e1.trans eA).toMonoidHom) (e1.trans eA).surjective
     have h1 := (DihedralGroup.isCyclic_iff).1 this
     have : 2 ≤ 2 ^ (m - 1) := by
       calc 2 = 2 ^ 1 := rfl
         _ ≤ 2 ^ (m - 1) := Nat.pow_le_pow_right (by norm_num) (by have := D₀.two_le_m; omega)
     omega
-  obtain ⟨r, hr, ⟨eQ⟩⟩ := (CFSG.Holt.isCyclic_or_quaternion_of_atMostOneInvolution QK.isPGroup'
+  obtain ⟨r, hr, ⟨eQ⟩⟩ := (CFSG.Holt.isCyclic_or_quaternion_of_atMostOneInvolution QK.isPGroup
     hatmost).resolve_left hncyc
   set Khat : Subgroup H := Kc.map C.subtype
   have hKhatC : Khat ≤ C := map_subtype_le Kc

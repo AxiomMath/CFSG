@@ -135,15 +135,15 @@ theorem Gen.act_act (g : Gen) (v : Coords 8) : g.act (g.act v) = v := by
   | ng i j =>
     simp only [Gen.act]
     by_cases h : k = i ∨ k = j
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       exact neg_neg _
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
   | t1 =>
     simp only [Gen.act]
     by_cases h : k = 1
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       exact neg_neg _
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
 
 theorem mem_iff_nf_mem {Ω : Set (Coords 8)} (hΩ : ∀ g : Gen, g.Valid → ∀ v ∈ Ω, g.act v ∈ Ω)
     (v : Coords 8) : v ∈ Ω ↔ nf v ∈ Ω := by

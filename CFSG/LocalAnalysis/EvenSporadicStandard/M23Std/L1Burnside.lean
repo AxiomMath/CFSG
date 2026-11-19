@@ -46,7 +46,7 @@ theorem exists_normal_two_complement (h : OneClassData L z t)
   · rw [Subgroup.disjoint_def]
     rintro x ⟨k, hk, rfl⟩ hx
     have hkP : k ∈ (P : Subgroup C) := (hPmem k).2 hx
-    have hdis := MonoidHom.ker_transferSylow_disjoint P hP (P : Subgroup C) P.isPGroup'
+    have hdis := MonoidHom.ker_transferSylow_disjoint P hP (P : Subgroup C) P.isPGroup
     have := Subgroup.disjoint_def.1 hdis hk hkP
     rw [this]
     rfl

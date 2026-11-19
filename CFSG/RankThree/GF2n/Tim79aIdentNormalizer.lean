@@ -16,7 +16,7 @@ namespace MinCex
 
 variable {M V Q P H : Subgroup G} [Finite G]
 
-theorem mem_normalizer_Vy_of_tilde (hc : MinCex M V Q P H) (hd : Sec23Data V H)
+theorem mem_normalizer_Vy_of_tilde (_hc : MinCex M V Q P H) (hd : Sec23Data V H)
     {b : Xbar V H}
     (hb : projZ V H b ∈ Subgroup.normalizer (VZ V H : Set (XbarZ V H))) :
     b ∈ Subgroup.normalizer (Vy V H : Set (Xbar V H)) := by
@@ -29,7 +29,7 @@ theorem mem_normalizer_Vy_of_tilde (hc : MinCex M V Q P H) (hd : Sec23Data V H)
     by_cases hv1 : v = 1
     · rw [hv'eq, hv1]
       simp
-    have hvD : v ∈ Dy V H := hc.barOf_V_subset_dbarOf (Subgroup.mem_subgroupOf.mp hv)
+    have hvD : v ∈ Dy V H := CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf (Subgroup.mem_subgroupOf.mp hv)
       (fun h => hv1 (Subtype.ext h))
     have hv'D : v' ∈ Dy V H := by
       rw [hv'eq]
@@ -49,7 +49,7 @@ theorem mem_normalizer_Vy_of_tilde (hc : MinCex M V Q P H) (hd : Sec23Data V H)
     · exfalso
       rw [hu1, inv_one, one_mul] at hz
       exact hd.noncentral v' hv'D hz
-    have huD : u ∈ Dy V H := hc.barOf_V_subset_dbarOf (Subgroup.mem_subgroupOf.mp hu)
+    have huD : u ∈ Dy V H := CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf (Subgroup.mem_subgroupOf.mp hu)
       (fun h => hu1 (Subtype.ext h))
     have hz1 : u⁻¹ * v' = 1 :=
       noCentralTwist hd _ hz u huD (by rwa [mul_inv_cancel_left])
@@ -77,9 +77,10 @@ namespace MinCex
 
 variable {M V Q P H : Subgroup G} [Finite G]
 
-theorem Vy_le_Rbar (hc : MinCex M V Q P H) : Vy V H ≤ Rbar V H P := fun v hv =>
+theorem Vy_le_Rbar (hc : MinCex M V Q P H) : Vy V H ≤ Rbar V H P := fun _v hv =>
   mem_Rbar.mpr (barOf_mono hc.V_le_P (Subgroup.mem_subgroupOf.mp hv))
 
+omit [Finite G] in
 theorem isPGroup_Rbar (hc : MinCex M V Q P H) : IsPGroup 2 (Rbar V H P) := by
   intro r
   obtain ⟨p, hp, hpr⟩ := mem_barOf_iff.mp (mem_Rbar.mp r.2)
@@ -99,7 +100,7 @@ theorem commutator_mem_Rbar (hc : MinCex M V Q P H) {b : Xbar V H}
     (hb : b ∈ Subgroup.normalizer (Vy V H : Set (Xbar V H))) {p : Hbar V H}
     (hp : p ∈ barOf V H P) :
     ∃ r ∈ Rbar V H P, (r : Hbar V H) = (b : Hbar V H) * p * (b : Hbar V H)⁻¹ * p⁻¹ := by
-  haveI := normal_barOf_xOf V H
+  have := normal_barOf_xOf V H
   have hbN : (b : Hbar V H) ∈ Subgroup.normalizer (barOf V H V : Set (Hbar V H)) := by
     rw [Subgroup.mem_normalizer_iff]
     intro x
@@ -161,10 +162,10 @@ theorem mem_normalizer_of_map_mem_normalizer {Y K : Type*} [Group Y] [Group K] [
       group
     have hkc : k ∈ Subgroup.center Y := hker hkker
     have hSy : IsPGroup 2 ↥(conjSubgroup y (S : Subgroup Y)) :=
-      (S : Sylow 2 Y).isPGroup'.of_equiv ((S : Subgroup Y).equivMapOfInjective
+      (S : Sylow 2 Y).isPGroup.of_equiv ((S : Subgroup Y).equivMapOfInjective
         (MulAut.conj y).toMonoidHom (MulAut.conj y).injective)
     obtain ⟨a, ha⟩ := hSy ⟨s', hs'⟩
-    obtain ⟨b, hb⟩ := (S : Sylow 2 Y).isPGroup' ⟨s, hs⟩
+    obtain ⟨b, hb⟩ := (S : Sylow 2 Y).isPGroup ⟨s, hs⟩
     have ha' : s' ^ 2 ^ a = 1 := by simpa using congrArg Subtype.val ha
     have hb' : s ^ 2 ^ b = 1 := by simpa using congrArg Subtype.val hb
     have hs'N : s' ^ 2 ^ (a + b) = 1 := by rw [pow_add, pow_mul, ha', one_pow]
@@ -185,7 +186,7 @@ theorem mem_normalizer_of_map_mem_normalizer {Y K : Type*} [Group Y] [Group K] [
       simp only [Subgroup.coe_pow, OneMemClass.coe_one]
       rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hkN, one_zpow]
     have hsup : IsPGroup 2 ↥(Subgroup.zpowers k ⊔ (S : Subgroup Y)) :=
-      IsPGroup.to_sup_of_normal_right' hz2 (S : Sylow 2 Y).isPGroup' (by
+      IsPGroup.to_sup_of_normal_right' hz2 (S : Sylow 2 Y).isPGroup (by
         rw [Subgroup.zpowers_le]
         exact Subgroup.center_le_normalizer ((S : Subgroup Y) : Set Y) hkc)
     have hkS : k ∈ (S : Subgroup Y) := by
@@ -221,10 +222,12 @@ variable {M V Q P H : Subgroup G} [Finite G]
 theorem VZ_le_Rtilde (hc : MinCex M V Q P H) : VZ V H ≤ Rtilde V H P :=
   Subgroup.map_mono hc.Vy_le_Rbar
 
+omit [Finite G] in
 theorem isPGroup_Rtilde (hc : MinCex M V Q P H) : IsPGroup 2 (Rtilde V H P) :=
   (hc.isPGroup_Rbar).of_surjective ((projZ V H).subgroupMap (Rbar V H P))
     (MonoidHom.subgroupMap_surjective _ _)
 
+omit [Finite G] in
 theorem VZ_sq (hc : MinCex M V Q P H) {x : XbarZ V H} (hx : x ∈ VZ V H) : x * x = 1 := by
   have := hc.isElemAbelian_Vtilde.2 x hx
   rwa [pow_two] at this
@@ -243,12 +246,15 @@ theorem le_sylow_of_isPGroup (hc : MinCex M V Q P H) (hd : Sec23Data V H)
 @[expose] def Ugrp (V H P : Subgroup G) : Subgroup G :=
   preimOf V H ((Rbar V H P).map (barOf V H (xOf V H)).subtype)
 
+omit [Finite G] in
 theorem wOf_le_Ugrp (V H P : Subgroup G) : wOf V H ≤ Ugrp V H P := wOf_le_preimOf _ _ _
 
+omit [Finite G] in
 theorem barOf_Ugrp (V H P : Subgroup G) :
     barOf V H (Ugrp V H P) = (Rbar V H P).map (barOf V H (xOf V H)).subtype :=
   barOf_preimOf _ _ _
 
+omit [Finite G] in
 theorem exists_mul_of_mem_Ugrp {u : G} (hu : u ∈ Ugrp V H P) :
     ∃ p ∈ P, ∃ w ∈ wOf V H, u = p * w := by
   obtain ⟨h, rfl, hh⟩ := mem_preimOf.mp hu
@@ -322,7 +328,7 @@ theorem isPGroup_map_subtype {V H : Subgroup G} (Sb : Sylow 2 (Xbar V H)) :
     IsPGroup 2 ((Sb : Subgroup (Xbar V H)).map (barOf V H (xOf V H)).subtype) := by
   intro y
   obtain ⟨y', hy', hyy⟩ := Subgroup.mem_map.mp y.2
-  obtain ⟨k, hk⟩ := Sb.isPGroup' ⟨y', hy'⟩
+  obtain ⟨k, hk⟩ := Sb.isPGroup ⟨y', hy'⟩
   refine ⟨k, Subtype.ext ?_⟩
   have := congrArg (fun z : Sb => ((z : Xbar V H) : Hbar V H)) hk
   simp only [Subgroup.coe_pow, OneMemClass.coe_one] at this ⊢

@@ -21,10 +21,10 @@ theorem p71L72Env_of_leaves (hL : SDWreathedLayer) (hL3 : LU.Local.L3Cover)
     P71L72Env := by
   intro G _ _ Gs _ n N u h P hPC
   by_contra hnK
-  obtain ⟨f, hf, hfo, hn3⟩ := exists_order_three h (P : Subgroup G) hPC P.isPGroup' hnK
+  obtain ⟨f, hf, hfo, hn3⟩ := exists_order_three h (P : Subgroup G) hPC P.isPGroup hnK
   have hlt : Lt3 G n := lt3_of_sylow h P hPC
   have hcyc : IsCyclic ↥N.F := F_isCyclic hL hL3 hIVK h hlt hn3
-  have hAbP : AbCyc ↥(P : Subgroup G) := abCyc_of_cent h hcyc (P : Subgroup G) hPC P.isPGroup'
+  have hAbP : AbCyc ↥(P : Subgroup G) := abCyc_of_cent h hcyc (P : Subgroup G) hPC P.isPGroup
   obtain ⟨m, hzC, hnm, hHyp⟩ := local_three hL hL3 hIVK h hlt hn3 hf hfo
   have hm0 : m ≠ 0 := by
     rintro rfl
@@ -75,7 +75,7 @@ theorem p71L72Env_of_leaves (hL : SDWreathedLayer) (hL3 : LU.Local.L3Cover)
     QuotientGroup.mk'_surjective _
   obtain ⟨P'⟩ : Nonempty (Sylow 3 ↥(layer Hb)) := inferInstance
   let V : Subgroup Hb := (P' : Subgroup ↥(layer Hb)).map (layer Hb).subtype
-  have hVp : IsPGroup 3 ↥V := P'.isPGroup'.map _
+  have hVp : IsPGroup 3 ↥V := P'.isPGroup.map _
   have hAbV : AbCyc ↥V := AbCyc.of_section _ hπ hY V hVp
   have hAbP' : AbCyc ↥(P' : Subgroup ↥(layer Hb)) :=
     AbCyc.of_injective

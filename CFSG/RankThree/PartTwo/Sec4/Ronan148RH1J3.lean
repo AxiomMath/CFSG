@@ -21,9 +21,9 @@ section J3
 theorem good427_j3XA :
     Good427 (centralizer ({j3tXA} : Set (Equiv.Perm (Fin 6156))) ⊓ j3P) := by
   obtain ⟨eD⟩ := CFSG.AGLEmbeddingD2.Wilson.Census228Spor.nonempty_mulEquiv_D_alt6
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num)
-  haveI : IsSimpleGroup (closure (Set.range j3tD)) := eD.isSimpleGroup
+  have : IsSimpleGroup (closure (Set.range j3tD)) := eD.isSimpleGroup
   have hDC : closure (Set.range j3tD) ≤
       centralizer ({j3tXA} : Set (Equiv.Perm (Fin 6156))) ⊓ j3P :=
     le_inf CFSG.AGLEmbeddingD2.Wilson.Census228Spor.closure_j3tD_le_centralizer (by
@@ -60,7 +60,7 @@ theorem noCfgS427_j3 :
     ∀ (S : Type) [Group S] [Finite S], IsSimpleGroup S → (∃ a b : S, a * b ≠ b * a) →
       Nonempty (S ≃* Blueprint.NativeSporadic.Carrier .J3) → NoCfgS427 S ∧ NoONS427 S := by
   intro S _ _ _ hna ⟨e⟩
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .J3) := Finite.of_equiv S e.toEquiv
+  have : Finite (Blueprint.NativeSporadic.Carrier .J3) := Finite.of_equiv S e.toEquiv
   have hcard : Nat.card S = 50232960 :=
     (Nat.card_congr e.toEquiv).trans CFSG.Sporadic.J3.card_J3
   refine ⟨noCfgS427_of_subgroupModel (e.trans Sec21.Item228CensusProof.j3CarrierEquiv)

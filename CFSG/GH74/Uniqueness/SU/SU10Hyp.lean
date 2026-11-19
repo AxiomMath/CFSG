@@ -308,7 +308,7 @@ theorem hyp20A_of_barCfg {S : Sylow 2 G} {M : Subgroup G} {z : G} (h : Hyp21 S M
       S_sylow_H := hS, L_comp := hLc, L_normal := hLn, L_bender := hLb,
       A_ge := ?_, A_le := omegaOne_le_sup hS hT hcfg.inv_le, A_elem := hel,
       A_strongly_closed := ?_,
-      Q_tame := Q_tame_of_unique S.isPGroup'
+      Q_tame := Q_tame_of_unique S.isPGroup
         (fun x hx => Subgroup.mem_centralizer_singleton_iff.mpr hx) hLn
         (unique_involution_Q hS hT hzS (zb := zbar z) rfl hcfg.uniq),
       S_sylow := isSylowIn_top S, irreducible := ?_ }

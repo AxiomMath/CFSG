@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace P22fin3
 
+omit [Finite G] in
 theorem mem_centralizer_barImage_sup {M : Subgroup G} {a b : G} (haM : a ∈ M) (hbM : b ∈ M)
     {x : Bar2 M} (ha : Commute (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨a, haM⟩) x)
     (hb : Commute (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hbM⟩) x) :
@@ -36,9 +37,9 @@ theorem two_le_pRank_centralizer {M E : Subgroup G} (hEM : E ≤ M) {r : ℕ} (h
     (hc₁ : x₁ ∈ centralizer (barImage M E : Set (Bar2 M)))
     (hc₂ : x₂ ∈ centralizer (barImage M E : Set (Bar2 M))) :
     2 ≤ CFSG.Open.pRank 3 (M ⊓ centralizer (E : Set G)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
   obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥M)).exists_card_eq
   have hrN : ¬ r ∣ Nat.card (CFSG.pCore 2 ↥M) := fun h => by
     rw [hk] at h
@@ -71,7 +72,7 @@ theorem false_of_two_le_pRank (D : Data G) {Ch : Choice2011 G} (h76 : F07.R76 D)
     {r : ℕ} (hr : r.Prime) {E : Subgroup G} (hEM : E ≤ D.M) (hE : CFSG.Open.IsElemAbelian r E)
     (hEc : Nat.card E = r ^ 2) {b : G} (hbB : b ∈ c.B0) (hbE : b ∈ E) (hb : orderOf b = r)
     (h2 : 2 ≤ CFSG.Open.pRank 3 (D.M ⊓ centralizer (E : Set G))) : False := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hΓ := h76 3 Nat.prime_three (by norm_num) hk1 r hr E hEM hE hEc (by omega)
     fun X hX _ => (show 1 < 2 by norm_num).trans_le (h2.trans (CFSG.SectionRank.pRank_mono
       (by norm_num) (inf_le_inf_left _

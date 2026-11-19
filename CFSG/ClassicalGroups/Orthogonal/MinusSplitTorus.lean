@@ -26,7 +26,7 @@ theorem minusFlip_inv (m : ℕ) (i : Fin m) : (minusFlip m i)⁻¹ = minusFlip m
 
 theorem minusFlip_mul_self (m : ℕ) (i : Fin m) : minusFlip m i * minusFlip m i = 1 := by
   ext j
-  simp [Equiv.Perm.mul_apply, minusFlip, Equiv.swap_apply_self]
+  simp [minusFlip]
 
 @[simp]
 theorem minusFlip_apply_inl {m : ℕ} (i : Fin m) :
@@ -60,7 +60,7 @@ theorem minusFlipVec_ne_zero {n : ℕ} (i : Fin (n - 1)) :
       (0 : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) := by
   intro h
   have := congrFun h (Sum.inl i)
-  simp [Pi.add_apply, Pi.single_apply] at this
+  simp [Pi.add_apply] at this
 
 theorem quadMinus_minusFlipVec {n : ℕ} (i : Fin (n - 1)) :
     quadMinus n K b c (Pi.single (Sum.inl i) 1 + Pi.single (Sum.inr (Sum.inl i)) 1) = 1 := by
@@ -99,19 +99,16 @@ theorem toLinEquiv_permGL_minusFlip [CharP K 2] {n : ℕ} (i : Fin (n - 1)) :
     rcases j with j | j | j
     · by_cases hj : j = i
       · subst hj
-        simp [Function.comp_apply, Pi.add_apply, Pi.smul_apply, he, Pi.single_apply,
-          smul_eq_mul, hchar1]
+        simp [Function.comp_apply, Pi.add_apply, Pi.smul_apply, he, smul_eq_mul, hchar1]
       · simp [Function.comp_apply, minusFlip_apply_inl_of_ne hj, Pi.add_apply, Pi.smul_apply,
-          he, Pi.single_apply, smul_eq_mul, hj]
+          he, smul_eq_mul, hj]
     · by_cases hj : j = i
       · subst hj
-        simp [Function.comp_apply, Pi.add_apply, Pi.smul_apply, he, Pi.single_apply,
-          smul_eq_mul, hchar2]
+        simp [Function.comp_apply, Pi.add_apply, Pi.smul_apply, he, smul_eq_mul, hchar2]
       · simp [Function.comp_apply, minusFlip_apply_inr_of_ne hj, Pi.add_apply, Pi.smul_apply,
-          he, Pi.single_apply, smul_eq_mul, hj]
+          he, smul_eq_mul, hj]
     · fin_cases j <;>
-        simp [Function.comp_apply, Pi.add_apply, Pi.smul_apply, he, Pi.single_apply,
-          smul_eq_mul]
+        simp [Function.comp_apply, Pi.add_apply, Pi.smul_apply, he, smul_eq_mul]
   apply LinearEquiv.ext
   intro v
   rw [toLinEquiv_apply, mulVec_permGL, minusFlip_inv, hcomp v, hR v]
@@ -122,13 +119,13 @@ theorem swapMinus_isometry {n : ℕ} (v : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 
       (v ∘ ⇑(swapMinusPerm (n - 1))) (Sum.inr (Sum.inl j)) =
       v (Sum.inl j) * v (Sum.inr (Sum.inl j)) := by
     intro j
-    simp only [Function.comp_apply, swapMinusPerm, swapMinus]
+    simp only [Function.comp_apply, swapMinusPerm]
     exact mul_comm _ _
   have h2 : (v ∘ ⇑(swapMinusPerm (n - 1))) (Sum.inr (Sum.inr 0)) = v (Sum.inr (Sum.inr 0)) := by
     simp [Function.comp_apply, swapMinusPerm, swapMinus]
   have h3 : (v ∘ ⇑(swapMinusPerm (n - 1))) (Sum.inr (Sum.inr 1)) = v (Sum.inr (Sum.inr 1)) := by
     simp [Function.comp_apply, swapMinusPerm, swapMinus]
-  simp only [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore]
+  simp only [StatedQuadMinus]
   rw [Finset.sum_congr rfl (fun j _ => h1 j), h2, h3]
 
 theorem torusEntMinus_isometry {n : ℕ} (d : Fin (n - 1) → Kˣ)
@@ -148,7 +145,7 @@ theorem torusEntMinus_isometry {n : ℕ} (d : Fin (n - 1) → Kˣ)
   have h3 : ((torusEntMinus (n - 1) K d (Sum.inr (Sum.inr 1)) : Kˣ) : K) *
       v (Sum.inr (Sum.inr 1)) = v (Sum.inr (Sum.inr 1)) := by
     simp [torusEntMinus]
-  simp only [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore]
+  simp only [StatedQuadMinus]
   rw [Finset.sum_congr rfl (fun j _ => h1 j), h2, h3]
 
 theorem torusEntMinus_comp_swap (m : ℕ) (d : Fin m → Kˣ) :

@@ -42,7 +42,7 @@ theorem sl2_frobenius_lang {k : Type} [Field k] [IsAlgClosed k]
   have hDdet : Matrix.GeneralLinearGroup.det D = (Matrix.GeneralLinearGroup.det h)⁻¹ := by
     change Matrix.GeneralLinearGroup.det (TauCeti.diagGL t) = _
     rw [TauCeti.det_diagGL]
-    simp [t, Fin.prod_univ_two]
+    simp [t]
   let YGL := D * h
   have hYdet : Matrix.GeneralLinearGroup.det YGL = 1 := by
     change Matrix.GeneralLinearGroup.det (D * h) = 1

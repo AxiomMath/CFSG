@@ -19,7 +19,7 @@ theorem sec8_dimCount_of_K_symm {K E : Type} [Field K] [CharP K 2] [AddCommGroup
 
 theorem sec8_dimCount_of_K_trace_sep {K : Type} [Field K] [Finite K] [Algebra (ZMod 2) K] (a : K)
     (ha : a ≠ 0) : ∃ c : K, Algebra.trace (ZMod 2) K (a * c) ≠ 0 := by
-  haveI : Module.Finite (ZMod 2) K := Module.finite_iff_finite.mpr inferInstance
+  have : Module.Finite (ZMod 2) K := Module.finite_iff_finite.mpr inferInstance
   by_contra hcon
   simp only [not_exists, not_not] at hcon
   apply ha
@@ -85,12 +85,12 @@ theorem sec8_dimCount_of_K {K : Type} [Field K] [Finite K] [CharP K 2] {E : Type
     (S Bpt : AddSubgroup E) (hS : ∀ s ∈ S, ∀ s' ∈ S, B s s' = 0)
     (hSdim : Nat.card ↥S * Nat.card ↥S = Nat.card E) (hB : Nat.card ↥Bpt ≤ Nat.card K)
     (hSe : ∀ s ∈ S, X' (X s) - s ∈ Bpt) (hSL : ∀ s ∈ S, L s - s ∈ Bpt) : False := by
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
-  letI : Module (ZMod 2) E := Module.compHom E (algebraMap (ZMod 2) K)
-  haveI : IsScalarTower (ZMod 2) K E := IsScalarTower.of_algebraMap_smul (fun r x => rfl)
-  haveI : Finite E := Module.finite_of_finite K
-  haveI : Module.Finite (ZMod 2) E := Module.finite_iff_finite.mpr inferInstance
-  haveI : Module.Finite (ZMod 2) K := Module.finite_iff_finite.mpr inferInstance
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
+  let : Module (ZMod 2) E := Module.compHom E (algebraMap (ZMod 2) K)
+  have : IsScalarTower (ZMod 2) K E := IsScalarTower.of_algebraMap_smul (fun r x => rfl)
+  have : Finite E := Module.finite_of_finite K
+  have : Module.Finite (ZMod 2) E := Module.finite_iff_finite.mpr inferInstance
+  have : Module.Finite (ZMod 2) K := Module.finite_iff_finite.mpr inferInstance
   obtain ⟨β, hβ, hnd₀, hrefl₀⟩ := sec8_dimCount_of_K_beta B hnd halt
   obtain ⟨Xz, hXz⟩ : ∃ T : E →ₗ[ZMod 2] E, ∀ x, T x = X x :=
     ⟨X.restrictScalars (ZMod 2), fun _ => rfl⟩

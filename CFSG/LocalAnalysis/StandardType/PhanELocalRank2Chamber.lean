@@ -88,9 +88,7 @@ private theorem plc2_farSet_of_transversal {K : Type} [Field K] [Finite K] {x : 
   interval_cases i <;> interval_cases j <;>
     refine ⟨fun hij => ?_, fun hij => ?_⟩ <;>
     first
-      | (exfalso; omega)
-      | (simp_all [Vsub_zero, Vsub_self, x.E_zero, x.top, List.getD_cons_zero,
-          List.getD_cons_succ])
+      | (simp_all [Vsub_zero, Vsub_self, x.E_zero, x.top])
 
 private theorem plc2_mem_genSet_iff {K : Type} [Field K] [Finite K] {f : ℕ} [CharP K 2]
     {x : FlagK K 3} :
@@ -102,12 +100,12 @@ private theorem plc2_mem_genSet_iff {K : Type} [Field K] [Finite K] {f : ℕ} [C
       ([0, 1, 2, 3] : List ℕ).getD i 0 ≤ ([0, 1, 2, 3] : List ℕ).getD (i + 1) 0 := plc2_hmono
   constructor
   · intro hx
-    simp only [genSet, Set.mem_setOf_eq] at hx
+    simp only [genSet, Set.mem_ofPred_eq] at hx
     have hfar := (mem_farSet_iff (K := K) (d := [0, 1, 2, 3]) hle).mp hx.1
     exact ⟨(hfar 2 (by decide) 1 (by decide)).1 (by decide),
       (hfar 1 (by decide) 2 (by decide)).1 (by decide)⟩
   · rintro ⟨h1, h2⟩
-    simp only [genSet, Set.mem_setOf_eq]
+    simp only [genSet, Set.mem_ofPred_eq]
     refine ⟨plc2_farSet_of_transversal h1 h2, ?_⟩
     intro i hi
     exact blockOK_of_size_one f hle hmono (plc2_farSet_of_transversal h1 h2) hi (by

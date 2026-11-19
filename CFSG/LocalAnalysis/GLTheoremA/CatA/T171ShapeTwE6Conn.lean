@@ -365,7 +365,7 @@ theorem twE6CentralizerConnOdd_holds :
   have hwSigma' : w ∈ kernelReflectionGroup a :=
     mem_kernelReflectionGroup_of_e6Shift a hap hw hshift
   obtain ⟨-, hMnormal, -⟩ := Chevalley_toral_centralizer_root_generated_quotient Tag.E6 L a
-  haveI : ((toralRootGroup Tag.E6 L a).subgroupOf (toralCentralizer Tag.E6 L a)).Normal := hMnormal
+  have : ((toralRootGroup Tag.E6 L a).subgroupOf (toralCentralizer Tag.E6 L a)).Normal := hMnormal
   have hnwM : canonicalRep (coxeterSystem Tag.E6) L w ∈ toralRootGroup Tag.E6 L a := by
     have hker := kernelReflectionGroup_le_ker (K := L) a
     have hmem : (⟨w, hw⟩ : rootCharStabilizerSubgroup a) ∈

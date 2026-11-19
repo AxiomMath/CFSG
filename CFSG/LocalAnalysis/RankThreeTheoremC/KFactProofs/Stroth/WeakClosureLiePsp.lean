@@ -73,7 +73,7 @@ theorem factorization_card_projSp {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {n : 
 
 theorem wcOn_projSp {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {K : Type} [Field K] [Finite K]
     (hpK : ¬ p ∣ Nat.card K) (n : ℕ) : WCOn p (StatedProj (StatedSp n K)) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hp : p.Prime := Fact.out
   have hp1 : Odd p := hp.odd_of_ne_two hp2
   have hpK' : ¬ p ∣ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]

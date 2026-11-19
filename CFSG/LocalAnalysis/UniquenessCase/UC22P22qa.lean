@@ -103,6 +103,7 @@ theorem uc22p22q_center_le_thompson (P : Subgroup G) :
   exact CFSG.le_ambientMaxCardThompson hfam hzA
 
 
+omit [Finite G] in
 theorem uc22p22q_isSylowOf_of_fusion {p : ℕ} [Fact p.Prime] {S H : Subgroup G}
     (h : fusionIsSylowIn p S H) : IsSylowOf p S H := by
   obtain ⟨P, hP⟩ := (fusionIsSylowIn_iff.1 h).2
@@ -111,8 +112,8 @@ theorem uc22p22q_isSylowOf_of_fusion {p : ℕ} [Fact p.Prime] {S H : Subgroup G}
 theorem uc22p22q_exists_Q {M P V : Subgroup G} (hP3 : IsPGroup 3 P) (hPM : P ≤ M)
     (hVM : M ≤ normalizer (V : Set G)) (hVMle : V ≤ M) (hV2 : IsPGroup 2 V) :
     ∃ Q : Subgroup G, IsSylowOf 2 Q (rankThreePrimeCore 3 M) ∧ P ≤ normalizer (Q : Set G) ∧ V ≤ Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV3 : V ≤ rankThreePrimeCore 3 M := by
     refine le_sSup ⟨hVMle, ?_, ?_⟩
     · exact (Subgroup.normal_subgroupOf_iff_le_normalizer hVMle).2 hVM
@@ -145,7 +146,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22p22q_r111_of (D : Data G) (hstd : Sigma23Std D) (h61 : UC6.R6_1 D) (h611 : UC6.R6_11Used D) :
     F11.R111 D := by
   intro V₀ V hH
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hV : InCalV D.M V := by
     rcases hH.1 with h | h
     · exact h.2.1

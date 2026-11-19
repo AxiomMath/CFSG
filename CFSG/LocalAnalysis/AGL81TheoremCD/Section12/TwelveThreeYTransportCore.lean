@@ -94,15 +94,15 @@ private theorem not_dvd_card_subgroupOf_primeComplementCore {d : ℕ} (hd : d.Pr
 private theorem primeComplementCore_eq_bot_of_normal_quotient {d : ℕ} (hd : d.Prime)
     (X : Subgroup G) (O : Subgroup (modPrimeComplement d X)) (hO : O.Normal) :
     primeComplementCore (G := ↥O) d = ⊥ := by
-  haveI : Finite (modPrimeComplement d X) :=
+  have : Finite (modPrimeComplement d X) :=
     Finite.of_surjective (QuotientGroup.mk' (primeComplementCore (G := ↥X) d))
       (QuotientGroup.mk'_surjective _)
-  haveI : O.Normal := hO
+  have : O.Normal := hO
   apply Subgroup.map_injective O.subtype_injective
   rw [Subgroup.map_bot]
-  haveI hchar : (primeComplementCore (G := ↥O) d).Characteristic :=
+  have hchar : (primeComplementCore (G := ↥O) d).Characteristic :=
     primeComplementCore_characteristic ↥O d hd
-  haveI : ((primeComplementCore (G := ↥O) d).map O.subtype).Normal :=
+  have : ((primeComplementCore (G := ↥O) d).map O.subtype).Normal :=
     ConjAct.normal_of_characteristic_of_normal
   have hcard : ¬ d ∣ Nat.card ((primeComplementCore (G := ↥O) d).map O.subtype) := by
     rw [Subgroup.card_subtype O (primeComplementCore (G := ↥O) d)]
@@ -123,20 +123,20 @@ private theorem nonempty_quot_oPPrimeHull_of_quotient {d : ℕ} (hd : d.Prime) (
   let Q := modPrimeComplement d X
   let N : Subgroup ↥X := oPPrimeHull d (⊤ : Subgroup ↥X)
   let O : Subgroup Q := oPPrimeHull d (⊤ : Subgroup Q)
-  haveI hCnorm : C.Normal := primeComplementCore_normal d ↥X
-  haveI hQfin : Finite Q :=
+  have hCnorm : C.Normal := primeComplementCore_normal d ↥X
+  have hQfin : Finite Q :=
     Finite.of_surjective (QuotientGroup.mk' C) (QuotientGroup.mk'_surjective C)
   let π : ↥X →* Q := QuotientGroup.mk' C
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hNO : N.map π = O := by
     dsimp only [N, O, π]
     rw [S631.map_oPPrimeHull (G' := Q),
       Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective C)]
-  haveI hNnorm : N.Normal := oPPrimeHull_top_normal d
+  have hNnorm : N.Normal := oPPrimeHull_top_normal d
   have hOnorm : O.Normal := by
     rw [← hNO]
     exact hNnorm.map π (QuotientGroup.mk'_surjective C)
-  haveI : O.Normal := hOnorm
+  have : O.Normal := hOnorm
   let f : ↥N →* ↥O :=
     (MulEquiv.subgroupCongr hNO).toMonoidHom.comp (π.subgroupMap N)
   have hf : Function.Surjective f :=
@@ -170,6 +170,7 @@ theorem nonempty_oPrimeModPrimeComplement_mulEquiv {d : ℕ} (hd : d.Prime) (X :
     QuotientGroup.congr _ _ eNJ hcoreNJ
   exact ⟨eN.symm.trans eQ⟩
 
+omit [Finite G] in
 theorem nonempty_modPrimeComplement_congr {G' : Type} [Group G'] [Finite G'] {d : ℕ}
     {A : Subgroup G} {B : Subgroup G'} (e : ↥A ≃* ↥B) :
     Nonempty (modPrimeComplement d A ≃* modPrimeComplement d B) := by
@@ -178,7 +179,7 @@ theorem nonempty_modPrimeComplement_congr {G' : Type} [Group G'] [Finite G'] {d 
       {H : Subgroup ↥A | H.Normal ∧ ¬ d ∣ Nat.card H} =
       {K : Subgroup ↥B | K.Normal ∧ ¬ d ∣ Nat.card K} := by
     ext K
-    simp only [Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_image, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨H, ⟨hHn, hHc⟩, rfl⟩
       exact ⟨hHn.map e.toMonoidHom e.surjective, by

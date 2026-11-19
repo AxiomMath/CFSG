@@ -160,7 +160,7 @@ theorem exists_sylow_two_comap {K R : Type} [Group K] [Finite K] [Group R]
       (CFSG.LieType.CentralExt.ker_subgroupComap_le_center hker Q)
   let S : Sylow 2 ↥P := Classical.choice Sylow.nonempty
   have huniq : Unique (Sylow 2 ↥P) := Sylow.unique_of_normal S inferInstance
-  refine ⟨(S : Subgroup ↥P).map P.subtype, S.isPGroup'.map P.subtype, ?_, ?_, ?_⟩
+  refine ⟨(S : Subgroup ↥P).map P.subtype, S.isPGroup.map P.subtype, ?_, ?_, ?_⟩
   ·
     set T : Sylow 2 ↥Q := S.mapSurjective (MonoidHom.subgroupComap_surjective π Q hπ) with hT
     have htop : (T : Subgroup ↥Q) = ⊤ := by

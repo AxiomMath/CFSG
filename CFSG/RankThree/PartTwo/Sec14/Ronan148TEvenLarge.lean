@@ -30,7 +30,7 @@ theorem elat_coord_mem [CharP F 2] {D : Subgroup (GL (Fin 3) F)} {K₀ : Subfiel
     (hX : ∀ i j, i ≠ j → ∃ g ∈ D, (g : Matrix (Fin 3) (Fin 3) F) = 1 + vecMulVec (e i) (f j))
     {z : GL (Fin 3) F} (hz : z ∈ D) {c χ : Fin 3 → F} (hzE : IsElat z c χ) (i j : Fin 3) :
     (f i ⬝ᵥ c) * (χ ⬝ᵥ e j) ∈ K₀ := by
-  have hd1 : ∀ m : Fin 3, f m ⬝ᵥ e m = 1 := fun m => by rw [hfr m m, if_pos rfl]
+  have hd1 : ∀ m : Fin 3, f m ⬝ᵥ e m = 1 := fun m => by rw [hfr m m, ite_eq_left rfl]
   have hoff : ∀ i j, i ≠ j → (f i ⬝ᵥ c) * (χ ⬝ᵥ e j) ∈ K₀ := by
     intro i j hij
     obtain ⟨g, hg, hgm⟩ := hX j i (Ne.symm hij)
@@ -250,7 +250,7 @@ theorem normalClosure_eq_top_of_elat [CharP F 2] {D : Subgroup (GL (Fin 3) F)}
   · exfalso
     have h3 := hZ3 _ (h hxN)
     have h2 : (⟨x, hx⟩ : D) ^ 2 = 1 := Subtype.ext (by
-      simp only [Subgroup.coe_pow, Subgroup.coe_one, pow_two]
+      simp only [Subgroup.coe_one, pow_two]
       exact hxE.mul_self)
     have h1 : (⟨x, hx⟩ : D) = 1 := by
       calc (⟨x, hx⟩ : D) = (⟨x, hx⟩ : D) ^ 3 * ((⟨x, hx⟩ : D) ^ 2)⁻¹ := by group

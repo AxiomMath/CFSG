@@ -29,7 +29,7 @@ private theorem w183_orth_index_two {ι : Type} [Fintype ι] [DecidableEq ι] {K
     ∃ s ∈ orthGroup Q₀, s ^ 2 = 1 ∧
       ∀ g ∈ orthGroup Q₀, g ∈ StatedOmega Q₀ ∨ g * s ∈ StatedOmega Q₀ := by
   classical
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero IsF2.two_eq_zero
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero IsF2.two_eq_zero
   have horth : orthGroup Q₀ =
       Subgroup.closure {A : GL ι K | ∀ v, Q₀ (Matrix.mulVec (A : Matrix ι ι K) v) = Q₀ v} := by
     rfl
@@ -177,9 +177,9 @@ theorem s16nt_orth_index_two_plus_two {K : Type} [Field K] [Finite K] {r : ℕ} 
     ∃ s ∈ orthGroup (StatedQuadPlus r K), s ^ 2 = 1 ∧
       ∀ g ∈ orthGroup (StatedQuadPlus r K),
         g ∈ StatedOmega (StatedQuadPlus r K) ∨ g * s ∈ StatedOmega (StatedQuadPlus r K) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : IsF2 K := IsF2.of_natCard_eq_two hK
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero IsF2.two_eq_zero
+  have : Fintype K := Fintype.ofFinite K
+  have : IsF2 K := IsF2.of_natCard_eq_two hK
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero IsF2.two_eq_zero
   have hQ := coe_quadPlus r K
   have hQnd := nondegenerate_polarBilin_quadPlus r K
   have hdim : Module.finrank K (Fin r ⊕ Fin r → K) = 2 * r := by
@@ -199,9 +199,9 @@ theorem s16nt_orth_index_two_minus_two {K : Type} [Field K] [Finite K] {r : ℕ}
       ∀ g ∈ orthGroup (StatedQuadMinus r K b c),
         g ∈ StatedOmega (StatedQuadMinus r K b c) ∨
           g * s ∈ StatedOmega (StatedQuadMinus r K b c) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : IsF2 K := IsF2.of_natCard_eq_two hK
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero IsF2.two_eq_zero
+  have : Fintype K := Fintype.ofFinite K
+  have : IsF2 K := IsF2.of_natCard_eq_two hK
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero IsF2.two_eq_zero
   have hQ := coe_quadMinus r K b c
   have hQnd := nondegenerate_polarBilin_quadMinus_of_finite r K hirr
   have hdim : Module.finrank K (Fin (r - 1) ⊕ Fin (r - 1) ⊕ Fin 2 → K) = 2 * r := by
@@ -215,12 +215,12 @@ theorem s16nt_orth_index_two_minus_two {K : Type} [Field K] [Finite K] {r : ℕ}
   exact w183_orth_index_two hQ hQnd hgen hv₀ (by rw [hdim]; omega)
 
 theorem s16nt_omega_fix_plus_two {K : Type} [Field K] [Finite K] {r : ℕ} (hr : 3 ≤ r)
-    (hK : Nat.card K = 2) (v : Fin r ⊕ Fin r → K)
+    (_hK : Nat.card K = 2) (v : Fin r ⊕ Fin r → K)
     (hv : ∀ A ∈ StatedOmega (StatedQuadPlus r K),
       (A : Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K).mulVec v = v) : v = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : IsF2 K := IsF2.of_natCard_eq_two hK
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero IsF2.two_eq_zero
+  have : Fintype K := Fintype.ofFinite K
+  have : IsF2 K := IsF2.of_natCard_eq_two _hK
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero IsF2.two_eq_zero
   have hQ := coe_quadPlus r K
   have hQnd := nondegenerate_polarBilin_quadPlus r K
   have hE := commutator_orthogonalGroup_quadPlus (K := K) (n := r) hr
@@ -238,9 +238,9 @@ theorem s16nt_omega_fix_minus_two {K : Type} [Field K] [Finite K] {r : ℕ} (hr 
     (hv : ∀ A ∈ StatedOmega (StatedQuadMinus r K b c),
       (A : Matrix (Fin (r - 1) ⊕ Fin (r - 1) ⊕ Fin 2) (Fin (r - 1) ⊕ Fin (r - 1) ⊕ Fin 2) K).mulVec
         v = v) : v = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : IsF2 K := IsF2.of_natCard_eq_two hK
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero IsF2.two_eq_zero
+  have : Fintype K := Fintype.ofFinite K
+  have : IsF2 K := IsF2.of_natCard_eq_two hK
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero IsF2.two_eq_zero
   have hQ := coe_quadMinus r K b c
   have hQnd := nondegenerate_polarBilin_quadMinus_of_finite r K hirr
   have hE := commutator_orthogonalGroup_quadMinus_of_two_le (K := K) (n := r) (b := b) (c := c)

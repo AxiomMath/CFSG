@@ -103,7 +103,7 @@ theorem c20_10a_of_cyc_noconj (hC' : Res10aCyc p f) (hN : Res10aNoConj p f) : C2
   let ϕ : ↥Sg →* ↥Sg ⧸ N := QuotientGroup.mk' N
   have hϕmem : ∀ x : ↥Sg, ϕ x = 1 ↔ (x : G) ∈ X := fun x => QuotientGroup.eq_one_iff x
   have hodd : Odd Sg.index := Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp S.not_dvd_index)
-  have ha2 : IsPGroup 2 (Subgroup.zpowers a) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr haS)
+  have ha2 : IsPGroup 2 (Subgroup.zpowers a) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr haS)
   have hϕa : ϕ ⟨a, haS⟩ ≠ 1 := fun h => haX ((hϕmem ⟨a, haS⟩).mp h)
   have hϕa2 : ϕ ⟨a, haS⟩ * ϕ ⟨a, haS⟩ = 1 := by
     rw [← map_mul]

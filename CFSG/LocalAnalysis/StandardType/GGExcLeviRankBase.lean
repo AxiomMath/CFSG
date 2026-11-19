@@ -116,8 +116,8 @@ theorem card_le_pow_of_le_map_subtype {τ : Tag} {K : Type} [Field K] [Finite K]
     (hS : CFSG.Open.pRank p (⊤ : Subgroup S) ≤ k) {E : Subgroup (ModGL τ K)}
     (hE : E ≤ S.map (adjointGroup τ K).subtype) (hEel : IsElemAbelian p E) :
     Nat.card E ≤ p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
   set E' : Subgroup (adjointGroup τ K) := E.comap (adjointGroup τ K).subtype with hE'def
   have hErange : E ≤ (adjointGroup τ K).subtype.range :=
     hE.trans (Subgroup.map_le_range _ _)
@@ -175,7 +175,7 @@ theorem not_dvd_card_inf_subsystemGroup_e8 {K : Type} [Field K] [Finite K] [Char
     (hcomm : ∀ x ∈ subsystemGroup Tag.E8 K J₁, ∀ y ∈ subsystemGroup Tag.E8 K J₂,
       Commute x y) :
     ¬ p ∣ Nat.card ↥(subsystemGroup Tag.E8 K J₁ ⊓ subsystemGroup Tag.E8 K J₂) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hT : Nat.card (torusGroup Tag.E8 K) = (Nat.card K - 1) ^ 8 :=
     CFSG.Timmesfeld.ExceptionalOrders.card_torusGroup_E8 (K := K)
   have hle : subsystemGroup Tag.E8 K J₁ ⊓ subsystemGroup Tag.E8 K J₂ ≤
@@ -214,7 +214,7 @@ theorem bound_subgroup_of_ambient {τ : Tag} {K : Type} [Field K] {p k : ℕ}
 theorem not_dvd_of_three_le_orderOf_natCast {q p : ℕ} (hp : p.Prime)
     (h3 : 3 ≤ orderOf ((q : ℕ) : ZMod p)) : ¬ p ∣ q := by
   intro hd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h0 : ((q : ℕ) : ZMod p) = 0 := (CharP.cast_eq_zero_iff (ZMod p) p _).2 hd
   rw [h0, orderOf_zero] at h3
   omega
@@ -222,7 +222,7 @@ theorem not_dvd_of_three_le_orderOf_natCast {q p : ℕ} (hp : p.Prime)
 theorem not_dvd_sub_one_of_three_le_orderOf_natCast {q p : ℕ} (hp : p.Prime) (hq : 1 ≤ q)
     (h3 : 3 ≤ orderOf ((q : ℕ) : ZMod p)) : ¬ p ∣ q - 1 := by
   intro hd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : ((q : ℕ) : ZMod p) = 1 := by
     have h : ((q - 1 : ℕ) : ZMod p) = 0 := (CharP.cast_eq_zero_iff (ZMod p) p _).2 hd
     rw [Nat.cast_sub hq, Nat.cast_one, sub_eq_zero] at h
@@ -233,7 +233,7 @@ theorem not_dvd_sub_one_of_three_le_orderOf_natCast {q p : ℕ} (hp : p.Prime) (
 theorem three_lt_of_three_le_orderOf_natCast {q p : ℕ} (hp : p.Prime)
     (h3 : 3 ≤ orderOf ((q : ℕ) : ZMod p)) : 3 < p := by
   by_contra hlt
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnd := not_dvd_of_three_le_orderOf_natCast hp h3
   have hne : ((q : ℕ) : ZMod p) ≠ 0 := fun h => hnd ((CharP.cast_eq_zero_iff (ZMod p) p _).1 h)
   have hpow : ((q : ℕ) : ZMod p) ^ (p - 1) = 1 := ZMod.pow_card_sub_one_eq_one hne

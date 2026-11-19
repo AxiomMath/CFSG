@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def Hsub8 (t : G) (B K : Subgroup G) : Subgroup G :=
   Nsub8 t B ⊓ normalizer (K : Set G) ⊓ centralizer ({t} : Set G)
 
+omit [Finite G] in
 theorem sec8t84a1_mem_H {t : G} {B K : Subgroup G} {h : G} :
     h ∈ Hsub8 t B K ↔
       h ∈ Nsub8 t B ∧ (∀ x : G, x ∈ K ↔ h * x * h⁻¹ ∈ K) ∧ h * t = t * h := by
@@ -56,8 +57,8 @@ theorem sec8t84a1_A_sq {t : G} {L S : Subgroup G} {z g : G} {B : Subgroup G}
 
 theorem sec8t84a1_mem_A {t : G} {L S : Subgroup G} {z g : G} {B : Subgroup G}
     (hctx : Sec8Ctx G t L S z g B) {y : G} (hy : y ∈ Asub8 t B) :
-    y ∈ B ∨ ∃ b ∈ B, y = t * b :=
-  sec68_mem_sup (sec8t84a1_t_sq hctx) (fun b hb => (sec8t84a1_t_comm hctx hb).symm) hy
+    y ∈ B ∨ ∃ _b ∈ B, y = t * _b :=
+  sec68_mem_sup (sec8t84a1_t_sq hctx) (fun _b hb => (sec8t84a1_t_comm hctx hb).symm) hy
 
 theorem sec8t84a1_t_mul_not_mem_B {t : G} {L S : Subgroup G} {z g : G} {B : Subgroup G}
     (hctx : Sec8Ctx G t L S z g B) {b : G} (hb : b ∈ B) : t * b ∉ B := by

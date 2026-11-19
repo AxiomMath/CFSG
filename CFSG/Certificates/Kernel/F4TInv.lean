@@ -97,7 +97,7 @@ theorem inv_eq_one_add_outer (t : Matrix (Fin 3) (Fin 3) F4) (h1 : t * t = 1) (h
       rw [hNo]
       ext i k
       simp only [Matrix.mul_apply, Matrix.vecMulVec_apply, Matrix.smul_apply, smul_eq_mul,
-        dotProduct, Finset.sum_mul, Finset.mul_sum]
+        dotProduct, Finset.sum_mul]
       refine Finset.sum_congr rfl fun m _ => ?_
       ring
     rw [hNN] at hsq

@@ -166,7 +166,7 @@ theorem l10lH1_shape_finset
       rw [hχ, hχ₁]
       ext γ'
       simp only [mem_kernelRoots_famChar, kernelRoots_rootCharHom, Set.mem_inter_iff,
-        Set.mem_setOf_eq]
+        Set.mem_ofPred_eq]
       constructor
       · rintro ⟨hroot, hall⟩
         exact ⟨⟨hroot, fun u => hall ⟨u.1, Finset.mem_insert_of_mem u.2⟩⟩, hroot,
@@ -214,7 +214,7 @@ theorem l10lH1_shape_finset
         · exact absurd (hF'triv b hbF') hbne
       have hker : kernelRoots χ = kernelRoots (rootCharHom d) := by
         ext γ'
-        rw [mem_kernelRoots_famChar, kernelRoots_rootCharHom, Set.mem_setOf_eq]
+        rw [mem_kernelRoots_famChar, kernelRoots_rootCharHom, Set.mem_ofPred_eq]
         constructor
         · rintro ⟨hroot, hall⟩
           exact ⟨hroot, hall ⟨d, Finset.mem_insert_self d F'⟩⟩

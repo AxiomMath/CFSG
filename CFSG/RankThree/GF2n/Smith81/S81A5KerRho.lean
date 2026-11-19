@@ -17,7 +17,7 @@ theorem rho_eq_cubeEnd (g : GL (Fin 6) K) :
   simp only [rho, TauCeti.extPowerRep, Representation.exteriorPower_apply, TauCeti.stdRep_apply]
 
 theorem rho_mul (g g' : GL (Fin 6) K) : rho K (g * g') = rho K g * rho K g' := by
-  simp only [rho_eq_cubeEnd, Units.val_mul, map_mul]
+  simp only [rho_eq_cubeEnd, map_mul]
 
 theorem rho_eq_one_iff (g : GL (Fin 6) K) :
     rho K g = 1 ↔ ∃ l : K, l ^ 3 = 1 ∧ (g : Matrix (Fin 6) (Fin 6) K) = l • 1 := by

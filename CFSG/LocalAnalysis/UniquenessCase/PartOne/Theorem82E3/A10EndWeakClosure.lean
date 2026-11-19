@@ -146,7 +146,7 @@ private theorem factorization_card_centralizer_le (F : A10Frame c) (hF : A10Fact
     (haA : a ∈ F.A) (ha3 : F.deg (Subgroup.zpowers a) = 3) :
     (Nat.card (Subgroup.centralizer ({a} : Set G))).factorization 3 ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hCa : Subgroup.centralizer ({a} : Set G) ≤ D.M :=
     F.centralizer_le_M_of_deg_three hF haA ha3
   have hker := coprime_card_ker_centralizerHom F hCa
@@ -175,7 +175,7 @@ private theorem factorization_card_centralizer_le (F : A10Frame c) (hF : A10Fact
 theorem isSylowOf_A_centralizer_of_deg_three (F : A10Frame c) (hF : A10Facts F) {a : G}
     (haA : a ∈ F.A) (ha3 : F.deg (Subgroup.zpowers a) = 3) :
     CFSG.ABGLocalTools.IsSylowOf 3 F.A (Subgroup.centralizer ({a} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAC := A_le_centralizer_of_deg_three F haA
   have hfac_le := factorization_card_centralizer_le F hF haA ha3
   have hfac_ge : 3 ≤ (Nat.card (Subgroup.centralizer ({a} : Set G))).factorization 3 := by
@@ -188,6 +188,7 @@ theorem isSylowOf_A_centralizer_of_deg_three (F : A10Frame c) (hF : A10Facts F) 
   exact CFSG.ABGLocalTools.isSylowOf_of_card hAC
     (by rw [F.card_A, le_antisymm hfac_le hfac_ge]; norm_num)
 
+omit [Finite G] in
 private theorem card_centralizer_conj_eq {a h : G} :
     Nat.card (Subgroup.centralizer ({h * a * h⁻¹} : Set G)) =
       Nat.card (Subgroup.centralizer ({a} : Set G)) := by
@@ -200,14 +201,14 @@ private theorem isSylowOf_centralizer_conj (F : A10Frame c) (hF : A10Facts F) {a
     (hhA : h * a * h⁻¹ ∈ F.A) :
     CFSG.ABGLocalTools.IsSylowOf 3 F.A
       (Subgroup.centralizer ({h * a * h⁻¹} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.ABGLocalTools.isSylowOf_of_card
     (A_le_centralizer_of_deg_three F hhA) ?_
   rw [(F.isSylowOf_A_centralizer_of_deg_three hF haA ha3).card_eq,
     card_centralizer_conj_eq]
 
 private theorem map_conj_le_centralizer (F : A10Frame c) {H : Subgroup G} (hAH : F.A ≤ H)
-    {a h : G} (haA : a ∈ F.A) (hh : h ∈ H) (hhA : h * a * h⁻¹ ∈ F.A) :
+    {a h : G} (haA : a ∈ F.A) (hh : h ∈ H) (_hhA : h * a * h⁻¹ ∈ F.A) :
     F.A.map (MulAut.conj h).toMonoidHom ≤
       H ⊓ Subgroup.centralizer ({h * a * h⁻¹} : Set G) := by
   refine le_inf ?_ ?_
@@ -226,7 +227,7 @@ private theorem isSylowOf_map_conj_centralizer (F : A10Frame c) (hF : A10Facts F
     (ha3 : F.deg (Subgroup.zpowers a) = 3) (hh : h ∈ H) (hhA : h * a * h⁻¹ ∈ F.A) :
     CFSG.ABGLocalTools.IsSylowOf 3 (F.A.map (MulAut.conj h).toMonoidHom)
       (Subgroup.centralizer ({h * a * h⁻¹} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle := map_conj_le_centralizer F hAH haA hh hhA
   refine CFSG.ABGLocalTools.isSylowOf_of_card (hle.trans inf_le_right) ?_
   rw [Subgroup.card_map_of_injective (MulAut.conj h).injective,
@@ -274,7 +275,7 @@ theorem exists_mem_normalizer_conj_eq (F : A10Frame c) (hF : A10Facts F) {H : Su
     {h : G} (hh : h ∈ H) (hhA : h * a * h⁻¹ ∈ F.A) :
     ∃ n ∈ H ⊓ Subgroup.normalizer (F.A : Set G), n * a * n⁻¹ = h * a * h⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let b : G := h * a * h⁻¹
   have hbA : b ∈ F.A := hhA
   have hAK : F.A ≤ H ⊓ Subgroup.centralizer ({b} : Set G) :=
@@ -383,11 +384,11 @@ private theorem phiA_conj_data (F : A10Frame c) {a b n : G}
 
 private theorem phiA_support_ne (F : A10Frame c) {a b n : G}
     (haA : a ∈ F.A) (hbA : b ∈ F.A) (hha : b ∉ Subgroup.zpowers a)
-    (hnM : n ∈ D.M) (hna : n * a * n⁻¹ = b)
+    (hnM : n ∈ D.M) (_hna : n * a * n⁻¹ = b)
     (hφa_at : F.phiA ⟨a, F.A_le_M haA⟩ ∈ A10Perm.atilde)
     (hφb_at : F.phiA ⟨b, F.A_le_M hbA⟩ ∈ A10Perm.atilde)
     (hsuppa : (F.phiA ⟨a, F.A_le_M haA⟩).support.card = 3)
-    (hsuppb_eq : (F.phiA ⟨b, F.A_le_M hbA⟩).support =
+    (_hsuppb_eq : (F.phiA ⟨b, F.A_le_M hbA⟩).support =
       Finset.map (Equiv.toEmbedding (F.phiA ⟨n, hnM⟩))
         (F.phiA ⟨a, F.A_le_M haA⟩).support) :
     (F.phiA ⟨b, F.A_le_M hbA⟩).support ≠ (F.phiA ⟨a, F.A_le_M haA⟩).support := by
@@ -450,7 +451,7 @@ theorem le_M_of_not_weaklyClosed (F : A10Frame c) (hF : A10Facts F) {H : Subgrou
     {h : G} (hh : h ∈ H) (hhA : h * a * h⁻¹ ∈ F.A) (hha : h * a * h⁻¹ ∉ Subgroup.zpowers a) :
     H ≤ D.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let b : G := h * a * h⁻¹
   have hbA : b ∈ F.A := hhA
   have hnex : ∃ n : G, n ∈ H ⊓ Subgroup.normalizer (F.A : Set G) ∧ n * a * n⁻¹ = b :=
@@ -566,13 +567,13 @@ theorem isSylowOf_A_of_weaklyClosed (F : A10Frame c) (hF : A10Facts F) {H : Subg
     (hwc : ∀ h ∈ H, h * a * h⁻¹ ∈ F.A → h * a * h⁻¹ ∈ Subgroup.zpowers a) :
     CFSG.ABGLocalTools.IsSylowOf 3 F.A H := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have haL : a ∈ c.L := F.P_le_L (F.A_le haA)
   have ha1 : a ≠ 1 := F.ne_one_of_deg_ne_zero haL (by rw [ha3]; norm_num)
   have hAp : IsPGroup 3 (F.A.subgroupOf H) := F.elemAbelian.isPGroup.comap_subtype
   obtain ⟨S, hAS⟩ := hAp.exists_le_sylow
   let Q : Subgroup G := (S : Subgroup ↥H).map H.subtype
-  have hQp : IsPGroup 3 Q := (S.isPGroup').map H.subtype
+  have hQp : IsPGroup 3 Q := (S.isPGroup).map H.subtype
   have hQsyl : CFSG.ABGLocalTools.IsSylowOf 3 Q H := ⟨S, rfl⟩
   have hAQ : F.A ≤ Q := by
     intro x hx

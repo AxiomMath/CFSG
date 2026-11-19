@@ -45,7 +45,7 @@ theorem frameTorus_single_mem_of_scaling (u : ZMod p) (hu : u ≠ 1)
     {w : Multiplicative (Fin N → ZMod p)} (hw : w ∈ T) {i : Fin N}
     (hi : Multiplicative.toAdd w i ≠ 0) :
     Multiplicative.ofAdd (Pi.single i (1 : ZMod p)) ∈ T := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hq := T.mul_mem hw (T.inv_mem (hT i w hw))
   have hqe := frameTorus_div_update u i (Multiplicative.toAdd w)
   rw [ofAdd_toAdd] at hqe
@@ -62,7 +62,7 @@ theorem frameTorus_single_mem_of_scaling (u : ZMod p) (hu : u ≠ 1)
 
 theorem frameTorus_eq_top_of_single_mem (T : Subgroup (Multiplicative (Fin N → ZMod p)))
     (h : ∀ i, Multiplicative.ofAdd (Pi.single i (1 : ZMod p)) ∈ T) : T = ⊤ := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   refine eq_top_iff.mpr fun w _ => ?_
   have hw : w = ∏ i, Multiplicative.ofAdd (Pi.single i (Multiplicative.toAdd w i) :
       Fin N → ZMod p) := by
@@ -169,8 +169,8 @@ theorem ggSCWeylIrred_of_sylowTorus_frameGen {G₀ : Type} [Group G₀] {p N : �
       (∀ i, i ∈ S ↔ f i ∈ S) → S = Finset.univ)
     (r : ℕ) : GGSCWeylIrred p r R := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨e, m, he_inj, he_single, hm_conj⟩ :=
     exists_frameTorus_of_commutingFrames hp u s n hs hn hZ ρ hρ hc
   let E : Subgroup R := e.range

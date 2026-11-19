@@ -118,7 +118,7 @@ theorem u3OddEps_exists_unitary_of_rank_one {F : Type} [Field F] (σ : F ≃+* F
     fin_cases i <;> fin_cases j <;> simp [hP, Matrix.mul_apply, Fin.sum_univ_three]
   have hPD : diagonal ![c * t, c, c] * P = P * diagonal ![c, c, c * t] := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [hP, Matrix.mul_apply, Fin.sum_univ_three, diagonal]
+    fin_cases i <;> fin_cases j <;> simp [hP, Matrix.mul_apply, diagonal]
   refine ⟨g' * P, ?_, ?_⟩
   · rw [conjTr_mul, hσP, Matrix.mul_assoc, ← Matrix.mul_assoc (conjTr σ g'), hg'u, Matrix.one_mul,
       hPP]
@@ -207,7 +207,7 @@ theorem two_dvd_card_suCentralizer_of_cfgSEps {n : ℕ} {F : Type} [Field F] [Fi
     {B : unitaryIsom3 h} {K : Subgroup (unitaryPSU h 3)}
     (hc : CfgSEps (unitaryPSU h 3) A (psuConj h B) K) :
     2 ∣ Nat.card (suCentralizer (2 ^ n) (B : GL (Fin 3) F)) := by
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   have hK₁ := commutator_le_suCentralizer B (K.comap (unitaryProj h 3))
     (forall_comm_scalar_of_le_autFix B K hc.le_autFix)
   have hmap := u3OddEps_map_commutator_comap_eq_of_surjective (unitaryProj h 3)
@@ -252,7 +252,7 @@ theorem false_of_diagonal_psuConj {n : ℕ} {F : Type} [Field F] [Finite F] [Cha
       Matrix.SpecialLinearGroup (Fin 2) F₀ :=
     (MulEquiv.subgroupCongr hNeq).trans ι
   have hF₀4 : 4 ≤ Nat.card F₀ := by rw [hF₀]; exact hq
-  haveI : CharP F₀ 2 :=
+  have : CharP F₀ 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two (by rw [hF₀])
   have hK' : K ≤ inSubgroup perfectResidual (autFix (psuConj h B₀)) := hc.le_perfectResidual
   have hNC : inSubgroup perfectResidual (autFix (psuConj h B₀)) ≤ autFix (psuConj h B₀) :=
@@ -372,7 +372,7 @@ theorem u3OddEps_false_of_inner_odd {n : ℕ} (hodd : Odd n) (hn2 : 2 ≤ n) {F 
     [CharP F 2] {h : UnitaryFieldData 2 n F} [Finite (unitaryPSU h 3)]
     {A : Subgroup (MulAut (unitaryPSU h 3))} {B : unitaryIsom3 h} {K : Subgroup (unitaryPSU h 3)}
     (hc : CfgSEps (unitaryPSU h 3) A (psuConj h B) K) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPi : PiField false 2 n F :=
     ⟨h.prime, h.one_le, by
       rw [h.card]
@@ -498,14 +498,14 @@ theorem u3OddInnerEps : U3OddInnerEps := by
   obtain ⟨B, rfl⟩ := hα
   rcases eq_or_ne n 1 with rfl | hn1
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨e⟩ := nonempty_unitaryPSU_mulEquiv_projSU h
     have hsolv : Group.IsSolvable (projSU 3 2 1) :=
       CFSG.RankThree.PartTwo.Sec13.isSolvable_projSU_two
-    haveI : Group.IsSolvable (unitaryPSU h 3) :=
+    have : Group.IsSolvable (unitaryPSU h 3) :=
       Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
-    haveI := hc.isPerfect
-    haveI := hc.nontrivial
+    have := hc.isPerfect
+    have := hc.nontrivial
     exact Group.IsPerfect.not_isSolvable K inferInstance
   · obtain ⟨k, hk⟩ := hodd
     exact u3OddEps_false_of_inner_odd ⟨k, hk⟩ (by omega) hc

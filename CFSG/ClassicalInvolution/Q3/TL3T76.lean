@@ -57,6 +57,7 @@ private theorem ofPerm_comm_bar {σ : Equiv.Perm (Fin n)} {α : Finset (Fin n)} 
   rw [← map_mul, ← map_mul,
     ofPerm_comm_supp hs fun x hx => hσ x (Finset.mem_coe.mp hx)]
 
+omit [Finite G] in
 private theorem twin_labels (D : PairChart Ω K J I) (hn5 : 5 ≤ n) :
     ∃ (hβ : (D.γ.map D.ι).card = 4) (b₁ b₂ : Bool), b₁ ≠ b₂ ∧ J ≠ D.Js ∧
       (J.subgroupOf (pSpan (centMembers Ω D.u))).map D.IY.φ = memBar (D.γ.map D.ι) hβ b₁ ∧
@@ -314,14 +315,14 @@ theorem comm_orb_of_three_seven (hS : CSetting 3 IH Ω K J) (hn : n = 7)
     funext x
     by_cases hxp : x = p
     · subst hxp
-      simp [indv, TL4.pairVec, hpS, hpq, Pi.single_apply]
+      simp [indv, TL4.pairVec, hpS, hpq]
     · by_cases hxq : x = q
       · subst hxq
-        simp [indv, TL4.pairVec, hqS, Ne.symm hpq, Pi.single_apply]
+        simp [indv, TL4.pairVec, hqS, Ne.symm hpq]
       · by_cases hxS : x ∈ S
-        · simp [indv, TL4.pairVec, hxS, hxp, hxq, Pi.single_apply]
+        · simp [indv, TL4.pairVec, hxS, hxp, hxq]
           decide
-        · simp [indv, TL4.pairVec, hxS, hxp, hxq, Pi.single_apply]
+        · simp [indv, TL4.pairVec, hxS, hxp, hxq]
   have hθw : θ ⟨TL4.vbar n (TL4.pairVec p q), vbar_pairVec_mem_aeModel p q⟩ =
       ⟨TL4.vbar n (TL4.pairVec p q), vbar_pairVec_mem_aeModel p q⟩ := by
     have e : (⟨TL4.vbar n (TL4.pairVec p q), vbar_pairVec_mem_aeModel p q⟩ :

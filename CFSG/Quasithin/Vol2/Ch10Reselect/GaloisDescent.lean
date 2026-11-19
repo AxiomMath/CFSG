@@ -57,7 +57,7 @@ theorem gd_sum_range_shift {M : Type*} [AddCommGroup M] (f : ℕ → M) (m : ℕ
   exact add_right_cancel h3
 
 theorem gd_hilbert90 {K : Type*} [Field K] (σ : RingAut K) {m : ℕ} (hm : m = orderOf σ)
-    (hmpos : 0 < m) (x : K) (hx : x ≠ 0) (hN : ∏ i ∈ range m, (σ ^ i) x = 1) :
+    (hmpos : 0 < m) (x : K) (_hx : x ≠ 0) (hN : ∏ i ∈ range m, (σ ^ i) x = 1) :
     ∃ z : K, z ≠ 0 ∧ x * σ z = z := by
   classical
   have hσm : σ ^ m = 1 := by rw [hm]; exact pow_orderOf_eq_one σ
@@ -81,7 +81,7 @@ theorem gd_hilbert90 {K : Type*} [Field K] (σ : RingAut K) {m : ℕ} (hm : m = 
     rw [e1, e2, mul_comm]
   have hex : ∃ y : K, ∑ j ∈ range m, b j * (σ ^ j) y ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h0 := gd_dedekind σ hm b hcon 0 hmpos
     rw [hb0] at h0
     exact one_ne_zero h0
@@ -218,7 +218,7 @@ theorem gd_speiser {K : Type*} [Field K] (σ : RingAut K) {m : ℕ} (hm : m = or
     exact gd_sum_range_shift (fun i => ψ^[i] (a • w)) m (hpow (a • w))
   have hex : ∃ a : K, T a ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcoord : ∀ j : Fin 2, w j = 0 := by
       intro j
       have hcoef : ∀ a : K, ∑ i ∈ range m, (ψ^[i] w) j * (σ ^ i) a = 0 := by

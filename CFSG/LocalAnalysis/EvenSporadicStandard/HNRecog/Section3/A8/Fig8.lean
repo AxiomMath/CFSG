@@ -28,8 +28,8 @@ private lemma Gxy_le_Gx_mul (x y : G) : Gxy x y ≤ Gx (x * y) := by
     _ = g * (x * y) := mul_assoc g x y
 
 private lemma commute_of_le_Gx {K H : Subgroup G} (hKH : K ≤ H) {v : G} (hv : H ≤ Gx v) :
-    ∀ x ∈ K, x * v = v * x :=
-  fun x hx => (mem_Gx.mp (hv (hKH hx))).symm
+    ∀ _x ∈ K, _x * v = v * _x :=
+  fun _x hx => (mem_Gx.mp (hv (hKH hx))).symm
 
 private lemma coe_mulEquiv_ne_of_comm {K : Subgroup G}
     (φ : alternatingGroup (Fin 8) ≃* ↥K) {t : alternatingGroup (Fin 8)} (ht1 : t ≠ 1) {v : G}
@@ -52,7 +52,7 @@ theorem fig8a_of_fusion2 (hI : TwoHSInterface) {G : Type} [Group G] {a z : G} (h
         IsConj a (φ t : G) ∧ IsConj z (a * φ t) ∧ IsConj z (b * φ t) ∧
           IsConj z (a * b * φ t) := by
   intro b hb φ t ht
-  simp only [orb2A, Set.mem_setOf_eq] at hb
+  simp only [orb2A, Set.mem_ofPred_eq] at hb
   obtain ⟨hba, hab⟩ := hb
   have hKle : derivedOf (Gxy a b) ≤ Gx a := le_trans (derivedOf_le _) (Gxy_le_Gx_left a b)
   have hra : IsConj a (φ t : G) := hA8.shape_2211 (derivedOf (Gxy a b)) hKle φ t ht
@@ -79,7 +79,7 @@ theorem fig8b_of_fusion2 (hI : TwoHSInterface) {G : Type} [Group G] {a z : G} (h
         IsConj z (φ t : G) ∧ IsConj a (a * φ t) ∧ IsConj a (b * φ t) ∧
           IsConj a (a * b * φ t) := by
   intro b hb φ t ht
-  simp only [orb2A, Set.mem_setOf_eq] at hb
+  simp only [orb2A, Set.mem_ofPred_eq] at hb
   obtain ⟨hba, hab⟩ := hb
   have hKle : derivedOf (Gxy a b) ≤ Gx a := le_trans (derivedOf_le _) (Gxy_le_Gx_left a b)
   have hrz : IsConj z (φ t : G) := hA8.shape_2222 (derivedOf (Gxy a b)) hKle φ t ht

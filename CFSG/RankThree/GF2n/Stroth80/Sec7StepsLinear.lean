@@ -172,7 +172,7 @@ theorem sec7_conj_scalar [(Q.subgroupOf M).Normal] (h34 : Stroth34Statement)
     (hs : Sec7Hyp hc n t) {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
     {g : G} (hg : g ∈ M) {y : G} (hy : y ∈ conjSubgroup g Z0) :
     y ∈ M ∧ ∃ (K : Type) (_ : Field K) (_ : Finite K) (γ : G → K) (M₀ : Tim79.QuadModel Q Z K γ)
-      (ρ : Mbar M Q →* Multiplicative (AddAut M₀.E)) (b : M₀.E) (hS : IsTensorSetup hc n M₀ ρ b)
+      (ρ : Mbar M Q →* Multiplicative (AddAut M₀.E)) (b : M₀.E) (_hS : IsTensorSetup hc n M₀ ρ b)
       (σ : K ≃+* K) (c : K), (∀ (c : K) (e : M₀.E),
         (ρ (QuotientGroup.mk (⟨g, hg⟩ : ↥M))).toAdd (c • e) =
           σ c • (ρ (QuotientGroup.mk (⟨g, hg⟩ : ↥M))).toAdd e) ∧
@@ -187,7 +187,7 @@ theorem sec7_conj_scalar [(Q.subgroupOf M).Normal] (h34 : Stroth34Statement)
     have := M.mul_mem (M.mul_mem hg hzM) (M.inv_mem hg)
     simpa [mul_assoc] using this
   refine ⟨hyM, ?_⟩
-  obtain ⟨K, fK, finK, γ, M₀, ρ, b, hS, hsemi, -, ψ, hψ, -, hA, -⟩ :=
+  obtain ⟨K, fK, finK, γ, M₀, ρ, b, _hS, hsemi, -, ψ, hψ, -, hA, -⟩ :=
     sec7_linModelData h34 h310chi hc hs hZ0
       (fun z hz w hw => (hZc G M Q Z B hc n t hs Z0 hZ0 z hz).2 w hw)
       (fun u hu huQ => hZV G M Q Z B hc n t hs Z0 hZ0 u hu huQ)
@@ -195,7 +195,7 @@ theorem sec7_conj_scalar [(Q.subgroupOf M).Normal] (h34 : Stroth34Statement)
   have hzbar : (QuotientGroup.mk (⟨g⁻¹ * y * g, hzM⟩ : ↥M) : Mbar M Q) ∈ bar M Q Z0 :=
     Subgroup.mem_map.mpr ⟨⟨g⁻¹ * y * g, hzM⟩, Subgroup.mem_subgroupOf.mpr hzZ0, rfl⟩
   obtain ⟨c, hc'⟩ := hA _ hzbar
-  refine ⟨K, fK, finK, γ, M₀, ρ, b, hS, σ, c, hσ, fun hyM' e => ?_⟩
+  refine ⟨K, fK, finK, γ, M₀, ρ, b, _hS, σ, c, hσ, fun hyM' e => ?_⟩
   have e1 : (QuotientGroup.mk (⟨y, hyM'⟩ : ↥M) : Mbar M Q) =
       QuotientGroup.mk (⟨g, hg⟩ : ↥M) * QuotientGroup.mk (⟨g⁻¹ * y * g, hzM⟩ : ↥M) *
         (QuotientGroup.mk (⟨g, hg⟩ : ↥M))⁻¹ := by
@@ -214,7 +214,7 @@ theorem sec7_conj_scalar [(Q.subgroupOf M).Normal] (h34 : Stroth34Statement)
 theorem sec7SV_of_parts (h34 : Stroth34Statement) (h310chi : Stroth310ChiStatement)
     (hZc : Sec7CentreMpStatement) (hZV : Sec7ZVStatement) : Sec7SVStatement := by
   intro G _ _ M Q Z B hc n t hs Z0 hZ0 g hg hvan y hy v hv
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   obtain ⟨hyM, K, fK, finK, γ, M₀, ρ, b, hS, σ, c, hσ, hform⟩ :=
     sec7_conj_scalar h34 h310chi hZc hZV hc hs hZ0 hg hy
   have ht : t ∈ LB M Q B := hs.toSec5.mem
@@ -233,7 +233,7 @@ theorem sec7SV_of_parts (h34 : Stroth34Statement) (h310chi : Stroth310ChiStateme
 theorem sec7SW_of_parts (h34 : Stroth34Statement) (h310chi : Stroth310ChiStatement)
     (hZc : Sec7CentreMpStatement) (hZV : Sec7ZVStatement) : Sec7SWStatement := by
   intro G _ _ M Q Z B hc n t hs Z0 hZ0 g hg hvan y hy w hw
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   obtain ⟨hyM, K, fK, finK, γ, M₀, ρ, b, hS, σ, c, hσ, hform⟩ :=
     sec7_conj_scalar h34 h310chi hZc hZV hc hs hZ0 hg hy
   have ht : t ∈ LB M Q B := hs.toSec5.mem

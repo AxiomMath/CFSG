@@ -50,6 +50,7 @@ theorem mkV_eq_one_iff (hu : u * u = 1) (v : ↥(centralizer ({u} : Set G))) :
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem isPGroup_NU (hu : u * u = 1) (hu1 : u ≠ 1) : IsPGroup 2 (NU u) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf (uV u) = 2 := by
@@ -61,6 +62,7 @@ theorem isPGroup_NU (hu : u * u = 1) (hu1 : u ≠ 1) : IsPGroup 2 (NU u) := by
       simpa [uV] using congrArg Subtype.val h
   exact IsPGroup.of_card (n := 1) (by rw [NU, Nat.card_zpowers, hord]; norm_num)
 
+omit [Finite G] in
 theorem isPGroup_comap_mkV (hu : u * u = 1) (hu1 : u ≠ 1) {H : Subgroup (Vbar u)}
     (hH : IsPGroup 2 H) : IsPGroup 2 (H.comap (mkV u)) := by
   apply hH.comap_of_ker_isPGroup

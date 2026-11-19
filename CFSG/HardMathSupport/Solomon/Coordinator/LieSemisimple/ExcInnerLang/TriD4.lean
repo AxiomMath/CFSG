@@ -35,8 +35,8 @@ theorem langDescent_triD4_inner (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat.card
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hrange := triEmb_range (K := K) (σ := σ) (L := L) hℓ hf hK hσ Fr hFr
   have hfix : D.fix = (triEmb K σ L).range := by
     rw [hrange]
@@ -46,7 +46,7 @@ theorem langDescent_triD4_inner (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat.card
   obtain ⟨-, -, -, hsimple, hnc⟩ :=
     triality_both_field_orientations_simple_full_ambient_fixed_group ℓ f hℓ hf K hK L 1
       (Or.inl rfl) σ.toRingHom (fun c => by rw [pow_one]; exact hσ c) Fr hFr
-  haveI := hsimple
+  have := hsimple
   have hperf := commutator_eq_top_of_simple_of_not_comm_inner hnc
   have hperfI : ⁅(triEmb K σ L).range, (triEmb K σ L).range⁆ = (triEmb K σ L).range := by
     have h1 : (triEmb K σ L).range = Subgroup.map (triEmb K σ L) ⊤ := MonoidHom.range_eq_map _
@@ -81,16 +81,16 @@ theorem exists_langSetup_of_inner_triD4_of_prime {ℓ f : ℕ} (hℓ : ℓ.Prime
       Function.Injective ι ∧ ι.range = S.Γ ∧
       ∀ c, ι (MulAut.conj x c) = rootDiagUnit Tag.D4 a * ι c * (rootDiagUnit Tag.D4 a)⁻¹ := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 3)
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   have hFr : ∀ c : L, iterateFrobenius L ℓ f c = c ^ (ℓ ^ f) := fun c =>
     iterateFrobenius_def ℓ f c
   have hcomm : (algebraMap K L).comp σ.toRingHom =

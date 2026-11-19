@@ -86,7 +86,7 @@ theorem burnsideF4m_odd_of [Finite E] {κ : GLKind} (hyp : HypF_4_4 κ 2 f Gp M�
     {TD : Subgroup ↥Gp} (hyam : IsYAmalgamPair TD (M₁.subgroupOf Gp) (M₂.subgroupOf Gp))
     (hodd : Odd Gp.index) :
     Odd (Nat.card ↥(burnsideF4d_lieExtE hyp.toHypF_4_4g hyam).K / Nat.card ↥Gp) := by
-  haveI := hyp.normal
+  have := hyp.normal
   have hinj : Function.Injective (burnsideF4d_rho Gp) :=
     burnsideF4d_rho_injective hyp.centralizer_trivial
   have hK : Nat.card ↥(burnsideF4d_lieExtE hyp.toHypF_4_4g hyam).K = Nat.card E := by
@@ -108,9 +108,9 @@ theorem burnsideF4m_spGSetup {K' : Type} [Group K'] (hyp : HypF_4_31 .Sp4 f Gp M
     (h2 : ∀ e, θ e ∈ N2 ↔ e ∈ M₂) :
     SpGSetup N1 N2 ((burnsideF4d_bOne β ε).comp (burnsideF4m_psi θ h1))
       ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) (MiOne β ε) (MiTwo β ε) := by
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   obtain ⟨hC, hr1, hr2, hint⟩ := burnsideF4m_comp_data hyp θ h1 h2
   have hle : pCoreOf 2 (M₁ ⊓ M₂) ≤ Gp := by
     rw [hQ12]
@@ -148,7 +148,7 @@ theorem burnsideF4m_F_4_39_K {K' : Type} [Group K'] [Finite K']
     (hu2 : u * u = 1) (hu₁ : (u : E) ∉ ctr (oPPrime 2 (Gp ⊓ M₁)))
     (hu₂ : (u : E) ∉ ctr (oPPrime 2 (Gp ⊓ M₂))) :
     Subgroup.centralizer ({bM β ε u} : Set M) ≤ MiOne β ε ⊓ MiTwo β ε := by
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   have hS := burnsideF4m_spGSetup hyp hZ1 hZ2 hQ1 hQ2 hQ12 θ h1 h2
   have hN1 : M₁.map θ.toMonoidHom = N1 := burnsideF4m_map_eq_of_iff θ h1
   have hN2 : M₂.map θ.toMonoidHom = N2 := burnsideF4m_map_eq_of_iff θ h2
@@ -191,15 +191,15 @@ theorem burnsideF4m_F_4_39_odd (hcore : burnsideF4m_LieCoreSp)
     (hu2 : u * u = 1) (hu₁ : (u : E) ∉ ctr (oPPrime 2 (Gp ⊓ M₁)))
     (hu₂ : (u : E) ∉ ctr (oPPrime 2 (Gp ⊓ M₂))) :
     Subgroup.centralizer ({bM β ε u} : Set M) ≤ MiOne β ε ⊓ MiTwo β ε := by
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   obtain ⟨hZ1, hZ2, hQ1, hQ2, hQ12⟩ := hcore f E Gp M₁ M₂ hyp.amalgam hf
   obtain ⟨marking, h1m, h2m⟩ := burnsideF4g_marking (c := .Sp4) hyp.amalgam.toHypF_4_4g
   obtain ⟨TD, hTD⟩ := burnsideF4g_yamSp4 hf marking
   rw [← h1m, ← h2m] at hTD
   have hmodel := burnsideF4g_lieModel_Sp4 hf hyp.amalgam.model
   obtain ⟨θ, h1, h2⟩ := burnsideF4m_exists_theta hyp.amalgam hTD
-  haveI : Finite ↥(burnsideF4d_lieExtE hyp.amalgam.toHypF_4_4g hTD).K :=
+  have : Finite ↥(burnsideF4d_lieExtE hyp.amalgam.toHypF_4_4g hTD).K :=
     Finite.of_equiv E θ.toEquiv
   obtain ⟨T, I, L⟩ := f431SpLieProp f ↥Gp hmodel
     (burnsideF4d_lieExtE hyp.amalgam.toHypF_4_4g hTD).toLieAmalgamExt
@@ -208,8 +208,8 @@ theorem burnsideF4m_F_4_39_odd (hcore : burnsideF4m_LieCoreSp)
 
 theorem burnsideF4m_odd_index_Sp4_of (hcore : burnsideF4m_LieCoreSp)
     (hyp : HypF_4_31 .Sp4 f Gp M₁ M₂ β ε z) (hf : 2 ≤ f) : Odd Gp.index := by
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   by_contra hodd
   obtain ⟨hZ1, hZ2, hQ1, hQ2, hQ12⟩ := hcore f E Gp M₁ M₂ hyp.amalgam hf
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .Sp4) hyp.amalgam.toHypF_4_4g

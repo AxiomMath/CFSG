@@ -62,7 +62,7 @@ section Syl3Arr
 
 theorem syl3_getD_ofFn {α : Type} {n : ℕ} (f : Fin n → α) (d : α) {e : ℕ} (he : e < n) :
     (Array.ofFn f).getD e d = f ⟨e, he⟩ := by
-  rw [Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, dif_pos he, Option.getD_some]
+  rw [Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, dite_eq_left he, Option.getD_some]
 
 theorem syl3Tabulate_getD {α : Type} {n : ℕ} (f : Fin n → α) (i : Fin n) (d : α) :
     (syl3Tabulate f).getD i.val d = f i := by
@@ -302,7 +302,7 @@ theorem syl3W_simple (k : Fin 6) : syl3W (simple Tag.E6 (syl3IdxEquiv k)) = syl3
   simp only [CFSG.Blueprint.Chevalley.reflect, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply]
   rw [Finset.sum_eq_single (syl3IdxEquiv c) (fun j _ hj => by simp [hj])
     (fun h => absurd (Finset.mem_univ _) h), syl3Cartan_eq]
-  simp only [EmbeddingLike.apply_eq_iff_eq, if_true, mul_one]
+  simp only [EmbeddingLike.apply_eq_iff_eq, ite_true, mul_one]
   by_cases hrc : r = c <;> by_cases hrk : r = k <;> simp [hrc, hrk, Fin.val_inj]
 
 @[expose] noncomputable def syl3Gen (k : Fin 4) : WeylGroup Tag.E6 :=
@@ -439,7 +439,7 @@ theorem syl3_card_fix_le {L : Type} [Field L] {ω : Lˣ} (hω : orderOf ω = 3)
     Nat.card R * Nat.card {e : Fin Tag.E6.rank → ZMod 3 //
       ∀ w ∈ R, weylTuple w (torV ω e) = torV ω e} ≤ 81 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hspec := syl3Check_spec Certificates.certificate231801
   have hpg : IsPGroup 3 R := fun x => ⟨1, Subtype.ext (by simpa using hR.2 x x.2)⟩
   obtain ⟨m, hm⟩ := hpg.exists_card_eq
@@ -616,8 +616,8 @@ theorem syl3_card_le_81 {L : Type} [Field L] {ω : Lˣ} (hω : orderOf ω = 3)
     (hf3 : ∀ x i, f x i ^ 3 = 1) (hfix : ∀ x, ∀ w ∈ R, weylTuple w (f x) = f x) :
     Nat.card R * Nat.card X ≤ 81 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype (WeylGroup .E6) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype (WeylGroup .E6) := Fintype.ofFinite _
   have hW : Nat.card (WeylGroup Tag.E6) = 51840 := CFSG.RankThree.Chevalley.E6_weyl_length_polynomial.2
   have hfac : (Nat.card (WeylGroup Tag.E6)).factorization 3 = 4 := by
     rw [hW, show (51840 : ℕ) = 3 ^ 4 * 640 by norm_num, Nat.factorization_mul (by norm_num) (by norm_num),
@@ -707,11 +707,11 @@ theorem finrank_ker_eq_24_of_isRegular {K : Type} [Field K] [Finite K] (hK3 : ri
     {x : ModGL TwistTag.E6.tag K} (hx : x ∈ A) (hx1 : x ≠ 1) :
     finrank K (LinearMap.ker ((x : Module.End K (RootModule TwistTag.E6.tag K)) - 1)) = 24 := by
   obtain ⟨a, ha⟩ := exists_diagHom_twLangData Dt
-  haveI : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA9]; norm_num)
-  haveI : Fintype ↥A := Fintype.ofFinite _
+  have : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA9]; norm_num)
+  have : Fintype ↥A := Fintype.ofFinite _
   have hcardA : Fintype.card ↥A = 9 := by rw [← Nat.card_eq_fintype_card, hA9]; norm_num
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective (ringChar K)
   have h3L : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 := by
     intro h0
@@ -856,7 +856,7 @@ theorem rank3CuResExcSeven_holds : Claims1310t.Rank3CuResExcSeven := by
     have hEi : CFSG.IsElementaryAbelian 3 ↥E := Claims1310s.isElementaryAbelian_of_isElemAbelian' hEel
     have hE9' : 9 ≤ Nat.card E := by rw [hE9]; norm_num
     obtain ⟨K₁, hK₁, hroot⟩ := exists_cubeExt K
-    haveI := hK₁
+    have := hK₁
     by_cases hiso : TwistedE6DiagIsotropic K σ K₁ E
     · obtain ⟨Dt⟩ := exists_twLangData twistedE6PlaneToralLang_proved 2 1 Nat.prime_two (by norm_num) le_rfl
         hK' σ hσ' K₁ hroot E hEi hE9 hEIn hiso
@@ -920,8 +920,8 @@ theorem rank3CuResExcSeven_holds : Claims1310t.Rank3CuResExcSeven := by
   set P := twPlanePre K σ D with hP
   have hPcard : Nat.card P = 81 :=
     (card_twPlanePre 2 1 Nat.prime_two le_rfl K hK' σ hσ' D hDle).trans hD81
-  haveI : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hPcard]; norm_num)
-  haveI : Fintype ↥P := Fintype.ofFinite _
+  have : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hPcard]; norm_num)
+  have : Fintype ↥P := Fintype.ofFinite _
   have hall : ∀ x : ↥P, x ≠ 1 → finrank K (LinearMap.ker
       (((x : ModGL TwistTag.E6.tag K) : Module.End K (RootModule TwistTag.E6.tag K)) - 1)) = 24 := by
     intro x hx1
@@ -969,7 +969,7 @@ theorem rank3CuResExcSeven_holds : Claims1310t.Rank3CuResExcSeven := by
       rw [Set.ncard_univ, hK, Set.ncard_pair zero_ne_one] at hle
       norm_num at hle
     refine ⟨ω, hω1, ?_⟩
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have h := FiniteField.pow_card_sub_one_eq_one ω hω0
     rw [← Nat.card_eq_fintype_card, hK] at h
     norm_num at h
@@ -977,7 +977,7 @@ theorem rank3CuResExcSeven_holds : Claims1310t.Rank3CuResExcSeven := by
   have h3 : (3 : K) ≠ 0 := by
     have : (3 : K) = 1 := by
       have h2 : (2 : K) = 0 := by
-        haveI : CharP K 2 := h2K ▸ ringChar.charP K
+        have : CharP K 2 := h2K ▸ ringChar.charP K
         exact_mod_cast CharP.cast_eq_zero K 2
       linear_combination h2
     rw [this]
@@ -1050,17 +1050,17 @@ theorem exists_index_nine_of_large {K : Type} [Field K] [Finite K] {σ : K ≃+*
   have hσ' : ∀ c, σ c = c ^ (2 ^ 1) := fun c => by rw [hσ c, pow_one]
   have h2K : ringChar K = 2 := ringChar_eq_of_card_pow Nat.prime_two le_rfl K (hK.trans (by norm_num))
   have hK3 : ringChar K ≠ 3 := by rw [h2K]; norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K 2 := h2K ▸ ringChar.charP K
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := h2K ▸ ringChar.charP K
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hDle : D ≤ twistedE6Inn K σ ⊔ twistedE6Diag K σ := fun φ hφ =>
     Claims1310s.mem_inndiag_of_two hK' σ hσ' (hD.2 φ hφ)
   have hinj := twistedE6InndiagConj_injective Nat.prime_two le_rfl hK' σ hσ'
   set P := twPlanePre K σ D with hP
   have hPcard : Nat.card P = Nat.card D := card_twPlanePre 2 1 Nat.prime_two le_rfl K hK' σ hσ' D hDle
-  haveI : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hPcard]; omega)
+  have : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hPcard]; omega)
   have hPI : P ≤ twistedE6InndiagGL K σ := fun x hx => by
     obtain ⟨g, rfl, -⟩ := (mem_twPlanePre_iff K σ D x).1 hx
     exact g.2
@@ -1203,8 +1203,8 @@ theorem exists_index_nine_of_large {K : Type} [Field K] [Finite K] {σ : K ≃+*
       intro h0
       have := (CharP.cast_eq_zero_iff (AlgebraicClosure K) 2 3).1 h0
       norm_num at this
-    haveI : NeZero ((3 : ℕ) : AlgebraicClosure K) := ⟨h3L⟩
-    obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) 3
+    have : NeZero ((3 : ℕ) : AlgebraicClosure K) := ⟨h3L⟩
+    obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) 3
     have hu : IsUnit ζ := hζ.isUnit (by norm_num)
     refine ⟨hu.unit, ?_⟩
     have hζ' : IsPrimitiveRoot ((hu.unit : (AlgebraicClosure K)ˣ) : AlgebraicClosure K) 3 := by
@@ -1363,7 +1363,7 @@ theorem twE6TwoStarIndexNine_holds : TwE6TwoStarIndexNine := by
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hv
       rw [map_zpow, hφu]
       exact Subgroup.zpow_mem_zpowers u k
-  haveI : Finite ↥D := inferInstance
+  have : Finite ↥D := inferInstance
   have hpg : IsPGroup 3 D := fun x => ⟨1, Subtype.ext (by simpa using hD.2 x x.2)⟩
   obtain ⟨m, hm⟩ := hpg.exists_card_eq
   rcases Nat.lt_or_ge m 3 with hm3 | hm3

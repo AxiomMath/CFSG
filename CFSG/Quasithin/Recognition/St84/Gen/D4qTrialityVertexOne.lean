@@ -13,9 +13,11 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X] {f : ℕ}
 
+omit [Finite X] in
 private theorem V_le_D (d : TrialityD4Data X (2 ^ f)) : d.V ≤ d.D :=
   d.V_le_Y.trans (d.Y_le_W.trans (d.W_le_F.trans d.F_le_D))
 
+omit [Finite X] in
 private theorem mul_self_mem_V_of_mem_F (d : TrialityD4Data X (2 ^ f)) {x : X}
     (hx : x ∈ d.F) : x * x ∈ d.V := by
   obtain ⟨a, w, hw, rfl⟩ := d.mem_F_iff.1 hx
@@ -24,6 +26,7 @@ private theorem mul_self_mem_V_of_mem_F (d : TrialityD4Data X (2 ^ f)) {x : X}
   exact d.commutator_D_D (commutator_mem_commutator (d.F_le_D (d.x₃_mem_F a))
     (d.F_le_D (d.W_le_F hw)))
 
+omit [Finite X] in
 private theorem mul_self_mem_V_of_mem_D (d : TrialityD4Data X (2 ^ f)) {x : X}
     (hx : x ∈ d.D) : x * x ∈ d.V := by
   obtain ⟨a, g, hg, rfl⟩ := d.mem_D_iff.1 hx
@@ -31,9 +34,9 @@ private theorem mul_self_mem_V_of_mem_D (d : TrialityD4Data X (2 ^ f)) {x : X}
   exact mul_mem (d.commutator_D_D (commutator_mem_commutator (d.x₂_mem_D a) (d.F_le_D hg)))
     (mul_self_mem_V_of_mem_F d hg)
 
-theorem isSpecialPow_trialityD4Data_D (hf : 1 ≤ f) (d : TrialityD4Data X (2 ^ f)) :
+theorem isSpecialPow_trialityD4Data_D (_hf : 1 ≤ f) (d : TrialityD4Data X (2 ^ f)) :
     IsSpecialPow 2 (2 ^ f) 4 ↥d.D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVD : d.V ≤ d.D := V_le_D d
   have hDp : IsPGroup 2 ↥d.D :=
     IsPGroup.of_card (p := 2) (n := 9 * f) (by rw [d.card_D, ← pow_mul, Nat.mul_comm])
@@ -60,7 +63,7 @@ theorem isSpecialPow_trialityD4Data_D (hf : 1 ≤ f) (d : TrialityD4Data X (2 ^ 
     rw [Subgroup.mem_subgroupOf, Subgroup.coe_pow, pow_two]
     exact mul_self_mem_V_of_mem_D d x.2
   have hfrattini : frattini ↥d.D = Subgroup.center ↥d.D := by
-    haveI : Fact (IsPGroup 2 ↥d.D) := ⟨hDp⟩
+    have : Fact (IsPGroup 2 ↥d.D) := ⟨hDp⟩
     rw [hcenter, ← hcomm,
       CFSG.frattini_eq_closure_commutator_union_powers (R := ↥d.D) (p := 2)]
     refine le_antisymm ((Subgroup.closure_le _).2 ?_)
@@ -84,13 +87,14 @@ theorem isSpecialPow_trialityD4Data_D (hf : 1 ≤ f) (d : TrialityD4Data X (2 ^ 
   · rw [hcenter, ← Subgroup.card_map_of_injective d.D.subtype_injective,
       Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hVD, d.card_V]
 
+omit [Finite X] in
 theorem sup_leviShort_sup_J₁_eq_normalizer (d : TrialityD4Data X (2 ^ f)) :
     d.D ⊔ (d.leviShort ⊔ d.J₁) = Subgroup.normalizer (d.V : Set X) :=
   d.yamada_three_eight_four.2.1.symm
 
 theorem d4qVertexOneData_of_trialityD4Data (hf : 2 ≤ f)
     (d : TrialityD4Data X (2 ^ f)) : D4qVertexOneData d.D d.V d.leviShort d.J₁ f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine
     { special := isSpecialPow_trialityD4Data_D (by omega) d
       centerOf_eq := d.D_inf_centralizer_D
@@ -108,8 +112,8 @@ theorem d4qVertexOneData_of_trialityD4Data (hf : 2 ≤ f)
   · intro k hk h hh
     exact Subgroup.mem_centralizer_iff.1 (d.yamada_three_eight_four.2.2.2.1 hh) k hk
   ·
-    haveI : Fintype d.Γ := Fintype.ofFinite d.Γ
-    haveI : Fintype (GaloisField 2 (3 * f)) := Fintype.ofFinite (GaloisField 2 (3 * f))
+    have : Fintype d.Γ := Fintype.ofFinite d.Γ
+    have : Fintype (GaloisField 2 (3 * f)) := Fintype.ofFinite (GaloisField 2 (3 * f))
     have hcard : Fintype.card d.Γ = Fintype.card (GaloisField 2 (3 * f)) := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, d.card_Γ,
         GaloisField.card 2 (3 * f) (by omega), ← pow_mul, Nat.mul_comm]

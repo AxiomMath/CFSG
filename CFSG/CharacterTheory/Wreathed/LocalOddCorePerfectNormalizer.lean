@@ -109,7 +109,7 @@ theorem odd_kernel_covering_subgroup_contains_centralizing_quasisimple_lift [Fin
     exact hXodd.of_dvd_nat (relIndex_normal_right_dvd_index J X)
   let S : Sylow 2 J := Sylow.nonempty.some
   have hSD : (S : Subgroup J) ≤ D :=
-    CFSG.Wreathed.two_subgroup_le_normal_of_odd_index (S : Subgroup J) D S.isPGroup' hDodd
+    CFSG.Wreathed.two_subgroup_le_normal_of_odd_index (S : Subgroup J) D S.isPGroup hDodd
   have hDtop : D = ⊤ :=
     PrimewisePerfectLift.normal_Sylow_overgroup_eq_top_of_even_simple_central_quotient
       heven D S hSD
@@ -288,7 +288,7 @@ theorem original_quaternion_le_actual_lift
         hnonab n hn S e hfour)
   exact original_two_subgroup_le_lift (centralizerOddCore n S e) J
     (centralizerQuaternion n hn S e) (centralizerOddCore_card_odd n S e)
-    ((centralizerSylow n hn S e).isPGroup'.of_injective
+    ((centralizerSylow n hn S e).isPGroup.of_injective
       (Subgroup.inclusion (centralizerQuaternion_le_sylow n hn S e))
       (Subgroup.inclusion_injective _)) hQle
 

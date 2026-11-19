@@ -204,7 +204,7 @@ theorem burnsideB4h_U_card : Nat.card burnsideB4h_U = 64 := by
       ⟨fun a b h => burnsideB4h_utriG_injective (congrArg Subtype.val h),
         fun ⟨g, a, ha⟩ => ⟨a, Subtype.ext ha⟩⟩
   rw [← Nat.card_congr e]
-  simp [Nat.card_eq_fintype_card, Fintype.card_fun]
+  simp [Nat.card_eq_fintype_card]
 
 theorem burnsideB4h_GL_card : Nat.card (GL (Fin 4) (ZMod 2)) = 20160 := by
   rw [Matrix.card_GL_field]
@@ -218,7 +218,7 @@ theorem burnsideB4h_U_index : burnsideB4h_U.index = 315 := by
 theorem burnsideB4h_exists_conj_U {T₀ : Subgroup (GL (Fin 4) (ZMod 2))} (hp : IsPGroup 2 T₀)
     (hidx : ¬ 2 ∣ T₀.index) :
     ∃ c : GL (Fin 4) (ZMod 2), ∀ g, g ∈ T₀ ↔ ∃ u ∈ burnsideB4h_U, c * u * c⁻¹ = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUp : IsPGroup 2 burnsideB4h_U := IsPGroup.of_card (n := 6) (by
     rw [burnsideB4h_U_card]; norm_num)
   have hUi : ¬ 2 ∣ burnsideB4h_U.index := by
@@ -322,7 +322,7 @@ theorem burnsideB4h_exists_gl4 {a b c d : Fin 4 → K} (h : LinearIndependent K 
     funext j i
     rfl
   have hA : IsUnit A := by
-    rw [← Matrix.linearIndependent_cols_iff_isUnit, hcol]
+    rw [← Matrix.linearIndependent_col_iff_isUnit, hcol]
     exact h
   refine ⟨hA.unit, ?_, ?_, ?_, ?_⟩ <;>
     (funext i; simp [A, mulVec_stdVec, IsUnit.unit_spec])
@@ -408,7 +408,7 @@ theorem burnsideB4h_stdVec_ne {K : Type} [Field K] {i j : Fin 4} (hij : i ≠ j)
     (stdVec i : Fin 4 → K) ≠ stdVec j := by
   intro h
   have := congrFun h i
-  simp [stdVec, Pi.single_apply, hij] at this
+  simp [stdVec, hij] at this
 
 theorem burnsideB4h_Orb_iff (w : wedgeSpace (ZMod 2)) :
     w ∈ burnsideB4h_Orb ↔
@@ -538,7 +538,7 @@ theorem burnsideB4h_phi_apply (hstab : ∀ s : GL (Fin 4) (ZMod 2), ρ s v = v �
   have h : ∃ s' : GL (Fin 4) (ZMod 2), wedgeAct s'.1 burnsideB4h_wx0 = wedgeAct s.1 burnsideB4h_wx0 :=
     ⟨s, rfl⟩
   unfold burnsideB4h_phi
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   have hspec := Classical.choose_spec h
   set s' := Classical.choose h
   have h1 : wedgeAct (s⁻¹ * s').1 burnsideB4h_wx0 = burnsideB4h_wx0 := by
@@ -553,7 +553,7 @@ theorem burnsideB4h_phi_apply (hstab : ∀ s : GL (Fin 4) (ZMod 2), ρ s v = v �
 theorem burnsideB4h_phi_off {w : wedgeSpace (ZMod 2)} (hw : w ∉ burnsideB4h_Orb) :
     burnsideB4h_phi ρ v w = 1 := by
   unfold burnsideB4h_phi
-  rw [dif_neg]
+  rw [dite_eq_right]
   exact hw
 
 theorem burnsideB4h_phi_equiv (hstab : ∀ s : GL (Fin 4) (ZMod 2), ρ s v = v ↔
@@ -732,7 +732,7 @@ theorem burnsideB4h_O_card_ge {H₀ : Subgroup (GL (Fin 4) (ZMod 2))} (hH₀card
     Nat.le_of_dvd (by norm_num) hg
   rw [← horb]
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have : Nat.card (MulAction.orbit ↥H₀ burnsideB4h_wx0) *
       Nat.card (MulAction.stabilizer ↥H₀ burnsideB4h_wx0) ≤ 6 * 192 := by
     apply Nat.mul_le_mul (by omega) hle
@@ -1006,7 +1006,7 @@ theorem burnsideB4h_notIndep3 {a b c : Fin 4 → ZMod 2} (h : ¬ burnsideB4h_Ind
     a = 0 ∨ b = 0 ∨ c = 0 ∨ a = b ∨ a = c ∨ b = c ∨ a + b = c := by
   unfold burnsideB4h_Indep3 at h
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact h hcon
 
 theorem burnsideB4h_phi_zero {V : Type} [CommGroup V] {ρ : GL (Fin 4) (ZMod 2) →* MulAut V}
@@ -1087,7 +1087,7 @@ theorem burnsideB4h_core {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, v 
   classical
   have R0 := burnsideB4h_R0 hV hv1 hstab hH₀card hUH hY
   have hadd := burnsideB4h_Phi_add hV hstab R0
-  letI : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule (burnsideB4h_two_smul hV)
+  let : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule (burnsideB4h_two_smul hV)
   have hsymm : ∀ a b : Fin 4 → ZMod 2,
       burnsideB4h_phi ρ v (wedge a b) = burnsideB4h_phi ρ v (wedge b a) := fun a b => by
     rw [burnsideB4h_wedge_comm]
@@ -1189,7 +1189,7 @@ theorem burnsideB4h_core {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, v 
   obtain ⟨k, hk⟩ := hpg.exists_card_eq
   have hk6 : 6 ≤ k := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : 2 ^ k ≤ 2 ^ 5 := Nat.pow_le_pow_right (by norm_num) (by omega)
     omega
   have hV64 : 64 ≤ Nat.card V := by
@@ -1199,7 +1199,7 @@ theorem burnsideB4h_core {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, v 
   have hW64 : Nat.card (wedgeSpace (ZMod 2)) ≤ 64 := by
     have := Nat.card_le_card_of_injective _ (burnsideB4h_coords_injective (K := ZMod 2))
     simpa [Nat.card_eq_fintype_card, Fintype.card_fun] using this
-  haveI : Finite (wedgeSpace (ZMod 2)) := Finite.of_injective _ (burnsideB4h_coords_injective (K := ZMod 2))
+  have : Finite (wedgeSpace (ZMod 2)) := Finite.of_injective _ (burnsideB4h_coords_injective (K := ZMod 2))
   have hAdd : Nat.card (Additive V) = Nat.card V := Nat.card_congr Additive.toMul
   have hbij : Function.Bijective θ :=
     hsurj.bijective_of_nat_card_le (by rw [hAdd]; omega)
@@ -1244,7 +1244,7 @@ theorem burnsideB4h_x_eq (x : wedgeSpace (ZMod 2)) (hx0 : x ≠ 0)
 
 theorem burnsideB4h_card_of_rk {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, v ^ 2 = 1)
     (Y : Subgroup V) (h : CFSG.Quasithin.rk ↥Y = 3) : Nat.card ↥Y = 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpg : IsPGroup 2 ↥Y := fun y => ⟨1, Subtype.ext (by simpa using hV y)⟩
   obtain ⟨n, hn⟩ := hpg.exists_card_eq
   unfold CFSG.Quasithin.rk at h
@@ -1377,7 +1377,7 @@ theorem as_B_4_13 : B_4_13 := by
     rw [Subgroup.index_comap, hρ₀range]
     exact hT.2.2
   obtain ⟨c, hc⟩ := burnsideB4h_exists_conj_U hT₀p hT₀idx
-  letI : MulAction (GL (Fin 4) (ZMod 2)) (wedgeSpace (ZMod 2)) := burnsideB4h_wact
+  let : MulAction (GL (Fin 4) (ZMod 2)) (wedgeSpace (ZMod 2)) := burnsideB4h_wact
   let ρ' : GL (Fin 4) (ZMod 2) →* MulAut V := ρ₀.comp (MulAut.conj c).toMonoidHom
   have hρ'apply : ∀ s, ρ' s = ρ₀ (c * s * c⁻¹) := fun s => rfl
   have hρ'inj : Function.Injective ρ' := hρ₀inj.comp (MulAut.conj c).injective
@@ -1540,6 +1540,7 @@ theorem burnsideB4h_img_perfectCore {A : Subgroup (MulAut V)} (hA : A ≤ G) :
   unfold burnsideB4h_img
   rw [h2, map_perfectCore]
 
+omit [Finite V] [Finite R] in
 theorem burnsideB4h_img_pCoreOf {A : Subgroup (MulAut V)} (hA : A ≤ G) :
     burnsideB4h_img G α (pCoreOf 2 A) = pCoreOf 2 (burnsideB4h_img G α A) := by
   have h1 : pCoreOf 2 ((A.subgroupOf G).map G.subtype) =
@@ -1666,25 +1667,25 @@ theorem burnsideB4h_unq_fix (h2 : (2 : F) = 0) (N : Matrix (Fin 3) (Fin 3) F)
   have h22 : N 2 2 = 0 := a4.trans h00
   have h11 : N 1 1 = 0 := b4.trans h22
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply, *]
+  fin_cases i <;> fin_cases j <;> simp [*]
 
 theorem burnsideB4h_unq_single_mem (c : F) :
     Matrix.single (0 : Fin 3) (1 : Fin 3) c ∈ sl3Sub F := by
-  simp [sl3Sub, Matrix.trace_fin_three, Matrix.single_apply]
+  simp [sl3Sub]
 
 theorem burnsideB4h_unq_diag_E (k : ℕ) (t : Fˣ) (c : F) :
     twAdjMat k (burnsideB4h_unq_diag t 1 t⁻¹) (Matrix.single 0 1 c) =
       Matrix.single 0 1 ((t : F) * c) := by
   ext i j
   rw [burnsideB4h_unq_twAdj_diag]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem burnsideB4h_unq_diag_E' (k : ℕ) (ν : Fˣ) (c : F) :
     twAdjMat k (burnsideB4h_unq_diag ν 1 1) (Matrix.single 0 1 c) =
       Matrix.single 0 1 ((ν : F) ^ (k + 1) * c) := by
   ext i j
   rw [burnsideB4h_unq_twAdj_diag]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply, pow_succ] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [pow_succ]; ring
 
 theorem burnsideB4h_unq_tv_E (k : ℕ) (c : F) :
     twAdjMat k (Matrix.GeneralLinearGroup.transvection 0 2 (by decide) 1) (Matrix.single 0 1 c) =
@@ -1732,7 +1733,7 @@ theorem burnsideB4h_unq_core [Fintype F] (hF : Fintype.card F = 4) {k k' : ℕ} 
       have := Θ.injective (hz.trans (map_zero Θ).symm)
       exact this
     have h01 := congrArg (fun M : ↥(sl3Sub F) => (M : Matrix (Fin 3) (Fin 3) F) 0 1) this
-    simp [hE, Matrix.single_apply] at h01
+    simp [hE] at h01
   have hstep2 : ∀ t : Fˣ, (Θ (E (t : F)) : Matrix (Fin 3) (Fin 3) F) = Matrix.single 0 1 ((t : F) * c) := by
     intro t
     have := hint (burnsideB4h_unq_diag t 1 t⁻¹) (E 1) (E (t : F))
@@ -1744,7 +1745,7 @@ theorem burnsideB4h_unq_core [Fintype F] (hF : Fintype.card F = 4) {k k' : ℕ} 
     (by rw [hE, hE, burnsideB4h_unq_diag_E', mul_one, Units.val_pow_eq_pow_val])
   rw [hstep2, hfix, burnsideB4h_unq_diag_E'] at hst3
   have hentry := congrFun (congrFun hst3 0) 1
-  simp only [Matrix.single_apply, if_true, Units.val_pow_eq_pow_val] at hentry
+  simp only [Matrix.single_apply, Units.val_pow_eq_pow_val] at hentry
   have hpow : (ν : F) ^ (k + 1) = (ν : F) ^ (k' + 1) := mul_right_cancel₀ hc0 hentry
   have hpowU : ν ^ (k + 1) = ν ^ (k' + 1) := Units.ext (by simpa using hpow)
   have hord : orderOf ν = 3 := orderOf_eq_prime h3 hν
@@ -1828,9 +1829,9 @@ theorem burnsideB4h_trInv2_mem {A : GL (Fin 2) F} (hA : A ∈ StatedSL 2 F) :
 @[expose] noncomputable def burnsideB4h_trInv : ↥(StatedSL 2 F) ≃* ↥(StatedSL 2 F) where
   toFun B := ⟨burnsideB4h_trInv2 (B : GL (Fin 2) F), burnsideB4h_trInv2_mem B.2⟩
   invFun B := ⟨burnsideB4h_trInv2 (B : GL (Fin 2) F), burnsideB4h_trInv2_mem B.2⟩
-  left_inv B := Subtype.ext (burnsideB4h_trInv2_trInv2 _)
-  right_inv B := Subtype.ext (burnsideB4h_trInv2_trInv2 _)
-  map_mul' A B := Subtype.ext (burnsideB4h_trInv2_mul _ _)
+  left_inv _B := Subtype.ext (burnsideB4h_trInv2_trInv2 _)
+  right_inv _B := Subtype.ext (burnsideB4h_trInv2_trInv2 _)
+  map_mul' _A _B := Subtype.ext (burnsideB4h_trInv2_mul _ _)
 
 end TrInv
 
@@ -1872,7 +1873,7 @@ theorem burnsideB4h_twAdjMat_scalar [Fintype F] (hF : Fintype.card F = 4) (k : �
     simp [h3]
   unfold twAdjMat
   rw [hdet, h2, h1]
-  simp [Matrix.smul_mul, Matrix.mul_smul, smul_smul]
+  simp [smul_smul]
 
 theorem burnsideB4h_twAdjMat_mul_center [Fintype F] (hF : Fintype.card F = 4) (k : ℕ)
     (g z : GL (Fin 3) F) (hz : z ∈ Subgroup.center (GL (Fin 3) F))
@@ -2009,7 +2010,7 @@ theorem burnsideB4h_embSL_eq_one {B : ↥(StatedSL 2 F)} (h : burnsideB4h_embSL 
   apply Subtype.ext
   apply Units.ext
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [e00, e11, e12, e21, e22] <;> aesop
+  fin_cases i <;> fin_cases j <;> simp [e12] <;> aesop
 
 theorem burnsideB4h_embSL_injective : Function.Injective (burnsideB4h_embSL (F := F)) := by
   rw [injective_iff_map_eq_one]
@@ -2050,8 +2051,8 @@ theorem burnsideB4h_mem_C0_iff [Fintype F] (hF : Fintype.card F = 4) {ν : Fˣ} 
     have e00 := congrFun (congrFun hm 0) 0
     have e01 := congrFun (congrFun hm 0) 1
     have e02 := congrFun (congrFun hm 0) 2
-    simp [Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.scalar_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, h10, h20] at e00 e01 e02
+    simp [Matrix.scalar_apply, Matrix.mul_apply,
+      Fin.sum_univ_three] at e00 e01 e02
     have hdet : (A : Matrix (Fin 3) (Fin 3) F).det = 1 := A.prop
     rw [det_of_par h10 h20] at hdet
     have hA0 : (A : Matrix (Fin 3) (Fin 3) F) 0 0 ≠ 0 := fun h => by
@@ -2090,7 +2091,7 @@ theorem burnsideB4h_mem_C0_iff [Fintype F] (hF : Fintype.card F = 4) {ν : Fˣ} 
     let B₁SL : Matrix.SpecialLinearGroup (Fin 2) F := ⟨B₁, hdetB⟩
     have hmem : Matrix.SpecialLinearGroup.toGL B₁SL ∈ StatedSL 2 F := by
       rw [CFSG.Open.StatedAPI.mem_statedSL_iff]
-      simpa using hdetB
+      simp
     refine ⟨⟨_, hmem⟩, ?_⟩
     rw [burnsideB4h_embSL_apply]
     refine Matrix.ProjGenLinGroup.mk_eq_mk_iff.2 ⟨Units.mk0 a hA0, ?_⟩
@@ -2099,7 +2100,7 @@ theorem burnsideB4h_mem_C0_iff [Fintype F] (hF : Fintype.card F = 4) {ν : Fˣ} 
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [burnsideB4h_blkMat, B₁, Matrix.scalar_apply, Matrix.mul_apply, Fin.sum_univ_three,
-        h01, h02, h10, h20, hA0, ha_def] <;> field_simp [hA0']
+        h01, h02, h10, h20, ha_def] <;> field_simp [hA0']
   · rintro ⟨B, rfl⟩
     let A : Matrix.SpecialLinearGroup (Fin 3) F :=
       ⟨burnsideB4h_blkMat ((B : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F), by
@@ -2256,8 +2257,7 @@ theorem burnsideB4h_blk_col (B C : Matrix (Fin 2) (Fin 2) F) (v : Fin 2 → F) :
       burnsideB4h_colL (B.mulVec v) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [burnsideB4h_blkMat, burnsideB4h_colL, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+    simp [burnsideB4h_blkMat, burnsideB4h_colL, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem burnsideB4h_blk_row (B C : Matrix (Fin 2) (Fin 2) F) (v : Fin 2 → F) :
     burnsideB4h_blkMat B * burnsideB4h_rowL v * burnsideB4h_blkMat C =
@@ -2265,7 +2265,7 @@ theorem burnsideB4h_blk_row (B C : Matrix (Fin 2) (Fin 2) F) (v : Fin 2 → F) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [burnsideB4h_blkMat, burnsideB4h_rowL, Matrix.mul_apply, Fin.sum_univ_three,
-      Matrix.mulVec, dotProduct, Fin.sum_univ_two, mul_comm]
+      mul_comm]
 
 theorem burnsideB4h_fixM_one [Fintype F] (hF : Fintype.card F = 4) {ν : Fˣ} (hν : ν ≠ 1)
     (M : Matrix (Fin 3) (Fin 3) F) :
@@ -2361,7 +2361,7 @@ theorem burnsideB4h_PsiL_LamL (N : Matrix (Fin 2) (Fin 2) F) :
     burnsideB4h_PsiL_tmul]
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [Matrix.vecMulVec_apply, Pi.single_apply, Finset.sum_apply]
+    simp [Matrix.vecMulVec_apply]
 
 theorem burnsideB4h_PsiL_surjective : Function.Surjective (burnsideB4h_PsiL (F := F)) :=
   fun N => ⟨burnsideB4h_LamL N, burnsideB4h_PsiL_LamL N⟩
@@ -2385,8 +2385,7 @@ theorem burnsideB4h_Psi_apply (m : (Fin 2 → F) ⊗[F] (Fin 2 → F)) :
 theorem burnsideB4h_Psi_map (A A' : Matrix (Fin 2) (Fin 2) F) (m : (Fin 2 → F) ⊗[F] (Fin 2 → F)) :
     burnsideB4h_Psi (CFSG.ASVolI.ChB.tensAct A (Matrix.transpose A') m) =
       A * burnsideB4h_Psi m * A' := by
-  induction m using TensorProduct.induction_on with
-  | zero => simp
+  induction m using TensorProduct.inductionOn with
   | tmul x y =>
     simp only [burnsideB4h_Psi_apply, CFSG.ASVolI.ChB.tensAct, TensorProduct.map_tmul,
       Matrix.toLin'_apply, burnsideB4h_PsiL_tmul]
@@ -2485,7 +2484,7 @@ theorem burnsideB4h_uni_key1 {N : Matrix (Fin 2) (Fin 2) F} (hN : N ∈ S) :
   convert this using 1
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [burnsideB4h_Ut, Matrix.mul_apply, Fin.sum_univ_two] <;>
+    simp [burnsideB4h_Ut] <;>
     first
     | linear_combination (-(ω * N 1 0)) * h2
     | linear_combination (N 1 0) * hω + (ω * N 0 0 - ω * N 1 1) * h2
@@ -2501,12 +2500,13 @@ theorem burnsideB4h_uni_key2 {N : Matrix (Fin 2) (Fin 2) F} (hN : N ∈ S) :
   convert this using 1
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [burnsideB4h_Lt, Matrix.mul_apply, Fin.sum_univ_two] <;>
+    simp [burnsideB4h_Lt] <;>
     first
     | linear_combination (-(ω * N 0 1)) * h2
     | linear_combination (N 0 1) * hω + (ω * N 1 1 - ω * N 0 0) * h2
     | linear_combination (ω * N 0 1) * h2
 
+omit h2 hω in
 theorem burnsideB4h_uni_key3 {N : Matrix (Fin 2) (Fin 2) F} (hN : N ∈ S) (hr : N 1 0 = 0) :
     (N 1 1 - N 0 0) • (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) F) ∈ S := by
   have hN' := hN
@@ -2515,7 +2515,7 @@ theorem burnsideB4h_uni_key3 {N : Matrix (Fin 2) (Fin 2) F} (hN : N ∈ S) (hr :
   convert hD1 using 1
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [burnsideB4h_Ut, Matrix.mul_apply, Fin.sum_univ_two, hr] <;> ring_nf
+    simp [burnsideB4h_Ut, hr]; ring_nf
 
 theorem burnsideB4h_uni_E12_or_E21 {N : Matrix (Fin 2) (Fin 2) F} (hN : N ∈ S)
     (hns : ¬(N 0 1 = 0 ∧ N 1 0 = 0 ∧ N 0 0 = N 1 1)) :
@@ -2527,7 +2527,7 @@ theorem burnsideB4h_uni_E12_or_E21 {N : Matrix (Fin 2) (Fin 2) F} (hN : N ∈ S)
       have hps : N 1 1 - N 0 0 ≠ 0 := by
         intro h
         exact hns ⟨hq, hr, (sub_eq_zero.mp h).symm⟩
-      have := S.smul_mem (N 1 1 - N 0 0)⁻¹ (burnsideB4h_uni_key3 hS h2 hω hN hr)
+      have := S.smul_mem (N 1 1 - N 0 0)⁻¹ (burnsideB4h_uni_key3 hS hN hr)
       rwa [smul_smul, inv_mul_cancel₀ hps, one_smul] at this
     · right
       have := S.smul_mem (N 0 1)⁻¹ (burnsideB4h_uni_key2 hS h2 hω hN)
@@ -2536,6 +2536,7 @@ theorem burnsideB4h_uni_E12_or_E21 {N : Matrix (Fin 2) (Fin 2) F} (hN : N ∈ S)
     have := S.smul_mem (N 1 0)⁻¹ (burnsideB4h_uni_key1 hS h2 hω hN)
     rwa [smul_smul, inv_mul_cancel₀ hr, one_smul] at this
 
+omit h2 hω in
 theorem burnsideB4h_uni_E21_of_E12
     (h : (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) F) ∈ S) :
     (!![0, 0; 1, 0] : Matrix (Fin 2) (Fin 2) F) ∈ S := by
@@ -2548,6 +2549,7 @@ theorem burnsideB4h_uni_E21_of_E12
   have := S.smul_mem (-1 : F) hW
   rwa [smul_smul, neg_mul, one_mul, neg_neg, one_smul] at this
 
+omit h2 hω in
 theorem burnsideB4h_uni_E12_of_E21
     (h : (!![0, 0; 1, 0] : Matrix (Fin 2) (Fin 2) F) ∈ S) :
     (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) F) ∈ S := by
@@ -2560,6 +2562,7 @@ theorem burnsideB4h_uni_E12_of_E21
   have := S.smul_mem (-1 : F) hW
   rwa [smul_smul, neg_mul, one_mul, neg_neg, one_smul] at this
 
+omit hω in
 theorem burnsideB4h_uni_one_mem (hE12 : (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) F) ∈ S)
     (hE21 : (!![0, 0; 1, 0] : Matrix (Fin 2) (Fin 2) F) ∈ S) :
     (1 : Matrix (Fin 2) (Fin 2) F) ∈ S := by
@@ -2568,8 +2571,9 @@ theorem burnsideB4h_uni_one_mem (hE12 : (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2)
   convert this using 1
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [burnsideB4h_Lt, Matrix.mul_apply, Fin.sum_univ_two] <;> linear_combination h2
+    simp [burnsideB4h_Lt]; linear_combination h2
 
+omit hS hω in
 theorem burnsideB4h_uni_sl2_le (hE12 : (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) F) ∈ S)
     (hE21 : (!![0, 0; 1, 0] : Matrix (Fin 2) (Fin 2) F) ∈ S)
     (hI : (1 : Matrix (Fin 2) (Fin 2) F) ∈ S) : burnsideB4h_sl2 ≤ S := by
@@ -2627,10 +2631,10 @@ theorem burnsideB4h_uni_classify [Fintype F] (hF : Fintype.card F = 4)
     have hE : (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) F) ∈ S ∧
         (!![0, 0; 1, 0] : Matrix (Fin 2) (Fin 2) F) ∈ S := by
       rcases burnsideB4h_uni_E12_or_E21 hS h2 hω hN hns' with h | h
-      · exact ⟨h, burnsideB4h_uni_E21_of_E12 hS h2 hω h⟩
-      · exact ⟨burnsideB4h_uni_E12_of_E21 hS h2 hω h, h⟩
-    have hI := burnsideB4h_uni_one_mem hS h2 hω hE.1 hE.2
-    have hsl := burnsideB4h_uni_sl2_le hS h2 hω hE.1 hE.2 hI
+      · exact ⟨h, burnsideB4h_uni_E21_of_E12 hS h⟩
+      · exact ⟨burnsideB4h_uni_E12_of_E21 hS h, h⟩
+    have hI := burnsideB4h_uni_one_mem hS h2 hE.1 hE.2
+    have hsl := burnsideB4h_uni_sl2_le h2 hE.1 hE.2 hI
     by_cases htr : ∀ N ∈ S, N 0 0 + N 1 1 = 0
     · right; right; left
       refine le_antisymm (fun M hM => ?_) hsl
@@ -2765,7 +2769,7 @@ theorem burnsideB4h_uni_tensorUniserial [Fintype F] (hF : Fintype.card F = 4) {K
     intro h
     have h1 : Ψ.symm 1 ∈ A₀ := by
       show Ψ.toLinearMap (Ψ.symm 1) ∈ burnsideB4h_oneSpan
-      simpa [burnsideB4h_oneSpan] using Submodule.subset_span (Set.mem_singleton _)
+      simp [burnsideB4h_oneSpan]
     rw [h] at h1
     have h0 : Ψ.symm 1 = 0 := h1
     have := congrArg Ψ h0
@@ -2798,8 +2802,7 @@ theorem burnsideB4h_uni_tensorUniserial [Fintype F] (hF : Fintype.card F = 4) {K
     intro k m
     show Ψ.toLinearMap (CFSG.ASVolI.ChB.tensActOf π₁
       ((burnsideB4h_trInv (F := F)).toMonoidHom.comp π₁) k m - m) ∈ burnsideB4h_sl2
-    simp only [burnsideB4h_sl2, LinearMap.mem_ker, Matrix.traceLinearMap_apply, map_sub,
-      Matrix.trace_sub]
+    simp only [burnsideB4h_sl2, LinearMap.mem_ker, Matrix.traceLinearMap_apply, map_sub]
     rw [show Ψ.toLinearMap (CFSG.ASVolI.ChB.tensActOf π₁
       ((burnsideB4h_trInv (F := F)).toMonoidHom.comp π₁) k m) = Ψ (CFSG.ASVolI.ChB.tensActOf π₁
       ((burnsideB4h_trInv (F := F)).toMonoidHom.comp π₁) k m) from rfl, htr]
@@ -2828,7 +2831,7 @@ variable {F : Type} [Field F]
   toFun N := !![-N.trace, 0, 0; 0, N 0 0, N 0 1; 0, N 1 0, N 1 1]
   map_add' N N' := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.trace_add] <;> ring
+    fin_cases i <;> fin_cases j <;> simp [Matrix.trace_add]; ring
   map_smul' c N := by
     ext i j
     fin_cases i <;> fin_cases j <;> simp [Matrix.trace_smul]
@@ -2867,7 +2870,7 @@ theorem burnsideB4h_fixM_zero [Fintype F] (hF : Fintype.card F = 4) {ν : Fˣ} (
     rw [Matrix.trace_fin_three] at ht
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [burnsideB4h_XiL, h01, h02, h10, h20, Matrix.trace_fin_two] <;> linear_combination -ht
+      simp [burnsideB4h_XiL, h01, h02, h10, h20, Matrix.trace_fin_two]; linear_combination -ht
   · rintro ⟨N, rfl⟩
     refine ⟨by simp [burnsideB4h_XiL, Matrix.trace_fin_three, Matrix.trace_fin_two], fun i j h => ?_⟩
     fin_cases i <;> fin_cases j <;> simp_all [burnsideB4h_XiL, facE]
@@ -3099,8 +3102,8 @@ theorem burnsideB4h_normalForm [Fintype F] (hF : Fintype.card F = 4)
       ∀ k : ℕ, k < 3 → ∃ (k' : ℕ) (Λ : Matrix (Fin 3) (Fin 3) F ≃ₗ[F] Matrix (Fin 3) (Fin 3) F),
         k' < 3 ∧ (k = 0 ↔ k' = 0) ∧ burnsideB4h_Intw k k' φ Λ := by
   have hF' : Nat.card F = 4 := by rw [Nat.card_eq_fintype_card, hF]
-  haveI : Finite F := Finite.of_fintype F
-  haveI : CharP F 2 := burnsideB4h_unq_charP hF
+  have : Finite F := Finite.of_fintype F
+  have : CharP F 2 := burnsideB4h_unq_charP hF
   obtain ⟨c, j, hc⟩ := exists_conj_perfectCore hF' hP
   obtain ⟨c₀, rfl⟩ := Matrix.ProjGenLinGroup.mk_surjective c
   have hcomm1 := burnsideB4h_comm_map (MulAut.conj (Matrix.ProjGenLinGroup.mk c₀)) hYc
@@ -3584,7 +3587,7 @@ theorem burnsideB4h_cls_nat_induced :
 end Induced
 
 theorem burnsideB4h_cls_nat_bridge {V : Type} [CommGroup V] {F : Type} [Field F] [Fintype F]
-    (hF : Fintype.card F = 4) (H : Subgroup (MulAut V)) (C₁ C₂ : Subgroup V) (h12 : C₁ ≤ C₂)
+    (hF : Fintype.card F = 4) (H : Subgroup (MulAut V)) (C₁ C₂ : Subgroup V) (_h12 : C₁ ≤ C₂)
     (hC₁ : ∀ h ∈ H, ∀ c ∈ C₁, h c ∈ C₁) (hC₂ : ∀ h ∈ H, ∀ c ∈ C₂, h c ∈ C₂)
     (hnat : BinaryNaturalSL (CFSG.ASVolI.ChB.autSec H C₂ C₁) ⊤ ⊥ 2 2) :
     ∃ (α : ↥H →* ↥(StatedSL 2 F)) (β : ↥C₂ →* Multiplicative (Fin 2 → F)),
@@ -3594,9 +3597,9 @@ theorem burnsideB4h_cls_nat_bridge {V : Type} [CommGroup V] {F : Type} [Field F]
           ((α h : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F).mulVec
             (Multiplicative.toAdd (β u)) := by
   obtain ⟨K, hKf, hKfin, hcard, π, T, hπ, hT⟩ := burnsideB4h_cls_nat_unpack _ hnat
-  letI := hKf
-  haveI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  have := hKfin
+  have : Fintype K := Fintype.ofFinite K
   have hKF : Fintype.card K = Fintype.card F := by
     rw [← Nat.card_eq_fintype_card, hcard, hF]
   obtain ⟨π', T', hπ', hT'⟩ := burnsideB4h_cls_nat_field _ (FiniteField.ringEquivOfCardEq hKF) π T
@@ -4034,7 +4037,7 @@ theorem burnsideB4h_hyp [Finite V] (hexp : ∀ v : V, v ^ 2 = 1) (hF : Fintype.c
   classical
   have hPG : P ≤ G := burnsideB4h_le_of_isMaxParabolic2 hP
   have hHG : perfectCore P ≤ G := (perfectCore_le P).trans hPG
-  haveI : Finite ↥G := Finite.of_equiv (PGL3 F) α.symm
+  have : Finite ↥G := Finite.of_equiv (PGL3 F) α.symm
   refine
     { card := hF
       le_normalizer_V := ?_
@@ -4148,7 +4151,7 @@ theorem burnsideB4h_cls_class {V : Type} [CommGroup V] [Finite V] (hexp : ∀ v 
     ∃ k : ℕ, k < 3 ∧ ∃ β : V ≃* Multiplicative ↥(sl3Sub F),
       TwAdjointIntertwines G α.toMonoidHom k β := by
   classical
-  haveI : Finite ↥G := Finite.of_equiv (PGL3 F) α.symm
+  have : Finite ↥G := Finite.of_equiv (PGL3 F) α.symm
   have hyp := burnsideB4h_hyp hexp hF α hnt hirr hP hXP hX3 hXc hstar
   obtain ⟨k, hk, β₀, hsl, hsurj, hker, hβ₀⟩ := burnsideB4h_cls_exists_beta hyp
   refine ⟨k, hk, ?_⟩

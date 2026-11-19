@@ -80,7 +80,7 @@ private theorem three_eighth_not_dvd_five_point_stabilizer_of_not_alternating
   have hfactorization :
       (Nat.card P).factorization 3 = 10 := by
     omega
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let S : Sylow 3 P := Sylow.nonempty.some
   have hScard :
       Nat.card S =
@@ -161,7 +161,7 @@ private theorem two_eighteenth_not_dvd_five_point_stabilizer_of_not_alternating
   have hfactorization :
       (Nat.card P).factorization 2 = 22 := by
     omega
-  letI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   let S : Sylow 2 P := Sylow.nonempty.some
   have hScard :
       Nat.card S =

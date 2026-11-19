@@ -169,7 +169,7 @@ private theorem not_comm_of_quasisimple {Q : Type} [Group Q] (hq : CFSG.Open.IsQ
     have hy' := hle hy
     rw [Subgroup.mem_bot] at hx' hy'
     rw [hx', hy']
-  haveI := hq.2
+  have := hq.2
   exact (not_subsingleton (Q ⧸ Subgroup.center Q)) hsub
 
 variable {G : Type} [Group G] [Finite G]
@@ -177,8 +177,8 @@ variable {G : Type} [Group G] [Finite G]
 private theorem pSimple_equiv_of_lie {I : Subgroup G} (hQI : CFSG.Open.IsQuasisimple (PQuot 3 I))
     (idx : TauCeti.ValidLieTypeIndex) (e : PQuot 3 I ≃* (TauCeti.CFSGIndex.lie idx).Group) :
     Nonempty (PSimple 3 I ≃* (TauCeti.CFSGIndex.lie idx).Group) := by
-  haveI : IsSimpleGroup (PQuot 3 I) := by
-    haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie idx).Group := (CFSG.Assembly.lie_finite_simple idx).2
+  have : IsSimpleGroup (PQuot 3 I) := by
+    have : IsSimpleGroup (TauCeti.CFSGIndex.lie idx).Group := (CFSG.Assembly.lie_finite_simple idx).2
     exact MulEquiv.isSimpleGroup e
   have hcenter : Subgroup.center (PQuot 3 I) = ⊥ :=
     TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative (not_comm_of_quasisimple hQI)

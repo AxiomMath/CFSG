@@ -34,6 +34,7 @@ variable (K : Type) [Field K] [Finite K]
 
 variable {K}
 
+omit [Finite K] in
 theorem phiJoin_eq_top_of_su6_center (σ : K ≃+* K)
     (a : ModGL TwistTag.E6.tag (AlgebraicClosure K)) (ε : K)
     (Ψ : SL(6, K) →* ModGL TwistTag.E6.tag K) (hΨ : TwSU6.IsPsiTw σ.toRingHom ε Ψ)

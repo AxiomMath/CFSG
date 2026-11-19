@@ -29,7 +29,7 @@ theorem apply_eq_zero_of_commute_transvection {g : SpecialLinearGroup ι K} {i j
     exact this.symm
 
 theorem mem_center_stdU_iff [Finite K] {ℓ : ι → ℕ} {lo hi : ℕ} (hlo : ∀ a, lo ≤ ℓ a)
-    (hhi : ∀ a, ℓ a ≤ hi) (hlo' : ∃ a, ℓ a = lo) (hhi' : ∃ a, ℓ a = hi) (hlohi : lo < hi)
+    (hhi : ∀ a, ℓ a ≤ hi) (hlo' : ∃ a, ℓ a = lo) (hhi' : ∃ a, ℓ a = hi) (_hlohi : lo < hi)
     (g : stdU (K := K) ℓ) :
     g ∈ Subgroup.center (stdU (K := K) ℓ) ↔
       ∀ c a, ¬ (ℓ c = lo ∧ ℓ a = hi) →

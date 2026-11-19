@@ -80,8 +80,8 @@ theorem noExcess_of_finrank_two [Finite V] {X : Subgroup G} {N : Submodule (ZMod
   have hGL : Nat.card (N ≃ₗ[ZMod 2] N) = 6 := by
     rw [CFSG.HardMathSupport.U4FF.card_linearEquiv_eq_prod hN, Fin.prod_univ_two]
     norm_num
-  haveI : Finite (N ≃ₗ[ZMod 2] N) := Nat.finite_of_card_ne_zero (by rw [hGL]; norm_num)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (N ≃ₗ[ZMod 2] N) := Nat.finite_of_card_ne_zero (by rw [hGL]; norm_num)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 ↥(imgGL ρ X N hXN X) := fun z => by
     obtain ⟨b, hb, hbz⟩ := mem_imgGL.1 z.2
     refine ⟨1, Subtype.ext ?_⟩

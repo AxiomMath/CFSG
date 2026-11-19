@@ -35,7 +35,7 @@ theorem fine_rootSpan_inf_model_d4_of_layer
     (hFr : ∀ c, Fr c = c ^ S.D.q) (hΦ : S.D.Φ = Units.map (entrywiseHom Fr))
     {w : WeylGroup τ} (hn : S.D.n = canonicalRep (coxeterSystem τ) L w) (v : WeylGroup τ)
     {u : WeylGroup τ} (hu : u ∈ parabolicWeylGroup τ (d4Nodes τ)) {π : Equiv.Perm (Fin τ.rank)}
-    {ℓ f : ℕ} [Fact ℓ.Prime] [CharP L ℓ] (hf : 1 ≤ f) (hq : S.D.q = ℓ ^ f)
+    {ℓ f : ℕ} [Fact ℓ.Prime] [CharP L ℓ] (_hf : 1 ≤ f) (hq : S.D.q = ℓ ^ f)
     (hlayer : ∀ (n : ModGL τ L) (hn : n ∈ monomialSubgroup τ L), n ∈ adjointGroup τ L →
       (∃ u ∈ parabolicWeylGroup τ (d4Nodes τ), ∀ α ∈ parabolicRoots τ (d4Nodes τ),
         weylQuotientHom τ L ⟨n, hn⟩ • α = u • permLattice π α) →

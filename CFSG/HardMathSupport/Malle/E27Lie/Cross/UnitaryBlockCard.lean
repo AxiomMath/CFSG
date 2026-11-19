@@ -21,6 +21,7 @@ noncomputable def orbitDet (B : V →ₛₗ[hK.bar] V →ₗ[K] K) (x : LinearMa
     (a : K[X]) : orbitFactor B x a →* (AdjoinRoot a)ˣ :=
   (blockDetHom x a).comp (Subgroup.inclusion orbitFactor_le_gl_centralizer)
 
+omit [FiniteDimensional K V] in
 theorem map_ker_orbitDet (a : K[X]) :
     (orbitDet B x a).ker.map (orbitFactor B x a).subtype = specialBlock B x a := by
   ext g
@@ -31,12 +32,14 @@ theorem map_ker_orbitDet (a : K[X]) :
   · rintro ⟨hg, hgc, h⟩
     exact ⟨⟨g, hg⟩, h, rfl⟩
 
+omit [FiniteDimensional K V] in
 theorem card_specialBlock_eq (a : K[X]) :
     Nat.card (specialBlock B x a) = Nat.card (orbitDet B x a).ker := by
   rw [← map_ker_orbitDet (B := B) (x := x) a]
   exact (Subgroup.card_map_of_injective (f := (orbitFactor B x a).subtype)
     (Subgroup.subtype_injective _))
 
+omit [FiniteDimensional K V] in
 theorem card_orbitFactor_eq (a : K[X]) :
     Nat.card (orbitFactor B x a) =
       Nat.card (orbitDet B x a).ker * Nat.card (orbitDet B x a).range := by
@@ -59,8 +62,7 @@ theorem card_range_orbitDet_dvd (H : UnitaryPrimaryData hK.bar B x)
   apply Subtype.ext
   rw [Subgroup.coe_pow, ← hu]
   apply Units.ext
-  simp only [orbitDet, blockDetHom, MonoidHom.comp_apply, Units.val_pow_eq_pow_val,
-    Units.val_one]
+  simp only [orbitDet, blockDetHom, MonoidHom.comp_apply, Units.val_pow_eq_pow_val]
   exact h1
 
 theorem three_dvd_sq_sub_one {ℓ k : ℕ} (hℓ : ℓ.Prime) (h3 : ℓ ≠ 3) :
@@ -152,9 +154,8 @@ theorem three_dvd_card_specialBlock_paired (a : primaryFactors (x : Module.End K
       refine blockGL_ext fun v hv => ?_
       rw [blockApply_blockRestrict, hφ g v hv]
     have h1 := hdet g
-    simp only [orbitDet, blockDetHom, MonoidHom.comp_apply, MonoidHom.coe_comp,
-      Function.comp_apply, MulEquiv.coe_toMonoidHom, Matrix.GeneralLinearGroup.val_det_apply,
-      blockGLDet, Units.coe_map, MonoidHom.coe_coe]
+    simp only [orbitDet, blockDetHom, MonoidHom.comp_apply, Matrix.GeneralLinearGroup.val_det_apply,
+      blockGLDet, Units.coe_map, _root_.MonoidHom.coe_ofClass]
     change LinearMap.det ((blockRestrict x (a : K[X]) ⟨(g : LinearMap.GeneralLinearGroup K V),
         orbitFactor_le_gl_centralizer g.2⟩ : blockGL (x : Module.End K V) (a : K[X])) :
           Module.End E (primaryComponent (x : Module.End K V) (a : K[X]))) = _

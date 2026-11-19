@@ -89,7 +89,7 @@ theorem mem_d4AntiTorus {K : Type} [Field K] {g : ModGL Tag.E6 K} :
   Iff.rfl
 
 theorem isCyclic_d4AntiTorus (K : Type) [Field K] [Finite K] : IsCyclic (d4AntiTorus K) := by
-  haveI : IsCyclic Kˣ := instIsCyclicUnitsOfFinite
+  have : IsCyclic Kˣ := instIsCyclicUnitsOfFinite
   exact isCyclic_of_surjective _ (MonoidHom.rangeRestrict_surjective _)
 
 section Normalizer

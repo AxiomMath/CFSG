@@ -20,7 +20,7 @@ set_option linter.unusedSectionVars false
 theorem ne_three_of_cube_root {K : Type} [Field K] {p : ℕ} [CharP K p] {ω : Kˣ}
     (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) : p ≠ 3 := by
   rintro rfl
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h : ((ω : K) - 1) ^ 3 = 0 := by
     rw [sub_pow_char, ← Units.val_pow_eq_pow_val, hω3, Units.val_one, one_pow, sub_self]
   exact hω1 (Units.ext (sub_eq_zero.1 (pow_eq_zero_iff (by norm_num) |>.1 h)))
@@ -39,16 +39,16 @@ theorem exists_conj_e6Line_bar {ω : Kˣ} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
     ∃ y ∈ adjointGroup .E6 (AlgebraicClosure K), sL = y *
       baseChangeGL (algebraMap K (AlgebraicClosure K)) (rootDiagUnit .E6 (e6LineChar ω)) *
         y⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hω : orderOf ω = 3 := orderOf_eq_prime hω3 hω1
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hpn, -⟩ := FiniteField.card K (ringChar K)
   obtain ⟨p, hp⟩ : ∃ p, p = ringChar K := ⟨_, rfl⟩
   rw [← hp] at hpn
-  haveI : Fact p.Prime := ⟨hpn⟩
-  haveI : CharP K p := hp ▸ ringChar.charP K
+  have : Fact p.Prime := ⟨hpn⟩
+  have : CharP K p := hp ▸ ringChar.charP K
   have hp3 : p ≠ 3 := ne_three_of_cube_root hω3 hω1
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   have hL3 : ringChar (AlgebraicClosure K) ≠ 3 := by
     rw [ringChar.eq (AlgebraicClosure K) p]

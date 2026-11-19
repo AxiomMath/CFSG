@@ -30,7 +30,7 @@ theorem zSub_le_centralizer_sylow
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     zSub P c.L ≤ Subgroup.centralizer (P : Set G) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Q : Subgroup G := P ⊓ c.L
   have hPL : P ≤ Subgroup.normalizer (c.L : Set G) := hP.le.trans c.le_normalizer_L
   have hPQ : P ≤ Subgroup.normalizer (Q : Set G) := by
@@ -79,7 +79,7 @@ theorem zSub_le_centralizer_sylow
     exact c.card_inf_centralizer_of_onan hON hP
   have hNpcard : Nat.card ↥(K.map H.subtype) = 3 := by
     rw [hNp_eq, hZcard]
-  haveI : Fact (IsPGroup 3 ↥P) := ⟨hP.isPGroup⟩
+  have : Fact (IsPGroup 3 ↥P) := ⟨hP.isPGroup⟩
   have hcent : K.map H.subtype ≤ Subgroup.center ↥P :=
     CFSG.normal_subgroup_card_eq_prime_le_center (K.map H.subtype) hNpcard
   have hcent' : (zSub P c.L).subgroupOf P ≤ Subgroup.center ↥P := hNp_eq ▸ hcent
@@ -112,7 +112,7 @@ theorem exists_w_central_sylow
         Subgroup.center ↥S ∧
       orderOf ((QuotientGroup.mk' (Subgroup.center (Jtilde J))) wtilde) = 3 := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let q0 : Jtilde J →* J0 J := QuotientGroup.mk' (Subgroup.center (Jtilde J))
   let qθ : ↥J →* Jtilde J := QuotientGroup.mk' (aschbacherSolvableCore 3 ↥J)
   let q : ↥J →* J0 J := q0.comp qθ

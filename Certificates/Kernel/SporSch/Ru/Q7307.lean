@@ -111,7 +111,7 @@ theorem c7307 :
   have hball : titsBallArr[j]! = (maskL ballK).testBit j := by
     unfold titsBallArr
     rw [getElem!_ofFn_of_lt _ hj, testBit_maskL, ← ball_eq]
-    simp [List.contains_iff_mem]
+    simp
   have hrow : ruRowA ruTI1 ruDArr[j]! = Nat.beq (Lf (fl TI (fl Iso7047.D j))) (Lf 1) := by
     unfold ruRowA
     rw [dj, ti_eq, CFSG.KC.BfsPin.unpack_get' djl, qlab_get (by unfold fl at hlt; simpa using hlt),

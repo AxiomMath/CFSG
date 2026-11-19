@@ -178,7 +178,7 @@ theorem commute_of_tightInO2 {X : Type} [Group X] [Finite X] {x : X}
     (hx : CFSG.ClassicalInvolution.Q3.TightInO2 x) {L : Subgroup X} (hL : CFSG.IsComponent L) :
     ∀ y ∈ L, x * y = y * x := by
   obtain ⟨Q, hQn, hQ2, hxQ⟩ := hx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnil : Group.IsNilpotent ↥Q := hQ2.isNilpotent
   have hsolv : Group.IsSolvable ↥Q := inferInstance
   have hcomm := (CFSG.LocalCores.component_solvable_centralizer hsolv hQn.isSubnormal).1 L hL

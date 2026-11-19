@@ -154,7 +154,7 @@ theorem ivk_1_9_c : IVK_1_9_c := by
     intro y hy
     rw [hTb, Sylow.coe_mapSurjective] at hy
     obtain ⟨t, ht, rfl⟩ := hy
-    obtain ⟨k, hk⟩ := (T.isPGroup') ⟨t, ht⟩
+    obtain ⟨k, hk⟩ := (T.isPGroup) ⟨t, ht⟩
     exact Subgroup.subset_closure ⟨k, by
       rw [← map_pow]
       have : t ^ (2 ^ k) = 1 := congrArg Subtype.val hk
@@ -301,7 +301,7 @@ theorem ivk_1_9_c : IVK_1_9_c := by
       (fun g => Subtype.ext (hzc g.1)) (hle haQ) (hle hbQ)
     have hcomm' : (a : H) * (b : H) = (b : H) * (a : H) := congrArg Subtype.val hcomm
     exact hab (Subtype.ext hcomm')
-  have hTsh := tshape (T := ↥(T : Subgroup H)) T.isPGroup' hm2 πT hπTsurj
+  have hTsh := tshape (T := ↥(T : Subgroup H)) T.isPGroup hm2 πT hπTsurj
     (z := ⟨z, hzT⟩) hz1' hzz' hker Q hzQ hQcard hQu hQnc
   exact hTsh.symm
 

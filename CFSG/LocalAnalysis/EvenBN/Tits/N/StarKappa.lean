@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G] {d : Data G}
 theorem starV_false_of_kappa (h49 : d.Thm49Statement) (hd : d.Hyp) {z₀ : G} (hz : d.S56Z0 z₀)
     (hκ : d.S56Kappa) (hS : PZ.StarV d z₀) : False := by
   classical
-  letI : CommGroup d.s56V :=
+  let : CommGroup d.s56V :=
     { (inferInstance : Group d.s56V) with
       mul_comm := fun a c => Subtype.ext (hS.abelian _ a.2 _ c.2) }
   have hvD : ∀ k, 7 ≤ k → k ≤ 12 → Model.parrottV k ∈ titsD := fun k h7 h12 =>

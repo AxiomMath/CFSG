@@ -43,7 +43,7 @@ theorem card_R₁ (hr : 4 ≤ r) (hP : PerpHypR r n Y R S t)
   have hsyl := hP.core.datum.sylow_core
   rw [hR₁.natCard_eq hsyl, Subgroup.card_map_of_injective R.subtype_injective]
   obtain ⟨e⟩ := hP.core.quat
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card,
     show 4 * 2 ^ (r - 2) = 2 ^ r by
       rw [show (4 : ℕ) = 2 ^ 2 by norm_num, ← pow_add]

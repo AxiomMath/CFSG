@@ -29,14 +29,14 @@ theorem ntpD4_part_untw
     (K : Subgroup (ModGL .E6 L))
     (hRnorm : (rationalComponent S.ρ S.Γ (rootCharHom a) i).map (MulAut.conj n).toMonoidHom =
       rationalComponent S.ρ S.Γ (rootCharHom a) i)
-    (hRqs : CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
+    (_hRqs : CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
     (hKcomp : IsComponentOf K (rationalComponent S.ρ S.Γ (rootCharHom a) i ⊓
       Subgroup.centralizer ({n} : Set (ModGL .E6 L))))
     (Y : Subgroup (ModGL .E6 L)) (hY : Y = rootSpan Tag.E6 L (rootCharKernel a))
     (hstepY : ∀ y ∈ Y, S.D.step y ∈ Y)
     (Ξ : ↥Y ≃* ↥(adjointGroup Tag.D4 L)) (g' : ↥(adjointGroup Tag.D4 L)) (ε : ℕ)
     (hε : ε = 1 ∨ ε = 2)
-    {f : ℕ} (hf : 1 ≤ f) (hq : S.D.q = 2 ^ f) (Fr : L →+* L)
+    {f : ℕ} (hf : 1 ≤ f) (_hq : S.D.q = 2 ^ f) (Fr : L →+* L)
     (hFr : ∀ c, Fr c = c ^ ((2 : ℕ) ^ f))
     (hΞstep : ∀ (y : ModGL .E6 L) (hy : y ∈ Y) (hy' : S.D.step y ∈ Y),
       (Ξ ⟨S.D.step y, hy'⟩ : ModGL Tag.D4 L) = Units.map (entrywiseHom Fr)
@@ -50,15 +50,15 @@ theorem ntpD4_part_untw
         (g' : ModGL Tag.D4 L)⁻¹) :
     NTPD4Labels (2 ^ f) K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F₀ : Subfield L := frobeniusFixedField L 2 f
   let F : Type := ↥F₀
   have hFcard : Nat.card F = 2 ^ f := by
     change Nat.card ↥(frobeniusFixedField L 2 f) = 2 ^ f
     exact card_frobeniusFixedField (k := L) (p := 2) (n := f) (by omega)
-  haveI : Finite F :=
+  have : Finite F :=
     Nat.finite_of_card_ne_zero (by rw [hFcard]; exact pow_ne_zero _ (by norm_num))
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hf hFcard
   set G₀ : Subgroup (ModGL Tag.D4 L) :=
@@ -77,7 +77,7 @@ theorem ntpD4_part_untw
       exact ⟨hx, by simpa using hx'⟩
   have hdesc : G₀ = (adjointGroup Tag.D4 F).map (baseChangeGL (algebraMap F L)) :=
     hG₀_eq.trans (ntpD4_descent_untwisted (f := f) hf (F := F) hFcard (L := L) Fr hFr)
-  haveI : Group.IsPerfect ↥(adjointGroup Tag.D4 F) :=
+  have : Group.IsPerfect ↥(adjointGroup Tag.D4 F) :=
     ⟨single_edge_perfect Tag.D4 F (Or.inr (Or.inl rfl))⟩
   have hperf : Group.IsPerfect ↥G₀ := by
     rw [hdesc]

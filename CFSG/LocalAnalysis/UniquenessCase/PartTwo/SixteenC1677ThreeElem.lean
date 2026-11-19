@@ -52,7 +52,7 @@ private theorem s168e3_e3_pRank_lt_two_of_blocks [Finite W] (hW : ∀ w : W, w ^
   by_contra hlt
   have hge : 2 ≤ CFSG.Open.pRank q A := not_lt.1 hlt
   have hfin : (conjSubs A Z).Finite := Set.finite_of_ncard_pos (by rw [hcard3]; omega)
-  letI : Fintype ↥(conjSubs A Z) := hfin.fintype
+  let : Fintype ↥(conjSubs A Z) := hfin.fintype
   let Y : ↥(conjSubs A Z) → Subgroup W := Subtype.val
   have hYinj : Function.Injective Y := Subtype.val_injective
   have hYsSup : ⨆ i, Y i = ⊤ := by
@@ -266,7 +266,7 @@ theorem s168e3_s1_case4_of_elem {D : Data G} {V₀ V L : Subgroup G} {hV : IsEle
       exact Set.mem_singleton 3
     have hO3 : ∀ N : Subgroup ↥(Mbar D.M V₀ V hV), N.Normal → N.index ≠ 3 := by
       intro N hN
-      haveI := hN
+      have := hN
       exact s16e_mbar_index_ne_three D c.std.h638 h3 c.setting.hyp16 hV N
     exact s16e_symSum_two_of_E9 hT hcard hLA hLn hE hwT htr hO3
   have hsig := s168e3_mem_sig_of_elem c hs hp hr hE hsym

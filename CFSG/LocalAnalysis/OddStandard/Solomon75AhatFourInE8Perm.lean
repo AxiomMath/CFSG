@@ -122,6 +122,7 @@ section Swaps
 
 variable {α : Type*} [Fintype α] [DecidableEq α]
 
+omit [Fintype α] in
 theorem exists_partialInvol (c : Perm α) (hcc : ∀ x, c (c x) = x) (B : Finset α)
     (hB : ∀ x ∈ B, c x ∈ B) :
     ∃ τ : Perm α, (∀ x ∈ B, τ x = c x) ∧ (∀ x, x ∉ B → τ x = x) ∧ ∀ x, τ (τ x) = x := by
@@ -129,8 +130,8 @@ theorem exists_partialInvol (c : Perm α) (hcc : ∀ x, c (c x) = x) (B : Finset
   have hf : Function.Involutive f := by
     intro x
     by_cases hx : x ∈ B
-    · simp only [f, if_pos hx, if_pos (hB x hx), hcc]
-    · simp only [f, if_neg hx]
+    · simp only [f, ite_eq_left hx, ite_eq_left (hB x hx), hcc]
+    · simp only [f, ite_eq_right hx]
   refine ⟨hf.toPerm f, fun x hx => ?_, fun x hx => ?_, fun x => hf x⟩
   · simp [Function.Involutive.coe_toPerm, f, hx]
   · simp [Function.Involutive.coe_toPerm, f, hx]
@@ -169,7 +170,7 @@ theorem sign_eq_one_of_card_eight {τ : Perm α} (h2 : ∀ x, τ (τ x) = x)
     ext x
     simp [Perm.mul_apply, h2]
   have hτ1 : τ ≠ 1 := fun h => by simp [h] at h8
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ho : orderOf τ = 2 := orderOf_eq_prime (by rw [pow_two]; exact hτ2) hτ1
   obtain ⟨m, hm⟩ := Equiv.Perm.cycleType_prime_order (σ := τ) (by rw [ho]; exact Nat.prime_two)
   rw [ho] at hm
@@ -235,7 +236,7 @@ theorem card_cls (c σ : Perm α) :
   · by_cases h1 : σ x = x
     · simp [hx, h1]
     · by_cases h2 : σ x = c x
-      · simp [hx, h1, h2]
+      · simp [hx, h2]
       · simp [hx, h1, h2]
 
 theorem card_cls_le (c σ : Perm α) :
@@ -251,6 +252,7 @@ theorem card_cls_le (c σ : Perm α) :
     exact this.1 (by rw [← this.2, h'])
   · exact (mem_cls2.1 h).2.1
 
+omit [Fintype α] in
 theorem pair_orbit_sub {c : Perm α} (hcc : ∀ x, c (c x) = x) :
     ∀ x, ∀ y ∈ ({x, c x} : Finset α), ({y, c y} : Finset α) ⊆ {x, c x} := by
   intro x y hy
@@ -261,6 +263,7 @@ theorem pair_orbit_sub {c : Perm α} (hcc : ∀ x, c (c x) = x) :
     simp only [Finset.mem_insert, Finset.mem_singleton, hcc] at hw ⊢
     tauto
 
+omit [Fintype α] in
 theorem quad_orbit_sub {c σ : Perm α} (hcc : ∀ x, c (c x) = x) (hσσ : ∀ x, σ (σ x) = x)
     (hcσ : ∀ x, σ (c x) = c (σ x)) :
     ∀ x, ∀ y ∈ ({x, c x, σ x, c (σ x)} : Finset α),
@@ -370,7 +373,7 @@ theorem exists_partner_build {c σ : Perm α} (hcc : ∀ x, c (c x) = x)
     omega
   have hmemB : ∀ x, x ∈ B ↔ x ∈ B₀ ∨ x ∈ B₁ ∨ x ∈ B₂ := by
     intro x
-    simp [hB, or_assoc]
+    simp [hB]
   have hBne : ∀ x ∈ B, c x ≠ x := by
     intro x hx
     rcases (hmemB x).1 hx with h | h | h
@@ -614,7 +617,7 @@ theorem odd_card_class (n : ℕ) (hn : 2 ≤ n) (c₀ : Perm (Fin n))
   rw [hc₀] at h
   have hk : n / 2 ≠ 0 := by omega
   simp only [Fintype.card_fin, Multiset.sum_replicate, Multiset.prod_replicate, smul_eq_mul,
-    Multiset.toFinset_replicate, hk, if_false, Finset.prod_singleton,
+    Multiset.toFinset_replicate, hk, ite_false, Finset.prod_singleton,
     Multiset.count_replicate_self] at h
   obtain ⟨u, hu, hfac⟩ := factorial_eq_two_pow_mul_odd n
   have h1 : (n - n / 2 * 2).factorial = 1 := by
@@ -644,7 +647,7 @@ theorem exists_hub (n : ℕ) (hn : 2 ≤ n) (S : Subgroup (Perm (Fin n))) (hS : 
     · intro a ha
       rw [Multiset.eq_of_mem_replicate ha]
   have hodd := odd_card_class n hn c₀ hc₀
-  letI : MulAction S {h : Perm (Fin n) | IsConj c₀ h} :=
+  let : MulAction S {h : Perm (Fin n) | IsConj c₀ h} :=
     { smul := fun s y => ⟨(s : Perm (Fin n)) * y.1 * (s : Perm (Fin n))⁻¹,
         y.2.trans (isConj_iff.2 ⟨s, rfl⟩)⟩
       one_smul := fun y => Subtype.ext (by
@@ -655,7 +658,7 @@ theorem exists_hub (n : ℕ) (hn : 2 ≤ n) (S : Subgroup (Perm (Fin n))) (hS : 
           (s : Perm (Fin n)) * ((t : Perm (Fin n)) * y.1 * (t : Perm (Fin n))⁻¹) *
             (s : Perm (Fin n))⁻¹
         simp [mul_assoc]) }
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨c, hc⟩, hfix⟩ := hS.nonempty_fixed_point_of_prime_not_dvd_card
     {h : Perm (Fin n) | IsConj c₀ h}
     (by rw [← even_iff_two_dvd]; exact Nat.not_even_iff_odd.2 hodd)

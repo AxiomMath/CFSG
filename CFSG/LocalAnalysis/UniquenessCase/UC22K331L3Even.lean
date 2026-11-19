@@ -23,7 +23,7 @@ theorem k331Idx_l3Even_A {q : PrimePower} (hv : (LieTypeIndex.A 2 q).Valid) (hq2
   have hmodel : StatedClassicalModel L .PSL (2 + 1) q.p q.exponent :=
     statedClassical_of_lieModel (by omega) (CFSG.Models.lieModel_A 2 q hv e')
   obtain ⟨-, F, _, _, hF, ⟨eF⟩⟩ := hmodel
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two q.exponent_pos (by rw [hF, hq2])
   exact not_isAlt_bar2_of_twoGroupsClassTwo
     (TwoGroupsClassTwo.of_mulEquiv eF (twoGroupsClassTwo_statedProj le_rfl)) K hK
@@ -41,7 +41,7 @@ theorem k331Idx_l3Even_twistedA {q : PrimePower} (hv : (LieTypeIndex.twistedA 2 
     have := statedClassical_of_lieModel (by omega) (CFSG.Models.lieModel_twistedA 2 q hv e')
     rwa [hc, hf] at this
   obtain ⟨-, F, _, _, hF, ⟨eF⟩⟩ := hmodel
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := q.exponent * 2) (by have := q.exponent_pos; omega)
     (by rw [hF, hq2, ← pow_mul])
   exact not_isAlt_bar2_of_twoGroupsClassTwo (TwoGroupsClassTwo.of_mulEquiv eF

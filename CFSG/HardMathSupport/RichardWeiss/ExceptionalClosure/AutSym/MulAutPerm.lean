@@ -111,7 +111,7 @@ theorem card_centralizer_involution {α : Type*} [Fintype α] [DecidableEq α] {
   refine ⟨k, hk1, ?_, hrep, ?_⟩
   · rw [← hsum]; exact Equiv.Perm.sum_cycleType_le u
   · rw [Equiv.Perm.nat_card_centralizer, hsum, hrep, Multiset.prod_replicate,
-      Multiset.toFinset_replicate, if_neg (by omega), Finset.prod_singleton, Multiset.count_replicate_self]
+      Multiset.toFinset_replicate, ite_eq_right (by omega), Finset.prod_singleton, Multiset.count_replicate_self]
 
 theorem card_centralizer_swap {α : Type*} [Fintype α] [DecidableEq α] {τ : Perm α}
     (hτ : τ.IsSwap) : Nat.card (Subgroup.centralizer {τ}) = 2 * (Fintype.card α - 2)! := by
@@ -167,6 +167,7 @@ section Stars
 
 variable {α : Type*} [Fintype α] [DecidableEq α]
 
+omit [Fintype α] in
 theorem eq_swap_of_isSwap {t : Perm α} (ht : t.IsSwap) {p : α} (hp : t p ≠ p) :
     t = swap p (t p) := by
   obtain ⟨x, y, hxy, rfl⟩ := ht
@@ -176,6 +177,7 @@ theorem eq_swap_of_isSwap {t : Perm α} (ht : t.IsSwap) {p : α} (hp : t p ≠ p
     · subst h2; simp [swap_comm]
     · exact absurd (swap_apply_of_ne_of_ne h1 h2) hp
 
+omit [Fintype α] in
 theorem eq_swap_of_moves {t : Perm α} (ht : t.IsSwap) {q r : α} (hq : t q ≠ q) (hr : t r ≠ r)
     (hqr : q ≠ r) : t = swap q r := by
   have h1 := eq_swap_of_isSwap ht hq
@@ -196,6 +198,7 @@ theorem exists_common_of_not_commute {t t' : Perm α} (h : ¬ Commute t t') :
   · exact Or.inl hp
   · exact Or.inr (hne p hp)
 
+omit [Fintype α] in
 theorem not_commute_swap {p q r : α} (hpq : p ≠ q) (hpr : p ≠ r) (hqr : q ≠ r) :
     ¬ Commute (swap p q) (swap p r) := by
   intro h

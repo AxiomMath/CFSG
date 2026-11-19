@@ -123,9 +123,9 @@ theorem reeL28_cent {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
     ∀ S : Sylow 2 ↥(ReeTag.G2.reeGamma K a),
       Nat.card (S : Subgroup ↥(ReeTag.G2.reeGamma K a)) = 8 := by
   classical
-  haveI : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
-  haveI : Finite ↥(ReeTag.G2.reeGamma K a) := Subtype.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
+  have : Finite ↥(ReeTag.G2.reeGamma K a) := Subtype.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨w₀, hw₀, -⟩ := weyl_longest_element ReeTag.G2.tag
   obtain ⟨hE, hcard, P, hP⟩ := smallRee_E8_sylow hK hw₀
   set J := smallReeJTHyp ha hK with hJ

@@ -12,11 +12,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {E : Subgroup G} {t z : G}
 
+omit [Finite G] in
 theorem InvUnder.inf {M A B : Subgroup G} (hA : InvUnder M A) (hB : InvUnder M B) :
     InvUnder M (A ⊓ B) := by
   intro n hn x hx
   exact ⟨hA n hn x hx.1, hB n hn x hx.2⟩
 
+omit [Finite G] in
 theorem InvUnder.sup {M A B : Subgroup G} (hA : InvUnder M A) (hB : InvUnder M B) :
     InvUnder M (A ⊔ B) := by
   intro n hn x hx
@@ -32,10 +34,12 @@ theorem InvUnder.sup {M A B : Subgroup G} (hA : InvUnder M A) (hB : InvUnder M B
   have hmem := hmap (Subgroup.mem_map_of_mem (MulAut.conj n : G →* G) hx)
   simpa using hmem
 
-theorem invUnder_CNz_E (c : Core3 E t z) : InvUnder (CNz E z) E := by
+omit [Finite G] in
+theorem invUnder_CNz_E (_c : Core3 E t z) : InvUnder (CNz E z) E := by
   intro n hn e he
   exact (mem_normalizer_iff.mp (mem_CNz.mp hn).1 e).mp he
 
+omit [Finite G] in
 theorem invUnder_CNz_E7 (c : Core3 E t z) : InvUnder (CNz E z) (Rg t z ⊓ E) :=
   InvUnder.inf c.rnorm (invUnder_CNz_E c)
 
@@ -184,12 +188,13 @@ theorem rIrred (c : Core3 E t z) : RIrred E t z := by
         exact (Nat.eq_of_mul_eq_mul_left (by norm_num) h').symm
       exact Subgroup.eq_of_le_of_card_ge hUR (by rw [c.jr.card_R, hcardU])
 
+omit [Finite G] in
 theorem exists_conj_z_mem_R (c : Core3 E t z) :
     ∃ g : G, g * z * g⁻¹ ∈ Rg t z ∧ g * z * g⁻¹ ≠ z := by
   have hE7inv : InvUnder (CNz E z) (Rg t z ⊓ E) := invUnder_CNz_E7 c
   obtain ⟨z', hz', hz'ne, hz'nc⟩ :=
     c.cocode.exists_sextet (Rg t z ⊓ E) inf_le_right hE7inv c.rp.card_RE
-  simp only [normClass, Set.mem_setOf_eq] at hz'nc
+  simp only [normClass, Set.mem_ofPred_eq] at hz'nc
   obtain ⟨n, _hn, hnz⟩ := hz'nc
   exact ⟨n, by rw [hnz]; exact hz'.1, by rw [hnz]; exact hz'ne⟩
 

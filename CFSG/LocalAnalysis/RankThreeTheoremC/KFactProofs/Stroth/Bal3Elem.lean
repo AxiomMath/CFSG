@@ -13,6 +13,7 @@ section Elementary
 
 variable {X : Type*} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem zpowers_inf_eq_bot_of_notMem (hp : p.Prime) {E : Subgroup X} {t : X}
     (ht : orderOf t = p) (htE : t ∉ E) : zpowers t ⊓ E = ⊥ := by
   have : Fact p.Prime := ⟨hp⟩
@@ -30,6 +31,7 @@ theorem zpowers_inf_eq_bot_of_notMem (hp : p.Prime) {E : Subgroup X} {t : X}
       rw [h]; exact mem_top _
     exact this
 
+omit [Finite X] in
 theorem card_sup_zpowers_of_mem_centralizer (hp : p.Prime) {E : Subgroup X} {t : X}
     (ht : orderOf t = p) (hC : t ∈ centralizer (E : Set X)) (htE : t ∉ E) :
     Nat.card (E ⊔ zpowers t : Subgroup X) = Nat.card E * p := by
@@ -57,6 +59,7 @@ theorem card_sup_zpowers_of_mem_centralizer (hp : p.Prime) {E : Subgroup X} {t :
     (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
   rw [← hrange, hcard, Nat.card_prod, Nat.card_zpowers, ht]
 
+omit [Finite X] in
 theorem isElemAbelian_sup_zpowers (hp : p.Prime) {E : Subgroup X} (hE : IsElemAbelian p E)
     {k : ℕ} (hk : Nat.card E = p ^ k) {t : X} (ht : orderOf t = p)
     (hC : t ∈ centralizer (E : Set X)) (htE : t ∉ E) :

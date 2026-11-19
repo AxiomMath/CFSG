@@ -25,13 +25,13 @@ theorem swpK_eq (d m q : Nat) : swpK d m q = swp d m q := by
   cases h1 : m.testBit q
   · cases h2 : Nat.ble d q
     · have h2' : ¬ d ≤ q := fun h => by rw [Nat.ble_eq_true_of_le h] at h2; cases h2
-      simp only [Bool.false_eq_true, if_false, h2', false_and]
+      simp only [Bool.false_eq_true, ite_false, h2', false_and]
     · have h2' : d ≤ q := Nat.le_of_ble_eq_true h2
       cases h3 : m.testBit (q - d)
-      · simp only [Bool.false_eq_true, if_false, and_false]
-      · simp only [Bool.false_eq_true, if_false, h2', and_self, if_true]
+      · simp only [Bool.false_eq_true, ite_false, and_false]
+      · simp only [Bool.false_eq_true, ite_false, h2', and_self, ite_true]
         rfl
-  · simp only [if_true]
+  · simp only [ite_true]
     rfl
 
 theorem compF_succ (τ : Nat → Nat → Nat) (a n q : Nat) :
@@ -81,13 +81,13 @@ theorem letN_eq (NW : Nat → Nat → Nat) (l x : Nat) : letN NW l x = LN NW l x
   rw [land_one, shr_one]
   by_cases h : l % 2 = 0
   · have hb : Nat.beq (l % 2) 0 = true := by rw [h]; rfl
-    rw [hb, if_pos h]
+    rw [hb, ite_eq_left h]
     exact ptF_eq _ x
   · have hb : Nat.beq (l % 2) 0 = false := by
       cases e : Nat.beq (l % 2) 0
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true e) h
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
     exact ptR_eq _ x
 
 theorem testBit_planeL {NW : Nat → Nat → Nat} {l : Nat} (hv : NV (NW (l / 2))) (v q : Nat) :
@@ -96,13 +96,13 @@ theorem testBit_planeL {NW : Nat → Nat → Nat} {l : Nat} (hv : NV (NW (l / 2)
   rw [land_one, shr_one]
   by_cases h : l % 2 = 0
   · have hb : Nat.beq (l % 2) 0 = true := by rw [h]; rfl
-    rw [hb, if_pos h]
+    rw [hb, ite_eq_left h]
     exact testBit_netF hv v q
   · have hb : Nat.beq (l % 2) 0 = false := by
       cases e : Nat.beq (l % 2) 0
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true e) h
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
     exact testBit_netR hv v q
 
 end CFSG.KS.Fi24NetPt

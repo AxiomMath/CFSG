@@ -192,6 +192,7 @@ theorem isSimple_of_isU4two {S : Type} [Group S] (h : catalogIs S S9.isU4two) : 
 theorem isSimple_of_isU3eight {S : Type} [Group S] (h : catalogIs S S9.isU3eight) : IsSimpleGroup S :=
   isSimple_of_catalogIs_twistedA (catalogIs_imp (fun _ hi => isTwistedA_of_isU3eight hi) h)
 
+omit [Finite G] in
 private theorem lemma103_le_glaPPrimeCoreOf_self {p : ℕ} {H : Subgroup G}
     (hcop : Nat.Coprime p (Nat.card H)) : H ≤ GLAPPrimeCoreOf p H := by
   have htop : (⊤ : Subgroup ↥H) ≤ GLAPPrimeCore p ↥H :=
@@ -200,6 +201,7 @@ private theorem lemma103_le_glaPPrimeCoreOf_self {p : ℕ} {H : Subgroup G}
   intro h hh
   exact Subgroup.mem_map.2 ⟨⟨h, hh⟩, htop (Subgroup.mem_top _), rfl⟩
 
+omit [Finite G] in
 private theorem lemma103_closureIn_le_of_normalizer {I H K : Subgroup G}
     (hH : H ≤ Subgroup.normalizer (K : Set G)) (hIK : I ≤ K) : closureIn I H ≤ K := by
   refine iSup₂_le fun a ha => ?_
@@ -258,7 +260,7 @@ private theorem lemma103_closureIn_self_of_component {p : ℕ} (hp : p.Prime) {X
     have hnt : Nontrivial ↥(barX p Y J) := isQuasisimple_nontrivial hJ.2.2.1.2.2
     exact not_subsingleton _ hsub
   have hQq : CFSG.Open.IsQuasisimple (PQuot p K') := isQuasisimple_pQuot_of_glaPComponent hp hK'
-  haveI hNn : (N.subgroupOf K').Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 hKN
+  have hNn : (N.subgroupOf K').Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 hKN
   let π : ↥K' →* PQuot p K' := QuotientGroup.mk' (GLAPPrimeCore p ↥K')
   let M : Subgroup (PQuot p K') := (N.subgroupOf K').map π
   have hMn : M.Normal := hNn.map π (QuotientGroup.mk'_surjective _)
@@ -350,7 +352,7 @@ theorem dLevel_eq_five_of_gstar {B : Subgroup G} {x : G} {L : Subgroup G} (h : I
     (hG : IsGStar p B L) : dLevel G p = 5 := by
   have h2 := h.2
   unfold tripleLevel at h2
-  rw [if_pos hG] at h2
+  rw [ite_eq_left hG] at h2
   exact h2.symm
 
 theorem isGStar_of_dLevel_eq_five {B : Subgroup G} {x : G} {L : Subgroup G} (h : IsS0 p B x L)
@@ -359,7 +361,7 @@ theorem isGStar_of_dLevel_eq_five {B : Subgroup G} {x : G} {L : Subgroup G} (h :
   by_contra hG
   have h2 := h.2
   unfold tripleLevel at h2
-  rw [if_neg hG] at h2
+  rw [ite_eq_right hG] at h2
   omega
 
 theorem isGStar_of_caseA {B : Subgroup G} {x : G} {L : Subgroup G} {b : G}
@@ -430,14 +432,14 @@ theorem dLevel_le_two_of_even (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : 
     have hK3 : K3Cover p (PQuot p L) := by
       unfold fullCoverLevel at h3
       by_cases h1 : K1Cover p (PQuot p L)
-      · rw [if_pos h1] at h3
+      · rw [ite_eq_left h1] at h3
         omega
       · by_cases h2 : K2Cover p (PQuot p L)
-        · rw [if_neg h1, if_pos h2] at h3
+        · rw [ite_eq_right h1, ite_eq_left h2] at h3
           omega
         · by_cases h3' : K3Cover p (PQuot p L)
           · exact h3'
-          · rw [if_neg h1, if_neg h2, if_neg h3'] at h3
+          · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3'] at h3
             omega
     exact hin.k3 p (PQuot p L) hK3 (sstar_chev2 hc h.star)
   have hle : fullCoverLevel p (PQuot p L) ≤ 2 := by
@@ -530,6 +532,7 @@ private theorem lemma103_normal_core_eq_bot {p : ℕ} (hp : p.Prime) {Z : Type} 
   rw [← Subgroup.map_bot N.subtype] at h2
   exact (Subgroup.map_injective N.subtype_injective) h2
 
+omit [Finite G] in
 private theorem lemma103_mk_comm_of_commutator_mem {X : Subgroup G} {w w' : ↥X}
     (h : ⁅(w : G), (w' : G)⁆ ∈ GLAPPrimeCoreOf p X) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥X) w * QuotientGroup.mk' (GLAPPrimeCore p ↥X) w' =
@@ -544,15 +547,15 @@ private theorem lemma103_mk_comm_of_commutator_mem {X : Subgroup G} {w w' : ↥X
         group
     _ = _ := by rw [hc1, one_mul]
 
-private theorem lemma103_barX_layer_eq_bot {p : ℕ} (hp : p.Prime) {X L Yc : Subgroup G}
-    (hL : GLAPComponent p X L) (hLX : GLAPLayer p X = L) (hYcX : Yc ≤ X)
+private theorem lemma103_barX_layer_eq_bot {p : ℕ} (_hp : p.Prime) {X L Yc : Subgroup G}
+    (_hL : GLAPComponent p X L) (hLX : GLAPLayer p X = L) (hYcX : Yc ≤ X)
     (hYcN : X ≤ Subgroup.normalizer (Yc : Set G))
     (hcen : ∀ y ∈ Yc, ∀ l ∈ L, ⁅l, y⁆ ∈ GLAPPrimeCoreOf p X) :
     CFSG.ComponentClassification.Layer.subgroup ↥(barX p X Yc) = ⊥ := by
   classical
   set Hb := barX p X Yc with hHb
   have hYcn : (Yc.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hYcX).2 hYcN
-  haveI hHbn : (barX p X Yc).Normal :=
+  have hHbn : (barX p X Yc).Normal :=
     Subgroup.Normal.map hYcn _ (QuotientGroup.mk'_surjective _)
   rw [CFSG.ComponentClassification.Layer.subgroup.eq_sSup]
   refine le_antisymm (sSup_le ?_) bot_le
@@ -638,7 +641,7 @@ private theorem lemma103_isCyclic_of_isPGroup {p : ℕ} (hp : p.Prime) {X L : Su
     (Q : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X)) (hQ : IsPGroup p Q)
     (hQY : Q ≤ barX p X (X ⊓ centModSubgroup p L)) : IsCyclic ↥Q := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π : ↥X →* (↥X ⧸ GLAPPrimeCore p ↥X) := QuotientGroup.mk' (GLAPPrimeCore p ↥X) with hπ
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective _
   set M : Subgroup ↥X := Q.comap π with hM
@@ -739,7 +742,7 @@ private theorem lemma103_centralizes_of_cyclic {p : ℕ} (hp : p.Prime) (hp2 : p
   have hordg : orderOf g₀ = Nat.card P := by
     rw [hg₀, Subgroup.orderOf_coe]
     exact orderOf_eq_card_of_forall_mem_zpowers hg₀'
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, hK⟩ := (IsPGroup.iff_card).1 hP
   have hzP : orderOf z ∣ Nat.card P := by
     have h' := orderOf_dvd_natCard (⟨z, hz⟩ : P)
@@ -868,7 +871,7 @@ theorem lemma103_pow_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X L : Subgro
     (hC : CycModSylow p L) (hxX : x ∈ X) (hxo : orderOf x = p) (hxc : ∀ g ∈ X, g * x = x * g) :
     ∀ y ∈ X ⊓ centModSubgroup p L, ∃ n : ℕ, y ^ (p ^ n) ∈ GLAPPrimeCoreOf p X := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Y : Subgroup G := X ⊓ centModSubgroup p L with hY
   have hYX : Y ≤ X := inf_le_left
   have hYN : X ≤ Subgroup.normalizer (Y : Set G) := by
@@ -887,7 +890,7 @@ theorem lemma103_pow_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X L : Subgro
       have := X.mul_mem (X.mul_mem (X.inv_mem hg) hhX) hg
       rwa [e] at this
   have hYn : (Y.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hYX).2 hYN
-  haveI hHbn : (barX p X Y).Normal := Subgroup.Normal.map hYn _ (QuotientGroup.mk'_surjective _)
+  have hHbn : (barX p X Y).Normal := Subgroup.Normal.map hYn _ (QuotientGroup.mk'_surjective _)
   have hcen : ∀ y ∈ Y, ∀ l ∈ L, ⁅l, y⁆ ∈ GLAPPrimeCoreOf p X := fun y hy l hl =>
     (glaPPrimeCoreOf_le_of_isSubnormal hp hL.2.1) ((mem_centModSubgroup.1 hy.2).2 l hl)
   have hZ : GLAPPrimeCore p (↥X ⧸ GLAPPrimeCore p ↥X) = ⊥ :=
@@ -999,6 +1002,7 @@ theorem lemma103_pow_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X L : Subgro
   have h3 : (⟨y, hyX⟩ : ↥X) ^ (p ^ e) ∈ GLAPPrimeCore p ↥X := (QuotientGroup.eq_one_iff _).1 h1
   exact Subgroup.mem_map.2 ⟨_, h3, by simp⟩
 
+omit [Finite G] in
 private theorem lemma103_mem_sup_of_le_normalizer {W N : Subgroup G}
     (hWN : W ≤ Subgroup.normalizer (N : Set G)) {x : G} (hx : x ∈ W ⊔ N) :
     ∃ w ∈ W, ∃ n ∈ N, w * n = x := by
@@ -1022,6 +1026,7 @@ private theorem lemma103_mem_sup_of_le_normalizer {W N : Subgroup G}
   obtain ⟨w, hw, n, hn, h⟩ := hle hx
   exact ⟨w, hw, n, hn, h⟩
 
+omit [Finite G] in
 private theorem lemma103_centMod_mul_of_inner {p : ℕ} {J : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (J : Set G)) (h : InducesInnerMod p J g) :
     ∃ c ∈ centModSubgroup p J, ∃ l ∈ J, g = c * l := by
@@ -1042,7 +1047,7 @@ theorem T_le_LO (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup G} {x
   classical
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS := sstar_triple h.star
   have hxB : x ∈ B := hS.2.1.1
   have hx1 : x ≠ 1 := hS.2.1.2.1
@@ -1241,7 +1246,7 @@ theorem exists_T1_of_le_LO (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgr
 
 theorem T_in_L (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup G} {x : G} {L : Subgroup G}
     {b : G} (h : Cfg p B x L b) {T : Subgroup G} (hTC : T ≤ cx x) (hT2 : IsPGroup 2 T)
-    (hTB : B ≤ Subgroup.normalizer (T : Set G)) (hTT : (⁅T, B⁆ : Subgroup G) = T) (hTne : T ≠ ⊥)
+    (hTB : B ≤ Subgroup.normalizer (T : Set G)) (hTT : (⁅T, B⁆ : Subgroup G) = T) (_hTne : T ≠ ⊥)
     (hTO : ¬ T ≤ GLAPPrimeCoreOf p (cx x)) : HasTL p B L :=
   exists_T1_of_le_LO hc h hTC hT2 hTB hTO (T_le_LO hc hin h hTC hT2 hTB hTT)
 
@@ -1326,14 +1331,14 @@ theorem layer_eq_of_isU4two {C : Subgroup G} (hC : catalogIs ↥C S9.isU4two) (h
   have hsimple : IsSimpleGroup ↥C := isSimple_of_isU4two hC
   obtain ⟨J, hJ, hJne⟩ : ∃ J : Subgroup G, GLAPComponent 3 C J ∧ J ≠ ⊥ := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hne
     unfold GLAPLayer
     exact sSup_eq_bot.2 fun J hJ => hno J hJ
   have hJC : J = C := by
     by_contra hJC
     obtain ⟨M, hJM, hMC, hMne, hMn, -⟩ := isSubnormal_exists_normal hJ.2.1 hJC
-    haveI : (M.subgroupOf C).Normal := hMn
+    have : (M.subgroupOf C).Normal := hMn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (M.subgroupOf C) with h1 | h1
     · apply hJne
       have hM : M = ⊥ := by
@@ -1356,7 +1361,7 @@ theorem layer_eq_of_isU4two {C : Subgroup G} (hC : catalogIs ↥C S9.isU4two) (h
   have hPQ : CFSG.Open.IsQuasisimple (PQuot 3 C) :=
     isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ
   have hPS : IsSimpleGroup (PSimple 3 C) := hPQ.2
-  haveI := hPS.toNontrivial
+  have := hPS.toNontrivial
   have hne_top : GLAPPrimeCore 3 ↥C ≠ ⊤ := by
     intro htop
     have hq : Subsingleton (PQuot 3 C) := by
@@ -1425,6 +1430,7 @@ theorem ucore (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup G} {x :
     · rw [hIeq']; exact hIcore
     · rw [hIeq']; exact hIiso
 
+omit [Finite G] in
 private theorem lemma103_le_normalizer_of_comm {B A : Subgroup G} (hB : IsElemAbelian p B)
     (hA : A ≤ B) : B ≤ Subgroup.normalizer (A : Set G) := by
   intro g hg
@@ -1448,6 +1454,7 @@ private theorem lemma103_le_normalizer_of_comm {B A : Subgroup G} (hB : IsElemAb
     rw [← h3]
     exact hy
 
+omit [Finite G] in
 private theorem lemma103_eq_one_of_central {L : Subgroup G} (hZ : Subgroup.center ↥L = ⊥) {u : G}
     (hu : u ∈ L) (hc : ∀ y ∈ L, y * u = u * y) : u = 1 := by
   have hmem : (⟨u, hu⟩ : ↥L) ∈ Subgroup.center ↥L := by
@@ -1464,7 +1471,7 @@ theorem B_decomp_U48_core (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subg
   have hp3 := hU.p3
   subst hp3
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hS := sstar_triple h.star
   have hBel : IsElemAbelian 3 B := hS.1.1
   have hxB : x ∈ B := hS.2.1.1
@@ -1478,14 +1485,14 @@ theorem B_decomp_U48_core (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subg
   have hch : IsChevSimple 2 (PSimple 3 L) := sstar_chev2 hc h.star
   have hLsimple : IsSimpleGroup ↥L := isSimple_of_isU4eight hU.L_iso
   have hPS : IsSimpleGroup (PSimple 3 L) := (isQuasisimple_pQuot_of_glaPComponent hp hLc).2
-  haveI := hPS.toNontrivial
+  have := hPS.toNontrivial
   have hne_top : GLAPPrimeCore 3 ↥L ≠ ⊤ := by
     intro htop
     have hq' : Subsingleton (PQuot 3 L) := by
       unfold PQuot
       rw [htop]
       exact QuotientGroup.subsingleton_quotient_top
-    haveI := hq'
+    have := hq'
     have hsub : Subsingleton (PSimple 3 L) :=
       ⟨fun a b => by
         obtain ⟨u, rfl⟩ := QuotientGroup.mk_surjective a
@@ -1504,7 +1511,7 @@ theorem B_decomp_U48_core (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subg
       have hsub : Subsingleton (↥L ⧸ Subgroup.center ↥L) := by
         rw [h1]
         exact QuotientGroup.subsingleton_quotient_top
-      haveI := hq.2.toNontrivial
+      have := hq.2.toNontrivial
       exact not_subsingleton _ hsub
   have hinn : ∀ g, InducesInnerMod 3 L g → ∃ l ∈ L, ∀ y ∈ L, g⁻¹ * y * g = l⁻¹ * y * l := by
     rintro g ⟨l, hl, hy⟩
@@ -1689,7 +1696,7 @@ theorem B_decomp_U48_core (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subg
     have hsw : (l * v)⁻¹ * y * (l * v) = v⁻¹ * (l⁻¹ * y * l) * v := by group
     rw [hbl, hsw, hfix, inv_mul_cancel]
 
-theorem B_inf_L_le_I (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup G} {x : G}
+theorem B_inf_L_le_I (_hc : S10Ctx G p) (_hin : Lemma103Inputs G p) {B : Subgroup G} {x : G}
     {L : Subgroup G} {b : G} (h : Cfg p B x L b) (hU : UCore G p B x L b) : B ⊓ L ≤ Ipart p L b := by
   intro g hg
   rw [hU.I_eq]
@@ -1836,6 +1843,7 @@ theorem E1_of_even (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup G}
   · rw [Subgroup.card_map_of_injective (f := (B ⊓ L).subtype) Subtype.val_injective]
     exact hH
 
+omit [Finite G] in
 private theorem y9x_commutator_self {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥L) :
     ⁅L, L⁆ = L := by
   have h := Subgroup.map_commutator (⊤ : Subgroup ↥L) (⊤ : Subgroup ↥L) L.subtype
@@ -1846,6 +1854,7 @@ private theorem y9x_commutator_self {L : Subgroup G} (hq : CFSG.Open.IsQuasisimp
   rw [hc, htop] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem y9x_inf_central {L O : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hLO : ¬ L ≤ O) (hON : L ≤ Subgroup.normalizer (O : Set G)) :
     ∀ n ∈ L ⊓ O, ∀ l ∈ L, l * n = n * l := by
@@ -1869,6 +1878,7 @@ private theorem y9x_inf_central {L O : Subgroup G} (hq : CFSG.Open.IsQuasisimple
   have hz := Subgroup.mem_center_iff.1 (hc hnM) ⟨l, hl⟩
   exact congrArg Subtype.val hz
 
+omit [Finite G] in
 private theorem y9x_commutator_eq_bot {L O : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hLN : O ≤ Subgroup.normalizer (L : Set G)) (hON : L ≤ Subgroup.normalizer (O : Set G))
     (hLO : ¬ L ≤ O) : ⁅L, O⁆ = ⊥ := by
@@ -1952,6 +1962,7 @@ theorem exists_S_inv (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G}
   exact (hLC.trans (Subgroup.centralizer_le (SetLike.coe_subset_coe.2 hRO))).trans
     (Subgroup.centralizer_le_normalizer _)
 
+omit [Finite G] in
 private theorem y9x_dgrp_le_centralizer {a c j : G} (ha : a * j = j * a) (hc : c * j = j * c) :
     Dgrp a c ≤ Subgroup.centralizer ({j} : Set G) := by
   refine (Subgroup.closure_le _).2 ?_
@@ -1962,6 +1973,7 @@ private theorem y9x_dgrp_le_centralizer {a c j : G} (ha : a * j = j * a) (hc : c
     subst hz
     exact Subgroup.mem_centralizer_singleton_iff.2 hc
 
+omit [Finite G] in
 private theorem y9x_inf_le_cs_D0_aux {x y : G} {L : Subgroup G} (hLx : L ≤ cx x) :
     L ⊓ cx y ≤ cs (Dgrp x y) := by
   intro f hf
@@ -1970,6 +1982,7 @@ private theorem y9x_inf_le_cs_D0_aux {x y : G} {L : Subgroup G} (hLx : L ≤ cx 
   exact Subgroup.mem_centralizer_iff.2 fun g hg =>
     Subgroup.mem_centralizer_singleton_iff.1 (y9x_dgrp_le_centralizer hfx hfy hg)
 
+omit [Finite G] in
 private theorem y9x_center_bot {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hs : IsSimpleGroup ↥L) : Subgroup.center ↥L = ⊥ := by
   rcases hs.eq_bot_or_eq_top_of_normal (Subgroup.center ↥L) with hb | ht
@@ -1983,7 +1996,8 @@ private theorem y9x_center_bot {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple �
     have hb : b ∈ (⊥ : Subgroup ↥L) := hbot ▸ Subgroup.mem_top b
     exact hab ((Subgroup.mem_bot.1 ha).trans (Subgroup.mem_bot.1 hb).symm)
 
-private theorem y9x_pQuot_subsingleton {p : ℕ} (hp : p.Prime) {J : Subgroup G}
+omit [Finite G] in
+private theorem y9x_pQuot_subsingleton {p : ℕ} (_hp : p.Prime) {J : Subgroup G}
     (hcop : Nat.Coprime p (Nat.card J)) : Subsingleton (↥J ⧸ GLAPPrimeCore p ↥J) := by
   have htop : GLAPPrimeCore p ↥J = ⊤ := by
     refine top_le_iff.1 (le_sSup ⟨Subgroup.normal_top, ?_⟩)
@@ -1996,13 +2010,13 @@ theorem exists_S0_of_N (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup 
     (h : Cfg p B x L b) (hU : UCore G p B x L b) {S : Subgroup G} (hS2 : IsPGroup 2 S) (hS1 : S ≠ ⊥)
     (hSB : B ≤ Subgroup.normalizer (S : Set G)) (hSL : L ≤ Subgroup.normalizer (S : Set G))
     {y : G} {J : Subgroup G} (hyB : y ∈ B ⊓ L) (hy1 : y ≠ 1) (hJlay : J = GLAPLayer p (L ⊓ cx y))
-    (hJ : GLAPComponent p (L ⊓ cx y) J) (hJU : catalogIs (PSimple 3 J) S9.isU3eight) :
+    (hJ : GLAPComponent p (L ⊓ cx y) J) (_hJU : catalogIs (PSimple 3 J) S9.isU3eight) :
     ∃ d ∈ Dgrp x y, d ≠ 1 ∧ ∃ S₀ : Subgroup G, IsPGroup 2 S₀ ∧ S₀ ≠ ⊥ ∧ S₀ ≤ cx d ∧
       B ≤ Subgroup.normalizer (S₀ : Set G) ∧ (⁅S₀, J⁆ : Subgroup G) = S₀ := by
   have hp3 : p = 3 := hU.p3
   subst hp3
   have hp : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hT := sstar_triple h.star
   have hBel : IsElemAbelian 3 B := hT.1.1
   have hxB : x ∈ B := hT.2.1.1
@@ -2055,7 +2069,7 @@ theorem exists_S0_of_N (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup 
         (fun g => Subtype.ext (by simpa using hD0el'.2 g.1 g.2)) }
   have hNact : ∀ a : ↥(Dgrp x y), ∀ o ∈ O, (a : G) * o * (a : G)⁻¹ ∈ O := fun a o ho =>
     (Subgroup.mem_normalizer_iff.1 (hNO (hSB (hD0B' a.2))) o).1 ho
-  letI : MulDistribMulAction ↥(Dgrp x y) ↥O :=
+  let : MulDistribMulAction ↥(Dgrp x y) ↥O :=
     { smul := fun a o => ⟨(a : G) * o * (a : G)⁻¹, hNact a o o.2⟩
       one_smul := fun o => Subtype.ext (by
         show (1 : G) * (o : G) * (1 : G)⁻¹ = (o : G)
@@ -2189,7 +2203,7 @@ theorem exists_S0 (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b
   obtain ⟨S, -, hS2, hS1, hSB, hSL⟩ := exists_S_inv hc h hev
   exact exists_S0_of_N hc h hU hS2 hS1 hSB hSL hyB hy1 hJlay hJ hJU
 
-private theorem y9x_B_normalizes_layer (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b : G}
+private theorem y9x_B_normalizes_layer (_hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b : G}
     (h : Cfg p B x L b) (hBel : IsElemAbelian p B) {y : G} (hyB : y ∈ B) {J : Subgroup G}
     (hJlay : J = GLAPLayer p (L ⊓ cx y)) : B ≤ Subgroup.normalizer (J : Set G) := by
   intro u hu
@@ -2222,7 +2236,7 @@ theorem K_single_comp (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup
   have hp3 : p = 3 := hU.p3
   subst hp3
   have hp : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hT := sstar_triple h.star
   have hBel : IsElemAbelian 3 B := hT.1.1
   have hxB : x ∈ B := hT.2.1.1
@@ -2275,7 +2289,7 @@ theorem K_single_comp (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup
     rw [Nat.card_zpowers, orderOf_eq_prime hdp hd1]
   obtain ⟨e, heD, hed⟩ : ∃ e ∈ Dgrp x y, e ∉ Subgroup.zpowers d := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Dgrp x y ≤ Subgroup.zpowers d := fun z hz => hcon z hz
     have h1 := Subgroup.card_le_of_le hle
     rw [hD0card', hcardd] at h1
@@ -2325,6 +2339,7 @@ theorem K_single_comp (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup
   rw [hKeq]
   exact ⟨hK'comp, hBK'⟩
 
+omit [Finite G] in
 private theorem y9x_le_closureIn (J H : Subgroup G) : J ≤ closureIn J H := by
   refine le_iSup₂_of_le (1 : G) (Subgroup.one_mem H) ?_
   intro j hj
@@ -2333,13 +2348,13 @@ private theorem y9x_le_closureIn (J H : Subgroup G) : J ≤ closureIn J H := by
 theorem K_single_cen (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b : G}
     (h : Cfg p B x L b) (hU : UCore G p B x L b)
     {y d : G} {J : Subgroup G} (hyB : y ∈ B ⊓ L) (hy1 : y ≠ 1) (hd : d ∈ Dgrp x y) (hd1 : d ≠ 1)
-    (hJlay : J = GLAPLayer p (L ⊓ cx y)) (hJ : GLAPComponent p (L ⊓ cx y) J)
+    (_hJlay : J = GLAPLayer p (L ⊓ cx y)) (hJ : GLAPComponent p (L ⊓ cx y) J)
     (hKcomp : GLAPComponent p (cx d) (closureIn J (GLAPLayer p (cx d)))) :
     GLAPComponent p (closureIn J (GLAPLayer p (cx d)) ⊓ cs (Dgrp x y)) J ∧
       ∃ x' ∈ Dgrp x y, x' ∉ Subgroup.zpowers d ∧
         GLAPComponent p (closureIn J (GLAPLayer p (cx d)) ⊓ cx x') J := by
   have hp : p.Prime := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hT := sstar_triple h.star
   have hBel : IsElemAbelian p B := hT.1.1
   have hxB : x ∈ B := hT.2.1.1
@@ -2396,7 +2411,7 @@ theorem K_single_cen (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G}
     rw [Nat.card_zpowers, orderOf_eq_prime hdp hd1]
   obtain ⟨x', hx'D, hx'd⟩ : ∃ x' ∈ Dgrp x y, x' ∉ Subgroup.zpowers d := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Dgrp x y ≤ Subgroup.zpowers d := fun z hz => hcon z hz
     have h1 := Subgroup.card_le_of_le hle
     rw [hD0card', hcardd] at h1
@@ -2438,6 +2453,7 @@ theorem K_single_cen (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G}
   rw [hKx']
   exact hpart1
 
+omit [Finite G] in
 private theorem y9x_mem_normalizer_cx {d g : G} (hg : g ∈ Subgroup.centralizer ({d} : Set G)) :
     g ∈ Subgroup.normalizer ((Subgroup.centralizer ({d} : Set G) : Subgroup G) : Set G) := by
   have hgd : Commute g d := Subgroup.mem_centralizer_singleton_iff.1 hg
@@ -2454,9 +2470,9 @@ private theorem y9x_mem_normalizer_cx {d g : G} (hg : g ∈ Subgroup.centralizer
     rw [h2] at h1
     exact Subgroup.mem_centralizer_singleton_iff.2 h1
 
-theorem S0_le_K (hc : S10Ctx G p) {d : G} {J S₀ : Subgroup G} (hd1 : d ≠ 1)
+theorem S0_le_K (hc : S10Ctx G p) {d : G} {J S₀ : Subgroup G} (_hd1 : d ≠ 1)
     (hKcomp : GLAPComponent p (cx d) (closureIn J (GLAPLayer p (cx d)))) (hS₀ : S₀ ≤ cx d)
-    (hS₀J : (⁅S₀, J⁆ : Subgroup G) = S₀) (hS₀2 : IsPGroup 2 S₀) :
+    (hS₀J : (⁅S₀, J⁆ : Subgroup G) = S₀) (_hS₀2 : IsPGroup 2 S₀) :
     S₀ ≤ closureIn J (GLAPLayer p (cx d)) := by
   have hp : p.Prime := hc.ctx.prime
   set K := closureIn J (GLAPLayer p (cx d)) with hKdef
@@ -2534,7 +2550,6 @@ private theorem lemma103_chev2_of_isU3eight {S : Type} [Group S] (h : catalogIs 
     obtain ⟨d, hv⟩ := j
     simp only [S9.isU3eight, onLie] at hi
     simp only [onLie]
-    change d.characteristic = 2
     split at hi
     · rename_i q
       rw [TauCeti.LieTypeIndex.characteristic_twistedA]
@@ -2578,7 +2593,7 @@ theorem BdK_isS0 (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup G} {
   have hp3 : p = 3 := hU.p3
   subst hp3
   have hp : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set K := closureIn J (GLAPLayer 3 (cx d)) with hKdef
   have hT := sstar_triple h.star
   have hBel : IsElemAbelian 3 B := hT.1.1
@@ -2771,14 +2786,14 @@ theorem BdK_isS0 (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup G} {
     refine ⟨fun e => ?_⟩
     have h24 : Nat.card (MulAut ↥S₀) = 24 :=
       CFSG.GH74.GLS.Stage2.Signalizer.Odd87.natCard_mulAut_of_quaternion e
-    haveI : Finite (MulAut ↥S₀) := Nat.finite_of_card_ne_zero (by rw [h24]; norm_num)
-    haveI : Fintype (MulAut ↥S₀) := Fintype.ofFinite _
-    haveI hsolv : Group.IsSolvable (MulAut ↥S₀) :=
+    have : Finite (MulAut ↥S₀) := Nat.finite_of_card_ne_zero (by rw [h24]; norm_num)
+    have : Fintype (MulAut ↥S₀) := Fintype.ofFinite _
+    have hsolv : Group.IsSolvable (MulAut ↥S₀) :=
       CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
         Nat.prime_three (by norm_num) (a := 3) (b := 1)
         (by rw [← Nat.card_eq_fintype_card, h24]; norm_num)
     let φ : ↥J →* MulAut ↥S₀ := (Subgroup.normalizerMonoidHom S₀).comp (Subgroup.inclusion hJN)
-    haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hJperf
+    have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hJperf
     have hφ : φ = 1 := CFSG.Holt.General.eq_one_of_isPerfect_of_isSolvable_range φ inferInstance
     have hcent : J ≤ Subgroup.centralizer ((S₀ : Subgroup G) : Set G) := by
       intro i hi
@@ -2878,14 +2893,14 @@ theorem BdK_isS0 (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup G} {
     rw [hKB']
     exact hlayer
   have hTL : tripleLevel 3 B K = 5 := by
-    rw [tripleLevel, if_pos hGS]
+    rw [tripleLevel, ite_eq_left hGS]
   unfold IsS0
   exact ⟨hTriple, hTL.trans hd5.symm⟩
 
-theorem BdK_notcore (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup G} {d : G}
+theorem BdK_notcore (hc : S10Ctx G p) (_hin : Lemma103Inputs G p) {B : Subgroup G} {d : G}
     {J S₀ : Subgroup G} (hd5 : dLevel G p = 5) (hd1 : d ≠ 1)
     (hS₀J : (⁅S₀, J⁆ : Subgroup G) = S₀) (hS₀2 : IsPGroup 2 S₀) (hS₀1 : S₀ ≠ ⊥)
-    (hS₀K : S₀ ≤ closureIn J (GLAPLayer p (cx d)))
+    (_hS₀K : S₀ ≤ closureIn J (GLAPLayer p (cx d)))
     (hKcomp : GLAPComponent p (cx d) (closureIn J (GLAPLayer p (cx d))))
     (hJK : J ≤ closureIn J (GLAPLayer p (cx d)))
     (hS0 : IsS0 p B d (closureIn J (GLAPLayer p (cx d)))) :
@@ -2941,7 +2956,7 @@ theorem r2_BdK_gt (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup G} 
     {L : Subgroup G} {b : G} (h : Cfg p B x L b) (hU : UCore G p B x L b)
     {y d : G} {J S₀ : Subgroup G} (hd : d ∈ Dgrp x y) (hd1 : d ≠ 1) (hyB : y ∈ B ⊓ L) (hy1 : y ≠ 1)
     (hJ : GLAPComponent p (L ⊓ cx y) J) (hJU : catalogIs (PSimple 3 J) S9.isU3eight)
-    (hS₀ : S₀ ≤ cx d) (hS₀J : (⁅S₀, J⁆ : Subgroup G) = S₀) (hS₀2 : IsPGroup 2 S₀)
+    (_hS₀ : S₀ ≤ cx d) (hS₀J : (⁅S₀, J⁆ : Subgroup G) = S₀) (hS₀2 : IsPGroup 2 S₀)
     (hS₀O : ¬ S₀ ≤ GLAPPrimeCoreOf p (closureIn J (GLAPLayer p (cx d))))
     (hKcomp : GLAPComponent p (cx d) (closureIn J (GLAPLayer p (cx d))))
     (hKB : B ≤ Subgroup.normalizer ((closureIn J (GLAPLayer p (cx d)) : Subgroup G) : Set G))
@@ -2989,7 +3004,7 @@ theorem r2_BdK_gt (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup G} 
     · obtain ⟨labW, RW, instW, IW, FW, θW, hP⟩ := lemma103_marking_witness hB3
       have hgt : 2 ^ 18 < card2 3 K := hP.2
       by_contra hle
-      push_neg at hle
+      push Not at hle
       have h1 : centCard2 3 K hF.choose ^ 3 ≤ (2 ^ 6) ^ 3 := Nat.pow_le_pow_left hle 3
       have h2 : card2 3 K ≤ 2 ^ 18 := by
         rw [← hpow]
@@ -3088,7 +3103,7 @@ theorem rank_eq_four (hc : S10Ctx G p) (hin : Lemma103Inputs G p) {B : Subgroup 
     exact Nat.mul_le_mul_left _ h9
   have hm : GLATwoLocalRank 3 G ≤ 4 := by
     by_contra hgt
-    push_neg at hgt
+    push Not at hgt
     have : 3 ^ 5 ≤ 3 ^ GLATwoLocalRank 3 G := Nat.pow_le_pow_right (by norm_num) hgt
     omega
   exact le_antisymm hm hc.ctx.rank_ge

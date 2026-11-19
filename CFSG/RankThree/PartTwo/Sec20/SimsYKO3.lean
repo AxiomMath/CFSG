@@ -51,7 +51,7 @@ theorem inf_le_pCoreOf_two {K O : Subgroup G}
     rw [hD, Subgroup.mem_subgroupOf] at hx ⊢
     exact ⟨K.mul_mem (K.mul_mem h.2 hx.1) (K.inv_mem h.2),
       (Subgroup.mem_normalizer_iff.mp (hKN h.2) x).mp hx.2⟩
-  haveI : (D.map (QuotientGroup.mk' Q)).Normal := hDn.map _ (QuotientGroup.mk'_surjective Q)
+  have : (D.map (QuotientGroup.mk' Q)).Normal := hDn.map _ (QuotientGroup.mk'_surjective Q)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (D.map (QuotientGroup.mk' Q)) with h | h
   · intro x hx
     have h1 : QuotientGroup.mk' Q ⟨x, hx.1⟩ ∈ D.map (QuotientGroup.mk' Q) :=
@@ -308,7 +308,7 @@ theorem step204YKO3CommSmall_of_five
   have hrank := SimsYKO3.rank_le_two hset hX hOX
   have hMK : M ≤ Subgroup.normalizer (K : Set G) := le_normalizer_normalClosureIn M c
   obtain ⟨hs, h3K⟩ := SimsYKO3.simple_three_dvd_small htype
-  haveI := hperf
+  have := hperf
   refine SimsYKO3.comm_of_fix hKO hO3 (fun p hp hp5 k' y hy => ?_)
     (SimsYKO3.kO3CentLayer_small hset.kProper hOtop hperf htype hKO hO3 hrank) k hk o ho
   have hW : (p ≠ 5 ∨ (i ≠ 2 ∧ j ≠ 2)) → Res11.quotAction hKO k' y = y := fun hcond =>

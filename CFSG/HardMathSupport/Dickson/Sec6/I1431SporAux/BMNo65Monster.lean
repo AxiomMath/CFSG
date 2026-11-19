@@ -68,7 +68,7 @@ theorem noOrder65_of_involution (hE : MonsterExistenceStatement G)
       (QuotientGroup.mk (⟨g, hgmem⟩ : ↥(cent t))) 65 (hmk.trans hg'o) hB65
   · obtain ⟨-, -, -, ⟨e⟩, -, -⟩ := hBz t h
     have hN : IsPGroup 2 (CFSG.pCore 2 ↥(cent t)) := CFSG.pCore_isPGroup
-    haveI : (CFSG.pCore 2 ↥(cent t)).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore 2 ↥(cent t)).Normal := CFSG.pCore_normal
     have hmk := orderOf_mk_eq_of_isPGroup hN hodd
     exact @false_of_noOrder_of_mulEquiv _ NativeSporadic.Co1 _ Units.instGroup e
       (QuotientGroup.mk (⟨g, hgmem⟩ : ↥(cent t))) 65 (hmk.trans hg'o) hCo65

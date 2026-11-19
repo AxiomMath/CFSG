@@ -51,6 +51,7 @@ noncomputable def orbSet (ω : MulAction.orbitRel.Quotient E α) : Set α :=
 
 variable {E}
 
+omit [Fintype α] [DecidableEq α] in
 theorem fixes_iff_of_mem_orbit (hc : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g) {g : Perm α}
     (hg : g ∈ E) {o y : α} (hy : y ∈ orbit E o) : g y = y ↔ g o = o := by
   obtain ⟨h, rfl⟩ := MulAction.mem_orbit_iff.1 hy
@@ -60,17 +61,20 @@ theorem fixes_iff_of_mem_orbit (hc : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g) {g
     rw [← Equiv.Perm.mul_apply, hcomm, Equiv.Perm.mul_apply]
   rw [key, Equiv.apply_eq_iff_eq]
 
+omit [Fintype α] [DecidableEq α] in
 theorem orbStab_index (ω : MulAction.orbitRel.Quotient E α) :
     (orbStab E ω).index = Nat.card (orbSet E ω) := by
   rw [Nat.card_coe_set_eq]
   exact MulAction.index_stabilizer E (orbRep E ω)
 
+omit [DecidableEq α] in
 theorem sum_card_orbSet :
     ∑ ω : MulAction.orbitRel.Quotient E α, Nat.card (orbSet E ω) = Fintype.card α := by
   rw [← Nat.card_eq_fintype_card, Nat.card_congr (MulAction.selfEquivSigmaOrbits E α),
     Nat.card_sigma]
   rfl
 
+omit [Fintype α] [DecidableEq α] in
 theorem index_inf_orbStab_le (s : Finset (MulAction.orbitRel.Quotient E α)) :
     (s.inf (orbStab E)).index ≤ ∏ ω ∈ s, (orbStab E ω).index := by
   classical
@@ -80,6 +84,7 @@ theorem index_inf_orbStab_le (s : Finset (MulAction.orbitRel.Quotient E α)) :
     rw [Finset.inf_insert, Finset.prod_insert ha]
     exact (Subgroup.index_inf_le).trans (Nat.mul_le_mul_left _ ih)
 
+omit [DecidableEq α] in
 theorem inf_orbStab_eq_bot (hc : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g) :
     (Finset.univ : Finset (MulAction.orbitRel.Quotient E α)).inf (orbStab E) = ⊥ := by
   rw [eq_bot_iff]
@@ -97,6 +102,7 @@ theorem inf_orbStab_eq_bot (hc : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g) :
 
 end Orbits
 
+omit [Fintype α] [DecidableEq α] in
 theorem comm_of_isElemAbelian {p : ℕ} {E : Subgroup (Perm α)} (hE : IsElemAbelian p E) :
     ∀ g ∈ E, ∀ h ∈ E, g * h = h * g := fun g hg h hh =>
   congrArg Subtype.val (hE.1.is_comm.comm ⟨g, hg⟩ ⟨h, hh⟩)
@@ -105,6 +111,7 @@ section Bound
 
 variable {p : ℕ} [hp : Fact p.Prime] {E : Subgroup (Perm α)}
 
+omit [DecidableEq α] in
 theorem exists_exponents (hc : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g) {m : ℕ}
     (hm : Nat.card E = p ^ m) :
     ∃ J : MulAction.orbitRel.Quotient E α → ℕ, (∀ ω, (orbStab E ω).index = p ^ J ω) ∧
@@ -128,6 +135,7 @@ theorem exists_exponents (hc : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g) {m : ℕ
     rw [← orbStab_index, hJ ω, mul_comm]
     exact mul_le_pow_of_two_le hp.out.two_le (J ω)
 
+omit [DecidableEq α] in
 theorem card_le_pow_div {E : Subgroup (Perm α)} (hE : IsElemAbelian p E) :
     Nat.card E ≤ p ^ (Fintype.card α / p) := by
   obtain ⟨m, hm⟩ := Lemma118R.card_eq_pow_of_elemAb hE
@@ -148,6 +156,7 @@ theorem isCycle_of_pow_eq_one {p : ℕ} [hp : Fact p.Prime] {x : Perm α} (hx : 
   exact Equiv.Perm.card_cycleType_eq_one.1 h3
 
 
+omit [Fintype α] [DecidableEq α] in
 theorem mem_orbSet_mk {E : Subgroup (Perm α)} (y : α) :
     y ∈ orbSet E (Quotient.mk (MulAction.orbitRel E α) y) := by
   exact MulAction.mem_orbit_symm.1 (MulAction.orbitRel_apply.1 (Quotient.mk_out (s := MulAction.orbitRel E α) y))
@@ -303,6 +312,7 @@ theorem exists_pcycles {p : ℕ} [hp : Fact p.Prime] (hp3 : 3 ≤ p) {E : Subgro
 
 section Closure
 
+omit [Fintype α] [DecidableEq α] in
 theorem commute_closure {S : Set (Perm α)} (hS : ∀ a ∈ S, ∀ b ∈ S, Commute a b) {y z : Perm α}
     (hy : y ∈ Subgroup.closure S) (hz : z ∈ Subgroup.closure S) : Commute y z := by
   have h1 : ∀ s ∈ S, ∀ w ∈ Subgroup.closure S, Commute s w := by
@@ -318,6 +328,7 @@ theorem commute_closure {S : Set (Perm α)} (hS : ∀ a ∈ S, ∀ b ∈ S, Comm
   | mul x y _ _ ihx ihy => exact ihx.mul_left ihy
   | inv x _ ihx => exact ihx.inv_left
 
+omit [Fintype α] [DecidableEq α] in
 theorem pow_closure {p : ℕ} {S : Set (Perm α)} (hS : ∀ a ∈ S, ∀ b ∈ S, Commute a b)
     (hp : ∀ a ∈ S, a ^ p = 1) {y : Perm α} (hy : y ∈ Subgroup.closure S) : y ^ p = 1 := by
   induction hy using Subgroup.closure_induction with
@@ -327,7 +338,7 @@ theorem pow_closure {p : ℕ} {S : Set (Perm α)} (hS : ∀ a ∈ S, ∀ b ∈ S
     rw [(commute_closure hS hx hy).mul_pow, ihx, ihy, mul_one]
   | inv x hx ihx => rw [inv_pow, ihx, inv_one]
 
-theorem closure_pcycles {p : ℕ} [hp : Fact p.Prime] {k : ℕ} {x : Fin k → Perm α}
+theorem closure_pcycles {p : ℕ} [_hp : Fact p.Prime] {k : ℕ} {x : Fin k → Perm α}
     (hx : ∀ i, IsPCycle p (x i)) (hdisj : ∀ i j, i ≠ j → Equiv.Perm.Disjoint (x i) (x j)) :
     Nat.card (Subgroup.closure (Set.range x)) = p ^ k ∧
       IsElemAbelian p (Subgroup.closure (Set.range x)) := by
@@ -407,7 +418,7 @@ theorem isPCycle_subtypePerm {p : ℕ} {β : Type} [Fintype β] [DecidableEq β]
       rw [← Finset.card_map (Function.Embedding.subtype q), ← Equiv.Perm.support_ofSubtype, hof]
     exact hs.trans hf.2
 
-theorem conj_pcycles_aux {p : ℕ} [hp : Fact p.Prime] (k : ℕ) :
+theorem conj_pcycles_aux {p : ℕ} [_hp : Fact p.Prime] (k : ℕ) :
     ∀ {β : Type} [Fintype β] [DecidableEq β] (x c : Fin k → Perm β),
       (∀ i, IsPCycle p (x i)) → (∀ i, IsPCycle p (c i)) →
       (∀ i j, i ≠ j → Equiv.Perm.Disjoint (x i) (x j)) →
@@ -563,7 +574,7 @@ theorem addFun_addFun (i : Fin k) (s s' : ZMod p) (z : (Fin k × ZMod p) ⊕ Fin
     addFun i s (addFun i s' z) = addFun i (s + s') z := by
   rcases z with ⟨j, t⟩ | u
   · by_cases h : j = i
-    · simp only [addFun, h, if_true]
+    · simp only [addFun, h, ite_true]
       congr 1
       ring
     · simp [addFun, h]
@@ -646,7 +657,7 @@ theorem mulBlock_conj_addBlock [Fact p.Prime] (i0 i : Fin k) (a : ZMod p) (ha : 
   rcases z with ⟨j, t⟩ | u
   · simp only [Equiv.Perm.mul_apply, addBlock_apply, mulBlock_apply_inl]
     by_cases h1 : j = i <;> by_cases h2 : j = i0 <;> by_cases h3 : i = i0 <;>
-      simp [addFun, mulBlock_apply_inl, h1, h2, h3, mul_add] <;>
+      simp [addFun, mulBlock_apply_inl, h1, h2, h3, mul_add];
       split_ifs with h4 <;> simp_all
   · rfl
 
@@ -675,7 +686,7 @@ theorem addBlock_isPCycle [NeZero p] (i : Fin k) : IsPCycle p (addBlock (p := p)
       subst hj
       refine ⟨(t.val : ℤ), ?_⟩
       rw [zpow_natCast, addBlock_pow, addBlock_apply]
-      simp [addFun, ZMod.natCast_zmod_val]
+      simp [addFun]
     · exact absurd (by simp [addBlock_apply, addFun]) hy
   · rw [hsupp, Finset.card_image_of_injective _ (fun t t' h => by simpa using h),
       Finset.card_univ, ZMod.card]
@@ -738,7 +749,7 @@ theorem mulBlock_support_card [NeZero p] (i : Fin k) (a : ZMod p) (ha : a ≠ 0)
       · subst h
         simp [Equiv.Perm.mem_support, mulBlock_apply_inl, key]
       · simp [Equiv.Perm.mem_support, mulBlock_apply_inl, h, Ne.symm h]
-    · simp [Equiv.Perm.mem_support, mulBlock_apply_inl, mulBlock_apply_inr]
+    · simp [Equiv.Perm.mem_support, mulBlock_apply_inr]
   rw [hsupp, Finset.card_image_of_injective _ (fun t t' h => by simpa using h),
     Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ, ZMod.card]
 
@@ -757,7 +768,7 @@ section Standard
 
 theorem exists_gen_units {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) :
     ∃ a : ZMod p, a ≠ 0 ∧ a ≠ 1 ∧ ∀ t : ZMod p, t ≠ 0 → ∃ m : ℕ, a ^ m = t := by
-  haveI : IsCyclic (ZMod p)ˣ := ZMod.isCyclic_units_prime hp.out
+  have : IsCyclic (ZMod p)ˣ := ZMod.isCyclic_units_prime hp.out
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := (ZMod p)ˣ)
   have hgp : ∀ x : (ZMod p)ˣ, x ∈ Submonoid.powers g := fun x =>
     mem_powers_iff_mem_zpowers.2 (hg x)
@@ -766,7 +777,7 @@ theorem exists_gen_units {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) :
     obtain ⟨m, hm⟩ := (Submonoid.mem_powers_iff _ _).1 (hgp (-1))
     have h2 : ((g ^ m : (ZMod p)ˣ) : ZMod p) = ((-1 : (ZMod p)ˣ) : ZMod p) := by rw [hm]
     rw [Units.val_pow_eq_pow_val, h1, one_pow] at h2
-    haveI : Fact (2 < p) := ⟨by have := hp.out.two_le; omega⟩
+    have : Fact (2 < p) := ⟨by have := hp.out.two_le; omega⟩
     exact ZMod.neg_one_ne_one h2.symm
   · intro t ht
     obtain ⟨m, hm⟩ := (Submonoid.mem_powers_iff _ _).1 (hgp (Units.mk0 t ht))
@@ -796,11 +807,13 @@ section Transport
 
 variable {β α : Type} [Fintype β] [DecidableEq β] [Fintype α] [DecidableEq α]
 
+omit [Fintype β] [DecidableEq β] [Fintype α] [DecidableEq α] in
 theorem permCongr_pow_apply (ψ : β ≃ α) (σ : Perm β) (n : ℤ) (x : β) :
     ((ψ.permCongr σ) ^ n) (ψ x) = ψ ((σ ^ n) x) := by
   have h : ψ.permCongr (σ ^ n) = (ψ.permCongr σ) ^ n := map_zpow ψ.permCongrHom σ n
   rw [← h, Equiv.permCongr_apply, Equiv.symm_apply_apply]
 
+omit [Fintype β] [DecidableEq β] [Fintype α] [DecidableEq α] in
 theorem permCongr_isCycle_iff (ψ : β ≃ α) (σ : Perm β) :
     (ψ.permCongr σ).IsCycle ↔ σ.IsCycle := by
   constructor
@@ -831,6 +844,7 @@ theorem permCongr_isCycle_iff (ψ : β ≃ α) (σ : Perm β) :
       refine ⟨n, ?_⟩
       rw [permCongr_pow_apply, hn]
 
+omit [Fintype β] [DecidableEq β] [Fintype α] [DecidableEq α] in
 theorem permCongr_disjoint (ψ : β ≃ α) {f g : Perm β} (h : Equiv.Perm.Disjoint f g) :
     Equiv.Perm.Disjoint (ψ.permCongr f) (ψ.permCongr g) := by
   intro x
@@ -960,7 +974,7 @@ theorem standard_props {p k : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) {c : Fin 
 
 theorem conj_to_std {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) {E : Subgroup (Perm α)}
     (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ (Fintype.card α / p))
-    (hEA : E ≤ alternatingGroup α) {c : Fin (Fintype.card α / p) → Perm α} {π : Perm α}
+    (_hEA : E ≤ alternatingGroup α) {c : Fin (Fintype.card α / p) → Perm α} {π : Perm α}
     (hc : ∀ i, IsPCycle p (c i)) (hcd : ∀ i j, i ≠ j → Equiv.Perm.Disjoint (c i) (c j))
     (hπ : sign π = -1) (hπn : ∀ i, π * c i * π⁻¹ ∈ Subgroup.closure (Set.range c)) :
     ∃ σ : Perm α, sign σ = 1 ∧ ∀ y : Perm α, y ∈ E ↔ σ * y * σ⁻¹ ∈ Subgroup.closure (Set.range c) := by
@@ -1005,7 +1019,7 @@ section Core2
 variable {α : Type} [Fintype α] [DecidableEq α]
 
 theorem isElemAbelian_map {G H : Type} [Group G] [Group H] {p : ℕ} {E : Subgroup G}
-    (f : G →* H) (hf : Function.Injective f) (hE : IsElemAbelian p E) :
+    (f : G →* H) (_hf : Function.Injective f) (hE : IsElemAbelian p E) :
     IsElemAbelian p (E.map f) := by
   refine ⟨IsMulCommutative.of_comm ?_, ?_⟩
   · rintro a b
@@ -1030,7 +1044,7 @@ theorem mem_map_conj_iff {G : Type} [Group G] (σ : G) (E : Subgroup G) (y : G) 
   rw [Subgroup.mem_map_equiv]
   simp [MulAut.conj_symm_apply]
 
-theorem standard_product_cycleType {p k : ℕ} [hp : Fact p.Prime] {c : Fin k → Perm α}
+theorem standard_product_cycleType {p k : ℕ} [_hp : Fact p.Prime] {c : Fin k → Perm α}
     (hc : ∀ i, IsPCycle p (c i)) (hcd : ∀ i j, i ≠ j → Equiv.Perm.Disjoint (c i) (c j))
     (s : Finset (Fin k)) :
     ∃ z : Perm α, z ∈ Subgroup.closure (Set.range c) ∧ z.cycleType = Multiset.replicate s.card p := by
@@ -1051,6 +1065,7 @@ section Core3
 
 variable {α : Type} [Fintype α] [DecidableEq α]
 
+omit [Fintype α] [DecidableEq α] in
 theorem isElemAbelian_bot {p : ℕ} : IsElemAbelian p (⊥ : Subgroup (Perm α)) := by
   refine ⟨IsMulCommutative.of_comm ?_, ?_⟩
   · rintro a b
@@ -1103,7 +1118,7 @@ section Core4
 variable {α : Type} [Fintype α] [DecidableEq α]
 
 theorem core_order {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) {y : Perm α}
-    (hy : y ∈ alternatingGroup α) (hyp : y ^ p = 1) :
+    (_hy : y ∈ alternatingGroup α) (hyp : y ^ p = 1) :
     ∃ E : Subgroup (Perm α), E ≤ alternatingGroup α ∧ IsElemAbelian p E ∧
       Nat.card E = p ^ (Fintype.card α / p) ∧ y ∈ E := by
   have hyt := Equiv.Perm.cycleType_of_pow_prime_eq_one hyp
@@ -1206,7 +1221,7 @@ theorem isElemAbelian_of_map_injective {G H : Type} [Group G] [Group H] {p : ℕ
 
 theorem toPerm_injective {X : Type} [Group X] {n : ℕ} (K : Subgroup X)
     (e : K ≃* alternatingGroup (Fin n)) : Function.Injective (toPerm K e) :=
-  fun x y h => e.injective (Subtype.ext h)
+  fun _x _y h => e.injective (Subtype.ext h)
 
 theorem toPerm_mem {X : Type} [Group X] {n : ℕ} (K : Subgroup X)
     (e : K ≃* alternatingGroup (Fin n)) (y : K) :
@@ -1260,7 +1275,7 @@ namespace Lemma118R
 theorem Input10_6AltRank_holds : Lemma118R.Input10_6AltRank := by
   intro n p X _ _ K hn hp hp2 hK
   obtain ⟨e⟩ := hK
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   refine ⟨?_, ?_⟩
   · intro E hEK hE
     have hT := AltInputs.transport_card_le K e hEK hE
@@ -1282,7 +1297,7 @@ theorem Input10_6AltRank_holds : Lemma118R.Input10_6AltRank := by
 theorem Input10_5AltMax_holds : Lemma118R.Input10_5AltMax := by
   intro n p X _ _ K hn hp hp2 hK
   obtain ⟨e⟩ := hK
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   constructor
   · intro E₁ E₂ hE₁K hE₂K hE₁ hE₂ hc₁ hc₂
     have T₁ := AltInputs.transport_card_le K e hE₁K hE₁

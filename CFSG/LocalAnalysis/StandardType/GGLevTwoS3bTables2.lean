@@ -43,17 +43,17 @@ theorem levTwoS3t_tcRoot_of_labelReduction {ι : Type} [Fintype ι] [DecidableEq
   have hgS : ∀ a ∈ T', g a ∈ S := by
     intro a ha
     dsimp only [g]
-    rw [dif_pos ha]
+    rw [dite_eq_left ha]
     exact (Classical.choose_spec (hT'real a ha)).1
   have hgnot : ∀ a ∈ T', g a ∉ Φ := by
     intro a ha
     dsimp only [g]
-    rw [dif_pos ha]
+    rw [dite_eq_left ha]
     exact (Classical.choose_spec (hT'real a ha)).2.1
   have hgcls : ∀ a ∈ T', cls (g a) = a := by
     intro a ha
     dsimp only [g]
-    rw [dif_pos ha]
+    rw [dite_eq_left ha]
     exact (Classical.choose_spec (hT'real a ha)).2.2
   refine ⟨T'.image g, ?_, ?_, ?_⟩
   · intro x hx

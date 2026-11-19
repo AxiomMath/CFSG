@@ -92,8 +92,8 @@ theorem inner_automizer_clause (hD : D.Good) {ψ : L' →* R} (hψ : Function.Su
   rw [hu _ hxS] at h1
   exact (congrArg Multiplicative.toAdd (hD.faithful h1)).symm
 
-theorem full_automizer_clause (hD : D.Good) {ψ : L' →* R} (hψ : Function.Surjective ψ)
-    {ρ : MulAut L' →* MulAut R} (hρ : ∀ a l, ρ a (ψ l) = ψ (a l))
+theorem full_automizer_clause (hD : D.Good) {ψ : L' →* R} (_hψ : Function.Surjective ψ)
+    {ρ : MulAut L' →* MulAut R} (_hρ : ∀ a l, ρ a (ψ l) = ψ (a l))
     {A : Subgroup (MulAut L')} {Φ : A →* Multiplicative (Fin Tag.E6.rank → ZMod 3)}
     (hΦ : ∀ a : A, D.diag (Φ a) = ρ a)
     (hrange : Φ.range = ⊤ ∨ ∀ x, Multiplicative.ofAdd x ∈ Φ.range ↔ x ∈ NoOffRest.hypE6) :

@@ -45,8 +45,8 @@ theorem S'W_le_commutator_R₃ (h : d.Hyp)
 
 theorem Y_le_centralizer_commutator_R₃ (h : d.Hyp)
     (hK : ∀ v ∈ d.V₂, ∀ m ∈ d.M, m * v * m⁻¹ * v⁻¹ ∈ d.W) :
-    d.Y ≤ centralizer ((⁅d.R₃, d.R₃⁆ : Subgroup G) : Set G) := fun y hy =>
-  mem_centralizer_iff.2 fun r hr =>
+    d.Y ≤ centralizer ((⁅d.R₃, d.R₃⁆ : Subgroup G) : Set G) := fun _y hy =>
+  mem_centralizer_iff.2 fun _r hr =>
     D₂_comm_Y' (h.V₃_le_D₂ hK (h.commutator_R₃_le_V₃ hK hr)) hy
 
 theorem centralizer_commutator_R₃_inf_R₃ (h : d.Hyp)
@@ -96,7 +96,7 @@ theorem V₃_inf_A₁ (h : d.Hyp) : d.V₃ ⊓ d.A₁ = ⁅d.S, d.S⁆ ⊓ d.A�
   rw [h.S_inf_V₃] at this
   exact Subgroup.mem_inf.2 ⟨this, hxA⟩
 
-theorem card_commutator_S_inf_A₁ (h : d.Hyp) :
+theorem card_commutator_S_inf_A₁ (_h : d.Hyp) :
     Nat.card (⁅d.S, d.S⁆ ⊓ d.A₁ : Subgroup G) = 2 ^ 5 := by
   have hFN : d.A₁ ≤ normalizer (d.F : Set G) := fun g hg =>
     normalizer_S_le_normalizer_F (d.S.le_normalizer (d.A₁_le_S hg))
@@ -203,7 +203,7 @@ theorem le_S₃_of_elemAb (h : d.Hyp) (hK : ∀ v ∈ d.V₂, ∀ m ∈ d.M, m *
     {B : Subgroup G} (hBR : B ≤ d.R₃) (hc : ∀ x ∈ B, ∀ y ∈ B, x * y * x⁻¹ * y⁻¹ ∈ d.Y)
     (hs : ∀ x ∈ B, x * x ∈ d.Y) (hcard : 2 ^ 14 ≤ Nat.card B) : B ≤ d.S₃ := by
   by_contra hBS
-  obtain ⟨b, hbB, hbS⟩ := SetLike.not_le_iff_exists.1 hBS
+  obtain ⟨b, hbB, hbS⟩ := IsConcreteLE.not_le_iff_exists.1 hBS
   have hbR : b ∈ d.S₃ ⊔ zpowers d.t := by
     rw [← h.R₃_eq_S₃_sup]
     exact hBR hbB
@@ -314,7 +314,7 @@ theorem exists_mem_P₀_theta_mul_mem_V₃ (h : d.Hyp)
     (hK : ∀ v ∈ d.V₂, ∀ m ∈ d.M, m * v * m⁻¹ * v⁻¹ ∈ d.W)
     (hKY : ∀ m ∈ d.M, m ∈ normalizer (d.Y : Set G)) {g : G} (hg : g ∈ d.S₃) :
     ∃ p ∈ d.P₀, (p * d.t * p⁻¹ * d.t)⁻¹ * g ∈ d.V₃ := by
-  haveI : (d.V₃.subgroupOf d.S₃).Normal :=
+  have : (d.V₃.subgroupOf d.S₃).Normal :=
     (Subgroup.normal_subgroupOf_iff V₃_le_S₃).2 fun v g hv hg => h.conj_mem_V₃ hg hv
   let ψ : d.P₀ →* d.S₃ ⧸ d.V₃.subgroupOf d.S₃ :=
     MonoidHom.mk' (fun x => QuotientGroup.mk

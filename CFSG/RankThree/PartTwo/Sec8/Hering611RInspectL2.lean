@@ -18,7 +18,7 @@ theorem false_of_psl2 {F : Type} [Field F] [Finite F] {r f : ℕ} [Fact r.Prime]
     (φ : X ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) {P : Subgroup X} (hP : IsA6Sub P) :
     False := by
   obtain ⟨R, -, hR, hR9, -⟩ := hP.exists_elemAbelian_nine
-  haveI : NeZero ((3 : ℕ) : F) := ⟨by
+  have : NeZero ((3 : ℕ) : F) := ⟨by
     have := Sec4.three_ne_zero_of_card Fact.out hr hF
     exact_mod_cast this⟩
   have hle := RankThree.PartOne.K133.psl2_elemAb_card_le (K := F) Nat.prime_three (by norm_num)

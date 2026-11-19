@@ -17,6 +17,7 @@ open scoped Pointwise
 
 variable {H : Type*} [Group H] [Finite H]
 
+omit [Finite H] in
 private theorem nat_card_eq_1080
     (hZ : Nat.card (Subgroup.center H) = 3)
     (hA6 : Nonempty (H ⧸ Subgroup.center H ≃* alternatingGroup (Fin 6))) :
@@ -33,6 +34,7 @@ private theorem nat_card_eq_1080
     _ = 360 * 3 := by rw [hq, hZ]
     _ = 1080 := by norm_num
 
+omit [Finite H] in
 private theorem nat_card_eq_60 {E : Subgroup H}
     (hE : Nonempty (E ≃* alternatingGroup (Fin 5))) : Nat.card E = 60 := by
   obtain ⟨e⟩ := hE
@@ -42,6 +44,7 @@ private theorem nat_card_eq_60 {E : Subgroup H}
   calc Nat.card E = Nat.card (alternatingGroup (Fin 5)) := Nat.card_congr e.toEquiv
     _ = 60 := hA5card
 
+omit [Finite H] in
 private theorem center_eq_bot_of_alt_five {E : Subgroup H}
     (hE : Nonempty (E ≃* alternatingGroup (Fin 5))) :
     Subgroup.center ↥E = ⊥ := by
@@ -58,6 +61,7 @@ private theorem center_eq_bot_of_alt_five {E : Subgroup H}
   rw [alternatingGroup.center_eq_bot (α := Fin 5) (by norm_num)] at hxe
   exact e.injective (by simpa using hxe)
 
+omit [Finite H] in
 private theorem inf_center_eq_bot {E : Subgroup H}
     (hE : Nonempty (E ≃* alternatingGroup (Fin 5))) :
     E ⊓ Subgroup.center H = ⊥ := by
@@ -96,6 +100,7 @@ private noncomputable def prodCenter (E : Subgroup H) : Subgroup H where
     rw [show (e * z)⁻¹ = z⁻¹ * e⁻¹ from mul_inv_rev _ _, hze]
     exact Set.mul_mem_mul (E.inv_mem he) ((Subgroup.center H).inv_mem hz)
 
+omit [Finite H] in
 private theorem mem_prodCenter {E : Subgroup H} {x : H} :
     x ∈ prodCenter E ↔ ∃ e ∈ E, ∃ z ∈ Subgroup.center H, e * z = x := by
   show (x ∈ ((E : Set H) * (Subgroup.center H : Set H))) ↔
@@ -103,6 +108,7 @@ private theorem mem_prodCenter {E : Subgroup H} {x : H} :
   rw [Set.mem_mul]
   rfl
 
+omit [Finite H] in
 private theorem prodCenter_eq_sup (E : Subgroup H) :
     prodCenter E = E ⊔ Subgroup.center H := by
   apply le_antisymm
@@ -114,6 +120,7 @@ private theorem prodCenter_eq_sup (E : Subgroup H) :
     · intro z hz
       exact mem_prodCenter.mpr ⟨1, E.one_mem, z, hz, by simp⟩
 
+omit [Finite H] in
 private theorem center_le_prodCenter (E : Subgroup H) :
     Subgroup.center H ≤ prodCenter E :=
   prodCenter_eq_sup E ▸ le_sup_right
@@ -128,6 +135,7 @@ private noncomputable instance decidableEqQuotientProdCenter (E : Subgroup H) :
     DecidableEq (H ⧸ prodCenter E) :=
   fun a b => Classical.propDecidable (a = b)
 
+omit [Finite H] in
 private theorem nat_card_prodCenter (hZ : Nat.card (Subgroup.center H) = 3)
     {E : Subgroup H} (hE : Nonempty (E ≃* alternatingGroup (Fin 5))) :
     Nat.card (prodCenter E) = 180 := by
@@ -146,6 +154,7 @@ private theorem nat_card_prodCenter (hZ : Nat.card (Subgroup.center H) = 3)
   rw [← Nat.card_congr (Equiv.ofBijective f ⟨hinj, hsurj⟩),
     Nat.card_prod, nat_card_eq_60 hE, hZ]
 
+omit [Finite H] in
 private theorem index_prodCenter (hZ : Nat.card (Subgroup.center H) = 3)
     (hA6 : Nonempty (H ⧸ Subgroup.center H ≃* alternatingGroup (Fin 6)))
     {E : Subgroup H} (hE : Nonempty (E ≃* alternatingGroup (Fin 5))) :
@@ -154,6 +163,7 @@ private theorem index_prodCenter (hZ : Nat.card (Subgroup.center H) = 3)
   rw [nat_card_prodCenter hZ hE, nat_card_eq_1080 hZ hA6] at h
   omega
 
+omit [Finite H] in
 private theorem nat_card_quotient (hZ : Nat.card (Subgroup.center H) = 3)
     (hA6 : Nonempty (H ⧸ Subgroup.center H ≃* alternatingGroup (Fin 6)))
     {E : Subgroup H} (hE : Nonempty (E ≃* alternatingGroup (Fin 5))) :
@@ -161,15 +171,16 @@ private theorem nat_card_quotient (hZ : Nat.card (Subgroup.center H) = 3)
   rw [← Subgroup.index_eq_card]
   exact index_prodCenter hZ hA6 hE
 
+omit [Finite H] in
 private theorem normalCore_prodCenter_eq_center
     (hZ : Nat.card (Subgroup.center H) = 3)
     (hA6 : Nonempty (H ⧸ Subgroup.center H ≃* alternatingGroup (Fin 6)))
     {E : Subgroup H} (hE : Nonempty (E ≃* alternatingGroup (Fin 5))) :
     (prodCenter E).normalCore = Subgroup.center H := by
   obtain ⟨e⟩ := hA6
-  haveI hsimple : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have hsimple : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by norm_num)
-  haveI hqsimple : IsSimpleGroup (H ⧸ Subgroup.center H) := e.isSimpleGroup
+  have hqsimple : IsSimpleGroup (H ⧸ Subgroup.center H) := e.isSimpleGroup
   have hBne : prodCenter E ≠ ⊤ := by
     intro htop
     have h1 : (prodCenter E).index = 1 := by
@@ -200,6 +211,7 @@ private theorem normalCore_prodCenter_eq_center
   · rw [Subgroup.normal_le_normalCore]
     exact center_le_prodCenter E
 
+omit [Finite H] in
 private theorem ker_toPermHom_quotient (hZ : Nat.card (Subgroup.center H) = 3)
     (hA6 : Nonempty (H ⧸ Subgroup.center H ≃* alternatingGroup (Fin 6)))
     {E : Subgroup H} (hE : Nonempty (E ≃* alternatingGroup (Fin 5))) :
@@ -214,7 +226,7 @@ private theorem range_toPermHom_eq_alternating (hperf : Group.IsPerfect H)
     (MulAction.toPermHom H (H ⧸ prodCenter E)).range =
       alternatingGroup (H ⧸ prodCenter E) := by
   classical
-  haveI := hperf
+  have := hperf
   let σ : H →* Equiv.Perm (H ⧸ prodCenter E) :=
     MulAction.toPermHom H (H ⧸ prodCenter E)
   have hker : σ.ker = Subgroup.center H := ker_toPermHom_quotient hZ hA6 hE
@@ -230,7 +242,7 @@ private theorem range_toPermHom_eq_alternating (hperf : Group.IsPerfect H)
     rw [Equiv.Perm.mem_alternatingGroup]
     exact hsgn g
   have hcardΩ : Nat.card (H ⧸ prodCenter E) = 6 := nat_card_quotient hZ hA6 hE
-  haveI : Nontrivial (H ⧸ prodCenter E) := by
+  have : Nontrivial (H ⧸ prodCenter E) := by
     rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card, hcardΩ]
     norm_num
   have hcardAlt : Nat.card (alternatingGroup (H ⧸ prodCenter E)) = 360 := by
@@ -250,12 +262,14 @@ private theorem range_toPermHom_eq_alternating (hperf : Group.IsPerfect H)
 private noncomputable def pointRep (E : Subgroup H) (α : H ⧸ prodCenter E) : H :=
   Quotient.out α
 
+omit [Finite H] in
 private theorem pointRep_smul (E : Subgroup H) (α : H ⧸ prodCenter E) :
     pointRep E α • ((1 : H) : H ⧸ prodCenter E) = α := by
   rw [pointRep, show Quotient.out α • ((1 : H) : H ⧸ prodCenter E) =
     ((Quotient.out α : H) : H ⧸ prodCenter E) by simp]
   exact QuotientGroup.out_eq' α
 
+omit [Finite H] in
 private theorem rho_mul_apply {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup V]
     [Module 𝕜 V] (ρ : Representation 𝕜 H V) (g h : H) (x : V) :
     ρ (g * h) x = ρ g (ρ h x) := by
@@ -266,6 +280,7 @@ private noncomputable def pointV {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCom
     (α : H ⧸ prodCenter E) : V :=
   ρ (pointRep E α) v
 
+omit [Finite H] in
 private theorem rho_apply_ne_zero {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup V]
     [Module 𝕜 V] (ρ : Representation 𝕜 H V) {v : V} (hv : v ≠ 0) (g : H) :
     ρ g v ≠ 0 := by
@@ -277,11 +292,13 @@ private theorem rho_apply_ne_zero {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCo
   rw [h, map_zero] at hinv
   exact hv hinv.symm
 
+omit [Finite H] in
 private theorem pointV_ne_zero {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup V]
     [Module 𝕜 V] (ρ : Representation 𝕜 H V) {v : V} (hv : v ≠ 0) (E : Subgroup H)
     (α : H ⧸ prodCenter E) : pointV ρ v E α ≠ 0 :=
   rho_apply_ne_zero ρ hv _
 
+omit [Finite H] in
 private theorem exists_smul_of_mem_prodCenter {𝕜 : Type*} [Field 𝕜] {V : Type*}
     [AddCommGroup V] [Module 𝕜 V] (ρ : Representation 𝕜 H V) {v : V} {E : Subgroup H}
     (hEv : ∀ e ∈ E, ρ e v = v)
@@ -295,6 +312,7 @@ private theorem exists_smul_of_mem_prodCenter {𝕜 : Type*} [Field 𝕜] {V : T
     _ = μ • ρ e v := by rw [map_smul]
     _ = μ • v := by rw [hEv e he]
 
+omit [Finite H] in
 private theorem exists_smul_of_mem_stabilizer {𝕜 : Type*} [Field 𝕜] {V : Type*}
     [AddCommGroup V] [Module 𝕜 V] (ρ : Representation 𝕜 H V) {v : V} {E : Subgroup H}
     (hEv : ∀ e ∈ E, ρ e v = v)
@@ -339,6 +357,7 @@ private noncomputable def charOf {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCom
     (α : H ⧸ prodCenter E) (s : ↥(MulAction.stabilizer H α)) : 𝕜 :=
   Classical.choose (exists_smul_of_mem_stabilizer ρ hEv hZs α s.2)
 
+omit [Finite H] in
 private theorem charOf_spec {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup V]
     [Module 𝕜 V] (ρ : Representation 𝕜 H V) {v : V} {E : Subgroup H}
     (hEv : ∀ e ∈ E, ρ e v = v)
@@ -347,6 +366,7 @@ private theorem charOf_spec {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGrou
     ρ (s : H) (pointV ρ v E α) = charOf ρ hEv hZs α s • pointV ρ v E α :=
   Classical.choose_spec (exists_smul_of_mem_stabilizer ρ hEv hZs α s.2)
 
+omit [Finite H] in
 private theorem charOf_mul {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup V]
     [Module 𝕜 V] (ρ : Representation 𝕜 H V) {v : V} {E : Subgroup H}
     (hEv : ∀ e ∈ E, ρ e v = v)
@@ -368,6 +388,7 @@ private theorem charOf_mul {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup
     _ = (charOf ρ hEv hZs α s * charOf ρ hEv hZs α t) • pointV ρ v E α := by
         rw [smul_smul, mul_comm]
 
+omit [Finite H] in
 private theorem charOf_one {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup V]
     [Module 𝕜 V] (ρ : Representation 𝕜 H V) {v : V} {E : Subgroup H}
     (hEv : ∀ e ∈ E, ρ e v = v)
@@ -382,6 +403,7 @@ private theorem charOf_one {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup
         rfl
     _ = (1 : 𝕜) • pointV ρ v E α := (one_smul _ _).symm
 
+omit [Finite H] in
 private theorem charOf_ne_zero {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup V]
     [Module 𝕜 V] (ρ : Representation 𝕜 H V) {v : V} {E : Subgroup H}
     (hEv : ∀ e ∈ E, ρ e v = v)
@@ -413,6 +435,7 @@ private noncomputable def charHom {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCo
       charOf ρ hEv hZs α s * charOf ρ hEv hZs α t
     exact charOf_mul ρ hEv hZs (hv := hv) α s t)
 
+omit [Finite H] in
 private theorem charHom_spec {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup V]
     [Module 𝕜 V] (ρ : Representation 𝕜 H V) {v : V} {E : Subgroup H}
     (hEv : ∀ e ∈ E, ρ e v = v)
@@ -469,6 +492,7 @@ private noncomputable def centralChar {𝕜 : Type*} [Field 𝕜] {V : Type*} [A
       _ = (Classical.choose (hZs z z.2) * Classical.choose (hZs w w.2)) • v := by
           rw [smul_smul, mul_comm])
 
+omit [Finite H] in
 private theorem centralChar_spec {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup V]
     [Module 𝕜 V] (ρ : Representation 𝕜 H V) {v : V} (hv : v ≠ 0)
     (hZs : ∀ z ∈ Subgroup.center H, ∃ μ : 𝕜, ρ z v = μ • v)
@@ -476,6 +500,7 @@ private theorem centralChar_spec {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCom
     ρ (z : H) v = (centralChar ρ hv hZs z : 𝕜) • v :=
   Classical.choose_spec (hZs z z.2)
 
+omit [Finite H] in
 private theorem centralChar_ne_one {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup V]
     [Module 𝕜 V] (ρ : Representation 𝕜 H V) {v : V} (hv : v ≠ 0)
     (hZs : ∀ z ∈ Subgroup.center H, ∃ μ : 𝕜, ρ z v = μ • v)
@@ -486,6 +511,7 @@ private theorem centralChar_ne_one {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddC
   apply hZv (z : H) z.2 hzH
   rw [centralChar_spec ρ hv hZs z, h1, one_smul]
 
+omit [Finite H] in
 private theorem centralChar_smul_pointV {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup V]
     [Module 𝕜 V] (ρ : Representation 𝕜 H V) {v : V} (hv : v ≠ 0)
     (hZs : ∀ z ∈ Subgroup.center H, ∃ μ : 𝕜, ρ z v = μ • v) (E : Subgroup H)
@@ -502,6 +528,7 @@ private theorem centralChar_smul_pointV {𝕜 : Type*} [Field 𝕜] {V : Type*} 
     _ = (centralChar ρ hv hZs z : 𝕜) • ρ (pointRep E α) v := by rw [map_smul]
     _ = (centralChar ρ hv hZs z : 𝕜) • pointV ρ v E α := rfl
 
+omit [Finite H] in
 private theorem commutative_closure_of_commute {c g : H} (hcomm : c * g = g * c) :
     IsMulCommutative ↥(Subgroup.closure (({c, g} : Set H) ∪ (Subgroup.center H : Set H))) := by
   apply Subgroup.isMulCommutative_closure
@@ -527,6 +554,7 @@ private theorem commutative_closure_of_commute {c g : H} (hcomm : c * g = g * c)
       exact (Subgroup.mem_center_iff.mp hxZ g).symm
     · exact (Subgroup.mem_center_iff.mp hxZ y).symm
 
+omit [Finite H] in
 private theorem map_closure_threeCycles (hZ : Nat.card (Subgroup.center H) = 3)
     (hA6 : Nonempty (H ⧸ Subgroup.center H ≃* alternatingGroup (Fin 6)))
     {E : Subgroup H} (hE : Nonempty (E ≃* alternatingGroup (Fin 5))) {c g : H} :
@@ -603,11 +631,11 @@ private theorem nat_card_closure_threeCycles_center (hZ : Nat.card (Subgroup.cen
 
 private theorem exists_central_element_order_three (hZ : Nat.card (Subgroup.center H) = 3) :
     ∃ z : ↥(Subgroup.center H), z ≠ 1 ∧ orderOf (z : H) = 3 := by
-  haveI : Fintype ↥(Subgroup.center H) := Fintype.ofFinite _
+  have : Fintype ↥(Subgroup.center H) := Fintype.ofFinite _
   have hZcard : Fintype.card ↥(Subgroup.center H) = 3 := by
     rw [← Nat.card_eq_fintype_card]
     exact hZ
-  haveI : Nontrivial ↥(Subgroup.center H) := by
+  have : Nontrivial ↥(Subgroup.center H) := by
     rw [← Fintype.one_lt_card_iff_nontrivial, hZcard]
     norm_num
   obtain ⟨z, hz1⟩ := exists_ne (1 : ↥(Subgroup.center H))
@@ -632,7 +660,7 @@ private theorem not_commute_of_disjoint_threeCycles (hperf : Group.IsPerfect H)
       (MulAction.toPermHom H (H ⧸ prodCenter E) g)) :
     c * g ≠ g * c := by
   classical
-  haveI := hperf
+  have := hperf
   intro hcomm
   let P : Subgroup H :=
     Subgroup.closure (({c, g} : Set H) ∪ (Subgroup.center H : Set H))
@@ -660,6 +688,7 @@ private theorem not_commute_of_disjoint_threeCycles (hperf : Group.IsPerfect H)
     exact Subgroup.mem_top _
   exact hres hmem
 
+omit [Finite H] in
 private theorem exists_smul_pointV_of_smul {𝕜 : Type*} [Field 𝕜] {V : Type*}
     [AddCommGroup V] [Module 𝕜 V] (ρ : Representation 𝕜 H V) {v : V} {E : Subgroup H}
     (hEv : ∀ e ∈ E, ρ e v = v)
@@ -811,6 +840,7 @@ private theorem exists_commutator_central (hperf : Group.IsPerfect H)
     group
   exact ⟨⟨z, hzZ⟩, a, ha0, hω, hcg, hline⟩
 
+omit [Finite H] in
 private theorem rho_commute_apply {𝕜 : Type*} [Field 𝕜] {V : Type*}
     [AddCommGroup V] [Module 𝕜 V] {E : Subgroup H} (ρ : Representation 𝕜 H V)
     {v : V} {α : H ⧸ prodCenter E} {z g : H} (hz : z ∈ Subgroup.center H) :
@@ -825,6 +855,7 @@ private theorem rho_commute_apply {𝕜 : Type*} [Field 𝕜] {V : Type*}
     _ = ρ g (ρ z (pointV ρ v E α)) := by
         rw [Module.End.coe_mul, Function.comp_apply]
 
+omit [Finite H] in
 private theorem scalar_relation_of_commutator {𝕜 : Type*} [Field 𝕜] {V : Type*}
     [AddCommGroup V] [Module 𝕜 V] {E : Subgroup H} (ρ : Representation 𝕜 H V)
     {v : V} (hv : v ≠ 0) (hEv : ∀ e ∈ E, ρ e v = v)
@@ -954,7 +985,7 @@ private theorem isMultiplyPretransitive_two (hperf : Group.IsPerfect H)
   rw [MulAction.is_two_pretransitive_iff]
   intro a b c d hab hcd
   have hΩcard : Nat.card (H ⧸ prodCenter E) = 6 := nat_card_quotient hZ hA6 hE
-  haveI : Finite (H ⧸ prodCenter E) :=
+  have : Finite (H ⧸ prodCenter E) :=
     Finite.of_surjective (QuotientGroup.mk (s := prodCenter E)) QuotientGroup.mk_surjective
   have hFcard : Fintype.card (H ⧸ prodCenter E) = 6 := by
     rw [← Nat.card_eq_fintype_card]
@@ -988,7 +1019,7 @@ private theorem nat_card_ne_pairs {E : Subgroup H}
     (hΩcard : Nat.card (H ⧸ prodCenter E) = 6) :
     Nat.card {p : (H ⧸ prodCenter E) × (H ⧸ prodCenter E) // p.1 ≠ p.2} = 30 := by
   classical
-  haveI : Fintype (H ⧸ prodCenter E) := fintypeQuotientProdCenter E
+  have : Fintype (H ⧸ prodCenter E) := fintypeQuotientProdCenter E
   have hcard : Fintype.card (H ⧸ prodCenter E) = 6 := by
     rw [← Nat.card_eq_fintype_card]
     exact hΩcard
@@ -1003,7 +1034,7 @@ private theorem nat_card_ne_pairs {E : Subgroup H}
       · intro h h2
         exact h (by simpa using congrArg e h2))
   have h : Fintype.card {p : Fin 6 × Fin 6 // p.1 ≠ p.2} = 30 := by decide
-  haveI : Fintype {p : (H ⧸ prodCenter E) × (H ⧸ prodCenter E) // p.1 ≠ p.2} :=
+  have : Fintype {p : (H ⧸ prodCenter E) × (H ⧸ prodCenter E) // p.1 ≠ p.2} :=
     Fintype.ofFinite _
   calc Nat.card {p : (H ⧸ prodCenter E) × (H ⧸ prodCenter E) // p.1 ≠ p.2}
       = Fintype.card {p : (H ⧸ prodCenter E) × (H ⧸ prodCenter E) // p.1 ≠ p.2} :=
@@ -1039,9 +1070,9 @@ private theorem nat_card_stabilizer_pair (hperf : Group.IsPerfect H)
   have hcardOrbit : Nat.card ↥(MulAction.orbit H (α₀, β)) = 30 := by
     rw [horbit]
     exact nat_card_ne_pairs hΩcard
-  haveI : Fintype H := Fintype.ofFinite H
-  haveI : Fintype ↥(MulAction.orbit H (α₀, β)) := Fintype.ofFinite _
-  haveI : Fintype ↥(MulAction.stabilizer H (α₀, β)) := Fintype.ofFinite _
+  have : Fintype H := Fintype.ofFinite H
+  have : Fintype ↥(MulAction.orbit H (α₀, β)) := Fintype.ofFinite _
+  have : Fintype ↥(MulAction.stabilizer H (α₀, β)) := Fintype.ofFinite _
   have h := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := H) (b := (α₀, β))
   rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
     ← Nat.card_eq_fintype_card] at h
@@ -1104,6 +1135,7 @@ private theorem exists_threeCycle_fixing_compl {Ω : Type*} [Fintype Ω] [Decida
   show Equiv.swap a b (Equiv.swap a c x) = x
   rw [Equiv.swap_apply_of_ne_of_ne hax hcx, Equiv.swap_apply_of_ne_of_ne hax hbx]
 
+omit [Finite H] in
 private theorem exists_lift_of_mem_range {E : Subgroup H} {c : Equiv.Perm (H ⧸ prodCenter E)}
     (hc : c ∈ (MulAction.toPermHom H (H ⧸ prodCenter E)).range)
     {S : Finset (H ⧸ prodCenter E)} (hfix : ∀ x ∈ S, c x = x) :
@@ -1196,7 +1228,7 @@ private theorem pointProj_apply_self (hperf : Group.IsPerfect H)
         ((charHom ρ hEv hZs (hv := hv) ((1 : H) : H ⧸ prodCenter E)) ⟨s.1, s.2.1⟩ : 𝕜) •
           pointV ρ v E ((1 : H) : H ⧸ prodCenter E) :=
     fun s => charHom_spec ρ hEv hZs (hv := hv) ((1 : H) : H ⧸ prodCenter E) ⟨s.1, s.2.1⟩
-  simp only [pointProj, LinearMap.sum_apply, LinearMap.smul_apply, Finset.sum_apply]
+  simp only [pointProj, LinearMap.sum_apply, LinearMap.smul_apply]
   rw [Finset.sum_congr rfl (fun s _ => by
     rw [hχspec s, smul_smul, inv_mul_cancel₀ (Units.ne_zero _), one_smul])]
   rw [Finset.sum_const]
@@ -1223,6 +1255,7 @@ private theorem exists_threeCycle_fixing_stabilizer (hperf : Group.IsPerfect H)
     exact ⟨c, hcα, hcβ, hcβ, hc3⟩
   · exact exists_threeCycle_fixing_three hperf hZ hA6 hE hβ.symm hδ.symm (Ne.symm hδβ)
 
+omit [Finite H] in
 private theorem char_mul_pointV_of_threeCycle {𝕜 : Type*} [Field 𝕜] {V : Type*}
     [AddCommGroup V] [Module 𝕜 V] {E : Subgroup H} (ρ : Representation 𝕜 H V) {v : V}
     (hv : v ≠ 0) (hEv : ∀ e ∈ E, ρ e v = v)
@@ -1259,6 +1292,7 @@ private theorem char_mul_pointV_of_threeCycle {𝕜 : Type*} [Field 𝕜] {V : T
         congr 1
         field_simp
 
+omit [Finite H] in
 private theorem sum_eq_zero_of_char_ne {𝕜 : Type*} [Field 𝕜] {V : Type*}
     [AddCommGroup V] [Module 𝕜 V] {E : Subgroup H} (ρ : Representation 𝕜 H V) {v : V}
     (hv : v ≠ 0) (hEv : ∀ e ∈ E, ρ e v = v)
@@ -1314,7 +1348,7 @@ private theorem pointProj_apply_ne (hperf : Group.IsPerfect H)
       ((charHom ρ hEv hZs (hv := hv) α₀) ⟨s.1, s.2.1⟩ : 𝕜)⁻¹ •
         ρ (s : H) (pointV ρ v E δ) = 0 := by
     simpa only [hχeq] using hsumχ
-  simp only [pointProj, LinearMap.sum_apply, LinearMap.smul_apply, Finset.sum_apply]
+  simp only [pointProj, LinearMap.sum_apply, LinearMap.smul_apply]
   exact hsum
 
 private theorem exists_transport_eq_zero {𝕜 : Type*} [Field 𝕜] {V : Type*}
@@ -1403,7 +1437,7 @@ private theorem linearIndependent_pointV (hperf : Group.IsPerfect H)
   have hpos : 1 < Fintype.card (H ⧸ prodCenter E) := by rw [hΩcard']; norm_num
   obtain ⟨β, hβ⟩ := Fintype.exists_ne_of_one_lt_card hpos α₀
   have hβ' : β ≠ α₀ := hβ
-  haveI : Fintype ↥(MulAction.stabilizer H α₀ ⊓ MulAction.stabilizer H β) :=
+  have : Fintype ↥(MulAction.stabilizer H α₀ ⊓ MulAction.stabilizer H β) :=
     Fintype.ofFinite _
   have heα := pointProj_apply_self hperf hZ hA6 hE ρ hv hEv hZs hβ'
   have heδ : ∀ δ : H ⧸ prodCenter E, δ ≠ α₀ →
@@ -1416,6 +1450,7 @@ private theorem linearIndependent_pointV (hperf : Group.IsPerfect H)
   rw [Fintype.linearIndependent_iff]
   exact fun a ha γ => coeff_eq_zero_of_relation h36 ρ hv hEv hZs heα heδ a ha γ
 
+omit [Finite H] in
 private theorem center_eq_one_of_sq_eq_one (hZ : Nat.card (Subgroup.center H) = 3)
     {z : H} (hz : z ∈ Subgroup.center H) (hz2 : z ^ 2 = 1) : z = 1 := by
   have hdvd : orderOf z ∣ 3 := by
@@ -1426,6 +1461,7 @@ private theorem center_eq_one_of_sq_eq_one (hZ : Nat.card (Subgroup.center H) = 
   calc z = z ^ 3 * (z ^ 2)⁻¹ := by group
     _ = 1 := by rw [h3, hz2, inv_one, mul_one]
 
+omit [Finite H] in
 private theorem exists_conj_center_decomp {E : Subgroup H} {t : H} {α : H ⧸ prodCenter E}
     (htα : t ∈ MulAction.stabilizer H α) :
     ∃ e z : H, e ∈ E ∧ z ∈ Subgroup.center H ∧
@@ -1457,7 +1493,8 @@ private theorem exists_conj_center_decomp {E : Subgroup H} {t : H} {α : H ⧸ p
       _ = (w * e * w⁻¹) * z := by rw [htz]
   exact ⟨e, z, he, hz, ht_eq⟩
 
-private theorem sq_eq_one_of_conj_center (hZ : Nat.card (Subgroup.center H) = 3)
+omit [Finite H] in
+private theorem sq_eq_one_of_conj_center (_hZ : Nat.card (Subgroup.center H) = 3)
     {E : Subgroup H} (hE : Nonempty (E ≃* alternatingGroup (Fin 5)))
     {t w e z : H} (he : e ∈ E) (hz : z ∈ Subgroup.center H)
     (ht_eq : t = (w * e * w⁻¹) * z) (ht2 : t ^ 2 = 1) : z ^ 2 = 1 := by
@@ -1490,6 +1527,7 @@ private theorem sq_eq_one_of_conj_center (hZ : Nat.card (Subgroup.center H) = 3)
   have h1 : (z ^ 2)⁻¹ = 1 := by rw [← he2z, he2]
   exact inv_eq_one.mp h1
 
+omit [Finite H] in
 private theorem exists_conj_decomp_of_mem_stabilizer
     (hZ : Nat.card (Subgroup.center H) = 3)
     {E : Subgroup H} (hE : Nonempty (E ≃* alternatingGroup (Fin 5)))
@@ -1502,6 +1540,7 @@ private theorem exists_conj_decomp_of_mem_stabilizer
   exact ⟨e, he, by rw [ht_eq, hz1, mul_one]⟩
 
 
+omit [Finite H] in
 private theorem charHom_eq_one_of_mem_stabilizer
     (hZ : Nat.card (Subgroup.center H) = 3)
     {E : Subgroup H} (hE : Nonempty (E ≃* alternatingGroup (Fin 5)))
@@ -1577,7 +1616,7 @@ private theorem involution_fixed_support_card {Ω : Type*} [Fintype Ω] [Decidab
   rw [hsign2] at hsign
   have hEven : Even ((Fintype.card Ω - Fintype.card {x : Ω // c x = x}) / 2) := by
     by_contra hodd
-    rw [neg_one_pow_eq_ite, if_neg hodd] at hsign
+    rw [neg_one_pow_eq_ite, ite_eq_right hodd] at hsign
     exact absurd hsign (by decide : (-1 : ℤˣ) ≠ 1)
   have hsuppf : Fintype.card {x : Ω // c x = x} + c.support.card = 6 := by
     have hcompl := Fintype.card_subtype_compl (p := fun x : Ω => c x = x)
@@ -1687,12 +1726,14 @@ private theorem exists_involution_points {Ω : Type*} [Fintype Ω] [DecidableEq 
     (fun h => hα₅_supp (h ▸ hα₄)), (fun h => hα₆_supp (h ▸ hα₄))⟩
 
 
+omit [Finite H] in
 private theorem rho_mul_self_apply {𝕜 : Type*} [Field 𝕜] {V : Type*} [AddCommGroup V]
     [Module 𝕜 V] (ρ : Representation 𝕜 H V) {t : H} (ht2 : t ^ 2 = 1) (x : V) :
     ρ (t * t) x = x := by
   rw [show t * t = 1 by rw [← pow_two]; exact ht2, map_one]
   exact Module.End.one_apply x
 
+omit [Finite H] in
 private theorem fix_of_mem_stabilizer {𝕜 : Type*} [Field 𝕜] {V : Type*}
     [AddCommGroup V] [Module 𝕜 V] {E : Subgroup H} (hZ : Nat.card (Subgroup.center H) = 3)
     (hE : Nonempty (E ≃* alternatingGroup (Fin 5)))
@@ -1708,6 +1749,7 @@ private theorem fix_of_mem_stabilizer {𝕜 : Type*} [Field 𝕜] {V : Type*}
       charHom_spec ρ hEv hZs (hv := hv) α ⟨t, htα⟩
     _ = pointV ρ v E α := by rw [h, one_smul]
 
+omit [Finite H] in
 private theorem finrank_ker_ge_four {𝕜 : Type*} [Field 𝕜] {V : Type*}
     [AddCommGroup V] [Module 𝕜 V] [FiniteDimensional 𝕜 V]
     (ρ : Representation 𝕜 H V) {t : H} {w : Fin 4 → V}
@@ -1717,11 +1759,12 @@ private theorem finrank_ker_ge_four {𝕜 : Type*} [Field 𝕜] {V : Type*}
   have hliKer : LinearIndependent 𝕜
       (Set.codRestrict w (LinearMap.ker (ρ t - 1)) hw) :=
     hli.codRestrict _ hw
-  haveI : FiniteDimensional 𝕜 (LinearMap.ker (ρ t - 1)) :=
+  have : FiniteDimensional 𝕜 (LinearMap.ker (ρ t - 1)) :=
     FiniteDimensional.finiteDimensional_submodule _
   have h := LinearIndependent.fintype_card_le_finrank hliKer
   simpa using h
 
+omit [Finite H] in
 private theorem smul_eq_of_toPermHom_eq {E : Subgroup H} {t : H} {a b : H ⧸ prodCenter E}
     (h : MulAction.toPermHom H (H ⧸ prodCenter E) t a = b) : t • a = b := by
   have h1 : t • a = (MulAction.toPermHom H (H ⧸ prodCenter E) t) • a := by
@@ -1730,6 +1773,7 @@ private theorem smul_eq_of_toPermHom_eq {E : Subgroup H} {t : H} {a b : H ⧸ pr
   rw [h1]
   exact h
 
+omit [Finite H] in
 private theorem four_vectors_mem_ker {𝕜 : Type*} [Field 𝕜] {V : Type*}
     [AddCommGroup V] [Module 𝕜 V] {E : Subgroup H} (ρ : Representation 𝕜 H V)
     {v : V} {t : H} {α₁ α₂ α₃ α₄ α₅ α₆ : H ⧸ prodCenter E} {b₁ b₃ : 𝕜}
@@ -1751,6 +1795,7 @@ private theorem four_vectors_mem_ker {𝕜 : Type*} [Field 𝕜] {V : Type*}
   · exact hu₁
   · exact hu₃
 
+omit [Finite H] in
 private theorem involution_not_mem_center (hZ : Nat.card (Subgroup.center H) = 3)
     {t : H} (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) : t ∉ Subgroup.center H := by
   intro ht
@@ -1796,6 +1841,7 @@ private theorem involution_sigma_props (hperf : Group.IsPerfect H)
     exact nat_card_quotient hZ hA6 hE
   exact ⟨hσt2, hσt_ne, hσt_alt, hΩcard⟩
 
+omit [Finite H] in
 private theorem exists_block_fixed_vector {𝕜 : Type*} [Field 𝕜] {V : Type*}
     [AddCommGroup V] [Module 𝕜 V] {E : Subgroup H} (ρ : Representation 𝕜 H V) {v : V}
     (hv : v ≠ 0) (hEv : ∀ e ∈ E, ρ e v = v)
@@ -1840,7 +1886,7 @@ private theorem four_vectors_independent (hperf : Group.IsPerfect H)
     (hZv : ∀ z ∈ Subgroup.center H, z ≠ 1 → ρ z v ≠ v)
     {α₁ α₂ α₃ α₄ α₅ α₆ : H ⧸ prodCenter E} {b₁ b₃ : 𝕜}
     (hd12 : α₁ ≠ α₂) (hd34 : α₃ ≠ α₄) (hd56 : α₅ ≠ α₆)
-    (hd13 : α₁ ≠ α₃) (hd14 : α₁ ≠ α₄) (hd23 : α₂ ≠ α₃) (hd24 : α₂ ≠ α₄)
+    (hd13 : α₁ ≠ α₃) (hd14 : α₁ ≠ α₄) (hd23 : α₂ ≠ α₃) (_hd24 : α₂ ≠ α₄)
     (hd15 : α₁ ≠ α₅) (hd16 : α₁ ≠ α₆) (hd25 : α₂ ≠ α₅) (hd26 : α₂ ≠ α₆)
     (hd35 : α₃ ≠ α₅) (hd36 : α₃ ≠ α₆) (hd45 : α₄ ≠ α₅) (hd46 : α₄ ≠ α₆) :
     LinearIndependent 𝕜
@@ -1872,26 +1918,25 @@ private theorem four_vectors_independent (hperf : Group.IsPerfect H)
         a 0 • pointV ρ v E α₅ + a 1 • pointV ρ v E α₆ +
           a 2 • pointV ρ v E α₁ + (a 2 * b₁) • pointV ρ v E α₂ +
           a 3 • pointV ρ v E α₃ + (a 3 * b₃) • pointV ρ v E α₄ by
-      simp only [c, Pi.add_apply, add_smul, Finset.sum_add_distrib, sum_single_pointV,
-        zero_smul]]
+      simp only [c, Pi.add_apply, add_smul, Finset.sum_add_distrib, sum_single_pointV]]
     rw [← ha]
   have hc := hli6 c hcsum
   intro i
   fin_cases i
   · have h1 := hc α₅
     simpa [c, Pi.single_apply, hd15, hd16, hd13.symm, hd14.symm, hd12.symm,
-      hd23.symm, hd24.symm, hd25.symm, hd26.symm, hd35.symm, hd36.symm,
+      hd23.symm, _hd24.symm, hd25.symm, hd26.symm, hd35.symm, hd36.symm,
       hd45.symm, hd46.symm, hd56, hd34.symm] using h1
   · have h1 := hc α₆
     simpa [c, Pi.single_apply, hd56.symm, hd16.symm, hd26.symm, hd36.symm,
       hd46.symm, hd15.symm, hd25.symm, hd35.symm, hd45.symm, hd12.symm,
-      hd13.symm, hd14.symm, hd23.symm, hd24.symm, hd34.symm] using h1
+      hd13.symm, hd14.symm, hd23.symm, _hd24.symm, hd34.symm] using h1
   · have h1 := hc α₁
-    simpa [c, Pi.single_apply, hd13, hd14, hd12, hd15, hd16, hd23, hd24,
+    simpa [c, Pi.single_apply, hd13, hd14, hd12, hd15, hd16, hd23, _hd24,
       hd25, hd26, hd35, hd36, hd45, hd46, hd34, hd56] using h1
   · have h1 := hc α₃
     simpa [c, Pi.single_apply, hd13.symm, hd23.symm, hd34, hd35, hd36,
-      hd12.symm, hd14.symm, hd24.symm, hd45, hd46, hd56, hd15.symm,
+      hd12.symm, hd14.symm, _hd24.symm, hd45, hd46, hd56, hd15.symm,
       hd16.symm, hd25.symm, hd26.symm] using h1
 
 private theorem four_le_finrank_ker (hperf : Group.IsPerfect H)

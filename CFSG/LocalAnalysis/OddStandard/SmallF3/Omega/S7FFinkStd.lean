@@ -57,7 +57,7 @@ theorem s7f_not_normal [IsSimpleGroup G] {L : Subgroup G}
     (hL : CFSG.Assembly.ComponentType.IsStandardSubgroup L) {t : G}
     (htC : t ∈ centralizer (L : Set G)) (ht : orderOf t = 2) : ¬ L.Normal := by
   intro hn
-  haveI := hn
+  have := hn
   obtain ⟨-, -, -, -, hcomm⟩ := hL
   have hne : L ≠ ⊥ := fun h => hcomm 1 (by rw [h, Subgroup.commutator_bot_left])
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal L with h | h

@@ -28,7 +28,7 @@ private theorem conj_mem_R (d : U43.Data) (hsyl : uSylCheck = true) {s r : SUg} 
   rwa [hB] at hmem
 
 private theorem l143Rows_UX (d : U43.Data) (hsyl : uSylCheck = true) : L143Rows UX := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine L143Rows.of_normal (Sylow.ofCard sylX (card_sylX hsyl)) (d.R.map piU) ?_ ?_ ?_ ?_
   · intro g hg a ha
     obtain ⟨s, hs, rfl⟩ : g ∈ sylS.map piU := hg

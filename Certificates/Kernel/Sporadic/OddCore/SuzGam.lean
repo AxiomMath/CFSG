@@ -199,12 +199,12 @@ theorem stepK {a h b : Nat} (hr : ∀ s < 358, rnd a h b s = true)
 theorem initT_get {v : Nat} (hv : v < 22880) :
     (initT 22880 (idA 22880) [0])[v]! = if v = 0 then 3 else 1 := by
   rw [initT, CFSG.Monster.B.Co2.getElem!_ofFn_nat _ hv]
-  simp only [idA_get hv, beq_self_eq_true, if_true]
+  simp only [idA_get hv, beq_self_eq_true, ite_true]
   by_cases h0 : v = 0
   · subst h0
     rfl
   · have e : [0].idxOf? v = none := List.idxOf?_eq_none_iff.2 (by simpa [eq_comm] using h0)
-    rw [e, if_neg h0]
+    rw [e, ite_eq_right h0]
     rfl
 
 theorem init_eq : initT 22880 (idA 22880) [0] = col 1 := by
@@ -217,7 +217,7 @@ theorem init_eq : initT 22880 (idA 22880) [0] = col 1 := by
   by_cases h0 : v = 0
   · subst h0
     rfl
-  · rw [if_neg h0, nbeq_false h0]
+  · rw [ite_eq_right h0, nbeq_false h0]
 
 theorem e0_eq : gammaE0 = col 3 := by
   rw [gammaE0_eq, init_eq, stepK R0.all (hash_all (j := 0) (by norm_num)),
@@ -249,15 +249,15 @@ theorem mv_eq (G0 G1 t v : Nat) : mv G0 G1 t v =
   by_cases h0 : t = 0
   · subst h0
     rfl
-  · rw [if_neg h0, nbeq_false h0]
+  · rw [ite_eq_right h0, nbeq_false h0]
     by_cases h1 : t = 1
     · subst h1
       rfl
-    · rw [if_neg h1, nbeq_false h1]
+    · rw [ite_eq_right h1, nbeq_false h1]
       by_cases h2 : t = 2
       · subst h2
         rfl
-      · rw [if_neg h2, nbeq_false h2]
+      · rw [ite_eq_right h2, nbeq_false h2]
 
 theorem mover_get {t v : Nat} (ht : t < 4) (hv : v < 22880) :
     (gammaMover t)[v]! = mv (SuzGamG 0) (SuzGamG 1) t v ∧ mv (SuzGamG 0) (SuzGamG 1) t v < 22880 := by

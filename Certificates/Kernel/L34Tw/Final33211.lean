@@ -25,7 +25,7 @@ theorem orB_nt (b : Bool) : orB (notB true) b = b := rfl
 theorem cntN_succ (n : Nat) (f : Nat → Bool) :
     cntN (n + 1) f = (if f n = true then 1 else 0) + cntN n f := by
   change Bool.rec (motive := fun _ => Nat) (cntN n f) (Nat.succ (cntN n f)) (f n) = _
-  cases f n <;> simp <;> omega
+  cases f n <;> simp; omega
 
 theorem cntN_eq (n : Nat) (f : Nat → Bool) :
     cntN n f = ((Finset.range n).filter fun q => f q = true).card := by
@@ -88,7 +88,7 @@ noncomputable def el (q : Nat) : Equiv.Perm (Fin 42) :=
 
 theorem el_spec {q : Nat} (hq : q < 64) : el q ∈ T0 ∧ Rp (L34PT.T q) (el q) := by
   unfold el
-  rw [dif_pos hq]
+  rw [dite_eq_left hq]
   exact (rpT hq).choose_spec
 
 theorem toList_get {i : Nat} (hi : i < 64) :
@@ -145,11 +145,11 @@ theorem card_cos (i : Bool) {X : Set (Equiv.Perm (Fin 42))} {P : Equiv.Perm (Fin
       obtain ⟨q, hq, rfl⟩ := elc_of_mem hy
       exact ⟨q, by simp [hq, (hf q hq).2 hP], rfl⟩
     · rintro ⟨q, hq, rfl⟩
-      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hq
+      simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hq
       exact ⟨(elc_spec i hq.1).1, (hf q hq.1).1 hq.2⟩
   rw [hXe, Nat.card_coe_set_eq, Set.ncard_coe_finset, Finset.card_image_of_injOn, cntN_eq]
   intro q hq q' hq' e
-  simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hq hq'
+  simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hq hq'
   exact elc_inj i hq.1 hq'.1 e
 
 theorem tallyC_eval (i : Bool) {t u : Equiv.Perm (Fin 42)} {tk uk : Nat} (ht : Rp tk t)
@@ -184,7 +184,7 @@ theorem tallyC_eval (i : Bool) {t u : Equiv.Perm (Fin 42)} {tk uk : Nat} (ht : R
       (fun y => Iff.rfl) hin
   have e2 := card_cos i (X := cosC₂ i t u)
       (P := fun y => (y * t = t * y ∧ y * u = u * y) ∧ y * y = 1)
-      (fun y => by simp only [cosC₂, cosC, Set.mem_setOf_eq, and_assoc]) (fun q hq => by
+      (fun y => by simp only [cosC₂, cosC, Set.mem_ofPred_eq, and_assoc]) (fun q hq => by
         have hy := (elc_spec i hq).2
         rw [Bool.and_eq_true]
         exact and_congr (hin q hq) ((hy.mul hy).beq_iff rp_id))

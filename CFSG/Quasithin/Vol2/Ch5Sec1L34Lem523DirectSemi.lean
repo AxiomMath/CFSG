@@ -39,7 +39,7 @@ def uB (β : K) : (Fin 2 → K) ≃+ (Fin 2 → K) where
     fin_cases i <;> simp
   map_add' v w := by
     funext i
-    fin_cases i <;> simp <;> ring
+    fin_cases i <;> simp; ring
 
 theorem uB_e₂ (β : K) : uB β e₂ = β • e₁ + e₂ := by
   funext i
@@ -99,6 +99,6 @@ theorem linear_eq_uB [CharP K 2] {B : (Fin 2 → K) ≃+ (Fin 2 → K)} {a₀ : 
   refine ⟨b, AddEquiv.ext fun w => ?_⟩
   rw [lin_apply hB w, hBe1, hBe2, hd1, uB_apply]
   funext i
-  fin_cases i <;> simp [e₁, e₂] <;> ring
+  fin_cases i <;> simp [e₁, e₂]; ring
 
 end CFSG.Quasithin.H13.Direct523Semi

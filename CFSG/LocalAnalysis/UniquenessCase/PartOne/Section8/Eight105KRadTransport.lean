@@ -19,6 +19,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G X : Type} [Group G] [Group X] [Finite G] [Finite X]
 
+omit [Finite G] in
 private theorem exists_pow_three_eq_zpowers {B : Subgroup G} (hB : Nat.card B = 3) :
     ∃ β : G, β ^ 3 = 1 ∧ B = Subgroup.zpowers β := by
   obtain ⟨β, -, hβord, hBz⟩ :=
@@ -46,7 +47,7 @@ private theorem map_subgroupOf_top_eq (ρ : G →* X) (K : Subgroup G) :
   · rintro ⟨y, hy, rfl⟩
     exact ⟨⟨y, Subgroup.mem_top y⟩, hy, rfl⟩
 
-omit [Finite X] in
+omit [Finite X] [Finite G] in
 private theorem map_centralizer_of_card_three (ρ : G →* X) (hρ : Function.Surjective ρ)
     (hker : ρ.ker ≤ Subgroup.center G) (hcop : Nat.Coprime (Nat.card ρ.ker) 6)
     {B : Subgroup G} (hB : Nat.card B = 3) :
@@ -202,7 +203,7 @@ private theorem map_facts_of_central (ρ : G →* X) (hρ : Function.Surjective 
     exact hYtop hcomap.symm
   · refine ⟨Sylow.mapSurjective hρ T, ?_⟩
     rw [Sylow.coe_mapSurjective,
-      ← CFSG.ComponentClassification.OddKernelNormalizers.image ρ hρ hodd T T.isPGroup']
+      ← CFSG.ComponentClassification.OddKernelNormalizers.image ρ hρ hodd T T.isPGroup]
     exact Subgroup.map_mono hTnorm
   · rw [map_centralizer_of_card_three ρ hρ hker hcop hB]
     exact Subgroup.map_mono hYcen
@@ -216,7 +217,7 @@ private theorem map_facts_of_central (ρ : G →* X) (hρ : Function.Surjective 
     obtain ⟨T', hT'map⟩ :=
       CFSG.LocalAnalysis.ComponentInitial.exists_sylow_map_eq (ℓ := 2) hρ T₀
     rw [← hT'map,
-      ← CFSG.ComponentClassification.OddKernelNormalizers.image ρ hρ hodd T' T'.isPGroup']
+      ← CFSG.ComponentClassification.OddKernelNormalizers.image ρ hρ hodd T' T'.isPGroup]
     refine Subgroup.map_mono (hYn T' ?_)
     have hle' : (pCoreOf 2 Y).map ρ ≤ (T' : Subgroup G).map ρ := by
       rw [← hpc, hT'map]
@@ -249,7 +250,7 @@ theorem RadicalFacts.map_of_central (ρ : G →* X) (hρ : Function.Surjective �
       CFSG.LocalAnalysis.ComponentInitial.exists_sylow_map_eq (ℓ := 2) hρ T₀
     have hnorm : Subgroup.normalizer ((T : Subgroup G) : Set G) ≤ Z.comap ρ := by
       rw [← Subgroup.map_le_iff_le_comap,
-        CFSG.ComponentClassification.OddKernelNormalizers.image ρ hρ hodd T T.isPGroup',
+        CFSG.ComponentClassification.OddKernelNormalizers.image ρ hρ hodd T T.isPGroup,
         hTmap]
       exact hN₀
     have hZ' : Z.comap ρ ≠ ⊤ := by

@@ -83,7 +83,7 @@ theorem Sp48Ctx.false_of_two_big (c : Sp48Ctx P M H R X U A L)
   set Q := barM M (R ⊓ piOf M H L) with hQ
   obtain ⟨hQPi, hQ3, hQcard⟩ := c.Q_facts
   have hsq := c.sq_dvd SL hk₁ h01
-  obtain ⟨f, hf⟩ := SL.isPGroup'.exists_card_eq
+  obtain ⟨f, hf⟩ := SL.isPGroup.exists_card_eq
   have hf2 : 2 ≤ f := by
     rw [hf] at hs
     exact (Nat.pow_dvd_pow_iff_le_right (by norm_num)).mp hs
@@ -136,7 +136,7 @@ theorem Sp48Ctx.false_of_two_big (c : Sp48Ctx P M H R X U A L)
     have hP₁c : Nat.card ((P₁ : Subgroup Pib).map Pib.subtype) ∣
         Nat.card (R ⊓ piOf M H L : Subgroup G) :=
       c.data.card_dvd_of_le_barPi c.hB3 c.block
-        (Subgroup.map_subtype_le (P₁ : Subgroup Pib)) (P₁.isPGroup'.map _)
+        (Subgroup.map_subtype_le (P₁ : Subgroup Pib)) (P₁.isPGroup.map _)
     rw [h81, Subgroup.card_map_of_injective Pib.subtype_injective] at hP₁c
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hB).toEquiv, hBc]
     exact Nat.le_of_dvd (by norm_num) hP₁c

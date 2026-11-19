@@ -25,7 +25,7 @@ theorem p65N2_of_sig (hpl : Plane65 p P X x z)
     (hcyc : IsCyclic (R ⊓ centralizer (Fs : Set A) : Subgroup A)) :
     4 ≤ Open.pRank f X := by
   have hprime := hpl.prime
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hF3 : Nat.Coprime p (Nat.card Fs) := by
     obtain ⟨k, hk⟩ := hF.1.2.1.exists_card_eq
     rw [hk]

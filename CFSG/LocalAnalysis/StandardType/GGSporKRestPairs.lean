@@ -191,7 +191,7 @@ theorem ggSporKRest_pairs_list (hOut : SporadicOuterLeTwo) (hP2 : SporadicP2Tabl
     (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2)
     (h : p ^ 2 ∣ Nat.card (MulAut (TauCeti.CFSGIndex.sporadic s).Group)) :
     SporKRestCoverPair s p ∨ SporKRestBadPair s p ∨ SporKRestExcPair s p := by
-  haveI hfin : Finite (TauCeti.CFSGIndex.sporadic s).Group :=
+  have hfin : Finite (TauCeti.CFSGIndex.sporadic s).Group :=
     ggSporKRestPairs_finite_sporadic hP2 s
   have hcen : Subgroup.center (TauCeti.CFSGIndex.sporadic s).Group = ⊥ :=
     center_eq_bot_of_isSimpleGroup hN

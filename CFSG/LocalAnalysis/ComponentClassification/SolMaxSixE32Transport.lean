@@ -11,6 +11,7 @@ open CFSG Subgroup
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem map_conj_centralizer_singleton (y t : X) :
     (centralizer ({t} : Set X)).map (MulAut.conj y).toMonoidHom =
       centralizer ({y * t * y⁻¹} : Set X) := by
@@ -26,6 +27,7 @@ private theorem map_conj_centralizer_singleton (y t : X) :
     rw [map_mul, map_mul, MulEquiv.apply_symm_apply]
     simpa [MulAut.conj_apply] using h
 
+omit [Finite X] in
 theorem not_isConj_of_isEmpty {t z : X} {J : Subgroup X}
     (hJ : SolAltLit.IsAltTwoComponent t J 9)
     (h : ∀ K : Subgroup X, K ≤ centralizer ({z} : Set X) →

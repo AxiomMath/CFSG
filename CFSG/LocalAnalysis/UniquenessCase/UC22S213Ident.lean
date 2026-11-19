@@ -260,13 +260,13 @@ theorem uc22s213_fiveCovers_of_three_dvd (hGA : GriessAllModelsStatement)
   ·
     have h6 := GL83.I243.CoverList.card_center_dvd_alternating hAlt hqs (n := 6) (by norm_num)
       (e1.symm.trans eA)
-    rw [if_pos (Or.inl rfl)] at h6
+    rw [ite_eq_left (Or.inl rfl)] at h6
     exact Or.inl ⟨hqs, Nat.dvd_antisymm (uc22s213_dvd_three_of_odd hodd (h6.trans (by norm_num)))
       hZ, ⟨e1.symm.trans eA⟩⟩
   ·
     have h7 := GL83.I243.CoverList.card_center_dvd_alternating hAlt hqs (n := 7) (by norm_num)
       (e1.symm.trans eA)
-    rw [if_pos (Or.inr rfl)] at h7
+    rw [ite_eq_left (Or.inr rfl)] at h7
     exact Or.inr (Or.inl ⟨hqs, Nat.dvd_antisymm
       (uc22s213_dvd_three_of_odd hodd (h7.trans (by norm_num))) hZ, ⟨e1.symm.trans eA⟩⟩)
   ·

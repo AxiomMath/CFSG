@@ -11,16 +11,19 @@ open Subgroup
 
 variable {T : Type} [Group T] [Finite T] {ρ x : MulAut T}
 
+omit [Finite T] in
 private theorem sq_eq_one_quot (hS : FpfSpecial T) (v : T ⧸ center T) : v * v = 1 := by
   induction v using QuotientGroup.induction_on with
   | H g =>
     rw [← QuotientGroup.mk_mul, QuotientGroup.eq_one_iff]
     exact hS.sq_mem g
 
+omit [Finite T] in
 private theorem aut_apply_self (hx : x * x = 1) (g : T) : x (x g) = g := by
   have h := congrArg (fun f : MulAut T => f g) hx
   simpa [MulAut.mul_apply] using h
 
+omit [Finite T] in
 private theorem aut_rho_apply (hx : x * x = 1) (hxρ : x * ρ * x⁻¹ = ρ⁻¹) (g : T) :
     x (ρ g) = ρ⁻¹ (x g) := by
   have hxinv : x⁻¹ = x := inv_eq_of_mul_eq_one_right hx
@@ -31,6 +34,7 @@ private theorem aut_rho_apply (hx : x * x = 1) (hxρ : x * ρ * x⁻¹ = ρ⁻¹
   have h3 := congrArg (fun f : MulAut T => f g) h
   simpa [MulAut.mul_apply] using h3
 
+omit [Finite T] in
 private theorem rho_inv_apply (hρ : ρ ^ 3 = 1) (g : T) : ρ⁻¹ g = ρ (ρ g) := by
   have h : ρ * ρ ^ 2 = 1 := by rw [← pow_succ', hρ]
   have hinv : ρ⁻¹ = ρ ^ 2 := inv_eq_of_mul_eq_one_right h
@@ -50,7 +54,7 @@ theorem card_center_inf_fix (hS : FpfSpecial T) (hρ : ρ ^ 3 = 1)
 theorem card_fix_quot (hS : FpfSpecial T) (hρ : ρ ^ 3 = 1)
     (hfpf : ∀ g : T, ρ g = g → g = 1) (hx : x * x = 1) (hxρ : x * ρ * x⁻¹ = ρ⁻¹) :
     Nat.card ↥(fixSub (centerAut x)) = 4 := by
-  haveI : Finite (T ⧸ center T) :=
+  have : Finite (T ⧸ center T) :=
     Finite.of_surjective (QuotientGroup.mk' (center T)) (QuotientGroup.mk'_surjective _)
   have hρ' : (centerAut ρ) ^ 3 = 1 := by
     rw [← centerAut_pow, hρ, centerAut_one]

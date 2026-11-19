@@ -56,7 +56,7 @@ theorem eigSL2_inv_mul_compSL2 (c : Kˣ) (hd : (c : K) - ((c⁻¹ : Kˣ) : K) �
 theorem orderOf_compSL2 {p : ℕ} (hp : p.Prime) {c : Kˣ} (hc : orderOf c = p)
     (hd : (c : K) - ((c⁻¹ : Kˣ) : K) ≠ 0) :
     orderOf (compSL2 ((c : K) + ((c⁻¹ : Kˣ) : K))) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have he := eigSL2_inv_mul_compSL2 c hd
   refine orderOf_eq_prime ?_ ?_
   · have h1 : ((eigSL2 c hd)⁻¹ * compSL2 ((c : K) + ((c⁻¹ : Kˣ) : K)) * eigSL2 c hd) ^ p = 1 := by
@@ -87,7 +87,7 @@ theorem leviAnti_mem_twistedE6RootGroup (x : SU (unitaryInvolution K ℓ f) 6) :
   twE6LeviSA_le_twistedE6RootGroup hK hf (by rw [← range_leviAnti hζ hσζ hK]; exact ⟨x, rfl⟩)
 
 @[expose] noncomputable def leviSU : Su K ℓ f 6 →* ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) :=
-  ((leviAnti hζ hσζ).comp (conjEquiv P hP).symm.toMonoidHom).codRestrict _ fun y =>
+  ((leviAnti hζ hσζ).comp (conjEquiv P hP).symm.toMonoidHom).codRestrict _ fun _y =>
     leviAnti_mem_twistedE6RootGroup hK hf hζ hσζ _
 
 theorem coe_leviSU (y : Su K ℓ f 6) :
@@ -176,7 +176,7 @@ section Main
 variable {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Prime] [CharP K ℓ]
 
 @[expose] def splitHom (G : Type*) [Group G] (m : ℕ) : (Fin (m + 1) → G) →* G × (Fin m → G) :=
-  (Pi.evalMonoidHom (fun _ => G) 0).prod (Pi.monoidHom fun i : Fin m => Pi.evalMonoidHom _ i.succ)
+  (Pi.evalMonoidHom (fun _ => G) 0).prod (_root_.MonoidHom.pi fun i : Fin m => Pi.evalMonoidHom _ i.succ)
 
 @[expose] def consHom (G : Type*) [CommGroup G] (m : ℕ) : G × (Fin m → G) →* (Fin (m + 1) → G) where
   toFun sy := Fin.cons sy.1 sy.2
@@ -551,7 +551,7 @@ theorem modelAGen_twistedE6_spec_of_inj (hℓ2 : ℓ ≠ 2) {p : ℕ} [Fact p.Pr
     have hιy : w = 1 := by
       refine leviSU_eq_one_of_commute hK hf hζ hσζ P hP hp hp2 (hφp _) fun z hz => ?_
       have h1 := hfix z hz
-      simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at h1
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at h1
       rw [hΦdef, twE6Phi_apply] at h1
       have h2 := twE6R0_pow_commute c hct n hz
       have h3 : w * z * w⁻¹ = z := by
@@ -581,7 +581,7 @@ theorem modelAGen_twistedE6_spec_of_inj (hℓ2 : ℓ ≠ 2) {p : ℕ} [Fact p.Pr
             (r₀ ^ (Multiplicative.toAdd (x 0)).val * ι (φ (fun i : Fin m => x i.succ))) := by
           rw [← mul_assoc, h1, mul_assoc]
 
-theorem glaPLayer_inf_centralizer_A12_ne_bot (hℓ2 : ℓ ≠ 2) (hq5 : 5 ≤ ℓ ^ f) {p : ℕ} [Fact p.Prime]
+theorem glaPLayer_inf_centralizer_A12_ne_bot (_hℓ2 : ℓ ≠ 2) (hq5 : 5 ≤ ℓ ^ f) {p : ℕ} [Fact p.Prime]
     (hp : p.Prime)
     (hp2 : p ≠ 2) (hpK : (p : K) ≠ 0) (hpSU : p ∣ Nat.card (Su K ℓ f 2)) {c : Kˣ}
     (hc : orderOf c = p)
@@ -670,7 +670,7 @@ theorem glaPLayer_inf_centralizer_A12_ne_bot (hℓ2 : ℓ ≠ 2) (hq5 : 5 ≤ �
     simp only [Subgroup.coe_subtype] at hl
     have h00 := (mem_coordBlockSU_iff.1 y.2) 0 0 (Or.inl (by decide))
     rw [hl] at h00
-    simp only [Matrix.smul_apply, Matrix.one_apply_eq, smul_eq_mul, mul_one, if_pos] at h00
+    simp only [Matrix.smul_apply, Matrix.one_apply_eq, smul_eq_mul, mul_one, ite_eq_left] at h00
     apply Subtype.ext
     apply Subtype.ext
     apply Units.ext
@@ -738,7 +738,7 @@ theorem modelAGen_twistedE6_of_inj (hℓ2 : ℓ ≠ 2) (hq5 : 5 ≤ ℓ ^ f) {p 
       leviSU hK hf hζ hσζ P hP y * leviSU hK hf hζ hσζ P hP (φ x₁) =
         leviSU hK hf hζ hσζ P hP (φ x₁) * leviSU hK hf hζ hσζ P hP y → y * φ x₁ = φ x₁ * y) :
     ModelGen.ModelAGen p (m + 1) ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hm : 0 < m := by
     rcases Nat.eq_zero_or_pos m with h0 | h0
     · subst h0

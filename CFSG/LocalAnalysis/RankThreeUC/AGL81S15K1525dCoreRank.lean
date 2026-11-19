@@ -118,7 +118,7 @@ theorem blockRange_inf_eq_bot {i j : Fin m} (hij : i.val + 2 ≤ j.val) :
 
 theorem three_dvd_card_rankOne (i : Fin m) :
     3 ∣ Nat.card ↥(rankOne (dat m).rootGroup i) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx, y, hy, h3, c, hc⟩ := (hasSL2Node_sl (m := m) (F := ZMod 2) i).hasOrderThree
   have hmem : x * y ∈ rankOne (dat m).rootGroup i :=
     Subgroup.mul_mem _ (Subgroup.mem_sup_left hx) (Subgroup.mem_sup_right hy)
@@ -138,13 +138,13 @@ theorem cartan_eq_zero {i j : Fin m} (hij : i.val + 2 ≤ j.val) :
 theorem two_le_pRank_of_orthogonal {i j : Fin m} (hij : i.val + 2 ≤ j.val)
     {A : Subgroup (SLF2 m)} (hi : rankOne (dat m).rootGroup i ≤ A)
     (hj : rankOne (dat m).rootGroup j ≤ A) : 2 ≤ CFSG.Open.pRank 3 A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hct := isCTGroupDatum m (ZMod 2)
   have hext := steinbergExtras m (ZMod 2)
   have hne : i ≠ j := fun h => by subst h; omega
   have hcomm : ∀ (x : ↥(rankOne (dat m).rootGroup i)) (y : ↥(rankOne (dat m).rootGroup j)),
       Commute ((rankOne (dat m).rootGroup i).subtype x) ((rankOne (dat m).rootGroup j).subtype y) :=
-    fun x y => rankOne_commute hct hext hne (cartan_eq_zero m hij) x.2 y.2
+    fun x y => rankOne_commute hext hne (cartan_eq_zero m hij) x.2 y.2
   let φ : ↥(rankOne (dat m).rootGroup i) × ↥(rankOne (dat m).rootGroup j) →* SLF2 m :=
     MonoidHom.noncommCoprod (rankOne (dat m).rootGroup i).subtype
       (rankOne (dat m).rootGroup j).subtype hcomm

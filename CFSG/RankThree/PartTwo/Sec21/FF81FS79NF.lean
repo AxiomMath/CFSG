@@ -38,10 +38,10 @@ theorem FS79Hyp.nf_I' (h : FS79Hyp b t b₁ b₂ J) {u v w₀ : H} (hv2 : v * v 
     (hu : ∀ y ∈ Subgroup.closure ({b₁, b₂} : Set H), y * u = u * y) (hbv : b * v = v * b)
     (hw₀v : w₀ * v = v * w₀) : ¬ HC u v := by
   rintro ⟨g, hgu⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB₁3 : IsPGroup 3 (Subgroup.closure ({b₁, b₂} : Set H)) := by
     have hE := h.isElemAb_B
-    haveI := hE.1
+    have := hE.1
     exact (IsElementaryAbelian.isPGroup 3 _).to_le (FS79Hyp.B₁_le_B b b₁ b₂)
   have hXu : Subgroup.closure ({b₁, b₂} : Set H) ≤ Cen u := fun y hy =>
     Subgroup.mem_centralizer_singleton_iff.mpr (hu y hy)
@@ -109,6 +109,7 @@ theorem FS79Hyp.nf_I (h : FS79Hyp b t b₁ b₂ J) {u v w w₀ : H} (hv2 : v * v
   exact h.E0_inf_B₁ hw₀ hw' (hjw ▸ hjB w hw)
 
 
+omit [Finite H] in
 theorem FS79Hyp.t_mem_Y (b t : H) : t ∈ Subgroup.closure ({b, t} : Set H) :=
   Subgroup.subset_closure (by simp)
 
@@ -118,17 +119,18 @@ theorem mem_Nor_zpowers_of_conj {x₀ g : H} (hg : g * x₀ * g⁻¹ ∈ Subgrou
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
   have e : g * x₀ ^ k * g⁻¹ = (g * x₀ * g⁻¹) ^ k := by
     have := map_zpow (MulAut.conj g) x₀ k
-    simpa [MulAut.conj_apply] using this
+    simp
   rw [e]
   exact Subgroup.zpow_mem _ hg k
 
+omit [Finite H] in
 theorem mem_Nor_zpowers_of_comm {x₀ g : H} (hg : g * x₀ = x₀ * g) :
     g ∈ Nor (Subgroup.zpowers x₀) :=
   fs79_cen_le_nor_zpowers x₀ (Subgroup.mem_centralizer_singleton_iff.mpr hg)
 
 theorem FS79Hyp.nf_IIa (h : FS79Hyp b t b₁ b₂ J) {x₀ ρ : H} {Q : Subgroup H} (hctl : Ctl b x₀ Q)
     (hx₀ : x₀ ∈ Subgroup.closure ({b₁, b₂} : Set H)) (hx₀1 : x₀ ≠ 1)
-    (horb : ∀ j ∈ J, (∀ y ∈ Subgroup.closure ({b₁, b₂} : Set H),
+    (_horb : ∀ j ∈ J, (∀ y ∈ Subgroup.closure ({b₁, b₂} : Set H),
         j * y * j⁻¹ ∈ Subgroup.closure ({b₁, b₂} : Set H)) →
         j * x₀ * j⁻¹ ∈ Subgroup.zpowers x₀ → j * x₀ * j⁻¹ = x₀ ∨ j * x₀ * j⁻¹ = x₀⁻¹)
     (hρJ : ρ ∈ J) (hρ2 : ρ * ρ = 1) (hρ1 : ρ ≠ 1) (hx₀ρ : x₀ * ρ = ρ * x₀) :
@@ -179,7 +181,7 @@ theorem FS79Hyp.nf_III (h : FS79Hyp b t b₁ b₂ J) {x₀ ρ : H} {Q : Subgroup
     (hρJ : ρ ∈ J) (hρ2 : ρ * ρ = 1) (hρ1 : ρ ≠ 1) (hx₀ρ : x₀ * ρ = ρ * x₀) :
     ¬ HC t (t * ρ) := by
   rintro ⟨x, hxt⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx₀J : x₀ ∈ J := h.B₁_le_J hx₀
   have hx₀t : x₀ * t = t * x₀ := Subgroup.mem_centralizer_singleton_iff.mp (h.J_le_cen_t hx₀J)
   have hρt : ρ * t = t * ρ := Subgroup.mem_centralizer_singleton_iff.mp (h.J_le_cen_t hρJ)
@@ -202,7 +204,7 @@ theorem FS79Hyp.nf_III (h : FS79Hyp b t b₁ b₂ J) {x₀ ρ : H} {Q : Subgroup
     with hE
   have hB₁3 : IsPGroup 3 (Subgroup.closure ({b₁, b₂} : Set H)) := by
     have hE' := h.isElemAb_B
-    haveI := hE'.1
+    have := hE'.1
     exact (IsElementaryAbelian.isPGroup 3 _).to_le (FS79Hyp.B₁_le_B b b₁ b₂)
   have hE3 : IsPGroup 3 E := hB₁3.map _
   have hEcard : Nat.card E = 9 := by
@@ -307,24 +309,32 @@ variable (S : Std b t b₁ b₂ J)
 
 include S
 
+omit [Finite H] S in
 theorem b₁_mem_B₁ : b₁ ∈ Subgroup.closure ({b₁, b₂} : Set H) := Subgroup.subset_closure (by simp)
 
+omit [Finite H] S in
 theorem b₂_mem_B₁ : b₂ ∈ Subgroup.closure ({b₁, b₂} : Set H) := Subgroup.subset_closure (by simp)
 
+omit [Finite H] in
 theorem ι_d : S.ι (J6.c₁ * J6.c₂) = b₁ * b₂ := by rw [map_mul, S.ι_c₁, S.ι_c₂]
 
+omit [Finite H] S in
 theorem d_mem_B₁ : b₁ * b₂ ∈ Subgroup.closure ({b₁, b₂} : Set H) :=
-  Subgroup.mul_mem _ S.b₁_mem_B₁ S.b₂_mem_B₁
+  Subgroup.mul_mem _ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₂_mem_B₁
 
+omit [Finite H] in
 theorem b₁_ne_one : b₁ ≠ 1 := fun h1 =>
   J6.c₁_ne_one (S.ι_injective (S.ι_c₁.trans (h1.trans (map_one S.ι).symm)))
 
+omit [Finite H] in
 theorem b₂_ne_one : b₂ ≠ 1 := fun h1 =>
   J6.c₂_ne_one (S.ι_injective (S.ι_c₂.trans (h1.trans (map_one S.ι).symm)))
 
+omit [Finite H] in
 theorem d_ne_one : b₁ * b₂ ≠ 1 := fun h1 =>
   J6.d_ne_one (S.ι_injective (S.ι_d.trans (h1.trans (map_one S.ι).symm)))
 
+omit [Finite H] in
 theorem mem_zpowers_ι {σ x : J6.S6} (h3 : σ ^ 3 = 1) (hx : S.ι x ∈ Subgroup.zpowers (S.ι σ)) :
     x = 1 ∨ x = σ ∨ x = σ⁻¹ := by
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -333,21 +343,26 @@ theorem mem_zpowers_ι {σ x : J6.S6} (h3 : σ ^ 3 = 1) (hx : S.ι x ∈ Subgrou
   rw [← this]
   exact zpow_three_cases h3 k
 
+omit [Finite H] in
 theorem conj_b₁ {j : H} (hj : j ∈ J) :
     j * b₁ * j⁻¹ = S.ι (S.φ ⟨j, hj⟩ * J6.c₁ * (S.φ ⟨j, hj⟩)⁻¹) := by
   have := S.conj_ι hj J6.c₁
   rwa [S.ι_c₁] at this
 
+omit [Finite H] in
 theorem conj_d {j : H} (hj : j ∈ J) :
     j * (b₁ * b₂) * j⁻¹ = S.ι (S.φ ⟨j, hj⟩ * (J6.c₁ * J6.c₂) * (S.φ ⟨j, hj⟩)⁻¹) := by
   have := S.conj_ι hj (J6.c₁ * J6.c₂)
   rwa [S.ι_d] at this
 
+omit [Finite H] in
 theorem zpowers_b₁_eq : Subgroup.zpowers b₁ = Subgroup.zpowers (S.ι J6.c₁) := by rw [S.ι_c₁]
 
+omit [Finite H] in
 theorem zpowers_d_eq : Subgroup.zpowers (b₁ * b₂) = Subgroup.zpowers (S.ι (J6.c₁ * J6.c₂)) := by
   rw [S.ι_d]
 
+omit [Finite H] in
 theorem hdis_A : ∀ j ∈ J, (∀ y ∈ Subgroup.closure ({b₁, b₂} : Set H),
     j * y * j⁻¹ ∈ Subgroup.closure ({b₁, b₂} : Set H)) →
       j * (b₁ * b₂) * j⁻¹ ∉ Subgroup.zpowers b₁ := by
@@ -361,6 +376,7 @@ theorem hdis_A : ∀ j ∈ J, (∀ y ∈ Subgroup.closure ({b₁, b₂} : Set H)
     rcases h1 with h1 | h1 | h1 <;> simp [h1]
   exact J6.orbitC_not_cyc_c1 _ h2 this
 
+omit [Finite H] in
 theorem hdis_B : ∀ j ∈ J, (∀ y ∈ Subgroup.closure ({b₁, b₂} : Set H),
     j * y * j⁻¹ ∈ Subgroup.closure ({b₁, b₂} : Set H)) →
       j * b₁ * j⁻¹ ∉ Subgroup.zpowers (b₁ * b₂) := by
@@ -374,6 +390,7 @@ theorem hdis_B : ∀ j ∈ J, (∀ y ∈ Subgroup.closure ({b₁, b₂} : Set H)
     rcases h1 with h1 | h1 | h1 <;> simp [h1]
   exact J6.orbitB_not_cyc_d _ h2 this
 
+omit [Finite H] in
 theorem horb_b₁ : ∀ j ∈ J, (∀ y ∈ Subgroup.closure ({b₁, b₂} : Set H),
     j * y * j⁻¹ ∈ Subgroup.closure ({b₁, b₂} : Set H)) →
       j * b₁ * j⁻¹ ∈ Subgroup.zpowers b₁ → j * b₁ * j⁻¹ = b₁ ∨ j * b₁ * j⁻¹ = b₁⁻¹ := by
@@ -390,6 +407,7 @@ theorem horb_b₁ : ∀ j ∈ J, (∀ y ∈ Subgroup.closure ({b₁, b₂} : Set
   · right
     rw [h3, map_inv, S.ι_c₁]
 
+omit [Finite H] in
 theorem horb_d : ∀ j ∈ J, (∀ y ∈ Subgroup.closure ({b₁, b₂} : Set H),
     j * y * j⁻¹ ∈ Subgroup.closure ({b₁, b₂} : Set H)) →
       j * (b₁ * b₂) * j⁻¹ ∈ Subgroup.zpowers (b₁ * b₂) →
@@ -407,6 +425,7 @@ theorem horb_d : ∀ j ∈ J, (∀ y ∈ Subgroup.closure ({b₁, b₂} : Set H)
   · right
     rw [h3, map_inv, S.ι_d]
 
+omit [Finite H] in
 theorem d_comm_ι_sg3 : (b₁ * b₂) * S.ι J6.sg3 = S.ι J6.sg3 * (b₁ * b₂) := by
   calc (b₁ * b₂) * S.ι J6.sg3 = S.ι (J6.c₁ * J6.c₂) * S.ι J6.sg3 := by rw [S.ι_d]
     _ = S.ι ((J6.c₁ * J6.c₂) * J6.sg3) := (map_mul _ _ _).symm
@@ -414,6 +433,7 @@ theorem d_comm_ι_sg3 : (b₁ * b₂) * S.ι J6.sg3 = S.ι J6.sg3 * (b₁ * b₂
     _ = S.ι J6.sg3 * S.ι (J6.c₁ * J6.c₂) := map_mul _ _ _
     _ = S.ι J6.sg3 * (b₁ * b₂) := by rw [S.ι_d]
 
+omit [Finite H] in
 theorem b₁_comm_ι_a2 : b₁ * S.ι J6.a2 = S.ι J6.a2 * b₁ := by
   calc b₁ * S.ι J6.a2 = S.ι J6.c₁ * S.ι J6.a2 := by rw [S.ι_c₁]
     _ = S.ι (J6.c₁ * J6.a2) := (map_mul _ _ _).symm
@@ -421,33 +441,38 @@ theorem b₁_comm_ι_a2 : b₁ * S.ι J6.a2 = S.ι J6.a2 * b₁ := by
     _ = S.ι J6.a2 * S.ι J6.c₁ := map_mul _ _ _
     _ = S.ι J6.a2 * b₁ := by rw [S.ι_c₁]
 
+omit [Finite H] in
 theorem ι_a2_sq : S.ι J6.a2 * S.ι J6.a2 = 1 := by rw [← map_mul, J6.a2_sq, map_one]
 
+omit [Finite H] in
 theorem ι_sg3_sq : S.ι J6.sg3 * S.ι J6.sg3 = 1 := by rw [← map_mul, J6.sg3_sq, map_one]
 
+omit [Finite H] in
 theorem ι_a2_ne_one : S.ι J6.a2 ≠ 1 := fun h1 =>
   J6.a2_ne_one (S.ι_injective (h1.trans (map_one S.ι).symm))
 
+omit [Finite H] in
 theorem ι_sg3_ne_one : S.ι J6.sg3 ≠ 1 := fun h1 =>
   J6.sg3_ne_one (S.ι_injective (h1.trans (map_one S.ι).symm))
 
+omit [Finite H] in
 theorem J_comm_t {x : H} (hx : x ∈ J) : x * t = t * x :=
   Subgroup.mem_centralizer_singleton_iff.mp (S.hyp.J_le_cen_t hx)
 
 theorem nf_t_a2 : ¬ HC t (S.ι J6.a2) :=
-  S.hyp.nf_I' S.ι_a2_sq S.ι_a2_ne_one S.b₁_mem_B₁ S.b₁_ne_one
-    (fun y hy => S.J_comm_t (S.hyp.B₁_le_J hy)) (S.ι_comm_b J6.a2).symm S.b₁_comm_ι_a2
+  S.hyp.nf_I' S.ι_a2_sq S.ι_a2_ne_one CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁ S.b₁_ne_one
+    (fun _y hy => S.J_comm_t (S.hyp.B₁_le_J hy)) (S.ι_comm_b J6.a2).symm S.b₁_comm_ι_a2
 
 theorem nf_t_sg3 : ¬ HC t (S.ι J6.sg3) :=
-  S.hyp.nf_I' S.ι_sg3_sq S.ι_sg3_ne_one S.d_mem_B₁ S.d_ne_one
-    (fun y hy => S.J_comm_t (S.hyp.B₁_le_J hy)) (S.ι_comm_b J6.sg3).symm S.d_comm_ι_sg3
+  S.hyp.nf_I' S.ι_sg3_sq S.ι_sg3_ne_one CFSG.RankThree.PartTwo.Sec21.FF81.Std.d_mem_B₁ S.d_ne_one
+    (fun _y hy => S.J_comm_t (S.hyp.B₁_le_J hy)) (S.ι_comm_b J6.sg3).symm S.d_comm_ι_sg3
 
 theorem nf_a2_sg3 : ¬ HC (S.ι J6.a2) (S.ι J6.sg3) :=
-  S.hyp.nf_I S.ι_sg3_sq S.ι_sg3_ne_one S.b₁_mem_B₁ S.d_mem_B₁ S.d_ne_one S.b₁_comm_ι_a2
+  S.hyp.nf_I S.ι_sg3_sq S.ι_sg3_ne_one CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁ CFSG.RankThree.PartTwo.Sec21.FF81.Std.d_mem_B₁ S.d_ne_one S.b₁_comm_ι_a2
     (S.ι_comm_b J6.sg3).symm S.d_comm_ι_sg3 S.hdis_B
 
 theorem nf_tia2_sg3 : ¬ HC (t * S.ι J6.a2) (S.ι J6.sg3) := by
-  refine S.hyp.nf_I S.ι_sg3_sq S.ι_sg3_ne_one S.b₁_mem_B₁ S.d_mem_B₁ S.d_ne_one ?_
+  refine S.hyp.nf_I S.ι_sg3_sq S.ι_sg3_ne_one CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁ CFSG.RankThree.PartTwo.Sec21.FF81.Std.d_mem_B₁ S.d_ne_one ?_
     (S.ι_comm_b J6.sg3).symm S.d_comm_ι_sg3 S.hdis_B
   have hb₁t : b₁ * t = t * b₁ := S.J_comm_t (S.hyp.b₁_mem)
   calc b₁ * (t * S.ι J6.a2) = (b₁ * t) * S.ι J6.a2 := by group
@@ -457,7 +482,7 @@ theorem nf_tia2_sg3 : ¬ HC (t * S.ι J6.a2) (S.ι J6.sg3) := by
     _ = (t * S.ι J6.a2) * b₁ := by group
 
 theorem nf_tisg3_a2 : ¬ HC (t * S.ι J6.sg3) (S.ι J6.a2) := by
-  refine S.hyp.nf_I S.ι_a2_sq S.ι_a2_ne_one S.d_mem_B₁ S.b₁_mem_B₁ S.b₁_ne_one ?_
+  refine S.hyp.nf_I S.ι_a2_sq S.ι_a2_ne_one CFSG.RankThree.PartTwo.Sec21.FF81.Std.d_mem_B₁ CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁ S.b₁_ne_one ?_
     (S.ι_comm_b J6.a2).symm S.b₁_comm_ι_a2 S.hdis_A
   have hdt : (b₁ * b₂) * t = t * (b₁ * b₂) :=
     S.J_comm_t (J.mul_mem S.hyp.b₁_mem S.hyp.b₂_mem)
@@ -468,19 +493,19 @@ theorem nf_tisg3_a2 : ¬ HC (t * S.ι J6.sg3) (S.ι J6.a2) := by
     _ = (t * S.ι J6.sg3) * (b₁ * b₂) := by group
 
 theorem nf_a2_tia2 : ¬ HC (t * S.ι J6.a2) (S.ι J6.a2) :=
-  S.hyp.nf_IIa (Ctl.of_N_bi (S.hyp.N_bi b₁ (Set.mem_insert _ _))) S.b₁_mem_B₁ S.b₁_ne_one
+  S.hyp.nf_IIa (Ctl.of_N_bi (S.hyp.N_bi b₁ (Set.mem_insert _ _))) CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁ S.b₁_ne_one
     S.horb_b₁ (S.ι_mem _) S.ι_a2_sq S.ι_a2_ne_one S.b₁_comm_ι_a2
 
 theorem nf_sg3_tisg3 (h34 : R34Stmt b b₁ b₂) : ¬ HC (t * S.ι J6.sg3) (S.ι J6.sg3) :=
-  S.hyp.nf_IIa (Ctl.of_N_bi h34) S.d_mem_B₁ S.d_ne_one S.horb_d (S.ι_mem _) S.ι_sg3_sq
+  S.hyp.nf_IIa (Ctl.of_N_bi h34) CFSG.RankThree.PartTwo.Sec21.FF81.Std.d_mem_B₁ S.d_ne_one S.horb_d (S.ι_mem _) S.ι_sg3_sq
     S.ι_sg3_ne_one S.d_comm_ι_sg3
 
 theorem nf_t_tia2 : ¬ HC t (t * S.ι J6.a2) :=
-  S.hyp.nf_III (Ctl.of_N_bi (S.hyp.N_bi b₁ (Set.mem_insert _ _))) S.b₁_mem_B₁ S.b₁_ne_one
+  S.hyp.nf_III (Ctl.of_N_bi (S.hyp.N_bi b₁ (Set.mem_insert _ _))) CFSG.RankThree.PartTwo.Sec21.FF81.Std.b₁_mem_B₁ S.b₁_ne_one
     (S.ι_mem _) S.ι_a2_sq S.ι_a2_ne_one S.b₁_comm_ι_a2
 
 theorem nf_t_tisg3 (h34 : R34Stmt b b₁ b₂) : ¬ HC t (t * S.ι J6.sg3) :=
-  S.hyp.nf_III (Ctl.of_N_bi h34) S.d_mem_B₁ S.d_ne_one (S.ι_mem _) S.ι_sg3_sq
+  S.hyp.nf_III (Ctl.of_N_bi h34) CFSG.RankThree.PartTwo.Sec21.FF81.Std.d_mem_B₁ S.d_ne_one (S.ι_mem _) S.ι_sg3_sq
     S.ι_sg3_ne_one S.d_comm_ι_sg3
 
 end Std

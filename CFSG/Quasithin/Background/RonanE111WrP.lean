@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {X T A J C : Subgroup G} [Fintype ↥C]
 
+omit [Finite G] in
 theorem pg_le_normalizer {R YR : Subgroup G}
     (hYRn : ∀ r ∈ R, ∀ y ∈ YR, r * y * r⁻¹ ∈ YR) :
     R ≤ Subgroup.normalizer (YR : Set G) := by
@@ -25,27 +26,33 @@ theorem pg_le_normalizer {R YR : Subgroup G}
     have h1 := hYRn r⁻¹ (R.inv_mem hr) _ hy
     rwa [show r⁻¹ * (r * y * r⁻¹) * r⁻¹⁻¹ = y by group] at h1
 
+omit [Finite G] in
 theorem pg_conjSub_A {k : G} (hk : k ∈ actT T A) : A1b.conjSub k A = A :=
   E111R.conjSub_eq_of_mem_normalizer
     (Subgroup.centralizer_le_normalizer _ (mem_actT_iff.mp hk).2)
 
-theorem pg_A_le_actT (h : DiagSetting X T A J C) : A ≤ actT T A := fun a ha =>
-  ⟨h.AT ha, Subgroup.mem_centralizer_iff.mpr fun b hb => h.comm hb ha⟩
+omit [Finite G] [Fintype ↥C] in
+theorem pg_A_le_actT (h : DiagSetting X T A J C) : A ≤ actT T A := fun _a ha =>
+  ⟨h.AT ha, Subgroup.mem_centralizer_iff.mpr fun _b hb => h.comm hb ha⟩
 
-theorem pg_actT_le_T : actT T A ≤ T := fun g hg => (mem_actT_iff.mp hg).1
+omit [Finite G] in
+theorem pg_actT_le_T : actT T A ≤ T := fun _g hg => (mem_actT_iff.mp hg).1
 
+omit [Finite G] in
 theorem pg_actT_le_normalizer_wrN (h : DiagSetting X T A J C) {R : Subgroup G} :
     actT T A ≤ Subgroup.normalizer (wrN h.diagComm T A R : Set G) := by
   intro g hg
   rw [wrN_eq]
   exact wr_mem_normalizer hg
 
+omit [Finite G] in
 theorem pg_actT_le_normalizer_wrY (h : DiagSetting X T A J C) {YR : Subgroup G} :
     actT T A ≤ Subgroup.normalizer (wrY h.diagComm T A YR : Set G) := by
   intro g hg
   rw [wrY_eq]
   exact wr_mem_normalizer hg
 
+omit [Finite G] in
 theorem pg_conjSub_le_of_le {k : G} (hk : k ∈ T) {S : Subgroup G} (hS : S ≤ T) :
     A1b.conjSub k S ≤ T := by
   intro x hx
@@ -53,6 +60,7 @@ theorem pg_conjSub_le_of_le {k : G} (hk : k ∈ T) {S : Subgroup G} (hS : S ≤ 
   have h1 := T.mul_mem (T.mul_mem hk (hS hx)) (T.inv_mem hk)
   rwa [show k * (k⁻¹ * x * k) * k⁻¹ = x by group] at h1
 
+omit [Finite G] in
 theorem pg_dimg_le_T (h : DiagSetting X T A J C) {U : Subgroup G} (hUT : U ≤ T) :
     dimg h.diagComm U ≤ T := by
   intro d hd
@@ -61,6 +69,7 @@ theorem pg_dimg_le_T (h : DiagSetting X T A J C) {U : Subgroup G} (hUT : U ≤ T
   intro c hc
   exact T.mul_mem (T.mul_mem (h.AT (h.CA hc)) (hUT hu)) (T.inv_mem (h.AT (h.CA hc)))
 
+omit [Finite G] in
 theorem pg_wrY_le_T (h : DiagSetting X T A J C) {YR : Subgroup G} (hYT : YR ≤ T) :
     wrY h.diagComm T A YR ≤ T := by
   have hle : (⨆ k ∈ actT T A, A1b.conjSub k (dimg h.diagComm YR)) ≤ T :=
@@ -76,6 +85,7 @@ theorem pg_wrN_le_normalizer_wrY (h : DiagSetting X T A J C) {R YR : Subgroup G}
     iSup₂_le fun k hk => wr_conj_dimg_le_normalizer h le_rfl hRJ hYJ hRN hYE hk
   exact hle
 
+omit [Finite G] in
 theorem pg_dimg_le_of_gen (h : DiagSetting X T A J C) {R YR N W : Subgroup G} (hRJ : R ≤ J)
     (hYR : YR ≤ R) (hgen : R ≤ ⁅R, A ⊓ Subgroup.normalizer (J : Set G)⁆ ⊔ YR)
     (hN : dimg h.diagComm R ≤ N) (hYW : dimg h.diagComm YR ≤ W)
@@ -129,6 +139,7 @@ theorem pg_dimg_le_of_gen (h : DiagSetting X T A J C) {R YR N W : Subgroup G} (h
   rw [show w = u from Subtype.ext hwu] at hwW
   exact hwW
 
+omit [Finite G] in
 theorem pg_wrN_le_comm_sup (h : DiagSetting X T A J C) {R YR : Subgroup G} (hRJ : R ≤ J)
     (hYR : YR ≤ R) (hgen : R ≤ ⁅R, A ⊓ Subgroup.normalizer (J : Set G)⁆ ⊔ YR) :
     wrN h.diagComm T A R ≤ ⁅wrN h.diagComm T A R, A⁆ ⊔ wrY h.diagComm T A YR := by
@@ -149,7 +160,7 @@ theorem pg_wrN_le_comm_sup (h : DiagSetting X T A J C) {R YR : Subgroup G} (hRJ 
 theorem pg_odd_index {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {N Q : Subgroup G}
     [(Q.subgroupOf N).Normal] (hpg : ∀ x ∈ N, ∃ m : ℕ, x ^ p ^ m ∈ Q) :
     ¬ 2 ∣ (Q.subgroupOf N).index := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : IsPGroup p (↥N ⧸ Q.subgroupOf N) := by
     intro g
     obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (Q.subgroupOf N) g
@@ -164,6 +175,7 @@ theorem pg_odd_index {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {N Q : Subgroup G}
   exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp
     (Nat.prime_two.dvd_of_dvd_pow h2)).symm
 
+omit [Finite G] in
 theorem pg_isSylowIn_of_odd_index {P Q N : Subgroup G} (hPN : P ≤ N) (hP2 : IsPGroup 2 P)
     (hQP : Q ≤ P) (hodd : ¬ 2 ∣ (Q.subgroupOf N).index) : IsSylowIn 2 P N := by
   refine ⟨hPN, hP2, fun h2 => hodd (h2.trans ?_)⟩
@@ -213,7 +225,7 @@ theorem pgroup_diag_cover {n : ℕ} (hn : 1 ≤ n) (h : DiagSetting X T A J C) {
   have hT2 : IsPGroup 2 T := hT.isPGroup
   have hYn : ((wrY h.diagComm T A YR).subgroupOf (wrN h.diagComm T A R)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYN).mpr hNY
-  haveI := hYn
+  have := hYn
   have hodd := pg_odd_index hp hp2 hpg
   have hSylN : IsSylowIn 2 (T ⊓ wrN h.diagComm T A R) (wrN h.diagComm T A R) :=
     pg_isSylowIn_of_odd_index inf_le_right (hT2.to_le inf_le_left) (le_inf hYT' hYN) hodd

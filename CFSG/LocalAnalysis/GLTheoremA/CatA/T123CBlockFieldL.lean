@@ -52,8 +52,8 @@ theorem dvd_card_projectiveSL_of_dvd_succ {m : ℕ} {k : Type} [Field k] [Finite
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hdvd : p ∣ Nat.card k + 1) :
     p ∣ Nat.card (projectiveSL m k) := by
   classical
-  letI : Fintype k := Fintype.ofFinite k
-  haveI := Fact.mk hp
+  let : Fintype k := Fintype.ofFinite k
+  have := Fact.mk hp
   have hk1 : 1 < Nat.card k := Finite.one_lt_card
   have hq1 := not_dvd_sub_one_of_dvd_add_one hp hp2 hk1.le hdvd
   have hq2 : p ∣ Nat.card k ^ 2 - 1 := by
@@ -73,10 +73,10 @@ theorem fieldBlockAt_projectiveSL_of_dvd_succ {n : ℕ} {K : Type} [Field K] [Fi
     (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hdvd : p ∣ Nat.card K + 1) :
     FieldBlockAt p (projectiveSL n K) := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   intro α hαp hαo
   obtain ⟨ℓ, f, hℓ, hchar, hf1, hK⟩ := exists_char_card_of_finite K
-  haveI := hchar
+  have := hchar
   have hα1 : α ≠ 1 := fun h => hαo 1 (by rw [h, map_one])
   have hord : orderOf α = p := orderOf_eq_prime hαp hα1
   have hK1 : 1 < Nat.card K := Finite.one_lt_card
@@ -92,7 +92,7 @@ theorem fieldBlockAt_projectiveSL_of_dvd_succ {n : ℕ} {K : Type} [Field K] [Fi
       (by rw [hord]; exact hp.odd_of_ne_two hp2)
   have hαD : α ∉ linearAutGroup n K := by
     intro hD
-    haveI := inner_normal (projectiveSL n K)
+    have := inner_normal (projectiveSL n K)
     have hm : (inner (projectiveSL n K)).relIndex (linearAutGroup n K) ∣ Nat.card K - 1 :=
       (UnitaryHigher.relIndex_inner_linearAutGroup_dvd (k := K) (by omega)).trans
         (Nat.gcd_dvd_right _ _)
@@ -138,8 +138,8 @@ theorem fieldBlockAt_projectiveSL_of_dvd_succ {n : ℕ} {K : Type} [Field K] [Fi
       have hy' : fieldAut n K σ y = y := (Set.ext_iff.mp hset y).mpr hy
       simp [MulAut.mul_apply, hy']
   let eM : ↥M ≃* ↥H := (Subgroup.equivMapOfInjective H _ h.injective).symm
-  haveI := hsH
-  haveI hsM : IsSimpleGroup ↥M := eM.isSimpleGroup
+  have := hsH
+  have hsM : IsSimpleGroup ↥M := eM.isSimpleGroup
   have hnM : ∃ a b : ↥M, a * b ≠ b * a := by
     by_contra hc
     push Not at hc

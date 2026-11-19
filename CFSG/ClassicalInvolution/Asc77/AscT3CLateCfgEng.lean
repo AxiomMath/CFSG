@@ -130,11 +130,11 @@ theorem Std20F.late_J_ne_K' (d : Std20F K K' J S R R' W V z t) : J ≠ K' := by
   exact d.viol.hzJ.eq (h ▸ d.late_hzK')
 
 theorem Std20F.late_R_eq (d : Std20F K K' J S R R' W V z t) : R = K ⊓ (S : Subgroup G) := by
-  refine (d.hR.eq_of_le (S.isPGroup'.to_le inf_le_right) inf_le_left
+  refine (d.hR.eq_of_le (S.isPGroup.to_le inf_le_right) inf_le_left
     (le_inf d.hR.1 d.hRS)).symm
 
 theorem Std20F.late_R'_eq (d : Std20F K K' J S R R' W V z t) : R' = K' ⊓ (S : Subgroup G) := by
-  refine (d.hR'.eq_of_le (S.isPGroup'.to_le inf_le_right) inf_le_left
+  refine (d.hR'.eq_of_le (S.isPGroup.to_le inf_le_right) inf_le_left
     (le_inf d.hR'.1 d.hR'S)).symm
 
 theorem Std20F.late_K'_le (d : Std20F K K' J S R R' W V z t) :
@@ -202,7 +202,7 @@ theorem Std20F.late_S_inf_sup (d : Std20F K K' J S R R' W V z t) :
         rw [d.late_R_eq]
         exact ⟨hg.2, d.hR'S hg.1⟩)
     exact this
-  exact hRR'.eq_of_le (S.isPGroup'.to_le inf_le_left) inf_le_right
+  exact hRR'.eq_of_le (S.isPGroup.to_le inf_le_left) inf_le_right
     (le_inf (sup_le d.hRS d.hR'S) (sup_le (d.hR.1.trans le_sup_left) (d.hR'.1.trans le_sup_right)))
 
 theorem Std20F.late_isSylow2In_RR' (d : Std20F K K' J S R R' W V z t) :

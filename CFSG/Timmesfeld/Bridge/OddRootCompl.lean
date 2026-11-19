@@ -18,6 +18,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem mk_eq_one_iff_mem_Qof {d x s : G} (hsX : s ∈ rootGen D d x) :
     QuotientGroup.mk' (CFSG.pCore 2 (rootGen D d x)) (⟨s, hsX⟩ : rootGen D d x) = 1 ↔
       s ∈ Qof D d x := by
@@ -32,6 +33,7 @@ theorem mk_eq_one_iff_mem_Qof {d x s : G} (hsX : s ∈ rootGen D d x) :
       exact hq
     exact (QuotientGroup.eq_one_iff (N := Q) _).mpr hmem
 
+omit [Finite G] in
 private theorem mul_mem_Qof_of_mk_eq {d x s t : G} (hsX : s ∈ rootGen D d x)
     (htX : t ∈ rootGen D d x) (ht2 : t * t = 1)
     (h : QuotientGroup.mk' (CFSG.pCore 2 (rootGen D d x)) (⟨s, hsX⟩ : rootGen D d x) =
@@ -46,6 +48,7 @@ private theorem mul_mem_Qof_of_mk_eq {d x s t : G} (hsX : s ∈ rootGen D d x)
   have h2 : (⟨t, htX⟩ : X) * (⟨t, htX⟩ : X) = 1 := Subtype.ext (by simpa using ht2)
   rw [← map_mul, h2, map_one]
 
+omit [Finite G] in
 private theorem conj_mem_rootSet_of_conj_eq (hS : Asc72.Setup G D) {z d e : G}
     (hzd : z * d * z⁻¹ = d) (he : e ∈ rootSet D d) : z * e * z⁻¹ ∈ rootSet D d := by
   have h := rootSet_conj hS.isClass z d
@@ -53,6 +56,7 @@ private theorem conj_mem_rootSet_of_conj_eq (hS : Asc72.Setup G D) {z d e : G}
   rw [h]
   exact ⟨e, he, rfl⟩
 
+omit [Finite G] in
 private theorem conjClosure_le_of_normal {X N A : Subgroup G} {w : G}
     (hNX : ∀ g ∈ X, ∀ n ∈ N, g * n * g⁻¹ ∈ N) (hA : A ≤ X) (hw : w ∈ N) :
     conjClosure A w ≤ N := by
@@ -60,6 +64,7 @@ private theorem conjClosure_le_of_normal {X N A : Subgroup G} {w : G}
   rintro _ ⟨g, hg, rfl⟩
   exact hNX g (hA hg) w hw
 
+omit [Finite G] in
 private theorem map_sylow_is_maximal {Y : Subgroup G} (S : Sylow 2 Y) (T : Subgroup G)
     (hST : Subgroup.map Y.subtype (S : Subgroup Y) ≤ T) (hTY : T ≤ Y)
     (hT2 : IsPGroup 2 T) :
@@ -79,6 +84,7 @@ private theorem map_sylow_is_maximal {Y : Subgroup G} (S : Sylow 2 Y) (T : Subgr
     exact ht
   exact Subgroup.mem_map_of_mem Y.subtype ht'
 
+omit [Finite G] in
 theorem involution_mem_D_of_psl2 (h : Hyp G D) {Y : Subgroup G} {n : ℕ} (hn : 2 ≤ n)
     (e : Y ≃* PSL2Model n) {a : G} (haY : a ∈ Y) (haD : a ∈ D) {t : G} (htY : t ∈ Y)
     (ht2 : t * t = 1) (ht1 : t ≠ 1) : t ∈ D := by
@@ -152,6 +158,7 @@ private theorem exists_sylow_rootSet (h : Hyp G D) {Y : Subgroup G} {n : ℕ} (h
       have hiff := OddTransp.commute_iff_of_mul_mem h.setup hsD haD hsa hscomm2 hsaD hf
       exact ⟨fun h => (hiff.mp h.symm).symm, fun h => (hiff.mpr h.symm).symm⟩⟩
 
+omit [Finite G] in
 private theorem exists_third_quot (h : Hyp G D) {d x v : G}
     (hd : d ∈ D) (hx : x ∈ D) (hdx : ¬ Commute d x) (hv : v ∈ rootSet D d)
     (hvd : v ≠ d) (hdv : d * v ∈ rootSet D d) (hpx : PSL2Pair D d x) :
@@ -230,6 +237,7 @@ private theorem exists_third_quot (h : Hyp G D) {d x v : G}
     (by simp [Set.insert_subset_iff, hdS', hvS, ht]) (hgen ▸ Subgroup.mem_top (π xX))
   exact ⟨S, t, htord, htS, hdS', hvS, hdvS, hd1, hv1, hdv1, hgen⟩
 
+omit [Finite G] in
 private theorem exists_third_lift (h : Hyp G D) {d x v : G}
     (hd : d ∈ D) (hv : v ∈ rootSet D d) (hdv : d * v ∈ rootSet D d) (hpx : PSL2Pair D d x)
     (S : Sylow 2 (rootGen D d x ⧸ CFSG.pCore 2 (rootGen D d x)))
@@ -303,6 +311,7 @@ private theorem exists_third_lift (h : Hyp G D) {d x v : G}
     exact htS (psl2_mem_sylow_of_commute e hn hdv1 hdvS hc')
   exact ⟨y, hyX, hyD, hybar, hnotcomm_d, hnotcomm_v, hnotcomm_dv⟩
 
+omit [Finite G] in
 private theorem third_sup {d x v y : G}
     (hd : d ∈ D) (hv : v ∈ rootSet D d) (hyX : y ∈ rootGen D d x)
     (t : rootGen D d x ⧸ CFSG.pCore 2 (rootGen D d x))
@@ -374,6 +383,7 @@ private theorem third_sup {d x v y : G}
     (Subgroup.mem_sup_right (S := Subgroup.closure ({y, d, v} : Set G))
       (T := Qof D d x) hq)
 
+omit [Finite G] in
 private theorem exists_third_involution (h : Hyp G D) {d x : G}
     (hd : d ∈ D) (hx : x ∈ D) (hdx : ¬ Commute d x) (hpx : PSL2Pair D d x) :
     ∃ v y : G, v ∈ rootSet D d ∧ d * v ∈ rootSet D d ∧ y ∈ D ∧ y ∈ rootGen D d x ∧
@@ -393,6 +403,7 @@ private theorem exists_third_involution (h : Hyp G D) {d x : G}
     hnotcomm_d, hnotcomm_v, hnotcomm_dv⟩
 
 
+omit [Finite G] in
 private theorem isConj_of_not_commute_subtype (hD : IsOddTransp D) {X : Subgroup G}
     {X₀ : Subgroup X} {a b : X} (haX₀ : a ∈ X₀) (hbX₀ : b ∈ X₀)
     (ha : (a : G) ∈ D) (hb : (b : G) ∈ D) (h : ¬ Commute a b) :
@@ -413,6 +424,7 @@ private theorem isConj_of_not_commute_subtype (hD : IsOddTransp D) {X : Subgroup
   subst hg₀val
   exact hge
 
+omit [Finite G] in
 private theorem compl_third_map {d x v y : G} (hd : d ∈ D)
     (hv : v ∈ rootSet D d) (hyX : y ∈ rootGen D d x) :
     Subgroup.map (rootGen D d x).subtype
@@ -424,6 +436,7 @@ private theorem compl_third_map {d x v y : G} (hd : d ∈ D)
   ext z
   simp
 
+omit [Finite G] in
 private theorem compl_third_sup {d x v y : G} (hd : d ∈ D)
     (hv : v ∈ rootSet D d) (hyX : y ∈ rootGen D d x)
     (hsup : Subgroup.closure ({y, d, v} : Set G) ⊔ Qof D d x = rootGen D d x) :
@@ -500,6 +513,7 @@ private theorem N_eq_bot_of_third (h : Hyp G D)
   exact eq_bot_of_quotient_psl2 hD' hN' hdX0D hvX0D hdvX0D hyX0D hcomm hcb hcab hcy
     hgen N hN2 hn eN
 
+omit [Finite G] in
 private theorem compl_third_quot {X : Subgroup G} {X₀ : Subgroup X} {n : ℕ}
     (hX₀Q : X₀ ⊔ CFSG.pCore 2 X = ⊤)
     (e : X ⧸ CFSG.pCore 2 X ≃* PSL2Model n) :
@@ -531,12 +545,13 @@ private theorem compl_third_quot {X : Subgroup G} {X₀ : Subgroup X} {n : ℕ}
   have hN2 : IsPGroup 2 N :=
     (CFSG.pCore_isPGroup (p := 2) (G := X)).comap_of_injective X₀.subtype
       X₀.subtype_injective
-  haveI : N.Normal := inferInstance
+  have : N.Normal := inferInstance
   let eN : ↥X₀ ⧸ N ≃* PSL2Model n :=
     ((QuotientGroup.quotientMulEquivOfEq hNker).trans
       (QuotientGroup.quotientKerEquivOfSurjective φ hφsurj)).trans e
   exact ⟨N, inferInstance, hN2, rfl, ⟨eN⟩⟩
 
+omit [Finite G] in
 private theorem compl_third_finish {d x v y : G}
     {X₀ : Subgroup (rootGen D d x)} {n : ℕ} (hd : d ∈ D) (hn : 2 ≤ n)
     (hdX₀ : (⟨d, mem_rootGen_of_mem (mem_rootSet_self hd)⟩ : rootGen D d x) ∈ X₀)
@@ -598,7 +613,7 @@ private theorem exists_compl_of_third (h : Hyp G D) {d x v y : G}
     compl_third_map hd hv hyX
   have hX₀Q : X₀ ⊔ Q = ⊤ := compl_third_sup hd hv hyX hsup
   obtain ⟨N, hNnorm, hN2, hNcomap, ⟨eN⟩⟩ := compl_third_quot hX₀Q e
-  letI : N.Normal := hNnorm
+  let : N.Normal := hNnorm
   let yX0 : ↥X₀ := ⟨yX, hyX₀⟩
   let dX0 : ↥X₀ := ⟨dX, hdX₀⟩
   let vX0 : ↥X₀ := ⟨vX, hvX₀⟩
@@ -624,6 +639,7 @@ private theorem exists_compl_of_third (h : Hyp G D) {d x v y : G}
       hnotydX hnotyvX hnotydvX hgen N hN2 hn eN
   exact compl_third_finish hd hn hdX₀ N hNbot hNcomap eN hX₀map hsup
 
+omit [Finite G] in
 private theorem surjective_of_sup {X C Q : Subgroup G} {L : Type*} [Group L] (π : X →* L)
     (hπ : Function.Surjective π) (hCX : C ≤ X) (hQX : Q ≤ X)
     (hN : ∀ g ∈ X, ∀ q ∈ Q, g * q * g⁻¹ ∈ Q)
@@ -653,6 +669,7 @@ private theorem surjective_of_sup {X C Q : Subgroup G} {L : Type*} [Group L] (π
   show (π.comp (Subgroup.inclusion hCX)) ⟨c, hc⟩ = π g
   exact e
 
+omit [Finite G] in
 theorem exists_mulEquiv_PSL2Model_of_compl {d x : G} {C : Subgroup G} (hpx : PSL2Pair D d x)
     (hCX : C ≤ rootGen D d x) (hinf : C ⊓ Qof D d x = ⊥)
     (hsup : C ⊔ Qof D d x = rootGen D d x) :
@@ -692,6 +709,7 @@ private theorem exists_good_sylow (h : Hyp G D) {C : Subgroup G} {n : ℕ} (hn :
   · intro T hST hTC hT2
     exact map_sylow_is_maximal S₀ T hST hTC hT2
 
+omit [Finite G] in
 private theorem exists_lift_compl {d x c : G} {C : Subgroup G} (hCX : C ≤ rootGen D d x)
     (hsup : C ⊔ Qof D d x = rootGen D d x) (hcX : c ∈ rootGen D d x) (hc2 : c * c = 1) :
     ∃ c' : C, (c' : G) * c ∈ Qof D d x := by
@@ -710,6 +728,7 @@ private theorem exists_lift_compl {d x c : G} {C : Subgroup G} (hCX : C ≤ root
       QuotientGroup.mk' Q (⟨c, hcX⟩ : X) := hc'
   exact mul_mem_Qof_of_mk_eq (d := d) (x := x) (hCX c'.2) hcX hc2 hEq
 
+omit [Finite G] in
 private theorem lift_sq_eq_one (h : Hyp G D) {d x c : G} {C : Subgroup G} (hc : c ∈ D)
     (hCX : C ≤ rootGen D d x) (hinf : C ⊓ Qof D d x = ⊥) (hcX : c ∈ rootGen D d x)
     {c' : C} (hc'Q : (c' : G) * c ∈ Qof D d x) : (c' : G) * (c' : G) = 1 := by
@@ -829,6 +848,7 @@ theorem exists_conj_mem_of_compl (h : Hyp G D) {d x c : G} (hd : d ∈ D) (hx : 
     rw [hcz]
     exact c'.2
 
+omit [Finite G] in
 private theorem conj_compl_basic' {d x z : G} {C : Subgroup G}
     (hCX : C ≤ rootGen D d x) (hinf : C ⊓ Qof D d x = ⊥)
     (hsup : C ⊔ Qof D d x = rootGen D d x) (hzQ : z ∈ Qof D d x) :
@@ -886,6 +906,7 @@ private theorem conj_compl_basic' {d x z : G} {C : Subgroup G}
     rw [h1, h2, hsup]
     exact hXz
 
+omit [Finite G] in
 private theorem conj_sylow_basic (h : Hyp G D) {d x z : G} {C S Cz : Subgroup G}
     (hCz : Cz = conjSubgroup z C) (hzQ : z ∈ Qof D d x) (hzd : Commute z d)
     (hSC : S ≤ C) (hSroot : ∀ s ∈ S, s ≠ 1 → s ∈ rootSet D d)
@@ -938,6 +959,7 @@ private theorem conj_sylow_basic (h : Hyp G D) {d x z : G} {C S Cz : Subgroup G}
           rw [conjSubgroup_conjSubgroup, mul_inv_cancel, conjSubgroup_one]
       _ = conjSubgroup z S := by rw [hEq]
 
+omit [Finite G] in
 theorem IsRootCompl.conj (h : Hyp G D) {d x : G} {C S : Subgroup G}
     (hC : IsRootCompl D d x C S) {z : G}
     (hz : z ∈ Qof D d x) (hzd : Commute z d) :
@@ -975,6 +997,7 @@ theorem exists_goodCompl
     ∃ C S, GoodCompl D d x C S :=
   exists_goodCompl_aux h hd hx hdx hpx
 
+omit [Finite G] in
 theorem IsRootCompl.isPGroup (h : Hyp G D) {C S : Subgroup G} {d x : G}
     (hC : IsRootCompl D d x C S) : IsPGroup 2 S := by
   refine (IsPGroup.iff_orderOf (p := 2) (G := ↥S)).mpr ?_
@@ -1022,7 +1045,7 @@ private theorem exists_sylow_of_goodCompl (h : Hyp G D) {C S : Subgroup G} {d x 
         rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hC.S_le]
       rw [← h1]
       exact Subgroup.map_mono hSP
-    exact hC.S_sylow _ hle (Subgroup.map_subtype_le _) ((Sd.isPGroup').map C.subtype)
+    exact hC.S_sylow _ hle (Subgroup.map_subtype_le _) ((Sd.isPGroup).map C.subtype)
   exact ⟨Sd, hsdSd, hSdroot', hSmap⟩
 
 private theorem exists_nonidentity_sylow (h : Hyp G D)
@@ -1043,7 +1066,7 @@ private theorem exists_nonidentity_sylow (h : Hyp G D)
       · exact isPGroup_two_zpowers_of_mul_self_eq_one (h.setup.oddT.mul_self_eq_one hx)
     have hxS : x ∈ S := by rw [← hEq]; exact Subgroup.mem_zpowers x
     exact h.setup.oddT.ne_one hx (Subgroup.mem_bot.mp (hbot ▸ hxS))
-  haveI : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
+  have : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
   obtain ⟨s, hs1⟩ := exists_ne (1 : ↥S)
   have hsS : (s : G) ∈ S := s.2
   have hs1' : (s : G) ≠ 1 := fun h1 => hs1 (Subtype.ext h1)
@@ -1168,6 +1191,7 @@ theorem rootGen_comm
     · exact mem_rootGen_of_mem (mem_rootSet_self hd)
     · exact rootSet_subset_rootGen h hd hx hdx hpx hz
 
+omit [Finite G] in
 private theorem mem_Wof_mul_sylow_of_sylow
     (h : Hyp G D) {d x : G} (hd : d ∈ D) (hx : x ∈ D) (hdx : ¬ Commute d x)
     {C S : Subgroup G} (hC : GoodCompl D d x C S) {n : ℕ} (hn : 2 ≤ n)

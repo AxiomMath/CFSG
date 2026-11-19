@@ -84,7 +84,7 @@ theorem noStronglyClosedElemAbelian_ree
   obtain ⟨⟨S, hS⟩, hcenter, -, -⟩ := large_Ree_Sylow_center a ha K hK
   have hQ : IsSylowTwoOf ((F4.reeFixedPosUnipotent K a).subgroupOf (F4.reeGamma K a)) ⊤ := by
     rw [← hS]
-    exact isSylowTwoOf_top_iff.mpr ⟨S.isPGroup', S.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨S.isPGroup, S.not_dvd_index⟩
   obtain ⟨WA, WB, hWA, hWB, hA44, hA47, hB44, hB47⟩ := ree_weyl_witnesses
   have hnA : (canonicalRep (coxeterSystem F4.tag) K WA : ModGL F4.tag K) ∈ F4.reeGamma K a :=
     (canonicalRep_mem_reeFixedMonomial F4 K a hWA).2
@@ -205,10 +205,10 @@ theorem sylowCentralizingAutInner_ree
   obtain ⟨Φ, -, -, -, hodd⟩ := large_Ree_opposite_Sylow_parameters_faithful a ha K hK
   have hU : IsSylowTwoOf ((F4.reeFixedPosUnipotent K a).subgroupOf (F4.reeGamma K a)) ⊤ := by
     rw [← hPU]
-    exact isSylowTwoOf_top_iff.mpr ⟨PU.isPGroup', PU.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨PU.isPGroup, PU.not_dvd_index⟩
   have hV : IsSylowTwoOf ((F4.reeFixedNegUnipotent K a).subgroupOf (F4.reeGamma K a)) ⊤ := by
     rw [← hPV]
-    exact isSylowTwoOf_top_iff.mpr ⟨PV.isPGroup', PV.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨PV.isPGroup, PV.not_dvd_index⟩
   have hUV' : (F4.reeFixedPosUnipotent K a).subgroupOf (F4.reeGamma K a) ⊓
       (F4.reeFixedNegUnipotent K a).subgroupOf (F4.reeGamma K a) = ⊥ := by
     refine eq_bot_iff.2 fun x hx => ?_

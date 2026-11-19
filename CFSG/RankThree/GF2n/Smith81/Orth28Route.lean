@@ -138,7 +138,7 @@ section Unified
 
 variable [Finite G]
 
-@[expose] def OrthValid (M Q Z : Subgroup G) (x q' : G) : Prop :=
+@[expose] def OrthValid (_M Q Z : Subgroup G) (x q' : G) : Prop :=
   q' ∈ Q ∧ IsConj x q' ∧ IsConj x ⁅q', x⁆ ∧
     ∀ C₀ : Subgroup G, IsZConjugate Z C₀ → ⁅q', x⁆ ∈ C₀ → q' ∈ QB C₀
 
@@ -164,6 +164,7 @@ variable [Finite G]
     ∀ (X : Subgroup G) (x : G), Sit M Q Z X x → x ∈ Lgen M (LB M Q B) →
       (∀ z' ∈ Z, ∃ q ∈ Q, q⁻¹ * x * q = x * z') → False
 
+omit [Finite G] in
 theorem commute_comm_of_sq {x q' : G} (hx2 : x * x = 1) (hc2 : ⁅q', x⁆ * ⁅q', x⁆ = 1) :
     x * ⁅q', x⁆ = ⁅q', x⁆ * x := by
   have hxi : x⁻¹ = x := inv_eq_of_mul_eq_one_right hx2
@@ -290,7 +291,7 @@ section Leaves
 
 variable [Finite G]
 
-@[expose] def OrthRootInP (M Q Z X : Subgroup G) (x : G) : Prop :=
+@[expose] def OrthRootInP (_M Q _Z X : Subgroup G) (x : G) : Prop :=
   ∃ v : G, v ≠ 1 ∧ IsConj x v ∧ v ∈ Q ∧ v ∈ QB X
 
 @[expose] def Orth212C4RootStatement : Prop :=

@@ -67,7 +67,7 @@ theorem ntQP_false_of_steps_47 (hCfg : QPCfgExistsStatement) (hH : NTStrothHypSt
     have hnle : ¬ V ≤ Subgroup.zpowers cfg.aG := fun hle => by
       have := Subgroup.card_le_of_le hle
       omega
-    obtain ⟨x, hxV, hxz⟩ := SetLike.not_le_iff_exists.mp hnle
+    obtain ⟨x, hxV, hxz⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
     exact ⟨x, by rw [hZV]; exact hxV, hxz, qpCfg_V_le_commutator cfg hxV⟩
   · have h217 := Stroth78.stroth78_217_of_card_ZQ_eq_four S hbQ hbconj hbZ hba hZ4
     rcases h47 G cfg.aG E F S b w hS3 h217 h3 with h | h | h

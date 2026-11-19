@@ -89,8 +89,8 @@ theorem mem_suppGroup_compl_of_planeMat
             · change plane a ∈ I at ha
               rwa [hp] at ha
             · exact hb
-          rw [if_pos hp, if_pos hp, hI _ hb]
-        · rw [if_neg hp, if_neg hp]
+          rw [ite_eq_left hp, ite_eq_left hp, hI _ hb]
+        · rw [ite_eq_right hp, ite_eq_right hp]
     _ = (1 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) a b :=
         congrFun (congrFun planeMat_one a) b
 

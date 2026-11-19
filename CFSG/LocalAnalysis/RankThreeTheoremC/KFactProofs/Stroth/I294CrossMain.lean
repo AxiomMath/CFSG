@@ -39,10 +39,11 @@ variable {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y} [L.Normal]
 theorem I294Cross.isSylowOf_top_of_sylow {p : ℕ} [Fact p.Prime] (P : Sylow p Y) :
     CFSG.ABGLocalTools.IsSylowOf p (P : Subgroup Y) (⊤ : Subgroup Y) := by
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact P.not_dvd_index
 
+omit [Finite Y] in
 theorem I294Cross.isMulCommutative_of_subgroupOf {H K : Subgroup Y} (hHK : H ≤ K)
     (h : IsMulCommutative ↥(H.subgroupOf K)) : IsMulCommutative ↥H :=
   ⟨⟨fun a b => by
@@ -52,7 +53,7 @@ theorem I294Cross.isMulCommutative_of_subgroupOf {H K : Subgroup Y} (hHK : H ≤
 theorem I294Cfg.exists_sylow_not_comm {p : ℕ} {z g : Y} {D : Subgroup Y} (h : I294Cfg p L z g D)
     (hDL : D ≤ L) {P : Sylow p Y} (hDP : D ≤ (P : Subgroup Y)) :
     ∃ S : Sylow p ↥L, ¬ IsMulCommutative (S : Subgroup ↥L) := by
-  haveI := Fact.mk h.prime
+  have := Fact.mk h.prime
   have hSyl : CFSG.ABGLocalTools.IsSylowOf p ((P : Subgroup Y) ⊓ L) L :=
     (I294Cross.isSylowOf_top_of_sylow P).inf_of_le_normalizer le_top (by
       intro y _
@@ -91,7 +92,7 @@ theorem i294InnerLieCrossThree_of_inputs (h3 : I294CrossThreeRankThree)
       by_cases h81 : 3 ^ 4 ∣ Nat.card ↥L
       · exact cfg.false_of_sylow_le (cfg.le_of_dvd_eightyOne' hDP (by simpa using h81)) hr2
       · exact cfg.false_of_sylow_le
-          (cfg.le_of_pAut_inner (h2 ↥L cfg.simple cfg.nonab d hd ⟨e⟩ hLU hS hr2 h81) P.isPGroup')
+          (cfg.le_of_pAut_inner (h2 ↥L cfg.simple cfg.nonab d hd ⟨e⟩ hLU hS hr2 h81) P.isPGroup)
           hr2
 
 theorem i294InnerLieCross_of_three (h4 : I294CrossLargePrime) (hT : I294InnerLieCrossThree) :

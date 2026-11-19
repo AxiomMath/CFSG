@@ -21,7 +21,7 @@ open CFSG.KC.LQT.P (allN)
     Nat.beq (R (Nat.add (Nat.mul 2 (pg b (mask b) (T i) k)) j))
       (cj3 n w (L i) (R (Nat.add (Nat.mul 2 (A k)) j)) (LI i))
 
-@[expose] noncomputable def sepAt (n w : Nat) (R : Nat → Nat) (x y i : Nat) : Bool :=
+@[expose] noncomputable def sepAt (_n w : Nat) (R : Nat → Nat) (x y i : Nat) : Bool :=
   allN i fun j =>
     !(Nat.beq (pg w (mask w) (R (Nat.mul 2 i)) x) (pg w (mask w) (R (Nat.mul 2 j)) x) &&
       Nat.beq (pg w (mask w) (R (Nat.mul 2 i)) y) (pg w (mask w) (R (Nat.mul 2 j)) y))

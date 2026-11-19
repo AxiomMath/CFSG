@@ -39,7 +39,7 @@ theorem blk_cover {f : ℕ → Bool} {B : ℕ → ℕ} {lo hi w nb : ℕ} (hw : 
   rw [ei, blt_tt hhi] at e
   exact e
 
-theorem mulB (w : ℕ) : ∀ k, Nat.mul w k = 0 + w * k := fun k => (Nat.zero_add _).symm
+theorem mulB (w : ℕ) : ∀ _k, Nat.mul w _k = 0 + w * _k := fun _k => (Nat.zero_add _).symm
 
 #kc_forall_tree tf431009All (fun k => ch431009tf_ k = true) 109
   CertificateChecks.KernelFi22Twist.ch431009tf_
@@ -96,7 +96,7 @@ theorem ap_strong {g x : ℕ} (hg : g < 19) (hx : x < 3510) :
     ap (Fi22ChT.F g) x = pt (MonoidHom.id _) (fi22StrongPerm g) x := by
   have e : (fi22StrongArrs[g]!)[x]! = ((fi22StrongPerm g ⟨x, hx⟩ : Fin 3510) : ℕ) :=
     rep_fi22Strong hg ⟨x, hx⟩
-  rw [← get_ap hx, ← Fi22X.strong_eq hg, e, pt, dif_pos hx, MonoidHom.id_apply]
+  rw [← get_ap hx, ← Fi22X.strong_eq hg, e, pt, dite_eq_left hx, MonoidHom.id_apply]
 
 theorem strong_memP {g : ℕ} (hg : g < 19) : fi22StrongPerm g ∈ fi22P := by
   have h := fi22Chain_strong_mem ⟨g, hg⟩
@@ -188,7 +188,7 @@ theorem fix_of_pt {h : Equiv.Perm (Fin 3510)} {i : ℕ} (hi : i ≤ 6)
   intro b hb
   obtain ⟨m, hm, e⟩ := take_bp hi hb
   have k := hfix m hm
-  rw [← e, pt, dif_pos b.2] at k
+  rw [← e, pt, dite_eq_left b.2] at k
   exact Fin.ext k
 
 theorem pt_of_fix {h : Equiv.Perm (Fin 3510)} {i : ℕ} (hi : i ≤ 6)
@@ -197,7 +197,7 @@ theorem pt_of_fix {h : Equiv.Perm (Fin 3510)} {i : ℕ} (hi : i ≤ 6)
   intro m hm
   obtain ⟨b, e, hb⟩ := bp_fin (m := m) (by omega)
   have k := hfix b (take_mono hm hb)
-  rw [← e, pt, dif_pos b.2]
+  rw [← e, pt, dite_eq_left b.2]
   change ((h b : Fin 3510) : ℕ) = b
   rw [k]
 
@@ -222,7 +222,7 @@ theorem lv_orbit {i : ℕ} (hi : i < 6) {h : Equiv.Perm (Fin 3510)} (hP : h ∈ 
       obtain ⟨hs1, hs2⟩ := (fi22Chain.mem_levelGenerators_iff i s).1 hs
       rw [strong_list, List.mem_ofFn] at hs1
       obtain ⟨⟨g, hg⟩, rfl⟩ := hs1
-      have hfs := pt_of_fix (by change i ≤ 6; omega) hs2
+      have hfs := pt_of_fix (by omega) hs2
       have hfixS : ∀ m < i, ap (Fi22ChT.F g) (bp m) = bp m := by
         intro m hm
         rw [ap_strong hg (bp_lt6 m (by omega))]

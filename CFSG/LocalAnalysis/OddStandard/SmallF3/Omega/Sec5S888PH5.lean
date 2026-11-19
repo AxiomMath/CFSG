@@ -18,7 +18,7 @@ variable {H X : Type} [Group H] [Group X] {z : H} {K : Fin 4 → Subgroup H} {α
 theorem isPlaneData_of_hyp [Finite H] {T : Subgroup H} (hS : PlaneSetup z K α)
     (hP : PocketHyp z K T) :
     IsPlaneData (planeV hS.quad α) (planeW hS.quad α) (planeRho hS.quad α) := by
-  haveI : Finite X := Finite.of_surjective α hS.surj
+  have : Finite X := Finite.of_surjective α hS.surj
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · exact planeW_le hS.quad α
   · exact card_V_of_planes (planeV_comm hS.quad α hS.ker) (planeW_le hS.quad α)

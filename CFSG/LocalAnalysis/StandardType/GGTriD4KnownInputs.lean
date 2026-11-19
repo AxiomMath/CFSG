@@ -16,12 +16,12 @@ section Vocabulary
   carrier := {r | σ r = r}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 theorem mem_ggAutFixedSubgroup {R : Type*} [Group R] (σ : MulAut R) (r : R) :
@@ -50,7 +50,7 @@ section KnownGroup
 
 @[expose] def GGTriD4Schur (R : Type) [Group R] : Prop :=
   ∀ (X : Type) [Group X] [Finite X], commutator X = ⊤ →
-    ∀ θ : X ⧸ Subgroup.center X ≃* R, Subgroup.center X = ⊥
+    ∀ _θ : X ⧸ Subgroup.center X ≃* R, Subgroup.center X = ⊥
 
 @[expose] def GGTriD4AutRank (R : Type) [Group R] : Prop :=
   ∀ A : Subgroup (MulAut R), IsElemAbelian 3 A → Nat.card A ≤ 3 ^ 3
@@ -105,7 +105,7 @@ section TwE6
 
 @[expose] def GGTwE6LocalRank (R : Type) [Group R] : Prop :=
   ∀ (X : Type) [Group X] [Finite X], commutator X = ⊤ →
-    ∀ θ : X ⧸ Subgroup.center X ≃* R,
+    ∀ _θ : X ⧸ Subgroup.center X ≃* R,
       ∃ U : Subgroup X, U ≠ ⊥ ∧ IsPGroup 2 U ∧
         ∃ E : Subgroup X, E ≤ Subgroup.normalizer (U : Set X) ∧ IsElemAbelian 3 E ∧
           (Nat.card E = 3 ^ 5 ∨ (Nat.card E = 3 ^ 4 ∧ E ⊓ Subgroup.center X = ⊥))

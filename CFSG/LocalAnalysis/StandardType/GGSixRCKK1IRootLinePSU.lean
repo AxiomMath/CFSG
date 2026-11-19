@@ -25,7 +25,7 @@ private theorem rckRLpsu_longRootHom_injective {F : Type} [Field F] {σ : F ≃+
   exact Multiplicative.toAdd.injective (Subtype.ext h)
 
 private theorem rckRLpsu_longTorus_mul_longRootHom {F : Type} [Field F] {σ : F ≃+* F}
-    (hσ : ∀ c, σ (σ c) = c) {n : ℕ} {b : Fin n} (hb : b ≠ Fin.rev b) {ζ : traceZero σ}
+    (_hσ : ∀ c, σ (σ c) = c) {n : ℕ} {b : Fin n} (hb : b ≠ Fin.rev b) {ζ : traceZero σ}
     (hζ : (ζ : F) ≠ 0) {e : F} (he : σ e = e) (he0 : e ≠ 0)
     (c : Multiplicative (traceZero σ)) :
     longTorus σ hb ζ he * longRootHom σ hb c =
@@ -116,7 +116,7 @@ private theorem rckRLpsu_scalars_maxHeight {F : Type} [Field F] [Finite F] [Char
     dsimp only [j₀] at hmem
     rw [← hmem, weight_rev', sub_neg_eq_add, two_nsmul]
   let Fq := RingHom.eqLocusField (unitaryInvolution F 2 f).toRingHom (RingHom.id F)
-  haveI : CharP Fq 2 := Subfield.charP Fq 2
+  have : CharP Fq 2 := Subfield.charP Fq 2
   have hFqcard : Nat.card Fq = 2 ^ f := by
     have hord : orderOf (unitaryInvolution F 2 f) = 2 := by
       have h2 : (unitaryInvolution F 2 f) ^ (2 : ℕ) = 1 := by

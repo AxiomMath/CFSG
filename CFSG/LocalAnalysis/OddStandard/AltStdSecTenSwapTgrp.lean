@@ -129,7 +129,7 @@ theorem relIndex_map_Tgrp (hC : CentData z ι) (Q : Subgroup (Perm (Fin 10))) :
   have hmul := Subgroup.card_mul_index (H := (Q.map ι).subgroupOf (Tgrp z ι Q))
   rw [hcardH, Tgrp_card hC Q] at hmul
   rw [mul_comm (2 : ℕ) (Nat.card Q)] at hmul
-  haveI : Nonempty ↥Q := ⟨⟨1, Q.one_mem⟩⟩
+  have : Nonempty ↥Q := ⟨⟨1, Q.one_mem⟩⟩
   exact Nat.eq_of_mul_eq_mul_left Nat.card_pos hmul
 
 @[expose] def Fgrp (T : Subgroup G) : Subgroup G := centralizer (T : Set G) ⊓ T

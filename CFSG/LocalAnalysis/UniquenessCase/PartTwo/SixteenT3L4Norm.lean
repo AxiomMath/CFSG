@@ -20,16 +20,16 @@ variable {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
 
 theorem s16t_l4_not_solvable (hS : S16tL4Setting D V₀ V L hV) : ¬ Group.IsSolvable ↥D.M := by
   intro hsol
-  haveI : Group.IsSolvable ↥D.M := hsol
+  have : Group.IsSolvable ↥D.M := hsol
   obtain ⟨φ, hφsurj, -⟩ :=
     s16t_l4_exists_hom_barSub (hV := hV) (X := D.M) (s16t_l4_le_stabTil hS) le_rfl
-  haveI : Group.IsSolvable ↥(Mbar D.M V₀ V hV) := solvable_of_surjective hφsurj
+  have : Group.IsSolvable ↥(Mbar D.M V₀ V hV) := Group.isSolvable_of_surjective hφsurj
   have hle : lBar V₀ V hV L ≤ Mbar D.M V₀ V hV := s16t_l4_lbar_le_mbar hS
-  haveI : Group.IsSolvable ↥(lBar V₀ V hV L) :=
+  have : Group.IsSolvable ↥(lBar V₀ V hV L) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hle).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hle).symm.injective
-  haveI : IsSimpleGroup ↥(lBar V₀ V hV L) := s16t_l4_lbar_simple hS
+  have : IsSimpleGroup ↥(lBar V₀ V hV L) := s16t_l4_lbar_simple hS
   exact s16t_l4_lbar_not_commutative hS
     ⟨⟨fun a b =>
       (IsSimpleGroup.comm_iff_isSolvable (G := ↥(lBar V₀ V hV L))).mpr inferInstance a b⟩⟩
@@ -98,7 +98,7 @@ theorem s16t_l4_exists_noncyclic_three (hS : S16tL4Setting D V₀ V L hV) {Y : S
     exact Subgroup.centralizer_le_normalizer _ hkcentA
   have hEnc : ¬ IsCyclic ↥E := by
     intro hcyc
-    haveI : IsCyclic ↥E := hcyc
+    have : IsCyclic ↥E := hcyc
     obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥E)
     have h9 : 9 ∣ orderOf g := by rw [hg, hEcard]
     have h9' : 9 ∣ orderOf (g : MulAut (Vtil V₀ V hV)) := by rwa [Subgroup.orderOf_coe]
@@ -161,8 +161,8 @@ theorem s16t_l4_not_isCyclic_sylow_two (hS : S16tL4Setting D V₀ V L hV) (hV₀
     ¬ IsCyclic ↥S := by
   have hAM : A ≤ D.M := hAY.trans hY.le
   intro hcyc
-  haveI : IsCyclic ↥S := hcyc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsCyclic ↥S := hcyc
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := normalizer (A : Set G) ⊓ D.M
   let E : Subgroup G := V ⊓ centralizer (A : Set G)
   have hVT : V ≤ D.T := s15_13A_le_T hS.counterex.setting.hyp16.hyp125
@@ -181,18 +181,18 @@ theorem s16t_l4_not_isCyclic_sylow_two (hS : S16tL4Setting D V₀ V L hV) (hV₀
   have hSsub : IsCyclic ↥(S.subgroupOf K) :=
     isCyclic_of_injective (f := (Subgroup.subgroupOfEquivOfLe hSyl.le).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hSyl.le).injective
-  haveI : IsCyclic ↥(S.subgroupOf K) := hSsub
-  haveI : IsCyclic ↥Q :=
+  have : IsCyclic ↥(S.subgroupOf K) := hSsub
+  have : IsCyclic ↥Q :=
     isCyclic_of_injective (f := (MulEquiv.subgroupCongr hQ).toMonoidHom)
       (MulEquiv.subgroupCongr hQ).injective
   have hE'2 : IsPGroup 2 (E.subgroupOf K) := hE2.comap_subtype
   obtain ⟨Q', hQ'⟩ := hE'2.exists_le_sylow
-  haveI : IsCyclic ↥Q' :=
+  have : IsCyclic ↥Q' :=
     isCyclic_of_surjective (f := (Sylow.equiv Q Q').toMonoidHom) (Sylow.equiv Q Q').surjective
-  haveI : IsCyclic ↥(E.subgroupOf K) :=
+  have : IsCyclic ↥(E.subgroupOf K) :=
     isCyclic_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hQ').toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hQ').surjective
-  haveI : IsCyclic ↥E :=
+  have : IsCyclic ↥E :=
     isCyclic_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hEK).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hEK).surjective
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥E)
@@ -213,7 +213,7 @@ theorem s16t_l4_normalizer_seven_le (h78 : R7_8At3 D)
   have hAD : A ≤ D.M := hAY.trans hY.le
   have hAK : A ≤ H ⊓ D.M := le_inf Subgroup.le_normalizer hAD
   have hKA : H ⊓ D.M ≤ normalizer (A : Set G) := inf_le_left
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 (H ⊓ D.M)
   let D₀ : Subgroup G := CFSG.RankThree.PartOne.omegaOne 3 P
   obtain ⟨-, hcases⟩ := h78 H P D₀ hsec hP rfl

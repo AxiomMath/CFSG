@@ -63,13 +63,13 @@ theorem gen5_relN (hα : α < 2) (hd : CentralSwap e₀ α d)
   · obtain ⟨i, hi, rfl⟩ := List.mem_map.1 h
     have hi6 : i < 6 := List.mem_range.1 hi
     have key := actRel_s_words ⟨i, hi6⟩
-    simp only [Fin.val_mk] at key
+    simp only at key
     rw [key, lift_mk_append, lift_mk_append, lift_mk_append, lift_mk_invW, lift_gen5_map,
       lift_mk_single_inv, lift_mk_single, lift_mk_single, gen5_s]
     have := gE_s e₀ hd ⟨i, hi6⟩ (β := α)
     rw [← this]
     exact mul_inv_cancel _
-  · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at h
+  · simp only [List.mem_cons, List.not_mem_nil, or_false] at h
     rcases h with rfl | rfl | rfl
     · rw [swN_sss, lift_mk_append, lift_mk_append, lift_mk_single, gen5_s]
       exact f6
@@ -160,7 +160,7 @@ theorem yosh5 (he2 : orderOf e = 2) (hα : α < 2) (hd : CentralSwap e₀ α d) 
       rw [hm, modelHomOf_lift]
       exact lift_gen5_mem_Nn e₀ he2 hd _
     have hcardN : Nat.card (Nn e₀) = 3072 := card_Nn e₀ he2 hd
-    haveI : Finite (Nn e₀) := Nat.finite_of_card_ne_zero (by rw [hcardN]; norm_num)
+    have : Finite (Nn e₀) := Nat.finite_of_card_ne_zero (by rw [hcardN]; norm_num)
     refine Subgroup.eq_of_le_of_card_ge hle ?_
     rw [Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv.symm, hcardN]
     exact (modelCheck_spec hn hsz hnC).1.card_group.ge

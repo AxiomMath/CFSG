@@ -69,7 +69,7 @@ private theorem card_zpowers_sup_eq_mul {K : Type} [Group K] [Finite K] {D : Sub
     (hc : ∀ a ∈ Subgroup.zpowers x, ∀ b ∈ D, a * b = b * a)
     (hinf : Subgroup.zpowers x ⊓ D = ⊥) :
     Nat.card ↥(Subgroup.zpowers x ⊔ D) = q * Nat.card ↥D := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨hcard, -⟩ := CFSG.GroupTheory.card_sup_mul_card_inf_of_commute
     (Subgroup.zpowers x) D hc
   rw [hinf, Subgroup.card_bot, mul_one, Nat.card_zpowers, orderOf_eq_prime hxq hx1] at hcard
@@ -93,7 +93,7 @@ theorem exists_concl166S_of_layerData_of_comp {K : Type} [Group K] [Finite K] {p
     (hD : LayerData166 ↥J q (evenRank K - 1)) :
     ∃ B' : Subgroup K, Concl166S K p q B' x J := by
   obtain ⟨BJ, SJ, EJ, hBJel, hBJcard, hSJ2, hBJN, hBJcent, hEJB, hEJcard, hEJlayer⟩ := hD
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hxcomm : ∀ j ∈ J, j * x = x * j := fun j hj =>
     Subgroup.mem_centralizer_singleton_iff.1 (hJx hj)
   have hzx : Subgroup.zpowers x ⊓ J = ⊥ := by

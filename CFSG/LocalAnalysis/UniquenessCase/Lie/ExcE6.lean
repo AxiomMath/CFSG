@@ -65,7 +65,7 @@ theorem uc22pwex_e6_borelWit {G : Type} [Group G] [Finite G] {n : ℕ} (hG : Lie
     {p : ℕ} (hp : p.Prime) (hpn : p ∣ 2 ^ n - 1) (hp3 : p ≠ 3) : uc22p20oBorelWit G p 4 := by
   obtain ⟨F, _, _, hF, ⟨e₀⟩⟩ := uc22pwex_e6_model hG
   let e : G ≃* ↥(adjointGroup .E6 F) := e₀.trans (CFSG.GH74.Filter.Lie.adjointQuotientEquiv .E6 F)
-  haveI : CharP F 2 := uc22pwex_charP_two hF
+  have : CharP F 2 := uc22pwex_charP_two hF
   have hle : posUnipotent .E6 F ≤ adjointGroup .E6 F := posUnipotent_le_adjointGroup
   obtain ⟨hU, hidx⟩ := isPGroup_and_not_dvd_index 2 hle (card_posUnipotent (τ := .E6) (K := F))
   have hpF : p ∣ Nat.card F - 1 := by rw [hF]; exact hpn
@@ -74,7 +74,7 @@ theorem uc22pwex_e6_borelWit {G : Type} [Group G] [Finite G] {n : ℕ} (hG : Lie
     torusGroup_le_borelGroup.trans borelGroup_le_adjointGroup'
   let Φ : (Fin Tag.E6.rank → μ) →* ↥(adjointGroup .E6 F) :=
     (Subgroup.inclusion hT).comp ((torusCoordHom .E6 F).comp
-      (Pi.monoidHom fun i => μ.subtype.comp (Pi.evalMonoidHom (fun _ => μ) i)))
+      (_root_.MonoidHom.pi fun i => μ.subtype.comp (Pi.evalMonoidHom (fun _ => μ) i)))
   have hinj : Function.Injective Φ := by
     rw [injective_iff_map_eq_one]
     intro a ha
@@ -95,7 +95,7 @@ theorem uc22pwex_e6_borelWit {G : Type} [Group G] [Finite G] {n : ℕ} (hG : Lie
     rintro _ ⟨a, rfl⟩
     refine uc22pwex_mem_normalizer_subgroupOf ?_
     exact torusGroup_le_normalizer_posUnipotent (((torusCoordHom .E6 F)
-      (Pi.monoidHom (fun i => μ.subtype.comp (Pi.evalMonoidHom (fun _ => μ) i)) a)).2)
+      (_root_.MonoidHom.pi (fun i => μ.subtype.comp (Pi.evalMonoidHom (fun _ => μ) i)) a)).2)
   exact uc22p20v_borelWit_mono hp (uc22pwex_borelWit_of_equiv e _ hU hidx Φ.range hN hE hc)
     (by norm_num)
 

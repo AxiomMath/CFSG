@@ -95,13 +95,13 @@ theorem isHypBlockOn_conj {T : Set (HypIndex r ε)}
     intro a ha x
     rw [Matrix.mul_apply]
     by_cases hx : x ∈ T
-    · rw [if_pos hx]
+    · rw [ite_eq_left hx]
       refine Finset.sum_eq_zero fun y _ => ?_
       by_cases hy : y ∈ T
       · rw [hM a y (Or.inr ⟨ha, hy⟩), zero_mul]
       · rw [hG y x (Or.inl hy), Matrix.one_apply_ne (fun h : y = x => hy (h ▸ hx)),
           mul_zero]
-    · rw [if_neg hx, Finset.sum_eq_single x]
+    · rw [ite_eq_right hx, Finset.sum_eq_single x]
       · rw [hG x x (Or.inr hx), Matrix.one_apply_eq, mul_one]
       · intro y _ hyx
         by_cases hy : y ∈ T
@@ -134,8 +134,8 @@ theorem isHypBlockOn_conj {T : Set (HypIndex r ε)}
       intro x
       rw [hMG a ha x]
       by_cases hx : x ∈ T
-      · rw [if_pos hx, zero_mul, hM a x (Or.inr ⟨ha, hx⟩), zero_mul]
-      · rw [if_neg hx]
+      · rw [ite_eq_left hx, zero_mul, hM a x (Or.inr ⟨ha, hx⟩), zero_mul]
+      · rw [ite_eq_right hx]
     rw [Finset.sum_congr rfl fun x _ => hterm x, ← Matrix.mul_apply, hMN]
   · rw [Matrix.mul_assoc, Matrix.mul_apply]
     rw [Finset.sum_congr rfl fun y _ => by rw [hGN b hb y]]
@@ -145,7 +145,7 @@ private theorem lineBlock_le_centralizer (h : UnitaryFieldData 2 n K) (hp : p.Pr
     (hp2 : p ≠ 2) {ζ : K}
     {τ : Multiplicative (Fin r → ZMod p) →* hypSU h r ε} (hτ : IsSplitTorus h ζ τ) (m : Fin r) :
     lineBlock h m ≤ Subgroup.centralizer (torusFix τ (SlNsRootGen.negMap m)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro g hg
   rw [Subgroup.mem_centralizer_iff]
   rintro x ⟨v, hv, rfl⟩
@@ -189,8 +189,8 @@ private theorem centralizer_apply_eq_zero_of_separated (h : UnitaryFieldData 2 n
       (a ∉ lineCoords m ∧ b ∈ lineCoords m)) :
     (((c : hypSU h r ε) : GL (HypIndex r ε) K) :
       Matrix (HypIndex r ε) (HypIndex r ε) K) a b = 0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   have hζne : ζ ≠ 1 := hζ.ne_one hp.one_lt
   obtain ⟨k, hkm, hk⟩ : ∃ k : Fin r, k ≠ m ∧
       ((a ∉ lineCoords m ∧ (a = .inl k ∨ a = .inr (.inr k))) ∨
@@ -239,8 +239,8 @@ private theorem lineBlock_normal (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp
     {τ : Multiplicative (Fin r → ZMod p) →* hypSU h r ε} (hτ : IsSplitTorus h ζ τ) (m : Fin r) :
     ((lineBlock h m).subgroupOf
       (Subgroup.centralizer (torusFix τ (SlNsRootGen.negMap m)))).Normal := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   have hle := lineBlock_le_centralizer h hp hp2 hτ m
   refine (Subgroup.normal_subgroupOf_iff_le_normalizer hle).mpr ?_
   intro c hc
@@ -325,12 +325,12 @@ private theorem extHyp_line_range (h : UnitaryFieldData 2 n K) (m : Fin r) :
     rw [hypGram_apply, hypGram_apply]
     by_cases h : j = hypPartner i
     · have h' : θ j = hypPartner (θ i) := by rw [h, hpθ]
-      rw [if_pos h, if_pos h']
+      rw [ite_eq_left h, ite_eq_left h']
     · have h' : θ j ≠ hypPartner (θ i) := by
         intro hh
         rw [← hpθ] at hh
         exact h (hθ hh)
-      rw [if_neg h, if_neg h']
+      rw [ite_eq_right h, ite_eq_right h']
   refine le_antisymm ?_ ?_
   · rintro _ ⟨x, rfl⟩
     rw [lineBlock, mem_hypBlock]
@@ -384,8 +384,6 @@ private theorem extHyp_line_range (h : UnitaryFieldData 2 n K) (m : Fin r) :
               (sum_eq_sum_range θ hθ
                 (fun b => h.bar (G b (θ i)) * hypGram r ε K b (θ a)) (hinner (θ a)))
         _ = ∑ a, (∑ b, h.bar (G' b i) * hypGram 1 ε K b a) * G' a j := by
-            change (∑ a, (∑ b, h.bar (G (θ b) (θ i)) *
-              hypGram r ε K (θ b) (θ a)) * G (θ a) (θ j)) = _
             refine Finset.sum_congr rfl fun a _ => ?_
             have h1 : (∑ b, h.bar (G (θ b) (θ i)) * hypGram r ε K (θ b) (θ a)) =
                 ∑ b, h.bar (G' b i) * hypGram 1 ε K b a := by
@@ -424,7 +422,7 @@ private theorem nonempty_lineBlock_mulEquiv (h : UnitaryFieldData 2 n K) (m : Fi
 private theorem isQuasisimple_lineBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime)
     (hpq : p ∣ 2 ^ n - 1) (hε : ε ≤ 1) (m : Fin r) :
     CFSG.Assembly.IsQuasisimple (lineBlock (ε := ε) h m) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn2 : 2 ≤ n := by
     have hn1 : 1 ≤ n := h.one_le
     by_contra hn
@@ -454,7 +452,7 @@ theorem isComponentOf_lineBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2
     {τ : Multiplicative (Fin r → ZMod p) →* hypSU h r ε} (hτ : IsSplitTorus h ζ τ) (hε : ε ≤ 1)
     (m : Fin r) :
     IsComponentOf (lineBlock h m) (Subgroup.centralizer (torusFix τ (SlNsRootGen.negMap m))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmem := lineBlock_le_centralizer h hp hp2 hτ m
   have hnorm := lineBlock_normal h hp hp2 hζ hτ m
   have hq := isQuasisimple_lineBlock h hp hpq hε m
@@ -464,8 +462,8 @@ theorem dvd_card_lineBlock (h : UnitaryFieldData 2 n K) (hp : p.Prime) {ζ : K}
     (hζ : IsPrimitiveRoot ζ p) {τ : Multiplicative (Fin r → ZMod p) →* hypSU h r ε}
     (hτ : IsSplitTorus h ζ τ) (m : Fin r) :
     p ∣ Nat.card (lineBlock (ε := ε) h m) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   have hζne : ζ ≠ 1 := hζ.ne_one hp.one_lt
   let v : Fin r → ZMod p := Pi.single m 1
   let x : hypSU h r ε := τ (Multiplicative.ofAdd v)

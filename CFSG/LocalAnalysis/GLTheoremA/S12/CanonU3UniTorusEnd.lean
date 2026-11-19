@@ -109,7 +109,7 @@ theorem specialBlock_fix_of_conj_diagonal {f N : ℕ} {K : Type} [Field K]
     (hD : (((P⁻¹ * A * P : primeFormUnitary h (idGram K N)) : GL (Fin N) K) :
       Matrix (Fin N) (Fin N) K) = Matrix.diagonal d)
     {μ : K} (hμ : h.bar μ * μ = 1)
-    (ha : (X - C μ) ∈ primaryFactors
+    (_ha : (X - C μ) ∈ primaryFactors
       (Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K) : Module.End K (Fin N → K)))
     {g : LinearMap.GeneralLinearGroup K (Fin N → K)}
     (hg : g ∈ specialBlock (idForm h N)
@@ -318,7 +318,7 @@ theorem apply_eq_self_of_mem_orthogonal_block {f N : ℕ} {K : Type} [Field K]
           idGram K N * (P : GL (Fin N) K) = 1 := by
         simpa [idGram] using hP
       rw [hP', gramForm_apply]
-      simp only [idGram, Matrix.one_mulVec]
+      simp only [Matrix.one_mulVec]
       have hsingle : (fun a => h.bar ((Pi.single r 1 : Fin N → K) a)) =
           (Pi.single r 1 : Fin N → K) := by
         funext a
@@ -337,12 +337,12 @@ theorem apply_eq_self_of_mem_orthogonal_block {f N : ℕ} {K : Type} [Field K]
       rw [← hYmat]
     rw [hentry, hk]
     by_cases hkp : k = p
-    · rw [if_pos hkp, hkp, hB p hdp, hB p' hdp']
+    · rw [ite_eq_left hkp, hkp, hB p hdp, hB p' hdp']
       ring
     · by_cases hkp' : k = p'
-      · rw [if_neg hkp, if_pos hkp', hkp', hB p hdp, hB p' hdp']
+      · rw [ite_eq_right hkp, ite_eq_left hkp', hkp', hB p hdp, hB p' hdp']
         ring
-      · rw [if_neg hkp, if_neg hkp']
+      · rw [ite_eq_right hkp, ite_eq_right hkp']
   have hsE : sE w = w := by
     rw [Matrix.GeneralLinearGroup.toLin_apply]
     exact hsw
@@ -524,7 +524,7 @@ theorem primeFormConjHom_eq_of_mem_blockImage_of_eq_on {f N : ℕ} {K : Type} [F
         rw [h]
         by_cases hrs : r = s
         · subst hrs; simp
-        · simp [Pi.single_eq_of_ne hrs, hrs]
+        · simp [hrs]
       by_cases hrs : r = s
       · subst hrs
         ring
@@ -548,7 +548,7 @@ theorem primeFormConjHom_eq_of_mem_blockImage_of_eq_on {f N : ℕ} {K : Type} [F
   exact hconj
 
 theorem not_isSolvable_inf_fixSubgroup_of_diagonal {f N : ℕ} {K : Type} [Field K]
-    (h : UnitaryFieldData 2 f K) (hf : 2 ≤ f) (hN : 3 ≤ N)
+    (h : UnitaryFieldData 2 f K) (hf : 2 ≤ f) (_hN : 3 ≤ N)
     (A Ai P : primeFormUnitary h (idGram K N)) {d e : Fin N → K}
     (hd : (((P⁻¹ * A * P : primeFormUnitary h (idGram K N)) : GL (Fin N) K) :
       Matrix (Fin N) (Fin N) K) = Matrix.diagonal d)
@@ -558,7 +558,7 @@ theorem not_isSolvable_inf_fixSubgroup_of_diagonal {f N : ℕ} {K : Type} [Field
     (ha : (X - C μ) ∈ primaryFactors
       ((Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K) : Module.End K (Fin N → K))))
     {p p' : Fin N} (hpp' : p ≠ p') (hdp : d p = μ) (hdp' : d p' = μ) (hep : e p = e p') :
-    ¬ IsSolvable ↥(blockImage h (Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K)) (X - C μ) ⊓
+    ¬ Group.IsSolvable ↥(blockImage h (Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K)) (X - C μ) ⊓
       fixSubgroup (primeFormConjHom h (idGram K N) Ai)) := by
   classical
   let x : LinearMap.GeneralLinearGroup K (Fin N → K) :=
@@ -569,14 +569,14 @@ theorem not_isSolvable_inf_fixSubgroup_of_diagonal {f N : ℕ} {K : Type} [Field
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
   have hSperf : Group.IsPerfect S := by
-    haveI : Group.IsPerfect (coordSU h hpp') := isPerfect_coordSU h hq hpp'
+    have : Group.IsPerfect (coordSU h hpp') := isPerfect_coordSU h hq hpp'
     exact Group.IsPerfect.map (f := (primeFormUnitary h (idGram K N)).subtype) (H := coordSU h hpp')
   have hSle : S ≤ gramSU h (idGram K N) := by
     intro s hs
     have hsU : s ∈ unitarySU 2 f K N := blk_le_unitarySU (h := h) hpp' hs
     rwa [unitarySU_eq_gramSU h N] at hsU
   have hHperf : Group.IsPerfect HGL := by
-    haveI : Group.IsPerfect S := hSperf
+    have : Group.IsPerfect S := hSperf
     exact Group.IsPerfect.map (f := (MulAut.conj (P : GL (Fin N) K)).toMonoidHom) (H := S)
   have hHle : HGL ≤ gramSU h (idGram K N) := by
     intro y hy
@@ -605,7 +605,7 @@ theorem not_isSolvable_inf_fixSubgroup_of_diagonal {f N : ℕ} {K : Type} [Field
     intro B
     have hco : (((P⁻¹ * B * P : primeFormUnitary h (idGram K N)) : GL (Fin N) K)) =
         (P : GL (Fin N) K)⁻¹ * (B : GL (Fin N) K) * (P : GL (Fin N) K) := by
-      simp [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [Subgroup.coe_mul]
     symm
     calc (P : GL (Fin N) K) *
           (((P⁻¹ * B * P : primeFormUnitary h (idGram K N)) : GL (Fin N) K)) *
@@ -801,7 +801,7 @@ theorem not_isSolvable_inf_fixSubgroup_of_diagonal {f N : ℕ} {K : Type} [Field
   have hTnontriv : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).mpr hTne
   have hTnsolv : ¬ Group.IsSolvable T := Group.IsPerfect.not_isSolvable T
   intro hsol
-  haveI : Group.IsSolvable ↥(blockImage h x (X - C μ) ⊓
+  have : Group.IsSolvable ↥(blockImage h x (X - C μ) ⊓
       fixSubgroup (primeFormConjHom h (idGram K N) Ai)) := hsol
   have hTsolv : Group.IsSolvable T :=
     Group.isSolvable_of_isSolvable_injective
@@ -827,9 +827,9 @@ theorem not_isSolvable_and_of_diagonal {f N : ℕ} {K : Type} [Field K]
     (hmoves₂ : ∀ k : ℕ, ∃ t ∈ blockImage h
       (Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K)) (X - C μ),
       (primeFormConjHom h (idGram K N) A2 * primeFormConjHom h (idGram K N) A1 ^ k) t ≠ t) :
-    ¬ (IsSolvable ↥(blockImage h (Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K))
+    ¬ (Group.IsSolvable ↥(blockImage h (Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K))
           (X - C μ) ⊓ fixSubgroup (primeFormConjHom h (idGram K N) A1)) ∧
-      IsSolvable ↥(blockImage h (Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K))
+      Group.IsSolvable ↥(blockImage h (Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K))
           (X - C μ) ⊓ fixSubgroup (primeFormConjHom h (idGram K N) A2))) := by
   classical
   let I : Finset (Fin N) := Finset.univ.filter fun r => d r = μ
@@ -838,7 +838,7 @@ theorem not_isSolvable_and_of_diagonal {f N : ℕ} {K : Type} [Field K]
   have hιd : ∀ k, d (ι k) = μ := fun k => by
     have hmem : (e.symm k : Fin N) ∈ I := (e.symm k).2
     have hmem' : (e.symm k : Fin N) ∈ Finset.univ.filter (fun r => d r = μ) := by
-      simpa [I] using hmem
+      simp [I]
     exact (Finset.mem_filter.mp hmem').2
   have hιinj : Function.Injective ι := by
     intro k l hkl
@@ -868,7 +868,7 @@ theorem not_isSolvable_and_of_diagonal {f N : ℕ} {K : Type} [Field K]
     intro B c hB g hg r
     have hco : (((P⁻¹ * B * P : primeFormUnitary h (idGram K N)) : GL (Fin N) K)) =
         (P : GL (Fin N) K)⁻¹ * (B : GL (Fin N) K) * (P : GL (Fin N) K) := by
-      simp [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [Subgroup.coe_mul]
     have hpowB : ((((P⁻¹ * B * P : primeFormUnitary h (idGram K N)) : GL (Fin N) K)) ^ 3) =
         Matrix.GeneralLinearGroup.scalar (Fin N) c := by
       rw [hco, show ((P : GL (Fin N) K)⁻¹ * (B : GL (Fin N) K) * (P : GL (Fin N) K)) ^ 3 =
@@ -882,7 +882,7 @@ theorem not_isSolvable_and_of_diagonal {f N : ℕ} {K : Type} [Field K]
         GL (Fin N) K) : Matrix (Fin N) (Fin N) K) =
         Matrix.diagonal (fun _ => (c : K)) := by
       rw [hpowB]
-      simp [Matrix.scalar_apply, Matrix.diagonal_apply]
+      simp [Matrix.scalar_apply]
     rw [hmat1] at hmat2
     exact (Matrix.diagonal_eq_diagonal_iff.mp hmat2) r
   let u : Fin 3 → K := fun k => e1 (ι k)

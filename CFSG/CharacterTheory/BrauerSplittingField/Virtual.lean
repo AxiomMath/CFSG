@@ -70,6 +70,7 @@ lemma character_baseChange_negativeRep
   simp only [FDRep.baseChange_character, character_negativeRep,
     Finset.sum_apply, Pi.smul_apply, map_sum, map_nsmul]
 
+omit [Group G] in
 private lemma zsmul_eq_positive_sub_negative (z : ℤ) (x : G → k) :
     z • x = z.toNat • x - (-z).toNat • x := by
   cases z with

@@ -33,8 +33,7 @@ private lemma frame_Sσ_eq_sup {Γ : Type} [Group Γ] (fr : Frame Γ) :
   rw [Frame.Sσ, SFrame.S, ← Subgroup.closure_union]
   congr 1
   ext x
-  simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_empty_iff_false,
-    or_false, false_or]
+  simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff]
   tauto
 
 private lemma zpow_two_eq_one_or_self {Γ : Type} [Group Γ] {x : Γ} (hx : x ^ 2 = 1) (k : ℤ) :
@@ -94,7 +93,7 @@ private lemma mem_sup_closure_or {Γ : Type} [Group Γ] {S : Subgroup Γ} {σ : 
                 inv_mul_cancel, mul_one]
 
 theorem s3_R1_RneT (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
-    (hOut : (innerAut (L ⧸ center L)).index = 2) (h31 : s.Fact31) (hA : LFactsA s)
+    (hOut : (innerAut (L ⧸ center L)).index = 2) (h31 : s.Fact31) (_hA : LFactsA s)
     (e : Setting3.Ext s) (hRT : s.R ≠ s.T)
     (hAN : ∀ x ∈ e.T₁, ∀ y ∈ s.fr.A, x * y * x⁻¹ ∈ s.fr.A) :
     e.R₁ ⊓ s.T = s.R ∧ e.R₁.relIndex e.T₁ = 2 := by
@@ -103,7 +102,7 @@ theorem s3_R1_RneT (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
   set V : Subgroup G := closure {s.fr.a₂, s.fr.b₂} with hV
   have hR1 : e.R₁ = normIn e.T₁ U := by
     unfold Setting3.Ext.R₁
-    rw [if_neg hRT, ← hU]
+    rw [ite_eq_right hRT, ← hU]
   rw [hR1]
   have hU_le_A : U ≤ s.fr.A := by
     apply Subgroup.closure_mono
@@ -150,7 +149,7 @@ theorem s3_R1_RneT (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     obtain ⟨hyR1, hyT⟩ := hy
     obtain ⟨-, hyU⟩ := (hmem_R1 y).mp hyR1
     by_contra hyR
-    haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+    have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
     set jy : MulAut (L ⧸ center L) := jOn L (s3_T_le_N s hS) ⟨y, hyT⟩ with hjy
     have hy_acts : ActsAs L y jy := by
       rw [hjy]

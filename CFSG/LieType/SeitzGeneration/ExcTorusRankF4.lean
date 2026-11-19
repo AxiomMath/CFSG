@@ -91,7 +91,7 @@ theorem not_rankLE2_F4 (K : Type) [Field K] [Finite K] {p : ℕ} (hp : p.Prime) 
   have h30 := le_thirty_of_degCount_pos (τ := Tag.F4) (e := e) (by simp) (by omega)
   have he0 : e ≠ 0 := he ▸ orderOf_natCast_ne_zero hp hpq
   have h1 : 1 ≤ e := Nat.pos_of_ne_zero he0
-  interval_cases e <;> first | exact absurd hcnt (by decide) | skip
+  interval_cases e <;> try exact absurd hcnt (by decide)
   · obtain ⟨E, hE, hc⟩ := exists_elemAbelian_F4_one K hp hp3 he
     exact not_rankLE2_of_elemAbelian hp (by norm_num) hE hc
   · obtain ⟨E, hE, hc⟩ := exists_elemAbelian_F4_two K hp hp3 he

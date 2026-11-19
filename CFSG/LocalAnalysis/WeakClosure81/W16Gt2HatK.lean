@@ -25,6 +25,7 @@ namespace Cfg1620
 
 variable {M V₀ V U S R H : Subgroup G} {g : G} {B : Subgroup G}
 
+omit [Finite G] in
 theorem conjClosure_le_H (c : Cfg1620 M V₀ V U S R H g B) : conjClosure V H ≤ H := by
   have hVH : V ≤ H := c.V_le_R.trans c.mem.1
   exact conjClosure_le fun h hh v hv => H.mul_mem (H.mul_mem hh (hVH hv)) (H.inv_mem hh)
@@ -59,7 +60,7 @@ theorem exists_mem_conjClosure_conjSubgroup_eq (h15 : W16Fifteen G) (hS : Std15 
 theorem comm_le_of_relIndex_two_pow (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen G)
     (hS : Std15 G) (c : Cfg1620 M V₀ V U S R H g B) {Y : Subgroup G}
     (hY : (Y.subgroupOf H).Normal)
-    (hKY : conjClosure V H ⊓ (H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G)) ≤ Y)
+    (_hKY : conjClosure V H ⊓ (H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G)) ≤ Y)
     (hYK : Y ≤ conjClosure V H)
     (hY2 : ∃ k : ℕ, (conjClosure V H ⊓
       (H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G))).relIndex Y = 2 ^ k) :
@@ -77,9 +78,9 @@ theorem comm_le_of_relIndex_two_pow (h1 : W16One G) (h5 : W16Five G) (h15 : W16F
   have hYnormCH : Y ≤ Subgroup.normalizer (CH : Set G) := hYH.trans hCHnormH
   have hXsub : ((CH ⊔ Y).subgroupOf H).Normal := by
     rw [Subgroup.subgroupOf_sup (A := CH) (A' := Y) (B := H) hCHleH hYH]
-    haveI : (CH.subgroupOf H).Normal :=
+    have : (CH.subgroupOf H).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (H := H) (N := CH) hCHnormH
-    haveI : (Y.subgroupOf H).Normal := hY
+    have : (Y.subgroupOf H).Normal := hY
     infer_instance
   have hX2 : ∃ k : ℕ, (H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G)).relIndex
       (CH ⊔ Y) = 2 ^ k := by

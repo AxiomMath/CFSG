@@ -46,11 +46,11 @@ theorem uc22ine229_pRank_le_one_of_isSU3 {X : Type} [Group X] [Finite X] {n : �
     (CFSG.SectionRank.isElemAbelian_map hE _)
 
 theorem uc22ine229_exists_involution_of_cartan (hC : uc22pwCartanSU3) {M Y : Subgroup G}
-    (hY : Y ∈ calC M) {n : ℕ} (hn : 2 < n) (hX : IsSU3 (Bar2 Y) n) {q : ℕ} (hq : q.Prime)
+    (_hY : Y ∈ calC M) {n : ℕ} (hn : 2 < n) (hX : IsSU3 (Bar2 Y) n) {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) (hqn : q ∣ 2 ^ n - 1)
     (hrank : CFSG.Open.pRank q (⊤ : Subgroup (Bar2 Y)) ≤ 1) {X : Subgroup G} (hXY : X ≤ Y)
     (hXc : Nat.card X = q) : ∃ t ∈ Y ⊓ normalizer (X : Set G), orderOf t = 2 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨U⟩ : Nonempty (Sylow 2 (Bar2 Y)) := inferInstance
   obtain ⟨e, m', hm', hnm⟩ := Nat.exists_eq_two_pow_mul_odd (show n ≠ 0 by omega)
   obtain ⟨E, -, -, -, -, hπ, -, -, w, hw2, hwE, -⟩ := hC (Bar2 Y) hX.1 n hn hX U Unit

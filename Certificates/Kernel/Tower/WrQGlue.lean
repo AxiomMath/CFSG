@@ -218,7 +218,7 @@ theorem l3Facts_tgt (he : e < 12) {k : Nat} (hk : k < wrEP e 10) {j : Nat} (hj :
     rw [inv_mul_cancel, Me.code_one, (chiB_parts hchi).1] at h1
     rcases bit_cases (wrX e) (Me.code x⁻¹) with ha | ha <;>
       rcases bit_cases (wrX e) (Me.code x) with hb | hb <;> rw [ha, hb] at h1 <;> rw [ha, hb] <;>
-      first | rfl | exact absurd h1 (by decide)
+      exact absurd h1 (by decide)
   have hχα : ∀ x : CycExt D, bit (wrX e) (Me.code (D'.α x)) = bit (wrX e) (Me.code x) := by
     intro x
     have hy := l3_gen D hf hFA' hdg' x

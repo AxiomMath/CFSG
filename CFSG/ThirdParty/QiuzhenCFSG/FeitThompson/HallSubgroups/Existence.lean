@@ -2,9 +2,9 @@ module
 
 public import Mathlib.Algebra.Group.Defs
 public import Mathlib.Algebra.Group.Subgroup.Defs
-public import Mathlib.Data.Bracket
+public import Mathlib.Algebra.Notation.Bracket
 import Mathlib.SetTheory.Cardinal.NatCard
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.Data.Nat.Prime.Defs
 public import Mathlib.GroupTheory.Commutator.Basic
 public import Mathlib.GroupTheory.Index
@@ -259,7 +259,7 @@ public theorem CFSG.exists_isHallSubgroup_isInvariant_of_isPiSubgroup
           have hq_dvd_Hbar : q.val ∣ Nat.card Hbar := by rw [← hcard_congr]; exact hq_dvd_quot
           exact IsHallSubgroup.p_in_pi_of_p_dvd_card (π := π') (H := Hbar) q hq_dvd_Hbar
         ·
-          have hP0_p : IsPGroup p (P₀ : Subgroup N) := P₀.isPGroup'
+          have hP0_p : IsPGroup p (P₀ : Subgroup N) := P₀.isPGroup
           have hPsub_p : IsPGroup p Psub := by
             simpa [Psub] using (IsPGroup.map (p := p) (H := (P₀ : Subgroup N)) hP0_p N.subtype)
           have hPk_p : IsPGroup p Pk := by
@@ -291,7 +291,7 @@ public theorem CFSG.exists_isHallSubgroup_isInvariant_of_isPiSubgroup
         classical
         have hcard_congr : Nat.card (K0 ⧸ Pk) = Nat.card Hbar := by
           simpa [K0, Pk, f, hker] using card_quotient_subgroupOf_comap_eq (f := f) (hf := hf) (H := Hbar)
-        have hP0_p : IsPGroup p (P₀ : Subgroup N) := P₀.isPGroup'
+        have hP0_p : IsPGroup p (P₀ : Subgroup N) := P₀.isPGroup
         have hPsub_p : IsPGroup p Psub := by
           simpa [Psub] using (IsPGroup.map (p := p) (H := (P₀ : Subgroup N)) hP0_p N.subtype)
         have hPk_p : IsPGroup p Pk := by
@@ -323,7 +323,7 @@ public theorem CFSG.exists_isHallSubgroup_isInvariant_of_isPiSubgroup
       have hcard_Kk : Nat.card Kk = Nat.card K' := by
         simpa [Kk] using
           Nat.card_congr (Subgroup.subgroupOfEquivOfLe (H := K') (K := K0) hK'_le_K0).toEquiv
-      have hP0_p : IsPGroup p (P₀ : Subgroup N) := P₀.isPGroup'
+      have hP0_p : IsPGroup p (P₀ : Subgroup N) := P₀.isPGroup
       have hPsub_p : IsPGroup p Psub := by
         simpa [Psub] using (IsPGroup.map (p := p) (H := (P₀ : Subgroup N)) hP0_p N.subtype)
       have hPk_p : IsPGroup p Pk := by
@@ -551,7 +551,7 @@ public theorem CFSG.exists_isHallSubgroup_isInvariant_of_isPiSubgroup
               apply hp_mem
               have : q = p' := by apply Subtype.ext; simpa [p'] using hqp
               simpa [this] using hq_mem
-            have hP0_p : IsPGroup p (P₀ : Subgroup N) := P₀.isPGroup'
+            have hP0_p : IsPGroup p (P₀ : Subgroup N) := P₀.isPGroup
             have hPsub_p : IsPGroup p Psub := by
               simpa [Psub] using (IsPGroup.map (p := p) (H := (P₀ : Subgroup N)) hP0_p N.subtype)
             have hPk_p : IsPGroup p Pk := by

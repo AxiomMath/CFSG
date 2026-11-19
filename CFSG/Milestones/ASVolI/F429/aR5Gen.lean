@@ -44,8 +44,8 @@ theorem burnsideF429a_le_normalizer_oPPrime {P T : Subgroup E}
 theorem burnsideF429a_relIndex_sup [Finite E] {L T : Subgroup E}
     (hTL : T ≤ Subgroup.normalizer (L : Set E)) :
     T.relIndex (L ⊔ T) = (L ⊓ T).relIndex L := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hTL
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hTL
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hTL
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hTL
   have e := QuotientGroup.quotientInfEquivProdNormalizerQuotient T L hTL
   have h1 : L.relIndex T = L.relIndex (T ⊔ L) := by
     unfold Subgroup.relIndex Subgroup.index
@@ -205,7 +205,7 @@ theorem burnsideF429a_T_inf_Gp [Finite E] {Gp M₁ M₂ : Subgroup E} [Gp.Normal
     (hSG : ChF.IsSylowOf 2 (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) Gp) {T : Subgroup E}
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) :
     pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ T ∧ T ⊓ Gp = pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) with hSdef
   have hSB : S ≤ Gp ⊓ (M₁ ⊓ M₂) := pCoreOf_le 2 _
   have hBn : M₁ ⊓ M₂ ≤ Subgroup.normalizer ((Gp ⊓ (M₁ ⊓ M₂) : Subgroup E) : Set E) := by
@@ -240,7 +240,7 @@ theorem burnsideF429a_T_inf_Gp [Finite E] {Gp M₁ M₂ : Subgroup E} [Gp.Normal
 
 theorem burnsideF429a_sbar_le_oPPrime [Finite E] {Gp M₁ M₂ : Subgroup E} {P : Subgroup E}
     (hP : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ P) : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ oPPrime 2 P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro s hs
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 (pCoreOf_isPGroup 2 (Gp ⊓ (M₁ ⊓ M₂)))) ⟨s, hs⟩
   exact Subgroup.subset_closure ⟨hP hs, k, by rw [← hk, Subgroup.orderOf_mk]⟩
@@ -252,7 +252,7 @@ theorem burnsideF429a_c5_of_key [Finite E] {Gp M₁ M₂ : Subgroup E} [Gp.Norma
       (∀ b ∈ oPPrime 2 (Gp ⊓ M) ⊓ (M₁ ⊓ M₂),
         r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp) :
     pCoreOf 2 (oPPrime 2 (Gp ⊓ M) ⊔ T) = pCoreOf 2 (oPPrime 2 (Gp ⊓ M)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hST, hTinf⟩ := burnsideF429a_T_inf_Gp hSG hT
   set S := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) with hSdef
   set L := oPPrime 2 (Gp ⊓ M) with hLdef

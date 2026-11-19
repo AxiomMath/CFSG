@@ -84,7 +84,7 @@ theorem hasBorelExponent_of_sylow [Finite X] (P : Sylow 2 X) {e : ℕ}
     (h : ∀ x ∈ Subgroup.normalizer ((P : Subgroup X) : Set X), x ^ e ∈ (P : Subgroup X)) :
     HasBorelExponent X e := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine hasBorelExponent_of_isSylowTwoOf ⟨le_top, P.isPGroup', ?_⟩ h
+  refine hasBorelExponent_of_isSylowTwoOf ⟨le_top, P.isPGroup, ?_⟩ h
   change ¬ 2 ∣ (P : Subgroup X).relIndex ⊤
   rw [Subgroup.relIndex_top_right]
   exact P.not_dvd_index

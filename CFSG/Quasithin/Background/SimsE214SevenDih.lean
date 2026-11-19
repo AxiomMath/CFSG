@@ -43,7 +43,7 @@ theorem Sec.isNaturalSection_of_dih5 {I P Z J : Subgroup Γ} (hS : Sec I P Z J)
       Nat.card F = 4 ∧ S ≤ CFSG.Open.StatedSL 2 F ∧ Nonempty (↥S ≃* DihedralGroup 5) ∧
         IsNaturalSection I P Z J S := by
   classical
-  letI : CommGroup (↥P ⧸ Z.subgroupOf P) :=
+  let : CommGroup (↥P ⧸ Z.subgroupOf P) :=
     { (inferInstance : Group (↥P ⧸ Z.subgroupOf P)) with mul_comm := hS.comm_quot }
   let ρ : DihedralGroup 5 →* MulAut (↥P ⧸ Z.subgroupOf P) := hS.starAct.comp e.symm.toMonoidHom
   have hρ : ∀ i : I, ρ (e (i : ↥I ⧸ J.subgroupOf I)) = hS.act i := by

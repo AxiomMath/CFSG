@@ -85,11 +85,11 @@ private theorem litP_card (h : LitCtx Z A) :
 theorem lit_oddCore_quot (h : LitCtx Z A) (hπ : Function.Surjective π) (hk : π.ker = litP Z) :
     CFSG.oddCore G = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Obar : Subgroup G := CFSG.oddCore G with hObardef
-  haveI hObarnormal : Obar.Normal := by rw [hObardef]; infer_instance
+  have hObarnormal : Obar.Normal := by rw [hObardef]; infer_instance
   set L : Subgroup X := Obar.comap π with hLdef
-  haveI hLnormal : L.Normal := by rw [hLdef]; infer_instance
+  have hLnormal : L.Normal := by rw [hLdef]; infer_instance
   have hZL : Z ≤ L := by
     intro z hz
     rw [hLdef, Subgroup.mem_comap]
@@ -131,7 +131,7 @@ theorem lit_oddCore_quot (h : LitCtx Z A) (hπ : Function.Surjective π) (hk : �
   obtain ⟨K, hKn, hKp, hKidx, huniq, hKchar, hKcomp, hKsup, hKinf, hKiso, hKcomm⟩ :=
     CFSG.GroupTheory.burnside_normal_complement S hSnorm'
   have hKidx4 : K.index = 4 := by rw [hKidx, hScoe, hZLcard]
-  haveI : K.Characteristic := hKchar
+  have : K.Characteristic := hKchar
   have hK'normal : (K.map L.subtype).Normal :=
     ⟨fun c hc x => conj_mem_map_of_characteristic x hc⟩
   have hK'card : Nat.card (K.map L.subtype) = Nat.card K :=
@@ -150,17 +150,17 @@ theorem lit_oddCore_quot (h : LitCtx Z A) (hπ : Function.Surjective π) (hk : �
     have hdvd : Nat.card K ∣ Nat.card (CFSG.oddCore X) := by
       rw [← hK'card]
       exact Subgroup.card_dvd_of_le hK'le
-    haveI : Nonempty (CFSG.oddCore X) := ⟨1⟩
+    have : Nonempty (CFSG.oddCore X) := ⟨1⟩
     exact Nat.le_of_dvd Nat.card_pos hdvd
   have hObar_le : Nat.card Obar ≤ 1 := by
     have hmul : Nat.card (CFSG.oddCore X) * Nat.card Obar ≤
         Nat.card (CFSG.oddCore X) * 1 := by
       rw [mul_one, ← hKcard]; exact hKle
-    haveI : Nonempty (CFSG.oddCore X) := ⟨1⟩
+    have : Nonempty (CFSG.oddCore X) := ⟨1⟩
     exact Nat.le_of_mul_le_mul_left hmul Nat.card_pos
   have hObar_one : Nat.card Obar = 1 := by
     have hpos : 0 < Nat.card Obar := by
-      haveI : Nonempty Obar := ⟨1⟩
+      have : Nonempty Obar := ⟨1⟩
       exact Nat.card_pos
     exact le_antisymm hObar_le (Nat.one_le_iff_ne_zero.mpr (Nat.ne_of_gt hpos))
   exact Subgroup.card_eq_one.mp hObar_one

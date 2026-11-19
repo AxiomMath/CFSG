@@ -330,7 +330,7 @@ private theorem exists_induces {f : Finset (Fin j) → Finset (Fin k)}
   | base => exact fun T hT => exists_induces_five hf4 hinj htop T hT
   | succ m hm ih => exact fun T hT => exists_induces_succ hf4 hinj hm ih T hT
 
-theorem exists_emb_of_tops {j k : ℕ} (hj5 : 5 ≤ j) (hj7 : j ≤ 7) (hk : k ≤ j + 2)
+theorem exists_emb_of_tops {j k : ℕ} (hj5 : 5 ≤ j) (_hj7 : j ≤ 7) (_hk : k ≤ j + 2)
     (f : Finset (Fin j) → Finset (Fin k))
     (hf4 : ∀ α : Finset (Fin j), α.card = 4 → (f α).card = 4)
     (hinj : ∀ α β : Finset (Fin j), α.card = 4 → β.card = 4 → f α = f β → α = β)

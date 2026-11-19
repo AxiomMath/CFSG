@@ -77,7 +77,7 @@ theorem exists_datum_of_edgeless (hS : TwinDisc.Q8Section X Φ)
     Subgroup.mem_centralizer_singleton_iff.mpr (hz.commute_of_mem hx).symm
   have hd : TightDatum L S z :=
     { quat := ⟨3, le_rfl, ⟨eS⟩⟩
-      mem := T3.mem_of_isPGroup hz (Subgroup.map_subtype_le _) (S.isPGroup'.map _)
+      mem := T3.mem_of_isPGroup hz (Subgroup.map_subtype_le _) (S.isPGroup.map _)
         (le_trans (by norm_num) hcard)
       order := orderOf_eq_prime (by rw [pow_two]; exact hz.sq) hz.ne_one
       cent := hcent
@@ -114,7 +114,7 @@ section Block
 
 variable {X : Type} [Group X] {Φ : Set (Subgroup X)}
 
-def sigmaStab (Φ : Set (Subgroup X)) (hΦ : ConjInvariant Φ) (K : Subgroup X) : Subgroup X where
+def sigmaStab (Φ : Set (Subgroup X)) (_hΦ : ConjInvariant Φ) (K : Subgroup X) : Subgroup X where
   carrier := {g | ∀ J : Subgroup X, J ∈ dstarComp Φ K ↔ conjSub g J ∈ dstarComp Φ K}
   mul_mem' := fun {g h} hg hh J => by
     rw [hh J, hg (conjSub h J), conjSub_mul]
@@ -124,7 +124,7 @@ def sigmaStab (Φ : Set (Subgroup X)) (hΦ : ConjInvariant Φ) (K : Subgroup X) 
     rw [conjSub_conjSub_inv] at this
     exact this.symm
 
-theorem normalizer_le_sigmaStab (hΦ : ConjInvariant Φ) {K : Subgroup X} (hK : K ∈ Φ) :
+theorem normalizer_le_sigmaStab (hΦ : ConjInvariant Φ) {K : Subgroup X} (_hK : K ∈ Φ) :
     Subgroup.normalizer (K : Set X) ≤ sigmaStab Φ hΦ K := by
   intro g hg J
   have hgK : conjSub g K = K := mem_normalizer_iff_conjSub_eq.mp hg

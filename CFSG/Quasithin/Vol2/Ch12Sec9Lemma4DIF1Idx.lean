@@ -79,7 +79,7 @@ variable {I : Type} [AddCommGroup I] [Module (ZMod 2) I] [FiniteDimensional (ZMo
 theorem card_subspaceDim_four {j : ℕ} (hI : finrank (ZMod 2) I = 4) (hj : j ≤ 4) :
     Nat.card (CFSG.Monster.B.TwoA.SubspaceDim (ZMod 2) I j) =
       CFSG.Monster.B.TwoA.qBinom 2 4 j := by
-  haveI : Finite I := Module.finite_of_finite (ZMod 2)
+  have : Finite I := Module.finite_of_finite (ZMod 2)
   have h := CFSG.Monster.B.TwoA.card_subspaces (K := ZMod 2) (V := I) (j := j) (by omega)
   rw [hI] at h
   rw [h]

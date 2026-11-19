@@ -260,7 +260,7 @@ theorem exists_quat_pair (h : Ivk93W x q B) (P : Sylow 2 ↥B) :
   rw [Sylow.coe_mapSurjective] at hub hvb
   obtain ⟨u, hu, rfl⟩ := hub
   obtain ⟨v, hv, rfl⟩ := hvb
-  have hP2 : IsPGroup 2 (P : Subgroup ↥B) := P.isPGroup'
+  have hP2 : IsPGroup 2 (P : Subgroup ↥B) := P.isPGroup
   have hPO : ∀ g ∈ (P : Subgroup ↥B), ε g = 1 → g = 1 := fun g hg hεg =>
     ivk93w_eq_one_of_mem_pPrimeCore hP2 hg (hker g hεg)
   have hsq : ∀ w ∈ (P : Subgroup ↥B), ε w ^ 2 = -1 → (w : J) * w = x := by
@@ -308,7 +308,7 @@ theorem three_le_twoRank (h : Ivk93W x q B) (hQ : Ivk93WQuat x B) :
     ((Subgroup.normal_subgroupOf_iff_le_normalizer h.le).1 h.normal_in) (hQC ha)
   have hQ2 : IsPGroup 2 Q := IsPGroup.of_card (n := 3) (by rw [hQ8]; norm_num)
   obtain ⟨P, hP⟩ := exists_invariant_sylow hQN hQ2
-  have hP2 : IsPGroup 2 (P : Subgroup ↥B) := P.isPGroup'
+  have hP2 : IsPGroup 2 (P : Subgroup ↥B) := P.isPGroup
   have hQP : ∀ a ∈ Q, ∀ b ∈ (P : Subgroup ↥B), a * (b : J) = (b : J) * a := by
     intro a ha b hb
     obtain ⟨b', hb', hb'e⟩ := hP a ha b hb

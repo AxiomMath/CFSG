@@ -36,6 +36,7 @@ end Words
 
 variable {X : Type} [Group X] [Finite X] {L S : Subgroup X}
 
+omit [Finite X] in
 private theorem relIndex_centralizer_conj_tools {I : Subgroup X} (hI : I.Normal) (g x : X) :
     (centralizer ({g * x * g⁻¹} : Set X)).relIndex I =
       (centralizer ({x} : Set X)).relIndex I := by
@@ -109,7 +110,7 @@ theorem not_sq_dvd_card_mulAut_of_two_group {U : Type*} [Group U] [Finite U] {k 
   have hfix1 : Fintype.card (MulAction.fixedBy U (1 : Q)) = 2 ^ k := by
     rw [Fintype.card_eq_nat_card, ← hU]
     exact Nat.card_congr ((Equiv.subtypeEquivRight fun u => by
-      simp [MulAction.mem_fixedBy]).trans (Equiv.Set.univ U))
+      simp).trans (Equiv.Set.univ U))
   have hfixσ : ∀ σ : Q, σ ≠ 1 → Fintype.card (MulAction.fixedBy U σ) = 2 ^ c₀ := by
     intro σ hσ
     rw [Fintype.card_eq_nat_card, ← hfix σ σ.2 fun h1 => hσ (Subtype.ext h1)]
@@ -679,6 +680,7 @@ theorem noSmall1411_of_forall_word1411 (h : Hyp1411 X L S)
     obtain ⟨x₁, x₂, x₃, hx⟩ := hW α hα
     exact Or.inr (Or.inl ⟨x₁, x₂, x₃, q, k, hq, hq2, hk, h8, hx⟩)
 
+omit [Finite X] in
 private theorem isElemTwo_map_tools {Y : Type*} [Group Y] (f : X →* Y) {A : Subgroup X}
     (hA : Sec3.IsElemTwo A) : Sec3.IsElemTwo (A.map f) := by
   refine ⟨?_, ?_⟩

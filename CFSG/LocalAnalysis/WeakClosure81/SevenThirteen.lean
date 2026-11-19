@@ -20,6 +20,7 @@ theorem not_le_pCoreOf_kSub {V H E : Subgroup G} (h : Hyp711 V H E) :
   obtain ⟨g, -, -, hnot⟩ := mem_omegaSet.mp h.mem
   exact hnot (hle.trans (pCoreOf_kSub_le_pCoreOf h.le h.normal h.omega_le))
 
+omit [Finite G] in
 theorem inf_pCoreOf_kSub_eq_inf_iSub {V H E : Subgroup G} (h : Hyp711 V H E) :
     V ⊓ pCoreOf 2 (kSub V H E) = V ⊓ iSub V H E := by
   exact (inf_iSub_eq_inf_J h.mem h.iSub_le h.pcore_le).symm
@@ -35,6 +36,7 @@ theorem rk_add_one_le_of_lt {V A : Subgroup G} (hV : IsElemAbelian 2 V) (hA : A 
   have := (Nat.pow_lt_pow_iff_right (by norm_num : 1 < 2)).1 hlt
   omega
 
+omit [Finite G] in
 private theorem zpow_eq_one_or_self_of_mul_self_eq_one {x : G} (hx : x * x = 1) (n : ℤ) :
     x ^ n = 1 ∨ x ^ n = x := by
   obtain ⟨k, hk | hk⟩ := Int.even_or_odd' n

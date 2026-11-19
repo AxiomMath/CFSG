@@ -33,7 +33,7 @@ open scoped IsMulCommutative
 
 theorem l2Multiplier_holds :
     L2Multiplier :=
-  fun hq m hm h => center_eq_bot_of_isPSL_two_even hq hm h
+  fun hq _m hm h => center_eq_bot_of_isPSL_two_even hq hm h
 
 section Y
 
@@ -129,7 +129,7 @@ end Y
 theorem isQuasisimple_of_quot_isPSL {X : Type} [Group X] [Finite X] (hL : L2BorelFacts)
     (hperf : Group.IsPerfect X) {m : ℕ} (hm : 2 ≤ m) (h : IsPSL 2 2 m (X ⧸ Subgroup.center X)) :
     CFSG.IsQuasisimple X := by
-  haveI hs : IsSimpleGroup (X ⧸ Subgroup.center X) :=
+  have hs : IsSimpleGroup (X ⧸ Subgroup.center X) :=
     (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 2 2 m h).2
   have hP : StarProps (⊤ : Subgroup (X ⧸ Subgroup.center X)) :=
     starProps_of_isPSL hL hm (IsPSL.of_mulEquiv Subgroup.topEquiv.symm h)

@@ -87,7 +87,7 @@ theorem not_lieModel_pOmegaMinus_of_card_ZQ_eq_four (S : Setting z E F) {a : G} 
     (h34 : ThreeFourPlus S a) (hZ : Nat.card ↥(ZQ z) = 4) {m : ℕ} (hm : 4 ≤ m) :
     ¬ CFSG.Blueprint.LieModel ↥(Xsub S a) .POmegaMinus m 2 1 := by
   intro hX
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   obtain ⟨φ, π, -, hinj, hπ, hQ⟩ := exists_natural_pOmegaMinus S h h217 h34 hm hX
   obtain ⟨α, hαD, haL, hnfix, hcomm⟩ := exists_alpha_of_card_ZQ_eq_four S h h217 h34 hZ
   have ha0 : aVec S h.mem_Q ≠ 0 := fun h0 => hnfix fun x => by rw [h0, map_zero]
@@ -113,7 +113,7 @@ theorem not_lieModel_pOmegaPlus_of_card_ZQ_eq_four (S : Setting z E F) {a : G} {
     (h34 : ThreeFourPlus S a) (hZ : Nat.card ↥(ZQ z) = 4) {m : ℕ} (hm : 5 ≤ m) :
     ¬ CFSG.Blueprint.LieModel ↥(Xsub S a) .POmegaPlus m 2 1 := by
   intro hX
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   obtain ⟨φ, π, -, hinj, hπ, hQ⟩ := exists_natural_pOmegaPlus S h h217 h34 hm hX
   obtain ⟨α, hαD, haL, hnfix, hcomm⟩ := exists_alpha_of_card_ZQ_eq_four S h h217 h34 hZ
   have ha0 : aVec S h.mem_Q ≠ 0 := fun h0 => hnfix fun x => by rw [h0, map_zero]

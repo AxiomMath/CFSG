@@ -1489,7 +1489,7 @@ theorem factStep_inv {blk LT HT PBT WT : ℕ → ℕ} {NL TL NB BB NH ND NO J S 
     rw [eI, eN] at hz ⊢
     simp only [brec_eq, andB_iff, Nat.blt_eq, Nat.beq_eq] at hz ⊢
     split_ifs at hz ⊢ with c1 c2 c3 c4 c5 c6 c7
-    all_goals first | exact absurd rfl hz | skip
+    all_goals try exact absurd rfl hz
     · exact ⟨_, rfl, c2, Or.inl ⟨rfl, c4⟩⟩
     · obtain ⟨hl, ha, hb, hp⟩ := c6
       obtain ⟨d1, d2, d3⟩ := low39 hl

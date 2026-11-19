@@ -10,6 +10,7 @@ open CFSG.Open
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem sub_mem_of_pieces {k : ℕ} {X : Fin k → Submodule (ZMod 2) V} (hsup : iSup X = ⊤)
     (g : V ≃ₗ[ZMod 2] V) (Y : Submodule (ZMod 2) V) (hY : ∀ j, ∀ x ∈ X j, g x - x ∈ Y) :
     ∀ v, g v - v ∈ Y := by
@@ -25,18 +26,18 @@ theorem sub_mem_of_pieces {k : ℕ} {X : Fin k → Submodule (ZMod 2) V} (hsup :
     rw [this]
     exact Y.add_mem hx hy
 
-theorem surj_of_plane {X : Submodule (ZMod 2) V} (hfr : Module.finrank (ZMod 2) X = 2)
+theorem surj_of_plane {X : Submodule (ZMod 2) V} (_hfr : Module.finrank (ZMod 2) X = 2)
     {ρ : V ≃ₗ[ZMod 2] V} (hinv : ∀ x ∈ X, ρ x ∈ X) (hfix : ∀ x ∈ X, ρ x = x → x = 0) :
     ∀ x ∈ X, ∃ y ∈ X, ρ y - y = x := by
   let T : X →ₗ[ZMod 2] X :=
     { toFun := fun y => ⟨ρ y - y, X.sub_mem (hinv y y.2) y.2⟩
       map_add' := fun a b => by
         apply Subtype.ext
-        simp only [Submodule.coe_add, Submodule.coe_mk, map_add]
+        simp only [Submodule.coe_add, map_add]
         abel
       map_smul' := fun c a => by
         apply Subtype.ext
-        simp only [Submodule.coe_smul, Submodule.coe_mk, map_smul, RingHom.id_apply, smul_sub] }
+        simp only [Submodule.coe_smul, map_smul, RingHom.id_apply, smul_sub] }
   have hinj : Function.Injective T := by
     rw [← LinearMap.ker_eq_bot, eq_bot_iff]
     intro y hy
@@ -73,28 +74,32 @@ structure PieceData (E : Subgroup (V ≃ₗ[ZMod 2] V)) {k : ℕ} (X : Fin k →
 variable {E : Subgroup (V ≃ₗ[ZMod 2] V)} {k : ℕ} {X : Fin k → Submodule (ZMod 2) V}
   {ρf : Fin k → (V ≃ₗ[ZMod 2] V)}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem PieceData.line_triv (D : PieceData E X ρf) {i : Fin k}
     (hi : Module.finrank (ZMod 2) (X i) ≠ 2) : ∀ g ∈ E, ∀ x ∈ X i, g x = x := by
   rcases (D.gen i).2 with h | h
   · exact h.2
   · exact absurd h.1 hi
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem PieceData.plane_fixed (D : PieceData E X ρf) {i : Fin k}
     (hi : Module.finrank (ZMod 2) (X i) = 2) : ∀ x ∈ X i, ρf i x = x → x = 0 := by
   rcases (D.gen i).2 with h | h
   · exact absurd h.1 (by omega)
   · exact h.2.1
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem PieceData.plane_quad (D : PieceData E X ρf) {i : Fin k}
     (hi : Module.finrank (ZMod 2) (X i) = 2) : ∀ x ∈ X i, ρf i (ρf i x) + ρf i x + x = 0 := by
   rcases (D.gen i).2 with h | h
   · exact absurd h.1 (by omega)
   · exact h.2.2.1
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem PieceData.gen_mem (D : PieceData E X ρf) (i : Fin k) : ρf i ∈ E := (D.gen i).1
 
 theorem range_sub_eq_plane (D : PieceData E X ρf) {p : Fin k}
-    (hp : Module.finrank (ZMod 2) (X p) = 2) {e : V ≃ₗ[ZMod 2] V} (he : e ∈ E)
+    (hp : Module.finrank (ZMod 2) (X p) = 2) {e : V ≃ₗ[ZMod 2] V} (_he : e ∈ E)
     (hep : ∀ x ∈ X p, e x = ρf p x)
     (hfix : ∀ j, j ≠ p → ∀ x ∈ X j, e x = x) :
     LinearMap.range ((e : V →ₗ[ZMod 2] V) - LinearMap.id) = X p := by
@@ -119,6 +124,7 @@ abbrev DualData (E : Subgroup (V ≃ₗ[ZMod 2] V)) (X : Fin k → Submodule (ZM
   ∀ j, Module.finrank (ZMod 2) (X j) = 2 → ∃ e ∈ E, (∀ x ∈ X j, e x = ρf j x) ∧
     (∀ l, l ≠ j → ∀ x ∈ X l, e x = x)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem map_range_le_of_comm (g h : V ≃ₗ[ZMod 2] V) (hgh : g * h = h * g) :
     (LinearMap.range ((h : V →ₗ[ZMod 2] V) - LinearMap.id)).map (g : V →ₗ[ZMod 2] V) ≤
       LinearMap.range ((h : V →ₗ[ZMod 2] V) - LinearMap.id) := by
@@ -126,10 +132,11 @@ theorem map_range_le_of_comm (g h : V ≃ₗ[ZMod 2] V) (hgh : g * h = h * g) :
   refine ⟨g v, ?_⟩
   have hc : ∀ w, g (h w) = h (g w) := fun w => by
     rw [← LinearEquiv.mul_apply, hgh, LinearEquiv.mul_apply]
-  simp only [LinearMap.sub_apply, LinearMap.id_apply, LinearEquiv.coe_coe, LinearMap.coe_coe]
+  simp only [LinearMap.sub_apply, LinearMap.id_apply, LinearEquiv.coe_coe]
   rw [← hc]
   simp
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem sup_pair_eq (X : Fin k → Submodule (ZMod 2) V) (p₁ p₂ : Fin k) :
     (⨆ i ∈ ({p₁, p₂} : Set (Fin k)), X i) = X p₁ ⊔ X p₂ := by
   apply le_antisymm
@@ -139,7 +146,8 @@ theorem sup_pair_eq (X : Fin k → Submodule (ZMod 2) V) (p₁ p₂ : Fin k) :
     · exact le_sup_right
   · exact sup_le (le_iSup₂_of_le p₁ (by simp) le_rfl) (le_iSup₂_of_le p₂ (by simp) le_rfl)
 
-theorem isCompl_pair (D : PieceData E X ρf) {p₁ p₂ : Fin k} (hne : p₁ ≠ p₂) :
+omit [FiniteDimensional (ZMod 2) V] in
+theorem isCompl_pair (D : PieceData E X ρf) {p₁ p₂ : Fin k} (_hne : p₁ ≠ p₂) :
     IsCompl (⨆ i ∈ ({p₁, p₂} : Set (Fin k)), X i) (⨆ i ∈ ({p₁, p₂} : Set (Fin k))ᶜ, X i) := by
   have hdisj : Disjoint (⨆ i ∈ ({p₁, p₂} : Set (Fin k)), X i)
       (⨆ i ∈ ({p₁, p₂} : Set (Fin k))ᶜ, X i) :=
@@ -151,6 +159,7 @@ theorem isCompl_pair (D : PieceData E X ρf) {p₁ p₂ : Fin k} (hne : p₁ ≠
   · exact le_sup_of_le_left (le_iSup₂_of_le i hi le_rfl)
   · exact le_sup_of_le_right (le_iSup₂_of_le i hi le_rfl)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem expo_eq_of_pow (D : PieceData E X ρf) {i : Fin k}
     (hi : Module.finrank (ZMod 2) (X i) = 2) {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ E) {c : Fin 3}
     (h : ∀ x ∈ X i, g x = (ρf i ^ (c : ℕ)) x) : expo ρf X i g = c := by
@@ -161,6 +170,7 @@ theorem expo_eq_of_pow (D : PieceData E X ρf) {i : Fin k}
   exact expo_unique D.ab (D.irr i) (D.gen_mem i) (D.plane_fixed hi)
     (fun x hx => (expo_spec (hpow g hg) x hx).symm.trans (h x hx))
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem expo_add (D : PieceData E X ρf) {i : Fin k}
     (hi : Module.finrank (ZMod 2) (X i) = 2) {g h : V ≃ₗ[ZMod 2] V} (hg : g ∈ E) (hh : h ∈ E) :
     expo ρf X i (g * h) = expo ρf X i g + expo ρf X i h := by
@@ -170,6 +180,7 @@ theorem expo_add (D : PieceData E X ρf) {i : Fin k}
     · exact h'.2.2.2
   exact expo_mul D.ab D.inv (D.irr i) (D.gen_mem i) (D.plane_fixed hi) hpow hg hh
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem expo_eq_zero_of_fix (D : PieceData E X ρf) {i : Fin k}
     (hi : Module.finrank (ZMod 2) (X i) = 2) {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ E)
     (h : ∀ x ∈ X i, g x = x) : expo ρf X i g = 0 :=
@@ -180,6 +191,7 @@ theorem expo_eq_zero_of_fix (D : PieceData E X ρf) {i : Fin k}
 
 abbrev Pres (Y : Submodule (ZMod 2) V) (g : V ≃ₗ[ZMod 2] V) : Prop := ∀ x ∈ Y, g x ∈ Y
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem pres_iSup {ι : Sort*} (Y : ι → Submodule (ZMod 2) V) (g : V ≃ₗ[ZMod 2] V)
     (h : ∀ i, Pres (Y i) g) : Pres (⨆ i, Y i) g := by
   intro x hx
@@ -187,6 +199,7 @@ theorem pres_iSup {ι : Sort*} (Y : ι → Submodule (ZMod 2) V) (g : V ≃ₗ[Z
     (fun i y hy => Submodule.mem_iSup_of_mem i (h i y hy)) (by simp)
     (fun a b ha hb => by rw [map_add]; exact Submodule.add_mem _ ha hb)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem pres_Uc (S : Set (Fin k)) (g : V ≃ₗ[ZMod 2] V) (h : ∀ i ∈ Sᶜ, Pres (X i) g) :
     Pres (⨆ i ∈ Sᶜ, X i) g := by
   apply pres_iSup
@@ -194,7 +207,7 @@ theorem pres_Uc (S : Set (Fin k)) (g : V ≃ₗ[ZMod 2] V) (h : ∀ i ∈ Sᶜ, 
   by_cases hi : i ∈ Sᶜ
   · simp only [hi, iSup_pos]
     exact h i hi
-  · simp only [hi, iSup_neg]
+  · simp only [hi]
     intro x hx
     simpa using hx
 
@@ -243,6 +256,7 @@ theorem range_pair (D : PieceData E X ρf) {p₁ p₂ : Fin k} (hp₁ : Module.f
       simp only [LinearMap.sub_apply, LinearMap.id_apply, LinearEquiv.coe_coe]
       rw [f2 y hy, hyx]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem fixed_pair (D : PieceData E X ρf) {p₁ p₂ : Fin k} (hp₁ : Module.finrank (ZMod 2) (X p₁) = 2)
     (hp₂ : Module.finrank (ZMod 2) (X p₂) = 2) (hne : p₁ ≠ p₂)
     {f : V ≃ₗ[ZMod 2] V} (hf₁ : ∀ x ∈ X p₁, f x = ρf p₁ x) (hf₂ : ∀ x ∈ X p₂, f x = ρf p₂ x)
@@ -269,6 +283,7 @@ theorem fixed_pair (D : PieceData E X ρf) {p₁ p₂ : Fin k} (hp₁ : Module.f
   have hu2 : u₂ = 0 := D.plane_fixed hp₂ u₂ hu₂ (sub_eq_zero.1 hb0).symm
   rw [hu1, hu2, add_zero]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem pres_range_of_comm (E : Subgroup (V ≃ₗ[ZMod 2] V)) (hE : IsElemAbelian 3 E)
     {f₁ f : V ≃ₗ[ZMod 2] V} (hf₁ : f₁ ∈ E) (hf : f ∈ E) :
     Pres (LinearMap.range ((f₁ : V →ₗ[ZMod 2] V) - LinearMap.id)) f := by
@@ -297,12 +312,14 @@ theorem pres_Uc_of_dual (D : PieceData E X ρf) (hdual : DualData E X ρf) {p₁
     rw [D.line_triv hpl f hf x hx]
     exact hx
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem iSup_map_le {ι : Sort*} (Y : ι → Submodule (ZMod 2) V) (Z : Submodule (ZMod 2) V)
     (g : V ≃ₗ[ZMod 2] V) (h : ∀ i, ∀ x ∈ Y i, g x ∈ Z) : ∀ x ∈ ⨆ i, Y i, g x ∈ Z := by
   intro x hx
   refine Submodule.iSup_induction Y (motive := fun x => g x ∈ Z) hx (fun i y hy => h i y hy)
     (by simp) (fun a b ha hb => by rw [map_add]; exact Z.add_mem ha hb)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem pres_Uc_of_mem (S : Set (Fin k)) (g : V ≃ₗ[ZMod 2] V)
     (h : ∀ j, j ∈ Sᶜ → ∀ x ∈ X j, g x ∈ ⨆ i ∈ Sᶜ, X i) :
     Pres (⨆ i ∈ Sᶜ, X i) g := by
@@ -316,6 +333,7 @@ theorem pres_Uc_of_mem (S : Set (Fin k)) (g : V ≃ₗ[ZMod 2] V)
     rw [(Submodule.mem_bot _).1 hy, map_zero]
     exact Submodule.zero_mem _
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem fix_mem_Uc (D : PieceData E X ρf) {p₁ p₂ : Fin k}
     (hp₁ : Module.finrank (ZMod 2) (X p₁) = 2) (hp₂ : Module.finrank (ZMod 2) (X p₂) = 2)
     (hne : p₁ ≠ p₂)

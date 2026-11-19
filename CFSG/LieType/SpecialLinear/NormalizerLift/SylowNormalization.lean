@@ -117,7 +117,7 @@ theorem liftAut_mapsTo_unitriangular (hker : π.ker ≤ scalars n F) (hn : 3 ≤
   obtain ⟨P0, hP0⟩ := exists_sylow_unitriangular (K := F) 2 (n := n) (by omega)
   have hU2 : IsPGroup 2 (unitriangular n F) := by
     rw [← hP0]
-    exact P0.isPGroup'
+    exact P0.isPGroup
   have hZodd : Odd (Nat.card (scalars n F)) :=
     (CFSG.ClassicalGroups.SpecialLinear.odd_card_sub_one_of_char_two (F := F)).of_dvd_nat
       (card_scalars_dvd (K := F) (n := n) (by omega))

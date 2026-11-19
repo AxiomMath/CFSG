@@ -16,6 +16,7 @@ open CFSG.Assembly CFSG.Open FrameRoute
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem E6QTwo.omegaMinusFive_of_marking
     {L : Subgroup G}
     (hlab : LargeEvenMarking L (fun lab _ _ _ _ _ => lab.tag = .twD ∧ lab.rank = 5 ∧ lab.n = 1)) :
@@ -27,13 +28,13 @@ theorem E6QTwo.omegaMinusFive_of_marking
   obtain ⟨rfl, rfl⟩ := hlabS'
   dsimp only [LargeEvenRawDatumLegacy, LargeEvenRecipeOmegaMinus] at hraw
   obtain ⟨K, hF, hfin, hK, bf, cf, hbc, hq⟩ := hraw
-  letI : Field K := hF
-  letI : Finite K := hfin
+  let : Field K := hF
+  let : Finite K := hfin
   obtain ⟨-, -, θ, hP, -⟩ := hq
   have hModelQuot : StatedClassicalModel (↥L ⧸ Subgroup.center ↥L) .POmegaMinus 5 2 1 :=
     statedClassicalModel_of_mulEquiv' θ.symm
       (statedClassicalModel_omegaMinus 5 1 hK bf cf hbc ⟨Nat.prime_two, le_rfl, by norm_num⟩)
-  haveI : Group.IsPerfect ↥L := ⟨hperf⟩
+  have : Group.IsPerfect ↥L := ⟨hperf⟩
   have hZ : Subgroup.center ↥L = ⊥ := HalfRowData.center_eq_bot_of_pomegaMinus_two hModelQuot
   have e : ↥L ⧸ Subgroup.center ↥L ≃* ↥L :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
@@ -58,7 +59,7 @@ theorem GGSecFiveRestHyp.normal_of_twD5
           simp [hx])
     have hTnc : ¬ IsCyclic ↥T := by
       intro hcyc
-      haveI := hcyc
+      have := hcyc
       have hdvd : Monoid.exponent ↥T ∣ 3 :=
         Monoid.exponent_dvd_of_forall_pow_eq_one fun g => Subtype.ext (hT.2 (↑g) g.2)
       rw [IsCyclic.exponent_eq_card, hTcard] at hdvd
@@ -66,14 +67,14 @@ theorem GGSecFiveRestHyp.normal_of_twD5
       norm_num at hle
     have hTmap : IsElemAbelian 3 (T.map L.subtype) := by
       constructor
-      · haveI : IsMulCommutative ↥T := hT.1
+      · have : IsMulCommutative ↥T := hT.1
         infer_instance
       · intro x hx
         obtain ⟨t, ht, rfl⟩ := Subgroup.mem_map.mp hx
         simpa using congrArg (fun y : ↥L => (y : G)) (hT.2 t ht)
     refine ⟨T.map L.subtype, Subgroup.map_subtype_le T, CFSG.Open.IsElemAbelian.isPGroup hTmap, ?_⟩
     intro hcyc
-    haveI : IsCyclic (T.map L.subtype) := hcyc
+    have : IsCyclic (T.map L.subtype) := hcyc
     exact hTnc (isCyclic_of_injective
       (Subgroup.equivMapOfInjective T L.subtype (Subgroup.subtype_injective L)).toMonoidHom
       (Subgroup.equivMapOfInjective T L.subtype (Subgroup.subtype_injective L)).injective)

@@ -93,9 +93,9 @@ theorem commute_of_root_aux (hCen : BenderCenterInput) (hU : UnitaryTwoGeneratio
     have hYM : A ⊔ Ab ≤ M := sup_le hA hAbM
     have hYQle : (A ⊔ Ab) ⊓ Q ≤ L ⊔ Lb := by
       set Y := A ⊔ Ab with hY
-      haveI : (Subgroup.subgroupOf (L ⊔ Lb) Y).Normal := hNorm
+      have : (Subgroup.subgroupOf (L ⊔ Lb) Y).Normal := hNorm
       let N : Subgroup ↥Y := (Y ⊓ Q).subgroupOf Y
-      haveI hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr
+      have hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr
         fun y hy => mem_normalizer_inf (Subgroup.le_normalizer hy)
           (H.M_le_normalizer_Q (hYM hy))
       have hN2 : IsPGroup 2 N :=

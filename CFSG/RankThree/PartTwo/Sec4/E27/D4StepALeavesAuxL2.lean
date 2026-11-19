@@ -61,7 +61,7 @@ theorem g2_layer_even (P : D4Par n X σ) (hn : 2 ≤ n) (hev : Even n) {x : C0 �
     (hxA : x ∈ A0sub σ) :
     ∃ M : Subgroup (C0 σ), M ≤ cenX σ x ∧ M ≤ Gsub σ ∧ Group.IsPerfect M ∧
       Nat.card M = (2 ^ n) ^ 3 * (((2 ^ n) ^ 2 - 1) * ((2 ^ n) ^ 3 - 1)) := by
-  haveI := P.charP
+  have := P.charP
   have hK : ringChar X = 2 := ringChar.eq X 2
   have hn1 : 1 ≤ n := by omega
   have hkc : Nat.card (fixSubfield σ) = 2 ^ n := KFacts.card_fixSubfield_of_cube hn1 P.card P.frob
@@ -105,7 +105,7 @@ theorem g2_layer_odd (P : D4Par n X σ) (hn : 2 ≤ n) (hodd : Odd n) {x : C0 σ
     (hxA : x ∈ A0sub σ) :
     ∃ M : Subgroup (C0 σ), M ≤ cenX σ x ∧ M ≤ Gsub σ ∧ Group.IsPerfect M ∧
       Nat.card M = (2 ^ n) ^ 3 * ((2 ^ n) ^ 2 - 1) * ((2 ^ n) ^ 3 + 1) := by
-  haveI := P.charP
+  have := P.charP
   have hK : ringChar X = 2 := ringChar.eq X 2
   have hn1 : 1 ≤ n := by omega
   have hkc : Nat.card (fixSubfield σ) = 2 ^ n := KFacts.card_fixSubfield_of_cube hn1 P.card P.frob
@@ -150,9 +150,9 @@ theorem g2_layer_odd (P : D4Par n X σ) (hn : 2 ≤ n) (hodd : Odd n) {x : C0 σ
 theorem layer_card_odd (P : D4Par n X σ) (hn : 2 ≤ n) (hodd : Odd n) {x : C0 σ} (hx : IsClassX σ x) :
     Nat.card (layerSub σ x) = (2 ^ n) ^ 3 * ((2 ^ n) ^ 2 - 1) * ((2 ^ n) ^ 3 + 1) := by
   obtain ⟨h, U, hU, ⟨e⟩⟩ := layer_model_odd P hn hodd hx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := P.charP
-  haveI : CharP (AlgebraicClosure X) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := P.charP
+  have : CharP (AlgebraicClosure X) 2 :=
     charP_of_injective_algebraMap (algebraMap X (AlgebraicClosure X)).injective 2
   rw [← card_layer_conj h x, Nat.card_congr e.toEquiv]
   exact card_subgroup_unitarySet (ℓ := 2) (f := n) P.one_le U hU
@@ -161,7 +161,7 @@ theorem tau_fixes_layer (P : D4Par n X σ) (hn : 2 ≤ n) {x : C0 σ} (hx : IsCl
     (hxA : x ∈ A0sub σ) :
     ∀ d ∈ layerSub σ x,
       tauAut σ d = d := by
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   rcases Nat.even_or_odd n with hev | hodd
   · obtain ⟨M, hMC, hMG, hMp, hMcard⟩ := g2_layer_even P hn hev hx hxA
     exact layer_fixed_of_perfect_card M hMC hMG hMp

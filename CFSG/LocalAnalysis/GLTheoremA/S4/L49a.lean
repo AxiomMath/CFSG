@@ -68,7 +68,7 @@ theorem glaPLayer_closureIn_inf_centralizer_ne_bot {p : ℕ} (hp : p.Prime) (h18
   obtain ⟨𝓛, h𝓛def⟩ : ∃ 𝓛 : Set (Subgroup G), 𝓛 = {X | ∃ b ∈ B, GLBConj b L = X} :=
     ⟨_, rfl⟩
   have hmem : ∀ X, X ∈ 𝓛 ↔ ∃ b ∈ B, GLBConj b L = X := fun X => by
-    rw [h𝓛def, Set.mem_setOf_eq]
+    rw [h𝓛def, Set.mem_ofPred_eq]
   have h𝓛C : ∀ X ∈ 𝓛, GLAPComponent p C X := by
     intro X hX
     obtain ⟨b, hb, rfl⟩ := (hmem X).1 hX

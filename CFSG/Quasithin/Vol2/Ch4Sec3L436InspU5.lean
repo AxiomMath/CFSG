@@ -87,10 +87,10 @@ theorem false_of_isPSU5_natural {G : Type} [Group G] [Finite G]
     (hU : IsPSU 5 2 m (↥K ⧸ Subgroup.center ↥K))
     (hP : IsMaxParabolic2 K P)
     (hpsl : IsPSL 2 2 m (ModO2 (perfectCore P)))
-    (hnat : ∃ (k : Type) (_ : Field k) (_ : Fintype k), Fintype.card k = 2 ^ m ∧
+    (_hnat : ∃ (k : Type) (_ : Field k) (_ : Fintype k), Fintype.card k = 2 ^ m ∧
       IsNaturalSection (perfectCore P) V (V ⊓ centerOf K)
         (CFSG.pCore 2 ↥(perfectCore P)) (StatedSL 2 k))
-    (hV : V ≤ CFSG.Open.pCoreOf 2 (perfectCore P) ⊓
+    (_hV : V ≤ CFSG.Open.pCoreOf 2 (perfectCore P) ⊓
       Subgroup.centralizer (CFSG.Open.pCoreOf 2 (perfectCore P) : Set G)) : False := by
   obtain ⟨F, _, h, e, hQ | hQ⟩ := exists_unitary5_parabolic K P m hU hP hZ
   · let δ := U4A.modO2_perfectCore_center_image K P (u5PtP h) hP.1.1 hZ e hQ

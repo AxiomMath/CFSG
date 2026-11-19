@@ -18,10 +18,10 @@ private theorem typU_of_isSLTwoOver {A B : Type} [Group A] [Group B] [Finite B]
     {c : B} (hc : orderOf c = 2) (hcZ : c ∈ Open.fusionZStar B)
     {q : ℕ} (hqodd : Odd q) (hq9 : 9 ≤ q)
     (hAsl : HarrisLit.IsSLTwoOver q (A ⧸ pPrimeCore 2 A)) : TypU B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨F, hF, hFint, hFcard, ⟨eA0⟩⟩ := hAsl
-  letI := hF
-  letI := hFint
+  let := hF
+  let := hFint
   obtain ⟨p, _hCharP, f, hp, hcardF⟩ := FiniteField.card' F
   have hqf : p ^ (f : ℕ) = q := by rw [← hcardF]; exact hFcard
   have hp2 : p ≠ 2 := by
@@ -80,12 +80,12 @@ private theorem typU_of_doubleCoverAlt {A B : Type} [Group A] [Group B] [Finite 
     {c : B} (hc : orderOf c = 2) (hcZ : c ∈ Open.fusionZStar B)
     {n : ℕ} (hn7 : 7 ≤ n)
     (hAalt : GH74.GLS.IsDoubleCoverOfAlt (A ⧸ pPrimeCore 2 A) n) : TypU B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨_hAq, _hAcard, ⟨eAalt⟩⟩ := hAalt
   let QA := A ⧸ pPrimeCore 2 A
   let QB := B ⧸ pPrimeCore 2 B
   have hqb : IsQuasisimple QB := hB2.2
-  haveI : Group.IsPerfect QB := hqb.1
+  have : Group.IsPerfect QB := hqb.1
   let eQ : QA ⧸ center QA ≃* QB ⧸ center QB :=
     (Sol78.coreQuotientCenterEquiv A).trans (e.trans (Sol78.coreQuotientCenterEquiv B).symm)
   let eBal : QB ⧸ center QB ≃* alternatingGroup (Fin n) := eQ.symm.trans eAalt

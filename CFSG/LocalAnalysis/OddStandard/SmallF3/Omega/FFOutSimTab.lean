@@ -74,28 +74,34 @@ theorem ffH_mul_b : ffH * ffMat ffBeta ∅ = ffMat 1 {2} * ffH := by
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffX0_conj_signChange (fr : NFrame Q (Fin 6) 1) (J : Finset (Fin 6)) :
     ffX0 fr * ffM fr 1 J = ffM fr (ffConjPerm J) (ffConjSign J) * ffX0 fr :=
   ffX0_conj_of_mat fr (Or.inl (ffH_mul_signChange J))
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffX0_conj_monoD (fr : NFrame Q (Fin 6) 1) {σ : Equiv.Perm (Fin 6)} (hσ : σ ∈ monoD) :
     ∃ τ ∈ monoD, ∃ K : Finset (Fin 6), Even K.card ∧
       ffX0 fr * ffM fr σ ∅ = ffM fr τ K * ffX0 fr := by
   obtain ⟨τ, hτ, K, hK, h⟩ := ffH_mul_monoD hσ
   exact ⟨τ, hτ, K, hK, ffX0_conj_of_mat fr (Or.inl h)⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffX0_conj_rho (fr : NFrame Q (Fin 6) 1) :
     ffX0 fr * ffM fr ffRhoPerm ffRhoSet = ffM fr ffRhoPerm ffRhoSet * ffX0 fr :=
   ffX0_conj_of_mat fr (Or.inr ffH_mul_rho)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffX0_conj_a (fr : NFrame Q (Fin 6) 1) :
     ffX0 fr * ffM fr 1 {0} = ffM fr ffBeta {0, 2} * ffX0 fr :=
   ffX0_conj_of_mat fr (Or.inl ffH_mul_a)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffX0_conj_b (fr : NFrame Q (Fin 6) 1) :
     ffX0 fr * ffM fr ffBeta ∅ = ffM fr 1 {2} * ffX0 fr :=
   ffX0_conj_of_mat fr (Or.inl ffH_mul_b)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffRho_mul_self (fr : NFrame Q (Fin 6) 1) :
     ffM fr ffRhoPerm ffRhoSet * ffM fr ffRhoPerm ffRhoSet = 1 := by
   rw [ffM_mul, ff_rho_perm_sq, ff_rho_symmDiff, ffM_univ]

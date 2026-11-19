@@ -55,7 +55,7 @@ open CFSG.HardMathSupport.Timmesfeld.Coordinator (map_glaPPrimeCoreOf_of_injecti
 theorem kdL227PumpK_of_sporK (hSpor : KDL227SporK) : KDL227PumpK := by
   intro Y _ _ S hSn hSs hSna hSc hSK hSC I b x hb3 hx3 hbx hI hL hxN hind
   by_contra hb1
-  haveI := hSn
+  have := hSn
   set β : MulAut ↥S := MulAut.conjNormal (H := S) b with hβdef
   set ξ : MulAut ↥S := MulAut.conjNormal (H := S) x⁻¹ with hξdef
   have hβ3 : β ^ 3 = 1 := by rw [hβdef, ← map_pow, hb3, map_one]

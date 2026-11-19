@@ -83,7 +83,7 @@ theorem centralizes_of_isCyclic_two {G : Type} [Group G] [Finite G] {T E : Subgr
     simpa using this
   have hconj : ∀ (x : G) (j : ℤ), e * x ^ j * e⁻¹ = (e * x * e⁻¹) ^ j := fun x j => by
     have := map_zpow (MulAut.conj e) x j
-    simpa [MulAut.conj_apply] using this
+    simp
   have hE3 : e * e * e = 1 := by
     rw [← pow_three']
     exact hE.2 e he
@@ -155,9 +155,9 @@ theorem mem_centralInvol {G : Type} [Group G] {T₀ : Subgroup G} {x : G} :
 
 theorem exists_ne_one_centralInvol {G : Type} [Group G] [Finite G] {T₀ : Subgroup G}
     (hT₀ : IsPGroup 2 T₀) (hne : T₀ ≠ ⊥) : ∃ x ∈ centralInvol T₀, x ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥T₀ := (Subgroup.nontrivial_iff_ne_bot T₀).2 hne
-  haveI : Nontrivial ↥(Subgroup.center ↥T₀) := hT₀.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥T₀ := (Subgroup.nontrivial_iff_ne_bot T₀).2 hne
+  have : Nontrivial ↥(Subgroup.center ↥T₀) := hT₀.center_nontrivial
   have hZ2 : IsPGroup 2 ↥(Subgroup.center ↥T₀) := hT₀.to_subgroup (Subgroup.center ↥T₀)
   obtain ⟨n, hn, hcard⟩ := (hZ2.nontrivial_iff_card).1 inferInstance
   have h2dvd : 2 ∣ Nat.card ↥(Subgroup.center ↥T₀) := by
@@ -217,11 +217,11 @@ theorem isElemAbelian_two_of_le {G : Type} [Group G] {T₀ U : Subgroup G}
   exact ((hU a.2).2.1 b (hU b.2).1).symm
 
 theorem inner_inf_eq_bot {S : Type} [Group S] [Finite S] {E : Subgroup (MulAut S)}
-    (hE : IsElemAbelian 3 E) (hEcard : Nat.card E = 3 ^ 3) (hnot : ¬ E ≤ CFSG.ComponentClassification.OuterAutomorphisms.inner S)
+    (hE : IsElemAbelian 3 E) (hEcard : Nat.card E = 3 ^ 3) (_hnot : ¬ E ≤ CFSG.ComponentClassification.OuterAutomorphisms.inner S)
     (hE0 : Nat.card ↥(E ⊓ CFSG.ComponentClassification.OuterAutomorphisms.inner S) = 3 ^ 2) (h1 : SmallF1 S E) (h2 : SmallF2 S E)
     (T : Subgroup (MulAut S)) (hT : IsPGroup 2 T)
     (hN : E ≤ Subgroup.normalizer (T : Set (MulAut S))) : T ⊓ CFSG.ComponentClassification.OuterAutomorphisms.inner S = ⊥ := by
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   by_contra hne
   set T₀ : Subgroup (MulAut S) := T ⊓ CFSG.ComponentClassification.OuterAutomorphisms.inner S with hT₀def
   have hT₀ : IsPGroup 2 T₀ := hT.to_le inf_le_left
@@ -265,7 +265,7 @@ theorem inner_inf_eq_bot {S : Type} [Group S] [Finite S] {E : Subgroup (MulAut S
       rw [heq]
       exact inf_le_right
     exact hUne (h2 U hUp hUN hEN_C)
-  · obtain ⟨b, hbmem, hbN⟩ := SetLike.not_le_iff_exists.1 hsub
+  · obtain ⟨b, hbmem, hbN⟩ := IsConcreteLE.not_le_iff_exists.1 hsub
     obtain ⟨hbE, hbC⟩ := hbmem
     have hbN' : b ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner S := fun h => hbN ⟨hbE, h⟩
     have hUC : U ≤ Subgroup.centralizer ({b} : Set (MulAut S)) := by
@@ -281,7 +281,7 @@ theorem twoSub_eq_bot {S : Type} [Group S] [Finite S] {E : Subgroup (MulAut S)}
     (h3 : SmallF3 S) (T : Subgroup (MulAut S)) (hT : IsPGroup 2 T)
     (hN : E ≤ Subgroup.normalizer (T : Set (MulAut S)))
     (hcomm : (⁅T, E⁆ : Subgroup (MulAut S)) = T) : T = ⊥ := by
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   have hTN := inner_inf_eq_bot hE hEcard hnot hE0 h1 h2 T hT hN
   let φ : ↥T →* Outer S := (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner S)).comp T.subtype
   have hφ : Function.Injective φ := by

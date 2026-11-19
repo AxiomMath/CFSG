@@ -54,7 +54,7 @@ theorem exists_entrance
     change GenericSylowFixedAction.sylowImage G X (insert x (Set.range a)) T = Q at hT
     have hQp : IsPGroup 2 Q := by
       rw [←hT]
-      exact T.isPGroup'.map _
+      exact T.isPGroup.map _
     have hlarge' : 7 ≤ Nat.card (fixedPoints Q X) := by
       simpa only [fixed_eq] using hlarge
     obtain ⟨h7, hall, ht, hsemi⟩ :=

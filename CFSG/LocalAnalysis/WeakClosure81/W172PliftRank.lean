@@ -24,7 +24,7 @@ theorem w172_plift_card_family {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {D : Fin
     CFSG.Open.IsElemAbelian p (Subgroup.closure (y '' (S : Set Γ))) ∧
       Nat.card (Subgroup.closure (y '' (S : Set Γ))) = p ^ S.card := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   induction S using Finset.induction_on with
   | empty =>
       constructor

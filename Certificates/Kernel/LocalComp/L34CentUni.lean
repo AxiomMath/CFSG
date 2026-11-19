@@ -15,7 +15,7 @@ theorem ncard_conj_mul_card {G : Type*} [Group G] (K : Subgroup G) (g : G) :
   have horb : MulAction.orbit (K.map (MulAut.conj (G := G))) g =
       {y | ∃ k ∈ K, y = k * g * k⁻¹} := by
     ext y
-    simp only [MulAction.mem_orbit_iff, Set.mem_setOf_eq]
+    simp only [MulAction.mem_orbit_iff, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨⟨a, ha⟩, rfl⟩
       obtain ⟨k, hk, rfl⟩ := Subgroup.mem_map.1 ha
@@ -35,7 +35,7 @@ theorem ncard_conj_R (x : R) :
   have h : {y : Equiv.Perm (Fin 42) | ∃ k ∈ R, y = k * (x : Equiv.Perm (Fin 42)) * k⁻¹} =
       Subtype.val '' (ConjClasses.mk x).carrier := by
     ext y
-    simp only [Set.mem_setOf_eq, Set.mem_image, ConjClasses.mem_carrier_iff_mk_eq,
+    simp only [Set.mem_ofPred_eq, Set.mem_image, ConjClasses.mem_carrier_iff_mk_eq,
       ConjClasses.mk_eq_mk_iff_isConj, isConj_iff]
     constructor
     · rintro ⟨k, hk, rfl⟩

@@ -84,7 +84,7 @@ theorem conj_mem_A' {x : G} (hx : x ∈ A') : z * x * z⁻¹ ∈ A' := by
   intro a ha
   have ha' : z⁻¹ * a * z ∈ A := by
     have := hs.datum.conj_z_mem ha
-    rwa [hzi] at this ⊢
+    rw [hzi] at this ⊢; assumption
   have := mem_centralizer_iff.1 hxC _ ha'
   calc a * (z * x * z⁻¹) = z * ((z⁻¹ * a * z) * x) * z⁻¹ := by group
     _ = z * (x * (z⁻¹ * a * z)) * z⁻¹ := by rw [this]
@@ -271,6 +271,7 @@ theorem betaHat_eq_pow {x : G} (hx : x ∈ A') : betaHat k z x = x ^ 2 ^ k := by
   obtain ⟨j, hj⟩ : ∃ j, k - 1 = j + 1 := ⟨k - 2, by omega⟩
   rw [hj, pow_succ', pow_mul, sq, hγ2, one_pow, mul_one]
 
+omit hcov in
 theorem sq_mem_A {x : G} (hx : x ∈ A') : x ^ 2 ∈ A := by
   refine hs.ker _ (pow_mem hx 2) ?_
   rw [sq, betaHat_mul' c hs hx hx, ← sq]
@@ -313,7 +314,7 @@ theorem exists_sq_eq {a : G} (ha : a ∈ A) : ∃ x ∈ A', x ^ 2 = a := by
   set B := f.range.map A'.subtype with hB
   have hBA : B ≤ A := by
     rintro _ ⟨_, ⟨x, rfl⟩, rfl⟩
-    exact sq_mem_A c hs hcov x.2
+    exact sq_mem_A c hs x.2
   have hBc : Nat.card B = Nat.card f.range := card_map_of_injective A'.subtype_injective
   have hBeq : B = A := Subgroup.eq_of_le_of_card_ge hBA (by rw [hBc]; exact hrange)
   rw [← hBeq] at ha

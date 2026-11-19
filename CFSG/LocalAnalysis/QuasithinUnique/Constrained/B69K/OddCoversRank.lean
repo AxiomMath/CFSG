@@ -51,7 +51,7 @@ theorem pRank_three_le_two_of_cover
     CFSG.Open.pRank 3 (⊤ : Subgroup L) ≤ 2 := by
   have hq : Function.Surjective (centralQuotientMap e) := centralQuotientMap_surjective e
   have hk : (centralQuotientMap e).ker = Subgroup.center L := centralQuotientMap_ker e
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZp : IsPGroup 3 (Subgroup.center L) := IsPGroup.of_card (n := 1) (by rw [hZ, pow_one])
   have hE2 : IsPGroup 3 (centralQuotientMap e).ker := by
     rw [hk]

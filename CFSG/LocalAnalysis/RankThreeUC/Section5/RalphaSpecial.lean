@@ -36,9 +36,9 @@ theorem «structure» {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [AddCo
     Aalpha p P T B A H (QInvariant.invariant hc hH) ≤
       Subgroup.normalizer (Ralpha p P T B A H (QInvariant.invariant hc hH) :
         Set (Q p P T B H ≃ₗ[ZMod p] Q p P T B H)) := by
-  haveI : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
   set hinv := QInvariant.invariant hc hH with hinv_def
   have hqp : q ≠ p := PrimeActionFixedFree.q_ne_p hc hq hAB hA
   have hq2 : q ≠ 2 := PrimeActionFixedFree.q_ne_two hc hAB hA
@@ -48,12 +48,12 @@ theorem «structure» {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [AddCo
     exact absurd this (by decide)
   have hKle : Subgroup.normalizer (P : Set G) = ⊤ :=
     Subgroup.normalizer_eq_top_iff.mpr hc.faithfulBinaryIrreducibleAction.normal
-  haveI : Finite (Q p P T B H) := by
-    haveI : Finite P := inferInstance
-    haveI : Finite (Pbar P) := inferInstanceAs (Finite (P ⧸ _))
-    haveI : Finite (W P) := inferInstanceAs (Finite (Additive (Pbar P)))
+  have : Finite (Q p P T B H) := by
+    have : Finite P := inferInstance
+    have : Finite (Pbar P) := inferInstanceAs (Finite (P ⧸ _))
+    have : Finite (W P) := inferInstanceAs (Finite (Additive (Pbar P)))
     infer_instance
-  haveI : Finite (Q p P T B H ≃ₗ[ZMod p] Q p P T B H) := by
+  have : Finite (Q p P T B H ≃ₗ[ZMod p] Q p P T B H) := by
     refine Finite.of_injective (fun f : Q p P T B H ≃ₗ[ZMod p] Q p P T B H => (f : _ → _))
       (fun f g h => LinearEquiv.ext (fun x => congrFun h x))
   set ρ' : Representation (ZMod p) (Q p P T B H ≃ₗ[ZMod p] Q p P T B H) (Q p P T B H) :=
@@ -107,7 +107,7 @@ theorem «structure» {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [AddCo
         rw [hfix] at this
         exact (Submodule.mem_bot _).1 this
       rw [hz x, hz y]
-    haveI : Subsingleton (Q p P T B H ≃ₗ[ZMod p] Q p P T B H) :=
+    have : Subsingleton (Q p P T B H ≃ₗ[ZMod p] Q p P T B H) :=
       ⟨fun f g => LinearEquiv.ext (fun x => Subsingleton.elim _ _)⟩
     exact Subgroup.eq_bot_of_subsingleton _
   have hcardA : Nat.card (Aalpha p P T B A H hinv) = q := by

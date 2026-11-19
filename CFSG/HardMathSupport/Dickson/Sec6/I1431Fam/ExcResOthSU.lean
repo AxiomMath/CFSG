@@ -23,7 +23,7 @@ theorem excOth_center_smul (hσ : IsUnitaryInvolution σ) {n : ℕ} (hn : 3 ≤ 
   obtain ⟨μ, hμ⟩ := hz
   refine ⟨μ, fun v => ?_⟩
   rw [smul_def, ← hμ]
-  simp [Matrix.scalar_apply, Matrix.mulVec_diagonal]
+  simp [Matrix.scalar_apply]
 
 @[expose] noncomputable def excOth_dg {n : ℕ} (d : Fin n → K) (hd : ∀ i, σ (d i) * d i = 1)
     (hdet : ∏ i, d i = 1) : SUid σ n :=
@@ -70,10 +70,10 @@ theorem excOth_comm_smul_fix {G : Type*} [Group G] {V : Type*} [MulAction G V] {
   carrier := {s | s + σ s = 0}
   zero_mem' := by simp
   add_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq, map_add] at *
+    simp only [Set.mem_ofPred_eq, map_add] at *
     linear_combination ha + hb
   neg_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq, map_neg] at *
+    simp only [Set.mem_ofPred_eq, map_neg] at *
     linear_combination -ha
 
 theorem excOth_mem_traceZero {s : K} : s ∈ excOth_traceZero σ ↔ s + σ s = 0 := Iff.rfl
@@ -387,13 +387,13 @@ theorem excOth_sw_smul (hσ : IsUnitaryInvolution σ) (h2 : (2 : K) = 0) {n : �
   simp only [Pi.add_apply, Pi.single_apply]
   by_cases hki : k = i
   · subst hki
-    simp only [if_true, hij, hij.symm, if_false, Equiv.swap_apply_left]
+    simp only [ite_true, hij, ite_false, Equiv.swap_apply_left]
     linear_combination (v k) * h2
   · by_cases hkj : k = j
     · subst hkj
-      simp only [if_true, hij, hij.symm, if_false, Equiv.swap_apply_right]
+      simp only [ite_true, hij.symm, ite_false, Equiv.swap_apply_right]
       linear_combination (v k) * h2
-    · simp only [hki, hkj, if_false, Equiv.swap_apply_of_ne_of_ne hki hkj]
+    · simp only [hki, hkj, ite_false, Equiv.swap_apply_of_ne_of_ne hki hkj]
       ring
 
 theorem excOth_sw_mul_self (hσ : IsUnitaryInvolution σ) (h2 : (2 : K) = 0) {n : ℕ} (i j : Fin n)
@@ -561,7 +561,7 @@ theorem excOth_caseB (hσ : IsUnitaryInvolution σ) (h2 : (2 : K) = 0) {n : ℕ}
     simp only [excOth_wd, Equiv.swap_apply_def]
     split_ifs <;> simp_all
   have vC0 : (excOth_wd i0 i1 ω ω i0 * excOth_wd i2 i3 ω⁻¹ ω⁻¹ i0) = ω := by
-    simp [excOth_wd, h01, h02, h03]
+    simp [excOth_wd, h02, h03]
   have vC2 : (excOth_wd i0 i1 ω ω i2 * excOth_wd i2 i3 ω⁻¹ ω⁻¹ i2) = ω⁻¹ := by
     simp [excOth_wd, h20, h21]
   have vA1_2 : excOth_wd i0 i1 ω ω⁻¹ i2 = 1 := by simp [excOth_wd, h20, h21]

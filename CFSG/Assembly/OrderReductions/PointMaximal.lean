@@ -55,7 +55,7 @@ theorem point_maximal_global_of_no_fixed_two {group : Type*} [Group group] [Fini
     maximal.prop.1.1.of_equiv (Subgroup.subgroupOfEquivOfLe subgroup_le_pair).symm
   obtain ⟨sylow, internal_contains⟩ := internal_prime.exists_le_sylow
   let image := (sylow : Subgroup (pairSubgroup point other)).map (pairSubgroup point other).subtype
-  have image_prime : IsPGroup prime image := sylow.isPGroup'.map _
+  have image_prime : IsPGroup prime image := sylow.isPGroup.map _
   have subgroup_le_image : subgroup ≤ image := by
     rw [← Subgroup.map_subgroupOf_eq_of_le subgroup_le_pair]
     exact Subgroup.map_mono internal_contains

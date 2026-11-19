@@ -173,8 +173,7 @@ theorem Q9_pow_three : ∀ q ∈ Q9, q ^ 3 = 1 := by
   obtain ⟨i, j, -, -, hqij⟩ := E.exists_pow_mul_pow hq'
   apply Subtype.ext
   change (q : Equiv.Perm (Fin 275)) ^ 3 = 1
-  simp only [E, CFSG.RankThree.Asc83Table.E9Basis.ofNe,
-    CFSG.RankThree.Asc83Table.E9Basis.sub] at hqij
+  simp only [E, CFSG.RankThree.Asc83Table.E9Basis.ofNe] at hqij
   rw [hqij]
   have hpow_comm : Commute (X9 ^ i) (Y9 ^ j) := Commute.pow_right (Commute.pow_left hcomm i) j
   rw [Commute.mul_pow hpow_comm]
@@ -229,12 +228,12 @@ theorem orbit_ge_35 :
 theorem P9_card :
     Nat.card P9 = 9 * Nat.card U9 := by
   have h_orbit_ge : 35 ≤ Nat.card (MulAction.orbit mclCt P0) := orbit_ge_35
-  haveI : Fintype ↥mclCt :=
+  have : Fintype ↥mclCt :=
     Fintype.ofInjective (Subtype.val : ↥mclCt → Equiv.Perm (Fin 275)) Subtype.val_injective
-  haveI : Fintype ↥(MulAction.stabilizer mclCt P0) :=
+  have : Fintype ↥(MulAction.stabilizer mclCt P0) :=
     Fintype.ofInjective (Subtype.val : ↥(MulAction.stabilizer mclCt P0) → ↥mclCt)
       Subtype.val_injective
-  haveI : Fintype ↑(MulAction.orbit mclCt P0) :=
+  have : Fintype ↑(MulAction.orbit mclCt P0) :=
     Fintype.ofInjective (Subtype.val : ↑(MulAction.orbit mclCt P0) → Fin 275)
       Subtype.val_injective
   have h_orbit_stab : Nat.card (MulAction.orbit mclCt P0) *

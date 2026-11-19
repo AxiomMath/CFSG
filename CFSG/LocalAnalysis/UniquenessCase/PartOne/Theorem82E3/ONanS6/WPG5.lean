@@ -18,13 +18,13 @@ variable {G : Type} [Group G] [Finite G]
 variable {D : Data G}
 
 theorem exists_E27_frame' (c : Ctx82E3 D)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M) :
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M) :
     ∃ A : Subgroup G, CFSG.Open.IsElemAbelian 3 A ∧ Nat.card A = 27 ∧
       zSub P c.L ≤ A ∧ A ≤ P ⊓ c.L := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardQ : Nat.card ↥(P ⊓ c.L) = 3 ^ 5 := card_inf_L_of_onan_wPH7 c hON hP
   have hZcard : Nat.card ↥(zSub P c.L) = 3 := c.card_inf_centralizer_of_onan hON hP
   have hex : ∃ a : G, a ∈ P ⊓ c.L ∧ a ∉ zSub P c.L := by

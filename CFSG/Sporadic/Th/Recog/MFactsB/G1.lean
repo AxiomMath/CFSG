@@ -316,7 +316,6 @@ private theorem commute_H₁_H₂ (h₃ : x₁ * x₂ = x₂ * x₁) (h₄ : x�
         (H₁_le_centralizer_singleton hx1y2 hy1y2 hω1y2 ha)
   have hZ₂ : Subgroup.zpowers ω₂ ≤ Subgroup.centralizer (H₁ : Set ↥Max3.M) := by
     rw [Subgroup.zpowers_le]
-    change ω₂ ∈ Subgroup.centralizer (H₁ : Set ↥Max3.M)
     rw [Subgroup.mem_centralizer_iff]
     intro a ha
     exact Subgroup.mem_centralizer_singleton_iff.mp
@@ -377,7 +376,6 @@ private theorem H₂_le_centralizer_t :
 private theorem H₂_le_centralizer_H₁ (hcomm : ∀ a ∈ H₁, ∀ b ∈ H₂, a * b = b * a) :
     H₂ ≤ Subgroup.centralizer (H₁ : Set ↥Max3.M) := by
   intro b hb
-  change b ∈ Subgroup.centralizer (H₁ : Set ↥Max3.M)
   rw [Subgroup.mem_centralizer_iff]
   intro a ha
   exact hcomm a ha b hb
@@ -393,7 +391,6 @@ private theorem ω₂_mem_centralizer_H₁ (hcomm : ∀ a ∈ H₁, ∀ b ∈ H�
 private theorem tLetter_mem_centralizer_H₁
     (hH : H₁ ≤ Subgroup.centralizer ({tLetter} : Set ↥Max3.M)) :
     tLetter ∈ Subgroup.centralizer (H₁ : Set ↥Max3.M) := by
-  change tLetter ∈ Subgroup.centralizer (H₁ : Set ↥Max3.M)
   rw [Subgroup.mem_centralizer_iff]
   intro a ha
   exact Subgroup.mem_centralizer_singleton_iff.mp (hH ha)
@@ -496,7 +493,7 @@ private theorem card_inf_H₁_H₂ (hiso : Nonempty (↥H₁ ≃* SL(2, ZMod 3))
     (hcomm : ∀ a ∈ H₁, ∀ b ∈ H₂, a * b = b * a) :
     Nat.card ↥(H₁ ⊓ H₂) = 2 := by
   obtain ⟨e⟩ := hiso
-  haveI : Finite ↥H₁ := by
+  have : Finite ↥H₁ := by
     apply Nat.finite_of_card_ne_zero
     rw [Nat.card_congr e.toEquiv, CFSG.ClassicalInvolution.Q3.Q3T6.Aut.sl2Three_natCard]
     norm_num
@@ -513,13 +510,13 @@ private theorem card_inf_H₁_H₂ (hiso : Nonempty (↥H₁ ≃* SL(2, ZMod 3))
     exact hle
   have hcardMap : Nat.card ↥((Subgroup.center H₁).map H₁.subtype) = 2 := by
     rw [Subgroup.card_map_of_injective H₁.subtype_injective, hcard_center]
-  haveI : Finite ↥((Subgroup.center H₁).map H₁.subtype) :=
+  have : Finite ↥((Subgroup.center H₁).map H₁.subtype) :=
     Nat.finite_of_card_ne_zero (by rw [hcardMap]; norm_num)
   have hupper : Nat.card ↥(H₁ ⊓ H₂) ≤ 2 := by
     calc Nat.card ↥(H₁ ⊓ H₂) ≤ Nat.card ↥((Subgroup.center H₁).map H₁.subtype) :=
           Subgroup.card_le_of_le hle'
       _ = 2 := hcardMap
-  haveI : Finite ↥(H₁ ⊓ H₂) :=
+  have : Finite ↥(H₁ ⊓ H₂) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective inf_le_left)
   have hlower : 2 ≤ Nat.card ↥(H₁ ⊓ H₂) := by
     have h := Subgroup.card_le_of_le (Subgroup.zpowers_le.mpr zM_mem_inf)
@@ -530,14 +527,14 @@ private theorem CQt_eq_sup (hisoB₁ : Nonempty (↥B₁ ≃* QuaternionGroup 2)
     (hisoB₂ : Nonempty (↥B₂ ≃* QuaternionGroup 2))
     (hcomm : ∀ a ∈ H₁, ∀ b ∈ H₂, a * b = b * a)
     (hcardInf : Nat.card ↥(H₁ ⊓ H₂) = 2) : CQt = B₁ ⊔ B₂ := by
-  haveI : Finite ↥Max3.M :=
+  have : Finite ↥Max3.M :=
     Nat.finite_of_card_ne_zero (by rw [Max3.card_M]; norm_num)
   have hle : B₁ ⊔ B₂ ≤ CQt := sup_le B₁_le_CQt B₂_le_CQt
   have hcardC : Nat.card ↥CQt = 32 := by
     simpa only [CQt] using card_Q_inf_centralizer_t
   have hcardB₁ : Nat.card ↥B₁ = 8 := card_B₁ hisoB₁
   have hcardB₂ : Nat.card ↥B₂ = 8 := card_B₂ hisoB₂
-  haveI : Finite ↥(H₁ ⊓ H₂) := Nat.finite_of_card_ne_zero (by rw [hcardInf]; norm_num)
+  have : Finite ↥(H₁ ⊓ H₂) := Nat.finite_of_card_ne_zero (by rw [hcardInf]; norm_num)
   have hcardSup_ge : 32 ≤ Nat.card ↥(B₁ ⊔ B₂) := by
     have hXY := (CFSG.GroupTheory.card_sup_mul_card_inf_of_commute B₁ B₂
       (fun a ha b hb => hcomm a (Subgroup.mem_sup_left ha) b (Subgroup.mem_sup_left hb))).1
@@ -555,11 +552,11 @@ private theorem CQt_eq_sup (hisoB₁ : Nonempty (↥B₁ ≃* QuaternionGroup 2)
         _ ≤ Nat.card ↥(B₁ ⊔ B₂) * 2 := h64
     exact Nat.le_of_mul_le_mul_right h32 (by norm_num)
   have hcardSup_le : Nat.card ↥(B₁ ⊔ B₂) ≤ 32 := by
-    haveI : Finite ↥CQt := Nat.finite_of_card_ne_zero (by rw [hcardC]; norm_num)
+    have : Finite ↥CQt := Nat.finite_of_card_ne_zero (by rw [hcardC]; norm_num)
     calc Nat.card ↥(B₁ ⊔ B₂) ≤ Nat.card ↥CQt := Subgroup.card_le_of_le hle
       _ = 32 := hcardC
   have hcardSup : Nat.card ↥(B₁ ⊔ B₂) = 32 := le_antisymm hcardSup_le hcardSup_ge
-  haveI : Finite ↥CQt := Nat.finite_of_card_ne_zero (by rw [hcardC]; norm_num)
+  have : Finite ↥CQt := Nat.finite_of_card_ne_zero (by rw [hcardC]; norm_num)
   exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hcardC, hcardSup])).symm
 
 private theorem H₁_sup_H₂_le_D₀ : H₁ ⊔ H₂ ≤ D₀ := by
@@ -647,7 +644,6 @@ private theorem centralizer_le_normalizer_H₂ (hCQt : CQt = B₁ ⊔ B₂)
           rfl
     _ = H₁.map (φu.comp ψ) := by rw [hcomp]
     _ = (H₁.map ψ).map φu := by
-          change H₁.map (φu.comp ψ) = (H₁.map ψ).map φu
           apply SetLike.coe_injective
           rw [Subgroup.coe_map, Subgroup.coe_map, Subgroup.coe_map, Set.image_image]
           rfl

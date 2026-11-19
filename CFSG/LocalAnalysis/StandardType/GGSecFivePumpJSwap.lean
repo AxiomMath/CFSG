@@ -25,8 +25,8 @@ private theorem jswap_coe {m : ℕ} {F : Type} [Field F] [CharP F 2]
   ext i j
   by_cases hij : i = j
   · subst hij
-    simp [Matrix.mul_diagonal, Matrix.diagonal_apply, Equiv.Perm.inv_def]
-  · simp [Matrix.mul_diagonal, Matrix.diagonal_apply, Equiv.Perm.inv_def, hij]
+    simp [Matrix.mul_diagonal, Equiv.Perm.inv_def]
+  · simp [Matrix.mul_diagonal, Equiv.Perm.inv_def, hij]
 
 private theorem jswap_conj {m : ℕ} {F : Type} [Field F] {G : Type} [Group G]
     {ψ : Matrix.SpecialLinearGroup (Fin (m + 1)) F →* G} {b : G} {D : GL (Fin (m + 1)) F}
@@ -49,7 +49,7 @@ private theorem jswap_mem {m : ℕ} {F : Type} [Field F] [CharP F 2] {G : Type} 
     apply Subtype.ext
     rw [InnerDiagA.coe_conjSL, hu, InnerDiagA.coe_diagGL, InnerDiagA.coe_diagGL_inv]
     ext i j
-    simp only [Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.diagonal_apply]
+    simp only [Matrix.mul_diagonal, Matrix.diagonal_apply]
     split_ifs with hij
     · subst hij
       rw [mul_right_comm, Units.mul_inv, one_mul]
@@ -63,8 +63,8 @@ private theorem jswap_mem {m : ℕ} {F : Type} [Field F] [CharP F 2] {G : Type} 
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.diagonal_apply, mul_pow, inv_pow, hδpF]
-    · simp [Matrix.diagonal_apply, hij]
+      simp [mul_pow, inv_pow, hδpF]
+    · simp [hij]
   refine hC3 _ (Subgroup.mem_centralizer_iff.mpr fun g hg => ?_) (by rw [← map_pow, hup, map_one])
   have h1 : g * ψ u * g⁻¹ = ψ u := by
     have h2 := LinFusion.mem_ggInducedPairs.mp (hδ ⟨g, hg⟩) u
@@ -114,7 +114,7 @@ private theorem jswap_index {m : ℕ} {F : Type} [Field F] {G : Type} [Group G] 
       ∃ (b : ↥Bs) (c : Fˣ), ∀ j, δ b j = c * v j)
     {ζ : Fˣ} (hζ : IsPrimitiveRoot ζ p) {a c : Fin (m + 1)} (hac : a ≠ c) :
     Nat.card {b : ↥Bs // δ b a = δ b c} * p = Nat.card ↥Bs := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let χ : ↥Bs →* Fˣ :=
     (Pi.evalMonoidHom (fun _ => Fˣ) a).comp δ / (Pi.evalMonoidHom (fun _ => Fˣ) c).comp δ
   have hχ : ∀ b, χ b = δ b a / δ b c := fun _ => rfl
@@ -128,7 +128,7 @@ private theorem jswap_index {m : ℕ} {F : Type} [Field F] {G : Type} [Group G] 
   have hζr : ζ ∈ χ.range := ⟨b, by
     rw [hχ, hb, hb, Pi.mulSingle_eq_same, Pi.mulSingle_eq_of_ne hac.symm, mul_one,
       mul_div_cancel_left]⟩
-  haveI : Finite χ.range := Finite.of_injective _ (Subgroup.inclusion_injective hle)
+  have : Finite χ.range := Finite.of_injective _ (Subgroup.inclusion_injective hle)
   have hcr : Nat.card χ.range = p := by
     refine le_antisymm ((Subgroup.card_le_of_le hle).trans (card_rootsOfUnity F p)) ?_
     have h1 := Subgroup.card_le_of_le (Subgroup.zpowers_le.mpr hζr)
@@ -191,7 +191,7 @@ theorem ggPermSL_swap_mem_blockSpecialLinear {m : ℕ} {F : Type} [Field F] [Cha
   rcases hij with hi | hj
   · rw [Equiv.swap_apply_of_ne_of_ne (fun h : i = a => hi (h ▸ ha))
       (fun h : i = c => hi (h ▸ hc))]
-  · simp only [Equiv.apply_eq_iff_eq_symm_apply, Equiv.symm_swap,
+  · simp only [← _root_.Equiv.eq_symm_apply, Equiv.symm_swap,
       Equiv.swap_apply_of_ne_of_ne (fun h : j = a => hj (h ▸ ha)) (fun h : j = c => hj (h ▸ hc))]
 
 end CFSG.StandardType

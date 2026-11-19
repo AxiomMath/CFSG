@@ -21,7 +21,7 @@ theorem stable {p : ℕ} {P T B : Subgroup G} {e : ℕ}
         D.map (MulAut.conj t).toMonoidHom := by
   classical
   have hP := hc.faithfulBinaryIrreducibleAction.normal
-  letI : MulAction G (Delta p P ρ) := MulAction.compHom _ (DeltaConjugationAction.act (p := p) hP ρ)
+  let : MulAction G (Delta p P ρ) := MulAction.compHom _ (DeltaConjugationAction.act (p := p) hP ρ)
   have hsmul : ∀ (g : G) (i : Delta p P ρ), ((g • i : Delta p P ρ) : Subgroup G) =
       i.1.map (MulAut.conj g).toMonoidHom := fun g i => rfl
   have hperm : ∀ (g : G) (i : Delta p P ρ),
@@ -57,7 +57,7 @@ theorem stable {p : ℕ} {P T B : Subgroup G} {e : ℕ}
       rw [eq_bot_iff]
       simpa using h1
     exact hD.2.2 this
-  haveI : Finite S := inferInstance
+  have : Finite S := inferInstance
   obtain ⟨w, hwW, hw0, hwfix⟩ :=
     CFSG.LinearAlgebra.CoprimeActions.BinaryFixedVectors.exists_fixed (H := S) hS2 ρS Wsp hWinv hWne
   have hB : ∀ b : B, ρ b.val w = w := by

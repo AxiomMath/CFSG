@@ -92,7 +92,6 @@ theorem subA_facts {N nx zj mm : Nat} {X XI QJ QA QW QP : Nat → Nat}
     have m := fun x y => Subgroup.mul_mem (Gen n S kO) (x := x) (y := y)
     interval_cases k <;> simp only [q8G] <;> norm_num <;>
       first
-        | exact Subgroup.one_mem _
         | exact hAM
         | exact hBM
         | exact m _ _ hAM hAM
@@ -304,7 +303,6 @@ theorem subR_facts {N nr nx zj mm : Nat} {RL RT CT IV X XI QJ QR QA QW QP : Nat 
     have m := fun x y => Subgroup.mul_mem (Gen n S kO) (x := x) (y := y)
     interval_cases k <;> simp only [q8G] <;> norm_num <;>
       first
-        | exact Subgroup.one_mem _
         | exact hAM
         | exact hBM
         | exact m _ _ hAM hAM

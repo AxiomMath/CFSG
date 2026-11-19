@@ -659,7 +659,7 @@ theorem two_le_finrank_Fsp (hn : 3 ≤ n) {N : Matrix (Fin n) (Fin n) K} (hNN : 
 
 theorem no_branch_one [NeZero n] [Finite K] (hn : 3 ≤ n) {N : Matrix (Fin n) (Fin n) K}
     (hN : IsNilpotent N) (hN0 : N ≠ 0) (hNN : N * N = 0) (A : GL (Fin n) K) (σ : K ≃+* K)
-    (hpair : ∀ (w ψ : Fin n → K) (h : ψ ⬝ᵥ w = 0), w ∈ Wsp N → ψ ∈ Fsp N → w ≠ 0 → ψ ≠ 0 →
+    (hpair : ∀ (w ψ : Fin n → K) (_h : ψ ⬝ᵥ w = 0), w ∈ Wsp N → ψ ∈ Fsp N → w ≠ 0 → ψ ≠ 0 →
       ∃ c : K, w = c • ((A : Matrix (Fin n) (Fin n) K) *ᵥ (σ ∘ ψ))) : False := by
   classical
   obtain ⟨w0, hw0, hw0W⟩ := exists_ne_zero_mem_Wsp hN hN0
@@ -679,10 +679,10 @@ theorem no_branch_one [NeZero n] [Finite K] (hn : 3 ≤ n) {N : Matrix (Fin n) (
     A.inv_mul
   choose g hg using hline
   have hinj : Function.Injective g := by
-    intro ψ1 ψ2 h
+    intro ψ1 ψ2 _h
     have e : (A : Matrix (Fin n) (Fin n) K) *ᵥ (σ ∘ (ψ1 : Fin n → K)) =
         (A : Matrix (Fin n) (Fin n) K) *ᵥ (σ ∘ (ψ2 : Fin n → K)) := by
-      rw [hg ψ1, hg ψ2, h]
+      rw [hg ψ1, hg ψ2, _h]
     have e2 := congrArg (fun v => ((A⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ v) e
     simp only [mulVec_mulVec, hA', one_mulVec] at e2
     exact Subtype.ext (funext fun i => σ.injective (congrFun e2 i))
@@ -951,6 +951,7 @@ theorem model_hGen (s q : projectiveSL n K)
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, coe_tvSL, coe_tvSL]
   rw [← hYi, mul_add, mul_one, add_mul, hσY, mul_vecMulVec, vecMulVec_mul]
 
+omit [NeZero n] [Fact (Nat.Prime p)] in
 theorem model_hp3 [Finite K] (q : projectiveSL n K) (hq : q ∈ modelGen n K N)
     (q' : projectiveSL n K) (hq' : q' ∈ modelGen n K N) : (q' * q⁻¹) ^ p = 1 := by
   obtain ⟨w, ψ, h, hw, hψ, rfl⟩ := hq
@@ -987,6 +988,7 @@ theorem model_hp3 [Finite K] (q : projectiveSL n K) (hq : q ∈ modelGen n K N)
   rw [this, map_one]
 
 include hN in
+omit [NeZero n] in
 theorem model_huniq [Finite K] (hp2 : p ≠ 2) (hn : 3 ≤ n) (hN0 : N ≠ 0)
     (α : MulAut (projectiveSL n K)) (hcop : (orderOf α).Coprime p)
     (hfix : ∀ q ∈ modelGen n K N ∪ modelT n K N, α q = q) : α = 1 :=
@@ -1009,6 +1011,7 @@ section Abstract
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_injective_of_center_eq_bot (hZ : Subgroup.center G = ⊥) :
     Function.Injective (MulAut.conj : G →* MulAut G) := by
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -1023,6 +1026,7 @@ theorem conj_injective_of_center_eq_bot (hZ : Subgroup.center G = ⊥) :
   rw [hZ] at this
   exact this
 
+omit [Finite G] in
 theorem mul_conj_mul_inv_eq (α : MulAut G) (q : G) :
     α * MulAut.conj q * α⁻¹ = MulAut.conj (α q) := by
   ext y

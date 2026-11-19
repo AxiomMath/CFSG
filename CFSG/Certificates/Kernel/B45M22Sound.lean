@@ -96,9 +96,9 @@ theorem deint_lt : ∀ k r, (deint k r).1 < 2 ^ 2 ^ k ∧ (deint k r).2 < 2 ^ 2 
         exact Nat.mul_le_mul_left _ hb'
       omega
     cases hr : Nat.beq r 0
-    · simp only [deint, hr, cond_false]
+    · simp only [deint, hr, Bool.cond_false]
       exact ⟨hb _ _ (deint_lt k _).1 (deint_lt k _).1, hb _ _ (deint_lt k _).2 (deint_lt k _).2⟩
-    · simp only [deint, hr, cond_true]
+    · simp only [deint, hr, _root_.Bool.cond_true]
       exact ⟨Nat.two_pow_pos _, Nat.two_pow_pos _⟩
 
 theorem testBit_add_two_pow_mul {w a b i : ℕ} (ha : a < 2 ^ w) :
@@ -122,17 +122,17 @@ theorem testBit_deint : ∀ (k r j : ℕ), j < 2 ^ k →
       have hd : deint (k + 1) r =
           ((deint k (r % 4 ^ 2 ^ k)).1 + 2 ^ 2 ^ k * (deint k (r / 4 ^ 2 ^ k)).1,
             (deint k (r % 4 ^ 2 ^ k)).2 + 2 ^ 2 ^ k * (deint k (r / 4 ^ 2 ^ k)).2) := by
-        simp only [deint, hr, cond_false]
+        simp only [deint, hr, Bool.cond_false]
       rw [hd]
       rw [testBit_add_two_pow_mul hlo.1, testBit_add_two_pow_mul hlo.2]
       by_cases hjk : j < 2 ^ k
-      · rw [if_pos hjk, if_pos hjk]
+      · rw [ite_eq_left hjk, ite_eq_left hjk]
         obtain ⟨e1, e2⟩ := testBit_deint k (r % 4 ^ 2 ^ k) j hjk
         rw [e1, e2, h4, Nat.testBit_mod_two_pow, Nat.testBit_mod_two_pow]
         have a1 : 2 * j < 2 * 2 ^ k := by omega
         have a2 : 2 * j + 1 < 2 * 2 ^ k := by omega
         simp [a1, a2]
-      · rw [if_neg hjk, if_neg hjk]
+      · rw [ite_eq_right hjk, ite_eq_right hjk]
         have hj' : j - 2 ^ k < 2 ^ k := by
           rw [Nat.pow_succ] at hj
           omega

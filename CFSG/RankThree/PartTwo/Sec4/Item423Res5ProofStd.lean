@@ -331,7 +331,7 @@ theorem typeTwoAt_blockIn (hq2 : 2 < p ^ f)
         _ = cyc m * (blockHom (B : GL (Fin 2) K) * diagE r) * (cyc m)⁻¹ := by rw [hc]
         _ = cyc m * blockHom (B : GL (Fin 2) K) * (cyc m)⁻¹ * (cyc m * diagE r * (cyc m)⁻¹) := by
             group
-    first | exact key | exact key.symm
+    exact key.symm
   ·
     intro x hx hxb
     rw [Subgroup.mem_subgroupOf] at hx

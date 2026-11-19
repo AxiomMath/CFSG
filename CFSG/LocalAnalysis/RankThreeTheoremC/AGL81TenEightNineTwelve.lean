@@ -21,6 +21,7 @@ open CFSG.RankThreeCoreUniqueness.Helpers
 open CFSG.LocalAnalysis.RankThreeUC.AGL81C
 open Subgroup
 
+omit [Finite G] in
 theorem not_map_le_d1X0 {p : ℕ} {M N Y : Subgroup G}
     (hcore : (primeComplementCore (G := N) p).map N.subtype ≤ M) (hYN : Y ≤ N)
     (hYM : ¬ Y ≤ M) :
@@ -58,13 +59,13 @@ theorem isTwoPrimeComponentIn_of_escape (h31 : KFactThreeOne) (h75 : KFactSevenF
     RankThreeUC.AGL81C.IsTwoPrimeComponentIn Y N := by
   have hp : p.Prime := he.prime
   have hp2 : p ≠ 2 := he.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hYN : Y ≤ N := hY.1
-  haveI : Group.IsPerfect ↥Y := IsPComponentIn.isPerfect hp hY
+  have : Group.IsPerfect ↥Y := IsPComponentIn.isPerfect hp hY
   by_cases hc : CFSG.pPrimeCore p (↥Y ⧸ CFSG.pCore 2 ↥Y) ≤ center (↥Y ⧸ CFSG.pCore 2 ↥Y)
   · exact NineTwelveCfg.isTwoPrimeComponentIn_of_le_center' hp hp2 hY hc
   exfalso
-  haveI := hS.simple
+  have := hS.simple
   have hNtop : N ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top hS.nonab hN.1
   have hcore : (primeComplementCore (G := N) p).map N.subtype ≤ M :=
@@ -142,6 +143,7 @@ open Subgroup
 open scoped commutatorElement
 open CFSG.LocalAnalysis.RankThreeTheoremC.TenFiveX
 
+omit [Finite G] in
 theorem commutator_mem_primeComplementCore {p : ℕ} {M N : Subgroup G}
     (hcore : (primeComplementCore (G := N) p).map N.subtype ≤ M) {x : G}
     (hx : x ∈ d1PlusCore p N (d1KBar p M N)) (hxN : x ∈ N) {Y : Subgroup G}
@@ -183,7 +185,7 @@ theorem commutator_mem_pCoreOf_of_twoPrime {p : ℕ} (hp : p.Prime) {M N : Subgr
   set π₂ := QuotientGroup.mk' (CFSG.pCore 2 ↥N) with hπ₂
   set N₀ := primeComplementCore (G := N) p with hN₀
   set Nh := N₀.map π₂ with hNhdef
-  haveI hNh : Nh.Normal := Subgroup.Normal.map inferInstance π₂ (QuotientGroup.mk'_surjective _)
+  have hNh : Nh.Normal := Subgroup.Normal.map inferInstance π₂ (QuotientGroup.mk'_surjective _)
   have hperf : ⁅Y, Y⁆ = Y := Subgroup.isPerfect_iff.1 (hY.isPerfect hp)
   have hsubY : IsSubnormal Y N := (IsSubnormal.iff_subgroupOf hYN).2 hYc.2.1
   have hq : Open.IsQuasisimple (↥Y ⧸ CFSG.pCore 2 ↥Y) :=

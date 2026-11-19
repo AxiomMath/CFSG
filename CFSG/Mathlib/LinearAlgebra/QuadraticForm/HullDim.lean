@@ -405,7 +405,7 @@ theorem exists_Q_eq_one_polar_eq_one (hQ : Q.polarBilin.Nondegenerate)
     have hlt := hU
     rw [hullDim, hEq, hdimL] at hlt
     omega
-  obtain ⟨x, hxL, hxU⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨x, hxL, hxU⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have horth : LinearMap.BilinForm.orthogonal (polarBilin Q)
       (LinearMap.BilinForm.orthogonal (polarBilin Q) U) = U :=
     LinearMap.BilinForm.orthogonal_orthogonal hQ hrefl U

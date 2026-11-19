@@ -86,8 +86,7 @@ theorem id7ChkQa_of_pinned
   obtain ⟨h0l, h0⟩ := wt0_pinned
   have hw0 : wt 0 = 1 := by rw [hwt 0 h0l, h0]
   have hH := id7QaHeadK_ok
-  simp only [id7QaHeadK, id7QaHeadG, Bool.and_eq_true, beq_iff_eq, List.all_eq_true,
-    decide_eq_true_eq] at hH
+  simp only [id7QaHeadK, id7QaHeadG, Bool.and_eq_true, beq_iff_eq, List.all_eq_true] at hH
   obtain ⟨⟨⟨⟨hglen, -⟩, hgen⟩, -⟩, hdual⟩ := hH
   have hg : ∀ g ∈ id7QaGens.toList, id7QaGenOK g = true ∧
       id7VecK g.1 g.2.1 (id7WtK g.2.2) = id7QaVec g := by

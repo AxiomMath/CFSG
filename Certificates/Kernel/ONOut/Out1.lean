@@ -113,10 +113,10 @@ theorem letter_ok {S Si : Array (Array V)} {n : ℕ} (h : GoodArr S Si n) (l : I
   obtain ⟨-, -, hi⟩ := h
   unfold letterRows code
   by_cases hp : 0 < l
-  · rw [if_pos hp, if_pos hp, letM_pos]
+  · rw [ite_eq_left hp, ite_eq_left hp, letM_pos]
     have hm : l.toNat - 1 < n := by omega
     exact ⟨(hi _ hm).1, by rw [(hi _ hm).2.1, Nat.sub_add_cancel (by omega)]⟩
-  · rw [if_neg hp, if_neg hp, letM_neg]
+  · rw [ite_eq_right hp, ite_eq_right hp, letM_neg]
     have hm : (-l).toNat - 1 < n := by omega
     exact ⟨(hi _ hm).2.2.1, (hi _ hm).2.2.2⟩
 

@@ -51,7 +51,7 @@ theorem dvd_card_sub_card_inf_centralizer {p : ℕ} [Fact p.Prime] {R : Subgroup
   set K : Subgroup G := zpowers g with hK
   have hKN : K ≤ normalizer (R : Set G) := zpowers_le.mpr hgN
   let φ : ↥K →* MulAut ↥R := R.normalizerMonoidHom.comp (Subgroup.inclusion hKN)
-  letI : MulAction ↥K ↥R := MulAction.compHom ↥R φ
+  let : MulAction ↥K ↥R := MulAction.compHom ↥R φ
   have hKp : IsPGroup p ↥K := by
     refine IsPGroup.of_card (n := 1) ?_
     rw [hK, Nat.card_zpowers, hg, pow_one]

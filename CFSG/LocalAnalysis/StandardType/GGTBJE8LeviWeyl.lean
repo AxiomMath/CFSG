@@ -17,7 +17,7 @@ theorem ggTBJE8Levi_weylLift
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] (ι : Additive ↥Bs ≃+ V)
     {φ : Fin 8 → MulAut ↥Bs} {h : Fin 8 → V} {α : Fin 8 → Module.Dual (ZMod p) V}
     (hlin : ∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     {f : CoxeterMatrix.E₈.Group ≃* ↥(ggAutomizer X Bs)}
     (hf : ∀ i, (f (CoxeterMatrix.E₈.simple i) : MulAut ↥Bs) = φ i) :
     ∃ e : WeylGroup .E8 ≃* CoxeterMatrix.E₈.Group,

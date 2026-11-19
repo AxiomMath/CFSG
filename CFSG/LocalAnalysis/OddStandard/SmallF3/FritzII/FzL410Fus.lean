@@ -38,7 +38,7 @@ theorem fusion {e g : G} (he : e ∈ E) (hg : g * t * g⁻¹ = e * (t * s)) :
       group
   have hR'B : R' ≤ fz410B Z (e * (t * s)) := by
     rintro x ⟨y, hy, rfl⟩
-    exact (D.conj_B hk hkZ y).mp (hRt hy)
+    exact (CFSG.OddStandard.SmallF3.FritzII.Fz410Set.conj_B hk hkZ y).mp (hRt hy)
   have hR'card : Nat.card R' = Nat.card R :=
     Subgroup.card_map_of_injective (MulAut.conj k).injective
   have hRp : IsPGroup 2 R := IsPGroup.of_card hcard
@@ -50,7 +50,7 @@ theorem fusion {e g : G} (he : e ∈ E) (hg : g * t * g⁻¹ = e * (t * s)) :
     have hY'B : Y' ≤ fz410B Z t := by
       rintro x ⟨y, hy, rfl⟩
       have h : k * (k⁻¹ * y * k⁻¹⁻¹) * k⁻¹ = y := by group
-      refine (D.conj_B hk hkZ _).mpr ?_
+      refine (CFSG.OddStandard.SmallF3.FritzII.Fz410Set.conj_B hk hkZ _).mpr ?_
       show k * (k⁻¹ * y * k⁻¹⁻¹) * k⁻¹ ∈ fz410B Z (e * (t * s))
       rw [h]
       exact hY hy

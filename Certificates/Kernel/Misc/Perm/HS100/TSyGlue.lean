@@ -31,7 +31,7 @@ theorem tPerm : ∀ i < TT.N, permB 100 7 (TT.T i) = true := fun i hi =>
 theorem zPerm : permB 100 7 Z0 = true := (and_of S0.zperm).1
 
 theorem zMem : permOfArr 100 (unpack 100 7 Z0) ∈ Subgroup.closure (permsA 100 zasTGens) :=
-  mem_of_memK sz tKeysLt tPin.1 tSize tGet (by rw [nums'.2.1]; exact syMem)
+  mem_of_memK tKeysLt tPin.1 tSize tGet (by rw [nums'.2.1]; exact syMem)
 
 theorem commAll : (zasTCert.pts.toList.all fun x =>
     eqA 100 (compA 100 s5Z x) (compA 100 x s5Z)) = true := by
@@ -39,7 +39,7 @@ theorem commAll : (zasTCert.pts.toList.all fun x =>
   intro i hi
   have hi' := List.mem_range.1 hi
   have hi5 : i < 512 := by rw [← nums'.2.1]; exact hi'
-  have hm := mem_of_pt sz tKeysLt tPin.1 tSize tGet hi'
+  have hm := mem_of_pt tKeysLt tPin.1 tSize tGet hi'
   simp only [Function.comp_apply]
   rw [z_eq, eqA_keyCK sz tKeysLt tPin.1 zPerm (tPerm i hi') (tPerm i hi') zPerm zMem hm hm zMem]
   exact allN_spec syComm i hi5

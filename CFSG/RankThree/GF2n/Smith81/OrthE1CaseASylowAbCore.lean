@@ -183,11 +183,11 @@ theorem core_R_le_H0 {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t :
   hH.ctx.Rt_le_H0 t
 
 theorem core_N_le_R {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t : G}
-    (hH : E1Hyp M Q Z B t) : Nt M (LB M Q B) t ≤ Rt M (LB M Q B) t :=
+    (_hH : E1Hyp M Q Z B t) : Nt M (LB M Q B) t ≤ Rt M (LB M Q B) t :=
   orthE1_Nt_le_Rt M (LB M Q B) t
 
 theorem core_R_le_C {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t : G}
-    (hH : E1Hyp M Q Z B t) : Rt M (LB M Q B) t ≤ E1Ct hH.ctx t := fun r hr =>
+    (hH : E1Hyp M Q Z B t) : Rt M (LB M Q B) t ≤ E1Ct hH.ctx t := fun _r hr =>
   Subgroup.mem_inf.mpr ⟨(hH.ctx.Rt_le_CommQ t) hr, core_R_le_H0 hH hr⟩
 
 theorem core_X_le_R {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t : G}

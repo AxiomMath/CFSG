@@ -19,6 +19,7 @@ namespace MinCex172
 
 variable {D : Data G} {V₀ V H : Subgroup G}
 
+omit [Finite G] in
 private theorem w172_local_normalizer_le_normalizer_centralizer (X : Subgroup G) :
     Subgroup.normalizer (X : Set G) ≤
       Subgroup.normalizer (Subgroup.centralizer (X : Set G) : Set G) :=
@@ -38,7 +39,7 @@ private theorem w172_local_relIndex_inf_le_relIndex_sup (A B : Subgroup G) :
 private theorem w172_local_padicValNat_two_le_one_of_lt_four {n : ℕ} (hn : n < 4) :
     padicValNat 2 n ≤ 1 := by
   by_contra h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : 2 ≤ padicValNat 2 n := by omega
   have hn0 : n ≠ 0 := by
     rintro rfl
@@ -49,6 +50,7 @@ private theorem w172_local_padicValNat_two_le_one_of_lt_four {n : ℕ} (hn : n <
   have : 4 ≤ n := Nat.le_of_dvd (Nat.pos_of_ne_zero hn0) h4'
   omega
 
+omit [Finite G] in
 private theorem w172_local_mem_sup_of_le_normalizer {A C : Subgroup G}
     (hAC : A ≤ Subgroup.normalizer (C : Set G)) {x : G} :
     x ∈ A ⊔ C ↔ ∃ a ∈ A, ∃ c ∈ C, a * c = x := by
@@ -63,11 +65,13 @@ private theorem w172_local_mem_sup_of_le_normalizer {A C : Subgroup G}
     rw [Subgroup.coe_mul_of_left_le_normalizer_right A C hAC]
     exact Set.mem_mul.mpr ⟨a, ha, c, hc, rfl⟩
 
+omit [Finite G] in
 private theorem w172_local_conj_mem {A C : Subgroup G}
     (hAC : A ≤ Subgroup.normalizer (C : Set G)) {a : G} (ha : a ∈ A) {c : G} (hc : c ∈ C) :
     a * c * a⁻¹ ∈ C :=
   (Subgroup.mem_normalizer_iff.mp (hAC ha) c).mp hc
 
+omit [Finite G] in
 private theorem w172_local_sq_mem_of_mem_sup {A C : Subgroup G}
     (hAC : A ≤ Subgroup.normalizer (C : Set G)) (hA2 : ∀ a ∈ A, a * a = 1) {x : G}
     (hx : x ∈ A ⊔ C) : x * x ∈ C := by
@@ -76,6 +80,7 @@ private theorem w172_local_sq_mem_of_mem_sup {A C : Subgroup G}
   rw [h1, hA2 a ha, mul_one]
   exact C.mul_mem (w172_local_conj_mem hAC ha hc) hc
 
+omit [Finite G] in
 private theorem w172_local_commutator_mem_of_mem_sup {A C : Subgroup G}
     (hAC : A ≤ Subgroup.normalizer (C : Set G))
     (hAcomm : ∀ a ∈ A, ∀ a' ∈ A, a * a' = a' * a) {x y : G} (hx : x ∈ A ⊔ C)
@@ -143,7 +148,7 @@ theorem w172_inf_ne_bot (h162 : W3Thm162Gt2 G) (c : MinCex172 D V₀ V H) {g : G
     inf_le_inf_left E (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr hBsup))
   have hltCent : E ⊓ Subgroup.centralizer ((A ⊔ C : Subgroup G) : Set G) <
       E ⊓ Subgroup.centralizer (B : Set G) := lt_of_le_of_ne hleCent hBne
-  obtain ⟨e, heB, heA⟩ := SetLike.exists_of_lt hltCent
+  obtain ⟨e, heB, heA⟩ := _root_.IsConcreteLE.exists_of_lt hltCent
   have heE : e ∈ E := heB.1
   have heCentB : e ∈ Subgroup.centralizer (B : Set G) := heB.2
   have heNotCent : e ∉ Subgroup.centralizer ((A ⊔ C : Subgroup G) : Set G) :=
@@ -196,7 +201,7 @@ theorem w172_centralizer_le_conj_M (h162 : W3Thm162Gt2 G) (c : MinCex172 D V₀ 
   set E := eOmegaZ H D.T
   have hne := w172_inf_ne_bot h162 c hg
   have hlt : (⊥ : Subgroup G) < E ⊓ conjSubgroup V₀ g := bot_lt_iff_ne_bot.mpr hne
-  obtain ⟨w, hw, hwbot⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨w, hw, hwbot⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hw1 : w ≠ 1 := fun h => hwbot (Subgroup.mem_bot.mpr h)
   refine (Subgroup.centralizer_le (Set.singleton_subset_iff.mpr hw.1)).trans ?_
   exact w172_centralizer_le_conj c.hyp.setting c.hyp.ne_bot hw.2 hw1

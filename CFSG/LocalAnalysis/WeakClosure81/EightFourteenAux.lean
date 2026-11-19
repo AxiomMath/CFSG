@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem comm_mem_of_relIndex_two {P Q : Subgroup G} (h2 : P.relIndex Q = 2) {g : G}
     (hgP : g ∈ normalizer (P : Set G)) (hgQ : g ∈ normalizer (Q : Set G)) {x : G} (hx : x ∈ Q) :
     g * x * g⁻¹ * x⁻¹ ∈ P := by
@@ -38,6 +39,7 @@ theorem mem_normalizer_conjClosure_of_mem_normalizers {V K : Subgroup G} {t : G}
       t * z * t⁻¹, (Subgroup.mem_normalizer_iff.mp htV z).1 hz, by group⟩
   exact Subgroup.normalizer_le_normalizer_closure _ hS
 
+omit [Finite G] in
 theorem mem_normalizer_centralizer_of_mem {S : Subgroup G} {t : G} (ht : t ∈ S) :
     t ∈ normalizer (centralizer (S : Set G) : Set G) := by
   have key : ∀ s ∈ S, ∀ x ∈ centralizer (S : Set G), s * x * s⁻¹ ∈ centralizer (S : Set G) := by
@@ -89,17 +91,23 @@ theorem Sit813.sGrp_le_normalizer_u1Grp (h : Sit813 V H T i A L K) :
   mem_normalizer_conjClosure_of_mem_normalizers (h.sGrp_le_normalizer_v1Grp ht)
     (h.sGrp_le_normalizer_K ht)
 
+omit [Finite G] in
 theorem Sit813.a_le_sGrp : A ≤ sGrp H T A K := le_sup_right
 
+omit [Finite G] in
 theorem Sit813.k_le_normalizer_u1Grp : K ≤ normalizer (u1Grp V H T A K : Set G) :=
   le_normalizer_conjClosure _ K
 
+omit [Finite G] in
 theorem Sit813.v1Grp_le_V : v1Grp V H T A K ≤ V := inf_le_left
 
+omit [Finite G] in
 theorem Sit813.v1Grp_le_u1Grp : v1Grp V H T A K ≤ u1Grp V H T A K := le_conjClosure _ K
 
+omit [Finite G] in
 theorem Sit813.V_le_uGrp : V ≤ uGrp V K := le_conjClosure V K
 
+omit [Finite G] in
 theorem Sit813.u1Grp_le_uGrp : u1Grp V H T A K ≤ uGrp V K :=
   conjClosure_mono Sit813.v1Grp_le_V le_rfl
 
@@ -166,6 +174,7 @@ theorem Sit813.card_V_mul_card_V_le (h : Sit813 V H T i A L K) :
 
 end Sit
 
+omit [Finite G] in
 theorem exists_mul_of_mem_sup_of_comm {P Q : Subgroup G} (hc : ∀ x ∈ P, ∀ y ∈ Q, x * y = y * x)
     {u : G} (hu : u ∈ P ⊔ Q) : ∃ x ∈ P, ∃ y ∈ Q, x * y = u := by
   have hle : P ≤ normalizer (Q : Set G) := by
@@ -221,6 +230,7 @@ theorem sl2_exists_mulVec_eq {F : Type*} [Field F] {v w : Fin 2 → F} (hv : v �
     Matrix.mulVec_mulVec, ← Matrix.SpecialLinearGroup.coe_mul, inv_mul_cancel,
     Matrix.SpecialLinearGroup.coe_one, Matrix.one_mulVec]
 
+omit [Finite G] in
 theorem IsNaturalSL2Module.card_eq_sixteen {K U D : Subgroup G} (hnat : IsNaturalSL2Module K U D)
     (hD : ∀ u ∈ U, u ∈ D → u = 1) : Nat.card ↥U = 16 := by
   obtain ⟨F, hF, hFfin, hcard, φ, ψ, hφ, hψ, hker, heq⟩ := hnat
@@ -253,14 +263,14 @@ theorem IsNaturalSL2Module.fifteen_le_ncard_orbit {K U D : Subgroup G}
     obtain ⟨k, hk⟩ := hφ g
     have hkU : (k : G) * u * (k : G)⁻¹ ∈ U := (Subgroup.mem_normalizer_iff.mp (hKU k.2) u).1 hu
     refine ⟨(k : G) * u * (k : G)⁻¹, ⟨k, k.2, rfl⟩, ?_⟩
-    simp only [ψ', dif_pos hkU]
+    simp only [ψ', dite_eq_left hkU]
     rw [heq k ⟨u, hu⟩ ⟨(k : G) * u * (k : G)⁻¹, hkU⟩ rfl, hk]
     exact hg
   have hfin : orb.Finite := Set.toFinite _
   have hcnt : Set.ncard {w : Fin 2 → F | w ≠ 0} = 15 := by
     have h1 : {w : Fin 2 → F | w ≠ 0} = Set.univ \ {0} := by
       ext w; simp
-    rw [h1, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, Nat.card_fun,
+    rw [h1, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, Nat.card_fun,
       hcard]
     simp
   calc 15 = Set.ncard {w : Fin 2 → F | w ≠ 0} := hcnt.symm

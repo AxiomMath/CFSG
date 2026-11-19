@@ -55,11 +55,11 @@ end Context
 
 theorem chief_struct49 {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G}
     (hx : X = Subgroup.zpowers x) {A : Subgroup G} {a n : G} (hd : XAData X L I x A a n)
-    (hFive : FiveRankBound) {N M : Subgroup G} (hch : HChief H N M) (hNQ : N ≤ Q)
+    (_hFive : FiveRankBound) {N M : Subgroup G} (hch : HChief H N M) (hNQ : N ≤ Q)
     (hI : ¬ ⁅N, I⁆ ≤ M) (hw : wIdx (Z49 X A) N M ≤ 64) :
     ChiefShape49 H L Q x N M := by
-  haveI : (M.subgroupOf N).Normal := hch.normal
-  haveI : IsElementaryAbelian 2 (N ⧸ M.subgroupOf N) := hch.isElementaryAbelian
+  have : (M.subgroupOf N).Normal := hch.normal
+  have : IsElementaryAbelian 2 (N ⧸ M.subgroupOf N) := hch.isElementaryAbelian
   let c : Ctx49 H X L Q I x A a n N M := ⟨h, hx, hd, hch, hNQ, hI, hw⟩
   rcases c.wt.pat with hP | hP | hP
   · exact chief_struct49_of_caseI c hP

@@ -35,7 +35,7 @@ theorem typeCoverP_E8_of_datum (q : ℕ) (hq : orderOf ((q : ℕ) : ZMod 5) = 4)
   have hf : Function.Injective f := fun c c' h => hΘ (congrArg Subtype.val h)
   have h1 := Nat.card_le_card_of_injective f hf
   have h2 : Nat.card (Fin 3 → ZMod 5) = 5 ^ 3 := by
-    simp [Nat.card_eq_fintype_card, Fintype.card_fun, ZMod.card]
+    simp [Nat.card_eq_fintype_card, ZMod.card]
   rw [h2] at h1
   exact h1
 

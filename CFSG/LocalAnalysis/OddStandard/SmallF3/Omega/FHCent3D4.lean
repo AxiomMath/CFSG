@@ -22,7 +22,7 @@ section Main
 
 theorem asc82FactCent3D4_holds : Asc82FactCent3D4 := by
   intro A _ _ H hH hC hL a ha g hg3 hga hgH hall
-  haveI : H.Normal := hH
+  have : H.Normal := hH
   have hsimple : IsSimpleGroup ↥H :=
     (l34g_simple_of_simpleFStar (Or.inl (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl hL))))))).1
   have ha2 : a * a = 1 := by

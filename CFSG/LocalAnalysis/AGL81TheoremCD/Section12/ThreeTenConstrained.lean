@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem isPConstrained_of_pLayerIn_eq_bot {p : ℕ} (hp : p.Prime) (H : Subgroup G)
     (hL : pLayerIn p H = ⊥) : CFSG.ABGLocalTools.IsPConstrained p ↥H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hlayer : CFSG.layer (StarGroup p H) = ⊥ := (pLayerIn_eq_bot_iff hp H).mp hL
   refine (CFSG.LocalAnalysis.RankThreeTheoremC.isPConstrained_iff_hasPrimeConstraint
     (p := p) (H := ↥H)).2 ?_

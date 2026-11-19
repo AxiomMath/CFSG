@@ -26,7 +26,7 @@ theorem a2lTwistedE6ThreeSU6_holds : a2lTwistedE6ThreeSU6 := by
   have hK : Nat.card K = 9 := by rw [hcard]; decide
   have hK3 : Nat.card K = 3 ^ 2 := by rw [hK]; norm_num
   have hσ3 : ∀ c, σ c = c ^ 3 := fun c => by simpa using hσ c
-  haveI : CharP K 3 := finite_field_prime_power_characteristic Nat.prime_three (by norm_num) hK3
+  have : CharP K 3 := finite_field_prime_power_characteristic Nat.prime_three (by norm_num) hK3
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   obtain ⟨ζ, hζ, hσζ⟩ := exists_trace_zero σ (q := 3) (by norm_num) hK3 hσ3
   obtain ⟨e₀, he₀⟩ := a2lE6_exists_equiv_statedSU σ hK hσ3 hζ hσζ
@@ -48,7 +48,7 @@ theorem a2lTwistedE6ThreeSU6_holds : a2lTwistedE6ThreeSU6 := by
     (graphFixedRootGroup TwistTag.E6 K σ.toRingHom) e hdC a2l_rootDiagUnit_e6BitsA5_mem hCA
     (a2lE6_component_toral hK) hHC (a2lE6_twE6LeviSA_quasisimple σ hK hσ3)
   have hd2 : orderOf (rootDiagUnit .E6 (bitsTuple (K := K) e6BitsA5)) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact a2l_rootDiagUnit_e6BitsA5_mul_self)
       (a2l_rootDiagUnit_e6BitsA5_ne_one hK2)
   let φ' : ↥T ≃* ↥(twE6LeviSA K σ) := φ

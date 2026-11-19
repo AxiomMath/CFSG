@@ -34,7 +34,7 @@ theorem Ctx.sec717_even_finrank_map_opm (hZcard : Sec7ZCardStatement)
   obtain ⟨K', fK', finK', hKK, e, -, he⟩ :=
     hc.sec717_exists_transport hZcard hZc hZV hs hp3 hZ0 M₀ hM φ hφπ T hT
   obtain ⟨A, hA, hAe⟩ := he r hr
-  haveI : CharP K' 2 := by
+  have : CharP K' 2 := by
     obtain ⟨k, -, hk, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow ((hKK.trans hM.card).trans hk)
   set g := CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin 3 ⊕ Fin 3) K' A with hg
@@ -69,7 +69,7 @@ theorem Ctx.sec717_even_finrank_map_opm (hZcard : Sec7ZCardStatement)
       show ((e (g v - v) : ↥T) : M₀.E) = (y : M₀.E)
       rw [hmap, hev', hxy]
   have hq : 2 ≤ Nat.card K := by
-    haveI : Nontrivial K := inferInstance
+    have : Nontrivial K := inferInstance
     exact Finite.one_lt_card
   rw [Module.natCard_eq_pow_finrank (K := K')
       (V := ↥(CFSG.RankThree.OrthogonalInvolutions.commSpace g)),
@@ -164,10 +164,10 @@ theorem Ctx.sec717_RN_simple (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp 
   have hQH : Q ≤ H0 M Z := hc.Q_le_H0'
   have hQN : Q ≤ hc.CN t := hc.Q_le_CN' ht
   obtain ⟨K', fK', finK', hK'Z, ρ, hρ, hρker, -⟩ := hp3
-  haveI : CharP K' 2 := by
+  have : CharP K' 2 := by
     obtain ⟨k, -, hk, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK'Z.trans hk)
-  haveI := sec7_isSimpleGroup_omegaPlusSix (K := K') (hK'Z ▸ hc.hyp.q4)
+  have := sec7_isSimpleGroup_omegaPlusSix (K := K') (hK'Z ▸ hc.hyp.q4)
   let π' : ↥(Rt M (LB M Q B) t) →* ↥(bar M Q (H0 M Z)) :=
     MonoidHom.codRestrict ((QuotientGroup.mk' (Q.subgroupOf M)).comp
       (Subgroup.inclusion (hc.Rt_le_M t))) (bar M Q (H0 M Z)) fun x =>

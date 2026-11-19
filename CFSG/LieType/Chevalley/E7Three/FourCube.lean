@@ -20,6 +20,7 @@ abbrev Four := D × Multiplicative (ZMod 3)
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem scalar_multiplicity_commute (ζ : Kˣ) :
     Commute (scalarWord ζ) (multiplicityWord ζ) := by
   rw [scalarWord, multiplicityWord]
@@ -31,6 +32,7 @@ theorem scalar_multiplicity_commute (ζ : Kˣ) :
   obtain ⟨j, -, rfl⟩ := List.mem_map.1 hy
   exact torusElement_commute i j _ _
 
+omit [CharP K 2] in
 theorem paired_multiplicity_commute (ζ : Kˣ) :
     Commute (pairedWord ζ) (multiplicityWord ζ) := by
   rw [pairedWord, multiplicityWord]

@@ -87,7 +87,7 @@ theorem sl2_eq_top_of_two_root_pairs {F : Type} [Field F] [Finite F]
     have hu : ∀ c₁ ∈ frobFixed F 1, ∀ c₂ ∈ frobFixed F 1, u2 (c₁ * x + c₂ * y) ∈ M := by
       intro c₁ hc₁ c₂ hc₂
       rcases hbin c₁ hc₁ with rfl | rfl <;> rcases hbin c₂ hc₂ with rfl | rfl
-      · simpa [u2_zero] using M.one_mem
+      · simp [u2_zero]
       · simpa using huy
       · simpa using hux
       · rw [one_mul, one_mul, u2_add]
@@ -168,7 +168,7 @@ theorem sl2_eq_top_of_two_root_pairs {F : Type} [Field F] [Finite F]
       rw [h1] at htr
       have h0 : Matrix.trace ((1 : SpecialLinearGroup (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) =
           0 := by
-        simp [Matrix.trace_fin_two]
+        simp
         exact CharTwo.two_eq_zero
       exact hν' (htr.symm.trans h0)
     rcases alternatingFive_pow_cases (e h₁) with hk | hk | hk
@@ -213,7 +213,7 @@ theorem sl2_eq_top_of_two_root_pairs {F : Type} [Field F] [Finite F]
     exfalso
     have htodd : Odd t :=
       Odd.of_dvd_nat hFodd (ht.trans (Nat.div_dvd_of_dvd (Nat.gcd_dvd_left _ _)))
-    haveI := hN
+    have := hN
     have hxN : ex ∈ N := mem_of_sq_eq_one_of_sup hdisj hsup (hCcard ▸ htodd) hx2
     have hyN : ey ∈ N := mem_of_sq_eq_one_of_sup hdisj hsup (hCcard ▸ htodd) hy2
     have hcN := hNel.toIsMulCommutative.is_comm.comm (⟨ex, hxN⟩ : N) ⟨ey, hyN⟩

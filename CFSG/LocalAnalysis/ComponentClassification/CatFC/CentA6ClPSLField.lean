@@ -121,7 +121,7 @@ theorem a6_psl_field (hO : LieOrderFormulasInput) {f : ℕ} (hK : Nat.card K = 3
         calc 27 = 3 ^ 3 := by norm_num
           _ ≤ 3 ^ g := Nat.pow_le_pow_right (by norm_num) hg3
       subst hn2
-      haveI := CatalogueBGeneralLinear.specialLinear_perfect 2 (fixedField K τ) le_rfl
+      have := CatalogueBGeneralLinear.specialLinear_perfect 2 (fixedField K τ) le_rfl
         (Or.inr (by omega)) (Or.inr (by omega))
       have hb := a6_psl_field_witness τ hD' (by omega) Group.IsPerfect.commutator_eq_top
       rw [card_SL_two] at hb
@@ -131,7 +131,7 @@ theorem a6_psl_field (hO : LieOrderFormulasInput) {f : ℕ} (hK : Nat.card K = 3
         omega
       omega
   · exfalso
-    haveI := CatalogueBGeneralLinear.specialLinear_perfect n (fixedField K τ) hn
+    have := CatalogueBGeneralLinear.specialLinear_perfect n (fixedField K τ) hn
       (Or.inl (by omega)) (Or.inl (by omega))
     have hb := a6_psl_field_witness τ hD' (by omega) Group.IsPerfect.commutator_eq_top
     have h2 := lt_card_SL_of_three_le hn3 hq₀3

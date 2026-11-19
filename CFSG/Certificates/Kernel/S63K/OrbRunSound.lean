@@ -73,8 +73,8 @@ theorem push_get {β : Type} [Inhabited β] (a : Array β) (x : β) {c j : ℕ} 
     (hj : j < c + 1) : (a.push x)[j]! = if j < c then a[j]! else x := by
   rw [getElem!_pos (a.push x) j (by rw [Array.size_push]; omega)]
   by_cases h : j < c
-  · rw [if_pos h, getElem!_pos a j (by omega), Array.getElem_push_lt]
-  · rw [if_neg h]
+  · rw [ite_eq_left h, getElem!_pos a j (by omega), Array.getElem_push_lt]
+  · rw [ite_eq_right h]
     have : j = a.size := by omega
     subst this
     rw [Array.getElem_push_eq]
@@ -107,18 +107,18 @@ theorem inv_push {c : ℕ} {s : OSt} (hC : OCons O Ps N cnt) (hs : OInv O Pa La 
   · rw [get_set _ _ (by rw [hposz]; exact hy), hosz]
     by_cases e : y = O c
     · subst e
-      rw [if_pos rfl, hOc.2, if_pos (Nat.lt_succ_self c)]
-    · rw [if_neg e, hpos y hy]
+      rw [ite_eq_left rfl, hOc.2, ite_eq_left (Nat.lt_succ_self c)]
+    · rw [ite_eq_right e, hpos y hy]
       rcases hC.p y hy with h1 | ⟨h1, h2⟩
       · have := hC.cN
-        rw [h1, if_neg (by omega), if_neg (by omega)]
+        rw [h1, ite_eq_right (by omega), ite_eq_right (by omega)]
       · by_cases h3 : Ps y < c
-        · rw [if_pos h3, if_pos (by omega)]
-        · rw [if_neg h3]
+        · rw [ite_eq_left h3, ite_eq_left (by omega)]
+        · rw [ite_eq_right h3]
           by_cases h5 : Ps y = c
           · rw [h5] at h2
             exact absurd h2.symm e
-          · rw [if_neg (by omega)]
+          · rw [ite_eq_right (by omega)]
 
 @[expose] def OTree (actF : ℕ → ℕ → ℕ) (O Pa La : ℕ → ℕ) (k c : ℕ) : Prop :=
   ∀ i, 0 < i → i < c → Pa i < i ∧ La i < k ∧ actF (La i) (O (Pa i)) = O i
@@ -145,10 +145,10 @@ theorem orbRowK_mono (h : ℕ) :
     intro j c hne
     rw [orbRowK_succ] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]; exact ih _ _ hne
-    · rw [if_neg ‹_›]
+    · rw [ite_eq_left ‹_›]; exact ih _ _ hne
+    · rw [ite_eq_right ‹_›]
       split at hne
-      · rw [if_pos ‹_›]; exact Nat.le_of_succ_le (ih _ _ hne)
+      · rw [ite_eq_left ‹_›]; exact Nat.le_of_succ_le (ih _ _ hne)
       · exact absurd rfl hne
 
 theorem orbRunK_succ (fuel h c : ℕ) :
@@ -171,12 +171,12 @@ theorem orbRunK_mono :
     intro h c hne
     rw [orbRunK_succ] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       split at hne
       · exact absurd rfl hne
-      · rw [if_neg ‹_›]
+      · rw [ite_eq_right ‹_›]
         exact Nat.le_trans (orbRowK_mono h k 0 c ‹_›) (ih _ _ hne)
-    · rw [if_neg ‹_›]
+    · rw [ite_eq_right ‹_›]
 
 theorem orbRow_replay (hC : OCons O Ps N cnt)
     (hact : ∀ h < cnt, ∀ j < k, actF j (O h) = O (W (k * h + j))) {h : ℕ} :
@@ -201,37 +201,37 @@ theorem orbRow_replay (hC : OCons O Ps N cnt)
     unfold oJ
     rw [hy]
     by_cases hw : W (k * h + j) < c
-    · rw [if_pos hw] at hne hle hmono ⊢
+    · rw [ite_eq_left hw] at hne hle hmono ⊢
       have hO := hC.o _ (by omega : W (k * h + j) < cnt)
       have hp := hs.pos _ hO.1
-      rw [hO.2, if_pos hw] at hp
+      rw [hO.2, ite_eq_left hw] at hp
       have hcond : (decide (O (W (k * h + j)) < N) && s.1[O (W (k * h + j))]! == N) = false := by
         rw [hp]
         have : W (k * h + j) ≠ N := by have := hC.cN; omega
         simp [this]
       rw [hcond]
       exact ih (j + 1) c s (by omega) hhc hs ht hne hle
-    · rw [if_neg hw] at hne hle hmono ⊢
+    · rw [ite_eq_right hw] at hne hle hmono ⊢
       by_cases hn : W (k * h + j) = c ∧ Pa c = h ∧ La c = j
-      · rw [if_pos hn] at hne hle hmono ⊢
+      · rw [ite_eq_left hn] at hne hle hmono ⊢
         obtain ⟨hwc, hpc, hlc⟩ := hn
         have hcN : c < cnt := Nat.lt_of_lt_of_le (Nat.lt_succ_self c)
           (Nat.le_trans (orbRowK_mono h n (j + 1) (c + 1) hne) hle)
         have hO := hC.o c hcN
         have hp := hs.pos _ hO.1
-        rw [hO.2, if_neg (Nat.lt_irrefl c)] at hp
+        rw [hO.2, ite_eq_right (Nat.lt_irrefl c)] at hp
         rw [hwc]
         have hcond : (decide (O c < N) && s.1[O c]! == N) = true := by
           rw [hp]
           simp [hO.1]
-        rw [if_pos hcond]
+        rw [ite_eq_left hcond]
         refine ih (j + 1) (c + 1) _ (by omega) (by omega) (inv_push hC hs hcN hpc hlc)
           (fun i h0 hi => ?_) hne hle
         rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
         · exact ht i h0 hi
         · refine ⟨by omega, by omega, ?_⟩
           rw [hpc, hlc, hy, hwc]
-      · rw [if_neg hn] at hne
+      · rw [ite_eq_right hn] at hne
         exact absurd rfl hne
 
 theorem fold_idle (actF : ℕ → ℕ → ℕ) :
@@ -241,7 +241,7 @@ theorem fold_idle (actF : ℕ → ℕ → ℕ) :
     rw [List.range'_succ, List.foldl_cons]
     have e : oH N k actF s h = s := by
       unfold oH
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
     rw [e]
     exact fold_idle actF m (h + 1) s (by omega)
 
@@ -263,22 +263,22 @@ theorem orbRun_replay (hC : OCons O Ps N cnt)
     have hmono := orbRunK_mono (W := W) (Pa := Pa) (La := La) (k := k) (fuel + 1) h c (by omega)
     rw [orbRunK_succ] at hr hmono
     by_cases hc : h < c
-    · rw [if_pos hc] at hr hmono
+    · rw [ite_eq_left hc] at hr hmono
       by_cases h0 : orbRowK W Pa La k h k 0 c = 0
-      · rw [if_pos h0] at hr
+      · rw [ite_eq_left h0] at hr
         omega
-      · rw [if_neg h0] at hr hmono
+      · rw [ite_eq_right h0] at hr hmono
         have hle : orbRowK W Pa La k h k 0 c ≤ cnt :=
           hr ▸ orbRunK_mono fuel (h + 1) _ (by omega)
         obtain ⟨m', rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by have := hC.cN; omega⟩
         rw [List.range'_succ, List.foldl_cons]
         have e : oH N k actF s h = (List.range' 0 k).foldl (oJ N actF (O h) h) s := by
           unfold oH
-          rw [if_pos (by rw [hs.osz]; exact hc), hs.ord h hc]
+          rw [ite_eq_left (by rw [hs.osz]; exact hc), hs.ord h hc]
         rw [e]
         obtain ⟨hs', ht'⟩ := orbRow_replay (W := W) hC hact k 0 c s (by omega) hc hs ht h0 hle
         exact ih (h + 1) _ _ m' (by omega) hle hs' ht' hr
-    · rw [if_neg hc] at hr
+    · rw [ite_eq_right hc] at hr
       subst hr
       rw [fold_idle actF m h s (by rw [hs.osz]; omega)]
       exact ⟨hs, ht⟩
@@ -308,16 +308,16 @@ theorem orbBFS_of_K {root : ℕ} (hcnt : 0 < cnt) (h0 : O 0 = root) (hp0 : Pa 0 
     · rw [get_set _ _ (by simpa using hy)]
       by_cases e : y = root
       · subst e
-        rw [if_pos rfl, hr0.2, if_pos Nat.one_pos]
-      · rw [if_neg e, getElem!_pos _ y (by simpa using hy), Array.getElem_replicate]
+        rw [ite_eq_left rfl, hr0.2, ite_eq_left Nat.one_pos]
+      · rw [ite_eq_right e, getElem!_pos _ y (by simpa using hy), Array.getElem_replicate]
         rcases hC.p y hy with h1 | ⟨h1, h2⟩
-        · rw [h1, if_neg (by have := hC.cN; omega)]
+        · rw [h1, ite_eq_right (by have := hC.cN; omega)]
         · by_cases h3 : Ps y < 1
           · exfalso
             have : Ps y = 0 := by omega
             rw [this, h0] at h2
             exact e h2.symm
-          · rw [if_neg h3]
+          · rw [ite_eq_right h3]
   have ht0 : OTree actF O Pa La k 1 := fun i h1 h2 => by omega
   obtain ⟨hs, ht⟩ := orbRun_replay (W := W) hC hact hcnt (cnt + 1) 0 1 _ N (by omega)
     (by omega) hs0 ht0 hrun

@@ -16,6 +16,7 @@ variable {S : Type} [Group S] [Finite S]
   ∀ K : Subgroup S, s ∈ K → K ≤ Subgroup.centralizer {s} → IsQuasisimple K →
     IsType425 (K ⧸ aschbacherSolvableCore 3 K) → False
 
+omit [Finite S] in
 theorem noCQ425_of_at (h : ∀ s : S, orderOf s = 3 → NoCQAt s) : NoCQ425 S :=
   fun s K hs3 hsK hKs hKq hT => h s hs3 K hsK hKs hKq hT
 
@@ -29,12 +30,13 @@ theorem noCQAt_of_card_dvd {s : S} {M B : ℕ}
   rw [hfree] at this
   exact List.not_mem_nil this
 
+omit [Finite S] in
 theorem noCQAt_of_not_mem_commutator {s : S}
     (h : s ∉ ⁅Subgroup.centralizer ({s} : Set S), Subgroup.centralizer ({s} : Set S)⁆) :
     NoCQAt s := by
   intro K hsK hKs hKq _
   apply h
-  haveI hKp : Group.IsPerfect K := hKq.1
+  have hKp : Group.IsPerfect K := hKq.1
   have hKK : ⁅K, K⁆ = K := Subgroup.commutator_eq_self (H := K)
   exact Subgroup.commutator_mono hKs hKs (hKK.symm ▸ hsK)
 
@@ -86,12 +88,13 @@ theorem noCQAt_of_card_eq {s : S} {M B : ℕ}
     exact Nat.le_of_dvd Nat.card_pos (card_theta_quot_dvd K)
   have hKC : K = Subgroup.centralizer ({s} : Set S) := Subgroup.eq_of_le_of_card_ge hKs hle
   apply hnp
-  haveI hKp : Group.IsPerfect K := hKq.1
+  have hKp : Group.IsPerfect K := hKq.1
   rw [← hKC]
   exact Subgroup.commutator_eq_self (H := K)
 
 variable {T : Type} [Group T] [Finite T]
 
+omit [Finite T] in
 theorem NoCQAt.of_mulEquiv (e : S ≃* T) {s : S} (h : NoCQAt (e s)) : NoCQAt s := by
   intro K hsK hKs hKq hT
   have eK : K ≃* K.map (e : S →* T) := K.equivMapOfInjective _ e.injective
@@ -100,6 +103,7 @@ theorem NoCQAt.of_mulEquiv (e : S ≃* T) {s : S} (h : NoCQAt (e s)) : NoCQAt s 
   rw [← map_centralizer_singleton_equiv e s]
   exact Subgroup.map_mono hKs
 
+omit [Finite T] in
 theorem noCQ425_of_at_mulEquiv (e : S ≃* T) (h : ∀ t : T, orderOf t = 3 → NoCQAt t) :
     NoCQ425 S :=
   noCQ425_of_at fun s hs => NoCQAt.of_mulEquiv e (h (e s) (by rwa [MulEquiv.orderOf_eq]))

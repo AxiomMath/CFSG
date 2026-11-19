@@ -29,11 +29,13 @@ section Conj
 variable {α β : MulAut ↥(orthElementaryGroup (quadTail r (minusTailForm K b c)))}
   {f f' : ((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K] ((Fin r ⊕ Fin r → K) × (Fin 2 → K))}
 
+omit [Finite K] [CharP K 2] in
 theorem IsConjBy.mul (hα : IsConjBy α f) (hβ : IsConjBy β f') : IsConjBy (α * β) (f * f') := by
   intro g
   rw [MulAut.mul_apply, hα, hβ]
   group
 
+omit [Finite K] [CharP K 2] in
 theorem IsConjBy.inv (hα : IsConjBy α f) : IsConjBy α⁻¹ f⁻¹ := by
   intro g
   have h := hα (α⁻¹ g)
@@ -41,26 +43,31 @@ theorem IsConjBy.inv (hα : IsConjBy α f) : IsConjBy α⁻¹ f⁻¹ := by
   rw [inv_inv, h]
   group
 
+omit [Finite K] [CharP K 2] in
 theorem IsConjBy.one : IsConjBy (1 : MulAut ↥(orthElementaryGroup (quadTail r
     (minusTailForm K b c)))) (1 : 𝕍 ≃ₗ[K] 𝕍) := by
   intro g
   simp
 
+omit [Finite K] [CharP K 2] in
 theorem IsConjBy.pow (hα : IsConjBy α f) (n : ℕ) : IsConjBy (α ^ n) (f ^ n) := by
   induction n with
   | zero => simpa using IsConjBy.one
   | succ n ih => rw [pow_succ, pow_succ]; exact ih.mul hα
 
+omit [Finite K] [CharP K 2] in
 theorem IsConjBy.commutator (hα : IsConjBy α f) (hβ : IsConjBy β f') :
     IsConjBy ⁅α, β⁆ ⁅f, f'⁆ := by
   rw [commutatorElement_def, commutatorElement_def]
   exact ((hα.mul hβ).mul hα.inv).mul hβ.inv
 
+omit [Finite K] [CharP K 2] in
 theorem IsConjBy.pow_eq_one (hα : IsConjBy α f) {n : ℕ} (hf : f ^ n = 1) : α ^ n = 1 := by
   refine MulEquiv.ext fun g => Subtype.ext ?_
   rw [(hα.pow n) g, hf]
   simp
 
+omit [Finite K] [CharP K 2] in
 theorem IsConjBy.pow_commute (hα : IsConjBy α f) {n : ℕ} (hn : α ^ n = 1)
     (g : ↥(orthElementaryGroup (quadTail r (minusTailForm K b c)))) :
     (f ^ n) * (g : 𝕍 ≃ₗ[K] 𝕍) = (g : 𝕍 ≃ₗ[K] 𝕍) * (f ^ n) := by
@@ -82,9 +89,11 @@ section Data
   left_inv := S.F.left_inv
   right_inv := S.F.right_inv
 
+omit [Finite K] [CharP K 2] in
 theorem SemiData.toLinear_apply (S : SemiData K r b c) (hσ : ∀ a : K, S.σ a = a) (v : 𝕍) :
     S.toLinear hσ v = S.F v := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem SemiData.isConjBy {S : SemiData K r b c}
     {α : MulAut ↥(orthElementaryGroup (quadTail r (minusTailForm K b c)))} (hS : S.Induces α)
     (hσ : ∀ a : K, S.σ a = a) : IsConjBy α (S.toLinear hσ) := by
@@ -105,6 +114,7 @@ theorem SemiData.isConjBy {S : SemiData K r b c}
     have := hv i
     simp [*]
 
+omit [Finite K] [CharP K 2] in
 theorem mem_perpSub {t : ℕ} {ht : t ≤ r} {v : 𝕍} :
     v ∈ perpSub (K := K) (r := r) ht ↔ IsResPerp ht v :=
   Iff.rfl
@@ -113,6 +123,7 @@ end Data
 
 section ExistsData
 
+omit [Finite K] [CharP K 2] in
 theorem phiB_scalar_ne_zero (hd : OrthCuts r d) (S : SemiData K r b c)
     (hflag : ∀ (i : Fin (s + 1)) (v : (Fin r ⊕ Fin r → K) × (Fin 2 → K)),
       S.F v ∈ tailFlag K (Fin 2 → K) r (d i) ↔ v ∈ tailFlag K (Fin 2 → K) r (d i))
@@ -144,7 +155,7 @@ theorem exists_data (hr : 3 ≤ r) (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0) (
         (tailFlag K (Fin 2 → K) r (d (Fin.last s))) Fl a) ∧
       ∃ (N : ℕ) (a : K), Odd N ∧ ∀ v, (Fl ^ N) v = a • v := by
   classical
-  haveI : Finite (𝕍 ≃ₗ[K] 𝕍) := finite_orthLinearEquiv
+  have : Finite (𝕍 ≃ₗ[K] 𝕍) := finite_orthLinearEquiv
   obtain ⟨S, hS⟩ := exists_semiData hr hirr α
   have hnorm : ∀ u ∈ orthParab r (minusTailForm K b c) d,
       ∃ x ∈ orthParab r (minusTailForm K b c) d, ∀ v,
@@ -285,6 +296,7 @@ end ExistsData
 
 section Model
 
+omit [Finite K] [CharP K 2] in
 theorem isSim_of_quad {g : 𝕍 ≃ₗ[K] 𝕍} {μ : K}
     (hq : ∀ v, quadTail r (minusTailForm K b c) (g v) =
       μ * quadTail r (minusTailForm K b c) v) : IsSim (b := b) (c := c) g μ := by

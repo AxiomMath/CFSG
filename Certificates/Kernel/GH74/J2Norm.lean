@@ -306,7 +306,7 @@ theorem s_mem : pS ∈ j2P := j2_row_mem_P j2Row2B_mem j2Row2B_outer
 
 theorem s_order : orderOf pS = 2 := (j2_rows_spec.1 j2Row2B j2Row2B_mem).2.1
 
-theorem conj_s_mem {n : Equiv.Perm (Fin 315)} (hn' : n ∈ j2P) (ha : n * pA * n⁻¹ ∈ KB)
+theorem conj_s_mem {n : Equiv.Perm (Fin 315)} (_hn' : n ∈ j2P) (ha : n * pA * n⁻¹ ∈ KB)
     (hb : n * pB * n⁻¹ ∈ KB) :
     (n * pS * n⁻¹) * pA = pA * (n * pS * n⁻¹) ∧ (n * pS * n⁻¹) * pB = pB * (n * pS * n⁻¹) ∧
       orderOf (n * pS * n⁻¹) = 2 := by
@@ -339,7 +339,7 @@ theorem norm_le :
     intro n
     have h : ∃ m : N, yf m = yf n := ⟨n, rfl⟩
     refine ⟨Classical.choose h, ?_, Classical.choose_spec h⟩
-    simp only [r, dif_pos h]
+    simp only [r, dite_eq_left h]
   have hD : ∀ n : N, (r (yf n))⁻¹ * n.1.1 ∈ D := by
     intro n
     obtain ⟨m, hm1, hm2⟩ := hr n

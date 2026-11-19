@@ -86,7 +86,7 @@ theorem a6_lemma42_of_not_wc (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : The
     have hx₁1 : g * x * g⁻¹ ≠ 1 := fun h => hx1 (by simpa using h)
     obtain ⟨h, hhN, hhx⟩ := exists_mem_normalizer_conj hgen.2.2.1 hQc hx₁Q
     have hNQ : normalizer (Q : Set G) ≤ M := normalizer_le_of_le_of_two_le_pRank hS hU0 hp hM
-      (P.isPGroup'.to_le hQP) (hQP.trans hPM) (by rw [hgen.2.2.2]; norm_num)
+      (P.isPGroup.to_le hQP) (hQP.trans hPM) (by rw [hgen.2.2.2]; norm_num)
     have hx₁LO : IsLargeObstruction 3 M (g * x * g⁻¹) := by
       have h1 := hxLO.conj (hNQ hhN)
       rw [MulAut.conj_apply, hhx] at h1

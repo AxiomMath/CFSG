@@ -66,7 +66,7 @@ theorem linear_subgroup_nontrivial_two_core_borel_complement {f : ℕ}
         rw [hyx]
         group
   let S : Subgroup A := (P : Subgroup (PSL2MatrixGroup K)).comap A.subtype
-  have hS2 : IsPGroup 2 S := P.isPGroup'.comap_of_injective A.subtype A.subtype_injective
+  have hS2 : IsPGroup 2 S := P.isPGroup.comap_of_injective A.subtype A.subtype_injective
   have hSnormal : S.Normal := by
     constructor
     intro s hs a
@@ -80,7 +80,7 @@ theorem linear_subgroup_nontrivial_two_core_borel_complement {f : ℕ}
   have hRS : (R : Subgroup A) ≤ S := by
     intro r hr
     have hRmap : ((R : Subgroup A).map A.subtype) ≤ P := by
-      refine le_sylow_of_le_normalizer P (R.isPGroup'.map A.subtype) ?_
+      refine le_sylow_of_le_normalizer P (R.isPGroup.map A.subtype) ?_
       exact (Subgroup.map_subtype_le _).trans hAN
     exact hRmap (Subgroup.mem_map_of_mem A.subtype hr)
   have hRS' : (R : Subgroup A) = S := le_antisymm hRS hSR

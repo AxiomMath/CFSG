@@ -159,7 +159,7 @@ theorem rankOne_quotient_center {K : Type} [Group K] [Finite K] (hK : Open.IsQua
         rw [mem_center_iff.1 (hP'c hn) g, mul_inv_cancel_right]
       rw [this]
       exact hn
-    have hP'2 : IsPGroup 2 P' := P.isPGroup'.map _
+    have hP'2 : IsPGroup 2 P' := P.isPGroup.map _
     have hP'T : P' ≤ T := hP'2.le_sylow_of_normal T
     have hle : P'.subgroupOf (T : Subgroup K) ≤ ψ.ker := by
       intro t ht
@@ -241,7 +241,7 @@ theorem dihedral_quotient_center {K : Type} [Group K] [Finite K] (hK : Open.IsQu
     intro t ht
     rw [MonoidHom.mem_ker] at ht
     have htc : (t : K) ∈ center K := (QuotientGroup.eq_one_iff _).1 ht
-    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.1 S.isPGroup' t
+    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.1 S.isPGroup t
     have hdvd : orderOf (⟨t, htc⟩ : center K) ∣ Nat.card (center K) := orderOf_dvd_natCard _
     rw [Subgroup.orderOf_mk, Subgroup.orderOf_coe, hj] at hdvd
     rcases Nat.eq_zero_or_pos j with hj0 | hjpos

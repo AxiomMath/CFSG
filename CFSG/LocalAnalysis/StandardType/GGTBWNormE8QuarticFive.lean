@@ -44,7 +44,7 @@ theorem ggTorusWNormSC_recipe_E8_quartic_five {K : Type} [Field K] [Finite K] [C
     (h5 : 5 ∣ Nat.card K * Nat.card K + 1) :
     GGTorusWNormSC 5 (RecipeGroup .E8 K) (RecipeID .E8 K) := by
   classical
-  letI : Algebra (ZMod 2) K := ZMod.algebra _ _
+  let : Algebra (ZMod 2) K := ZMod.algebra _ _
   intro L _ _ ψ hψ hker hperf A hA hAI h3 hsc
   have hIp : GGOutdiagPrime 5 (RecipeGroup .E8 K) (RecipeID .E8 K) := by
     intro φ hφ _
@@ -112,7 +112,7 @@ theorem largeEvenLabelAll_wnorm_E8_quartic_five {lab : LargeEvenLabel}
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQK⟩ := hQ
-  letI : CharP K 2 := charP_two_of_card hK
+  let : CharP K 2 := charP_two_of_card hK
   refine ⟨K, i1, i2, hK, hQK, ?_⟩
   exact ggTorusWNormSC_recipe_E8_quartic_five hf hK (by rw [hK]; simpa [pow_two] using h5)
 

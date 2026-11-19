@@ -165,7 +165,7 @@ theorem card_le_eight {V ι : Type} [AddCommGroup V] [Module K V] [FiniteDimensi
     (hF : ∀ i, F i * F i = 1) (hcomm : ∀ i j, Commute (F i) (F j))
     (hdet : ∀ i, LinearMap.det (F i) = 1) (hinj : Function.Injective F) :
     Nat.card ι ≤ 8 := by
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   rw [Nat.card_eq_fintype_card]
   have hneg : (-1 : K) ≠ 1 := fun h => h2 (by linear_combination -h)
   have hss : ∀ i, (F i).IsSemisimple := fun i => isSemisimple_of_mul_self_eq_one h2 (hF i)

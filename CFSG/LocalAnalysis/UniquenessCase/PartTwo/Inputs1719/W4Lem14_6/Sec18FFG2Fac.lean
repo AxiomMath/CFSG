@@ -33,16 +33,16 @@ theorem g2_innerOnSec [Finite G] [Finite V] {L B : Subgroup G} {n : ℕ} (hodd :
     (∀ b ∈ B, ∃ l ∈ L, ∀ y ∈ Y, ρ b y - ρ l y ∈ Z) ∧
       ∀ W : Submodule (ZMod 2) V, CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ L W → Z ≤ W → W ≤ Y → W = Z ∨ W = Y := by
   classical
-  haveI : IsSimpleGroup ↥L := CFSG.LocalAnalysis.EvenBN.G2.isSimpleGroup_of_lieModel_G2 hG2
+  have : IsSimpleGroup ↥L := CFSG.LocalAnalysis.EvenBN.G2.isSimpleGroup_of_lieModel_G2 hG2
   have hZL : Subgroup.center ↥L = ⊥ := by
     have hCE : CFSG.Blueprint.ChevalleyExceptionalModel ↥L .G2 2 n :=
       CFSG.Blueprint.LieModel.chevalleyExceptionalModel hG2 (by decide)
     obtain ⟨-, K, hfield, hfin, hchar, hKcard, ⟨e⟩⟩ :=
       CFSG.Quasithin.B42G2Id.exists_quasithinG2_of_chevalleyExceptionalModel hCE
-    letI := hfield
-    letI := hfin
-    letI := hchar
-    haveI : Fintype K := Fintype.ofFinite K
+    let := hfield
+    let := hfin
+    let := hchar
+    have : Fintype K := Fintype.ofFinite K
     refine CFSG.LocalAnalysis.RankThreeUC.S15.g2_center_eq_bot (F := K) (n := n)
       (by omega) ?_ e
     rw [← Nat.card_eq_fintype_card]
@@ -108,12 +108,12 @@ theorem g2_secNatural [Finite G] [Finite V] {L B : Subgroup G} {K : Type} [Field
         φ (secHom hY hZ (Subgroup.inclusion (le_sup_left : L ≤ L ⊔ B) l) q) =
           g2Act (e l) (φ q) := by
   classical
-  haveI : IsSimpleGroup ↥L := CFSG.LocalAnalysis.EvenBN.G2.isSimpleGroup_of_lieModel_G2 hG2
-  haveI : IsSimpleGroup ↥(cayleyGroup K) := by
+  have : IsSimpleGroup ↥L := CFSG.LocalAnalysis.EvenBN.G2.isSimpleGroup_of_lieModel_G2 hG2
+  have : IsSimpleGroup ↥(cayleyGroup K) := by
     have hG2' : IsG2 ↥(cayleyGroup K) n := CFSG.Blueprint.LieModel.of_mulEquiv e hG2
     exact CFSG.LocalAnalysis.EvenBN.G2.isSimpleGroup_of_lieModel_G2 hG2'
-  haveI : Finite (SecQ Y Z) := Module.finite_of_finite (ZMod 2)
-  haveI : Module.Finite (ZMod 2) (SecQ Y Z) := Module.Finite.of_finite
+  have : Finite (SecQ Y Z) := Module.finite_of_finite (ZMod 2)
+  have : Module.Finite (ZMod 2) (SecQ Y Z) := Module.Finite.of_finite
   have hLH : L ≤ L ⊔ B := le_sup_left
   have hBH : B ≤ L ⊔ B := le_sup_right
   have hKf : Fintype.card K = 2 ^ n := by rw [← Nat.card_eq_fintype_card]; exact hK
@@ -284,10 +284,10 @@ theorem g2_factorBound [Finite G] [Finite V] {L : Subgroup G} {n : ℕ} (hodd : 
     CFSG.Blueprint.LieModel.chevalleyExceptionalModel hG2 (by decide)
   obtain ⟨-, K, hfield, hfin, hchar, hKcard, ⟨e⟩⟩ :=
     CFSG.Quasithin.B42G2Id.exists_cayleyGroup_of_chevalleyExceptionalModel hCE
-  letI := hfield
-  letI := hfin
-  letI := hchar
-  haveI : Fintype K := Fintype.ofFinite K
+  let := hfield
+  let := hfin
+  let := hchar
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨h3n, h2n, -⟩ :=
     g2_secNatural (K := K) hodd hn hG2 hKcard e hBe hBN hm1 hm hZY hY hZ hCB hirr hnt hcost
   omega

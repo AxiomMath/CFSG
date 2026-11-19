@@ -13,6 +13,7 @@ open Subgroup CFSG.OddStandard.SmallF3.HarrisU33
 variable {G : Type} [Group G] [Finite G] {c : Bool} {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau : G} {T₂ P : Subgroup G} {q s : G} {β : ℕ → G}
 
+omit [Finite G] in
 theorem fzb_six_comm (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β) (hF : FzbFactsGen c) :
     ∀ e ∈ fzbSix c, fzbMul c e 832 = fzbMul c 832 e := by
   have htu : Commute (β 128) (β 832) :=
@@ -50,6 +51,7 @@ theorem fzb_six_comm (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β) (hF : FzbF
       hβ.mul 128 (by norm_num) 832 (by norm_num)]
     exact (htu.mul_left (Commute.refl (β 832))).mul_left hzu
 
+omit [Finite G] in
 theorem fzb_six_conj (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β) (hF : FzbFactsGen c)
     (hu : ∃ g : G, g⁻¹ * t * g = β 832) :
     ∀ e ∈ fzbSix c, e < 1024 ∧ ∃ g : G, g⁻¹ * t * g = β e := by
@@ -95,7 +97,7 @@ theorem fzb_count_A6 (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (twoCo
   have hconj := fzb_six_conj hβ hF.toFzbFactsGen hu
   refine fzb_model_pigeon hF hψ hcomm (fun e he => ?_)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   obtain ⟨he1024, hge⟩ := hconj e he
   obtain ⟨-, hψe⟩ := hψβ e he1024 (hcomm e he)
   have hz : β (ψ e) ∈ fourGrp x₁ x₂ := (hβ.Z_eq _).mpr ⟨ψ e, hlt, rfl⟩

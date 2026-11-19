@@ -48,10 +48,10 @@ private lemma ggQ2xKDa_ite (K : Type) [Field K] (n : ℕ) (i j : Fin n) :
     ((if j ≤ i then (1 : K) else 0) - (if j < i then 1 else 0)) =
       if i = j then 1 else 0 := by
   by_cases h : i = j
-  · rw [h, if_pos le_rfl, if_neg (lt_irrefl j), if_pos rfl]; ring
+  · rw [h, ite_eq_left le_rfl, ite_eq_right (lt_irrefl j), ite_eq_left rfl]; ring
   · rcases lt_or_gt_of_ne h with hlt | hlt
-    · rw [if_neg (not_le.mpr hlt), if_neg (not_lt.mpr (le_of_lt hlt)), if_neg h]; ring
-    · rw [if_pos (le_of_lt hlt), if_pos hlt, if_neg h]; ring
+    · rw [ite_eq_right (not_le.mpr hlt), ite_eq_right (not_lt.mpr (le_of_lt hlt)), ite_eq_right h]; ring
+    · rw [ite_eq_left (le_of_lt hlt), ite_eq_left hlt, ite_eq_right h]; ring
 
 private lemma ggQ2xKDa_lam_A (K : Type) [Field K] (n : ℕ) (i j : Fin n) :
     ggQ2xKDa_lam K n i (ggQ2xKDa_A K n j : Fin (n+1) → K) = if i = j then 1 else 0 := by
@@ -82,10 +82,10 @@ private theorem ggQ2xKDa_A_linIndep (K : Type) [Field K] (n : ℕ) :
   intro g hg i
   have h3 : (ggQ2xKDa_lamPi K n (∑ j, g j • ggQ2xKDa_A K n j)) i = g i := by
     rw [map_sum, Finset.sum_apply]
-    simp only [map_smul, LinearMap.smul_apply, ggQ2xKDa_lamPi_A, Pi.smul_apply, Pi.single_apply]
+    simp only [map_smul, ggQ2xKDa_lamPi_A, Pi.smul_apply, Pi.single_apply]
     rw [Finset.sum_eq_single i]
     · simp
-    · intro j _ hj; rw [if_neg (Ne.symm hj), smul_zero]
+    · intro j _ hj; rw [ite_eq_right (Ne.symm hj), smul_zero]
     · intro hi; exact absurd (Finset.mem_univ i) hi
   rw [← h3, hg, map_zero]
   rfl
@@ -124,7 +124,7 @@ private lemma ggQ2xKDa_Pe_single (K : Type) [Field K] (n : ℕ) (σ : Equiv.Perm
 
 private lemma ggQ2xKDa_sum_Pe (K : Type) [Field K] (n : ℕ) (σ : Equiv.Perm (Fin (n+1)))
     (x : Fin (n+1) → K) : ggQ2xKDa_sum K n (ggQ2xKDa_Pe K n σ x) = ggQ2xKDa_sum K n x := by
-  simp only [ggQ2xKDa_sum, ggQ2xKDa_Pe, LinearEquiv.funCongrLeft_apply, LinearMap.funLeft_apply]
+  simp only [ggQ2xKDa_sum, ggQ2xKDa_Pe, LinearEquiv.funCongrLeft_apply]
   exact Equiv.sum_comp σ.symm x
 
 private lemma ggQ2xKDa_S_mem_Pe (K : Type) [Field K] (n : ℕ) (σ : Equiv.Perm (Fin (n+1)))
@@ -193,12 +193,12 @@ lemma ggQ2xKDa_coeff_self (n : ℕ) (i : Fin n) : CartanMatrix.A n i i = 2 := by
 
 private lemma ggQ2xKDa_coeff_adj (n : ℕ) {i j : Fin n} (hne : i ≠ j)
     (h : i.val + 1 = j.val ∨ j.val + 1 = i.val) : CartanMatrix.A n i j = -1 := by
-  simp only [CartanMatrix.A, Matrix.of_apply, if_neg hne, if_pos h]
+  simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hne, ite_eq_left h]
 
 private lemma ggQ2xKDa_coeff_other (n : ℕ) {i j : Fin n} (hne : i ≠ j)
     (h1 : i.val + 1 ≠ j.val) (h2 : j.val + 1 ≠ i.val) : CartanMatrix.A n i j = 0 := by
-  simp only [CartanMatrix.A, Matrix.of_apply, if_neg hne,
-    if_neg (show ¬ (i.val + 1 = j.val ∨ j.val + 1 = i.val) from fun h => h.elim h1 h2)]
+  simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hne,
+    ite_eq_right (show ¬ (i.val + 1 = j.val ∨ j.val + 1 = i.val) from fun h => h.elim h1 h2)]
 
 private lemma ggQ2xKDa_Pe_swap_A (K : Type) [Field K] (n : ℕ) (i j : Fin n) :
     ggQ2xKDa_Pe K n (Equiv.swap i.castSucc i.succ) (ggQ2xKDa_A K n j : Fin (n+1) → K) =
@@ -303,7 +303,7 @@ private lemma ggQ2xKDa_P_eq_one_imp (K : Type) [Field K] [CharP K 3] (n : ℕ) (
       rw [h2] at hp
       have hne : ((0 : K) - 0) ≠ 1 := by
         intro hc
-        exact (zero_ne_one : (0 : K) ≠ 1) (by simpa using hc)
+        exact (zero_ne_one : (0 : K) ≠ 1) (by simp at hc)
       exact absurd hp hne
 
 theorem ggQ2xKD_A_model {n : ℕ} (hn : 4 ≤ n) {U : Type} [AddCommGroup U]

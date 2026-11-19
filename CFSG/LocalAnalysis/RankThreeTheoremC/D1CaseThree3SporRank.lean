@@ -25,7 +25,7 @@ theorem pRank_sylow_le_three (h : D1ComponentConfig3 p P M H R Rbar)
     Open.pRank p (T : Subgroup K) ≤ 3 := by
   have hp : p.Prime := h.ext.prime
   have : Fact p.Prime := ⟨hp⟩
-  obtain ⟨S, hS⟩ := (T.isPGroup'.map K.subtype).exists_le_sylow
+  obtain ⟨S, hS⟩ := (T.isPGroup.map K.subtype).exists_le_sylow
   calc Open.pRank p (T : Subgroup K)
       ≤ Open.pRank p ((T : Subgroup K).map K.subtype) :=
         SectionRank.pRank_le_map hp.one_lt K.subtype K.subtype_injective _

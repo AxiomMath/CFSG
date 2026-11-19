@@ -20,6 +20,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 @[expose] noncomputable def fgIotaP (S : FGSplit Q) : OGroup (Q.restrict S.P) →* ProjSim Q :=
   (projOrthToProjSim Q).comp ((toProj Q).comp S.extP)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_polar_of_isSimilitude {σ : V ≃ₗ[ZMod 3] V} {μ : (ZMod 3)ˣ} (h : IsSimilitude Q σ μ)
     (x y : V) : QuadraticMap.polar Q (σ x) (σ y) = (μ : ZMod 3) * QuadraticMap.polar Q x y := by
   have h1 := h (x + y)
@@ -28,6 +29,7 @@ theorem fg_polar_of_isSimilitude {σ : V ≃ₗ[ZMod 3] V} {μ : (ZMod 3)ˣ} (h 
   rw [h1, h x, h y]
   ring
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_eq_zero_of_polar_zero {P : Submodule (ZMod 3) V} (hP : (Q.restrict P).Nondegenerate)
     {q : V} (hq : q ∈ P) (h : ∀ p ∈ P, QuadraticMap.polar Q q p = 0) : q = 0 := by
   have hB : (Q.restrict P).polarBilin.Nondegenerate := QuadraticMap.nondegenerate_polar_iff.mpr hP
@@ -83,7 +85,8 @@ theorem fg_bk_commute (S : FGSplit Q) (hperf : Group.IsPerfect (omegaGroup S.non
   have hmem : (⟨a, ha⟩ : omegaGroup S.nondegW) ∈ K := by rw [hK]; exact Subgroup.mem_top _
   exact hmem
 
-theorem fg_bk_apply_comm (S : FGSplit Q) (g : simGroup Q) {a : OGroup (Q.restrict S.W)}
+omit [FiniteDimensional (ZMod 3) V] in
+theorem fg_bk_apply_comm [FiniteDimensional (ZMod 3) V] (S : FGSplit Q) (g : simGroup Q) {a : OGroup (Q.restrict S.W)}
     (hc : simAct Q g (S.extW a) = S.extW a) (v : V) :
     (g : V ≃ₗ[ZMod 3] V) (((S.extW a : OGroup Q) : V ≃ₗ[ZMod 3] V) v) =
       ((S.extW a : OGroup Q) : V ≃ₗ[ZMod 3] V) ((g : V ≃ₗ[ZMod 3] V) v) := by
@@ -170,7 +173,7 @@ theorem fg_bk_scalar (S : FGSplit Q) (h3 : 3 ≤ Module.finrank (ZMod 3) S.W) (g
     exact this
   have hc0 : c ≠ 0 := by
     rintro rfl
-    haveI : Nontrivial S.W := Module.finrank_pos_iff.mp (lt_of_lt_of_le (by norm_num) h3)
+    have : Nontrivial S.W := Module.finrank_pos_iff.mp (lt_of_lt_of_le (by norm_num) h3)
     obtain ⟨w, hw0⟩ := exists_ne (0 : S.W)
     apply hw0
     apply Subtype.ext
@@ -188,13 +191,13 @@ theorem fg_bk_orthogonal (S : FGSplit Q) (h3 : 3 ≤ Module.finrank (ZMod 3) S.W
   obtain ⟨μ, hμ⟩ := g.2
   have hc2 : c * c = 1 := by
     rcases hc1 with rfl | rfl <;> decide
-  haveI : Nontrivial S.W := Module.finrank_pos_iff.mp (lt_of_lt_of_le (by norm_num) h3)
+  have : Nontrivial S.W := Module.finrank_pos_iff.mp (lt_of_lt_of_le (by norm_num) h3)
   obtain ⟨w1, hw1⟩ := exists_ne (0 : S.W)
   have hB : (Q.restrict S.W).polarBilin.Nondegenerate :=
     QuadraticMap.nondegenerate_polar_iff.mpr S.nondegW
   obtain ⟨w2, hw2⟩ : ∃ w2 : S.W, QuadraticMap.polar Q (w1 : V) (w2 : V) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     refine hw1 (hB.1 w1 (fun y => ?_))
     simpa [LinearMap.domRestrict₁₂_apply, QuadraticMap.polarBilin_apply_apply] using hcon y
   have h1 := fg_polar_of_isSimilitude hμ (w1 : V) (w2 : V)

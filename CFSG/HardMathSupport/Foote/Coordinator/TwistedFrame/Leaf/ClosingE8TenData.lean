@@ -57,7 +57,7 @@ theorem typVec_nodup : (deg1Roots.val.map typVec).Nodup := by
     rw [typVec]
     refine List.map_congr_left fun γ hγ => ?_
     simp only [typ, e8tK_mem_deg1 (h7 l hl γ hγ).1, e8tK_mem_deg1 (h7 l hl γ hγ).2,
-      ← List.contains_iff_mem, cond_eq_if]
+      ← List.contains_iff_mem, Bool.cond_eq_ite]
   have hc : (e8tK_deg1L.map (fun l => simp6.map fun γ =>
       (bif e8tK_deg1L.contains (List.ofFn (e8tK_vec l - γ)) then (1 : ℤ) else 0) -
         (bif e8tK_deg1L.contains (List.ofFn (e8tK_vec l + γ)) then 1 else 0)) == e8tK_tvL) =
@@ -148,7 +148,6 @@ theorem lowOf_eq : ∀ ν ∈ mRoots, lowOf ν = lowRep (cls ν) := by
     rw [hd, ← h1.2, e8tK_vec_ofFn]
   refine e8tK_forall_of e8tK_m_iff.1 (Q := fun ν => lowOf ν = lowRep (cls ν)) ?_
   intro l hl
-  beta_reduce
   have h2 := List.all_eq_true.1 hr l hl
   rw [beq_iff_eq] at h2
   rw [lowOf, e8tK_iter hstep 10 l hl, ← h2, e8tK_vec_ofFn]

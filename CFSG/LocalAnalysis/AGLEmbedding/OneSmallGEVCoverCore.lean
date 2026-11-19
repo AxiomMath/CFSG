@@ -49,7 +49,7 @@ theorem false_of_inner_cover {p : ℕ} [hp : Fact p.Prime] {Y : Subgroup G}
       have h5 : f y ∈ N.map f := ⟨y, hy, rfl⟩
       rwa [hbot, Subgroup.mem_bot] at h5
     obtain ⟨Q⟩ : Nonempty (Sylow p Y) := inferInstance
-    have hQp : IsPGroup p (Q : Subgroup Y) := Q.isPGroup'
+    have hQp : IsPGroup p (Q : Subgroup Y) := Q.isPGroup
     have hmQ : m ≤ Nat.card (Q : Subgroup Y) := (hm (Q.mapSurjective hf)).trans (by
       rw [Sylow.coe_mapSurjective]; exact card_map_le f _)
     set ψ := φ₁.comp g with hψ
@@ -133,7 +133,7 @@ theorem false_of_inner_cover {p : ℕ} [hp : Fact p.Prime] {Y : Subgroup G}
     have hmQ : m ≤ Nat.card (Q : Subgroup N) := (hm (Q.mapSurjective hfN)).trans (by
       rw [Sylow.coe_mapSurjective]; exact card_map_le _ _)
     set Q' := (Q : Subgroup N).map N.subtype with hQ'
-    have hQ'p : IsPGroup p Q' := Q.isPGroup'.map _
+    have hQ'p : IsPGroup p Q' := Q.isPGroup.map _
     have hQ'c : Nat.card Q' = Nat.card (Q : Subgroup N) :=
       Subgroup.card_map_of_injective N.subtype_injective
     have hgQ : Nat.card (Q'.map g) = Nat.card Q' := card_map_of_coprime g hgk hQ'p

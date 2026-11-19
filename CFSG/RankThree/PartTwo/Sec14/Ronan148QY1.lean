@@ -33,12 +33,12 @@ theorem y1_survivorQ (h134 : Item134) (h48 : Sec4.Item4_8) (h415 : Sec4.Item4_15
     (h143 : Item143NNHJ) (hPΩ : Step148PointOmega) (hCore : Step148Core)
     (hKT : Step148KType) (hLift : Step148Lift) (hD4 : Step148D4)
     {A L : Subgroup G} {c : G} (h : Sec14Std G A c L) {Y : Subgroup G} (hY : Y ∈ scriptY A)
-    [(ker148 A Y).Normal] (hs : ¬ Group.IsSolvable ↥Y) (ih : Ind148 A (lB A) Y)
+    [(ker148 A Y).Normal] (_hs : ¬ Group.IsSolvable ↥Y) (ih : Ind148 A (lB A) Y)
     (hYB : ∀ B' : Subgroup G, IsHyperplane A B' → YBOne A (lB A) Y B')
     {B Q : Subgroup G} {e : G} {K Le : Subgroup G} (hP : IsPoint148 A (lB A) Y B Q e K Le)
     (hkt : KType148 A Y e K Le) (he : e ∈ A) {J : Subgroup G} (hJ : J ∈ thetaComponentsIn Y)
-    (hKJ : K ≤ J) (hAJ : A ≤ Subgroup.normalizer (J : Set G)) (hEq : Lift148Eq A Y K J)
-    {p f : ℕ} (hf : 1 ≤ f) (hpgl : IsZ3PGLThreeAt ↥(img148 A Y (J ⊔ A)) p f)
+    (_hKJ : K ≤ J) (hAJ : A ≤ Subgroup.normalizer (J : Set G)) (hEq : Lift148Eq A Y K J)
+    {p f : ℕ} (_hf : 1 ≤ f) (hpgl : IsZ3PGLThreeAt ↥(img148 A Y (J ⊔ A)) p f)
     (heΩ : Subgroup.zpowers e ∈ omegaA A) (hLeA : Le ∈ lA A e)
     (hX1 : img148 A Y (deltaZero A (lB A) (Ronan148M.centPre148 A Y J)) ≠ ⊥) :
     ∃ (e' : G) (K' Le' : Subgroup G) (p₂ f₂ e₂ : ℕ) (_ : Fact p₂.Prime),
@@ -123,7 +123,7 @@ theorem y1_survivorQ (h134 : Item134) (h48 : Sec4.Item4_8) (h415 : Sec4.Item4_15
   have hYB₁ : ∀ B' : Subgroup G, IsHyperplane A B' →
       YBOne A (lB A) (Ronan148M.centPre148 A Y J) B' := fun B' hB' =>
     yBOne_of_le hY₁Y (hYB B' hB')
-  letI := ker148_normal hY₁.2
+  let := ker148_normal hY₁.2
   have hX1Y₁ : deltaZero A (lB A) (Ronan148M.centPre148 A Y J) ≤
       Ronan148M.centPre148 A Y J := sSup_le fun _ hQ => hQ.2
   by_cases hs₁ : Group.IsSolvable ↥(Ronan148M.centPre148 A Y J)

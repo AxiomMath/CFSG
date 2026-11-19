@@ -34,6 +34,6 @@ theorem Swap.StdHyp.twist {σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)} (hS : Swap.S
 
 theorem FormHyp.twist {σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)} {B : LinearMap.BilinForm (ZMod 2) V}
     (hF : FormHyp σ B) (β : A5 ≃* A5) : FormHyp (ML1.twist σ β) B :=
-  ⟨fun g u u' => hF.inv _ u u', hF.alt, hF.nondeg⟩
+  ⟨fun _g u u' => hF.inv _ u u', hF.alt, hF.nondeg⟩
 
 end CFSG.EvenSporadicStandard.HNRecog.ML1

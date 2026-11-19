@@ -33,7 +33,7 @@ public theorem proposition111_nilpotent_normal_coprime_core_commute
     (hBcop : Nat.Coprime r (Nat.card B))
     (hHnil : Group.IsNilpotent H) :
     R ≤ Subgroup.centralizer (B : Set X) := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   rcases hRsyl with ⟨S, hReq⟩
   have hRsubeq : R.subgroupOf H = (S : Subgroup H) := by
     rw [hReq]

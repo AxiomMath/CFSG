@@ -17,7 +17,7 @@ variable {S : Type*} [Group S] [Finite S] {B C : Subgroup S} {m : ℕ}
   left_inv x := conjBy_inv_conjBy hg x
   right_inv x := by
     apply Subtype.ext
-    simp only [conjBy_val, inv_inv, Subgroup.coe_mk]
+    simp only [conjBy_val, inv_inv]
     group
   map_mul' := conjBy_mul hg
 
@@ -25,6 +25,7 @@ variable {S : Type*} [Group S] [Finite S] {B C : Subgroup S} {m : ℕ}
     (hg : g ∈ Subgroup.normalizer H) : Additive H ≃+ Additive H :=
   MulEquiv.toAdditive (conjByMulEquiv hg)
 
+omit [Finite S] in
 @[simp]
 theorem conjByAddEquiv_apply {H : Subgroup S} {g : S}
     (hg : g ∈ Subgroup.normalizer H) (x : Additive H) :
@@ -36,6 +37,7 @@ theorem conjByAddEquiv_apply {H : Subgroup S} {g : S}
     (hg : g ∈ Subgroup.normalizer C) : Torus (Type200.k m) ≃+ Torus (Type200.k m) :=
   E.E.trans ((conjByAddEquiv hg).trans E.E.symm)
 
+omit [Finite S] in
 @[simp]
 theorem conjTorusFour_apply
     (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
@@ -85,21 +87,22 @@ theorem doubleHom_gen (m : ℕ) (j : Fin 3) :
 
 theorem doubleHom_gen_zero (m : ℕ) :
     doubleHom m (gen (Type100.k m) 0) = gen (Type200.k m) 0 := by
-  simpa [doubleGens] using doubleHom_gen m 0
+  simp [doubleGens]
 
 theorem doubleHom_gen_one (m : ℕ) :
     doubleHom m (gen (Type100.k m) 1) = (2 : ℕ) • gen (Type200.k m) 1 := by
-  simpa [doubleGens] using doubleHom_gen m 1
+  simp [doubleGens]
 
 theorem doubleHom_gen_two (m : ℕ) :
     doubleHom m (gen (Type100.k m) 2) = (2 : ℕ) • gen (Type200.k m) 2 := by
-  simpa [doubleGens] using doubleHom_gen m 2
+  simp [doubleGens]
 
 
 namespace TorusBasisEquivFour
 
 variable {D : StrothTypeData B (StrothTypeIndex.t100 m)} {hBC : B ≤ C} {e f : C}
 
+omit [Finite S] in
 theorem symm_a (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (E : TorusBasisEquivFour D hBC e f) :
     E.E.symm (Additive.ofMul (⟨D.a, hBC D.a.2⟩ : C)) =
@@ -111,6 +114,7 @@ theorem symm_a (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     rw [two_zsmul, ← ofMul_mul, he]
   rw [h, AddEquiv.symm_apply_apply]
 
+omit [Finite S] in
 theorem symm_b (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
     (E : TorusBasisEquivFour D hBC e f) :
     E.E.symm (Additive.ofMul (⟨D.b, hBC D.b.2⟩ : C)) =
@@ -122,10 +126,12 @@ theorem symm_b (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
     rw [two_zsmul, ← ofMul_mul, hf]
   rw [h, AddEquiv.symm_apply_apply]
 
+omit [Finite S] in
 theorem symm_c (E : TorusBasisEquivFour D hBC e f) :
     E.E.symm (Additive.ofMul (⟨D.c, hBC D.c.2⟩ : C)) = gen (Type200.k m) 0 := by
   rw [← E.E_gen0, AddEquiv.symm_apply_apply]
 
+omit [Finite S] in
 theorem symm_inclusion (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
     (E : TorusBasisEquivFour D hBC e f) (β : B) {i j l : ℤ}
@@ -240,7 +246,7 @@ theorem doubleHom_t_gen (m : ℕ) (j : Fin 3) :
       show (Type200.action m).φt (gen (Type200.k m) 0) =
         (Type200.action m).φt Torus.c from rfl, Type200.t_c]
     simp only [map_add, map_zsmul, doubleHom_gen_zero, doubleHom_gen_one_int,
-      doubleHom_gen_two_int, smul_add, smul_smul, zero_smul, add_zero, zero_add]
+      smul_smul]
     module
   · change doubleHom m ((Type100.action m).φt (gen (Type100.k m) 1)) =
       (Type200.action m).φt (doubleHom m (gen (Type100.k m) 1))
@@ -250,8 +256,8 @@ theorem doubleHom_t_gen (m : ℕ) (j : Fin 3) :
         (2 : ℤ) • (Type200.action m).φt Torus.a from by
         rw [map_zsmul],
       Type200.t_a]
-    simp only [map_add, map_zsmul, doubleHom_gen_zero, doubleHom_gen_one_int,
-      doubleHom_gen_two_int, smul_add, smul_smul, zero_smul, add_zero, zero_add]
+    simp only [map_zsmul, doubleHom_gen_one_int,
+      smul_smul]
     module
   · change doubleHom m ((Type100.action m).φt (gen (Type100.k m) 2)) =
       (Type200.action m).φt (doubleHom m (gen (Type100.k m) 2))
@@ -262,7 +268,7 @@ theorem doubleHom_t_gen (m : ℕ) (j : Fin 3) :
         rw [map_zsmul],
       Type200.t_b]
     simp only [map_add, map_zsmul, doubleHom_gen_zero, doubleHom_gen_one_int,
-      doubleHom_gen_two_int, smul_add, smul_smul, zero_smul, add_zero, zero_add]
+      doubleHom_gen_two_int, smul_add, smul_smul]
     module
 
 theorem doubleHom_t (m : ℕ) (x : Torus (Type100.k m)) :
@@ -281,8 +287,7 @@ theorem doubleHom_u_gen (m : ℕ) (j : Fin 3) :
       show gen (Type100.k m) 0 = Torus.c from rfl, Type100.u_c,
       show (Type200.action m).φu (gen (Type200.k m) 0) =
         (Type200.action m).φu Torus.c from rfl, Type200.u_c]
-    simp only [map_add, map_zsmul, doubleHom_gen_zero, doubleHom_gen_one_int,
-      doubleHom_gen_two_int, smul_add, smul_smul, zero_smul, add_zero, zero_add]
+    simp only [map_zsmul, doubleHom_gen_zero]
   · change doubleHom m ((Type100.action m).φu (gen (Type100.k m) 1)) =
       (Type200.action m).φu (doubleHom m (gen (Type100.k m) 1))
     rw [doubleHom_gen_one_int,
@@ -291,8 +296,7 @@ theorem doubleHom_u_gen (m : ℕ) (j : Fin 3) :
         (2 : ℤ) • (Type200.action m).φu Torus.a from by
         rw [map_zsmul],
       Type200.u_a]
-    simp only [map_add, map_zsmul, doubleHom_gen_zero, doubleHom_gen_one_int,
-      doubleHom_gen_two_int, smul_add, smul_smul, zero_smul, add_zero, zero_add]
+    simp only [map_zsmul, doubleHom_gen_two_int, smul_smul]
     module
   · change doubleHom m ((Type100.action m).φu (gen (Type100.k m) 2)) =
       (Type200.action m).φu (doubleHom m (gen (Type100.k m) 2))
@@ -302,8 +306,8 @@ theorem doubleHom_u_gen (m : ℕ) (j : Fin 3) :
         (2 : ℤ) • (Type200.action m).φu Torus.b from by
         rw [map_zsmul],
       Type200.u_b]
-    simp only [map_add, map_zsmul, doubleHom_gen_zero, doubleHom_gen_one_int,
-      doubleHom_gen_two_int, smul_add, smul_smul, zero_smul, add_zero, zero_add]
+    simp only [map_zsmul, doubleHom_gen_one_int,
+      smul_smul]
     module
 
 theorem doubleHom_u (m : ℕ) (x : Torus (Type100.k m)) :
@@ -322,8 +326,7 @@ theorem doubleHom_rho_gen (m : ℕ) (j : Fin 3) :
       show gen (Type100.k m) 0 = Torus.c from rfl, Type100.rho_c,
       show (Type200.action m).φρ (gen (Type200.k m) 0) =
         (Type200.action m).φρ Torus.c from rfl, Type200.rho_c]
-    simp only [map_add, map_zsmul, doubleHom_gen_zero, doubleHom_gen_one_int,
-      doubleHom_gen_two_int, smul_add, smul_smul, zero_smul, add_zero, zero_add]
+    simp only [map_zsmul, doubleHom_gen_zero]
   · change doubleHom m ((Type100.action m).φρ (gen (Type100.k m) 1)) =
       (Type200.action m).φρ (doubleHom m (gen (Type100.k m) 1))
     rw [doubleHom_gen_one_int,
@@ -332,8 +335,7 @@ theorem doubleHom_rho_gen (m : ℕ) (j : Fin 3) :
         (2 : ℤ) • (Type200.action m).φρ Torus.a from by
         rw [map_zsmul],
       Type200.rho_a]
-    simp only [map_add, map_zsmul, doubleHom_gen_zero, doubleHom_gen_one_int,
-      doubleHom_gen_two_int, smul_add, smul_smul, zero_smul, add_zero, zero_add]
+    simp only [map_zsmul, doubleHom_gen_two_int, smul_smul]
     module
   · change doubleHom m ((Type100.action m).φρ (gen (Type100.k m) 2)) =
       (Type200.action m).φρ (doubleHom m (gen (Type100.k m) 2))
@@ -344,7 +346,7 @@ theorem doubleHom_rho_gen (m : ℕ) (j : Fin 3) :
         rw [map_zsmul],
       Type200.rho_b]
     simp only [map_add, map_zsmul, doubleHom_gen_zero, doubleHom_gen_one_int,
-      doubleHom_gen_two_int, smul_add, smul_smul, zero_smul, add_zero, zero_add]
+      doubleHom_gen_two_int, smul_add, smul_smul]
     module
 
 theorem doubleHom_rho (m : ℕ) (x : Torus (Type100.k m)) :
@@ -358,6 +360,7 @@ namespace TorusBasisEquivFour
 
 variable {D : StrothTypeData B (StrothTypeIndex.t100 m)} {hBC : B ≤ C} {e f : C}
 
+omit [Finite S] in
 theorem symm_inclusion_eq (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
     (E : TorusBasisEquivFour D hBC e f) (y : B) :
@@ -367,6 +370,7 @@ theorem symm_inclusion_eq (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
       l • gen (Type100.k m) 2 := h
   rw [symm_inclusion he hf E y h, h', doubleHom_lin]
 
+omit [Finite S] in
 theorem symm_conj_inclusion
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -384,6 +388,7 @@ theorem symm_conj_inclusion
   rw [hconj, symm_inclusion_eq he hf E (conjBy hgB y), hφ₁ y,
     hcomp (D.ec y), ← symm_inclusion_eq he hf E y]
 
+omit [Finite S] in
 theorem symm_conj_uv
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -395,6 +400,7 @@ theorem symm_conj_uv
     ((Type100.action m).φuv) ((Type200.action m).φuv)
     (doubleHom_uv m) (fun y => D.uv_conj y) y
 
+omit [Finite S] in
 theorem symm_conj_t
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -406,6 +412,7 @@ theorem symm_conj_t
     ((Type100.action m).φt) ((Type200.action m).φt)
     (doubleHom_t m) (fun y => D.t_conj y) y
 
+omit [Finite S] in
 theorem symm_conj_u
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -417,6 +424,7 @@ theorem symm_conj_u
     ((Type100.action m).φu) ((Type200.action m).φu)
     (doubleHom_u m) (fun y => D.u_conj y) y
 
+omit [Finite S] in
 theorem symm_conj_ρ
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -435,6 +443,7 @@ namespace TorusBasisEquivFour
 
 variable {D : StrothTypeData B (StrothTypeIndex.t100 m)} {hBC : B ≤ C} {e f : C} {g : S}
 
+omit [Finite S] in
 theorem conjTorusFour_two_gen1 (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (E : TorusBasisEquivFour D hBC e f) (hgC : g ∈ Subgroup.normalizer C) :
     conjTorusFour D hBC E hgC ((2 : ℤ) • gen (Type200.k m) 1) =
@@ -446,6 +455,7 @@ theorem conjTorusFour_two_gen1 (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
   rw [two_zsmul, ← ofMul_mul,
     show conjBy hgC e * conjBy hgC e = conjBy hgC (e * e) from (conjBy_mul hgC e e).symm, he]
 
+omit [Finite S] in
 theorem conjTorusFour_two_gen2 (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
     (E : TorusBasisEquivFour D hBC e f) (hgC : g ∈ Subgroup.normalizer C) :
     conjTorusFour D hBC E hgC ((2 : ℤ) • gen (Type200.k m) 2) =
@@ -462,6 +472,7 @@ theorem conjTorusFour_two_gen2 (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
     Torus (Type200.k m) →+ Torus (Type200.k m) :=
   (conjTorusFour D hBC E hgC).toAddMonoidHom - φ
 
+omit [Finite S] in
 @[simp]
 theorem cocycle_apply (φ : Torus (Type200.k m) →+ Torus (Type200.k m))
     (E : TorusBasisEquivFour D hBC e f) (hgC : g ∈ Subgroup.normalizer C)
@@ -469,6 +480,7 @@ theorem cocycle_apply (φ : Torus (Type200.k m) →+ Torus (Type200.k m))
     cocycle (D := D) (hBC := hBC) (e := e) (f := f) φ E hgC x =
       conjTorusFour D hBC E hgC x - φ x := rfl
 
+omit [Finite S] in
 theorem cocycle_gen0_eq_zero (φ : Torus (Type200.k m) →+ Torus (Type200.k m))
     (E : TorusBasisEquivFour D hBC e f) (hgC : g ∈ Subgroup.normalizer C)
     (h0 : conjTorusFour D hBC E hgC (gen (Type200.k m) 0) =
@@ -477,6 +489,7 @@ theorem cocycle_gen0_eq_zero (φ : Torus (Type200.k m) →+ Torus (Type200.k m))
       (gen (Type200.k m) 0) = 0 := by
   rw [cocycle_apply, h0, sub_self]
 
+omit [Finite S] in
 theorem cocycle_two_gen1 (φ : Torus (Type200.k m) →+ Torus (Type200.k m))
     (E : TorusBasisEquivFour D hBC e f) (hgC : g ∈ Subgroup.normalizer C)
     (h2 : conjTorusFour D hBC E hgC ((2 : ℤ) • gen (Type200.k m) 1) =
@@ -485,6 +498,7 @@ theorem cocycle_two_gen1 (φ : Torus (Type200.k m) →+ Torus (Type200.k m))
       (gen (Type200.k m) 1) = 0 := by
   rw [← map_zsmul, cocycle_apply, h2, sub_self]
 
+omit [Finite S] in
 theorem cocycle_two_gen2 (φ : Torus (Type200.k m) →+ Torus (Type200.k m))
     (E : TorusBasisEquivFour D hBC e f) (hgC : g ∈ Subgroup.normalizer C)
     (h2 : conjTorusFour D hBC E hgC ((2 : ℤ) • gen (Type200.k m) 2) =
@@ -499,6 +513,7 @@ namespace TorusBasisEquivFour
 
 variable {D : StrothTypeData B (StrothTypeIndex.t100 m)} {hBC : B ≤ C} {e f : C}
 
+omit [Finite S] in
 theorem conjTorusFour_uv_two_gen1
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -508,6 +523,7 @@ theorem conjTorusFour_uv_two_gen1
   rw [conjTorusFour_two_gen1 he E (hL D.uv_mem_L),
     symm_conj_uv he hf E hL D.a, symm_a he E]
 
+omit [Finite S] in
 theorem conjTorusFour_uv_two_gen2
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -517,6 +533,7 @@ theorem conjTorusFour_uv_two_gen2
   rw [conjTorusFour_two_gen2 hf E (hL D.uv_mem_L),
     symm_conj_uv he hf E hL D.b, symm_b hf E]
 
+omit [Finite S] in
 theorem conjTorusFour_t_two_gen1
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -526,6 +543,7 @@ theorem conjTorusFour_t_two_gen1
   rw [conjTorusFour_two_gen1 he E (hL D.t_mem_L),
     symm_conj_t he hf E hL D.a, symm_a he E]
 
+omit [Finite S] in
 theorem conjTorusFour_t_two_gen2
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -535,6 +553,7 @@ theorem conjTorusFour_t_two_gen2
   rw [conjTorusFour_two_gen2 hf E (hL D.t_mem_L),
     symm_conj_t he hf E hL D.b, symm_b hf E]
 
+omit [Finite S] in
 theorem conjTorusFour_u_two_gen1
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -544,6 +563,7 @@ theorem conjTorusFour_u_two_gen1
   rw [conjTorusFour_two_gen1 he E (hL D.u_mem_L),
     symm_conj_u he hf E hL D.a, symm_a he E]
 
+omit [Finite S] in
 theorem conjTorusFour_u_two_gen2
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -553,6 +573,7 @@ theorem conjTorusFour_u_two_gen2
   rw [conjTorusFour_two_gen2 hf E (hL D.u_mem_L),
     symm_conj_u he hf E hL D.b, symm_b hf E]
 
+omit [Finite S] in
 theorem conjTorusFour_ρ_two_gen1
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -562,6 +583,7 @@ theorem conjTorusFour_ρ_two_gen1
   rw [conjTorusFour_two_gen1 he E (hL D.ρ_mem_L),
     symm_conj_ρ he hf E hL D.a, symm_a he E]
 
+omit [Finite S] in
 theorem conjTorusFour_ρ_two_gen2
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -602,6 +624,7 @@ variable {D : StrothTypeData B (StrothTypeIndex.t100 m)} {hBC : B ≤ C} {e f : 
     ((Type200.action m).φρ) E (hL D.ρ_mem_L)
 
 
+omit [Finite S] in
 theorem cocycleUV_gen0
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -612,6 +635,7 @@ theorem cocycleUV_gen0
     rw [conjTorusFour_apply, E.E_gen0, toMul_ofMul,
       symm_conj_uv he hf E hL D.c, symm_c E])
 
+omit [Finite S] in
 theorem cocycleUV_two_gen1
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -621,6 +645,7 @@ theorem cocycleUV_two_gen1
   cocycle_two_gen1 _ _ _
     (conjTorusFour_uv_two_gen1 he hf E hL)
 
+omit [Finite S] in
 theorem cocycleUV_two_gen2
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -630,6 +655,7 @@ theorem cocycleUV_two_gen2
   cocycle_two_gen2 _ _ _
     (conjTorusFour_uv_two_gen2 he hf E hL)
 
+omit [Finite S] in
 theorem cocycleT_gen0
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -640,6 +666,7 @@ theorem cocycleT_gen0
     rw [conjTorusFour_apply, E.E_gen0, toMul_ofMul,
       symm_conj_t he hf E hL D.c, symm_c E])
 
+omit [Finite S] in
 theorem cocycleT_two_gen1
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -649,6 +676,7 @@ theorem cocycleT_two_gen1
   cocycle_two_gen1 _ _ _
     (conjTorusFour_t_two_gen1 he hf E hL)
 
+omit [Finite S] in
 theorem cocycleT_two_gen2
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -658,6 +686,7 @@ theorem cocycleT_two_gen2
   cocycle_two_gen2 _ _ _
     (conjTorusFour_t_two_gen2 he hf E hL)
 
+omit [Finite S] in
 theorem cocycleU_gen0
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -668,6 +697,7 @@ theorem cocycleU_gen0
     rw [conjTorusFour_apply, E.E_gen0, toMul_ofMul,
       symm_conj_u he hf E hL D.c, symm_c E])
 
+omit [Finite S] in
 theorem cocycleU_two_gen1
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -677,6 +707,7 @@ theorem cocycleU_two_gen1
   cocycle_two_gen1 _ _ _
     (conjTorusFour_u_two_gen1 he hf E hL)
 
+omit [Finite S] in
 theorem cocycleU_two_gen2
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -686,6 +717,7 @@ theorem cocycleU_two_gen2
   cocycle_two_gen2 _ _ _
     (conjTorusFour_u_two_gen2 he hf E hL)
 
+omit [Finite S] in
 theorem cocycleR_gen0
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -696,6 +728,7 @@ theorem cocycleR_gen0
     rw [conjTorusFour_apply, E.E_gen0, toMul_ofMul,
       symm_conj_ρ he hf E hL D.c, symm_c E])
 
+omit [Finite S] in
 theorem cocycleR_two_gen1
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -705,6 +738,7 @@ theorem cocycleR_two_gen1
   cocycle_two_gen1 _ _ _
     (conjTorusFour_ρ_two_gen1 he hf E hL)
 
+omit [Finite S] in
 theorem cocycleR_two_gen2
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -720,6 +754,7 @@ namespace TorusBasisEquivFour
 
 variable {D : StrothTypeData B (StrothTypeIndex.t100 m)} {hBC : B ≤ C} {e f : C}
 
+omit [Finite S] in
 theorem conjTorusFour_basis
     (E : TorusBasisEquivFour D hBC e f) {g : S}
     (hgC : g ∈ Subgroup.normalizer C) (j : Fin 3) :
@@ -739,6 +774,7 @@ theorem conjTorusFour_basis
     rw [conjTorusFour_apply, E.E_gen2, toMul_ofMul]
     rfl
 
+omit [Finite S] in
 theorem conjTorusFour_gen_eq_of_cocycle_eq_zero
     (E : TorusBasisEquivFour D hBC e f) {g : S}
     (hgC : g ∈ Subgroup.normalizer C)
@@ -753,6 +789,7 @@ theorem conjTorusFour_gen_eq_of_cocycle_eq_zero
   rw [cocycle_apply] at h0
   exact sub_eq_zero.mp h0
 
+omit [Finite S] in
 theorem type200Images_of_cocycle_eq_zero
     (E : TorusBasisEquivFour D hBC e f)
     (hL : D.L ≤ Subgroup.normalizer C)
@@ -781,6 +818,7 @@ namespace TorusBasisEquivFour
 
 variable {D : StrothTypeData B (StrothTypeIndex.t100 m)} {hBC : B ≤ C} {e f : C}
 
+omit [Finite S] in
 theorem action_eq_printed_add_cocycle
     (E : TorusBasisEquivFour D hBC e f) {g : S}
     (hgC : g ∈ Subgroup.normalizer C)
@@ -790,6 +828,7 @@ theorem action_eq_printed_add_cocycle
   rw [cocycle_apply]
   abel
 
+omit [Finite S] in
 theorem action_reduction_uv
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -804,6 +843,7 @@ theorem action_reduction_uv
   ⟨fun _ => action_eq_printed_add_cocycle E (hL D.uv_mem_L) _ _,
     cocycleUV_gen0 he hf E hL, cocycleUV_two_gen1 he hf E hL, cocycleUV_two_gen2 he hf E hL⟩
 
+omit [Finite S] in
 theorem action_reduction_t
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -818,6 +858,7 @@ theorem action_reduction_t
   ⟨fun _ => action_eq_printed_add_cocycle E (hL D.t_mem_L) _ _,
     cocycleT_gen0 he hf E hL, cocycleT_two_gen1 he hf E hL, cocycleT_two_gen2 he hf E hL⟩
 
+omit [Finite S] in
 theorem action_reduction_u
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -832,6 +873,7 @@ theorem action_reduction_u
   ⟨fun _ => action_eq_printed_add_cocycle E (hL D.u_mem_L) _ _,
     cocycleU_gen0 he hf E hL, cocycleU_two_gen1 he hf E hL, cocycleU_two_gen2 he hf E hL⟩
 
+omit [Finite S] in
 theorem action_reduction_ρ
     (he : e * e = (⟨D.a, hBC D.a.2⟩ : C))
     (hf : f * f = (⟨D.b, hBC D.b.2⟩ : C))
@@ -852,6 +894,7 @@ namespace TorusBasisEquivFour
 
 variable {D : StrothTypeData B (StrothTypeIndex.t100 m)} {hBC : B ≤ C} {e f : C}
 
+omit [Finite S] in
 theorem cocycle_eq_zero_of_gen_eq_zero
     (E : TorusBasisEquivFour D hBC e f) {g : S}
     (hgC : g ∈ Subgroup.normalizer C)
@@ -865,6 +908,7 @@ theorem cocycle_eq_zero_of_gen_eq_zero
   rw [map_add, map_add, map_zsmul, map_zsmul, map_zsmul, h 0, h 1, h 2]
   simp
 
+omit [Finite S] in
 theorem cocycleUV_eq_zero_iff
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C) :
     cocycleUV (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0 ↔
@@ -893,6 +937,7 @@ theorem cocycleUV_eq_zero_iff
       ((Type200.action m).φuv) E (hL D.uv_mem_L) (gen (Type200.k m) j) = 0
     rw [cocycle_apply, hc, sub_self]
 
+omit [Finite S] in
 theorem cocycleT_eq_zero_iff
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C) :
     cocycleT (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0 ↔
@@ -921,6 +966,7 @@ theorem cocycleT_eq_zero_iff
       ((Type200.action m).φt) E (hL D.t_mem_L) (gen (Type200.k m) j) = 0
     rw [cocycle_apply, hc, sub_self]
 
+omit [Finite S] in
 theorem cocycleU_eq_zero_iff
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C) :
     cocycleU (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0 ↔
@@ -949,6 +995,7 @@ theorem cocycleU_eq_zero_iff
       ((Type200.action m).φu) E (hL D.u_mem_L) (gen (Type200.k m) j) = 0
     rw [cocycle_apply, hc, sub_self]
 
+omit [Finite S] in
 theorem cocycleR_eq_zero_iff
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C) :
     cocycleR (D := D) (hBC := hBC) (e := e) (f := f) E hL = 0 ↔
@@ -983,6 +1030,7 @@ namespace TorusBasisEquivFour
 
 variable {D : StrothTypeData B (StrothTypeIndex.t100 m)} {hBC : B ≤ C} {e f : C}
 
+omit [Finite S] in
 theorem type200Images_iff_cocycle_eq_zero
     (E : TorusBasisEquivFour D hBC e f) (hL : D.L ≤ Subgroup.normalizer C) :
     Type200Images D hBC hL e f E ↔

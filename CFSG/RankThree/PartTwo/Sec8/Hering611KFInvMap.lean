@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G]
     Subgroup (K ⧸ aschbacherSolvableCore 3 K) :=
   (D.subgroupOf K).map (QuotientGroup.mk' (aschbacherSolvableCore 3 K))
 
+omit [Finite G] in
 theorem mem_normalizer_inf' {A B : Subgroup G} {x : G}
     (hA : x ∈ Subgroup.normalizer (A : Set G)) (hB : x ∈ Subgroup.normalizer (B : Set G)) :
     x ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -147,6 +148,7 @@ theorem kMap_conj_apply {L : Subgroup G} {d s : G} (hsL : s ∈ Subgroup.normali
   rw [Sec4.Item426.coe_compAction_apply]
   exact hz'
 
+omit [Finite G] in
 theorem mk_inclusion_conj {K D : Subgroup G} {s : G} (hsK : s ∈ K) (hDK : D ≤ K) (z z' : D)
     (hz' : (z' : G) = s * z * s⁻¹) :
     QuotientGroup.mk' (aschbacherSolvableCore 3 K) (Subgroup.inclusion hDK z') =

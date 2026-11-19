@@ -53,20 +53,20 @@ theorem letterPerm_neg {G : Type*} [Group G] (π : ℕ → G) (m : ℕ) (l : ℤ
     by_cases hj : (-l - 1).toNat < m
     · have h1 : 0 < -l ∧ (-l - 1).toNat < m := by omega
       have hA : letterPerm π m (-l) = π ((-l - 1).toNat) := by
-        simp only [letterPerm, neg_neg, if_pos h1]
+        simp only [letterPerm, neg_neg, ite_eq_left h1]
       have h3 : ¬ (0 < l ∧ (l - 1).toNat < m) := by omega
       have h4 : l < 0 ∧ (-l - 1).toNat < m := by omega
       have hB : letterPerm π m l = (π ((-l - 1).toNat))⁻¹ := by
-        simp only [letterPerm, if_neg h3, if_pos h4]
+        simp only [letterPerm, ite_eq_right h3, ite_eq_left h4]
       rw [hA, hB, inv_inv]
     · have h1 : ¬ (0 < -l ∧ (-l - 1).toNat < m) := by omega
       have h2 : ¬ (-l < 0 ∧ (l - 1).toNat < m) := by omega
       have hA : letterPerm π m (-l) = 1 := by
-        simp only [letterPerm, neg_neg, if_neg h1, if_neg h2]
+        simp only [letterPerm, neg_neg, ite_eq_right h1, ite_eq_right h2]
       have h3 : ¬ (0 < l ∧ (l - 1).toNat < m) := by omega
       have h4 : ¬ (l < 0 ∧ (-l - 1).toNat < m) := by omega
       have hB : letterPerm π m l = 1 := by
-        simp only [letterPerm, if_neg h3, if_neg h4]
+        simp only [letterPerm, ite_eq_right h3, ite_eq_right h4]
       rw [hA, hB, inv_one]
   ·
     subst hl
@@ -76,19 +76,19 @@ theorem letterPerm_neg {G : Type*} [Group G] (π : ℕ → G) (m : ℕ) (l : ℤ
     · have h1 : ¬ (0 < -l ∧ (-l - 1).toNat < m) := by omega
       have h2 : -l < 0 ∧ (l - 1).toNat < m := by omega
       have hA : letterPerm π m (-l) = (π ((l - 1).toNat))⁻¹ := by
-        simp only [letterPerm, neg_neg, if_neg h1, if_pos h2]
+        simp only [letterPerm, neg_neg, ite_eq_right h1, ite_eq_left h2]
       have h2' : 0 < l ∧ (l - 1).toNat < m := by omega
       have hB : letterPerm π m l = π ((l - 1).toNat) := by
-        simp only [letterPerm, if_pos h2']
+        simp only [letterPerm, ite_eq_left h2']
       rw [hA, hB]
     · have h1 : ¬ (0 < -l ∧ (-l - 1).toNat < m) := by omega
       have h2 : ¬ (-l < 0 ∧ (l - 1).toNat < m) := by omega
       have hA : letterPerm π m (-l) = 1 := by
-        simp only [letterPerm, neg_neg, if_neg h1, if_neg h2]
+        simp only [letterPerm, neg_neg, ite_eq_right h1, ite_eq_right h2]
       have h3 : ¬ (0 < l ∧ (l - 1).toNat < m) := by omega
       have h4 : ¬ (l < 0 ∧ (-l - 1).toNat < m) := by omega
       have hB : letterPerm π m l = 1 := by
-        simp only [letterPerm, if_neg h3, if_neg h4]
+        simp only [letterPerm, ite_eq_right h3, ite_eq_right h4]
       rw [hA, hB, inv_one]
 
 theorem wordG_planeInvWord {G : Type*} [Group G] (gensG : ℤ → G)

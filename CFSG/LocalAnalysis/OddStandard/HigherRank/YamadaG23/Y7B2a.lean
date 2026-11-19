@@ -22,7 +22,7 @@ theorem y7b_M6_comm_sq (c : Ctx7 G L) (hb : B5Std c) :
   · intro m hm
     obtain ⟨hN, hel⟩ := hb.h72.2.2.1.2
     let V' : Subgroup ↥(M6 c.e) := (V1 c.e).subgroupOf (M6 c.e)
-    haveI : V'.Normal := hN
+    have : V'.Normal := hN
     have hsq : ((QuotientGroup.mk' V' ⟨m, hm⟩ : ↥(M6 c.e) ⧸ V')) ^ 2 = 1 :=
       hel.2 _ (Subgroup.mem_top _)
     have hmem : ((⟨m, hm⟩ : ↥(M6 c.e)) : G) ^ 2 ∈ V1 c.e := by
@@ -46,7 +46,7 @@ theorem y7b_M5_le_M6 (c : Ctx7 G L) (hb : B5Std c) : M5 c.e ≤ M6 c.e := by
   unfold M5
   exact sup_le hb.h71.2.2.2.1 hb.h71.2.2.2.2
 
-theorem y7b_V1_le_M5 (c : Ctx7 G L) (hb : B5Std c) : V1 c.e ≤ M5 c.e := by
+theorem y7b_V1_le_M5 (c : Ctx7 G L) (_hb : B5Std c) : V1 c.e ≤ M5 c.e := by
   intro x hx
   change x ∈ M3 c.s ⊔ M4 c.e
   exact Subgroup.mem_sup_left

@@ -59,6 +59,7 @@ theorem perfect_le_centralizer_of_card_le_four (F : Subgroup T) [F.Normal] (hF :
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite T] [Finite X] in
 theorem le_centralizer_of_inverted (κ : T →* X) (hκ : Function.Surjective κ)
     (A F : Subgroup T) [A.Normal] [F.Normal] (hker : κ.ker ≤ F ⊔ A)
     (hFA : F ≤ centralizer (A : Set T)) (hAab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) {t : T}
@@ -89,7 +90,7 @@ theorem le_centralizer_of_inverted (κ : T →* X) (hκ : Function.Surjective κ
   have hC : A ≤ centralizer (A : Set T) := fun a ha =>
     mem_centralizer_iff.2 fun b hb => hAab b hb a ha
   have hFAC : F ⊔ A ≤ centralizer (A : Set T) := sup_le hFA hC
-  haveI hEC : (E ⊓ centralizer (A : Set T)).Normal := inferInstance
+  have hEC : (E ⊓ centralizer (A : Set T)).Normal := inferInstance
   have hM : (E ⊓ centralizer (A : Set T)).map κ = E.map κ := by
     apply hN
     · exact Subgroup.Normal.map hEC κ hκ

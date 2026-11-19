@@ -52,8 +52,8 @@ private theorem factorization_three_mul {a c : ℕ} (hc : ¬ 3 ∣ c) :
 theorem card_le_of_babyInv_three {X : NativeSporadic.B} (hX : BabyInv 3 X)
     (E : Subgroup NativeSporadic.B) (hEX : E ≤ centralizer ({X} : Set NativeSporadic.B))
     (hE : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 4 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconj : IsConj X (CFSG.Monster.Existence.babyRep 5) :=
     CFSG.Monster.Existence.babyTableIII.2 3 X _ hX
       CFSG.Monster.Existence.babyInv_three_babyRep_five

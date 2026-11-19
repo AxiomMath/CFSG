@@ -350,7 +350,7 @@ theorem rho_normalize_t230 (R : Torus (Type230.k s) →+ Torus (Type230.k s))
     omega
   have hx0 : R (tor230 s x 0 0) = tor230 s x 0 0 := by
     rw [hRt]
-    congr 1 <;> ring
+    congr 1; ring
   have hz : tor230 s x y z = tor230 s x 0 0 := tor230_congr (by omega) (by omega) (by omega)
   refine ⟨x, ?_⟩
   simp only [map_add]

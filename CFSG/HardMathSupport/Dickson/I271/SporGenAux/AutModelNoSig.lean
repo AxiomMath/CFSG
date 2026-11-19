@@ -71,14 +71,14 @@ theorem noSig_of_autModel_rank {M : Type*} [Group M] [Finite M] {P R : Subgroup 
     (hB : ∀ y : ↥P, y ∈ Q0 → y ≠ 1 →
       RankOK p (R ⊓ Subgroup.centralizer ({(y : M)} : Set M) : Subgroup M)) :
     NoSig p (Q0.map (MulAut.conj : ↥P →* MulAut ↥P)) := by
-  haveI : Finite ↥P := inferInstance
+  have : Finite ↥P := inferInstance
   have hcen : Subgroup.center ↥P = ⊥ := autModel_center_eq_bot h
   have hinj : Function.Injective (MulAut.conj : ↥P →* MulAut ↥P) :=
     conj_injective_of_center_bot_sg hcen
   have hEel : IsElemAbelian p (Q0.map (MulAut.conj : ↥P →* MulAut ↥P)) := hQ.map _
   have hEcard : Nat.card (Q0.map (MulAut.conj : ↥P →* MulAut ↥P)) = p ^ 2 := by
     rw [Subgroup.card_map_of_injective hinj, hQ2]
-  haveI : Finite (MulAut ↥P) :=
+  have : Finite (MulAut ↥P) :=
     Finite.of_injective (fun σ : MulAut ↥P => (σ : ↥P → ↥P)) DFunLike.coe_injective
   intro T hTcop hET
   refine noSig_of_rank hp hEel hEcard ?_ ?_ T hTcop hET

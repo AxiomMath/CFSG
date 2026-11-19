@@ -14,9 +14,9 @@ open CFSG.LieType.Universal.Symplectic.SpExtras (mat mat_apply mat_injective)
 
 theorem sympMinus_component_localize {K : Type} [Field K] [Finite K] [CharP K 2]
     {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (hpq : p ∣ Nat.card K + 1)
+    (_hpq : p ∣ Nat.card K + 1)
     {ζ : Multiplicative (ZMod p) →* Matrix.SpecialLinearGroup (Fin 2) K}
-    (hζ : Function.Injective ζ) (hζW : ∀ a, sl2W * ζ a * sl2W⁻¹ = ζ a⁻¹)
+    (hζ : Function.Injective ζ) (_hζW : ∀ a, sl2W * ζ a * sl2W⁻¹ = ζ a⁻¹)
     (f₀ : Fin m → Multiplicative (ZMod p)) {J₀ : Subgroup (StatedSp m K)}
     (hJ : CFSG.Assembly.IsComponentOf J₀
       (Subgroup.centralizer ({spPlaneTorus m ζ f₀} : Set (StatedSp m K)))) :

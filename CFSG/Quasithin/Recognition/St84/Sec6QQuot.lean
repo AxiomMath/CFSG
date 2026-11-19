@@ -56,7 +56,7 @@ private theorem eq_pointSylow_of_le_pointBorel {hN : IsLocL2 Γ G v n N}
     {a : V} (ha : Γ.Adj v a) {ψ : Subgroup (PSL(2, GaloisField 2 n))}
     (hψcard : Nat.card ψ = 2 ^ n) (hψle : ψ ≤ hN.pointBorel a) :
     ψ = (hN.pointSylow hadj hfin hcard hn a : Subgroup (PSL(2, GaloisField 2 n))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hψp : IsPGroup 2 ↥ψ := IsPGroup.of_card hψcard
   have hidx : ψ.index = (2 ^ n) ^ 2 - 1 := by
     have h := Subgroup.card_mul_index ψ

@@ -39,9 +39,9 @@ theorem eq_one_of_mem_whorlGroup_of_fix (hP : IsGeneralizedPolygon Γ 4) (hT : I
     omega
   have hpfix : θ • p = p := by
     have h2lt : 1 < (Γ.neighborFinset p).card := by
-      rw [card_neighborFinset_eq_degree, hdeg p, if_pos hp]
+      rw [card_neighborFinset_eq_degree, hdeg p, ite_eq_left hp]
       have h := hT p
-      rw [hdeg p, if_pos hp] at h
+      rw [hdeg p, ite_eq_left hp] at h
       omega
     obtain ⟨L1, hL1, L2, hL2, hL12⟩ := Finset.one_lt_card.mp h2lt
     have hL1' : Γ.Adj p L1 := by simpa using hL1
@@ -126,11 +126,11 @@ theorem eq_one_of_mem_whorlGroup_of_fix (hP : IsGeneralizedPolygon Γ 4) (hT : I
   have hs2 : 2 ≤ s := by
     obtain ⟨L0, hL0⟩ := exists_line hP hT c
     have h := hT L0
-    rw [hdeg L0, if_neg (by rw [hL0]; decide)] at h
+    rw [hdeg L0, ite_eq_right (by rw [hL0]; decide)] at h
     omega
   have ht2 : 2 ≤ t := by
     have h := hT p
-    rw [hdeg p, if_pos hp] at h
+    rw [hdeg p, ite_eq_left hp] at h
     omega
   have hs'_le : ¬ (f - 1) * t ≤ s := by
     have hs'2 : 2 ≤ f - 1 := by omega
@@ -146,7 +146,7 @@ theorem eq_one_of_mem_whorlGroup_of_fix (hP : IsGeneralizedPolygon Γ 4) (hT : I
       Γ.neighborSet L ⊆ {v | θ • v = v} := by
     intro L hcL hLfix
     have hdegL : Γ.degree L = s + 1 := by
-      rw [hdeg L, if_neg (by rw [hcL]; decide)]
+      rw [hdeg L, ite_eq_right (by rw [hcL]; decide)]
     have hcount : (Γ.neighborSet L ∩ {v | θ • v = v}).ncard = s + 1 := by
       have h := hb' L ⟨hcL, hLfix⟩
       have hEq : Γ.neighborSet L ∩ F = Γ.neighborSet L ∩ {v | θ • v = v} := by
@@ -210,9 +210,9 @@ theorem eq_one_of_mem_whorlGroup_of_fix (hP : IsGeneralizedPolygon Γ 4) (hT : I
   have hfin : ∀ r : Fin 2, r = 0 ∨ r = 1 := by decide
   rcases hfin (c v) with hv0 | hv1
   · have h2lt : 1 < (Γ.neighborFinset v).card := by
-      rw [card_neighborFinset_eq_degree, hdeg v, if_pos hv0]
+      rw [card_neighborFinset_eq_degree, hdeg v, ite_eq_left hv0]
       have h := hT v
-      rw [hdeg v, if_pos hv0] at h
+      rw [hdeg v, ite_eq_left hv0] at h
       omega
     obtain ⟨L1, hL1, L2, hL2, hL12⟩ := Finset.one_lt_card.mp h2lt
     have hL1' : Γ.Adj v L1 := by simpa using hL1

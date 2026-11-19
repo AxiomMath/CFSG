@@ -65,6 +65,7 @@ theorem toMat_u_comm_y (hω : ω ^ 2 + ω + 1 = 0) (z m : Fin 4) (hg : GoodPar z
     toMat ω (uM z m i) * toMat ω (yM z m i) = toMat ω (yM z m i) * toMat ω (uM z m i) := by
   rw [← toMat_mmul hω, ← toMat_mmul hω, meq_iff.1 (yM_comm z m hg i)]
 
+omit [CharP K 2] in
 theorem ev_fixed {σ : K ≃+* K} (hσω : σ ω = ω) (a : Fin 4) : σ (ev ω a) = ev ω a := by
   fin_cases a <;> simp [ev, hσω]
 
@@ -72,6 +73,7 @@ theorem ev_fixed {σ : K ≃+* K} (hσω : σ ω = ω) (a : Fin 4) : σ (ev ω a
     SpecialLinearGroup (Fin 3) K :=
   w.foldl (fun acc t => acc * (if t then b else a)) 1
 
+omit [CharP K 2] in
 theorem wordSL_mem {H : Subgroup (SpecialLinearGroup (Fin 3) K)}
     {a b : SpecialLinearGroup (Fin 3) K} (ha : a ∈ H) (hb : b ∈ H) (w : List Bool) :
     wordSL a b w ∈ H := by
@@ -109,6 +111,7 @@ theorem coe_wordSL (hω : ω ^ 2 + ω + 1 = 0) (a b : SpecialLinearGroup (Fin 3)
       · rw [ha]
   exact key w 1 mone (by rw [Matrix.SpecialLinearGroup.coe_one, toMat_mone])
 
+omit [CharP K 2] in
 theorem toMat_tvM (i j : Fin 3) (hij : i ≠ j) (a : Fin 4) :
     toMat ω (tvM i j a) =
       ((Matrix.SpecialLinearGroup.transvection hij (ev ω a) : SpecialLinearGroup (Fin 3) K) :
@@ -126,6 +129,7 @@ theorem toMat_tvM (i j : Fin 3) (hij : i ≠ j) (a : Fin 4) :
     · have : ¬ (i = r ∧ j = c) := fun h => hr ⟨h.1.symm, h.2.symm⟩
       simp [hrc, hr, this, ev]
 
+omit [CharP K 2] in
 theorem ne_zero_of_cube_root (hω : ω ^ 2 + ω + 1 = 0) : ω ≠ 0 := fun h => by
   rw [h] at hω
   norm_num at hω
@@ -149,9 +153,9 @@ theorem ev_injective (hω : ω ^ 2 + ω + 1 = 0) : Function.Injective (ev ω) :=
     | exact absurd hab hω0 | exact absurd hab.symm hω0
     | exact absurd hab hω1 | exact absurd hab.symm hω1
     | exact absurd hab hω10 | exact absurd hab.symm hω10
-    | exact absurd hab hω11 | exact absurd hab.symm hω11
-    | exact absurd hab hωω | exact absurd hab.symm hωω
-    | exact one_ne_zero hab | exact one_ne_zero hab.symm
+
+
+
 
 theorem ev_cube (hω : ω ^ 2 + ω + 1 = 0) (a : Fin 4) (ha : a ≠ 0) : ev ω a ^ 3 = 1 := by
   have h2 : (2 : K) = 0 := two_eq_zero_K
@@ -160,7 +164,7 @@ theorem ev_cube (hω : ω ^ 2 + ω + 1 = 0) (a : Fin 4) (ha : a ≠ 0) : ev ω a
   · exact absurd rfl ha
   · simp [ev]
   · simpa [ev] using hω3
-  · simp only [ev, Matrix.cons_val]
+  · simp only [ev]
     show (ω + 1) ^ 3 = 1
     linear_combination ω * hω + (ω ^ 2 + ω) * h2
 
@@ -168,12 +172,14 @@ section Fixed
 
 variable [Finite K] {σ : K ≃+* K}
 
+omit [CharP K 2] [Finite K] in
 theorem sigma3 (hσ : orderOf σ = 3) (x : K) : σ (σ (σ x)) = x := by
   have h := congrArg (fun τ : K ≃+* K => τ x)
     (show σ ^ 3 = 1 by rw [← hσ]; exact pow_orderOf_eq_one σ)
   simp only [pow_succ, pow_zero, one_mul, RingAut.mul_apply, RingAut.one_apply] at h
   exact h
 
+omit [CharP K 2] [Finite K] in
 theorem card_fixSub (hK : Nat.card K = 64) (hσ : orderOf σ = 3) : Nat.card (fixSub σ) = 4 := by
   have h := CFSG.SignalizerFunctorTheorem.CatalogBridge.card_fixedField_of_orderOf
     (K := K) (r := 2) (n := 6) (p := 3) Nat.prime_two (by norm_num) (by rw [hK]; norm_num) σ hσ
@@ -192,6 +198,7 @@ theorem exists_ev_of_fixed (hK : Nat.card K = 64) (hσ : orderOf σ = 3)
   obtain ⟨a, ha⟩ := hbij.2 ⟨c, hc⟩
   exact ⟨a, congrArg Subtype.val ha⟩
 
+omit [CharP K 2] in
 theorem exists_seventh_root (hK : Nat.card K = 64) : ∃ a : K, a ^ 7 = 1 ∧ a ≠ 1 := by
   have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have h : 7 ∣ Nat.card Kˣ := by rw [Nat.card_units, hK]; norm_num
@@ -229,12 +236,14 @@ theorem norm_eq_one_of_pow_seven (hK : Nat.card K = 64) (hσ : orderOf σ = 3)
     _ = n ^ 7 := by ring
     _ = 1 := hn7
 
+omit [CharP K 2] in
 theorem fieldAut_not_mem_D (h3 : 3 ∣ Nat.card K - 1) (hσ : orderOf σ = 3) :
     LinearFlag.fieldAut 3 K σ ∉ linearAutGroup 3 K := fun hD => by
   have := (l3FrameLinear h3).fld_inter σ hD
   rw [this] at hσ
   simp at hσ
 
+omit [CharP K 2] [Finite K] in
 theorem conjAut_fixes_proj {y : SpecialLinearGroup (Fin 3) K} {g : GL (Fin 3) K}
     (h : (g : Matrix (Fin 3) (Fin 3) K) * y = y * g) :
     LinearFlag.conjAut 3 K g (LinearFlag.proj 3 K y) = LinearFlag.proj 3 K y := by
@@ -243,6 +252,7 @@ theorem conjAut_fixes_proj {y : SpecialLinearGroup (Fin 3) K} {g : GL (Fin 3) K}
   apply Subtype.ext
   rw [coe_slConjugation, h, mul_assoc, ← Units.val_mul, mul_inv_cancel, Units.val_one, mul_one]
 
+omit [CharP K 2] [Finite K] in
 theorem fieldAut_fixes_proj {y : SpecialLinearGroup (Fin 3) K}
     (h : ∀ i j, σ ((y : Matrix (Fin 3) (Fin 3) K) i j) = (y : Matrix (Fin 3) (Fin 3) K) i j) :
     LinearFlag.fieldAut 3 K σ (LinearFlag.proj 3 K y) = LinearFlag.proj 3 K y := by
@@ -253,6 +263,7 @@ theorem fieldAut_fixes_proj {y : SpecialLinearGroup (Fin 3) K}
   ext i j
   exact h i j
 
+omit [CharP K 2] [Finite K] in
 theorem orderOf_proj_coprime {y : SpecialLinearGroup (Fin 3) K} (hy : y ^ 7 = 1) :
     Nat.Coprime (orderOf (LinearFlag.proj 3 K y)) 3 := by
   have hdvd : orderOf (LinearFlag.proj 3 K y) ∣ 7 :=
@@ -292,10 +303,12 @@ theorem proj_ySL_mem_Hgen (hω : ω ^ 2 + ω + 1 = 0) {z m : Fin 4} (hg : GoodPa
     rw [Matrix.det_diagonal, Fin.prod_univ_three]
     simpa using hN⟩
 
+omit [CharP K 2] [Finite K] in
 theorem coe_ydSL (σ : K ≃+* K) (a : K) (hN : a * σ a * σ (σ a) = 1) :
     ((ydSL σ a hN : SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
       Matrix.diagonal ![a, σ a, σ (σ a)] := rfl
 
+omit [CharP K 2] [Finite K] in
 theorem ydSL_pow_seven (σ : K ≃+* K) {a : K} (hN : a * σ a * σ (σ a) = 1) (ha : a ^ 7 = 1) :
     ydSL σ a hN ^ 7 = 1 := by
   apply Matrix.SpecialLinearGroup.ext
@@ -305,7 +318,7 @@ theorem ydSL_pow_seven (σ : K ≃+* K) {a : K} (hN : a * σ a * σ (σ a) = 1) 
     rw [h, coe_ydSL, Matrix.diagonal_pow]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.diagonal_apply, ← map_pow, ha]
+      simp [← map_pow, ha]
   rw [h']
   simp
 
@@ -357,6 +370,7 @@ theorem ydSL_not_rational (hK : Nat.card K = 64) (hσ : orderOf σ = 3) (hω : �
     _ = a ^ 7 := by ring
     _ = 1 := ha7
 
+omit [CharP K 2] [Finite K] in
 theorem conjAut_fieldAut_fixes_proj {y : SpecialLinearGroup (Fin 3) K} {g : GL (Fin 3) K}
     (h : (g : Matrix (Fin 3) (Fin 3) K) * (y : Matrix (Fin 3) (Fin 3) K).map σ = y * g) :
     (LinearFlag.conjAut 3 K g * LinearFlag.fieldAut 3 K σ) (LinearFlag.proj 3 K y) =
@@ -431,14 +445,14 @@ theorem core_gen (hK : Nat.card K = 64) (hσ : orderOf σ = 3) (hω : ω ^ 2 + �
       congr 1
       ext r c
       fin_cases r <;> fin_cases c <;>
-        simp [toMat_apply, dM, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, ev] <;>
+        simp [toMat_apply, dM, Matrix.mul_apply, Matrix.diagonal_apply, ev] <;>
         ring
     · refine conjAut_fieldAut_fixes_proj ?_
       rw [hgC, coe_ydSL]
       ext r c
       fin_cases r <;> fin_cases c <;>
-        simp [toMat_apply, CM, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, ev,
-          Matrix.map_apply, sigma3 hσ] <;> try ring
+        simp [toMat_apply, CM, Matrix.mul_apply, Matrix.diagonal_apply, ev,
+          sigma3 hσ]; try ring
     · exact orderOf_proj_coprime (ydSL_pow_seven σ hN ha7)
   have hjoin := BGL.sl3SubfieldJoin_holds K σ hσ (Matrix.SpecialLinearGroup.toGL (ydSL σ a hN))
     (ydSL_not_rational hK hσ hω hσω ha7 ha1 hN)

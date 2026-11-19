@@ -147,7 +147,7 @@ theorem card_le_four_of_centralizes_sylow {p f : ℕ} (hp : p.Prime) (hp2 : p �
     apply φ.symm.injective
     rw [map_mul, map_mul]
     exact Subtype.ext h
-  have h1 := card_linearPart_le_two hodd T T.isPGroup' (φ.symm _).2 (φ.symm _).2 hab R hR hRT
+  have h1 := card_linearPart_le_two hodd T T.isPGroup (φ.symm _).2 (φ.symm _).2 hab R hR hRT
   have h2 : Nat.card (R.map (fieldProj F)) ≤ 2 := by
     apply card_le_two_of_sq_ringAut
     rintro _ ⟨x, hx, rfl⟩

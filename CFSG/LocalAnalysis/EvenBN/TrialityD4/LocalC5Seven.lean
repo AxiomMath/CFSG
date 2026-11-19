@@ -40,7 +40,7 @@ theorem isPGroup_yamadaR₅ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) :
   obtain ⟨P, hP⟩ := d.exists_sylow_eq_S
   have hS : IsPGroup 2 (d.S.map L.subtype) := by
     rw [← hP]
-    exact P.isPGroup'.map L.subtype
+    exact P.isPGroup.map L.subtype
   exact (LieType.BorelTits.pCoreOf_isPGroup 2 _).to_sup_of_normal_left' hS
     ((h.S_le_normalizer_yamadaC₁ d).trans (le_normalizer_yamadaC₅ d t))
 

@@ -91,7 +91,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 theorem pow_dvd_card_of_pow_le_card_inf {p k : ℕ} (hp : p.Prime) {A J : Subgroup G}
     (hA : ∀ a ∈ A, a ^ p = 1) (h : p ^ k ≤ Nat.card ↥(A ⊓ J)) : p ^ k ∣ Nat.card ↥J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hP : IsPGroup p ↥(A ⊓ J) := by
     intro g
     refine ⟨1, ?_⟩

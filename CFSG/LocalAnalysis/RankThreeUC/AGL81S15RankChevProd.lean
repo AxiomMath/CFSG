@@ -15,7 +15,7 @@ variable {p : ℕ}
 theorem card_le_pow_pRank_of_injective {A G : Type*} [Group A] [Group G] [Finite G] [Fact p.Prime]
     (hcomm : ∀ a b : A, a * b = b * a) (hpow : ∀ a : A, a ^ p = 1) (f : A →* G)
     (hf : Function.Injective f) : Nat.card A ≤ p ^ pRank p (⊤ : Subgroup G) := by
-  haveI : Finite A := Finite.of_injective f hf
+  have : Finite A := Finite.of_injective f hf
   have hp : IsPGroup p A := fun a => ⟨1, by simpa using hpow a⟩
   obtain ⟨j, hj⟩ := (IsPGroup.iff_card).1 hp
   have hle : j ≤ pRank p (⊤ : Subgroup G) :=
@@ -40,11 +40,11 @@ theorem pRank_pi {ι : Type*} [Fintype ι] {G : ι → Type*} [∀ i, Group (G i
       Subtype.ext (funext fun i => congrArg Subtype.val (congrFun h i))
     calc Nat.card E ≤ Nat.card (∀ i, E.map (π i)) := Nat.card_le_card_of_injective ψ hψ
       _ = ∏ i, Nat.card (E.map (π i)) := Nat.card_pi
-      _ ≤ ∏ i, p ^ pRank p (⊤ : Subgroup (G i)) := Finset.prod_le_prod' (fun i _ => hcard i)
+      _ ≤ ∏ i, p ^ pRank p (⊤ : Subgroup (G i)) := Finset.prod_le_prod (fun i _ => hcard i)
       _ = p ^ ∑ i, pRank p (⊤ : Subgroup (G i)) := Finset.prod_pow_eq_pow_sum _ _ _
   · choose E hE using fun i => exists_pRank hp1 (⊤ : Subgroup (G i))
     let f : (∀ i, E i) →* ∀ i, G i :=
-      Pi.monoidHom (fun i => (E i).subtype.comp (Pi.evalMonoidHom (fun i => ↥(E i)) i))
+      _root_.MonoidHom.pi (fun i => (E i).subtype.comp (Pi.evalMonoidHom (fun i => ↥(E i)) i))
     have hf : Function.Injective f := fun a b h =>
       funext fun i => Subtype.ext (congrFun h i)
     have hcard : Nat.card (∀ i, E i) = p ^ ∑ i, pRank p (⊤ : Subgroup (G i)) := by
@@ -58,7 +58,7 @@ theorem pRank_pi {ι : Type*} [Fintype ι] {G : ι → Type*} [∀ i, Group (G i
 theorem pRank_multiplicative_zmod [Fact p.Prime] {a : ℕ} (ha : 1 ≤ a) :
     pRank p (⊤ : Subgroup (Multiplicative (ZMod (p ^ a)))) = 1 := by
   have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
-  haveI : NeZero (p ^ a) := ⟨pow_ne_zero a (Fact.out : p.Prime).ne_zero⟩
+  have : NeZero (p ^ a) := ⟨pow_ne_zero a (Fact.out : p.Prime).ne_zero⟩
   have hcard : Nat.card (Multiplicative (ZMod (p ^ a))) = p ^ a := by
     rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
   apply le_antisymm

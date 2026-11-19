@@ -19,13 +19,12 @@ theorem symCent_tr (n : ℕ) {σ : Sym (n + 2)} (hσ : σ.cycleType = {2}) :
   have hcardC : Nat.card ↥(Subgroup.centralizer ({τ₀} : Set (Sym 2))) = 2 := by
     rw [Equiv.Perm.nat_card_centralizer τ₀, hτcyc]
     simp only [Multiset.sum_singleton, Multiset.prod_singleton, Multiset.toFinset_singleton,
-      Finset.prod_singleton, Multiset.count_singleton_self, Nat.factorial_one, Nat.factorial_zero,
-      Fintype.card_fin, mul_one, one_mul]
+      Finset.prod_singleton, Multiset.count_singleton_self, Nat.factorial_one, Fintype.card_fin, mul_one]
     norm_num
   have hcardZ : Nat.card (Z 2) = 2 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hcycC : IsCyclic ↥(Subgroup.centralizer ({τ₀} : Set (Sym 2))) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcycC : IsCyclic ↥(Subgroup.centralizer ({τ₀} : Set (Sym 2))) :=
     isCyclic_of_prime_card hcardC
   have hcard : Nat.card ↥(Subgroup.centralizer ({τ₀} : Set (Sym 2))) = Nat.card (Z 2) :=
     hcardC.trans hcardZ.symm

@@ -65,7 +65,7 @@ private theorem l1f_rootLevi_perfect {K : Type} [Group K] {D : UniversalRootDatu
     ⁅ggRootLevi D (Pi.single i 1), ggRootLevi D (Pi.single i 1)⁆ =
       ggRootLevi D (Pi.single i 1) := by
   obtain ⟨φ, hφinj, hφrange⟩ := l1f_exists_sl2_range_rankOne hM i
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset k)) (n := 4)
     (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact h4)
   have hperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) k) :=

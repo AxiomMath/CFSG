@@ -77,7 +77,7 @@ theorem borel_of_bad (x : Fin 22 → Fin 22) (h : badBorel x = true) :
   · unfold borelP invP at hx
     obtain ⟨⟨h0, h1, h2⟩, h3, h4, h5⟩ := hx
     exact ⟨h0, h1, h2, h3, h4, h5⟩
-  · rw [badBorel, if_neg hx] at h
+  · rw [badBorel, ite_eq_right hx] at h
     exact absurd h (by decide)
 
 theorem m22Count_badBorel :

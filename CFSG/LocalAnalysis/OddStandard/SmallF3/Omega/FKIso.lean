@@ -145,7 +145,7 @@ theorem fkSpin_exists_of_mem_omegaGroup {y : OGroup Q₀}
 theorem fk_exists_quad_eq_one :
     ∃ v : Fin 4 ⊕ Fin 4 → GaloisField 3 1, quadPlus 4 (GaloisField 3 1) v = 1 :=
   ⟨Pi.single (Sum.inl 0) 1 + Pi.single (Sum.inr 0) 1, by
-    simp [quadPlus_apply, Pi.single_apply, Fin.sum_univ_succ]⟩
+    simp [quadPlus_apply, Pi.single_apply]⟩
 
 theorem fk_sq_eq_of_orth {a : (Fin 4 ⊕ Fin 4 → GaloisField 3 1) ≃ₗ[GaloisField 3 1]
       (Fin 4 ⊕ Fin 4 → GaloisField 3 1)}

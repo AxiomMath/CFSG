@@ -58,7 +58,7 @@ theorem inf_sec19X_eq (hd : Sec19DataT p f K z S W L t V)
     have hONK : oddCoreOf (sec19X K z) ≤ Subgroup.normalizer (K : Set G) :=
       (oddCoreOf_le_self _).trans (sec19X_le_normalizer_member hd0)
     have hmK : m ∈ K := mem_of_isPGroup_of_mem_sup hONK (oddCoreOf_odd_natCard _) hm
-      (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hmS))
+      (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hmS))
     exact Subgroup.mul_mem_sup ⟨hmS, hmK⟩ hv
   · exact le_inf (sup_le inf_le_left (hd.leW.trans hd.hWS))
       (sup_le (inf_le_right.trans (le_sec19X_member hd0)) (hd.leW.trans (le_sec19X hd0)))
@@ -73,7 +73,7 @@ theorem isSL2Three_sec19X (hd : Sec19DataT p f K z S W L t V)
   cyclic := by
     obtain ⟨v, hvV, hV⟩ := exists_eq_zpowers_V hd
     refine ⟨v, le_sec19X hd.toSec19Data (hd.leW hvV),
-      S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (hd.hWS (hd.leW hvV))), ?_⟩
+      S.isPGroup.to_le (Subgroup.zpowers_le.mpr (hd.hWS (hd.leW hvV))), ?_⟩
     rw [← hV]
     exact sup_oddCore_sup_eq hd hgen h1
   wreathed := fun P hP => by

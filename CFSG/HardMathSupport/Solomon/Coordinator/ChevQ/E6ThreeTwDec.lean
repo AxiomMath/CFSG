@@ -150,18 +150,18 @@ theorem twTorusModel_of_certs {K : Type} [Field K] [Finite K] (σ : K ≃+* K) (
   subst hq'
   have hℓ : ℓ.Prime := hU.prime
   have hf : 1 ≤ f := hU.one_le
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := hU.charP
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := hU.charP
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   have hℓ3 : ℓ ≠ 3 := by
     intro h3'
     apply h3c
     rw [ringChar.eq K ℓ, h3']
   have hq1 : ℓ ^ f % 3 = 2 := by omega
-  haveI : Module.Finite (fixSubfield σ) K := Module.Finite.of_finite
-  haveI : Algebra.IsAlgebraic (fixSubfield σ) K := Algebra.IsAlgebraic.of_finite _ K
-  haveI : IsAlgClosure (fixSubfield σ) (AlgebraicClosure K) :=
+  have : Module.Finite (fixSubfield σ) K := Module.Finite.of_finite
+  have : Algebra.IsAlgebraic (fixSubfield σ) K := Algebra.IsAlgebraic.of_finite _ K
+  have : IsAlgClosure (fixSubfield σ) (AlgebraicClosure K) :=
     IsAlgClosure.ofAlgebraic (fixSubfield σ) K (AlgebraicClosure K)
   have hkc : Nat.card (fixSubfield σ) = ℓ ^ f := card_fixSubfield_twisted hℓ hf hK σ hσ
   choose Φ Hc hΘ hFix using fun i : Fin 3 =>

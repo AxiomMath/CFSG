@@ -254,11 +254,11 @@ theorem commuting_block_factor_containment_transporter_all
     rw [hBdef, card_conjSub, hc, card_conjSub]
     exact even_iff_two_dvd.1 heven
   obtain ⟨R⟩ : Nonempty (Sylow 2 B) := inferInstance
-  obtain ⟨y, r, hy, hy2, hr, hyr⟩ := exists_pair_of_four_le_index R.isPGroup'
+  obtain ⟨y, r, hy, hy2, hr, hyr⟩ := exists_pair_of_four_le_index R.isPGroup
     ((center B).subgroupOf (R : Subgroup B))
     (CFSG.GroupTheory.four_le_index_center_subgroupOf_sylow_two R (R.ne_bot_of_dvd_card hBeven))
   set RG := (R : Subgroup B).map B.subtype with hRGdef
-  have hRG : IsPGroup 2 RG := R.isPGroup'.map B.subtype
+  have hRG : IsPGroup 2 RG := R.isPGroup.map B.subtype
   have hRGB : RG ≤ B := Subgroup.map_subtype_le _
   set y' : G := ((y : B) : G) with hy'def
   set r' : G := ((r : B) : G) with hr'def

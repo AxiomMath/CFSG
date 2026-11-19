@@ -69,7 +69,7 @@ theorem unipS_ne_zt {i j : Fin 5} (hij : i < j) (hne : (i, j) ≠ (0, 4)) :
   have hne' : ¬ (0 = i ∧ 4 = j) := fun h' => hne (by rw [← h'.1, ← h'.2])
   simp only [cm_unipS, cm_zt, tt] at hc
   revert hc
-  simp [Matrix.single_apply, hne', Matrix.one_apply_ne (ne_of_lt hij)]
+  simp [hne', Matrix.one_apply_ne (ne_of_lt hij)]
 
 theorem eq_top_of_A1_le {K : Subgroup Hc} (hK : K.Normal) (hA : A1 ≤ K) : K = ⊤ := by
   have hU1 : U1 ≤ K := U1_le_of_normal hK (hA (Subgroup.mem_inf.mp e02_mem).1)
@@ -85,8 +85,8 @@ theorem eq_top_of_A1_le {K : Subgroup Hc} (hK : K.Normal) (hA : A1 ≤ K) : K = 
     obtain ⟨u, hu, v, hv, rfl⟩ := hx'
     exact mul_mem (hU1 hu) (hU2 hv)
   have hpi : K.map piHom = ⊤ := by
-    haveI := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
-    haveI := hK.map piHom piHom_surjective
+    have := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+    have := hK.map piHom piHom_surjective
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.map piHom) with h | h
     · exfalso
       have h12A : unipS 1 2 (by decide) 1 ∈ A1 := unipS_mem_patSub hSA _ 1 ⟨by decide, by decide⟩
@@ -95,7 +95,7 @@ theorem eq_top_of_A1_le {K : Subgroup Hc} (hK : K.Normal) (hA : A1 ≤ K) : K = 
       have hQ12 : unipS 1 2 (by decide) 1 ∈ Qh := MonoidHom.mem_ker.mpr hmem
       have := (mem_Qh_iff _).mp hQ12 1 2 (by decide)
       revert this
-      simp only [cm_unipS, add_sub_cancel_left]
+      simp only [cm_unipS]
       decide
     · exact h
   rw [eq_top_iff]
@@ -122,7 +122,7 @@ theorem eq_top_of_A2_le {K : Subgroup Hc} (hK : K.Normal) (hA : A2 ≤ K) : K = 
 
 theorem eq_top_of_E64_le {K : Subgroup Hc} (hK : K.Normal) {X : Subgroup Hc}
     (hX : IsElemAbelian 2 X) (hXc : Nat.card X = 64) (hXK : X ≤ K) : K = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXp : IsPGroup 2 X := IsPGroup.of_card (n := 6) (by rw [hXc]; norm_num)
   obtain ⟨P, hXP⟩ := hXp.exists_le_sylow
   have hfac : (Nat.card Hc).factorization 2 = 10 := by

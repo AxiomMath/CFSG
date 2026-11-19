@@ -56,8 +56,8 @@ theorem orthFC_inner_model (hC : OrthInnerCases) (hD : OrthBlockFrame)
       fun s hs3 => LieSemisimple.perfectInLayer_conj_omega (Or.inr (Or.inl rfl)) hM
         Nat.prime_three (by norm_num) (by norm_num) s hs3
     obtain ⟨-, F, _, _, hFc, ⟨e₀⟩⟩ := id hM
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI : CharP F 2 :=
+    have : Fintype F := Fintype.ofFinite F
+    have : CharP F 2 :=
       charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hFc])
     obtain ⟨-, hnd, hT, -⟩ := coordinate_model_witness_plus hM F hFc e₀
     have htop := matrixProjectiveImage_eq_top_plus F n hn
@@ -77,8 +77,8 @@ theorem orthFC_inner_model (hC : OrthInnerCases) (hD : OrthBlockFrame)
         Nat.prime_three (by norm_num) (by norm_num) s hs3
     have hn1 : 1 ≤ n := by omega
     obtain ⟨-, F, _, _, hFc, b, c, hirr, ⟨e₀⟩⟩ := id hM
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI : CharP F 2 :=
+    have : Fintype F := Fintype.ofFinite F
+    have : CharP F 2 :=
       charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hFc])
     obtain ⟨-, hnd, hT, -⟩ := coordinate_model_witness_minus hM F hFc b c hirr e₀
     have htop := matrixProjectiveImage_eq_top_minus F n (by omega) b c hirr

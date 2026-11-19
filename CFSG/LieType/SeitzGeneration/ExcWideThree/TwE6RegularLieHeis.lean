@@ -82,7 +82,7 @@ theorem family_comm {X : L → G} (h : ∀ c d, X (c + d) = X c * X d) (c d : L)
   rw [← h, ← h, add_comm]
 
 theorem exists_fixed_heis [IsAlgClosed L] (X₁ X₂ X₃ : L → G)
-    (h₁ : ∀ c d, X₁ (c + d) = X₁ c * X₁ d) (h₂ : ∀ c d, X₂ (c + d) = X₂ c * X₂ d)
+    (_h₁ : ∀ c d, X₁ (c + d) = X₁ c * X₁ d) (_h₂ : ∀ c d, X₂ (c + d) = X₂ c * X₂ d)
     (h₃ : ∀ c d, X₃ (c + d) = X₃ c * X₃ d)
     (hc₁₃ : ∀ c d, Commute (X₁ c) (X₃ d)) (hc₂₃ : ∀ c d, Commute (X₂ c) (X₃ d))
     (N : L) (hcom : ∀ c d, ⁅X₁ c, X₂ d⁆ = X₃ (N * c * d))

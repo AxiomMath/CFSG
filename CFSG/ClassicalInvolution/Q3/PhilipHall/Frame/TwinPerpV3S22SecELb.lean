@@ -73,7 +73,7 @@ theorem eq_one_of_quot_syl (hc : TightCls Y R S t) {γ : MulAut Y}
           _ = (g : Y)⁻¹ * s * g := by group
   exact hle hx
 
-theorem concl163Syl_of_quot (hd : TightDatum R S t) (hc : TightCls Y R S t) (hE2 : ¬ TightInO2 t)
+theorem concl163Syl_of_quot (hd : TightDatum R S t) (hc : TightCls Y R S t) (_hE2 : ¬ TightInO2 t)
     (h : Concl163Syl (R.map (QuotientGroup.mk' (Subgroup.center Y)))
       (TwistQ.sylowMap (Subgroup.center Y) S) (QuotientGroup.mk' (Subgroup.center Y) t)) :
     Concl163Syl R S t := by

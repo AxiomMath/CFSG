@@ -15,14 +15,14 @@ private theorem s16h_e3_l3_isPSL_of_isSLn {X : Type} [Group X] (h : IsSLn X 3 1)
     IsPSL 3 2 1 X := by
   classical
   obtain ⟨K, hF, hfin, hcard, ⟨e⟩⟩ := h
-  letI : Field K := hF
-  letI : Finite K := hfin
+  let : Field K := hF
+  let : Finite K := hfin
   have hcardK : Nat.card K = 2 := by simpa using hcard
   have hsubsing : Subsingleton Kˣ := by
     have hlt : Nat.card Kˣ < Nat.card K := natCard_units_lt K
     rw [hcardK] at hlt
     have hle : Nat.card Kˣ ≤ 1 := by omega
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card] at hle
     exact Fintype.card_le_one_iff_subsingleton.mp hle
   have hscal : StatedScalars (Fin 3) K = ⊥ := by
@@ -38,8 +38,9 @@ private theorem s16h_e3_l3_isPSL_of_isSLn {X : Type} [Group X] (h : IsSLn X 3 1)
   exact ((QuotientGroup.quotientMulEquivOfEq hsub).trans
     (QuotientGroup.quotientBot (G := ↥(StatedSL 3 K)))).symm
 
+omit [Finite W] in
 private theorem s16h_e3_l3_secHom_inj_on_L {U Z : Subgroup W} {L X : Subgroup (MulAut W)}
-    (hLX : L ≤ X) (hXU : X ≤ stabSub U) (hXZ : X ≤ stabSub Z)
+    (_hLX : L ≤ X) (hXU : X ≤ stabSub U) (hXZ : X ≤ stabSub Z)
     (hfaith : L ⊓ centSec U Z = ⊥) {a b : ↥X}
     (ha : (a : MulAut W) ∈ L) (hb : (b : MulAut W) ∈ L)
     (h : B5.secHom X hXU hXZ a = B5.secHom X hXU hXZ b) :
@@ -59,8 +60,9 @@ private theorem s16h_e3_l3_secHom_inj_on_L {U Z : Subgroup W} {L X : Subgroup (M
     simpa using this
   exact congrArg Subtype.val h5
 
+omit [Finite W] in
 private theorem s16h_e3_l3_conj_secHom_mem {U Z : Subgroup W} {L X : Subgroup (MulAut W)}
-    (hLX : L ≤ X) (hXU : X ≤ stabSub U) (hXZ : X ≤ stabSub Z)
+    (_hLX : L ≤ X) (hXU : X ≤ stabSub U) (hXZ : X ≤ stabSub Z)
     (hXN : X ≤ normalizer (L : Set (MulAut W)))
     (hmap : (L.subgroupOf X).map (B5.secHom X hXU hXZ) = autSec L U Z)
     {x : ↥X} (l' : MulAut (Sec U Z)) (hl' : l' ∈ autSec L U Z) :

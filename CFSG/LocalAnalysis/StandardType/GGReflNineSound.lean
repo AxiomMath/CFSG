@@ -272,7 +272,7 @@ theorem CtxM.rep_of_moving (C : CtxM P0 T A) {t : P0.V ≃ₗ[ZMod P0.p] P0.V} (
 theorem CtxM.not_bad1 (C : CtxM P0 T A) {rp : NRep} {w : Witness}
     (hv : verify (withExtra P0 [rp.r]) w = true) (hbad : isBadW w = true)
     (hA : HasRefl P0 A rp.r) : False := by
-  haveI := finite_linEquiv P0
+  have := finite_linEquiv P0
   have hvb : verifyBad (withExtra P0 [rp.r]) w = true := by
     unfold verifyBad
     rw [Bool.and_eq_true]
@@ -335,8 +335,8 @@ theorem CtxN.not_bad0 (C : CtxN P0 Bstab T A) {rp : Rep0} (hrp : rp ∈ T.reps0)
     (hA : HasRefl P0 A rp.r) : False := by
   obtain ⟨-, hfixN, -, -, -, hreps0, -⟩ := C.ok
   obtain ⟨hwr, hdot, hv⟩ := rep0OK_elim (List.all_eq_true.mp hreps0 rp hrp)
-  haveI : Fact (withBound (withExtra P0 [rp.r]) Bstab).p.Prime := ‹Fact P0.p.Prime›
-  haveI := finite_linEquiv P0
+  have : Fact (withBound (withExtra P0 [rp.r]) Bstab).p.Prime := ‹Fact P0.p.Prime›
+  have := finite_linEquiv P0
   have hleA : (withExtra P0 [rp.r]).group ≤ A := by
     apply C.toM.group_le
     intro r hr
@@ -347,7 +347,7 @@ theorem CtxN.not_bad0 (C : CtxN P0 Bstab T A) {rp : Rep0} (hrp : rp ∈ T.reps0)
       MulAction.stabilizer (P0.V ≃ₗ[ZMod P0.p] P0.V) (P0.vec P0.x) := by
     apply group_le_stabilizer
     intro r hr
-    simp only [withExtra, List.mem_append, List.mem_singleton] at hr
+    simp only [List.mem_append, List.mem_singleton] at hr
     rcases hr with hr | hr
     · exact (dotv_eq_zero_iff P0 _ _).mp (vFixN_elim hfixN r hr)
     · rw [hr]
@@ -463,7 +463,7 @@ theorem CtxN.stage2 (C : CtxN P0 Bstab T A) {rp : NRep} (hwr : wfR P0 rp.r = tru
       exact C.nt g hgA hg
     ·
       exfalso
-      haveI := finite_linEquiv P0
+      have := finite_linEquiv P0
       obtain ⟨hwx, q, hq, hreal⟩ := s2OrbN_elim hs2orb x hx
       have hxe : x.e = c := reqb_eq hxc
       have hqmem : q ∈ rp.reps2 := List.mem_of_getElem? hq
@@ -473,7 +473,7 @@ theorem CtxN.stage2 (C : CtxN P0 Bstab T A) {rp : NRep} (hwr : wfR P0 rp.r = tru
       have hwx' : (withExtra P0 [rp.r, x.e]).WF :=
         wfCheck_sound (wfCheck_withExtra C.toM.wf0c (by
           intro r hr
-          simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hr
+          simp only [List.mem_cons, List.not_mem_nil, or_false] at hr
           rcases hr with rfl | rfl
           · exact hwr
           · exact hwx))
@@ -481,7 +481,7 @@ theorem CtxN.stage2 (C : CtxN P0 Bstab T A) {rp : NRep} (hwr : wfR P0 rp.r = tru
       have hleX : (withExtra P0 [rp.r, x.e]).group ≤ A := by
         apply C.toM.group_le
         intro r hr
-        simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hr
+        simp only [List.mem_cons, List.not_mem_nil, or_false] at hr
         rcases hr with rfl | rfl
         · exact hA
         · rw [hxe]; exact hcA
@@ -489,11 +489,11 @@ theorem CtxN.stage2 (C : CtxN P0 Bstab T A) {rp : NRep} (hwr : wfR P0 rp.r = tru
       have hleQ : (withExtra P0 [rp.r, q.r]).group ≤ A := by
         apply C.toM.group_le
         intro r hr
-        simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hr
+        simp only [List.mem_cons, List.not_mem_nil, or_false] at hr
         rcases hr with rfl | rfl
         · exact hA
         · exact hqA
-      haveI : Fact (withExtra P0 [rp.r, q.r]).p.Prime := ‹Fact P0.p.Prime›
+      have : Fact (withExtra P0 [rp.r, q.r]).p.Prime := ‹Fact P0.p.Prime›
       rcases verifyBad_elim hvq with ⟨g, hgG, hg⟩ | hbig
       · exact C.nt g (hleQ hgG) hg
       · have h1 : Nat.card (withExtra P0 [rp.r, q.r]).group ≤ Nat.card A :=
@@ -593,7 +593,7 @@ theorem CtxN.classification
       rw [hAeq]
       apply commute_of_gens (withExtra P0 [rp.r]) γ
       intro r hr e he
-      simp only [withExtra, List.mem_append, List.mem_singleton] at hr
+      simp only [List.mem_append, List.mem_singleton] at hr
       rcases hr with hr | hr
       · have hev : ∀ u, e (P0.vec u) = P0.vec (P0.applyRefl r u) := fun u => by
           rw [Pt.vec_applyRefl]

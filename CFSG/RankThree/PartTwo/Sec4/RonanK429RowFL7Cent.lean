@@ -311,9 +311,9 @@ theorem commutator_mem_range_iota5 (s : SL(7, ZMod 2))
 
 theorem good429_r1 (s : SL(7, ZMod 2)) (hs : (s : Matrix (Fin 7) (Fin 7) (ZMod 2)) = r1M) :
     Good429 (Subgroup.centralizer ({s} : Set SL(7, ZMod 2))) := by
-  haveI : IsSimpleGroup SL(5, ZMod 2) := isSimpleGroup_SL_zmod_two (by norm_num)
-  haveI : Group.IsPerfect SL(5, ZMod 2) := isPerfect_of_simple exists_not_comm_SL5
-  haveI : Group.IsPerfect iota5.range :=
+  have : IsSimpleGroup SL(5, ZMod 2) := isSimpleGroup_SL_zmod_two (by norm_num)
+  have : Group.IsPerfect SL(5, ZMod 2) := isPerfect_of_simple exists_not_comm_SL5
+  have : Group.IsPerfect iota5.range :=
     Group.IsPerfect.ofSurjective (f := iota5.rangeRestrict) iota5.rangeRestrict_surjective
   have hcard : Nat.card iota5.range = 9999360 := by
     rw [← Nat.card_congr (MonoidHom.ofInjective iota5_injective).toEquiv, card_SL5_zmod_two]
@@ -385,9 +385,9 @@ theorem commutator_mem_range_r3 (s : SL(7, ZMod 2))
 
 theorem good429_r3 (s : SL(7, ZMod 2)) (hs : (s : Matrix (Fin 7) (Fin 7) (ZMod 2)) = r3M) :
     Good429 (Subgroup.centralizer ({s} : Set SL(7, ZMod 2))) := by
-  haveI : Group.IsPerfect SL(3, GaloisField 2 2) := isPerfect_SL3_gf4
+  have : Group.IsPerfect SL(3, GaloisField 2 2) := isPerfect_SL3_gf4
   have hinj : Function.Injective (iota6.comp rosSL) := iota6_injective.comp rosSL_injective
-  haveI : Group.IsPerfect (iota6.comp rosSL).range :=
+  have : Group.IsPerfect (iota6.comp rosSL).range :=
     Group.IsPerfect.ofSurjective (f := (iota6.comp rosSL).rangeRestrict)
       (iota6.comp rosSL).rangeRestrict_surjective
   have hcard : Nat.card (iota6.comp rosSL).range = 60480 := by
@@ -411,9 +411,9 @@ theorem good429_r3 (s : SL(7, ZMod 2)) (hs : (s : Matrix (Fin 7) (Fin 7) (ZMod 2
     (not_isType429_quot_of_noEqOK hcard (B := 40) (by norm_num) (by norm_num) (by decide +kernel))
 
 theorem hbd2 (s : SL(7, ZMod 2)) (hs : (s : Matrix (Fin 7) (Fin 7) (ZMod 2)) = r2M) :
-    ∀ x ∈ Subgroup.centralizer ({s} : Set SL(7, ZMod 2)),
-      IsBlockDiag (bl e42 (x : Matrix (Fin 7) (Fin 7) (ZMod 2))) :=
-  fun x hx => (isBlockDiag_r2 (mat_comm_of_mem hs hx)).1
+    ∀ _x ∈ Subgroup.centralizer ({s} : Set SL(7, ZMod 2)),
+      IsBlockDiag (bl e42 (_x : Matrix (Fin 7) (Fin 7) (ZMod 2))) :=
+  fun _x hx => (isBlockDiag_r2 (mat_comm_of_mem hs hx)).1
 
 @[expose] noncomputable def hom4 (s : SL(7, ZMod 2))
     (hs : (s : Matrix (Fin 7) (Fin 7) (ZMod 2)) = r2M) :
@@ -490,7 +490,7 @@ theorem card_range_hom4 (s : SL(7, ZMod 2)) (hs : (s : Matrix (Fin 7) (Fin 7) (Z
       Nat.card ((Fin 4 → ZMod 2) × (Fin 4 → ZMod 2)) :=
     Nat.card_le_card_of_injective _ hφ
   have hc : Nat.card ((Fin 4 → ZMod 2) × (Fin 4 → ZMod 2)) = 256 := by
-    rw [Nat.card_prod, Nat.card_fun, Nat.card_zmod, Nat.card_fin] <;> norm_num
+    rw [Nat.card_prod, Nat.card_fun, Nat.card_zmod, Nat.card_fin]; norm_num
   rw [hc] at h
   exact h
 
@@ -502,7 +502,7 @@ theorem card_range_hom3 (s : SL(7, ZMod 2)) (hs : (s : Matrix (Fin 7) (Fin 7) (Z
   have h : Nat.card (hom3 s hs).range ≤ Nat.card (Matrix (Fin 3) (Fin 3) (ZMod 2)) :=
     Nat.card_le_card_of_injective _ hφ
   have hc : Nat.card (Matrix (Fin 3) (Fin 3) (ZMod 2)) = 512 := by
-    rw [Matrix.card_matrix, Nat.card_zmod, Nat.card_fin] <;> norm_num
+    rw [Matrix.card_matrix, Nat.card_zmod, Nat.card_fin]; norm_num
   rw [hc] at h
   exact h
 

@@ -14,7 +14,7 @@ open CFSG.ASVolI.ChH
 
 theorem fix_of_odd_transitive {G α : Type*} [Group G] [MulAction G α] {N S : Subgroup G}
     (hNS : N ≤ S) (hN : IsPGroup 2 N) (hnorm : ∀ s ∈ S, ∀ n ∈ N, s * n * s⁻¹ ∈ N) {X : Set α}
-    (hX : ∀ s ∈ S, ∀ x ∈ X, s • x ∈ X) {b : α} (hb : b ∈ X)
+    (hX : ∀ s ∈ S, ∀ x ∈ X, s • x ∈ X) {b : α} (_hb : b ∈ X)
     (htrans : ∀ y ∈ X, ∃ s ∈ S, s • b = y) (hodd : ¬ 2 ∣ X.ncard) :
     ∀ n ∈ N, ∀ x ∈ X, n • x = x := by
   let P : SubMulAction N α :=
@@ -249,7 +249,7 @@ theorem trioFin_zero_eq : trioFin 0 = {maskFin 255, maskFin 65280, maskFin 16711
 theorem ncard_orbit_trioFin : (MulAction.orbit ↥M24g (trioFin 0)).ncard = 3795 := by
   have h : MulAction.orbit ↥M24g (trioFin 0) = {t | IsTrio t} := by
     ext t
-    rw [MulAction.mem_orbit_iff, Set.mem_setOf_eq]
+    rw [MulAction.mem_orbit_iff, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨g, rfl⟩
       exact (isTrio_smul_iff g.2).2 (isTrio_trioFin (by norm_num))

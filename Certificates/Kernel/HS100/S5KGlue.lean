@@ -74,7 +74,7 @@ theorem permCS {i : ℕ} (hi : i < CS.N) : permB 100 7 (CS.T i) = true := permB_
 
 theorem memCS {i : ℕ} (hi : i < CS.N) :
     permOfArr 100 (unpack 100 7 (CS.T i)) ∈ Subgroup.closure (permsA 100 s5SGens) :=
-  mem_of_pt hw psLt cs_enumOK cs_size cs_get hi
+  mem_of_pt psLt cs_enumOK cs_size cs_get hi
 
 theorem zParts : rngK Z = true ∧ inHS Z = true ∧ Nat.beq Z (pidn 100 7) = false ∧
     Nat.beq (pm Z Z) (pidn 100 7) = true ∧ memK 1024 CS.T Z = true := by
@@ -85,7 +85,7 @@ theorem zParts : rngK Z = true ∧ inHS Z = true ∧ Nat.beq Z (pidn 100 7) = fa
 theorem permZ : permB 100 7 Z = true := allN_spec perm 4 (by norm_num)
 
 theorem memZ : permOfArr 100 (unpack 100 7 Z) ∈ Subgroup.closure (permsA 100 s5SGens) :=
-  mem_of_memK hw psLt cs_enumOK cs_size cs_get (by rw [nums'.2.1]; exact zParts.2.2.2.2)
+  mem_of_memK psLt cs_enumOK cs_size cs_get (by rw [nums'.2.1]; exact zParts.2.2.2.2)
 
 theorem gensP' : allLt s5SGens.size
     (fun k => s5InP s5SGens[k]! || s5InP (compA 100 s5U s5SGens[k]!)) = true := by

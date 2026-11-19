@@ -170,8 +170,7 @@ private theorem twJ27_not_p1ThreeLieList (Q : TauCeti.PrimePower) (hQ2 : Q.card 
       ⟨-, q', -, -, h | h | h | h⟩ | ⟨h5, -⟩
     all_goals first
       | omega
-      | (cases h <;> exact h1 ⟨hq'p, hq'e⟩)
-      | cases h
+      | (cases h; try exact h1 ⟨hq'p, hq'e⟩)
 
 private theorem twJ27_seitzGoodIndex (Q : TauCeti.PrimePower) (hQ2 : Q.card ≠ 2) :
     SeitzGoodIndex 3 (twistedA5Index Q).1 := by
@@ -244,7 +243,7 @@ private theorem twJ27_hyperGen_of_cover {G : Type*} [Group G] {J : Subgroup G}
     {E : Subgroup G} (hEJ : E ≤ J) (hE : IsElemAbelian 3 E) (hcard : Nat.card E = 3 ^ 3) :
     HyperGen 3 J E := by
   obtain ⟨hperf, hZ, ⟨φ⟩⟩ := hJ
-  haveI : Group.IsPerfect J := ⟨by
+  have : Group.IsPerfect J := ⟨by
     rw [commutator_def]
     apply Subgroup.map_injective J.subtype_injective
     rw [Subgroup.map_commutator, ← MonoidHom.range_eq_map, Subgroup.range_subtype]

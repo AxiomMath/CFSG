@@ -31,7 +31,7 @@ theorem Ctx.isA2_of_involution (hc : Ctx M Q Z B) {t : G} (ht : t ∈ A0 Q Z B) 
   obtain ⟨u, hu, l, hl, huC, h1, h2, h3, h4⟩ := hc.exists_weyl_ulu
   obtain ⟨m, γ, M₀, hm, h⟩ := stroth_globalModelDataGF hc.hyp
   obtain ⟨b, hb0, hbs, hB, hcent, -⟩ := hc.dictB h
-  haveI : Finite M₀.E := Module.finite_of_finite (GaloisField 2 m)
+  have : Finite M₀.E := Module.finite_of_finite (GaloisField 2 m)
   have htM : t ∈ M := by have := ht.1; rw [← hc.QB_inf_M_eq] at this; exact this.2
   have htc : ∀ z ∈ Z, t * z * t⁻¹ = z := fun z hz => by
     have := Subgroup.mem_centralizer_iff.mp ht.1.2 z hz

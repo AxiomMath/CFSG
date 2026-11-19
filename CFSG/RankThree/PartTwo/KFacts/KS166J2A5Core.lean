@@ -61,7 +61,7 @@ theorem pCore_eq_bot
     Subgroup.eq_of_le_of_card_ge hKC (by rw [hcardK, hcardC])
   have hperf : Group.IsPerfect
       ((Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) × alternatingGroup (Fin 5)) := by
-    haveI : Group.IsPerfect ↥K := hKp
+    have : Group.IsPerfect ↥K := hKp
     exact Group.IsPerfect.ofSurjective
       (f := ((MulEquiv.subgroupCongr hKeq).trans φ).toMonoidHom)
       ((MulEquiv.subgroupCongr hKeq).trans φ).surjective

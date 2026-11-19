@@ -16,6 +16,7 @@ section PaschF
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem isStarPlane_of_mem_isPlaneBundle {c : Γ.Coloring (Fin 2)} {β : Set (Set V)}
     (hβ : IsPlaneBundle Γ c β) {X : Set V} (hX : X ∈ β) : IsStarPlane Γ c X := by
   rcases hβ with ⟨L, -, rfl⟩ | ⟨Y, y, -, -, rfl⟩

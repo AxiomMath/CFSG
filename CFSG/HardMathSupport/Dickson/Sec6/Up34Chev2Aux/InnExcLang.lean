@@ -49,9 +49,9 @@ theorem perfect_le_iSup_rationalComponent {p : ℕ} (hp : p.Prime)
     Subgroup.mem_inf.2 ⟨hΓ (Subgroup.mem_inf.1 (hP hx)).1, (Subgroup.mem_inf.1 (hP hx)).2⟩
   have hPU : P ≤ rootSpan τ L (rootCharKernel a) :=
     perfect_le_rootSpan_kernel hp a hap hPX hperf
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product τ L (rootCharHom a)).2.1
-  haveI : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) :=
+  have : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) :=
     (Set.finite_range _).to_subtype
   let A : Set.range (rationalRoots S.ρ (rootCharHom a)) → Subgroup (ModGL τ L) :=
     fun O => rootSpan τ L O.1
@@ -137,7 +137,7 @@ theorem exists_rationalComponent_eq_of_isComponentOf {p : ℕ} (hp : p.Prime)
   classical
   by_contra hcon
   push Not at hcon
-  haveI : Finite ↥(S.Γ ⊓ Subgroup.centralizer {rootDiagUnit τ a}) :=
+  have : Finite ↥(S.Γ ⊓ Subgroup.centralizer {rootDiagUnit τ a}) :=
     Finite.of_injective (Subgroup.inclusion (inf_le_left : S.Γ ⊓ Subgroup.centralizer
       {rootDiagUnit τ a} ≤ S.Γ)) (Subgroup.inclusion_injective _)
   have hKq : CFSG.Open.IsQuasisimple ↥K := hK.2.2
@@ -188,7 +188,7 @@ theorem noL34Layer_of_langSetup {p : ℕ} (hp : p.Prime) {C : Type} [Group C] [F
     Up34Chev2.NoL34Layer β := by
   have hP : PerfectInLayer β :=
     perfectInLayer_of_langSetup_of_prime S hp ι hι hrange β hβ hT hap h1 hTame
-  haveI : Finite S.Γ := by
+  have : Finite S.Γ := by
     rw [← hrange]
     exact Finite.of_surjective _ ι.rangeRestrict_surjective
   refine noL34Layer_of_embedding ι hι β (rootDiagUnit τ a) hβ hP fun K hK hKT => ?_

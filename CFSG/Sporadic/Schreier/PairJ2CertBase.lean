@@ -20,46 +20,46 @@ namespace CFSG.Sporadic.Schreier
 open CFSG.Certificates CFSG.Certificates.Native CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native
   CFSG.Sporadic.Schreier.PairNative CFSG.Sporadic.Schreier.PairText
 
-@[expose] def j2SchemaVersion : ℕ := 1
+def j2SchemaVersion : ℕ := 1
 
-@[expose] def j2GroupName : String := "J2"
+def j2GroupName : String := "J2"
 
-@[expose] def j2Prime : ℕ := 5
+def j2Prime : ℕ := 5
 
-@[expose] def j2Dimension : ℕ := 14
+def j2Dimension : ℕ := 14
 
-@[expose] def j2BasisIdx : List ℕ := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15]
+def j2BasisIdx : List ℕ := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15]
 
-@[expose] def j2Vec (i : ℕ) : Fin 14 → ZMod 5 := CFSG.Sporadic.J1.toV 5 14 j2Vectors[i]!
+def j2Vec (i : ℕ) : Fin 14 → ZMod 5 := CFSG.Sporadic.J1.toV 5 14 j2Vectors[i]!
 
-@[expose] def j2X : Set (Fin 14 → ZMod 5) := {v | ∃ i < 315, j2Vec i = v}
+def j2X : Set (Fin 14 → ZMod 5) := {v | ∃ i < 315, j2Vec i = v}
 
-@[expose] def j2BaseFin : List (Fin 315) := [1, 0, 2]
+def j2BaseFin : List (Fin 315) := [1, 0, 2]
 
-@[expose] def j2StrongPerm (j : ℕ) : Equiv.Perm (Fin 315) := permOfArr 315 j2StrongArrs[j]!
+def j2StrongPerm (j : ℕ) : Equiv.Perm (Fin 315) := permOfArr 315 j2StrongArrs[j]!
 
-@[expose] def j2Gen (k : ℕ) : Equiv.Perm (Fin 315) := j2StrongPerm k
+def j2Gen (k : ℕ) : Equiv.Perm (Fin 315) := j2StrongPerm k
 
-@[expose] def j2Chain : RawSchreierDatum 315 :=
+def j2Chain : RawSchreierDatum 315 :=
   RawSchreierDatum.ofArrays 315 (by decide) j2StrongArrs 2 (by simp [j2StrongArrs]) j2BaseFin
     (by decide) j2Words
 
-@[expose] def j2P : Subgroup (Equiv.Perm (Fin 315)) := Subgroup.closure {j2Gen 0, j2Gen 1}
+def j2P : Subgroup (Equiv.Perm (Fin 315)) := Subgroup.closure {j2Gen 0, j2Gen 1}
 
-@[expose] def j2SylowPrime (e : ℕ) : ℕ := j2Sylows[e]!.prime
+def j2SylowPrime (e : ℕ) : ℕ := j2Sylows[e]!.prime
 
-@[expose] def j2SylowGen (e k : ℕ) : Equiv.Perm (Fin 315) := permOfArr 315 j2Sylows[e]!.gens[k]!
+def j2SylowGen (e k : ℕ) : Equiv.Perm (Fin 315) := permOfArr 315 j2Sylows[e]!.gens[k]!
 
-@[expose] def j2NGRep (e r : ℕ) : Equiv.Perm (Fin 315) :=
+def j2NGRep (e r : ℕ) : Equiv.Perm (Fin 315) :=
   permOfArr 315 j2Sylows[e]!.records[r]!.rep
 
-@[expose] def j2NGConj (e r j : ℕ) : Equiv.Perm (Fin 315) :=
+def j2NGConj (e r j : ℕ) : Equiv.Perm (Fin 315) :=
   evalCodes [j2Gen 0, j2Gen 1] j2Sylows[e]!.records[r]!.conj[j]!
 
-@[expose] def j2NGBase (e r : ℕ) : List (Fin 315) :=
+def j2NGBase (e r : ℕ) : List (Fin 315) :=
   j2Sylows[e]!.records[r]!.chain.base.map fun b => Fin.ofNat 315 b
 
-@[expose] def j2NGChain (e r : ℕ) : RawSchreierDatum 315 :=
+def j2NGChain (e r : ℕ) : RawSchreierDatum 315 :=
   let c := j2Sylows[e]!.records[r]!.chain
   if h : c.gens.size ≤ c.strong.size ∧ (j2NGBase e r).Nodup then
     RawSchreierDatum.ofArrays 315 (by decide) c.strong c.gens.size h.1 (j2NGBase e r) h.2

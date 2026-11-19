@@ -45,7 +45,7 @@ theorem rowsMatrix_diagRows (r : ℕ) :
   unfold diagRows
   simp only [Array.getElem?_ofFn, i.isLt, ↓reduceDIte, Option.getD_some]
   by_cases hr : i.val < r
-  · simp only [hr, if_true]
+  · simp only [hr, ite_true]
     rw [Nat.one_shiftLeft, toVecD_apply, Nat.testBit_two_pow, Matrix.diagonal_apply]
     by_cases h : i = j
     · subst h

@@ -47,7 +47,7 @@ theorem card_cent_inf_xE_le (φ : Gmat ≃* MGriess) {u : Gmat} (hu2 : u * u = 1
       Subgroup.centralizer ({gw thirteenX} : Set Gmat)) ≤ 936 := by
   obtain ⟨⟨hfin, -, -, -⟩, a, z, ha, hz, hnc, hcls, hA, hBz, hgraph⟩ :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite MGriess := hfin
+  have : Finite MGriess := hfin
   have ht2 : orderOf (φ tGmat) = 2 := by
     rw [MulEquiv.orderOf_eq]
     exact CFSG.Monster.Tri.orderOf_tGmat

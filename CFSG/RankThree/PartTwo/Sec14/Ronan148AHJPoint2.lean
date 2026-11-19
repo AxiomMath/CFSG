@@ -18,7 +18,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec13
 variable {G : Type} [Group G] [Finite G]
 
 theorem commutator_le_img148_deltaZero_of_point_le (h142 : Concl142S14) {A L : Subgroup G}
-    {c : G} (hS : Sec14Std G A c L) {Y : Subgroup G} (hY : Y ∈ scriptY A) [(ker148 A Y).Normal]
+    {c : G} (hS : Sec14Std G A c L) {Y : Subgroup G} (_hY : Y ∈ scriptY A) [(ker148 A Y).Normal]
     {b : G} (hbΩ : Subgroup.zpowers b ∈ omegaA A) {U : Subgroup G} (hUY : U ≤ Y)
     (hAU : A ≤ Subgroup.normalizer (U : Set G)) (V : Subgroup (↥(Y ⊔ A) ⧸ ker148 A Y))
     (hVb : V ≤ img148 A Y (U ⊓ Subgroup.centralizer ({b} : Set G))) (hV3 : ¬ 3 ∣ Nat.card V)
@@ -70,7 +70,7 @@ theorem commutator_le_img148_deltaZero_of_point_le (h142 : Concl142S14) {A L : S
           ⟨a * w * a⁻¹, Subgroup.mem_sup_left (hUY hawU)⟩ =
         alpha148 A Y a ha * QuotientGroup.mk' (ker148 A Y)
           ⟨w, Subgroup.mem_sup_left (hUY hwU)⟩ * (alpha148 A Y a ha)⁻¹ := by
-      rw [alpha148_eq_mk', ← map_inv, ← map_mul, ← map_mul] <;> rfl
+      rw [alpha148_eq_mk', ← map_inv, ← map_mul, ← map_mul]; rfl
     have hwV : QuotientGroup.mk' (ker148 A Y) ⟨w, Subgroup.mem_sup_left (hUY hwU)⟩ ∈ V :=
       ((hWmem hwU).mp hw).1
     have hVconj : QuotientGroup.mk' (ker148 A Y)
@@ -171,7 +171,7 @@ theorem jalpha_le_of_member148
   have hJM : J ≤ Y ⊔ A := hJY.trans le_sup_left
   have hYBC : YB ≤ Y ⊓ Subgroup.centralizer (B : Set G) := le_of_mem_thetaComponentsIn hYB
   have hYBM : YB ≤ Y ⊔ A := (hYBC.trans inf_le_left).trans le_sup_left
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
   have hJs : IsSimpleGroup ↥(img148 A Y J) := MulEquiv.isSimpleGroup φ
   have hJcard : Nat.card (img148 A Y J) = 604800 := KFacts.KS14.card_eq_of_j2 ⟨φ⟩
   obtain ⟨-, hCD, -, h9, hYdeq, hYd1080, -, -, -, -⟩ :=

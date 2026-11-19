@@ -15,7 +15,7 @@ theorem succ_dvd_toNat_pow_sub {q i : ℕ} (hq : 1 ≤ q) (hi : 1 ≤ i) :
   have hpos : (0 : ℤ) ≤ (q : ℤ) ^ i - (-1 : ℤ) ^ i := by
     have h1 : (1 : ℤ) ≤ (q : ℤ) ^ i := one_le_pow₀ (by exact_mod_cast hq)
     have h2 : (-1 : ℤ) ^ i ≤ 1 := by
-      rcases neg_one_pow_eq_or ℤ i with h | h <;> rw [h] <;> norm_num
+      rcases neg_one_pow_eq_or ℤ i with h | h <;> rw [h]; norm_num
     by_cases hq1 : q = 1
     · subst hq1
       rcases neg_one_pow_eq_or ℤ i with h | h <;> rw [h] <;> norm_num
@@ -42,7 +42,7 @@ theorem toNat_pow_sub_two (q : ℕ) :
       ring
     rw [h, Int.toNat_natCast]
 
-theorem three_dvd_ordTwistedA {f m : ℕ} (hf : 1 ≤ f) (hm : 2 ≤ m) :
+theorem three_dvd_ordTwistedA {f m : ℕ} (_hf : 1 ≤ f) (hm : 2 ≤ m) :
     3 ∣ ordTwistedA (m - 1) (2 ^ f) := by
   set q := 2 ^ f with hq
   have hq1 : 1 ≤ q := Nat.one_le_two_pow

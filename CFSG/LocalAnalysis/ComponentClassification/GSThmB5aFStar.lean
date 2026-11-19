@@ -595,7 +595,7 @@ theorem generalizedFitting_simple :
     obtain ⟨hBC, R, hR⟩ := h.toHyp52.sylow_kernel
     have hp : IsPGroup 2 (((U : Subgroup H) ⊓ coreActionKernel h.V).subgroupOf
         (coreActionKernel h.V)) :=
-      (U.isPGroup'.to_inf_left).comap_subtype
+      (U.isPGroup.to_inf_left).comap_subtype
     have hle : (R : Subgroup _) ≤ ((U : Subgroup H) ⊓ coreActionKernel h.V).subgroupOf
         (coreActionKernel h.V) := by
       rw [hR]

@@ -38,14 +38,14 @@ private theorem m1_tInv1_coe :
   rw [tInv1, transvGL_val, Matrix.transvection]
   congr 1
   ext p q
-  fin_cases p <;> fin_cases q <;> simp [Matrix.vecMulVec, Matrix.single_apply, Pi.single_apply]
+  fin_cases p <;> fin_cases q <;> simp [Matrix.vecMulVec, Pi.single_apply]
 
 theorem exists_conj_tInv1 [Finite K] [CharP K 2] {g : GL (Fin 6) K} (hg : IsTransvec K g) :
     ∃ c : GL (Fin 6) K, (c : Matrix (Fin 6) (Fin 6) K).det = 1 ∧ c * g * c⁻¹ = tInv1 K := by
   obtain ⟨a, f, ha, hf, hfa, hgM⟩ := IsTransvec.exists hg
   have he : (Pi.single 1 1 : Fin 6 → K) ⬝ᵥ (Pi.single 0 1 : Fin 6 → K) = 0 := by
     rw [dotProduct_single]
-    simp [Pi.single_apply]
+    simp
   have he0 : (Pi.single 0 1 : Fin 6 → K) ≠ 0 := by
     intro h
     simpa using congrFun h 0

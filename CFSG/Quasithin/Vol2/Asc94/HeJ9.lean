@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G]
     by rw [← Matrix.transpose_mul, Units.inv_mul, Matrix.transpose_one],
     by rw [← Matrix.transpose_mul, Units.mul_inv, Matrix.transpose_one]⟩
 
+omit [Finite G] in
 theorem card_orbit_pair {L : Subgroup G} {s : G} {O : Set G}
     (hO : {y : G | ∃ l ∈ L, y = l⁻¹ * s * l} = O) :
     O.ncard * Nat.card ↥(L ⊓ centralizer ({s} : Set G)) = Nat.card L := by
@@ -29,12 +30,14 @@ variable {A A' : Subgroup G} {u w : G → V2} {m : G → M2} {N T : Subgroup G} 
 
 include hD
 
+omit [Finite G] in
 theorem Data40.a_ne_one : a ≠ 1 := by
   rintro rfl
   have := hD.hT.m_one
   rw [hD.ham] at this
   exact one_ne_zero this
 
+omit [Finite G] in
 theorem Data40.a_mul_a : a * a = 1 := hD.hK.Asq a hD.ha.1
 
 section X
@@ -43,18 +46,20 @@ variable {x : G} (hxN : x ∈ N) (hxa : x ∈ centralizer ({a} : Set G)) (hx3 : 
 
 include hxN hxa hx3
 
+omit hx3 [Finite G] in
 theorem Data40.exists_b : ∃ b ∈ (A ⊓ A') ⊓ centralizer ({x} : Set G),
     m b = ((hD.hT.rho N hD.hK.norm ⟨x, hxN⟩).1 : GL2).val := by
   set g := ((hD.hT.rho N hD.hK.norm ⟨x, hxN⟩).1 : GL2) with hg
   obtain ⟨b, hbZ, hbm⟩ := hD.hT.msurj g.val
-  exact ⟨b, (hD.mem_B_iff hxN hxa hx3).2 ⟨hbZ, by rw [hbm]⟩, hbm⟩
+  exact ⟨b, (hD.mem_B_iff hxN hxa).2 ⟨hbZ, by rw [hbm]⟩, hbm⟩
 
+omit hxa in
 theorem Data40.exists_d {b : G} (hbZ : b ∈ A ⊓ A')
     (hbm : m b = ((hD.hT.rho N hD.hK.norm ⟨x, hxN⟩).1 : GL2).val) :
     ∃ d ∈ N ⊓ centralizer ({a} : Set G),
       m (d * b * d⁻¹) = (((hD.hT.rho N hD.hK.norm ⟨x, hxN⟩).1 : GL2)⁻¹ : GL2).val := by
   set g := ((hD.hT.rho N hD.hK.norm ⟨x, hxN⟩).1 : GL2) with hg
-  obtain ⟨h, hh⟩ := gl2_exists_inverting g (hD.g_pow_three hxN hxa hx3)
+  obtain ⟨h, hh⟩ := gl2_exists_inverting g (hD.g_pow_three hxN hx3)
   obtain ⟨d, hd⟩ := hD.hT.rho_surjective hD.hK (h, gl2T h⁻¹)
   have hdN : (d : G) ∈ N := d.2
   have hd1 : ((hD.hT.rho N hD.hK.norm d).1 : GL2).val = h.val := by rw [hd]
@@ -81,7 +86,7 @@ theorem Data40.B_elems {b : G} (hb : b ∈ (A ⊓ A') ⊓ centralizer ({x} : Set
   have hcard : (B : Set G).ncard = 4 := by
     rw [← Nat.card_coe_set_eq]
     exact hD.card_B hxN hxa hx3
-  have haB : a ∈ B := hD.a_mem_B hxN hxa hx3
+  have haB : a ∈ B := hD.a_mem_B hxa
   have hab : a * b ∈ B := B.mul_mem haB hb
   have ha1 := hD.a_ne_one
   have haa := hD.a_mul_a
@@ -138,7 +143,7 @@ theorem Data40.centralizer_B {b : G} (hb : b ∈ (A ⊓ A') ⊓ centralizer ({x}
     (hb1 : b ≠ 1) (hba : b ≠ a) :
     centralizer (((A ⊓ A') ⊓ centralizer ({x} : Set G) : Subgroup G) : Set G) =
       centralizer ({a} : Set G) ⊓ centralizer ({b} : Set G) := by
-  have haB := hD.a_mem_B hxN hxa hx3
+  have haB := hD.a_mem_B hxa
   ext m'
   constructor
   · intro hm

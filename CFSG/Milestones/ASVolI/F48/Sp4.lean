@@ -51,7 +51,7 @@ theorem burnsideF48_spH_symp {a b : K} (ha : a ≠ 0) (hb : b ≠ 0) :
       Matrix.fromBlocks 0 1 (-1) 0 := by
   simp only [burnsideF48_spH, Matrix.fromBlocks_transpose, Matrix.fromBlocks_multiply,
     Matrix.diagonal_transpose, Matrix.transpose_zero, Matrix.diagonal_mul_diagonal,
-    zero_mul, mul_zero, add_zero, zero_add, Matrix.mul_one, Matrix.one_mul, Matrix.neg_mul,
+    zero_mul, mul_zero, add_zero, zero_add, Matrix.mul_one, Matrix.neg_mul,
     Matrix.mul_neg]
   rw [Matrix.fromBlocks_inj]
   refine ⟨rfl, ?_, ?_, rfl⟩ <;>
@@ -75,7 +75,7 @@ theorem burnsideF48_spN_mul : burnsideF48_spN K * burnsideF48_spNinv K = 1 := by
 
 theorem burnsideF48_spNinv_mul : burnsideF48_spNinv K * burnsideF48_spN K = 1 := by
   simp only [burnsideF48_spN, burnsideF48_spNinv, Matrix.fromBlocks_multiply, zero_mul, mul_zero,
-    add_zero, zero_add, Matrix.mul_one, Matrix.one_mul, Matrix.neg_mul, neg_add_cancel]
+    add_zero, zero_add, Matrix.mul_one, Matrix.one_mul, neg_add_cancel]
   exact Matrix.fromBlocks_one
 
 open Matrix in
@@ -84,17 +84,17 @@ theorem burnsideF48_spN_symp :
       Matrix.fromBlocks 0 1 (-1) 0 := by
   simp only [burnsideF48_spN, Matrix.fromBlocks_transpose, Matrix.fromBlocks_multiply,
     Matrix.transpose_one, Matrix.transpose_zero, burnsideF48_E_transpose, zero_mul, mul_zero,
-    add_zero, zero_add, Matrix.mul_one, Matrix.one_mul, Matrix.neg_mul, Matrix.mul_neg,
+    add_zero, zero_add, Matrix.mul_one, Matrix.one_mul, Matrix.mul_neg,
     neg_add_cancel]
 
 theorem burnsideF48_spW_mul : burnsideF48_spW K * burnsideF48_spWinv K = 1 := by
   simp only [burnsideF48_spW, burnsideF48_spWinv, Matrix.fromBlocks_multiply, zero_mul, mul_zero,
-    add_zero, zero_add, Matrix.mul_one, Matrix.one_mul, Matrix.neg_mul, Matrix.mul_neg, neg_neg]
+    add_zero, zero_add, Matrix.mul_one, Matrix.mul_neg, neg_neg]
   exact Matrix.fromBlocks_one
 
 theorem burnsideF48_spWinv_mul : burnsideF48_spWinv K * burnsideF48_spW K = 1 := by
   simp only [burnsideF48_spW, burnsideF48_spWinv, Matrix.fromBlocks_multiply, zero_mul, mul_zero,
-    add_zero, zero_add, Matrix.mul_one, Matrix.one_mul, Matrix.neg_mul, Matrix.mul_neg, neg_neg]
+    add_zero, zero_add, Matrix.mul_one, Matrix.mul_neg, neg_neg]
   exact Matrix.fromBlocks_one
 
 open Matrix in
@@ -103,7 +103,7 @@ theorem burnsideF48_spW_symp :
       Matrix.fromBlocks 0 1 (-1) 0 := by
   simp only [burnsideF48_spW, Matrix.fromBlocks_transpose, Matrix.fromBlocks_multiply,
     Matrix.transpose_one, Matrix.transpose_zero, Matrix.transpose_neg, zero_mul, mul_zero,
-    add_zero, zero_add, Matrix.mul_one, Matrix.one_mul, Matrix.neg_mul, Matrix.mul_neg, neg_neg]
+    add_zero, zero_add, Matrix.mul_one, Matrix.mul_neg, neg_neg]
 
 @[expose] def burnsideF48_spHElt (a b : Kˣ) : StatedSp 2 K :=
   burnsideF48_spElt (burnsideF48_spH (a : K) (b : K)) (burnsideF48_spH (a : K)⁻¹ (b : K)⁻¹)
@@ -121,12 +121,12 @@ theorem burnsideF48_spW_symp :
 open Matrix in
 theorem burnsideF48_spH_mulVec_inl (a b : K) (v : Fin 2 ⊕ Fin 2 → K) (i : Fin 2) :
     (burnsideF48_spH a b *ᵥ v) (Sum.inl i) = ![a, b] i * v (Sum.inl i) := by
-  simp [burnsideF48_spH, Matrix.fromBlocks_mulVec, Matrix.mulVec_diagonal]
+  simp [burnsideF48_spH, Matrix.mulVec_diagonal]
 
 open Matrix in
 theorem burnsideF48_spH_mulVec_inr (a b : K) (v : Fin 2 ⊕ Fin 2 → K) (i : Fin 2) :
     (burnsideF48_spH a b *ᵥ v) (Sum.inr i) = ![a⁻¹, b⁻¹] i * v (Sum.inr i) := by
-  simp [burnsideF48_spH, Matrix.fromBlocks_mulVec, Matrix.mulVec_diagonal]
+  simp [burnsideF48_spH, Matrix.mulVec_diagonal]
 
 open Matrix in
 theorem burnsideF48_spN_mulVec_inl (v : Fin 2 ⊕ Fin 2 → K) (i : Fin 2) :
@@ -136,7 +136,7 @@ theorem burnsideF48_spN_mulVec_inl (v : Fin 2 ⊕ Fin 2 → K) (i : Fin 2) :
 open Matrix in
 theorem burnsideF48_spN_mulVec_inr (v : Fin 2 ⊕ Fin 2 → K) (i : Fin 2) :
     (burnsideF48_spN K *ᵥ v) (Sum.inr i) = v (Sum.inr i) + (if i = 1 then v (Sum.inl 1) else 0) := by
-  fin_cases i <;> simp [burnsideF48_spN, Matrix.fromBlocks_mulVec, Matrix.mulVec, dotProduct,
+  fin_cases i <;> simp [burnsideF48_spN, Matrix.mulVec, dotProduct,
     Fin.sum_univ_two, add_comm]
 
 open Matrix in
@@ -148,7 +148,7 @@ open Matrix in
 theorem burnsideF48_spNinv_mulVec_inr (v : Fin 2 ⊕ Fin 2 → K) (i : Fin 2) :
     (burnsideF48_spNinv K *ᵥ v) (Sum.inr i) =
       v (Sum.inr i) - (if i = 1 then v (Sum.inl 1) else 0) := by
-  fin_cases i <;> simp [burnsideF48_spNinv, Matrix.fromBlocks_mulVec, Matrix.mulVec, dotProduct,
+  fin_cases i <;> simp [burnsideF48_spNinv, Matrix.mulVec, dotProduct,
     Fin.sum_univ_two, sub_eq_add_neg, add_comm]
 
 open Matrix in
@@ -156,14 +156,14 @@ theorem burnsideF48_spW_mulVec_inr (v : Fin 2 ⊕ Fin 2 → K) (i : Fin 2) :
     (burnsideF48_spW K *ᵥ v) (Sum.inr i) = v (Sum.inl i) := by
   simp [burnsideF48_spW, Matrix.fromBlocks_mulVec]
 
-theorem burnsideF48_spH_mul_spN {a : K} (ha : a ≠ 0) :
+theorem burnsideF48_spH_mul_spN {a : K} (_ha : a ≠ 0) :
     burnsideF48_spH a 1 * burnsideF48_spN K = burnsideF48_spN K * burnsideF48_spH a 1 := by
   simp only [burnsideF48_spH, burnsideF48_spN, Matrix.fromBlocks_multiply, zero_mul, mul_zero,
     add_zero, zero_add, Matrix.mul_one, Matrix.one_mul]
   rw [Matrix.fromBlocks_inj]
   refine ⟨rfl, rfl, ?_, rfl⟩
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Matrix.diagonal_apply, Fin.sum_univ_two]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Matrix.diagonal_apply]
 
 theorem burnsideF48_spH_mul_spW (a b : K) :
     burnsideF48_spH a b * burnsideF48_spW K = burnsideF48_spW K * burnsideF48_spH a⁻¹ b⁻¹ := by
@@ -244,7 +244,7 @@ theorem burnsideF48_sp_stab_one_eig {g : StatedSp 2 K} (hg : g ∈ stabilizer 2 
     rw [mem_flag_of_le (by norm_num), mem_isoFlag]
     refine ⟨fun j => by simp, fun j hj => ?_⟩
     have hj0 : j ≠ 0 := fun h => by subst h; simp at hj
-    simp [Pi.single_apply, hj0]
+    simp [hj0]
   have hmem := burnsideF48_sp_stab_apply hg he0
   rw [mem_flag_of_le (by norm_num), mem_isoFlag] at hmem
   obtain ⟨h1, h2⟩ := hmem
@@ -256,7 +256,7 @@ theorem burnsideF48_sp_stab_one_eig {g : StatedSp 2 K} (hg : g ∈ stabilizer 2 
     · subst hj
       simp
     · rw [h2 j (Nat.one_le_iff_ne_zero.mpr fun h => hj (Fin.ext h))]
-      simp [Pi.single_apply, hj]
+      simp [hj]
   · rw [h1 j]
     simp
 
@@ -270,7 +270,7 @@ theorem burnsideF48_spWElt_ne_mul {k l k' : StatedSp 2 K}
     rw [mem_flag_of_le (by norm_num), mem_isoFlag]
     refine ⟨fun j => by simp [he₀], fun j hj => ?_⟩
     have hj0 : j ≠ 0 := fun h => by subst h; simp at hj
-    simp [he₀, Pi.single_apply, hj0]
+    simp [he₀, hj0]
   have h1 := burnsideF48_sp_stab_apply hk' he0
   have h2 : (((k' : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ e₀) ∈
       flag 2 K 2 := by
@@ -391,8 +391,7 @@ theorem burnsideF48_spU_cent {ω : Kˣ} (hω1 : ω ≠ 1) (hω2 : (ω : K) ^ 2 �
   have e0f1 := congrFun (congrFun hc' (Sum.inl 0)) (Sum.inr 1)
   have e0f0 := congrFun (congrFun hc' (Sum.inl 0)) (Sum.inr 0)
   simp [burnsideF48_spH, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two,
-    burnsideF48_blockMat_ee, burnsideF48_blockMat_ef, burnsideF48_blockMat_fe,
-    burnsideF48_blockMat_ff, Matrix.diagonal_apply] at e00 e01 e0f1 e0f0
+    burnsideF48_blockMat_ee, burnsideF48_blockMat_ef, Matrix.diagonal_apply] at e00 e01 e0f1 e0f0
   have hω0 : (ω : K) ≠ 0 := ω.ne_zero
   have hω1' : (ω : K) ≠ 1 := fun h => hω1 (Units.ext h)
   have hA00 : A 0 0 = 1 := hA.2 0
@@ -568,10 +567,10 @@ private theorem burnsideF48_sp_keym {p f : ℕ} {H : Type} [Group H]
         Units.val_one])]
   simp only [Units.val_one, Matrix.one_mulVec, Set.image_id']
   cases b
-  · simp only [Bool.false_eq_true, if_false, ChF.ClassicalRoots.flagOne]
+  · simp only [Bool.false_eq_true, ite_false, ChF.ClassicalRoots.flagOne]
     exact forall_congr' fun v => by
       rw [(burnsideF4h_cl_sp_coordinateSpace _).1, (burnsideF4h_cl_sp_coordinateSpace _).1]
-  · simp only [if_true, ChF.ClassicalRoots.flagTwo]
+  · simp only [ite_true, ChF.ClassicalRoots.flagTwo]
     exact forall_congr' fun v => by
       rw [(burnsideF4h_cl_sp_coordinateSpace _).2, (burnsideF4h_cl_sp_coordinateSpace _).2]
 
@@ -604,10 +603,10 @@ theorem burnsideF48_cartanFPF_Sp4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂
     (hyp : ChF.HypF_4_4 .Sp4 p f Gp M₁ M₂) (hp : p.Prime) (hm : 3 ≤ ChF.GLKind.Sp4.m)
     (hq : 4 ≤ p ^ f) (hpoly : IsGenPolygon (burnsideF48_setting hyp hp hm).ι.graph 4) :
     (burnsideF48_setting hyp hp hm).CartanFPF := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨marking, h1, h2⟩ := burnsideF48_marking (c := .Sp4) hyp.toHypF_4_4g
   have hK : Nat.card marking.field = p ^ f := by simpa using marking.field_card
-  haveI : CharP marking.field p := by
+  have : CharP marking.field p := by
     have := Fintype.ofFinite marking.field
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK)
   obtain ⟨n, w, h, hn1, hn2, hh1, hh2, hh3, hh4, hw, hQ⟩ :=
@@ -620,12 +619,12 @@ theorem burnsideF48_cartanFPF_Sp4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂
     n w h hn1 hn2 hh1 hh2 hh3 hh4 hw hQ
   · intro g
     have := burnsideF48_spIso_mem_iff marking false g
-    simp only [Bool.false_eq_true, if_false] at this
+    simp only [Bool.false_eq_true, ite_false] at this
     rw [← this, ← h1]
     exact Subgroup.mem_subgroupOf.symm
   · intro g
     have := burnsideF48_spIso_mem_iff marking true g
-    simp only [if_true] at this
+    simp only [ite_true] at this
     rw [← this, ← h2]
     exact Subgroup.mem_subgroupOf.symm
   · exact Subgroup.map_mono (fun x hx => (mem_borelSubgroup.1 (unipotent_le_borelSubgroup hx)) 1
@@ -634,7 +633,7 @@ theorem burnsideF48_cartanFPF_Sp4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂
 theorem burnsideF48_simple_Sp4 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : ChF.HypF_4_4 .Sp4 p f Gp M₁ M₂) (hq : 4 ≤ p ^ f) : IsSimpleGroup ↥Gp := by
   obtain ⟨-, -, K, hK, hKfin, hcard, ⟨e⟩⟩ := hyp.model
-  haveI : IsSimpleGroup (StatedProj (StatedSp 2 K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSp 2 K)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp K 2 (by norm_num)
       (Or.inl (Or.inr (by rw [hcard]; exact hq)))
   exact e.isSimpleGroup

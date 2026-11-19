@@ -24,9 +24,10 @@ theorem ne_bot_of_one_lt_pRank {p : ℕ} (hp : p.Prime) {Y : Subgroup G} (h : 1 
     exact (Nat.pow_eq_one.1 hcard.symm).resolve_left hp.one_lt.ne' |>.le
   omega
 
+omit [Finite G] in
 theorem exponent_eq_of_pow_eq_one {X : Subgroup G} {p : ℕ} (hp : p.Prime) (h : ∀ x ∈ X, x ^ p = 1) (hX : X ≠ ⊥) :
     Monoid.exponent ↥X = p := by
-  haveI : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).2 hX
+  have : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).2 hX
   rcases (Nat.dvd_prime hp).1 (Monoid.exponent_dvd_of_forall_pow_eq_one fun x : ↥X =>
       Subtype.ext (by simpa using h x x.2)) with h1 | h1
   · exact absurd (Monoid.exp_eq_one_iff.1 h1) (not_subsingleton _)
@@ -34,7 +35,7 @@ theorem exponent_eq_of_pow_eq_one {X : Subgroup G} {p : ℕ} (hp : p.Prime) (h :
 
 theorem pCoreOf_ne_bot_of_dvd {B : Subgroup G} (hB : IsMulCommutative B) {r : ℕ} (hr : r.Prime)
     (hd : r ∣ Nat.card B) : CFSG.Open.pCoreOf r B ≠ ⊥ := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥B) r hd
   have hxo : orderOf (x : G) = r := by rw [Subgroup.orderOf_coe]; exact hx
   have hN : zpowers (x : G) ≤ B := zpowers_le.2 x.2
@@ -54,6 +55,7 @@ theorem pCoreOf_ne_bot_of_dvd {B : Subgroup G} (hB : IsMulCommutative B) {r : �
   rw [this, orderOf_one] at hx
   exact hr.one_lt.ne hx
 
+omit [Finite G] [Finite V] in
 theorem fixedSubmodule_eq_fixSub (ρ : Representation (ZMod 2) G V) (E : Subgroup G) :
     fixedSubmodule ρ E = fixSub ρ E := by
   ext v
@@ -61,6 +63,7 @@ theorem fixedSubmodule_eq_fixSub (ρ : Representation (ZMod 2) G V) (E : Subgrou
   rw [Representation.mem_invariants, mem_fixSub]
   exact ⟨fun h a ha => h ⟨a, ha⟩, fun h a => h a a.2⟩
 
+omit [Finite G] [Finite V] in
 theorem moduleM_eq_mGV (ρ : Representation (ZMod 2) G V) : moduleM ρ = mGV ρ := by
   have hset : involutionDisplacements ρ = {n | ∃ t : G, orderOf t = 2 ∧
       n = Module.finrank (ZMod 2) (V ⧸ fixSub ρ (zpowers t))} := by
@@ -96,6 +99,7 @@ theorem oddPrimeClassTwoAction_of_F05 {p : ℕ} {P T B : Subgroup G} {e : ℕ} (
     exponent_eq_of_pow_eq_one hr.1 (h.expB r hr.1 hr.2) (pCoreOf_ne_bot_of_dvd h.abelian hr.1 hr.2)
   normalizes := h.normT
 
+omit [Finite V] in
 theorem faithfulBinaryIrreducibleAction_of_F05 {ρ : Representation (ZMod 2) G V} {p : ℕ} {P T B : Subgroup G}
     (h : Hyp53 ρ p P T B) : Section5.FaithfulBinaryIrreducibleAction G p P T B ρ where
   faithful := h.faithful
@@ -122,6 +126,7 @@ theorem cyclicCentralizersAndFewComponentConjugates_of_F05 {B : Subgroup G} (h :
   cyclic_centralizer := fun q hq Q hQ b hb hb1 => h.cyclic q hq Q (mem_calQ_of_mem_scriptQ hQ) b hb hb1
   few_conjugates := h.components
 
+omit [Finite V] in
 theorem binaryActionRankCounterexample_of_F05 {ρ : Representation (ZMod 2) G V} {p : ℕ} {P T B : Subgroup G}
     {e : ℕ} (h51 : Hyp51 p P T B e) (h53 : Hyp53 ρ p P T B) (h515 : Hyp515 B)
     (hn : ¬ (e + 1 < mGV ρ ∨

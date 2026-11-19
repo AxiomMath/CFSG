@@ -22,7 +22,7 @@ theorem qpCfg_centralizer_le {M V Q P H : Subgroup G} {n : ℕ}
     {Φ : ↥(StatedSp n (GaloisField 2 1)) ≃* Xbar V H}
     {ψ : (Fin n ⊕ Fin n → GaloisField 2 1) ≃+ Additive ↥(wOf V H)}
     {a : Fin n ⊕ Fin n → GaloisField 2 1} {T : Subgroup ↥(StatedSp n (GaloisField 2 1))}
-    (h11b : Lemma11bStatement) (h12 : Lemma12Statement) (h13 : Lemma13Statement)
+    (_h11b : Lemma11bStatement) (h12 : Lemma12Statement) (h13 : Lemma13Statement)
     (cfg : QPCfg M V Q P H Φ ψ a T) {r : G} (hrV : r ∈ V) (hr : r ≠ 1) :
     Subgroup.centralizer ({r} : Set G) ≤ Subgroup.centralizer ({cfg.aG} : Set G) := by
   have hH := cfg.hyp
@@ -110,7 +110,7 @@ theorem qpCfg_exists_conj {M V Q P H : Subgroup G} {n : ℕ}
     {Φ : ↥(StatedSp n (GaloisField 2 1)) ≃* Xbar V H}
     {ψ : (Fin n ⊕ Fin n → GaloisField 2 1) ≃+ Additive ↥(wOf V H)}
     {a : Fin n ⊕ Fin n → GaloisField 2 1} {T : Subgroup ↥(StatedSp n (GaloisField 2 1))}
-    (h11a : Lemma11aStatement) (h11b : Lemma11bStatement) (h12 : Lemma12Statement)
+    (h11a : Lemma11aStatement) (_h11b : Lemma11bStatement) (_h12 : Lemma12Statement)
     (cfg : QPCfg M V Q P H Φ ψ a T) :
     ∃ x : G, x * cfg.aG * x⁻¹ ∈ P ∧ x * cfg.aG * x⁻¹ ∉ V ∧ x⁻¹ * cfg.aG * x ∈ P := by
   have h2n : 2 ≤ n := by

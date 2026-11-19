@@ -29,7 +29,7 @@ theorem centralizer_Z_le_of_ne_bot {D : Data G} {V₀ V : Subgroup G}
     rcases hV.1 with ⟨-, h0⟩ | ⟨-, hcu, -⟩
     · exact absurd h0 hV₀
     · exact hcu
-  obtain ⟨z, hzZ, hz1⟩ := SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr (uc22main1_Z_ne_bot D))
+  obtain ⟨z, hzZ, hz1⟩ := _root_.IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr (uc22main1_Z_ne_bot D))
   have hz1' : z ≠ 1 := by simpa using hz1
   have hzmem := CFSG.LocalAnalysis.RankThreeUC.omegaOneCenterIn_le_inf_centralizer D.T hzZ
   have hzT : z ∈ D.T := hzmem.1
@@ -116,7 +116,7 @@ theorem seventeen_thirtytwo_normal_v0eq1 (D : Data G) (hx : DataExt D) (h61 : UC
   have hk : D.k = 1 := by
     have hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M := h891 L hL n h3D4
     unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam
-    rw [if_pos hsp]
+    rw [ite_eq_left hsp]
   rw [hk] at h1
   have hn1 : 1 ≤ n := (CFSG.Blueprint.LieModel.admissible h3D4).2.1
   omega

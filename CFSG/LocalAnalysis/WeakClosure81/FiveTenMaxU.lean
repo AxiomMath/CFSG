@@ -10,10 +10,12 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isSylowIn_of_le_of_isPGroup {K P Q : Subgroup G} (hP : IsSylowIn 2 P K) (hPQ : P ≤ Q)
     (hQK : Q ≤ K) (hQ : IsPGroup 2 Q) : IsSylowIn 2 Q K :=
   ⟨hQK, hQ, fun hd => hP.not_dvd_relIndex (hd.trans (Subgroup.relIndex_dvd_of_le_left K hPQ))⟩
 
+omit [Finite G] in
 theorem isSylowIn_conjSub {P K : Subgroup G} (hP : IsSylowIn 2 P K) (g : G) :
     IsSylowIn 2 (A1b.conjSub g P) (A1b.conjSub g K) :=
   B6.isSylowTwoOf_conjSub hP g

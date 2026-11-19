@@ -20,6 +20,7 @@ variable {G : Type} [Group G] [Finite G] {H Λ K₁ : Subgroup G}
     (conjJoin S K₁ = K₁ ∧ IsAltType K₁ 3 ∧ ¬ IsA3Product H (oTwoUpper H) 2) ∨
     (conjJoin S K₁ ≠ K₁ ∧ IsAltType K₁ 3 ∧ ¬ IsBlock2 H (oTwoUpper H))
 
+omit [Finite G] in
 theorem burnsideC56_glue_map_conj_self {t : G} (ht : t ∈ H) :
     H.map (MulAut.conj t).toMonoidHom = H := by
   ext x
@@ -96,7 +97,7 @@ theorem burnsideC56_glue_c3 (hjoin : conjJoin (Λ ⊓ H) K₁ = oTwoUpper H)
       exact (Subgroup.card_le_of_le hB).trans hb
   · exact ⟨fun h => absurd h.1 hnb, fun _ _ h => absurd h hnb, fun h => absurd h hnb⟩
 
-theorem burnsideC56_glue_c4 (hcs : burnsideC56_CS G Λ ⊤ H (Λ ⊓ H) K₁)
+theorem burnsideC56_glue_c4 (_hcs : burnsideC56_CS G Λ ⊤ H (Λ ⊓ H) K₁)
     (hjoin : conjJoin (Λ ⊓ H) K₁ = oTwoUpper H)
     (hcase : burnsideC56_glue_Case H (Λ ⊓ H) K₁) (hC : C61Concl Λ H (Λ ⊓ H) K₁)
     (hr : ((IsAltType K₁ 5 ∧ conjJoin (Λ ⊓ H) K₁ = K₁) ∨

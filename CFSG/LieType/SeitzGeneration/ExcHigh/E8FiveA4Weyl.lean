@@ -17,12 +17,12 @@ set_option linter.unusedSectionVars false
 theorem isSolvable_inf_dualWeylStabilizer {z₀ z₁ : Fin Tag.E8.rank → ZMod 5}
     (hreg : ∀ α, IsRoot Tag.E8 α → charVal z₀ α = 0 → charVal z₁ α = 0 → False) :
     Group.IsSolvable ↥(dualWeylStabilizer z₀ ⊓ dualWeylStabilizer z₁) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hp : IsPGroup 5 ↥(dualWeylStabilizer z₀ ⊓ dualWeylStabilizer z₁) := fun g => by
     refine ⟨2, Subtype.ext ?_⟩
     have h := pow_twentyFive_eq_one hreg (Subgroup.mem_inf.1 g.2).1 (Subgroup.mem_inf.1 g.2).2
     simpa using h
-  haveI := hp.isNilpotent
+  have := hp.isNilpotent
   infer_instance
 
 theorem exists_orderOf_eq_five_of_fix {z₀ z₁ : Fin Tag.E8.rank → ZMod 5}

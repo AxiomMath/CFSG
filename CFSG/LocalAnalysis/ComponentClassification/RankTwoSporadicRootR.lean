@@ -92,7 +92,7 @@ theorem root_of_rootCheckR (hB : BaseOf P bs) (HL : Letters n w h L ℓ)
   have hXP : ∀ g ∈ X, g ∈ P := fun g hg => by
     rw [hXdef] at hg
     obtain ⟨x, hx, rfl⟩ := List.mem_map.1 hg
-    exact wordPerm_mem HL hℓ (hxw x hx)
+    exact wordPerm_mem hℓ (hxw x hx)
   have hpcP : ∀ k, pcG X k ∈ P := pcG_mem_of hXP
   have hpcw : ∀ k p (hp : p < n), pcwPt w L r.xw k p = (pcG X k ⟨p, hp⟩ : ℕ) := fun k p hp => by
     rw [hXdef]
@@ -130,7 +130,7 @@ theorem root_of_rootCheckR (hB : BaseOf P bs) (HL : Letters n w h L ℓ)
     have hlt : ∀ q : Fin m, at' wr r.d.xs[j] q < m := by
       intro q
       have h1 := (rep_of_validA hv).lt q.2
-      rw [SP.unpackP_get, if_pos q.2] at h1
+      rw [SP.unpackP_get, ite_eq_left q.2] at h1
       exact h1
     have hq : ∀ q : Fin m, (wordPerm ℓ r.xw[j]) (Of q) = Of ⟨at' wr r.d.xs[j] q, hlt q⟩ := by
       intro q
@@ -148,7 +148,7 @@ theorem root_of_rootCheckR (hB : BaseOf P bs) (HL : Letters n w h L ℓ)
     rw [hq q]
     congr 1
     apply Fin.ext
-    rw [← hrep.apply q.2, SP.unpackP_get, if_pos q.2]
+    rw [← hrep.apply q.2, SP.unpackP_get, ite_eq_left q.2]
   have hmemX : ∀ j (hj : j < r.xw.length), wordPerm ℓ r.xw[j] ∈ S4 := fun j hj => by
     have hx : wordPerm ℓ r.xw[j] ∈ X := by
       rw [hXdef]
@@ -158,7 +158,7 @@ theorem root_of_rootCheckR (hB : BaseOf P bs) (HL : Letters n w h L ℓ)
   have hS4stab : S4 ≤ stab Of := by
     rw [hS4def, closure_le]
     intro g hg
-    rw [Set.mem_setOf_eq, hXdef] at hg
+    rw [Set.mem_ofPred_eq, hXdef] at hg
     obtain ⟨j, hj, rfl⟩ := List.getElem_of_mem hg
     rw [List.getElem_map]
     exact (hgen j (by simp at hj; omega)).1
@@ -221,7 +221,7 @@ theorem root_of_rootCheckR (hB : BaseOf P bs) (HL : Letters n w h L ℓ)
     rw [hS4def, closure_le]
     intro g hg
     refine ⟨hXP g hg, mem_centralizer_singleton_iff.2 ?_⟩
-    rw [Set.mem_setOf_eq, hXdef] at hg
+    rw [Set.mem_ofPred_eq, hXdef] at hg
     obtain ⟨x, hx, rfl⟩ := List.mem_map.1 hg
     rw [← hX0]
     refine eq_of_base hB (P.mul_mem (hXP _ (hXdef ▸ List.mem_map_of_mem hx)) (hpcP _))
@@ -348,17 +348,17 @@ theorem root_of_rootCheckR (hB : BaseOf P bs) (HL : Letters n w h L ℓ)
     rw [closure_le]
     rintro g (rfl | hg)
     · exact hpair _ (htj' ▸ hme)
-    · simp only [List.coe_toFinset, Set.mem_setOf_eq, List.mem_map] at hg
+    · simp only [List.coe_toFinset, Set.mem_ofPred_eq, List.mem_map] at hg
       obtain ⟨g', hg', rfl⟩ := hg
       exact hpair _ (htj' ▸ (hfs g' hg').1.1)
   ·
     have hsj' : s.1 = j := Nat.eq_of_beq_eq_true hsj
     have hsk := hskips s hs
-    simp only [Bool.and_eq_true, Bool.or_eq_true, List.all_eq_true] at hsk
+    simp only [Bool.or_eq_true] at hsk
     obtain ⟨⟨⟨hsa, hsl⟩, hsw⟩, hsb⟩ := hsk
     have hjr : s.2.2.2 < i := Nat.blt_eq.mp hsl
     have hgw : WordOK h s.2.2.1 := fun k hk => Nat.blt_eq.mp (hsw k hk)
-    have hGP := wordPerm_mem HL hℓ hgw
+    have hGP := wordPerm_mem hℓ hgw
     set G := wordPerm ℓ s.2.2.1
     have hconj : G * pcG X s.2.1 * G⁻¹ = X₀ s.2.2.2 := by
       have hc : G * pcG X s.2.1 = X₀ s.2.2.2 * G := by
@@ -375,7 +375,7 @@ theorem root_of_rootCheckR (hB : BaseOf P bs) (HL : Letters n w h L ℓ)
     · left
       rw [Nat.eq_of_beq_eq_true hsa, hsj', ← hBdef, hBs'] at hconj
       rw [← hconj]
-      simp only [mul_inv_rev, Subgroup.coe_inv]
+      simp only [mul_inv_rev]
       group
     · right
       rw [Nat.eq_of_beq_eq_true hsa, hsj', hXB, hBs'] at hconj

@@ -113,7 +113,7 @@ theorem insW_spec {gs : List (Idx n)} {A : List (Idx n × List Nat)}
       · subst hx
         simp
       · have hne : c.1.v ≠ x.v := fun h => hx (Idx.ext h.symm)
-        rw [if_neg hne, hv x]
+        rw [ite_eq_right hne, hv x]
         simp [hx]
     · have hp : ((A ++ c :: st.2).map Prod.fst).Perm (c.1 :: (A ++ st.2).map Prod.fst) := by
         simp
@@ -249,7 +249,7 @@ theorem wordsOf_spec (gs : List (Idx n)) : WOut gs [(1, [])] (wordsOf gs) := by
     · subst hx
       simp
     · have hne : (1 : Idx n).v ≠ x.v := fun h => hx (Idx.ext h.symm)
-      rw [if_neg hne, Array.getD_eq_getD_getElem?, Array.getElem?_replicate]
+      rw [ite_eq_right hne, Array.getD_eq_getD_getElem?, Array.getElem?_replicate]
       split <;> simp [hx]
   · intro p hp hpF
     simp only [List.mem_singleton] at hp
@@ -316,17 +316,17 @@ theorem greedyGens_aux (init R : List (Idx n)) (Ls : List (List (Idx n)))
   | s :: S, j, b, hj, h => by
     simp only [List.foldl_cons, greedyStep] at h ⊢
     by_cases hc : (Ls.getD j []).contains s = true
-    · rw [if_pos hc] at h ⊢
+    · rw [ite_eq_left hc] at h ⊢
       have hs : ((wordsOf (init ++ R.take j)).any fun p => decide (p.1 = s)) = true := by
         rw [any_wordsOf_iff, ← hL j hj]
         simpa using hc
-      rw [if_pos hs]
+      rw [ite_eq_left hs]
       exact greedyGens_aux init R Ls hL S j b hj h
-    · rw [if_neg hc] at h ⊢
+    · rw [ite_eq_right hc] at h ⊢
       have hs : ¬ ((wordsOf (init ++ R.take j)).any fun p => decide (p.1 = s)) = true := by
         rw [any_wordsOf_iff, ← hL j hj]
         simpa using hc
-      rw [if_neg hs]
+      rw [ite_eq_right hs]
       have hb : (b && decide (R[j]? = some s)) = true := by
         by_contra hb
         rw [Bool.not_eq_true] at hb
@@ -339,7 +339,7 @@ theorem greedyGens_aux (init R : List (Idx n)) (Ls : List (List (Idx n)))
         rw [List.getElem?_eq_none (by omega)] at hR
         exact absurd hR (by simp)
       have htake : R.take (j + 1) = R.take j ++ [s] := by
-        rw [List.take_succ, hR]
+        rw [List.take_add_one, hR]
         rfl
       simp only [hR, decide_true, Bool.and_self] at h ⊢
       rw [List.append_assoc, ← htake]

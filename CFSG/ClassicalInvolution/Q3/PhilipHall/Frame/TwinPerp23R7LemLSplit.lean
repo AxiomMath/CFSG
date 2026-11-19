@@ -388,7 +388,7 @@ theorem model_q8 {k : ℕ} (hk : k < 14) :
     simp [E64P.q8Rels]
   have h := E64P.lift_modelGen_rel hr
   simp only [FreeGroup.lift_mk, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-    cond_true, cond_false, mul_one] at h
+    Bool.cond_true, Bool.cond_false, mul_one] at h
   calc _ = E64P.modelGen (E64P.gIdx k 1) * (E64P.modelGen (E64P.gIdx k 0) *
         ((E64P.modelGen (E64P.gIdx k 1))⁻¹ * E64P.modelGen (E64P.gIdx k 0))) *
           (E64P.modelGen (E64P.gIdx k 0))⁻¹ := by group

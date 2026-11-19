@@ -59,9 +59,9 @@ theorem coverIdUni (hG : CFSG.Open.GriessAllModelsStatement) {K : Type} [Group K
   rw [TauCeti.PrimePower.card_def]
   obtain ⟨hadm, F, instF, instFin, hcardF, ⟨φ⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA l Q hv e
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
+  have : Fintype F := Fintype.ofFinite F
   have hS₀ : Group.IsPerfect (StatedSU (l + 1) (Q.p ^ Q.exponent) F) := by
     obtain ⟨-, -, -, hnq⟩ := hadm
     exact CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hcardF (n := l + 1) (by omega) hnq

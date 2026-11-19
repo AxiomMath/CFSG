@@ -28,8 +28,8 @@ theorem ggTBJ_sud_count {K : Type} [Field K] {n d p : ℕ} (hK : UnitaryFieldDat
       (∀ i ∈ I, ∀ j ∈ I, t i = t j) → a ∈ C) :
     Nat.card ↥A ≤ p ^ (I.card - 1) * Nat.card ↥(A ⊓ C) := by
   classical
-  haveI hKfin : Finite K := hK.finite
-  haveI hMAfin : Finite (MulAut L') :=
+  have hKfin : Finite K := hK.finite
+  have hMAfin : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) fun f g h => by
       ext x
       exact congrFun h x
@@ -42,7 +42,7 @@ theorem ggTBJ_sud_count {K : Type} [Field K] {n d p : ℕ} (hK : UnitaryFieldDat
       exact absurd hi (Finset.notMem_empty i)
     rw [inf_eq_left.mpr hsub, hI]
     simp
-  · haveI : Nonempty ↥A := ⟨1, A.one_mem⟩
+  · have : Nonempty ↥A := ⟨1, A.one_mem⟩
     let t : ↥A → Fin d → K := fun a => (hdiag (a : MulAut L') a.2).choose
     have ht : ∀ a : ↥A, LineU.ActsDiagU φ (a : MulAut L') (t a) := fun a =>
       (hdiag (a : MulAut L') a.2).choose_spec
@@ -87,7 +87,7 @@ theorem ggTBJ_sud_count {K : Type} [Field K] {n d p : ℕ} (hK : UnitaryFieldDat
       rw [h1] at h2
       exact Subtype.ext (mul_left_cancel h2)
     have hfun : Nat.card (↥(I.erase i₀) → rootsOfUnity p K) ≤ p ^ (I.card - 1) := by
-      haveI : NeZero p := ⟨hp.ne_zero⟩
+      have : NeZero p := ⟨hp.ne_zero⟩
       have hroot : Nat.card (rootsOfUnity p K) ≤ p := card_rootsOfUnity K p
       have hι : Nat.card ↥(I.erase i₀) = I.card - 1 := by
         rw [Nat.card_eq_fintype_card, Fintype.card_coe, Finset.card_erase_of_mem hi₀]

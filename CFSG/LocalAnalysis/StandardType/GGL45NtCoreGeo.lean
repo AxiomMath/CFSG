@@ -104,7 +104,7 @@ theorem ggL45NtCore_of_geo {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Type} [
         · obtain ⟨a, ha⟩ := huP
           exact ⟨a, by rw [inv_pow, ha, inv_one]⟩ }
   have hAmem : ∀ u : MulAut R, u ∈ Asub ↔ GGL45NtCIp p I Ebar u := fun _ => Iff.rfl
-  letI cA : CommGroup Asub :=
+  let cA : CommGroup Asub :=
     { (inferInstance : Group Asub) with
       mul_comm := fun x y => Subtype.ext (by
         simpa using hgeo1 x.1 y.1 ((hAmem x.1).mp x.2) ((hAmem y.1).mp y.2)) }
@@ -141,14 +141,14 @@ theorem ggL45NtCore_of_geo {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Type} [
     exact Subtype.ext hb
   have hN1 : N ≠ 1 := by omega
   have hN : N ≡ 1 [MOD p] := by
-    haveI : Fintype Ebar := Fintype.ofFinite Ebar
+    have : Fintype Ebar := Fintype.ofFinite Ebar
     have hEcardF : p ^ 2 ≤ Fintype.card Ebar := by
       rw [← Nat.card_eq_fintype_card]; exact hEcard
     have h1lt : 1 < Fintype.card Ebar := by
       have : 1 < p ^ 2 := by nlinarith [hp.two_le]
       omega
     obtain ⟨e₁, he₁ne⟩ := Fintype.exists_ne_of_one_lt_card h1lt (1 : Ebar)
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have horder₁ : orderOf (e₁ : MulAut R) = p :=
       orderOf_eq_prime (hEab.2 (e₁ : MulAut R) e₁.2) (by
         intro h
@@ -180,14 +180,14 @@ theorem ggL45NtCore_of_geo {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Type} [
     · rw [zpow_natCast]
       exact hNpow u hu
   · have hEA : ∀ e ∈ Ebar, e ∈ Asub := fun e he => (hAmem e).mpr (hEsubA e he)
-    haveI : Fintype Ebar := Fintype.ofFinite Ebar
+    have : Fintype Ebar := Fintype.ofFinite Ebar
     have hEcardF : p ^ 2 ≤ Fintype.card Ebar := by
       rw [← Nat.card_eq_fintype_card]; exact hEcard
     have h1lt : 1 < Fintype.card Ebar := by
       have : 1 < p ^ 2 := by nlinarith [hp.two_le]
       omega
     obtain ⟨e₁, he₁ne⟩ := Fintype.exists_ne_of_one_lt_card h1lt (1 : Ebar)
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have horder₁ : orderOf (e₁ : MulAut R) = p :=
       orderOf_eq_prime (hEab.2 (e₁ : MulAut R) e₁.2) (by
         intro h
@@ -202,7 +202,7 @@ theorem ggL45NtCore_of_geo {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Type} [
       linarith [hEcard]
     have he₂ : ∃ e₂ : MulAut R, e₂ ∈ Ebar ∧ e₂ ∉ Subgroup.zpowers (e₁ : MulAut R) := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hle : Ebar ≤ Subgroup.zpowers (e₁ : MulAut R) := fun x hx => h x hx
       have heq : Ebar = Subgroup.zpowers (e₁ : MulAut R) := le_antisymm hle hzp_le
       have hcard_eq : Nat.card Ebar = Nat.card (Subgroup.zpowers (e₁ : MulAut R)) :=

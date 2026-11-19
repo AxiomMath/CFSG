@@ -214,7 +214,7 @@ theorem range_rhoR_maximal (hS : StandardSetting G L) (θ : L ≃* alternatingGr
   have hRp : IsPGroup 2 (R.subgroupOf H) := hR.of_equiv (subgroupOfEquivOfLe hRH).symm
   obtain ⟨T, hRT⟩ := hRp.exists_le_sylow
   have hTR : (T : Subgroup H).map H.subtype = R := by
-    refine hRmax _ ((Subgroup.map_subtype_le _).trans hHC) (T.isPGroup'.map _) ?_
+    refine hRmax _ ((Subgroup.map_subtype_le _).trans hHC) (T.isPGroup.map _) ?_
     intro r hr
     exact ⟨⟨r, hRH hr⟩, hRT (Subgroup.mem_subgroupOf.2 hr), rfl⟩
   set f := rhoR hS θ hn d H hHC with hf

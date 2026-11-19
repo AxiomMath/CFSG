@@ -14,16 +14,18 @@ variable {S : Type} [Group S] [Finite S]
 
 private theorem center_map_rho (ρ : MulAut S) :
     (center S).map ρ.toMonoidHom = center S :=
-  map_eq_of_forall_mem ρ (center S) fun n hn => rho_mem_center ρ hn
+  map_eq_of_forall_mem ρ (center S) fun _n hn => rho_mem_center ρ hn
 
+omit [Finite S] in
 private theorem rho_cube_apply (ρ : MulAut S) (hρ : ρ ^ 3 = 1) (a : S) :
     ρ (ρ (ρ a)) = a := by
   have h := congrArg (fun f : MulAut S => f a) hρ
   simpa [pow_succ, MulAut.mul_apply] using h
 
+omit [Finite S] in
 private theorem commutator_mem_center_of_card_quot_center_four
     (h4 : Nat.card (S ⧸ center S) = 4) (x y : S) : ⁅x, y⁆ ∈ center S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : IsMulCommutative (S ⧸ center S) :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (G := S ⧸ center S) (by
       rw [h4]; norm_num)
@@ -31,6 +33,7 @@ private theorem commutator_mem_center_of_card_quot_center_four
     (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := center S)).mp hcomm
   exact hle (Subgroup.commutator_mem_commutator (Subgroup.mem_top x) (Subgroup.mem_top y))
 
+omit [Finite S] in
 private theorem commutatorElement_mul_right_of_central
     (hc : ∀ p q : S, ⁅p, q⁆ ∈ center S) (a b c : S) :
     ⁅a, b * c⁆ = ⁅a, b⁆ * ⁅a, c⁆ := by
@@ -38,6 +41,7 @@ private theorem commutatorElement_mul_right_of_central
     Subgroup.mem_center_iff.mp (hc a c) b]
   group
 
+omit [Finite S] in
 private theorem commutatorElement_inv_right_of_central
     (hc : ∀ p q : S, ⁅p, q⁆ ∈ center S) (a b : S) :
     ⁅a, b⁻¹⁆ = ⁅a, b⁆⁻¹ := by
@@ -89,7 +93,7 @@ private theorem coset_cover (ρ : MulAut S) (hρ : ρ ^ 3 = 1)
     (QuotientGroup.mk b : S ⧸ center S) = QuotientGroup.mk (ρ a) ∨
     (QuotientGroup.mk b : S ⧸ center S) = QuotientGroup.mk (ρ (ρ a)) := by
   classical
-  haveI : Fintype (S ⧸ center S) := Fintype.ofFinite _
+  have : Fintype (S ⧸ center S) := Fintype.ofFinite _
   have hN : (center S).map ρ.toMonoidHom = center S := center_map_rho ρ
   let qa : MulAut (S ⧸ center S) := quotAut ρ (center S) hN
   have hqfpf : ∀ q : S ⧸ center S, qa q = q → q = 1 :=
@@ -126,22 +130,22 @@ private theorem coset_cover (ρ : MulAut S) (hρ : ρ ^ 3 = 1)
     rw [quotAut_mk, quotAut_mk, hrho3] at h1
     exact har2a h1.symm
   have h01 : f 0 ≠ f 1 := by
-    simp only [f, Fin.cons_zero, Fin.cons_succ]
+    simp only [f]
     exact fun h => ha1 h.symm
   have h02 : f 0 ≠ f 2 := by
-    simp only [f, Fin.cons_zero, Fin.cons_succ]
+    simp only [f]
     exact fun h => hra1 h.symm
   have h03 : f 0 ≠ f 3 := by
-    simp only [f, Fin.cons_zero, Fin.cons_succ]
+    simp only [f]
     exact fun h => hr2a1 h.symm
   have h12 : f 1 ≠ f 2 := by
-    simp only [f, Fin.cons_zero, Fin.cons_succ]
+    simp only [f]
     exact hara
   have h13 : f 1 ≠ f 3 := by
-    simp only [f, Fin.cons_zero, Fin.cons_succ]
+    simp only [f]
     exact har2a
   have h23 : f 2 ≠ f 3 := by
-    simp only [f, Fin.cons_zero, Fin.cons_succ]
+    simp only [f]
     exact hrar2a
   have hfinj : Function.Injective f := by
     intro i j hij

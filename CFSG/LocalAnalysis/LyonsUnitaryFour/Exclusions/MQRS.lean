@@ -3,7 +3,7 @@ module
 public import CFSG.LocalAnalysis.LyonsUnitaryFour.Exclusions.Tools
 public import CFSG.LocalAnalysis.LyonsUnitaryFour.Enumeration.ExclusionArithmetic
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Rat.Star
+public import Mathlib.Algebra.Order.Star.Rat
 
 public section
 

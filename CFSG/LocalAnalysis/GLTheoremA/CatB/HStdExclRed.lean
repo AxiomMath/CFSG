@@ -62,9 +62,9 @@ private theorem exists_mul_ne_of_isQuasisimple {G : Type*} [Group G]
     have hx : x ∈ (⊤ : Subgroup G) := Subgroup.mem_top x
     rw [hbot] at hx
     exact Subgroup.mem_bot.1 hx
-  haveI : Subsingleton G := ⟨fun a b => by rw [h1 a, h1 b]⟩
-  haveI : Nontrivial (G ⧸ Subgroup.center G) := h.2.toNontrivial
-  haveI : Subsingleton (G ⧸ Subgroup.center G) :=
+  have : Subsingleton G := ⟨fun a b => by rw [h1 a, h1 b]⟩
+  have : Nontrivial (G ⧸ Subgroup.center G) := h.2.toNontrivial
+  have : Subsingleton (G ⧸ Subgroup.center G) :=
     (QuotientGroup.mk'_surjective (Subgroup.center G)).subsingleton
   exact not_subsingleton _ ‹Subsingleton (G ⧸ Subgroup.center G)›
 
@@ -159,10 +159,10 @@ theorem center_eq_bot_of_exclQuot {X : Type} [Group X] [Finite X] {L K : Subgrou
       intro y
       apply Subtype.ext
       exact Subgroup.mem_center_iff.1 (hZQ x.2) (y : Q)
-    haveI : Subsingleton (↥K' ⧸ Subgroup.center ↥K') := by
+    have : Subsingleton (↥K' ⧸ Subgroup.center ↥K') := by
       rw [hcenter_top]
       exact QuotientGroup.subsingleton_quotient_top
-    haveI : Nontrivial (↥K' ⧸ Subgroup.center ↥K') := hK'qs.2.toNontrivial
+    have : Nontrivial (↥K' ⧸ Subgroup.center ↥K') := hK'qs.2.toNontrivial
     exact not_subsingleton _ ‹Subsingleton (↥K' ⧸ Subgroup.center ↥K')›
   have hJqs : CFSG.Open.IsQuasisimple ↥J := by
     have hrange : (π.comp K'.subtype).range = J := by
@@ -237,7 +237,7 @@ theorem center_eq_bot_of_exclQuot {X : Type} [Group X] [Finite X] {L K : Subgrou
     · right
       rw [hcardI, card_of_catalogIs_isA6 hA]
   obtain ⟨hZI, H, hIH, hHsimple, hHtriv⟩ := hS α hα3 hα1 I hIcomp hSmallOrd
-  haveI : IsSimpleGroup ↥H := hHsimple
+  have : IsSimpleGroup ↥H := hHsimple
   let Lbar : Subgroup (Q ⧸ Z) := H.map e.symm.toMonoidHom
   let P : Subgroup Q := Lbar.comap π
   let M : Subgroup Q := ⁅P, P⁆
@@ -394,7 +394,7 @@ theorem stdCovDiagExclAt_of_quot
     dvd_trans (three_dvd_card_of_smallType hsmall) (Subgroup.card_dvd_of_le hKL)
   have hneL : GLAPPrimeCore 3 ↥L ≠ ⊤ := by
     intro htop
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcop : Nat.Coprime 3 (Nat.card ↥L) := by
       have h := pPrimeCore_coprime_card (p := 3) (G := ↥L)
       have htop' : CFSG.pPrimeCore 3 ↥L = ⊤ := htop
@@ -407,8 +407,8 @@ theorem stdCovDiagExclAt_of_quot
   rcases hi with hF4 | hU6 | hTE6
   · obtain ⟨Kf, hfield, hfinite, hKfcard, ⟨eF⟩⟩ :=
       I2610.exists_adjointGroup_of_catalogIs_isF4two ⟨i, hF4, ⟨ePS⟩⟩
-    letI : Field Kf := hfield
-    letI : Finite Kf := hfinite
+    let : Field Kf := hfield
+    let : Finite Kf := hfinite
     have hS : ExclQuot ↥(adjointGroup Tag.F4 Kf) :=
       exclQuot_of_noSmall (hF Kf hKfcard)
     exact center_eq_bot_of_exclQuot hL (eL0.symm.trans eF) hS hdN hd3 hdL hKcomp hsmall
@@ -416,8 +416,8 @@ theorem stdCovDiagExclAt_of_quot
     exact center_eq_bot_of_exclQuot hL (eL0.symm.trans e6) hU hdN hd3 hdL hKcomp hsmall
   · obtain ⟨Kf, hfield, hfinite, σ, hKfcard, hσ, ⟨eT⟩⟩ :=
       I2610.exists_twistedE6RootGroup_of_catalogIs_isTE6two ⟨i, hTE6, ⟨ePS⟩⟩
-    letI : Field Kf := hfield
-    letI : Finite Kf := hfinite
+    let : Field Kf := hfield
+    let : Finite Kf := hfinite
     have hS : ExclQuot ↥(twistedE6RootGroup Kf σ) :=
       exclQuot_of_noSmall (hT Kf σ hKfcard hσ)
     exact center_eq_bot_of_exclQuot hL (eL0.symm.trans eT) hS hdN hd3 hdL hKcomp hsmall

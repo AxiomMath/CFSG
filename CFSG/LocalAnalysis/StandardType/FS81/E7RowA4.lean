@@ -56,7 +56,7 @@ theorem t1_eq_reflM : Gen.t1.mat = reflM (Pi.single 1 1) := by
   apply matrix_ext_mulVec
   intro w
   rw [Gen.mat_mulVec, t1_act_eq, reflM_mulVec, b8_single]
-  rw [if_pos (by decide), mul_one]
+  rw [ite_eq_left (by decide), mul_one]
 
 theorem conj_reflM {x : GL (Fin 8) (ZMod 3)}
     (hiso : ∀ u w : Coords 8, b8 ((x : Matrix (Fin 8) (Fin 8) (ZMod 3)) *ᵥ u)

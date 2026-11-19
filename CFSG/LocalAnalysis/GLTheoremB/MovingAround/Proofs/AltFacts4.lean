@@ -65,7 +65,7 @@ theorem comm_iff {a u : Wr D p} (hu : u.right = 1) :
 
 theorem gen_of_ne_one (hp : p.Prime) {σ : Multiplicative (ZMod p)} (hσ : σ ≠ 1)
     (q : Multiplicative (ZMod p)) : ∃ j : ℕ, σ ^ j = q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card (Multiplicative (ZMod p)) = p := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
   have htop := zpowers_eq_top_of_prime_card hcard hσ
@@ -179,7 +179,7 @@ theorem mem_of_comm (hp : p.Prime) {F : Subgroup (Wr D p)} {b : Wr D p} (hb1 : b
 
 theorem orderOf_eq_of_ne_one (hp : p.Prime) {σ : Multiplicative (ZMod p)} (hσ : σ ≠ 1) :
     orderOf σ = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card (Multiplicative (ZMod p)) = p := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
   have hσp : σ ^ p = 1 := by
@@ -344,7 +344,7 @@ theorem coordSub_comm_single {F : Subgroup (Wr D p)} {hFb : ∀ f ∈ F, f.right
 theorem mem_iSup_coordSub [Finite (Multiplicative (ZMod p))] {u : Wr D p} (hu : u.right = 1) :
     u ∈ ⨆ i, (coordSub i : Subgroup (Wr D p)) := by
   classical
-  haveI : Fintype (Multiplicative (ZMod p)) := Fintype.ofFinite _
+  have : Fintype (Multiplicative (ZMod p)) := Fintype.ofFinite _
   suffices key : ∀ S : Finset (Multiplicative (ZMod p)), ∀ u : Wr D p, u.right = 1 →
       (∀ k, k ∉ S → u.left k = 1) → u ∈ ⨆ i, (coordSub i : Subgroup (Wr D p)) from
     key Finset.univ u hu (fun k hk => absurd (Finset.mem_univ k) hk)
@@ -367,7 +367,7 @@ theorem mem_iSup_coordSub [Finite (Multiplicative (ZMod p))] {u : Wr D p} (hu : 
       refine ih u' rfl fun k hk => ?_
       by_cases hki : k = i
       · simp [u', hki]
-      · simp only [u', hki, if_false]
+      · simp only [u', hki, ite_false]
         exact h k (by simp [hki, hk])
     have heq : u = c * u' := by
       ext k
@@ -382,7 +382,7 @@ theorem mem_iSup_coordSub [Finite (Multiplicative (ZMod p))] {u : Wr D p} (hu : 
 
 theorem mem_iSup_coordSub_sup (hp : p.Prime) {a : Wr D p} (ha : a.right ≠ 1) (w : Wr D p) :
     w ∈ (⨆ i, (coordSub i : Subgroup (Wr D p))) ⊔ Subgroup.zpowers a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨j, hj⟩ := gen_of_ne_one hp ha w.right
   have hu : (w * (a ^ j)⁻¹).right = 1 := by
     have := map_pow (RegularWreathProduct.rightHom (D := D) (Q := Multiplicative (ZMod p))) a j
@@ -484,8 +484,8 @@ theorem normalizer_claim (hp : p.Prime) {F : Subgroup (Wr D p)} {a : Wr D p} (ha
 theorem card_projProd (hp : p.Prime) {F : Subgroup (Wr D p)} {a : Wr D p} (ha : a.right ≠ 1)
     (hFb : ∀ f ∈ F, f.right = 1) (hFa : ∀ f ∈ F, f * a = a * f) :
     Nat.card (projProd F) = Nat.card F ^ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let ψ : (Multiplicative (ZMod p) → ↥F) → ↥(projProd F) := fun g =>
     ⟨⟨fun k => (g k : Wr D p).left k, 1⟩, rfl, fun k => ⟨g k, (g k).2, hFb _ (g k).2, rfl⟩⟩
   have hinj : Function.Injective ψ := by
@@ -574,7 +574,7 @@ variable {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ}
 theorem inf_eq_bot_of_coprime [Fact p.Prime] {O X : Subgroup Γ} (hO : Nat.Coprime p (Nat.card O))
     (hX : IsPGroup p ↥X) : X ⊓ O = ⊥ := by
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hX
-  exact Subgroup.inf_eq_bot_of_coprime (by rw [hk]; exact hO.pow_left k)
+  exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hk]; exact hO.pow_left k)))
 
 theorem frattini_lift [hp : Fact p.Prime] (O X : Subgroup Γ) [O.Normal]
     (hO : Nat.Coprime p (Nat.card O)) (hX : IsPGroup p ↥X) {n : Γ}
@@ -672,7 +672,7 @@ theorem exists_lift [Fact p.Prime] (O : Subgroup Γ) [O.Normal] (hO : Nat.Coprim
   have hA' : IsPGroup p ↥(A.subgroupOf T) := hA.comap_of_injective T.subtype Subtype.val_injective
   obtain ⟨S, hS⟩ := IsPGroup.exists_le_sylow hA'
   set P : Subgroup Γ := (S : Subgroup ↥T).map T.subtype with hPdef
-  have hPp : IsPGroup p ↥P := S.isPGroup'.map T.subtype
+  have hPp : IsPGroup p ↥P := S.isPGroup.map T.subtype
   have hAP : A ≤ P := fun x hx => ⟨⟨x, hAT hx⟩, hS (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   have hPT : P ≤ T := Subgroup.map_subtype_le _
   have hPO : P ⊓ O = ⊥ := inf_eq_bot_of_coprime hO hPp
@@ -707,6 +707,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
 variable {W : Type*} [Group W] {P : Subgroup G} {Θ : ↥P →* W}
 
+omit [Finite G] in
 theorem mem_liftSub {S' : Subgroup W} {x : G} :
     x ∈ liftSub Θ S' ↔ ∃ hx : x ∈ P, Θ ⟨x, hx⟩ ∈ S' := by
   constructor
@@ -715,11 +716,14 @@ theorem mem_liftSub {S' : Subgroup W} {x : G} :
   · rintro ⟨hx, h⟩
     exact ⟨⟨x, hx⟩, h, rfl⟩
 
+omit [Finite G] in
 theorem liftSub_le (S' : Subgroup W) : liftSub Θ S' ≤ P := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem liftSub_mono {S' T' : Subgroup W} (h : S' ≤ T') : liftSub Θ S' ≤ liftSub Θ T' :=
   Subgroup.map_mono (Subgroup.comap_mono h)
 
+omit [Finite G] in
 theorem card_liftSub (hΘ : Function.Injective Θ) {S' : Subgroup W} (hS : S' ≤ Θ.range) :
     Nat.card (liftSub Θ S') = Nat.card S' := by
   rw [liftSub, Subgroup.card_map_of_injective P.subtype_injective]
@@ -727,6 +731,7 @@ theorem card_liftSub (hΘ : Function.Injective Θ) {S' : Subgroup W} (hS : S' �
         (Subgroup.card_map_of_injective hΘ).symm
     _ = Nat.card S' := by rw [Subgroup.map_comap_eq, inf_of_le_right hS]
 
+omit [Finite G] in
 theorem isElemAbelian_liftSub (hΘ : Function.Injective Θ) {S' : Subgroup W}
     (hS : IsElemAbelian p S') : IsElemAbelian p (liftSub Θ S') :=
   isElemAbelian_map' _ (isElemAbelian_comap Θ hΘ hS)
@@ -818,14 +823,17 @@ section Cover
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem gLBConj_one (K : Subgroup G) : GLBConj 1 K = K := by
   ext y
   rw [mem_gLBConj]
   simp
 
+omit [Finite G] in
 theorem barX_mono {p : ℕ} {N X Y : Subgroup G} (h : X ≤ Y) : barX p N X ≤ barX p N Y :=
   Subgroup.map_mono fun _ hx => h hx
 
+omit [Finite G] in
 theorem map_liftSub {p : ℕ} {N : Subgroup G} {W : Type*} [Group W]
     {Xb : Subgroup (↥N ⧸ GLAPPrimeCore p ↥N)} (e : ↥Xb ≃* W) {P : Subgroup G} (hPN : P ≤ N)
     {Θ : ↥P →* W}
@@ -943,7 +951,7 @@ theorem isElemAbelian_range {G W : Type*} [Group G] [Group W] {p : ℕ} {A : Sub
 
 theorem input1210b_wreathRk_holds :
     ∀ (G : Type) [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G}
-      (h : Cex127 G m p B M E A N D) {K : Subgroup G},
+      (_h : Cex127 G m p B M E A N D) {K : Subgroup G},
       Lemma129Common p M E A N K →
       ((∃ Q : ℕ, p ∣ Q - 1 ∧ IsLpType p Q (barOf p K)) ∨ (p = 5 ∧ IsSporType .Fi22 (barOf p K))) →
       Lemma129IvBData p N K E A →
@@ -955,12 +963,12 @@ theorem input1210b_wreathRk_holds :
         (∀ x ∈ A, x ∉ H → ∀ n ∈ H ⊔ (E ⊓ A), x * n = n * x → n ∈ A) ∧
         (∃ n ∈ H ⊔ (E ⊓ A), n ∈ Subgroup.normalizer ((E ⊓ A : Subgroup G) : Set G) ∧ n ∉ A) ∧
         a ∉ H ∧ Nat.card ↥H = p ^ (2 * p) := by
-  intro G _ _ m p B M E A N D h K hK _ hb
+  intro G _ _ m p B M E A N D _h K hK _ hb
   obtain ⟨Dt, _, -, e, -, -, -, a, haEA, -, htop⟩ := hb
-  have h11 : Sec11 G m p B M E A := h.toSec11
-  have hpp : p.Prime := (h.toSec11.toSec10Fails.toSec10.standing.beta).1
-  haveI hpf : Fact p.Prime := ⟨hpp⟩
-  haveI : NeZero p := ⟨hpp.ne_zero⟩
+  have h11 : Sec11 G m p B M E A := _h.toSec11
+  have hpp : p.Prime := (_h.toSec11.toSec10Fails.toSec10.standing.beta).1
+  have hpf : Fact p.Prime := ⟨hpp⟩
+  have : NeZero p := ⟨hpp.ne_zero⟩
   have hAe : IsElemAbelian p A := (lemma104_ii_holds h11.toSec10Fails h11.pair).2.2.1
   have hA3 : CFSG.Open.pRank p A = 3 := hK.2.1.1
   have hE2 : CFSG.Open.pRank p (E ⊓ A) = 2 := hK.2.1.2
@@ -968,10 +976,10 @@ theorem input1210b_wreathRk_holds :
   have hcov : ¬ Covers p N M K := hK.2.2.1
   have hAN : A ≤ N := by
     intro x hx
-    apply h.hD
+    apply _h.hD
     apply Lemma1210.mem_normalizer_of_conj_inv_mem D x
     intro d hd
-    have hdA : d ∈ A := h.plane.1 hd
+    have hdA : d ∈ A := _h.plane.1 hd
     have hc : x * d = d * x := Lemma1210.isElemAbelian_comm_gen hAe hx hdA
     have hx' : x⁻¹ * d * x = d := by
       rw [mul_assoc, ← hc, ← mul_assoc, inv_mul_cancel, one_mul]
@@ -1160,7 +1168,7 @@ theorem input1210b_wreathRk_holds :
     have hx' : Θ ⟨x, hxP⟩ ∈ F' ⊔ Subgroup.zpowers a' := by
       rw [hΘA x hx, ← hRangeEq]
       exact ⟨_, rfl⟩
-    have hxH' : Θ ⟨x, hxP⟩ ∉ projProd F' := fun h => hxH (mem_liftSub.2 ⟨hxP, h⟩)
+    have hxH' : Θ ⟨x, hxP⟩ ∉ projProd F' := fun _h => hxH (mem_liftSub.2 ⟨hxP, _h⟩)
     have hcomm : Θ ⟨x, hxP⟩ * Θ ⟨n, hnP⟩ = Θ ⟨n, hnP⟩ * Θ ⟨x, hxP⟩ := by
       rw [← map_mul, ← map_mul]
       congr 1
@@ -1344,12 +1352,11 @@ theorem tuple_of_card_60 (hO : LieOrderFormulasInput) {X : Type} [Group X] {t : 
         interval_cases n <;> interval_cases f <;> norm_num at hb <;> dsimp only at hm <;>
         revert hm hord <;> decide
     · rcases ht with rfl | rfl <;> simp only [lieSylowExponent] at hb <;>
-        interval_cases n <;> interval_cases f <;> norm_num at hb <;> dsimp only at hm <;>
-        revert hm hord <;> decide
+        interval_cases n <;> interval_cases f <;> norm_num at hb
     · obtain ⟨h1, h2, h3, h4, h5, h6⟩ := ht
       cases t <;> simp only [ne_eq, not_true_eq_false] at h1 h2 h3 h4 h5 h6 <;>
-        simp only [lieSylowExponent] at hb <;> interval_cases f <;> norm_num at hb <;>
-        dsimp only at hm <;> revert hm hord <;> simp only [lieOrderNumerator, lieOrderDivisor] <;>
+        simp only [lieSylowExponent] at hb <;> interval_cases f <;> norm_num at hb;
+        dsimp only at hm; revert hm hord; simp only [lieOrderNumerator, lieOrderDivisor];
         decide
 
 theorem tuple_of_card_360 (hO : LieOrderFormulasInput) {X : Type} [Group X] {t : StatedLieTag}
@@ -1372,8 +1379,7 @@ theorem tuple_of_card_360 (hO : LieOrderFormulasInput) {X : Type} [Group X] {t :
         interval_cases n <;> interval_cases f <;> norm_num at hb <;> dsimp only at hm <;>
         revert hm hord <;> decide
     · rcases ht with rfl | rfl <;> simp only [lieSylowExponent] at hb <;>
-        interval_cases n <;> interval_cases f <;> norm_num at hb <;> dsimp only at hm <;>
-        revert hm hord <;> decide
+        interval_cases n <;> interval_cases f <;> norm_num at hb
     · obtain ⟨h1, h2, h3, h4, h5, h6⟩ := ht
       cases t <;> simp only [ne_eq, not_true_eq_false] at h1 h2 h3 h4 h5 h6 <;>
         simp only [lieSylowExponent] at hb <;> interval_cases f <;> norm_num at hb <;>
@@ -1422,13 +1428,10 @@ theorem not_card_6048_seven (hO : LieOrderFormulasInput) {X : Type} [Group X] {t
       interval_cases n <;> interval_cases f <;> norm_num at hb <;> dsimp only at hm <;>
       revert hm hord <;> decide
   · rcases ht with rfl | rfl <;> simp only [lieSylowExponent] at hb <;>
-      interval_cases n <;> interval_cases f <;> norm_num at hb <;> dsimp only at hm <;>
-      revert hm hord <;> decide
+      interval_cases n <;> interval_cases f <;> norm_num at hb
   · obtain ⟨h1, h2, h3, h4, h5, h6⟩ := ht
     cases t <;> simp only [ne_eq, not_true_eq_false] at h1 h2 h3 h4 h5 h6 <;>
-      simp only [lieSylowExponent] at hb <;> interval_cases f <;> norm_num at hb <;>
-      dsimp only at hm <;> revert hm hord <;> simp only [lieOrderNumerator, lieOrderDivisor] <;>
-      decide
+      simp only [lieSylowExponent] at hb <;> interval_cases f <;> norm_num at hb
 
 theorem alt8_order_six : ∃ x : alternatingGroup (Fin 8), orderOf x = 6 := by
   refine ⟨⟨Equiv.swap 0 1 * Equiv.swap 1 2 * (Equiv.swap 3 4 * Equiv.swap 5 6), ?_⟩, ?_⟩
@@ -1466,7 +1469,7 @@ theorem dvd_card_of_lieModel (hO : LieOrderFormulasInput) {X : Type} [Group X] {
   have hf : 1 ≤ f := hadm.2.1
   have hE := lieSylowExponent_pos hadm
   obtain ⟨hfin, -, hfac⟩ := hO X t n p f hadm hX
-  haveI := hfin
+  have := hfin
   apply Nat.dvd_of_factorization_pos
   rw [hfac]
   exact Nat.mul_ne_zero (by omega) (by omega)

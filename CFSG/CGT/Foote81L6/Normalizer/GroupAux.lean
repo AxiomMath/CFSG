@@ -83,7 +83,7 @@ theorem eq_of_mk_eq_of_mem_sylow {G : Type*} [Group G] [Finite G] (P : Sylow 2 G
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : a⁻¹ * b ∈ pPrimeCore 2 G := QuotientGroup.eq.mp hab
   have h2 : a⁻¹ * b ∈ (P : Subgroup G) := (P : Subgroup G).mul_mem ((P : Subgroup G).inv_mem ha) hb
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨a⁻¹ * b, h2⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨a⁻¹ * b, h2⟩
   have hk' : (a⁻¹ * b) ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hodd : Odd (orderOf (a⁻¹ * b)) := by
     have hdvd := Subgroup.orderOf_dvd_natCard (pPrimeCore 2 G) h1

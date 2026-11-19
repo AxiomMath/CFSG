@@ -26,7 +26,7 @@ private theorem testBit_add_pow_clear {p b : Nat} (h : p.testBit b = false) (c :
   obtain ⟨a, s, hs, rfl⟩ : ∃ a s, s < 2 ^ b ∧ p = 2 ^ b * a + s :=
     ⟨p / 2 ^ b, p % 2 ^ b, Nat.mod_lt _ (Nat.two_pow_pos b), (Nat.div_add_mod p (2 ^ b)).symm⟩
   have ha : a % 2 = 0 := by
-    rw [Nat.testBit_two_pow_mul_add a hs b, if_neg (Nat.lt_irrefl b), Nat.sub_self,
+    rw [Nat.testBit_two_pow_mul_add a hs b, ite_eq_right (Nat.lt_irrefl b), Nat.sub_self,
       Nat.testBit_zero] at h
     simpa using h
   have e2 : 2 ^ b * a + s + 2 ^ b = 2 ^ b * (a + 1) + s := by
@@ -34,8 +34,8 @@ private theorem testBit_add_pow_clear {p b : Nat} (h : p.testBit b = false) (c :
     omega
   rw [e2, Nat.testBit_two_pow_mul_add _ hs, Nat.testBit_two_pow_mul_add _ hs]
   by_cases hc : c < b
-  · rw [if_pos hc, if_pos hc, decide_eq_false (by omega), Bool.false_or]
-  · rw [if_neg hc, if_neg hc, testBit_succ_of_even ha (c - b)]
+  · rw [ite_eq_left hc, ite_eq_left hc, decide_eq_false (by omega), Bool.false_or]
+  · rw [ite_eq_right hc, ite_eq_right hc, testBit_succ_of_even ha (c - b)]
     have : decide (c - b = 0) = decide (c = b) := by
       by_cases hcb : c = b
       · subst hcb
@@ -92,25 +92,25 @@ private theorem testBit_add_trS {t q : Nat} (h1 : q.testBit t = true)
   rw [e, testBit_add_pow_clear hx]
   by_cases h3 : c = t
   · subst h3
-    rw [h0, if_pos rfl, decide_eq_false (by omega), Bool.false_or]
+    rw [h0, ite_eq_left rfl, decide_eq_false (by omega), Bool.false_or]
   · by_cases h4 : c = t + 12
     · subst h4
-      rw [if_neg h3, if_pos rfl, decide_eq_true rfl, Bool.true_or]
-    · rw [if_neg h3, if_neg h4, decide_eq_false h4, Bool.false_or, hc c h3]
+      rw [ite_eq_right h3, ite_eq_left rfl, decide_eq_true rfl, Bool.true_or]
+    · rw [ite_eq_right h3, ite_eq_right h4, decide_eq_false h4, Bool.false_or, hc c h3]
 
 private def trSrc (t c : Nat) : Nat := if c = t then t + 12 else if c = t + 12 then t else c
 
 private theorem trSrc_low {t c : Nat} (h : c = t) : trSrc t c = t + 12 := by
   unfold trSrc
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem trSrc_high {t c : Nat} (h : c = t + 12) : trSrc t c = t := by
   unfold trSrc
-  rw [if_neg (by omega), if_pos h]
+  rw [ite_eq_right (by omega), ite_eq_left h]
 
 private theorem trSrc_ne {t c : Nat} (h1 : c ≠ t) (h2 : c ≠ t + 12) : trSrc t c = c := by
   unfold trSrc
-  rw [if_neg h1, if_neg h2]
+  rw [ite_eq_right h1, ite_eq_right h2]
 
 private theorem testBit_swp_tr {t : Nat} (ht : t < 12) {q : Nat} (hq : q < 2 ^ 24) (c : Nat) :
     (swp (trS t) (trM t) q).testBit c = q.testBit (trSrc t c) := by
@@ -119,32 +119,32 @@ private theorem testBit_swp_tr {t : Nat} (ht : t < 12) {q : Nat} (hq : q < 2 ^ 2
   have hpos : 0 < 2 ^ t := Nat.two_pow_pos t
   unfold swp
   by_cases hA : (trM t).testBit q = true
-  · rw [if_pos hA]
+  · rw [ite_eq_left hA]
     obtain ⟨-, h1, h2⟩ := (mem_trM ht q).1 hA
     rw [hD, testBit_add_trS h1 h2 c]
     by_cases h3 : c = t
-    · rw [if_pos h3, trSrc_low h3]
+    · rw [ite_eq_left h3, trSrc_low h3]
       exact h2.symm
     · by_cases h4 : c = t + 12
-      · rw [if_neg h3, if_pos h4, trSrc_high h4]
+      · rw [ite_eq_right h3, ite_eq_left h4, trSrc_high h4]
         exact h1.symm
-      · rw [if_neg h3, if_neg h4, trSrc_ne h3 h4]
-  · rw [if_neg hA]
+      · rw [ite_eq_right h3, ite_eq_right h4, trSrc_ne h3 h4]
+  · rw [ite_eq_right hA]
     by_cases hB : trS t ≤ q ∧ (trM t).testBit (q - trS t) = true
-    · rw [if_pos hB]
+    · rw [ite_eq_left hB]
       obtain ⟨hd, hm⟩ := hB
       obtain ⟨q', rfl⟩ : ∃ q', q = q' + trS t := ⟨q - trS t, by omega⟩
       rw [Nat.add_sub_cancel] at hm ⊢
       obtain ⟨-, h1, h2⟩ := (mem_trM ht q').1 hm
       rw [hD, testBit_add_trS h1 h2 (trSrc t c)]
       by_cases h3 : c = t
-      · rw [trSrc_low h3, if_neg (by omega), if_pos rfl, h3]
+      · rw [trSrc_low h3, ite_eq_right (by omega), ite_eq_left rfl, h3]
         exact h1
       · by_cases h4 : c = t + 12
-        · rw [trSrc_high h4, if_pos rfl, h4]
+        · rw [trSrc_high h4, ite_eq_left rfl, h4]
           exact h2
-        · rw [trSrc_ne h3 h4, if_neg h3, if_neg h4]
-    · rw [if_neg hB]
+        · rw [trSrc_ne h3 h4, ite_eq_right h3, ite_eq_right h4]
+    · rw [ite_eq_right hB]
       have hsame : q.testBit t = q.testBit (t + 12) := by
         cases h1 : q.testBit t <;> cases h2 : q.testBit (t + 12)
         · rfl
@@ -181,7 +181,7 @@ private theorem swp_tr_lt {t : Nat} (ht : t < 12) {q : Nat} (hq : q < 2 ^ 24) :
 private theorem disj_tr {t : Nat} (ht : t < 12) : Disj (trS t) (trM t) := by
   intro q hq
   obtain ⟨-, h1, h2⟩ := (mem_trM ht q).1 hq
-  rw [testBit_trM ht, trS_eq, testBit_add_trS h1 h2 t, if_pos rfl]
+  rw [testBit_trM ht, trS_eq, testBit_add_trS h1 h2 t, ite_eq_left rfl]
   simp
 
 private theorem testBit_tr_comp (X q : Nat) :
@@ -203,7 +203,7 @@ private theorem trIdx_succ {n : Nat} (hn : n < 12) (c : Nat) :
 private theorem testBit_compF_tr : ∀ n, n ≤ 12 → ∀ q, q < 2 ^ 24 → ∀ c,
     (compF (fun t => swp (trS t) (trM t)) 0 n q).testBit c = q.testBit (trIdx n c)
   | 0, _, q, _, c => by
-    rw [trIdx, if_neg (by omega), if_neg (by omega)]
+    rw [trIdx, ite_eq_right (by omega), ite_eq_right (by omega)]
     rfl
   | n + 1, hn, q, hq, c => by
     rw [compF_snoc, Nat.zero_add,
@@ -222,13 +222,13 @@ private theorem compF_tr_swap {i j : Nat} (hi : i < 4096) (hj : j < 4096) :
   intro c
   rw [testBit_compF_tr 12 (Nat.le_refl 12) _ hq c]
   by_cases h1 : c < 12
-  · rw [trIdx, if_pos h1, testBit_mul4096 i j hj, testBit_mul4096 j i hi, if_neg (by omega),
-      if_pos h1, show c + 12 - 12 = c by omega]
+  · rw [trIdx, ite_eq_left h1, testBit_mul4096 i j hj, testBit_mul4096 j i hi, ite_eq_right (by omega),
+      ite_eq_left h1, show c + 12 - 12 = c by omega]
   · by_cases h2 : c < 24
-    · rw [trIdx, if_neg h1, if_pos ⟨by omega, by omega⟩, testBit_mul4096 i j hj,
-        testBit_mul4096 j i hi, if_pos (by omega), if_neg h1]
-    · rw [trIdx, if_neg h1, if_neg (by omega), testBit_mul4096 i j hj, testBit_mul4096 j i hi,
-        if_neg h1, if_neg h1]
+    · rw [trIdx, ite_eq_right h1, ite_eq_left ⟨by omega, by omega⟩, testBit_mul4096 i j hj,
+        testBit_mul4096 j i hi, ite_eq_left (by omega), ite_eq_right h1]
+    · rw [trIdx, ite_eq_right h1, ite_eq_right (by omega), testBit_mul4096 i j hj, testBit_mul4096 j i hi,
+        ite_eq_right h1, ite_eq_right h1]
       have h3 : 4096 ≤ 2 ^ (c - 12) := by
         have := Nat.pow_le_pow_right (n := 2) (by decide) (show 12 ≤ c - 12 by omega)
         simpa using this

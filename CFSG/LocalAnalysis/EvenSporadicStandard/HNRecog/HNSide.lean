@@ -56,7 +56,7 @@ theorem not_isComponent_centralizer_of_isConj [Finite X] (h : IsConj t z)
   obtain ⟨Q, hQ, hQ'⟩ := ht
   let e : centralizer ({t} : Set X) ≃* centralizer ({z} : Set X) :=
     TwoHS.centralizerMulEquiv (MulAut.conj c) (by simpa using hc)
-  haveI : CFSG.IsExtraspecial 2 ↥Q := hQ'.plus.1
+  have : CFSG.IsExtraspecial 2 ↥Q := hQ'.plus.1
   exact CFSG.ComponentClassification.OutcomeLocal.not_isComponent_of_selfCentralizing (p := 2) hQ
     (CFSG.IsExtraspecial.isPGroup 2 ↥Q) hQ'.centralizer_le (K.map e.symm.toMonoidHom)
     (CFSG.LocalCores.isComponent_map_mulEquiv e.symm hK)
@@ -90,7 +90,7 @@ theorem isConj_hnT2_of_component
     IsConj (hnT2 : Carrier .HN) z₀ := by
   have hsq : z₀ ^ 2 = 1 := hz₀ ▸ pow_orderOf_eq_one z₀
   have hne : z₀ ≠ 1 := fun h => by simp [h] at hz₀
-  haveI : Finite (Carrier .HN) := (fam_hn_simplicity).1
+  have : Finite (Carrier .HN) := (fam_hn_simplicity).1
   rcases hn_involution_cover z₀ hsq hne with h | h
   · exact h
   · obtain ⟨K, hK⟩ := hK

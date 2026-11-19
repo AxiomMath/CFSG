@@ -169,7 +169,7 @@ theorem y4a_card_inf_Gx_of_mulEquiv {G A : Type} [Group G] [Group A] {K : Subgro
     ext x
     constructor
     · rintro ⟨a, -, rfl⟩
-      simpa [f] using (φ a).2
+      simp [f]
     · intro hx
       refine Subgroup.mem_map.mpr ⟨φ.symm ⟨x, hx⟩, Subgroup.mem_top _, ?_⟩
       simp [f]

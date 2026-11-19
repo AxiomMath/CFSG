@@ -222,7 +222,7 @@ theorem central_involution_three_automorphism
     rw [← Subgroup.relIndex_mul_index hle, hindex]
     exact dvd_mul_left 3 _
   have hθmove : (θ : MulAut Q) z ≠ z := fun h => hθz ((hstab_mem θ).mpr h)
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P3.isPGroup' ⟨θ, hθP⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P3.isPGroup ⟨θ, hθP⟩
   have hθord : orderOf (θ : MulAut Q) = 3 ^ k := by
     rw [← hk, Subgroup.orderOf_mk, Subgroup.orderOf_coe]
   have hk1 : k = 1 := by

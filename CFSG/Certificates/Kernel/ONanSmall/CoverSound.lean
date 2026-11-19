@@ -43,7 +43,7 @@ theorem pickReps_fold (L : List M) (h1 : (1 : M) ∈ L) :
       by_cases hc : isCovered L R t = true
       · exact isCovered_mono hsub hc
       · have : (decide (t * t = 1 ∧ t ≠ 1) && !isCovered L R t) = true := by simp [hinv, hc]
-        rw [if_pos this]
+        rw [ite_eq_left this]
         exact isCovered_self h1 (by simp)
     · exact ih2 t ht hinv
 

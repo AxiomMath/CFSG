@@ -82,6 +82,7 @@ theorem s1715six_layer_barImage {D : Data G} {V : Subgroup G} (hV : IsElemAbelia
   exact le_antisymm (sSup_le fun _ hK => hK.1)
     (le_sSup ⟨le_rfl, CFSG.Open.IsSubnormal.refl B, hqB⟩)
 
+omit [Finite G] in
 theorem s1715six_barLift_exists {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {Y : Subgroup G}
     (hY : Y ≤ stabTil V₀ V) (h2 : barSub V₀ V hV (pCoreOf 2 Y) = ⊥) :
     ∃ ψ : Bar2 Y →* MulAut (Vtil V₀ V hV),
@@ -99,6 +100,7 @@ theorem s1715six_barLift_exists {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {
   intro y
   rfl
 
+omit [Finite G] in
 theorem s1715six_barSub_comap_map {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {Y : Subgroup G}
     (hY : Y ≤ stabTil V₀ V) (ψ : Bar2 Y →* MulAut (Vtil V₀ V hV))
     (hψ : ∀ y : ↥Y, ψ (QuotientGroup.mk y) = actTil V₀ V hV ⟨y, hY y.2⟩)
@@ -122,11 +124,11 @@ theorem s1715six_barSub_comap_map {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     · refine Subgroup.mem_map.2 ⟨y, ?_, rfl⟩
       rw [Subgroup.mem_comap, hy]
       exact hc
-    · change actTil V₀ V hV ⟨(y : G), hY y.2⟩ = ψ c
-      rw [← hy]
+    · rw [← hy]
       change actTil V₀ V hV ⟨(y : G), hY y.2⟩ = ψ (QuotientGroup.mk y)
       rw [hψ y]
 
+omit [Finite G] in
 theorem s1715six_layer_top_of_O2E_eq {Y : Subgroup G} (hYE : F11.O2E Y = Y) :
     CFSG.Open.rankThreeLayer (⊤ : Subgroup (Bar2 Y)) = ⊤ := by
   have hπ : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) :=
@@ -267,7 +269,6 @@ theorem exists_calC_cover_of_simple_normal (D : Data G) (h127 : R127 D) (h119 : 
         have hyK : (y : G) ∈ K := (Subgroup.mem_subgroupOf).1 hy
         refine (mem_barSub ⊥ V hV K (ψ c)).2
           ⟨⟨(y : G), hYKstab y.2⟩, hyK, ?_⟩
-        change actTil ⊥ V hV ⟨(y : G), hYKstab y.2⟩ = ψ c
         rw [← hyc]
         change actTil ⊥ V hV ⟨(y : G), hYKstab y.2⟩ = ψ (QuotientGroup.mk y)
         rw [hψ y]

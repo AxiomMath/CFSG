@@ -23,7 +23,7 @@ theorem isDiag_of_conj_comm [Finite K] (hM : Model φ) (hK : Nat.card K = (2 ^ n
       ((D : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) = diagonal (TypeA.ggPairVec k l ζ) →
       MulAut.conj (φ s) * MulAut.conj (φ D) = MulAut.conj (φ D) * MulAut.conj (φ s)) :
     ((s : GL (Fin d) K) : Matrix (Fin d) (Fin d) K).IsDiag := by
-  haveI : CharP K 2 := hM.field.charP
+  have : CharP K 2 := hM.field.charP
   refine TypeANbrDvd.isDiag_of_mul_diagonal_pairVec_of_four_le ?_ hd hζ fun k l hkl => ?_
   · rw [((mem_unitarySU_iff hM.field).mp s.2).1]
     exact one_ne_zero

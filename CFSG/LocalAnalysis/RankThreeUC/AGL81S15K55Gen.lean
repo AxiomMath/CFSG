@@ -27,7 +27,7 @@ theorem exists_sylow_generation [Finite X] (hT : IsSylowTwoOf T ⊤)
         {v | ∃ l ∈ Ls, ∃ c : Additive (IntMod (gnV T) hV),
           (∀ s ∈ S₀, gnRep hV s c = c) ∧ v = gnRep hV l c} := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT' : IsSylowTwoIn T ⊤ := hT
   set mk := QuotientGroup.mk' (gnC T) with hmk
   have hmksurj : Function.Surjective mk := QuotientGroup.mk'_surjective _

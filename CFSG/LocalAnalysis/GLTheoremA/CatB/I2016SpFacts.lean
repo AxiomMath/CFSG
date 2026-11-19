@@ -22,9 +22,9 @@ theorem i2016FactSp_of_gaps (hS : SchurSp8) (hGap : FpfIrrGap) : I2016.I2016Fact
     ((QuotientGroup.quotientMulEquivOfEq hZ0).trans QuotientGroup.quotientBot).symm
   obtain ⟨eS⟩ := sp8_model hcat9
   let e : Q ≃* StatedSp 4 (ZMod 2) := eQ.trans eS
-  haveI : Finite (StatedSp 4 (ZMod 2)) := Finite.of_equiv Q e.toEquiv
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
-  haveI : IsSimpleGroup (StatedSp 4 (ZMod 2)) := eS.symm.isSimpleGroup
+  have : Finite (StatedSp 4 (ZMod 2)) := Finite.of_equiv Q e.toEquiv
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (StatedSp 4 (ZMod 2)) := eS.symm.isSimpleGroup
   have hcatS : catalogIs (StatedSp 4 (ZMod 2)) S9.isSp8two := by
     obtain ⟨i, hi, ⟨ej⟩⟩ := hcat
     exact ⟨i, hi, ⟨eS.symm.trans ej⟩⟩

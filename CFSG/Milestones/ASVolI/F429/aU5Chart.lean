@@ -42,8 +42,8 @@ theorem burnsideF429a_isHypTransport {p f : ℕ} (h : UnitaryFieldData p f K) (h
   have hlb := fullPos_lt b
   by_cases hb : b = hypPartner a
   · subst hb
-    rw [if_pos rfl, if_pos (by omega)]
-  · rw [if_neg hb, if_neg]
+    rw [ite_eq_left rfl, ite_eq_left (by omega)]
+  · rw [ite_eq_right hb, ite_eq_right]
     intro hab
     apply hb
     apply fullPos_injective
@@ -139,7 +139,7 @@ variable {f : ℕ} {H : Type} [Group H] (marking : Marking .U5 2 f H)
 theorem burnsideF429a_U5_fieldData : UnitaryFieldData 2 f marking.field :=
   ⟨Nat.prime_two, marking.exponent_pos, by
     have := marking.field_card
-    simp only [or_true, if_true] at this
+    simp only [or_true, ite_true] at this
     rw [this, ← pow_mul, mul_comm]⟩
 
 theorem burnsideF429a_U5_basis_gram (i j : Fin (2 * 2 + 1)) :

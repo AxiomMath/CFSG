@@ -102,7 +102,7 @@ variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
 theorem qS_nondegenerate (S : Setting z E F) :
     (qS S).polarBilin.Nondegenerate := by
-  letI := modAbF S
+  let := modAbF S
   simpa only [qS] using q_nondegenerate S
 
 open CFSG.HardMathSupport.Solomon.Coordinator

@@ -60,7 +60,7 @@ theorem i144OutFact_holds : I144OutFact := by
   have hna : ∃ a b : K ⧸ Subgroup.center K, a * b ≠ b * a := hqK.2.2
   have hcen : Subgroup.center (K ⧸ Subgroup.center K) = ⊥ := center_centerQuot_eq_bot hK
   have hβ3 : centerQuotAut K α ^ 3 = 1 := by rw [← map_pow, hα3, map_one]
-  haveI : Group.IsPerfect K := ⟨hK.1⟩
+  have : Group.IsPerfect K := ⟨hK.1⟩
   have hSperf : commutator (K ⧸ Subgroup.center K) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center K))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top

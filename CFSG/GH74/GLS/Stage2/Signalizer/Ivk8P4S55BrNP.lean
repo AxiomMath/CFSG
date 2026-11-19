@@ -66,7 +66,7 @@ theorem mem_normalizer_component (T : Sylow 2 Γ) {p : ℕ} [Fact p.Prime] (hp2 
       exact commutatorElement_eq_one_iff_mul_comm.mp (Subgroup.mem_bot.mp this)
   have hTtop : IsSylowOf 2 (T : Subgroup Γ) ⊤ := by
     rw [isSylowOf_iff]
-    exact ⟨le_top, T.isPGroup', by rw [Subgroup.relIndex_top_right]; exact T.not_dvd_index⟩
+    exact ⟨le_top, T.isPGroup, by rw [Subgroup.relIndex_top_right]; exact T.not_dvd_index⟩
   have hTK : IsSylowOf 2 ((T : Subgroup Γ) ⊓ K) K := YCfg.isSylowOf_inf_isSubnormal_top hTtop hK.2
   have hcen : ((T : Subgroup Γ) ⊓ K).subgroupOf K ≤ center ↥K := by
     intro t ht
@@ -77,7 +77,7 @@ theorem mem_normalizer_component (T : Sylow 2 Γ) {p : ℕ} [Fact p.Prime] (hp2 
       have : (t : Γ) * (a * (t : Γ) * a⁻¹)⁻¹ = (t : Γ) * a * (t : Γ)⁻¹ * a⁻¹ := by group
       rw [this]
       exact P.mul_mem hca (P.inv_mem ha)
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨(t : Γ), htT⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨(t : Γ), htT⟩
     have hk' : (t : Γ) ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     obtain ⟨m, hm⟩ := hP ⟨_, hcP⟩
     have hm' : ((t : Γ) * (a * (t : Γ) * a⁻¹)⁻¹) ^ p ^ m = 1 := by

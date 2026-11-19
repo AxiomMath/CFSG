@@ -147,7 +147,7 @@ lemma localFunction_apply_pRegular
         0 := by
   by_cases hC : IsConj C.repr g
 
-  · rw [if_pos hC]
+  · rw [ite_eq_left hC]
     calc
       PElementary.f (k := k) p C.repr g
           =
@@ -161,7 +161,7 @@ lemma localFunction_apply_pRegular
               (k := k) p
               (PRegularClass.repr_isPRegular C)
 
-  · rw [if_neg hC]
+  · rw [ite_eq_right hC]
     apply PElementary.f_apply_eq_zero_of_not_isConj
 
     rw [Group.pRegular_eq_self_of_isPRegular
@@ -195,7 +195,7 @@ lemma localSum_apply_of_pRegular
 
   · rw [localFunction_apply_pRegular
       (k := k) p C₀ g hg]
-    rw [if_pos hC₀]
+    rw [ite_eq_left hC₀]
 
   · intro C hC_mem hC_ne
     have h_not_conj : ¬ IsConj C.repr g := by
@@ -204,7 +204,7 @@ lemma localSum_apply_of_pRegular
 
     rw [localFunction_apply_pRegular
       (k := k) p C g hg]
-    rw [if_neg h_not_conj]
+    rw [ite_eq_right h_not_conj]
 
   · intro hC₀_not_mem
     exact (hC₀_not_mem (Finset.mem_univ C₀)).elim

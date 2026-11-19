@@ -92,8 +92,8 @@ theorem AschbacherHyp.exists_isometry (hC : AschbacherHyp C Q) (hC' : Aschbacher
     have h : (φ x) ^ 2 = 1 ↔ x ^ 2 = 1 := by
       rw [← map_pow, MulEquiv.map_eq_one_iff]
     by_cases hx : x ^ 2 = 1
-    · rw [if_pos hx, if_pos (h.mpr hx)]
-    · rw [if_neg hx, if_neg (fun h' => hx (h.mp h'))]
+    · rw [ite_eq_left hx, ite_eq_left (h.mpr hx)]
+    · rw [ite_eq_right hx, ite_eq_right (fun h' => hx (h.mp h'))]
   · intro l v
     obtain ⟨x, rfl⟩ := exists_ofMul_of v
     have key : (⟨conjAut hQn (l : C) x, hC.le_commutator (conjAut hQn (l : C) x).2⟩ :

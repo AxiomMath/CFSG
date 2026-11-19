@@ -79,8 +79,8 @@ section Assembly
 theorem uc22p20uDiagramInput_of_graph (h : uc22p20uGraphInput) : uc22p20uDiagramInput := by
   intro X _ _ hqs t m n hmodel U A hA hshape
   rcases hshape with hr | hg
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : IsSimpleGroup (X ⧸ center X) := hqs.2
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : IsSimpleGroup (X ⧸ center X) := hqs.2
     let π : X →* X ⧸ center X := QuotientGroup.mk' (center X)
     have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
     let UB : Sylow 2 (X ⧸ center X) := Sylow.mapSurjective (f := π) hπ U

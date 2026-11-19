@@ -81,7 +81,7 @@ theorem ggTBJ_f4_kernel
       (Set.mem_singleton _)
     rw [← hJi]
     exact Subgroup.mem_map_of_mem ψ hd
-  haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+  have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
   exact CFSG.SectionRank.commute_of_perfect_of_central_commutator J (σ f) hw
 
 end CFSG.StandardType

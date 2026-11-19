@@ -21,7 +21,7 @@ omit [Finite G] in
       simp only [commutatorElement_def]; group
     rw [e]
     exact Q.mul_mem ((Subgroup.mem_normalizer_iff.mp (hQ haM) _).mp hb) ha
-  one_mem' := ⟨M.one_mem, by simpa [commutatorElement_def] using Q.one_mem⟩
+  one_mem' := ⟨M.one_mem, by simp [commutatorElement_def]⟩
   inv_mem' := by
     rintro a ⟨haM, ha⟩
     refine ⟨M.inv_mem haM, ?_⟩
@@ -43,6 +43,7 @@ theorem Ctx.Rt_comm_mem_Q (hc : Ctx M Q Z B) {t r : G} (hr : r ∈ Rt M (LB M Q 
     ⁅r, t⁆ ∈ Q :=
   (mem_CommQ.mp (hc.Rt_le_CommQ t hr)).2
 
+omit [Finite G] in
 theorem Ctx.mem_CQt_conj_iff (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (L : Subgroup G) (x : G) :
     x ∈ CQt Q Z (conjSubgroup m L) ↔ m⁻¹ * x * m ∈ CQt Q Z L := by
   have hQ : ∀ y, y ∈ Q ↔ m⁻¹ * y * m ∈ Q := fun y => by
@@ -68,6 +69,7 @@ theorem Ctx.mem_CQt_conj_iff (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (L : Subg
       simp only [commutatorElement_def]; group
     rwa [e]
 
+omit [Finite G] in
 theorem Ctx.CQt_conj (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M)
     (h35 : CQt Q Z (LB M Q B) = ((B ⊔ Z : Subgroup G) : Set G)) :
     CQt Q Z (LB M Q (conjSubgroup m B)) = ((conjSubgroup m B ⊔ Z : Subgroup G) : Set G) := by
@@ -116,6 +118,7 @@ theorem Ctx.Vt_isElemAbelian (hc : Ctx M Q Z B)
     · exact (hc.conj_of_mem hm).isElemAbelian_B.2 x hx
   exact (isElemAbelian_two_closure hcomm hsq).mono hle
 
+omit [Finite G] in
 theorem Ctx.mem_CN {hc : Ctx M Q Z B} {t x : G} :
     x ∈ hc.CN t ↔ x ∈ Rt M (LB M Q B) t ∧ ∀ v ∈ Vt M (LB M Q B) B Z t, ⁅x, v⁆ ∈ Z := Iff.rfl
 

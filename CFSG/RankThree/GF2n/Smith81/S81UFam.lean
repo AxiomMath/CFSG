@@ -18,10 +18,12 @@ variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F}
 theorem NopS_apply (Sf : GL (Fin 6) F) {a b : Fin 6} (hab : a ≠ b) (ξ : Cube F) :
     NopS Sf hab ξ = rho F Sf (Nop F a b hab (rho F Sf⁻¹ ξ)) := rfl
 
+omit [CharP F 2] in
 private theorem h66_rho_rho_inv (Sf : GL (Fin 6) F) (v : Cube F) :
     rho F Sf (rho F Sf⁻¹ v) = v := by
   rw [← rho_mul_apply, mul_inv_cancel, rho_one, Module.End.one_apply]
 
+omit [CharP F 2] in
 private theorem h66_rho_inv_rho (Sf : GL (Fin 6) F) (v : Cube F) :
     rho F Sf⁻¹ (rho F Sf v) = v := by
   rw [← rho_mul_apply, inv_mul_cancel, rho_one, Module.End.one_apply]
@@ -33,7 +35,7 @@ private theorem h66_NopS_rho (Sf : GL (Fin 6) F) {a b : Fin 6} (hab : a ≠ b) (
 theorem NopS_cubeBasis (Sf : GL (Fin 6) F) {a b : Fin 6} (hab : a ≠ b) (I : Set.powersetCard (Fin 6) 3)
     (h : b ∈ I.val ∧ a ∉ I.val) :
     NopS Sf hab (rho F Sf (cubeBasis F I)) = rho F Sf (cubeBasis F (replSet I a b h.1 h.2)) := by
-  rw [h66_NopS_rho, Nop_cubeBasis, dif_pos h]
+  rw [h66_NopS_rho, Nop_cubeBasis, dite_eq_left h]
 
 @[expose] noncomputable def gShort (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω + σ ω = 1) {a b : Fin 6}
     (hab : a ≠ b) (hb : b ≠ partner a) (c : F) : SUid σ 6 :=
@@ -41,6 +43,7 @@ theorem NopS_cubeBasis (Sf : GL (Fin 6) F) {a b : Fin 6} (hab : a ≠ b) (I : Se
       transvGL F (partner b) (partner a) (partner_ne_partner hab) (σ c)) * (frameGL σ ω hω)⁻¹,
     frameConj_short_mem hσ hω hab hb c⟩
 
+omit [CharP F 2] in
 private theorem h66_rho_conj_sub (Sf x : GL (Fin 6) F) (v : Cube F) :
     rho F (Sf * x * Sf⁻¹) v - v = rho F Sf (rho F x (rho F Sf⁻¹ v) - rho F Sf⁻¹ v) := by
   rw [rho_mul_apply, rho_mul_apply, map_sub, h66_rho_rho_inv]
@@ -135,6 +138,7 @@ theorem gLong_mem_Gcent (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω + σ �
   rw [ht]
   exact h67_conj_comm (frameGL σ ω hω) (transvGL F a (partner a) (partner_ne a).symm 1) x hx
 
+omit [CharP F 2] in
 private theorem h67_gen {t g : SUid σ 6} (hg : g ∈ Gcent σ t) (v : Cube F) :
     rho F (g : GL (Fin 6) F) v - v ∈ Submodule.span F
       {w : Cube F | ∃ g' ∈ Gcent σ t, ∃ η : Cube F, w = rho F (g' : GL (Fin 6) F) η - η} :=
@@ -155,7 +159,7 @@ private theorem h67_NopS_mem (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω +
 
 theorem rho_frame_cubeBasis_mem_of_pair (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω + σ ω = 1)
     (t : SUid σ 6) {x : GL (Fin 6) F}
-    (ht : (t : GL (Fin 6) F) = frameGL σ ω hω * x * (frameGL σ ω hω)⁻¹) {a b : Fin 6} (hab : a ≠ b)
+    (_ht : (t : GL (Fin 6) F) = frameGL σ ω hω * x * (frameGL σ ω hω)⁻¹) {a b : Fin 6} (hab : a ≠ b)
     (hcomm : (b = partner a ∧ gLong hσ hω a ∈ Gcent σ t) ∨
       ∃ hb : b ≠ partner a, ∀ c : F, gShort hσ hω hab hb c ∈ Gcent σ t)
     (I : Set.powersetCard (Fin 6) 3) (haI : a ∈ I.val) (hbI : b ∉ I.val) :

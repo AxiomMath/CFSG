@@ -128,7 +128,7 @@ theorem rows_ok {TP HS ML RW AB : Nat → Nat} {XP YP J0 PA : Nat} (hG : GenFact
     (hrow0 : rowsK TP HS ML RW AB 0 1 = true)
     (hrows : ∀ k < 11, rowsR HS RW AB XP YP J0 PA (128 * k) 128 = true) (hpa : paK J0 PA = true)
     (hacyc : ∀ k, 0 < k → k < 1408 → fd 12 PA k / 2 < k)
-    (hJ : ∀ t < 2816, fd 11 J0 t < 1408)
+    (_hJ : ∀ t < 2816, fd 11 J0 t < 1408)
     (horb : ∀ t < 2816, ∀ q, (HS (fd 11 J0 t)).testBit q = true ↔
       ∃ p < 693, (HS (t / 2)).testBit p = true ∧ fd 10 (if t % 2 = 1 then YP else XP) p = q) :
     ∀ k < 1408, RowOK HS RW TP k := by
@@ -158,26 +158,26 @@ theorem rows_ok {TP HS ML RW AB : Nat → Nat} {XP YP J0 PA : Nat} (hG : GenFact
       have hgl : ∀ p < 693, gf p < 693 := by
         intro p hp
         by_cases h1 : e % 2 = 1
-        · simp only [hgf, if_pos h1]; exact hG.ylt p hp
-        · simp only [hgf, if_neg h1]; exact hG.xlt p hp
+        · simp only [hgf, ite_eq_left h1]; exact hG.ylt p hp
+        · simp only [hgf, ite_eq_right h1]; exact hG.xlt p hp
       have hGl : ∀ p < 693, Gf p < 693 := by
         intro p hp
         by_cases h1 : e % 2 = 1
-        · simp only [hGf, if_pos h1]
+        · simp only [hGf, ite_eq_left h1]
           rw [fd_compP _ _ hp]
           exact hG.ylt _ (hG.ylt _ hp)
-        · simp only [hGf, if_neg h1]; exact hG.xlt p hp
+        · simp only [hGf, ite_eq_right h1]; exact hG.xlt p hp
       have hinv2 : ∀ p < 693, gf (Gf p) = p := by
         intro p hp
         by_cases h1 : e % 2 = 1
-        · simp only [hGf, hgf, if_pos h1]
+        · simp only [hGf, hgf, ite_eq_left h1]
           rw [fd_compP _ _ hp, hG.yyy p hp]
-        · simp only [hGf, hgf, if_neg h1]
+        · simp only [hGf, hgf, ite_eq_right h1]
           exact hG.xx p hp
       have hconj : ∀ f < 693, ∀ q < 693, fd 10 (TP f) (gf q) = gf (fd 10 (TP (Gf f)) q) := by
         intro f hf q hq
         by_cases h1 : e % 2 = 1
-        · simp only [hGf, hgf, if_pos h1]
+        · simp only [hGf, hgf, ite_eq_left h1]
           have hq' : fd 10 YP q < 693 := hG.ylt q hq
           have hp0 : fd 10 (compP 693 10 YP YP) f < 693 := by
             rw [fd_compP _ _ hf]; exact hG.ylt _ (hG.ylt _ hf)
@@ -185,7 +185,7 @@ theorem rows_ok {TP HS ML RW AB : Nat → Nat} {XP YP J0 PA : Nat} (hG : GenFact
           rw [fd_compP _ _ hf] at this ⊢
           rw [hG.yyy q hq, hG.yyy f hf] at this
           exact this.symm
-        · simp only [hGf, hgf, if_neg h1]
+        · simp only [hGf, hgf, ite_eq_right h1]
           have hq' : fd 10 XP q < 693 := hG.xlt q hq
           have hp0 : fd 10 XP f < 693 := hG.xlt f hf
           have := hCj.cx _ hp0 _ hq'
@@ -543,10 +543,10 @@ theorem xiImgG_get {U : Array Nat} {H : Array Flags} {HS RW AB TP : Nat → Nat}
   simp only []
   rw [hH k (by omega), fl_get _ hf]
   by_cases hb : (HS k).testBit f = true
-  · rw [if_pos hb]
+  · rw [ite_eq_left hb]
     exact ((hRC k hk).inS f hf hb).symm
   · have hb' : (HS k).testBit f = false := by simpa using hb
-    rw [if_neg hb]
+    rw [ite_eq_right hb]
     obtain ⟨hi1, hi2, hi3⟩ := hRow k hk f hf hb'
     set i := fd 11 (RW k) f with hi
     have hkey : packImg ((tvTabsG U)[f]!) (members (fl (HS k))) =
@@ -717,7 +717,7 @@ theorem xi_sound_of_perp {U : Array Nat} {xw yw : List Int} {UL : List Nat}
     (hU : U = UL.toArray) (hp : ptsK UL UP = true) (hpos : posK UL UP PP = true)
     (hg : ∀ k < 46, gensOK UL UP GP k 1 = true) (hxy : xyK GP xw yw = true)
     (hX : Nat.beq XP (powP 3 (wordG GP xw)) = true) (hY : Nat.beq YP (powP 2 (wordG GP yw)) = true)
-    (hperp : ∀ k < 21, perpK UP PB (33 * k) 33 = true)
+    (_hperp : ∀ k < 21, perpK UP PB (33 * k) 33 = true)
     (htab : ∀ k < 21, tabK UP TP (33 * k) 33 = true)
     (hmem : ∀ k < 12, memK HS ML (352 * k) 352 = true) (hdist : distinctK HS SP = true)
     (ho0 : orbK UP XP YP HS ML J0 0 1 = true) (ho1 : orbK UP XP YP HS ML J1 1 2 = true)

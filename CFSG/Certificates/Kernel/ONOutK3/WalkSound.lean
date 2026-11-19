@@ -122,7 +122,7 @@ theorem pathEval_map (hN : ∀ s < 315, sliceOK G R UL UW FK TC s = true) {A : A
       obtain ⟨-, -, -, -, a5, -⟩ := (nodes_of hN hk).root rfl
       rw [a5]
       have pe0 : ∀ p, pathEval A P L 0 p = p := fun p => by
-        rw [pathEval.eq_1, dif_neg (by omega)]
+        rw [pathEval.eq_1, dite_eq_right (by omega)]
       unfold map3
       rw [pe0, pe0, pe0]
       rfl
@@ -130,7 +130,7 @@ theorem pathEval_map (hN : ∀ s < 315, sliceOK G R UL UW FK TC s = true) {A : A
       have hq : parF (nrec R k) < CNT := Nat.lt_trans t1 hk
       have hpe : ∀ p, pathEval A P L k p = A[labF (nrec R k)]![pathEval A P L (parF (nrec R k)) p]! := by
         intro p
-        rw [pathEval.eq_1, hP k hk, hL k hk, dif_pos ⟨Nat.pos_of_ne_zero h0, t1⟩]
+        rw [pathEval.eq_1, hP k hk, hL k hk, dite_eq_left ⟨Nat.pos_of_ne_zero h0, t1⟩]
       have ihq := ih _ t1 hq j hj
       obtain ⟨w1, w2⟩ := wrd_lt hN _ hq
       have hwq := walk_map hN _ _ w2 j hj

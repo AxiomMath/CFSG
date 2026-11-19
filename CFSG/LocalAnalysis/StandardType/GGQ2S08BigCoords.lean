@@ -61,8 +61,8 @@ private theorem ggQ2s08bf1_coords_of {G : Type} [Group G] [Finite G] {Bs L : Sub
   classical
   obtain ⟨hxV, hcompl, hfinrank, hWpres, hfix⟩ := ggQ2s08d_full_split M hF
   have hind : LinearIndependent (ZMod 3) M.coroot := hF.2.1
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
-  haveI : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
   have hcard : Fintype.card M.Λ = ℓ := by
     simpa using (Fintype.card_congr e).symm
   have hfr : Module.finrank (ZMod 3) M.V = ℓ + 1 := by

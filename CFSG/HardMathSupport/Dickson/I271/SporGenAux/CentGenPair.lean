@@ -81,7 +81,7 @@ theorem CentGen.of_mulEquiv {p : ℕ} {S S' : Type*} [Group S] [Group S'] (e : S
 theorem centGen_of_sylow {S : Type*} [Group S] [Finite S] {p : ℕ} (hp : p.Prime)
     (hcard : (Nat.card S).factorization p = 2) {P₀ : Subgroup S} (hP₀card : Nat.card P₀ = p ^ 2)
     (hgen : Subgroup.closure (centSet P₀) = ⊤) : CentGen p S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro P hPel hPcard
   let S₀ : Sylow p S := Sylow.ofCard P₀ (by rw [hP₀card, hcard])
   let S₁ : Sylow p S := Sylow.ofCard P (by rw [hPcard, hcard])
@@ -110,7 +110,7 @@ theorem conclusion_of_centGen {p : ℕ} {K B : Subgroup X} (hH : I271Hyp p K B)
   have hBel : IsElemAbelian p B := hH.scp.2.1
   have hq : CFSG.Open.IsQuasisimple ↥K := i116e_isQuasisimple hH.core hH.comp
   have hperf : commutator ↥K = ⊤ := hq.1
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hnab : ∃ a b : ↥K ⧸ Subgroup.center ↥K, a * b ≠ b * a :=
     exists_noncomm_of_isQuasisimple hq
   have hcenS : Subgroup.center (↥K ⧸ Subgroup.center ↥K) = ⊥ :=
@@ -205,7 +205,7 @@ theorem sporPair_of_centGen {name : TauCeti.SporadicName} {p : ℕ}
   have hq : CFSG.Open.IsQuasisimple ↥K := i116e_isQuasisimple hH.core hH.comp
   have hZ := center_eq_bot_of_five_le hSpM hH hp5 hS
   obtain ⟨e⟩ := hS
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   obtain ⟨hR, hO, hCG⟩ := h (↥K ⧸ Subgroup.center ↥K) hq.2
     (exists_noncomm_of_isQuasisimple hq) ⟨e⟩
   exact conclusion_of_centGen hH hN hZ hR hO hCG

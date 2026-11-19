@@ -24,6 +24,7 @@ private theorem pPrimeCore_eq_bot_of_normal {p : ℕ} [Fact p.Prime]
     exact pPrimeCore_coprime_card
   rwa [hO, le_bot_iff, Subgroup.map_eq_bot_iff_of_injective _ N.subtype_injective] at hle
 
+omit [Finite X] in
 private theorem component_le_of_generalizedFitting_le {H : Subgroup X}
     (hF : generalizedFitting X ≤ H) {K : Subgroup X} (hK : IsComponent K) : K ≤ H :=
   (component_le_layer hK).trans
@@ -142,6 +143,7 @@ section quotientTransport
 
 variable {p : ℕ} [Fact p.Prime]
 
+omit [Finite X] in
 private theorem quotient_restriction_kernel {O : Subgroup X} [O.Normal] {H : Subgroup X} :
     let q : X →* X ⧸ O := QuotientGroup.mk' O
     let Hbar : Subgroup (X ⧸ O) := H.map q
@@ -243,8 +245,7 @@ theorem map_pLayer_sup_pPrimeCore_eq_of_quotient {H : Subgroup X}
   have heT_comp : eT.toMonoidHom.comp
       (QuotientGroup.mk' (pPrimeCore p ↥H)) = qH := by
     ext x
-    simp [eT, eH, e, e₀, QuotientGroup.quotientMulEquivOfEq_mk,
-      QuotientGroup.kerLift_mk]
+    simp [eT, eH, e, e₀, QuotientGroup.quotientMulEquivOfEq_mk]
     change QuotientGroup.kerLift qH (QuotientGroup.mk x) = qH x
     rw [QuotientGroup.kerLift_mk]
   have hmap_pLayer_H : (pLayer ↥H p).map qH = layer ↥Hbar := by

@@ -178,7 +178,7 @@ theorem not_isU3_of_ctx19_1
   have hp := h.hyp.hyp125.pairFacts
   have hMS : D.M ≤ stabTil V₀ V := le_stabTil hp.le_normalizer hp.le_normalizer₀
   have hLS : L ≤ stabTil V₀ V := h.hyp.hL.1.1.le.trans hMS
-  have hKmem : Kb ∈ conjSet Kb Mb := ⟨1, Mb.one_mem, by ext x; simp [MulAut.conj_apply]⟩
+  have hKmem : Kb ∈ conjSet Kb Mb := ⟨1, Mb.one_mem, by ext x; simp⟩
   have hconj : conjSet Kb Mb = {Kb} := by
     ext X
     constructor

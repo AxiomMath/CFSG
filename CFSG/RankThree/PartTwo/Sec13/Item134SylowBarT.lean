@@ -108,7 +108,7 @@ theorem exists_inv_mul_commute
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S', rfl⟩ := hS
   set π := QuotientGroup.mk' (aschbacherSolvableCore 3 ↥L) with hπ
-  have hinj : Set.InjOn π (S' : Set ↥L) := injOn_mk_of_isPGroup Nat.prime_three S'.isPGroup'
+  have hinj : Set.InjOn π (S' : Set ↥L) := injOn_mk_of_isPGroup Nat.prime_three S'.isPGroup
   set ρ' : Subgroup.normalizer (L : Set G) := ⟨ρ, hρL⟩ with hρ'
   set σ := Sec4.thetaQuotMulAut L (L.normalizerMonoidHom ρ') with hσ
   have hσk : σ ^ 3 ^ k = 1 := by
@@ -194,7 +194,7 @@ theorem exists_mem_L_conj_eq_inv (H : Base A c L d K) : ∃ t ∈ L, t * d * t�
     rw [← map_mul, ← map_mul, Subgroup.mem_centralizer_singleton_iff.mp (hS₀d hx)]
   obtain ⟨gb, hgb⟩ := j2_exists_conj_eq_inv H.h415 H.quot Sb hdb1 hdbZ
   have hD3 : IsPGroup 3 (Subgroup.zpowers d') :=
-    S₀.isPGroup'.to_le (Subgroup.zpowers_le.mpr hdS₀)
+    S₀.isPGroup.to_le (Subgroup.zpowers_le.mpr hdS₀)
   have hgbN : gb ∈ Subgroup.normalizer (((Subgroup.zpowers d').map π :
       Subgroup (↥L ⧸ aschbacherSolvableCore 3 ↥L)) : Set (↥L ⧸ aschbacherSolvableCore 3 ↥L)) := by
     refine Subgroup.mem_normalizer_fintype fun y hy => ?_

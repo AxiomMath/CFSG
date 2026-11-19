@@ -33,7 +33,7 @@ set_option linter.unusedSectionVars false
 
 theorem tJ_of_lt {i : ℕ} (hi : i < 18) :
     tJ i = Classical.choose Certificates.certificate12648 i :=
-  dif_pos hi
+  dite_eq_left hi
 
 theorem rep_tJ {i : ℕ} (hi : i < 18) : Rep 315 vA[i]! (tJ i).1 := by
   rw [tJ_of_lt hi]
@@ -80,7 +80,7 @@ theorem card_S2 {s : ℕ} (hs : s < 6) : Nat.card (S2 s) = 64 := by
       {g : GJ | ∃ j ∈ twoSets.getD s [], ∃ q < 3,
         g = Classical.choose Certificates.certificate12648 (3 * j + q)} := by
     ext g
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨j, hj, q, hq, rfl⟩
       have h6 := lt_six_of_mem_twoSets hs hj

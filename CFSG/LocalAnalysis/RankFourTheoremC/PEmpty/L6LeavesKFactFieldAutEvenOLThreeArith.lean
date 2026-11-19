@@ -30,7 +30,7 @@ theorem padicValNat_three_sub_one_zero {X : ℕ} (hX : 1 ≤ X)
 
 theorem padicValNat_three_sub_one_one {X : ℕ} (hX : 1 ≤ X) (h : X % 9 = 4 ∨ X % 9 = 7) :
     padicValNat 3 (X - 1) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne : X - 1 ≠ 0 := by omega
   have h1 : 1 ≤ padicValNat 3 (X - 1) :=
     (padicValNat_dvd_iff_le hne).mp (by rw [pow_one]; omega)
@@ -66,7 +66,7 @@ theorem padicValNat_three_two_pow_mul_sub_one {p k : ℕ} (hp : p % 6 = 1 ∨ p 
 theorem padicValNat_three_prod {ι : Type*} (s : Finset ι) (f : ι → ℕ) (hf : ∀ i ∈ s, f i ≠ 0) :
     padicValNat 3 (∏ i ∈ s, f i) = ∑ i ∈ s, padicValNat 3 (f i) := by
   have h := Nat.factorization_prod hf
-  rw [← Nat.factorization_def _ Nat.prime_three, h, Finsupp.finset_sum_apply]
+  rw [← Nat.factorization_def _ Nat.prime_three, h, _root_.Finsupp.finsetSum_apply]
   exact Finset.sum_congr rfl fun i _ => Nat.factorization_def _ Nat.prime_three
 
 theorem not_three_dvd_two_pow (m : ℕ) : ¬ 3 ∣ 2 ^ m := fun h => by
@@ -79,7 +79,7 @@ theorem two_le_two_pow_mul {p m : ℕ} (hp : 1 ≤ p) (hm : 1 ≤ m) : 2 ≤ 2 ^
 
 theorem padicValNat_three_prod_gl {p : ℕ} (hp : p % 6 = 1 ∨ p % 6 = 5) {a : ℕ} (ha : a ≤ 5) :
     padicValNat 3 (∏ i : Fin a, ((2 ^ p) ^ a - (2 ^ p) ^ (i : ℕ))) = a / 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp1 : 1 ≤ p := by omega
   have hfac : ∀ i : Fin a, (2 ^ p) ^ a - (2 ^ p) ^ (i : ℕ) =
       2 ^ (p * (i : ℕ)) * (2 ^ (p * (a - i)) - 1) := fun i => by

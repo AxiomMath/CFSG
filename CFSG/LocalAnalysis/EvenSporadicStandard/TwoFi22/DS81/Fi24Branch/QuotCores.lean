@@ -54,7 +54,7 @@ theorem pPrimeCore_Qt_eq_bot {c : CInv C} (hC : CCore c) : CFSG.pPrimeCore 2 c.Q
     exact Nat.mul_left_cancel (by norm_num) hcm
   have hNcop : Nat.Coprime (Nat.card ↥N) N.index := by
     rw [hNcard, hNindex]; exact hQcop
-  haveI := hNnormal
+  have := hNnormal
   obtain ⟨H, hH⟩ := Subgroup.exists_right_complement'_of_coprime (G := Qh) (N := N) hNcop
   have hHcard : Nat.card ↥H = Nat.card ↥Q := by
     have hcm := hH.card_mul_card

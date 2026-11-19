@@ -28,12 +28,12 @@ theorem not_isSolvable_and_of_projOrth {K : Type} [Field K] [Finite K]
     (hJ : CFSG.Open.IsComponentOf J (Subgroup.centralizer ({x} : Set (ProjOrthDerived Q))))
     (hcard : Nat.card (↥J ⧸ Subgroup.center ↥J) = CFSG.Open.ordTwistedA 2 (2 ^ n))
     (hmoves : ∀ k : ℕ, ∃ j ∈ J, j * (x₂ * x₁ ^ k) ≠ (x₂ * x₁ ^ k) * j) :
-    ¬ (IsSolvable ↥(J ⊓ Subgroup.centralizer ({x₁} : Set (ProjOrthDerived Q))) ∧
-      IsSolvable ↥(J ⊓ Subgroup.centralizer ({x₂} : Set (ProjOrthDerived Q)))) := by
+    ¬ (Group.IsSolvable ↥(J ⊓ Subgroup.centralizer ({x₁} : Set (ProjOrthDerived Q))) ∧
+      Group.IsSolvable ↥(J ⊓ Subgroup.centralizer ({x₂} : Set (ProjOrthDerived Q)))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hchar : CharP K 2 := charP_of_card_eq_prime_pow (f := m)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 := charP_of_card_eq_prime_pow (f := m)
     (by rw [← Nat.card_eq_fintype_card, hK])
   have hring : ringChar K = 2 := ringChar.eq K 2
   have hpℓ : 3 ≠ ringChar K := by rw [hring]; norm_num
@@ -101,7 +101,7 @@ theorem not_isSolvable_and_of_projOrth {K : Type} [Field K] [Finite K]
   obtain ⟨hnm, h, hh, hne1, hself, hdeg, hmult, hq, hJh⟩ :=
     exists_selfDual_block_of_component hQ hT hV hdim hK hm hn hn3 hmn hy3 hy1 hJ' hcard
   have hm2 : 2 ≤ m := by omega
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hy : OddOrderIsometry Q 3 (y : V ≃ₗ[K] V) :=
     oddOrderIsometry_of_pow_eq_one Nat.prime_three hpℓ hQ y hy3
   have hy₁mem : (y₁ : V ≃ₗ[K] V) ∈ isometryCentralizer Q (y : V ≃ₗ[K] V) := by
@@ -197,10 +197,10 @@ theorem not_isSolvable_and_of_projOrth {K : Type} [Field K] [Finite K]
     have h' := hinj h
     exact Subtype.ext (by simpa using congrArg Subtype.val h')
   rintro ⟨hsolJ₁, hsolJ₂⟩
-  have hsol₁ : IsSolvable ↥(F ⊓ Subgroup.centralizer ({(y₁ : V ≃ₗ[K] V)} :
+  have hsol₁ : Group.IsSolvable ↥(F ⊓ Subgroup.centralizer ({(y₁ : V ≃ₗ[K] V)} :
       Set (V ≃ₗ[K] V))) := by
     exact @Group.isSolvable_of_isSolvable_injective _ _ _ _ φ₁ hinjφ₁ hsolJ₁
-  have hsol₂ : IsSolvable ↥(F ⊓ Subgroup.centralizer ({(y₂ : V ≃ₗ[K] V)} :
+  have hsol₂ : Group.IsSolvable ↥(F ⊓ Subgroup.centralizer ({(y₂ : V ≃ₗ[K] V)} :
       Set (V ≃ₗ[K] V))) := by
     exact @Group.isSolvable_of_isSolvable_injective _ _ _ _ φ₂ hinjφ₂ hsolJ₂
   exact not_isSolvable_and_of_specialBlock hK hm hm2 hy hh hne1 hself hmult hy₁mem hy₂mem
@@ -334,7 +334,7 @@ theorem u3TorusCoreOn_orthMinus :
   apply hnot
   constructor
   · rw [← hmap₁]
-    have hsolS₁ : IsSolvable ↥(J ⊓ Subgroup.centralizer ({s₁} : Set S)) := by
+    have hsolS₁ : Group.IsSolvable ↥(J ⊓ Subgroup.centralizer ({s₁} : Set S)) := by
       rw [← hfix₁]
       exact hsol₁
     let e₁ := Subgroup.equivMapOfInjective (J ⊓ Subgroup.centralizer ({s₁} : Set S))
@@ -342,7 +342,7 @@ theorem u3TorusCoreOn_orthMinus :
     exact @Group.isSolvable_of_isSolvable_injective _ _ _ _ e₁.symm.toMonoidHom
       e₁.symm.injective hsolS₁
   · rw [← hmap₂]
-    have hsolS₂ : IsSolvable ↥(J ⊓ Subgroup.centralizer ({s₂} : Set S)) := by
+    have hsolS₂ : Group.IsSolvable ↥(J ⊓ Subgroup.centralizer ({s₂} : Set S)) := by
       rw [← hfix₂]
       exact hsol₂
     let e₂ := Subgroup.equivMapOfInjective (J ⊓ Subgroup.centralizer ({s₂} : Set S))

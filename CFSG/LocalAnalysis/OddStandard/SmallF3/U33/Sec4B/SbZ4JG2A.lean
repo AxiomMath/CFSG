@@ -27,6 +27,7 @@ theorem card_eq : Nat.card P = Nat.card Vh := by
   rw [← h.map_eq]
   exact (z4i_card_map N h.odd h.isPGroup).symm
 
+omit [Finite X] in
 theorem exists_lift {u : X ⧸ N} (hu : u ∈ Vh) : ∃ x ∈ P, z4iπ N x = u := by
   rw [← h.map_eq] at hu
   obtain ⟨x, hx, hxu⟩ := hu
@@ -73,6 +74,7 @@ theorem card_cent {β : X} (hβ : β ∈ P) :
   rw [← h.map_cent hβ]
   exact (z4i_card_map N h.odd h2).symm
 
+omit [Finite X] in
 theorem map_sub {F : Subgroup (X ⧸ N)} (hF : F ≤ Vh) : (P ⊓ F.comap (z4iπ N)).map (z4iπ N) = F := by
   apply le_antisymm
   · rintro u ⟨x, hx, rfl⟩

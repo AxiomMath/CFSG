@@ -24,7 +24,7 @@ theorem ExtremalObstruction.exists_mem_normalizer_not_mem_centralizer (hS : Sett
   set A : Subgroup G := (P : Subgroup G) ⊓ normalizer (D : Set G) with hA
   have hAP : A < P := lt_of_le_of_ne inf_le_left fun heq => hPD (by rw [← heq]; exact inf_le_right)
   obtain ⟨m, hmN, hmA⟩ := IsConcreteLE.exists_of_lt
-    (pGroup_proper_subgroup_lt_internal_normalizer p hprime P A P.isPGroup' hAP)
+    (pGroup_proper_subgroup_lt_internal_normalizer p hprime P A P.isPGroup hAP)
   apply hmA
   refine ⟨hmN.1, ?_⟩
   have hmD : ∀ d ∈ D, m * d * m⁻¹ ∈ D := by

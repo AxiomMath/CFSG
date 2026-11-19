@@ -38,10 +38,10 @@ theorem y7c_struct (hI31 : CFSG.ASVolI.I_3_1) (hN24 : Nar24)
       by_cases hZ : ∀ z ∈ Subgroup.normalClosure (J : Set Γ),
           (∀ n ∈ Subgroup.normalClosure (J : Set Γ), z * n = n * z) → ρ z = 1
       · exact (y7c_D2_false hN24 c rfl hq hker hZ).elim
-      · push_neg at hZ
+      · push Not at hZ
         obtain ⟨z, hz, hzc, hρz⟩ := hZ
         exact Or.inr (y7c_odd_central c hq hz hzc hρz)
-    · push_neg at hnorm
+    · push Not at hnorm
       obtain ⟨g, hg⟩ := hnorm
       exact (y7c_two_fixed_false c hK hJK hKt hg).elim
   · exact Or.inl (y7c_swap_conclusion c hK hJK hKt hSM)

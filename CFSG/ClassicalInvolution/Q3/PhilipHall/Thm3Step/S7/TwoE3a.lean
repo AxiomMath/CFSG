@@ -40,7 +40,7 @@ theorem eq_of_inf_le_isCyclic {Y : Type} [Group Y] [Finite Y] {Φ : Set (Subgrou
     (hC : IsCyclic ↥C) (hK₁ : K₁ ⊓ L ≤ C) (hK₂ : K₂ ⊓ L ≤ C)
     (h4₁ : 4 ∣ Nat.card ↥(K₁ ⊓ L)) (h4₂ : 4 ∣ Nat.card ↥(K₂ ⊓ L)) : K₁ = K₂ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hD : ∀ {K : Subgroup Y}, 4 ∣ Nat.card ↥(K ⊓ L) →
       ∃ D : Subgroup Y, D ≤ K ⊓ L ∧ Nat.card ↥D = 4 := by
     intro K h4
@@ -75,10 +75,10 @@ section Member
 
 variable {Y : Type} [Group Y] [Finite Y] {L H : Subgroup Y}
 
-theorem relIndex_dvd_two (hLn : L.Normal) (hLH : L ≤ H)
+theorem relIndex_dvd_two (hLn : L.Normal) (_hLH : L ≤ H)
     (hidx : (L.subgroupOf H).index ≤ 2 ∨ (L.subgroupOf H).index ∣ 6) {T : Subgroup Y}
     (hTH : T ≤ H) (hT : IsPGroup 2 ↥T) : L.relIndex T ∣ 2 := by
-  haveI : (L.subgroupOf H).Normal := hLn.subgroupOf H
+  have : (L.subgroupOf H).Normal := hLn.subgroupOf H
   have h1 : L.relIndex T ∣ (L.subgroupOf H).index := by
     rw [← Subgroup.relIndex_subgroupOf hTH]
     exact Subgroup.relIndex_dvd_index_of_normal _ _
@@ -242,8 +242,8 @@ theorem le_or_commutator_eq_bot {E A : Subgroup Y} (hE : CFSG.Open.IsQuasisimple
 
 theorem le_oddCoreOf_of_perfect {E K : Subgroup Y} (hE : commutator ↥E = ⊤) (hEK : E ≤ K)
     (h2 : IsPGroup 2 (↥K ⧸ classicalInvolutionOddCore ↥K)) : E ≤ oddCoreOf K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent (↥K ⧸ classicalInvolutionOddCore ↥K) := h2.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent (↥K ⧸ classicalInvolutionOddCore ↥K) := h2.isNilpotent
   let ψ : ↥E →* ↥K ⧸ classicalInvolutionOddCore ↥K :=
     (QuotientGroup.mk' _).comp (Subgroup.inclusion hEK)
   obtain ⟨n, hnd⟩ :=
@@ -380,7 +380,7 @@ theorem e3aShape_cases (hF : FStarSimple Y) {H : Subgroup Y} (hLH : genFittingFS
     (h : E3aShape ↥H) :
     (((genFittingFStar Y).subgroupOf H).index ≤ 2 ∨
         ((genFittingFStar Y).subgroupOf H).index ∣ 6) ∧ IsE3aGroup ↥(genFittingFStar Y) := by
-  haveI : IsSimpleGroup ↥(genFittingFStar Y) := hF.1
+  have : IsSimpleGroup ↥(genFittingFStar Y) := hF.1
   have hFH := genFittingFStar_eq_of_le (genFittingFStar_normal Y) hF.2
     (centralizer_eq_bot_of_fStarSimple hF) hLH
   obtain ⟨eF⟩ := nonempty_fStarQuot_equiv (genFittingFStar_normal Y) hF.2
@@ -417,7 +417,7 @@ section E3a
 
 theorem e3aOneClass_of_inputs (hL2 : L2CentDihedral) (hL3 : L3CentComponent) : E3aOneClass := by
   intro Y _ _ _ _ hF Φ hΦ K₁ hK₁ K₂ hK₂ z₁ z₂ hz₁ hz₂ ⟨hzH₁, hsh₁, hn₁⟩ ⟨hzH₂, hsh₂, hn₂⟩
-  haveI : IsSimpleGroup ↥(genFittingFStar Y) := hF.1
+  have : IsSimpleGroup ↥(genFittingFStar Y) := hF.1
   have hLn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC := centralizer_eq_bot_of_fStarSimple hF
   have hne : ∀ {K : Subgroup Y} {z : Y}, IsUniqueInvolution K z → K ≠ ⊥ := fun hz h =>
@@ -569,9 +569,9 @@ theorem not_isE3aGroup_of_classical (hL2 : L2CentDihedral) (hL3 : L3CentComponen
     ·
       have hsol : Group.IsSolvable ↥Λ :=
         haveI := Q3.isSolvable_sl2Three
-        solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
-      haveI : Group.IsSolvable ↥(⁅Cz, Cz⁆ : Subgroup X) :=
-        solvable_of_solvable_injective (f := Subgroup.inclusion hle)
+        Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
+      have : Group.IsSolvable ↥(⁅Cz, Cz⁆ : Subgroup X) :=
+        Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
           (Subgroup.inclusion_injective hle)
       obtain ⟨n, hn⟩ := (inferInstance : Group.IsSolvable ↥(⁅Cz, Cz⁆ : Subgroup X)).solvable
       have hd : ∀ k, derivedSeries ↥(⁅Cz, Cz⁆ : Subgroup X) k = ⊤ := by

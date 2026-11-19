@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem le_normalizer_sup_of_normal {K X T : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTK : T ≤ K)
     (hXK : X ≤ K) (hn : K ≤ Subgroup.normalizer ((X ⊔ T : Subgroup G) : Set G)) :
     K ≤ Subgroup.normalizer (T : Set G) ⊔ X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdiv : T.relIndex K ∣ T.relIndex ⊤ :=
     ⟨_, (Subgroup.relIndex_mul_relIndex T K ⊤ hTK le_top).symm⟩
   have hTK2 : IsSylowIn 2 T K :=
@@ -22,7 +22,7 @@ theorem le_normalizer_sup_of_normal {K X T : Subgroup G} (hT : IsSylowIn 2 T ⊤
   have hMK : X ⊔ T ≤ K := sup_le hXK hTK
   have hN : ((X ⊔ T).subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMK).mpr hn
-  haveI : Finite (Sylow 2 K) :=
+  have : Finite (Sylow 2 K) :=
     Finite.of_injective (fun P : Sylow 2 K => (P : Set K)) SetLike.coe_injective
   obtain ⟨P, hPT⟩ : ∃ P : Sylow 2 K, (P : Subgroup K) = T.subgroupOf K :=
     ⟨hTK2.toSylow, IsSylowIn.coe_toSylow hTK2⟩

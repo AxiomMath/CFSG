@@ -85,8 +85,8 @@ theorem swR_spec (x : ℕ → G) {m SV v : ℕ} (hd : ∀ k, dg v k < 3)
 
 theorem nv_unit9 (x : ℕ → G) {k : ℕ} (hk : k < 9) : nv x 9 (4 ^ k) = x k := by
   unfold nv
-  rw [prod_range_single _ 9 hk fun m _ hmk => by rw [dg_unit, if_neg hmk, pow_zero]]
-  rw [dg_unit, if_pos rfl, pow_one]
+  rw [prod_range_single _ 9 hk fun m _ hmk => by rw [dg_unit, ite_eq_right hmk, pow_zero]]
+  rw [dg_unit, ite_eq_left rfl, pow_one]
 
 theorem nv_zero9 (x : ℕ → G) : nv x 9 0 = 1 := by
   unfold nv
@@ -163,8 +163,7 @@ theorem pcRelS :
     have hi : i < 9 := by omega
     have hcj := (hd.2 i hi).2.2 j hj9
     have hrel := hj i hi j hj9
-    simp only [CFSG.KS.PK.bIf_eq, Nat.blt_eq, hij, ↓reduceIte, CFSG.KS.PK.strictB_eq,
-      CFSG.KS.PK.bAnd_eq, Bool.and_eq_true, cj_index] at hcj hrel
+    simp only [CFSG.KS.PK.bIf_eq, Nat.blt_eq, hij, ↓reduceIte, Bool.and_eq_true, cj_index] at hcj hrel
     obtain ⟨C1, C2⟩ := swS_spec hcj.1
     obtain ⟨I1, I2⟩ := nwR_spec aE (vecOK_dg (sv_ok i hi))
     obtain ⟨J1, J2⟩ := nwR_spec aE (vecOK_dg (sv_ok j hj9))
@@ -266,8 +265,7 @@ theorem card_S_le :
     have hj9 := j.isLt
     have hij' : i.val < j.val := hij
     have hcj := (hd.2 i i.isLt).2.2 j hj9
-    simp only [CFSG.KS.PK.bIf_eq, Nat.blt_eq, hij', ↓reduceIte, CFSG.KS.PK.strictB_eq,
-      CFSG.KS.PK.bAnd_eq, Bool.and_eq_true, cj_index] at hcj
+    simp only [CFSG.KS.PK.bIf_eq, Nat.blt_eq, hij', ↓reduceIte, Bool.and_eq_true, cj_index] at hcj
     have hc := Nat.eq_of_beq_eq_true hcj.2
     have h4 : Nat.shiftLeft 1 (Nat.shiftLeft j.val 1) = 4 ^ j.val := by
       change 1 <<< (j.val <<< 1) = _
@@ -339,7 +337,6 @@ theorem S_le_centralizer :
   have e := sE_comm hk
   first
     | exact Subgroup.mem_centralizer_singleton_iff.2 e
-    | exact Subgroup.mem_centralizer_singleton_iff.2 e.symm
 
 end CertificateChecks.KernelFi23Q
 

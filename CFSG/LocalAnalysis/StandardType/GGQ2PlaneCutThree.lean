@@ -34,7 +34,7 @@ private noncomputable def l02qfrp_centToProd {t : ℕ} (k : PlaneKind) (e : V t)
     · funext i; simp
   map_smul' c w := by
     apply Prod.ext
-    · simp [mul_comm, mul_left_comm, mul_assoc]
+    · simp [mul_left_comm]
     · funext i; simp
 
 private lemma l02qfrp_centToProd_injective {t : ℕ} (k : PlaneKind) (e : V t) (i₀ : Fin t)
@@ -70,20 +70,20 @@ private lemma l02qfrp_centToProd_surjective {t : ℕ} (k : PlaneKind) (e : V t) 
   refine ⟨⟨fun i => if h : i ∈ Code.extSupport e then p.1 * e i else p.2 ⟨i, h⟩, ?_⟩, ?_⟩
   · rw [mem_cent_extension]
     intro i hi j hj
-    simp only [dif_pos hi, dif_pos hj]
+    simp only [dite_eq_left hi, dite_eq_left hj]
     calc e i * (p.1 * e i) = p.1 * (e i * e i) := by ring
       _ = p.1 * 1 := by rw [l02qfrp_sq_eq_one (e i) (by simpa using hi)]
       _ = p.1 * (e j * e j) := by rw [l02qfrp_sq_eq_one (e j) (by simpa using hj)]
       _ = e j * (p.1 * e j) := by ring
   · apply Prod.ext
     · dsimp [l02qfrp_centToProd]
-      rw [dif_pos hi₀]
+      rw [dite_eq_left hi₀]
       calc e i₀ * (p.1 * e i₀) = p.1 * (e i₀ * e i₀) := by ring
         _ = p.1 * 1 := by rw [l02qfrp_sq_eq_one (e i₀) (by simpa using hi₀)]
         _ = p.1 := mul_one p.1
     · funext i
       dsimp [l02qfrp_centToProd]
-      rw [dif_neg i.2]
+      rw [dite_eq_right i.2]
 
 private lemma l02qfrp_label_extension_tag {t : ℕ} (k : PlaneKind) (e : V t) :
     (label k (Code.extension e)).tag = .A ∨ (label k (Code.extension e)).tag = .twA := by
@@ -121,7 +121,7 @@ private lemma l02qfrp_ggLabelIso_eq_of_rank_ge_four {lab lab' : LargeEvenLabel}
   · obtain ⟨_, h2⟩ := h; rw [h2] at hrank; simp at hrank
 
 private lemma l02qfrp_not_twoNodeLabels {labK labJ : LargeEvenLabel}
-    (hK : labK.tag = .A ∨ labK.tag = .twA)
+    (_hK : labK.tag = .A ∨ labK.tag = .twA)
     (hJ : labJ.tag = .A ∨ labJ.tag = .twA)
     (hr : ¬ labK.rank = labJ.rank + 2) :
     ¬ TwoNodeLabels 3 labK labJ := by

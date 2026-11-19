@@ -31,7 +31,7 @@ theorem absKInv_psl2 {F : Type} [Field F] [Finite F] {r n : ℕ} [Fact r.Prime] 
       x = 1 := by
     rintro x ⟨k, hk⟩ hx
     obtain ⟨w, hw, rfl⟩ := l46e_aut_fix_sylow hF W x hx
-    obtain ⟨j, hj⟩ := orderOf_conj_eq_pow (Fact.out : r.Prime) W.isPGroup' hw
+    obtain ⟨j, hj⟩ := orderOf_conj_eq_pow (Fact.out : r.Prime) W.isPGroup hw
     have hcop : Nat.Coprime (2 ^ k) (r ^ j) :=
       Nat.Coprime.pow _ _ ((Nat.coprime_primes Nat.prime_two (Fact.out : r.Prime)).2 (Ne.symm hr2))
     rw [hk] at hj
@@ -102,7 +102,7 @@ theorem isElemAbelian_card_sylow_psl2 {F : Type} [Field F] [Finite F] {r n : ℕ
     exact (hrp.odd_of_ne_two hr2).pow
   have h2 : (2 : F) ≠ 0 := CFSG.GH74.GLS.IVK.L2Borel.two_ne_zero_of_odd_card hodd
   have hchar : (r : F) = 0 := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     have h0 : ((Fintype.card F : ℕ) : F) = 0 := Nat.cast_card_eq_zero F
     rw [← Nat.card_eq_fintype_card, hF] at h0
     push_cast at h0
@@ -153,7 +153,7 @@ theorem absKN_generic {S : Type} [Group S] [Finite S] {r : ℕ} (hrp : r.Prime) 
     have hdvd : r ∣ Nat.card X := by
       by_contra h
       exact hnc ((Nat.Prime.coprime_iff_not_dvd hrp).2 h)
-    haveI : Fact r.Prime := ⟨hrp⟩
+    have : Fact r.Prime := ⟨hrp⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' r hdvd
     have hx1 := hXr (x : MulAut S) x.2 ⟨1, by rw [Subgroup.orderOf_coe, hx, pow_one]⟩
     have h1 : orderOf (x : MulAut S) = 1 := by rw [hx1, orderOf_one]
@@ -234,12 +234,12 @@ theorem absKN_psl2 {F : Type} [Field F] [Finite F] {r n : ℕ} [Fact r.Prime] (h
     exact h4
   · intro α hα
     obtain ⟨w, hw, rfl⟩ := l46e_aut_fix_sylow hF W α hα
-    exact orderOf_conj_eq_pow hrp W.isPGroup' hw
+    exact orderOf_conj_eq_pow hrp W.isPGroup hw
 
 theorem absK_of_lieModel_sylow {S : Type} [Group S] [Finite S] {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hL : LieModel S .PSL 2 r 2) (E : Subgroup S) (hE : IsSylowOf r E ⊤) (isL : Prop) :
     AbsKC S r E ∧ AbsKN S r E isL ∧ AbsKInv S E := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨F, _, _, e, -, hFq⟩ := CFSG.GH74.GLS.EvenSelP.exists_l2Field_of_lieModel' hr hr2 hL
   let φ : S ≃* PSL2 F := CFSG.GH74.GLS.IVK.toPSL e
   obtain ⟨-, hSp, hSnd⟩ := isSylowOf_iff.1 hE
@@ -266,12 +266,12 @@ variable {G : Type} [Group G] [Finite G] (m : Mz614 G)
 
 theorem isSylowOf_Ebar_of_lieModel (h620 : m.C620) (hL : LieModel m.Lbar .PSL 2 m.r 2) :
     IsSylowOf m.r m.Ebar ⊤ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hp : IsPGroup m.r m.Ebar := IsPGroup.of_card (m.card_Ebar h620)
   obtain ⟨P, hP⟩ := hp.exists_le_sylow
   have hPsyl : IsSylowOf m.r (P : Subgroup m.Lbar) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact P.not_dvd_index
   have hPcard := (UC22.uc22p22q_psl2_sylow_elem m.hr m.d.odd hL hPsyl).2

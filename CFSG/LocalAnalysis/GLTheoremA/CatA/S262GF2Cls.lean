@@ -141,25 +141,21 @@ theorem gf2Lin_cases {e : TauCeti.LieTypeIndex} (h : gf2Lin e) :
     ∃ (r : ℕ) (q : TauCeti.PrimePower), e = .A r q ∧ 4 ≤ r ∧ q.card = 2 := by
   cases e <;> simp only [gf2Lin] at h
   · exact ⟨_, _, rfl, h.1, h.2⟩
-  all_goals exact h.elim
 
 theorem gf2Symp_cases {e : TauCeti.LieTypeIndex} (h : gf2Symp e) :
     ∃ (r : ℕ) (q : TauCeti.PrimePower), e = .B r q ∧ 5 ≤ r ∧ q.card = 2 := by
   cases e <;> simp only [gf2Symp] at h
   · exact ⟨_, _, rfl, h.1, h.2⟩
-  all_goals exact h.elim
 
 theorem gf2OrthPlus_cases {e : TauCeti.LieTypeIndex} (h : gf2OrthPlus e) :
     ∃ (r : ℕ) (q : TauCeti.PrimePower), e = .D r q ∧ 5 ≤ r ∧ q.card = 2 := by
   cases e <;> simp only [gf2OrthPlus] at h
   · exact ⟨_, _, rfl, h.1, h.2⟩
-  all_goals exact h.elim
 
 theorem gf2OrthMinus_cases {e : TauCeti.LieTypeIndex} (h : gf2OrthMinus e) :
     ∃ (r : ℕ) (q : TauCeti.PrimePower), e = .twistedD r q ∧ 6 ≤ r ∧ q.card = 2 := by
   cases e <;> simp only [gf2OrthMinus] at h
   · exact ⟨_, _, rfl, h.1, h.2⟩
-  all_goals exact h.elim
 
 theorem fixed_perfect_gf2Lin :
     ∀ (d : TauCeti.ValidLieTypeIndex) [Finite (TauCeti.CFSGIndex.lie d).Group],
@@ -176,7 +172,7 @@ theorem fixed_perfect_gf2Lin :
     CFSG.AGLEmbedding.KFactProofs.CoverFive.statedClassicalModel_psl_of_typeA
       r q hv (MulEquiv.refl _)
   rw [hp2, hqe] at hmodel
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group :=
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group :=
     CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmodel
   have hauto :=
     CFSG.LocalAnalysis.RankThreeTheoremC.BlockB.OuterThree.autThreePowInner_typeA_two
@@ -201,7 +197,7 @@ theorem fixed_perfect_gf2Symp :
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeB_even
       r q hv hp2 (by omega) (MulEquiv.refl _)
   rw [hp2, hqe] at hmodel
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.B r q, hv⟩).Group :=
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.B r q, hv⟩).Group :=
     CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmodel
   have hauto :=
     CFSG.LocalAnalysis.RankThreeTheoremC.BlockB.OuterThree.autThreePowInner_typeB_two
@@ -226,7 +222,7 @@ theorem fixed_perfect_gf2OrthPlus :
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeD_even
       r q hv hp2 (MulEquiv.refl _)
   rw [hp2, hqe] at hmodel
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.D r q, hv⟩).Group :=
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.D r q, hv⟩).Group :=
     CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmodel
   have hauto :=
     CFSG.LocalAnalysis.RankThreeTheoremC.BlockB.OuterThree.autThreePowInner_typeD_two
@@ -251,7 +247,7 @@ theorem fixed_perfect_gf2OrthMinus :
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeTwistedD_even
       r q hv hp2 (MulEquiv.refl _)
   rw [hp2, hqe] at hmodel
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.twistedD r q, hv⟩).Group :=
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.twistedD r q, hv⟩).Group :=
     CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmodel
   have hauto :=
     CFSG.LocalAnalysis.RankThreeTheoremC.BlockB.OuterThree.autThreePowInner_typeTwistedD_two
@@ -264,8 +260,7 @@ theorem fixed_perfect_gf2OrthMinus :
 theorem good3On_gf2Lin (hPL : KD264PL 3) : Good3On gf2Lin :=
   good3On_of_fixed_perfect hPL (fun e he => by
     cases e <;> simp only [gf2Lin] at he
-    · exact three_ne_characteristic_of_card_two (TauCeti.LieTypeIndex.characteristic_A _ _) he.2
-    all_goals exact he.elim)
+    · exact three_ne_characteristic_of_card_two (TauCeti.LieTypeIndex.characteristic_A _ _) he.2)
     (by
       intro d _ hd
       exact fixed_perfect_gf2Lin d hd)
@@ -273,8 +268,7 @@ theorem good3On_gf2Lin (hPL : KD264PL 3) : Good3On gf2Lin :=
 theorem good3On_gf2Symp (hPL : KD264PL 3) : Good3On gf2Symp :=
   good3On_of_fixed_perfect hPL (fun e he => by
     cases e <;> simp only [gf2Symp] at he
-    · exact three_ne_characteristic_of_card_two (TauCeti.LieTypeIndex.characteristic_B _ _) he.2
-    all_goals exact he.elim)
+    · exact three_ne_characteristic_of_card_two (TauCeti.LieTypeIndex.characteristic_B _ _) he.2)
     (by
       intro d _ hd
       exact fixed_perfect_gf2Symp d hd)
@@ -282,8 +276,7 @@ theorem good3On_gf2Symp (hPL : KD264PL 3) : Good3On gf2Symp :=
 theorem good3On_gf2OrthPlus (hPL : KD264PL 3) : Good3On gf2OrthPlus :=
   good3On_of_fixed_perfect hPL (fun e he => by
     cases e <;> simp only [gf2OrthPlus] at he
-    · exact three_ne_characteristic_of_card_two (TauCeti.LieTypeIndex.characteristic_D _ _) he.2
-    all_goals exact he.elim)
+    · exact three_ne_characteristic_of_card_two (TauCeti.LieTypeIndex.characteristic_D _ _) he.2)
     (by
       intro d _ hd
       exact fixed_perfect_gf2OrthPlus d hd)
@@ -292,8 +285,7 @@ theorem good3On_gf2OrthMinus (hPL : KD264PL 3) : Good3On gf2OrthMinus :=
   good3On_of_fixed_perfect hPL (fun e he => by
     cases e <;> simp only [gf2OrthMinus] at he
     · exact three_ne_characteristic_of_card_two
-        (TauCeti.LieTypeIndex.characteristic_twistedD _ _) he.2
-    all_goals exact he.elim)
+        (TauCeti.LieTypeIndex.characteristic_twistedD _ _) he.2)
     (by
       intro d _ hd
       exact fixed_perfect_gf2OrthMinus d hd)

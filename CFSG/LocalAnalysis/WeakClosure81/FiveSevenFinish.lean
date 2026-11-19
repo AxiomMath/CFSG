@@ -82,7 +82,7 @@ theorem eq_alternatingGroup_of_le_isNaturalPSL2 {n m : ℕ} (hn5 : n = 5)
     {K P : Subgroup (Perm (Fin n))} (hAlt : alternatingGroup (Fin n) ≤ K) (hKP : K ≤ P)
     (hP : IsNaturalPSL2 P m) : K = alternatingGroup (Fin n) := by
   by_contra hne
-  obtain ⟨k, hkK, hkA⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hAlt (Ne.symm hne))
+  obtain ⟨k, hkK, hkA⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hAlt (Ne.symm hne))
   set p0 : Fin n := ⟨0, by omega⟩ with hp0
   set p1 : Fin n := ⟨1, by omega⟩ with hp1
   set p2 : Fin n := ⟨2, by omega⟩ with hp2

@@ -25,7 +25,7 @@ theorem not_perfect_nonsolvable_three {E : Type*} [AddCommGroup E] [Module (ZMod
     have hmem : slHom b Λ g ∈ (slHom b Λ).range := MonoidHom.mem_range.mpr ⟨g, rfl⟩
     rw [hbot, Subgroup.mem_bot] at hmem
     exact hmem
-  haveI : Subsingleton Λ := ⟨fun g h => (h1 g).trans (h1 h).symm⟩
+  have : Subsingleton Λ := ⟨fun g h => (h1 g).trans (h1 h).symm⟩
   exact hns inferInstance
 
 end Three
@@ -116,10 +116,10 @@ theorem sl2OrbitFacts_holds :
     push Not at hlt
     interval_cases p
     · exact absurd rfl hp2
-    · haveI : Module.Finite (ZMod 3) E := Module.Finite.of_finite
+    · have : Module.Finite (ZMod 3) E := Module.Finite.of_finite
       exact (SL2Orb.not_perfect_nonsolvable_three hE Λ hns).elim
     · norm_num at hprime
-  haveI : Module.Finite (ZMod p) E := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) E := Module.Finite.of_finite
   have hcore := SL2Orb.core_disj hp2 hE Λ hns
   refine ⟨hp5, ?_, ?_⟩
   · intro x hx

@@ -14,7 +14,7 @@ abbrev ParityE4Three : Prop := Q3T8.Asc77.CX.ParityE4
 
 theorem centExtThree_of_parityE4 (hnc4 : NC4Three) (h5 : Layer5SqThree)
     (hT : Q3T8.Asc77.CX.LayerTwinFactsFive3) (hP : ParityE4Three) : CentExtThree := by
-  have : Q3T8.Asc77.CX.Facts25V := ⟨by intros; exact hnc4, by intros; exact h5, hT⟩
+  have : Q3T8.Asc77.CX.Facts25V := ⟨by exact hnc4, by exact h5, hT⟩
   exact Q3T8.Asc77.CX.centExt_of_parityE4 hP
 
 theorem c25_E4Three_of_model_facts6 (hnc4 : NC4Three) (h5 : Layer5SqThree)

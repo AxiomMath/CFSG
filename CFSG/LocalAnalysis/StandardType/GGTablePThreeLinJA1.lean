@@ -42,11 +42,11 @@ theorem linJA1_holds :
     simpa only [map_mul, θR.apply_symm_apply] using h1
   have hquasi : CFSG.IsQuasisimple J :=
     ⟨Group.IsPerfect.mk hcomm, (MulEquiv.isSimpleGroup_congr θR).2 hsimple, hnonabQ⟩
-  haveI : Finite J :=
+  have : Finite J :=
     CFSG.RankThree.PerfectCover.finite_of_quasisimple_finite_central_quotient hquasi φE
   have hHasLabel : CFSG.LocalAnalysis.GLTheoremA.Y10F.HasLabel J (fun l => l = lab) := by
     refine ⟨hcomm, lab, hlab2, ?_⟩
-    simp only [CFSG.Open.GLARawDatum, CFSG.Assembly.LargeEvenRawDatum, hAtag]
+    simp only [CFSG.Assembly.LargeEvenRawDatum, hAtag]
     simp only [CFSG.Assembly.LargeEvenRawDatumLegacy, hAtag] at hraw
     obtain ⟨K, hKfield, hKfin, hKcard, hQ'⟩ := hraw
     refine ⟨K, hKfield, hKfin, hKcard, ?_⟩
@@ -57,7 +57,7 @@ theorem linJA1_holds :
     refine ⟨?_⟩
     rw [← CFSG.Assembly.largeEvenSLGroup_eq_statedSL m]
     exact φE
-  haveI : CharP E 2 := hchar
+  have : CharP E 2 := hchar
   obtain ⟨k, _hk, hcardE⟩ := CFSG.RankThree.PartOne.CTP.exists_card_eq_two_pow E
   have hcanon := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.linLabelDict_holds
     J lab m k E hLinJ.1 hcardE hHasLabel hφStated

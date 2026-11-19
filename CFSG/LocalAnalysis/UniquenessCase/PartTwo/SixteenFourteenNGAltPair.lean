@@ -168,7 +168,7 @@ theorem s1614_alt_faithful (hn : 5 ≤ n) (g : Equiv.Perm (Fin n))
       have hp_l : Multiplicative.toAdd
           (s1614_altPair n (g i) (g j) * s1614_altPair n i j) l = 0 := by
         simp only [toAdd_mul, s1614_altPair, toAdd_ofAdd, Pi.add_apply, Pi.single_apply]
-        rw [if_neg hlg, if_neg hlg', if_neg hli, if_neg hlj]
+        rw [ite_eq_right hlg, ite_eq_right hlg', ite_eq_right hli, ite_eq_right hlj]
         decide
       have hall : Multiplicative.toAdd (allOnes n) l = 1 := rfl
       have hcongr := congrArg (fun x : PermMod n => Multiplicative.toAdd x l) hp
@@ -184,15 +184,15 @@ theorem s1614_alt_faithful (hn : 5 ≤ n) (g : Equiv.Perm (Fin n))
     have hcoord := congrArg (fun x : PermMod n => Multiplicative.toAdd x (g i))
       (hpres i j hij)
     simp only [s1614_altPair, toAdd_ofAdd, Pi.add_apply, Pi.single_apply] at hcoord
-    rw [if_neg (fun h => hij (g.injective h))] at hcoord
-    simp only [if_true, add_zero] at hcoord
+    rw [ite_eq_right (fun h => hij (g.injective h))] at hcoord
+    simp only [ite_true, add_zero] at hcoord
     by_cases hi : g i = i
     · simp [hi]
     · by_cases hj : g i = j
       · simp [hj]
       · exfalso
-        rw [if_neg hi, if_neg hj] at hcoord
-        simp only [add_zero, zero_add] at hcoord
+        rw [ite_eq_right hi, ite_eq_right hj] at hcoord
+        simp only [add_zero] at hcoord
         exact one_ne_zero hcoord
   apply Equiv.ext
   intro i

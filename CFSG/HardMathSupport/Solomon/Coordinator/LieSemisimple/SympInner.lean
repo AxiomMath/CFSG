@@ -133,11 +133,11 @@ theorem perfectInLayer_conj_of_orbit_family (π : X →* T) (hπ : Function.Surj
   have hFn : ∀ i, ∀ c ∈ fixSubgroup (MulAut.conj x), ∀ g ∈ F i, c * g * c⁻¹ ∈ F i :=
     fun i c hc' g hg => hnormD i.1 c (hfix ▸ hc') g hg
   have hNn := conj_mem_iSup' (C := fixSubgroup (MulAut.conj x)) F hFn
-  haveI : ((⨆ i, F i).subgroupOf (fixSubgroup (MulAut.conj x))).Normal := by
+  have : ((⨆ i, F i).subgroupOf (fixSubgroup (MulAut.conj x))).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hNn g g.2 n hn
-  haveI hsol : Group.IsSolvable (↥(fixSubgroup (MulAut.conj x)) ⧸
+  have hsol : Group.IsSolvable (↥(fixSubgroup (MulAut.conj x)) ⧸
       (⨆ i, F i).subgroupOf (fixSubgroup (MulAut.conj x))) := by
     refine isSolvable_quotient_of_orbit_family A hc (fun i => CFSG.IsQuasisimple ↥⁅A i, A i⁆)
       (fun i hi => (htame i).resolve_left hi) hfix fun i hi => ?_
@@ -166,7 +166,7 @@ private theorem isTame_of_mulEquiv {G H : Type*} [Group G] [Group H] (e : G ≃*
       (((commutator G).equivMapOfInjective e.toMonoidHom e.injective).trans
         (MulEquiv.subgroupCongr hmap)).symm hq
   · right
-    haveI := hs
+    have := hs
     exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 private theorem isTame_of_isQuasisimple {G : Type*} [Group G] (h : CFSG.IsQuasisimple G) :
@@ -240,7 +240,7 @@ private theorem isTame_sesqUnitaryGroup {ℓ f' : ℕ} {E : Type} [Field E]
   have hq2 : 2 ≤ ℓ ^ f' := by
     have := Nat.one_lt_pow (by have := hE.one_le; omega : f' ≠ 0) hE.prime.one_lt
     omega
-  haveI := finite_generalLinearGroup hE (W := W)
+  have := finite_generalLinearGroup hE (W := W)
   by_cases hm : 2 ≤ Module.finrank E W
   · obtain ⟨hcard, -, -, -, hker, -⟩ := CFSG.LinearGroups.unitary_full_group_order hE hHf hHfl
       rfl (by omega : 1 ≤ Module.finrank E W)
@@ -255,7 +255,7 @@ private theorem isTame_sesqUnitaryGroup {ℓ f' : ℕ} {E : Type} [Field E]
       have hexc : (Module.finrank E W = 2 ∧ ℓ ^ f' = 2) ∨ (Module.finrank E W = 2 ∧ ℓ ^ f' = 3) ∨
           (Module.finrank E W = 3 ∧ ℓ ^ f' = 2) := by
         by_contra hn
-        push_neg at hn
+        push Not at hn
         obtain ⟨h1, h2, h3⟩ := hn
         refine hq ⟨fun h2' => ?_, fun h3' => ?_⟩
         · by_contra hlt
@@ -447,7 +447,7 @@ theorem perfectInLayer_conj_sp {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
       rw [CharP.cast_eq_zero_iff K ℓ] at h
       exact hpℓ ((Nat.prime_dvd_prime_iff_eq hℓ hp).mp h).symm
     have hsq := (CFSG.RankThree.Classical.altPrimaryData_spLin hpK hx).squarefree
-    haveI : Finite (CFSG.RankThree.Classical.reciprocalOrbits (CFSG.RankThree.Classical.spEnd x)) :=
+    have : Finite (CFSG.RankThree.Classical.reciprocalOrbits (CFSG.RankThree.Classical.spEnd x)) :=
       (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
     obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
     exact perfectInLayer_conj_of_orbit_family (SymplecticFlag.proj r K)

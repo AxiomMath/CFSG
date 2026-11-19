@@ -25,14 +25,14 @@ open scoped CFSG.LocalAnalysis.GLTheoremA.Y10F.HypBlocks
 
 variable {n p q : ℕ} {F : Type} [Field F] [Finite F] (h : UnitaryFieldData 2 n F)
 
-private noncomputable def exists_sesqJData {N : ℕ}
+private theorem exists_sesqJData {N : ℕ}
     (A : Subgroup ↥(sesqSpecialUnitaryGroupLE (idForm h N)))
     (hp : p.Prime) (q : ℕ) (S : SesqBlockData h A hp)
     (h4perp : 4 ≤ Module.finrank F
       ↥(Submodule.orthogonalBilin (idForm h N) (blockSpace S.A'' S.D₁.1)))
     (T : SesqTorusData h A hp q S) : SesqJData h A hp q S T := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hc₁ : IsCompl (blockSpace S.A'' S.D₁.1)
       (Submodule.orthogonalBilin (idForm h N) (blockSpace S.A'' S.D₁.1)) :=
     isCompl_blockSpace_orthogonalBilin S.A'' hp S.hpF S.hA''e S.hB S.hBsym.isRefl S.hBn S.D₁
@@ -100,13 +100,13 @@ private noncomputable def exists_sesqJData {N : ℕ}
       exact ⟨⟨x, hx⟩, Subgroup.mem_top _, rfl⟩
   exact ⟨hJle, hzpow, hcompJ, hAnormJ⟩
 
-private noncomputable def exists_sesqQData {N : ℕ}
+private theorem exists_sesqQData {N : ℕ}
     (A : Subgroup ↥(sesqSpecialUnitaryGroupLE (idForm h N)))
     (hp : p.Prime) (q : ℕ) (S : SesqBlockData h A hp)
     (T : SesqTorusData h A hp q S) (J : SesqJData h A hp q S T) :
     SesqQData h A hp q S T := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQleJ : pointwiseStab (sesqSpecialUnitaryGroupLE (idForm h N))
       (blockSpace S.A'' S.D₁.1 ⊔ blockSpace S.A'' S.D₂.1) ≤
       pointwiseStab (sesqSpecialUnitaryGroupLE (idForm h N)) (blockSpace S.A'' S.D₁.1) :=
@@ -179,7 +179,7 @@ private theorem isQuasisimple_pointwiseStab_sup_blockSpace {N : ℕ}
     CFSG.Open.IsQuasisimple ↥(pointwiseStab (sesqSpecialUnitaryGroupLE (idForm h N))
       (blockSpace S.A'' S.D₁.1 ⊔ blockSpace S.A'' S.D₂.1)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hV3le : blockSpace S.A'' S.D₃.1 ≤
       Submodule.orthogonalBilin (idForm h N)
         (blockSpace S.A'' S.D₁.1 ⊔ blockSpace S.A'' S.D₂.1) := by
@@ -255,7 +255,7 @@ private theorem ne_bot_glapLayer {N : ℕ}
           Set ↥(sesqSpecialUnitaryGroupLE (idForm h N))) :
           Set ↥(sesqSpecialUnitaryGroupLE (idForm h N)))) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx₃memQ : T.x₃ ∈ pointwiseStab (sesqSpecialUnitaryGroupLE (idForm h N))
       (blockSpace S.A'' S.D₁.1 ⊔ blockSpace S.A'' S.D₂.1) := by
     rw [mem_pointwiseStab]
@@ -302,7 +302,7 @@ private theorem ne_bot_glapLayer {N : ℕ}
   exact hQne (le_bot_iff.1 (hbot ▸ hle))
 
 theorem concl165Avoid_sesqSpecialUnitaryGroupLE {N : ℕ}
-    (hN : 3 ≤ N) (hm0 : CFSG.LocalAnalysis.GLTheoremA.rk2Ord p n ≠ 2)
+    (_hN : 3 ≤ N) (hm0 : CFSG.LocalAnalysis.GLTheoremA.rk2Ord p n ≠ 2)
     (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Prime) (hq2 : q ≠ 2) (hqd : q ∣ 2 ^ n + 1)
     (A : Subgroup ↥(sesqSpecialUnitaryGroupLE (idForm h N))) (hAe : IsElemAbelian p A)
     (hmax : CFSG.Open.pRank p (⊤ : Subgroup ↥(sesqSpecialUnitaryGroupLE (idForm h N))) ≤
@@ -314,7 +314,7 @@ theorem concl165Avoid_sesqSpecialUnitaryGroupLE {N : ℕ}
         (c : F) • LinearMap.id) :
     Concl165Avoid ↥(sesqSpecialUnitaryGroupLE (idForm h N)) p q A Z := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have S : SesqBlockData h A hp :=
     exists_sesqBlockData (h := h) (A := A) hm0 hp hp2 hAe hmax h3
   have hV2le := blockSpace_le_orthogonalBilin_of_ne (h := h) (A := A) hp S

@@ -25,14 +25,14 @@ theorem prime_dvd_card_of_isComponent {X : Type*} [Group X] [Finite X] {p : ℕ}
     (hO : CFSG.pPrimeCore p X = ⊥) {C : Subgroup X} (hC : CFSG.IsComponent C) :
     p ∣ Nat.card C := by
   by_contra hpdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime p (Nat.card C) := (hp.coprime_iff_not_dvd).mpr hpdvd
   have hle : C ≤ CFSG.pPrimeCore p X :=
     CFSG.GH74.GLS.le_pPrimeCore_of_subnormal p hC.2 hcop
   rw [hO] at hle
   have hbot : C = ⊥ := le_bot_iff.mp hle
   obtain ⟨-, -, a, b, hab⟩ := hC.1
-  haveI : Subsingleton C := by
+  have : Subsingleton C := by
     rw [hbot]
     refine ⟨fun x y => Subtype.ext ?_⟩
     rw [Subgroup.mem_bot.mp x.2, Subgroup.mem_bot.mp y.2]
@@ -55,7 +55,7 @@ theorem ncard_isComponent_le_three (hk : KFactOmegaNotCentral) {X : Type} [Group
 theorem pRank_pCore_le_two (hk : KFactOmegaNotCentral) {X : Type} [Group X] [Finite X]
     (hX : CFSG.Open.IsKGroup X) (hO : CFSG.pPrimeCore 3 X = ⊥) (hr : pRank 3 (⊤ : Subgroup X) ≤ 3)
     {L : Subgroup X} (hL : CFSG.IsComponent L) : pRank 3 (CFSG.pCore 3 X) ≤ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [pRank_coe_eq_open_pRank]
   obtain ⟨A, hA_le, hAab, hAcard⟩ :=
     CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) (CFSG.pCore 3 X)
@@ -73,16 +73,16 @@ theorem le_normalizer_of_isComponent {X : Type*} [Group X] [Finite X] {d : ℕ} 
   let S : Set (Subgroup X) := {C' | CFSG.IsComponent C'}
   have hfin : S.Finite := Set.toFinite S
   let f : ↥W →* MulAut X := (MulAut.conj : X →* MulAut X).comp W.subtype
-  letI : MulAction (MulAut X) (Subgroup X) := Subgroup.pointwiseMulAction
-  letI : MulAction ↥W (Subgroup X) := MulAction.compHom (Subgroup X) f
+  let : MulAction (MulAut X) (Subgroup X) := Subgroup.pointwiseMulAction
+  let : MulAction ↥W (Subgroup X) := MulAction.compHom (Subgroup X) f
   let O : Set (Subgroup X) := MulAction.orbit ↥W C
   have hOsub : O ⊆ S := by
     rintro C' ⟨w, rfl⟩
     change CFSG.IsComponent (C.map (MulAut.conj (w : X)).toMonoidHom)
     exact CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj (w : X)) hC
   have hOfin : O.Finite := hfin.subset hOsub
-  haveI : Finite O := hOfin
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Finite O := hOfin
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨k, hk⟩ := IsPGroup.card_orbit (p := d) (G := ↥W) hW C
   have hcard_le : O.ncard ≤ S.ncard := Set.ncard_le_ncard hOsub hfin
   have hk0 : k = 0 := by

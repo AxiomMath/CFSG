@@ -97,16 +97,16 @@ private lemma l937z_sp_block_pCoreOf_eq_bot {K : Type} [Field K] [Fintype K] [Ch
         exact l937z_sp_pCore_eq_bot_of_mulEquiv iso (pCore_two_StatedSp_eq_bot n₁)
       · obtain ⟨d, m, E, hEfield, hEfin, -, hEcard, -, -, ⟨iso⟩⟩ :=
           blockGroup_iso_Sp_unitary b hb hodd hε heprim h1
-        letI : Field E := hEfield
-        letI : Fintype E := hEfin
-        haveI : Finite E := Fintype.finite hEfin
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        let : Field E := hEfield
+        let : Fintype E := hEfin
+        have : Finite E := Fintype.finite hEfin
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         obtain ⟨f, -, hKcard⟩ := FiniteField.card K 2
         have hEtwo : Fintype.card E = 2 ^ (2 * ((f : ℕ) * d)) := by
           rw [hEcard, hKcard, ← pow_mul, ← pow_mul]
           congr 1
           ring
-        haveI : CharP E 2 := charP_of_card_eq_prime_pow (p := 2)
+        have : CharP E 2 := charP_of_card_eq_prime_pow (p := 2)
           (f := 2 * ((f : ℕ) * d)) hEtwo
         have hEnat : Nat.card E = (Fintype.card K ^ d) ^ 2 := by
           rw [Nat.card_eq_fintype_card]
@@ -127,14 +127,14 @@ private lemma l937z_sp_block_pCoreOf_eq_bot {K : Type} [Field K] [Fintype K] [Ch
           rw [hs, hs']
       obtain ⟨d, m, E, hEfield, hEfin, -, hEcard, -, -, ⟨iso⟩⟩ :=
         blockGroup_iso_Sp_linear b hb hodd hε he hstar (Ne.symm hstarne) hsum
-      letI : Field E := hEfield
-      letI : Fintype E := hEfin
-      haveI : Finite E := Fintype.finite hEfin
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      let : Field E := hEfield
+      let : Fintype E := hEfin
+      have : Finite E := Fintype.finite hEfin
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨f, -, hKcard⟩ := FiniteField.card K 2
       have hEtwo : Fintype.card E = 2 ^ ((f : ℕ) * d) := by
         rw [hEcard, hKcard, ← pow_mul]
-      haveI : CharP E 2 := charP_of_card_eq_prime_pow (p := 2)
+      have : CharP E 2 := charP_of_card_eq_prime_pow (p := 2)
         (f := (f : ℕ) * d) hEtwo
       exact l937z_sp_pCore_eq_bot_of_mulEquiv iso (pCore_two_GL_eq_bot m)
   rw [pCoreOf, hmain, Subgroup.map_bot]
@@ -144,7 +144,7 @@ theorem pCoreOf_centralizer_StatedSp_eq_bot {K : Type} [Field K] [Fintype K] [Ch
     pCoreOf 2 ((Subgroup.centralizer ({b} : Set (GL (Fin n ⊕ Fin n) K))).comap
       (StatedSp n K).subtype) = ⊥ := by
   classical
-  haveI : Finite K := Fintype.finite (inferInstance : Fintype K)
+  have : Finite K := Fintype.finite (inferInstance : Fintype K)
   obtain ⟨P, hPprim, _, _, hPcomm, hPsup, hPcard⟩ :=
     centralizer_block_decomp_Sp b hb hodd
   let C : Subgroup ↥(StatedSp n K) :=

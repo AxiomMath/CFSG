@@ -17,6 +17,7 @@ variable {Y : Type} [Group Y] [Finite Y]
 @[expose] def NoCommonNbr (D : Set Y) (d : Y) : Prop :=
   ∀ e ∈ D, ¬ Commute d e → ∀ w ∈ D, Commute w d → Commute w e → False
 
+omit [Finite Y] in
 theorem noCommonNbr_of_mem {D : Set Y} (hD : ∃ d₀ : Y, D = {g | IsConj d₀ g}) {v : Y}
     (hv : v ∈ D) (h : NoCommonNbr D v) : ∀ d ∈ D, NoCommonNbr D d := by
   obtain ⟨d₀, rfl⟩ := hD
@@ -43,12 +44,14 @@ theorem noCommonNbr_of_mem {D : Set Y} (hD : ∃ d₀ : Y, D = {g | IsConj d₀ 
   · rw [← hcd]; exact (hconj w d).mp hwd
   · exact (hconj w e).mp hwe
 
+omit [Finite Y] in
 theorem commute_of_noCommonNbr {D : Set Y} (h : ∀ d ∈ D, NoCommonNbr D d) {d a b : Y}
     (ha : a ∈ D) (hb : b ∈ D) (hd : d ∈ D) (had : Commute a d) (hbd : Commute b d) :
     Commute a b := by
   by_contra hab
   exact h a ha b hb hab d hd had.symm hbd.symm
 
+omit [Finite Y] in
 theorem mem_mul_center_of_noCommonNbr {D : Set Y} (h : ∀ d ∈ D, NoCommonNbr D d)
     (hinv : ∀ d ∈ D, orderOf d = 2) (hnc : ∀ d ∈ D, d ∉ Subgroup.center Y) (hE1 : NoSqE1 D)
     {d a : Y} (hd : d ∈ D) (ha : a ∈ D) (had : Commute a d) :
@@ -61,9 +64,9 @@ theorem mem_mul_center_of_noCommonNbr {D : Set Y} (h : ∀ d ∈ D, NoCommonNbr 
     exact (commute_of_noCommonNbr h hxD hyD hd
       (Subgroup.mem_centralizer_singleton_iff.mp hxC)
       (Subgroup.mem_centralizer_singleton_iff.mp hyC)).eq
-  haveI hcommC : IsMulCommutative C₀ :=
+  have hcommC : IsMulCommutative C₀ :=
     Subgroup.isMulCommutative_closure fun x hx y hy _ => hgen x hx y hy
-  letI : CommGroup C₀ := by
+  let : CommGroup C₀ := by
     open scoped IsMulCommutative in exact inferInstance
   have hsq : ∀ x ∈ C₀, x * x = 1 := by
     intro x hx
@@ -102,6 +105,7 @@ theorem mem_mul_center_of_noCommonNbr {D : Set Y} (h : ∀ d ∈ D, NoCommonNbr 
     exact (QuotientGroup.eq_one_iff _).1 this
   · rw [h1, zpow_one]
 
+omit [Finite Y] in
 theorem isolated_mk_of_noCommonNbr {D : Set Y} (hD : ∃ d₀ : Y, D = {g | IsConj d₀ g})
     (hroot : CFSG.Timmesfeld.IsRootInvolutionSet D) (hdeg : ∀ d ∈ D, ∀ e ∈ D, orderOf (d * e) ≠ 4)
     (hnc : ∀ d ∈ D, d ∉ Subgroup.center Y) (hE1 : NoSqE1 D) (h : ∀ d ∈ D, NoCommonNbr D d)
@@ -161,12 +165,12 @@ theorem false_of_isolated_mk
         g * QuotientGroup.mk' (Subgroup.center Y) d * g⁻¹ = QuotientGroup.mk' _ d) :
     False := by
   classical
-  haveI : Fintype (Y ⧸ Subgroup.center Y) := Fintype.ofFinite _
+  have : Fintype (Y ⧸ Subgroup.center Y) := Fintype.ofFinite _
   set t := QuotientGroup.mk' (Subgroup.center Y) d with ht
   have ht1 : t ≠ 1 := fun h => hdZ ((QuotientGroup.eq_one_iff d).1 h)
   have ht2 : t * t = 1 := by rw [ht, ← map_mul, hd2, map_one]
   obtain ⟨N, hN, hodd, hNt⟩ := CFSG.ZStar.glauberman_zStar _ t ht1 ht2 hiso
-  haveI := hN
+  have := hN
   have hsolvN : Group.IsSolvable N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   have hbot : N = ⊥ := CFSG.Timmesfeld.solvable_normal_eq_bot_quotient_center hsolv N hsolvN
   have htc : t ∈ Subgroup.center (Y ⧸ Subgroup.center Y) := by
@@ -180,7 +184,7 @@ theorem false_of_isolated_mk
     calc g * t = g * t * g⁻¹ * g := by group
       _ = t * g := by rw [h2]
   have hZs : Group.IsSolvable (Subgroup.center (Y ⧸ Subgroup.center Y)) :=
-    isSolvable_of_comm fun a b => Subtype.ext ((Subgroup.mem_center_iff.mp a.2 b).symm)
+    _root_.Group.isSolvable_of_comm fun a b => Subtype.ext ((Subgroup.mem_center_iff.mp a.2 b).symm)
   have hZ := CFSG.Timmesfeld.solvable_normal_eq_bot_quotient_center hsolv _ hZs
   rw [hZ, Subgroup.mem_bot] at htc
   exact ht1 htc
@@ -230,7 +234,7 @@ theorem noCommonNbr_of_noSqE1 (hd : Sec23Data V H) (h2 : Nat.card (barOf V H V) 
   have hv1 : v ≠ 1 := fun h => hv1' (Subtype.ext h)
   have hvX : v ∈ barOf V H (xOf V H) := barOf_V_le V H hvV
   set v' : Xbar V H := ⟨v, hvX⟩ with hv'_def
-  have hv'D : v' ∈ Dy V H := hc.barOf_V_subset_dbarOf hvV hv1
+  have hv'D : v' ∈ Dy V H := CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf hvV hv1
   have hv'2 : v' * v' = 1 := by
     rw [← sq]
     have := hd.root.1 v' hv'D
@@ -238,7 +242,7 @@ theorem noCommonNbr_of_noSqE1 (hd : Sec23Data V H) (h2 : Nat.card (barOf V H V) 
   have hv2 : v * v = 1 := by
     have := congrArg Subtype.val hv'2
     simpa using this
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hov : orderOf v = 2 := orderOf_eq_prime (by rw [sq]; exact hv2) hv1
   have hVv : barOf V H V = Subgroup.zpowers v := by
     refine (Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 hvV) ?_).symm
@@ -355,7 +359,7 @@ theorem noCommonNbr_of_noSqE1 (hd : Sec23Data V H) (h2 : Nat.card (barOf V H V) 
     have hfX : p * (w : Hbar V H) * p⁻¹ ∈ barOf V H (xOf V H) :=
       (normal_barOf_xOf V H).conj_mem _ w.2 p
     set f : Xbar V H := ⟨_, hfX⟩ with hf_def
-    have hfD : f ∈ D := hc.conj_mem_dbarOf (y := p) hwD
+    have hfD : f ∈ D := CFSG.RankThree.GF2n.Tim79a.MinCex.conj_mem_dbarOf (y := p) hwD
     have hpv : Commute p v := hPv p hp
     have hwv' : Commute (w : Hbar V H) v := by
       show (w : Hbar V H) * v = v * (w : Hbar V H)
@@ -400,7 +404,7 @@ theorem noCommonNbr_of_noSqE1 (hd : Sec23Data V H) (h2 : Nat.card (barOf V H V) 
         have hwζ : (w : Hbar V H) = v * ζ := by
           have : w = v' * (v'⁻¹ * w) := by group
           have := congrArg Subtype.val this
-          simpa [hv'_def, hζ] using this
+          simp [hv'_def, hζ]
         have hζv : ζ * v = v * ζ := by
           have := congrArg Subtype.val (Subgroup.mem_center_iff.mp hz₂ v')
           simpa [hv'_def, hζ] using this.symm
@@ -492,7 +496,7 @@ theorem noCommonNbr_of_noSqE1 (hd : Sec23Data V H) (h2 : Nat.card (barOf V H V) 
     have hwinv : w⁻¹ = w := inv_eq_of_mul_eq_one_right (hDinv w hwD)
     have := hwY y⁻¹
     simpa [commutatorElement_def, hwinv, mul_assoc] using this
-  have hbot := hc.tilde_noSolvable hd (Subgroup.center (Xbar V H ⧸ Subgroup.center (Xbar V H)))
+  have hbot := CFSG.RankThree.GF2n.Tim79a.MinCex.tilde_noSolvable hd (Subgroup.center (Xbar V H ⧸ Subgroup.center (Xbar V H)))
     inferInstance inferInstance
   rw [hbot, Subgroup.mem_bot] at hwc
   exact hd.noncentral w hwD ((QuotientGroup.eq_one_iff w).mp hwc)
@@ -508,10 +512,10 @@ theorem isPGroup_quotient_of_characteristic (hd : Sec23Data V H)
     (N : Subgroup (Xbar V H)) [N.Characteristic] (hN : ¬ N ≤ Subgroup.center (Xbar V H)) :
     IsPGroup 2 (Xbar V H ⧸ N) := by
   classical
-  haveI hXn : (barOf V H (xOf V H)).Normal := normal_barOf_xOf V H
+  have hXn : (barOf V H (xOf V H)).Normal := normal_barOf_xOf V H
   set Xs := barOf V H (xOf V H) with hXs
   set Nb : Subgroup (Hbar V H) := N.map Xs.subtype with hNb
-  haveI hNbn : Nb.Normal := normal_map_subtype_of_characteristic N
+  have hNbn : Nb.Normal := normal_map_subtype_of_characteristic N
   set N₀ : Subgroup G := preimOf V H Nb with hN₀
   have hN₀H : N₀ ≤ H := preimOf_le_H V H Nb
   have hKH : N₀ ⊔ P ≤ H := sup_le hN₀H hc.PleH
@@ -602,12 +606,12 @@ theorem isPGroup_quotient_of_characteristic (hd : Sec23Data V H)
         have := hkey n⁻¹ (N.inv_mem hn) _ hx
         simpa [mul_assoc] using this⟩
     have hTbO : Tb ≤ inSubgroup (pCore 2) N := le_inSubgroup_pCore hTbN hNTb hTb2
-    haveI : N.Normal := inferInstance
-    haveI hOn' : (inSubgroup (pCore 2) N).Normal :=
+    have : N.Normal := inferInstance
+    have hOn' : (inSubgroup (pCore 2) N).Normal :=
       normal_map_subtype_of_characteristic (pCore 2 ↥N)
     have hOsol : Group.IsSolvable (inSubgroup (pCore 2) N) := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Group.IsNilpotent (inSubgroup (pCore 2) N) :=
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Group.IsNilpotent (inSubgroup (pCore 2) N) :=
         IsPGroup.isNilpotent (inSubgroup_pCore_two N).1
       infer_instance
     have hTbZ : Tb ≤ Subgroup.center (Xbar V H) := hTbO.trans (hd.solv _ hOn' hOsol)
@@ -692,7 +696,7 @@ theorem isPGroup_quotient_of_characteristic (hd : Sec23Data V H)
       have h2 := (inferInstance : (Subgroup.center (Xbar V H)).Normal).conj_mem _ h1 n⁻¹
       have e : n⁻¹ * (y⁻¹ * n * y⁻¹⁻¹ * n⁻¹) * n⁻¹⁻¹ = (y * n)⁻¹ * (n * y) := by group
       rw [← e]; exact h2
-    have hbot := hc.tilde_noSolvable hd (Subgroup.center (Xbar V H ⧸ Subgroup.center (Xbar V H)))
+    have hbot := CFSG.RankThree.GF2n.Tim79a.MinCex.tilde_noSolvable hd (Subgroup.center (Xbar V H ⧸ Subgroup.center (Xbar V H)))
       inferInstance inferInstance
     rw [hbot, Subgroup.mem_bot] at hnc
     exact (QuotientGroup.eq_one_iff n).mp hnc

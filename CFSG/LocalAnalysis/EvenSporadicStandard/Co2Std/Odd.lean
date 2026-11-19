@@ -115,7 +115,7 @@ theorem TwoCentralSetting.odd_index_centralizer [Finite G] [IsSimpleGroup G]
     have := Sylow.not_dvd_index P
     rw [← heq] at this
     exact this hnotSylow
-  obtain ⟨n, hnP, hnS, hn⟩ := exists_mem_normalizer_not_mem P.isPGroup' hSltP
+  obtain ⟨n, hnP, hnS, hn⟩ := exists_mem_normalizer_not_mem P.isPGroup hSltP
   have hPcent : ∀ y ∈ (P : Subgroup G), y * z = z * y → y ∈ S := by
     intro y hyP hyz
     have hyC : y ∈ centralizer ({z} : Set G) := mem_centralizer_singleton_iff.2 hyz
@@ -128,7 +128,7 @@ theorem TwoCentralSetting.odd_index_centralizer [Finite G] [IsSimpleGroup G]
       simpa using this
     have hR : (P : Subgroup G) ⊓ L = SL := by
       refine h.maximal _ inf_le_right ?_ (le_inf (hSLS.trans hSP) h.le)
-      exact P.isPGroup'.to_le inf_le_left
+      exact P.isPGroup.to_le inf_le_left
     have hlSL : l ∈ SL := by rw [← hR]; exact ⟨hlP, hl⟩
     exact mul_mem_sup hlSL hb
   have hzP : z ∈ (P : Subgroup G) := hSP hzS
@@ -201,8 +201,8 @@ theorem TwoCentralSetting.odd_index_centralizer [Finite G] [IsSimpleGroup G]
     · exact h1
   have hPnt : Nontrivial (P : Subgroup G) :=
     ⟨⟨⟨z, hzP⟩, 1, fun h1 => h.z_ne (congrArg Subtype.val h1)⟩⟩
-  have hZnt : Nontrivial (center (P : Subgroup G)) := P.isPGroup'.center_nontrivial
-  have hZp : IsPGroup 2 (center (P : Subgroup G)) := P.isPGroup'.to_subgroup _
+  have hZnt : Nontrivial (center (P : Subgroup G)) := P.isPGroup.center_nontrivial
+  have hZp : IsPGroup 2 (center (P : Subgroup G)) := P.isPGroup.to_subgroup _
   have h2dvd : 2 ∣ Nat.card (center (P : Subgroup G)) := by
     rcases hZp.card_eq_or_dvd with h1 | h1
     · exfalso

@@ -24,6 +24,7 @@ section Finite
 
 variable {G : Type} [Group G] [Finite G] {G₂ T M₂ R : Subgroup G}
 
+omit [Finite G] in
 theorem isAltType_three_of_inClassXBlock {L : Subgroup G}
     (hL : CFSG.AGLEmbedding.InClassXBlock L) (hsolv : Group.IsSolvable ↥L) : IsAltType L 3 := by
   have hcard := C1Pack.natCard_pCore_quotient_eq_three_of_isShort2 hL.1 hsolv
@@ -93,7 +94,7 @@ theorem prodA3Blocks_of_factorization (hF : CFSG.CGT.PushingUpLit.AschbacherLoca
   have hR1 : R ≠ ⊥ := CFSG.AGLEmbedding.LocalCGT.ne_bot_of_isSylowTwoOf hXchar hsyl hX0
   have hcgs : cgsIn (twoResidual G₂ ⊔ R) R ≤ M₂ ⊓ (twoResidual G₂ ⊔ R) :=
     FourBlocks.cgsIn_le_inf hmp hXG₂ hTR hno
-  haveI := hXsolv
+  have := hXsolv
   obtain ⟨Y, ⟨hYX, hYs, hYx⟩, hYM⟩ := hF.relative
     (CFSG.AGLEmbedding.LocalCGT.kProper_of_isKGroup (isKGroup_of_isSolvable _))
     (CFSG.AGLEmbedding.LocalCGT.isCharacteristicP_of_charTwo hXchar)

@@ -119,7 +119,7 @@ theorem exists_mul_mem_normalizer_of_maxPSubgroup [Finite G] {p : ℕ} [Fact p.P
     ∃ c ∈ C, c * n ∈ Subgroup.normalizer (U : Set G) := by
   obtain ⟨S, hS⟩ := (hUp.comap_subtype (K := C)).exists_le_sylow
   have hSU : (S : Subgroup C).map C.subtype = U :=
-    hmax _ (Subgroup.map_subtype_le _) (S.isPGroup'.map _)
+    hmax _ (Subgroup.map_subtype_le _) (S.isPGroup.map _)
       (fun u hu => ⟨⟨u, hUC hu⟩, hS (Subgroup.mem_subgroupOf.mpr hu), rfl⟩)
   have hVC : ∀ u ∈ U, n * u * n⁻¹ ∈ C := fun u hu =>
     (Subgroup.mem_normalizer_iff.mp hn u).mp (hUC hu)

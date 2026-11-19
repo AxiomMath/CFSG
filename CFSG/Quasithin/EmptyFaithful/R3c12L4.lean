@@ -158,7 +158,7 @@ theorem isSylow_U4 : IsSylowTwoOf U4 ⊤ := by
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := ZMod 2) 2 (n := 4) (by norm_num)
   refine K1.isSylowTwoOf_top_iff.mpr ⟨?_, ?_⟩
   · rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   · rw [← hP]
     exact P.not_dvd_index
 

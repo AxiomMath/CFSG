@@ -20,7 +20,7 @@ theorem wcLie_defChar {K : Type} [Group K] [Finite K] {t : StatedLieTag} {n ℓ 
     (hadm : StatedLieAdmissible t n ℓ f) (h : LieModel K t n ℓ f) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hpℓ : p = ℓ) : WCOn p K := by
   subst hpℓ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   cases t with
   | PSL =>
     have hcl := h.statedClassicalModel (by decide)

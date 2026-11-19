@@ -115,15 +115,14 @@ theorem u64_gen_dvd_twelve {t : StatedLieTag} (ht1 : t ≠ .PSL) (ht2 : t ≠ .P
   unfold genericOrders
   dsimp only
   split
-  all_goals first
+  all_goals try first
     | exact absurd rfl ht1
     | exact absurd rfl ht2
-    | skip
   all_goals (try split_ifs)
   all_goals refine ⟨?_, ?_⟩
   all_goals first
     | (norm_num; done)
-    | (apply Nat.dvd_trans (Nat.gcd_dvd_left _ _); norm_num; done)
+    | (apply Nat.dvd_trans (Nat.gcd_dvd_left _ _); norm_num)
 
 theorem u64_five_dvd_of_mul_dvd_144 {a x : ℕ} (h : 5 ∣ a * x) (hx : x ∣ 144) : 5 ∣ a := by
   rcases (Nat.Prime.dvd_mul (by norm_num : Nat.Prime 5)).1 h with h1 | h1
@@ -173,7 +172,7 @@ theorem u64_marking_model {Q : Type} [Group Q] [Finite Q] {lab : GLALabel}
     CFSG.Open.IsQuasisimple Q ∧ MarkedModel lab (Q ⧸ Subgroup.center Q) := by
   obtain ⟨hcomm, lab', -, R, _, I, F, θ, hs, -, ⟨rfl, hm⟩⟩ :=
     Canonical.largeEvenMarking_exists (Canonical.largeEvenMarking_markedModel h)
-  haveI := hs
+  have := hs
   exact ⟨⟨hcomm, θ.isSimpleGroup⟩, MarkedModel.of_mulEquiv θ.symm hm⟩
 
 end Marking

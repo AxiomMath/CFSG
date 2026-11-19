@@ -50,12 +50,12 @@ private theorem w135c2_omfPOrb_stdReflD_indicator {n j : ℕ} (hj : j + 2 = n) {
   rw [Function.comp_apply]
   by_cases hak : a = k
   · rw [hak, Equiv.swap_apply_left]
-    rw [if_pos (show (⟨k.val + 1, hlt⟩ : Fin n).val ≤ j from by omega),
-      if_pos (show k.val ≤ j from by omega)]
+    rw [ite_eq_left (show (⟨k.val + 1, hlt⟩ : Fin n).val ≤ j from by omega),
+      ite_eq_left (show k.val ≤ j from by omega)]
   · by_cases hak' : a = ⟨k.val + 1, hlt⟩
     · rw [hak', Equiv.swap_apply_right]
-      rw [if_pos (show k.val ≤ j from by omega),
-        if_pos (show (⟨k.val + 1, hlt⟩ : Fin n).val ≤ j from by omega)]
+      rw [ite_eq_left (show k.val ≤ j from by omega),
+        ite_eq_left (show (⟨k.val + 1, hlt⟩ : Fin n).val ≤ j from by omega)]
     · rw [Equiv.swap_apply_of_ne_of_ne hak hak']
 
 theorem weylAction_simple_omExtWt_of_add_two_eq {n j : ℕ} (hn : 2 ≤ n) (hj : j + 2 = n)
@@ -70,10 +70,10 @@ theorem weylAction_simple_omExtWt_of_add_two_eq {n j : ℕ} (hn : 2 ≤ n) (hj :
 theorem omExtWt_apply_last {n j : ℕ} (hj : j + 2 ≤ n) :
     omExtWt n j ⟨n - 2, by omega⟩ = omExtWt n j ⟨n - 1, by omega⟩ := by
   unfold omExtWt omFromStdD2
-  rw [if_neg (by simp only; omega), dif_pos (by simp only; omega),
-    if_pos (by simp only; omega)]
+  rw [ite_eq_right (by simp only; omega), dite_eq_left (by simp only; omega),
+    ite_eq_left (by simp only; omega)]
   dsimp only
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   ring
 
 private theorem w135c2_omfPOrb_four_data {n j : ℕ} (hn : 4 ≤ n) (hj1 : 1 ≤ j)

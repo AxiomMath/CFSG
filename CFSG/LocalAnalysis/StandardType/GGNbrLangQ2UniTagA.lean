@@ -23,7 +23,7 @@ private theorem cuq2a_psu_not_psl
     {E2 : Type} [Field E2] (hE2 : UnitaryFieldData 2 m E2) (hd : 3 ≤ d)
     (θ : P ≃* LargeEvenProj (LargeEvenSUGroup (Fin d) E2 (2 ^ m))) : False := by
   have hm : 1 ≤ m := hE2.one_le
-  haveI : Finite E2 := hE2.finite
+  have : Finite E2 := hE2.finite
   have hE2card : Nat.card E2 = (2 ^ m) ^ 2 := by rw [hE2.card, ← pow_mul, mul_comm]
   have hf : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with h0 | h
@@ -62,7 +62,7 @@ private theorem cuq2a_q2URLevel_tagA : Q2URLevel (fun _ lab => lab.tag = .A) := 
   obtain ⟨K, i1, i2, hK, hq⟩ := hQ
   refine ⟨K, i1, i2, hK, hq, ?_⟩
   intro A hAab hAI hTor u hu hou J hJ hAJ E iE hE hne M hM
-  letI : Field E := iE
+  let : Field E := iE
   have hpodd : Odd p := by
     rcases hshape with ⟨hp3, -⟩ | ⟨hp5, -⟩
     · rw [hp3]; norm_num
@@ -75,7 +75,7 @@ private theorem cuq2a_q2URLevel_tagA : Q2URLevel (fun _ lab => lab.tag = .A) := 
     have h := hΛ
     simp only [LargeEvenInLambda2] at h
     omega
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   obtain ⟨g, hgu⟩ := TableB.exists_eq_linConjAut (hAI u hu)
   have hJc : CFSG.Open.IsComponentOf J
       (ggAutFixedSubgroup (TableB.linConjAut (Fin (l + 1)) K g)) := by
@@ -85,18 +85,18 @@ private theorem cuq2a_q2URLevel_tagA : Q2URLevel (fun _ lab => lab.tag = .A) := 
   obtain ⟨C, hC, hCSL, hJeq⟩ := q1TorLin_component_lift hN g J hJc
   obtain ⟨a, E1, hE1f, hE1alg, hE1fin, ha, ⟨φ⟩⟩ :=
     linCentComp_block g hgodd C hC hCSL J hJeq
-  letI : Field E1 := hE1f
-  letI : Finite E1 := hE1fin
-  letI : Algebra K E1 := hE1alg
+  let : Field E1 := hE1f
+  let : Finite E1 := hE1fin
+  let : Algebra K E1 := hE1alg
   have h2E1 : (2 : E1) = 0 := by
     have h : (algebraMap K E1) (2 : K) = 0 := by
       rw [show (2 : K) = 0 from CharP.cast_eq_zero K 2, map_zero]
     exact (map_ofNat (algebraMap K E1) 2).symm.trans h
-  haveI : CharP E1 2 := by
+  have : CharP E1 2 := by
     have hdvd : ringChar E1 ∣ 2 := (ringChar.spec E1 2).mp h2E1
     rcases Nat.prime_two.eq_one_or_self_of_dvd (ringChar E1) hdvd with h1 | h2
     · exfalso
-      haveI : CharP E1 1 := ringChar.of_eq h1
+      have : CharP E1 1 := ringChar.of_eq h1
       have h1z : ((1 : ℕ) : E1) = 0 := (CharP.cast_eq_zero_iff E1 1 1).mpr (one_dvd 1)
       exact one_ne_zero (by simpa only [Nat.cast_one] using h1z)
     · exact ringChar.of_eq h2

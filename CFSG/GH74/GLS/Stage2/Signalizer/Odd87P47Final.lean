@@ -13,7 +13,7 @@ open Subgroup CFSG CFSG.GH74 CFSG.GH74.GLS CFSG.Blueprint CFSG.Assembly.LowTwoRa
 
 theorem prop_4_3Ep (h42 : Prop4_2) (hL : Lemma31Narrow) : Prop4_3Ep :=
   prop_4_3Ep_of_hyp l34DiagClosure_of_cert
-    (fun G _ _ z k _ hctx => (E4Facts.of_leaves h42 hL hctx).toHyp)
+    (fun _G _ _ _z _k _ hctx => (E4Facts.of_leaves h42 hL hctx).toHyp)
 
 theorem prop4_7cS_of_hyp (h41b : Prop4_1b) (h43 : Prop4_3Ep)
     (hF : ∀ (G : Type) [Group G] [Finite G] (z : G) (k : Kind) (S : Subgroup G),
@@ -32,6 +32,6 @@ theorem prop4_7S_of (h42 : Prop4_2) (hL : Lemma31Narrow)
     (hR : Prop47R) (hSL2 : P47BranchSL2) (hC : P47BranchC) : Prop4_7S :=
   prop4_7S_of_cS
     (prop4_7cS_of_hyp (prop_4_1b_of L199.ig_19_9) (prop_4_3Ep h42 hL)
-      (fun G _ _ z k _ hctx => E4Facts.of_leaves h42 hL hctx) hR hSL2 hC)
+      (fun _G _ _ _z _k _ hctx => E4Facts.of_leaves h42 hL hctx) hR hSL2 hC)
 
 end CFSG.GH74.GLS.Stage2.Signalizer.Odd87

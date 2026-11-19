@@ -55,6 +55,7 @@ theorem card_eq_of_card_frattini_four {q : ℕ} [Fact q.Prime] {D : Type*} [Grou
         CFSG.pRank q (D ⧸ commutator D) = 3 := hi
     omega
 
+omit [Finite L] in
 theorem commute_of_mem_center [Group.IsPerfect L] {Q : Subgroup L} [Q.Normal] {D : Subgroup Q}
     [D.Characteristic] [IsCyclic (center D)] (g : L) {z : D} (hz : z ∈ center D) :
     g * ((z : Q) : L) = ((z : Q) : L) * g := by
@@ -84,14 +85,14 @@ theorem exists_sympSection [Group.IsPerfect L] {X : Subgroup L} {q : ℕ} [Fact 
   classical
   have hq : q.Prime := Fact.out
   obtain ⟨Q, hQn, hQX, hQp, -, D, hDc, -, hDexp, -, -, -, hclass, hDrank, hcard, e, he⟩ := hcs
-  haveI := hQn
-  haveI := hDc
+  have := hQn
+  have := hDc
   have hDq : IsPGroup q D := hQp.to_subgroup D
   have hexp : ∀ x : D, x ^ q = 1 := fun x => Subtype.ext (by simpa using hDexp x x.2)
   obtain ⟨hD5, hZq, hZ, hΦ, hD3⟩ := card_eq_of_card_frattini_four hDq hexp hclass hDrank hcard
   have hX3 : CFSG.Open.pRank q X = 3 :=
     le_antisymm hrank (hD3 ▸ pRank_le_of_le hq.one_lt hQX D)
-  haveI : IsCyclic (center D) := isCyclic_of_prime_card hZq
+  have : IsCyclic (center D) := isCyclic_of_prime_card hZq
   obtain ⟨ε⟩ := nonempty_center_mulEquiv hZq
   have : Module (ZMod q) (Additive (Abelianization D)) :=
     AddCommGroup.zmodModule (nsmul_abelianization_eq_zero hexp)

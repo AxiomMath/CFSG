@@ -19,7 +19,7 @@ open scoped commutatorElement
 theorem rf4_kLevel_le_two {p : ℕ} {S : Type} [Group S] (h : catalogIs S (k2 p)) :
     kLevel p S ≤ 2 := by
   unfold kLevel
-  split_ifs <;> first | omega | exact absurd h ‹_›
+  split_ifs <;> first | omega
 
 theorem rf4_eq_of_glaPComponent {p : ℕ} {G : Type} [Group G] [Finite G] {X I : Subgroup G}
     (hI : GLAPComponent p X I) (hXq : CFSG.Open.IsQuasisimple ↥X) : I = X :=
@@ -30,7 +30,7 @@ theorem rf4_pSimple_equiv_center {p : ℕ} (hp : p.Prime) {G : Type} [Group G] [
     {X I : Subgroup G} (hI : GLAPComponent p X I) (hIq : CFSG.Open.IsQuasisimple ↥I) :
     Nonempty (PSimple p I ≃* (↥I ⧸ Subgroup.center ↥I)) := by
   have hQ : CFSG.Open.IsQuasisimple (PQuot p I) := isQuasisimple_pQuot_of_glaPComponent hp hI
-  haveI : Nontrivial (PQuot p I ⧸ Subgroup.center (PQuot p I)) := hQ.2.toNontrivial
+  have : Nontrivial (PQuot p I ⧸ Subgroup.center (PQuot p I)) := hQ.2.toNontrivial
   have hne : GLAPPrimeCore p ↥I ≠ ⊤ := by
     intro htop
     have hsub : Subsingleton (PQuot p I) := by
@@ -109,7 +109,7 @@ theorem rf4_nonab_of_not_prime {S : Type} [Group S] [IsSimpleGroup S]
     (hc : ¬ (Nat.card S).Prime) : ∃ a b : S, a * b ≠ b * a := by
   by_contra h
   simp only [not_exists, ne_eq, not_not] at h
-  letI : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
+  let : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
   exact hc ((CommGroup.is_simple_iff_prime_card (α := S)).1 ‹IsSimpleGroup S›)
 
 theorem rf4_card_tits

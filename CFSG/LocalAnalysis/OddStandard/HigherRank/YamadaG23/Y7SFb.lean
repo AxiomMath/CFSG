@@ -12,6 +12,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three.Sec1
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma zpow_eq_one_or_self {v : G} (hv : v * v = 1) (m : ℤ) :
     v ^ m = 1 ∨ v ^ m = v := by
   have hv2 : v ^ (2 : ℤ) = 1 := by rw [zpow_two]; exact hv
@@ -19,11 +20,13 @@ private lemma zpow_eq_one_or_self {v : G} (hv : v * v = 1) (m : ℤ) :
   · left; rw [hj, zpow_mul, hv2, one_zpow]
   · right; rw [hj, zpow_add, zpow_mul, hv2, one_zpow, one_mul, zpow_one]
 
+omit [Finite G] in
 private lemma eq_one_or_eq_of_mem_zpowers {v g : G} (hv : v * v = 1) (hg : g ∈ zpowers v) :
     g = 1 ∨ g = v := by
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 hg
   exact zpow_eq_one_or_self hv i
 
+omit [Finite G] in
 private lemma exists_mul_of_mem_sup {H K : Subgroup G}
     (hc : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) {g : G} (hg : g ∈ H ⊔ K) :
     ∃ h ∈ H, ∃ k ∈ K, g = h * k := by
@@ -45,13 +48,15 @@ private lemma exists_mul_of_mem_sup {H K : Subgroup G}
     (fun k hk => ⟨1, one_mem _, k, hk, by simp⟩)
   exact hle hg
 
+omit [Finite G] in
 private lemma exists_invols_classes12 (fr : Frame G) (h12 : fr.Fact12) (i : Fin 7) :
     ∃ y, y ∈ fr.S ∧ orderOf y = 2 ∧ fr.classes12 i = conjClass fr.S y := by
   obtain ⟨c1, _⟩ := h12
   have hmem : fr.classes12 i ∈ Set.range fr.classes12 := Set.mem_range_self i
   rw [← c1] at hmem
-  simpa only [invols, Set.mem_setOf_eq, and_assoc] using hmem
+  simpa only [invols, Set.mem_ofPred_eq, and_assoc] using hmem
 
+omit [Finite G] in
 private lemma mem_classes12_aux (fr : Frame G) (h12 : fr.Fact12) {i : Fin 7} {x : G}
     (hx : x ∈ fr.classes12 i) : x ∈ fr.S ∧ x ^ 2 = 1 ∧ x ≠ 1 := by
   obtain ⟨y, hyS, hyord, hyi⟩ := exists_invols_classes12 fr h12 i
@@ -68,10 +73,12 @@ private lemma mem_classes12_aux (fr : Frame G) (h12 : fr.Fact12) {i : Fin 7} {x 
     rw [hy1, orderOf_one] at hyord
     omega
 
+omit [Finite G] in
 private lemma classes12_injective (fr : Frame G) (h12 : fr.Fact12) :
     Function.Injective fr.classes12 :=
   h12.2.1
 
+omit [Finite G] in
 private lemma conjClass_eq_of_mem {S : Subgroup G} {y w : G} (h : w ∈ conjClass S y) :
     conjClass S w = conjClass S y := by
   obtain ⟨a, ha, rfl⟩ := h
@@ -82,6 +89,7 @@ private lemma conjClass_eq_of_mem {S : Subgroup G} {y w : G} (h : w ∈ conjClas
   · rintro ⟨t, ht, rfl⟩
     exact ⟨t * a⁻¹, S.mul_mem ht (S.inv_mem ha), by group⟩
 
+omit [Finite G] in
 private lemma classes12_eq_of_mem (fr : Frame G) (h12 : fr.Fact12) {i j : Fin 7} {x : G}
     (hi : x ∈ fr.classes12 i) (hj : x ∈ fr.classes12 j) : i = j := by
   obtain ⟨y, _, _, hyi⟩ := exists_invols_classes12 fr h12 i
@@ -97,6 +105,7 @@ private lemma classes12_eq_of_mem (fr : Frame G) (h12 : fr.Fact12) {i j : Fin 7}
       _ = (s'⁻¹ * s) * y * (s'⁻¹ * s)⁻¹ := by group
   exact classes12_injective fr h12 (by rw [hyi, hyj, conjClass_eq_of_mem hy'])
 
+omit [Finite G] in
 private lemma isElemAbelian_top_iff {X : Subgroup G} :
     IsElemAbelian 2 (⊤ : Subgroup X) ↔ IsElemAbelian 2 X := by
   constructor
@@ -109,21 +118,24 @@ private lemma isElemAbelian_top_iff {X : Subgroup G} :
       have hx2 := h.2 ⟨x, hx⟩ trivial
       simpa using congrArg (fun z : X => (z : G)) hx2
   · intro h
-    haveI := h.1
+    have := h.1
     refine ⟨IsMulCommutative.of_comm ?_, ?_⟩
     · intro a b
       exact Subtype.ext (mul_comm' a.1 b.1)
     · intro x _
       exact Subtype.ext (h.2 (x : G) x.2)
 
+omit [Finite G] in
 private lemma isE_toSub {X : Subgroup G} (h : IsE 3 ↥X) :
     IsElemAbelian 2 X ∧ Nat.card X = 8 :=
   ⟨isElemAbelian_top_iff.mp h.1, by rw [h.2]; norm_num⟩
 
+omit [Finite G] in
 private lemma z_mem_S (fr : Frame G) : fr.z ∈ fr.S := by
   show fr.b₁ ^ 2 ∈ fr.S
   exact fr.S.pow_mem (Subgroup.subset_closure (by simp)) 2
 
+omit [Finite G] in
 private lemma F_le_S (fr : Frame G) : fr.F ≤ fr.S := by
   refine (Subgroup.closure_le fr.S).mpr ?_
   intro x hx
@@ -133,6 +145,7 @@ private lemma F_le_S (fr : Frame G) : fr.F ≤ fr.S := by
   · exact fr.S.mul_mem (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp))
   · exact z_mem_S fr
 
+omit [Finite G] in
 private lemma E_le_S (fr : Frame G) : fr.E ≤ fr.S := by
   refine (Subgroup.closure_le fr.S).mpr ?_
   intro x hx
@@ -143,6 +156,7 @@ private lemma E_le_S (fr : Frame G) : fr.E ≤ fr.S := by
       (Subgroup.subset_closure (by simp))) (Subgroup.subset_closure (by simp))
   · exact z_mem_S fr
 
+omit [Finite G] in
 private lemma conjSub_le_of_mem {c : G} {Y T : Subgroup G} (hc : c ∈ T) (hY : Y ≤ T) :
     conjSub c Y ≤ T := by
   intro x hx
@@ -150,6 +164,7 @@ private lemma conjSub_le_of_mem {c : G} {Y T : Subgroup G} (hc : c ∈ T) (hY : 
   show c * y * c⁻¹ ∈ T
   exact T.mul_mem (T.mul_mem hc (hY hy)) (T.inv_mem hc)
 
+omit [Finite G] in
 private lemma card_conjSub (c : G) (E : Subgroup G) :
     Nat.card ↥(conjSub c E) = Nat.card ↥E :=
   Subgroup.card_map_of_injective (f := (MulAut.conj c).toMonoidHom) (MulAut.conj c).injective
@@ -158,10 +173,12 @@ private def rep12 (fr : Frame G) : Fin 7 → G :=
   ![fr.z, fr.b₁ * fr.b₂, fr.a₁ * fr.a₂, fr.a₁ * fr.b₂, fr.b₁ * fr.a₂,
     fr.a₁ * fr.b₁ * fr.a₂, fr.h₀]
 
+omit [Finite G] in
 private lemma rep12_mem_classes12 (fr : Frame G) (i : Fin 7) :
     rep12 fr i ∈ fr.classes12 i := by
   fin_cases i <;> simp [rep12, Frame.classes12, Matrix.cons_val]
 
+omit [Finite G] in
 private lemma rep12_cover (fr : Frame G) (h12 : fr.Fact12)
     (hE : IsE 3 ↥fr.E) (hF : IsE 3 ↥fr.F)
     (hW : closure {fr.a₁ * fr.b₂, fr.b₁ * fr.a₂, fr.z} ≤ fr.S ∧
@@ -170,9 +187,9 @@ private lemma rep12_cover (fr : Frame G) (h12 : fr.Fact12)
     ∃ E : Subgroup G, E ≤ fr.S ∧ IsElemAbelian 2 E ∧ Nat.card E = 8 ∧ rep12 fr i ∈ E := by
   fin_cases i
   · exact ⟨fr.F, F_le_S fr, (isE_toSub hF).1, (isE_toSub hF).2,
-      Subgroup.subset_closure (by simp [rep12, Matrix.cons_val])⟩
+      Subgroup.subset_closure (by simp [rep12])⟩
   · exact ⟨fr.F, F_le_S fr, (isE_toSub hF).1, (isE_toSub hF).2,
-      Subgroup.subset_closure (by simp [rep12, Matrix.cons_val])⟩
+      Subgroup.subset_closure (by simp [rep12])⟩
   · exact ⟨fr.F, F_le_S fr, (isE_toSub hF).1, (isE_toSub hF).2,
       Subgroup.subset_closure (by simp [rep12, Matrix.cons_val])⟩
   · exact ⟨_, hW.1, hW.2.1, hW.2.2,
@@ -195,7 +212,7 @@ theorem frame_W_isE3 (fr : Frame G) (h12 : fr.Fact12) (h14 : fr.Fact14) :
   have h12' : fr.Fact12 := ⟨c1, c2, c3, c4, c5, c6, c7, c8, c9, c10⟩
   have ha3 : fr.a₁ * fr.b₂ ∈ fr.classes12 3 := by simp [Frame.classes12, Matrix.cons_val]
   have hb4 : fr.b₁ * fr.a₂ ∈ fr.classes12 4 := by simp [Frame.classes12, Matrix.cons_val]
-  have hz0 : fr.z ∈ fr.classes12 0 := by simp [Frame.classes12, Matrix.cons_val]
+  have hz0 : fr.z ∈ fr.classes12 0 := by simp [Frame.classes12]
   have hbz4 : fr.b₁ * fr.a₂ * fr.z ∈ fr.classes12 4 := by
     simp [Frame.classes12, Matrix.cons_val]
   have hs1 : (fr.a₁ * fr.b₂) ^ 2 = 1 := (mem_classes12_aux fr h12' ha3).2.1
@@ -253,7 +270,7 @@ theorem frame_cover (fr : Frame G) (h12 : fr.Fact12) (h14 : fr.Fact14)
     (hE : IsE 3 ↥fr.E) (hF : IsE 3 ↥fr.F) :
     ∀ y ∈ fr.S, y ^ 2 = 1 →
       ∃ E : Subgroup G, E ≤ fr.S ∧ IsElemAbelian 2 E ∧ Nat.card E = 8 ∧ y ∈ E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro y hyS hy2
   by_cases hy1 : y = 1
   · refine ⟨fr.F, F_le_S fr, (isE_toSub hF).1, (isE_toSub hF).2, ?_⟩

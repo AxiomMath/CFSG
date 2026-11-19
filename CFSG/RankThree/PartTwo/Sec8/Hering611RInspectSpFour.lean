@@ -38,8 +38,8 @@ theorem spFour611 {G : Type} [Group G] [Finite G] {K : Subgroup G} {c : G} (hc3 
     Nonempty (K ⧸ aschbacherSolvableCore 3 K ≃* projSp 2 (GaloisField 2 3)) ∧
       KFacts.InducesStdKind K c .field := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : NeZero n := ⟨hn.pos.ne'⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : NeZero n := ⟨hn.pos.ne'⟩
   obtain ⟨hcN, hα3, hα1, P, hP, ⟨e6⟩⟩ := hA6
   have hPsub : IsA6Sub P := ⟨isPerfect_of_mem_thetaComponentsIn hP, ⟨e6⟩⟩
   set α := Item426.thetaAut K hcN with hα
@@ -112,14 +112,14 @@ theorem spFour611 {G : Type} [Group G] [Finite G] {K : Subgroup G} {c : G} (hc3 
       exact ⟨⟨φ⟩, hfield⟩
     · exfalso
       have hk2 : 2 ≤ k := by omega
-      haveI hsimp := Sec8.Hering418.isSimpleGroup_projSp_two hk2
+      have hsimp := Sec8.Hering418.isSimpleGroup_projSp_two hk2
       have hbar : Sec8.barCentralizer (Subgroup.zpowers c) K = Item426.fixSub α := by
         ext y
         rw [KFacts.mem_barCentralizer_zpowers_iff hcN y]
         exact Iff.rfl
       let eF : Item426.fixSub α ≃* projSp 2 (GaloisField 2 k) :=
         (MulEquiv.subgroupCongr hbar).symm.trans eC
-      haveI : IsSimpleGroup ↥(Item426.fixSub α) := eF.isSimpleGroup
+      have : IsSimpleGroup ↥(Item426.fixSub α) := eF.isSimpleGroup
       have hsn : (P.subgroupOf (Item426.fixSub α)).IsSubnormal :=
         (mem_thetaComponentsIn_iff.mp hP).2.2.1
       have hPbot : P ≠ ⊥ := hPsub.ne_bot
@@ -129,7 +129,7 @@ theorem spFour611 {G : Type} [Group G] [Finite G] {K : Subgroup G} {c : G} (hc3 
         · exact ht
       have hPeq : P = Item426.fixSub α :=
         le_antisymm hPC (Subgroup.subgroupOf_eq_top.mp htop)
-      haveI hPsimple : IsSimpleGroup ↥P := (MulEquiv.subgroupCongr hPeq).isSimpleGroup
+      have hPsimple : IsSimpleGroup ↥P := (MulEquiv.subgroupCongr hPeq).isSimpleGroup
       have hP360 : Nat.card P = 360 := hPsub.card_eq_of_isSimpleGroup
       have hPC2 : Nat.card P = Nat.card (projSp 2 (GaloisField 2 k)) := by
         rw [Nat.card_congr (MulEquiv.subgroupCongr hPeq).toEquiv, Nat.card_congr eF.toEquiv]

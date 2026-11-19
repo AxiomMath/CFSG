@@ -27,8 +27,8 @@ theorem six6i_core_m22f2
       ((F ⊔ T : Subgroup G) : Set G) = (F : Set G) * (T : Set G) →
       F ≤ Subgroup.centralizer (V : Set G) := by
   intro F hFM hFN hcop hset
-  letI : CommGroup ↥V := commGroupOfElemAbelian hV
-  haveI : Finite (MulAut ↥V) := finite_mulAut ↥V
+  let : CommGroup ↥V := commGroupOfElemAbelian hV
+  have : Finite (MulAut ↥V) := finite_mulAut ↥V
   set K : Subgroup G := M ⊓ Subgroup.normalizer (V : Set G) with hKdef
   have hKN : K ≤ Subgroup.normalizer (V : Set G) := inf_le_right
   have hTK : T ≤ K := le_inf hTM hTN

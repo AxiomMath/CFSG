@@ -34,7 +34,7 @@ private theorem pow_mem_of_mem_normalizer_projectiveSL {K : Type} [Field K] [Fin
     (U : Sylow 2 (projectiveSL 3 K)) {b : projectiveSL 3 K}
     (hb : b ∈ Subgroup.normalizer ((U : Subgroup (projectiveSL 3 K)) : Set (projectiveSL 3 K))) :
     b ^ (Nat.card K - 1) ∈ (U : Subgroup (projectiveSL 3 K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := CFSG.SeitzReduction.LinearPilot.exists_conj_projUnitriangular
     (n := 3) (K := K) (by norm_num) U
   have hb' : ∀ h : projectiveSL 3 K, h ∈ (U : Subgroup (projectiveSL 3 K)) ↔

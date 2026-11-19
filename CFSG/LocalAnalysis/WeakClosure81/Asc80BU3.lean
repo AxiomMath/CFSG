@@ -31,14 +31,14 @@ private theorem false_of_simple_le_normalizer_twoGroup
     (hU2 : IsPGroup 2 U)
     (hXU : X ≤ Subgroup.normalizer (U : Set G))
     (hne : X ⊓ U ≠ ⊥) : False := by
-  haveI : IsSimpleGroup ↥X := hXsimple
+  have : IsSimpleGroup ↥X := hXsimple
   have hnormal : ((X ⊓ U).subgroupOf X).Normal := by
     rw [Subgroup.normal_subgroupOf_iff (inf_le_left : X ⊓ U ≤ X)]
     intro h k hh hk
     obtain ⟨hhX, hhU⟩ := Subgroup.mem_inf.mp hh
     refine Subgroup.mem_inf.mpr ⟨X.mul_mem (X.mul_mem hk hhX) (X.inv_mem hk), ?_⟩
     exact (Subgroup.mem_normalizer_iff.mp (hXU hk) h).mp hhU
-  haveI := hnormal
+  have := hnormal
   have hne' : (X ⊓ U).subgroupOf X ≠ ⊥ := by
     intro hbot
     apply hne
@@ -55,7 +55,7 @@ private theorem false_of_simple_le_normalizer_twoGroup
       exact (Subgroup.mem_inf.mp (Subgroup.mem_subgroupOf.mp hx')).2
     have hXP : IsPGroup 2 ↥X := hU2.to_le hXU'
     have hsol : Group.IsSolvable ↥X := by
-      haveI : Group.IsNilpotent ↥X := IsPGroup.isNilpotent hXP
+      have : Group.IsNilpotent ↥X := IsPGroup.isNilpotent hXP
       exact IsNilpotent.to_isSolvable
     obtain ⟨a, b, hab⟩ := hXnab
     exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr hsol a b)
@@ -64,7 +64,7 @@ theorem asc80ThmBCase_u3 :
     Asc80ThmBCase fun X _ => ∃ f : ℕ, CFSG.Models.LieModel X .PSU 3 2 f := by
   intro G _ _ H A M hs hnab hP hAH hA hM
   exfalso
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, hm⟩ := hP
   let L : Subgroup G := Fstar H
   have hLH : L ≤ H := fstar_le_group H
@@ -104,7 +104,7 @@ theorem asc80ThmBCase_u3 :
     rw [hQco]
     exact Subgroup.subgroupOf_mono L hTML
   have hMnormL : M ⊓ L ≤ Subgroup.normalizer (U : Set G) := by
-    haveI : IsSimpleGroup ↥L := hs
+    have : IsSimpleGroup ↥L := hs
     have hle := CFSG.QuasithinUnique.Bridge.Over.le_normalizer_of_bender hB Q hQle hMLtop
     intro x hx
     let xL : ↥L := ⟨x, hx.2⟩
@@ -130,7 +130,7 @@ theorem asc80ThmBCase_u3 :
     omega
   have hAL : A ≤ L := by
     by_contra hnot
-    rw [SetLike.not_le_iff_exists] at hnot
+    rw [IsConcreteLE.not_le_iff_exists] at hnot
     obtain ⟨a, haA, haL⟩ := hnot
     have haH : a ∈ H := hAH haA
     have haT : a ∈ T := hAT haA
@@ -326,17 +326,17 @@ theorem asc80ThmBCase_u3 :
       using haRoot
   have hQtop : (Q : Subgroup ↥L) ≠ ⊤ := by
     intro htop
-    have hQ2 : IsPGroup 2 (Q : Subgroup ↥L) := Q.isPGroup'
+    have hQ2 : IsPGroup 2 (Q : Subgroup ↥L) := Q.isPGroup
     have hL2 : IsPGroup 2 ↥L := (htop ▸ hQ2).of_equiv Subgroup.topEquiv
     have hsol : Group.IsSolvable ↥L := by
-      haveI : Group.IsNilpotent ↥L := IsPGroup.isNilpotent hL2
+      have : Group.IsNilpotent ↥L := IsPGroup.isNilpotent hL2
       exact IsNilpotent.to_isSolvable
-    haveI : IsSimpleGroup ↥L := hs
+    have : IsSimpleGroup ↥L := hs
     obtain ⟨x, y, hxy⟩ := hnab
     exact hxy (IsSimpleGroup.comm_iff_isSolvable.mpr hsol x y)
   have hQnotnormal : ¬ (Q : Subgroup ↥L).Normal := by
     intro hN
-    haveI : (Q : Subgroup ↥L).Normal := hN
+    have : (Q : Subgroup ↥L).Normal := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Q : Subgroup ↥L) with hbot | htop
     · have hUmap : U = (Q : Subgroup ↥L).map L.subtype := by
         rw [hQco]
@@ -348,7 +348,7 @@ theorem asc80ThmBCase_u3 :
     intro htop
     exact hQnotnormal ((Subgroup.normalizer_eq_top_iff).mp htop)
   obtain ⟨g, -, hgnot⟩ :=
-    SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hNne)
+    _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hNne)
   let Q' : Sylow 2 ↥L := g • Q
   have hQ'ne : Q' ≠ Q := by
     intro h

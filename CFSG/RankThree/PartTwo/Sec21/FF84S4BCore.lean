@@ -12,6 +12,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem comm_of_mem_elemAb {E : Subgroup G} [IsElementaryAbelian 3 E] {x e : G}
     (hx : x ∈ E) (he : e ∈ E) : x * e = e * x := by
   have h : (⟨x, hx⟩ : E) * ⟨e, he⟩ = ⟨e, he⟩ * ⟨x, hx⟩ :=
@@ -29,7 +30,7 @@ private theorem not_three_dvd_of_isPGroup_two {X : Subgroup G} (hX : IsPGroup 2 
 theorem B_gen_centralizers {E X : Subgroup G} [IsElementaryAbelian 3 E] (hE : 9 ≤ Nat.card E)
     (hX : IsPGroup 2 X) (hEX : E ≤ Nor X) :
     X ≤ ⨆ a ∈ E, ⨆ (_ : a ≠ 1), X ⊓ Cen a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.HardMathSupport.RichardWeiss.RecognitionPresentation.StrongThree.le_iSup_centralizer_of_coprime
     (p := 3) (A := E) (U := X) (by simpa using hE) (not_three_dvd_of_isPGroup_two hX) hEX
 
@@ -38,8 +39,8 @@ theorem B_max_of_centralizers {E Y X : Subgroup G} [IsElementaryAbelian 3 E] (hE
     (hmax : ∀ e ∈ E, e ≠ 1 → X ⊓ Cen e ∈ PiStar (Y ⊓ Cen e) E 2) :
     X ∈ PiStar Y E 2 := by
   obtain ⟨hXY, hX2, hEX⟩ := hX
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  simp only [PiStar, Set.mem_setOf_eq]
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  simp only [PiStar, Set.mem_ofPred_eq]
   refine ⟨hXY, hX2, hEX, fun V hXV hVY hV2 hEV => ?_⟩
   have hcen : ∀ e ∈ E, e ≠ 1 → V ⊓ Cen e = X ⊓ Cen e := by
     intro e he he1
@@ -68,10 +69,12 @@ theorem B_PQ {p : ℕ} [Fact p.Prime] (P Q B : Subgroup G) (hPp : IsPGroup p P) 
     (hfix : B ⊓ CenS P ≤ CenS Q) : ⁅B, Q⁆ = ⊥ :=
   CFSG.GorensteinWalter.ThompsonPQ.thompson_p_times_q P Q B hPp hBp hQ hPB hQB hPQ hfix
 
+omit [Finite G] in
 theorem B_charTwo (hc : CFSG.Assembly.IsCharTwoType G) {X : Subgroup G} (hX : IsPGroup 2 X)
     (hX1 : X ≠ ⊥) : Nor X ⊓ CenS (Op 2 (Nor X)) ≤ Op 2 (Nor X) :=
   S3.B_charTwo hc X hX1 hX
 
+omit [Finite G] in
 theorem B_charTwo_cen (hc : CFSG.Assembly.IsCharTwoType G) {t : G} (ht : orderOf t = 2) :
     Cen t ⊓ CenS (Op 2 (Cen t)) ≤ Op 2 (Cen t) := by
   have ht2 : t ^ 2 = 1 := by rw [← ht]; exact pow_orderOf_eq_one t

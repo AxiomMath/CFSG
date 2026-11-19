@@ -18,9 +18,11 @@ section Block
 @[expose] noncomputable def scal (φ : Module.End K V) (c : K) : Module.End K V :=
   1 + (c - 1) • φ
 
+omit [Fintype K] [DecidableEq K] in
 theorem scal_apply (φ : Module.End K V) (c : K) (v : V) : scal φ c v = v + (c - 1) • φ v :=
   rfl
 
+omit [Fintype K] [DecidableEq K] in
 theorem scal_mul (φ : Module.End K V) (hφ : φ * φ = φ) (c d : K) :
     scal φ c * scal φ d = scal φ (c * d) := by
   ext v
@@ -28,11 +30,12 @@ theorem scal_mul (φ : Module.End K V) (hφ : φ * φ = φ) (c d : K) :
   simp only [Module.End.mul_apply, scal_apply, map_add, map_smul, hφv, smul_add, smul_smul]
   module
 
+omit [Fintype K] [DecidableEq K] in
 theorem scal_one (φ : Module.End K V) : scal φ 1 = 1 := by simp [scal]
 
 @[expose] noncomputable def scalEquiv (φ : Module.End K V) (hφ : φ * φ = φ) {c : K} (hc : c ≠ 0) :
     V ≃ₗ[K] V :=
-  LinearEquiv.ofLinear (scal φ c) (scal φ c⁻¹)
+  LinearEquiv.ofLinearMap (scal φ c) (scal φ c⁻¹)
     (LinearMap.ext fun v => by
       rw [LinearMap.comp_apply, ← Module.End.mul_apply, scal_mul φ hφ, mul_inv_cancel₀ hc,
         scal_one]; rfl)
@@ -40,10 +43,12 @@ theorem scal_one (φ : Module.End K V) : scal φ 1 = 1 := by simp [scal]
       rw [LinearMap.comp_apply, ← Module.End.mul_apply, scal_mul φ hφ, inv_mul_cancel₀ hc,
         scal_one]; rfl)
 
+omit [Fintype K] [DecidableEq K] in
 theorem scalEquiv_apply (φ : Module.End K V) (hφ : φ * φ = φ) {c : K} (hc : c ≠ 0) (v : V) :
     scalEquiv φ hφ hc v = v + (c - 1) • φ v :=
   rfl
 
+omit [Fintype K] [DecidableEq K] in
 theorem scalEquiv_pow_apply (φ : Module.End K V) (hφ : φ * φ = φ) {c : K} (hc : c ≠ 0) (n : ℕ)
     (v : V) : (scalEquiv φ hφ hc ^ n) v = scal φ (c ^ n) v := by
   induction n generalizing v with
@@ -52,6 +57,7 @@ theorem scalEquiv_pow_apply (φ : Module.End K V) (hφ : φ * φ = φ) {c : K} (
     rw [pow_succ, LinearEquiv.mul_apply, ih, scalEquiv_apply, ← scal_apply,
       ← Module.End.mul_apply, scal_mul φ hφ, pow_succ]
 
+omit [Fintype K] [DecidableEq K] in
 theorem scal_comm (φ T : Module.End K V) (h : Commute φ T) (c : K) (v : V) :
     scal φ c (T v) = T (scal φ c v) := by
   have h' : φ (T v) = T (φ v) := by
@@ -65,6 +71,7 @@ section Cyclic
 
 variable (ρ : Representation K A V)
 
+omit [Fintype K] [DecidableEq K] in
 theorem exists_pow_of_weightSpace (hp : p.Prime) {H : Hyperplane A p} {x : A} (hx : x ∉ H.1)
     (a : A) : ∃ n : ℕ, ∀ v ∈ weightSpace ρ H.1, ρ a v = ρ (x ^ n) v := by
   have htop : H.1 ⊔ Subgroup.zpowers x = ⊤ := by
@@ -85,6 +92,7 @@ theorem exists_pow_of_weightSpace (hp : p.Prime) {H : Hyperplane A p} {x : A} (h
   rw [map_mul, Module.End.mul_apply]
   exact apply_eq_of_mem_weightSpace ρ hh (apply_mem_weightSpace ρ H.1 _ hv)
 
+omit [DecidableEq K] [Finite A] in
 theorem rho_pow_card (hA : ∀ a : A, a ^ p = 1) (hq : p ∣ Fintype.card K - 1) (a : A) :
     ρ a ^ Fintype.card K = ρ a := by
   have h1 : 1 ≤ Fintype.card K := Fintype.card_pos
@@ -100,7 +108,7 @@ section Linear
 
 theorem exists_root_ne_one (hp : p.Prime) (hq : p ∣ Fintype.card K - 1) :
     ∃ ζ : K, ζ ^ p = 1 ∧ ζ ≠ 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hcard : p ∣ Fintype.card Kˣ := by rw [Fintype.card_units]; exact hq
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card p hcard
   refine ⟨u, by rw [← Units.val_pow_eq_pow_val, ← hu, pow_orderOf_eq_one, Units.val_one], ?_⟩
@@ -115,6 +123,7 @@ variable (hp : p.Prime) (hA : ∀ a : A, a ^ p = 1) (hpK : (p : K) ≠ 0)
 local notation "β₀" => (0 : V →ₗ[K] V →ₛₗ[RingHom.id K] K)
 
 omit [Fintype K] [DecidableEq K] in
+omit [Finite A] in
 theorem isIsomRep_zero : IsIsomRep β₀ ρ := fun _ _ _ => rfl
 
 include hp hA hpK
@@ -184,7 +193,7 @@ theorem finrank_weightSpace_eq_one_lin [FiniteDimensional K V] (hmax : IsMaxElem
         change P (πH (u - P u)) = 0
         rw [hπfix _ hmem, map_sub, ← Module.End.mul_apply P P, hPP, sub_self]
       rw [this, smul_zero, add_zero]
-    have hy1 := eq_one_of_supported_of_fixed (𝒮 := ∅) β₀ ρ hp hA hpK (isIsomRep_zero ρ) hmax H y
+    have hy1 := eq_one_of_supported_of_fixed (𝒮 := ∅) β₀ ρ hp hA hpK hmax H y
       (fun _ _ => rfl) (fun v => by rw [scalEquiv_pow_apply, hcp, scal_one]; rfl)
       (fun a v => scal_comm φ (ρ a) ((hPρ a).mul_left (hπHρ a)) c v)
       (fun s hs => absurd hs (Set.notMem_empty s))
@@ -249,7 +258,7 @@ theorem finrank_weightSpace_eq_one_lin [FiniteDimensional K V] (hmax : IsMaxElem
     obtain ⟨u, hu, hu0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hker
     exact ⟨u, hu0, hu⟩
   set y := scalEquiv φ hφ hc0
-  have hy1 := eq_one_of_supported_of_fixed (𝒮 := ∅) β₀ ρ hp hA hpK (isIsomRep_zero ρ) hmax H y
+  have hy1 := eq_one_of_supported_of_fixed (𝒮 := ∅) β₀ ρ hp hA hpK hmax H y
     (fun _ _ => rfl) (fun v => by rw [scalEquiv_pow_apply, hcp, scal_one]; rfl)
     (fun a v => scal_comm φ (ρ a) (hφρ a) c v)
     (fun s hs => absurd hs (Set.notMem_empty s))
@@ -277,6 +286,7 @@ section Unitary
 
 variable {σ : K →+* K} (β : V →ₗ[K] V →ₛₗ[σ] K)
 
+omit [Fintype K] [DecidableEq K] in
 theorem scal_isometry (φ : Module.End K V) (c : K)
     (hφ1 : ∀ u v, β (φ u) v = β (φ u) (φ v)) (hφ2 : ∀ u v, β u (φ v) = β (φ u) (φ v))
     (hc : c * σ c = 1) (u v : V) : β (scal φ c u) (scal φ c v) = β u v := by
@@ -292,11 +302,13 @@ theorem scal_isometry (φ : Module.End K V) (c : K)
   map_smul' c v := by
     rw [map_smul, LinearMap.smul_apply, smul_eq_mul, smul_eq_mul, RingHom.id_apply, mul_assoc]
 
+omit [Fintype K] [DecidableEq K] in
 theorem coordOn_apply (w v : V) : coordOn β w v = β v w * (β w w)⁻¹ := rfl
 
 variable (hherm : ∀ u v, β v u = σ (β u v))
 
 include hherm in
+omit [Fintype K] [DecidableEq K] in
 theorem coordOn_proj {w : V} (hw : β w w ≠ 0) :
     (∀ u v, β ((coordOn β w).smulRight w u) v =
       β ((coordOn β w).smulRight w u) ((coordOn β w).smulRight w v)) ∧
@@ -309,6 +321,7 @@ theorem coordOn_proj {w : V} (hw : β w w ≠ 0) :
       LinearMap.smul_apply, smul_eq_mul, map_mul, hσinv, ← hherm]
     field_simp
 
+omit [Fintype K] [DecidableEq K] in
 theorem coordOn_self {w : V} (hw : β w w ≠ 0) : coordOn β w w = 1 := by
   rw [coordOn_apply, mul_inv_cancel₀ hw]
 
@@ -355,7 +368,7 @@ theorem finrank_weightSpace_eq_one_uni [FiniteDimensional K V] (hβ : β.Separat
     (hmax : IsMaxElem β ρ p ∅) (hq : p ∣ Fintype.card K - 1) (H : Hyperplane A p)
     (hH : weightSpace ρ H.1 ≠ ⊥) : Module.finrank K (weightSpace ρ H.1) = 1 := by
   classical
-  haveI : Fintype (Hyperplane A p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane A p) := Fintype.ofFinite _
   obtain ⟨x, hx⟩ := exists_not_mem_hyperplane hp H
   have hg : ρ x ^ Fintype.card K = ρ x := rho_pow_card ρ hA hq x
   have hW : ∀ w ∈ weightSpace ρ H.1, ρ x w ∈ weightSpace ρ H.1 :=
@@ -471,7 +484,7 @@ theorem finrank_weightSpace_eq_one_uni [FiniteDimensional K V] (hβ : β.Separat
         change P (πH (u - P u)) = 0
         rw [hπfix _ hmem, map_sub, ← Module.End.mul_apply P P, hPP, sub_self]
       rw [this, smul_zero, add_zero]
-    have hy1 := eq_one_of_supported_of_fixed (𝒮 := ∅) β ρ hp hA hpK hρ hmax H y
+    have hy1 := eq_one_of_supported_of_fixed (𝒮 := ∅) β ρ hp hA hpK hmax H y
       (fun u v => scal_isometry β φ c hφ1 hφ2 (hσp c hcp) u v)
       (fun v => by rw [scalEquiv_pow_apply, hcp, scal_one]; rfl)
       (fun a v => scal_comm φ (ρ a) ((hPρ a).mul_left (hπHρ a)) c v)
@@ -538,7 +551,7 @@ theorem finrank_weightSpace_eq_one_uni [FiniteDimensional K V] (hβ : β.Separat
     simp only [f, LinearMap.comp_apply, Submodule.subtype_apply, coordOn_apply] at this
     exact (mul_eq_zero.mp this).resolve_right (inv_ne_zero hn)
   set y := scalEquiv φ hφ hc0
-  have hy1 := eq_one_of_supported_of_fixed (𝒮 := ∅) β ρ hp hA hpK hρ hmax H y
+  have hy1 := eq_one_of_supported_of_fixed (𝒮 := ∅) β ρ hp hA hpK hmax H y
     (fun u v => scal_isometry β φ c hφ1 hφ2 (hσp c hcp) u v)
     (fun v => by rw [scalEquiv_pow_apply, hcp, scal_one]; rfl)
     (fun a v => scal_comm φ (ρ a) (hφρ a) c v)

@@ -65,16 +65,16 @@ theorem card_range_commHomHom (hc : ∀ x y : P, ⁅x, y⁆ ∈ Subgroup.center 
 theorem card_hom (hP : Nat.card P = 3 ^ 5) (hexp : ∀ x : P, x ^ 3 = 1)
     (hder : commutator P = Subgroup.center P) (hZ : Nat.card (Subgroup.center P) = 3) :
     Nat.card (P →* Subgroup.center P) = 81 := by
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hKcyc : IsCyclic (Subgroup.center P) := isCyclic_of_prime_card hZ
-  haveI h3 : HasEnoughRootsOfUnity (Subgroup.center P) 3 := by
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hKcyc : IsCyclic (Subgroup.center P) := isCyclic_of_prime_card hZ
+  have h3 : HasEnoughRootsOfUnity (Subgroup.center P) 3 := by
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Subgroup.center P)
     have hord : orderOf g = 3 := by rw [orderOf_eq_card_of_forall_mem_zpowers hg, hZ]
     refine ⟨⟨g, ?_⟩, ?_⟩
     · have := IsPrimitiveRoot.orderOf g
       rwa [hord] at this
-    · haveI : IsCyclic (Subgroup.center P)ˣ :=
+    · have : IsCyclic (Subgroup.center P)ˣ :=
         isCyclic_of_surjective (toUnits : Subgroup.center P ≃* (Subgroup.center P)ˣ)
           toUnits.surjective
       infer_instance
@@ -83,7 +83,7 @@ theorem card_hom (hP : Nat.card P = 3 ^ 5) (hexp : ∀ x : P, x ^ 3 = 1)
     refine QuotientGroup.induction_on a (fun z => ?_)
     show Abelianization.of z ^ 3 = 1
     rw [← map_pow, hexp, map_one]
-  haveI : HasEnoughRootsOfUnity (Subgroup.center P) (Monoid.exponent (Abelianization P)) :=
+  have : HasEnoughRootsOfUnity (Subgroup.center P) (Monoid.exponent (Abelianization P)) :=
     HasEnoughRootsOfUnity.of_dvd _ (Monoid.exponent_dvd_of_forall_pow_eq_one hA3)
   have h1 := CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity (Abelianization P)
     (Subgroup.center P)
@@ -102,13 +102,13 @@ theorem exists_commutator_eq (hP : Nat.card P = 3 ^ 5) (hexp : ∀ x : P, x ^ 3 
     (hder : commutator P = Subgroup.center P) (hZ : Nat.card (Subgroup.center P) = 3)
     (φ : P → P) (hφc : ∀ x, φ x ∈ Subgroup.center P) (hφm : ∀ x y, φ (x * y) = φ x * φ y) :
     ∃ q : P, ∀ x, φ x = ⁅q, x⁆ := by
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   have hc : ∀ x y : P, ⁅x, y⁆ ∈ Subgroup.center P := fun x y => by
     rw [← hder, commutator_def]
     exact Subgroup.commutator_mem_commutator (Subgroup.mem_top x) (Subgroup.mem_top y)
   have hhom : Nat.card (P →* Subgroup.center P) = 81 := card_hom hP hexp hder hZ
   have hrange := card_range_commHomHom hc hP hZ
-  haveI : Finite (P →* Subgroup.center P) :=
+  have : Finite (P →* Subgroup.center P) :=
     Nat.finite_of_card_ne_zero (by rw [hhom]; norm_num)
   have htop : (commHomHom hc).range = ⊤ :=
     Subgroup.eq_top_of_card_eq _ (by rw [hrange, hhom])

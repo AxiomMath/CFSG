@@ -92,7 +92,7 @@ open CFSG.AGLEmbeddingD2
 
 theorem inf_centralizer_eq_bot_of_not_le_gamma
     {X : Type} [Group X] [Finite X] {K E : Subgroup X}
-    (hE : CFSG.Open.IsElemAbelian 3 E) (hK : CFSG.IsComponent K)
+    (hE : CFSG.Open.IsElemAbelian 3 E) (_hK : CFSG.IsComponent K)
     (hnotGamma : ¬ K ≤ CFSG.Open.rankThreeGamma 1 3 E) :
     E ⊓ Subgroup.centralizer (K : Set X) = ⊥ := by
   rw [eq_bot_iff]
@@ -147,7 +147,7 @@ theorem center_eq_bot_of_kFactThreeFiveCentral
 theorem isSimpleGroup_of_isComponent_center_eq_bot
     {X : Type} [Group X] {K : Subgroup X} (hK : CFSG.IsComponent K)
     (hZ : Subgroup.center ↥K = ⊥) : IsSimpleGroup ↥K := by
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
   have e : ↥K ≃* (↥K ⧸ Subgroup.center ↥K) :=
     (QuotientGroup.quotientBot (G := ↥K)).symm.trans
       ((QuotientGroup.quotientMulEquivOfEq (G := ↥K) (M := Subgroup.center ↥K) (N := ⊥)
@@ -170,7 +170,7 @@ theorem isCatalogGroup_of_isComponent_center_eq_bot
     {X : Type} [Group X] (hKX : CFSG.Open.IsKGroup X) {K : Subgroup X}
     (hK : CFSG.IsComponent K) (hZ : Subgroup.center ↥K = ⊥) :
     CFSG.Open.IsCatalogGroup ↥K := by
-  haveI : IsSimpleGroup ↥K := isSimpleGroup_of_isComponent_center_eq_bot hK hZ
+  have : IsSimpleGroup ↥K := isSimpleGroup_of_isComponent_center_eq_bot hK hZ
   exact hKX.isCatalogGroup_of_surjective K
     (exists_not_comm_of_isComponent_center_eq_bot hK hZ) (MonoidHom.id ↥K)
     Function.surjective_id
@@ -465,7 +465,7 @@ theorem kFactThreeFiveRankOne_of_inputs
   have hZ : Subgroup.center ↥K = ⊥ :=
     center_eq_bot_of_kFactThreeFiveCentral hC hKX hO hrankX hKcomp hKrank hEel hEcard hEnorm
       hnotGamma
-  haveI hKsimple : IsSimpleGroup ↥K := isSimpleGroup_of_isComponent_center_eq_bot hKcomp hZ
+  have hKsimple : IsSimpleGroup ↥K := isSimpleGroup_of_isComponent_center_eq_bot hKcomp hZ
   have hnab : ∃ a b : ↥K, a * b ≠ b * a :=
     exists_not_comm_of_isComponent_center_eq_bot hKcomp hZ
   have hcat : CFSG.Open.IsCatalogGroup ↥K :=
@@ -488,7 +488,7 @@ theorem kFactThreeFiveRankOne_of_inputs
         (component_le_gamma_of_closure_fixed hEel hKcomp hEnorm hnotGamma hgen)).elim
   · have hout : ¬ 3 ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥K) :=
       hJ1 ↥K hKsimple hJ
-    haveI : IsElementaryAbelian 3 ↥E' :=
+    have : IsElementaryAbelian 3 ↥E' :=
       (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 E').2 hE'el
     have hKrankG : CFSG.pRank 3 ↥K ≤ 1 := by
       rw [CFSG.SectionRank.pRank_eq_open_pRank_top]
@@ -504,7 +504,7 @@ theorem kFactThreeFiveRankOne_of_inputs
           (Or.inl rfl) e
       have := Nat.le_of_dvd (by norm_num) (h3.trans hdvd)
       omega
-    haveI : IsElementaryAbelian 3 ↥E' :=
+    have : IsElementaryAbelian 3 ↥E' :=
       (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 E').2 hE'el
     have hKrankG : CFSG.pRank 3 ↥K ≤ 1 := by
       rw [CFSG.SectionRank.pRank_eq_open_pRank_top]

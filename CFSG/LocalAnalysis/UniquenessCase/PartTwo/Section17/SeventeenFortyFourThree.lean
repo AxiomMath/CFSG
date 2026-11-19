@@ -214,8 +214,7 @@ theorem Ctx17_42.pRank_X_eq_ncard_mul {D : Data G} {V₀ V L X : Subgroup G} {p 
     · exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcommut
   have hinfcenter : ∀ i ∈ s, K i ⊓ Subgroup.centralizer (K i : Set (Bar2 X)) ≤
       (Subgroup.center (K i)).map (K i).subtype := by
-    intro i hi
-    intro x hx
+    intro i hi x hx
     refine Subgroup.mem_map.mpr ⟨⟨x, hx.1⟩, ?_, rfl⟩
     rw [Subgroup.mem_center_iff]
     intro y

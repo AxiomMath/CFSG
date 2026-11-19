@@ -18,17 +18,19 @@ variable {Ω : Type} [Group Ω] [Finite Ω] {X R T Y W : Subgroup Ω}
 
 include c
 
+omit [Finite Ω] in
 theorem YS_le_normalizer : Y ⊔ baum T ≤ Subgroup.normalizer (Y : Set Ω) :=
   sup_le Subgroup.le_normalizer c.S_le_normalizer
 
 theorem charTwo_YS : CharTwo (Y ⊔ baum T) := by
-  have hY : CharTwo Y := A4.charTwo_of_normal c.Y_le_H c.H_le_normalizer c.charTwo_H
+  have hY : CharTwo Y := A4.charTwo_of_normal CFSG.ASVolI.burnsideC121_YCtx.Y_le_H c.H_le_normalizer c.charTwo_H
   exact A4.charTwo_sup hY c.S_le_normalizer c.S_pGroup
 
 theorem omega_S_eq :
     omegaOneCenterOf (baum T) = omegaOneCenterOf (thompsonJ (burnsideC121_P X R T Y)) := by
   rw [← c.baum_P, burnsideC121_omegaOneCenter_baum]
 
+omit [Finite Ω] in
 theorem YS_prod : ∀ x ∈ Y ⊔ baum T, ∃ y ∈ Y, ∃ s ∈ baum T, x = y * s := by
   intro x hx
   have hx' : x ∈ ((Y ⊔ baum T : Subgroup Ω) : Set Ω) := hx
@@ -51,7 +53,7 @@ theorem not_le_centralizer_omega_n2 (h610 : B_6_10) (h123 : I_2_3) (hn : 2 ≤ n
   apply huY
   have huS : u ∈ baum T := c.pCore_Y_le_S hSyl (c.commW_le_pCore_Y huM)
   have huE : u ∈ omegaOneCenterOf (baum T) :=
-    Subgroup.subset_closure ⟨⟨huS, Subgroup.centralizer_le c.S_le_P huP⟩,
+    Subgroup.subset_closure ⟨⟨huS, Subgroup.centralizer_le CFSG.ASVolI.burnsideC121_YCtx.S_le_P huP⟩,
       c.W_elem.2 u (c.commW_le_W huM)⟩
   exact Subgroup.mem_centralizer_iff.2 fun y hy =>
     (Subgroup.mem_centralizer_iff.1 (hYE hy) u huE).symm
@@ -75,7 +77,7 @@ theorem hasNaturalFstar_n2 (h610 : B_6_10) (h123 : I_2_3) (hn : 2 ≤ n)
   have hH₁N : H₁ ≤ Subgroup.normalizer (V₁ : Set Ω) := hred₁.2.1
   have hYH₁ : Y ≤ H₁ := le_sup_left
   have hYN₁ : Y ≤ Subgroup.normalizer (V₁ : Set Ω) := hYH₁.trans hH₁N
-  have hαs := c.alpha_surjective D hn
+  have hαs := CFSG.ASVolI.burnsideC121_YCtx.alpha_surjective D hn
   have h4 : 4 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card, D.card]
     calc 4 = 2 ^ 2 := by norm_num
@@ -105,9 +107,9 @@ theorem hasNaturalFstar_n2 (h610 : B_6_10) (h123 : I_2_3) (hn : 2 ≤ n)
     exact normalizer_le_normalizer_omegaOneCenterOf S (Subgroup.le_normalizer hs)
   have hH₁B : H₁ ≤ Subgroup.normalizer (B : Set Ω) := by
     refine sup_le (fun y hy => Subgroup.inf_normalizer_le_normalizer_sup _ _
-      ⟨c.Y_le_H.trans c.H_le_normalizer_commW hy, Subgroup.centralizer_le_normalizer _ ?_⟩)
+      ⟨CFSG.ASVolI.burnsideC121_YCtx.Y_le_H.trans c.H_le_normalizer_commW hy, Subgroup.centralizer_le_normalizer _ ?_⟩)
       (fun s hs => Subgroup.inf_normalizer_le_normalizer_sup _ _
-        ⟨(c.S_le_P.trans c.P_le_H).trans c.H_le_normalizer_commW hs,
+        ⟨(CFSG.ASVolI.burnsideC121_YCtx.S_le_P.trans (CFSG.ASVolI.burnsideC121_YCtx.P_le_H (X := X) (R := R) (T := T) (Y := Y))).trans c.H_le_normalizer_commW hs,
           Subgroup.inf_normalizer_le_normalizer_inf ⟨hSE hs,
             B2F.normalizer_le_normalizer_centralizer Y (c.S_le_normalizer hs)⟩⟩)
     rw [Subgroup.mem_centralizer_iff]
@@ -124,7 +126,7 @@ theorem hasNaturalFstar_n2 (h610 : B_6_10) (h123 : I_2_3) (hn : 2 ≤ n)
     exact C1GN.omegaOneCenterOf_le_self S
   have hzN : E ⊓ Subgroup.centralizer (Y : Set Ω) ≤
       Subgroup.normalizer ((⁅W, Y⁆ : Subgroup Ω) : Set Ω) :=
-    inf_le_left.trans (hES.trans ((c.S_le_P.trans c.P_le_H).trans c.H_le_normalizer_commW))
+    inf_le_left.trans (hES.trans ((CFSG.ASVolI.burnsideC121_YCtx.S_le_P.trans (CFSG.ASVolI.burnsideC121_YCtx.P_le_H (X := X) (R := R) (T := T) (Y := Y))).trans c.H_le_normalizer_commW))
   have hBY : ⁅B, Y⁆ ≤ ⁅W, Y⁆ := by
     rw [Subgroup.commutator_le]
     intro b hb y hy
@@ -143,7 +145,7 @@ theorem hasNaturalFstar_n2 (h610 : B_6_10) (h123 : I_2_3) (hn : 2 ≤ n)
   have hVL : ⁅V₁, Y⁆ ≠ ⊥ := fun h =>
     hYV₁ (Subgroup.le_centralizer_iff.1 (Subgroup.commutator_eq_bot_iff_le_centralizer.1 h))
   obtain ⟨-, -, hFstar₁, -⟩ := C124.B2_10_2 hV₁el hred₁ (B6.pCoreOf_two_le_of_isSylowTwoOf hSyl)
-    le_rfl hSyl hYH₁ c.YS_le_normalizer c.YS_prod hVL (Or.inl (c.isQuasisimple_quot D hn))
+    le_rfl hSyl hYH₁ c.YS_le_normalizer c.YS_prod hVL (Or.inl (CFSG.ASVolI.burnsideC121_YCtx.isQuasisimple_quot D hn))
   have hfA : fstarAut H₁ V₁ = autOn Y V₁ := by
     unfold fstarAut
     rw [CFSG.generalizedFitting_eq_componentClassification,

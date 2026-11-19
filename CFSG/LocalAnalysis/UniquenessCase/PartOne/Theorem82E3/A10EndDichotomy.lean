@@ -135,7 +135,7 @@ private lemma conj_mem_sup_relPPrimeCore {G : Type*} [Group G] [Finite G] {p : �
   have hOKleC : CFSG.Open.relPPrimeCore p K ≤ C := (relPPrimeCore_le K).trans hKC
   have hOsub : ((CFSG.Open.relPPrimeCore p C).subgroupOf C).Normal :=
     relPPrimeCore_normal hp C
-  haveI : ((CFSG.Open.relPPrimeCore p C).subgroupOf C).Normal := hOsub
+  have : ((CFSG.Open.relPPrimeCore p C).subgroupOf C).Normal := hOsub
   have hyC : y ∈ C := (sup_le hOKleC hOle) hy
   have hySupC : (⟨y, hyC⟩ : ↥C) ∈
       ((CFSG.Open.relPPrimeCore p K).subgroupOf C) ⊔
@@ -228,7 +228,7 @@ private lemma sup_eq_inf_sup_relPPrimeCore {G : Type*} [Group G] [Finite G] {p :
   have hOle : CFSG.Open.relPPrimeCore p C ≤ C := relPPrimeCore_le C
   have hOsub : ((CFSG.Open.relPPrimeCore p C).subgroupOf C).Normal :=
     relPPrimeCore_normal hp C
-  haveI : ((CFSG.Open.relPPrimeCore p C).subgroupOf C).Normal := hOsub
+  have : ((CFSG.Open.relPPrimeCore p C).subgroupOf C).Normal := hOsub
   apply le_antisymm
   · apply sup_le
     · intro w hw
@@ -319,7 +319,7 @@ theorem deg_zpowers_mem {F : A10Frame c} {a : G} (haA : a ∈ F.A) (ha1 : a ≠ 
     F.deg (Subgroup.zpowers a) = 3 ∨ F.deg (Subgroup.zpowers a) = 6 ∨
       F.deg (Subgroup.zpowers a) = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have haL : a ∈ c.L := F.P_le_L (F.A_le haA)
   have hx : F.phiA ⟨a, F.A_le_M haA⟩ ∈ A10Perm.atilde := by
     rw [← F.map_A_phiA]
@@ -377,7 +377,7 @@ private theorem map_le_centralizer_of_le_centralizer {F : A10Frame c}
   exact hcomm.map F.phiA
 
 private theorem map_le_relPPrimeCore_of_inf_centralizer {F : A10Frame c}
-    {a : G} (haA : a ∈ F.A) (ha1 : a ≠ 1)
+    {a : G} (haA : a ∈ F.A) (_ha1 : a ≠ 1)
     (hdeg : F.deg (Subgroup.zpowers a) = 6 ∨ F.deg (Subgroup.zpowers a) = 9)
     {W₁ K : Subgroup G} (hW₁K : W₁ ≤ K) (hKM : K ≤ D.M)
     (hKleC : K ≤ Subgroup.centralizer ({a} : Set G))
@@ -386,7 +386,7 @@ private theorem map_le_relPPrimeCore_of_inf_centralizer {F : A10Frame c}
     (W₁.subgroupOf D.M).map F.phiA ≤
       CFSG.Open.relPPrimeCore 3 ((K.subgroupOf D.M).map F.phiA) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have haL : a ∈ c.L := F.P_le_L (F.A_le haA)
   have hdeq : F.deg (Subgroup.zpowers a) =
       (F.phiA ⟨a, F.A_le_M haA⟩).support.card := F.deg_zpowers_eq haL
@@ -442,7 +442,7 @@ private theorem degree_six_nine {F : A10Frame c}
     (hWcop : Nat.Coprime (Nat.card W) 3) :
     W ≤ CFSG.Open.relPPrimeCore 3 (H ⊓ Subgroup.centralizer ({a} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hord : orderOf a = 3 := orderOf_eq_prime (F.elemAbelian.2 a haA) ha1
   have hBA : Subgroup.zpowers a ≤ F.A := Subgroup.zpowers_le.mpr haA
   have hBcard : Nat.card (Subgroup.zpowers a) = 3 := by rw [Nat.card_zpowers, hord]
@@ -478,7 +478,7 @@ private theorem degree_three_le_M {F : A10Frame c} (hF : A10Facts F)
     {H : Subgroup G} {a : G} (haA : a ∈ F.A) (ha1 : a ≠ 1)
     (hdeg : F.deg (Subgroup.zpowers a) = 3) :
     H ⊓ Subgroup.centralizer ({a} : Set G) ≤ D.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hord : orderOf a = 3 := orderOf_eq_prime (F.elemAbelian.2 a haA) ha1
   have hBA : Subgroup.zpowers a ≤ F.A := Subgroup.zpowers_le.mpr haA
   have hBcard : Nat.card (Subgroup.zpowers a) = 3 := by rw [Nat.card_zpowers, hord]
@@ -516,7 +516,7 @@ private theorem degree_three_map_le_centralizer {F : A10Frame c}
   map_le_centralizer_of_le_centralizer (F := F) haA inf_le_right
 
 private theorem degree_three_core {F : A10Frame c}
-    {H : Subgroup G} {a : G} (haA : a ∈ F.A)
+    {H : Subgroup G} {a : G} (_haA : a ∈ F.A)
     (hXM : H ⊓ Subgroup.centralizer ({a} : Set G) ≤ D.M)
     (hcore : ∀ W' : Subgroup (Equiv.Perm (Fin 10)),
       W' ≤ ((H ⊓ Subgroup.centralizer ({a} : Set G)).subgroupOf D.M).map F.phiA →

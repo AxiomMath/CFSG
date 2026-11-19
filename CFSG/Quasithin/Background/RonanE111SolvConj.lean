@@ -61,7 +61,7 @@ theorem solvable_conj_sup {X₀ T J X : Subgroup G} (hR : E111Reduced G X₀ T) 
   have hN₁H : N₁ ≤ H := le_sup_left
   have hTH : T ≤ H := le_sup_right
   have hHN : H ≤ Subgroup.normalizer (N₁ : Set G) := sup_le Subgroup.le_normalizer hTN
-  haveI hn₁ : (N₁.subgroupOf H).Normal :=
+  have hn₁ : (N₁.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hN₁H).mpr hHN
   have hTsol : Group.IsSolvable ↥T := by
     have := (hT.2.1 : IsPGroup 2 ↥T).isNilpotent
@@ -80,14 +80,14 @@ theorem solvable_conj_sup {X₀ T J X : Subgroup G} (hR : E111Reduced G X₀ T) 
     have e : t⁻¹ * (h : G) = t⁻¹ * n * (t⁻¹)⁻¹ := by rw [hnt]; group
     rw [e]
     exact (Subgroup.mem_normalizer_iff.mp (hTN (T.inv_mem ht)) n).mp hn
-  haveI : Group.IsSolvable (↥H ⧸ N₁.subgroupOf H) := by
-    haveI := hTsol
+  have : Group.IsSolvable (↥H ⧸ N₁.subgroupOf H) := by
+    have := hTsol
     exact Group.isSolvable_of_surjective hφ
-  haveI : Group.IsSolvable ↥(N₁.subgroupOf H) := by
-    haveI := hN₁sol
+  have : Group.IsSolvable ↥(N₁.subgroupOf H) := by
+    have := hN₁sol
     exact Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hN₁H).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hN₁H).symm.surjective
-  refine solvable_of_ker_le_range (N₁.subgroupOf H).subtype (QuotientGroup.mk' (N₁.subgroupOf H)) ?_
+  refine Group.isSolvable_of_ker_le_range (N₁.subgroupOf H).subtype (QuotientGroup.mk' (N₁.subgroupOf H)) ?_
   rw [QuotientGroup.ker_mk', Subgroup.range_subtype]
 
 end CFSG.Quasithin.RonanE111

@@ -23,7 +23,7 @@ theorem false_of_order_p_centralizes {p : ℕ} (hp : p.Prime)
     {U : Subgroup Y} (hxU : x ∈ U) (hzU : z ∈ U) (hUc : ∀ g ∈ U, g * x = x * g)
     (hrank : Open.pRank p U ≤ 2) (C₀ : ComponentIndex Y) {c : Y} (hcU : c ∈ U)
     (hcC₀ : c ∈ centralizer (C₀.1 : Set Y)) (hcp : c ^ p = 1) (hc1 : c ≠ 1) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcx : c * x = x * c := hUc c hcU
   have hcall := mem_centralizer_of_centralizes_component hcx htrans hcC₀
   have hcL : c ∈ centralizer (layer Y : Set Y) :=
@@ -82,7 +82,7 @@ theorem section_card_dvd_component {p : ℕ} (hp : p.Prime)
     (hcat : IsCatalogGroup ↥C₀.1) (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier)
     {S : Type} [Group S] [IsSimpleGroup S] (hnab : ¬ ∀ a b : S, a * b = b * a)
     (hpS : p ∣ Nat.card S) (hS : IsSecOf U S) : Nat.card S ∣ Nat.card ↥C₀.1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard1 : 1 < Nat.card (ComponentIndex Y) := hcard ▸ hp.one_lt
   have hsimp : IsSimpleGroup ↥C₀.1 := isSimpleGroup_of_component C₀.2 (hZ C₀)
   have hCnab := exists_noncomm_of_component C₀.2 (hZ C₀)
@@ -117,7 +117,7 @@ theorem section_card_dvd_component {p : ℕ} (hp : p.Prime)
     exact false_of_order_p_centralizes hp hZ hcard1 hxp hxz hz1 hzp hzL htrans hxU hzU hUc hrank
       C₀ hcU hcC₀ hcp hc1
   have h3 := h2.map_hom (Subgroup.normalizerMonoidHom C₀.1) hpS hker hnab
-  haveI hsolv : Group.IsSolvable (Outer ↥C₀.1) := hSch ↥C₀.1 hsimp hCnab hcat
+  have hsolv : Group.IsSolvable (Outer ↥C₀.1) := hSch ↥C₀.1 hsimp hCnab hcat
   have h4 := IsSecOf.ker_of_solvable hnab (QuotientGroup.mk' (inner ↥C₀.1)) (h3.mono le_top)
   rw [QuotientGroup.ker_mk', inf_top_eq] at h4
   have h5 : IsSecOf (⊤ : Subgroup ↥C₀.1) S :=

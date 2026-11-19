@@ -22,8 +22,7 @@ theorem ggB48_rows {labN : LargeEvenLabel} (h : GGTablePRow 3 ⟨.A, 2, 2⟩ lab
     (le_refl 3) (le_refl 2) (by norm_num) (Or.inl rfl) h
   obtain ⟨t, l, n⟩ := labN
   unfold GGTypeARowClass at hc
-  simp only [LargeEvenLabel.mk.injEq, reduceCtorEq, false_and, and_false, or_false,
-    false_or, true_and, and_true] at hc ⊢
+  simp only [LargeEvenLabel.mk.injEq, true_and] at hc ⊢
   rcases hc with (⟨h1, h2, h3⟩ | ⟨h1, h2, h3⟩) | ⟨-, h4⟩ | ⟨h1, h2, h3⟩ | ⟨-, h4⟩ |
       ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h1, h2, h3⟩ | ⟨h1, h2, h3, h4⟩ |
       ⟨h1, h2, h3, h4⟩ | ⟨h, -⟩

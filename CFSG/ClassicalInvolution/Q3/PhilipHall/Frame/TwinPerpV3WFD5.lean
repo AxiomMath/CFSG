@@ -127,8 +127,8 @@ theorem WFFrame.v_act_s (h : WFIn n R S t K K' K₃ u₁ u₂ u₃ K₄ W)
   obtain ⟨c, hc⟩ : ∃ c : Fin 4 → Y, ∀ p, c p = if p = i then t else 1 := ⟨_, fun _ => rfl⟩
   have hvp : ∀ p, v * a p * v⁻¹ = a p * c p := fun p => by
     by_cases hp : p = i
-    · subst hp; rw [hc, if_pos rfl]; exact hvai
-    · rw [hc, if_neg hp, mul_one]; exact hvap p hp
+    · subst hp; rw [hc, ite_eq_left rfl]; exact hvai
+    · rw [hc, ite_eq_right hp, mul_one]; exact hvap p hp
   have hcc : c 0 * c 1 * c 2 * c 3 = t := by
     simp only [hc]
     fin_cases i <;> simp

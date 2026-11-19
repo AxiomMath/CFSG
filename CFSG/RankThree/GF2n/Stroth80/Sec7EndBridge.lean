@@ -19,6 +19,7 @@ section F0
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 private theorem endg_inv_comm_mem (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M)
     (hct : ⁅c, t⁆ ∈ Q) : ⁅c⁻¹, t⁆ ∈ Q := by
   have h1 : ⁅t, c⁆ ∈ Q := by
@@ -33,11 +34,13 @@ private theorem endg_inv_comm_mem (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M)
   rw [e]
   exact mem_conjSubgroup.mp hmem
 
+omit [Finite G] in
 private theorem endg_q_mem (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M)
     (hct : ⁅c, t⁆ ∈ Q) : c⁻¹ * t * c * t⁻¹ ∈ Q := by
   have := endg_inv_comm_mem hc hcM hct
   rwa [commutatorElement_def, inv_inv] at this
 
+omit [Finite G] in
 private theorem endg_key (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M) (hct : ⁅c, t⁆ ∈ Q)
     {m : G} (hm : m ∈ M) (hT : t ∈ conjSubgroup m (LB M Q B)) :
     c * m ∈ M ∧ t ∈ conjSubgroup (c * m) (LB M Q B) := by
@@ -54,6 +57,7 @@ private theorem endg_key (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M) (hct : ⁅
   rw [e]
   exact (LB M Q B).mul_mem (hQL hqm) hT'
 
+omit [Finite G] in
 private theorem endg_conj_Rt_le (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M)
     (hct : ⁅c, t⁆ ∈ Q) : conjSubgroup c (Rt M (LB M Q B) t) ≤ Rt M (LB M Q B) t := by
   have key : ∀ m ∈ M, t ∈ conjSubgroup m (LB M Q B) →
@@ -71,6 +75,7 @@ private theorem endg_conj_Rt_le (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M)
   rw [conjSubgroup_iSup_eq]
   exact iSup_le fun hT => key m hm hT
 
+omit [Finite G] in
 private theorem endg_conj_Vt_le (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M)
     (hct : ⁅c, t⁆ ∈ Q) : conjSubgroup c (Vt M (LB M Q B) B Z t) ≤ Vt M (LB M Q B) B Z t := by
   have key : ∀ m ∈ M, t ∈ conjSubgroup m (LB M Q B) →
@@ -88,6 +93,7 @@ private theorem endg_conj_Vt_le (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M)
   rw [conjSubgroup_iSup_eq]
   exact iSup_le fun hT => key m hm hT
 
+omit [Finite G] in
 private theorem endg_le_of_conj {T : Subgroup G} {c : G} (h : ∀ x ∈ T, c * x * c⁻¹ ∈ T) :
     conjSubgroup c T ≤ T := by
   intro y hy
@@ -95,6 +101,7 @@ private theorem endg_le_of_conj {T : Subgroup G} {c : G} (h : ∀ x ∈ T, c * x
   have := h _ hx
   rwa [show c * (c⁻¹ * y * c) * c⁻¹ = y by group] at this
 
+omit [Finite G] in
 private theorem endg_conj_mem {T : Subgroup G} {c x : G} (h : conjSubgroup c T ≤ T)
     (hx : x ∈ T) : c * x * c⁻¹ ∈ T := by
   have h1 : c * x * c⁻¹ ∈ conjSubgroup c T := by
@@ -102,6 +109,7 @@ private theorem endg_conj_mem {T : Subgroup G} {c x : G} (h : conjSubgroup c T �
     exact hx
   exact h h1
 
+omit [Finite G] in
 private theorem endg_eq_of_le {T : Subgroup G} {c : G} (h : conjSubgroup c T ≤ T)
     (h' : conjSubgroup c⁻¹ T ≤ T) : conjSubgroup c T = T := by
   refine le_antisymm h ?_
@@ -110,6 +118,7 @@ private theorem endg_eq_of_le {T : Subgroup G} {c : G} (h : conjSubgroup c T ≤
   calc T = conjSubgroup c (conjSubgroup c⁻¹ T) := e.symm
     _ ≤ conjSubgroup c T := Subgroup.map_mono h'
 
+omit [Finite G] in
 private theorem endg_conj_CN_le (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M)
     (hct : ⁅c, t⁆ ∈ Q) : conjSubgroup c (hc.CN t) ≤ hc.CN t := by
   refine endg_le_of_conj fun x hx => ?_
@@ -125,16 +134,19 @@ private theorem endg_conj_CN_le (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M)
   rw [e]
   exact endg_conj_mem (hc.conj_Z_eq hcM).le (hxV _ hv')
 
+omit [Finite G] in
 theorem endg_F0_Rt (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M) (hct : ⁅c, t⁆ ∈ Q) :
     conjSubgroup c (Rt M (LB M Q B) t) = Rt M (LB M Q B) t :=
   endg_eq_of_le (endg_conj_Rt_le hc hcM hct)
     (endg_conj_Rt_le hc (M.inv_mem hcM) (endg_inv_comm_mem hc hcM hct))
 
+omit [Finite G] in
 theorem endg_F0_Vt (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M) (hct : ⁅c, t⁆ ∈ Q) :
     conjSubgroup c (Vt M (LB M Q B) B Z t) = Vt M (LB M Q B) B Z t :=
   endg_eq_of_le (endg_conj_Vt_le hc hcM hct)
     (endg_conj_Vt_le hc (M.inv_mem hcM) (endg_inv_comm_mem hc hcM hct))
 
+omit [Finite G] in
 theorem endg_F0_CN (hc : Ctx M Q Z B) {t c : G} (hcM : c ∈ M) (hct : ⁅c, t⁆ ∈ Q) :
     conjSubgroup c (hc.CN t) = hc.CN t :=
   endg_eq_of_le (endg_conj_CN_le hc hcM hct)
@@ -188,7 +200,7 @@ private theorem endg14_commute_mem {G : Type} [Group G] {M Q : Subgroup G}
   exact h1
 
 theorem endg_isTI_bar {G : Type} [Group G] {M Q Z0 : Subgroup G} [(Q.subgroupOf M).Normal]
-    (hQ : Q ≤ Z0) (hZM : Z0 ≤ M)
+    (hQ : Q ≤ Z0) (_hZM : Z0 ≤ M)
     (hTI : ∀ g ∈ M, ∀ u ∈ Z0, u ∉ Q → g * u * g⁻¹ ∈ Z0 →
       g ∈ Subgroup.normalizer (Z0 : Set G)) :
     IsTIOf (bar M Q Z0) := by
@@ -252,12 +264,12 @@ private theorem endgO_iSup_iSup_induction {G : Type} [Group G] {ι : Type} (R : 
 private theorem endgO_Q_le_CN {G : Type} [Group G] [Finite G]
     {M Q Z B : Subgroup G} (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
     Q ≤ hc.CN t :=
-  fun x hx => Ctx.mem_CN.mpr ⟨hc.Q_le_Rt ht hx, fun v hv =>
+  fun _x hx => Ctx.mem_CN.mpr ⟨hc.Q_le_Rt ht hx, fun _v hv =>
     hc.hyp.toHyp79.comm_mem_V hx (hc.Vt_le_Q t hv)⟩
 
 private theorem endgO_CN_le_M {G : Type} [Group G] [Finite G]
     {M Q Z B : Subgroup G} (hc : Ctx M Q Z B) (t : G) : hc.CN t ≤ M :=
-  fun x hx => hc.Rt_le_M t (Ctx.mem_CN.mp hx).1
+  fun _x hx => hc.Rt_le_M t (Ctx.mem_CN.mp hx).1
 
 theorem endg_N_gen_bar {G : Type} [Group G] [Finite G]
     {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {t : G}
@@ -314,7 +326,7 @@ theorem endg_N_gen_bar {G : Type} [Group G] [Finite G]
 
 theorem endg_N_pgroup_bar {G : Type} [Group G] [Finite G]
     {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {t : G}
-    (htL : t ∈ LB M Q B) (h2 : IsPGroup 2 ↥(hc.CN t)) : IsPGroup 2 ↥(bar M Q (hc.CN t)) := by
+    (_htL : t ∈ LB M Q B) (h2 : IsPGroup 2 ↥(hc.CN t)) : IsPGroup 2 ↥(bar M Q (hc.CN t)) := by
   have h3 : IsPGroup 2 ↥((hc.CN t).subgroupOf M) :=
     h2.of_equiv (Subgroup.subgroupOfEquivOfLe (endgO_CN_le_M hc t)).symm
   exact h3.map (QuotientGroup.mk' (Q.subgroupOf M))
@@ -348,7 +360,7 @@ private theorem endgP_isComponent {Γ : Type} [Group Γ] {L X : Subgroup Γ} (hL
 theorem endg_count_of_45 {G : Type} [Group G] [Finite G]
     {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ}
     (hw : Width Q Z n) (hn : 2 < n) (hno : NoA2 Q Z (LB M Q B)) (hgen : GenByB M Q B)
-    (hcs : CompSimple (Mbar M Q)) (h45 : Stroth45Statement) :
+    (_hcs : CompSimple (Mbar M Q)) (h45 : Stroth45Statement) :
     ∃ F : Finset (Subgroup (Mbar M Q)), F.card ≤ 3 ∧
       ∀ C : Subgroup (Mbar M Q), IsComponent C → C ∈ F := by
   classical
@@ -358,7 +370,7 @@ theorem endg_count_of_45 {G : Type} [Group G] [Finite G]
   have hSL2 : ∀ (K : Type) [Field K] [Finite K], Nat.card K = Nat.card Z →
       CFSG.IsQuasisimple ↥(StatedSL 2 K) := by
     intro K _ _ hK
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
     exact (classicalQuasisimpleStatement_holds K (by rw [hK]; exact hq4)).1 2 le_rfl
   have hqSL : ∀ X : Subgroup (Mbar M Q), IsSLModel 2 (Nat.card Z) ↥X →
       CFSG.IsQuasisimple ↥X := by
@@ -375,7 +387,7 @@ theorem endg_count_of_45 {G : Type} [Group G] [Finite G]
         (CFSG.LocalCores.layer_le_normalizer hC)).symm
   ·
     have hEn : (layer (Mbar M Q)).Normal := by
-      haveI := CFSG.LocalCores.layer_characteristic (G := Mbar M Q)
+      have := CFSG.LocalCores.layer_characteristic (G := Mbar M Q)
       infer_instance
     have hYq : CFSG.IsQuasisimple ↥Y := hqSL Y hYSL
     have hXl : X ≤ layer (Mbar M Q) := by rw [← hsup]; exact le_sup_left
@@ -399,7 +411,7 @@ theorem endg_count_of_45 {G : Type} [Group G] [Finite G]
       (by rw [← hsup]; exact hcent)
   ·
     have hEn : (layer (Mbar M Q)).Normal := by
-      haveI := CFSG.LocalCores.layer_characteristic (G := Mbar M Q)
+      have := CFSG.LocalCores.layer_characteristic (G := Mbar M Q)
       infer_instance
     have hq₁ : CFSG.IsQuasisimple ↥X₁ := hqSL X₁ hX₁SL
     have hq₂ : CFSG.IsQuasisimple ↥X₂ := hqSL X₂ hX₂SL
@@ -447,8 +459,9 @@ section BridgeCore
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem endg_bar_mono {S T : Subgroup G} (h : S ≤ T) : bar M Q S ≤ bar M Q T :=
-  Subgroup.map_mono fun x hx => h hx
+  Subgroup.map_mono fun _x hx => h hx
 
 theorem endg_endHyp (h34 : Stroth34Statement) (h44 : Stroth44Statement)
     (h45 : Stroth45Statement) (h311a : Stroth311aStatement) (hc : Ctx M Q Z B) {n : ℕ} {t : G}
@@ -487,7 +500,7 @@ theorem endg_endHyp (h34 : Stroth34Statement) (h44 : Stroth44Statement)
     have hbar : bar M Q (Rt M (LB M Q B) t) = bar M Q (LB M Q B) := by rw [hR]
     have hmem : ∀ x : ↥(bar M Q (Rt M (LB M Q B) t)), (x : Mbar M Q) ∈ bar M Q (LB M Q B) :=
       fun x => Eq.mp (congrArg (fun T : Subgroup (Mbar M Q) => (x : Mbar M Q) ∈ T) hbar) x.2
-    haveI : IsMulCommutative S := ⟨⟨fun a b => by
+    have : IsMulCommutative S := ⟨⟨fun a b => by
       obtain ⟨x, rfl⟩ := hπs a
       obtain ⟨y, rfl⟩ := hπs b
       rw [← map_mul, ← map_mul]

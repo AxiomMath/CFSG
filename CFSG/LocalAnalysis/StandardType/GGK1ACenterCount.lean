@@ -154,10 +154,10 @@ private lemma cenM_countP_pos_le_sum (l : List ℕ) :
       rw [List.countP_cons, List.sum_cons]
       by_cases ha : 0 < a
       · have hdec : decide (0 < a) = true := by simpa using ha
-        rw [if_pos hdec]
+        rw [ite_eq_left hdec]
         omega
       · have hdec : decide (0 < a) = false := by simp [ha]
-        rw [if_neg (by simp [hdec])]
+        rw [ite_eq_right (by simp [hdec])]
         omega
 
 private lemma cenM_tail_sum_le (m : List ℕ) : m.tail.sum ≤ m.sum := by
@@ -192,7 +192,7 @@ private lemma cenM_rZ_trivial (p nf d : ℕ) (tw : Bool) (m : List ℕ)
     (ggMultDatumA p nf d tw m).rZ =
       ((List.range p).filter (fun j => decide (0 < m.getD j 0))).length - 1 := by
   unfold ggMultDatumA
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private lemma cenM_rZ_nontrivial (p nf d : ℕ) (tw : Bool) (m : List ℕ)
     (h : ¬ ((tw = false ∧ d = 1) ∨ (tw = true ∧ d = 2))) :
@@ -200,7 +200,7 @@ private lemma cenM_rZ_nontrivial (p nf d : ℕ) (tw : Bool) (m : List ℕ)
       ((List.range ((p - 1) / 2 + 1)).filter
         (fun j => decide (1 ≤ j ∧ 0 < m.getD j 0))).length := by
   unfold ggMultDatumA
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
 private lemma cenM_pos_headD_iff_mem_primaryFactors {N : ℕ} {K : Type} [Field K]
     {x : GL (Fin N) K} {m : List ℕ}
@@ -296,15 +296,15 @@ theorem ggK1A_rZ_eq_card_primaryFactors_sub_one {p nf N d : ℕ} {tw : Bool} {K 
       (if X - 1 ∈ primaryFactors (ggK1A_glEnd x) then 1 else 0) := by
     have hiff := cenM_pos_headD_iff_mem_primaryFactors hsq hm.head_eq
     by_cases h : 0 < m.headD 0
-    · rw [if_pos h, if_pos (hiff.mp h)]
-    · rw [if_neg h, if_neg (fun hc => h (hiff.mpr hc))]
+    · rw [ite_eq_left h, ite_eq_left (hiff.mp h)]
+    · rw [ite_eq_right h, ite_eq_right (fun hc => h (hiff.mpr hc))]
   have hS : (ggK1A_selfDualFactors x).card +
       (if X - 1 ∈ primaryFactors (ggK1A_glEnd x) then 1 else 0) =
       (primaryFactors (ggK1A_glEnd x)).card := by
     by_cases hb : X - 1 ∈ primaryFactors (ggK1A_glEnd x)
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       exact cenM_selfDual_card_of_mem hb
-    · rw [if_neg hb, Nat.add_zero]
+    · rw [ite_eq_right hb, Nat.add_zero]
       exact cenM_selfDual_card_of_not_mem hb
   omega
 
@@ -356,7 +356,7 @@ private lemma cenM_ggMultOrd_eq_one_or_two {p nf : ℕ}
   rcases hdvd with h | h
   · left
     unfold ggMultOrd
-    rw [if_pos h]
+    rw [ite_eq_left h]
   · unfold ggMultOrd
     split_ifs with h1
     · left

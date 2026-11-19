@@ -24,12 +24,12 @@ private theorem eq_D4_of_dict {lab : LargeEvenLabel} {n : ℕ} (ht : markTag lab
   cases t <;> dsimp only [markTag, markRank, markDeg] at ht hr hf
   case D =>
     by_cases h3 : r = 3
-    · rw [if_pos h3] at ht
+    · rw [ite_eq_left h3] at ht
       exact absurd ht (by decide)
-    · rw [if_neg h3] at hr
+    · rw [ite_eq_right h3] at hr
       subst hr hf
       rfl
-  all_goals ((try split_ifs at ht) <;> exact absurd ht (by decide))
+  all_goals ((try split_ifs at ht); try exact absurd ht (by decide))
 
 private theorem eq_triD4_of_dict {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab) {n : ℕ}
     (ht : markTag lab = .trialityD4) (hf : markDeg lab = n) : lab = ⟨.triD4, 0, n⟩ := by
@@ -39,7 +39,7 @@ private theorem eq_triD4_of_dict {lab : LargeEvenLabel} (hlab : LargeEvenInLambd
     have hr : r = 0 := hlab.2
     subst hr hf
     rfl
-  all_goals ((try split_ifs at ht) <;> exact absurd ht (by decide))
+  all_goals ((try split_ifs at ht); try exact absurd ht (by decide))
 
 private theorem eq_twA_of_dict {lab : LargeEvenLabel} {r f : ℕ} (ht : markTag lab = .PSU)
     (hc : markChar lab = 2) (hr : markRank lab = r + 1) (hf : markDeg lab = f) (h4 : r ≠ 3) :
@@ -51,9 +51,9 @@ private theorem eq_twA_of_dict {lab : LargeEvenLabel} {r f : ℕ} (ht : markTag 
     subst hf
     rfl
   case twD =>
-    split_ifs at ht hr <;> first | exact absurd ht (by decide) | exact absurd (by omega) h4
+    split_ifs at ht hr; exact absurd (by omega) h4
   case G2der => exact absurd hc (by decide)
-  all_goals ((try split_ifs at ht) <;> exact absurd ht (by decide))
+  all_goals ((try split_ifs at ht); try exact absurd ht (by decide))
 
 theorem largeEvenMarking_k1Labels_of_lieModel {X : Type} [Group X] (hX : commutator X = ⊤)
     {n : ℕ}

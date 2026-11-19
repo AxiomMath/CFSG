@@ -29,7 +29,7 @@ theorem liftClause_of_catalog_of_families
   · exfalso
     obtain ⟨a, b, hab⟩ := hnonab
     exact hab (e.injective (by rw [map_mul, map_mul, mul_comm]))
-  · haveI : IsSimpleGroup (alternatingGroup (Fin n)) := e.symm.isSimpleGroup
+  · have : IsSimpleGroup (alternatingGroup (Fin n)) := e.symm.isSimpleGroup
     have hnonab' : ∃ a b : alternatingGroup (Fin n), a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := hnonab
       exact ⟨e a, e b, fun h => hab (e.injective (by simpa only [map_mul] using h))⟩

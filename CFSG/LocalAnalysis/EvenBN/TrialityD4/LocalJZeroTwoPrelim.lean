@@ -22,7 +22,7 @@ theorem isSylowOf_of_normalizer_D4 {p : ℕ} [Fact p.Prime] {Q K : Subgroup G} (
   set P : Subgroup G := (T : Subgroup K).map K.subtype with hP
   have hPK : P ≤ K := map_subtype_le _
   have hQP : Q ≤ P := fun x hx => ⟨⟨x, hQK hx⟩, hT hx, rfl⟩
-  have hPp : IsPGroup p P := T.isPGroup'.map _
+  have hPp : IsPGroup p P := T.isPGroup.map _
   suffices hPQ : P ≤ Q from ⟨T, le_antisymm hPQ hQP⟩
   by_contra hne
   have : Group.IsNilpotent P := hPp.isNilpotent
@@ -173,7 +173,7 @@ theorem card_sylowJ₀ : Nat.card d.sylowJ₀ = q ^ 3 := by
 
 theorem isPGroup_sylowJ₀ : IsPGroup 2 d.sylowJ₀ := by
   obtain ⟨P, hP⟩ := d.exists_sylow_eq_S
-  exact P.isPGroup'.to_le (hP ▸ inf_le_left)
+  exact P.isPGroup.to_le (hP ▸ inf_le_left)
 
 theorem sylowJ₀_le_leviJ₀ : d.sylowJ₀ ≤ d.leviJ₀ := fun _ hx =>
   d.mem_leviJ₀_of_mem_S_of_mem_centralizer_J₀ hx.1 hx.2

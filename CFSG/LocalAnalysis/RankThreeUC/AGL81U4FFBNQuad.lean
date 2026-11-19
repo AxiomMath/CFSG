@@ -238,8 +238,8 @@ theorem bnq_linear_part {n : ℕ} [Finite F] (hF : Nat.card F = (2 ^ n) ^ 2)
         ((g' : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F) *ᵥ (a x)) :
     ∃ r : ℕ, r ≤ 2 ∧ Nat.card (bnqLinFix B) = Nat.card F ^ (4 - r) ∧
       Nat.card (bnqLinSub B) ^ 2 ≤ Nat.card F ^ (r ^ 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
   obtain ⟨σ, hσ, -, hS⟩ := statedSU_data hF
   have hmemB : ∀ g ∈ bnqLinMat B, bnqGlAct g ∈ B := fun g hg =>
     (mem_bnqLinSub.mp (mem_bnqLinMat.mp hg)).1
@@ -278,8 +278,8 @@ theorem bnq_nonlin_fix_sq {n : ℕ} [Finite F] (hF : Nat.card F = (2 ^ n) ^ 2)
         ((g' : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F) *ᵥ (a x))
     {s : AddAut (Fin 4 → F)} (hsB : s ∈ B) (hsnl : ¬ bnqIsLin s) :
     Nat.card {x : Fin 4 → F // ∀ a ∈ B, a x = x} ^ 2 ≤ Nat.card (bnqLinFix B) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_sq (p := 2) (f := n) hF
   obtain ⟨θ, hθ⟩ := bnq_exists_semilinear hF (h2 s hsB) (hN s hsB)
   have hθi : ∀ c, θ (θ c) = c := bnq_ringHom_invol (h2 s hsB) hθ
   have hne : ∃ c, θ c ≠ c := bnq_exists_ne hθ hsnl
@@ -331,13 +331,13 @@ theorem bnq_card_le_two {n : ℕ} [Finite F] (hF : Nat.card F = (2 ^ n) ^ 2)
     rintro ⟨a, ha⟩ ⟨b, hb⟩ hab
     simp only [f] at hab
     by_cases hal : bnqIsLin a <;> by_cases hbl : bnqIsLin b
-    · rw [dif_pos hal, dif_pos hbl] at hab
+    · rw [dite_eq_left hal, dite_eq_left hbl] at hab
       exact Subtype.ext (congrArg (fun p : Bool × ↥(bnqLinSub B) => p.2.1) hab)
-    · rw [dif_pos hal, dif_neg hbl] at hab
+    · rw [dite_eq_left hal, dite_eq_right hbl] at hab
       cases hab
-    · rw [dif_neg hal, dif_pos hbl] at hab
+    · rw [dite_eq_right hal, dite_eq_left hbl] at hab
       cases hab
-    · rw [dif_neg hal, dif_neg hbl] at hab
+    · rw [dite_eq_right hal, dite_eq_right hbl] at hab
       have h3 : s + a = s + b := congrArg (fun p : Bool × ↥(bnqLinSub B) => p.2.1) hab
       exact Subtype.ext (add_left_cancel h3)
   have h1 := Nat.card_le_card_of_injective f hf

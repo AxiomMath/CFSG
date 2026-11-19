@@ -21,9 +21,9 @@ theorem modelAGen_frame [Finite K] (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨
     (hpQ : p ∣ Nat.card K ^ 2 - 1) :
     ModelGen.ModelAGen p (frameSize τ) ↥(adjointGroup τ K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
   have hodd : Odd p := hp.odd_of_ne_two hp2
   have hd := hrRootData_of hτ
   set X := ↥(adjointGroup τ K)
@@ -264,7 +264,7 @@ theorem concA_of_adjointGroup_of_inner {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 �
     (hBC : Nat.card ↥(B ⊓ centModSubgroup p S) = p)
     (hBle : Nat.card B ≤ p ^ (frameSize τ + 1)) (eX : ↥(adjointGroup τ K) ≃* PSimple p S) :
     S267ConcA p S B := by
-  haveI : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
+  have : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
   set eS : PSimple p S ≃* ↥S := (psimpleEquivCenterQuotOfCore hcore).trans
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot) with heS
   set φ : ↥(adjointGroup τ K) →* Ω := S.subtype.comp (eX.trans eS).toMonoidHom with hφdef
@@ -289,7 +289,7 @@ theorem concA_badExcCore_F4_of_inner {p q : ℕ} (hp : p.Prime) (hq2 : q ≠ 2)
     S267ConcA p S B := by
   rw [TauCeti.LieTypeIndex.characteristic_F4] at hchar
   subst hchar
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 Q hv
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K Q.p]; exact hq2
@@ -297,7 +297,7 @@ theorem concA_badExcCore_F4_of_inner {p q : ℕ} (hp : p.Prime) (hq2 : q ≠ 2)
   have hK5 := five_le_card_of_dvd_sq_sub_one hK2 hp hp2 hpK
   set eX : ↥(adjointGroup .F4 K) ≃* PSimple p S := eC.symm.trans e.symm with heX
   have hZ : Subgroup.center ↥S = ⊥ := center_eq_bot_of_adjointGroup hp hperf hcore eX (by
-    haveI := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.f4_hopfMultiplier hK5).2
+    have := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.f4_hopfMultiplier hK5).2
     rw [Nat.card_of_subsingleton
       (1 : CFSG.Open.griessHopfMultiplier (CFSG.Blueprint.AdjointQuotient .F4 K))]
     exact hp.not_dvd_one)
@@ -313,7 +313,7 @@ theorem concA_badExcCore_E6_of_inner {p q : ℕ} (hp : p.Prime) (hq2 : q ≠ 2)
     (hBle : Nat.card B ≤ p ^ (frameSize .E6 + 1)) : S267ConcA p S B := by
   rw [TauCeti.LieTypeIndex.characteristic_E6] at hchar
   subst hchar
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 Q hv
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K Q.p]; exact hq2
@@ -338,7 +338,7 @@ theorem concA_badExcCore_E7_of_inner {p q : ℕ} (hp : p.Prime) (hq2 : q ≠ 2)
     S267ConcA p S B := by
   rw [TauCeti.LieTypeIndex.characteristic_E7] at hchar
   subst hchar
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 Q hv
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K Q.p]; exact hq2
@@ -363,7 +363,7 @@ theorem concA_badExcCore_E8_of_inner {p q : ℕ} (hp : p.Prime) (hq2 : q ≠ 2)
     S267ConcA p S B := by
   rw [TauCeti.LieTypeIndex.characteristic_E8] at hchar
   subst hchar
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 Q hv
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K Q.p]; exact hq2
@@ -371,7 +371,7 @@ theorem concA_badExcCore_E8_of_inner {p q : ℕ} (hp : p.Prime) (hq2 : q ≠ 2)
   have hK5 := five_le_card_of_dvd_sq_sub_one hK2 hp hp2 hpK
   set eX : ↥(adjointGroup .E8 K) ≃* PSimple p S := eC.symm.trans e.symm with heX
   have hZ : Subgroup.center ↥S = ⊥ := center_eq_bot_of_adjointGroup hp hperf hcore eX (by
-    haveI := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.e8_hopfMultiplier hK5).2
+    have := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.e8_hopfMultiplier hK5).2
     rw [Nat.card_of_subsingleton
       (1 : CFSG.Open.griessHopfMultiplier (CFSG.Blueprint.AdjointQuotient .E8 K))]
     exact hp.not_dvd_one)

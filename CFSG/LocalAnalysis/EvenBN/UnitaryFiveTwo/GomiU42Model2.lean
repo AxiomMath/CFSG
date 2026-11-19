@@ -116,7 +116,7 @@ theorem psiHom_bijective : Function.Bijective psiHom := by
   have hdom : Nat.card (slUnitary (bar : F4 →+* F4) (revGL 4 F4 : Matrix (Fin 4) (Fin 4) F4)) =
       25920 := card_slUnitary_four (F := F4) hF bar_apply
   have hcod : Nat.card (StatedSU 4 (2 ^ 1) F4) = 25920 := YamadaPar.card_statedSU_SU42
-  haveI : Finite (StatedSU 4 (2 ^ 1) F4) :=
+  have : Finite (StatedSU 4 (2 ^ 1) F4) :=
     Nat.finite_of_card_ne_zero (by rw [hcod]; norm_num)
   exact psiHom_injective.bijective_of_nat_card_le (le_of_eq (by rw [hcod, hdom]))
 

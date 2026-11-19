@@ -45,11 +45,11 @@ theorem eq_of_adj_of_dist_add_one_eq (hG : G.IsTree) (r : V) {c v w : V} (hv : G
   obtain ⟨S, hS, hSlen⟩ := hG.connected.exists_path_of_dist r w
   have hcR : c ∉ R.support := fun hc => by
     have h1 := SimpleGraph.dist_le (R.takeUntil c hc)
-    have h2 := R.length_takeUntil_le hc
+    have h2 := R.length_takeUntil_le_length hc
     omega
   have hcS : c ∉ S.support := fun hc => by
     have h1 := SimpleGraph.dist_le (S.takeUntil c hc)
-    have h2 := S.length_takeUntil_le hc
+    have h2 := S.length_takeUntil_le_length hc
     omega
   have hYZ := (hG.existsUnique_path r c).unique (hR.concat hcR hv.symm) (hS.concat hcS hw.symm)
   have h := congrArg SimpleGraph.Walk.penultimate hYZ

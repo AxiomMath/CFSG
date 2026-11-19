@@ -12,8 +12,8 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 theorem s16h_sl28_card_of_isSLn {X : Type} [Group X]
     (h : IsSLn X 2 3) : Nat.card X = 504 := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_two, hKcard]
   norm_num
 
@@ -24,8 +24,8 @@ theorem s16h_sl28_card_mulAut_of_isSLn {X : Type} [Group X] [Finite X]
 
 theorem s16h_sl28_center_eq_bot_of_isSLn {X : Type} [Group X] [Finite X]
     (h : IsSLn X 2 3) : Subgroup.center X = ⊥ := by
-  haveI : IsSimpleGroup X := CFSG.GroupTheory.isSimpleGroup_of_isSLn_two (by norm_num) h
-  haveI : Group.IsPerfect X := CFSG.GroupTheory.isPerfect_of_isSLn_two (by norm_num) h
+  have : IsSimpleGroup X := CFSG.GroupTheory.isSimpleGroup_of_isSLn_two (by norm_num) h
+  have : Group.IsPerfect X := CFSG.GroupTheory.isPerfect_of_isSLn_two (by norm_num) h
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center X) with hbot | htop
   · exact hbot
   · exfalso
@@ -33,7 +33,7 @@ theorem s16h_sl28_center_eq_bot_of_isSLn {X : Type} [Group X] [Finite X]
       intro a b
       have ha : a ∈ Subgroup.center X := htop ▸ Subgroup.mem_top a
       exact (Subgroup.mem_center_iff.mp ha b).symm
-    haveI : IsMulCommutative X := ⟨⟨hcomm⟩⟩
+    have : IsMulCommutative X := ⟨⟨hcomm⟩⟩
     exact (Group.IsPerfect.not_isMulCommutative X) inferInstance
 
 theorem s16h_card_inf_of_isSylow_sl28 {X : Type} [Group X] [Finite X]

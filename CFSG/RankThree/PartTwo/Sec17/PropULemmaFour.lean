@@ -19,7 +19,7 @@ theorem exists_maximal_twoLocal {G : Type} [Group G] [Finite G] (hG : TheoremFou
     (hN : CFSG.Assembly.IsTwoLocal N) (hAN : A ≤ N) :
     ∃ M : Subgroup G, N ≤ M ∧ CFSG.IsMaximalTwoLocal M ∧ M ∈ scriptY2 A ∧
       generalizedFitting ↥M = CFSG.pCore 2 ↥M := by
-  haveI : IsSimpleGroup G := hG.isSimpleGroup
+  have : IsSimpleGroup G := hG.isSimpleGroup
   have hN' : CFSG.IsPLocal 2 N := hN
   obtain ⟨M, hNM, hM⟩ := CFSG.CGT.PushingUp.exists_isMaximalTwoLocal_ge hN'
   have hM1 : CFSG.IsPLocal 2 M := hM.1
@@ -39,7 +39,7 @@ theorem exists_maximal_twoLocal {G : Type} [Group G] [Finite G] (hG : TheoremFou
 theorem delta_le_normalizer_of_twoLocal {G : Type} [Group G] [Finite G] (hG : TheoremFourHyp G)
     (hchar : CFSG.Assembly.IsCharTwoType G) {A Y₀ X N : Subgroup G}
     (h152 : Item152 A (lB A)) (h155 : Item155 A (lB A)) (hY0 : scriptY0Star A (lB A) = {Y₀})
-    (hX4 : X ∈ scriptY4 A (lB A)) (hXY : X ≤ Y₀) (hcov : Y₀ = X ⊔ CFSG.Open.pCoreOf 2 Y₀)
+    (hX4 : X ∈ scriptY4 A (lB A)) (_hXY : X ≤ Y₀) (hcov : Y₀ = X ⊔ CFSG.Open.pCoreOf 2 Y₀)
     (hN : CFSG.Assembly.IsTwoLocal N) (hAN : A ≤ N) (hXN : X ≤ N) :
     delta A (lB A) N ≤ Subgroup.normalizer (Y₀ : Set G) := by
   obtain ⟨M, hNM, hMmax, hM2, hFstar⟩ := exists_maximal_twoLocal hG hchar hN hAN

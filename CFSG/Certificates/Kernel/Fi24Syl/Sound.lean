@@ -91,8 +91,8 @@ noncomputable def val (M : ℕ) : ℕ := if O3 M then cv (mat7 M - 1) else 0
 private theorem nIf_val {b : Bool} {X : ℕ} {P : Prop} [Decidable P] (h : b = true ↔ P) :
     Bool.rec (motive := fun _ => ℕ) 0 X b = if P then X else 0 := by
   cases b
-  · rw [if_neg (fun hp => Bool.noConfusion (h.2 hp))]
-  · rw [if_pos (h.1 rfl)]
+  · rw [ite_eq_right (fun hp => Bool.noConfusion (h.2 hp))]
+  · rw [ite_eq_left (h.1 rfl)]
 
 private theorem stepV_gen {AV La Ha L31 CMa TL T31 T32 T63 R1 N X : ℕ} {P : Prop} [Decidable P]
     (ho : andB (notB (Nat.beq N 0)) (Nat.beq (mul7 (mul7 N N) N) 0) = true ↔ P)
@@ -364,8 +364,8 @@ theorem cnt_eq {tot o t : ℕ} {C : ℕ → ℕ}
   refine Finset.sum_congr rfl fun r hr => ?_
   rw [hC r (Finset.mem_range.1 hr)]
   by_cases h : t ≤ C r
-  · rw [if_pos h, ble_t h]
-  · rw [if_neg h, ble_f h]
+  · rw [ite_eq_left h, ble_t h]
+  · rw [ite_eq_right h, ble_f h]
 
 private theorem digits_sum : ∀ (k n : ℕ), n < 3 ^ k →
     n = ∑ j ∈ Finset.range k, n / 3 ^ j % 3 * 3 ^ j
@@ -402,7 +402,7 @@ theorem vrow_inj {r r' : ℕ} (hr : r < 2187) (hr' : r' < 2187) (h : vrow r = vr
 
 theorem vrow_surj (v : Fin 7 → ZMod 3) : ∃ r < 2187, vrow r = v := by
   have hc : (Finset.univ : Finset (Fin 7 → ZMod 3)).card ≤ (Finset.range 2187).card := by
-    simp [Finset.card_univ, Fintype.card_fun, ZMod.card]
+    simp [Finset.card_univ, ZMod.card]
   obtain ⟨r, hr, hv⟩ := Finset.surj_on_of_inj_on_of_card_le (fun r _ => vrow r)
     (fun _ _ => Finset.mem_univ _)
     (fun a b ha hb h => vrow_inj (Finset.mem_range.1 ha) (Finset.mem_range.1 hb) h) hc v
@@ -428,14 +428,14 @@ theorem vm_iff (A : Matrix (Fin 7) (Fin 7) (ZMod 3)) (v : Fin 7 → ZMod 3) :
 theorem zF_one {A : Matrix (Fin 7) (Fin 7) (ZMod 3)} {r : ℕ} (h : A *ᵥ vrow r = vrow r) :
     zF (Aᵀ - 1) r = 1 := by
   unfold zF
-  rw [if_pos ((vm_iff A _).2 h)]
+  rw [ite_eq_left ((vm_iff A _).2 h)]
 
 theorem zF_last (Y : Matrix (Fin 7) (Fin 7) (ZMod 3)) : zF Y 2186 = 1 := by
   have h : vrow 2186 = 0 := by
     funext j
     simp [vrow]
   unfold zF
-  rw [h, Matrix.zero_vecMul, if_pos rfl]
+  rw [h, Matrix.zero_vecMul, ite_eq_left rfl]
 
 theorem fixC_eq (A : Matrix (Fin 7) (Fin 7) (ZMod 3)) : fixC (Aᵀ - 1) = (fixSetN 7 A).card := by
   unfold fixC fixSetN
@@ -443,8 +443,8 @@ theorem fixC_eq (A : Matrix (Fin 7) (Fin 7) (ZMod 3)) : fixC (Aᵀ - 1) = (fixSe
   refine Finset.sum_congr rfl fun r _ => ?_
   unfold zF
   by_cases h : A *ᵥ vrow r = vrow r
-  · rw [if_pos ((vm_iff A _).2 h), if_pos h]
-  · rw [if_neg (fun h' => h ((vm_iff A _).1 h')), if_neg h]
+  · rw [ite_eq_left ((vm_iff A _).2 h), ite_eq_left h]
+  · rw [ite_eq_right (fun h' => h ((vm_iff A _).1 h')), ite_eq_right h]
 
 theorem card_le_wsum {X : Type*} [DecidableEq X] (s : Finset X) (L : List ℕ) (f : ℕ → X)
     (w : ℕ → ℕ) (hs : ∀ a ∈ s, ∃ y ∈ L, f y = a ∧ 0 < w y) : s.card ≤ (L.map w).sum := by
@@ -521,7 +521,7 @@ theorem fi24Facts_of_kc {T st : ℕ → ℕ} (hT : topsOK T tops9 = true)
     obtain ⟨M, hM, hO, hm⟩ := hO3 A hA.1
     refine ⟨M, hM, by rw [hm, Matrix.transpose_transpose], ?_⟩
     unfold aF
-    rw [if_pos hO, hm, zF_one ((hfix A _).1 hA.2)]
+    rw [ite_eq_left hO, hm, zF_one ((hfix A _).1 hA.2)]
     norm_num
   have hcntB : ∀ r, (((o3SetN 7 fi24Matrices).filter fun A => 243 ≤ (fixSetN 7 A).card).filter
       fun A => vrow r ∈ fixSetN 7 A).card ≤ cB T r := by
@@ -531,7 +531,7 @@ theorem fi24Facts_of_kc {T st : ℕ → ℕ} (hT : topsOK T tops9 = true)
     obtain ⟨M, hM, hO, hm⟩ := hO3 A hA.1.1
     refine ⟨M, hM, by rw [hm, Matrix.transpose_transpose], ?_⟩
     unfold bF
-    rw [if_pos ⟨hO, by rw [hm, fixC_eq]; exact hA.1.2⟩, hm, zF_one ((hfix A _).1 hA.2)]
+    rw [ite_eq_left ⟨hO, by rw [hm, fixC_eq]; exact hA.1.2⟩, hm, zF_one ((hfix A _).1 hA.2)]
     norm_num
   have e91812 : Nat.add (Nat.mul 42 2186) 0 = 91812 := rfl
   have hA2186 := hfA 2186 (by norm_num)
@@ -542,7 +542,7 @@ theorem fi24Facts_of_kc {T st : ℕ → ℕ} (hT : topsOK T tops9 = true)
           obtain ⟨M, hM, hO, hm⟩ := hO3 A hA
           refine ⟨M, hM, by rw [hm, Matrix.transpose_transpose], ?_⟩
           unfold aF
-          rw [if_pos hO, zF_last]
+          rw [ite_eq_left hO, zF_last]
           norm_num
       _ < 6560 := by
           rw [← hA2186]
@@ -552,7 +552,7 @@ theorem fi24Facts_of_kc {T st : ℕ → ℕ} (hT : topsOK T tops9 = true)
     unfold pF at hp
     rw [← fixC_eq, ← hm]
     by_contra hc'
-    rw [if_pos ⟨hO, hc'⟩] at hp
+    rw [ite_eq_left ⟨hO, hc'⟩] at hp
     exact one_ne_zero hp
   · rw [card_vec]
     calc _ ≤ ((Finset.range 2187).filter fun r => 2186 ≤ cA T r).card := by

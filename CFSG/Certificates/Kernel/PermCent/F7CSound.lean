@@ -43,11 +43,9 @@ theorem F7AL_eq : F7AL = F7C.map fun a => (ev a.1, ev a.2) := by
 theorem F7L_eq : F7L.map Subtype.val = F7C.map fun a => (ev a.1, ev a.2) := by
   rw [← F7AL_eq]
   unfold F7L
-  simp [List.map_pmap]
+  simp
   first
     | exact List.attach_map_subtype_val _
-    | exact List.attach_map_val _
-    | simp
 
 end CFSG.Certificates.Kernel.PkCV
 

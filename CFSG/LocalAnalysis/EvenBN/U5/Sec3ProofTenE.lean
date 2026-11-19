@@ -91,7 +91,7 @@ theorem s4b1_eq_sup_of_inf_card_le {α : Type*} [Group α] [Finite α] {q : ℕ}
   have hcardX : Nat.card X ≤ Nat.card (A ⊔ B : Subgroup α) := by
     rw [hXc]
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h1 : Nat.card (A ⊔ B : Subgroup α) * Nat.card (A ⊓ B : Subgroup α) ≤
         Nat.card (A ⊔ B : Subgroup α) * q ^ 2 := Nat.mul_le_mul le_rfl hi
     have h2 : Nat.card (A ⊔ B : Subgroup α) * q ^ 2 < q ^ 10 * q ^ 2 :=
@@ -116,9 +116,9 @@ theorem s4b1_le_normalizer_of_normal_map {α : Type*} [Group α] (S W : Subgroup
   have h := hconj x⁻¹ (inv_mem hx) (x * y * x⁻¹) hxy
   simpa [mul_assoc] using h
 
-theorem sec3101E_of_hyp (hp : d.CaseHyp) (k : d.Know93) (h2 : d.Sec3_10_two)
+theorem sec3101E_of_hyp (hp : d.CaseHyp) (k : d.Know93) (_h2 : d.Sec3_10_two)
     (S : Subgroup G) (hS : IsSylowOf 2 S d.L₂) (hP : d.P ≤ S) (hO : d.Sec3101Orders S)
-    (ha : d.Sec3101A S) : d.Sec3101E S := by
+    (_ha : d.Sec3101A S) : d.Sec3101E S := by
   have hGMS := hp.gms
   have hd : d.Hyp := hp.hyp
   have h91 := k.s9_1 S hS hP
@@ -131,10 +131,10 @@ theorem sec3101E_of_hyp (hp : d.CaseHyp) (k : d.Know93) (h2 : d.Sec3_10_two)
   have hES : d.E ≤ S := by rw [hSED]; exact le_sup_left
   have hDS : d.D ≤ S := by rw [hSED]; exact le_sup_right
   have hEN : (d.E.subgroupOf S).Normal := by
-    haveI := hEchar
+    have := hEchar
     infer_instance
   have hDN : (d.D.subgroupOf S).Normal := by
-    haveI := hDchar
+    have := hDchar
     infer_instance
   have hSNE : S ≤ Subgroup.normalizer (d.E : Set G) :=
     (normal_subgroupOf_iff_le_normalizer hES).1 hEN

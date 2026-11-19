@@ -55,7 +55,7 @@ private theorem le_weakCore_of_hyperGen_equiv (hp : p.Prime) [K.Normal] {L : Typ
     (e : K ≃* L)
     {E₁ : Subgroup L} (hE₁ : IsElemAbelian p E₁) (hc : Nat.card E₁ = p ^ 3)
     (hgen : HyperGen p ⊤ E₁) : K ≤ GLBWeakCore p (P : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set E₂ : Subgroup G := (E₁.map e.symm.toMonoidHom).map K.subtype
   have hE₂ : IsElemAbelian p E₂ := (hE₁.map _).map _
   have hE₂c : Nat.card E₂ = p ^ 3 := by
@@ -75,8 +75,8 @@ theorem Hyp.p1ThreeLieList_of_lieCross (H : Hyp p K P E)
     P1ThreeLieList p d := by
   by_contra hl
   apply hnot
-  haveI := H.normal
-  haveI : Fact p.Prime := ⟨H.prime⟩
+  have := H.normal
+  have : Fact p.Prime := ⟨H.prime⟩
   by_cases hex : ∃ E₃ : Subgroup G, E₃ ≤ K ∧ IsElemAbelian p E₃ ∧ Nat.card E₃ = p ^ 3
   · obtain ⟨E₃, hE₃K, hE₃, hE₃c⟩ := hex
     obtain ⟨E₁, hE₁, hE₁c, hgen⟩ := exists_hyperGen_of_cross d H.prime H.ne_two hpd hl

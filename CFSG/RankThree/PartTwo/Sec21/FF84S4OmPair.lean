@@ -51,7 +51,7 @@ theorem nonempty_mulEquiv_alt5_of_faithful {H : Type*} [Group H] [Finite H] {X :
     [Finite X] (φ : H →* Equiv.Perm X) (hφ : Function.Injective φ) (hX : Nat.card X = 5)
     (hH : Nat.card H = 60) : Nonempty (H ≃* alternatingGroup (Fin 5)) := by
   classical
-  haveI := Fintype.ofFinite X
+  have := Fintype.ofFinite X
   have hX' : Fintype.card X = 5 := by rw [← Nat.card_eq_fintype_card]; exact hX
   have hrange : Nat.card φ.range = 60 := by
     rw [← hH]
@@ -188,7 +188,7 @@ private theorem omFaith0 (g : OmG) (hs : (g : F6 ≃ₗ[ZMod 2] F6) omS0 = omS0)
 
 private theorem Om_pair0 :
     Nonempty (↥(stabilizer OmG (omS0, omT0)) ≃* alternatingGroup (Fin 5)) := by
-  haveI : Finite OmG := Nat.finite_of_card_ne_zero (by rw [card_timmesfeldOmega]; norm_num)
+  have : Finite OmG := Nat.finite_of_card_ne_zero (by rw [card_timmesfeldOmega]; norm_num)
   have hX : Nat.card ↥omX0Sub = 5 := by
     rw [Nat.card_congr (Equiv.subtypeEquivRight (fun x => Iff.rfl) :
         ↥omX0Sub ≃ {u : F6 // OmX omS0 omT0 u}), Nat.card_eq_fintype_card, Fintype.card_subtype]

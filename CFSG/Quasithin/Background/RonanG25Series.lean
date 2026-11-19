@@ -2,7 +2,7 @@ module
 
 public import CFSG.Quasithin.Background.RonanG25Defs
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Tactic.Basify
 public import Mathlib.Tactic.ENatToNat
 public import Std.Tactic.BVDecide.Normalize.Prop
@@ -67,7 +67,7 @@ private theorem chain_series [Finite G] (hF : ∃ m : ℕ, 0 < m ∧ Nat.card F 
     rw [hFm]
     calc (2 : ℕ) = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hFm]; positivity)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hFm]; positivity)
   induction h with
   | refl A₀ hA =>
     refine ⟨0, fun _ => A₀, rfl, rfl, fun i hi => absurd hi (Nat.not_lt_zero i),
@@ -97,13 +97,13 @@ private theorem chain_series [Finite G] (hF : ∃ m : ℕ, 0 < m ∧ Nat.card F 
     · rw [Finset.sum_range_succ']
       show (∑ i ∈ Finset.range k, (if FactorNatural F X (Ps i) (Ps (i + 1)) then 1 else 0))
         + (if FactorNatural F X A₁ (Ps 0) then 1 else 0) = a₁ + 1
-      rw [if_pos e0, ha]
+      rw [ite_eq_left e0, ha]
     · rw [Finset.sum_range_succ']
       show (∑ i ∈ Finset.range k, (if FactorTwo (Ps i) (Ps (i + 1)) ∧
           ¬ FactorCentral X (Ps i) (Ps (i + 1)) ∧ ¬ FactorNatural F X (Ps i) (Ps (i + 1))
         then 1 else 0)) + (if FactorTwo A₁ (Ps 0) ∧ ¬ FactorCentral X A₁ (Ps 0) ∧
           ¬ FactorNatural F X A₁ (Ps 0) then 1 else 0) = b₁
-      rw [if_neg e0B, add_zero]
+      rw [ite_eq_right e0B, add_zero]
       exact hb
     · intro i hi hT' hC' hN'
       cases i with
@@ -149,14 +149,14 @@ private theorem chain_series [Finite G] (hF : ∃ m : ℕ, 0 < m ∧ Nat.card F 
     · rw [Finset.sum_range_succ']
       show (∑ i ∈ Finset.range k, (if FactorNatural F X (Ps i) (Ps (i + 1)) then 1 else 0))
         + (if FactorNatural F X A₁ (Ps 0) then 1 else 0) = a₁
-      rw [if_neg e0N, add_zero]
+      rw [ite_eq_right e0N, add_zero]
       exact ha
     · rw [Finset.sum_range_succ']
       show (∑ i ∈ Finset.range k, (if FactorTwo (Ps i) (Ps (i + 1)) ∧
           ¬ FactorCentral X (Ps i) (Ps (i + 1)) ∧ ¬ FactorNatural F X (Ps i) (Ps (i + 1))
         then 1 else 0)) + (if FactorTwo A₁ (Ps 0) ∧ ¬ FactorCentral X A₁ (Ps 0) ∧
           ¬ FactorNatural F X A₁ (Ps 0) then 1 else 0) = b₁ + 1
-      rw [if_pos e0B, hb]
+      rw [ite_eq_left e0B, hb]
     · intro i hi hT' hC' hN'
       cases i with
       | zero => exact e0card
@@ -192,14 +192,14 @@ private theorem chain_series [Finite G] (hF : ∃ m : ℕ, 0 < m ∧ Nat.card F 
     · rw [Finset.sum_range_succ']
       show (∑ i ∈ Finset.range k, (if FactorNatural F X (Ps i) (Ps (i + 1)) then 1 else 0))
         + (if FactorNatural F X A₁ (Ps 0) then 1 else 0) = a₁
-      rw [if_neg e0N, add_zero]
+      rw [ite_eq_right e0N, add_zero]
       exact ha
     · rw [Finset.sum_range_succ']
       show (∑ i ∈ Finset.range k, (if FactorTwo (Ps i) (Ps (i + 1)) ∧
           ¬ FactorCentral X (Ps i) (Ps (i + 1)) ∧ ¬ FactorNatural F X (Ps i) (Ps (i + 1))
         then 1 else 0)) + (if FactorTwo A₁ (Ps 0) ∧ ¬ FactorCentral X A₁ (Ps 0) ∧
           ¬ FactorNatural F X A₁ (Ps 0) then 1 else 0) = b₁
-      rw [if_neg e0B, add_zero]
+      rw [ite_eq_right e0B, add_zero]
       exact hb
     · intro i hi hT' hC' hN'
       cases i with
@@ -237,14 +237,14 @@ private theorem chain_series [Finite G] (hF : ∃ m : ℕ, 0 < m ∧ Nat.card F 
     · rw [Finset.sum_range_succ']
       show (∑ i ∈ Finset.range k, (if FactorNatural F X (Ps i) (Ps (i + 1)) then 1 else 0))
         + (if FactorNatural F X A₁ (Ps 0) then 1 else 0) = a₁
-      rw [if_neg e0N, add_zero]
+      rw [ite_eq_right e0N, add_zero]
       exact ha
     · rw [Finset.sum_range_succ']
       show (∑ i ∈ Finset.range k, (if FactorTwo (Ps i) (Ps (i + 1)) ∧
           ¬ FactorCentral X (Ps i) (Ps (i + 1)) ∧ ¬ FactorNatural F X (Ps i) (Ps (i + 1))
         then 1 else 0)) + (if FactorTwo A₁ (Ps 0) ∧ ¬ FactorCentral X A₁ (Ps 0) ∧
           ¬ FactorNatural F X A₁ (Ps 0) then 1 else 0) = b₁
-      rw [if_neg e0B, add_zero]
+      rw [ite_eq_right e0B, add_zero]
       exact hb
     · intro i hi hT' hC' hN'
       cases i with

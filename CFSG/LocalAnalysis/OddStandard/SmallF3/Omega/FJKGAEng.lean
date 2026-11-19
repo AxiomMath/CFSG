@@ -62,8 +62,8 @@ theorem fj_kga_engine (hQ : Q.Nondegenerate) (hn : Module.finrank (ZMod 3) V ≤
     (hne : projAut hQ s ≠ MulAut.conj y) :
     ∃ J : Subgroup (omegaProj hQ), IsComponentIn J (fixSub (projAut hQ s)) ∧ InFStar J ∧
       B ≤ J := by
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite (omegaGroup hQ) := Subtype.finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (omegaGroup hQ) := Subtype.finite
   have hsum := finrank_fixSp_add_finrank_commSp (Q := Q) s
   have hU : 0 < Module.finrank (ZMod 3) (commSp s) := by
     rcases Nat.eq_zero_or_pos (Module.finrank (ZMod 3) (commSp s)) with h | h

@@ -449,7 +449,7 @@ private theorem exists_conj_map_eq_sylowQ0 (Q : Sylow 3 PSp43) :
   have h := congrArg (fun S : Sylow 3 PSp43 => (S : Subgroup PSp43)) hg
   rw [Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def] at h
   rw [hQ0] at h
-  convert h using 2 <;> ext x <;> rfl
+  convert h using 2; ext x; rfl
 
 private theorem exists_conj_data (Q : Sylow 3 PSp43) {D : Subgroup PSp43}
     (hDQ : D ≤ Q) (hD : Nat.card D = 27) (h3 : ∀ x ∈ D, x ^ 3 = 1) (hnc : ¬ IsMulCommutative D) :
@@ -468,7 +468,7 @@ private theorem exists_conj_data (Q : Sylow 3 PSp43) {D : Subgroup PSp43}
   · rintro _ ⟨d, hd, rfl⟩
     rw [← map_pow, h3 d hd, map_one]
   · intro h0
-    haveI : IsMulCommutative (D.map (MulAut.conj g).toMonoidHom) := h0
+    have : IsMulCommutative (D.map (MulAut.conj g).toMonoidHom) := h0
     exact hnc (by
       have h := Subgroup.comap_injective_isMulCommutative
         (H := D.map (MulAut.conj g).toMonoidHom) (f := (MulAut.conj g).toMonoidHom)

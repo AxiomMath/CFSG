@@ -15,7 +15,7 @@ variable {K : Type*} [Field K]
 theorem det_eq_of_pow_eq_scalar {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {s : Matrix (Fin p) (Fin p) K} {ω : K} (hs : s ^ p = Matrix.scalar (Fin p) ω)
     (hω : ∀ b : K, b ^ p ≠ ω) : s.det = ω := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hirr : Irreducible (X ^ p - C ω : K[X]) := X_pow_sub_C_irreducible_of_prime hp hω
   have hann : aeval s (X ^ p - C ω : K[X]) = 0 := by
     rw [map_sub, map_pow, aeval_X, aeval_C, hs]
@@ -36,7 +36,7 @@ theorem det_eq_of_pow_eq_scalar {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       (Matrix.minpoly_dvd_charpoly s) ?_
     rw [Matrix.charpoly_natDegree_eq_dim, Fintype.card_fin, hdeg]
   rw [Matrix.det_eq_sign_charpoly_coeff, hχ, heq, Fintype.card_fin,
-    (hp.odd_of_ne_two hp2).neg_one_pow, coeff_sub, coeff_X_pow, if_neg hp.ne_zero.symm,
+    (hp.odd_of_ne_two hp2).neg_one_pow, coeff_sub, coeff_X_pow, ite_eq_right hp.ne_zero.symm,
     coeff_C_zero]
   ring
 

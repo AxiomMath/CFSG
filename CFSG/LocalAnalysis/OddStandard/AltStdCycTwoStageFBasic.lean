@@ -116,7 +116,7 @@ theorem Inner.not_le_centralizer_of_sylow (c : Inner G L Q n z) (S : Sylow 2 G) 
     have hdvd : (S ⊓ L : Subgroup G).relIndex S ∣ 2 := by
       rw [relIndex_dvd_two_iff]
       refine ⟨z, hzS, fun b hb => ?_⟩
-      obtain ⟨l, hl, hbl⟩ := c.decomp_of_mem hSC S.isPGroup' hb
+      obtain ⟨l, hl, hbl⟩ := c.decomp_of_mem hSC S.isPGroup hb
       rcases hbl with rfl | rfl
       · exact Or.inr (Subgroup.mem_inf.2 ⟨hb, hl⟩)
       · refine Or.inl (Subgroup.mem_inf.2 ⟨Subgroup.mul_mem _ hb hzS, ?_⟩)
@@ -126,7 +126,7 @@ theorem Inner.not_le_centralizer_of_sylow (c : Inner G L Q n z) (S : Sylow 2 G) 
     · exfalso
       exact hzL (Subgroup.mem_inf.1 ((relIndex_eq_one.1 h1) hzS)).2
     · exact h2
-  obtain ⟨g, hg⟩ := Solomon75.exists_conj_mem_of_thompson c.std.simple c.std.nonab S.isPGroup'
+  obtain ⟨g, hg⟩ := Solomon75.exists_conj_mem_of_thompson c.std.simple c.std.nonab S.isPGroup
     S.not_dvd_index inf_le_left hrel hzS (fun hzU => hzL (Subgroup.mem_inf.1 hzU).2) c.cyc.order
   have := c.not_conj_mem g⁻¹
   rw [inv_inv] at this
@@ -146,7 +146,7 @@ theorem Inner.exists_common_involution_norm (c : Inner G L Q n z) {R : Subgroup 
   obtain ⟨S, hRS⟩ := hR.exists_le_sylow
   have hne : R ≠ (S : Subgroup G) := fun hRS' =>
     c.not_le_centralizer_of_sylow S (hRS' ▸ hRC)
-  have hnil : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   have hlt : R.subgroupOf (S : Subgroup G) < ⊤ := by
     refine lt_top_iff_ne_top.2 fun htop => hne ?_
     refine le_antisymm hRS fun s hs => ?_
@@ -188,7 +188,7 @@ theorem Inner.exists_common_involution_norm (c : Inner G L Q n z) {R : Subgroup 
         _ = z * x := by rw [← hw, hwz]
     have hle : R ⊔ Subgroup.zpowers x ≤ (S : Subgroup G) :=
       sup_le hRS (Subgroup.zpowers_le.2 hxS)
-    have hp : IsPGroup 2 ↥(R ⊔ Subgroup.zpowers x) := S.isPGroup'.to_le hle
+    have hp : IsPGroup 2 ↥(R ⊔ Subgroup.zpowers x) := S.isPGroup.to_le hle
     have hC : R ⊔ Subgroup.zpowers x ≤ centralizer ({z} : Set G) :=
       sup_le hRC (Subgroup.zpowers_le.2 hxC)
     have := hRmax _ hC hp le_sup_left

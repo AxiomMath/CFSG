@@ -19,8 +19,8 @@ theorem inCatalog_of_isTI_of_weaklyClosedIn
     (hTI : CFSG.CGT.Timmesfeld75.IsTI W)
     (hwc : CFSG.CGT.Timmesfeld75.WeaklyClosedIn W (Subgroup.normalizer (W : Set G))) :
     CFSG.Assembly.InCatalog G := by
-  haveI := hs
-  haveI : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).mpr hW1
+  have := hs
+  have : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).mpr hW1
   obtain ⟨t, htW, ht1⟩ := Subgroup.exists_ne_one_of_nontrivial W
   have ht2 : t * t = 1 := by simpa [pow_two] using hW.2 t htW
   have hord : orderOf t = 2 := orderOf_eq_prime (by simpa [pow_two] using ht2) ht1

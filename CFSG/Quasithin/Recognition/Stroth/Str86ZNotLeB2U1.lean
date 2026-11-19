@@ -58,7 +58,7 @@ theorem str86_exists_X0_commutator {L1 L2 S : Subgroup G} {k : ℕ}
       (Q1 L1 L2 S).relIndex X0 = 2 ^ k ∧ ⁅S, S⁆ ⊔ Q1 L1 L2 S = X0 ∧
       ⁅X0, S⁆ ≤ Q1 L1 L2 S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S :=
     eq_sup_pCoreOf_of_bender_left hF.1 hSB
       (Or.inr (Or.inl ⟨k, hk, F, inferInstance, inferInstance, hFc, hU3⟩))

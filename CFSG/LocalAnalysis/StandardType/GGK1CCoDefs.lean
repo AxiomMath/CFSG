@@ -33,7 +33,7 @@ inductive ggK1CCo_Kind where
   | .su 1 => ⟨⟨.A, 0, nf⟩, false⟩
   | .su m => ggMultBlockA (m - 1) nf 2
 
-@[expose] def ggK1CCo_expectedKindList (p nf d : ℕ) (m : List ℕ) : List ggK1CCo_Kind :=
+@[expose] def ggK1CCo_expectedKindList (p _nf d : ℕ) (m : List ℕ) : List ggK1CCo_Kind :=
   (if m.headD 0 = 0 then [] else [ggK1CCo_Kind.sp (m.headD 0)]) ++
     (((List.range ((p - 1) / 2 + 1)).filter
         (fun j => decide (1 ≤ j ∧ 1 ≤ m.getD j 0))).map

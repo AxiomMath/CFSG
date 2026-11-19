@@ -21,7 +21,7 @@ private theorem rckRPlr_pow_card_eq_zero_of_isNilpotent {F : Type} [Field F] {n 
 private theorem rckRPlr_sub_one_pow_eq_zero {n : ℕ} (hn : 1 ≤ n) {F : Type} [Field F]
     [CharP F 2] {x : GL (Fin n) F} {k : ℕ} (hx : x ^ 2 ^ k = 1) :
     ((x : Matrix (Fin n) (Fin n) F) - 1) ^ 2 ^ k = 0 := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   have hx' : ((x : Matrix (Fin n) (Fin n) F)) ^ 2 ^ k = 1 := by
     simpa using congrArg (fun g : GL (Fin n) F => (g : Matrix (Fin n) (Fin n) F)) hx
   rw [sub_pow_char_pow_of_commute 2 k (Commute.one_right _), hx', one_pow, sub_self]
@@ -294,7 +294,7 @@ theorem rckRP_ggRootPosFlag_PSU_le_two {X : Type} [Group X] {n g : ℕ} (hn : n 
       _ = (S : Subgroup ↥H).map (φ.comp H.subtype) := by rw [Subgroup.map_map]
       _ = ((S : Subgroup ↥H).map f).map R.subtype := by rw [← hcomp, Subgroup.map_map]
       _ = R := by rw [hSmap, Subgroup.map_top, Subgroup.range_subtype]
-  have hR'pg : IsPGroup 2 R' := S.isPGroup'.map H.subtype
+  have hR'pg : IsPGroup 2 R' := S.isPGroup.map H.subtype
   have hP : IsPGroup 2 (R'.map (Unitary.SU σ n).subtype) := hR'pg.map _
   have hflag : GLGeoFlag none (R'.map (Unitary.SU σ n).subtype) :=
     rckRP_glGeoFlag_none_of_isPGroup_two_le_two hn hP

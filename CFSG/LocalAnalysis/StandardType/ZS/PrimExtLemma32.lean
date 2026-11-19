@@ -28,7 +28,7 @@ private theorem apply_basis_eq_of_toMatrix_diagSignMat {n : ℕ}
   rw [diagSignMat, Matrix.diagonal_apply]
   by_cases hk : k = j
   · subst hk
-    rw [if_pos rfl, Finsupp.single_eq_same, smul_eq_mul, mul_one]
+    rw [ite_eq_left rfl, Finsupp.single_eq_same, smul_eq_mul, mul_one]
   · simp [hk]
 
 private theorem movedSpace_eq_span_of_toMatrix_diagSignMat {n : ℕ} (hp2 : p ≠ 2)
@@ -50,17 +50,17 @@ private theorem movedSpace_eq_span_of_toMatrix_diagSignMat {n : ℕ} (hp2 : p �
     rw [hv]
     refine Submodule.sum_mem _ fun j _ => ?_
     by_cases hj : j = i
-    · rw [hgfj j, if_pos hj]
+    · rw [hgfj j, ite_eq_left hj]
       rw [show (-1 : ZMod p) • f j - f j = (-2 : ZMod p) • f j by module]
       rw [hj]
       exact Submodule.smul_mem (Submodule.span (ZMod p) {f i}) ((f.repr v) i)
         (Submodule.smul_mem (Submodule.span (ZMod p) {f i}) (-2 : ZMod p)
           (Submodule.subset_span (Set.mem_singleton (f i))))
-    · rw [hgfj j, if_neg hj, one_smul, sub_self, smul_zero]
+    · rw [hgfj j, ite_eq_right hj, one_smul, sub_self, smul_zero]
       exact Submodule.zero_mem _
   · rw [Submodule.span_singleton_le_iff_mem]
     have hmem : g (f i) - f i ∈ HardMathSupport.Kantor79.movedSpace g := ⟨f i, rfl⟩
-    rw [hgfj i, if_pos rfl] at hmem
+    rw [hgfj i, ite_eq_left rfl] at hmem
     have h2fi : (-2 : ZMod p) • f i ∈ HardMathSupport.Kantor79.movedSpace g := by
       convert hmem using 1
       module
@@ -81,7 +81,7 @@ private theorem repr_blockSucc_sub_f1_ne_zero (hp2 : p ≠ 2) {α : ZMod p}
   rw [map_sub, Finsupp.sub_apply]
   change (f.repr ((a : U →ₗ[ZMod p] U) (f 1))) 2 - (f.repr (f 1)) 2 ≠ 0
   rw [← LinearMap.toMatrix_apply f f (a : U →ₗ[ZMod p] U) 2 1, ha, Module.Basis.repr_self_apply]
-  simp only [show (1 : Fin 4) ≠ 2 by decide, if_false, sub_zero]
+  simp only [show (1 : Fin 4) ≠ 2 by decide, ite_false, sub_zero]
   have h21 : (Matrix.blockSucc (h3BlockMat α)) 2 1 = (h3BlockMat α) 2 1 := by
     rw [show (2 : Fin 4) = Fin.castSucc (2 : Fin 3) from rfl,
       show (1 : Fin 4) = Fin.castSucc (1 : Fin 3) from rfl,
@@ -362,7 +362,7 @@ private theorem exists_moved_of_h3Pair (hp2 : p ≠ 2) {f : Module.Basis (Fin 4)
   · exact hVKleVH (movedSpace_le_commutatorSpace hh₁K
       (by rw [hVh1]; exact Submodule.subset_span (Set.mem_singleton (f 0))))
   · rw [apply_basis_eq_of_toMatrix_diagSignMat f hh₁ 0]
-    simp only [if_true]
+    simp only [ite_true]
     intro hcontra
     have h2f : (2 : ZMod p) • f 0 = 0 := by
       have hneg : f 0 = -f 0 := by simpa [neg_one_smul] using hcontra.symm

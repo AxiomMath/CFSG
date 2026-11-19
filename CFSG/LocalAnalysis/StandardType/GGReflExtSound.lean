@@ -237,7 +237,7 @@ theorem Ctx.refl_class (C : Ctx P0 T A) {rp : Rep} (hrp : rp ∈ T.reps) {cw : W
     verifyRep_good hk (List.all_eq_true.mp (verifyAll_elim C.ok).2.2.2.2 rp hrp)
   obtain ⟨hs2roots, hs2reps, hs2orb, hs2cand⟩ := verifyStage2_elim hS2
   have hwj : (withExtra P0 [rp.r]).WF := wfCheck_sound hwfj
-  have hwr : wfR P0 rp.r = true := wfR_of_wfCheck hwfj (by simp [withExtra])
+  have hwr : wfR P0 rp.r = true := wfR_of_wfCheck hwfj (by simp)
   have hleJ : (withExtra P0 [rp.r]).group ≤ A := by
     apply C.group_le
     intro r hr
@@ -281,7 +281,7 @@ theorem Ctx.refl_class (C : Ctx P0 T A) {rp : Rep} (hrp : rp ∈ T.reps) {cw : W
     have hwx' : (withExtra P0 [rp.r, x.e]).WF :=
       wfCheck_sound (wfCheck_withExtra C.wf0c (by
         intro r hr
-        simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hr
+        simp only [List.mem_cons, List.not_mem_nil, or_false] at hr
         rcases hr with rfl | rfl
         · exact hwr
         · exact hwx))
@@ -289,7 +289,7 @@ theorem Ctx.refl_class (C : Ctx P0 T A) {rp : Rep} (hrp : rp ∈ T.reps) {cw : W
     have hleX : (withExtra P0 [rp.r, x.e]).group ≤ A := by
       apply C.group_le
       intro r hr
-      simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hr
+      simp only [List.mem_cons, List.not_mem_nil, or_false] at hr
       rcases hr with rfl | rfl
       · exact hA
       · rw [hxe]; exact hcA
@@ -297,7 +297,7 @@ theorem Ctx.refl_class (C : Ctx P0 T A) {rp : Rep} (hrp : rp ∈ T.reps) {cw : W
     apply order_contra P0 [rp.r, q.r] (wfCheck_sound hwfq) hvq A _ C.card
     apply C.group_le
     intro r hr
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hr
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hr
     rcases hr with rfl | rfl
     · exact hA
     · exact hqA

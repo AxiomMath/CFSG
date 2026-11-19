@@ -62,17 +62,17 @@ private theorem exists_rep_of_mem_closure_pair {X : Type*} [Group X]
   · exact absurd (by simpa using hform) hu1
   · refine ⟨u₂, Or.inr (Or.inl rfl), ?_⟩
     rw [hform]
-    simpa using Subgroup.mem_zpowers u₂
+    simp
   · exact ⟨u₂, Or.inr (Or.inl rfl), hsq u₂ hu₂ (by simpa using hform)⟩
   · refine ⟨u₁, Or.inl rfl, ?_⟩
     rw [hform]
-    simpa using Subgroup.mem_zpowers u₁
+    simp
   · refine ⟨u₁ * u₂, Or.inr (Or.inr (Or.inl rfl)), ?_⟩
     rw [hform]
-    simpa using Subgroup.mem_zpowers (u₁ * u₂)
+    simp
   · refine ⟨u₁ * u₂ ^ 2, Or.inr (Or.inr (Or.inr rfl)), ?_⟩
     rw [hform]
-    simpa using Subgroup.mem_zpowers (u₁ * u₂ ^ 2)
+    simp
   · exact ⟨u₁, Or.inl rfl, hsq u₁ hu₁ (by simpa using hform)⟩
   · have huv : u = (u₁ * u₂ ^ 2) ^ 2 := by
       rw [hform]
@@ -120,7 +120,7 @@ private theorem le_sup_centralizers {X : Type} [Group X] [Finite X] {p : ℕ}
         (P ⊓ Subgroup.centralizer ({u₁ * u₂} : Set X)) ⊔
         (P ⊓ Subgroup.centralizer ({u₁ * u₂ ^ 2} : Set X)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let U : Subgroup X := Subgroup.closure ({u₁, u₂} : Set X)
   let C : X → Subgroup X := fun v => P ⊓ Subgroup.centralizer ({v} : Set X)
   have hcardU : Nat.card U = 9 :=
@@ -157,7 +157,7 @@ private theorem isCyclic_frattini_image {X : Type} [Group X] [Finite X] {p : ℕ
     IsCyclic ↥(Subgroup.map (QuotientGroup.mk' (frattini ↥P))
       ((P ⊓ Subgroup.centralizer ({v} : Set X)).subgroupOf P)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Cv : Subgroup X := P ⊓ Subgroup.centralizer ({v} : Set X)
   have hCpg : IsPGroup p ↥Cv :=
     IsPGroup.of_equiv (hP.to_subgroup (Cv.subgroupOf P))
@@ -165,7 +165,7 @@ private theorem isCyclic_frattini_image {X : Type} [Group X] [Finite X] {p : ℕ
   have hCcyc : IsCyclic ↥Cv :=
     CFSG.Quasithin.isCyclic_of_pRank_le_one (p := p) hp2 (H := Cv) (P := Cv)
       le_rfl hCpg hrankv
-  haveI : IsCyclic ↥(Cv.subgroupOf P) :=
+  have : IsCyclic ↥(Cv.subgroupOf P) :=
     ((Subgroup.subgroupOfEquivOfLe (inf_le_left : Cv ≤ P)).isCyclic).mpr hCcyc
   let π : ↥P →* (↥P ⧸ frattini ↥P) := QuotientGroup.mk' (frattini ↥P)
   have hrange : (π.comp (Cv.subgroupOf P).subtype).range =
@@ -189,13 +189,13 @@ private theorem exists_generators_of_cyclic_four {V : Type*} [Group V]
   · refine (Subgroup.closure_le _).mpr fun x hx => ?_
     obtain ⟨i, rfl⟩ := hx
     fin_cases i
-    · exact SetLike.le_def.mp (le_trans (le_trans le_sup_left le_sup_left) le_sup_left)
+    · exact _root_.IsConcreteLE.le_iff.mp (le_trans (le_trans le_sup_left le_sup_left) le_sup_left)
         ((hKi 0).symm ▸ Subgroup.mem_zpowers (g 0))
-    · exact SetLike.le_def.mp (le_trans (le_trans le_sup_right le_sup_left) le_sup_left)
+    · exact _root_.IsConcreteLE.le_iff.mp (le_trans (le_trans le_sup_right le_sup_left) le_sup_left)
         ((hKi 1).symm ▸ Subgroup.mem_zpowers (g 1))
-    · exact SetLike.le_def.mp (le_trans le_sup_right le_sup_left)
+    · exact _root_.IsConcreteLE.le_iff.mp (le_trans le_sup_right le_sup_left)
         ((hKi 2).symm ▸ Subgroup.mem_zpowers (g 2))
-    · exact SetLike.le_def.mp le_sup_right
+    · exact _root_.IsConcreteLE.le_iff.mp le_sup_right
         ((hKi 3).symm ▸ Subgroup.mem_zpowers (g 3))
   · refine sup_le (sup_le (sup_le ?_ ?_) ?_) ?_
     · exact (hKi 0).le.trans
@@ -212,10 +212,10 @@ private theorem card_le_pow_of_cyclic_four {V : Type*} [Group V] [Finite V] {p :
     (K : Fin 4 → Subgroup V) (hK : ∀ i, IsCyclic ↥(K i))
     (htop : K 0 ⊔ K 1 ⊔ K 2 ⊔ K 3 = ⊤) : Nat.card V ≤ p ^ 4 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : CommGroup V :=
+  have : Fact p.Prime := ⟨hp⟩
+  let : CommGroup V :=
     { (inferInstance : Group V) with mul_comm := fun a b => hcomm.is_comm.comm a b }
-  haveI : CFSG.IsElementaryAbelian p V :=
+  have : CFSG.IsElementaryAbelian p V :=
     { toIsMulCommutative := hcomm
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one hexp }
   obtain ⟨g, hclosure⟩ := exists_generators_of_cyclic_four K hK htop
@@ -240,7 +240,7 @@ private theorem card_le_pow_of_cyclic_four {V : Type*} [Group V] [Finite V] {p :
   have hfin : Module.finrank (ZMod p) (Additive V) ≤ 4 := by
     have := finrank_le_of_span_eq_top (R := ZMod p) (v := v) hspan
     simpa using this
-  haveI : Module.Finite (ZMod p) (Additive V) := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) (Additive V) := Module.Finite.of_finite
   calc Nat.card V = Nat.card (Additive V) := rfl
     _ = Nat.card (ZMod p) ^ Module.finrank (ZMod p) (Additive V) :=
         Module.natCard_eq_pow_finrank
@@ -256,7 +256,7 @@ theorem card_frattini_quotient_le_pow_four {X : Type} [Group X] [Finite X] {p : 
       CFSG.Open.pRank p (P ⊓ Subgroup.centralizer ({u} : Set X)) ≤ 1) :
     Nat.card (↥P ⧸ frattini ↥P) ≤ p ^ 4 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let U : Subgroup X := Subgroup.closure ({u₁, u₂} : Set X)
   let C : X → Subgroup X := fun v => P ⊓ Subgroup.centralizer ({v} : Set X)
   have hPM : P ≤ C u₁ ⊔ C u₂ ⊔ C (u₁ * u₂) ⊔ C (u₁ * u₂ ^ 2) :=

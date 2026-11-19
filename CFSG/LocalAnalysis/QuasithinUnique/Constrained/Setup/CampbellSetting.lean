@@ -75,7 +75,7 @@ theorem odd_card_frattini_of_pCore_eq_bot {Gb : Type*} [Group Gb] [Finite Gb]
   classical
   obtain ⟨P⟩ : Nonempty (Sylow 2 (frattini Gb)) := inferInstance
   have hn : (P.map (frattini Gb).subtype).Normal := frattini_sylow_normal Gb 2 P
-  have h2 : IsPGroup 2 (P.map (frattini Gb).subtype) := P.isPGroup'.map _
+  have h2 : IsPGroup 2 (P.map (frattini Gb).subtype) := P.isPGroup.map _
   have hle : P.map (frattini Gb).subtype ≤ CFSG.pCore 2 Gb := le_sSup ⟨hn, h2⟩
   rw [h] at hle
   have hP : (P : Subgroup (frattini Gb)) = ⊥ := by
@@ -139,7 +139,7 @@ theorem ker_inf_le_core [Finite G] (h : IsNatBase S ρ X ψ) {P : Subgroup G} (h
 
 
 theorem sylow_inf_ker [Finite G] (h : IsNatBase S ρ X ψ) : (S : Subgroup G) ⊓ ρ.ker = CFSG.pCore 2 G :=
-  le_antisymm (by rw [inf_comm]; exact h.ker_inf_le_core S.isPGroup')
+  le_antisymm (by rw [inf_comm]; exact h.ker_inf_le_core S.isPGroup)
     (le_inf (core_le_sylow S) h.core_le)
 
 theorem exists_rootGrp_eq [Finite G] [Finite k] (h : IsNatBase S ρ X ψ) :

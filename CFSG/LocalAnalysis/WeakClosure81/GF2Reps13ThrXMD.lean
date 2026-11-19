@@ -35,13 +35,14 @@ structure TetraFrame (A X Q : Subgroup (MulAut W)) (a : MulAut W)
   hrkc : rk ↥(c : Subgroup W) = 2
   hrkd : rk ↥(d : Subgroup W) = 2
 
+omit [Finite W] in
 private theorem w16g_mem_supp_zpow_coord {lam : s13IsoComps X → Additive ↥X →+ ZMod 3}
     (hl : IsCoord X 3 lam) (q : ↥X) (U : s13IsoComps X) :
     (U : Subgroup W) ∈ s13Supp X (Subgroup.zpowers (q : MulAut W)) ↔
       lam U (Additive.ofMul q) ≠ 0 := by
   have h1 : (U : Subgroup W) ∈ s13Supp X (Subgroup.zpowers (q : MulAut W)) ↔
       commSub (U : Subgroup W) (Subgroup.zpowers (q : MulAut W)) ≠ ⊥ := by
-    simp only [s13Supp, Set.mem_setOf_eq, U.2, true_and]
+    simp only [s13Supp, Set.mem_ofPred_eq, U.2, true_and]
   rw [h1]
   exact (coord_ne_zero_iff hl q U).symm
 

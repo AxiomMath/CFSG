@@ -179,7 +179,7 @@ theorem normalizer_E_Lg_ne_bot (cfg : L3E8Cfg K z J zJ H Q E S) {g : T} (hg : g 
     rw [Subgroup.mem_normalizer_iff] at hy ⊢
     intro w
     have := hy (g * w * g⁻¹)
-    simp only [SetLike.mem_coe, mem_rightConjugate_iff] at this ⊢
+    simp only [mem_rightConjugate_iff] at this ⊢
     rw [show g * y * g⁻¹ * (g * w * g⁻¹) * (g * y * g⁻¹)⁻¹ = g * (y * w * y⁻¹) * g⁻¹ by group]
       at this
     exact this
@@ -235,7 +235,7 @@ theorem normalizer_E_Lg_ne_bot (cfg : L3E8Cfg K z J zJ H Q E S) {g : T} (hg : g 
   obtain ⟨f, hf, hf1, hfz⟩ : ∃ f ∈ E, f ≠ 1 ∧ f ≠ z := by
     by_contra hcon
     push Not at hcon
-    haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE8]; norm_num)
+    have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE8]; norm_num)
     have hsurj : Function.Surjective (![1, ⟨z, hzE⟩] : Fin 2 → E) := by
       intro f
       by_cases hf1 : (f : T) = 1

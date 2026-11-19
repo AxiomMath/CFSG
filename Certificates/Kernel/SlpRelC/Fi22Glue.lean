@@ -86,11 +86,11 @@ theorem fi22Rep_mul {X Y : V} {g h : G} (hX : Fi22Rep φ X g) (hY : Fi22Rep φ Y
   have e : unlane 77 (mulLane (nat_lit 77) SP X Y) = mul 77 (unlane 77 X) (unlane 77 Y) :=
     (mul_eq' X Y).symm
   refine ⟨by rw [e]; exact RowsWF.mul _ 77 hX.1 hY.1, ?_⟩
-  rw [e, toMat_mul (unlane_size' X) hX.1 hY.1, hX.2, hY.2, map_mul] <;> rfl
+  rw [e, toMat_mul (unlane_size' X) hX.1 hY.1, hX.2, hY.2, map_mul]
 
 theorem fi22Rep_one : Fi22Rep φ LI 1 := by
   refine ⟨by rw [← idM_eq]; exact RowsWF.idM 77, ?_⟩
-  rw [← idM_eq, toMat_idM, map_one] <;> rfl
+  rw [← idM_eq, toMat_idM, map_one]
 
 theorem fi22Rep_eq (hφ : Function.Injective φ) {X Y : V} {g h : G} (hX : Fi22Rep φ X g)
     (hY : Fi22Rep φ Y h) (e : eqF X Y = true) : g = h :=

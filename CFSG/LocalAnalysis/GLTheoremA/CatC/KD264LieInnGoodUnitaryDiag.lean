@@ -84,7 +84,7 @@ theorem exists_perfect_fixSubgroup_of_onPair (hn : 3 ≤ n) (hne : ¬ (n = 3 ∧
     center_primeFormP_eq_bot h isPrimeFormGram_idGram hn hne
   obtain ⟨P, hPle, hPmap⟩ := exists_le_fixSubgroup_map_conj_eq hZ hJle
   refine ⟨P, hPle, ?_, ?_⟩
-  · haveI : Group.IsPerfect ↥((gBlock h x (X - C μ)).map
+  · have : Group.IsPerfect ↥((gBlock h x (X - C μ)).map
         (primeFormConjHom h (idGram K n))) := hJq.1
     apply Subgroup.map_injective (chevToolsY_conj_injective hZ)
     rw [Subgroup.map_commutator, hPmap, Subgroup.commutator_eq_self]
@@ -475,7 +475,7 @@ private theorem right_clause_of_extraspecial (hn : 3 ≤ n)
         Subgroup.centralizer (D : Set (MulAut (primeFormP h (idGram K n)))) = D := by
   have := h.finite
   have : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (primeFormP h (idGram K n)) := inferInstance
+  have : Finite (primeFormP h (idGram K n)) := inferInstance
   have hzprim : IsPrimitiveRoot (z : K) p := by
     rw [IsPrimitiveRoot.iff_orderOf, orderOf_units]
     exact orderOf_eq_prime hzp hz1
@@ -517,7 +517,7 @@ theorem innGoodAt_primeFormP_of_dvd_gcd {ℓ f n p : ℕ} {K : Type} [Field K]
     hDle.trans (innAutDerived_le_primeFormD h isPrimeFormGram_idGram hn hne)
   obtain ⟨X, Y, hXD, hYD, hX1, hYXnm, hXp, ⟨b, hbn, hYp⟩, ⟨z, hzp, hYX⟩⟩ :=
     exists_split_lifts_of_le_primeFormD hn hne hp hp2 hpq hDel hDcard hDsub
-  haveI : Finite (primeFormP h (idGram K n)) := inferInstance
+  have : Finite (primeFormP h (idGram K n)) := inferInstance
   have hclD : Subgroup.closure {primeFormConjHom h (idGram K n) X,
       primeFormConjHom h (idGram K n) Y} = D :=
     CFSG.StandardType.ggClosure_pair_eq hp hDcard hXD hYD hX1 (hDel.2 _ hXD) hYXnm

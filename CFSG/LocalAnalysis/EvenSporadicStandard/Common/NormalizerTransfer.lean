@@ -18,7 +18,7 @@ theorem false_of_index_two_of_controls_fusion {G : Type*} [Group G] [Finite G] [
     (hzS : z ∈ S) (hnorm : normalizer (S : Set G) ≤ N)
     (hfus : ∀ u ∈ N, IsConj z u → ∃ g ∈ N, g * z * g⁻¹ = u) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSmaxG : ∀ R : Subgroup G, IsPGroup 2 R → S ≤ R → R = S := by
     intro R hR hSR
     by_contra hne

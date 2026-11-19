@@ -39,12 +39,12 @@ private theorem orbFacts {stepK : Nat → Nat → Nat} {ngen N start : Nat}
       exact absurd hk (of_decide_eq_false h4)
     · exact of_decide_eq_true h4
   · subst hk
-    rw [if_pos rfl] at h5
+    rw [ite_eq_left rfl] at h5
     simp only [Bool.and_eq_true] at h5
     obtain ⟨⟨⟨a, b⟩, c⟩, d⟩ := h5
     exact ⟨Nat.eq_of_beq_eq_true a, Nat.eq_of_beq_eq_true b, Nat.eq_of_beq_eq_true c,
       Nat.eq_of_beq_eq_true d⟩
-  · rw [if_neg (by omega)] at h5
+  · rw [ite_eq_right (by omega)] at h5
     simp only [Bool.and_eq_true] at h5
     obtain ⟨⟨a, b⟩, c⟩ := h5
     exact ⟨of_decide_eq_true a, of_decide_eq_true b, Nat.eq_of_beq_eq_true c⟩

@@ -36,13 +36,13 @@ theorem step1_normalizer
       Subgroup.normalizer (KX : Set G))
     (hv1 : v ≠ 1) (hv2 : v * v = 1)
     (hKXv : KX ≤ Subgroup.centralizer ({v} : Set G))
-    (hvx : v ∈ Subgroup.centralizer ({x} : Set G))
+    (_hvx : v ∈ Subgroup.centralizer ({x} : Set G))
     (hrv : r ∈ Subgroup.centralizer ({v} : Set G)) :
     Subgroup.centralizer ({x} : Set G) ⊓ Subgroup.centralizer ({v} : Set G) ≤
       Subgroup.normalizer (KX : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set H : Subgroup G := Subgroup.centralizer ({x} : Set G) ⊓ Subgroup.centralizer ({v} : Set G)
     with hHdef
   have hrx : r ∈ Subgroup.centralizer ({x} : Set G) :=

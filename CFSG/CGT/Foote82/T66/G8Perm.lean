@@ -37,7 +37,7 @@ theorem fix_one_of_mem_altOn {σ : Perm (Fin 9)} (hσ : σ ∈ altOn S7) : σ 1 
 theorem mem_altOn_of {σ : Perm (Fin 9)} (hs : sign σ = 1) (h0 : σ 0 = 0) (h1 : σ 1 = 1) :
     σ ∈ altOn S7 := by
   refine mem_altOn_S7.2 ⟨Equiv.Perm.mem_alternatingGroup.2 hs, fun k hk => ?_⟩
-  simp only [Set.mem_setOf_eq, not_and_or, not_not] at hk
+  simp only [Set.mem_ofPred_eq, not_and_or, not_not] at hk
   rcases hk with rfl | rfl
   · exact h0
   · exact h1
@@ -61,7 +61,7 @@ theorem pa_ev (σ : Perm (Fin 9)) (k : Fin 9) : pa σ (ev k) = ev (σ k) := by
   by_cases h : m = σ k
   · subst h
     simp
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     intro h'
     apply h
     rw [← h']
@@ -132,15 +132,15 @@ theorem E7_le_span :
     by_cases hm2 : m = 2
     · subst hm2
       simp
-    · rw [if_neg hm2, zero_mul, add_zero]
+    · rw [ite_eq_right hm2, zero_mul, add_zero]
       by_cases hm : m ∈ S7f
-      · rw [if_pos (Finset.mem_erase.2 ⟨hm2, hm⟩)]
-      · rw [if_neg (fun h => hm (Finset.mem_of_mem_erase h)), hoff m hm]
+      · rw [ite_eq_left (Finset.mem_erase.2 ⟨hm2, hm⟩)]
+      · rw [ite_eq_right (fun h => hm (Finset.mem_of_mem_erase h)), hoff m hm]
   rw [key]
   refine Submodule.sum_mem _ fun k hk => Submodule.smul_mem _ _ (Submodule.subset_span ?_)
   exact ⟨k, Finset.mem_of_mem_erase hk, 2, h2, rfl⟩
 
-theorem exists_altOn_move {p q r : Fin 9} (hp : p ∈ S7f) (hq : q ∈ S7f) (hr : r ∈ S7f)
+theorem exists_altOn_move {p q r : Fin 9} (_hp : p ∈ S7f) (hq : q ∈ S7f) (hr : r ∈ S7f)
     (hpq : p ≠ q) (hpr : p ≠ r) (hqr : q ≠ r) : ∃ σ ∈ altOn S7, σ p = p ∧ σ q = r := by
   classical
   obtain ⟨d, hd, hdp, hdq, hdr⟩ : ∃ d ∈ S7f, d ≠ p ∧ d ≠ q ∧ d ≠ r := by
@@ -230,17 +230,17 @@ theorem eq_E7_of_invariant {X : Submodule (ZMod 2) (Fin 9 → ZMod 2)} (hXE : X 
     by_cases hmi : m = i
     · subst hmi
       rw [swap_apply_left, swap_apply_of_ne_of_ne hli (Ne.symm hkl)]
-      rw [if_neg (Ne.symm hki), if_neg (Ne.symm hli), hl1, hi]
+      rw [ite_eq_right (Ne.symm hki), ite_eq_right (Ne.symm hli), hl1, hi]
       decide
     by_cases hmk : m = k
     · subst hmk
-      rw [swap_apply_of_ne_of_ne hki hkl, swap_apply_right, if_pos rfl, if_neg hkl, hi, hk0]
+      rw [swap_apply_of_ne_of_ne hki hkl, swap_apply_right, ite_eq_left rfl, ite_eq_right hkl, hi, hk0]
       decide
     by_cases hml : m = l
     · subst hml
-      rw [swap_apply_right, swap_apply_left, if_neg (Ne.symm hkl), if_pos rfl, hk0, hl1]
+      rw [swap_apply_right, swap_apply_left, ite_eq_right (Ne.symm hkl), ite_eq_left rfl, hk0, hl1]
       decide
-    rw [swap_apply_of_ne_of_ne hmi hml, swap_apply_of_ne_of_ne hmi hmk, if_neg hmk, if_neg hml]
+    rw [swap_apply_of_ne_of_ne hmi hml, swap_apply_of_ne_of_ne hmi hmk, ite_eq_right hmk, ite_eq_right hml]
     exact sub_self _
   have hkl_mem : ev k + ev l ∈ X := by
     rw [← hdiff]

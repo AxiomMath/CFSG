@@ -17,11 +17,11 @@ theorem image_orbit_map_congrHom (e : V ≃* W) (L : Subgroup (MulAut V)) (x : V
   · rintro ⟨v, ⟨⟨g, hg⟩, rfl⟩, rfl⟩
     refine ⟨⟨congrHom e g, Subgroup.mem_map_of_mem _ hg⟩, ?_⟩
     show congrHom e g (e x) = e (g x)
-    simp [congrHom_apply]
+    simp
   · rintro ⟨⟨_, ⟨g, hg, rfl⟩⟩, rfl⟩
     refine ⟨g x, ⟨⟨g, hg⟩, rfl⟩, ?_⟩
     show e (g x) = congrHom e g (e x)
-    simp [congrHom_apply]
+    simp
 
 theorem mem_orbit_map_congrHom_iff (e : V ≃* W) (L : Subgroup (MulAut V)) (x : V) (w : W) :
     w ∈ orbit ↥(L.map (congrHom e)) (e x) ↔ e.symm w ∈ orbit ↥L x := by

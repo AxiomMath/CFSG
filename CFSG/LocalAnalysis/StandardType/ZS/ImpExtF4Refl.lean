@@ -53,7 +53,7 @@ theorem eq_reflection_of_toMatrix {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) U
     funext i
     rw [show f.repr (∑ j, v j • f j) = ∑ j, v j • Finsupp.single j (1 : ZMod p) by
       rw [map_sum]; simp [Module.Basis.repr_self]]
-    rw [Finsupp.finset_sum_apply]
+    rw [_root_.Finsupp.finsetSum_apply]
     rw [Finset.sum_eq_single i]
     · rw [Finsupp.smul_apply, Finsupp.single_eq_same, smul_eq_mul, mul_one]
     · intro j _ hji
@@ -200,7 +200,7 @@ private lemma span_castSucc_eq_ker_coord (f : Module.Basis (Fin 4) (ZMod p) U) :
     rw [SetLike.mem_coe, LinearMap.mem_ker, Module.Basis.coord_apply,
       Module.Basis.repr_self_apply]
     change (if i.castSucc = Fin.last 3 then (1 : ZMod p) else 0) = 0
-    rw [if_neg (Fin.castSucc_ne_last i)]
+    rw [ite_eq_right (Fin.castSucc_ne_last i)]
   · intro w hw
     rw [LinearMap.mem_ker, Module.Basis.coord_apply] at hw
     rw [show w = ∑ j, f.repr w j • f j from (f.sum_repr w).symm]
@@ -215,7 +215,7 @@ private lemma repr_sum_smul_basis {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) U
     (u : Fin n → ZMod p) : (f.repr (∑ i, u i • f i) : Fin n → ZMod p) = u := by
   rw [map_sum]
   ext i
-  simp only [Finsupp.finset_sum_apply]
+  simp only [_root_.Finsupp.finsetSum_apply]
   rw [Finset.sum_eq_single i]
   · simp
   · intro j _ hji; simp [hji]
@@ -236,10 +236,10 @@ private lemma apply_last_eq_of_coroot_three_eq_zero (f : Module.Basis (Fin 4) (Z
     rw [Module.Basis.repr_self_apply, Pi.single_apply]
     by_cases hj : 3 = j
     · subst hj; simp
-    · rw [if_neg hj, if_neg (fun h : j = 3 => hj h.symm)]
+    · rw [ite_eq_right hj, ite_eq_right (fun h : j = 3 => hj h.symm)]
   rw [hrepr, hsingle, one_sub_vecMulVec_mulVec]
   simp only [dotProduct, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true, hw3, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
+    Finset.mem_univ, ite_true, hw3, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   rw [zero_mul, show (if i = 3 then (1 : ZMod p) else 0) - 0 =
     (if i = 3 then 1 else 0) by abel]
 

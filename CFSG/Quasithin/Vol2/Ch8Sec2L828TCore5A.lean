@@ -20,7 +20,7 @@ theorem x_norm_B {V B P U I : Subgroup G} {x : G}
     (hVcomm : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v)
     (hIP : I ≤ Subgroup.normalizer (P : Set G))
     (hxP : x ∈ Subgroup.normalizer (P : Set G))
-    (hIU : ∀ u ∈ U, ∀ i ∈ I, i * u * i⁻¹ = u)
+    (_hIU : ∀ u ∈ U, ∀ i ∈ I, i * u * i⁻¹ = u)
     (hcI : ∀ w ∈ I, ∀ p ∈ P, ⁅⁅x, w⁆, p⁆ ∈ U)
     (hB5 : ∀ p ∈ P, (∀ v ∈ V, v * p * v⁻¹ * p⁻¹ ∈ U) → p ∈ B)
     {b : G} (hb : b ∈ B) : x * b * x⁻¹ ∈ B := by
@@ -68,7 +68,7 @@ theorem x_comm_LU {P U : Subgroup G} {x l : G}
   exact hcq
 
 theorem x_triv_A {A B P U I : Subgroup G} {x h : G}
-    (hAP : A ≤ P) (hBP : B ≤ P) (hhI : h ∈ I)
+    (_hAP : A ≤ P) (hBP : B ≤ P) (hhI : h ∈ I)
     (hIP : I ≤ Subgroup.normalizer (P : Set G))
     (hxP : x ∈ Subgroup.normalizer (P : Set G))
     (hIU : ∀ u ∈ U, ∀ i ∈ I, i * u * i⁻¹ = u)
@@ -96,7 +96,7 @@ theorem x_triv_A {A B P U I : Subgroup G} {x h : G}
   exact U.mul_mem hu₁ hu₃
 
 theorem x_triv_P {A B P U : Subgroup G} {x : G}
-    (hxP : x ∈ Subgroup.normalizer (P : Set G))
+    (_hxP : x ∈ Subgroup.normalizer (P : Set G))
     (hPU : ∀ u ∈ U, ∀ p ∈ P, p * u * p⁻¹ = u)
     (hPeq : P = A ⊔ B) (hAP : A ≤ P) (hBP : B ≤ P)
     (hA : ∀ a ∈ A, x * a * x⁻¹ * a⁻¹ ∈ U) (hB : ∀ b ∈ B, x * b * x⁻¹ * b⁻¹ ∈ U) :

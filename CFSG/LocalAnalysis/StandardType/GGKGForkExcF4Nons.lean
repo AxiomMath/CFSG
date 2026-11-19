@@ -27,7 +27,7 @@ theorem excSCTorusInput_nons_of_L0
   have hq : (Nat.card K : ZMod p) = -1 := by
     rw [eq_neg_iff_add_eq_zero]
     exact hq1
-  haveI : Fact (2 < p) := ⟨by omega⟩
+  have : Fact (2 < p) := ⟨by omega⟩
   have hne : (-1 : ZMod p) ≠ 1 := ZMod.neg_one_ne_one
   have hd : orderOf (Nat.card K : ZMod p) = 2 := by
     rw [hq]
@@ -86,8 +86,7 @@ theorem excSCTorusInput_nons_of_L0
       have hval : (Nat.card K + 1) - (Nat.card K - 1) = 2 := by omega
       rwa [hval] at hsub
     exact hp2 (le_antisymm (Nat.le_of_dvd (by norm_num) h2) hp.two_le)
-  · intro _
-    intro α hα hpos i
+  · intro _ α hα hpos i
     rw [hshape.2.1 rfl]
     exact neg_nonpos.mpr (hpos i)
 

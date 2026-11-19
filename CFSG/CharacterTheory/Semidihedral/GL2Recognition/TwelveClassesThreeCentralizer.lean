@@ -304,7 +304,7 @@ theorem twelve_classes_produce_exponent_three_centralizer_data [Finite G]
   have hP₀27 : Nat.card (P₀ : Subgroup G) = 27 := card_sylow_three_of_card_eq_5616 hG P₀
   have : Nontrivial (P₀ : Subgroup G) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hP₀27]; norm_num)
-  have hcen := IsPGroup.center_nontrivial P₀.isPGroup'
+  have hcen := IsPGroup.center_nontrivial P₀.isPGroup
   obtain ⟨z, hz⟩ := exists_ne (1 : Subgroup.center (P₀ : Subgroup G))
   set z₀ : G := ((z : (P₀ : Subgroup G)) : G) with hz₀
   have hz₀1 : z₀ ≠ 1 := fun h => hz (Subtype.ext (Subtype.ext h))

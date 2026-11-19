@@ -22,14 +22,13 @@ theorem ys03_two_ne_zero_zmod11 : (2 : ZMod 11) ≠ 0 := by decide
 
 theorem ys03_matrix_eq_one (M : Matrix (Fin 2) (Fin 2) (ZMod 11)) (hMM : M * M = 1)
     (hdet : M.det = 1) (w : Fin 2 → ZMod 11) (hw : w ≠ 0) (hMw : M.mulVec w = w) : M = 1 := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have h00 := congrFun (congrFun hMM 0) 0
   have h01 := congrFun (congrFun hMM 0) 1
   have h10 := congrFun (congrFun hMM 1) 0
   have h11 := congrFun (congrFun hMM 1) 1
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply_eq, Matrix.one_apply_ne,
-    ne_eq, Fin.zero_eq_one_iff, OfNat.ofNat_ne_one, not_false_eq_true, Fin.one_eq_zero_iff,
-    OfNat.ofNat_ne_zero, Nat.succ_ne_self] at h00 h01 h10 h11
+    ne_eq, Fin.zero_eq_one_iff, OfNat.ofNat_ne_one, not_false_eq_true, Fin.one_eq_zero_iff] at h00 h01 h10 h11
   rw [Matrix.det_fin_two] at hdet
   have hw0 := congrFun hMw 0
   have hw1 := congrFun hMw 1

@@ -70,7 +70,7 @@ theorem exists_inner_of_blocks_aut {G : Type} [Group G] [Finite G] {X J : Subgro
   set π : ↥X →* ↥X ⧸ GLAPPrimeCore 3 ↥X := QuotientGroup.mk' (GLAPPrimeCore 3 ↥X) with hπ
   let σ : ↥X ≃* ↥X :=
     { toFun := fun x => ⟨φ (x : G), (hφX x).2 x.2⟩
-      invFun := fun x => ⟨φ.symm (x : G), (hφX (φ.symm (x : G))).1 (by simpa using x.2)⟩
+      invFun := fun x => ⟨φ.symm (x : G), (hφX (φ.symm (x : G))).1 (by simp)⟩
       left_inv := fun x => Subtype.ext (by simp)
       right_inv := fun x => Subtype.ext (by simp)
       map_mul' := fun a b => Subtype.ext (map_mul φ (a : G) (b : G)) }

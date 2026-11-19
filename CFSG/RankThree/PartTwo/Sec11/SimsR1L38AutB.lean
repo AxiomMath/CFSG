@@ -14,8 +14,10 @@ section Field
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] [hF8 : Fact (Nat.card F = 8)]
 
+omit [Field F] [Finite F] [CharP F 2] in
 theorem card_mod_three : Nat.card F % 3 = 2 := by rw [hF8.out]
 
+omit [CharP F 2] in
 theorem eq_one_of_pow_three_eq_one (c : F) (h : c ^ 3 = 1) : c = 1 := by
   have hc : c ≠ 0 := by
     rintro rfl
@@ -28,6 +30,7 @@ theorem eq_one_of_pow_three_eq_one (c : F) (h : c ^ 3 = 1) : c = 1 := by
     _ = c ^ 7 := by ring
     _ = 1 := h7
 
+omit [Finite F] [CharP F 2] in
 theorem ringEquiv_pow_three (ψ : F ≃+* F) : ψ ^ 3 = 1 := by
   obtain ⟨-, -, -, -, hcard, -⟩ := finite_field_automorphism_fixed_field_cardinality
     (F := F) Nat.prime_two (by norm_num : 1 ≤ 3) (by rw [hF8.out]; norm_num)
@@ -67,6 +70,7 @@ theorem proj_eq_one_of_commute_involution {t x : projectiveSL 3 F}
   have h4 : T * X = X * T := hinj (by rw [map_mul, map_mul, htx])
   rw [sl_eq_one_of_commute_involution h1 h2 h3 h4, map_one]
 
+omit [Finite F] [CharP F 2] in
 theorem center_projectiveSL_eq_bot : Subgroup.center (projectiveSL 3 F) = ⊥ := by
   have hK := card_mod_three (F := F)
   let ι : SpecialLinearGroup (Fin 3) F ≃* projectiveSL 3 F :=
@@ -126,12 +130,13 @@ section TwoElements
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] [hF8 : Fact (Nat.card F = 8)]
 
+omit [CharP F 2] in
 theorem exists_conjAut_dualAut_pow {τ : MulAut (projectiveSL 3 F)} {k : ℕ}
     (hτ : τ ^ 2 ^ k = 1) :
     ∃ (A : GL (Fin 3) F) (ε : ℕ), ε ≤ 1 ∧ τ = conjAut 3 F A * dualAut 3 F ^ ε := by
   obtain ⟨-, hform⟩ := automorphism_generation (K := F) (n := 3) le_rfl
   obtain ⟨A, ψ, ε, hε, rfl⟩ := hform τ
-  haveI : (linearAutGroup 3 F).Normal := (stdPinnedPSL_stable (n := 3) (K := F) le_rfl).normal
+  have : (linearAutGroup 3 F).Normal := (stdPinnedPSL_stable (n := 3) (K := F) le_rfl).normal
   let π := QuotientGroup.mk' (linearAutGroup 3 F)
   have hπA : π (conjAut 3 F A) = 1 :=
     (QuotientGroup.eq_one_iff _).mpr (conjAut_mem_linearAutGroup A)
@@ -230,10 +235,12 @@ open Matrix
 @[expose] def tv (i j : Fin 3) (h : i ≠ j) : SpecialLinearGroup (Fin 3) F :=
   ⟨Matrix.transvection i j 1, Matrix.det_transvection_of_ne i j h 1⟩
 
+omit [Finite F] [CharP F 2] hF8 in
 theorem tv_val (i j : Fin 3) (h : i ≠ j) :
     ((tv i j h : SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
       1 + Matrix.single i j 1 := rfl
 
+omit [Finite F] hF8 in
 theorem tv_mul_self (i j : Fin 3) (h : i ≠ j) :
     tv i j h * tv i j h = (1 : SpecialLinearGroup (Fin 3) F) := by
   apply Subtype.ext
@@ -241,6 +248,7 @@ theorem tv_mul_self (i j : Fin 3) (h : i ≠ j) :
   rw [one_add_one_eq_two, CharTwo.two_eq_zero, Matrix.transvection_zero] at this
   exact this
 
+omit [Finite F] [CharP F 2] hF8 in
 theorem fieldAut_proj_tv (ψ : F ≃+* F) (i j : Fin 3) (h : i ≠ j) :
     fieldAut 3 F ψ (proj 3 F (tv i j h)) = proj 3 F (tv i j h) := by
   rw [fieldAut_proj]
@@ -249,8 +257,9 @@ theorem fieldAut_proj_tv (ψ : F ≃+* F) (i j : Fin 3) (h : i ≠ j) :
   rw [SpecialLinearGroup.map_apply_coe, tv_val]
   ext a b
   by_cases hab : a = b <;> by_cases hij : i = a ∧ j = b <;>
-    simp [Matrix.one_apply, Matrix.single_apply, hab, hij]
+    simp [Matrix.single_apply, hab, hij]
 
+omit [Finite F] hF8 in
 theorem dualAut_proj_tv (i j : Fin 3) (h : i ≠ j) :
     dualAut 3 F (proj 3 F (tv i j h)) = proj 3 F (tv j i h.symm) := by
   rw [dualAut_proj, inv_eq_of_mul_eq_one_right (tv_mul_self i j h)]
@@ -260,6 +269,7 @@ theorem dualAut_proj_tv (i j : Fin 3) (h : i ≠ j) :
   simp
 
 open CFSG.ComponentClassification.CatalogueBHigherLinearAction in
+omit [Finite F] [CharP F 2] hF8 in
 theorem mul_eq_mul_of_slConjugation_eq {A : GL (Fin 3) F} {g h : SpecialLinearGroup (Fin 3) F}
     (hAg : slConjugation 3 F A g = h) :
     (A : Matrix (Fin 3) (Fin 3) F) * (g : Matrix (Fin 3) (Fin 3) F) =
@@ -271,6 +281,7 @@ theorem mul_eq_mul_of_slConjugation_eq {A : GL (Fin 3) F} {g h : SpecialLinearGr
         rw [Units.inv_mul, mul_one]
     _ = (h : Matrix (Fin 3) (Fin 3) F) * A := by rw [← mul_assoc, ← h1]
 
+omit [Finite F] [CharP F 2] in
 theorem commute_single_of_fixes {A : GL (Fin 3) F} (i j : Fin 3) (h : i ≠ j)
     (hfix : conjAut 3 F A (proj 3 F (tv i j h)) = proj 3 F (tv i j h)) :
     Commute (Matrix.single i j (1 : F)) (A : Matrix (Fin 3) (Fin 3) F) := by
@@ -280,6 +291,7 @@ theorem commute_single_of_fixes {A : GL (Fin 3) F} (i j : Fin 3) (h : i ≠ j)
   rw [tv_val, mul_add, add_mul, mul_one, one_mul] at h2
   exact (add_left_cancel h2).symm
 
+omit [Finite F] in
 theorem rel_of_fixes_dual {A : GL (Fin 3) F} (i j : Fin 3) (h : i ≠ j)
     (hfix : conjAut 3 F A (dualAut 3 F (proj 3 F (tv i j h))) = proj 3 F (tv i j h)) :
     (A : Matrix (Fin 3) (Fin 3) F) * Matrix.single j i (1 : F) =

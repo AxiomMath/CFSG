@@ -86,7 +86,7 @@ private lemma injective_of_transvection_eq_pinnedX
     {i j : Fin 3} (hij : i ≠ j) {γ : Fin (Tag.rank .E7) → ℤ} {c : ZMod 2} (hc : c ≠ 0)
     (hγ : ρ (Matrix.SpecialLinearGroup.transvection hij c) = pinnedX .E7 (ZMod 2) γ c) :
     Function.Injective ρ := by
-  haveI : IsSimpleGroup (SL(3, ZMod 2)) :=
+  have : IsSimpleGroup (SL(3, ZMod 2)) :=
     CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.FrameAEmptyPf.isSimpleGroup_l3Two
   refine ρ.ker_eq_bot_iff.1 ?_
   rcases Subgroup.Normal.eq_bot_or_eq_top ρ.ker with hbot | htop

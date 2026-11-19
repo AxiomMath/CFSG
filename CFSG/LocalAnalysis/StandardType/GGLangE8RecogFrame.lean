@@ -46,7 +46,7 @@ private theorem recogf_main
     have h72 : ν * (ν - 1) = 72 := by rw [← hfr, ← hΨ, hn72]
     have hle : ν ≤ 9 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have : 10 * 9 ≤ ν * (ν - 1) := Nat.mul_le_mul (by omega) (by omega)
       omega
     interval_cases ν <;> omega
@@ -158,7 +158,7 @@ theorem recoga_A8_frame
     {coord : Bs →* Multiplicative (Fin (ggU (absTag .E8) 6 f).D.rank → ZMod p)}
     (B : GGLangData L .E8 n' f p Bs S π coord)
     (hτ : B.τ = .E8) (hp : p.Prime) (hp2 : p ≠ 2)
-    {b : Bs} (hb : b ≠ 1) (i : KernelComponent (rootCharHom (B.a b)))
+    {b : Bs} (_hb : b ≠ 1) (i : KernelComponent (rootCharHom (B.a b)))
     (hrank8 : compRank (componentRoots (rootCharHom (B.a b)) i) = 8)
     (hn72 : (componentRoots (rootCharHom (B.a b)) i).ncard = 72) :
     ∃ Bm : Matrix (Fin Tag.E8.rank) (Fin Tag.E8.rank) ℤ,
@@ -168,7 +168,7 @@ theorem recoga_A8_frame
       (twistKind B.setup.ρ (rootCharHom (B.a b)) i = .inner → B.ε = 1) ∧
       (twistKind B.setup.ρ (rootCharHom (B.a b)) i = .suN → B.ε = -1) :=
   recogf_main hτ B.setup hp (ggLang_natCast_ne_zero B hp hp2) (B.a_torus b)
-    (recoga_rootDiagUnit_pow B b) B.ε_cases (fun γ hγ => recoga_rho_smul B hτ hγ) i
+    (recoga_rootDiagUnit_pow B b) B.ε_cases (fun _γ hγ => recoga_rho_smul B hτ hγ) i
     (recoga_orbitLength_eq_one B hτ b i) hrank8 hn72
 
 end Recognition

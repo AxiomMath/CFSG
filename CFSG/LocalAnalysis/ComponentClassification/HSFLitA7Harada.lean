@@ -36,7 +36,7 @@ theorem gen4_of_harada (hH : HaradaInput) (S : Sylow 2 X) {E : Subgroup X}
       rw [mem_centralizer_iff]
       intro y hy
       exact Subtype.ext (hE.comm _ hy _ hx)
-  have hgen := hH.1 S S.isPGroup' E' hEl hcard' hcent
+  have hgen := hH.1 S S.isPGroup E' hEl hcard' hcent
   refine exists_finset_closure_eq_of_sylow S (fun U hU => ?_) P hP
   obtain ⟨s, hs, hsU⟩ := hgen (U.subgroupOf S)
   refine ⟨s.image (S : Subgroup X).subtype, Finset.card_image_le.trans hs, ?_⟩
@@ -55,7 +55,7 @@ theorem gen4_of_harada_of_maximal (hH : HaradaInput) {E : Subgroup X} (hE : Elem
   have hEC : E ≤ (S : Subgroup X) ⊓ centralizer (E : Set X) :=
     le_inf hS fun a ha => mem_centralizer_iff.mpr fun b hb => hE.comm _ hb _ ha
   have hP' : IsPGroup 2 ((S : Subgroup X) ⊓ centralizer (E : Set X) : Subgroup X) :=
-    S.isPGroup'.to_le inf_le_left
+    S.isPGroup.to_le inf_le_left
   have h := hmax _ hP' hEC inf_le_right
   rw [← h]
   exact ⟨hx, mem_centralizer_iff.mpr fun e he => (hxE e he).symm⟩

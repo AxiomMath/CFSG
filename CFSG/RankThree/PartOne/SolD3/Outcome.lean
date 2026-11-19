@@ -83,7 +83,7 @@ theorem gen4_of_outcome_four {G : Type} [Group G] [Finite G] {X : Subgroup G} {a
   have hP64 : Nat.card ↥P₀ = 64 := by omega
   obtain ⟨T, hT⟩ := hP₀2.exists_le_sylow
   have hTP : P₀ = (T : Subgroup G) :=
-    Subgroup.eq_of_le_of_card_ge hT (by have := hb64 T T.isPGroup'; omega)
+    Subgroup.eq_of_le_of_card_ge hT (by have := hb64 T T.isPGroup; omega)
   refine sectionalTwoRankLE_four_of_noE32G T ?_
   rw [← hTP]
   have hΩ : Nat.card {r : ↥H // r * r = 1} = 4 := by
@@ -165,7 +165,7 @@ theorem gen4_of_outcome_three {G : Type} [Group G] [Finite G] {M X : Subgroup G}
     obtain ⟨w, hw, r, hr, rfl⟩ := (hP₀mem x).1 hx
     exact M.mul_mem (h.le (pCoreOf_le_self X hw)) (h.centralizer_X_le_M hb (hRC hr))
   obtain ⟨S, T, hPS, hSM, hS2, hSmax, hST, hTM⟩ := exists_sylow_pair hP₀2 hP₀M
-  have hT64 : Nat.card ↥(T : Subgroup G) ≤ 64 := hb64 T T.isPGroup'
+  have hT64 : Nat.card ↥(T : Subgroup G) ≤ 64 := hb64 T T.isPGroup
   have hPT : P₀ ≤ (T : Subgroup G) := hPS.trans hST
   let z : ↥R₀ := e.symm (QuaternionGroup.a 2)
   have hzz : z * z = 1 := by
@@ -299,7 +299,7 @@ theorem gen4_of_outcome_three {G : Type} [Group G] [Finite G] {M X : Subgroup G}
         intro heq
         rw [← heq, hSeq] at hT64'
         omega
-      obtain ⟨t, htT, htS, htN⟩ := exists_mem_normalizer_of_lt T.isPGroup' hST hne
+      obtain ⟨t, htT, htS, htN⟩ := exists_mem_normalizer_of_lt T.isPGroup hST hne
       have htM : t ∉ M := fun htM => htS (hTM ▸ Subgroup.mem_inf.2 ⟨htT, htM⟩)
       have hzC : (z : G) ∈ Subgroup.centralizer (X : Set G) := hRC z.2
       have hzord : orderOf (z : G) = 2 := by

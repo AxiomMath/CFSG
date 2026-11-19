@@ -18,7 +18,7 @@ theorem isUnit_det_of_linearIndependent {b : Fin 3 → (Fin 3 → GF64)}
   have hcols : (Matrix.of fun r i => b i r : Matrix (Fin 3) (Fin 3) GF64).col = b := by
     funext i r
     rfl
-  rw [← Matrix.isUnit_iff_isUnit_det, ← Matrix.linearIndependent_cols_iff_isUnit, hcols]
+  rw [← Matrix.isUnit_iff_isUnit_det, ← Matrix.linearIndependent_col_iff_isUnit, hcols]
   exact hb
 
 theorem mul_eigenmatrix {M : Matrix (Fin 3) (Fin 3) GF64} {b : Fin 3 → (Fin 3 → GF64)}

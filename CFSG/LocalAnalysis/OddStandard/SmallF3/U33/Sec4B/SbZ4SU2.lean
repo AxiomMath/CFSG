@@ -21,9 +21,10 @@ theorem Q_le_U : ctxQ t tau x₁ x₂ rho ≤ ctxU t tau x₁ x₂ lam :=
 
 theorem t_mem_U : t ∈ ctxU t tau x₁ x₂ lam := mem_sup_left hp.t_mem_O
 
+omit [Finite G] hp in
 theorem lam_mem_U : lam ∈ ctxU t tau x₁ x₂ lam := mem_sup_right (mem_zpowers lam)
 
-theorem sigma_mem_U : lam * t ∈ ctxU t tau x₁ x₂ lam := mul_mem hp.lam_mem_U hp.t_mem_U
+theorem sigma_mem_U : lam * t ∈ ctxU t tau x₁ x₂ lam := mul_mem CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.lam_mem_U hp.t_mem_U
 
 end Z4Pre
 
@@ -39,14 +40,13 @@ theorem E_comm : ∀ a ∈ closure ({t, tau, lam} : Set G), ∀ b ∈ closure ({
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
     rcases hx with h | h | h <;> rcases hy with h' | h' | h' <;> rw [h, h']
     all_goals first
-      | rfl
       | exact hg.t_comm_tau
       | exact hg.t_comm_tau.symm
       | exact hg.t_lam_comm
       | exact hg.t_lam_comm.symm
       | exact hg.tau_lam
       | exact hg.tau_lam.symm
-  haveI : IsMulCommutative (closure ({t, tau, lam} : Set G)) :=
+  have : IsMulCommutative (closure ({t, tau, lam} : Set G)) :=
     Subgroup.isMulCommutative_closure (fun x hx y hy _ => hk x hx y hy)
   intro a ha b hb
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : closure ({t, tau, lam} : Set G))

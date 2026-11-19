@@ -29,7 +29,7 @@ theorem coverPG6_cases_of_bounds (h : ∀ i j k l, i < 2 → j < 2 → k < 2 →
   refine ⟨hf, ?_⟩
   by_cases hbig : i = j ∧ l = 0
   · obtain ⟨rfl, rfl⟩ := hbig
-    rw [if_pos rfl, if_pos rfl, Nat.div_one] at hN
+    rw [ite_eq_left rfl, ite_eq_left rfl, Nat.div_one] at hN
     interval_cases i <;> interval_cases k
     · exact Or.inr ⟨hN, Or.inr (k91c6_hom ![Multiplicative.ofAdd 0, Multiplicative.ofAdd 0,
         Multiplicative.ofAdd 1] (by decide) 2 (by decide))⟩
@@ -40,9 +40,9 @@ theorem coverPG6_cases_of_bounds (h : ∀ i j k l, i < 2 → j < 2 → k < 2 →
     · exact Or.inr ⟨hN, Or.inl ⟨rfl, rfl, rfl, rfl⟩⟩
   · have hlt : (if i = j then 2160 else 1080) / (if l = 0 then 1 else 3) < 2160 := by
       by_cases h1 : i = j
-      · rw [if_pos h1, if_neg fun h2 => hbig ⟨h1, h2⟩]
+      · rw [ite_eq_left h1, ite_eq_right fun h2 => hbig ⟨h1, h2⟩]
         norm_num
-      · rw [if_neg h1]
+      · rw [ite_eq_right h1]
         split_ifs <;> norm_num
     exact Or.inl (lt_of_le_of_lt hN hlt)
 

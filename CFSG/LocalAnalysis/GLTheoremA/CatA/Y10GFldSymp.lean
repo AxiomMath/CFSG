@@ -19,7 +19,7 @@ open CFSG.ComponentClassification.UnbalancedCatalog (descentField)
 
 theorem fldSymp_of_ggLabelRigidInput (hRig : GGLabelRigidInput) : FldSymp := by
   intro S _ _ p α J labK labJ hFam hp hp2 hcen hfld hα hlabJ hJ
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨K, hK, hKf, m, hm, hn1, hcardK, hTag, hRank, e, u, hαu, huE, huD⟩ :=
     Y10GFldSympMark.fieldKind_symp_data hcen hFam hfld
   have hMEq : MulAut.congr e α = u := by

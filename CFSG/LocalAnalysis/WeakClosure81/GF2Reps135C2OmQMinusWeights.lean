@@ -37,8 +37,8 @@ theorem omq_omMinus_wt_add {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [Finite
     (ν ν' : OmqMinusLat (n - 1) m h) {g : spinGroup (quadMinus n K b c)}
     (hg : g ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H) :
     omqMinusWt n ι ι' (ν + ν') g = omqMinusWt n ι ι' ν g * omqMinusWt n ι ι' ν' g := by
-  haveI : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
-  haveI : NeZero h := ⟨by omega⟩
+  have : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
+  have : NeZero h := ⟨by omega⟩
   obtain ⟨t, z, ht⟩ := omq_omMinus_H_toral hn hirr hg
   obtain ⟨hpt, hpz⟩ := c2slomqmw3_toral_pow_eq_one hirr ι ι' ht
   rw [omq_omMinus_wt_eq_of_toral ι ι' (ν + ν') ht, omq_omMinus_wt_eq_of_toral ι ι' ν ht,
@@ -94,7 +94,7 @@ theorem omq_omMinus_wt_single {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [Fin
     {g : spinGroup (quadMinus n K b c)} (hg : g ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H) :
     omqMinusWt n ι ι' ((Pi.single i (cc : ZMod m), (0 : ZMod h)) : OmqMinusLat (n - 1) m h) g =
       ι (mat n g (.inl i) (.inl i)) ^ cc := by
-  haveI : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
+  have : NeZero m := ⟨by rw [hm]; exact Nat.card_pos.ne'⟩
   obtain ⟨t, z, ht⟩ := omq_omMinus_H_toral hn hirr hg
   obtain ⟨hpt, hpz⟩ := c2slomqmw3_toral_pow_eq_one hirr ι ι' ht
   rw [omq_omMinus_wt_eq_of_toral ι ι' _ ht, ht.mat_inl_inl]

@@ -132,7 +132,7 @@ public theorem no_inverted_oddP_of_le_pPrimeCore_of_isQuasisimple
     (hQ : IsQuasisimple Q) (X : Subgroup Q)
     (hXleCore : X ≤ pPrimeCore 2 Q)
     {p : ℕ} [Fact p.Prime] (hpodd : Odd p) (hXp : IsPGroup p X)
-    (hXne : X ≠ ⊥) {t : Q} (ht : IsInvolution t)
+    (hXne : X ≠ ⊥) {t : Q} (_ht : IsInvolution t)
     (hXinv : BenderGlauberman.IsInvertedBy t X) :
     False := by
   have hXcenter : X ≤ Subgroup.center Q :=

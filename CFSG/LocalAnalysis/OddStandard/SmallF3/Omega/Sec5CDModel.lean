@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {V : Type} [AddCommGro
   [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V] {Q : QuadraticForm (ZMod 3) V}
   {hQ : Q.Nondegenerate}
 
+omit [Finite G] in
 theorem sec5c_r_index (hdim : Module.finrank (ZMod 3) V = 6)
     (h2 : 2 ≤ Module.finrank (ZMod 3) V) (fr : NFrame Q (Fin 6) 1)
     {e : ↥L ⧸ Subgroup.center ↥L ≃* omegaProj hQ} {r : G} {x : ProjSim Q} {α : ℤˣ}
@@ -35,6 +36,7 @@ theorem sec5c_r_index (hdim : Module.finrank (ZMod 3) V = 6)
     group
   exact (hx.2 l l hl).symm
 
+omit [Finite G] in
 theorem sec5c_r_not_mem (hdim : Module.finrank (ZMod 3) V = 6)
     {e : ↥L ⧸ Subgroup.center ↥L ≃* omegaProj hQ} {r : G} {x : ProjSim Q} {α : ℤˣ}
     (hx : InducesViaP L (Subgroup.center ↥L) hQ e r x) (hxt : SimHasType x 1 α) : r ∉ L := by

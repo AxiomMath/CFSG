@@ -67,6 +67,7 @@ theorem plusRep_eq_mulVecLin (x : spinGroup (quadPlus n K)) :
     plusRep n K x = Matrix.mulVecLin (spinMatrix (quadPlus n K) x : Matrix _ _ K) :=
   LinearMap.ext fun v => (spinMatrix_mulVec _ x v).symm
 
+omit [CharP K 2] in
 theorem exists_slElt_of_isCompl [Finite K] {M N' : ℕ}
     {ℓ : Fin n ⊕ Fin n → ℕ} (hℓ : IsSpLevel M ℓ) {F' : ℕ → Submodule K (Fin n ⊕ Fin n → K)}
     (hF' : IsSelfDual (spForm n K) F' N') (hN' : 1 ≤ N')

@@ -43,7 +43,7 @@ theorem fieldCoreAt_projectiveSL_of_dvd_card {m : ℕ} (hm : 3 ≤ m) {F : Type}
     ∀ x : MulAut (projectiveSL m F), x ^ p = 1 → x ∉ innAutDerived (projectiveSL m F) →
       FieldCoreAt p x := by
   intro x hxp hxo
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxin : x ∉ inner (projectiveSL m F) :=
     fun h => hxo (CFSG.ComponentClassification.OuterAutomorphisms.inner_le_innAutDerived _ h)
   have hx1 : x ≠ 1 := fun h => hxin (by rw [h]; exact one_mem _)
@@ -54,7 +54,7 @@ theorem fieldCoreAt_projectiveSL_of_dvd_card {m : ℕ} (hm : 3 ≤ m) {F : Type}
   have hxlin : x ∉ linearAutGroup m F := by
     intro hxD
     exact hxo (mem_innAutDerived_of_mem_linearAutGroup hp hp2 hxp hxD)
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨f, hℓ, hcard⟩ := FiniteField.card F (ringChar F)
   let f' : ℕ := f
   have hf'pos : 0 < f' := f.pos
@@ -100,18 +100,18 @@ theorem fieldCoreAt_psl2 {F : Type} [Field F] [Finite F] {p : ℕ}
     (hpdvd : p ∣ Nat.card (PSL2 F)) :
     ∀ x : MulAut (PSL2 F), x ^ p = 1 → x ∉ innAutDerived (PSL2 F) → FieldCoreAt p x := by
   intro x hxp hxo
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxin : x ∉ inner (PSL2 F) := fun h => hxo (CFSG.ComponentClassification.OuterAutomorphisms.inner_le_innAutDerived _ h)
   obtain ⟨σ, h, hσ, hxh⟩ := exists_outer_data hp hp2 hxp hxin
   have hodd : Odd (orderOf σ) := by rw [hσ]; exact hp.odd_of_ne_two hp2
   have hδp : orderOf (psl2FieldAut F σ) = p := by rw [orderOf_psl2FieldAut, hσ]
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset F)) (n := 4)
     (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact h4F)
-  haveI : Nontrivial (PSL2 F) :=
+  have : Nontrivial (PSL2 F) :=
     (CFSG.LinearGroups.linear_projective_simple (n := 2) (K := F)
       (by norm_num) (Or.inr ⟨s, hs⟩)).1
-  haveI : IsSimpleGroup (PSL2 F) :=
+  have : IsSimpleGroup (PSL2 F) :=
     (CFSG.LinearGroups.linear_projective_simple (n := 2) (K := F)
       (by norm_num) (Or.inr ⟨s, hs⟩)).2.1
   have hperf := (CFSG.LinearGroups.linear_projective_perfect (n := 2) (K := F)
@@ -158,7 +158,7 @@ theorem lieOuterPLayer_linear (p : ℕ) : p.Prime → p ≠ 2 → LieOuterPLayer
     have hpq : q.p ≠ p := by
       have h := characteristic_ne_of_not_isChevSimple hd ⟨e⟩ hnot
       rwa [TauCeti.LieTypeIndex.characteristic_A] at h
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     let F := GaloisField q.p q.exponent
     have hFcard : Nat.card F = q.card := by
       dsimp only [F]

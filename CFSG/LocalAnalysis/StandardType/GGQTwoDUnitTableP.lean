@@ -118,7 +118,7 @@ private theorem qtwoDB18_labelIso_twA_left {r n : ℕ} (hr : 4 ≤ r) {lab : Lar
     (h : GGLabelIso ⟨.twA, r, n⟩ lab) : lab = ⟨.twA, r, n⟩ := by
   obtain ⟨t, l, m⟩ := lab
   simp only [GGLabelIso] at h
-  rcases h with h | h | h | h | h | h | h | h <;> simp_all <;> omega
+  rcases h with h | h | h | h | h | h | h | h <;> simp_all
 
 private theorem qtwoDB18_label_eq {t : LargeEvenLieTag} {r r' n : ℕ} (h : r = r') :
     (⟨t, r, n⟩ : LargeEvenLabel) = ⟨t, r', n⟩ := by

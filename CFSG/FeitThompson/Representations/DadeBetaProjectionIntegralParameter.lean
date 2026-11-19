@@ -44,8 +44,8 @@ theorem cfInner_indClassFun_one_sub_of_mem_range (hinj : Function.Injective ξ)
     cfInner_indClassFun_one_left_of_mem_indFam_sdiff (hS ▸ Set.mem_range_self l)
   have h2 : cfInner (ξ k₀) (ξ l) = if k₀ = l then 1 else 0 := by
     by_cases hkl : k₀ = l
-    · rw [if_pos hkl, hkl]; exact cfInner_self_of_mem_Irr (hkl ▸ hζIrr)
-    · rw [if_neg hkl]
+    · rw [ite_eq_left hkl, hkl]; exact cfInner_self_of_mem_Irr (hkl ▸ hζIrr)
+    · rw [ite_eq_right hkl]
       exact cfInner_eq_zero_of_mem_indFam H (hSsub ⟨k₀, rfl⟩) (hSsub ⟨l, rfl⟩)
         fun h => hkl (hinj h)
   rw [cfInner_sub_left, h1, h2, zero_sub]
@@ -165,7 +165,7 @@ theorem cfInner_dadeBeta_coherentImage (l : ι) :
     change cfInner (indClassFun H (1 : ↥H → ℂ) - ξ k₀) (g : ↥L → ℂ) = _
     rw [hgcoe, cfInner_sub_right, cfInner_smul_right,
       cfInner_indClassFun_one_sub_of_mem_range hinj hS hζIrr l,
-      cfInner_indClassFun_one_sub_of_mem_range hinj hS hζIrr k₀, if_pos rfl]
+      cfInner_indClassFun_one_sub_of_mem_range hinj hS hζIrr k₀, ite_eq_left rfl]
     simp
     ring
   have hright : cfInner (dadeBeta A R H (ξ k₀)) (ν g : G → ℂ)
@@ -233,13 +233,13 @@ theorem cfInner_dadeBetaRemainder_coherentImage (hS2 : (Set.range ξ).Nontrivial
   by_cases hkl : k₀ = l
   · subst hkl
     have h2 : cfInner (coherentImage ξ ν k₀) (coherentImage ξ ν k₀) = 1 := by
-      rw [NormalInducedWeightedNorm.cfInner_coherentImage_eq_ite H hinj hS hν k₀ k₀, if_pos rfl,
+      rw [NormalInducedWeightedNorm.cfInner_coherentImage_eq_ite H hinj hS hν k₀ k₀, ite_eq_left rfl,
         cfInner_self_of_mem_Irr hζIrr]
-    rw [h2, if_pos rfl, hζ1, div_self hidx]
+    rw [h2, ite_eq_left rfl, hζ1, div_self hidx]
     ring
   · have h2 : cfInner (coherentImage ξ ν k₀) (coherentImage ξ ν l) = 0 := by
-      rw [NormalInducedWeightedNorm.cfInner_coherentImage_eq_ite H hinj hS hν k₀ l, if_neg hkl]
-    rw [h2, if_neg hkl]
+      rw [NormalInducedWeightedNorm.cfInner_coherentImage_eq_ite H hinj hS hν k₀ l, ite_eq_right hkl]
+    rw [h2, ite_eq_right hkl]
     ring
 
 include hD hA hS hν hτ hζIrr hζ1 in

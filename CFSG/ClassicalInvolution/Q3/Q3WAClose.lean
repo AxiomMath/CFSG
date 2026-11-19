@@ -246,7 +246,7 @@ theorem routeD_typeA3 [Finite G] {m : ℕ} (hm : 6 ≤ m) {Ω : Set (Subgroup G)
   · intro i j hij
     rcases hU i with ⟨hi, h⟩ | ⟨hi, h⟩ | ⟨a, ha, hi, h⟩ <;>
     rcases hU j with ⟨hj, h'⟩ | ⟨hj, h'⟩ | ⟨b, hb, hj, h'⟩
-    all_goals first | (exfalso; omega) | skip
+    all_goals try (exfalso; omega)
     · rw [h, h']
       exact nd.commK b hb
     · rw [h, h']
@@ -260,7 +260,7 @@ theorem routeD_typeA3 [Finite G] {m : ℕ} (hm : 6 ≤ m) {Ω : Set (Subgroup G)
   · intro i j hij
     rcases hU i with ⟨hi, h⟩ | ⟨hi, h⟩ | ⟨a, ha, hi, h⟩ <;>
     rcases hU j with ⟨hj, h'⟩ | ⟨hj, h'⟩ | ⟨b, hb, hj, h'⟩
-    all_goals first | (exfalso; omega) | skip
+    all_goals try (exfalso; omega)
     · rw [h, h']
       exact ⟨W1, hW1⟩
     · rw [h, h']

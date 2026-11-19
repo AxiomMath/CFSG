@@ -43,7 +43,7 @@ theorem moore_of {X : Nat → Table} (hX : ∀ i < 8, TR 3510 (X i) (xM i)) :
       fun x hx => ?_
     have h := altAll 0 (by change 0 < 71; omega)
     unfold altSl at h
-    rw [Raw.Orb.bIf_eq, if_pos (Nat.beq_refl 0)] at h
+    rw [Raw.Orb.bIf_eq, ite_eq_left (Nat.beq_refl 0)] at h
     exact Nat.eq_of_beq_eq_true (Raw.Orb.allN_iff.1 h x hx)
   · rw [List.all_eq_true]
     intro j hj
@@ -60,7 +60,7 @@ theorem moore_of {X : Nat → Table} (hX : ∀ i < 8, TR 3510 (X i) (xM i)) :
         omega
       have e7 : Nat.blt (j - 1) 7 = true := Nat.blt_eq.mpr (by omega)
       have es : Nat.succ (j - 1) = j := by omega
-      rw [Raw.Orb.bIf_eq, if_neg e0, Raw.Orb.bIf_eq, if_pos e7, es] at h
+      rw [Raw.Orb.bIf_eq, ite_eq_right e0, Raw.Orb.bIf_eq, ite_eq_left e7, es] at h
       have hp : ∀ x < 3510, iterK (xM j) 2 x = x ∧
           iterK (fun z => xM (j - 1) (xM j z)) 3 x = x := fun x hx => by
         have h' := Raw.Orb.allN_iff.1 h x hx
@@ -102,8 +102,8 @@ theorem moore_of {X : Nat → Table} (hX : ∀ i < 8, TR 3510 (X i) (xM i)) :
         have := Nat.blt_eq.mp e
         change j < i + 2 at this
         omega
-      rw [Raw.Orb.bIf_eq, if_neg e0, Raw.Orb.bIf_eq, if_neg e7, e1, e2, Raw.Orb.bIf_eq, if_neg e3,
-        Raw.Orb.bIf_eq, if_neg e4] at h
+      rw [Raw.Orb.bIf_eq, ite_eq_right e0, Raw.Orb.bIf_eq, ite_eq_right e7, e1, e2, Raw.Orb.bIf_eq, ite_eq_right e3,
+        Raw.Orb.bIf_eq, ite_eq_right e4] at h
       exact eq_idT_of_TR (by norm_num) (powT_TR (by norm_num)
         (compT_TR (hX i (by omega)) (hX j (by omega))) 2)
         fun x hx => Nat.eq_of_beq_eq_true (Raw.Orb.allN_iff.1 h x hx)

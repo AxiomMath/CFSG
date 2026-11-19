@@ -323,7 +323,7 @@ theorem not_commute_and_lineMem_eq (c : FiveChart hC n) (hn : 5 ≤ n) {a b x : 
     have hbline := (lineMem_eq c hn ha hb hab).1
     rw [hxline, hbline]
     ext z
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     exact ⟨fun ⟨hz, h⟩ => ⟨hz, (exists_smul_eq_iff (v := c.vec z) hl hq).mpr h⟩,
       fun ⟨hz, h⟩ => ⟨hz, (exists_smul_eq_iff (v := c.vec z) hl hq).mp h⟩⟩
   exact ⟨hnc, hline⟩
@@ -416,8 +416,8 @@ theorem lineMem_five (hC : HypothesisC D)
     have h := c.orderOf_mul (g * a * g⁻¹) ha' (g * b * g⁻¹) hb' habne' hpq0'
     rw [hord'] at h
     by_cases hb1 : c.b (c.vec (g * a * g⁻¹)) (c.vec (g * b * g⁻¹)) ^ 2 = 1
-    · right; rw [h, if_pos hb1]
-    · left; rw [h, if_neg hb1]
+    · right; rw [h, ite_eq_left hb1]
+    · left; rw [h, ite_eq_right hb1]
   exact ⟨hord, hncard, fun c₀ hc₀ hc₀a =>
     FiveChart.not_commute_and_lineMem_eq_of_conj c hn ha' hb' hab' hc₀ hc₀a⟩
 
@@ -436,9 +436,9 @@ theorem twelveSeven_five_exists (hC : HypothesisC D)
   obtain ⟨z₃, hz₃, hnc3, hline3⟩ := c.exists_ncard_lineMem hn hz₀ (t := 2) (by decide)
   obtain ⟨z₅, hz₅, hnc5, hline5⟩ := c.exists_ncard_lineMem hn hz₀ (t := 1) (by decide)
   have h3 : (lineMem D e z₃).ncard = 3 := by
-    rw [hline3, if_neg (by decide : (2 : ZMod 5) ^ 2 ≠ 1)]
+    rw [hline3, ite_eq_right (by decide : (2 : ZMod 5) ^ 2 ≠ 1)]
   have h5 : (lineMem D e z₅).ncard = 5 := by
-    rw [hline5, if_pos (by decide : (1 : ZMod 5) ^ 2 = 1)]
+    rw [hline5, ite_eq_left (by decide : (1 : ZMod 5) ^ 2 = 1)]
   obtain ⟨g, hg⟩ := isConj_iff.mp (hC.setup.isConj hz₀.1 hC.hd)
   have hmk : ∀ (z : G), z ∈ commSet D hC.d → ¬ Commute e z →
       ∃ w ∈ D, ¬ Commute w hC.d ∧ (lineMem D hC.d w).ncard = (lineMem D e z).ncard := by

@@ -27,7 +27,7 @@ theorem orderOf_swap_mul_swap {Ω : Type*} [DecidableEq Ω] {a b c : Ω} (hab : 
   have hne : swap a b * swap a c ≠ 1 := by
     intro h
     have := congrArg (fun f : Perm Ω => f a) h
-    simp [swap_apply_def, hab, hac, hbc, hab.symm, hac.symm, hbc.symm] at this
+    simp [swap_apply_def, hac.symm, hbc.symm] at this
   exact orderOf_eq_prime h3 hne
 
 theorem disjoint_swap_of_pGroup {Ω : Type*} [DecidableEq Ω] {P : Subgroup (Perm Ω)}

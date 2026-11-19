@@ -48,9 +48,9 @@ theorem lineTabG_perp {UL : List Nat} {UP PP : Nat} {PB : Nat → Nat} (H : Pts 
   have e2 : (x * 693 + y) % 693 = y := by omega
   simp only [e1, e2, hP x hx y hy]
   by_cases h : bitK (PB x) y = true
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     exact hypLineFG_eq H hx hy
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 end CFSG.KC.Misc.Hyp
 

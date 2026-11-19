@@ -46,9 +46,9 @@ theorem cfInner_prodCharEtaColSum (hW : IsCyclicTIPair W W1 W2)
       = if j = l then (1 : ℂ) else 0 := fun i => hW.cfInner_prodCharEtaColSum_prodCharEta hω j i l
   rw [Finset.sum_congr rfl fun i (_ : i ∈ Finset.univ) => hkey i]
   by_cases h : j = l
-  · rw [if_pos h, if_pos h, Finset.sum_const, card_univ_Irr_left hW]
+  · rw [ite_eq_left h, ite_eq_left h, Finset.sum_const, card_univ_Irr_left hW]
     simp
-  · rw [if_neg h, if_neg h, Finset.sum_const]
+  · rw [ite_eq_right h, ite_eq_right h, Finset.sum_const]
     simp
 
 theorem smul_prodCharEtaColSum_mem_span_Irr (hW : IsCyclicTIPair W W1 W2)
@@ -83,7 +83,7 @@ theorem eq_or_eq_starIrr_of_col_eq (hW : IsCyclicTIPair W W1 W2)
     rwa [starIrr_starIrr] at h2)
   have hpair := congrArg (fun f => cfInner f (hW.prodCharEtaColSum ω j)) h
   simp only [cfInner_sub_left, cfInner_smul_left, cfInner_prodCharEtaColSum hW hω,
-    if_neg hbjj, if_neg hbkj, mul_zero, sub_zero, if_neg hkj] at hpair
+    ite_eq_right hbjj, ite_eq_right hbkj, mul_zero, sub_zero, ite_eq_right hkj] at hpair
   have hδ0 : δ ≠ 0 := by rcases hδ with rfl | rfl <;> norm_num
   exact (mul_ne_zero hδ0 (natCard_left_ne_zero hW)) hpair.symm
 
@@ -154,8 +154,8 @@ theorem exists_isCoherentWith_row_family (hW : IsCyclicTIPair W W1 W2)
     (S := S) (u := M) hSM (g := fun _ => (Nat.card ↥W1 : ℂ))
     (fun i i' => by
       by_cases h : i = i'
-      · subst h; rw [if_pos rfl]; exact hnorm i
-      · rw [if_neg h]; exact horth i i' h)
+      · subst h; rw [ite_eq_left rfl]; exact hnorm i
+      · rw [ite_eq_right h]; exact horth i i' h)
     (fun _ => hq)
     (v := fun i => δ • hW.prodCharEtaColSum ω (c i))
     (fun i => smul_prodCharEtaColSum_mem_span_Irr hW hω hδ (c i))
@@ -163,7 +163,7 @@ theorem exists_isCoherentWith_row_family (hW : IsCyclicTIPair W W1 W2)
       rw [cfInner_smul_prodCharEtaColSum hW hω hδ]
       by_cases h : i = i'
       · simp [h]
-      · rw [if_neg (fun hcc => h (hc hcc)), if_neg h])
+      · rw [ite_eq_right (fun hcc => h (hc hcc)), ite_eq_right h])
     (τ := virtToSpanIrr.comp τ)
     (by
       intro w cc hcw

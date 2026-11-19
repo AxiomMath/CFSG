@@ -85,7 +85,7 @@ theorem ggDk_jShape
   obtain ⟨-, -, hDcard, hxD, -, hJ, hDJ⟩ := hcfg.1.1.2.2.1
   rw [← hB] at hDJ
   obtain ⟨ζ, hζ⟩ : ∃ ζ : (GaloisField 2 f)ˣ, IsPrimitiveRoot ζ p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have h1 : p ∣ Nat.card (GaloisField 2 f)ˣ := by
       rw [Nat.card_units, GaloisField.card 2 f (by have := hadm.2.1; omega)]
       exact hpf

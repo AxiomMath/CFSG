@@ -14,6 +14,7 @@ namespace Cfg145
 
 variable {K : Type} [Group K] [Finite K] {M X₁ X₂ P : Subgroup K}
 
+omit [Finite K] in
 theorem symm (c : Cfg145 M X₁ X₂ P) : Cfg145 M X₂ X₁ P := by
   refine
     { isKGroup := c.isKGroup
@@ -70,7 +71,7 @@ theorem inf_eq_bot (c : Cfg145 M X₁ X₂ P) : X₁ ⊓ X₂ = ⊥ := by
   exact absurd h9 (by norm_num)
 
 theorem isElemAbelian (c : Cfg145 M X₁ X₂ P) : IsElemAbelian 3 (X₁ ⊔ X₂) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : IsMulCommutative ↥(X₁ ⊔ X₂) :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [c.card_sup]; norm_num)
   refine ⟨hcomm, ?_⟩
@@ -168,7 +169,7 @@ theorem eq_left_or_eq_right (c : Cfg145 M X₁ X₂ P) {R : Subgroup K} (hRX : R
 
 theorem eq_bot_of_normal_of_isPGroup (c : Cfg145 M X₁ X₂ P) {R : Subgroup K} (hR : R.Normal)
     (hR3 : IsPGroup 3 R) : R = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardX : Nat.card (X₁ ⊔ X₂ : Subgroup K) = 3 ^ (Nat.card K).factorization 3 := by
     have h := CFSG.ABGLocalTools.IsSylowOf.card_eq c.isSylowOf_three
     rwa [Subgroup.card_top] at h
@@ -226,12 +227,12 @@ theorem free (c : Cfg145 M X₁ X₂ P) : CFSG.ComponentClassification.SolvableR
   by_contra hAne
   obtain ⟨N, hNA, hNmin⟩ :=
     CFSG.ComponentClassification.MinimalNormal.exists_le A hAne
-  haveI : Group.IsSolvable N :=
+  have : Group.IsSolvable N :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hNA)
       (Subgroup.inclusion_injective hNA)
   obtain ⟨q, hq, -, hqP⟩ :=
     CFSG.ComponentClassification.MinimalNormal.elementaryAbelian_of_solvable N hNmin
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   by_cases hq3 : q = 3
   · rw [hq3] at hqP
     exact hNmin.prop.2 (eq_bot_of_normal_of_isPGroup c hNmin.prop.1 hqP)
@@ -247,9 +248,9 @@ theorem free (c : Cfg145 M X₁ X₂ P) : CFSG.ComponentClassification.SolvableR
 
 theorem false_of_le (c : Cfg145 M X₁ X₂ P) {E : Subgroup K} (hE : E.Normal) (hXE : X₁ ⊔ X₂ ≤ E)
     (hEM : E ≤ M) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := (c.isSylowOf_three.of_le hXE le_top).exists_sylow_eq_subgroupOf
-  haveI : E.Normal := hE
+  have : E.Normal := hE
   have hfr : normalizer ((X₁ ⊔ X₂ : Subgroup K) : Set K) ⊔ E = ⊤ := by
     have h := Sylow.normalizer_sup_eq_top Q
     rwa [hQ, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hXE] at h

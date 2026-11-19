@@ -34,7 +34,7 @@ theorem mem_span_w0_of_fix {v : V K} (hv : ∀ s ∈ rootSet7 K, s v = v) :
     have hfix := congrArg (fun f : V K => f (shift γ b))
       (hv (vAut K (e7Data_valid.xu K γ 1)) ⟨γ, hγ, h1, 1, rfl⟩)
     simp only [vAut_apply] at hfix
-    rw [xu_apply_coord hγ (1 : K) v (shift γ b), if_pos (pr_shift_self hγ h2),
+    rw [xu_apply_coord hγ (1 : K) v (shift γ b), ite_eq_left (pr_shift_self hγ h2),
       shift_neg_shift hγ h2, one_mul] at hfix
     exact add_eq_left.mp hfix
   rw [Submodule.mem_span_singleton]
@@ -43,7 +43,7 @@ theorem mem_span_w0_of_fix {v : V K} (hv : ∀ s ∈ rootSet7 K, s v = v) :
   by_cases hb : b = i7
   · subst hb
     simp
-  · simp [Finsupp.single_apply, Ne.symm hb, hzero b hb]
+  · simp [Ne.symm hb, hzero b hb]
 
 theorem beta_EAut {g : V K ≃ₗ[K] V K} (hg : g ∈ EAut K) (x y : V K) :
     beta (g x) (g y) = beta x y := by
@@ -73,6 +73,7 @@ theorem span_orbit_w0 :
       exact AddSubgroup.mem_top v
     exact hv
 
+omit [CharP K 2] in
 theorem eq_of_beta_eq {y z : V K} (h : ∀ x : V K, beta x y = beta x z) : y = z := by
   ext a
   have h1 := h (Finsupp.single (opp a) 1)
@@ -82,9 +83,11 @@ theorem eq_of_beta_eq {y z : V K} (h : ∀ x : V K, beta x y = beta x z) : y = z
   (Finsupp.linearEquivFunOnFinite K K (Fin e7Data.d)).symm.toLinearMap ∘ₗ
     LinearMap.pi fun a => B' (Finsupp.single (opp a) 1)
 
+omit [CharP K 2] in
 theorem betaRep_apply (B' : V K →ₗ[K] V K →ₗ[K] K) (v : V K) (a : Fin e7Data.d) :
     betaRep B' v a = B' (Finsupp.single (opp a) 1) v := rfl
 
+omit [CharP K 2] in
 theorem beta_betaRep (B' : V K →ₗ[K] V K →ₗ[K] K) (u v : V K) :
     beta u (betaRep B' v) = B' u v := by
   induction u using Finsupp.induction_linear with
@@ -136,7 +139,7 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Assembly.LowTwoRank
 theorem smith24E5Form_holds : Smith24E5FormStatement := by
   intro G _ _ M Q Z B IH hc h5 K _ _ γ M₀ hg ψ φ d
   have hctx : Ctx M Q Z B := hc.ctx
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨m, -, hZm, -⟩ := hctx.hyp.cp
     exact charP_two_of_natCard_pow_two (hg.card.trans hZm)
   let B' : V K →ₗ[K] V K →ₗ[K] K :=

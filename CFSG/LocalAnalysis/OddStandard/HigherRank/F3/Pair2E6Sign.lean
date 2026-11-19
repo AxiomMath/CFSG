@@ -52,7 +52,7 @@ private lemma fieldAutSL_negOneTwo (ψ : k ≃+* k) :
   rw [coe_fieldAutSL, coe_negOneTwo_eq_scalar_neg_one k]
   ext i j
   by_cases h : i = j <;>
-    simp [Matrix.scalar_apply, Matrix.diagonal_apply, Matrix.map_apply, h]
+    simp [Matrix.scalar_apply, Matrix.map_apply, h]
 
 private lemma neg_blocks_mul_comm :
     blockSL2 k 5 4 (negOneTwo k) * blockSL2 k 5 2 (negOneTwo k) *
@@ -67,7 +67,7 @@ private lemma neg_blocks_mul_comm :
 
 private lemma coe_negOneSix_eq_scalar_neg_one [Finite k] (hk : Nat.card k = 9) :
     (negOneSix k : Matrix (Fin 6) (Fin 6) k) = Matrix.scalar (Fin 6) (-1 : k) := by
-  letI : Fintype k := Fintype.ofFinite k
+  let : Fintype k := Fintype.ofFinite k
   have hcard : Fintype.card k = 9 := by
     rw [Fintype.card_eq_nat_card]; exact hk
   have hF : ringChar k ≠ 2 := by
@@ -102,7 +102,7 @@ private lemma coe_negOneSix_eq_scalar_neg_one [Finite k] (hk : Nat.card k = 9) :
 
 theorem eq_one_or_eq_negOneSix_of_mem_center_card_nine [Finite k] (hk : Nat.card k = 9)
     {g : SL(6, k)} (hg : g ∈ center SL(6, k)) : g = 1 ∨ g = negOneSix k := by
-  letI : Fintype k := Fintype.ofFinite k
+  let : Fintype k := Fintype.ofFinite k
   obtain ⟨r, hr, hrg⟩ := Matrix.SpecialLinearGroup.mem_center_iff.1 hg
   rw [Fintype.card_fin] at hr
   have hr0 : r ≠ 0 := by
@@ -123,7 +123,7 @@ theorem eq_one_or_eq_negOneSix_of_mem_center_card_nine [Finite k] (hk : Nat.card
     apply Subtype.ext
     rw [← hrg]
     ext i j
-    by_cases h : i = j <;> simp [Matrix.scalar_apply, Matrix.one_apply, h]
+    by_cases h : i = j <;> simp [Matrix.scalar_apply, h]
   · right
     apply Subtype.ext
     rw [← hrg]

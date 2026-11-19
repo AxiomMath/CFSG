@@ -117,6 +117,7 @@ private theorem s65_SixFiveF_twoRank_dihedral {m : ℕ} [NeZero m] (hm : Odd m) 
     have h2 : 2 ∣ m := by omega
     exact (Nat.not_even_iff_odd.mpr hm) (even_iff_two_dvd.mpr h2)
 
+omit [Finite X] in
 private theorem s65_SixFiveF_center_eq_bot_of_isSimple (P : QuotPair T T₁)
     (hsimple : IsSimpleGroup X) :
     Subgroup.center X = ⊥ := by
@@ -133,6 +134,7 @@ private theorem s65_SixFiveF_center_eq_bot_of_isSimple (P : QuotPair T T₁)
     exact P.ne (P.closed T QuotPair.mem_pairConj_left T₁ QuotPair.mem_pairConj_right
       u hu hu1 v hv hv1 (hcomm u v))
 
+omit [Finite X] in
 private theorem s65_SixFiveF_center_eq_bot_of_mulEquiv_dihedral {m : ℕ} (hm : Odd m) (hm1 : m ≠ 1)
     (e : X ≃* DihedralGroup m) : Subgroup.center X = ⊥ := by
   rw [eq_bot_iff]
@@ -147,6 +149,7 @@ private theorem s65_SixFiveF_center_eq_bot_of_mulEquiv_dihedral {m : ℕ} (hm : 
   rw [DihedralGroup.center_eq_bot_of_odd_ne_one hm hm1, Subgroup.mem_bot] at hz'
   exact e.injective (by rw [hz', map_one])
 
+omit [Finite X] in
 private theorem s65_SixFiveF_isL2Pair (P : QuotPair T T₁) {f : ℕ} (hf : 2 ≤ f)
     (hcard : Nat.card T = 2 ^ f) (e : X ≃* PSL(2, GaloisField 2 f)) :
     IsL2Pair X T (2 ^ f) := by
@@ -182,6 +185,7 @@ private theorem s65_SixFiveF_isL2Pair (P : QuotPair T T₁) {f : ℕ} (hf : 2 �
     omega
   exact IsL2Pair.of_psl_isPGroup hf0 ⟨e⟩ P.elem.isPGroup hidx
 
+omit [Finite X] in
 private theorem s65_SixFiveF_sup_zpowers_of_sup_conj {x : X} (htop : T ⊔ conjSubgroup x T = ⊤) :
     T ⊔ Subgroup.zpowers x = ⊤ := by
   have hle : conjSubgroup x T ≤ T ⊔ Subgroup.zpowers x := by
@@ -198,6 +202,7 @@ private theorem s65_SixFiveF_sup_zpowers_of_sup_conj {x : X} (htop : T ⊔ conjS
   rw [← htop]
   exact sup_le le_sup_left hle
 
+omit [Finite X] in
 private theorem s65_SixFiveF_conjSubgroup_inv_smul (S : Sylow 2 X) (g : X) :
     CFSG.Quasithin.conjSubgroup (S : Subgroup X) g⁻¹ = ((g • S : Sylow 2 X) : Subgroup X) := by
   unfold CFSG.Quasithin.conjSubgroup
@@ -221,7 +226,7 @@ theorem _root_.CFSG.RankThree.GF2n.QuotPair.quotShape (P : QuotPair T T₁) :
       Or.inr (Or.inr (Or.inr ⟨rfl, rfl, CFSG.Quasithin.I62.isSz_of_mulEquiv ha e⟩))
     exact ⟨Or.inr (Or.inl ⟨2 * a + 1, hSz⟩), by
       rw [hcard, twoRank_eq_of_mulEquiv_sz ha e]⟩
-  · haveI : NeZero m := ⟨by omega⟩
+  · have : NeZero m := ⟨by omega⟩
     exact ⟨Or.inr (Or.inr ⟨m, hm, ⟨e⟩⟩), by
       rw [hcard, CFSG.GH74.twoRank_eq_of_mulEquiv e, s65_SixFiveF_twoRank_dihedral hm]
       norm_num⟩
@@ -236,10 +241,10 @@ theorem _root_.CFSG.RankThree.GF2n.QuotPair.center_eq_bot (P : QuotPair T T₁) 
       rw [hFcard]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
-    haveI : IsSimpleGroup (PSL(2, GaloisField 2 f)) :=
+    have : IsSimpleGroup (PSL(2, GaloisField 2 f)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
     exact s65_SixFiveF_center_eq_bot_of_isSimple P e.isSimpleGroup
-  · haveI : IsSimpleGroup (Sz a) :=
+  · have : IsSimpleGroup (Sz a) :=
       CFSG.SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup ha
     exact s65_SixFiveF_center_eq_bot_of_isSimple P e.isSimpleGroup
   · exact s65_SixFiveF_center_eq_bot_of_mulEquiv_dihedral hm (by omega) e

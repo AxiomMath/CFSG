@@ -32,7 +32,7 @@ theorem exists_mul_of_mem_Q (c : Ctx E A e K Q)
     (hB : ¬ Subgroup.normalizer (E : Set G) ≤
       Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G))
     {w : G} (hwQ : w ∈ Q) : ∃ z ∈ E, ∃ a ∈ A, z * a = w := by
-  obtain ⟨b, hbA, hbE⟩ := SetLike.not_le_iff_exists.1 c.hAnE
+  obtain ⟨b, hbA, hbE⟩ := IsConcreteLE.not_le_iff_exists.1 c.hAnE
   have hb3 : b ^ 3 = 1 := c.hAel.2 b hbA
   have hb1 : b ≠ 1 := fun h => hbE (h ▸ E.one_mem)
   have hbQ : b ∈ Q := c.hAQ hbA

@@ -52,7 +52,7 @@ private theorem zmod5_units_sq_of_not_isSquare (u : (ZMod 5)ˣ)
 theorem orderOf_eq_four_of_not_isSquare (u : (ZMod 5)ˣ) (h : ¬ IsSquare (u : ZMod 5)) :
     orderOf u = 4 := by
   have h2 : u ^ 2 = -1 := zmod5_units_sq_of_not_isSquare u h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply orderOf_eq_prime_pow (p := 2) (n := 1)
   · rw [pow_one, h2]
     intro hc
@@ -65,7 +65,7 @@ theorem natCard_units_five : Nat.card (ZMod 5)ˣ = 4 := by
   decide
 
 theorem orderOf_neg_one_units : orderOf (-1 : (ZMod 5)ˣ) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply orderOf_eq_prime
   · ext; decide
   · intro h
@@ -120,7 +120,7 @@ private theorem zmod5_vec_reflect (k : ℕ) (c d : Fin (k + 1) → ZMod 5) (α :
   rw [hneg, hneg1, hneg2]
   abel
 
-@[expose] def fiveLineStab (k : ℕ) (ε π : Bool) (c : Fin (k + 1) → ZMod 5) :
+@[expose] def fiveLineStab (k : ℕ) (_ε _π : Bool) (c : Fin (k + 1) → ZMod 5) :
     Subgroup (GL (Fin (k + 1)) (ZMod 5)) where
   carrier := {g | ∃ lam : (ZMod 5)ˣ,
     (g : Matrix (Fin (k + 1)) (Fin (k + 1)) (ZMod 5)) *ᵥ c = (lam : ZMod 5) • c}
@@ -321,7 +321,7 @@ theorem exists_fiveForm_det_ne {ε : Bool} (W : Submodule (ZMod 5) (Fin (k + 1) 
       fiveForm k ε u u * fiveForm k ε y y - fiveForm k ε u y * fiveForm k ε u y ≠ 0 := by
   have hy0 : ∃ y ∈ W, fiveForm k ε u y ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hu (hW u huW h)
   obtain ⟨y0, hy0W, huy0⟩ := hy0
   by_cases hdet : fiveForm k ε u u * fiveForm k ε y0 y0 -
@@ -337,7 +337,7 @@ theorem exists_fiveForm_det_ne {ε : Bool} (W : Submodule (ZMod 5) (Fin (k + 1) 
   have hz : ∃ z ∈ W, fiveForm k ε u z = 0 ∧
       fiveForm k ε (y0 + z) (y0 + z) ≠ fiveForm k ε y0 y0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨z, hzW, hzu, hz0⟩ := hroom
     have hbil : ∀ z1 ∈ W, fiveForm k ε u z1 = 0 → ∀ z2 ∈ W, fiveForm k ε u z2 = 0 →
         fiveForm k ε z1 z2 = 0 := by
@@ -452,7 +452,7 @@ theorem fiveSignPerp_span_orthogonal (hk : 4 ≤ k) (ε π : Bool) {c v : Fin (k
   ·
     have hy : ∃ y, fiveForm k ε c y ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hc (FiveWalk.fiveForm_nondegenerate k ε _ h)
     obtain ⟨y, hy⟩ := hy
     let y1 : Fin (k + 1) → ZMod 5 := (fiveForm k ε c y)⁻¹ • y
@@ -608,9 +608,8 @@ theorem fiveSignPerp_span_orthogonal (hk : 4 ≤ k) (ε π : Bool) {c v : Fin (k
       rw [show v = u + (fiveForm k ε v c * (fiveForm k ε c c)⁻¹) • c by
             rw [show u = v - (fiveForm k ε v c * (fiveForm k ε c c)⁻¹) • c from rfl]; abel,
         hu0, zero_add]
-    try simp
 
-theorem fiveLineStab_inv_apply (k : ℕ) (ε π : Bool) {c : Fin (k + 1) → ZMod 5}
+theorem fiveLineStab_inv_apply (k : ℕ) (_ε _π : Bool) {c : Fin (k + 1) → ZMod 5}
     {g : GL (Fin (k + 1)) (ZMod 5)} {lam : (ZMod 5)ˣ}
     (hlam : (g : Matrix (Fin (k + 1)) (Fin (k + 1)) (ZMod 5)) *ᵥ c = (lam : ZMod 5) • c) :
     (((g⁻¹ : GL (Fin (k + 1)) (ZMod 5)) :
@@ -651,7 +650,7 @@ theorem closure_fiveReflectionsFixing_fixes (k : ℕ) (ε π : Bool) {c : Fin (k
     exact h.symm
 
 private theorem map_conj_le_of_mem_lineStab (k : ℕ) (ε π : Bool) {c : Fin (k + 1) → ZMod 5}
-    (hc : c ≠ 0) {g : GL (Fin (k + 1)) (ZMod 5)}
+    (_hc : c ≠ 0) {g : GL (Fin (k + 1)) (ZMod 5)}
     (hgR : g ∈ fiveReflectionGroup k ε π) (hgline : g ∈ fiveLineStab k ε π c) :
     (Subgroup.closure (fiveReflectionsFixing k ε π c)).map (MulAut.conj g).toMonoidHom ≤
       Subgroup.closure (fiveReflectionsFixing k ε π c) := by
@@ -880,7 +879,7 @@ theorem fiveLineStabHom_range_card_of_eq (hk : 4 ≤ k) (ε π : Bool)
     Nat.card (fiveLineStabHom k ε π c hc).range = 4 := by
   have hy : ∃ y, fiveForm k ε c y ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hc (FiveWalk.fiveForm_nondegenerate k ε _ h)
   obtain ⟨y, hy⟩ := hy
   let y1 : Fin (k + 1) → ZMod 5 := (fiveForm k ε c y)⁻¹ • y
@@ -1057,7 +1056,7 @@ theorem relIndex_normalizer_fiveReflectionsFixing_aux (hk : 4 ≤ k) (ε π : Bo
   have hker := fiveLineStabHom_ker k ε π hc hS5
   rw [Subgroup.relIndex, ← hker, Subgroup.index_ker]
   by_cases hQ : fiveForm k ε c c = 0
-  · rw [if_pos hQ, fiveLineStabHom_range_card_of_eq hk ε π hc hQ]
-  · rw [if_neg hQ, fiveLineStabHom_range_card_of_ne hk ε π hc hQ]
+  · rw [ite_eq_left hQ, fiveLineStabHom_range_card_of_eq hk ε π hc hQ]
+  · rw [ite_eq_right hQ, fiveLineStabHom_range_card_of_ne hk ε π hc hQ]
 
 end CFSG.OddTranspositions.PartThree

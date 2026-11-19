@@ -30,7 +30,7 @@ private theorem exists_disjoint_commutator_of_abelian_sylow (S : Sylow p W)
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSN).toEquiv
   have hS'idx : ¬ p ∣ S'.index := fun h =>
     S.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hSN))
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hcop : (Nat.card S').Coprime S'.index := by
     rw [hS'card, hk]
     exact Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd hp).mpr hS'idx)
@@ -142,7 +142,7 @@ theorem exists_outer_order_p_of_outer_centralizes
     ∃ α : MulAut K, α ^ p = 1 ∧ α ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner K ∧
       ∀ g ∈ (P : Subgroup K), α * MulAut.conj g = MulAut.conj g * α := by
   classical
-  haveI : Finite (MulAut K) := Finite.of_injective (fun f : MulAut K => (f : K → K))
+  have : Finite (MulAut K) := Finite.of_injective (fun f : MulAut K => (f : K → K))
     (fun f g h => MulEquiv.ext (congrFun h))
   obtain ⟨n, hn⟩ := hφ
   have hinj : Function.Injective (MulAut.conj : K →* MulAut K) := by
@@ -209,7 +209,7 @@ theorem exists_outer_order_p_of_outer_centralizes
     show (φ ^ m) ^ (p ^ n) = 1
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hn, one_zpow]
   have hSp : IsPGroup p S := by
-    refine IsPGroup.to_sup_of_normal_left' (P.isPGroup'.map _) hpz ?_
+    refine IsPGroup.to_sup_of_normal_left' (P.isPGroup.map _) hpz ?_
     rw [Subgroup.zpowers_le]
     refine Subgroup.centralizer_le_normalizer _ ?_
     rw [Subgroup.mem_centralizer_iff]

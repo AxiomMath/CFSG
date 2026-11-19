@@ -938,12 +938,8 @@ private lemma normalizerGen_images_distinct (hS4 : Section4Hyp c) (i j : Fin 3)
   all_goals
     exfalso
     first
-    | simpa using (normalizerGen_pow_t_ne c hS4 1 (Or.inl rfl) h)
     | simpa using (normalizerGen_pow_t_ne c hS4 2 (Or.inr rfl) h)
-    | simpa using (normalizerGen_pow_t_ne c hS4 1 (Or.inl rfl) h.symm)
     | simpa using (normalizerGen_pow_t_ne c hS4 2 (Or.inr rfl) h.symm)
-    | exact (t_ne_t1_s4 c h)
-    | exact (t_ne_t1_s4 c h.symm)
     | exact (t_ne_t1_s4 c (by
         have h' : normalizerGen c hS4 * c.t * (normalizerGen c hS4)⁻¹ = c.t := h.symm
         rw [normalizerGen_move c hS4] at h'

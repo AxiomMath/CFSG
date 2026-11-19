@@ -73,6 +73,7 @@ theorem comm_mem_oddJunk_of_outer (hS : StandardSetting G L)
     rw [e]
     exact h2
 
+omit [Finite G] in
 theorem exists_lift_rho_of_commute (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) {x : G}
     (hx : x ∈ normalizer (L : Set G)) {D : Perm (Fin n)} (hD : D ∈ alternatingGroup (Fin n))
     (hDσ : D * rho θ hn ⟨x, hx⟩ = rho θ hn ⟨x, hx⟩ * D) :
@@ -101,6 +102,7 @@ theorem exists_lift_rho_of_commute (θ : L ≃* alternatingGroup (Fin n)) (hn : 
   calc (l : G) * x = ((l : G) * x * (l : G)⁻¹) * l := by group
     _ = x * l := by rw [h2]
 
+omit [Finite G] in
 theorem false_of_odd_commutators (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) (h9 : 9 ≤ n)
     {u : G} (hu : u ∈ normalizer (L : Set G)) (hx : x ∈ normalizer (L : Set G)) (hux : u ^ 2 = x)
     (hx2 : x ^ 2 = 1) (hxK : x ∉ centralizer (L : Set G)) (Y : Subgroup G)

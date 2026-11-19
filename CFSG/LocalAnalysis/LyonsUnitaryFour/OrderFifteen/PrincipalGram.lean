@@ -269,7 +269,7 @@ theorem exists_centralizer_normal_complement (S : Sylow 2 H)
   refine ⟨(MonoidHom.transferSylow Q hle).ker, inferInstance, ?_, ?_⟩
   · rw [← hcomp.index_eq_card]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mpr Q.not_dvd_index
-  · obtain ⟨a, ha⟩ := Q.isPGroup'.exists_card_eq
+  · obtain ⟨a, ha⟩ := Q.isPGroup.exists_card_eq
     apply IsPGroup.of_card (n := a)
     rw [← Subgroup.index, hcomp.symm.index_eq_card, ha]
 
@@ -406,7 +406,7 @@ theorem blocksInduction_eq_zero_of_odd (principal : basis.index) (P : Sylow 2 H)
       ∑ l ∈ B, starRingEnd ℂ ((basis.representation l).character x) *
         (basis.representation l).character g = 0 := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' x
+    obtain ⟨k, hk⟩ := P.isPGroup x
     have hxk : orderOf (x : H) ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one (by
       have := congrArg Subtype.val hk
       simpa using this)

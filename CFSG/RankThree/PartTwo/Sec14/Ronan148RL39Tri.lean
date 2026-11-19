@@ -57,7 +57,7 @@ private theorem exists_cols {F : Type} [Field F] (e₁ e₂ e₃ : Fin 3 → F) 
       P *ᵥ c = c 0 • e₁ + c 1 • e₂ + c 2 • e₃ := by
   refine ⟨Matrix.of fun i j => ![e₁, e₂, e₃] j i, fun c => ?_⟩
   funext i
-  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three] <;> ring
+  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three]; ring
 
 private theorem isUnit_det_of_cols {F : Type} [Field F] (P : Matrix (Fin 3) (Fin 3) F)
     (e₁ e₂ e₃ : Fin 3 → F)
@@ -117,13 +117,13 @@ private theorem triangular_of_mulVec {F : Type} [Field F] (P : Matrix (Fin 3) (F
     simp only [Matrix.mulVec_mulVec, mul_assoc]
   have hP0 : P *ᵥ Pi.single 0 1 = e₁ := by
     rw [hcol]
-    simp [Pi.single_apply]
+    simp
   have hP1 : P *ᵥ Pi.single 1 1 = e₂ := by
     rw [hcol]
-    simp [Pi.single_apply]
+    simp
   have hentry : ∀ i j : Fin 3, (P⁻¹ * y * P) i j = ((P⁻¹ * y * P) *ᵥ Pi.single j 1) i := by
     intro i j
-    simp [Matrix.mulVec_single_one]
+    simp
   have hc0 : (P⁻¹ * y * P) *ᵥ Pi.single 0 1 = α • Pi.single 0 1 := by
     rw [hM, hP0, h1, Matrix.mulVec_smul, ← hP0, hinv]
   have hc1 : (P⁻¹ * y * P) *ᵥ Pi.single 1 1 = β • Pi.single 0 1 + γ • Pi.single 1 1 := by
@@ -131,13 +131,13 @@ private theorem triangular_of_mulVec {F : Type} [Field F] (P : Matrix (Fin 3) (F
       hinv, hinv]
   have h10 : (P⁻¹ * y * P) 1 0 = 0 := by
     rw [hentry 1 0, hc0]
-    simp [Pi.single_apply]
+    simp
   have h20 : (P⁻¹ * y * P) 2 0 = 0 := by
     rw [hentry 2 0, hc0]
-    simp [Pi.single_apply]
+    simp
   have h21 : (P⁻¹ * y * P) 2 1 = 0 := by
     rw [hentry 2 1, hc1]
-    simp [Pi.single_apply]
+    simp
   exact upper_of_entries _ h10 h20 h21
 
 private theorem exists_gl_of_indep {F : Type} [Field F] {N : Matrix (Fin 3) (Fin 3) F}
@@ -214,12 +214,12 @@ theorem exists_triangularizing_of_nilpotent {F : Type} [Field F]
     have hr : r = 0 := by
       have h : N *ᵥ (y *ᵥ w) = 0 := by rw [← hc1, hwK, Matrix.mulVec_zero]
       rw [hyw] at h
-      simp only [Matrix.mulVec_add, Matrix.mulVec_smul, Matrix.mulVec_zero, hNN, hwK, smul_zero,
+      simp only [Matrix.mulVec_add, Matrix.mulVec_smul, hNN, hwK, smul_zero,
         add_zero, zero_add] at h
       exact (smul_eq_zero.1 h).resolve_right hv
     refine ⟨⟨c₀, ?_⟩, ⟨p, q, ?_⟩⟩
     · rw [hc1, hyv]
-      simp only [Matrix.mulVec_add, Matrix.mulVec_smul, hNN, hwK, Matrix.mulVec_zero, smul_zero,
+      simp only [Matrix.mulVec_add, Matrix.mulVec_smul, hNN, hwK, smul_zero,
         add_zero, zero_add]
     · rw [hyw, hr, zero_smul, add_zero]
   ·
@@ -255,7 +255,7 @@ theorem exists_triangularizing_of_nilpotent {F : Type} [Field F]
       have hb : b = 0 := by
         have h := congrArg (fun x => N *ᵥ x) habc
         simp only [Matrix.mulVec_add, Matrix.mulVec_smul, Matrix.mulVec_zero, hC, hD, smul_zero,
-          add_zero, zero_add] at h
+          zero_add] at h
         exact (smul_eq_zero.1 h).resolve_right hv
       subst hb
       simp only [zero_smul, add_zero] at habc
@@ -271,7 +271,7 @@ theorem exists_triangularizing_of_nilpotent {F : Type} [Field F]
     · rw [hc2, hyv]
       simp only [Matrix.mulVec_add, Matrix.mulVec_smul, hA, hB, smul_zero, add_zero, zero_add]
     · rw [hc1, hyv]
-      simp only [Matrix.mulVec_add, Matrix.mulVec_smul, hC, hD, smul_zero, add_zero, zero_add]
+      simp only [Matrix.mulVec_add, Matrix.mulVec_smul, hC, hD, smul_zero, zero_add]
 
 end CFSG.RankThree.PartTwo.Sec14.Ronan148R
 

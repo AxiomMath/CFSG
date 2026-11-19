@@ -14,7 +14,7 @@ variable {X : Type} [Group X] [Finite X]
 
 theorem sylow_two_isSylowTwoOf_top (P : Sylow 2 X) : IsSylowTwoOf (P : Subgroup X) ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   rw [show ((P : Subgroup X).subgroupOf ⊤).index = (P : Subgroup X).index from
     Subgroup.relIndex_top_right _]
   exact P.not_dvd_index

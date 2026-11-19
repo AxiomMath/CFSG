@@ -183,7 +183,7 @@ section Code
 
 theorem applyCols_tv_lt {k : Nat} (_hk : k < 365211) (c : Nat) :
     applyCols (tvCols k) c < 2 ^ 32 :=
-  applyCols_lt (size_tvCols k) (fun c' hc' => tvCols_lt k hc') c
+  applyCols_lt (size_tvCols k) (fun _c' hc' => tvCols_lt k hc') c
 
 theorem tv_invol_code {k : Nat} (hk : k < 365211) {c : Nat} (hc : c < 2 ^ 32) :
     applyCols (tvCols k) (applyCols (tvCols k) c) = c := by

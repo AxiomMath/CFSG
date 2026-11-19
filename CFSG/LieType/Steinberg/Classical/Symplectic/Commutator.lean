@@ -385,7 +385,7 @@ theorem comb_ne {α β : Fin n → ℤ} (hα : α ∈ roots (isFiniteType_cartan
   have hβ0 := ne_zero_of_mem_roots hβ
   simp only [Finset.mem_insert, Finset.mem_singleton] at hp hq
   rcases hp with rfl | rfl | rfl <;> rcases hq with rfl | rfl | rfl <;>
-    first
+    try first
     | exact hpq rfl
     | exact hα0 (funext fun k => by
         have := hk k
@@ -397,7 +397,6 @@ theorem comb_ne {α β : Fin n → ℤ} (hα : α ∈ roots (isFiniteType_cartan
         simp only [Pi.zero_apply]
         push_cast at this
         omega)
-    | skip
   all_goals
     have hαβ : α = β := funext fun k => by have := hk k; push_cast at this; omega
     subst hαβ

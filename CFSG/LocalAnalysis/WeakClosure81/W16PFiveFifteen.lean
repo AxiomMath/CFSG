@@ -14,7 +14,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 
 private theorem conjSubgroup_le_pCoreOf_of_le_S_of_ne (h1 : W16One G) (hS : Std15 G)
-    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (hV : ¬ V ≤ pCoreOf 2 H)
+    (h : Cex16 M V₀ V U S) (hH : IsMinFam16 M U S H) (_hV : ¬ V ≤ pCoreOf 2 H)
     (h10 : ∀ x : G, conjSubgroup V x ≤ S → ¬ conjSubgroup V x ≤ kerMOf M H →
       conjSubgroup V x = V)
     (h56 : ∀ y ∈ H, conjSubgroup V y ≤ S → conjSubgroup V y = V)

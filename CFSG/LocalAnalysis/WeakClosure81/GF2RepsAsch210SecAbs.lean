@@ -124,7 +124,7 @@ theorem exists_pi_of_commuting_quasisimple {X : Type} [Group X] [Finite X]
     (QuotientGroup.quotientMulEquivOfEq (hker i).symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective (α i) (hα i))
   refine ⟨W, fun i => ↥W ⧸ N i, fun i => QuotientGroup.Quotient.group (N i),
-    fun i => inferInstance, Pi.monoidHom (fun i => QuotientGroup.mk' (N i)), ?_, ?_⟩
+    fun i => inferInstance, _root_.MonoidHom.pi (fun i => QuotientGroup.mk' (N i)), ?_, ?_⟩
   ·
     intro f
     have hsurj : ∀ i, ∃ w : ↥W, (w : ↥W ⧸ N i) = f i :=

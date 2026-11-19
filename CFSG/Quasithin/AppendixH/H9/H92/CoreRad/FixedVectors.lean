@@ -16,7 +16,7 @@ theorem normal_two_subgroup_fixes_subspace {n : ℕ} (D : Submodule (ZMod 2) (Fi
   · intro k _ u hu
     rw [hD] at hu
     rw [(Submodule.mem_bot _).mp hu, Matrix.mulVec_zero]
-  · letI : MulAction K D :=
+  · let : MulAction K D :=
       { smul := fun k u =>
           ⟨(k : GL (Fin n) (ZMod 2)).1 *ᵥ (u : Fin n → ZMod 2), (hKD k.2 u).mpr u.2⟩
         one_smul := fun u => Subtype.ext (by

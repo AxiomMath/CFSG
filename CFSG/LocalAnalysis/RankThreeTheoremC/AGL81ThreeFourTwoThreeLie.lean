@@ -47,8 +47,8 @@ theorem lThreeFour_catalog_facts (hq2 : q.p = 2) (hq4 : q.exponent = 2) (hd : d.
       Group.IsSolvable (Outer (TauCeti.CFSGIndex.lie d).Group) := by
   have hL := isLinThreeFour_of hq2 hq4 hd (MulEquiv.refl _)
   have hc := card_lThreeFour hq2 hq4 hd (MulEquiv.refl _)
-  haveI := CFSG.HardMathSupport.Meierfrankenfeld.L34Offender.isSimpleGroup_of_isLinThreeFour hL
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group :=
+  have := CFSG.HardMathSupport.Meierfrankenfeld.L34Offender.isSimpleGroup_of_isLinThreeFour hL
+  have : Finite (TauCeti.CFSGIndex.lie d).Group :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   exact ⟨inferInstance, nonabelian_of_simple_of_sq_dvd Nat.prime_three (by rw [hc]; norm_num),
     CFSG.ComponentClassification.CatalogueSchreierAssembly.classical_model_outer_solvable
@@ -79,8 +79,8 @@ private theorem lThreeFour_overgroup (hq2 : q.p = 2) (hq4 : q.exponent = 2) (hd 
 private theorem exists_orderOf_eq_three_of_ne_bot {Y : Type} [Group Y] [Finite Y]
     (R : Sylow 3 Y) {C : Subgroup Y} (hRC : (R : Subgroup Y) ⊓ C ≠ ⊥) :
     ∃ c ∈ (R : Subgroup Y) ⊓ C, orderOf c = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have hp3 : IsPGroup 3 ((R : Subgroup Y) ⊓ C : Subgroup Y) := R.isPGroup'.to_inf_left
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hp3 : IsPGroup 3 ((R : Subgroup Y) ⊓ C : Subgroup Y) := R.isPGroup.to_inf_left
   have h3 : 3 ∣ Nat.card ((R : Subgroup Y) ⊓ C : Subgroup Y) := by
     rcases hp3.card_eq_or_dvd with h1 | h1
     · exact absurd (card_eq_one.mp h1) hRC
@@ -90,7 +90,7 @@ private theorem exists_orderOf_eq_three_of_ne_bot {Y : Type} [Group Y] [Finite Y
 
 private theorem factorization_three_eq_two {n m : ℕ} (hn : n = 3 ^ 2 * m) (hm : ¬ 3 ∣ m) :
     n.factorization 3 = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hm0 : m ≠ 0 := fun h => hm (h ▸ dvd_zero 3)
   rw [hn, Nat.factorization_def _ Nat.prime_three, padicValNat.mul (by norm_num) hm0,
     padicValNat.prime_pow, padicValNat.eq_zero_of_not_dvd hm]
@@ -105,7 +105,7 @@ private theorem lThreeFour_normalizer_le
     (hRY₀ : (R : Subgroup Y) ≤ Y₀) (hKY₀ : ¬ K ≤ Y₀)
     (hsol : ¬ Group.IsSolvable (Y₀.subgroupOf K)) :
     normalizer (((R : Subgroup Y) ⊓ K : Subgroup Y) : Set Y) ≤ Y₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL : IsLinThreeFour K := isLinThreeFour_of hq2 hq4 hd e
   have hR3 : IsRankThreeL34 K := isRankThreeL34_of hq2 hq4 hd e
   obtain ⟨T, hT⟩ := CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_normal R K
@@ -126,13 +126,13 @@ private theorem lThreeFour_normalizer_le
     exact congrArg Subtype.val hz
   by_cases h3 : 3 ≤ pRank 3 (R : Subgroup Y)
   ·
-    rw [if_pos h3] at hcore
+    rw [ite_eq_left h3] at hcore
     refine (CFSG.PreuniquenessRankFour.Helpers.normalizer_le_weakCore 3 inf_le_left hT₀2
       ?_).trans hcore
     by_cases hRC : (R : Subgroup Y) ⊓ centralizer (K : Set Y) = ⊥
     ·
       exfalso
-      haveI : Finite (MulAut K) := MulEquiv.finite_left
+      have : Finite (MulAut K) := MulEquiv.finite_left
       let θ : (R : Subgroup Y) →* MulAut K := MulAut.conjNormal.comp (R : Subgroup Y).subtype
       have hθ : Function.Injective θ := by
         rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -164,7 +164,7 @@ private theorem lThreeFour_normalizer_le
         sup_le_sup_left (zpowers_le.mpr hcR) _
       exact CFSG.SectionRank.le_pRank (by norm_num) hle hF (k := 3) (by rw [hFc, hT₀c]; norm_num)
   ·
-    rw [if_neg h3] at hcore
+    rw [ite_eq_right h3] at hcore
     have hR2 : CFSG.Open.pRank 3 (R : Subgroup Y) ≤ 2 := by
       rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
       omega
@@ -185,8 +185,8 @@ private theorem lThreeFour_normalizer_le
     let φJ : J₀ ≃* alternatingGroup (Fin 6) :=
       ((equivMapOfInjective _ K.subtype K.subtype_injective).symm.trans
         (equivMapOfInjective _ X'.subtype X'.subtype_injective).symm).trans eJ
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-    haveI : IsSimpleGroup J₀ := φJ.isSimpleGroup
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup J₀ := φJ.isSimpleGroup
     have hJ₀c : Nat.card J₀ = 360 := by
       rw [Nat.card_congr φJ.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup]
       simp [Nat.factorial]
@@ -252,7 +252,7 @@ private theorem lThreeFour_normalizer_le
         rw [hRCJ, mem_bot] at h2
         exact mem_bot.mpr (Subtype.ext h2)
       have hP : IsPGroup 3 (ρ.range.map (MulAut.congr φJ).toMonoidHom) :=
-        (R.isPGroup'.of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective).map _
+        (R.isPGroup.of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective).map _
       have h1 := CFSG.HardMathSupport.Solomon.Proving.AutSixBalance.card_dvd_nine_of_isPGroup hP
       rwa [card_map_of_injective (MulAut.congr φJ).injective,
         ← Nat.card_congr (MonoidHom.ofInjective hρ).toEquiv] at h1
@@ -271,18 +271,18 @@ theorem threeFourTwoNoneAt_lThreeFour
     (hq2 : q.p = 2) (hq4 : q.exponent = 2)
     (hd : d.1 = .A 2 q) : ThreeFourTwoNoneAt 3 (TauCeti.CFSGIndex.lie d).Group := by
   obtain ⟨hs, hnab, hout⟩ := lThreeFour_catalog_facts hq2 hq4 hd
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie d).Group :=
     Nat.finite_of_card_ne_zero (by rw [card_lThreeFour hq2 hq4 hd (MulEquiv.refl _)]; norm_num)
   refine threeFourTwoNoneAt_of_model hs hnab hout ?_
   intro Y _ _ K Y₀ E R hp _ hKn e _ _ _ hER hE hEc hcore hRY₀ hKY₀
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set H : Subgroup (TauCeti.CFSGIndex.lie d).Group := (Y₀.subgroupOf K).map e.toMonoidHom
     with hH
   by_cases hsol : Group.IsSolvable H
   · exact exists_solvable_centralizer_of_isSolvable hsol
   have hsol' : ¬ Group.IsSolvable (Y₀.subgroupOf K) := fun h => hsol (by
-    haveI := h
+    have := h
     exact Group.isSolvable_of_surjective
       (f := (equivMapOfInjective (Y₀.subgroupOf K) e.toMonoidHom e.injective).toMonoidHom)
       (equivMapOfInjective (Y₀.subgroupOf K) e.toMonoidHom e.injective).surjective)
@@ -309,8 +309,8 @@ theorem threeFourTwoNoneAt_lThreeFour
     rw [hk''] at hk'
     exact mem_subgroupOf.mp hk'
   obtain ⟨hHN, hCN⟩ := lThreeFour_overgroup hq2 hq4 hd _ hNH hHtop
-  exact ⟨_, le_normalizer.trans hNH, Sylow.isPGroup' _, hHN,
-    isSolvable_centralizer_inf_of_le hp (Sylow.isPGroup' _) hCN⟩
+  exact ⟨_, le_normalizer.trans hNH, Sylow.isPGroup _, hHN,
+    isSolvable_centralizer_inf_of_le hp (Sylow.isPGroup _) hCN⟩
 
 end LThreeFour
 

@@ -18,6 +18,7 @@ section OddCentral
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem l66_isPCompIn {n : ℕ} {H J : Subgroup X} (h : Sec6KComp X n H J) :
     IsPCompIn 2 H J := by
   rcases h with ⟨⟨u, -, -, hpc, -⟩, -⟩ | ⟨⟨hpc, -⟩, -⟩
@@ -29,10 +30,12 @@ private theorem l66_isTwoGenQuasi {n : ℕ} {H J : Subgroup X} (h : Sec6KComp X 
   (isTwoGenQuasi_subgroupOf_iff (l66_isPCompIn h).1).1
     (isPComponent_two_iff.1 (l66_isPCompIn h).2).2
 
+omit [Finite X] in
 private theorem l66_sq_eq_one {g : X} (hg : orderOf g = 2) : g ^ 2 = 1 := by
   rw [← hg]
   exact pow_orderOf_eq_one g
 
+omit [Finite X] in
 private theorem l66_mem_oTwoPrimeOf {A : Subgroup X} {x : X} (hx : x ∈ A) (h2 : x ^ 2 = 1) :
     x ∈ oTwoPrimeOf A :=
   mem_oTwoPrimeOf hx 1 (by simpa using h2)
@@ -58,7 +61,7 @@ private theorem l66_exists_involution {L : Subgroup X} (hq : IsTwoGenQuasi ↥L)
 private theorem l66_le_of_normalizes {L A : Subgroup X} (hq : IsTwoGenQuasi ↥L)
     (hZ : center (↥L ⧸ pPrimeCore 2 ↥L) = ⊥) (hLA : L ≤ normalizer (A : Set X)) {v : X}
     (hvL : v ∈ L) (hv : orderOf v = 2) (hvA : v ∈ A) : L ≤ A := by
-  haveI hn : (A.subgroupOf L).Normal := by
+  have hn : (A.subgroupOf L).Normal := by
     refine ⟨fun x hx g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     have h1 := (Subgroup.mem_normalizer_iff.1 (hLA g.2) x).1 hx
@@ -97,22 +100,27 @@ private theorem l66_oddCoreOf_eq_bot {H F : Subgroup X} (hF : IsPCompIn 2 H F)
   rw [hH] at h
   exact le_bot_iff.1 h
 
+omit [Finite X] in
 private theorem l66_K_le (n : ℕ) (t : X) : Sec6K X n (cen t) ≤ cen t :=
   sSup_le fun _ hL => (l66_isPCompIn hL).1
 
+omit [Finite X] in
 private theorem l66_M_le_K (n : ℕ) (H : Subgroup X) : Sec6M X n H ≤ Sec6K X n H := by
   rw [sec6K_eq]
   exact le_sup_right
 
+omit [Finite X] in
 private theorem l66_center_quot_eq_bot
     {n : ℕ} {H L : Subgroup X} (hL : Sec6MComp X n H L) :
     center (↥L ⧸ pPrimeCore 2 ↥L) = ⊥ :=
   mcLLyCenterFree _ hL.1.2.1
 
+omit [Finite X] in
 private theorem l66_M_le_base (n : ℕ) (t : X) : Sec6M X n (cen t) ≤ Sec6Base X n t := by
   unfold Sec6Base
   exact le_sup_left
 
+omit [Finite X] in
 private theorem l66_core_bot {n : ℕ} {t b : X} (h65 : Sec6L65 X n t)
     (hb : b ∈ Sec6M X n (cen t)) (hb2 : orderOf b = 2) : oddCoreOf (cen b) = ⊥ :=
   h65 b (l66_M_le_base n t hb) hb2
@@ -129,10 +137,12 @@ private theorem l66_piece_mem {n : ℕ} {t x : X} (hC : Sec6CtrlAt X n t) (hU : 
   rw [l66_oddCoreOf_eq_bot (l66_isPCompIn hF) (l66_core_bot h65 hx hx2), bot_sup_eq] at hFeq
   rwa [← hFeq]
 
+omit [Finite X] in
 private theorem l66_pPrimeCore_eq_bot {L : Subgroup X} (hL : oddCoreOf L = ⊥) :
     pPrimeCore 2 ↥L = ⊥ :=
   (Subgroup.map_eq_bot_iff_of_injective _ L.subtype_injective).1 hL
 
+omit [Finite X] in
 private theorem l66_eq_one_of_central {L : Subgroup X} (hZ : center (↥L ⧸ pPrimeCore 2 ↥L) = ⊥)
     (hO : oddCoreOf L = ⊥) {z : X} (hzL : z ∈ L) (hz : ∀ l ∈ L, l * z = z * l) : z = 1 := by
   let π : ↥L →* ↥L ⧸ pPrimeCore 2 ↥L := QuotientGroup.mk' _
@@ -148,6 +158,7 @@ private theorem l66_eq_one_of_central {L : Subgroup X} (hZ : center (↥L ⧸ pP
   rw [QuotientGroup.ker_mk', l66_pPrimeCore_eq_bot hO, Subgroup.mem_bot] at h1
   exact congrArg Subtype.val h1
 
+omit [Finite X] in
 private theorem l66_mem_normalizer_centralizer {F : Subgroup X} {g : X}
     (hg : g ∈ normalizer (F : Set X)) : g ∈ normalizer (centralizer (F : Set X) : Set X) := by
   have key : ∀ g ∈ normalizer (F : Set X), ∀ c ∈ centralizer (F : Set X),
@@ -169,6 +180,7 @@ private theorem l66_mem_normalizer_centralizer {F : Subgroup X} {g : X}
   have e : g⁻¹ * (g * c * g⁻¹) * g⁻¹⁻¹ = c := by group
   rwa [e] at h2
 
+omit [Finite X] in
 private theorem l66_isElemAbelian_pair {a b : X} (ha : a ^ 2 = 1) (hb : b ^ 2 = 1)
     (hab : a * b = b * a) : CFSG.Open.IsElemAbelian 2 (Subgroup.closure ({a, b} : Set X)) := by
   have hcomm : IsMulCommutative (Subgroup.closure ({a, b} : Set X)) :=
@@ -193,10 +205,12 @@ private theorem l66_isElemAbelian_pair {a b : X} (ha : a ^ 2 = 1) (hb : b ^ 2 = 
     rw [(show Commute y z from hc).mul_pow, hy, hz, one_mul]
   | inv y hy' hy => rw [inv_pow, hy, inv_one]
 
+omit [Finite X] in
 private theorem l66_cen_le_normalizer_W (n : ℕ) (t : X) :
     cen t ≤ normalizer (oddCoreOf (Sec6M X n (cen t)) : Set X) :=
   fun _ hc => mem_normalizer_oddCoreOf_of_mem_normalizer (Sec6M_cen_normal n t hc)
 
+omit [Finite X] in
 private theorem l66_M_le_cen (n : ℕ) (t : X) : Sec6M X n (cen t) ≤ cen t :=
   (l66_M_le_K n (cen t)).trans (l66_K_le n t)
 
@@ -241,7 +255,7 @@ private theorem l66_W_le_cen
     {n : ℕ} {t : X} (hS : Sec6Setting X n t) (hC : Sec6CtrlAt X n t) (hU : L66HU X n t)
     (h65 : Sec6L65 X n t) {L : Subgroup X} (hL : Sec6MComp X n (cen t) L) {x : X} (hxL : x ∈ L)
     (hx2 : orderOf x = 2) : oddCoreOf (Sec6M X n (cen t)) ≤ cen x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLM : L ≤ Sec6M X n (cen t) := le_sSup (s := {M | Sec6MComp X n (cen t) M}) hL
   have hxM := hLM hxL
   have hPmem := l66_piece_mem hC hU h65 hxM hx2 hL

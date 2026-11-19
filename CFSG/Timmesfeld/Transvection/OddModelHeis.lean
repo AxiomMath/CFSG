@@ -55,7 +55,7 @@ theorem mat_suHeis {a : Fin (m / 2) ⊕ Fin (m / 2)} {u v : F}
 
 theorem suHeis_of_not {a : Fin (m / 2) ⊕ Fin (m / 2)} {u v : F}
     (h : ¬ v + σ v + σ u * u = 0) : suHeis σ hσ hm a u v = 1 := by
-  rw [suHeis, dif_neg h]
+  rw [suHeis, dite_eq_right h]
 
 private theorem suHeis_zero_zero (a : Fin (m / 2) ⊕ Fin (m / 2)) :
     suHeis σ hσ hm a 0 0 = 1 := by
@@ -131,16 +131,16 @@ theorem mat_suHeis_apply_swap {a : Fin (m / 2) ⊕ Fin (m / 2)} {u v : F}
     rw [← crd_swap a]
     exact crd_ne_midIdx hm (Sum.swap a)
   rw [mat_suHeis hσ hm h, crd_swap, heisenbergMatrix]
-  simp [single_apply, crd_ne_rev a, h1, h2, Ne.symm h1, Ne.symm h2]
+  simp [crd_ne_rev a, Ne.symm h1, Ne.symm h2]
 
 
 private theorem dot_weight_self {i : Fin m} (hi : i ≠ Fin.rev i) :
     weight m i ⬝ᵥ weight m i = 1 := by
   obtain ⟨a, rfl | rfl⟩ := exists_lowIdx hi
   · rw [weight_lowIdx]
-    simp [single_dotProduct]
+    simp
   · rw [weight_rev_lowIdx]
-    simp [single_dotProduct]
+    simp
 
 private theorem dot_rt_self {a b : Fin (m / 2) ⊕ Fin (m / 2)} (hab : idx a ≠ idx b) :
     rt a b ⬝ᵥ rt a b = 2 := by
@@ -523,22 +523,16 @@ theorem suHeis_comm_suElt {a b c : Fin (m / 2) ⊕ Fin (m / 2)} (hab : idx a ≠
     have hcb'' : b ≠ Sum.swap c := hcb'.symm
     have hAB : A * B = 0 := by
       rw [hA, hB]
-      simp only [sub_mul, mul_add, mul_sub, add_mul, single_mul_single', crd_injective.eq_iff,
-        ← crd_swap, Fin.rev_inj]
-      simp_all [hca, hca.symm, hcb, hcb.symm, hca', hca'', hcb', hcb'', hab', crd_ne_midIdx hm c,
-        crd_ne_midIdx hm a, crd_ne_midIdx hm b, crd_ne_midIdx hm (Sum.swap a),
-        crd_ne_midIdx hm (Sum.swap b), (crd_ne_midIdx hm a).symm,
-        (crd_ne_midIdx hm b).symm, (crd_ne_midIdx hm (Sum.swap a)).symm,
-        (crd_ne_midIdx hm (Sum.swap b)).symm]
+      simp only [sub_mul, mul_add, mul_sub, single_mul_single', crd_injective.eq_iff,
+        ← crd_swap]
+      simp_all [hca.symm, hcb.symm, crd_ne_midIdx hm (Sum.swap a),
+        crd_ne_midIdx hm (Sum.swap b)]
     have hBA : B * A = 0 := by
       rw [hA, hB]
-      simp only [sub_mul, mul_add, mul_sub, add_mul, single_mul_single', crd_injective.eq_iff,
-        ← crd_swap, Fin.rev_inj]
-      simp_all [hca, hca.symm, hcb, hcb.symm, hca', hca'', hcb', hcb'', hab', crd_ne_midIdx hm c,
-        crd_ne_midIdx hm a, crd_ne_midIdx hm b, crd_ne_midIdx hm (Sum.swap a),
-        crd_ne_midIdx hm (Sum.swap b), (crd_ne_midIdx hm a).symm,
-        (crd_ne_midIdx hm b).symm, (crd_ne_midIdx hm (Sum.swap a)).symm,
-        (crd_ne_midIdx hm (Sum.swap b)).symm]
+      simp only [sub_mul, mul_sub, add_mul, single_mul_single', crd_injective.eq_iff,
+        ← crd_swap]
+      simp_all [(crd_ne_midIdx hm a).symm,
+        (crd_ne_midIdx hm b).symm]
     have hL : (1 + B) * (1 + A) = 1 + A + B := by
       rw [show (1 + B) * (1 + A) = 1 + B + A + B * A by noncomm_ring, hBA, add_zero]
       abel
@@ -570,18 +564,14 @@ theorem suHeis_comm_suLong {a c : Fin (m / 2) ⊕ Fin (m / 2)} (hca : c ≠ Sum.
       have hca'' : a ≠ Sum.swap c := hca'.symm
       have hAB : A * B = 0 := by
         rw [hA, hB]
-        simp only [sub_mul, mul_add, mul_sub, add_mul, single_mul_single', crd_injective.eq_iff,
-          ← crd_swap, Fin.rev_inj]
-        simp_all [hca, hca.symm, hca', hca'', crd_ne_midIdx hm c, crd_ne_midIdx hm a,
-          crd_ne_midIdx hm (Sum.swap a), (crd_ne_midIdx hm a).symm,
-          (crd_ne_midIdx hm (Sum.swap a)).symm]
+        simp only [mul_add, mul_sub, single_mul_single', crd_injective.eq_iff,
+          ← crd_swap]
+        simp_all [hca.symm, crd_ne_midIdx hm (Sum.swap a)]
       have hBA : B * A = 0 := by
         rw [hA, hB]
-        simp only [sub_mul, mul_add, mul_sub, add_mul, single_mul_single', crd_injective.eq_iff,
-          ← crd_swap, Fin.rev_inj]
-        simp_all [hca, hca.symm, hca', hca'', crd_ne_midIdx hm c, crd_ne_midIdx hm a,
-          crd_ne_midIdx hm (Sum.swap a), (crd_ne_midIdx hm a).symm,
-          (crd_ne_midIdx hm (Sum.swap a)).symm]
+        simp only [sub_mul, add_mul, single_mul_single', crd_injective.eq_iff,
+          ← crd_swap]
+        simp_all [(crd_ne_midIdx hm a).symm]
       have hL : (1 + B) * (1 + A) = 1 + A + B := by
         rw [show (1 + B) * (1 + A) = 1 + B + A + B * A by noncomm_ring, hBA, add_zero]
         abel
@@ -610,9 +600,9 @@ theorem suHeis_comm_self [CharP F 2] {a : Fin (m / 2) ⊕ Fin (m / 2)} {u v u' v
         _ = 0 := by rw [CharTwo.add_self_eq_zero, CharTwo.add_self_eq_zero, add_zero],
     suHeis_zero_left]
   exact congrArg (suLong σ a) (by
-    simp only [map_neg, CharTwo.neg_eq, CharTwo.sub_eq_add]
+    simp only [CharTwo.neg_eq, CharTwo.sub_eq_add]
     ring_nf
-    simp [CharTwo.two_eq_zero, CharTwo.ofNat_eq_mod, Nat.reduceMod])
+    simp [CharTwo.ofNat_eq_mod, Nat.reduceMod])
 
 private theorem diagonal_ne_zero {d : Fin m → F}
     (hd : ∀ s, σ (d s) * d (Fin.rev s) = 1) (s : Fin m) : d s ≠ 0 := by
@@ -642,10 +632,10 @@ private theorem mat_inv_of_diagonal
   rw [Matrix.diagonal_mul, Matrix.one_apply] at hij
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl] at hij
+    rw [ite_eq_left rfl] at hij
     rw [Matrix.diagonal_apply_eq]
     exact eq_inv_of_mul_eq_one_right hij
-  · rw [if_neg h] at hij
+  · rw [ite_eq_right h] at hij
     have hzero : (mat σ m g⁻¹) i j = 0 :=
       (mul_eq_zero.mp hij).resolve_left (diagonal_ne_zero hd i)
     rw [hzero, Matrix.diagonal_apply_ne (fun s => (d s)⁻¹) h]

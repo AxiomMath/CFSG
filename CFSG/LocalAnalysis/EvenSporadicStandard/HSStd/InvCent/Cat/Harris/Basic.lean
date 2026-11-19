@@ -27,7 +27,7 @@ theorem fusionOddCore_eq_bot [IsSimpleGroup ↥S] (hna : ∃ a b : ↥S, a * b �
     obtain ⟨a, b, hab⟩ := hna
     exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr (CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd) a b)
   · have hbot : N ⊓ S = ⊥ := by
-      haveI : (N.subgroupOf S).Normal := Subgroup.Normal.comap hNn S.subtype
+      have : (N.subgroupOf S).Normal := Subgroup.Normal.comap hNn S.subtype
       rcases Subgroup.Normal.eq_bot_or_eq_top (N.subgroupOf S) with h | h
       · rw [← disjoint_iff]
         exact Subgroup.subgroupOf_eq_bot.mp h

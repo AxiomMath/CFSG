@@ -59,11 +59,11 @@ private theorem regM_setR {K : List Nat} {k x y : Nat} (hk : 2 * k + 1 < K.lengt
     if r = k then x else getN 0 K (2 * r)
   have hl : 2 * k + 1 < (J4Slp.setN K (2 * k) x).length := by rw [slp_length_setN]; exact hk
   have hl' : 2 * k < K.length := by omega
-  rw [slp_getN_setN 0 _ _ _ _ hl, if_neg (show ¬ (2 * r = 2 * k + 1) by omega),
+  rw [slp_getN_setN 0 _ _ _ _ hl, ite_eq_right (show ¬ (2 * r = 2 * k + 1) by omega),
     slp_getN_setN 0 _ _ _ _ hl']
   by_cases h : r = k
-  · rw [if_pos (show 2 * r = 2 * k by omega), if_pos h]
-  · rw [if_neg (show ¬ (2 * r = 2 * k) by omega), if_neg h]
+  · rw [ite_eq_left (show 2 * r = 2 * k by omega), ite_eq_left h]
+  · rw [ite_eq_right (show ¬ (2 * r = 2 * k) by omega), ite_eq_right h]
 
 private theorem regI_setR {K : List Nat} {k x y : Nat} (hk : 2 * k + 1 < K.length) (r : Nat) :
     regI (setR K k x y) r = if r = k then y else regI K r := by
@@ -73,9 +73,9 @@ private theorem regI_setR {K : List Nat} {k x y : Nat} (hk : 2 * k + 1 < K.lengt
   have hl' : 2 * k < K.length := by omega
   rw [slp_getN_setN 0 _ _ _ _ hl]
   by_cases h : r = k
-  · rw [if_pos (show 2 * r + 1 = 2 * k + 1 by omega), if_pos h]
-  · rw [if_neg (show ¬ (2 * r + 1 = 2 * k + 1) by omega), if_neg h, slp_getN_setN 0 _ _ _ _ hl',
-      if_neg (show ¬ (2 * r + 1 = 2 * k) by omega)]
+  · rw [ite_eq_left (show 2 * r + 1 = 2 * k + 1 by omega), ite_eq_left h]
+  · rw [ite_eq_right (show ¬ (2 * r + 1 = 2 * k + 1) by omega), ite_eq_right h, slp_getN_setN 0 _ _ _ _ hl',
+      ite_eq_right (show ¬ (2 * r + 1 = 2 * k) by omega)]
 
 private theorem regsOK_set {n : Nat} {R : Array Pair} {K : List Nat} (hR : RegsOK n R K) {k : Nat}
     (hk : k < n) {P : Pair} {x y : Nat} (hP : PairOK P x y) :
@@ -89,9 +89,9 @@ private theorem regsOK_set {n : Nat} {R : Array Pair} {K : List Nat} (hR : RegsO
     regI_setR hk']
   by_cases h : r = k
   · subst h
-    rw [if_pos rfl, if_pos rfl, if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_left rfl, ite_eq_left rfl]
     exact hP
-  · rw [if_neg (Ne.symm h), if_neg h, if_neg h, ← getElem!_pos R r hrs]
+  · rw [ite_eq_right (Ne.symm h), ite_eq_right h, ite_eq_right h, ← getElem!_pos R r hrs]
     exact hr r hrn
 
 variable {c rm one pad t0 t1 t2 t3 t4 t5 t6 : Nat}

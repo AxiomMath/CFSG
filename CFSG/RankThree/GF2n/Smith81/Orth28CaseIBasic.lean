@@ -143,6 +143,7 @@ section Group
 
 variable [Finite G] {X : Subgroup G} {x : G}
 
+omit [Finite G] in
 theorem comm_mem_Z_iff (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B)
     (hs : Sit M Q Z X x) {g : Matrix (Fin 2) (Fin 2) C.K} {o : (C.ι → C.K) → (C.ι → C.K)}
     (hact : ActsAsTensor Q Z C.M₀ C.φ x g o) {y : G} (hy : y ∈ Q) :
@@ -166,6 +167,7 @@ theorem exists_comm_ne (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) (hs : S
   apply C.φ.injective
   rw [hact y hy, hfix]
 
+omit [Finite G] in
 theorem exists_comm_rep (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) (hs : Sit M Q Z X x)
     {g : Matrix (Fin 2) (Fin 2) C.K} {o : (C.ι → C.K) → (C.ι → C.K)}
     (hact : ActsAsTensor Q Z C.M₀ C.φ x g o) {y : G} (hy : y ∈ Q)
@@ -237,6 +239,7 @@ theorem mem_comm_of_range (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B)
   exact Subgroup.mul_mem _ (Subgroup.commutator_mem_commutator hq₀Q (Subgroup.mem_zpowers x))
     (hZ hcy)
 
+omit [Finite G] in
 theorem exists_comm_of_hI (hxZ : ∀ z ∈ Z, x * z * x⁻¹ = z)
     (hI : ∀ z' ∈ Z, ∃ q ∈ Q, q⁻¹ * x * q = x * z') : ∀ w ∈ Z, ∃ y ∈ Q, ⁅x, y⁆ = w := by
   intro w hw
@@ -261,6 +264,7 @@ variable [Finite G] {X : Subgroup G} {x : G}
     Submodule C.K ((C.ι → C.K) × (C.ι → C.K)) :=
   LinearMap.range (orthTensorLin g (o : (C.ι → C.K) →ₗ[C.K] (C.ι → C.K)) - 1)
 
+omit [Finite G] in
 theorem mem_Rsp_iff (C : OrthCtx M Q Z B) (g : Matrix (Fin 2) (Fin 2) C.K)
     (o : (C.ι → C.K) ≃ₗ[C.K] (C.ι → C.K)) {r : (C.ι → C.K) × (C.ι → C.K)} :
     r ∈ Rsp C g o ↔ ∃ p', r = p' - orthTensor g o p' := by
@@ -280,6 +284,7 @@ theorem mem_Rsp_iff (C : OrthCtx M Q Z B) (g : Matrix (Fin 2) (Fin 2) C.K)
     rw [map_neg, ← this]
     abel
 
+omit [Finite G] in
 theorem card_preimSub (C : OrthCtx M Q Z B) (hc : SmithOrthCfg M Q Z B)
     (R : Submodule C.K ((C.ι → C.K) × (C.ι → C.K))) :
     Nat.card ↥(OrthDT.preimSub C.M₀ C.φ R) = Nat.card ↥Z * Nat.card ↥R := by
@@ -341,21 +346,26 @@ variable [Finite G] {X : Subgroup G} {x : G}
   {C : OrthCtx M Q Z B} {g : Matrix (Fin 2) (Fin 2) C.K}
   {o : (C.ι → C.K) ≃ₗ[C.K] (C.ι → C.K)}
 
+omit [Finite G] in
 theorem InvAct.mem_orth (h : InvAct C x g o) : o ∈ TauCeti.QuadraticMap.orthogonalGroup C.qU :=
   TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mpr h.iso
 
+omit [Finite G] in
 theorem InvAct.mul_self (h : InvAct C x g o) : o * o = 1 := LinearEquiv.ext fun v => h.oo v
 
+omit [Finite G] in
 theorem InvAct.fix_of_mem_commSpace (h : InvAct C x g o) {v : C.ι → C.K}
     (hv : v ∈ OrthogonalInvolutions.commSpace o) : o v = v :=
   OrthogonalInvolutions.mem_fixSpace.mp
     (OrthogonalInvolutions.commSpace_le_fixSpace h.mul_self hv)
 
+omit [Finite G] in
 theorem Rsp_one (C : OrthCtx M Q Z B) (o : (C.ι → C.K) ≃ₗ[C.K] (C.ι → C.K)) :
     Rsp C 1 o = (OrthogonalInvolutions.commSpace o).prod (OrthogonalInvolutions.commSpace o) := by
   unfold Rsp
   rw [orthTensorLin_one_sub, LinearMap.range_prodMap]
 
+omit [Finite G] in
 theorem fixed_mem_Rsp_t (C : OrthCtx M Q Z B) (o : (C.ι → C.K) ≃ₗ[C.K] (C.ι → C.K))
     (hoo : ∀ v, o (o v) = v) {p : (C.ι → C.K) × (C.ι → C.K)}
     (hp : orthTensor !![1, 1; 0, 1] (⇑o) p = p) : p ∈ Rsp C !![1, 1; 0, 1] o := by
@@ -370,13 +380,14 @@ theorem fixed_mem_Rsp_t (C : OrthCtx M Q Z B) (o : (C.ι → C.K) ≃ₗ[C.K] (C
 
 theorem orthTensor_one_apply {K ι : Type} [Field K] (o : (ι → K) → (ι → K))
     (p : (ι → K) × (ι → K)) : orthTensor (1 : Matrix (Fin 2) (Fin 2) K) o p = (o p.1, o p.2) := by
-  simp [orthTensor, Matrix.one_apply]
+  simp [orthTensor]
 
 theorem orthTensor_t_apply {K ι : Type} [Field K] (o : (ι → K) → (ι → K))
     (p : (ι → K) × (ι → K)) :
     orthTensor (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) K) o p = (o p.1 + o p.2, o p.2) := by
   simp [orthTensor]
 
+omit [Finite G] in
 theorem fixed_of_commute (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B)
     (hs : Sit M Q Z X x) {g : Matrix (Fin 2) (Fin 2) C.K} {o : (C.ι → C.K) → (C.ι → C.K)}
     (hact : ActsAsTensor Q Z C.M₀ C.φ x g o) {d : G} (hd : d ∈ Q) (hdx : d * x = x * d) :
@@ -426,6 +437,7 @@ section Coordinates
 
 variable [Finite G] {X : Subgroup G} {x : G}
 
+omit [Finite G] in
 theorem B_phi (C : OrthCtx M Q Z B) (e e' : C.M₀.E) :
     C.M₀.B e e' = polar C.qU (C.φ e).1 (C.φ e').2 + polar C.qU (C.φ e').1 (C.φ e).2 := by
   have h := C.M₀.Qf_add e e'
@@ -433,6 +445,7 @@ theorem B_phi (C : OrthCtx M Q Z B) (e e' : C.M₀.E) :
   simp only [Prod.fst_add, Prod.snd_add, polar_add_left, polar_add_right] at h
   linear_combination (-1 : C.K) * h
 
+omit [Finite G] in
 theorem comm_x_mem_Z_iff (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B)
     (hs : Sit M Q Z X x) {g : Matrix (Fin 2) (Fin 2) C.K} {o : (C.ι → C.K) → (C.ι → C.K)}
     (hact : ActsAsTensor Q Z C.M₀ C.φ x g o) {y : G} (hy : y ∈ Q) :

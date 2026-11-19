@@ -35,8 +35,8 @@ theorem fr_isSylowOf_T_inf (D : Data G) {Y : Subgroup (MBar D.M D.U)}
     (hY : Y ≤ mbarImage D.M D.U (proofN D))
     (hNY : ∀ g ∈ mbarImage D.M D.U (proofN D), g ∈ normalizer (Y : Set (MBar D.M D.U))) :
     CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ (rad118 D ⊓ preMbar D Y)) (rad118 D ⊓ preMbar D Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hNbn : (mbarImage D.M D.U (proofN D)).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hNbn : (mbarImage D.M D.U (proofN D)).Normal :=
     uc22br4_mbarImage_normal D.M D.U (proofN D) (uc22p22e_jOf_le_self D.M) (uc22p22t_M_le_normalizer_jOf D)
   have hRNM : rad118 D ⊓ preMbar D (mbarImage D.M D.U (proofN D)) ≤ D.M := inf_le_left.trans (rad118_le_M D)
   have hMRN : D.M ≤ normalizer ((rad118 D ⊓ preMbar D (mbarImage D.M D.U (proofN D)) : Subgroup G) : Set G) :=
@@ -56,7 +56,7 @@ theorem fr_not_two_dvd_relIndex (D : Data G) {Y : Subgroup (MBar D.M D.U)}
     (hY : Y ≤ mbarImage D.M D.U (proofN D))
     (hNY : ∀ g ∈ mbarImage D.M D.U (proofN D), g ∈ normalizer (Y : Set (MBar D.M D.U))) :
     ¬ 2 ∣ (T1 D Y).relIndex ((rad118 D ⊓ preMbar D Y) ⊔ T1 D Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsyl := fr_isSylowOf_T_inf D hY hNY
   have heq : T1 D Y ⊓ (rad118 D ⊓ preMbar D Y) = D.T ⊓ (rad118 D ⊓ preMbar D Y) :=
     le_antisymm (inf_le_inf_right _ (T1_le_T D Y)) (le_inf (fr_T_inf_le_T1 D Y) inf_le_right)

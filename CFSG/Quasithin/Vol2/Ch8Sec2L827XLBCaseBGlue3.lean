@@ -50,6 +50,7 @@ section Rep
 variable {X Λ : Subgroup G} {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
   {τ : Λ →* (W ≃ₗ[ZMod 2] W)} {E : Type} [AddCommGroup E] {q : X → E}
 
+omit [AddCommGroup E] in
 theorem tau_eq_of_q_eq_glue3 (hXΛ : X ≤ Λ)
     (hker : ∀ x y : X, q x = q y ↔ (x : G)⁻¹ * (y : G) ∈ XiY X)
     (hτY : ∀ y : Λ, (y : G) ∈ XiY X → τ y = 1) (x x' : X) (h : q x' = q x) :
@@ -68,6 +69,7 @@ theorem tau_eq_of_q_eq_glue3 (hXΛ : X ≤ Λ)
     (hq : Function.Surjective q) (e : E) : Module.End (ZMod 2) W :=
   (τ ⟨((liftGlue2 hq e : X) : G), hXΛ (liftGlue2 hq e).2⟩ : W ≃ₗ[ZMod 2] W).toLinearMap
 
+omit [AddCommGroup E] in
 theorem rhoGlue3_q (hXΛ : X ≤ Λ) (hq : Function.Surjective q)
     (hker : ∀ x y : X, q x = q y ↔ (x : G)⁻¹ * (y : G) ∈ XiY X)
     (hτY : ∀ y : Λ, (y : G) ∈ XiY X → τ y = 1) (x : X) :
@@ -99,7 +101,7 @@ theorem rhoGlue3_add (hXΛ : X ≤ Λ) (hq : Function.Surjective q)
   rw [e, rep_mul_caseAG τ]
 
 theorem rhoGlue3_conj (hXΛ : X ≤ Λ) (hq : Function.Surjective q)
-    (hq_add : ∀ x y : X, q (x * y) = q x + q y)
+    (_hq_add : ∀ x y : X, q (x * y) = q x + q y)
     (hker : ∀ x y : X, q x = q y ↔ (x : G)⁻¹ * (y : G) ∈ XiY X)
     (hτY : ∀ y : Λ, (y : G) ∈ XiY X → τ y = 1)
     {γ : G} (hγΛ : γ ∈ Λ) (hγN : γ ∈ Subgroup.normalizer (X : Set G))

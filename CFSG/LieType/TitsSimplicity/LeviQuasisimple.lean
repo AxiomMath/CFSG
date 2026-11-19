@@ -88,14 +88,14 @@ theorem isQuasisimple_leviC_of_injective (hext : SteinbergExtras D n H) (hBU : B
     IsQuasisimple ↥(leviC D e) :=
   CFSG.LieType.TitsSimplicity.isQuasisimple (D := restrict D he) (n := nC D n e) (H := HC D H e)
     (restrict_isCTGroupDatum he hdiv hct) (restrict_steinbergExtras he hdiv hct hext)
-    (restrict_bruhatExtras he hdiv hct hBU) (restrict_rootGroupCommutators he hdiv hct hE) hA hperf
+    (restrict_bruhatExtras he hdiv hBU) (restrict_rootGroupCommutators he hdiv hE) hA hperf
 
 include he hct hdiv in
 theorem center_leviC_le_of_injective (hext : SteinbergExtras D n H) (hBU : BruhatExtras D H) :
     (Subgroup.center ↥(leviC D e)).map (leviC D e).subtype ≤ ⨆ i, H (e i) := by
   have hct' := restrict_isCTGroupDatum he hdiv hct
   have hext' := restrict_steinbergExtras he hdiv hct hext
-  have hBU' := restrict_bruhatExtras he hdiv hct hBU
+  have hBU' := restrict_bruhatExtras he hdiv hBU
   have hcore : Subgroup.center ↥(leviC D e) ≤ ⨆ i, HC D H e i :=
     (CFSG.LieType.TitsSimplicity.center_eq_normalCore_borel (D := restrict D he)
       (n := nC D n e) (H := HC D H e) hct' hext' hBU').le.trans

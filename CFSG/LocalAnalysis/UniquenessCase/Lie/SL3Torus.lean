@@ -16,13 +16,13 @@ variable (K) in
   one_mem' := by simp
   mul_mem' := by
     intro v w hv hw
-    simp only [Pi.mul_apply, Set.mem_setOf_eq] at hv hw ⊢
+    simp only [Pi.mul_apply, Set.mem_ofPred_eq] at hv hw ⊢
     calc (v 0 * w 0) * (v 1 * w 1) * (v 2 * w 2)
         = (v 0 * v 1 * v 2) * (w 0 * w 1 * w 2) := by ac_rfl
       _ = 1 := by rw [hv, hw, one_mul]
   inv_mem' := by
     intro v hv
-    simp only [Pi.inv_apply, Set.mem_setOf_eq] at hv ⊢
+    simp only [Pi.inv_apply, Set.mem_ofPred_eq] at hv ⊢
     simpa [_root_.mul_inv_rev, mul_comm, mul_left_comm, mul_assoc] using congrArg Inv.inv hv
 
 variable (K) in
@@ -92,7 +92,7 @@ theorem exists_uc22pwI3TorusHom_eq_of_mem_diagonalTorus
   let u : Fin 3 → Kˣ := fun i => Units.mk0 (w i) (hne i)
   have hu : u 0 * u 1 * u 2 = 1 := by
     apply Units.ext
-    simp only [Units.val_mul, Units.val_one, Units.mk0_val]
+    simp only [Units.val_mul, Units.val_one]
     exact hdet
   refine ⟨⟨u, hu⟩, ?_⟩
   apply Subtype.ext
@@ -316,7 +316,7 @@ theorem uc22pwI3_torus_action [Finite K] [CharP K 2]
         exact coe_inv_apply_self_of_isUpperTriangular (A := d ^ 2 ^ i) hDup (Fin.rev r)) ?_
     rw [Matrix.SpecialLinearGroup.coe_mul, hmatν]
     unfold uc22pwI3TorusMap
-    simp only [Bool.true_eq, if_true]
+    simp only [ite_true]
     rw [hXinv_coe, hAdinv]
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

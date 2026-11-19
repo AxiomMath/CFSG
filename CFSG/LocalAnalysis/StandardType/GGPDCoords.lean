@@ -36,7 +36,7 @@ theorem ggPD_coords {Q : Type} [Group Q] {A : Subgroup Q} (hcard : Nat.card A = 
   have hcardV : Nat.card V = 3 ^ 4 := by
     rw [← Nat.card_congr ι.toEquiv]
     exact hcard
-  haveI hfinV : Finite V := Nat.finite_of_card_ne_zero (by rw [hcardV]; norm_num)
+  have hfinV : Finite V := Nat.finite_of_card_ne_zero (by rw [hcardV]; norm_num)
   have hrank : Module.finrank (ZMod 3) V = 4 := by
     have hnat := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := V)
     rw [Nat.card_zmod, hcardV] at hnat

@@ -64,7 +64,7 @@ theorem isSylowOf_inf_of_stronglyEmbedded {U E L : Subgroup G} (hU : IsPGroup 2 
   obtain ⟨R, hPR⟩ := hPsyl.isPGroup.exists_le_sylow
   have hUsyl : IsSylowOf 2 U ⊤ := isSylowOf_iff.2 ⟨le_top, hU, by rwa [relIndex_top_right]⟩
   have hRsyl : IsSylowOf 2 (R : Subgroup G) ⊤ :=
-    isSylowOf_iff.2 ⟨le_top, R.isPGroup', by rw [relIndex_top_right]; exact R.not_dvd_index⟩
+    isSylowOf_iff.2 ⟨le_top, R.isPGroup, by rw [relIndex_top_right]; exact R.not_dvd_index⟩
   obtain ⟨k, -, hk⟩ := hUsyl.exists_mem_conj hRsyl
   have hEk : E ≤ normalizer (U : Set G) ⊓ conjugate (normalizer (U : Set G)) k⁻¹ := by
     intro e he

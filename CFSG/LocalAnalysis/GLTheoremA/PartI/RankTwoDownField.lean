@@ -181,19 +181,19 @@ theorem rtd_kLevel_projModel_le (hK : PiField π p f K) (hq : ModThree π (p ^ f
   · have hKq : Nat.card K = (p ^ f) ^ 2 := by rw [hK.card, piCard, Bool.cond_false]
     have h := rtd_kLevel_psu_three_le K (p ^ f) hKq hq (by omega)
     by_cases h2 : p = 2
-    · rw [if_pos h2]
-      rwa [if_pos (hpar.2 h2)] at h
-    · rw [if_neg h2]
-      rw [if_neg (fun h' => h2 (hpar.1 h'))] at h
+    · rw [ite_eq_left h2]
+      rwa [ite_eq_left (hpar.2 h2)] at h
+    · rw [ite_eq_right h2]
+      rw [ite_eq_right (fun h' => h2 (hpar.1 h'))] at h
       exact h
   · have hKq : Nat.card K = p ^ f := by rw [hK.card, piCard, Bool.cond_true]
     have h := rtd_kLevel_psl_three_le K (by rw [hKq]; exact hq)
     rw [hKq] at h
     by_cases h2 : p = 2
-    · rw [if_pos h2]
-      rwa [if_pos (hpar.2 h2)] at h
-    · rw [if_neg h2]
-      rw [if_neg (fun h' => h2 (hpar.1 h'))] at h
+    · rw [ite_eq_left h2]
+      rwa [ite_eq_left (hpar.2 h2)] at h
+    · rw [ite_eq_right h2]
+      rw [ite_eq_right (fun h' => h2 (hpar.1 h'))] at h
       exact h
 
 theorem rtd_field_case (hK : PiField π p f K) (hq : ModThree π (p ^ f)) {σ : K ≃+* K}
@@ -211,7 +211,7 @@ theorem rtd_field_case (hK : PiField π p f K) (hq : ModThree π (p ^ f)) {σ : 
   · exfalso
     obtain ⟨rfl, h2⟩ := hπ2
     have hsolv := (isSolvable_slPi_false_two d.hP h2).2
-    haveI : Group.IsSolvable ↥S₀ :=
+    have : Group.IsSolvable ↥S₀ :=
       Group.isSolvable_of_isSolvable_injective (f := e1.symm.toMonoidHom) e1.symm.injective
     exact rtd_false_of_component_of_solvable inferInstance hcomm hI
   · have hne : π = false → p ^ d.f₀ ≠ 2 := fun h h2 => hπ2 ⟨h, h2⟩
@@ -257,7 +257,7 @@ theorem rtd_downLe_projModel (hK : PiField π p f K) (hq : ModThree π (p ^ f)) 
     rw [rtd_fixSubgroup_one] at hI
     have hGq : CFSG.Open.IsQuasisimple ↥(slPi π 3 (p ^ f) K) :=
       isQuasisimple_slPi hK (fun _ h => by omega)
-    haveI : IsSimpleGroup (↥(slPi π 3 (p ^ f) K) ⧸ Subgroup.center ↥(slPi π 3 (p ^ f) K)) :=
+    have : IsSimpleGroup (↥(slPi π 3 (p ^ f) K) ⧸ Subgroup.center ↥(slPi π 3 (p ^ f) K)) :=
       hGq.2
     have hnc := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hGq
     obtain ⟨g⟩ := rtd_nonempty_pSimple_equiv_top Nat.prime_three hnc hI

@@ -146,7 +146,7 @@ theorem exists_eF_of_scalar (c : GaloisField 2 2) (hc3 : c ^ 3 = 1) (hc1 : c ≠
       rw [h'] at hc3
       norm_num at hc3
     · exfalso
-      have h' : (1 : GaloisField 2 2) = 0 := by simpa using h
+      have h' : (1 : GaloisField 2 2) = 0 := by simp at h
       exact one_ne_zero h'
     · exfalso
       have h2' : (1 : GaloisField 2 2) + c = 0 := by simpa using h

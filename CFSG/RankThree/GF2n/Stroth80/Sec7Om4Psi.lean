@@ -20,7 +20,7 @@ open scoped commutatorElement Matrix
     ∀ (ht : t ∈ LB M Q B) (K : Type) [Field K] [Finite K] (γ : G → K)
       (M₀ : Tim79.QuadModel Q Z K γ)
       (ρ : Mbar M Q →* Multiplicative (AddAut M₀.E)) (b : M₀.E)
-      (hS : IsTensorSetup hc n M₀ ρ b) (ψ : M₀.E →ₗ[K] M₀.E),
+      (_hS : IsTensorSetup hc n M₀ ρ b) (ψ : M₀.E →ₗ[K] M₀.E),
       (∀ e, ψ e = (ρ (QuotientGroup.mk (⟨t, hc.LB_le_M ht⟩ : ↥M))).toAdd e - e) →
       (∀ e, e ∈ LinearMap.range ψ ↔ e ∈ M₀.img (Vt M (LB M Q B) B Z t)) →
       (∀ x ∈ Q, x ∈ Wt Q (Vt M (LB M Q B) B Z t) ↔ ψ (M₀.π x) = 0) →
@@ -35,7 +35,7 @@ theorem stroth73aOm4Base_of_psi (h34 : Stroth34Statement) (h310chi : Stroth310Ch
     (hZc : Sec7CentreMpStatement) (hZV : Sec7ZVStatement) (hZcard : Sec7ZCardStatement)
     (hCore : Stroth73aOm4PsiCoreStatement) : Stroth73aOm4BaseStatement := by
   intro G _ _ M Q Z B hc n t hs hno hom Z0 hZ0 m hm hmV
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   obtain ⟨K, fK, finK, γ, M₀, ρ, b, hS, ψ, hψ, hrange, hW, hinj, hA5, hA6⟩ :=
     sec7_A0 h34 h310chi hZc hZV hZcard hc hs hZ0

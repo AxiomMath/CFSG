@@ -22,7 +22,7 @@ variable {L : Type} [Group L] [Finite L]
 theorem card_sup_eq_of_isAlt_eight {T K : Subgroup L} (hT : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤)
     (hK : IsAlt (Bar2 K) 8) (hTK : T ≤ Subgroup.normalizer (K : Set L)) :
     Nat.card ↥(K ⊔ T) = 315 * Nat.card T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := hK
   have hKZ : K ≤ K ⊔ T := le_sup_left
   have hTZ : T ≤ K ⊔ T := le_sup_right
@@ -30,7 +30,7 @@ theorem card_sup_eq_of_isAlt_eight {T K : Subgroup L} (hT : CFSG.ABGLocalTools.I
   have hSylK : CFSG.ABGLocalTools.IsSylowOf 2 (T ⊓ K) K :=
     (hT.of_le hTZ le_top).inf_of_le_normalizer hKZ hZN
   have hidx : T.relIndex (K ⊔ T) = (T ⊓ K).relIndex K := by
-    haveI : (K.subgroupOf (K ⊔ T)).Normal :=
+    have : (K.subgroupOf (K ⊔ T)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hKZ).mpr hZN
     have h := CFSG.ABGLocalTools.relIndex_sup_eq_relIndex_of_normal (K.subgroupOf (K ⊔ T))
       (T.subgroupOf (K ⊔ T))
@@ -122,7 +122,7 @@ theorem k331Idx_m23
   obtain ⟨b⟩ := hbr
   intro L _ _ _ _ ⟨e⟩ T hT K hK hTK
   exfalso
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hle, hP, hidx⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp hT
   obtain ⟨ψ, hψ⟩ := exists_mulEquiv_map_eq m23_S_isSylowTwoOf (e.trans b.symm)
     (⟨hle, hP, hidx⟩ : IsSylowTwoOf T ⊤)
@@ -136,9 +136,9 @@ theorem k331Idx_m23
   rw [hZ, m23Ctx.member_card, hk] at hZc
   have hjJ : j < m23Ctx.J := by
     by_contra hjJ
-    rw [if_neg hjJ, m23_lat_cert.2.1] at hZc
+    rw [ite_eq_right hjJ, m23_lat_cert.2.1] at hZc
     omega
-  rw [if_pos hjJ] at hZc
+  rw [ite_eq_left hjJ] at hZc
   have hj16 : j < 16 := m23_J ▸ hjJ
   rw [om_size_eq m23_lat_cert.2.2 (by simpa using hj16)] at hZc
   have hj25 : j = 2 ∨ j = 5 := by

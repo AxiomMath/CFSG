@@ -23,9 +23,11 @@ section Form
 variable {bil : V → V → ZMod 2} (hadd : ∀ x y w, bil (x + y) w = bil x w + bil y w)
 include hadd
 
+omit [Module (ZMod 2) V] in
 private theorem bil_zero_left (w : V) : bil 0 w = 0 :=
   map_zero (AddMonoidHom.mk' (fun x => bil x w) fun x y => hadd x y w)
 
+omit [Module (ZMod 2) V] in
 private theorem bil_sub_left (x y w : V) : bil (x - y) w = bil x w - bil y w :=
   map_sub (AddMonoidHom.mk' (fun x => bil x w) fun x y => hadd x y w) x y
 
@@ -43,7 +45,7 @@ theorem false_of_isotropic_invariant [Finite V] {E : Type*} [CommGroup E] [Finit
     (hnd : ∀ w, (∀ v, bil v w = 0) → w = 0) (hρbil : ∀ e v w, bil (ρ e v) (ρ e w) = bil v w)
     (Y : Submodule (ZMod 2) V) (hY : Y ≠ ⊥) (hYiso : ∀ y ∈ Y, ∀ y' ∈ Y, bil y y' = 0)
     (hYinv : ∀ e, ∀ y ∈ Y, ρ e y ∈ Y) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinv' : ∀ e : E, ∀ w, ρ e (ρ e⁻¹ w) = w := fun e w => by
     rw [← LinearEquiv.mul_apply, ← map_mul, mul_inv_cancel, map_one]
     rfl
@@ -115,7 +117,7 @@ theorem eq_bot_of_normalizes_isometry [Finite V] {k : ℕ}
     (hT : IsPGroup 2 T) (hET : E ≤ Subgroup.normalizer (T : Set (V ≃ₗ[ZMod 2] V)))
     (hEbil : ∀ g ∈ E, ∀ v w, bil (g v) (g w) = bil v w)
     (hTbil : ∀ g ∈ T, ∀ v w, bil (g v) (g w) = bil v w) : T = ⊥ := by
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := Finite.of_injective _ DFunLike.coe_injective
+  have : Finite (V ≃ₗ[ZMod 2] V) := Finite.of_injective _ DFunLike.coe_injective
   by_contra hT0
   obtain ⟨S, hS⟩ : ∃ S : Set V, ∀ u, u ∈ S ↔ ∃ t ∈ T, ∃ v, u = t v - v :=
     ⟨{u | ∃ t ∈ T, ∃ v, u = t v - v}, fun u => Iff.rfl⟩
@@ -185,8 +187,8 @@ theorem eq_bot_of_normalizes_isometry [Finite V] {k : ℕ}
     exact (Submodule.ne_bot_iff _).2 ⟨t v - v, hgen t ht v, sub_ne_zero.2 hv⟩
   obtain ⟨y, hyD, hy0, hyfix⟩ :=
     CFSG.Quasithin.H13.Flag.exists_fixed_mem T hT (Submodule.span (ZMod 2) S) hDT hD0
-  haveI := hE.1
-  letI : CommGroup E := IsMulCommutative.instCommGroup
+  have := hE.1
+  let : CommGroup E := IsMulCommutative.instCommGroup
   refine false_of_isotropic_invariant (E := E) hEc (fun e => Subtype.ext (hE.2 e e.2))
     E.subtype E.subtype_injective hdim bil hadd hnd (fun e v w => hEbil e e.2 v w)
     (Submodule.span (ZMod 2) S ⊓ C) ?_ ?_ ?_

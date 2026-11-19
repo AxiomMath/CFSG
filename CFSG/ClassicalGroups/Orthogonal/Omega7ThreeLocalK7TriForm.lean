@@ -86,8 +86,8 @@ theorem exists_isometry_orderOf_eq_quadTri [Finite K] (hK : ringChar K ≠ 2) (h
   have hdvdG : ℓ ∣ Nat.card (TauCeti.QuadraticMap.orthogonalGroup (quadTri K a)) := by
     rw [hcard]
     simpa only [mul_assoc] using dvd_mul_of_dvd_right hdvd 2
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Finite (TauCeti.QuadraticMap.orthogonalGroup (quadTri K a)) :=
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Finite (TauCeti.QuadraticMap.orthogonalGroup (quadTri K a)) :=
     Finite.of_injective (QuadraticMap.orthogonalToGeneralLinear (quadTri K a))
       (QuadraticMap.orthogonalToGeneralLinear_injective (quadTri K a))
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card'

@@ -331,7 +331,7 @@ theorem false_of_alt7_local {G : Type} [Group G] [Finite G] {L : Subgroup G} {p 
     hUω hP3 (P.normalizerMonoidHom.comp (Subgroup.inclusion
       ((Subgroup.zpowers_le).mpr hωP)))
   set S : Subgroup L := (SP : Subgroup P).map P.subtype with hS
-  have hS2 : IsPGroup 2 S := SP.isPGroup'.map _
+  have hS2 : IsPGroup 2 S := SP.isPGroup.map _
   have hSP' : S ≤ P := Subgroup.map_subtype_le _
   have hSO : ∀ x ∈ S, x ∈ O → x = 1 := fun x hxS hxO =>
     eq_one_of_two_of_odd hS2 hOodd hxS hxO

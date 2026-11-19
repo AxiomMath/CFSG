@@ -62,7 +62,7 @@ theorem omegaPlaneE9_model : OmegaPlaneE9 s16c1b_ΩM := by
 
 private lemma s16c1g_congr_apply {W W' : Type} [CommGroup W] [CommGroup W'] (e : W ≃* W')
     (φ : MulAut W) (x : W) : MulAut.congr e φ (e x) = e (φ x) := by
-  simp [MulAut.congr, MulAut.congr_apply, MulEquiv.trans_apply]
+  simp [MulAut.congr, MulEquiv.trans_apply]
 
 private lemma s16c1g_stabilizer_map_congr {W W' : Type} [CommGroup W] [CommGroup W']
     (e : W ≃* W') (w : W) :

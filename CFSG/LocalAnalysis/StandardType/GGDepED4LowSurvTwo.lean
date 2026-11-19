@@ -20,7 +20,7 @@ theorem ggDepELSurv2_cell {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     {e : Fin 6 ≃ Λ} {r : Λ ⊕ Λa → V ≃ₗ[ZMod 3] V} {h : Λ ⊕ Λa → V}
     {α : Λ ⊕ Λa → Module.Dual (ZMod 3) V} {xV yV : V}
     (hb1 : b₁ = e 0) (hb2 : b₂ = e 5) (hcard : Nat.card Λa = 2)
-    (hWMK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
+    (_hWMK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
     (hA2 : ∃ eK : Fin 6 ≃ ({i : Λ // i ≠ b₁ ∧ i ≠ b₂} ⊕ Λa), MK = CoxeterMatrix.E₆.reindex eK)
     (hr : ∀ o w, r o w = w - α o w • h o)
     (hF : GGDepEFrame 3 (fun i => h (Sum.inl (e i))) (fun i => α (Sum.inl (e i))) xV)
@@ -57,7 +57,7 @@ theorem ggDepELSurv2_cell {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
       (∀ g ∈ Subgroup.closure (Set.range (fun i : Fin 6 => r (Sum.inl (e i))) ∪ rN '' news),
         ¬ (Module.finrank (ZMod 3) (ggLinMove g) = 1 ∧ ∀ w, g (g w - w) = g w - w)) := by
   classical
-  haveI : FiniteDimensional (ZMod 3) V :=
+  have : FiniteDimensional (ZMod 3) V :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; norm_num)
   obtain ⟨θ, hθh, hθα, hθx⟩ := ggDepELModel_iso hF hdim
   obtain ⟨eK, heK⟩ := hA2
@@ -96,7 +96,7 @@ theorem ggDepELSurv2_cell {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
         (((CartanMatrix.E 6) i.1 j.1 : ℤ) : ZMod 3) := by
     intro i j
     have h1 := hpairK (Sum.inl (eJ i)) (Sum.inl (eJ j))
-    simp only [Sum.map_inl, id_eq] at h1
+    simp only [Sum.map_inl] at h1
     have h2 := hF.pair i.1 j.1
     have hval : CK' (Sum.inl i) (Sum.inl j) = CK (Sum.inl (eJ i)) (Sum.inl (eJ j)) := by
       simp [CK', ee, eJ, Matrix.submatrix_apply]
@@ -179,7 +179,6 @@ theorem ggDepELSurv2_cell {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     · have h : ggDepAdot αa1 ha2 = (CK' (Sum.inr a₁) (Sum.inr a₂) : ZMod 3) := by
         change ggDepAdot αa1 (θ (h (Sum.inr a₂))) = _
         rw [hαa1 (θ (h (Sum.inr a₂)))]
-        change α (Sum.inr a₁) (θ.symm (θ (h (Sum.inr a₂)))) = _
         rw [LinearEquiv.symm_apply_apply, show CK' (Sum.inr a₁) (Sum.inr a₂) =
           CK (Sum.inr a₁) (Sum.inr a₂) by simp [CK', ee, eJ, Matrix.submatrix_apply]]
         simpa only [Sum.map_inr, id_eq] using hpairK (Sum.inr a₁) (Sum.inr a₂)
@@ -187,7 +186,6 @@ theorem ggDepELSurv2_cell {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     · have h : ggDepAdot αa2 ha1 = (CK' (Sum.inr a₂) (Sum.inr a₁) : ZMod 3) := by
         change ggDepAdot αa2 (θ (h (Sum.inr a₁))) = _
         rw [hαa2 (θ (h (Sum.inr a₁)))]
-        change α (Sum.inr a₂) (θ.symm (θ (h (Sum.inr a₁)))) = _
         rw [LinearEquiv.symm_apply_apply, show CK' (Sum.inr a₂) (Sum.inr a₁) =
           CK (Sum.inr a₂) (Sum.inr a₁) by simp [CK', ee, eJ, Matrix.submatrix_apply]]
         simpa only [Sum.map_inr, id_eq] using hpairK (Sum.inr a₂) (Sum.inr a₁)
@@ -195,7 +193,6 @@ theorem ggDepELSurv2_cell {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     · have h : ggDepAdot αa1 ha1 = (CK' (Sum.inr a₁) (Sum.inr a₁) : ZMod 3) := by
         change ggDepAdot αa1 (θ (h (Sum.inr a₁))) = _
         rw [hαa1 (θ (h (Sum.inr a₁)))]
-        change α (Sum.inr a₁) (θ.symm (θ (h (Sum.inr a₁)))) = _
         rw [LinearEquiv.symm_apply_apply, show CK' (Sum.inr a₁) (Sum.inr a₁) =
           CK (Sum.inr a₁) (Sum.inr a₁) by simp [CK', ee, eJ, Matrix.submatrix_apply]]
         simpa only [Sum.map_inr, id_eq] using hpairK (Sum.inr a₁) (Sum.inr a₁)
@@ -203,7 +200,6 @@ theorem ggDepELSurv2_cell {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     · have h : ggDepAdot αa2 ha2 = (CK' (Sum.inr a₂) (Sum.inr a₂) : ZMod 3) := by
         change ggDepAdot αa2 (θ (h (Sum.inr a₂))) = _
         rw [hαa2 (θ (h (Sum.inr a₂)))]
-        change α (Sum.inr a₂) (θ.symm (θ (h (Sum.inr a₂)))) = _
         rw [LinearEquiv.symm_apply_apply, show CK' (Sum.inr a₂) (Sum.inr a₂) =
           CK (Sum.inr a₂) (Sum.inr a₂) by simp [CK', ee, eJ, Matrix.submatrix_apply]]
         simpa only [Sum.map_inr, id_eq] using hpairK (Sum.inr a₂) (Sum.inr a₂)

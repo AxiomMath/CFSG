@@ -143,7 +143,7 @@ private theorem exists_sylow_of_cover8 {X : Type} [Group X] [Finite X] {t : X}
   have hzp : IsPGroup 2 (Subgroup.zpowers z) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hz0]; norm_num)
   obtain ⟨S₀, hzS₀⟩ := hzp.exists_le_sylow
-  have hTpg : IsPGroup 2 ((S₀ : Subgroup C).map C.subtype) := S₀.isPGroup'.map C.subtype
+  have hTpg : IsPGroup 2 ((S₀ : Subgroup C).map C.subtype) := S₀.isPGroup.map C.subtype
   have hzS : z ∈ (S₀ : Subgroup C) := hzS₀ (Subgroup.mem_zpowers z)
   have htT : t ∈ (S₀ : Subgroup C).map C.subtype := ⟨z, hzS, hzt⟩
   have hTle : (S₀ : Subgroup C).map C.subtype ≤ C := Subgroup.map_subtype_le _

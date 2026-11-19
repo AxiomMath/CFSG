@@ -28,7 +28,7 @@ theorem exists_noncomm_of_simple_not_prime {S : Type} [Group S] [IsSimpleGroup S
     (hc : ¬ (Nat.card S).Prime) : ∃ a b : S, a * b ≠ b * a := by
   by_contra h
   simp only [not_exists, ne_eq, not_not] at h
-  letI : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
+  let : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
   exact hc ((CommGroup.is_simple_iff_prime_card (α := S)).1 ‹IsSimpleGroup S›)
 
 theorem card_alternating_six : Nat.card (alternatingGroup (Fin 6)) = 360 := by
@@ -53,7 +53,7 @@ theorem components_A6 [Finite K] (hK : Nat.card K = 2) {x : StatedSp 3 K} (hx : 
     (hJ : GLAPComponent 3 (fixSubgroup (MulAut.conj (proj 3 K x))) J) :
     Nonempty (PSimple 3 J ≃* alternatingGroup (Fin 6)) := by
   classical
-  haveI : Finite ↥(reciprocalOrbits (spEnd x)) :=
+  have : Finite ↥(reciprocalOrbits (spEnd x)) :=
     ((Finset.finite_toSet (primaryFactors (spEnd x))).image _).to_subtype
   let A : ↥(reciprocalOrbits (spEnd x)) → Subgroup (StatedSp 3 K) :=
     fun O => spSupported x (O : Set K[X])
@@ -85,7 +85,7 @@ theorem components_A6 [Finite K] (hK : Nat.card K = 2) {x : StatedSp 3 K} (hx : 
   have hinj := proj_injective_of_card_two hK
   let eJ : ↥J ≃* alternatingGroup (Fin 6) :=
     (MulEquiv.subgroupCongr hJeq).trans ((Subgroup.equivMapOfInjective _ _ hinj).symm.trans e6)
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hbot : GLAPPrimeCore 3 (alternatingGroup (Fin 6)) = ⊥ :=
     glaPPrimeCore_eq_bot_of_simple_dvd Nat.prime_three
       (by rw [card_alternating_six]; norm_num)
@@ -98,7 +98,7 @@ theorem kLevel_three_alternating_six_le : kLevel 3 (alternatingGroup (Fin 6)) �
   have hch : IsChevSimple 3 (alternatingGroup (Fin 6)) :=
     Or.inr ⟨.alternating 6 (by norm_num), by simp [ambiguousChev], ⟨MulEquiv.refl _⟩⟩
   unfold kLevel
-  rw [if_pos hch]
+  rw [ite_eq_left hch]
 
 theorem kLevel_le_one_of_component [Finite K] (hK : Nat.card K = 2) {x : StatedSp 3 K}
     (hx : x ^ 3 = 1) (hx1 : x ≠ 1) (blocks : SpPrimaryBlocks 2 1 3 x (proj 3 K x))

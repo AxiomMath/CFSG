@@ -32,7 +32,7 @@ theorem map_unipOne_typeAGraphAutomorphism (F : Type) [Field F] :
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [FieldFourCover.coe_unipU, SpecialLinearGroup.transvection_coe, Matrix.mul_apply,
-        Fin.sum_univ_three, Matrix.single_apply, Matrix.one_apply, Fin.rev] <;> norm_num
+        Fin.sum_univ_three, Matrix.single_apply, Matrix.one_apply, Fin.rev]; norm_num
   ext g
   constructor
   · rintro ⟨x, ⟨a, c, rfl⟩, rfl⟩

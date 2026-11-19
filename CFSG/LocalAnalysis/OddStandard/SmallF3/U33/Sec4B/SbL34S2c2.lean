@@ -12,10 +12,10 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G]
 
 private theorem card_modEq_one_of_fixedPointFree_aux {X : Type*} [Group X] [Finite X]
-    {E : Subgroup X} (hE : CFSG.Open.IsElemAbelian 2 E) {x : X} (hx3 : x ^ 3 = 1)
+    {E : Subgroup X} (_hE : CFSG.Open.IsElemAbelian 2 E) {x : X} (hx3 : x ^ 3 = 1)
     (hxE : ∀ e ∈ E, x * e * x⁻¹ ∈ E)
     (hff : ∀ e ∈ E, x * e * x⁻¹ = e → e = 1) : Nat.card E ≡ 1 [MOD 3] := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let f : ↥E → ↥E := fun e => ⟨x * e * x⁻¹, hxE e e.2⟩
   have hfinj : Function.Injective f := by
     intro e e' h
@@ -28,7 +28,7 @@ private theorem card_modEq_one_of_fixedPointFree_aux {X : Type*} [Group X] [Fini
     have hcalc : x * (x * (x * (e : X) * x⁻¹) * x⁻¹) * x⁻¹ = (e : X) := by
       have k1 : x * (x * (x * (e : X) * x⁻¹) * x⁻¹) * x⁻¹ =
           x ^ 3 * (e : X) * (x ^ 3)⁻¹ := by
-        simp only [pow_succ, pow_zero, one_mul, mul_assoc, mul_inv_rev, inv_mul_cancel_left]
+        simp only [pow_succ, pow_zero, one_mul, mul_assoc, mul_inv_rev]
       rw [k1, hx3, inv_one, mul_one, one_mul]
     simp only [pow_succ, pow_zero, one_mul, Equiv.Perm.mul_apply, Equiv.Perm.one_apply, hσf]
     exact hcalc
@@ -61,6 +61,7 @@ private theorem card_modEq_one_of_fixedPointFree_aux {X : Type*} [Group X] [Fini
   rw [hfix] at hcard
   simpa using hcard
 
+omit [Finite G] in
 private theorem eq_sq_of_mem_zpowers_of_sq_eq_one {x y : G} (hx : orderOf x = 4)
     (hy : y ∈ zpowers x) (hy2 : y * y = 1) (hy1 : y ≠ 1) : y = x * x := by
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hy
@@ -163,7 +164,7 @@ theorem isE16_or_isZ4Z4_of_abelian (Q V B : Subgroup G) (rho : G) (hVB : V ≤ B
       rw [hVcard, hn4]
     have hex : ∃ u ∈ B, u ∉ Ω := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hle : B ≤ Ω := fun u hu => h u hu
       have hc := Subgroup.card_dvd_of_le hle
       rw [hB, hn4] at hc

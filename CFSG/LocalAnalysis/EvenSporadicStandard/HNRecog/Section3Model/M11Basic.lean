@@ -52,7 +52,7 @@ theorem m11_involution_fixedPoints {s : Perm (Fin 11)} (hs : s ∈ CFSG.Open.M11
     have hy : ∀ i, s (y i) = y i := by
       intro i
       have hi : y i ∈ t := by
-        simpa [y] using Finset.orderEmbOfFin_mem t ht_card i
+        simp [y]
       have hnot : y i ∉ s.support := Finset.mem_compl.mp (ht_sub hi)
       exact Equiv.Perm.notMem_support.mp hnot
     exact absurd (eq_one_of_mem_m11_of_fix hs y hy) hs1

@@ -25,11 +25,11 @@ set_option maxRecDepth 100000 in
 theorem ccompOK_z7 (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) :
     CCompOK 7 (slpJ a b prog7 24 * slpJ a b prog7 25 ^ 6) := by
   have hp7 : Nat.Prime 7 := by norm_num
-  haveI : Finite J :=
+  have : Finite J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Th.Max3.natCard_J]; norm_num)
   intro I hI
   obtain ⟨hs, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab hp7 hI
-  haveI := hs
+  have := hs
   have hd : 7 * Nat.card (PSimple 7 I) ∣ 1176 :=
     card_centralizer_z7 ▸ prime_mul_card_pSimple_dvd_cent hp7 orderOf_z7 hI.1
   have hd168 : Nat.card (PSimple 7 I) ∣ 168 :=
@@ -41,8 +41,8 @@ set_option maxRecDepth 100000 in
 theorem ccompOK_seven_J (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) (k : J)
     (hk : orderOf k = 7) : CCompOK 7 k := by
   have hp7 : Nat.Prime 7 := by norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨hp7⟩
-  haveI : Finite J :=
+  have : Fact (Nat.Prime 7) := ⟨hp7⟩
+  have : Finite J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Th.Max3.natCard_J]; norm_num)
   obtain ⟨h7x, h7y, hcomm, hx1, hpow⟩ := thSeven_pair
   obtain ⟨c, hc⟩ := exists_conj_eq_of_pair (z := slpJ a b prog7 24 * slpJ a b prog7 25 ^ 6)
@@ -69,9 +69,9 @@ theorem crow_Th_seven
   have hs : IsSimpleGroup ↥CFSG.Sporadic.Th.J :=
     CFSG.Sporadic.Th.Kernel.isSimpleGroup_J CFSG.Sporadic.Th.th_kernel_facts
   have hnc : ∃ a c : ↥CFSG.Sporadic.Th.J, a * c ≠ c * a := by
-    haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
+    have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
       Finite.of_equiv _ CFSG.Sporadic.Th.thEquivJ.symm.toEquiv
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
       CFSG.Sporadic.Th.Kernel.isSimpleGroup_Th
         CFSG.Sporadic.Th.th_kernel_facts
     have hcC : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Th) = 90745943887872000 :=

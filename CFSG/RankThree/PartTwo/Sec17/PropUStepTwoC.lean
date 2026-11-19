@@ -46,7 +46,7 @@ theorem critical_data {G : Type} [Group G] [Finite G] {q : ℕ} [Fact q.Prime] (
     · intro x _ _ _ z hz
       rw [Subgroup.mem_bot] at hz
       simp [hz]
-  · haveI : Nontrivial ↥Q₁ := (Subgroup.nontrivial_iff_ne_bot Q₁).mpr hne
+  · have : Nontrivial ↥Q₁ := (Subgroup.nontrivial_iff_ne_bot Q₁).mpr hne
     obtain ⟨D₀, hchar, -, hcomm, hexp, hfix⟩ :=
       CFSG.SectionRank.Ccomm.odd_critical_exponent_subgroup hq2 hQ₁
     refine ⟨D₀.map Q₁.subtype, Subgroup.map_subtype_le D₀, ?_, ?_, ?_, ?_⟩
@@ -180,9 +180,9 @@ theorem pu_conj_val {G : Type} [Group G] {D X : Subgroup G}
       = (x : G) * (d : G) * (x : G)⁻¹ :=
   rfl
 
-theorem rank_bound {G : Type} [Group G] [Finite G] {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
+theorem rank_bound {G : Type} [Group G] [Finite G] {q : ℕ} (hq : q.Prime) (_hq2 : q ≠ 2)
     (hloc : CFSG.Assembly.RankThreeEven.localRank q G < 3) {X D : Subgroup G}
-    (hXD : X ≤ Subgroup.normalizer (D : Set G)) (hDq : IsPGroup q D) :
+    (hXD : X ≤ Subgroup.normalizer (D : Set G)) (_hDq : IsPGroup q D) :
     ∀ x : ↥X, x ≠ 1 → IsPGroup 2 (Subgroup.zpowers x) →
       CFSG.pRank q ↥(fixedSubgroupOf ((D.normalizerMonoidHom.comp (Subgroup.inclusion hXD)) x))
         ≤ 2 := by
@@ -243,8 +243,8 @@ theorem pfCoreInj (hFT : J2NotSectionOfGLFourTwo)
     have := (Fact.out : q.Prime)
     omega
   obtain ⟨e⟩ := hYJ
-  haveI : IsSimpleGroup J2 := Sporadic.J2.isSimpleGroup_J2
-  haveI : IsSimpleGroup (Y ⧸ S) := e.isSimpleGroup
+  have : IsSimpleGroup J2 := Sporadic.J2.isSimpleGroup_J2
+  have : IsSimpleGroup (Y ⧸ S) := e.isSimpleGroup
   have hF5 : ∀ K : Subgroup Y, K.Normal → K ≤ S ∨ K = ⊤ := fun K _ =>
     normal_le_or_eq_top S hS inferInstance hY3 K
   by_cases hE : ∃ E : Subgroup Y, CFSG.Assembly.IsElemAbelian 2 E ∧ Nat.card E = 8
@@ -281,7 +281,7 @@ theorem pfCore (hFT : J2NotSectionOfGLFourTwo)
     (hker : ρ.ker ≤ CFSG.pCore 2 X)
     (hrank : ∀ x : X, x ≠ 1 → IsPGroup 2 (Subgroup.zpowers x) →
       CFSG.pRank q ↥(fixedSubgroupOf (ρ x)) ≤ 2) : False := by
-  haveI : Finite (X ⧸ ρ.ker) := Finite.of_surjective _ (QuotientGroup.mk'_surjective ρ.ker)
+  have : Finite (X ⧸ ρ.ker) := Finite.of_surjective _ (QuotientGroup.mk'_surjective ρ.ker)
   have hS : IsPGroup 2 ((CFSG.pCore 2 X).map (QuotientGroup.mk' ρ.ker)) :=
     (CFSG.pCore_isPGroup (p := 2) (G := X)).map _
   have hYJ : Nonempty (((X ⧸ ρ.ker) ⧸ (CFSG.pCore 2 X).map (QuotientGroup.mk' ρ.ker)) ≃* J2) := by
@@ -332,7 +332,7 @@ theorem pf (hFT : J2NotSectionOfGLFourTwo)
     (hX3 : oPrimeResidualOf 3 X = X) (hXJ : Nonempty (↥X ⧸ CFSG.pCore 2 ↥X ≃* J2)) :
     X ≤ Subgroup.centralizer (Q₁ : Set G) := by
   by_contra hnot
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2 : q ≠ 2 := by omega
   obtain ⟨D, hDQ, hXD, hexp, hcl, hcrit⟩ := critical_data hq2 hQ₁ hXQ
   have hDq : IsPGroup q D := hQ₁.to_le hDQ
@@ -342,8 +342,8 @@ theorem pf (hFT : J2NotSectionOfGLFourTwo)
       exact hX3
     exact Subgroup.map_injective X.subtype_injective h
   obtain ⟨e⟩ := hXJ
-  haveI : IsSimpleGroup J2 := Sporadic.J2.isSimpleGroup_J2
-  haveI : IsSimpleGroup (↥X ⧸ CFSG.pCore 2 ↥X) := e.isSimpleGroup
+  have : IsSimpleGroup J2 := Sporadic.J2.isSimpleGroup_J2
+  have : IsSimpleGroup (↥X ⧸ CFSG.pCore 2 ↥X) := e.isSimpleGroup
   have hF5 : ∀ K : Subgroup ↥X, K.Normal → K ≤ CFSG.pCore 2 ↥X ∨ K = ⊤ := fun K _ =>
     normal_le_or_eq_top (CFSG.pCore 2 ↥X) CFSG.pCore_isPGroup inferInstance hX3' K
   have hker := ker_le_pCore hq hq5 hXD hcrit hX3 hF5 hnot

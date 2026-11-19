@@ -119,7 +119,7 @@ private theorem lfcExp_injective : Function.Injective (lfcExp hζ) := by
 private theorem lfcExp_lfcLog {z : Fˣ} (hz : z ^ p = 1) : lfcExp hζ (lfcLog hζ z) = z := by
   have hm := lfc_mem_zpowers hζ hz
   unfold lfcLog
-  rw [dif_pos hm]
+  rw [dite_eq_left hm]
   unfold lfcExp
   rw [AddEquiv.apply_symm_apply]
   rfl

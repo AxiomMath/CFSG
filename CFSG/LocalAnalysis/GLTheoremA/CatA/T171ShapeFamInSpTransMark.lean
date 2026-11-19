@@ -182,15 +182,15 @@ open CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag
 theorem glapPrimeCore_le_center_of_nontrivial_pSimple {Ω : Type} [Group Ω] [Finite Ω]
     {L : Subgroup Ω} {p : ℕ} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hnt : Nontrivial (PSimple p L)) : GLAPPrimeCore p ↥L ≤ Subgroup.center ↥L := by
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
-  haveI : Nontrivial (PSimple p L) := hnt
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Nontrivial (PSimple p L) := hnt
   refine CFSG.LocalAnalysis.GLTheoremA.le_center_of_normal_of_isQuasisimple hq
     (GLAPPrimeCore.normal p ↥L) ?_
   intro htop
   have hsub : Subsingleton (PQuot p L) := by
     rw [PQuot, QuotientGroup.subsingleton_iff]
     exact htop
-  haveI : Subsingleton (PQuot p L) := hsub
+  have : Subsingleton (PQuot p L) := hsub
   have hsub2 : Subsingleton (PSimple p L) := by
     rw [PSimple, QuotientGroup.subsingleton_iff]
     refine top_unique ?_
@@ -250,12 +250,12 @@ theorem spMarking_holds :
       have h' := CFSG.Models.lieModel_C m q hv eS
       rw [hq2, hqn] at h'
       exact CFSG.Models.LieModel.toBlueprint (by decide) h'
-  haveI : Nontrivial (PSimple p L) :=
+  have : Nontrivial (PSimple p L) :=
     (CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp _
       m 2 n (CFSG.Blueprint.LieModel.statedClassicalModel hLM (by decide))).toNontrivial
   have hcore : GLAPPrimeCore p ↥L ≤ Subgroup.center ↥L :=
     glapPrimeCore_le_center_of_nontrivial_pSimple hS.qs inferInstance
-  haveI : Group.IsPerfect ↥L := ⟨hS.qs.1⟩
+  have : Group.IsPerfect ↥L := ⟨hS.qs.1⟩
   let eP : ↥L ⧸ Subgroup.center ↥L ≃* PSimple p L :=
     CFSG.LocalAnalysis.GLTheoremA.S172A.pSimpleEquivCenterQuot p hcore
   have hLieZ : CFSG.Blueprint.LieModel (↥L ⧸ Subgroup.center ↥L) .PSp m 2 n :=
@@ -294,10 +294,10 @@ theorem spMarking_holds :
     obtain ⟨K, hKfield, hKfinite, hKcard, hQ⟩ := hrec
     obtain ⟨-, -, ⟨θ', hP', -⟩⟩ := hQ
     obtain ⟨hBN, hBI⟩ := hP'
-    letI := hKfield
-    letI := hKfinite
+    let := hKfield
+    let := hKfinite
     have hchar : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
-    letI : CharP K 2 := hchar
+    let : CharP K 2 := hchar
     have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
     refine ⟨K, hKfield, hKfinite, hKcard, hm2, θ', ?_⟩
     intro a ha
@@ -313,10 +313,10 @@ theorem spMarking_holds :
     obtain ⟨K, hKfield, hKfinite, hKcard, hQ⟩ := hrec
     obtain ⟨-, -, ⟨θ', hP', -⟩⟩ := hQ
     obtain ⟨hBN, hBI⟩ := hP'
-    letI := hKfield
-    letI := hKfinite
+    let := hKfield
+    let := hKfinite
     have hchar : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
-    letI : CharP K 2 := hchar
+    let : CharP K 2 := hchar
     have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
     refine ⟨K, hKfield, hKfinite, hKcard, hm2, θ', ?_⟩
     intro a ha

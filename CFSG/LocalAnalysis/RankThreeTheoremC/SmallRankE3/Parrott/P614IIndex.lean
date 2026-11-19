@@ -167,7 +167,7 @@ theorem relIndex_centralizer_le_mul {O S : Subgroup G} (z : G) (hOS : O ≤ S) :
     rw [← relIndex_mul_relIndex (centralizer ({z} : Set G) ⊓ O) O S inf_le_right hOS,
       inf_relIndex_right]
   rw [← h1]
-  haveI := isFiniteRelIndex_of_finiteIndex (H := centralizer ({z} : Set G) ⊓ O) (K := S)
+  have := isFiniteRelIndex_of_finiteIndex (H := centralizer ({z} : Set G) ⊓ O) (K := S)
   exact relIndex_le_of_le_left inf_le_left relIndex_ne_zero
 
 theorem relIndex_centralizer_le_card_of_conj_mem (Q : Subgroup G) (z : G) (A : Set G)

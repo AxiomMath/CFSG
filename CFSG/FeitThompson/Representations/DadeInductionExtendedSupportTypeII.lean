@@ -110,8 +110,8 @@ theorem inducedClassFun_eq_indClassFun [Fintype G] (M : Subgroup G) (f : G → �
     finsum_mem_coe_finset, Set.toFinset_ofPred, Finset.sum_filter]
   refine Finset.sum_congr rfl fun x _ => ?_
   by_cases hx : x⁻¹ * g * x ∈ M
-  · rw [if_pos hx, extendByZero_of_mem _ hx]
-  · rw [if_neg hx, extendByZero_of_notMem M _ hx]
+  · rw [ite_eq_left hx, extendByZero_of_mem _ hx]
+  · rw [ite_eq_right hx, extendByZero_of_notMem M _ hx]
 
 theorem FTS_type_II_extended_dade_induction
     (h₁ : Statements.FTS_canonical_signalizer_structure.{u})

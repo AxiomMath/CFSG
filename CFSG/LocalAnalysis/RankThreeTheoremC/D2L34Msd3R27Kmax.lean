@@ -254,7 +254,7 @@ theorem D2L34WeakConf3.eq_of_maxTwoLocal_of_cover27 [D2Amb3 G]
   obtain ⟨T₀, hET⟩ := hEpN.exists_le_sylow
   set E₀ : Subgroup G := (T₀ : Subgroup N).map N.subtype
   have hEE₀ : E ≤ E₀ := fun a ha => ⟨⟨a, hEN ha⟩, hET (Subgroup.mem_subgroupOf.mpr ha), rfl⟩
-  have hE₀p : IsPGroup 3 E₀ := T₀.isPGroup'.map N.subtype
+  have hE₀p : IsPGroup 3 E₀ := T₀.isPGroup.map N.subtype
   have hE₀M : E₀ ≤ M := le_of_pGroup_of_normRankTwo hrk hE₀p hEE₀ hEM hErank
   have hE₀N : E₀ ≤ N := Subgroup.map_subtype_le _
   have hrank₀ : Open.pRank 3 (N ⊓ M) ≤ 2 := by

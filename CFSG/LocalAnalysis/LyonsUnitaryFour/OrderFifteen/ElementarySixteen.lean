@@ -387,7 +387,7 @@ theorem exists_three_free_orbits {X : Type*} [Fintype X] (hX : Fintype.card X = 
   have hsep : ∀ i j : Fin 3, i ≠ j → Disjoint (orbit (r i)) (orbit (r j)) := by
     intro i j hij
     fin_cases i <;> fin_cases j
-    all_goals first | exact absurd rfl hij | skip
+    all_goals try exact absurd rfl hij
     · exact hd01
     · exact hd02
     · exact hd01.symm

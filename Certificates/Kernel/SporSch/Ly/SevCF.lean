@@ -155,7 +155,7 @@ theorem pack_key (Y j : Nat) (hj : j < 5) :
     rw [CFSG.KS.SporSch.LySvC.pack49_place]
     exact CFSG.KS.SporSch.LySvM.placeF_lt (w := 3) 49
       (fun p _ => Nat.lt_of_le_of_lt Nat.and_le_right (by norm_num))
-      (fun p hp => by beta_reduce; omega)
+      (fun p hp => by omega)
   have hm : mask 147 = 2 ^ 147 - 1 := by
     unfold mask
     change 1 <<< 147 - 1 = _

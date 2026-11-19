@@ -105,7 +105,7 @@ theorem noCQOf_mcl :
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.McL.nonempty_mulEquiv
   have b' : Blueprint.NativeSporadic.Carrier .McL ≃* Spor .McL := b
   let f : S ≃* Blueprint.NativeSporadic.Carrier .McL := e.trans b'.symm
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .McL) := Finite.of_equiv S f.toEquiv
+  have : Finite (Blueprint.NativeSporadic.Carrier .McL) := Finite.of_equiv S f.toEquiv
   refine noCQ425_of_at_mulEquiv f fun t ht => ?_
   have hC : Nat.card (Subgroup.centralizer ({t} : Set (Blueprint.NativeSporadic.Carrier .McL))) ∣
       29160 := by
@@ -121,7 +121,7 @@ theorem noCQOf_j3 :
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.J3.nonempty_mulEquiv
   have b' : Blueprint.NativeSporadic.Carrier .J3 ≃* Spor .J3 := b
   let f : S ≃* Blueprint.NativeSporadic.Carrier .J3 := e.trans b'.symm
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .J3) := Finite.of_equiv S f.toEquiv
+  have : Finite (Blueprint.NativeSporadic.Carrier .J3) := Finite.of_equiv S f.toEquiv
   refine noCQ425_of_at_mulEquiv f fun t ht => ?_
   rcases Sec21.Item228CensusProof.j3ThreeCentralizerCard t ht with hC | hC
   · refine noCQAt_of_card_eq (B := 11) hC (by norm_num) (by norm_num) (by decide +kernel) ?_

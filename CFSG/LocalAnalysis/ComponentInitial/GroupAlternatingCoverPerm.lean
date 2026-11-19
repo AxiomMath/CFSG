@@ -117,9 +117,8 @@ theorem swap_mul_swap_mem_of_forall (Q : Subgroup (Perm (Fin (n + 2))))
   rcases eq_zero_or_eq_one_or u with rfl | rfl | ⟨hu0, hu1⟩ <;>
     rcases eq_zero_or_eq_one_or v with rfl | rfl | ⟨hv0, hv1⟩ <;>
     rcases eq_zero_or_eq_one_or w with rfl | rfl | ⟨hw0, hw1⟩
-  all_goals first
+  all_goals try first
     | exact absurd rfl huv | exact absurd rfl huw | exact absurd rfl hvw
-    | skip
   · exact inv (hA w hw0 hw1)
   · exact hA v hv0 hv1
   · exact rot hw0 (Ne.symm hvw) hv0.symm (rot hvw hv0 hw0 (hC v w hv0 hv1 hw0 hw1 hvw))

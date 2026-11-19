@@ -148,7 +148,7 @@ lemma hdRo7SmKeysAux_encAux_succ (n : ℕ) (c : List ℕ) :
     hdRo7SmKeysAux_encAux (n + 1) c = hdRo7SmKeysAux_encAux n c * 10 + c.getD n 0 := by
   unfold hdRo7SmKeysAux_encAux
   rw [List.finRange_succ_last, List.map_append, List.map_map]
-  simp only [Function.comp_apply, Fin.val_castSucc, List.map_singleton, List.foldl_append,
+  simp only [List.map_singleton, List.foldl_append,
     List.foldl_cons, List.foldl_nil]
   congr 1
 
@@ -297,11 +297,11 @@ lemma hdRo7SmKeysAux_ckey_eq_of_key_rel {m : ℕ} (hm : m ≤ 9) {p q : Pair m}
         hdRo7SmKeysAux_enc_inj (hdRo7SmKeysAux_key_length q)
           (hdRo7SmKeysAux_negKey_length (key q)) (hdRo7SmKeysAux_key_digits hm q)
           (hdRo7SmKeysAux_negKey_digits hm q) hc
-      rw [if_pos (le_of_eq hc.symm), if_pos (le_of_eq hc)]
+      rw [ite_eq_left (le_of_eq hc.symm), ite_eq_left (le_of_eq hc)]
       exact heq.symm
     · rcases lt_or_gt_of_ne hc with hlt | hlt
-      · rw [if_neg (not_le.mpr hlt), if_pos (le_of_lt hlt)]
-      · rw [if_pos (le_of_lt hlt), if_neg (not_le.mpr hlt)]
+      · rw [ite_eq_right (not_le.mpr hlt), ite_eq_left (le_of_lt hlt)]
+      · rw [ite_eq_left (le_of_lt hlt), ite_eq_right (not_le.mpr hlt)]
 
 lemma hdRo7SmKeysAux_key_rel_of_ckey_eq {m : ℕ} {p q : Pair m} (h : ckey p = ckey q) :
     key p = key q ∨ key p = negKey (key q) := by
@@ -309,19 +309,19 @@ lemma hdRo7SmKeysAux_key_rel_of_ckey_eq {m : ℕ} {p q : Pair m} (h : ckey p = c
     by_cases h2 : enc (key q) ≤ enc (negKey (key q))
   · left
     have : key p = key q := by
-      have := h; unfold ckey at this; rw [if_pos h1, if_pos h2] at this; exact this
+      have := h; unfold ckey at this; rw [ite_eq_left h1, ite_eq_left h2] at this; exact this
     exact this
   · right
     have : key p = negKey (key q) := by
-      have := h; unfold ckey at this; rw [if_pos h1, if_neg h2] at this; exact this
+      have := h; unfold ckey at this; rw [ite_eq_left h1, ite_eq_right h2] at this; exact this
     exact this
   · right
     have : negKey (key p) = key q := by
-      have := h; unfold ckey at this; rw [if_neg h1, if_pos h2] at this; exact this
+      have := h; unfold ckey at this; rw [ite_eq_right h1, ite_eq_left h2] at this; exact this
     rw [← hdRo7SmKeysAux_negKey_involutive (hdRo7SmKeysAux_key_length p), this]
   · left
     have : negKey (key p) = negKey (key q) := by
-      have := h; unfold ckey at this; rw [if_neg h1, if_neg h2] at this; exact this
+      have := h; unfold ckey at this; rw [ite_eq_right h1, ite_eq_right h2] at this; exact this
     exact hdRo7SmKeysAux_negKey_injective (hdRo7SmKeysAux_key_length p)
       (hdRo7SmKeysAux_key_length q) this
 

@@ -363,11 +363,11 @@ theorem noL34Layer_of_primaryData_two (hq : 2 ≤ ℓ ^ f)
   let ρ : (b : {b : primaryFactors (x : Module.End K (Fin n → K)) // ¬ IsGoodBlock h x b}) →
       ↥(fixSubgroup α) →* blockGL (x : Module.End K (Fin n → K)) (b.1 : K[X]) :=
     fun b => (blockRestrict x (b.1 : K[X])).comp φ
-  haveI : ∀ b, Group.IsSolvable ↥(ρ b).range := fun b =>
+  have : ∀ b, Group.IsSolvable ↥(ρ b).range := fun b =>
     isSolvable_range_blockRestrict_of_not_good hq H b.1 b.2 φ hφU
-  haveI : Group.IsSolvable ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
+  have : Group.IsSolvable ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
       ¬ IsGoodBlock h x b}) → ↥(ρ b).range) := isSolvable_pi_of_finite_index
-  haveI : Group.IsSolvable ((b : primaryFactors (x : Module.End K (Fin n → K))) →
+  have : Group.IsSolvable ((b : primaryFactors (x : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) := inferInstance
   let ψ : ↥(fixSubgroup α) →* ((b : primaryFactors (x : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) × ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
@@ -382,9 +382,9 @@ theorem noL34Layer_of_primaryData_two (hq : 2 ≤ ℓ ^ f)
     fun a => (specialBlock (idForm h n) x (a.1 : K[X])).comap (toLinSU h n)
   have hFmap : ∀ a, (F a).map (toLinSU h n) = specialBlock (idForm h n) x (a.1 : K[X]) :=
     fun a => Subgroup.map_comap_eq_self (hSBle a)
-  haveI hfin := h.finite
-  haveI : Finite ↥(gramSU h (idGram K n)) := inferInstance
-  haveI : Finite (primeFormP h (idGram K n)) := inferInstance
+  have hfin := h.finite
+  have : Finite ↥(gramSU h (idGram K n)) := inferInstance
+  have : Finite (primeFormP h (idGram K n)) := inferInstance
   refine noL34Layer_of_centralQuotient_two
     (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n))
     (QuotientGroup.mk'_surjective _) ?_ α (primeFormConjHom h (idGram K n) A) ?_ F ?_ ?_ ?_ ψ ?_ ?_

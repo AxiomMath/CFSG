@@ -49,7 +49,7 @@ theorem le_pPrimeCore_of_isSubnormal' [Fact p.Prime] {A : Subgroup G} (hA : A.Is
 
 theorem dvd_card_of_isSubnormal' (hp : p.Prime) (hcore : CFSG.pPrimeCore p G = ⊥)
     {H : Subgroup G} (hH : H.IsSubnormal) (hne : H ≠ ⊥) : p ∣ Nat.card H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hdvd
   have hle := le_pPrimeCore_of_isSubnormal' hH ((Nat.Prime.coprime_iff_not_dvd hp).mpr hdvd)
   rw [hcore, le_bot_iff] at hle

@@ -126,16 +126,16 @@ theorem bmN_eq_smul_gamma {A : Matrix.GeneralLinearGroup (Fin 3) K} {β₀₁ β
   have e0 := bmN_apply_eq_ite h01
   have e1 := bmN_apply_eq_ite h10
   have e2 := bmN_apply_eq_ite h20
-  have z00 : (A : Matrix (Fin 3) (Fin 3) K) 0 0 = 0 := (e0 0).trans (if_neg (by decide))
-  have z10 : (A : Matrix (Fin 3) (Fin 3) K) 1 0 = 0 := (e0 1).trans (if_neg (by decide))
-  have z11 : (A : Matrix (Fin 3) (Fin 3) K) 1 1 = 0 := (e1 1).trans (if_neg (by decide))
-  have z21 : (A : Matrix (Fin 3) (Fin 3) K) 2 1 = 0 := (e1 2).trans (if_neg (by decide))
-  have z02 : (A : Matrix (Fin 3) (Fin 3) K) 0 2 = 0 := (e2 0).trans (if_neg (by decide))
-  have z22 : (A : Matrix (Fin 3) (Fin 3) K) 2 2 = 0 := (e2 2).trans (if_neg (by decide))
+  have z00 : (A : Matrix (Fin 3) (Fin 3) K) 0 0 = 0 := (e0 0).trans (ite_eq_right (by decide))
+  have z10 : (A : Matrix (Fin 3) (Fin 3) K) 1 0 = 0 := (e0 1).trans (ite_eq_right (by decide))
+  have z11 : (A : Matrix (Fin 3) (Fin 3) K) 1 1 = 0 := (e1 1).trans (ite_eq_right (by decide))
+  have z21 : (A : Matrix (Fin 3) (Fin 3) K) 2 1 = 0 := (e1 2).trans (ite_eq_right (by decide))
+  have z02 : (A : Matrix (Fin 3) (Fin 3) K) 0 2 = 0 := (e2 0).trans (ite_eq_right (by decide))
+  have z22 : (A : Matrix (Fin 3) (Fin 3) K) 2 2 = 0 := (e2 2).trans (ite_eq_right (by decide))
   have v01 : (A : Matrix (Fin 3) (Fin 3) K) 0 1 = (A : Matrix (Fin 3) (Fin 3) K) 2 0 * β₁₀ :=
-    ((e1 0).trans (if_pos rfl)).trans (mul_comm _ _)
+    ((e1 0).trans (ite_eq_left rfl)).trans (mul_comm _ _)
   have v12 : (A : Matrix (Fin 3) (Fin 3) K) 1 2 = (A : Matrix (Fin 3) (Fin 3) K) 2 0 * β₂₀ :=
-    ((e2 1).trans (if_pos rfl)).trans (mul_comm _ _)
+    ((e2 1).trans (ite_eq_left rfl)).trans (mul_comm _ _)
   refine bmN_mat_ext ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ <;>
     simp only [Matrix.smul_apply, Matrix.of_apply, Matrix.cons_val, smul_eq_mul, mul_zero,
       mul_one, z00, z10, z11, z21, z02, z22, v01, v12]

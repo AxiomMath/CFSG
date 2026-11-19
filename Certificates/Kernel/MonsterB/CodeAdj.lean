@@ -24,7 +24,7 @@ theorem codeT_iff (a b c : ℕ) : CodeT a b c ↔ codeTK a b c = true := by
   rw [codeAdj_eq, codeAdj_eq, codeAdj_eq, vectors_contains_eq]
   simp only [Bool.and_eq_true, and_assoc]
 
-@[expose] noncomputable def adjDec : DecidableRel codeGraph.Adj := fun a b =>
+@[instance_reducible, expose] noncomputable def adjDec : DecidableRel codeGraph.Adj := fun a b =>
   decidable_of_iff (codeAdjK a b = true) (by rw [← codeAdj_eq]; rfl)
 
 @[expose] noncomputable def codeTDec : ∀ a b c, Decidable (CodeT a b c) := fun a b c =>

@@ -39,12 +39,11 @@ theorem cartan_pairing
     (hρ : ∀ a l, ρ a (ψ l) = ψ (a l))
     (hφ : ∀ x, ψ (φ x) = e6Isogeny K x)
     (i j : Fin 6) (s : Multiplicative (ZMod (Nat.card K - 1))) :
-    root ρ e i (MulAut.conj (coroot e φ j s)) = s ^ CartanMatrix.E₆ i j := by
+    root ρ e i (MulAut.conj (coroot e φ j s)) = s ^ (CartanMatrix.E 6) i j := by
   rw [root_coroot ψ φ hφ ρ hρ hψ e j i]
   congr 1
-  change Tag.cartanE 6 j i = CartanMatrix.E₆ i j
+  change Tag.cartanE 6 j i = (CartanMatrix.E 6) i j
   rw [cartanE_eq]
-  change CartanMatrix.E 6 j i = CartanMatrix.E 6 i j
   unfold CartanMatrix.E
   simp only [Matrix.of_apply]
   split_ifs <;> omega
@@ -86,7 +85,7 @@ theorem holdsOne
     (hφ : ∀ x, ψ (φ x) = e6Isogeny K x) (hA : A ≤ torus ρ)
     (hfix : ∀ τ ∈ torus ρ, ∀ i s, τ (φ (e6Data_valid.hm K i s)) =
       φ (e6Data_valid.hm K i s)) :
-    GGTDHoldsOne (witness ρ e φ n hn) CartanMatrix.E₆ := by
+    GGTDHoldsOne (witness ρ e φ n hn) (CartanMatrix.E 6) := by
   refine ⟨fun _ hτ _ hυ => torus_comm ρ hρi hτ hυ, hA,
     coroot_mem_torus ψ φ hφ ρ hρ hψ e,
     fun i _ hτ _ hυ => root_mul ρ e i hτ hυ,
@@ -239,7 +238,7 @@ theorem torData_of_aligned
       φ (e6Data_valid.hm K i s))
     (hmove : ∀ τ ∈ torus ρ, ∀ i,
       n i * (τ (n i))⁻¹ = (coroot e φ i (root ρ e i τ))⁻¹) :
-    GGTorusTorData (Nat.card K - 1) 6 CartanMatrix.E₆ CoxeterMatrix.E₆ L A := by
+    GGTorusTorData (Nat.card K - 1) 6 (CartanMatrix.E 6) CoxeterMatrix.E₆ L A := by
   have hAT : A ≤ torus ρ := by
     intro a ha
     refine ⟨zetaVec ζ hζ (Multiplicative.toAdd (Φ ⟨a, ha⟩)), ?_⟩

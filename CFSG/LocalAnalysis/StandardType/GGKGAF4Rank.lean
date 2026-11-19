@@ -90,7 +90,7 @@ theorem ggF4_card_ge_pow_four
     congr 1
     have hjl : (⟨j, hjJ⟩ : ↥J) * l * (⟨j, hjJ⟩ : ↥J)⁻¹ = (res a) l := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       exact ((hres a l).trans (hj l l.2)).symm
     change (QuotientGroup.mk' (Subgroup.center ↥J)) ⟨j, hjJ⟩ *
       (QuotientGroup.mk' (Subgroup.center ↥J)) l *
@@ -110,7 +110,7 @@ theorem ggF4_card_ge_pow_four
     rintro _ ⟨n, rfl⟩
     rw [MonoidHom.mem_ker, map_zpow, he_ker, one_zpow]
   have hker_ge : p ≤ Nat.card res.ker := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hle := Subgroup.card_le_of_le hzpow_le
     rwa [Nat.card_zpowers, Subgroup.orderOf_mk e heA, orderOf_eq_prime hep he1] at hle
   have hcard : Nat.card A = Nat.card res.ker * Nat.card res.range :=

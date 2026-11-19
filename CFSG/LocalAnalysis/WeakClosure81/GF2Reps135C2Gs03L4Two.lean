@@ -19,7 +19,7 @@ theorem gs03AlphaL4Two_holds :
   classical
   intro G _ _ S hS hC t n f hR hlie x hx hxS
   obtain ⟨rfl, rfl, rfl⟩ := hR
-  haveI : S.Normal := hS
+  have : S.Normal := hS
   obtain ⟨e⟩ := CFSG.GH74.Exceptional.nonempty_mulEquiv_alternating_eight_of_lieModel hlie
   have hAGB : AutGenBound (alternatingGroup (Fin 8)) 7
       (fun a => True → a ∉ inner (alternatingGroup (Fin 8))) := by

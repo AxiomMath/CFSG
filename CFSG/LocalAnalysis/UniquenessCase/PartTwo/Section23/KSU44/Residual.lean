@@ -47,8 +47,8 @@ private theorem parH_le_vecStab_S06 {m : ℕ} {K : Type} [Field K]
   have hchi : ((g : GL Ix K) : Matrix Ix Ix K) ie1 ie1 = 1 := hg.2.1
   funext a
   rcases eq_or_ne a ie1 with rfl | ha
-  · simp [Matrix.mulVec_single_one, Matrix.col_apply, hchi]
-  · simp [Matrix.mulVec_single_one, Matrix.col_apply, hcol a ha, Pi.single_eq_of_ne ha]
+  · simp [Matrix.col_apply, hchi]
+  · simp [Matrix.col_apply, hcol a ha, Pi.single_eq_of_ne ha]
 
 theorem hinf_lineStab_le_vecStab {m : ℕ} {K : Type} [Field K] (hK : UnitaryFieldData 2 m K) :
     Hinf (lineStab (hypSU hK 2 0) (Pi.single ie1 1)) ≤

@@ -23,7 +23,7 @@ open CFSG.Quasithin.H.Mathieu CFSG.Quasithin.H.ModChk CFSG.Quasithin.H.Coc24
 
 @[expose] def pairOrb : ℕ := orbitBits [latX, latY] 2048 [32] (1 <<< 32)
 
-@[expose] abbrev pairProp : Prop :=
+abbrev pairProp : Prop :=
   (nodupB o2Masks24 (1 ||| 1 <<< 31) = true ∧ o2Masks24.length = 276 ∧
     ∀ m ∈ o2Masks24, m < 2048) ∧
   (nodupB d0Data 0 = true ∧ d0Data.length = 36) ∧

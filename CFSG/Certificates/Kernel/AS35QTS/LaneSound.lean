@@ -45,10 +45,10 @@ theorem blk_testBit {w : Nat} {f : Nat → Nat} (hw : 0 < w) : ∀ {n : Nat}, (�
     have ih := blk_testBit hw (n := n) fun i hi => hf i (by omega)
     rw [blk_succ, Nat.testBit_two_pow_mul_add _ (blk_lt fun i hi => hf i (by omega))]
     by_cases hc : c < w * n
-    · rw [if_pos hc, ih c]
+    · rw [ite_eq_left hc, ih c]
       have : c < w * (n + 1) := by nlinarith
       simp [hc, this]
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       by_cases hc' : c < w * (n + 1)
       · have hq : c / w = n :=
           Nat.div_eq_of_lt_le (by rw [Nat.mul_comm]; omega) (by rw [Nat.mul_comm]; exact hc')
@@ -133,7 +133,7 @@ theorem lanePl_testBit {G : List Nat} (hG : G.length = 648) (b c : Nat) (hc : c 
   unfold lanePl
   by_cases hb : b < 18
   · have hbt : Nat.blt b 18 = true := Nat.blt_eq.mpr hb
-    rw [hbt, if_pos hb]
+    rw [hbt, ite_eq_left hb]
     change (blk 648 (fun _ => colB b G) 128).testBit c = _
     rw [blk_testBit (by norm_num) (fun _ _ => by rw [← hG]; exact colB_lt b G) c,
       colB_testBit]
@@ -141,7 +141,7 @@ theorem lanePl_testBit {G : List Nat} (hG : G.length = 648) (b c : Nat) (hc : c 
   · have hbt : Nat.blt b 18 = false := by
       rw [Bool.eq_false_iff]
       exact fun h => hb (Nat.blt_eq.mp h)
-    rw [hbt, if_neg hb]
+    rw [hbt, ite_eq_right hb]
     change (blk 648 (fun i => Nat.mul (bitN i (Nat.sub b 18)) (Nat.sub (Nat.pow 2 648) 1))
       128).testBit c = _
     rw [blkMask_testBit (by norm_num)]
@@ -170,7 +170,7 @@ theorem lb_e4 (n s : Nat) : lb (e4 (n >>> s)) = n.testBit s := by
 theorem hb_e4 (n s : Nat) : hb (e4 (n >>> s)) = n.testBit (s + 1) := by
   change ((n >>> s) % 4).testBit 1 = _
   rw [show (4 : Nat) = 2 ^ 2 from rfl, Nat.testBit_mod_two_pow, Nat.testBit_shiftRight]
-  simp [Nat.add_comm]
+  simp
 
 theorem eb_bit (n : Nat) : eb (if n.testBit 24 then 1 else 0) = n.testBit 24 := by
   cases n.testBit 24 <;> rfl

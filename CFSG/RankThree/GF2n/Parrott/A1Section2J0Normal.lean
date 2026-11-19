@@ -145,6 +145,7 @@ private theorem sup_J_centralizer_s1HP_s2HP_eq_top
     exact sup_centralizer_sigma_QP45
   rw [← Subgroup.comap_map_eq_self hker, hmap, Subgroup.comap_top]
 
+omit [Finite G] in
 private theorem mem_normalizer_CJ_of_commute {σ c : G} (hc : c ∈ H z) (hcσ : c * σ = σ * c) :
     c ∈ Subgroup.normalizer (CJ z σ : Set G) := by
   have key : ∀ {d : G}, Commute d σ → d ∈ Subgroup.normalizer (J z : Set G) →

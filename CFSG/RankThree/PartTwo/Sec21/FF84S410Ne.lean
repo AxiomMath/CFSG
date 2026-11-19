@@ -76,8 +76,8 @@ theorem range_psi0_ne_O (e : ↥S ≃* Multiplicative F6) {B : Subgroup G}
     (psi0 e).range ≠ TauCeti.QuadraticMap.orthogonalGroup qMinusForm := by
   intro heq
   classical
-  haveI := hSE.1
-  haveI := hBE.1
+  have := hSE.1
+  have := hBE.1
   have hSp : ∀ x ∈ S, x ^ 2 = 1 := fun x hx =>
     elemPow_eq_one_of_isElementaryAbelian (p := 2) (A := S) x hx
   have hBp : ∀ x ∈ B, x ^ 3 = 1 := fun x hx =>

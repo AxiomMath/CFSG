@@ -149,10 +149,10 @@ theorem j3_fuse_perm_gamma {T' : Subgroup (Equiv.Perm (Fin 6156))} (hT'R : T' �
 
 theorem kFactTenNineWCGammaJ3 : KFactTenNineWCGammaJ3 := by
   intro B _ _ K _ ⟨e⟩ S A Y hA3 hY hwc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRc : Nat.card j3P = 50232960 := card_j3P
   have hZR : Subgroup.center j3P = ⊥ := by
-    haveI : IsSimpleGroup j3P :=
+    have : IsSimpleGroup j3P :=
       @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.J3.isSimpleGroup_J3 j3PermEquiv.symm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center j3P) with h | h
     · exact h

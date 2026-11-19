@@ -298,7 +298,7 @@ private theorem w183finL34_prodM_ne {i j k : ℕ} (hi : i < 27) (hj : j < 27) (h
     (w183finL34_repN_invN hk))
 
 theorem isSylowIn_C1 : IsSylowIn 2 C₁ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine isSylowIn_of_card_eq inf_le_right ?_
   rw [card_C₁, card_S]
   decide +kernel
@@ -306,7 +306,7 @@ theorem isSylowIn_C1 : IsSylowIn 2 C₁ S := by
 theorem card_eight_or_sixteen {A : Subgroup (Equiv.Perm (Fin 42))}
     (hAC : A ≤ C₁) (hel : IsElemAbelian 2 A) (h8 : 8 ≤ Nat.card A) :
     Nat.card A = 8 ∨ Nat.card A = 16 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsq : ∀ x ∈ A, x * x = 1 := fun x hx => hel.2 x hx
   have hcommA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hel.1.is_comm.comm (⟨x, hx⟩ : A) ⟨y, hy⟩)
@@ -415,7 +415,7 @@ theorem exists_triple {A : Subgroup (Equiv.Perm (Fin 42))}
       ((w.1, w.2.1), (w.2.2, false)) ((w'.1, w'.2.1), (w'.2.2, false))
     dsimp only [f]
     rw [h]
-    simp [xor4, Bool.xor_false]
+    simp [xor4]
   have hf_bpow : ∀ p q r : Bool, f (p, q, r) = bpow x p * bpow y q * bpow z r := by
     intro p q r
     dsimp only [f]

@@ -38,7 +38,7 @@ theorem s16c167_card_le_four_of_aut_E9 {E : Type} [Group E] [Finite E]
     (φ : E →* MulAut (Multiplicative (Fin 2 → ZMod 3))) (hφ : Function.Injective φ) :
     Nat.card E ≤ 4 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let e : MulAut (Multiplicative (Fin 2 → ZMod 3)) ≃* GL (Fin 2) (ZMod 3) :=
     CFSG.Sporadic.RuSchreier.ruMulAutEquivGL (p := 3) 2
   let S : Subgroup (GL (Fin 2) (ZMod 3)) := φ.range.map e.toMonoidHom
@@ -73,16 +73,16 @@ theorem s16c167_card_le_four_of_aut_E9 {E : Type} [Group E] [Finite E]
       change (if (x : GL (Fin 2) (ZMod 3)) = 1 then (0 : Fin 2) else 1) =
         (if (y : GL (Fin 2) (ZMod 3)) = 1 then (0 : Fin 2) else 1) at hxy
       by_cases hx1 : (x : GL (Fin 2) (ZMod 3)) = 1
-      · rw [if_pos hx1] at hxy
+      · rw [ite_eq_left hx1] at hxy
         have hy1 : (y : GL (Fin 2) (ZMod 3)) = 1 := by
           by_contra hy1
-          rw [if_neg hy1] at hxy
+          rw [ite_eq_right hy1] at hxy
           exact absurd hxy (by decide)
         exact Subtype.ext (hx1.trans hy1.symm)
-      · rw [if_neg hx1] at hxy
+      · rw [ite_eq_right hx1] at hxy
         have hy1 : (y : GL (Fin 2) (ZMod 3)) ≠ 1 := by
           intro hy1
-          rw [if_pos hy1] at hxy
+          rw [ite_eq_left hy1] at hxy
           exact absurd hxy (by decide)
         exact Subtype.ext (((hsub x x.2).resolve_left hx1).trans
           ((hsub y y.2).resolve_left hy1).symm)
@@ -156,13 +156,13 @@ theorem s16c167_rk_le_two_of_case168_8 (D : Data G) {V₀ V : Subgroup G}
     {X : Subgroup (MulAut (Vtil V₀ V hV))} (hXM : X ≤ Mbar D.M V₀ V hV)
     (hX : IsElemAbelian2 X) : rk ↥X ≤ 2 := by
   classical
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   let Mb : Subgroup (MulAut (Vtil V₀ V hV)) := Mbar D.M V₀ V hV
   let F₀ : Subgroup ↥Mb := genFittingFStar ↥Mb
-  haveI : Finite ↥Mb := Subtype.finite
-  haveI : F₀.Normal := CFSG.ClassicalInvolution.Q3.genFittingFStar_isNormal
+  have : Finite ↥Mb := Subtype.finite
+  have : F₀.Normal := CFSG.ClassicalInvolution.Q3.genFittingFStar_isNormal
   have hself : centralizer (F₀ : Set ↥Mb) ≤ F₀ :=
-    CFSG.Open.Open.generalized_fitting_self_centralizing ↥Mb
+    CFSG.Open.Thm.generalized_fitting_self_centralizing ↥Mb
   obtain ⟨e'⟩ := h8.1
   let e₀ : ↥F₀ ≃* Multiplicative (Fin 2 → ZMod 3) :=
     (Subgroup.equivMapOfInjective F₀ Mb.subtype Mb.subtype_injective).trans e'

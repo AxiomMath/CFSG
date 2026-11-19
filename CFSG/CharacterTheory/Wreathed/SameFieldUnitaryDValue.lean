@@ -258,7 +258,7 @@ theorem character_extend_of_wreathed
   refine ⟨θ₀.comp (ρ.toMonoidHom.comp ((MonoidHom.fst _ _).comp ν.symm.toMonoidHom)), ?_, ?_⟩
   · intro c hc
     let c' : N := c
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨c, hc⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨c, hc⟩
     rw [Subgroup.orderOf_mk] at hk
     have hk' : orderOf c' = 2 ^ k := (Subgroup.orderOf_coe c').symm.trans hk
     have h1 : orderOf (ν.symm c').1 ∣ 2 ^ k := by

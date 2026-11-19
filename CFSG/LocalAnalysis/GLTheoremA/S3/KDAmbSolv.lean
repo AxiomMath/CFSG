@@ -72,12 +72,12 @@ private theorem kdamb_centralizer_solvable {G : Type} [Group G] [Finite G] {p q 
     (hp : p.Prime) (hq : q.Prime) (hpq : p * q = 15) (hq35 : q = 3 ∨ q = 5)
     (hcard : Nat.card G ∣ 360) (hno : ∀ x : G, orderOf x ≠ 15) (g : G) (hgp : g ^ p = 1)
     (hg1 : g ≠ 1) : Group.IsSolvable ↥(Subgroup.centralizer ({g} : Set G)) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hord : orderOf g = p := orderOf_eq_prime hgp hg1
   have hpq' : p ≠ q := by rcases hq35 with rfl | rfl <;> omega
   have hnd : ¬ q ∣ Nat.card (Subgroup.centralizer ({g} : Set G)) := by
     intro hdvd
-    haveI := Fact.mk hq
+    have := Fact.mk hq
     obtain ⟨h, hh⟩ := exists_prime_orderOf_dvd_card' q hdvd
     have hcomm : Commute g (h : G) := by
       have hmem : (h : G) ∈ Subgroup.centralizer ({g} : Set G) := h.2
@@ -168,7 +168,7 @@ private theorem kdamb_alt_no15 {n : ℕ} (hn : n = 5 ∨ n = 6) (x : alternating
 
 private theorem kdamb_card_alt {n : ℕ} (hn : n = 5 ∨ n = 6) :
     Nat.card (alternatingGroup (Fin n)) ∣ 360 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
   rcases hn with rfl | rfl <;> norm_num [Nat.factorial]
 
@@ -215,7 +215,7 @@ private theorem kdamb_lie_l2 (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A 1 q).Valid) (hq8 : q.card = 8) :
     ∀ α : MulAut (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group, α ^ 3 = 1 → α ≠ 1 →
       Group.IsSolvable ↥(fixSubgroup α) := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [TauCeti.PrimePower.card_def]
     exact GaloisField.card q.p q.exponent q.exponent_pos.ne'
@@ -230,7 +230,7 @@ private theorem kdamb_lie_l2 (q : TauCeti.PrimePower)
 theorem kdAmbSolv_holds {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hU42 : ∀ (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.twistedA 3 q).Valid),
       q.card = 2 → ∀ α : MulAut (TauCeti.CFSGIndex.lie ⟨.twistedA 3 q, hv⟩).Group,
-        α ^ 3 = 1 → α ≠ 1 → IsSolvable ↥(fixSubgroup α)) :
+        α ^ 3 = 1 → α ≠ 1 → Group.IsSolvable ↥(fixSubgroup α)) :
     KDAmbSolv p := by
   intro i hi α hα hα1
   cases i with

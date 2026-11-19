@@ -30,15 +30,15 @@ theorem gls3ConclusionPlus_of_isStronglyPEmbedded (hG3 : Gls3StronglyThreeEmbedd
     {N : Subgroup X} (hN : IsStronglyPEmbedded p N) (P : Sylow p X) :
     Gls3ConclusionPlus X (CFSG.generalizedFitting X) (P : Subgroup X) := by
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar Nat.prime_three hO hN
   obtain ⟨g, hg⟩ := hN.exists_conj_ge (P := (P : Subgroup X))
-    ⟨le_top, P.isPGroup', by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
+    ⟨le_top, P.isPGroup, by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
   have hΓ : gammaCore 3 1 ⊤ (P : Subgroup X) < ⊤ := by
     refine lt_top_iff_ne_top.2 fun h => (hN.conj g).1 (top_le_iff.1 ?_)
     rw [← h]
     exact CFSG.LocalAnalysis.UniquenessCase.UCK.gammaCore_le_of_isStronglyPEmbedded (hN.conj g)
-      P.isPGroup' hg
+      P.isPGroup hg
   have hrk : 2 ≤ CFSG.Open.pRank 3 (P : Subgroup X) := by
     rw [(CFSG.SectionRank.pRank_sylow P).1]
     exact h2
@@ -54,10 +54,10 @@ theorem inf_eq_and_le_normalizer_of_isStronglyPEmbedded (hG3 : Gls3StronglyThree
       N ≤ normalizer (((P : Subgroup X) ⊓ CFSG.generalizedFitting X : Subgroup X) : Set X) := by
   have h := gls3ConclusionPlus_of_isStronglyPEmbedded hG3 hp3 hX hO h2 hN P
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hKs, -, hKn, -⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar Nat.prime_three hO hN
-  haveI := hKn
-  haveI := hKs
+  have := hKn
+  have := hKs
   obtain ⟨T, hT⟩ := CFSG.Glauberman.sylow_inf_normal P (N := CFSG.generalizedFitting X)
   exact ThreeOC.inf_eq_and_le_normalizer hN P hPN
     (CFSG.LocalAnalysis.UniquenessCase.UCK.inf_ne_bot_of_pPrimeCore hO
@@ -106,7 +106,7 @@ theorem exists_sylow_map_of_isSylowOf (k : Sec7Core4 G) {H : Subgroup G} (hH : C
           (P.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H)) ∧
         (P' : Subgroup (↥H ⧸ CFSG.pPrimeCore k.p ↥H)) ≤
           ((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H)) := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   have hPH : P ≤ H := hP.le.trans inf_le_left
   have hP1 : P ≠ ⊥ := by
     rintro rfl

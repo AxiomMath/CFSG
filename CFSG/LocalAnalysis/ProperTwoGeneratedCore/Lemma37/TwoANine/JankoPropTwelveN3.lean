@@ -215,7 +215,7 @@ theorem factorization_three (h : Hyp fr) : (Nat.card G).factorization 3 = 10 := 
     have := Subgroup.card_le_of_le hRR'
     rw [hb, Subgroup.card_bot, h.card_R hmK hm3] at this
     exact absurd this (by norm_num)
-  obtain ⟨x, -, hx1, hxC⟩ := exists_mem_ne_one_mem_centralizer R'.isPGroup' le_rfl
+  obtain ⟨x, -, hx1, hxC⟩ := exists_mem_ne_one_mem_centralizer R'.isPGroup le_rfl
     Subgroup.le_normalizer hR'1
   have hxS : x ∈ fr.S := by
     rw [← h.centralizer_U]
@@ -225,7 +225,7 @@ theorem factorization_three (h : Hyp fr) : (Nat.card G).factorization 3 = 10 := 
     refine Subgroup.centralizer_le_normalizer _ ?_
     rw [centralizer_zpowers, Subgroup.mem_centralizer_singleton_iff]
     exact Subgroup.mem_centralizer_iff.mp hxC g hg
-  have hle := h.card_le_of_isConj_s₃ (h.isConj_s₃_of_mem_S hxS hx1) hR'C R'.isPGroup'
+  have hle := h.card_le_of_isConj_s₃ (h.isConj_s₃_of_mem_S hxS hx1) hR'C R'.isPGroup
   have hge := Subgroup.card_le_of_le hRR'
   rw [Sylow.card_eq_multiplicity] at hle hge
   rw [h.card_R hmK hm3] at hge

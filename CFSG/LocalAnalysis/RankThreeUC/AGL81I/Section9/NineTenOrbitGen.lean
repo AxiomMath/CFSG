@@ -17,7 +17,7 @@ namespace NineSettingGen
 theorem exists_noncentral (h72 : KFactOmegaNotCentral) (h : NineSettingGen G M p Q H E k)
     {C : Subgroup (StarGroup p H)} (hC : CFSG.IsComponent C) :
     ∃ e ∈ C, orderOf e = p ∧ ∃ c ∈ C, e * c ≠ c * e := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hdvd : p ∣ Nat.card C := by
     by_contra hnd
     have hcop : Nat.Coprime p (Nat.card C) := (h.prime.coprime_iff_not_dvd).mpr hnd
@@ -53,9 +53,9 @@ theorem three_components (h72 : KFactOmegaNotCentral) (h : NineSettingGen G M p 
       Function.Injective (fun i : Fin 3 => C.map (MulAut.conj (q ^ (i : ℕ))).toMonoidHom) ∧
       (∀ D : Subgroup (StarGroup p H), CFSG.IsComponent D → CFSG.Open.pRank p D = 1) ∧
       CFSG.pCore p (StarGroup p H) = ⊥ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   classical
-  obtain ⟨q, hqQ, hqN⟩ := SetLike.not_le_iff_exists.mp hQN
+  obtain ⟨q, hqQ, hqN⟩ := IsConcreteLE.not_le_iff_exists.mp hQN
   rw [mem_compNormalizer_iff] at hqN
   push Not at hqN
   obtain ⟨C, hCcomp, hqC⟩ := hqN

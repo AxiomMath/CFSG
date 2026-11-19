@@ -79,7 +79,7 @@ theorem false_of_split_two_core {H : Subgroup G} {z : G}
     (Subgroup.normal_subgroupOf_iff_le_normalizer (TwoCoreGrowth.pointTwoCoreImage_le H)).mp
       (TwoCoreGrowth.pointTwoCoreImage_normal H)
   have hcyc : IsCyclic (S ⊓ B : Subgroup G) :=
-    hBcyc _ inf_le_right (S.isPGroup'.to_le inf_le_left)
+    hBcyc _ inf_le_right (S.isPGroup.to_le inf_le_left)
   have havoid : ∀ g : G, g⁻¹ * u * g ∉ M := by
     intro g hgM
     have hord : orderOf (g⁻¹ * u * g) = 2 :=

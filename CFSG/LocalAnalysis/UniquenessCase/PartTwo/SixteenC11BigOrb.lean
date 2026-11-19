@@ -103,8 +103,8 @@ private lemma s16c11_big_orb_sum_ind (Y : Set (Fin n)) :
       ∑ i, (if i ∈ Y then (1 : ZMod 2) else 0) := by
     refine Finset.sum_congr rfl (fun i _ => ?_)
     by_cases h : i ∈ Y
-    · rw [s16c11_big_orb_ind_eq_one_iff.mpr h, if_pos h]
-    · rw [s16c11_big_orb_ind_eq_zero_iff.mpr h, if_neg h]
+    · rw [s16c11_big_orb_ind_eq_one_iff.mpr h, ite_eq_left h]
+    · rw [s16c11_big_orb_ind_eq_zero_iff.mpr h, ite_eq_right h]
   rw [hcongr, Finset.sum_boole]
   congr 1
   rw [Set.ncard_eq_toFinset_card']
@@ -204,7 +204,7 @@ private lemma s16c11_big_orb_stab_index {n : ℕ} (hn : ¬ 2 ∣ n ∨ n = 10)
   classical
   let Ep : Subgroup E := MulAction.stabilizer E p
   change Ep.index = 2
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   obtain ⟨e0, he0⟩ := hp
   have he0Ep : e0 ∉ Ep := fun h => he0 (MulAction.mem_stabilizer_iff.mp h)
   let t : E ⧸ Ep := QuotientGroup.mk' Ep e0
@@ -241,7 +241,7 @@ private lemma s16c11_big_orb_stab_index {n : ℕ} (hn : ¬ 2 ∣ n ∨ n = 10)
     exact htBq (Subgroup.mem_comap.mp h)
   have hB'le : B' ≤ Ep := by
     by_contra hlt
-    obtain ⟨b, hbB', hbEp⟩ := SetLike.not_le_iff_exists.mp hlt
+    obtain ⟨b, hbB', hbEp⟩ := IsConcreteLE.not_le_iff_exists.mp hlt
     have hbp : b • p ≠ p := fun h => hbEp (MulAction.mem_stabilizer_iff.mpr h)
     have hBp : IsPGroup 2 B' := s16c11_big_orb_isPGroup_sub (s16c11_big_orb_isPGroup hE.2) B'
     let Y : Set (Fin n) := MulAction.orbit B' p

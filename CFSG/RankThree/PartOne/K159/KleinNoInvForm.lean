@@ -10,6 +10,7 @@ open Matrix CFSG.LocalAnalysis Finset
 
 variable {K : Type} [Field K]
 
+omit [Field K] in
 theorem coords_apply_kleinIndexPair (M : Matrix (Fin 4) (Fin 4) K) (s : Fin 3 ⊕ Fin 3) :
     coords M s = M (kleinIndexPair s).1 (kleinIndexPair s).2 := by
   rcases s with c | c <;> fin_cases c <;> rfl
@@ -18,12 +19,12 @@ theorem alt_single_eq [CharP K 2] (s : Fin 3 ⊕ Fin 3) :
     alt (Pi.single s (1 : K)) = single (kleinIndexPair s).1 (kleinIndexPair s).2 1 +
       single (kleinIndexPair s).2 (kleinIndexPair s).1 1 := by
   rcases s with c | c <;> fin_cases c <;> ext i j <;> fin_cases i <;> fin_cases j <;>
-    simp [alt, antiMat, kleinIndexPair, single_apply, CharTwo.neg_eq]
+    simp [alt, antiMat, kleinIndexPair, CharTwo.neg_eq]
 
 theorem mul_single_one_mul_transpose_apply (g : Matrix (Fin 4) (Fin 4) K) (a b i j : Fin 4) :
     (g * (single a b 1 : Matrix (Fin 4) (Fin 4) K) * gᵀ) i j = g i a * g j b := by
   simp only [mul_apply, single_apply, transpose_apply, mul_ite, mul_one, mul_zero, ite_and,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true, ite_mul, zero_mul]
+    Finset.sum_ite_eq, Finset.mem_univ, ite_true, ite_mul, zero_mul]
 
 theorem cong_single_apply [CharP K 2] (g : Matrix (Fin 4) (Fin 4) K) (s s' : Fin 3 ⊕ Fin 3) :
     cong g (Pi.single s 1) s' =

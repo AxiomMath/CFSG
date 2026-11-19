@@ -33,7 +33,7 @@ namespace CFSG.EvenSporadicStandard.HNRecog.Section3
 open CFSG.EvenSporadicStandard.HNRecog.Section3Model
 
 theorem u35Facts_holds : U35Facts := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨hcard, -, -, hconj⟩ :=
     CFSG.RankThree.Classical.unitary_three_five_model ↥(CFSG.Open.PSU3 5 1)
       psu3_five_statedClassicalModel

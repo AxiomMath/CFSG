@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.RankFourTheoremC (exists_char_pow_card)
 
 theorem kd29LinUni_of_tables (hGA : CFSG.Open.GriessAllModelsStatement) : KD29LinUni := by
   intro Y _ _ P x z hpl L hL hLu hlu
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hYD := I291.yData_of_plane63 hpl
   have hLn : L.Normal := I291.normal_of_unique hL hLu
   have hq : CFSG.Open.IsQuasisimple ↥L := hL.2.2
@@ -34,7 +34,7 @@ theorem kd29LinUni_of_tables (hGA : CFSG.Open.GriessAllModelsStatement) : KD29Li
   rcases hlu with ⟨n, K, _, _, hpn, hpK, ⟨e⟩⟩ | ⟨n, q, K, _, _, hKq, hpn, hpq, ⟨e⟩⟩
   · exact I291LinUni.linear_case hGA L hq hZp hYD.perf hxord hYD.rank_cent hpn hpK e
   · obtain ⟨r, m, hr, hchar, -, hKr⟩ := exists_char_pow_card K
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨f, -, hqf⟩ : ∃ f ≤ m, q = r ^ f := by
       refine (Nat.dvd_prime_pow hr).1 ?_
       rw [← hKr, hKq]

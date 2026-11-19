@@ -15,12 +15,15 @@ open scoped MatrixGroups
 variable {K U V : Type} [Field K] [Finite K] [AddCommGroup U] [Module K U] [AddCommGroup V]
   [Module K V] [Finite V] {Q₀ : QuadraticForm K U} {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem a2l_neg_mul_comm (B : U ≃ₗ[K] U) : LinearEquiv.neg K * B = B * LinearEquiv.neg K :=
   LinearEquiv.ext fun d => by simp
 
+omit [Finite K] in
 theorem a2l_neg_mul_self : LinearEquiv.neg K * LinearEquiv.neg K = (1 : U ≃ₗ[K] U) :=
   LinearEquiv.ext fun d => by simp
 
+omit [Finite K] in
 theorem a2lDatum_projElementary_of_summand [Nontrivial U] (h2 : (2 : K) ≠ 0)
     (S : A2lSummand Q₀ Q) {v : V} (hv0 : v ≠ 0) (hv : S.coords v = 0) {q₀ : ℕ} (hodd : Odd q₀)
     (h5 : 5 ≤ q₀) {F : Type} [Field F] [Fintype F] (hF : Fintype.card F = q₀)
@@ -28,7 +31,7 @@ theorem a2lDatum_projElementary_of_summand [Nontrivial U] (h2 : (2 : K) ≠ 0)
     (hφE : ∀ g, φ g ∈ elementaryGroup Q₀) (hφt : φ (a2lNegOne F) = LinearEquiv.neg K)
     (hq : CFSG.IsQuasisimple ↥(elementaryGroup Q₀)) (hTU : TypU ↥(elementaryGroup Q₀)) :
     a2lDatum (ProjElementary Q) := by
-  haveI : Finite (V ≃ₗ[K] V) := a2l_finite_linearEquiv
+  have : Finite (V ≃ₗ[K] V) := a2l_finite_linearEquiv
   have hnegE : LinearEquiv.neg K ∈ elementaryGroup Q₀ := hφt ▸ hφE _
   let ΦE : ↥(elementaryGroup Q₀) →* ↥(elementaryGroup Q) :=
     ((S.Phi).comp (elementaryGroup Q₀).subtype).codRestrict (elementaryGroup Q)

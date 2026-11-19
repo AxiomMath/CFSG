@@ -12,6 +12,7 @@ open Equiv Equiv.Perm CFSG.AGLEmbedding CFSG.Open CFSG.Quasithin CFSG.QuasithinU
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPGroup_of_val_mem {p : ℕ} {H : Type*} [Group H] {S : Subgroup G} (hS : IsPGroup p S)
     (f : H →* G) (hf : Function.Injective f) (hfS : ∀ x, f x ∈ S) : IsPGroup p H := by
   refine IsPGroup.of_injective hS (f.codRestrict S hfS) ?_

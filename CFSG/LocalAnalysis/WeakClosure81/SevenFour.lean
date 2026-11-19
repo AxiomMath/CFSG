@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem centralizer_iSub_le_normalizer {V H E U : Subgroup G}
     (hV : IsElemAbelian 2 V) (hTI : IsTI V) (hE : IsMulCommutative E)
     (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
-    (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H) (hU : U ∈ omegaSet V H E) :
+    (_hOmH : ∀ W ∈ omegaSet V H E, W ≤ H) (hU : U ∈ omegaSet V H E) :
     kSub V H E ⊓ Subgroup.centralizer (iSub V H E : Set G) ≤
       Subgroup.normalizer (U : Set G) := by
   intro c hc
@@ -39,6 +39,7 @@ theorem centralizer_iSub_le_normalizer {V H E U : Subgroup G}
   rw [hUg]
   exact hcN
 
+omit [Finite G] in
 theorem inf_centralizer_iSub_subgroupOf_normal {V H E : Subgroup G}
     (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
     (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H) :
@@ -257,7 +258,7 @@ theorem seven_four {V H E : Subgroup G}
       (inf_centralizer_iSub_subgroupOf_normal hEH hEnorm hOmH)
   have hchar : Subgroup.normalizer (C : Set G) ≤
       Subgroup.normalizer (pCoreOf 2 C : Set G) := by
-    haveI : (CFSG.pCore 2 ↥C).Characteristic :=
+    have : (CFSG.pCore 2 ↥C).Characteristic :=
       CFSG.LieType.BorelTits.pCore_characteristic 2
     rw [CFSG.openPCoreOf_eq_map_pCore]
     exact CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic (CFSG.pCore 2 ↥C)
@@ -267,7 +268,7 @@ theorem seven_four {V H E : Subgroup G}
       ((CFSG.LieType.BorelTits.pCoreOf_le 2 C).trans hCK)
       (hK_N_C.trans hchar)
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 C)
-  · haveI : (CFSG.pPrimeCore 2 ↥C).Characteristic := CFSG.pPrimeCore_characteristic
+  · have : (CFSG.pPrimeCore 2 ↥C).Characteristic := CFSG.pPrimeCore_characteristic
     have hcharP : Subgroup.normalizer (C : Set G) ≤
         Subgroup.normalizer ((CFSG.pPrimeCore 2 ↥C).map C.subtype : Set G) :=
       CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic

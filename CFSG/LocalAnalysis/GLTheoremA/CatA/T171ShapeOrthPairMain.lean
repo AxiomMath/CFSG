@@ -34,18 +34,18 @@ theorem orthPairedBlockModel_holds_dvd (hp : p.Prime)
     Nonempty (LinBlockModel p J (piOrth Q y) hN) ∨
       MI.indAut p J (piOrth Q y) hN ∈ inner (PSimple p J) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hQ : (QuadraticMap.polarBilin Q).Nondegenerate :=
     CFSG.HardMathSupport.Curtis.NaturalModuleCensus.PerfThreeOrth.res_polarBilin_nondegenerate hx
   have hDnt : Nontrivial ↥(specialBlock Q (x : V ≃ₗ[K] V) h) :=
     CFSG.LocalCores.isQuasisimple_nontrivial hq
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     by_contra hV
     rw [not_nontrivial_iff_subsingleton] at hV
-    haveI : Subsingleton V := hV
-    haveI : Subsingleton (V ≃ₗ[K] V) :=
+    have : Subsingleton V := hV
+    have : Subsingleton (V ≃ₗ[K] V) :=
       ⟨fun a b => LinearEquiv.ext fun v => Subsingleton.elim _ _⟩
-    haveI : Subsingleton ↥(specialBlock Q (x : V ≃ₗ[K] V) h) :=
+    have : Subsingleton ↥(specialBlock Q (x : V ≃ₗ[K] V) h) :=
       ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
     exact (not_subsingleton_iff_nontrivial.mpr hDnt) inferInstance
   have hpi : Function.Injective (piOrth Q) := piOrth_injective hQ
@@ -65,7 +65,7 @@ theorem orthPairedBlockModel_holds_dvd (hp : p.Prime)
     have h1 : A = 1 := by omega
     have hbot : specialBlock Q (x : V ≃ₗ[K] V) h = ⊥ :=
       hx.specialBlock_eq_bot_of_finrank_eq_one hh h1
-    haveI : Subsingleton ↥(specialBlock Q (x : V ≃ₗ[K] V) h) := by
+    have : Subsingleton ↥(specialBlock Q (x : V ≃ₗ[K] V) h) := by
       rw [hbot]
       infer_instance
     obtain ⟨u, v, huv⟩ := hq.2.2
@@ -113,11 +113,11 @@ theorem orthPairedBlockModel_holds_dvd (hp : p.Prime)
   by_cases hsmall : (A = 2 ∧ Nat.card F = 4) ∨ (A = 2 ∧ Nat.card F = 2) ∨
       (A = 3 ∧ Nat.card F = 2) ∨ (A = 4 ∧ Nat.card F = 2)
   · exact Or.inr (orthPaired_small_inner e B hBn hconj hsmall)
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 := by
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F 2 := by
       change CharP (AdjoinRoot h) 2
       exact charP_of_injective_algebraMap (algebraMap K (AdjoinRoot h)).injective 2
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     obtain ⟨k, -, hk⟩ := FiniteField.card F 2
     set k' : ℕ := (k : ℕ) with hk'
     have hcard : Nat.card F = 2 ^ k' := by
@@ -179,7 +179,7 @@ theorem orthPairedBlockModel_holds : OrthPairedBlockModelResidual := by
   by_cases hd : p ∣ Nat.card J
   · exact orthPairedBlockModel_holds_dvd (Q := Q)
       hp x y hx hyc hyp hh hne hq J hJeq hN hd
-  · haveI := subsingleton_pSimple_of_not_dvd hp hd
+  · have := subsingleton_pSimple_of_not_dvd hp hd
     exact Or.inr (mem_inner_of_subsingleton _)
 
 end CFSG.LocalAnalysis.GLTheoremA.T171Sh

@@ -21,6 +21,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {z t : G} {T₀ E : Su
 
 include h
 
+omit [Finite G] h in
 theorem blk_one (C : Set G) : blk 1 C = C := by
   ext u; simp [blk]
 
@@ -185,41 +186,45 @@ section table
 variable {α : G} (hα : AlphaSpec S z t α)
 include hα
 
+omit hα in
 theorem T1 : cnt (blk z {1, t}) z = 2 := by
   rw [h.cnt_blk_comm' (mul_one z).symm h.zS h.zS h.E0_sub (one_mem _) rfl,
     h.E0_comm (one_mem _), h.ncard_E0]
 
+omit hα in
 theorem T2 : cnt (blk z (E2 E t)) z = 10 := by
-  rw [h.cnt_blk_comm' (mul_one z).symm h.zS h.zS h.E2_sub (one_mem _) rfl,
+  rw [h.cnt_blk_comm' (mul_one z).symm h.zS h.zS (CFSG.EvenSporadicStandard.Fin76b.Hyp69.E2_sub (t := t) (E := E)) (one_mem _) rfl,
     h.E2_central (Or.inl rfl)]
   exact h.ef.card_two
 
 theorem T3 : cnt (blk α (E2 E t)) z = 0 := by
-  rw [h.cnt_blk_anti' (mul_one z).symm hα.mem h.zS h.E2_sub (one_mem _) (h.sigma_a_z hα),
+  rw [h.cnt_blk_anti' (mul_one z).symm hα.mem h.zS (CFSG.EvenSporadicStandard.Fin76b.Hyp69.E2_sub (t := t) (E := E)) (one_mem _) (h.sigma_a_z hα),
     h.E2_central_anti (Or.inl rfl)]
   exact Set.ncard_empty _
 
 theorem T4 : cnt (blk (α * z) (E4 E t)) z = 0 := by
-  rw [h.cnt_blk_anti' (mul_one z).symm (h.alpha_z_mem hα) h.zS h.E4_sub (one_mem _)
+  rw [h.cnt_blk_anti' (mul_one z).symm (h.alpha_z_mem hα) h.zS (CFSG.EvenSporadicStandard.Fin76b.Hyp69.E4_sub (t := t) (E := E)) (one_mem _)
     (h.sigma_r_z hα), h.E4_central_anti (Or.inl rfl)]
   exact Set.ncard_empty _
 
 variable {e : G} (he : e ∈ E2 E t)
 include he
 
+omit hα in
 theorem T5 : cnt (blk z {1, t}) (z * e) = 2 := by
   rw [h.cnt_blk_comm' rfl h.zS h.zS h.E0_sub he.1 rfl, h.E0_comm he.1, h.ncard_E0]
 
+omit hα in
 theorem T6 : cnt (blk z (E2 E t)) (z * e) = 2 := by
-  rw [h.cnt_blk_comm' rfl h.zS h.zS h.E2_sub he.1 rfl]
+  rw [h.cnt_blk_comm' rfl h.zS h.zS (CFSG.EvenSporadicStandard.Fin76b.Hyp69.E2_sub (t := t) (E := E)) he.1 rfl]
   exact h.E2_comm_E2 he
 
 theorem T7 : cnt (blk α (E2 E t)) (z * e) = 8 := by
-  rw [h.cnt_blk_anti' rfl hα.mem h.zS h.E2_sub he.1 (h.sigma_a_z hα)]
+  rw [h.cnt_blk_anti' rfl hα.mem h.zS (CFSG.EvenSporadicStandard.Fin76b.Hyp69.E2_sub (t := t) (E := E)) he.1 (h.sigma_a_z hα)]
   exact h.E2_anti_E2 he
 
 theorem T8 : cnt (blk (α * z) (E4 E t)) (z * e) = 8 := by
-  rw [h.cnt_blk_anti' rfl (h.alpha_z_mem hα) h.zS h.E4_sub he.1 (h.sigma_r_z hα)]
+  rw [h.cnt_blk_anti' rfl (h.alpha_z_mem hα) h.zS (CFSG.EvenSporadicStandard.Fin76b.Hyp69.E4_sub (t := t) (E := E)) he.1 (h.sigma_r_z hα)]
   exact h.E4_anti_E2 he
 
 theorem T9 : cnt (blk z {1, t}) (α * e) = 0 := by
@@ -227,11 +232,11 @@ theorem T9 : cnt (blk z {1, t}) (α * e) = 0 := by
   exact Set.ncard_empty _
 
 theorem T10 : cnt (blk z (E2 E t)) (α * e) = 8 := by
-  rw [h.cnt_blk_anti' rfl h.zS hα.mem h.E2_sub he.1 (h.sigma_z_a hα)]
+  rw [h.cnt_blk_anti' rfl h.zS hα.mem (CFSG.EvenSporadicStandard.Fin76b.Hyp69.E2_sub (t := t) (E := E)) he.1 (h.sigma_z_a hα)]
   exact h.E2_anti_E2 he
 
 theorem T11 : cnt (blk α (E2 E t)) (α * e) = 2 := by
-  rw [h.cnt_blk_comm' rfl hα.mem hα.mem h.E2_sub he.1 rfl]
+  rw [h.cnt_blk_comm' rfl hα.mem hα.mem (CFSG.EvenSporadicStandard.Fin76b.Hyp69.E2_sub (t := t) (E := E)) he.1 rfl]
   exact h.E2_comm_E2 he
 
 theorem T16 : cnt (blk α {1, t}) e = 2 := by
@@ -239,14 +244,15 @@ theorem T16 : cnt (blk α {1, t}) e = 2 := by
   rw [h.cnt_blk_comm' (one_mul e).symm hα.mem hs₀ h.E0_sub he.1 (by simp),
     h.E0_comm he.1, h.ncard_E0]
 
+omit hα in
 theorem T17 : cnt (blk 1 (E2 E t)) e = 2 := by
   have hs₀ : (1 : G) ∈ S := one_mem _
-  rw [h.cnt_blk_comm' (one_mul e).symm hs₀ hs₀ h.E2_sub he.1 rfl]
+  rw [h.cnt_blk_comm' (one_mul e).symm hs₀ hs₀ (CFSG.EvenSporadicStandard.Fin76b.Hyp69.E2_sub (t := t) (E := E)) he.1 rfl]
   exact h.E2_comm_E2 he
 
 theorem T18 : cnt (blk α (E2 E t)) e = 2 := by
   have hs₀ : (1 : G) ∈ S := one_mem _
-  rw [h.cnt_blk_comm' (one_mul e).symm hα.mem hs₀ h.E2_sub he.1 (by simp)]
+  rw [h.cnt_blk_comm' (one_mul e).symm hα.mem hs₀ (CFSG.EvenSporadicStandard.Fin76b.Hyp69.E2_sub (t := t) (E := E)) he.1 (by simp)]
   exact h.E2_comm_E2 he
 
 theorem T19 : cnt (blk α {1, t}) (α * e) = 2 := by
@@ -260,19 +266,21 @@ theorem T13 {α : G} (hα : AlphaSpec S z t α) : cnt (blk α {1, t}) α = 2 := 
 
 theorem T14 {α : G} (hα : AlphaSpec S z t α) : cnt (blk 1 (E2 E t)) α = 10 := by
   have hs₁ : (1 : G) ∈ S := one_mem _
-  rw [h.cnt_blk_comm' (mul_one α).symm hs₁ hα.mem h.E2_sub (one_mem _) (by simp),
+  rw [h.cnt_blk_comm' (mul_one α).symm hs₁ hα.mem (CFSG.EvenSporadicStandard.Fin76b.Hyp69.E2_sub (t := t) (E := E)) (one_mem _) (by simp),
     h.E2_central (Or.inl rfl)]
   exact h.ef.card_two
 
 theorem T15 {α : G} (hα : AlphaSpec S z t α) : cnt (blk α (E2 E t)) α = 10 := by
-  rw [h.cnt_blk_comm' (mul_one α).symm hα.mem hα.mem h.E2_sub (one_mem _) rfl,
+  rw [h.cnt_blk_comm' (mul_one α).symm hα.mem hα.mem (CFSG.EvenSporadicStandard.Fin76b.Hyp69.E2_sub (t := t) (E := E)) (one_mem _) rfl,
     h.E2_central (Or.inl rfl)]
   exact h.ef.card_two
 
+omit h in
 theorem cnt_union {A B : Set G} (hAB : Disjoint A B) (u : G) :
     cnt (A ∪ B) u = cnt A u + cnt B u :=
   ncard_filter_union hAB (fun w => w * u = u * w)
 
+omit [Finite G] h in
 theorem cnt_empty (u : G) : cnt (∅ : Set G) u = 0 := by
   unfold cnt
   simp

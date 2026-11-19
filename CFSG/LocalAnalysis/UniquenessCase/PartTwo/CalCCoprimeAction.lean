@@ -10,12 +10,13 @@ open CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem acts_trivially_of_isPGroup_of_not_dvd_card_mulAut {L W : Subgroup G} {p : ℕ}
     (hp : p.Prime) (hdiv : ¬ p ∣ Nat.card (MulAut (Bar2 L)))
     (hW : IsPGroup p W) (hWn : W ≤ normalizer (L : Set G)) :
     ∀ w ∈ W, ∀ l ∈ L, w * l * w⁻¹ * l⁻¹ ∈ pCoreOf 2 L := by
   intro w hw l hl
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let N := normalizer (L : Set G)
   let m : ↥N := ⟨w, hWn hw⟩
   let ρ := UC6S846.rhoL L

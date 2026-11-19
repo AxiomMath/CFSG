@@ -62,12 +62,12 @@ theorem conj_phiG (r : ℕ → G) (g : G) (e : ℕ → ℕ) :
   refine List.map_congr_left fun i _ => ?_
   simp [conj_pow]
 
-theorem list_map_prod5 {M : Type*} [CommGroup M] (ι : M → G) (h1 : ι 1 = 1)
+theorem list_map_prod5 {M : Type*} [CommGroup M] (ι : M → G) (_h1 : ι 1 = 1)
     (hm : ∀ x y, ι (x * y) = ι x * ι y) (hp : ∀ x (n : ℕ), ι (x ^ n) = ι x ^ n) (x : ℕ → M)
     (e : ℕ → ℕ) :
     ((List.range 5).map fun i => ι (x i) ^ e i).prod = ι (∏ i ∈ range 5, x i ^ e i) := by
   simp only [list_range_five, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-    prod_range_succ, prod_range_zero, hm, hp, h1, one_mul, mul_one, mul_assoc]
+    prod_range_succ, prod_range_zero, hm, hp, one_mul, mul_one, mul_assoc]
 
 section Comm
 
@@ -84,7 +84,7 @@ theorem subR_pairwise : {x | ∃ i < 5, r i = x}.Pairwise Commute :=
   fun x hx y hy _ => subR_comm r hc x hx y hy
 
 theorem subR_mul_comm (x y : subR r) : x * y = y * x := by
-  haveI : IsMulCommutative (subR r) := Subgroup.isMulCommutative_closure (subR_pairwise r hc)
+  have : IsMulCommutative (subR r) := Subgroup.isMulCommutative_closure (subR_pairwise r hc)
   exact mul_comm' x y
 
 include h3
@@ -92,7 +92,7 @@ include h3
 theorem phiG_lin (f : ℕ → ℕ → ℕ) (a : ℕ → ℕ) :
     ((List.range 5).map fun i => phiG r (f i) ^ a i).prod =
       phiG r (fun m => (∑ i ∈ range 5, a i * f i m) % 3) := by
-  haveI : IsMulCommutative (subR r) := Subgroup.isMulCommutative_closure (subR_pairwise r hc)
+  have : IsMulCommutative (subR r) := Subgroup.isMulCommutative_closure (subR_pairwise r hc)
   let inst : CommGroup (subR r) := IsMulCommutative.instCommGroup
   let ι : subR r → G := Subtype.val
   have h1 : ι 1 = 1 := rfl
@@ -100,7 +100,7 @@ theorem phiG_lin (f : ℕ → ℕ → ℕ) (a : ℕ → ℕ) :
   have hp : ∀ (x : subR r) (n : ℕ), ι (x ^ n) = ι x ^ n := fun _ _ => rfl
   let ρ : ℕ → subR r := fun i => if h : i < 5 then ⟨r i, mem_subR r h⟩ else 1
   have hρ : ∀ i < 5, ι (ρ i) = r i := fun i hi => by
-    simp only [ρ, dif_pos hi]
+    simp only [ρ, dite_eq_left hi]
     rfl
   have hφ : ∀ e, phiG r e = ι (∏ i ∈ range 5, ρ i ^ e i) := by
     intro e
@@ -197,8 +197,8 @@ theorem centU_facts (u : G) (h r : ℕ → G) (GC E PA : ℕ → ℕ)
         have e2 : (5 * j + i) % 5 = i := by omega
         rw [e1, e2]
         by_cases hij : i = j
-        · rw [if_pos hij.symm, if_pos hij]
-        · rw [if_neg (Ne.symm hij), if_neg hij]
+        · rw [ite_eq_left hij.symm, ite_eq_left hij]
+        · rw [ite_eq_right (Ne.symm hij), ite_eq_right hij]
       rw [phiG_congr r e]
       simp only [phiG, list_range_five, List.map_cons, List.map_nil, List.prod_cons,
         List.prod_nil]
@@ -276,7 +276,7 @@ theorem centU_facts (u : G) (h r : ℕ → G) (GC E PA : ℕ → ℕ)
       obtain ⟨j, hj, rfl⟩ := hy
       rw [hAc l hl j hj]
       exact phiG_mem r _
-    | one => simpa using R.one_mem
+    | one => simp
     | mul y z _ _ hy hz =>
       have : h l * (y * z) * (h l)⁻¹ = (h l * y * (h l)⁻¹) * (h l * z * (h l)⁻¹) := by group
       rw [this]

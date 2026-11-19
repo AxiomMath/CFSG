@@ -43,7 +43,7 @@ theorem imgW_cons (n t : ℕ) (l : List ℕ) (i acc : ℕ) :
   rw [forceJ_eq, forceJ_eq, blt_land_shiftLeft]
   cases n.testBit i
   · rfl
-  · rw [if_pos rfl, ← Nat.one_shiftLeft]
+  · rw [ite_eq_left rfl, ← Nat.one_shiftLeft]
     rfl
 
 theorem imgW_eq (n : ℕ) (l : List ℕ) (i acc : ℕ) :

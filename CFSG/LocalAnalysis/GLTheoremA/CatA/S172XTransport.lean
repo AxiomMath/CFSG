@@ -56,14 +56,14 @@ theorem isComponentOf_glaLayer_centralizer_img_iff {D : Subgroup Ω} (hDB : D �
 theorem layerIs_centralizer_img_iff [Finite Ω] {p : ℕ} (hp : p.Prime) {D : Subgroup Ω} (hDB : D ≤ B)
     {Q : TauCeti.CFSGIndex → Prop} :
     LayerIs p (Subgroup.centralizer (M.img D : Set G₀)) Q ↔ LayerIs p (S ⊓ cs D) Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcomp := M.isComponentOf_glaLayer_centralizer_img_iff hDB
   have hcomp' := isComponentOf_glaLayer_csIn_iff S D
   unfold LayerIs
   constructor
   · rintro ⟨h1, h2⟩
     have h1' := hcomp.1 h1
-    haveI : Group.IsPerfect ↥(GLALayer (csIn S D)) := ⟨h1'.2.2.1⟩
+    have : Group.IsPerfect ↥(GLALayer (csIn S D)) := ⟨h1'.2.2.1⟩
     refine ⟨hcomp'.1 h1', ?_⟩
     obtain ⟨e⟩ := M.nonempty_pSimple_equiv_map p (K := GLALayer (csIn S D)) inferInstance
     have h3 := (catalogIs_pSimple_congr_eq (p := p) (M.glaLayer_centralizer_img hDB)).1 h2
@@ -72,7 +72,7 @@ theorem layerIs_centralizer_img_iff [Finite Ω] {p : ℕ} (hp : p.Prime) {D : Su
       ((S172.catalogIs_pSimple_map_iff (GLALayer (csIn S D)) Q).2 h4)
   · rintro ⟨h1, h2⟩
     have h1' := hcomp'.2 h1
-    haveI : Group.IsPerfect ↥(GLALayer (csIn S D)) := ⟨h1'.2.2.1⟩
+    have : Group.IsPerfect ↥(GLALayer (csIn S D)) := ⟨h1'.2.2.1⟩
     refine ⟨hcomp.2 h1', ?_⟩
     obtain ⟨e⟩ := M.nonempty_pSimple_equiv_map p (K := GLALayer (csIn S D)) inferInstance
     have h3 := (S172.catalogIs_pSimple_map_iff (GLALayer (csIn S D)) Q).1
@@ -86,7 +86,7 @@ theorem img_cs_glaLayer [Finite Ω] {D : Subgroup Ω} (hDB : D ≤ B)
       M.β.range ⊓
         Subgroup.centralizer (GLALayer (Subgroup.centralizer (M.img D : Set G₀)) : Set G₀) := by
   have hc' := (isComponentOf_glaLayer_csIn_iff S D).2 hc
-  haveI : Group.IsPerfect ↥(GLALayer (csIn S D)) := ⟨hc'.2.2.1⟩
+  have : Group.IsPerfect ↥(GLALayer (csIn S D)) := ⟨hc'.2.2.1⟩
   rw [M.glaLayer_centralizer_img hDB, ← glaLayer_csIn_map S D]
   ext g
   rw [Subgroup.mem_inf, M.mem_img]
@@ -197,15 +197,15 @@ theorem glaPLayer_eq_bot_of_csImg_le [Finite Ω] {p : ℕ} (hp : p.Prime) {E : S
     GLAPLayer p (K ⊓ cs E) = ⊥ := by
   have h1 : Group.IsSolvable ↥(csIn S E) :=
     isSolvable_of_map_le M.π (fun _ hg => M.π_eq_one_mem_center hg) hX
-  haveI : Group.IsSolvable ↥((csIn S E).map S.subtype) :=
-    solvable_of_surjective (f := (Subgroup.equivMapOfInjective (csIn S E) S.subtype
+  have : Group.IsSolvable ↥((csIn S E).map S.subtype) :=
+    Group.isSolvable_of_surjective (f := (Subgroup.equivMapOfInjective (csIn S E) S.subtype
       S.subtype_injective).toMonoidHom)
       (Subgroup.equivMapOfInjective (csIn S E) S.subtype S.subtype_injective).surjective
   have hle : K ⊓ cs E ≤ (csIn S E).map S.subtype := by
     rw [map_csIn_subtype]
     exact inf_le_inf_right _ hKS
-  haveI : Group.IsSolvable ↥(K ⊓ cs E) :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+  have : Group.IsSolvable ↥(K ⊓ cs E) :=
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
   exact glaPLayer_eq_bot_of_isSolvable hp
 
 end S172Model

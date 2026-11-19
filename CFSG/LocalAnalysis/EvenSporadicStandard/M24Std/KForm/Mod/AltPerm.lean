@@ -156,16 +156,16 @@ private lemma alt9x0_mul_alt9y0 :
   rw [alt9y0]; group
 
 private lemma alt9x0_order : orderOf alt9x0 = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   exact orderOf_eq_prime (p := 7) (by decide +kernel) (by decide +kernel)
 
 private lemma alt9y0_order : orderOf alt9y0 = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   exact orderOf_eq_prime (p := 7) (by decide +kernel) (by decide +kernel)
 
 private lemma alt9xy_order : orderOf (alt9x0 * alt9y0) = 2 := by
   rw [alt9x0_mul_alt9y0]
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   exact orderOf_eq_prime (p := 2) (by decide +kernel) (by decide +kernel)
 
 private lemma alt9x0_sign : sign alt9x0 = 1 := by decide +kernel

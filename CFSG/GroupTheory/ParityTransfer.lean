@@ -13,6 +13,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 section Helpers
 
+omit [Finite G] in
 private theorem conj_mem_iff_of_mem_normal {T U : Subgroup G}
     (hUN : ∀ t ∈ T, ∀ u ∈ U, t * u * t⁻¹ ∈ U) {t : G} (ht : t ∈ T) (w : G) :
     t⁻¹ * w * t ∈ U ↔ w ∈ U := by
@@ -24,6 +25,7 @@ private theorem conj_mem_iff_of_mem_normal {T U : Subgroup G}
     have h2 := hUN t⁻¹ (T.inv_mem ht) w h
     simpa using h2
 
+omit [Finite G] in
 private theorem mem_normalizer_of_commutes {Y : Subgroup G} {d : G}
     (hd : ∀ y ∈ Y, d * y = y * d) : d ∈ Subgroup.normalizer (Y : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -47,6 +49,7 @@ private theorem mem_normalizer_of_commutes {Y : Subgroup G} {d : G}
         _ = d * y * d⁻¹ := by group
     rwa [hy]
 
+omit [Finite G] in
 private theorem mem_conj_mem_U_smul_iff {T U : Subgroup G}
     (hUN : ∀ t ∈ T, ∀ u ∈ U, t * u * t⁻¹ ∈ U) {x d : G} (hd : d * x = x * d)
     (y : G ⧸ T) :
@@ -76,6 +79,7 @@ private theorem mem_conj_mem_U_smul_iff {T U : Subgroup G}
   rw [hmain]
   exact conj_mem_iff_of_mem_normal hUN hdt _
 
+omit [Finite G] in
 private theorem mem_fixedPoints_zpowers_iff_period_eq_one {T : Subgroup G} (x : G) (y : G ⧸ T) :
     y ∈ fixedPoints (zpowers x) (G ⧸ T) ↔ Function.minimalPeriod (x • ·) y = 1 := by
   constructor
@@ -100,16 +104,16 @@ theorem exists_normal_index_two_not_mem_of_parity {T U : Subgroup G} (hT : IsPGr
     (hR : ∀ a ∈ Y, (∀ y ∈ Y, a * y = y * a) → ∀ g : G, g⁻¹ * z * g = a → a = z) :
     ∃ N : Subgroup G, N.Normal ∧ N.index = 2 ∧ x ∉ N := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hUN : (U.subgroupOf T).Normal := Subgroup.normal_of_index_eq_two hUidx
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hUN : (U.subgroupOf T).Normal := Subgroup.normal_of_index_eq_two hUidx
   have hUNconj : ∀ t ∈ T, ∀ u ∈ U, t * u * t⁻¹ ∈ U := by
     intro t ht u hu
     exact Subgroup.mem_subgroupOf.mp
       (hUN.conj_mem ⟨u, hUT hu⟩ (Subgroup.mem_subgroupOf.mpr hu) ⟨t, ht⟩)
   have hQcard : Nat.card (Qbar T U) = 2 := hUidx
-  haveI : IsCyclic (Qbar T U) := isCyclic_of_prime_card hQcard
-  letI : CommGroup (Qbar T U) := IsCyclic.commGroup
-  haveI : Fintype (G ⧸ T) := Fintype.ofFinite _
+  have : IsCyclic (Qbar T U) := isCyclic_of_prime_card hQcard
+  let : CommGroup (Qbar T U) := IsCyclic.commGroup
+  have : Fintype (G ⧸ T) := Fintype.ofFinite _
   set g₀ : Qbar T U := phiQ T U ⟨x, hxT⟩ with hg₀
   have hg₀1 : g₀ ≠ 1 := fun h => hxU ((phiQ_eq_one_iff T U _).mp h)
   have hg₀2 : g₀ ^ 2 = 1 := by
@@ -149,11 +153,11 @@ theorem exists_normal_index_two_not_mem_of_parity {T U : Subgroup G} (hT : IsPGr
       by_cases hU : q.out.out⁻¹ * x * q.out.out ∈ U
       · have hwU : q.out.out⁻¹ * x ^ mp q.out * q.out.out ∈ U := by
           rwa [hmp1, pow_one]
-        rw [if_pos hwU]
+        rw [ite_eq_left hwU]
         simp [houter, hmp1, hU]
       · have hwU : q.out.out⁻¹ * x ^ mp q.out * q.out.out ∉ U := by
           rwa [hmp1, pow_one]
-        rw [if_neg hwU]
+        rw [ite_eq_right hwU]
         simp [houter, hmp1, hU]
     · have hmp2 : mp q.out = 2 := by simpa using hj
       have hwT : q.out.out⁻¹ * x ^ mp q.out * q.out.out ∈ T :=
@@ -163,7 +167,7 @@ theorem exists_normal_index_two_not_mem_of_parity {T U : Subgroup G} (hT : IsPGr
       have hw2U : q.out.out⁻¹ * x ^ 2 * q.out.out ∈ U := hsq _ hw2T
       have hwU : q.out.out⁻¹ * x ^ mp q.out * q.out.out ∈ U := by
         rwa [hmp2]
-      rw [hval, if_pos hwU]
+      rw [hval, ite_eq_left hwU]
       simp [houter, hmp2]
     · have hmp4 : mp q.out = 4 := by simpa using hj
       have hwU : q.out.out⁻¹ * x ^ mp q.out * q.out.out ∈ U := by
@@ -172,7 +176,7 @@ theorem exists_normal_index_two_not_mem_of_parity {T U : Subgroup G} (hT : IsPGr
           group
         rw [hw1]
         exact U.one_mem
-      rw [hval, if_pos hwU]
+      rw [hval, ite_eq_left hwU]
       simp [houter, hmp4]
   have hτ : MonoidHom.transfer (phiQ T U) x = g₀ ^ (Finset.univ.filter outer).card := by
     rw [MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot]
@@ -212,9 +216,9 @@ theorem exists_normal_index_two_not_mem_of_parity {T U : Subgroup G} (hT : IsPGr
     refine Finset.sum_congr rfl fun q _ => ?_
     have hiff := hiffFix q.out
     by_cases hq : q.out ∈ fixedPoints (zpowers x) (G ⧸ T)
-    · rw [if_pos hq, if_pos (hiff.mp hq), Nat.card_eq_fintype_card,
+    · rw [ite_eq_left hq, ite_eq_left (hiff.mp hq), Nat.card_eq_fintype_card,
         (MulAction.mem_fixedPoints_iff_card_orbit_eq_one).mp hq]
-    · rw [if_neg hq, if_neg (fun h => hq (hiff.mpr h))]
+    · rw [ite_eq_right hq, ite_eq_right (fun h => hq (hiff.mpr h))]
   have hfixodd : Odd (Finset.univ.filter (fun q : orbitRel.Quotient (zpowers x) (G ⧸ T) =>
       mp q.out = 1)).card := by
     rw [← hfixcard]
@@ -312,7 +316,7 @@ theorem exists_normal_index_two_not_mem_of_parity {T U : Subgroup G} (hT : IsPGr
   have hAcardPoints : Nat.card ↥{y : G ⧸ T | y.out⁻¹ * x * y.out ∈ U} =
       (Finset.univ.filter (fun y : G ⧸ T => y.out⁻¹ * x * y.out ∈ U)).card := by
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
   have hAeven' : 2 ∣ Nat.card ↥{y : G ⧸ T | y.out⁻¹ * x * y.out ∈ U} := by
     rwa [hAcardPoints]
   have hAcard : Nat.card ↥{y : G ⧸ T | y.out⁻¹ * x * y.out ∈ U} =
@@ -336,12 +340,12 @@ theorem exists_normal_index_two_not_mem_of_parity {T U : Subgroup G} (hT : IsPGr
     rw [hsum, Finset.card_filter]
     refine Finset.sum_congr rfl fun q _ => ?_
     by_cases hq : q.out.out⁻¹ * x * q.out.out ∈ U
-    · rw [if_pos hq]
+    · rw [ite_eq_left hq]
       have hfix : q.out ∈ fixedPoints (zpowers x) (G ⧸ T) :=
         (hiffFix q.out).mpr (hfixed_of_memU q.out hq)
       rw [Nat.card_eq_fintype_card, (MulAction.mem_fixedPoints_iff_card_orbit_eq_one).mp hfix,
-        if_pos hq]
-    · rw [if_neg hq, if_neg hq]
+        ite_eq_left hq]
+    · rw [ite_eq_right hq, ite_eq_right hq]
   have hInnerEq : (Finset.univ.filter (fun q : orbitRel.Quotient (zpowers x) (G ⧸ T) =>
         q.out.out⁻¹ * x * q.out.out ∈ U)) = Finset.univ.filter inner := by
     ext q
@@ -408,7 +412,7 @@ theorem eq_of_le_of_center_rigid {z x : G} {Y : Subgroup G}
     (hR : ∀ a ∈ Y, (∀ y ∈ Y, a * y = y * a) → ∀ g : G, g⁻¹ * z * g = a → a = z) :
     ∀ P : Subgroup G, P ≤ Subgroup.centralizer {x} → IsPGroup 2 P → Y ≤ P → P = Y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro P hPleC hP2 hYP
   by_contra hPne
   have hYPne : Y.subgroupOf P ≠ ⊤ := by
@@ -419,11 +423,11 @@ theorem eq_of_le_of_center_rigid {z x : G} {Y : Subgroup G}
     have hp' : (⟨p, hp⟩ : P) ∈ Y.subgroupOf P := by rw [htop]; trivial
     exact Subgroup.mem_subgroupOf.mp hp'
   have hYPproper : Y.subgroupOf P < ⊤ := lt_top_iff_ne_top.mpr hYPne
-  haveI : Group.IsNilpotent P := hP2.isNilpotent
+  have : Group.IsNilpotent P := hP2.isNilpotent
   have hnc : NormalizerCondition P := Group.normalizerCondition_of_isNilpotent (G := P)
   have hltN : Y.subgroupOf P < Subgroup.normalizer (Y.subgroupOf P : Set P) :=
     hnc _ hYPproper
-  obtain ⟨n, hnN, hnYP⟩ := SetLike.exists_of_lt hltN
+  obtain ⟨n, hnN, hnYP⟩ := _root_.IsConcreteLE.exists_of_lt hltN
   have hnNormY : (n : G) ∈ Subgroup.normalizer (Y : Set G) := by
     have hnsub : n ∈ (Subgroup.normalizer (Y : Set G)).subgroupOf P := by
       rw [Subgroup.subgroupOf_normalizer_eq hYP]

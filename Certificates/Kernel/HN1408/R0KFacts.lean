@@ -277,7 +277,6 @@ theorem inter_iff (hP : Nat.card ↥P1408 = 177408000) {k : Nat} (hk : k < 64) :
           (itP (U 0) (U 1) (U 2) (U 3) (U 4) (U 5) k 0)
           (itP (U 0) (U 1) (U 2) (U 3) (U 4) (U 5) k 1)) = true := by
         refine anyK_of hp ?_
-        beta_reduce
         rw [repC_pt hr (x := 0) (by norm_num), repC_pt hr (x := 1) (by norm_num),
           itq k 0 (by norm_num), itq k 1 (by norm_num)]
         exact isBase_self _ _

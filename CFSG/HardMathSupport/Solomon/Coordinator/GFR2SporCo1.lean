@@ -163,6 +163,7 @@ section Prime
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isComponentOf_map_conj_crit {C K : Subgroup G} (hK : IsComponentOf K C) {c : G}
     (hc : c ∈ C) : IsComponentOf (K.map (MulAut.conj c).toMonoidHom) C := by
   have hC : C.map (MulAut.conj c).toMonoidHom = C := by
@@ -203,6 +204,7 @@ private theorem mul_comm_of_components_ne_crit {C K L : Subgroup G} (hK : IsComp
   rw [h, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hmem
   exact congrArg Subtype.val hmem
 
+omit [Finite G] in
 private theorem dvd_of_pow_mem_normalizer_crit {K : Subgroup G} {v : G} {p : ℕ} (hp : p.Prime)
     (hvp : orderOf v = p) (hv : v ∉ Subgroup.normalizer (K : Set G)) {k : ℕ}
     (hk : v ^ k ∈ Subgroup.normalizer (K : Set G)) : p ∣ k := by
@@ -215,11 +217,13 @@ private theorem dvd_of_pow_mem_normalizer_crit {K : Subgroup G} {v : G} {p : ℕ
   rw [← hm]
   exact Subgroup.pow_mem _ hk m
 
+omit [Finite G] in
 private theorem mem_map_conj_iff_crit (K : Subgroup G) (c x : G) :
     x ∈ K.map (MulAut.conj c).toMonoidHom ↔ c⁻¹ * x * c ∈ K := by
   rw [Subgroup.mem_map_equiv]
   simp [MulAut.conj_symm_apply]
 
+omit [Finite G] in
 private theorem cube_of_map_crit {K : Subgroup G} (φ : G ≃* G)
     (hZ3 : ∀ z : G, z ∈ K → (∀ k ∈ K, k * z = z * k) → z ^ 3 = 1) :
     ∀ z : G, z ∈ K.map φ.toMonoidHom → (∀ k ∈ K.map φ.toMonoidHom, k * z = z * k) →
@@ -347,7 +351,7 @@ private theorem mulAut_alt6_eq_one_crit {p : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p)
   rcases (Nat.dvd_prime hp).1 hdvd with h1 | h1
   · exact orderOf_eq_one_iff.1 h1
   · exfalso
-    haveI : Finite (MulAut (alternatingGroup (Fin 6))) :=
+    have : Finite (MulAut (alternatingGroup (Fin 6))) :=
       Finite.of_injective
         (fun f : MulAut (alternatingGroup (Fin 6)) =>
           (f : alternatingGroup (Fin 6) → alternatingGroup (Fin 6))) DFunLike.coe_injective
@@ -434,6 +438,7 @@ private theorem eq_one_of_autCenterQuot_eq_one_crit {X : Type*} [Group X]
   rw [MulAut.one_apply]
   exact (inv_mul_eq_one.1 h1).symm
 
+omit [Finite G] in
 private theorem le_centralizer_of_normalizes_crit {K : Subgroup G} (hperf : commutator ↥K = ⊤)
     (e : (↥K ⧸ Subgroup.center ↥K) ≃* alternatingGroup (Fin 6)) {v : G} {p : ℕ}
     (hp : p.Prime) (hp7 : 7 ≤ p) (hvp : orderOf v = p)
@@ -470,7 +475,7 @@ theorem false_of_component_of_prime_elem_card {C K : Subgroup G} (hK : IsCompone
   by_cases hvN : v ∈ Subgroup.normalizer (K : Set G)
   · have hle := le_centralizer_of_normalizes_crit hK.2.2.1 e hp hp7 hvp hvN
     exact h1080 (by rw [← card_of_isHatSix h]; exact Subgroup.card_dvd_of_le hle)
-  · haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  · have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 5 h5K
     refine false_of_not_normalizes_crit hK ?_ u.2 (by rw [Subgroup.orderOf_coe]; exact hu) hv hp
       hvp hvN h5p
@@ -490,12 +495,12 @@ def fixAdd (A : Matrix (Fin 24) (Fin 24) (ZMod 2)) : AddSubgroup Vec24 where
   carrier := {v | A *ᵥ v = v}
   add_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [Matrix.mulVec_add, ha, hb]
   zero_mem' := by simp [Matrix.mulVec_zero]
   neg_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [Matrix.mulVec_neg, ha]
 
 abbrev mat (g : ↥GA) : Matrix (Fin 24) (Fin 24) (ZMod 2) :=
@@ -525,10 +530,10 @@ theorem exists_one_ne_fix_all {R S : Type*} [Group R] [MulAction R S] [Finite S]
     (hdiv : ∀ r : R, r ≠ 1 → Nat.card (MulAction.fixedBy S r) ∣ 64) :
     ∃ r : R, r ≠ 1 ∧ ∀ x : S, r • x = x := by
   classical
-  haveI : Finite R := Nat.finite_of_card_ne_zero (by rw [hR]; norm_num)
-  haveI : Fintype R := Fintype.ofFinite R
-  haveI : Fintype S := Fintype.ofFinite S
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite R := Nat.finite_of_card_ne_zero (by rw [hR]; norm_num)
+  have : Fintype R := Fintype.ofFinite R
+  have : Fintype S := Fintype.ofFinite S
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   by_contra H
   push Not at H
   have hfix : ∀ r : R, r ≠ 1 → Nat.card (MulAction.fixedBy S r) = 4 := by
@@ -556,7 +561,7 @@ theorem exists_one_ne_fix_all {R S : Type*} [Group R] [MulAction R S] [Finite S]
   have hcardR : Fintype.card R = 25 := by rw [Fintype.card_eq_nat_card]; exact hR
   have hone : Fintype.card (MulAction.fixedBy S (1 : R)) = 64 := by
     have : MulAction.fixedBy S (1 : R) = Set.univ := by
-      ext x; simp [MulAction.mem_fixedBy]
+      ext x; simp
     rw [Fintype.card_eq_nat_card, this, Nat.card_univ, hS]
   have hother : ∀ r ∈ Finset.univ.erase (1 : R), Fintype.card (MulAction.fixedBy S r) = 4 := by
     intro r hr
@@ -578,14 +583,14 @@ theorem exists_fix_pointwise_abstract {R V : Type*} [Group R] [AddCommGroup V] [
     [DistribMulAction R V] (W : AddSubgroup V) (hinv : ∀ r : R, ∀ w ∈ W, r • w ∈ W)
     (hR : Nat.card R = 25) (hW : Nat.card W = 64) :
     ∃ r : R, r ≠ 1 ∧ ∀ w ∈ W, r • w = w := by
-  letI := restrictAction W hinv
+  let := restrictAction W hinv
   have hdiv : ∀ r : R, r ≠ 1 → Nat.card (MulAction.fixedBy ↥W r) ∣ 64 := by
     intro r _
     let F : AddSubgroup ↥W := AddSubgroup.comap W.subtype
       { carrier := {v | r • v = v}
-        add_mem' := fun {a b} ha hb => by simp only [Set.mem_setOf_eq, smul_add] at *; rw [ha, hb]
+        add_mem' := fun {a b} ha hb => by simp only [Set.mem_ofPred_eq, smul_add] at *; rw [ha, hb]
         zero_mem' := by simp
-        neg_mem' := fun {a} ha => by simp only [Set.mem_setOf_eq, smul_neg] at *; rw [ha] }
+        neg_mem' := fun {a} ha => by simp only [Set.mem_ofPred_eq, smul_neg] at *; rw [ha] }
     have hfb : MulAction.fixedBy ↥W r = (F : Set ↥W) := by
       ext w
       rw [MulAction.mem_fixedBy]
@@ -604,7 +609,7 @@ theorem exists_fix_pointwise_abstract {R V : Type*} [Group R] [AddCommGroup V] [
 theorem exists_subgroup_card_25 {G : Type*} [Group G] [Finite G] (s : G)
     (hd : 25 ∣ Nat.card (Subgroup.centralizer ({s} : Set G))) :
     ∃ R : Subgroup G, Nat.card R = 25 ∧ ∀ r ∈ R, r * s = s * r := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨R0, hR0⟩ := Sylow.exists_subgroup_card_pow_prime
     (G := ↥(Subgroup.centralizer ({s} : Set G))) 5 (n := 2) (by simpa using hd)
   refine ⟨R0.map (Subgroup.centralizer ({s} : Set G)).subtype, ?_, ?_⟩
@@ -616,7 +621,7 @@ theorem exists_subgroup_card_25 {G : Type*} [Group G] [Finite G] (s : G)
 theorem exists_order_mul_of_centralizer {G : Type*} [Group G] [Finite G] {v : G} {p q : ℕ}
     (hq : q.Prime) (hpq : Nat.Coprime p q) (hv : orderOf v = p)
     (h : q ∣ Nat.card (Subgroup.centralizer ({v} : Set G))) : ∃ g : G, orderOf g = p * q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.centralizer ({v} : Set G))) q h
   have hcv : (c : G) * v = v * (c : G) := Subgroup.mem_centralizer_singleton_iff.1 c.2
@@ -644,9 +649,9 @@ theorem card_filter_mem_le {V : Type*} [AddCommGroup V] [DecidableEq V] [Finite 
     rw [hW'card] at h
     have : Nat.card U = Nat.card ↥U := rfl
     omega
-  haveI : Finite (↥U ⧸ W') :=
+  have : Finite (↥U ⧸ W') :=
     Finite.of_surjective (QuotientAddGroup.mk (s := W')) (QuotientAddGroup.mk_surjective)
-  haveI : Fintype (↥U ⧸ W') := Fintype.ofFinite _
+  have : Fintype (↥U ⧸ W') := Fintype.ofFinite _
   have hQ : Fintype.card (↥U ⧸ W') ≤ 4 := by
     rw [Fintype.card_eq_nat_card, ← AddSubgroup.index_eq_card]; exact hidx
   let f : V → ↥U ⧸ W' := fun x => if h : x ∈ U then QuotientAddGroup.mk ⟨x, h⟩ else 0
@@ -665,7 +670,7 @@ theorem card_filter_mem_le {V : Type*} [AddCommGroup V] [DecidableEq V] [Finite 
         simp only [S, Finset.mem_filter] at hx ⊢
         obtain ⟨⟨hxX, hxU⟩, hfx⟩ := hx
         refine ⟨hxX, ?_⟩
-        simp only [f, dif_pos hxU] at hfx
+        simp only [f, dite_eq_left hxU] at hfx
         have := (QuotientAddGroup.eq_zero_iff (N := W') ⟨x, hxU⟩).1 hfx
         exact this
       simp
@@ -678,7 +683,7 @@ theorem card_filter_mem_le {V : Type*} [AddCommGroup V] [DecidableEq V] [Finite 
           intro hw
           apply hq0
           rw [← hfx0]
-          simp only [f, dif_pos hx0U]
+          simp only [f, dite_eq_left hx0U]
           exact (QuotientAddGroup.eq_zero_iff (N := W') ⟨x0, hx0U⟩).2 hw
         have : (S.filter (fun x => f x = q)).card ≤ 9 := by
           refine le_trans (Finset.card_le_card ?_) (hblock x0 hx0X hx0W)
@@ -687,7 +692,7 @@ theorem card_filter_mem_le {V : Type*} [AddCommGroup V] [DecidableEq V] [Finite 
           obtain ⟨⟨hyX, hyU⟩, hfy⟩ := hy
           refine ⟨hyX, ?_⟩
           have h1 : f y = f x0 := hfy.trans hfx0.symm
-          simp only [f, dif_pos hyU, dif_pos hx0U] at h1
+          simp only [f, dite_eq_left hyU, dite_eq_left hx0U] at h1
           have := (QuotientAddGroup.eq_iff_sub_mem (N := W')).1 h1
           exact (by simpa [W', AddSubgroup.mem_addSubgroupOf] using this)
         simp [hq0]
@@ -709,7 +714,7 @@ open CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co1F (mem_certVecs_iff)
 noncomputable def Xf : Finset Vec24 := (Finset.range 98280).image certVec
 
 theorem mem_Xf_iff {w : Vec24} : w ∈ Xf ↔ w ∈ certX := by
-  simp only [Xf, Finset.mem_image, Finset.mem_range, certX, Set.mem_setOf_eq]
+  simp only [Xf, Finset.mem_image, Finset.mem_range, certX, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨i, hi, rfl⟩; exact ⟨i, hi, rfl⟩
   · rintro ⟨i, hi, rfl⟩; exact ⟨i, hi, rfl⟩
@@ -886,7 +891,7 @@ theorem pow_mulVec_of_fixed {A : Matrix (Fin 24) (Fin 24) (ZMod 2)} {w : Vec24} 
 theorem exists_fix_pointwise (s : ↥GA) (R : Subgroup ↥GA) (hRC : ∀ r ∈ R, r * s = s * r)
     (hRcard : Nat.card R = 25) (hW : Nat.card (fixAdd (mat s)) = 64) :
     ∃ r ∈ R, r ≠ 1 ∧ ∀ w ∈ fixAdd (mat s), mat r *ᵥ w = w := by
-  letI := actOnVec R
+  let := actOnVec R
   have hinv : ∀ r : ↥R, ∀ w ∈ fixAdd (mat s), r • w ∈ fixAdd (mat s) := by
     intro r w hw
     show mat (r : ↥GA) *ᵥ w ∈ fixAdd (mat s)
@@ -925,7 +930,7 @@ theorem exists_order_five_fix (s : ↥GA) (R : Subgroup ↥GA) (hRC : ∀ r ∈ 
 
   · intro w hw
     have : mat (r ^ (orderOf r / 5)) = (mat r) ^ (orderOf r / 5) := by
-      simp [mat, Subgroup.coe_pow, Units.val_pow_eq_pow_val]
+      simp [mat, Units.val_pow_eq_pow_val]
     rw [this]
     exact pow_mulVec_of_fixed (hfixW w hw) _
 
@@ -936,7 +941,7 @@ theorem no25_of_data
       (Xf.filter (fun y => y - x ∈ fixAdd (mat s))).card ≤ 9) :
     ¬ 25 ∣ Nat.card (Subgroup.centralizer ({s} : Set ↥GA)) := by
   intro hd
-  haveI : Finite ↥GA := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co1T.finite_GA
+  have : Finite ↥GA := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co1T.finite_GA
   obtain ⟨R, hRcard, hRC⟩ := exists_subgroup_card_25 s hd
   obtain ⟨r5, h5, hr5fix⟩ := exists_order_five_fix s R hRC hRcard hW
   obtain ⟨hcard, hcnt⟩ := order_five_data hG r5 h5
@@ -963,7 +968,7 @@ open CFSG.HardMathSupport.Timmesfeld.SporadicBalance.Co1T.Native (aGens)
 theorem sum_map_const_eq (p : ℕ) (l : List (List ℕ)) : (l.map (fun _ => p)).sum = l.length * p := by
   induction l with
   | nil => simp
-  | cons a l ih => simp [ih]; ring
+  | cons a l ih => simp; ring
 
 theorem expVecs_length (p r : ℕ) : (Timmesfeld.Co1Leaf.expVecs p r).length = p ^ r := by
   induction r with
@@ -1125,7 +1130,7 @@ section Thirteen
 theorem not_five_dvd_card_centralizer_thirteen (v : ↥GA) (hv : orderOf v = 13) :
     ¬ 5 ∣ Nat.card (Subgroup.centralizer ({v} : Set ↥GA)) := by
   intro h5
-  haveI : Finite ↥GA := Co1T.finite_GA
+  have : Finite ↥GA := Co1T.finite_GA
   obtain ⟨g, hg⟩ := exists_order_mul_of_centralizer (G := ↥GA) Nat.prime_five (by norm_num) hv h5
   exact CFSG.HardMathSupport.Solomon.Coordinator.I1420.noOrderSixtyFive_GA g (by rw [hg])
 
@@ -1266,7 +1271,7 @@ theorem exists_rep_root {t c : ↥GA} {j : ℕ}
 theorem exists_rep {s : ↥GA}
     (hs : orderOf s = 3) :
     ∃ k r : ↥GA, (r = eE 243 ∨ r = eE 81 ∨ r = eE 324 ∨ r = Co1T.root 2) ∧ k * r * k⁻¹ = s := by
-  haveI : Finite ↥GA := Co1T.finite_GA
+  have : Finite ↥GA := Co1T.finite_GA
   obtain ⟨g, -, hg⟩ := @Co3T.exists_conj_mem_of_full ↥GA (Subgroup.toGroup GA) 3
     ⟨Nat.prime_three⟩ ⊤ Co1T.Qg inferInstance le_top
     (by rw [Co1T.card_Qg, Co1T.factorization_card_GA]) s (Subgroup.mem_top s) hs
@@ -1326,7 +1331,7 @@ private theorem card_sporadic_Co1 (hbr : SporadicBridges) :
 private theorem oPrime_sporadic_Co1
     (hbr : SporadicBridges) :
     OPrimeCoreTrivialAt 3 (TauCeti.CFSGIndex.sporadic .Co1).Group := by
-  haveI : Finite ↥CFSG.Sporadic.Co1Schreier.GA := Co1T.finite_GA
+  have : Finite ↥CFSG.Sporadic.Co1Schreier.GA := Co1T.finite_GA
   exact @OPrimeCoreTrivialAt.of_mulEquiv 3 _ _ ↥CFSG.Sporadic.Co1Schreier.GA
     (Subgroup.toGroup CFSG.Sporadic.Co1Schreier.GA) (co1Iota hbr) Co1T.oPrimeCoreTrivialAt_GA
 
@@ -1335,8 +1340,8 @@ private theorem noHatSix_sporadic_Co1
     (K : Subgroup (TauCeti.CFSGIndex.sporadic .Co1).Group)
     (hK : CFSG.Open.IsComponentOf K (Subgroup.centralizer ({s} : Set _))) (h : IsHatSix ↥K) :
     False := by
-  haveI : Finite ↥CFSG.Sporadic.Co1Schreier.GA := Co1T.finite_GA
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .Co1).Group :=
+  have : Finite ↥CFSG.Sporadic.Co1Schreier.GA := Co1T.finite_GA
+  have : Finite (TauCeti.CFSGIndex.sporadic .Co1).Group :=
     Finite.of_equiv ↥CFSG.Sporadic.Co1Schreier.GA (co1Iota hbr).symm.toEquiv
   have hkt := @Co1Spor.kill_transport (TauCeti.CFSGIndex.sporadic .Co1).Group
     ↥CFSG.Sporadic.Co1Schreier.GA _ (Subgroup.toGroup CFSG.Sporadic.Co1Schreier.GA) (co1Iota hbr)

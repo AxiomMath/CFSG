@@ -143,7 +143,7 @@ private lemma fs_eq_span_singleton_of_ne_zero_mem {K V : Type*} [Field K] [AddCo
     le_antisymm hle (Submodule.span_le.mpr (by simpa using hx))
   refine ⟨hF, ?_⟩
   rw [hF]
-  haveI : Module.Finite K ↥(Submodule.span K {x}) := FiniteDimensional.span_singleton K x
+  have : Module.Finite K ↥(Submodule.span K {x}) := FiniteDimensional.span_singleton K x
   rw [Module.natCard_eq_pow_finrank (K := K), finrank_span_singleton hx0, pow_one]
 
 private def fs_fixed {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
@@ -187,7 +187,7 @@ theorem exists_fixed_sylow_eq_span {ι K : Type} [Fintype ι] [DecidableEq ι] [
     intro hsub
     have hle1 : Nat.card ↥F ≤ 1 := Finite.card_le_one_iff_subsingleton.mpr hsub
     omega
-  haveI : Nontrivial ↥F := not_subsingleton_iff_nontrivial.mp hnotsub
+  have : Nontrivial ↥F := not_subsingleton_iff_nontrivial.mp hnotsub
   obtain ⟨a, b, hab⟩ := Nontrivial.exists_pair_ne (α := ↥F)
   have hb0 : ((a : ι → K) - (b : ι → K)) ≠ 0 :=
     sub_ne_zero.mpr (fun h => hab (Subtype.ext h))

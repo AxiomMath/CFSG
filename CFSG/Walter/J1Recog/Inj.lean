@@ -259,7 +259,7 @@ theorem exists_normal_nineteen {N : Subgroup (Pres .O1a)} [N.Normal] (hN : Nat.c
   have hmul := (P19 : Subgroup N).card_mul_index
   rw [hN] at hmul
   have hcard : Nat.card (P19 : Subgroup N) = 19 := by
-    obtain ⟨k, hk⟩ := P19.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P19.isPGroup.exists_card_eq
     have hdvd : 19 ^ k ∣ 209 := ⟨_, by rw [← hk, hmul]⟩
     have hk1 : k ≤ 1 := by
       by_contra h

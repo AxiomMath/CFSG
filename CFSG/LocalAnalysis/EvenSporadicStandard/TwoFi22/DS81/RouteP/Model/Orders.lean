@@ -112,7 +112,7 @@ theorem exists_mem_E0_of_facts
 
 theorem two_pow_le_card_E0 :
     2 ^ 11 ≤ Nat.card E0 := by
-  haveI : Finite E0 := finite_and_card_E0_le.1
+  have : Finite E0 := finite_and_card_E0_le.1
   have hT : EpsPairTreeFacts objTabs (epsTreeData objTabs 3 6) 3 6 2048 :=
     EpsPairTreeFacts.of_pairTreeOK objFacts.epsTree
   have hex := exists_mem_E0_of_facts hT

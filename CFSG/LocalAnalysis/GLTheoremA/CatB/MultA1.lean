@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem u6_card_center (K : Subgroup G) :
     ∃ k : ℕ, Nat.card (Subgroup.center (PQuot 3 K)) = 3 ^ k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact IsPGroup.iff_card.mp (I2611.isPGroup_center_pQuot' Nat.prime_three K)
 
 theorem lieIndex_isG2n {S : Type} [Group S] {n : ℕ} (h : catalogIs S (S10.isG2n n)) :
@@ -87,7 +87,7 @@ theorem center_eq_bot_of_dvd_two {Q : Type} [Group Q] [Finite Q]
     (hZ : IsPGroup 3 (Subgroup.center Q)) (hd : Nat.card (Subgroup.center Q) ∣ 2) :
     Subgroup.center Q = ⊥ := by
   by_contra hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   exact false_of_pGroup_dvd Nat.prime_three hZ hd (by norm_num)
 
 theorem center_pQuot_eq_bot_G2 (hGA : CFSG.Open.GriessAllModelsStatement) {X L : Subgroup G} {n : ℕ}

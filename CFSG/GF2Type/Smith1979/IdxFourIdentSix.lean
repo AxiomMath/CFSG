@@ -95,7 +95,7 @@ private theorem index_map_inf {A : Type} [CommGroup A] [Finite A] (hA3 : ∀ a :
     {θ : A} (hθ1 : θ ≠ 1) {G : Type} [Group G] (ψ : A →* G) (hψs : Function.Surjective ψ)
     (hker : ψ.ker = Subgroup.zpowers θ) {H₁ H₂ : Subgroup A} (h₁ : H₁.index = 3)
     (h₂ : H₂.index = 3) (hne : H₁ ≠ H₂) (hθ : θ ∉ H₁) : ((H₁ ⊓ H₂).map ψ).index = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Nat.card (Subgroup.zpowers θ) = 3 := by
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime (hA3 θ) hθ1
@@ -174,7 +174,7 @@ private theorem false_of_card_five {A : Type} [CommGroup A] [Finite A]
 
 theorem six_weights
     {A : Type} [CommGroup A] [Finite A] (hA3 : ∀ a : A, a ^ 3 = 1) (hcard : Nat.card A = 243)
-    {ρ : A →* G12} (hρ : Function.Injective ρ) (hρg : ∀ a, ρ a ∈ gammaU) {θ : A}
+    {ρ : A →* G12} (hρ : Function.Injective ρ) (_hρg : ∀ a, ρ a ∈ gammaU) {θ : A}
     (hθ : ρ θ = theta0e)
     (ψ : A →* A4) (hψs : Function.Surjective ψ) (hψk : ∀ a, ψ a = 1 ↔ a ∈ Subgroup.zpowers θ)
     (β : Gen → (A ≃* A)) (b : Gen → G12) (hb : ∀ k a, b k * ρ a * (b k)⁻¹ = ρ (β k a))
@@ -185,9 +185,9 @@ theorem six_weights
       (⨆ i, LemmaW.weightSpace (rep ρ) (H i) = ⊤) ∧
       (∀ H' : Subgroup A, H'.index = 3 → LemmaW.weightSpace (rep ρ) H' ≠ ⊥ → ∃ i, H' = H i) ∧
       (∀ k i, ∃ j, (H i).map (β k).toMonoidHom = H j) := by
-  clear hρg
+  clear _hρg
   classical
-  haveI : Fintype (Subgroup A) := Fintype.ofFinite _
+  have : Fintype (Subgroup A) := Fintype.ofFinite _
   obtain ⟨S, hS⟩ : ∃ S : Finset (Subgroup A), S = (Finset.univ.filter
       fun H : Subgroup A => H.index = 3).filter fun H => LemmaW.weightSpace (rep ρ) H ≠ ⊥ :=
     ⟨_, rfl⟩

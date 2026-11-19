@@ -44,7 +44,7 @@ theorem a10t1_gamma_map {K L : Type} [Group K] [Group L] (ψ : K ≃* L) (S : Su
   rw [MonoidHom.map_closure]
   congr 1
   ext g'
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨g, ⟨B, hBS, hB1, hg⟩, rfl⟩
     refine ⟨B.map ψ.toMonoidHom, Subgroup.map_le_iff_le_comap.2 hBS, ?_, ?_⟩

@@ -30,9 +30,9 @@ theorem pushNew_spec (P : ℕ → Prop) : ∀ (ns todo : List ℕ) (seen : ℕ),
     have hPn : P n := hn n List.mem_cons_self
     have hns : ∀ k ∈ ns, P k := fun k hk => hn k (List.mem_cons_of_mem n hk)
     by_cases h : seen.testBit n = true
-    · rw [pushNew, if_pos h]
+    · rw [pushNew, ite_eq_left h]
       exact pushNew_spec P ns todo seen hns ht hs
-    · rw [pushNew, if_neg h]
+    · rw [pushNew, ite_eq_right h]
       refine pushNew_spec P ns (n :: todo) (seen ||| 1 <<< n) hns (fun m hm => ?_) (fun k hk => ?_)
       · rcases List.mem_cons.1 hm with rfl | hm
         · exact hPn

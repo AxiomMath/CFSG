@@ -31,6 +31,7 @@ theorem wUV_form :
   rw [Φρ_three D] at h'
   linear_combination h'
 
+omit [Finite S] in
 theorem Φρ_apply_gens (a b c : ℤ) :
     Φρ D (a • gen (StrothTypeIndex.t100 m).k 0 + b • gen (StrothTypeIndex.t100 m).k 1 +
         c • gen (StrothTypeIndex.t100 m).k 2) =
@@ -68,6 +69,7 @@ theorem Φρ_apply_gens (a b c : ℤ) :
   simp only [zero_mul, one_mul, zero_add, add_zero]
   congr 1 <;> ring
 
+omit [Finite S] in
 theorem Φu_apply_gens (a b c : ℤ) :
     Φu D (a • gen (StrothTypeIndex.t100 m).k 0 + b • gen (StrothTypeIndex.t100 m).k 1 +
         c • gen (StrothTypeIndex.t100 m).k 2) =
@@ -104,7 +106,7 @@ theorem Φu_apply_gens (a b c : ℤ) :
   rw [hu00, hu01, hu02, hu10, hu11, hu12, hu20, hu21, hu22]
   simp only [zero_mul, one_mul, zero_add, add_zero]
 
-theorem bit_eta (hm : 1 ≤ m) {ε δ θ η : ℕ} (hδ : δ ≤ 1) (hη : η ≤ 1)
+theorem bit_eta (_hm : 1 ≤ m) {ε δ θ η : ℕ} (hδ : δ ≤ 1) (hη : η ≤ 1)
     (hX : xU D hBC hrel hdC hdB hL = ((ε : ℤ) * 2 ^ (m - 1)) • gen (StrothTypeIndex.t100 m).k 0 +
       ((δ : ℤ) * 2 ^ m) • gen (StrothTypeIndex.t100 m).k 1 +
       ((δ : ℤ) * 2 ^ m) • gen (StrothTypeIndex.t100 m).k 2)
@@ -137,6 +139,7 @@ theorem bit_eta (hm : 1 ≤ m) {ε δ θ η : ℕ} (hδ : δ ≤ 1) (hη : η �
     nlinarith [ht]
   omega
 
+omit [Finite S] in
 theorem Φt_apply_gens (a b c : ℤ) :
     Φt D (a • gen (StrothTypeIndex.t100 m).k 0 + b • gen (StrothTypeIndex.t100 m).k 1 +
         c • gen (StrothTypeIndex.t100 m).k 2) =
@@ -166,6 +169,7 @@ theorem Φt_apply_gens (a b c : ℤ) :
   simp only [zero_mul, one_mul, zero_add, add_zero]
   congr 1 <;> ring
 
+omit [Finite S] in
 theorem Φuv_apply_gens (a b c : ℤ) :
     Φuv D (a • gen (StrothTypeIndex.t100 m).k 0 + b • gen (StrothTypeIndex.t100 m).k 1 +
         c • gen (StrothTypeIndex.t100 m).k 2) =
@@ -192,7 +196,7 @@ theorem Φuv_apply_gens (a b c : ℤ) :
   have hv22 : (StrothTypeIndex.t100 m).action.uv 2 2 = 1 := by
     show Type100.uvM 2 2 = 1; decide
   rw [hv00, hv01, hv02, hv10, hv11, hv12, hv20, hv21, hv22]
-  simp only [zero_mul, one_mul, zero_add, add_zero]
+  simp only [one_mul]
 
 theorem neg_gens {k : Fin 3 → ℕ} (a b c : ℤ) :
     -(a • gen k 0 + b • gen k 1 + c • gen k 2) =
@@ -276,6 +280,7 @@ noncomputable def zAdj (D : StrothTypeData B (StrothTypeIndex.t100 m)) (α θ δ
   D.c ^ (((α : ℤ) * 2 ^ (m - 1))) * D.a ^ (((θ : ℤ) * 2 ^ m)) *
     D.b ^ ((((θ : ℤ) - (δ : ℤ)) * 2 ^ m))
 
+omit [Finite S] in
 theorem ec_zAdj (D : StrothTypeData B (StrothTypeIndex.t100 m)) (α θ δ : ℕ) :
     D.ec (zAdj D α θ δ) = ((α : ℤ) * 2 ^ (m - 1)) • gen (StrothTypeIndex.t100 m).k 0 +
       ((θ : ℤ) * 2 ^ m) • gen (StrothTypeIndex.t100 m).k 1 +
@@ -305,6 +310,7 @@ theorem two_pow_succ_eq_four {m : ℕ} (hm : 1 ≤ m) : (2 : ℤ) ^ (m + 1) = 4 
   norm_num
   ring
 
+omit [Finite S] in
 theorem zAdj_sq (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m)
     (α θ δ : ℕ) : zAdj D α θ δ * zAdj D α θ δ = 1 := by
   apply D.ec_injective
@@ -348,6 +354,7 @@ theorem zAdj_sq (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m)
   · simpa using h1
   · simpa using h2
 
+omit [Finite S] in
 theorem eq_c_zpow_mul_a_b (D : StrothTypeData B (StrothTypeIndex.t100 m)) {β : B} {i j l : ℤ}
     (h : D.ec β = i • gen (StrothTypeIndex.t100 m).k 0 + j • gen (StrothTypeIndex.t100 m).k 1 +
       l • gen (StrothTypeIndex.t100 m).k 2) :
@@ -355,6 +362,7 @@ theorem eq_c_zpow_mul_a_b (D : StrothTypeData B (StrothTypeIndex.t100 m)) {β : 
   apply D.ec_injective
   rw [h, D.ec_mul, D.ec_mul, D.ec_zpow, D.ec_zpow, D.ec_zpow, D.ec_c, D.ec_a, D.ec_b]
 
+omit [Finite S] in
 theorem E_e_inclusion (E : TorusBasisEquiv D hBC d hdC) (hd2 : d * d = (D.c : S))
     (β : B) {i j l : ℤ}
     (hβ : D.ec β = i • gen (StrothTypeIndex.t100 m).k 0 + j • gen (StrothTypeIndex.t100 m).k 1 +
@@ -405,20 +413,24 @@ noncomputable def zS (D : StrothTypeData B (StrothTypeIndex.t100 m)) (α θ δ :
 noncomputable def dAdj (D : StrothTypeData B (StrothTypeIndex.t100 m)) (d : S) (α θ δ : ℕ) : S :=
   d * zS D α θ δ
 
+omit [Finite S] in
 theorem zS_mem {B : Subgroup S} (D : StrothTypeData B (StrothTypeIndex.t100 m)) (α θ δ : ℕ) :
     zS D α θ δ ∈ B := by
   show ((zAdj D α θ δ : B) : S) ∈ B
   exact (zAdj D α θ δ).2
 
+omit [Finite S] in
 theorem zS_sq (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hm : 1 ≤ m) (α θ δ : ℕ) :
     zS D α θ δ * zS D α θ δ = 1 := by
   have h := zAdj_sq D hm α θ δ
   simpa [zS] using congrArg (Subtype.val) h
 
+omit [Finite S] in
 theorem dAdj_mem {B C : Subgroup S} (D : StrothTypeData B (StrothTypeIndex.t100 m))
     (hBC : B ≤ C) {d : S} (hdC : d ∈ C) (α θ δ : ℕ) : dAdj D d α θ δ ∈ C :=
   C.mul_mem hdC (hBC (zAdj D α θ δ).2)
 
+omit [Finite S] in
 theorem dAdj_notMem {B : Subgroup S} (D : StrothTypeData B (StrothTypeIndex.t100 m))
     (hm : 1 ≤ m) {d : S} (hdB : d ∉ B) (α θ δ : ℕ) : dAdj D d α θ δ ∉ B := by
   intro h
@@ -433,7 +445,7 @@ theorem dAdj_sq {B C : Subgroup S} (D : StrothTypeData B (StrothTypeIndex.t100 m
     (hrel : Nat.card C = 2 * Nat.card B) {d : S} (hdC : d ∈ C)
     (hd2 : d * d = (D.c : S)) (hm : 1 ≤ m) (α θ δ : ℕ) :
     dAdj D d α θ δ * dAdj D d α θ δ = (D.c : S) := by
-  letI : CommGroup C := { mul_comm := comm_of_le_centralizer D hBC hC hrel }
+  let : CommGroup C := { mul_comm := comm_of_le_centralizer D hBC hC hrel }
   have hcomm : (⟨dAdj D d α θ δ, dAdj_mem D hBC hdC α θ δ⟩ : C) =
       (⟨d, hdC⟩ : C) * ⟨zS D α θ δ, hBC (zS_mem D α θ δ)⟩ := rfl
   have hz : (⟨zS D α θ δ, hBC (zS_mem D α θ δ)⟩ : C) * ⟨zS D α θ δ, hBC (zS_mem D α θ δ)⟩ = 1 := by
@@ -462,6 +474,7 @@ end Adjust
 
 section ConjAdj
 
+omit [Finite S] in
 theorem conj_dAdj {B C : Subgroup S} (D : StrothTypeData B (StrothTypeIndex.t100 m))
     (hBC : B ≤ C) {d : S} (hdC : d ∈ C) (hm : 1 ≤ m) (α θ δ : ℕ)
     {g : S} (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B)
@@ -538,7 +551,7 @@ noncomputable def bUV' (D : StrothTypeData B (StrothTypeIndex.t100 m))
 
 theorem ec_bU' (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
     (hrel : Nat.card C = 2 * Nat.card B) {d : S} (hdC : d ∈ C) (hdB : d ∉ B)
-    (hL : D.L ≤ Subgroup.normalizer C) (hm : 1 ≤ m) (α θ δ ε : ℕ) (hε : ε ≤ 1)
+    (hL : D.L ≤ Subgroup.normalizer C) (hm : 1 ≤ m) (α θ δ ε : ℕ) (_hε : ε ≤ 1)
     (hX : xU D hBC hrel hdC hdB hL = ((ε : ℤ) * 2 ^ (m - 1)) • gen (StrothTypeIndex.t100 m).k 0 +
       ((δ : ℤ) * 2 ^ m) • gen (StrothTypeIndex.t100 m).k 1 +
       ((δ : ℤ) * 2 ^ m) • gen (StrothTypeIndex.t100 m).k 2) :
@@ -575,12 +588,12 @@ theorem ec_bT' (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
     (t1 := (α : ℤ) - ((θ : ℤ) - (δ : ℤ))) (t2 := 0) ?_ ?_ ?_
   · rw [t100k_zero]
     obtain ⟨s, rfl⟩ : ∃ s, m = s + 1 := ⟨m - 1, (Nat.sub_add_cancel hm).symm⟩
-    try simp only [Nat.add_sub_cancel, Nat.add_sub_cancel_right]
+    try simp only [Nat.add_sub_cancel]
     rw [pow_succ]
     ring
   · rw [t100k_one]
     obtain ⟨s, rfl⟩ : ∃ s, m = s + 1 := ⟨m - 1, (Nat.sub_add_cancel hm).symm⟩
-    try simp only [Nat.add_sub_cancel, Nat.add_sub_cancel_right]
+    try simp only [Nat.add_sub_cancel]
     rw [pow_succ]
     ring
   · rw [t100k_two, hq]
@@ -602,17 +615,15 @@ theorem ec_bR' (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
     (t1 := (δ : ℤ)) (t2 := (θ : ℤ)) ?_ ?_ ?_
   · rw [t100k_zero]
     obtain ⟨s, rfl⟩ : ∃ s, m = s + 1 := ⟨m - 1, (Nat.sub_add_cancel hm).symm⟩
-    try simp only [Nat.add_sub_cancel, Nat.add_sub_cancel_right]
+    try simp only [Nat.add_sub_cancel]
     rw [pow_succ]
     ring
   · rw [t100k_one, hη]
     obtain ⟨s, rfl⟩ : ∃ s, m = s + 1 := ⟨m - 1, (Nat.sub_add_cancel hm).symm⟩
-    try simp only [Nat.add_sub_cancel, Nat.add_sub_cancel_right]
     rw [pow_succ]
     ring
   · rw [t100k_two]
     obtain ⟨s, rfl⟩ : ∃ s, m = s + 1 := ⟨m - 1, (Nat.sub_add_cancel hm).symm⟩
-    try simp only [Nat.add_sub_cancel, Nat.add_sub_cancel_right]
     rw [pow_succ]
     ring
 
@@ -644,17 +655,17 @@ theorem ec_bUV' (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
     (t2 := 3 * (θ : ℤ) - (α : ℤ)) ?_ ?_ ?_
   · rw [t100k_zero, hη]
     obtain ⟨s, rfl⟩ : ∃ s, m = s + 1 := ⟨m - 1, (Nat.sub_add_cancel hm).symm⟩
-    try simp only [Nat.add_sub_cancel, Nat.add_sub_cancel_right]
+    try simp only [Nat.add_sub_cancel]
     rw [pow_succ]
     ring
   · rw [t100k_one, hq, hη]
     obtain ⟨s, rfl⟩ : ∃ s, m = s + 1 := ⟨m - 1, (Nat.sub_add_cancel hm).symm⟩
-    try simp only [Nat.add_sub_cancel, Nat.add_sub_cancel_right]
+    try simp only [Nat.add_sub_cancel]
     rw [pow_succ]
     ring
   · rw [t100k_two, hη]
     obtain ⟨s, rfl⟩ : ∃ s, m = s + 1 := ⟨m - 1, (Nat.sub_add_cancel hm).symm⟩
-    try simp only [Nat.add_sub_cancel, Nat.add_sub_cancel_right]
+    try simp only [Nat.add_sub_cancel]
     rw [pow_succ]
     ring
 
@@ -666,9 +677,10 @@ section Images
 
 variable {B C : Subgroup S} {m : ℕ}
 
+omit [Finite S] in
 theorem E_image_d (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C) (hd2 : d * d = (D.c : S)) (E : TorusBasisEquiv D hBC d hdC)
-    {g : S} (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B)
+    {g : S} (hgC : g ∈ Subgroup.normalizer C) (_hgB : g ∈ Subgroup.normalizer B)
     {b : B} (hb : conjBy hgC (⟨d, hdC⟩ : C) = ⟨d, hdC⟩ * Subgroup.inclusion hBC b)
     {i j l : ℤ} (h : D.ec b = i • gen (StrothTypeIndex.t100 m).k 0 +
       j • gen (StrothTypeIndex.t100 m).k 1 + l • gen (StrothTypeIndex.t100 m).k 2) :
@@ -681,6 +693,7 @@ theorem E_image_d (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C
   rw [hsub, E_e_inclusion (D := D) (hBC := hBC) (hdC := hdC) (hd2 := hd2) (E := E) (β := b) (hβ := h)]
   module
 
+omit [Finite S] in
 theorem E_image_a (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C) (hd2 : d * d = (D.c : S)) (E : TorusBasisEquiv D hBC d hdC)
     {g : S} (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B)
@@ -694,6 +707,7 @@ theorem E_image_a (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C
   rw [hsub]
   exact E_e_inclusion (D := D) (hBC := hBC) (hdC := hdC) (hd2 := hd2) (E := E) (β := _) (hβ := h)
 
+omit [Finite S] in
 theorem E_image_b (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C) (hd2 : d * d = (D.c : S)) (E : TorusBasisEquiv D hBC d hdC)
     {g : S} (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B)
@@ -716,48 +730,56 @@ section ConjCoords
 
 variable {B C : Subgroup S} {m : ℕ}
 
+omit [Finite S] in
 theorem ec_conj_a_u (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     D.ec (conjBy D.u_mem D.a) = (0 : ℤ) • gen (StrothTypeIndex.t100 m).k 0 +
       (0 : ℤ) • gen (StrothTypeIndex.t100 m).k 1 + (1 : ℤ) • gen (StrothTypeIndex.t100 m).k 2 := by
   rw [ec_conj_u, StrothTypeData.ec_a]
   simpa using Φu_apply_gens (D := D) (m := m) 0 1 0
 
+omit [Finite S] in
 theorem ec_conj_a_t (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     D.ec (conjBy D.t_mem D.a) = (0 : ℤ) • gen (StrothTypeIndex.t100 m).k 0 +
       (-1 : ℤ) • gen (StrothTypeIndex.t100 m).k 1 + (0 : ℤ) • gen (StrothTypeIndex.t100 m).k 2 := by
   rw [ec_conj_t, StrothTypeData.ec_a]
   simpa using Φt_apply_gens (D := D) (m := m) 0 1 0
 
+omit [Finite S] in
 theorem ec_conj_a_ρ (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     D.ec (conjBy D.ρ_mem D.a) = (0 : ℤ) • gen (StrothTypeIndex.t100 m).k 0 +
       (0 : ℤ) • gen (StrothTypeIndex.t100 m).k 1 + (1 : ℤ) • gen (StrothTypeIndex.t100 m).k 2 := by
   rw [ec_conj_ρ, StrothTypeData.ec_a]
   simpa using Φρ_apply_gens (D := D) (m := m) 0 1 0
 
+omit [Finite S] in
 theorem ec_conj_a_uv (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     D.ec (conjBy D.uv_mem D.a) = (2 : ℤ) • gen (StrothTypeIndex.t100 m).k 0 +
       (1 : ℤ) • gen (StrothTypeIndex.t100 m).k 1 + (2 : ℤ) • gen (StrothTypeIndex.t100 m).k 2 := by
   rw [ec_conj_uv, StrothTypeData.ec_a]
   simpa using Φuv_apply_gens (D := D) (m := m) 0 1 0
 
+omit [Finite S] in
 theorem ec_conj_b_u (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     D.ec (conjBy D.u_mem D.b) = (0 : ℤ) • gen (StrothTypeIndex.t100 m).k 0 +
       (1 : ℤ) • gen (StrothTypeIndex.t100 m).k 1 + (0 : ℤ) • gen (StrothTypeIndex.t100 m).k 2 := by
   rw [ec_conj_u, StrothTypeData.ec_b]
   simpa using Φu_apply_gens (D := D) (m := m) 0 0 1
 
+omit [Finite S] in
 theorem ec_conj_b_t (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     D.ec (conjBy D.t_mem D.b) = (-2 : ℤ) • gen (StrothTypeIndex.t100 m).k 0 +
       (-2 : ℤ) • gen (StrothTypeIndex.t100 m).k 1 + (-1 : ℤ) • gen (StrothTypeIndex.t100 m).k 2 := by
   rw [ec_conj_t, StrothTypeData.ec_b]
   simpa using Φt_apply_gens (D := D) (m := m) 0 0 1
 
+omit [Finite S] in
 theorem ec_conj_b_ρ (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     D.ec (conjBy D.ρ_mem D.b) = (-2 : ℤ) • gen (StrothTypeIndex.t100 m).k 0 +
       (-1 : ℤ) • gen (StrothTypeIndex.t100 m).k 1 + (-1 : ℤ) • gen (StrothTypeIndex.t100 m).k 2 := by
   rw [ec_conj_ρ, StrothTypeData.ec_b]
   simpa using Φρ_apply_gens (D := D) (m := m) 0 0 1
 
+omit [Finite S] in
 theorem ec_conj_b_uv (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     D.ec (conjBy D.uv_mem D.b) = (2 : ℤ) • gen (StrothTypeIndex.t100 m).k 0 +
       (2 : ℤ) • gen (StrothTypeIndex.t100 m).k 1 + (1 : ℤ) • gen (StrothTypeIndex.t100 m).k 2 := by
@@ -834,7 +856,7 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
             (conj_dAdj (D := hB.data) hBC hdC hm α θ δ (hL hB.data.uv_mem_L) hB.data.uv_mem
               (conj_eq_bUV (D := hB.data) hBC hrel hdC hdB hL))
             (ec_bUV' (D := hB.data) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (ε := 0) (q := q) (η := η) (hq := hqq) (hη := hee) (hY := hY) (hZ := hZ)), Type300.uv_c (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b, Nat.cast_zero, zero_mul, zero_smul, sub_zero]
+        simp only [Torus.c, Torus.a, Torus.b, Nat.cast_zero, zero_mul]
         refine gens_eq_of_mul (t0 := -3 * (α : ℤ)) (t1 := 0) (t2 := 0) ?_ ?_ ?_
         · rw [show ((2 : ℤ) ^ (Type300.k (m + 1)) 0) = 2 ^ (m + 1) by simp [Type300.k]]
           linear_combination (3 * (α : ℤ)) * two_mul_two_pow_int m
@@ -861,13 +883,13 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
             (conj_dAdj (D := hB.data) hBC hdC hm α θ δ (hL hB.data.t_mem_L) hB.data.t_mem
               (conj_eq_bT (D := hB.data) hBC hrel hdC hdB hL))
             (ec_bT' (D := hB.data) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (ε := 0) (q := q) (hq := hqq) (hY := hY)), Type300.t_c (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b, Nat.cast_zero, zero_mul, zero_smul]
+        simp only [Torus.c, Torus.a, Nat.cast_zero, zero_mul, zero_smul]
         module
       · change E.e (Additive.ofMul (conjBy (hL hB.data.t_mem_L) (⟨hB.data.a, hBC hB.data.a.2⟩ : C))) =
           (Type300.action (m + 1)).φt (gen (Type300.k (m + 1)) 1)
         rw [E_image_a (D := hB.data) hBC hd'C hd'2 E (hL hB.data.t_mem_L) hB.data.t_mem
             (ec_conj_a_t hB.data), Type300.t_a (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b]
+        simp only [Torus.a]
         module
       · change E.e (Additive.ofMul (conjBy (hL hB.data.t_mem_L) (⟨hB.data.b, hBC hB.data.b.2⟩ : C))) =
           (Type300.action (m + 1)).φt (gen (Type300.k (m + 1)) 2)
@@ -883,20 +905,20 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
         rw [E_image_d (D := hB.data) hBC hd'C hd'2 E (hL hB.data.u_mem_L) hB.data.u_mem
             (conj_dAdj (D := hB.data) hBC hdC hm α θ δ (hL hB.data.u_mem_L) hB.data.u_mem
               (conj_eq_bU (D := hB.data) hBC hrel hdC hdB hL))
-            (ec_bU' (D := hB.data) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (ε := 0) (hε := by omega) (hX := hX)), Type300.u_c (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b, Nat.cast_zero, zero_mul, zero_smul]
+            (ec_bU' (D := hB.data) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (ε := 0) (_hε := by omega) (hX := hX)), Type300.u_c (m + 1)]
+        simp only [Torus.c, Nat.cast_zero, zero_mul, zero_smul]
         module
       · change E.e (Additive.ofMul (conjBy (hL hB.data.u_mem_L) (⟨hB.data.a, hBC hB.data.a.2⟩ : C))) =
           (Type300.action (m + 1)).φu (gen (Type300.k (m + 1)) 1)
         rw [E_image_a (D := hB.data) hBC hd'C hd'2 E (hL hB.data.u_mem_L) hB.data.u_mem
             (ec_conj_a_u hB.data), Type300.u_a (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b]
+        simp only [Torus.b]
         module
       · change E.e (Additive.ofMul (conjBy (hL hB.data.u_mem_L) (⟨hB.data.b, hBC hB.data.b.2⟩ : C))) =
           (Type300.action (m + 1)).φu (gen (Type300.k (m + 1)) 2)
         rw [E_image_b (D := hB.data) hBC hd'C hd'2 E (hL hB.data.u_mem_L) hB.data.u_mem
             (ec_conj_b_u hB.data), Type300.u_b (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b]
+        simp only [Torus.a]
         module
     ·
       intro j
@@ -907,13 +929,13 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
             (conj_dAdj (D := hB.data) hBC hdC hm α θ δ (hL hB.data.ρ_mem_L) hB.data.ρ_mem
               (conj_eq_bR (D := hB.data) hBC hrel hdC hdB hL))
             (ec_bR' (D := hB.data) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (η := η) (hη := hee) (hZ := hZ)), Type300.rho_c (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b, Nat.cast_zero, zero_mul, zero_smul]
+        simp only [Torus.c, zero_smul]
         module
       · change E.e (Additive.ofMul (conjBy (hL hB.data.ρ_mem_L) (⟨hB.data.a, hBC hB.data.a.2⟩ : C))) =
           (Type300.action (m + 1)).φρ (gen (Type300.k (m + 1)) 1)
         rw [E_image_a (D := hB.data) hBC hd'C hd'2 E (hL hB.data.ρ_mem_L) hB.data.ρ_mem
             (ec_conj_a_ρ hB.data), Type300.rho_a (m + 1)]
-        simp only [Torus.c, Torus.a, Torus.b]
+        simp only [Torus.b]
         module
       · change E.e (Additive.ofMul (conjBy (hL hB.data.ρ_mem_L) (⟨hB.data.b, hBC hB.data.b.2⟩ : C))) =
           (Type300.action (m + 1)).φρ (gen (Type300.k (m + 1)) 2)
@@ -938,7 +960,7 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
           try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
-        simp only [Nat.cast_one, one_mul, Nat.cast_zero, zero_mul, zero_smul]
+        simp only [Nat.cast_one, one_mul]
         refine gens_eq_of_mul (t0 := -3 * (α : ℤ)) (t1 := 0) (t2 := 0) ?_ ?_ ?_
         · rw [show ((2 : ℤ) ^ (Type300.k (m + 1)) 0) = 2 ^ (m + 1) by simp [Type300.k]]
           linear_combination (3 * (α : ℤ)) * two_mul_two_pow_int m
@@ -950,7 +972,6 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
         rw [show (Type310.action (m + 1) (by omega)).φuv (gen (Type310.k (m + 1)) 1) =
             (4 : ℤ) • gen (Type300.k (m + 1)) 0 + (1 : ℤ) • gen (Type300.k (m + 1)) 1 + (2 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.uv_a (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module
@@ -987,7 +1008,7 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
           try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
-        simp only [Nat.cast_one, one_mul, Nat.cast_zero, zero_mul, zero_smul]
+        simp only [Nat.cast_one, one_mul]
         rw [two_pow_succ_int hm]
         module
       · change E.e (Additive.ofMul (conjBy (hL hB.data.t_mem_L) (⟨hB.data.a, hBC hB.data.a.2⟩ : C))) = (Type310.action (m + 1) (by omega)).φt (gen (Type310.k (m + 1)) 1)
@@ -996,7 +1017,6 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
         rw [show (Type310.action (m + 1) (by omega)).φt (gen (Type310.k (m + 1)) 1) =
             (0 : ℤ) • gen (Type300.k (m + 1)) 0 + (-1 : ℤ) • gen (Type300.k (m + 1)) 1 + (0 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.t_a (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module
@@ -1006,7 +1026,6 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
         rw [show (Type310.action (m + 1) (by omega)).φt (gen (Type310.k (m + 1)) 2) =
             (-4 : ℤ) • gen (Type300.k (m + 1)) 0 + (-2 : ℤ) • gen (Type300.k (m + 1)) 1 + (-1 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.t_b (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module
@@ -1017,14 +1036,14 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
         rw [E_image_d (D := hB.data) hBC hd'C hd'2 E (hL hB.data.u_mem_L) hB.data.u_mem
             (conj_dAdj (D := hB.data) hBC hdC hm α θ δ (hL hB.data.u_mem_L) hB.data.u_mem
               (conj_eq_bU (D := hB.data) hBC hrel hdC hdB hL))
-            (ec_bU' (D := hB.data) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (ε := 1) (hε := by omega) (hX := hX))]
+            (ec_bU' (D := hB.data) (hBC := hBC) (hrel := hrel) (hdC := hdC) (hdB := hdB) (hL := hL) (hm := hm) (α := α) (θ := θ) (δ := δ) (ε := 1) (_hε := by omega) (hX := hX))]
         rw [show (Type310.action (m + 1) (by omega)).φu (gen (Type310.k (m + 1)) 0) =
             ((2 : ℤ) * 2 ^ (m - 1) + 1) • gen (Type300.k (m + 1)) 0 + (0 : ℤ) • gen (Type300.k (m + 1)) 1 + (0 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.u_c (m + 1) (by omega)]
           try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
-        simp only [Nat.cast_one, one_mul, Nat.cast_zero, zero_mul, zero_smul]
+        simp only [Nat.cast_one, one_mul, zero_smul]
         module
       · change E.e (Additive.ofMul (conjBy (hL hB.data.u_mem_L) (⟨hB.data.a, hBC hB.data.a.2⟩ : C))) = (Type310.action (m + 1) (by omega)).φu (gen (Type310.k (m + 1)) 1)
         rw [E_image_a (D := hB.data) hBC hd'C hd'2 E (hL hB.data.u_mem_L) hB.data.u_mem
@@ -1032,7 +1051,6 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
         rw [show (Type310.action (m + 1) (by omega)).φu (gen (Type310.k (m + 1)) 1) =
             (0 : ℤ) • gen (Type300.k (m + 1)) 0 + (0 : ℤ) • gen (Type300.k (m + 1)) 1 + (1 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.u_a (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module
@@ -1042,7 +1060,6 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
         rw [show (Type310.action (m + 1) (by omega)).φu (gen (Type310.k (m + 1)) 2) =
             (0 : ℤ) • gen (Type300.k (m + 1)) 0 + (1 : ℤ) • gen (Type300.k (m + 1)) 1 + (0 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.u_b (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module
@@ -1057,10 +1074,9 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
         rw [show (Type310.action (m + 1) (by omega)).φρ (gen (Type310.k (m + 1)) 0) =
             (1 : ℤ) • gen (Type300.k (m + 1)) 0 + (0 : ℤ) • gen (Type300.k (m + 1)) 1 + (0 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.rho_c (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
-        simp only [Torus.c, Torus.a, Torus.b, Nat.cast_zero, zero_mul, zero_smul]
+        simp only [zero_smul]
         module
       · change E.e (Additive.ofMul (conjBy (hL hB.data.ρ_mem_L) (⟨hB.data.a, hBC hB.data.a.2⟩ : C))) = (Type310.action (m + 1) (by omega)).φρ (gen (Type310.k (m + 1)) 1)
         rw [E_image_a (D := hB.data) hBC hd'C hd'2 E (hL hB.data.ρ_mem_L) hB.data.ρ_mem
@@ -1068,7 +1084,6 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
         rw [show (Type310.action (m + 1) (by omega)).φρ (gen (Type310.k (m + 1)) 1) =
             (0 : ℤ) • gen (Type300.k (m + 1)) 0 + (0 : ℤ) • gen (Type300.k (m + 1)) 1 + (1 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.rho_a (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module
@@ -1078,7 +1093,6 @@ theorem hasStrothType_t300_or_t310_of_noInvolutionsCentralizing
         rw [show (Type310.action (m + 1) (by omega)).φρ (gen (Type310.k (m + 1)) 2) =
             (-4 : ℤ) • gen (Type300.k (m + 1)) 0 + (-1 : ℤ) • gen (Type300.k (m + 1)) 1 + (-1 : ℤ) • gen (Type300.k (m + 1)) 2 from by
           rw [Type310.rho_b (m + 1) (by omega)]
-          try rw [show m + 1 - 2 = m - 1 from by omega]
           simp only [Torus.c, Torus.a, Torus.b]
           rfl]
         module

@@ -26,7 +26,7 @@ theorem mem_sup_of_conj_mem_of_mem_centralizer (ht : Setup194Three K z)
   have hNC := ht.normEq
   have hcl : ∀ h : G, h * z * h⁻¹ ∈ (S : Subgroup G) →
       h * z * h⁻¹ ∈ R ⊔ Subgroup.zpowers (g * z * g⁻¹) := fun h hh =>
-    mem_sup_of_allTypeTwo ht hA hR hRK S.isPGroup' hRS hSN hSz htS htz hh
+    mem_sup_of_allTypeTwo ht hA hR hRK S.isPGroup hRS hSN hSz htS htz hh
   set t := g * z * g⁻¹ with htdef
   have ht2 : t * t = 1 := by
     calc t * t = g * (z * z) * g⁻¹ := by rw [htdef]; group

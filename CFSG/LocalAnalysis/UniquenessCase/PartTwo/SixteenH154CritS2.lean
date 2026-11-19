@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16h_barSub_isElemAbelian {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {E : Subgroup G}
     {q : ℕ} (hE : IsElemAbelian q E) : IsElemAbelian q (barSub V₀ V hV E) :=
   (hE.subgroupOf (stabTil V₀ V)).map (actTil V₀ V hV)
@@ -23,7 +24,7 @@ theorem s16h_barSub_le_normalizer_of_s15_le_two (D : Data G) {V₀ V L : Subgrou
     barSub V₀ V h.isElemAbelian E ≤
       normalizer (barSub V₀ V h.isElemAbelian L : Set (MulAut (Vtil V₀ V h.isElemAbelian))) := by
   intro y hy
-  haveI : Finite (MulAut (Vtil V₀ V h.isElemAbelian)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V h.isElemAbelian)) := MulEquiv.finite_left
   exact s15GapFour_mem_normalizer_of_odd (Mbar D.M V₀ V h.isElemAbelian)
     (barSub V₀ V h.isElemAbelian L) hs (barSub_mono V₀ V h.isElemAbelian hEM hy) hq
     ((s16h_barSub_isElemAbelian h.isElemAbelian hE).2 y hy)
@@ -122,7 +123,7 @@ theorem s16h_hyp154_of_unique₁_two (D : Data G) {V₀ V L : Subgroup G} (h : H
     refine le_bot_iff.1 (iSup₂_le fun X hX => ?_)
     exfalso
     obtain ⟨hXw, hXx, hXy⟩ := hX
-    haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+    have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
     have hsub : ({X, conjSubgroup (wSub V₀ V hV L) x, conjSubgroup (wSub V₀ V hV L) y} :
         Set (Subgroup G)) ⊆ wConj D.M V₀ V hV L := by
       intro Z hZ

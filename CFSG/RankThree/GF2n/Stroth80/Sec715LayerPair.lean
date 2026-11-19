@@ -41,7 +41,7 @@ theorem vActLin_one : vActLin hS ht 1 = LinearMap.id := by
 
 @[expose] def vAct :
     ↥(bar M Q (Rt M (LB M Q B) t)) →* (↥(hc.VtSub hS.model t) ≃ₗ[K] ↥(hc.VtSub hS.model t)) where
-  toFun x := LinearEquiv.ofLinear (vActLin hS ht x) (vActLin hS ht x⁻¹)
+  toFun x := LinearEquiv.ofLinearMap (vActLin hS ht x) (vActLin hS ht x⁻¹)
     (by rw [← vActLin_mul, mul_inv_cancel, vActLin_one])
     (by rw [← vActLin_mul, inv_mul_cancel, vActLin_one])
   map_one' := LinearEquiv.ext fun w => by
@@ -80,12 +80,12 @@ theorem deltaSub_facts {f : ↥(S714.wsub hS t) →ₗ[K] M₀.E} (hf : f ∈ de
 
 @[expose] def betaW : ↥(S714.wsub hS t) →ₗ[K] ↥(deltaSub hS t) →ₗ[K] ↥(hc.VtSub hS.model t) :=
   LinearMap.mk₂ K
-    (fun w f => ⟨(f : ↥(S714.wsub hS t) →ₗ[K] M₀.E) w,
-      (deltaSub_facts h310chi h52a hS hs hr f.2).1 w⟩)
-    (fun w w' f => Subtype.ext (map_add _ _ _))
-    (fun c w f => Subtype.ext (map_smul _ _ _))
-    (fun w f f' => Subtype.ext rfl)
-    (fun c w f => Subtype.ext rfl)
+    (fun _w _f => ⟨(_f : ↥(S714.wsub hS t) →ₗ[K] M₀.E) _w,
+      (deltaSub_facts h310chi h52a hS hs hr _f.2).1 _w⟩)
+    (fun _w _w' _f => Subtype.ext (map_add _ _ _))
+    (fun _c _w _f => Subtype.ext (map_smul _ _ _))
+    (fun _w _f _f' => Subtype.ext rfl)
+    (fun _c _w _f => Subtype.ext rfl)
 
 theorem vInW_le_ker_betaW : vInW hS t ≤ LinearMap.ker (betaW h310chi h52a hS hs hr) := by
   intro w hw
@@ -192,7 +192,6 @@ theorem delta_conj_of_stab (g : Mbar M Q) (hg : g ∈ bar M Q (H0 M Z))
   simp only [S714.dmap]
   rw [act_mul_apply, act_mul_apply, map_sub, hinv]
 
-variable [(Q.subgroupOf M).Normal] in
 theorem stab_wsub_of_mem_NormH0 (hZt : Sec7ZtStatement) (hZcard : Sec7ZCardStatement)
     {n' : ℕ} (hs : Sec7Hyp hc n' t) {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) {g : G} (hg : g ∈ NormH0 M Z Z0) :

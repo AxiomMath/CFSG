@@ -36,6 +36,7 @@ private theorem coe_uniCast (h : UnitaryFieldData 2 f K) (m : ℕ)
   simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
   rw [coe_suEquiv_apply, coe_coe_blkEmb, coe_suEquiv_symm]
 
+omit [Finite K] [CharP K 2] in
 private theorem blkMat_castSucc_eq_of_mem_unitaryBlock (h : UnitaryFieldData 2 f K) (m : ℕ)
     {A : unitarySU 2 f K (m + 1)}
     (hA : A ∈ unitaryBlock h (Finset.univ.map Fin.castSuccEmb)) :

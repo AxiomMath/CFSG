@@ -24,9 +24,9 @@ theorem Gj_apply [NeZero p] (ζ α : K) (j : ℕ) (a b : Fin p) :
 theorem mul_Zm_apply (ζ : K) (M : Matrix (Fin p) (Fin p) K) (a b : Fin p) :
     (M * (Zm ζ : Matrix (Fin p) (Fin p) K)) a b = M a b * ζ ^ (b : ℕ) := by
   rw [Matrix.mul_apply, Finset.sum_eq_single b]
-  · rw [Zm_apply, if_pos rfl]
+  · rw [Zm_apply, ite_eq_left rfl]
   · intro c _ hc
-    rw [Zm_apply, if_neg hc, mul_zero]
+    rw [Zm_apply, ite_eq_right hc, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ b) h
 
@@ -49,7 +49,7 @@ theorem herm_sum_smul_right {σ : K ≃+* K} {ι : Type*} [Fintype ι] {n : ℕ}
     (Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring)
 
 theorem HeisFrameP.card_eq {σ : K ≃+* K} {m n : ℕ} [NeZero p] {X Y : Matrix (Fin n) (Fin n) K}
-    {α ζ : K} (F : HeisFrameP σ p n m X Y α ζ) (hσ : ∀ c, σ (σ c) = c) : n = p * m := by
+    {α ζ : K} (F : HeisFrameP σ p n m X Y α ζ) (_hσ : ∀ c, σ (σ c) = c) : n = p * m := by
   classical
   let v : Fin p × Fin m → (Fin n → K) := fun x => F.f x.1 x.2
   have hon : ∀ x i : Fin p × Fin m, herm σ (v x) (v i) = if x = i then 1 else 0 := by
@@ -83,7 +83,7 @@ theorem HeisFrameP.exists_matrix {σ : K ≃+* K} [NeZero p] {X Y : Matrix (Fin 
     have h1 := congrFun (F.hX b 0) i
     simp only [Pi.smul_apply, smul_eq_mul, Matrix.mulVec, dotProduct] at h1
     simp only [Matrix.mul_apply, Matrix.of_apply, Gj_apply, mul_ite, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true, zero_mul, pow_zero, one_mul]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true, zero_mul, pow_zero, one_mul]
     rw [h1]
     split_ifs <;> ring
   · ext i a
@@ -102,7 +102,7 @@ variable {ℓ f n : ℕ}
 
 theorem exists_heisFrameP [Finite K] [Fact ℓ.Prime] [CharP K ℓ] [NeZero p]
     (h : UnitaryFieldData ℓ f K)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ ℓ ^ f + 1) {X Y : Matrix (Fin n) (Fin n) K}
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hpq : p ∣ ℓ ^ f + 1) {X Y : Matrix (Fin n) (Fin n) K}
     {α ζ : K} (hζ : IsPrimitiveRoot ζ p) (hα0 : α ≠ 0) (hX : X ^ p = α • 1) (hY : Y ^ p = 1)
     (hYX : Y * X = ζ • (X * Y))
     (hXu : ∀ u v, herm (unitaryInvolution K ℓ f) (X *ᵥ u) (X *ᵥ v) =
@@ -135,7 +135,7 @@ theorem exists_heisFrameP [Finite K] [Fact ℓ.Prime] [CharP K ℓ] [NeZero p]
     fun j => Module.End.eigenspace YT (1 * ζ ^ (j : ℕ)) with hE
   have hsup : ⨆ j, E j = ⊤ := NonPth.iSup_eigenspace_eq_top_p hp hpK hζ one_ne_zero hYTp
   have hmem : ∀ j v, v ∈ E j ↔ Y *ᵥ v = ζ ^ (j : ℕ) • v := fun j v => by
-    simp [hE, Module.End.mem_eigenspace_iff, hYT, Matrix.toLin'_apply]
+    simp [hE, hYT, Matrix.toLin'_apply]
   have hshift : ∀ (l : K) (v : Fin n → K), Y *ᵥ v = l • v →
       Y *ᵥ (X *ᵥ v) = (ζ * l) • (X *ᵥ v) := by
     intro l v hv

@@ -83,7 +83,7 @@ theorem lt_of_pow_three_dvd {M B q : ℕ} (hM0 : 0 < M) (hB : M < B ^ 3) (hq : q
 
 theorem subsingleton_of_mulEquiv_projSU_three_two {X : Type} [Group X] [Finite X]
     [Group.IsPerfect X] (e : X ≃* projSU 3 2 1) : Subsingleton X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc := KS14.card_projSU_three_mul_gcd 2 1 le_rfl
   rw [← Nat.card_congr e.toEquiv] at hc
   have h72 : Nat.card X = 72 := by norm_num at hc; omega
@@ -190,7 +190,7 @@ variable {S : Type} [Group S] [Finite S]
 
 theorem exists_card_eq_mul_two_pow (K : Subgroup S) :
     ∃ a : ℕ, Nat.card K = Nat.card (K ⧸ CFSG.pCore 2 K) * 2 ^ a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 K)).exists_card_eq
   exact ⟨a, by rw [← ha, ← Subgroup.card_eq_card_quotient_mul_card_subgroup]⟩
 
@@ -309,7 +309,7 @@ theorem autFix_conj (s : S) : autFix (MulAut.conj s) = Subgroup.centralizer ({s}
 variable [Finite S]
 
 theorem noCfgS429_of_good (h : ∀ σ : MulAut S, σ ^ 3 = 1 → σ ≠ 1 → Good429 (autFix σ)) :
-    NoCfgS429 S := fun A σ K hc =>
+    NoCfgS429 S := fun _A σ K hc =>
   h σ (hc.isE27.1.2 σ hc.mem) hc.ne_one K hc.le_autFix hc.isPerfect hc.isSubnormal hc.isType
 
 open CFSG.ComponentClassification.OuterAutomorphisms (Outer) in
@@ -345,8 +345,8 @@ variable {S : Type} [Group S] [Finite S]
 theorem good429_of_card {C : Subgroup S} {M B : ℕ} (hC : Nat.card C = M) (hB : M < B ^ 3)
     (hfree : typeOrders M B = []) : Good429 C := by
   intro K hKC hKp hKs hT
-  haveI := hKp
-  haveI := nontrivial_of_isType429 hT
+  have := hKp
+  have := nontrivial_of_isType429 hT
   have hM0 : 0 < M := hC ▸ Nat.card_pos
   refine not_isType429_of_dvd hM0 hB hfree ?_ hT
   obtain ⟨a, ha⟩ := exists_card_eq_mul_two_pow K
@@ -356,8 +356,8 @@ theorem good429_of_card {C : Subgroup S} {M B : ℕ} (hC : Nat.card C = M) (hB :
 theorem good429_of_card_dvd {C : Subgroup S} {M B : ℕ} (hC : Nat.card C ∣ M) (hM0 : 0 < M)
     (hB : M < B ^ 3) (hfree : typeOrders M B = []) : Good429 C := by
   intro K hKC hKp hKs hT
-  haveI := hKp
-  haveI := nontrivial_of_isType429 hT
+  have := hKp
+  have := nontrivial_of_isType429 hT
   refine not_isType429_of_dvd hM0 hB hfree ?_ hT
   obtain ⟨a, ha⟩ := exists_card_eq_mul_two_pow K
   have h1 : Nat.card (K ⧸ CFSG.pCore 2 K) ∣ Nat.card K := ha ▸ Dvd.intro _ rfl
@@ -374,7 +374,7 @@ theorem le_of_isPerfect_of_card_le {C D K : Subgroup S} (hDC : D ≤ C) (hKC : K
     rw [hHcard] at hmul
     have hD0 : 0 < Nat.card D := Nat.card_pos
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : Nat.card D * 5 ≤ Nat.card D * H.index := Nat.mul_le_mul_left _ hlt
     omega
   set N := H.normalCore
@@ -382,13 +382,13 @@ theorem le_of_isPerfect_of_card_le {C D K : Subgroup S} (hDC : D ≤ C) (hKC : K
     (H.index_normalCore_dvd_factorial_index).trans (by
       interval_cases h : H.index <;> decide)
   set K' : Subgroup C := K.subgroupOf C
-  haveI : Group.IsPerfect K' :=
+  have : Group.IsPerfect K' :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hKC).symm.toMonoidHom)
       (MulEquiv.surjective _)
-  haveI : Group.IsPerfect (K'.map (QuotientGroup.mk' N)) := Group.IsPerfect.map _
+  have : Group.IsPerfect (K'.map (QuotientGroup.mk' N)) := Group.IsPerfect.map _
   have hcard : Nat.card (K'.map (QuotientGroup.mk' N)) ∣ 24 :=
     (Subgroup.card_subgroup_dvd_card _).trans hNidx
-  haveI : Subsingleton (K'.map (QuotientGroup.mk' N)) :=
+  have : Subsingleton (K'.map (QuotientGroup.mk' N)) :=
     subsingleton_of_isPerfect_of_card_primeFactors (primeFactors_card_le_two_of_dvd
       (a := 3) (b := 1) Nat.prime_two Nat.prime_three (hcard.trans (by norm_num)))
   have hbot : K'.map (QuotientGroup.mk' N) = ⊥ := Subgroup.eq_bot_of_subsingleton _
@@ -397,7 +397,8 @@ theorem le_of_isPerfect_of_card_le {C D K : Subgroup S} (hDC : D ≤ C) (hKC : K
   have hk' : (⟨k, hKC hk⟩ : C) ∈ K' := hk
   exact (H.normalCore_le (hbot hk'))
 
-theorem isSubnormal_subgroupOf_of_le {C D K : Subgroup S} (hDC : D ≤ C) (hKD : K ≤ D)
+omit [Finite S] in
+theorem isSubnormal_subgroupOf_of_le {C D K : Subgroup S} (hDC : D ≤ C) (_hKD : K ≤ D)
     (h : (K.subgroupOf C).IsSubnormal) : (K.subgroupOf D).IsSubnormal := by
   have heq : (K.subgroupOf C).comap (Subgroup.inclusion hDC) = K.subgroupOf D := by
     ext x
@@ -413,13 +414,13 @@ theorem eq_of_isSubnormal_of_index {D K : Subgroup S} [Group.IsPerfect D] (hKD :
     intro htop
     exact hne (le_antisymm hKD (Subgroup.subgroupOf_eq_top.mp htop))
   obtain ⟨N, hN, hKN, hNtop⟩ := hs.exists_normal_and_le_and_lt_top_of_ne hne'
-  haveI := hN
+  have := hN
   have hdvd : N.index ∣ (K.subgroupOf D).index := Subgroup.index_dvd_of_le hKN
   have h2' : (Nat.card (D ⧸ N)).primeFactors.card ≤ 2 := by
     rw [← Subgroup.index]
     exact (Finset.card_le_card (Nat.primeFactors_mono hdvd
       (Subgroup.index_ne_zero_of_finite))).trans h2
-  haveI := subsingleton_of_isPerfect_of_card_primeFactors h2'
+  have := subsingleton_of_isPerfect_of_card_primeFactors h2'
   have hNt : N = ⊤ := by
     rw [← Subgroup.index_eq_one]
     rw [Subgroup.index, Nat.card_eq_one_iff_unique]
@@ -434,7 +435,7 @@ theorem good429_of_residual {C D : Subgroup S} (hDC : D ≤ C) (hidx : Nat.card 
     [Group.IsPerfect D] {M B : ℕ} (hM : Nat.card D = M) (hB : M < B ^ 3) (h64 : M < 2 ^ 64)
     (hres : residOK M B = true) (hD : ¬ IsType429 (D ⧸ CFSG.pCore 2 D)) : Good429 C := by
   intro K hKC hKp hKs hT
-  haveI := hKp
+  have := hKp
   have hKD : K ≤ D := le_of_isPerfect_of_card_le hDC hKC hidx
   have hs : (K.subgroupOf D).IsSubnormal := isSubnormal_subgroupOf_of_le hDC hKD hKs
   by_cases hKeq : K = D
@@ -442,7 +443,7 @@ theorem good429_of_residual {C D : Subgroup S} (hDC : D ≤ C) (hidx : Nat.card 
     exact hD hT
   · apply hKeq
     refine eq_of_isSubnormal_of_index hKD hs ?_
-    haveI := nontrivial_of_isType429 hT
+    have := nontrivial_of_isType429 hT
     have hM0 : 0 < M := hM ▸ Nat.card_pos
     obtain ⟨a, ha⟩ := exists_card_eq_mul_two_pow K
     have hKdvd : Nat.card K ∣ M := hM ▸ Subgroup.card_dvd_of_le hKD
@@ -463,7 +464,7 @@ theorem good429_of_residual {C D : Subgroup S} (hDC : D ≤ C) (hidx : Nat.card 
         have : 2 ^ a ∣ M := (Dvd.intro_left _ ha.symm).trans hKdvd
         exact Nat.le_of_dvd hM0 this
       by_contra h
-      push_neg at h
+      push Not at h
       have : 2 ^ 64 ≤ 2 ^ a := Nat.pow_le_pow_right (by norm_num) h
       omega
     simp only [residOK, List.all_eq_true, List.mem_range, Bool.or_eq_true, Bool.not_eq_true',
@@ -482,7 +483,7 @@ theorem not_isType429_quot_of_noEqOK {D : Subgroup S} [Group.IsPerfect D] {M B :
     (hM : Nat.card D = M) (hB : M < B ^ 3) (h64 : M < 2 ^ 64) (h : noEqOK M B = true) :
     ¬ IsType429 (D ⧸ CFSG.pCore 2 D) := by
   intro hT
-  haveI := nontrivial_of_isType429 hT
+  have := nontrivial_of_isType429 hT
   have hM0 : 0 < M := hM ▸ Nat.card_pos
   obtain ⟨a, ha⟩ := exists_card_eq_mul_two_pow D
   have hmem := card_mem_typeOrders hM0 hB hT
@@ -490,7 +491,7 @@ theorem not_isType429_quot_of_noEqOK {D : Subgroup S} [Group.IsPerfect D] {M B :
   have ha64 : a < 64 := by
     have h2a : 2 ^ a ≤ M := Nat.le_of_dvd hM0 (hM ▸ (Dvd.intro_left _ ha.symm))
     by_contra hge
-    push_neg at hge
+    push Not at hge
     have : 2 ^ 64 ≤ 2 ^ a := Nat.pow_le_pow_right (by norm_num) hge
     omega
   simp only [noEqOK, List.all_eq_true, List.mem_range, decide_eq_true_eq] at h

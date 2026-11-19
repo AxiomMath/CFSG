@@ -163,7 +163,7 @@ theorem diagonal_step
   have hut : t⁻¹ * u * t = u * s := congrArg Subtype.val hu't
   have husMt : u * s ∈ MtG := by
     refine ⟨t'⁻¹ * u' * t', ⟨u', hu'M, ?_⟩, ?_⟩
-    · simp [MulAut.conj_apply]
+    · simp
     · change t⁻¹ * u * t = u * s
       exact hut
   have hsuc : s * u = u * s := mem_centralizer_singleton_iff.mp hsu

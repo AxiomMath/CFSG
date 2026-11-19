@@ -70,7 +70,7 @@ theorem mem_fixedFieldImage_of_cube {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 
   have hm : h ^ (Nat.card K - 1) = 1 :=
     pow_card_sub_one_eq_one_of_mem_torusGroup (Subgroup.mem_inf.1 hh).1
   set G := entrywiseFixedGroup Tag.D4 σ
-  haveI : (fixedFieldImage Tag.D4 σ).subgroupOf G |>.Normal := inferInstance
+  have : (fixedFieldImage Tag.D4 σ).subgroupOf G |>.Normal := inferInstance
   let h' : G := ⟨h, hhΓ⟩
   let j' : G := ⟨j, hjΓ⟩
   have hj1 : (QuotientGroup.mk j' : G ⧸ (fixedFieldImage Tag.D4 σ).subgroupOf G) = 1 :=
@@ -420,8 +420,8 @@ theorem field_case_card_le [CharP K 3] {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K
     apply embedSub_injective σ
     rw [hβ]
     exact hA'fix _ hx
-  haveI : Finite ↥(fixSubfield σ) := inferInstance
-  haveI : CharP ↥(fixSubfield σ) 3 := charP_three_of_card hcardfix
+  have : Finite ↥(fixSubfield σ) := inferInstance
+  have : CharP ↥(fixSubfield σ) 3 := charP_three_of_card hcardfix
   have hbound := chev_card_le β hβ3 hβnot A₀ hA₀ab hA₀fix
   rw [hcard] at hbound
   calc Nat.card A ≤ Nat.card ↥(fixSubfield σ) ^ 4 := hbound

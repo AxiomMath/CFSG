@@ -12,7 +12,7 @@ open scoped commutatorElement IsMulCommutative
 
 variable {G : Type*} [Group G]
 
-@[expose] abbrev QB (V B U : Subgroup G) [IsMulCommutative ↥V] : Type _ :=
+abbrev QB (V B U : Subgroup G) [IsMulCommutative ↥V] : Type _ :=
   QMod (W := ↥V) (B.subgroupOf V) (U.subgroupOf V)
 
 @[expose] def qb (V B U : Subgroup G) [IsMulCommutative ↥V] (b : ↥(B.subgroupOf V)) : QB V B U :=
@@ -147,7 +147,7 @@ theorem ptActLe_ker_of {V B U P : Subgroup G} [PtActCentralAbelian P U]
     (hBP : B ≤ P) : QB V B U →+ Additive (↥P ⧸ U.subgroupOf P) :=
   MonoidHom.toAdditive (QuotientGroup.lift ((U.subgroupOf V).subgroupOf (B.subgroupOf V))
     ((QuotientGroup.mk' (U.subgroupOf P)).comp (ptActIncl V B P hBP))
-    (ptActLe_ker_of (ptActIncl V B P hBP) fun x hx =>
+    (ptActLe_ker_of (ptActIncl V B P hBP) fun _x hx =>
       Subgroup.mem_subgroupOf.mp (Subgroup.mem_subgroupOf.mp hx)))
 
 @[expose] def ptActF2 (V B U P A : Subgroup G) (h : G) [IsMulCommutative ↥V]
@@ -426,7 +426,7 @@ theorem exists_ptAct_surj {V B U P A : Subgroup G} {h : G} [IsMulCommutative ↥
     (hhB : ∀ b ∈ B, h * b * h⁻¹ ∈ A) (hhA : ∀ a ∈ A, h⁻¹ * a * h ∈ B) (hAB : A ⊓ B ≤ U) :
     ∀ p ∈ P, ∃ b₁ b₂ : ↥(B.subgroupOf V),
       p * (((b₁ : ↥V) : G) * h * ((b₂ : ↥V) : G) * h⁻¹)⁻¹ ∈ U := by
-  haveI : PtActCentralAbelian P U := ⟨hPU, hP2⟩
+  have : PtActCentralAbelian P U := ⟨hPU, hP2⟩
   have hyp : PtActSetup V B U P A h := ⟨hBV, hBP, hAP, hUA, hPeq, hhU, hhB, hhA, hAB⟩
   intro p hp
   obtain ⟨⟨x₁, x₂⟩, hx⟩ := ptActTheta_surjective hyp
@@ -445,10 +445,10 @@ theorem exists_ptAct_surj {V B U P A : Subgroup G} {h : G} [IsMulCommutative ↥
   exact h3
 
 theorem exists_ptAct {V B U P A : Subgroup G} {h : G} [IsMulCommutative ↥V]
-    (hUB : U ≤ B) (hBV : B ≤ V) (hBP : B ≤ P) (hAP : A ≤ P) (hUA : U ≤ A)
+    (_hUB : U ≤ B) (hBV : B ≤ V) (hBP : B ≤ P) (hAP : A ≤ P) (hUA : U ≤ A)
     (hPeq : P = A ⊔ B) (hP2 : ∀ p ∈ P, ∀ q ∈ P, ⁅p, q⁆ ∈ U)
     (hPU : ∀ u ∈ U, ∀ p ∈ P, p * u * p⁻¹ = u)
-    (hhP : h ∈ Subgroup.normalizer (P : Set G)) (hhU : ∀ u ∈ U, h * u * h⁻¹ = u)
+    (_hhP : h ∈ Subgroup.normalizer (P : Set G)) (hhU : ∀ u ∈ U, h * u * h⁻¹ = u)
     (hhB : ∀ b ∈ B, h * b * h⁻¹ ∈ A) (hhA : ∀ a ∈ A, h⁻¹ * a * h ∈ B) (hAB : A ⊓ B ≤ U) :
     ∃ ρ : ↥(Subgroup.normalizer (P : Set G) ⊓ Subgroup.normalizer (U : Set G)) →*
         AddMonoid.End (QB V B U × QB V B U),
@@ -460,7 +460,7 @@ theorem exists_ptAct {V B U P A : Subgroup G} {h : G} [IsMulCommutative ↥V]
         ρ g (qb V B U b₁, qb V B U b₂) = (qb V B U β₁, qb V B U β₂)) ∧
       (∀ g : ↥(Subgroup.normalizer (P : Set G) ⊓ Subgroup.normalizer (U : Set G)),
         ρ g = 1 ↔ ∀ p ∈ P, (g : G) * p * (g : G)⁻¹ * p⁻¹ ∈ U) := by
-  haveI : PtActCentralAbelian P U := ⟨hPU, hP2⟩
+  have : PtActCentralAbelian P U := ⟨hPU, hP2⟩
   have hyp : PtActSetup V B U P A h := ⟨hBV, hBP, hAP, hUA, hPeq, hhU, hhB, hhA, hAB⟩
   exact ⟨ptActRhoHom hyp, fun g b₁ b₂ => ptActCong_exists hyp g.1 g.2 b₁ b₂,
     fun g b₁ b₂ β₁ β₂ hc => ptActRho_of_cong hyp g.1 g.2 b₁ b₂ β₁ β₂ hc,

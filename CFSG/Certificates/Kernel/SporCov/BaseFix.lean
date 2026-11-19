@@ -142,8 +142,8 @@ theorem fixB_eq {hi : ℕ} (hm : n ≤ 64 * hi) (w : List ℕ) :
   intro i _
   rw [imB_eq hA hAi hB hBi w i.isLt, idx_of_lt _ i.isLt]
   by_cases h : wE (fP a b) w • i = i
-  · rw [if_pos h, h, Nat.beq_refl]
-  · rw [if_neg h]
+  · rw [ite_eq_left h, h, Nat.beq_refl]
+  · rw [ite_eq_right h]
     have hb : Nat.beq (wE (fP a b) w • i).val i.val = false := by
       cases e : Nat.beq (wE (fP a b) w • i).val i.val
       · rfl

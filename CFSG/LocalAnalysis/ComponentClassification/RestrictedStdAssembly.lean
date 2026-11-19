@@ -62,8 +62,8 @@ theorem almostSimpleRestricted_catalog_of_inputs
         Nat.prime_two, hf, lieModel_exceptional_zero (by decide) hm⟩ a ha L hLW hne hL hstd hs
     | twistedB2 => exact (not_lieModel_twistedB2 hWs hWnab hCW ha hLW hL hm).elim
     | twistedG2 => exact absurd hadm.2.2.2.1 (by decide)
-    | twistedF4 => exact (not_lieModel_large_ree_tits hWs hWnab hCW ha hLW hL (Or.inl rfl) hm).elim
-    | Tits => exact (not_lieModel_large_ree_tits hWs hWnab hCW ha hLW hL (Or.inr rfl) hm).elim
+    | twistedF4 => exact (not_lieModel_large_ree_tits hWs hWnab hCW ha hL (Or.inl rfl) hm).elim
+    | Tits => exact (not_lieModel_large_ree_tits hWs hWnab hCW ha hL (Or.inr rfl) hm).elim
   · obtain ⟨s, ⟨e⟩⟩ := hspor
     by_cases hsr : s ∈ restrictedSporadicNames
     · exact gsRestricted_of_isSporadic hsr ⟨e⟩

@@ -114,7 +114,7 @@ theorem y332Letters_odd (gens : Array Table) {j : ℕ} (hj : j < 71) :
   rw [getElem!_pos _ (2 * j + 1) (by simp; omega), Array.getElem_ofFn]
   have h1 : ¬ (2 * j + 1) % 2 = 0 := by omega
   have h2 : (2 * j + 1) / 2 = j := by omega
-  simp [h1, h2]
+  simp [h2]
 
 theorem y332Reg_lt {j : ℕ} (hj : j < 71) : y332Reg j < 113 := by
   unfold y332Reg
@@ -188,7 +188,7 @@ theorem letterPerm_succ {G : Type*} [Group G] (π : ℕ → G) {m c : ℕ} (hc :
   have h2 : ((c : ℤ) + 1 - 1).toNat = c := by omega
   have hcond : 0 < (c : ℤ) + 1 ∧ ((c : ℤ) + 1 - 1).toNat < m := ⟨h1, by rw [h2]; exact hc⟩
   unfold letterPerm
-  rw [if_pos hcond, h2]
+  rw [ite_eq_left hcond, h2]
 
 theorem evalWord_eq_wordG {G : Type*} [Group G] (π : ℕ → G) {m : ℕ} :
     ∀ w : List ℕ, (∀ c ∈ w, c < m) →

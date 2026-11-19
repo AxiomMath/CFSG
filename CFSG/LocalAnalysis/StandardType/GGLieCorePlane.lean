@@ -17,13 +17,13 @@ private theorem ggLiePlane_exists_generators {G : Type*} [Group G] {p : ℕ} (hp
     ∃ x y : G, x ∈ A ∧ y ∈ A ∧ x ≠ 1 ∧ y ∉ Subgroup.zpowers x ∧
       A = Subgroup.closure ({x, y} : Set G) := by
   classical
-  haveI : Finite ↥A :=
+  have : Finite ↥A :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 2 hp.ne_zero)
   have hcard_gt : 1 < Nat.card A := by
     rw [hcard]
     exact Nat.one_lt_pow (n := 2) (by norm_num) hp.one_lt
   have hne_bot : A ≠ ⊥ := (Subgroup.one_lt_card_iff_ne_bot A).mp hcard_gt
-  haveI : Nontrivial ↥A := (Subgroup.nontrivial_iff_ne_bot A).mpr hne_bot
+  have : Nontrivial ↥A := (Subgroup.nontrivial_iff_ne_bot A).mpr hne_bot
   obtain ⟨x, hx, hxne⟩ := Subgroup.exists_ne_one_of_nontrivial A
   have hxp : x ^ p = 1 := hel.2 x hx
   have hxorder : orderOf x = p := by
@@ -72,7 +72,7 @@ private theorem ggLiePlane_exists_generators {G : Type*} [Group G] {p : ℕ} (hp
     rcases hp.eq_one_or_self_of_dvd d hdp with h1 | h1
     · exfalso
       rw [h1, mul_one] at hd
-      haveI : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hd]; exact hp.ne_zero)
+      have : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hd]; exact hp.ne_zero)
       have heq : B = Subgroup.zpowers x := by
         refine (Subgroup.eq_of_le_of_card_ge (H := Subgroup.zpowers x) (K := B) hzxB ?_).symm
         rw [hd, hcard_zx]

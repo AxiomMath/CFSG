@@ -207,7 +207,7 @@ private lemma m6c_commutator
       minTorus e6Data_valid k (fun l => η ^ m l) * x := by
   intro hxy
   obtain ⟨K₁, hK₁fin, hroot⟩ := exists_cubeExt k
-  haveI : Finite K₁ := hK₁fin
+  have : Finite K₁ := hK₁fin
   let ι : k →+* K₁ := algebraMap k K₁
   have hιinj : Function.Injective ι := (algebraMap k K₁).injective
   obtain ⟨u', hu'⟩ := m6c_rootParams_cube ι hroot b
@@ -271,7 +271,6 @@ private lemma m6c_commutator
     m6c_eq_one_of_minTorus_eq_one (ω.foldr e6StarS vv * vv⁻¹) hone
   have hfold : ω.foldr e6StarS vv = fun l => ζ ^ ((w • m) l) := by
     rw [foldr_e6StarS_zpow (k := K₁) ζ ω m]
-    congr 1
     funext l
     rw [hw, wordProd_smul_eq_foldr]
   exact m6c_contradiction ζ vv m ω w hprod hv hfold
@@ -281,7 +280,7 @@ theorem e6_exists_noncommuting_lifts
     (k : Type) [Field k] [Finite k] (η : kˣ) (hη : orderOf η = 9)
     (n : ModGL Tag.E6 k) (w : WeylGroup Tag.E6) (hn : n ∈ adjointGroup Tag.E6 k)
     (hnm : n ∈ monomialSubgroup Tag.E6 k) (hnw : MapsRootLines n w) (m : Fin Tag.E6.rank → ℤ)
-    (hcomm : n * rootDiagUnit Tag.E6 (e6RootParams fun l => η ^ m l) =
+    (_hcomm : n * rootDiagUnit Tag.E6 (e6RootParams fun l => η ^ m l) =
       rootDiagUnit Tag.E6 (e6RootParams fun l => η ^ m l) * n)
     (hm : ∃ l, ¬ ((9 : ℤ) ∣ (w • m) l - m l)) :
     ∃ x y : ↥(e6Data_valid.minGroup k), (e6Isogeny k x : ModGL Tag.E6 k) = n ∧

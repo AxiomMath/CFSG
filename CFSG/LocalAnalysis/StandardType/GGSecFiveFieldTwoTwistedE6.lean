@@ -26,10 +26,10 @@ theorem exists_native_member_root_cover_of_rational_component
     (hC : GGConfig 3 B Bs x L D J) (hq : GGInnerDiagOnLabel GGLabQTwo 3 Bs L)
     (psi : (ggU .twistedE6 0 1).K →* G)
     (hpsi : GGPresentsG0 (ggG0 3 B x L D J) (ggU .twistedE6 0 1).D .twistedE6 0 1 psi)
-    (hdiag : GGPsiInnerDiag (ggU .twistedE6 0 1).D psi x)
+    (_hdiag : GGPsiInnerDiag (ggU .twistedE6 0 1).D psi x)
     (pi : (ggU .twistedE6 0 1).K →*
       ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * 1)) (frobQ 2 1)))
-    (hpi : Function.Surjective pi)
+    (_hpi : Function.Surjective pi)
     (hpiker : pi.ker = Subgroup.center (ggU .twistedE6 0 1).K)
     (hpival : ∀ z, ((pi z : graphFixedRootGroup TwistTag.E6
         (GaloisField 2 (2 * 1)) (frobQ 2 1)) : ModGL TwistTag.E6.tag
@@ -40,32 +40,32 @@ theorem exists_native_member_root_cover_of_rational_component
             ModGL TwistTag.E6.tag (GaloisField 2 (2 * 1))))
     (alpha : MulAut ↥(graphFixedRootGroup TwistTag.E6
       (GaloisField 2 (2 * 1)) (frobQ 2 1)))
-    (halpha : alpha ∈ LayerSixE.twInndiagAut 1) (halpha3 : alpha ^ 3 = 1)
-    (halpha_ne : alpha ≠ 1) (hind : LayerSixE.GGInduces pi psi x alpha)
+    (_halpha : alpha ∈ LayerSixE.twInndiagAut 1) (_halpha3 : alpha ^ 3 = 1)
+    (_halpha_ne : alpha ≠ 1) (_hind : LayerSixE.GGInduces pi psi x alpha)
     {M : Subgroup (ggU .twistedE6 0 1).K}
     (hM : CFSG.Assembly.IsComponentOf M ((Subgroup.centralizer {x}).comap psi))
     (hML : M.map psi = L)
-    (hN : CFSG.Assembly.IsComponentOf (M.map pi) (fixSubgroup alpha))
-    {lab : LargeEvenLabel} (hl : LargeEvenInLambda2 lab) (hn : lab.n = 1)
-    (hne : lab ≠ ⟨.twD, 2, 1⟩) (hB2 : lab.tag ≠ .B2der)
-    (hmodel : MarkedModel lab (↥(M.map pi) ⧸ Subgroup.center ↥(M.map pi)))
+    (_hN : CFSG.Assembly.IsComponentOf (M.map pi) (fixSubgroup alpha))
+    {lab : LargeEvenLabel} (_hl : LargeEvenInLambda2 lab) (_hn : lab.n = 1)
+    (_hne : lab ≠ ⟨.twD, 2, 1⟩) (_hB2 : lab.tag ≠ .B2der)
+    (_hmodel : MarkedModel lab (↥(M.map pi) ⧸ Subgroup.center ↥(M.map pi)))
     (eta : (ggU .twistedE6 0 1).K →* e6Data_valid.minGroup GGFinModel.GGL)
-    (tLift : e6Data_valid.minGroup GGFinModel.GGL) (heta : Function.Injective eta)
-    (hetaval : ∀ u, eta u = minBC e6Data_valid (GGFinModel.ggRatEmb (2 * 1))
+    (tLift : e6Data_valid.minGroup GGFinModel.GGL) (_heta : Function.Injective eta)
+    (_hetaval : ∀ u, eta u = minBC e6Data_valid (GGFinModel.ggRatEmb (2 * 1))
       (Subtype.val (show twistedE6Group 2 1 from u)))
-    (hetarange : eta.range = CFSG.LieType.Steinberg.TwistedE6.fixedGroup
+    (_hetarange : eta.range = CFSG.LieType.Steinberg.TwistedE6.fixedGroup
       GGFinModel.GGL (GGFinModel.ggFrobT 1))
-    (ht3 : tLift ^ 3 ∈ Subgroup.center (e6Data_valid.minGroup GGFinModel.GGL))
-    (htFr : CFSG.LieType.Steinberg.TwistedE6.sigma GGFinModel.GGL
+    (_ht3 : tLift ^ 3 ∈ Subgroup.center (e6Data_valid.minGroup GGFinModel.GGL))
+    (_htFr : CFSG.LieType.Steinberg.TwistedE6.sigma GGFinModel.GGL
         (GGFinModel.ggFrobT 1) tLift * tLift⁻¹ ∈
       Subgroup.center (e6Data_valid.minGroup GGFinModel.GGL))
-    (ht9 : tLift ^ 9 = 1)
-    (htcentral : tLift ∈ Subgroup.center (e6Data_valid.minGroup GGFinModel.GGL) ↔
+    (_ht9 : tLift ^ 9 = 1)
+    (_htcentral : tLift ∈ Subgroup.center (e6Data_valid.minGroup GGFinModel.GGL) ↔
       x ∈ Subgroup.centralizer (ggG0 3 B x L D J : Set G))
-    (hact : ∀ u u', psi u' = x * psi u * x⁻¹ →
+    (_hact : ∀ u u', psi u' = x * psi u * x⁻¹ →
       e6IsogenyAlgebraic (eta u') = e6IsogenyAlgebraic tLift *
         e6IsogenyAlgebraic (eta u) * (e6IsogenyAlgebraic tLift)⁻¹)
-    (hcomponent : CFSG.Assembly.IsComponentOf (M.map eta)
+    (_hcomponent : CFSG.Assembly.IsComponentOf (M.map eta)
       (CFSG.LieType.Steinberg.TwistedE6.fixedGroup GGFinModel.GGL
         (GGFinModel.ggFrobT 1) ⊓ Subgroup.centralizer {tLift}))
     (S : CFSG.HardMathSupport.Timmesfeld.LangTorus.LangSetup TwistTag.E6.tag GGFinModel.GGL 5)
@@ -77,7 +77,7 @@ theorem exists_native_member_root_cover_of_rational_component
     (hap : ∀ j, a j ^ 3 = 1)
     (h1 : CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley.rootDiagUnit TwistTag.E6.tag a ≠ 1)
     (hiota : Function.Injective iota) (hrange : iota.range = S.Γ)
-    (hcompat : ∀ c, iota (alpha c) =
+    (_hcompat : ∀ c, iota (alpha c) =
       CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley.rootDiagUnit TwistTag.E6.tag a * iota c *
         (CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley.rootDiagUnit TwistTag.E6.tag a)⁻¹)
     (hival : ∀ c, S.D.g0 * iota c * S.D.g0⁻¹ =
@@ -102,7 +102,7 @@ theorem exists_native_member_root_cover_of_rational_component
               ((ggU t n 1).D.rootGroup delta).map ((M.map pi).subtype.comp rho) := by
   have hmark : GGInnerDiagOnLabel GGLabQTwo 3 Bs L := by assumption
   have hS_q : S.D.q = 2 := by simpa only [pow_one] using hq
-  obtain ⟨t, n, rho, hadm, hrank, hrho, hker, delta, hlong, hmodel,
+  obtain ⟨t, n, rho, hadm, hrank, hrho, hker, delta, hlong, _hmodel,
     gamma, hgamma, z, hz, hpos, hneg, himage, himagem⟩ :=
     TwistedE6SourceCover.exists_native_ordinary_root_cover hC hmark psi hpsi pi hpiker
       hM hML S a iota hS_q hT hap h1 hiota i hqs hposition horbit
@@ -140,7 +140,7 @@ theorem exists_native_member_root_cover_of_rational_component
         ((ggU t n 1).D.rootGroup delta).map (iota.comp ((M.map pi).subtype.comp rho)) :=
       Subgroup.map_map _ _ _
     exact hleft.trans (hcan.trans (himage'.symm.trans hright.symm))
-  let model := Classical.choice hmodel
+  let model := Classical.choice _hmodel
   exact ⟨t, n, rho, hadm, hrank, hrho, hker, delta, model.root_mem,
     model.phi, model.injective, model.upper_eq, k, hroot⟩
 
@@ -281,9 +281,9 @@ theorem ggSecFiveQTwoFieldTwoSelectedAt_twistedE6 :
     have ht : GGPosTag t' := by
       simpa only [GGPosTag, RCKRP.RCKClassicalTag, GGExcFive, or_assoc] using
         RCKRP.rckRPG_tag_trichotomy t' n' 1 hadm hrk
-    letI : Finite (ggU .twistedE6 0 1).K :=
-      LieKnownR2.OddCenter.finite_ggU (t := .twistedE6) (by simp [GGPosTag]) hpres.1.1
-    letI : Group.IsPerfect ↥M := ⟨hM.2.2.1⟩
+    let : Finite (ggU .twistedE6 0 1).K :=
+      LieKnownR2.OddCenter.finite_ggU (t := .twistedE6) (by simp) hpres.1.1
+    let : Group.IsPerfect ↥M := ⟨hM.2.2.1⟩
     have hpiodd : Odd (Nat.card pi.ker) := by
       rw [hpiker]
       change Odd (Nat.card (Subgroup.center (twistedE6Group 2 1)))

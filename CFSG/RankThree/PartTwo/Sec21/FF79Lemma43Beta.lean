@@ -82,7 +82,7 @@ theorem good_beta_core {β γ b σ : G} {H K L D : Subgroup G}
     (hσo : orderOf σ = 2) (hσβ : σ ∈ Cen β) (hσγ : σ * γ = γ * σ) (hσb : σ * b = b * σ)
     (hσK : σ ∈ Nor K) (hσL : σ ∈ Nor L) (hA5 : FF79KO2A5) (hL3 : FF79KO2L3) :
     Good43 σ β := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ2 : σ * σ = 1 := by rw [← pow_two]; exact hσo ▸ pow_orderOf_eq_one σ
   have hσ2el : Is2El σ := ⟨1, by simpa [pow_two] using hσ2⟩
   have hσH : σ ∈ H := mem_H_of_2el hβ3 hHβ hsup hinf hσβ hσ2el

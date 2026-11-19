@@ -14,7 +14,7 @@ theorem card_le_card_inf_mul_card (K P : Subgroup Γ) [Finite K] (R : Finset Γ)
     (hR : ∀ x ∈ K, ∃ r ∈ R, x * r⁻¹ ∈ P) :
     Nat.card K ≤ Nat.card ↥(K ⊓ P) * R.card := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   choose f hfR hfP using fun x : K => hR x x.2
   have hfib : ∀ b ∈ R, (Finset.univ.filter fun a : K => f a = b).card ≤ Nat.card ↥(K ⊓ P) := by
     intro b _

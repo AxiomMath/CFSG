@@ -15,6 +15,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth
 
 variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K]
 
+omit [Finite G] in
 theorem pow_three_mem_centralizer_of_forall_fix (hK : Nat.card K = 4) {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hperf : commutator ↥L = ⊤)
@@ -293,7 +294,7 @@ theorem relPPrimeCore_le_and_not_two_dvd_index (hK : Nat.card K = 4) {ω : K}
         hcard hmap hconj
       rw [← hCeq]
       exact htC
-    haveI : (O.subgroupOf C).Normal := by
+    have : (O.subgroupOf C).Normal := by
       refine ⟨fun x hx g => ?_⟩
       have hxO : (x : G) ∈ O := Subgroup.mem_subgroupOf.mp hx
       refine Subgroup.mem_subgroupOf.mpr ?_

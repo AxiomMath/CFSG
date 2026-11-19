@@ -68,19 +68,19 @@ theorem two_ne_zero_zmod [Fact p.Prime] (hp2 : p ≠ 2) : (2 : ZMod p) ≠ 0 := 
   exact hp2 ((Nat.prime_dvd_prime_iff_eq (Fact.out) Nat.prime_two).mp h')
 
 theorem sum_pairVec (i j : Fin d) : ∑ k, pairVec p i j k = 0 := by
-  simp only [pairVec, Finset.sum_sub_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [pairVec, Finset.sum_sub_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   ring
 
 theorem sum_mul_pairVec (f : Fin d → ZMod p) (i j : Fin d) :
     ∑ k, f k * pairVec p i j k = f i - f j := by
   simp only [pairVec, mul_sub, Finset.sum_sub_distrib, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem sum_mul_pairVec_base (w : Fin d → ZMod p) (k₀ l : Fin d) :
     ∑ k, w k * pairVec p k k₀ l = w l - (if l = k₀ then ∑ k, w k else 0) := by
   by_cases hl : l = k₀
   · simp [pairVec, hl, mul_sub, Finset.sum_sub_distrib]
-  · simp [pairVec, hl, mul_sub, Finset.sum_sub_distrib]
+  · simp [pairVec, hl]
 
 namespace CobData
 
@@ -150,7 +150,7 @@ theorem Bc_add_right (a b b' : G) : C.Bc k₀ a (b + b') = C.Bc k₀ a b + C.Bc 
 
 theorem Bc_symm (a b : G) : C.Bc k₀ a b = C.Bc k₀ b a := by
   unfold Bc
-  simp only [mul_comm (C.lam a _ k₀), mul_comm (C.scHom k₀ a)]
+  simp only [mul_comm (C.lam a _ k₀)]
   ring
 
 theorem scHom_ρ (σ : Equiv.Perm (Fin d)) (a : G) :
@@ -216,7 +216,7 @@ theorem m_mem [Fact p.Prime] (i j : Fin d) : C.m i j ∈ C.Msub k₀ := by
 
 theorem gen_mem [Fact p.Prime] {a : G} (ha : a ∈ C.Msub k₀) :
     a ∈ AddSubgroup.closure (Set.range fun k : Fin d => C.m k k₀) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hka := (C.mem_Msub k₀).mp ha
   set w : Fin d → ZMod p := fun k => C.lam a k k₀ - ((d : ZMod p)⁻¹) * C.scHom k₀ a with hw
   have hwsum : ∑ k, w k = 0 := by
@@ -357,9 +357,9 @@ theorem eq_of_ρ_eq (hd : 5 ≤ d) {σ π : Equiv.Perm (Fin d)}
   have h6 : pairVec p (π i) (π j) (σ i) = - (if σ i = π j then 1 else 0) := by
     simp [pairVec, hne]
   by_cases hh : σ i = π j
-  · rw [h6, if_pos hh] at h4
+  · rw [h6, ite_eq_left hh] at h4
     exact two_ne_zero_zmod hp2 (by linear_combination h4)
-  · rw [h6, if_neg hh, neg_zero] at h4
+  · rw [h6, ite_eq_right hh, neg_zero] at h4
     exact one_ne_zero h4
 
 theorem false_of_transvection [Finite G] (hd : 5 ≤ d)

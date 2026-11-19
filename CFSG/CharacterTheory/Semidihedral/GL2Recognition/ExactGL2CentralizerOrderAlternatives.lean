@@ -14,7 +14,7 @@ open CFSG.TwoRankLowerBound.Helpers CFSG.BlockSectionOrthogonality.Helpers
 
 theorem even_orderOf_of_mem_sylow_two {G : Type*} [Group G] (S : Sylow 2 G) {s : G}
     (hs : s ∈ (S : Subgroup G)) (hs1 : s ≠ 1) : Even (orderOf s) := by
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
   have hord : orderOf s ∣ 2 ^ k := by
     rw [← Subgroup.orderOf_mk s hs]
     exact orderOf_dvd_of_pow_eq_one hk

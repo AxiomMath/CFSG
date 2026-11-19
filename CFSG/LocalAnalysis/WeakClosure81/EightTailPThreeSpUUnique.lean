@@ -28,8 +28,8 @@ private theorem wc85un_card_of_isSpGp {Y : Type} [Group Y] {m n : ℕ} (hm : 3 <
     (h : IsSpGp Y m n) :
     ∃ k : ℕ, 2 ≤ k ∧ 1 ≤ n ∧ m = 2 * k ∧ Nat.card Y = ordBC k (2 ^ n) := by
   obtain ⟨k, hk, F, hFld, hFin, hFcard, ⟨e⟩⟩ := h
-  haveI := hFld
-  haveI := hFin
+  have := hFld
+  have := hFin
   have hn1 : 1 ≤ n := by
     have h2 : 1 < 2 ^ n := by rw [← hFcard]; exact Finite.one_lt_card
     rcases Nat.eq_zero_or_pos n with rfl | h

@@ -34,7 +34,7 @@ theorem isCyclic_of_card_le_two {A : Type*} [Group A] [Finite A] (h : Nat.card A
 theorem isCyclic_center_sylow_odd {X : Type} [Group X] {t : StatedLieTag} {p f : ℕ}
     (ht : t = .PSL ∨ t = .PSU) (hp2 : p ≠ 2) (hX : StatedClassicalModel X t 3 p f)
     (T : Sylow 2 X) : IsCyclic (Subgroup.center ↥(T : Subgroup X)) :=
-  isCyclic_center_of (CFSG.GH74.KGroups.L3Eps.l3eps_center_sylow ht hp2 hX T.isPGroup'
+  isCyclic_center_of (CFSG.GH74.KGroups.L3Eps.l3eps_center_sylow ht hp2 hX T.isPGroup
     fun _ h hle => (T.maximal_isPGroup.2 h hle)).1
 
 section Unitri

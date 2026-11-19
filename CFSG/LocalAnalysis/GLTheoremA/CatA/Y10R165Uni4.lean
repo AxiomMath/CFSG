@@ -41,6 +41,7 @@ section Restriction
 
 variable [FiniteDimensional F V] {U : Submodule F V}
 
+omit [FiniteDimensional F V] in
 private theorem mem_orthogonal_of_mem_orthogonal_map {g : V ≃ₗ[F] V}
     (hgU : ∀ u ∈ U, g u = u) (hgB : ∀ x y, B (g x) (g y) = B x y) {w : V}
     (hw : w ∈ Submodule.orthogonalBilin B U) :
@@ -51,12 +52,14 @@ private theorem mem_orthogonal_of_mem_orthogonal_map {g : V ≃ₗ[F] V}
   rw [hgU n hn, hw n hn] at h1
   exact h1
 
+omit [FiniteDimensional F V] in
 private theorem symm_fixes {g : V ≃ₗ[F] V} (hgU : ∀ u ∈ U, g u = u) :
     ∀ u ∈ U, g.symm u = u := by
   intro u hu
   calc g.symm u = g.symm (g u) := by rw [hgU u hu]
     _ = u := g.symm_apply_apply u
 
+omit [FiniteDimensional F V] in
 private theorem symm_isometry {g : V ≃ₗ[F] V} (hgB : ∀ x y, B (g x) (g y) = B x y) :
     ∀ x y, B (g.symm x) (g.symm y) = B x y := by
   intro x y
@@ -64,6 +67,7 @@ private theorem symm_isometry {g : V ≃ₗ[F] V} (hgB : ∀ x y, B (g x) (g y) 
   rw [LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply] at h1
   exact h1.symm
 
+omit [FiniteDimensional F V] in
 private theorem glue_restrictEquiv_eq {W : Submodule F V} (hc : IsCompl U W)
     {g : V ≃ₗ[F] V} (hU1 : ∀ u ∈ U, g u ∈ U) (hU2 : ∀ u ∈ U, g.symm u ∈ U)
     (hW1 : ∀ w ∈ W, g w ∈ W) (hW2 : ∀ w ∈ W, g.symm w ∈ W) :
@@ -76,13 +80,14 @@ private noncomputable def restrictToComplement
     (g : ↥(pointwiseStab (sesqSpecialUnitaryGroupLE B) U)) :
     Submodule.orthogonalBilin B U ≃ₗ[F] Submodule.orthogonalBilin B U :=
   restrictEquiv _ (((g : ↥(sesqSpecialUnitaryGroupLE B)) : V ≃ₗ[F] V))
-    (fun w hw => mem_orthogonal_of_mem_orthogonal_map (mem_pointwiseStab.mp g.2)
+    (fun _w hw => mem_orthogonal_of_mem_orthogonal_map (mem_pointwiseStab.mp g.2)
       ((mem_sesqSpecialUnitaryGroupLE.mp
         (g : ↥(sesqSpecialUnitaryGroupLE B)).2).1) hw)
-    (fun w hw => mem_orthogonal_of_mem_orthogonal_map (symm_fixes (mem_pointwiseStab.mp g.2))
+    (fun _w hw => mem_orthogonal_of_mem_orthogonal_map (symm_fixes (mem_pointwiseStab.mp g.2))
       (symm_isometry ((mem_sesqSpecialUnitaryGroupLE.mp
         (g : ↥(sesqSpecialUnitaryGroupLE B)).2).1)) hw)
 
+omit [FiniteDimensional F V] in
 private theorem restrictToComplement_isometry
     (g : ↥(pointwiseStab (sesqSpecialUnitaryGroupLE B) U)) (x y :
       Submodule.orthogonalBilin B U) :
@@ -137,6 +142,7 @@ private theorem det_restrictToComplement
     simp
   rw [hcomp, ← hdetglue, hdetG]
 
+omit [FiniteDimensional F V] in
 private theorem glue_one_isometry (hrefl : B.IsRefl)
     (hc : IsCompl U (Submodule.orthogonalBilin B U))
     {h : Submodule.orthogonalBilin B U ≃ₗ[F] Submodule.orthogonalBilin B U}
@@ -156,6 +162,7 @@ private theorem glue_one_isometry (hrefl : B.IsRefl)
   rw [glue_apply, glue_apply, e1, e2]
   simp only [map_add, LinearMap.add_apply, h1, h2, h3, h4, hh w₁ w₂, add_zero, zero_add]
 
+omit [FiniteDimensional F V] in
 private theorem glue_one_fixes (hc : IsCompl U (Submodule.orthogonalBilin B U))
     {h : Submodule.orthogonalBilin B U ≃ₗ[F] Submodule.orthogonalBilin B U} :
     ∀ u ∈ U, glue hc 1 h u = u := by

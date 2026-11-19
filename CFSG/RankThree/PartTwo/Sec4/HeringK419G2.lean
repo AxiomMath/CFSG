@@ -61,7 +61,7 @@ theorem exists_involution_commute {K : Type} [Field K] [Finite K] [CharP K 2]
 theorem hasTwoWitness_g2 {n : ℕ} (hn : 2 ≤ n) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ n) {z : adjointGroup .G2 K} (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) :
     HasTwoWitness z := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hK
   have hK4 : 4 ≤ Nat.card K := by
@@ -81,7 +81,7 @@ theorem _root_.CFSG.RankThree.PartTwo.Sec4.k419AutThreeInnerG2_holds :
   have hn : 2 ≤ n := by
     obtain ⟨⟨-, hn1, -, h3⟩, -⟩ := hX
     by_contra h
-    interval_cases n <;> simp at h3 hn1
+    interval_cases n; simp at h3 hn1
   exact hasTwoWitness_of_mulEquiv e (hasTwoWitness_g2 hn hK (by rw [← map_pow, hk3, map_one])
     (fun h => hk1 (EmbeddingLike.map_eq_one_iff.mp h)))
 
@@ -123,8 +123,8 @@ theorem _root_.CFSG.RankThree.PartTwo.Sec4.k419AutThreeOuterG2_holds :
   have hn : 2 ≤ n := by
     obtain ⟨⟨-, hn1, -, h3⟩, -⟩ := hX
     by_contra h
-    interval_cases n <;> simp at h3 hn1
-  haveI : CharP K 2 :=
+    interval_cases n; simp at h3 hn1
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hK
   have hK4 : 4 ≤ Nat.card K := by

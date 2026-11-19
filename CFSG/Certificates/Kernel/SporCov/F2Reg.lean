@@ -80,9 +80,9 @@ theorem MatP_letR {a b : G} (hA : MatP d MA = matOf φ a) (hAi : MatP d MAi = ma
   rw [letRL_iff] at hc
   unfold fR
   by_cases h4 : c < 4
-  · rw [if_pos h4, letR_of_lt Ms h4]
+  · rw [ite_eq_left h4, letR_of_lt Ms h4]
     exact MatP_letF hA hAi hB hBi c
-  · rw [if_neg h4, letR_of_ge Ms (by omega)]
+  · rw [ite_eq_right h4, letR_of_ge Ms (by omega)]
     exact hg _ (by omega)
 
 theorem exists_regs {a b : G} (hA : MatP d MA = matOf φ a) (hAi : MatP d MAi = matOf φ a⁻¹)
@@ -100,11 +100,11 @@ theorem exists_regs {a b : G} (hA : MatP d MA = matOf φ a) (hAi : MatP d MAi = 
     refine ⟨fun j => if j < i then g j else wE (fR a b g) (nthW Rg i), fun j hj => ?_⟩
     beta_reduce
     by_cases hji : j < i
-    · rw [if_pos hji]
+    · rw [ite_eq_left hji]
       exact hg j hji
     · have ej : j = i := by omega
       subst ej
-      rw [if_neg (lt_irrefl j), ← Nat.eq_of_beq_eq_true h.2]
+      rw [ite_eq_right (lt_irrefl j), ← Nat.eq_of_beq_eq_true h.2]
       exact e
 
 end Kit
@@ -141,7 +141,7 @@ theorem kitR_sound {d : ℕ} {φ : G →* GL (Fin d) (ZMod 2)} (hφ : Function.I
     fun u v hu hv e => MatP_inj (by rw [key u hu, key v hv, e]) (mwR_lt u _ (idF_lt d))
       (mwR_lt v _ (idF_lt d))
   refine ⟨_, _, fR a b g, hk, Model.of_wE _ fun u v hu hv h => ?_, fun u hu h => ?_, hK,
-    fun c hc => if_pos hc⟩
+    fun c hc => ite_eq_left hc⟩
   · have e := congrArg (MatP d) (Nat.eq_of_beq_eq_true h)
     rw [key u hu, key v hv] at e
     exact hφ (Units.ext e)
@@ -178,10 +178,10 @@ theorem kitR_J (D : VecData) {csA csB : List Char} {MA MB eA eB : ℕ}
     · rw [← hMA, ← MatP_mul, Nat.eq_of_beq_eq_true h.1, MatP_id]
     · rw [← hMB, ← MatP_mul, Nat.eq_of_beq_eq_true h.2.1, MatP_id]
   have hA : MatP D.d MA = matOf (J D).subtype (a D) := by
-    rw [matOf, Subgroup.subtype_apply, a, Subtype.coe_mk, gA, dif_pos hdet.1,
+    rw [matOf, Subgroup.subtype_apply, a, Subtype.coe_mk, gA, dite_eq_left hdet.1,
       Matrix.GeneralLinearGroup.val_mkOfDetNeZero, hMA]
   have hB : MatP D.d MB = matOf (J D).subtype (b D) := by
-    rw [matOf, Subgroup.subtype_apply, b, Subtype.coe_mk, gB, dif_pos hdet.2,
+    rw [matOf, Subgroup.subtype_apply, b, Subtype.coe_mk, gB, dite_eq_left hdet.2,
       Matrix.GeneralLinearGroup.val_mkOfDetNeZero, hMB]
   exact kitR_sound Subtype.val_injective hA hB h
 

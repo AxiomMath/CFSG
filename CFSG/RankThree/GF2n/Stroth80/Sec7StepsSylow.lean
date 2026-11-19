@@ -21,8 +21,8 @@ theorem exists_act_fixed_ne_zero (h2 : ∀ e : E, e + e = 0) (ρ : X →* Multip
     (hP : ∀ a ∈ T, ∀ e ∈ P, (ρ a).toAdd e ∈ P) (hne : P ≠ ⊥) :
     ∃ u ∈ P, u ≠ 0 ∧ ∀ a ∈ T, (ρ a).toAdd u = u := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction T P :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction T P :=
     { smul := fun a e => ⟨(ρ a).toAdd e, hP a a.2 e e.2⟩
       one_smul := fun e => Subtype.ext (by
         show (ρ ((1 : T) : X)).toAdd e = e
@@ -86,7 +86,7 @@ theorem sec7_Rt_ne_LB [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ} {t 
   have hbar : bar M Q (Rt M (LB M Q B) t) = bar M Q (LB M Q B) := by rw [hR]
   have hmem : ∀ x : ↥(bar M Q (Rt M (LB M Q B) t)), (x : Mbar M Q) ∈ bar M Q (LB M Q B) :=
     fun x => Eq.mp (congrArg (fun T : Subgroup (Mbar M Q) => (x : Mbar M Q) ∈ T) hbar) x.2
-  haveI : IsMulCommutative S := ⟨⟨fun a b => by
+  have : IsMulCommutative S := ⟨⟨fun a b => by
     obtain ⟨x, rfl⟩ := hπs a
     obtain ⟨y, rfl⟩ := hπs b
     rw [← map_mul, ← map_mul]
@@ -120,8 +120,8 @@ theorem close71Sylow_of_parts (h34 : Stroth34Statement) (h310chi : Stroth310ChiS
   obtain ⟨K, fK, finK, γ, M₀, ρ, b, hS⟩ := tensorSetup_of_34 h34 G M Q Z B hc n
     hs.toSec5.width hs.toSec5.n_gt hs.toSec5.noA2 hs.toSec5.gen
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
+  have : Finite M₀.E := Module.finite_of_finite K
   obtain ⟨act, hactρ, -, hsemi⟩ := endg_act_data hc hS.model ρ hS.conj
   have hsemi' : ∀ g : Mbar M Q, ∃ σ : K ≃+* K, ∀ (c : K) (e : M₀.E),
       (ρ g).toAdd (c • e) = σ c • (ρ g).toAdd e := by

@@ -53,7 +53,7 @@ theorem exists_two_element_not_mem_centerOf [Finite X] {K : Subgroup X}
   have h := AschbacherToolkit.sylow_not_le_center hK P
   rw [IsConcreteLE.not_le_iff_exists] at h
   obtain ⟨p, hpP, hpZ⟩ := h
-  obtain ⟨n, hn⟩ := P.isPGroup' ⟨p, hpP⟩
+  obtain ⟨n, hn⟩ := P.isPGroup ⟨p, hpP⟩
   have h1 : p ^ 2 ^ n = 1 := by
     have := congrArg Subtype.val hn
     simpa using this

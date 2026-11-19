@@ -3342,7 +3342,7 @@ private theorem evalCoeff_disjoint_union_pf57
     apply Finset.sum_congr rfl
     intro X _hX
     dsimp [w]
-    rw [if_pos X.2]
+    rw [ite_eq_left X.2]
   have hright1 :
       Section1.evalCoeff
           (fun X : S1 => (X : Section1.ClassFunction L))
@@ -3435,13 +3435,13 @@ public theorem bridgeCoherentExtensions
   have himgVirt : ∀ X : U, Theory.Character.IsVirtualCharacter (img X) := by
     intro X
     by_cases hX : (X : Section1.ClassFunction L) ∈ S1
-    · simp only [img, dif_pos hX]
+    · simp only [img, dite_eq_left hX]
       exact hExt1.2.1 _ (integerSpan_of_mem S1 hX)
     · have hX2 : (X : Section1.ClassFunction L) ∈ S2 := by
         rcases Finset.mem_union.mp X.2 with hX1 | hX2
         · exact (hX hX1).elim
         · exact hX2
-      simp only [img, dif_neg hX]
+      simp only [img, dite_eq_right hX]
       exact hExt2.2.1 _ (integerSpan_of_mem S2 hX2)
   have himgGram : ∀ X Y : U,
       Section1.scalarProduct G (img X) (img Y) =
@@ -3450,7 +3450,7 @@ public theorem bridgeCoherentExtensions
     intro X Y
     by_cases hX : (X : Section1.ClassFunction L) ∈ S1
     · by_cases hY : (Y : Section1.ClassFunction L) ∈ S1
-      · simpa only [img, dif_pos hX, dif_pos hY] using
+      · simpa only [img, dite_eq_left hX, dite_eq_left hY] using
           hExt1.1 _ _ (integerSpan_of_mem S1 hX) (integerSpan_of_mem S1 hY)
       · have hY2 : (Y : Section1.ClassFunction L) ∈ S2 := by
           rcases Finset.mem_union.mp Y.2 with hY1 | hY2
@@ -3467,7 +3467,7 @@ public theorem bridgeCoherentExtensions
             (T2 (Y : Section1.ClassFunction L)) = 0 :=
           horth (Finset.mem_image.mpr ⟨X, hX, rfl⟩)
             (Finset.mem_image.mpr ⟨Y, hY2, rfl⟩)
-        simp only [img, dif_pos hX, dif_neg hY, htarget, hsource]
+        simp only [img, dite_eq_left hX, dite_eq_right hY, htarget, hsource]
     · have hX2 : (X : Section1.ClassFunction L) ∈ S2 := by
         rcases Finset.mem_union.mp X.2 with hX1 | hX2
         · exact (hX hX1).elim
@@ -3488,12 +3488,12 @@ public theorem bridgeCoherentExtensions
             (T2 (X : Section1.ClassFunction L))
             (T1 (Y : Section1.ClassFunction L)) = 0 := by
           simpa [Section1.scalarProduct_star_swap] using congrArg star hforward
-        simp only [img, dif_neg hX, dif_pos hY, htarget, hsource]
+        simp only [img, dite_eq_right hX, dite_eq_left hY, htarget, hsource]
       · have hY2 : (Y : Section1.ClassFunction L) ∈ S2 := by
           rcases Finset.mem_union.mp Y.2 with hY1 | hY2
           · exact (hY hY1).elim
           · exact hY2
-        simpa only [img, dif_neg hX, dif_neg hY] using
+        simpa only [img, dite_eq_right hX, dite_eq_right hY] using
           hExt2.1 _ _ (integerSpan_of_mem S2 hX2) (integerSpan_of_mem S2 hY2)
   have hselfNe : ∀ X : U,
       Section1.scalarProduct L (X : Section1.ClassFunction L) X ≠ 0 := by
@@ -3590,7 +3590,7 @@ public theorem bridgeCoherentExtensions
             (fun X : S1 => T1 (X : Section1.ClassFunction L)) v1 := by
               congr 1
               funext X
-              simpa only [img, dif_pos X.2] using
+              simpa only [img, dite_eq_left X.2] using
                 hTnew ⟨X, Finset.mem_union_left S2 X.2⟩
         _ = T1 η1 := by
               exact (map_evalCoeff_pf57 T1 _ v1).symm
@@ -3606,7 +3606,7 @@ public theorem bridgeCoherentExtensions
               have hXnot : (X : Section1.ClassFunction L) ∉ S1 := by
                 intro hX1
                 exact Finset.disjoint_left.mp hdisjoint hX1 X.2
-              simpa only [img, dif_neg hXnot] using
+              simpa only [img, dite_eq_right hXnot] using
                 hTnew ⟨X, Finset.mem_union_right S1 X.2⟩
         _ = T2 η2 := by
               exact (map_evalCoeff_pf57 T2 _ v2).symm

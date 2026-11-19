@@ -55,7 +55,7 @@ theorem xOp_rootVec_E6
   · have hp0 : stringUp TwistTag.E6.tag j μ = 0 := by
       by_contra hp
       exact hr (by simpa using (hstr 1).2 ⟨by omega, by exact_mod_cast Nat.pos_of_ne_zero hp⟩)
-    have h0 : rootVec TwistTag.E6.tag K (μ + Pi.single j 1) = 0 := dif_neg hr
+    have h0 : rootVec TwistTag.E6.tag K (μ + Pi.single j 1) = 0 := dite_eq_right hr
     rw [hp0, h0]
     simp
 
@@ -91,7 +91,7 @@ theorem yOp_rootVec_E6
       by_contra hq
       exact hr (by simpa [sub_eq_add_neg] using
         (hstr (-1)).2 ⟨by omega, by omega⟩)
-    have h0 : rootVec TwistTag.E6.tag K (μ - Pi.single j 1) = 0 := dif_neg hr
+    have h0 : rootVec TwistTag.E6.tag K (μ - Pi.single j 1) = 0 := dite_eq_right hr
     rw [hq0, h0]
     simp
 

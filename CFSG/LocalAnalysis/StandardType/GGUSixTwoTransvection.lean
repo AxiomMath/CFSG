@@ -23,6 +23,7 @@ variable {K : Type} [Field K]
     LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
   LargeEvenProjMk _ (tZeroSU hK)
 
+omit [Field K] in
 theorem finite_of_card_eq_four (hK : Nat.card K = 4) : Finite K :=
   Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
 
@@ -48,13 +49,13 @@ theorem coe_permSU_eq_permutationGL {n : ℕ} (h : UnitaryFieldData 2 1 K)
   · have h' : i = σ⁻¹ j := by
       rw [← h]
       exact (Equiv.symm_apply_apply σ i).symm
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : ¬ i = σ⁻¹ j := by
       intro hij
       apply h
       rw [hij]
       exact Equiv.apply_symm_apply σ j
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 theorem isDiag_permMatrix_iff {n : ℕ} (σ : Equiv.Perm (Fin n)) :
     (σ.permMatrix K).IsDiag ↔ σ = 1 := by
@@ -65,7 +66,7 @@ theorem isDiag_permMatrix_iff {n : ℕ} (σ : Equiv.Perm (Fin n)) :
     by_contra hne
     have hne' : j ≠ σ j := fun hc => hne hc.symm
     have h1 : σ.permMatrix K j (σ j) = 0 := h (i := j) (j := σ j) hne'
-    rw [permMatrix_apply, if_pos rfl] at h1
+    rw [permMatrix_apply, ite_eq_left rfl] at h1
     exact one_ne_zero h1
   · rintro rfl
     intro i j hij
@@ -102,7 +103,7 @@ theorem tZeroSU_eq_permGLSU (hK : Nat.card K = 4) :
 theorem diagGL_mem_SU_of_prod_eq_one (hK : Nat.card K = 4) {t : Fin 6 → Kˣ}
     (ht : ∏ i, t i = 1) :
     TauCeti.diagGL t ∈ LargeEvenSUGroup (Fin 6) K (2 ^ 1) := by
-  haveI : Finite K := finite_of_card_eq_four hK
+  have : Finite K := finite_of_card_eq_four hK
   rw [mem_SU_iff (fieldDataFour hK)]
   constructor
   · have h := congrArg (fun u : Kˣ => (u : K)) (TauCeti.det_diagGL t)
@@ -144,7 +145,7 @@ theorem torParamHom_eq_of_diagGL_eq {D : torSU K} {t : Fin 6 → Kˣ}
 
 theorem prod_torParamHom (hK : Nat.card K = 4) (D : torSU K) :
     ∏ i, torParamHom (K := K) D i = 1 := by
-  haveI : Finite K := finite_of_card_eq_four hK
+  have : Finite K := finite_of_card_eq_four hK
   have hdet := (mem_SU_iff (fieldDataFour hK)).mp
     (D : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1))).2 |>.1
   have h := congrArg (fun u : Kˣ => (u : K)) (TauCeti.det_diagGL (torParamHom (K := K) D))
@@ -161,7 +162,7 @@ theorem torParamHom_injective : Function.Injective (torParamHom (K := K)) := by
 theorem permGLSU_mul_mem_torSU (hK : Nat.card K = 4) (ρ : Equiv.Perm (Fin 6))
     {D : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1))} (hD : D ∈ torSU K) :
     permGLSU hK ρ * D * (permGLSU hK ρ)⁻¹ ∈ torSU K := by
-  haveI : Finite K := finite_of_card_eq_four hK
+  have : Finite K := finite_of_card_eq_four hK
   have hdiag : (D : GL (Fin 6) K) ∈ TauCeti.diagonalTorus K 6 := hD
   obtain ⟨t, ht⟩ := TauCeti.mem_diagonalTorus_iff_exists_diagGL.mp hdiag
   have ht' : torParamHom (K := K) ⟨D, hD⟩ = t := by
@@ -200,8 +201,8 @@ theorem permGLSU_mem_normalizer_torSU (hK : Nat.card K = 4) (ρ : Equiv.Perm (Fi
     rwa [h2] at h1
 
 theorem orderOf_tZero (hK : Nat.card K = 4) : orderOf (tZero hK) = 2 := by
-  haveI : Finite K := finite_of_card_eq_four hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K := finite_of_card_eq_four hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsq : tZero hK ^ 2 = 1 := by
     rw [pow_two]
     have h1 : tZeroSU hK * tZeroSU hK = 1 := by
@@ -223,7 +224,7 @@ theorem orderOf_tZero (hK : Nat.card K = 4) : orderOf (tZero hK) = 2 := by
       simp
     have hval := congrArg (fun g : GL (Fin 6) K => ((g : Matrix (Fin 6) (Fin 6) K) 0 0)) hc
     rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply,
-      if_pos rfl, h00] at hval
+      ite_eq_left rfl, h00] at hval
     exact c.ne_zero hval
   exact orderOf_eq_prime hsq hne
 
@@ -323,7 +324,7 @@ theorem mem_torPairEq {a b : Fin 6} {D : torSU K} :
 
 theorem card_torPairEq (hK : Nat.card K = 4) {a b : Fin 6} (hab : a ≠ b) :
     Nat.card ↥(torPairEq (K := K) a b) = 3 ^ 4 := by
-  haveI : Finite K := finite_of_card_eq_four hK
+  have : Finite K := finite_of_card_eq_four hK
   have hsurj : Function.Surjective ((ratioHom a b).comp (torParamHom (K := K))) := by
     intro μ
     obtain ⟨t, ht, hprod⟩ := exists_ratio_eq_prod_eq_one hab μ
@@ -363,9 +364,9 @@ theorem scalar_mul_diagGL_apply (c : Kˣ) (t : Fin 6 → Kˣ) (i : Fin 6) :
     ((Matrix.GeneralLinearGroup.scalar (Fin 6) c * TauCeti.diagGL t : GL (Fin 6) K) :
       Matrix (Fin 6) (Fin 6) K) i i = (c : K) * (t i : K) := by
   rw [Units.val_mul, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
-    TauCeti.diagGL_coe, Matrix.diagonal_mul_diagonal, Matrix.diagonal_apply, if_pos rfl]
+    TauCeti.diagGL_coe, Matrix.diagonal_mul_diagonal, Matrix.diagonal_apply, ite_eq_left rfl]
 
-theorem ker_proj_comp_subtype (hK : Nat.card K = 4) :
+theorem ker_proj_comp_subtype (_hK : Nat.card K = 4) :
     (((LargeEvenProjMk (LargeEvenSUGroup (Fin 6) K (2 ^ 1))).comp (torSU K).subtype).ker) =
       ((LargeEvenScalars (Fin 6) K).subgroupOf
         (LargeEvenSUGroup (Fin 6) K (2 ^ 1))).subgroupOf (torSU K) := by
@@ -412,7 +413,7 @@ theorem exists_diagGL_mul_permutationGL_of_mem_normalizer (hK : Nat.card K = 4)
       (torU K : Set (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))))) :
     ∃ d : Fin 6 → Kˣ, ∃ σ : Equiv.Perm (Fin 6),
       (g : GL (Fin 6) K) = TauCeti.diagGL d * TauCeti.permutationGL σ := by
-  haveI : Finite K := finite_of_card_eq_four hK
+  have : Finite K := finite_of_card_eq_four hK
   obtain ⟨ω, hω⟩ := exists_root_omega hK
   refine TauCeti.exists_eq_diagGL_mul_permutationGL_of_forall_ne (n := 6)
     (g := (g : GL (Fin 6) K)) ?_
@@ -454,24 +455,24 @@ theorem exists_diagGL_mul_permutationGL_of_mem_normalizer (hK : Nat.card K = 4)
   · have hti : (torParamHom (K := K) T i : K) = ω := by
       have h := congrArg (fun g : GL (Fin 6) K => ((g : Matrix (Fin 6) (Fin 6) K) i i))
         (diagGL_torParamHom T)
-      rw [TauCeti.diagGL_apply, if_pos rfl] at h
+      rw [TauCeti.diagGL_apply, ite_eq_left rfl] at h
       rw [show (T : GL (Fin 6) K) = ((diagTwoSU (ω := ω) hω hij :
         ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1))) : GL (Fin 6) K) from rfl,
         coe_diagTwoSU] at h
       refine h.trans ?_
       rw [diagTwoGL, Matrix.GeneralLinearGroup.val_mkOfDetNeZero, diagTwo,
-        Matrix.diagonal_apply, if_pos rfl]
+        Matrix.diagonal_apply, ite_eq_left rfl]
       exact diagVec_self hij
     have htj : (torParamHom (K := K) T j : K) = ω ^ 2 := by
       have h := congrArg (fun g : GL (Fin 6) K => ((g : Matrix (Fin 6) (Fin 6) K) j j))
         (diagGL_torParamHom T)
-      rw [TauCeti.diagGL_apply, if_pos rfl] at h
+      rw [TauCeti.diagGL_apply, ite_eq_left rfl] at h
       rw [show (T : GL (Fin 6) K) = ((diagTwoSU (ω := ω) hω hij :
         ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1))) : GL (Fin 6) K) from rfl,
         coe_diagTwoSU] at h
       refine h.trans ?_
       rw [diagTwoGL, Matrix.GeneralLinearGroup.val_mkOfDetNeZero, diagTwo,
-        Matrix.diagonal_apply, if_pos rfl]
+        Matrix.diagonal_apply, ite_eq_left rfl]
       exact diagVec_other hij
     intro hEq
     have h2 := congrArg (fun u : Kˣ => (u : K)) hEq
@@ -532,7 +533,7 @@ theorem permutation_mul_self_eq_one_of_monomial_sq (hK : Nat.card K = 4) {d : Fi
     simp
   map_mul' x y := by
     funext i
-    simp only [Pi.mul_apply, map_mul, Pi.div_apply, div_eq_mul_inv, _root_.mul_inv_rev]
+    simp only [Pi.mul_apply, map_mul, div_eq_mul_inv, _root_.mul_inv_rev]
     ac_rfl
 
 @[expose] noncomputable def torFix (σ : Equiv.Perm (Fin 6)) : Subgroup (torSU K) :=
@@ -560,7 +561,7 @@ theorem mem_torFix_of_conj_eq (hK : Nat.card K = 4) {σ : Equiv.Perm (Fin 6)} (h
       LargeEvenProjMk (LargeEvenSUGroup (Fin 6) K (2 ^ 1))
         (D : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1)))) :
     D ∈ torFix (K := K) σ := by
-  haveI : Finite K := finite_of_card_eq_four hK
+  have : Finite K := finite_of_card_eq_four hK
   obtain ⟨c, hc⟩ := (proj_eq_iff_exists_scalar hK
     (A := (permGLSU hK σ * (D : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1))) * (permGLSU hK σ)⁻¹))
     (B := (D : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1))))).mp h
@@ -577,7 +578,7 @@ theorem mem_torFix_of_conj_eq (hK : Nat.card K = 4) {σ : Equiv.Perm (Fin 6)} (h
     intro i
     have hh := congrArg (fun g : GL (Fin 6) K => ((g : Matrix (Fin 6) (Fin 6) K) i i)) hc
     rw [hconj] at hh
-    rw [← diagGL_torParamHom D, TauCeti.diagGL_apply, if_pos rfl] at hh
+    rw [← diagGL_torParamHom D, TauCeti.diagGL_apply, ite_eq_left rfl] at hh
     rw [show ((Matrix.GeneralLinearGroup.scalar (Fin 6) c *
         TauCeti.diagGL (fun i => torParamHom (K := K) D (σ⁻¹ i)) : GL (Fin 6) K) :
         Matrix (Fin 6) (Fin 6) K) i i =
@@ -651,7 +652,7 @@ theorem conj_eq_self_of_mem_torFix (hK : Nat.card K = 4) {σ : Equiv.Perm (Fin 6
     exact hfix i
   exact congrArg (fun x : torSU K => (x : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1)))) hE
 
-theorem scalars_subgroupOf_le_torFix (hK : Nat.card K = 4) (σ : Equiv.Perm (Fin 6)) :
+theorem scalars_subgroupOf_le_torFix (_hK : Nat.card K = 4) (σ : Equiv.Perm (Fin 6)) :
     Subgroup.comap (torSU K).subtype
       ((LargeEvenScalars (Fin 6) K).subgroupOf (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) ≤
       torFix (K := K) σ := by
@@ -670,7 +671,7 @@ theorem scalars_subgroupOf_le_torFix (hK : Nat.card K = 4) (σ : Equiv.Perm (Fin
 theorem card_ker_domRestrict_torFix (hK : Nat.card K = 4) (σ : Equiv.Perm (Fin 6)) :
     Nat.card ↥((((LargeEvenProjMk (LargeEvenSUGroup (Fin 6) K (2 ^ 1))).comp
       (torSU K).subtype)).domRestrict (torFix (K := K) σ)).ker = 3 := by
-  haveI : Finite K := finite_of_card_eq_four hK
+  have : Finite K := finite_of_card_eq_four hK
   rw [MonoidHom.ker_domRestrict]
   have hle : (((LargeEvenProjMk (LargeEvenSUGroup (Fin 6) K (2 ^ 1))).comp
       (torSU K).subtype)).ker ≤ torFix (K := K) σ := by
@@ -700,7 +701,7 @@ theorem card_torFix (hK : Nat.card K = 4) (σ : Equiv.Perm (Fin 6))
       ((LargeEvenProjMk (LargeEvenSUGroup (Fin 6) K (2 ^ 1))).comp (torSU K).subtype)) =
       3 ^ 3) :
     Nat.card ↥(torFix (K := K) σ) = 3 ^ 4 := by
-  haveI : Finite K := finite_of_card_eq_four hK
+  have : Finite K := finite_of_card_eq_four hK
   have hcard := Subgroup.card_ker_mul_card_range
     ((((LargeEvenProjMk (LargeEvenSUGroup (Fin 6) K (2 ^ 1))).comp (torSU K).subtype)).domRestrict
       (torFix (K := K) σ))
@@ -718,7 +719,7 @@ theorem inf_centralizer_eq_map_torFix (hK : Nat.card K = 4)
         {LargeEvenProjMk (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) g} =
       (torFix (K := K) σ).map
         ((LargeEvenProjMk (LargeEvenSUGroup (Fin 6) K (2 ^ 1))).comp (torSU K).subtype) := by
-  haveI : Finite K := finite_of_card_eq_four hK
+  have : Finite K := finite_of_card_eq_four hK
   obtain ⟨P, hP⟩ : ∃ P : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1)), P = permGLSU hK σ := ⟨_, rfl⟩
   have hPGL : (P : GL (Fin 6) K) = TauCeti.permutationGL σ := by
     rw [hP]; exact coe_permGLSU hK σ
@@ -843,9 +844,9 @@ theorem inf_centralizer_eq_map_torFix (hK : Nat.card K = 4)
     rw [← map_mul, ← map_mul, hDg]
 
 theorem eq_swap_of_torFix_eq (hK : Nat.card K = 4) {σ : Equiv.Perm (Fin 6)} (hσ : σ * σ = 1)
-    {a b : Fin 6} (hab : a ≠ b) (hσa : σ a = b)
+    {a b : Fin 6} (_hab : a ≠ b) (hσa : σ a = b)
     (heq : torFix (K := K) σ = torPairEq (K := K) a b) : σ = Equiv.swap a b := by
-  haveI : Finite K := finite_of_card_eq_four hK
+  have : Finite K := finite_of_card_eq_four hK
   obtain ⟨ω, hω⟩ := exists_root_omega hK
   set ωu : Kˣ := Units.mk0 ω (omega_ne_zero hω) with hωu_def
   have hωu_ne : ωu ≠ 1 := by
@@ -936,7 +937,7 @@ theorem exists_mem_normalizer_conj_eq_tZero' (hK : Nat.card K = 4)
     ∃ g ∈ Subgroup.normalizer
       (torU K : Set (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))),
       g * u * g⁻¹ = tZero hK := by
-  haveI : Finite K := finite_of_card_eq_four hK
+  have : Finite K := finite_of_card_eq_four hK
   classical
   obtain ⟨g, hg⟩ := QuotientGroup.mk'_surjective
     ((LargeEvenScalars (Fin 6) K).subgroupOf (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) u
@@ -1065,7 +1066,7 @@ theorem exists_mem_normalizer_conj_eq_tZero' (hK : Nat.card K = 4)
   obtain ⟨X, hX⟩ : ∃ X : Subgroup (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))),
       X = torU K ⊔ Subgroup.zpowers (tZero hK) := ⟨_, rfl⟩
   have hu'X' : u' ∈ X := hX ▸ hu'X
-  haveI : Finite ↥X := Subtype.finite
+  have : Finite ↥X := Subtype.finite
   have hX0 : tZero hK ∈ X := by
     rw [hX]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers (tZero hK))
@@ -1085,7 +1086,7 @@ theorem exists_mem_normalizer_conj_eq_tZero' (hK : Nat.card K = 4)
       rw [hX, sup_comm]
       exact Subgroup.coe_mul_of_left_le_normalizer_right _ _ hlep
     have hinf : Subgroup.zpowers (tZero hK) ⊓ torU K = ⊥ := by
-      apply Subgroup.inf_eq_bot_of_coprime
+      apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
       rw [Nat.card_zpowers, orderOf_tZero hK, card_torU hK]
       norm_num
     let f : ↥(Subgroup.zpowers (tZero hK)) × ↥(torU K) → ↥X := fun x =>
@@ -1125,7 +1126,7 @@ theorem exists_mem_normalizer_conj_eq_tZero' (hK : Nat.card K = 4)
   have h4 : ¬ 2 ^ 2 ∣ Nat.card ↥X := by
     rw [hcardX]
     norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hgen2 : orderOf (⟨tZero hK, hX0⟩ : ↥X) = 2 := by
     rw [Subgroup.orderOf_mk, orderOf_tZero hK]
   have hu'X2 : orderOf (⟨u', hu'X'⟩ : ↥X) = 2 := by

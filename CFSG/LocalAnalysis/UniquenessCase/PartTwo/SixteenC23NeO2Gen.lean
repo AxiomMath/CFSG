@@ -32,6 +32,7 @@ theorem c23ne_cent_le_of_mQuot_le {M V₀ V N₁ N₂ Y : Subgroup G}
   exact (Subgroup.centralizer_le (Set.singleton_subset_iff.2 hwU)).trans
     (hP.cent (a : G) (Or.inl hwW) hw1)
 
+omit [Finite G] in
 theorem c23ne_inf_blocks_eq_bot {M V₀ V N₁ N₂ Y : Subgroup G} (hP : C23NePair M V₀ V N₁ N₂ Y)
     {A X : Subgroup G} (hA : ¬ A ≤ M) (hX : ∀ x ∈ X, ∀ a ∈ A, a * x = x * a) :
     X ⊓ N₁ = ⊥ ∧ X ⊓ N₂ = ⊥ := by
@@ -51,6 +52,7 @@ theorem c23ne_inf_blocks_eq_bot {M V₀ V N₁ N₂ Y : Subgroup G} (hP : C23NeP
   exact ⟨key N₁ fun w hw hw1 => hP.cent w (Or.inl hw) hw1,
     key N₂ fun w hw hw1 => hP.cent w (Or.inr hw) hw1⟩
 
+omit [Finite G] in
 theorem c23ne_comm_mem_inf {M V₀ V N₁ N₂ Y : Subgroup G} {g : G}
     (h : C23NeO2 M V₀ V N₁ N₂ Y g) {u y : G} (hu : u ∈ V ⊓ conjSubgroup M g)
     (hy : y ∈ conjSubgroup V g ⊓ M) : u * y * u⁻¹ * y⁻¹ ∈ V ⊓ conjSubgroup V g := by
@@ -145,7 +147,7 @@ theorem c23ne_exists_two_ne_one {A : Subgroup G} (h : 3 ≤ Nat.card A) :
     ∃ a ∈ A, ∃ b ∈ A, a ≠ 1 ∧ b ≠ 1 ∧ a ≠ b := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hAn : Nat.card ↥A = (A : Set G).ncard := (Nat.card_coe_set_eq (A : Set G)).symm
   by_cases hex : ∃ a ∈ A, a ≠ 1
   · obtain ⟨a₀, ha₀, ha₁⟩ := hex
@@ -160,7 +162,7 @@ theorem c23ne_exists_two_ne_one {A : Subgroup G} (h : 3 ≤ Nat.card A) :
       rw [Set.ncard_singleton] at h2
       omega
     omega
-  · push_neg at hex
+  · push Not at hex
     have hsub : (A : Set G) ⊆ {1} := fun x hx => hex x hx
     have hcard : (A : Set G).ncard ≤ 1 := by
       have h1 := Set.ncard_le_ncard hsub (Set.toFinite _)

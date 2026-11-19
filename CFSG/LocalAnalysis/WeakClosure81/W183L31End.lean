@@ -141,7 +141,7 @@ theorem w183l31_not_centralizes {D : Data G} {V₀ V : Subgroup G}
     obtain ⟨w, hw1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 hV₁ne
     have hwV₁ : (w : G) ∈ V₁ := w.2
     have hwne : (w : G) ≠ 1 := fun hh => hw1 (Subtype.ext hh)
-    have hwV₀h : (w : G) ∈ conjSubgroup V₀ h := by simpa [hV₁def] using hwV₁
+    have hwV₀h : (w : G) ∈ conjSubgroup V₀ h := by simp
     have hwS : (w : G) ∈ S := by
       refine ⟨1, D.M.one_mem, ?_⟩
       rw [conjSubgroup_one]
@@ -167,7 +167,7 @@ theorem w183l31_conj_into_T {M T V₀ V P D B : Subgroup G} (hT : IsSylowIn 2 T 
     (hPV : ∀ p ∈ P, ∀ v ∈ V, p * v * p⁻¹ * v⁻¹ ∈ V₀) (hPV₀ : ∀ p ∈ P, ∀ w ∈ V₀, p * w = w * p)
     (hV₀V : V₀ ≤ V) (hDV : D ≤ V) (hBP : B ≤ P) (hB : IsElemAbelian 2 B) (hDB : ⁅D, B⁆ ≠ ⊥) :
     ∃ B' : Subgroup G, B' ≤ T ⊓ P ∧ IsElemAbelian 2 B' ∧ ⁅D, B'⁆ ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTP : IsSylowIn 2 (T ⊓ P) P :=
     hT.inf_normal hPM ((Subgroup.normal_subgroupOf_iff_le_normalizer hPM).2 hPn)
   have hB2 : IsPGroup 2 B := IsElemAbelian.isPGroup hB

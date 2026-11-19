@@ -137,7 +137,6 @@ theorem tau_apply (hz2 : z * z = 1) (g : Fin 4 → J)
   simp only [MulAut.conj_apply]
   fin_cases i <;> fin_cases j <;> simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk] <;> simp <;>
     first
-    | exact c _ _ rfl
     | exact c _ _ h02 | exact c _ _ h02.symm | exact c _ _ h03 | exact c _ _ h03.symm
     | exact c _ _ h12 | exact c _ _ h12.symm | exact c _ _ h13 | exact c _ _ h13.symm
     | exact d _ _ h01 | exact d _ _ (sym _ _ h01) | exact d _ _ h23 | exact d _ _ (sym _ _ h23)

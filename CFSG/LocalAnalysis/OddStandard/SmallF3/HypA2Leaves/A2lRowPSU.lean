@@ -16,7 +16,7 @@ open scoped MatrixGroups
 
 theorem a2l_card_center_su_four_dvd {F : Type} [Field F] [Finite F] [CharP F 3]
     (hF : Nat.card F = 9) : Nat.card (center (StatedSU 4 (3 ^ 1) F)) ∣ 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hZ⟩ := LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 3) (f := 1)
     (F := F) (n := 4) (by rw [hF]; norm_num) (by norm_num) (by simp)
   obtain ⟨hcyc, hexp⟩ := LieType.Steinberg.isCyclic_scalars_statedSU (K := F) (p := 3) (f := 1)
@@ -33,7 +33,7 @@ theorem a2l_rowPSU_two {X : Type} [Group X] [Finite X] {n f : ℕ} (hn : 3 ≤ n
   obtain ⟨-, K, _, _, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (by decide)
   have hd : UnitaryFieldData 3 f K :=
     ⟨Nat.prime_three, by omega, by rw [hcard, ← pow_mul, mul_comm]⟩
-  haveI := hd.finite
+  have := hd.finite
   obtain ⟨m, rfl⟩ : ∃ m, n = 2 + m := ⟨n - 2, by omega⟩
   have hodd : Odd (3 ^ f) := Odd.pow (by decide)
   have h9 : 9 ≤ 3 ^ f :=
@@ -41,7 +41,7 @@ theorem a2l_rowPSU_two {X : Type} [Group X] [Finite X] {n f : ℕ} (hn : 3 ≤ n
       _ ≤ 3 ^ f := Nat.pow_le_pow_right (by norm_num) hf
   have h2 : (2 : K) ≠ 0 := two_ne_zero_of_unitaryFieldData hd (by norm_num)
   obtain ⟨F, _, _, hF, ⟨ψ⟩⟩ := nonempty_sl2_mulEquiv_unitarySU_two hd
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hFc : Fintype.card F = 3 ^ f := by rw [← Nat.card_eq_fintype_card, hF]
   obtain ⟨s, -, hs⟩ : ∃ s ⊆ (Finset.univ : Finset F), s.card = 4 :=
     Finset.exists_subset_card_eq (by rw [Finset.card_univ, hFc]; omega)
@@ -60,10 +60,10 @@ theorem a2l_rowPSU_three (hC : HypA2.ChevOddInChev2) {X : Type} [Group X] [Finit
     (hn : 5 ≤ n) (hm : LieModel X .PSU n 3 1) : a2lDatum X := by
   obtain ⟨-, K, _, _, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (by decide)
   have hd := a2l_unitaryFieldData_three hcard
-  haveI := hd.finite
-  haveI := hd.charP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := Fintype.ofFinite K
+  have := hd.finite
+  have := hd.charP
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite K
   obtain ⟨m, rfl⟩ : ∃ m, n = 4 + m := ⟨n - 4, by omega⟩
   have hF9 : Nat.card K = 9 := by rw [hcard]; norm_num
   have hFc : Fintype.card K = 9 := by rw [← Nat.card_eq_fintype_card]; exact hF9

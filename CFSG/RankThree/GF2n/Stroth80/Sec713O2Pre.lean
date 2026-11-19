@@ -50,9 +50,9 @@ theorem exists_fixed_sec_of_isPGroup [Finite G] {D P I : Subgroup G} (hD : IsPGr
     (hsec : SecHyp D P I) (hIP : I < P) : ∃ y ∈ P, y ∉ I ∧ ∀ d ∈ D, ⁅d, y⁆ ∈ I := by
   classical
   obtain ⟨Md, iA, iD, κ, hκ⟩ := exists_sectionModule hsec
-  haveI : Finite Md := hκ.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨p, hpP, hpI⟩ := SetLike.exists_of_lt hIP
+  have : Finite Md := hκ.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  obtain ⟨p, hpP, hpI⟩ := _root_.IsConcreteLE.exists_of_lt hIP
   have ha0 : Multiplicative.toAdd (κ ⟨p, hpP⟩) ≠ 0 := by
     intro h
     apply hpI

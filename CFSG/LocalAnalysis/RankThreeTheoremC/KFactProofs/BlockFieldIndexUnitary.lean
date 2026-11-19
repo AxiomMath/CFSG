@@ -217,7 +217,7 @@ theorem prod_uniTorusUnits (a : Fin r → Kˣ) :
 
 theorem uniHilbert90 (h : UnitaryFieldData 2 f K) {δ : Kˣ} (hδ : h.norm (δ : K) = 1) :
     ∃ a₀ : Kˣ, a₀ * (Units.map (h.bar : K →* K) a₀)⁻¹ = δ := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   by_cases hδ1 : δ = 1
   · exact ⟨1, by simp [hδ1]⟩
   · have hδ0 : (δ : K) ≠ 0 := δ.ne_zero
@@ -231,7 +231,7 @@ theorem uniHilbert90 (h : UnitaryFieldData 2 f K) {δ : Kˣ} (hδ : h.norm (δ :
       exact Units.ext this.symm
     refine ⟨Units.mk0 (1 + (δ : K)) hx, Units.ext ?_⟩
     simp only [Units.val_mul, Units.val_mk0, Units.val_inv_eq_inv_val, Units.coe_map,
-      MonoidHom.coe_coe, map_add, map_one, hbar]
+      _root_.MonoidHom.coe_ofClass, map_add, map_one, hbar]
     have h1 : (1 + (δ : K)⁻¹) = (1 + (δ : K)) * (δ : K)⁻¹ := by
       rw [add_mul, one_mul, mul_inv_cancel₀ hδ0, add_comm]
     rw [h1, mul_inv, inv_inv, mul_inv_cancel_left₀ hx]
@@ -295,7 +295,7 @@ theorem uniElemAbelian_range {G : Type*} [Group G] {C : Type*} [CommGroup C] {r 
 
 theorem uniExists_cyclic_three (h : UnitaryFieldData 2 f K) (h3 : 3 ∣ 2 ^ f + 1) :
     ∃ C : Subgroup Kˣ, Nat.card C = 3 ∧ ∀ x ∈ C, h.norm (x : K) = 1 := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units, h.card, show 2 * f = f * 2 from mul_comm _ _, pow_mul]
@@ -347,7 +347,7 @@ theorem uniLinTorus_mem_unitarySU (h : UnitaryFieldData 2 f K) {n r : ℕ} (hn :
 @[expose] noncomputable def uniTorusStd (h : UnitaryFieldData 2 f K) {n r : ℕ} (hn : r + 1 ≤ n)
     (C : Subgroup Kˣ) (hC : ∀ x ∈ C, h.norm (x : K) = 1) : (Fin r → C) →* unitarySU 2 f K n :=
   ((SpecialLinearGroup.toGL : SpecialLinearGroup (Fin n) K →* GL (Fin n) K).comp
-    ((linTorus K r hn).comp (Pi.monoidHom fun i => C.subtype.comp
+    ((linTorus K r hn).comp (_root_.MonoidHom.pi fun i => C.subtype.comp
       (Pi.evalMonoidHom (fun _ => C) i)))).codRestrict _
     (fun t => uniLinTorus_mem_unitarySU h hn C hC t)
 
@@ -400,7 +400,7 @@ variable {f : ℕ} {K : Type} [Field K] {h : UnitaryFieldData 2 f K}
 theorem uniExists_elemAbelian_nine_su {s ε : ℕ} (hm : 3 ≤ 2 * s + ε) (h3 : 3 ∣ 2 ^ f + 1) :
     ∃ E : Subgroup (GL (HypIndex s ε) K), E ≤ hypSU h s ε ∧ IsElemAbelian 3 E ∧
       Nat.card E = 9 := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := s) (ε := ε) h
   obtain ⟨C, hCcard, hCnorm⟩ := uniExists_cyclic_three h h3
   have hC3 : ∀ x : C, x ^ 3 = 1 := fun x => by
@@ -421,7 +421,7 @@ theorem uniExists_elemAbelian_nine_su {s ε : ℕ} (hm : 3 ≤ 2 * s + ε) (h3 :
 theorem uniFour_le_pRank {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y} {r ε : ℕ}
     (hn : 6 ≤ 2 * r + ε) (h3 : 3 ∣ 2 ^ f + 1) (ρ : hypSU h r ε →* ↥L)
     (hZ : ∀ y, ρ y ∈ Subgroup.center ↥L ↔ y ∈ hypScalars h r ε) : 4 ≤ Open.pRank 3 L := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := r) (ε := ε) h
   obtain ⟨C, hCcard, hCnorm⟩ := uniExists_cyclic_three h h3
   have hC3 : ∀ x : C, x ^ 3 = 1 := fun x => by
@@ -478,7 +478,7 @@ theorem uniExists_pow_eq_normOne (h : UnitaryFieldData 2 f K) {m k : ℕ}
     (hm : ¬ 3 ∣ Nat.gcd m (2 ^ f + 1)) {d u : Kˣ} (hd : h.norm (d : K) = 1)
     (hu : h.norm (u : K) = 1) (hdu : d ^ (3 ^ k) = u ^ m) :
     ∃ μ : Kˣ, h.norm (μ : K) = 1 ∧ μ ^ m = d := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   let Z : Subgroup Kˣ := (powMonoidHom (2 ^ f + 1) : Kˣ →* Kˣ).ker
   have hZmem : ∀ x : Kˣ, x ∈ Z ↔ h.norm (x : K) = 1 := fun x => by
     rw [UnitaryFieldData.norm_eq_pow, ← Units.val_pow_eq_pow_val, Units.val_eq_one]
@@ -533,8 +533,7 @@ theorem uniTransvection_01_gram [CharP K 2] :
   ext a b
   simp only [transvection, Matrix.mul_apply, Fintype.sum_sum_type, hypGram_apply,
     Matrix.add_apply, Matrix.transpose_apply, Matrix.map_apply]
-  simp [uniX0, uniX1, Matrix.mul_apply, Fintype.sum_sum_type, hypGram_apply, Matrix.add_apply,
-    Matrix.one_apply, Matrix.single_apply]
+  simp [uniX0, uniX1, Matrix.one_apply, Matrix.single_apply]
   rcases uniHyp10_cases a with rfl | rfl <;> rcases uniHyp10_cases b with rfl | rfl <;>
     simp [uniX0, uniX1, hypPartner, CharTwo.add_self_eq_zero]
 
@@ -544,8 +543,7 @@ theorem uniTransvection_10_gram [CharP K 2] :
   ext a b
   simp only [transvection, Matrix.mul_apply, Fintype.sum_sum_type, hypGram_apply,
     Matrix.add_apply, Matrix.transpose_apply, Matrix.map_apply]
-  simp [uniX0, uniX1, Matrix.mul_apply, Fintype.sum_sum_type, hypGram_apply, Matrix.add_apply,
-    Matrix.one_apply, Matrix.single_apply]
+  simp [uniX0, uniX1, Matrix.one_apply, Matrix.single_apply]
   rcases uniHyp10_cases a with rfl | rfl <;> rcases uniHyp10_cases b with rfl | rfl <;>
     simp [uniX0, uniX1, hypPartner, CharTwo.add_self_eq_zero]
 
@@ -608,7 +606,7 @@ theorem uniScalar_of_centralizes (h : UnitaryFieldData 2 f K) {s ε : ℕ} (hε 
     obtain ⟨-, c, hc'⟩ := (semilinearAutHom_eq_one_iff h hr hε h3 x).1 hΦ
     exact ⟨c, hc'⟩
   · obtain ⟨rfl, rfl⟩ : s = 1 ∧ ε = 0 := by omega
-    haveI : CharP K 2 := h.charP
+    have : CharP K 2 := h.charP
     have hcomm : ∀ (M : Matrix (HypIndex 1 0) (HypIndex 1 0) K) (hM : M.det ≠ 0)
         (hgram : (M.map h.bar)ᵀ * hypGram 1 0 K * M = hypGram 1 0 K) (hdet : M.det = 1),
         Commute M (g : Matrix (HypIndex 1 0) (HypIndex 1 0) K) := by
@@ -647,7 +645,7 @@ theorem blockOK_gu_su (h : UnitaryFieldData 2 f K) {s ε : ℕ} (hε : ε ≤ 1)
     (hq : CFSG.Open.IsQuasisimple ↥(hypSU h s ε)) :
     BlockOK (hypUnitary h s ε) (hypSU h s ε) := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hm2 : 2 ≤ 2 * s + ε := by
     by_contra hlt
     have hs0 : s = 0 := by omega
@@ -765,7 +763,7 @@ theorem uniLeviHom_mem_H (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1) {I : Fins
 theorem uniBlockOK (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1) {I : Finset ℕ} (j : Option ↥I)
     (hq : CFSG.Open.IsQuasisimple ↥(uniBlockSub (s := s) (ε := ε) h I j)) :
     BlockOK (uniBlockH h s ε I j) (uniBlockSub (s := s) (ε := ε) h I j) := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   rcases j with _ | b
   · exact blockOK_gu_su h hε hq
   · have hm := two_le_of_isQuasisimple_specialLinear
@@ -775,7 +773,7 @@ theorem uniBlockOK (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1) {I : Finset ℕ
 theorem uniBlockSub_subsingleton_of_card_three (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1)
     {I : Finset ℕ} (hI : IsTopCut I t) (hn : 2 * (t + s) + ε = 3) (j : Option ↥I) :
     Subsingleton ↥(uniBlockSub (s := s) (ε := ε) h I j) := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have ht1 : 1 ≤ t := (hI.le t hI.mem).1
   have hs0 : s = 0 := by omega
   rcases j with _ | b
@@ -799,7 +797,7 @@ theorem uniHZ {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y}
     (hβx : uniLeviHom h hε hI x ∈ E.map (MonoidHom.mulSingle (uniBlockGroup K s ε I) j)) :
     x = 1 := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have ht1 : 1 ≤ t := (hI.le t hI.mem).1
   have hxs : (x : hypSU h (t + s) ε) ∈ hypScalars h (t + s) ε :=
     (hZ _).1 (by rw [hρx]; exact Subgroup.one_mem _)
@@ -887,7 +885,7 @@ theorem uniActsInnerly_of_compat
     (hrk : Open.pRank 3 (perfectJoin P) ≤ 1) :
     ∃ v ∈ perfectJoin P, ∀ w ∈ perfectJoin P, ⁅a * v, w⁆ ∈ pCoreOf 2 (perfectJoin P) := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have ht1 : 1 ≤ t := (hI.le t hI.mem).1
   have hr : 0 < t + s := by omega
   have hIr : ∀ c ∈ (↑I : Set ℕ), c ≤ t + s := fun c hc =>
@@ -1062,9 +1060,9 @@ end Data
 theorem leviInnOn_unitary :
     LeviInnOn (IsLieOf IdxTwistedA) := by
   intro Y _ _ L P hCP hC hLn hrank h3 hrk
-  haveI := hLn
+  have := hLn
   obtain ⟨K, _, f, t, s, ε, h, ρ, I, hε, hI, -, -, hρs, hZ, hcomap⟩ := exists_uniCover_std hCP hC
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   intro l hl k hcomm
   have hlL : l ∈ L := hCP.parab.1 hl
   obtain ⟨x₀, hx₀⟩ := hρs ⟨l, hlL⟩
@@ -1097,7 +1095,7 @@ theorem uniPCentral_map {Γ Δ C : Type*} [Group Γ] [Group Δ] [Group C] (Φ : 
 
 theorem uniPCentral_comap_of_mulEquiv {p : ℕ} {Γ Γ' : Type*} [Group Γ] [Group Γ'] (ψ : Γ ≃* Γ')
     {D : Subgroup Γ'} (hD : PCentral p D) : PCentral p (D.comap ψ.toMonoidHom) := by
-  haveI := hD.1
+  have := hD.1
   refine ⟨inferInstance, fun α ⟨k, hk⟩ γ => ?_⟩
   have h1 : ψ α ^ (p ^ k) ∈ D := by
     rw [← map_pow]
@@ -1131,10 +1129,10 @@ end Diagonal
 theorem fieldIndexOn_unitary :
     FieldIndexOn (IsLieOf IdxTwistedA) := by
   intro Y _ _ L P hCP hC hLn hrank h3 hrk a ha3 haN hout
-  haveI := hLn
+  have := hLn
   obtain ⟨K, hK, f, t, s, ε, h, ρ, I, hε, hI, hn3, hnq, hρs, hZ, hcomap⟩ :=
     exists_uniCover_std hCP hC
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have ht1 : 1 ≤ t := (hI.le t hI.mem).1
   have hr : 1 ≤ t + s := by omega
   obtain ⟨θ, hθ⟩ : ∃ θ : hypPSU h (t + s) ε ≃* ↥L ⧸ Subgroup.center ↥L,

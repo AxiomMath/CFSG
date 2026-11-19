@@ -14,11 +14,12 @@ open CFSG.Timmesfeld.Connectivity
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 private theorem orthLine_not_isSolvable (hC : HypothesisC D)
     {x y : Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)}
     (hxy : orderOf (x * y) ≠ 1) : ¬ Group.IsSolvable (Halpha D hC.alpha) := by
   intro hsol
-  haveI := hsol
+  have := hsol
   have htop : CFSG.solvableRadical (Halpha D hC.alpha) = ⊤ :=
     top_le_iff.mp (le_sSup ⟨Subgroup.normal_top, inferInstance⟩)
   apply hxy
@@ -58,7 +59,7 @@ theorem false_of_lineMem_of_class (h89 : PartThree.Lemma8_9)
   have hle := ncard_blockLine_le h89 h113 hC hrad hW hn3 hMZ hv hw hvw hne hβ
   have hΔ := ncard_blockLine_diff_eq h113 hC hrad hn3 hHns hβ
   have hαℓ : hC.alpha ∈ blockLine D hC.alpha β := left_mem_blockLine hC.isBlock_alpha.subset
-  have hℓ := Set.ncard_diff_singleton_add_one hαℓ (Set.toFinite _)
+  have hℓ := Set.ncard_sdiff_singleton_add_one hαℓ (Set.toFinite _)
   have hβΔ : β ∈ blockLine D hC.alpha β \ {hC.alpha} :=
     ⟨right_mem_blockLine hβ.1 hβ.2.1, fun h => hβ.2.2.1 (Set.mem_singleton_iff.mp h)⟩
   have hr : 0 < (blockImage hC '' (blockLine D hC.alpha β \ {hC.alpha})).ncard :=

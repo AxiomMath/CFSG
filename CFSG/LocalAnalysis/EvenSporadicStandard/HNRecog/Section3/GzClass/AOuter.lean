@@ -31,9 +31,9 @@ private lemma barOf_sq_eq_one {G : Type} [Group G] {z c : G} (hc : c ∈ Gx z)
   change (QuotientGroup.mk (⟨c, hc⟩ : ↥(Gx z))) ^ 2 = 1
   rw [← QuotientGroup.mk_pow, hc', QuotientGroup.mk_one]
 
-theorem barOf_not_mem_commutator (hI : TwoHSInterface) (hC : CSideFacts) {G : Type} [Group G]
-    [Finite G] {a z : G} (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z)
-    (hF2 : Vert Fusion2Facts a z) (hF3 : Vert Fusion3Facts a z) (hOrb : Vert GzOrbitFacts a z)
+theorem barOf_not_mem_commutator (_hI : TwoHSInterface) (hC : CSideFacts) {G : Type} [Group G]
+    [Finite G] {a z : G} (h : IsF5Type a z) (_hF1 : Vert Fusion1Facts a z)
+    (_hF2 : Vert Fusion2Facts a z) (hF3 : Vert Fusion3Facts a z) (hOrb : Vert GzOrbitFacts a z)
     {c : G} (hcz : c ∈ Gx z) (hcQ : c ∉ Qz z) (hcA : IsConj a c) :
     barOf z (⟨c, hcz⟩ : ↥(Gx z)) ∉ _root_.commutator (Gbar z) := by
   classical

@@ -9,7 +9,7 @@ namespace CFSG.RankThree.PartTwo.Sec4.HeringUnitary
 theorem exists_elemAbelian_nine_of_commuting {G : Type} [Group G] (x y : G) (hx3 : x ^ 3 = 1)
     (hy3 : y ^ 3 = 1) (hxy : x * y = y * x) (hx1 : x ≠ 1) (hy : y ∉ Subgroup.zpowers x) :
     ∃ E : Subgroup G, CFSG.Assembly.IsElemAbelian 3 E ∧ Nat.card E = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy1 : y ≠ 1 := by
     rintro rfl
     exact hy (Subgroup.one_mem _)
@@ -24,7 +24,7 @@ theorem exists_elemAbelian_nine_of_commuting {G : Type} [Group G] (x y : G) (hx3
     rcases (Nat.dvd_prime Nat.prime_three).1 hdvd with h1 | h3
     · exact Subgroup.eq_bot_of_card_eq _ h1
     · exfalso
-      haveI : Finite ↥(Subgroup.zpowers y) :=
+      have : Finite ↥(Subgroup.zpowers y) :=
         Nat.finite_of_card_ne_zero (by rw [hcardB]; norm_num)
       have hCeq : Subgroup.zpowers x ⊓ Subgroup.zpowers y = Subgroup.zpowers y :=
         Subgroup.eq_of_le_of_card_ge inf_le_right (le_of_eq (by rw [hcardB, h3]))
@@ -93,6 +93,6 @@ theorem exists_elemAbelian_nine_of_commuting {G : Type} [Group G] (x y : G) (hx3
       show (a * b) ^ 3 = 1
       rw [(hXY a ha b hb).mul_pow, hpx a ha, hpy b hb, one_mul]
   · rw [MonoidHom.range_eq_map, Subgroup.card_map_of_injective hinj, Subgroup.card_top,
-      Nat.card_prod, hcardA, hcardB] <;> norm_num
+      Nat.card_prod, hcardA, hcardB]
 
 end CFSG.RankThree.PartTwo.Sec4.HeringUnitary

@@ -109,13 +109,13 @@ theorem wI_mul_wM (hi : i * i = -1) (h2 : (2 : K) ≠ 0) : wI i * wM i = 1 := by
   have hi2 : i ^ 2 = -1 := by rw [sq]; exact hi
   ext a b
   fin_cases a <;> fin_cases b <;> simp [wM, wI, Matrix.mul_apply, Fin.sum_univ_four] <;> field_simp <;>
-    first | ring1 | (ring_nf; try simp only [hi2]; try ring1)
+    (ring_nf; try simp only [hi2]; try ring1)
 
 theorem wM_transpose_mul (hi : i * i = -1) : (wM i)ᵀ * wM i = jm := by
   have hi2 : i ^ 2 = -1 := by rw [sq]; exact hi
   ext a b
   fin_cases a <;> fin_cases b <;> simp [wM, jm, Matrix.mul_apply, Fin.sum_univ_four] <;>
-    first | ring1 | (ring_nf; try simp only [hi2]; try ring1)
+    (ring_nf; try simp only [hi2]; try ring1)
 
 theorem psi_mul (hi : i * i = -1) (h2 : (2 : K) ≠ 0) (A B A' B' : Matrix (Fin 2) (Fin 2) K) :
     psi i A B * psi i A' B' = psi i (A * A') (B * B') := by
@@ -149,14 +149,14 @@ theorem xi_wM (hi : i * i = -1) :
   have hi2 : i ^ 2 = -1 := by rw [sq]; exact hi
   ext a b
   fin_cases a <;> fin_cases b <;> simp [GenLocU4Out.xi, wM, bd, Matrix.mul_apply, Fin.sum_univ_four] <;>
-    first | ring1 | (ring_nf; try simp only [hi2]; try ring1)
+    (ring_nf; try simp only [hi2])
 
 theorem wI_xi (hi : i * i = -1) (h2 : (2 : K) ≠ 0) :
     wI i * (GenLocU4Out.xi : Matrix (Fin 4) (Fin 4) K) = bd ((i : K) • (1 : Matrix (Fin 2) (Fin 2) K)) ((-i) • 1) * wI i := by
   have hi2 : i ^ 2 = -1 := by rw [sq]; exact hi
   ext a b
   fin_cases a <;> fin_cases b <;> simp [GenLocU4Out.xi, wI, bd, Matrix.mul_apply, Fin.sum_univ_four] <;>
-    field_simp <;> first | ring1 | (ring_nf; try simp only [hi2]; try ring1)
+    field_simp <;> (ring_nf; try simp only [hi2]; try ring1)
 
 theorem psi_xi (hi : i * i = -1) (h2 : (2 : K) ≠ 0) (A B : Matrix (Fin 2) (Fin 2) K) :
     (GenLocU4Out.xi : Matrix (Fin 4) (Fin 4) K) * psi i A B = psi i A B * GenLocU4Out.xi := by

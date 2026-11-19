@@ -40,7 +40,7 @@ theorem q2Uni_comm_of_large_gamma {G : Type} [Group G] [Finite G] {p : ℕ}
     (hN : Bs ≤ Subgroup.normalizer (J : Set G)) {d m : ℕ} (hd : 3 ≤ d) (hdm : ¬ (d = 3 ∧ m = 1))
     {E : Type} [Field E] (hE : UnitaryFieldData 2 m E)
     (θ : ↥J ⧸ Subgroup.center ↥J ≃* LargeEvenProj (LargeEvenSUGroup (Fin d) E (2 ^ m)))
-    (hp2 : p ≠ 2) (hpm : p ∣ 2 ^ m + 1)
+    (_hp2 : p ≠ 2) (hpm : p ∣ 2 ^ m + 1)
     (hcard : p ^ (d / p + 2) ≤ Nat.card (ggGamma J hN).range) :
     IsMulCommutative
       ((((ggBsAut hN).range).map (kgInducedAut θ)).comap
@@ -51,7 +51,7 @@ theorem q2Uni_comm_of_large_gamma {G : Type} [Group G] [Finite G] {p : ℕ}
   have hQ1 : GGInnerDiagOn Bs J := ggBstarInnerDiagJInput_holds G p B Bs x L D J hcfg hInner
   obtain ⟨d', rfl⟩ : ∃ d', d = d' + 1 := ⟨d - 1, by omega⟩
   have hm : 1 ≤ m := hE.one_le
-  haveI : Finite E := hE.finite
+  have : Finite E := hE.finite
   have hEcard : Nat.card E = (2 ^ m) ^ 2 := by
     rw [hE.card, ← pow_mul, Nat.mul_comm 2 m]
   have hΛ : LargeEvenInLambda2 (⟨.twA, d', m⟩ : LargeEvenLabel) := by
@@ -69,7 +69,7 @@ theorem q2Uni_comm_of_large_gamma {G : Type} [Group G] [Finite G] {p : ℕ}
   obtain ⟨_, _, _, _, _, _, _, hlab', _⟩ := largeEvenRawDatum_exists hraw
   subst hlab'
   obtain ⟨F, _, _, hFcard, -, -, θJ, -, -, hact⟩ := hraw
-  haveI : Finite F := (unitaryFieldData_of_card hm hFcard).finite
+  have : Finite F := (unitaryFieldData_of_card hm hFcard).finite
   set Eimg : Subgroup (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin (d' + 1)) F (2 ^ m)))) :=
     (ggGamma J hN).range.map (ggInducedAut θJ) with hEimg
   have hEimgAb : IsElemAbelian p Eimg := by
@@ -133,7 +133,7 @@ theorem q2Uni_comm_of_large_gamma {G : Type} [Group G] [Finite G] {p : ℕ}
   have hcommUni : IsMulCommutative
       (((ggBsAut hN).range.map (kgInducedAut θ)).comap
         (CFSG.HardMathSupport.C14Cl.uniConj hE (d' + 1))) := by
-    haveI : IsMulCommutative
+    have : IsMulCommutative
         (((ggBsAut hN).range.map (kgInducedAut θ)).comap
           (TableB.projConj (LargeEvenSUGroup (Fin (d' + 1)) E (2 ^ m)))) := by
       rw [← hEmap]
@@ -250,13 +250,13 @@ theorem ggBstarAbelianPreimageJUniS1On_E7 :
     have hsplit' : p ∣ 2 ^ n - 1 ∨ (n = 1 ∧ p = 3) := by
       simpa [LargeEvenSplit, LargeEvenUntwisted] using hsplit
     rcases hsplit' with hpn | ⟨hn1, hp3⟩
-    · haveI : CharP K 2 := charP_two_of_card hKcard
+    · have : CharP K 2 := charP_two_of_card hKcard
       have hpK : p ∣ Nat.card K - 1 := by rw [hKcard]; exact hpn
       exact ⟨K, hKf, hKfin, hKcard, hQ', 7, le_trans hr6 (by norm_num),
         TableBExc.ggTorusLift_E7 (K := K) hp hp2 hpK⟩
     · subst hn1
       subst hp3
-      haveI : CharP K 2 := charP_two_of_card hKcard
+      have : CharP K 2 := charP_two_of_card hKcard
       have hpq : 3 ∣ Nat.card K + 1 := by rw [hKcard]; norm_num
       exact ⟨K, hKf, hKfin, hKcard, hQ', 6, le_trans hr6 (by norm_num),
         ggTorusLift_E7Plus (K := K) (p := 3) (by norm_num) (by norm_num) hpq⟩
@@ -298,13 +298,13 @@ theorem ggBstarAbelianPreimageJUniS1On_E8 :
     have hsplit' : p ∣ 2 ^ n - 1 ∨ (n = 1 ∧ p = 3) := by
       simpa [LargeEvenSplit, LargeEvenUntwisted] using hsplit
     rcases hsplit' with hpn | ⟨hn1, hp3⟩
-    · haveI : CharP K 2 := charP_two_of_card hKcard
+    · have : CharP K 2 := charP_two_of_card hKcard
       have hpK : p ∣ Nat.card K - 1 := by rw [hKcard]; exact hpn
       exact ⟨K, hKf, hKfin, hKcard, hQ', 8, le_trans hr6 (by norm_num),
         TableBExc.ggTorusLift_E8 (K := K) hp hp2 hpK⟩
     · subst hn1
       subst hp3
-      haveI : CharP K 2 := charP_two_of_card hKcard
+      have : CharP K 2 := charP_two_of_card hKcard
       have hpq : 3 ∣ Nat.card K + 1 := by rw [hKcard]; norm_num
       exact ⟨K, hKf, hKfin, hKcard, hQ', 7, le_trans hr6 (by norm_num),
         ggTorusLift_E8Plus (K := K) (p := 3) (by norm_num) (by norm_num) hpq⟩
@@ -344,7 +344,7 @@ theorem ggBstarAbelianPreimageJUniS1On_E6 :
     · exact h
     · exact absurd h hnot13
   obtain ⟨K, instK, finK, hK, hQ⟩ := hraw
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   obtain ⟨-, -, θL, -⟩ := hQ
   by_cases hp3 : p = 3
   · subst hp3
@@ -394,7 +394,7 @@ theorem ggBstarAbelianPreimageJUniS1On_F4 :
   subst hp5
   subst hd5
   obtain ⟨K, instK, finK, hK, hQ⟩ := hraw
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   obtain ⟨-, -, θL, -⟩ := hQ
   have hpq : 5 ∣ Nat.card K - 1 := by rw [hK]; exact hpn
   have hlift := TableBF4.ggTorusLift_F4 (K := K) Nat.prime_five (by norm_num) hpq

@@ -90,10 +90,10 @@ theorem prod_btop_pow_eq (ε : Fin f → Finset (Fin (m + 1))) (d : Fin (m + 1) 
           simp only [Finset.mem_filter, Finset.mem_univ, true_and]
           unfold bdeg
           by_cases hj : j ∈ ε r
-          · rw [if_pos hj]
+          · rw [ite_eq_left hj]
             simp only [hj, true_and]
             exact Fin.lt_def
-          · rw [if_neg hj]
+          · rw [ite_eq_right hj]
             simp [hj]
         have hinner : ∀ r : Fin f,
             (∏ j : Fin (m + 1),

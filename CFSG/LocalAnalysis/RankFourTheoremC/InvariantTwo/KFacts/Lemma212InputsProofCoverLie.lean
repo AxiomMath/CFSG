@@ -18,7 +18,7 @@ theorem exists_char_pow_card (K : Type) [Field K] [Finite K] :
   have := Fintype.ofFinite K
   obtain ⟨r, hchar⟩ := CharP.exists K
   have hr : r.Prime := CharP.char_is_prime K r
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨n, -, hn⟩ := FiniteField.card K r
   exact ⟨r, n, hr, hchar, n.pos, by rw [Nat.card_eq_fintype_card, hn]⟩
 

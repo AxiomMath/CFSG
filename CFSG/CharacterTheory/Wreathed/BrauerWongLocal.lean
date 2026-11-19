@@ -74,7 +74,7 @@ theorem exists_mem_mul_mem_normalizer [Finite G] {p : ℕ} [Fact p.Prime] {K : S
     rintro _ ⟨b, hb, rfl⟩
     have := (Subgroup.mem_normalizer_iff''.mp hg b).mp (hBK hb)
     simpa [MulAut.conj_apply] using this
-  have hMp : IsPGroup p M := (T.isPGroup'.map K.subtype).map _
+  have hMp : IsPGroup p M := (T.isPGroup.map K.subtype).map _
   obtain ⟨c, hcK, hc⟩ := exists_conj_mem_sylow_in T hMK hMp
   have hy : (g * c)⁻¹ ∈ Subgroup.normalizer (B : Set G) := by
     apply mem_normalizer_of_conj_mem

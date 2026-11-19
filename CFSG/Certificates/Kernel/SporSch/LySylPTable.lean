@@ -132,7 +132,7 @@ private theorem hasBit_iff (M l : Nat) : hasBit M l = true ↔ M.testBit l = tru
   rw [e1, Nat.blt_eq]
   change 0 < M &&& 2 ^ l ↔ _
   rw [Nat.and_two_pow]
-  cases M.testBit l <;> simp [Nat.two_pow_pos]
+  cases M.testBit l <;> simp
 
 private theorem testBit_maskL (L : List Nat) (i : Nat) : (maskL L).testBit i = true ↔ i ∈ L := by
   induction L with
@@ -317,9 +317,9 @@ private theorem closedM_spec {MT : Nat → Nat} {n M : Nat} (h : closedM MT n M 
   intro a ha hA b hb hB
   unfold closedM at h
   have h1 := allN_iff.1 h a ha
-  rw [bIf_eqP, if_pos hA] at h1
+  rw [bIf_eqP, ite_eq_left hA] at h1
   have h2 := allN_iff.1 h1 b hb
-  rwa [bIf_eqP, if_pos hB] at h2
+  rwa [bIf_eqP, ite_eq_left hB] at h2
 
 private theorem rowChk_spec {MT : Nat → Nat} {IV n DM i : Nat} (h : rowChk MT IV n DM i = true) :
     ivOK MT IV n i = true ∧
@@ -339,7 +339,7 @@ private theorem rowChk_spec {MT : Nat → Nat} {IV n DM i : Nat} (h : rowChk MT 
       rw [allN_iff]
       exact forall₂_congr fun j _ => beq_iff.symm
     rw [e2, e, bor_iff, beq_iff, beq_iff]
-  · rw [bIf_eqP, if_neg (by rw [hn]; decide), bIf_eqP, if_pos] at h5
+  · rw [bIf_eqP, ite_eq_right (by rw [hn]; decide), bIf_eqP, ite_eq_left] at h5
     · exact h5
     · rw [allN_iff]
       intro d hd
@@ -374,7 +374,7 @@ private theorem dChk_spec {MT DT : Nat → Nat} {IV n nD : Nat} (h : dChk MT IV 
   · obtain ⟨a, b⟩ := band (allN_iff.1 h8 k hk)
     exact ⟨bl a, b⟩
   · have := allN_iff.1 h9 k hk
-    rw [bIf_eqP, if_neg (fun e => hk0 (be e))] at this
+    rw [bIf_eqP, ite_eq_right (fun e => hk0 (be e))] at this
     obtain ⟨a, this⟩ := band this
     obtain ⟨b, this⟩ := band this
     obtain ⟨c, d⟩ := band this
@@ -390,8 +390,7 @@ private theorem extendsBy_eq {MT : Nat → Nat} {n x : Nat} {E : List Nat} (hE :
   apply Bool.eq_iff_iff.2
   unfold extendsBy isInv extK
   rw [bAnd_eqP, bAnd_eqP, bAnd_eqP]
-  simp only [Bool.and_eq_true, Bool.not_eq_true', allN_iff, List.all_eq_true, tm_eq hx hx,
-    hasBit_maskL]
+  simp only [Bool.and_eq_true, Bool.not_eq_true', allN_iff, List.all_eq_true, tm_eq hx hx]
   have c1 : (x != 0) = true ↔ Nat.beq x 0 = false := by
     simp only [bne, nbeq, Bool.not_eq_true']
   have c2 : (tmK MT x x == 0) = true ↔ Nat.beq (tmK MT x x) 0 = true := by rw [nbeq]
@@ -410,7 +409,7 @@ private theorem extendsBy_eq {MT : Nat → Nat} {n x : Nat} {E : List Nat} (hE :
       · rfl
     · intro h e he
       have := h e (hE e he)
-      rw [bIf_eqP, if_pos ((hasBit_maskL E e).2 he)] at this
+      rw [bIf_eqP, ite_eq_left ((hasBit_maskL E e).2 he)] at this
       rw [tm_eq hx (hE e he), tm_eq (hE e he) hx, nbeq]
       exact this
   rw [c1, c2, c3, c4, and_assoc, and_assoc]
@@ -432,13 +431,13 @@ private theorem eChk_spec {MT : Nat → Nat} {n : Nat} {L : List Nat} (h : eChk 
   refine ⟨(lenL_eq L).symm.trans (be h1), be h2, hlt, h4, (hasBit_maskL L 0).1 h5,
     fun x hx hx0 => ?_, fun a ha b hb => ?_, fun x hx => ?_⟩
   · have := allN_iff.1 h6 x (hlt x hx)
-    rw [bIf_eqP, if_pos ((hasBit_maskL L x).2 hx), bIf_eqP,
-      if_neg (fun e => hx0 (be e))] at this
+    rw [bIf_eqP, ite_eq_left ((hasBit_maskL L x).2 hx), bIf_eqP,
+      ite_eq_right (fun e => hx0 (be e))] at this
     exact be this
   · have := allN_iff.1 h7 a (hlt a ha)
-    rw [bIf_eqP, if_pos ((hasBit_maskL L a).2 ha)] at this
+    rw [bIf_eqP, ite_eq_left ((hasBit_maskL L a).2 ha)] at this
     have := allN_iff.1 this b (hlt b hb)
-    rw [bIf_eqP, if_pos ((hasBit_maskL L b).2 hb)] at this
+    rw [bIf_eqP, ite_eq_left ((hasBit_maskL L b).2 hb)] at this
     exact be this
   · have := allN_iff.1 h8 x hx
     simpa using this
@@ -473,7 +472,7 @@ private theorem qChk_spec {MT : Nat → Nat} {IV n f : Nat} {Q E0 E1 : List Nat}
   refine ⟨(lenL_eq Q).symm.trans (be h1), be h2, hlt, h4, (hasBit_maskL Q 0).1 h5,
     fun q hq => ?_, sub h7, sub h8, fun q hq hz => ?_, (hasBit_maskL Q f).1 h10⟩
   · have := allN_iff.1 h6 q (hlt q hq)
-    rw [bIf_eqP, if_pos ((hasBit_maskL Q q).2 hq)] at this
+    rw [bIf_eqP, ite_eq_left ((hasBit_maskL Q q).2 hq)] at this
     obtain ⟨a, this⟩ := band this
     obtain ⟨b, c⟩ := band this
     refine ⟨(hasBit_maskL Q _).1 a, ?_, ?_⟩
@@ -499,11 +498,11 @@ private theorem qChk_spec {MT : Nat → Nat} {IV n f : Nat} {Q E0 E1 : List Nat}
           · rfl
         · intro hc r hr
           have := hc r (hlt r hr)
-          rw [bIf_eqP, if_pos ((hasBit_maskL Q r).2 hr)] at this
+          rw [bIf_eqP, ite_eq_left ((hasBit_maskL Q r).2 hr)] at this
           exact be this
       rw [e2, e, bor_iff, bor_iff, bor_iff, beq_iff, beq_iff, beq_iff, beq_iff]
   · have := allN_iff.1 h9 q hq
-    rw [bIf_eqP, if_pos] at this
+    rw [bIf_eqP, ite_eq_left] at this
     · obtain ⟨a, b⟩ := band this
       exact ⟨(hasBit_maskL Q q).1 a, be b⟩
     · rw [bor_iff, bor_iff, bor_iff, beq_iff, beq_iff, beq_iff, beq_iff]

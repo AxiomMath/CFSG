@@ -15,7 +15,7 @@ section Class
 variable {n : ℕ} {X : Type} [Field X] [Finite X] {σ : X ≃+* X}
 
 theorem center_Asub_eq_bot (P : D4Par n X σ) : Subgroup.center ↥(Asub σ) = ⊥ := by
-  haveI := P.charP
+  have := P.charP
   have h := Subgroup.map_center_eq (asubEquiv P)
   rw [CFSG.RankThree.PartOne.CTP.center_sl2_eq_bot, Subgroup.map_bot] at h
   exact h.symm

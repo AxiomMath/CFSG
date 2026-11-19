@@ -35,7 +35,7 @@ theorem leviSubAt_of_borelQuotient {Y : Type} [Group Y] [Finite Y] [Finite K] {�
     (hfC : ∀ i, f ∣ Nat.card (rankOne D.rootGroup i))
     (hZ : ∀ i, center ↥(rankOne D.rootGroup i) = ⊥) :
     LeviSubAt Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU2 : IsPGroup 2 (posUnipotent D) := isPGroup_iSup_pos h.extras h.pGroup
   have hidx : ¬ 2 ∣ ((posUnipotent D).map π).index := fun hd =>
     h.not_dvd_index (hd.trans (Subgroup.index_map_dvd _ h.surj))
@@ -73,7 +73,7 @@ theorem leviSubAt_of_borelQuotient {Y : Type} [Group Y] [Finite Y] [Finite K] {�
         (rankOne_le_levi D.rootGroup (hCI (Finset.mem_univ i))).trans hLA)
     rw [← Subgroup.map_comap_eq_self_of_surjective h.surj K₀, hAtop, ← MonoidHom.range_eq_map]
     exact MonoidHom.range_eq_top.2 h.surj
-  haveI : Nontrivial ↥(levi D.rootGroup C) :=
+  have : Nontrivial ↥(levi D.rootGroup C) :=
     Finite.one_lt_card_iff_nontrivial.1 (lt_of_lt_of_le hp.one_lt (Nat.le_of_dvd Nat.card_pos hpC))
   have hQ := isQuasisimple_levi hdiv h.ct h.extras hBU hE C hind
     (hperf C hCne hCuniv hind p hp h5 hrank hpC)

@@ -108,16 +108,16 @@ theorem innRoots_eq (t : Array ℕ) : innRoots (innTabs ()) t =
     exact hiff
   rw [List.filter_congr key]
   by_cases hc : innTab (2 * innW t) = t
-  · rw [if_pos (by simpa using hc)]
+  · rw [ite_eq_left (by simpa using hc)]
     simp only [hc, beq_self_eq_true, Bool.true_and]
     exact filter_half _ (innW_lt t)
-  · rw [if_neg (by simpa using hc)]
+  · rw [ite_eq_right (by simpa using hc)]
     simp [hc]
 
 theorem qmulN_two_mul_z0 (w : ℕ) : qmulN (2 * w) z0N = 2 * w + 1 := by
   unfold qmulN z0N
   simp only [show 2 * w % 2 = 0 by omega, show 2 * w / 2 = w by omega, Nat.reduceMod,
-    Nat.reduceDiv, b0n_zero_right, Nat.zero_xor, Nat.xor_zero, Bool.false_eq_true, if_false]
+    Nat.reduceDiv, b0n_zero_right, Nat.zero_xor, Nat.xor_zero, Bool.false_eq_true, ite_false]
   omega
 
 theorem roots_pair (w : ℕ) : ([2 * w, 2 * w + 1].length == 2 &&
@@ -149,7 +149,7 @@ theorem rootsOK_of {θ₁ θ₂ : Array ℕ}
   rw [hmap]
   generalize #[θ₁, θ₂][i]! = θ at hθ ⊢
   dsimp only
-  rw [innRoots_eq, if_pos hθ]
+  rw [innRoots_eq, ite_eq_left hθ]
   exact roots_pair _
 
 theorem find?_range_one {n : ℕ} (hn : 2 ≤ n) {p : ℕ → Bool} (h0 : p 0 = false)
@@ -279,24 +279,27 @@ variable {L : List ℕ} {P : List (ℕ × ℕ)} {T W1 W2 : IT} {M1 M2 r1 r2 : �
   (h : A8Hyp L P T W1 W2 M1 M2 r1 r2)
 include h
 
+omit h in
 theorem getE {i : ℕ} (hi : i < L.length) : L.toArray[i]! = L[i] := by
   rw [List.getElem!_toArray, getElem!_pos L i hi]
 
+omit h in
 theorem getE_of {i x : ℕ} (hx : L[i]? = some x) : L.toArray[i]! = x := by
   have hi : i < L.length := by
     by_contra hc
     rw [List.getElem?_eq_none (by omega)] at hx
     exact absurd hx (by simp)
-  rw [h.getE hi]
+  rw [CFSG.KC.C690.A8Hyp.getE hi]
   rw [List.getElem?_eq_getElem hi, Option.some.injEq] at hx
   exact hx
 
-theorem e0 : L.toArray[0]! = Code.one := by rw [h.getE_of h.l0, oneF_eq]
+theorem e0 : L.toArray[0]! = Code.one := by rw [CFSG.KC.C690.A8Hyp.getE_of h.l0, oneF_eq]
 
-theorem e1 : L.toArray[1]! = r1 := h.getE_of h.l1
+theorem e1 : L.toArray[1]! = r1 := CFSG.KC.C690.A8Hyp.getE_of h.l1
 
-theorem e2 : L.toArray[2]! = r2 := h.getE_of h.l2
+theorem e2 : L.toArray[2]! = r2 := CFSG.KC.C690.A8Hyp.getE_of h.l2
 
+omit h in
 theorem getI {i : ℕ} (hi : i < L.length) :
     (invsL L).toArray[i]! = invGo L[i] L.length L[i] := by
   have hi' : i < (invsL L).length := by simpa [invsL] using hi
@@ -330,11 +333,11 @@ theorem fc2 (i y : ℕ) : firstConj L.toArray (invsL L).toArray i r2 y =
 
 theorem idx1 : T.find r1 L.length = 1 := by
   have hi : 1 < L.length := by rw [h.len]; norm_num
-  rw [h.ix, ← h.e1, h.getE hi, h.nd.idxOf_getElem 1 hi]
+  rw [h.ix, ← h.e1, CFSG.KC.C690.A8Hyp.getE hi, h.nd.idxOf_getElem 1 hi]
 
 theorem idx2 : T.find r2 L.length = 2 := by
   have hi : 2 < L.length := by rw [h.len]; norm_num
-  rw [h.ix, ← h.e2, h.getE hi, h.nd.idxOf_getElem 2 hi]
+  rw [h.ix, ← h.e2, CFSG.KC.C690.A8Hyp.getE hi, h.nd.idxOf_getElem 2 hi]
 
 theorem m1_contains (y : ℕ) : (classMapOfReps L.toArray (invsL L).toArray #[r1]).contains y =
     M1.testBit (T.find y L.length) := by
@@ -366,13 +369,14 @@ theorem cm_contains (y : ℕ) :
   rw [contains_eq_isSome_get?, classMapOfReps_two_get?, h.fc1, h.fc2]
   split <;> split <;> simp_all
 
+omit h in
 theorem mem_involL {y : ℕ} : y ∈ involL L ↔ y ∈ L ∧ isInvF y = true := by
   unfold involL
   rw [List.mem_filter]
 
 theorem cm_contains_iff (y : ℕ) :
     (classMapOfReps L.toArray (invsL L).toArray #[r1, r2]).contains y = true ↔ y ∈ involL L := by
-  rw [h.cm_contains, h.ix, h.mem_involL]
+  rw [h.cm_contains, h.ix, CFSG.KC.C690.A8Hyp.mem_involL]
   by_cases hy : y ∈ L
   · obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hy
     rw [h.nd.idxOf_getElem i hi, ← h.bit hi]
@@ -404,15 +408,15 @@ theorem cm_get {g : ℕ} (hg : g ∈ involL L) : ∃ i k,
     rw [hik] at h0
     obtain ⟨rfl, j, hj, hk, hcj⟩ := firstConj_some h0
     rw [List.size_toArray] at hj
-    rw [h.getE hj] at hk
-    rw [h.getE hj, h.getI hj] at hcj
+    rw [CFSG.KC.C690.A8Hyp.getE hj] at hk
+    rw [CFSG.KC.C690.A8Hyp.getE hj, CFSG.KC.C690.A8Hyp.getI hj] at hcj
     exact ⟨by norm_num, j, hj, hk, hcj⟩
   | none =>
     rw [h0, Option.none_or] at hik
     obtain ⟨rfl, j, hj, hk, hcj⟩ := firstConj_some hik
     rw [List.size_toArray] at hj
-    rw [h.getE hj] at hk
-    rw [h.getE hj, h.getI hj] at hcj
+    rw [CFSG.KC.C690.A8Hyp.getE hj] at hk
+    rw [CFSG.KC.C690.A8Hyp.getE hj, CFSG.KC.C690.A8Hyp.getI hj] at hcj
     exact ⟨by norm_num, j, hj, hk, hcj⟩
 
 theorem invOK : a8InvolutionsOK (a8Data ()) = true := by
@@ -426,14 +430,14 @@ theorem invOK : a8InvolutionsOK (a8Data ()) = true := by
     · symm
       rw [Bool.eq_false_iff]
       intro hm
-      rw [List.contains_iff_mem, h.mem_involL, hc] at hm
+      rw [List.contains_iff_mem, CFSG.KC.C690.A8Hyp.mem_involL, hc] at hm
       exact absurd hm.2 (by simp)
     · symm
-      rw [List.contains_iff_mem, h.mem_involL]
+      rw [List.contains_iff_mem, CFSG.KC.C690.A8Hyp.mem_involL]
       exact ⟨hx, hc⟩
   · intro x hx
     rw [List.contains_toArray, List.contains_iff_mem]
-    exact (h.mem_involL.1 hx).1
+    exact (CFSG.KC.C690.A8Hyp.mem_involL.1 hx).1
 
 theorem s1 : a8S1Of (a8Data ()) = true := by
   have hall : (List.range L.toArray.size).all
@@ -441,12 +445,13 @@ theorem s1 : a8S1Of (a8Data ()) = true := by
     rw [List.all_eq_true]
     intro i hi
     rw [List.mem_range, List.size_toArray] at hi
-    rw [h.getE hi, h.getI hi, beq_iff_eq]
+    rw [CFSG.KC.C690.A8Hyp.getE hi, CFSG.KC.C690.A8Hyp.getI hi, beq_iff_eq]
     exact h.mulInv (List.getElem_mem hi)
   unfold a8S1Of
   rw [a8_elems h.enum, a8_par h.enum, a8_inverses h.enum, h.eok, h.gens, hall]
   simp [invsL, h.len]
 
+omit h in
 theorem theta_eq : repThetas #[r1, r2] = #[liftTab r1 0, liftTab r2 0] := by
   simp [repThetas]
 
@@ -477,10 +482,9 @@ theorem witOK_ok : witOK (a8Data ()).elems (a8Data ()).invMap (a8Data ()).reps
     exact List.getElem_mem hjj
   have hi' : i < (#[r1, r2] : Array ℕ).size := by simpa using hi
   dsimp only
-  rw [if_pos hs]
+  rw [ite_eq_left hs]
   dsimp only
-  simp only [hinv, hkE, decide_eq_true hs, decide_eq_true hi', beq_self_eq_true, Bool.true_and,
-    Bool.and_true]
+  simp only [hinv, hkE, decide_eq_true hs, decide_eq_true hi', beq_self_eq_true, Bool.and_true]
   rw [hk]
   simpa [h.mulInv (List.getElem_mem hjj), List.getElem!_toArray, getElem!_pos (involL L) j hj]
     using hc
@@ -499,7 +503,7 @@ theorem wits_isSome : (sqWitData (classMapOfReps L.toArray (invsL L).toArray #[r
   have hs : i < (repThetas #[r1, r2]).size := by simpa [repThetas] using hi
   rw [hik]
   dsimp only
-  rw [if_pos hs]
+  rw [ite_eq_left hs]
   rfl
 
 theorem s2 : a8S2Of (a8Data ()) = true := by
@@ -513,9 +517,9 @@ theorem s2 : a8S2Of (a8Data ()) = true := by
   · rw [a8_reps h.enum, h.reps, a8_elems h.enum]
     simp [h.inv1, h.inv2, h.mem1, h.mem2]
   · rw [a8_reps h.enum, h.reps, a8_elems h.enum, h.firstInv, g0]
-    simp [h.e1, h.l1]
+    simp [h.l1]
   · rw [a8_reps h.enum, h.reps, a8_elems h.enum, a8_inverses h.enum, g0, g1, h.findTwo]
-    simp [h.e2, h.l2]
+    simp [h.l2]
   · rw [a8_reps h.enum, h.reps, a8_elems h.enum, a8_inverses h.enum, g0, g1, h.m1_contains,
       h.idx2, h.m12]
     rfl
@@ -529,7 +533,7 @@ theorem s2 : a8S2Of (a8Data ()) = true := by
 
 theorem s3 : a8S3Of (a8Data ()) = true := by
   unfold a8S3Of
-  rw [a8_theta h.enum, a8_qmulFlat h.enum, a8_innTabs h.enum, h.reps, h.theta_eq,
+  rw [a8_theta h.enum, a8_qmulFlat h.enum, a8_innTabs h.enum, h.reps, CFSG.KC.C690.A8Hyp.theta_eq,
     rootsOK_of h.root1 h.root2, Bool.and_true]
   simp [isHomTab_liftTab (h.iso r1 h.mem1), isHomTab_liftTab (h.iso r2 h.mem2)]
 
@@ -548,7 +552,7 @@ theorem s4 : a8S4Of (a8Data ()) = true := by
       rw [hg]
       exact h.isoOne
     · rw [List.mem_toArray] at hg
-      exact h.iso g (h.mem_involL.1 hg).1
+      exact h.iso g (CFSG.KC.C690.A8Hyp.mem_involL.1 hg).1
   · rw [a8_wits h.enum, a8_qmulFlat h.enum, h.reps]
     unfold sqWitData
     rw [List.map_toArray, List.all_toArray, List.all_eq_true]
@@ -558,7 +562,7 @@ theorem s4 : a8S4Of (a8Data ()) = true := by
     have hs : i < (repThetas #[r1, r2]).size := by simpa [repThetas] using hi
     rw [hik]
     dsimp only
-    rw [if_pos hs]
+    rw [ite_eq_left hs]
     dsimp only
     exact isHomTab_liftTab (h.iso k (hk ▸ List.getElem_mem hjj)) 0
 

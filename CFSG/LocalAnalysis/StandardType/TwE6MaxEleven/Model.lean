@@ -55,6 +55,7 @@ open Subgroup
 variable {X : Type} [Group X] [Finite X]
 
 
+omit [Finite X] in
 private theorem nonempty_mulEquiv_stdGroup_of_model
     (h : ChevalleyExceptionalModel X .twistedE6 2 1) : Nonempty (X ≃* stdGroup) := by
   obtain ⟨K, _, _, σ, hcard, hσ, ⟨e⟩⟩ := exists_mulEquiv_graphFixedRootGroup_E6 h
@@ -65,6 +66,7 @@ private theorem nonempty_mulEquiv_stdGroup_of_model
     simpa using hσ c
   exact ⟨e.trans e'⟩
 
+omit [Finite X] in
 private theorem card_centralizer_map {Y : Type} [Group Y] (e : X ≃* Y) (x : X) :
     Nat.card (Subgroup.centralizer ({e x} : Set Y)) =
       Nat.card (Subgroup.centralizer ({x} : Set X)) := by
@@ -86,28 +88,33 @@ private theorem card_centralizer_map {Y : Type} [Group Y] (e : X ≃* Y) (x : X)
     _ = Nat.card (Subgroup.centralizer ({x} : Set X)) :=
         (Nat.card_congr (Subgroup.equivMapOfInjective _ _ e.injective).toEquiv).symm
 
+omit [Finite X] in
 private theorem card_map_mulEquiv {Y : Type} [Group Y] (e : X ≃* Y) (A : Subgroup X) :
     Nat.card (A.map e.toMonoidHom) = Nat.card A :=
   (Nat.card_congr (Subgroup.equivMapOfInjective A e.toMonoidHom e.injective).toEquiv).symm
 
+omit [Finite X] in
 private theorem mem_map_normalizer {Y : Type} [Group Y] (e : X ≃* Y) {A : Subgroup X}
     {g : X} (hg : g ∈ Subgroup.normalizer (A : Set X)) :
     e g ∈ Subgroup.normalizer ((A.map e.toMonoidHom : Subgroup Y) : Set Y) := by
   have h : e g ∈ (Subgroup.normalizer (A : Set X)).map e.toMonoidHom := ⟨g, hg, rfl⟩
   rwa [Subgroup.map_equiv_normalizer_eq A e] at h
 
+omit [Finite X] in
 theorem card_of_model (h : ChevalleyExceptionalModel X .twistedE6 2 1) :
     Nat.card X = 2 ^ 36 * 3 ^ 9 * 5 ^ 2 * 7 ^ 2 * 11 * 13 * 17 * 19 := by
   obtain ⟨e⟩ := nonempty_mulEquiv_stdGroup_of_model h
   rw [Nat.card_congr e.toEquiv, card_stdGroup]
   norm_num
 
+omit [Finite X] in
 theorem isSimpleGroup_of_model (h : ChevalleyExceptionalModel X .twistedE6 2 1) :
     IsSimpleGroup X := by
   obtain ⟨e⟩ := nonempty_mulEquiv_stdGroup_of_model h
-  haveI : IsSimpleGroup stdGroup := CFSG.Monster.B.E6.stdGroup_isSimpleGroup
+  have : IsSimpleGroup stdGroup := CFSG.Monster.B.E6.stdGroup_isSimpleGroup
   exact e.isSimpleGroup
 
+omit [Finite X] in
 theorem c11_of_model (h : ChevalleyExceptionalModel X .twistedE6 2 1) :
     ∀ t : X, orderOf t = 11 →
       Nat.card (Subgroup.centralizer ({t} : Set X)) ∣ 2 * 3 * 11 := by
@@ -121,7 +128,7 @@ theorem c17_of_model (h : ChevalleyExceptionalModel X .twistedE6 2 1) :
     ∀ s : X, orderOf s = 17 →
       Nat.card (Subgroup.centralizer ({s} : Set X)) = 17 := by
   intro s hs
-  haveI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 17) := ⟨by norm_num⟩
   obtain ⟨e⟩ := nonempty_mulEquiv_stdGroup_of_model h
   have hp2 : ¬ 17 ^ 2 ∣ Nat.card X := by
     rw [card_of_model h]
@@ -132,6 +139,7 @@ theorem c17_of_model (h : ChevalleyExceptionalModel X .twistedE6 2 1) :
     rw [← card_centralizer_map e (e.symm rep17), e.apply_symm_apply, card_centralizer_rep17]
   rw [card_centralizer_eq_of_sylow_prime hp2 hx hs, hxcard]
 
+omit [Finite X] in
 theorem rank3_of_model (h : ChevalleyExceptionalModel X .twistedE6 2 1) :
     ∀ A : Subgroup X, (∀ a ∈ A, a ^ 3 = 1) →
       (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) → Nat.card A ≤ 3 ^ 5 := by
@@ -147,6 +155,7 @@ theorem rank3_of_model (h : ChevalleyExceptionalModel X .twistedE6 2 1) :
   have hle := (threeLocalFacts_std centralizerFacts_std).rank3 B hB3 hBc
   rwa [show Nat.card B = Nat.card A from card_map_mulEquiv e A] at hle
 
+omit [Finite X] in
 theorem elem11_of_model (h : ChevalleyExceptionalModel X .twistedE6 2 1) :
     ∀ A : Subgroup X, (∀ a ∈ A, a ^ 3 = 1) →
       (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) → Nat.card A = 3 ^ 5 →

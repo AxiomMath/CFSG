@@ -43,7 +43,7 @@ theorem sylowCentreInn_of_data {M : Type*} [Group M] [Finite M] (D : Subgroup (M
     (hS.to_le (inf_le_left : S ⊓ N ≤ S)).comap_subtype
   obtain ⟨Tsyl, hTsyl⟩ := hT'p.exists_le_sylow
   have hTeq : (Tsyl : Subgroup ↥N).map N.subtype = S ⊓ N := by
-    refine hmax _ (Subgroup.map_subtype_le _) (Tsyl.isPGroup'.map _) ?_
+    refine hmax _ (Subgroup.map_subtype_le _) (Tsyl.isPGroup.map _) ?_
     intro x hx
     exact ⟨⟨x, hx.2⟩, hTsyl ((Subgroup.mem_subgroupOf).2 hx), rfl⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥N Qn Tsyl

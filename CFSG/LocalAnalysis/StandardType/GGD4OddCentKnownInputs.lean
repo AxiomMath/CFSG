@@ -122,7 +122,7 @@ section Component
 
 @[expose] def GGTwE6ThreeRank (R : Type) [Group R] : Prop :=
   ∀ (X : Type) [Group X] [Finite X], commutator X = ⊤ →
-    ∀ θ : X ⧸ Subgroup.center X ≃* R,
+    ∀ _θ : X ⧸ Subgroup.center X ≃* R,
       ∃ E : Subgroup X, IsElemAbelian 3 E ∧
         (Nat.card E = 3 ^ 6 ∨ (Nat.card E = 3 ^ 5 ∧ E ⊓ Subgroup.center X = ⊥))
 

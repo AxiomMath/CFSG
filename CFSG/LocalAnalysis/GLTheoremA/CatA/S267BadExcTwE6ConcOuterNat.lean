@@ -121,9 +121,11 @@ theorem entrywise_liftA (δ : K →+* K) (h : SpecialLinearGroup (Fin 6) K) :
       exact entrywise_pinnedX δ _ c
   exact DFunLike.congr_fun key h
 
+omit [Finite K] in
 theorem map_eDiag {δ : K ≃+* K} {ζ : K} (hδζ : δ ζ = ζ) (i : Fin 6) : δ (eDiag K ζ i) = eDiag K ζ i := by
   fin_cases i <;> simp [eDiag, hδζ]
 
+omit [Finite K] in
 theorem map_conjSU {σ δ : K ≃+* K} (hδσ : ∀ c, δ (σ c) = σ (δ c)) {ζ : K} (hζ : ζ ≠ 0)
     (hδζ : δ ζ = ζ) (x : SU σ 6) :
     SpecialLinearGroup.map δ.toRingHom (conjSU σ hζ x) = conjSU σ hζ (suMap σ 6 hδσ x) := by
@@ -170,7 +172,7 @@ theorem eq_one_of_forall_fixed {Q : ℕ} (hK : Nat.card K = Q ^ 2) (hQ : 2 ≤ Q
   have hxo : orderOf x = Q + 1 := orderOf_pow_orderOf_div hg0 hdvd
   have hxτ : τ (x : K) = x := hτ x (by rw [← hxo]; exact pow_orderOf_eq_one x)
   set F := fixSubfield τ with hF
-  haveI : Finite F := Subtype.finite
+  have : Finite F := Subtype.finite
   have hxF : (x : K) ∈ F := (mem_fixSubfield τ).2 hxτ
   have hxiF : ((x⁻¹ : Kˣ) : K) ∈ F := by
     rw [Units.val_inv_eq_inv_val]
@@ -224,7 +226,7 @@ theorem pow_eq_of_mem_fixSubfield {ℓ p d : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have hcard : Nat.card F = (ℓ ^ d) ^ 2 := card_fixSubfield_of_orderOf hp hK hδ
   have hpow : ∀ y ∈ F, y ^ ((ℓ ^ d) ^ 2) = y := by
     intro y hy
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have h1 := FiniteField.pow_card (⟨y, hy⟩ : F)
     rw [← Nat.card_eq_fintype_card, hcard] at h1
     exact congrArg Subtype.val h1

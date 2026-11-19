@@ -35,8 +35,8 @@ theorem false_of_slpm (X : GGNineDepCtx h α r s x)
     (hsl : ∀ g : ↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s),
       g ∈ ggNineQ X ↔ (LinearEquiv.det g = 1 ∨ LinearEquiv.det g = -1)) : False := by
   classical
-  haveI : Module.Finite (ZMod p) V := X.finite
-  haveI : Module.Finite (ZMod p) ↥(ggFixLineT r s) := inferInstance
+  have : Module.Finite (ZMod p) V := X.finite
+  have : Module.Finite (ZMod p) ↥(ggFixLineT r s) := inferInstance
   let σ : ↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s) := LinearEquiv.neg (ZMod p)
   have hσ2 : σ * σ = 1 := by
     ext v
@@ -213,15 +213,15 @@ theorem false_of_exc (X : GGNineDepCtx h α r s x)
     (hord : Nat.card ↥(ggNineQ X) = k.ord)
     (hcen : Nat.card ↥(Subgroup.center ↥(ggNineQ X)) = k.cen) : False := by
   classical
-  haveI : Module.Finite (ZMod p) V := X.finite
-  haveI : Module.Finite (ZMod p) ↥(ggFixLineT r s) := inferInstance
-  haveI : Finite V := Module.finite_of_finite (ZMod p)
-  haveI : Finite ↥(ggFixLineT r s) := Subtype.finite
-  haveI : Finite (↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s)) :=
+  have : Module.Finite (ZMod p) V := X.finite
+  have : Module.Finite (ZMod p) ↥(ggFixLineT r s) := inferInstance
+  have : Finite V := Module.finite_of_finite (ZMod p)
+  have : Finite ↥(ggFixLineT r s) := Subtype.finite
+  have : Finite (↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s)) :=
     Finite.of_injective
       (fun g : ↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s) =>
         (g : ↥(ggFixLineT r s) → ↥(ggFixLineT r s))) DFunLike.coe_injective
-  haveI : Finite ↥(ggNineQ X) := Subtype.finite
+  have : Finite ↥(ggNineQ X) := Subtype.finite
   have hcen2 : 2 ∣ k.cen := by cases k <;> decide
   have h2dvd : 2 ∣ Nat.card ↥(Subgroup.center ↥(ggNineQ X)) := by
     rw [hcen]
@@ -305,7 +305,7 @@ theorem false_of_exc (X : GGNineDepCtx h α r s x)
   have hnegQ : (LinearEquiv.neg (ZMod p) :
       ↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s)) ∈ ggNineQ X := by
     rw [← hzgneg]
-    simpa [zg] using z.1.2
+    simp [zg]
   have hfinn : Module.finrank (ZMod p) ↥(ggFixLineT r s) = N :=
     X.finrank_eq_of_neg_mem hnegQ
   have hdegN : k.deg = N := by rw [← hdeg, hfinn]
@@ -352,7 +352,7 @@ theorem false_of_heart (X : GGNineDepCtx h α r s x) (hp : p = 3) (hN : N = 6)
     (hcl : ggNineQ X = Subgroup.closure (ZS.ClassRefl p Q c)) : False := by
   subst hp
   subst hN
-  haveI : Module.Finite (ZMod 3) V := X.finite
+  have : Module.Finite (ZMod 3) V := X.finite
   by_cases hneg : (LinearEquiv.neg (ZMod 3) :
       ↥(ggFixLineT r s) ≃ₗ[ZMod 3] ↥(ggFixLineT r s)) ∈ ggNineQ X
   · have h := X.finrank_eq_of_neg_mem hneg

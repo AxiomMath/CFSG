@@ -126,7 +126,7 @@ public theorem pCore_quotient_centralizer_le_of_centralizer_le_core {G : Type*} 
       have hK_le_O : K ≤ O := by
         exact (Subgroup.map_mono (f := mk) hQleX).trans (le_of_eq hXmap)
       have hK_p : IsPGroup p K := IsPGroup.to_le (pCore_isPGroup (G := G ⧸ C)) hK_le_O
-      have hK_q : IsPGroup d K := IsPGroup.map (IsPGroup.map Q.isPGroup' X.subtype) mk
+      have hK_q : IsPGroup d K := IsPGroup.map (IsPGroup.map Q.isPGroup X.subtype) mk
       have hK_bot : K = ⊥ := by
         have hdisj : Disjoint K K := IsPGroup.disjoint_of_ne p d hpd K K hK_p hK_q
         refine le_antisymm ?_ bot_le
@@ -142,7 +142,7 @@ public theorem pCore_quotient_centralizer_le_of_centralizer_le_core {G : Type*} 
       -- contradiction with `Q ≠ ⊥`.
       have hQ_p : IsPGroup p (Q.map X.subtype) :=
         IsPGroup.to_le (pCore_isPGroup (G := G)) (hQleC.trans h)
-      have hQ_q : IsPGroup d (Q.map X.subtype) := IsPGroup.map Q.isPGroup' X.subtype
+      have hQ_q : IsPGroup d (Q.map X.subtype) := IsPGroup.map Q.isPGroup X.subtype
       have hQne' : Q.map X.subtype ≠ ⊥ := by
         intro hbot
         apply hQne

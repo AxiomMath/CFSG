@@ -52,7 +52,7 @@ theorem isCalH_of_mem_hSet (D : Data G) {V H : Subgroup G} (hV : InCalV D.M V)
 theorem normalizersInM_of_uniqueMax (D : Data G) {V H W : Subgroup G} (hV : InCalV D.M V)
     (hW : W ≠ ⊥) (hW2 : IsPGroup 2 W)
     (hU : UniqueMax D.M (D.M ⊓ normalizer (W : Set G))) : NormalizersInM V H W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : normalizer (V : Set G) = D.M := normalizer_eq_of_inCalV D hV
   have hNW : normalizer (W : Set G) ≤ D.M := normalizer_le_of_uniqueMax hU hW hW2 inf_le_right
   have hinf : normalizer (V : Set G) ⊓ normalizer (W : Set G) = normalizer (W : Set G) := by

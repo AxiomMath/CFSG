@@ -93,8 +93,8 @@ theorem normalizer_le_of_normal (h : D2Reduced p X R A X₀) {T : Subgroup X}
   have hp := h.prime
   have : Fact p.Prime := ⟨hp⟩
   by_cases hrank : 2 ≤ Open.pRank p T
-  · exact h.normalizer_le_of_rank T (hTR.trans h.sylow_le) (R.isPGroup'.to_le hTR) hrank
-  obtain ⟨z, hzT, hzc, hz⟩ := exists_mem_centralizer_of_normal R.isPGroup' hTR hTn hT
+  · exact h.normalizer_le_of_rank T (hTR.trans h.sylow_le) (R.isPGroup.to_le hTR) hrank
+  obtain ⟨z, hzT, hzc, hz⟩ := exists_mem_centralizer_of_normal R.isPGroup hTR hTn hT
   have hzA := h.mem_A_of_mem_center (hTR hzT) hzc hz
   have hZ1 : Subgroup.zpowers z ≠ ⊥ := by
     rw [Ne, Subgroup.zpowers_eq_bot]

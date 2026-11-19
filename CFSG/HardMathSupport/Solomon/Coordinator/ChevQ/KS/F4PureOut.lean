@@ -124,7 +124,7 @@ theorem f4SU3Rank3P_of_pure (hCnt : F4InnerPartCount) (hPR : F4EightPureRank)
   have hakc : ∀ y : X, y ∈ K → a * y * a⁻¹ = k0 * y * k0⁻¹ := fun y hy => conj_eq_of_inner hk0c hy
   have hkE : k ∈ innerPart hBN := mem_innerPart'.2 ⟨a, haB, fun y => hakc y y.2⟩
   have hk3 : orderOf k = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine orderOf_eq_prime (hEel.2 k hkE) ?_
     intro h
     apply haC
@@ -231,7 +231,7 @@ theorem f4SU3Rank3P_of_pure (hCnt : F4InnerPartCount) (hPR : F4EightPureRank)
           (Bal209F4Aux.mem_innerSub.2 hbI)
       exact Bal209F4Aux.mem_innerSub.1 h1
     exact hC (x * b⁻¹) (B.mul_mem hxB (B.inv_mem hb)) hxbI hcent
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hAel.isPGroup
   have hPA : ε.range ≤ A := hrange
   have hdvd : Nat.card ε.range ∣ 3 ^ n := hn ▸ Subgroup.card_dvd_of_le hPA

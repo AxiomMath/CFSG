@@ -15,7 +15,7 @@ theorem F6_r_ne_one_of_A9 (hA9 : A9CentralizerStmt) {b t b₁ b₂ : G} {L B : S
     (h31 : FF84_3_1) (h33 : FF84_3_3) (_h34 : FF84_3_4) :
     Nat.card (Op 2 (Cen t)) ≠ 2 ^ 5 := by
   intro hT
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hTL, hdec⟩ := R_decomp hchar d h31 h33 hT
   have hZ : Subgroup.center L = ⊥ := (h31 G b L B b₁ b₂ d.sec).2
   have hb1B : b₁ ∈ B := (Subgroup.mem_inf.1 d.sec.hb₁).1

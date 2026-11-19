@@ -12,14 +12,17 @@ open CFSG.CGT.Timmesfeld75 CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem Frame0.z_ne_one (F : Frame0 G z) : z ≠ 1 := by
   intro h
   have := F.ord
   rw [h] at this
   simp at this
 
+omit [Finite G] in
 theorem Frame0.z_mem_T (F : Frame0 G z) : z ∈ F.T := F.U_le_T F.z_mem_U
 
+omit [Finite G] in
 theorem Frame0.z_comm_T (F : Frame0 G z) {t : G} (ht : t ∈ F.T) : z * t = t * z :=
   (Subgroup.mem_centralizer_singleton_iff.1 (F.T_le_H ht)).symm
 
@@ -27,6 +30,7 @@ theorem Frame0.isPGroup_T (F : Frame0 G z) : IsPGroup 2 F.T := by
   rw [IsPGroup.iff_card]
   exact ⟨10, F.card_T⟩
 
+omit [Finite G] in
 theorem Frame0.normalizer_T_le_H (F : Frame0 G z) :
     ∀ n ∈ Subgroup.normalizer (F.T : Set G), n ∈ Cz z := by
   intro n hn
@@ -76,9 +80,10 @@ theorem s39_2 (F : Frame0 G z) : ∃ P : Sylow 2 G, (P : Subgroup G) = F.T := by
     F.isPGroup_T F.T_le_H le_top (fun Q hQ hQH hTQ => F.eq_T_of_le_H hQ hQH hTQ)
     (fun n _ hn => F.normalizer_T_le_H n hn)
   obtain ⟨P, hP⟩ := F.isPGroup_T.exists_le_sylow
-  exact ⟨P, (hmax P P.isPGroup' le_top hP).symm ▸ rfl⟩
+  exact ⟨P, (hmax P P.isPGroup le_top hP).symm ▸ rfl⟩
 
 
+omit [Finite G] in
 theorem Frame0.le_normalizer_U (F : Frame0 G z) : Cz z ≤ Subgroup.normalizer (F.U : Set G) := by
   intro h hh
   rw [Subgroup.mem_normalizer_iff]
@@ -91,10 +96,12 @@ theorem Frame0.le_normalizer_U (F : Frame0 G z) : Cz z ≤ Subgroup.normalizer (
     have := F.U_normal h hh _ hu
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem Frame0.centralizer_U_le (F : Frame0 G z) {x : G} (hx : ∀ u ∈ F.U, x * u = u * x) :
     x ∈ F.U :=
   F.U_cent x (Subgroup.mem_centralizer_singleton_iff.2 (hx z F.z_mem_U)) hx
 
+omit [Finite G] in
 theorem Frame0.card_normalizer_of_ne (F : Frame0 G z)
     (hne : ∃ m ∈ Subgroup.normalizer (F.U : Set G), m⁻¹ * z * m ≠ z) :
     Nat.card (Subgroup.normalizer (F.U : Set G)) = 322560 := by
@@ -108,7 +115,7 @@ theorem Frame0.card_normalizer_of_ne (F : Frame0 G z)
     simpa using this
   have hO : {x : G | ∃ l ∈ M, x = l⁻¹ * z * l} = (F.U : Set G) \ {1} := by
     ext x
-    simp only [Set.mem_setOf_eq, Set.mem_diff, SetLike.mem_coe, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_sdiff, SetLike.mem_coe, Set.mem_singleton_iff]
     constructor
     · rintro ⟨l, hl, rfl⟩
       refine ⟨hconj l hl z F.z_mem_U, fun h => hz1 ?_⟩

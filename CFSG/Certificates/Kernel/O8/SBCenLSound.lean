@@ -340,12 +340,12 @@ theorem zS0_eq {g : ℕ} (hg : g < 512) :
   unfold zS0
   simp only [cen_nIf, cen_beq, decide_eq_true_eq, nl_xor]
   by_cases h2 : (MR g >>> (9 * g)) &&& 511 = 0
-  · rw [if_pos h2, zl_eq]
+  · rw [ite_eq_left h2, zl_eq]
     apply flg_congr
     intro e he
     rw [ln_xor, ln_IDX he, mul_code AR MR hmul he hg he hg, h2, Nat.mul_zero, Nat.add_zero,
       Bool.eq_iff_iff, beq_iff_eq, decide_eq_true_eq]
-  · rw [if_neg h2]
+  · rw [ite_eq_right h2]
     symm
     apply flg_false
     intro e he
@@ -353,19 +353,20 @@ theorem zS0_eq {g : ℕ} (hg : g < 512) :
     simp only [decide_eq_false_iff_not]
     omega
 
+omit hmul in
 theorem zI_eq {g : ℕ} (hg : g < 512) :
     zI g (flg fun e => decide (mul (e + 128 * g) (e + 128 * g) = 0)) =
       flg fun e => decide (mul (e + 128 * g) (e + 128 * g) = 0 ∧ e + 128 * g ≠ 0) := by
   unfold zI
   simp only [cen_nIf, cen_beq, decide_eq_true_eq, nl_xor, nl_and]
   by_cases g0 : g = 0
-  · rw [if_pos g0, flg_64, flg_and, flg_xor]
+  · rw [ite_eq_left g0, flg_64, flg_and, flg_xor]
     apply flg_congr
     intro e he
     subst g0
     simp only [Nat.mul_zero, Nat.add_zero]
     by_cases h1 : mul e e = 0 <;> by_cases h2 : e = 0 <;> simp [h1, h2]
-  · rw [if_neg g0]
+  · rw [ite_eq_right g0]
     apply flg_congr
     intro e he
     have : e + 128 * g ≠ 0 := by omega
@@ -380,7 +381,7 @@ theorem zO_eq {g : ℕ} (hg : g < 512) (hsq : SqAt AR MR g) :
   unfold zO
   simp only [cen_strictN, cen_nIf, cen_beq, decide_eq_true_eq, nl_xor, nl_and, nl_shr, Nat.mul_eq]
   by_cases h4 : (MR ((MR g >>> (9 * g)) &&& 511) >>> (9 * ((MR g >>> (9 * g)) &&& 511))) &&& 511 = 0
-  · rw [if_pos h4, zl_eq, flg_and, flg_xor]
+  · rw [ite_eq_left h4, zl_eq, flg_and, flg_xor]
     apply flg_congr
     intro e he
     have hd := xor_lt he (ln_lt (AR g) (7 * e))
@@ -390,13 +391,13 @@ theorem zO_eq {g : ℕ} (hg : g < 512) (hsq : SqAt AR MR g) :
         (7 * (e ^^^ ((AR g >>> (7 * e)) &&& 127)))) &&& 127) = 0 <;>
       by_cases hS : (e ^^^ ((AR g >>> (7 * e)) &&& 127)) + 128 * ((MR g >>> (9 * g)) &&& 511) = 0 <;>
       simp [hL, hS]
-  · rw [if_neg h4]
+  · rw [ite_eq_right h4]
     symm
     apply flg_false
     intro e he
     have hd := xor_lt he (ln_lt (AR g) (7 * e))
     rw [mul_code AR MR hmul he hg he hg, mul_code AR MR hmul hd hg2 hd hg2]
-    simp only [decide_eq_false_iff_not, not_and, not_not]
+    simp only [decide_eq_false_iff_not, not_and]
     intro _
     omega
 
@@ -411,7 +412,7 @@ theorem lowCnt_eq {g q : ℕ} (hg : g < 512) (hq : q < 65536) (p : ℕ → Bool)
   generalize q >>> 7 = h at hqs hh ⊢
   subst hqs
   by_cases hm : (MR g >>> (9 * h)) &&& 511 = (MR h >>> (9 * g)) &&& 511
-  · rw [if_pos hm, zl_eq, flg_and, pop_eq]
+  · rw [ite_eq_left hm, zl_eq, flg_and, pop_eq]
     refine Finset.sum_congr rfl fun e he => ?_
     have he := Finset.mem_range.1 he
     simp only [ln_xor]
@@ -419,8 +420,8 @@ theorem lowCnt_eq {g q : ℕ} (hg : g < 512) (hq : q < 65536) (p : ℕ → Bool)
       mul_code AR MR hmul he' hh he hg, hm, xor4]
     simp only [code_eq (xor_lt he (ln_lt _ _)) (xor_lt he' (ln_lt _ _))]
     by_cases hx : e ^^^ ((AR g >>> (7 * e')) &&& 127) = e' ^^^ ((AR h >>> (7 * e)) &&& 127) <;>
-      simp [hx, xor_eq_zero]
-  · rw [if_neg hm]
+      simp [hx]
+  · rw [ite_eq_right hm]
     symm
     apply Finset.sum_eq_zero
     intro e he
@@ -524,13 +525,13 @@ theorem cuSum_eq (g : ℕ) (p : ℕ → Bool) (Q : List ℕ) :
   rw [natRec_sum, lsum_eq]
   simp only [cen_nIf, cen_beq, decide_eq_true_eq, nl_and, nl_shr, Nat.add_eq, Nat.mul_eq]
   by_cases h0 : flg p = 0
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     symm
     apply Finset.sum_eq_zero
     intro e he
     rw [flg_eq_zero h0 e (Finset.mem_range.1 he)]
     rfl
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     refine Finset.sum_congr rfl fun e he => ?_
     rw [flg_bit p (Finset.mem_range.1 he)]
     cases p e <;> simp
@@ -546,15 +547,14 @@ theorem cen_split (Q U : List ℕ) (nQ c : ℕ) :
   by_cases hc : c = 0
   · subst hc
     by_cases h0 : mul 0 0 = 0 <;> by_cases h4 : mul (mul 0 0) (mul 0 0) = 0 <;> simp [h0, h4]
-  · by_cases h0 : mul c c = 0 <;> by_cases h4 : mul (mul c c) (mul c c) = 0 <;> simp [h0, h4, hc] <;>
-      ring
+  · by_cases h0 : mul c c = 0 <;> by_cases h4 : mul (mul c c) (mul c c) = 0 <;> simp [h0, h4, hc]
 
 theorem grp_eq {g : ℕ} (hg : g < 512) (hsq : SqAt AR MR g) {Q U : List ℕ} (hU : ∀ u ∈ U, u < 65536)
     (nQ : ℕ) :
     grpG mul AR MR Q U nQ g = ∑ e ∈ Finset.range 128, cen mul Q U nQ (e + 128 * g) := by
   unfold grpG
   simp only [cen_strictN, nl_and, nl_shr, Nat.mul_eq]
-  rw [zS0_eq AR MR hmul hg, zO_eq AR MR hmul hg hsq, zI_eq AR MR hmul hg]
+  rw [zS0_eq AR MR hmul hg, zO_eq AR MR hmul hg hsq, zI_eq hg]
   unfold grpT
   simp only [Nat.add_eq, cen_shl, Nat.mul_eq, Nat.succ_eq_add_one]
   have hq := qWalk_eq AR MR hmul hg

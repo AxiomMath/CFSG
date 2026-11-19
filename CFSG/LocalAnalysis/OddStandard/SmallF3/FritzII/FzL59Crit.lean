@@ -27,7 +27,7 @@ theorem fz59crit_cent_conj [Finite G] {t x : G}
   rw [Subgroup.mem_centralizer_singleton_iff]
   have hyx : y * x = x * y := Subgroup.mem_centralizer_singleton_iff.mp (hPx hy)
   have hxc : x = c * t * c⁻¹ := hc.symm
-  simp only [ψ, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+  simp only [ψ, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
   rw [hxc] at hyx
   calc c⁻¹ * y * c⁻¹⁻¹ * t = c⁻¹ * (y * (c * t * c⁻¹)) * c := by group
     _ = c⁻¹ * ((c * t * c⁻¹) * y) * c := by rw [hyx]
@@ -39,7 +39,7 @@ theorem fz59_crit_core [Finite G] {Z H : Subgroup G} {t x : G} (hZ : Nat.card Z 
     (hxt : IsConj t x) (hH : ∀ n ∈ H, ∃ z ∈ Z, n * x * n⁻¹ = x * z) :
     ¬ 2 ^ 10 ∣ Nat.card H := by
   classical
-  letI : MulAction H G := MulAction.compHom G (ConjAct.toConjAct.toMonoidHom.comp H.subtype)
+  let : MulAction H G := MulAction.compHom G (ConjAct.toConjAct.toMonoidHom.comp H.subtype)
   have hsmul : ∀ (n : H) (g : G), n • g = (n : G) * g * (n : G)⁻¹ := fun n g => rfl
   set S := MulAction.stabilizer H x
   have horb : (MulAction.orbit H x).ncard ≤ 4 := by
@@ -136,7 +136,7 @@ theorem fz59_conj_mem_Z {b : Fin 3 → Fin 2 → G} (hb : Fz59Rows b)
     exact fz59crit_sq_mem_Z hb _
   rw [fz59_mem_Z hb] at hz
   rcases hz with rfl | rfl | rfl | rfl
-  · simpa using (fz59Z b).one_mem
+  · simp
   · exact key 0
   · exact key 1
   · exact key 2

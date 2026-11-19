@@ -141,7 +141,7 @@ theorem cyclic_sylow_CY (X : LUCtx G p f z S K₁ K₂ t u ε) {x : G} {r : ℕ}
       Subgroup.mem_subgroupOf.mpr hk
     have := mem_centralizer_iff.mp γ.1.2 _ hkY
     exact (congrArg Subtype.val this).symm
-  refine cyclic_two_subgroup X hx T.isPGroup' ι hι (fun γ => hK γ z hc.z_mem₁) hK (fun γ => ?_)
+  refine cyclic_two_subgroup X hx T.isPGroup ι hι (fun γ => hK γ z hc.z_mem₁) hK (fun γ => ?_)
   exact mem_centralizer_singleton_iff.mp γ.1.1.2
 
 end CFSG.GH74.GLS.LU.Local

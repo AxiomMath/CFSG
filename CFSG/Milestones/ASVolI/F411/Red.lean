@@ -69,7 +69,7 @@ theorem burnsideF411_exists_equiv_sylow {p : ℕ} [Fact p.Prime] {E : Type} [Gro
     ∃ e' : E ≃* Y, T ≤ μ.φ1.range.comap e'.toMonoidHom ∧
       T ≤ μ.φ2.range.comap e'.toMonoidHom := by
   classical
-  haveI : Finite Y := Finite.of_equiv E e.toEquiv
+  have : Finite Y := Finite.of_equiv E e.toEquiv
   let Sa : Subgroup Y := T.map e.toMonoidHom
   let T₀ : Subgroup (RankTwoAmalgam.ofSubgroups M₁ M₂).G12 := T.comap (M₁ ⊓ M₂).subtype
   let Sb : Subgroup Y := T₀.map μ.φ12
@@ -165,8 +165,8 @@ theorem burnsideF411_rigidExt_of_local
   intro κ p f E _ Gp M₁ M₂ hyp hGp ι hι Y _ μ hμ he
   subst hι
   obtain ⟨e⟩ := he
-  haveI : Finite E := hyp.finite
-  haveI : Fact p.Prime := ⟨burnsideF4a_prime_of_isGenLie hyp.model⟩
+  have : Finite E := hyp.finite
+  have : Fact p.Prime := ⟨burnsideF4a_prime_of_isGenLie hyp.model⟩
   obtain ⟨⟨T, hTp, hTi, hT⟩, hId, hSw⟩ := h κ p f E Gp M₁ M₂ hyp hGp
   let eY : E ≃* Y := e.trans ((MulEquiv.subgroupCongr μ.gen).trans Subgroup.topEquiv)
   exact burnsideF411_rigid_of_ident_swap hyp.gen hTp hTi hT hId hSw μ hμ eY

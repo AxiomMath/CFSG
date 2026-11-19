@@ -50,7 +50,7 @@ theorem PSubCyclic.of_isCyclic {G : Type*} [Group G] [IsCyclic G] : PSubCyclic p
 theorem PSubCyclic.of_injective {G H : Type*} [Group G] [Group H] (f : G →* H)
     (hf : Function.Injective f) (h : PSubCyclic p H) : PSubCyclic p G := by
   intro S hS
-  haveI : IsCyclic (S.map f) := h _ (hS.map f)
+  have : IsCyclic (S.map f) := h _ (hS.map f)
   exact isCyclic_of_surjective (S.equivMapOfInjective f hf).symm
     (S.equivMapOfInjective f hf).symm.surjective
 
@@ -61,7 +61,7 @@ theorem PSubCyclic.of_mulEquiv {G H : Type*} [Group G] [Group H] (e : G ≃* H)
 theorem PSubCyclic.of_surjective {M Z : Type*} [Group M] [Finite M] [Group Z] (f : M →* Z)
     (hf : Function.Surjective f) (hp : p.Prime) (h : PSubCyclic p M) : PSubCyclic p Z := by
   intro S hS
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   set T : Subgroup M := S.comap f with hT
   let g : T →* S := (f.comp T.subtype).codRestrict S fun t => t.2
   have hg : Function.Surjective g := by
@@ -71,8 +71,8 @@ theorem PSubCyclic.of_surjective {M Z : Type*} [Group M] [Finite M] [Group Z] (f
   obtain ⟨P⟩ : Nonempty (Sylow p T) := inferInstance
   set Q := P.mapSurjective hg with hQ
   have hQtop : (Q : Subgroup S) = ⊤ := Q.maximal_isPGroup.eq_of_le (hS.to_subgroup ⊤) le_top
-  haveI : IsCyclic ((P : Subgroup T).map T.subtype) := h _ (P.isPGroup'.map T.subtype)
-  haveI : IsCyclic (P : Subgroup T) :=
+  have : IsCyclic ((P : Subgroup T).map T.subtype) := h _ (P.isPGroup.map T.subtype)
+  have : IsCyclic (P : Subgroup T) :=
     isCyclic_of_surjective ((P : Subgroup T).equivMapOfInjective T.subtype
       T.subtype_injective).symm (MulEquiv.surjective _)
   have hsurj : Function.Surjective (g.comp (P : Subgroup T).subtype) := by
@@ -103,7 +103,7 @@ theorem PSubCyclic.prod_right {A B : Type*} [Group A] [Group B] (hp : p.Prime)
       Nat.Coprime.eq_one_of_dvd (Nat.Coprime.coprime_dvd_left hdvd hcop) hdvd'
     exact Subtype.ext (Prod.ext hs1 (orderOf_eq_one_iff.1 h1))
   have hr : IsPGroup p f.range := hS.of_surjective f.rangeRestrict f.rangeRestrict_surjective
-  haveI : IsCyclic f.range := h _ hr
+  have : IsCyclic f.range := h _ hr
   exact isCyclic_of_surjective (MonoidHom.ofInjective hf).symm
     (MonoidHom.ofInjective hf).symm.surjective
 

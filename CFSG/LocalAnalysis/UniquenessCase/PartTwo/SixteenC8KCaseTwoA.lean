@@ -18,13 +18,16 @@ open CFSG.Blueprint (LieModel)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem c8k_opp_le (Y : Subgroup G) : Opp 3 Y ≤ Y :=
   (Subgroup.closure_le Y).mpr fun _ hz => hz.1
 
-theorem c8k_opp_le_l9 {Y H : Subgroup G} (hYH : Y ≤ H) : Opp 3 Y ≤ L9 Y H := by
+omit [Finite G] in
+theorem c8k_opp_le_l9 {Y H : Subgroup G} (_hYH : Y ≤ H) : Opp 3 Y ≤ L9 Y H := by
   intro x hx
   exact Subgroup.mem_iSup_of_mem (1 : ↥H) ⟨x, hx, by simp⟩
 
+omit [Finite G] in
 private theorem c8k_a_map_subgroupOf_inclusion {A Y H : Subgroup G} (hAY : A ≤ Y)
     (hYH : Y ≤ H) :
     (A.subgroupOf Y).map (Subgroup.inclusion hYH) = A.subgroupOf H := by
@@ -134,12 +137,12 @@ theorem c8k_cover_e_eq_one {Y H C : Subgroup G} (hYH : Y ≤ H) (hCY : C ≤ Y)
     (hC3 : ¬ 3 ∣ Nat.card C) (hP : C8P0 Y C) {e : ℕ} (he : 1 ≤ e)
     (hS : IsSL2Cover ↥(img9 H (Opp 3 Y)) 7 e) : e = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, instP, φ, hφs, hφk, hE64, -⟩ := hP
-  letI : Group P := instP
-  haveI : Finite P := Finite.of_surjective φ hφs
+  let : Group P := instP
+  have : Finite P := Finite.of_surjective φ hφs
   obtain ⟨N, hNn, hN64, hL3⟩ := hE64
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   have hPcard : Nat.card P = 10752 := c8_e64_card hN64 hL3
   let π : ↥H →* Hbar9 H := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)
   let ψ : ↥Y →* Hbar9 H := π.comp (Subgroup.inclusion hYH)
@@ -169,9 +172,9 @@ theorem c8k_cover_e_eq_one {Y H C : Subgroup G} (hYH : Y ≤ H) (hCY : C ≤ Y)
   have hCKcop : Nat.Coprime 3 (Nat.card φ.ker) := by
     rw [hφk, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hCY).toEquiv]
     exact (Nat.prime_three.coprime_iff_not_dvd).mpr hC3
-  haveI hJnorm : J.Normal := MonoidHom.normal_ker ψ
-  haveI hCKnorm : (φ.ker).Normal := MonoidHom.normal_ker φ
-  haveI hJCnorm : JC.Normal := by
+  have hJnorm : J.Normal := MonoidHom.normal_ker ψ
+  have hCKnorm : (φ.ker).Normal := MonoidHom.normal_ker φ
+  have hJCnorm : JC.Normal := by
     change (J ⊔ φ.ker).Normal
     infer_instance
   have hJCle : JC ≤ CFSG.pPrimeCore 3 ↥Y := by
@@ -193,7 +196,7 @@ theorem c8k_cover_e_eq_one {Y H C : Subgroup G} (hYH : Y ≤ H) (hCY : C ≤ Y)
     change (X' ⊓ JC).map ψ ≤ Q
     rw [← hX'map]
     exact Subgroup.map_mono inf_le_left
-  haveI hZQnorm : (Z₀.subgroupOf Q).Normal := by
+  have hZQnorm : (Z₀.subgroupOf Q).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hZQ]
     rintro h k hh hk
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp hh
@@ -263,7 +266,7 @@ theorem c8k_cover_e_eq_one {Y H C : Subgroup G} (hYH : Y ≤ H) (hCY : C ≤ Y)
 
 theorem c8k_dorder_pprime {Γ : Type} [Group Γ] [Finite Γ] {d : Γ} (hd : orderOf d = 3) :
     orderOf (d : Γ ⧸ CFSG.pPrimeCore 3 Γ) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : orderOf (d : Γ ⧸ CFSG.pPrimeCore 3 Γ) ∣ 3 := by
     have h := orderOf_map_dvd (QuotientGroup.mk' (CFSG.pPrimeCore 3 Γ)) d
     rw [hd] at h

@@ -76,6 +76,7 @@ theorem eq_of_isSUImage_barY (hE : EpsIn M V h) (hS : Sec7Hyp M V n f)
   have := hS.four_le
   omega
 
+omit [Finite G] in
 theorem barY_y0Of (hE : EpsIn M V h) :
     barY h (y0Of V (Subgroup.zpowers h)) = Subgroup.normalClosure (barY h V : Set (YBar h)) := by
   apply le_antisymm
@@ -88,7 +89,7 @@ theorem barY_y0Of (hE : EpsIn M V h) :
     exact (conjSubgroup_mono hle).trans
       (conjSubgroup_eq_self_iff.mpr ((Subgroup.normalizer_eq_top
         (Subgroup.normalClosure (barY h V : Set (YBar h)))).ge (Subgroup.mem_top _))).le
-  · haveI := normal_barY h (cenOf_le_normalizer_y0Of V (Subgroup.zpowers h))
+  · have := normal_barY h (cenOf_le_normalizer_y0Of V (Subgroup.zpowers h))
     exact Subgroup.normalClosure_le_normal (barY_mono h (le_y0Of V _))
 
 theorem conj_eq_of_barY_conj_eq (hE : EpsIn M V h) {x y : G} (hx : x ∈ yOf h) (hy : y ∈ yOf h)
@@ -129,7 +130,7 @@ theorem pCore_y0Of_eq_bot (hE : EpsIn M V h) (ho2 : pCore 2 (YBar h) = ⊥) :
       (inSubgroup (pCore 2) (y0Of V (Subgroup.zpowers h)) : Set G) := fun y hy =>
     mem_normalizer_map_subtype_of_characteristic (cenOf_le_normalizer_y0Of V _ hy)
       (pCore 2 ↥(y0Of V (Subgroup.zpowers h)))
-  haveI := normal_barY h hYQ
+  have := normal_barY h hYQ
   have hle : barY h (inSubgroup (pCore 2) (y0Of V (Subgroup.zpowers h))) ≤ pCore 2 (YBar h) :=
     le_sSup ⟨inferInstance, isPGroup_barY h hQ2⟩
   have hbot := le_bot_iff.mp (hle.trans ho2.le)

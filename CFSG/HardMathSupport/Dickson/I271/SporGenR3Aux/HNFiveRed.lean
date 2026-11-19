@@ -34,13 +34,13 @@ section Red
 
 theorem orderOf_g3J_pow_six : orderOf (g3J ^ 6) = 5 := by
   obtain ⟨h30, h6, -⟩ := hn5_facts
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact orderOf_eq_prime (by rw [← pow_mul]; exact h30) h6
 
 theorem g3J_pow_six_mem : g3J ^ 6 ∈ CJ (sJ 2) := by
   have e : c3J 6 = g3J := by
     unfold c3J
-    exact if_neg (by norm_num)
+    exact ite_eq_right (by norm_num)
   have h := c3J_comm (j := 6) (by norm_num)
   rw [e] at h
   exact Subgroup.pow_mem _ (mem_CJ.2 h.symm) 6
@@ -48,9 +48,9 @@ theorem g3J_pow_six_mem : g3J ^ 6 ∈ CJ (sJ 2) := by
 theorem exists_conj_pow_g3J6 {x : JH} (hx : orderOf x = 5) (hnot : ∀ k : ℕ, ¬ IsConj x (fJ ^ k))
     (h3 : 3 ∣ Nat.card ↥(Subgroup.centralizer ({x} : Set JH))) :
     ∃ k : ℕ, IsConj x ((g3J ^ 6) ^ k) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite JH := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite JH := by
     have : Nat.card JH ≠ 0 := by rw [card_JH]; norm_num
     exact Nat.finite_of_card_ne_zero this
   obtain ⟨s', hs'⟩ := exists_prime_orderOf_dvd_card'
@@ -84,7 +84,7 @@ theorem exists_conj_pow_g3J6 {x : JH} (hx : orderOf x = 5) (hnot : ∀ k : ℕ, 
 
 theorem hnFiveMoved_holds : HNFiveMoved := by
   intro x hx hnot h3
-  haveI : Finite JH := by
+  have : Finite JH := by
     have : Nat.card JH ≠ 0 := by rw [card_JH]; norm_num
     exact Nat.finite_of_card_ne_zero this
   obtain ⟨k, hk⟩ := exists_conj_pow_g3J6 hx hnot h3

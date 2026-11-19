@@ -17,8 +17,10 @@ open CFSG.CGT.Timmesfeld75
 variable {F : Type} [Field F] [Fintype F] [CharP F 2]
 variable {N : Type} [AddCommGroup N] [Module (ZMod 2) N]
 
+omit [Fintype F] [CharP F 2] in
 private theorem uMat_eq_utriElt (t : F) : uMat t = (utriElt t : SL(2, F)) := rfl
 
+omit [Fintype F] [CharP F 2] in
 private theorem conj_cocycle_mem_Z1A {k : ℕ} {σ : Representation (ZMod 2) SL(2, F) N}
     {f : SL(2, F) → N} (hf : ∀ g h, f (g * h) = f g + σ g (f h)) (x : SL(2, F))
     (i : Fin k) (φ : N ≃+ (Fin k → Fin 2 → F))
@@ -53,9 +55,8 @@ private theorem eval_uMat {f' : SL(2, F) → Fin 2 → F} {B : F} {m : Fin 2 →
   rw [h, Pi.add_apply, Pi.smul_apply, f0_uMat, coboundaryA_apply, hmv]
   funext i
   fin_cases i <;>
-    simp [Pi.add_apply, Pi.sub_apply, Pi.smul_apply, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons, Matrix.vecHead, Matrix.vecTail, smul_eq_mul] <;>
-    ring
+    simp [Pi.add_apply, Matrix.cons_val_zero,
+      Matrix.cons_val_one, Matrix.vecHead, Matrix.vecTail, smul_eq_mul]
 
 private theorem eq_zero_on_utri_of_eq_zero_on_subgroup {f' : SL(2, F) → Fin 2 → F}
     (hf' : f' ∈ Z1A (mu2 (F := F))) {a : ℕ} (hF : Fintype.card F = 2 ^ a) (ha : 1 < a)

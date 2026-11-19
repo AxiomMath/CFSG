@@ -39,7 +39,7 @@ theorem two_dvd_card_modO2_perfectCore_u5PtP (h : UnitaryFieldData 2 f K) (hf : 
 
 theorem lieModel_modO2_perfectCore_u5PtP (h : UnitaryFieldData 2 2 K) :
     CFSG.Blueprint.LieModel (ModO2 (perfectCore (u5PtP h))) .PSU 3 2 2 := by
-  haveI := h.finite
+  have := h.finite
   have hcardZ : Nat.card ↥(hypScalars h 1 1) = 1 := by
     rw [card_hypScalars h (r := 1) (ε := 1) (by norm_num)]
     norm_num

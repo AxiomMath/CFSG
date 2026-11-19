@@ -25,14 +25,14 @@ theorem y2l_sylow_of_elts1 {K Q : Type} [Group K] [Group Q]
     (h7 : ∀ y ∈ y2l_ws7 1, FreeGroup.lift x (FreeGroup.mk y) ≠ 1)
     {P : Type} [Group P] {u v w r s : P} (hP : IsPres26 1 true P u v w r s) (S : Sylow 2 Q) :
     Nonempty (P ≃* S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hx : (![x 0, x 1, x 2, x 3, x 4] : Fin 5 → K) = x := by
     funext i
     fin_cases i <;> rfl
   obtain ⟨hH, hcard⟩ := y2l_isPres26_one (u := x 0) (v := x 1) (w := x 2) (r := x 3)
     (s := x 4) (by rw [hx]; exact hrel) (by rw [hx]; exact h7)
-  haveI : Finite Q := Finite.of_equiv _ e.toEquiv
-  haveI : Finite (Sylow 2 Q) :=
+  have : Finite Q := Finite.of_equiv _ e.toEquiv
+  have : Finite (Sylow 2 Q) :=
     Finite.of_injective (fun T : Sylow 2 Q => (T : Set Q)) SetLike.coe_injective
   set H := Subgroup.closure ({x 0, x 1, x 2, x 3, x 4} : Set K)
   have hQ : Nat.card (H.map (e : K →* Q)) = 2 ^ (Nat.card Q).factorization 2 := by
@@ -61,7 +61,7 @@ theorem y2l_isG23Type_of_pres
 theorem lemma27G23_holds :
     Lemma27G23 := by
   intro P _ _ u v w r s hP
-  haveI hN := y2l_omega1_subgroupOf_normal hP
+  have hN := y2l_omega1_subgroupOf_normal hP
   exact ⟨hN, y2l_isG23Type_of_pres (y2l_quot_pres _ hP rfl)⟩
 
 end G23

@@ -193,6 +193,6 @@ theorem original_component_preimage_quaternion_sylow_lift
   exact ⟨original_involution_mem_every_component_sylow hnonab n hn S e hfour K hxK Q,
     original_component_preimage_sylow_quaternion hnonab n hn S e hfour K hcover Q,
     CFSG.DisconnectedInvolutionGraph.Helpers.odd_kernel_two_subgroup_injective _
-      (originalComponentRestriction_odd_kernel n S e K) _ Q.isPGroup', fun _ => rfl⟩
+      (originalComponentRestriction_odd_kernel n S e K) _ Q.isPGroup, fun _ => rfl⟩
 
 end CFSG.Wreathed.SmallerRecognitionOriginalField

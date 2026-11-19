@@ -55,6 +55,7 @@ section Field
 
 variable {ℓ f : ℕ} [Fact ℓ.Prime] {K K₃ : Type} [Field K] [Finite K] [Field K₃] [Algebra K K₃]
 
+omit [Fact (Nat.Prime ℓ)] in
 theorem frobenius_algebraMap (hK : Nat.card K = ℓ ^ f) (Fr : K₃ ≃+* K₃)
     (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) (c : K) : Fr (algebraMap K K₃ c) = algebraMap K K₃ c := by
   have : Fintype K := Fintype.ofFinite K

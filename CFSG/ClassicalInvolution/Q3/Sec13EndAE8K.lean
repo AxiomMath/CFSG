@@ -51,11 +51,11 @@ theorem mem_altOn_image_iff (σ : Equiv.Perm (Fin 8)) (T : Finset (Fin 8))
   · have hσx : σ x ∉ T.image σ := fun hm => hx (by
       obtain ⟨z, hz, hzx⟩ := Finset.mem_image.1 hm
       rwa [← σ.injective hzx])
-    simp only [Equiv.Perm.mul_apply, ae8k_inv_apply]
+    simp only [Equiv.Perm.mul_apply]
     rw [h (σ x) hσx, ae8k_inv_apply]
   · have hx : σ⁻¹ y ∉ T := fun hm => hy (Finset.mem_image.2 ⟨σ⁻¹ y, hm, ae8k_apply_inv σ y⟩)
     have := h (σ⁻¹ y) hx
-    simp only [Equiv.Perm.mul_apply, ae8k_inv_apply] at this
+    simp only [Equiv.Perm.mul_apply] at this
     have h2 := congrArg σ this
     rwa [ae8k_apply_inv, ae8k_apply_inv] at h2
 
@@ -112,7 +112,7 @@ theorem altOn_le_closure_extPerm (ε : Fin 4 ↪ Fin 8) :
   | mem x hx =>
     obtain ⟨k, rfl⟩ := hx
     exact Subgroup.subset_closure ⟨k, rfl⟩
-  | one => simpa using one_mem _
+  | one => simp
   | mul x y hx hy ihx ihy => simpa [map_mul] using mul_mem ihx ihy
   | inv x hx ihx => simpa [map_inv] using inv_mem ihx
 
@@ -446,7 +446,7 @@ noncomputable def ae8k_secOf (ρ : X →* Equiv.Perm (Fin 8)) (B : Subgroup X)
 
 theorem ae8k_secOf_spec {ρ : X →* Equiv.Perm (Fin 8)} {B : Subgroup X} {s : Equiv.Perm (Fin 8)}
     (h : ∃ b ∈ B, ρ b = s) : ae8k_secOf ρ B s ∈ B ∧ ρ (ae8k_secOf ρ B s) = s := by
-  rw [ae8k_secOf, dif_pos h]
+  rw [ae8k_secOf, dite_eq_left h]
   exact h.choose_spec
 
 theorem ae8k_secOf_eq {ρ : X →* Equiv.Perm (Fin 8)} {B : Subgroup X} (hB : B ⊓ ρ.ker = ⊥) {b : X}
@@ -486,7 +486,7 @@ theorem exists_conj_of_complements (hM : EvenModule π β) {Γ : Finset (Fin 8)}
   have hγ : ∀ s ∈ altOn Γ, ∑ i, γ s i = 0 ∧
       bv β (γ s) = ae8k_secOf π B' s * (ae8k_secOf π B s)⁻¹ := by
     intro s hs
-    simp only [γ, dif_pos hs]
+    simp only [γ, dite_eq_left hs]
     exact (exists_vec_of_mem_ker hM (hker s hs)).choose_spec
   have hcoc : ∀ s ∈ altOn Γ, ∀ t ∈ altOn Γ, InW (γ (s * t) + γ s + vecAct s (γ t)) := by
     intro s hs t ht
@@ -585,7 +585,7 @@ theorem le_of_cube_eq_one {ρ : X →* Equiv.Perm (Fin 8)} {T : Finset (Fin 8)} 
 theorem commute_cube {π : X →* Equiv.Perm (Fin 8)} {β : Multiplicative (Fin 8 → ZMod 2) →* X}
     (hM : EvenModule π β) {T₁ T₂ : Finset (Fin 8)} (h₁ : T₁.card = 4) (h₂ : T₂.card = 4)
     (hT : Disjoint T₁ T₂) {B₁ B₂ : Subgroup X} (hB₁ : B₁ ⊓ π.ker = ⊥)
-    (hB₂ : B₂ ⊓ π.ker = ⊥) (hB₁π : B₁.map π = altOn T₁) (hB₂π : B₂.map π = altOn T₂)
+    (_hB₂ : B₂ ⊓ π.ker = ⊥) (hB₁π : B₁.map π = altOn T₁) (hB₂π : B₂.map π = altOn T₂)
     {y : X} (hy : y ∈ B₂) (hy3 : y ^ 3 = 1) : ∀ x ∈ B₁, x * y = y * x := by
   have hπy : π y ∈ altOn T₂ := hB₂π ▸ Subgroup.mem_map_of_mem π hy
   have hπb : ∀ b ∈ B₁, π b ∈ altOn T₁ := fun b hb => hB₁π ▸ Subgroup.mem_map_of_mem π hb
@@ -1078,7 +1078,7 @@ theorem exists_section (ρ : X →* Equiv.Perm (Fin 8))
 
 theorem eq_one_of_pow_three {K : Subgroup X} (h2 : IsPGroup 2 K) {k : X} (hk : k ∈ K)
     (h3 : k ^ 3 = 1) : k = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.1 h2) ⟨k, hk⟩
   have hdvd : orderOf (⟨k, hk⟩ : K) ∣ 3 :=
     orderOf_dvd_of_pow_eq_one (Subtype.ext (by simpa using h3))
@@ -1120,7 +1120,7 @@ theorem sectionsConj_of_central (ρ : X →* Equiv.Perm (Fin 8))
   intro Γ hΓ B B' hB hB' hBρ hB'ρ
   have hconj1 : B.map (MulAut.conj (1 : X)).toMonoidHom = B := by
     ext x
-    simp [Subgroup.mem_map, MulAut.conj_apply]
+    simp [Subgroup.mem_map]
   refine ⟨1, one_mem _, ?_⟩
   rw [hconj1]
   exact le_antisymm (key hΓ B' B hB' hB hB'ρ hBρ) (key hΓ B B' hB hB' hBρ hB'ρ)

@@ -24,6 +24,7 @@ variable {F : Type} [Field F] [Finite F] {p : ℕ}
 
 namespace G2
 
+omit [Finite F] in
 theorem commutator_eq_top (hq3 : 3 ≤ Nat.card F) :
     commutator ↥(adjointGroup Tag.G2 F) = ⊤ :=
   (CFSG.LieType.Steinberg.Adjoint.isPerfect_g2_of_three_le_card F hq3).commutator_eq_top
@@ -34,7 +35,7 @@ theorem hord_one (hp : p.Prime) (hp5 : 5 ≤ p) (hd : p ∣ Nat.card F - 1) {L :
         twistedTorusOf (canonicalRep (coxeterSystem Tag.G2) L (1 : WeylGroup Tag.G2))
           (Units.map (entrywiseHom Fr)) ∧
       (Nat.card (adjointGroup Tag.G2 F)).factorization p ≤ (Nat.card H).factorization p := by
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed F
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed F
   have hQ : 2 ≤ Nat.card F := Finite.one_lt_card
   have hpK : ¬ p ∣ Nat.card F := by
     intro h
@@ -67,7 +68,7 @@ theorem hord_two (hp : p.Prime) (hp5 : 5 ≤ p) (hd : p ∣ Nat.card F + 1) {L :
     ∃ H : Subgroup (ModGL Tag.G2 L), H ≤
         twistedTorusOf (canonicalRep (coxeterSystem Tag.G2) L w) (Units.map (entrywiseHom Fr)) ∧
       (Nat.card (adjointGroup Tag.G2 F)).factorization p ≤ (Nat.card H).factorization p := by
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed F
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed F
   have hq2 : 2 ≤ Nat.card F := Finite.one_lt_card
   have hpK : ¬ p ∣ Nat.card F := by
     intro h
@@ -76,13 +77,13 @@ theorem hord_two (hp : p.Prime) (hp5 : 5 ≤ p) (hd : p ∣ Nat.card F + 1) {L :
     exact hp.one_lt.ne' (Nat.dvd_one.1 h1)
   obtain ⟨ζ, hζord, hζpow⟩ : ∃ ζ : Lˣ, orderOf ζ = Nat.card F + 1 ∧ ζ ^ (Nat.card F + 1) = 1 := by
     have hK0 : ((Nat.card F : ℕ) : L) = 0 := by
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       rw [← map_natCast (algebraMap F L), Nat.card_eq_fintype_card,
         FiniteField.cast_card_eq_zero F, map_zero]
-    haveI : NeZero (((Nat.card F + 1 : ℕ)) : L) := ⟨by
+    have : NeZero (((Nat.card F + 1 : ℕ)) : L) := ⟨by
       rw [Nat.cast_add, hK0, zero_add, Nat.cast_one]
       exact one_ne_zero⟩
-    obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L (Nat.card F + 1)
+    obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L (Nat.card F + 1)
     set ζu : Lˣ := (hζ.isUnit (by omega)).unit with hζu
     have hζu' : IsPrimitiveRoot ζu (Nat.card F + 1) :=
       IsPrimitiveRoot.coe_units_iff.1 (by simpa [hζu] using hζ)
@@ -212,6 +213,6 @@ end G2
 theorem wcOn_g2_model {K : Type} [Group K] [Finite K] {ℓ f p : ℕ} [Fact p.Prime] (hℓ : ℓ.Prime)
     (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ) (hq3 : 3 ≤ ℓ ^ f)
     (h : UntwistedChevalleyModel K Tag.G2 (ℓ ^ f)) : WCOn p K :=
-  wcOn_of_untwisted_model hℓ hpℓ h fun F _ _ hcard hpq => G2.wcOn_adjoint hp2 hpq (hcard ▸ hq3)
+  wcOn_of_untwisted_model hℓ hpℓ h fun _F _ _ hcard hpq => G2.wcOn_adjoint hp2 hpq (hcard ▸ hq3)
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.WeakClosure.ExcCross.Untw

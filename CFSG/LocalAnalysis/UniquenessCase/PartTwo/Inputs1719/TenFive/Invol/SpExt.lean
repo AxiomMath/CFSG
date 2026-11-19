@@ -265,7 +265,7 @@ theorem exists_heis_inv_ext (hr : 3 ≤ r) (h2 : (2 : K) ≠ 0) (A : GL (Fin r �
   have hy₂v : spForm v y₂ = 0 := hy₂ v (by simp)
   obtain ⟨u, hu⟩ : ∃ u, u ∉ Submodule.span K ({v, e, y₁, y₂} : Set (Fin r ⊕ Fin r → K)) := by
     obtain ⟨u, -, hu⟩ :=
-      (SetLike.lt_iff_le_and_exists.mp (span_four_lt_top hr v e y₁ y₂)).2
+      (IsConcreteLE.lt_iff_le_and_exists.mp (span_four_lt_top hr v e y₁ y₂)).2
     exact ⟨u, hu⟩
   obtain ⟨f, hfW, hvf, hef⟩ : ∃ f : Fin r ⊕ Fin r → K,
       f ∉ Submodule.span K ({v, e} : Set (Fin r ⊕ Fin r → K)) ∧

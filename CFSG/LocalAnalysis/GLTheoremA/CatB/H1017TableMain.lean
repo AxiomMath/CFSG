@@ -19,7 +19,7 @@ theorem twoRankLe_five_hn : TwoRankLe 5 .HN 2 := by
   subst hi
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.HN.nonempty_mulEquiv
   let ψ : K ≃* CFSG.Blueprint.NativeSporadic.HN := e.trans b.symm
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   refine glaTwoLocalRank_le_of_card_le (by norm_num) fun R E hR hR2 hEN hE => ?_
   by_contra hlt
   push Not at hlt

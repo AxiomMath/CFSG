@@ -54,7 +54,7 @@ private theorem kg3_Q_mulVec_eq_iff (y : Fin 6 → ZMod 7) :
       rw [h32, neg_one_smul, sub_neg_eq_add]
     rw [h1, e2, add_sub_assoc,
       show (2 : ZMod 7) • y - y = y by rw [two_smul, add_sub_cancel_right]]
-  rw [k3Ex, Set.mem_setOf_eq]
+  rw [k3Ex, Set.mem_ofPred_eq]
   constructor
   · intro h
     have h0 : Matrix.mulVec k3Q y - y = 0 := sub_eq_zero.mpr h
@@ -126,7 +126,7 @@ private theorem kg3_one_add_T_sq (T : Matrix (Fin 6) (Fin 6) (ZMod 7))
     (1 + T) * (1 + T) = (2 : ZMod 7) • (1 + T) := by
   rw [Matrix.mul_add, Matrix.mul_one, Matrix.add_mul, Matrix.one_mul, hT2]
   ext i j
-  simp only [Matrix.add_apply, Matrix.one_apply, Pi.add_apply, Matrix.smul_apply, smul_eq_mul]
+  simp only [Matrix.add_apply, Matrix.one_apply, Matrix.smul_apply, smul_eq_mul]
   by_cases h : i = j <;> simp [h] <;> ring
 
 private theorem kg3_S_sq (T : Matrix (Fin 6) (Fin 6) (ZMod 7))
@@ -185,9 +185,8 @@ private theorem kg3_Rplus_add_Rminus (T : Matrix (Fin 6) (Fin 6) (ZMod 7)) :
   rw [kg3_Rplus, kg3_Rminus, ← smul_add, ← add_mul]
   have h : (1 + T) + (1 - T) = (2 : ZMod 7) • (1 : Matrix (Fin 6) (Fin 6) (ZMod 7)) := by
     ext i j
-    simp only [Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply, Pi.add_apply, Pi.sub_apply,
-      Matrix.smul_apply, smul_eq_mul]
-    by_cases h : i = j <;> simp [h] <;> ring
+    simp only [Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply, Matrix.smul_apply, smul_eq_mul]
+    by_cases h : i = j <;> simp [h]; ring
   rw [h, Matrix.smul_mul, Matrix.one_mul, smul_smul,
     show (4 : ZMod 7) * 2 = 1 by decide, one_smul]
 
@@ -196,8 +195,7 @@ private theorem kg3_Rplus_sub_Rminus (T : Matrix (Fin 6) (Fin 6) (ZMod 7)) :
   rw [kg3_Rplus, kg3_Rminus, ← smul_sub, ← sub_mul]
   have h : (1 + T) - (1 - T) = (2 : ZMod 7) • T := by
     ext i j
-    simp only [Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply, Pi.add_apply, Pi.sub_apply,
-      Matrix.smul_apply, smul_eq_mul]
+    simp only [Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply, Matrix.smul_apply, smul_eq_mul]
     ring
   rw [h, Matrix.smul_mul, smul_smul, show (4 : ZMod 7) * 2 = 1 by decide, one_smul]
 
@@ -263,7 +261,7 @@ theorem k3_trace_ex (c : Matrix (Fin 6) (Fin 6) ℤ) (hc2 : c * c = 1)
   have hset : {y : Fin 6 → ZMod 7 | y ∈ k3Ex ∧ Matrix.mulVec (kg3_T c) y = y} =
       {y : Fin 6 → ZMod 7 | y ∈ k3Ex ∧ k3ActT c y = y} := by
     ext y
-    simp only [kg3_T, Set.mem_setOf_eq]
+    simp only [kg3_T, Set.mem_ofPred_eq]
     rw [← kg3_actT_eq_mulVec]
   have hfix' : {y : Fin 6 → ZMod 7 | y ∈ k3Ex ∧ Matrix.mulVec (kg3_T c) y = y}.ncard = 49 := by
     rw [hset, hfix]

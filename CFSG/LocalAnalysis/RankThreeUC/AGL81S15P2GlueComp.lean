@@ -69,15 +69,15 @@ private theorem isSolvable_quotient_comap_oddHull {X : Type} [Group X] [Finite X
   let Kt : Subgroup ↥M := ((oddHull P).comap (toStar T)).subgroupOf M
   let N : Subgroup (↥M ⧸ gnC T') := Kt.map (toStar T')
   change Group.IsSolvable ((↥M ⧸ gnC T') ⧸ N)
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have hTM : T ≤ M := by
     intro t ht
     change toStar T t ∈ oddHull P ⊔ gnImg T T
     exact Subgroup.mem_sup_right (Subgroup.mem_map_of_mem (toStar T) ht)
   have hT'2 : IsPGroup 2 T' := hT.2.1.comap_of_injective M.subtype M.subtype_injective
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥T' := IsPGroup.isNilpotent hT'2
-  haveI : Group.IsSolvable ↥T' := IsNilpotent.to_isSolvable
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥T' := IsPGroup.isNilpotent hT'2
+  have : Group.IsSolvable ↥T' := IsNilpotent.to_isSolvable
   let f : ↥T' →* (↥M ⧸ gnC T') ⧸ N :=
     (QuotientGroup.mk' N).comp ((QuotientGroup.mk' (gnC T')).comp T'.subtype)
   have hf : Function.Surjective f := by
@@ -171,33 +171,33 @@ theorem nonempty_mulEquiv_alt_five_of_isComponentOf {X : Type} [Group X] [Finite
   let Kt : Subgroup ↥M := ((oddHull P).comap (toStar T)).subgroupOf M
   let N : Subgroup (↥M ⧸ gnC T') := Kt.map (toStar T')
   have hKtn : Kt.Normal := oddHull_comap_subgroupOf_normal hTP
-  haveI : N.Normal := hKtn.map (toStar T') (QuotientGroup.mk'_surjective _)
+  have : N.Normal := hKtn.map (toStar T') (QuotientGroup.mk'_surjective _)
   have hsolv : Group.IsSolvable ((↥M ⧸ gnC T') ⧸ N) :=
     isSolvable_quotient_comap_oddHull hT hTP (by simpa using (inferInstance : N.Normal))
-  haveI : Group.IsSolvable ((↥M ⧸ gnC T') ⧸ N) := hsolv
-  haveI : Group.IsPerfect ↥Lc := ⟨hLc.2.2.1⟩
+  have : Group.IsSolvable ((↥M ⧸ gnC T') ⧸ N) := hsolv
+  have : Group.IsPerfect ↥Lc := ⟨hLc.2.2.1⟩
   have hLcN : Lc ≤ N :=
     CFSG.ComponentClassification.CatalogueBLinearTwo.perfect_le_normal_of_solvable_quotient N Lc
-  haveI : Nontrivial (↥Lc ⧸ Subgroup.center ↥Lc) := hLc.2.2.2.toNontrivial
+  have : Nontrivial (↥Lc ⧸ Subgroup.center ↥Lc) := hLc.2.2.2.toNontrivial
   have hLcNt : Nontrivial ↥Lc :=
     (QuotientGroup.mk'_surjective (Subgroup.center ↥Lc)).nontrivial
   have hLcne : Lc ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot Lc).mp hLcNt
   have hNne : N ≠ ⊥ := fun h => hLcne (le_bot_iff.mp (h ▸ hLcN))
   obtain ⟨θ, hθsurj⟩ := exists_surjective_alt_five_quotient_oddHull hT hP hTP
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hθinj : Function.Injective θ := by
     rw [← MonoidHom.ker_eq_bot_iff]
     rcases Subgroup.Normal.eq_bot_or_eq_top θ.ker with h | h
     · exact h
     · exfalso
-      haveI : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr hNne
+      have : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr hNne
       obtain ⟨n, hn⟩ := exists_ne (1 : ↥N)
       obtain ⟨x, hx⟩ := hθsurj n
       have hx1 : θ x = 1 := MonoidHom.mem_ker.1 (h ▸ Subgroup.mem_top x)
       exact hn (hx.symm.trans hx1)
   let eN : ↥N ≃* alternatingGroup (Fin 5) :=
     (MulEquiv.ofBijective θ ⟨hθinj, hθsurj⟩).symm
-  haveI : IsSimpleGroup ↥N := MulEquiv.isSimpleGroup eN
+  have : IsSimpleGroup ↥N := MulEquiv.isSimpleGroup eN
   have hLcsub : CFSG.Open.IsSubnormal Lc N := by
     have h := CFSG.Open.IsSubnormal.inf_of_le (L := N) hLc.2.1 le_top
     rwa [inf_eq_left.mpr hLcN] at h

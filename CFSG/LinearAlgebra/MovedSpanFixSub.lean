@@ -41,7 +41,7 @@ theorem isCompl_movedSpan_fixSub (hcard : (Fintype.card T : K) ≠ 0) :
   classical
   let ρ : Representation K T V :=
     LinearEquiv.automorphismGroup.toLinearMapMonoidHom.comp T.subtype
-  haveI : Invertible (Fintype.card T : K) := invertibleOfNonzero hcard
+  have : Invertible (Fintype.card T : K) := invertibleOfNonzero hcard
   have havg : ∀ v : V, Representation.averageMap ρ v =
       (Fintype.card T : K)⁻¹ • ∑ t : T, (t : V ≃ₗ[K] V) v := by
     intro v
@@ -228,7 +228,7 @@ theorem eq_zero_of_fixed_by_subgroup_of_not_dvd_index
     (hTp : IsPGroup p T) (hT : ¬ p ∣ T.index)
     {v : V} (hv : ∀ t ∈ T, ρ t v = v) : v = 0 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let P : Sylow p G := hTp.toSylow hT
   have hPT : (P : Subgroup G) = T := IsPGroup.toSylow_coe hTp hT
   obtain ⟨Q, hEQ⟩ := hEp.exists_le_sylow

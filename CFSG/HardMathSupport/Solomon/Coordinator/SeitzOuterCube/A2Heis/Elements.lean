@@ -56,6 +56,7 @@ theorem mem_hyperFix_diag (h : HeisHyp σ lam ω) (A : SL(3, F))
   ⟨(monomGL F 1 : Matrix (Fin 3) (Fin 3) F), by
     simp [monomGL, Matrix.det_fin_three]⟩
 
+omit [Finite F] in
 theorem coe_permSL :
     ((permSL : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) = !![0, 0, 1; 1, 0, 0; 0, 1, 0] := by
   simp [permSL, monomGL]
@@ -74,8 +75,7 @@ theorem mem_hyperFix_perm (h : HeisHyp σ lam ω) : proj 3 F permSL ∈ hyperFix
       simp [CFSG.HardMathSupport.Malle.Coordinator.CoverThreeNoInner.diagGL, Matrix.mul_apply,
         Fin.sum_univ_three]
     all_goals (try field_simp)
-    all_goals first | rfl | ring1 | exact h3.symm | exact h3 | linear_combination (-1) * h3 |
-      linear_combination h3
+    all_goals exact h3.symm
 
 @[expose] noncomputable def polyXSL (lam : Fˣ) (α : F) (μ : Fˣ)
     (hμ : (μ : F) ^ 3 * (α ^ 3 + lam) = 1) : SL(3, F) :=
@@ -85,15 +85,17 @@ theorem mem_hyperFix_perm (h : HeisHyp σ lam ω) : proj 3 F permSL ∈ hyperFix
     simp [monomGL, Matrix.det_fin_three]
     ring⟩
 
+omit [Finite F] in
 theorem coe_polyXSL (lam : Fˣ) (α : F) (μ : Fˣ) (hμ : (μ : F) ^ 3 * (α ^ 3 + lam) = 1) :
     ((polyXSL lam α μ hμ : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) =
       (μ : F) • (α • 1 + (monomGL F lam : Matrix (Fin 3) (Fin 3) F)) := rfl
 
+omit [Finite F] in
 theorem ratio_pow_three {μ : Fˣ} (hμ : σ ((μ : F) ^ 3) = (μ : F) ^ 3) :
     (Units.map (σ : F →* F) μ * μ⁻¹) ^ 3 = 1 := by
   apply Units.ext
   have hμ0 : (μ : F) ≠ 0 := μ.ne_zero
-  simp only [Units.val_pow_eq_pow_val, Units.val_mul, Units.coe_map, MonoidHom.coe_coe,
+  simp only [Units.val_pow_eq_pow_val, Units.val_mul, Units.coe_map, _root_.MonoidHom.coe_ofClass,
     Units.val_inv_eq_inv_val, Units.val_one, mul_pow, inv_pow]
   rw [← map_pow, hμ, mul_inv_cancel₀ (pow_ne_zero 3 hμ0)]
 
@@ -109,7 +111,7 @@ theorem mem_hyperFix_polyX (h : HeisHyp σ lam ω) {α : F} (hα : σ α = α) (
   · refine fS_proj_eq_of_smul σ _ (ratio_pow_three hμ3) fun i j => ?_
     rw [coe_polyXSL]
     have hμ0 : (μ : F) ≠ 0 := μ.ne_zero
-    simp only [Units.val_mul, Units.coe_map, MonoidHom.coe_coe, Units.val_inv_eq_inv_val]
+    simp only [Units.val_mul, Units.coe_map, _root_.MonoidHom.coe_ofClass, Units.val_inv_eq_inv_val]
     fin_cases i <;> fin_cases j <;>
       simp [monomGL, hα, h.fixl] <;> field_simp
   · change conjAut 3 F (monomGL F lam) _ = _
@@ -130,6 +132,7 @@ theorem mem_hyperFix_polyX (h : HeisHyp σ lam ω) {α : F} (hα : σ α = α) (
     simp
     ring⟩
 
+omit [Finite F] in
 theorem coe_twistSL (σ : F ≃+* F) (a μ : Fˣ) (hμ : (μ : F) ^ 3 * ((a : F) * σ a * σ (σ a)) = 1) :
     ((twistSL σ a μ hμ : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) =
       Matrix.diagonal ![(μ : F) * a, μ * σ a, μ * σ (σ a)] := rfl
@@ -141,10 +144,12 @@ theorem coe_twistSL (σ : F ≃+* F) (a μ : Fˣ) (hμ : (μ : F) ^ 3 * ((a : F)
     simp
     ring⟩
 
+omit [Finite F] in
 theorem coe_cycSL (σ : F ≃+* F) (a μ : Fˣ) (hμ : (μ : F) ^ 3 * (σ (σ a) * a * σ a) = 1) :
     ((cycSL σ a μ hμ : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) =
       Matrix.diagonal ![(μ : F) * σ (σ a), μ * a, μ * σ a] := rfl
 
+omit [Finite F] in
 theorem monomGL_inv_val (lam : Fˣ) :
     (((monomGL F lam)⁻¹ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
       !![0, 1, 0; 0, 0, 1; ((lam⁻¹ : Fˣ) : F), 0, 0] := by
@@ -152,6 +157,7 @@ theorem monomGL_inv_val (lam : Fˣ) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [monomGL, Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [Finite F] in
 theorem cX_proj_twistSL (σ : F ≃+* F) (a μ : Fˣ) (hμ : (μ : F) ^ 3 * ((a : F) * σ a * σ (σ a)) = 1)
     (hμ' : (μ : F) ^ 3 * (σ (σ a) * a * σ a) = 1) :
     cX lam (proj 3 F (twistSL σ a μ hμ)) = proj 3 F (cycSL σ a μ hμ') := by
@@ -191,6 +197,6 @@ theorem mem_hyperFix_twisted (h : HeisHyp σ lam ω) (a μ : Fˣ)
     have hμ0 : (μ : F) ≠ 0 := μ.ne_zero
     rw [coe_twistSL, coe_cycSL]
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.diagonal_apply, hσ3, Units.val_inv_eq_inv_val] <;> field_simp
+      simp [hσ3, Units.val_inv_eq_inv_val] <;> field_simp
 
 end CFSG.HardMathSupport.Solomon.Coordinator.SeitzOuterCube.A2Heis

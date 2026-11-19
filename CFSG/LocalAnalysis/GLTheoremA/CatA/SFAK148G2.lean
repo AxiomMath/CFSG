@@ -18,7 +18,7 @@ open CFSG.HardMathSupport.Seitz.TrialityOdd.Inner (trialityFieldImageEquivG2)
 theorem K148G2SimpleFact_holds : K148G2SimpleFact := by
   intro K _ _ σ f hf hK hσ
   have hf1 : 1 ≤ f := by omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK' : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
   have hσ3 : ∀ c, σ (σ (σ c)) = c := ringEquiv_cube_apply_eq hK hσ
   have hσ3' : σ ^ 3 = 1 := td4g2_sigma_cube hK hσ
@@ -43,7 +43,7 @@ theorem K148G2SimpleFact_holds : K148G2SimpleFact := by
     Subgroup.ext fun _ => Iff.rfl
   let e := (MulEquiv.subgroupCongr hfix).trans
     ((fixSubgroupFieldActorEquiv K σ hσ3).trans (trialityFieldImageEquivG2 σ hk3))
-  haveI := hS
+  have := hS
   exact e.isSimpleGroup
 
 end CFSG.LocalAnalysis.GLTheoremA

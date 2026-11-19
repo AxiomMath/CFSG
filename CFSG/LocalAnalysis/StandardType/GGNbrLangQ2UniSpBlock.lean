@@ -48,9 +48,9 @@ theorem q2UniSp_fixedBlock_false {H : Type} [Group H] {F C : Subgroup H}
     (θ : ↥C ⧸ Subgroup.center ↥C ≃* LargeEvenProj (LargeEvenSUGroup (Fin d) E (2 ^ m))) :
     False := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite E := hE.finite
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite E := hE.finite
+  have : Fintype E := Fintype.ofFinite E
   have hmem : 1 ≤ m := hE.one_le
   have hKcardE : Nat.card E = (2 ^ m) ^ 2 := by
     rw [hE.card, ← pow_mul, Nat.mul_comm 2 m]
@@ -190,7 +190,7 @@ theorem q2UniSp_block {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
       LargeEvenProj (LargeEvenSUGroup (Fin d) E (2 ^ m)))) :
     Q2UniBlockHom (Subgroup.centralizer ({s} : Set ↥(StatedSp n K))) C := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨θ⟩ := hJE
   have hodd : Odd (orderOf (s : GL (Fin n ⊕ Fin n) K)) := by rwa [Subgroup.orderOf_coe]
   obtain ⟨P, hP, -, -, hc, hsup, hcard⟩ :=

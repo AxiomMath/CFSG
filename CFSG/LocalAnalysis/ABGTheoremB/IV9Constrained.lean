@@ -855,7 +855,7 @@ private theorem exists_noncomm_of_isQDGroup [Finite G] {Y : Subgroup G} (hY : Is
   set ψ : M →* G := Y.subtype.comp ((S : Subgroup Y).subtype.comp φ) with hψdef
   have hψ : Function.Injective ψ :=
     Y.subtype_injective.comp ((Subgroup.subtype_injective _).comp hφ)
-  refine ⟨(S : Subgroup Y).map Y.subtype, Subgroup.map_subtype_le _, S.isPGroup'.map _, ψ a₀,
+  refine ⟨(S : Subgroup Y).map Y.subtype, Subgroup.map_subtype_le _, S.isPGroup.map _, ψ a₀,
     ⟨φ a₀, (φ a₀).2, rfl⟩, ψ b₀, ⟨φ b₀, (φ b₀).2, rfl⟩, ?_, ?_, ?_⟩
   · rw [← map_pow]
     exact fun h1 => ha₀ (hψ (h1.trans (map_one ψ).symm))
@@ -1207,11 +1207,11 @@ variable {G : Type u} [Group G] [Finite G] (σ : Setting G)
 section Basic
 
 private theorem isPGroup_two_T (hσ : σ.IsValid) : IsPGroup 2 σ.T :=
-  σ.S.isPGroup'.to_le (σ.T_le_S hσ)
+  σ.S.isPGroup.to_le (σ.T_le_S hσ)
 
 omit [Finite G] in
 private theorem isPGroup_two_D : IsPGroup 2 σ.D :=
-  σ.S.isPGroup'.to_le σ.D_le_S
+  σ.S.isPGroup.to_le σ.D_le_S
 
 private theorem T_comm (hσ : σ.IsValid) : ∀ a ∈ σ.T, ∀ b ∈ σ.T, a * b = b * a :=
   fun a ha _ hb => (Subgroup.mem_centralizer_iff.mp (σ.T_le_C hσ hb)) a ha
@@ -1381,7 +1381,7 @@ theorem mem_centerOf_D_of_mem_solvRadIn_N (hσ : σ.IsValid) (hII : σ.ChapterII
   have hoS : o ∈ (σ.S : Subgroup G) := by
     have h1 := (σ.S : Subgroup G).mul_mem (σ.D_le_S huD) ((σ.S : Subgroup G).inv_mem hz.1)
     simpa using h1
-  have hbot := inf_eq_bot_of_isPGroup_two_of_odd σ.S.isPGroup' σ.odd_card_ON
+  have hbot := inf_eq_bot_of_isPGroup_two_of_odd σ.S.isPGroup σ.odd_card_ON
   have ho1 : o = 1 := by
     have h1 : o ∈ (σ.S : Subgroup G) ⊓ σ.ON := ⟨hoS, ho⟩
     rw [hbot] at h1
@@ -2084,7 +2084,7 @@ theorem exists_sylow_two_le_normalizer_R (hσ : σ.IsValid) (hII : σ.ChapterIIF
   set S₁' := (Q : Subgroup K).map K.subtype with hS₁'
   have hS₁'K : IsSylowOf 2 S₁' K := ⟨Q, rfl⟩
   have hP₂K : IsSylowOf 2 (P₂ : Subgroup G) K :=
-    isSylowOf_iff.mpr ⟨hP₂.trans inf_le_left, P₂.isPGroup', fun hdvd =>
+    isSylowOf_iff.mpr ⟨hP₂.trans inf_le_left, P₂.isPGroup, fun hdvd =>
       P₂.not_dvd_index (hdvd.trans (Subgroup.relIndex_dvd_index_of_le
         (hP₂.trans inf_le_left)))⟩
   have hcard : Nat.card S₁' = 2 ^ (Nat.card G).factorization 2 := by

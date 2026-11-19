@@ -161,7 +161,6 @@ theorem hadj_hypBlock_mul (h2 : (2 : K) ≠ 0) {α : K} (hα : h.norm α = -1) (
       Finset.sum_ite_eq', Finset.mem_univ, ite_true] <;>
     split_ifs <;>
     first
-      | rfl
       | ring1
       | linear_combination hα'
       | linear_combination -hα'

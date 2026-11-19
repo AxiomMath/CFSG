@@ -174,7 +174,7 @@ theorem le_of_centralizer_le_of_threeA_of_surjective {G : Type*} [Group G] [Fini
       rw [hrelmap]
       exact fun h => hSrel (h.trans (Subgroup.relIndex_dvd_of_le_left
         (H := S) (K := S ⊔ φ.ker) (L := P.comap φ) le_sup_left))
-    haveI : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hPcard]; norm_num)
+    have : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hPcard]; norm_num)
     have hP3 : IsPGroup 3 P := IsPGroup.of_card (n := 3) (by rw [hPcard]; norm_num)
     have hrel : (S.map φ).relIndex P = 1 := by
       obtain ⟨n, hn⟩ := hP3.index ((S.map φ).subgroupOf P)
@@ -488,7 +488,7 @@ theorem odd_card_of_le_centralizer_threeA {G : Type*} [Group G] [Finite G]
   have hKen : ((relPPrimeCore 3 (Subgroup.centralizer {e})).subgroupOf C).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKC).mpr (hCe.trans hKenCe)
   have hXleKe : X ≤ relPPrimeCore 3 (Subgroup.centralizer {e}) := by
-    haveI := hKen
+    have := hKen
     have hXmap : (X.subgroupOf C).map C.subtype = X := by
       rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr (hXR.trans hRC)]
     have hKemap : ((relPPrimeCore 3 (Subgroup.centralizer {e})).subgroupOf C).map C.subtype
@@ -570,7 +570,7 @@ theorem odd_card_of_le_centralizer_threeA {G : Type*} [Group G] [Finite G]
   have hQNormal : ((pCoreOf 2 (Subgroup.centralizer {e} ⊓ Subgroup.normalizer (X : Set G)) ⊔
       relPPrimeCore 3 (Subgroup.centralizer {e})).subgroupOf
         (Subgroup.centralizer {e})).Normal := by
-    haveI : ((relPPrimeCore 3 (Subgroup.centralizer {e})).subgroupOf
+    have : ((relPPrimeCore 3 (Subgroup.centralizer {e})).subgroupOf
         (Subgroup.centralizer {e})).Normal := relPPrimeCore_normal (p := 3) (by norm_num) _
     have hX' : CFSG.ABGLocalTools.IsSylowOf 2 (X.subgroupOf (Subgroup.centralizer {e}))
         ((relPPrimeCore 3 (Subgroup.centralizer {e})).subgroupOf

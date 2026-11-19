@@ -15,12 +15,14 @@ noncomputable section
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem f112Θγ₀ (L1 L2 S : Subgroup G) :
     (f112Completion L1 L2 S).Θ (f112Completion_isFaithful L1 L2 S) (f112Gamma0 L1 L2 S) =
       CosetGeom.γ₀ ((f112Completion L1 L2 S).φ1.range ⊔ (f112Completion L1 L2 S).φ2.range)
         (f112Completion L1 L2 S).φ1.range (f112Completion L1 L2 S).φ2.range :=
   ((f112Completion L1 L2 S).coverData (f112Completion_isFaithful L1 L2 S)).Θ_γ₀
 
+omit [Finite G] in
 private theorem f112Θγ₁ (L1 L2 S : Subgroup G) :
     (f112Completion L1 L2 S).Θ (f112Completion_isFaithful L1 L2 S) (f112Gamma1 L1 L2 S) =
       CosetGeom.γ₁ ((f112Completion L1 L2 S).φ1.range ⊔ (f112Completion L1 L2 S).φ2.range)
@@ -66,6 +68,7 @@ private def f112Incl (L1 L2 S : Subgroup G) :
     (MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma0 L1 L2 S)).subtype).comp
     (f112StabEquiv0 L1 L2 S).symm.toMonoidHom
 
+omit [Finite G] in
 private theorem coe_f112Incl (L1 L2 S : Subgroup G) (p : ↥(L1 ⊔ bigB L1 L2 S)) :
     ((f112Incl L1 L2 S p : ↥((f112Completion L1 L2 S).φ1.range ⊔
       (f112Completion L1 L2 S).φ2.range)) : G) = (p : G) := by
@@ -79,6 +82,7 @@ private def f112VOf (L1 L2 S : Subgroup G) (p : ↥(L1 ⊔ bigB L1 L2 S)) :
     f112Gamma L1 L2 S :=
   ((f112StabEquiv0 L1 L2 S).symm p : f112Acting L1 L2 S) • f112Gamma1 L1 L2 S
 
+omit [Finite G] in
 private theorem f112_adj_vOf (L1 L2 S : Subgroup G) (p : ↥(L1 ⊔ bigB L1 L2 S)) :
     (f112Amalgam L1 L2 S).graphHat.Adj (f112Gamma0 L1 L2 S) (f112VOf L1 L2 S p) := by
   set k : f112Acting L1 L2 S := ((f112StabEquiv0 L1 L2 S).symm p : f112Acting L1 L2 S) with hk
@@ -90,6 +94,7 @@ private theorem f112_adj_vOf (L1 L2 S : Subgroup G) (p : ↥(L1 ⊔ bigB L1 L2 S
   rw [hfix] at hadj
   exact hadj
 
+omit [Finite G] in
 private theorem f112_Θ_vOf (L1 L2 S : Subgroup G) (p : ↥(L1 ⊔ bigB L1 L2 S)) :
     (f112Completion L1 L2 S).Θ (f112Completion_isFaithful L1 L2 S) (f112VOf L1 L2 S p) =
       cosetAct (f112Incl L1 L2 S p)
@@ -98,18 +103,21 @@ private theorem f112_Θ_vOf (L1 L2 S : Subgroup G) (p : ↥(L1 ⊔ bigB L1 L2 S)
   rw [f112VOf, RankTwoAmalgam.Completion.Θ_smul, f112Θγ₁]
   rfl
 
+omit [Finite G] in
 private theorem f112Rangeφ₂ (L1 L2 S : Subgroup G) :
     (f112Completion L1 L2 S).φ2.range =
       (L2 ⊔ bigB L1 L2 S).subgroupOf ((L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S)) :=
   Subgroup.inclusion_range (le_sup_right : (L2 ⊔ bigB L1 L2 S) ≤
     (L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S))
 
+omit [Finite G] in
 private theorem f112_mem_range_φ₂_iff (L1 L2 S : Subgroup G)
     (y : ↥((L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S))) :
     y ∈ (f112Completion L1 L2 S).φ2.range ↔ (y : G) ∈ L2 ⊔ bigB L1 L2 S := by
   rw [f112Rangeφ₂]
   exact Subgroup.mem_subgroupOf
 
+omit [Finite G] in
 private theorem f112_mem_range_φ₂_iff' (L1 L2 S : Subgroup G)
     (x : ↥((f112Completion L1 L2 S).φ1.range ⊔ (f112Completion L1 L2 S).φ2.range)) :
     x.1 ∈ (f112Completion L1 L2 S).φ2.range ↔ (x : G) ∈ L2 ⊔ bigB L1 L2 S :=
@@ -168,6 +176,7 @@ private theorem f112_vOf_eq_iff {L1 L2 S : Subgroup G}
       (f112VOf L1 L2 S p) (f112VOf L1 L2 S q) (f112_adj_vOf L1 L2 S p)
       (f112_adj_vOf L1 L2 S q) hΘ
 
+omit [Finite G] in
 private theorem f112_exists_vOf {L1 L2 S : Subgroup G}
     (hF : F112HypW L1 L2 S) {w : f112Gamma L1 L2 S}
     (hw : w ∈ (f112Amalgam L1 L2 S).graphHat.neighborSet (f112Gamma0 L1 L2 S)) :
@@ -180,6 +189,7 @@ private theorem f112_exists_vOf {L1 L2 S : Subgroup G}
   obtain ⟨g, hg, hgw⟩ := f112_stabilizer_transitive_on_nbrs hF hγ₁ hw
   exact ⟨f112StabEquiv0 L1 L2 S ⟨g, hg⟩, by rw [f112VOf, MulEquiv.symm_apply_apply]; exact hgw⟩
 
+omit [Finite G] in
 private theorem f112_smul_vOf (L1 L2 S : Subgroup G) (h : f112Acting L1 L2 S)
     (hh : h ∈ MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma0 L1 L2 S))
     (p : ↥(L1 ⊔ bigB L1 L2 S)) :
@@ -207,6 +217,7 @@ private theorem f112_smul_vOf (L1 L2 S : Subgroup G) (h : f112Acting L1 L2 S)
     exact congrArg Subtype.val heq
   rw [f112VOf, ← mul_smul, hmul, f112VOf]
 
+omit [Finite G] in
 private theorem f112_smul_vOf' (L1 L2 S : Subgroup G)
     (k : ↥(MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma0 L1 L2 S)))
     (p : ↥(L1 ⊔ bigB L1 L2 S)) :
@@ -466,7 +477,7 @@ private theorem f112_fac_left {L1 L2 S : Subgroup G}
       l * t' * l⁻¹ * t'⁻¹ ∈ pCoreOf 2 L1) :
     ∀ x ∈ L1 ⊔ bigB L1 L2 S,
       ∃ c ∈ Subgroup.centralizer ({t} : Set G) ⊓ L1, ∃ b ∈ bigB L1 L2 S, x = c * b := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   have hBL1 : bigB L1 L2 S ≤ Subgroup.normalizer (L1 : Set G) :=
     (F1.bigB_le_normalizer_left hR).1
@@ -479,7 +490,7 @@ private theorem f112_fac_left {L1 L2 S : Subgroup G}
         (le_sup_left : L1 ≤ L1 ⊔ bigB L1 L2 S))).mpr
       (sup_le (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L1)
         (hBL1.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 L1)))
-  haveI : E.Normal := hEnorm
+  have : E.Normal := hEnorm
   have hEcard : ¬ ℓ ∣ Nat.card ↥E := by
     obtain ⟨n, hn⟩ := (CFSG.LieType.BorelTits.pCoreOf_isPGroup (G := G) 2 L1).exists_card_eq
     have hcard : Nat.card ↥E = Nat.card ↥(pCoreOf 2 L1) := by
@@ -573,7 +584,7 @@ private theorem f112_fac_right {L1 L2 S : Subgroup G}
       l * t' * l⁻¹ * t'⁻¹ ∈ pCoreOf 2 L2) :
     ∀ x ∈ L2 ⊔ bigB L1 L2 S,
       ∃ c ∈ Subgroup.centralizer ({t} : Set G) ⊓ L2, ∃ b ∈ bigB L1 L2 S, x = c * b := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   have hBL2 : bigB L1 L2 S ≤ Subgroup.normalizer (L2 : Set G) :=
     (F1.bigB_le_normalizer_left hR).2
@@ -586,7 +597,7 @@ private theorem f112_fac_right {L1 L2 S : Subgroup G}
         (le_sup_left : L2 ≤ L2 ⊔ bigB L1 L2 S))).mpr
       (sup_le (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L2)
         (hBL2.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 L2)))
-  haveI : E.Normal := hEnorm
+  have : E.Normal := hEnorm
   have hEcard : ¬ ℓ ∣ Nat.card ↥E := by
     obtain ⟨n, hn⟩ := (CFSG.LieType.BorelTits.pCoreOf_isPGroup (G := G) 2 L2).exists_card_eq
     have hcard : Nat.card ↥E = Nat.card ↥(pCoreOf 2 L2) := by
@@ -681,18 +692,21 @@ private theorem cosetAct_γ₀_eq_iff {X : Type} [Group X] {A B : Subgroup X} (x
     exact CosetGeom.smul_eq_of_mem_stab (γ := CosetGeom.γ₀ (A ⊔ B) A B) (by
       rw [CosetGeom.stab_γ₀ (le_sup_left : A ≤ A ⊔ B)]; exact h)
 
+omit [Finite G] in
 private theorem f112Rangeφ₁ (L1 L2 S : Subgroup G) :
     (f112Completion L1 L2 S).φ1.range =
       (L1 ⊔ bigB L1 L2 S).subgroupOf ((L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S)) :=
   Subgroup.inclusion_range (le_sup_left : (L1 ⊔ bigB L1 L2 S) ≤
     (L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S))
 
+omit [Finite G] in
 private theorem f112_mem_range_φ₁_iff (L1 L2 S : Subgroup G)
     (y : ↥((L1 ⊔ bigB L1 L2 S) ⊔ (L2 ⊔ bigB L1 L2 S))) :
     y ∈ (f112Completion L1 L2 S).φ1.range ↔ (y : G) ∈ L1 ⊔ bigB L1 L2 S := by
   rw [f112Rangeφ₁]
   exact Subgroup.mem_subgroupOf
 
+omit [Finite G] in
 private theorem f112_mem_range_φ₁_iff' (L1 L2 S : Subgroup G)
     (x : ↥((f112Completion L1 L2 S).φ1.range ⊔ (f112Completion L1 L2 S).φ2.range)) :
     x.1 ∈ (f112Completion L1 L2 S).φ1.range ↔ (x : G) ∈ L1 ⊔ bigB L1 L2 S :=
@@ -705,6 +719,7 @@ private def f112Incl1 (L1 L2 S : Subgroup G) :
     (MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma1 L1 L2 S)).subtype).comp
     (f112StabEquiv1 L1 L2 S).symm.toMonoidHom
 
+omit [Finite G] in
 private theorem coe_f112Incl1 (L1 L2 S : Subgroup G) (p : ↥(L2 ⊔ bigB L1 L2 S)) :
     ((f112Incl1 L1 L2 S p : ↥((f112Completion L1 L2 S).φ1.range ⊔
       (f112Completion L1 L2 S).φ2.range)) : G) = (p : G) := by
@@ -718,6 +733,7 @@ private def f112VOf1 (L1 L2 S : Subgroup G) (p : ↥(L2 ⊔ bigB L1 L2 S)) :
     f112Gamma L1 L2 S :=
   ((f112StabEquiv1 L1 L2 S).symm p : f112Acting L1 L2 S) • f112Gamma0 L1 L2 S
 
+omit [Finite G] in
 private theorem f112_adj_vOf1 (L1 L2 S : Subgroup G) (p : ↥(L2 ⊔ bigB L1 L2 S)) :
     (f112Amalgam L1 L2 S).graphHat.Adj (f112Gamma1 L1 L2 S) (f112VOf1 L1 L2 S p) := by
   set k : f112Acting L1 L2 S := ((f112StabEquiv1 L1 L2 S).symm p : f112Acting L1 L2 S) with hk
@@ -729,6 +745,7 @@ private theorem f112_adj_vOf1 (L1 L2 S : Subgroup G) (p : ↥(L2 ⊔ bigB L1 L2 
   rw [hfix] at hadj
   exact hadj
 
+omit [Finite G] in
 private theorem f112_Θ_vOf1 (L1 L2 S : Subgroup G) (p : ↥(L2 ⊔ bigB L1 L2 S)) :
     (f112Completion L1 L2 S).Θ (f112Completion_isFaithful L1 L2 S) (f112VOf1 L1 L2 S p) =
       cosetAct (f112Incl1 L1 L2 S p)
@@ -791,6 +808,7 @@ private theorem f112_vOf_eq_iff1 {L1 L2 S : Subgroup G}
       (f112VOf1 L1 L2 S p) (f112VOf1 L1 L2 S q) (f112_adj_vOf1 L1 L2 S p)
       (f112_adj_vOf1 L1 L2 S q) hΘ
 
+omit [Finite G] in
 private theorem f112_exists_vOf1 {L1 L2 S : Subgroup G}
     (hF : F112HypW L1 L2 S) {w : f112Gamma L1 L2 S}
     (hw : w ∈ (f112Amalgam L1 L2 S).graphHat.neighborSet (f112Gamma1 L1 L2 S)) :
@@ -802,6 +820,7 @@ private theorem f112_exists_vOf1 {L1 L2 S : Subgroup G}
   obtain ⟨g, hg, hgw⟩ := f112_stabilizer_transitive_on_nbrs hF hγ₀ hw
   exact ⟨f112StabEquiv1 L1 L2 S ⟨g, hg⟩, by rw [f112VOf1, MulEquiv.symm_apply_apply]; exact hgw⟩
 
+omit [Finite G] in
 private theorem f112_smul_vOf1 (L1 L2 S : Subgroup G) (h : f112Acting L1 L2 S)
     (hh : h ∈ MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma1 L1 L2 S))
     (p : ↥(L2 ⊔ bigB L1 L2 S)) :
@@ -829,6 +848,7 @@ private theorem f112_smul_vOf1 (L1 L2 S : Subgroup G) (h : f112Acting L1 L2 S)
     exact congrArg Subtype.val heq
   rw [f112VOf1, ← mul_smul, hmul, f112VOf1]
 
+omit [Finite G] in
 private theorem f112_smul_vOf1' (L1 L2 S : Subgroup G)
     (k : ↥(MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma1 L1 L2 S)))
     (p : ↥(L2 ⊔ bigB L1 L2 S)) :
@@ -1102,7 +1122,7 @@ private theorem f112_base_edge_finite {L1 L2 S : Subgroup G}
     (hF : F112HypW L1 L2 S) :
     Finite ↥(edgeKernel (H := f112Acting L1 L2 S) (f112Amalgam L1 L2 S).graphHat
       (f112Gamma0 L1 L2 S) (f112Gamma1 L1 L2 S)) := by
-  haveI hstab : Finite ↥(MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma0 L1 L2 S)) :=
+  have hstab : Finite ↥(MulAction.stabilizer (f112Acting L1 L2 S) (f112Gamma0 L1 L2 S)) :=
     f112_finite_stabilizer hF (f112Gamma0 L1 L2 S)
   refine Finite.of_injective
     (fun x : ↥(edgeKernel (H := f112Acting L1 L2 S) (f112Amalgam L1 L2 S).graphHat
@@ -1123,11 +1143,11 @@ private theorem f112_base_edge_isPGroup {L1 L2 S : Subgroup G}
         (f112Gamma0 L1 L2 S) (f112Gamma1 L1 L2 S) → orderOf u = ℓ → False) :
     IsPGroup 2 ↥(edgeKernel (H := f112Acting L1 L2 S) (f112Amalgam L1 L2 S).graphHat
       (f112Gamma0 L1 L2 S) (f112Gamma1 L1 L2 S)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup (f112Acting L1 L2 S) :=
     edgeKernel (H := f112Acting L1 L2 S) (f112Amalgam L1 L2 S).graphHat
       (f112Gamma0 L1 L2 S) (f112Gamma1 L1 L2 S)
-  haveI hKfin : Finite ↥K := f112_base_edge_finite hF
+  have hKfin : Finite ↥K := f112_base_edge_finite hF
   obtain ⟨P⟩ := Sylow.nonempty (p := 2) (G := ↥K)
   have hidx : (P : Subgroup ↥K).index = 1 := by
     by_contra hne
@@ -1138,7 +1158,7 @@ private theorem f112_base_edge_isPGroup {L1 L2 S : Subgroup G}
         Nat.pos_of_ne_zero (Subgroup.index_ne_zero_of_finite)
       omega
     obtain ⟨p, hp, hpdvd⟩ := Nat.exists_prime_and_dvd (by omega : (P : Subgroup ↥K).index ≠ 1)
-    haveI : Fact (Nat.Prime p) := ⟨hp⟩
+    have : Fact (Nat.Prime p) := ⟨hp⟩
     have hpn2 : p ≠ 2 := by
       intro h2
       rw [h2] at hpdvd
@@ -1152,7 +1172,7 @@ private theorem f112_base_edge_isPGroup {L1 L2 S : Subgroup G}
       rw [Subgroup.orderOf_coe]
       exact hxord
     exact hprime p hp hpodd _ x.2 hxord'
-  obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
   have hcard : Nat.card ↥K = 2 ^ n := by
     rw [← Subgroup.card_mul_index (P : Subgroup ↥K), hidx, mul_one]
     exact hn
@@ -1180,7 +1200,7 @@ private theorem f112_hedge {L1 L2 S : Subgroup G}
   let K : Subgroup (f112Acting L1 L2 S) :=
     edgeKernel (H := f112Acting L1 L2 S) (f112Amalgam L1 L2 S).graphHat
       (f112Gamma0 L1 L2 S) (f112Gamma1 L1 L2 S)
-  haveI hKfin : Finite ↥K := f112_base_edge_finite hF
+  have hKfin : Finite ↥K := f112_base_edge_finite hF
   intro x y g hxy hx hy
   have hgK : g ∈ edgeKernel (H := f112Acting L1 L2 S) (f112Amalgam L1 L2 S).graphHat x y := by
     rw [mem_edgeKernel]
@@ -1231,8 +1251,9 @@ private theorem pCoreOf_card_eq {G : Type*} [Group G] (P : Subgroup G) :
     Nat.card (pCoreOf 2 P) = Nat.card ↥(pCore 2 ↥P) :=
   Subgroup.card_map_of_injective (f := P.subtype) P.subtype_injective
 
+omit [Finite G] in
 private theorem f112_stabilizer_equiv_of_vtype_false
-    {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S) {v : f112Gamma L1 L2 S}
+    {L1 L2 S : Subgroup G} (_hF : F112HypW L1 L2 S) {v : f112Gamma L1 L2 S}
     (hv : CosetGeom.vtype v = false) :
     Nonempty (MulAction.stabilizer (f112Acting L1 L2 S) v ≃* ↥(L1 ⊔ bigB L1 L2 S)) := by
   obtain ⟨g, hg⟩ := CosetGeom.exists_smul_eq_γ₀ (G₀ := (f112Amalgam L1 L2 S).Ghat1 ⊔
@@ -1242,8 +1263,9 @@ private theorem f112_stabilizer_equiv_of_vtype_false
   exact ⟨(Subgroup.equivMapOfInjective _ (MulAut.conj g).toMonoidHom
     (MulAut.conj g).injective).symm.trans (f112StabEquiv0 L1 L2 S)⟩
 
+omit [Finite G] in
 private theorem f112_stabilizer_equiv_of_vtype_true
-    {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S) {v : f112Gamma L1 L2 S}
+    {L1 L2 S : Subgroup G} (_hF : F112HypW L1 L2 S) {v : f112Gamma L1 L2 S}
     (hv : CosetGeom.vtype v = true) :
     Nonempty (MulAction.stabilizer (f112Acting L1 L2 S) v ≃* ↥(L2 ⊔ bigB L1 L2 S)) := by
   obtain ⟨g, hg⟩ := CosetGeom.exists_smul_eq_γ₁ (G₀ := (f112Amalgam L1 L2 S).Ghat1 ⊔
@@ -1287,7 +1309,7 @@ private theorem f112_h2 {L1 L2 S : Subgroup G}
     (hv2 : (bigB L1 L2 S).relIndex (L2 ⊔ bigB L1 L2 S) = 2 ^ e₂ + 1)
     (hQ1 : Nat.card (pCoreOf 2 (L1 ⊔ bigB L1 L2 S)) * 2 ^ e₁ = Nat.card S)
     (hQ2 : Nat.card (pCoreOf 2 (L2 ⊔ bigB L1 L2 S)) * 2 ^ e₂ = Nat.card S)
-    (hS : Nat.card S = 2 ^ ((e₁ + e₂) * j)) :
+    (_hS : Nat.card S = 2 ^ ((e₁ + e₂) * j)) :
     ∀ (v w w' : f112Gamma L1 L2 S) (g : f112Acting L1 L2 S),
       (f112Amalgam L1 L2 S).graphHat.Adj v w →
       (f112Amalgam L1 L2 S).graphHat.Adj v w' → w ≠ w' →
@@ -1313,7 +1335,7 @@ private theorem f112_h2 {L1 L2 S : Subgroup G}
     have h2 : IsLocallyTransHat (f112Amalgam L1 L2 S) 2 :=
       IsLocallyTrans.mono (t := 2) (by omega) hne hLT
     exact exists_smul_nbr_fix_of_isLocallyTrans h2 le_rfl hne h₀ h₁ h₂ h₁₀ h₂₀
-  haveI hfinv : Finite ↥(MulAction.stabilizer (f112Acting L1 L2 S) v) :=
+  have hfinv : Finite ↥(MulAction.stabilizer (f112Acting L1 L2 S) v) :=
     f112_finite_stabilizer hF v
   have hsyl1 : ∀ P : Sylow 2 (MulAction.stabilizer (f112Acting L1 L2 S) v),
       Nat.card P = 2 ^ e₁ * Nat.card (pCoreOf 2 (L1 ⊔ bigB L1 L2 S)) := by
@@ -1385,8 +1407,8 @@ set_option synthInstance.maxHeartbeats 400000 in
 private theorem f112_path_stab_odd {L1 L2 S : Subgroup G}
     (hF : F112HypW L1 L2 S) {j e₁ e₂ : ℕ}
     (hLT : IsLocallyTransHat (f112Amalgam L1 L2 S) (2 * j + 1))
-    (hQ1 : Nat.card (pCoreOf 2 (L1 ⊔ bigB L1 L2 S)) * 2 ^ e₁ = Nat.card S)
-    (hQ2 : Nat.card (pCoreOf 2 (L2 ⊔ bigB L1 L2 S)) * 2 ^ e₂ = Nat.card S)
+    (_hQ1 : Nat.card (pCoreOf 2 (L1 ⊔ bigB L1 L2 S)) * 2 ^ e₁ = Nat.card S)
+    (_hQ2 : Nat.card (pCoreOf 2 (L2 ⊔ bigB L1 L2 S)) * 2 ^ e₂ = Nat.card S)
     (hS : Nat.card S = 2 ^ ((e₁ + e₂) * j))
     (hq1 : (f112Amalgam L1 L2 S).qOne = 2 ^ e₁)
     (hq2 : (f112Amalgam L1 L2 S).qTwo = 2 ^ e₂)
@@ -1394,7 +1416,7 @@ private theorem f112_path_stab_odd {L1 L2 S : Subgroup G}
     Odd (Nat.card ((((f112Completion L1 L2 S).graphCovering
       (f112Completion_isFaithful L1 L2 S)).pathMap p).stabPath :
         Subgroup (f112Completion L1 L2 S).G0)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : (f112Completion L1 L2 S).IsFaithful := f112Completion_isFaithful L1 L2 S
   have hM : ((f112Amalgam L1 L2 S).qOne * (f112Amalgam L1 L2 S).qTwo) ^ j = Nat.card S := by
     rw [hq1, hq2, ← pow_add, ← pow_mul, hS]
@@ -1418,7 +1440,7 @@ private theorem f112_path_stab_odd {L1 L2 S : Subgroup G}
     rwa [hq₁.1, hq₂.1] at h0
   have hT : (f112Completion L1 L2 S).PathTrans a (2 * j + 1) :=
     (f112Completion L1 L2 S).lemma_F33_4 hc (p 0) (2 * j + 1) htrans
-  haveI hfin0 : Finite (MulAction.stabilizer (f112Acting L1 L2 S) (p 0)) := by
+  have hfin0 : Finite (MulAction.stabilizer (f112Acting L1 L2 S) (p 0)) := by
     let e := ((f112Completion L1 L2 S).stabIso hc (p 0)).equiv
     refine Finite.of_injective (fun x => (e x : ↥((f112Completion L1 L2 S).φ1.range ⊔
       (f112Completion L1 L2 S).φ2.range))) ?_
@@ -1428,7 +1450,7 @@ private theorem f112_path_stab_odd {L1 L2 S : Subgroup G}
   have hqvprod : (f112Amalgam L1 L2 S).qv (CosetGeom.vtype a) *
       (f112Amalgam L1 L2 S).qv (!CosetGeom.vtype a) =
       (f112Amalgam L1 L2 S).qOne * (f112Amalgam L1 L2 S).qTwo := by
-    cases hb : CosetGeom.vtype a <;> simp [RankTwoAmalgam.qv, hb, mul_comm]
+    cases hb : CosetGeom.vtype a <;> simp [RankTwoAmalgam.qv, mul_comm]
   have hpathNum : (f112Amalgam L1 L2 S).pathNum (CosetGeom.vtype a) (2 * j + 1) =
       ((f112Amalgam L1 L2 S).qv (CosetGeom.vtype a) + 1) *
         ((f112Amalgam L1 L2 S).qOne * (f112Amalgam L1 L2 S).qTwo) ^ j := by
@@ -1454,7 +1476,7 @@ private theorem f112_path_stab_odd {L1 L2 S : Subgroup G}
         (f := e.symm.toMonoidHom) e.symm.injective
     rw [← h2, h1, ← hM]
   have hMpos : 0 < ((f112Amalgam L1 L2 S).qOne * (f112Amalgam L1 L2 S).qTwo) ^ j := by
-    haveI : Nonempty ↥(P : Subgroup ((f112Completion L1 L2 S).stv a)) :=
+    have : Nonempty ↥(P : Subgroup ((f112Completion L1 L2 S).stv a)) :=
       ⟨⟨1, Subgroup.one_mem (P : Subgroup ((f112Completion L1 L2 S).stv a))⟩⟩
     have hPpos : 0 < Nat.card P := Nat.card_pos
     rwa [hPcard] at hPpos

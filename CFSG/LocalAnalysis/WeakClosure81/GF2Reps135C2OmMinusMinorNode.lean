@@ -73,8 +73,8 @@ private theorem o8mMN_row_long {s : Fin 3} (hs : s.val + 1 < 3) (r : Fin 3) :
       (n := 4) (hirr := hirrQ) hs r' true]
     simp only [minusVec_true, eVec, Pi.single_apply, Sum.inl.injEq]
     by_cases h : r' = Equiv.swap s ⟨s.val + 1, hs⟩ r
-    · rw [if_pos (by rw [h, Equiv.swap_apply_self]), if_pos h]
-    · rw [if_neg (by intro hh; exact h (by rw [hh, Equiv.swap_apply_self])), if_neg h]
+    · rw [ite_eq_left (by rw [h, Equiv.swap_apply_self]), ite_eq_left h]
+    · rw [ite_eq_right (by intro hh; exact h (by rw [hh, Equiv.swap_apply_self])), ite_eq_right h]
   · rw [o8mDatum_n hirrQ s, mat_apply]
     rw [show (Pi.single (Sum.inr (Sum.inl r')) (1 : K)) = minusVec 4 (K := K) r' false by
       rw [minusVec_false]; rfl]
@@ -143,8 +143,8 @@ private theorem o8mMN_eblock_eq_perm {i : Fin 3} (A : Matrix (Fin 3 ⊕ Fin 3 �
   rw [PEquiv.toMatrix_toPEquiv_apply]
   simp only [Pi.single_apply]
   by_cases h : o8mMN_e i r' = o8mMN_e i (σ r)
-  · rw [if_pos h, if_pos (o8mMN_e_injective i h)]
-  · rw [if_neg h, if_neg (fun hh => h (by rw [hh]))]
+  · rw [ite_eq_left h, ite_eq_left (o8mMN_e_injective i h)]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h (by rw [hh]))]
 
 theorem o8mMinor_mat_n_mul_of_ne {s i : Fin 3} (hsi : s ≠ i)
     (M : Matrix (Fin 3 ⊕ Fin 3 ⊕ Fin 2) (Fin 3 ⊕ Fin 3 ⊕ Fin 2) K) :
@@ -250,9 +250,9 @@ private theorem o8mMN_eblock_n_long {i : Fin 3} (hi' : i.val + 1 < 3)
         (⟨i.val + 1, hi'⟩ : Fin 3) := by
       rw [show Fin.castLE i.isLt (o8mMN_ilast i) = i from rfl]
       exact Equiv.swap_apply_left i _
-    rw [hτ, if_pos rfl]
+    rw [hτ, ite_eq_left rfl]
   · have hτ := o8mMN_swap_castLE_eq hi' h
-    rw [hτ, if_neg h]
+    rw [hτ, ite_eq_right h]
     rfl
 
 omit [Finite K] [CharP K 2] in
@@ -268,10 +268,10 @@ private theorem o8mMN_eblock_longRoot {i : Fin 3} (hi' : i.val + 1 < 3)
   simp only [o8mMN_e]
   rw [o8mMN_row_longRoot_inl hi' (Fin.castLE i.isLt r)]
   by_cases hcast : Fin.castLE i.isLt r = i
-  · rw [if_pos hcast, add_dotProduct, single_one_dotProduct, single_one_dotProduct]
-    rw [if_pos ((o8mMN_castLE_eq_iff i r).mp hcast), hcast]
-  · rw [if_neg hcast, add_zero, single_one_dotProduct]
-    rw [if_neg (fun hh => hcast ((o8mMN_castLE_eq_iff i r).mpr hh))]
+  · rw [ite_eq_left hcast, add_dotProduct, single_one_dotProduct, single_one_dotProduct]
+    rw [ite_eq_left ((o8mMN_castLE_eq_iff i r).mp hcast), hcast]
+  · rw [ite_eq_right hcast, add_zero, single_one_dotProduct]
+    rw [ite_eq_right (fun hh => hcast ((o8mMN_castLE_eq_iff i r).mpr hh))]
     rfl
 
 theorem o8mMinor_mat_n_mul_eq_zero_of_long {i : Fin 3} (hi : i.val < 2)

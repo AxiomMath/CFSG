@@ -38,8 +38,8 @@ theorem r8_108_of_normalizer_sylow_le (hS : Standing4 G) (hU : uniqueFourUnique 
     (hNS : Subgroup.normalizer (S₃ : Set G) ≤ S.M)
     (hC : ∀ x ∈ S₃, orderOf x = 3 → Subgroup.centralizer ({x} : Set G) ≤ S.M) :
     R8_108 (CFSG.LocalAnalysis.UniquenessCase.UC6.dataOfSetup4 hS hU S) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup G := hS.simple
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup G := hS.simple
   intro L hL hSL _
   have h3M : 3 ∣ Nat.card S.M := three_dvd_card_of_mem_calC hL hSL
   have hS₃ne : S₃ ≠ ⊥ := by
@@ -62,7 +62,7 @@ theorem centralizer_le_of_mem_of_gamma {M P Q : Subgroup G}
       Subgroup.centralizer (A : Set G) ≤ M)
     {x : G} (hxP : x ∈ P) (hx : orderOf x = 3) :
     Subgroup.centralizer ({x} : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hxQ : x ∈ Q
   · exact CFSG.RankThree.PartOne.centralizer_le_of_rankThreeGamma_le hΓ hxQ hx
   · let A : Subgroup G := Subgroup.zpowers x
@@ -97,7 +97,7 @@ theorem r8_108_of_gamma_and_normalizer (hS : Standing4 G) (hU : uniqueFourUnique
       Subgroup.centralizer (A : Set G) ≤ S.M)
     (hNS : Subgroup.normalizer (P : Set G) ≤ S.M) :
     R8_108 (CFSG.LocalAnalysis.UniquenessCase.UC6.dataOfSetup4 hS hU S) :=
-  r8_108_of_normalizer_sylow_le hS hU S P hP hNS fun x hxP hx =>
+  r8_108_of_normalizer_sylow_le hS hU S P hP hNS fun _x hxP hx =>
     centralizer_le_of_mem_of_gamma hΓ hA hxP hx
 
 end CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8

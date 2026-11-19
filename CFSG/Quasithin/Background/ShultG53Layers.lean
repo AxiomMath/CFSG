@@ -114,7 +114,7 @@ theorem no_trivial_quot (k : Fin 2) {N : AddSubgroup Fn} (hN : InvSub (permAct (
     exact h1
   have hsumN : ∑ i, (⟨permAct (Mk k) (ge i) u, hN _ _ hu⟩ : ↥N) = 0 := by
     apply Subtype.ext
-    rw [AddSubmonoidClass.coe_finset_sum]
+    rw [_root_.AddSubmonoidClass.coe_finsetSum]
     exact hsum
   have h2 : ∑ i, ψ ⟨permAct (Mk k) (ge i) u, hN _ _ hu⟩ = 0 := by
     rw [← map_sum, hsumN, map_zero]
@@ -137,7 +137,7 @@ theorem no_trivial_quot (k : Fin 2) {N : AddSubgroup Fn} (hN : InvSub (permAct (
     rw [AddMonoidHom.zero_apply]
     exact h3
   obtain ⟨hnt, -⟩ := a6_irred 0
-  haveI := hnt
+  have := hnt
   obtain ⟨d, hd⟩ := exists_ne (0 : D 0)
   obtain ⟨n, rfl⟩ := hs d
   exact hd (by rw [hzero]; rfl)

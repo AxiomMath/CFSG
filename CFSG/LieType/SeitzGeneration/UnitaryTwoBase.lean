@@ -118,7 +118,7 @@ theorem conjTr_dftMat (hq : ∀ c : K, c ≠ 0 → σ c * c = 1) (hω3 : ω ^ 3 
   have hσω2 := sigma_cube_root_sq hq hω3
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [conjTr, dftMat, Matrix.mul_apply, Fin.sum_univ_three, hσω, hσω2, Matrix.one_apply] <;>
+    simp [conjTr, dftMat, Matrix.mul_apply, Fin.sum_univ_three, hσω, hσω2] <;>
     first
     | exact h2
     | linear_combination hω2
@@ -362,8 +362,8 @@ theorem EigenFrame.scaleExt_smul_blk (hK : Field4 σ ω) {τ : Fin 5 → Fin n}
   rw [smul_comm _ (c s), hc' s]
   by_cases hs : s = i
   · subst hs
-    rw [if_pos rfl, EigenFrame.blk, F.scaleExt_smul_self, smul_smul, mul_comm]
-  · rw [if_neg hs, EigenFrame.blk, F.scaleExt_smul_of_ne]
+    rw [ite_eq_left rfl, EigenFrame.blk, F.scaleExt_smul_self, smul_smul, mul_comm]
+  · rw [ite_eq_right hs, EigenFrame.blk, F.scaleExt_smul_of_ne]
     · exact hτ.ne (fun h => hs (Fin.castSucc_injective 4 h))
     · exact hτ.ne (Fin.castSucc_lt_last s).ne
 
@@ -420,9 +420,8 @@ theorem EigenFrame.allCenters_blk (hK : Field4 σ ω) (hne : 𝔈.Nonempty)
   simp only [hn] at hiso'
   by_cases h0 : c 0 = 0 <;> by_cases h1 : c 1 = 0 <;> by_cases h2 : c 2 = 0 <;>
     by_cases h3 : c 3 = 0 <;>
-    first
+    try first
     | (exfalso; simp [h0, h1, h2, h3, hK.two] at hiso'; done)
-    | skip
   · rw [hvec]
     simp only [h0, h1, h2, h3, zero_smul, add_zero]
     exact isCenter_zero
@@ -436,10 +435,10 @@ theorem EigenFrame.allCenters_blk (hK : Field4 σ ω) (hne : 𝔈.Nonempty)
     simp only [h0, h3, zero_smul, zero_add, add_zero]
     exact hpr _ _ n12 _ _ h1 h2
   · rw [hvec]
-    simp only [h1, h2, zero_smul, zero_add, add_zero]
+    simp only [h1, h2, zero_smul, add_zero]
     exact hpr _ _ n03 _ _ h0 h3
   · rw [hvec]
-    simp only [h1, h3, zero_smul, zero_add, add_zero]
+    simp only [h1, h3, zero_smul, add_zero]
     exact hpr _ _ n02 _ _ h0 h2
   · rw [hvec]
     simp only [h2, h3, zero_smul, add_zero]

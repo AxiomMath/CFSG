@@ -222,7 +222,7 @@ theorem s4o_card_of_equivariant_subgroup
     Nat.card ↥(X ⊓ centralizer (H : Set G)) =
       Nat.card ↥(N ⊓ centralizer (H : Set G)) * Nat.card ↥(Y ⊓ centralizer (H : Set G)) := by
   classical
-  haveI : ((⊥ : Subgroup G).subgroupOf Y).Normal := by
+  have : ((⊥ : Subgroup G).subgroupOf Y).Normal := by
     rw [Subgroup.bot_subgroupOf]
     infer_instance
   let ψ' : X →* Y ⧸ (⊥ : Subgroup G).subgroupOf Y :=
@@ -251,7 +251,7 @@ theorem s4o_card_of_equivariant_subgroup
       intro c hc
       rw [mem_normalizer_iff]
       intro x
-      simp only [Subgroup.mem_bot, SetLike.mem_coe]
+      simp only [Subgroup.mem_bot]
       constructor
       · intro hx; rw [hx]; simp
       · intro hx

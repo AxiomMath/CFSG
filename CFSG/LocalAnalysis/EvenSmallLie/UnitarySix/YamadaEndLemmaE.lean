@@ -62,7 +62,7 @@ theorem exists_sylow_eq
     refine lt_top_iff_ne_top.mpr fun htop => hne (le_antisymm (fun x hx => ?_) hTQ)
     have : (⟨x, hx⟩ : Q) ∈ T.subgroupOf Q := htop ▸ mem_top _
     exact this
-  have : Group.IsNilpotent Q := Q.isPGroup'.isNilpotent
+  have : Group.IsNilpotent Q := Q.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyT⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hyN' : ∀ x ∈ T, (y : G)⁻¹ * x * y ∈ T := by
@@ -77,7 +77,7 @@ theorem exists_sylow_eq
   have hyG₀ := yamada_5_5 h hA hU y hty
   have hsub : T ⊔ zpowers (y : G) ≤ Q := sup_le hTQ (by rw [zpowers_le]; exact y.2)
   have hp : IsPGroup 2 (T ⊔ zpowers (y : G) : Subgroup G) :=
-    Q.isPGroup'.to_le hsub
+    Q.isPGroup.to_le hsub
   have heq := hT.eq_of_le le_sup_left (sup_le hT.le (by rw [zpowers_le]; exact hyG₀)) hp
   exact hyT (show ((y : G)) ∈ T from heq ▸ mem_sup_right (mem_zpowers _))
 

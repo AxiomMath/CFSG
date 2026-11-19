@@ -63,9 +63,9 @@ theorem card_mul_le_of_fiberwise_const {ι Q T K : Type*} [Field K] [Finite K] [
 
 theorem card_twisted_le {K : Type} [Field K] [Finite K] {p n : ℕ} (hp : p.Prime) (hn : 0 < n)
     (F : Subgroup (Equiv.Perm (Fin n)))
-    (hFc : ∀ a ∈ F, ∀ b ∈ F, a * b = b * a)
+    (_hFc : ∀ a ∈ F, ∀ b ∈ F, a * b = b * a)
     (S : Subgroup (Fin n → Kˣ))
-    (hC : ∀ c : Kˣ, (fun _ => c) ∈ S)
+    (_hC : ∀ c : Kˣ, (fun _ => c) ∈ S)
     (hpow : ∀ d ∈ S, ∃ c : Kˣ, ∀ i, d i ^ p = c)
     (hF : ∀ σ ∈ F, ∀ d ∈ S, ∃ c : Kˣ, ∀ i, d (σ i) = c * d i) :
     Nat.card S * p ≤

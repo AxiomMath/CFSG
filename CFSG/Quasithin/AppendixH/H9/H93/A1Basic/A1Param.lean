@@ -45,7 +45,7 @@ theorem A1elt_add (ε ε' : Fin 4 → ZMod 2) : A1elt (ε + ε') = A1elt ε * A1
 @[expose] def A1hom : Multiplicative (Fin 4 → ZMod 2) →* MulAut (PairN 4) where
   toFun e := A1elt (Multiplicative.toAdd e)
   map_one' := A1elt_zero
-  map_mul' e e' := A1elt_add _ _
+  map_mul' _e _e' := A1elt_add _ _
 
 theorem A1hom_apply_pairVec (ε a b : Fin 4 → ZMod 2) :
     A1hom (Multiplicative.ofAdd ε) (pairVec a b) = pairVec (A1fst ε a b) (A1snd ε a b) := rfl

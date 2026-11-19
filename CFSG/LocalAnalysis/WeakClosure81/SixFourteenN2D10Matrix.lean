@@ -52,7 +52,7 @@ theorem det_eq_scalar_of_order15
     rw [hT15] at hdvd
     norm_num at hdvd
   have hδorder : orderOf δ = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime hδ3u hδne
   have hcorder : orderOf c = 3 := by
     rw [← hδu_eq_c]
@@ -84,7 +84,7 @@ theorem no_twist_involution_on_order15_cyclic
     (hphi : twist S T = T ^ a) :
     False := by
   let K := GaloisField 2 2
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let M : Matrix (Fin 2) (Fin 2) K := (T : Matrix (Fin 2) (Fin 2) K)
   let t : K := M.trace
   let d : K := M.det
@@ -175,7 +175,7 @@ theorem no_twist_involution_on_order15_cyclic
     simpa [t, smul_eq_mul, mul_comm, mul_left_comm, mul_assoc] using h
   have htr5_zero : Matrix.trace (M ^ 5) = 0 := by
     rw [h5d_matrix, Matrix.scalar_apply, Matrix.trace_diagonal]
-    simp [Fin.sum_univ_two, CharTwo.add_self_eq_zero, CharTwo.two_eq_zero]
+    simp [CharTwo.two_eq_zero]
   have hαt : (t ^ 4 - 3 * t ^ 2 * d + d ^ 2) * t = 0 := by
     have h := htr5_formula
     rw [htr5_zero] at h
@@ -188,8 +188,7 @@ theorem no_twist_involution_on_order15_cyclic
             rw [show (4 : ℕ) = 2 + 2 by norm_num, pow_add]
         _ = (d • 1) * (d • 1) := by rw [hM2]
         _ = d ^ 2 • 1 := by
-            simp [Matrix.smul_mul, Matrix.mul_smul, Matrix.mul_one, Matrix.one_mul,
-              smul_smul, pow_two]
+            simp [smul_smul, pow_two]
     have hM5 : M ^ 5 = d ^ 2 • M := by
       calc M ^ 5 = M ^ 4 * M := by
             rw [show (5 : ℕ) = 4 + 1 by norm_num, pow_add, pow_one]

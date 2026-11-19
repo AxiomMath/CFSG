@@ -349,7 +349,7 @@ private theorem CFSG.section12_lemma_12_17_inf_cyclic
           (Subgroup.nontrivial_iff_ne_bot (H := (Q : Subgroup I))).2 hQne
         have hpQ : p.val ∣ Nat.card (Q : Subgroup I) :=
           section12_prime_dvd_card_of_nontrivial_pSubgroup
-            (p := p) (B := (Q : Subgroup I)) Q.isPGroup' inferInstance
+            (p := p) (B := (Q : Subgroup I)) Q.isPGroup inferInstance
         exact hdiv (hpQ.trans (Subgroup.card_subgroup_dvd_card (Q : Subgroup I)))
       have : Subsingleton (Q : Subgroup I) := by
         rw [hQbot]

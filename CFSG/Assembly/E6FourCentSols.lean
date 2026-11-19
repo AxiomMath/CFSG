@@ -51,7 +51,6 @@ private lemma e6FourIsSol_fin6 (v : Fin 6 → ZMod 5)
     first
       | linear_combination 2 * h0 + (v 1 + 2 * v 2 + 2 * v 3 + v 4) * h5e
       | linear_combination 2 * h5 + (v 1 + v 2 + 2 * v 3 + 2 * v 4) * h5e
-      | ring
 
 private lemma e6FourIsSol_of_zero_five (v : Fin Tag.E6.rank → ZMod 5)
     (h0 : v 0 = 2 * (v 1 + 2 * v 2 + 2 * v 3 + v 4))
@@ -108,7 +107,7 @@ private lemma foldr_testBit (l : List ℕ) (P : ℕ → Prop) [DecidablePred P] 
   | cons k l ih =>
     rw [List.foldr_cons, List.mem_cons]
     by_cases hk : P k
-    · rw [if_pos hk, Nat.testBit_or, Bool.or_eq_true, ih, testBit_one_shiftLeft]
+    · rw [ite_eq_left hk, Nat.testBit_or, Bool.or_eq_true, ih, testBit_one_shiftLeft]
       constructor
       · rintro (⟨hjl, hPj⟩ | hjk)
         · exact ⟨Or.inr hjl, hPj⟩
@@ -117,7 +116,7 @@ private lemma foldr_testBit (l : List ℕ) (P : ℕ → Prop) [DecidablePred P] 
       · rintro ⟨rfl | hjl, hPj⟩
         · right; rfl
         · left; exact ⟨hjl, hPj⟩
-    · rw [if_neg hk, ih]
+    · rw [ite_eq_right hk, ih]
       constructor
       · intro h
         exact ⟨Or.inr h.1, h.2⟩
@@ -159,7 +158,7 @@ private def pairNatBot (n k : ℕ) : ℕ :=
 
 private def pairNat (n k : ℕ) : ℕ := pairNatBot n k % 5
 
-private lemma e6Pair_eq_pairNatBot (n k : ℕ) (hk : k < 72) :
+private lemma e6Pair_eq_pairNatBot (n k : ℕ) (_hk : k < 72) :
     e6Pair (e6SolVec n) (e6RootVec k) = ((pairNatBot n k : ℕ) : ZMod 5) := by
   rw [e6Pair, pairNatBot, Nat.cast_sum]
   apply Finset.sum_congr rfl
@@ -195,8 +194,8 @@ private lemma e6SolMask_eq_maskNat (n : ℕ) :
   have hk' : k < 72 := by simpa using hk
   funext acc
   by_cases h : e6Pair (e6SolVec n) (e6RootVec k) = 0
-  · rw [if_pos h, if_pos ((e6Pair_eq_zero_iff_pairNat n k hk').mp h)]
-  · rw [if_neg h, if_neg (fun hq => h ((e6Pair_eq_zero_iff_pairNat n k hk').mpr hq))]
+  · rw [ite_eq_left h, ite_eq_left ((e6Pair_eq_zero_iff_pairNat n k hk').mp h)]
+  · rw [ite_eq_right h, ite_eq_right (fun hq => h ((e6Pair_eq_zero_iff_pairNat n k hk').mpr hq))]
 
 private theorem sigsLit_eq_map_maskNat :
     sigsLit = (List.range' 1 624).map maskNat := by

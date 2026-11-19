@@ -114,7 +114,7 @@ theorem itemO_of_card_normalizer (hp : p.Prime) (hodd : Odd p)
   · intro r hr _ hrM R
     rw [hM, hr12 r hr] at hrM
     have : Fact r.Prime := ⟨hr⟩
-    obtain ⟨k, hk⟩ := R.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := R.isPGroup.exists_card_eq
     refine isMulCommutative_of_coprime_six hp hodd (R : Subgroup PSL(2, GaloisField 3 p)) ?_
     rw [hk]
     refine Nat.Coprime.pow_left k ?_

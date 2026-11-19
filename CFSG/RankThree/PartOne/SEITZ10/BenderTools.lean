@@ -69,7 +69,7 @@ theorem exists_mem_normalizer_conj_of_central_involutions (Q : Sylow 2 X)
       _ = c * z * c⁻¹ * (c * y * c⁻¹) := by group
   have hP : IsPGroup 2 ((Q : Subgroup X).map (MulAut.conj c).toMonoidHom) := by
     rintro ⟨_, y, hy, rfl⟩
-    obtain ⟨n, hn⟩ := Q.isPGroup' ⟨y, hy⟩
+    obtain ⟨n, hn⟩ := Q.isPGroup ⟨y, hy⟩
     refine ⟨n, Subtype.ext ?_⟩
     have hn' : y ^ 2 ^ n = 1 := congrArg Subtype.val hn
     change ((MulAut.conj c) y) ^ 2 ^ n = 1

@@ -12,7 +12,7 @@ open CFSG.OddStandard.AltStdSec.SwapPartner (actQuot actQuot_apply_mk)
 theorem mem_centralizer_of_actQuot_eq_one {X : Type*} [Group X] {F : Subgroup X}
     (hF : Group.IsPerfect ↥F) {y : Subgroup.normalizer (F : Set X)} (hy : actQuot F y = 1) :
     (y : X) ∈ Subgroup.centralizer (F : Set X) := by
-  haveI : Group.IsPerfect ↥F := hF
+  have : Group.IsPerfect ↥F := hF
   have hdelta : ∀ k : F, F.normalizerMonoidHom y k * k⁻¹ ∈ Subgroup.center F := by
     intro k
     have hquot : (QuotientGroup.mk (F.normalizerMonoidHom y k) :

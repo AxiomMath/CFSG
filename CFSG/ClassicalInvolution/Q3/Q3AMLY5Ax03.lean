@@ -93,7 +93,7 @@ theorem e1Y_of_center_eq_bot [IsSimpleGroup G] (hset : E4SettingY Ω K J S R T W
     calc t * (g⁻¹ * t * g) = (g⁻¹ * t * g * t * (g⁻¹ * t * g)⁻¹) * (g⁻¹ * t * g) := by
           rw [hct]
       _ = g⁻¹ * t * g * t := by group
-  have hS₂2 : IsPGroup 2 ↥(S₂ : Subgroup G) := S₂.isPGroup'
+  have hS₂2 : IsPGroup 2 ↥(S₂ : Subgroup G) := S₂.isPGroup
   have hcommR : ∀ r ∈ R, r * (g⁻¹ * t * g) = g⁻¹ * t * g * r := fun r hr =>
     layer_commute_of_mem_two_subgroup h hset.hint hS₂2 (hs.hR.2.1 hr) hsY (hRS₂ hr) hgS
   have hcommRt : ∀ r ∈ R, r * t = t * r := fun r hr =>

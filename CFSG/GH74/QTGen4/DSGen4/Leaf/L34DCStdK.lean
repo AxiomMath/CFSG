@@ -74,7 +74,7 @@ theorem dB_pow_three : dB ^ 3 = 1 := by
   rw [pow_three', h1, h2]
 
 theorem orderOf_dB : orderOf dB = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime dB_pow_three dB_ne_one
 
 theorem eB_eq_evalB (i : Fin 192) :

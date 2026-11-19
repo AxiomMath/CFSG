@@ -22,7 +22,7 @@ open CFSG.StandardType.RCKSmall (RCKSmallTag)
 private theorem rckK1Ila_map_conj_one {K : Type*} [Group K] (H : Subgroup K) :
     H.map (MulAut.conj (1 : K)).toMonoidHom = H := by
   ext y
-  simp [MulAut.conj_apply]
+  simp
 
 private theorem rckK1Ila_map_conj_mul {K : Type*} [Group K] (H : Subgroup K) (a b : K) :
     H.map (MulAut.conj (a * b)).toMonoidHom =
@@ -54,7 +54,7 @@ theorem rckK1I_lemmaA
   let D := (ggU t n f).D
   let K := (ggU t n f).K
   have hperfK : commutator K = ⊤ := rckK1I_ggU_perfect ht hadm
-  haveI : Group.IsPerfect K := ⟨hperfK⟩
+  have : Group.IsPerfect K := ⟨hperfK⟩
   have hperfX : Group.IsPerfect X := Group.IsPerfect.ofSurjective hψ
   have hcommX : commutator X = ⊤ := hperfX.commutator_eq_top
   have hnabX : ¬ IsMulCommutative X := by

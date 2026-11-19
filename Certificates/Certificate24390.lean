@@ -21,10 +21,9 @@ private theorem exists_bitsN (c : Fin 5 → ZMod 2) (hc : c ≠ 0) :
   refine ⟨(c 0).val + 2 * (c 1).val + 4 * (c 2).val + 8 * (c 3).val + 16 * (c 4).val,
     by omega, fun hm => hc (funext fun j => ?_), funext fun j => ?_⟩
   · refine (ZMod.val_eq_zero _).1 ?_
-    fin_cases j <;> simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue,
-      Pi.zero_apply] <;> omega
+    fin_cases j <;> simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue] <;> omega
   · fin_cases j <;> simp only [bitsN, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue,
-      Fin.val_zero, Fin.val_one, Fin.val_two, Nat.reducePow, pow_zero, Nat.div_one] <;> omega
+      Nat.reducePow, pow_zero, Nat.div_one] <;> omega
 
 open CFSG.Sporadic.Recognition.ThMultiplier in
 theorem certificate24390 : thFacts := by

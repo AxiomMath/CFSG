@@ -18,7 +18,7 @@ theorem two_pow_mod_three_of_odd {m : ℕ} (hm : Odd m) : (2 : ℕ) ^ m % 3 = 2 
 
 theorem exists_unit_cube_ne_one {m : ℕ} (hm : Odd m) :
     ∃ ω : (GaloisField 2 (2 * m))ˣ, ω ^ 3 = 1 ∧ ω ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hm0 : 0 < m := hm.pos
   have hcard : Nat.card (GaloisField 2 (2 * m)) = 2 ^ (2 * m) :=
     GaloisField.card 2 (2 * m) (by omega)
@@ -59,7 +59,7 @@ theorem diag_cond {K : Type*} [Field K] {Q : ℕ} (hQ : Q ≠ 0) {w : K} (hw : w
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three, hQ, hwQ, hwQ2] <;>
-    first | ring1 | linear_combination hw | linear_combination (w ^ 3 + 1) * hw
+    first | linear_combination hw | linear_combination (w ^ 3 + 1) * hw
 
 theorem perm_cond {K : Type*} [Field K] {Q : ℕ} (hQ : Q ≠ 0) :
     ((!![0, 1, 0; 0, 0, 1; 1, 0, 0] : Matrix (Fin 3) (Fin 3) K).map (· ^ Q)).transpose *
@@ -72,7 +72,7 @@ theorem diag_pow_three {K : Type*} [Field K] {w : K} (hw : w ^ 3 = 1) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [pow_three, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | ring1 | linear_combination hw | linear_combination (w ^ 3 + 1) * hw
+    first | linear_combination hw | linear_combination (w ^ 3 + 1) * hw
 
 theorem perm_pow_three {K : Type*} [Field K] :
     (!![0, 1, 0; 0, 0, 1; 1, 0, 0] : Matrix (Fin 3) (Fin 3) K) ^ 3 = 1 := by
@@ -87,7 +87,7 @@ theorem diag_perm_comm {K : Type*} [Field K] {w : K} (hw : w ^ 3 = 1) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply, Matrix.diagonal_apply] <;>
-    first | ring1 | linear_combination hw | linear_combination (w ^ 3 + 1) * hw
+    first | ring1 | linear_combination hw
 
 theorem mk_ne_of_entry {K : Type*} [Field K] (P Q : Matrix.GeneralLinearGroup (Fin 3) K)
     (hP : (P : Matrix (Fin 3) (Fin 3) K) = !![0, 1, 0; 0, 0, 1; 1, 0, 0])
@@ -98,8 +98,8 @@ theorem mk_ne_of_entry {K : Type*} [Field K] (P Q : Matrix.GeneralLinearGroup (F
   have e := congrArg (fun A : Matrix.GeneralLinearGroup (Fin 3) K =>
     (A : Matrix (Fin 3) (Fin 3) K) 0 1) hu
   have e' : (u : K) = 0 := by
-    simpa [Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply, Matrix.diagonal_apply,
-      hP, hQ] using e
+    simp [Matrix.mul_apply, Matrix.scalar_apply, Matrix.diagonal_apply,
+      hP, hQ] at e
   exact u.ne_zero e'
 
 theorem mk_diag_ne_one {K : Type*} [Field K] {w : K} (hw : w ≠ 1)
@@ -113,7 +113,7 @@ theorem mk_diag_ne_one {K : Type*} [Field K] {w : K} (hw : w ≠ 1)
     (A : Matrix (Fin 3) (Fin 3) K) 0 0) hu
   have e11 := congrArg (fun A : Matrix.GeneralLinearGroup (Fin 3) K =>
     (A : Matrix (Fin 3) (Fin 3) K) 1 1) hu
-  simp [hd, Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply,
+  simp [hd, Matrix.mul_apply, Matrix.scalar_apply,
     Matrix.diagonal_apply] at e00 e11
   have hu1 : (u : K) = 1 := by simpa using e00
   apply hw
@@ -129,7 +129,7 @@ theorem mk_mem_projSU {m : ℕ} (g : Matrix.GeneralLinearGroup (Fin 3) (GaloisFi
 
 theorem mem_zpowers_three_cases {G : Type*} [Group G] {x y : G} (hx3 : x ^ 3 = 1)
     (hx1 : x ≠ 1) (hy : y ∈ Subgroup.zpowers x) : y = 1 ∨ y = x ∨ y = x ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf x = 3 := orderOf_eq_prime hx3 hx1
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hy
   have h3 : ((orderOf x : ℕ) : ℤ) = 3 := by rw [hord]; norm_num

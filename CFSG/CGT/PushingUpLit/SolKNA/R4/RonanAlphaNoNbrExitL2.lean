@@ -44,7 +44,7 @@ theorem l2_klein_cent {T : Type} [Group T] [Finite T] {K : Type} [Field K] [Fini
         _ = a * a * (z * z) := by group
         _ = 1 := by rw [ha2, hz2, one_mul]
   have hKl : IsKleinFour V := by
-    haveI : Nontrivial V := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; decide)
+    have : Nontrivial V := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; decide)
     refine ⟨hcard, (Monoid.exponent_eq_prime_iff Nat.prime_two).mpr ?_⟩
     intro v hv
     apply orderOf_eq_prime
@@ -101,8 +101,8 @@ theorem exitL2_fstar (hr : 4 ≤ r) {X : Type} [Group X] [Finite X] {z : X}
     exact Subgroup.mem_bot.mpr (Subtype.ext h1)
   have eL : ↥L ≃* ↥L ⧸ Subgroup.center ↥L :=
     (QuotientGroup.quotientBot (G := ↥L)).symm.trans (QuotientGroup.quotientMulEquivOfEq hZL.symm)
-  haveI hsimp : IsSimpleGroup ↥L := by
-    haveI := hLq.2.1
+  have hsimp : IsSimpleGroup ↥L := by
+    have := hLq.2.1
     exact eL.isSimpleGroup
   have hnab : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hLq.2.2
@@ -330,7 +330,7 @@ theorem exitL2_dstar (hr : 4 ≤ r) {X : Type} [Group X] [Finite X] {Φ : Set (S
   omega
 
 theorem exitL2_psl (hr : 4 ≤ r) {X : Type} [Group X] [Finite X] {z : X}
-    {L : Subgroup X} [L.Normal] (hLq : CFSG.IsQuasisimple ↥L)
+    {L : Subgroup X} [L.Normal] (_hLq : CFSG.IsQuasisimple ↥L)
     (hLC : Subgroup.centralizer (L : Set X) = Subgroup.center X)
     (hZ : Subgroup.center X = ⊥) (hzn : z ∉ Subgroup.center X)
     (hL2 : SmallL2 ↥(socleOf L))

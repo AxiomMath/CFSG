@@ -232,7 +232,7 @@ theorem fi22R_semidirect :
       · exact Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
       · exact Subgroup.mem_sup_left hg
 
-@[expose] def fi22ConjHom :
+def fi22ConjHom :
     fi22R →* MulAut fi22P :=
   (Subgroup.normalizerMonoidHom fi22P).comp (Subgroup.inclusion fi22R_le_normalizer)
 

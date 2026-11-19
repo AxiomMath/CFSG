@@ -131,7 +131,7 @@ private theorem layer_inf_centralizer_normalizes_psi_range [Finite X]
 private theorem psi_range_eq_commutator [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁)
     {K : Subgroup X} (hK : IsComponent K) (hKz : K.map (MulAut.conj z).toMonoidHom ≠ K) :
     (psi (z := z) hK hKz).range = ⁅Q, Q⁆ := by
-  haveI : Group.IsPerfect ↥K := hK.1.1
+  have : Group.IsPerfect ↥K := hK.1.1
   have hDperf : ⁅(psi (z := z) hK hKz).range, (psi (z := z) hK hKz).range⁆ =
       (psi (z := z) hK hKz).range :=
     Subgroup.isPerfect_iff.mp (Group.IsPerfect.range (psi (z := z) hK hKz))
@@ -144,7 +144,7 @@ private theorem psi_range_eq_commutator [Finite X] (h : XHyp ρ Q V₁ V₂ z Q�
   have hJle : J ≤ centralizer ({z} : Set X) := inf_le_right
   have hJnorm : ∀ c ∈ centralizer ({z} : Set X), ∀ y ∈ J, c * y * c⁻¹ ∈ J := by
     intro c hc y hy
-    haveI : (layer X).Characteristic := CFSG.LocalCores.layer_characteristic (G := X)
+    have : (layer X).Characteristic := CFSG.LocalCores.layer_characteristic (G := X)
     refine ⟨?_, ?_⟩
     · exact (inferInstance : (layer X).Normal).conj_mem y hy.1 c
     · have hzc : Commute z c := Subgroup.mem_centralizer_iff.mp hc z rfl
@@ -164,7 +164,7 @@ private theorem psi_range_eq_commutator [Finite X] (h : XHyp ρ Q V₁ V₂ z Q�
       CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj z) hK
     exact mul_mem (CFSG.LocalCores.component_le_layer hK k.2)
       (CFSG.LocalCores.component_le_layer hK' (by
-        simpa using Subgroup.mem_map_of_mem (MulAut.conj z).toMonoidHom k.2))
+        simp))
   rcases h.le_zpowers_or_le hJle hJnorm with hJz | hQ'J
   · exfalso
     have hDz : (psi (z := z) hK hKz).range ≤ zpowers z := hDleJ.trans hJz
@@ -183,8 +183,8 @@ private theorem psi_range_eq_commutator [Finite X] (h : XHyp ρ Q V₁ V₂ z Q�
     have hDnormal : ((psi (z := z) hK hKz).range.subgroupOf ⁅Q, Q⁆).Normal := by
       refine ⟨fun d hd q => ?_⟩
       exact layer_inf_centralizer_normalizes_psi_range h hK hKz (q : X) (hQ'J q.2) (d : X) hd
-    haveI : IsSimpleGroup ↥⁅Q, Q⁆ := h.isSimpleGroup_commutator
-    haveI : ((psi (z := z) hK hKz).range.subgroupOf ⁅Q, Q⁆).Normal := hDnormal
+    have : IsSimpleGroup ↥⁅Q, Q⁆ := h.isSimpleGroup_commutator
+    have : ((psi (z := z) hK hKz).range.subgroupOf ⁅Q, Q⁆).Normal := hDnormal
     rcases Subgroup.Normal.eq_bot_or_eq_top ((psi (z := z) hK hKz).range.subgroupOf ⁅Q, Q⁆)
       with hbot | htop
     · exfalso
@@ -237,11 +237,11 @@ private theorem rho_z_apply_apply [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t�
 
 private theorem center_commutator_eq_bot [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) :
     center ↥⁅Q, Q⁆ = ⊥ := by
-  haveI : IsSimpleGroup ↥⁅Q, Q⁆ := h.isSimpleGroup_commutator
+  have : IsSimpleGroup ↥⁅Q, Q⁆ := h.isSimpleGroup_commutator
   rcases Subgroup.Normal.eq_bot_or_eq_top (center ↥⁅Q, Q⁆) with hc | hc
   · exact hc
   · exfalso
-    haveI : IsMulCommutative ↥⁅Q, Q⁆ := Subgroup.center_eq_top_iff.mp hc
+    have : IsMulCommutative ↥⁅Q, Q⁆ := Subgroup.center_eq_top_iff.mp hc
     have hp : (Nat.card ↥⁅Q, Q⁆).Prime :=
       (Group.is_simple_iff_prime_card).mp h.isSimpleGroup_commutator
     rw [h.card_commutator] at hp
@@ -258,7 +258,7 @@ private theorem exists_orderOf_eq_eleven [Finite X] (h : XHyp ρ Q V₁ V₂ z Q
   have h11 : 11 ∣ Nat.card ↥K := by
     have h11' : 11 ∣ Nat.card ↥⁅Q, Q⁆ := by rw [h.card_commutator]; norm_num
     exact h11'.trans hdvd
-  haveI : Fact (Nat.Prime 11) := ⟨by decide⟩
+  have : Fact (Nat.Prime 11) := ⟨by decide⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' 11 h11
   refine ⟨MulAut.conj z (c : X), ?_, ?_⟩
   · rw [MulEquiv.orderOf_eq, Subgroup.orderOf_coe]
@@ -272,7 +272,7 @@ private theorem exists_noncentral_seven [Finite X] (h : XHyp ρ Q V₁ V₂ z Q�
     ∃ b ∈ K, (∃ n : ℕ, b ^ 7 ^ n = 1) ∧ ∃ k ∈ K, b * k ≠ k * b := by
   have hψ : (psi (z := z) hK hKz).range = ⁅Q, Q⁆ := psi_range_eq_commutator h hK hKz
   have h7 : 7 ∣ Nat.card ↥⁅Q, Q⁆ := by rw [h.card_commutator]; norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   obtain ⟨d, hd⟩ := exists_prime_orderOf_dvd_card' 7 h7
   have hdmem : (d : X) ∈ (psi (z := z) hK hKz).range := by
     rw [hψ]; exact d.2
@@ -333,7 +333,7 @@ private theorem exists_noncentral_seven [Finite X] (h : XHyp ρ Q V₁ V₂ z Q�
     exact hdXm (by rw [← hpsib, hbot])
 
 private theorem fixedBy_ne_top [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {K : Subgroup X}
-    (hK : IsComponent K) (hKz : K.map (MulAut.conj z).toMonoidHom ≠ K) :
+    (hK : IsComponent K) (_hKz : K.map (MulAut.conj z).toMonoidHom ≠ K) :
     fixedBy ρ K ≠ ⊤ := by
   intro htop
   have hKbot : K = ⊥ := by
@@ -343,8 +343,8 @@ private theorem fixedBy_ne_top [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) 
       ext v
       exact (show v ∈ fixedBy ρ K from htop ▸ Subgroup.mem_top v) k hk
     exact h.injective (by rw [hfix, map_one])
-  haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
-  haveI : Subsingleton ↥K := ⟨fun a b => by
+  have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+  have : Subsingleton ↥K := ⟨fun a b => by
     apply Subtype.ext
     have ha : (a : X) = 1 := Subgroup.mem_bot.mp (hKbot ▸ a.2)
     have hb : (b : X) = 1 := Subgroup.mem_bot.mp (hKbot ▸ b.2)
@@ -355,7 +355,7 @@ private theorem fixedBy_ne_centralizer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q�
     {K : Subgroup X} (hK : IsComponent K) (hKz : K.map (MulAut.conj z).toMonoidHom ≠ K) :
     ¬ (∀ v : V, v ∈ fixedBy ρ K ↔ ρ z v = v) := by
   intro hU
-  haveI : IsMulCommutative V := h.elemAb.toIsMulCommutative
+  have : IsMulCommutative V := h.elemAb.toIsMulCommutative
   have hz_inv : z⁻¹ = z := inv_eq_of_mul_eq_one_right h.mul_self
   have hzz_aut : ρ z * ρ z = 1 := by
     rw [← map_mul, h.mul_self, map_one]
@@ -440,7 +440,7 @@ private theorem fixedBy_ne_centralizer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q�
     calc ρ (x : X) * ρ (y : X) = (ρ (x : X) * ρ (y : X))⁻¹ := h1
       _ = (ρ (y : X))⁻¹ * (ρ (x : X))⁻¹ := mul_inv_rev _ _
       _ = ρ (y : X) * ρ (x : X) := by rw [hx', hy']
-  haveI : IsMulCommutative ↥⁅Q, Q⁆ := ⟨⟨habel⟩⟩
+  have : IsMulCommutative ↥⁅Q, Q⁆ := ⟨⟨habel⟩⟩
   have hp : (Nat.card ↥⁅Q, Q⁆).Prime :=
     (Group.is_simple_iff_prime_card).mp h.isSimpleGroup_commutator
   rw [h.card_commutator] at hp
@@ -474,7 +474,7 @@ theorem XHyp.fixed_eq [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {K : Subg
       CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj z) hK
     exact mul_mem (CFSG.LocalCores.component_le_layer hK k.2)
       (CFSG.LocalCores.component_le_layer hK' (by
-        simpa using Subgroup.mem_map_of_mem (MulAut.conj z).toMonoidHom k.2))
+        simp))
   have hUinv : ∀ g ∈ ⁅Q, Q⁆, ∀ u ∈ fixedBy ρ K, ρ g u ∈ fixedBy ρ K := by
     intro g hg u hu
     have hg' : g ∈ (psi (z := z) hK hKz).range := by
@@ -511,7 +511,7 @@ theorem XHyp.fixed_eq [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {K : Subg
 theorem XHyp.eq_or_eq_of_isComponent [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {K : Subgroup X}
     (hK : IsComponent K) (hKz : K.map (MulAut.conj z).toMonoidHom ≠ K) {L : Subgroup X}
     (hL : IsComponent L) : L = K ∨ L = K.map (MulAut.conj z).toMonoidHom := by
-  haveI : IsMulCommutative V := h.elemAb.toIsMulCommutative
+  have : IsMulCommutative V := h.elemAb.toIsMulCommutative
   by_cases hLK : L = K
   · exact Or.inl hLK
   by_cases hLK' : L = K.map (MulAut.conj z).toMonoidHom
@@ -538,7 +538,7 @@ theorem XHyp.eq_or_eq_of_isComponent [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ 
         (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hLKcomm hl) (k : X) k.2).symm
     have h2 : l * (z * (k : X) * z⁻¹) = (z * (k : X) * z⁻¹) * l := by
       have hmem : z * (k : X) * z⁻¹ ∈ K.map (MulAut.conj z).toMonoidHom := by
-        simpa using Subgroup.mem_map_of_mem (MulAut.conj z).toMonoidHom k.2
+        simp
       exact (Subgroup.mem_centralizer_iff.mp
         (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hLK'comm hl) _ hmem).symm
     calc l * ((k : X) * (z * (k : X) * z⁻¹))
@@ -665,8 +665,8 @@ theorem XHyp.eq_or_eq_of_isComponent [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ 
   have hLbot : L = ⊥ := by
     rw [eq_bot_iff]
     exact htriv
-  haveI : Nontrivial ↥L := CFSG.LocalCores.isQuasisimple_nontrivial hL.1
-  haveI : Subsingleton ↥L := ⟨fun a b => by
+  have : Nontrivial ↥L := CFSG.LocalCores.isQuasisimple_nontrivial hL.1
+  have : Subsingleton ↥L := ⟨fun a b => by
     apply Subtype.ext
     rw [htriv a a.2, htriv b b.2]⟩
   exact not_subsingleton ↥L inferInstance

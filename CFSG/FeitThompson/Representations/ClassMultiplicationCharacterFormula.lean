@@ -30,7 +30,7 @@ theorem coe_conjPairsProdEq (x y z : G) :
     (conjPairsProdEq x y z : Set (G × G))
       = {p : G × G | IsConj x p.1 ∧ IsConj y p.2 ∧ p.1 * p.2 = z} := by
   ext p
-  simpa using mem_conjPairsProdEq
+  simp
 
 theorem conjPairsProdEq_eq_classProdPairs (x y z : G) :
     conjPairsProdEq x y z = classProdPairs (ConjClasses.mk x) (ConjClasses.mk y) z := by

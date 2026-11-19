@@ -172,7 +172,7 @@ theorem plh_fixTorus_conj {μ : Φ.V ≃ₗ[Φ.F] Φ.V}
       change omPlusRefl p x (w⁻¹ g) = w⁻¹ g
       have h2 : omPlusRefl p x' g = w (omPlusRefl p x (w⁻¹ g)) := by
         rw [hx]
-        simp only [MulAut.mul_apply, MulAut.inv_apply_self]
+        simp only [MulAut.mul_apply]
       have h3 : w (omPlusRefl p x (w⁻¹ g)) = g := h2 ▸ hg
       apply w.injective
       rw [h3, MulAut.apply_inv_self]
@@ -201,7 +201,7 @@ theorem plh_rank2_conj {μ : Φ.V ≃ₗ[Φ.F] Φ.V}
     (hx : omPlusRefl p x' = w * omPlusRefl p x * w⁻¹)
     (hy : omPlusRefl p y' = w * omPlusRefl p y * w⁻¹) :
     Φ.rank2 x' y' = (Φ.rank2 x y).map (MulAut.conj μ).toMonoidHom := by
-  haveI : Finite (Φ.V ≃ₗ[Φ.F] Φ.V) := Φ.finite_linearEquiv
+  have : Finite (Φ.V ≃ₗ[Φ.F] Φ.V) := Φ.finite_linearEquiv
   have hfixx := plh_fixTorus_conj (Φ := Φ) hw hx
   have hfixy := plh_fixTorus_conj (Φ := Φ) hw hy
   have hder := plh_orthDerived_conj (Φ := Φ) hμ

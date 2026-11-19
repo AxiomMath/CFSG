@@ -59,7 +59,7 @@ theorem exists_inj_D (h3a : ∀ a : G, a * a = 1 → R ≤ Subgroup.centralizer 
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact Subgroup.mem_centralizer_iff.mp d.2.2 y hy
   apply Subtype.ext
-  refine eq_one_of_forall_pow (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (C.A_le_S hdA)))
+  refine eq_one_of_forall_pow (S.isPGroup.to_le (Subgroup.zpowers_le.mpr (C.A_le_S hdA)))
     fun k hk => ?_
   exact h3a _ hk
     (le_centralizer_pow hdR k) (le_centralizer_pow hdR' k) T₃ hT₃ hTW (le_centralizer_pow hT k)

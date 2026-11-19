@@ -72,7 +72,7 @@ theorem tau_mul_mul {a b : Perm (Fin 10)} (ha : a * τ₀ = τ₀ * a) :
     _ = a * (τ₀ * b) := by group
 
 theorem tau_mul_tau_mul {a b : Perm (Fin 10)} (ha : a * τ₀ = τ₀ * a)
-    (hb : b * τ₀ = τ₀ * b) (hτ : τ₀ * τ₀ = 1) :
+    (_hb : b * τ₀ = τ₀ * b) (hτ : τ₀ * τ₀ = 1) :
     τ₀ * (a * (τ₀ * b)) = a * b := by
   rw [show τ₀ * (a * (τ₀ * b)) = (τ₀ * a) * (τ₀ * b) by group]
   calc (τ₀ * a) * (τ₀ * b) = τ₀ * (a * τ₀) * b := by group
@@ -88,7 +88,7 @@ theorem restrFix_mul (σ σ' : ↥(centralizer ({τ₀} : Set (Perm (Fin 10)))))
   have hcommσ' := mem_centralizer_singleton_iff.1 σ'.2
   rcases hpairσ with ⟨hσ8, hσ9⟩ | ⟨hσ8, hσ9⟩ <;>
     rcases hpairσ' with ⟨hσ'8, hσ'9⟩ | ⟨hσ'8, hσ'9⟩ <;>
-    simp [restrFix, hσ8, hσ9, hσ'8, hσ'9, hcommσ, hcommσ', tau0_mul_self, mul_assoc]
+    simp [restrFix, hσ8, hσ9, hσ'8, mul_assoc]
   · exact tau_mul_mul hcommσ
   · exact (tau_mul_tau_mul hcommσ hcommσ' tau0_mul_self).symm
 
@@ -246,6 +246,6 @@ theorem exists_swapIndicator (β : Perm (Fin 8) →* Perm (Fin 10))
   have hmul : β (a * b) 8 = β a (β b 8) := by rw [map_mul]; rfl
   rcases ha with ⟨ha8, ha9⟩ | ⟨ha8, ha9⟩ <;>
     rcases hb with ⟨hb8, hb9⟩ | ⟨hb8, hb9⟩ <;>
-    simp [hmul, ha8, ha9, hb8, hb9]
+    simp [ha8, ha9, hb8]
 
 end CFSG.OddStandard.AltStdSec.SwapPattern

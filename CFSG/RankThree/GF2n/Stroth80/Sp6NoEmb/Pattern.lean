@@ -36,19 +36,23 @@ variable {V W : Type} [AddCommGroup V] [Module K V] [AddCommGroup W] [Module K W
 @[expose] noncomputable def slPat (σ : Representation K SL(2, K) V) (J : Finset ℕ) : ℕ :=
   repMultiplicity σ (frobTensor K K J)
 
+omit [Fintype K] in
 theorem pat_congr {ρ : Representation K (Cube K) V} {ρ' : Representation K (Cube K) W}
     (e : ρ.Equiv ρ') (J : Fin 3 → Finset ℕ) : pat ρ J = pat ρ' J :=
   repMultiplicity_congr_left e _
 
+omit [Fintype K] in
 theorem slPat_congr {σ : Representation K SL(2, K) V} {σ' : Representation K SL(2, K) W}
     (e : σ.Equiv σ') (J : Finset ℕ) : slPat σ J = slPat σ' J :=
   repMultiplicity_congr_left e _
 
+omit [Fintype K] in
 theorem pat_of_subsingleton [Subsingleton V] (ρ : Representation K (Cube K) V)
     (J : Fin 3 → Finset ℕ) : pat ρ J = 0 := by
   have : Subsingleton ρ.asModule := inferInstanceAs (Subsingleton V)
   rw [pat, repMultiplicity, compositionMultiplicity_of_subsingleton]
 
+omit [Fintype K] in
 theorem slPat_of_subsingleton [Subsingleton V] (σ : Representation K SL(2, K) V) (J : Finset ℕ) :
     slPat σ J = 0 := by
   have : Subsingleton σ.asModule := inferInstanceAs (Subsingleton V)
@@ -60,8 +64,8 @@ theorem pat_of_equiv (hK : Fintype.card K = 2 ^ n) {ρ : Representation K (Cube 
   rw [pat, repMultiplicity_of_isIrreducible hρ]
   by_cases h : J = J₀
   · subst h
-    rw [if_pos ⟨e⟩, if_pos rfl]
-  · rw [if_neg h, if_neg]
+    rw [ite_eq_left ⟨e⟩, ite_eq_left rfl]
+  · rw [ite_eq_right h, ite_eq_right]
     rintro ⟨e'⟩
     exact h (cubeRep_injective hK hJ₀ hJ (e.symm.trans e')).symm
 
@@ -72,8 +76,8 @@ theorem slPat_of_equiv (hK : Fintype.card K = 2 ^ n) {σ : Representation K SL(2
   rw [slPat, repMultiplicity_of_isIrreducible hσ]
   by_cases h : J = J₀
   · subst h
-    rw [if_pos ⟨e⟩, if_pos rfl]
-  · rw [if_neg h, if_neg]
+    rw [ite_eq_left ⟨e⟩, ite_eq_left rfl]
+  · rw [ite_eq_right h, ite_eq_right]
     rintro ⟨e'⟩
     exact h (frobTensor_nonisomorphic hK hJ₀ hJ (e.symm.trans e')).symm
 
@@ -97,17 +101,17 @@ theorem sum_pat (hK : Fintype.card K = 2 ^ n)
   have key := rep_induction (k := K) (G := Cube K)
     (fun {V} _ _ _ ρ => φ ρ = ∑ J ∈ labels n, pat ρ J * φ (cubeRep K J))
     (fun {V} _ _ _ ρ hsub => by
-      haveI := hsub
+      have := hsub
       rw [h0 ρ hsub]
       symm
       exact Finset.sum_eq_zero fun J _ => by rw [pat_of_subsingleton, zero_mul])
     (fun {V} _ _ _ ρ hρ => by
       obtain ⟨J₀, hJ₀, ⟨e⟩⟩ := cube_classification hK ρ hρ
       rw [Finset.sum_eq_single_of_mem J₀ (mem_labels.mpr hJ₀)]
-      · rw [pat_of_equiv hK hρ hJ₀ e hJ₀, if_pos rfl, one_mul]
+      · rw [pat_of_equiv hK hρ hJ₀ e hJ₀, ite_eq_left rfl, one_mul]
         exact hiso ρ _ e
       · intro J hJ hne
-        rw [pat_of_equiv hK hρ hJ₀ e (mem_labels.mp hJ), if_neg hne, zero_mul])
+        rw [pat_of_equiv hK hρ hJ₀ e (mem_labels.mp hJ), ite_eq_right hne, zero_mul])
     (fun {V} _ _ _ ρ W hW1 hW2 => by
       rw [hadd ρ W, hW1, hW2, ← Finset.sum_add_distrib]
       refine Finset.sum_congr rfl fun J _ => ?_
@@ -118,7 +122,7 @@ theorem finrank_eq_sum_pat (hK : Fintype.card K = 2 ^ n) [Module.Finite K V]
     (ρ : Representation K (Cube K) V) :
     finrank K V = ∑ J ∈ labels n, pat ρ J * 2 ^ ((J 0).card + (J 1).card + (J 2).card) := by
   have h := sum_pat hK (fun {V} _ _ _ _ => finrank K V)
-    (fun {V} _ _ _ _ hsub => by haveI := hsub; exact finrank_zero_of_subsingleton)
+    (fun {V} _ _ _ _ hsub => by have := hsub; exact finrank_zero_of_subsingleton)
     (fun {V W} _ _ _ _ _ _ _ _ e => e.toLinearEquiv.finrank_eq)
     (fun {V} _ _ _ _ W => by rw [add_comm]; exact (Submodule.finrank_quotient_add_finrank _).symm)
     ρ
@@ -131,11 +135,13 @@ theorem subsingleton_of_pat_eq_zero (hK : Fintype.card K = 2 ^ n) [Module.Finite
   rw [Finset.sum_eq_zero fun J hJ => by rw [h J (mem_labels.mp hJ), zero_mul]] at h1
   exact Module.finrank_zero_iff.mp h1
 
+omit [Fintype K] in
 theorem pat_sub_le [Module.Finite K V] (ρ : Representation K (Cube K) V) (W : Subrepresentation ρ)
     (J : Fin 3 → Finset ℕ) : pat W.toRepresentation J ≤ pat ρ J := by
   rw [pat, pat, repMultiplicity_sub_quot ρ W]
   exact Nat.le_add_right _ _
 
+omit [Fintype K] in
 theorem pat_quot_le [Module.Finite K V] (ρ : Representation K (Cube K) V) (W : Subrepresentation ρ)
     (J : Fin 3 → Finset ℕ) : pat W.quotient J ≤ pat ρ J := by
   rw [pat, pat, repMultiplicity_sub_quot ρ W]
@@ -155,6 +161,7 @@ theorem pat_quot_le [Module.Finite K V] (ρ : Representation K (Cube K) V) (W : 
     ext v
     exact LinearMap.congr_fun (f.isIntertwining' g) v
 
+omit [Fintype K] in
 theorem pat_le_of_injective [Module.Finite K W] {ρ : Representation K (Cube K) V}
     {ρ' : Representation K (Cube K) W} (f : ρ.IntertwiningMap ρ') (hf : Function.Injective f)
     (J : Fin 3 → Finset ℕ) : pat ρ J ≤ pat ρ' J := by
@@ -176,6 +183,7 @@ theorem pat_le_of_injective [Module.Finite K W] {ρ : Representation K (Cube K) 
     ext v
     exact LinearMap.congr_fun (f.isIntertwining' g) v
 
+omit [Fintype K] in
 theorem pat_le_of_surjective [Module.Finite K V] {ρ : Representation K (Cube K) V}
     {ρ' : Representation K (Cube K) W} (f : ρ.IntertwiningMap ρ') (hf : Function.Surjective f)
     (J : Fin 3 → Finset ℕ) : pat ρ' J ≤ pat ρ J := by

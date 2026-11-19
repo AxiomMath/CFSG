@@ -76,8 +76,8 @@ theorem neg_one_mem_of_isPerfect {H : Subgroup (GL (Fin 2 ⊕ Fin 2) (ZMod 3))}
   obtain ⟨S⟩ : Nonempty (Sylow 2 H) := inferInstance
   have : Nontrivial (S : Subgroup H) :=
     (Subgroup.nontrivial_iff_ne_bot _).mpr (S.ne_bot_of_dvd_card hev)
-  have hZ : Nontrivial (Subgroup.center (S : Subgroup H)) := S.isPGroup'.center_nontrivial
-  obtain ⟨n, hn0, hn⟩ := (S.isPGroup'.to_subgroup _).nontrivial_iff_card.mp hZ
+  have hZ : Nontrivial (Subgroup.center (S : Subgroup H)) := S.isPGroup.center_nontrivial
+  obtain ⟨n, hn0, hn⟩ := (S.isPGroup.to_subgroup _).nontrivial_iff_card.mp hZ
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 (hn ▸ dvd_pow_self 2 (by omega) :
     2 ∣ Nat.card (Subgroup.center (S : Subgroup H)))
   set z : (S : Subgroup H) := (x : (S : Subgroup H))

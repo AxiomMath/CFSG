@@ -25,7 +25,7 @@ theorem ff84Extraspecial_of_items_m (h21 : FF84_2_1) (h22 : FF84_2_2) (h35 : FF8
   intro G _ _ hsimple hnab hchar b hb L hLC hLN hquasi hmodel hcyc hnsc hrank hi hii₁ hii₂ hiii
   have hyp : FF84Hyp b L :=
     ⟨hsimple, hnab, hchar, hb, hLC, hLN, hquasi, hmodel, hcyc, hnsc, hrank, hi, hii₁, hii₂, hiii⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨B, hB⟩ := exists_isSylowOf 3 (Cen b)
   obtain ⟨b₁, hb₁, b₂, hb₂, hgen, hmono, hfus⟩ := h21 G b L hyp B hB
   rcases h22 G b L B b₁ b₂ hyp hB hb₁ hb₂ hgen hmono with hA | ⟨K, hK⟩
@@ -38,7 +38,7 @@ theorem ff84Extraspecial_of_items_m (h21 : FF84_2_1) (h22 : FF84_2_2) (h35 : FF8
     obtain ⟨s, t, hD⟩ := h410 G b L B K b₁ b₂ hs U hU
     have hE : IsElemAb 2 6 (Op 2 (Nor U)) := (h48 G b L B K b₁ b₂ hs U hU).2.1
     have ht : orderOf t = 2 := by
-      haveI := hE.1
+      have := hE.1
       exact orderOf_eq_prime (elemPow_eq_one_of_isElementaryAbelian t hD.2.2.1) hD.2.2.2.2.1
     exact ⟨t, ht, (h411 G b L B K b₁ b₂ hs U hU s t hD).1⟩
 

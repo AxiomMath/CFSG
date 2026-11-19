@@ -55,9 +55,9 @@ theorem mem_twMoves {b b' : ℕ} (h : b' ∈ twMoves b) :
   · left
     obtain ⟨i, -, hi⟩ := List.mem_filterMap.1 h
     by_cases hw : e6Data.wt b i = -1
-    · rw [if_pos hw] at hi
+    · rw [ite_eq_left hw] at hi
       exact ⟨i, hw, (Option.some.inj hi).symm⟩
-    · rw [if_neg hw] at hi
+    · rw [ite_eq_right hw] at hi
       exact absurd hi (by simp)
   · right
     obtain ⟨a, -, ha⟩ := List.mem_map.1 h
@@ -77,7 +77,7 @@ theorem minRep_xm_e6Y (i : Fin TwistTag.E6.tag.rank) (c : K) :
   have h := e6Data_valid.rootOp_single_apply (R := K) i ⟨0, by decide⟩
   have hw : e6Data.wt (↑(⟨0, by decide⟩ : Fin e6Data.d)) i ≠ -1 := by
     rw [e6_y_wt]; split_ifs <;> decide
-  rw [if_neg hw] at h
+  rw [ite_eq_right hw] at h
   simp only [LinearMap.add_apply, Module.End.one_apply, LinearMap.smul_apply]
   change _ + c • e6Data.rootOp K (Pi.single i 1) (Finsupp.single ⟨0, by decide⟩ 1) = _
   rw [h, smul_zero, add_zero]
@@ -85,9 +85,9 @@ theorem minRep_xm_e6Y (i : Fin TwistTag.E6.tag.rank) (c : K) :
 theorem minRep_nm_e6Y {i : Fin TwistTag.E6.tag.rank} (hi : i ≠ e6n0) :
     minRep e6Data_valid K (e6Data_valid.nm K i) (e6Y27 : Fin e6Data.d →₀ K) = e6Y27 := by
   have hw : e6Data.wt (↑(⟨0, by decide⟩ : Fin e6Data.d)) i = 0 := by
-    rw [e6_y_wt, if_neg hi]
+    rw [e6_y_wt, ite_eq_right hi]
   have h := minRep_nm_single e6Data_valid (K := K) i ⟨0, by decide⟩
-  rw [if_neg (by rw [hw]; decide), e6Data_valid.sRefl_eq_self hw] at h
+  rw [ite_eq_right (by rw [hw]; decide), e6Data_valid.sRefl_eq_self hw] at h
   exact h
 
 theorem minRep_list_prod_fix {M : Type*} [Monoid M] (ρ : M →* Module.End K (Fin e6Data.d →₀ K))
@@ -165,7 +165,7 @@ theorem rootOp_mem_of_stable (S : Submodule K (Fin e6Data.d →₀ K)) (v : Fin 
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
     have hmem : ∀ c : K, c ∈ orbitField TwistTag.E6 K σ a := fun c => by
       rw [mem_orbitField, ha]
-      simp only [pow_two, RingHom.mul_def, RingHom.id_apply]
+      simp only [pow_two, RingHom.mul_def]
       exact sigma_sigma_eq hK σ hσ c
     have key := mem_of_forall_poly hq hcard S σ hσ
       (e6Data.rootOp K (Pi.single (TwistTag.E6.orbitMin a) 1) v)
@@ -177,9 +177,9 @@ theorem rootOp_mem_of_stable (S : Submodule K (Fin e6Data.d →₀ K)) (v : Fin 
         rw [minRep_uSL_card_two σ a ha, minRep_xkTerm, minRep_xkTerm] at h1
         simp only [Module.End.mul_apply, LinearMap.add_apply, Module.End.one_apply,
           LinearMap.smul_apply, map_add, map_smul, pow_zero, pow_one, RingHom.coe_one,
-          Equiv.Perm.coe_one, Equiv.Perm.one_apply, id_eq] at h1
+          Equiv.Perm.one_apply, id_eq] at h1
         convert h1 using 1
-        simp only [smul_add, add_smul, smul_smul]
+        simp only [smul_add, smul_smul]
         rw [mul_comm c (σ c)]
         abel)
     rw [hset] at hi
@@ -245,7 +245,7 @@ theorem inSpan_moves (S : Submodule K (Fin e6Data.d →₀ K))
         (Finsupp.single ⟨b, hbd⟩ 1) (fun c => by
           have := hS (hatX hf hK σ hσ (TwistTag.E6.orbitIndex i) c) _ hvb
           exact sub_mem this hvb) (mem_orbit_orbitIndex' i)
-      rw [e6Data_valid.rootOp_single_apply i ⟨b, hbd⟩, if_pos hw] at hroot
+      rw [e6Data_valid.rootOp_single_apply i ⟨b, hbd⟩, ite_eq_left hw] at hroot
       have hlt : e6Data.weyl b i < e6Data.d :=
         (e6Data_valid.sRefl_val i ⟨b, hbd⟩) ▸ (e6Data_valid.sRefl i ⟨b, hbd⟩).2
       refine ⟨hlt, ?_⟩
@@ -319,7 +319,7 @@ theorem isSimpleRep_twRep27 : IsSimpleRep (twRep27 σ) :=
     (y := (e6Y27 : Fin e6Data.d →₀ K)) (fun _ hx => fixU_le_line_tw hf hK σ hσ hx)
     (orbitSpan_twRep27 hf hK σ hσ)
 
-@[expose] abbrev twA0 : Fin TwistTag.E6.foldedTag.rank := ⟨0, by decide⟩
+abbrev twA0 : Fin TwistTag.E6.foldedTag.rank := ⟨0, by decide⟩
 
 theorem orbitIndex_e6n0 : TwistTag.E6.orbitIndex e6n0 = twA0 := by decide
 
@@ -383,7 +383,7 @@ theorem minRep_Psi_HSL_fix (ha : a ≠ twA0) (u : (orbitField TwistTag.E6 K σ a
   have h := minRep_hkTerm_single σ a k u ⟨0, by decide⟩
   have hw : e6Data.wt (↑(⟨0, by decide⟩ : Fin e6Data.d))
       ((TwistTag.E6.perm ^ k) (TwistTag.E6.orbitMin a)) = 0 := by
-    rw [e6_y_wt, if_neg (perm_pow_ne_e6n0 a ha k)]
+    rw [e6_y_wt, ite_eq_right (perm_pow_ne_e6n0 a ha k)]
   rw [hw, zpow_zero, Units.val_one, one_smul] at h
   unfold e6Y27
   exact h

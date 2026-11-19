@@ -46,8 +46,8 @@ theorem ggL45NtRecOn_E7 :
   subst hS
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hQ
-  haveI : Finite K := hfin
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : Finite K := hfin
+  have : CharP K 2 := charP_two_of_card hK
   refine ⟨K, hf, hfin, hK, hQ, ?_⟩
   exact ggL45NtRecExU_rec (A := LargeEvenCartanE 7)
     (chevIDImage_subset_inn_of_top (τ := .E7) (TableB.torusSubgroup_eq_top_of_mul_eq_smul _ K
@@ -64,8 +64,8 @@ theorem ggL45NtRecOn_exU :
   ·
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ⟩ := hQ
-    haveI : Finite K := hfin
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : Finite K := hfin
+    have : CharP K 2 := charP_two_of_card hK
     refine ⟨K, hf, hfin, hK, hQ, ?_⟩
     exact ggL45NtRecExU_rec (A := LargeEvenCartanG2)
       (chevIDImage_subset_inn_of_top (τ := .G2) (TableB.torusSubgroup_eq_top_of_mul_eq_smul _ K
@@ -74,8 +74,8 @@ theorem ggL45NtRecOn_exU :
   ·
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ⟩ := hQ
-    haveI : Finite K := hfin
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : Finite K := hfin
+    have : CharP K 2 := charP_two_of_card hK
     refine ⟨K, hf, hfin, hK, hQ, ?_⟩
     exact ggL45NtRecExU_rec (A := LargeEvenCartanF4)
       (chevIDImage_subset_inn_of_top (τ := .F4) (TableB.torusSubgroup_eq_top_of_mul_eq_smul _ K
@@ -86,8 +86,8 @@ theorem ggL45NtRecOn_exU :
   ·
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ⟩ := hQ
-    haveI : Finite K := hfin
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : Finite K := hfin
+    have : CharP K 2 := charP_two_of_card hK
     refine ⟨K, hf, hfin, hK, hQ, ?_⟩
     exact ggL45NtRecExU_rec (A := LargeEvenCartanE 8)
       (chevIDImage_subset_inn_of_top (τ := .E8) (TableB.torusSubgroup_eq_top_of_mul_eq_smul _ K

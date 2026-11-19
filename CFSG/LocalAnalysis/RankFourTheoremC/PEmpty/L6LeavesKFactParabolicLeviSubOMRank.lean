@@ -66,14 +66,13 @@ theorem orthMinus_card_orthogonalGroup_tail_eq {f m : ℕ} (hK : Nat.card K = 2 
   rw [hO, hK]
   push_cast [CFSG.Timmesfeld.ClassicalOrders.cast_prod_pow_sub_one
     (Nat.one_le_pow f 2 (by norm_num))]
-  try simp only [Nat.add_sub_cancel]
   ring
 
 theorem orthMinus_index_orthResDer_subgroupOf {f m : ℕ} (hK : Nat.card K = 2 ^ f) (hm : 1 ≤ m)
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     ((orthResDer K b c m).subgroupOf
       (TauCeti.QuadraticMap.orthogonalGroup (quadTail m (minusTailForm K b c)))).index = 2 := by
-  haveI : Finite (((Fin m ⊕ Fin m → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Finite (((Fin m ⊕ Fin m → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin m ⊕ Fin m → K) × (Fin 2 → K))) := finite_orthLinearEquiv
   have hΩO : orthResDer K b c m ≤
       TauCeti.QuadraticMap.orthogonalGroup (quadTail m (minusTailForm K b c)) :=
@@ -108,7 +107,7 @@ theorem orthMinus_pRank_top_le_orthResDer {f m : ℕ} (hK : Nat.card K = 2 ^ f) 
     CFSG.Open.pRank ℓ (⊤ : Subgroup ↥(TauCeti.QuadraticMap.orthogonalGroup
       (quadTail m (minusTailForm K b c)))) ≤
         CFSG.Open.pRank ℓ (⊤ : Subgroup ↥(orthResDer K b c m)) := by
-  haveI : Finite (((Fin m ⊕ Fin m → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Finite (((Fin m ⊕ Fin m → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin m ⊕ Fin m → K) × (Fin 2 → K))) := finite_orthLinearEquiv
   have hΩO : orthResDer K b c m ≤
       TauCeti.QuadraticMap.orthogonalGroup (quadTail m (minusTailForm K b c)) :=
@@ -131,8 +130,8 @@ theorem orthMinus_two_le_pRank {r f : ℕ} (hr : 3 ≤ r) (hK : Nat.card K = 2 ^
     (hdvd : ℓ ∣ Nat.card K ^ 2 - 1) :
     2 ≤ CFSG.Open.pRank ℓ (⊤ : Subgroup
       ↥(orthElementaryGroup (quadTail r (minusTailForm K b c)))) := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin r ⊕ Fin r → K) × (Fin 2 → K))) := finite_orthLinearEquiv
   have hQ : (QuadraticMap.polarBilin (quadTail r (minusTailForm K b c))).Nondegenerate :=
     nondegenerate_polarBilin_quadTail (nondegenerate_minusTailForm hirr)

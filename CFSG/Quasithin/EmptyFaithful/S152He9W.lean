@@ -599,7 +599,7 @@ theorem card_base : Nat.card ↥base = 14400 := by
 
 @[expose] def S0equiv : ↥S0 ≃ ↥A5 × ↥A5 where
   toFun w := (⟨w.1.left 1, w.2.2.1⟩, ⟨w.1.left g2, w.2.2.2⟩)
-  invFun p := ⟨mk p.1 p.2 1, rfl, by simpa using p.1.2, by simpa using p.2.2⟩
+  invFun p := ⟨mk p.1 p.2 1, rfl, by simp, by simp⟩
   left_inv w := by
     apply Subtype.ext
     apply ext' <;> simp [w.2.1]
@@ -701,7 +701,7 @@ theorem exists_conj_le_Sw {P : Subgroup W5} (hP : IsPGroup 2 P) (hidx : ¬ 2 ∣
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 2 ↥Sw) := inferInstance
   have hQcard : Nat.card ↥(Q : Subgroup ↥Sw) = 128 := by
-    obtain ⟨n, hn⟩ := Q.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := Q.isPGroup.exists_card_eq
     have h := (Q : Subgroup ↥Sw).card_mul_index
     have hodd : ¬ 2 ∣ (Q : Subgroup ↥Sw).index := Q.not_dvd_index
     rw [card_Sw, hn] at h
@@ -724,7 +724,7 @@ theorem exists_conj_le_Sw {P : Subgroup W5} (hP : IsPGroup 2 P) (hidx : ¬ 2 ∣
       Subtype.val_injective).toEquiv)).symm
   have hQ'p : IsPGroup 2 Q' := by
     rw [hQ']
-    exact Q.isPGroup'.map Sw.subtype
+    exact Q.isPGroup.map Sw.subtype
   have hQ'idx : ¬ 2 ∣ Q'.index := by
     have h := Q'.card_mul_index
     rw [card_W5, hQ'card] at h
@@ -751,7 +751,7 @@ theorem pow_mk_one (a b : S5) (n : ℕ) : (mk a b 1) ^ n = mk (a ^ n) (b ^ n) 1 
     apply ext' <;> simp [mul_l1, mul_lg, pow_succ]
 
 theorem orderOf_c3 : orderOf c3 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime c3_cube c3_ne_one
 
 theorem c3_pow_two_pow_ne_one (k : ℕ) : c3 ^ (2 ^ k) ≠ 1 := by
@@ -831,13 +831,13 @@ theorem E0_comm {a b : W5} (ha : a ∈ E0) (hb : b ∈ E0) : a * b = b * a := by
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
     exact (Commute.zpow_zpow_self c3 i j).eq
-  apply ext' <;> simp [mul_l1, mul_lg, hra, hrb, hcomm _ ha1 _ hb1, hcomm _ ha2 _ hb2, mul_r]
+  apply ext' <;> simp [mul_l1, mul_lg, hra, hrb, hcomm _ ha1 _ hb1, hcomm _ ha2 _ hb2]
 
 theorem card_E0 : Nat.card ↥E0 = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let f : ↥E0 ≃ ↥(Subgroup.zpowers c3) × ↥(Subgroup.zpowers c3) :=
     { toFun := fun w => (⟨w.1.left 1, w.2.2.1⟩, ⟨w.1.left g2, w.2.2.2⟩)
-      invFun := fun x => ⟨mk x.1.1 x.2.1 1, rfl, by simpa using x.1.2, by simpa using x.2.2⟩
+      invFun := fun x => ⟨mk x.1.1 x.2.1 1, rfl, by simp, by simp⟩
       left_inv := fun w => by
         apply Subtype.ext
         apply ext' <;> simp [w.2.1]
@@ -846,7 +846,7 @@ theorem card_E0 : Nat.card ↥E0 = 9 := by
 
 theorem normalizer_le_Sw {Q : Subgroup W5} (hQ : Q ≤ A1 ⊓ Sw) (hne : Q ≠ ⊥) (hP : IsPGroup 2 Q)
     {a : W5} (ha : a ∈ A1) (hn : a ∈ Subgroup.normalizer (Q : Set W5)) : a ∈ Sw := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn2⟩ := hP.exists_card_eq
   have hn0 : n ≠ 0 := by
     rintro rfl
@@ -973,8 +973,7 @@ theorem eq_base_of_equiv_prod {J : Subgroup W5} (e : ↥J ≃* S5 × S5) : J = b
     · exact h
   have hDnormS0 : ∀ s ∈ S0, ∀ n ∈ D, s * n * s⁻¹ ∈ D := fun s hs n hn => hDnorm s (hS0J hs) n hn
   have hJle : D = A1 ∨ D = A2 → J ≤ base := by
-    intro hD
-    intro j hj
+    intro hD j hj
     have hjn : j ∈ Subgroup.normalizer (D : Set W5) := by
       rw [Subgroup.mem_normalizer_iff]
       intro h

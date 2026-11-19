@@ -308,7 +308,7 @@ theorem ggL45NtGlue_H3 {p : ℕ} (hp : p.Prime) {K : Type} [Group K] [Finite K]
     (E : Subgroup (MulAut K)) (hOut : ∀ u ∈ I, GGL45IsPElt p u → ∃ r : R, u = MulAut.conj r)
     (hZ' : ¬ p ∣ Nat.card (Subgroup.center K))
     (hconj_inj : Function.Injective (MulAut.conj : R →* MulAut R))
-    (hE : IsElemAbelian p E) (s : ℕ) (hs : 2 ≤ s) (c : ℤ)
+    (hE : IsElemAbelian p E) (s : ℕ) (_hs : 2 ≤ s) (_c : ℤ)
     (C4 : ∃ a₁ a₂ : MulAut R, GGL45NtCIp p I (E.map (ggInducedAut θ)) a₁ ∧
       GGL45NtCIp p I (E.map (ggInducedAut θ)) a₂ ∧
       ∀ i j : ℕ, (a₁ ^ p ^ (s - 1)) ^ i * (a₂ ^ p ^ (s - 1)) ^ j = 1 → p ∣ i ∧ p ∣ j) :

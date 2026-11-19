@@ -16,6 +16,7 @@ variable {K : Type} [Field K] [Fintype K] [CharP K 2] {V : Type} [AddCommGroup V
 
 def S (v₀ : V) : Submodule K V := Submodule.span K (Set.range fun t : K => D.X t (D.s v₀))
 
+omit [Fintype K] in
 private theorem X_eq_mul_ρ (t : K) : ∃ m₁ m₂ : D.N, D.X t = D.ρ m₁ * D.ρ m₂ := by
   obtain ⟨n', -, hρ⟩ := D.ρ_eq_ker_mul_X (t • D.n₁)
   have hτt : D.τ (t • D.n₁) = t := by rw [map_smul, D.τ_n₁, smul_eq_mul, mul_one]
@@ -25,6 +26,7 @@ private theorem X_eq_mul_ρ (t : K) : ∃ m₁ m₂ : D.N, D.X t = D.ρ m₁ * D
     _ = D.ρ n' * (D.ρ n' * D.X t) := by rw [mul_assoc]
     _ = D.ρ n' * D.ρ (t • D.n₁) := by rw [hρ]
 
+omit [Fintype K] in
 private theorem ρ_comm_X (n : D.N) (t : K) : D.ρ n * D.X t = D.X t * D.ρ n := by
   obtain ⟨m₁, m₂, h⟩ := D.X_eq_mul_ρ t
   calc D.ρ n * D.X t = D.ρ n * (D.ρ m₁ * D.ρ m₂) := by rw [h]
@@ -35,6 +37,7 @@ private theorem ρ_comm_X (n : D.N) (t : K) : D.ρ n * D.X t = D.X t * D.ρ n :=
     _ = (D.ρ m₁ * D.ρ m₂) * D.ρ n := by rw [mul_assoc]
     _ = D.X t * D.ρ n := by rw [h]
 
+omit [Fintype K] in
 theorem rho_eq_X_on_S [FiniteDimensional K V] (hfix : finrank K D.fix = 1) {v₀ : V}
     (hv₀ : v₀ ∈ D.fix) (hv0 : v₀ ≠ 0) {z : V} (hz : z ∈ D.S v₀) (n : D.N) :
     D.ρ n z = D.X (D.τ n) z := by
@@ -58,11 +61,13 @@ theorem rho_eq_X_on_S [FiniteDimensional K V] (hfix : finrank K D.fix = 1) {v₀
     _ = D.X (D.τ n) (D.ρ n' z) := by rw [LinearEquiv.mul_apply]
     _ = D.X (D.τ n) z := by rw [hfixS z hz]
 
+omit [Fintype K] in
 theorem mem_fix_of_X_fixed [FiniteDimensional K V] (hfix : finrank K D.fix = 1) {v₀ : V}
     (hv₀ : v₀ ∈ D.fix) (hv0 : v₀ ≠ 0) {z : V} (hz : z ∈ D.S v₀) (hX : ∀ t : K, D.X t z = z) :
     z ∈ D.fix :=
   D.mem_fix.2 fun n => by rw [D.rho_eq_X_on_S hfix hv₀ hv0 hz n, hX]
 
+omit [Fintype K] [CharP K 2] in
 theorem E_apply_mem_S {f : ℕ} {v₀ : V} {E : Finset (Fin f) → (V →ₗ[K] V)}
     (hEspan : ∀ B, E B ∈ Submodule.span K (Set.range fun t : K => (D.X t : V →ₗ[K] V)))
     (B : Finset (Fin f)) : E B (D.s v₀) ∈ D.S v₀ := by
@@ -80,6 +85,7 @@ theorem E_apply_mem_S {f : ℕ} {v₀ : V} {E : Finset (Fin f) → (V →ₗ[K] 
     | smul a x _ hx => rw [LinearMap.smul_apply]; exact Submodule.smul_mem _ a hx
   exact key _ (hEspan B)
 
+omit [CharP K 2] in
 theorem torus_conj_E {f : ℕ} (hf : Fintype.card K = 2 ^ f) {E : Finset (Fin f) → (V →ₗ[K] V)}
     (hE : ∀ t : K, (D.X t : V →ₗ[K] V) = ∑ B : Finset (Fin f), t ^ bitSum B • E B) (c : Kˣ)
     (B : Finset (Fin f)) (v : V) :
@@ -133,6 +139,7 @@ theorem torus_conj_E {f : ℕ} (hf : Fintype.card K = 2 ^ f) {E : Finset (Fin f)
     LinearEquiv.coe_coe, LinearMap.zero_apply] at h4
   exact sub_eq_zero.1 h4
 
+omit [CharP K 2] in
 theorem torus_eigen_E {f : ℕ} (hf : Fintype.card K = 2 ^ f) {E : Finset (Fin f) → (V →ₗ[K] V)}
     (hE : ∀ t : K, (D.X t : V →ₗ[K] V) = ∑ B : Finset (Fin f), t ^ bitSum B • E B) {v₀ : V}
     {k : ℕ} (hk : ∀ c : Kˣ, D.a (D.d c) v₀ = (c : K) ^ k • v₀) (c : Kˣ) (B : Finset (Fin f)) :

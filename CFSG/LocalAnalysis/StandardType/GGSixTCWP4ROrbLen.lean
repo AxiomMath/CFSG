@@ -63,7 +63,7 @@ theorem tcrPermPows_key (S : TcrSys) (perm : Array ℕ)
       have hpush : m + 1 < (A.push x).size := by rw [Array.size_push, hs]; omega
       have hx1 : (A.push x)[m + 1]! = x := by
         rw [getElem!_pos (A.push x) (m + 1) hpush, Array.getElem_push hpush,
-          dif_neg (show ¬ (m + 1 < A.size) by rw [hs]; omega)]
+          dite_eq_right (show ¬ (m + 1 < A.size) by rw [hs]; omega)]
       rw [hx1]
       refine ⟨by rw [hx]; exact Array.size_ofFn, fun i hi => ?_⟩
       rw [hxval i hi, (hr m le_rfl).2 i hi, Function.iterate_succ_apply']

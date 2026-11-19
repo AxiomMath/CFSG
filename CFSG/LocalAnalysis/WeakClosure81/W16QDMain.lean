@@ -24,7 +24,7 @@ theorem w16SixteenDich_holds (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen 
   intro hS M V₀ V U S H hcex hmin hV
   obtain ⟨X, _, φ, hbar, hshape, ho2⟩ := h6 hS hcex hmin hV
   have d : DichCfg M V₀ V U S H φ := ⟨⟨hS, h1, h5, h15, hcex, hmin, hV⟩, hbar, hshape, ho2⟩
-  haveI : Finite X := Finite.of_surjective φ hbar.surjective
+  have : Finite X := Finite.of_surjective φ hbar.surjective
   have hYcard : Nat.card (SevenK.barSub (conjClosure V H) φ V) =
       2 ^ E3.mQuot V (iSub16 V H) := hshape.1
   have hYel := d.isElemAbelian_barSub

@@ -43,20 +43,20 @@ theorem aschbacherSolvableCore_eq_bot_of_mulEquiv {L : Type*} [Group L] [Finite 
       (CFSG.RankThree.LocalRank.aschbacherSolvableCore_normal 3 L) with h | h
   · exfalso
     rw [h] at hsol
-    haveI := hsol
-    haveI : Group.IsSolvable L := solvable_of_surjective
+    have := hsol
+    have : Group.IsSolvable L := Group.isSolvable_of_surjective
       (f := (Subgroup.topEquiv (G := L)).toMonoidHom) (Subgroup.topEquiv (G := L)).surjective
     have hder : ∀ k, derivedSeries L k = ⊤ := by
       intro k
       induction k with
       | zero => rfl
       | succ k ih => rw [derivedSeries_succ, ih]; exact hq.1
-    obtain ⟨k, hk⟩ := (isSolvable_def L).1 inferInstance
+    obtain ⟨k, hk⟩ := (Group.isSolvable_def L).1 inferInstance
     rw [hder k] at hk
     have hall : ∀ x : L, x = 1 := fun x => by
       have := Subgroup.mem_top x
       rwa [hk, Subgroup.mem_bot] at this
-    haveI := hq.2.toNontrivial
+    have := hq.2.toNontrivial
     obtain ⟨x, y, hxy⟩ := exists_pair_ne (L ⧸ Subgroup.center L)
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective x
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective y
@@ -104,12 +104,12 @@ theorem exists_slPi_field_of_not_inner_wPre
         ∃ g : GL (Fin 3) (GaloisField 2 n), ∀ s : slPi true 3 (2 ^ n) (GaloisField 2 n),
           ((slAct e ⟨a, mem_normalizer_of_normal a⟩ s : slPi true 3 (2 ^ n) (GaloisField 2 n)) :
             GL (Fin 3) (GaloisField 2 n)) = g * frobGL σ s * g⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set F := GaloisField 2 n with hF
   have hFc : Nat.card F = 2 ^ n := GaloisField.card 2 n (by omega)
   have hK : PiField true 2 n F := ⟨Nat.prime_two, hn, hFc⟩
   have hq := hCP.comp.2.2
-  haveI : Group.IsPerfect L := ⟨hq.1⟩
+  have : Group.IsPerfect L := ⟨hq.1⟩
   set e₀ : L ⧸ Subgroup.center L ≃* projectiveSL 3 F :=
     QuotientGroup.congr (Subgroup.center L) (scalars 3 F) φ
       (by rw [scalars_eq_center]; exact Subgroup.map_center_eq φ) with he₀def
@@ -130,7 +130,7 @@ theorem exists_slPi_field_of_not_inner_wPre
   rcases slAct_pgl_or_field_linear hK hθ e _ hx3 with ⟨y, -, hy⟩ | ⟨-, f₀, hf, σ', hσ', g, -, hg⟩
   · exfalso
     apply hout
-    haveI : KFactProofs.FieldIndexP.OddPrime 3 := ⟨Nat.prime_three, by decide⟩
+    have : KFactProofs.FieldIndexP.OddPrime 3 := ⟨Nat.prime_three, by decide⟩
     have hker : σ.ker ≤ Subgroup.center (SpecialLinearGroup (Fin 3) F) := by
       rw [(MonoidHom.ker_eq_bot_iff σ).2 hbij.1]
       exact bot_le

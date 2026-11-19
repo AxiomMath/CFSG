@@ -62,8 +62,8 @@ open CFSG.HardMathSupport.Dickson.Sec6.Up34Exc in
 theorem d4t2_fixedSpinPerfect : D4T2FixedSpinPerfect := by
   intro L _ _ p₀ S _ _ l f hl hf hq hl3 h3 h3q a hT hap hall hinner
   classical
-  haveI : Fact l.Prime := ⟨hl⟩
-  haveI : CharP L l := by
+  have : Fact l.Prime := ⟨hl⟩
+  have : CharP L l := by
     rw [CharP.charP_iff_prime_eq_zero hl]
     have h := S.hqpow.2
     rw [hq, Nat.cast_pow] at h
@@ -97,7 +97,7 @@ theorem d4t2_fixedSpinPerfect : D4T2FixedSpinPerfect := by
   obtain ⟨σ, z, hσ, -, hnorm, hz⟩ := exists_untwistT_Z S hT i (s := 1) Nat.one_pos hinner1
   have hσ' : ∀ c, σ c = c ^ (l ^ f) := fun c => by rw [hσ, pow_one, hq]
   obtain ⟨hfinK, hKcard⟩ := finite_card_fixSubfield (L := L) (r := l) (n := f) hf σ hσ'
-  haveI : Finite ↥(fixSubfield σ) := hfinK
+  have : Finite ↥(fixSubfield σ) := hfinK
   have hCQperf := d4t2sp_CQ_perfect σ hl hf hKcard h3 hap i hc
   have hstep : ∀ x, iterHom S.D.step 1 x = S.D.step x := fun x => rfl
   have hmodel : ∀ y, y ∈ S.D.model ↔ y ∈ adjointGroup Tag.E6 L ∧ S.D.step y = y :=

@@ -17,7 +17,7 @@ theorem t121_uvM_row0_mod4 {m : ℕ} (hm : 3 ≤ m) :
       Type121.uvM (Type120.iV (m + 1)) (Type120.FV (m + 1)) (Type120.GV (m + 1)) (2 ^ m) 0 2 : ℤ)
       : ZMod 4) = 0 := by
   simp [Type121.uvM, Type121.tM, Type121.uvA, Type121.ρM, Matrix.mulVec, dotProduct,
-    Fin.sum_univ_three, ofCols, ofCols_apply, Matrix.of_apply, Matrix.cons_val_zero,
+    Fin.sum_univ_three, ofCols, Matrix.of_apply, Matrix.cons_val_zero,
     Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
   rw [Type120.iV_cast (n := m + 1) (k := 2) (by omega)]
   rw [Type120.FV_cast (n := m + 1) (k := 2) (by omega)]
@@ -34,7 +34,7 @@ theorem t121_uvM_row1_mod8 {m : ℕ} (hm : 3 ≤ m) :
       Type121.uvM (Type120.iV (m + 1)) (Type120.FV (m + 1)) (Type120.GV (m + 1)) (2 ^ m) 1 2 : ℤ)
       : ZMod 8) = 7 := by
   simp [Type121.uvM, Type121.tM, Type121.uvA, Type121.ρM, Matrix.mulVec, dotProduct,
-    Fin.sum_univ_three, ofCols, ofCols_apply, Matrix.of_apply, Matrix.cons_val_zero,
+    Fin.sum_univ_three, ofCols, Matrix.of_apply, Matrix.cons_val_zero,
     Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
   rw [Type120.iV_cast (n := m + 1) (k := 3) (by omega)]
   rw [Type120.FV_cast (n := m + 1) (k := 3) (by omega)]
@@ -50,7 +50,7 @@ theorem t121_uvM_row2_mod8 {m : ℕ} (hm : 3 ≤ m) :
       Type121.uvM (Type120.iV (m + 1)) (Type120.FV (m + 1)) (Type120.GV (m + 1)) (2 ^ m) 2 2 : ℤ)
       : ZMod 8) = 7 := by
   simp [Type121.uvM, Type121.tM, Type121.uvA, Type121.ρM, Matrix.mulVec, dotProduct,
-    Fin.sum_univ_three, ofCols, ofCols_apply, Matrix.of_apply, Matrix.cons_val_zero,
+    Fin.sum_univ_three, ofCols, Matrix.of_apply, Matrix.cons_val_zero,
     Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
   rw [Type120.iV_cast (n := m + 1) (k := 3) (by omega)]
   rw [Type120.FV_cast (n := m + 1) (k := 3) (by omega)]
@@ -82,7 +82,7 @@ theorem t121_preimage_case0 (m : ℕ) (hm : 3 ≤ m) (X : ℤ) (h0 : (X : ZMod 4
 theorem t121_preimage_case0_zmod (m : ℕ) (hm : 3 ≤ m) (X : ℤ) (h0 : (X : ZMod 4) = 0) :
     (3 * 2 ^ (m - 2) : ZMod (2 ^ m)) * (X : ZMod (2 ^ m)) = 0 := by
   have h := t121_preimage_case0 m hm X h0
-  convert h using 2 <;> push_cast <;> ring
+  convert h using 2; push_cast; ring
 
 theorem t121_preimage_case1 (m : ℕ) (hm : 3 ≤ m) (X : ℤ) (h1 : (X : ZMod 8) = 7) :
     (3 * 2 ^ (m - 2) : ℕ) * ((X : ZMod (2 ^ (m + 1))) - 1) =
@@ -142,7 +142,7 @@ theorem t121_uv_preimage_type121 {m : ℕ} (hm : 3 ≤ m) :
   rw [map_nsmul, map_add]
   rw [matAct_gen_eq, matAct_gen_eq]
   funext i
-  fin_cases i <;> simp [gen, Pi.single_apply, zsmul_eq_mul, Torus.a, Torus.b]
+  fin_cases i <;> simp [gen, zsmul_eq_mul, Torus.a, Torus.b]
   · rw [← mul_add, ← Int.cast_add]
     exact t121_preimage_case0_zmod m hm _ (t121_uvM_row0_mod4 hm)
   · rw [← mul_add, ← Int.cast_add]
@@ -159,10 +159,10 @@ theorem t121_u_a_half_torus {m : ℕ} (hm : 3 ≤ m) :
     (2 ^ m : ℕ) • Torus.b (k := Type121.k m)
   dsimp only [Type121.action, SigmaFourAction.ofMatEq, SigmaFourAction.φu]
   rw [map_nsmul, matAct_gen_eq]
-  simp [Type121.uM, uMat, ofCols, ofCols_apply, Matrix.of_apply, Matrix.cons_val_zero,
+  simp [Type121.uM, uMat, ofCols, Matrix.of_apply, Matrix.cons_val_zero,
     Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
   funext i
-  fin_cases i <;> simp [gen, Pi.single_apply, zsmul_eq_mul]
+  fin_cases i <;> simp [gen]
   · have hzero : ((2 : ZMod (2 ^ Type121.k m 0)) ^ m) = 0 := by
       rw [show (2 : ZMod (2 ^ Type121.k m 0)) =
         ((2 : ℕ) : ZMod (2 ^ Type121.k m 0)) by norm_num]
@@ -180,11 +180,10 @@ theorem t121_uv_fixes_a_half_torus {m : ℕ} (hm : 3 ≤ m) :
     (2 ^ m : ℕ) • Torus.a (k := Type121.k m)
   dsimp only [Type121.action, SigmaFourAction.ofMatEq, SigmaFourAction.φuv]
   rw [map_nsmul, matAct_gen_eq]
-  simp [Type121.uvM, Type121.uvA, Type121.ρM, Type121.tM, uMat, ofCols, ofCols_apply,
-    Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+  simp [Type121.uvM, Type121.uvA, Type121.ρM, Type121.tM, ofCols, Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
     Matrix.head_cons, Matrix.tail_cons, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
   funext i
-  fin_cases i <;> simp [gen, Pi.single_apply, zsmul_eq_mul]
+  fin_cases i <;> simp [gen]
   · have hzero : ((2 : ZMod (2 ^ Type121.k m 0)) ^ m) = 0 := by
       rw [show (2 : ZMod (2 ^ Type121.k m 0)) =
         ((2 : ℕ) : ZMod (2 ^ Type121.k m 0)) by norm_num]
@@ -247,10 +246,10 @@ theorem t121_u_add_b_torus {m : ℕ} (hm : 3 ≤ m) :
         (8 * Type120.FV (m + 1)) • Torus.c (k := Type121.k m)
   dsimp only [Type121.action, SigmaFourAction.ofMatEq, SigmaFourAction.φu]
   rw [map_add, matAct_gen_eq, matAct_gen_eq]
-  simp [Type121.uM, uMat, ofCols, ofCols_apply, Matrix.of_apply, Matrix.cons_val_zero,
+  simp [Type121.uM, uMat, ofCols, Matrix.of_apply, Matrix.cons_val_zero,
     Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
   funext i
-  fin_cases i <;> simp [gen, Pi.single_apply, zsmul_eq_mul] <;> ring
+  fin_cases i <;> simp [gen]; ring
 
 theorem t121_u_fixes_ab_half_torus {m : ℕ} (hm : 3 ≤ m) :
     (StrothTypeIndex.t121 m hm).action.φu
@@ -265,9 +264,8 @@ theorem t121_u_fixes_ab_half_torus {m : ℕ} (hm : 3 ≤ m) :
     show (2 ^ (m - 1) : ℕ) •
       ((8 * Type120.FV (m + 1) : ℤ) • Torus.c (k := Type121.k m)) = 0
     funext i
-    fin_cases i <;> simp [Torus.c, gen, Pi.single_apply, nsmul_eq_mul, zsmul_eq_mul]
-    · push_cast
-      have hzero : ((2 : ZMod (2 ^ m)) ^ m) = 0 := by
+    fin_cases i <;> simp [Torus.c, gen, nsmul_eq_mul, zsmul_eq_mul]
+    · have hzero : ((2 : ZMod (2 ^ m)) ^ m) = 0 := by
         rw [show (2 : ZMod (2 ^ m)) = ((2 : ℕ) : ZMod (2 ^ m)) from by norm_num]
         rw [← Nat.cast_pow, ZMod.natCast_self]
       calc (2 : ZMod (2 ^ m)) ^ (m - 1) * (8 * (Type120.FV (m + 1) : ZMod (2 ^ m)))
@@ -293,6 +291,7 @@ theorem t121_uv_preimage {m : ℕ} (hm : 3 ≤ m) :
           (Torus.a (k := Type121.k m) + Torus.b (k := Type121.k m))
   exact t121_uv_preimage_type121 (m := m) hm
 
+omit [Finite G] in
 theorem t121_u_swaps_a_half {D : Subgroup G} {m : ℕ} {hm : 3 ≤ m}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t121 m hm)} :
     dD.u⁻¹ * (dD.a : G) ^ 2 ^ m * dD.u = (dD.b : G) ^ 2 ^ m := by
@@ -303,6 +302,7 @@ theorem t121_u_swaps_a_half {D : Subgroup G} {m : ℕ} {hm : 3 ≤ m}
   rw [StrothWeakTypeData.ofTorus_nsmul, ← dD.b_eq] at h
   exact h
 
+omit [Finite G] in
 theorem t121_uv_fixes_a_half {D : Subgroup G} {m : ℕ} {hm : 3 ≤ m}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t121 m hm)} :
     dD.uv⁻¹ * (dD.a : G) ^ 2 ^ m * dD.uv = (dD.a : G) ^ 2 ^ m := by
@@ -312,6 +312,7 @@ theorem t121_uv_fixes_a_half {D : Subgroup G} {m : ℕ} {hm : 3 ≤ m}
   rw [StrothWeakTypeData.ofTorus_nsmul, ← dD.a_eq] at h
   exact h
 
+omit [Finite G] in
 theorem t121_uv_fixes_b_half {D : Subgroup G} {m : ℕ} {hm : 3 ≤ m}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t121 m hm)} :
     dD.uv⁻¹ * (dD.b : G) ^ 2 ^ m * dD.uv = (dD.b : G) ^ 2 ^ m := by
@@ -350,6 +351,7 @@ theorem t121_φuv_ab_half {m : ℕ} (hm : 3 ≤ m) :
   rwa [hv] at h2
 
 
+omit [Finite G] in
 theorem t121_d2_ofTorus {D : Subgroup G} {m : ℕ} {hm : 3 ≤ m}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t121 m hm)} :
     ((dD.a : G) * (dD.b : G)) ^ 2 ^ (m - 1) =
@@ -373,8 +375,8 @@ theorem t121_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
   set bh : G := (dD.b : G) ^ 2 ^ m with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 ^ (m - 1) * ab ^ 2 ^ (m - 1) = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 2 ^ (m + 1) := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a]
     rfl
@@ -529,7 +531,7 @@ theorem t121_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
       (2 ^ m : ℕ) • Torus.b (k := (StrothTypeIndex.t121 m hm).k) := by
     intro htor
     have h1 := congrFun htor 1
-    simp [Torus.a, Torus.b, gen, Pi.single_apply, nsmul_eq_mul] at h1
+    simp [Torus.a, Torus.b, gen, nsmul_eq_mul] at h1
     have h1' : ((2 ^ m : ℕ) : ZMod (2 ^ (m + 1))) = 0 := by
       rw [Nat.cast_pow, Nat.cast_ofNat]
       exact h1
@@ -588,8 +590,8 @@ theorem t121_d2_mem_A {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 3 ≤
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _

@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem commutator_mem_sup_pCore {H N X : Subgroup G} {t : G}
     (hH : H ≤ Subgroup.normalizer (N : Set G)) (ht : t ∈ Subgroup.normalizer (N : Set G))
     (hNH : N ≤ H) (hXH : X ≤ H) (hX : ∀ x ∈ X, ⁅t, x⁆ ∈ N) :
@@ -45,6 +46,7 @@ private theorem commutator_mem_sup_pCore {H N X : Subgroup G} {t : G}
   intro y hy
   exact (sup_le hXY hNY hy).2
 
+omit [Finite G] in
 private theorem tauOf_le_of_le_sup_pCore {H T X X' : Subgroup G} (hX : X ≤ H)
     (hX' : X' ≤ X ⊔ pCoreOf 2 H) : E1.tauOf H T X ≤ E1.tauOf H T X' := by
   intro t ht
@@ -53,6 +55,7 @@ private theorem tauOf_le_of_le_sup_pCore {H T X X' : Subgroup G} (hX : X ≤ H)
   exact commutator_mem_sup_pCore (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H) htN
     (CFSG.LieType.BorelTits.pCoreOf_le 2 H) hX htX a' (hX' ha')
 
+omit [Finite G] in
 private theorem tauOf_eq_of_sup_pCore {H T A A' : Subgroup G} (hA : A ≤ H) (hA' : A' ≤ H)
     (h : A ⊔ pCoreOf 2 H = A' ⊔ pCoreOf 2 H) : E1.tauOf H T A = E1.tauOf H T A' :=
   le_antisymm (tauOf_le_of_le_sup_pCore hA ((le_sup_left : A' ≤ A' ⊔ pCoreOf 2 H).trans h.ge))
@@ -112,7 +115,7 @@ private theorem isE_of_sup_pCore {i : ℕ} {H T B B' K : Subgroup G} (hT : IsSyl
       Subgroup.map_subgroupOf_eq_of_le hB'K]
     exact hBK2
   have hPR : CFSG.Open.pCore 2 ↥K ≤ CFSG.solvableRadical ↥K := by
-    haveI : Group.IsNilpotent ↥(CFSG.Open.pCore 2 ↥K) :=
+    have : Group.IsNilpotent ↥(CFSG.Open.pCore 2 ↥K) :=
       (CFSG.LieType.BorelTits.pCore_isPGroup 2 (G := ↥K)).isNilpotent
     exact A3.le_solvableRadical inferInstance inferInstance
   have hR : ∀ Y : Subgroup ↥K,

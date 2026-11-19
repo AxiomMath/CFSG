@@ -27,7 +27,7 @@ set_option linter.unusedSectionVars false
 
 local notation "TA" => CFSG.Sporadic.Schreier.Tits.titsA
 
-@[expose] def gInv : Array (Array ℕ) := invArrs 1755 titsGenArrs
+def gInv : Array (Array ℕ) := invArrs 1755 titsGenArrs
 
 theorem invsOK_gInv : invsOK 1755 titsGenArrs gInv = true := by
   simp only [invsOK, gInv, invArrs, Array.size_map, beq_self_eq_true, Bool.true_and]
@@ -36,7 +36,7 @@ theorem invsOK_gInv : invsOK 1755 titsGenArrs gInv = true := by
     ← getElem!_pos titsGenArrs i hi]
   exact titsGen_inv (by rwa [titsGenArrs_size] at hi)
 
-@[expose] noncomputable def wEl (s : String) : ↥TA := wordElt (decodeWord s)
+noncomputable def wEl (s : String) : ↥TA := wordElt (decodeWord s)
 
 theorem decodeWord_lt {s : String} (h : wordOK s = true) : ∀ l ∈ decodeWord s, l.1 < 4 := by
   simpa [wordOK, List.all_eq_true] using h
@@ -74,12 +74,12 @@ theorem wordOK_tWord : wordOK tWord = true := by decide
 
 theorem wordOK_cWord : wordOK cWord = true := by decide
 
-@[expose] noncomputable def tEl : ↥TA := wEl tWord
+noncomputable def tEl : ↥TA := wEl tWord
 
 theorem rep_tEl : Rep 1755 (tArr titsGenArrs gInv) tEl.1 :=
   rep_wEl wordOK_tWord invsOK_gInv
 
-@[expose] noncomputable def cEl : ↥TA := wEl cWord
+noncomputable def cEl : ↥TA := wEl cWord
 
 theorem rep_cEl : Rep 1755 (cArr titsGenArrs gInv) cEl.1 :=
   rep_wEl wordOK_cWord invsOK_gInv

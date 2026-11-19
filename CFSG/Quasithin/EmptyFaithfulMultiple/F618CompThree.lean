@@ -47,7 +47,7 @@ theorem odd_card_of_inf_eq_bot {T C : Subgroup D} (hT : ∃ S : Sylow 2 D, (S : 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, rfl⟩ := hT
   have hS : IsSylowIn 2 (S : Subgroup D) ⊤ :=
-    ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+    ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   have h := (F6.isSylowIn_inf_of_isSubnormal (F6.isSubnormal_top_of_normal (X := C)) hS).2.2
   rw [hTC, Subgroup.relIndex_bot_left] at h
   exact Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp h)

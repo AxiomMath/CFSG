@@ -32,7 +32,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem le_centBar_of_ne {X L J : Subgroup G} (hL : GLAPComponent 3 X L)
     (hJ : GLAPComponent 3 X J) (hne : J ≠ L) : J ≤ centBar 3 X L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLs := (CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent
     Nat.prime_three).1 hL
   have hJs := (CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent
@@ -88,7 +88,7 @@ theorem rank_bound {n : ℕ} {K Q₁ Q₂ : Subgroup G} {a : G}
     (hT : Lemma118T.TransportData 3 n K a Q₁ Q₂) (ha1 : a ≠ 1)
     (hq4 : CFSG.Open.pRank 3 (Q₁ ⊔ Q₂) = 4) :
     n / 3 = 3 ∧ ∀ U : Subgroup G, U ≤ centBar 3 (Cg a) K → IsElemAbelian 3 U → Nat.card U ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2 : Q₂ ⊓ K = ⊥ :=
     Lemma118T.inf_eq_bot_of_elemAb_le_centBar hn (by omega) hT.Q₂C hT.Q₂ab
   have hdisj : Q₁ ⊓ Q₂ = ⊥ := by
@@ -126,6 +126,7 @@ theorem rank_bound {n : ℕ} {K Q₁ Q₂ : Subgroup G} {a : G}
   calc 3 ^ k ≤ 3 ^ 1 := Nat.pow_le_pow_right (by norm_num) hk1
     _ = 3 := by norm_num
 
+omit [Finite G] in
 theorem inf_centBar_top_le {A K : Subgroup G} {a : G} (hA : A ≤ Cg a) :
     A ⊓ centBar 3 ⊤ K ≤ centBar 3 (Cg a) K := by
   intro x hx
@@ -133,6 +134,7 @@ theorem inf_centBar_top_le {A K : Subgroup G} {a : G} (hA : A ≤ Cg a) :
   unfold centBar at hxc ⊢
   exact Subgroup.mem_inf.2 ⟨(Subgroup.mem_inf.1 hxc).1, hA hxA⟩
 
+omit [Finite G] in
 theorem isAltType_quot_center {K : Subgroup G} {n : ℕ} (hn : IsAltType n (barOf 3 K)) (hn4 : 4 ≤ n) :
     IsAltType n (barOf 3 K ⧸ Subgroup.center (barOf 3 K)) := by
   have hZ : Subgroup.center (barOf 3 K) = ⊥ := by
@@ -147,7 +149,7 @@ theorem faithful_A0 {E A K : Subgroup G} {a : G} (ha : a ∈ A) (ha1 : a ≠ 1) 
     (hAel : IsElemAbelian 3 A) (hKa : ∀ k ∈ K, a * k = k * a)
     (hAC : Nat.card ↥(A ⊓ centBar 3 ⊤ K) ≤ 3) :
     ∀ x ∈ E ⊓ A, x ∈ centBar 3 ⊤ K → x = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro x hx hxc
   by_contra hx1
   have ha3 : a ^ 3 = 1 := hAel.2 a ha
@@ -175,6 +177,7 @@ section Q2
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isSylowIn_top_subgroupOf {Y P : Subgroup G} (hP : IsSylowIn 3 Y P) :
     IsSylowIn 3 (⊤ : Subgroup ↥Y) (P.subgroupOf Y) := by
   refine ⟨le_top, hP.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hP.1).symm, ?_⟩
@@ -190,7 +193,7 @@ theorem isSylowIn_top_subgroupOf {Y P : Subgroup G} (hP : IsSylowIn 3 Y P) :
 
 theorem exists_conj_le_of_isSylowIn {Y P R : Subgroup G} (hP : IsSylowIn 3 Y P) (hRY : R ≤ Y)
     (hR : IsPGroup 3 R) : ∃ y ∈ Y, ∀ r ∈ R, y⁻¹ * r * y ∈ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP' := isSylowIn_top_subgroupOf hP
   obtain ⟨g, hg⟩ := Lemma1112b.exists_glbConj_le_of_isSylowIn hP'
     (hR.of_equiv (Subgroup.subgroupOfEquivOfLe hRY).symm : IsPGroup 3 (R.subgroupOf Y))
@@ -205,7 +208,7 @@ theorem mem_A0_of_central (h1112 : Lemma1112Statement) (h104ii : Lemma104_iiStat
     {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G} (h : Cex117 G m 3 B M E A a K)
     {R : Subgroup G} (hR : IsSylowIn 3 M R) (hAR : A ≤ R)
     {z : G} (hzc : ∀ g ∈ R, g * z = z * g) (hz3 : z ^ 3 = 1) : z ∈ E ⊓ A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsc := h104ii h.toCex117Base.toSec11.toSec10Fails h.pair
   have hzA : z ∈ A := l1110_mem_of_isSCp hsc.2 hAR hzc hz3
   by_contra hzA0
@@ -248,7 +251,7 @@ theorem exists_A0_mem_layer (h1112 : Lemma1112Statement) (h104ii : Lemma104_iiSt
     ∃ (z : G) (hz : z ∈ M), z ∈ E ⊓ A ∧ z ≠ 1 ∧
       QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) (⟨z, hz⟩ : ↥M) ∈
         GLAPLayer 3 (⊤ : Subgroup (↥M ⧸ GLAPPrimeCore 3 ↥M)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) with hπ
   set Lq := GLAPLayer 3 (⊤ : Subgroup (↥M ⧸ GLAPPrimeCore 3 ↥M)) with hLq
   have hO : GLAPPrimeCore 3 (↥M ⧸ GLAPPrimeCore 3 ↥M) = ⊥ :=
@@ -315,7 +318,7 @@ theorem exists_A0_mem_layer (h1112 : Lemma1112Statement) (h104ii : Lemma104_iiSt
     rw [hbot, Subgroup.mem_bot] at hmem
     exact hx₁1 (congrArg Subtype.val hmem)
   have hR3 : IsPGroup 3 ↥R := hR.2.1
-  haveI : Group.IsNilpotent ↥R := hR3.isNilpotent
+  have : Group.IsNilpotent ↥R := hR3.isNilpotent
   have hZ := Group.IsNilpotent.inf_center_ne_bot_of_normal hN1
   set W : Subgroup ↥R := LhG.subgroupOf R ⊓ Subgroup.center ↥R with hW
   have hW3 : IsPGroup 3 ↥W := hR3.to_subgroup W
@@ -379,7 +382,7 @@ section Q3
 theorem eq_one_of_centralizes_layer {Y : Type} [Group Y] [Finite Y]
     (hO : GLAPPrimeCore 3 Y = ⊥) (hO3 : CFSG.pCore 3 Y = ⊥) (g : Y)
     (hg : ∀ l ∈ GLAPLayer 3 (⊤ : Subgroup Y), g * l = l * g) : g = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO' : CFSG.pPrimeCore 3 Y = ⊥ := hO
   have hlay : GLAPLayer 3 (⊤ : Subgroup Y) = CFSG.layer Y := by
     rw [CFSG.HardMathSupport.Solomon.LocalBalance.l28b_glaPLayer_top_eq_layer Nat.prime_three hO,
@@ -419,7 +422,7 @@ theorem nonsolvQuasisimpleClaim_of_inputs (h1111 : Lemma1111Statement) (h1112 : 
     (h119 : Lemma119Statement) (h104ii : Lemma104_iiStatement) (hO3 : Lemma1113O3Claim)
     (hS : Lemma1113SimpleClaim) : Lemma1113b.NonsolvQuasisimpleClaim := by
   intro G _ _ m p B M E A a K h hp e he heEA he1 hL
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO3' := hO3 G m p B M E A a K h hp hL
   refine ⟨hS G m p B M E A a K h hp hL hO3',
     tilde_mem_layer h1111 h1112 h119 h104ii h hp e he heEA he1 hL, ?_⟩
@@ -430,6 +433,7 @@ section Lift
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem eq_one_of_mem_coprime {N T : Subgroup Y} (hN : Nat.Coprime 3 (Nat.card N))
     (hT : IsPGroup 3 ↥T) {w : Y} (hwN : w ∈ N) (hwT : w ∈ T) : w = 1 := by
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hT) ⟨w, hwT⟩
@@ -448,7 +452,7 @@ theorem exists_lift_of_coprime (N : Subgroup Y) [N.Normal] (hN : Nat.Coprime 3 (
     (hST : S.map (QuotientGroup.mk' N) ≤ T') :
     ∃ T : Subgroup Y, S ≤ T ∧ T ≤ H ∧ IsPGroup 3 ↥T ∧ T.map (QuotientGroup.mk' N) = T' ∧
       ∀ x ∈ T, ∀ y ∈ T, QuotientGroup.mk' N x = QuotientGroup.mk' N y → x = y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' N with hπ
   set P : Subgroup Y := H ⊓ T'.comap π with hP
   have hSP : S ≤ P := le_inf hSH (fun s hs => hST ⟨s, hs, rfl⟩)
@@ -569,7 +573,7 @@ theorem exists_lift_centralizer {M : Subgroup G} {a : G} (haM : a ∈ M) (ha3 : 
       T.map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥M)) = S ∧
       ∀ x ∈ T, ∀ y ∈ T, QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) x =
         QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) y → x = y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha3' : (⟨a, haM⟩ : ↥M) ^ 3 = 1 := Subtype.ext (by simpa using ha3)
   have hord : ∃ k : ℕ, orderOf (⟨a, haM⟩ : ↥M) = 3 ^ k := by
     obtain h1 | h3 := (Nat.dvd_prime Nat.prime_three).1 (orderOf_dvd_of_pow_eq_one ha3')
@@ -593,7 +597,7 @@ theorem tilde_centralizer_facts (h1111 : Lemma1111Statement) (h1112 : Lemma1112S
           Set (↥M ⧸ GLAPPrimeCore 3 ↥M))) = 3 ∧
       CFSG.HallHigman.IsPSolvable 3 ↥(Subgroup.centralizer
         ({QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) (⟨a, haM⟩ : ↥M)} : Set (↥M ⧸ GLAPPrimeCore 3 ↥M))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) with hπ
   set a' : ↥M := ⟨a, haM⟩ with ha'
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
@@ -675,7 +679,7 @@ theorem ddKey_le_of {p : ℕ} {E A E' A' : Subgroup G}
   classical
   unfold ddKey
   have h6 : (if IsPGroup p ↥(E ⊔ A) then 1 else 0) ≤ (if IsPGroup p ↥(E' ⊔ A') then 1 else 0) := by
-    rw [if_pos h5]
+    rw [ite_eq_left h5]
     split_ifs <;> norm_num
   exact Prod.Lex.toLex_mono (Prod.mk_le_mk.2 ⟨h1, Prod.Lex.toLex_mono (Prod.mk_le_mk.2 ⟨h2,
     Prod.Lex.toLex_mono (Prod.mk_le_mk.2 ⟨h3, Prod.Lex.toLex_mono (Prod.mk_le_mk.2 ⟨h4, h6⟩)⟩)⟩)⟩)
@@ -684,7 +688,7 @@ theorem plane_of_commute {Y : Type} [Group Y] [Finite Y] {w z : Y} (hw3 : w ^ 3 
     (hz1 : z ≠ 1) (hwz : w * z = z * w) (hwnz : w ∉ Subgroup.zpowers z) :
     IsElemAbelian 3 (Subgroup.zpowers w ⊔ Subgroup.zpowers z) ∧
       Nat.card ↥(Subgroup.zpowers w ⊔ Subgroup.zpowers z) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hw1 : w ≠ 1 := fun h1 => hwnz (h1 ▸ Subgroup.one_mem _)
   have hc : ∀ x ∈ Subgroup.zpowers w, ∀ y ∈ Subgroup.zpowers z, x * y = y * x := by
     intro x hx y hy
@@ -715,7 +719,7 @@ theorem plane_of_commute {Y : Type} [Group Y] [Finite Y] {w z : Y} (hw3 : w ^ 3 
 
 theorem comm_of_card_dvd {Y : Type} [Group Y] [Finite Y] (hP : IsPGroup 3 Y)
     (hdvd : Nat.card Y ∣ 20160) : ∀ x y : Y, x * y = y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hP
   have hk2 : k ≤ 2 := by
     by_contra hk3
@@ -727,10 +731,10 @@ theorem comm_of_card_dvd {Y : Type} [Group Y] [Finite Y] (hP : IsPGroup 3 Y)
       rw [pow_zero] at hk
       exact (Nat.card_eq_one_iff_unique.1 hk).1
     exact Subsingleton.elim _ _
-  · haveI : IsCyclic Y := isCyclic_of_prime_card (p := 3) (by rw [hk, pow_one])
+  · have : IsCyclic Y := isCyclic_of_prime_card (p := 3) (by rw [hk, pow_one])
     intro x y
     exact IsCyclic.commGroup.mul_comm x y
-  · exact IsPGroup.commutative_of_card_eq_prime_sq hk
+  · exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq hk).is_comm.comm
 
 @[expose] def InputAutL34Order27 : Prop :=
   ∀ (X : Type) [Group X], IsLThreeFour X → ∀ P : Subgroup (MulAut X), IsPGroup 3 ↥P → Nat.card P ≤ 27
@@ -739,7 +743,7 @@ theorem lemma1113C4Claim_of_inputs (h1111 : Lemma1111Statement) (h1112 : Lemma11
     (h119 : Lemma119Statement) (hI : InputAutL34Order27) : Lemma1113C4Claim := by
   intro G _ _ m p B M E A a K h hp S hSC hS3
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcfg := Inputs1114.cfg_of h1111 h119 h1112 h
   have hSN : S ≤ Subgroup.normalizer (K : Set G) := hSC.trans hcfg.cg_le_normalizer
   let f : ↥S →* MulAut (barOf 3 K) := (barAut 3 K).comp (Subgroup.inclusion hSN)
@@ -776,18 +780,18 @@ open CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.QuasisimpleSolvableNormal (isPSolva
 
 theorem isPSolvable_of_isPGroup_three' {X : Type} [Group X] [Finite X] (h : IsPGroup 3 X) :
     IsPSolvable 3 X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro H _ T _ hs
   left
   have hQ : IsPGroup 3 (↥H ⧸ T) := ((h.to_subgroup H).to_quotient T)
-  haveI := hs
+  have := hs
   have hcen : Subgroup.center (↥H ⧸ T) = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (↥H ⧸ T)) with hb | ht
     · exact absurd hb ((Subgroup.nontrivial_iff_ne_bot _).mp hQ.center_nontrivial)
     · exact ht
   have hcomm : ∀ a b : ↥H ⧸ T, a * b = b * a := fun a b =>
     (Subgroup.mem_center_iff.mp (hcen ▸ Subgroup.mem_top b) a)
-  haveI : IsMulCommutative (↥H ⧸ T) := ⟨⟨hcomm⟩⟩
+  have : IsMulCommutative (↥H ⧸ T) := ⟨⟨hcomm⟩⟩
   have hprime : (Nat.card (↥H ⧸ T)).Prime := Group.is_simple_iff_prime_card.mp hs
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hQ
   rw [Subgroup.index_eq_card, hk]
@@ -821,14 +825,14 @@ theorem isPSolvable_of_isSolvable' {X : Type*} [Group X] (hX : Group.IsSolvable 
 
 theorem isPSolvable_of_inf_inner {X : Type} [Group X] (hX : IsLThreeFour X) {H : Subgroup (MulAut X)}
     (hH : IsPSolvable 3 ↥(H ⊓ innerAut X)) : IsPSolvable 3 ↥H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXc : Nat.card X = 20160 := CFSG.HardMathSupport.Solomon.UniquenessMaximal.card_eq_of_isLThreeFour hX
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hXc]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hXc]; norm_num)
   obtain ⟨k, _, hk, ⟨φ⟩⟩ := CFSG.HardMathSupport.Solomon.Coordinator.exists_equiv_projectiveSL hX
-  haveI : Finite k := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hk
-  haveI := (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.linear_higher_schreier
+  have : Finite k := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hk
+  have := (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.linear_higher_schreier
     (K := k) (n := 3) le_rfl).2
-  haveI : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) :=
+  have : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv φ.symm
   let f : ↥H →* CFSG.ComponentClassification.OuterAutomorphisms.Outer X :=
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner X)).comp H.subtype
@@ -856,6 +860,7 @@ theorem isPSolvable_of_inf_inner {X : Type} [Group X] (hX : IsLThreeFour X) {H :
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_core {K : Subgroup G} : K ≤ Subgroup.normalizer ((GLAPPrimeCoreOf 3 K : Subgroup G) : Set G) := by
   intro y hy
   have hyN : y ∈ Subgroup.normalizer (K : Set G) := Subgroup.le_normalizer hy
@@ -867,6 +872,7 @@ theorem le_normalizer_core {K : Subgroup G} : K ≤ Subgroup.normalizer ((GLAPPr
     have := Inputs1114.conj_mem_core (Subgroup.inv_mem _ hyN) ho
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem barAut_core_eq_one {K : Subgroup G} {o : G} (ho : o ∈ GLAPPrimeCoreOf 3 K)
     (hoN : o ∈ Subgroup.normalizer (K : Set G)) : barAut 3 K ⟨o, hoN⟩ = 1 := by
   obtain ⟨o', ho', rfl⟩ := Subgroup.mem_map.1 ho
@@ -881,7 +887,7 @@ theorem lemma1113SolvClaim_of_inputs (h1111 : Lemma1111Statement) (h1112 : Lemma
     Lemma1113SolvClaim := by
   intro G _ _ m p B M E A a K h hp
   subst hp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcfg := Inputs1114.cfg_of h1111 h119 h1112 h
   have hSec : Sec11 G m 3 B M E A := h.toCex117Base.toSec11
   have ha : a ∈ A := h.ha.1
@@ -935,7 +941,7 @@ theorem lemma1113SolvClaim_of_inputs (h1111 : Lemma1111Statement) (h1112 : Lemma
     have : (x : G) ∈ Subgroup.zpowers a := Subgroup.mem_subgroupOf.1 hx
     exact (Subgroup.zpowers_le.2 haM) this
   have hC₀s : IsPSolvable 3 ↥C₀ := by
-    haveI := hK₀n
+    have := hK₀n
     have hq3 : IsPGroup 3 (↥C₀ ⧸ K₀) := by
       obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup
       refine IsPGroup.of_card (n := k) ?_

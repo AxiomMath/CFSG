@@ -29,7 +29,7 @@ theorem isSimpleGroup_SL2_charTwo {F : Type} [Field F] [Finite F] [CharP F 2]
   have e : Matrix.ProjectiveSpecialLinearGroup (Fin 2) F ≃*
       Matrix.SpecialLinearGroup (Fin 2) F :=
     (QuotientGroup.quotientMulEquivOfEq hcenter).trans QuotientGroup.quotientBot
-  haveI := hPSL
+  have := hPSL
   exact e.symm.isSimpleGroup
 
 section Pair

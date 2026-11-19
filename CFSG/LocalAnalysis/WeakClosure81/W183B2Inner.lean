@@ -22,9 +22,11 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V] {R L : Subgr
   map_one' := by ext; simp
   map_mul' := fun a b => by ext; simp
 
+omit [Finite V] in
 private theorem w183b2_actOnMul_apply (r : ↥R) (v : Multiplicative V) :
     actOnMul R r v = Multiplicative.ofAdd ((r : LGL 2 V) (Multiplicative.toAdd v)) := rfl
 
+omit [Finite V] in
 private theorem w183b2_actOnMul_sub (r : ↥R) (v : Multiplicative V) :
     actOnMul R r v * v⁻¹ = Multiplicative.ofAdd
       ((r : LGL 2 V) (Multiplicative.toAdd v) - Multiplicative.toAdd v) := by
@@ -32,6 +34,7 @@ private theorem w183b2_actOnMul_sub (r : ↥R) (v : Multiplicative V) :
     rw [← ofAdd_toAdd v⁻¹, toAdd_inv]
   rw [w183b2_actOnMul_apply r, hv, ← ofAdd_add, sub_eq_add_neg]
 
+omit [Finite V] in
 theorem actOnMul_injective : Function.Injective (actOnMul R) := by
   intro r₁ r₂ h
   apply Subtype.ext
@@ -40,6 +43,7 @@ theorem actOnMul_injective : Function.Injective (actOnMul R) := by
   have h' := congrArg (fun φ : MulAut (Multiplicative V) => φ (Multiplicative.ofAdd v)) h
   exact Multiplicative.ofAdd.injective (by simpa [w183b2_actOnMul_apply] using h')
 
+omit [Finite V] in
 theorem isQuadraticOn_actOnMul {D : Subgroup (LGL 2 V)} (hDq : commSpace D (commSub D) = ⊥) :
     IsQuadraticOn (actOnMul R) (D.subgroupOf R) := by
   intro a ha b hb v
@@ -73,7 +77,7 @@ private theorem w183b2_isQuasisimple_of_simple {X : Type*} [Group X] (hs : IsSim
   refine ⟨?_, ?_⟩
   · rcases hs.eq_bot_or_eq_top_of_normal (commutator X) with h | h
     · exfalso
-      haveI := (commutator_eq_bot_iff X).mp h
+      have := (commutator_eq_bot_iff X).mp h
       obtain ⟨a, b, hab⟩ := hnab
       exact hab (mul_comm a b)
     · exact h
@@ -81,6 +85,7 @@ private theorem w183b2_isQuasisimple_of_simple {X : Type*} [Group X] (hs : IsSim
       (QuotientGroup.quotientMulEquivOfEq hcenter).trans QuotientGroup.quotientBot
     exact e.isSimpleGroup
 
+omit [Finite V] in
 theorem w183b2_isComponentOf_subgroupOf (h : SimpleCore R L) :
     IsComponentOf (L.subgroupOf R) ⊤ := by
   refine ⟨le_top, ?_, ?_⟩
@@ -95,17 +100,18 @@ theorem w183b2_isComponentOf_subgroupOf (h : SimpleCore R L) :
         exact ⟨⟨a, ha⟩, ⟨b, hb⟩, fun hh => hab (congrArg Subtype.val hh)⟩)
     exact w183b2_isQuasisimple_of_mulEquiv (Subgroup.subgroupOfEquivOfLe h.le) hqL
 
+omit [Finite V] in
 theorem w183b2_coverOf_subgroupOf (h : SimpleCore R L) : CoverOf ↥(L.subgroupOf R) ↥L := by
   refine ⟨(w183b2_isComponentOf_subgroupOf h).2.2, ?_⟩
   have hcenterA : Subgroup.center ↥(L.subgroupOf R) = ⊥ := by
-    haveI : IsSimpleGroup ↥(L.subgroupOf R) := by
-      haveI : IsSimpleGroup ↥L := h.simple
+    have : IsSimpleGroup ↥(L.subgroupOf R) := by
+      have : IsSimpleGroup ↥L := h.simple
       exact (Subgroup.subgroupOfEquivOfLe h.le).isSimpleGroup
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (Subgroup.center ↥(L.subgroupOf R)) with hc | hc
     · exact hc
     · exfalso
-      haveI : IsMulCommutative ↥(L.subgroupOf R) := Subgroup.center_eq_top_iff.mp hc
+      have : IsMulCommutative ↥(L.subgroupOf R) := Subgroup.center_eq_top_iff.mp hc
       obtain ⟨a, ha, b, hb, hab⟩ := h.nonab
       let aA : ↥(L.subgroupOf R) := ⟨⟨a, h.le ha⟩, Subgroup.mem_subgroupOf.mpr ha⟩
       let bA : ↥(L.subgroupOf R) := ⟨⟨b, h.le hb⟩, Subgroup.mem_subgroupOf.mpr hb⟩
@@ -225,7 +231,7 @@ theorem w183b2_inner_of_quadratic (h65f : Asch6_5Four) (hcore : SimpleCore R L)
         intro heq
         rw [heq] at hcardzp
         omega
-      exact (SetLike.lt_iff_le_and_exists.mp (lt_of_le_of_ne hzple hne)).2
+      exact (IsConcreteLE.lt_iff_le_and_exists.mp (lt_of_le_of_ne hzple hne)).2
     let A : Subgroup (LGL 2 V) := Subgroup.closure ({dL, f} : Set (LGL 2 V))
     have hdA : dL ∈ A := Subgroup.subset_closure (by simp)
     have hA_le_D : A ≤ D := (Subgroup.closure_le D).mpr (by
@@ -292,8 +298,8 @@ theorem w183b2_inner_of_quadratic (h65f : Asch6_5Four) (hcore : SimpleCore R L)
         exact ⟨aS, bS, fun h => hab (by
           simpa using congrArg (fun z : ↥(L.subgroupOf R) => (z : LGL 2 V)) h)⟩
       have hcenter : Subgroup.center ↥(L.subgroupOf R) = ⊥ := by
-        haveI : IsSimpleGroup ↥(L.subgroupOf R) := by
-          haveI : IsSimpleGroup ↥L := hcore.simple
+        have : IsSimpleGroup ↥(L.subgroupOf R) := by
+          have : IsSimpleGroup ↥L := hcore.simple
           exact (Subgroup.subgroupOfEquivOfLe hcore.le).isSimpleGroup
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
           (Subgroup.center ↥(L.subgroupOf R)) with hc | hc

@@ -15,7 +15,7 @@ theorem presGen_closure (p : TauCeti.GroupPresentation) (h1 : p.generatorCount =
   rw [eq_top_iff, ← PresentedGroup.closure_range_of p.relatorSet]
   apply Subgroup.closure_mono
   rintro _ ⟨a, rfl⟩
-  refine ⟨a.val, by simp only [Set.mem_setOf_eq]; omega, ?_⟩
+  refine ⟨a.val, by simp only [Set.mem_ofPred_eq]; omega, ?_⟩
   rw [presGen, dite_eq_left a.isLt]
 
 theorem dce_sound_of_pres (p : TauCeti.GroupPresentation) (h1 : p.generatorCount = 8)

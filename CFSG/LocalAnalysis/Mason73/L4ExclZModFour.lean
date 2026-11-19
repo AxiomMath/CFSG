@@ -67,7 +67,7 @@ variable {K : Type} [Field K]
   map_mul' a b := by
     funext j
     fin_cases j <;>
-      simp [Finset.sum_add_distrib, ofAdd_add, map_mul, mul_inv, mul_comm]
+      simp [Finset.sum_add_distrib, ofAdd_add, map_mul, mul_comm]
 
 theorem diagFiveVec_apply (χ : Multiplicative (ZMod 4) →* Kˣ)
     (a : Multiplicative (Fin 4 → ZMod 4)) :

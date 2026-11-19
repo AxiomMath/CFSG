@@ -31,7 +31,7 @@ theorem eq_one_or_eq_of_fix_four {G : Type*} [Group G] {V : Subgroup G}
     (hgz : g * z * g⁻¹ = z) (hmove : ∃ v ∈ V, g * v * g⁻¹ ≠ v) {r : G} (hr : r ∈ V)
     (hgr : g * r * g⁻¹ = r) : r = 1 ∨ r = z := by
   have hz2 : z * z = 1 := hV2 z hz
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hV4]; norm_num)
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hV4]; norm_num)
   set Z : Subgroup G := zpowers z
   have hZ : ∀ {v : G}, v ∈ Z ↔ v = 1 ∨ v = z := by
     intro v

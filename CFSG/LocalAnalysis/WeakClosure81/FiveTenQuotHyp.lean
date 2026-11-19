@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isInvColl_kerQuotOmega {M H : Subgroup G} {Ω : Set (Subgroup G)}
     (hΩ : E1.IsInvColl H Ω) :
     E1.IsInvColl (⊤ : Subgroup (KerQuot M H)) (kerQuotOmega M H Ω) where
@@ -24,6 +25,7 @@ theorem isInvColl_kerQuotOmega {M H : Subgroup G} {Ω : Set (Subgroup G)}
     obtain ⟨y, rfl⟩ := kerQuotMk_surjective M H q
     exact ⟨A1b.conjSub (y : G) A, hΩ.conj A hA y y.2, kerQuotImg_conjSub y.2⟩
 
+omit [Finite G] in
 theorem isSylowIn_kerQuotImg {M H T : Subgroup G} (hT : IsSylowIn 2 T H) :
     IsSylowIn 2 (kerQuotImg M H T) ⊤ := by
   refine ⟨le_top, ?_, ?_⟩

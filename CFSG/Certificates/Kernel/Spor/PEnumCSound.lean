@@ -45,7 +45,7 @@ theorem penumPtC_par {i : Nat} (h : penumPtC k K cnt T PL POS CL SRT SRI i = tru
   have ht := h.1
   have e : Nat.beq i 0 = false := Bool.eq_false_iff.2 fun h => hi (Nat.eq_of_beq_eq_true h)
   rw [e] at ht
-  simp only [bIf_false, strictB_eq, bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at ht
+  simp only [strictB_eq, bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at ht
   exact ⟨ht.1, ht.2.1, Nat.eq_of_beq_eq_true ht.2.2.1⟩
 
 theorem penumC_canon (hkK : k ≤ K) (hS : ∀ j < k, S j = GI j)
@@ -96,7 +96,7 @@ theorem penumPtK_of_C (hkK : k ≤ K) (hG : ∀ j < k, G j = pidn n w) (hS : ∀
     · obtain ⟨hp, hl, e⟩ := penumPtC_par (hc i hi) hi0
       have e' : Nat.beq i 0 = false := Bool.eq_false_iff.2 fun h => hi0 (Nat.eq_of_beq_eq_true h)
       rw [e'] at hpar ⊢
-      simp only [bIf_false, strictB_eq, bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at hpar ⊢
+      simp only [strictB_eq, bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at hpar ⊢
       refine ⟨hp, hl, ?_, hpar.2.2.2⟩
       have hq := (cl_spec hcl (Nat.lt_trans hp hi) (Nat.lt_of_lt_of_le hl hkK)).2
       rw [e, hS _ hl] at hq

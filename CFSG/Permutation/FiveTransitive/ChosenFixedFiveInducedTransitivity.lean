@@ -38,7 +38,7 @@ theorem chosen_five
   let A := ambientSylow a P
   let Q := (stabilizer A x).map A.subtype
   obtain ⟨hQA, hstrict, hlocal⟩ := ChosenTupleMinimalOrbitInduced.local_geometry 5 h5 a P x hx hmin
-  have hA : IsPGroup 2 A := P.isPGroup'.map (stabilizer G a).subtype
+  have hA : IsPGroup 2 A := P.isPGroup.map (stabilizer G a).subtype
   have hQ : IsPGroup 2 Q := (hA.to_subgroup (stabilizer A x)).map A.subtype
   have hparA := hA.card_modEq_card_fixedPoints X
   have hparQ := hQ.card_modEq_card_fixedPoints X

@@ -29,7 +29,7 @@ theorem w16q_iSub_UAOf_eq (d : DichCfg M V₀ V U S H φ)
         (vHat (D.img H)) =
       wHat (D.img H) (D.sp (conjClosure V₀ H)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let G' : Subgroup (LGL 2 D.W) := D.img H
   let Γ : Set (Subgroup (LGL 2 D.W)) := D.conjImgFam V
   let VA : Subgroup (LGL 2 D.W) → Submodule (ZMod 2) D.W := D.conjImgSpace V₀ V
@@ -111,6 +111,7 @@ theorem w16q_iSub_UAOf_eq (d : DichCfg M V₀ V U S H φ)
     obtain ⟨e, he, rfl⟩ := hw
     exact key e he.1
 
+omit [Finite G] in
 theorem w16q_card_wHat (D : ModDataE H (iSub16 V H)) (W : Submodule (ZMod 2) D.W) :
     Nat.card ↥(wHat (D.img H) W) = Nat.card ↥W := by
   refine (Nat.card_congr (Equiv.ofBijective
@@ -127,6 +128,7 @@ theorem w16q_card_wHat (D : ModDataE H (iSub16 V H)) (W : Submodule (ZMod 2) D.W
     obtain ⟨w, hw, hwx⟩ := mem_wHat.mp x.2
     exact ⟨⟨w, hw⟩, Subtype.ext hwx.symm⟩
 
+omit [Finite G] in
 theorem w16q_card_sp (D : ModDataE H (iSub16 V H)) (S : Subgroup G) :
     Nat.card ↥(D.sp S) = Nat.card ↥(S ⊓ iSub16 V H) := by
   refine Nat.card_congr (Equiv.ofBijective
@@ -158,7 +160,7 @@ theorem w16q_inf_iSub_UAOf (d : DichCfg M V₀ V U S H φ)
           (⊤ : Subgroup (VG (D.img H))) (vHat (D.img H)) =
       wHat (D.img H) (D.sp V₀) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let G' : Subgroup (LGL 2 D.W) := D.img H
   let Γ : Set (Subgroup (LGL 2 D.W)) := D.conjImgFam V
   let VA : Subgroup (LGL 2 D.W) → Submodule (ZMod 2) D.W := D.conjImgSpace V₀ V
@@ -203,7 +205,7 @@ theorem w16q_exists_theta (d : DichCfg M V₀ V U S H φ)
       ∀ k : ↥(conjClosure V H), θ (φ k) =
         (⟨D.ρ (Subgroup.inclusion d.cfg.conjClosure_le_H k),
           D.mem_img.mpr ⟨Subgroup.inclusion d.cfg.conjClosure_le_H k, by
-            simpa using k.2, rfl⟩⟩ : ↥(D.img (conjClosure V H))) := by
+            simp, rfl⟩⟩ : ↥(D.img (conjClosure V H))) := by
   classical
   let K := conjClosure V H
   let I := iSub16 V H
@@ -220,7 +222,7 @@ theorem w16q_exists_theta (d : DichCfg M V₀ V U S H φ)
     exact B2F.isElemAbelian_comm hIea hj hi
   let ρK : ↥K →* ↥(D.img K) :=
     (D.ρ.comp (Subgroup.inclusion hKH)).codRestrict (D.img K) fun k =>
-      D.mem_img.mpr ⟨Subgroup.inclusion hKH k, by simpa using k.2, rfl⟩
+      D.mem_img.mpr ⟨Subgroup.inclusion hKH k, by simp, rfl⟩
   have hker_ρK : ρK.ker = I.subgroupOf K := by
     ext k
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
@@ -230,7 +232,7 @@ theorem w16q_exists_theta (d : DichCfg M V₀ V U S H φ)
       have hmem : (Subgroup.inclusion hKH k : G) ∈ centralizer (I : Set G) :=
         (D.ρ_eq_one_iff (Subgroup.inclusion hKH k)).mp hρ
       have hinf : (Subgroup.inclusion hKH k : G) ∈ K ⊓ centralizer (I : Set G) :=
-        ⟨by simpa using k.2, hmem⟩
+        ⟨by simp, hmem⟩
       rwa [hKinfC] at hinf
     · intro hk
       apply Subtype.ext
@@ -245,10 +247,7 @@ theorem w16q_exists_theta (d : DichCfg M V₀ V U S H φ)
   let θ : X →* ↥(D.img K) :=
     (MonoidHom.liftOfSurjective φ d.bar.surjective) ⟨ρK, by rw [hker_φ, hker_ρK]⟩
   have hcomp : θ.comp φ = ρK := by
-    simpa [θ, MonoidHom.liftOfSurjective] using
-      MonoidHom.liftOfRightInverse_comp (f := φ)
-        (f_inv := Function.surjInv d.bar.surjective)
-        (Function.rightInverse_surjInv d.bar.surjective) ⟨ρK, by rw [hker_φ, hker_ρK]⟩
+    simp [θ, MonoidHom.liftOfSurjective]
   have hθφ : ∀ k, θ (φ k) = ρK k := fun k => DFunLike.congr_fun hcomp k
   have hθ_surj : Function.Surjective θ := by
     intro y
@@ -282,12 +281,12 @@ theorem w16q_isExtraspecial_of_mulEquiv {p : ℕ} {A B : Type} [Group A] [Group 
     rw [← Nat.card_congr (Subgroup.centerCongr e).toEquiv]
     exact CFSG.IsExtraspecial.center_order_p p A
   quotient_elementary_abelian := by
-    haveI := CFSG.IsExtraspecial.quotient_elementary_abelian p A
+    have := CFSG.IsExtraspecial.quotient_elementary_abelian p A
     exact CFSG.IsElementaryAbelian.of_mulEquiv
       (QuotientGroup.congr (Subgroup.center A) (Subgroup.center B) e
         (Subgroup.map_center_eq e)) inferInstance
   quotient_nontrivial := by
-    haveI := CFSG.IsExtraspecial.quotient_nontrivial p A
+    have := CFSG.IsExtraspecial.quotient_nontrivial p A
     exact (QuotientGroup.congr (Subgroup.center A) (Subgroup.center B) e
       (Subgroup.map_center_eq e)).symm.surjective.nontrivial
 

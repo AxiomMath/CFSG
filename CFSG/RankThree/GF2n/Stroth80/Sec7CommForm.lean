@@ -23,10 +23,10 @@ theorem lamOrth_radical_le {G : Type} [Group G] [Finite G] {Q Z V W : Subgroup G
     ⟨hZQ, hcomm, hsq, fun r hr x hx => by simpa [Subgroup.mem_bot.mp hr] using hx,
       fun r hr x hx => by simpa [Subgroup.mem_bot.mp hr] using hx⟩
   obtain ⟨M, iM, iA, κ, hκ⟩ := exists_sectionModule hsec
-  haveI : Finite M := hκ.finite
-  letI : Module (ZMod 2) M := AddCommGroup.zmodModule (fun a => by
+  have : Finite M := hκ.finite
+  let : Module (ZMod 2) M := AddCommGroup.zmodModule (fun a => by
     rw [two_nsmul]; exact hκ.two a)
-  haveI : FiniteDimensional (ZMod 2) M := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) M := Module.Finite.of_finite
   obtain ⟨f, hfnd, hfalt, hfκ⟩ := exists_lamForm lam hcomm hZc hκ hnd
   let Sub : Subgroup G → Submodule (ZMod 2) M := fun U =>
     AddSubgroup.toZModSubmodule 2 (secSub κ U)
@@ -56,10 +56,10 @@ theorem lamOrth_radical_le {G : Type} [Group G] [Finite G] {Q Z V W : Subgroup G
     constructor
     · intro h v hv
       have := h ⟨v, hVQ hv⟩ hv
-      rw [comm2_symm lam hcomm hZc, comm2_eq_zero_iff lam hcomm] at this
+      rw [comm2_symm lam hcomm, comm2_eq_zero_iff lam hcomm] at this
       exact this
     · intro h v hv
-      rw [comm2_symm lam hcomm hZc, comm2_eq_zero_iff lam hcomm]
+      rw [comm2_symm lam hcomm, comm2_eq_zero_iff lam hcomm]
       exact h v hv
   have hdouble : f.orthogonal (Sub W) = Sub V := by
     rw [← horth, LinearMap.BilinForm.orthogonal_orthogonal hfnd
@@ -71,16 +71,16 @@ theorem lamOrth_radical_le {G : Type} [Group G] [Finite G] {Q Z V W : Subgroup G
     intro n hn
     obtain ⟨s, rfl⟩ := hrep n
     have hs : (s : G) ∈ W := (hmemU W hZW s).1 hn
-    rw [hfκ, comm2_symm lam hcomm hZc, comm2_eq_zero_iff lam hcomm]
+    rw [hfκ, comm2_symm lam hcomm, comm2_eq_zero_iff lam hcomm]
     exact hrad s hs
   rw [hdouble] at hκa
   exact (hmemU V hZV ⟨a, haQ⟩).1 hκa
 
 theorem exists_commForm_WV {G : Type} [Group G] {Q Z V W R : Subgroup G}
     (lam : ↥Z →* Multiplicative (ZMod 2))
-    (hZQ : Z ≤ Q) (hZc : ∀ z ∈ Z, ∀ a ∈ Q, Commute z a)
+    (_hZQ : Z ≤ Q) (hZc : ∀ z ∈ Z, ∀ a ∈ Q, Commute z a)
     (hcomm : ∀ a ∈ Q, ∀ b ∈ Q, ⁅a, b⁆ ∈ Z)
-    (hZV : Z ≤ V) (hVW : V ≤ W) (hWQ : W ≤ Q)
+    (_hZV : Z ≤ V) (_hVW : V ≤ W) (hWQ : W ≤ Q)
     (hVW1 : ∀ v ∈ V, ∀ w ∈ W, ⁅v, w⁆ = 1)
     {Y : Type} [AddCommGroup Y] [DistribMulAction ↥R Y] {κ : ↥W →* Multiplicative Y}
     (hκ : IsSecMod R W V Y κ) (hRZ : ∀ r ∈ R, ∀ z ∈ Z, r * z * r⁻¹ = z)
@@ -116,7 +116,7 @@ theorem exists_commForm_WV {G : Type} [Group G] {Q Z V W R : Subgroup G}
   have c2_symm : ∀ a b : ↥W, c2 a b = c2 b a := by
     intro a b
     rw [hc2, hc2]
-    exact (comm2_symm lam hcomm hZc _ _).symm
+    exact (comm2_symm lam hcomm _ _).symm
   have c2L : ∀ a a' b : ↥W, (a : G) * (a' : G)⁻¹ ∈ V → c2 a b = c2 a' b := by
     intro a a' b h
     have hsplit : c2 a b = c2 (a * a'⁻¹ * a') b := by rw [inv_mul_cancel_right]

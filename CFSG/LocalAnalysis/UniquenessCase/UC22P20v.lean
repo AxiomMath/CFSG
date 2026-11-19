@@ -56,16 +56,17 @@ theorem uc22p20v_borelWit_mono {p k j : ℕ} (hp : p.Prime) (h : uc22p20oBorelWi
     uc22p20oBorelWit K p j := by
   intro P
   obtain ⟨F, hFP, hF, hcard⟩ := h P
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨F', hF'⟩ := Sylow.exists_subgroup_card_pow_prime (G := F) p (n := j)
     (by rw [hcard]; exact pow_dvd_pow p hj)
   refine ⟨F'.map F.subtype, (Subgroup.map_subtype_le F').trans hFP,
     CFSG.Open.IsElemAbelian.mono hF (Subgroup.map_subtype_le F'), ?_⟩
   rw [Subgroup.card_map_of_injective F.subtype_injective, hF']
 
+omit [Finite K] in
 theorem uc22p20v_rankWit_of_borelWit {p k : ℕ} (h : uc22p20oBorelWit K p k) :
     uc22p20oRankWit K p k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 K) := inferInstance
   obtain ⟨F, -, hF, hcard⟩ := h P
   exact ⟨F, hF, hcard⟩
@@ -159,34 +160,34 @@ theorem uc22p20v_cast_three (n : ℕ) : ((2 ^ n : ℕ) : ZMod 3) = if Even n the
   have h2 : (2 : ZMod 3) ^ 2 = 1 := by decide
   rcases Nat.even_or_odd' n with ⟨k, rfl | rfl⟩
   · have : Even (2 * k) := even_two_mul k
-    rw [if_pos this]
+    rw [ite_eq_left this]
     push_cast
     rw [pow_mul, h2, one_pow]
-  · have : ¬ Even (2 * k + 1) := by simp [Nat.even_add_one]
-    rw [if_neg this]
+  · have : ¬ Even (2 * k + 1) := by simp
+    rw [ite_eq_right this]
     push_cast
     rw [pow_succ, pow_mul, h2, one_pow, one_mul]
     decide
 
 theorem uc22p20v_orderOf_neg_one_three : orderOf (-1 : ZMod 3) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 theorem uc22p20v_eP_three (n : ℕ) : eP (2 ^ n) 3 = if Even n then 1 else 2 := by
   unfold eP
   rw [uc22p20v_cast_three]
   by_cases h : Even n
-  · rw [if_pos h, if_pos h, orderOf_one]
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_left h, ite_eq_left h, orderOf_one]
+  · rw [ite_eq_right h, ite_eq_right h]
     exact uc22p20v_orderOf_neg_one_three
 
 theorem uc22p20v_eM_three (n : ℕ) : eM (2 ^ n) 3 = if Even n then 2 else 1 := by
   unfold eM
   rw [uc22p20v_cast_three]
   by_cases h : Even n
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     exact uc22p20v_orderOf_neg_one_three
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
     have h1 : (-(-1 : ZMod 3)) = 1 := by decide
     exact (congrArg orderOf h1).trans orderOf_one
 
@@ -194,8 +195,8 @@ theorem uc22p20v_eS_three (n : ℕ) : eS (2 ^ n) 3 = 1 := by
   unfold eS
   rw [uc22p20v_cast_three]
   by_cases h : Even n
-  · rw [if_pos h, one_pow, orderOf_one]
-  · rw [if_neg h]
+  · rw [ite_eq_left h, one_pow, orderOf_one]
+  · rw [ite_eq_right h]
     have h1 : ((-1 : ZMod 3)) ^ 2 = 1 := by decide
     exact (congrArg orderOf h1).trans orderOf_one
 
@@ -209,7 +210,7 @@ theorem uc22p20v_eM_of_dvd {n p : ℕ} (h : p ∣ 2 ^ n + 1) : eM (2 ^ n) p = 1 
 
 theorem uc22p20v_rkLin_true_one {m Q r z : ℕ} (h : eP Q r = 1) : m - 2 ≤ rkLin m true Q r z := by
   unfold rkLin
-  simp only [h, if_true]
+  simp only [h, ite_true]
   split_ifs <;> omega
 
 theorem uc22p20v_rkLin_true_one_of_not_dvd {m Q r z : ℕ} (h : eP Q r = 1) (hr : ¬ r ∣ m) :
@@ -219,7 +220,7 @@ theorem uc22p20v_rkLin_true_one_of_not_dvd {m Q r z : ℕ} (h : eP Q r = 1) (hr 
 
 theorem uc22p20v_rkLin_false_one {m Q r z : ℕ} (h : eM Q r = 1) : m - 2 ≤ rkLin m false Q r z := by
   unfold rkLin
-  simp only [h, Bool.false_eq_true, if_false, if_true]
+  simp only [h, Bool.false_eq_true, ite_false, ite_true]
   split_ifs <;> omega
 
 theorem uc22p20v_rkLin_false_one_of_not_dvd {m Q r z : ℕ} (h : eM Q r = 1) (hr : ¬ r ∣ m) :
@@ -272,7 +273,7 @@ theorem uc22p20v_eM_three_cases (n : ℕ) : eM (2 ^ n) 3 = 1 ∨ eM (2 ^ n) 3 = 
 theorem uc22p20v_four_le_rkLin_true_one {m Q r z : ℕ} (hr : r.Prime) (h : eP Q r = 1) (hm : 5 ≤ m)
     (h5 : m = 5 → r ≠ 5) : 4 ≤ rkLin m true Q r z := by
   unfold rkLin
-  simp only [h, if_true]
+  simp only [h, ite_true]
   by_cases hm5 : m = 5
   · subst hm5
     have : ¬ r ∣ 5 := fun hd => h5 rfl ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_five).1 hd)
@@ -282,7 +283,7 @@ theorem uc22p20v_four_le_rkLin_true_one {m Q r z : ℕ} (hr : r.Prime) (h : eP Q
 theorem uc22p20v_four_le_rkLin_false_one {m Q r z : ℕ} (hr : r.Prime) (h : eM Q r = 1) (hm : 5 ≤ m)
     (h5 : m = 5 → r ≠ 5) : 4 ≤ rkLin m false Q r z := by
   unfold rkLin
-  simp only [h, Bool.false_eq_true, if_false, if_true]
+  simp only [h, Bool.false_eq_true, ite_false, ite_true]
   by_cases hm5 : m = 5
   · subst hm5
     have : ¬ r ∣ 5 := fun hd => h5 rfl ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_five).1 hd)
@@ -346,7 +347,7 @@ theorem uc22p20v_card_center_dvd (hN : uc22p20rNativeGriess) {K : Type} [Group K
     (hq : CFSG.Open.IsQuasisimple K) (hodd : Odd (Nat.card (center K))) {t : StatedLieTag} {m n : ℕ}
     (hM : LieModel (K ⧸ center K) t m 2 n) :
     Nat.card (center K) ∣ (genericOrders t m 2 n).1 * (genericOrders t m 2 n).2 := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
   obtain ⟨-, ⟨eM⟩⟩ := hN (K ⧸ center K) t m 2 n hM
   obtain ⟨k, hk⟩ := CFSG.LocalAnalysis.RankThreeUC.S15.ksm_exc_two t m n
   have hM' : Nat.card (hopfMultiplier (K ⧸ center K)) =

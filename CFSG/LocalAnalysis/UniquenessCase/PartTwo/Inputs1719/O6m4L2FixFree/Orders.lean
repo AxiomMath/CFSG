@@ -28,7 +28,7 @@ private theorem card_ker_mk'_comp_le_F02 {A B : Type} [Group A] [Group B] (N : S
 
 private theorem card_le_four_of_isPGroup_two_dvd_sixty_F02 {H : Type} [Group H] [Finite H]
     {P : Subgroup H} (hP : IsPGroup 2 P) (h60 : Nat.card H = 60) : Nat.card ↥P ≤ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hP.exists_card_eq
   have hk_le : k ≤ 2 := by
     by_contra h
@@ -55,7 +55,7 @@ private theorem le_card_ker_of_card_mul_le_F02 {A B : Type} [Group A] [Group B] 
 theorem natCard_omega6_of_card_four {F : Type} [Field F] [Finite F] {b c : F}
     (hF : Nat.card F = 4) (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
     Nat.card ↥(Omega6 F b c) = 2 ^ 12 * 248625 := by
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (K := F) (f := 2) (by rw [hF]; norm_num)
   rw [CFSG.SeitzReduction.F4Pilot.natCard_statedOmega_quadMinus_three (K := F) hirr,
     CFSG.SeitzReduction.F4Pilot.ordSU_four, hF]
@@ -63,9 +63,9 @@ theorem natCard_omega6_of_card_four {F : Type} [Field F] [Finite F] {b c : F}
 
 theorem card_eq_two_pow_twelve_of_isSylowIn {G : Type} [Group G] {S X : Subgroup G}
     (hS : IsSylowIn 2 S X) (hX : Nat.card ↥X = 2 ^ 12 * 248625) : Nat.card ↥S = 2 ^ 12 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXne : Nat.card ↥X ≠ 0 := by rw [hX]; norm_num
-  haveI : Finite ↥X := Nat.finite_of_card_ne_zero hXne
+  have : Finite ↥X := Nat.finite_of_card_ne_zero hXne
   have h1 := Sylow.card_eq_multiplicity hS.toSylow
   rw [IsSylowIn.coe_toSylow] at h1
   have hfac : (2 ^ 12 * 248625).factorization 2 = 12 := by
@@ -79,7 +79,7 @@ theorem card_eq_two_pow_twelve_of_isSylowIn {G : Type} [Group G] {S X : Subgroup
 theorem exists_sylow_of_isSylowIn {G G' : Type} [Group G] [Group G'] {S X : Subgroup G}
     (hS : IsSylowIn 2 S X) (e : ↥X ≃* G') :
     ∃ T : Sylow 2 G', (T : Subgroup G') = (S.subgroupOf X).map e.toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P₀ : Subgroup ↥X := S.subgroupOf X
   have hP0 : IsPGroup 2 ↥P₀ :=
     hS.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hS.le).symm
@@ -95,7 +95,7 @@ theorem lt_card_pCore {G : Type} [Group G] {J S : Subgroup G} [Finite ↥J] (hSJ
     (hS : IsPGroup 2 ↥S) (hSc : Nat.card ↥S = 2 ^ 12) (h60 : Nat.card (Bar2 J) = 60) :
     2 ^ 8 < Nat.card ↥(CFSG.pCore 2 ↥J) := by
   let N : Subgroup ↥J := CFSG.pCore 2 ↥J
-  haveI : N.Normal := CFSG.pCore_normal
+  have : N.Normal := CFSG.pCore_normal
   let S₀ : Subgroup ↥J := S.subgroupOf J
   have hS0card : Nat.card ↥S₀ = 2 ^ 12 := by
     rw [← hSc]
@@ -105,7 +105,7 @@ theorem lt_card_pCore {G : Type} [Group G] {J S : Subgroup G} [Finite ↥J] (hSJ
   have hfker : Nat.card ↥f.ker * Nat.card ↥f.range = 2 ^ 12 := by
     rw [← hS0card]
     exact Subgroup.card_ker_mul_card_range f
-  haveI : Finite (Bar2 J) :=
+  have : Finite (Bar2 J) :=
     Finite.of_surjective (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
   have hrange_le : Nat.card ↥f.range ≤ 4 :=
     card_le_four_of_isPGroup_two_dvd_sixty_F02
@@ -130,10 +130,10 @@ theorem not_isSolvable_of_isL2 {G : Type} [Group G] {J : Subgroup G} (h : IsL2 (
   intro hsol
   have hsimple : IsSimpleGroup (Bar2 J) :=
     uc22p22r_lieModel_isSimple_classical (Or.inl rfl) h
-  haveI : IsSimpleGroup (Bar2 J) := hsimple
+  have : IsSimpleGroup (Bar2 J) := hsimple
   have hcomm : ∀ a b : Bar2 J, a * b = b * a :=
     IsSimpleGroup.comm_iff_isSolvable.mpr inferInstance
-  haveI : IsMulCommutative (Bar2 J) := IsMulCommutative.of_comm hcomm
+  have : IsMulCommutative (Bar2 J) := IsMulCommutative.of_comm hcomm
   have hprime : Nat.Prime (Nat.card (Bar2 J)) :=
     Group.is_simple_iff_prime_card.mp hsimple
   rw [card_bar2_of_isL2 h] at hprime

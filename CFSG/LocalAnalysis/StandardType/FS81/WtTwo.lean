@@ -33,12 +33,12 @@ theorem wt_single_add_single {n : ℕ} {i j : Fin n} (hij : i ≠ j) {a b : ZMod
     funext k
     by_cases hki : k = i
     · subst hki
-      rw [Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij, add_zero, if_pos rfl]
-    · rw [Pi.add_apply, Pi.single_eq_of_ne hki, zero_add, if_neg hki]
+      rw [Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij, add_zero, ite_eq_left rfl]
+    · rw [Pi.add_apply, Pi.single_eq_of_ne hki, zero_add, ite_eq_right hki]
       by_cases hkj : k = j
       · subst hkj
-        rw [Pi.single_eq_same, if_pos rfl]
-      · rw [Pi.single_eq_of_ne hkj, if_neg hkj]
+        rw [Pi.single_eq_same, ite_eq_left rfl]
+      · rw [Pi.single_eq_of_ne hkj, ite_eq_right hkj]
   rw [hite, wt_two_ite hij ha hb]
 
 theorem wt_single_sub_single {n : ℕ} {i j : Fin n} (hij : i ≠ j) {a b : ZMod 3}

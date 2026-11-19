@@ -18,7 +18,7 @@ theorem rkSpor_Suz_of_cover
     (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges) {T : Type} [Group T] [Finite T]
     (hq : CFSG.Open.IsQuasisimple T) (hZ3 : ∀ z ∈ Subgroup.center T, z ^ 3 = 1)
     (hcard : Nat.card (T ⧸ Subgroup.center T) = 448345497600) : RkSpor 3 [.Suz] T := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rintro (⟨-, ⟨f⟩⟩ | ⟨S, hS, ⟨f⟩⟩)
   · exfalso
     have h360 : Nat.card (T ⧸ Subgroup.center T) = 360 := by
@@ -45,9 +45,9 @@ section Final
 theorem co1ThreeAShape_holds
     (hOut : SporadicOuterLeTwo) (hBr : SporadicBridges) : Co1ThreeAShape := by
   intro x hx
-  haveI : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
+  have : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
   obtain ⟨J, hJC, hJn, hq, hp3, hcard3, hcent, hqcard, ⟨eJ⟩⟩ := threeA_data (hBr .Suz) hx
-  haveI : Finite ↥J := inferInstance
+  have : Finite ↥J := inferInstance
   have hGood : GoodSpor 3 [.Suz] (↥J ⧸ Subgroup.center ↥J) :=
     Or.inr (Or.inr ⟨.Suz, List.mem_singleton_self _, ⟨eJ⟩⟩)
   have hRk : RkSpor 3 [.Suz] ↥J :=

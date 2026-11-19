@@ -34,7 +34,7 @@ theorem burnsideA315y_commutant (h2 : (2 : F) ≠ 0) {x y c : F} (hxy : x ≠ 0 
   have b00 := congrFun (congrFun hb 0) 0
   have b01 := congrFun (congrFun hb 0) 1
   simp [blkMat, burnsideA315y_qa, burnsideA315y_qb, Matrix.mul_apply, Fin.sum_univ_three,
-    h02, h12, h20, h21] at a00 a01 b00 b01
+    h02, h20, h21] at a00 a01 b00 b01
   have e1 : M 1 1 = M 0 0 := by linear_combination -a01
   have e2 : M 1 0 = -M 0 1 := by linear_combination a00
   have hv1 : c * (2 * (M 0 1 * y)) = 0 := by linear_combination b00 + c * y * e2
@@ -98,7 +98,7 @@ theorem burnsideA315y_invariant (h2 : (2 : F) ≠ 0) {x y c : F} (hxy : x ^ 2 + 
     have h' := X.smul_mem (2⁻¹ : F) h
     convert h' using 1
     funext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, diagonal] <;>
+    fin_cases i <;> simp [Matrix.mulVec, dotProduct, diagonal] <;>
       field_simp <;> ring
   have hsplitl : ∀ v ∈ X, ![0, 0, v 2] ∈ X := by
     intro v hv
@@ -106,8 +106,8 @@ theorem burnsideA315y_invariant (h2 : (2 : F) ≠ 0) {x y c : F} (hxy : x ^ 2 + 
     have h' := X.smul_mem (2⁻¹ : F) h
     convert h' using 1
     funext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, diagonal] <;>
-      field_simp <;> ring
+    fin_cases i <;> simp [Matrix.mulVec, dotProduct, diagonal];
+      field_simp; ring
   have hW : ∀ w : Fin 3 → F, w ∈ X → w 2 = 0 → (w 0 ≠ 0 ∨ w 1 ≠ 0) →
       burnsideA315y_W F ≤ X := by
     intro w hw hw2 hne
@@ -282,7 +282,7 @@ theorem burnsideA315y_ulBlock_pow {g : Matrix (Fin 3) (Fin 3) F} (hg : g 0 2 = 0
   | zero => simp [ulBlock_one]
   | succ k ih => rw [pow_succ', ulBlock_mul hg, ih, pow_succ']
 
-theorem burnsideA315y_isUl_of_fix (h2 : (2 : F) ≠ 0) {e : GL (Fin 3) F}
+theorem burnsideA315y_isUl_of_fix (_h2 : (2 : F) ≠ 0) {e : GL (Fin 3) F}
     (hinv : negDiag3 F * e * negDiag3 F = e⁻¹) (hodd : Odd (orderOf e))
     (h02 : (e : Matrix (Fin 3) (Fin 3) F) 0 2 = 0) (h12 : (e : Matrix (Fin 3) (Fin 3) F) 1 2 = 0)
     (h22 : (e : Matrix (Fin 3) (Fin 3) F) 2 2 = 1) :
@@ -341,7 +341,7 @@ theorem burnsideA315y_fix_of_mem_W {e : GL (Fin 3) F}
       (diagonal ![-1, -1, 1] : Matrix (Fin 3) (Fin 3) F) *ᵥ u = -u := by
     intro u hu
     funext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, diagonal, hu]
+    fin_cases i <;> simp [Matrix.mulVec, dotProduct, diagonal, hu]
   have hinvw : ((e⁻¹ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) *ᵥ w =
       (e : Matrix (Fin 3) (Fin 3) F) *ᵥ w := by
     rw [← hinv]
@@ -443,7 +443,7 @@ theorem burnsideA315y_exists_fix_W [Finite F] (h2 : (2 : F) ≠ 0) {e : GL (Fin 
   rw [Matrix.mulVec_mulVec, ← Units.val_mul, hz2, Units.val_one, Matrix.one_mulVec] at hzw
   rw [hzw, Matrix.mulVec_neg, coe_negDiag3]
   funext i
-  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, diagonal, hwW]
+  fin_cases i <;> simp [Matrix.mulVec, dotProduct, diagonal, hwW]
 
 theorem burnsideA315y_not_commute_Ul_UW {M N : Matrix (Fin 3) (Fin 3) F}
     (hM : burnsideA315y_IsUl M) (hN : burnsideA315y_IsUW N) (hMW : ¬ burnsideA315y_IsUW M)
@@ -455,8 +455,8 @@ theorem burnsideA315y_not_commute_Ul_UW {M N : Matrix (Fin 3) (Fin 3) F}
   have c01 := congrFun (congrFun hc 0) 1
   have c10 := congrFun (congrFun hc 1) 0
   have c11 := congrFun (congrFun hc 1) 1
-  simp [Matrix.mul_apply, Fin.sum_univ_three, m00, m01, m02, m10, m11, m12, m22, n00, n01, n10,
-    n11, n20, n21, n22] at c00 c01 c10 c11
+  simp [Matrix.mul_apply, Fin.sum_univ_three, m00, m01, m02, m10, m11, m12, n00, n01, n10,
+    n11, n20, n21] at c00 c01 c10 c11
   have hab : M 2 0 ≠ 0 ∨ M 2 1 ≠ 0 := by
     by_contra h
     push Not at h
@@ -525,8 +525,8 @@ theorem burnsideA315y_E1 [Finite F] (h2 : (2 : F) ≠ 0) {x y c : F} (hxy : x ^ 
         have h := Y.smul_mem (2⁻¹ : F) (Y.add_mem hv hzv)
         convert h using 1
         funext i
-        fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, diagonal,
-          coe_negDiag3] <;> field_simp <;> ring
+        fin_cases i <;> simp [Matrix.mulVec, dotProduct, diagonal,
+          coe_negDiag3]; field_simp; ring
       have he3 := (hmemY _).mp hu
       have c0 := congrFun he3 0
       have c1 := congrFun he3 1
@@ -643,8 +643,8 @@ theorem burnsideA315y_mulVec_e3 (h2 : (2 : F) ≠ 0) {g : GL (Fin 3) F}
 
 theorem burnsideA315y_frame (h2 : (2 : F) ≠ 0) {a b t : GL (Fin 3) F}
     (hat : a * negDiag3 F = negDiag3 F * a) (ht : t = b * negDiag3 F * b⁻¹)
-    (hta : a * t = t * a) (hab : a * b = b * a) (htz : t * negDiag3 F = negDiag3 F * t)
-    (ht1 : t ≠ negDiag3 F) (hbt : b * t * b⁻¹ = negDiag3 F * t) :
+    (_hta : a * t = t * a) (hab : a * b = b * a) (htz : t * negDiag3 F = negDiag3 F * t)
+    (_ht1 : t ≠ negDiag3 F) (hbt : b * t * b⁻¹ = negDiag3 F * t) :
     (a : Matrix (Fin 3) (Fin 3) F) = (a : Matrix (Fin 3) (Fin 3) F) 2 2 • 1 := by
   set w := (a : Matrix (Fin 3) (Fin 3) F) 2 2 with hw
   have hz2 := burnsideA315y_negDiag3_sq (F := F)
@@ -665,7 +665,7 @@ theorem burnsideA315y_frame (h2 : (2 : F) ≠ 0) {a b t : GL (Fin 3) F}
     intro u hu
     have h0 := congrFun hu 0
     have h1 := congrFun hu 1
-    simp [coe_negDiag3, Matrix.mulVec, dotProduct, Fin.sum_univ_three, diagonal] at h0 h1
+    simp [coe_negDiag3, Matrix.mulVec, dotProduct, diagonal] at h0 h1
     constructor
     · have : (2 : F) * u 0 = 0 := by linear_combination -h0
       exact (mul_eq_zero.mp this).resolve_left h2
@@ -731,8 +731,8 @@ theorem burnsideA315y_frame (h2 : (2 : F) ≠ 0) {a b t : GL (Fin 3) F}
       rw [hvm, Units.val_mul, ← Matrix.mulVec_mulVec, Matrix.mulVec_smul, Matrix.mulVec_smul,
         Matrix.mulVec_sub, httv, ← htv, coe_negDiag3]
       funext i
-      fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, diagonal, hv2,
-        htv2] <;> ring
+      fin_cases i <;> simp [Matrix.mulVec, dotProduct, diagonal, hv2,
+        htv2]
     rw [hsplit, Matrix.mulVec_add, hat1 vp hvp1, hazt vm hvm1, smul_add]
   have c0 : (a : Matrix (Fin 3) (Fin 3) F) *ᵥ Pi.single 0 1 = w • Pi.single 0 1 :=
     haW _ (by simp)
@@ -892,7 +892,7 @@ theorem burnsideA315y_caseII1 (h2 : (2 : F) ≠ 0) {x y c : F} (hxy : x ^ 2 + y 
   have hCmz : ∀ u ∈ Cm, (diagonal ![-1, -1, 1] : Matrix (Fin 3) (Fin 3) F) *ᵥ u ∈ Cm := by
     have hz3 : (negDiag3 F : Matrix (Fin 3) (Fin 3) F) *ᵥ ![0, 0, 1] = ![0, 0, 1] := by
       funext i
-      fin_cases i <;> simp [coe_negDiag3, Matrix.mulVec, dotProduct, Fin.sum_univ_three, diagonal]
+      fin_cases i <;> simp [coe_negDiag3, Matrix.mulVec, dotProduct, diagonal]
     have hzA : ∀ g ∈ A, negDiag3 F * g * (negDiag3 F)⁻¹ ∈ A := by
       intro g hg
       rw [← hAz g hg, mul_inv_cancel_right]
@@ -955,7 +955,7 @@ theorem burnsideA315y_caseII1 (h2 : (2 : F) ≠ 0) {x y c : F} (hxy : x ^ 2 + y 
   rw [Units.val_mul, Units.val_mul, coe_negDiag3]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, diagonal, hbe3.1, hbe3.2, hbe1, hbe2]
+    simp [Matrix.mul_apply, diagonal, hbe3.1, hbe3.2, hbe1, hbe2]
 
 theorem burnsideA315y_mulVec_e3_apply (g : Matrix (Fin 3) (Fin 3) F) (i : Fin 3) :
     (g *ᵥ ![0, 0, 1]) i = g i 2 := by

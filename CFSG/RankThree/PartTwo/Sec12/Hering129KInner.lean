@@ -73,6 +73,7 @@ theorem eq_of_conj_eq_conj {Q : Type} [Group Q] (hZ : Subgroup.center Q = ⊥) {
   rw [hZ, Subgroup.mem_bot] at hc
   exact (inv_mul_eq_one.mp hc).symm
 
+omit [Finite G] in
 theorem compAction_of_mem {Y : Subgroup G} {y : G} (hy : y ∈ Y)
     (hN : y ∈ Subgroup.normalizer (Y : Set G)) :
     Sec4.compAction Y ⟨y, hN⟩ = MulAut.conj (⟨y, hy⟩ : Y) := by
@@ -93,7 +94,7 @@ theorem exists_fixed_rep {A Y : Subgroup G} (hA3 : IsPGroup 3 A)
       Sec4.thetaQuotMulAut ↥Y (Sec4.compAction Y ⟨f, hAN hf⟩) ŷ = ŷ) :
     ∃ c : ↥Y, (c : ↥Y ⧸ aschbacherSolvableCore 3 ↥Y) = ŷ ∧
       ∀ f ∈ A, f * (c : G) * f⁻¹ = c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, hθ3, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥Y) Nat.prime_three
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective ŷ
@@ -123,7 +124,7 @@ theorem exists_mem_inf_of_not_inducesOuterTheta {A Y : Subgroup G}
     (hZ : Subgroup.center (↥Y ⧸ aschbacherSolvableCore 3 ↥Y) = ⊥)
     {e : G} (heA : e ∈ A) (hin : ¬ Sec4.InducesOuterTheta e Y) :
     ∃ y ∈ A ⊓ Y, e * y⁻¹ ∈ Sec4.thetaQuotCentralizer Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hAe.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hA3 : IsPGroup 3 A := fun z => ⟨1, Subtype.ext (by simpa using hAe.2 z z.2)⟩

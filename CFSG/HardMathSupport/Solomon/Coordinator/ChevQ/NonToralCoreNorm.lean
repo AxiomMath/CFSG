@@ -161,14 +161,14 @@ theorem exists_rational_of_frame_orbit {τ : Tag} (hτ : τ = Tag.E7 ∨ τ = Ta
   have hx₀p : (g * N * g⁻¹) ^ ringChar K = 1 := by
     rw [conj_pow, hpow _ hu₁r]
     group
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   obtain ⟨u', hu'mem, hu'eq⟩ : ∃ u' ∈ adjointGroup τ K, baseChangeGL ι u' = g * N * g⁻¹ := by
     rcases hτ with rfl | rfl
     · have hodd : Odd (Nat.card K) → Odd (orderOf (g * N * g⁻¹)) := by
         intro hK
         rw [orderOf_eq_prime hx₀p hx₀1]
         obtain ⟨e, he, hcard⟩ : ∃ e : ℕ, 1 ≤ e ∧ Nat.card K = ringChar K ^ e := by
-          letI : Fintype K := Fintype.ofFinite K
+          let : Fintype K := Fintype.ofFinite K
           obtain ⟨n, -, hn⟩ := FiniteField.card K (ringChar K)
           exact ⟨(n : ℕ), n.pos, by rw [Nat.card_eq_fintype_card, hn]⟩
         rw [hcard] at hK

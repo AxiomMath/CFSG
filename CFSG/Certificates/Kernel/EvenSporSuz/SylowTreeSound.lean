@@ -127,12 +127,12 @@ theorem tree_sound {ED : List (Nat × Nat)} {G PS IV : List Nat} {TP : List (Nat
     (hc : ∀ c < 4, treeChunkK (treeOf (idxL id PS 0)) (treeOf (idxL Prod.fst ED 0)) G PS TP IV c =
       true)
     (hP : PS.length = 16384) (hI : IV.length = 16384) (hT : TP.length = 16383) :
-    (∃ h : PS.getD 0 0 < ED.length, (ED[PS.getD 0 0]).1 = one3) ∧
+    (∃ _h : PS.getD 0 0 < ED.length, (ED[PS.getD 0 0]).1 = one3) ∧
       (∀ i < 16384, i ≠ 0 → (TP.getD (i - 1) (0, 0)).1 < i ∧ (TP.getD (i - 1) (0, 0)).2 < 4 ∧
-        ∃ (h : PS.getD i 0 < ED.length) (h' : PS.getD (TP.getD (i - 1) (0, 0)).1 0 < ED.length),
+        ∃ (_h : PS.getD i 0 < ED.length) (h' : PS.getD (TP.getD (i - 1) (0, 0)).1 0 < ED.length),
           (ED[PS.getD i 0]).1 = mulF3 (ED[PS.getD (TP.getD (i - 1) (0, 0)).1 0]).1
             (G.getD (TP.getD (i - 1) (0, 0)).2 0)) ∧
-      (∀ j < 16384, ∃ h : IV.getD j 0 < 16384, PS.getD (IV.getD j 0) 0 = j) := by
+      (∀ j < 16384, ∃ _h : IV.getD j 0 < 16384, PS.getD (IV.getD j 0) 0 = j) := by
   have hPT : ((0, 0) :: TP).length = 16384 := by simp [hT]
   have hel : ∀ i < 16384, elemT (treeOf (idxL id PS 0)) (treeOf (idxL Prod.fst ED 0)) G i
       (PS.getD i 0) (((0, 0) :: TP).getD i (0, 0)) = true := by
@@ -148,7 +148,7 @@ theorem tree_sound {ED : List (Nat × Nat)} {G PS IV : List Nat} {TP : List (Nat
     rw [List.getD_eq_getElem _ _ (by omega), List.getD_eq_getElem _ _ (by omega)]
     exact this
   have look : ∀ {q b : Nat}, findK q (treeOf (idxL Prod.fst ED 0)) = some b →
-      ∃ h : q < ED.length, b = (ED[q]).1 := fun h => findK_idxL h
+      ∃ _h : q < ED.length, b = (ED[q]).1 := fun _h => findK_idxL _h
   refine ⟨?_, ?_, ?_⟩
   · obtain ⟨b, hb, h0, -⟩ := elemT_sound (hel 0 (by norm_num))
     obtain ⟨hq, rfl⟩ := look hb
@@ -233,7 +233,7 @@ theorem flatP_getD : ∀ (TP : List (Nat × Nat)) (i : Nat),
     have := flatP_getD TP i
     have h1 : 2 * (i + 1) = 2 * i + 2 := by ring
     have h2 : 2 * (i + 1) + 1 = 2 * i + 1 + 2 := by ring
-    simp only [flatP, List.flatMap_cons, h1, h2] at this ⊢
+    simp only [flatP, List.flatMap_cons, h1] at this ⊢
     simpa using this
 
 open CFSG.EvenSporadicStandard.TwoSuz

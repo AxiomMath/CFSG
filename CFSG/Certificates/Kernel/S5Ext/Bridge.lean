@@ -59,7 +59,7 @@ theorem key_eq_of_fields {k k' : Nat} (hk : k < 2 ^ 20) (hk' : k' < 2 ^ 20)
   simp only [Nat.shiftRight_eq_div_pow, Nat.reducePow] at h1 h2 h3 h4 hk hk'
   omega
 
-theorem keyN_fields {a b c d : Nat} (ha : a < 32) (hb : b < 32) (hc : c < 32) (hd : d < 32) :
+theorem keyN_fields {a b c d : Nat} (_ha : a < 32) (hb : b < 32) (hc : c < 32) (hd : d < 32) :
     keyN a b c d >>> 15 = a ∧ (keyN a b c d >>> 10) &&& 31 = b ∧ (keyN a b c d >>> 5) &&& 31 = c ∧
       keyN a b c d &&& 31 = d := by
   simp only [and31, Nat.shiftRight_eq_div_pow, Nat.reducePow]

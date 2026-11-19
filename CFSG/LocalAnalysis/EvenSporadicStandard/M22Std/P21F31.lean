@@ -11,6 +11,7 @@ open Module
 
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem restrict_pow_apply (f : V →ₗ[ZMod 2] V) {S : Submodule (ZMod 2) V}
     (hS : ∀ s ∈ S, f s ∈ S) (n : ℕ) (v : S) :
     (((f.restrict hS) ^ n) v : V) = (f ^ n) v := by
@@ -20,6 +21,7 @@ theorem restrict_pow_apply (f : V →ₗ[ZMod 2] V) {S : Submodule (ZMod 2) V}
     rw [pow_succ, Module.End.mul_apply, pow_succ, Module.End.mul_apply, ih]
     rfl
 
+omit [Finite V] in
 theorem pow_mem_of_inv (f : V →ₗ[ZMod 2] V) {S : Submodule (ZMod 2) V}
     (hS : ∀ s ∈ S, f s ∈ S) (n : ℕ) {s : V} (hs : s ∈ S) : (f ^ n) s ∈ S := by
   induction n generalizing s with

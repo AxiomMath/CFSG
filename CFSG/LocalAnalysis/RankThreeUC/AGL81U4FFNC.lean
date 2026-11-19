@@ -19,7 +19,7 @@ def trivSub (L : Subgroup (MulAut V)) (Zb : Subgroup V) : Subgroup V where
     intro y y' hy hy' g hg
     have e : g (y * y') * (y * y')⁻¹ = (g y * y⁻¹) * (g y' * y'⁻¹) := by
       apply cg_eq_of_add
-      simp only [map_mul, map_inv, ofMul_mul, ofMul_inv]
+      simp only [map_mul, ofMul_mul, ofMul_inv]
       abel
     rw [e]
     exact Zb.mul_mem (hy g hg) (hy' g hg)
@@ -38,8 +38,8 @@ theorem mem_trivSub {L : Subgroup (MulAut V)} {Zb : Subgroup V} {y : V} :
 
 theorem le_trivSub_iff {L : Subgroup (MulAut V)} {Zb W : Subgroup V} :
     W ≤ trivSub L Zb ↔ LTrivOn L Zb W :=
-  ⟨fun h g hg z hz => mem_trivSub.mp (h hz) g hg,
-    fun h z hz => mem_trivSub.mpr fun g hg => h g hg z hz⟩
+  ⟨fun h g hg _z hz => mem_trivSub.mp (h hz) g hg,
+    fun h _z hz => mem_trivSub.mpr fun g hg => h g hg _z hz⟩
 
 theorem map_mem_trivSub {L : Subgroup (MulAut V)} {Zb : Subgroup V} {g : MulAut V}
     (hg : ∀ z ∈ Zb, g z ∈ Zb) (hc : ∀ h ∈ L, g⁻¹ * h * g ∈ L) {y : V}
@@ -89,7 +89,7 @@ theorem exists_noncentral_chief [Finite V] {L A : Subgroup (MulAut V)}
     ∃ Z' Z : Subgroup V, XInv L A Z' ∧ XInv L A Z ∧ Zb ≤ Z' ∧ Z' < Z ∧ Z ≤ Y ∧
       (∀ W, XInv L A W → Z' ≤ W → W ≤ Z → W = Z' ∨ W = Z) ∧
       ¬ LTrivOn L Z' Z ∧ LTrivOn L Zb Z' := by
-  haveI : Finite (Subgroup V) := finite_subgroup_of_finite
+  have : Finite (Subgroup V) := finite_subgroup_of_finite
   obtain ⟨Z, ⟨hZinv, hbZ, hZY, hnZ⟩, hmin⟩ := exists_minimal_of_finite
     (fun W : Subgroup V => XInv L A W ∧ Zb ≤ W ∧ W ≤ Y ∧ ¬ LTrivOn L Zb W) (x := Y)
     ⟨hY, hbY, le_rfl, hnc⟩

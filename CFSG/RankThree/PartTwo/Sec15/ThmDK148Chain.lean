@@ -153,9 +153,9 @@ theorem step148FourKFact'_of_steps (hYB : Step148YB) (hHJ : Step148HJ) (hCore : 
   ·
     exfalso
     have ψ : ↥(img148 A Y J) ≃* alternatingGroup (Fin 10) := eJY.trans φ10
-    haveI : Group.IsPerfect (↥Y ⧸ CFSG.pPrimeCore 3 ↥Y) := hq.1
-    haveI : Nontrivial ↥(img148 A Y J) := ψ.symm.injective.nontrivial
-    haveI : Group.IsPerfect ↥(img148 A Y J) :=
+    have : Group.IsPerfect (↥Y ⧸ CFSG.pPrimeCore 3 ↥Y) := hq.1
+    have : Nontrivial ↥(img148 A Y J) := ψ.symm.injective.nontrivial
+    have : Group.IsPerfect ↥(img148 A Y J) :=
       Group.IsPerfect.ofSurjective (f := eJY.symm.toMonoidHom) eJY.symm.surjective
     have hε := isLThreeEpsAt_of_isoLThreePi148 hJπ
     exact ((F153L3C2.kL3Char2NotList148_holds ↥(img148 A Y J) (3 * m) (by omega) hε).2.2.2.1).false

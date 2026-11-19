@@ -28,7 +28,7 @@ theorem IsSubnormalSection.of_normal {Q : Type} [Group Q] (A : Subgroup Q) [hA :
       exact Subtype.ext hny
     · rintro ⟨x, hx, rfl⟩
       exact Subgroup.mem_subgroupOf.2 ⟨(x : ↥A), Subgroup.mem_subgroupOf.1 hx, rfl⟩
-  haveI : (N'.subgroupOf M').Normal := by
+  have : (N'.subgroupOf M').Normal := by
     rw [hNeq]
     exact hN.map ιM hιM
   have hsub : ∀ X : Subgroup ↥A, X.IsSubnormal → (X.map A.subtype).IsSubnormal := by
@@ -52,7 +52,7 @@ theorem AllNS.of_normal {Q : Type} [Group Q] (A : Subgroup Q) [A.Normal] (h : Al
 theorem AllNS.nonempty_equiv {W : Type} [Group W] (h : AllNS S W) (hW : IsSimpleGroup W)
     (hnab : ∃ a b : W, a * b ≠ b * a) : Nonempty (W ≃* S) := by
   have hbot : (⊥ : Subgroup W).subgroupOf (⊤ : Subgroup W) = ⊥ := by simp
-  haveI : ((⊥ : Subgroup W).subgroupOf (⊤ : Subgroup W)).Normal := by
+  have : ((⊥ : Subgroup W).subgroupOf (⊤ : Subgroup W)).Normal := by
     rw [hbot]
     infer_instance
   refine h W hW hnab ⟨⊤, ⊥, inferInstance, bot_le, Subgroup.Normal.isSubnormal inferInstance,

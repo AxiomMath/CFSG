@@ -14,16 +14,19 @@ private noncomputable def linHom (P : Subgroup (GL ι K)) : P →* Module.End K 
   (Matrix.toLinAlgEquiv' : Matrix ι ι K ≃ₐ[K] Module.End K (ι → K)).toRingEquiv.toMonoidHom.comp
     ((Units.coeHom (Matrix ι ι K)).comp P.subtype)
 
+omit [IsAlgClosed K] in
 private theorem linHom_apply (P : Subgroup (GL ι K)) (x : P) (v : ι → K) :
     linHom P x v = ((x : GL ι K) : Matrix ι ι K) *ᵥ v := by
   simp [linHom, Matrix.toLinAlgEquiv'_apply]
 
+omit [IsAlgClosed K] in
 private theorem linHom_injective (P : Subgroup (GL ι K)) : Function.Injective (linHom P) := by
   intro x y h
   apply Subtype.ext
   apply Units.ext
   exact (Matrix.toLinAlgEquiv' : Matrix ι ι K ≃ₐ[K] Module.End K (ι → K)).injective h
 
+omit [IsAlgClosed K] in
 private theorem linHom_apply_eq_zero_iff (P : Subgroup (GL ι K)) (x : P) (v : ι → K) :
     linHom P x v = 0 ↔ v = 0 := by
   constructor
@@ -37,10 +40,11 @@ private noncomputable def weightSpace (P : Subgroup (GL ι K)) (A : Subgroup P) 
     Submodule K (ι → K) :=
   ⨅ a : A, Module.End.eigenspace (linHom P (a : P)) (χ a)
 
+omit [IsAlgClosed K] in
 private theorem mem_weightSpace (P : Subgroup (GL ι K)) (A : Subgroup P) (χ : A → K)
     (v : ι → K) :
     v ∈ weightSpace P A χ ↔ ∀ a : A, linHom P (a : P) v = χ a • v := by
-  simp [weightSpace, Module.End.mem_eigenspace_iff]
+  simp [weightSpace]
 
 private abbrev Weight (P : Subgroup (GL ι K)) (A : Subgroup P) : Type _ :=
   {χ : A → K // weightSpace P A χ ≠ ⊥}
@@ -51,6 +55,7 @@ variable (P : Subgroup (GL ι K)) (A : Subgroup P)
 
 section Decomposition
 
+omit [IsAlgClosed K] in
 private theorem isFinitelySemisimple_linHom (hcard : (Nat.card A : K) ≠ 0) (a : A) :
     Module.End.IsFinitelySemisimple (linHom P (a : P)) := by
   apply CFSG.ABGLocalTools.isFinitelySemisimple_of_pow_eq_one (m := Nat.card A)
@@ -60,6 +65,7 @@ private theorem isFinitelySemisimple_linHom (hcard : (Nat.card A : K) ≠ 0) (a 
     rw [ha, map_one]
   · exact hcard
 
+omit [IsAlgClosed K] in
 private theorem commute_linHom (hA : ∀ a b : A, a * b = b * a) (a b : A) :
     Commute (linHom P (a : P)) (linHom P (b : P)) := by
   show linHom P (a : P) * linHom P (b : P) = linHom P (b : P) * linHom P (a : P)
@@ -79,6 +85,7 @@ end Decomposition
 
 section Weights
 
+omit [IsAlgClosed K] in
 private theorem weight_one {χ : A → K} (hχ : weightSpace P A χ ≠ ⊥) : χ 1 = 1 := by
   obtain ⟨v, hv, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hχ
   have h1 : linHom P ((1 : A) : P) v = χ 1 • v := (mem_weightSpace P A χ v).1 hv 1
@@ -88,6 +95,7 @@ private theorem weight_one {χ : A → K} (hχ : weightSpace P A χ ≠ ⊥) : �
     exact h1.symm
   exact smul_left_injective K hv0 h2
 
+omit [IsAlgClosed K] in
 private theorem weight_mul {χ : A → K} (hχ : weightSpace P A χ ≠ ⊥) (a b : A) :
     χ (a * b) = χ a * χ b := by
   obtain ⟨v, hv, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hχ
@@ -100,6 +108,7 @@ private theorem weight_mul {χ : A → K} (hχ : weightSpace P A χ ≠ ⊥) (a 
   rw [hab] at h1
   exact smul_left_injective K hv0 h1
 
+omit [IsAlgClosed K] in
 private theorem weight_ne_zero {χ : A → K} (hχ : weightSpace P A χ ≠ ⊥) (a : A) : χ a ≠ 0 := by
   intro h0
   obtain ⟨v, hv, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hχ
@@ -113,9 +122,11 @@ private noncomputable def weightUnits {χ : A → K} (hχ : weightSpace P A χ �
     simp only [Units.val_mk0]
     exact weight_mul P A hχ a b
 
+omit [IsAlgClosed K] in
 private theorem weightUnits_apply {χ : A → K} (hχ : weightSpace P A χ ≠ ⊥) (a : A) :
     ((weightUnits P A hχ a : Kˣ) : K) = χ a := rfl
 
+omit [IsAlgClosed K] in
 private theorem eq_of_forall_weight_eq (htop : ⨆ χ : A → K, weightSpace P A χ = ⊤)
     {a b : A} (h : ∀ χ : A → K, weightSpace P A χ ≠ ⊥ → χ a = χ b) : a = b := by
   have hfun : linHom P (a : P) = linHom P (b : P) := by
@@ -141,6 +152,7 @@ section Action
 
 variable [A.Normal]
 
+omit [IsAlgClosed K] in
 private theorem weightSpace_actFun_ne_bot (x : P) {χ : A → K}
     (hχ : weightSpace P A χ ≠ ⊥) :
     weightSpace P A (actFun (MulAut.conjNormal x) χ) ≠ ⊥ := by
@@ -209,6 +221,7 @@ private noncomputable def weightAction : P →* Equiv.Perm (Weight P A) where
     simp only [actFun, ← MulAut.inv_def]
     rw [_root_.mul_inv_rev, MulAut.mul_apply]
 
+omit [IsAlgClosed K] in
 private theorem weightAction_eq_one_iff (htop : ⨆ χ : A → K, weightSpace P A χ = ⊤) (x : P) :
     weightAction P A x = 1 ↔ ∀ a : A, x * (a : P) = (a : P) * x := by
   constructor
@@ -259,7 +272,7 @@ theorem exists_weights_of_normal_commutative
   classical
   obtain ⟨hind, htop⟩ := iSupIndep_weightSpace_and_iSup_eq_top P A hA hcard
   let W := Weight P A
-  haveI : Fintype W := hind.fintypeNeBotOfFiniteDimensional
+  have : Fintype W := hind.fintypeNeBotOfFiniteDimensional
   let k := Fintype.card W
   let e : W ≃ Fin k := Fintype.equivFin W
   have hk : k ≤ Fintype.card ι := by

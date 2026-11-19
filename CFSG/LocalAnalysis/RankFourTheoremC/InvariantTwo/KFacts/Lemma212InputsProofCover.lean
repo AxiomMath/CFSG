@@ -107,7 +107,7 @@ theorem exists_cover_of_card {p : ℕ} (hp : p.Prime) {L S J : Type} [Group L] [
     (hm : ∃ m : ℕ, ¬ p ∣ m ∧ Nat.card (hopfMultiplier J) = Nat.card π.ker * m) :
     ∃ φ : S →* L, Function.Surjective φ ∧ ∀ s, e (QuotientGroup.mk (φ s)) = π s := by
   obtain ⟨m, hpm, hcard⟩ := hm
-  haveI : Group.IsPerfect L := ⟨hL.1⟩
+  have : Group.IsPerfect L := ⟨hL.1⟩
   obtain ⟨α, hα, hcomp⟩ := exists_lift_of_coprime_index hp hS this π hπ hker
     (centralQuotientMap e) (centralQuotientMap_surjective e) (centralQuotientMap_ker e).le
     (by rw [centralQuotientMap_ker e]; exact hZp) m hpm hcard

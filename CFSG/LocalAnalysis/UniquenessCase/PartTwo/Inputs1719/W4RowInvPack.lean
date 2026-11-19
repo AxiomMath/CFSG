@@ -318,7 +318,7 @@ private theorem card_le_relIndex_of_forall_not_mem {G : Type*} [Group G] [Finite
   let T : Subgroup G := Subgroup.zpowers h
   let H : Subgroup ↥T := (T ⊓ N).subgroupOf T
   have hTcomm : IsMulCommutative ↥T := Subgroup.zpowers_isMulCommutative h
-  have hHnormal : H.Normal := Subgroup.normal_of_comm H
+  have hHnormal : H.Normal := normal_of_isMulCommutative H
   let φ : Fin m → ↥T ⧸ H := fun k =>
     QuotientGroup.mk
       ⟨h ^ (k : ℕ), Subgroup.pow_mem (Subgroup.zpowers h) (Subgroup.mem_zpowers h) k⟩

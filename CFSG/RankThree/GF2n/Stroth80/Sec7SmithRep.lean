@@ -44,7 +44,7 @@ theorem isPGroup_sec7SiegelGroup [Finite K] [CharP K 2] {e : Fin 4 ⊕ Fin 4 →
   have hcard : Nat.card (sec7SiegelGroup K e) = Nat.card K ^ 6 := by
     rw [← sec7_card_siegel he he0]
     exact Nat.card_congr (Equiv.subtypeEquivRight fun g => mem_sec7SiegelGroup he he0 g)
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨r, -, hr⟩ := FiniteField.card K 2
   have hK : Nat.card K = 2 ^ (r : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hr
   exact IsPGroup.of_card (n := r * 6) (by rw [hcard, hK, ← pow_mul])

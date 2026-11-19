@@ -15,11 +15,13 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {ρ : Mbar M Q →* Multiplicative (AddAut M₀.E)}
   {b : M₀.E}
 
+omit [Finite K] in
 theorem matAct_zero {L : Type*} [AddCommGroup L] [Module K L] (x : Fin 2 → L) :
     matAct (0 : Matrix (Fin 2) (Fin 2) K) x = 0 := by
   funext i
   simp [matAct_apply]
 
+omit [Finite K] in
 theorem exists_det2_ne_zero {f : Fin 2 → K} (hf : f ≠ 0) : ∃ f₂ : Fin 2 → K, det2 f₂ f ≠ 0 := by
   by_cases h0 : f 0 = 0
   · have h1 : f 1 ≠ 0 := by
@@ -60,7 +62,7 @@ theorem ConfigAData.actsAsRoot_unique {n' : ℕ} (hs : Sec7Hyp hc n' t)
   obtain ⟨f₂, hf₂⟩ := exists_det2_ne_zero hf
   obtain ⟨m₀, hm₀⟩ : ∃ m₀ : L₄, m₀ ≠ 0 := by
     have hpos : 0 < finrank K L₄ := by rw [D.finrank₄]; norm_num
-    haveI : Nontrivial L₄ := Module.nontrivial_of_finrank_pos hpos
+    have : Nontrivial L₄ := Module.nontrivial_of_finrank_pos hpos
     exact exists_ne 0
   obtain ⟨x, hx, hxF⟩ := hSΔ _ (eN.symm (pureT f₂ m₀)).2
   have hX : eN ⟨delta hS t x (mem_bar_H0_of_CN hx), delta_mem_deltaSub hS hx⟩ = pureT f₂ m₀ := by
@@ -80,10 +82,10 @@ theorem ConfigAData.actsAsRoot_unique {n' : ℕ} (hs : Sec7Hyp hc n' t)
   · exact sub_eq_zero.mp ((mul_eq_zero.mp h5).resolve_right hf₂)
   · exact absurd h5 h4
 
-theorem ConfigAData.exists_actsAsRoot (h34 : Stroth34Statement) (h310chi : Stroth310ChiStatement)
-    (h51 : Stroth51Statement) (h52a : Stroth52aStatement) (hA : Sec7AExistsStatement)
+theorem ConfigAData.exists_actsAsRoot (h34 : Stroth34Statement) (_h310chi : Stroth310ChiStatement)
+    (h51 : Stroth51Statement) (_h52a : Stroth52aStatement) (hA : Sec7AExistsStatement)
     (hZt : Sec7ZtStatement) (hZcard : Sec7ZCardStatement) (hCRW : Sec7CRWStatement)
-    (hMp : Sec7CentreMpStatement) {r : G} (hs : Sec7Hyp hc n t) (hr : Sec7A hc t r)
+    (hMp : Sec7CentreMpStatement) {r : G} (hs : Sec7Hyp hc n t) (_hr : Sec7A hc t r)
     (D : ConfigAData hS hs.toSec5.mem ρ₃ ρ₄ eM eN μ q₃ q₄ φ ψ κ)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
     (hZN : IsCentrePre Z0 (hc.CN t) Q)
@@ -108,8 +110,8 @@ theorem ConfigAData.exists_actsAsRoot (h34 : Stroth34Statement) (h310chi : Strot
   have hQM : ∀ y ∈ M, ∀ x ∈ Q, y * x * y⁻¹ ∈ Q := fun y hy x hx =>
     (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 hy) x).mp hx
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
-  haveI : FiniteDimensional K L₄ := Module.finite_of_finrank_pos (by rw [D.finrank₄]; norm_num)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
+  have : FiniteDimensional K L₄ := Module.finite_of_finrank_pos (by rw [D.finrank₄]; norm_num)
   obtain ⟨hzN', hzV⟩ := Subgroup.mem_inf.mp hzb
   obtain ⟨m, hmN', rfl⟩ := exists_of_mem_bar hzN'
   have hmH : (m : G) ∈ H0 M Z := by
@@ -246,7 +248,7 @@ theorem ConfigAData.exists_actsAsRoot (h34 : Stroth34Statement) (h310chi : Strot
   have hAk : A ^ 2 ^ k = 1 := by
     obtain ⟨m₀, hm₀⟩ : ∃ m₀ : L₄, m₀ ≠ 0 := by
       have hpos : 0 < finrank K L₄ := by rw [D.finrank₄]; norm_num
-      haveI : Nontrivial L₄ := Module.nontrivial_of_finrank_pos hpos
+      have : Nontrivial L₄ := Module.nontrivial_of_finrank_pos hpos
       exact exists_ne 0
     refine matAct_injective hm₀ fun X => ?_
     obtain ⟨x, hx, hxF⟩ := hSΔ _ (eN.symm X).2

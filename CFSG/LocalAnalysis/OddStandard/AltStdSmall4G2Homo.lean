@@ -145,7 +145,7 @@ theorem epsV_add (v w : Fin 3 → ZMod 2) :
 theorem epsV_zero : epsV θ hn 0 = 1 := by
   rw [epsV, ModIso.bits_symm_zero, N0.eps_zero]
 
-theorem epsV_injective : Function.Injective (epsV θ hn) := fun v w h =>
+theorem epsV_injective : Function.Injective (epsV θ hn) := fun _v _w h =>
   ModIso.bits.symm.injective (N0.eps_injective θ hn h)
 
 theorem epsV_eq_one_iff (v : Fin 3 → ZMod 2) : epsV θ hn v = 1 ↔ v = 0 := by

@@ -59,7 +59,7 @@ private theorem rk1_card_eq {G : Type} [Group G] {F : Type} [Field F] [Finite F]
 
 private theorem rk1_four_le_card {F : Type} [Field F] [Finite F] [CharP F 2]
     (h6 : Nat.card F * (Nat.card F ^ 2 - 1) ≠ 6) : 4 ≤ Nat.card F := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   rw [Nat.card_eq_fintype_card, hn] at h6 ⊢
   rcases Nat.lt_or_ge (n : ℕ) 2 with h | h
@@ -101,7 +101,7 @@ theorem ggRankOneIn_isQuasisimple_of_concl {G : Type} [Group G] [Finite G] {p : 
     (h6 : Nat.card ↥(ggRankOneIn X Bs r) ≠ 6) :
     CFSG.Assembly.IsQuasisimple ↥(ggRankOneIn X Bs r) ∧ p ∣ Nat.card ↥(ggRankOneIn X Bs r) := by
   obtain ⟨F, _, _, θ, hchar, hθinj, hθrange, hsplit, hnsplit, -⟩ := ggRankOneIn_sl2_of_concl hRkX
-  haveI := hchar
+  have := hchar
   have hcard := rk1_card_eq hθinj hθrange
   have h4 : 4 ≤ Nat.card F := rk1_four_le_card (hcard ▸ h6)
   have hSL : CFSG.Assembly.IsQuasisimple SL(2, F) :=
@@ -142,9 +142,9 @@ theorem ggRankOneIn_minimal_of_concl {G : Type} [Group G] [Finite G] {p : ℕ}
     ∀ N : Subgroup G, N ≤ ggRankOneIn X Bs r → N ≠ ⊥ →
       (∀ a ∈ ggRankOneIn X Bs r, ∀ b ∈ N, a * b * a⁻¹ ∈ N) → ggRankOneIn X Bs r ≤ N := by
   obtain ⟨F, _, _, θ, hchar, hθinj, hθrange, -, -, -⟩ := ggRankOneIn_sl2_of_concl hRkX
-  haveI := hchar
+  have := hchar
   have h4 : 4 ≤ Nat.card F := rk1_four_le_card (rk1_card_eq hθinj hθrange ▸ h6)
-  haveI : IsSimpleGroup SL(2, F) := CFSG.Quasithin.Vol2.Ch10.HeL.sl2_isSimpleGroup h4
+  have : IsSimpleGroup SL(2, F) := CFSG.Quasithin.Vol2.Ch10.HeL.sl2_isSimpleGroup h4
   intro N hN hN1 hnorm
   rw [← hθrange] at hN hnorm ⊢
   exact s2jn_range_simple θ hθinj N hN hN1 hnorm

@@ -178,7 +178,7 @@ theorem idxTab_propW (S : SetupW n r M G U par cl Pt) (hpar : ∀ k < M, 0 < k �
     intro i hi
     by_cases hi0 : i = 0
     · subst hi0
-      simp only [idxTab, if_true]
+      simp only [idxTab, ite_true]
       exact ⟨Array.size_range, fun q hq => by rw [img_range' hq]; exact hq⟩
     · have hpos : 0 < i := Nat.pos_of_ne_zero hi0
       obtain ⟨hg, -⟩ := genIdx_specW S hpar hclA hi hpos
@@ -215,7 +215,7 @@ theorem word_idxW (S : SetupW n r M G U par cl Pt) (hpar : ∀ k < M, 0 < k → 
     · subst hi0
       refine Wd.ext (ψ := id) (h := id) (fun k _ => ?_) (fun x hx => ?_) Wd.one
       · simp [mulIdx]
-      · simp only [idxTab, if_true]
+      · simp only [idxTab, ite_true]
         rw [img_range' hx]
         rfl
     · have hpos : 0 < i := Nat.pos_of_ne_zero hi0

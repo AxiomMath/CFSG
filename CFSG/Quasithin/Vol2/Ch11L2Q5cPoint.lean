@@ -507,7 +507,7 @@ theorem pointProp_sp4 [Finite F] [CharP F 2] : PointProp (StatedSp 2 F) := by
   obtain ⟨P, hP⟩ := exists_sylow_unipotent (K := F) 2 2
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : IsSylowTwoOf (unipotent 2 F) ⊤ := by
-    refine ⟨le_top, hP ▸ P.isPGroup', ?_⟩
+    refine ⟨le_top, hP ▸ P.isPGroup, ?_⟩
     change ¬ 2 ∣ (unipotent 2 F).relIndex ⊤
     rw [Subgroup.relIndex_top_right, ← hP]
     exact P.not_dvd_index

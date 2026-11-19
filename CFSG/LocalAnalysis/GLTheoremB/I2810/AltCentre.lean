@@ -28,14 +28,14 @@ theorem card_ker_dvd_multiplier {E : Type} [Group E] [Finite E] [Group.IsPerfect
 theorem center_bot_of_hyp28Two (h : Setup28 W K S)
     (h2 : Hyp28Two W K S) : Subgroup.center ↥(bar W K) = ⊥ := by
   obtain ⟨⟨hq, n, hn5, ⟨e⟩⟩, hnA6, hnHat6, hnHat7, -⟩ := h2
-  haveI : Group.IsPerfect ↥(bar W K) := hq.1
+  have : Group.IsPerfect ↥(bar W K) := hq.1
   set Zc := Subgroup.center ↥(bar W K) with hZc
   let q : ↥(bar W K) →* ↥(alternatingGroup (Fin n)) :=
     e.toMonoidHom.comp (QuotientGroup.mk' Zc)
   have hqs : Function.Surjective q := e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : q.ker = Zc := by
     ext x
-    simp [q, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [q]
   have hdvd := card_ker_dvd_multiplier q hqs hker.le
   rw [hker] at hdvd
   have hodd : Odd (Nat.card Zc) := BlocksChief.centre_odd_aux h
@@ -58,14 +58,14 @@ theorem center_bot_of_hyp28Two (h : Setup28 W K S)
     have hle : Nat.card Zc ≤ 6 := Nat.le_of_dvd (by norm_num) hdvd
     obtain ⟨c, hc⟩ : ∃ c, Nat.card Zc = c := ⟨_, rfl⟩
     rw [hc] at hdvd hodd hle
-    interval_cases c <;> first | exact absurd hodd (by decide) | exact absurd hdvd (by decide) | skip
+    interval_cases c <;> try first | exact absurd hodd (by decide) | exact absurd hdvd (by decide)
     · exact hnA6 (hcenter_iso hc)
     · exact hnHat6 ⟨hq.1.commutator_eq_top, hc, ⟨e⟩⟩
   · rw [hopfMultiplier_alternatingGroup_seven.2] at hdvd
     have hle : Nat.card Zc ≤ 6 := Nat.le_of_dvd (by norm_num) hdvd
     obtain ⟨c, hc⟩ : ∃ c, Nat.card Zc = c := ⟨_, rfl⟩
     rw [hc] at hdvd hodd hle
-    interval_cases c <;> first | exact absurd hodd (by decide) | exact absurd hdvd (by decide) | skip
+    interval_cases c <;> try first | exact absurd hodd (by decide) | exact absurd hdvd (by decide)
     · exact Subgroup.card_eq_one.1 hc
     · exact absurd ⟨hq.1.commutator_eq_top, hc, ⟨e⟩⟩ hnHat7
   · rw [card_hopfMultiplier_alternatingGroup h8] at hdvd

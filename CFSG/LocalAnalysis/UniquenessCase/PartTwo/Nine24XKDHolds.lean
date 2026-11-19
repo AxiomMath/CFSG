@@ -58,9 +58,9 @@ theorem kFact913L2Even_holds : KFact913L2Even := by
       Subgroup.subgroupOf_mono Lb h1
     rwa [Subgroup.subgroupOf_normalizer_eq hXL] at h2
   have hXne : X ≠ ⊥ := by
-    haveI : IsSimpleGroup (Bar2 X) :=
+    have : IsSimpleGroup (Bar2 X) :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2'
-    haveI : Nontrivial ↥X := (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥X)).nontrivial
+    have : Nontrivial ↥X := (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥X)).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot X).mp inferInstance
   have htop_of_bender (hB : CFSG.Open.fusionIsBenderGroup ↥Lb) : Xb = Lb := by
     have hXtop : X = ⊤ :=

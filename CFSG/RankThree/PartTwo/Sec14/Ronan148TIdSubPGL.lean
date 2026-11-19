@@ -84,8 +84,8 @@ theorem false_of_inner_of_cyclic {K : Type} [Group K] [Finite K] (hKs : IsSimple
     rw [map_pow, ← hb, ← map_pow, hB3, map_one, map_one]
   have hHp : IsPGroup 3 H := IsPGroup.of_card (n := 2) (by rw [hH9]; norm_num)
   obtain ⟨Q, hHQ⟩ := hHp.exists_le_sylow
-  haveI := hcyc Q
-  haveI : IsCyclic H := Subgroup.isCyclic_of_le hHQ
+  have := hcyc Q
+  have : IsCyclic H := Subgroup.isCyclic_of_le hHQ
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := H)
   have hg3 : g ^ 3 = 1 := Subtype.ext (by rw [Subgroup.coe_pow]; exact hH3 g g.2)
   have h1 := orderOf_le_of_pow_eq_one (by norm_num) hg3
@@ -119,7 +119,7 @@ theorem heis_or_pgl_of_modThree {K : Type} [Field K] {π : Bool} {p f : ℕ}
   have hπ : π = false → UnitaryFieldData p f K := fun h => by subst h; exact hK.unitary
   have hq' : π = false → ModThree false (p ^ f) := fun h => by subst h; exact hq
   have := hK.finite
-  haveI : Group.IsPerfect (projImage (slPi π 3 (p ^ f) K)) :=
+  have : Group.IsPerfect (projImage (slPi π 3 (p ^ f) K)) :=
     Sec13.isPerfect_projImage_slPi hK hq2
   obtain ⟨τ, hτ, hτ1⟩ := Sec4.exists_tau hK hq
   have hsc : ∀ (u : Kˣ) (A : GL (Fin 3) K),

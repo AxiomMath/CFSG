@@ -218,6 +218,7 @@ private noncomputable def ggAutomizerGammaChoice {Bs X : Subgroup G}
     MulAut ↥(ggGamma X hN).range :=
   Classical.choose (exists_overGamma_of_mem_ggAutomizer hN c.2)
 
+omit [Finite G] in
 private theorem ggAutomizerGammaChoice_overGamma {Bs X : Subgroup G}
     (hN : Bs ≤ Subgroup.normalizer (X : Set G)) (c : ggAutomizer X Bs) :
     GGOverGamma hN (c : MulAut ↥Bs) (ggAutomizerGammaChoice hN c) :=

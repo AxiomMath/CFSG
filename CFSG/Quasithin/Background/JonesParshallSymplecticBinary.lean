@@ -288,7 +288,7 @@ theorem finrank_transvectionEvaluation_codomain [FiniteDimensional (ZMod 2) E]
     {b : LinearMap.BilinForm (ZMod 2) E}
     (hnd : b.Nondegenerate) {s : Finset E} (hs : ∀ x ∈ s, x ≠ 0) :
     Module.finrank (ZMod 2) ((i : s) → transvectionLine b (i : E)) = s.card := by
-  haveI : ∀ i : s, Module.Free (ZMod 2) (transvectionLine b (i : E)) :=
+  have : ∀ i : s, Module.Free (ZMod 2) (transvectionLine b (i : E)) :=
     fun i => Module.Free.of_divisionRing (ZMod 2) (transvectionLine b (i : E))
   rw [Module.finrank_pi_fintype]
   have hline : ∀ i : s, Module.finrank (ZMod 2) (transvectionLine b (i : E)) = 1 := by
@@ -377,23 +377,23 @@ theorem finrank_H1_binarySymplecticNatural_dual_le_one [FiniteDimensional (ZMod 
     {b : LinearMap.BilinForm (ZMod 2) E} (hb : b.IsAlt) (hnd : b.Nondegenerate) :
     Module.finrank (ZMod 2)
       (H1 (Representation.dual (binarySymplecticNatural b))) ≤ 1 := by
-  haveI : Finite E := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (Module.Dual (ZMod 2) E) := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (E →ₗ[ZMod 2] E) :=
+  have : Finite E := Module.finite_of_finite (ZMod 2)
+  have : Finite (Module.Dual (ZMod 2) E) := Module.finite_of_finite (ZMod 2)
+  have : Finite (E →ₗ[ZMod 2] E) :=
     Finite.of_injective (fun f : E →ₗ[ZMod 2] E => (f : E → E))
       (fun f g h => LinearMap.ext fun x => congrFun h x)
-  haveI : Finite (LinearMap.GeneralLinearGroup (ZMod 2) E) :=
+  have : Finite (LinearMap.GeneralLinearGroup (ZMod 2) E) :=
     Finite.of_injective (fun u : LinearMap.GeneralLinearGroup (ZMod 2) E =>
       (u : Module.End (ZMod 2) E)) (fun u v h => Units.ext h)
-  haveI : Finite (bilinIsometryGroup b) := Subtype.finite
-  haveI : Finite (bilinIsometryGroup b → Module.Dual (ZMod 2) E) := Pi.finite
-  haveI : Finite (Z1 (Representation.dual (binarySymplecticNatural b))) := Subtype.finite
-  haveI : Finite (B1 (Representation.dual (binarySymplecticNatural b))) := Subtype.finite
-  haveI : Finite (H1 (Representation.dual (binarySymplecticNatural b))) :=
+  have : Finite (bilinIsometryGroup b) := Subtype.finite
+  have : Finite (bilinIsometryGroup b → Module.Dual (ZMod 2) E) := Pi.finite
+  have : Finite (Z1 (Representation.dual (binarySymplecticNatural b))) := Subtype.finite
+  have : Finite (B1 (Representation.dual (binarySymplecticNatural b))) := Subtype.finite
+  have : Finite (H1 (Representation.dual (binarySymplecticNatural b))) :=
     Finite.of_surjective _ (Submodule.Quotient.mk_surjective _)
-  letI : Fintype (Z1 (Representation.dual (binarySymplecticNatural b))) := Fintype.ofFinite _
-  letI : Fintype (B1 (Representation.dual (binarySymplecticNatural b))) := Fintype.ofFinite _
-  letI : Fintype (H1 (Representation.dual (binarySymplecticNatural b))) := Fintype.ofFinite _
+  let : Fintype (Z1 (Representation.dual (binarySymplecticNatural b))) := Fintype.ofFinite _
+  let : Fintype (B1 (Representation.dual (binarySymplecticNatural b))) := Fintype.ofFinite _
+  let : Fintype (H1 (Representation.dual (binarySymplecticNatural b))) := Fintype.ofFinite _
   have hZcard : Nat.card (Z1 (Representation.dual (binarySymplecticNatural b))) =
       2 ^ Module.finrank (ZMod 2)
         (Z1 (Representation.dual (binarySymplecticNatural b))) := by

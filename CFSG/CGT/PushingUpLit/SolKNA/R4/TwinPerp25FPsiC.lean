@@ -34,7 +34,7 @@ theorem exists_psi (hr : 4 ≤ r) (hP : PerpHypR r n Y R S t)
   classical
   obtain ⟨t', hT⟩ := T7F25.Asc77.T7T.exists_hyp25T hyp
   set N : Subgroup Y := T7F2.Nsub S₁ R₁ with hNdef
-  have hN2 : IsPGroup 2 ↥N := S₁.isPGroup'.to_le inf_le_left
+  have hN2 : IsPGroup 2 ↥N := S₁.isPGroup.to_le inf_le_left
   have hNR : ∀ y ∈ N, conjSub y R₁ = R₁ := fun y hy => (T7F2.mem_Nsub.mp hy).2
   obtain ⟨x, y, m, c, hNa⟩ := T7F2.exists_coord hT.hqR hT.hzR hN2 hNR
   have s : T7F2.Out.Setting R₁ N x y m := ⟨c, hT.R_le_N, hNR, hNa⟩

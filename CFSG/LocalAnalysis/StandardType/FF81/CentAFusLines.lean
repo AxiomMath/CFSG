@@ -11,6 +11,7 @@ open CFSG.StandardType.FrameRoute.FS81 (IsConjLine)
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L : Subgroup G} {z : Fin 3 → ↥L}
 
+omit [Finite G] in
 theorem exists_mem_zpowers_zs_of_isConj (h : GGFF.SettingCore b L z) (hout : PropTwoOut b L z)
     {x : G} (hx : x ∈ GGFF.tor (GGFF.zs z)) (hx1 : x ≠ 1) (hbx : IsConj b x) :
     ∃ i, x ∈ Subgroup.zpowers (GGFF.zs z i) := by
@@ -32,7 +33,7 @@ theorem exists_mem_zpowers_zs_of_isConj (h : GGFF.SettingCore b L z) (hout : Pro
     rcases hout with ⟨-, hCL⟩ | ⟨-, -, hCL, -⟩
     · exact Or.inl ((hCL Z hZle hZcard).mp hZconj)
     · exact (hCL Z hZle hZcard).mp hZconj
-  simp only [Set.mem_union, coordLines, weightFourLines, Set.mem_setOf_eq] at hmem
+  simp only [Set.mem_union, coordLines, weightFourLines, Set.mem_ofPred_eq] at hmem
   rcases hmem with ⟨i, hi⟩ | ⟨eps, v, heps, -, hZeps⟩
   · have hxZ : x ∈ Subgroup.zpowers (xs b z i) := by
       rw [← hi]
@@ -41,7 +42,7 @@ theorem exists_mem_zpowers_zs_of_isConj (h : GGFF.SettingCore b L z) (hout : Pro
     · exfalso
       have hbZ : b ∈ Z := by
         rw [hi]
-        simpa [xs] using Subgroup.mem_zpowers b
+        simp [xs]
       exact h.b_not_mem (GGFF.SettingCore.tor_le z (hZtor hbZ))
     · exact ⟨0, by simpa [xs] using hxZ⟩
     · exact ⟨1, by simpa [xs] using hxZ⟩
@@ -72,6 +73,7 @@ private theorem cafLines_wt_single (i : Fin 3) (a : ZMod 3) (ha : a ≠ 0) :
   revert i a
   decide
 
+omit [Finite G] in
 private theorem cafLines_conj_single (h : GGFF.SettingCore b L z) (hout : PropTwoOut b L z)
     {x : G} (hx : x ∈ L) (hbx : IsConj b x) :
     ∃ (g : ↥L) (i : Fin 3) (a : ZMod 3), a ≠ 0 ∧
@@ -124,6 +126,7 @@ private theorem cafLines_conj_single (h : GGFF.SettingCore b L z) (hout : PropTw
     rw [← hv2]
     exact hgv
 
+omit [Finite G] in
 theorem exists_conj_eq_of_isConj (h : GGFF.SettingCore b L z) (hout : PropTwoOut b L z)
     {x y : G} (hx : x ∈ L) (hy : y ∈ L) (hbx : IsConj b x) (hby : IsConj b y) :
     ∃ l ∈ L, l * x * l⁻¹ = y := by
@@ -148,6 +151,7 @@ theorem exists_conj_eq_of_isConj (h : GGFF.SettingCore b L z) (hout : PropTwoOut
   have h := congrArg (fun y : ↥L => (y : G)) hl
   simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using h
 
+omit [Finite G] in
 theorem isConj_zs (h : GGFF.SettingCore b L z) (hout : PropTwoOut b L z)
     (hmeet : ∃ x ∈ L, IsConj b x) (i : Fin 3) : IsConj b (GGFF.zs z i) := by
   classical

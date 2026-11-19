@@ -78,7 +78,7 @@ theorem sg_orig : sylowGens.size = 4 ∧ ∀ j < 4, sylowGens[j]! = unpack 182 8
     have : sylowGenWords.length = 4 := rfl
     omega
   have e : sylowGens[j]! = autW (sylowGenWords.getD j []) := by
-    simp [sylowGens, getElem!_def, hl, List.getD_eq_getElem?_getD]
+    simp [sylowGens, hl, List.getD_eq_getElem?_getD]
   rw [e, autW]
   exact h.1
 

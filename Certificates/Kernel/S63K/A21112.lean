@@ -115,7 +115,7 @@ theorem marks_get (idx : Array ℕ → ℕ) {w : ℕ} :
     · rcases List.mem_cons.1 hq with rfl | hq
       · right
         rw [getElem!_pos _ w (by rw [hs]; exact hw)]
-        simp [Array.set!_eq_setIfInBounds, Array.getElem_setIfInBounds, he]
+        simp [Array.set!_eq_setIfInBounds, he]
       · exact Or.inl ⟨q, hq, he⟩
     · right
       rw [getElem!_pos _ w (by rw [hs]; exact hw)]

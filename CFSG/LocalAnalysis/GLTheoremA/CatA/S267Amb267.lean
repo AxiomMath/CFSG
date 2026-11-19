@@ -13,6 +13,7 @@ section Amb
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem coversMod_map_inj {A : Type} [Group A] [Finite A] {p : ℕ} (hp : p.Prime) (π : A →* G)
     (hπ : Function.Injective π) {U₀ J₀ : Subgroup A}
     (hcov : CoversMod p (Subgroup.normalizer (U₀ : Set A)) J₀) :
@@ -30,6 +31,7 @@ theorem coversMod_map_inj {A : Type} [Group A] [Finite A] {p : ℕ} (hp : p.Prim
   exact ((Subgroup.map_inf_le _ _ _).trans (inf_le_inf_right _
     (Subgroup.le_normalizer_map _))).trans le_sup_left
 
+omit [Finite G] in
 theorem coversMod_inf_of_le {p : ℕ} {X N J : Subgroup G} (hJ : J ≤ X) (h : CoversMod p N J) :
     CoversMod p (X ⊓ N) J := by
   unfold CoversMod at h ⊢
@@ -106,7 +108,7 @@ theorem gConcBCDE_of_amb {p q : ℕ} (hp : p.Prime) (H : Subgroup G) (K₀ B₀ 
     (h : S267ConcBCDE p q K₀ B₀) :
     S267ConcBCDE p q (K₀.map H.subtype) (B₀.map H.subtype) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hinj : Function.Injective H.subtype := H.subtype_injective
   have hc : ∀ P : Subgroup ↥H, Nat.card (P.map H.subtype) = Nat.card P := fun P =>
     Subgroup.card_map_of_injective hinj

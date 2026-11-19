@@ -37,14 +37,14 @@ variable {G : Type} [Group G] [Finite G]
 theorem hyp51At_of_quiet {B : Subgroup G} (hB : IsElemAbelian 2 B) {c t : G} (hcB : c ∈ B)
     (htB : t ∈ B) (hc1 : c ≠ 1) (ht1 : t ≠ 1) (hct : t ≠ c)
     (htC : t ∈ Subgroup.centralizer ({c} : Set G)) (hq : Quiet c t htC) : Hyp51At B c :=
-  ⟨fun L₁ L₂ h₁ _ m₁ _ => (moved_false_of_quiet hB htB hcB hc1 ht1 hct htC hq h₁ m₁).elim,
-    fun L hL hm => (moved_false_of_quiet hB htB hcB hc1 ht1 hct htC hq hL hm).elim⟩
+  ⟨fun _L₁ _L₂ h₁ _ m₁ _ => (moved_false_of_quiet hB htB hcB hc1 ht1 hct htC hq h₁ m₁).elim,
+    fun _L hL hm => (moved_false_of_quiet hB htB hcB hc1 ht1 hct htC hq hL hm).elim⟩
 
 theorem hyp51At_of_exit (hSp : ModelFactSp62) (hD4 : ModelFactD42) (hM12 : ModelFactM12)
     {B : Subgroup G} (hB : IsElemAbelian 2 B) {c t : G} (hcB : c ∈ B) (htB : t ∈ B) (hc1 : c ≠ 1)
     (ht1 : t ≠ 1) (hct : t ≠ c) (htC : t ∈ Subgroup.centralizer ({c} : Set G)) {J : Subgroup G}
     (he : ExitAt J c t htC) (hm : MovedOddFreeAt c t htC) : Hyp51At B c :=
-  hyp51At_of_autOddFree hB htB hcB hc1 ht1 hct htC hm.1 fun L hL hmv =>
+  hyp51At_of_autOddFree hB htB hcB hc1 ht1 hct htC hm.1 fun _L hL hmv =>
     he.autOddFree hSp hD4 hM12 hL
       (hmv _ (oddQuotMk_mem_modOdd htB htC)
         (Lemma52Proof.oddQuotMk_not_mem_zpowers hB hcB hc1 htB ht1 hct htC))

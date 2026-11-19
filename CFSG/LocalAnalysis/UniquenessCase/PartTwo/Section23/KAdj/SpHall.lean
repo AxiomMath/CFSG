@@ -21,15 +21,15 @@ private theorem diagHom_torusHom_C02 {K : Type} [Field K] {r : ℕ} (s : Fin r �
 
 private theorem isPGroup_unipotent_C02 {K : Type} [Field K] [Finite K] [CharP K 2] (r : ℕ) :
     IsPGroup 2 (SymplecticFlag.unipotent r K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := SymplecticFlag.exists_sylow_unipotent (K := K) 2 r
   rw [← hP]
-  exact P.isPGroup'
+  exact P.isPGroup
 
 private theorem not_two_dvd_card_units_C02 {K : Type} [Field K] [Finite K] [CharP K 2] :
     ¬ 2 ∣ Nat.card Kˣ := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 2 h
   have hu2 : u ^ 2 = 1 := by
     rw [← hu]
@@ -103,7 +103,7 @@ theorem exists_conj_eq_torusHom_diagHom_sp {K : Type} [Field K] [Finite K] [Char
     {t : StatedSp r K} (ht : t ∈ borelSubgroup r K) (hodd : ¬ 2 ∣ orderOf t) :
     ∃ e ∈ unipotent r K,
       e * t * e⁻¹ = SymplecticTorusWeyl.torusHom (diagHom r K ⟨t, ht⟩) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htsup : t ∈ SymplecticFlag.unipotent r K ⊔ SymplecticTorusWeyl.torus r K := by
     have hsplit : t =
         (t * (SymplecticTorusWeyl.torusHom (SymplecticFlag.diagHom r K ⟨t, ht⟩))⁻¹) *

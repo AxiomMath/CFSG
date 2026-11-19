@@ -236,7 +236,7 @@ theorem ExtremalObstruction.mem_of_normal_of_ne_bot (hS : Setting G) {p : ℕ}
   have hD := (hext.exists_normal_plane hS hp hPD).1
   obtain ⟨-, hDP, -, -⟩ := hext.obstruction
   have hApG : IsPGroup p ((P : Subgroup G) ⊓ (D ⊔ centralizer (D : Set G)) : Subgroup G) :=
-    P.isPGroup'.to_le inf_le_left
+    P.isPGroup.to_le inf_le_left
   have hAN' : (P : Subgroup G) ⊓ (D ⊔ centralizer (D : Set G)) ⊓ N ≠ ⊥ := by
     rwa [inf_eq_right.mpr hNA]
   obtain ⟨y, hyAN, hyc, hyo⟩ := exists_mem_inf_centralizer_of_ne_bot hApG hAN hAN'
@@ -279,7 +279,7 @@ theorem signalizerNoncentralMinimal_of_irreducible (hS : Setting G)
   have hzA : z ∈ (P : Subgroup G) ⊓ (D ⊔ centralizer (D : Set G)) :=
     (le_inf hDP le_sup_left) (map_subtype_le _ hzZ)
   have hA : IsPGroup p ((P : Subgroup G) ⊓ (D ⊔ centralizer (D : Set G)) : Subgroup G) :=
-    P.isPGroup'.to_le inf_le_left
+    P.isPGroup.to_le inf_le_left
   have hqA : ¬ q ∣ Nat.card ((P : Subgroup G) ⊓ (D ⊔ centralizer (D : Set G)) : Subgroup G) := by
     have : Fact p.Prime := ⟨hprime⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hA

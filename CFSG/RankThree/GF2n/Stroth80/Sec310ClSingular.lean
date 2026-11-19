@@ -10,6 +10,7 @@ namespace CFSG.RankThree.GF2n.Stroth80.Classify
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {F : LinearMap.BilinForm K V}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem mem_of_orth_pointRad (hnd : F.Nondegenerate) (halt : F.IsAlt) {H : Subgroup (V ≃ₗ[K] V)}
     {e f : V} (hef : F e f = 1) {Q : QuadraticForm K V} (hQ : Q.polarBilin = F) (he : Q e = 0)
     (hfull : ElationFull F ((H : Set _) ∩ pointRad F e) e)
@@ -26,7 +27,7 @@ theorem mem_of_orth_pointRad (hnd : F.Nondegenerate) (halt : F.IsAlt) {H : Subgr
   have h1 := (pointRad_mem_orth_iff halt hef hQ he hgP).mp hgO
   have h2 := (pointRad_mem_orth_iff halt hef hQ he hdP').mp hdO
   rw [hdc, qf_add hQ, qf_smul, he] at h2
-  simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hωe,
+  simp only [map_add, map_smul, smul_eq_mul, hωe,
     hfe] at h2
   have hc0 : c = 0 := by
     linear_combination h1 - h2
@@ -38,6 +39,7 @@ theorem mem_of_orth_pointRad (hnd : F.Nondegenerate) (halt : F.IsAlt) {H : Subgr
   rw [← this]
   exact hdH
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem exists_pointRad_of_singular (hnd : F.Nondegenerate) (halt : F.IsAlt)
     {H : Subgroup (V ≃ₗ[K] V)} {e f : V} (hef : F e f = 1) {Q : QuadraticForm K V}
     (hQ : Q.polarBilin = F) (he : Q e = 0) (hf : Q f = 0)
@@ -57,7 +59,7 @@ theorem exists_pointRad_of_singular (hnd : F.Nondegenerate) (halt : F.IsAlt)
   have hdO : d ∈ orthSubgroup Q := hHQ ⟨hdH, hdP'⟩
   have h2 := (pointRad_mem_orth_iff halt hef hQ he hdP').mp hdO
   rw [hdc, qf_add hQ, qf_smul, he] at h2
-  simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hωe,
+  simp only [map_add, map_smul, smul_eq_mul, hωe,
     hfe] at h2
   have hsf : s = f + (s - f) := by abel
   have h3 : Q s = Q f + Q (s - f) + F f (s - f) := by

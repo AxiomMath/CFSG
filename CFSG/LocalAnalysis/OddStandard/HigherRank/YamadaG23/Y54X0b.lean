@@ -16,11 +16,12 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 private theorem y54_t_sq (s : Setting3 G L) : s.t ^ 2 = 1 := by
   simpa [s.t_order] using pow_orderOf_eq_one s.t
 
+omit [Finite G] in
 private theorem y54_gg_eq_one {g : G} (hg2 : g ^ 2 = 1) : g * g = 1 := by
   rw [← pow_two]; exact hg2
 
-private theorem y54_ft_mul {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) {f f' : G}
-    (hf : f ∈ s.fr.F) (hf' : f' ∈ s.fr.F) :
+private theorem y54_ft_mul {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e) {f f' : G}
+    (_hf : f ∈ s.fr.F) (hf' : f' ∈ s.fr.F) :
     (f * s.t) * (f' * s.t) = (f * f') * (s.t * s.t) := by
   have h : s.t * f' = f' * s.t := (y54_t_comm_F s f' hf').symm
   calc (f * s.t) * (f' * s.t) = f * (s.t * f') * s.t := by group

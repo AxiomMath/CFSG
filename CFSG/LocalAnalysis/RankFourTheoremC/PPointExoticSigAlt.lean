@@ -34,10 +34,11 @@ theorem dvd_card_of_orbit_ncard {H Ω : Type*} [Group H] [MulAction H Ω] [Finty
 
 variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
 
+omit [DecidableEq Ω] in
 theorem exists_moved_of_card (hΩ : Fintype.card Ω = 10) {B : Subgroup (Perm Ω)}
     (hB : Nat.card B = 25) (ω : Ω) : ∃ β ∈ B, β ω ≠ ω := by
   by_contra hfix
-  push_neg at hfix
+  push Not at hfix
   have hle : B ≤ MulAction.stabilizer (Perm Ω) ω := fun β hβ =>
     MulAction.mem_stabilizer_iff.2 (hfix β hβ)
   have h1 := Subgroup.card_dvd_of_le hle
@@ -52,6 +53,7 @@ theorem exists_moved_of_card (hΩ : Fintype.card Ω = 10) {B : Subgroup (Perm Ω
   rw [h3] at h1
   norm_num at h1
 
+omit [DecidableEq Ω] in
 theorem ncard_orbit_five (hΩ : Fintype.card Ω = 10) {B : Subgroup (Perm Ω)}
     (hB : Nat.card B = 25) (ω : Ω) : (MulAction.orbit B ω).ncard = 5 := by
   have h1 := Subgroup.index_mul_card (MulAction.stabilizer B ω)
@@ -71,6 +73,7 @@ theorem ncard_orbit_five (hΩ : Fintype.card Ω = 10) {B : Subgroup (Perm Ω)}
   generalize Nat.card (MulAction.stabilizer B ω) = s at *
   interval_cases o <;> omega
 
+omit [DecidableEq Ω] in
 theorem exists_ne_one_fixing (hΩ : Fintype.card Ω = 10) {B : Subgroup (Perm Ω)}
     (hB : Nat.card B = 25) (a : Ω) : ∃ β ∈ B, β ≠ 1 ∧ β a = a := by
   have h1 := Subgroup.index_mul_card (MulAction.stabilizer B a)
@@ -88,6 +91,7 @@ theorem five_dvd_card_of_stable (hΩ : Fintype.card Ω = 10) {B : Subgroup (Perm
   dvd_card_of_orbit_ncard (H := B) (fun h x hx => hS h h.2 x hx)
     (fun x _ => ncard_orbit_five hΩ hB x)
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem orbit_apply_eq_image {Y : Subgroup (Perm Ω)} {β : Perm Ω}
     (hβ : β ∈ normalizer (Y : Set (Perm Ω))) (ω : Ω) :
     MulAction.orbit Y (β ω) = β '' MulAction.orbit Y ω := by
@@ -102,6 +106,7 @@ theorem orbit_apply_eq_image {Y : Subgroup (Perm Ω)} {β : Perm Ω}
     refine ⟨⟨β * y * β⁻¹, (h2 y).1 hy⟩, ?_⟩
     simp [Perm.mul_apply]
 
+omit [Fintype Ω] in
 theorem apply_eq_of_orbit_two {Y : Subgroup (Perm Ω)} {β : Perm Ω}
     (himg : ∀ ω, MulAction.orbit Y (β ω) = β '' MulAction.orbit Y ω) {x : Ω}
     (h2 : (MulAction.orbit Y x).ncard = 2) (hx : β x = x) {y : Perm Ω} (hy : y ∈ Y) :
@@ -115,7 +120,7 @@ theorem apply_eq_of_orbit_two {Y : Subgroup (Perm Ω)} {β : Perm Ω}
     exact ⟨_, hu, rfl⟩
   have hvx : β (y x) ≠ x := fun h => hyx (β.injective (h.trans hx.symm))
   have hcard : (MulAction.orbit Y x \ {x}).ncard = 1 := by
-    rw [Set.ncard_diff_singleton_of_mem (MulAction.mem_orbit_self x), h2]
+    rw [Set.ncard_sdiff_singleton_of_mem (MulAction.mem_orbit_self x), h2]
   obtain ⟨a, ha⟩ := Set.ncard_eq_one.1 hcard
   have e1 : y x ∈ MulAction.orbit Y x \ {x} := ⟨hu, hyx⟩
   have e2 : β (y x) ∈ MulAction.orbit Y x \ {x} := ⟨hv, hvx⟩
@@ -131,7 +136,7 @@ theorem eq_bot_of_card_ten (hΩ : Fintype.card Ω = 10) {B Y : Subgroup (Perm Ω
   have hy₀1 : y₀ ≠ 1 := fun h => hy₁ (Subtype.ext h)
   obtain ⟨ω₀, hω₀⟩ : ∃ ω, y₀ ω ≠ ω := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hy₀1 (Equiv.ext h)
   obtain ⟨ρ, hρ⟩ : ∃ ρ : Ω → ℕ, ∀ ω, ρ ω = (MulAction.orbit Y ω).ncard :=
     ⟨fun ω => (MulAction.orbit Y ω).ncard, fun _ => rfl⟩

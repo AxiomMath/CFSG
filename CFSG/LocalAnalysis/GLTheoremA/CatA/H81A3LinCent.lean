@@ -30,10 +30,11 @@ private theorem ne_bot_of_glaPComponent {p : ℕ} {X L : Subgroup G} (h : GLAPCo
       Subgroup.center ↥(⊥ : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X))) := inferInstance
   exact (not_subsingleton_iff_nontrivial.2 inferInstance) hss
 
+omit [Finite G] in
 theorem dvd_card_quotient_center_of_not_commute {p : ℕ} (hp : p.Prime) {L : Subgroup G}
     {x y : G} (hx : x ∈ L) (hy : y ∈ L) (hxp : x ^ p = 1) (hxy : x * y ≠ y * x) :
     p ∣ Nat.card (↥L ⧸ Subgroup.center ↥L) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set c : ↥L ⧸ Subgroup.center ↥L := QuotientGroup.mk (⟨x, hx⟩ : L) with hc
   have hcp : c ^ p = 1 := by
     rw [hc, ← QuotientGroup.mk_pow]
@@ -120,6 +121,7 @@ section Root
 variable (hp : p.Prime) (hp2 : p ≠ 2) (hμ : IsPrimitiveRoot μ p)
 include hp hp2 hμ
 
+omit hp2 in
 theorem ne_zero_of_root : μ ≠ 0 := hμ.ne_zero hp.ne_zero
 
 theorem pow_two_ne_one : μ ^ 2 ≠ 1 := by
@@ -133,10 +135,11 @@ theorem pow_four_ne_one : μ ^ 4 ≠ 1 := by
   have : p ∣ 2 := hp.dvd_of_dvd_pow (show p ∣ 2 ^ 2 by norm_num at h4 ⊢; exact h4)
   exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 this)
 
+omit hp2 in
 theorem ne_one_of_root : μ ≠ 1 := hμ.ne_one hp.one_lt
 
 theorem yd_zero_ne (j : Fin 4) (hj : j ≠ 0) : yd μ 0 ≠ yd μ j := by
-  have hμ0 := ne_zero_of_root hp hp2 hμ
+  have hμ0 := ne_zero_of_root hp hμ
   have hj' : yd μ j = μ := by
     fin_cases j
     · exact absurd rfl hj
@@ -149,6 +152,7 @@ theorem yd_zero_ne (j : Fin 4) (hj : j ≠ 0) : yd μ 0 ≠ yd μ j := by
     _ = (μ ^ 3)⁻¹ * μ ^ 3 := by rw [h1]
     _ = 1 := inv_mul_cancel₀ (pow_ne_zero 3 hμ0)
 
+omit hp hp2 hμ in
 theorem yd_const (i j : Fin 4) (hi : i ≠ 0) (hj : j ≠ 0) : yd μ i = yd μ j := by
   have key : ∀ k : Fin 4, k ≠ 0 → yd μ k = μ := by
     intro k hk
@@ -157,6 +161,7 @@ theorem yd_const (i j : Fin 4) (hi : i ≠ 0) (hj : j ≠ 0) : yd μ i = yd μ j
     all_goals rfl
   rw [key i hi, key j hj]
 
+omit hp hp2 hμ in
 theorem diagSL_pow_eq_one {d : Fin 4 → F} {hd : ∏ i, d i = 1} (hdp : ∀ i, d i ^ p = 1) :
     diagSL d hd ^ p = 1 := by
   apply Matrix.SpecialLinearGroup.ext
@@ -168,6 +173,7 @@ theorem diagSL_pow_eq_one {d : Fin 4 → F} {hd : ∏ i, d i = 1} (hdp : ∀ i, 
     rw [diagonal_apply_eq, one_apply_eq, Pi.pow_apply, hdp]
   · rw [diagonal_apply_ne _ hij, one_apply_ne hij]
 
+omit hp hp2 in
 theorem yd_pow (i : Fin 4) : yd μ i ^ p = 1 := by
   have h3 : ((μ ^ 3)⁻¹) ^ p = 1 := by
     rw [inv_pow, ← pow_mul, mul_comm 3 p, pow_mul, hμ.pow_eq_one, one_pow, inv_one]
@@ -175,14 +181,17 @@ theorem yd_pow (i : Fin 4) : yd μ i ^ p = 1 := by
   · exact h3
   all_goals exact hμ.pow_eq_one
 
+omit hp hp2 in
 theorem zd_pow (i : Fin 4) : zd μ i ^ p = 1 := by
   fin_cases i <;> simp [zd, hμ.pow_eq_one]
 
-theorem ySL_pow : ySL (ne_zero_of_root hp hp2 hμ) ^ p = 1 :=
-  diagSL_pow_eq_one hp hp2 hμ (yd_pow hp hp2 hμ)
+omit hp2 in
+theorem ySL_pow : ySL (ne_zero_of_root hp hμ) ^ p = 1 :=
+  diagSL_pow_eq_one (yd_pow hμ)
 
-theorem zSL_pow : zSL (ne_zero_of_root hp hp2 hμ) ^ p = 1 :=
-  diagSL_pow_eq_one hp hp2 hμ (zd_pow hp hp2 hμ)
+omit hp2 in
+theorem zSL_pow : zSL (ne_zero_of_root hp hμ) ^ p = 1 :=
+  diagSL_pow_eq_one (zd_pow hμ)
 
 end Root
 
@@ -226,10 +235,10 @@ theorem proj_diagSL_mul_transvection_ne {d : Fin 4 → F} (hd : ∏ i, d i = 1) 
   rw [(diagSL_mul_transvection_apply hd hab 1 a b).1,
     (diagSL_mul_transvection_apply hd hab 1 a b).2] at h2
   have e1 : (1 + Matrix.single a b (1 : F) : Matrix (Fin 4) (Fin 4) F) a a = 1 := by
-    rw [Matrix.add_apply, one_apply_eq, Matrix.single_apply, if_neg (fun h => hab h.2.symm),
+    rw [Matrix.add_apply, one_apply_eq, Matrix.single_apply, ite_eq_right (fun h => hab h.2.symm),
       add_zero]
   have e2 : (1 + Matrix.single a b (1 : F) : Matrix (Fin 4) (Fin 4) F) a b = 1 := by
-    rw [Matrix.add_apply, one_apply_ne hab, Matrix.single_apply, if_pos ⟨rfl, rfl⟩, zero_add]
+    rw [Matrix.add_apply, one_apply_ne hab, Matrix.single_apply, ite_eq_left ⟨rfl, rfl⟩, zero_add]
   rw [e1, mul_one, one_mul] at h1
   rw [e2, mul_one, one_mul] at h2
   have hda : d a ≠ 0 := by
@@ -248,7 +257,7 @@ section Cent
 variable [Finite F] (hp : p.Prime) (hp2 : p ≠ 2) (hμ : IsPrimitiveRoot μ p)
 include hp hp2 hμ
 
-omit [Finite F] in
+omit [Finite F] hμ in
 theorem proj_noTorsion : ∀ z ∈ (proj 4 F).ker, z ^ p = 1 → z = 1 := fun z hz hzp => by
   rw [ker_proj] at hz
   exact eq_one_of_mem_scalars_of_pow_eq_one hp hp2 hz hzp
@@ -258,17 +267,19 @@ theorem ker_proj_le_center : (proj 4 F).ker ≤ Subgroup.center (SpecialLinearGr
   rw [ker_proj]
   exact scalars_le_center 4 F
 
+omit [Finite F] in
 theorem centralizer_proj_ySL :
-    Subgroup.centralizer ({proj 4 F (ySL (ne_zero_of_root hp hp2 hμ))} : Set (projectiveSL 4 F)) =
-      (cent (yd μ) (prod_yd (ne_zero_of_root hp hp2 hμ))).map (proj 4 F) :=
+    Subgroup.centralizer ({proj 4 F (ySL (ne_zero_of_root hp hμ))} : Set (projectiveSL 4 F)) =
+      (cent (yd μ) (prod_yd (ne_zero_of_root hp hμ))).map (proj 4 F) :=
   CFSG.StandardType.TableBUE.centralizer_map_eq_of_noTorsion (proj 4 F) (proj_surjective 4 F)
-    ker_proj_le_center (proj_noTorsion hp hp2 hμ) (ySL_pow hp hp2 hμ)
+    ker_proj_le_center (proj_noTorsion hp hp2) (ySL_pow hp hμ)
 
+omit [Finite F] in
 theorem centralizer_proj_zSL :
-    Subgroup.centralizer ({proj 4 F (zSL (ne_zero_of_root hp hp2 hμ))} : Set (projectiveSL 4 F)) =
-      (cent (zd μ) (prod_zd (ne_zero_of_root hp hp2 hμ))).map (proj 4 F) :=
+    Subgroup.centralizer ({proj 4 F (zSL (ne_zero_of_root hp hμ))} : Set (projectiveSL 4 F)) =
+      (cent (zd μ) (prod_zd (ne_zero_of_root hp hμ))).map (proj 4 F) :=
   CFSG.StandardType.TableBUE.centralizer_map_eq_of_noTorsion (proj 4 F) (proj_surjective 4 F)
-    ker_proj_le_center (proj_noTorsion hp hp2 hμ) (zSL_pow hp hp2 hμ)
+    ker_proj_le_center (proj_noTorsion hp hp2) (zSL_pow hp hμ)
 
 end Cent
 

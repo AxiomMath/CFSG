@@ -17,7 +17,7 @@ theorem u43OddAutTwoPlusCent_of (hOut : U43OuterOdd) (hCent : U43CentTwoPlus) :
     U43OddAutTwoPlusCent := by
   intro X _ _ hq htwo Q₁ Q₂ hQ₁ hQ₂ hcomm hcard hcent α hodd hfix x
   let O : Subgroup X := oddCore X
-  haveI : O.Normal := by simpa [O] using oddCore_normal X
+  have : O.Normal := by simpa [O] using oddCore_normal X
   let U := X ⧸ O
   let mk : X →* U := QuotientGroup.mk' O
   have hmapα : O.map α.toMonoidHom = O := by
@@ -102,7 +102,7 @@ theorem u43OddAutTwoPlusCent_of (hOut : U43OuterOdd) (hCent : U43CentTwoPlus) :
       exact (Nat.card_congr (MulEquiv.ofBijective (mk.subgroupMap (Q₁ ⊔ Q₂))
         ⟨hinjQ, mk.subgroupMap_surjective (Q₁ ⊔ Q₂)⟩).toEquiv).symm
     rw [hsup_eq, hcardmap, hcard]
-  haveI : Group.IsPerfect X := hq.1
+  have : Group.IsPerfect X := hq.1
   have hcenter_map : (Subgroup.center X).map mk = Subgroup.center U := by
     exact CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel mk
       (QuotientGroup.mk'_surjective O)
@@ -138,7 +138,7 @@ theorem u43OddAutTwoPlusCent_of (hOut : U43OuterOdd) (hCent : U43CentTwoPlus) :
     rw [hu, MulAut.conj_apply] at hqfix
     calc q * u = (u * q * u⁻¹) * u := by rw [hqfix]
       _ = u * q := by group
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hcentU) ⟨u, hu_cent⟩
   have hk' : orderOf u = 2 ^ k := by
     simpa using hk

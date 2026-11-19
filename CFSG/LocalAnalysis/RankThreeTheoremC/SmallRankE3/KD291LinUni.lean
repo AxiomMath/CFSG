@@ -24,8 +24,8 @@ open CFSG.LocalAnalysis.RankFourTheoremC (odFamily_unitary_of_inputs odUZ mem_od
 
 theorem kd291_aux_G_keyP {p : ℕ} (hp : p.Prime) (s r : ℤ) (hs : ¬ (p : ℤ) ∣ s) :
     ∃ j : ℕ, (p : ℤ) ∣ r - s * (j : ℤ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hs0 : (s : ZMod p) ≠ 0 := fun h => hs ((ZMod.intCast_zmod_eq_zero_iff_dvd s p).1 h)
   have hinv : (s : ZMod p) * (s : ZMod p)⁻¹ = 1 := mul_inv_cancel₀ hs0
   refine ⟨((r : ZMod p) * (s : ZMod p)⁻¹).val, ?_⟩
@@ -53,7 +53,7 @@ theorem kd291_cyclic_gen {p : ℕ} (hp : p.Prime) {C : Type} [CommGroup C] (hcyc
   congr 1
   linear_combination hw
 
-theorem kd291_lu_false_abs {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {Y : Type} [Group Y]
+theorem kd291_lu_false_abs {p : ℕ} (hp : p.Prime) (_hp5 : 5 ≤ p) {Y : Type} [Group Y]
     [Finite Y] (L : Subgroup Y) [L.Normal]
     [Group.IsPerfect ↥L] (hcen : centralizer (L : Set Y) = ⊥)
     (hperf : ∀ (N : Subgroup Y) [N.Normal], IsPGroup p (Y ⧸ N) → N = ⊤)
@@ -68,12 +68,12 @@ theorem kd291_lu_false_abs {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {Y : Type} [
       Function.Injective (π.comp f) ∧ ∀ a, c B (f a) = f a)
     (htorus4 : ∃ f : (Fin 4 → Multiplicative (ZMod p)) →* G,
       Function.Injective (fun a => Φ (f a))) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxp : x ^ p = 1 := by
     rw [← hx]
     exact pow_orderOf_eq_one x
   set ψ : Y →* MulAut P := (l212in_descend e).comp (odC L) with hψ
-  haveI : Φ.range.Normal :=
+  have : Φ.range.Normal :=
     ⟨fun a ha g => by
       have h := hF.comm_mem g a
       have h2 : g * a * g⁻¹ = (g * a * g⁻¹ * a⁻¹) * a := by group
@@ -150,8 +150,8 @@ theorem kd291_lu_false_abs {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {Y : Type} [
 theorem kd291_aux_T4L_exists_chi {p : ℕ} (hp : p.Prime) {K : Type} [Field K] [Finite K]
     (hpK : p ∣ Nat.card K - 1) :
     ∃ χ : Multiplicative (ZMod p) →* Kˣ, Function.Injective χ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) p (by rwa [Nat.card_units])
   have hprimU : IsPrimitiveRoot ζ p := by
     rw [← hζ]
@@ -183,13 +183,13 @@ theorem kd291_aux_T4L_ext_apply {p : ℕ} (a : Fin 4 → Multiplicative (ZMod p)
     (j : Fin 4) (hij : i.val = j.val) : kd291_aux_T4L_ext p a i = a j := by
   have hi : i.val < 4 := by have := j.isLt; omega
   show (if h : i.val < 4 then a ⟨i.val, h⟩ else 1) = a j
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   exact congrArg a (Fin.ext hij)
 
 theorem kd291_aux_T4L_ext_ge {p : ℕ} (a : Fin 4 → Multiplicative (ZMod p)) (i : Fin p)
     (hi : ¬ i.val < 4) : kd291_aux_T4L_ext p a i = 1 := by
   show (if h : i.val < 4 then a ⟨i.val, h⟩ else 1) = 1
-  rw [dif_neg hi]
+  rw [dite_eq_right hi]
 
 @[expose] noncomputable def kd291_aux_T4L_f (p : ℕ) (K : Type) [Field K]
     (χ : Multiplicative (ZMod p) →* Kˣ) :
@@ -210,7 +210,7 @@ theorem kd291_linear_torus4 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {K : Type} 
     ∃ f : (Fin 4 → Multiplicative (ZMod p)) →* GL (Fin p) K,
       Function.Injective (fun a =>
         CFSG.LocalAnalysis.ComponentInitial.LinearFlag.conjAut p K (f a)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨χ, hχ⟩ := kd291_aux_T4L_exists_chi hp hpK
   refine ⟨kd291_aux_T4L_f p K χ, ?_⟩
   have hinj : Function.Injective
@@ -253,8 +253,8 @@ open Matrix CFSG.LieType.BorelTits CFSG.LieType.Universal.Unitary
 theorem kd291_aux_T4U_chi {p : ℕ} (hp : p.Prime) {K : Type} [Field K] [Finite K]
     (hpK : p ∣ Nat.card K - 1) :
     ∃ χ : Multiplicative (ZMod p) →* Kˣ, Function.Injective χ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) p (by rwa [Nat.card_units])
   have hprimU : IsPrimitiveRoot ζ p := by
     rw [← hζ]
@@ -427,11 +427,11 @@ theorem kd291_lu_false_linear {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hx2 : Open.pRank p (centralizer ({x} : Set Y)) ≤ 2) {n : ℕ} {K : Type} [Field K] [Finite K]
     (hpn : p ∣ n) (hpK : p ∣ Nat.card K - 1)
     (e : ↥L ⧸ center ↥L ≃* StatedProj (StatedSL n K)) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn0 : 0 < n := by
     rcases Nat.eq_zero_or_pos n with rfl | h
-    · haveI := hq.2
-      haveI : Subsingleton (StatedProj (StatedSL 0 K)) := inferInstance
+    · have := hq.2
+      have : Subsingleton (StatedProj (StatedSL 0 K)) := inferInstance
       exact absurd e.injective.subsingleton (not_subsingleton _)
     · exact h
   have hn5 : 5 ≤ n := hp5.trans (Nat.le_of_dvd hn0 hpn)
@@ -457,7 +457,7 @@ theorem kd291_lu_false_linear {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
       hcZ (fun B hB => linear_torus hp hn5 hpK B hB)
       (fun hn B hBZ hnp => linear_mono hp hpK hn B hBZ hnp)
   subst n
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
   exact kd291_lu_false_abs hp hp5 L hcen hperf hY3 hx hx2 hperfSL (proj p K)
     (fun B => (slConjugation p K B).toMonoidHom) (conjAut p K) GeneralLinearGroup.det
     (GeneralLinearGroup.scalar (Fin p) : Kˣ →* GL (Fin p) K).range hF e' φ hφπ
@@ -475,11 +475,11 @@ theorem kd291_lu_false_unitary {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hx2 : Open.pRank p (centralizer ({x} : Set Y)) ≤ 2) {n r f : ℕ} [Fact r.Prime] {K : Type}
     [Field K] [Finite K] [CharP K r] (hpn : p ∣ n) (hK : Nat.card K = (r ^ f) ^ 2)
     (hpq : p ∣ r ^ f + 1) (e : ↥L ⧸ center ↥L ≃* StatedProj (StatedSU n (r ^ f) K)) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn0 : 0 < n := by
     rcases Nat.eq_zero_or_pos n with rfl | h
-    · haveI := hq.2
-      haveI : Subsingleton (StatedProj (StatedSU 0 (r ^ f) K)) := inferInstance
+    · have := hq.2
+      have : Subsingleton (StatedProj (StatedSU 0 (r ^ f) K)) := inferInstance
       exact absurd e.injective.subsingleton (not_subsingleton _)
     · exact h
   have hn5 : 5 ≤ n := hp5.trans (Nat.le_of_dvd hn0 hpn)
@@ -492,7 +492,7 @@ theorem kd291_lu_false_unitary {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
       intro h
       simp only [Prod.mk.injEq] at h
       omega)
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
   have hcZ : ∀ w ∈ odUZ K n r f, ∀ B : Uid (unitaryInvolution K r f) n,
       (l212in_suConj hK (w * B)).toMonoidHom = (l212in_suConj hK B).toMonoidHom := by
     intro w hw B
@@ -560,12 +560,12 @@ theorem kd291_not_lu {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hx2 : Open.pRank p (centralizer ({x} : Set Y)) ≤ 2) :
     ¬ IsLinearOrUnitaryAt p (↥L ⧸ center ↥L) := by
   intro hlu
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases hlu with ⟨n, K, _, _, hpn, hpK, ⟨e⟩⟩ | ⟨n, q, K, _, _, hKq, hpn, hpq, ⟨e⟩⟩
   · exact kd291_lu_false_linear hp hp5 hGA L hq hZp hcen hperf hY3 hx hx2 hpn hpK e
   · obtain ⟨r, m, hr, hchar, -, hKr⟩ :=
       CFSG.LocalAnalysis.RankFourTheoremC.exists_char_pow_card K
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨f, -, hqf⟩ : ∃ f ≤ m, q = r ^ f := by
       refine (Nat.dvd_prime_pow hr).1 ?_
       rw [← hKr, hKq]

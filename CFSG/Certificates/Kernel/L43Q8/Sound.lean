@@ -39,7 +39,7 @@ theorem dg_pkQ {f : ℕ → ℕ} (hf : ∀ k, f k < 16) (j : ℕ) :
 
 theorem dec_pkQ {f : ℕ → ℕ} (hf : ∀ k, f k < 16) {x : Array ℕ} (hs : x.size = 33)
     (h : ∀ k < 33, x[k]! = f k) : x = dec (pkQ f) :=
-  eq_dec hs fun k hk => by rw [h k hk, dg_pkQ hf, if_pos hk]
+  eq_dec hs fun k hk => by rw [h k hk, dg_pkQ hf, ite_eq_left hk]
 
 theorem sumLt_four (f : ℕ → ℕ) : sumLt 4 f = sum4 f := by
   simp [sumLt, sum4, List.range_succ]
@@ -83,16 +83,16 @@ theorem mul_dec (P Q : ℕ) : eltMul 4 (dec P) (dec Q) = dec (mulQ P Q) := by
   unfold mulE
   simp only [Nat.reduceMul]
   rcases Nat.lt_or_ge k 16 with h1 | h1
-  · rw [if_pos h1, if_pos h1]
+  · rw [ite_eq_left h1, ite_eq_left h1]
     simp (disch := omega) only [eA, eB, eE, sumLt_four, sum4, dec_get, Nat.reduceMul,
-      Nat.reduceAdd, Nat.add_zero, Nat.zero_add, Nat.mul_zero]
+      Nat.add_zero, Nat.zero_add, Nat.mul_zero]
   · have h1' : ¬ k < 16 := by omega
     rcases Nat.lt_or_ge k 32 with h2 | h2
-    · rw [if_neg h1', if_neg h1', if_pos h2, if_pos h2]
+    · rw [ite_eq_right h1', ite_eq_right h1', ite_eq_left h2, ite_eq_left h2]
       simp (disch := omega) only [eA, eB, eE, sumLt_four, sum4, dec_get, Nat.reduceMul,
-        Nat.reduceAdd, Nat.add_zero, Nat.zero_add, Nat.mul_zero]
+        Nat.add_zero, Nat.zero_add, Nat.mul_zero]
     · have h2' : ¬ k < 32 := by omega
-      rw [if_neg h1', if_neg h1', if_neg h2', if_neg h2']
+      rw [ite_eq_right h1', ite_eq_right h1', ite_eq_right h2', ite_eq_right h2']
       simp (disch := omega) only [eE, dec_get, Nat.reduceMul]
 
 theorem invE_lt (P k : ℕ) : invE P k < 16 := by
@@ -106,14 +106,14 @@ theorem inv_dec (P : ℕ) : eltInv 4 (dec P) = dec (invQ P) := by
   unfold invE
   simp only [Nat.reduceMul]
   rcases Nat.lt_or_ge k 16 with h1 | h1
-  · rw [if_pos h1, if_pos h1]
+  · rw [ite_eq_left h1, ite_eq_left h1]
     simp (disch := omega) only [eA, eB, eE, dec_get, Nat.reduceMul]
   · have h1' : ¬ k < 16 := by omega
     rcases Nat.lt_or_ge k 32 with h2 | h2
-    · rw [if_neg h1', if_neg h1', if_pos h2, if_pos h2]
+    · rw [ite_eq_right h1', ite_eq_right h1', ite_eq_left h2, ite_eq_left h2]
       simp (disch := omega) only [eA, eB, eE, dec_get, Nat.reduceMul]
     · have h2' : ¬ k < 32 := by omega
-      rw [if_neg h1', if_neg h1', if_neg h2', if_neg h2']
+      rw [ite_eq_right h1', ite_eq_right h1', ite_eq_right h2', ite_eq_right h2']
       simp (disch := omega) only [eE, dec_get, Nat.reduceMul]
 
 theorem one_dec : eltOne 4 = dec ONEQ := by decide +kernel
@@ -169,7 +169,7 @@ theorem ofDigits_map (f : ℕ → ℕ) (l : List ℕ) :
     Nat.ofDigits 3 (l.map f) = l.foldr (fun k acc => f k + 3 * acc) 0 := by
   induction l with
   | nil => rfl
-  | cons a l ih => simp only [List.map_cons, Nat.ofDigits_cons, ih, List.foldr_cons, Nat.cast_id]
+  | cons a l ih => simp only [List.map_cons, Nat.ofDigits_cons, ih, List.foldr_cons]
 
 theorem key_dec (P : ℕ) : eltKey 4 (dec P) = keyQ P := by
   have h1 : (List.range 16).map (fun k => (dec P)[k]! % 3) =

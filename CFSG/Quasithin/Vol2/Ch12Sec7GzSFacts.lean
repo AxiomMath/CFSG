@@ -20,7 +20,7 @@ namespace Fct
 theorem comb_add (u : Fin 3 → ℕ) (c c' : Fin 3 → ZMod 2) :
     comb u (c + c') = comb u c ^^^ comb u c' := by
   simp only [comb, Pi.add_apply, mul_val_add]
-  simp only [Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm]
+  simp only [Nat.xor_assoc, Nat.xor_left_comm]
 
 theorem comb_zero (u : Fin 3 → ℕ) : comb u 0 = 0 := by simp [comb]
 
@@ -38,7 +38,7 @@ theorem comb_lt {u : Fin 3 → ℕ} (hu : ∀ i, u i < 2 ^ 6) (c : Fin 3 → ZMo
 
 theorem comb_single (u : Fin 3 → ℕ) (i : Fin 3) : comb u (Pi.single i 1) = u i := by
   have h1 : (1 : ZMod 2).val = 1 := rfl
-  fin_cases i <;> simp [comb, Pi.single_apply, h1]
+  fin_cases i <;> simp [comb, h1]
 
 theorem inSpan_zero (u : Fin 3 → ℕ) : InSpan u 0 := ⟨0, comb_zero u⟩
 
@@ -78,7 +78,7 @@ noncomputable def linC (u : Fin 3 → ℕ) (σ : Equiv.Perm (Fin (2 ^ 6))) (c : 
 
 theorem comb_linC {u : Fin 3 → ℕ} {σ : Equiv.Perm (Fin (2 ^ 6))} (hp : PresC u σ)
     (c : Fin 3 → ZMod 2) : comb u (linC u σ c) = gP σ (comb u c) := by
-  rw [linC, dif_pos (hp c)]
+  rw [linC, dite_eq_left (hp c)]
   exact (hp c).choose_spec
 
 variable {φ : ℕ → ℕ} {u : Fin 3 → ℕ}
@@ -157,14 +157,14 @@ theorem sl_hom_span (D : FrData H Q (Phi' Q) 6) (hR : D.rho.range ≤ Sig 6 φ)
       have e := linCσ_mul hu (hsig h) (hsig h') (by rw [← map_mul]; exact hsig (h * h'))
         (hpres h) (hpres h') (by rw [← map_mul]; exact hpres (h * h'))
       rw [← e]
-      congr 1 <;> rw [map_mul]
+      congr 1; rw [map_mul]
     simp only [mat]
     rw [hl, LinearMap.toMatrix'_comp]
   have hmat_one : mat 1 = 1 := by
     have hl : linCσ hu (hsig 1) (hpres 1) = LinearMap.id := by
       have e := linCσ_one hu (φ := φ) (Sig 6 φ).one_mem (by rw [← map_one D.rho]; exact hpres 1)
       rw [← e]
-      congr 1 <;> rw [map_one]
+      congr 1; rw [map_one]
     simp only [mat]
     rw [hl, LinearMap.toMatrix'_id]
   have hdet : ∀ h : ↥H, (mat h).det = 1 := fun h =>
@@ -216,6 +216,7 @@ theorem sl_hom_span (D : FrData H Q (Phi' Q) 6) (hR : D.rho.range ≤ Sig 6 φ)
     rw [h4, h168, card_sl32]
   exact MonoidHom.range_eq_top.1 h6
 
+omit [Finite G] in
 theorem sub_span (D : FrData H Q (Phi' Q) 6) (hpre : PreFacts Q D.wc u)
     (hH : ∀ h ∈ H, ∀ x ∈ Q, InSpan u (D.wc x) → InSpan u (D.wc (h * x * h⁻¹))) :
     ∃ A : Subgroup G, (∀ x, x ∈ A ↔ x ∈ Q ∧ InSpan u (D.wc x)) ∧ IsElemAbelian 2 A ∧
@@ -250,6 +251,7 @@ theorem sub_span (D : FrData H Q (Phi' Q) 6) (hpre : PreFacts Q D.wc u)
       have e : h⁻¹ * (h * x * h⁻¹) * h⁻¹⁻¹ = x := by group
       rwa [e] at this
 
+omit [Finite G] in
 theorem ab_span (D : FrData H Q (Phi' Q) 6) {z : G} (hzΦ : z ∈ Phi' Q)
     (hΦ : ∀ r ∈ Phi' Q, r = 1 ∨ r = z) {v : Fin 3 → ℕ} (hu : Basis3 u)
     (hint : ∀ x, InSpan u x → InSpan v x → x = 0)
@@ -404,7 +406,6 @@ theorem model_main_facts {V M M₀ : Subgroup G} [IsMulCommutative ↥V] {Γ : L
           rw [bpart_of_mem C SP heM]; rfl
         refine List.mem_map.2 ⟨kap (mkTab (stabL Γ 5)) C SP e / 64, hbp _ (hE he), ?_⟩
         rw [hdiv]
-        change (stabL Γ 5).getD ((stabL Γ 5).idxOf (bpart C SP e)) B6.id = _
         rw [getD_idxOf hbG0, hbp']
       have hle : cjS h V ≤ V :=
         census_real C SP.hCV (isElemAbelian_cjS hVel) (by rw [card_cjS, hV64]) hEM hbs hlen hfix

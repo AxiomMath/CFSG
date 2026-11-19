@@ -44,13 +44,13 @@ theorem s828N_case2a_false (hE3 : E3_828) {T L I H : Subgroup G} {h : G} {k : �
   have hMH : M ≤ H := inf_le_left
   have hT : QuasithinUnique.IsSylowTwoOf T H := hmin.isSylow
   set J₀ : Subgroup ↥H := (kerIn M H).subgroupOf H with hJ₀
-  haveI hJ₀n : J₀.Normal := E2.kerIn_subgroupOf_normal M H
+  have hJ₀n : J₀.Normal := E2.kerIn_subgroupOf_normal M H
   set φ : ↥H →* ↥H ⧸ J₀ := QuotientGroup.mk' J₀ with hφ
   set Y' : Subgroup ↥H := Y.subgroupOf H with hY'
   set T' : Subgroup ↥H := T.subgroupOf H with hT'
   set Mm : Subgroup ↥H := M.subgroupOf H with hMm
   set V' : Subgroup ↥H := V.subgroupOf H with hV'
-  haveI hY'n : Y'.Normal :=
+  have hY'n : Y'.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYH).mpr
       (hHY ▸ sup_le Subgroup.le_normalizer hTN)
   have hT2 : IsPGroup 2 ↥T := hT.2.1
@@ -136,10 +136,10 @@ theorem s828N_case2a_false (hE3 : E3_828) {T L I H : Subgroup G} {h : G} {k : �
     Subgroup.mem_subgroupOf.mpr ((le_sup_left : V ≤ Ih) (Subgroup.mem_subgroupOf.mp hx))
   have hVT' : V' ≤ T' := fun x hx =>
     Subgroup.mem_subgroupOf.mpr (hVT (Subgroup.mem_subgroupOf.mp hx))
-  haveI hPn : (P.subgroupOf Ih).Normal := by
+  have hPn : (P.subgroupOf Ih).Normal := by
     rw [hP, CFSG.openPCoreOf_subgroupOf]
     infer_instance
-  haveI hP'n : (P'.subgroupOf I').Normal := by
+  have hP'n : (P'.subgroupOf I').Normal := by
     constructor
     intro x hx g
     have hx1 : (((x : ↥I') : ↥H) : G) ∈ P := by
@@ -161,14 +161,14 @@ theorem s828N_case2a_false (hE3 : E3_828) {T L I H : Subgroup G} {h : G} {k : �
     have hxI' : (x : G) ∈ Ih := Subgroup.mem_subgroupOf.mp hxI
     exact ⟨((mem_kerIn.mp hxk) b (hIH hb)).2, Ih.mul_mem (Ih.mul_mem hb hxI') (Ih.inv_mem hb)⟩
   obtain ⟨eD⟩ := hD5
-  haveI : ((kerIn (fsuM T L ⊓ Ih) Ih).subgroupOf Ih).Normal :=
+  have : ((kerIn (fsuM T L ⊓ Ih) Ih).subgroupOf Ih).Normal :=
     E2.kerIn_subgroupOf_normal (fsuM T L ⊓ Ih) Ih
   have e1 : ↥Ih ⧸ P.subgroupOf Ih ≃* DihedralGroup 5 :=
     (QuotientGroup.quotientMulEquivOfEq (by rw [hkerI])).symm.trans eD
   obtain ⟨eI'⟩ := s828N_subgroupOf_quot_equiv hIH hPIh e1
-  haveI hIPn := img_subgroupOf_normal J₀ hPI'
+  have hIPn := img_subgroupOf_normal J₀ hPI'
   obtain ⟨eIimg⟩ := img_dihedral J₀ hPI' hJ eI'
-  haveI : (Y'.map φ).Normal := img_normal J₀
+  have : (Y'.map φ).Normal := img_normal J₀
   exact s828N_szEnd hE3 (Y'.map φ) hsz' hC (T'.map φ) (img_isPGroup J₀ hT2')
     (img_index_odd J₀ hTi) (img_factor J₀ hfac) (Mm.map φ) (Subgroup.map_mono hTMm)
     (img_unique_max J₀ hJM hMax) (V'.map φ) (Subgroup.map_mono hVT') (img_elemAbelian J₀ hV2')

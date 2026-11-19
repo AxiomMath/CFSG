@@ -305,7 +305,7 @@ theorem s16t_aParam_lt_two_of_alt_pair
       ⟨fun hh => hconj h x hh hx, fun hh => by
         have h1 := hconj _ x⁻¹ hh (M.inv_mem hx)
         rwa [show x⁻¹ * (x * h * x⁻¹) * x⁻¹⁻¹ = h by group] at h1⟩
-  haveI : Finite (PairMod (Fin 2 ⊕ Fin 2) (ZMod 2)) := Finite.of_equiv W e.toEquiv
+  have : Finite (PairMod (Fin 2 ⊕ Fin 2) (ZMod 2)) := Finite.of_equiv W e.toEquiv
   have h2 : M.map (congrHom e) ≤ Sp4.pairNormSp (ZMod 2) :=
     (PairG.map_le_pairNorm tau₆ e he hMN).trans pairNorm_le
   have hK : Nat.card (ZMod 2) = 2 ^ 1 := by rw [Nat.card_zmod, pow_one]

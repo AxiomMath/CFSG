@@ -101,7 +101,7 @@ noncomputable def diagUnit (t : Fˣ) (hn : 4 ≤ n) (i : Fin 3) : Fin n → Fˣ 
 @[simp]
 theorem diagUnit_self (t : Fˣ) (hn : 4 ≤ n) (i : Fin 3) :
     diagUnit (n := n) (F := F) t hn i (threeToFin hn i) = t := by
-  simp [diagUnit, Function.update, threeToFin_ne_threeIndex hn i]
+  simp [diagUnit, Function.update]
 
 @[simp]
 theorem diagUnit_threeIndex (t : Fˣ) (hn : 4 ≤ n) (i : Fin 3) :
@@ -153,7 +153,7 @@ theorem diagGen_mem_diagTorus (t : Fˣ) (hn : 4 ≤ n) (i : Fin 3) :
 theorem orderOf_diagGen (t : Fˣ) (hn : 4 ≤ n) (i : Fin 3) {q : ℕ}
     (hq : q.Prime) (ht : orderOf t = q) :
     orderOf (diagGen (n := n) (F := F) t hn i) = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have htq : t ^ q = 1 := by
     rw [← ht]
     exact pow_orderOf_eq_one t
@@ -170,7 +170,7 @@ theorem orderOf_diagGen (t : Fˣ) (hn : 4 ≤ n) (i : Fin 3) {q : ℕ}
       simp [htq]
     · by_cases hj' : j = threeIndex hn
       · subst hj'
-        simp [hj, htqi]
+        simp [htqi]
       · simp [diagUnit_of_ne t hn i hj hj']
   · intro h
     have hmat : (diagUnit (n := n) (F := F) t hn i (threeToFin hn i) : F) = 1 := by
@@ -217,10 +217,9 @@ theorem dvd_of_diagGen_zpow_fixes (t : Fˣ) (hn : 4 ≤ n) (i : Fin 3) {q : ℕ}
   have hval' : (diagUnit (n := n) (F := F) t hn i ^ a) (threeToFin hn i) = 1 :=
     Units.ext hval
   have hds : diagUnit (n := n) (F := F) t hn i (threeToFin hn i) = t := by
-    simp [diagUnit, Function.update, threeToFin_ne_threeIndex hn i]
+    simp [diagUnit, Function.update]
   have hta : t ^ a = 1 := by
     rw [← hds]
-    change (diagUnit (n := n) (F := F) t hn i (threeToFin hn i)) ^ a = 1
     exact hval'
   rw [← ht]
   exact orderOf_dvd_iff_zpow_eq_one.mpr hta
@@ -247,7 +246,7 @@ theorem three_le_pRank_diagTorus {n : ℕ} (hn : 4 ≤ n) {F : Type} [Field F] [
     [CharP F 2] {q : ℕ} (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1) :
     3 ≤ CFSG.Open.pRank q (diagTorus n F) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hdvd' : q ∣ Nat.card Fˣ := by
     rw [Nat.card_units]
     exact hdvd

@@ -340,7 +340,7 @@ theorem exists_three {α : Finset (Fin 5)} (hα : α.card = 4) {i j : Fin 5} (hi
       h' * mkQ 5 (Wr.ofVec (Pi.single i 1 + Pi.single j 1)) =
         mkQ 5 (Wr.ofVec (Pi.single i 1 + Pi.single j 1)) * h' ∧
       zBar α hα = mkQ 5 (Wr.ofVec (Pi.single i 1 + Pi.single j 1)) * (e⁻¹ * h'⁻¹ * e * h') := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨p, hp⟩ : ∃ p, αᶜ = {p} :=
     Finset.card_eq_one.mp (by rw [Finset.card_compl, hα, Fintype.card_fin])
   have hout : ∀ x, x ∉ α ↔ x = p := fun x => by
@@ -433,8 +433,8 @@ theorem exists_three {α : Finset (Fin 5)} (hα : α.card = 4) {i j : Fin 5} (hi
       have hr : x ∈ Set.range (emb α hα) ↔ x = i ∨ x = j ∨ x = k ∨ x = l := by
         rw [range_emb, Finset.mem_coe, hmem]
       by_cases h : x = i ∨ x = j ∨ x = k ∨ x = l
-      · rw [if_pos h, if_pos (hr.mpr h)]
-      · rw [if_neg h, if_neg (fun h' => h (hr.mp h'))]
+      · rw [ite_eq_left h, ite_eq_left (hr.mpr h)]
+      · rw [ite_eq_right h, ite_eq_right (fun h' => h (hr.mp h'))]
     · rw [zOf_perm, Wr.mul_perm, hYp, mul_one]
       rfl
 
@@ -443,7 +443,7 @@ end AE5End
 namespace AEQEnd
 
 theorem pow_four_eq_one_of_comm_five {n : ℕ} (hn : n ≤ 7) {x y₁ y₂ : AEQ n}
-    (h₁ : orderOf y₁ = 5) (h₂ : orderOf y₂ = 5)
+    (h₁ : orderOf y₁ = 5) (_h₂ : orderOf y₂ = 5)
     (hnc : TL4.permBar n y₁ * TL4.permBar n y₂ ≠ TL4.permBar n y₂ * TL4.permBar n y₁)
     (hx₁ : x * y₁ = y₁ * x) (hx₂ : x * y₂ = y₂ * x) : x ^ 4 = 1 := by
   obtain ⟨hc1, hc1'⟩ := endm_permBar_pow_five h₁

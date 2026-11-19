@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.RankFourTheoremC (IsLinearOrUnitaryAt exists_char_pow_ca
 
 theorem center_eq_bot_of_simple {L : Type} [Group L] [IsSimpleGroup L]
     (hperf : commutator L = ⊤) : center L = ⊥ := by
-  haveI : Group.IsPerfect L := ⟨hperf⟩
+  have : Group.IsPerfect L := ⟨hperf⟩
   exact TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
     (Group.IsPerfect.not_isMulCommutative L)
 
@@ -27,10 +27,10 @@ theorem linuni_of_sl {L : Type} [Group L] {K : Type} [Field K] [Finite K]
 
 theorem center_eq_bot_of_psl {L : Type} [Group L] (hperf : commutator L = ⊤) {K : Type} [Field K]
     (e : L ≃* StatedProj (StatedSL 5 K)) : center L = ⊥ := by
-  haveI : IsSimpleGroup (StatedProj (StatedSL 5 K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 5 K)) :=
     isSimpleGroup_statedProj_statedSL K (by norm_num) (Or.inl (by norm_num))
       (Or.inl (by norm_num))
-  haveI : IsSimpleGroup L := e.isSimpleGroup
+  have : IsSimpleGroup L := e.isSimpleGroup
   exact center_eq_bot_of_simple hperf
 
 theorem linuni_of_psl {L : Type} [Group L] (hperf : commutator L = ⊤) {K : Type} [Field K]
@@ -53,7 +53,7 @@ theorem linuni_of_su {L : Type} [Group L] {K : Type} [Field K] [Finite K] {q : �
     (hK : Nat.card K = q ^ 2) (hpq : 5 ∣ q + 1) (e : L ≃* StatedSU 5 q K) :
     IsLinearOrUnitaryAt 5 (L ⧸ center L) := by
   obtain ⟨r, f, hr, rfl⟩ := exists_char_pow_of_sq hK
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hnq : (5, r ^ f) ≠ (3, 2) := fun h => by simpa using congrArg Prod.fst h
   refine Or.inr ⟨5, r ^ f, K, inferInstance, inferInstance, hK, dvd_refl 5, hpq, ⟨?_⟩⟩
   exact (QuotientGroup.congr _ _ e (CFSG.LieType.Universal.Unitary.map_center_mulEquiv e)).trans
@@ -64,11 +64,11 @@ theorem center_eq_bot_of_psu {L : Type} [Group L] (hperf : commutator L = ⊤) {
     [Finite K] {q : ℕ} (hK : Nat.card K = q ^ 2) (e : L ≃* StatedProj (StatedSU 5 q K)) :
     center L = ⊥ := by
   obtain ⟨r, f, hr, rfl⟩ := exists_char_pow_of_sq hK
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hnq : (5, r ^ f) ≠ (3, 2) := fun h => by simpa using congrArg Prod.fst h
-  haveI : IsSimpleGroup (StatedProj (StatedSU 5 (r ^ f) K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSU 5 (r ^ f) K)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K r f hK 5 (by norm_num) hnq
-  haveI : IsSimpleGroup L := e.isSimpleGroup
+  have : IsSimpleGroup L := e.isSimpleGroup
   exact center_eq_bot_of_simple hperf
 
 theorem linuni_of_psu {L : Type} [Group L] (hperf : commutator L = ⊤) {K : Type} [Field K]

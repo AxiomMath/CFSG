@@ -23,6 +23,7 @@ namespace BlockData
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem isPGroup_center (h : BlockData X) : IsPGroup 2 ↥(center X) := by
   obtain ⟨k, -, hk⟩ := h.card_center
   exact IsPGroup.of_card hk
@@ -34,6 +35,7 @@ theorem pPrimeCore_eq_bot (h : BlockData X) : pPrimeCore 2 X = ⊥ :=
 theorem fusionZStar_eq (h : BlockData X) : Open.fusionZStar X = center X :=
   fusionZStar_eq_center_of_pPrimeCore_eq_bot h.pPrimeCore_eq_bot
 
+omit [Finite X] in
 theorem even_card_center (h : BlockData X) : Even (Nat.card ↥(center X)) := by
   obtain ⟨k, hk1, hk⟩ := h.card_center
   rw [hk]
@@ -47,12 +49,12 @@ theorem classBShape (h : BlockData X) : ClassBShape X := by
 theorem ordProj_eq (h : BlockData X) :
     ordProj[2] (Nat.card ↥(center X)) =
       ordProj[2] (Nat.card (Open.griessHopfMultiplier (X ⧸ center X))) := by
-  haveI hfin : Finite (Open.griessHopfMultiplier (X ⧸ center X)) := by
-    haveI : Group.IsPerfect X := h.quasisimple.1
-    haveI hfr : Finite (X ⧸ center X) :=
+  have hfin : Finite (Open.griessHopfMultiplier (X ⧸ center X)) := by
+    have : Group.IsPerfect X := h.quasisimple.1
+    have hfr : Finite (X ⧸ center X) :=
       Finite.of_surjective (QuotientGroup.mk' (center X)) (QuotientGroup.mk'_surjective _)
-    haveI hpq : Group.IsPerfect (X ⧸ center X) := inferInstance
-    haveI : Finite (RankThree.PerfectCover.hopfMultiplier (X ⧸ center X)) :=
+    have hpq : Group.IsPerfect (X ⧸ center X) := inferInstance
+    have : Finite (RankThree.PerfectCover.hopfMultiplier (X ⧸ center X)) :=
       RankThree.PerfectCover.finite_hopfMultiplier hpq
     exact Finite.of_equiv _
       (RankThree.PerfectCover.hopfMultiplierEquivGriess (X ⧸ center X)).symm.toEquiv
@@ -142,7 +144,7 @@ theorem hasCleanFullClassBMember_of_block {H Q X : Type} [Group H] [Group Q] [Gr
       have hxy : x * y = y * x :=
         hθ (by rw [map_mul, map_mul]; exact hcomm ((α.comp θ) x) ((α.comp θ) y))
       rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hxy]
-  · haveI : Group.IsPerfect X := hX.quasisimple.1
+  · have : Group.IsPerfect X := hX.quasisimple.1
     exact Group.IsPerfect.ofSurjective (f := eJ.toMonoidHom) eJ.surjective
   · exact (CFSG.Open.IsSubnormal.iff_subgroupOf hle').mpr hsub
   · exact T23.isMTypeSchur_of_mulEquiv eJ hX.isMTypeSchur

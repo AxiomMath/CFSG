@@ -190,9 +190,9 @@ theorem conj_t_b₀ : D.t * D.b₀ * D.t⁻¹ = D.b₁ := by
     obtain ⟨e⟩ := D.CBt_iso
     have h8 := card_inf_normalizer_le_of_semidihedral (by have := D.three_le_n; omega) e hVP hV2
       hV4
-    haveI hPf : Finite ↥(D.B ⊓ centralizer ({D.t} : Set G)) :=
+    have hPf : Finite ↥(D.B ⊓ centralizer ({D.t} : Set G)) :=
       Nat.finite_of_card_ne_zero (by rw [D.card_CBt]; positivity)
-    haveI : Finite ↥(D.B ⊓ centralizer ({D.t} : Set G) ⊓ normalizer (V : Set G)) :=
+    have : Finite ↥(D.B ⊓ centralizer ({D.t} : Set G) ⊓ normalizer (V : Set G)) :=
       Finite.of_injective _ (inclusion_injective (inf_le_left :
         D.B ⊓ centralizer ({D.t} : Set G) ⊓ normalizer (V : Set G) ≤
           D.B ⊓ centralizer ({D.t} : Set G)))
@@ -244,7 +244,7 @@ theorem b₀_mem_of_normal {X : Subgroup G} (hX : X ≤ D.B₀)
     (hn : ∀ h ∈ D.B₀, ∀ x ∈ X, h * x * h⁻¹ ∈ X) (hne : X ≠ ⊥) : D.b₀ ∈ X := by
   obtain ⟨e⟩ := D.B₀_iso
   have hn2 : 2 ≤ n - 1 := by have := D.three_le_n; omega
-  haveI := lowerSub_normal e hn
+  have := lowerSub_normal e hn
   obtain ⟨x, hxX, hx1⟩ := (Subgroup.bot_or_exists_ne_one X).resolve_left hne
   have hxl : e ⟨x, hX hxX⟩ ∈ lowerSub e X := by
     rw [mem_lowerSub, MulEquiv.symm_apply_apply]
@@ -308,7 +308,7 @@ theorem card_B₀t : Nat.card D.B₀t = 2 ^ n := by
 
 theorem B₀_sup_B₀t : D.B₀ ⊔ D.B₀t = D.B₀ ⊔ D.B₁ := by
   have hle : D.B₀ ⊔ D.B₀t ≤ D.B₀ ⊔ D.B₁ := sup_le le_sup_left D.B₀t_le_B₀B₁
-  haveI : Finite ↥(D.B₀ ⊔ D.B₁) := Nat.finite_of_card_ne_zero (by rw [D.card_B₀B₁]; positivity)
+  have : Finite ↥(D.B₀ ⊔ D.B₁) := Nat.finite_of_card_ne_zero (by rw [D.card_B₀B₁]; positivity)
   refine eq_of_le_of_card_ge hle ?_
   rw [D.card_B₀B₁, card_sup_of_le_normalizer (le_normalizer_of_comm fun x hx y hy =>
     D.B₀_comm_B₀t hx hy) D.B₀_inf_B₀t, D.card_B₀, D.card_B₀t, ← pow_add, two_mul]

@@ -90,7 +90,7 @@ omit [Finite G] in
 private def commCore (X L P : Subgroup G) (hXL : X ≤ Subgroup.normalizer (L : Set G))
     (hXP : X ≤ Subgroup.normalizer (P : Set G)) : Subgroup G where
   carrier := {y | y ∈ X ∧ ∀ l ∈ L, y * l * y⁻¹ * l⁻¹ ∈ P}
-  one_mem' := ⟨X.one_mem, fun l _ => by simpa using P.one_mem⟩
+  one_mem' := ⟨X.one_mem, fun l _ => by simp⟩
   mul_mem' := by
     rintro y z ⟨hyX, hy⟩ ⟨hzX, hz⟩
     refine ⟨X.mul_mem hyX hzX, fun l hl => ?_⟩
@@ -277,7 +277,7 @@ theorem le_normalizer_jG_of_le (hT : CFSG.ABGLocalTools.IsSylowOf 2 T X)
 
 theorem relIndex_le_of_famG {V A : Subgroup G} (hVT : V ≤ T)
     (hVc : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) (hV2 : ∀ v ∈ V, v * v = 1)
-    (hTV : T ≤ Subgroup.normalizer (V : Set G)) (hA : A ∈ famG T 0) :
+    (_hTV : T ≤ Subgroup.normalizer (V : Set G)) (hA : A ∈ famG T 0) :
     (V ⊓ Subgroup.centralizer (A : Set G)).relIndex V ≤
       (A ⊓ Subgroup.centralizer (V : Set G)).relIndex A := by
   obtain ⟨hAT, hAe, hAcard⟩ := hA
@@ -318,6 +318,7 @@ theorem relIndex_le_of_famG {V A : Subgroup G} (hVT : V ≤ T)
     _ = D.relIndex A * Nat.card D * Nat.card ↥(A ⊓ V) := by rw [h2]
     _ = D.relIndex A * (Nat.card ↥(A ⊓ V) * Nat.card D) := by ring
 
+omit [Finite G] in
 theorem relIndex_centralizer_sup_le (V H K : Subgroup G) :
     (V ⊓ Subgroup.centralizer ((H ⊔ K : Subgroup G) : Set G)).relIndex V ≤
       (V ⊓ Subgroup.centralizer (H : Set G)).relIndex V *
@@ -336,6 +337,7 @@ theorem relIndex_centralizer_sup_le (V H K : Subgroup G) :
   rw [h, inf_inf_distrib_left]
   exact Subgroup.relIndex_inf_le
 
+omit [Finite G] in
 theorem relIndex_centralizer_conj {V : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (V : Set G)) (H : Subgroup G) :
     (V ⊓ Subgroup.centralizer ((H.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G)).relIndex V

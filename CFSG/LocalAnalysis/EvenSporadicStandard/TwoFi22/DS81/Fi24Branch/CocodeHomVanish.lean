@@ -29,7 +29,7 @@ theorem HomVanishX.apply_hom {T P : Subgroup (MulAut V)} {U : Subgroup V}
   let ψ : MulAut V → V := fun k => if hk : k ∈ P then (f ⟨k, hk⟩).out else 1
   have hψ : ∀ (k : MulAut V) (hk : k ∈ P), ((ψ k : V) : V ⧸ U) = f ⟨k, hk⟩ := by
     intro k hk
-    simp only [ψ, dif_pos hk]
+    simp only [ψ, dite_eq_left hk]
     exact QuotientGroup.out_eq' _
   have h1 : ∀ k₁ ∈ P, ∀ k₂ ∈ P, (ψ (k₁ * k₂))⁻¹ * (ψ k₁ * ψ k₂) ∈ U := by
     intro k₁ hk₁ k₂ hk₂
@@ -64,7 +64,7 @@ theorem homVanish_of_homVanishX (hm : M24Out G E t) {z : G} (hz : z ∈ E) {A : 
         (TwoFi22.O2In (S44.XE E ⊓ @Quasithin.centSub ↥E (commGroupOfM24Out hm)
           (zpowers (⟨z, hz⟩ : ↥E)))) Ū) :
     HomVanish E z A := by
-  letI := commGroupOfM24Out hm
+  let := commGroupOfM24Out hm
   have hCE := hm.centralizer_eq
   obtain ⟨Tz, hTz⟩ : ∃ Tz : Subgroup (MulAut ↥E), Tz = S44.XE E ⊓
       @Quasithin.centSub ↥E (commGroupOfM24Out hm) (zpowers (⟨z, hz⟩ : ↥E)) := ⟨_, rfl⟩

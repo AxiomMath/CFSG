@@ -102,10 +102,10 @@ theorem exists_flag_of_blocks (hd : IsCut n d) (S : ℕ → ℕ → Submodule K 
         by_contra h
         rw [show i = d.length - 1 from by omega, hd.last] at hin
         omega
-      rw [hyE, if_pos hin, q2cFA_cutBlock_eq_self hd hi1 le_rfl (hd.strict i hi1),
+      rw [hyE, ite_eq_left hin, q2cFA_cutBlock_eq_self hd hi1 le_rfl (hd.strict i hi1),
         Nat.sub_self, q2cFA_S_zero hd hlo hdim hi1]
     · rw [show d.getD i 0 = n from by have := q2cFA_getD_le hd hi; omega, hyE,
-        if_neg (by omega : ¬ n < n)]
+        ite_eq_right (by omega : ¬ n < n)]
   have hmain : ∀ b s, b + 1 < d.length → s ≤ blockSize d b →
       yE (d.getD b 0 + s) = S b s := by
     intro b s hb hs
@@ -120,7 +120,7 @@ theorem exists_flag_of_blocks (hd : IsCut n d) (S : ℕ → ℕ → Submodule K 
     · have hslt : s < blockSize d b := lt_of_le_of_ne hs hsm
       have hjn : d.getD b 0 + s < n := by
         have := hbn; simp only [blockSize] at hslt; omega
-      rw [hyE, if_pos hjn,
+      rw [hyE, ite_eq_left hjn,
         q2cFA_cutBlock_eq_self hd hb (j := d.getD b 0 + s) (Nat.le_add_right _ _)
           (by have h := hslt; simp only [blockSize] at h; omega),
         show d.getD b 0 + s - d.getD b 0 = s by omega]
@@ -128,7 +128,7 @@ theorem exists_flag_of_blocks (hd : IsCut n d) (S : ℕ → ℕ → Submodule K 
     refine monotone_nat_of_le_succ fun j => ?_
     by_cases hjn : j + 1 < n
     · have hj : j < n := by omega
-      rw [hyE, hyE, if_pos hj, if_pos hjn]
+      rw [hyE, hyE, ite_eq_left hj, ite_eq_left hjn]
       by_cases heq : q2cFA_cutBlock d j = q2cFA_cutBlock d (j + 1)
       · rw [heq]
         have hb1 : q2cFA_cutBlock d (j + 1) + 1 < d.length := by
@@ -158,13 +158,13 @@ theorem exists_flag_of_blocks (hd : IsCut n d) (S : ℕ → ℕ → Submodule K 
             (hlo (q2cFA_cutBlock d (j + 1)) (j + 1 - d.getD (q2cFA_cutBlock d (j + 1)) 0)
               hb2 (by simp only [blockSize]; omega)))
     · have htop : yE (j + 1) = ⊤ := by
-        rw [hyE, if_neg (by omega : ¬ j + 1 < n), Vsub_self]
+        rw [hyE, ite_eq_right (by omega : ¬ j + 1 < n), Vsub_self]
       rw [htop]
       exact le_top
   have hdimE : ∀ j, j ≤ n → finrank K (yE j) = j := by
     intro j hj
     by_cases hjn : j < n
-    · rw [hyE, if_pos hjn]
+    · rw [hyE, ite_eq_left hjn]
       have hb : q2cFA_cutBlock d j + 1 < d.length := by
         have := q2cFA_cutBlock_lt_of_lt hd hjn; omega
       have hcle := q2cFA_cutBlock_le hd j
@@ -172,8 +172,8 @@ theorem exists_flag_of_blocks (hd : IsCut n d) (S : ℕ → ℕ → Submodule K 
       rw [hdim (q2cFA_cutBlock d j) (j - d.getD (q2cFA_cutBlock d j) 0) hb
         (by simp only [blockSize] at hlt ⊢; omega)]
       omega
-    · rw [hyE, if_neg hjn, show j = n from by omega, finrank_Vsub le_rfl]
+    · rw [hyE, ite_eq_right hjn, show j = n from by omega, finrank_Vsub le_rfl]
   refine ⟨⟨yE, hmonoE, hdimE, fun j hj => by
-    rw [hyE, if_neg (by omega : ¬ j < n), Vsub_self]⟩, hyE_cut, hmain⟩
+    rw [hyE, ite_eq_right (by omega : ¬ j < n), Vsub_self]⟩, hyE_cut, hmain⟩
 
 end CFSG.ClassicalInvolution.Phan.PhanE.Flag

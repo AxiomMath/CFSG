@@ -42,7 +42,7 @@ theorem innerPlaneBalance_adjointG2_three_dvd_sub_one (K : Type) [Field K] [Fini
     · apply hinj
       rw [map_pow, map_one]
       exact hE.2 _ (Subgroup.mem_comap.1 hx)
-  haveI : CFSG.IsElementaryAbelian 3 E₀ :=
+  have : CFSG.IsElementaryAbelian 3 E₀ :=
     { toIsMulCommutative := hE₀el.1
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
         Subtype.ext (by simpa using hE₀el.2 g g.2) }
@@ -99,7 +99,7 @@ theorem innerPlaneBalance_adjointG2_five (K : Type) [Field K] [Finite K]
   · have hpq : 5 ∣ Nat.card K + 1 := by omega
     by_cases hodd : Odd (Nat.card K)
     · exact innerPlaneBalance_adjointG2_qplus_odd K hodd hp le_rfl hpq
-    · haveI := G2Aux.charP_two_of_even_natCard K (Nat.not_odd_iff_even.1 hodd)
+    · have := G2Aux.charP_two_of_even_natCard K (Nat.not_odd_iff_even.1 hodd)
       exact innerPlaneBalance_adjointG2_qplus_even
         (RankThree.PartOne.SEITZ6.maxSL2SL2G2_of_top CFSG.Goldschmidt.topStatement) K hp le_rfl hpq
 
@@ -118,7 +118,7 @@ theorem localTwoCrossFamCat_three_G2 : LocalTwoCrossFamCat 3 .G2 :=
 
 theorem localTwoCrossFamCat_five_G2 : LocalTwoCrossFamCat 5 .G2 :=
   G2Aux.localTwoCrossFamCat_G2_of_inner (by norm_num) (Or.inr rfl) fun K _ _ hK3 h5 => by
-    haveI : IsSimpleGroup (adjointGroup Tag.G2 K) :=
+    have : IsSimpleGroup (adjointGroup Tag.G2 K) :=
       CFSG.LieType.SeitzGeneration.isSimpleGroup_adjointGroup_of_isQuasisimple
         (CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card K hK3)
     exact innerPlaneBalance_adjointG2_five K h5

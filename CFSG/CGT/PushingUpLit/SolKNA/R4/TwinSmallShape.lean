@@ -23,7 +23,7 @@ theorem commute_of_solvable_subnormal {F : Type} [Group F] [Finite F] {C I X : S
   have hLq : CFSG.IsQuasisimple ↥(I.subgroupOf C) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hIC).symm hIq
   have hRsolv : Group.IsSolvable ↥(X.subgroupOf C) :=
-    solvable_of_solvable_injective (f := (Subgroup.subgroupOfEquivOfLe hXC).toMonoidHom)
+    Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hXC).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hXC).injective
   have hcent := (CFSG.LocalCores.component_solvable_centralizer hRsolv hRsub).1 _
     ⟨hLq, hLsub⟩
@@ -102,7 +102,7 @@ theorem twoCompShape_of_shape {F : Type} [Group F] {z : F} {F₁ F₂ : Type} [F
 theorem socleComm2_of_outTwoCyclic {F : Type} [Group F] (h : Nobq.OutTwoCyclic F) :
     SocleComm2 F := by
   have : SocleOutAbelian F := fun P hP => by
-    haveI := h P hP
+    have := h P hP
     exact IsCyclic.isMulCommutative
   exact this.comm2
 
@@ -134,7 +134,7 @@ theorem false_of_g2Ne3 {r n : ℕ} (hr : 4 ≤ r) {Y : Type} [Group Y] [Finite Y
     {S : Sylow 2 R} {t : Y} (h : PerpHypR r n Y R S t)
     (hsmall : TwoSubgroupsFourGenerated ↥(genFittingFStar Y))
     (hF : SmallG2Ne3 ↥(genFittingFStar Y)) : False := by
-  haveI := h.core.simple
+  have := h.core.simple
   obtain ⟨p, f, hp, hp2, hf, h3, hm⟩ := hF
   have hce := Q5G2D4.chevalleyExceptionalModel_of_lieModel hm (by decide) (by decide) (by decide)
   exact not_twinPair_of_twoCompShape (twoCompShape_g2 ⟨p, f, hp, hp2, hf, h3, hm⟩) hsmall
@@ -144,7 +144,7 @@ theorem false_of_d4Ne3 {r n : ℕ} (hr : 4 ≤ r) {Y : Type} [Group Y] [Finite Y
     {S : Sylow 2 R} {t : Y} (h : PerpHypR r n Y R S t)
     (hsmall : TwoSubgroupsFourGenerated ↥(genFittingFStar Y))
     (hF : SmallD4Ne3 ↥(genFittingFStar Y)) : False := by
-  haveI := h.core.simple
+  have := h.core.simple
   obtain ⟨p, f, hp, hp2, hf, h3, hm⟩ := hF
   have hce := Q5G2D4.chevalleyExceptionalModel_of_lieModel hm (by decide) (by decide) (by decide)
   exact not_twinPair_of_twoCompShape (twoCompShape_d4 ⟨p, f, hp, hp2, hf, h3, hm⟩) hsmall

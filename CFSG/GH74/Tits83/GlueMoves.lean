@@ -266,7 +266,7 @@ theorem conj_liftOne_Vminus {D : RankTwoSystem X 8} {x : X} (hx : x ∈ Vminus D
 theorem tauA_eight : tauA 8 8 = fun q : ℤ => q - 8 := by
   funext q
   unfold tauA
-  rw [if_pos (show Even (8 : ℕ) from ⟨4, by norm_num⟩)]
+  rw [ite_eq_left (show Even (8 : ℕ) from ⟨4, by norm_num⟩)]
   ring
 
 theorem conj_liftZero_V {D : RankTwoSystem X 8} {x : X} (hx : x ∈ V D) :
@@ -424,11 +424,11 @@ theorem comm_std (D : RankTwoSystem X 8) {a b : ℤ} (ha : 1 ≤ a) (hab : a < b
     (fun k hk => by
       by_cases h : a + 1 ≤ k ∧ k ≤ b
       · simpa [h] using hf₁ k (mem_intList_iff.2 h)
-      · simpa [h] using (D.root k).one_mem)
+      · simp [h])
     (fun k hk => by
       by_cases h : a ≤ k ∧ k ≤ b - 1
       · simpa [h] using hf₂ k (mem_intList_iff.2 h)
-      · simpa [h] using (D.root k).one_mem)
+      · simp [h])
     (by
       rw [intList_prod_pad (l := 1) (by omega) (by omega) (by omega) f₁,
         intList_prod_pad (l := 1) (by omega) (by omega) (by omega) f₂, ← he₁, ← he₂]) b
@@ -478,7 +478,6 @@ theorem exists_moves_shift (D : RankTwoSystem X 8) (s : ℤ) :
   · refine ⟨(g₀⁻¹) ^ n, ?_⟩
     convert key' n using 1
     funext j
-    push_cast
     ring
 
 theorem exists_moves_refl (D : RankTwoSystem X 8) (c : ℤ) (hc : Even c) :

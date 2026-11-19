@@ -28,7 +28,7 @@ open CFSG CFSG.Assembly Module QTwoLin
     apply LinearEquiv.ext
     intro v
     funext i
-    simp only [LinearEquiv.mul_apply, Function.comp_apply]
+    simp only [LinearEquiv.mul_apply]
     congr 1
 
 theorem ggPermHom_apply (m : ℕ) (σ : Equiv.Perm (Fin m)) (v : GGBCV m) (i : Fin m) :

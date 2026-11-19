@@ -9,7 +9,7 @@ namespace CFSG.StandardType
 open CFSG.Assembly
 
 private theorem rowLab_SA {p : ℕ} {lab : LargeEvenLabel} (h : ggRowP_SA p lab) :
-    GGNSRowLab p lab := by simp only [GGNSRowLab, h, true_or, or_true]
+    GGNSRowLab p lab := by simp only [GGNSRowLab, h, true_or]
 
 private theorem rowLab_SD {p : ℕ} {lab : LargeEvenLabel} (h : ggRowP_SD p lab) :
     GGNSRowLab p lab := by simp only [GGNSRowLab, h, true_or, or_true]
@@ -69,7 +69,7 @@ private theorem rowLab_ZA8 {p : ℕ} {lab : LargeEvenLabel} (h : ggRowP_ZA8 p la
     GGNSRowLab p lab := by simp only [GGNSRowLab, h, true_or, or_true]
 
 private theorem rowLab_ZE6 {p : ℕ} {lab : LargeEvenLabel} (h : ggRowP_ZE6 p lab) :
-    GGNSRowLab p lab := by simp only [GGNSRowLab, h, true_or, or_true]
+    GGNSRowLab p lab := by simp only [GGNSRowLab, h, or_true]
 
 private theorem rowLab_smallA {p r n : ℕ} (h : r ≤ 2) : GGNSRowLab p ⟨.A, r, n⟩ :=
   rowLab_Small (.inl ⟨rfl, h⟩)

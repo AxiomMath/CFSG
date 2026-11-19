@@ -64,7 +64,7 @@ theorem ggStdSubTwoTorusNormSmall_linTwo (hK : Nat.card K = 2) (hd : 6 ≤ d) :
   have : CharP K 2 := charP_two_of_card (m := 1) (by simpa using hK)
   obtain ⟨φ₀, g, hg, s, r, ε, A₀, hC, hCp, hfr⟩ :=
     exists_frame_of_recipe hK hd ψ hψ hker hperf A hA hAI hr
-  haveI := hg
+  have := hg
   have hnsplit : ¬ 3 ∣ Nat.card K - 1 := by
     rw [hK]
     decide
@@ -83,7 +83,7 @@ theorem ggStdSubTwoTorusDeltaSmall_linTwo (hK : Nat.card K = 2) (hd : 6 ≤ d) :
   have : CharP K 2 := charP_two_of_card (m := 1) (by simpa using hK)
   obtain ⟨φ₀, g, hg, s, r, ε, A₀, hC, hCp, hfr⟩ :=
     exists_frame_of_recipe hK hd ψ hψ hker hperf A hA hAI hr
-  haveI := hg
+  have := hg
   exfalso
   refine SmallL2.not_ggDeltaAdm_of_inner (p := 3) (by decide) hfr.conj_inj ?_ hδ
   intro b hb

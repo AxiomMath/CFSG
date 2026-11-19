@@ -54,7 +54,7 @@ theorem exists_sylowOf_p (H : Subgroup G) : ∃ P : Subgroup G, IsSylowOf p P H 
   refine ⟨(P : Subgroup H).map H.subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2
-  · exact P.isPGroup'.map H.subtype
+  · exact P.isPGroup.map H.subtype
   · rw [Subgroup.relIndex, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
     exact (Nat.Prime.coprime_iff_not_dvd hp).mpr (P.not_dvd_index)
@@ -87,6 +87,7 @@ theorem exists_conj_le_sylowOf_p {H P Q : Subgroup G} (hP : IsSylowOf p P H) (hQ
   rw [this]
   exact hsP
 
+omit [Finite G] in
 theorem card_conjBy (g : G) (H : Subgroup G) : Nat.card ↥(conjBy g H) = Nat.card ↥H :=
   Subgroup.card_map_of_injective (MulAut.conj g).injective
 
@@ -96,6 +97,7 @@ theorem isSylowOf_conjBy {H P : Subgroup G} (h : IsSylowOf p P H) (g : G) :
   rw [card_conjBy, card_conjBy]
   exact isSylowOf_card_p h
 
+omit [Finite G] in
 theorem conjBy_conjBy (g h : G) (H : Subgroup G) :
     conjBy g (conjBy h H) = conjBy (g * h) H := by
   ext x
@@ -131,17 +133,21 @@ theorem mem_nor_of_forall {V : Subgroup G} {m : G} (h : ∀ y ∈ V, m * y * m�
     exact mul_right_cancel h1
   exact this ▸ hy'
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem Op_le (H : Subgroup G) : Op p H ≤ H := Subgroup.map_subtype_le _
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem Op_conj_mem {H : Subgroup G} {g z : G} (hg : g ∈ H) (hz : z ∈ Op p H) :
     g * z * g⁻¹ ∈ Op p H := by
   obtain ⟨z', hz', rfl⟩ := Subgroup.mem_map.mp hz
   refine Subgroup.mem_map.mpr ⟨⟨g, hg⟩ * z' * ⟨g, hg⟩⁻¹, ?_, by simp⟩
   exact (CFSG.pCore_normal (p := p) (G := H)).conj_mem z' hz' ⟨g, hg⟩
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem Op_isPGroup (H : Subgroup G) : IsPGroup p (Op p H) :=
   (CFSG.pCore_isPGroup (p := p) (G := H)).map H.subtype
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem le_Op_of_normalized {N H : Subgroup G} (hNH : N ≤ H)
     (hn : ∀ h ∈ H, ∀ x ∈ N, h * x * h⁻¹ ∈ N) (hc : IsPGroup p N) : N ≤ Op p H := by
   have hN : (N.subgroupOf H).Normal := ⟨fun x hx h => by
@@ -152,6 +158,7 @@ theorem le_Op_of_normalized {N H : Subgroup G} (hNH : N ≤ H)
   intro x hx
   exact ⟨⟨x, hNH hx⟩, hle hx, rfl⟩
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem mem_Op_of_centralizes {H : Subgroup G} (hH : IsCharacteristicP p ↥H) {g : G} (hg : g ∈ H)
     (hc : ∀ z ∈ Op p H, g * z = z * g) : g ∈ Op p H := by
   have hmem : (⟨g, hg⟩ : ↥H) ∈ Subgroup.centralizer (pCore p ↥H : Set ↥H) := by
@@ -161,6 +168,7 @@ theorem mem_Op_of_centralizes {H : Subgroup G} (hH : IsCharacteristicP p ↥H) {
     exact Subtype.ext this.symm
   exact ⟨⟨g, hg⟩, hH hmem, rfl⟩
 
+omit [Finite G] in
 theorem comm_aux {a c j k : G} (haj : Commute a j) (hak : Commute a k) (hac : Commute a c)
     (hcj : Commute c j) (hck : Commute c k) :
     (a * j) * (c * k) * (a * j)⁻¹ * (c * k)⁻¹ = j * k * j⁻¹ * k⁻¹ := by
@@ -176,6 +184,7 @@ theorem comm_aux {a c j k : G} (haj : Commute a j) (hak : Commute a k) (hac : Co
     _ = c * (j * k * j⁻¹ * k⁻¹) * c⁻¹ := by group
     _ = j * k * j⁻¹ * k⁻¹ := hC
 
+omit [Finite G] in
 theorem centralizes_of_comm_central {J : Subgroup G} (hJ : Group.IsPerfect ↥J) {t : G}
     (ht : ∀ j ∈ J, t * j * t⁻¹ * j⁻¹ ∈ J ⊓ CenS J) : ∀ j ∈ J, j * t = t * j := by
   let S : Subgroup ↥J := (Subgroup.centralizer ({t} : Set G)).subgroupOf J

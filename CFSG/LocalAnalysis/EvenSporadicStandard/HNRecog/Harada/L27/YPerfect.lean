@@ -51,9 +51,9 @@ theorem perfect_normalizes_component {Y : Type*} [Group Y] [Finite Y]
     · exact hab (Subtype.ext h)
     · exact hac (Subtype.ext h)
     · exact hbc (Subtype.ext h)
-  haveI : IsMulCommutative (Equiv.Perm S) :=
+  have : IsMulCommutative (Equiv.Perm S) :=
     Equiv.Perm.isMulCommutative_iff_card_le_two.mpr hcard
-  haveI : Group.IsPerfect F := Subgroup.isPerfect_iff.mpr hF
+  have : Group.IsPerfect F := Subgroup.isPerfect_iff.mpr hF
   have h1 : (compPerm (Y := Y)).comp F.subtype = 1 := by
     apply MonoidHom.ext
     intro x
@@ -79,7 +79,7 @@ theorem perfect_le_layer {Y : Type} [Group Y] [Finite Y] (hfree : SolvableRadica
     (hle : ∀ A B C : Subgroup Y, IsComponentOf A ⊤ → IsComponentOf B ⊤ → IsComponentOf C ⊤ →
       A = B ∨ A = C ∨ B = C)
     {F : Subgroup Y} (hF : ⁅F, F⁆ = F) : F ≤ Layer.subgroup Y := by
-  haveI : Group.IsPerfect F := Subgroup.isPerfect_iff.mpr hF
+  have : Group.IsPerfect F := Subgroup.isPerfect_iff.mpr hF
   refine RadicalFreeLayer.perfect_normalizer_enters_layer hfree F ?_ ?_
   · intro component hcomponent
     exact perfect_normalizes_component hle hF hcomponent

@@ -34,6 +34,7 @@ open SpCoord Multiplicative
 
 section Transport
 
+omit [Finite G] in
 private theorem toAdd_coord_mul_pow_inv {n : ℕ} {Bs : Subgroup G}
     {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))}
     (φ a : MulAut ↥Bs) (b : ↥Bs) (c : ℕ) (k : Fin n) :
@@ -70,6 +71,7 @@ private theorem congr_normalizes_of_map_eq {n : ℕ} {Bs : Subgroup G}
   exact Subgroup.mem_map_of_mem _
     (GGSecFiveRouteCfg.conj_mem_ggAutomizer_of_fix hR ha₀ hx hφ hφx ha)
 
+omit [Finite G] in
 private theorem eta_x_fixed_of_map_eq {n : ℕ} {Bs : Subgroup G} {x : G}
     {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))}
     {P : Subgroup (MulAut (Fin n → Multiplicative (ZMod p)))}
@@ -167,7 +169,7 @@ private theorem GGSecFiveRouteCfg.nativeImage_of_axis (hR : GGSecFiveRouteCfg p 
     ∃ (c : ℕ) (a : MulAut ↥Bs), a ∈ ggAutomizer L Bs ∧
       ∀ b : ↥Bs, φ b * (a b ^ c)⁻¹ ∈ Subgroup.zpowers (⟨x, hx⟩ : ↥Bs) := by
   obtain ⟨hp, -⟩ := ggRouteCfg_prime hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := hR.1.1.1.2.2.2.2.2.2.1.2.2.1
   obtain ⟨γ, w, hw, hrel⟩ := hnormW _ (congr_normalizes_of_map_eq hR ha₀ hx hφ hφx hLW)
   rw [← hLW] at hw
@@ -249,8 +251,8 @@ theorem GGSecFiveRouteCfg.nativeImage_of_le_bCoordinateBlock_four
     ∃ (c : ℕ) (a : MulAut ↥Bs), a ∈ ggAutomizer L Bs ∧
       ∀ b : ↥Bs, φ b * (a b ^ c)⁻¹ ∈ Subgroup.zpowers (⟨x, hx⟩ : ↥Bs) := by
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hR
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut (Fin 4 → Multiplicative (ZMod p))) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut (Fin 4 → Multiplicative (ZMod p))) :=
     Finite.of_injective (fun f : MulAut _ => (f : _ → _)) DFunLike.coe_injective
   have hcardA : Nat.card ↥((ggAutomizer L Bs).map (MulAut.congr eta).toMonoidHom) =
       Nat.card ↥(ggAutomizer L Bs) :=
@@ -289,7 +291,7 @@ theorem GGSecFiveRouteCfg.nativeImage_of_le_bCoordinateBlock_four
             Nat.card {v : Fin 4 → Multiplicative (ZMod p) //
               MulAut.congr eta (e ((CoxeterMatrix.A 3).simple i)) v = v} := by
           refine Nat.card_congr (Equiv.subtypeEquiv (Equiv.refl _) (fun v => ?_))
-          simpa only [hcoe, Equiv.refl_apply]
+          simp only [hcoe, Equiv.refl_apply]
         rw [hfix]
         exact htrans.2
     have hLD : (ggAutomizer L Bs).map (MulAut.congr eta).toMonoidHom ≤
@@ -328,7 +330,7 @@ theorem GGSecFiveRouteCfg.nativeImage_of_aPermutationFull
     ∃ (c : ℕ) (a : MulAut ↥Bs), a ∈ ggAutomizer L Bs ∧
       ∀ b : ↥Bs, φ b * (a b ^ c)⁻¹ ∈ Subgroup.zpowers (⟨x, hx⟩ : ↥Bs) := by
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := hR.1.1.1.2.2.2.2.2.2.1.2.2.1
   have hnorm : ∀ w ∈ aPermutationFull n p,
       MulAut.congr eta φ * w * (MulAut.congr eta φ)⁻¹ ∈ aPermutationFull n p :=

@@ -17,6 +17,7 @@ section Generic
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem le_opp_of_normalizes {S Q : Subgroup H} (hQS : Q ≤ S)
     (hN : ∀ s ∈ S, ∀ q ∈ Q, s * q * s⁻¹ ∈ Q) (hco : Nat.Coprime 3 (Nat.card Q)) :
     Q ≤ Opp 3 S := by
@@ -29,6 +30,7 @@ theorem le_opp_of_normalizes {S Q : Subgroup H} (hQS : Q ≤ S)
   have hle : Q.subgroupOf S ≤ CFSG.pPrimeCore 3 ↥S := le_sSup ⟨hnorm, hco'⟩
   exact ⟨⟨q, hQS hq⟩, hle (Subgroup.mem_subgroupOf.mpr hq), rfl⟩
 
+omit [Finite H] in
 theorem opp_le (K : Subgroup H) : Opp 3 K ≤ K := Subgroup.map_subtype_le _
 
 theorem coprime_card_opp (K : Subgroup H) : Nat.Coprime 3 (Nat.card (Opp 3 K)) := by
@@ -112,7 +114,7 @@ theorem exists_two_subgroup_of_even {A O : Subgroup H} (hA : IsPGroup 3 A)
     have : (y : H) ∈ (P₀ : Subgroup ↥O).map O.subtype := ⟨y, hy, rfl⟩
     rw [h0, Subgroup.mem_bot] at this
     exact Subgroup.mem_bot.mpr (Subtype.ext this)
-  · exact P₀.isPGroup'.of_equiv (Subgroup.equivMapOfInjective _ O.subtype O.subtype_injective)
+  · exact P₀.isPGroup.of_equiv (Subgroup.equivMapOfInjective _ O.subtype O.subtype_injective)
   · intro k hk
     exact Subgroup.mem_normalizer_fintype fun x hx => key k hk x hx
 
@@ -122,6 +124,7 @@ section Central
 
 variable {C : Type} [Group C] [Finite C] (x : C)
 
+omit [Finite C] in
 theorem zpowers_normal_of_central (hx : ∀ c : C, c * x = x * c) :
     (Subgroup.zpowers x).Normal := ⟨fun n hn g => by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hn
@@ -131,19 +134,21 @@ theorem zpowers_normal_of_central (hx : ∀ c : C, c * x = x * c) :
 
 variable {x}
 
+omit [Finite C] in
 theorem orderOf_dvd_three_of_mem_zpowers (hx3 : x ^ 3 = 1) {y : C}
     (hy : y ∈ Subgroup.zpowers x) : orderOf y ∣ 3 := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
   refine orderOf_dvd_of_pow_eq_one ?_
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hx3, one_zpow]
 
+omit [Finite C] in
 theorem eq_one_of_mem_zpowers_of_coprime (hx3 : x ^ 3 = 1) {y : C}
     (hy : y ∈ Subgroup.zpowers x) (hco : Nat.Coprime 3 (orderOf y)) : y = 1 :=
   orderOf_eq_one_iff.mp (Nat.Coprime.eq_one_of_dvd (Nat.Coprime.symm hco)
     (orderOf_dvd_three_of_mem_zpowers hx3 hy))
 
 theorem exists_hall_of_central [(Subgroup.zpowers x).Normal] (hx : ∀ c : C, c * x = x * c)
-    (hx3 : x ^ 3 = 1) (Q : Subgroup (C ⧸ Subgroup.zpowers x)) (hQ : Nat.Coprime 3 (Nat.card Q)) :
+    (_hx3 : x ^ 3 = 1) (Q : Subgroup (C ⧸ Subgroup.zpowers x)) (hQ : Nat.Coprime 3 (Nat.card Q)) :
     ∃ K : Subgroup C, Nat.Coprime 3 (Nat.card K) ∧
       (∀ k ∈ K, (QuotientGroup.mk k : C ⧸ Subgroup.zpowers x) ∈ Q) ∧
       (∀ c : C, (QuotientGroup.mk c : C ⧸ Subgroup.zpowers x) ∈ Q →
@@ -173,7 +178,7 @@ theorem exists_hall_of_central [(Subgroup.zpowers x).Normal] (hx : ∀ c : C, c 
   obtain ⟨P₃⟩ : Nonempty (Sylow 3 P) := inferInstance
   have hP₃Z : ∀ p ∈ (P₃ : Subgroup P), (p : C) ∈ Z := by
     intro p hp
-    obtain ⟨k, hk⟩ := P₃.isPGroup' ⟨p, hp⟩
+    obtain ⟨k, hk⟩ := P₃.isPGroup ⟨p, hp⟩
     exact h3Z p p.2 ⟨k, by simpa using congrArg (fun z : (P₃ : Subgroup P) => ((z : P) : C)) hk⟩
   have hcentral : ∀ z ∈ Z, ∀ c : C, c * z = z * c := by
     intro z hz c
@@ -195,7 +200,7 @@ theorem exists_hall_of_central [(Subgroup.zpowers x).Normal] (hx : ∀ c : C, c 
       exact Nat.Coprime.coprime_dvd_right (orderOf_dvd_natCard _) hcop
     · intro hd
       have hpd : orderOf (φ d) ∣ orderOf d := orderOf_map_dvd φ d
-      obtain ⟨k, hk⟩ := P₃.isPGroup' (φ d)
+      obtain ⟨k, hk⟩ := P₃.isPGroup (φ d)
       have hpk : orderOf (φ d) ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one hk
       have hc : Nat.Coprime (orderOf (φ d)) (orderOf d) :=
         (Nat.Coprime.pow_left k hd).coprime_dvd_left hpk

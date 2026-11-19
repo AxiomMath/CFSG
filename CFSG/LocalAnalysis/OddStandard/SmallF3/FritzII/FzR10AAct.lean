@@ -222,7 +222,7 @@ theorem fzr_a_act_mul {c d : G} {M N : Mat} (hc : FzR10AAct a b c M) (hd : FzR10
       _ = fzrAElt a b ((M.mul N).ap n) := by rw [← fzrAux_ap_mul]
 
 theorem fzr_a_act_mul_eq (hB : FzR10ABasis P a b) {c d e f : G} {M N K L : Mat}
-    (hM : FzR10AMatLt M) (hN : FzR10AMatLt N) (hK : FzR10AMatLt K) (hL : FzR10AMatLt L)
+    (_hM : FzR10AMatLt M) (_hN : FzR10AMatLt N) (_hK : FzR10AMatLt K) (_hL : FzR10AMatLt L)
     (hc : FzR10AAct a b c M) (hd : FzR10AAct a b d N) (he : FzR10AAct a b e K)
     (hf : FzR10AAct a b f L) (h : c * d = e * f) : M.mul N = K.mul L := by
   have hcd := fzr_a_act_mul hc hd
@@ -230,7 +230,7 @@ theorem fzr_a_act_mul_eq (hB : FzR10ABasis P a b) {c d e f : G} {M N K L : Mat}
   rw [h] at hcd
   exact fzr_a_act_unique hB (fzrAux_mul_lt M N) (fzrAux_mul_lt K L) hcd hef
 
-theorem fzr_a_act_sq_one (hB : FzR10ABasis P a b) {c : G} {M : Mat} (hM : FzR10AMatLt M)
+theorem fzr_a_act_sq_one (hB : FzR10ABasis P a b) {c : G} {M : Mat} (_hM : FzR10AMatLt M)
     (hc : FzR10AAct a b c M) (h : c * c = 1) : M.mul M = Mat.one := by
   have hm := fzr_a_act_mul hc hc
   rw [h] at hm

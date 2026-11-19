@@ -77,7 +77,7 @@ theorem exists_subgroup_order {F : Type} [Field F] [Finite F] {r : ℕ} [Fact r.
     (hdvd : r ∣ Nat.card F - 1) :
     ∃ Z : Subgroup Fˣ, Nat.card Z = r ∧ ∀ z : Z, z ^ r = 1 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcardU : Nat.card Fˣ = Nat.card F - 1 := by
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_units]
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) r (hcardU ▸ hdvd)

@@ -147,8 +147,8 @@ theorem exists_decomp (h2 : (2 : F) ≠ 0) (x : V7 F) :
     x (.inr (.inr ())), ?_⟩
   funext t
   rcases t with i | i | u
-  · fin_cases i <;> simp [kappa_mk5, mk7] <;> field_simp <;> ring
-  · fin_cases i <;> simp [kappa_mk5, mk7] <;> field_simp <;> ring
+  · fin_cases i <;> simp [kappa_mk5, mk7] <;> field_simp; ring
+  · fin_cases i <;> simp [kappa_mk5, mk7] <;> field_simp; ring
   · simp [kappa_mk5, mk7]
 
 theorem pP_eq (h2 : (2 : F) ≠ 0) (s z : F) :

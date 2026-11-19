@@ -20,8 +20,7 @@ theorem ff6p_hyp62_of_sylow (hc : FF6PCls) :
       ∀ B : Subgroup G, IsNormalE16In (S₁ ⊓ L) B →
         (∀ y ∈ S₁, y ∉ centralizer (L : Set G) → (∀ b ∈ B, y * b = b * y) →
           ¬ ∃ α : ℤˣ, InducesTypeSome L y 6 1 1 α) → Hyp62At L := by
-  intro G _ _ L hL H S₁ hLH hHN hS hNC B hB hno
-  intro V _ _ _ Q hQ e hdim hsgn s x hs hxG
+  intro G _ _ L hL H S₁ hLH hHN hS hNC B hB hno V _ _ _ Q hQ e hdim hsgn s x hs hxG
   have hz : Subgroup.center ↥L = ⊥ := ff6p_center_bot hc hL
   obtain ⟨e₁, he₁⟩ := ff6p_model_of_oddCore hL hQ e
   have hs₁ : InducesViaP L (Subgroup.center ↥L) hQ e₁ s x := he₁ s x hs

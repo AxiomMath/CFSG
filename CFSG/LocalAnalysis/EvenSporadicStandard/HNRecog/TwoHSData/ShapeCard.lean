@@ -55,7 +55,7 @@ theorem isConj_of_mem_centralizer_of_orderOf_five {G : Type*} [Group G] [Finite 
     (hcard : (Nat.card ↥(centralizer ({b} : Set G))).factorization 5 = 1)
     (hs : ∀ k : ℕ, 0 < k → k < 5 → IsConj s (rp ^ k)) (hρ : orderOf ρ = 5)
     (hρb : ρ * b = b * ρ) : IsConj s ρ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hrpC : rp ∈ centralizer ({b} : Set G) := mem_centralizer_singleton_iff.2 hrpb
   have hρC : ρ ∈ centralizer ({b} : Set G) := mem_centralizer_singleton_iff.2 hρb
   have hle : zpowers rp ≤ centralizer ({b} : Set G) := zpowers_le.2 hrpC

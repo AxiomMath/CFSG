@@ -58,7 +58,7 @@ theorem qa_parts :
       ∀ j < 75735, adjW 0 j = (id7Proj (wt j) == wt j) := by
   have h := idQaCheck_holds
   simp only [id7ChkQa, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.mem_range,
-    Array.all_eq_true', decide_eq_true_eq] at h
+    Array.all_eq_true'] at h
   obtain ⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩ := h
   exact ⟨h1, h2, h3, fun s hs t ht => by simpa using h4 s hs t ht,
     fun j hj => by simpa using h5 j hj⟩

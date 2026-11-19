@@ -89,7 +89,7 @@ theorem nfWt_single (N m j : ℕ) (i : Fin 4) (s : ℤ) :
   by_cases hk : k = i
   · subst hk
     simp [nfWt, castW]
-  · simp [nfWt, castW, Pi.single_apply, hk]
+  · simp [nfWt, castW, hk]
 
 theorem exists_minWt_of_nfType {N m j : ℕ} [Fact (1 < N)] (hm : (2 * m : ZMod N) = 1)
     {C : Finset (Fin 4 → ZMod N)} (hC : NFType j C) :
@@ -165,7 +165,7 @@ theorem exists_minWt_of_nfType {N m j : ℕ} [Fact (1 < N)] (hm : (2 * m : ZMod 
         by_cases h : a i = b₀
         · simp [h, hbne]
         · have h' : a i = -b₀ := (ha1 i).resolve_left h
-          simp [h, h', Ne.symm hbne]
+          simp [h', Ne.symm hbne]
       · funext i
         by_cases h : a i = b₀
         · rw [hval1 _ i (by simp [h]), h]
@@ -212,6 +212,7 @@ theorem natCard_units_eq (K : Type*) [Field K] [Fintype K] :
     Nat.card Kˣ = Fintype.card K - 1 := by
   rw [Nat.card_units, Nat.card_eq_fintype_card]
 
+omit [CharP K 2] in
 theorem two_mul_eq_one_zmod {m : ℕ} (hm : 2 * m = Fintype.card K) :
     ((2 * m : ℕ) : ZMod (Nat.card Kˣ)) = 1 := by
   rw [hm, natCard_units_eq]
@@ -219,6 +220,7 @@ theorem two_mul_eq_one_zmod {m : ℕ} (hm : 2 * m = Fintype.card K) :
   rw [show Fintype.card K = Fintype.card K - 1 + 1 by omega, Nat.cast_add, ZMod.natCast_self,
     zero_add, Nat.cast_one]
 
+omit [CharP K 2] in
 theorem card_units_cases {f : ℕ} (hf : Fintype.card K = 2 ^ f) (hq : 4 ≤ Fintype.card K) :
     Nat.card Kˣ = 3 ∨ 7 ≤ Nat.card Kˣ := by
   rw [natCard_units_eq, hf]
@@ -229,6 +231,7 @@ theorem card_units_cases {f : ℕ} (hf : Fintype.card K = 2 ^ f) (hq : 4 ≤ Fin
     have : 2 ^ 3 ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) h
     omega
 
+omit [CharP K 2] in
 theorem wtChar_nfWt (m j : ℕ) (χ : Fin 4 → ℤ) (z : Fin 4 → Kˣ) :
     D4Datum.wtChar (nfWt (Nat.card Kˣ) m j χ) z = wtChar m j χ z := by
   rw [nfWt, D4Datum.wtChar_castW_units, torusChar_apply, wtChar, ← Finset.prod_pow]
@@ -247,7 +250,7 @@ theorem exists_basis_of_nf {f m : ℕ} (hf : Fintype.card K = 2 ^ f) (hm : 2 * m
       ∀ z χ, ρ (D.h z) (v χ) = (wtChar m j (χ : Fin 4 → ℤ) z : K) • v χ := by
   classical
   have hNcase := card_units_cases hf hq
-  haveI : Fact (1 < (Nat.card Kˣ)) := ⟨by rcases hNcase with h | h <;> omega⟩
+  have : Fact (1 < (Nat.card Kˣ)) := ⟨by rcases hNcase with h | h <;> omega⟩
   have hm' : (2 * m : ZMod (Nat.card Kˣ)) = 1 := by exact_mod_cast two_mul_eq_one_zmod hm
   have hjf : j < f := by
     have h1 : 2 ^ j < 2 ^ f := by
@@ -302,14 +305,14 @@ theorem exists_basis_of_nf {f m : ℕ} (hf : Fintype.card K = 2 ^ f) (hm : 2 * m
         · split_ifs <;> simp
         · split_ifs <;> simp
       rw [Finset.sum_congr rfl fun ψ _ => e1 ψ, Finset.sum_add_distrib, Finset.sum_ite_eq',
-        if_pos (Finset.mem_univ _)]
+        ite_eq_left (Finset.mem_univ _)]
       congr 1
       split_ifs with h
       · rw [Finset.sum_eq_single ⟨_, h⟩ (fun ψ _ hψ => by
-          rw [if_neg (fun h' => hψ (Subtype.ext h'))]) (fun h' => absurd (Finset.mem_univ _) h'),
-          if_pos rfl]
+          rw [ite_eq_right (fun h' => hψ (Subtype.ext h'))]) (fun h' => absurd (Finset.mem_univ _) h'),
+          ite_eq_left rfl]
       · exact Finset.sum_eq_zero fun ψ _ => by
-          rw [if_neg (fun h' : (ψ : Fin 4 → ℤ) = χ + β => h (h' ▸ ψ.2))]
+          rw [ite_eq_right (fun h' : (ψ : Fin 4 → ℤ) = χ + β => h (h' ▸ ψ.2))]
     rw [hsum, hvu, hu, posX, hb.root _ (isD4Root_halfVec β hβ) t _ (hWC χ χ.2),
       ← nfWt_posRoot hm' j β hβ, ← nfWt_add]
     congr 1

@@ -16,13 +16,13 @@ theorem centralizer_eq_bot_of_cost_one {M : Type} [CommGroup M] [Finite M]
     (hcost : rk ↥(commSub ⊤ (Subgroup.zpowers d)) = 1) :
     Subgroup.centralizer (K : Set (MulAut M)) = ⊥ := by
   classical
-  letI : Module (ZMod 2) (Additive M) := addModTwo hM2
+  let : Module (ZMod 2) (Additive M) := addModTwo hM2
   rw [Subgroup.eq_bot_iff_forall]
   intro c hc
   have hcomm : ∀ k ∈ K, c * k = k * c := by
     intro k hk
     exact (Subgroup.mem_centralizer_iff.mp hc k hk).symm
-  haveI : Nontrivial M := by
+  have : Nontrivial M := by
     rw [← not_subsingleton_iff_nontrivial]
     intro hs
     exact absurd (Subsingleton.elim (⊥ : Subgroup M) ⊤) (ne_of_lt hirr.1)
@@ -34,10 +34,10 @@ theorem centralizer_eq_bot_of_cost_one {M : Type} [CommGroup M] [Finite M]
     rw [LinearMap.zero_apply, Module.End.one_apply] at h2
     exact hm (Additive.ofMul.injective h2.symm)
   let e : w1369E hM2 K := ⟨w1369LinHom hM2 c, w1369_linHom_mem_E hM2 hcomm⟩
-  haveI : Finite (Module.End (ZMod 2) (Additive M)) :=
+  have : Finite (Module.End (ZMod 2) (Additive M)) :=
     Finite.of_injective (fun f : Module.End (ZMod 2) (Additive M) =>
       (f : Additive M → Additive M)) DFunLike.coe_injective
-  haveI : Finite (w1369E hM2 K) :=
+  have : Finite (w1369E hM2 K) :=
     Finite.of_injective (fun x : w1369E hM2 K => (x : Module.End (ZMod 2) (Additive M)))
       Subtype.val_injective
   have he_ne0 : e ≠ 0 := by

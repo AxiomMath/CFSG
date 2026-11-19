@@ -26,7 +26,7 @@ theorem commSp_le_fixSp {c : V ≃ₗ[ZMod 2] V} (hcc : c * c = 1) {T : Submodul
 theorem two_mul_finrank_commSp_le [Finite V] {c : V ≃ₗ[ZMod 2] V} (hcc : c * c = 1)
     {T : Submodule (ZMod 2) V} (hcT : ∀ t ∈ T, c t ∈ T) :
     2 * Module.finrank (ZMod 2) (commSp V c T) ≤ Module.finrank (ZMod 2) T := by
-  haveI : Module.Finite (ZMod 2) T := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) T := Module.Finite.of_finite
   set f : T →ₗ[ZMod 2] V := ((c : V →ₗ[ZMod 2] V) - 1).domRestrict T with hf
   have hrk := LinearMap.finrank_range_add_finrank_ker f
   have hrange : LinearMap.range f = commSp V c T := by
@@ -37,7 +37,7 @@ theorem two_mul_finrank_commSp_le [Finite V] {c : V ≃ₗ[ZMod 2] V} (hcc : c *
     have : (LinearMap.ker f).map T.subtype = fixSp V c T := by
       ext v
       simp only [Submodule.mem_map, LinearMap.mem_ker, hf, LinearMap.domRestrict_apply,
-        LinearMap.sub_apply, LinearMap.coe_coe, Module.End.one_apply, sub_eq_zero, fixSp,
+        LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero, fixSp,
         Submodule.mem_inf, Submodule.coe_subtype]
       constructor
       · rintro ⟨t, ht, rfl⟩
@@ -63,7 +63,7 @@ theorem invol_trivial [Finite V] {x c : V ≃ₗ[ZMod 2] V} {p : ℕ} (hp : p.Pr
   have h2 := two_mul_finrank_commSp_le hcc hcT
   have hbot : commSp V c T = ⊥ := by
     by_contra hne
-    haveI : Module.Finite (ZMod 2) (commSp V c T) := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) (commSp V c T) := Module.Finite.of_finite
     have hpos : 1 ≤ Module.finrank (ZMod 2) (commSp V c T) :=
       Submodule.one_le_finrank_iff.2 hne
     exact hk _ hpos h2 hdvd

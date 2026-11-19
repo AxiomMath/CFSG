@@ -23,6 +23,7 @@ section Normalizer
 
 variable {G : Type} [Group G] [Finite G] {T L V : Subgroup G} {F : Type} [Field F] [Finite F]
 
+omit [Finite G] [Finite F] in
 theorem conj_mem_autOn_TL_of_upper {ψ : ↥(autOn L V) ≃* SL(2, F)}
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
     (x : ↥(autOn L V)) (hx : (ψ x : Matrix (Fin 2) (Fin 2) F) 1 0 = 0)
@@ -35,13 +36,14 @@ theorem conj_mem_autOn_TL_of_upper {ψ : ↥(autOn L V) ≃* SL(2, F)}
   have hmem := (hψ (x * ⟨p, hpA⟩ * x⁻¹)).mpr ⟨_, key⟩
   exact hmem
 
+omit [Finite G] in
 theorem card_normalizer_part (hF : Nat.card F = 16)
     (ψ : ↥(autOn L V) ≃* SL(2, F))
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b) :
     Nat.card ↥(autOn L V ⊓ Subgroup.normalizer
       ((autOn (T ⊓ L) V : Subgroup (MulAut V)) : Set (MulAut V))) = 240 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hF' : Fintype.card F = 16 := by rw [← Nat.card_eq_fintype_card]; exact hF
   have hmap : ((autOn L V ⊓ Subgroup.normalizer
       ((autOn (T ⊓ L) V : Subgroup (MulAut V)) : Set (MulAut V))).subgroupOf (autOn L V)).map
@@ -90,9 +92,10 @@ section Centralizer
 variable {G : Type} [Group G] [Finite G] {T L V : Subgroup G} {F : Type} [Field F] [Finite F]
   [CharP F 2]
 
+omit [CharP F 2] in
 theorem card_fixed_four (hF : Nat.card F = 16) : Nat.card {x : F // x ^ 4 = x} = 4 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hF' : Fintype.card F = 16 := by rw [← Nat.card_eq_fintype_card]; exact hF
   have hdeg : (Polynomial.X ^ 4 - Polynomial.X : Polynomial F).natDegree = 4 := by
     compute_degree!
@@ -111,7 +114,7 @@ theorem card_fixed_four (hF : Nat.card F = 16) : Nat.card {x : F // x ^ 4 = x} =
     have := Polynomial.card_le_degree_of_subset_roots hsub
     rw [hdeg] at this
     exact this
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hunits : Nat.card Fˣ = 15 := by rw [Nat.card_units, hF]
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) 3 (by rw [hunits]; norm_num)
   set ω : F := (u : F) with hω
@@ -172,11 +175,13 @@ theorem card_fixed_four (hF : Nat.card F = 16) : Nat.card {x : F // x ^ 4 = x} =
     exact hup
   omega
 
+omit [Finite F] [CharP F 2] in
 theorem diag_herm {x : F} (hx : x ^ 4 = x) :
     (frobPow 2 (!![x, 0; 0, 0] : Matrix (Fin 2) (Fin 2) F))ᵀ = !![x, 0; 0, 0] := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [frobPow, hx]
 
+omit [Finite F] [CharP F 2] in
 theorem diag_fixed {x : F} (b : F) :
     (unipSL b : Matrix (Fin 2) (Fin 2) F) * (!![x, 0; 0, 0] : Matrix (Fin 2) (Fin 2) F) *
       (frobPow 2 (unipSL b : Matrix (Fin 2) (Fin 2) F))ᵀ = !![x, 0; 0, 0] := by
@@ -184,6 +189,7 @@ theorem diag_fixed {x : F} (b : F) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [frobPow, Matrix.mul_apply, Fin.sum_univ_two]
 
+omit [Finite G] [Finite F] [CharP F 2] in
 theorem fix_iff_centralizer {T L V : Subgroup G} {ψ : ↥(autOn L V) ≃* SL(2, F)}
     (hTL : T ⊓ L ≤ Subgroup.normalizer (V : Set G))
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)
@@ -213,6 +219,7 @@ theorem fix_iff_centralizer {T L V : Subgroup G} {ψ : ↥(autOn L V) ≃* SL(2,
     rw [hb, hfix b] at h2
     exact hYinj (Multiplicative.toAdd.injective h2)
 
+omit [Finite F] [CharP F 2] in
 theorem herm_entry_four {Z : Matrix (Fin 2) (Fin 2) F} (hZ : (frobPow 2 Z)ᵀ = Z) :
     Z 0 0 ^ 4 = Z 0 0 := by
   have h := congrFun (congrFun hZ 0) 0
@@ -223,7 +230,7 @@ theorem fixed_eq_diag (hF : Nat.card F = 16) {Z : Matrix (Fin 2) (Fin 2) F}
     (hfix : ∀ b : F, (unipSL b : Matrix (Fin 2) (Fin 2) F) * Z *
       (frobPow 2 (unipSL b : Matrix (Fin 2) (Fin 2) F))ᵀ = Z) :
     Z = !![Z 0 0, 0; 0, 0] := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hF' : Fintype.card F = 16 := by rw [← Nat.card_eq_fintype_card]; exact hF
   have hpow : ∀ x : F, (x ^ 2 ^ 2) ^ 2 ^ 2 = x := by
     intro x
@@ -245,6 +252,7 @@ section Assembly
 variable {G : Type} [Group G] [Finite G] {T L V : Subgroup G} {F : Type} [Field F] [Finite F]
   [CharP F 2]
 
+omit [Finite G] in
 theorem card_V_centralizer (hF : Nat.card F = 16)
     {ψ : ↥(autOn L V) ≃* SL(2, F)} (hTL : T ⊓ L ≤ Subgroup.normalizer (V : Set G))
     (hψ : ∀ x : ↥(autOn L V), (x : MulAut V) ∈ autOn (T ⊓ L) V ↔ ∃ b : F, ψ x = unipSL b)

@@ -57,8 +57,8 @@ theorem bitK_eq (m i : ℕ) : bitK m i = m.testBit i := by
 theorem ite_eq_rec {k i a b : ℕ} :
     (if k = i then a else b) = Bool.rec (motive := fun _ => ℕ) b a (Nat.beq k i) := by
   by_cases h : k = i
-  · rw [if_pos h, h, Nat.beq_refl]
-  · rw [if_neg h]
+  · rw [ite_eq_left h, h, Nat.beq_refl]
+  · rw [ite_eq_right h]
     cases hb : Nat.beq k i
     · rfl
     · exact absurd (Nat.eq_of_beq_eq_true hb) h

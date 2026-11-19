@@ -266,8 +266,8 @@ private theorem fixF_eq (P : Nat) : ∀ n, Nat.rec (motive := fun _ => Nat) (nat
     rw [Finset.sum_range_succ, ← fixF_eq P n]
     change Nat.add _ _ = _
     by_cases h : pg 9 511 P n = n
-    · rw [nIfT (beqT h), if_pos h]
-    · rw [nIfF (beqF h), if_neg h]
+    · rw [nIfT (beqT h), ite_eq_left h]
+    · rw [nIfF (beqF h), ite_eq_right h]
 
 private theorem fix360K_eq {P : Nat} {g : Equiv.Perm (Fin 360)} (h : Rep 360 (unpack 360 9 P) g) :
     fix360K P = ∑ q : Fin 360, if g q = q then 1 else 0 := by
@@ -288,8 +288,8 @@ private theorem fix_conj (g x : Equiv.Perm (Fin 360)) :
     rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply]
     exact Equiv.Perm.eq_inv_iff_eq.symm
   by_cases h : x (g⁻¹ q) = g⁻¹ q
-  · rw [if_pos (e.2 h), if_pos h]
-  · rw [if_neg (fun h' => h (e.1 h')), if_neg h]
+  · rw [ite_eq_left (e.2 h), ite_eq_left h]
+  · rw [ite_eq_right (fun h' => h (e.1 h')), ite_eq_right h]
 
 theorem type127 : ∀ t < 5, ∀ i < 3, ∀ g : Equiv.Perm (Fin 360),
     g * mainPerm i * g⁻¹ = mainPerm t → t = i := by
@@ -450,8 +450,8 @@ private theorem recAt_eq (SC PT LT L1 i : Nat) : recAt SC PT LT L1 i =
   unfold recAt
   rw [sN, sN]
   by_cases h : lookL L1 (matMulK (saAtK SC i) (saAtK SC i)) = 0
-  · rw [nIfT (beqT h), if_pos h]
-  · rw [nIfF (beqF h), if_neg h]
+  · rw [nIfT (beqT h), ite_eq_left h]
+  · rw [nIfF (beqF h), ite_eq_right h]
     rfl
 
 private theorem recAt_lt (SC PT LT L1 : Nat) {i : Nat} (hi : i < 8192) :
@@ -469,7 +469,7 @@ private theorem rec_fields {SC PT LT L1 i k : Nat} (hi : i < 8192) (hk : k < 38)
     (hl : lookL L1 (matMulK (saAtK SC i) (saAtK SC i)) = k + 1) :
     recAt SC PT LT L1 i ≠ 0 ∧ recP (recAt SC PT LT L1 i) = parK PT LT i ∧
       recR (recAt SC PT LT L1 i) = k ∧ recI (recAt SC PT LT L1 i) = i := by
-  rw [recAt_eq, if_neg (by omega), hl]
+  rw [recAt_eq, ite_eq_right (by omega), hl]
   have hp : parK PT LT i ≤ 1 := parF_le PT LT 8192 i
   refine ⟨by omega, ?_, ?_, ?_⟩
   · change Nat.land _ 1 = _

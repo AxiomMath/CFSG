@@ -55,7 +55,7 @@ theorem layer_structure {Q : Type} [Group Q] [Finite Q] (hO : goldschmidtOddCore
     by_contra hne
     have hsub := Components.mathlib_subnormal_of_chain hK₂.2.1 Subgroup.IsSubnormal.top
     obtain ⟨R, hR⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal P hsub
-    obtain ⟨s, hsR, hs2⟩ := PropHSetup.exists_orderOf_eq_two R.isPGroup'
+    obtain ⟨s, hsR, hs2⟩ := PropHSetup.exists_orderOf_eq_two R.isPGroup
       (R.ne_bot_of_dvd_card (two_dvd_card_of_isQuasisimple hK₂.2.2))
     have hs2' : orderOf (s : Q) = 2 := (Subgroup.orderOf_coe s).trans hs2
     have hsP : (s : Q) ∈ (P : Subgroup Q) := by
@@ -121,7 +121,7 @@ theorem stronglyEmbedded_of {Q : Type} [Group Q] [Finite Q] (P : Sylow 2 Q) {B J
     rw [e2]
     exact J.mul_mem (J.mul_mem hhJ h2) (J.inv_mem hhJ)
   refine ⟨hJ, ?_, fun g hg => ?_⟩
-  · obtain ⟨b, hb, hb2⟩ := PropHSetup.exists_orderOf_eq_two (P.isPGroup'.to_le hBP) hB1
+  · obtain ⟨b, hb, hb2⟩ := PropHSetup.exists_orderOf_eq_two (P.isPGroup.to_le hBP) hB1
     exact even_iff_two_dvd.2 (hb2 ▸ Subgroup.orderOf_dvd_natCard J (hBJ hb))
   · by_contra hodd
     obtain ⟨x, hx, hx2⟩ := exists_mem_orderOf_eq_two hodd
@@ -226,7 +226,7 @@ theorem core_embedding {n : ℕ} (hIH : IH n) (hYn : Nat.card Y < n) (T : Sylow 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEJ : E ≤ J := fun e he => hNJ (Subgroup.le_normalizer he)
   have hTsyl : fusionIsSylowIn 2 (T : Subgroup Y) ⊤ :=
-    ⟨le_top, T.isPGroup', fun P _ hP hTP => le_antisymm (T.maximal_isPGroup.2 hP hTP) hTP⟩
+    ⟨le_top, T.isPGroup, fun P _ hP hTP => le_antisymm (T.maximal_isPGroup.2 hP hTP) hTP⟩
   obtain ⟨hC, hC1, hC2, -, -⟩ := N16_of N1 n hIH Y T E ⊤ T hET hEab hEcl hET hTsyl
     (by rw [Subgroup.card_top]; exact hYn)
   set M : Subgroup Y := normalClosureIn ⊤ E with hMdef

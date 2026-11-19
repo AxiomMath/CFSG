@@ -60,6 +60,6 @@ theorem grow_He_three
     rw [← map_centralizer_subtype CFSG.Sporadic.HeldB.heP x,
       Subgroup.card_map_of_injective CFSG.Sporadic.HeldB.heP.subtype_injective]
   rw [hcc]
-  rcases he3_card x.2 hx3 with h | h <;> rw [h] <;> norm_num
+  rcases he3_card x.2 hx3 with h | h <;> rw [h]; norm_num
 
 end CFSG.LocalAnalysis.GLTheoremA.SporAltRows

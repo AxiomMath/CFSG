@@ -70,11 +70,11 @@ theorem congr_sgnAut_apply {Bs : Subgroup G} (κ : V5 ≃* ↥Bs) (i k : Fin 4) 
   rw [MulEquiv.symm_apply_apply]
   by_cases hk : k = i
   · subst hk
-    rw [if_pos rfl, e5, sgnAut_mulSingle_self, map_inv]
+    rw [ite_eq_left rfl, e5, sgnAut_mulSingle_self, map_inv]
   · have h1 : (e5 k) i = 1 := by
       rw [e5]
       exact Pi.mulSingle_eq_of_ne (Ne.symm hk) _
-    rw [if_neg hk, sgnAut_apply, Function.update_eq_self_iff.2 (by rw [h1, inv_one])]
+    rw [ite_eq_right hk, sgnAut_apply, Function.update_eq_self_iff.2 (by rw [h1, inv_one])]
 
 theorem congr_permAut_apply {Bs : Subgroup G} (κ : V5 ≃* ↥Bs) (σ : Equiv.Perm (Fin 4))
     (k : Fin 4) : MulAut.congr κ (permAut σ) (κ (e5 k)) = κ (e5 (σ k)) := by
@@ -155,6 +155,7 @@ section Calibration
 
 variable {G : Type} [Group G] [Finite G] {Bs K L : Subgroup G}
 
+omit [Finite G] in
 theorem ggF4_calibration_signedB4_le (κ : V5 ≃* ↥Bs)
     (hC1s : ∀ i : Fin 4, i ≠ 3 → MulAut.congr κ (sgnAut i) ∈ ggAutomizer K Bs)
     (hC1t : ∀ a b : Fin 4, a ≠ 3 → b ≠ 3 →
@@ -224,6 +225,7 @@ theorem ggF4_calibration_signedB4_le (κ : V5 ≃* ↥Bs)
     (H := (ggAutomizer L Bs ⊔ ggAutomizer K Bs).comap (MulAut.congr κ).toMonoidHom) hs
     (fun a b hab => ht a b hab) hu
 
+omit [Finite G] in
 theorem ggAutomizer_sup_le_ggInduced :
     ggAutomizer L Bs ⊔ ggAutomizer K Bs ≤ ggInduced ⊤ Bs := by
   intro φ hφ

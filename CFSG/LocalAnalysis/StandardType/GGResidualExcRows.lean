@@ -60,11 +60,9 @@ theorem GGWeylFrame.automizer_le_closure {p : ℕ} {L' : Type} [Group L'] {A : S
       change (e (M.simple i) : MulAut ↥A) ∈ _
       rw [he i]
       exact Subgroup.subset_closure ⟨n i, hn i, hnW i, rfl, hrefl i⟩
-    · change (e 1 : MulAut ↥A) ∈ _
-      rw [map_one]
+    · rw [map_one]
       exact Subgroup.one_mem _
     · intro x y hx hy
-      change (e (x * y) : MulAut ↥A) ∈ _
       rw [map_mul]
       exact Subgroup.mul_mem _ hx hy
   intro a ha
@@ -83,7 +81,7 @@ theorem card_automizerInn_le_ggAutomizer {G : Type} [Group G] [Finite G] {p : �
   choose c hc hov using exists_overGamma_of_weylReflSet hp hp2 hBs hSC hN hW
   have hcl : Subgroup.closure {φ : MulAut ↥Bs | φ ∈ ggAutomizer K Bs ∧ GGIsReflection p φ} ≤
       ggAutomizer K Bs := (Subgroup.closure_le _).mpr fun φ hφ => hφ.1
-  haveI : Finite (MulAut ↥Bs) :=
+  have : Finite (MulAut ↥Bs) :=
     Finite.of_injective (fun φ : MulAut ↥Bs => (φ : ↥Bs → ↥Bs)) DFunLike.coe_injective
   refine Nat.card_le_card_of_injective (fun a => (⟨c a.1 a.2, hcl (hc a.1 a.2)⟩ : ↥(ggAutomizer K Bs))) ?_
   intro a b hab
@@ -268,8 +266,8 @@ theorem ggRow_absurd_TwE6Two_L
     (ggAutomizer_le_ggAutomizerJoin (Or.inl rfl) hrA) hrR
   obtain ⟨F, hFf, hFfin, θ, -, hinj, hrange, -, -, -, -, lab', hΛ', hhas', hF⟩ :=
     ggRk1ConclEx_of_twE6Two_L_of_lt hRig hcfg.1.1 hns hrow hlt r hrA hrR
-  letI : Field F := hFf
-  letI : Finite F := hFfin
+  let : Field F := hFf
+  let : Finite F := hFfin
   have hcard : Nat.card ↥(ggRankOneIn L Bs r) = Nat.card F * (Nat.card F ^ 2 - 1) := by
     rw [← hrange, ← ggSL2_card F]
     exact Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv.symm

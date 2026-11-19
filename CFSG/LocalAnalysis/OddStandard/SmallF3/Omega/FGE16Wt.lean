@@ -17,6 +17,7 @@ variable {V : Type*} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZM
 @[expose] def fgWt (χ : ι → ZMod 3) : Submodule (ZMod 3) V :=
   ⨅ i, Module.End.eigenspace (T i) (χ i)
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma isFinitelySemisimple_of_mul_self_eq_one
     (f : Module.End (ZMod 3) V) (hf : f * f = 1) : f.IsFinitelySemisimple := by
   have hsep : (X ^ 2 - 1 : (ZMod 3)[X]).Separable := by
@@ -27,6 +28,7 @@ private lemma isFinitelySemisimple_of_mul_self_eq_one
   simp only [map_sub, map_pow, aeval_X, map_one, sub_eq_zero]
   simpa [pow_two] using hf
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma iSup_eigenspace_eq_top_of_mul_self_eq_one
     (f : Module.End (ZMod 3) V) (hf : f * f = 1) :
     ⨆ μ : ZMod 3, f.eigenspace μ = ⊤ := by
@@ -54,9 +56,11 @@ private lemma iSup_eigenspace_eq_top_of_mul_self_eq_one
   exact (sup_le (le_iSup (fun μ : ZMod 3 => f.eigenspace μ) 1)
     (le_iSup (fun μ : ZMod 3 => f.eigenspace μ) (-1))) hmem
 
+omit [FiniteDimensional (ZMod 3) V] [Fintype ι] [DecidableEq ι] in
 theorem mem_fgWt {χ : ι → ZMod 3} {v : V} : v ∈ fgWt T χ ↔ ∀ i, T i v = χ i • v := by
-  simp [fgWt, Module.End.mem_eigenspace_iff]
+  simp [fgWt]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem fgWt_iSup_eq_top (hT : ∀ i, T i * T i = 1) (hc : ∀ i j, Commute (T i) (T j)) :
     ⨆ χ, fgWt T χ = ⊤ := by
   have hmax : ∀ i (μ : ZMod 3), (T i).maxGenEigenspace μ = (T i).eigenspace μ :=
@@ -76,6 +80,7 @@ theorem fgWt_iSup_eq_top (hT : ∀ i, T i * T i = 1) (hc : ∀ i j, Commute (T i
   rw [iSup_congr hfg]
   exact htop
 
+omit [FiniteDimensional (ZMod 3) V] [Fintype ι] [DecidableEq ι] in
 theorem fgWt_iSupIndep (hc : ∀ i j, Commute (T i) (T j)) : iSupIndep (fgWt T) := by
   have hmap : ∀ i j φ, MapsTo (T i) ((T j).maxGenEigenspace φ) ((T j).maxGenEigenspace φ) :=
     fun i j φ => Module.End.mapsTo_maxGenEigenspace_of_comm (hc j i) φ
@@ -92,6 +97,7 @@ theorem fgWt_finrank_sum (hT : ∀ i, T i * T i = 1) (hc : ∀ i j, Commute (T i
     LinearEquiv.finrank_eq (LinearEquiv.ofBijective (DirectSum.coeLinearMap (fgWt T)) hint)
   rw [← hle, Module.finrank_directSum]
 
+omit [FiniteDimensional (ZMod 3) V] [Fintype ι] [DecidableEq ι] in
 theorem fgWt_sq (hT : ∀ i, T i * T i = 1) {χ : ι → ZMod 3} (h : fgWt T χ ≠ ⊥) (i : ι) :
     χ i * χ i = 1 := by
   obtain ⟨v, hv, hv0⟩ := (Submodule.ne_bot_iff (fgWt T χ)).mp h
@@ -110,6 +116,7 @@ theorem fgWt_sq (hT : ∀ i, T i * T i = 1) {χ : ι → ZMod 3} (h : fgWt T χ 
   · exact sub_eq_zero.mp h4
   · exact absurd h4 hv0
 
+omit [FiniteDimensional (ZMod 3) V] [Fintype ι] [DecidableEq ι] in
 theorem fgWt_mul {χ : ι → ZMod 3} (h : fgWt T χ ≠ ⊥) {i j k : ι} (hk : T k = T i * T j) :
     χ k = χ i * χ j := by
   obtain ⟨v, hv, hv0⟩ := (Submodule.ne_bot_iff (fgWt T χ)).mp h
@@ -127,6 +134,7 @@ theorem fgWt_mul {χ : ι → ZMod 3} (h : fgWt T χ ≠ ⊥) {i j k : ι} (hk :
   · exact sub_eq_zero.mp h4
   · exact absurd h4 hv0
 
+omit [FiniteDimensional (ZMod 3) V] [Fintype ι] [DecidableEq ι] in
 theorem fgWt_one {χ : ι → ZMod 3} (h : fgWt T χ ≠ ⊥) {i : ι} (hi : T i = 1) : χ i = 1 := by
   obtain ⟨v, hv, hv0⟩ := (Submodule.ne_bot_iff (fgWt T χ)).mp h
   rw [mem_fgWt] at hv

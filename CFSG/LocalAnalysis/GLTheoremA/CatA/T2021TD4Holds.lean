@@ -34,8 +34,8 @@ private theorem t2021TD4_index {S : Type} [Group S]
 theorem t2021TD4Fact_holds : T2021TD4Fact := by
   intro H _ _ 𝔅 _ _ ψ T b hchev hT4 hexp hcomm hT2 hTinv hTO _ _ _ hcent
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (GLAPPrimeCore 3 H).Characteristic := CFSG.pPrimeCore_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (GLAPPrimeCore 3 H).Characteristic := CFSG.pPrimeCore_characteristic
   set N := GLAPPrimeCore 3 H with hN
   let ψQ : 𝔅 →* MulAut (ppQuot 3 H) := (MulAut.mapQuotient N).comp ψ
   have hψQ : ∀ (g : 𝔅) (l : H), ψQ g (QuotientGroup.mk l) = QuotientGroup.mk (ψ g l) :=
@@ -78,8 +78,8 @@ theorem t2021TD4Fact_holds : T2021TD4Fact := by
   have hcatC : catalogIs (td4g2C K σ) (isTD4Of q) :=
     ⟨.lie ⟨.trialityD4 q, hv⟩, (rfl : q.card = q.card), ⟨eC.symm⟩⟩
   obtain ⟨hfinS, hsimpS, hnabS, h2S⟩ := t2021TD4_catalog_facts hq2 hcatS
-  haveI := hfinS
-  haveI := hsimpS
+  have := hfinS
+  have := hsimpS
   have hcardQ : Nat.card (ppQuot 3 H) = Nat.card (psimpleOf 3 H) * Nat.card Z :=
     Subgroup.card_eq_card_quotient_mul_card_subgroup Z
   have h2Q : twoPart (Nat.card (ppQuot 3 H)) = (2 ^ q.exponent) ^ 12 := by
@@ -201,7 +201,7 @@ theorem t2021TD4Fact_holds : T2021TD4Fact := by
   let eKb : ↥(⁅fixSub (ψS b), fixSub (ψS b)⁆) ≃* ↥⁅autFix (Ψ b), autFix (Ψ b)⁆ :=
     ((⁅fixSub (ψS b), fixSub (ψS b)⁆).equivMapOfInjective _ e.injective).trans
       (MulEquiv.subgroupCongr hKC.symm)
-  haveI := hKs
+  have := hKs
   have hKbs : IsSimpleGroup ↥(⁅fixSub (ψS b), fixSub (ψS b)⁆) := MulEquiv.isSimpleGroup eKb
   have hKbnab : ¬ IsMulCommutative ↥(⁅fixSub (ψS b), fixSub (ψS b)⁆) := by
     rintro ⟨⟨hc⟩⟩

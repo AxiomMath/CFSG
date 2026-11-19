@@ -190,7 +190,7 @@ theorem false_of_surjective_of_isCyclic_sylow {X Y : Type*} [Group X] [Finite X]
     ((T.mapSurjective hψs).maximal_isPGroup.eq_of_ge (hEp.to_subgroup ⊤) le_top).symm
   rw [Sylow.coe_mapSurjective] at htop
   set T' : Subgroup X := (T : Subgroup W).map W.subtype with hT'
-  have hT'p : IsPGroup 3 T' := T.isPGroup'.map _
+  have hT'p : IsPGroup 3 T' := T.isPGroup.map _
   obtain ⟨S, hS⟩ := hT'p.exists_le_sylow
   have : IsCyclic S := hcyc S
   have hT'c : IsCyclic T' :=
@@ -226,7 +226,7 @@ theorem isCyclic_sylow_three_of_le_SL2 {p : ℕ} [Fact p.Prime]
     (S : Sylow 3 H) : IsCyclic S := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set S' := (S : Subgroup H).map H.subtype with hS'
-  have hS'p : IsPGroup 3 S' := S.isPGroup'.map _
+  have hS'p : IsPGroup 3 S' := S.isPGroup.map _
   obtain ⟨Q, hQ⟩ := hS'p.exists_le_sylow
   have : IsCyclic Q := Census.isCyclic_sylow_SL2 (by norm_num) (by omega) Q
   have hS'c : IsCyclic S' :=
@@ -909,7 +909,7 @@ theorem IsL34Cover.false_of_rep [Finite G] (hπ : IsL34Cover π)
     intro x y hxy hxy'
     have h1 : ρ (x * y⁻¹) = 1 := by
       refine h3triv _ (by rw [map_mul, map_inv, hxy', mul_inv_cancel]) ?_
-      obtain ⟨k, hk'⟩ := T.isPGroup' ⟨_, hxy⟩
+      obtain ⟨k, hk'⟩ := T.isPGroup ⟨_, hxy⟩
       exact ⟨k, congrArg Subtype.val hk'⟩
     calc ρ x = ρ (x * y⁻¹ * y) := by rw [inv_mul_cancel_right]
       _ = ρ (x * y⁻¹) * ρ y := map_mul _ _ _
@@ -1056,7 +1056,7 @@ theorem exists_isPGroup_map_eq {H K : Type*} [Group H] [Group K] [Finite H] {q :
   have htop : ((T.mapSurjective hψ : Sylow q E) : Subgroup E) = ⊤ :=
     ((T.mapSurjective hψ).maximal_isPGroup.eq_of_ge (hE.to_subgroup ⊤) le_top).symm
   rw [Sylow.coe_mapSurjective] at htop
-  refine ⟨(T : Subgroup W).map W.subtype, T.isPGroup'.map _, le_antisymm ?_ ?_⟩
+  refine ⟨(T : Subgroup W).map W.subtype, T.isPGroup.map _, le_antisymm ?_ ?_⟩
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩
     exact w.2
   · intro e he
@@ -1237,7 +1237,7 @@ theorem le_center_of_isPGroup {X : Type} [Group X] [Finite X]
   obtain ⟨S2⟩ : Nonempty (Sylow 2 C) := inferInstance
   set S : Subgroup Y := (S2 : Subgroup C).map C.subtype with hSdef
   have hSn : S.Normal := hsyl 2 S2
-  have hS2 : IsPGroup 2 S := S2.isPGroup'.map _
+  have hS2 : IsPGroup 2 S := S2.isPGroup.map _
   have hS1 : S ≠ ⊥ := by
     rw [hSdef, Ne, Subgroup.map_eq_bot_iff_of_injective _ C.subtype_injective]
     exact S2.ne_bot_of_dvd_card hCeven
@@ -1406,7 +1406,7 @@ theorem le_center_of_isPGroup {X : Type} [Group X] [Finite X]
       have hdvd : Nat.card T3 ∣ Nat.card π.ker := by
         rw [hT3, Subgroup.card_map_of_injective C.subtype_injective]
         exact (Subgroup.card_subgroup_dvd_card _).trans hCdvd
-      obtain ⟨m, hm⟩ := (Q3.isPGroup'.map C.subtype : IsPGroup 3 T3).exists_card_eq
+      obtain ⟨m, hm⟩ := (Q3.isPGroup.map C.subtype : IsPGroup 3 T3).exists_card_eq
       rw [hm] at hdvd ⊢
       by_contra h3
       have hm2 : 2 ≤ m := by

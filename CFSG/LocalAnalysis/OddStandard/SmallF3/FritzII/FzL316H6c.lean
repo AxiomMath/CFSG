@@ -77,7 +77,7 @@ theorem fzl_rho_Q (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (twoCore 
   intro q hqQ hfix
   have hcommW : rho * q * rho⁻¹ * q⁻¹ ∈ ctxW t x₁ x₂ := by
     rw [hfix]
-    simpa using (ctxW t x₁ x₂).one_mem
+    simp
   have hqW : q ∈ ctxW t x₁ x₂ := fzl_rho_QW h hK hF q hqQ hcommW
   have hq_comm : rho * q = q * rho := mul_inv_eq_iff_eq_mul.mp hfix
   have hqC : q ∈ Subgroup.centralizer ({rho} : Set G) :=

@@ -23,7 +23,7 @@ theorem CSideSetup.cSideFreeSwap_of_four_le [Finite C] (hC : WeakHyp C Q) (S : C
       ((conjLinEquiv hQn t : Additive (Abelianization Q) →ₗ[ZMod 2] Additive (Abelianization Q))
         + 1))) :
     cSideFreeSwap (extraspecialQuadForm hC.isExtraspecialPGroup) S.σ (conjLinEquiv hQn t) := by
-  haveI : Finite Q := hC.finite_Q
+  have : Finite Q := hC.finite_Q
   have hQL : Q ≤ commutator C := hC.le_commutator
   have ht2Q : t ^ 2 ∈ Q :=
     (QuotientGroup.eq_one_iff (N := Q) (t ^ 2)).mp (by rwa [QuotientGroup.mk_pow])
@@ -42,8 +42,8 @@ theorem CSideSetup.cSideFreeSwap_of_card_le [Finite C] (hC : WeakHyp C Q) (S : C
     (hcard : Nat.card {q : C // q ∈ Q ∧ ⁅q, t⁆ ∈ centerOf Q} ≤ 2 ^ 5) :
     cSideFreeSwap (extraspecialQuadForm hC.isExtraspecialPGroup) S.σ (conjLinEquiv hQn t) := by
   refine CSideSetup.cSideFreeSwap_of_four_le hC S ht ht2 ?_
-  haveI : Finite Q := hC.finite_Q
-  haveI : Finite (Additive (Abelianization Q)) := by
+  have : Finite Q := hC.finite_Q
+  have : Finite (Additive (Abelianization Q)) := by
     change Finite (Q ⧸ _root_.commutator Q)
     infer_instance
   have hcomm := cSide_card_comm_eq hC.isExtraspecialPGroup t

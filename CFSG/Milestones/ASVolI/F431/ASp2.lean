@@ -75,7 +75,7 @@ theorem burnsideF4m_ctr_unipotent [CharP K 2] {y : StatedSp 2 K} (hy : y ∈ ctr
     Matrix.mul_zero, add_zero, zero_add]
   congr 1
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply, hC10, hC11]
+  fin_cases i <;> fin_cases j <;> simp [hC10, hC11]
 
 theorem burnsideF4m_centralizer_mixed_le_Q0 [CharP K 2] :
     Subgroup.centralizer ({burnsideF4gSpInv_xl (1 : K) * burnsideF4gSpInv_xs 1} :
@@ -90,7 +90,7 @@ theorem burnsideF4m_centralizer_mixed_le_Q0 [CharP K 2] :
         Pi.single (Sum.inr 1) 1 + Pi.single (Sum.inl 0) 1 := by
       rw [hm, burnsideF4gSpInv_mixed_mv]
       ext i
-      rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply]
+      rcases i with i | i <;> fin_cases i <;> simp
     obtain ⟨w, hw⟩ : ∃ w, w = burnsideF4gSpInv_mv g (Pi.single (Sum.inr 1) 1) := ⟨_, rfl⟩
     have hmw : burnsideF4gSpInv_mv m w =
         w + burnsideF4gSpInv_mv g (Pi.single (Sum.inl 0) 1) := by
@@ -101,7 +101,7 @@ theorem burnsideF4m_centralizer_mixed_le_Q0 [CharP K 2] :
           burnsideF4gSpInv_mv g (burnsideF4gSpInv_mv m (Pi.single (Sum.inr 1) 1)) := by
         rw [hw, ← burnsideF4gSpInv_mv_mul, ← burnsideF4gSpInv_mv_mul, hg]
       rw [e, hw, burnsideF4gSpInv_form_mv, hmf]
-      simp [burnsideF4gSpInv_form, Pi.single_apply]
+      simp [burnsideF4gSpInv_form]
     rw [hm, burnsideF4gSpInv_mixed_mv] at hform
     simp only [burnsideF4gSpInv_form, Pi.add_apply, Pi.smul_apply, Pi.single_apply,
       smul_eq_mul] at hform
@@ -116,7 +116,7 @@ theorem burnsideF4m_centralizer_mixed_le_Q0 [CharP K 2] :
       abel
     rw [hge, hm, burnsideF4gSpInv_mixed_mv]
     ext i
-    rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply, hw0]
+    rcases i with i | i <;> fin_cases i <;> simp [hw0]
   have hfwd : ∀ g' : StatedSp 2 K, g' * m = m * g' →
       ∀ v, v ∈ flag 2 K 1 → burnsideF4gSpInv_mv g' v ∈ flag 2 K 1 := by
     intro g' hg' v hv

@@ -88,19 +88,19 @@ theorem reflect_mul_reflect_eq_diagGL {Q : QuadraticForm F (ι → F)} {e f : ι
     exact ht
   have hae : reflect Q (Pi.single e 1 + Pi.single f 1) (Pi.single e 1) =
       -Pi.single f 1 := by
-    rw [reflect_apply hv1, hp1 e, if_pos rfl, hQ1, div_one, one_smul]
+    rw [reflect_apply hv1, hp1 e, ite_eq_left rfl, hQ1, div_one, one_smul]
     abel
   have haf : reflect Q (Pi.single e 1 + Pi.single f 1) (Pi.single f 1) =
       -Pi.single e 1 := by
-    rw [reflect_apply hv1, hp1 f, if_neg (Ne.symm hne), if_pos rfl, hQ1, div_one, one_smul]
+    rw [reflect_apply hv1, hp1 f, ite_eq_right (Ne.symm hne), ite_eq_left rfl, hQ1, div_one, one_smul]
     abel
   have hbe : reflect Q (Pi.single e 1 + (t : F) • Pi.single f 1) (Pi.single e 1) =
       -((t : F) • Pi.single f 1) := by
-    rw [reflect_apply hv2, hp2 e, if_pos rfl, hQ2, div_self ht, one_smul]
+    rw [reflect_apply hv2, hp2 e, ite_eq_left rfl, hQ2, div_self ht, one_smul]
     abel
   have hbf : reflect Q (Pi.single e 1 + (t : F) • Pi.single f 1) (Pi.single f 1) =
       -(((1 : F) / (t : F)) • Pi.single e 1) := by
-    rw [reflect_apply hv2, hp2 f, if_neg (Ne.symm hne), if_pos rfl, hQ2]
+    rw [reflect_apply hv2, hp2 f, ite_eq_right (Ne.symm hne), ite_eq_left rfl, hQ2]
     rw [smul_add, smul_smul, div_mul_cancel₀ (1 : F) ht, one_smul]
     abel
   have hcomp_e : (reflect Q (Pi.single e 1 + Pi.single f 1) *
@@ -118,9 +118,9 @@ theorem reflect_mul_reflect_eq_diagGL {Q : QuadraticForm F (ι → F)} {e f : ι
       Pi.single k 1 := by
     intro k hke hkf
     have hp1k : polar Q (Pi.single e 1 + Pi.single f 1) (Pi.single k 1) = 0 := by
-      rw [hp1 k, if_neg hke, if_neg hkf]
+      rw [hp1 k, ite_eq_right hke, ite_eq_right hkf]
     have hp2k : polar Q (Pi.single e 1 + (t : F) • Pi.single f 1) (Pi.single k 1) = 0 := by
-      rw [hp2 k, if_neg hke, if_neg hkf]
+      rw [hp2 k, ite_eq_right hke, ite_eq_right hkf]
     rw [LinearEquiv.mul_apply, reflect_apply_of_polar_eq_zero hp2k,
       reflect_apply_of_polar_eq_zero hp1k]
   have hrhs_e : toLinEquiv ι F (TauCeti.diagGL c) (Pi.single e 1) =
@@ -350,9 +350,9 @@ theorem minusDiagGen_mem_statedOmega {b c : F} (hm : 4 ≤ m) (t : Fˣ) (i : Fin
       · rw [polar_quadMinus_single_inr_inl]; simp
     · fin_cases u
       · constructor <;>
-          simp [polar_quadMinus_single_inr_inr_zero, polar_quadMinus_single_inr_inr_one]
+          simp [polar_quadMinus_single_inr_inr_zero]
       · constructor <;>
-          simp [polar_quadMinus_single_inr_inr_zero, polar_quadMinus_single_inr_inr_one]
+          simp [polar_quadMinus_single_inr_inr_one]
   have hstep := reflect_mul_reflect_eq_diagGL (Q := quadMinus m F b c) (e := Sum.inl j)
     (f := Sum.inr (Sum.inl j)) (by simp) t d (by simp [hddef]) (by simp [hddef]) (by
       intro k h1 h2

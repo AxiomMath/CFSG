@@ -18,13 +18,14 @@ open scoped commutatorElement
 
 variable {M : Type} [Group M] [Finite M]
 
+omit [Finite M] in
 theorem le_normalizer_component {A Q : Subgroup M}
     (hAJ : ∀ J : Subgroup M, IsComponent J → A ≤ Subgroup.normalizer (J : Set M))
     (hQA : Q = ⁅Q, A⁆) {J : Subgroup M} (hJ : IsComponent J) :
     Q ≤ Subgroup.normalizer (J : Set M) := by
   set K : Subgroup M := ⨅ (K : Subgroup M) (_ : IsComponent K), Subgroup.normalizer (K : Set M)
     with hK
-  haveI hKn : K.Normal := CFSG.RankThree.iInf_normalizer_components_normal
+  have hKn : K.Normal := CFSG.RankThree.iInf_normalizer_components_normal
   have hAK : A ≤ K := le_iInf₂ fun K hK => hAJ K hK
   have hQK : Q ≤ K := by
     rw [hQA]
@@ -33,7 +34,7 @@ theorem le_normalizer_component {A Q : Subgroup M}
 
 theorem three_dvd_card_of_isComponent (hM : CFSG.pPrimeCore 3 M = ⊥) {J : Subgroup M}
     (hJ : IsComponent J) : 3 ∣ Nat.card J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra h3
   have hle : J ≤ CFSG.pPrimeCore 3 M :=
     CFSG.GH74.GLS.le_pPrimeCore_of_subnormal 3 hJ.2
@@ -44,7 +45,7 @@ theorem three_dvd_card_of_isComponent (hM : CFSG.pPrimeCore 3 M = ⊥) {J : Subg
 
 theorem map_center_le_pCore (hM : CFSG.pPrimeCore 3 M = ⊥) {J : Subgroup M} (hJ : IsComponent J) :
     (Subgroup.center J).map J.subtype ≤ CFSG.pCore 3 M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hθ : LocalRank.aschbacherSolvableCore 3 M = ⊥ :=
     le_bot_iff.mp (hM ▸ Sec4.aschbacherSolvableCore_le_pPrimeCore)
   have hZ3 : IsPGroup 3 (Subgroup.center J) := isPGroup_center_of_isComponent hθ hJ
@@ -60,6 +61,7 @@ section Image
 
 variable (J : Subgroup M)
 
+omit [Finite M] in
 theorem aBar_eq_map {W : Subgroup M} (hW : W ≤ Subgroup.normalizer (J : Set M)) :
     aBar hW = (W.subgroupOf (Subgroup.normalizer (J : Set M))).map (descAut J) := by
   rw [aBar, MonoidHom.range_comp]
@@ -73,11 +75,13 @@ theorem aBar_eq_map {W : Subgroup M} (hW : W ≤ Subgroup.normalizer (J : Set M)
 
 variable {J}
 
+omit [Finite M] in
 theorem aBar_mono {W₁ W₂ : Subgroup M} (h₁ : W₁ ≤ Subgroup.normalizer (J : Set M))
     (h₂ : W₂ ≤ Subgroup.normalizer (J : Set M)) (h : W₁ ≤ W₂) : aBar h₁ ≤ aBar h₂ := by
   rw [aBar_eq_map, aBar_eq_map]
   exact Subgroup.map_mono (Subgroup.subgroupOf_mono _ h)
 
+omit [Finite M] in
 theorem commutator_subgroupOf {N Q A : Subgroup M} (hQ : Q ≤ N) (hA : A ≤ N) :
     ⁅Q, A⁆.subgroupOf N = ⁅Q.subgroupOf N, A.subgroupOf N⁆ := by
   apply Subgroup.map_injective N.subtype_injective
@@ -86,6 +90,7 @@ theorem commutator_subgroupOf {N Q A : Subgroup M} (hQ : Q ≤ N) (hA : A ≤ N)
     inf_eq_left.mpr (Subgroup.commutator_le.mpr fun q hq a ha =>
       N.mul_mem (N.mul_mem (N.mul_mem (hQ hq) (hA ha)) (N.inv_mem (hQ hq))) (N.inv_mem (hA ha)))]
 
+omit [Finite M] in
 theorem aBar_sup {B C : Subgroup M} (hB : B ≤ Subgroup.normalizer (J : Set M))
     (hC : C ≤ Subgroup.normalizer (J : Set M)) (hBC : B ⊔ C ≤ Subgroup.normalizer (J : Set M)) :
     aBar hBC = aBar hB ⊔ aBar hC := by
@@ -104,6 +109,7 @@ theorem aBar_sup {B C : Subgroup M} (hB : B ≤ Subgroup.normalizer (J : Set M))
     rwa [Subtype.ext hyx] at hy
   · exact sup_le (aBar_mono hB hBC le_sup_left) (aBar_mono hC hBC le_sup_right)
 
+omit [Finite M] in
 theorem le_centralizer_of_aBar_eq_bot (hJ : IsComponent J) {Q : Subgroup M}
     (hQ : Q ≤ Subgroup.normalizer (J : Set M)) (h : aBar hQ = ⊥) :
     Q ≤ Subgroup.centralizer (J : Set M) := by
@@ -113,6 +119,7 @@ theorem le_centralizer_of_aBar_eq_bot (hJ : IsComponent J) {Q : Subgroup M}
     rwa [h, Subgroup.mem_bot] at this
   exact (descAut_eq_one_iff hJ.1.1 _).mp h1
 
+omit [Finite M] in
 theorem descAut_of_mem {j : M} (hj : j ∈ J) (hjN : j ∈ Subgroup.normalizer (J : Set M)) :
     descAut J ⟨j, hjN⟩ = MulAut.conj ((⟨j, hj⟩ : J) : J ⧸ Subgroup.center J) := by
   have h1 : J.normalizerMonoidHom ⟨j, hjN⟩ = MulAut.conj (⟨j, hj⟩ : J) := by
@@ -163,11 +170,13 @@ section Image
 
 variable {J : Subgroup M}
 
+omit [Finite M] in
 theorem aBar_congr {W₁ W₂ : Subgroup M} (h : W₁ = W₂) (h₁ : W₁ ≤ Subgroup.normalizer (J : Set M))
     (h₂ : W₂ ≤ Subgroup.normalizer (J : Set M)) : aBar h₁ = aBar h₂ := by
   subst h
   rfl
 
+omit [Finite M] in
 theorem descAut_mem_normalizer_aBar {W : Subgroup M} (hW : W ≤ Subgroup.normalizer (J : Set M))
     {g : M} (hgN : g ∈ Subgroup.normalizer (J : Set M)) (hg : g ∈ Subgroup.normalizer (W : Set M)) :
     descAut J ⟨g, hgN⟩ ∈ Subgroup.normalizer ((aBar hW : Subgroup _) : Set _) := by
@@ -197,7 +206,7 @@ theorem le_centralizer_of_le_centralizer (hM : CFSG.pPrimeCore 3 M = ⊥) {J Q :
     (hJ : IsComponent J) {b : M} (hJb : J ≤ Subgroup.centralizer ({b} : Set M))
     (hQb : Q ≤ pPrimeCoreOf 3 (Subgroup.centralizer ({b} : Set M))) :
     Q ≤ Subgroup.centralizer (J : Set M) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := Subgroup.centralizer ({b} : Set M) with hC
   have hJ' := CFSG.LocalCores.component_overgroup hJ hJb
   rcases CFSG.LocalCores.component_normal_subgroup hJ'
@@ -275,6 +284,7 @@ theorem le_centralizer_of_mem_centralizer {A B Q J : Subgroup M} (hJ : IsCompone
     exact (Subgroup.mem_centralizer_iff.mp (hQB hb) q hq).symm
   exact le_centralizer_of_aBar_eq_bot hJ hQN hQbot
 
+omit [Finite M] in
 theorem conj_mem_closure_insert {J : Subgroup M} (hJ : IsComponent J) {b : M}
     (hbN : b ∈ Subgroup.normalizer (J : Set M)) {g : M} (hgJ : g ∈ J)
     (hgN : g ∈ Subgroup.normalizer (J : Set M))
@@ -328,7 +338,7 @@ theorem le_core_aux (hM : CFSG.pPrimeCore 3 M = ⊥) {J Q : Subgroup M} (hJ : Is
     (hQO : CFSG.pCore 3 M ≤ Subgroup.centralizer (Q : Set M)) :
     aBar hQN ≤ pPrimeCoreOf 3 (aBar hDN ⊓
       Subgroup.centralizer ({descAut J ⟨b, hbN⟩} : Set (MulAut (J ⧸ Subgroup.center J)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := Subgroup.normalizer (J : Set M) with hN
   set Z : Subgroup M := (Subgroup.center J).map J.subtype with hZ
   set U := Subgroup.closure (insert b (Z : Set M)) with hU

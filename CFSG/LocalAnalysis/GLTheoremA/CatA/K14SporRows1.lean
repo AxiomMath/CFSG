@@ -33,7 +33,7 @@ theorem cardRow_of_model {n : ℕ} {s : TauCeti.SporadicName} {Q : Type} [Group 
     (h : ∀ k : Q, orderOf k = 3 → NoCardComp n k) : CardRow n s := by
   intro S _ _ ⟨e⟩ β hβ hβ1 J hJ
   let φ : S ≃* Q := e.trans b.symm
-  haveI : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
+  have : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
   have hncS : ∃ a c : S, a * c ≠ c * a := by
     obtain ⟨a, c, hac⟩ := hnc
     refine ⟨φ.symm a, φ.symm c, fun h' => hac ?_⟩
@@ -146,9 +146,9 @@ theorem cardRow_shape (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Sporad
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
   · have hc : Nat.card (NativeSporadic.Carrier .Fi22) = 64561751654400 :=
       CFSG.Sporadic.Fi22.card_Fi22
-    haveI : Finite (NativeSporadic.Carrier .Fi22) :=
+    have : Finite (NativeSporadic.Carrier .Fi22) :=
       Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-    haveI : IsSimpleGroup (NativeSporadic.Carrier .Fi22) := CFSG.Sporadic.Fi22.isSimpleGroup_Fi22
+    have : IsSimpleGroup (NativeSporadic.Carrier .Fi22) := CFSG.Sporadic.Fi22.isSimpleGroup_Fi22
     refine cardRow_of_centShapeRk (s := .Fi22) hOut (hbr .Fi22).some
       (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
       fi22CentShapeRk_native ?_
@@ -158,9 +158,9 @@ theorem cardRow_shape (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Sporad
     rcases hn with rfl | rfl <;> norm_num at hcT
   · have hc : Nat.card (NativeSporadic.Carrier .Th) = 90745943887872000 :=
       CFSG.RankThree.PartOne.CTP.card_Th
-    haveI : Finite (NativeSporadic.Carrier .Th) :=
+    have : Finite (NativeSporadic.Carrier .Th) :=
       Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-    haveI : IsSimpleGroup (NativeSporadic.Carrier .Th) :=
+    have : IsSimpleGroup (NativeSporadic.Carrier .Th) :=
       CFSG.Sporadic.Th.Kernel.isSimpleGroup_Th
         CFSG.Sporadic.Th.th_kernel_facts
     refine cardRow_of_centShapeRk (s := .Th) hOut (hbr .Th).some
@@ -172,9 +172,9 @@ theorem cardRow_shape (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Sporad
     rcases hn with rfl | rfl <;> norm_num at hcT
   · have hc : Nat.card (NativeSporadic.Carrier .Fi23) = 4089470473293004800 :=
       CFSG.Sporadic.Fi23.card_Fi23
-    haveI : Finite (NativeSporadic.Carrier .Fi23) :=
+    have : Finite (NativeSporadic.Carrier .Fi23) :=
       Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-    haveI : IsSimpleGroup (NativeSporadic.Carrier .Fi23) := CFSG.Sporadic.Fi23.isSimpleGroup_Fi23
+    have : IsSimpleGroup (NativeSporadic.Carrier .Fi23) := CFSG.Sporadic.Fi23.isSimpleGroup_Fi23
     refine cardRow_of_centShapeRk (s := .Fi23) hOut (hbr .Fi23).some
       (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
       fi23CentShapeRk_native ?_
@@ -210,9 +210,9 @@ theorem cardRow_shape (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Sporad
     exact @cardRow_of_centShapeRk n .Co1 _ _ hfin hs hOut b hnc _ _ hC (fun _ _ h => h)
   · have hc : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .ONan) = 460815505920 :=
       CFSG.Sporadic.ON.card_ON
-    haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
+    have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
       Finite.of_equiv _ CFSG.ONSchreier.onEquivPv.symm.toEquiv
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
       CFSG.Sporadic.ON.isSimpleGroup_ON
     refine cardRow_of_centShapeRk (s := .ONan) hOut (hbr .ONan).some
       (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))

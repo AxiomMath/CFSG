@@ -44,6 +44,7 @@ namespace ModData
 
 variable {H E F : Subgroup G} (M : ModData H E F)
 
+omit [Finite G] in
 theorem card_img {S : Subgroup G} (hSH : S ≤ H) :
     Nat.card (M.img S) = ((S ⊓ centralizerQuot H E F).subgroupOf S).index := by
   let f : ↥S →* LGL 2 M.W := M.ρ.comp (Subgroup.inclusion hSH)
@@ -62,6 +63,7 @@ theorem card_img {S : Subgroup G} (hSH : S ≤ H) :
     exact ⟨fun h => ⟨x.2, h⟩, fun h => h.2⟩
   rw [← hrange, ← Subgroup.index_ker f, hker]
 
+omit [Finite G] in
 private theorem img_sup_pCoreOf_eq {X : Subgroup G} (hXH : X ≤ H) :
     M.img (X ⊔ pCoreOf 2 H) = M.img X := by
   have hpbot : ((pCoreOf 2 H).subgroupOf H).map M.ρ = ⊥ := by
@@ -74,6 +76,7 @@ private theorem img_sup_pCoreOf_eq {X : Subgroup G} (hXH : X ≤ H) :
     Subgroup.map_sup, hpbot]
   simp
 
+omit [Finite G] in
 theorem range_le_normalizer_img {X : Subgroup G} (hXH : X ≤ H)
     (hXn : H ≤ normalizer ((X ⊔ pCoreOf 2 H : Subgroup G) : Set G)) :
     M.ρ.range ≤ normalizer ((M.img X : Subgroup (LGL 2 M.W)) : Set (LGL 2 M.W)) := by
@@ -99,6 +102,7 @@ theorem range_le_normalizer_img {X : Subgroup G} (hXH : X ≤ H)
   have heq : (M.ρ h)⁻¹ * (M.ρ h * s * (M.ρ h)⁻¹) * ((M.ρ h)⁻¹)⁻¹ = s := by group
   rwa [heq] at h2
 
+omit [Finite G] in
 theorem odd_card_img {X : Subgroup G} (hX : Odd (Nat.card X)) : Odd (Nat.card (M.img X)) := by
   have hcard : Nat.card (X.subgroupOf H) = Nat.card ↥(X ⊓ H) := by
     have hEq : X.subgroupOf H = (X ⊓ H).subgroupOf H := by
@@ -113,6 +117,7 @@ theorem odd_card_img {X : Subgroup G} (hX : Odd (Nat.card X)) : Odd (Nat.card (M
     _ = Nat.card ↥(X ⊓ H) := hcard
     _ ∣ Nat.card X := Subgroup.card_dvd_of_le inf_le_left
 
+omit [Finite G] in
 theorem img_inf_centralizer_eq_bot {X T : Subgroup G} (hFE : F < E) (hTH : T ≤ H)
     (hXH : X ≤ H) (hXT : X ⊔ T = H) (hT : IsPGroup 2 T)
     (hn : M.ρ.range ≤ normalizer ((M.img X : Subgroup (LGL 2 M.W)) : Set (LGL 2 M.W))) :
@@ -121,7 +126,7 @@ theorem img_inf_centralizer_eq_bot {X T : Subgroup G} (hFE : F < E) (hTH : T ≤
     centralizer ((M.img X : Subgroup (LGL 2 M.W)) : Set (LGL 2 M.W))
   let N : Subgroup (LGL 2 M.W) := M.img T ⊓ C
   change N = ⊥
-  haveI : Nontrivial M.W := M.nontrivial hFE
+  have : Nontrivial M.W := M.nontrivial hFE
   have hirr : ∀ U : Submodule (ZMod 2) M.W,
       (∀ k ∈ M.ρ.range, ∀ u ∈ U, k u ∈ U) → U = ⊥ ∨ U = ⊤ := fun U hU =>
     M.irreducible U fun h u hu =>
@@ -145,6 +150,7 @@ theorem img_inf_centralizer_eq_bot {X T : Subgroup G} (hFE : F < E) (hTH : T ≤
   exact eq_bot_of_normal_isPGroup_irreducible (K := M.ρ.range) hirr
     (inf_le_left.trans (Subgroup.map_le_range M.ρ (T.subgroupOf H))) hnorm hN
 
+omit [Finite G] in
 theorem img_commutator_ne_bot {X A : Subgroup G} (hXH : X ≤ H) (hAH : A ≤ H)
     (hcomm : ¬ ⁅X, A⁆ ≤ centralizerQuot H E F) : ⁅M.img X, M.img A⁆ ≠ ⊥ := by
   intro hbot

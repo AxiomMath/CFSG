@@ -63,7 +63,7 @@ structure IsLineBasis (X : Submodule F V) (e f : V) : Prop where
 
 theorem exists_lineBasis (halt : ∀ x, B x x = 0) {X : Submodule F V} (hX : IsNondegLine B X) :
     ∃ e f : V, IsLineBasis B X e f := by
-  haveI : FiniteDimensional F X := Module.finite_of_finrank_pos (by rw [hX.1]; norm_num)
+  have : FiniteDimensional F X := Module.finite_of_finrank_pos (by rw [hX.1]; norm_num)
   have hne : X ≠ ⊥ := by
     intro h0
     have h2 := hX.1
@@ -368,7 +368,7 @@ end Factor
 end G46Case3
 
 theorem case3_of_not_connected {F : Type} [Field F] [Finite F] [CharP F 2]
-    (n : ℕ) (hn : Nat.card F = 2 ^ n)
+    (n : ℕ) (_hn : Nat.card F = 2 ^ n)
     {V : Type} [AddCommGroup V] [Module F V] (B : LinearMap.BilinForm F V)
     (halt : ∀ x, B x x = 0) (hnd : ∀ x, (∀ y, B x y = 0) → x = 0)
     (hdim : Module.finrank F V = 4)

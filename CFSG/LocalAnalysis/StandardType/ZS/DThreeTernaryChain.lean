@@ -108,21 +108,21 @@ private theorem ztc_diagF3_one_pair (m : ℕ) (i j : Fin m) :
     diagF3 m 1 (Pi.single i 1) (Pi.single j 1) = if i = j then 1 else 0 := by
   rw [CFSG.Fischer.Classification.LocalU.diagF3_single]
   by_cases hij : i = j
-  · rw [if_pos hij, if_pos hij]
+  · rw [ite_eq_left hij, ite_eq_left hij]
     rw [diagF3Entry]
     split_ifs <;> rfl
-  · rw [if_neg hij, if_neg hij]
+  · rw [ite_eq_right hij, ite_eq_right hij]
 
 theorem coe_prod_ofFn_reflElt_single (m : ℕ) :
     (((List.ofFn fun i : Fin m => reflElt (diagF3 m 1) (Pi.single i 1)).prod :
       F3.reflGroup (diagF3 m 1)) : GL (Fin m) (ZMod 3)) = -1 := by
   have hunit : ∀ i : Fin m, diagF3 m 1 (Pi.single i 1) (Pi.single i 1) = 1 := by
     intro i
-    rw [ztc_diagF3_one_pair, if_pos rfl]
+    rw [ztc_diagF3_one_pair, ite_eq_left rfl]
   have horth : ∀ i j : Fin m, i ≠ j →
       diagF3 m 1 (Pi.single i 1) (Pi.single j 1) = 0 := by
     intro i j hij
-    rw [ztc_diagF3_one_pair, if_neg hij]
+    rw [ztc_diagF3_one_pair, ite_eq_right hij]
   rw [Subgroup.val_list_prod, List.map_ofFn]
   apply F3.gl_ext
   intro w
@@ -162,11 +162,11 @@ theorem frame_reflBar_diagF3_one {m : ℕ} (hm : 4 ≤ m) :
   have hf : IsF3Form (diagF3 m 1) := isF3Form_diagF3 one_ne_zero
   have hunit : ∀ i : Fin m, diagF3 m 1 (Pi.single i 1) (Pi.single i 1) = 1 := by
     intro i
-    rw [ztc_diagF3_one_pair, if_pos rfl]
+    rw [ztc_diagF3_one_pair, ite_eq_left rfl]
   have horth : ∀ i j : Fin m, i ≠ j →
       diagF3 m 1 (Pi.single i 1) (Pi.single j 1) = 0 := by
     intro i j hij
-    rw [ztc_diagF3_one_pair, if_neg hij]
+    rw [ztc_diagF3_one_pair, ite_eq_right hij]
   have hmem : ∀ i : Fin m, reflBar (diagF3 m 1) (Pi.single i 1) ∈ D3 (diagF3 m 1) :=
     fun i => reflBar_mem_D3 (hunit i)
   have hinj : Function.Injective

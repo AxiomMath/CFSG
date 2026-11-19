@@ -56,7 +56,6 @@ theorem conjSubgroup_mem_calC_and_ne {D : Data G} {L : Subgroup G} {x : G}
   · intro hKL
     apply hne
     rw [hXsup]
-    change L ⊔ CFSG.Quasithin.conjSubgroup L x = L
     rw [show CFSG.Quasithin.conjSubgroup L x = L from hKL, sup_idem]
 
 private theorem nonempty_factor_of_prod {A B : Type} [Group A] [Group B]
@@ -94,10 +93,10 @@ theorem bar2_isL2_or_isU3_of_p1642 {D : Data G} {p n : ℕ} {L : Subgroup G}
     rcases hn with ⟨⟨A, B, gA, gB, e, hA2, hB2⟩, -⟩ | ⟨⟨A, B, gA, gB, e, hA2, hB3⟩, -⟩
     · exact ⟨A, B, gA, gB, e, hA2, Or.inl hB2⟩
     · exact ⟨A, B, gA, gB, e, hA2, Or.inr hB3⟩
-  letI := gA
-  letI := gB
-  haveI : IsSimpleGroup A := LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hA2
-  haveI : IsSimpleGroup B := by
+  let := gA
+  let := gB
+  have : IsSimpleGroup A := LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hA2
+  have : IsSimpleGroup B := by
     rcases hB with hB2 | hB3
     · exact LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hB2
     · exact LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hB3
@@ -202,7 +201,7 @@ theorem ncard_eq_two_of_p42 {D : Data G} {L : Subgroup G} {x : G}
         _ ≤ ⁅L.map (MulAut.conj g).toMonoidHom, conjClosure D.M L⁆ :=
             Subgroup.commutator_mono le_rfl hK'X
         _ ≤ CFSG.Quasithin.solvRad (conjClosure D.M L) := hK'Xcomm
-    haveI : Group.IsSolvable ↥(CFSG.Quasithin.solvRad (conjClosure D.M L)) :=
+    have : Group.IsSolvable ↥(CFSG.Quasithin.solvRad (conjClosure D.M L)) :=
       CFSG.Quasithin.solvRad_isSolvable _
     exact CFSG.Quasithin.not_isSolvable_of_mem_cComp (uc22p20e_cComp_of_calC hK'calX)
       (Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hK'le)

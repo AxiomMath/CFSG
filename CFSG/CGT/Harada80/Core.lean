@@ -89,16 +89,17 @@ theorem blockU_le_pCoreOf : blockU J ≤ pCoreOf 2 M := by
     CFSG.CGT.PushingUpLit.SolK.isPGroup_of_le
       (CFSG.CGT.PushingUpLit.SolK.isPGroup_pCoreOf' J) (blockU_le_blockQ S)
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
-    ((blockU_le_blockQ S).trans ((blockQ_le S).trans S.le)) ?_ hA2
+    ((blockU_le_blockQ S).trans ((blockQ_le).trans S.le)) ?_ hA2
   rw [S.normalizer_blockU_eq]
 
 theorem commute_blockU_blockW {a w : G} (ha : a ∈ blockU J) (hw : w ∈ blockW J) :
     a * w = w * a := by
-  have haJ : a ∈ J := (blockQ_le S) (blockU_le_blockQ S ha)
+  have haJ : a ∈ J := (blockQ_le) (blockU_le_blockQ S ha)
   have hwC : w ∈ Subgroup.centralizer (J : Set G) :=
     CFSG.LieType.BorelTits.pCoreOf_le 2 _ hw
   exact Subgroup.mem_centralizer_iff.mp hwC a haJ
 
+omit [Finite G] S in
 theorem blockU_inf_blockW (hZ : blockZ J = ⊥) : blockU J ⊓ blockW J = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
@@ -109,6 +110,7 @@ theorem blockU_inf_blockW (hZ : blockZ J = ⊥) : blockU J ⊓ blockW J = ⊥ :=
   rw [hZ] at hxZ
   exact Subgroup.mem_bot.mp hxZ
 
+omit [Finite G] S in
 theorem eq_of_mul_eq (hZ : blockZ J = ⊥) {a a' w w' : G} (ha : a ∈ blockU J)
     (ha' : a' ∈ blockU J) (hw : w ∈ blockW J) (hw' : w' ∈ blockW J)
     (h : a * w = a' * w') : a = a' ∧ w = w' := by
@@ -122,7 +124,7 @@ theorem eq_of_mul_eq (hZ : blockZ J = ⊥) {a a' w w' : G} (ha : a ∈ blockU J)
       · exact (blockU J).mul_mem ((blockU J).inv_mem ha') ha
       · rw [h1]
         exact (blockW J).mul_mem hw' ((blockW J).inv_mem hw)
-    rwa [blockU_inf_blockW S hZ, Subgroup.mem_bot] at hmem
+    rwa [blockU_inf_blockW hZ, Subgroup.mem_bot] at hmem
   have hbot' : w' * w⁻¹ = 1 := by rw [← h1, hbot]
   constructor
   · calc a = a' * (a'⁻¹ * a) := by group
@@ -246,7 +248,7 @@ theorem card_pCoreOf (hE : BlockCase J m) :
       (pCoreOf 2 M).mul_mem (blockU_le_pCoreOf S p.1.2) (blockW_le_pCoreOf S p.2.2)⟩ :
         ↥(pCoreOf 2 M))) ⟨?_, ?_⟩)).symm
   · rintro ⟨a, w⟩ ⟨a', w'⟩ h
-    obtain ⟨h1, h2⟩ := eq_of_mul_eq S hZ a.2 a'.2 w.2 w'.2 (congrArg Subtype.val h)
+    obtain ⟨h1, h2⟩ := eq_of_mul_eq hZ a.2 a'.2 w.2 w'.2 (congrArg Subtype.val h)
     exact Prod.ext (Subtype.ext h1) (Subtype.ext h2)
   · rintro ⟨x, hx⟩
     obtain ⟨a, ha, w, hw, rfl⟩ := exists_mul_of_mem_pCoreOf (S := S) hE hx
@@ -276,7 +278,7 @@ theorem conj_mul_eq_iff (hE : BlockCase J m) {y a w : G} (hy : y ∈ M)
       group
     have ha' : y * a * y⁻¹ ∈ blockU J := conj_mem_blockU S hy ha
     have hw' : y * w * y⁻¹ ∈ blockW J := conj_mem_blockW S hy hw
-    exact eq_of_mul_eq S hZ ha' ha hw' hw hprod
+    exact eq_of_mul_eq hZ ha' ha hw' hw hprod
   · rintro ⟨ha', hw'⟩
     calc y * (a * w) * y⁻¹ = (y * a * y⁻¹) * (y * w * y⁻¹) := by group
       _ = a * w := by rw [ha', hw']

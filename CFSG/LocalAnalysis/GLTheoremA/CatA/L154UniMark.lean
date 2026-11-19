@@ -133,7 +133,7 @@ theorem l154_notInner_sl2 {X : Type} [Group X] {F : Type} [Field F] [Finite F] (
     MulAut.congr e₀ α ∉ LargeEvenMatConjImage (LargeEvenProjMk (StatedSL 2 F)) Set.univ := by
   classical
   rintro ⟨P, -, hgr⟩
-  haveI : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hF2
+  have : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero hF2
   have hring : ringChar F = 2 := ringChar.eq F 2
   obtain ⟨c, hc⟩ := FiniteField.isSquare_of_char_two hring (((P : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F).det)
   have hc0 : c ≠ 0 := by
@@ -148,12 +148,11 @@ theorem l154_notInner_sl2 {X : Type} [Group X] {F : Type} [Field F] [Finite F] (
     rw [CFSG.Open.StatedAPI.mem_statedSL_iff]
     have e1 : ((P' : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) =
         c⁻¹ • ((P : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) := by
-      simp only [P', s, Units.val_mul, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
-        Matrix.smul_one_eq_diagonal]
+      simp only [P', s, Units.val_mul, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
       ext i j
       simp [Matrix.mul_apply, Matrix.diagonal_apply, cu]
     rw [e1, Matrix.det_smul, hc]
-    simp [cu]
+    simp
     field_simp
   let t : ↥(StatedSL 2 F) := ⟨P', hP'⟩
   have hconj : ∀ m : GL (Fin 2) F, P * m * P⁻¹ = (t : GL (Fin 2) F) * m * (t : GL (Fin 2) F)⁻¹ := by
@@ -213,7 +212,7 @@ theorem l154_marking_J_uni {p : ℕ} (hp : p.Prime) {G : Type} [Group G] [Finite
     (hnot : MulAut.congr e (MI.indAut p J y hy) ∉
       LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin (r + 1)) D₁ (2 ^ k)))
         (LargeEvenGUSet (Fin (r + 1)) D₁ (2 ^ k))) :
-    CFSG.Assembly.LargeEvenMarking (PQuot p J) fun lab R _ I _ θ =>
+    CFSG.Assembly.LargeEvenMarking (PQuot p J) fun lab _R _ I _ θ =>
       (lab.tag ≠ .triD4 ∨ p ≠ 3) ∧ ¬ (lab.tag = .D ∧ lab.rank = 4 ∧ p = 3) ∧
         MulAut.congr θ (MI.indAut p J y hy) ∉ I := by
   obtain ⟨hs, hna⟩ := chev_pSimple_simple_nonabelian hp hJ

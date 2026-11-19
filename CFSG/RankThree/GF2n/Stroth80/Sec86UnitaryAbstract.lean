@@ -18,9 +18,9 @@ theorem step86_abstract {G : Type} [Group G] [Finite G] {R N Z0 Q : Subgroup G}
     (hirr : IsIrredModule R N Z0) (hN2 : IsPGroup 2 ↥N) (hf : 2 ≤ f) (he : 1 ≤ e)
     (hQcard : Nat.card ↥Q = 2 ^ kk) (hNcard : Nat.card ↥N = Nat.card ↥Q * (2 ^ f) ^ (e + 1))
     (hZ0card : Nat.card ↥Z0 = Nat.card ↥Q * 2 ^ f)
-    (θ : ↥R →* Y) (hθ : ∀ r : ↥R, θ r = 1 ↔ (r : G) ∈ Q) (hsolv : IsSolvable (Y ⧸ F))
+    (θ : ↥R →* Y) (hθ : ∀ r : ↥R, θ r = 1 ↔ (r : G) ∈ Q) (hsolv : Group.IsSolvable (Y ⧸ F))
     (π : ↥R →* S) (hπ : Function.Surjective π) (hπN : ∀ r : ↥R, π r = 1 ↔ (r : G) ∈ N)
-    (hS : ¬ IsSolvable S) (hSord : Nat.card S = (2 ^ f) ^ (m ^ 2) * o₁) (ho₁ : Odd o₁)
+    (hS : ¬ Group.IsSolvable S) (hSord : Nat.card S = (2 ^ f) ^ (m ^ 2) * o₁) (ho₁ : Odd o₁)
     (hFord : Nat.card ↥F = (2 ^ f) ^ 15 * o₂) (ho₂ : Odd o₂) (hme : 15 < m ^ 2 + e) :
     False := by
   classical

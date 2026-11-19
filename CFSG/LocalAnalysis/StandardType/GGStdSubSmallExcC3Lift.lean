@@ -15,6 +15,7 @@ section Lift
 variable {L' R : Type} [Group L'] [Group R] {ψ : L' →* R} {F : Type} [Field F] [Finite F]
   [CharP F 2] {n : ℕ} {ρ : SL(2, F) →* R}
 
+omit [CharP F 2] in
 theorem commutator_range_slTwo (hn : 2 ≤ n) (hF : Nat.card F = 2 ^ n) :
     ⁅ρ.range, ρ.range⁆ = ρ.range := by
   have h4 : 4 ≤ Nat.card F := by

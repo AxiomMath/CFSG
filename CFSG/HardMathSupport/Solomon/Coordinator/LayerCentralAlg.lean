@@ -29,7 +29,7 @@ theorem pPrimeCore_eq_map_of_central (p : ℕ) [Fact p.Prime] (Ψ : A →* B)
   let P : Sylow p ↥R := Classical.choice inferInstance
   have hPker : ∀ x ∈ (P : Subgroup ↥R), ((x : ↥R) : A) ∈ Ψ.ker := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     have hxk : ((x : ↥R) : A) ^ p ^ k = 1 := congrArg (fun y : ↥(P : Subgroup ↥R) => ((y : ↥R) : A)) hk
     have hmem : Ψ (x : A) ∈ CFSG.pPrimeCore p B := x.2
     set N := CFSG.pPrimeCore p B with hN

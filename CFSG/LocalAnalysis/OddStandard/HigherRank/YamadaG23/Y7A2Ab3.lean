@@ -11,13 +11,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma mem_conjSub {Y : Subgroup G} {c x : G} :
     x ∈ conjSub c Y ↔ ∃ y ∈ Y, c * y * c⁻¹ = x := by
   simp only [conjSub, Subgroup.mem_map, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
 
 theorem y7a_central_of_k {M I B V E F W : Subgroup G} {k : G}
-    (hMIB : M ≤ I ⊔ B) (hIM : I ≤ M) (hBM : B ≤ M) (hVI : V ≤ I)
-    (hI : ∀ x ∈ I, ∀ y ∈ I, x * y = y * x) (hFI : F ≤ I) (hWF : W ≤ F) (hWV : W ≤ V)
+    (hMIB : M ≤ I ⊔ B) (hIM : I ≤ M) (_hBM : B ≤ M) (hVI : V ≤ I)
+    (hI : ∀ x ∈ I, ∀ y ∈ I, x * y = y * x) (hFI : F ≤ I) (hWF : W ≤ F) (_hWV : W ≤ V)
     (hWM : ∀ x ∈ M, ∀ w ∈ W, x * w = w * x)
     (hcI : Nat.card ↥I = 32) (hcV : Nat.card ↥V = 16) (hcW : Nat.card ↥W = 4)
     (hVF : V ⊓ F ≤ W) (hVE : ∀ v ∈ V, ∀ e ∈ E, v * e = e * v)

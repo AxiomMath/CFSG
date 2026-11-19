@@ -74,7 +74,7 @@ theorem encF_gen : ∀ s < 6, EncF m.ρ (gS3 s) (sGen (frameOf m) s) := by
       have hb : Nat.blt s 5 = true := by rw [Nat.blt_eq]; exact h5
       rw [hb]
     have e' : CFSG.OddStandard.HigherRank.G2Three.Sec1Proof.gen5 m s = sGen (frameOf m) s :=
-      if_pos h5
+      ite_eq_left h5
     rw [e, ← e']
     exact encF_of_enc m.ρ (enc_gen5 m (by omega))
   · have hs5 : s = 5 := by omega
@@ -132,8 +132,7 @@ theorem LO_len : LO0.length = 51 ∧ LO1.length = 51 ∧ LO2.length = 51 ∧ LO3
 
 theorem s3_rowsAll : rowsOK PT PC IV SQ GM LMP LGN OR LOall 0 = true := by
   obtain ⟨l0, l1, l2, l3, l4, l5, l6, l7⟩ := LO_len
-  simp only [LOall, rowsOK_append, List.length_append, l0, l1, l2, l3, l4, l5, l6, l7,
-    Bool.and_eq_true]
+  simp only [LOall, rowsOK_append, List.length_append, l0, l1, l2, l3, l4, l5, l6, Bool.and_eq_true]
   exact ⟨⟨⟨s3_lat0, s3_lat1⟩, s3_lat2, s3_lat3⟩, ⟨s3_lat4, s3_lat5⟩, s3_lat6, s3_lat7⟩
 
 theorem s3_idxAll : idxAll LOall = 2 ^ 408 - 2 := by

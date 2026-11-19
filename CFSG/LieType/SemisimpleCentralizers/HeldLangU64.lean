@@ -91,10 +91,10 @@ theorem u64FieldPiece : U64FieldPiece := by
   have hd1 : 1 ≤ d := by omega
   have hd3 : 3 ≤ d := by omega
   have hq : ¬(d = 3 ∧ 2 ^ n = 2) := fun H => by have := H.1; omega
-  haveI : NeZero d := ⟨by omega⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : NeZero d := ⟨by omega⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdat : UnitaryFieldData 2 n K := unitaryFieldData_of_card hn1 hcard
-  haveI : CharP K 2 := hdat.charP
+  have : CharP K 2 := hdat.charP
   have hKe : Nat.card K = 2 ^ (2 * n) := by rw [hcard, ← pow_mul, Nat.mul_comm]
   let bar : K ≃+* K := unitaryInvolution K 2 n
   have hbar : IsUnitaryInvolution bar := isUnitaryInvolution_unitaryInvolution hcard
@@ -204,8 +204,8 @@ theorem u64FieldPiece : U64FieldPiece := by
   obtain ⟨j, hj2, hjcard, hform⟩ := exists_barFix_eq (p := 2) (e := 2 * n) Nat.prime_two (by omega) hKe hbar
     hcomm hodd
   have hF0 := card_fixField (p := 2) (e := 2 * n) Nat.prime_two (by omega) hKe σ
-  haveI : Finite (fixField σ) := CFSG.Semidihedral.FixedFieldData.finite_of_prime_power_card _ Nat.prime_two hF0
-  haveI : CharP (fixField σ) 2 :=
+  have : Finite (fixField σ) := CFSG.Semidihedral.FixedFieldData.finite_of_prime_power_card _ Nat.prime_two hF0
+  have : CharP (fixField σ) 2 :=
     CFSG.Semidihedral.FixedFieldData.characteristic_of_prime_power_card _ Nat.prime_two hF0
   have hbF := isUnitaryInvolution_barFix (p := 2) (e := 2 * n) Nat.prime_two (by omega) hKe hbar hcomm hodd
   have hsimp : IsSimpleGroup (StatedProj (SUid (barFix σ bar hcomm hbar.invol) d)) :=
@@ -214,8 +214,8 @@ theorem u64FieldPiece : U64FieldPiece := by
     isPerfect_SUid hbF hd3 (fun h => absurd h (by omega))
   have hperf : Group.IsPerfect (StatedProj (SUid (barFix σ bar hcomm hbar.invol) d)) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-  haveI := hsimp
-  haveI hYsimp : IsSimpleGroup ↥Y := eY.isSimpleGroup
+  have := hsimp
+  have hYsimp : IsSimpleGroup ↥Y := eY.isSimpleGroup
   have hYperf : Group.IsPerfect ↥Y :=
     Group.IsPerfect.ofSurjective (f := eY.symm.toMonoidHom) eY.symm.surjective
   have hYq : CFSG.Open.IsQuasisimple ↥Y := isQuasisimple_of_simple_perfect hYperf

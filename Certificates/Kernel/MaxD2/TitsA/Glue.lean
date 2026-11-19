@@ -59,7 +59,7 @@ open CFSG.Sporadic.Schreier.Tits
   kw := 66
   PT := r32 PT
   FS := FS
-  KS := KS
+  KSt := KS
   RB := RB
   H := H
   CN := r32 CN

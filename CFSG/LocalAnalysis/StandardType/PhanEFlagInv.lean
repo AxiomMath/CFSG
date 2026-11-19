@@ -28,7 +28,7 @@ private lemma q2cFI_adjSwap_eq (i : Fin m) :
     LinearFlag.adjSwap (m + 1) (i.val + 1) = adjSwap i := by
   rw [LinearFlag.adjSwap_of_lt (by omega) (by omega)]
   simp only [adjSwap]
-  congr 1 <;> ext <;> simp
+  congr 1
 
 private lemma q2cFI_invCount_inv {n : ℕ} (σ : Equiv.Perm (Fin n)) :
     invCount σ⁻¹ = invCount σ := by

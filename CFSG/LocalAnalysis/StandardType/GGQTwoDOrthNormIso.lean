@@ -26,6 +26,7 @@ section Span
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V]
 
+omit [Finite K] in
 theorem iSup_pieces_eq_top {Q : QuadraticForm K V} {p : ℕ} {A : Subgroup (V ≃ₗ[K] V)} {r : ℕ}
     (Δ : TBJOmData Q p A r) (hfix : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0) :
     ⨆ j, Δ.F.U j = ⊤ :=
@@ -38,6 +39,7 @@ section Family
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 theorem TBJOmData.exists_normFamily {Q : QuadraticForm K V} {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     {A : Subgroup (V ≃ₗ[K] V)} (hAΩ : A ≤ orthDerived Q) {r : ℕ} (Δ : TBJOmData Q p A r)
     {f : ℕ} (hf : Nat.card K = 2 ^ f) (hpq : p ∣ Nat.card K + 1) (K' : Type) [Field K']
@@ -52,7 +54,7 @@ theorem TBJOmData.exists_normFamily {Q : QuadraticForm K V} {p : ℕ} [Fact p.Pr
   classical
   obtain ⟨inst, ψ, ζ, t, ht, hψ, hspan, hζ, hσζ, hσ⟩ :=
     (Δ.rk1Block hp2).exists_algebra_linearEquiv hf hpq K' hK'
-  letI := inst
+  let := inst
   have hinj : Function.Injective (algebraMap K K') := (algebraMap K K').injective
   have hpow : ∀ n : ℕ, ∀ x : K', (Δ.c ^ n) (ψ x) = ψ (ζ ^ n * x) := by
     intro n
@@ -227,7 +229,7 @@ theorem OrthFrameCore.exists_normIso {G : Type} [Group G] {p : ℕ} [Fact p.Prim
     norm_num
   obtain ⟨inst, φ, ζ', hQφ, horth, hrange, hact, hσζ, hζne, hζpow⟩ :=
     Φ.Δ.exists_normFamily hp2 Φ.hA hf Φ.hpq (GaloisField 2 2) hK'
-  letI := inst
+  let := inst
   let E : QuadExt Φ.F (GaloisField 2 2) (unitaryInvolution (GaloisField 2 2) 2 1) :=
     quadExt_of_card_of_char_two 1 hf hK'
   have hζ'0 : ζ' ≠ 0 := by
@@ -330,7 +332,6 @@ theorem OrthFrameCore.exists_normIso {G : Type} [Group G] {p : ℕ} [Fact p.Prim
         (GaloisField 2 2)ˣ) : GaloisField 2 2) = ζ' ^ n := by
     intro n
     rw [Subgroup.coe_pow, Units.val_pow_eq_pow_val]
-    change (((ζ : (GaloisField 2 2)ˣ) : GaloisField 2 2)) ^ n = ζ' ^ n
     rw [show ((ζ : (GaloisField 2 2)ˣ) : GaloisField 2 2) = ζ' by rfl]
   have hact_incl : ∀ (g : Fin Φ.r → Multiplicative (ZMod p))
       (x : Fin Φ.r → GaloisField 2 2),

@@ -29,7 +29,7 @@ private theorem isQuasisimple_autI_and_centerQuot {M V L : Subgroup G} (hVe : Is
   have hPL : pCoreOf 2 M ≤ L := hL.1
   have hLM : L ≤ M := hL.2.1
   have hsn : CFSG.Open.IsSubnormal L M := hL.2.2.1
-  haveI : ((pCoreOf 2 M).subgroupOf L).Normal := hN
+  have : ((pCoreOf 2 M).subgroupOf L).Normal := hN
   have hLnorm : L ≤ normalizer (V : Set G) := hLM.trans hMN
   let φ : ↥L →* MulAut (IntMod V hVe) := convHom hVe L hLnorm
   have hφrange : φ.range = autI hVe L := range_convHom hVe L hLnorm

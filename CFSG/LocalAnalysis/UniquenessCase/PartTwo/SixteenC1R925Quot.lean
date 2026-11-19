@@ -11,14 +11,14 @@ open scoped Pointwise
 
 private lemma r925_not_dvd_card_of_forall_orderOf {X : Type} [Group X] [Finite X] {N : Subgroup X}
     {p : ℕ} (hp : p.Prime) (hN : ∀ x ∈ N, ¬ p ∣ orderOf x) : ¬ p ∣ Nat.card N := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   intro h
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p h
   exact hN (x : X) x.2 (by rw [Subgroup.orderOf_coe, hx])
 
 theorem r925_pCore_two_orderOf {X : Type} [Group X] [Finite X] {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) : ∀ x ∈ CFSG.pCore 2 X, ¬ q ∣ orderOf x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx hdvd
   have hP : IsPGroup 2 ↥(CFSG.pCore 2 X) := CFSG.pCore_isPGroup
   rw [IsPGroup.iff_orderOf] at hP
@@ -31,13 +31,13 @@ theorem r925_pCore_two_orderOf {X : Type} [Group X] [Finite X] {q : ℕ} (hq : q
 theorem r925_pRank_quotient_le {X : Type} [Group X] [Finite X] (N : Subgroup X) [N.Normal]
     {p : ℕ} (hp : p.Prime) (hN : ∀ x ∈ N, ¬ p ∣ orderOf x) :
     CFSG.Open.pRank p (⊤ : Subgroup (X ⧸ N)) ≤ CFSG.Open.pRank p (⊤ : Subgroup X) := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   exact le_of_eq (CFSG.SectionRank.pRank_quotient_eq (p := p) N
     (r925_not_dvd_card_of_forall_orderOf hp hN))
 
 theorem r925_pPrimeCore_orderOf {Γ : Type} [Group Γ] [Finite Γ] :
     ∀ x ∈ CFSG.pPrimeCore 3 Γ, ¬ 3 ∣ orderOf x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro x hx hdvd
   have hcop : Nat.Coprime 3 (Nat.card ↥(CFSG.pPrimeCore 3 Γ)) := CFSG.pPrimeCore_coprime_card
   have hdvd' : 3 ∣ Nat.card ↥(CFSG.pPrimeCore 3 Γ) := by
@@ -49,8 +49,8 @@ theorem r925_pPrimeCore_orderOf {Γ : Type} [Group Γ] [Finite Γ] :
 theorem r925_odd_relIndex_map {Γ Λ : Type} [Group Γ] [Group Λ] [Finite Γ] (π : Γ →* Λ)
     (hπ : Function.Surjective π) {K M : Subgroup Γ} (hK : K.Normal) (hM : Odd M.index) :
     Odd ((K.map π ⊓ M.map π).relIndex (K.map π)) := by
-  haveI : Finite Λ := Finite.of_surjective π hπ
-  haveI : (K.map π).Normal := hK.map π hπ
+  have : Finite Λ := Finite.of_surjective π hπ
+  have : (K.map π).Normal := hK.map π hπ
   have hodd : Odd (M.map π).index := Odd.of_dvd_nat hM (Subgroup.index_map_dvd M hπ)
   have h1 : (K.map π ⊓ M.map π).relIndex (K.map π) = (M.map π).relIndex (K.map π) :=
     Subgroup.inf_relIndex_left _ _
@@ -64,7 +64,7 @@ theorem r925_odd_relIndex_map {Γ Λ : Type} [Group Γ] [Group Λ] [Finite Γ] (
 theorem r925_card_map_eq_three {Γ : Type} [Group Γ] [Finite Γ] {J D : Subgroup Γ} [J.Normal]
     (hJ : ∀ x ∈ J, ¬ 3 ∣ orderOf x) (hD : Nat.card D = 3) :
     Nat.card (D.map (QuotientGroup.mk' J)) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let f : D →* D.map (QuotientGroup.mk' J) := (QuotientGroup.mk' J).subgroupMap D
   have hinj : Function.Injective f := by
     intro x y hxy
@@ -99,7 +99,7 @@ theorem r925_card_map_eq_three {Γ : Type} [Group Γ] [Finite Γ] {J D : Subgrou
 theorem r925_exists_lift_card_three {X : Type} [Group X] [Finite X] {J : Subgroup X} [J.Normal]
     (hJ : ∀ x ∈ J, ¬ 3 ∣ orderOf x) {D' : Subgroup (X ⧸ J)} (hD' : Nat.card D' = 3) :
     ∃ D : Subgroup X, Nat.card D = 3 ∧ D.map (QuotientGroup.mk' J) = D' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P : Subgroup X := D'.comap (QuotientGroup.mk' J)
   have hPcard : Nat.card P = Nat.card J * 3 := by
     have h := QuotientGroup.card_preimage_mk J (D' : Set (X ⧸ J))
@@ -119,7 +119,6 @@ theorem r925_exists_lift_card_three {X : Type} [Group X] [Finite X] {J : Subgrou
     rw [Subgroup.map_le_iff_le_comap]
     exact Subgroup.map_subtype_le D₀
   refine Subgroup.eq_of_le_of_card_ge hle ?_
-  change Nat.card D' ≤ Nat.card (D.map (QuotientGroup.mk' J))
   rw [hD', r925_card_map_eq_three hJ hDcard]
 
 private lemma r925_map_conj_subtype {G : Type} [Group G] (P : Subgroup G) (q : ↥P)
@@ -155,7 +154,7 @@ private lemma r925_normalizer_sup_le {Γ : Type} [Group Γ] [Finite Γ] {J D M :
     [J.Normal] (hJ : ∀ x ∈ J, ¬ 3 ∣ orderOf x) (hD : Nat.card D = 3)
     (hM : normalizer (D : Set Γ) ≤ M) :
     normalizer ((D ⊔ J : Subgroup Γ) : Set Γ) ≤ J ⊔ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro x hxN
   have hDleP : D ≤ D ⊔ J := le_sup_left
   have hJ3 : ¬ 3 ∣ Nat.card J := r925_not_dvd_card_of_forall_orderOf Nat.prime_three hJ
@@ -250,7 +249,7 @@ theorem r925_normalizer_map_le {Γ : Type} [Group Γ] [Finite Γ] {J D M : Subgr
     (hM : normalizer (D : Set Γ) ≤ M) :
     normalizer ((D.map (QuotientGroup.mk' J) : Subgroup (Γ ⧸ J)) : Set (Γ ⧸ J)) ≤
       M.map (QuotientGroup.mk' J) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set D' : Subgroup (Γ ⧸ J) := D.map (QuotientGroup.mk' J) with hD'def
   have hcomap : D'.comap (QuotientGroup.mk' J) = D ⊔ J := by
     rw [hD'def, Subgroup.comap_map_eq, QuotientGroup.ker_mk']

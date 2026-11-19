@@ -17,8 +17,8 @@ theorem groupRank_le_two (hP : IsPGroup p P)
   refine CFSG.groupRank_le_two_of_primeRank_le_two_of_isPGroup hP ?_
   refine csSup_le' ?_
   rintro n ⟨A, hAp, hAcomm, hn⟩
-  haveI : IsMulCommutative A := hAcomm
-  haveI : Fact (IsPGroup p A) := ⟨hAp⟩
+  have : IsMulCommutative A := hAcomm
+  have : Fact (IsPGroup p A) := ⟨hAp⟩
   have hcard : Nat.card (CFSG.omega₁ (G := A) (p := p)) = p ^ CFSG.generatorRank A :=
     CFSG.omega₁_card_eq_pow_generatorRank_of_commutative_pgroup (p := p) A
   have hΩelem : CFSG.IsElementaryAbelian p (CFSG.omega₁ (G := A) (p := p)) :=
@@ -47,6 +47,7 @@ theorem groupRank_le_two (hP : IsPGroup p P)
     (Nat.pow_le_pow_iff_right (Fact.out : p.Prime).one_lt).mp hle
   exact hn.trans hgen
 
+omit [Finite P] in
 theorem exists_two_generators_of_isMetacyclic (hM : CFSG.IsMetacyclic P) :
     ∃ s : Finset P, s.card ≤ 2 ∧ Subgroup.closure (s : Set P) = ⊤ := by
   classical
@@ -72,7 +73,7 @@ theorem exists_two_generators_of_isMetacyclic (hM : CFSG.IsMetacyclic P) :
 theorem blackburn_small (hp : 5 ≤ p) (hP : IsPGroup p P)
     (hΩ : Nat.card (CFSG.omega₁ (G := P) (p := p)) ≤ p ^ 2) :
     ∃ s : Finset P, s.card ≤ 2 ∧ Subgroup.closure (s : Set P) = ⊤ := by
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   exact exists_two_generators_of_isMetacyclic (CFSG.proposition_4_11 (by omega) hΩ)
 
 end CFSG.RankThree.PartTwo.Sec11.SimsR1.Blackburn

@@ -67,7 +67,7 @@ theorem qtwoDL1_transfer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Bs L : Subgro
   have hz1 : z ≠ 1 := by
     intro h; apply hb; rw [hzdef, mul_inv_eq_one] at h; exact h.symm
   have hzp : orderOf (z : G) = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hz1' : (z : G) ≠ 1 := fun h => hz1 (Subtype.ext h)
     exact orderOf_eq_prime (hBs.2 z z.2) hz1'
   have hpdvd : p ∣ Nat.card ↥(ggRankOneIn X Bs r) := by

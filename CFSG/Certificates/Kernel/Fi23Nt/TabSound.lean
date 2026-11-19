@@ -90,7 +90,7 @@ theorem tmK_succ_ne {f a : ℕ} (b : ℕ) (h : a ≠ 0) :
     tmK PAR LT (f + 1) a b = ltK LT (pjK PAR a) (tmK PAR LT f (ppK PAR a) b) := by
   change Bool.rec (motive := fun _ => ℕ) (strictN (lnK 16 PAR a) fun q =>
     strictN (tmK PAR LT f (Nat.shiftRight q 2) b) (ltK LT (Nat.land q 3))) b (Nat.beq a 0) = _
-  rw [nRec_eq, if_neg (by rw [Nat.beq_eq]; exact h), sN_eq, sN_eq]
+  rw [nRec_eq, ite_eq_right (by rw [Nat.beq_eq]; exact h), sN_eq, sN_eq]
 
 theorem tmK_spec (hT : TabData g (parT n PAR) (ltT n LT) n 3) :
     ∀ f a b, a ≤ f → a < n → b < n → tmK PAR LT f a b < n ∧
@@ -251,9 +251,9 @@ theorem foldCnt (c : ℕ → Bool) : ∀ len s : ℕ,
     have e0 : Nat.add 0 len = len := Nat.zero_add len
     rw [sN_eq, foldCnt c len, Finset.range_add_one, Finset.filter_insert, e0, nRec_eq]
     by_cases hc : c len = true
-    · rw [if_pos hc, if_pos hc, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left hc, ite_eq_left hc, Finset.card_insert_of_notMem (by simp)]
       omega
-    · rw [if_neg hc, if_neg hc]
+    · rw [ite_eq_right hc, ite_eq_right hc]
 
 theorem card_filter_eq (hT : TabData g (parT n PAR) (ltT n LT) n 3) {A : ℕ}
     (hh : subHK n A = true) {A₀ : Subgroup G}

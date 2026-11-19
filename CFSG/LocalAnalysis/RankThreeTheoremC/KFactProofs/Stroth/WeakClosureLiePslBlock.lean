@@ -200,8 +200,8 @@ theorem exists_blockFrame (F : Type) [Field F] [Finite F] {L : Type} [Field L] [
       (∀ i c, Fr i * T c * (Fr i)⁻¹ = T (Function.update c i (c i ^ Nat.card F))) ∧
       (∀ z : Fˣ, ∃ u : GL (Fin n) F, (∀ c, u * T c * u⁻¹ = T c) ∧
         ((u : GL (Fin n) F) : Matrix (Fin n) (Fin n) F).det = z) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Module.Finite F L := Module.Finite.of_finite
+  have : Fintype F := Fintype.ofFinite F
+  have : Module.Finite F L := Module.Finite.of_finite
   have hV : Module.finrank F ((Fin r → L) × (Fin s → F)) = n := by
     rw [Module.finrank_prod, Module.finrank_pi_fintype, Module.finrank_fin_fun]
     simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul]

@@ -12,7 +12,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Steinberg.Adjo
 theorem e6_iform_self_check : ∀ α ∈ rootFinset Tag.E6, iform α α = 2 := by
   decide +kernel
 
-private def decEqE6Fast : DecidableEq (Fin Tag.E6.rank → ℤ) := fun u v =>
+@[instance_reducible] private def decEqE6Fast : DecidableEq (Fin Tag.E6.rank → ℤ) := fun u v =>
   decidable_of_iff (((List.finRange Tag.E6.rank).all fun i => decide (u i = v i)) = true) (by
     simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
     exact funext_iff.symm)

@@ -25,13 +25,13 @@ private lemma centralizer_subgroupOf_normal {G : Type*} [Group G]
     q * ((c * d * c⁻¹ : ↥C) : G)
         = (c : G) * ((((c⁻¹ * (⟨q, hqC⟩ : ↥C) * c : ↥C) : G) * (d : G))) *
             (c : G)⁻¹ := by
-          simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+          simp only [Subgroup.coe_mul, Subgroup.coe_inv]
           group
     _ = (c : G) * ((d : G) * (((c⁻¹ * (⟨q, hqC⟩ : ↥C) * c : ↥C) : G))) *
             (c : G)⁻¹ := by
           rw [hcomm]
     _ = ((c * d * c⁻¹ : ↥C) : G) * q := by
-          simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+          simp only [Subgroup.coe_mul, Subgroup.coe_inv]
           group
 
 theorem cent_le_of_quot {G : Type} [Group G]
@@ -50,7 +50,7 @@ theorem cent_le_of_quot {G : Type} [Group G]
   let b' : ↥C := ⟨b, hbC⟩
   let c0 : ↥C := a' * b' * a'⁻¹ * b'⁻¹
   have hc0G : (c0 : G) = a * b * a⁻¹ * b⁻¹ := by
-    simp only [c0, a', b', Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+    simp only [c0, a', b', Subgroup.coe_mul, Subgroup.coe_inv]
   have key : π c0 ∈ M → False := by
     intro hmem
     have hmem' : π c0 ∈ D.map π := hmem
@@ -110,7 +110,7 @@ theorem O2In_eq_of_quot {G : Type} [Group G]
     (hπ : Function.Surjective π) (hker : π.ker = Q.subgroupOf C) (hX : IsU42Two X) :
     TwoFi22.O2In C = Q := by
   classical
-  haveI : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
+  have : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
   let N : Subgroup ↥C := Q.subgroupOf C
   have hNnormal : N.Normal := by
     change (Q.subgroupOf C).Normal
@@ -129,7 +129,7 @@ theorem O2In_eq_of_quot {G : Type} [Group G]
   have hM2 : IsPGroup 2 M := by
     change IsPGroup 2 ((CFSG.pCore 2 ↥C).map π)
     exact hP2.map π
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hX.card_eq]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hX.card_eq]; norm_num)
   have hMbot : M = ⊥ := by
     rcases hX.normal_eq M hMnormal with hbot | hidx | htop
     · exact hbot
@@ -146,7 +146,7 @@ theorem O2In_eq_of_quot {G : Type} [Group G]
       have hcard : Nat.card M = Nat.card X := by
         have h := Subgroup.card_mul_index M
         rw [htop] at h ⊢
-        simpa using h
+        simp
       have h3 : 3 ∣ 2 ^ n := by
         rw [← hn, hcard, hX.card_eq]
         norm_num

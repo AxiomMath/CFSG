@@ -173,7 +173,7 @@ theorem finite_inndiagGroup
 
    {τ : Tag} {K : Type} [Field K] [Finite K] :
     Finite (inndiagGroup τ K) := by
-  haveI : Finite (adjointGroup τ K) := CFSG.LieType.Chevalley.generated_group_finite τ K
+  have : Finite (adjointGroup τ K) := CFSG.LieType.Chevalley.generated_group_finite τ K
   refine Finite.of_surjective (fun x : (Fin τ.rank → Kˣ) × adjointGroup τ K =>
     (⟨rootDiagUnit τ x.1 * x.2, x.1, x.2, x.2.2, rfl⟩ : inndiagGroup τ K)) ?_
   rintro ⟨w, b, j, hj, rfl⟩
@@ -300,7 +300,7 @@ theorem bridge_model
   · rw [endPow_frobTwist_one, one_mul, inv_one, mul_one]
   · change Finite Γ
     rw [hrat]
-    haveI : Finite (inndiagGroup τ K) := finite_inndiagGroup
+    have : Finite (inndiagGroup τ K) := finite_inndiagGroup
     exact Finite.of_surjective _ (MonoidHom.subgroupMap_surjective
       (baseChangeGL (algebraMap K L)) (inndiagGroup τ K))
 

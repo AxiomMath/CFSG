@@ -125,15 +125,15 @@ theorem eq_one_of_fix_of_natTensor {W : Type} [CommGroup W] [Finite W]
     (hfix : ∀ u ∈ U, y u = u) : y = 1 := by
   classical
   obtain ⟨K, hKfield, hKfinite, hKcard, hR⟩ := hNat
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
     rw [← Nat.card_eq_fintype_card, hKcard])
   obtain ⟨π, hπ⟩ := hR
   exact CFSG.Quasithin.G64.RealizesVia.eq_one_of_trivial (tensorNat_two_faithful K) hπ hy
-    (fun u hu => by simpa [hfix u hu])
+    (fun u hu => by simp [hfix u hu])
 
 end CFSG.LocalAnalysis.WeakClosure81
 

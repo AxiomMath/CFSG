@@ -66,7 +66,7 @@ theorem smul_mem_Bset_iff {β : Fin c.tag.rank → ℤ} (hβ : β ∈ Deg1 c.tag
       rw [degθ_smul_of_fix hw]
       exact (CoordAux.mem_Deg1.1 hβ).2⟩
   unfold Bset
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [w_smul_mem_S₁_iff c hβr]
   exact ⟨fun h => ⟨hβ, h.2⟩, fun h => ⟨hwβ, h.2⟩⟩
 
@@ -77,11 +77,11 @@ theorem isSig_pB {ε : (Fin c.tag.rank → ℤ) → D.L} {v : (Fin c.tag.rank �
   classical
   refine ⟨fun β hβ => ?_, fun β hβ => ?_⟩
   · dsimp only
-    rw [if_neg (fun h => hβ h.1)]
+    rw [ite_eq_right (fun h => hβ h.1)]
   · dsimp only
     by_cases hB : β ∈ Bset c
-    · rw [if_pos hB, if_pos ((smul_mem_Bset_iff c hβ).2 hB), hv.2 β hβ]
-    · rw [if_neg hB, if_neg (fun h => hB ((smul_mem_Bset_iff c hβ).1 h)), map_zero, mul_zero]
+    · rw [ite_eq_left hB, ite_eq_left ((smul_mem_Bset_iff c hβ).2 hB), hv.2 β hβ]
+    · rw [ite_eq_right hB, ite_eq_right (fun h => hB ((smul_mem_Bset_iff c hβ).1 h)), map_zero, mul_zero]
 
 open Classical in
 theorem isSig_pM {ε : (Fin c.tag.rank → ℤ) → D.L} {v : (Fin c.tag.rank → ℤ) → D.L}
@@ -94,8 +94,8 @@ theorem isSig_pM {ε : (Fin c.tag.rank → ℤ) → D.L} {v : (Fin c.tag.rank �
     simp
   · dsimp only
     by_cases hB : β ∈ Bset c
-    · rw [if_pos hB, if_pos ((smul_mem_Bset_iff c hβ).2 hB), map_zero, mul_zero]
-    · rw [if_neg hB, if_neg (fun h => hB ((smul_mem_Bset_iff c hβ).1 h)), hv.2 β hβ]
+    · rw [ite_eq_left hB, ite_eq_left ((smul_mem_Bset_iff c hβ).2 hB), map_zero, mul_zero]
+    · rw [ite_eq_right hB, ite_eq_right (fun h => hB ((smul_mem_Bset_iff c hβ).1 h)), hv.2 β hβ]
 
 end TwCoordsAux
 

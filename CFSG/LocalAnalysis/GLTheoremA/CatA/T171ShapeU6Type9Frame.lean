@@ -55,7 +55,7 @@ private theorem pow_three_of_diagHom_pow_three {τ : Fin d → Kˣ}
     (h : diagHom d τ ^ 3 = 1) : ∀ i, τ i ^ 3 = 1 := by
   have hpow : τ ^ 3 = 1 := by
     apply diagHom_injective d
-    rwa [map_pow, h, map_one]
+    rw [map_pow, h, map_one]
   exact fun i => congrFun hpow i
 
 private theorem conj_commutator_mem_scalars {P M N D : GL (Fin d) K}

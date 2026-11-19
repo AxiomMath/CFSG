@@ -47,7 +47,7 @@ theorem widthThree_of_leaves_at (h77 : AschbacherFSmith1977Statement) {G : Type}
       ⟨Setting.ofFStar z hz hext', Setting.ofFStar_z z hz hext', ofFStar_QG hz hext',
         width_ofFStar hz hext' hcard'⟩
     have hnwc : NotWeaklyClosed S := by
-      push_neg at hwc
+      push Not at hwc
       obtain ⟨g, hg, hne⟩ := hwc
       refine ⟨g⁻¹, ?_, ?_⟩
       · rw [hSz, hSQ, inv_inv]

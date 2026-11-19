@@ -158,7 +158,7 @@ theorem s16g_exists_mult_statedSp {m : ℕ} (hm : 1 ≤ m) {K : Type} [Field K] 
             Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) = (μ g : K) • fromBlocks 0 1 (-1) 0) ∧
       ∀ g : ↥(Subgroup.normalizer (StatedSp m K : Set (GL (Fin m ⊕ Fin m) K))),
         μ g = 1 ↔ (g : GL (Fin m ⊕ Fin m) K) ∈ StatedSp m K := by
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, hm⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, hm⟩⟩
   have hJ : (fromBlocks 0 1 (-1) 0 : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *
       fromBlocks 0 (-1) 1 0 = 1 := by
     simp [fromBlocks_multiply]

@@ -91,9 +91,9 @@ theorem burnsideC56_fin_c1 (hι : Function.Injective ι) (hκ : Function.Injecti
     have hx₀C : x₀ ∉ CL := fun h => hxC (Subgroup.mem_map_of_mem _ h)
     have h1 := c1c (κ x₀) (Subgroup.mem_map_of_mem κ hx₀)
       (fun h => hx₀C ((Subgroup.mem_map_iff_mem hκ).mp h))
-    rw [burnsideC56_tr_baum hκ, burnsideC56_tr_rconj hκ, burnsideC56_tr_set_mul hκ] at h1
+    rw [burnsideC56_tr_baum hκ, burnsideC56_tr_rconj, burnsideC56_tr_set_mul hκ] at h1
     rw [burnsideC56_tr_baum hsΛ, show (Λ.subtype x₀ : G) = Λ.subtype x₀ from rfl,
-      burnsideC56_tr_rconj hsΛ, burnsideC56_tr_set_mul hsΛ]
+      burnsideC56_tr_rconj, burnsideC56_tr_set_mul hsΛ]
     exact h1
 
 end CFSG.ASVolI

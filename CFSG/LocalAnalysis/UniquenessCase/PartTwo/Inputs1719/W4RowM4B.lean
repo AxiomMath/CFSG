@@ -21,7 +21,7 @@ theorem w4Thm11_1RowM4_B_holds :
     W4Thm11_1RowM4 .B := by
   intro W _ _ hW Y L hLY hLn hF hq hO2 hs
   obtain ⟨e⟩ := hs
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   have hZ2 : Nat.card (Subgroup.center ↥L) ∣ 2 := b_center_dvd ↥L hq e
   have hZodd : Odd (Nat.card (Subgroup.center ↥L)) := odd_card_center_of_o2Trivial hO2
@@ -75,7 +75,7 @@ theorem w4Thm11_1RowM4_B_holds :
   have hW' : ∀ w : W, w * w = 1 := fun w => by rw [← sq]; exact hW w
   have h162 : 2 ^ 162 ≤ (fixV (Subgroup.zpowers (f z))).index := by
     have hbase : 2 ^ (3 ^ 4 * orderOf (2 : ZMod 3)) ≤ Nat.card (imgT (f z)) := by
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       exact two_pow_le_card_imgT_of_heisCfg hW' (p := 3) (n := 4) (by norm_num) hcfgmap
     have h2 : (2 : ZMod 3) ^ 2 = 1 := by decide
     have h1 : (2 : ZMod 3) ≠ 1 := by decide

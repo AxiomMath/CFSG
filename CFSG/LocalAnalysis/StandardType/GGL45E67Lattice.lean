@@ -427,7 +427,7 @@ private theorem lat3Table_check_E7 : Lat3TableCheckE7 = true := by
 private theorem lat3MemS6_eq_false_iff (s : Fin 3 → Fin Tag.E6.rank) (k : Fin Tag.E6.rank) :
     lat3MemS6 s k = false ↔ k ∉ Finset.univ.image s := by
   rw [lat3MemS6, List.any_eq_false]
-  simp [Finset.mem_image, decide_eq_true_iff, List.mem_finRange, eq_comm]
+  simp [Finset.mem_image, List.mem_finRange, eq_comm]
 
 private theorem lat3OrderThree_of_weylMatrix_eq (g : WeylGroup Tag.E6) (M : List (List ℤ))
     (hM : weylMatrix g = toMat Tag.E6.rank M) (hg3 : g ^ 3 = 1) :
@@ -477,7 +477,7 @@ private theorem pow_three_eq_one_of_mem_closure {τ : Tag} {K : Type} [Field K] 
   | mem x hx =>
       obtain ⟨i, rfl⟩ := hx
       exact ha i j
-  | one => simp [rootChar]
+  | one => simp
   | mul x y hx hy ihx ihy =>
       rw [Pi.mul_apply, mul_pow, ihx, ihy, one_mul]
   | inv x hx ih =>
@@ -509,7 +509,7 @@ private theorem sum_smul_smul_single {τ : Tag} (v : WeylGroup τ)
   rw [Finset.sum_apply]
   rw [show x i = (v • (v⁻¹ • x)) i by simp]
   rw [← congrFun (weylMatrix_mulVec v (v⁻¹ • x)) i]
-  simp [Matrix.mulVec, dotProduct, weylMatrix_apply, mul_comm, mul_left_comm, mul_assoc]
+  simp [Matrix.mulVec, dotProduct, weylMatrix_apply, mul_comm]
 
 private theorem eq_of_rootChar_eq_on_three_relation
     {τ : Tag} {K : Type} [Field K] {ι : Type}
@@ -665,7 +665,7 @@ private theorem lat3Table_mem_E6 {ω : List Bool} (hω : ω ∈ dWords)
     (h3 : Lat3OrderThreeE6 ω = true) (hne : Lat3NonidentityE6 ω = true) :
     ∃ cert, (ω, cert) ∈ Lat3TableE6 ∧ Lat3CertOKE6 (dEval ω) cert := by
   have hcheck := List.all_eq_true.mp lat3Table_check_E6 ω hω
-  simp only [Lat3CheckWordE6, h3, hne, Bool.true_and, cond_true] at hcheck
+  simp only [Lat3CheckWordE6, h3, hne, Bool.true_and, _root_.Bool.cond_true] at hcheck
   rw [List.any_eq_true] at hcheck
   obtain ⟨p, hp, hb⟩ := hcheck
   rw [Bool.and_eq_true] at hb
@@ -728,7 +728,7 @@ private theorem exists_orderThree_of_ne_bot
     (hne : familyStabilizerSubgroup a ≠ ⊥) :
     ∃ u : familyStabilizerSubgroup a, orderOf u = 3 := by
   classical
-  haveI : Finite (WeylGroup τ) := (exceptional_Lang_Weyl_chamber_point_stabilizers τ).2.1
+  have : Finite (WeylGroup τ) := (exceptional_Lang_Weyl_chamber_point_stabilizers τ).2.1
   have hgrp : familyReflectionGroup a = ⊥ :=
     familyReflectionGroup_eq_bot_of_familyKernel_eq_empty hΦ
   have hcop_one : ∀ {w : WeylGroup τ}, w ∈ familyStabilizerSubgroup a →
@@ -842,7 +842,7 @@ theorem familyStabilizerSubgroup_eq_bot_of_three_E6
 private theorem lat3MemS7_eq_false_iff (s : Fin 3 → Fin Tag.E7.rank) (k : Fin Tag.E7.rank) :
     lat3MemS7 s k = false ↔ k ∉ Finset.univ.image s := by
   rw [lat3MemS7, List.any_eq_false]
-  simp [Finset.mem_image, decide_eq_true_iff, List.mem_finRange, eq_comm]
+  simp [Finset.mem_image, List.mem_finRange, eq_comm]
 
 private theorem lat3OrderThreeE7_of_weylMatrix_eq (g : WeylGroup Tag.E7) (M : List (List ℤ))
     (hM : weylMatrix g = toMat Tag.E7.rank M) (hg3 : g ^ 3 = 1) :
@@ -894,7 +894,7 @@ private theorem lat3Table_mem_E7 {ω : List Bool} (hω : ω ∈ dWords)
     (h3 : Lat3OrderThreeE7M (dEval7 ω) = true) (hne : Lat3NonidentityE7M (dEval7 ω) = true) :
     ∃ cert, (ω, cert) ∈ Lat3TableE7 ∧ Lat3CertOKE7 (dEval7 ω) cert := by
   have hcheck := List.all_eq_true.mp lat3Table_check_E7 ω hω
-  simp only [Lat3CheckWordE7, h3, hne, Bool.true_and, cond_true] at hcheck
+  simp only [Lat3CheckWordE7, h3, hne, Bool.true_and, _root_.Bool.cond_true] at hcheck
   rw [List.any_eq_true] at hcheck
   obtain ⟨p, hp, hb⟩ := hcheck
   rw [Bool.and_eq_true] at hb

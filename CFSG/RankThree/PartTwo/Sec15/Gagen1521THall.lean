@@ -29,7 +29,7 @@ theorem exists_two_p_of_ext1521 {A : Subgroup G} (hA : IsE27 A) (h146 : Item146 
       Ext1521 A P X T ∧ CFSG.Open.fusionIsSylowIn p Q H ∧ P ≤ Q ∧
       A ≤ Subgroup.normalizer (Q : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let D : Subgroup G := delta A (lB A) X
   let O : Subgroup G := pPrimeCoreOf 3 D
   let R₀ : Subgroup G := inSubgroup CFSG.solvableRadical O
@@ -38,7 +38,7 @@ theorem exists_two_p_of_ext1521 {A : Subgroup G} (hA : IsE27 A) (h146 : Item146 
   have hDO : D ≤ Subgroup.normalizer (O : Set G) := le_normalizer_pPrimeCoreOf 3 D
   have hAO : A ≤ Subgroup.normalizer (O : Set G) :=
     hAD.trans (normalizer_le_normalizer_pPrimeCoreOf 3 D)
-  haveI hchar : (CFSG.solvableRadical ↥O).Characteristic :=
+  have hchar : (CFSG.solvableRadical ↥O).Characteristic :=
     CFSG.SignalizerFunctorTheorem.Nonsolvable.solvableRadical_characteristic
   have hNO : Subgroup.normalizer (O : Set G) ≤ Subgroup.normalizer (R₀ : Set G) :=
     CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
@@ -67,7 +67,7 @@ theorem exists_two_p_of_ext1521 {A : Subgroup G} (hA : IsE27 A) (h146 : Item146 
     have h := isPiSubgroup_piCompl_sup hT₀pi hR₀pi hT₀R₀
     rwa [sup_comm] at h
   have hR₀solv : Group.IsSolvable R₀ := by
-    letI : Group.IsSolvable (CFSG.solvableRadical ↥O) :=
+    let : Group.IsSolvable (CFSG.solvableRadical ↥O) :=
       CFSG.ABGLocalTools.solvableRadical_isSolvable
     let f : ↥(CFSG.solvableRadical ↥O) →* R₀ :=
       { toFun := fun x => ⟨x.1, Subgroup.mem_map.mpr ⟨x.1, x.2, rfl⟩⟩
@@ -79,8 +79,8 @@ theorem exists_two_p_of_ext1521 {A : Subgroup G} (hA : IsE27 A) (h146 : Item146 
       exact ⟨⟨z, hz⟩, rfl⟩
     exact Group.isSolvable_of_surjective (f := f) hf
   have hT₀solv : Group.IsSolvable T₀ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent T₀ := hT₀2.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent T₀ := hT₀2.isNilpotent
     exact IsNilpotent.to_isSolvable
   have hZsolv : Group.IsSolvable Z := by
     dsimp only [Z]
@@ -112,7 +112,7 @@ theorem exists_two_p_of_ext1521 {A : Subgroup G} (hA : IsE27 A) (h146 : Item146 
     dsimp only [K]
     exact le_delta hT₀Q hT₀Z
   have hKsolv : Group.IsSolvable K := by
-    haveI : Group.IsSolvable Z := hZsolv
+    have : Group.IsSolvable Z := hZsolv
     exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hKZ)
   have hKpi : IsPiSubgroup (piCompl 3) K := isPiSubgroup_piCompl_of_le hZpi hKZ
   have hK3 : ¬ 3 ∣ Nat.card K :=
@@ -142,7 +142,7 @@ theorem exists_two_p_of_ext1521 {A : Subgroup G} (hA : IsE27 A) (h146 : Item146 
   have hSQ : S ∈ scriptQ A (lB A) := mem_scriptQ_of_le hKQ hSK hAS
   have hSX : S ≤ X := hSK.trans hKX
   have hSsolv : Group.IsSolvable S := by
-    haveI : Group.IsSolvable K := hKsolv
+    have : Group.IsSolvable K := hKsolv
     exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hSK)
   have hSprime : ∀ r : ℕ, r.Prime → r ∣ Nat.card S → r = 2 ∨ r = p :=
     fun r hr hd => hSpi ⟨r, hr⟩ hd

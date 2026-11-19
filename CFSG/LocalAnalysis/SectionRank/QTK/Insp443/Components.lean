@@ -59,7 +59,7 @@ theorem card_eq_of_isQuasisimple_of_normal {G : Type} [Group G] [Finite G] {L T 
       have hb : (v⁻¹ * n * v) * l * (v⁻¹ * n * v)⁻¹ ∈ L :=
         (Subgroup.mem_normalizer_iff.mp haN l).mp hl
       exact Subgroup.mem_map.mpr ⟨_, hb, by
-        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, Subgroup.coe_inv, inv_inv]
+        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, Subgroup.coe_inv]
         group⟩
     intro m hm
     rw [Subgroup.mem_normalizer_iff]
@@ -200,11 +200,11 @@ theorem card_eq_of_isQuasisimple_of_normal {G : Type} [Group G] [Finite G] {L T 
       intro x hx
       exact Subgroup.mem_center_iff.mpr fun y =>
         Subgroup.mem_centralizer_iff.mp (hC hx) y (Subgroup.mem_top y)
-    haveI : IsMulCommutative ↥X :=
+    have : IsMulCommutative ↥X :=
       ⟨⟨fun a b => Subtype.ext
         ((Subgroup.mem_center_iff.mp (hcent a.2) (b : ↥Mp ⧸ Q)).symm)⟩⟩
-    haveI : Group.IsPerfect ↥X := hXq.1
-    haveI : Subsingleton ↥X := Group.IsPerfect.subsingleton_of_isMulCommutative
+    have : Group.IsPerfect ↥X := hXq.1
+    have : Subsingleton ↥X := Group.IsPerfect.subsingleton_of_isMulCommutative
     exact (not_subsingleton_iff_nontrivial.mpr
       (CFSG.LocalCores.isQuasisimple_nontrivial hXq)) inferInstance
   obtain ⟨t, ht⟩ : ∃ t : T, X ≤ Y t := by
@@ -224,9 +224,9 @@ theorem card_eq_of_isQuasisimple_of_normal {G : Type} [Group G] [Finite G] {L T 
           (⟨(b : ↥Mp ⧸ Q), ht b.2⟩ : ↥(Y t))
         exact Subtype.ext (by
           simpa using (congrArg Subtype.val hc).symm)
-      haveI : IsMulCommutative ↥X := ⟨⟨hcommX⟩⟩
-      haveI : Group.IsPerfect ↥X := hXq.1
-      haveI : Subsingleton ↥X := Group.IsPerfect.subsingleton_of_isMulCommutative
+      have : IsMulCommutative ↥X := ⟨⟨hcommX⟩⟩
+      have : Group.IsPerfect ↥X := hXq.1
+      have : Subsingleton ↥X := Group.IsPerfect.subsingleton_of_isMulCommutative
       exact (not_subsingleton_iff_nontrivial.mpr
         (CFSG.LocalCores.isQuasisimple_nontrivial hXq)) inferInstance
   have hXY : X = Y t := le_antisymm ht (Subgroup.subgroupOf_eq_top.mp hXt_top)

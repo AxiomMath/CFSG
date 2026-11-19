@@ -46,7 +46,7 @@ theorem Om6Par.cent_data (D : Om6Par Q t) {y : simGroup Q}
   exact ⟨hP, ⟨c, hc1, hcw⟩, fg_bk_orthogonal S h3 y hc1 hcw⟩
 
 theorem Om6Par.exists_W (D : Om6Par Q t) : ∃ w ∈ commSp t, w ≠ 0 := by
-  haveI : Nontrivial (commSp t) := Module.finrank_pos_iff.mp (by rw [D.dimW]; norm_num)
+  have : Nontrivial (commSp t) := Module.finrank_pos_iff.mp (by rw [D.dimW]; norm_num)
   obtain ⟨w, hw⟩ := exists_ne (0 : commSp t)
   exact ⟨w, w.2, fun h => hw (Subtype.ext h)⟩
 
@@ -101,6 +101,7 @@ theorem Om6Par.scalar_cases (D : Om6Par Q t) {y : simGroup Q} {c ε : ZMod 3}
     · simp only [Subgroup.coe_mul, LinearEquiv.mul_apply, coe_orthToSim]
       rw [mem_fixSp_iff.mp hp, hP p hp]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem om6par_comm_apply (y g s : simGroup Q) (v u : V) :
     (((y * s)⁻¹ * (g⁻¹ * y * g) : simGroup Q) : V ≃ₗ[ZMod 3] V) v = u ↔
       (y : V ≃ₗ[ZMod 3] V) ((g : V ≃ₗ[ZMod 3] V) v) =

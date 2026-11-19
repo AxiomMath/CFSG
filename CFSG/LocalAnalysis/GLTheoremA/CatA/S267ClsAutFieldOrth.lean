@@ -57,6 +57,7 @@ section Transport
 variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} [S.Normal]
 variable {K : Type} [Field K] {d : ℕ}
 
+omit [Finite Ω] in
 theorem fieldAct_of_transport {Q Q' : QuadraticForm K (Fin d → K)} {σ : K ≃+* K}
     (hQ'σ : ∀ v, Q' (fun i => σ (v i)) = σ (Q' v)) (U : similarityPairs Q)
     (hUσ : U.val.right = σ) (T : GL (Fin d) K) (ν : Kˣ)
@@ -104,6 +105,7 @@ theorem fieldAct_of_transport {Q Q' : QuadraticForm K (Fin d → K)} {σ : K ≃
       _ = U.val.right ((ν : K) * (Q (u + v) - Q u - Q v)) := by
           rw [mul_sub, mul_sub, map_sub, map_sub]
 
+omit [Finite Ω] in
 theorem exists_clsData_orth_of [Finite K] (hp : p.Prime) (hp2 : p ≠ 2)
     (hcore : GLAPPrimeCore p ↥S = ⊥) (hZ : Subgroup.center ↥S = ⊥)
     (Q : QuadraticForm K (Fin d → K)) (hQ0 : ∃ v, Q v ≠ 0)
@@ -196,6 +198,7 @@ variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} [S.Norma
 open CFSG.Assembly.LowTwoRank CFSG.LieType.Universal.Spin CFSG.ClassicalGroups.Orthogonal
   CFSG.RankThree.PartOne.KCOrthogonalDescent
 
+omit [Finite Ω] in
 theorem exists_clsData_orthOdd (hp : p.Prime) (hp2 : p ≠ 2) (hcore : GLAPPrimeCore p ↥S = ⊥)
     (hZ : Subgroup.center ↥S = ⊥) {n ℓ f : ℕ}
     (hmodel : StatedClassicalModel (PSimple p S) .POmegaOdd n ℓ f) {K : Type} [Field K]
@@ -239,6 +242,7 @@ theorem exists_clsData_orthOdd (hp : p.Prime) (hp2 : p ≠ 2) (hcore : GLAPPrime
   rintro U Q₀ ⟨-, -, -, -, T, ν, hT, -, hTU, -⟩
   exact ⟨coordinateQuadOdd n K, T, ν, coordinateQuadOdd_field n U.val.right, hT, hTU⟩
 
+omit [Finite Ω] in
 theorem exists_clsData_orthPlus (hp : p.Prime) (hp2 : p ≠ 2) (hcore : GLAPPrimeCore p ↥S = ⊥)
     (hZ : Subgroup.center ↥S = ⊥) {n ℓ f : ℕ} (hn : 5 ≤ n)
     (hmodel : StatedClassicalModel (PSimple p S) .POmegaPlus n ℓ f) {K : Type} [Field K]
@@ -280,6 +284,7 @@ theorem exists_clsData_orthPlus (hp : p.Prime) (hp2 : p ≠ 2) (hcore : GLAPPrim
   rintro U Q₀ ⟨-, -, -, -, T, ν, hT, -, hTU, -⟩
   exact ⟨coordinateQuadPlus n K, T, ν, coordinateQuadPlus_field n U.val.right, hT, hTU⟩
 
+omit [Finite Ω] in
 theorem exists_clsData_orthMinus (hp : p.Prime) (hp2 : p ≠ 2) (hcore : GLAPPrimeCore p ↥S = ⊥)
     (hZ : Subgroup.center ↥S = ⊥) {n ℓ f : ℕ} (hn1 : 1 ≤ n)
     (hmodel : StatedClassicalModel (PSimple p S) .POmegaMinus n ℓ f) {K : Type} [Field K]
@@ -329,6 +334,7 @@ theorem exists_clsData_orthMinus (hp : p.Prime) (hp2 : p ≠ 2) (hcore : GLAPPri
 
 open CFSG.ComponentClassification.CatalogueBOrthogonalPointPlusFamilyOrbit in
 open scoped Pointwise in
+omit [Finite Ω] in
 theorem exists_clsData_orthPlusFour (hp : p.Prime) (hp5 : 5 ≤ p)
     (hcore : GLAPPrimeCore p ↥S = ⊥) (hZ : Subgroup.center ↥S = ⊥) {ℓ f : ℕ}
     (hmodel : StatedClassicalModel (PSimple p S) .POmegaPlus 4 ℓ f) {K : Type} [Field K]

@@ -106,7 +106,7 @@ private theorem mem_complement_of_fixed_block {u : SpecialLinearGroup (Fin m) F}
         rw [frameCoords_single_basis, ← hεq, Equiv.symm_apply_apply]
       rw [hentry, hq, hcol, frameCoords_apply, hεp]
       simp only [Sum.elim_inl]
-      rw [hpres _ (Pi.single_eq_of_ne hjk _), map_zero, Finsupp.zero_apply, if_neg hpq']
+      rw [hpres _ (Pi.single_eq_of_ne hjk _), map_zero, Finsupp.zero_apply, ite_eq_right hpq']
     · have hq : Pi.single q (1 : F) = frameCoords g ε (0, Pi.single l 1) := by
         funext x
         rw [frameCoords_apply]
@@ -125,7 +125,7 @@ private theorem mem_complement_of_fixed_block {u : SpecialLinearGroup (Fin m) F}
             rw [Pi.single_eq_of_ne hxq, Pi.single_eq_of_ne hll]
       rw [hentry, hq, hcol, frameCoords_apply, hεp]
       simp only [Sum.elim_inl]
-      rw [hpres _ rfl, map_zero, Finsupp.zero_apply, if_neg hpq']
+      rw [hpres _ rfl, map_zero, Finsupp.zero_apply, ite_eq_right hpq']
 
 variable [Finite F] [CharP F 2] {hC : (rootMat g).det = 1}
 

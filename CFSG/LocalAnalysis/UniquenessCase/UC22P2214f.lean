@@ -60,10 +60,12 @@ variable {Q : Type} [Group Q] [Finite Q]
   CFSG.LocalAnalysis.GLTheoremB.quotAutHom (center ↥L) L.normalizerMonoidHom fun _ =>
     Subgroup.characteristic_iff_map_eq.mp inferInstance _
 
+omit [Finite Q] in
 theorem uc22p2214_autQuot_mk (L : Subgroup Q) (y : ↥(normalizer (L : Set Q))) (l : ↥L) :
     uc22p2214_autQuot L y (QuotientGroup.mk l) = QuotientGroup.mk (L.normalizerMonoidHom y l) :=
   CFSG.LocalAnalysis.GLTheoremB.quotAutHom_mk (center ↥L) L.normalizerMonoidHom _ y l
 
+omit [Finite Q] in
 theorem uc22p2214_autQuot_of_mem (L : Subgroup Q) {s : Q} (hs : s ∈ L) :
     uc22p2214_autQuot L ⟨s, le_normalizer hs⟩ = MulAut.conj (QuotientGroup.mk ⟨s, hs⟩ : ↥L ⧸ center ↥L) := by
   ext x
@@ -73,6 +75,7 @@ theorem uc22p2214_autQuot_of_mem (L : Subgroup Q) {s : Q} (hs : s ∈ L) :
       ← QuotientGroup.mk_mul]
     rfl
 
+omit [Finite Q] in
 theorem uc22p2214_mem_sup_of_permutes {B T : Subgroup Q} (hperm : Permutes B T) {g : Q} (hg : g ∈ B ⊔ T) :
     ∃ b ∈ B, ∃ t ∈ T, g = b * t := by
   let H : Subgroup Q :=
@@ -101,15 +104,15 @@ theorem uc22p2214_mem_sup_of_permutes {B T : Subgroup Q} (hperm : Permutes B T) 
 
 theorem uc22p2214_isSolvable_sup {B T : Subgroup Q} (hBodd : Odd (Nat.card B)) (hBc : IsMulCommutative B)
     (hT : IsPGroup 2 T) (hperm : Permutes B T) : Group.IsSolvable ↥(B ⊔ T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBS : B ≤ B ⊔ T := le_sup_left
   have hTS : T ≤ B ⊔ T := le_sup_right
-  haveI : IsMulCommutative ↥(B.subgroupOf (B ⊔ T)) :=
+  have : IsMulCommutative ↥(B.subgroupOf (B ⊔ T)) :=
     ⟨⟨fun x y => Subtype.ext (Subtype.ext (by
       have h := hBc.is_comm.comm ⟨((x : ↥(B ⊔ T)) : Q), x.2⟩ ⟨((y : ↥(B ⊔ T)) : Q), y.2⟩
       exact congrArg (fun z : ↥B => (z : Q)) h))⟩⟩
   have hTp : IsPGroup 2 ↥(T.subgroupOf (B ⊔ T)) := hT.comap_subtype
-  haveI : Group.IsNilpotent ↥(T.subgroupOf (B ⊔ T)) := hTp.isNilpotent
+  have : Group.IsNilpotent ↥(T.subgroupOf (B ⊔ T)) := hTp.isNilpotent
   refine CFSG.GroupTheory.WielandtProduct.wielandt_coprime_product (B.subgroupOf (B ⊔ T))
     (T.subgroupOf (B ⊔ T)) inferInstance inferInstance ?_ ?_
   · rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBS).toEquiv]
@@ -132,11 +135,11 @@ theorem uc22p2214_cartan {Kb Yb S₀ : Subgroup Q} (hKq : CFSG.Open.IsQuasisimpl
     (hnt : ∃ k ∈ Kb, a * k * a⁻¹ * k⁻¹ ≠ 1) :
     ∃ S : Subgroup (↥Kb ⧸ center ↥Kb), CFSG.ABGLocalTools.IsSylowOf 2 S ⊤ ∧
       ∃ x ∈ normalizer (S : Set (↥Kb ⧸ center ↥Kb)), orderOf x = r := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
   set N := normalizer (Kb : Set Q) with hNdef
   set ψ := uc22p2214_autQuot Kb with hψ
-  haveI : IsSimpleGroup (↥Kb ⧸ center ↥Kb) := hKq.2
+  have : IsSimpleGroup (↥Kb ⧸ center ↥Kb) := hKq.2
   have hXq : CFSG.Open.IsQuasisimple (↥Kb ⧸ center ↥Kb) :=
     uc22br4_isQuasisimple_of_surjective hKq (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
   have hZX : center (↥Kb ⧸ center ↥Kb) = ⊥ := uc22p21k_center_eq_bot hXq
@@ -153,14 +156,14 @@ theorem uc22p2214_cartan {Kb Yb S₀ : Subgroup Q} (hKq : CFSG.Open.IsQuasisimpl
     rw [hZX, Subgroup.mem_bot] at hc
     exact (inv_mul_eq_one.1 hc).symm
   set Y₀ : Subgroup ↥N := Yb.subgroupOf N with hY₀
-  haveI := hYs
+  have := hYs
   have hY₀s : Group.IsSolvable ↥Y₀ := by
     let ι : ↥Y₀ →* ↥Yb := (N.subtype.comp Y₀.subtype).codRestrict _ fun x => x.2
     exact Group.isSolvable_of_isSolvable_injective (f := ι) (fun x y h => Subtype.ext (Subtype.ext (by
       have h1 := congrArg (fun z : ↥Yb => (z : Q)) h
       exact h1)))
-  haveI := hY₀s
-  haveI hY₀ψ : Group.IsSolvable ↥(Y₀.map ψ) := Group.isSolvable_of_surjective (ψ.subgroupMap_surjective Y₀)
+  have := hY₀s
+  have hY₀ψ : Group.IsSolvable ↥(Y₀.map ψ) := Group.isSolvable_of_surjective (ψ.subgroupMap_surjective Y₀)
   set W : Subgroup (↥Kb ⧸ center ↥Kb) := (Y₀.map ψ).comap MulAut.conj with hW
   have hWs : Group.IsSolvable ↥W := by
     let ι : ↥W →* ↥(Y₀.map ψ) := (MulAut.conj.comp W.subtype).codRestrict _ fun x => x.2
@@ -171,7 +174,7 @@ theorem uc22p2214_cartan {Kb Yb S₀ : Subgroup Q} (hKq : CFSG.Open.IsQuasisimpl
   let Ŝ : Sylow 2 (↥Kb ⧸ center ↥Kb) := Sylow.mapSurjective (QuotientGroup.mk'_surjective (center ↥Kb)) P
   have hŜ : CFSG.ABGLocalTools.IsSylowOf 2 (Ŝ : Subgroup (↥Kb ⧸ center ↥Kb)) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, Ŝ.isPGroup', by rw [Subgroup.relIndex_top_right]; exact Ŝ.not_dvd_index⟩
+    exact ⟨le_top, Ŝ.isPGroup, by rw [Subgroup.relIndex_top_right]; exact Ŝ.not_dvd_index⟩
   have hŜW : (Ŝ : Subgroup (↥Kb ⧸ center ↥Kb)) ≤ W := by
     intro x hx
     rw [Sylow.coe_mapSurjective] at hx

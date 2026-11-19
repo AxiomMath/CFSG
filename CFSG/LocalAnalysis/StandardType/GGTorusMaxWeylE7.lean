@@ -85,9 +85,9 @@ theorem tmW7_commutator_le_evenWeyl :
 theorem tmW7_evenWeyl_le_commutator :
     evenWeyl ≤ commutator (WeylGroup Tag.E7) := by
   obtain ⟨f⟩ := tmW7_evenWeyl_mulEquiv_sp62
-  haveI : IsSimpleGroup (StatedSp 3 (ZMod 2)) :=
+  have : IsSimpleGroup (StatedSp 3 (ZMod 2)) :=
     CFSG.ClassicalInvolution.Solomon73.Yamaki.isSimpleGroup_sp62
-  haveI : IsSimpleGroup evenWeyl := f.isSimpleGroup
+  have : IsSimpleGroup evenWeyl := f.isSimpleGroup
   have hperf : commutator (↥evenWeyl) = ⊤ :=
     CFSG.GroupTheory.commutator_eq_top_of_isSimpleGroup inferInstance
       tmW7_not_isMulCommutative_evenWeyl
@@ -109,14 +109,14 @@ theorem tmW7_isSimpleGroup_commutator :
     IsSimpleGroup ↥(commutator (WeylGroup Tag.E7)) := by
   rw [tmW7_commutator_eq_evenWeyl]
   obtain ⟨f⟩ := tmW7_evenWeyl_mulEquiv_sp62
-  haveI : IsSimpleGroup (StatedSp 3 (ZMod 2)) :=
+  have : IsSimpleGroup (StatedSp 3 (ZMod 2)) :=
     CFSG.ClassicalInvolution.Solomon73.Yamaki.isSimpleGroup_sp62
   exact f.isSimpleGroup
 
 theorem tmW7_hom_trivial_of_le_nine
     {n : ℕ} (hn : n ≤ 9)
     (f : ↥(commutator (WeylGroup Tag.E7)) →* Equiv.Perm (Fin n)) : f = 1 := by
-  haveI : IsSimpleGroup ↥(commutator (WeylGroup Tag.E7)) := tmW7_isSimpleGroup_commutator
+  have : IsSimpleGroup ↥(commutator (WeylGroup Tag.E7)) := tmW7_isSimpleGroup_commutator
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal f.ker with h | h
   · have hinj : Function.Injective f := (MonoidHom.ker_eq_bot_iff f).mp h
     have hdvd : Nat.card ↥(commutator (WeylGroup Tag.E7)) ∣ Nat.card (Equiv.Perm (Fin n)) :=

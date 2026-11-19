@@ -91,7 +91,7 @@ theorem w_iso_of_shape {X : Type} [Group X] [Finite X] {W : Subgroup X} [W.Norma
     { carrier := {x | x * g * x⁻¹ = g ∨ x * g * x⁻¹ = g⁻¹}
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [show a * b * g * (a * b)⁻¹ = a * (b * g * b⁻¹) * a⁻¹ by group]
         rcases hb with hb | hb <;> rw [hb]
         · exact ha
@@ -100,10 +100,10 @@ theorem w_iso_of_shape {X : Type} [Group X] [Finite X] {W : Subgroup X} [W.Norma
           · exact Or.inr rfl
           · exact Or.inl (inv_inv g)
       one_mem' := by
-        simp only [Set.mem_setOf_eq, one_mul, inv_one, mul_one, true_or]
+        simp only [Set.mem_ofPred_eq, one_mul, inv_one, mul_one, true_or]
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq, inv_inv] at ha ⊢
+        simp only [Set.mem_ofPred_eq, inv_inv] at ha ⊢
         rcases ha with ha | ha
         · left
           calc a⁻¹ * g * a = a⁻¹ * (a * g * a⁻¹) * a := by rw [ha]

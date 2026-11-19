@@ -59,7 +59,7 @@ variable [Finite G]
 
 theorem le_pPrimeCoreOf_of_le {R K K' : Subgroup G} (hK' : K' ≤ K) (hRK' : R ≤ K')
     (hR : R ≤ pPrimeCoreOf 3 K) : R ≤ pPrimeCoreOf 3 K' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle : pPrimeCoreOf 3 K ⊓ K' ≤ pPrimeCoreOf 3 K' := by
     refine Sec14.le_pPrimeCoreOf inf_le_right ?_ ?_
     · intro g hg
@@ -164,6 +164,7 @@ section Simple
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem isQuasisimple_of_simple_nonab' (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a) :
     CFSG.Open.IsQuasisimple S := by
   have hZ : Subgroup.center S = ⊥ := RonanK429.center_eq_bot_of_isSimpleGroup hs hna
@@ -178,11 +179,12 @@ theorem isQuasisimple_of_simple_nonab' (hs : IsSimpleGroup S) (hna : ∃ a b : S
       calc a * b = (a * b * a⁻¹ * b⁻¹) * (b * a) := by group
         _ = b * a := by rw [hmem, one_mul]
     · exact h
-  · haveI := hs
+  · have := hs
     have e : (S ⧸ Subgroup.center S) ≃* S :=
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
     exact e.isSimpleGroup
 
+omit [Finite S] in
 theorem isThreeType_of_lpEps (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a)
     {idx : TauCeti.ValidLieTypeIndex} (hidx : IsLpEpsIndex 3 idx.1)
     (f : S ≃* (TauCeti.CFSGIndex.lie idx).Group) : IsThreeType S := by
@@ -191,7 +193,7 @@ theorem isThreeType_of_lpEps (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b �
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   obtain ⟨d, hv⟩ := idx
   rcases hidx with ⟨Q, rfl, -⟩ | ⟨Q, rfl, -⟩
-  · haveI : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
+  · have : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
     refine Or.inl ⟨GaloisField Q.p Q.exponent, inferInstance, inferInstance, ⟨?_⟩⟩
     exact eZ.trans (f.trans ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL (3 - 1) Q hv).trans
       (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 _)))

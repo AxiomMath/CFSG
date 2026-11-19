@@ -21,7 +21,7 @@ theorem exists_isSection_mulEquiv {X D : Type*} [Group X] [Group D] (φ : X →*
   obtain ⟨H, N, hN, ⟨e⟩⟩ := exists_section_mulEquiv φ hφ K
   have h : (N.map H.subtype).subgroupOf H = N :=
     Subgroup.comap_map_eq_self_of_injective H.subtype_injective N
-  haveI : ((N.map H.subtype).subgroupOf H).Normal := by rw [h]; exact hN
+  have : ((N.map H.subtype).subgroupOf H).Normal := by rw [h]; exact hN
   exact ⟨H, N.map H.subtype, inferInstance, ⟨e.trans (QuotientGroup.quotientMulEquivOfEq h.symm)⟩⟩
 
 theorem isQuasisimple_of_isSimpleGroup {R : Type*} [Group R] [IsSimpleGroup R]
@@ -71,7 +71,7 @@ theorem three_ne_zero_of_card {K : Type} [Field K] [Finite K] {n : ℕ}
   intro h
   have : Fintype K := Fintype.ofFinite K
   have h3 : ((3 : ℕ) : K) = 0 := by exact_mod_cast h
-  haveI : CharP K 3 := (CharP.charP_iff_prime_eq_zero Nat.prime_three).mpr h3
+  have : CharP K 3 := (CharP.charP_iff_prime_eq_zero Nat.prime_three).mpr h3
   obtain ⟨m, -, hm⟩ := FiniteField.card K 3
   rw [← Nat.card_eq_fintype_card, hcard] at hm
   have h3d : 3 ∣ (2 ^ n) ^ 2 := by
@@ -114,7 +114,7 @@ theorem not_commutative_of_isQuasisimple {L : Type*} [Group L]
   have hz : Subgroup.center L = ⊤ :=
     (Subgroup.eq_top_iff' _).mpr fun a => Subgroup.mem_center_iff.mpr fun b => hc b a
   obtain ⟨-, hs⟩ := h
-  haveI : Subsingleton (L ⧸ Subgroup.center L) := by
+  have : Subsingleton (L ⧸ Subgroup.center L) := by
     rw [hz]
     exact QuotientGroup.subsingleton_quotient_top
   exact (not_subsingleton (L ⧸ Subgroup.center L)) inferInstance
@@ -164,7 +164,7 @@ theorem false_of_clauseB_simple {X : Type} [Group X] [Finite X] {R : Type} [Grou
       rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
       have hba : b * a = a * b := Subgroup.mem_centralizer_iff.mp (hle ha) b hb
       rw [← map_mul, ← map_mul, hba]
-    haveI hQs : IsSimpleGroup (↥H ⧸ Subgroup.center ↥H) := e.symm.isSimpleGroup
+    have hQs : IsSimpleGroup (↥H ⧸ Subgroup.center ↥H) := e.symm.isSimpleGroup
     have hnormB : ∀ (B C : Subgroup (↥H ⧸ Subgroup.center ↥H)), B ⊔ C = ⊤ →
         (∀ x ∈ B, ∀ y ∈ C, x * y = y * x) → B.Normal := by
       intro B C hBC hc
@@ -173,8 +173,8 @@ theorem false_of_clauseB_simple {X : Type} [Group X] [Finite X] {R : Type} [Grou
       rw [Subgroup.mem_centralizer_iff]
       intro h hh
       exact hc h hh y hy
-    haveI hB₁n : B₁.Normal := hnormB B₁ B₂ hBsup hBc
-    haveI hB₂n : B₂.Normal :=
+    have hB₁n : B₁.Normal := hnormB B₁ B₂ hBsup hBc
+    have hB₂n : B₂.Normal :=
       hnormB B₂ B₁ (by rw [sup_comm]; exact hBsup) (fun x hx y hy => (hBc y hy x hx).symm)
     have hnotbot : ∀ {L : Subgroup X}, CFSG.Open.IsComponentOf L H →
         ¬ ((L.subgroupOf H).map π = ⊥) := by

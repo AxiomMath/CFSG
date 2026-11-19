@@ -162,6 +162,7 @@ theorem laneK_eq (k : Nat) : laneK k = ⟨kx k &&& (2 ^ 4096 - 1), kx k >>> 4096
 theorem mat3_kx (k : Nat) : mat3 64 4096 (kx k) = toMat 64 (unlane 64 (laneK k)) := by
   rw [laneK_eq, toMat_lane3]
 
+set_option exponentiation.threshold 4096 in
 theorem x3_lane {i : Nat} (h : Canon (ln i)) : ln i = ⟨x3 i &&& (2 ^ 4096 - 1), x3 i >>> 4096⟩ := by
   have hp : (ln i).p < 2 ^ 4096 := h.p
   have hp' : lt (2 * i) < 2 ^ 4096 := hp

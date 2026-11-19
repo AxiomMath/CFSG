@@ -11,6 +11,7 @@ open scoped Matrix
 
 variable {K : Type} [Field K] [Finite K] {f : ℕ} [CharP K 2] {n : ℕ} {d : List ℕ}
 
+omit [Finite K] [CharP K 2] in
 private theorem pst_mem_Vsub_iff {c : ℕ} (v : Fin n → K) :
     v ∈ Vsub n c ↔ ∀ i : Fin n, c ≤ i.val → v i = 0 := by
   rfl
@@ -33,10 +34,10 @@ private theorem pst_hermLin_single {lo hi : ℕ} {j : Fin n} (hlj : lo ≤ j.val
   · simp [hlj, hjh]
   · intro i _ hij
     by_cases h : lo ≤ i.val ∧ i.val < hi
-    · rw [if_pos h, Pi.single_eq_of_ne' hij.symm]; simp
+    · rw [ite_eq_left h, Pi.single_eq_of_ne' hij.symm]; simp
     · simp [h]
 
-private theorem pst_mem_perpB_Vsub_iff {lo hi k : ℕ} (hlo : lo ≤ k) (hk : k ≤ hi)
+private theorem pst_mem_perpB_Vsub_iff {lo hi k : ℕ} (_hlo : lo ≤ k) (hk : k ≤ hi)
     (v : Fin n → K) :
     v ∈ perpB K f n lo hi (Vsub n k) ↔ ∀ i : Fin n, lo ≤ i.val → i.val < k → v i = 0 := by
   rw [pst_mem_perpB_iff]
@@ -54,17 +55,19 @@ private theorem pst_mem_perpB_Vsub_iff {lo hi k : ℕ} (hlo : lo ≤ k) (hk : k 
     apply Finset.sum_eq_zero
     intro i _
     by_cases h : lo ≤ i.val ∧ i.val < hi
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       by_cases hik : i.val < k
       · rw [hv i h.1 hik, mul_zero]
       · rw [hu i (not_lt.1 hik), map_zero, zero_mul]
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
 
+omit [Finite K] [CharP K 2] in
 theorem revBlocks_coe (hd : IsCut n d) :
     ((revBlocks K n d : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
       (q2cFPt_blockRevI hd).permMatrix K := by
-  rw [revBlocks, dif_pos hd]
+  rw [revBlocks, dite_eq_left hd]
 
+omit [Finite K] [CharP K 2] in
 private theorem pst_mem_map_glLin_rev_iff (hd : IsCut n d) {j : ℕ} (w : Fin n → K) :
     w ∈ (Vsub n j).map (glLin (revBlocks K n d)).toLinearMap ↔
       ∀ i : Fin n, j ≤ (q2cFPt_blockRevI hd i).val → w i = 0 := by
@@ -87,6 +90,7 @@ private theorem pst_mem_map_glLin_rev_iff (hd : IsCut n d) {j : ℕ} (w : Fin n 
       show w (q2cFPt_blockRevI hd (q2cFPt_blockRevI hd i)) = w i
       rw [hinv i]
 
+omit [Finite K] [CharP K 2] in
 private theorem pst_mem_map_rev_iff (hd : IsCut n d) {b s : ℕ} (hb : b + 1 < d.length)
     (hs : s ≤ blockSize d b) (w : Fin n → K) :
     w ∈ (Vsub n (d.getD b 0 + s)).map (glLin (revBlocks K n d)).toLinearMap ↔
@@ -136,30 +140,30 @@ private theorem pst_perpB_Vsub_inf_map_rev (hd : IsCut n d) {b s : ℕ} (hb : b 
     pst_mem_map_rev_iff hd hb hs]
 
 private theorem pst_psiSub_size_one_zero (hd : IsCut n d) (pol : List Bool) {x : FlagK K n}
-    (hx : x ∈ refSet K n d) {b : ℕ} (hb : b + 1 < d.length) (hbs : blockSize d b = 1) :
+    (hx : x ∈ refSet K n d) {b : ℕ} (hb : b + 1 < d.length) (_hbs : blockSize d b = 1) :
     psiSub f n d pol x.E b 0 = Vsub n (d.getD b 0) := by
   have hb' : b < d.length := by omega
   have hle : d.getD b 0 ≤ d.getD (b + 1) 0 := (hd.strict b hb).le
   rw [psiSub]
   by_cases hp : pol.getD b false = true
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     have harg : d.getD b 0 + (blockSize d b - 0) = d.getD (b + 1) 0 := by
-      simp only [blockSize] at hbs ⊢; omega
+      simp only [blockSize] at _hbs ⊢; omega
     rw [harg, hx (b + 1) hb, inf_comm]
     exact q2cFS_perpB_Vsub_inf hle
-  · rw [if_neg hp, Nat.add_zero, hx b hb', sgS_Vsub]
+  · rw [ite_eq_right hp, Nat.add_zero, hx b hb', sgS_Vsub]
 
-private theorem pst_psiSub_size_one_one (hd : IsCut n d) (pol : List Bool) {x : FlagK K n}
+private theorem pst_psiSub_size_one_one (_hd : IsCut n d) (pol : List Bool) {x : FlagK K n}
     (hx : x ∈ refSet K n d) {b : ℕ} (hb : b + 1 < d.length) (hbs : blockSize d b = 1) :
     psiSub f n d pol x.E b 1 = Vsub n (d.getD (b + 1) 0) := by
   have hb' : b < d.length := by omega
   rw [psiSub]
   by_cases hp : pol.getD b false = true
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     have harg : d.getD b 0 + (blockSize d b - 1) = d.getD b 0 := by
       simp only [blockSize] at hbs ⊢; omega
     rw [harg, hx b hb', q2cFS_perpB_Vsub_lo_eq_top, top_inf_eq]
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     have harg : d.getD b 0 + 1 = d.getD (b + 1) 0 := by
       simp only [blockSize] at hbs; omega
     rw [harg, hx (b + 1) hb, sgS_Vsub]
@@ -200,7 +204,7 @@ theorem flagPsi_stdFlag_pol (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d) :
     have hpol : (List.replicate (d.length - 1) true).getD b false = true :=
       List.getD_replicate true (by omega)
     rw [hjeq, flagPsi_E hK hd _ hstd_mem hb hs]
-    rw [psiSub, if_pos hpol]
+    rw [psiSub, ite_eq_left hpol]
     rw [flagAct, flagMap_E]
     change perpB K f n (d.getD b 0) (d.getD (b + 1) 0)
         (Vsub n (d.getD b 0 + (blockSize d b - s))) ⊓ Vsub n (d.getD (b + 1) 0)

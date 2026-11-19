@@ -104,7 +104,7 @@ theorem heisC_mul_d₁ (β : K) {τu : Kˣ} (hτu : (τu : K) = τ) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [heisC, Matrix.mul_apply, sq, Matrix.diagonal_apply] <;>
-    first | ring1 | linear_combination (-2 : K) * hτ | linear_combination (-τ) * hτ |
+    first | linear_combination (-2 : K) * hτ | linear_combination (-τ) * hτ |
       linear_combination hτ | linear_combination (-1 : K) * hτ
 
 theorem d₁_mem_normGU (hcβm : (cβ : Matrix (Fin 3) (Fin 3) K) = heisC β) {τu : Kˣ}

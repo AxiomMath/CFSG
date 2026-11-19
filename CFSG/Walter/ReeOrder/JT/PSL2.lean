@@ -387,7 +387,7 @@ theorem psl2Facts {G : Type*} [Group G]
     intro hab
     let P₀ : Sylow 2 PSL(2, K) := default
     have hPF : (P₀ : Subgroup PSL(2, K)).map ι ≤ F := hrange ▸ Subgroup.map_le_range ι _
-    have hP := hab _ hPF (P₀.isPGroup'.map ι)
+    have hP := hab _ hPF (P₀.isPGroup.map ι)
     have eP := (P₀ : Subgroup PSL(2, K)).equivMapOfInjective ι hι
     have hP₀ : IsMulCommutative (P₀ : Subgroup PSL(2, K)) :=
       ⟨⟨fun a b => eP.injective (by rw [map_mul, map_mul]; exact hP.is_comm.comm _ _)⟩⟩

@@ -15,7 +15,7 @@ theorem sylow_monSub {G : Type} [Group G] [Finite G] (T : Sylow 5 G)
     (hψ : Function.Injective ψ) :
     Nat.card (T : Subgroup G) = 5 ^ 5 ∧ (∀ t ∈ (T : Subgroup G), t ^ 5 = 1) ∧
       ∃ s ∈ (T : Subgroup G), ∃ t ∈ (T : Subgroup G), s * t ≠ t * s := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set Q : Subgroup G := ψ.range with hQ
   have hQcard : Nat.card Q = 5 ^ (4 * a + 1) := by
     rw [← Nat.card_congr (MonoidHom.ofInjective hψ).toEquiv, card_monSub, hC, ← pow_mul,
@@ -34,7 +34,7 @@ theorem sylow_monSub {G : Type} [Group G] [Finite G] (T : Sylow 5 G)
   have hTc : Nat.card (T : Subgroup G) = 5 ^ 5 := by rw [hTcard, hv5]
   have hQc : Nat.card Q = 5 ^ 5 := hQcard
   obtain ⟨g, hg⟩ := CFSG.Sporadic.J4.QT2.exists_conj_le_of_card Q (T : Subgroup G)
-    (by rw [hQc, hv5]) T.isPGroup'
+    (by rw [hQc, hv5]) T.isPGroup
   have hC5 : ∀ c : C, c ^ 5 = 1 := fun c => by
     have := pow_card_eq_one' (x := c)
     rwa [hC, pow_one] at this

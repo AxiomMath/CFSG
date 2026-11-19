@@ -125,7 +125,7 @@ theorem eq_bot_of_fixedPointFree {G : Type*} [Group G] {D T : Subgroup G} {c : G
     (hTD : T ≤ D) (hT3 : ¬ 3 ∣ Nat.card T) (hc : c ∈ Subgroup.normalizer (T : Set G))
     (hfix : ∀ t ∈ T, c * t = t * c → t = 1) : T = ⊥ := by
   by_contra hne
-  haveI : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).2 hne
+  have : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).2 hne
   have hord : ∀ g : T, g ^ 4 = 1 := by
     intro g
     have h12 : g ^ 12 = 1 := Subtype.ext (by simpa using hexp g (hTD g.2))
@@ -135,9 +135,9 @@ theorem eq_bot_of_fixedPointFree {G : Type*} [Group G] {D T : Subgroup G} {c : G
       ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 (fun h3 => hT3 (h3.trans hd2))).symm
     have h4 : orderOf g ∣ 4 := hcop.dvd_of_dvd_mul_right (by simpa using hd1)
     exact orderOf_dvd_iff_pow_eq_one.1 h4
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 T := fun g => ⟨2, by simpa using hord g⟩
-  haveI := hp.center_nontrivial
+  have := hp.center_nontrivial
   obtain ⟨z, hzc, hz1, hz2⟩ : ∃ z : T, z ∈ Subgroup.center T ∧ z ≠ 1 ∧ z ^ 2 = 1 := by
     obtain ⟨z₀, hz₀⟩ := exists_ne (1 : Subgroup.center T)
     have hz₀c : (z₀ : T) ∈ Subgroup.center T := z₀.2
@@ -309,7 +309,7 @@ theorem exists_gu2_decomp (h : UnitaryFieldData 2 3 F) {σ : F ≃+* F} (hσ : o
     have hq : 2 ^ 3 = 8 := by norm_num
     rw [hq] at h1
     rw [h1, hYm, hu]
-  exact ⟨M i0 j0, Ym, hb, hYe, hYu, by rw [hYm, hB', smul_inv_smul₀ hb] <;> exact hMB'⟩
+  exact ⟨M i0 j0, Ym, hb, hYe, hYu, by rw [hYm, hB', smul_inv_smul₀ hb]⟩
 
 open CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher (glAut coe_glAut) in
 theorem suField_not_mem_range (h : UnitaryFieldData 2 3 F) {σ : F ≃+* F} (hσ : σ ≠ 1) :

@@ -13,7 +13,7 @@ open Subgroup CFSG.Blueprint
 
 theorem asc82StandardInputRk2_holds : Asc82StandardInputRk2 := by
   intro G _ _ hs hK hn _ _ _ X hX hXF hrk
-  haveI := hs
+  have := hs
   have hnonab : ∃ a b : G, a * b ≠ b * a :=
     s7f_nonab_of_quasisimple (s7f_isQuasisimple_of_inFStar hXF)
   have hrk' : 2 ≤ CFSG.Open.pRank 2 (centralizer (X : Set G)) := by

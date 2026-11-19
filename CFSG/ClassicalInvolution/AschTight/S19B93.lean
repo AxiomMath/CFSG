@@ -53,7 +53,7 @@ theorem exists_conj_t_of_mem_X (hd : Sec19DataT p f K z S W L t V) {a : G}
     ∃ d : G, d * a = a * d ∧ d * t * d⁻¹ = y * t * y⁻¹ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hB2 : IsPGroup 2 (Subgroup.zpowers a) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr ha.1)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr ha.1)
   have hBX : Subgroup.zpowers a ≤ centralizerModOdd ⊤ (sec19X K z) :=
     Subgroup.zpowers_le.mpr ha.2
   obtain ⟨o, ho, hc⟩ := exists_mul_mem_centralizer hB2 hBX hy

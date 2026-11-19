@@ -14,6 +14,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem l62c_zpowers_comm {K : Subgroup H} {y : H} (hy : ∀ k ∈ K, k * y = y * k) :
     ∀ r ∈ Subgroup.zpowers y, ∀ k ∈ K, k * r = r * k := by
   intro r hr k hk
@@ -21,6 +22,7 @@ theorem l62c_zpowers_comm {K : Subgroup H} {y : H} (hy : ∀ k ∈ K, k * y = y 
   have hcy : Commute k y := hy k hk
   exact (Commute.zpow_right hcy j).eq
 
+omit [Finite H] in
 theorem l62c_normal_subgroupOf {K R : Subgroup H}
     (h : ∀ r ∈ R, ∀ k ∈ K, k * r = r * k) : (R.subgroupOf K).Normal := by
   refine ⟨fun n hn k => ?_⟩
@@ -33,7 +35,7 @@ theorem l62c_normal_subgroupOf {K R : Subgroup H}
 
 theorem l62_center_isPGroup (hcore : primeComplementCore (G := H) 3 = ⊥) {C : Subgroup H}
     (hC : IsComponentOf C ⊤) : IsPGroup 3 ↥(center ↥C) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : CFSG.pPrimeCore 3 H = ⊥ := hcore
   rw [IsPGroup.iff_orderOf]
   intro g

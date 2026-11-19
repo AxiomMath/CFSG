@@ -177,7 +177,7 @@ theorem exists_card_five_subgroup_of_pow_five {N : Type} [Group N] [Fintype N]
       representation := τ.representation.comp (R : Subgroup N).subtype }
   have hτRfaith : Function.Injective τR.representation :=
     hfaith.comp (R : Subgroup N).subtype_injective
-  have hR3 : IsPGroup 3 R := R.isPGroup'
+  have hR3 : IsPGroup 3 R := R.isPGroup
   have hR81 : Nat.card R ≤ 81 := by
     rw [hRcard]
     calc 3 ^ i ≤ 3 ^ 4 := Nat.pow_le_pow_right (by norm_num) hi

@@ -30,7 +30,7 @@ theorem perLineOn_of_frame [Finite K] (hKd : UnitaryFieldData 2 n K)
     PerLineOn A := by
   obtain ⟨φ, hφs, hφker, hφa, -⟩ := exists_model hKd hψ hker hperf hperfSU hP hcov'
   have hAp : ∀ a ∈ A, a ^ 3 = 1 := hA.2
-  haveI : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
+  have : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
     DFunLike.coe_injective
   have hPN := LineU.primeForm_mem_normalizer hKd hP
   have hdiag : ∀ a ∈ A, ∃ t : Fin 6 → K, LineU.ActsDiagU φ a t := by
@@ -45,7 +45,7 @@ theorem perLineOn_of_frame [Finite K] (hKd : UnitaryFieldData 2 n K)
     exact ⟨Matrix.diag ((P⁻¹ * M * P : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K),
       P⁻¹ * M * P, hDN, hdiag', hφa a M (P⁻¹ * M * P) hMN hDN rfl hc⟩
   intro a₀ ha₀ ha₀1 _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf a₀ = 3 := orderOf_eq_prime (hAp a₀ ha₀) ha₀1
   have hΛp : Nat.card (Subgroup.zpowers a₀) = 3 := by rw [Nat.card_zpowers, hord]
   have hΛA : Subgroup.zpowers a₀ ≤ A := Subgroup.zpowers_le.mpr ha₀

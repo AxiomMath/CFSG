@@ -39,7 +39,7 @@ theorem card_eq_sixty_of_sylow_five [Finite G] [IsSimpleGroup G]
     (hbound : (centralizer ((P : Subgroup G) : Set G)).index * (5 - 4) ≤ 4 * (5 - 1)) :
     Nat.card G = 60 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set C : Subgroup G := centralizer ((P : Subgroup G) : Set G) with hC
   set N : Subgroup G := normalizer ((P : Subgroup G) : Set G) with hN
   have hPne : (P : Subgroup G) ≠ ⊥ := P.ne_bot_of_dvd_card h5
@@ -106,7 +106,7 @@ theorem card_eq_sixty_of_sylow_five [Finite G] [IsSimpleGroup G]
     exact h
   have hn_ne_one : Nat.card (Sylow 5 G) ≠ 1 := by
     intro h
-    haveI : Subsingleton (Sylow 5 G) := (Nat.card_eq_one_iff_unique.mp h).1
+    have : Subsingleton (Sylow 5 G) := (Nat.card_eq_one_iff_unique.mp h).1
     exact hPn P.normal_of_subsingleton
   obtain ⟨hn6, hr2eq⟩ := five_arith hmod5 hn_ne_one hr2 hrmul
   have hGdvd : Nat.card G ∣ 720 := by
@@ -117,7 +117,7 @@ theorem card_eq_sixty_of_sylow_five [Finite G] [IsSimpleGroup G]
     exact h
   have hPcard_dvd : Nat.card (P : Subgroup G) ∣ 720 :=
     (Subgroup.card_subgroup_dvd_card (P : Subgroup G)).trans hGdvd
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have h5k_dvd : 5 ^ k ∣ 720 := by
     rw [← hk]
     exact hPcard_dvd

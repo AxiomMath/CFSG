@@ -46,7 +46,7 @@ theorem exists_order_five_pair (a : F4) (ha : a ≠ 0) :
     refine Subtype.ext ?_
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, hg_val, hU_val, hL]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]; ring
   have hconj : g * lowerSL a * g⁻¹ = U := mul_inv_eq_iff_eq_mul.2 hg
   obtain ⟨h5, hne⟩ := lin2_matrix_five a (t * a) (by linear_combination hta)
   refine ⟨g, ?_, ?_⟩

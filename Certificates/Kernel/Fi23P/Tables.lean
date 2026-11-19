@@ -146,7 +146,7 @@ end
 
 theorem XK_eq {k x : Nat} (hk : k < 10) (hx : x < 31671) : XK k x = tb G k x := by
   unfold XK
-  rw [if_pos ⟨hk, hx⟩]
+  rw [ite_eq_left ⟨hk, hx⟩]
 
 theorem ap_ge {T : Table} (hT : T.size = 31671) {x : Nat} (hx : ¬ x < 31671) : ap T x = 0 := by
   unfold ap
@@ -179,14 +179,14 @@ theorem ap_of_TR {T : Table} {k : Nat} (hk : k < 10) (h : TR 31671 T (tb G k)) (
   · rw [(h.2 x hx).1, XK_eq hk hx]
   · rw [ap_ge h.1 hx]
     unfold XK
-    rw [if_neg (fun h' => hx h'.2)]
+    rw [ite_eq_right (fun h' => hx h'.2)]
 
 theorem IT_ap (k x : Nat) : ap IT[k]! x = XK k x := by
   by_cases hk : k < 10
   · exact ap_of_TR hk (IT_TR hk) x
   · rw [getElem!_neg IT k (by rw [IT_size]; omega)]
     unfold XK
-    rw [if_neg (fun h' => hk h'.1)]
+    rw [ite_eq_right (fun h' => hk h'.1)]
     rfl
 
 theorem IV_ap (k x : Nat) : ap IV[k]! x = XK k x := by
@@ -194,7 +194,7 @@ theorem IV_ap (k x : Nat) : ap IV[k]! x = XK k x := by
   · exact ap_of_TR hk (IV_TR hk) x
   · rw [getElem!_neg IV k (by simp [imgWords_size]; omega)]
     unfold XK
-    rw [if_neg (fun h' => hk h'.1)]
+    rw [ite_eq_right (fun h' => hk h'.1)]
     rfl
 
 end

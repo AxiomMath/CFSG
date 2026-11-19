@@ -179,7 +179,7 @@ private def ggPerpWitE8 : List (List (List ℤ)) :=
      [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0],
      [-1, 0, 0, 0, 0, 0, 0, 0]]]
 
-private def decEqE8Fast : DecidableEq (Fin Tag.E8.rank → ℤ) := fun u v =>
+@[instance_reducible] private def decEqE8Fast : DecidableEq (Fin Tag.E8.rank → ℤ) := fun u v =>
   decidable_of_iff (((List.finRange Tag.E8.rank).all fun i => decide (u i = v i)) = true) (by
     simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
     exact funext_iff.symm)

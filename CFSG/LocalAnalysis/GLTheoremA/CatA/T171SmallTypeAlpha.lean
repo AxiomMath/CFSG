@@ -90,7 +90,7 @@ theorem isSimpleGroup_of_isA6 {X : Type} [Group X]
   exact e.isSimpleGroup_congr.mpr (alternatingGroup.isSimpleGroup (by norm_num))
 
 theorem isSimpleGroup_of_glaSmall {G : Type} [Group G] {K : Subgroup G} (h : GLASmall K)
-    (hq : CFSG.Open.IsQuasisimple ↥K) : IsSimpleGroup ↥K := by
+    (_hq : CFSG.Open.IsQuasisimple ↥K) : IsSimpleGroup ↥K := by
   rcases h with hU | hA
   · exact isSimpleGroup_of_isU42 hU
   · exact isSimpleGroup_of_isA6 hA
@@ -109,26 +109,26 @@ theorem three_dvd_card_of_glaSmall {G : Type} [Group G] {K : Subgroup G} (h : GL
 
 theorem exists_noncomm_of_glaSmall {G : Type} [Group G] {K : Subgroup G} (h : GLASmall K)
     (hq : CFSG.Open.IsQuasisimple ↥K) : ∃ a b : ↥K, a * b ≠ b * a := by
-  haveI := isSimpleGroup_of_glaSmall h hq
+  have := isSimpleGroup_of_glaSmall h hq
   rcases card_of_glaSmall h with hc | hc
   · by_contra hcon
     simp only [not_exists, ne_eq, not_not] at hcon
-    letI gK : Group ↥K := inferInstance
-    letI : CommGroup ↥K := { gK with mul_comm := fun a b => hcon a b }
+    let gK : Group ↥K := inferInstance
+    let : CommGroup ↥K := { gK with mul_comm := fun a b => hcon a b }
     have hprime : (Nat.card ↥K).Prime := (CommGroup.is_simple_iff_prime_card (α := ↥K)).1 ‹_›
     rw [hc] at hprime
     norm_num at hprime
   · by_contra hcon
     simp only [not_exists, ne_eq, not_not] at hcon
-    letI gK : Group ↥K := inferInstance
-    letI : CommGroup ↥K := { gK with mul_comm := fun a b => hcon a b }
+    let gK : Group ↥K := inferInstance
+    let : CommGroup ↥K := { gK with mul_comm := fun a b => hcon a b }
     have hprime : (Nat.card ↥K).Prime := (CommGroup.is_simple_iff_prime_card (α := ↥K)).1 ‹_›
     rw [hc] at hprime
     norm_num at hprime
 
 theorem center_eq_bot_of_glaSmall {G : Type} [Group G] {K : Subgroup G} (h : GLASmall K)
     (hq : CFSG.Open.IsQuasisimple ↥K) : Subgroup.center ↥K = ⊥ := by
-  haveI := isSimpleGroup_of_glaSmall h hq
+  have := isSimpleGroup_of_glaSmall h hq
   exact CFSG.StandardType.center_eq_bot_of_isSimpleGroup_of_nonabelian
     (exists_noncomm_of_glaSmall h hq)
 
@@ -211,7 +211,7 @@ theorem nonempty_equiv_chevTransfer {G : Type} [Group G] [Finite G] {L K : Subgr
   have hJ0ne : chevTransfer 3 L K ≠ ⊥ :=
     CFSG.HardMathSupport.Solomon.LocalBalance.glaPComponent_ne_bot hJ0
   let eK : ↥(K.subgroupOf L) ≃* ↥K := Subgroup.subgroupOfEquivOfLe hKL
-  haveI : IsSimpleGroup ↥(K.subgroupOf L) := eK.isSimpleGroup_congr.mpr hKsimple
+  have : IsSimpleGroup ↥(K.subgroupOf L) := eK.isSimpleGroup_congr.mpr hKsimple
   let π : ↥(K.subgroupOf L) →* PSimple 3 L :=
     (chevQuotHom 3 L).comp (K.subgroupOf L).subtype
   have hrange : π.range = chevTransfer 3 L K := by
@@ -243,7 +243,7 @@ theorem centralizes_of_centMod_of_isQuasisimple {G : Type} [Group G] [Finite G] 
     {L : Subgroup G} {g : G} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hne : GLAPPrimeCore p ↥L ≠ ⊤) (hg : g ∈ Subgroup.normalizer (L : Set G))
     (hc : CentMod p L g) : g ∈ Subgroup.centralizer (L : Set G) := by
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
   have hOZ : GLAPPrimeCore p ↥L ≤ Subgroup.center ↥L :=
     le_center_of_normal_of_isQuasisimple hq inferInstance hne
   let σ : ↥L →* ↥L := (Subgroup.normalizerMonoidHom (H := L)) ⟨g, hg⟩
@@ -325,7 +325,7 @@ theorem alphaRed_holds : AlphaRed := by
     CFSG.LocalAnalysis.GLTheoremA.Y10F.center_centerQuot_eq_bot hqL
   obtain ⟨hsimplePS, hncPS⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.chev_pSimple_simple_nonabelian Nat.prime_three hLglap
-  haveI : IsSimpleGroup (PSimple 3 L) := hsimplePS
+  have : IsSimpleGroup (PSimple 3 L) := hsimplePS
   have hperfPS : commutator (PSimple 3 L) = ⊤ :=
     (CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_isQuasisimple_of_simple hncPS).1
   have hLabPS : HasLabel (PSimple 3 L) (· = labL) :=
@@ -373,7 +373,7 @@ theorem alphaRed_holds : AlphaRed := by
     rcases card_of_glaSmall hKsmall with hc | hc
     · exact Or.inl (hcardJ0.trans (hcardK.trans hc))
     · exact Or.inr (hcardJ0.trans (hcardK.trans hc))
-  haveI : IsSimpleGroup ↥K := hKsimple
+  have : IsSimpleGroup ↥K := hKsimple
   have hPsimpleK : Nonempty (PSimple 3 K ≃* ↥K) :=
     CFSG.LocalAnalysis.GLTheoremA.LevelLieU6.nonempty_pSimple_equiv_of_simple hKglap
   have hcatK : catalogIs (PSimple 3 K) S9.isU4two ∨
@@ -396,7 +396,7 @@ theorem alphaRed_holds : AlphaRed := by
   obtain ⟨ePL⟩ := CFSG.LocalAnalysis.GLTheoremA.S9.nonempty_pSimple_equiv Nat.prime_three hLglap hLq
   obtain ⟨eLZ⟩ := hLZ
   let e : PSimple 3 L ≃* (TauCeti.CFSGIndex.lie d).Group := ePL.trans eLZ
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie d).Group :=
     Finite.of_equiv (PSimple 3 L) e.toEquiv
   let α : MulAut (TauCeti.CFSGIndex.lie d).Group := MulAut.congr e (chevAut 3 L ⟨d0, hdN⟩)
   let J : Subgroup (TauCeti.CFSGIndex.lie d).Group := J0.map e.toMonoidHom

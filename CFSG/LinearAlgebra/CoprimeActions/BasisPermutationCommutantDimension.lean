@@ -12,12 +12,13 @@ open Module
 variable {F V I : Type*} [Field F] [AddCommGroup V] [Module F V] [FiniteDimensional F V]
   [Finite I]
 
+omit [FiniteDimensional F V] in
 theorem finrank_eq (b : Basis I F (Module.End F V)) (T : V ≃ₗ[F] V) (σ : Equiv.Perm I)
     (hb : ∀ i, T.toLinearMap ∘ₗ b i ∘ₗ T.symm.toLinearMap = b (σ i)) :
     finrank F (DistinctEigenspaceCommutantDimension.commutant T.toLinearMap) =
       finrank F (PermutationFunctionFixedDimension.fixedSpace F σ) := by
   classical
-  haveI := Fintype.ofFinite I
+  have := Fintype.ofFinite I
   set c : Module.End F V → Module.End F V := fun S => T.toLinearMap ∘ₗ S ∘ₗ T.symm.toLinearMap
     with hcdef
   have hcadd : ∀ S R, c (S + R) = c S + c R := by
@@ -34,7 +35,7 @@ theorem finrank_eq (b : Basis I F (Module.End F V)) (T : V ≃ₗ[F] V) (σ : Eq
       refine Finset.sum_congr rfl fun k _ => ?_
       rw [hcsmul, ← hb k]
     rw [hS]
-    simp [Finsupp.single_apply, Equiv.apply_eq_iff_eq]
+    simp [Finsupp.single_apply]
   have hmem : ∀ S : Module.End F V, S ∈ DistinctEigenspaceCommutantDimension.commutant T.toLinearMap ↔
       b.equivFun S ∈ PermutationFunctionFixedDimension.fixedSpace F σ := by
     intro S
@@ -74,7 +75,7 @@ theorem prime_formula (b : Basis I F (Module.End F V)) (T : V ≃ₗ[F] V) (σ :
     (r : ℕ) (hr : r.Prime) (hσ : σ ^ r = 1) (i0 : I) (hfix : ∀ i, σ i = i ↔ i = i0) :
     r * finrank F (DistinctEigenspaceCommutantDimension.commutant T.toLinearMap) =
       finrank F V ^ 2 + r - 1 := by
-  haveI := Fintype.ofFinite I
+  have := Fintype.ofFinite I
   rw [finrank_eq b T σ hb,
     PermutationFunctionFixedDimension.prime_semiregular_formula σ r hr hσ i0 hfix]
   have h1 : Nat.card I = finrank F V ^ 2 := by

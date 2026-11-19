@@ -66,7 +66,7 @@ theorem perp_mem_sSet_three (hI : TwoHSInterface) {a z b c x : G} (h : IsF5Type 
     rw [h4ord] at h3ord
     exact absurd h3ord (by norm_num)
 
-theorem perp_mem_sSet_four (hI : TwoHSInterface) {a z b c x : G} (h : IsF5Type a z)
+theorem perp_mem_sSet_four (_hI : TwoHSInterface) {a z b c x : G} (h : IsF5Type a z)
     (hT4 : TableIVFacts a z) (hc : c ∈ sSet a z b 4) (hx : x ∈ orb2A a a ∩ orb2A a c) :
     c ∈ sSet a z x 4 := by
   have hcb : c ∈ sBase a b := hc.1
@@ -134,7 +134,7 @@ theorem perp_eq_of_row_two (hI : TwoHSInterface) {a z b c x : G} (h : IsF5Type a
     rw [h4ord] at h3ord
     exact absurd h3ord (by norm_num)
 
-theorem perp_eq_of_row_five (hI : TwoHSInterface) {a z b c x : G} (h : IsF5Type a z)
+theorem perp_eq_of_row_five (_hI : TwoHSInterface) {a z b c x : G} (h : IsF5Type a z)
     (hT4 : TableIVFacts a z) (hb : b ∈ orb2A a a) (hc : c ∈ sSet a z b 5)
     (hx : x ∈ orb2A a a ∩ orb2A a c) : x = b := by
   obtain ⟨hord, hcube⟩ := perp_orderOf_row_five h hb.1 hc

@@ -21,7 +21,7 @@ theorem lit_s3b (h : LitCtx Z A) (hπ : Function.Surjective π) (hk : π.ker = l
   classical
   let C : Subgroup X := Subgroup.centralizer (CFSG.oddCore X : Set X)
   have hCnormal : C.Normal := Subgroup.normal_centralizer (H := CFSG.oddCore X)
-  haveI : C.Normal := hCnormal
+  have : C.Normal := hCnormal
   obtain ⟨φ', hbar, _⟩ := lit_bar h hπ hk φ hφs hφk
   have hNAW : normalizer (A : Set X) ≤ normalizer ((A ⊓ C : Subgroup X) : Set X) := by
     have htop : normalizer (C : Set X) = ⊤ := Subgroup.normalizer_eq_top (H := C)

@@ -112,6 +112,7 @@ theorem rootWeylSL2_mem_model_of_rho_neg [CharP L 2] {γ : Fin τ.rank → ℤ}
     (hγ : IsRoot τ γ) (hργ : S.ρ γ = -γ) : rootSL2 τ L γ WSL ∈ S.D.model :=
   rootSL2_WSL_mem_model_of_rho S hγ (Or.inr hργ)
 
+omit [IsAlgClosed L] in
 theorem rootWeylSL2_mul_self_of_charTwo [CharP L 2] (γ : Fin τ.rank → ℤ) :
     rootSL2 τ L γ WSL * rootSL2 τ L γ WSL = 1 :=
   rootSL2_WSL_mul_self γ
@@ -121,7 +122,7 @@ theorem rootWeylSL2_mem_Γ_of_rho_neg (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 
     (hγ : IsRoot τ γ) (hργ : S.ρ γ = -γ) : rootSL2 τ L γ WSL ∈ S.Γ :=
   rootSL2_WSL_mem_Γ_of_rho S hτ hq hAlg hγ (Or.inr hργ)
 
-theorem exists_rootWeylSL2_mem_monomial_quotient (S : LangSetup τ L p)
+theorem exists_rootWeylSL2_mem_monomial_quotient (_S : LangSetup τ L p)
     {γ : Fin τ.rank → ℤ} (hγ : IsRoot τ γ) :
     ∃ hn : rootSL2 τ L γ WSL ∈ monomialSubgroup τ L,
       weylQuotientHom τ L ⟨rootSL2 τ L γ WSL, hn⟩ = rootReflection γ := by
@@ -430,6 +431,7 @@ theorem exists_primitive_cube_root [CharP L 2] :
   · intro h
     exact hω1 (congrArg Units.val h)
 
+omit [IsAlgClosed L] in
 theorem rootChar_corootTuple {α : Fin τ.rank → ℤ} (hα : IsRoot τ α) {ζ : Lˣ}
     (v : Fin τ.rank → ℤ) :
     rootChar (fun j => ζ ^ corootPair α (Pi.single j 1)) v = ζ ^ corootPair α v := by
@@ -520,6 +522,7 @@ theorem rootWeylSL2_moves_corootTuple (S : LangSetup τ L p)
       _ = 1 := by rw [h4, hζ, inv_one, mul_one]
   exact hζ1 h1
 
+omit [IsAlgClosed L] in
 theorem weylTuple_corootTuple_ne_self
     {α : Fin τ.rank → ℤ} (hα : IsRoot τ α) {ζ : Lˣ} (hζ : ζ ^ 3 = 1) (hζ1 : ζ ≠ 1)
     {w : WeylGroup τ} (hw : w⁻¹ • α = -α) :
@@ -544,6 +547,7 @@ theorem weylTuple_corootTuple_ne_self
       _ = 1 := by rw [h4, hζ, inv_one, mul_one]
   exact hζ1 h1
 
+omit [IsAlgClosed L] in
 theorem weylTuple_corootTuple_eq_self_of_orthogonal {α β : Fin τ.rank → ℤ}
     (hα : IsRoot τ α) (hβ : IsRoot τ β) (horth : iform α β = 0) {ζ : Lˣ} :
     weylTuple (rootReflection β) (fun j => ζ ^ corootPair α (Pi.single j 1)) =
@@ -664,7 +668,7 @@ theorem four_dvd_aut_fullThreeTorus_of_weyl_mem
     (hαJ : rootSL2 τ L α WSL ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i)
     (hβJ : rootSL2 τ L β WSL ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i) :
     4 ∣ Nat.card (ggAutomizer (rationalComponent S.ρ S.Γ (rootCharHom a) i) (fullThreeTorus S)) := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
   obtain ⟨ζ, hζ, hζ1⟩ := exists_primitive_cube_root (L := L)
   obtain ⟨hα2, hβ2, hcomm, hα1, hβ1, hne, -, -, -, -, -, -, -, hker⟩ :=
     rootWeylSL2_pair_action_data S hτ hq hρ hα hβ horth hζ hζ1
@@ -674,6 +678,7 @@ theorem four_dvd_aut_fullThreeTorus_of_weyl_mem
     hα2 hβ2 hcomm hα1 hβ1 hne hker
 
 
+omit [IsAlgClosed L] in
 theorem frame_ker_ne_top_of_isSLFrame {ν : ℕ} {ψ : SL(ν, L) →* ModGL τ L}
     {σ : Fin ν → Fin ν → Fin τ.rank → ℤ} (hν : 2 ≤ ν) (hψ : IsSLFrame ψ σ) :
     ψ.ker ≠ ⊤ := by
@@ -686,6 +691,7 @@ theorem frame_ker_ne_top_of_isSLFrame {ν : ℕ} {ψ : SL(ν, L) →* ModGL τ L
   rw [MonoidHom.mem_ker, hε, mul_one, ← pinnedX_zero τ L (σ _ _)] at hmem
   exact Units.ne_zero ε (pinnedX_injective τ L (σ _ _) hmem)
 
+omit [IsAlgClosed L] in
 theorem odd_card_ker_of_frame_of_isSLFrame [CharP L 2] {ν : ℕ} (hν : 3 ≤ ν)
     {ψ : SL(ν, L) →* ModGL τ L} (hker : ψ.ker ≠ ⊤) : Odd (Nat.card ψ.ker) := by
   have hle : ψ.ker ≤ Subgroup.center SL(ν, L) := by
@@ -708,7 +714,7 @@ theorem exists_unitary_source_perfect_of_frame_of_rho
       (∀ X, S.D.step (ψ X) = ψ (F' X)) ∧
         Group.IsPerfect (F'.eqLocus (MonoidHom.id _)) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨σQ, hσQ⟩ := exists_ringEquiv_frob (L := L) r e
   have hσc : ∀ c, σQ c = c ^ (r ^ e) := by
     intro c
@@ -838,7 +844,7 @@ theorem exists_A_frame_and_weyl_mem
         ∀ γ ∈ frameRoots σ,
           rootSL2 τ L γ WSL ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i := by
   classical
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
   have hΨ := isRootComponent_componentRoots (χ := rootCharHom a) i
   have hpL : (3 : L) ≠ 0 := by
     have h2L : (2 : L) = 0 := CharP.cast_eq_zero L 2
@@ -902,9 +908,9 @@ theorem exists_A_frame_and_weyl_mem
     intro x y hxy
     rw [hs1, Function.iterate_one, hρ _ (hψ.isRoot x y hxy), hψ.neg x y]
   obtain ⟨K, hKfield, hKfin, hKalg, hKcard⟩ := S.exists_fixedField
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : Algebra K L := hKalg
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : Algebra K L := hKalg
   have hKclos : IsAlgClosure K L := ⟨inferInstance, ⟨fun c => by
     obtain ⟨n, hnpos, hc⟩ := hAlg c
     refine ⟨Polynomial.X ^ (S.D.q ^ n) - Polynomial.X, ?_, ?_⟩
@@ -912,7 +918,7 @@ theorem exists_A_frame_and_weyl_mem
       exact FiniteField.X_pow_card_sub_X_ne_zero K hq1
     · simp only [map_sub, map_pow, Polynomial.aeval_X]
       rw [hc, sub_self]⟩⟩
-  letI : IsAlgClosure K L := hKclos
+  let : IsAlgClosure K L := hKclos
   obtain ⟨F', hcomm, hperf⟩ := exists_unitary_source_perfect_of_frame S i hν hψ 1 hπ hs1
     (k' := K) (r := 2) (e := 1) Nat.prime_two (by norm_num) (by rw [hq]; norm_num) (by
       intro hconj
@@ -939,7 +945,7 @@ theorem exists_A_frame_and_weyl_mem
     (by intro γ hγ; rw [hΨeq]; exact hγ) hkercenter hodd F' hcomm hperf hgframe hgfix hg2
 
 theorem exists_orthogonal_weyl_pair_of_subframe
-    (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (hq : S.D.q = 2) (hAlg : S.IsAlgebraic)
+    (_hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (hq : S.D.q = 2) (hAlg : S.IsAlgebraic)
     (hρ : ∀ γ, IsRoot τ γ → S.ρ γ = -γ) {a : Fin τ.rank → Lˣ}
     (i : KernelComponent (rootCharHom a))
     {ν : ℕ} {ψ : SL(ν, L) →* ModGL τ L} {σ : Fin ν → Fin ν → Fin τ.rank → ℤ}
@@ -951,7 +957,7 @@ theorem exists_orthogonal_weyl_pair_of_subframe
       iform α β = 0 ∧
       rootSL2 τ L α WSL ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i ∧
       rootSL2 τ L β WSL ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
   have hν : 3 ≤ ν := by omega
   have hΨ := isRootComponent_componentRoots (χ := rootCharHom a) i
   have hker : ψ.ker ≠ ⊤ := frame_ker_ne_top_of_isSLFrame (by omega) hψ
@@ -974,9 +980,9 @@ theorem exists_orthogonal_weyl_pair_of_subframe
     intro x y hxy
     rw [hs1, Function.iterate_one, hρ _ (hψ.isRoot x y hxy), hψ.neg x y]
   obtain ⟨K, hKfield, hKfin, hKalg, hKcard⟩ := S.exists_fixedField
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : Algebra K L := hKalg
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : Algebra K L := hKalg
   have hKclos : IsAlgClosure K L := ⟨inferInstance, ⟨fun c => by
     obtain ⟨n, hnpos, hc⟩ := hAlg c
     refine ⟨Polynomial.X ^ (S.D.q ^ n) - Polynomial.X, ?_, ?_⟩
@@ -984,7 +990,7 @@ theorem exists_orthogonal_weyl_pair_of_subframe
       exact FiniteField.X_pow_card_sub_X_ne_zero K hq1
     · simp only [map_sub, map_pow, Polynomial.aeval_X]
       rw [hc, sub_self]⟩⟩
-  letI : IsAlgClosure K L := hKclos
+  let : IsAlgClosure K L := hKclos
   obtain ⟨F', hcomm, hperf⟩ := exists_unitary_source_perfect_of_frame S i hν hψ 1 hπ hs1
     (k' := K) (r := 2) (e := 1) Nat.prime_two (by norm_num) (by rw [hq]; norm_num) (by
       intro hconj
@@ -1150,7 +1156,7 @@ theorem exists_chain3_simpleRoots
   obtain ⟨t, e, ht, hsl, hcart, hcard⟩ := exists_dynkinType_of_simplyLaced hτ hΨ hne
   have hcomp := CFSG.HardMathSupport.Timmesfeld.RootAut.compRank_eq_card hΨ
   have hrank3 : 3 ≤ t.rank := by omega
-  haveI : Nontrivial (Fin t.rank) := by
+  have : Nontrivial (Fin t.rank) := by
     refine ⟨⟨0, by omega⟩, ⟨1, by omega⟩, ?_⟩
     intro h; have := congrArg Fin.val h; simp at this
   have hFT : TauCeti.IsFiniteType t.cartanMatrix := by
@@ -1168,20 +1174,15 @@ theorem exists_chain3_simpleRoots
       convert TauCeti.isFiniteType_cartanMatrix_D n using 1 <;>
         simp [TauCeti.DynkinType.rank_D, TauCeti.DynkinType.cartanMatrix_D]
     | E6 =>
-      convert TauCeti.DynkinType.isFiniteType_cartanMatrix_E6 using 1 <;>
-        simp [TauCeti.DynkinType.rank_E6, TauCeti.DynkinType.cartanMatrix_E6]
+      convert TauCeti.DynkinType.isFiniteType_cartanMatrix_E6 using 1
     | E7 =>
-      convert TauCeti.DynkinType.isFiniteType_cartanMatrix_E7 using 1 <;>
-        simp [TauCeti.DynkinType.rank_E7, TauCeti.DynkinType.cartanMatrix_E7]
+      convert TauCeti.DynkinType.isFiniteType_cartanMatrix_E7 using 1
     | E8 =>
-      convert TauCeti.DynkinType.isFiniteType_cartanMatrix_E8 using 1 <;>
-        simp [TauCeti.DynkinType.rank_E8, TauCeti.DynkinType.cartanMatrix_E8]
+      convert TauCeti.DynkinType.isFiniteType_cartanMatrix_E8 using 1
     | F4 =>
-      convert TauCeti.DynkinType.isFiniteType_cartanMatrix_F4 using 1 <;>
-        simp [TauCeti.DynkinType.rank_F4, TauCeti.DynkinType.cartanMatrix_F4]
+      convert TauCeti.DynkinType.isFiniteType_cartanMatrix_F4 using 1
     | G2 =>
-      convert TauCeti.DynkinType.isFiniteType_cartanMatrix_G2 using 1 <;>
-        simp [TauCeti.DynkinType.rank_G2, TauCeti.DynkinType.cartanMatrix_G2]
+      convert TauCeti.DynkinType.isFiniteType_cartanMatrix_G2 using 1
   let G : SimpleGraph (Fin t.rank) := TauCeti.diagramGraph t.cartanMatrix
   have hconn : G.Connected := TauCeti.DynkinType.connected_diagramGraph_cartanMatrix ht
   have htree : G.IsTree := TauCeti.IsFiniteType.isTree_diagramGraph hFT hconn
@@ -1305,7 +1306,7 @@ theorem exists_A3_subframe_of_kac
       frameRoots σ ⊆ componentRoots (rootCharHom a) i := by
 
   classical
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
   have ha : ∀ j, a j ^ 3 = 1 := by
     have h1 : rootDiagUnit τ (a ^ 3) = 1 := by
       rw [← rootDiagUnit_pow]
@@ -1435,9 +1436,9 @@ theorem exists_A3_subframe_of_kac
     intro y hy
     rcases hy with ⟨k, rfl⟩
     fin_cases k <;> simp [l, hCdef]
-    · exact ⟨x, hx, by simp [nodeIdx_idxNode (r := τ.rank) hxlt]⟩
-    · exact ⟨y, hy, by simp [nodeIdx_idxNode (r := τ.rank) hylt]⟩
-    · exact ⟨z, hz, by simp [nodeIdx_idxNode (r := τ.rank) hzlt]⟩
+    · exact ⟨x, hx, by simp⟩
+    · exact ⟨y, hy, by simp⟩
+    · exact ⟨z, hz, by simp⟩
   have hsub : frameRoots σ ⊆ componentRoots (rootCharHom a) i := by
     rw [hroots, hi']
     rintro γ ⟨δ, hδ, rfl⟩

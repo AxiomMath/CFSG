@@ -189,8 +189,8 @@ theorem card_fixedBy_eq {G Ω : Type*} [Group G] [MulAction G Ω] [Fintype Ω] [
 theorem card_dvd_sum_fixed {G X : Type*} [Group G] [Fintype G] [MulAction G X] [Finite X] :
     Fintype.card G ∣ ∑ g : G, Nat.card (MulAction.fixedBy X g) := by
   classical
-  haveI := Fintype.ofFinite X
-  haveI : Fintype (MulAction.orbitRel.Quotient G X) := Fintype.ofFinite _
+  have := Fintype.ofFinite X
+  have : Fintype (MulAction.orbitRel.Quotient G X) := Fintype.ofFinite _
   have h := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group G X
   simp only [Nat.card_eq_fintype_card]
   rw [h]
@@ -213,8 +213,8 @@ section Sub49
 theorem exists_sub49 {x : CFSG.Sporadic.Fi24.J} (h49 : 7 ^ 2 ∣ Nat.card ↥(Subgroup.centralizer ({x} : Set CFSG.Sporadic.Fi24.J))) :
     ∃ Q : Subgroup CFSG.Sporadic.Fi24.J, Nat.card Q = 7 ^ 2 ∧ (∀ g ∈ Q, g * x = x * g) ∧
       ∀ g ∈ Q, g ≠ 1 → orderOf g = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime
     (G := ↥(Subgroup.centralizer ({x} : Set J))) 7 h49
   refine ⟨K.map (Subgroup.centralizer ({x} : Set J)).subtype, ?_, ?_, ?_⟩
@@ -250,8 +250,8 @@ theorem not_sq_of_fix21 {x : CFSG.Sporadic.Fi24.J}
     ¬ 7 ^ 2 ∣ Nat.card ↥(Subgroup.centralizer ({x} : Set CFSG.Sporadic.Fi24.J)) := by
   intro h49
   obtain ⟨Q, hQ, hQc, hQo⟩ := exists_sub49 h49
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
-  haveI : Fintype ↥Q := Fintype.ofFinite _
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Fintype ↥Q := Fintype.ofFinite _
   have hs := card_dvd_sum_fixed (G := ↥Q) (X := Fin 306936)
   rw [sum_fixed_eq (G := ↥Q) (X := Fin 306936) 21 (fun g hg1 => ?_)] at hs
   · rw [Fintype.card_eq_nat_card, hQ] at hs
@@ -268,9 +268,9 @@ theorem not_sq_of_fix0 {x : CFSG.Sporadic.Fi24.J} (hx : (fixS x : Finset (Fin 30
     ¬ 7 ^ 2 ∣ Nat.card ↥(Subgroup.centralizer ({x} : Set CFSG.Sporadic.Fi24.J)) := by
   intro h49
   obtain ⟨Q, hQ, hQc, hQo⟩ := exists_sub49 h49
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
-  haveI : Fintype ↥Q := Fintype.ofFinite _
-  letI : MulAction ↥Q {k : Fin 306936 // x • k = k} :=
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Fintype ↥Q := Fintype.ofFinite _
+  let : MulAction ↥Q {k : Fin 306936 // x • k = k} :=
     { smul := fun g s => ⟨(g : J) • s.1, by
         have hgx : (g : J) * x = x * (g : J) := hQc g g.2
         show x • (g : J) • s.1 = (g : J) • s.1
@@ -289,7 +289,7 @@ theorem not_sq_of_fix0 {x : CFSG.Sporadic.Fi24.J} (hx : (fixS x : Finset (Fin 30
     have hgo : orderOf (g : J) = 7 := hQo g g.2 hg1'
     have hc : (g : J) * x = x * (g : J) := hQc g g.2
     have h0 := h (g : J) hgo hc.symm
-    haveI : IsEmpty (MulAction.fixedBy {k : Fin 306936 // x • k = k} g) := by
+    have : IsEmpty (MulAction.fixedBy {k : Fin 306936 // x • k = k} g) := by
       refine ⟨fun ⟨s, hs'⟩ => ?_⟩
       have hs'' : g • s = s := MulAction.mem_fixedBy.1 hs'
       have hk : (g : J) • s.1 = s.1 := congrArg Subtype.val hs''
@@ -305,8 +305,8 @@ section NotSeven
 theorem not_seven_dvd {x : CFSG.Sporadic.Fi24.J} (hx : orderOf x = 3)
     (hn : (fixS x : Finset (Fin 306936)).card = 1485 ∨ (fixS x : Finset (Fin 306936)).card = 162) :
     ¬ 7 ∣ Nat.card ↥(Subgroup.centralizer ({x} : Set CFSG.Sporadic.Fi24.J)) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   intro h7
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.centralizer ({x} : Set J))) 7 h7
@@ -374,7 +374,7 @@ theorem noL3Comp_of_pair_class {r : CFSG.Sporadic.Fi24.J}
     (hpair : ∃ a b : CFSG.Sporadic.Fi24.J, a * r = r * a ∧ b * r = r * b ∧ orderOf a = 7 ∧ orderOf b = 7 ∧
       81 ∣ Nat.card ↥(Subgroup.closure ({a, b} : Set CFSG.Sporadic.Fi24.J))) :
     NoL3Comp (Subgroup.centralizer ({r} : Set CFSG.Sporadic.Fi24.J)) := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   obtain ⟨a, b, ha, hb, hao, hbo, hd⟩ := hpair
   have hcard : Nat.card ↥(⊤ : Subgroup J) = 1255205709190661721292800 := by
     rw [Subgroup.card_top, CFSG.Sporadic.Fi24.card_J]
@@ -426,7 +426,7 @@ theorem noL3Comp_of_conj_fix378 {x r : CFSG.Sporadic.Fi24.J} (hx : orderOf x = 3
 theorem noL3Comp_of_conj_fix_other {x r : CFSG.Sporadic.Fi24.J} (hx : orderOf x = 3) (hr : IsConj x r)
     (hfix : (fixS r : Finset (Fin 306936)).card = 1485 ∨ (fixS r : Finset (Fin 306936)).card = 162) :
     NoL3Comp (Subgroup.centralizer ({x} : Set CFSG.Sporadic.Fi24.J)) := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   have hcard : Nat.card ↥(⊤ : Subgroup J) = 1255205709190661721292800 := by
     rw [Subgroup.card_top, CFSG.Sporadic.Fi24.card_J]
   have hfx := card_fixS_of_isConj hr
@@ -443,7 +443,7 @@ section Final
 
 theorem noL3Comp_J (x : CFSG.Sporadic.Fi24.J) (hx : orderOf x = 3) :
     NoL3Comp (Subgroup.centralizer ({x} : Set CFSG.Sporadic.Fi24.J)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨s, hs, c0, c1, c2, c3, c4, hp⟩ := Certificates.certificate214036
   let t : Fin 5 → J := fun k => ⟨s k, mem_J_of_seed (hs k).1⟩
   have hn : ∀ k, (fixS (t k) : Finset (Fin 306936)).card = cnt3 k := by
@@ -487,7 +487,7 @@ end Fi24Leaf
 
 theorem sporL3DownInner_Fi24
     (hbr : SporadicBridges) : SporL3DownInner .Fi24Prime := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   have hM : Nonempty (J ≃* (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group) :=
     ⟨CFSG.Sporadic.Fi24.fi24EquivJ.symm.trans (hbr .Fi24Prime).some⟩
   have h1 := @sporL3DownInner_of_comp .Fi24Prime J inferInstance inferInstance hM

@@ -35,13 +35,16 @@ section Main
 variable {K : Type*} {S : Type} [Group K] [Finite K] [Group S] [Finite S] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* S} {M : ℕ}
 
+omit [Finite K] [Finite S] in
 theorem bq_ker_le_borel (h : BorelQuotient D n H π M) : π.ker ≤ borel D H :=
   fun z hz => CFSG.ClassicalInvolution.WeakCT.normalizer_posUnipotent_le_borel h.ct h.extras
     (Subgroup.center_le_normalizer (posUnipotent D : Set K) (h.ker_central z hz))
 
+omit [Finite K] [Finite S] in
 theorem comap_map_of_ker_le {A : Subgroup K} (hA : π.ker ≤ A) : (A.map π).comap π = A := by
   rw [Subgroup.comap_map_eq, sup_eq_left.2 hA]
 
+omit [Finite K] [Finite S] in
 theorem rankOne_le_pElementSubgroup (h : BorelQuotient D n H π M) {A : Subgroup K}
     {i : Fin D.rank} (hA : rankOne D.rootGroup i ≤ A) :
     rankOne D.rootGroup i ≤ pElementSubgroup 2 A := by
@@ -52,16 +55,19 @@ theorem rankOne_le_pElementSubgroup (h : BorelQuotient D n H π M) {A : Subgroup
   exact sup_le (le_pElementSubgroup_of_isPGroup (le_sup_left.trans hA) (h.pGroup _ hα))
     (le_pElementSubgroup_of_isPGroup (le_sup_right.trans hA) (h.pGroup _ hα'))
 
+omit [Finite K] [Finite S] in
 theorem posUnipotent_le_pElementSubgroup (h : BorelQuotient D n H π M) {A : Subgroup K}
     (hA : posUnipotent D ≤ A) : posUnipotent D ≤ pElementSubgroup 2 A :=
   le_pElementSubgroup_of_isPGroup hA (isPGroup_iSup_pos h.extras h.pGroup)
 
+omit [Finite K] [Finite S] in
 theorem unipJ_le_pElementSubgroup (h : BorelQuotient D n H π M) {A : Subgroup K}
     {J : Set (Fin D.rank)} (hA : unipJ D J ≤ A) : unipJ D J ≤ pElementSubgroup 2 A :=
   sup_le (posUnipotent_le_pElementSubgroup h (le_sup_left.trans hA))
-    (iSup₂_le fun j hj => rankOne_le_pElementSubgroup h
+    (iSup₂_le fun _j hj => rankOne_le_pElementSubgroup h
       ((rankOne_le_unipJ hj).trans hA))
 
+omit [Finite K] [Finite S] in
 theorem two_mem_map_unipJ (h : BorelQuotient D n H π M) (J : Set (Fin D.rank)) {a : S}
     (ha : a ∈ (parJ D H J).map π) {k : ℕ} (hk : a ^ 2 ^ k = 1) : a ∈ (unipJ D J).map π := by
   rw [parJ_eq_sup, Subgroup.map_sup] at ha
@@ -72,9 +78,11 @@ theorem two_mem_map_unipJ (h : BorelQuotient D n H π M) (J : Set (Fin D.rank)) 
     rw [← map_pow, CFSG.ClassicalInvolution.WeakCT.pow_eq_one_of_mem_torus h.extras h.torus_pow ht,
       map_one]
 
+omit [Finite K] [Finite S] in
 theorem ker_le_parJ (h : BorelQuotient D n H π M) (J : Set (Fin D.rank)) :
     π.ker ≤ parJ D H J := (bq_ker_le_borel h).trans (borel_le_parJ J)
 
+omit [Finite S] in
 theorem isMinOverBorel_map_parJ (h : BorelQuotient D n H π M) (i : Fin D.rank) :
     IsMinOverBorel (⊤ : Subgroup S) ((posUnipotent D).map π) ((parJ D H {i}).map π) := by
   have hN := h.normalizer_map_posUnipotent
@@ -96,6 +104,7 @@ theorem isMinOverBorel_map_parJ (h : BorelQuotient D n H π M) (i : Fin D.rank) 
     · right
       rw [← Subgroup.map_comap_eq_self_of_surjective h.surj Q, e]
 
+omit [Finite S] in
 theorem exists_eq_map_parJ (h : BorelQuotient D n H π M) {A : Subgroup S}
     (hA : IsMinOverBorel (⊤ : Subgroup S) ((posUnipotent D).map π) A) :
     ∃ i, A = (parJ D H {i}).map π := by
@@ -124,16 +133,19 @@ theorem exists_eq_map_parJ (h : BorelQuotient D n H π M) {A : Subgroup S}
   · exact absurd e hlt.ne'
   · exact e.symm
 
+omit [Finite K] [Finite S] in
 theorem map_rankOne_le_pElementSubgroup (h : BorelQuotient D n H π M) (i : Fin D.rank) :
     (rankOne D.rootGroup i).map π ≤ pElementSubgroup 2 ((parJ D H {i}).map π) :=
   (Subgroup.map_mono (rankOne_le_pElementSubgroup h (rankOne_le_parJ (J := {i}) rfl))).trans
     (map_pElementSubgroup_le_pElementSubgroup_map π _)
 
+omit [Finite K] [Finite S] in
 theorem iSup_map_parJ_le (J : Set (Fin D.rank)) :
     (⨆ j ∈ J, (parJ D H {j}).map π) ≤ (parJ D H J).map π :=
   iSup₂_le fun j hj => Subgroup.map_mono (sup_le (borel_le_parJ J) (iSup₂_le fun i hi => by
     rw [Set.mem_singleton_iff.1 hi]; exact rankOne_le_parJ hj))
 
+omit [Finite S] in
 theorem ov_of_borelQuotient (h : BorelQuotient D n H π M) {X : Subgroup S}
     (hTX : (posUnipotent D).map π ≤ X)
     (hX : ¬ X ≤ Subgroup.normalizer (((posUnipotent D).map π : Subgroup S) : Set S)) :
@@ -162,6 +174,7 @@ theorem ov_of_borelQuotient (h : BorelQuotient D n H π M) {X : Subgroup S}
   obtain ⟨y, hy, rfl⟩ := this
   exact hNi hy
 
+omit [Finite K] [Finite S] in
 theorem sub_of_borelQuotient (h : BorelQuotient D n H π M) (J : Set (Fin D.rank))
     (k : Fin D.rank) (hle : pElementSubgroup 2 ((parJ D H {k}).map π) ≤
       ⨆ j ∈ J, (parJ D H {j}).map π) : k ∈ J := by
@@ -171,6 +184,7 @@ theorem sub_of_borelQuotient (h : BorelQuotient D n H π M) (J : Set (Fin D.rank
   rw [comap_map_of_ker_le (ker_le_parJ h J)] at h3
   exact mem_of_rankOne_le_parJ h.ct h.extras h3
 
+omit [Finite K] [Finite S] in
 theorem two_of_borelQuotient (h : BorelQuotient D n H π M) (J : Set (Fin D.rank))
     (hJ : J.Nonempty) {a : S} (ha : a ∈ ⨆ j ∈ J, (parJ D H {j}).map π)
     (h2 : ∃ m : ℕ, orderOf a = 2 ^ m) :
@@ -197,6 +211,7 @@ theorem two_of_borelQuotient (h : BorelQuotient D n H π M) (J : Set (Fin D.rank
           j hj le_rfl)
   exact h4 h3
 
+omit [Finite S] in
 theorem nonnorm_of_borelQuotient (h : BorelQuotient D n H π M) (i : Fin D.rank) :
     ¬ pElementSubgroup 2 ((parJ D H {i}).map π) ≤
       Subgroup.normalizer (((posUnipotent D).map π : Subgroup S) : Set S) := by
@@ -207,6 +222,7 @@ theorem nonnorm_of_borelQuotient (h : BorelQuotient D n H π M) (i : Fin D.rank)
   rw [comap_map_of_ker_le (bq_ker_le_borel h)] at h3
   exact not_rankOne_le_borel h.ct h.extras i h3
 
+omit [Finite K] [Finite S] in
 theorem parJ_map_injective (h : BorelQuotient D n H π M) :
     Function.Injective (fun i : Fin D.rank => (parJ D H {i}).map π) := by
   intro i j e

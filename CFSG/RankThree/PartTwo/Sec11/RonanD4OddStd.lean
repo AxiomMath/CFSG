@@ -24,8 +24,8 @@ theorem ronanD4Odd_not_hasType424_fieldActor {p f : ℕ} (hp : p.Prime) (hp3 : p
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (p ^ f)) :
     ¬ KS11Lie2Proof.HasType424
       ↥(Sec4.autFix (fieldActor (t := TwistTag.D4) σ σ)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   obtain ⟨e⟩ := nonempty_fixSubgroup_fieldActor_equiv_G2 (ℓ := p) hp3 hf (Or.inr hp5) hK σ hσ
   have hk3 : 3 ≤ Nat.card (fixSubfield σ) := by
     rw [CFSG.RankThree.PartOne.KGD.card_fixSubfield_cube hp hf hK σ hσ]
@@ -39,7 +39,7 @@ end Support
 theorem d4OuterStdNoType424_holds :
     D4OuterStdNoType424 := by
   intro p f hp hp2 hp3 hf K _ _ hK σ hσ s hsfix hs3
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hp5 : 5 ≤ p := by
     have := hp.two_le
     have h4 : p ≠ 4 := fun h => by rw [h] at hp; exact absurd hp (by norm_num)

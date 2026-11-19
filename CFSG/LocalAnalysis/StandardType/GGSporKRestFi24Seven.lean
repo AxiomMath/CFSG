@@ -230,8 +230,8 @@ private theorem ggSporKRestFi24Seven_generating
 
 private theorem ggSporKRestFi24Seven_cover_J :
     SporKRestCover 7 ↥J := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  letI : MulAction.IsPretransitive ↥J (Sylow 7 ↥J) := Sylow.isPretransitive_of_finite (p := 7) (G := ↥J)
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : MulAction.IsPretransitive ↥J (Sylow 7 ↥J) := Sylow.isPretransitive_of_finite (p := 7) (G := ↥J)
   intro E hE hcard
   obtain ⟨P, hEP⟩ := (IsPGroup.of_card (n := 2) hcard).exists_le_sylow
   obtain ⟨QS, hQS⟩ := Q7_sylow
@@ -244,7 +244,7 @@ private theorem ggSporKRestFi24Seven_cover_J :
     change x ∈ (((c • QS : Sylow 7 J) : Set J)) ↔
       x ∈ (((QS : Subgroup J).map (MulAut.conj c).toMonoidHom) : Set J)
     rw [Sylow.coe_smul, Subgroup.coe_map]
-    simp only [Set.mem_smul_set, Set.mem_image, MulAut.conj_apply]
+    simp only [Set.mem_smul_set, Set.mem_image]
     constructor <;> rintro ⟨y, hy, hyx⟩ <;> exact ⟨y, hy, hyx⟩
   have hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := fun a ha b hb => hE.comm ha hb
   have hmem : c * C7 * c⁻¹ ∈ E :=

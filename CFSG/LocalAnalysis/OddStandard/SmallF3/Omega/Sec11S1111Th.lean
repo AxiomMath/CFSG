@@ -33,7 +33,7 @@ theorem sec11_closure_Theta_le_R (t z : G) (R : Subgroup G) :
     Subgroup.closure (secTheta t z R) ≤ R := by
   rw [Subgroup.closure_le]
   intro s hs
-  simp only [secTheta, Set.mem_setOf_eq] at hs
+  simp only [secTheta, Set.mem_ofPred_eq] at hs
   exact hs.1
 
 theorem sec11_t_mem_Theta [Finite G] (hp : Asc82Pre11) {t : G} {L S : Subgroup G} {z : G}
@@ -68,7 +68,7 @@ theorem sec11_Theta_conj {t z : G} {R : Subgroup G} (hRH : R ≤ centralizer ({z
     ∀ s ∈ secTheta t z R, ∀ u ∈ Subgroup.closure (secTheta t z R),
       u * s * u⁻¹ ∈ secTheta t z R := by
   intro s hs u hu
-  simp only [secTheta, Set.mem_setOf_eq] at hs
+  simp only [secTheta, Set.mem_ofPred_eq] at hs
   obtain ⟨hsR, h, hhH, rfl⟩ := hs
   have huR : u ∈ R := sec11_closure_Theta_le_R t z R hu
   have huH : u ∈ centralizer ({z} : Set G) := hRH huR
@@ -80,7 +80,7 @@ theorem sec11_Theta_order [Finite G] {t : G} {L S : Subgroup G} {z : G} {K1 K2 :
     (hctx : Sec10Ctx G t L S z K1 K2) (R : Subgroup G) :
     ∀ s ∈ secTheta t z R, orderOf s = 2 := by
   intro s hs
-  simp only [secTheta, Set.mem_setOf_eq] at hs
+  simp only [secTheta, Set.mem_ofPred_eq] at hs
   obtain ⟨-, h, -, rfl⟩ := hs
   have h1 : orderOf ((MulAut.conj h⁻¹) t) = orderOf t := MulEquiv.orderOf_eq _ _
   have h2 : (MulAut.conj h⁻¹) t = h⁻¹ * t * h := by rw [MulAut.conj_apply, inv_inv]
@@ -91,7 +91,7 @@ theorem sec11_Theta_not_z [Finite G] (hp : Asc82Pre11) {t : G} {L S : Subgroup G
     {K1 K2 : Subgroup G} (hctx : Sec10Ctx G t L S z K1 K2) (R : Subgroup G) :
     z ∉ secTheta t z R := by
   intro hz
-  simp only [secTheta, Set.mem_setOf_eq] at hz
+  simp only [secTheta, Set.mem_ofPred_eq] at hz
   obtain ⟨-, h, -, heq⟩ := hz
   have ht : t = h * z * h⁻¹ := by
     rw [heq]

@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16g_conj_mem_centSub_map_iff (U : Subgroup W) (g : MulAut W) (x : MulAut W) :
     g * x * g⁻¹ ∈ centSub (U.map g.toMonoidHom) ↔ x ∈ centSub U := by
   rw [mem_centSub, mem_centSub]
@@ -26,6 +27,7 @@ private theorem w16g_conj_mem_centSub_map_iff (U : Subgroup W) (g : MulAut W) (x
     have hv' : x v = v := h v hv
     simp [MulAut.mul_apply, hv']
 
+omit [Finite W] in
 private theorem w16g_kerOn_map_iff {X : Subgroup (MulAut W)} {U : Subgroup W} {g : MulAut W}
     (hg : ∀ x ∈ X, g * x * g⁻¹ ∈ X) {x : ↥X} :
     g * (x : MulAut W) * g⁻¹ ∈ s13KerOn X (U.map g.toMonoidHom) ↔
@@ -38,6 +40,7 @@ private theorem w16g_kerOn_map_iff {X : Subgroup (MulAut W)} {U : Subgroup W} {g
     exact ⟨hg (x : MulAut W) x.2,
       (w16g_conj_mem_centSub_map_iff U g (x : MulAut W)).mpr hcent⟩
 
+omit [Finite W] in
 private theorem w16g_map_map_inv (U : Subgroup W) (g : MulAut W) :
     (U.map g.toMonoidHom).map (g⁻¹).toMonoidHom = U := by
   rw [Subgroup.map_map]
@@ -46,6 +49,7 @@ private theorem w16g_map_map_inv (U : Subgroup W) (g : MulAut W) :
     simp
   rw [h, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w16g_map_map_inv' (U : Subgroup W) (g : MulAut W) :
     (U.map (g⁻¹).toMonoidHom).map g.toMonoidHom = U := by
   rw [Subgroup.map_map]
@@ -76,7 +80,7 @@ private theorem w16g_exists_smul_of_ker_eq {A : Type*} [AddGroup A] {p : ℕ} [F
     {α β : A →+ ZMod p} (hker : ∀ x, α x = 0 ↔ β x = 0)
     (hβ : Function.Surjective β) :
     ∃ c : (ZMod p)ˣ, ∀ x, α x = (c : ZMod p) * β x := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   obtain ⟨x₀, hx₀⟩ := hβ 1
   have hc0 : α x₀ ≠ 0 := by
     intro h
@@ -87,15 +91,16 @@ private theorem w16g_exists_smul_of_ker_eq {A : Type*} [AddGroup A] {p : ℕ} [F
   rw [Units.val_mk0]
   have hzero : β (x - (β x).val • x₀) = 0 := by
     rw [map_sub, map_nsmul, hx₀]
-    simp [nsmul_eq_mul, ZMod.natCast_zmod_val]
+    simp [nsmul_eq_mul]
   have hαzero : α (x - (β x).val • x₀) = 0 := (hker _).mpr hzero
   rw [map_sub, map_nsmul] at hαzero
   have heq : α x = (β x).val • α x₀ := sub_eq_zero.mp hαzero
   rw [heq, nsmul_eq_mul, ZMod.natCast_zmod_val]
   exact mul_comm _ _
 
-theorem exists_monomial (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    {X : Subgroup (MulAut W)} (hX : IsElemAbelian p X)
+omit [Finite W] in
+theorem exists_monomial (_hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
+    {X : Subgroup (MulAut W)} (_hX : IsElemAbelian p X)
     {lam : s13IsoComps X → Additive ↥X →+ ZMod p} (hl : IsCoord X p lam) {g : MulAut W}
     (hg : ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hg' : ∀ x ∈ X, g⁻¹ * x * g ∈ X) :
     ∃ (σ : s13IsoComps X ≃ s13IsoComps X) (c : s13IsoComps X → (ZMod p)ˣ),
@@ -104,7 +109,7 @@ theorem exists_monomial (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prime) (hp
         lam (σ U) (Additive.ofMul ⟨g * (x : MulAut W) * g⁻¹, hx⟩) =
           (c U : ZMod p) * lam U (Additive.ofMul x) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let φ : ↥X ≃* ↥X := w16g_conjMulEquiv hg hg'
   let σfun : s13IsoComps X → s13IsoComps X := fun U =>
     ⟨(U : Subgroup W).map g.toMonoidHom, map_mem_s13IsoComps hg hg' U.2⟩

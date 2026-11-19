@@ -56,7 +56,7 @@ private theorem isLowDimSimpleSection_of_five_le (hB : CFSG.RankThree.PartOne.Ex
     have : IsSimpleGroup PSL(2, ZMod q) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [Nat.card_zmod]; omega)
     exact Or.inl (nonempty_quot_center_equiv hY e)
-  · have := alternatingGroup.isSimpleGroup_five
+  · have := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl (nonempty_quot_center_equiv hY e)))))
   · have := isSimpleGroup_GL_three_two
     exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr

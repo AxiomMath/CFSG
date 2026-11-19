@@ -143,9 +143,9 @@ theorem map_conj_eq_of_item148
     have hc₂₃ : ⁅X₂, X₃⁆ ≤ pPrimeCoreOf 3 M :=
       (commutator_le_of_mem_thetaComponentsIn hX₂θ hX₃θ h23).trans
         (map_aschbacherSolvableCore_le_pPrimeCoreOf M)
-    haveI : Group.IsPerfect ↥X := isPerfect_of_mem_scriptY4 hX
-    haveI : Group.IsPerfect ↥X₂ := Group.IsPerfect.map _
-    haveI : Group.IsPerfect ↥X₃ := Group.IsPerfect.map _
+    have : Group.IsPerfect ↥X := isPerfect_of_mem_scriptY4 hX
+    have : Group.IsPerfect ↥X₂ := Group.IsPerfect.map _
+    have : Group.IsPerfect ↥X₃ := Group.IsPerfect.map _
     obtain ⟨x, hxX, hx3, y, hyX, hxy⟩ :=
       Proof153Twin.hasNonCentralThree_of_mem_scriptY4 hX
     have hx1 : x ≠ 1 := by

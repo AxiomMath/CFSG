@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 section Aux
 
+omit [Finite G] in
 private lemma map_conj_eq_of_mem_conj {H : Subgroup G} {t : G} (ht : t * t = 1)
     (h : ∀ x ∈ H, t * x * t⁻¹ ∈ H) : H.map (MulAut.conj t) = H := by
   apply le_antisymm
@@ -29,6 +30,7 @@ private lemma map_conj_eq_of_mem_conj {H : Subgroup G} {t : G} (ht : t * t = 1)
     calc t * (t * x * t) * t = (t * t) * x * (t * t) := by group
       _ = x := by rw [ht]; simp
 
+omit [Finite G] in
 private lemma map_conj_eq_of_comm {H : Subgroup G} {t : G}
     (h : ∀ x ∈ H, t * x = x * t) : H.map (MulAut.conj t) = H := by
   apply le_antisymm
@@ -43,6 +45,7 @@ private lemma map_conj_eq_of_comm {H : Subgroup G} {t : G}
     rw [h x hx]
     group
 
+omit [Finite G] in
 private lemma conj_mem_pCoreOf {p : ℕ} {H : Subgroup G} {g n : G} (hg : g ∈ H)
     (hn : n ∈ pCoreOf p H) : g * n * g⁻¹ ∈ pCoreOf p H := by
   rcases Subgroup.mem_map.mp hn with ⟨n', hn', rfl⟩

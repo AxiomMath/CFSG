@@ -60,7 +60,7 @@ theorem comm_conj_gen {g w c : Y} (hw : g * w = w * g) (hc : g * c = c * g) :
     _ = (w * c * w⁻¹) * g := by group
 
 theorem B0_E_commute {B K : Subgroup Y} {x y : Y} (hB : IsElemAbelian 3 B) (hxB : x ∈ B)
-    (hyK : y ∈ K) (hKK₂ : ElemCommute K (cj x K)) (hKK₃ : ElemCommute K (cj (x * x) K)) :
+    (hyK : y ∈ K) (_hKK₂ : ElemCommute K (cj x K)) (_hKK₃ : ElemCommute K (cj (x * x) K)) :
     ElemCommute (CBK K B) (Subgroup.zpowers y ⊔ (Subgroup.zpowers (x * y * x⁻¹) ⊔
       Subgroup.zpowers ((x * x) * y * (x * x)⁻¹))) := by
   have hy₁K : x * y * x⁻¹ ∈ cj x K := conj_mem_cj x hyK

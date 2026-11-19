@@ -16,7 +16,7 @@ theorem false_of_even_cyclic (hEven : EvenResidualStd) (hCTSS : CTSSStd)
     (hnotA : ¬ ∃ n : ℕ, 5 ≤ n ∧ Nonempty (↥Y ⧸ center ↥Y ≃* alternatingGroup (Fin n)))
     (S : Sylow 2 ↥(Subgroup.centralizer (Y : Set G)))
     (hS : IsCyclic ↥(S : Subgroup ↥(Subgroup.centralizer (Y : Set G)))) : False := by
-  haveI := hY.setting.simple
+  have := hY.setting.simple
   have hNE : ¬ Recognition.Exact.EvenStandardException (↥Y ⧸ center ↥Y) :=
     not_evenStandardException_of_inSA hG2 hA hnotA
   rcases hA with ⟨hcat, hcard, hnotChev, hnotL32, hnotHe, hnotM12, hnotJ2⟩

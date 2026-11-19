@@ -32,7 +32,7 @@ theorem k1419ClsLinData {S : Type} [Group S] [Finite S] {labK : GLALabel} {α : 
   obtain ⟨K, hK, hKf, d, hd, hcard, A, u, e, hαu, hgraph⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.innDiag_linear_data hcen hFam hin
   have h2 : (2 : K) = 0 := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨q, hq, n, hqp, hqcard⟩ := FiniteField.card' K
     rw [Nat.card_eq_fintype_card, hqcard] at hcard
     have hdvd : q ∣ 2 ^ (canonLabel labK).n := by

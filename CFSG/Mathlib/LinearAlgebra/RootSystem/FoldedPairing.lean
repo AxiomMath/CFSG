@@ -102,11 +102,11 @@ variable {ι X Y : Type*} [AddCommGroup X] [AddCommGroup Y] {P : _root_.RootPair
 @[expose] def fixedLattice : Submodule ℤ X where
   carrier := {x | σ • x = x}
   add_mem' {x y} hx hy := by
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rw [smul_add, hx, hy]
   zero_mem' := smul_zero σ
   smul_mem' c x hx := by
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [smul_comm, hx]
 
 lemma mem_fixedLattice {x : X} : x ∈ fixedLattice σ ↔ σ • x = x := Iff.rfl
@@ -365,7 +365,7 @@ noncomputable def fundamentalWeight (k : ι) : X :=
 
 lemma coroot'_fundamentalWeight {k k' : ι} (hk : k ∈ b.support) (hk' : k' ∈ b.support) :
     P.coroot' k' (fundamentalWeight P b hsc k) = if k' = k then 1 else 0 := by
-  rw [fundamentalWeight, dif_pos hk]
+  rw [fundamentalWeight, dite_eq_left hk]
   change P.toLinearMap (P.toLinearMap.toPerfPair.symm _) (P.coroot k') = _
   rw [← LinearMap.toPerfPair_apply, LinearEquiv.apply_symm_apply,
     ← simpleCorootBasis_apply P b hsc ⟨k', hk'⟩, Module.Basis.coord_apply,
@@ -431,7 +431,7 @@ lemma smul_fundamentalWeight (k : ι) :
     simp only [Equiv.symm_apply_eq]
   · have hk' : σ.indexEquiv k ∉ b.support := fun h => hk (by
       simpa using indexEquiv_symm_mem_support b σ hσ hσ3 h)
-    rw [fundamentalWeight, dif_neg hk, fundamentalWeight, dif_neg hk', smul_zero]
+    rw [fundamentalWeight, dite_eq_right hk, fundamentalWeight, dite_eq_right hk', smul_zero]
 
 @[expose] noncomputable def orbitWeight (k : ι) : X :=
   ∑ m ∈ orbitFinset σ k, fundamentalWeight P b hsc m
@@ -494,7 +494,7 @@ lemma mem_orbitFinset_of_smul_orbitSum_eq {k l : ι} (hk : k ∈ b.support) (hl 
     (pairwise_orthogonal_orbitFinset b σ hσ hσ3 k) (hf0 l (mem_orbitFinset_self σ l))
     (fun m hm hmk => ?_) (hf l (mem_orbitFinset_self σ l))
   have h0 := coeff_eq_of_sum_eq b h' hm
-  rw [if_neg hmk, mul_zero] at h0
+  rw [ite_eq_right hmk, mul_zero] at h0
   exact (Finset.sum_eq_zero_iff_of_nonneg fun γ hγ => hf0 γ hγ m).mp
     ((mul_eq_zero.mp h0).resolve_left ha) l (mem_orbitFinset_self σ l)
 
@@ -601,7 +601,7 @@ lemma mem_orbitFinset_of_smul_coroot'_eq {k l : ι} (hk : k ∈ b.support) {c : 
     hc0 (fun m hm hmk => ?_) (by rw [RootPairing.Base.flip_support]; exact hc)
   rw [RootPairing.Base.flip_support] at hm
   have h0 := horb m hm
-  rw [if_neg fun hkm => hmk (mem_orbitFinset_symm σ hσ3 hkm), mul_zero] at h0
+  rw [ite_eq_right fun hkm => hmk (mem_orbitFinset_symm σ hσ3 hkm), mul_zero] at h0
   exact (Finset.sum_eq_zero_iff_of_nonneg fun m' _ => hc0 m').mp
     ((mul_eq_zero.mp h0).resolve_left ha) m (mem_orbitFinset_self σ m)
 

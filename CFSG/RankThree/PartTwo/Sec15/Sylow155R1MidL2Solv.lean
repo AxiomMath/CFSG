@@ -70,14 +70,14 @@ private theorem res1AutSolv_sl2 {n : ℕ} (hn : 1 ≤ n) :
     Res1AutSolv SL(2, GaloisField 2 n) := by
   intro y hy V hV
   have hcard : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
-  haveI : IsCyclic (RingAut (GaloisField 2 n)) := (ringAut_card_and_cyclic hcard).2
+  have : IsCyclic (RingAut (GaloisField 2 n)) := (ringAut_card_and_cyclic hcard).2
   have hnc := not_mem_range_scalar_of_orderOf_three (F := GaloisField 2 n) hy
   let ψ : V →* RingAut (GaloisField 2 n) := (mulAutToRingAut hcard).comp V.subtype
   have hcomm : ∀ a b : ψ.ker, a * b = b * a := by
     rintro ⟨⟨α, hαV⟩, hα⟩ ⟨⟨β, hβV⟩, hβ⟩
     exact Subtype.ext (Subtype.ext
       (mulAut_comm_of_fix hcard hnc hα hβ (hV α hαV) (hV β hβV)))
-  haveI : Group.IsSolvable ψ.ker := Group.isSolvable_of_comm hcomm
+  have : Group.IsSolvable ψ.ker := Group.isSolvable_of_comm hcomm
   exact Group.isSolvable_of_ker_le_range ψ.ker.subtype ψ (by rw [Subgroup.range_subtype])
 
 theorem res1AutSolv_projSL_two {n : ℕ} (hn : 1 ≤ n) :

@@ -23,7 +23,7 @@ theorem factorial_div_two_ne_of_between {n₀ N : ℕ} (h1 : n₀.factorial / 2 
 theorem thm24Hex_of_card (lo : LieModelOrders) {s : TauCeti.SporadicName} {N : ℕ}
     (hs : ∀ (Y : Type) [Group Y], IsSporadic Y s → Nat.card Y = N)
     (hN : 251596800 < N) (halt : ∀ n : ℕ, n.factorial / 2 ≠ N)
-    (X : Type) [Group X] (hq : CFSG.IsQuasisimple X) (hodd : Odd (Nat.card (center X)))
+    (X : Type) [Group X] (_hq : CFSG.IsQuasisimple X) (hodd : Odd (Nat.card (center X)))
     (hX : IsSporadic (X ⧸ center X) s) :
     (¬ ∃ n : ℕ, 5 ≤ n ∧ Nonempty (X ≃* alternatingGroup (Fin n))) ∧
       ¬ LieModel X .PSL 3 2 2 ∧ ¬ SuzukiModel X 2 3 ∧ ¬ LieModel X .G2 0 2 2 := by

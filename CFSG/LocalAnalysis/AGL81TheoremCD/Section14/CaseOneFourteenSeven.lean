@@ -38,6 +38,7 @@ theorem CaseOneCtx.pCoreOf_two_J
   rw [pCore_two_eq_pPrimeCore_three_of_isL34Type c.choice.J_comp.2.2.1
     (c.isSL34Star).1]
 
+omit [Finite G] in
 private theorem ker_mk_center_comp (J : Subgroup G) :
     ((QuotientGroup.mk' (Subgroup.center (threeStar J))).comp
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J))).ker =
@@ -65,11 +66,13 @@ private def barMap (J : Subgroup G) : ↥J →* barQuotient J :=
   (QuotientGroup.mk' (Subgroup.center (threeStar J))).comp
     (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J))
 
+omit [Finite G] in
 private theorem ker_barMap (J : Subgroup G) :
     (barMap J).ker = (oTwoZStar J).subgroupOf J := by
   unfold barMap
   exact ker_mk_center_comp J
 
+omit [Finite G] in
 private theorem card_barQuotient {J : Subgroup G} (hL : IsL34Type (threeStar J)) :
     Nat.card (barQuotient J) = 20160 := by
   obtain ⟨e⟩ := nonempty_mulEquiv_projSL_quotient_center_of_isL34Type hL
@@ -79,7 +82,7 @@ private theorem CaseOneCtx.isSylowOf_inf_J_of_isSylowOf_T
     {M H E Q J R T : Subgroup G} (c : CaseOneCtx G M H E Q J R T)
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T H) :
     CFSG.ABGLocalTools.IsSylowOf 2 (T ⊓ J) J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTK : CFSG.ABGLocalTools.IsSylowOf 2 (T ⊓ kSub 3 M H) (kSub 3 M H) :=
     CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.YCfg.isSylowOf_inf_of_subnormalIn hT
       (kSub_le 3 M H) (kSub_subgroupOf_isSubnormal 3 M H)
@@ -94,8 +97,8 @@ private theorem CaseOneCtx.dvd_card_image_JM_of_isSylowOf_T
     64 ∣ Nat.card ↥(((J ⊓ M).subgroupOf J).map (barMap J)) ∧
       9 ∣ Nat.card ↥(((J ⊓ M).subgroupOf J).map (barMap J)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardJbar : Nat.card (barQuotient J) = 20160 := card_barQuotient (c.isSL34Star).1
   have hπ : Function.Surjective (barMap J) :=
     (QuotientGroup.mk'_surjective (Subgroup.center (threeStar J))).comp
@@ -132,8 +135,8 @@ private theorem CaseOneCtx.j_le_sup_oTwoZStar_of_isSylowOf_T
     {M H E Q J R T : Subgroup G}
     (c : CaseOneCtx G M H E Q J R T) (hT : CFSG.ABGLocalTools.IsSylowOf 2 T H) :
     J ≤ (J ⊓ M) ⊔ oTwoZStar J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdiv := c.dvd_card_image_JM_of_isSylowOf_T hT
   let Y : Subgroup (barQuotient J) := ((J ⊓ M).subgroupOf J).map (barMap J)
   have hKbar : CFSG.Quasithin.IsPSL 3 2 2 (barQuotient J) :=
@@ -167,7 +170,7 @@ theorem CaseOneCtx.normalizer_T_not_le
     (c : CaseOneCtx G M H E Q J R T) :
     ¬ Subgroup.normalizer (T : Set G) ≤ M := by
   intro hN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTH : T ≤ H := c.T_sylow.le.trans inf_le_left
   obtain ⟨T₁, hT₁, hTT₁⟩ :=
     CFSG.RankThree.PartOne.exists_isSylowOf_ge (p := 2) hTH c.T_sylow.isPGroup
@@ -188,8 +191,8 @@ private theorem CaseOneCtx.card_image_inf_J_bar
     {M H E Q J R T : Subgroup G}
     (c : CaseOneCtx G M H E Q J R T) :
     Nat.card ↥(((Q ⊓ J).subgroupOf J).map (barMap J)) = 9 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardJbar : Nat.card (barQuotient J) = 20160 := card_barQuotient (c.isSL34Star).1
   have hπ : Function.Surjective (barMap J) :=
     (QuotientGroup.mk'_surjective (Subgroup.center (threeStar J))).comp
@@ -206,12 +209,12 @@ private theorem CaseOneCtx.isElemAbelian_image_inf_J_bar
     {M H E Q J R T : Subgroup G}
     (c : CaseOneCtx G M H E Q J R T) (h142 : FourteenTwoCaseOneAt M) :
     IsElemAbelian 3 (((Q ⊓ J).subgroupOf J).map (barMap J)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard := c.card_image_inf_J_bar
   have hQexp : ∀ x ∈ Q, x ^ 3 = 1 := (h142 H E Q J c.choice c.typeA).1.2.1
   refine ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩
-  · exact IsPGroup.commutative_of_card_eq_prime_sq (p := 3)
-      (by rw [hcard]; norm_num) a b
+  · exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3)
+      (by rw [hcard]; norm_num)).is_comm.comm a b
   · intro x hx
     obtain ⟨y, hy, hxy⟩ := Subgroup.mem_map.mp hx
     rw [← hxy, ← map_pow]
@@ -265,8 +268,8 @@ theorem CaseOneCtx.jBarAct_R
         ∃ g : ↥(Subgroup.normalizer (J : Set G)), (g : G) ∈ J ∧
           (jBarAct J (r * g * r * g⁻¹)) ^ 12 ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup G := Subgroup.normalizer (J : Set G)
   let B : Subgroup (MulAut (barQuotient J)) := (R.subgroupOf N).map (jBarAct J)
   have hKbar : CFSG.Quasithin.IsPSL 3 2 2 (barQuotient J) :=
@@ -307,7 +310,7 @@ private theorem CaseOneCtx.pCoreOf_two_J_le_R {M H E Q J R T : Subgroup G}
 
 private theorem pCoreOf_two_le_pPrimeCore_three (J : Subgroup G) :
     CFSG.Open.pCoreOf 2 J ≤ (CFSG.pPrimeCore 3 ↥J).map J.subtype := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.openPCoreOf_eq_map_pCore]
   exact Subgroup.map_mono (CFSG.Quasithin.A318.pCore_two_le_pPrimeCore (p := 3) (by norm_num))
 
@@ -357,6 +360,7 @@ private theorem CaseOneCtx.pCoreOf_join_le_R {M H E Q J R T : Subgroup G}
 private noncomputable def jKernel (J R : Subgroup G) : Subgroup G :=
   R ⊓ ((jStarAct J).ker).map (Subgroup.normalizer (J : Set G)).subtype
 
+omit [Finite G] in
 private theorem mem_jKernel_iff {J R : Subgroup G}
     {r : ↥(Subgroup.normalizer (J : Set G))} :
     (r : G) ∈ jKernel J R ↔ (r : G) ∈ R ∧ jStarAct J r = 1 := by
@@ -369,6 +373,7 @@ private theorem mem_jKernel_iff {J R : Subgroup G}
     exact MonoidHom.mem_ker
   exact and_congr Iff.rfl h
 
+omit [Finite G] in
 private theorem normalizer_le_normalizer_jKernelPart (J : Subgroup G) :
     Subgroup.normalizer (J : Set G) ≤ Subgroup.normalizer
       ((((jStarAct J).ker).map (Subgroup.normalizer (J : Set G)).subtype) : Set G) := by
@@ -577,15 +582,18 @@ theorem CaseOneCtx.joinStructure
 private noncomputable def joinOmega (J R : Subgroup G) : Subgroup G :=
   CFSG.Quasithin.omegaOneCenterOf (CFSG.Open.pCoreOf 2 (J ⊔ R))
 
+omit [Finite G] in
 private theorem join_le_normalizer_joinOmega (J R : Subgroup G) :
     J ⊔ R ≤ Subgroup.normalizer (joinOmega J R : Set G) :=
   (CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 _).trans
     (CFSG.Quasithin.A4.normalizer_le_normalizer_omegaOneCenterOf _)
 
+omit [Finite G] in
 private theorem isElemAbelian_joinOmega (J R : Subgroup G) :
     IsElemAbelian 2 (joinOmega J R) :=
   CFSG.Quasithin.B2F.isElemAbelian_omegaOneCenterOf _
 
+omit [Finite G] in
 private theorem pCoreOf_join_le_centralizer_joinOmega (J R : Subgroup G) :
     CFSG.Open.pCoreOf 2 (J ⊔ R) ≤ Subgroup.centralizer (joinOmega J R : Set G) :=
   Subgroup.le_centralizer_iff.mp
@@ -630,6 +638,7 @@ private theorem CaseOneCtx.exists_char_case_a {M H E Q J R T : Subgroup G}
       intro z hz
       exact hZY hz)).trans (Subgroup.centralizer_le_normalizer _))
 
+omit [Finite G] in
 private theorem le_normalizer_centralizer_of_le_normalizer {Y X : Subgroup G}
     (hXY : X ≤ Subgroup.normalizer (Y : Set G)) :
     X ≤ Subgroup.normalizer (Subgroup.centralizer (Y : Set G) : Set G) :=
@@ -637,6 +646,7 @@ private theorem le_normalizer_centralizer_of_le_normalizer {Y X : Subgroup G}
     (Subgroup.centralizer_le_normalizer (Y : Set G))).mp
       (Subgroup.normal_subgroupOf_centralizer_normalizer (Y : Set G)))
 
+omit [Finite G] in
 private theorem commutator_centralizer_le {X Y : Subgroup G}
     (hXY : X ≤ Subgroup.normalizer (Y : Set G)) :
     ⁅Subgroup.centralizer (Y : Set G), X⁆ ≤ Subgroup.centralizer (Y : Set G) := by
@@ -667,11 +677,11 @@ private theorem card_le_two_mul_centralizer_of_offender {R O Y A : Subgroup G} {
     (hYea : IsElemAbelian 2 Y) (hO_le_R : O ≤ R)
     (hO_cent : O ≤ Subgroup.centralizer (Y : Set G))
     (hO_normal : R ≤ Subgroup.normalizer (O : Set G)) (hrelO : O.relIndex R ≤ 2)
-    (haA : a ∈ A) (haO : a ∉ O) :
+    (haA : a ∈ A) (_haO : a ∉ O) :
     Nat.card Y ≤ 2 * Nat.card ↥(Y ⊓ Subgroup.centralizer ({a} : Set G)) := by
   have hAO_le : A ⊓ O ≤ A ⊓ Subgroup.centralizer (Y : Set G) :=
     le_inf inf_le_left (inf_le_right.trans hO_cent)
-  haveI : (A ⊓ O).IsFiniteRelIndex A := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : (A ⊓ O).IsFiniteRelIndex A := Subgroup.isFiniteRelIndex_of_finiteIndex
   have hle1 : (A ⊓ Subgroup.centralizer (Y : Set G)).relIndex A ≤ (A ⊓ O).relIndex A :=
     Nat.le_of_dvd (Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero)
       (Subgroup.relIndex_dvd_of_le_left A hAO_le)
@@ -680,7 +690,7 @@ private theorem card_le_two_mul_centralizer_of_offender {R O Y A : Subgroup G} {
     (H := A) (K := O) hAO_N).2
   have hmul := Subgroup.relIndex_mul_relIndex O (A ⊔ O) R le_sup_right
     (sup_le hAR hO_le_R)
-  haveI : O.IsFiniteRelIndex R := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : O.IsFiniteRelIndex R := Subgroup.isFiniteRelIndex_of_finiteIndex
   have hleO : O.relIndex (A ⊔ O) ≤ O.relIndex R :=
     Nat.le_of_dvd (Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero)
       ⟨(A ⊔ O).relIndex R, hmul.symm⟩
@@ -709,6 +719,7 @@ private theorem card_le_two_mul_centralizer_of_offender {R O Y A : Subgroup G} {
     _ ≤ 2 * Nat.card ↥(Y ⊓ Subgroup.centralizer ({a} : Set G)) :=
         Nat.mul_le_mul hrelAY hcard_le
 
+omit [Finite G] in
 private theorem exists_maxElemAbelian_not_le {R O : Subgroup G}
     (h : ¬ CFSG.Quasithin.thompsonJ R ≤ O) :
     ∃ A : Subgroup G, CFSG.Quasithin.IsMaxElemAbelian R A ∧ ¬ A ≤ O := by
@@ -929,8 +940,8 @@ private theorem CaseOneCtx.exists_invariant_sylow_sup_pPrimeCore_M_R
       CFSG.ABGLocalTools.IsSylowOf 2 S
         (CFSG.inSubgroup (CFSG.pPrimeCore 3) M ⊔ R) ∧
       R ≤ S ∧ Q ≤ Subgroup.normalizer (S : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let D : Subgroup G := CFSG.inSubgroup (CFSG.pPrimeCore 3) M
   have hDM : D ≤ M := Subgroup.map_subtype_le _
   have hMD : M ≤ Subgroup.normalizer (D : Set G) := by

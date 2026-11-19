@@ -83,7 +83,7 @@ theorem diagTriv_inner_of_equiv {H : Type} [Group H] (e : H ≃* SL(2, ZMod 3)) 
       have := congrArg e h1
       simpa [hu] using this
     exact absurd (congrArg (fun m : SL(2, ZMod 3) => m) this) (by decide +kernel)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf u = 3 := orderOf_eq_prime hu3 hu1
   obtain ⟨g, hg⟩ := h u hord
   let αS : SL(2, ZMod 3) ≃* SL(2, ZMod 3) := e.symm.trans (α.trans e)

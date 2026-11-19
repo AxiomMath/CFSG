@@ -63,7 +63,7 @@ theorem signalizerNoncentralPart_of_minimal (hS : Setting G)
   obtain ⟨E, hEP, hE, hEc⟩ := pRank_attained p (P : Subgroup G) (by omega)
   rw [hP3] at hEc
   have hA : IsPGroup p ((P : Subgroup G) ⊓ (D ⊔ centralizer (D : Set G)) : Subgroup G) :=
-    P.isPGroup'.to_le inf_le_left
+    P.isPGroup.to_le inf_le_left
   suffices key : ∀ (n : ℕ) (K : Subgroup G), Nat.card K = n → Nat.Coprime p (Nat.card K) →
       (P : Subgroup G) ⊓ (D ⊔ centralizer (D : Set G)) ≤ normalizer (K : Set G) → K ≤ M from
     key _ K₀ rfl hK₀ hAK₀

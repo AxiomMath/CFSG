@@ -31,7 +31,7 @@ theorem tri_ge {n : ℕ} (hn : 3 ≤ n) : 3 ≤ (n - 1) * n / 2 := by
   apply (Nat.le_div_iff_mul_le (by norm_num)).mpr
   exact le_trans (by norm_num) (Nat.mul_le_mul (show 2 ≤ n - 1 by omega) hn)
 
-theorem card_L2Three {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
+theorem card_L2Three {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) :
     Nat.card (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 3 p)) =
       3 ^ p * (((3 ^ p) ^ 2 - 1) / 2) := by
   have hK : Nat.card (GaloisField 3 p) = 3 ^ p := GaloisField.card 3 p hp.ne_zero
@@ -86,7 +86,7 @@ theorem not_goodOrd_L2Three (k : ℕ) :
     · omega
 
 theorem card_alt (m : ℕ) (hm : 2 ≤ m) : Nat.card (alternatingGroup (Fin m)) = m.factorial / 2 := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
 
 theorem goodOrd_alt (m : ℕ) (hm : 5 ≤ m) : GoodOrd (m.factorial / 2) := by

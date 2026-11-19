@@ -14,7 +14,7 @@ namespace CFSG.ComponentClassification.GS82PumpInputs.PCSpor
 open CFSG Subgroup CFSG.Blueprint CFSG.ComponentClassification.CatLeaf
 open CFSG.ComponentClassification.FixedCommutingProduct (fixedSubgroup)
 
-theorem mem_of_pow_odd {S : Type*} [Group S] [Finite S] {C N : Subgroup S} (hNC : N ≤ C)
+theorem mem_of_pow_odd {S : Type*} [Group S] [Finite S] {C N : Subgroup S} (_hNC : N ≤ C)
     (hn : (N.subgroupOf C).Normal) {k : ℕ} (hidx : (N.subgroupOf C).index ∣ 2 ^ k) {y : S}
     (hyC : y ∈ C) {m : ℕ} (hm : Odd m) (hy : y ^ m = 1) : y ∈ N := by
   set q := QuotientGroup.mk' (N.subgroupOf C) (⟨y, hyC⟩ : C)

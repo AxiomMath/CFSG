@@ -21,7 +21,7 @@ theorem exists_sylow_of_quasithinIsSylowTwo {T : Subgroup G} (hT : quasithinIsSy
   have hidx : (T.subgroupOf S).index ∣ T.index := by
     have := Subgroup.relIndex_dvd_index_of_le hS
     simpa [Subgroup.relIndex] using this
-  have hpow : IsPGroup 2 (↥(S : Subgroup G)) := S.isPGroup'
+  have hpow : IsPGroup 2 (↥(S : Subgroup G)) := S.isPGroup
   have hne1 : (T.subgroupOf S).index ≠ 1 := by
     intro h1
     rw [Subgroup.index_eq_one, Subgroup.subgroupOf_eq_top] at h1

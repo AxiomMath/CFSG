@@ -28,7 +28,7 @@ theorem false_of_pCore_le_theta {Y₀ J : Subgroup G}
     (hθ : inSubgroup (CFSG.pCore 2) Y₀ ≤ inSubgroup (aschbacherSolvableCore 3) J)
     (hc : ⁅aschbacherSolvableCore 3 ↥J, (⊤ : Subgroup ↥J)⁆ ≤ CFSG.oddCore ↥J) : False := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup ↥Y₀ := CFSG.pCore 2 ↥Y₀
   let θJ : Subgroup ↥J := aschbacherSolvableCore 3 ↥J
   let OJ : Subgroup ↥J := CFSG.oddCore ↥J
@@ -63,7 +63,7 @@ theorem false_of_pCore_le_theta {Y₀ J : Subgroup G}
       obtain ⟨k, hk⟩ := hQ2.exists_card_eq
       rw [hk]
       exact (Nat.coprime_two_left.mpr hWodd).symm.pow_right k
-    exact Subgroup.inf_eq_bot_of_coprime hcop
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hWQcomm : ⁅W, Q⁆ = ⊥ :=
     Subgroup.commutator_eq_bot_of_disjoint (disjoint_iff.mpr hWQ)
   have hWcent : W ≤ Subgroup.centralizer (Q : Set ↥Y₀) :=
@@ -131,10 +131,10 @@ theorem pCore_le_theta_of_eq_sup {Y₀ J : Subgroup G} (hYJ : Y₀ ≤ J)
       simpa [Q] using (CFSG.pCore_isPGroup (p := 2) (G := ↥Y₀))
     have hbase : IsPGroup 2 (Q.map φ) := IsPGroup.map (p := 2) hQ2 φ
     simpa [P] using hbase
-  haveI : P.Normal := hPnormal
-  haveI : IsSimpleGroup (↥J ⧸ θ) := hJs
-  haveI : Group.IsPerfect ↥J := hJp
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : P.Normal := hPnormal
+  have : IsSimpleGroup (↥J ⧸ θ) := hJs
+  have : Group.IsPerfect ↥J := hJp
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal P with hPbot | hPtop
   · have hPbot' : Q.map φ = ⊥ := by
       simpa [P] using hPbot
@@ -155,7 +155,7 @@ theorem pCore_le_theta_of_eq_sup {Y₀ J : Subgroup G} (hYJ : Y₀ ≤ J)
     have hperf : Group.IsPerfect (↥J ⧸ θ) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' θ)
         (QuotientGroup.mk'_surjective θ)
-    haveI : Group.IsPerfect (↥J ⧸ θ) := hperf
+    have : Group.IsPerfect (↥J ⧸ θ) := hperf
     have hnil : Group.IsNilpotent (↥J ⧸ θ) := hH2.isNilpotent
     exact (Group.IsPerfect.not_isNilpotent (↥J ⧸ θ)) hnil
 

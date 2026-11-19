@@ -46,6 +46,7 @@ private theorem frameT_commute_d : Commute (frameT hC r) hC.d := by
 private theorem frameE_commute_d : Commute hC.d (frameE hC r) :=
   (Commute.refl hC.d).mul_right frameT_commute_d.symm
 
+omit [Finite G] in
 private theorem frame_mem_Dstar (hF : ElevenTwoFrame hC S T r) (i : Fin 3) :
     r i ∈ DstarH hC := by
   have hri : r i ∈ (((T : Subgroup (Halpha D hC.alpha)) : Set (Halpha D hC.alpha)) ∩
@@ -54,7 +55,7 @@ private theorem frame_mem_Dstar (hF : ElevenTwoFrame hC S T r) (i : Fin 3) :
     exact Set.mem_range_self i
   exact hri.2
 
-theorem frameE_mem_commutator (h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
+theorem frameE_mem_commutator (_h : ElevenTwoHyp hC) (hF : ElevenTwoFrame hC S T r) :
     frameE hC r ∈ commutator G := by
   have hrmem : ∀ i : Fin 3, ((r i : Halpha D hC.alpha) : G) ∈ D :=
     fun i => DalphaStar_subset hC.isBlock_alpha
@@ -133,7 +134,7 @@ theorem centralizer_sup_oddCore_ne_top (h : ElevenTwoHyp hC) (hF : ElevenTwoFram
   let e : ↥(commutator G) := ⟨frameE hC r, hF.frameE_mem_commutator h⟩
   let C : Subgroup ↥(commutator G) := Subgroup.centralizer {e}
   let O : Subgroup ↥(commutator G) := CFSG.oddCore ↥(commutator G)
-  haveI : O.Normal := inferInstance
+  have : O.Normal := inferInstance
   let g' : ↥(commutator G) := ⟨g, hg⟩
   have hgmem : g' ∈ O ⊔ C := by
     rw [sup_comm, hsup]

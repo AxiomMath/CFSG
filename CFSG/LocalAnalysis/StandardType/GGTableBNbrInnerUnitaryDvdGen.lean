@@ -24,7 +24,7 @@ theorem exists_pairVec_act (hK : UnitaryFieldData 2 n K) (hp : p.Prime) (hd : 3 
     ∃ (lam : K) (i j : Fin d) (b : MulAut L'), i ≠ j ∧ IsPrimitiveRoot lam p ∧ b ∈ A' ∧
       ActsDiagU φ b (ggPairVec i j lam) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨t, hat⟩ := hdiag a₀ (hA'A ha₀)
   obtain ⟨i, j, hij⟩ : ∃ i j, t i ≠ t j := by
     by_contra hcon
@@ -85,7 +85,7 @@ theorem exists_actsDiagU_of_gen {A : Subgroup (MulAut L')}
     {t : Fin d → K} (ht : ∀ i, t i ^ p = 1) (htp : ∏ i, t i = 1) :
     ∃ a ∈ A, P a ∧ ActsDiagU φ a t := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set k₀ : Fin d := ⟨0, hd⟩ with hk₀
   have ht0 : ∀ i, t i ≠ 0 := fun i h0 => by
     rw [Finset.prod_eq_zero (Finset.mem_univ i) h0] at htp

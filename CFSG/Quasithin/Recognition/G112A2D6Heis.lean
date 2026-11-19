@@ -41,6 +41,7 @@ theorem map_commW {z p : V ≃ₗ[ZMod 2] V} (h : p * z = z * p) :
     simp [this]
   exact Submodule.eq_of_le_of_finrank_eq hle (LinearEquiv.finrank_map_eq p _)
 
+omit [Finite V] in
 theorem two_smul_zero (v : V) : v + v = 0 := by
   rw [← two_smul (ZMod 2), show (2 : ZMod 2) = 0 from rfl, zero_smul]
 
@@ -75,9 +76,9 @@ theorem fix_eq_zero {P : Type} [Group P] [Finite P] (hP : Nat.card P = 27)
   have hinj : Function.Injective ρ := by
     rw [← MonoidHom.ker_eq_bot_iff]
     by_contra hne
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hpg : IsPGroup 3 P := IsPGroup.of_card (n := 3) (by rw [hP]; norm_num)
-    haveI := hpg.isNilpotent
+    have := hpg.isNilpotent
     obtain ⟨⟨d, hd⟩, hd1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp
       (Group.IsNilpotent.inf_center_ne_bot_of_normal hne)
     have hdk := (Subgroup.mem_inf.mp hd).1
@@ -117,8 +118,8 @@ theorem exists_center_three {P : Type} [Group P] (h : Nat.card (Subgroup.center 
     ∃ c ∈ Subgroup.center P, c ≠ 1 ∧ c ^ 3 = 1 ∧
       ∀ d ∈ Subgroup.center P, d = 1 ∨ d = c ∨ d = c ^ 2 := by
   classical
-  haveI : Finite (Subgroup.center P) := Nat.finite_of_card_ne_zero (by rw [h]; norm_num)
-  haveI : Nontrivial (Subgroup.center P) := Finite.one_lt_card_iff_nontrivial.mp (by rw [h]; norm_num)
+  have : Finite (Subgroup.center P) := Nat.finite_of_card_ne_zero (by rw [h]; norm_num)
+  have : Nontrivial (Subgroup.center P) := Finite.one_lt_card_iff_nontrivial.mp (by rw [h]; norm_num)
   obtain ⟨c, hc1⟩ := exists_ne (1 : Subgroup.center P)
   have hord : orderOf c = 3 := by
     have hd : orderOf c ∣ 3 := h ▸ orderOf_dvd_natCard c
@@ -150,7 +151,7 @@ theorem g112ConclA2_concl3 (B : LinearMap.BilinForm (ZMod 2) V)
         γ w ∈ LinearMap.range (t.toLinearMap - LinearMap.id)) ∧ γ v₁ ≠ v₁ := by
   classical
   obtain ⟨hV, P, hPn, hPe, hP27, -, -, -⟩ := h3
-  haveI : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hP27]; norm_num)
+  have : Finite ↥P := Nat.finite_of_card_ne_zero (by rw [hP27]; norm_num)
   obtain ⟨c, hc, hc1, hc3, hcen⟩ := exists_center_three hPe.center_order_p
   let ι : ↥P →* (V ≃ₗ[ZMod 2] V) := Γ.subtype.comp P.subtype
   have hι : Function.Injective ι := Γ.subtype_injective.comp P.subtype_injective

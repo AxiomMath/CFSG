@@ -36,12 +36,14 @@ section General
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem normal_of_le_center {Z : Subgroup X} (hZ : Z ≤ Subgroup.center X) : Z.Normal :=
   ⟨fun n hn g => by
     have := Subgroup.mem_center_iff.mp (hZ hn) g
     rw [this, mul_inv_cancel_right]
     exact hn⟩
 
+omit [Finite X] in
 theorem centralizer_zpowers_sup_center (b : X) :
     Subgroup.centralizer ((Subgroup.zpowers b ⊔ Subgroup.center X : Subgroup X) : Set X) =
       Subgroup.centralizer ({b} : Set X) := by
@@ -88,6 +90,7 @@ theorem isHyperplane_zpowers_sup_center {P : Subgroup X} (hP : Late.IsE27 P)
     ((Subgroup.center_le_centralizer _).trans (Subgroup.centralizer_le_normalizer _)) hdisj,
     hcb, hZ3, hP.2]
 
+omit [Finite X] in
 theorem inf_eq_bot_of_not_dvd {V W : Subgroup X} (hW : IsPGroup 3 W) (hV : ¬ 3 ∣ Nat.card V) :
     V ⊓ W = ⊥ := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
@@ -96,9 +99,11 @@ theorem inf_eq_bot_of_not_dvd {V W : Subgroup X} (hW : IsPGroup 3 W) (hV : ¬ 3 
   · exact Subgroup.card_eq_one.mp h1
   · exact absurd (hdvd.trans (Subgroup.card_dvd_of_le inf_le_left)) hV
 
+omit [Finite X] in
 theorem isPiSubgroup_of_not_dvd {V : Subgroup X} (hV : ¬ 3 ∣ Nat.card V) :
-    CFSG.IsPiSubgroup (piCompl 3) V := fun q hq h3 => hV (h3 ▸ hq)
+    CFSG.IsPiSubgroup (piCompl 3) V := fun _q hq h3 => hV (h3 ▸ hq)
 
+omit [Finite X] in
 theorem not_dvd_of_isPiSubgroup {V : Subgroup X} (hV : CFSG.IsPiSubgroup (piCompl 3) V) :
     ¬ 3 ∣ Nat.card V := fun h3 => (hV ⟨3, Nat.prime_three⟩ h3) rfl
 
@@ -148,11 +153,13 @@ theorem eq_bot_or_eq_of_le_kleinFour {P c O : Subgroup X} (hc : IsKleinFour c) (
     interval_cases h : Nat.card O <;> simp_all
   exact Subgroup.eq_of_le_of_card_ge hOc (by rw [h4, h4'])
 
+omit [Finite X] in
 theorem map_subtype_le_normalizer {G : Subgroup X} {R S : Subgroup G}
     (h : S ≤ Subgroup.normalizer (R : Set G)) :
     S.map G.subtype ≤ Subgroup.normalizer ((R.map G.subtype : Subgroup X) : Set X) :=
   (Subgroup.map_mono h).trans (Subgroup.le_normalizer_map _)
 
+omit [Finite X] in
 theorem mem_normalizer_commutator {A B : Subgroup X} {n : X}
     (hA : n ∈ Subgroup.normalizer (A : Set X)) (hB : n ∈ Subgroup.normalizer (B : Set X)) :
     n ∈ Subgroup.normalizer ((⁅A, B⁆ : Subgroup X) : Set X) := by
@@ -190,10 +197,12 @@ theorem thetaAlpha_le_of_invariant {P B c : Subgroup X} (hBP : B ≤ P)
   · refine hinv _ ⟨le_top, isPiSubgroup_of_not_dvd hT3, ?_⟩
     exact hPC.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hTle).mp hTn)
 
+omit [Finite X] in
 theorem subgroupOf_map_subtype_of_le {H G : Subgroup X} (h : H ≤ G) :
     (H.subgroupOf G).map G.subtype = H := by
   rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr h]
 
+omit [Finite X] in
 theorem isE27_subgroupOf {P G : Subgroup X} (hP : Late.IsE27 P) (hPG : P ≤ G) :
     Late.IsE27 (P.subgroupOf G) := by
   refine ⟨⟨⟨⟨fun x y => Subtype.ext (Subtype.ext ?_)⟩⟩, fun x hx => Subtype.ext ?_⟩, ?_⟩
@@ -202,6 +211,7 @@ theorem isE27_subgroupOf {P G : Subgroup X} (hP : Late.IsE27 P) (hPG : P ≤ G) 
   · simpa using hP.1.2 (x : X) hx
   · rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPG).toEquiv, hP.2]
 
+omit [Finite X] in
 theorem isElemAbelian_map_subtype {p : ℕ} {G : Subgroup X} {E : Subgroup G}
     (hE : CFSG.Assembly.IsElemAbelian p E) : CFSG.Assembly.IsElemAbelian p (E.map G.subtype) := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
@@ -224,7 +234,7 @@ theorem exists_faithful_component {H : Type} [Group H] [Finite H] {P Z B : Subgr
     (hα : thetaAlpha 3 B ≠ ⊥) :
     ∃ L ∈ thetaComponents 3 H, (∀ x ∈ P, (∀ l ∈ L, x * l = l * x) → x ∈ Z) ∧
       ¬ thetaAlpha 3 B ≤ Subgroup.centralizer (L : Set H) := by
-  haveI : Z.Normal := normal_of_le_center hZc
+  have : Z.Normal := normal_of_le_center hZc
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA : IsElementaryAbelian 3 P :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 P).mpr hP.1
@@ -484,7 +494,7 @@ theorem kf148OneLineK_of_comp (hcomp : KF148OneLineComp) : KF148OneLineK := by
   have hθG : aschbacherSolvableCore 3 ↥G = ⊥ := by
     obtain ⟨-, hθc, hθ3, -, -⟩ :=
       solvable_prime_complement_core_characterization (H := ↥G) Nat.prime_three
-    haveI : (aschbacherSolvableCore 3 ↥G).Normal := by haveI := hθc; infer_instance
+    have : (aschbacherSolvableCore 3 ↥G).Normal := by have := hθc; infer_instance
     set T := aschbacherSolvableCore 3 ↥G with hTdef
     have hTX3 : ¬ 3 ∣ Nat.card (T.map G.subtype) := by
       rw [Subgroup.card_map_of_injective G.subtype_injective]

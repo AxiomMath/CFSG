@@ -13,6 +13,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private lemma dI2a_closure_pair_iff {a b u : G} (ha : a * a = 1) (hb : b * b = 1)
     (hab : a * b = b * a) :
     u ∈ closure ({a, b} : Set G) ↔ u = 1 ∨ u = a ∨ u = b ∨ u = a * b := by
@@ -168,7 +169,7 @@ private lemma dI2a_CV_eq (h : Q13Om t L S x₁ x₂ lam rho tau om) :
 
 private lemma dI2a_D_card (h : Q13Om t L S x₁ x₂ lam rho tau om) :
     Nat.card ↥(fourGrp x₁ x₂ ⊓ centralizer ({lam} : Set G)) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [dI2a_CV_eq h, Nat.card_zpowers]
   exact orderOf_eq_prime (by simpa [pow_two] using (q13b_z_facts h).2) (q13b_z_facts h).1
 

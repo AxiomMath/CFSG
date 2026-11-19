@@ -712,7 +712,7 @@ theorem index_ne_two_of_isConj {M : Subgroup (ReeTag.G2.reeGamma K a)}
     exact Nat.pow_succ_factorization_not_dvd Nat.card_pos.ne' Nat.prime_two h3
   obtain ⟨p, hpP, hpN⟩ := Set.not_subset.mp hPN
   have hp2 : p ^ 2 = 1 := by
-    have hPΓ : IsPGroup 2 ((P : Subgroup M).map M.subtype) := P.isPGroup'.map _
+    have hPΓ : IsPGroup 2 ((P : Subgroup M).map M.subtype) := P.isPGroup.map _
     have h1 := sq_eq_one_of_isPGroup_two hK hw₀ hPΓ ⟨p, hpP, rfl⟩
     exact Subtype.ext (by rw [Subgroup.coe_pow]; exact h1)
   have hp1 : p ≠ 1 := fun h => hpN (h ▸ N.one_mem)
@@ -738,7 +738,7 @@ theorem eq_top_of_ncard_orbit (ha : 1 ≤ a) (hK : Nat.card K = 3 ^ (2 * a + 1))
     intro P
     apply isMulCommutative_of_sq_eq_one
     intro x
-    have hPΓ : IsPGroup 2 ((P : Subgroup M).map M.subtype) := P.isPGroup'.map _
+    have hPΓ : IsPGroup 2 ((P : Subgroup M).map M.subtype) := P.isPGroup.map _
     have h1 := sq_eq_one_of_isPGroup_two hK hw₀ hPΓ ⟨(x : M), x.2, rfl⟩
     exact Subtype.ext (Subtype.ext (by
       rw [Subgroup.coe_pow, Subgroup.coe_pow, OneMemClass.coe_one, OneMemClass.coe_one]

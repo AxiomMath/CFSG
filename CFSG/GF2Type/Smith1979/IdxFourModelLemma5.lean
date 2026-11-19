@@ -17,8 +17,8 @@ theorem normal_two_subgroup_card_le_four
     (hnorm : ∀ g ∈ stabIn M0 w0, ∀ n ∈ N, g * n * g⁻¹ ∈ N) (h2 : IsPGroup 2 N) :
     Nat.card N ≤ 4 := by
   have hPS : stabIn E0 w0 ≤ stabIn M0 w0 := inf_le_inf_right _ E0_le_M0
-  letI : MulAction ↥(stabIn E0 w0) OmegaTy := omegaAction _ hPS
-  haveI : MulAction.IsPretransitive ↥(stabIn E0 w0) OmegaTy := ⟨fun x y => by
+  let : MulAction ↥(stabIn E0 w0) OmegaTy := omegaAction _ hPS
+  have : MulAction.IsPretransitive ↥(stabIn E0 w0) OmegaTy := ⟨fun x y => by
     obtain ⟨A, hA, hAx⟩ := Certificates.certificate17606 _ ((inOmega_iff _).1 x.2)
     obtain ⟨B, hB, hBy⟩ := Certificates.certificate17606 _ ((inOmega_iff _).1 y.2)
     refine ⟨⟨B * A⁻¹, genGrp_pGens_le (mul_mem hB (inv_mem hA))⟩, Subtype.ext ?_⟩
@@ -28,7 +28,7 @@ theorem normal_two_subgroup_card_le_four
     rw [card_InOmega]
     decide
   set Nn : Subgroup ↥(stabIn E0 w0) := (N ⊓ stabIn E0 w0).subgroupOf (stabIn E0 w0) with hNn
-  haveI : Nn.Normal := ⟨fun n hn g => by
+  have : Nn.Normal := ⟨fun n hn g => by
     rw [hNn, Subgroup.mem_subgroupOf, Subgroup.mem_inf] at hn ⊢
     refine ⟨?_, ?_⟩
     · exact hnorm g.1 (hPS g.2) n.1 hn.1
@@ -51,7 +51,6 @@ theorem normal_two_subgroup_card_le_four
     have := congrArg Subtype.val (hfix _ hn' ⟨vecOf b, hbΩ⟩)
     refine Fin.ext ?_
     rw [Chain.codePerm_apply]
-    change codeOf (n (vecOf b)) = b
     rw [show n (vecOf b) = vecOf b from this, codeOf_vecOf b.2]
   have hidx : (stabIn E0 w0).relIndex (stabIn M0 w0) = 4 := by
     have h := Subgroup.relIndex_mul_card (H := stabIn E0 w0) (K := stabIn M0 w0)

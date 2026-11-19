@@ -58,10 +58,10 @@ private theorem qTwoNbrH_as_sc {B Bs L D J : Subgroup G} {x : G} {y : G} {K : Su
     letI := hM.groupQ
     ∀ g ∈ Subgroup.centralizer (hM.As : Set hM.Q), g ^ 3 = 1 → g ∈ hM.As := by
   classical
-  letI := hM.groupQ
+  let := hM.groupQ
   let H : Subgroup G := K ⊔ Bs
   let N : Subgroup ↥H := hM.Delta.subgroupOf H
-  haveI hNnorm : N.Normal := by
+  have hNnorm : N.Normal := by
     dsimp only [N]
     rw [← hM.hq_ker]
     exact MonoidHom.normal_ker hM.q
@@ -136,11 +136,12 @@ private theorem qTwoNbrH_as_sc {B Bs L D J : Subgroup G} {x : G} {y : G} {K : Su
   have hg'mem := hSC_quot g' hg'C hg'3
   rw [hAs_eq]
   exact Subgroup.mem_map.mpr ⟨g', hg'mem, MulEquiv.apply_symm_apply e g⟩
+omit [Finite G] in
 private theorem qTwoNbrH_as_elemAbelian {B Bs L D J : Subgroup G} {x : G} {y : G}
     {K : Subgroup G} (hBs : GGBstar 3 B Bs) (hM : QTwoNbrModel 3 B Bs x L D J y K) :
     letI := hM.groupQ
     IsElemAbelian 3 hM.As := by
-  letI := hM.groupQ
+  let := hM.groupQ
   rw [hM.hAs]
   constructor
   · refine IsMulCommutative.of_setLike_mul_comm ?_
@@ -152,11 +153,12 @@ private theorem qTwoNbrH_as_elemAbelian {B Bs L D J : Subgroup G} {x : G} {y : G
     have ha3 : a ^ 3 = 1 := Subtype.ext (by simpa using hBs.2.1.2 a a.2)
     rw [← map_pow (hM.q.comp (Subgroup.inclusion (le_sup_right : Bs ≤ K ⊔ Bs))) a 3, ha3,
       map_one]
+omit [Finite G] in
 theorem qTwoNbrH_as_normalizes {B Bs L D J : Subgroup G} {x : G} {y : G}
     {K : Subgroup G} (hM : QTwoNbrModel 3 B Bs x L D J y K) :
     letI := hM.groupQ
     hM.As ≤ Subgroup.normalizer (hM.Kbar : Set hM.Q) := by
-  letI := hM.groupQ
+  let := hM.groupQ
   intro b hb
   rw [hM.hAs] at hb
   obtain ⟨b', rfl⟩ := MonoidHom.mem_range.mp hb
@@ -165,6 +167,7 @@ theorem qTwoNbrH_as_normalizes {B Bs L D J : Subgroup G} {x : G} {y : G}
     Subgroup.normalizer (hM.Kbar : Set hM.Q)
   rw [show qTwoNbrRec_Kb hM.q = hM.Kbar from by rw [qTwoNbrRec_Kb, hM.hKbar]] at hq
   exact hq
+omit [Finite G] in
 private theorem qTwoNbrH_unitTBModel {B Bs L D J : Subgroup G} {x : G} {y : G}
     {K : Subgroup G} (hM : QTwoNbrModel 3 B Bs x L D J y K) :
     letI := hM.groupQ
@@ -177,11 +180,11 @@ private theorem qTwoNbrH_unitTBModel {B Bs L D J : Subgroup G} {x : G} {y : G}
         rw [← hM.hψ_range]
         exact ⟨(qTwoNbrRec_suEquiv hM.hcardF0 hM.d).symm z, rfl⟩)) := by
   classical
-  letI := hM.groupQ
-  letI := hM.fieldF0
-  letI := hM.finiteF0
-  letI := hM.charF0
-  letI := hM.factF0
+  let := hM.groupQ
+  let := hM.fieldF0
+  let := hM.finiteF0
+  let := hM.charF0
+  let := hM.factF0
   have hd5 : 5 ≤ hM.d := hM.hd
   let ψr : ↥(unitarySU 2 1 hM.F0 hM.d) →* hM.Kbar :=
     (hM.ψ.comp (qTwoNbrRec_suEquiv hM.hcardF0 hM.d).symm.toMonoidHom).codRestrict hM.Kbar
@@ -242,14 +245,14 @@ private theorem qTwoNbrH_actsDiagU {B Bs L D J : Subgroup G} {x : G} {y : G}
               rw [← hM.hψ_range]
               exact ⟨(qTwoNbrRec_suEquiv hM.hcardF0 hM.d).symm z, rfl⟩)) a t := by
   classical
-  letI := hM.groupQ
-  letI := hM.fieldF0
-  letI := hM.finiteF0
-  letI := hM.charF0
-  letI := hM.factF0
+  let := hM.groupQ
+  let := hM.fieldF0
+  let := hM.finiteF0
+  let := hM.charF0
+  let := hM.factF0
   let hN : hM.As ≤ Subgroup.normalizer (hM.Kbar : Set hM.Q) := qTwoNbrH_as_normalizes hM
   have hd5 : 5 ≤ hM.d := hM.hd
-  haveI : Finite hM.Q := Finite.of_surjective hM.q hM.hq_surj
+  have : Finite hM.Q := Finite.of_surjective hM.q hM.hq_surj
   let ψr : ↥(unitarySU 2 1 hM.F0 hM.d) →* hM.Kbar :=
     (hM.ψ.comp (qTwoNbrRec_suEquiv hM.hcardF0 hM.d).symm.toMonoidHom).codRestrict hM.Kbar
       (fun z => by
@@ -298,14 +301,14 @@ private theorem qTwoNbrH_native_normalizer {B Bs L D J : Subgroup G} {x : G} {y 
         (LineU.permSU (TableBU.unitaryFieldData_of_card hM.hcardF0 (by norm_num)) σ) ∈
         Subgroup.normalizer (hM.As : Set hM.Q) := by
   classical
-  letI := hM.groupQ
-  letI := hM.fieldF0
-  letI := hM.finiteF0
-  letI := hM.charF0
-  letI := hM.factF0
+  let := hM.groupQ
+  let := hM.fieldF0
+  let := hM.finiteF0
+  let := hM.charF0
+  let := hM.factF0
   let hN : hM.As ≤ Subgroup.normalizer (hM.Kbar : Set hM.Q) := qTwoNbrH_as_normalizes hM
   have hd5 : 5 ≤ hM.d := hM.hd
-  haveI : Finite hM.Q := Finite.of_surjective hM.q hM.hq_surj
+  have : Finite hM.Q := Finite.of_surjective hM.q hM.hq_surj
   let ψr : ↥(unitarySU 2 1 hM.F0 hM.d) →* hM.Kbar :=
     (hM.ψ.comp (qTwoNbrRec_suEquiv hM.hcardF0 hM.d).symm.toMonoidHom).codRestrict hM.Kbar
       (fun z => by
@@ -327,10 +330,10 @@ private theorem qTwoNbrH_sylow {B Bs L D J : Subgroup G} {x : G} {y : G} {K : Su
         hM.q ⟨n, (le_sup_left : K ≤ K ⊔ Bs) hn⟩ =
           hM.q ⟨k, (le_sup_left : K ≤ K ⊔ Bs) hk⟩ := by
   classical
-  letI := hM.groupQ
+  let := hM.groupQ
   let H : Subgroup G := K ⊔ Bs
   let N : Subgroup ↥H := hM.Delta.subgroupOf H
-  haveI hNnorm : N.Normal := by
+  have hNnorm : N.Normal := by
     dsimp only [N]
     rw [← hM.hq_ker]
     exact MonoidHom.normal_ker hM.q
@@ -412,6 +415,7 @@ private theorem qTwoNbrH_sylow {B Bs L D J : Subgroup G} {x : G} {y : G} {K : Su
   have hqeq : hM.q n = hM.q kH := by
     rw [← he_mk n, ← he_mk kH, hn_eq]
   simpa [kH] using hqeq
+omit [Finite G] in
 private theorem qTwoNbrH_block_conj {B Bs L D J : Subgroup G} {x : G} {y : G}
     {K : Subgroup G} (hM : QTwoNbrModel 3 B Bs x L D J y K)
     {I0 I : Finset (Fin hM.d)} {σ : Equiv.Perm (Fin hM.d)}
@@ -429,11 +433,11 @@ private theorem qTwoNbrH_block_conj {B Bs L D J : Subgroup G} {x : G} {y : G}
         ((coordBlockSU hM.F0 2 1 I0).map hM.ψ).map
           (MulAut.conj (hM.q ⟨n, (le_sup_left : K ≤ K ⊔ Bs) hn⟩)).toMonoidHom := by
   classical
-  letI := hM.groupQ
-  letI := hM.fieldF0
-  letI := hM.finiteF0
-  letI := hM.charF0
-  letI := hM.factF0
+  let := hM.groupQ
+  let := hM.fieldF0
+  let := hM.finiteF0
+  let := hM.charF0
+  let := hM.factF0
   intro n hn hqn
   let g : Su hM.F0 2 1 hM.d :=
     (qTwoNbrRec_suEquiv hM.hcardF0 hM.d).symm
@@ -459,11 +463,11 @@ theorem qTwoNbr_normalTransport {B Bs L D J : Subgroup G} {x : G} {y : G}
     {K : Subgroup G} (hBs : GGBstar 3 B Bs) (hM : QTwoNbrModel 3 B Bs x L D J y K) :
     ggQTwoNbrTransportProp hM := by
   classical
-  letI := hM.groupQ
-  letI := hM.fieldF0
-  letI := hM.finiteF0
-  letI := hM.charF0
-  letI := hM.factF0
+  let := hM.groupQ
+  let := hM.fieldF0
+  let := hM.finiteF0
+  let := hM.charF0
+  let := hM.factF0
   have hd5 : 5 ≤ hM.d := hM.hd
   let I0 : Finset (Fin hM.d) :=
     {⟨0, by omega⟩, ⟨1, by omega⟩, ⟨2, by omega⟩, ⟨3, by omega⟩}

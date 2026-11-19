@@ -23,9 +23,9 @@ theorem l2_pomega_generic {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [
     {A : Subgroup S} (hE : IsE 4 ↥A) (hP : L2Pauli ρ A)
     (hsyl : IsSylowIn 2 (centIn ⊤ A) A) : False := by
   classical
-  haveI : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
-  haveI : Finite (HopfCover S) := finite_hopfCover hperf
-  haveI : Finite (GL ι K) := Finite.of_injective
+  have : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
+  have : Finite (HopfCover S) := finite_hopfCover hperf
+  have : Finite (GL ι K) := Finite.of_injective
     (fun g : GL ι K => ((g : Matrix ι ι K), (g⁻¹ : GL ι K).1))
     (fun a b h => Units.ext (congrArg Prod.fst h))
   let π₀ : ↥(CFSG.Open.StatedOmega Q₀) →* CFSG.Open.StatedProj (CFSG.Open.StatedOmega Q₀) :=
@@ -42,7 +42,7 @@ theorem l2_pomega_generic {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [
   obtain ⟨hu2, hcard⟩ := l2_stated_ker hQ₀ hQ
   let θ := hopfLift π hπs hπc
   have hθ : π.comp θ = hopfCoverMap S := comp_hopfLift π hπs hπc
-  haveI : Group.IsPerfect H := hH.1
+  have : Group.IsPerfect H := hH.1
   let α := hopfLift ρ hρs hρk.le
   have hαs : Function.Surjective α := hopfLift_surjective ρ hρs hρk.le
   have hρα : ρ.comp α = hopfCoverMap S := comp_hopfLift ρ hρs hρk.le

@@ -22,14 +22,17 @@ section Projections
 
 variable {T F : Subgroup G}
 
+omit [Finite G] in
 theorem T_le_J_of_sup (hsup : T ⊔ F = J z) : T ≤ J z := by
   rw [← hsup]
   exact le_sup_left
 
+omit [Finite G] in
 theorem F_le_J_of_sup (hsup : T ⊔ F = J z) : F ≤ J z := by
   rw [← hsup]
   exact le_sup_right
 
+omit [Finite G] in
 theorem exists_prod_of_mem_J (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
     (hsup : T ⊔ F = J z) (j : J z) :
     ∃ p : T × F, (p.1 : G) * (p.2 : G) = (j : G) := by
@@ -39,6 +42,7 @@ theorem exists_prod_of_mem_J (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
   obtain ⟨t, ht, f, hf, htf⟩ := (CFSG.mem_sup_of_commute hcomm).mp hj
   exact ⟨(⟨t, ht⟩, ⟨f, hf⟩), htf⟩
 
+omit [Finite G] in
 theorem eq_of_mul_eq_mul (hdisj : T ⊓ F = ⊥) {p q : T × F}
     (h : (p.1 : G) * (p.2 : G) = (q.1 : G) * (q.2 : G)) : p = q := by
   have hmemT : (q.1 : G)⁻¹ * (p.1 : G) ∈ T :=
@@ -71,11 +75,13 @@ noncomputable def prodChoose (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
     (hsup : T ⊔ F = J z) (j : J z) : T × F :=
   Classical.choose (exists_prod_of_mem_J hcomm hsup j)
 
+omit [Finite G] in
 theorem prodChoose_spec (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
     (hsup : T ⊔ F = J z) (j : J z) :
     ((prodChoose hcomm hsup j).1 : G) * ((prodChoose hcomm hsup j).2 : G) = (j : G) :=
   Classical.choose_spec (exists_prod_of_mem_J hcomm hsup j)
 
+omit [Finite G] in
 theorem prodChoose_eq (hdisj : T ⊓ F = ⊥)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z)
     (j : J z) {p : T × F} (hp : (p.1 : G) * (p.2 : G) = (j : G)) :
@@ -129,11 +135,13 @@ noncomputable def prF (hdisj : T ⊓ F = ⊥)
     J z →* F :=
   (MonoidHom.snd T F).comp (prodProjHom hdisj hcomm hsup)
 
+omit [Finite G] in
 theorem prT_mul_prF (hdisj : T ⊓ F = ⊥)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) (j : J z) :
     ((prT hdisj hcomm hsup j : T) : G) * ((prF hdisj hcomm hsup j : F) : G) = (j : G) :=
   prodChoose_spec hcomm hsup j
 
+omit [Finite G] in
 theorem prT_inclusion_T (hdisj : T ⊓ F = ⊥)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) (t : T) :
     prT hdisj hcomm hsup (Subgroup.inclusion (T_le_J_of_sup hsup) t) = t := by
@@ -144,6 +152,7 @@ theorem prT_inclusion_T (hdisj : T ⊓ F = ⊥)
     (Subgroup.inclusion (T_le_J_of_sup hsup) t)).1 = t
   rw [h]
 
+omit [Finite G] in
 theorem prF_inclusion_T (hdisj : T ⊓ F = ⊥)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) (t : T) :
     prF hdisj hcomm hsup (Subgroup.inclusion (T_le_J_of_sup hsup) t) = 1 := by
@@ -154,6 +163,7 @@ theorem prF_inclusion_T (hdisj : T ⊓ F = ⊥)
     (Subgroup.inclusion (T_le_J_of_sup hsup) t)).2 = 1
   rw [h]
 
+omit [Finite G] in
 theorem prF_inclusion_F (hdisj : T ⊓ F = ⊥)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) (f : F) :
     prF hdisj hcomm hsup (Subgroup.inclusion (F_le_J_of_sup hsup) f) = f := by
@@ -164,6 +174,7 @@ theorem prF_inclusion_F (hdisj : T ⊓ F = ⊥)
     (Subgroup.inclusion (F_le_J_of_sup hsup) f)).2 = f
   rw [h]
 
+omit [Finite G] in
 theorem prT_inclusion_F (hdisj : T ⊓ F = ⊥)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) (f : F) :
     prT hdisj hcomm hsup (Subgroup.inclusion (F_le_J_of_sup hsup) f) = 1 := by
@@ -182,6 +193,7 @@ variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 variable {T F : Subgroup G}
 
+omit hN [Finite G] in
 theorem T_le_centerIn_of_decomposition (hT : Nat.card T = 2)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) :
     T ≤ centerIn (J z) := by

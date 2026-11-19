@@ -23,14 +23,14 @@ theorem IsA5Type.card {X : Type} [Group X] (h : IsA5Type X) : Nat.card X = 60 :=
 
 theorem IsA5Type.nontrivial {X : Type} [Group X] (h : IsA5Type X) : Nontrivial X := by
   obtain ⟨e⟩ := h
-  haveI : Nontrivial (alternatingGroup (Fin 5)) := by
+  have : Nontrivial (alternatingGroup (Fin 5)) := by
     rw [← Finite.one_lt_card_iff_nontrivial, card_alternatingGroup_five]
     norm_num
   exact e.toEquiv.nontrivial
 
 theorem IsA5Type.isSimpleGroup {X : Type} [Group X] (h : IsA5Type X) : IsSimpleGroup X := by
   obtain ⟨e⟩ := h
-  haveI := alternatingGroup.isSimpleGroup_five
+  have := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   exact e.isSimpleGroup
 
 theorem IsA5Type.congr {X Y : Type} [Group X] [Group Y] (e : X ≃* Y) (h : IsA5Type Y) :
@@ -72,7 +72,7 @@ theorem Good427.of_map {C : Subgroup S} (f : S →* G') (hf : Function.Injective
   have hmap := hKs.map hsurj
   have heq : (K.subgroupOf C).map (eC : C →* C.map f) = (K.map f).subgroupOf (C.map f) := by
     ext ⟨y, hy⟩
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
     constructor
     · rintro ⟨x, hxK, hxy⟩
       refine ⟨x, hxK, ?_⟩
@@ -172,7 +172,7 @@ theorem noCfgS427_of_inner (hZ : Subgroup.center S = ⊥) (hout : ¬ 3 ∣ Nat.c
   have hs1 : s ≠ 1 := by
     rintro rfl
     exact h1 (map_one _)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hso : orderOf s = 3 := orderOf_eq_prime hs3 hs1
   rw [autFix_conj]
   exact hgood s hso
@@ -225,15 +225,15 @@ theorem exists_card_eq_sixty_mul {K : Subgroup S} (hT : IsA5Type (K ⧸ CFSG.pCo
 theorem good427_of_isQuasisimple {C : Subgroup S} (hC : IsQuasisimple C)
     (hZ : IsPGroup 3 (Subgroup.center C)) (h60 : Nat.card C ≠ 60) : Good427 C := by
   intro K hKC hKq hKs hT
-  haveI : Group.IsPerfect K := hKq.1
-  haveI := hT.nontrivial
-  haveI : Nontrivial K := (QuotientGroup.mk'_surjective (CFSG.pCore 2 K)).nontrivial
+  have : Group.IsPerfect K := hKq.1
+  have := hT.nontrivial
+  have : Nontrivial K := (QuotientGroup.mk'_surjective (CFSG.pCore 2 K)).nontrivial
   rcases Res429.eq_top_or_le_center_of_isSubnormal hC hKs with htop | hcen
   · have hKeq : K = C := le_antisymm hKC (Subgroup.subgroupOf_eq_top.mp htop)
     subst hKeq
     have hO : CFSG.pCore 2 K = ⊥ := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hle := pCore_two_le_center' hC
       have h2 : IsPGroup 2 (CFSG.pCore 2 K) := CFSG.pCore_isPGroup
       rw [eq_bot_iff]
@@ -258,6 +258,7 @@ theorem good427_of_isQuasisimple {C : Subgroup S} (hC : IsQuasisimple C)
       exact Subtype.ext (congrArg Subtype.val h).symm
     exact Group.IsPerfect.not_isSolvable K (Group.isSolvable_of_comm hab)
 
+omit [Finite S] in
 theorem isComponent_subgroupOf_of_isA5Type {C K : Subgroup S} (hKC : K ≤ C)
     [hKp : Group.IsPerfect K] (hKs : (K.subgroupOf C).IsSubnormal)
     (hT : IsA5Type (K ⧸ CFSG.pCore 2 K)) (hO : CFSG.pCore 2 C = ⊥) :
@@ -271,32 +272,32 @@ theorem isComponent_subgroupOf_of_isA5Type {C K : Subgroup S} (hKC : K ≤ C)
   refine ⟨⟨?_, hKs⟩, hK2⟩
   have eQ : K ⧸ CFSG.pCore 2 K ≃* K :=
     (QuotientGroup.quotientMulEquivOfEq hK2).trans QuotientGroup.quotientBot
-  haveI : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := inferInstance
-  haveI := hT.isSimpleGroup
-  haveI : IsSimpleGroup K := eQ.symm.isSimpleGroup
-  haveI : IsSimpleGroup K' := eK.isSimpleGroup
-  haveI : Group.IsPerfect K' := Group.IsPerfect.ofSurjective (f := eK.symm.toMonoidHom)
+  have : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := inferInstance
+  have := hT.isSimpleGroup
+  have : IsSimpleGroup K := eQ.symm.isSimpleGroup
+  have : IsSimpleGroup K' := eK.isSimpleGroup
+  have : Group.IsPerfect K' := Group.IsPerfect.ofSurjective (f := eK.symm.toMonoidHom)
     eK.symm.surjective
-  haveI : Nontrivial K' := by
-    haveI := hT.nontrivial
-    haveI : Nontrivial K := eQ.symm.toEquiv.nontrivial
+  have : Nontrivial K' := by
+    have := hT.nontrivial
+    have : Nontrivial K := eQ.symm.toEquiv.nontrivial
     exact eK.toEquiv.nontrivial
   exact isQuasisimple_of_isSimpleGroup'
 
 theorem not_isPGroup_three_of_isA5Type {K : Subgroup S} [Group.IsPerfect K]
     (hT : IsA5Type (K ⧸ CFSG.pCore 2 K)) (h : IsPGroup 3 K) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hT.nontrivial
-  haveI : Nontrivial K := (QuotientGroup.mk'_surjective (CFSG.pCore 2 K)).nontrivial
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hT.nontrivial
+  have : Nontrivial K := (QuotientGroup.mk'_surjective (CFSG.pCore 2 K)).nontrivial
   exact not_isPGroup_of_isPerfect h
 
 theorem good427_of_selfCentralizing' {C R : Subgroup S} (hRC : R ≤ C)
     (hRn : ∀ g ∈ C, ∀ r ∈ R, g * r * g⁻¹ ∈ R) (hR3 : IsPGroup 3 R)
     (hcent : Subgroup.centralizer (R : Set S) ⊓ C ≤ R) : Good427 C := by
   intro K hKC hKq hKs hT
-  haveI : Group.IsPerfect K := hKq.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect K := hKq.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R' : Subgroup C := R.subgroupOf C
   have hR'n : R'.Normal := normal_subgroupOf_of_forall_conj' hRn
   have hO : CFSG.pCore 2 C = ⊥ := by
@@ -304,12 +305,12 @@ theorem good427_of_selfCentralizing' {C R : Subgroup S} (hRC : R ≤ C)
     have hO2 : IsPGroup 2 O := CFSG.pCore_isPGroup
     have hR'3 : IsPGroup 3 R' := hR3.of_equiv (Subgroup.subgroupOfEquivOfLe hRC).symm
     have hdisj : O ⊓ R' = ⊥ := by
-      refine Subgroup.inf_eq_bot_of_coprime ?_
+      refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
       obtain ⟨a, ha⟩ := hO2.exists_card_eq
       obtain ⟨b, hb⟩ := hR'3.exists_card_eq
       rw [ha, hb]
       exact Nat.Coprime.pow a b (by norm_num)
-    haveI := hR'n
+    have := hR'n
     have hcomm : ⁅O, R'⁆ = ⊥ := by
       rw [eq_bot_iff, ← hdisj]
       exact le_inf (Subgroup.commutator_le_left O R') (Subgroup.commutator_le_right O R')

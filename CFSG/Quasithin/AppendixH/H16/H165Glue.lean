@@ -117,8 +117,8 @@ theorem isElemAbelian_of_rImg {ρ : ↥Γ →* MulAut V} (hρ : Function.Injecti
 theorem exists_conj_le_of_isSylowIn_glue {T A : Subgroup S24}
     (hT : IsSylowIn 2 T Γ) (hAΓ : A ≤ Γ) (hA : IsPGroup 2 A) :
     ∃ g ∈ Γ, conjSubg g A ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite Γ := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Γ := inferInstance
   have hPX : IsPGroup 2 (A.subgroupOf Γ) :=
     hA.of_equiv (Subgroup.subgroupOfEquivOfLe hAΓ).symm
   obtain ⟨Q, hQ⟩ := hPX.exists_le_sylow

@@ -52,7 +52,7 @@ theorem card_closure_pair_le_four {G : Type*} [Group G] {a b : G} (ha : a * a = 
     _ ≤ 4 := by omega
 
 theorem commute_of_mem_commutator_of_comm_mem {X : Type*} [Group X] {x : X}
-    {P : Subgroup X} (hxP : ∀ p ∈ P, p * x = x * p) {y : X} (hxy : y * x = x * y)
+    {P : Subgroup X} (hxP : ∀ p ∈ P, p * x = x * p) {y : X} (_hxy : y * x = x * y)
     (hy : ∀ p ∈ P, p⁻¹ * y⁻¹ * p * y ∈ zpowers x) {c : X} (hc : c ∈ ⁅P, P⁆) :
     c * y = y * c := by
   have hz : ∀ u ∈ zpowers x, ∀ p ∈ P, p * u = u * p := by
@@ -162,11 +162,11 @@ theorem exists_central_involution_quotient {H : Type*} [Group H] [Finite H]
     (hH : IsPGroup 2 H) (N : Subgroup H) [N.Normal] (hne : ∃ h : H, h ∉ N) :
     ∃ c : H, c ∉ N ∧ c * c ∈ N ∧ ∀ h : H, c * h * c⁻¹ * h⁻¹ ∈ N := by
   obtain ⟨h₀, hh₀⟩ := hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsPGroup 2 (H ⧸ N) := hH.to_quotient N
-  haveI : Nontrivial (H ⧸ N) :=
+  have : Nontrivial (H ⧸ N) :=
     ⟨⟨(h₀ : H ⧸ N), 1, fun h => hh₀ ((QuotientGroup.eq_one_iff h₀).mp h)⟩⟩
-  haveI : Nontrivial (Subgroup.center (H ⧸ N)) := hQ.center_nontrivial
+  have : Nontrivial (Subgroup.center (H ⧸ N)) := hQ.center_nontrivial
   have hZ : IsPGroup 2 (Subgroup.center (H ⧸ N)) := hQ.to_subgroup _
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hZ
   have hn0 : n ≠ 0 := by
@@ -205,8 +205,8 @@ theorem exists_central_involution_quotient {H : Type*} [Group H] [Finite H]
     simp only [QuotientGroup.mk_mul, QuotientGroup.mk_inv, hw₀]
     rw [← hcen (h : H ⧸ N), mul_inv_cancel_right, mul_inv_cancel]
 
-theorem exists_elem_central_mod {G : Type*} [Group G] [Finite G] {x : G} (hx2 : orderOf x = 2)
-    (R : Subgroup G) (hR2 : IsPGroup 2 R) (hxR : x ∈ R) (hRx : R ≤ centralizer ({x} : Set G))
+theorem exists_elem_central_mod {G : Type*} [Group G] [Finite G] {x : G} (_hx2 : orderOf x = 2)
+    (R : Subgroup G) (hR2 : IsPGroup 2 R) (_hxR : x ∈ R) (hRx : R ≤ centralizer ({x} : Set G))
     (hne : ∃ r ∈ R, r ∉ zpowers x) :
     ∃ w ∈ R, w ∉ zpowers x ∧ w * w ∈ zpowers x ∧ ∀ r ∈ R, w * r * w⁻¹ * r⁻¹ ∈ zpowers x := by
   have hcomm : ∀ g : R, ∀ n ∈ zpowers x, (g : G) * n = n * g := by
@@ -214,7 +214,7 @@ theorem exists_elem_central_mod {G : Type*} [Group G] [Finite G] {x : G} (hx2 : 
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hn
     have hgx : Commute (g : G) x := Subgroup.mem_centralizer_singleton_iff.mp (hRx g.2)
     exact (hgx.zpow_right k).eq
-  haveI hN : ((zpowers x).subgroupOf R).Normal :=
+  have hN : ((zpowers x).subgroupOf R).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, hcomm g _ hn, mul_inv_cancel_right]
@@ -326,7 +326,7 @@ theorem exists_W {G : Type*} [Group G] [Finite G] {x : G} (hx2 : orderOf x = 2)
 theorem central_final {G : Type*} [Group G] {x z : G} (hx2 : orderOf x = 2) (hz2 : orderOf z = 2)
     (hxz : x * z = z * x) (hzx : z ∉ zpowers x)
     (Qx : Subgroup G) (hQxC : Qx ≤ centralizer ({x} : Set G) ⊓ centralizer ({z} : Set G))
-    (hzQ : z ∈ Qx) (ha : z ∈ ⁅Qx, Qx⁆)
+    (_hzQ : z ∈ Qx) (ha : z ∈ ⁅Qx, Qx⁆)
     (hb : ∀ c ∈ centralizer ({x} : Set G) ⊓ centralizer ({z} : Set G),
       (∀ q ∈ Qx, q⁻¹ * c⁻¹ * q * c ∈ zpowers x) → c ∈ closure {x, z})
     (W : Subgroup G) (hWx : W ≤ centralizer ({x} : Set G)) (hxW : x ∈ W)
@@ -399,12 +399,12 @@ theorem central_final {G : Type*} [Group G] {x z : G} (hx2 : orderOf x = 2) (hz2
   · exact Or.inl h1
   · exact Or.inr (h1.trans hxz)
 
-theorem hkey_caseI {G : Type*} [Group G] {x z : G} (hxz : x * z = z * x)
-    (R W Qx P : Subgroup G) (hxR : x ∈ R) (hWR : W ≤ R)
+theorem hkey_caseI {G : Type*} [Group G] {x z : G} (_hxz : x * z = z * x)
+    (R W Qx P : Subgroup G) (hxR : x ∈ R) (_hWR : W ≤ R)
     (hW : ∀ w ∈ W, ∀ r ∈ R, w * r * w⁻¹ * r⁻¹ ∈ zpowers x)
     (hRx : R ≤ centralizer ({x} : Set G))
     (hQxC : Qx ≤ centralizer ({x} : Set G) ⊓ centralizer ({z} : Set G))
-    (hxQ : x ∈ Qx) (hzQ : z ∈ Qx) (ha : z ∈ ⁅Qx, Qx⁆)
+    (_hxQ : x ∈ Qx) (_hzQ : z ∈ Qx) (ha : z ∈ ⁅Qx, Qx⁆)
     (hPR : P ≤ R) (hPQ : P ≤ Qx) (hPn : ∀ q ∈ Qx, ∀ p ∈ P, q * p * q⁻¹ ∈ P)
     (hsup : P ⊔ closure {x, z} = Qx) :
     ∀ w ∈ W, ∀ q ∈ Qx, q⁻¹ * w⁻¹ * q * w ∈ zpowers x := by
@@ -550,7 +550,7 @@ private lemma W1112_arith {p q r t : ℕ} (hA : p ≤ q * t) (hB : q ≤ r) (hC 
 
 theorem card_W_le {G : Type*} [Group G] [Finite G] {x z : G} (hx2 : orderOf x = 2)
     (hz2 : orderOf z = 2)
-    (W : Subgroup G) (hxW : x ∈ W) (hWx : W ≤ centralizer ({x} : Set G))
+    (W : Subgroup G) (_hxW : x ∈ W) (_hWx : W ≤ centralizer ({x} : Set G))
     (hzn : ∀ w ∈ W, z * w * z⁻¹ ∈ W)
     (hW2 : ∀ w ∈ W, w * w ∈ zpowers x)
     (hZ : Nat.card (W ⊓ centralizer ({z} : Set G) : Subgroup G) ≤ 4) :
@@ -600,7 +600,7 @@ def actKer {G : Type*} [Group G] (x : G) (W : Subgroup G) : Subgroup G where
     exact hm
 
 theorem actKer_conj_mem {G : Type*} [Group G] {x : G} (W : Subgroup G)
-    (hWx : W ≤ centralizer ({x} : Set G))
+    (_hWx : W ≤ centralizer ({x} : Set G))
     (hWn : ∀ h ∈ centralizer ({x} : Set G), ∀ w ∈ W, h * w * h⁻¹ ∈ W)
     {c : G} (hc : c ∈ centralizer ({x} : Set G)) {g : G} (hg : g ∈ actKer x W) :
     c * g * c⁻¹ ∈ actKer x W := by
@@ -699,7 +699,7 @@ theorem index_actKer_le {G : Type*} [Group G] [Finite G] {x : G} (hx2 : orderOf 
   have hNcard : Nat.card N = 2 := by
     rw [hN]
     exact idx_card_subgroupOf hx2 hxW
-  haveI hNnormal : N.Normal := ⟨fun n hn g => by
+  have hNnormal : N.Normal := ⟨fun n hn g => by
     rw [hmemN] at hn
     rw [hmemN]
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
@@ -788,15 +788,15 @@ theorem index_actKer_le {G : Type*} [Group G] [Finite G] {x : G} (hx2 : orderOf 
   exact le_trans (Nat.card_le_card_of_injective _ Subtype.coe_injective) hMA
 
 theorem hkey_caseII {G : Type*} [Group G] [Finite G] {x z : G} (hx2 : orderOf x = 2)
-    (hz2 : orderOf z = 2) (hxz : x * z = z * x) (hzx : z ∉ zpowers x)
-    (R W Qx : Subgroup G) (hxR : x ∈ R) (hWR : W ≤ R) (hxW : x ∈ W)
+    (hz2 : orderOf z = 2) (hxz : x * z = z * x) (_hzx : z ∉ zpowers x)
+    (R W Qx : Subgroup G) (_hxR : x ∈ R) (hWR : W ≤ R) (hxW : x ∈ W)
     (hWn : ∀ h ∈ centralizer ({x} : Set G), ∀ w ∈ W, h * w * h⁻¹ ∈ W)
     (hW2 : ∀ w ∈ W, w * w ∈ zpowers x)
     (hW : ∀ w ∈ W, ∀ r ∈ R, w * r * w⁻¹ * r⁻¹ ∈ zpowers x)
     (hRx : R ≤ centralizer ({x} : Set G))
     (hPT : R ⊓ centralizer ({z} : Set G) ≤ closure {x, z})
     (hQxC : Qx ≤ centralizer ({x} : Set G) ⊓ centralizer ({z} : Set G))
-    (hxQ : x ∈ Qx) (hzQ : z ∈ Qx)
+    (_hxQ : x ∈ Qx) (_hzQ : z ∈ Qx)
     (hnorm : centralizer ({x} : Set G) ⊓ centralizer ({z} : Set G) ≤ normalizer (Qx : Set G))
     (ha : z ∈ ⁅Qx, Qx⁆)
     (hc : ∀ P : Subgroup G, P ≤ Qx →
@@ -916,7 +916,7 @@ theorem central_lemma_R {G : Type*} [Group G] [Finite G] {x z : G}
     (hCR : ∀ y ∈ centralizer ({x} : Set G), (∀ r ∈ R, y * r = r * y) → y ∈ R)
     (hx2 : orderOf x = 2) (hz2 : orderOf z = 2) (hxz : x * z = z * x)
     (hzx : z ∉ zpowers x)
-    (Qx : Subgroup G) (hQx2 : IsPGroup 2 Qx)
+    (Qx : Subgroup G) (_hQx2 : IsPGroup 2 Qx)
     (hQxC : Qx ≤ centralizer ({x} : Set G) ⊓ centralizer ({z} : Set G))
     (hxQ : x ∈ Qx) (hzQ : z ∈ Qx)
     (hnorm : centralizer ({x} : Set G) ⊓ centralizer ({z} : Set G) ≤ normalizer (Qx : Set G))

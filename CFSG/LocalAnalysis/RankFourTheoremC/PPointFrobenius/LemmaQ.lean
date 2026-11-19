@@ -14,6 +14,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PPointFrobenius
 variable {G : Type} [Group G] [Finite G]
 
 open CFSG.GorensteinWalter CFSG.ABGLocalTools CFSG.LocalAnalysis.RankThreeTheoremC in
+omit [Finite G] in
 private theorem lq_factorization {p n : ℕ} [Fact p.Prime] (hn : 1 ≤ n) {L : Subgroup G}
     (e : L ≃* CFSG.AGLEmbedding.PSL2GF p n) :
     (Nat.card L).factorization p = n := by
@@ -52,9 +53,9 @@ private theorem lq_exists_mulEquiv {p n : ℕ} [Fact p.Prime] (hn : 1 ≤ n) {L 
   simp
 
 open CFSG.GorensteinWalter CFSG.ABGLocalTools CFSG.LocalAnalysis.RankThreeTheoremC in
-theorem eq_bot_of_coprime_of_le_of_psl2GF {p n : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hn : 2 ≤ n)
+theorem eq_bot_of_coprime_of_le_of_psl2GF {p n : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) (hn : 2 ≤ n)
     {L : Subgroup G} (e : L ≃* CFSG.AGLEmbedding.PSL2GF p n) {U : Subgroup G} (hUL : U ≤ L)
-    (hUp : IsPGroup p U) (hUc : Nat.card U = p ^ n) {W : Subgroup G} (hWL : W ≤ L)
+    (_hUp : IsPGroup p U) (hUc : Nat.card U = p ^ n) {W : Subgroup G} (hWL : W ≤ L)
     (hUW : U ≤ normalizer (W : Set G)) (hW : Nat.Coprime p (Nat.card W)) : W = ⊥ := by
   have hp : p.Prime := Fact.out
   have hSyl : IsSylowOf p U L :=
@@ -77,19 +78,19 @@ theorem eq_bot_of_coprime_of_le_of_psl2GF {p n : ℕ} [Fact p.Prime] (hp2 : p �
     exact congrArg Subtype.val (e'.injective (h1.trans (map_one e').symm))
   have hUel : CFSG.Open.IsElemAbelian p U :=
     ⟨⟨⟨fun a b => Subtype.ext (hcommU a a.2 b b.2)⟩⟩, hpowU⟩
-  letI : CFSG.IsElementaryAbelian p U :=
+  let : CFSG.IsElementaryAbelian p U :=
     { toIsMulCommutative := hUel.1
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr fun g => by
         apply Subtype.ext
         simpa using hUel.2 g.1 g.2 }
-  letI inst : MulDistribMulAction U W := Subgroup.conjMulDistribMulActionOfLeNormalizer U W hUW
+  let inst : MulDistribMulAction U W := Subgroup.conjMulDistribMulActionOfLeNormalizer U W hUW
   have hA2 : p ^ 2 ≤ Nat.card U := by
     rw [hUc]
     exact Nat.pow_le_pow_right hp.pos hn
   have hpW : ¬ p ∣ Nat.card W := (Nat.Prime.coprime_iff_not_dvd hp).mp hW
   have hgen := CFSG.SolvableHall.coprime_centralizer_generation hA2 hpW
   have hWU : W ⊓ U = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hUc]
     exact (Nat.Coprime.pow_right n hW.symm)
   have hle : (⊤ : Subgroup ↥W) ≤ ⊥ := by

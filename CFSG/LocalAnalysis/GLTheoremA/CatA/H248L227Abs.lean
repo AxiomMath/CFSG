@@ -27,10 +27,10 @@ theorem not_four_le_pRank_map {X S : Type} [Group X] [Finite X] [Group S] [Finit
     (hnc : ∃ g : X, ∃ v ∈ V, g * v ≠ v * g) (Q : Subgroup X) (hQ : IsPGroup q Q) :
     ¬ 4 ≤ CFSG.Open.pRank q (Q.map φ) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq1 : 1 < q := hq.one_lt
   obtain ⟨U, hUn, hUV, hexp, hcomm, hmin, hne⟩ := exists_chief_factor hq hq2 hperf V hV hnc
-  haveI := hUn
+  have := hUn
   set Z : Subgroup X := U ⊓ Subgroup.center X with hZdef
   have hZU : Z ≤ U := inf_le_left
   have hZc : Z ≤ Subgroup.center X := inf_le_right
@@ -164,9 +164,9 @@ theorem eq_bot_of_four_le_pRank_map {X S : Type} [Group X] [Finite X] [Group S] 
     (Q : Subgroup X) (hQ : IsPGroup q Q) (hQc : Nat.card Q = q ^ (Nat.card X).factorization q)
     (hr : CFSG.Open.pRank q (Q ⊓ W) ≤ 3) (hrk : 4 ≤ CFSG.Open.pRank q (Q.map φ)) : W = ⊥ := by
   have : Fact q.Prime := ⟨hq⟩
-  haveI hWn : W.Normal := by rw [hW]; infer_instance
+  have hWn : W.Normal := by rw [hW]; infer_instance
   set V : Subgroup X := (CFSG.pCore q ↥W).map W.subtype with hV
-  haveI hVn : V.Normal := i227rk_normal_map W (CFSG.pCore q ↥W)
+  have hVn : V.Normal := i227rk_normal_map W (CFSG.pCore q ↥W)
   have hVp : IsPGroup q V :=
     (CFSG.pCore_isPGroup (p := q) (G := W)).of_equiv
       ((CFSG.pCore q ↥W).equivMapOfInjective W.subtype W.subtype_injective)

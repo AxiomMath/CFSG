@@ -91,7 +91,7 @@ theorem no_bad119 {p : ℕ} {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgro
         ∀ q ∈ barX p (Cg a) K, QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) z * q =
           q * QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) z) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rintro ⟨z₀, hz₀A, hz₀1, hbad⟩
   obtain ⟨hDDp, -⟩ := hSec.pair
   obtain ⟨-, hDp, hrA0⟩ := hDDp
@@ -477,7 +477,7 @@ include c
 theorem he_final126 (sib : Prop126b.Sib126) (inp : Inp126') {L : Subgroup G} (hL : GLAPComponent 3 (Cg a) L)
     (hLM : ¬ L ≤ M) (hgood : Prop126b.Good126 E A a L)
     (hHe : IsSporType .He (↥(barX 3 (Cg a) L) ⧸ Subgroup.center ↥(barX 3 (Cg a) L))) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLC : L ≤ Cg a := hL.1
   have hKq : CFSG.Open.IsQuasisimple ↥(barX 3 (Cg a) L) := hL.2.2.1.2.2
   let Ty : ∀ (X : Type) [Group X], Prop := fun X _ => IsLpType 2 7 X ∨ IsAltType 7 X
@@ -510,7 +510,7 @@ theorem he_final126 (sib : Prop126b.Sib126) (inp : Inp126') {L : Subgroup G} (hL
   have hBnorm : barX 3 (Cg a) (E ⊓ A) ≤ Subgroup.normalizer
       ((barX 3 (Cg a) L : Subgroup _) : Set _) := by
     intro b hb
-    obtain ⟨e, he, heC, rfl⟩ := c.exists_of_mem_bar hb
+    obtain ⟨e, he, heC, rfl⟩ := CFSG.LocalAnalysis.GLTheoremB.MovingAround.Prop126b.Cex126.exists_of_mem_bar hb
     by_cases he1 : e = 1
     · subst he1
       have : Prop126b.bar3 a 1 heC = 1 := by
@@ -522,7 +522,7 @@ theorem he_final126 (sib : Prop126b.Sib126) (inp : Inp126') {L : Subgroup G} (hL
       exact Prop126b.bar3_mem_normalizer hLC heC hnorm
   have hfaith : ∀ b ∈ barX 3 (Cg a) (E ⊓ A), b ≠ 1 → ∃ q ∈ barX 3 (Cg a) L, b * q ≠ q * b := by
     intro b hb hb1
-    obtain ⟨e, he, heC, rfl⟩ := c.exists_of_mem_bar hb
+    obtain ⟨e, he, heC, rfl⟩ := CFSG.LocalAnalysis.GLTheoremB.MovingAround.Prop126b.Cex126.exists_of_mem_bar hb
     have he1 : e ≠ 1 := by
       rintro rfl
       apply hb1
@@ -534,7 +534,7 @@ theorem he_final126 (sib : Prop126b.Sib126) (inp : Inp126') {L : Subgroup G} (hL
     c.bar_elemAbelian c.bar_rank hfaith
   have hle : barX 3 (Cg a) L ≤ barX 3 (Cg a) M := by
     refine hgen.trans (iSup_le fun b => iSup_le fun hb => iSup_le fun hb1 => ?_)
-    obtain ⟨e, he, heC, rfl⟩ := c.exists_of_mem_bar hb
+    obtain ⟨e, he, heC, rfl⟩ := CFSG.LocalAnalysis.GLTheoremB.MovingAround.Prop126b.Cex126.exists_of_mem_bar hb
     have he1 : e ≠ 1 := by
       rintro rfl
       apply hb1
@@ -548,7 +548,7 @@ theorem an_final126 (sib : Prop126b.Sib126) (inp : Inp126') {L : Subgroup G} (hL
     (hLM : ¬ L ≤ M) (hgood : Prop126b.Good126 E A a L) {k : ℕ} (hk : 1 ≤ k)
     (hAn : IsAltType (7 + 3 * k) (↥(barX 3 (Cg a) L) ⧸ Subgroup.center ↥(barX 3 (Cg a) L))) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLC : L ≤ Cg a := hL.1
   have hKbc : IsComponentOf (barX 3 (Cg a) L) ⊤ := hL.2.2.1
   have hKq : CFSG.Open.IsQuasisimple ↥(barX 3 (Cg a) L) := hKbc.2.2
@@ -565,8 +565,8 @@ theorem an_final126 (sib : Prop126b.Sib126) (inp : Inp126') {L : Subgroup G} (hL
     rintro X _ _ hX ⟨r, h5, h3, h⟩
     exact ⟨inp.i19_19 X hX (Or.inl ⟨r, h5, h3, h⟩),
       fun hL => (inp.notL227 X hL).1 r h5 h⟩
-  have hBnorm := c.hBnorm_of_good hLC hgood
-  have hfaith := c.hfaith_of_good hgood
+  have hBnorm := CFSG.LocalAnalysis.GLTheoremB.MovingAround.Prop126b.Cex126.hBnorm_of_good hLC hgood
+  have hfaith := CFSG.LocalAnalysis.GLTheoremB.MovingAround.Prop126b.Cex126.hfaith_of_good hgood
   have hnontriv : ∀ e (he : e ∈ E ⊓ A) (he1 : e ≠ 1) (heC : e ∈ Cg a),
       ∃ q ∈ barX 3 (Cg a) L, Prop126b.bar3 a e heC * q ≠ q * Prop126b.bar3 a e heC := by
     intro e he he1 heC
@@ -597,7 +597,7 @@ theorem an_final126 (sib : Prop126b.Sib126) (inp : Inp126') {L : Subgroup G} (hL
         GLAPLayer 3 (barX 3 (Cg a) L ⊓ Subgroup.centralizer ({b} : Set _)))) ≤
       barX 3 (Cg a) M := by
     refine iSup_le fun b => iSup_le fun hb => iSup_le fun hb1 => ?_
-    obtain ⟨e, he, heC, rfl⟩ := c.exists_of_mem_bar hb
+    obtain ⟨e, he, heC, rfl⟩ := CFSG.LocalAnalysis.GLTheoremB.MovingAround.Prop126b.Cex126.exists_of_mem_bar hb
     have he1 : e ≠ 1 := by
       rintro rfl
       apply hb1
@@ -637,7 +637,7 @@ theorem an_final126 (sib : Prop126b.Sib126) (inp : Inp126') {L : Subgroup G} (hL
 
 theorem core_single126 (sib : Prop126b.Sib126) (inp : Inp126') {L : Subgroup G} (hL : GLAPComponent 3 (Cg a) L)
     (hzL : z ∈ Subgroup.normalizer (L : Set G)) (hJ₀L : GLAPComponent 3 (L ⊓ Cg z) J₀) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLC : L ≤ Cg a := hL.1
   have hJ₀L' : J₀ ≤ L := hJ₀L.1.trans inf_le_left
   have hLM : ¬ L ≤ M := fun h =>
@@ -685,7 +685,7 @@ theorem core_cycled126 (sib : Prop126b.Sib126) (inp : Inp126') {L : ZMod 3 → S
     (hL : ∀ i, GLAPComponent 3 (Cg a) (L i)) (hinj : Function.Injective L)
     (hcyc : ∀ i, GLBConj z (L i) = L (i + 1))
     (hJ₀L : GLAPComponent 3 ((⨆ i, L i) ⊓ Cg z) J₀) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLC : ∀ i, L i ≤ Cg a := fun i => (hL i).1
   have hJ₀S : J₀ ≤ ⨆ i, L i := hJ₀L.1.trans inf_le_left
   have hLM : ∀ i, ¬ L i ≤ M := by

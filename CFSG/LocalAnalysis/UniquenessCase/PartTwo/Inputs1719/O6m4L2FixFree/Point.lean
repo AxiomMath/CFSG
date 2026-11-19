@@ -46,7 +46,7 @@ private theorem point_fixed_perp_F05 {K V : Type} [Field K] [AddCommGroup V] [Mo
 private theorem point_fixed_F05 {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] (Φ : QuadForm K V) {v f : V} (hvf : Φ.polar.β v f = 1)
     {T : V →ₗ[K] V} (hT : ∀ x, Φ.Q (T x) = Φ.Q x)
-    (h3 : ∀ x, T x - x ∈ Φ.polar.perp (Submodule.span K {v}))
+    (_h3 : ∀ x, T x - x ∈ Φ.polar.perp (Submodule.span K {v}))
     (hTf : T f = f)
     (hf2 : ∀ u ∈ Φ.polar.perp (Submodule.span K {v}), T u = u) (x : V) : T x = x := by
   have hperp : T x - x ∈ Φ.polar.perp (Φ.polar.perp (Submodule.span K {v})) := by
@@ -155,7 +155,7 @@ theorem card_le_of_point {K V H : Type} [Field K] [Finite K] [AddCommGroup V] [M
   let θ : ↥R → ↥P := fun g => ⟨ρ g.1 f - f, h3 g.1 g.2 f⟩
   let φ : ↥R → (↥P ⧸ L') := fun g => Submodule.Quotient.mk (θ g)
   have hφinj : Function.Injective φ := point_quot_injective_F05 Φ ρ hρ hQ hv hfv h2 h3
-  haveI : Finite (↥P ⧸ L') := Module.finite_of_finite K
+  have : Finite (↥P ⧸ L') := Module.finite_of_finite K
   have hcard : Nat.card ↥R ≤ Nat.card (↥P ⧸ L') := Nat.card_le_card_of_injective φ hφinj
   have hV : Module.finrank K ↥P + Module.finrank K L = Module.finrank K V :=
     Φ.polar.finrank_perp L

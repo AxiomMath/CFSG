@@ -159,7 +159,7 @@ theorem u62Aux_core [Finite K] {π : K →* S} (hker : π.ker = Subgroup.center 
     intro x y hxy
     have h := congrArg (fun z : {z : Subgroup.center K // z ^ 3 = 1} => ((z.1 : K))) hxy
     exact Subtype.ext (Subtype.ext h)
-  letI : CommGroup E :=
+  let : CommGroup E :=
     { (inferInstance : Group E) with mul_comm := fun x y => Subtype.ext (hEcomm x x.2 y y.2) }
   let aE : E →* E :=
     { toFun := fun y => ⟨α (y : K), hEα _ y.2⟩

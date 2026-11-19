@@ -106,7 +106,7 @@ theorem p34c_comm (hO : Nat.Coprime 3 (Nat.card O)) {L : Subgroup (C ⧸ O)}
   have h2 : QuotientGroup.mk' O b ∈ (Sbar : Subgroup (C ⧸ O)) :=
     hSbar ▸ Subgroup.mem_map_of_mem _ hb
   have h3 := p34_comm_of_isMulCommutative hcomm h1 h2
-  refine p34_mk_inj hO T.isPGroup' (T.mul_mem ha hb) (T.mul_mem hb ha) ?_
+  refine p34_mk_inj hO T.isPGroup (T.mul_mem ha hb) (T.mul_mem hb ha) ?_
   rw [map_mul, map_mul]
   exact h3
 

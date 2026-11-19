@@ -145,7 +145,7 @@ section Axis
   have hfa : ∀ a : Multiplicative (ZMod p), f a = g ^ (Multiplicative.toAdd a).val := fun _ => rfl
   have hf1 : f (Multiplicative.ofAdd (1 : ZMod p)) = g := by
     rw [hfa]
-    haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+    have : Fact (1 < p) := ⟨hp.one_lt⟩
     have : (Multiplicative.toAdd (Multiplicative.ofAdd (1 : ZMod p))).val = 1 := by
       simp [ZMod.val_one p]
     rw [this, pow_one]
@@ -181,7 +181,7 @@ theorem hdRo7SULCoordAux_axisEquiv_apply_oneCfg {G : Type} [Group G] [Finite G] 
   unfold hdRo7SULCoordAux_axisEquivCfg
   simp only [MulEquiv.ofBijective_apply, MonoidHom.mk'_apply]
   rw [show (Multiplicative.toAdd (Multiplicative.ofAdd (1 : ZMod p))).val = 1 by
-    haveI : Fact (1 < p) := ⟨by rw [hp3]; norm_num⟩
+    have : Fact (1 < p) := ⟨by rw [hp3]; norm_num⟩
     simp [ZMod.val_one p]]
   rw [pow_one]
 

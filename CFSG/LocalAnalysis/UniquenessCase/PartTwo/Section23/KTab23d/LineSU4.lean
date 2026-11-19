@@ -17,16 +17,16 @@ open CFSG.Open PartTwo
 open CFSG.LocalAnalysis.ComponentInitial CFSG.ClassicalGroups.UnitaryFlag
 
 theorem kTab23d_su4 {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n) (S : Sylow 2 ↥H)
+    (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n) (S : Sylow 2 ↥H)
     (h : ∃ a : ℕ, n = 2 * a ∧ IsSUn ↥H 4 a ∧ NatSUn H ⊤ ⊥ 4 a) :
     ∃ a : ℕ, n = 2 * a ∧ IsL2 (Bar2 (Hinf (pointStab H S))) a := by
   obtain ⟨a, hna, -, hsu⟩ := h
   obtain ⟨K, hKfield, hKfin, hKcard, hreal⟩ := hsu
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have ha : 2 ≤ a := by omega
   have hdata : UnitaryFieldData 2 a K := unitaryFieldDataOfCard hKcard
-  haveI : CharP K 2 := hdata.charP
+  have : CharP K 2 := hdata.charP
   obtain ⟨U, hU, hfix⟩ :=
     KTabA.exists_fixedLine_statedSU_suLine (K := K) (r := 2 ^ a) (d := 4) hKcard (by norm_num)
   have hline : KTabC.SylowFixedLine (StatedSU 4 (2 ^ a) K)

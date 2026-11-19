@@ -96,7 +96,7 @@ theorem D1OneSmallData.false_of_ib_three_u33 (hUP : KFactUPrimeSmall)
   have hPz : ∀ g ∈ (P : Subgroup G), g * z = z * g → g ∈ R := fun g hg hgz =>
     hd.inf_centralizer_le_of_b0 hB0 ⟨hg, Subgroup.mem_centralizer_singleton_iff.mpr hgz⟩
   have h4 := betaFour_all_sylows_rank_ge_four hd.cfg.loc.beta P
-  have hP6 := le_card_of_frame_81 P.isPGroup' hd.cfg.ext.le_P (by rw [hR81]; norm_num) hzR hzp
+  have hP6 := le_card_of_frame_81 P.isPGroup hd.cfg.ext.le_P (by rw [hR81]; norm_num) hzR hzp
     hRz hPz hZ9 hd.pRank_R.le h4
   have hsyl := exists_sylow_inf_of_sylow hB0 h3.le_M
   have hperf := hd.perf_barM h3 hT₁ hUPK (hSch K hs hn hc) hsolv hRle

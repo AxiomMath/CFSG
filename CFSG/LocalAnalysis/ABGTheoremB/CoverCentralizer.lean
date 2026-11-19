@@ -158,7 +158,7 @@ theorem isPGroup_centralizer_L₀Bar [Finite G] (hσ : σ.IsValid) (hN : σ.NStr
   · have hle : Cb ≤ Zb := by
       rw [← hKmap, ← hR]
       exact Subgroup.map_mono (Subgroup.comap_mono hKR)
-    have hS2 : IsPGroup 2 (centerOf (σ.S : Subgroup G)) := σ.S.isPGroup'.to_le inf_le_left
+    have hS2 : IsPGroup 2 (centerOf (σ.S : Subgroup G)) := σ.S.isPGroup.to_le inf_le_left
     exact (hS2.comap_subtype.map π).to_le hle
   · exfalso
     have hL := hN.N_minimalNormal K hKN hNK hKR

@@ -53,7 +53,7 @@ theorem mem_torusASub_iff {h : A} :
       group
     rw [← ht] at hconj
     rw [dT_conj_r] at hconj
-    simp only [Units.val_one, mul_one] at hconj
+    simp only [mul_one] at hconj
     have ht1 : t = 1 := Units.ext (pinnedX_injective Tag.G2 K g2r hconj)
     rw [ht1] at ht
     exact ⟨s, ht.symm⟩
@@ -66,7 +66,7 @@ theorem mem_torusASub_iff {h : A} :
       obtain ⟨c, rfl⟩ := (mem_rootSubgroup (τ := Tag.G2) (R := K)).1 hx
       rw [hs]
       have h := dT_conj_r s 1 c
-      simp only [Units.val_one, mul_one] at h
+      simp only [Units.val_one] at h
       calc X g2r c * dT s 1 = (dT s 1 * X g2r c * (dT s 1)⁻¹) * dT s 1 := by
             rw [h]
             group
@@ -122,7 +122,7 @@ theorem mem_leviASub_iff_of_mem_torusSub [Finite K] [CharP K 2]
     obtain ⟨y, hy⟩ := (isSquare_iff_exists_sq (t : K)).1 (isSquare_of_charTwo' (t : K))
     have hy0 : y ≠ 0 := by
       rintro rfl
-      exact t.ne_zero (by simpa using hy)
+      exact t.ne_zero (by simp at hy)
     let l : Kˣ := Units.mk0 y hy0
     have hl : (l : K) = y := rfl
     have hlt : l ^ 2 = t := Units.ext (by rw [Units.val_pow_eq_pow_val, hl, hy])
@@ -217,7 +217,7 @@ private theorem parabolicLevi_eq_rankOne_sup_torusFix [Finite K] [CharP K 2] :
     obtain ⟨y, hy⟩ := (isSquare_iff_exists_sq (t : K)).1 (isSquare_of_charTwo' (t : K))
     have hy0 : y ≠ 0 := by
       rintro rfl
-      exact t.ne_zero (by simpa using hy)
+      exact t.ne_zero (by simp at hy)
     let l : Kˣ := Units.mk0 y hy0
     have hl : (l : K) = y := rfl
     have hlt : l ^ 2 = t := Units.ext (by rw [Units.val_pow_eq_pow_val, hl, hy])
@@ -233,7 +233,7 @@ private theorem parabolicLevi_eq_rankOne_sup_torusFix [Finite K] [CharP K 2] :
       refine Subgroup.mem_centralizer_iff.2 fun z hz => ?_
       obtain ⟨c, rfl⟩ := (mem_rootSubgroup (τ := Tag.G2) (R := K)).1 hz
       have h := dT_conj_r (s * l ^ 3) 1 c
-      simp only [Units.val_one, mul_one] at h
+      simp only [Units.val_one] at h
       calc X g2r c * dT (s * l ^ 3) 1 =
           (dT (s * l ^ 3) 1 * X g2r c * (dT (s * l ^ 3) 1)⁻¹) * dT (s * l ^ 3) 1 := by
             rw [h]
@@ -582,7 +582,7 @@ theorem commute_torusASub_iff [Finite K] [CharP K 2] {f : ℕ}
     rw [Subgroup.coe_mul, Subgroup.coe_mul]
     rw [hc, hs]
     have h := dT_conj_r s 1 c
-    simp only [Units.val_one, mul_one] at h
+    simp only [Units.val_one] at h
     calc dT s 1 * X g2r c = (dT s 1 * X g2r c * (dT s 1)⁻¹) * dT s 1 := by
           group
       _ = X g2r c * dT s 1 := by rw [h]; group
@@ -686,7 +686,7 @@ theorem mem_torusASub_iff_of_mem_torusSub [Finite K] [CharP K 2]
     exact mem_torusASub_iff.2 ⟨s, ht.symm⟩
 
 theorem card_complA [Finite K] [CharP K 2] {f : ℕ}
-    (hK : Nat.card K = 2 ^ f) (hf : 2 ≤ f) :
+    (hK : Nat.card K = 2 ^ f) (_hf : 2 ≤ f) :
     Nat.card (complA K) = 2 ^ f * (2 ^ (2 * f) - 1) * (2 ^ f - 1) := by
   have hM : Nat.card (complA K) = Nat.card (parabolicLevi Tag.G2 K {i1}) := by
     rw [complA_eq_parabolicLevi]

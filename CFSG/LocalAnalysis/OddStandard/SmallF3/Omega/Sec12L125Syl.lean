@@ -54,7 +54,7 @@ theorem zpowers_le_normalizer_centralizer (h : Sec125Core t V E) :
 
 theorem sup_le_normalizer (h : Sec125Core t V E) :
     centralizer (V : Set G) ⊔ zpowers t ≤ normalizer (V : Set G) :=
-  sup_le (fun x hx => Subgroup.centralizer_le_normalizer _ hx) h.zpowers_le_normalizer
+  sup_le (fun _x hx => Subgroup.centralizer_le_normalizer _ hx) h.zpowers_le_normalizer
 
 theorem mem_sup (h : Sec125Core t V E) {x : G}
     (hx : x ∈ centralizer (V : Set G) ⊔ zpowers t) :
@@ -113,9 +113,9 @@ theorem mem_E_of_normalizes (h : Sec125Core t V E) {Q : Subgroup G}
 theorem eq_of_le [Finite G] (h : Sec125Core t V E) {Q : Subgroup G}
     (hQH : Q ≤ centralizer (V : Set G) ⊔ zpowers t) (hQ : IsPGroup 2 Q) (hEQ : E ≤ Q) :
     Q = E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
-  haveI : Group.IsNilpotent ↥Q := hQ.isNilpotent
+  have : Group.IsNilpotent ↥Q := hQ.isNilpotent
   have hlt : E.subgroupOf Q < ⊤ := by
     refine lt_top_iff_ne_top.mpr (fun htop => hne ?_)
     refine le_antisymm ?_ hEQ
@@ -123,7 +123,7 @@ theorem eq_of_le [Finite G] (h : Sec125Core t V E) {Q : Subgroup G}
     have : (⟨q, hq⟩ : ↥Q) ∈ E.subgroupOf Q := by rw [htop]; trivial
     exact Subgroup.mem_subgroupOf.mp this
   have hlt' := Group.normalizerCondition_of_isNilpotent (E.subgroupOf Q) hlt
-  obtain ⟨x, hxN, hxn⟩ := SetLike.exists_of_lt hlt'
+  obtain ⟨x, hxN, hxn⟩ := _root_.IsConcreteLE.exists_of_lt hlt'
   apply hxn
   rw [Subgroup.mem_subgroupOf]
   refine h.mem_E_of_normalizes hQH hQ hEQ x.2 ?_
@@ -160,7 +160,7 @@ theorem two_mem [Finite G] (h : Sec125Core t V E) (hE2 : IsPGroup 2 E) {g : G}
 
 theorem sylow [Finite G] (h : Sec125Core t V E) (hE2 : IsPGroup 2 E) :
     IsSylow2Of V (centralizer (V : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVD : V ≤ centralizer (V : Set G) := h.V_le_centralizer
   have hV2 : IsPGroup 2 V := hE2.to_le h.V_le
   let P : Sylow 2 ↥(centralizer (V : Set G)) := default
@@ -180,7 +180,7 @@ theorem sylow [Finite G] (h : Sec125Core t V E) (hE2 : IsPGroup 2 E) :
       = V := by
     refine le_antisymm ?_ ?_
     · rintro x ⟨y, hy, rfl⟩
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨y, hy⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨y, hy⟩
       have hk' : (y : G) ^ (2 ^ k) = 1 := by
         have := congrArg
           (fun z : ↥(P : Subgroup ↥(centralizer (V : Set G))) =>

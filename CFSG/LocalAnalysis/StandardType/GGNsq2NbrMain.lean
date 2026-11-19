@@ -32,10 +32,10 @@ theorem ggNsq2Nbr_of_cov
       (fun p lab => ggRowP_ESU p lab ∧ lab.n = 1 ∧ (lab.rank = 3 ∨ lab.rank = 5)) p Bs X) : False := by
   classical
   obtain ⟨⟨y, hnbr⟩, -⟩ := hXnb
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hf, hfin, lab, m', θ, hK, h4m, hmrank, hSide, hdvd, hperf, hlab, hBsN, hbs⟩ :=
     ggNSLieN3A_esuCore hmark (fun p lab hl => hl.1)
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := lab.n) hK
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := lab.n) hK
   obtain ⟨tag, rank, n⟩ := lab
   obtain ⟨-, hn1, hr35⟩ := hSide
   change n = 1 at hn1
@@ -75,9 +75,9 @@ theorem ggNsq2Nbr_of_cov
   obtain ⟨-, a, ha4, ha5, ⟨e₁⟩⟩ := ggNsq2Nbr_X hcfg hnbr hK hdvd hn θ hperf hBsN hbs hcomp
   obtain ⟨K', hK'f, hK'fin, hK'c, f', a', hK', hf', h3', ha', ⟨e₂⟩⟩ :=
     ggNsq2Nbr_L_of_cov hcfg hpres hM hno6 hcov hp3 hy hJc
-  letI : Field K' := hK'f
-  letI : Finite K' := hK'fin
-  letI : CharP K' 2 := hK'c
+  let : Field K' := hK'f
+  let : Finite K' := hK'fin
+  let : CharP K' 2 := hK'c
   exact not_nonempty_su_quot_equiv hK' hK h3' hf' ha' (by omega) ⟨e₂.symm.trans e₁⟩
 
 

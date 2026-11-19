@@ -189,7 +189,7 @@ theorem inv_cases_of_mem_sup_inf_W (hΩ : HypOmegaGen Ω) {K J : Subgroup G} {t 
     first
     | (exfalso; apply ht1; rw [hsqa, s1, s2] at ha2; simpa using ha2)
     | (refine absurd ?_ ha1; rw [h1, h2]; simp [ht2]; done)
-    | (rw [h1, h2]; simp; done)
+    | (rw [h1, h2]; simp)
 
 end Cases
 

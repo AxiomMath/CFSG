@@ -109,7 +109,7 @@ theorem le_or_eq_of_centOver (hlen : S.length = D.gT.size)
     (h : checkCentOver D = true) {Y : Subgroup (Equiv.Perm (Fin D.n))} (hYG : Y ≤ Gsub S)
     (hCY : ∀ g ∈ Gsub S, g * S.getD 1 1 = S.getD 1 1 * g → g ∈ Y) :
     Y ≤ Nsub D S ∨ Y = Gsub S := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   simp only [checkCentOver, Bool.and_eq_true] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨hInv, hinvN⟩, hinvC⟩, -⟩, hcomm⟩, hb5⟩, hb1⟩, -⟩, -⟩, -⟩, -⟩, htb⟩,
     hnb⟩, -⟩, hgsz⟩, hgen⟩ := h

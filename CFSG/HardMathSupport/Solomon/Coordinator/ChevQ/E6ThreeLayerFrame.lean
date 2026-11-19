@@ -95,7 +95,7 @@ theorem frame_roots_eq {u w : Fin Tag.E6.rank → ℤ}
   have h21 : σ 2 1 = -w := by rw [hneg 1 2, h12]
   have h20 : σ 2 0 = -(u + w) := by rw [hneg 0 2, h02]
   ext r
-  simp only [Set.mem_setOf_eq, e6A2Roots, Finset.coe_insert, Finset.coe_singleton,
+  simp only [Set.mem_ofPred_eq, e6A2Roots, Finset.coe_insert, Finset.coe_singleton,
     Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨a, b, hab, rfl⟩
@@ -204,8 +204,7 @@ theorem coe_e6BlockSL3_reindex (P : SL(3, Ω)) :
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [Matrix.submatrix_apply, Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂,
-      Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂, Matrix.one_apply,
-      h0, h1, h2, h3, h4, h5, CFSG.ClassicalInvolution.Phan.blockMat_apply]
+      Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂, h0, h1, h2, h3, h4, h5, CFSG.ClassicalInvolution.Phan.blockMat_apply]
 
 @[expose] def e6FirstBlockRealize (h2 : (2 : Ω) = 0) : SL(3, Ω) →* ModGL Tag.E6 Ω :=
   (e6Realize h2).comp (e6BlockSL3 Ω)

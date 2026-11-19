@@ -12,16 +12,19 @@ open CFSG.Open CFSG.Quasithin.A1b CFSG.Quasithin.E2.E22N Subgroup
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem fourFive_orbit_le {T N J X : Subgroup Q} (hN : FourFiveNMN N) (hJ : IsComponentOf J N)
     (hX : X = ⨆ t ∈ T, conjSub t J) : X ≤ N := by
   rw [hX]
   exact iSup₂_le fun t _ => (fourFive_nmn_component_conj hN hJ t).1
 
+omit [Finite Q] in
 theorem fourFive_le_orbit {T J X : Subgroup Q} (hX : X = ⨆ t ∈ T, conjSub t J) : J ≤ X := by
   rw [hX]
   calc J = conjSub 1 J := (conjSub_one J).symm
     _ ≤ ⨆ t ∈ T, conjSub t J := le_iSup₂_of_le 1 T.one_mem le_rfl
 
+omit [Finite Q] in
 theorem fourFive_le_normalizer_orbit {T J X : Subgroup Q} (hX : X = ⨆ t ∈ T, conjSub t J) :
     T ≤ Subgroup.normalizer (X : Set Q) := by
   intro s hs
@@ -49,6 +52,7 @@ private theorem fourFive_orbit_le_normalizer_conj {T N J X : Subgroup Q} (hN : F
       (fourFive_nmn_components_commute hN hs ht hEq)).trans
       (Subgroup.centralizer_le_normalizer (conjSub t J : Set Q))
 
+omit [Finite Q] in
 private theorem fourFive_conjSub_le_orbit {T J X : Subgroup Q}
     (hX : X = ⨆ t ∈ T, conjSub t J) {t : Q} (ht : t ∈ T) : conjSub t J ≤ X := by
   rw [hX]
@@ -79,7 +83,7 @@ theorem fourFive_orbit_nonabelian {T N J X : Subgroup Q} (hN : FourFiveNMN N)
 theorem fourFive_orbit_inf_centralizer {T N J X : Subgroup Q} (hN : FourFiveNMN N)
     (hJ : IsComponentOf J N) (hX : X = ⨆ t ∈ T, conjSub t J) :
     X ⊓ Subgroup.centralizer (X : Set Q) = ⊥ := by
-  haveI hNn : N.Normal := hN.normal
+  have hNn : N.Normal := hN.normal
   have hNcent : N ⊓ Subgroup.centralizer (N : Set Q) = ⊥ := by
     have hnormal : (N ⊓ Subgroup.centralizer (N : Set Q)).Normal := inferInstance
     rcases hN.minimal _ hnormal inf_le_left with h | h
@@ -141,8 +145,8 @@ theorem fourFive_orbit_minimal {T N J X U : Subgroup Q} (hN : FourFiveNMN N)
       rw [Subgroup.normal_subgroupOf_iff_le_normalizer_inf]
       exact (le_inf hnormK Subgroup.le_normalizer).trans
         Subgroup.inf_normalizer_le_normalizer_inf
-    haveI := hsimple
-    haveI := hKn
+    have := hsimple
+    have := hKn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.subgroupOf (conjSub t J)) with h | h
     · left
       exact disjoint_iff.mp (Subgroup.subgroupOf_eq_bot.mp h)

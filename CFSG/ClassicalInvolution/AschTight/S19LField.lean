@@ -182,7 +182,7 @@ theorem fieldPart_ne_one (hd : Sec19DataT p f K z S W L t V) {a : G}
       ← S1911.card_inf_eq_card hd, ← hU, Nat.card_zpowers]
   have hc8 : 8 ≤ orderOf (c₀ : G) := hNo ▸ h8
   have hev : Even (orderOf (c₀ : G)) := by
-    obtain ⟨k, hk⟩ := (S.isPGroup'.to_le (inf_le_left.trans hd.hWS) :
+    obtain ⟨k, hk⟩ := (S.isPGroup.to_le (inf_le_left.trans hd.hWS) :
       IsPGroup 2 ↥(W ⊓ sec19Y K z)).exists_card_eq
     have hk0 : k ≠ 0 := by
       rintro rfl

@@ -168,7 +168,7 @@ theorem fusion_core {a : Om8} (ha : orderOf a = 3) {J T : Subgroup Om8} (hJ : co
   have hT₁card : Nat.card ↥T₁ = 9 := by
     rw [Subgroup.card_map_of_injective (f := (MulAut.conj x⁻¹).toMonoidHom)
       (MulEquiv.injective _), hTcard]
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hT0card' : Nat.card ↥T0 = 3 ^ (Nat.card ↥(psiD.range)).factorization 3 := by
     rw [card_T0, card_D, factorization_three_20160]
     norm_num

@@ -35,7 +35,7 @@ theorem cover_core_gen {Y Z : Type} [Group Y] [Finite Y] [Group Z] (π : Y →* 
       E ≤ Subgroup.normalizer (J : Set Y) := fun J hJ =>
     perfect_le_normalizer_component_gen Chat (fun r hr hr2 => hrkC r hr hr2) E hEperf J hJ
   have hE1 := perfect_le_layer_sup_centralizer hSch hY Chat E hEperf hnormJ
-  haveI hLn := layerIn_normal Chat
+  have hLn := layerIn_normal Chat
   obtain ⟨E₂, hE₂perf, hE₂le, hE₂cent, hEle, -⟩ :=
     exists_perfect_centralizing (layerIn Chat) E hEperf Subgroup.le_normalizer_of_normal hE1
   have hLC : layerIn Chat ≤ Chat := sSup_le fun J hJ => hJ.1
@@ -77,7 +77,7 @@ theorem cover_core_gen {Y Z : Type} [Group Y] [Finite Y] [Group Z] (π : Y →* 
   have hlocal : ∀ r : ℕ, r.Prime → r ≠ 2 →
       V ≤ Subgroup.centralizer (CFSG.Open.pCoreOf r Chat : Set Y) := by
     intro r hr hr2
-    haveI := pCoreOf_normal r Chat
+    have := pCoreOf_normal r Chat
     have hQr := pCoreOf_isPGroup r hr Chat
     have hnabLs := quotient_center_nonabelian_of_isQuasisimple hLs.2.2
     rcases hloc r hr hr2 with hcyc | ⟨hr3, h3Y⟩
@@ -88,9 +88,9 @@ theorem cover_core_gen {Y Z : Type} [Group Y] [Finite Y] [Group Z] (π : Y →* 
       · exact hV
       · exfalso
         have hCs := solvable_centralizer_amb (CFSG.Open.pCoreOf 3 Chat) V hr hQr hDs
-        haveI hNn := zPre_normal π Ls V hVmap.le
+        have hNn := zPre_normal π Ls V hVmap.le
         obtain ⟨e⟩ := zPre_equiv π Ls V hVmap
-        haveI := hLs.2.2.2
+        have := hLs.2.2.2
         have hSs : IsSimpleGroup (↥V ⧸ (zPre π Ls V).subgroupOf V) := e.isSimpleGroup
         have hnab : ¬ IsMulCommutative (↥V ⧸ (zPre π Ls V).subgroupOf V) := by
           intro hc

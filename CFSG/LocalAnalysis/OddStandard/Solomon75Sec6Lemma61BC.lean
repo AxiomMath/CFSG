@@ -18,24 +18,30 @@ section Toolkit
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem bc_sq {g : X} (hg : orderOf g = 2) : g ^ 2 = 1 := by
   rw [← hg]
   exact pow_orderOf_eq_one g
 
+omit [Finite X] in
 private theorem bc_mul_self {g : X} (hg : orderOf g = 2) : g * g = 1 := by
   rw [← sq]
   exact bc_sq hg
 
+omit [Finite X] in
 private theorem bc_comm_of_mem_cen {a b : X} (h : a ∈ cen b) : a * b = b * a :=
   Subgroup.mem_centralizer_singleton_iff.1 h
 
+omit [Finite X] in
 private theorem bc_mem_cen_symm {a b : X} (h : a ∈ cen b) : b ∈ cen a :=
   Subgroup.mem_centralizer_singleton_iff.2 (bc_comm_of_mem_cen h).symm
 
+omit [Finite X] in
 private theorem bc_conj_mem {S : Subgroup X} {c h : X} (hc : c ∈ normalizer (S : Set X))
     (hh : h ∈ S) : c * h * c⁻¹ ∈ S :=
   (Subgroup.mem_normalizer_iff.1 hc h).1 hh
 
+omit [Finite X] in
 private theorem bc_comm_mem_of_mem {O : Subgroup X} {o g : X} (ho : o ∈ O)
     (hg : g ∈ normalizer (O : Set X)) : ⁅o, g⁆ ∈ O := by
   have : ⁅o, g⁆ = o * (g * o⁻¹ * g⁻¹) := by
@@ -71,10 +77,12 @@ private def bcComm (N : Subgroup X) (g : X) : Subgroup X where
     rw [h]
     exact bc_conj_mem (inv_mem ha) (N.inv_mem ha')
 
+omit [Finite X] in
 private theorem bc_mem_bcComm {N : Subgroup X} {g k : X} (hk : k ∈ normalizer (N : Set X))
     (hkg : ⁅k, g⁆ ∈ N) : k ∈ bcComm N g :=
   ⟨hk, hkg⟩
 
+omit [Finite X] in
 private theorem bc_centModOdd_of_cover {F R : Subgroup X} {g : X} (hRF : R ≤ F)
     (hcov : F = oddCoreOf F ⊔ R) (hgO : g ∈ normalizer (oddCoreOf F : Set X))
     (hR : ∀ r ∈ R, ⁅r, g⁆ ∈ oddCoreOf F) : CentModOdd F g := by
@@ -87,6 +95,7 @@ private theorem bc_centModOdd_of_cover {F R : Subgroup X} {g : X} (hRF : R ≤ F
     exact ha
   exact (hle ha').2
 
+omit [Finite X] in
 private theorem bc_cov {E K : Subgroup X} (hEK : E ≤ K)
     (hcov : E.subgroupOf K ⊔ pPrimeCore 2 ↥K = ⊤) : K = oddCoreOf K ⊔ E :=
   ((covers_subgroupOf_iff hEK).1 hcov).symm.trans (sup_comm _ _)
@@ -117,6 +126,7 @@ private theorem bc_oddCoreOf_le_of_cov {F K : Subgroup X} (hFK : F ≤ K)
   exact ⟨Subgroup.inclusion hFK a, (QuotientGroup.eq_one_iff (Subgroup.inclusion hFK a)).1 h2,
     rfl⟩
 
+omit [Finite X] in
 private theorem bc_isPCompIn {n : ℕ} {H L : Subgroup X} (hL : Sec6KComp X n H L) :
     IsPCompIn 2 H L := by
   rcases hL with ⟨⟨u, hu⟩, -⟩ | ⟨hM, -⟩
@@ -127,22 +137,27 @@ private theorem bc_isTwoGenQuasi {H L : Subgroup X} (hL : IsPCompIn 2 H L) :
     IsTwoGenQuasi ↥L :=
   (isTwoGenQuasi_subgroupOf_iff hL.1).1 (isPComponent_two_iff.1 hL.2).2
 
+omit [Finite X] in
 private theorem bc_le_sec6K {n : ℕ} {H L : Subgroup X} (hL : Sec6KComp X n H L) :
     L ≤ Sec6K X n H :=
   le_sSup (s := {L | Sec6KComp X n H L}) hL
 
+omit [Finite X] in
 private theorem bc_le_sec6M {n : ℕ} {H M : Subgroup X} (hM : Sec6MComp X n H M) :
     M ≤ Sec6M X n H :=
   le_sSup (s := {M | Sec6MComp X n H M}) hM
 
+omit [Finite X] in
 private theorem bc_sec6K_le {n : ℕ} {H : Subgroup X} : Sec6K X n H ≤ H := by
   unfold Sec6K
   exact sSup_le fun L hL => (bc_isPCompIn hL).1
 
+omit [Finite X] in
 private theorem bc_sec6M_le {n : ℕ} {H : Subgroup X} : Sec6M X n H ≤ H := by
   unfold Sec6M
   exact sSup_le fun L hL => hL.1.1.1
 
+omit [Finite X] in
 private theorem bc_conj_mem' {M : Subgroup X} {g : X} (hg : ∀ m ∈ M, ⁅m, g⁆ ∈ M) {x : X}
     (hx : x ∈ M) : g * x * g⁻¹ ∈ M := by
   have h1 := M.mul_mem hx (hg x⁻¹ (M.inv_mem hx))
@@ -151,6 +166,7 @@ private theorem bc_conj_mem' {M : Subgroup X} {g : X} (hg : ∀ m ∈ M, ⁅m, g
     group
   rwa [h2] at h1
 
+omit [Finite X] in
 private theorem bc_mem_normalizer {M : Subgroup X} {j : X} (h : ∀ m ∈ M, ⁅m, j⁆ ∈ M)
     (h' : ∀ m ∈ M, ⁅m, j⁻¹⁆ ∈ M) : j ∈ normalizer (M : Set X) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -215,6 +231,7 @@ private theorem bc_oddCoreOf_le_oddCoreOf_sec6K {n : ℕ} {b : X} {F : Subgroup 
     exact mem_normalizer_inf (le_normalizer_oddCoreOf _ (bc_sec6K_le hk)) (le_normalizer hk)
   exact (le_inf h1 ((oddCoreOf_le F).trans hFK)).trans h2
 
+omit [Finite X] in
 private theorem bc_mem_normalizer_oTwoPrimeOf {H : Subgroup X} {g : X}
     (hg : g ∈ normalizer (H : Set X)) : g ∈ normalizer (oTwoPrimeOf H : Set X) :=
   oTwoPrimeOf_normalizes ((Subgroup.zpowers_le).2 hg) (Subgroup.mem_zpowers g)
@@ -264,6 +281,7 @@ private theorem bc_card_lt
     have h11 : Nat.factorial 11 = 39916800 := by norm_num [Nat.factorial]
     omega
 
+omit [Finite X] in
 private theorem bc_modOddCard_le
     {n : ℕ} {H G L : Subgroup X} (hL : IsSec6MType n (↥L ⧸ pPrimeCore 2 ↥L))
     (hG : Sec6KComp X n H G) : modOddCard G ≤ modOddCard L := by
@@ -336,14 +354,17 @@ section Pump
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem bc_mem_pPrimeCore_iff {F : Subgroup X} (y : ↥F) :
     y ∈ pPrimeCore 2 ↥F ↔ (y : X) ∈ oddCoreOf F :=
   ⟨fun h => ⟨y, h, rfl⟩, fun ⟨z, hz, hzy⟩ => by rwa [← Subtype.ext hzy]⟩
 
+omit [Finite X] in
 private theorem bc_pi_eq_one_iff {F : Subgroup X} (y : ↥F) :
     QuotientGroup.mk' (pPrimeCore 2 ↥F) y = 1 ↔ (y : X) ∈ oddCoreOf F := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, bc_mem_pPrimeCore_iff]
 
+omit [Finite X] in
 private theorem bc_centModOdd_iff {F : Subgroup X} {c : X} (hcF : c ∈ normalizer (F : Set X)) :
     CentModOdd F c ↔ ∀ a (ha : a ∈ F),
       QuotientGroup.mk' (pPrimeCore 2 ↥F) (⟨c * a * c⁻¹, bc_conj_mem hcF ha⟩ : ↥F) =
@@ -369,6 +390,7 @@ private theorem bc_centModOdd_iff {F : Subgroup X} {c : X} (hcF : c ∈ normaliz
     rw [e]
     exact bc_conj_mem (le_normalizer_oddCoreOf F ha) h1
 
+omit [Finite X] in
 private theorem bc_pump_act {F : Subgroup X} {t f : X} (htF : t ∈ normalizer (F : Set X))
     (hfF : f ∈ F) (hft : CentModOdd F (f * t)) {a : X} (ha : a ∈ F) :
     QuotientGroup.mk' (pPrimeCore 2 ↥F) (⟨t * a * t⁻¹, bc_conj_mem htF ha⟩ : ↥F) =
@@ -386,6 +408,7 @@ private theorem bc_pump_act {F : Subgroup X} {t f : X} (htF : t ∈ normalizer (
   rw [← h]
   group
 
+omit [Finite X] in
 private theorem bc_centModOdd_of_pi_eq {F : Subgroup X} {t f z : X}
     (htF : t ∈ normalizer (F : Set X)) (hfF : f ∈ F) (hft : CentModOdd F (f * t)) (hzF : z ∈ F)
     (hzf : QuotientGroup.mk' (pPrimeCore 2 ↥F) (⟨z, hzF⟩ : ↥F) =
@@ -406,6 +429,7 @@ private theorem bc_centModOdd_of_pi_eq {F : Subgroup X} {t f z : X}
   rw [he1, h1, he2, map_mul, map_mul, map_inv, hzf]
   group
 
+omit [Finite X] in
 private theorem bc_comm_mem_of_pi {F : Subgroup X} {c a : X} (hcF : c ∈ normalizer (F : Set X))
     (ha : a ∈ F)
     (h : QuotientGroup.mk' (pPrimeCore 2 ↥F) (⟨c * a * c⁻¹, bc_conj_mem hcF ha⟩ : ↥F) =
@@ -419,6 +443,7 @@ private theorem bc_comm_mem_of_pi {F : Subgroup X} {c a : X} (hcF : c ∈ normal
   rw [e]
   exact bc_conj_mem (le_normalizer_oddCoreOf F ha) h
 
+omit [Finite X] in
 private theorem bc_pump_orderOf {F : Subgroup X} {t f : X} (ht2 : t * t = 1)
     (htF : t ∈ normalizer (F : Set X)) (hfF : f ∈ F) (hft : CentModOdd F (f * t))
     (hnt : ¬ CentModOdd F t) (hZ : center (↥F ⧸ pPrimeCore 2 ↥F) = ⊥) :
@@ -481,6 +506,7 @@ private theorem bc_card_eq {A B : Type} [Group A] [Group B] {n : ℕ}
     Subgroup.card_eq_card_quotient_mul_card_subgroup (center B), hA2, hB2,
     Nat.card_congr eA.toEquiv, Nat.card_congr eB.toEquiv]
 
+omit [Finite X] in
 private theorem bc_pump_comm {F : Subgroup X} {t f : X} (htF : t ∈ normalizer (F : Set X))
     (hfF : f ∈ F) (hft : CentModOdd F (f * t)) {p : X} (hpF : p ∈ F) (hpt : p ∈ cen t) :
     QuotientGroup.mk' (pPrimeCore 2 ↥F) (⟨p, hpF⟩ : ↥F) *
@@ -670,6 +696,7 @@ section Inner
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem bc_centModOdd_mul {L : Subgroup X} {c d : X} (hc : c ∈ normalizer (L : Set X))
     (hcm : CentModOdd L c) (hdm : CentModOdd L d) : CentModOdd L (c * d) := by
   intro a ha
@@ -680,6 +707,7 @@ private theorem bc_centModOdd_mul {L : Subgroup X} {c d : X} (hc : c ∈ normali
   exact (oddCoreOf L).mul_mem (hcm a ha)
     (bc_conj_mem (mem_normalizer_oddCoreOf_of_mem_normalizer hc) (hdm a ha))
 
+omit [Finite X] in
 private theorem bc_centModOdd_inv {L : Subgroup X} {c : X} (hc : c ∈ normalizer (L : Set X))
     (hcm : CentModOdd L c) : CentModOdd L c⁻¹ := by
   intro a ha
@@ -690,6 +718,7 @@ private theorem bc_centModOdd_inv {L : Subgroup X} {c : X} (hc : c ∈ normalize
   rw [e]
   exact inv_mem (hcm _ hb)
 
+omit [Finite X] in
 private theorem bc_centModOdd_mul_right {F : Subgroup X} {c y : X} (hc : CentModOdd F c)
     (hy : ∀ a ∈ F, a * y = y * a) : CentModOdd F (c * y) := by
   intro a ha
@@ -704,6 +733,7 @@ private theorem bc_centModOdd_mul_right {F : Subgroup X} {c y : X} (hc : CentMod
   rw [e]
   exact hc a ha
 
+omit [Finite X] in
 private theorem bc_centModOdd_mul_left {L : Subgroup X} {c y : X} (hc : CentModOdd L c)
     (hcL : c ∈ normalizer (L : Set X)) (hy : ∀ a ∈ L, y * a = a * y) :
     CentModOdd L (y * c) := by
@@ -717,6 +747,7 @@ private theorem bc_centModOdd_mul_left {L : Subgroup X} {c y : X} (hc : CentModO
   rw [e]
   exact hc a ha
 
+omit [Finite X] in
 private theorem bc_mem_normalizer_of_comm {F : Subgroup X} {y : X}
     (hy : ∀ a ∈ F, a * y = y * a) : y ∈ normalizer (F : Set X) := by
   refine bc_mem_normalizer (fun m hm => ?_) (fun m hm => ?_)
@@ -928,6 +959,7 @@ private theorem bc_inner_center
       exact (bc_pi_eq_one_iff _).1 h3
     exact inf_pPrimeCoreOf_le_pPrimeCoreOf hPL ⟨h1, h2⟩
 
+omit [Finite X] in
 private theorem bc_iSup_subgroupOf_eq {H : Subgroup X} (S : Finset (Subgroup X))
     (hle : ∀ L ∈ S, L ≤ H) : ⨆ L ∈ S, L.subgroupOf H = (⨆ L ∈ S, L).subgroupOf H := by
   apply Subgroup.map_injective H.subtype_injective
@@ -1030,6 +1062,7 @@ private theorem bc_not_mem_sec6M
     exact ht
   exact bc_not_mem_of_odd hodd ht'2 h1
 
+omit [Finite X] in
 private theorem bc_t_mem_Q {n : ℕ} {t : X} : t ∈ Sec6Q X n (cen t) := by
   refine Subgroup.mem_inf.2 ⟨self_mem_centralizer t, mem_QOf_iff.2
     ⟨Sec6K_cen_normal n t (self_mem_centralizer t), fun k hk => ?_⟩⟩
@@ -1267,6 +1300,7 @@ private theorem bc_witness_mem_Q {n : ℕ} {t x v : X} {A : Subgroup X}
     exact (hle hk).2
   exact Subgroup.mem_inf.2 ⟨hvt, mem_QOf_iff.2 ⟨Sec6K_cen_normal n t hvt, hKt⟩⟩
 
+omit [Finite X] in
 private theorem bc_centModOdd_of_eq_piece {n : ℕ} {t x : X} {L F : Subgroup X}
     (hL : Sec6KComp X n (cen t) L) (hLF : sec6Piece L x ≤ F) (htF : t ∈ normalizer (F : Set X))
     (heq : F = oddCoreOf F ⊔ sec6Piece L x) : CentModOdd F t := by
@@ -1276,6 +1310,7 @@ private theorem bc_centModOdd_of_eq_piece {n : ℕ} {t x : X} {L F : Subgroup X}
     (bc_comm_of_mem_cen ((bc_isPCompIn hL).1 (((oTwoPrimeOf_le _).trans inf_le_left) hp)))]
   exact one_mem _
 
+omit [Finite X] in
 private theorem bc_pump_data {n : ℕ} {t x : X} (hC : Sec6CtrlAt X n t)
     (hxMQ : x ∈ Sec6M X n (cen t) ⊔ Sec6Q X n (cen t)) (hx2 : orderOf x = 2) {L F : Subgroup X}
     (hL : Sec6KComp X n (cen t) L) (hF : Sec6KComp X n (cen x) F) (hLF : sec6Piece L x ≤ F)
@@ -1350,12 +1385,13 @@ private theorem bc_unique_A
     (hPAA.trans hApc.1) hPAn hPA' (hPA'A'.trans hA'pc.1) hPA'n
     fun p hp p' hp' => bc_comm_mem hPApc hPA'pc hneP hp hp'
 
+omit [Finite X] in
 private theorem bc_K0_eq {n : ℕ} {H A : Subgroup X} (hA : Sec5Comp X n H A)
     (huniq : ∀ A', Sec5Comp X n H A' → A' = A) : K0 X n H = A := by
   rw [K0_eq_sSup_sec5Comp]
   have h : {A' | Sec5Comp X n H A'} = {A} := by
     ext A'
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     exact ⟨huniq A', fun h => h ▸ hA⟩
   rw [h, sSup_singleton]
 

@@ -23,12 +23,12 @@ theorem t5_comp_cplx_false (hS : Asc82SchurU43) (hL : IsOm6Z2 L) {s : G}
     (hJ : IsComponentIn J (L ⊓ centralizer ({s} : Set G))) (h29 : IsL29 J)
     (hnp : ∀ u ∈ J, orderOf u = 2 → ¬ IsI4PlusIn L u) : False := by
   obtain ⟨V, i1, i2, i3, Q, hQ, φ, c, hφ, hc, hcomm⟩ := t5_comp_cplx_data hS hL hk
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   have h8 : 8 ∣ Nat.card ↥J := (t5_isL29_card_two_adic h29).1
   have h2dvd : 2 ∣ Nat.card ↥J := dvd_trans (by norm_num : 2 ∣ 8) h8
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨u, hu2⟩ := exists_prime_orderOf_dvd_card' 2 h2dvd
   let g : G := (u : G)
   have hgJ : g ∈ J := u.2

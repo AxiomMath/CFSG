@@ -219,9 +219,9 @@ theorem ggSecFiveData_of_injective_normOmega_of_card_two {p : ℕ} {B : Subgroup
     (Ψ : normOmega E n →* G) (hΨ : Function.Injective Ψ)
     (hrange : Ψ.range = ggG0 p B x L D J) :
     GGSecFiveData p B x L D J := by
-  letI : Finite F := Nat.finite_of_card_ne_zero (by omega)
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Fintype (GaloisField 2 1) := Fintype.ofFinite _
+  let : Finite F := Nat.finite_of_card_ne_zero (by omega)
+  let : Fintype F := Fintype.ofFinite F
+  let : Fintype (GaloisField 2 1) := Fintype.ofFinite _
   have hF₀ : Nat.card (GaloisField 2 1) = 2 := by
     simpa using GaloisField.card 2 1 (by decide)
   let σ : F ≃+* GaloisField 2 1 :=
@@ -235,7 +235,7 @@ theorem ggSecFiveData_of_injective_normOmega_of_card_two {p : ℕ} {B : Subgroup
         ↥(StatedOmega (StatedQuadPlus (n + 1) (GaloisField 2 1))) :=
       Q2.statedOmegaEquiv σ _ _ (by
         intro v
-        simp only [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, map_sum, map_mul])
+        simp only [StatedQuadPlus, map_sum, map_mul])
     let eSpin := spinEquivCommutatorQuadPlus (n := n + 1) (K := GaloisField 2 1) (by omega) h2
     let eD := (CFSG.RankThree.GF2n.Stroth80.statedOmegaMulEquivDerived
       (Q := quadPlus (n + 1) (GaloisField 2 1))
@@ -270,7 +270,7 @@ theorem ggSecFiveData_of_injective_normOmega_of_card_two {p : ℕ} {B : Subgroup
         ↥(StatedOmega (StatedQuadMinus (n + 1) (GaloisField 2 1) b₀ c₀)) :=
       Q2.statedOmegaEquiv σ _ _ (by
         intro v
-        simp only [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, map_sum, map_add, map_mul,
+        simp only [StatedQuadMinus, map_sum, map_add, map_mul,
           map_pow, b₀, c₀, RingEquiv.apply_symm_apply])
     let eSpin := spinEquivCommutatorQuadMinus (n := n + 1) (K := GaloisField 2 1)
       (b := b₀) (c := c₀) (by omega) (by simpa [b₀, c₀] using minusCoeffs_irr 2 1) h2

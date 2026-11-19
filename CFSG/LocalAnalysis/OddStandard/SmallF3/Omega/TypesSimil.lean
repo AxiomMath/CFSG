@@ -18,17 +18,20 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
     (c : (ZMod 3)ˣ) : Prop :=
   ∀ v : V, Q (σ v) = (c : ZMod 3) * Q v
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem aux_isSimilitude_one :
     IsSimilitude Q (1 : V ≃ₗ[ZMod 3] V) 1 := by
   intro v
   simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem aux_isSimilitude_mul {σ τ : V ≃ₗ[ZMod 3] V} {c d : (ZMod 3)ˣ}
     (hσ : IsSimilitude Q σ c) (hτ : IsSimilitude Q τ d) :
     IsSimilitude Q (σ * τ) (c * d) := by
   intro v
   rw [LinearEquiv.mul_apply, hσ (τ v), hτ v, Units.val_mul, mul_assoc]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem aux_isSimilitude_inv {σ : V ≃ₗ[ZMod 3] V} {c : (ZMod 3)ˣ}
     (hσ : IsSimilitude Q σ c) : IsSimilitude Q σ⁻¹ c⁻¹ := by
   intro v
@@ -91,6 +94,7 @@ theorem aux_quadSign_map_of_similitude {σ : V ≃ₗ[ZMod 3] V} {c : (ZMod 3)ˣ
     rintro σ ⟨c, hc⟩
     exact ⟨c⁻¹, aux_isSimilitude_inv hc⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem isSimilitude_one_iff {σ : V ≃ₗ[ZMod 3] V} :
     IsSimilitude Q σ 1 ↔ σ ∈ TauCeti.QuadraticMap.orthogonalGroup Q := by
   constructor
@@ -98,23 +102,25 @@ theorem isSimilitude_one_iff {σ : V ≃ₗ[ZMod 3] V} :
     rw [TauCeti.QuadraticMap.mem_orthogonalGroup_iff]
     intro v
     simpa using h v
-  · intro h
-    intro v
+  · intro h v
     simpa using TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup h v
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem orthogonalGroup_le_simGroup : TauCeti.QuadraticMap.orthogonalGroup Q ≤ simGroup Q := by
   intro σ h
   exact ⟨1, isSimilitude_one_iff.mpr h⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem eq_of_isSimilitude (hQ : Q.Nondegenerate) (h0 : 0 < Module.finrank (ZMod 3) V)
     {σ : V ≃ₗ[ZMod 3] V} {c c' : (ZMod 3)ˣ} (h : IsSimilitude Q σ c) (h' : IsSimilitude Q σ c') :
     c = c' := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos h0
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos h0
   obtain ⟨v, hv⟩ := hQ.exists_isUnit
   have hv' : Q v ≠ 0 := hv.ne_zero
   have heq : (c : ZMod 3) * Q v = (c' : ZMod 3) * Q v := (h v).symm.trans (h' v)
   exact Units.ext (mul_right_cancel₀ hv' heq)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem aux_mem_subgroupOf_iff {σ : simGroup Q} {c : (ZMod 3)ˣ}
     (hQ : Q.Nondegenerate) (h0 : 0 < Module.finrank (ZMod 3) V)
     (hσ : IsSimilitude Q (σ : V ≃ₗ[ZMod 3] V) c) :
@@ -139,17 +145,20 @@ theorem aux_mem_subgroupOf_iff {σ : simGroup Q} {c : (ZMod 3)ˣ}
       TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup t.2 (σ.symm v)]
     rw [← hσ (σ.symm v), LinearEquiv.apply_symm_apply]⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem coe_simConj {σ : V ≃ₗ[ZMod 3] V} {c : (ZMod 3)ˣ} (hσ : IsSimilitude Q σ c)
     (t : OGroup Q) :
     ((simConj hσ t : OGroup Q) : V ≃ₗ[ZMod 3] V) = σ * (t : V ≃ₗ[ZMod 3] V) * σ⁻¹ :=
   rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem simConj_mul {σ : V ≃ₗ[ZMod 3] V} {c : (ZMod 3)ˣ} (hσ : IsSimilitude Q σ c)
     (s t : OGroup Q) : simConj hσ (s * t) = simConj hσ s * simConj hσ t := by
   apply Subtype.ext
   simp only [coe_simConj, Subgroup.coe_mul]
   exact aux_conj_mul σ (s : V ≃ₗ[ZMod 3] V) (t : V ≃ₗ[ZMod 3] V)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem commSp_simConj {σ : V ≃ₗ[ZMod 3] V} {c : (ZMod 3)ˣ} (hσ : IsSimilitude Q σ c)
     (t : OGroup Q) : commSp (simConj hσ t) = (commSp t).map (σ : V →ₗ[ZMod 3] V) := by
   rw [commSp, coe_simConj]
@@ -217,14 +226,14 @@ theorem exists_isSimilitude_neg_one_iff (hQ : Q.Nondegenerate) :
       rw [quadSign_neg hQ, hn.neg_one_pow, one_mul]
     obtain ⟨e⟩ := equivalent_of_quadSign_eq hnegnd hQ rfl hsign
     refine ⟨e.toLinearEquiv, fun v => ?_⟩
-    simpa using e.map_app v
+    simp
 
 theorem index_orthogonalGroup_subgroupOf_simGroup (hQ : Q.Nondegenerate)
     (h0 : 0 < Module.finrank (ZMod 3) V) :
     ((TauCeti.QuadraticMap.orthogonalGroup Q).subgroupOf (simGroup Q)).index =
       if Even (Module.finrank (ZMod 3) V) then 2 else 1 := by
   by_cases hn : Even (Module.finrank (ZMod 3) V)
-  · rw [if_pos hn, Subgroup.index_eq_two_iff]
+  · rw [ite_eq_left hn, Subgroup.index_eq_two_iff]
     obtain ⟨σ₀, hσ₀⟩ := (exists_isSimilitude_neg_one_iff hQ).mpr hn
     let a : simGroup Q := ⟨σ₀, ⟨-1, hσ₀⟩⟩
     refine ⟨a, fun b => ?_⟩
@@ -238,7 +247,7 @@ theorem index_orthogonalGroup_subgroupOf_simGroup (hQ : Q.Nondegenerate)
       exact aux_isSimilitude_mul hc hσ₀
     rw [xor_iff_iff_not, hba, hb]
     rcases aux_unit_eq_one_or_neg_one c with hc1 | hc1 <;> rw [hc1] <;> decide
-  · rw [if_neg hn]
+  · rw [ite_eq_right hn]
     rw [Subgroup.index_eq_one]
     rw [eq_top_iff]
     intro σ _

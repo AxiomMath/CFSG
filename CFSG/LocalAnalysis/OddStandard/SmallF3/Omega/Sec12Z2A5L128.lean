@@ -32,7 +32,7 @@ theorem isKGroupCat_secNb {G : Type} [Group G] [Finite G] (hs : IsSimpleGroup G)
       norm_num at hc
     · have hc := hV.2
       rw [ht, Subgroup.card_top] at hc
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have h2 := (IsPGroup.of_card hc).isSimpleGroup_iff_card_eq.mp hs
       rw [hc] at h2
       norm_num at h2
@@ -69,7 +69,7 @@ theorem asc82Lemma128K_of (hp : Asc82Pre11) (h123 : Asc82Lemma123) (h124 : Asc82
   have htN : t ∈ normalizer (secV t S L E : Set G) := by
     by_contra hn
     apply ht1
-    rw [betaOf, dif_neg hn]
+    rw [betaOf, dite_eq_right hn]
   have ht2 : t * t = 1 := sec126_mul_self_of_orderOf hctx.involution
   have hτ2 : betaOf (secV t S L E) t * betaOf (secV t S L E) t = 1 := by
     rw [← sec127_betaOf_mul htN htN, ht2, sec127_betaOf_one]

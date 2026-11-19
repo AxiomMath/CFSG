@@ -108,8 +108,8 @@ theorem kD292TwoFrame3_holds : KD292TwoFrame3 := by
     have key := herm_mulVec hU ((mem_slPi_false hU).1 (hRsl hdR)).2 (yFrame y v i)
       (yFrame y v j)
     rw [hdi i, hdi j] at key
-    have hii : sgnAt i i = (1 : K) := if_pos rfl
-    have hij' : sgnAt i j = (-1 : K) := if_neg (Ne.symm hij)
+    have hii : sgnAt i i = (1 : K) := ite_eq_left rfl
+    have hij' : sgnAt i j = (-1 : K) := ite_eq_right (Ne.symm hij)
     rw [hii, hij'] at key
     simp only [one_smul, neg_smul, Pi.neg_apply, mul_neg, Finset.sum_neg_distrib] at key
     have h2S : (2 : K) * ∑ k, yFrame y v i k ^ p ^ f * yFrame y v j k = 0 := by

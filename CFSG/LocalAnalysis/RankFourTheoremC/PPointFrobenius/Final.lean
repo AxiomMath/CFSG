@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
 
 theorem frobConclusion_of_kfacts (hK : FrobKFacts) (hG : FrobGlobal G) (hl : FrobLocal p P M x) :
     FrobConclusion p M x := by
-  haveI : Fact p.Prime := ⟨hl.loc.beta.1⟩
+  have : Fact p.Prime := ⟨hl.loc.beta.1⟩
   exact frobConclusion_of_parts hK.coprimeAut hG hl (fr_layer_eq_bot hK hG hl)
     (fr_fpf hK hG hl)
 

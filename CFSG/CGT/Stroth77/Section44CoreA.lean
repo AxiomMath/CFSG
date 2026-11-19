@@ -16,7 +16,7 @@ variable {m : ℕ}
   Torus.ofInt _ (fun i => ε i * 2 ^ ((StrothTypeIndex.t201 m).k i - 1))
 
 theorem t201_one_le_k (hm : 1 ≤ m) (i : Fin 3) : 1 ≤ (StrothTypeIndex.t201 m).k i := by
-  fin_cases i <;> simp [StrothTypeIndex.k, Type201.k] <;> omega
+  fin_cases i <;> simp [StrothTypeIndex.k, Type201.k]; omega
 
 theorem om201_eq_iff (hm : 1 ≤ m) (ε ε' : Fin 3 → ℤ) :
     om201 m ε = om201 m ε' ↔ ∀ i, ε i ≡ ε' i [ZMOD 2] :=
@@ -126,8 +126,7 @@ theorem t201_d8Act_conj (hm : 1 ≤ m) (i j l : Bool) (h : (i, j, l) ≠ (false,
       Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
     refine ⟨⟨1 - 4 * 2 ^ k, by ring⟩, ⟨1 - 2 ^ k, by ring⟩, ⟨1 - 2 ^ k - 4 * (2 ^ k) ^ 2, by ring⟩⟩
   · refine ⟨Torus.ofInt _ ![0, 0, 2 ^ (k + 1 + 1)], ?_⟩
-    simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
-      AddMonoidHom.id_apply]
+    simp only [SigmaFourAction.d8Act, ↓reduceIte, AddMonoidHom.comp_apply]
     rw [t201_φu, t201_φt, t201_φuv, ← Torus.ofInt_add, t201_ofInt_eq_iff]
     simp only [Pi.add_apply, Nat.add_sub_cancel, Matrix.cons_val_zero, Matrix.cons_val_one,
       Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
@@ -310,7 +309,7 @@ theorem t201_h7 (hm : 1 ≤ m) :
           exact dD.nf_u_mul_inv_mem v₀ v
         obtain ⟨a, b, hd⟩ := hfix (e * e₀⁻¹) (mul_mem he (inv_mem he₀)) hmem
         refine ⟨(true, a, b), ?_⟩
-        simp only [f, if_true]
+        simp only [f, ite_true]
         rw [← hd, inv_mul_cancel_right]
     have hle := Stroth42Core.natCard_le_of_subset_range f hcov
     rw [hcard, h8] at hle
@@ -338,8 +337,8 @@ theorem t201_h9 (hm : 1 ≤ m) :
     obtain ⟨v₀, hv₀⟩ := t201_mem_CSc₁_of_not_mem dD hm (hX hx₀) hx₀D
     have hcomm : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := fun a ha b hb =>
       congrArg Subtype.val (hab.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-    haveI : NeZero (2 ^ m) := ⟨by positivity⟩
-    haveI : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
+    have : NeZero (2 ^ m) := ⟨by positivity⟩
+    have : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
     have hfix : ∀ d ∈ X, d ∈ D → ∃ (p : ZMod (2 ^ m)) (q : ZMod (2 ^ (m + 2))),
         d = dD.ofTorus (Torus.ofInt _ ![(p.val : ℤ), (q.val : ℤ), (q.val : ℤ)]) := by
       intro d hd hdD
@@ -379,7 +378,7 @@ theorem t201_h9 (hm : 1 ≤ m) :
           exact dD.nf_u_mul_inv_mem v₀ v
         obtain ⟨p, q, hd⟩ := hfix (e * x₀⁻¹) (mul_mem he (inv_mem hx₀)) hmem
         refine ⟨(true, p, q), ?_⟩
-        simp only [f, if_true]
+        simp only [f, ite_true]
         rw [← hd, inv_mul_cancel_right]
     have hle := Stroth42Core.natCard_le_of_subset_range f hcov
     rw [hcard, hDcard, Nat.card_prod, Nat.card_prod, Nat.card_zmod, Nat.card_zmod] at hle
@@ -388,7 +387,7 @@ theorem t201_h9 (hm : 1 ≤ m) :
     have := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp hle
     omega
   · simp only [not_exists, not_and, not_not] at hD
-    haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
+    have : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
     exact Subgroup.eq_of_le_of_card_ge (fun x hx => hD x hx) hcard.ge
 
 end Group

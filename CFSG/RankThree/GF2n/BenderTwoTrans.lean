@@ -88,7 +88,7 @@ omit [Finite K] in
 theorem eq_one_of_odd_of_mem_sylow {P : Sylow 2 K} {g : K} (hg : g ∈ (P : Subgroup K))
     (hodd : Odd (orderOf g)) : g = 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨g, hg⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨g, hg⟩
   rw [← Subgroup.orderOf_coe] at hk
   rw [hk] at hodd
   rcases k with _ | k

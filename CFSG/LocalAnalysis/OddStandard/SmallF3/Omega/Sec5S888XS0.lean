@@ -16,8 +16,8 @@ private lemma relIndex_eq_two_of_card_le [Finite X] {J I : Subgroup X} (hIJ : I 
   have hrel : I.relIndex J * Nat.card I = Nat.card J := by
     simpa only [inf_of_le_left hIJ] using (Subgroup.relIndex_mul_card (H := I) (K := J))
   have hIpos : 0 < Nat.card I := by
-    haveI : Finite I := Finite.of_injective (fun x : I => (x : X)) Subtype.val_injective
-    haveI : Nonempty I := ⟨1⟩
+    have : Finite I := Finite.of_injective (fun x : I => (x : X)) Subtype.val_injective
+    have : Nonempty I := ⟨1⟩
     exact Nat.card_pos
   have hle : I.relIndex J ≤ 2 := by
     refine Nat.le_of_mul_le_mul_right ?_ hIpos
@@ -27,8 +27,8 @@ private lemma relIndex_eq_two_of_card_le [Finite X] {J I : Subgroup X} (hIJ : I 
   have hne0 : I.relIndex J ≠ 0 := by
     intro h
     have hJpos : 0 < Nat.card J := by
-      haveI : Finite J := Finite.of_injective (fun x : J => (x : X)) Subtype.val_injective
-      haveI : Nonempty J := ⟨1⟩
+      have : Finite J := Finite.of_injective (fun x : J => (x : X)) Subtype.val_injective
+      have : Nonempty J := ⟨1⟩
       exact Nat.card_pos
     rw [← hrel, h, Nat.zero_mul] at hJpos
     exact absurd hJpos (lt_irrefl 0)
@@ -38,7 +38,7 @@ theorem mem_of_triple_of_card_le [Finite X] {J I : Subgroup X} (hIJ : I ≤ J)
     (hcard : Nat.card J ≤ 2 * Nat.card I) {a b c : X} (ha : a ∈ J) (hb : b ∈ J) (hc : c ∈ J)
     (habc : a * b * c = 1) : a ∈ I ∨ b ∈ I ∨ c ∈ I := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨haI, hbI, hcI⟩ := h
   have hrel : I.relIndex J = 2 := relIndex_eq_two_of_card_le hIJ hcard ha haI
   let K : Subgroup J := I.subgroupOf J

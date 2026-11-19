@@ -123,7 +123,7 @@ theorem exists_twoSubgroup_of_le_range_conj {Q : Type*} [Group Q] [Finite Q]
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 2 P))
   have hSn := sylow_normal_of_le_center hZc h2 S
   have hSu : Unique (Sylow 2 P) := Sylow.unique_of_normal S hSn
-  refine ⟨(S : Subgroup P).map P.subtype, S.isPGroup'.map _, ?_, fun σ hσ => ?_⟩
+  refine ⟨(S : Subgroup P).map P.subtype, S.isPGroup.map _, ?_, fun σ hσ => ?_⟩
   ·
     have hcardR : 2 ∣ Nat.card R := by
       obtain ⟨j, hj⟩ := hR2.exists_card_eq
@@ -145,7 +145,7 @@ theorem exists_twoSubgroup_of_le_range_conj {Q : Type*} [Group Q] [Finite Q]
       exact hσ _ x.2
     set W := (((S : Subgroup P).map P.subtype).map (σ : Q →* Q)).subgroupOf P with hW
     have hW2 : IsPGroup 2 W := by
-      have h := (S.isPGroup'.map P.subtype).map (σ : Q →* Q)
+      have h := (S.isPGroup.map P.subtype).map (σ : Q →* Q)
       exact h.of_equiv (Subgroup.subgroupOfEquivOfLe hTP).symm
     obtain ⟨S', hS'⟩ := hW2.exists_le_sylow
     have hS'S : S' = S := Subsingleton.elim _ _

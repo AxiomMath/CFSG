@@ -55,7 +55,7 @@ private theorem burnsideB7a_allTwoChiefFactorsCentral {G : Type*} [Group G] [Fin
     have hXJ : X ≤ Subgroup.normalizer (J : Set G) :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer (hJA.trans hAX)).1 hJn
     by_contra hne
-    push_neg at hne
+    push Not at hne
     exact hmin J (lt_of_le_of_ne hBJ (Ne.symm hne.1)) (lt_of_le_of_ne hJA hne.2) hXJ
   have hrel : ∃ k : ℕ, B.relIndex A = 2 ^ k :=
     CFSG.Quasithin.B6.exists_relIndex_eq_two_pow (hAX.trans hXB) h2

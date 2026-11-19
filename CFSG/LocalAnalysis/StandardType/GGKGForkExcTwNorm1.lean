@@ -25,13 +25,13 @@ theorem ggKGTn_family_data
             (e : ModGL TwistTag.E6.tag K) * F.g0 := by
   classical
   let L := AlgebraicClosure K
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP L 2 :=
+  have : CharP L 2 :=
     charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   obtain ⟨ζu, hζu⟩ := exists_primitiveRoot_units (L := L) (ℓ := 2)
     (by norm_num) hp (by omega)
   let ζ : L := ζu

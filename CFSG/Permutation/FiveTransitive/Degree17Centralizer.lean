@@ -77,7 +77,7 @@ theorem centralizer_card_eq_thirteen_of_not_alternating
   have himpossible {q : ℕ} (hq : q.Prime)
       (hqcop : Nat.Coprime q 13)
       (hqdvd : q ∣ Nat.card C) : False := by
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     obtain ⟨v, hv⟩ :=
       exists_prime_orderOf_dvd_card' q hqdvd
     let w : Equiv.Perm X := (v : P)

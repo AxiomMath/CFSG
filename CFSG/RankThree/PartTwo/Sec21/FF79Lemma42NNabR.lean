@@ -11,6 +11,7 @@ open CFSG.Holt.General.AltRecPrim
 
 variable {Γ : Type} [Group Γ] [Finite Γ] {Q L : Subgroup Γ} {b : Γ}
 
+omit [Finite Γ] in
 theorem index_le_of_orbit (hQ : Q.Normal) (F : SimpleFactors Q) (j : Fin F.r)
     (S : Finset (Fin F.r)) (hmem : ∀ l ∈ L, ∃ k ∈ S, Cj F l j k) :
     ((Subgroup.normalizer (F.S j : Set Γ)).subgroupOf L).index ≤ S.card := by
@@ -41,6 +42,7 @@ theorem index_le_of_orbit (hQ : Q.Normal) (F : SimpleFactors Q) (j : Fin F.r)
   rw [Nat.card_eq_fintype_card (α := S), Fintype.card_coe] at this
   exact this
 
+omit [Finite Γ] in
 theorem moved_factor_false (h : NHyp Q L b) (hQ : Q.Normal) (F : SimpleFactors Q)
     (j : Fin F.r) (hb : ¬ Cj F b j j) : False := by
   classical

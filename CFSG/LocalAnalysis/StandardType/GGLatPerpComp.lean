@@ -178,7 +178,7 @@ theorem ggPerpComp_basis {τ : Tag} (j : Fin τ.rank) (p : ℕ) (hp : p.Prime) (
     (hcart : ggCartCheck τ = true) (hbasis : ggBasisCheck τ = true) :
     ggPerpComp τ p (Pi.single j 1) := by
   obtain ⟨hconn, ha₀root, hcount, hrows, hdetval⟩ := ggBasisCheck_sound hbasis j
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have ha₀ : IsRoot τ (ggCertA0 τ j) := ggRootList_mem.mp ha₀root
   have hrowsmem : ∀ k : Fin τ.rank, k ≠ j → ggCertMat τ j k ∈ ggPerp τ (Pi.single j 1) :=
     fun k hk => ⟨ggRootList_mem.mp (hrows k hk).1, by

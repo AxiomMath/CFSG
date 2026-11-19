@@ -30,6 +30,7 @@ private theorem fz_card_map_mul_card_inf_ker {X Y : Type*} [Group X] [Group Y] (
   rw [Subgroup.relIndex_ker, inf_comm] at h
   exact h
 
+omit [Finite G] in
 theorem fz_g_q8_facts (hz : orderOf z = 2) (hR : Nonempty (R ≃* QuaternionGroup 2))
     (hzR : z ∈ R) :
     Nat.card R = 8 ∧ (∀ x ∈ R, x ^ 2 ∈ zpowers z) ∧
@@ -115,6 +116,7 @@ theorem fz_bar_sylow (hT : FzSylow T) (hTz : T ≤ centralizer ({z} : Set G)) :
       (H := T.subgroupOf (centralizer ({z} : Set G)))
       (QuotientGroup.mk'_surjective (zpowers (zC z)))))
 
+omit [Finite G] in
 theorem fz_bar_card (hz : orderOf z = 2) (hR : Nonempty (R ≃* QuaternionGroup 2))
     (hzR : z ∈ R) (hRC : R ≤ centralizer ({z} : Set G)) : Nat.card (fzBar z R) = 4 := by
   obtain ⟨hcardR, -, -⟩ := fz_g_q8_facts hz hR hzR
@@ -136,8 +138,9 @@ theorem fz_bar_card (hz : orderOf z = 2) (hR : Nonempty (R ≃* QuaternionGroup 
   have hmain' : Nat.card (fzBar z R) * 2 = 8 := hmain
   omega
 
+omit [Finite G] in
 theorem fz_bar_elemAbelian (hz : orderOf z = 2) (hR : Nonempty (R ≃* QuaternionGroup 2))
-    (hzR : z ∈ R) (hRC : R ≤ centralizer ({z} : Set G)) : IsElemAbelian 2 (fzBar z R) := by
+    (hzR : z ∈ R) (_hRC : R ≤ centralizer ({z} : Set G)) : IsElemAbelian 2 (fzBar z R) := by
   obtain ⟨-, hsq, hcomm⟩ := fz_g_q8_facts hz hR hzR
   refine ⟨?_, ?_⟩
   · refine isMulCommutative_iff_of_setLike.mpr ?_

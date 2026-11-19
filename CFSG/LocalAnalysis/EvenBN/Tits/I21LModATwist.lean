@@ -16,7 +16,7 @@ theorem modA_cent_trivial (e : G ≃* alternatingGroup (Fin 6))
     (r : G →* (W ≃ₗ[ZMod 2] W)) (hW : finrank (ZMod 2) W = 4)
     (hirr : ∀ U : Submodule (ZMod 2) W, (∀ g, ∀ u ∈ U, r g u ∈ U) → U = ⊥ ∨ U = ⊤)
     (n : W ≃ₗ[ZMod 2] W) (hn : ∀ g, n * r g = r g * n) : n = 1 := by
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
   let φ : alternatingGroup (Fin 6) →* (W ≃ₗ[ZMod 2] W) := r.comp e.symm.toMonoidHom
   have hirr' : ∀ U : Submodule (ZMod 2) W, (∀ g, ∀ u ∈ U, φ g u ∈ U) → U = ⊥ ∨ U = ⊤ :=
     fun U hU => hirr U fun g u hu => by simpa [φ] using hU (e g) u hu

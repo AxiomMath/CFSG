@@ -26,7 +26,7 @@ theorem exists_odd_card_statedSp {K : Type} [Field K] [Finite K] {f : ℕ} (hf :
       (fun a b ha hb => Odd.mul ha hb) odd_one hodd, ?_⟩
   rw [CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.card_statedSp (K := K) (r := m), hK]
 
-theorem two_adic_ineq {a b g o₁ o₂ X : ℕ} (ho₁ : Odd o₁) (ho₂ : Odd o₂)
+theorem two_adic_ineq {a b g o₁ o₂ X : ℕ} (_ho₁ : Odd o₁) (ho₂ : Odd o₂)
     (h : 2 ^ a * o₁ = X * 2 ^ g) (hX : X ∣ 2 ^ b * o₂) : a ≤ b + g := by
   by_contra hlt
   obtain ⟨d, rfl⟩ : ∃ d, a = b + g + d := ⟨a - (b + g), by omega⟩

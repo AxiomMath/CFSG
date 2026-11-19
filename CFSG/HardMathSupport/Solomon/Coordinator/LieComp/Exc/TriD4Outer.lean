@@ -18,8 +18,8 @@ set_option linter.unusedSectionVars false
 
 theorem ringChar_subfield {K : Type} [Field K] {ℓ : ℕ} (hℓ : ringChar K = ℓ) (k : Subfield K) :
     ringChar k = ℓ := by
-  haveI : CharP K ℓ := hℓ ▸ ringChar.charP K
-  haveI : CharP k ℓ := (k.subtype.charP_iff k.subtype_injective ℓ).2 inferInstance
+  have : CharP K ℓ := hℓ ▸ ringChar.charP K
+  have : CharP k ℓ := (k.subtype.charP_iff k.subtype_injective ℓ).2 inferInstance
   exact ringChar.eq k ℓ
 
 noncomputable def fixSubgroupConjEquiv {Y : Type*} [Group Y] (β α : MulAut Y) :
@@ -37,7 +37,7 @@ theorem nonempty_fixSubgroup_fieldActor_equiv_G2 {ℓ f : ℕ} [Fact ℓ.Prime] 
   classical
   have hℓ : ℓ.Prime := Fact.out
   have hK3 : Nat.card K = ℓ ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     hℓ (by omega) hK3
   rcases hℓ2 with rfl | h5
   · obtain ⟨e⟩ := KFacts.nonempty_fixedPoints_fieldActor_mulEquiv_g2 (σ := σ)
@@ -63,7 +63,7 @@ theorem nonempty_fixSubgroup_fieldActor_equiv_G2 {ℓ f : ℕ} [Fact ℓ.Prime] 
         Subtype.val_injective).trans (MulEquiv.subgroupCongr hFJ)
     have hk3 : (3 : ℕ∞) ≤ ENat.card (fixSubfield σ) := by
       obtain ⟨q, hqp, hqcard⟩ := exists_primePower_card_subfield (ringChar.eq K ℓ) (fixSubfield σ)
-      haveI : Finite (fixSubfield σ) := Subtype.finite
+      have : Finite (fixSubfield σ) := Subtype.finite
       rw [ENat.card_eq_coe_natCard (fixSubfield σ)]
       have h3 : 3 ≤ q.card := by
         rw [TauCeti.PrimePower.card_def]
@@ -95,8 +95,8 @@ theorem compsFine_fixSubgroup_fieldActor {ℓ f : ℕ} [Fact ℓ.Prime] (hℓ3 :
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) :
     CompsFine ℓ ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) := by
   rw [compsFine_iff_compsWith]
-  haveI : CharP K ℓ := charP_of_card_pow_three Fact.out hf hK
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : CharP K ℓ := charP_of_card_pow_three Fact.out hf hK
+  have : Finite (fixSubfield σ) := Subtype.finite
   refine compsWith_fixSubgroup_fieldActor (isComponentProperty_componentFactor ℓ) hℓ3 hf hℓ2 hK σ
     hσ ?_
   exact (compsFine_iff_compsWith _ _).1
@@ -153,7 +153,7 @@ theorem compsWith_triality_outer {P : (X : Type) → [Group X] → Prop}
     omega
   have hF : Nat.card (fixSubfield Fr) = ℓ ^ f :=
     CFSG.GH74.GLS.Stage4.Hex.card_fixedField_of_cube Fr.toRingHom hq hK₃ hFr
-  haveI : Finite (fixSubfield Fr) := Subtype.finite
+  have : Finite (fixSubfield Fr) := Subtype.finite
   have hG2 := compsWith_fixSubgroup_fieldActor hP hℓ3 hf hℓ2 hK₃ Fr hFr (hPG2 hF)
   by_cases hconj : ∃ β : MulAut ↥(graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom),
       φ = β * fieldActor (t := TwistTag.D4) Fr Fr * β⁻¹ ∨
@@ -198,7 +198,7 @@ theorem compsFine_triality_outer (hodd : TrialityOddA2Comps) {ℓ f : ℕ} [Fact
   · intro h5 hf' K₃' _ _ hK₃' Fr' hFr' φ' hφ3' hφ' hconj'
     exact (compsFine_iff_compsWith _ _).1 (hodd ℓ f h5 hf' K₃' hK₃' Fr' hFr' φ' hφ3' hφ' hconj')
   · intro F _ _ hF
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hFc : Fintype.card F = ℓ ^ f := by rw [← Nat.card_eq_fintype_card]; exact hF
     have hcharP : CharP F ℓ := charP_of_card_eq_prime_pow hFc
     exact (compsFine_iff_compsWith _ _).1 (compsFine_adjointGroup_G2 (ringChar.eq F ℓ))

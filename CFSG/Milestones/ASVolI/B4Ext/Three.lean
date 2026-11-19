@@ -19,6 +19,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {V : Type} [CommGroup V] [Finite V] {G : Subgroup (MulAut V)} {U : Subgroup V}
   {K : Type} [Field K] [Finite K] [CharP K 2] {π : ↥(CFSG.Open.StatedSL 3 K) →* ↥G}
 
+omit [Finite V] [Finite K] [CharP K 2] in
 theorem burnsideB49x_card_setσ_nat (C : burnsideB49_Coord3 G U K π) (hσ : ∀ s, C.σ s = s)
     (A : Subgroup (MulAut V)) :
     Nat.card {x : Fin 3 → K // ∀ s ∈ burnsideB49x_hat C A,
@@ -28,6 +29,7 @@ theorem burnsideB49x_card_setσ_nat (C : burnsideB49_Coord3 G U K π) (hσ : ∀
     simp only [hσ]
     exact Iff.rfl)
 
+omit [Finite V] [Finite K] [CharP K 2] in
 theorem burnsideB49x_card_setσ_dual (C : burnsideB49_Coord3 G U K π)
     (hσ : ∀ s, C.σ s = CFSG.Quasithin.JonesParshall.invTransposeSL 3 K s)
     (A : Subgroup (MulAut V)) :
@@ -38,12 +40,14 @@ theorem burnsideB49x_card_setσ_dual (C : burnsideB49_Coord3 G U K π)
     simp only [hσ, CFSG.Quasithin.JonesParshall.invTransposeSL_coe]
     exact Iff.rfl)
 
+omit [Finite V] [Finite K] [CharP K 2] in
 theorem burnsideB49x_card_setN (C : burnsideB49_Coord3 G U K π) (A : Subgroup (MulAut V)) :
-    Nat.card {x : Fin 3 → K // ∀ s ∈ burnsideB49x_hat C A,
-      (s : Matrix (Fin 3) (Fin 3) K).mulVec x = x} =
+    Nat.card {_x : Fin 3 → K // ∀ s ∈ burnsideB49x_hat C A,
+      (s : Matrix (Fin 3) (Fin 3) K).mulVec _x = _x} =
       Nat.card ↥(burnsideB49x_fixN (burnsideB49x_hat C A)) :=
-  Nat.card_congr (Equiv.subtypeEquivRight fun x => Iff.rfl)
+  Nat.card_congr (Equiv.subtypeEquivRight fun _x => Iff.rfl)
 
+omit [CharP K 2] in
 theorem burnsideB49x_three_chain_nat (C : burnsideB49_Coord3 G U K π) (hσ : ∀ s, C.σ s = s)
     (hreal : (FFModel.nat (CFSG.Open.StatedSL 3 K)).RealizesVia G U ⊥ π)
     {A : Subgroup (MulAut V)} (hAG : A ≤ G) :
@@ -146,6 +150,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {V : Type} [CommGroup V] [Finite V] {G : Subgroup (MulAut V)} {U : Subgroup V}
   {K : Type} [Field K] [Finite K] {π : ↥(CFSG.Open.StatedSL 3 K) →* ↥G}
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49x_quotIsoSub_of_coord (C : burnsideB49_Coord3 G U K π) (hσ : ∀ s, C.σ s = s)
     (hreal : (FFModel.nat (CFSG.Open.StatedSL 3 K)).RealizesVia G U ⊥ π) :
     CFSG.ASVolI.ChB.QuotIsoSub G U := by
@@ -180,6 +185,7 @@ theorem burnsideB49x_quotIsoSub_of_coord (C : burnsideB49_Coord3 G U K π) (hσ 
     rw [MulEquiv.apply_symm_apply, he₁, he₂, h1, hβu, ← hs, burnsideB49_qV_rhoHat]
   rw [h2]
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49x_quadHyp_of (C : burnsideB49_Coord3 G U K π) {A₀ : Subgroup (MulAut V)}
     (hq : IsQuadratic A₀) (g : Matrix.SpecialLinearGroup (Fin 3) K)
     (hg : ∀ w : Fin 2 → K, g⁻¹ * burnsideB49_tau w * g ∈ burnsideB49x_hat C A₀) :
@@ -211,7 +217,7 @@ theorem burnsideB49x_three (hV : ∀ v : V, v ^ 2 = 1) {f : ℕ} (hf : 1 ≤ f)
     {A : Subgroup (MulAut V)} (hA : IsFFStarOffender T A) :
     CFSG.ASVolI.ChB.SplitsOver G U ∧ CFSG.ASVolI.ChB.QuotIsoSub G U ∧
       qOf G = ((1 : ℚ) : WithTop ℚ) := by
-  haveI := burnsideB49_charP_two hf hK
+  have := burnsideB49_charP_two hf hK
   have hπ : ∀ g : ↥G, ∃ γ, π γ = g := hreal.1
   have hAG' : IsFFStarOffender G A := burnsideB49x_offender_mono hT.1 hA
   obtain ⟨C⟩ := burnsideB49_coord3_exists hreal hquot

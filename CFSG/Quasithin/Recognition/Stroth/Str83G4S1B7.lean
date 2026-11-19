@@ -18,6 +18,7 @@ section SectionRep
 
 variable {H U L N : Subgroup G} {X : Type} [Group X]
 
+omit [Finite G] in
 theorem sectionRep_isIrreducible (hstep : IsChiefStep H U L N) (hUH : U ≤ H)
     (hHL : H ≤ Subgroup.normalizer (L : Set G)) (hHN : H ≤ Subgroup.normalizer (N : Set G))
     (hNL : N ≤ Subgroup.normalizer (L : Set G)) (hE : IsElemAbelian 2 (Ch3z.chiefMod L N))
@@ -25,8 +26,8 @@ theorem sectionRep_isIrreducible (hstep : IsChiefStep H U L N) (hUH : U ≤ H)
     letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
     letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
     (sectionRep hHL hHN hNL hE hO e).IsIrreducible := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   rw [CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff]
   refine ⟨?_, ?_⟩
   · have hntE : Nontrivial (Ch3z.chiefMod L N) := by
@@ -77,6 +78,7 @@ theorem sectionRep_isIrreducible (hstep : IsChiefStep H U L N) (hUH : U ≤ H)
       change Additive.ofMul x.toMul ∈ W
       exact hxK
 
+omit [Finite G] in
 theorem sectionRep_chiefIota (hHL : H ≤ Subgroup.normalizer (L : Set G))
     (hHN : H ≤ Subgroup.normalizer (N : Set G)) (hNL : N ≤ Subgroup.normalizer (L : Set G))
     (hE : IsElemAbelian 2 (Ch3z.chiefMod L N)) (hO : pCoreOf 2 H ≤ centralizerMod L H N)
@@ -86,11 +88,12 @@ theorem sectionRep_chiefIota (hHL : H ≤ Subgroup.normalizer (L : Set G))
     sectionRep hHL hHN hNL hE hO e (e (QuotientGroup.mk h))
         (Additive.ofMul (Ch3z.chiefIota hNL n)) =
       Additive.ofMul (Ch3z.chiefIota hNL ⟨(h : G) * n * (h : G)⁻¹, hhn⟩) := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   rw [sectionRep_apply, sectionAction_apply]
   exact congrArg Additive.ofMul (Ch3z.chiefPsi_iota hHL hHN hNL h n hhn)
 
+omit [Finite G] in
 theorem sectionRep_comp_sub_one_eq_zero {Y : Subgroup G}
     (hHL : H ≤ Subgroup.normalizer (L : Set G))
     (hHN : H ≤ Subgroup.normalizer (N : Set G)) (hNL : N ≤ Subgroup.normalizer (L : Set G))
@@ -102,8 +105,8 @@ theorem sectionRep_comp_sub_one_eq_zero {Y : Subgroup G}
     letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
     (sectionRep hHL hHN hNL hE hO e (e (QuotientGroup.mk s)) - 1) ∘ₗ
       (sectionRep hHL hHN hNL hE hO e (e (QuotientGroup.mk c)) - 1) = 0 := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   ext w
   obtain ⟨n, hn⟩ := Ch3z.chiefIota_surjective hNL w.toMul
   have hw : w = Additive.ofMul (Ch3z.chiefIota hNL n) := by rw [hn]; rfl
@@ -222,7 +225,6 @@ theorem str83G4_exists_image_suzukiZ0
         rw [← pow_add, ← pow_succ']
         ring_nf
       zify [h1, h2]
-      push_cast
       nlinarith [h3]
     simp only [l, inv_inv, Units.val_pow_eq_pow_val]
     rw [← pow_mul, hexp, pow_succ, pow_mul', hm1, one_pow, one_mul]
@@ -237,10 +239,10 @@ theorem str83G4_centralizerMod_le_q1
   intro c₀ hc₀
   by_contra hc₀Q
   have ha : 1 ≤ a := hfr.2.2.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨e, he⟩ := str83G4_exists_equiv_sylow hK hfr
   have hZ0 := str83G4_exists_image_suzukiZ0 hK hfr e he hc₀ hc₀Q
   obtain ⟨L, N, hstep, hZ1L, hnc⟩ := str83G4_exists_chiefStep hfr
@@ -265,13 +267,13 @@ theorem str83G4_centralizerMod_le_q1
       Subgroup.commutator_mem_commutator hq (hstep.1.1 hn)
     rw [Subgroup.commutator_comm] at h1
     exact str83G4_commutator_x_q1_le hfr h1
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   set ρ := sectionRep hHL hHN hNL hE hO e with hρ
-  haveI : Fact ρ.IsIrreducible :=
+  have : Fact ρ.IsIrreducible :=
     ⟨sectionRep_isIrreducible hstep hXH hHL hHN hNL hE hO e⟩
   have hnt : ∃ g, ρ g ≠ 1 := by
-    obtain ⟨y, hyR, hyC⟩ := SetLike.not_le_iff_exists.mp hnc
+    obtain ⟨y, hyR, hyC⟩ := IsConcreteLE.not_le_iff_exists.mp hnc
     have hyH : y ∈ L1 ⊔ S := twoResidual_le _ hyR
     obtain ⟨n, hnN, hn⟩ : ∃ n ∈ N, y * n * y⁻¹ * n⁻¹ ∉ L := by
       by_contra hall
@@ -317,7 +319,7 @@ theorem str83G4_centralizerMod_le_q1
   have hθ2 : (0 : K) ^ (2 ^ (a + 1) + 2) = 0 := zero_pow (by positivity)
   have hc0 : (0 : K) ^ 2 ^ c = 0 := zero_pow (pow_ne_zero _ two_ne_zero)
   have h11 : (1 : K) + 1 = 0 := CharTwo.add_self_eq_zero 1
-  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_four, suzukiS, suzukiN, Pi.single_apply, hθ, hθ1,
+  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_four, suzukiS, suzukiN, hθ, hθ1,
     hθ2, hc0, CharTwo.sub_eq_add, h11] at h3
 
 theorem str83G4_q1_inf_q2_eq_centralizerMod

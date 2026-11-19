@@ -45,7 +45,7 @@ private lemma bmSTS_neg_one_matrix_eq_one {ι F : Type} [DecidableEq ι] [Field 
 
 private lemma bmSTS_J_mul_self (n f : ℕ) : bmSTS_J n f * bmSTS_J n f = 1 := by
   rw [bmSTS_J, Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.mul_one, Matrix.one_mul, Matrix.zero_mul, zero_add,
+  simp only [Matrix.mul_zero, Matrix.mul_one, zero_add,
     add_zero, Matrix.mul_neg, neg_zero]
   rw [bmSTS_neg_one_matrix_eq_one, Matrix.fromBlocks_one]
 
@@ -90,13 +90,13 @@ private lemma bmSTS_B_self (n f : ℕ) (v : (Fin n ⊕ Fin n) → GaloisField 2 
 
 private theorem bmSTS_blockSelfAdjoint
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
     (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4) :
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4) :
     e * e = e ∧ Matrix.transpose e * bmSTS_J n f = bmSTS_J n f * e := by
   refine ⟨he.2.1.eq, ?_⟩
   have h := hadj
@@ -169,13 +169,13 @@ private theorem bmSTS_blockRestrictNondegenerate
 
 private theorem bmSTS_blockRangeNeBot
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4) :
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4) :
     LinearMap.range (Matrix.mulVecLin e) ≠ ⊥ := by
   intro h
   have hzero : Matrix.mulVecLin e = 0 := LinearMap.range_eq_bot.mp h
@@ -186,16 +186,16 @@ private theorem bmSTS_blockRangeNeBot
 
 private theorem bmSTS_charP_two
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     [FiniteDimensional (GaloisField 2 f) K] [Algebra.IsSeparable (GaloisField 2 f) K]
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2) :
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2) :
     (2 : K) = 0 := by
   have h2F : (2 : GaloisField 2 f) = 0 := CharP.cast_eq_zero _ _
   rw [show (2 : K) = algebraMap (GaloisField 2 f) K (2 : GaloisField 2 f) from
@@ -213,12 +213,12 @@ private theorem bmSTS_tau_eq_canonical
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     [FiniteDimensional (GaloisField 2 f) K] [Algebra.IsSeparable (GaloisField 2 f) K]
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (τ : K ≃+* K) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
+    (τ : K ≃+* K) (_hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
     (hτlin : ∀ c : GaloisField 2 f,
       τ (algebraMap (GaloisField 2 f) K c) = algebraMap (GaloisField 2 f) K c) :
     ∃ (σ : K ≃ₐ[GaloisField 2 f] K), σ ≠ 1 ∧ (∀ a : K, τ a = σ a) ∧
       (∀ a : K, σ a * a + a * σ a = 0) := by
-  haveI : Algebra.IsQuadraticExtension (GaloisField 2 f) K :=
+  have : Algebra.IsQuadraticExtension (GaloisField 2 f) K :=
     Algebra.IsQuadraticExtension.mk hKrank
   let τ' : K ≃ₐ[GaloisField 2 f] K := { τ with commutes' := fun c => hτlin c }
   have hτ'ne : τ' ≠ 1 := by
@@ -240,36 +240,36 @@ private theorem bmSTS_tau_eq_canonical
 
 private theorem bmSTS_charP
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     [FiniteDimensional (GaloisField 2 f) K] [Algebra.IsSeparable (GaloisField 2 f) K]
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2) :
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2) :
     CharP K 2 := by
   exact charP_of_injective_ringHom (f := algebraMap (GaloisField 2 f) K)
     (FaithfulSMul.algebraMap_injective (GaloisField 2 f) K) 2
 
 private theorem bmSTS_tauFrobeniusPow
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     [FiniteDimensional (GaloisField 2 f) K] [Algebra.IsSeparable (GaloisField 2 f) K]
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (τ : K ≃+* K) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (τ : K ≃+* K) (_hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
     (hchar : CharP K 2) :
     ∃ i : ℕ, ∀ x : K, τ x = x ^ 2 ^ i := by
-  letI : Algebra (ZMod 2) K := (ZMod.castHom (dvd_refl 2) K).toAlgebra
+  let : Algebra (ZMod 2) K := (ZMod.castHom (dvd_refl 2) K).toAlgebra
   let τ' : K ≃ₐ[ZMod 2] K :=
     { τ with
       commutes' := fun n => by
@@ -283,16 +283,16 @@ private theorem bmSTS_tauFrobeniusPow
 
 private theorem bmSTS_powTwoTwoI_eq_self
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     [FiniteDimensional (GaloisField 2 f) K] [Algebra.IsSeparable (GaloisField 2 f) K]
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (τ : K ≃+* K) (hτ2 : ∀ a : K, τ (τ a) = a)
     (i : ℕ) (hi : ∀ x : K, τ x = x ^ 2 ^ i) :
     ∀ x : K, x ^ (2 ^ i * 2 ^ i) = x := by
@@ -302,28 +302,28 @@ private theorem bmSTS_powTwoTwoI_eq_self
 
 private theorem bmSTS_card_F
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     [FiniteDimensional (GaloisField 2 f) K] [Algebra.IsSeparable (GaloisField 2 f) K]
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2) :
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2) :
     f ≠ 0 → Nat.card (GaloisField 2 f) = 2 ^ f := by
   exact GaloisField.card 2 f
 
 private theorem bmSTS_card_K
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     [FiniteDimensional (GaloisField 2 f) K] [Algebra.IsSeparable (GaloisField 2 f) K]
     (hKrank : Module.finrank (GaloisField 2 f) K = 2) :
@@ -335,16 +335,16 @@ private theorem bmSTS_powTwo_mul (i : ℕ) : 2 ^ i * 2 ^ i = 2 ^ (2 * i) := by
 
 private theorem bmSTS_units_pow_eq_one
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     [FiniteDimensional (GaloisField 2 f) K] [Algebra.IsSeparable (GaloisField 2 f) K]
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (i : ℕ) (hi2 : ∀ x : K, x ^ (2 ^ i * 2 ^ i) = x) :
     ∀ g : Kˣ, g ^ (2 ^ (2 * i) - 1) = 1 := by
   intro g
@@ -361,16 +361,16 @@ private theorem bmSTS_units_pow_eq_one
 
 private theorem bmSTS_card_units_dvd
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     [FiniteDimensional (GaloisField 2 f) K] [Algebra.IsSeparable (GaloisField 2 f) K]
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (m : ℕ) (hm : ∀ g : Kˣ, g ^ m = 1) :
     Nat.card K - 1 ∣ m := by
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := Kˣ)
@@ -418,16 +418,16 @@ private theorem bmSTS_card_K_eq
 
 private theorem bmSTS_card_K_sub_one
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     [FiniteDimensional (GaloisField 2 f) K] [Algebra.IsSeparable (GaloisField 2 f) K]
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (hcard : Nat.card K = 2 ^ (2 * f)) :
     Nat.card K - 1 = 2 ^ (2 * f) - 1 := by
   rw [hcard]
@@ -544,17 +544,17 @@ private theorem bmSTS_powTwo_sub_one_dvd_pos'
 
 private theorem bmSTS_powTwo_sub_one_dvd_zero
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     [FiniteDimensional (GaloisField 2 f) K] [Algebra.IsSeparable (GaloisField 2 f) K]
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (i : ℕ) (hf : f = 0) (hdvd : Nat.card K - 1 ∣ 2 ^ (2 * i) - 1) :
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (i : ℕ) (hf : f = 0) (_hdvd : Nat.card K - 1 ∣ 2 ^ (2 * i) - 1) :
     max f 1 ∣ i := by
   rw [hf]
   exact one_dvd i
@@ -571,7 +571,7 @@ private theorem bmSTS_powTwo_sub_one_dvd
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     [FiniteDimensional (GaloisField 2 f) K] [Algebra.IsSeparable (GaloisField 2 f) K]
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (i : ℕ) (hcard : Nat.card K = Nat.card (GaloisField 2 f) ^ 2)
+    (i : ℕ) (_hcard : Nat.card K = Nat.card (GaloisField 2 f) ^ 2)
     (hdvd : Nat.card K - 1 ∣ 2 ^ (2 * i) - 1) :
     max f 1 ∣ i := by
   rcases Nat.eq_zero_or_pos f with hf | hf
@@ -613,7 +613,7 @@ private theorem bmSTS_baseFrobenius
   rcases Nat.eq_zero_or_pos f with hf | hf
   · subst hf
     simp
-  · haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  · have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
     have hq : Fintype.card (GaloisField 2 f) = 2 ^ f := by
       rw [← Nat.card_eq_fintype_card]
       exact GaloisField.card 2 f (ne_of_gt hf)
@@ -633,7 +633,7 @@ private theorem bmSTS_card_galoisField_max (f : ℕ) :
 
 private theorem bmSTS_base_pow_two_max (f : ℕ) (c : GaloisField 2 f) :
     c ^ 2 ^ max f 1 = c := by
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   have h : c ^ Nat.card (GaloisField 2 f) = c := by
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
@@ -641,17 +641,17 @@ private theorem bmSTS_base_pow_two_max (f : ℕ) (c : GaloisField 2 f) :
 
 private theorem bmSTS_basePowFrobenius
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     [FiniteDimensional (GaloisField 2 f) K] [Algebra.IsSeparable (GaloisField 2 f) K]
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (i : ℕ) (hfi : max f 1 ∣ i) (hc : ∀ c : GaloisField 2 f, c ^ 2 ^ f = c) :
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (i : ℕ) (hfi : max f 1 ∣ i) (_hc : ∀ c : GaloisField 2 f, c ^ 2 ^ f = c) :
     ∀ c : GaloisField 2 f,
       (algebraMap (GaloisField 2 f) K c) ^ 2 ^ i = algebraMap (GaloisField 2 f) K c := by
   intro c
@@ -709,15 +709,15 @@ private theorem bmSTS_tauFixesBase
 
 private theorem bmSTS_blockEmbeddingEV_PSU_unitaryInvolution
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -726,12 +726,12 @@ private theorem bmSTS_blockEmbeddingEV_PSU_unitaryInvolution
     [IsScalarTower (GaloisField 2 f) K W]
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (htrace : ∀ (x y : W) (c : K),
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (_heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
+    (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
+    (_htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y)) :
     CFSG.ClassicalGroups.Unitary.IsUnitaryInvolution τ :=
@@ -741,15 +741,15 @@ private theorem bmSTS_blockEmbeddingEV_PSU_unitaryInvolution
 
 private theorem bmSTS_blockEmbeddingEV_PSU_isHermForm
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -758,12 +758,12 @@ private theorem bmSTS_blockEmbeddingEV_PSU_isHermForm
     [IsScalarTower (GaloisField 2 f) K W]
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (_heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
     (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (htrace : ∀ (x y : W) (c : K),
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
+    (_htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y)) :
     CFSG.Fischer.Classification.Herm.IsHermForm τ (fun x y => h x y) := by
@@ -923,15 +923,15 @@ private noncomputable def bmSTS_blockEmbeddingEV_PSU_suAction
 
 private noncomputable def bmSTS_blockEmbeddingEV_PSU_stdActionMap
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -940,13 +940,13 @@ private noncomputable def bmSTS_blockEmbeddingEV_PSU_stdActionMap
     [IsScalarTower (GaloisField 2 f) K W]
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (_heWinj : Function.Injective eW) (_hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
+    (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (htrace : ∀ (x y : W) (c : K),
+    (_htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y)) :
     (ggU .PSU m' (max f 1)).K → (Fin m' → K) →ₗ[GaloisField 2 f] (Fin m' → K) := by
@@ -995,7 +995,7 @@ private theorem bmSTS_blockEmbeddingEV_PSU_stdActionInjective
       Function.Injective (bmSTS_blockEmbeddingEV_PSU_stdActionMap n f S hSU hS hodd he hadj hdeg₁
         hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g) := by
   intro g
-  letI : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
+  let : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
     Classical.choice (bmSTS_blockEmbeddingEV_PSU_baseAlgebra f)
   have hinj : Function.Injective (bmSTS_blockEmbeddingEV_PSU_suAction m' f g) := by
     simp only [bmSTS_blockEmbeddingEV_PSU_suAction]
@@ -1049,7 +1049,7 @@ private theorem bmSTS_blockEmbeddingEV_PSU_stdActionSurjective
       Function.Surjective (bmSTS_blockEmbeddingEV_PSU_stdActionMap n f S hSU hS hodd he hadj hdeg₁
         hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g) := by
   intro g
-  letI : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
+  let : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
     Classical.choice (bmSTS_blockEmbeddingEV_PSU_baseAlgebra f)
   have hsurj : Function.Surjective (bmSTS_blockEmbeddingEV_PSU_suAction m' f g) := by
     simp only [bmSTS_blockEmbeddingEV_PSU_suAction]
@@ -1225,15 +1225,15 @@ private noncomputable def bmSTS_blockEmbeddingEV_PSU_blockExtend
 
 private theorem bmSTS_blockExtend_orthogonal
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
     (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -1242,13 +1242,13 @@ private theorem bmSTS_blockExtend_orthogonal
     [IsScalarTower (GaloisField 2 f) K W]
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (htrace : ∀ (x y : W) (c : K),
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (_heWinj : Function.Injective eW) (_hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
+    (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y)) :
     ∀ a : (Fin n ⊕ Fin n) → GaloisField 2 f,
@@ -1280,15 +1280,15 @@ private theorem bmSTS_blockExtend_orthogonal
 
 private theorem bmSTS_blockExtend_orthogonal'
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
     (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -1297,13 +1297,13 @@ private theorem bmSTS_blockExtend_orthogonal'
     [IsScalarTower (GaloisField 2 f) K W]
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (htrace : ∀ (x y : W) (c : K),
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (_heWinj : Function.Injective eW) (_hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
+    (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y)) :
     ∀ b : (Fin n ⊕ Fin n) → GaloisField 2 f,
@@ -1590,12 +1590,12 @@ private theorem bmSTS_herm_stdModuleEquiv
   have hu : ((bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv f m' K hKrank).symm u) i =
       (bmSTS_blockEmbeddingEV_PSU_fieldAlgEquiv f K hKrank).symm (u i) := by
     simp only [bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv, LinearEquiv.piCongrRight_symm,
-      LinearEquiv.piCongrRight_apply, AlgEquiv.toLinearEquiv_symm]
+      LinearEquiv.piCongrRight_apply]
     rfl
   have hv : ((bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv f m' K hKrank).symm v) i =
       (bmSTS_blockEmbeddingEV_PSU_fieldAlgEquiv f K hKrank).symm (v i) := by
     simp only [bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv, LinearEquiv.piCongrRight_symm,
-      LinearEquiv.piCongrRight_apply, AlgEquiv.toLinearEquiv_symm]
+      LinearEquiv.piCongrRight_apply]
     rfl
   rw [hu, hv, map_mul]
   congr 1
@@ -1641,7 +1641,7 @@ private theorem bmSTS_stdAction_isometry
             h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g y) =
         CFSG.ClassicalGroups.Unitary.herm τ x y := by
   intro x y
-  letI : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
+  let : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
     Classical.choice (bmSTS_blockEmbeddingEV_PSU_baseAlgebra f)
   let C : (Fin m' → K) ≃ₗ[GaloisField 2 f] (Fin m' → GaloisField 2 (2 * max f 1)) :=
     bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv f m' K hKrank
@@ -1715,7 +1715,7 @@ private theorem bmSTS_blockAction_isometry
   let B : W ≃ₗ[GaloisField 2 f] W :=
     bmSTS_blockEmbeddingEV_PSU_blockAction n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW
       m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g
-  haveI : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by omega)
+  have : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by omega)
   have hspec := Classical.choose_spec (CFSG.Fischer.Classification.exists_linearEquiv_herm_of_form
       (bmSTS_blockEmbeddingEV_PSU_unitaryInvolution n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
         W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace)
@@ -1821,7 +1821,7 @@ private theorem bmSTS_blockExtend_form_of_components
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
     (g : (ggU .PSU m' (max f 1)).K)
-    (horth : ∀ a : (Fin n ⊕ Fin n) → GaloisField 2 f,
+    (_horth : ∀ a : (Fin n ⊕ Fin n) → GaloisField 2 f,
       a ∈ LinearMap.range (Matrix.mulVecLin e) →
       ∀ b : (Fin n ⊕ Fin n) → GaloisField 2 f,
         b ∈ LinearMap.ker (Matrix.mulVecLin e) →
@@ -2080,7 +2080,7 @@ private lemma bmSTS_conj_mul {F : Type} [Field F] {A B : Type} [AddCommGroup A] 
   apply LinearEquiv.ext
   intro x
   simp only [LinearEquiv.mul_apply, LinearEquiv.trans_apply,
-    LinearEquiv.symm_apply_apply, LinearEquiv.apply_symm_apply]
+    LinearEquiv.symm_apply_apply]
 
 private lemma bmSTS_prodCongr_mul_refl {F : Type} [Field F] {M N : Type}
     [AddCommGroup M] [Module F M] [AddCommGroup N] [Module F N]
@@ -2402,7 +2402,7 @@ private theorem bmSTS_blockEmbeddingEV_PSU_blockOne
   have hstdMap : bmSTS_blockEmbeddingEV_PSU_stdActionMap n f S hSU hS hodd he hadj hdeg₁ hdeg₂
       hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace
       (1 : (ggU .PSU m' (max f 1)).K) = LinearMap.id := by
-    letI : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
+    let : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
       Classical.choice (bmSTS_blockEmbeddingEV_PSU_baseAlgebra f)
     simp only [bmSTS_blockEmbeddingEV_PSU_stdActionMap]
     rw [bmSTS_suAction_one]
@@ -2548,7 +2548,7 @@ private theorem bmSTS_blockEmbeddingEV_PSU_hom_injective
     Function.Injective
       (bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m'
         heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace) := by
-  letI : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
+  let : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
     Classical.choice (bmSTS_blockEmbeddingEV_PSU_baseAlgebra f)
   have hker : ∀ x : (ggU .PSU m' (max f 1)).K,
       bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m'
@@ -2794,9 +2794,9 @@ private theorem bmSTS_fieldAut_invol_eq_pow {K : Type} [Field K] [Finite K] {σ 
     ∃ q : ℕ, q * q = Nat.card K ∧ ∀ x : K, σ x = x ^ q := by
   obtain ⟨p, hchar⟩ := CharP.exists K
   have hp0 : p ≠ 0 := CharP.char_ne_zero_of_finite K p
-  haveI hpF : Fact p.Prime := ⟨(CharP.char_is_prime_or_zero K p).resolve_right hp0⟩
-  letI : Algebra (ZMod p) K := ZMod.algebra K p
-  haveI : Fintype (ZMod p) := Fintype.ofFinite _
+  have hpF : Fact p.Prime := ⟨(CharP.char_is_prime_or_zero K p).resolve_right hp0⟩
+  let : Algebra (ZMod p) K := ZMod.algebra K p
+  have : Fintype (ZMod p) := Fintype.ofFinite _
   have hcard : p ^ Module.finrank (ZMod p) K = Nat.card K :=
     FiniteField.pow_finrank_eq_natCard p K
   have hcomm : ∀ x : ZMod p, σ (algebraMap (ZMod p) K x) = algebraMap (ZMod p) K x := by
@@ -2891,7 +2891,7 @@ private theorem bmSTS_SUid_two_isPerfect
     ext x
     rw [hpow x, hq', CFSG.LieType.BorelTits.unitaryInvolution_apply]
   rw [hσeq]
-  haveI hchar : CharP (GaloisField 2 (2 * max f 1)) 2 :=
+  have hchar : CharP (GaloisField 2 (2 * max f 1)) 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq hcard
   obtain ⟨e⟩ := CFSG.SectionRank.EvenCover.nonempty_sl2_mulEquiv_SUid_two
     (K := GaloisField 2 (2 * max f 1)) (f := max f 1) hcard
@@ -2899,7 +2899,7 @@ private theorem bmSTS_SUid_two_isPerfect
       (GaloisField 2 (2 * max f 1)) 2 (max f 1)) := by
     rw [CFSG.LieType.Steinberg.card_fixedSubfield hcard]
     exact hq
-  haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card
+  have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card
     (CFSG.LieType.Steinberg.fixedSubfield (GaloisField 2 (2 * max f 1)) 2 (max f 1)) h4
   exact Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
 
@@ -2942,16 +2942,16 @@ private theorem bmSTS_blockEmbeddingEV_PSU_hom_range_perfect
   let ι₀ := bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m'
     heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace
   change ι₀.range ≤ ⁅ι₀.range, ι₀.range⁆
-  haveI hperfRange : Group.IsPerfect ↥ι₀.range := by
+  have hperfRange : Group.IsPerfect ↥ι₀.range := by
     let σ : GaloisField 2 (2 * max f 1) ≃+* GaloisField 2 (2 * max f 1) :=
       CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2 (max f 1)
     have hcard : Nat.card (GaloisField 2 (2 * max f 1)) = (2 ^ max f 1) ^ 2 :=
       bmSTS_natCard_galoisField_twoMax_sq f
-    haveI hchar : CharP (GaloisField 2 (2 * max f 1)) 2 :=
+    have hchar : CharP (GaloisField 2 (2 * max f 1)) 2 :=
       CFSG.ClassicalGroups.Unitary.charP_of_card_sq hcard
     have hσ : CFSG.ClassicalGroups.Unitary.IsUnitaryInvolution σ :=
       CFSG.ClassicalGroups.Unitary.isUnitaryInvolution_unitaryInvolution hcard
-    haveI hperfSUid : Group.IsPerfect (Unitary.SUid σ m') := by
+    have hperfSUid : Group.IsPerfect (Unitary.SUid σ m') := by
       by_cases h3 : 3 ≤ m'
       · refine CFSG.ClassicalGroups.Unitary.isPerfect_SUid hσ h3 ?_
         intro hm3eq
@@ -2978,7 +2978,7 @@ private theorem bmSTS_blockEmbeddingEV_PSU_hom_range_perfect
       let e := (Unitary.conjEquiv (bmSTS_antidiagConj m' f)
         (bmSTS_antidiagConj_spec m' f)).symm
       Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
-    haveI hperfD : Group.IsPerfect (ggU .PSU m' (max f 1)).K := by
+    have hperfD : Group.IsPerfect (ggU .PSU m' (max f 1)).K := by
       have hf : 1 ≤ max f 1 := le_max_right f 1
       have e : ggU .PSU m' (max f 1) =
           ⟨Unitary.SU σ m',
@@ -3212,15 +3212,15 @@ private lemma bmSTS_exists_linearMap_of_stabilizes_range
 
 private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_action_exists
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -3230,12 +3230,12 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_a
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
     (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (htrace : ∀ (x y : W) (c : K),
+    (heWinj : Function.Injective eW) (_hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
+    (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y)) :
     ∀ x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e,
@@ -3263,15 +3263,15 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_a
 
 private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_action_isKLinear
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -3280,13 +3280,13 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_a
     [IsScalarTower (GaloisField 2 f) K W]
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (_heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (htrace : ∀ (x y : W) (c : K),
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y)) :
     ∀ x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e,
@@ -3300,9 +3300,9 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_a
           (∀ w w' : W, h (T w) (T w') = h w w') →
           ∀ (c : K) (w : W), T (c • w) = c • T w := by
   intro x hx y hy T hT hiso c w
-  haveI : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
-  haveI : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by omega)
-  haveI : FiniteDimensional (GaloisField 2 f) W :=
+  have : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
+  have : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by omega)
+  have : FiniteDimensional (GaloisField 2 f) W :=
     FiniteDimensional.trans (GaloisField 2 f) K W
   have hsmul : ∀ (c : K) (u v : W), h (c • u) v = τ c * h u v := by
     intro c u v
@@ -3337,15 +3337,15 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_a
 
 private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_action_isometry
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -3354,18 +3354,18 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_a
     [IsScalarTower (GaloisField 2 f) K W]
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (_heWinj : Function.Injective eW) (_hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
+    (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -3381,12 +3381,12 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_a
                 GL (Fin n ⊕ Fin n) (GaloisField 2 f)) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n)
                   (GaloisField 2 f)) (eW w)) →
           ∀ w w' : W, h (T w) (T w') = h w w' := by
-  intro x hx y hy T hT w w'
+  intro x _hx y _hy T hT w w'
   let M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f) :=
     ((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) : GL (Fin n ⊕ Fin n)
       (GaloisField 2 f))
   have hKlin : ∀ (c : K) (w : W), T (c • w) = c • T w :=
-    hKlinRep x y hx hy T hT
+    hKlinRep x y _hx _hy T hT
   have hJ : ∀ u v : (Fin n ⊕ Fin n) → GaloisField 2 f,
       Matrix.mulVec M u ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (Matrix.mulVec M v) =
         u ⬝ᵥ Matrix.mulVec (bmSTS_J n f) v := by
@@ -3419,12 +3419,12 @@ private theorem
     bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_action_isCommutator
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     (W : Type) [AddCommGroup W] [Module K W] [Module (GaloisField 2 f) W]
     [IsScalarTower (GaloisField 2 f) K W]
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f))
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
     (heWinj : Function.Injective eW)
     (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
     (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
@@ -3457,21 +3457,20 @@ private theorem
     simp only [map_mul, map_inv]
   have hcoe : (((xC * yC * xC⁻¹ * yC⁻¹ : _) :
         ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))) = ⁅x, y⁆ := by
-    simp only [xC, yC, commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv,
-      Subgroup.coe_mk]
+    simp only [xC, yC, commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv]
   rw [hh, hρ (xC * yC * xC⁻¹ * yC⁻¹) w, hcoe]
 
 private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_action_det_eq_one
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -3481,12 +3480,12 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_a
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
     (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (htrace : ∀ (x y : W) (c : K),
+    (heWinj : Function.Injective eW) (_hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
+    (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
     (hKlinRepC : ∃ ρ : glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e
@@ -3570,8 +3569,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_blockAction_surjective_of_isometry_de
               hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank
               htrace g) w) := by
   intro Tk hbij hTk_iso hdet
-  haveI : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by omega)
-  letI : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
+  have : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by omega)
+  let : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
     Classical.choice (bmSTS_blockEmbeddingEV_PSU_baseAlgebra f)
   let e : K ≃ₐ[GaloisField 2 f] GaloisField 2 (2 * max f 1) :=
     bmSTS_blockEmbeddingEV_PSU_fieldAlgEquiv f K hKrank
@@ -3758,8 +3757,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_a
                   hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank
                   htrace g) w) := by
   intro x hx y hy T hT hKlin hiso
-  haveI : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by omega)
-  haveI : Module.Free K W := Module.Free.of_divisionRing K W
+  have : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by omega)
+  have : Module.Free K W := Module.Free.of_divisionRing K W
   let Tk : W →ₗ[K] W :=
     { toFun := T
       map_add' := T.map_add'
@@ -3834,8 +3833,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_a
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -3851,22 +3850,22 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_a
                 (GaloisField 2 f)) (eW w) =
               eW ((bmSTS_blockEmbeddingEV_PSU_blockAction n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe
                 K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g) w) := by
-  intro x hx y hy
+  intro x _hx y _hy
   obtain ⟨T, hT⟩ :=
     bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_action_exists
       n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd
-      hrank hm' hKrank htrace x hx y hy
+      hrank hm' hKrank htrace x _hx y _hy
   have hiso :=
     bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_action_isometry
       n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd
-      hrank hm' hKrank htrace hKlinRep x hx y hy T hT
+      hrank hm' hKrank htrace hKlinRep x _hx y _hy T hT
   obtain ⟨g, hg⟩ :=
     bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_action_eq_blockAction
       n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd
-      hrank hm' hKrank htrace hKlinRepC x hx y hy T hT
+      hrank hm' hKrank htrace hKlinRepC x _hx y _hy T hT
       (bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_action_isKLinear
         n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd
-        hrank hm' hKrank htrace x hx y hy T hT hiso)
+        hrank hm' hKrank htrace x _hx y _hy T hT hiso)
       hiso
   exact ⟨g, fun w => (hT w).symm.trans (hg w)⟩
 
@@ -3965,8 +3964,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_mem_ran
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
-    (hnq : 2 ^ max f 1 ≠ 2 ∨ 4 ≤ m')
+    (_hm3 : 2 ≤ m')
+    (_hnq : 2 ^ max f 1 ≠ 2 ∨ 4 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
@@ -3980,15 +3979,15 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_mem_ran
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
           GL (Fin n ⊕ Fin n) (GaloisField 2 f)) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n)
             (GaloisField 2 f)) (eW w)) →
       ∀ (c : K) (w : W), T (c • w) = c • T w)
-    (hcommS : ∀ (g : (ggU .PSU m' (max f 1)).K)
+    (_hcommS : ∀ (g : (ggU .PSU m' (max f 1)).K)
       (s : GL (Fin n ⊕ Fin n) (GaloisField 2 f)), s ∈ S →
       bmSTS_blockEmbeddingEV_PSU_blockExtend n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
         eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g * s =
@@ -3998,13 +3997,13 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_mem_ran
       ∀ y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e,
         ⁅x, y⁆ ∈ (bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
           eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace).range := by
-  intro x hx y hy
+  intro x _hx y _hy
   have hker := bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_fixes_ker
-    n f S x y hx hy
+    n f S x y _hx _hy
   obtain ⟨g, hg⟩ :=
     bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_action_mem_range
       n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd
-      hrank hm' hKrank htrace hKlinRepC hKlinRep x hx y hy
+      hrank hm' hKrank htrace hKlinRepC hKlinRep x _hx y _hy
   have heq := bmSTS_blockEmbeddingEV_PSU_eq_blockExtend_of_fixes_ker_of_range_action
     n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd
     hrank hm' hKrank htrace g (⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) hker hg
@@ -4049,8 +4048,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutator_closure_le_ran
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -4070,10 +4069,10 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutator_closure_le_ran
       (bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
           eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace).range := by
   refine (Subgroup.closure_le _).mpr (fun z hz => ?_)
-  obtain ⟨x, hx, y, hy, rfl⟩ := hz
+  obtain ⟨x, _hx, y, _hy, rfl⟩ := hz
   exact bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_mem_range
     n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd
-    hrank hm' hm3 hnq hKrank htrace hKlinRepC hKlinRep hcommS x hx y hy
+    hrank hm' hm3 hnq hKrank htrace hKlinRepC hKlinRep hcommS x _hx y _hy
 
 private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutator_le_range
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
@@ -4114,8 +4113,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutator_le_range
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -4179,8 +4178,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_range_normal
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -4240,8 +4239,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_quotient_commutative
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -4306,8 +4305,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_quotient_iso
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -4328,7 +4327,7 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_quotient_iso
           (bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
             eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace).range.subgroupOf
           (glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e))) := by
-  haveI hN : ((bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
+  have hN : ((bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
         eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace).range.subgroupOf
       (glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e))).Normal :=
     bmSTS_blockEmbeddingEV_PSU_centralizer_range_normal n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe
@@ -4377,8 +4376,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_quotient_iso_units
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -4403,8 +4402,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_quotient_iso_units
   let N := (bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
       eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace).range.subgroupOf
     (glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e))
-  haveI : N.Normal := hN
-  letI : CommGroup
+  have : N.Normal := hN
+  let : CommGroup
       (glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e) ⧸ N) :=
     { QuotientGroup.Quotient.group N with
       mul_comm := fun a b => hcomm.is_comm.comm a b }
@@ -4450,8 +4449,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_abelian_quotient
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -4514,8 +4513,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutator_mem_range
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -4532,14 +4531,14 @@ private theorem bmSTS_blockEmbeddingEV_PSU_centralizer_commutator_mem_range
       ∀ y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
         ⁅x, y⁆ ∈ (bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
           eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace).range := by
-  intro x hx y hy
+  intro x _hx y _hy
   obtain ⟨A, hA, φ, hφ⟩ := bmSTS_blockEmbeddingEV_PSU_centralizer_abelian_quotient n f S hSU hS
     hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hm3 hnq
     hKrank htrace hKlinRepC hKlinRep hcommS
-  letI : CommGroup A := hA
+  let : CommGroup A := hA
   let C := glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)
-  have hker : ⁅(⟨x, hx⟩ : C), (⟨y, hy⟩ : C)⁆ ∈ φ.ker :=
-    bmSTS_commutator_mem_ker_of_commutative φ (⟨x, hx⟩ : C) (⟨y, hy⟩ : C)
+  have hker : ⁅(⟨x, _hx⟩ : C), (⟨y, _hy⟩ : C)⁆ ∈ φ.ker :=
+    bmSTS_commutator_mem_ker_of_commutative φ (⟨x, _hx⟩ : C) (⟨y, _hy⟩ : C)
   rw [hφ] at hker
   simpa [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
     using Subgroup.mem_subgroupOf.mp hker
@@ -4583,8 +4582,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_derived_le_hom_range
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -4645,8 +4644,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_hom_range_eq_derived
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -4709,8 +4708,8 @@ private theorem bmSTS_blockEmbeddingEV_PSU_props
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -4734,12 +4733,12 @@ private theorem bmSTS_blockEmbeddingEV_PSU_props
   have hinj := bmSTS_blockEmbeddingEV_PSU_hom_injective n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe
     K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace
   refine ⟨?_, ?_⟩
-  · intro y hy
+  · intro y _hy
     have hcenter : Subgroup.center ↥(CFSG.Open.StatedSp n (GaloisField 2 f)) = ⊥ := by
       rw [CFSG.LieType.Universal.Symplectic.center_eq n (GaloisField 2 f),
         CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot]
-    rw [hcenter, Subgroup.mem_bot] at hy
-    have hy1 : y = 1 := hinj (by simpa using hy)
+    rw [hcenter, Subgroup.mem_bot] at _hy
+    have hy1 : y = 1 := hinj (by simpa using _hy)
     rw [hy1]
     exact Subgroup.one_mem _
   · exact bmSTS_blockEmbeddingEV_PSU_hom_range_eq_derived n f S hSU hS hodd he hadj hdeg₁ hdeg₂
@@ -4810,7 +4809,7 @@ private theorem bmSTS_explicit_data_hm3
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hnq : 2 ^ max f 1 ≠ 2 ∨ 4 ≤ m')
+    (_hnq : 2 ^ max f 1 ≠ 2 ∨ 4 ≤ m')
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
@@ -4823,15 +4822,15 @@ private theorem bmSTS_explicit_data_hm3
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
           GL (Fin n ⊕ Fin n) (GaloisField 2 f)) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n)
             (GaloisField 2 f)) (eW w)) →
       ∀ (c : K) (w : W), T (c • w) = c • T w)
-    (hcommS : ∀ (g : (ggU .PSU m' (max f 1)).K)
+    (_hcommS : ∀ (g : (ggU .PSU m' (max f 1)).K)
       (s : GL (Fin n ⊕ Fin n) (GaloisField 2 f)), s ∈ S →
       bmSTS_blockEmbeddingEV_PSU_blockExtend n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
         eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g * s =
@@ -4842,25 +4841,25 @@ private theorem bmSTS_explicit_data_hm3
   have hm1 : m' = 1 := by omega
   let ι₀ := bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
     eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace
-  haveI : Subsingleton (ggU .PSU m' (max f 1)).K := by
+  have : Subsingleton (ggU .PSU m' (max f 1)).K := by
     rw [hm1]
     exact bmSTS_subsingleton_ggU_PSU_one f
   have hrange_bot : ι₀.range = ⊥ := by
     apply le_antisymm _ bot_le
-    intro x hx
+    intro x _hx
     rw [Subgroup.mem_bot]
-    obtain ⟨g, rfl⟩ := hx
+    obtain ⟨g, rfl⟩ := _hx
     rw [Subsingleton.elim g 1]
     exact map_one ι₀
   let C := glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e
   have hmem : ∀ x ∈ C, ∀ y ∈ C, ⁅x, y⁆ ∈ ι₀.range := by
-    intro x hx y hy
+    intro x _hx y _hy
     have hker := bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_fixes_ker
-      n f S x y hx hy
+      n f S x y _hx _hy
     obtain ⟨g, hg⟩ :=
       bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_action_mem_range
         n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd
-        hrank hm' hKrank htrace hKlinRepC hKlinRep x hx y hy
+        hrank hm' hKrank htrace hKlinRepC hKlinRep x _hx y _hy
     have heq := bmSTS_blockEmbeddingEV_PSU_eq_blockExtend_of_fixes_ker_of_range_action
       n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd
       hrank hm' hKrank htrace g (⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) hker hg
@@ -4868,15 +4867,15 @@ private theorem bmSTS_explicit_data_hm3
   have hCCle : ⁅C, C⁆ ≤ ι₀.range := Subgroup.commutator_le.mpr hmem
   have hCCbot : ⁅C, C⁆ = ⊥ := le_antisymm (hCCle.trans (le_of_eq hrange_bot)) bot_le
   have hJbot : J' = ⊥ := le_antisymm (hJe.1.trans (le_of_eq hCCbot)) bot_le
-  haveI hnt : Nontrivial ↥J' := bmSTS_quasisimple_nontrivial hJe.2.2
-  haveI hss : Subsingleton ↥J' := by rw [hJbot]; infer_instance
+  have hnt : Nontrivial ↥J' := bmSTS_quasisimple_nontrivial hJe.2.2
+  have hss : Subsingleton ↥J' := by rw [hJbot]; infer_instance
   exact not_nontrivial_iff_subsingleton.mpr hss hnt
 
 private theorem bmSTS_not_solvable_of_isComponentOf
     {X : Type} [Group X] {J' K : Subgroup X} (h : IsComponentOf J' K) :
     ¬ Group.IsSolvable ↥J' := by
   intro hs
-  haveI : Nontrivial ↥J' := bmSTS_quasisimple_nontrivial h.2.2
+  have : Nontrivial ↥J' := bmSTS_quasisimple_nontrivial h.2.2
   exact (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥J').ne h.2.2.1
 
 private theorem bmSTS_explicit_data_hnq
@@ -4916,8 +4915,8 @@ private theorem bmSTS_explicit_data_hnq
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
     (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -4926,13 +4925,13 @@ private theorem bmSTS_explicit_data_hnq
       ∀ (c : K) (w : W), T (c • w) = c • T w) :
     2 ^ max f 1 ≠ 2 ∨ 4 ≤ m' := by
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨hq, hmle⟩ := h
   have hsmall : ∀ k, 1 ≤ k → k ≤ 3 → 2 ^ max f 1 = 2 →
       Group.IsSolvable ((ggU .PSU k (max f 1)).K) := by
     intro k hk1 hk3 hqk
     interval_cases k
-    · haveI : Subsingleton (ggU .PSU 1 (max f 1)).K :=
+    · have : Subsingleton (ggU .PSU 1 (max f 1)).K :=
         bmSTS_subsingleton_ggU_PSU_one f
       infer_instance
     · have hf : 1 ≤ max f 1 := le_max_right f 1
@@ -4942,8 +4941,8 @@ private theorem bmSTS_explicit_data_hnq
             Unitary.rootDatum (card_galoisField_two_mul 2 (max f 1) hf) 2⟩ := by
         simp only [ggU, lieUniversal, hf, ↓reduceDIte]
       rw [e]
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : CharP (GaloisField 2 (2 * max f 1)) 2 :=
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : CharP (GaloisField 2 (2 * max f 1)) 2 :=
         CFSG.ClassicalGroups.Unitary.charP_of_card_sq (bmSTS_natCard_galoisField_twoMax_sq f)
       have hcard := CFSG.LieType.Steinberg.card_SU_two (F := GaloisField 2 (2 * max f 1))
         (p := 2) (f := max f 1) (bmSTS_natCard_galoisField_twoMax_sq f)
@@ -4957,8 +4956,8 @@ private theorem bmSTS_explicit_data_hnq
             Unitary.rootDatum (card_galoisField_two_mul 2 (max f 1) hf) 3⟩ := by
         simp only [ggU, lieUniversal, hf, ↓reduceDIte]
       rw [e]
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : CharP (GaloisField 2 (2 * max f 1)) 2 :=
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : CharP (GaloisField 2 (2 * max f 1)) 2 :=
         CFSG.ClassicalGroups.Unitary.charP_of_card_sq (bmSTS_natCard_galoisField_twoMax_sq f)
       have hcard := CFSG.LieType.Steinberg.card_SU_three (F := GaloisField 2 (2 * max f 1))
         (p := 2) (f := max f 1) (bmSTS_natCard_galoisField_twoMax_sq f)
@@ -4970,25 +4969,25 @@ private theorem bmSTS_explicit_data_hnq
   let ι₀ := bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
     eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace
   have hmem : ∀ x ∈ C, ∀ y ∈ C, ⁅x, y⁆ ∈ ι₀.range := by
-    intro x hx y hy
+    intro x _hx y _hy
     have hker := bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_fixes_ker
-      n f S x y hx hy
+      n f S x y _hx _hy
     obtain ⟨g, hg⟩ :=
       bmSTS_blockEmbeddingEV_PSU_centralizer_commutatorElement_range_action_mem_range
         n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd
-        hrank hm' hKrank htrace hKlinRepC hKlinRep x hx y hy
+        hrank hm' hKrank htrace hKlinRepC hKlinRep x _hx y _hy
     have heq := bmSTS_blockEmbeddingEV_PSU_eq_blockExtend_of_fixes_ker_of_range_action
       n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd
       hrank hm' hKrank htrace g (⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) hker hg
     exact ⟨g, Subtype.ext heq.symm⟩
   have hCCle : ⁅C, C⁆ ≤ ι₀.range := Subgroup.commutator_le.mpr hmem
-  haveI : Group.IsSolvable ((ggU .PSU m' (max f 1)).K) := hsolve
+  have : Group.IsSolvable ((ggU .PSU m' (max f 1)).K) := hsolve
   have hsolve_range : Group.IsSolvable ↥ι₀.range :=
     Group.isSolvable_of_surjective ι₀.rangeRestrict_surjective
-  haveI : Group.IsSolvable ↥ι₀.range := hsolve_range
+  have : Group.IsSolvable ↥ι₀.range := hsolve_range
   have hCCsolv : Group.IsSolvable ↥⁅C, C⁆ :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hCCle)
-  haveI : Group.IsSolvable ↥⁅C, C⁆ := hCCsolv
+  have : Group.IsSolvable ↥⁅C, C⁆ := hCCsolv
   have hJsolv : Group.IsSolvable ↥J' :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJe.1)
   exact bmSTS_not_solvable_of_isComponentOf hJe hJsolv
@@ -5012,8 +5011,8 @@ private lemma bmSTS_blockAction
       Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F))
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
-  letI : CommRing A := IsMulCommutative.instCommRing
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
+  let : CommRing A := IsMulCommutative.instCommRing
   have hcomm : ∀ a : A, (a : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) * e =
       e * (a : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) := by
     intro a
@@ -5107,8 +5106,8 @@ private lemma bmSTS_blockKModuleAction
       Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F))
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
-  letI : CommRing A := IsMulCommutative.instCommRing
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
+  let : CommRing A := IsMulCommutative.instCommRing
   obtain ⟨actA, hactA⟩ := bmSTS_blockAction n f S hS he
   have hker : RingHom.ker (π : A →+* K) ≤
       RingHom.ker (actA : A →+* Module.End F (LinearMap.range (Matrix.mulVecLin e))) :=
@@ -5127,7 +5126,7 @@ private lemma bmSTS_blockKModuleAction
         ((π : A →+* K) a)) = actA a
     rw [RingHom.quotientKerEquivOfSurjective_symm_apply, Ideal.Quotient.lift_mk]
     rfl
-  letI : Module K (LinearMap.range (Matrix.mulVecLin e)) :=
+  let : Module K (LinearMap.range (Matrix.mulVecLin e)) :=
     Module.compHom (LinearMap.range (Matrix.mulVecLin e)) ψ
   have htower : IsScalarTower F K (LinearMap.range (Matrix.mulVecLin e)) :=
     ⟨fun c k w => by
@@ -5153,9 +5152,9 @@ private theorem bmSTS_explicit_data_canonicalKAction
     (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     :
     ∃ (K : Type) (_ : Field K) (_ : Algebra (GaloisField 2 f) K) (_ : Finite K)
-      (hKrank : Module.finrank (GaloisField 2 f) K = 2)
+      (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
       (π : Algebra.adjoin (GaloisField 2 f) (Units.val '' S) →ₐ[GaloisField 2 f] K)
-      (hπsurj : Function.Surjective π)
+      (_hπsurj : Function.Surjective π)
       (W : Submodule (GaloisField 2 f) ((Fin n ⊕ Fin n) → GaloisField 2 f))
       (_ : Module K W) (_ : IsScalarTower (GaloisField 2 f) K W),
       W = LinearMap.range (Matrix.mulVecLin e) ∧
@@ -5163,15 +5162,15 @@ private theorem bmSTS_explicit_data_canonicalKAction
         (Submodule.subtype W) ((π a) • w) =
           Matrix.mulVec (a : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f))
             ((Submodule.subtype W) w)) := by
-  obtain ⟨K, hKf, hKa, hKfin, π, hπsurj, hπker, hπrank⟩ :=
+  obtain ⟨K, hKf, hKa, hKfin, π, _hπsurj, hπker, hπrank⟩ :=
     exists_blockField (F := GaloisField 2 f) hS hodd he
-  letI : Field K := hKf
-  letI : Algebra (GaloisField 2 f) K := hKa
-  have hKrank : Module.finrank (GaloisField 2 f) K = 2 :=
+  let : Field K := hKf
+  let : Algebra (GaloisField 2 f) K := hKa
+  have _hKrank : Module.finrank (GaloisField 2 f) K = 2 :=
     hπrank.trans (bmSTS_degree_two n f S hSU hS hodd he hadj hdeg₁ hdeg₂)
   obtain ⟨W, hWmod, hWtower, hWeq, hact⟩ :=
-    bmSTS_blockKModuleAction n f S hS he K π hπsurj hπker
-  exact ⟨K, hKf, hKa, hKfin, hKrank, π, hπsurj, W, hWmod, hWtower, hWeq, hact⟩
+    bmSTS_blockKModuleAction n f S hS he K π _hπsurj hπker
+  exact ⟨K, hKf, hKa, hKfin, _hKrank, π, _hπsurj, W, hWmod, hWtower, hWeq, hact⟩
 
 private lemma bmSTS_J_transpose (n f : ℕ) :
     Matrix.transpose (bmSTS_J n f) = bmSTS_J n f := by
@@ -5255,8 +5254,8 @@ private theorem bmSTS_explicit_data_traceTransferForm
       Commute := by
     rintro _ ⟨s, hs, rfl⟩ _ ⟨s', hs', rfl⟩ _
     exact (hS s hs s' hs').map (Units.coeHom (Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F))
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
-  letI : CommRing A := IsMulCommutative.instCommRing
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin F (s := Units.val '' S) hpair
+  let : CommRing A := IsMulCommutative.instCommRing
   have hJdet : IsUnit J.det := by simpa only [J] using bmSTS_J_det n f
   have hJsymm : Matrix.transpose J = J := by simpa only [J] using bmSTS_J_transpose n f
   have hadj' : formAdj (RingHom.id F) J e = e := by simpa only [J, F] using hadj
@@ -5336,7 +5335,7 @@ private theorem bmSTS_explicit_data_traceTransferForm
   have hWne : W ≠ ⊥ := by
     rw [hWeq]
     exact bmSTS_blockRangeNeBot n f S hSU hS hodd he hadj hdeg₁ hdeg₂
-  haveI : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hWne
+  have : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hWne
   have hker : ∀ a : A, π a = 0 ↔ (a : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) * e = 0 := by
     intro a
     constructor
@@ -5528,8 +5527,8 @@ private theorem bmSTS_explicit_data_traceTransferForm
     rw [hact b x, hact (φA b) y, hφA_coe]
     exact bmSTS_adjoint_dotProduct n f (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
       ((Submodule.subtype W) x) ((Submodule.subtype W) y)
-  letI : FiniteDimensional F K := Module.Finite.of_finite
-  haveI : Algebra.IsSeparable F K := Algebra.IsAlgebraic.isSeparable_of_perfectField
+  let : FiniteDimensional F K := Module.Finite.of_finite
+  have : Algebra.IsSeparable F K := Algebra.IsAlgebraic.isSeparable_of_perfectField
   have hEx : ∀ x : W, ∃! hx : W →ₗ[K] K,
       ∀ (y : W) (c : K), B x (c • y) = Algebra.trace F K (c * hx y) :=
     fun x => existsUnique_traceTransfer (K := F) (A := K) (W := W) B x
@@ -5653,15 +5652,15 @@ private lemma bmSTS_blockCentralizer_KLin
 
 private theorem bmSTS_explicit_data_hKlC
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (π : Algebra.adjoin (GaloisField 2 f) (Units.val '' S) →ₐ[GaloisField 2 f] K)
     (hπsurj : Function.Surjective π)
     (W : Submodule (GaloisField 2 f) ((Fin n ⊕ Fin n) → GaloisField 2 f))
@@ -5747,27 +5746,26 @@ private theorem bmSTS_explicit_data_hKl
             GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w)) :
     ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, eW (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
           GL (Fin n ⊕ Fin n) (GaloisField 2 f)) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n)
             (GaloisField 2 f)) (eW w)) →
       ∀ (c : K) (w : W), T (c • w) = c • T w := by
-  intro x y hx hy T hT c w
+  intro x y _hx _hy T hT c w
   obtain ⟨ρ, hρ⟩ := hKlC
   let xC : glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e :=
-    ⟨x, hx⟩
+    ⟨x, _hx⟩
   let yC : glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e :=
-    ⟨y, hy⟩
+    ⟨y, _hy⟩
   have hmem : ⁅x, y⁆ ∈
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e := by
     have hcoe : ((xC * yC * xC⁻¹ * yC⁻¹ :
         glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e) :
         ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) = ⁅x, y⁆ := by
-      simp only [xC, yC, commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv,
-        Subgroup.coe_mk]
+      simp only [xC, yC, commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv]
     simpa [← hcoe] using (xC * yC * xC⁻¹ * yC⁻¹).2
   let z : glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e :=
     ⟨⁅x, y⁆, hmem⟩
@@ -5839,7 +5837,7 @@ private theorem bmSTS_stdActionMap_smul
       d • bmSTS_blockEmbeddingEV_PSU_stdActionMap n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
         W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g v := by
   intro d v
-  letI : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
+  let : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
     Classical.choice (bmSTS_blockEmbeddingEV_PSU_baseAlgebra f)
   let C := bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv f m' K hKrank
   let φ := bmSTS_blockEmbeddingEV_PSU_fieldAlgEquiv f K hKrank
@@ -5898,7 +5896,7 @@ private theorem bmSTS_blockAction_smul
   let A : (Fin m' → K) ≃ₗ[GaloisField 2 f] (Fin m' → K) :=
     bmSTS_blockEmbeddingEV_PSU_stdAction n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW
       m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g
-  haveI : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by omega)
+  have : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by omega)
   let ΦK : W ≃ₗ[K] (Fin m' → K) :=
     Classical.choose (CFSG.Fischer.Classification.exists_linearEquiv_herm_of_form
       (bmSTS_blockEmbeddingEV_PSU_unitaryInvolution n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
@@ -5941,10 +5939,10 @@ private theorem bmSTS_explicit_data_hcS
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (π : Algebra.adjoin (GaloisField 2 f) (Units.val '' S) →ₐ[GaloisField 2 f] K)
-    (hπsurj : Function.Surjective π)
+    (_hπsurj : Function.Surjective π)
     (W : Submodule (GaloisField 2 f) ((Fin n ⊕ Fin n) → GaloisField 2 f))
     [Module K W] [IsScalarTower (GaloisField 2 f) K W]
-    (hWeq : W = LinearMap.range (Matrix.mulVecLin e))
+    (_hWeq : W = LinearMap.range (Matrix.mulVecLin e))
     (hact : ∀ (a : Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) (w : W),
       (Submodule.subtype W) ((π a) • w) =
         Matrix.mulVec (a : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f))
@@ -5973,8 +5971,8 @@ private theorem bmSTS_explicit_data_hcS
     rintro _ ⟨u, hu, rfl⟩ _ ⟨u', hu', rfl⟩ _
     exact (hS u hu u' hu').map (Units.coeHom (Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n)
       (GaloisField 2 f)))
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin (GaloisField 2 f) (s := Units.val '' S) hpair
-  letI : CommRing A := IsMulCommutative.instCommRing
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin (GaloisField 2 f) (s := Units.val '' S) hpair
+  let : CommRing A := IsMulCommutative.instCommRing
   let Tg : GL (Fin n ⊕ Fin n) (GaloisField 2 f) :=
     bmSTS_blockEmbeddingEV_PSU_blockExtend n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
       (Submodule.subtype W) m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g
@@ -6093,17 +6091,17 @@ private theorem bmSTS_explicit_data
       (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
       (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a)
       (hτne : τ ≠ RingHom.id K)
-      (hτfix : ∀ c : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K c) =
+      (_hτfix : ∀ c : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K c) =
         algebraMap (GaloisField 2 f) K c)
       (hsymm : ∀ x y : W, h y x = τ (h x y))
       (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
       (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-      (hm3 : 2 ≤ m')
-      (hnq : 2 ^ max f 1 ≠ 2 ∨ 4 ≤ m')
+      (_hm3 : 2 ≤ m')
+      (_hnq : 2 ^ max f 1 ≠ 2 ∨ 4 ≤ m')
       (htrace : ∀ (x y : W) (c : K),
         eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
         Algebra.trace (GaloisField 2 f) K (c * h x y))
-      (hKlinRepC : ∃ ρ : glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e
+      (_hKlinRepC : ∃ ρ : glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e
           →* (W ≃ₗ[K] W),
         ∀ (z : glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
           (w : W),
@@ -6111,9 +6109,9 @@ private theorem bmSTS_explicit_data
             Matrix.mulVec (((z : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
               GL (Fin n ⊕ Fin n) (GaloisField 2 f)) :
               Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) (eW w))
-      (hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-        (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-        (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hKlinRep : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
+        (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+        (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
         (T : W →ₗ[GaloisField 2 f] W),
         (∀ w : W, eW (T w) =
           Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -6129,12 +6127,12 @@ private theorem bmSTS_explicit_data
   classical
   obtain ⟨K, hKf, hKa, hKfin, hKrank, π, hπsurj, W, hWmodK, hWtower, hWeq, hact⟩ :=
     bmSTS_explicit_data_canonicalKAction n f S hSU hS hodd he hadj hdeg₁ hdeg₂
-  letI : Field K := hKf
-  letI : Algebra (GaloisField 2 f) K := hKa
-  letI : Finite K := hKfin
-  letI : Module K W := hWmodK
-  letI : IsScalarTower (GaloisField 2 f) K W := hWtower
-  obtain ⟨τ, h, m', hτ2, hτne, hτfix, hsymm, hnd, hrank, hm', htrace⟩ :=
+  let : Field K := hKf
+  let : Algebra (GaloisField 2 f) K := hKa
+  let : Finite K := hKfin
+  let : Module K W := hWmodK
+  let : IsScalarTower (GaloisField 2 f) K W := hWtower
+  obtain ⟨τ, h, m', hτ2, hτne, _hτfix, hsymm, hnd, hrank, hm', htrace⟩ :=
     bmSTS_explicit_data_traceTransferForm n f S hSU hS hodd he hadj hdeg₁ hdeg₂ K hKrank π
       hπsurj W hWeq hact
   have heW : LinearMap.range (Submodule.subtype W) = LinearMap.range (Matrix.mulVecLin e) := by
@@ -6151,8 +6149,8 @@ private theorem bmSTS_explicit_data
               ((Submodule.subtype W) w) :=
     bmSTS_explicit_data_hKlC n f S hSU hS hodd he hadj hdeg₁ hdeg₂ K hKrank π hπsurj W hWeq hact
   have hKl : ∀ (x y : ↥(CFSG.Open.StatedSp n (GaloisField 2 f)))
-      (hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
-      (hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hx : x ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
+      (_hy : y ∈ glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e)
       (T : W →ₗ[GaloisField 2 f] W),
       (∀ w : W, (Submodule.subtype W) (T w) =
         Matrix.mulVec (((⁅x, y⁆ : ↥(CFSG.Open.StatedSp n (GaloisField 2 f))) :
@@ -6168,20 +6166,20 @@ private theorem bmSTS_explicit_data
         h (Submodule.subtype W) m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace g :=
     bmSTS_explicit_data_hcS n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K hKrank π hπsurj W hWeq
       hact τ h m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace
-  have hnq := bmSTS_explicit_data_hnq n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K hKrank τ W
+  have _hnq := bmSTS_explicit_data_hnq n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K hKrank τ W
     h (Submodule.subtype W) m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace hKlC hKl
-  have hm3 : 2 ≤ m' := bmSTS_explicit_data_hm3 n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe
-    K hKrank τ W h (Submodule.subtype W) m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hnq htrace
+  have _hm3 : 2 ≤ m' := bmSTS_explicit_data_hm3 n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe
+    K hKrank τ W h (Submodule.subtype W) m' heW heWinj hτ2 hτne hsymm hnd hrank hm' _hnq htrace
       hKlC hKl hcS
   exact ⟨K, hKf, hKa, hKfin, hKrank, τ, W, (inferInstance : AddCommGroup W), hWmodK,
     (inferInstance : Module (GaloisField 2 f) W), hWtower, h, Submodule.subtype W, m', heW,
-    heWinj, hτ2, hτne, hτfix, hsymm, hnd, hrank, hm', hm3, hnq, htrace, hKlC, hKl, hcS⟩
+    heWinj, hτ2, hτne, _hτfix, hsymm, hnd, hrank, hm', _hm3, _hnq, htrace, hKlC, hKl, hcS⟩
 
 private theorem bmSTS_ggU_PSU_quasisimple
     (f m' : ℕ) (hm3 : 2 ≤ m')
     (hnq : 2 ^ max f 1 ≠ 2 ∨ 4 ≤ m') :
     CFSG.IsQuasisimple ((ggU .PSU m' (max f 1)).K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ max f 1 := le_max_right f 1
   have hunfold : ∀ k : ℕ, ggU .PSU k (max f 1) =
       ⟨Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
@@ -6192,7 +6190,7 @@ private theorem bmSTS_ggU_PSU_quasisimple
   by_cases hm3' : 3 ≤ m'
   · have hF : Nat.card (GaloisField 2 (2 * max f 1)) = (2 ^ max f 1) ^ 2 :=
       card_galoisField_two_mul 2 (max f 1) hf
-    haveI : CharP (GaloisField 2 (2 * max f 1)) 2 :=
+    have : CharP (GaloisField 2 (2 * max f 1)) 2 :=
       CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
     have hSU := CFSG.LieType.Universal.Unitary.isQuasisimple_SU
       (F := GaloisField 2 (2 * max f 1)) (p := 2) (f := max f 1) (n := m') hF hm3'
@@ -6211,7 +6209,7 @@ private theorem bmSTS_ggU_PSU_quasisimple
       · exact absurd hm (by omega)
     let F := GaloisField 2 (2 * max f 1)
     have hF : Nat.card F = (2 ^ max f 1) ^ 2 := card_galoisField_two_mul 2 (max f 1) hf
-    haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
+    have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hF
     have h4 : 4 ≤ Nat.card (CFSG.LieType.Steinberg.fixedSubfield F 2 (max f 1)) := by
       rw [CFSG.LieType.Steinberg.card_fixedSubfield hF]
       have h2 : 2 ≤ max f 1 := by
@@ -6222,19 +6220,19 @@ private theorem bmSTS_ggU_PSU_quasisimple
         _ ≤ 2 ^ max f 1 := Nat.pow_le_pow_right (by norm_num) h2
     obtain ⟨ζ, hζ0, hζ⟩ := CFSG.LieType.BorelTits.exists_unitaryInvolution_eq_neg hF
     let e := CFSG.LieType.Steinberg.hypEquiv (F := F) (p := 2) (f := max f 1) hζ0 hζ
-    haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2)
+    have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2)
         (CFSG.LieType.Steinberg.fixedSubfield F 2 (max f 1))) :=
       CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card _ h4
-    haveI : Nontrivial (Matrix.ProjectiveSpecialLinearGroup (Fin 2)
+    have : Nontrivial (Matrix.ProjectiveSpecialLinearGroup (Fin 2)
         (CFSG.LieType.Steinberg.fixedSubfield F 2 (max f 1))) := inferInstance
-    haveI : Group.IsPerfect (Matrix.ProjectiveSpecialLinearGroup (Fin 2)
+    have : Group.IsPerfect (Matrix.ProjectiveSpecialLinearGroup (Fin 2)
         (CFSG.LieType.Steinberg.fixedSubfield F 2 (max f 1))) :=
       Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective _)
     have hnc : ∃ a b : Matrix.ProjectiveSpecialLinearGroup (Fin 2)
         (CFSG.LieType.Steinberg.fixedSubfield F 2 (max f 1)), a * b ≠ b * a := by
       by_contra h
       push Not at h
-      haveI : IsMulCommutative (Matrix.ProjectiveSpecialLinearGroup (Fin 2)
+      have : IsMulCommutative (Matrix.ProjectiveSpecialLinearGroup (Fin 2)
           (CFSG.LieType.Steinberg.fixedSubfield F 2 (max f 1))) := ⟨⟨h⟩⟩
       exact Group.IsPerfect.not_isMulCommutative _ ‹_›
     have hSL : CFSG.IsQuasisimple (Matrix.SpecialLinearGroup (Fin 2)
@@ -6266,13 +6264,13 @@ private theorem bmSTS_derived_quasisimple
     heWinj, hτ2, hτne, hτfix, hsymm, hnd, hrank, hm', hm3, hnq, htrace, hKlinRepC, hKlinRep, hcommS⟩
         :=
     bmSTS_explicit_data n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe
-  letI : Field K := hKf
-  letI : Algebra (GaloisField 2 f) K := hKa
-  letI : Finite K := hKfin
-  letI : AddCommGroup W := hWadd
-  letI : Module K W := hWmodK
-  letI : Module (GaloisField 2 f) W := hWmodF
-  letI : IsScalarTower (GaloisField 2 f) K W := hWtower
+  let : Field K := hKf
+  let : Algebra (GaloisField 2 f) K := hKa
+  let : Finite K := hKfin
+  let : AddCommGroup W := hWadd
+  let : Module K W := hWmodK
+  let : Module (GaloisField 2 f) W := hWmodF
+  let : IsScalarTower (GaloisField 2 f) K W := hWtower
   let C := glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S e
   let ι₀ := bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m'
     heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace
@@ -6299,7 +6297,7 @@ private theorem bmSTS_component_eq_of_quasisimple
   have hJq : CFSG.Open.IsQuasisimple J' := hJe.2.2
   have hKq : CFSG.Open.IsQuasisimple ↥(J'.subgroupOf N) :=
     CFSG.Open.IsQuasisimple.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hJe.1) hJq
-  letI : Group.IsPerfect ↥(J'.subgroupOf N) := ⟨hKq.1⟩
+  let : Group.IsPerfect ↥(J'.subgroupOf N) := ⟨hKq.1⟩
   have hKsub : CFSG.Open.IsSubnormal (J'.subgroupOf N) ⊤ :=
     CFSG.Open.IsSubnormal.of_mathlib
       ((CFSG.Open.IsSubnormal.iff_subgroupOf hJe.1).mp
@@ -6406,15 +6404,15 @@ private theorem bmSTS_hom_action
 
 private theorem bmSTS_rootPair_longRoot
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -6423,14 +6421,14 @@ private theorem bmSTS_rootPair_longRoot
     [IsScalarTower (GaloisField 2 f) K W]
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (_heWinj : Function.Injective eW) (_hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
+    (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
     (hm3 : 2 ≤ m')
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (htrace : ∀ (x y : W) (c : K),
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y)) :
     ∃ β₀ : Fin (ggU .PSU m' (max f 1)).D.rank → ℤ,
@@ -6449,7 +6447,7 @@ private theorem bmSTS_rootPair_longRoot
 
 private theorem bmSTS_rootGroup_fixedTransvection
     {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
-    (hc : Nat.card F = (2 ^ f) ^ 2) (n : ℕ) (hn : 2 ≤ n)
+    (hc : Nat.card F = (2 ^ f) ^ 2) (n : ℕ) (_hn : 2 ≤ n)
     (β₀ : Fin (n / 2) → ℤ)
     (hlong : GGLongRoot (Unitary.rootDatum hc n) β₀) :
     ∃ v₀ w₀ : Fin n → F,
@@ -6520,11 +6518,11 @@ private theorem bmSTS_blockExtend_transvection_uniform
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
     (β₀ : Fin (ggU .PSU m' (max f 1)).D.rank → ℤ)
-    (hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
+    (_hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
     (v : W) (v₀ : Fin m' → K)
-    (hv : v = (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
+    (_hv : v = (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
       W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace).symm v₀)
-    (hvv : h v v = 0) (ω : K) (hω : Algebra.trace (GaloisField 2 f) K ω = 1)
+    (_hvv : h v v = 0) (ω : K) (hω : Algebra.trace (GaloisField 2 f) K ω = 1)
     (hroot : ∀ c : GaloisField 2 f,
       ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
         ∀ x : W,
@@ -6551,10 +6549,10 @@ private theorem bmSTS_blockExtend_transvection_uniform
   simp only [bmSTS_transvectionModelElem]
   obtain ⟨hgmem, hgact⟩ := Classical.choose_spec (hroot c)
   refine ⟨hgmem, hgact, ?_⟩
-  haveI : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
-  haveI : Algebra.IsSeparable (GaloisField 2 f) K :=
+  have : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
+  have : Algebra.IsSeparable (GaloisField 2 f) K :=
     Algebra.IsAlgebraic.isSeparable_of_perfectField
-  haveI : Algebra.IsQuadraticExtension (GaloisField 2 f) K :=
+  have : Algebra.IsQuadraticExtension (GaloisField 2 f) K :=
     Algebra.IsQuadraticExtension.mk hKrank
   have hchar2 : (2 : K) = 0 :=
     bmSTS_charP_two n f S hSU hS hodd he hadj hdeg₁ hdeg₂ K hKrank
@@ -6718,10 +6716,10 @@ private theorem bmSTS_blockExtend_transvection_matrix
         Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) =
       1 + c • (Matrix.vecMulVec (eW v) (Matrix.mulVec (bmSTS_J n f) (eW (ω • v))) +
         Matrix.vecMulVec (eW (ω • v)) (Matrix.mulVec (bmSTS_J n f) (eW v))) := by
-  haveI : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
-  haveI : Algebra.IsSeparable (GaloisField 2 f) K :=
+  have : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
+  have : Algebra.IsSeparable (GaloisField 2 f) K :=
     Algebra.IsAlgebraic.isSeparable_of_perfectField
-  haveI : Algebra.IsQuadraticExtension (GaloisField 2 f) K :=
+  have : Algebra.IsQuadraticExtension (GaloisField 2 f) K :=
     Algebra.IsQuadraticExtension.mk hKrank
   have hchar2 : (2 : K) = 0 :=
     bmSTS_charP_two n f S hSU hS hodd he hadj hdeg₁ hdeg₂ K hKrank
@@ -7034,7 +7032,7 @@ private theorem bmSTS_conj_add_vecMulVec {n : ℕ} {F : Type} [Field F]
       (CFSG.LieType.Universal.Symplectic.SpExtras.mat n F u⁻¹) = _
   rw [hh]
   simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.mul_smul, Matrix.smul_mul,
-    Matrix.mul_vecMulVec, Matrix.vecMulVec_mul, bmSTS_mat_mul_inv, zero_add]
+    Matrix.mul_vecMulVec, Matrix.vecMulVec_mul, bmSTS_mat_mul_inv]
 
 private theorem bmSTS_conj_altSiegelGroup {n : ℕ} {F : Type} [Field F] [CharP F 2]
     (u : ↥(CFSG.Open.StatedSp n F)) (x y : Fin n ⊕ Fin n → F) :
@@ -7049,7 +7047,7 @@ private theorem bmSTS_conj_altSiegelGroup {n : ℕ} {F : Type} [Field F] [CharP 
   rw [altSiegelGroup, MonoidHom.map_closure]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h, ⟨c, hc⟩, rfl⟩
     refine ⟨c, ?_⟩
@@ -7219,15 +7217,14 @@ private theorem bmSTS_suAction_transvection (m' f : ℕ)
     (GaloisField 2 (2 * max f 1)) 2 (max f 1)) P hP c v₀]
   simp only [P, Matrix.mulVecLin_apply, Matrix.add_mulVec, Matrix.one_mulVec,
     Matrix.smul_mulVec, Matrix.vecMulVec_mulVec, op_smul_eq_smul,
-    CFSG.ClassicalGroups.Unitary.herm_def, dotProduct, Function.comp_apply,
-    smul_smul, smul_eq_mul]
+    CFSG.ClassicalGroups.Unitary.herm_def, dotProduct, smul_smul]
 
 private theorem bmSTS_rootGroup_canonical_traceScalar
     {f : ℕ} (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2) :
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2) :
     ∃ ω : K, Algebra.trace (GaloisField 2 f) K ω = 1 := by
-  haveI : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
-  haveI : Algebra.IsSeparable (GaloisField 2 f) K :=
+  have : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
+  have : Algebra.IsSeparable (GaloisField 2 f) K :=
     Algebra.IsAlgebraic.isSeparable_of_perfectField
   exact Algebra.trace_surjective (GaloisField 2 f) K 1
 
@@ -7296,8 +7293,8 @@ private theorem bmSTS_fixed_eq_algebraMap
       τ (algebraMap (GaloisField 2 f) K c) = algebraMap (GaloisField 2 f) K c)
     {c : K} (hc : τ c = c) :
     ∃ c_F : GaloisField 2 f, algebraMap (GaloisField 2 f) K c_F = c := by
-  haveI : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
-  haveI : Algebra.IsQuadraticExtension (GaloisField 2 f) K :=
+  have : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
+  have : Algebra.IsQuadraticExtension (GaloisField 2 f) K :=
     Algebra.IsQuadraticExtension.mk hKrank
   let τ' : K ≃ₐ[GaloisField 2 f] K := { τ with commutes' := fun c => hτlin c }
   have hτ'ne : τ' ≠ 1 := by
@@ -7412,7 +7409,7 @@ private theorem bmSTS_stdAction_blockAction_transvection_fixed
           m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace).symm a) x •
         ((bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW
           m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace).symm a) := by
-  haveI : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by rw [hrank]; omega)
+  have : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by rw [hrank]; omega)
   let Φ : W ≃ₗ[GaloisField 2 f] (Fin m' → K) :=
     bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m'
       heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace
@@ -7524,7 +7521,7 @@ private theorem bmSTS_suAction_transvection_fixed
     {m' f : ℕ} [Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1))]
     (u_SU : ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
       (GaloisField 2 (2 * max f 1)) 2 (max f 1)) m'))
-    (v₀ : Fin m' → GaloisField 2 (2 * max f 1)) (hv₀ : v₀ ≠ 0)
+    (v₀ : Fin m' → GaloisField 2 (2 * max f 1)) (_hv₀ : v₀ ≠ 0)
     (hiso : Matrix.vecMul (fun i => CFSG.LieType.BorelTits.unitaryInvolution
       (GaloisField 2 (2 * max f 1)) 2 (max f 1) (v₀ i)) (Unitary.antidiag m') ⬝ᵥ v₀ = 0)
     (rootG : Subgroup ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
@@ -7622,7 +7619,7 @@ private theorem bmSTS_suAction_transvection_of_unitTransv
     (g : ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2
       (max f 1)) m'))
     (c : GaloisField 2 (2 * max f 1))
-    (hc : CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2 (max f 1) c = c)
+    (_hc : CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2 (max f 1) c = c)
     (hmat : (u_SU * g * u_SU⁻¹ : GL (Fin m') (GaloisField 2 (2 * max f 1))) =
       1 + c • Matrix.vecMulVec v₀ (Matrix.vecMul (fun i =>
         CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2 (max f 1)
@@ -7743,40 +7740,40 @@ private theorem bmSTS_involution_fixes_base
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
+    (_hm3 : 2 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
     (β₀ : Fin (ggU .PSU m' (max f 1)).D.rank → ℤ)
-    (hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
+    (_hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
     (rootG : Subgroup ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max
         f 1)) 2 (max f 1)) m')) (u_SU : ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
             (GaloisField 2 (2 * max f 1)) 2 (max f 1)) m'))
     (v₀ a : Fin m' → GaloisField 2 (2 * max f 1)) (v : W) (ω : K)
-    (hv₀ : v₀ ≠ 0)
-    (hiso : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 *
+    (_hv₀ : v₀ ≠ 0)
+    (_hiso : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 *
         max f 1)) 2 (max f 1)) (v₀ i)) (Unitary.antidiag m') ⬝ᵥ v₀ = 0)
-    (ha0 : a ≠ 0) (haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
+    (_ha0 : a ≠ 0) (_haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1)) a a = 0)
-    (ha_eq : a = (((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
+    (_ha_eq : a = (((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
         u_SU).1 :
             GL (Fin m') (GaloisField 2 (2 * max f 1)))⁻¹ : Matrix (Fin m') (Fin m') (GaloisField 2
                 (2 * max f 1))) *ᵥ
             ((bmSTS_antidiagConj m' f : Matrix (Fin m') (Fin m') (GaloisField 2 (2 * max f 1))) *ᵥ
                 v₀))
-    (hv_eq : v = (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
+    (_hv_eq : v = (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
         W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace).symm
             ((bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv f m' K hKrank).symm a))
-    (hvv : h v v = 0) (hω : Algebra.trace (GaloisField 2 f) K ω = 1)
-    (hu_SU : ((rootG.map (MulAut.conj u_SU).toMonoidHom).map (Unitary.SU
+    (_hvv : h v v = 0) (_hω : Algebra.trace (GaloisField 2 f) K ω = 1)
+    (_hu_SU : ((rootG.map (MulAut.conj u_SU).toMonoidHom).map (Unitary.SU
         (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2 (max f 1))
             m').subtype) =
         unitTransvGroup (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2
             (max f 1)).toRingHom (Unitary.antidiag m') v₀)
-    (hrootG : ∀ g : (ggU .PSU m' (max f 1)).K, g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀ →
+    (_hrootG : ∀ g : (ggU .PSU m' (max f 1)).K, g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀ →
         ((bmSTS_ggU_K_eq m' f) ▸ g) ∈ rootG)
-    (hrootG' : ∀ g' ∈ rootG, ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
+    (_hrootG' : ∀ g' ∈ rootG, ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
         ((bmSTS_ggU_K_eq m' f) ▸ g) = g') :
     ∀ c : GaloisField 2 f, (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2
         (max f 1)) (algebraMap (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) c) = algebraMap
@@ -8038,43 +8035,43 @@ private theorem bmSTS_suAction_stdActionMap_transvection
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
+    (_hm3 : 2 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
     (β₀ : Fin (ggU .PSU m' (max f 1)).D.rank → ℤ)
-    (hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
+    (_hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
     (rootG : Subgroup ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max
         f 1)) 2 (max f 1)) m')) (u_SU : ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
             (GaloisField 2 (2 * max f 1)) 2 (max f 1)) m'))
     (v₀ a : Fin m' → GaloisField 2 (2 * max f 1)) (v : W) (ω : K)
-    (hv₀ : v₀ ≠ 0)
-    (hiso : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 *
+    (_hv₀ : v₀ ≠ 0)
+    (_hiso : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 *
         max f 1)) 2 (max f 1)) (v₀ i)) (Unitary.antidiag m') ⬝ᵥ v₀ = 0)
-    (ha0 : a ≠ 0) (haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
+    (_ha0 : a ≠ 0) (_haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1)) a a = 0)
-    (ha_eq : a = (((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
+    (_ha_eq : a = (((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
         u_SU).1 :
             GL (Fin m') (GaloisField 2 (2 * max f 1)))⁻¹ : Matrix (Fin m') (Fin m') (GaloisField 2
                 (2 * max f 1))) *ᵥ
             ((bmSTS_antidiagConj m' f : Matrix (Fin m') (Fin m') (GaloisField 2 (2 * max f 1))) *ᵥ
                 v₀))
-    (hv_eq : v = (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
+    (_hv_eq : v = (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
         W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace).symm
             ((@bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv f m' K _ _ _ hKrank
               (Classical.choice (bmSTS_blockEmbeddingEV_PSU_baseAlgebra f))).symm a))
-    (hvv : h v v = 0) (hω : Algebra.trace (GaloisField 2 f) K ω = 1)
-    (hu_SU : ((rootG.map (MulAut.conj u_SU).toMonoidHom).map (Unitary.SU
+    (_hvv : h v v = 0) (_hω : Algebra.trace (GaloisField 2 f) K ω = 1)
+    (_hu_SU : ((rootG.map (MulAut.conj u_SU).toMonoidHom).map (Unitary.SU
         (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2 (max f 1))
             m').subtype) =
         unitTransvGroup (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2
             (max f 1)).toRingHom (Unitary.antidiag m') v₀)
-    (hrootG : ∀ g : (ggU .PSU m' (max f 1)).K, g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀ →
+    (_hrootG : ∀ g : (ggU .PSU m' (max f 1)).K, g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀ →
         ((bmSTS_ggU_K_eq m' f) ▸ g) ∈ rootG)
-    (hrootG' : ∀ g' ∈ rootG, ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
+    (_hrootG' : ∀ g' ∈ rootG, ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
         ((bmSTS_ggU_K_eq m' f) ▸ g) = g')
-    (c : GaloisField 2 f) (g : (ggU .PSU m' (max f 1)).K) (hgm : g ∈ (ggU .PSU m' (max f
+    (c : GaloisField 2 f) (g : (ggU .PSU m' (max f 1)).K) (_hgm : g ∈ (ggU .PSU m' (max f
         1)).D.rootGroup β₀)
     (hact : ∀ y : Fin m' → GaloisField 2 (2 * max f 1),
       bmSTS_blockEmbeddingEV_PSU_suAction m' f g y =
@@ -8129,45 +8126,45 @@ private theorem bmSTS_stdActionMap_stdAction_normal_form
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
+    (_hm3 : 2 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
     (β₀ : Fin (ggU .PSU m' (max f 1)).D.rank → ℤ)
-    (hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
+    (_hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
     (rootG : Subgroup ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max
         f 1)) 2 (max f 1)) m')) (u_SU : ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
             (GaloisField 2 (2 * max f 1)) 2 (max f 1)) m'))
     (v₀ a : Fin m' → GaloisField 2 (2 * max f 1)) (v : W) (ω : K)
-    (hv₀ : v₀ ≠ 0)
-    (hiso : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 *
+    (_hv₀ : v₀ ≠ 0)
+    (_hiso : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 *
         max f 1)) 2 (max f 1)) (v₀ i)) (Unitary.antidiag m') ⬝ᵥ v₀ = 0)
-    (ha0 : a ≠ 0) (haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
+    (_ha0 : a ≠ 0) (_haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1)) a a = 0)
-    (ha_eq : a = (((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
+    (_ha_eq : a = (((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
         u_SU).1 :
             GL (Fin m') (GaloisField 2 (2 * max f 1)))⁻¹ : Matrix (Fin m') (Fin m') (GaloisField 2
                 (2 * max f 1))) *ᵥ
             ((bmSTS_antidiagConj m' f : Matrix (Fin m') (Fin m') (GaloisField 2 (2 * max f 1))) *ᵥ
                 v₀))
-    (hv_eq : v = (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
+    (_hv_eq : v = (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
         W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace).symm
             ((@bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv f m' K _ _ _ hKrank
               (Classical.choice (bmSTS_blockEmbeddingEV_PSU_baseAlgebra f))).symm a))
-    (hvv : h v v = 0) (hω : Algebra.trace (GaloisField 2 f) K ω = 1)
-    (hu_SU : ((rootG.map (MulAut.conj u_SU).toMonoidHom).map (Unitary.SU
+    (_hvv : h v v = 0) (_hω : Algebra.trace (GaloisField 2 f) K ω = 1)
+    (_hu_SU : ((rootG.map (MulAut.conj u_SU).toMonoidHom).map (Unitary.SU
         (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2 (max f 1))
             m').subtype) =
         unitTransvGroup (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2
             (max f 1)).toRingHom (Unitary.antidiag m') v₀)
-    (hrootG : ∀ g : (ggU .PSU m' (max f 1)).K, g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀ →
+    (_hrootG : ∀ g : (ggU .PSU m' (max f 1)).K, g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀ →
         ((bmSTS_ggU_K_eq m' f) ▸ g) ∈ rootG)
-    (hrootG' : ∀ g' ∈ rootG, ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
+    (_hrootG' : ∀ g' ∈ rootG, ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
         ((bmSTS_ggU_K_eq m' f) ▸ g) = g')
-    (c : GaloisField 2 f) (g : (ggU .PSU m' (max f 1)).K) (hgm : g ∈ (ggU .PSU m' (max f
+    (c : GaloisField 2 f) (g : (ggU .PSU m' (max f 1)).K) (_hgm : g ∈ (ggU .PSU m' (max f
         1)).D.rootGroup β₀)
-    (hact : ∀ y : Fin m' → GaloisField 2 (2 * max f 1),
+    (_hact : ∀ y : Fin m' → GaloisField 2 (2 * max f 1),
       bmSTS_blockEmbeddingEV_PSU_suAction m' f g y =
         y + (algebraMap (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) c) •
             CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField
@@ -8248,45 +8245,45 @@ private theorem bmSTS_stdAction_parameter_tau_fixed
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
+    (_hm3 : 2 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
     (β₀ : Fin (ggU .PSU m' (max f 1)).D.rank → ℤ)
-    (hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
+    (_hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
     (rootG : Subgroup ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max
         f 1)) 2 (max f 1)) m')) (u_SU : ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
             (GaloisField 2 (2 * max f 1)) 2 (max f 1)) m'))
     (v₀ a : Fin m' → GaloisField 2 (2 * max f 1)) (v : W) (ω : K)
-    (hv₀ : v₀ ≠ 0)
-    (hiso : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 *
+    (_hv₀ : v₀ ≠ 0)
+    (_hiso : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 *
         max f 1)) 2 (max f 1)) (v₀ i)) (Unitary.antidiag m') ⬝ᵥ v₀ = 0)
-    (ha0 : a ≠ 0) (haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
+    (_ha0 : a ≠ 0) (_haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1)) a a = 0)
-    (ha_eq : a = (((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
+    (_ha_eq : a = (((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
         u_SU).1 :
             GL (Fin m') (GaloisField 2 (2 * max f 1)))⁻¹ : Matrix (Fin m') (Fin m') (GaloisField 2
                 (2 * max f 1))) *ᵥ
             ((bmSTS_antidiagConj m' f : Matrix (Fin m') (Fin m') (GaloisField 2 (2 * max f 1))) *ᵥ
                 v₀))
-    (hv_eq : v = (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
+    (_hv_eq : v = (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
         W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace).symm
             ((@bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv f m' K _ _ _ hKrank
               (Classical.choice (bmSTS_blockEmbeddingEV_PSU_baseAlgebra f))).symm a))
-    (hvv : h v v = 0) (hω : Algebra.trace (GaloisField 2 f) K ω = 1)
-    (hu_SU : ((rootG.map (MulAut.conj u_SU).toMonoidHom).map (Unitary.SU
+    (_hvv : h v v = 0) (_hω : Algebra.trace (GaloisField 2 f) K ω = 1)
+    (_hu_SU : ((rootG.map (MulAut.conj u_SU).toMonoidHom).map (Unitary.SU
         (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2 (max f 1))
             m').subtype) =
         unitTransvGroup (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2
             (max f 1)).toRingHom (Unitary.antidiag m') v₀)
-    (hrootG : ∀ g : (ggU .PSU m' (max f 1)).K, g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀ →
+    (_hrootG : ∀ g : (ggU .PSU m' (max f 1)).K, g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀ →
         ((bmSTS_ggU_K_eq m' f) ▸ g) ∈ rootG)
-    (hrootG' : ∀ g' ∈ rootG, ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
+    (_hrootG' : ∀ g' ∈ rootG, ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
         ((bmSTS_ggU_K_eq m' f) ▸ g) = g')
-    (c : GaloisField 2 f) (g : (ggU .PSU m' (max f 1)).K) (hgm : g ∈ (ggU .PSU m' (max f
+    (c : GaloisField 2 f) (g : (ggU .PSU m' (max f 1)).K) (_hgm : g ∈ (ggU .PSU m' (max f
         1)).D.rootGroup β₀)
-    (hact : ∀ y : Fin m' → GaloisField 2 (2 * max f 1),
+    (_hact : ∀ y : Fin m' → GaloisField 2 (2 * max f 1),
       bmSTS_blockEmbeddingEV_PSU_suAction m' f g y =
         y + (algebraMap (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) c) •
             CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField
@@ -8344,45 +8341,45 @@ private theorem bmSTS_suAction_scalar_eq_base
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
+    (_hm3 : 2 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
     (β₀ : Fin (ggU .PSU m' (max f 1)).D.rank → ℤ)
-    (hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
+    (_hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
     (rootG : Subgroup ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max
         f 1)) 2 (max f 1)) m')) (u_SU : ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
             (GaloisField 2 (2 * max f 1)) 2 (max f 1)) m'))
     (v₀ a : Fin m' → GaloisField 2 (2 * max f 1)) (v : W) (ω : K)
-    (hv₀ : v₀ ≠ 0)
-    (hiso : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 *
+    (_hv₀ : v₀ ≠ 0)
+    (_hiso : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 *
         max f 1)) 2 (max f 1)) (v₀ i)) (Unitary.antidiag m') ⬝ᵥ v₀ = 0)
-    (ha0 : a ≠ 0) (haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
+    (_ha0 : a ≠ 0) (_haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1)) a a = 0)
-    (ha_eq : a = (((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
+    (_ha_eq : a = (((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
         u_SU).1 :
             GL (Fin m') (GaloisField 2 (2 * max f 1)))⁻¹ : Matrix (Fin m') (Fin m') (GaloisField 2
                 (2 * max f 1))) *ᵥ
             ((bmSTS_antidiagConj m' f : Matrix (Fin m') (Fin m') (GaloisField 2 (2 * max f 1))) *ᵥ
                 v₀))
-    (hv_eq : v = (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
+    (_hv_eq : v = (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
         W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace).symm
             ((@bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv f m' K _ _ _ hKrank
               (Classical.choice (bmSTS_blockEmbeddingEV_PSU_baseAlgebra f))).symm a))
-    (hvv : h v v = 0) (hω : Algebra.trace (GaloisField 2 f) K ω = 1)
-    (hu_SU : ((rootG.map (MulAut.conj u_SU).toMonoidHom).map (Unitary.SU
+    (_hvv : h v v = 0) (_hω : Algebra.trace (GaloisField 2 f) K ω = 1)
+    (_hu_SU : ((rootG.map (MulAut.conj u_SU).toMonoidHom).map (Unitary.SU
         (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2 (max f 1))
             m').subtype) =
         unitTransvGroup (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2
             (max f 1)).toRingHom (Unitary.antidiag m') v₀)
-    (hrootG : ∀ g : (ggU .PSU m' (max f 1)).K, g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀ →
+    (_hrootG : ∀ g : (ggU .PSU m' (max f 1)).K, g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀ →
         ((bmSTS_ggU_K_eq m' f) ▸ g) ∈ rootG)
-    (hrootG' : ∀ g' ∈ rootG, ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
+    (_hrootG' : ∀ g' ∈ rootG, ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
         ((bmSTS_ggU_K_eq m' f) ▸ g) = g')
-    (c : GaloisField 2 f) (g : (ggU .PSU m' (max f 1)).K) (hgm : g ∈ (ggU .PSU m' (max f
+    (c : GaloisField 2 f) (g : (ggU .PSU m' (max f 1)).K) (_hgm : g ∈ (ggU .PSU m' (max f
         1)).D.rootGroup β₀)
-    (hact : ∀ y : Fin m' → GaloisField 2 (2 * max f 1),
+    (_hact : ∀ y : Fin m' → GaloisField 2 (2 * max f 1),
       bmSTS_blockEmbeddingEV_PSU_suAction m' f g y =
         y + (algebraMap (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) c) •
             CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField
@@ -8529,17 +8526,17 @@ private theorem bmSTS_unitTransv_isotropicPair
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
     (β₀ : Fin (ggU .PSU m' (max f 1)).D.rank → ℤ)
-    (hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
+    (_hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
     (β : Fin (Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1)
         (le_max_right f 1)) m').rank → ℤ)
-    (hβ : GGLongRoot (Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2
+    (_hβ : GGLongRoot (Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2
         (max f 1) (le_max_right f 1)) m') β)
     (u_SU : ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1)) m'))
     (v₀ : Fin m' → GaloisField 2 (2 * max f 1)) (hv₀ : v₀ ≠ 0)
     (hiso : Matrix.vecMul (fun i => CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1) (v₀ i)) (Unitary.antidiag m') ⬝ᵥ v₀ = 0)
-    (hu_SU : ((((Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1)
+    (_hu_SU : ((((Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1)
         (le_max_right f 1)) m').rootGroup β).map (MulAut.conj u_SU).toMonoidHom).map
       (Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2
         (max f 1)) m').subtype) =
@@ -8608,7 +8605,7 @@ private theorem bmSTS_unitTransv_isotropicPair
         ((bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW
             m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace) w)) hzero
     simpa using h
-  · haveI : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by omega)
+  · have : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by omega)
     let Φ := bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
         eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace
     have hΦ : ∀ a b : W, CFSG.ClassicalGroups.Unitary.herm τ (Φ a) (Φ b) = h a b := by
@@ -8668,7 +8665,7 @@ private theorem bmSTS_siegelCore_altSiegel_le_image_of_hroot
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
+    (_hm3 : 2 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
@@ -8679,12 +8676,12 @@ private theorem bmSTS_siegelCore_altSiegel_le_image_of_hroot
         f 1)) 2 (max f 1)) m')) (u_SU : ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
             (GaloisField 2 (2 * max f 1)) 2 (max f 1)) m'))
     (v₀ a : Fin m' → GaloisField 2 (2 * max f 1)) (v : W) (ω : K)
-    (hv₀ : v₀ ≠ 0)
-    (hiso : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 *
+    (_hv₀ : v₀ ≠ 0)
+    (_hiso : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 *
         max f 1)) 2 (max f 1)) (v₀ i)) (Unitary.antidiag m') ⬝ᵥ v₀ = 0)
-    (ha0 : a ≠ 0) (haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
+    (ha0 : a ≠ 0) (_haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1)) a a = 0)
-    (ha_eq : a = (((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
+    (_ha_eq : a = (((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
         u_SU).1 :
             GL (Fin m') (GaloisField 2 (2 * max f 1)))⁻¹ : Matrix (Fin m') (Fin m') (GaloisField 2
                 (2 * max f 1))) *ᵥ
@@ -8694,14 +8691,14 @@ private theorem bmSTS_siegelCore_altSiegel_le_image_of_hroot
         W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace).symm
             ((bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv f m' K hKrank).symm a))
     (hvv : h v v = 0) (hω : Algebra.trace (GaloisField 2 f) K ω = 1)
-    (hu_SU : ((rootG.map (MulAut.conj u_SU).toMonoidHom).map (Unitary.SU
+    (_hu_SU : ((rootG.map (MulAut.conj u_SU).toMonoidHom).map (Unitary.SU
         (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2 (max f 1))
             m').subtype) =
         unitTransvGroup (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2
             (max f 1)).toRingHom (Unitary.antidiag m') v₀)
-    (hrootG : ∀ g : (ggU .PSU m' (max f 1)).K, g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀ →
+    (_hrootG : ∀ g : (ggU .PSU m' (max f 1)).K, g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀ →
         ((bmSTS_ggU_K_eq m' f) ▸ g) ∈ rootG)
-    (hrootG' : ∀ g' ∈ rootG, ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
+    (_hrootG' : ∀ g' ∈ rootG, ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
         ((bmSTS_ggU_K_eq m' f) ▸ g) = g')
     (hroot : ∀ c : GaloisField 2 f, ∃ g ∈ (ggU .PSU m' (max f 1)).D.rootGroup β₀,
       ∀ x : W, bmSTS_blockEmbeddingEV_PSU_blockAction n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
@@ -8781,13 +8778,13 @@ private theorem bmSTS_siegelCore_image_le_altSiegel
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
+    (_hm3 : 2 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
     (β₀ : Fin (ggU .PSU m' (max f 1)).D.rank → ℤ)
-    (hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
+    (_hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
     (rootG : Subgroup ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max
         f 1)) 2 (max f 1)) m')) (u_SU : ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
             (GaloisField 2 (2 * max f 1)) 2 (max f 1)) m'))
@@ -8795,7 +8792,7 @@ private theorem bmSTS_siegelCore_image_le_altSiegel
     (hv₀ : v₀ ≠ 0)
     (hiso : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 *
         max f 1)) 2 (max f 1)) (v₀ i)) (Unitary.antidiag m') ⬝ᵥ v₀ = 0)
-    (ha0 : a ≠ 0) (haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
+    (_ha0 : a ≠ 0) (_haa : CFSG.ClassicalGroups.Unitary.herm (CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1)) a a = 0)
     (ha_eq : a = (((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
         u_SU).1 :
@@ -8807,7 +8804,7 @@ private theorem bmSTS_siegelCore_image_le_altSiegel
         W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace).symm
             ((@bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv f m' K _ _ _ hKrank
               (Classical.choice (bmSTS_blockEmbeddingEV_PSU_baseAlgebra f))).symm a))
-    (hvv : h v v = 0) (hω : Algebra.trace (GaloisField 2 f) K ω = 1)
+    (_hvv : h v v = 0) (hω : Algebra.trace (GaloisField 2 f) K ω = 1)
     (hu_SU : ((rootG.map (MulAut.conj u_SU).toMonoidHom).map (Unitary.SU
         (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2 (max f 1))
             m').subtype) =
@@ -8821,7 +8818,7 @@ private theorem bmSTS_siegelCore_image_le_altSiegel
               heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace)
               ((ggU .PSU m' (max f 1)).D.rootGroup β₀))) ≤ altSiegelGroup (bmSTS_J n f) (eW v) (eW
                   (ω • v)) := by
-  letI : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
+  let : Algebra (GaloisField 2 f) (GaloisField 2 (2 * max f 1)) :=
     Classical.choice (bmSTS_blockEmbeddingEV_PSU_baseAlgebra f)
   intro x hx
   rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
@@ -9024,33 +9021,33 @@ private theorem bmSTS_unitTransv_pair_nonzero
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
+    (_hm3 : 2 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
     (β₀ : Fin (ggU .PSU m' (max f 1)).D.rank → ℤ)
-    (hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
+    (_hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
     (β : Fin (Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1)
         (le_max_right f 1)) m').rank → ℤ)
-    (hβ : GGLongRoot (Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2
+    (_hβ : GGLongRoot (Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2
         (max f 1) (le_max_right f 1)) m') β)
     (u_SU : ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1)) m'))
     (v₀ : Fin m' → GaloisField 2 (2 * max f 1)) (hv₀ : v₀ ≠ 0)
     (hiso : Matrix.vecMul (fun i => CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1) (v₀ i)) (Unitary.antidiag m') ⬝ᵥ v₀ = 0)
-    (hu_SU : ((((Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1)
+    (_hu_SU : ((((Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1)
         (le_max_right f 1)) m').rootGroup β).map (MulAut.conj u_SU).toMonoidHom).map
       (Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2
         (max f 1)) m').subtype) =
       unitTransvGroup (CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1)).toRingHom (Unitary.antidiag m') v₀)
-    (a : Fin m' → GaloisField 2 (2 * max f 1)) (v : W) (ω : K)
+    (a : Fin m' → GaloisField 2 (2 * max f 1)) (v : W) (_ω : K)
     (ha_eq : a = ((((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
         u_SU).1 : GL (Fin m') (GaloisField 2 (2 * max f 1)))⁻¹ : Matrix (Fin m') (Fin m')
             (GaloisField 2 (2 * max f 1))) *ᵥ ((bmSTS_antidiagConj m' f : Matrix (Fin m') (Fin m')
-                (GaloisField 2 (2 * max f 1))) *ᵥ v₀))) (hv_eq : v =
+                (GaloisField 2 (2 * max f 1))) *ᵥ v₀))) (_hv_eq : v =
                     (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe
                         K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace).symm
                             ((bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv f m' K hKrank).symm a)) :
@@ -9103,33 +9100,33 @@ private theorem bmSTS_unitTransv_pair_isotropic
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
+    (_hm3 : 2 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
     (β₀ : Fin (ggU .PSU m' (max f 1)).D.rank → ℤ)
-    (hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
+    (_hlong : GGLongRoot (ggU .PSU m' (max f 1)).D β₀)
     (β : Fin (Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1)
         (le_max_right f 1)) m').rank → ℤ)
-    (hβ : GGLongRoot (Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2
+    (_hβ : GGLongRoot (Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2
         (max f 1) (le_max_right f 1)) m') β)
     (u_SU : ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1)) m'))
     (v₀ : Fin m' → GaloisField 2 (2 * max f 1)) (hv₀ : v₀ ≠ 0)
     (hiso : Matrix.vecMul (fun i => CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1) (v₀ i)) (Unitary.antidiag m') ⬝ᵥ v₀ = 0)
-    (hu_SU : ((((Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1)
+    (_hu_SU : ((((Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1)
         (le_max_right f 1)) m').rootGroup β).map (MulAut.conj u_SU).toMonoidHom).map
       (Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * max f 1)) 2
         (max f 1)) m').subtype) =
       unitTransvGroup (CFSG.LieType.BorelTits.unitaryInvolution
         (GaloisField 2 (2 * max f 1)) 2 (max f 1)).toRingHom (Unitary.antidiag m') v₀)
-    (a : Fin m' → GaloisField 2 (2 * max f 1)) (v : W) (ω : K)
+    (a : Fin m' → GaloisField 2 (2 * max f 1)) (v : W) (_ω : K)
     (ha_eq : a = ((((Unitary.conjEquiv (bmSTS_antidiagConj m' f) (bmSTS_antidiagConj_spec m' f)
         u_SU).1 : GL (Fin m') (GaloisField 2 (2 * max f 1)))⁻¹ : Matrix (Fin m') (Fin m')
             (GaloisField 2 (2 * max f 1))) *ᵥ ((bmSTS_antidiagConj m' f : Matrix (Fin m') (Fin m')
-                (GaloisField 2 (2 * max f 1))) *ᵥ v₀))) (hv_eq : v =
+                (GaloisField 2 (2 * max f 1))) *ᵥ v₀))) (_hv_eq : v =
                     (bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe
                         K τ W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace).symm
                             ((bmSTS_blockEmbeddingEV_PSU_stdModuleEquiv f m' K hKrank).symm a)) :
@@ -9491,7 +9488,7 @@ private theorem bmSTS_hermEquiv_isometry
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y)) :
@@ -9502,7 +9499,7 @@ private theorem bmSTS_hermEquiv_isometry
         ((bmSTS_blockEmbeddingEV_PSU_hermEquiv n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
           eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace) v) = h u v := by
   intro u v
-  haveI : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by rw [hrank]; omega)
+  have : FiniteDimensional K W := FiniteDimensional.of_finrank_pos (by rw [hrank]; omega)
   have hspec := Classical.choose_spec (CFSG.Fischer.Classification.exists_linearEquiv_herm_of_form
     (bmSTS_blockEmbeddingEV_PSU_unitaryInvolution n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ
       W h eW m' heW heWinj hτ2 hτne hsymm hnd hrank hm' htrace)
@@ -9861,10 +9858,10 @@ private theorem bmSTS_rootPair_explicit
   obtain ⟨β₀, v, w, ω, ω', hlong, hv, hvv, hw, hww, hvw, hω, hω', himg₁, himg₂⟩ :=
     bmSTS_rootPair_images n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m' heW heWinj hτ2
       hτne hsymm hnd hrank hm' hm3 hKrank htrace
-  haveI : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
-  haveI : Algebra.IsSeparable (GaloisField 2 f) K :=
+  have : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
+  have : Algebra.IsSeparable (GaloisField 2 f) K :=
     Algebra.IsAlgebraic.isSeparable_of_perfectField
-  haveI : Algebra.IsQuadraticExtension (GaloisField 2 f) K :=
+  have : Algebra.IsQuadraticExtension (GaloisField 2 f) K :=
     Algebra.IsQuadraticExtension.mk hKrank
   have hτlin := bmSTS_tauFixesBase n f S hSU hS hodd he hadj hdeg₁ hdeg₂ K hKrank τ hτ2 hτne
   obtain ⟨σ, hσne, hτσ, -⟩ :=
@@ -9919,21 +9916,20 @@ private theorem bmSTS_rootPair_explicit
   · simp only [Matrix.mulVec_add, Matrix.mulVec_smul, dotProduct_add, dotProduct_smul, one_smul]
     rw [hBvv, hBvω'w, hvw, mul_one, ← map_one (algebraMap (GaloisField 2 f) K),
       bmSTS_trace_base_zero f K hKrank 1, smul_zero, zero_add, hω']
-  · simp only [Matrix.mulVec_add, Matrix.mulVec_smul, dotProduct_add, dotProduct_smul, one_smul,
-      zero_smul, Matrix.mulVec_zero, dotProduct_zero, add_zero, mul_zero]
+  · simp only [one_smul,
+      zero_smul, add_zero]
     rw [hBωvw, hvw, mul_one, hTrτ ω, hω]
   · simp only [hBvω, hvv, mul_zero, map_zero]
-  · simp only [Matrix.mulVec_add, Matrix.mulVec_smul, add_dotProduct, smul_dotProduct,
-      dotProduct_add, dotProduct_smul, one_smul, zero_smul, Matrix.mulVec_zero, dotProduct_zero,
-      add_zero, mul_zero]
-    simp only [hBww, hBω'ww, hww, mul_zero, map_zero, smul_zero, add_zero, zero_add]
-  · simp only [Matrix.mulVec_add, Matrix.mulVec_smul, dotProduct_add, dotProduct_smul, one_smul,
-      zero_smul, Matrix.mulVec_zero, dotProduct_zero, add_zero, mul_zero]
+  · simp only [add_dotProduct, smul_dotProduct,
+      one_smul, zero_smul, add_zero]
+    simp only [hBww, hBω'ww, hww, mul_zero, map_zero, smul_zero, add_zero]
+  · simp only [one_smul,
+      zero_smul, add_zero]
     rw [hBvv, hvw, ← map_one (algebraMap (GaloisField 2 f) K),
       bmSTS_trace_base_zero f K hKrank 1]
   · simp only [Matrix.mulVec_add, Matrix.mulVec_smul, dotProduct_add, dotProduct_smul]
     rw [hBωvw, hBωvω'w, hvw, mul_one, hTrτ ω, hω]
-    simp only [c, smul_eq_mul, mul_one, one_mul, one_smul]
+    simp only [c, smul_eq_mul, mul_one, one_mul]
     rw [← two_mul]
     rw [show (2 : GaloisField 2 f) = 0 from CharP.cast_eq_zero (GaloisField 2 f) 2, zero_mul]
   · rw [himg₂]
@@ -10013,7 +10009,7 @@ private theorem bmSTS_altSiegel_mem_range
           Matrix.vecMulVec a₂ (Matrix.mulVec (bmSTS_J n f) a₁)) := by
       rw [hg₁, hg₂]
       simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.one_mul, Matrix.smul_mul,
-        Matrix.mul_smul, hcross, smul_zero, add_zero, zero_add, smul_add]
+        Matrix.mul_smul, hcross, smul_zero, add_zero, smul_add]
       abel
     refine ⟨g₁ * g₂, Subgroup.subset_closure ⟨c, hmat⟩, hmat, ?_⟩
     have htJ : g₁ * g₂ ∈ J'.map (CFSG.Open.StatedSp n (GaloisField 2 f)).subtype :=
@@ -10128,8 +10124,8 @@ private theorem bmSTS_altSiegel_mem_range
 
 private theorem bmSTS_trace_exists_ne_zero (f : ℕ) (K : Type) [Field K]
     [Algebra (GaloisField 2 f) K] [Finite K]
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2) (τ : K ≃+* K)
-    (hτne : τ ≠ RingHom.id K) : ∃ c : K, Algebra.trace (GaloisField 2 f) K c ≠ 0 := by
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2) (τ : K ≃+* K)
+    (_hτne : τ ≠ RingHom.id K) : ∃ c : K, Algebra.trace (GaloisField 2 f) K c ≠ 0 := by
   obtain ⟨c, hc⟩ := Algebra.trace_surjective (GaloisField 2 f) K 1
   exact ⟨c, by rw [hc]; exact one_ne_zero⟩
 
@@ -10191,7 +10187,7 @@ private theorem bmSTS_exists_hdual {F : Type} [Field F] (K : Type) [Field K] [Al
     · rw [bmSTS_herm_smul_left (F := F) (K := K) W h τ hτ2 hsymm, hw₀₁, mul_zero]
     · rw [bmSTS_herm_smul_left (F := F) (K := K) W h τ hτ2 hsymm,
         RingEquiv.apply_symm_apply τ ((h w₀ z₂)⁻¹), inv_mul_cancel₀ hw₀₂]
-  · push_neg at hg
+  · push Not at hg
     exfalso
     by_cases hf : ∃ y : W, h y z₁ ≠ 0
     · obtain ⟨y₁, hy₁⟩ := hf
@@ -10215,20 +10211,20 @@ private theorem bmSTS_exists_hdual {F : Type} [Field F] (K : Type) [Field K] [Al
         rw [hsymm y (z₂ - (h y₁ z₂ * (h y₁ z₁)⁻¹) • z₁), map_sub, map_smul, smul_eq_mul,
           hkey y, sub_self, map_zero]
       exact hcol _ (sub_eq_zero.mp hzero)
-    · push_neg at hf
+    · push Not at hf
       exact hcol 0 (by simpa using hnd z₂ (fun y => by rw [hsymm y z₂, hg y (hf y), map_zero]))
 
 private theorem bmSTS_Klinear_transvection_relation
     {F : Type} [Field F] (K : Type) [Field K] [Algebra F K] [Finite K]
-    (τ : K ≃+* K) (hτ2 : ∀ c : K, τ (τ c) = c)
+    (τ : K ≃+* K) (_hτ2 : ∀ c : K, τ (τ c) = c)
     (W : Type) [AddCommGroup W] [Module K W] [Module F W] [IsScalarTower F K W]
-    (h : W → W →ₗ[K] K) (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (z₁ z₂ : W) (hfind : LinearIndependent F ![z₁, z₂])
+    (h : W → W →ₗ[K] K) (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (z₁ z₂ : W) (_hfind : LinearIndependent F ![z₁, z₂])
     (T : W →ₗ[F] W)
     (hform : ∀ w : W, T w = w + Algebra.trace F K (h w z₂) • z₁ +
       Algebra.trace F K (h w z₁) • z₂)
-    (hKlin : ∀ (c : K) (w : W), T (c • w) = c • T w) (hz₁ : z₁ ≠ 0) :
+    (hKlin : ∀ (c : K) (w : W), T (c • w) = c • T w) (_hz₁ : z₁ ≠ 0) :
     ∀ (c : K) (w : W),
       (algebraMap F K (Algebra.trace F K (h (c • w) z₂)) -
           c * algebraMap F K (Algebra.trace F K (h w z₂))) • z₁ +
@@ -10269,7 +10265,7 @@ private theorem bmSTS_colinear_of_dual_transvection_Klinear
     z₁ ≠ 0 → ∃ c : K, z₂ = c • z₁ := by
   intro hz₁
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hfind := bmSTS_independent_of_not_Kcolinear (F := F) (K := K) W z₁ z₂ hz₁ hcon
   have hrel := bmSTS_Klinear_transvection_relation (F := F) (K := K) τ hτ2 W h hsymm hnd z₁ z₂
     hfind T hform hKlin hz₁
@@ -10278,7 +10274,7 @@ private theorem bmSTS_colinear_of_dual_transvection_Klinear
   have hh := hrel (τ c₀) w₁
   rw [bmSTS_herm_smul_left (F := F) (K := K) W h τ hτ2 hsymm (τ c₀) w₁ z₂,
     bmSTS_herm_smul_left (F := F) (K := K) W h τ hτ2 hsymm (τ c₀) w₁ z₁, hw₁, hw₂, hτ2 c₀] at hh
-  simp only [hTr1, map_zero, mul_zero, sub_zero, zero_smul, zero_add, add_zero, mul_one] at hh
+  simp only [hTr1, map_zero, mul_zero, sub_zero, zero_smul, add_zero, mul_one] at hh
   have hz : algebraMap F K (Algebra.trace F K c₀) = 0 :=
     (smul_eq_zero.mp hh).resolve_right hz₁
   exact hc₀ (by
@@ -10287,15 +10283,15 @@ private theorem bmSTS_colinear_of_dual_transvection_Klinear
 
 private theorem bmSTS_generator_altSiegel_mem
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -10304,13 +10300,13 @@ private theorem bmSTS_generator_altSiegel_mem
     [IsScalarTower (GaloisField 2 f) K W]
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (htrace : ∀ (x y : W) (c : K),
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (_heWinj : Function.Injective eW) (_hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
+    (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y)) :
     ∀ a₁ a₂ : (Fin n ⊕ Fin n) → GaloisField 2 f, a₁ ≠ 0 → a₂ ≠ 0 →
@@ -10352,7 +10348,7 @@ private theorem bmSTS_generator_altSiegel_mem
         Matrix.vecMulVec a₂ (Matrix.mulVec (bmSTS_J n f) a₁)) := by
     rw [Units.val_mul, hg₁, hg₂]
     simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.one_mul, Matrix.smul_mul,
-      Matrix.mul_smul, hcross, smul_zero, add_zero, zero_add, smul_add]
+      Matrix.mul_smul, hcross, smul_zero, add_zero, smul_add]
     abel
   exact ⟨g₁ * g₂, Subgroup.subset_closure ⟨1, hmat⟩, hmat⟩
 
@@ -10505,15 +10501,15 @@ private theorem bmSTS_altSiegel_generator_KLinear
 
 private theorem bmSTS_altSiegel_generator_action_form
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -10522,12 +10518,12 @@ private theorem bmSTS_altSiegel_generator_action_form
     [IsScalarTower (GaloisField 2 f) K W]
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (heWinj : Function.Injective eW) (_hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
+    (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y)) :
@@ -10609,13 +10605,13 @@ private theorem bmSTS_altSiegel_plane_colinear
 
 private theorem bmSTS_trace_eq_add
     {F : Type} [Field F] (K : Type) [Field K] [Algebra F K] [Finite K]
-    (τ : K ≃+* K) (hτ2 : ∀ c : K, τ (τ c) = c)
+    (τ : K ≃+* K) (_hτ2 : ∀ c : K, τ (τ c) = c)
     (hτfix : ∀ a : F, τ (algebraMap F K a) = algebraMap F K a)
     (hτne : τ ≠ RingHom.id K) (hKrank : Module.finrank F K = 2) (x : K) :
     algebraMap F K (Algebra.trace F K x) = x + τ x := by
-  haveI : Module.Free F K := inferInstance
-  haveI : Algebra.IsQuadraticExtension F K := Algebra.IsQuadraticExtension.mk hKrank
-  haveI : Algebra.IsSeparable F K := inferInstance
+  have : Module.Free F K := inferInstance
+  have : Algebra.IsQuadraticExtension F K := Algebra.IsQuadraticExtension.mk hKrank
+  have : Algebra.IsSeparable F K := inferInstance
   let τa : K ≃ₐ[F] K := { τ with commutes' := fun a => hτfix a }
   have hτa : τa ≠ 1 := by
     intro h
@@ -10664,7 +10660,7 @@ private theorem bmSTS_trace_action_nontrivial
     {W : Type} [AddCommGroup W] [Module K W] [Module F W] [IsScalarTower F K W]
     (τ : K ≃+* K) (h : W → W →ₗ[K] K) (z : W) (c : K) (T : W →ₗ[F] W)
     (hT : ∀ w : W, T w = w + Algebra.trace F K c • (τ (h w z) • z))
-    (hz : z ≠ 0) (hTne : ∃ w : W, T w ≠ w) :
+    (_hz : z ≠ 0) (hTne : ∃ w : W, T w ≠ w) :
     Algebra.trace F K c ≠ 0 ∧ ∃ w : W, h w z ≠ 0 := by
   obtain ⟨w₀, hw₀⟩ := hTne
   have hne : Algebra.trace F K c • (τ (h w₀ z) • z) ≠ 0 := by
@@ -10750,7 +10746,7 @@ private theorem bmSTS_altSiegel_generator_g_exists
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     (τ : K ≃+* K)
-    (hτfix : ∀ a : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K a) =
+    (_hτfix : ∀ a : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K a) =
       algebraMap (GaloisField 2 f) K a)
     (W : Type) [AddCommGroup W] [Module K W] [Module (GaloisField 2 f) W]
     [IsScalarTower (GaloisField 2 f) K W]
@@ -10834,7 +10830,7 @@ private theorem bmSTS_altSiegel_generator_g_reduced
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
-    (hrange : (bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW
+    (_hrange : (bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW
         m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace).range = J') :
     ∀ a₁ a₂ : (Fin n ⊕ Fin n) → GaloisField 2 f, a₁ ≠ 0 → a₂ ≠ 0 →
       LinearIndependent (GaloisField 2 f) ![a₁, a₂] →
@@ -10871,7 +10867,7 @@ private theorem bmSTS_herm_surjective
     ∃ w : W, h w z = κ := by
   have hne : ∃ w₁, h w₁ z ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hz (hnd z (fun y => by rw [hsymm y z, hcon y, map_zero]))
   obtain ⟨w₁, hw₁⟩ := hne
   refine ⟨τ.symm (κ * (h w₁ z)⁻¹) • w₁, ?_⟩
@@ -10884,7 +10880,7 @@ private theorem bmSTS_herm_trace_exists_ne_zero
     (h : W → W →ₗ[K] K) (τ : K ≃+* K) (hτ2 : ∀ c : K, τ (τ c) = c)
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hKrank : Module.finrank F K = 2) (hτne : τ ≠ RingHom.id K) (z : W) (hz : z ≠ 0) :
+    (_hKrank : Module.finrank F K = 2) (_hτne : τ ≠ RingHom.id K) (z : W) (hz : z ≠ 0) :
     ∃ w : W, Algebra.trace F K (h w z) ≠ 0 := by
   obtain ⟨c₀, hc₀⟩ := Algebra.trace_surjective F K 1
   obtain ⟨w, hw⟩ := bmSTS_herm_surjective (F := F) K h τ hτ2 hsymm hnd z hz c₀
@@ -10901,7 +10897,7 @@ private theorem bmSTS_vv_add_mulVec
 private theorem bmSTS_blockAction_ne_of_matrix
     {F : Type} [Field F] {ι : Type} [Fintype ι] [DecidableEq ι]
     {W : Type} [AddCommGroup W] [Module F W]
-    (eW : W →ₗ[F] (ι → F)) (heWinj : Function.Injective eW)
+    (eW : W →ₗ[F] (ι → F)) (_heWinj : Function.Injective eW)
     (M : Matrix ι ι F) (T : W → W)
     (hT : ∀ w : W, eW (T w) = (1 + M) *ᵥ eW w) (w : W)
     (hM : M *ᵥ eW w ≠ 0) : T w ≠ w := by
@@ -10926,7 +10922,7 @@ private theorem bmSTS_vv_mulVec_trace
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
     (τ : K ≃+* K)
-    (hτfix : ∀ a : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K a) =
+    (_hτfix : ∀ a : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K a) =
       algebraMap (GaloisField 2 f) K a)
     (W : Type) [AddCommGroup W] [Module K W] [Module (GaloisField 2 f) W]
     [IsScalarTower (GaloisField 2 f) K W]
@@ -10941,7 +10937,7 @@ private theorem bmSTS_vv_mulVec_trace
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
-    (hrange : (bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW
+    (_hrange : (bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW
         m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace).range = J') :
     ∀ a₁ a₂ : (Fin n ⊕ Fin n) → GaloisField 2 f, ∀ (z₁ z₂ : W) (w : W),
       a₁ = eW z₁ → a₂ = eW z₂ →
@@ -11098,7 +11094,7 @@ private theorem bmSTS_altSiegel_generator_isometry
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))
-    (hrange : (bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW
+    (_hrange : (bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW
         m' heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace).range = J') :
     ∀ (g : (ggU .PSU m' (max f 1)).K) (w w' : W),
       h ((bmSTS_blockEmbeddingEV_PSU_blockAction n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h
@@ -11314,15 +11310,15 @@ private theorem bmSTS_trace_eq_zero_mem_base {f : ℕ} (K : Type) [Field K]
 
 private theorem bmSTS_altSiegel_omega_exists
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -11331,13 +11327,13 @@ private theorem bmSTS_altSiegel_omega_exists
     [IsScalarTower (GaloisField 2 f) K W]
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (htrace : ∀ (x y : W) (c : K),
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (_heWinj : Function.Injective eW) (_hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
+    (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y)) :
     ∀ (z : W) (c : K), z ≠ 0 → h z z = 0 →
@@ -11623,15 +11619,15 @@ private lemma bmSTS_map_conj_map {A B : Type*} [Group A] [Group B]
 
 private theorem bmSTS_K_omega_given
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -11640,19 +11636,19 @@ private theorem bmSTS_K_omega_given
     [IsScalarTower (GaloisField 2 f) K W]
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hτfix : ∀ a : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K a) =
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (_heWinj : Function.Injective eW) (_hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
+    (_hτfix : ∀ a : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K a) =
       algebraMap (GaloisField 2 f) K a)
-    (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
+    (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
+    (_hm3 : 2 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (htrace : ∀ (x y : W) (c : K),
+    (_htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
-      Algebra.trace (GaloisField 2 f) K (c * h x y))     (z : W) (hz : z ≠ 0) (hzz : h z z = 0)
-    (v : W) (hv : v ≠ 0) (hvv : h v v = 0) (hvz : v = z)
+      Algebra.trace (GaloisField 2 f) K (c * h x y))     (z : W) (_hz : z ≠ 0) (_hzz : h z z = 0)
+    (v : W) (_hv : v ≠ 0) (_hvv : h v v = 0) (hvz : v = z)
     (ω₀ : K) (hω₀ : Algebra.trace (GaloisField 2 f) K ω₀ = 1)
     (ω : K) (hω : Algebra.trace (GaloisField 2 f) K ω = 1) :
     altSiegelGroup (bmSTS_J n f) (eW v) (eW (ω₀ • v)) =
@@ -11705,15 +11701,15 @@ private theorem bmSTS_hCv_chain {m : ℕ} {F : Type} [Field F] (C P : GL (Fin m)
 
 private theorem bmSTS_K_root_transport
     (n f : ℕ) (S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ CFSG.Open.StatedSp n (GaloisField 2 f))
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmSTS_J n f) e = e)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(CFSG.Open.StatedSp n (GaloisField 2 f))}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e),
       glBlockCentralizer ((CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) S (e)⁆)
     (K : Type) [Field K] [Algebra (GaloisField 2 f) K] [Finite K]
@@ -11722,16 +11718,16 @@ private theorem bmSTS_K_root_transport
     [IsScalarTower (GaloisField 2 f) K W]
     (h : W → W →ₗ[K] K)
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
-    (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
-    (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hτfix : ∀ a : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K a) =
+    (_heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
+    (_heWinj : Function.Injective eW) (_hτ2 : ∀ a : K, τ (τ a) = a) (_hτne : τ ≠ RingHom.id K)
+    (_hτfix : ∀ a : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K a) =
       algebraMap (GaloisField 2 f) K a)
-    (hsymm : ∀ x y : W, h y x = τ (h x y))
-    (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
-    (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
-    (hKrank : Module.finrank (GaloisField 2 f) K = 2)
-    (htrace : ∀ (x y : W) (c : K),
+    (_hsymm : ∀ x y : W, h y x = τ (h x y))
+    (_hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
+    (_hrank : Module.finrank K W = m') (_hm' : 1 ≤ m')
+    (_hm3 : 2 ≤ m')
+    (_hKrank : Module.finrank (GaloisField 2 f) K = 2)
+    (_htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
       Algebra.trace (GaloisField 2 f) K (c * h x y))     (β : Fin (Unitary.rootDatum
           (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1) (le_max_right f 1)) m').rank
@@ -11739,8 +11735,8 @@ private theorem bmSTS_K_root_transport
                   (max f 1) (le_max_right f 1)) m').roots) (hβ : GGLongRoot (Unitary.rootDatum
                       (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1) (le_max_right f
                           1)) m') β) :
-    ∃ (β₀ : Fin ((ggU .PSU m' (max f 1)).D).rank → ℤ) (hβ₀ : β₀ ∈ ((ggU .PSU m' (max f 1)).D).roots)
-        (hlong₀ : GGLongRoot ((ggU .PSU m' (max f 1)).D) β₀),
+    ∃ (β₀ : Fin ((ggU .PSU m' (max f 1)).D).rank → ℤ) (_hβ₀ : β₀ ∈ ((ggU .PSU m' (max f 1)).D).roots)
+        (_hlong₀ : GGLongRoot ((ggU .PSU m' (max f 1)).D) β₀),
       (∀ g : (ggU .PSU m' (max f 1)).K, g ∈ ((ggU .PSU m' (max f 1)).D).rootGroup β₀ →
           (bmSTS_ggU_K_eq m' f ▸ g) ∈ (Unitary.rootDatum
               (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1) (le_max_right f 1))
@@ -11786,7 +11782,7 @@ private theorem bmSTS_K_pair_image
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
-      Algebra.trace (GaloisField 2 f) K (c * h x y))     (z : W) (hz : z ≠ 0) (hzz : h z z = 0)
+      Algebra.trace (GaloisField 2 f) K (c * h x y))     (z : W) (_hz : z ≠ 0) (_hzz : h z z = 0)
     (β : Fin (Unitary.rootDatum (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1)
         (le_max_right f 1)) m').rank → ℤ) (hβr : β ∈ (Unitary.rootDatum
             (CFSG.LieType.Universal.card_galoisField_two_mul 2 (max f 1) (le_max_right f 1))
@@ -11874,12 +11870,12 @@ private theorem bmSTS_K_blockAction_eq
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
     (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
     (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hτfix : ∀ a : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K a) =
+    (_hτfix : ∀ a : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K a) =
       algebraMap (GaloisField 2 f) K a)
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
+    (_hm3 : 2 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
@@ -11930,12 +11926,12 @@ private theorem bmSTS_K_conj_kform
     (eW : W →ₗ[GaloisField 2 f] ((Fin n ⊕ Fin n) → GaloisField 2 f)) (m' : ℕ)
     (heW : LinearMap.range eW = LinearMap.range (Matrix.mulVecLin e))
     (heWinj : Function.Injective eW) (hτ2 : ∀ a : K, τ (τ a) = a) (hτne : τ ≠ RingHom.id K)
-    (hτfix : ∀ a : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K a) =
+    (_hτfix : ∀ a : GaloisField 2 f, τ (algebraMap (GaloisField 2 f) K a) =
       algebraMap (GaloisField 2 f) K a)
     (hsymm : ∀ x y : W, h y x = τ (h x y))
     (hnd : ∀ x : W, (∀ y : W, h x y = 0) → x = 0)
     (hrank : Module.finrank K W = m') (hm' : 1 ≤ m')
-    (hm3 : 2 ≤ m')
+    (_hm3 : 2 ≤ m')
     (hKrank : Module.finrank (GaloisField 2 f) K = 2)
     (htrace : ∀ (x y : W) (c : K),
       eW x ⬝ᵥ Matrix.mulVec (bmSTS_J n f) (eW (c • y)) =
@@ -12269,13 +12265,13 @@ theorem exists_blockModel_selfDualTwo_PSp_explicit_inj
   obtain ⟨K, hKf, hKa, hKfin, hKrank, τ, W, hWadd, hWmodK, hWmodF, hWtower, h, eW, m', heW, heWinj,
     hτ2, hτne, hτfix, hsymm, hnd, hrank, hm', hm3, hnq, htrace, hKlinRepC, hKlinRep, hcommS⟩ :=
     bmSTS_explicit_data n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe
-  letI : Field K := hKf
-  letI : Algebra (GaloisField 2 f) K := hKa
-  letI : Finite K := hKfin
-  letI : AddCommGroup W := hWadd
-  letI : Module K W := hWmodK
-  letI : Module (GaloisField 2 f) W := hWmodF
-  letI : IsScalarTower (GaloisField 2 f) K W := hWtower
+  let : Field K := hKf
+  let : Algebra (GaloisField 2 f) K := hKa
+  let : Finite K := hKfin
+  let : AddCommGroup W := hWadd
+  let : Module K W := hWmodK
+  let : Module (GaloisField 2 f) W := hWmodF
+  let : IsScalarTower (GaloisField 2 f) K W := hWtower
   let ι₀ := bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m'
     heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace
   obtain ⟨hcen, hrange⟩ :=
@@ -12387,13 +12383,13 @@ theorem exists_blockModelClosure_selfDualTwo_PSp_explicit
   obtain ⟨K, hKf, hKa, hKfin, hKrank, τ, W, hWadd, hWmodK, hWmodF, hWtower, h, eW, m', heW, heWinj,
     hτ2, hτne, hτfix, hsymm, hnd, hrank, hm', hm3, hnq, htrace, hKlinRepC, hKlinRep, hcommS⟩ :=
     bmSTS_explicit_data n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe
-  letI : Field K := hKf
-  letI : Algebra (GaloisField 2 f) K := hKa
-  letI : Finite K := hKfin
-  letI : AddCommGroup W := hWadd
-  letI : Module K W := hWmodK
-  letI : Module (GaloisField 2 f) W := hWmodF
-  letI : IsScalarTower (GaloisField 2 f) K W := hWtower
+  let : Field K := hKf
+  let : Algebra (GaloisField 2 f) K := hKa
+  let : Finite K := hKfin
+  let : AddCommGroup W := hWadd
+  let : Module K W := hWmodK
+  let : Module (GaloisField 2 f) W := hWmodF
+  let : IsScalarTower (GaloisField 2 f) K W := hWtower
   let ι₀ := bmSTS_blockEmbeddingEV_PSU_hom n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m'
     heW heWinj hτ2 hτne hsymm hnd hrank hm' hKrank htrace
   obtain ⟨hcen, hrange⟩ :=
@@ -12401,7 +12397,7 @@ theorem exists_blockModelClosure_selfDualTwo_PSp_explicit
       heW heWinj hτ2 hτne hsymm hnd hrank hm' hm3 hnq hKrank htrace hKlinRepC hKlinRep hcommS
   have hrangeJ' : ι₀.range = J' :=
     bmSTS_rangeEqJ' hrange (bmSTS_component_eq n f S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe)
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     charP_of_injective_algebraMap (RingHom.injective (algebraMap (GaloisField 2 f) K)) 2
   have hdim : 2 * m' = Module.finrank (GaloisField 2 f) (LinearMap.range (Matrix.mulVecLin e)) := by
     have h1 : LinearMap.range (Matrix.mulVecLin e) = LinearMap.range eW := by rw [heW]
@@ -12520,8 +12516,7 @@ theorem exists_linearBlockModel_selfDualTwo_PSp_at_two
         eW (ξ.symm (η.symm (T x))) = E _
       rw [h0]
       apply congrArg eW
-      simp only [bmSTS_blockEmbeddingEV_PSU_blockAction, LinearEquiv.trans_apply,
-        LinearEquiv.apply_symm_apply]
+      simp only [bmSTS_blockEmbeddingEV_PSU_blockAction, LinearEquiv.trans_apply]
       change ξ.symm ((bmSTS_blockEmbeddingEV_PSU_stdAction n 1 S hSU hS hodd he hadj hdeg₁ hdeg₂ hJe K τ W h eW m heW heWinj hτ2 hτne hsymm hnd hrank hm hKrank htrace (α.symm g))
         (ξ (ξ.symm (η.symm (T x))))) = ξ.symm (η.symm (T _))
       rw [LinearEquiv.apply_symm_apply]

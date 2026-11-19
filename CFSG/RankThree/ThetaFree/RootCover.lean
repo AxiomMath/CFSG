@@ -70,7 +70,7 @@ theorem rank_bounds_of_minimal_cover {G : Type} [Group G] [Finite G] {R : Subgro
     obtain ⟨Q, hcQ⟩ := hc2.exists_le_sylow
     set Q' := (Q : Subgroup π.ker).map π.ker.subtype with hQ'def
     have hQn : Q'.Normal := hsyl 2 Q
-    have hQ2 : IsPGroup 2 Q' := Q.isPGroup'.map _
+    have hQ2 : IsPGroup 2 Q' := Q.isPGroup.map _
     have hQne : Q' ≠ ⊥ := by
       intro hb
       have hcQ' : (c : Γ) ∈ Q' := ⟨c, hcQ (mem_zpowers c), rfl⟩

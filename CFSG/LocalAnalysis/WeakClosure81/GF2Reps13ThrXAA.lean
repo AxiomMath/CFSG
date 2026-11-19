@@ -18,23 +18,27 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16g_stableUnder_bot {X : Subgroup (MulAut W)} :
     StableUnder X (⊥ : Subgroup W) := by
   intro x hx u hu
   rw [Subgroup.mem_bot] at hu ⊢
   rw [hu, map_one]
 
+omit [Finite W] in
 theorem w16g_le_s13IsoSum_self {X : Subgroup (MulAut W)} {U₀ : Subgroup W}
     (hU₀ : IsIrrOn X U₀ ⊥) : U₀ ≤ s13IsoSum X U₀ := by
   unfold s13IsoSum
   exact le_iSup₂ (f := fun V₁ (_ : IsIrrOn X V₁ ⊥ ∧ SecIsoOn X V₁ ⊥ U₀ ⊥) => V₁) U₀
     ⟨hU₀, secIsoOn_refl hU₀.2.1 w16g_stableUnder_bot bot_le⟩
 
+omit [Finite W] in
 theorem w16g_s13IsoSum_stable (X : Subgroup (MulAut W)) (U₀ : Subgroup W) :
     StableUnder X (s13IsoSum X U₀) := by
   rw [s13IsoSum]
   refine stableUnder_iSup fun V₁ => stableUnder_iSup fun hV => hV.1.2.1
 
+omit [Finite W] in
 private theorem w16g_fix_of_secIsoOn_of_fixes {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (h : SecIsoOn X A ⊥ B ⊥) {y : MulAut W} (hy : y ∈ X)
     (hA : ∀ a ∈ A, y a = a) : ∀ b ∈ B, y b = b := by
@@ -51,9 +55,10 @@ private theorem w16g_fix_of_secIsoOn_of_fixes {X : Subgroup (MulAut W)} {A B : S
     exact h3.symm
   rw [← hβa, h4]
 
+omit [Finite W] in
 private theorem w16g_le_fixV_of_secIsoOn {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (h : SecIsoOn X A ⊥ B ⊥) (hA : A ≤ fixV X) : B ≤ fixV X :=
-  fun b hb x hx => w16g_fix_of_secIsoOn_of_fixes h hx (fun a ha => hA ha x hx) b hb
+  fun b hb x hx => w16g_fix_of_secIsoOn_of_fixes h hx (fun _a ha => hA ha x hx) b hb
 
 private theorem w16g_commSub_eq_self_of_irr (hW : ∀ w : W, w * w = 1)
     {X : Subgroup (MulAut W)} (hX : Odd (Nat.card X)) {V : Subgroup W}
@@ -64,7 +69,7 @@ private theorem w16g_commSub_eq_self_of_irr (hW : ∀ w : W, w * w = 1)
   exact hdec
 
 theorem w16g_irr_le_commSub (hW : ∀ w : W, w * w = 1) {X : Subgroup (MulAut W)}
-    (hX : Odd (Nat.card X)) {U₀ V : Subgroup W} (hIrr₀ : IsIrrOn X U₀ ⊥)
+    (hX : Odd (Nat.card X)) {U₀ V : Subgroup W} (_hIrr₀ : IsIrrOn X U₀ ⊥)
     (hne₀ : commSub U₀ X ≠ ⊥) (hIrrV : IsIrrOn X V ⊥) (hsec : SecIsoOn X V ⊥ U₀ ⊥) :
     V ≤ commSub ⊤ X := by
   have hstab : StableUnder X (fixV X) :=
@@ -101,7 +106,7 @@ private theorem w16g_exists_secIsoOn_of_le_s13IsoSum (hW : ∀ w : W, w * w = 1)
     (hle : V ≤ s13IsoSum X U₀) : SecIsoOn X V ⊥ U₀ ⊥ := by
   classical
   let P : Subgroup W → Prop := fun V₁ => IsIrrOn X V₁ ⊥ ∧ SecIsoOn X V₁ ⊥ U₀ ⊥
-  haveI : Finite (Subgroup W) := Finite.of_injective (fun S : Subgroup W => (S : Set W))
+  have : Finite (Subgroup W) := Finite.of_injective (fun S : Subgroup W => (S : Set W))
     SetLike.coe_injective
   have hsum : s13IsoSum X U₀ = ⨆ i : {V₁ : Subgroup W // P V₁}, (i.1 : Subgroup W) := by
     unfold s13IsoSum
@@ -115,7 +120,7 @@ private theorem w16g_exists_secIsoOn_of_le_s13IsoSum (hW : ∀ w : W, w * w = 1)
 
 theorem w16g_inf_fixV_zpowers_eq_bot (hW : ∀ w : W, w * w = 1)
     {X : Subgroup (MulAut W)} (hXc : IsMulCommutative X) {U₀ : Subgroup W}
-    (hIrr₀ : IsIrrOn X U₀ ⊥) {x : MulAut W} (hxX : x ∈ X)
+    (_hIrr₀ : IsIrrOn X U₀ ⊥) {x : MulAut W} (hxX : x ∈ X)
     (hxnt : ∃ u ∈ U₀, x u ≠ u) :
     s13IsoSum X U₀ ⊓ fixV (Subgroup.zpowers x) = ⊥ := by
   by_contra hne
@@ -141,6 +146,7 @@ theorem w16g_inf_fixV_zpowers_eq_bot (hW : ∀ w : W, w * w = 1)
   obtain ⟨u, hu, hxu⟩ := hxnt
   exact hxu (w16g_fix_of_secIsoOn_of_fixes hsec hxX hJfix u hu)
 
+omit [Finite W] in
 private theorem w16g_fixes_of_secIsoOn_of_fixes {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (h : SecIsoOn X A ⊥ B ⊥) {x : MulAut W} (hx : x ∈ X) (hB : ∀ b ∈ B, x b = b) :
     ∀ a ∈ A, x a = a := by
@@ -162,6 +168,7 @@ private theorem w16g_fixes_of_secIsoOn_of_fixes {X : Subgroup (MulAut W)} {A B :
     h4.trans (hB (β ⟨a, ha⟩) (hβB ⟨a, ha⟩))
   exact congrArg Subtype.val (hβinj h6)
 
+omit [Finite W] in
 theorem w16g_inf_centSub_s13IsoSum_eq {X : Subgroup (MulAut W)} {U₀ : Subgroup W}
     (hIrr : IsIrrOn X U₀ ⊥) :
     X ⊓ centSub (s13IsoSum X U₀) = X ⊓ centSub U₀ := by
@@ -184,23 +191,23 @@ theorem w16g_inf_centSub_s13IsoSum_eq {X : Subgroup (MulAut W)} {U₀ : Subgroup
     · exact map_one x
     · intro a b ha hb; rw [map_mul, ha, hb]
 
-theorem w16g_index_kerOn_eq_prime (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) {X : Subgroup (MulAut W)} (hX : IsElemAbelian p X) {U₀ : Subgroup W}
+theorem w16g_index_kerOn_eq_prime (_hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p.Prime)
+    (_hp2 : p ≠ 2) {X : Subgroup (MulAut W)} (hX : IsElemAbelian p X) {U₀ : Subgroup W}
     (hIrr : IsIrrOn X U₀ ⊥) (hne : commSub U₀ X ≠ ⊥) :
     (X ⊓ centSub U₀).relIndex X = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hXne : X ≠ ⊥ := by
     intro hbot
     apply hne
     rw [hbot, commSub]
     simp
-  haveI : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).mpr hXne
-  haveI : Nontrivial ↥U₀ :=
+  have : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).mpr hXne
+  have : Nontrivial ↥U₀ :=
     (Subgroup.nontrivial_iff_ne_bot U₀).mpr (bot_lt_iff_ne_bot.mp hIrr.1)
-  haveI : IsElementaryAbelian p ↥X := IsElemAbelian.isElementaryAbelian hX
+  have : IsElementaryAbelian p ↥X := IsElemAbelian.isElementaryAbelian hX
   have hInv : XMod.IsInv ↥X U₀ := ((isIrrOn_bot_iff_isIrr).mp hIrr).1
-  letI : MulDistribMulAction ↥X ↥U₀ := XMod.subAction hInv
+  let : MulDistribMulAction ↥X ↥U₀ := XMod.subAction hInv
   have hirr : ∀ J : Subgroup ↥U₀, (∀ a : ↥X, ∀ x ∈ J, a • x ∈ J) → J = ⊥ ∨ J = ⊤ := by
     intro J hJ
     have hJ'stab : StableUnder X (J.map (Subgroup.subtype U₀)) := by

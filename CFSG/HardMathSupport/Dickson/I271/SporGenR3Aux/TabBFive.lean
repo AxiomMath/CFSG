@@ -25,14 +25,14 @@ theorem shapeRkAt'_hs_five (hOut : SporadicOuterLeTwo) {Q : Type} [Group Q] [Fin
     (hC : Nat.card ↥(Subgroup.centralizer ({t} : Set Q)) < 665280000) :
     ShapeRkAt' 5 (GoodSpor 5 [.HS]) (RkSpor 5 [.HS]) t := by
   have hsimple : IsSimpleGroup NativeSporadic.HS := CFSG.Sporadic.HS.isSimpleGroup_HS
-  haveI : IsSimpleGroup ↥E := @MulEquiv.isSimpleGroup _ _ NativeSporadic.HS _ hsimple eE
+  have : IsSimpleGroup ↥E := @MulEquiv.isSimpleGroup _ _ NativeSporadic.HS _ hsimple eE
   have hcard : Nat.card ↥E = 44352000 := by
     rw [Nat.card_congr eE.toEquiv]
     exact CFSG.Sporadic.HS.card_HS
   have hnab : ∃ a b : ↥E, a * b ≠ b * a := by
     by_contra hc
     push Not at hc
-    letI : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hc }
+    let : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hc }
     have hp := IsSimpleGroup.prime_card (α := ↥E)
     rw [hcard] at hp
     norm_num at hp

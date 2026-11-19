@@ -25,8 +25,8 @@ theorem uc22s13xm_sec7Hyp {D : Data G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hr : 1 < CFSG.Open.pRank p (normalizer (B : Set G) ⊓ D.M)) :
     Sec7Hyp D p (normalizer (B : Set G)) := by
   refine ⟨hp, hp2, hsp, fun htop => ?_, hN, hr⟩
-  haveI := D.standing.simple
-  haveI : B.Normal := normalizer_eq_top_iff.mp htop
+  have := D.standing.simple
+  have : B.Normal := normalizer_eq_top_iff.mp htop
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal B with h | h
   · exact hB1 h
   · exact hsp.1 (top_le_iff.mp (by rw [← h]; exact hBM))
@@ -37,7 +37,7 @@ theorem uc22s13xm_exists_elem {M L T B : Subgroup G} (hLM : L ≤ M)
     (hX : IsL2 (Bar2 L) n ∨ IsU3 (Bar2 L) n) {q : ℕ} (hq : q.Prime)
     (hqd : q ∣ 2 ^ n - 1 ∨ (IsU3 (Bar2 L) n ∧ q ∣ 2 ^ n + 1)) :
     ∃ x ∈ L, x ∈ centralizer (B : Set G) ∧ orderOf x = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hBN : B ≤ normalizer (L : Set G) :=
     hBM.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hLM).mp hLn)
   obtain ⟨Q, t, -, -, -, h2, h3, -, hfix⟩ := uc22s13xf_fix_cartan hLM hLn hT hBN hB hBT hn hX
@@ -65,17 +65,19 @@ theorem uc22s13xm_exists_elem {M L T B : Subgroup G} (hLM : L ≤ M)
   exact ⟨(c : G) ^ (orderOf (c : G) / q), Subgroup.pow_mem _ c.2 _, Subgroup.pow_mem _ hcB _,
     orderOf_pow_orderOf_div (orderOf_pos _).ne' hqc⟩
 
+omit [Finite G] in
 theorem uc22s13xm_exists_sylow {p : ℕ} (hp : p.Prime) {K : Subgroup G} {x : G} (hxK : x ∈ K)
     (hx : orderOf x = p) :
     ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P K ∧ x ∈ P ∧
       x ∈ CFSG.RankThree.PartOne.omegaOne p P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : IsPGroup p (zpowers x) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx, pow_one])
   obtain ⟨P, hP, hxP⟩ := UC6.exists_isSylowOf_ge (zpowers_le.mpr hxK) hZ
   have hxP' : x ∈ P := hxP (mem_zpowers x)
   exact ⟨P, hP, hxP', Subgroup.subset_closure ⟨hxP', by rw [← hx]; exact pow_orderOf_eq_one x⟩⟩
 
+omit [Finite G] in
 theorem uc22s13xm_orderOf_bar {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M : Subgroup G} {x : G}
     (hxM : x ∈ M) (hx : orderOf x = p) :
     orderOf (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨x, hxM⟩ : Bar2 M) = p := by
@@ -98,6 +100,7 @@ theorem uc22s13xm_orderOf_bar {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M : Subg
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp (hp.dvd_of_dvd_pow hpk))
   · exact h1
 
+omit [Finite G] in
 theorem uc22s13xm_not_mem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M L : Subgroup G}
     (hJ : barImage M L ⊓ centralizer (barImage M L : Set (Bar2 M)) = ⊥) {y : G} (hyM : y ∈ M)
     (hy : orderOf y = p)
@@ -151,7 +154,7 @@ theorem uc22s13xm_false_of_alt1 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M H P 
     (h2 : IrrOnMod (rankThreeLayer H ⊓ normalizer (P : Set G)) D₀ (inSubgroup frattini D₀))
     (h3 : P = D₀) {x y : G} (hxD : x ∈ D₀) (hxL : x ∈ L) (hx1 : x ≠ 1) (hyHM : y ∈ H ⊓ M)
     (hy : orderOf y = p) (hyL : y ∉ L) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPM : P ≤ M := hP.le.trans inf_le_right
   have hDL := uc22s13xg_le_of_alt1 hp hp2 hLM hLn hn hX hPM hexp h1 h2 h3 hxD hxL hx1
   have hMN : M ≤ normalizer (L : Set G) :=

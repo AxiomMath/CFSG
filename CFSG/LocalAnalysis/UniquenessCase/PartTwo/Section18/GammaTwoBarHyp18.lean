@@ -30,7 +30,7 @@ theorem eighteen_twenty_exists_gamma {A U : Subgroup G} {V : Subgroup G} {g : G}
       rw [hcard, pow_add]
     exact Nat.pow_right_injective (by norm_num) h4
   have hU' : ∃ U' : Subgroup G, U' ≤ U ∧ Nat.card U = 2 ^ (j - 3) * Nat.card U' := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥U) 2
       (n := mSub U - (j - 3)) (by
         rw [hcardU]

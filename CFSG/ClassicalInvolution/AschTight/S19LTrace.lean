@@ -79,7 +79,7 @@ theorem false_of_field_eq_one (hd : Sec19DataT p f K z S W L t V) {p' e' : ℕ} 
     (hbc : b * c * b⁻¹ = z * c ^ ε) : False := by
   have hzZ := S1916.isUniqueInvolution_W_inf hd
   have hbot : W ⊓ sec19Y K z ⊓ oddCoreOf (sec19Y K z) = ⊥ :=
-    S1916.inf_oddCoreOf_eq_bot (S.isPGroup'.to_le (inf_le_left.trans hd.hWS)) _
+    S1916.inf_oddCoreOf_eq_bot (S.isPGroup.to_le (inf_le_left.trans hd.hWS)) _
   have h2 : (2 : GaloisField p' e') ≠ 0 :=
     Ring.two_ne_zero (by rw [ringChar.eq (GaloisField p' e') p']; exact hp'2)
   obtain ⟨g, hg⟩ := S1911.exists_semilinHom_of_mem eY hFcard hF h3 ⟨b, hbN⟩

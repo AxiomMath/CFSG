@@ -21,7 +21,7 @@ theorem exists_embedding {Y : Type} [Group Y] (L : Subgroup Y)
       L.map ι = S := by
   obtain ⟨θ⟩ :=
     CFSG.ComponentClassification.CatFactsSmall.nonempty_equiv_psl34_of_lieModel hL
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   have hA : CFSG.Sporadic.SmallOddCore.AutModel S R :=
     CFSG.GH74.GLS.IVK.l34_autModel
   refine ⟨hA.embed L θ, hA.embed_injective L θ hC, fun y => hA.embed_mem L θ y, ?_⟩
@@ -33,7 +33,7 @@ theorem exists_embedding {Y : Type} [Group Y] (L : Subgroup Y)
   · intro hx
     refine ⟨((θ.symm ⟨x, hx⟩ : L) : Y), (θ.symm ⟨x, hx⟩).2, ?_⟩
     rw [hA.embed_coe L θ (θ.symm ⟨x, hx⟩)]
-    simpa using congrArg Subtype.val (θ.apply_symm_apply ⟨x, hx⟩)
+    simp
 
 theorem g3_core
     {A : Subgroup (Equiv.Perm (Fin 42))} (hAR : A ≤ R)

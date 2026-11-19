@@ -125,7 +125,7 @@ theorem gap17_45_nonabChief_of_config (D : Data G)
     Gap17_45_NonabChief D V₀ V := by
   intro L X p n l r C Dc Gamma x A₀ A B hV₀ ctx h8100 hc4 hAsyl hAT hBM hBcard hAB hBT
     hcent hsp hR8101
-  intro N H R hN hne hD₀H hHN hHM hmin hYR hRH hRn hminR hab
+    N H R hN hne hD₀H hHN hHM hmin hYR hRH hRn hminR hab
   have hF : ∀ W : Subgroup G, kerM D.M H < W → W ≤ H → H ≤ normalizer (W : Set G) →
       (∀ W' : Subgroup G, kerM D.M H ≤ W' → W' ≤ W → H ≤ normalizer (W' : Set G) →
         W' = kerM D.M H ∨ W' = W) → ¬ ⁅W, W⁆ ≤ kerM D.M H :=

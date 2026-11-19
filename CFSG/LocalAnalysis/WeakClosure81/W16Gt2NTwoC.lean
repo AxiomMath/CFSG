@@ -19,6 +19,7 @@ variable {M V₀ V U S R H : Subgroup G} {g : G} {B : Subgroup G}
 
 section NoCert
 
+omit [Finite G] in
 private theorem conjSubgroup_le_H (c : Cfg1620 M V₀ V U S R H g B) :
     conjSubgroup V g ≤ H := by
   intro x hx
@@ -27,6 +28,7 @@ private theorem conjSubgroup_le_H (c : Cfg1620 M V₀ V U S R H g B) :
   rw [hx']
   exact H.mul_mem (H.mul_mem (H.inv_mem c.g_mem.1) ((c.V_le_R.trans c.mem.1) hx)) c.g_mem.1
 
+omit [Finite G] in
 private theorem hatBarSub_conjSubgroup_eq (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) (kk : ↥H)
     (hkK : (kk : G) ∈ conjClosure V H) :
@@ -82,6 +84,7 @@ private theorem hatBarSub_conjSubgroup_eq (c : Cfg1620 M V₀ V U S R H g B)
     rw [mem_hatBarSub_iff]
     exact ⟨x, hxmem, hπ⟩
 
+omit [Finite G] in
 theorem hatBarSub_sup (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) :
     hatBarSub Mo V (V ⊔ conjSubgroup V g) =
@@ -94,6 +97,7 @@ theorem hatBarSub_sup (c : Cfg1620 M V₀ V U S R H g B)
   simp only [hatBarSub, Mo.img_sup hVH hVgH, Subgroup.subgroupOf_sup hmonoV hmonoVg,
     Subgroup.map_sup]
 
+omit [Finite G] in
 theorem isElemAbelian_hatBarSub (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) :
     IsElemAbelian 2 (hatBarSub Mo V V) := by
@@ -117,6 +121,7 @@ theorem exists_conj_hatBarSub_of_mem (h15 : W16Fifteen G) (hS : Std15 G)
   rw [hk_eq]
   exact hatBarSub_conjSubgroup_eq c Mo kk hkK'
 
+omit [Finite G] in
 theorem exists_mem_conj_hatBarSub (c : Cfg1620 M V₀ V U S R H g B)
     (Mo : ModDataE H (conjClosure (U ⊔ V₀) H))
     (γ : hatX Mo V ⧸ Subgroup.center (hatX Mo V)) :

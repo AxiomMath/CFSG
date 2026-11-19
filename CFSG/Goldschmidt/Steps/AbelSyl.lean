@@ -31,7 +31,7 @@ theorem N7 :
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSN).toEquiv
   have hS'idx : ¬ 2 ∣ S'.index := fun h =>
     S.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hSN))
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hcop : (Nat.card S').Coprime S'.index := by
     rw [hS'card, hk]
     exact Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mpr hS'idx)

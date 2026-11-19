@@ -15,7 +15,7 @@ variable {B : Type} [Group B] [Finite B]
 
 theorem centralizer_layer_eq_bot (hodd : CFSG.pPrimeCore 2 B = ⊥) (h2 : CFSG.pCore 2 B = ⊥) :
     centralizer (CFSG.layer B : Set B) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [eq_bot_iff]
   intro c hc
   rw [← h2]
@@ -31,7 +31,7 @@ theorem centralizer_layer_eq_bot (hodd : CFSG.pPrimeCore 2 B = ⊥) (h2 : CFSG.p
 
 theorem center_component_eq_bot (hodd : CFSG.pPrimeCore 2 B = ⊥) (h2 : CFSG.pCore 2 B = ⊥)
     {K : Subgroup B} (hK : CFSG.IsComponent K) : center ↥K = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [eq_bot_iff]
   intro z hz
   have hz' : (z : B) ∈ (center (CFSG.layer B)).map (CFSG.layer B).subtype :=
@@ -45,7 +45,7 @@ theorem center_component_eq_bot (hodd : CFSG.pPrimeCore 2 B = ⊥) (h2 : CFSG.pC
 theorem layer_ne_bot (hodd : CFSG.pPrimeCore 2 B = ⊥) (h2 : CFSG.pCore 2 B = ⊥)
     (hB : Nontrivial B) : CFSG.layer B ≠ ⊥ := by
   intro hlayer
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar := CFSG.isCharacteristicP_of_pPrimeCore_eq_bot_of_layer_eq_bot B 2 hodd hlayer
   change centralizer (CFSG.pCore 2 B : Set B) ≤ CFSG.pCore 2 B at hchar
   rw [h2] at hchar
@@ -57,7 +57,7 @@ theorem layer_ne_bot (hodd : CFSG.pPrimeCore 2 B = ⊥) (h2 : CFSG.pCore 2 B = �
     have hy1 : y = 1 := by simpa using hy
     rw [hy1]
     simp
-  haveI : Subsingleton B := ⟨fun a b => by
+  have : Subsingleton B := ⟨fun a b => by
     have ha : a ∈ (⊥ : Subgroup B) := htop trivial
     have hb : b ∈ (⊥ : Subgroup B) := htop trivial
     rw [Subgroup.mem_bot] at ha hb
@@ -65,14 +65,14 @@ theorem layer_ne_bot (hodd : CFSG.pPrimeCore 2 B = ⊥) (h2 : CFSG.pCore 2 B = �
   exact (not_subsingleton_iff_nontrivial.mpr hB) inferInstance
 
 theorem layer_normal_Fi24 (B : Type) [Group B] [Finite B] : (CFSG.layer B).Normal := by
-  haveI : (CFSG.layer B).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : (CFSG.layer B).Characteristic := CFSG.LocalCores.layer_characteristic
   infer_instance
 
 theorem even_card_layer (hne : CFSG.layer B ≠ ⊥) : Even (Nat.card ↥(CFSG.layer B)) := by
   by_contra h
   have hodd : Odd (Nat.card ↥(CFSG.layer B)) := Nat.not_even_iff_odd.mp h
-  haveI : Nontrivial ↥(CFSG.layer B) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
-  haveI : Group.IsPerfect ↥(CFSG.layer B) := CFSG.LocalCores.layer_isPerfect
+  have : Nontrivial ↥(CFSG.layer B) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+  have : Group.IsPerfect ↥(CFSG.layer B) := CFSG.LocalCores.layer_isPerfect
   exact Group.IsPerfect.not_isSolvable (CFSG.layer B)
     (CFSG.Milestones.odd_order_solvable hodd)
 
@@ -82,14 +82,14 @@ theorem le_layer_of_selfCentralizing (hodd : CFSG.pPrimeCore 2 B = ⊥) (h2 : CF
     (hirr : ∀ U : Subgroup B, U ≤ Rb → (∀ x ∈ normalizer (Rb : Set B), ∀ u ∈ U, x * u * x⁻¹ ∈ U) →
       U = ⊥ ∨ U = Rb) :
     Rb ≤ CFSG.layer B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hNontriv : Nontrivial B := by
-    haveI : Nontrivial ↥Rb := (Subgroup.nontrivial_iff_ne_bot Rb).mpr hRne
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hNontriv : Nontrivial B := by
+    have : Nontrivial ↥Rb := (Subgroup.nontrivial_iff_ne_bot Rb).mpr hRne
     exact Function.Injective.nontrivial Rb.subtype_injective
   have hne : CFSG.layer B ≠ ⊥ := layer_ne_bot hodd h2 hNontriv
   let E : Subgroup B := CFSG.layer B
   have hEnorm : E.Normal := layer_normal_Fi24 B
-  haveI : E.Normal := hEnorm
+  have : E.Normal := hEnorm
   have hEeven : 2 ∣ Nat.card ↥E := by
     simpa [E] using even_iff_two_dvd.mp (even_card_layer hne)
   have h1fix : (1 : ↥E) ∈ MulAction.fixedPoints ↥Rb ↥E := by

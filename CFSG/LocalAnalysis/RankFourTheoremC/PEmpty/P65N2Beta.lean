@@ -22,7 +22,7 @@ theorem plane63_of_plane65' {A : Type} [Group A] [Finite A] {p : ℕ} {P : Sylow
     {X : Subgroup A} {x z : A} (h : Plane65 p P X x z) (hx : x ∈ X) (hz : z ∈ X) :
     Plane63 p ↥X (P.subtype h.sylow_le) ⟨x, hx⟩ ⟨z, hz⟩ := by
   have hprime := h.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   refine ⟨hprime, h.five_le, h.catalog, ?_, ?_, ?_, ?_, ?_, h.perfect⟩
   · exact smallRankPlane_subgroupOf h.sylow_le hx hz h.plane
   · rw [mem_centralizer_iff]
@@ -77,7 +77,7 @@ theorem p_le_pRank_normalizer_of_beta (hβ : KFactBetaStructure) (hf : f.Prime) 
     p ≤ Open.pRank p (normalizer (T : Set Y)) := by
   have hβs := hβ p Y P x z hpl hcomp
   have hp := hpl.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D : Subgroup Y := primeComplementCore (G := Y) p with hD
   have hD3 : ¬ p ∣ Nat.card D :=
     (Nat.Prime.coprime_iff_not_dvd hp).mp (primeComplementCore_coprime p)
@@ -141,13 +141,13 @@ variable {A : Type} [Group A] [Finite A] {p : ℕ} {P : Sylow p A} {X : Subgroup
 theorem card_le_of_cyclic_type {G : Type*} [Group G] [Finite G] [IsCyclic G] {p : ℕ} (hp : 0 < p)
     {T : Subgroup G} (hT : ∀ t ∈ T, t ^ p = 1) : Nat.card T ≤ p := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have h := IsCyclic.card_pow_eq_one_le (α := G) hp
   have h2 : (Finset.univ : Finset ↥T).card ≤
       (Finset.univ.filter (fun a : G => a ^ p = 1)).card := by
     refine Finset.card_le_card_of_injOn (fun t => (t : G)) ?_ ?_
     · intro t _
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
       exact hT t t.2
     · intro a _ b _ hab
       exact Subtype.ext hab
@@ -188,10 +188,10 @@ theorem p65N2_beta (hβ : KFactBetaStructure) (hpl : Plane65 p P X x z)
   by_contra hlt
   push Not at hlt
   have hX3 : Open.pRank f X ≤ 3 := by omega
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : NeZero f := ⟨hf.ne_zero⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : NeZero f := ⟨hf.ne_zero⟩
   have hPX : (P : Subgroup A) ≤ X := hpl.sylow_le
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup A) := hpl.plane.isIsolatedPlane.1
   have hxX : x ∈ X := hPX (hBP (Subgroup.mem_sup_left (mem_zpowers x)))

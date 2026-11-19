@@ -21,7 +21,7 @@ theorem wcLie_of_crossChar
   intro K _ _ hs hnab t n ℓ f hadm hmodel p hp hp2
   by_cases hpℓ : p = ℓ
   · exact wcLie_defChar hadm hmodel hp hp2 hpℓ
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     obtain ⟨P₀⟩ : Nonempty (Sylow p K) := inferInstance
     exact WCOn.of_normalizerMovesLines P₀ fun hab hrank =>
       h t K hs hnab n ℓ f hadm hmodel p hp hp2 hpℓ P₀ hab hrank
@@ -36,12 +36,12 @@ theorem wcLie_of_crossChar
 theorem crossCharLines_iff (t : StatedLieTag) : CrossCharLines t ↔ WCLieCrossAt t := by
   constructor
   · intro h K _ _ hs hnab n ℓ f hadm hmodel p hp hp2 hpℓ
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨P₀⟩ : Nonempty (Sylow p K) := inferInstance
     exact WCOn.of_normalizerMovesLines P₀ fun hab hrank =>
       h K hs hnab n ℓ f hadm hmodel p hp hp2 hpℓ P₀ hab hrank
   · intro h K _ _ hs hnab n ℓ f hadm hmodel p hp hp2 hpℓ P hab hrank
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact normalizerMovesLines_of_wcOn (h K hs hnab n ℓ f hadm hmodel p hp hp2 hpℓ) P hab hrank
 
 theorem crossCharResidue_iff : (∀ t : StatedLieTag, CrossCharLines t) ↔ WCLieCross :=

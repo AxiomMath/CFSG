@@ -19,7 +19,7 @@ theorem isSylow_of_maximal_central {M : Type*} [Group M] [Finite M] {D : Subgrou
   obtain ⟨P, hDP⟩ := hD.exists_le_sylow
   refine ⟨P, le_antisymm ?_ hDP⟩
   by_contra hnot
-  have hPnil : Group.IsNilpotent ↥(P : Subgroup M) := (P.isPGroup').isNilpotent
+  have hPnil : Group.IsNilpotent ↥(P : Subgroup M) := (P.isPGroup).isNilpotent
   let D' : Subgroup ↥(P : Subgroup M) := D.subgroupOf (P : Subgroup M)
   have hD'top : D' < ⊤ := by
     refine lt_top_iff_ne_top.2 (fun htop => hnot ?_)
@@ -47,7 +47,7 @@ theorem isSylow_of_maximal_central {M : Type*} [Group M] [Finite M] {D : Subgrou
   have hle : D ⊔ Subgroup.zpowers (n : M) ≤ Subgroup.centralizer ({z} : Set M) :=
     sup_le (fun d hd => Subgroup.mem_centralizer_singleton_iff.2 (hDz d hd))
       (Subgroup.zpowers_le.2 (Subgroup.mem_centralizer_singleton_iff.2 (hzn _ hnN)))
-  have h1 := hmax (D ⊔ Subgroup.zpowers (n : M)) (P.isPGroup'.to_le hP'P) le_sup_left
+  have h1 := hmax (D ⊔ Subgroup.zpowers (n : M)) (P.isPGroup.to_le hP'P) le_sup_left
     (fun p hp => Subgroup.mem_centralizer_singleton_iff.1 (hle hp))
   have h2 : (n : M) ∈ D ⊔ Subgroup.zpowers (n : M) :=
     Subgroup.mem_sup_right (Subgroup.mem_zpowers _)

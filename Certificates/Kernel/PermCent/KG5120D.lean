@@ -42,7 +42,7 @@ theorem kCentPerm (Q : RawSchreierDatum n) (hQ : ValidSchreier Q) {g : CV n} (hg
   have hnd := nodup_elemsC Q hQ
   refine (List.perm_ext_iff_of_nodup (hnd.filter _)
     ((hnd.filter _).map (MulAut.conj g).injective)).2 fun y => ?_
-  simp only [centL, List.mem_filter, List.mem_map, eq22C_eq, decide_eq_true_eq, MulAut.conj_apply]
+  simp only [List.mem_filter, List.mem_map, eq22C_eq, decide_eq_true_eq, MulAut.conj_apply]
   constructor
   · rintro ⟨hy, hc⟩
     refine ⟨g⁻¹ * y * g, ⟨by simpa using conj_mem_elemsC Q hQ hg' hy, ?_⟩, by group⟩

@@ -17,7 +17,7 @@ theorem not_isCyclic_of_isDihedralTwoGroup {Y : Type} [Group Y] {n : ℕ} (h : I
     ¬ IsCyclic Y := by
   obtain ⟨-, k, hk, hk2, ⟨e⟩⟩ := h
   intro hc
-  haveI : NeZero k := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
   have hcD : IsCyclic (DihedralGroup k) := isCyclic_of_surjective e.toMonoidHom e.surjective
   obtain ⟨g, hg⟩ := hcD.exists_generator
   have hcard : Nat.card (DihedralGroup k) = 2 * k := by
@@ -40,7 +40,7 @@ theorem not_isCyclic_of_isSemidihedralTwoGroup {Y : Type} [Group Y] {n : ℕ}
   intro hc
   have hcS : IsCyclic (Open.SemidihedralGroup n) := isCyclic_of_surjective e.toMonoidHom e.surjective
   have hcomm : ∀ x y : Open.SemidihedralGroup n, x * y = y * x := by
-    letI := IsCyclic.commGroup (α := Open.SemidihedralGroup n)
+    let := IsCyclic.commGroup (α := Open.SemidihedralGroup n)
     intro x y
     exact mul_comm x y
   have hcen : Subgroup.center (Open.SemidihedralGroup n) = ⊤ := by
@@ -57,6 +57,7 @@ namespace Setup8
 
 variable {G : Type} [Group G] [Finite G] {z : G} {S K₁ K₂ W₁ W₂ U : Subgroup G} {u h : G}
 
+omit [Finite G] in
 theorem mem_cSec {K : Subgroup G} {x : G} :
     x ∈ cSec K ↔ x ∈ normalizer (K : Set G) ∧ x ∈ normalizer (pPrimeCoreOf 2 K : Set G) ∧
       ∀ k ∈ K, ⁅k, x⁆ ∈ pPrimeCoreOf 2 K := Iff.rfl
@@ -67,13 +68,14 @@ theorem P₁_le_Q₂ (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W�
 theorem P₂_le_Q₁ (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) :
     Pof S K₂ ≤ Qof S K₁ := fun _ hx => ⟨hx.1, (hs.m4 hII).cs₁ hx.2⟩
 
-theorem Q₁_le_S1 (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) : Qof S K₁ ≤ S1 S K₁ :=
+theorem Q₁_le_S1 (_hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) : Qof S K₁ ≤ S1 S K₁ :=
   fun _ hx => ⟨hx.1, (mem_cSec.1 hx.2).1⟩
 
 theorem Q₂_le_S1 (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) :
     Qof S K₂ ≤ S1 S K₁ :=
   fun _ hx => ⟨hx.1, (hs.norm_iff hII hx.1).2 (mem_cSec.1 hx.2).1⟩
 
+omit [Finite G] in
 theorem S1_le_S : S1 S K₁ ≤ S := inf_le_left
 
 theorem P_le_S1 (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) {K : Subgroup G}
@@ -172,6 +174,7 @@ theorem card_S1 (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U 
     omega
   interval_cases i <;> simp_all
 
+omit [Finite G] in
 theorem normalizer_of_normal_subgroupOf {A X : Subgroup G} (hAX : A ≤ X) (hN : (A.subgroupOf X).Normal) :
     X ≤ normalizer (A : Set G) := by
   intro x hx

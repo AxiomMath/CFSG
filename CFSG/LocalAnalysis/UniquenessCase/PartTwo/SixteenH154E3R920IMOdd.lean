@@ -62,10 +62,10 @@ theorem false_of_odd_chief_factor (hK46 : UCK.K46Semireg) {L Z U W : Subgroup G}
       ∀ u ∈ U, (∀ a ∈ A, a * u * a⁻¹ * u⁻¹ ∈ W) → u ∈ W)
     (hA7 : ∃ A : Subgroup G, A ≤ L ∧ Nat.card A = 7) : False := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨V, _, _, _, _, ρ, hirr, hfixV⟩ := exists_rep_of_chief_factor hUW
   have hperf : commutator ↥L = ⊤ := by
-    haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hLperf
+    have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hLperf
     exact Group.IsPerfect.commutator_eq_top
   have hD3 : Nat.card (Z.subgroupOf L) = 3 := by
     rw [← hZ3]
@@ -128,7 +128,7 @@ theorem false_of_odd_chief_factor (hK46 : UCK.K46Semireg) {L Z U W : Subgroup G}
     have : 7 ∣ 120 := hcard ▸ h7dvd
     norm_num at this
   · obtain ⟨V₁, hV₁normal, hQ8, hA5⟩ := hExt
-    haveI : V₁.Normal := hV₁normal
+    have : V₁.Normal := hV₁normal
     have hVcard : Nat.card ↥V₁ = 32 := by
       have h := (CFSG.GH74.Uniqueness.SU.SU5.IsQ8D8.facts hQ8).1
       simpa using h

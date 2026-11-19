@@ -45,9 +45,9 @@ private theorem kgLangS1ECoverAux_surj {p : ℕ} (hp : p.Prime) {R : Type} [Grou
     ∀ r ∈ ggFixSub (kgInducedAut θ ξ), ∃ k ∈ ggFixSub ξ, θ (QuotientGroup.mk k) = r := by
   intro r hr
   let A := ↥(Subgroup.zpowers ξ)
-  haveI : Finite (MulAut K) :=
+  have : Finite (MulAut K) :=
     Finite.of_injective (fun e : MulAut K => (e : K → K)) DFunLike.coe_injective
-  haveI : Finite A := inferInstance
+  have : Finite A := inferInstance
   have hInv : CFSG.IsInvariant A K (Subgroup.center K) :=
     isInvariant_of_characteristic (A := A) (G := K) (Subgroup.center K)
   have hcop : Nat.Coprime (Nat.card A) (Nat.card ↥(Subgroup.center K)) := by
@@ -55,7 +55,7 @@ private theorem kgLangS1ECoverAux_surj {p : ℕ} (hp : p.Prime) {R : Type} [Grou
       rw [Nat.card_zpowers]
       exact orderOf_dvd_iff_pow_eq_one.mpr hξp
     exact Nat.Coprime.coprime_dvd_left hdvd (hp.coprime_iff_not_dvd.mpr hZ)
-  letI : MulDistribMulAction A (K ⧸ Subgroup.center K) :=
+  let : MulDistribMulAction A (K ⧸ Subgroup.center K) :=
     quotientMulDistribMulAction (A := A) (G := K) (Subgroup.center K) hInv
   have hfix := fixedPointSubgroup_quotient_eq_map_of_isMulCommutative (A := A) (G := K)
     (Subgroup.center K) hInv hcop
@@ -92,8 +92,7 @@ private theorem kgLangS1ECoverAux_surj {p : ℕ} (hp : p.Prime) {R : Type} [Grou
   refine ⟨k, ?_, ?_⟩
   · rw [← kgLangS1ECoverAux_fixedPointSubgroup_zpowers ξ]
     exact hk
-  · change θ (QuotientGroup.mk k) = r
-    change QuotientGroup.mk k = q at hkq
+  · change QuotientGroup.mk k = q at hkq
     rw [hkq]
     exact θ.apply_symm_apply r
 
@@ -111,7 +110,7 @@ theorem kgLangS1E_component_cover {p : ℕ} (hp : p.Prime) {R : Type} [Group R]
     ∀ α : MulAut K, α * ξ = ξ * α → ∀ j ∈ J₀, α j ∈ J₀ := by
   classical
   let C : Subgroup R := ggFixSub (kgInducedAut θ ξ)
-  haveI : IsSimpleGroup ↥C := hCs
+  have : IsSimpleGroup ↥C := hCs
   have hmap_mem : ∀ j ∈ ggFixSub ξ, θ (QuotientGroup.mk j) ∈ C := by
     intro j hj
     have hj' : ξ j = j := by simpa using hj
@@ -148,12 +147,12 @@ theorem kgLangS1E_component_cover {p : ℕ} (hp : p.Prime) {R : Type} [Group R]
           rw [hπbar_apply] at h
           simpa using h)
         exact (QuotientGroup.eq_one_iff j).mp hmk
-      haveI : IsMulCommutative ↥J :=
+      have : IsMulCommutative ↥J :=
         IsMulCommutative.of_comm fun a b => by
           apply Subtype.ext
           exact (Subgroup.mem_center_iff.mp (hJZ a.2) b).symm
       have hcommbot : commutator ↥J = ⊥ := (commutator_eq_bot_iff ↥J).mpr inferInstance
-      haveI : Nontrivial ↥J :=
+      have : Nontrivial ↥J :=
         CFSG.LocalCores.isQuasisimple_nontrivial
           ((CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native ↥J).mp
             hJ.2.2)

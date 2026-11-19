@@ -90,7 +90,7 @@ theorem fstdUniLift {K : Type} [Field K] [Finite K] {k d : ℕ} {τ : K ≃+* K}
         intro htop
         have htriv : ∀ x : ↥M, f x = 1 := fun x =>
           MonoidHom.mem_ker.mp (by rw [htop]; exact Subgroup.mem_top x)
-        haveI hnt : Nontrivial (PQuot 3 J) :=
+        have hnt : Nontrivial (PQuot 3 J) :=
           CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial
             (isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ)
         obtain ⟨a, b, hab⟩ := hnt.exists_pair_ne

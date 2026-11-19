@@ -19,7 +19,7 @@ theorem mem_fixedSubgroup_conjNormal [L.Normal] {b : Y} {l : ↥L} :
 
 theorem isOuterOfOrder_conjNormal [L.Normal] (hC : Subgroup.centralizer (L : Set Y) = ⊥) {b : Y}
     (hb5 : b ^ 5 = 1) (hbL : b ∉ L) : IsOuterOfOrder 5 (MulAut.conjNormal b : MulAut ↥L) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hb1 : b ≠ 1 := fun h => hbL (h ▸ L.one_mem)
   refine ⟨orderOf_eq_prime (by rw [← map_pow, hb5, map_one]) ?_, fun g hg => ?_⟩
   · intro h
@@ -55,7 +55,7 @@ theorem le_centralizer_sup_of_fieldAutData [L.Normal] (hC : Subgroup.centralizer
     (hd : FieldAutData ↥L 5) {x b : Y} (hxL : x ∈ L) (hx1 : x ≠ 1) (hx5 : x ^ 5 = 1)
     (hb5 : b ^ 5 = 1) (hbL : b ∉ L) (hxb : x * b = b * x) :
     L ≤ Subgroup.centralizer ({b} : Set Y) ⊔ Subgroup.centralizer ({x * b} : Set Y) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hxbL : x * b ∉ L := fun h => hbL (by simpa using L.mul_mem (L.inv_mem hxL) h)
   have hxb5 : (x * b) ^ 5 = 1 := by
     rw [(show Commute x b from hxb).mul_pow, hx5, hb5, one_mul]
@@ -118,7 +118,7 @@ theorem le_iSup_centralizer_of_fieldAutData_of_card [Finite Y] [L.Normal]
     (hB : IsElemAbelian 5 B) (hBc : Nat.card B = 5 ^ 2) (hxB : x ∈ B) (hxL : x ∈ L) (hx1 : x ≠ 1)
     (hBL : ∀ b ∈ B, b ∈ L → b ∈ Subgroup.zpowers x) :
     L ≤ ⨆ c ∈ {c : Y | c ∈ B ∧ c ∉ L}, Subgroup.centralizer ({c} : Set Y) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨b, hbB, hbL⟩ : ∃ b ∈ B, b ∉ L := by
     by_contra hcon
     push Not at hcon

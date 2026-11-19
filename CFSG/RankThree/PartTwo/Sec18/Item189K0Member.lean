@@ -30,7 +30,7 @@ theorem exists_mem_thetaComponentsIn_three_dvd (hSz : KFacts.KPSz) (hM : Section
     apply hlay
     have he : {K : Subgroup (↥M ⧸ CFSG.pPrimeCore 3 ↥M) | CFSG.IsComponent K} = ∅ := by
       ext K
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
       exact fun hK => hcon ⟨K, hK⟩
     rw [CFSG.layer.eq_sSup, he, sSup_empty]
   obtain ⟨L, hL, hLJ⟩ := Sec4.exists_mem_thetaComponents_map_eq hSz hM.kGroup

@@ -154,7 +154,7 @@ theorem le_of_faithful_a10 {M : Type*} [Group M] [Finite M] (N Y A : Subgroup M)
     (hmax : ∀ x : M, orderOf x = 3 → x ∈ Subgroup.centralizer (A : Set M) → x ∈ A)
     (φ : ↥(Y.map (QuotientGroup.mk' N)) ≃* alternatingGroup (Fin 10))
     (hfaith : ∀ a ∈ A, a ≠ 1 → ∃ y ∈ Y, ⁅y, a⁆ ∉ N) : A ≤ Y := by
-  haveI hKn : (Y.map (QuotientGroup.mk' N)).Normal :=
+  have hKn : (Y.map (QuotientGroup.mk' N)).Normal :=
     Subgroup.Normal.map ‹Y.Normal› _ (QuotientGroup.mk'_surjective N)
   have hÂab : ∀ x ∈ A.map (QuotientGroup.mk' N), ∀ y ∈ A.map (QuotientGroup.mk' N), x * y = y * x := by
     rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩

@@ -94,7 +94,7 @@ private theorem shiftEnd_conj (g t : GL (Fin n) K) :
         Matrix.toLin' ((g⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by
   have hgg : (g : Matrix (Fin n) (Fin n) K) *
       ((g⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = 1 := by
-    simpa using congrArg (fun u : GL (Fin n) K => (u : Matrix (Fin n) (Fin n) K)) (mul_inv_cancel g)
+    simp
   have hsub : ((g * t * g⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) - 1 =
       (g : Matrix (Fin n) (Fin n) K) * ((t : Matrix (Fin n) (Fin n) K) - 1) *
         ((g⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by

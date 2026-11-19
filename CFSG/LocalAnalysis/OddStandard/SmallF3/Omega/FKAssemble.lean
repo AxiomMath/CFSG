@@ -54,7 +54,7 @@ private theorem fk_finish {α κ τ : MulAut Spin₈} {y : Spin₈} (hα2 : α *
     intro x
     have e1 : (τ⁻¹ * α * τ⁻¹⁻¹) x = (τ⁻¹ * κ * τ) (τ⁻¹ y * x * (τ⁻¹ y)⁻¹) := by
       simp only [inv_inv, MulAut.mul_apply, map_mul, map_inv, MulAut.apply_inv_self,
-        MulAut.inv_apply_self, hακ]
+        hακ]
     rw [e1, hκA, ha']
     simp only [map_mul, map_inv]
     group
@@ -93,7 +93,7 @@ theorem fkMultNegOne_holds : FKMultNegOne := by
     · exact fkD0_mul
     · exact fkD1_mul
   obtain ⟨κ, hκx⟩ : ∃ κ : MulAut Spin₈, ∀ x, κ x = α (y⁻¹ * x * y) :=
-    ⟨α * MulAut.conj y⁻¹, fun x => by simp [MulAut.mul_apply, MulAut.conj_apply]⟩
+    ⟨α * MulAut.conj y⁻¹, fun x => by simp [MulAut.mul_apply]⟩
   have hκ : ∀ x, spinAction Q₄ (κ x) = fkDiag d * spinAction Q₄ x * (fkDiag d)⁻¹ := by
     intro x
     rw [hκx, hαa, hay]

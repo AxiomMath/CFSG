@@ -20,7 +20,7 @@ private theorem secProp_isElemAbelian_comm_sq {V N : Subgroup G}
     (∀ m ∈ V, ∀ n ∈ V, ⁅m, n⁆ ∈ N) ∧ ∀ m ∈ V, m ^ 2 ∈ N := by
   obtain ⟨hN, hel⟩ := h
   let N' : Subgroup ↥V := N.subgroupOf V
-  haveI : N'.Normal := hN
+  have : N'.Normal := hN
   have hcommQ : IsMulCommutative (↥V ⧸ N') := by
     apply IsMulCommutative.of_comm
     intro g h'

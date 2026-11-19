@@ -103,7 +103,7 @@ theorem exists_frattini
   set P' : Subgroup H := (P : Subgroup D).map D.subtype with hP'
   have hfr := Sylow.normalizer_sup_eq_top P
   have hcP' : c ∈ P' := ⟨cD, hP (mem_zpowers cD), rfl⟩
-  refine ⟨normalizer (P' : Set H), P', ?_, P.isPGroup'.map D.subtype, hcP', le_rfl⟩
+  refine ⟨normalizer (P' : Set H), P', ?_, P.isPGroup.map D.subtype, hcP', le_rfl⟩
   have hDle : D ≤ ρ.ker ⊔ normalizer (P' : Set H) := by
     intro d hd
     obtain ⟨k, hk⟩ := mem_zpowers_iff.1 (show ρ d ∈ zpowers GL62.cGL from hd)
@@ -122,6 +122,7 @@ variable {G : Type} [Group G] [Finite G] {L Q : Subgroup G} {n : ℕ}
   {θ : L ≃* alternatingGroup (Fin n)} {z : G} {T : Subgroup G}
   {cT : (Fin 3 → ZMod 2) → (Fin 3 → ZMod 2) → G} {Ψ : MulAut T ≃* GL (Fin 6) (ZMod 2)}
 
+omit [Finite G] in
 private theorem exists_mul_of_mem_cent {O : Subgroup G} (hOC : O ≤ centralizer (T : Set G))
     {x : G} (hx : x ∈ T ⊔ O) : ∃ o ∈ O, ∃ t ∈ T, o * t = x := by
   have hle : T ≤ normalizer (O : Set G) := by
@@ -158,9 +159,9 @@ theorem mem_oddCoreOf_of_normalizes (hH : HData θ hn z T) (hc : ModIso.TCoords 
     (y : G) ∈ AltStdSec.oddCoreOf (normalizer (T : Set G)) := by
   set O := AltStdSec.oddCoreOf (normalizer (T : Set G)) with hO
   have hOC : O ≤ centralizer (T : Set G) := by rw [hH.cent]; exact le_sup_right
-  have hTO : T ⊓ O = ⊥ := inf_eq_bot_of_coprime (by
+  have hTO : T ⊓ O = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by
     rw [hH.n0.card_eq, show (64 : ℕ) = 2 ^ 6 by norm_num]
-    exact Nat.Coprime.pow_left 6 (coprime_card_oddCoreOf _))
+    exact Nat.Coprime.pow_left 6 (coprime_card_oddCoreOf _))))
   have hyC : (y : G) ∈ centralizer (T : Set G) :=
     (mem_ker_normAct_iff y).1 (Ψ.injective (by rw [hy1, map_one]))
   rw [hH.cent] at hyC
@@ -229,9 +230,9 @@ theorem exists_sl_compl (hH : HData θ hn z T) (hzz : z * z = 1) (hc : ModIso.TC
   have hOC : O ≤ centralizer (T : Set G) := by rw [hH.cent]; exact le_sup_right
   have hTC : T ≤ centralizer (T : Set G) := by rw [hH.cent]; exact le_sup_left
   have hON : O ≤ N := map_subtype_le _
-  have hTO : T ⊓ O = ⊥ := inf_eq_bot_of_coprime (by
+  have hTO : T ⊓ O = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by
     rw [hH.n0.card_eq, show (64 : ℕ) = 2 ^ 6 by norm_num]
-    exact Nat.Coprime.pow_left 6 (coprime_card_oddCoreOf _))
+    exact Nat.Coprime.pow_left 6 (coprime_card_oddCoreOf _))))
   have hzN : z ∈ N := hH.n0.norm
   have hOnorm : ∀ g ∈ N, ∀ x ∈ O, g * x * g⁻¹ ∈ O := fun g hg x hx =>
     ModIso.conj_mem_oddCoreOf' hg hx

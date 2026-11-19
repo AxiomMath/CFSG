@@ -21,9 +21,9 @@ theorem symCent_mulEquiv_of_injective {X M : Type} [Group X] [Group M] [Finite M
     (hcard : Nat.card X = Nat.card ↥(Subgroup.centralizer ({g} : Set M))) :
     Nonempty (↥(Subgroup.centralizer ({g} : Set M)) ≃* X) := by
   let C : Subgroup M := Subgroup.centralizer ({g} : Set M)
-  haveI : Nonempty C := ⟨⟨1, C.one_mem⟩⟩
+  have : Nonempty C := ⟨⟨1, C.one_mem⟩⟩
   have hCne : Nat.card C ≠ 0 := Nat.card_pos.ne'
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hCne)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hCne)
   let f' : X →* C := f.codRestrict C hfg
   have hf' : Function.Injective f' := (MonoidHom.injective_codRestrict f C hfg).mpr hf
   have hbij : Function.Bijective f' :=
@@ -41,13 +41,13 @@ private def symCentFinLastEquiv (n k : ℕ) :
   right_inv i := by
     apply Subtype.ext
     apply Fin.ext
-    simp only [Fin.val_natAdd, Fin.val_mk]
+    simp only [Fin.val_natAdd]
     have h := i.2
     omega
 
 private def symCentFinFirstEquiv (n k : ℕ) :
     Fin n ≃ {i : Fin (n + k) // i.1 < n} where
-  toFun j := ⟨Fin.castAdd k j, by simpa using j.2⟩
+  toFun j := ⟨Fin.castAdd k j, by simp⟩
   invFun i := ⟨i.1.1, i.2⟩
   left_inv j := by ext; rfl
   right_inv i := by apply Subtype.ext; apply Fin.ext; rfl

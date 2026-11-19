@@ -20,24 +20,24 @@ theorem eq_blk4_left {M : Matrix (Fin 4) (Fin 4) F} (h : S1.IsBlockAt 0 1 M) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [blk4_apply, e4_symm_zero, e4_symm_one, e4_symm_two, e4_symm_three] <;>
-    rw [h] <;> simp [Matrix.one_apply]
+    rw [h] <;> simp
 
 theorem eq_blk4_right {M : Matrix (Fin 4) (Fin 4) F} (h : S1.IsBlockAt 2 3 M) :
     M = blk4 1 !![M 2 2, M 2 3; M 3 2, M 3 3] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [blk4_apply, e4_symm_zero, e4_symm_one, e4_symm_two, e4_symm_three] <;>
-    rw [h] <;> simp [Matrix.one_apply]
+    rw [h] <;> simp
 
 theorem isBlockAt_blk4_left (A : Matrix (Fin 2) (Fin 2) F) : S1.IsBlockAt 0 1 (blk4 A 1) := by
   intro i j hij
   fin_cases i <;> fin_cases j <;> simp_all [blk4_apply, e4_symm_zero, e4_symm_one, e4_symm_two,
-    e4_symm_three, Matrix.one_apply]
+    e4_symm_three]
 
 theorem isBlockAt_blk4_right (B : Matrix (Fin 2) (Fin 2) F) : S1.IsBlockAt 2 3 (blk4 1 B) := by
   intro i j hij
   fin_cases i <;> fin_cases j <;> simp_all [blk4_apply, e4_symm_zero, e4_symm_one, e4_symm_two,
-    e4_symm_three, Matrix.one_apply]
+    e4_symm_three]
 
 end DictS1Model
 
@@ -65,7 +65,6 @@ theorem blkLin_zero_one_eq_J2 : S1.blkLin (F := F) 0 1 = (ModelData.lin F).J2 :=
     change (g : GL (Fin 4) F) ∈ (StatedSL 2 F).map (blkL F)
     refine ⟨a, ?_, ?_⟩
     · rw [SetLike.mem_coe]
-      change (_ : GL (Fin 2) F) ∈ StatedSL 2 F
       rw [statedSL_eq_detOne, mem_detOne]
       exact hdet
     · apply Units.ext
@@ -102,7 +101,6 @@ theorem blkLin_two_three_eq_J4 : S1.blkLin (F := F) 2 3 = (ModelData.lin F).J4 :
     change (g : GL (Fin 4) F) ∈ (StatedSL 2 F).map (blkR F)
     refine ⟨b, ?_, ?_⟩
     · rw [SetLike.mem_coe]
-      change (_ : GL (Fin 2) F) ∈ StatedSL 2 F
       rw [statedSL_eq_detOne, mem_detOne]
       exact hdet
     · apply Units.ext

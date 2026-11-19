@@ -19,11 +19,13 @@ open Matrix
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {W : Type} [AddCommGroup W] [Module K W]
   [FiniteDimensional K W] {R : Type} [Group R]
 
+omit [Finite K] in
 theorem basis_J_eq_spJ {m : ℕ} : Matrix.J (Fin m) K = spJ m K := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;>
     simp [Matrix.J, spJ, Matrix.one_apply, CharTwo.neg_eq]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K W] in
 theorem basis_toGL_mulVec_equivFun {ι : Type} [Fintype ι] [DecidableEq ι]
     (b : Module.Basis ι K W) (f : W ≃ₗ[K] W) (w : W) :
     Matrix.mulVec (b.toGL f : Matrix ι ι K) (b.equivFun w) = b.equivFun (f w) := by
@@ -36,12 +38,14 @@ theorem basis_toGL_mulVec_equivFun {ι : Type} [Fintype ι] [DecidableEq ι]
     Fintype.linearCombination_apply]
   rfl
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K W] in
 theorem basis_equivFun_symm_plus {n : ℕ} (b : Module.Basis (Fin n ⊕ Fin n) K W)
     (v : Fin n ⊕ Fin n → K) :
     b.equivFun.symm v = ∑ i, v (Sum.inl i) • b (Sum.inl i) +
       ∑ i, v (Sum.inr i) • b (Sum.inr i) := by
   rw [Module.Basis.equivFun_symm_apply, Fintype.sum_sum_type]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K W] in
 theorem basis_equivFun_symm_minus {n : ℕ}
     (b : Module.Basis (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) K W)
     (v : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) :
@@ -53,6 +57,7 @@ theorem basis_equivFun_symm_minus {n : ℕ}
     Fin.sum_univ_two]
   abel
 
+omit [Finite K] in
 theorem exists_basis_range_symp (F : LinearMap.BilinForm K W) (hnd : F.Nondegenerate)
     (halt : F.IsAlt) (ρ : R →* (W ≃ₗ[K] W)) (hr : ρ.range = sympSubgroup F) :
     ∃ (m : ℕ) (b : Module.Basis (Fin m ⊕ Fin m) K W), Module.finrank K W = 2 * m ∧
@@ -83,6 +88,7 @@ theorem exists_basis_range_symp (F : LinearMap.BilinForm K W) (hnd : F.Nondegene
       rw [basis_toGL_mulVec_equivFun, basis_toGL_mulVec_equivFun, ← hG, ← hG] at h'
       exact h'
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K W] in
 theorem range_comp_eq_statedOmega {ι : Type} [Fintype ι] [DecidableEq ι]
     (b : Module.Basis ι K W) (Qf : QuadraticForm K W) (ρ : R →* (W ≃ₗ[K] W))
     (hr : ρ.range = ⁅orthSubgroup Qf, orthSubgroup Qf⁆) (Q' : (ι → K) → K)

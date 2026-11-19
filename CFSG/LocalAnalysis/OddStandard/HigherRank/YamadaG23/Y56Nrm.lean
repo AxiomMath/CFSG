@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem y56_conj_mem_centralizer {E : Subgroup G} {n y : G}
     (hn : n ∈ Subgroup.normalizer (E : Set G))
     (hy : y ∈ Subgroup.centralizer (E : Set G)) :
@@ -64,7 +65,7 @@ theorem y56_Q_le_X0 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     exact Subgroup.zpow_mem (Subgroup.centralizer (s.fr.E : Set G))
       (Subgroup.mem_centralizer_iff.mpr (fun f hf => y56_t_comm_E s f hf)) k
 
-theorem y56_X0_le_X {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
+theorem y56_X0_le_X {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e) :
     e4X0 s ≤ e4X s := by
   intro x hx
   rw [e4X0, centIn, Subgroup.mem_inf] at hx
@@ -88,7 +89,7 @@ theorem y56_X0_le_Y {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
   rw [e4Y, centIn]
   exact Subgroup.mem_inf.mpr ⟨y56_X0_le_X hH hx0, hx.2⟩
 
-theorem y56_N_le_X {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
+theorem y56_N_le_X {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e) :
     e4N s ≤ e4X s := by
   intro n hn
   rw [e4N, normIn, Subgroup.mem_inf] at hn
@@ -176,7 +177,7 @@ theorem y56_N_norm_Q {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
   intro n hn q hq
   exact (Subgroup.mem_normalizer_iff.mp (y56_N_le_X hH hn) q).mp hq
 
-theorem y56_Y_norm_Q {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
+theorem y56_Y_norm_Q {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e) :
     ∀ y ∈ e4Y s, ∀ q ∈ e4Q s, y * q * y⁻¹ ∈ e4Q s := by
   intro y hy q hq
   rw [e4Y, centIn] at hy

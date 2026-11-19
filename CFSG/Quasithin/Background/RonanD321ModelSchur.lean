@@ -211,7 +211,7 @@ theorem exists_semilinear_form [Finite K] {α : ↥(StatedSL 2 K) → ↥(Stated
     by_cases h : l = b
     · subst h
       simp
-    · simp [Pi.single_apply, h]
+    · simp [h]
   rw [← mulVec_mulVec, ← mulVec_mulVec, ← hsb, ← hφA, ← hφtw, hφA]
   congr 1
   ext l
@@ -284,10 +284,10 @@ theorem exists_fixed_vec [Finite K] (σ : K ≃+* K) {C : Matrix (Fin 2) (Fin 2)
 
 theorem isCyclic_ringEquiv [Finite K] : IsCyclic (K ≃+* K) := by
   let _ : Fintype K := Fintype.ofFinite K
-  haveI := ringChar.charP K
+  have := ringChar.charP K
   obtain ⟨n, hp, -⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  letI : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  let : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
   let e : (K ≃+* K) ≃* (K ≃ₐ[ZMod (ringChar K)] K) :=
     { toFun := fun σ =>
         AlgEquiv.ofRingEquiv (f := σ) (by

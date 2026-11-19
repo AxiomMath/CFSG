@@ -48,7 +48,7 @@ private theorem l32_exists_kb_order_three :
 private theorem l32_permutes_of_le_pa {X : Subgroup Γ} (hX : Nat.card X = 3) (hXPa : X ≤ Pa) :
     Permutes X U3 := by
   have hinf : X ⊓ U3 = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     rw [hX, CFSG.Quasithin.Vol2.Ch10.SecB.card_U3]
     norm_num
   have hsetcard : Nat.card ↥((X : Set Γ) * (U3 : Set Γ)) = 24 := by
@@ -90,7 +90,7 @@ private theorem l32_permutes_of_le_ka {X : Subgroup Γ} (hX : Nat.card X = 3) (h
 private theorem l32_permutes_of_le_kb {X : Subgroup Γ} (hX : Nat.card X = 3) (hXKb : X ≤ Kb) :
     Permutes X U3 := by
   have hinf : X ⊓ U3 = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     rw [hX, CFSG.Quasithin.Vol2.Ch10.SecB.card_U3]
     norm_num
   have hXPb : X ≤ Pb := by intro x hx; exact (hXKb hx).1
@@ -136,7 +136,7 @@ private theorem l32_permutesS3 {X : Subgroup Γ} (hX : Nat.card X = 3)
         ∀ x ∈ X, d * x * d⁻¹ * x ∈ CFSG.Open.pCoreOf 2 (X ⊔ U3) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinf : X ⊓ U3 = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     rw [hX, CFSG.Quasithin.Vol2.Ch10.SecB.card_U3]
     norm_num
   have hcard : Nat.card ↥(X ⊔ U3) = 24 := by
@@ -459,7 +459,7 @@ private theorem permutesS3_of_equiv {Y : Type} [Group Y] (ψ : Y ≃* Γ)
       (CFSG.Quasithin.F112R.mem_pCoreOf_iff_of_mulEquiv eA 2
         ⟨ψ.symm d0, Subgroup.mem_sup_right hdS⟩).mp hd
     rw [heA_apply] at hmem
-    simp only [Subgroup.coe_mk, MulEquiv.apply_symm_apply] at hmem
+    simp only [MulEquiv.apply_symm_apply] at hmem
     exact hd0O hmem
   refine ⟨hcard, hOcard, hbar, ψ.symm d0, hdS, hdO, ?_⟩
   intro x hxX
@@ -505,7 +505,7 @@ theorem k_L27Local_holds : K_L27Local := by
       (e := ψ)).mpr rfl
   have hcenter : Subgroup.center Y = ⊥ := by
     have hmap : (Subgroup.center Y).map ψ.toMonoidHom = Subgroup.center Γ := by
-      simpa using (Subgroup.map_center_eq ψ)
+      simp
     rw [CFSG.LocalAnalysis.ComponentInitial.center_SL_three_zmod_two_eq_bot] at hmap
     exact (Subgroup.map_eq_bot_iff_of_injective (H := Subgroup.center Y)
       (f := ψ.toMonoidHom) hψinj).mp hmap

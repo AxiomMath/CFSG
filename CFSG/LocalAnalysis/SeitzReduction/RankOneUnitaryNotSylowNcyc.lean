@@ -228,7 +228,7 @@ theorem mem_sup_zpowers_conj_of_star_of_card_sylow (h : U3Start G L f t T)
     set P := szR (szT₁ L T) R₂ t ⊔ zpowers v with hP
     have hvA₁ := (h.outer_facts_of_card_sylow hS2 hvT hv2 hvS).2.1
     have hPS : P ≤ T ⊔ R₂ := sup_le hR₁S₁ (zpowers_le.mpr (mem_sup_left hvT))
-    have hPp : IsPGroup 2 P := (hSeq ▸ S.isPGroup').to_le hPS
+    have hPp : IsPGroup 2 P := (hSeq ▸ S.isPGroup).to_le hPS
     have hPa : P ≤ centralizer ({a} : Set G) := by
       refine sup_le (fun r hr => ?_) (zpowers_le.mpr ?_)
       · rw [hR₁] at hr
@@ -267,7 +267,7 @@ theorem false_of_conj_mem_sup_of_weakClosed_of_card_sylow (h : U3Start G L f t T
   obtain ⟨htT, -, -, -, hdisj, -, -⟩ := h.start_of_card_sylow hS2
   obtain ⟨S, hSeq⟩ := hS
   have hSsyl : IsSylowOf 2 (T ⊔ R₂) ⊤ := by
-    refine isSylowOf_iff.mpr ⟨le_top, hSeq ▸ S.isPGroup', ?_⟩
+    refine isSylowOf_iff.mpr ⟨le_top, hSeq ▸ S.isPGroup, ?_⟩
     rw [relIndex_top_right, ← hSeq]
     exact S.not_dvd_index
   have hcomm : ∀ r ∈ szR (szT₁ L T) R₂ t, ∀ r' ∈ szR (szT₁ L T) R₂ t,

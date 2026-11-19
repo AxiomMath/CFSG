@@ -59,6 +59,7 @@ private def yMat (X : Matrix (Fin 2) (Fin 2) K) :
     Matrix (Fin 2 × Fin 5) (Fin 2 × Fin 5) K :=
   Matrix.of fun ib jb => if ib.2 = 0 ∧ jb.2 = 1 then X ib.1 jb.1 else 0
 
+omit [CharP K 2] in
 private theorem yMat_mul_yMat (X X' : Matrix (Fin 2) (Fin 2) K) :
     yMat X * yMat X' = 0 := by
   ext ib jb
@@ -71,16 +72,19 @@ private theorem yMat_mul_yMat (X X' : Matrix (Fin 2) (Fin 2) K) :
   · have : ¬ (ib.2 = 0 ∧ kc.2 = 1) := fun h' => h h'.2
     rw [ite_eq_right this, zero_mul]
 
+omit [CharP K 2] in
 private theorem yMat_zero : yMat (0 : Matrix (Fin 2) (Fin 2) K) = 0 := by
   ext ib jb
   simp [yMat]
 
+omit [CharP K 2] in
 private theorem yMat_add (X X' : Matrix (Fin 2) (Fin 2) K) :
     yMat (X + X') = yMat X + yMat X' := by
   ext ib jb
   simp only [yMat, of_apply, Matrix.add_apply]
   split_ifs <;> simp
 
+omit [CharP K 2] in
 private theorem one_add_yMat_mul (X X' : Matrix (Fin 2) (Fin 2) K) :
     (1 + yMat X) * (1 + yMat X') = 1 + yMat (X + X') := by
   rw [add_mul, mul_add, mul_add, one_mul, mul_one, one_mul, yMat_mul_yMat, add_zero, yMat_add]

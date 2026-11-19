@@ -177,7 +177,7 @@ theorem ncard_tensorSet32_le : tensorSet32.ncard ≤ 1008 := by
       exact ⟨(g, h), hgh⟩
     have h1 : Classical.choose hgood = Classical.choose hgood' := by
       have := heq
-      simp only [f, dif_pos hgood, dif_pos hgood'] at this
+      simp only [f, dite_eq_left hgood, dite_eq_left hgood'] at this
       exact this
     have hm1 := congrArg Prod.fst h1
     have hm2 := congrArg Prod.snd h1
@@ -209,7 +209,7 @@ theorem le_ncard_range_actT :
     intro st hst
     have hstm : st ∈ bfsT.map Prod.fst := hst
     exact ⟨_, by
-      simp only [f, dif_pos hstm]
+      simp only [f, dite_eq_left hstm]
       rfl⟩
   have hf_inj : Set.InjOn f S := by
     intro st hst st' hst' heq
@@ -221,8 +221,8 @@ theorem le_ncard_range_actT :
     let x' : ↥(MY M24g labTrio) :=
       ⟨Classical.choose (engine_T.realize st' hst'm),
        (Classical.choose_spec (engine_T.realize st' hst'm)).1⟩
-    have hfst : f st = actT x := by simp only [f, dif_pos hstm, x]
-    have hfst' : f st' = actT x' := by simp only [f, dif_pos hst'm, x']
+    have hfst : f st = actT x := by simp only [f, dite_eq_left hstm, x]
+    have hfst' : f st' = actT x' := by simp only [f, dite_eq_left hst'm, x']
     have hreal_st : ∀ n < 64,
         (x : S24) * tab64Perm tabT n * (x : S24)⁻¹ = tab64Perm tabT (linAct st n) :=
       (Classical.choose_spec (engine_T.realize st hstm)).2

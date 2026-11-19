@@ -107,7 +107,7 @@ theorem lemma33 {T : Type*} [Group T] [Finite T] (hT : IsPGroup 2 T) (A : Subgro
       · exact Or.inr (Or.inr ⟨1, le_rfl, ⟨e⟩⟩)
     ·
       let φ : Shrink.{0} T ≃* T := Shrink.mulEquiv
-      haveI : Finite (Shrink.{0} T) := Finite.of_equiv T φ.symm.toEquiv
+      have : Finite (Shrink.{0} T) := Finite.of_equiv T φ.symm.toEquiv
       have hP' : IsPGroup 2 (Shrink.{0} T) := hT.of_equiv φ.symm
       have hcard' : Nat.card (Shrink.{0} T) = Nat.card T := Nat.card_congr φ.toEquiv
       have hcb : Nat.card (Subgroup.centralizer ({φ.symm x} : Set (Shrink.{0} T))) ≤ 2 ^ 2 := by

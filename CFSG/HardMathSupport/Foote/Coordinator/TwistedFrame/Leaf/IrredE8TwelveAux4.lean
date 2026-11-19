@@ -410,7 +410,7 @@ theorem levi_single_stable (T : LinData D) {W : Submodule K (V8 → K)}
 instance instIsAlgClosedL : IsAlgClosed D.L := (inferInstance : IsAlgClosure K D.L).isAlgClosed
 
 theorem card_cast_zero : ((Nat.card K : ℕ) : D.L) = 0 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h : ((Nat.card K : ℕ) : K) = 0 := by
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.cast_card_eq_zero K
@@ -933,14 +933,14 @@ theorem eq_sum_single_of_supp {x : V8 → D.L} (hx : ∀ ν, ν ∉ dl → x ν 
   · rw [Finset.sum_eq_single ν]
     · simp
     · intro b _ hb
-      simp [Pi.single_apply, Ne.symm hb]
+      simp [Ne.symm hb]
     · intro h
       exact absurd hν h
   · rw [hx ν hν]
     symm
     refine Finset.sum_eq_zero fun μ hμ => ?_
     have : ν ≠ μ := fun h => hν (h ▸ hμ)
-    simp [Pi.single_apply, this]
+    simp [this]
 
 end Descent
 

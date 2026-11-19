@@ -1111,7 +1111,7 @@ theorem exists_isMaxPSub_le {C S : Subgroup G} (hS : IsPGroup 3 S) (hSC : S ≤ 
     ∃ P : Subgroup G, Item812Res3.IsMaxPSub 3 P C ∧ S ≤ P := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T, hT⟩ := (hS.comap_of_injective C.subtype C.subtype_injective).exists_le_sylow
-  refine ⟨(T : Subgroup C).map C.subtype, ⟨Subgroup.map_subtype_le _, T.isPGroup'.map _, ?_⟩, ?_⟩
+  refine ⟨(T : Subgroup C).map C.subtype, ⟨Subgroup.map_subtype_le _, T.isPGroup.map _, ?_⟩, ?_⟩
   · intro U hU hTU hUC
     have h1 : IsPGroup 3 (U.comap C.subtype) := hU.comap_of_injective _ C.subtype_injective
     have h2 : (T : Subgroup C) ≤ U.comap C.subtype := fun x hx =>
@@ -1234,7 +1234,7 @@ theorem exists_isMaxPSub_normalized {C P : Subgroup G} (hP : IsPGroup 3 P)
     rintro e he _ ⟨s, hs, rfl⟩
     exact ⟨_, hSinv ⟨e, he⟩ s hs, rfl⟩
   refine ⟨(S : Subgroup C).map C.subtype,
-    ⟨Subgroup.map_subtype_le _, S.isPGroup'.map _, ?_⟩, fun e he => ?_⟩
+    ⟨Subgroup.map_subtype_le _, S.isPGroup.map _, ?_⟩, fun e he => ?_⟩
   · intro U hU hSU hUC
     have h1 : IsPGroup 3 (U.comap C.subtype) := hU.comap_of_injective _ C.subtype_injective
     have h2 : (S : Subgroup C) ≤ U.comap C.subtype := fun x hx =>

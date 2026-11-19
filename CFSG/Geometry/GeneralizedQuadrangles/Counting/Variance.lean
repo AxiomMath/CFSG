@@ -17,7 +17,7 @@ section Basic
 
 variable [Fintype V] [DecidableRel Γ.Adj]
 
-@[expose] noncomputable def varianceR [Fintype V] (Γ : SimpleGraph V) (X : Finset V)
+@[expose] noncomputable def varianceR (Γ : SimpleGraph V) (X : Finset V)
     (z : V) : ℕ := by
   classical
   exact (X.filter fun a => Γ.dist z a = 2).card
@@ -65,6 +65,7 @@ theorem varianceR_le_one_of_not_mem_varianceTrace (hP : IsGeneralizedPolygon Γ 
     exact ⟨by rwa [SimpleGraph.dist_comm], by rwa [SimpleGraph.dist_comm]⟩
   exact hzT (by simpa [mem_varianceTrace] using hzIn)
 
+omit [DecidableRel Γ.Adj] in
 theorem varianceR_eq_zero_of_mem_varianceZ {c : Γ.Coloring (Fin 2)} {X : Finset V}
     {z : V} (hz : z ∈ varianceZ Γ c X) : varianceR Γ X z = 0 := by
   classical
@@ -75,6 +76,7 @@ theorem varianceR_eq_zero_of_mem_varianceZ {c : Γ.Coloring (Fin 2)} {X : Finset
   have := hz.2 a ha.1
   omega
 
+omit [DecidableRel Γ.Adj] in
 theorem not_mem_X_of_mem_varianceZ {c : Γ.Coloring (Fin 2)} {X : Finset V} {z : V}
     (hz : z ∈ varianceZ Γ c X) : z ∉ X := by
   intro hzX
@@ -411,6 +413,7 @@ theorem variance_identity (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
   rw [hm1c, hsc, hA', hB, hC]
   ring
 
+omit [Fintype V] in
 theorem two_mul_card_mul_sum_sq_sub_sq_sum (T : Finset V) (f : V → ℤ) :
     2 * ((T.card : ℤ) * (∑ z ∈ T, f z ^ 2) - (∑ z ∈ T, f z) ^ 2)
       = ∑ z ∈ T, ∑ z' ∈ T, (f z - f z') ^ 2 := by
@@ -444,6 +447,7 @@ theorem two_mul_card_mul_sum_sq_sub_sq_sum (T : Finset V) (f : V → ℤ) :
           refine Finset.sum_congr rfl fun z' _ => ?_
           ring
 
+omit [Fintype V] in
 theorem exists_const_of_card_mul_sum_sq_eq_sq_sum (T : Finset V) (f : V → ℤ)
     (h : (T.card : ℤ) * (∑ z ∈ T, f z ^ 2) = (∑ z ∈ T, f z) ^ 2) :
     ∃ k, ∀ z ∈ T, f z = k := by
@@ -470,7 +474,7 @@ theorem centres_const_of_eq (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) {x y : V}
     (hx : c x = 0) (hxy : Γ.dist x y = 4) {X : Finset V}
-    (hX : (X : Set V) ⊆ spanSet Γ x y) (hm : 2 ≤ X.card) (hmt : X.card ≤ t)
+    (hX : (X : Set V) ⊆ spanSet Γ x y) (hm : 2 ≤ X.card) (_hmt : X.card ≤ t)
     (heq : (X.card - 1) * t = s ^ 2) :
     ∃ k, ∀ z ∈ varianceZ Γ c X, varianceTz Γ (varianceTrace Γ x y) z = k := by
   classical
@@ -504,7 +508,7 @@ theorem t_le_s_of_card_eq_t_add_one (hP : IsGeneralizedPolygon Γ 4) (hT : IsThi
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) {x y : V}
     (hx : c x = 0) (hxy : Γ.dist x y = 4) {X : Finset V}
-    (hX : (X : Set V) ⊆ spanSet Γ x y) (hm : 2 ≤ X.card) (hcard : X.card = t + 1) :
+    (hX : (X : Set V) ⊆ spanSet Γ x y) (_hm : 2 ≤ X.card) (hcard : X.card = t + 1) :
     t ≤ s := by
   classical
   have hs : 2 ≤ s := two_le_s hP hT c hdeg

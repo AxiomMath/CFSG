@@ -61,8 +61,8 @@ theorem tcent_component_eq {Q C R : Subgroup X} (hQ : CFSG.Assembly.IsComponentO
     have h := hQ.2.1.inf R
     rwa [inf_eq_left.2 hQR, inf_eq_right.2 hRC] at h
   have hRo : CFSG.Open.IsQuasisimple ↥R := ⟨hR.1.commutator_eq_top, hR.2.1⟩
-  haveI : Group.IsPerfect ↥Q := ⟨hQ.2.2.1⟩
-  haveI : Group.IsPerfect ↥(Q.subgroupOf R) :=
+  have : Group.IsPerfect ↥Q := ⟨hQ.2.2.1⟩
+  have : Group.IsPerfect ↥(Q.subgroupOf R) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hQR).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hQR).symm.surjective
   rcases CFSG.ComponentClassification.Quasisimple.perfect_subnormal_eq_bot_or_eq_top hRo
@@ -75,10 +75,10 @@ private theorem tcent_center_eq {H : Type} [Group H] (N : Subgroup H) [N.Normal]
     (hna : ∃ a b : H ⧸ N, a * b ≠ b * a) : Subgroup.center H = N := by
   refine le_antisymm (fun z hz => ?_) hN
   by_contra hzN
-  haveI := hs
+  have := hs
   set M : Subgroup (H ⧸ N) := (Subgroup.center H).map (QuotientGroup.mk' N) with hM
   have hMn : M.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective N)
-  haveI := hMn
+  have := hMn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M with hbot | htop
   · apply hzN
     have hz' : QuotientGroup.mk' N z ∈ M := ⟨z, hz, rfl⟩
@@ -139,7 +139,7 @@ private theorem tcent_labelOf_of_quot {Γ : Type} [Group Γ] {K : Subgroup Γ} {
 
 theorem tcent_center_eq_bot_of_simple {R₀ : Type} [Group R₀] (hs : IsSimpleGroup R₀)
     (hna : ∃ a b : R₀, a * b ≠ b * a) : Subgroup.center R₀ = ⊥ := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center R₀) with h | h
   · exact h
   · exfalso
@@ -155,7 +155,7 @@ theorem tcent_center_bot_of_equiv (e : X ≃* Y) (hY : Subgroup.center Y = ⊥) 
 
 private theorem tcent_commutator_eq_top_of_simple {R₀ : Type} [Group R₀] (hs : IsSimpleGroup R₀)
     (hna : ∃ a b : R₀, a * b ≠ b * a) : commutator R₀ = ⊤ := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator R₀) with hbot | htop
   · exfalso
     obtain ⟨a, b, hab⟩ := hna
@@ -174,7 +174,7 @@ private theorem tcent_labelOf_of_equiv {Γ : Type} [Group Γ] {K : Subgroup Γ} 
   obtain ⟨R₀, _, I, F, hs, hna, ⟨e⟩⟩ := CFSG.StandardType.Canonical.largeEvenRawDatum_exists h
   have hZ : Subgroup.center ↥K = ⊥ :=
     tcent_center_bot_of_equiv e (tcent_center_eq_bot_of_simple hs hna)
-  haveI : Group.IsPerfect R₀ := ⟨tcent_commutator_eq_top_of_simple hs hna⟩
+  have : Group.IsPerfect R₀ := ⟨tcent_commutator_eq_top_of_simple hs hna⟩
   have hcomm : commutator ↥K = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective).commutator_eq_top
   refine ⟨hZ, hcomm, lab, hlab, CFSG.StandardType.Canonical.largeEvenRawDatum_mono ?_ h⟩
@@ -236,12 +236,12 @@ private theorem tcent_inner_model {n : ℕ} (hn : Odd n) (hn3 : 3 ≤ n) {K₃ :
     have hQm := tcent_isComponentOf_map ψ' hQ
     rw [tcent_map_centralizer, hψ'] at hQm
     have hQR := tcent_component_eq hQm hRc hcomm hRq
-    haveI : CharP K₃ 2 :=
+    have : CharP K₃ 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
         (k := n * 3) (by omega) (by rw [hK, pow_mul])
-    haveI : CharP (AlgebraicClosure K₃) 2 :=
+    have : CharP (AlgebraicClosure K₃) 2 :=
       charP_of_injective_algebraMap (algebraMap K₃ (AlgebraicClosure K₃)).injective 2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨F, _, _, hF, ⟨ε⟩⟩ := CFSG.OddStandard.GH71.S55.nonempty_statedSU_mulEquiv
       (Ω := AlgebraicClosure K₃) (ℓ := 2) (f := n) hn1 hU
     let isoQ : ↥Q ≃* ↥(LargeEvenSUGroup (Fin 3) F (2 ^ n)) :=
@@ -284,10 +284,10 @@ private theorem tcent_inner_model {n : ℕ} (hn : Odd n) (hn3 : 3 ≤ n) {K₃ :
     obtain ⟨eS⟩ := Sec11.KS11Lie4Proof.nonempty_mulEquiv_d4ShortSL2 hσ3
     set F : Subfield K₃ := orbitField TwistTag.D4 K₃ Fr.toRingHom Sec11.KS11Lie4Proof.d4Outer
       with hFdef
-    haveI : Finite ↥F := Subtype.finite
+    have : Finite ↥F := Subtype.finite
     have hFcard : Nat.card ↥F = 2 ^ (3 * n) := by
       rw [hFdef, Sec11.KS11Lie4Proof.natCard_orbitField_d4Outer hσ3, hK, ← pow_mul, mul_comm]
-    haveI : CharP ↥F 2 := charP_two_of_card hFcard
+    have : CharP ↥F 2 := charP_two_of_card hFcard
     have hF4 : 4 ≤ Nat.card ↥F := by
       rw [hFcard]
       calc 4 ≤ 2 ^ n := by omega
@@ -356,7 +356,7 @@ theorem triD4Cent3_holds : TriD4Cent3 := by
       simp only [inv_one, mul_one, one_mul] at h2
       calc j * b = b * j * b⁻¹ * b := by rw [h2]
         _ = b * j := by group
-    haveI : CharP K₃ 2 := charP_two_of_card (m := lab.n * 3) (by rw [hK₃, pow_mul])
+    have : CharP K₃ 2 := charP_two_of_card (m := lab.n * 3) (by rw [hK₃, pow_mul])
     set σ₀ := iterateFrobeniusEquiv K₃ 2 lab.n with hσ₀def
     have hσ₀ : ∀ c, σ₀ c = c ^ 2 ^ lab.n := fun c => by
       rw [hσ₀def, iterateFrobeniusEquiv_apply, iterateFrobenius_def]

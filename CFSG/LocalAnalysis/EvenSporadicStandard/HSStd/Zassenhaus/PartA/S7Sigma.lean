@@ -77,7 +77,7 @@ theorem wd_inj {y c c' : T} (hyc : Commute y c) (hyc' : Commute y c') (hcc' : Co
     (hcard : Nat.card ↥(closure ({y, c, c'} : Set T)) = 27) (i j l i' j' l' : ℤ)
     (h : wd y c c' i j l = wd y c c' i' j' l') :
     i % 3 = i' % 3 ∧ j % 3 = j' % 3 ∧ l % 3 = l' % 3 := by
-  haveI : Finite ↥(closure ({y, c, c'} : Set T)) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥(closure ({y, c, c'} : Set T)) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hcast : ∀ n : ℤ, (((n % 3).toNat : ℕ) : ℤ) = n % 3 := fun n =>
     Int.toNat_of_nonneg (by omega)
   let g : Fin 3 × Fin 3 × Fin 3 → ↥(closure ({y, c, c'} : Set T)) := fun p =>
@@ -225,7 +225,7 @@ theorem sigmaConfig_of_lift {X : Type} [Group X] (κ : T →* X) {t y c k : T} (
     (hkk' : k * (t * k * t⁻¹) = (t * k * t⁻¹) * k)
     (hyL : κ y ∈ centralizerDerived (κ t)) :
     SigmaConfig (κ t) (κ y) (κ c) (κ k) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hy' : y ^ 3 = 1 := by
     have := pow_orderOf_eq_one y
     rwa [hy3] at this

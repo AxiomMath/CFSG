@@ -68,7 +68,7 @@ private theorem gkL_lieAdm_markTag {lab : LargeEvenLabel} (hl : LargeEvenInLambd
     obtain ⟨-, -, hodd, h3⟩ := hl
     rw [Nat.odd_iff] at hodd
     simp [hodd, h3]
-  all_goals first | rfl | (split_ifs <;> rfl)
+  all_goals (split_ifs <;> rfl)
 
 private def gkL_labelRealizable (t : CFSG.Open.StatedLieTag) (q : ℕ) : Bool :=
   q % 2 == 0 || (t == .PSU && q == 3) || (t == .PSL && q == 9)
@@ -102,7 +102,7 @@ private theorem gkL_labOrd_eq_lieOrd_of_markTag_mem {lab : LargeEvenLabel}
     labOrd lab = lieOrd (markTag lab) (markRank lab) (markChar lab ^ markDeg lab) := by
   obtain ⟨t, l, n⟩ := lab
   cases t <;> simp only [labOrd, markTag, markRank, markChar, markDeg]
-  all_goals first | rfl |
+  all_goals first |
     (exact absurd ht (by simp only [markTag, searchTags]; decide))
 
 private theorem gkL_card_eq_labOrd_of_markedModel
@@ -220,53 +220,53 @@ private theorem gkL_mem_primes_hs {p : ℕ} (hp : p.Prime)
 
 private theorem gkL_lieSearch_126000 :
     lieSearch [2, 3, 5, 7] 126000
-      (fun t n q ord => !(ord == 126000) || !(gkL_labelRealizable t q)) = true :=
+      (fun t _n q ord => !(ord == 126000) || !(gkL_labelRealizable t q)) = true :=
   lieSearch_of_lieSearchB (L := 16) (by decide +kernel)
 
 private theorem gkL_lieSearch_fi24 :
     lieSearch [2, 3, 5, 7, 11, 13, 17, 23, 29]
       (2 ^ 21 * 3 ^ 16 * 5 ^ 2 * 7 ^ 3 * 11 * 13 * 17 * 23 * 29)
-      (fun t n q ord => !(ord == 2 ^ 21 * 3 ^ 16 * 5 ^ 2 * 7 ^ 3 * 11 * 13 * 17 * 23 * 29) ||
+      (fun t _n q ord => !(ord == 2 ^ 21 * 3 ^ 16 * 5 ^ 2 * 7 ^ 3 * 11 * 13 * 17 * 23 * 29) ||
         !(gkL_labelRealizable t q)) = true :=
   lieSearch_of_lieSearchB (L := 80) (by decide +kernel)
 
 private theorem gkL_lieSearch_th :
     lieSearch [2, 3, 5, 7, 13, 19, 31] (2 ^ 15 * 3 ^ 10 * 5 ^ 3 * 7 ^ 2 * 13 * 19 * 31)
-      (fun t n q ord => !(ord == 2 ^ 15 * 3 ^ 10 * 5 ^ 3 * 7 ^ 2 * 13 * 19 * 31) ||
+      (fun t _n q ord => !(ord == 2 ^ 15 * 3 ^ 10 * 5 ^ 3 * 7 ^ 2 * 13 * 19 * 31) ||
         !(gkL_labelRealizable t q)) = true :=
   lieSearch_of_lieSearchB (L := 56) (by decide +kernel)
 
 private theorem gkL_lieSearch_hn :
     lieSearch [2, 3, 5, 7, 11, 19] (2 ^ 14 * 3 ^ 6 * 5 ^ 6 * 7 * 11 * 19)
-      (fun t n q ord => !(ord == 2 ^ 14 * 3 ^ 6 * 5 ^ 6 * 7 * 11 * 19) ||
+      (fun t _n q ord => !(ord == 2 ^ 14 * 3 ^ 6 * 5 ^ 6 * 7 * 11 * 19) ||
         !(gkL_labelRealizable t q)) = true :=
   lieSearch_of_lieSearchB (L := 47) (by decide +kernel)
 
 private theorem gkL_lieSearch_he :
     lieSearch [2, 3, 5, 7, 17] (2 ^ 10 * 3 ^ 3 * 5 ^ 2 * 7 ^ 3 * 17)
-      (fun t n q ord => !(ord == 2 ^ 10 * 3 ^ 3 * 5 ^ 2 * 7 ^ 3 * 17) ||
+      (fun t _n q ord => !(ord == 2 ^ 10 * 3 ^ 3 * 5 ^ 2 * 7 ^ 3 * 17) ||
         !(gkL_labelRealizable t q)) = true :=
   lieSearch_of_lieSearchB (L := 31) (by decide +kernel)
 
 private theorem gkL_lieSearch_m12 :
     lieSearch [2, 3, 5, 11] (2 ^ 6 * 3 ^ 3 * 5 * 11)
-      (fun t n q ord => !(ord == 2 ^ 6 * 3 ^ 3 * 5 * 11) || !(gkL_labelRealizable t q)) = true :=
+      (fun t _n q ord => !(ord == 2 ^ 6 * 3 ^ 3 * 5 * 11) || !(gkL_labelRealizable t q)) = true :=
   lieSearch_of_lieSearchB (L := 16) (by decide +kernel)
 
 private theorem gkL_lieSearch_l33 :
     lieSearch [2, 3, 13] (2 ^ 4 * 3 ^ 3 * 13)
-      (fun t n q ord => !(ord == 2 ^ 4 * 3 ^ 3 * 13) || !(gkL_labelRealizable t q)) = true :=
+      (fun t _n q ord => !(ord == 2 ^ 4 * 3 ^ 3 * 13) || !(gkL_labelRealizable t q)) = true :=
   lieSearch_of_lieSearchB (L := 12) (by decide +kernel)
 
 private theorem gkL_lieSearch_fi22 :
     lieSearch [2, 3, 5, 7, 11, 13] (2 ^ 17 * 3 ^ 9 * 5 ^ 2 * 7 * 11 * 13)
-      (fun t n q ord => !(ord == 2 ^ 17 * 3 ^ 9 * 5 ^ 2 * 7 * 11 * 13) ||
+      (fun t _n q ord => !(ord == 2 ^ 17 * 3 ^ 9 * 5 ^ 2 * 7 * 11 * 13) ||
         !(gkL_labelRealizable t q)) = true :=
   lieSearch_of_lieSearchB (L := 45) (by decide +kernel)
 
 private theorem gkL_lieSearch_hs :
     lieSearch [2, 3, 5, 7, 11] (2 ^ 9 * 3 ^ 2 * 5 ^ 3 * 7 * 11)
-      (fun t n q ord => !(ord == 2 ^ 9 * 3 ^ 2 * 5 ^ 3 * 7 * 11) || !(gkL_labelRealizable t q)) =
+      (fun t _n q ord => !(ord == 2 ^ 9 * 3 ^ 2 * 5 ^ 3 * 7 * 11) || !(gkL_labelRealizable t q)) =
     true :=
   lieSearch_of_lieSearchB (L := 25) (by decide +kernel)
 
@@ -358,11 +358,11 @@ private theorem gkL_sz_nonabelian'
   have hna : ∃ g h : suzukiGroup a K, g * h ≠ h * g := by
     by_contra h
     push Not at h
-    haveI : Nontrivial (suzukiGroup a K) := hsimple.2.1
-    haveI : Group.IsPerfect (suzukiGroup a K) := hperfect.2
-    haveI : IsMulCommutative (suzukiGroup a K) := ⟨Std.Commutative.mk h⟩
+    have : Nontrivial (suzukiGroup a K) := hsimple.2.1
+    have : Group.IsPerfect (suzukiGroup a K) := hperfect.2
+    have : IsMulCommutative (suzukiGroup a K) := ⟨Std.Commutative.mk h⟩
     exact not_subsingleton (suzukiGroup a K) Group.IsPerfect.subsingleton_of_isMulCommutative
-  haveI : IsSimpleGroup (suzukiGroup a K) := hsimple.2.2
+  have : IsSimpleGroup (suzukiGroup a K) := hsimple.2.2
   have hq : ∃ x y : LargeEvenCenterQuot (suzukiGroup a K), x * y ≠ y * x :=
     gkL_centerQuot_nonabelian' hna
   obtain ⟨e⟩ := nonempty_centerQuot_congr (largeEvenSzGroup_eq a K)
@@ -392,7 +392,7 @@ private theorem gkL_g2der_nonabelian'
         intro a b
         by_contra h
         exact hnab ⟨a, b, h⟩
-      haveI : IsMulCommutative ↥⁅adjointGroup .G2 K, adjointGroup .G2 K⁆ :=
+      have : IsMulCommutative ↥⁅adjointGroup .G2 K, adjointGroup .G2 K⁆ :=
         IsMulCommutative.of_comm hcomm
       have hp : (Nat.card ↥⁅adjointGroup .G2 K, adjointGroup .G2 K⁆).Prime :=
         Group.is_simple_iff_prime_card.mp hsimple

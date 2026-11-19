@@ -23,27 +23,27 @@ private theorem isSolvable_of_card_dvd_180 {Q : Type*} [Group Q] [Finite Q]
       have h30 : (30 : ℕ) = 2 * 3 * 5 := by norm_num
       rw [h, h30, Nat.squarefree_mul (by norm_num), Nat.squarefree_mul (by norm_num)]
       exact ⟨⟨Nat.prime_two.squarefree, Nat.prime_three.squarefree⟩, Nat.prime_five.squarefree⟩
-    haveI : IsZGroup Q := IsZGroup.of_squarefree hsq
+    have : IsZGroup Q := IsZGroup.of_squarefree hsq
     infer_instance
 
 private theorem eq_bot_of_isPerfect_of_isPGroup {G : Type*} [Group G] [Finite G] {p : ℕ}
     [Fact p.Prime] {F : Subgroup G} (hF : Group.IsPerfect ↥F) (hp : IsPGroup p F) : F = ⊥ := by
   by_contra hne
-  haveI : Nontrivial F := (Subgroup.nontrivial_iff_ne_bot F).2 hne
-  haveI := hF
-  haveI : Group.IsNilpotent F := hp.isNilpotent
+  have : Nontrivial F := (Subgroup.nontrivial_iff_ne_bot F).2 hne
+  have := hF
+  have : Group.IsNilpotent F := hp.isNilpotent
   exact Group.IsPerfect.not_isNilpotent F inferInstance
 
 private theorem le_of_isPerfect_of_isSolvable_quotient {G : Type*} [Group G] {F U N : Subgroup G}
     [(U.subgroupOf N).Normal] (hF : Group.IsPerfect ↥F) (hFN : F ≤ N)
     (hQ : Group.IsSolvable (↥N ⧸ U.subgroupOf N)) : F ≤ U := by
-  haveI := hF
+  have := hF
   let φ : ↥F →* ↥N ⧸ U.subgroupOf N :=
     (QuotientGroup.mk' (U.subgroupOf N)).comp (Subgroup.inclusion hFN)
-  haveI : Group.IsPerfect φ.range := Group.IsPerfect.range φ
+  have : Group.IsPerfect φ.range := Group.IsPerfect.range φ
   have hbot : φ.range = ⊥ := by
     by_contra hne
-    haveI : Nontrivial φ.range := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have : Nontrivial φ.range := (Subgroup.nontrivial_iff_ne_bot _).2 hne
     exact Group.IsPerfect.not_isSolvable φ.range inferInstance
   intro x hx
   have h1 : φ ⟨x, hx⟩ = 1 := by
@@ -71,7 +71,7 @@ private theorem isSolvable_normalizer_quotient {G : Type*} [Group G] [Finite G] 
     (hG : Nat.card G = 360) {U : Subgroup G} (hU : IsPGroup 2 U) (hU1 : U ≠ ⊥) :
     Group.IsSolvable (↥(Subgroup.normalizer (U : Set G)) ⧸
       U.subgroupOf (Subgroup.normalizer (U : Set G))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUcard : 1 < Nat.card U := (Subgroup.one_lt_card_iff_ne_bot U).2 hU1
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card (p := 2)).1 hU
   have ha0 : a ≠ 0 := by
@@ -80,7 +80,7 @@ private theorem isSolvable_normalizer_quotient {G : Type*} [Group G] [Finite G] 
   have h2U : 2 ∣ Nat.card U := ha ▸ dvd_pow_self 2 ha0
   have hNtop : Subgroup.normalizer (U : Set G) ≠ ⊤ := by
     intro h
-    haveI : U.Normal := Subgroup.normalizer_eq_top_iff.1 h
+    have : U.Normal := Subgroup.normalizer_eq_top_iff.1 h
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal U with h' | h'
     · exact hU1 h'
     · rw [h', Subgroup.card_top, hG] at ha
@@ -106,8 +106,8 @@ private theorem isSolvable_normalizer_quotient {G : Type*} [Group G] [Finite G] 
 theorem eq_bot_of_isPerfect_le_normalizer_A6 {F U : Subgroup (alternatingGroup (Fin 6))}
     (hF : Group.IsPerfect ↥F) (hU : IsPGroup 2 U) (hU1 : U ≠ ⊥)
     (hFU : F ≤ Subgroup.normalizer (U : Set (alternatingGroup (Fin 6)))) : F = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hG : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [nat_card_alternatingGroup]
     simp [Nat.factorial]
@@ -118,9 +118,9 @@ theorem eq_bot_of_isPerfect_le_normalizer_of_hom_A6 {X : Type*} [Group X] [Finit
     (π : X →* alternatingGroup (Fin 6)) (hker : IsPGroup 3 π.ker) {F U : Subgroup X}
     (hF : Group.IsPerfect ↥F) (hU : IsPGroup 2 U) (hU1 : U ≠ ⊥)
     (hFU : F ≤ Subgroup.normalizer (U : Set X)) : F = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hF
   have hUbar : U.map π ≠ ⊥ := by
     intro h
     exact hU1 ((IsPGroup.disjoint_of_ne 2 3 (by norm_num) U π.ker hU hker).eq_bot_of_le

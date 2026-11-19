@@ -38,7 +38,7 @@ theorem qsBRes_u6two {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup Ω} {x
   obtain ⟨e₁⟩ := HSubT.nonempty_S6_of_isU6two hS
   obtain ⟨ι, -⟩ : ∃ ι : PSimple 3 S ≃* primeFormP hF4 (idGram F4 6),
       ι = e₁.trans KU6Cent.e6 := ⟨_, rfl⟩
-  haveI : Finite (primeFormP hF4 (idGram F4 6)) := Finite.of_equiv _ ι.toEquiv
+  have : Finite (primeFormP hF4 (idGram F4 6)) := Finite.of_equiv _ ι.toEquiv
   obtain ⟨κ, hκdef⟩ : ∃ κ : PSimple 3 S →* MulAut (primeFormP hF4 (idGram F4 6)),
       ∀ z, κ z = MulAut.conj (ι z) := ⟨MulAut.conj.comp ι.toMonoidHom, fun _ => rfl⟩
   have hcen := center_pSimple_eq_bot Nat.prime_three h.comp

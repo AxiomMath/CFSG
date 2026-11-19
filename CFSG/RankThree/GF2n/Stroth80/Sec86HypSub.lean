@@ -13,6 +13,7 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [(Q.subgroupOf M).Normal] in
 theorem sec8_sq_eq_one_hat (h51 : Stroth51Statement) (hA : Sec8AExistsStatement)
     (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hyp hc n t) {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) [(Q.subgroupOf (H0 M Z)).Normal] :
@@ -25,6 +26,7 @@ theorem sec8_sq_eq_one_hat (h51 : Stroth51Statement) (hA : Sec8AExistsStatement)
   rw [← map_pow]
   exact (QuotientGroup.eq_one_iff _).mpr (Subgroup.mem_subgroupOf.mpr (by simpa using hsq))
 
+omit [(Q.subgroupOf M).Normal] in
 theorem sec8_ne_hat (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hyp hc n t)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) (hlt : Z0 < hc.CN t)
     [(Q.subgroupOf (H0 M Z)).Normal] :
@@ -49,7 +51,7 @@ theorem sec8_exists_Hconj_of_conj (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0
   have hZ0M : Z0 ≤ M := hc.centre_le_M t hZ0
   have hQM : Q ≤ M := hc.hyp.Q_normal.1
-  haveI hnormH := hc.normal_bar_H0
+  have hnormH := hc.normal_bar_H0
   have hHn : ∀ x : Mbar M Q, x ∈ Subgroup.normalizer
       ((bar M Q (H0 M Z) : Subgroup (Mbar M Q)) : Set (Mbar M Q)) := fun x => by
     rw [Subgroup.normalizer_eq_top]
@@ -84,6 +86,8 @@ theorem sec8_card_bar_Z0 (h51 : Stroth51Statement) (hA : Sec8AExistsStatement)
   rw [hZ0card, Nat.mul_comm (Nat.card Q) (Nat.card Z)] at hcard
   exact Nat.eq_of_mul_eq_mul_right Nat.card_pos hcard
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 theorem sec8_invAbelian_of_irred (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
     (hirr : IsIrredModule (Rt M (LB M Q B) t) (hc.CN t) Z0) : InvAbelian hc t Z0 := by
@@ -107,7 +111,7 @@ theorem step86HypSub_of (h34 : Stroth34Statement) (h51 : Stroth51Statement)
   have hQCN : Q ≤ hc.CN t := hc.Q_le_CN' ht
   have hCNR : hc.CN t ≤ Rt M (LB M Q B) t := fun x hx => (Ctx.mem_CN.mp hx).1
   have hCNH0 : hc.CN t ≤ H0 M Z := hCNR.trans (hc.Rt_le_H0 t)
-  haveI hN' : (Q.subgroupOf (H0 M Z)).Normal := normal_subgroupOf_of_le hQH hH0M
+  have hN' : (Q.subgroupOf (H0 M Z)).Normal := normal_subgroupOf_of_le hQH hH0M
   have hconf := sec8_tiConfig h34 h51 hA hZt hc hs hZ0 hMA hTI hF
   have hinj := embBar_injective hH0M hQH
   have hrange := embBar_range hH0M hQH

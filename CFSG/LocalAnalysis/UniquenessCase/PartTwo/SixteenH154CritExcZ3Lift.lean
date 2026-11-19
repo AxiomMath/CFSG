@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16h_card_mul_card_barSub_inf {V₀ V M E : Subgroup G} (hV : IsElemAbelian 2 V)
     (hEM : E ≤ M) (hM : M ≤ normalizer (V : Set G)) (hMs : M ≤ stabTil V₀ V)
     (Xbar : Subgroup (MulAut (Vtil V₀ V hV))) :
@@ -56,7 +57,7 @@ theorem s16h_exists_noncyclic_le_preBarSub {V₀ V M : Subgroup G} (hV : IsElemA
     (hPe : IsElemAbelian q Pbar) (hP : q ^ 2 ≤ Nat.card ↥Pbar) :
     ∃ R : Subgroup G, R ≤ preBarSub M V₀ V hV Pbar ∧ IsPGroup q R ∧ ¬ IsCyclic ↥R := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let Y : Subgroup G := preBarSub M V₀ V hV Pbar
   have hYstab : Y ≤ stabTil V₀ V := by
     intro g hg
@@ -100,12 +101,12 @@ theorem s16h_exists_noncyclic_le_preBarSub {V₀ V M : Subgroup G} (hV : IsElemA
   refine ⟨R, ?_, ?_, ?_⟩
   · show R ≤ Y
     exact Subgroup.map_subtype_le (S : Subgroup ↥Y)
-  · exact (S.isPGroup').map Y.subtype
+  · exact (S.isPGroup).map Y.subtype
   · intro hcyc
     have hcycS : IsCyclic ↥S :=
       ((Subgroup.equivMapOfInjective (S : Subgroup ↥Y) Y.subtype
         Y.subtype_injective).isCyclic).mpr hcyc
-    haveI : IsCyclic ↥S := hcycS
+    have : IsCyclic ↥S := hcycS
     exact s16c7_not_isCyclic_of_elemAbelian hq hPe hP (isCyclic_of_surjective πS hπS)
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

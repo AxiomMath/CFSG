@@ -164,7 +164,7 @@ theorem exists_sylow {P : Subgroup X} (hPL : P ≤ L) (hP : IsPGroup 2 P) :
       rw [relIndex_top_right, hQe]
       exact Q.not_dvd_index
     · exfalso
-      have hnil : Group.IsNilpotent (Q : Subgroup X) := Q.isPGroup'.isNilpotent
+      have hnil : Group.IsNilpotent (Q : Subgroup X) := Q.isPGroup.isNilpotent
       have hW : T₀.subgroupOf (Q : Subgroup X) < ⊤ := by
         refine lt_of_le_of_ne le_top fun hW => (ne_of_lt hlt) (le_antisymm hQ fun x hx => ?_)
         have : (⟨x, hx⟩ : (Q : Subgroup X)) ∈ T₀.subgroupOf (Q : Subgroup X) := hW ▸ mem_top _
@@ -186,7 +186,7 @@ theorem exists_sylow {P : Subgroup X} (hPL : P ≤ L) (hP : IsPGroup 2 P) :
           exact (mem_normalizer_iff.mp hyN ⟨x, hxQ⟩).mpr hx
       have hyL : (y : X) ∈ N := h.normalizer_le_of_conj_mem hT₀L
         (g := 1) (by rw [one_mul, inv_one, mul_one]; exact hzT₀) hyN'
-      have hy2 : IsPGroup 2 (zpowers (y : X)) := Q.isPGroup'.to_le (zpowers_le.mpr y.2)
+      have hy2 : IsPGroup 2 (zpowers (y : X)) := Q.isPGroup.to_le (zpowers_le.mpr y.2)
       have heq := hT₀N.eq_of_le le_sup_left (sup_le hT₀N.le (zpowers_le.mpr hyL))
         (IsPGroup.to_sup_of_normal_left' hT₀N.isPGroup hy2 (zpowers_le.mpr hyN'))
       have hyT₀ : (y : X) ∈ T₀ := by
@@ -232,7 +232,7 @@ theorem exists_realize {P : Subgroup X} (hPL : P ≤ L) (hP : IsPGroup 2 P) {g :
   obtain ⟨S', hP'S', hS'L, -⟩ := h.exists_sylow hPg (hP.map _)
   have hsyl : ∀ S'' : Sylow 2 X, (S'' : Subgroup X) ≤ L →
       IsSylowOf 2 (S'' : Subgroup X) (normalizer (L : Set X)) := fun S'' hS'' =>
-    (isSylowOf_iff.mpr ⟨le_top, S''.isPGroup', by
+    (isSylowOf_iff.mpr ⟨le_top, S''.isPGroup, by
       rw [relIndex_top_right]; exact S''.not_dvd_index⟩).of_le (hS''.trans le_normalizer) le_top
   obtain ⟨m, hmN, hm⟩ := (hsyl S hSL).exists_mem_conj (hsyl S' hS'L)
   have hPgm : P.map (MulAut.conj (g * m)⁻¹).toMonoidHom ≤ (S : Subgroup X) := by
@@ -280,10 +280,10 @@ theorem isSylowOf_centralizer {u : X} (hu : u ∈ L) (hu2 : orderOf u = 2) {T : 
     exact mem_sup_right (mem_zpowers u)
   obtain ⟨S, -, hSL, -⟩ := h.exists_sylow (zpowers_le.mpr hu) hu2'
   have hSX : IsSylowOf 2 (S : Subgroup X) ⊤ :=
-    isSylowOf_iff.mpr ⟨le_top, S.isPGroup', by rw [relIndex_top_right]; exact S.not_dvd_index⟩
+    isSylowOf_iff.mpr ⟨le_top, S.isPGroup, by rw [relIndex_top_right]; exact S.not_dvd_index⟩
   obtain ⟨B, hB, hPB⟩ : ∃ B : Subgroup X, IsSylowOf 2 B ⊤ ∧ P ≤ B := by
     obtain ⟨Q, hQ⟩ := hP.isPGroup.exists_le_sylow
-    exact ⟨Q, isSylowOf_iff.mpr ⟨le_top, Q.isPGroup', by
+    exact ⟨Q, isSylowOf_iff.mpr ⟨le_top, Q.isPGroup, by
       rw [relIndex_top_right]; exact Q.not_dvd_index⟩, hQ⟩
   obtain ⟨k, -, hk⟩ := hSX.exists_mem_conj hB
   have hPk : ∀ x ∈ P, k⁻¹ * x * k ∈ L := fun x hx => hSL ((hk x).mp (hPB hx))

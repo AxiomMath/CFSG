@@ -244,7 +244,7 @@ theorem A9_list (s t : P8) (Hl Ql El G2 : List P8) (hcyc : s.cycleType = {2, 2, 
         rw [hval] at hmem
         exact hmem
   have hfrat : frattini Q = Subgroup.center Q := by
-    haveI : Fact (IsPGroup 2 Q) := ⟨hP⟩
+    have : Fact (IsPGroup 2 Q) := ⟨hP⟩
     rw [CFSG.frattini_eq_closure_commutator_union_powers (p := 2), hcomm]
     apply le_antisymm
     · apply (Subgroup.closure_le _).2
@@ -369,7 +369,7 @@ theorem A9_good_of_tab (s t : P8) (HL QL EL GP : List P8) (HT QT ET : List (List
   ·
     intro a ha b hb
     obtain ⟨c, hc, heq⟩ := hQcomm _ ((hQmem a).1 ha) _ ((hQmem b).1 hb)
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hc
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hc
     rcases hc with rfl | rfl
     · exact Or.inl (A9_commutator_of_tab a b 1 (tab_inj (by simp only [tab_mul]; exact heq)))
     · exact Or.inr (A9_commutator_of_tab a b s (tab_inj (by simp only [tab_mul]; exact heq)))

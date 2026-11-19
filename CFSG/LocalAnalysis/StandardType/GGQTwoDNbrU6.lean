@@ -47,7 +47,7 @@ theorem qtwoDNbr_u6_toral {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
         LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ) :
     Nat.card ↥Bs ≤ 3 ^ 5 * Nat.card ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hconf : GGConfig 3 B Bs x L D J := hcfg.1.1
   obtain ⟨hp, hodd⟩ := ggRouteCfg_prime hcfg
   have hBsExp : ∀ b ∈ Bs, b ^ 3 = 1 := hconf.2.1.2.1.2
@@ -60,7 +60,7 @@ theorem qtwoDNbr_u6_toral {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
   have hηsurj := hD.eta_surjective hη
   have hηker := hD.eta_ker_le_center hη
   have hηcop := hD.eta_ker_coprime_four hη hmax
-  haveI : Group.IsPerfect ↥(NsQuot.img _ f X) := Group.IsPerfect.ofSurjective hD.fL_surjective
+  have : Group.IsPerfect ↥(NsQuot.img _ f X) := Group.IsPerfect.ofSurjective hD.fL_surjective
   obtain ⟨ψ, hψsurj, hψη⟩ := exists_cover_u2 hK (Or.inr rfl) η hηsurj inferInstance hηker hηcop
   let ee : Su K 2 1 6 ≃* ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
     MulEquiv.subgroupCongr (su_eq_largeEven hK)
@@ -116,8 +116,8 @@ theorem qtwoDNbr_u6_cover {Bs X : Subgroup G} {K : Type} [Field K] [Finite K] [C
     ∃ ψ : Su K 2 1 6 →* G, ψ.ker ≤ Subgroup.center (Su K 2 1 6) ∧ ψ.range = X ∧
       GGActsUnitarily (p := 2) (f := 1) ψ Bs := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hperfX : Group.IsPerfect ↥X := ⟨hperf⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hperfX : Group.IsPerfect ↥X := ⟨hperf⟩
   let η : ↥X →* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
     θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥X))
   have hηsurj : Function.Surjective η := θ.surjective.comp (QuotientGroup.mk'_surjective _)
@@ -177,11 +177,11 @@ theorem qtwoDNbr_u6 (hC : GGSecFiveNSCornerInput) {B Bs : Subgroup G} {x : G}
       ggRowP_ESU p lab ∧ lab.n = 1 ∧ lab.rank = 5) 3 Bs X) :
     QTwoDL1Chart 3 B Bs X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hconf : GGConfig 3 B Bs x L D J := hcfg.1.1
   obtain ⟨K, hKf, hKfin, lab, m', θ, hK, -, hmrank, hSide, -, hperf, -, hBsN, hbs⟩ :=
     ggNSLieN3A_esuCore hmark (fun p lab hl => hl.1)
-  haveI : CharP K 2 := charP_of_card_sq (p := 2) (f := lab.n) hK
+  have : CharP K 2 := charP_of_card_sq (p := 2) (f := lab.n) hK
   obtain ⟨tag, rank, n⟩ := lab
   obtain ⟨-, hn, hr5⟩ := hSide
   change n = 1 at hn

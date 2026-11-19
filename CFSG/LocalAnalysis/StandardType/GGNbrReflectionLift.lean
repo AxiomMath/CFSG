@@ -37,7 +37,7 @@ theorem isReflection_of_quotient {V Q : Type*} [Group V] [Group Q] [Finite V] {p
     (hr2 : r ^ 2 = 1) (hrf : Nat.card {q : Q // r q = q} * p = Nat.card Q) :
     c ^ 2 = 1 ∧ Nat.card {v : V // c v = v} * p = Nat.card V := by
   classical
-  haveI hQfin : Finite Q := Finite.of_surjective π hπ
+  have hQfin : Finite Q := Finite.of_surjective π hπ
   set u : MulAut V := c ^ 2 with hu_def
   have hu_apply : ∀ v, u v = c (c v) := by
     intro v
@@ -102,8 +102,8 @@ theorem isReflection_of_quotient {V Q : Type*} [Group V] [Group Q] [Finite V] {p
     calc π v1 * π v2 = π (v1 * v2) := (map_mul π v1 v2).symm
       _ = π (v2 * v1) := by rw [hVc v1 v2]
       _ = π v2 * π v1 := map_mul π v2 v1
-  letI : CommGroup V := { ‹Group V› with mul_comm := hVc }
-  letI : CommGroup Q := { ‹Group Q› with mul_comm := hQc }
+  let : CommGroup V := { ‹Group V› with mul_comm := hVc }
+  let : CommGroup Q := { ‹Group Q› with mul_comm := hQc }
   let ε : V →* V := (MonoidHom.id V) * (invMonoidHom.comp c.toMonoidHom)
   let εQ : Q →* Q := (MonoidHom.id Q) * (invMonoidHom.comp r.toMonoidHom)
   have hε : ∀ v : V, ε v = v * (c v)⁻¹ := by intro v; rfl
@@ -162,7 +162,7 @@ theorem isReflection_of_quotient {V Q : Type*} [Group V] [Group Q] [Finite V] {p
     Subgroup.card_ker_mul_card_range ε
   have hQcard : Nat.card εQ.ker * Nat.card εQ.range = Nat.card Q :=
     Subgroup.card_ker_mul_card_range εQ
-  haveI : Nonempty {q : Q // r q = q} := ⟨1, map_one r⟩
+  have : Nonempty {q : Q // r q = q} := ⟨1, map_one r⟩
   have hKQpos : 0 < Nat.card {q : Q // r q = q} := Nat.card_pos
   have hrangeQ : Nat.card εQ.range = p := by
     have h1 : Nat.card {q : Q // r q = q} * p

@@ -120,6 +120,7 @@ variable {G : Type*} [Group G] [Finite G] (K : Config G)
   hz := by rw [tElt_w, ← hc2, pow_two]
   hsT := hcT
 
+omit [Finite G] in
 theorem isConj_tElt_xyuv {q : Tc} (hq : q ∈ xyuvClass) :
     IsConj (tElt K q) (K.x * K.y * K.uv) := by
   obtain ⟨p, hp⟩ := tc_xyuvClass_conj q hq
@@ -127,6 +128,7 @@ theorem isConj_tElt_xyuv {q : Tc} (hq : q ∈ xyuvClass) :
   refine ⟨(tElt K p)⁻¹, ?_⟩
   rw [← tElt_xyuvC K, ← hp, inv_inv, tElt_mul, tElt_mul, tElt_tinv]
 
+omit [Finite G] in
 theorem isConj_xyuv_sq
     (hfusE : ∀ e ∈ Subgroup.closure {K.x ^ 2, K.y ^ 2, K.uv, K.t}, e ≠ 1 →
       IsConj e ((K.x * K.y) ^ 2))
@@ -137,6 +139,7 @@ theorem isConj_xyuv_sq
     exact tElt_ne_one K (by decide))
   exact ((isConj_tElt_xyuv K hq).symm.trans h.symm).trans huv
 
+omit [Finite G] in
 theorem isConj_of_conj {a b : G} (g : G) (h : g⁻¹ * a * g = b) : IsConj a b :=
   isConj_iff.2 ⟨g⁻¹, by rw [inv_inv, ← h]⟩
 
@@ -152,7 +155,7 @@ theorem arch76Lemma7_index_two [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b �
       (K.uv⁻¹ * c * K.uv = c * K.x * K.y⁻¹ ∧ K.t⁻¹ * c * K.t = c * K.x * K.y ^ 2 ∧
         K.u⁻¹ * c * K.u = c⁻¹)) :
     False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hconjuv : ∀ {v : G}, K.uv⁻¹ * c * K.uv = c * v → c⁻¹ * K.uv * c = v * K.uv := by
     intro v hv
     calc c⁻¹ * K.uv * c = c⁻¹ * (K.uv * c * K.uv⁻¹) * K.uv := by group
@@ -201,7 +204,7 @@ theorem arch76Lemma7_index_two [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b �
       have hcard : Nat.card (S : Subgroup G) = 2 ^ 9 := by rw [hSD]; exact D.card_Ssub
       rw [inf_of_le_left hTS, card_Tsub, hcard] at h
       omega
-    refine CFSG.EvenSporadicStandard.TwoHS.false_of_thompson_pow hnonab S.isPGroup'
+    refine CFSG.EvenSporadicStandard.TwoHS.false_of_thompson_pow hnonab S.isPGroup
       S.not_dvd_index hTS hidx hcS hcT ?_ ?_
     · intro g k hgk
       have hc4 : c ^ (2 * k) = K.w ^ k := by rw [pow_mul, hc2]

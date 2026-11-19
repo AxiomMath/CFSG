@@ -28,7 +28,7 @@ private lemma hdRo7CArithAux_sum_sq {n : ℕ} {V : Type} [AddCommGroup V] [Modul
         (fun i => b.coord i u ≠ 0)
       = Finset.univ.filter (fun i : Fin (n + 1) => i ≠ 0 ∧ b.coord i u ≠ 0) := by
     ext i
-    simp [Finset.mem_filter, and_assoc]
+    simp [Finset.mem_filter]
   rw [hstep, Finset.sum_boole, hfin]
 
 theorem c2_reflArith_holds : C2ReflArithLeaf := by

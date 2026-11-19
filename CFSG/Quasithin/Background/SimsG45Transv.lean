@@ -83,7 +83,7 @@ theorem exists_transv_form (B : LinearMap.BilinForm F V)
     have hgx : g x = x + a x • (u' : V) := by rw [ha x]; abel
     have hgy : g y = y + a y • (u' : V) := by rw [ha y]; abel
     rw [hgx, hgy] at h1
-    simp only [LinearMap.map_add₂, LinearMap.map_smul₂, map_add, map_smul, LinearMap.add_apply,
+    simp only [map_add, map_smul, LinearMap.add_apply,
       LinearMap.smul_apply, smul_eq_mul, halt (u' : V)] at h1
     rw [bilin_skew B halt (u' : V) y] at h1
     linear_combination h1
@@ -201,7 +201,7 @@ theorem totSingLine_sup (B : LinearMap.BilinForm F V) (halt : ∀ x, B x x = 0)
     obtain ⟨β, rfl⟩ := Submodule.mem_span_singleton.mp hx₂
     obtain ⟨γ, rfl⟩ := Submodule.mem_span_singleton.mp hy₁
     obtain ⟨δ, rfl⟩ := Submodule.mem_span_singleton.mp hy₂
-    simp only [LinearMap.map_add₂, LinearMap.map_smul₂, map_add, map_smul, LinearMap.add_apply,
+    simp only [map_add, map_smul, LinearMap.add_apply,
       LinearMap.smul_apply, smul_eq_mul, halt u, halt w, huw, hwu, mul_zero, add_zero]
 
 end CFSG.Quasithin.SimsG45

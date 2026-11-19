@@ -34,11 +34,11 @@ theorem eq_of_map_pCore_eq_top {G : Type} [Group G] [Finite G] {K : Subgroup G}
     (hperf : ⁅K, K⁆ = K) {N : Subgroup G} (hNK : N ≤ K)
     (hnorm : K ≤ Subgroup.normalizer (N : Set G))
     (hN : (N.subgroupOf K).map (QuotientGroup.mk' (CFSG.pCore 2 ↥K)) = ⊤) : N = K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hMnorm : (N.subgroupOf K).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hMnorm : (N.subgroupOf K).Normal :=
     normal_subgroupOf_of_le_normalizer_A04 hNK hnorm
   have hperf' : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 hperf
-  haveI := CFSG.pCore_isNilpotent (p := 2) (G := ↥K)
+  have := CFSG.pCore_isNilpotent (p := 2) (G := ↥K)
   have hsup : N.subgroupOf K ⊔ CFSG.pCore 2 ↥K = ⊤ := by
     have h := Subgroup.comap_map_eq (f := QuotientGroup.mk' (CFSG.pCore 2 ↥K))
       (N.subgroupOf K)
@@ -50,25 +50,25 @@ theorem eq_of_map_pCore_eq_top {G : Type} [Group G] [Finite G] {K : Subgroup G}
   exact le_antisymm hNK (Subgroup.subgroupOf_eq_top.1 htop)
 
 theorem normal_closure_top {G : Type} [Group G] [Finite G] (K : Subgroup G)
-    (hperf : ⁅K, K⁆ = K) (hqs : CFSG.Open.IsQuasisimple (Bar2 K)) (X : Subgroup G) (hXK : X ≤ K)
+    (hperf : ⁅K, K⁆ = K) (hqs : CFSG.Open.IsQuasisimple (Bar2 K)) (X : Subgroup G) (_hXK : X ≤ K)
     (hX : ¬ (X.subgroupOf K).map (QuotientGroup.mk' (CFSG.pCore 2 ↥K)) ≤
       Subgroup.center (Bar2 K)) :
     ∀ N : Subgroup G, N ≤ K → K ≤ Subgroup.normalizer (N : Set G) → X ≤ N → N = K := by
   intro N hNK hnorm hXN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥K) with hπ
   have hπker : π.ker = CFSG.pCore 2 ↥K := by
     rw [hπ]; exact QuotientGroup.ker_mk' (CFSG.pCore 2 ↥K)
   set ρ := QuotientGroup.mk' (Subgroup.center (Bar2 K)) with hρ
   have hρker : ρ.ker = Subgroup.center (Bar2 K) := by
     rw [hρ]; exact QuotientGroup.ker_mk' (Subgroup.center (Bar2 K))
-  haveI hMnorm : (N.subgroupOf K).Normal :=
+  have hMnorm : (N.subgroupOf K).Normal :=
     normal_subgroupOf_of_le_normalizer_A04 hNK hnorm
-  haveI hMbar_normal : ((N.subgroupOf K).map π).Normal :=
+  have hMbar_normal : ((N.subgroupOf K).map π).Normal :=
     hMnorm.map π (by rw [hπ]; exact QuotientGroup.mk'_surjective _)
-  haveI hQperf : Group.IsPerfect (Bar2 K) := ⟨hqs.1⟩
-  haveI hsimple : IsSimpleGroup (Bar2 K ⧸ Subgroup.center (Bar2 K)) := hqs.2
-  haveI hMbarRho_normal : (((N.subgroupOf K).map π).map ρ).Normal :=
+  have hQperf : Group.IsPerfect (Bar2 K) := ⟨hqs.1⟩
+  have hsimple : IsSimpleGroup (Bar2 K ⧸ Subgroup.center (Bar2 K)) := hqs.2
+  have hMbarRho_normal : (((N.subgroupOf K).map π).map ρ).Normal :=
     hMbar_normal.map ρ (by rw [hρ]; exact QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (((N.subgroupOf K).map π).map ρ) with hbot | htop
   · exfalso
@@ -94,7 +94,7 @@ theorem normal_closure_top_of_perfect {G : Type} [Group G] [Finite G] (K : Subgr
     ∀ N : Subgroup G, N ≤ K → K ≤ Subgroup.normalizer (N : Set G) → X ≤ N → N = K := by
   refine normal_closure_top K hperf hqs X hXK ?_
   intro hle
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥K) with hπ
   have hπker : π.ker = CFSG.pCore 2 ↥K := by
     rw [hπ]; exact QuotientGroup.ker_mk' (CFSG.pCore 2 ↥K)

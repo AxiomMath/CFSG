@@ -33,6 +33,7 @@ namespace Z4VBase
 
 variable {V' : Subgroup G} {v₁ v₂ : G}
 
+omit [Finite G] in
 theorem toCtx4ZV (h : Z4VBase t tau x₁ x₂ lam rho V' v₁ v₂)
     (hlast : ctxQ t tau x₁ x₂ rho ⊓ centralizer ({t * tau} : Set G) =
       closure {x₁ * v₁, x₂ * v₂}) : Ctx4ZV t tau x₁ x₂ lam rho V' v₁ v₂ :=
@@ -42,14 +43,16 @@ theorem toCtx4ZV (h : Z4VBase t tau x₁ x₂ lam rho V' v₁ v₂)
 variable (hV : Z4VBase t tau x₁ x₂ lam rho V' v₁ v₂)
 include hV
 
+omit [Finite G] in
 theorem sq_eq_one {a : G} (ha : a ∈ V') : a * a = 1 := by
   simpa [pow_two] using hV.elem.2 a ha
 
+omit [Finite G] in
 theorem V'_le_Y : V' ≤ ctxYq t tau x₁ x₂ rho := by
   rw [hV.Y_eq]; exact le_sup_right
 
-theorem V'_le_Q (hp : Z4Pre t L S x₁ x₂ lam rho tau) : V' ≤ ctxQ t tau x₁ x₂ rho :=
-  (hV.V'_le_Y).trans hp.Y_le_Q
+theorem V'_le_Q (_hp : Z4Pre t L S x₁ x₂ lam rho tau) : V' ≤ ctxQ t tau x₁ x₂ rho :=
+  (hV.V'_le_Y).trans CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q
 
 theorem mem_Q_decomp (hp : Z4Pre t L S x₁ x₂ lam rho tau) {a : G}
     (ha : a ∈ ctxQ t tau x₁ x₂ rho) : ∃ b ∈ baseGrp x₁ x₂, ∃ v ∈ V', a = b * v := by
@@ -61,7 +64,7 @@ theorem mem_Q_decomp (hp : Z4Pre t L S x₁ x₂ lam rho tau) {a : G}
   simpa using hb
 
 theorem comm_v₁ (hp : Z4Pre t L S x₁ x₂ lam rho tau) : z4Comm t v₁ = x₁ ^ 2 := by
-  have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hp.V_le_Y hp.y_mem_V
+  have hy : x₁ ^ 2 ∈ ctxYq t tau x₁ x₂ rho := hp.V_le_Y CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V
   have hc : v₁ * x₁ ^ 2 = x₁ ^ 2 * v₁ :=
     hp.Y_comm _ (hV.V'_le_Y hV.v₁_mem) _ hy
   unfold z4Comm

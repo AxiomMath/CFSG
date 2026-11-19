@@ -133,7 +133,7 @@ theorem exists_not_commute_reflection_of_connected {p : ℕ} [Fact p.Prime] (hp2
   have hjS : ∀ j, Module.reflection (hfv j) = Module.reflection (hfv i0) := by
     intro j
     have h : j ∈ S := by rw [hSuniv]; exact Set.mem_univ j
-    simpa only [S, Set.mem_setOf_eq] using h
+    simpa only [S, Set.mem_ofPred_eq] using h
   have hker : ∀ j, LinearMap.ker (f j) = LinearMap.ker (f i0) := by
     intro j
     exact ggReflKerEq_of_reflectionEq (hfv j) (hfv i0)

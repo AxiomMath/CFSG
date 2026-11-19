@@ -224,7 +224,7 @@ theorem bigRW_spForm_eq_zero_of_commute [Finite G] (hc : MinCex M V Q P H)
     (hNat : BigNatCfg V H hc.V_le_H Φ ψ) (ha : a ≠ 0) (hT : CaseM.IsTransGroup a T)
     (hTV : T.map Φ.toMonoidHom = Vy V H) {w : Fin n ⊕ Fin n → GaloisField 2 f}
     (hw : ∀ v ∈ V, v * ψG w = ψG w * v) : CaseM.spForm a w = 0 := by
-  obtain ⟨v, hvV, hvW⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+  obtain ⟨v, hvV, hvW⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   obtain ⟨μ, hμ, hact⟩ := bigRW_conj_act_eq_trans hc.V_le_H hNat hT hTV hvV hvW
   have h1 := hact 1 1 (by rw [map_one, map_one]) w
   simp only [OneMemClass.coe_one, one_mul, inv_one, mul_one, map_one, Matrix.one_mulVec] at h1
@@ -358,7 +358,7 @@ theorem bigRNontrivialStatement_of_local (hZ : Sec34CentreTrivialStatement)
   have hgx : Φ.symm (xToXbar hVH x₀) = g := by
     rw [hx₀]
     exact Φ.symm_apply_apply g
-  obtain ⟨v, hvV, hvW⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+  obtain ⟨v, hvV, hvW⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   obtain ⟨μ, hμ, hact⟩ := bigRW_conj_act_eq_trans hVH hNat hT hTV hvV hvW
   have hrX : (x₀ : G) * v * (x₀ : G)⁻¹ ∈ xOf V H :=
     (xOf V H).mul_mem ((xOf V H).mul_mem x₀.2 (hVX hvV)) ((xOf V H).inv_mem x₀.2)

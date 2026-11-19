@@ -35,7 +35,7 @@ theorem rank_le_of_hom {H K : Type} [Group H] [Finite H] [Group K] [Finite K] {p
     (hEt : ∀ x ∈ E, x * t = t * x) (hc : Nat.card ↥(E ⊓ φ.ker) ≤ p ^ c) :
     k - c ≤ GLATwoLocalRank p K := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set ψ : ↥E →* K := φ.comp E.subtype with hψ
   have hker : Nat.card ψ.ker ≤ p ^ c := by
     have h1 : ψ.ker.map E.subtype = E ⊓ φ.ker := by
@@ -55,7 +55,7 @@ theorem rank_le_of_hom {H K : Type} [Group H] [Finite H] [Group K] [Finite K] {p
   rw [hk] at hcard
   have hrange : ψ.range = E.map φ := by
     rw [hψ, MonoidHom.range_comp, Subgroup.range_subtype]
-  haveI : IsMulCommutative ↥E := hE.1
+  have : IsMulCommutative ↥E := hE.1
   have hE' : IsElemAbelian p ψ.range := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun z hz => ?_⟩
     · obtain ⟨x, hx⟩ := MonoidHom.mem_range.1 a.2
@@ -90,7 +90,7 @@ theorem rank_le_of_hom {H K : Type} [Group H] [Finite H] [Group K] [Finite K] {p
 theorem card_inf_le_of_cyclic {H : Type} [Group H] [Finite H] {p : ℕ} (hp : p.Prime)
     {N : Subgroup H} (hN : IsCyclic N) {E : Subgroup H} (hE : IsElemAbelian p E) :
     Nat.card ↥(E ⊓ N) ≤ p := by
-  haveI : IsCyclic ↥(E ⊓ N) :=
+  have : IsCyclic ↥(E ⊓ N) :=
     isCyclic_of_injective (Subgroup.inclusion (inf_le_right : E ⊓ N ≤ N))
       (Subgroup.inclusion_injective _)
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(E ⊓ N))
@@ -111,7 +111,7 @@ theorem rank_of_cover {H K : Type} [Group H] [Finite H] [Group K] [Finite K] {p 
       (Nat.card (Subgroup.center K) = p ^ (Nat.card N).factorization p →
         k ≤ GLATwoLocalRank p K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set α : H →* H ⧸ N := QuotientGroup.mk' N with hα
   have hαk : α.ker = N := QuotientGroup.ker_mk' N
   obtain ⟨φ, hφs, hφ⟩ := CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.exists_hom_of_cover

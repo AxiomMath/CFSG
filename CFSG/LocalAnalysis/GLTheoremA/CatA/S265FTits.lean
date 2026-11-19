@@ -102,7 +102,7 @@ theorem s265f_false_of_tits {p : ℕ} {S B T : Subgroup Ω} {x b : Ω} (cfg : QU
     subst htag
     subst hn
     simpa [MarkedModel, markTag, markRank, markChar, markDeg] using hM
-  haveI hSn : S.Normal := cfg.normal
+  have hSn : S.Normal := cfg.normal
   let eQ : PSimple 5 S ≃* (↥S ⧸ Subgroup.center ↥S) := qu_pSimpleEquiv cfg.core
   have hL' := CFSG.Blueprint.LieModel.of_mulEquiv eQ hL
   obtain ⟨-, hmodel⟩ := hL'.reeTitsModel (by simp [reeTitsTags])
@@ -154,12 +154,12 @@ theorem s265f_false_of_tits {p : ℕ} {S B T : Subgroup Ω} {x b : Ω} (cfg : QU
     simp only [MulAut.conjNormal_apply]
     calc ((e : ↥E) : Ω) * g * ((e : ↥E) : Ω)⁻¹ = g * ((e : ↥E) : Ω) * ((e : ↥E) : Ω)⁻¹ := by rw [h]
       _ = g := by group
-  haveI hsolY : Group.IsSolvable ↥Y := s265f_tits_core hmodel φ.range hĒ h25 Y hYfix
+  have hsolY : Group.IsSolvable ↥Y := s265f_tits_core hmodel φ.range hĒ h25 Y hYfix
   have hsolC : Group.IsSolvable ↥(S172X.csIn S E) :=
     S172X.isSolvable_of_map_le (QuotientGroup.mk' (Subgroup.center ↥S))
       (fun g hg => (QuotientGroup.eq_one_iff g).1 hg) (le_refl Y)
-  haveI : Group.IsSolvable ↥((S172X.csIn S E).map S.subtype) :=
-    solvable_of_surjective (f := (Subgroup.equivMapOfInjective (S172X.csIn S E) S.subtype
+  have : Group.IsSolvable ↥((S172X.csIn S E).map S.subtype) :=
+    Group.isSolvable_of_surjective (f := (Subgroup.equivMapOfInjective (S172X.csIn S E) S.subtype
       S.subtype_injective).toMonoidHom)
       (Subgroup.equivMapOfInjective (S172X.csIn S E) S.subtype S.subtype_injective).surjective
   rw [S172X.map_csIn_subtype S E] at this

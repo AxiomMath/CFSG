@@ -37,12 +37,12 @@ theorem b6s_exists_sq_mem (H : Subgroup G) :
 
 theorem b6s_exists_normalizing [Finite G] {P S : Subgroup G} (hP : IsPGroup 2 P) (hSP : S ≤ P)
     (hne : S ≠ P) : ∃ x ∈ P, x ∉ S ∧ ∀ y ∈ S, x * y * x⁻¹ ∈ S := by
-  haveI : Group.IsNilpotent ↥P := hP.isNilpotent
+  have : Group.IsNilpotent ↥P := hP.isNilpotent
   have hlt : S.subgroupOf P < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hne ?_
     exact le_antisymm hSP (Subgroup.subgroupOf_eq_top.mp h)
   have hN := Group.normalizerCondition_of_isNilpotent (S.subgroupOf P) hlt
-  obtain ⟨-, x, hx, hxn⟩ := SetLike.lt_iff_le_and_exists.mp hN
+  obtain ⟨-, x, hx, hxn⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hN
   refine ⟨x.1, x.2, fun h => hxn (Subgroup.mem_subgroupOf.mpr h), fun y hy => ?_⟩
   have := (Subgroup.mem_normalizer_iff.mp hx ⟨y, hSP hy⟩).mp (Subgroup.mem_subgroupOf.mpr hy)
   exact Subgroup.mem_subgroupOf.mp this
@@ -55,7 +55,7 @@ theorem b6s_unique_abelian [Finite G] {U S V : Subgroup G} (hUS : U ≤ S)
     (hcard : Nat.card V = Nat.card U) : V = U := by
   by_contra hne
   have hVU : ¬ V ≤ U := fun h => hne (Subgroup.eq_of_le_of_card_ge h hcard.ge)
-  obtain ⟨v, hvV, hvU⟩ := SetLike.not_le_iff_exists.mp hVU
+  obtain ⟨v, hvV, hvU⟩ := IsConcreteLE.not_le_iff_exists.mp hVU
   have hprod := b7b_card_sup_mul_card_inf (hVS.trans hSN)
   have hSU : Nat.card S ≤ 2 * Nat.card U := by
     have h := Subgroup.relIndex_mul_card U S

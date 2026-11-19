@@ -128,7 +128,7 @@ theorem quotAut_comm_of_overgroup96 [Finite A] (hY : Open.IsQuasisimple ↥Y)
     (hX2 : 2 ∣ Nat.card (↥Y ⧸ Subgroup.center ↥Y))
     (h96 : CFSG.HardMathSupport.Curtis.Proving.OvergroupOrder96 (↥Y ⧸ Subgroup.center ↥Y)) :
     ∀ a b : ↥B, quotAut hBY a * quotAut hBY b = quotAut hBY b * quotAut hBY a := by
-  haveI : IsSimpleGroup (↥Y ⧸ Subgroup.center ↥Y) := hY.2
+  have : IsSimpleGroup (↥Y ⧸ Subgroup.center ↥Y) := hY.2
   have hZ : Subgroup.center (↥Y ⧸ Subgroup.center ↥Y) = ⊥ := by
     obtain ⟨a, b, hab⟩ :=
       CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian ↥Y hY
@@ -171,7 +171,7 @@ theorem quotAut_comm_of_overgroup96 [Finite A] (hY : Open.IsQuasisimple ↥Y)
   obtain ⟨T, hT, hTP⟩ := exists_sylow_le_quotSub hpar
   have hNtop : N ≠ ⊤ := by
     intro hN
-    haveI hnorm : (quotSub Y P).Normal := Subgroup.normalizer_eq_top_iff.mp hN
+    have hnorm : (quotSub Y P).Normal := Subgroup.normalizer_eq_top_iff.mp hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (quotSub Y P) with h | h
     · apply hT.2.2
       have hTb : T = ⊥ := le_bot_iff.mp (h ▸ hTP)
@@ -194,10 +194,10 @@ theorem quotAut_comm_of_overgroup96 [Finite A] (hY : Open.IsQuasisimple ↥Y)
     norm_num at this
   have hDc : ∀ u v : ↥D, u * v = v * u := by
     interval_cases k
-    · haveI : Subsingleton ↥D := (Nat.card_eq_one_iff_unique.mp (by simpa using hk)).1
+    · have : Subsingleton ↥D := (Nat.card_eq_one_iff_unique.mp (by simpa using hk)).1
       exact fun u v => Subsingleton.elim _ _
-    · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-      haveI : IsCyclic ↥D := isCyclic_of_prime_card (by simpa using hk)
+    · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : IsCyclic ↥D := isCyclic_of_prime_card (by simpa using hk)
       exact fun u v => mul_comm' u v
   have hxD : ∀ b : ↥B, x b ∈ D := fun b => ⟨b, (hx b).symm⟩
   intro a b

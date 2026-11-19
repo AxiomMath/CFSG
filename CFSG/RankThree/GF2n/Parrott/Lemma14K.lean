@@ -101,6 +101,7 @@ theorem exists_mem_triple_conj_eq_and_sq (h : Tim79a.ParrottHyp z) {x : G} (_hxH
       | exact ⟨p * p', m3, key _ hpp'H (Or.inl ⟨hα, hβ⟩)⟩
       | exact ⟨p * p', m3, key _ hpp'H (Or.inr ⟨hα, hβ⟩)⟩
 
+omit [Finite G] in
 private theorem commutator_eq_z (h : Tim79a.ParrottHyp z) {a b : G} (ha : a ∈ J z)
     (hb : b ∈ J z) (hab : a * b ≠ b * a) : a * b * a⁻¹ * b⁻¹ = z := by
   have hc := commutator_mem_zpowers_z h ha hb
@@ -111,6 +112,7 @@ private theorem commutator_eq_z (h : Tim79a.ParrottHyp z) {a b : G} (ha : a ∈ 
         _ = b * a := by rw [h1, one_mul]) hab
   · exact h1
 
+omit [Finite G] in
 private theorem mul_inv_mem_centerIn_of_pi_eq {a b : J z}
     (hab : QuotientV.pi z a = QuotientV.pi z b) : (a : G) * (b : G)⁻¹ ∈ centerIn (J z) := by
   have hker : a * b⁻¹ ∈ (QuotientV.pi z).ker := by
@@ -163,6 +165,7 @@ private theorem exists_K_of_pauli (h : Tim79a.ParrottHyp z) {x i X Y : G} (hiJ :
   rintro _ ⟨k, hk, rfl⟩
   exact Subgroup.mem_subgroupOf.mp (hS hk)
 
+omit [Finite G] in
 private theorem mem_H_of_cosetJ {t : ↥(H z)} {x : G} (hx : cosetJ (z := z) t x) : x ∈ H z := by
   obtain ⟨j, hj, rfl⟩ := hx
   exact (H z).mul_mem t.2 (J_le_H hj)

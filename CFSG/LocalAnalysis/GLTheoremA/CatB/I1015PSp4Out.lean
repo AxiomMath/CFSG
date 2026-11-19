@@ -14,7 +14,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (inner Outer)
 
 theorem sp4eight_equiv {K : Type} [Group K] (h : catalogIs K S9.isSp4eight) :
     Nonempty (K ≃* StatedProj (StatedSp 2 (GaloisField 2 3))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨d, hv, hP, ⟨e⟩⟩ := exists_lieIndex h
   cases d with
   | B r q =>
@@ -23,7 +23,7 @@ theorem sp4eight_equiv {K : Type} [Group K] (h : catalogIs K S9.isSp4eight) :
     · exact hP.elim
     · have hq : q.card = 2 ^ 3 := hP
       obtain ⟨hp, hf⟩ := primePower_eq_of_card_eq Nat.prime_two (s := 3) (by norm_num) hq
-      haveI : Finite ↥(ValidLieTypeIndex.fixedField ⟨.B 2 q, hv⟩) :=
+      have : Finite ↥(ValidLieTypeIndex.fixedField ⟨.B 2 q, hv⟩) :=
         CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
       have hcardF : Nat.card ↥(ValidLieTypeIndex.fixedField ⟨.B 2 q, hv⟩) = 2 ^ 3 := by
         rw [ValidLieTypeIndex.card_fixedField, ValidLieTypeIndex.fieldOrder_eq_characteristic_pow,

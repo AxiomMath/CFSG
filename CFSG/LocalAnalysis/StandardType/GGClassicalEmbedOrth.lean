@@ -133,17 +133,17 @@ private theorem emo_omegaMinus_projEmbed {K : Type} [Field K] [Finite K] [CharP 
       (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) (LargeEvenInnSet _) := by
   refine emo_projEmbed (LargeEvenQMinus m b c) (m + m + 2) (emo_minusIdxEquiv m) ?_ ?_
   · exact TableBOrth.scalars_subgroupOf_omegaMinus_eq_bot b c
-  · haveI hperf : Group.IsPerfect (LargeEvenOmega (LargeEvenQMinus m b c)) := by
-      haveI : Group.IsPerfect
+  · have hperf : Group.IsPerfect (LargeEvenOmega (LargeEvenQMinus m b c)) := by
+      have : Group.IsPerfect
           (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus (m + 1) K b c)) :=
         CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadMinus (n := m + 1)
           (by omega) hirr
       exact Group.IsPerfect.ofSurjective
         (f := (LayerCyc.largeEvenOmegaMinusEquiv m K b c).symm.toMonoidHom)
         (LayerCyc.largeEvenOmegaMinusEquiv m K b c).symm.surjective
-    haveI hsimple : IsSimpleGroup
+    have hsimple : IsSimpleGroup
         (CFSG.Open.StatedProj (LargeEvenOmega (LargeEvenQMinus m b c))) := by
-      haveI : IsSimpleGroup
+      have : IsSimpleGroup
           (CFSG.Open.StatedProj (CFSG.Open.StatedOmega
             (CFSG.Open.StatedQuadMinus (m + 1) K b c))) :=
         CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadMinus
@@ -166,7 +166,7 @@ theorem ggClassicalProjEmbed_orth (lab : LargeEvenLabel) (hlab : LargeEvenInLamb
     intro K _ _ _ _
     have hdeg : ggClassDeg (⟨.D, l, n⟩ : LargeEvenLabel) = l + l := by
       dsimp only [ggClassDeg]
-      rw [if_neg hl3, two_mul]
+      rw [ite_eq_right hl3, two_mul]
     rw [hdeg]
     exact emo_omegaPlus_projEmbed (K := K) (m := l) (by omega)
   · dsimp only at htwD
@@ -181,7 +181,7 @@ theorem ggClassicalProjEmbed_orth (lab : LargeEvenLabel) (hlab : LargeEvenInLamb
     intro K _ _ _ _ b c hirr
     have hdeg : ggClassDeg (⟨.twD, l, n⟩ : LargeEvenLabel) = l + l := by
       dsimp only [ggClassDeg]
-      rw [if_neg hl2, if_neg hl3, two_mul]
+      rw [ite_eq_right hl2, ite_eq_right hl3, two_mul]
     have hm : (l - 1) + (l - 1) + 2 = l + l := by omega
     rw [hdeg, ← hm]
     exact emo_omegaMinus_projEmbed (K := K) (m := l - 1) (by omega) hirr

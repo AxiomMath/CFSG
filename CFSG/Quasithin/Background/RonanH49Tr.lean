@@ -161,7 +161,7 @@ theorem trZ_eq_prod_tr (X : WMod) (hX : Matrix.trace (Multiplicative.toAdd X) = 
   simp only [toAdd_mul, toAdd_pow, toAdd_eW_tr]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.single_apply, h22, ZMod.natCast_zmod_val]
+    simp [h22]
 
 theorem trZ_le_commOnR_tr : trZ ≤ commOnR ⊤ Cd := by
   intro X hX

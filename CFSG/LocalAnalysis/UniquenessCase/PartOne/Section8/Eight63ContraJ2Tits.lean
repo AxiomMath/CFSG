@@ -38,8 +38,8 @@ theorem factorization_five_card_of_isSpor_bar2_J2
     {G : Type} [Group G] [Finite G] {L : Subgroup G}
     (h : IsSpor (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L) .J2) :
     (Nat.card ↥L).factorization 5 = 2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let O : Subgroup ↥L := CFSG.pCore 2 ↥L
   have hπ : Function.Surjective (QuotientGroup.mk' O) := QuotientGroup.mk'_surjective O
   have hcardmul : Nat.card O * Nat.card (Bar2 L) = Nat.card ↥L := by
@@ -65,8 +65,8 @@ private theorem isElemAbelian_five_sylow_of_isSpor_bar2_J2
     (Q : Sylow 5 ↥L) :
     CFSG.Open.IsElemAbelian 5 (Q : Subgroup ↥L) ∧ Nat.card Q = 25 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let O : Subgroup ↥L := CFSG.pCore 2 ↥L
   let π : ↥L →* Bar2 L := QuotientGroup.mk' O
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective O
@@ -80,7 +80,7 @@ private theorem isElemAbelian_five_sylow_of_isSpor_bar2_J2
     exact CFSG.pCore_isPGroup
   have hQdisj : (Q : Subgroup ↥L) ⊓ π.ker = ⊥ :=
     disjoint_iff.mp (IsPGroup.disjoint_of_ne 5 2 (by norm_num)
-      (Q : Subgroup ↥L) π.ker Q.isPGroup' hO2)
+      (Q : Subgroup ↥L) π.ker Q.isPGroup hO2)
   have hinj : Function.Injective (π.subgroupMap (Q : Subgroup ↥L)) := by
     intro x y hxy
     have hxy' : π (x : ↥L) = π (y : ↥L) := by
@@ -110,7 +110,7 @@ private theorem isElemAbelian_five_sylow_of_isSpor_bar2_J2
     norm_num
   let PE : Sylow 5 (Bar2 L) := Sylow.ofCard E hE_sylow
   let PQ : Sylow 5 (Bar2 L) := Sylow.ofCard ((Q : Subgroup ↥L).map π) hQmap_sylow
-  haveI : Finite (Sylow 5 (Bar2 L)) :=
+  have : Finite (Sylow 5 (Bar2 L)) :=
     Finite.of_injective (fun S : Sylow 5 (Bar2 L) => (S : Set (Bar2 L)))
       (fun S T h' => Sylow.ext (by
         ext x
@@ -129,7 +129,7 @@ private theorem isElemAbelian_five_sylow_of_isSpor_bar2_J2
     rw [← hsub']
     exact CFSG.SectionRank.isElemAbelian_map hEel (MulAut.conj g).toMonoidHom
   have hQel : CFSG.Open.IsElemAbelian 5 (Q : Subgroup ↥L) := by
-    haveI : CFSG.IsElementaryAbelian 5 ↥(Q : Subgroup ↥L) :=
+    have : CFSG.IsElementaryAbelian 5 ↥(Q : Subgroup ↥L) :=
       CFSG.IsElementaryAbelian.of_mulEquiv e.symm hQmap_el.isElementaryAbelian
     exact CFSG.Open.isElemAbelian_of_isElementaryAbelian
   exact ⟨hQel, hQcard⟩
@@ -139,7 +139,7 @@ theorem not_five_dvd_card_outer_bar2_J2
     (h : IsSpor (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L) .J2) :
     ¬ 5 ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L)) := by
-  haveI : Finite (Bar2 L) :=
+  have : Finite (Bar2 L) :=
     Finite.of_surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥L))
       (QuotientGroup.mk'_surjective _)
   exact not_five_dvd_card_outer_of_isSpor_J2 h
@@ -150,7 +150,7 @@ theorem isElemAbelian_five_inf_sylow_of_isSpor_bar2_J2
     (hS : CFSG.ABGLocalTools.IsSylowOf 5 S M)
     (hJ2 : IsSpor (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L) .J2) :
     CFSG.Open.IsElemAbelian 5 (S ⊓ L) ∧ Nat.card ↥(S ⊓ L) = 25 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hMnormL : M ≤ Subgroup.normalizer (L : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).mp hLnorm
   have hA : CFSG.ABGLocalTools.IsSylowOf 5 (S ⊓ L) L :=
@@ -177,8 +177,8 @@ theorem false_of_isSpor_bar2_J2_of_bar
     (hΓ : CFSG.Open.rankThreeGamma 1 5 (S ⊓ L) ≤ M) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOut : ¬ 5 ∣ Nat.card
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer (Bar2 L)) :=
     not_five_dvd_card_outer_bar2_J2 hJ2
@@ -225,9 +225,9 @@ private theorem card_bar2_dvd_of_lieModel_bar2_tits
   obtain rfl : a = 0 := by omega
   obtain ⟨K, hKfield, hKfin, hKchar, hKcard, ⟨e⟩⟩ :=
     CFSG.EvenSmallLie.CatalogOrders.exists_mulEquiv_of_reeTitsRelationModel_F4 hmodel
-  letI := hKfield
-  letI := hKfin
-  haveI := hKchar
+  let := hKfield
+  let := hKfin
+  have := hKchar
   rw [pow_one] at hKcard
   rw [Nat.card_congr e.toEquiv]
   exact (Subgroup.card_quotient_dvd_card _).trans
@@ -261,8 +261,8 @@ theorem factorization_five_card_of_lieModel_bar2_tits
     {G : Type} [Group G] [Finite G] {L : Subgroup G}
     (h : CFSG.Blueprint.LieModel (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L) .Tits 0 2 1) :
     (Nat.card ↥L).factorization 5 = 2 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let O : Subgroup ↥L := CFSG.pCore 2 ↥L
   have hπ : Function.Surjective (QuotientGroup.mk' O) := QuotientGroup.mk'_surjective O
   have hcardmul : Nat.card O * Nat.card (Bar2 L) = Nat.card ↥L := by
@@ -289,8 +289,8 @@ private theorem isElemAbelian_five_sylow_of_lieModel_bar2_tits
     (Q : Sylow 5 ↥L) :
     CFSG.Open.IsElemAbelian 5 (Q : Subgroup ↥L) ∧ Nat.card Q = 25 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let O : Subgroup ↥L := CFSG.pCore 2 ↥L
   let π : ↥L →* Bar2 L := QuotientGroup.mk' O
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective O
@@ -304,7 +304,7 @@ private theorem isElemAbelian_five_sylow_of_lieModel_bar2_tits
     exact CFSG.pCore_isPGroup
   have hQdisj : (Q : Subgroup ↥L) ⊓ π.ker = ⊥ :=
     disjoint_iff.mp (IsPGroup.disjoint_of_ne 5 2 (by norm_num)
-      (Q : Subgroup ↥L) π.ker Q.isPGroup' hO2)
+      (Q : Subgroup ↥L) π.ker Q.isPGroup hO2)
   have hinj : Function.Injective (π.subgroupMap (Q : Subgroup ↥L)) := by
     intro x y hxy
     have hxy' : π (x : ↥L) = π (y : ↥L) := by
@@ -334,7 +334,7 @@ private theorem isElemAbelian_five_sylow_of_lieModel_bar2_tits
     norm_num
   let PE : Sylow 5 (Bar2 L) := Sylow.ofCard E hE_sylow
   let PQ : Sylow 5 (Bar2 L) := Sylow.ofCard ((Q : Subgroup ↥L).map π) hQmap_sylow
-  haveI : Finite (Sylow 5 (Bar2 L)) :=
+  have : Finite (Sylow 5 (Bar2 L)) :=
     Finite.of_injective (fun S : Sylow 5 (Bar2 L) => (S : Set (Bar2 L)))
       (fun S T h' => Sylow.ext (by
         ext x
@@ -353,7 +353,7 @@ private theorem isElemAbelian_five_sylow_of_lieModel_bar2_tits
     rw [← hsub']
     exact CFSG.SectionRank.isElemAbelian_map hEel (MulAut.conj g).toMonoidHom
   have hQel : CFSG.Open.IsElemAbelian 5 (Q : Subgroup ↥L) := by
-    haveI : CFSG.IsElementaryAbelian 5 ↥(Q : Subgroup ↥L) :=
+    have : CFSG.IsElementaryAbelian 5 ↥(Q : Subgroup ↥L) :=
       CFSG.IsElementaryAbelian.of_mulEquiv e.symm hQmap_el.isElementaryAbelian
     exact CFSG.Open.isElemAbelian_of_isElementaryAbelian
   exact ⟨hQel, hQcard⟩
@@ -363,7 +363,7 @@ theorem not_five_dvd_card_outer_bar2_tits
     (h : CFSG.Blueprint.LieModel (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L) .Tits 0 2 1) :
     ¬ 5 ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L)) := by
-  haveI : Finite (Bar2 L) :=
+  have : Finite (Bar2 L) :=
     Finite.of_surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥L))
       (QuotientGroup.mk'_surjective _)
   exact not_five_dvd_card_outer_of_lieModel_tits h
@@ -374,7 +374,7 @@ theorem isElemAbelian_five_inf_sylow_of_lieModel_bar2_tits
     (hS : CFSG.ABGLocalTools.IsSylowOf 5 S M)
     (hT : CFSG.Blueprint.LieModel (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L) .Tits 0 2 1) :
     CFSG.Open.IsElemAbelian 5 (S ⊓ L) ∧ Nat.card ↥(S ⊓ L) = 25 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hMnormL : M ≤ Subgroup.normalizer (L : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).mp hLnorm
   have hA : CFSG.ABGLocalTools.IsSylowOf 5 (S ⊓ L) L :=
@@ -401,8 +401,8 @@ theorem false_of_lieModel_bar2_tits_of_bar
     (hΓ : CFSG.Open.rankThreeGamma 1 5 (S ⊓ L) ≤ M) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOut : ¬ 5 ∣ Nat.card
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer (Bar2 L)) :=
     not_five_dvd_card_outer_bar2_tits hT

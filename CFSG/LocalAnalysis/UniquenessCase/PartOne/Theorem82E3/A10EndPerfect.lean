@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G] {D : Data G}
 
 namespace A10Gen
 
+omit [Finite G] in
 private theorem derivedSeries_map_subtype_le_sup {H X N : Subgroup G}
     (hXH : X ≤ H) (hHN : H ≤ Subgroup.normalizer (N : Set G))
     (hH : H ≤ X ⊔ N) (n : ℕ) :
@@ -42,6 +43,7 @@ private theorem derivedSeries_map_subtype_le_sup {H X N : Subgroup G}
             (derivedSeries ↥X n).map X.subtype⁆ ⊔ N :=
           CFSG.Quasithin.H13.commutator_sup_sup_le hXn
 
+omit [Finite G] in
 private theorem derivedSeries_le_ker_of_derivedSeries_range_eq_bot {T : Type} [Group T]
     {X : Subgroup G} (f : ↥X →* T) {k : ℕ} (hk : derivedSeries ↥f.range k = ⊥) :
     derivedSeries ↥X k ≤ f.ker := by
@@ -104,7 +106,7 @@ private theorem derivedSeries_map_subtype_le_relPPrimeCore {q : ℕ} (hq : q.Pri
   exact le_sSup ⟨Subgroup.map_subtype_le _, hWnormal, hWcop⟩
 
 theorem le_relPPrimeCore_of_perfect {q : ℕ} (hq : q.Prime) {T : Type} [Group T]
-    {H X K : Subgroup G} (f : ↥X →* T) (hf : IsSolvable f.range)
+    {H X K : Subgroup G} (f : ↥X →* T) (hf : Group.IsSolvable f.range)
     (hker : Nat.Coprime (Nat.card f.ker) q) (hXH : X ≤ H)
     (hH : H ≤ X ⊔ CFSG.Open.relPPrimeCore q H) (hKH : K ≤ H) (hK : ⁅K, K⁆ = K) :
     K ≤ CFSG.Open.relPPrimeCore q H := by
@@ -180,7 +182,7 @@ private theorem isSolvable_range_of_le_centralizer {p : Equiv.Perm (Fin 10)} (hp
     (hle : f.range ≤ Subgroup.centralizer ({p} : Set (Equiv.Perm (Fin 10)))) :
     Group.IsSolvable ↥f.range := by
   classical
-  haveI : Finite ↥f.range :=
+  have : Finite ↥f.range :=
     Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
   have hcard := card_centralizer_of_pow_three_support hp3 hsupp
   have hdvd : Nat.card ↥f.range ∣

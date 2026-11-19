@@ -13,7 +13,7 @@ theorem kgRawFieldCyclic_omegaPlus {K : Type} [Field K] [Finite K] [CharP K 2] {
     (hm : 1 ≤ m) (hK : Nat.card K = 2 ^ f) :
     KGRawFieldCyclic (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) (LargeEvenInnSet _)
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenOmega (LargeEvenQPlus K m)))) := by
-  haveI : IsCyclic (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) :=
     (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_two K hK).2
   let e := RecipeFieldOmega.plusEquiv (K := K) (m := m) hm
   let Ψ : (K ≃+* K) →* MulAut (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) :=
@@ -27,7 +27,7 @@ theorem kgRawFieldCyclic_omegaPlus {K : Type} [Field K] [Finite K] [CharP K 2] {
     show (MulAut.congr e).symm (AutOm.fieldAutP m σ) = g
     rw [← hσ]
     exact (MulAut.congr e).symm_apply_apply g
-  haveI : IsCyclic ↥Ψ.range := isCyclic_of_surjective Ψ.rangeRestrict Ψ.rangeRestrict_surjective
+  have : IsCyclic ↥Ψ.range := isCyclic_of_surjective Ψ.rangeRestrict Ψ.rangeRestrict_surjective
   exact Subgroup.isCyclic_of_le hle
 
 theorem kgRawFieldCyclicOn_omegaPlus :

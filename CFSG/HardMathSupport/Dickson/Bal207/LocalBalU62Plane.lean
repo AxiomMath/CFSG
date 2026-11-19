@@ -23,7 +23,7 @@ theorem planeVec_mul (i j n : Fin 6) (α β α' β' : Kˣ) :
     planeVec i j n (α * α') (β * β') = planeVec i j n α β * planeVec i j n α' β' := by
   unfold planeVec
   simp only [mul_inv, Pi.mulSingle_mul]
-  simp only [mul_assoc, mul_comm, mul_left_comm]
+  simp only [mul_comm, mul_left_comm]
 
 theorem planeVec_one (i j n : Fin 6) : planeVec i j n (1 : Kˣ) 1 = 1 := by
   unfold planeVec
@@ -92,7 +92,7 @@ theorem planeHom_injective {i j n : Fin 6} (hij : i ≠ j) (hin : i ≠ n) (hjn 
 
 theorem card_plane {i j n : Fin 6} (hij : i ≠ j) (hin : i ≠ n) (hjn : j ≠ n) :
     Nat.card (plane h i j n) = 3 ^ 2 := by
-  haveI := h.finite
+  have := h.finite
   have e := Nat.card_congr (MonoidHom.ofInjective (planeHom_injective h hij hin hjn)).toEquiv
   rw [plane, ← e, Nat.card_prod, u62lb_card_units h]
   norm_num
@@ -123,8 +123,8 @@ theorem diagP_comm (μ ν : Fin 6 → Kˣ) (hμ : ∏ i, μ i = 1) (hν : ∏ i,
   exact mul_comm μ ν
 
 theorem u62lb_finite : Finite (primeFormP h (idGram K 6)) := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin 6) K) :=
+  have := h.finite
+  have : Finite (GL (Fin 6) K) :=
     Finite.of_injective (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K))
       Units.val_injective
   infer_instance

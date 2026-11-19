@@ -59,7 +59,7 @@ theorem w135c2_psu_natural {W : Type} [CommGroup W] [Module (ZMod 2) (Additive W
       β (pslRep φ g w) = ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ β w) :
     IsSUn ↥L n f ∧ NatSUn L ⊤ ⊥ n f := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker : φ.ker = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]
     intro z hz

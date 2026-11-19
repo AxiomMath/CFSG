@@ -15,7 +15,7 @@ theorem card_coxeterB_ge (n : ℕ) (hn : 2 ≤ n) :
   have hr : 1 ≤ r := by omega
   rw [← coxeterMatrix_cartanC_eq_B (r + 1)]
   let W := (coxeterMatrix (isFiniteType_cartanC (r + 1))).Group
-  haveI hfinite : Finite W := by
+  have hfinite : Finite W := by
     classical
     let sgn : (Fin (r + 1) → ℤ) → (Fin (r + 1) → Bool) := fun s a => decide (s a = 1)
     have key : ∀ w : W, ∃ q : Equiv.Perm (Fin (r + 1)) × (Fin (r + 1) → ℤ),
@@ -105,11 +105,11 @@ theorem card_coxeterB_ge (n : ℕ) (hn : 2 ≤ n) :
     · by_cases h2' : a ∈ q'.2
       · simp [h2, h2']
       · exfalso
-        rw [if_pos h2, if_neg h2'] at ha
+        rw [ite_eq_left h2, ite_eq_right h2'] at ha
         norm_num at ha
     · by_cases h2' : a ∈ q'.2
       · exfalso
-        rw [if_neg h2, if_pos h2'] at ha
+        rw [ite_eq_right h2, ite_eq_left h2'] at ha
         norm_num at ha
       · simp [h2, h2']
   have hcard : Nat.card (Equiv.Perm (Fin (r + 1)) × Finset (Fin (r + 1))) =

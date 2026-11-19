@@ -71,7 +71,7 @@ theorem actionFixed_top_eq_bot {A : Type*} [CommGroup A] [Finite A] {n : ℕ} (h
       exact hc
     · intro hx
       exact ⟨x, hx, hx j (Subgroup.mem_top j)⟩
-  haveI : C.Normal := Subgroup.normal_of_comm C
+  have : C.Normal := normal_of_isMulCommutative C
   set ρb := CFSG.SL2MinimalFaithful.quotientAction ρ C hmap with hρbdef
   by_cases hρb : ρb = 1
   · apply hρ
@@ -94,7 +94,7 @@ theorem actionFixed_top_eq_bot {A : Type*} [CommGroup A] [Finite A] {n : ℕ} (h
     rw [MonoidHom.one_apply, MulAut.one_apply]
     exact (inv_mul_eq_one.1 this).symm
   · have hV : IsPGroup 2 (A ⧸ C) := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hA2 : IsPGroup 2 A := IsPGroup.of_card (n := 2 * n) (by rw [hA, ← pow_mul, mul_comm])
       exact hA2.to_quotient C
     have h1 := sl2_card_sq_le_of_ne_one (MulEquiv.refl SL(2, k)) hk hn ρb hV hρb
@@ -228,6 +228,7 @@ variable {Γ : Type*} [Group Γ] [Finite Γ]
 
 open CFSG.Open
 
+omit [Finite Γ] in
 theorem exists_conjAction {E V : Subgroup Γ} (hEV : E ≤ normalizer (V : Set Γ)) {k : Type*}
     [Field k] (φ : ↥E →* SL(2, k)) (hs : Function.Surjective φ) (hker : φ.ker = V.subgroupOf E)
     (hcomm : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x) :
@@ -253,7 +254,7 @@ theorem exists_conjAction {E V : Subgroup Γ} (hEV : E ≤ normalizer (V : Set �
   exact hc x e
 
 theorem involution_mem_of_natural_normalized {k : Type*} [Field k] [Finite k] [CharP k 2]
-    {m : ℕ} (hk : Nat.card k = 2 ^ m) (hm : 2 ≤ m) {E V P D : Subgroup Γ} (hVE : V ≤ E)
+    {m : ℕ} (hk : Nat.card k = 2 ^ m) (hm : 2 ≤ m) {E V P D : Subgroup Γ} (_hVE : V ≤ E)
     (hEV : E ≤ normalizer (V : Set Γ)) (hV : IsElemAbelian 2 V)
     (hVc : Nat.card V = (2 ^ m) ^ 2) (φ : E →* SL(2, k)) (hφ : Function.Surjective φ)
     (hker : φ.ker = V.subgroupOf E) (hPE : P ≤ E)
@@ -271,7 +272,7 @@ theorem involution_mem_of_natural_normalized {k : Type*} [Field k] [Finite k] [C
     congrArg Subtype.val (hDcomm.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hVsq : ∀ v ∈ V, v * v = 1 := fun v hv => by rw [← sq]; exact hV2 v hv
   have hDsq : ∀ v ∈ D, v * v = 1 := fun v hv => by rw [← sq]; exact hD2 v hv
-  letI : CommGroup ↥V :=
+  let : CommGroup ↥V :=
     { (inferInstance : Group ↥V) with mul_comm := fun a b => Subtype.ext (hVc' a a.2 b b.2) }
   obtain ⟨ρ, hρ⟩ := exists_conjAction hEV φ hφ hker hVc'
   set U := upperUnipotent k with hU
@@ -435,7 +436,7 @@ theorem involution_mem_of_natural {k : Type*} [Field k] [Finite k] [CharP k 2] {
     (hnc : ¬ E ≤ centralizer (V : Set Γ)) (hD : IsElemAbelian 2 D)
     (hDc : Nat.card D = (2 ^ m) ^ 2) (hDP : D ≤ P) (hDV : D ≠ V) :
     ∀ x ∈ P, x * x = 1 → x ∈ V ∨ x ∈ D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hP.exists_sylow_eq_subgroupOf
   have hPE : P ≤ E := hP.le
   have hcardQ : Nat.card ((P.subgroupOf E).map φ) = Nat.card k := by
@@ -487,7 +488,7 @@ theorem isElemAbelian_bar {A M : Subgroup G} (h : ElemModulo A M) :
 theorem bar_isSylowOf [Finite G] {A R K : Subgroup G} (hAR : A ≤ R)
     (hK : K ≤ normalizer (A : Set G)) (hRK : IsSylowOf 2 R K) :
     IsSylowOf 2 (bar A R) (bar A K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hle, hp, hdvd⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hRK
   refine CFSG.ABGLocalTools.isSylowOf_iff.2
     ⟨NormalizerQuotient.bar_mono hle, NormalizerQuotient.isPGroup_bar hp, ?_⟩
@@ -695,7 +696,7 @@ theorem field_involution_mem_yamadaM₆_or_yamadaD₇ (hW : CFSG.Walter.WalterOr
   obtain ⟨k₂, _, _, hcard, ψ, -, -⟩ := hF
   have hk₂ : Nat.card k₂ = 2 ^ (2 * f) := by
     rw [Nat.card_eq_fintype_card, hcard, ← pow_mul, mul_comm]
-  haveI : CharP k₂ 2 :=
+  have : CharP k₂ 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hk₂
   obtain ⟨π, hπ, hπk⟩ := FieldNaturalAux.exists_pi (CU := yamadaK₂ d) hN₂M₆

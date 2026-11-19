@@ -13,7 +13,7 @@ namespace CFSG.Monster.Existence
 
 open CFSG.Monster CFSG.Monster.AxisCount CFSG.Monster.Griess
 
-@[expose] noncomputable def gammaZero : MGriess := fiMkW s4WGamma
+noncomputable def gammaZero : MGriess := fiMkW s4WGamma
 
 theorem fiE_eight_mul_gammaZero_eq : fiE 8 * gammaZero = fiMkW s4WE8Gamma :=
   (fiMkW_append s4WGamma fiWU[8]!).symm

@@ -153,7 +153,7 @@ theorem mem_diagImage_of_commute_pTorsion_coprime
       simpa only [Subgroup.coe_mul, Units.val_mul] using this
     have h1 := congrFun (congrFun hmat k) i
     rw [hDm, mul_diagonal, diagonal_mul, TypeA.ggPairVec_apply, TypeA.ggPairVec_apply,
-      if_pos rfl, if_neg (Ne.symm hki), if_neg hki, if_pos rfl, mul_one, one_mul] at h1
+      ite_eq_left rfl, ite_eq_right (Ne.symm hki), ite_eq_right hki, ite_eq_left rfl, mul_one, one_mul] at h1
     by_contra h0
     exact hζinv (mul_left_cancel₀ h0 (by rw [h1, mul_comm]))
   refine ⟨s, ⟨fun i => ((s : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) i i, ?_⟩, hs⟩

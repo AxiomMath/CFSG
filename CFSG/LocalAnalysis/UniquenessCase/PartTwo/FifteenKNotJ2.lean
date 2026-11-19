@@ -25,8 +25,8 @@ private theorem s15k_notj2_card_lieModel_five {X : Type} [Group X] (h : IsLn X 5
     Nat.card X = 9999360 := by
   obtain ⟨-, K, instK, instFin, hKcard, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
-  letI : Field K := instK
-  letI : Finite K := instFin
+  let : Field K := instK
+  let : Finite K := instFin
   have hK2 : Nat.card K = 2 := by simpa using hKcard
   calc Nat.card X
       = Nat.card (StatedProj (StatedSL 5 K)) := Nat.card_congr e.toEquiv

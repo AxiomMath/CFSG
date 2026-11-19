@@ -57,7 +57,7 @@ theorem k14_5SmallFor_sl3 :
   have hirr' := hirr
   obtain ⟨hlt, -, -, hJ⟩ := hirr'
   have : Nontrivial I := by
-    obtain ⟨v, -, hv⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨v, -, hv⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     exact ⟨⟨v, 1, fun h => hv (h ▸ Subgroup.one_mem _)⟩⟩
   have : Nontrivial W := by
     obtain ⟨v, hv⟩ := exists_ne (1 : I)

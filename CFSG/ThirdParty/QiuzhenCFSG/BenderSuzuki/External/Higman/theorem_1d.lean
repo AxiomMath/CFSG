@@ -39,25 +39,25 @@ public theorem theorem1_order_center_cube_two_summands
       Nat.card V = Nat.card (Subgroup.center P) ∧
       U ⊓ V = ⊥ ∧ U ⊔ V = ⊤ := by
   classical
-  letI : Finite P := finite_of_isSuzukiTwoGroup hP
-  letI : FaithfulSMul K P := hKfaithful
+  let : Finite P := finite_of_isSuzukiTwoGroup hP
+  let : FaithfulSMul K P := hKfaithful
   have htoMulAut_injective :
       Function.Injective (MulDistribMulAction.toMulAut K P) := by
     intro x y hxy
     apply FaithfulSMul.eq_of_smul_eq_smul (α := P)
     intro p
     exact congrArg (fun f : MulAut P => f p) hxy
-  letI : Finite K := Finite.of_injective
+  let : Finite K := Finite.of_injective
     (MulDistribMulAction.toMulAut K P) htoMulAut_injective
-  letI : Fintype K := Fintype.ofFinite K
-  letI : MulAction.QuotientAction K (Subgroup.center P) :=
+  let : Fintype K := Fintype.ofFinite K
+  let : MulAction.QuotientAction K (Subgroup.center P) :=
     quotientAction_of_isInvariant (Subgroup.center P)
       ⟨isXInvariantSubgroup_center K P⟩
   let hquotient_action :
       MulDistribMulAction K (P ⧸ Subgroup.center P) :=
     quotientMulDistribMulAction (Subgroup.center P)
       ⟨isXInvariantSubgroup_center K P⟩
-  letI : MulDistribMulAction K (P ⧸ Subgroup.center P) :=
+  let : MulDistribMulAction K (P ⧸ Subgroup.center P) :=
     hquotient_action
   have hquotient_action_compatible :
       ∀ k : K, ∀ p : P,
@@ -156,7 +156,7 @@ public theorem theorem1_order_center_cube_two_summands
         _ = (2 ^ n) ^ 2 := hfactor0_card
         _ = (2 ^ n) * (2 ^ n) := by ring
     exact Nat.mul_left_cancel (by positivity : 0 < 2 ^ n) hmul
-  letI : B.Normal := by
+  let : B.Normal := by
     rw [← hq0_ker]
     infer_instance
   let eB : P ⧸ B ≃* LowerCentralFactor P 0 :=

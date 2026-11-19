@@ -192,7 +192,7 @@ theorem eq_zero_of_forall_smul_eq [CharP K 2] [Finite M] [Nontrivial V] [FiniteD
       rintro _ ⟨⟨x, rfl⟩, hxC⟩
       rw [hCι x hxC, map_zero]
       exact zero_mem _
-  haveI : Finite (AddSubgroup M) :=
+  have : Finite (AddSubgroup M) :=
     Finite.of_injective (fun A : AddSubgroup M => (A : Set M)) SetLike.coe_injective
   obtain ⟨A', ⟨hA'ι, hA'inv, hA'C⟩, hmax⟩ := Set.Finite.exists_maximal (Set.toFinite S)
     ⟨ι.range, hrangeS⟩
@@ -303,7 +303,7 @@ theorem stroth_2_2 [CharP K 2] [Finite K] [Finite M] [FiniteDimensional K V]
     (hind : ∀ A A' : AddSubgroup M, (∀ g : bilinIsometryGroup B, ∀ a ∈ A, g • a ∈ A) →
       (∀ g : bilinIsometryGroup B, ∀ a ∈ A', g • a ∈ A') → IsCompl A A' → A = ⊥ ∨ A' = ⊥) :
     Nat.card M ≤ Nat.card K * Nat.card V := by
-  haveI : Nontrivial V := Module.finrank_pos_iff.mp (show 0 < finrank K V by omega)
+  have : Nontrivial V := Module.finrank_pos_iff.mp (show 0 < finrank K V by omega)
   exact card_le_of_indecomposable hB hBn hq h2 ι hι hιeq htriv hind
 
 end Natural

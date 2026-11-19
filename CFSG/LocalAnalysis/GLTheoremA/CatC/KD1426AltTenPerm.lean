@@ -13,7 +13,7 @@ theorem orbit_bound_A10 {P : Subgroup (Perm (Fin 10))} (hP : CFSG.Open.IsElemAbe
     Nat.card P ≤ 27 ∧ (27 ≤ Nat.card P → ∃ a ∈ P, (a.support).card = 3) := by
   constructor
   · by_contra h
-    push_neg at h
+    push Not at h
     have := (orbit_pCycles (n := 10) Nat.prime_three (le_refl 3) P hP (by norm_num; omega)).1
     norm_num at this
     omega
@@ -28,7 +28,7 @@ theorem orbit_bound_A10 {P : Subgroup (Perm (Fin 10))} (hP : CFSG.Open.IsElemAbe
       simpa using this
     rw [hsupp, hA]
 
-theorem cyc_apply_other {p q r t : Fin 10} (hpq : p ≠ q) (hqr : q ≠ r) (hpr : p ≠ r)
+theorem cyc_apply_other {p q r t : Fin 10} (_hpq : p ≠ q) (_hqr : q ≠ r) (_hpr : p ≠ r)
     (ht1 : t ≠ p) (ht2 : t ≠ q) (ht3 : t ≠ r) : (swap p q * swap q r) t = t := by
   simp [Perm.mul_apply, swap_apply_of_ne_of_ne ht2 ht3, swap_apply_of_ne_of_ne ht1 ht2]
 
@@ -81,7 +81,7 @@ theorem fix_comm_pow {σ x : Perm (Fin 10)} (h3 : σ ^ 3 = 1) (hc : (σ.support)
       · exact hne h
       · exact hqu h.symm
       · exact hru h.symm
-    · push_neg at hout
+    · push Not at hout
       apply hcxp
       exact cyc_apply_other hpq hqr hpr hpu.symm hout.2.1 hout.2.2
   have hstab : ∀ t ∈ σ.support, x t ∈ σ.support := by

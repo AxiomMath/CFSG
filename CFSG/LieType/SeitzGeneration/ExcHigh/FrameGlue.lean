@@ -81,7 +81,7 @@ theorem not_le_normalizer_of_isQuasisimple {G : Type*} [Group G] [Finite G] {P X
     refine Subgroup.mem_inf.2 ⟨?_, ?_⟩
     · exact P.mul_mem (P.mul_mem g.2 (Subgroup.mem_inf.1 hn').1) (P.inv_mem g.2)
     · exact ((Subgroup.mem_normalizer_iff.1 (hPN g.2)) (n : G)).1 (Subgroup.mem_inf.1 hn').2
-  haveI := hnorm
+  have := hnorm
   rcases normal_central_or_top_of_isQuasisimple hQ ((P ⊓ X).subgroupOf P) with hc | ht
   · have hsolvPX : Group.IsSolvable ↥(P ⊓ X) := by
       refine Group.isSolvable_of_comm ?_
@@ -93,7 +93,7 @@ theorem not_le_normalizer_of_isQuasisimple {G : Type*} [Group G] [Finite G] {P X
       have h := (Subgroup.mem_center_iff.1 hac) ⟨b, hb⟩
       exact Subtype.ext (congrArg Subtype.val h).symm
     have hsP : Group.IsSolvable ↥P := hsolv P hPN hsolvPX
-    haveI := hsP
+    have := hsP
     have hsub : Subsingleton ↥P := by
       by_contra hnt
       rw [not_subsingleton_iff_nontrivial] at hnt

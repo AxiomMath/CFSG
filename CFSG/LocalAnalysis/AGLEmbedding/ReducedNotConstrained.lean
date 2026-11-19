@@ -46,7 +46,7 @@ theorem map_eq_bot_of_commutator_le {A L : Type*} [Group A] [Group L] [Finite L]
 theorem le_card_sylow_of_not_isCyclic {L : Type*} [Group L] [Finite L] {p : ℕ} [Fact p.Prime]
     (TL : Sylow p L) (hTL : ¬ IsCyclic (TL : Subgroup L)) : p ^ 2 ≤ Nat.card TL := by
   have hp : p.Prime := Fact.out
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp TL.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp TL.isPGroup
   rw [hn]
   refine Nat.pow_le_pow_right hp.pos (by_contra fun h => hTL ?_)
   interval_cases n
@@ -163,7 +163,7 @@ theorem layer_ne_bot_of_surjective (h : ReducedNongeneration p X R X₀) {L : Ty
     obtain ⟨c, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center C) v
     rw [← map_pow]
     exact (QuotientGroup.eq_one_iff _).mpr (hpowC c)
-  obtain ⟨k, hkindex, hkfix⟩ := exists_kernel_of_card_eq_one_or_sq S.isPGroup' hVcard hVpow
+  obtain ⟨k, hkindex, hkfix⟩ := exists_kernel_of_card_eq_one_or_sq S.isPGroup hVcard hVpow
   set g : (S : Subgroup A) →* L := f.comp (S : Subgroup A).subtype with hg
   have hkg : k ≤ g.ker := by
     intro e he

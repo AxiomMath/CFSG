@@ -22,7 +22,7 @@ theorem isPGroup_zpowers_of_pow_eq_one {G : Type*} [Group G] {r k : ℕ} {y : G}
 
 theorem natCast_card_ne_zero {K : Type*} [Field K] (h2 : (2 : K) ≠ 0) {G : Type*} [Group G]
     [Finite G] (hG : IsPGroup 2 G) : ((Nat.card G : ℕ) : K) ≠ 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hG.exists_card_eq
   rw [hn, Nat.cast_pow]
   exact pow_ne_zero n (by exact_mod_cast h2)
@@ -52,15 +52,15 @@ theorem commute_of_mem_normalizer (h2 : (2 : K) ≠ 0) (hV : finrank K V ≤ 4)
     {r : ℕ} (hr : r.Prime) (hr16 : 16 < r) {y : Γ} (hy : y ∈ normalizer (P : Set Γ))
     {k : ℕ} (hyk : y ^ r ^ k = 1) : ∀ x ∈ P, y * x = x * y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨C₀, hC, -, hcrit⟩ := CFSG.RankThree.PartTwo.Sec13.CritProof.exists_isThompsonCritical hP
   obtain ⟨hchar, -, hcomm, -⟩ := hC
-  haveI := hchar
+  have := hchar
   set α : MulAut P := P.normalizerMonoidHom ⟨y, hy⟩ with hαdef
   have hα : ∀ x : P, ((α x : P) : Γ) = y * x * y⁻¹ := fun _ => rfl
   set Z₀ : Subgroup P := C₀ ⊓ centralizer (C₀ : Set P) with hZ₀
   have hZ₀char : Z₀.Characteristic := by
-    haveI := characteristic_centralizer C₀
+    have := characteristic_centralizer C₀
     exact characteristic_inf _ _
   set C : Subgroup Γ := C₀.map P.subtype with hCdef
   set Z : Subgroup Γ := Z₀.map P.subtype with hZdef
@@ -243,7 +243,7 @@ theorem false_of_surjective {K W : Type*} [Field K] [AddCommGroup W] [Module K W
     {r : ℕ} (hr : r.Prime) (hr16 : 16 < r) (hhr : h ^ r = 1)
     {u : S} (hu : u ∈ Q) (hne : h * u ≠ u * h) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set L := AlgebraicClosure K
   let R : Representation L Γ (L ⊗[K] W) :=
     (Module.End.baseChangeHom K L W).toMonoidHom.comp ((Units.coeHom _).comp ρ)
@@ -271,7 +271,7 @@ theorem false_of_surjective {K W : Type*} [Field K] [AddCommGroup W] [Module K W
   rw [mul_normal] at hgmem
   obtain ⟨a, ha, b, hb, hab⟩ := hgmem
   set P₀ : Subgroup G₀ := P.map N.subtype with hP₀def
-  have hP₀ : IsPGroup 2 P₀ := P.isPGroup'.map _
+  have hP₀ : IsPGroup 2 P₀ := P.isPGroup.map _
   have hvQ : φ (b : Γ) ∈ Q := mem_subgroupOf.mp hb
   have hφa : φ (a : Γ) = h * (φ (b : Γ))⁻¹ := by
     rw [← hg, ← map_inv, ← map_mul]

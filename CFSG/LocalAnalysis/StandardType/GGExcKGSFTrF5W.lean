@@ -120,7 +120,7 @@ theorem w : GGClauseW t n f p ψ Bs M.π T.coord := by
   intro u hu
   obtain ⟨mA, hmA, hcoord⟩ := M.w u hu
   obtain ⟨hmAinn, hmAnorm⟩ := Subgroup.mem_inf.mp hmA
-  haveI : ((ggPsiU t n f).range).Normal := GGSFCore.normal_range_ggPsiU t n f
+  have : ((ggPsiU t n f).range).Normal := GGSFCore.normal_range_ggPsiU t n f
   have hconjinn : T.kappa⁻¹ * mA * T.kappa ∈ (ggPsiU t n f).range := by
     simpa using (this.conj_mem mA hmAinn T.kappa⁻¹)
   obtain ⟨k, hk⟩ := hconjinn

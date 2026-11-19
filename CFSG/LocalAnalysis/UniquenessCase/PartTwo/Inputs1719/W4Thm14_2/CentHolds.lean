@@ -141,7 +141,7 @@ theorem pow_six_eq_one_of_graphType {W : Type} [CommGroup W] [Finite W]
     (hgraph : L34Out.IsGraphType ν) (c : MulAut W) (hc : ∀ l ∈ L, c * l = l * c) :
     c ^ 6 = 1 := by
   classical
-  haveI : Finite (MulAut W) := inferInstanceAs (Finite (W ≃* W))
+  have : Finite (MulAut W) := inferInstanceAs (Finite (W ≃* W))
   have hcommapply_aux : ∀ (f : MulAut W) (l : MulAut W) (x : W), l ∈ L →
       (∀ l ∈ L, f * l = l * f) → l (f x) = f (l x) := by
     intro f l x hl hf
@@ -191,11 +191,11 @@ theorem pow_six_eq_one_of_graphType {W : Type} [CommGroup W] [Finite W]
   · have hWnt : Nontrivial W := by
       by_contra h
       rw [not_nontrivial_iff_subsingleton] at h
-      haveI hsub : Subsingleton W := h
-      haveI : Subsingleton (MulAut W) :=
+      have hsub : Subsingleton W := h
+      have : Subsingleton (MulAut W) :=
         ⟨fun a b => MulEquiv.ext fun w => Subsingleton.elim (a w) (b w)⟩
       exact hz1 (Subsingleton.elim ((c₀ : MulAut W)) 1)
-    haveI := hWnt
+    have := hWnt
     obtain ⟨W₁, -, hW₁irr⟩ :=
       CFSG.LocalAnalysis.UniquenessCase.PartTwo.s15_Three_exists_irr_le
         (A := L) (X := ⊤) (by intro a ha u hu; exact Subgroup.mem_top u) (by simp)

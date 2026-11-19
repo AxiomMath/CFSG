@@ -29,7 +29,7 @@ theorem psu_core_of_ne {ℓ f : ℕ} {K : Type} [Field K] [Finite K] (h : Unitar
   have hnc := not_commute_primeFormP_one (fixSubfield_unitaryFieldData h hp hp2 hσ) hn hq₀
   obtain ⟨x₀, hx₀⟩ :=
     exists_orderOf_prime_primeFormP (fixSubfield_unitaryFieldData h hp hp2 hσ) hn hp hpq₀
-  haveI := hS
+  have := hS
   refine ⟨range_subfieldPSU_le h n (fixSubfield_unitaryFieldData h hp hp2 hσ)
     (fixSubfield_unitaryFieldData_bar h hp hp2 hσ),
     isSimpleGroup_of_mulEquiv (MonoidHom.ofInjective hinj), ?_, ?_,

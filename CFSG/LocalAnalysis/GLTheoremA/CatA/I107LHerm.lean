@@ -13,7 +13,7 @@ section Herm
 
 variable {K : Type} [Field K]
 
-@[expose] abbrev OffIdx (k : ℕ) : Type := {s : Sym2 (Fin k) // ¬ s.IsDiag}
+abbrev OffIdx (k : ℕ) : Type := {s : Sym2 (Fin k) // ¬ s.IsDiag}
 
 @[expose] def offEntry {k : ℕ} (f : OffIdx k → K) (i j : Fin k) : K :=
   if h : i = j then 0 else f ⟨s(i, j), by rw [Sym2.mk_isDiag_iff]; exact h⟩
@@ -23,7 +23,7 @@ theorem offEntry_comm {k : ℕ} (f : OffIdx k → K) (i j : Fin k) :
   unfold offEntry
   by_cases h : i = j
   · subst h; rfl
-  · rw [dif_neg h, dif_neg (Ne.symm h)]
+  · rw [dite_eq_right h, dite_eq_right (Ne.symm h)]
     exact congrArg f (Subtype.ext Sym2.eq_swap)
 
 theorem offEntry_add {k : ℕ} (f g : OffIdx k → K) (i j : Fin k) :
@@ -56,13 +56,13 @@ theorem hermMat_herm (σ : K →+* K) (hσσ : ∀ x, σ (σ x) = x) {k : ℕ} (
   rw [Matrix.transpose_apply, Matrix.map_apply]
   by_cases hij : i = j
   · subst hij
-    simp only [hermMat, Matrix.of_apply, if_true, ha]
+    simp only [hermMat, Matrix.of_apply, ite_true, ha]
   · rcases lt_or_gt_of_ne hij with h | h
     · simp only [hermMat, Matrix.of_apply]
-      rw [if_neg (Ne.symm hij), if_neg (not_lt.2 h.le), hσσ, if_neg hij, if_pos h]
+      rw [ite_eq_right (Ne.symm hij), ite_eq_right (not_lt.2 h.le), hσσ, ite_eq_right hij, ite_eq_left h]
       exact offEntry_comm f j i
     · simp only [hermMat, Matrix.of_apply]
-      rw [if_neg (Ne.symm hij), if_pos h, if_neg hij, if_neg (not_lt.2 h.le), offEntry_comm f j i]
+      rw [ite_eq_right (Ne.symm hij), ite_eq_left h, ite_eq_right hij, ite_eq_right (not_lt.2 h.le), offEntry_comm f j i]
 
 @[expose] def hookU (d k : ℕ) : Matrix (Fin d) (Fin k) K :=
   Matrix.of fun a i => if a.val / 2 = i.val ∧ a.val < 2 * k then 1 else 0
@@ -86,7 +86,7 @@ theorem card_filter_pair {d k : ℕ} (hkd : 2 * k ≤ d) (i : Fin k) :
     simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_insert, Finset.mem_singleton, Fin.ext_iff]
     omega
 
-theorem sum_hookU_mul {d k : ℕ} (h2 : (2 : K) = 0) (hkd : 2 * k ≤ d) (i j : Fin k) :
+theorem sum_hookU_mul {d k : ℕ} (_h2 : (2 : K) = 0) (hkd : 2 * k ≤ d) (i j : Fin k) :
     ∑ a : Fin d, hookU (K := K) d k a i * hookU (K := K) d k a j = if i = j then 2 else 0 := by
   by_cases hij : i = j
   · subst hij
@@ -95,13 +95,13 @@ theorem sum_hookU_mul {d k : ℕ} (h2 : (2 : K) = 0) (hkd : 2 * k ≤ d) (i j : 
       intro a
       simp only [hookU, Matrix.of_apply]
       split_ifs <;> simp
-    simp only [hterm, if_true]
+    simp only [hterm, ite_true]
     rw [Finset.sum_boole, card_filter_pair hkd i]
     norm_num
   · have hterm : ∀ a : Fin d, hookU (K := K) d k a i * hookU (K := K) d k a j = 0 := by
       intro a
       simp only [hookU, Matrix.of_apply]
-      split_ifs with h1 h2
+      split_ifs with h1 _h2
       · exfalso
         apply hij
         ext
@@ -133,13 +133,13 @@ theorem hookR_mul_hookU {d k : ℕ} (hkd : 2 * k ≤ d) :
   rw [Matrix.mul_apply, Matrix.one_apply]
   have hi := i.isLt
   rw [Finset.sum_eq_single (⟨2 * i.val, by omega⟩ : Fin d)]
-  · simp only [hookR, hookU, Matrix.of_apply, if_true]
+  · simp only [hookR, hookU, Matrix.of_apply, ite_true]
     by_cases hij : i = j
     · subst hij
       simp
     · have hne : ¬ (2 * i.val / 2 = j.val ∧ 2 * i.val < 2 * k) := fun h => hij (Fin.ext (by omega))
-      simp only [hne, if_false, mul_zero]
-      simp [hookR, hij]
+      simp only [hne, ite_false, mul_zero]
+      simp [hij]
   · intro b _ hb
     have hb' : ¬ (b.val = 2 * i.val) := fun e => hb (Fin.ext e)
     simp [hookR, hb']
@@ -165,7 +165,7 @@ theorem herm_eq_zero_of_UHU {d k : ℕ} (hkd : 2 * k ≤ d) (H : Matrix (Fin k) 
   zero_mem' := fun i => by simp
   neg_mem' := fun {a} ha i => by simp only [Pi.neg_apply, map_neg, ha i]
 
-@[expose] abbrev HermPar (σ : K →+* K) (k : ℕ) : Type := ↥(diagSub σ k) × (OffIdx k → K)
+abbrev HermPar (σ : K →+* K) (k : ℕ) : Type := ↥(diagSub σ k) × (OffIdx k → K)
 
 @[expose] def hermM (σ : K →+* K) (d k : ℕ) (p : HermPar σ k) : Matrix (Fin d) (Fin d) K :=
   1 + hookU (K := K) d k * hermMat σ (p.1 : Fin k → K) p.2 * (hookU (K := K) d k)ᵀ
@@ -255,7 +255,7 @@ theorem eq_zero_of_hermMat_eq_zero (σ : K →+* K) {k : ℕ} (a : Fin k → K) 
       have hij : i ≠ j := fun e => hs (Sym2.mk_isDiag_iff.2 e)
       have hf : f ⟨s(i, j), hs⟩ = offEntry f i j := by
         unfold offEntry
-        rw [dif_neg hij]
+        rw [dite_eq_right hij]
       rw [hf]
       rcases lt_or_gt_of_ne hij with hlt | hgt
       · have := congrFun (congrFun h i) j
@@ -333,7 +333,7 @@ theorem card_hermPar {n : ℕ} (σ : K →+* K) (hσ : ∀ x : K, σ x = x ^ 2 ^
         (Equiv.subtypePiEquivPi (p := fun _ b => σ b = b))
     rw [Nat.card_congr e1, Nat.card_fun, hF', Nat.card_eq_fintype_card, Fintype.card_fin]
   have hoff : Nat.card (OffIdx k → K) = ((2 ^ n) ^ 2) ^ (k.choose 2) := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     rw [Nat.card_fun, hK, Nat.card_eq_fintype_card (α := OffIdx k), Sym2.card_subtype_not_diag,
       Fintype.card_fin]
   have hexp : (2 ^ n) ^ k * ((2 ^ n) ^ 2) ^ (k.choose 2) = 2 ^ (n * k ^ 2) := by
@@ -346,7 +346,7 @@ end Count
 theorem pRank_herm_ge {d k n : ℕ} (hn : 1 ≤ n) (hk : 1 ≤ k) (hkd : 2 * k ≤ d) {K : Type} [Field K]
     [Finite K] (hK : Nat.card K = (2 ^ n) ^ 2) :
     n * k ^ 2 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)))) := by
-  haveI : CharP K 2 := charP_two_of_card_sq hK
+  have : CharP K 2 := charP_two_of_card_sq hK
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   let σ : K →+* K := iterateFrobenius K 2 n
   have hσ : ∀ x : K, σ x = x ^ 2 ^ n := fun x => rfl

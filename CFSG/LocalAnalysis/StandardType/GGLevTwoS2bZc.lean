@@ -132,7 +132,7 @@ theorem levTwoS2b_card_le_Supp {p : ℕ} [Fact p.Prime] (n : ℕ) (hn : 2 ≤ n)
             simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at ha
             rw [hβuv]
             simp only [Pi.add_apply, Pi.single_apply]
-            rw [if_neg ha.1, if_neg ha.2, add_zero]
+            rw [ite_eq_right ha.1, ite_eq_right ha.2, add_zero]
             ring
           rw [← Finset.sum_subset hsubset hzero, Finset.sum_pair huv, hβuv]
           simp [huv, Ne.symm huv]

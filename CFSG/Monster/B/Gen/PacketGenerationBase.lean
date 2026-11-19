@@ -21,7 +21,7 @@ theorem selIdx_lt (g : Fin 26) : Dyadic.Native.selIdx g < 48 := by
   unfold Dyadic.Native.selIdx
   split_ifs <;> omega
 
-@[expose] noncomputable def selGen (g : Fin 26) : Cbar :=
+noncomputable def selGen (g : Fin 26) : Cbar :=
   packetElt ⟨Dyadic.Native.selIdx g, selIdx_lt g⟩
 
 theorem qElt_one : qElt 1 = TQ (basisC 1 + epsStar 1 • basisC 0) := by

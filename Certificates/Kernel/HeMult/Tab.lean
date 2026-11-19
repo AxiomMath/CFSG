@@ -81,10 +81,10 @@ theorem foldr_acW : ∀ w : List Int, (∀ z ∈ w, z = 1 ∨ z = 3) → ∀ x <
     rw [e, List.foldr_append, ih, List.foldr_cons]
     have hlt : List.foldr (GAC AL CT) x w < 8330 := by rw [← ih]; exact foldr_lt _ hx
     rcases hw z List.mem_cons_self with rfl | rfl
-    · simp only [show ((1 : Int) = 3) = False from by decide, if_false, List.foldr_cons,
+    · simp only [show ((1 : Int) = 3) = False from by decide, ite_false, List.foldr_cons,
         List.foldr_nil]
       rfl
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [← c_get hlt]
       rfl
 
@@ -144,11 +144,11 @@ theorem gen2 : (heImg OJ 2).size = 8330 ∧ (∀ x < 8330, ap (heImg OJ 2) x = r
     rw [foldr_powW hW sExp x hx, (pow_get (g_get hx).2.2.1).2.1]
   · exact (pow_get (g_get hx).2.2.1).2.2.2
 
-theorem gen3 : (heImg OJ 3).size = 8330 ∧ (∀ x < 8330, ap (heImg OJ 3) x = r32 T x ∧ r32 T x < 8330) ∧
+theorem gen3 : (heImg OJ 3).size = 8330 ∧ (∀ _x < 8330, ap (heImg OJ 3) _x = r32 T _x ∧ r32 T _x < 8330) ∧
     invOK 8330 (heImg OJ 3) (invT 8330 (heImg OJ 3)) = true ∧
     ∀ y < 8330, ap (invT 8330 (heImg OJ 3)) y = r32 Ti y :=
-  gen_get (fun x hx => ((t_get (g_get hx).2.2.2).1).symm)
-    (fun x hx => ⟨(t_get (g_get hx).2.2.2).2.1, (t_get (g_get hx).2.2.2).2.2⟩)
+  gen_get (fun _x hx => ((t_get (g_get hx).2.2.2).1).symm)
+    (fun _x hx => ⟨(t_get (g_get hx).2.2.2).2.1, (t_get (g_get hx).2.2.2).2.2⟩)
 
 theorem GL_eq (z : Int) (x : Nat) : CFSG.KC.HeMult.GL U V S T Ui Vi Si Ti z x =
     if z = 1 then r32 U x else if z = 2 then r32 V x else if z = 3 then r32 S x

@@ -12,13 +12,15 @@ open CFSG.Open CFSG.Assembly CFSG.Yardstones.Md0ec50421ce4
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 theorem inducesInnerMod_of_conj_eq {p : ℕ} {b : G} (l : ↥L)
-    (hb : b ∈ Subgroup.normalizer (L : Set G))
+    (_hb : b ∈ Subgroup.normalizer (L : Set G))
     (h : ∀ y ∈ L, b⁻¹ * y * b = (l : G)⁻¹ * y * (l : G)) : InducesInnerMod p L b := by
   refine ⟨(l : G), l.2, fun y hy => ?_⟩
   rw [h y hy, inv_mul_cancel]
   exact Subgroup.one_mem (GLAPPrimeCoreOf p L)
 
+omit [Finite G] in
 theorem exists_conj_eq_of_marked_conj {R : Type} [Group R]
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* R} {b : G} (hb : b ∈ Subgroup.normalizer (L : Set G))
     (hL : Group.IsPerfect ↥L) {r : R} (h : LargeEvenInduces θ (conjRel b) (MulAut.conj r)) :
@@ -87,6 +89,7 @@ theorem exists_conj_eq_of_marked_conj {R : Type} [Group R]
     _ = (l : G) * y * (l : G)⁻¹ := by rw [hcomm]
     _ = ((l⁻¹ : ↥L) : G)⁻¹ * y * ((l⁻¹ : ↥L) : G) := by simp
 
+omit [Finite G] in
 theorem inducesInnerMod_of_marked_conj {p : ℕ} {R : Type} [Group R]
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* R} {b : G} (hb : b ∈ Subgroup.normalizer (L : Set G))
     (hL : Group.IsPerfect ↥L) {r : R} (h : LargeEvenInduces θ (conjRel b) (MulAut.conj r)) :
@@ -94,6 +97,7 @@ theorem inducesInnerMod_of_marked_conj {p : ℕ} {R : Type} [Group R]
   obtain ⟨l, hl⟩ := exists_conj_eq_of_marked_conj hb hL h
   exact inducesInnerMod_of_conj_eq l hb hl
 
+omit [Finite G] in
 theorem largeEvenInduces_pow_eq_one {p : ℕ} {R : Type} [Group R]
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* R} {b : G} (hb : b ∈ Subgroup.normalizer (L : Set G))
     {φ : MulAut R} (hφ : LargeEvenInduces θ (conjRel b) φ) (hbpow : b ^ p = 1) :

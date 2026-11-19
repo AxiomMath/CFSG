@@ -26,14 +26,14 @@ theorem conj_uU_mem_Usub {K : Type} [Field K] [CharP K 2] {b : SL2 K}
     have := b.2
     rwa [Matrix.det_fin_two] at this
   simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_inv,
-    Matrix.adjugate_fin_two, coe_uU, Matrix.mul_fin_two, Matrix.of_apply]
+    Matrix.adjugate_fin_two, coe_uU]
   have hb10 : (b : Matrix (Fin 2) (Fin 2) K) 1 0 = 0 := hb
   have hdet' : (b : Matrix (Fin 2) (Fin 2) K) 0 0 * (b : Matrix (Fin 2) (Fin 2) K) 1 1 = 1 := by
     simpa [hb10] using hdet
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, hb10, hdet', h2, mul_comm, mul_left_comm]
+    simp [Matrix.mul_apply, Fin.sum_univ_two, hb10, hdet', mul_comm]
   all_goals ring
 
 theorem Bsub_le_normalizer_Usub (K : Type) [Field K] [CharP K 2] :
@@ -57,7 +57,7 @@ theorem lU_inv {K : Type} [Field K] [CharP K 2] (c : K) :
     Matrix.of_apply]
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [h2, CharTwo.neg_eq]
+  fin_cases i <;> fin_cases j <;> simp [CharTwo.neg_eq]
 
 theorem lU_conj_uU_one_not_mem_Usub {K : Type} [Field K] [CharP K 2] {c : K} (hc : c ≠ 0) :
     lU c * uU 1 * (lU c)⁻¹ ∉ Usub K := by
@@ -71,7 +71,7 @@ theorem lU_conj_uU_one_not_mem_Usub {K : Type} [Field K] [CharP K 2] {c : K} (hc
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_lU, coe_uU,
     Matrix.mul_fin_two, Matrix.of_apply] at hB
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
-  simp [h2] at hB
+  simp at hB
   have h1 : (c + 1) * c = c ^ 2 + c := by ring
   rw [h1] at hB
   have hB2 : c ^ 2 + c * 2 = 0 := by
@@ -131,7 +131,7 @@ theorem card_Usub (K : Type) [Field K] :
 theorem card_sylow_eq_card_field (K : Type) [Field K] [Finite K] [CharP K 2]
     (hK : 4 ≤ Nat.card K) (P : Sylow 2 (SL2 K)) :
     Nat.card P = Nat.card K := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨⟨n, hnpos⟩, _hp2, hcard⟩ := FiniteField.card K 2
   have hcardNat : Nat.card K = 2 ^ n := by
     rw [Nat.card_eq_fintype_card]
@@ -197,7 +197,7 @@ theorem dD_mul_uU_mul_inv {K : Type} [Field K] [CharP K 2] (a : K) (ha : a ≠ 0
     Matrix.adjugate_fin_two, coe_uU, coe_dD, Matrix.of_apply]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two] <;> field_simp <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two] <;> field_simp
 
 theorem commutator_dD_uU {K : Type} [Field K] [CharP K 2] (a : K) (ha : a ≠ 0) (s : K) :
     ⁅dD a ha, uU s⁆ = uU ((a ^ 2 + 1) * s) := by
@@ -302,9 +302,9 @@ theorem commutator_top_normalizer_eq_top {X : Type} [Group X] [Finite X] {m : �
     (hm : 2 ≤ m) (hX : IsL2 X m) (S : Sylow 2 X) :
     ⁅(⊤ : Subgroup X), Subgroup.normalizer (S : Set X)⁆ = ⊤ := by
   obtain ⟨K, hField, hFinite, hKcard, ⟨e⟩⟩ := nonempty_mulEquiv_sl2_of_isL2 hX
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22d_charP_two
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22d_charP_two
     (by omega) hKcard
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
@@ -382,11 +382,11 @@ theorem l2_sylow_le_normalizer {X : Type} [Group X] [Finite X] {m : ℕ} (hm : 2
     ∀ P : Subgroup X, (B : Subgroup X) ≤ P → P ≠ ⊤ →
       P ≤ Subgroup.normalizer (B : Set X) := by
   obtain ⟨K, hField, hFinite, hKcard, ⟨eSL⟩⟩ := nonempty_mulEquiv_statedSL_two_of_isL2 hX
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   let e : X ≃* SL2 K := eSL.trans
     (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K).symm
-  haveI : CharP K 2 := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22d_charP_two
+  have : CharP K 2 := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22d_charP_two
     (by omega) hKcard
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
@@ -430,9 +430,9 @@ theorem normalizer_sylow_le_stabilizer_fixedPointSubgroup
     letI : MulAction ↥H (Set W) := Set.mulActionSet
     Subgroup.normalizer (S : Set ↥H) ≤
       MulAction.stabilizer ↥H (CFSG.fixedPointSubgroup ↥S W : Set W) := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   let C : Subgroup W := CFSG.fixedPointSubgroup ↥S W
   have hsmul : ∀ y : ↥H, y ∈ Subgroup.normalizer (S : Set ↥H) → ∀ v : W, v ∈ C →
       y • v ∈ C := by
@@ -480,7 +480,7 @@ theorem normalizer_prod_eq {A B : Type} [Group A] [Group B]
         exact (Subgroup.mem_prod.mp h2).1
       · intro hs
         have h2 : x * (s, 1) * x⁻¹ ∈ S.prod T :=
-          Subgroup.mem_prod.mpr ⟨hs, by simpa using Subgroup.one_mem T⟩
+          Subgroup.mem_prod.mpr ⟨hs, by simp⟩
         exact (Subgroup.mem_prod.mp ((hx (s, 1)).mpr h2)).1
     · rw [Subgroup.mem_normalizer_iff]
       intro t
@@ -490,7 +490,7 @@ theorem normalizer_prod_eq {A B : Type} [Group A] [Group B]
         exact (Subgroup.mem_prod.mp h2).2
       · intro ht
         have h2 : x * (1, t) * x⁻¹ ∈ S.prod T :=
-          Subgroup.mem_prod.mpr ⟨by simpa using Subgroup.one_mem S, ht⟩
+          Subgroup.mem_prod.mpr ⟨by simp, ht⟩
         exact (Subgroup.mem_prod.mp ((hx (1, t)).mpr h2)).2
   · rintro ⟨ha, hb⟩
     rw [Subgroup.mem_normalizer_iff]
@@ -511,8 +511,8 @@ theorem sylow_prod_eq {A B : Type} [Group A] [Group B] [Finite A] [Finite B]
       (S : Subgroup (A × B)) = (SA : Subgroup A).prod (SB : Subgroup B) := by
   let PA : Subgroup A := (S : Subgroup (A × B)).map (MonoidHom.fst A B)
   let PB : Subgroup B := (S : Subgroup (A × B)).map (MonoidHom.snd A B)
-  have hPAp : IsPGroup 2 PA := S.isPGroup'.map _
-  have hPBp : IsPGroup 2 PB := S.isPGroup'.map _
+  have hPAp : IsPGroup 2 PA := S.isPGroup.map _
+  have hPBp : IsPGroup 2 PB := S.isPGroup.map _
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hPAp
   obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp hPBp
   have hSle : (S : Subgroup (A × B)) ≤ PA.prod PB := by
@@ -561,13 +561,13 @@ theorem sylow_prod_eq {A B : Type} [Group A] [Group B] [Finite A] [Finite B]
 theorem sylow_eq_of_le_normalizer {A : Type} [Group A] [Finite A]
     (TA SA : Sylow 2 A) (hle : (SA : Subgroup A) ≤ Subgroup.normalizer (TA : Set A)) :
     SA = TA := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N := Subgroup.normalizer (TA : Set A)
   have hTA : (TA : Subgroup A) ≤ N := Subgroup.le_normalizer
   have hNorm : (TA.subtype hTA).Normal := by
     rw [Sylow.coe_subtype]
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hTA).mpr le_rfl
-  letI : Unique (Sylow 2 N) := Sylow.unique_of_normal (TA.subtype hTA) hNorm
+  let : Unique (Sylow 2 N) := Sylow.unique_of_normal (TA.subtype hTA) hNorm
   have hEq : SA.subtype hle = TA.subtype hTA := Subsingleton.elim _ _
   have hsub : (SA.subtype hle : Subgroup N) = (TA.subtype hTA : Subgroup N) :=
     congrArg (fun S : Sylow 2 N => (S : Subgroup N)) hEq
@@ -602,11 +602,11 @@ theorem firstFactor_le_of_proj_eq_top {A B : Type} [Group A] [Group B]
     (P : Subgroup (A × B)) (R : Subgroup A) (S : Subgroup B)
     (hP : R.prod S ≤ P)
     (hA : P.map (MonoidHom.fst A B) = ⊤)
-    (hB : P.map (MonoidHom.snd A B) = ⊤)
+    (_hB : P.map (MonoidHom.snd A B) = ⊤)
     (hcomm : ⁅(⊤ : Subgroup A), R⁆ = ⊤) :
     (⊤ : Subgroup A).prod (⊥ : Subgroup B) ≤ P := by
-  letI : Bracket A A := commutatorElement
-  letI : Bracket (A × B) (A × B) := commutatorElement
+  let : Bracket A A := commutatorElement
+  let : Bracket (A × B) (A × B) := commutatorElement
   let R' : Subgroup A := (P ⊓ ((⊤ : Subgroup A).prod (⊥ : Subgroup B))).map
     (MonoidHom.fst A B)
   have hcomm_le : ⁅(⊤ : Subgroup A), R⁆ ≤ R' := by
@@ -679,7 +679,7 @@ theorem map_conj_eq_of_normalizerMonoidHom_map_eq
     change (MulAut.conj t (x : MulAut W)) w =
       (((H.normalizerMonoidHom ⟨t, ht⟩ x : ↥H) : MulAut W)) w
     rw [MulAut.conj_apply]
-    simpa using congrFun (Subgroup.normalizerMonoidHom_apply_apply_coe H ⟨t, ht⟩ x).symm w
+    simp
   calc (N.map H.subtype).map (MulAut.conj t).toMonoidHom
       = N.map ((MulAut.conj t).toMonoidHom.comp H.subtype) := by rw [Subgroup.map_map]
     _ = N.map (H.subtype.comp (H.normalizerMonoidHom ⟨t, ht⟩).toMonoidHom) := by rw [hcomp]
@@ -688,7 +688,7 @@ theorem map_conj_eq_of_normalizerMonoidHom_map_eq
 
 theorem kTab23b_OmegaMinus_line_uncond (W : Type) [CommGroup W] [Finite W]
     (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H)
+    (_hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H)
     (hline : IsOmegaMinus ↥H 4 n ∧ NatOmegaMinus H ⊤ ⊥ 4 n) :
     letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
     letI : MulAction ↥H W := MulAction.compHom W H.subtype
@@ -709,11 +709,11 @@ theorem kTab23b_OmegaMinus_line_uncond (W : Type) [CommGroup W] [Finite W]
           ¬ Pstar ≤ Pℓ
         ∀ Pstar : Subgroup ↥H, Minimal Good Pstar →
           Pstar = ⊤ ∧ IsL2 (Bar2 (Hinf Pstar)) (2 * n) := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   intro S
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   let ℓ : Subgroup W := fixedPointSubgroup ↥S W
   let Pℓ : Subgroup ↥H := MulAction.stabilizer ↥H (ℓ : Set W)
@@ -727,8 +727,8 @@ theorem kTab23b_OmegaMinus_line_uncond (W : Type) [CommGroup W] [Finite W]
   intro Pstar hmin
   have hn1 : 1 ≤ n := by
     obtain ⟨-, K, hKfield, hKfin, b, c, hKcard, -, -⟩ := hline.1
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have hKgt : 1 < Nat.card K := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
     rw [hKcard] at hKgt
     exact Nat.one_le_iff_ne_zero.mpr (Nat.one_lt_two_pow_iff.mp hKgt)
@@ -752,7 +752,7 @@ theorem kTab23b_OmegaMinus_line_uncond (W : Type) [CommGroup W] [Finite W]
 
 theorem kTab23b_OmegaPlus_line_uncond (W : Type) [CommGroup W] [Finite W]
     (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H)
+    (_hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H)
     (hline : IsOmegaPlus ↥H 4 n ∧ NatOmegaPlus H ⊤ ⊥ 4 n) :
     letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
     letI : MulAction ↥H W := MulAction.compHom W H.subtype
@@ -777,11 +777,11 @@ theorem kTab23b_OmegaPlus_line_uncond (W : Type) [CommGroup W] [Finite W]
             N ≠ ⊤ → N ≤ Subgroup.center ↥H) →
           ∀ Pstar : Subgroup ↥H, Minimal Good Pstar →
             Pstar = ⊤ ∧ IsL2Square (Bar2 (Hinf Pstar)) n) := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   intro S
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   let ℓ : Subgroup W := fixedPointSubgroup ↥S W
   let Pℓ : Subgroup ↥H := MulAction.stabilizer ↥H (ℓ : Set W)
@@ -802,11 +802,11 @@ theorem kTab23b_OmegaPlus_line_uncond (W : Type) [CommGroup W] [Finite W]
       hline.1 hperfH hntH
   have hL2Sq : IsL2Square ↥H n := isL2Square_of_isOmegaPlus hn2 hline.1
   obtain ⟨A, B, hAg, hBg, ⟨eAB⟩, hLA, hLB⟩ := hL2Sq
-  letI : Group A := hAg
-  letI : Group B := hBg
-  haveI : Finite (A × B) := Finite.of_injective (eAB.symm : A × B → ↥H) eAB.symm.injective
-  haveI : Finite A := Finite.of_surjective (MonoidHom.fst A B) (fun a => ⟨(a, 1), rfl⟩)
-  haveI : Finite B := Finite.of_surjective (MonoidHom.snd A B) (fun b => ⟨(1, b), rfl⟩)
+  let : Group A := hAg
+  let : Group B := hBg
+  have : Finite (A × B) := Finite.of_injective (eAB.symm : A × B → ↥H) eAB.symm.injective
+  have : Finite A := Finite.of_surjective (MonoidHom.fst A B) (fun a => ⟨(a, 1), rfl⟩)
+  have : Finite B := Finite.of_surjective (MonoidHom.snd A B) (fun b => ⟨(1, b), rfl⟩)
   have hSA : StatedClassicalModel A .PSL 2 2 n :=
     (isL2_iff_statedClassicalModel (X := A) (a := n)).mp hLA
   have hSB : StatedClassicalModel B .PSL 2 2 n :=
@@ -815,21 +815,21 @@ theorem kTab23b_OmegaPlus_line_uncond (W : Type) [CommGroup W] [Finite W]
   let e : ↥H ≃* A × A := eAB.trans (MulEquiv.prodCongr (MulEquiv.refl A) eBA)
   let FA : Subgroup ↥H := prodFirstFactor e
   let FB : Subgroup ↥H := prodSecondFactor e
-  haveI hSimpleA : IsSimpleGroup A := isSimpleGroup_of_isL2 hLA
+  have hSimpleA : IsSimpleGroup A := isSimpleGroup_of_isL2 hLA
   have hsimple : ∀ N : Subgroup A, N.Normal → N = ⊥ ∨ N = ⊤ := by
     intro N hN
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     exact IsSimpleGroup.eq_bot_or_eq_top_of_normal N
   have hntA : ∃ a : A, a ≠ 1 := by
     by_contra h
     push Not at h
-    haveI : Subsingleton A := ⟨fun a b => by rw [h a, h b]⟩
+    have : Subsingleton A := ⟨fun a b => by rw [h a, h b]⟩
     exact not_subsingleton A inferInstance
   have hcenterA : Subgroup.center A = ⊥ := by
     obtain ⟨K, hField, hFinite, hKcard, ⟨eA⟩⟩ := nonempty_mulEquiv_sl2_of_isL2 hLA
-    letI : Field K := hField
-    letI : Finite K := hFinite
-    haveI : CharP K 2 := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22d_charP_two
+    let : Field K := hField
+    let : Finite K := hFinite
+    have : CharP K 2 := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22d_charP_two
       (by omega) hKcard
     have hc : Subgroup.center (SL2 K) = ⊥ := center_sl2_eq_bot K
     have hcard : Nat.card (Subgroup.center A) = 1 := by

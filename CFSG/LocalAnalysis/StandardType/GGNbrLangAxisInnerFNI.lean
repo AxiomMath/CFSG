@@ -22,7 +22,7 @@ private theorem ggNbrLangAxisInnerFNIAux_centerQuotEquiv
     (hker : f.ker ≤ Subgroup.center A) (hperf : commutator A = ⊤) :
     ∃ e : A ⧸ Subgroup.center A ≃* B ⧸ Subgroup.center B,
       ∀ a : A, e (a : A ⧸ Subgroup.center A) = (f a : B ⧸ Subgroup.center B) := by
-  haveI : Group.IsPerfect A := ⟨hperf⟩
+  have : Group.IsPerfect A := ⟨hperf⟩
   exact ⟨CFSG.ComponentClassification.PerfectCentralQuotient.equivalence f hf hker, fun _ => rfl⟩
 
 private theorem ggNbrLangAxisInnerFNIAux_kgInducedAut_mk {K R : Type*} [Group K] [Group R]
@@ -184,7 +184,7 @@ theorem ggNbrLangAxisInnerOn_open_notT3 (hsub : GGNbrSubcomponentInput)
       (ggLAut K θ ⟨x, hN hxBs⟩) (hxin hxBs) hhpow hcomm J₀ hJ₀comp α' (fun j => rfl)
   have hP₀ : LargeEvenMarking ↥J₀ (fun _ R' _ I' F' θ' => kgInducedAut θ' α' ∈ I') := by
     refine ⟨?_, labJ, hlabJ, largeEvenRawDatum_mono ?_ hrawJ⟩
-    · haveI : Group.IsPerfect ↥J := ⟨hJperf⟩
+    · have : Group.IsPerfect ↥J := ⟨hJperf⟩
       exact (Group.IsPerfect.ofSurjective (f := ρJ) hρJsurj).commutator_eq_top
     · rintro R' _ I' F' ⟨hs, hna, θJ', hPJ'⟩
       refine ⟨hs, hna, e.symm.trans θJ', ?_⟩

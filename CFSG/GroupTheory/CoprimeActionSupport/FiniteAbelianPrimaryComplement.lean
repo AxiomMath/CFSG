@@ -25,7 +25,7 @@ theorem exists_complement {p : ℕ} (hp : p.Prime) [Finite G] {B : Subgroup G}
     set y : B := ⟨x, hx⟩ with hy
     have hyn : y ^ (p ^ n) = 1 := Subtype.ext (by simpa using hn)
     obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow hp).1 (orderOf_dvd_of_pow_eq_one hyn)
-    haveI : (Subgroup.zpowers y).Normal :=
+    have : (Subgroup.zpowers y).Normal :=
       ⟨fun m hm g => by
         have : g * m = m * g := hB.is_comm.comm g m
         rwa [show g * m * g⁻¹ = m by rw [this, mul_assoc, mul_inv_cancel, mul_one]]⟩
@@ -34,7 +34,7 @@ theorem exists_complement {p : ℕ} (hp : p.Prime) [Finite G] {B : Subgroup G}
     have hle : Subgroup.zpowers y ≤ CFSG.Open.pCore p B :=
       le_sSup ⟨inferInstance, hP⟩
     exact ⟨y, hle (Subgroup.mem_zpowers y), rfl⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcomm : ∀ a ∈ B, ∀ b ∈ B, Commute a b := fun a ha b hb =>
     congrArg Subtype.val (hB.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   let A : Subgroup G :=

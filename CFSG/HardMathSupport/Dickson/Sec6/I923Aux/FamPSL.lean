@@ -33,7 +33,7 @@ theorem noL2Layer_fieldAut_psl (hO : LieOrderFormulasInput) {n : ℕ} (hn3 : 3 �
     exact Iff.of_eq (congrArg (x ∈ ·) hfixset)
   let eD : ↥(fixSubgroup (fieldAut n K σ)) ≃* projectiveSL n ↥k :=
     (MulEquiv.subgroupCongr hfix).trans (MonoidHom.ofInjective hinj).symm
-  haveI : IsSimpleGroup (projectiveSL n ↥k) := KCLinearSubfield.isSimpleGroup_projectiveSL hn3
+  have : IsSimpleGroup (projectiveSL n ↥k) := KCLinearSubfield.isSimpleGroup_projectiveSL hn3
   have hnabk : ∃ a b : projectiveSL n ↥k, a * b ≠ b * a := by
     have h1 := KCLinearSubfield.not_commutative_projectiveSL (n := n) (K := ↥k) hn3
     push Not at h1
@@ -48,7 +48,7 @@ theorem noL2Layer_fieldAut_psl (hO : LieOrderFormulasInput) {n : ℕ} (hn3 : 3 �
   have hf0 : 1 ≤ f / 3 := by
     have : 3 ≤ f := Nat.le_of_dvd (by omega) h3f
     omega
-  haveI := hs
+  have := hs
   refine noL2_of_simple_fixed _ hs hnab fun r hr hT => ?_
   have hadm : StatedLieAdmissible .PSL n p (f / 3) :=
     ⟨hp, hf0, by omega, fun hc => by have := (Prod.mk.inj hc).1; omega,

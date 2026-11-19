@@ -20,6 +20,7 @@ private theorem s16c1G44_quadF2_one {W : Type*} [CommGroup W] {Q : W → ZMod 2}
   revert a
   decide
 
+omit [Finite G] in
 theorem s16c1G44_relIndex_inf_preBarSub_eq_card_barSub {M X V₀ V : Subgroup G}
     {hV : IsElemAbelian 2 V} (hXM : X ≤ M) (hX : X ≤ stabTil V₀ V) :
     (X ⊓ preBarSub M V₀ V hV ⊥).relIndex X = Nat.card (barSub V₀ V hV X) := by
@@ -50,6 +51,7 @@ theorem s16c1G44_relIndex_inf_preBarSub_eq_card_barSub {M X V₀ V : Subgroup G}
       ((X ⊓ preBarSub M V₀ V hV ⊥).subgroupOf X).index from rfl, ← hker,
     Subgroup.index_ker, hrange]
 
+omit [Finite G] in
 theorem s16c1G44_mQuot_inf_left (V U : Subgroup G) : E3.mQuot V (V ⊓ U) = E3.mQuot V U := by
   unfold E3.mQuot
   rw [inf_comm V U, Subgroup.inf_relIndex_right]
@@ -65,6 +67,7 @@ theorem s16c1G44_index_img {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {M' : 
   rw [h2, h3] at h1
   exact h1.trans (by simpa using pow_dvd_pow 2 hidx)
 
+omit [Finite G] in
 theorem s16c1G44_fix_img {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {U : Subgroup G} {b : G}
     (hb : b ∈ stabTil V₀ V) (hbU : b ∈ centralizer (U : Set G)) :
     ∀ p ∈ imgTil V₀ V hV U, actTil V₀ V hV ⟨b, hb⟩ p = p := by
@@ -78,8 +81,9 @@ theorem s16c1G44_fix_img {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {U : Sub
   rw [← h]
   group
 
+omit [Finite G] in
 theorem s16c1G44_isElemAbelian2_barSub {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
-    {B : Subgroup G} {g : G} (hBg : B ≤ conjSubgroup V g) (hB : B ≤ stabTil V₀ V) :
+    {B : Subgroup G} {g : G} (hBg : B ≤ conjSubgroup V g) (_hB : B ≤ stabTil V₀ V) :
     IsElemAbelian2 (barSub V₀ V hV B) := by
   have hBElem : IsElemAbelian 2 B := (E3.isElemAbelian_conjSubgroup hV g).mono hBg
   have hBel : IsElemAbelian 2 (barSub V₀ V hV B) :=
@@ -159,7 +163,7 @@ theorem s16c1G44_good {D : Data G} (h22 : R1622 D) (h41 : R16_41 D)
   have hU2 : ∀ x ∈ U, x = 1 ∨ x = v' := by
     intro x hx
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 hx
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have horder : orderOf v' = 2 := orderOf_eq_prime hv'2 hv'ne
     have hmod : v' ^ (k % (2 : ℤ)) = v' ^ k := by
       simpa [horder] using zpow_mod_orderOf v' k
@@ -194,7 +198,7 @@ theorem s16c1G44_good {D : Data G} (h22 : R1622 D) (h41 : R16_41 D)
       by_contra hnot
       exact hXne (le_bot_iff.1 fun x hx => by
         rcases hU2 x (hXU hx) with h1 | h2
-        · simpa [h1]
+        · simp [h1]
         · exact absurd (h2 ▸ hx) hnot)
     have hXUeq : X = U := le_antisymm hXU (Subgroup.zpowers_le.mpr hv'X)
     rw [hXUeq]

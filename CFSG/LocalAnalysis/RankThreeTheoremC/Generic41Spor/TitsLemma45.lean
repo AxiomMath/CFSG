@@ -18,7 +18,7 @@ theorem tits_lemma45_G {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
     (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (hX : TitsFacts)
     (hc : PointConfig IsTitsType G 5 P M x J) {U : Subgroup G} (hU : IIPlane 5 P x J U) :
     ∃ S₁ : Subgroup G, rankTwoMaximalInvariantTwoSubgroup U S₁ ∧ ¬ S₁ ≤ M := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hTcard, hTel, -⟩ := plane_T_structure hX.sylow hc
   have hT2 : 2 ≤ CFSG.Open.pRank 5 (u3T P x J) :=
     CFSG.HardMathSupport.Timmesfeld.Proving.le_pRank_of_elemAbelian_card (by norm_num) le_rfl hTel

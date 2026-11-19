@@ -34,13 +34,13 @@ theorem normalizer_map_subtype_mem {A : Type} [Group A] {K : Subgroup A} (Q : Su
 theorem exists_mulEquiv_map_eq {A : Type} [Group A] [Finite A] {K : Subgroup A} {G : Type}
     [Group G] (e : ↥K ≃* G) (U₀ : Sylow 2 G) (Q : Sylow 2 ↥K) :
     ∃ ρ : G ≃* ↥K, (U₀ : Subgroup G).map ρ.toMonoidHom = (Q : Subgroup ↥K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrange : (U₀ : Subgroup G) ≤ e.toMonoidHom.range :=
     fun g _ => MonoidHom.mem_range.mpr ⟨e.symm g, e.apply_symm_apply g⟩
   obtain ⟨V, hVcoe⟩ : ∃ V : Sylow 2 ↥K,
       (V : Subgroup ↥K) = (U₀ : Subgroup G).comap e.toMonoidHom :=
     ⟨U₀.comapOfInjective e.toMonoidHom e.injective hrange, rfl⟩
-  haveI : Finite (Sylow 2 ↥K) := Finite.of_injective (fun P : Sylow 2 ↥K => (P : Set ↥K))
+  have : Finite (Sylow 2 ↥K) := Finite.of_injective (fun P : Sylow 2 ↥K => (P : Set ↥K))
     SetLike.coe_injective
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq ↥K V Q
   obtain ⟨ρ, hρ⟩ : ∃ ρ : G ≃* ↥K, ∀ g, ρ g = k * e.symm g * k⁻¹ :=

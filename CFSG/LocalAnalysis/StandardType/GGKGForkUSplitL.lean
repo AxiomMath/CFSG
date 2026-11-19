@@ -20,7 +20,7 @@ private theorem ggKGUl_hypTorus_inf_hypScalars {n r p : ℕ} {K : Type} [Field K
       (((ι (ofAdd t) : hypSU h r 0) : GL (HypIndex r 0) K) :
         Matrix (HypIndex r 0) (HypIndex r 0) K) = diagonal (hypEntries ζ t)) :
     ι.range ⊓ hypScalars h r 0 = ⊥ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   rw [eq_bot_iff]
   rintro x ⟨hx, hxs⟩
   rw [Subgroup.mem_bot]
@@ -86,12 +86,12 @@ theorem ggTorusLift_unitarySplit_even
   classical
   have := Fact.mk hp
   have : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := TableBU.unitaryFieldData_of_card hK hn
   have : CharP K 2 := h.charP
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := r) (ε := 0) h
   set H := unitarySU 2 n K (2 * r) with hH
-  haveI : Finite H := Finite.of_injective
+  have : Finite H := Finite.of_injective
     (fun x : H => ((x : GL (Fin (2 * r)) K) : Matrix (Fin (2 * r)) (Fin (2 * r)) K))
     (fun x y hxy => Subtype.ext (Units.ext hxy))
   set e := hypTransport h hR with he

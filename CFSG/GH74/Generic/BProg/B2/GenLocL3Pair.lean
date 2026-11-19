@@ -329,7 +329,7 @@ theorem wSL_mul_transvection_rs {r s q : Fin 3} (hrs : r ≠ s) (hsq : s ≠ q) 
     | exact absurd rfl hsq
     | exact absurd rfl hrq
     | (ext a b; fin_cases a <;> fin_cases b <;>
-        simp [wMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.add_apply] <;> field_simp)
+        simp [wMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.add_apply]; field_simp)
 
 theorem wSL_mul_transvection_sr {r s q : Fin 3} (hrs : r ≠ s) (hsq : s ≠ q) (hrq : r ≠ q) {β : K}
     (hβ : β ≠ 0) (t : K) :
@@ -390,26 +390,10 @@ theorem top_of_three {H : Subgroup (LinearFlag.projectiveSL 3 K)} {i j k : Fin 3
     | exact absurd rfl hjk
     | exact absurd rfl hik
     | exact top_of_fullPair_adj h1 h2
-    | exact top_of_fullPair_adj h1 h2.symm
-    | exact top_of_fullPair_adj h1.symm h2
-    | exact top_of_fullPair_adj h1.symm h2.symm
-    | exact top_of_fullPair_adj h1 h3
-    | exact top_of_fullPair_adj h1 h3.symm
     | exact top_of_fullPair_adj h1.symm h3
-    | exact top_of_fullPair_adj h1.symm h3.symm
-    | exact top_of_fullPair_adj h2 h3
     | exact top_of_fullPair_adj h2 h3.symm
-    | exact top_of_fullPair_adj h2.symm h3
-    | exact top_of_fullPair_adj h2.symm h3.symm
-    | exact top_of_fullPair_adj h2 h1
-    | exact top_of_fullPair_adj h2 h1.symm
-    | exact top_of_fullPair_adj h2.symm h1
     | exact top_of_fullPair_adj h2.symm h1.symm
-    | exact top_of_fullPair_adj h3 h1
-    | exact top_of_fullPair_adj h3 h1.symm
     | exact top_of_fullPair_adj h3.symm h1
-    | exact top_of_fullPair_adj h3.symm h1.symm
-    | exact top_of_fullPair_adj h3 h2
     | exact top_of_fullPair_adj h3 h2.symm
 
 theorem top_of_two_pairs {H : Subgroup (LinearFlag.projectiveSL 3 K)} {i j k : Fin 3} {hij : i ≠ j}

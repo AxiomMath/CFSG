@@ -297,8 +297,9 @@ section Transvection
 
 variable [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 theorem transvection_eq_reflect (hQ : (polarBilin Q).Nondegenerate) {t : V ≃ₗ[K] V}
-    (ht : ∀ x, Q (t x) = Q x) {v : V} (f : V →ₗ[K] K) (hv : v ≠ 0) (hf : f ≠ 0) (hfv : f v = 0)
+    (ht : ∀ x, Q (t x) = Q x) {v : V} (f : V →ₗ[K] K) (hv : v ≠ 0) (hf : f ≠ 0) (_hfv : f v = 0)
     (htx : ∀ x, t x = x + f x • v) : Q v = 1 ∧ t = reflect Q v := by
   have h0 : ∀ x, f x * f x * Q v + f x * polar Q x v = 0 := fun x => by
     have h1 := ht x

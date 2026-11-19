@@ -19,7 +19,7 @@ theorem exists_degree {F : Type*} [Field F] [IsAlgClosed F]
     (σ : Representation F E W) (hfaith : Function.Injective σ) (hσ : σ.IsIrreducible) :
     ∃ d : ℕ, 0 < d ∧ Module.finrank F W = q ^ d ∧ Nat.card E = q ^ (1 + 2 * d) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨χ, hχ, hscalar⟩ := CFSG.LinearAlgebra.CoprimeActions.IrreducibleCentralCharacter.exists_character σ hfaith hσ
   let r : E ⧸ Subgroup.center E → E := fun a => Quotient.out a
   have hr : ∀ a, (QuotientGroup.mk (r a) : E ⧸ Subgroup.center E) = a := fun a => Quotient.out_eq' a

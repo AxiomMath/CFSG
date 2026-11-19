@@ -33,7 +33,7 @@ theorem sec63_om6p_rank_cent [Finite G] (h33 : Asc82Lemma33) (hF : Asc82AutFacts
     (hYc : IsComponentIn Y (centralizer ({y} : Set G))) (hYF : InFStar Y) (hYC : InCStar Y)
     (hY6 : IsOmega6Plus Y) (hb : orderOf b = 2) (hbY : b ∈ Y)
     (hVb : IsComponentIn Vb (Y ⊓ centralizer ({b} : Set G))) (hVbF : InFStar Vb)
-    (hVb29 : IsL29 Vb) (hE : CFSG.Open.IsElemAbelian 2 E)
+    (_hVb29 : IsL29 Vb) (hE : CFSG.Open.IsElemAbelian 2 E)
     (hEle : E ≤ centralizer (Vb : Set G) ⊓ centralizer ({y} : Set G)) :
     CFSG.Open.pRank 2 E ≤ 2 := by
   have hYq : IsQuasisimple ↥Y := hYc.isQuasisimple

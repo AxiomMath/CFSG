@@ -82,8 +82,8 @@ variable {F : Type} [Field F] [Finite F]
 
 theorem modelFactV_three_E6_two [Finite ↥(adjointGroup .E6 F)] (hF : Nat.card F = 2) :
     ModelFactV 3 ↥(adjointGroup .E6 F) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   refine modelFactV_of_frame (torusE6Two (K := F) h2).range (fun A hA => ?_)

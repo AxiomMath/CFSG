@@ -121,7 +121,7 @@ theorem conj_qV (c : ZMod 2) (a w : Fin 3 → ZMod 2) (B B' : Matrix (Fin 3) (Fi
   have e20 := e 2 0
   have e21 := e 2 1
   have e22 := e 2 2
-  simp [Matrix.one_apply] at e00 e01 e02 e10 e11 e12 e20 e21 e22
+  simp at e00 e01 e02 e10 e11 e12 e20 e21 e22
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [invAM, qV, qM, Matrix.mul_apply, Fin.sum_univ_five, vecMul, mulVec, dotProduct,
@@ -144,7 +144,7 @@ theorem comm_iff_Q {x y : G52} {c c' : ZMod 2} {a a' w w' : Fin 3 → ZMod 2}
 theorem act_Q {R : Subgroup G52}
     (hn : ∀ g ∈ Subgroup.centralizer {invT0}, ∀ r ∈ R, g * r * g⁻¹ ∈ R) {x : G52} (hx : x ∈ R)
     {c : ZMod 2} {a w : Fin 3 → ZMod 2} (hxm : (x : M5) = qV c a w)
-    (B B' : Matrix (Fin 3) (Fin 3) (ZMod 2)) (h : B * B' = 1) (h' : B' * B = 1) :
+    (B B' : Matrix (Fin 3) (Fin 3) (ZMod 2)) (h : B * B' = 1) (_h' : B' * B = 1) :
     ∃ y ∈ R, (y : M5) = qV c (a ᵥ* B') (B *ᵥ w) := by
   have hl : invAM 0 B * invAM 0 B' = 1 := by
     rw [invAM_mul, mulVec_zero, add_zero, h, invAM_one]
@@ -335,7 +335,7 @@ theorem transport {s : G52} (hs2 : s ^ 2 = 1) (h1 : commDim s = 1)
         (∀ g ∈ Subgroup.centralizer {invT0}, ∀ r ∈ R', g * r * g⁻¹ ∈ R') := by
   obtain ⟨c, hc⟩ := isConj_iff.1 (inv_isConj_t0 hs2 h1)
   set f : G52 →* G52 := (MulAut.conj c⁻¹).toMonoidHom with hf
-  have hfx : ∀ x, f x = c⁻¹ * x * c := fun x => by simp [hf, MulAut.conj_apply]
+  have hfx : ∀ x, f x = c⁻¹ * x * c := fun x => by simp [hf]
   have hinj : Function.Injective f := (MulAut.conj c⁻¹).injective
   have hscomm : ∀ x, x ∈ Subgroup.centralizer {s} → c⁻¹ * x * c ∈ Subgroup.centralizer {invT0} := by
     intro x hx
@@ -426,7 +426,7 @@ theorem ff79KTransvComm_holds : FF79KTransvComm := by
     rw [h, orderOf_one] at hz
     omega
   have hconj : ∀ x : G52, MulAut.conj c⁻¹ x = c⁻¹ * x * c := fun x => by
-    simp [MulAut.conj_apply]
+    simp
   have hd' := hcent d hdC
   have hz' := hcent z hzC
   have hz3' : (c⁻¹ * z * c) ^ 3 = 1 := by

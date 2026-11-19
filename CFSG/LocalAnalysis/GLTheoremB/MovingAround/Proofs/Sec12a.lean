@@ -15,31 +15,38 @@ namespace Sec12a
 
 variable {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a : G}
 
+omit [Finite G] in
 theorem le_alphaOf_two (M : Subgroup G) : CFSG.Open.pCoreOf 2 M ≤ alphaOf p M := by
   unfold alphaOf
   exact le_sup_left
 
+omit [Finite G] in
 theorem alphaOf_le_self (M : Subgroup G) : alphaOf p M ≤ M := by
   unfold alphaOf
   refine sup_le (CFSG.LieType.BorelTits.pCoreOf_le 2 M) ?_
   exact iSup₂_le fun J hJ => hJ.2.1
 
+omit [Finite G] in
 theorem tof_le_cg (M : Subgroup G) (a : G) : Tof p M a ≤ Cg a :=
   (CFSG.LieType.BorelTits.pCoreOf_le 2 _).trans inf_le_right
 
+omit [Finite G] in
 theorem tof_le_alphaOf (M : Subgroup G) (a : G) : Tof p M a ≤ alphaOf p M :=
   (CFSG.LieType.BorelTits.pCoreOf_le 2 _).trans inf_le_left
 
+omit [Finite G] in
 theorem le_pCoreOf_two_of_le_normalizer {N K : Subgroup G} (hNK : N ≤ K)
     (hK : K ≤ Subgroup.normalizer (N : Set G)) (hN : IsPGroup 2 N) : N ≤ CFSG.Open.pCoreOf 2 K :=
   CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hNK hK hN
 
+omit [Finite G] in
 theorem mem_normalizer_inf {A B : Subgroup G} {k : G}
     (hA : k ∈ Subgroup.normalizer (A : Set G)) (hB : k ∈ Subgroup.normalizer (B : Set G)) :
     k ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
   refine Subgroup.mem_normalizer_iff.2 fun x => ?_
   exact and_congr (Subgroup.mem_normalizer_iff.1 hA x) (Subgroup.mem_normalizer_iff.1 hB x)
 
+omit [Finite G] in
 theorem cg2_eq_inf (e a : G) : Cg2 e a = Cg a ⊓ Cg e := by
   ext g
   simp only [Cg2, Cg, Subgroup.mem_centralizer_iff, Subgroup.mem_inf, Set.mem_insert_iff,
@@ -94,6 +101,7 @@ theorem lemma122_i_of_le (hpair : IsDDpStar p M E A) (hT : Tof p M a ≤ CFSG.Op
       (Subgroup.le_normalizer hk.1)
   · exact (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (Cg e)).to_le inf_le_left
 
+omit [Finite G] in
 theorem lemma122_iii_of_le (hT : Tof p M a ≤ CFSG.Open.pCoreOf 2 M) {F : Subgroup G} :
     ∃ V : G → Subgroup G,
       (∀ x ∈ F, x ≠ 1 → V x ≤ Tof p M a ⊓ Subgroup.centralizer (A : Set G)) ∧
@@ -110,12 +118,12 @@ theorem lemma122_iii_of_le (hT : Tof p M a ≤ CFSG.Open.pCoreOf 2 M) {F : Subgr
 
 @[expose] def CaseB122i : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a : G}
-    (h : Cex121 G m p B M E A a), ¬ Tof p M a ≤ CFSG.Open.pCoreOf 2 M →
+    (_h : Cex121 G m p B M E A a), ¬ Tof p M a ≤ CFSG.Open.pCoreOf 2 M →
       ∀ e ∈ E ⊓ A, e ≠ 1 → Tof p M a ⊓ Cg e ≤ CFSG.Open.pCoreOf 2 (Cg2 e a)
 
 @[expose] def CaseB122iii : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a : G}
-    (h : Cex121 G m p B M E A a) {F : Subgroup G} (_hF : IsEkIn p 2 A F),
+    (_h : Cex121 G m p B M E A a) {F : Subgroup G} (_hF : IsEkIn p 2 A F),
     ¬ Tof p M a ≤ CFSG.Open.pCoreOf 2 M →
     ∃ V : G → Subgroup G,
       (∀ x ∈ F, x ≠ 1 → V x ≤ Tof p M a ⊓ Subgroup.centralizer (A : Set G)) ∧
@@ -125,6 +133,7 @@ theorem lemma122_iii_of_le (hT : Tof p M a ≤ CFSG.Open.pCoreOf 2 M) {F : Subgr
       ∀ x ∈ F, x ≠ 1 →
         V x ≤ derivedInf (⨆ g ∈ (alphaOf p M ⊓ Cg x), GLBConj g (V x))
 
+omit [Finite G] in
 theorem caseB_p3_hatSeven (hT : ¬ Tof p M a ≤ CFSG.Open.pCoreOf 2 M) :
     p = 3 ∧ ∃ J : Subgroup G, J ≤ M ∧ IsSubnormal J M ∧ ⁅J, J⁆ = J ∧
       IsHatSeven (↥J ⧸ CFSG.pCore 2 ↥J) ∧ ¬ J ≤ CFSG.Open.pCoreOf 2 M := by
@@ -147,7 +156,7 @@ theorem caseB_p3_hatSeven (hT : ¬ Tof p M a ≤ CFSG.Open.pCoreOf 2 M) :
 
 theorem pCoreOf_two_le_lstar [Fact p.Prime] (hp2 : p ≠ 2) (X : Subgroup G) :
     CFSG.Open.pCoreOf 2 X ≤ Lstar p X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_trans ?_ (le_sup_left.trans le_sup_left)
   refine sec11_le_glaPPrimeCoreOf (CFSG.LieType.BorelTits.pCoreOf_le 2 X) ?_ ?_
   · intro h hh n hn
@@ -159,13 +168,13 @@ theorem pCoreOf_two_le_lstar [Fact p.Prime] (hp2 : p ≠ 2) (X : Subgroup G) :
 theorem tof_le_lstar_of_inputs (h : Cex121 G m p B M E A a) (hp : p.Prime) (hp2 : p ≠ 2)
     (h122i : ∀ e ∈ E ⊓ A, e ≠ 1 → Tof p M a ⊓ Cg e ≤ CFSG.Open.pCoreOf 2 (Cg2 e a))
     (hI : Input18_5) : Tof p M a ≤ Lstar p (Cg a) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hEM, hEel, -⟩ : IsSCp p M E := h.pair.1.1.1.1
   obtain ⟨hAM, hAel, -⟩ : IsSCp p M A := h.pair.1.2.1.1.1
   have hrank : 2 ≤ CFSG.Open.pRank p (E ⊓ A : Subgroup G) := h.pair.1.2.2
   have hA₀el : CFSG.Open.IsElemAbelian p (E ⊓ A : Subgroup G) :=
     CFSG.Open.IsElemAbelian.mono hAel inf_le_right
-  haveI : CFSG.IsElementaryAbelian p ↥(E ⊓ A : Subgroup G) :=
+  have : CFSG.IsElementaryAbelian p ↥(E ⊓ A : Subgroup G) :=
     CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hA₀el
   have hcardA₀ : p ^ 2 ≤ Nat.card ↥(E ⊓ A : Subgroup G) := by
     obtain ⟨F, hFA₀, -, hFcard⟩ :=
@@ -188,13 +197,13 @@ theorem tof_le_lstar_of_inputs (h : Cex121 G m p B M E A a) (hp : p.Prime) (hp2 
   have hα : ∀ (k : ↥(E ⊓ A : Subgroup G)) (x : ↥(Tof p M a)),
       ((α k x : ↥(Tof p M a)) : G) = (k : G) * x * (k : G)⁻¹ :=
     fun k x => Subgroup.normalizerMonoidHom_apply_apply_coe (Tof p M a) (Subgroup.inclusion hA₀T k) x
-  letI : MulDistribMulAction ↥(E ⊓ A : Subgroup G) ↥(Tof p M a) :=
+  let : MulDistribMulAction ↥(E ⊓ A : Subgroup G) ↥(Tof p M a) :=
     MulDistribMulAction.compHom (Tof p M a) α
   have hsmul : ∀ (k : ↥(E ⊓ A : Subgroup G)) (x : ↥(Tof p M a)), k • x = α k x := fun _ _ => rfl
   have hT2 : IsPGroup 2 ↥(Tof p M a) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (alphaOf p M ⊓ Cg a)
   have hndvd : ¬ p ∣ Nat.card ↥(Tof p M a) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hT2
     intro hdvd
     rw [hn] at hdvd
@@ -208,7 +217,7 @@ theorem tof_le_lstar_of_inputs (h : Cex121 G m p B M E A a) (hp : p.Prime) (hp2 
   have hCa : Cg a ≠ ⊤ := by
     intro htop
     have hcen : Subgroup.center G = ⊥ := by
-      haveI : IsSimpleGroup G := h.standing.simple
+      have : IsSimpleGroup G := h.standing.simple
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center G) with h1 | h1
       · exact h1
       · exfalso

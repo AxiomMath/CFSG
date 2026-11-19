@@ -13,10 +13,12 @@ open CFSG.ClassicalGroups.Unitary CFSG.LieType.Universal.Unitary CFSG.RankThree.
 
 variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F} {a b : Fin 3 → Fin 6 → F}
 
+omit [CharP F 2] in
 private theorem gu1c_swapM_apply (p q : Fin 3 ⊕ Fin 3) :
     swapM F p q = if q = Equiv.swap (Sum.inl (0 : Fin 3)) (Sum.inr (0 : Fin 3)) p then 1 else 0 := by
   simp only [swapM, Equiv.Perm.permMatrix, PEquiv.toMatrix_toPEquiv_apply, Pi.single_apply]
 
+omit [CharP F 2] in
 private theorem gu1c_Wa_eq : Wa a = Submodule.span F {a 0, a 1, a 2} := by
   unfold Wa
   congr 1
@@ -31,15 +33,16 @@ private theorem gu1c_Wa_eq : Wa a = Submodule.span F {a 0, a 1, a 2} := by
     · exact ⟨1, rfl⟩
     · exact ⟨2, rfl⟩
 
+omit [CharP F 2] in
 private theorem gu1c_cT_single (τ : F) (hτ : σ τ = τ) :
     cT σ (τ • Matrix.single (0 : Fin 3) (0 : Fin 3) (1 : F)) = τ • Matrix.single 0 0 1 := by
   ext i j
   by_cases h : i = 0 ∧ j = 0
   · obtain ⟨rfl, rfl⟩ := h
-    simp [cT_apply, Matrix.single_apply, hτ]
+    simp [cT_apply, hτ]
   · have h1 : ¬ ((0 : Fin 3) = j ∧ (0 : Fin 3) = i) := fun h' => h ⟨h'.2.symm, h'.1.symm⟩
     have h2 : ¬ ((0 : Fin 3) = i ∧ (0 : Fin 3) = j) := fun h' => h ⟨h'.1.symm, h'.2.symm⟩
-    simp [cT_apply, Matrix.single_apply, h1, h2]
+    simp [cT_apply, h1, h2]
 
 private theorem gu1c_sU_a0 (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) :
     gLin (sU hσ hf) (a 0) = b 0 := by
@@ -69,10 +72,11 @@ private theorem gu1c_uU_b0 (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b) (τ 
       ∑ q, gm hσ hf (uU hσ hf (τ • Matrix.single 0 0 1) hH) q (Sum.inr 0) • fam a b q :=
     smul_fam hσ hf (uU hσ hf (τ • Matrix.single 0 0 1) hH) (Sum.inr 0)
   rw [h, gm_uU, Fintype.sum_sum_type]
-  simp [Fin.sum_univ_three, fam, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₂,
-    Matrix.one_apply, Matrix.single_apply, Matrix.smul_apply]
+  simp [fam, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₂,
+    Matrix.one_apply, Matrix.single_apply]
   abel
 
+omit [CharP F 2] in
 private theorem gu1c_uU_map_W₁ [CharP F 2] (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b)
     (H : Matrix (Fin 3) (Fin 3) F) (hH : cT σ H = H) (τ : F) (hτ : H = τ • Matrix.single 0 0 1) :
     (Submodule.span F {b 0, a 1, a 2}).map (gLin (uU hσ hf H hH)) =
@@ -136,7 +140,7 @@ theorem exists_P_s_of_adjacent (hσ : IsUnitaryInvolution σ) (hf : Frame σ a b
     have hH : cT σ (τ • Matrix.single (0 : Fin 3) (0 : Fin 3) (1 : F)) = τ • Matrix.single 0 0 1 :=
       gu1c_cT_single τ hτ
     have hu : uU hinv hf (τ • Matrix.single 0 0 1) hH ∈ Pstab σ (Wa a) :=
-      PtStab_le_Pstab hinv hf (uU_mem_PtStab hinv hf (τ • Matrix.single 0 0 1) hH)
+      PtStab_le_Pstab (uU_mem_PtStab hinv hf (τ • Matrix.single 0 0 1) hH)
     have hum := gu1c_uU_map_W₁ hinv hf (τ • Matrix.single 0 0 1) hH τ rfl
     have hall : (Wa a).map (gLin (uU hinv hf (τ • Matrix.single 0 0 1) hH * sU hinv hf)) = y' := by
       rw [← map_map_gLin, sU_map_Wa hinv hf, hum, hyτ]

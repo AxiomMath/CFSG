@@ -110,7 +110,7 @@ theorem exists_conj_of_fix_sylow
     refine (QuotientGroup.eq_one_iff _).mp ?_
     change q (r * r) = 1
     rw [map_mul, hrq, hrb2]
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨r, hrS⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨r, hrS⟩
   have hk' : r ^ 2 ^ k = 1 := by
     have := congrArg Subtype.val hk
     simpa using this

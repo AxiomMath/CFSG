@@ -29,8 +29,8 @@ theorem twinLeafR_of_noQ16 {r n : ℕ} (hr : 4 ≤ r) {P : ∀ (F : Type) [Group
     TwinLeafR r n P := by
   intro Y _ _ R S t hP _ hPF
   exfalso
-  haveI := genFittingFStar_normal Y
-  haveI := hP.core.simple
+  have := genFittingFStar_normal Y
+  have := hP.core.simple
   obtain ⟨A, _, hE, hA⟩ := h _ hPF
   obtain ⟨f, hf⟩ := hE Y (genFittingFStar Y) ⟨MulEquiv.refl _⟩
     (Nobq.centralizer_genFittingFStar_eq_bot hP.core.nonab)

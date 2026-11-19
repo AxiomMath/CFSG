@@ -115,9 +115,9 @@ section Main
 
 theorem phi6PlacementSome_holds (r : ℕ) (hr5 : 5 ≤ r) : Coordinator.Phi6PlacementSome r := by
   intro ℓ f hℓ hℓ2 hf hq5 K _ _ hK σ hσq hσ hr hrℓ hd
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK3 : Nat.card K = ℓ ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K ℓ :=
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ (by omega) hK3
   obtain ⟨D⟩ := exists_phi6JData_tw hf hℓ2 (by omega) hK σ hσq hr (by omega) hd
   exact ⟨D.E₀, D.w, D.P, D.hEp, D.hEc, D.hww, D.hwE, D.hEP, D.hPc, D.hPΩ,
@@ -126,7 +126,7 @@ theorem phi6PlacementSome_holds (r : ℕ) (hr5 : 5 ≤ r) : Coordinator.Phi6Plac
 
 theorem phi6PlacementSomeThree_holds (r : ℕ) (hr5 : 5 ≤ r) : Phi6PlacementSomeThree r := by
   intro ℓ f hℓ hℓ2 hf hlt K _ _ hK σ hσq hσ hr hrℓ hd
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hq3 : ℓ ^ f = 3 := by
     have hodd : Odd (ℓ ^ f) := (hℓ.odd_of_ne_two hℓ2).pow
     have h3 : 3 ≤ ℓ := by
@@ -138,7 +138,7 @@ theorem phi6PlacementSomeThree_holds (r : ℕ) (hr5 : 5 ≤ r) : Phi6PlacementSo
     obtain ⟨k, hk⟩ := hodd
     omega
   have hK3 : Nat.card K = ℓ ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K ℓ :=
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ (by omega) hK3
   obtain ⟨D⟩ := exists_phi6JData_tw hf hℓ2 (by omega) hK σ hσq hr (by omega) hd
   exact ⟨D.E₀, D.w, D.P, D.hEp, D.hEc, D.hww, D.hwE, D.hEP, D.hPc, D.hPΩ,

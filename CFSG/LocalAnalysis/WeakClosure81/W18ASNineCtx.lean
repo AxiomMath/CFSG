@@ -47,7 +47,7 @@ theorem exists_involution_img (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmeg
       (vInH V H g ⊓ Subgroup.centralizer (eOmegaZ H D.T : Set G)) = 1 := by
     unfold E3.mQuot
     rw [Subgroup.inf_relIndex_left, hidx]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact padicValNat_self
   refine ⟨⟨⟨hgi, hnotC⟩, by rw [hm1]; exact x.iStar_pos⟩, ?_⟩
   obtain ⟨d, hdD, hdK⟩ : ∃ d ∈ vInH V H g, d ∉ kerMV V H := by

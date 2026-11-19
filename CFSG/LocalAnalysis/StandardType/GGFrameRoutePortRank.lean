@@ -472,7 +472,7 @@ theorem F09_rank_obstruction {z : G} (hz : orderOf z = 3) {K₁ K₂ : Subgroup 
   have hEcard : Nat.card E = 3 ^ (2 * r + 1) := by
     change Nat.card (S'.map C.subtype) = 3 ^ (2 * r + 1)
     rw [Subgroup.card_map_of_injective C.subtype_injective, hS'card]
-  have hV2 : IsPGroup 2 V := ((Sylow.isPGroup' U).map P.subtype).map C.subtype
+  have hV2 : IsPGroup 2 V := ((Sylow.isPGroup U).map P.subtype).map C.subtype
   have hVne : V ≠ ⊥ := by
     intro h
     apply hU'ne

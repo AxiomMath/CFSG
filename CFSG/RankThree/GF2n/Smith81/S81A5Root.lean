@@ -27,7 +27,7 @@ theorem rho_sub_one_ιMulti {t : GL (Fin 6) K} {a f : Fin 6 → K}
     · exact hrt x₂
   rw [rho_ιMulti, hfun]
   simp only [ι3_add_fst, ι3_add_snd, ι3_add_thd, ι3_smul_fst, ι3_smul_snd, ι3_smul_thd,
-    ι3_eq_fst_snd, ι3_eq_fst_thd, ι3_eq_snd_thd, smul_zero, add_zero, zero_add]
+    ι3_eq_fst_snd, ι3_eq_fst_thd, ι3_eq_snd_thd, smul_zero, add_zero]
   module
 
 end CFSG.RankThree.GF2n.Smith81.A5Cube

@@ -55,7 +55,7 @@ private theorem exists_five_mem_ker_centralizer_A (F : A10Frame c) :
     ∃ y : ↥D.M, orderOf (y : G) = 5 ∧ F.phiA y = 1 ∧
       (y : G) ∈ Subgroup.centralizer (F.A : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h5dvd : 5 ∣ Nat.card ↥(Subgroup.centralizer (F.A : Set G) ⊓ D.M) :=
     F.five_dvd_card_centralizer_inf (fun x hx h => (F.a10Hom_eq_one_iff hx).mp h)
       (F.three_le_pRank_five) (F.A_le.trans F.P_le_L) F.elemAbelian.isPGroup
@@ -105,7 +105,7 @@ private theorem map_inf_centralizer_L_eq (F : A10Frame c) {b : G} (hbA : b ∈ F
       alternatingGroup (Fin 10) ⊓ Subgroup.centralizer
         (Subgroup.zpowers (F.phiA ⟨b, F.A_le_M hbA⟩) : Set (Equiv.Perm (Fin 10))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbL : b ∈ c.L := F.P_le_L (F.A_le hbA)
   have hbM : b ∈ D.M := F.A_le_M hbA
   have hB3pg : IsPGroup 3 (Subgroup.zpowers b) :=
@@ -127,7 +127,7 @@ private theorem five_dvd_card_inf_centralizer_map (F : A10Frame c) {b : G}
     5 ∣ Nat.card ↥(c.L.subgroupOf D.M ⊓
       Subgroup.centralizer ((Subgroup.zpowers b).subgroupOf D.M : Set ↥D.M)) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hbL : b ∈ c.L := F.P_le_L (F.A_le hbA)
   have hbM : b ∈ D.M := F.A_le_M hbA
   have hs : (F.phiA ⟨b, hbM⟩).support.card = 3 := by
@@ -164,7 +164,7 @@ private theorem exists_five_mem_inf_centralizer_not_mem_ker (F : A10Frame c) {b 
       u ∈ Subgroup.centralizer ((Subgroup.zpowers b).subgroupOf D.M : Set ↥D.M) ∧
       F.phiA u ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let X : Subgroup ↥D.M := c.L.subgroupOf D.M ⊓
     Subgroup.centralizer ((Subgroup.zpowers b).subgroupOf D.M : Set ↥D.M)
   have h5dvd : 5 ∣ Nat.card ↥X := five_dvd_card_inf_centralizer_map F hbA hbdeg
@@ -181,7 +181,7 @@ private theorem exists_five_mem_inf_centralizer_not_mem_ker (F : A10Frame c) {b 
   have huO2 : (((uX : ↥X) : ↥D.M) : G) ∈
       (CFSG.Open.pCore 2 ↥c.L).map c.L.subtype :=
     (F.phiA_eq_one_iff huL).mp (by rwa [huM_eq] at hphi)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnot5 : ¬ 5 ∣ Nat.card ↥((CFSG.Open.pCore 2 ↥c.L).map c.L.subtype) :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup
       ((CFSG.pCore_isPGroup (p := 2) (G := ↥c.L)).map c.L.subtype) Nat.prime_five
@@ -204,12 +204,12 @@ private theorem exists_five_mem_centralizer_not_mem_ker (F : A10Frame c) {b : G}
     (Subgroup.mem_centralizer_iff.mp huCent ⟨z, hzM⟩ hzBM)
 
 private theorem exists_sylow_five_with_ker_element (F : A10Frame c) {b : G}
-    (hbA : b ∈ F.A) (hbdeg : F.deg (Subgroup.zpowers b) = 3) :
+    (hbA : b ∈ F.A) (_hbdeg : F.deg (Subgroup.zpowers b) = 3) :
     ∃ (R : Subgroup G) (y : ↥D.M), CFSG.ABGLocalTools.IsSylowOf 5 R
       (Subgroup.centralizer (Subgroup.zpowers b : Set G) ⊓ D.M) ∧
       (y : G) ∈ R ∧ orderOf (y : G) = 5 ∧ F.phiA y = 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let C : Subgroup G := Subgroup.centralizer (Subgroup.zpowers b : Set G) ⊓ D.M
   obtain ⟨yM, hyord, hyphi, hyAcent⟩ := exists_five_mem_ker_centralizer_A F
   have hyCent : (yM : G) ∈ Subgroup.centralizer (Subgroup.zpowers b : Set G) := by
@@ -237,7 +237,7 @@ private theorem exists_mem_sylow_not_mem_ker (F : A10Frame c) {b : G}
       (Subgroup.centralizer (Subgroup.zpowers b : Set G) ⊓ D.M)) :
     ∃ w : ↥D.M, (w : G) ∈ R ∧ orderOf (w : G) = 5 ∧ F.phiA w ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let C : Subgroup G := Subgroup.centralizer (Subgroup.zpowers b : Set G) ⊓ D.M
   obtain ⟨uM, huord, huCent, huphi⟩ := exists_five_mem_centralizer_not_mem_ker F hbA hbdeg
   have huC : (uM : G) ∈ C := Subgroup.mem_inf.mpr ⟨huCent, uM.2⟩
@@ -290,7 +290,7 @@ private theorem exists_sylow_five_not_isCyclic (F : A10Frame c) {b : G} (hbA : b
   obtain ⟨wM, hwR, hword, hwphi⟩ := exists_mem_sylow_not_mem_ker F hbA hbdeg hRsyl
   refine ⟨R, hRsyl, ?_⟩
   intro hcyc
-  letI : IsCyclic ↥R := hcyc
+  let : IsCyclic ↥R := hcyc
   let yR : ↥R := ⟨(yM : G), hyR⟩
   let wR : ↥R := ⟨(wM : G), hwR⟩
   have hyRord : orderOf yR = 5 := by

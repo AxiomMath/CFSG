@@ -80,7 +80,7 @@ theorem MinCex.orbit4_false (c : MinCex r Ω K S R W H) {z g t d₁ d₂ : G}
   have hR₀ : IsSylow2In (conjSub g R) (conjSub g K) := hRsyl.conj g
   have hq : IsQuatSub (conjSub g R) :=
     Sec6Gen.isQuatSub_of_mem_RSet hΩ (RSet.conj hΩ.conjInvariant hRR g)
-  have hS₁ : IsPGroup 2 ↥(conjSub g (S : Subgroup G)) := isPGroup_conjSub g S.isPGroup'
+  have hS₁ : IsPGroup 2 ↥(conjSub g (S : Subgroup G)) := isPGroup_conjSub g S.isPGroup
   have hR₀S : conjSub g R ≤ conjSub g (S : Subgroup G) := conjSub_mono hRS
   have hd₁S : d₁ ∈ conjSub g (S : Subgroup G) := hCS d₁ (hWS hd₁W) g₁.comm_t.symm
   have hd₂S : d₂ ∈ conjSub g (S : Subgroup G) := hCS d₂ (hWS hd₂W) g₂.comm_t.symm

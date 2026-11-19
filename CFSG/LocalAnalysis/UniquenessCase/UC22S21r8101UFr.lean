@@ -42,11 +42,12 @@ theorem u81_eq_of_mul_mul_eq {Q : Type*} [Group Q] {X Y Z : Subgroup Q} (hXY : X
   subst hx1
   exact ⟨rfl, mul_left_cancel h2, rfl⟩
 
+omit [Finite G] in
 theorem u81_eq_of_pi_eq {M B : Subgroup G} {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hB : IsPGroup r B) {m m' : ↥M} (hm : (m : G) ∈ B) (hm' : (m' : G) ∈ B)
     (h : uc22p21cPi M m = uc22p21cPi M m') : m = m' := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : uc22p21cPi M (m⁻¹ * m') = 1 := by rw [map_mul, map_inv, h, inv_mul_cancel]
   have h2 : m⁻¹ * m' ∈ B.subgroupOf M := Subgroup.mem_subgroupOf.2 (B.mul_mem (B.inv_mem hm) hm')
   exact inv_mul_eq_one.1 (Subgroup.disjoint_def.1 (IsPGroup.disjoint_of_ne _ _ hr2 _ _
@@ -74,7 +75,7 @@ theorem u81_exists_mem_inf (u : U4X D L K n) {R : Subgroup G}
     ∃ a ∈ R ⊓ L, orderOf a = 2 ^ n - 1 := by
   have hr := u.prime_r
   have hr2 := u.r_ne_two
-  haveI : Fact (2 ^ n - 1).Prime := ⟨hr⟩
+  have : Fact (2 ^ n - 1).Prime := ⟨hr⟩
   have hRN : R ≤ normalizer (L : Set G) := fun g hg => by
     obtain ⟨k, hk⟩ := hR.isPGroup ⟨g, hg⟩
     have hg3 : g ^ (2 ^ n - 1) ^ k = 1 := congrArg Subtype.val hk
@@ -106,8 +107,8 @@ theorem u81_exists_basis (u : U4X D L K n)
       ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M)) ≠ ⊥) :
     ∃ b : Fin 3 → G, U81Basis D L K n B b := by
   have hr := u.prime_r
-  haveI : Fact (2 ^ n - 1).Prime := ⟨hr⟩
-  haveI : NeZero (2 ^ n - 1) := ⟨hr.ne_zero⟩
+  have : Fact (2 ^ n - 1).Prime := ⟨hr⟩
+  have : NeZero (2 ^ n - 1) := ⟨hr.ne_zero⟩
   have hBM : B ≤ D.M := hBR.trans hR.le
   have hBp : IsPGroup (2 ^ n - 1) B := hR.isPGroup.to_le hBR
   obtain ⟨-, hinf, -, -, -, -, hXC⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
@@ -223,8 +224,8 @@ variable {D : Data G} {L K B : Subgroup G} {n : ℕ} {b : Fin 3 → G}
 
 theorem orderOf_eq (hb : U81Basis D L K n B b) (hr : (2 ^ n - 1).Prime) (i : Fin 3) :
     orderOf (b i) = 2 ^ n - 1 := by
-  haveI : NeZero (2 ^ n - 1) := ⟨hr.ne_zero⟩
-  haveI : Fact (1 < 2 ^ n - 1) := ⟨hr.one_lt⟩
+  have : NeZero (2 ^ n - 1) := ⟨hr.ne_zero⟩
+  have : Fact (1 < 2 ^ n - 1) := ⟨hr.one_lt⟩
   rcases hr.eq_one_or_self_of_dvd _ (orderOf_dvd_of_pow_eq_one (hb.frame.pow_eq_one i)) with h | h
   · rw [orderOf_eq_one_iff] at h
     have h0 := congrFun (hb.frame.indep (Pi.single i 1) (by rw [hb.frame.coord_single_one, h])) i

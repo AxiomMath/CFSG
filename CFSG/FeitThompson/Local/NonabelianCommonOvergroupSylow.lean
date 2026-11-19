@@ -108,7 +108,7 @@ theorem FNI_nonabelian_common_overgroup_sylow
     exact hQR ▸ hQsyl
   have hRG : _root_.CFSG.FeitThompson.IsSylowSubgroup p R := by
     obtain ⟨Q, hRQ⟩ := hRp.exists_le_sylow
-    exact ⟨Q, eq_of_isSylowSubgroupOf_of_normalizer_le hp hRsyl hNMT Q.isPGroup' hRQ⟩
+    exact ⟨Q, eq_of_isSylowSubgroupOf_of_normalizer_le hp hRsyl hNMT Q.isPGroup hRQ⟩
   have hrank : elementaryAbelianPRank p R = 2 := by
     have h2 : 2 ≤ elementaryAbelianPRank p R :=
       two_le_elementaryAbelianPRank_of_not_isCyclic hp hpodd hRp hRnc

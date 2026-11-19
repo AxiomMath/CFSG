@@ -32,7 +32,7 @@ theorem false_of_le_su6Levi {f : ℕ} (hf : 2 ≤ f) {k F : Type} [Field k] [Fie
     (hKL : stdLayerD (twistedE6RootGroup F σ) d ≤
       CFSG.SeitzReduction.TwistedE6Pilot.su6Levi σ.toRingHom) :
     False := by
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
   have hf1 : 1 ≤ f := by omega
   have hk4 : 4 ≤ Nat.card k := by
     rw [hk]

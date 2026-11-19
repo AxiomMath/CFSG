@@ -22,11 +22,12 @@ section Helpers
 
 variable {K Ω : Type} [Field K] [Finite K] [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω]
 
+omit [IsAlgClosure K Ω] in
 private theorem frobenius_algebraMap {Fr : Ω →+* Ω} (hFr : ∀ c, Fr c = c ^ Nat.card K)
     (c : K) : Fr (algebraMap K Ω c) = algebraMap K Ω c := by
   rw [hFr, ← map_pow]
   have hpow : c ^ Nat.card K = c := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
   rw [hpow]
@@ -56,6 +57,7 @@ private theorem frobE6_mem_rootSpan {Fr : Ω →+* Ω} {S : Set (Fin Tag.E6.rank
   | mul x y _ _ hx hy => rw [map_mul]; exact mul_mem hx hy
   | inv x _ hx => rw [map_inv]; exact inv_mem hx
 
+omit [IsAlgClosure K Ω] in
 private theorem frobE6_baseChangeGL_eq {Fr : Ω →+* Ω}
     (hFr : ∀ c, Fr c = c ^ Nat.card K) {S : Set (Fin Tag.E6.rank → ℤ)}
     {y : ModGL Tag.E6 K} (hy : y ∈ rootSpan Tag.E6 K S) :
@@ -80,8 +82,8 @@ theorem fixed_blockGroup_eq {K Ω : Type} [Field K] [Finite K] [Field Ω] [Algeb
     ∃ y ∈ rootSpan Tag.E6 K (a2Roots (a2PairE6 i).1 (a2PairE6 i).2),
       baseChangeGL (algebraMap K Ω) y = z := by
   classical
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨ρK, σK, hfrK, hσK01, hσK12⟩ := exists_frame_a2PairE6 K i
   obtain ⟨ρ, σ, hfr, hσ01, hσ12⟩ := exists_frame_a2PairE6 Ω i
   set S : Set (Fin Tag.E6.rank → ℤ) := a2Roots (a2PairE6 i).1 (a2PairE6 i).2 with hS
@@ -94,7 +96,7 @@ theorem fixed_blockGroup_eq {K Ω : Type} [Field K] [Finite K] [Field Ω] [Algeb
   have hFmem : ∀ r ∈ rootSpan Tag.E6 Ω S, frobE6 Fr r ∈ rootSpan Tag.E6 Ω S :=
     fun r hr => frobE6_mem_rootSpan hr
   have hqpos : 0 < Nat.card K := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact Fintype.card_pos_iff.mpr ⟨(0 : K)⟩
   have hFr_surj : Function.Surjective Fr := by
@@ -146,7 +148,7 @@ theorem fixed_blockGroup_eq {K Ω : Type} [Field K] [Finite K] [Field Ω] [Algeb
     rw [hΘ, hε i j hij t, frobE6_pinnedX, hε i j hij ((b i j : Ω) * t ^ Nat.card K)]
     congr 1
     have hb : (b i j : Ω) = Fr (ε i j hij : Ω) * ((ε i j hij : Ω))⁻¹ := by
-      simp [b, dif_neg hij]
+      simp [b, dite_eq_right hij]
     rw [hb, map_mul, hFr, hFr]
     field_simp
   let ιK : SL(3, K) →* SL(3, Ω) := Matrix.SpecialLinearGroup.map (algebraMap K Ω)
@@ -234,8 +236,8 @@ theorem fixed_blockGroup_eq {K Ω : Type} [Field K] [Finite K] [Field Ω] [Algeb
     exact (Nat.card_congr (MonoidHom.ofInjective hfrK.injective).toEquiv).symm
   have hcardB : Nat.card B = Nat.card (SL(3, K)) := hBcard.trans hfixcard
   have hcardBA : Nat.card B ≤ Nat.card A := by rw [hcardB, hcardA]
-  haveI : Finite (fixSubgroup Θ) := hfin
-  haveI : Finite B := Finite.of_injective (eB : B → fixSubgroup Θ) (Equiv.injective eB)
+  have : Finite (fixSubgroup Θ) := hfin
+  have : Finite B := Finite.of_injective (eB : B → fixSubgroup Θ) (Equiv.injective eB)
   have hAB : A = B := Subgroup.eq_of_le_of_card_ge hle hcardBA
   have hzB : z ∈ B := by
     refine Subgroup.mem_inf.2 ⟨?_, ?_⟩

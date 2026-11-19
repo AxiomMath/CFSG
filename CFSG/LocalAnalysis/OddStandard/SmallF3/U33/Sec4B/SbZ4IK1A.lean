@@ -17,10 +17,12 @@ namespace ZIKData
 
 variable {Q Y V V' B K : Subgroup H} {ρ : H}
 
+omit [Finite H] in
 private lemma z4ik1a_rho_conj_rho (ρ x : H) :
     ρ * (ρ * x * ρ⁻¹) * ρ⁻¹ = ρ ^ 2 * x * (ρ ^ 2)⁻¹ := by
   rw [pow_two, mul_inv_rev]; group
 
+omit [Finite H] in
 private lemma z4ik1a_rho_conj_rho_sq (h : ZIKData Q Y V V' B K ρ) (x : H) :
     ρ * (ρ ^ 2 * x * (ρ ^ 2)⁻¹) * ρ⁻¹ = x := by
   have h3 : ρ * ρ * ρ = 1 := by rw [← pow_three']; exact h.rho_pow_three
@@ -31,6 +33,7 @@ private lemma z4ik1a_rho_conj_rho_sq (h : ZIKData Q Y V V' B K ρ) (x : H) :
       = (ρ * ρ * ρ) * x * (ρ⁻¹ * ρ⁻¹ * ρ⁻¹) := by group
     _ = x := by rw [h3, h3i]; group
 
+omit [Finite H] in
 private lemma z4ik1a_rho_sq_conj_rho (h : ZIKData Q Y V V' B K ρ) (x : H) :
     ρ ^ 2 * (ρ * x * ρ⁻¹) * (ρ ^ 2)⁻¹ = x := by
   have h3 : ρ * ρ * ρ = 1 := by rw [← pow_three']; exact h.rho_pow_three

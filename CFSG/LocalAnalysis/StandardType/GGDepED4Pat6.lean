@@ -255,7 +255,7 @@ lemma lr6p6_MJ {ι : Type*} {M : CoxeterMatrix ι} {C : Matrix ι ι ℤ}
     have hcase := hC.2 (emb i) (emb j) hne
     rw [lr6p6_coxeterE6_off i.1 j.1 hkl]
     rcases lr6p6_cartanE6_off i.1 j.1 hkl with he | he
-    · rw [if_pos he]
+    · rw [ite_eq_left he]
       rcases hcase with ⟨hm, -, -⟩ | ⟨hm, h1, -⟩ | ⟨hm, h1, h2, h3⟩ | ⟨hm, h1, h2, h3⟩
       · exact hm
       · exfalso
@@ -265,7 +265,7 @@ lemma lr6p6_MJ {ι : Type*} {M : CoxeterMatrix ι} {C : Matrix ι ι ℤ}
         exact lr6p6_mod3_zero_two hJij hJji h1 he
       · exfalso
         exact lr6p6_mod3_zero_three hJij hJji h1 h2 h3 (Or.inl he)
-    · rw [if_neg (by omega)]
+    · rw [ite_eq_right (by omega)]
       rcases hcase with ⟨hm, h1, -⟩ | ⟨hm, -, -⟩ | ⟨hm, h1, h2, h3⟩ | ⟨hm, h1, h2, h3⟩
       · exfalso
         rw [h1, he] at hJij
@@ -394,17 +394,17 @@ theorem ggDepED4_pattern6 {Λa : Type} [Fintype Λa] [DecidableEq Λa] (hΛa : N
           rw [hM]
           by_cases hik : i = k
           · have hjk : j.1 = lr6p6_emb k := hiffc.mp (hiff.mpr hik)
-            rw [if_pos hik, if_pos hjk]
+            rw [ite_eq_left hik, ite_eq_left hjk]
           · have hjk : ¬ j.1 = lr6p6_emb k := fun h => hik (hiff.mp (hiffc.mpr h))
-            rw [if_neg hik, if_neg hjk]
+            rw [ite_eq_right hik, ite_eq_right hjk]
         by_cases hjk : j.1 = lr6p6_emb k
-        · have h3 : MK (Sum.inr a) (Sum.inl j) = 3 := by rw [hM', if_pos hjk]
+        · have h3 : MK (Sum.inr a) (Sum.inl j) = 3 := by rw [hM', ite_eq_left hjk]
           have hres := lr6p6_cartan_of_three hCK (Sum.inr_ne_inl) h3
-          rw [if_pos hjk]
+          rw [ite_eq_left hjk]
           exact hres
-        · have h2 : MK (Sum.inr a) (Sum.inl j) = 2 := by rw [hM', if_neg hjk]
+        · have h2 : MK (Sum.inr a) (Sum.inl j) = 2 := by rw [hM', ite_eq_right hjk]
           have hres := lr6p6_cartan_of_two hCK (Sum.inr_ne_inl) h2
-          rw [if_neg hjk]
+          rw [ite_eq_right hjk]
           exact hres
       have hrow0 : ∀ (a : Λa),
           (∀ i : Fin 4, lr6p6_tD6 (tt a) (f i) = 2) →

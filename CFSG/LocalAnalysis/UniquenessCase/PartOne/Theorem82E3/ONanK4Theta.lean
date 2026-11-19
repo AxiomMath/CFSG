@@ -464,7 +464,7 @@ private lemma K2_centralizer_data_of_lift
        Nat.card J₀ = 1080 ∧ C₀ = Subgroup.zpowers ŷ ⊔ J₀ ∧
        IsAlt (J₀ ⧸
          (Subgroup.center CFSG.RankThree.Native.ONTriple.GM).subgroupOf J₀) 6) := by
-  haveI : Finite CFSG.RankThree.Native.ONTriple.GM :=
+  have : Finite CFSG.RankThree.Native.ONTriple.GM :=
     Nat.finite_of_card_ne_zero (by
       rw [CFSG.RankThree.Native.ONTriple.card_GM]; norm_num)
   simpa only using
@@ -736,11 +736,11 @@ theorem onThreeInnerCore_of_K2
     refine ⟨?_, ?_⟩
     · exact hRnorm (a : Y) (hAleC a.2) (n : Y) hn.1
     · exact A.mul_mem (A.mul_mem a.2 hn.2) (A.inv_mem a.2)
-  haveI hA6simple : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have hA6simple : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by norm_num)
   obtain ⟨eA6⟩ := hAltA
-  haveI hAsimple : IsSimpleGroup A := MulEquiv.isSimpleGroup eA6
-  haveI hNnormalI : ((R ⊓ A).subgroupOf A).Normal := hNnormal
+  have hAsimple : IsSimpleGroup A := MulEquiv.isSimpleGroup eA6
+  have hNnormalI : ((R ⊓ A).subgroupOf A).Normal := hNnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((R ⊓ A).subgroupOf A)
     with h | h
   · have hRA : R ⊓ A = ⊥ := by

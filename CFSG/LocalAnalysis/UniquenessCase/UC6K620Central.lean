@@ -156,7 +156,7 @@ theorem le_center_of_sylow_pRank_le {K : Type*} [Group K] [Finite K] [Group.IsPe
       (even_iff_two_dvd.mpr (Nat.dvd_of_mem_primeFactors hp))
   have := hCsyl p default
   exact le_center_of_normal_pRank_le m C hCsolv hCodd hsimple U hU hUcard hp2 _
-    ((default : Sylow p C).isPGroup'.map _)
+    ((default : Sylow p C).isPGroup.map _)
     ((CFSG.SectionRank.pRank_mono hpp.one_lt (Subgroup.map_subtype_le _)).trans
       (hCrank p hpp hp2))
 

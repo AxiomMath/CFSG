@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_conj_eq_gLBConj_inv (g : G) (J : Subgroup G) :
     J.map (MulAut.conj g).toMonoidHom = GLBConj g⁻¹ J := by
   ext y
@@ -26,6 +27,7 @@ theorem map_conj_eq_gLBConj_inv (g : G) (J : Subgroup G) :
   · intro h
     exact ⟨g⁻¹ * y * g, by simpa using h, by simp [MulAut.conj_apply, mul_assoc]⟩
 
+omit [Finite G] in
 theorem gLBConj_centralizer_of_inverts {s α : G} (hα : α * α = 1)
     (hinv : α * s * α⁻¹ = s⁻¹) :
     GLBConj α (Subgroup.centralizer ({s} : Set G)) = Subgroup.centralizer ({s} : Set G) := by
@@ -51,6 +53,7 @@ theorem gLBConj_centralizer_of_inverts {s α : G} (hα : α * α = 1)
     rwa [hcc] at this
   · exact key y
 
+omit [Finite G] in
 theorem glaPComponent_conj_inverter {s α : G} (hα : α * α = 1) (hinv : α * s * α⁻¹ = s⁻¹)
     {J : Subgroup G} (hJ : GLAPComponent 3 (Subgroup.centralizer ({s} : Set G)) J) :
     GLAPComponent 3 (Subgroup.centralizer ({s} : Set G)) (J.map (MulAut.conj α).toMonoidHom) := by

@@ -33,7 +33,7 @@ theorem pCore_three_eq_bot_of_a9 {X : Type} [Group X] [Finite X]
     (f : ↥I →* alternatingGroup (Fin 9)) (hf : Function.Surjective f)
     (hker : IsPGroup 2 f.ker) : CFSG.pCore 3 X = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P : Subgroup X := CFSG.pCore 3 X
   have hP3 : IsPGroup 3 P := CFSG.pCore_isPGroup (p := 3) (G := X)
   have hIP : I ≤ Subgroup.normalizer (P : Set X) := Subgroup.le_normalizer_of_normal
@@ -46,7 +46,7 @@ theorem pCore_three_eq_bot_of_a9 {X : Type} [Group X] [Finite X]
       (CFSG.Open.IsElemAbelian.isPGroup hAelem) hP3
       (hAI.trans hIP) hPne
   let H : Subgroup X := P ⊓ Subgroup.centralizer (A : Set X)
-  haveI : Nontrivial H := (nontrivial_iff_ne_bot H).mpr hHne
+  have : Nontrivial H := (nontrivial_iff_ne_bot H).mpr hHne
   have hH3 : IsPGroup 3 H := hP3.to_le inf_le_left
   obtain ⟨k, hk, hHcard⟩ := hH3.nontrivial_iff_card.mp inferInstance
   obtain ⟨z, hzord⟩ := exists_prime_orderOf_dvd_card' (G := H) 3
@@ -76,7 +76,7 @@ private theorem pRank_quotient_pPrimeCore_le_three {M H E Q : Subgroup G}
     (h : S14Choice G M H E Q (kSub 3 M H)) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (↥M ⧸ CFSG.pPrimeCore 3 ↥M)) ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrankM : CFSG.Open.pRank 3 M ≤ 3 :=
     h.cstar.pRank_le_three_of_isTwoLocal Nat.prime_three (by norm_num)
       h.hypCGen.not_mem_sigmaA h.maxLocal.1
@@ -108,12 +108,12 @@ private theorem exists_component_alternating {M H E Q : Subgroup G}
       (Nonempty (↥L ≃* alternatingGroup (Fin 9)) ∨
         Nonempty (↥L ≃* alternatingGroup (Fin 11))) := by
   classical
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hMtop : M ≠ ⊤ :=
     CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top h.cstar.nonab M h.maxLocal.1
   let O : Subgroup ↥M := CFSG.pPrimeCore 3 ↥M
   let X := ↥M ⧸ O
-  haveI : O.Normal := CFSG.pPrimeCore_normal
+  have : O.Normal := CFSG.pPrimeCore_normal
   have hKX : CFSG.Open.IsKGroup X := (h.cstar.kProper.isKGroup M hMtop).quotient O
   have hOquot : CFSG.pPrimeCore 3 X = ⊥ := by
     simpa [X, O] using
@@ -143,7 +143,7 @@ theorem S14Choice.fourteenThirteen {M H E Q : Subgroup G}
   classical
   obtain ⟨L, hFstar, hCent, hLiso⟩ :=
     exists_component_alternating h hA h2 hpre hK hU hL hKF h514 h525 hX h73 h711
-  haveI hLnormal : L.Normal :=
+  have hLnormal : L.Normal :=
     hFstar ▸ (CFSG.LocalCores.generalized_fitting_characteristic
       (G := ↥M ⧸ CFSG.pPrimeCore 3 ↥M)).2
   obtain ⟨eT⟩ := nonempty_threeStar_oPPrimeHull_mulEquiv M

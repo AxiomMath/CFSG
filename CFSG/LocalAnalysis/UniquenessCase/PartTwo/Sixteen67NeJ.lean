@@ -19,6 +19,7 @@ namespace Cfg1667Ne
 
 variable {M V₀ V W₁ W₂ : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem le_centralizer_of_eq_zpowers (h : Cfg1667Ne M V₀ V W₁ W₂) {z : G}
     (hz : V ⊓ conjSubgroup M g ⊓ (conjSubgroup V g ⊓ M) = Subgroup.zpowers z) :
     V ⊔ conjSubgroup V g ≤ centralizer ({z} : Set G) := by
@@ -36,6 +37,7 @@ theorem le_centralizer_of_eq_zpowers (h : Cfg1667Ne M V₀ V W₁ W₂) {z : G}
     exact Subtype.ext_iff.mp
       (((E3.isElemAbelian_conjSubgroup h.elemAbelian g).1).is_comm.comm ⟨x, hx⟩ ⟨z, hzVg⟩)
 
+omit [Finite G] in
 theorem not_centralizer_le (h : Cfg1667Ne M V₀ V W₁ W₂) (hg : InCalO 1 M V₀ V g) {z : G}
     (hz : V ⊓ conjSubgroup M g ⊓ (conjSubgroup V g ⊓ M) = Subgroup.zpowers z) :
     ¬ centralizer ({z} : Set G) ≤ M := by
@@ -251,7 +253,7 @@ theorem s1667ne_pRank_centralizer (D : Data G) (hSg : UC6S846.SigmaStd D)
     {hV : IsElemAbelian 2 V} (hS : Sect16 D V₀ V L hV) (hsit : Sit1665 D V₀ V hV L) {z : G}
     (hzV : z ∈ V) (hz : orderOf z = 2) (hnot : ¬ centralizer ({z} : Set G) ≤ D.M) :
     CFSG.Open.pRank 3 (centralizer ({z} : Set G)) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hse : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M :=
     sixteen_sixtyEight_k D hSg h1219 V₀ V L hV hS hsit
   have h3sig : 3 ∈ D.sig := by
@@ -280,7 +282,7 @@ theorem s1667ne_isStronglyPEmbedded (D : Data G) (hSg : UC6S846.SigmaStd D)
     (hnot : ¬ centralizer ({z} : Set G) ≤ D.M) :
     CFSG.RankThree.PartOne.IsStronglyPEmbedded 3
       ((centralizer ({z} : Set G) ⊓ D.M).subgroupOf (centralizer ({z} : Set G))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hse : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M :=
     sixteen_sixtyEight_k D hSg h1219 V₀ V L hV hS hsit
   obtain ⟨p, hp, hpv⟩ := h21 V₀ V hS.setting.hyp16

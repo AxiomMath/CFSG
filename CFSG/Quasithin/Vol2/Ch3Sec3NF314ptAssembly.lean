@@ -73,6 +73,7 @@ theorem inf_centralizer_mPlus_vPlus_eq_bot {T L : Subgroup G} (hT : IsPGroup 2 �
   apply hx1
   exact Subtype.ext (Subtype.ext (Subgroup.mem_bot.mp h5))
 
+omit [Finite G] in
 theorem commute_of_two_power_odd {y w : G} {V₁ : Subgroup G} (hy : Odd (orderOf y)) (k : ℕ)
     (hw : w ^ 2 ^ k = 1) (hV : ∀ v ∈ V₁, y⁻¹ * v * y ∈ V₁)
     (hconj : ∀ v ∈ V₁, w * v * w⁻¹ = y⁻¹ * v * y) : ∀ v ∈ V₁, y * v = v * y := by
@@ -367,7 +368,7 @@ theorem obl3_3_13D12NF_314pt_of
     refine sup_le ?_ (le_normalizer_conjClosure K T)
     rw [hM]
     refine sup_le (fun x hx => ?_) hle
-    have hx' : t⁻¹ * x * t ∈ CFSG.conjugate L t := ⟨x, hx, by simp [MulAut.conj_apply]⟩
+    have hx' : t⁻¹ * x * t ∈ CFSG.conjugate L t := ⟨x, hx, by simp⟩
     have h1 := Subgroup.mul_mem _ (Subgroup.mul_mem _ (hK0T ht) (hle hx')) (Subgroup.inv_mem _ (hK0T ht))
     simpa [mul_assoc] using h1
   have hF : FCfg G T M L D H K (T ⊓ Subgroup.normalizer (L : Set G)) (CFSG.conjugate L t) e₀ :=

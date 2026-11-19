@@ -35,7 +35,7 @@ theorem exists_involution_comm_ne {L : Type} [Group L] [Finite L] {t : StatedLie
     intro hb
     rw [hb, Subgroup.mem_bot] at haQ
     exact ha1 haQ
-  obtain ⟨z, hzQ, hz2, hz1, hzc⟩ := exists_central_involution Q.isPGroup' hQne
+  obtain ⟨z, hzQ, hz2, hz1, hzc⟩ := exists_central_involution Q.isPGroup hQne
   have hza : z = a := by
     by_contra hne
     exact hno z hz2 hz1 hne (hzc a haQ).symm
@@ -56,7 +56,7 @@ theorem exists_involution_comm_ne {L : Type} [Group L] [Finite L] {t : StatedLie
     have h1 : c * c ∈ center L := by
       rw [← QuotientGroup.eq_one_iff, QuotientGroup.mk_mul]
       exact hc
-    exact eq_one_of_mem_pGroup_of_mem_center_odd Q.isPGroup' hodd (Q.mul_mem hcQ hcQ) h1
+    exact eq_one_of_mem_pGroup_of_mem_center_odd Q.isPGroup hodd (Q.mul_mem hcQ hcQ) h1
   have ha₀2 : a₀ * a₀ = 1 := hsq a₀ ha₀Q ha'2
   have hb₀2 : b₀ * b₀ = 1 := hsq b₀ hb₀Q hb'2
   have ha₀1 : a₀ ≠ 1 := fun h => ha'1 (by rw [h, map_one])

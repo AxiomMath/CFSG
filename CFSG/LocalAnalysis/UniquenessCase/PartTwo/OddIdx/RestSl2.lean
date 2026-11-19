@@ -94,7 +94,7 @@ theorem oddIdxRest_card_of_sl2_section {Γ : Type} [Group Γ] {N W₁ : Subgroup
     (φ : ↥W₁ →* Matrix.SpecialLinearGroup (Fin 2) F) (hφ : Function.Surjective φ)
     (hN : CFSG.KCore.KGroupNonab (DvdOrThreeFree 51840) ↥N) :
     Nat.card F = 4 ∨ Nat.card F = 5 := by
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
   have hnonab : ∃ a b : Matrix.ProjectiveSpecialLinearGroup (Fin 2) F, a * b ≠ b * a :=
     CFSG.Walter.psl2_exists_mul_ne_mul F h4

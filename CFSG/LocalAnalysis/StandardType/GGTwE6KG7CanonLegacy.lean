@@ -106,9 +106,9 @@ private theorem kg7canon_rawDatum_legacy_of_canonical {lab : LargeEvenLabel}
     | (dsimp only [LargeEvenRecipeTwF4Inherited, LargeEvenRecipeTwF4] at h ⊢
        obtain ⟨K, hf, hfin, hK, hQ⟩ := h
        by_cases ha : (n - 1) / 2 = 0
-       · rw [if_pos ha] at hQ
+       · rw [ite_eq_left ha] at hQ
          exact ⟨K, hf, hfin, hK, hTwF4 ha hK hQ⟩
-       · rw [if_neg ha] at hQ
+       · rw [ite_eq_right ha] at hQ
          exact ⟨K, hf, hfin, hK, hQ⟩)
 
 theorem legacyMarking_of_canonical_induces

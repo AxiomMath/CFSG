@@ -11,7 +11,8 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {W : Type} [CommGroup W] [Finite W] {A L : Subgroup (MulAut W)} {r : ℕ}
   {Δ : Fin (r + 1) → Subgroup W} {σ : ↥A →* Equiv.Perm (Fin (r + 1))}
 
-private lemma s16e_d3_ker_le_stabSub (h : s16e_d3_Ctx A L r Δ σ) (i : Fin (r + 1)) :
+omit [Finite W] in
+private lemma s16e_d3_ker_le_stabSub (_h : s16e_d3_Ctx A L r Δ σ) (i : Fin (r + 1)) :
     s16e_d3_ker A Δ ≤ stabSub (Δ i) :=
   fun _ hg => Subgroup.mem_iInf.mp (Subgroup.mem_inf.mp hg).2 i
 
@@ -63,7 +64,7 @@ theorem s16e_d3_card_ker_dvd (h : s16e_d3_Ctx A L r Δ σ) :
 theorem s16e_d3_not_three_dvd_card_inf_centSub (h : s16e_d3_Ctx A L r Δ σ) (i : Fin (r + 1)) :
     ¬ 3 ∣ Nat.card ↥(s16e_d3_ker A Δ ⊓ centSub (Δ i)) := by
   intro h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥(s16e_d3_ker A Δ ⊓ centSub (Δ i))) 3 h3
   have hx3 : (x : MulAut W) ^ 3 = 1 := by

@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or {z v : G} (hz2 : z ^ 2 = 1)
     (hv : v ∈ Subgroup.zpowers z) : v = 1 ∨ v = z := by
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hv
@@ -87,7 +88,6 @@ theorem y54_A_le_N {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
   have hA : LFactsA s := lfactsA_of_setting hH.hS hH.hZ s
   refine le_inf (s3_A_le_L s) ?_
   intro a ha
-  change a ∈ Subgroup.normalizer (s.fr.F : Set G)
   rw [Subgroup.mem_normalizer_iff]
   intro f
   constructor

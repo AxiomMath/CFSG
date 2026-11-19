@@ -307,7 +307,7 @@ theorem sylowControlled_of_sq_gt {J : Subgroup G} (hq : CFSG.Assembly.IsQuasisim
   set QG := (Q : Subgroup C).map C.subtype with hQGdef
   have hQcard : Nat.card QG = ordProj[2] (Nat.card C) := by
     rw [hQGdef, Subgroup.card_map_of_injective C.subtype_injective, Sylow.card_eq_multiplicity]
-  have hQ2 : IsPGroup 2 QG := Q.isPGroup'.map _
+  have hQ2 : IsPGroup 2 QG := Q.isPGroup.map _
   have hQC : QG ≤ C := Subgroup.map_subtype_le _
   have hQH : QG ≤ H := hQC.trans hCH
   obtain ⟨S₀, hS₀⟩ := (hQ2.comap_of_injective H.subtype H.subtype_injective).exists_le_sylow
@@ -316,7 +316,7 @@ theorem sylowControlled_of_sq_gt {J : Subgroup G} (hq : CFSG.Assembly.IsQuasisim
     ⟨⟨x, hQH hx⟩, hS₀ (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   have hS₀card : Nat.card S₀G = ordProj[2] (Nat.card H) := by
     rw [hS₀Gdef, Subgroup.card_map_of_injective H.subtype_injective, Sylow.card_eq_multiplicity]
-  have hS₀2 : IsPGroup 2 S₀G := S₀.isPGroup'.map _
+  have hS₀2 : IsPGroup 2 S₀G := S₀.isPGroup.map _
   have hS₀H : S₀G ≤ H := Subgroup.map_subtype_le _
   have hnorm₀ : normalizer (S₀G : Set G) ≤ H := by
     intro g hg
@@ -373,7 +373,7 @@ theorem sylowControlled_of_sq_gt {J : Subgroup G} (hq : CFSG.Assembly.IsQuasisim
       refine lt_of_le_of_ne le_top fun h => hne (le_antisymm hP fun x hx => ?_)
       have : (⟨x, hx⟩ : P) ∈ S₀G.subgroupOf P := h ▸ Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.1 this
-    have : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+    have : Group.IsNilpotent P := P.isPGroup.isNilpotent
     obtain ⟨p, hpN, hpS⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
     have hpG : (p : G) ∈ normalizer (S₀G : Set G) := by
       rw [mem_normalizer_iff]
@@ -392,7 +392,7 @@ theorem sylowControlled_of_sq_gt {J : Subgroup G} (hq : CFSG.Assembly.IsQuasisim
           simpa [mul_assoc] using h1
         exact (key ⟨x, hxP⟩).2 hx
     have hY2 : IsPGroup 2 (((P : Subgroup G) ⊓ normalizer (S₀G : Set G)).subgroupOf H) :=
-      (P.isPGroup'.to_le inf_le_left).comap_of_injective H.subtype H.subtype_injective
+      (P.isPGroup.to_le inf_le_left).comap_of_injective H.subtype H.subtype_injective
     have hS₀Y : (S₀ : Subgroup H) ≤ ((P : Subgroup G) ⊓ normalizer (S₀G : Set G)).subgroupOf H :=
       fun s hs => Subgroup.mem_subgroupOf.2 (mem_inf.2 ⟨hP ⟨s, hs, rfl⟩, le_normalizer ⟨s, hs, rfl⟩⟩)
     have hYeq := S₀.maximal_isPGroup.eq_of_ge hY2 hS₀Y

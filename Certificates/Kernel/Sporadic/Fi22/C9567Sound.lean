@@ -55,7 +55,7 @@ theorem exists_word {A B AI BI : Nat} {G₁ G₂ : Equiv.Perm (Fin 3510)}
     · exact Subgroup.subset_closure (Set.mem_insert _ _)
     · exact Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))
   have hl' : lettersOK 2 w = true := (wordEqK_sound hS2 p2 (r := wd (two A B) (two AI BI) w)
-    (by rw [wordEqK]; simp only [bAnd_iff, szOK', hl, true_and]; exact Nat.beq_refl _)).2
+    (by rw [wordEqK]; simp only [szOK', hl]; exact Nat.beq_refl _)).2
   obtain ⟨E, hE, rE⟩ := exists_rep_wordA hGs hGsI hGsK w hl'
   rw [wd_eq hS2 p2 hl] at rE
   exact ⟨E, hE, rE⟩

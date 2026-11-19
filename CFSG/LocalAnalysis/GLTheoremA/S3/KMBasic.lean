@@ -292,9 +292,9 @@ theorem mem_omega1 (hQ : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x) {x : G} :
 
 theorem omega1_le (hQ : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x) : omega1 Q hQ ≤ Q := fun _ hx => hx.1
 
-theorem isElemAbelian_omega1 (hQ : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x) :
+theorem isElemAbelian_omega1 (hQ : ∀ _x ∈ Q, ∀ y ∈ Q, _x * y = y * _x) :
     IsElemAbelian 2 (omega1 Q hQ) :=
-  ⟨⟨⟨fun a b => Subtype.ext (hQ a a.2.1 b b.2.1)⟩⟩, fun x hx => hx.2⟩
+  ⟨⟨⟨fun a b => Subtype.ext (hQ a a.2.1 b b.2.1)⟩⟩, fun _x hx => hx.2⟩
 
 theorem exists_elemAbelian_card_le [Finite G] (hQ : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x) {z : G}
     (hsq : ∀ x ∈ Q, x ^ 2 = 1 ∨ x ^ 2 = z) :
@@ -420,7 +420,7 @@ theorem commute_of_sup_zpowers {A H : Subgroup G} {b : G} (hsup : H ⊔ zpowers 
   exact this
 
 @[expose] def zOmega (T : Subgroup G) : Subgroup G :=
-  omega1 (T ⊓ centralizer (T : Set G)) (fun x hx y hy =>
+  omega1 (T ⊓ centralizer (T : Set G)) (fun _x hx y hy =>
     (mem_centralizer_iff.1 hx.2 y hy.1).symm)
 
 theorem mem_zOmega {T : Subgroup G} {x : G} :

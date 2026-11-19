@@ -21,7 +21,7 @@ theorem GomiU42Data.false_of_classical_of_families (hGLS : GLS3OddLieAutComponen
     (hPOM : OddU42Free .POmegaMinus) (hU43 : GomiU42NoU43) (h : GomiU42Data X J D E a)
     {t : StatedLieTag} {n p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (ht : t ∈ classicalTags)
     (hD : StatedClassicalModel ↥D t n p f) : False := by
-  haveI := h.normal
+  have := h.normal
   have hm : LieModel ↥D t n p f := Or.inl ⟨ht, hD⟩
   have hadm : StatedLieAdmissible t n p f := hm.admissible
   have hp3 : p = 3 := h.p_eq_three hGLS hO hp hp2 hadm hm

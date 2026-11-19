@@ -15,7 +15,7 @@ open scoped commutatorElement Pointwise Matrix
 variable {W : Type} [CommGroup W] [Finite W]
 
 theorem w1369_perfect_cent_hend (hw2 : ∀ w : W, w ^ 2 = 1) {U C : Subgroup W}
-    {Λ : Subgroup (MulAut W)} (hCU : C ≤ U) (hΛ : StabPair Λ U C) {k : ℕ} {J : Fin k → Subgroup W}
+    {Λ : Subgroup (MulAut W)} (_hCU : C ≤ U) (hΛ : StabPair Λ U C) {k : ℕ} {J : Fin k → Subgroup W}
     (hCJ : ∀ i, C ≤ J i) (hJU : ∀ i, J i ≤ U) (hirr : ∀ i, IsIrrOn Λ (J i) C)
     (hend : ∀ i, (∃ j, j ≠ i ∧ SecIsoOn Λ (J i) C (J j) C) →
       Subgroup.centralizer ((secSub (J i) C Λ : Subgroup (MulAut (Sect (J i) C))) :

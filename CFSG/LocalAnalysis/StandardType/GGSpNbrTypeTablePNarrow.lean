@@ -16,7 +16,7 @@ private theorem spn_hasLabel_C_of_lift {G : Type} [Group G] {J : Subgroup G} {m 
     (hZ : Subgroup.center J = ⊥) (ψ : StatedSp m (GaloisField 2 f) →* G)
     (hψ : Function.Injective ψ) (hψJ : ψ.range = J) (hm : 1 ≤ m) (hf : 1 ≤ f) :
     GGHasLabel ⟨.C, m, f⟩ (J ⧸ Subgroup.center J) := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   let e₁ : (J ⧸ Subgroup.center J) ≃* J :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot

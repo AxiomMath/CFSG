@@ -47,6 +47,7 @@ variable (hΓ : conjSubg c Γ = Γ') (ρ' : ↥Γ' →* MulAut V) (φ : ↥Γ �
 
 include hΓ hφ
 
+omit hΓ in
 theorem isDualOfConj_comp (G : Subgroup P24) (A B : Subgroup V) (K : Subgroup P24) :
     IsDualOfConj ρ' (conjSubg c G) A B (conjSubg c K) →
       IsDualOfConj (ρ'.comp φ) G A B K := by
@@ -131,7 +132,7 @@ theorem Concl164_comp (Hx : Finset (Fin 24)) (Q : Finset (Finset (Fin 24))) :
   · rw [hM, hK] at hFT
     exact hFT
   · rw [h164w_MY_comp hΓ Hx, h164w_KY_comp hΓ Hx, hR] at hD
-    exact isDualOfConj_comp c hΓ ρ' φ hφ (MY Γ Hx) V₅ _ (KY Γ Hx) hD
+    exact isDualOfConj_comp c ρ' φ hφ (MY Γ Hx) V₅ _ (KY Γ Hx) hD
   · rw [hM] at hIOS
     exact hIOS
   · rw [hKQ] at hnle4

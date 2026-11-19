@@ -29,7 +29,7 @@ theorem i253_primeCore_bot {S : Type} [Group S] [Finite S] (hS : CFSG.Open.IsQua
   exact Subgroup.mem_bot.2 (orderOf_eq_one_iff.1 (Nat.dvd_one.1 h2))
 
 theorem i253_cover_data {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y] (hY : SL3EpsOfChar p Y) :
-    ∃ (π : Bool) (f : ℕ) (K : Type) (_ : Field K) (hK : PiField π p f K),
+    ∃ (π : Bool) (f : ℕ) (K : Type) (_ : Field K) (_hK : PiField π p f K),
       ModThree π (p ^ f) ∧ 2 < p ^ f ∧ Nonempty (Y ≃* ↥(slPi π 3 (p ^ f) K)) ∧
         (π = false → p ^ f = 8 → IsSU38 Y) := by
   rcases hY with ⟨K, hF, hfin, hchar, hmod, ⟨e⟩⟩ | ⟨K, hF, hfin, q, hchar, hcard, hq3, hq2, ⟨e⟩⟩

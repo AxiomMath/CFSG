@@ -15,6 +15,7 @@ section Lin
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {n : ℕ} {V₁ V₂ : Subgroup G}
 
+omit [Finite G] in
 theorem card_Lgen_eq (hS : LinSetup M Q Z B n V₁ V₂) (hn : 1 ≤ n) :
     Nat.card (Lgen M (LB M Q B)) = Nat.card Q * ordSL n (Nat.card Z) := by
   obtain ⟨K, _, _, hKZ, φ, hrange, hker, -⟩ := hS

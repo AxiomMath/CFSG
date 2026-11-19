@@ -94,7 +94,7 @@ private theorem deqi_A_braid {Γ : Type*} [Group Γ] {a b : Γ} (ha : a * a = 1)
   have hxy : (a * b * a) * (b * a * b) = 1 := by
     simpa only [mul_assoc] using hcube
   have hxx : (a * b * a) * (a * b * a) = 1 := by
-    simp only [mul_assoc, ea, eb, ha, hb]
+    simp only [mul_assoc, ea, eb, ha]
   calc a * b * a = (a * b * a)⁻¹ := (inv_eq_of_mul_eq_one_right hxx).symm
     _ = b * a * b := (eq_inv_of_mul_eq_one_right hxy).symm
 
@@ -256,6 +256,7 @@ theorem coxeterA3_card_le {Γ : Type*} [Group Γ] [Finite Γ] {t₁ t₂ t₃ : 
   rw [Nat.card_coe_set_eq]
   omega
 
+omit [Finite G] in
 theorem exists_wr_hom_of_blocks {X : Type} [Finite X] [MulAction G X] {n : ℕ}
     (σ : G →* Equiv.Perm (Fin n)) (B : X → Fin n) (hB : ∀ (g : G) (x : X), B (g • x) = σ g (B x))
     (hfib : ∀ i : Fin n, Nat.card {x : X // B x = i} = 2) (p : Fin n → X) (hp : ∀ i, B (p i) = i)
@@ -292,11 +293,11 @@ theorem exists_wr_hom_of_blocks {X : Type} [Finite X] [MulAction G X] {n : ℕ}
       have hiff := hpair i (g • p j) (g • x) ha hc hac
       by_cases h1 : g • p j = p i
       · have h2 : g • x ≠ p i := hiff.1 h1
-        rw [if_neg h2, if_pos h1, if_neg hxp, zero_add]
+        rw [ite_eq_right h2, ite_eq_left h1, ite_eq_right hxp, zero_add]
       · have h2 : g • x = p i := by
           by_contra h2
           exact h1 (hiff.2 h2)
-        rw [if_pos h2, if_neg h1, if_neg hxp]
+        rw [ite_eq_left h2, ite_eq_right h1, ite_eq_right hxp]
         decide
   have hi : ∀ (g h : G) (i : Fin n), (σ (g * h)).symm i = (σ h).symm ((σ g).symm i) := by
     intro g h i
@@ -336,7 +337,7 @@ theorem exists_wr_hom_of_blocks {X : Type} [Finite X] [MulAction G X] {n : ℕ}
       have h0 := hv0 i
       rw [hFvec, hsym i] at h0
       by_contra hne
-      rw [if_neg hne] at h0
+      rw [ite_eq_right hne] at h0
       exact absurd h0 (by decide)
     have hfixX : ∀ (i : Fin n) (x : X), B x = i → g • x = x := by
       intro i x hx
@@ -356,11 +357,12 @@ theorem exists_wr_hom_of_blocks {X : Type} [Finite X] [MulAction G X] {n : ℕ}
   ·
     rw [hψ, hFvec]
     by_cases h : g • p ((σ g).symm i) = p i
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact ⟨fun _ => h, fun _ => rfl⟩
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact ⟨fun h0 => absurd h0 (by decide), fun h' => absurd h' h⟩
 
+omit [Finite G] in
 private theorem deqi_F_eq_one_or_eq_of_mem_zpowers {z x : G} (hz : z * z = 1) (hz1 : z ≠ 1)
     (hx : x ∈ Subgroup.zpowers z) : x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -379,6 +381,7 @@ private theorem deqi_F_eq_one_or_eq_of_mem_zpowers {z x : G} (hz : z * z = 1) (h
     rw [h1']
     exact zpow_one z
 
+omit [Finite G] in
 private theorem deqi_F_central_of_q8 {L : Subgroup G} {z i j : G} (hQ : Q8Data L z i j) :
     ∀ x ∈ L, z * x = x * z := by
   have hzi : Commute z i := by
@@ -405,6 +408,7 @@ private theorem deqi_F_central_of_q8 {L : Subgroup G} {z i j : G} (hQ : Q8Data L
   · rw [h1]
     exact ((Commute.refl z).mul_right (hzi.mul_right hzj)).eq
 
+omit [Finite G] in
 private theorem deqi_F_conjSub_pSpan_le {Ω : Set (Subgroup G)} (hΩ : ConjInvariant Ω) (g : G)
     (H : Subgroup G) :
     conjSub g (pSpan (omegaHyp Ω H)) ≤ pSpan (omegaHyp Ω (conjSub g H)) := by
@@ -494,6 +498,7 @@ section DeqiG
 
 variable {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 private theorem deqi_G_faithful {M : Subgroup G} (hcore : M.normalCore = ⊥) :
     Function.Injective (MulAction.toPermHom G (G ⧸ M)) := by
   rw [injective_iff_map_eq_one]
@@ -566,6 +571,7 @@ private theorem deqi_G_card_aeSubOver_le :
   deqi_G_card_le_of_perm (fun _ hx => (Subgroup.mem_inf.mp hx).1)
     (fun _ hx => Subgroup.mem_comap.mp (Subgroup.mem_inf.mp hx).2)
 
+omit [Finite G] in
 private theorem deqi_G_range_eq_aeSubOver {ψ : G →* AE.Wr 7} {σ : G →* Equiv.Perm (Fin 7)}
     (hperm : ∀ g : G, (ψ g).perm = σ g) (hσ : ∀ g : G, σ g ∈ AE.l32)
     (hinj : Function.Injective ψ) (hcomm : commutator G = ⊤) (hcard : Nat.card G = 168 * 64) :
@@ -585,6 +591,7 @@ private theorem deqi_G_range_eq_aeSubOver {ψ : G →* AE.Wr 7} {σ : G →* Equ
   rw [hψ, hcard]
   exact deqi_G_card_aeSubOver_le
 
+omit [Finite G] in
 private theorem deqi_G_conjSub_pSpan_omegaHyp (hΩ : ConjInvariant Ω) {H : Subgroup G} (g : G) :
     conjSub g (pSpan (omegaHyp Ω H)) = pSpan (omegaHyp Ω (conjSub g H)) := by
   apply le_antisymm
@@ -600,6 +607,7 @@ private theorem deqi_G_conjSub_pSpan_omegaHyp (hΩ : ConjInvariant Ω) {H : Subg
     rw [← conjSub_conjSub_inv g L']
     exact Subgroup.map_mono (le_pSpan hmem)
 
+omit [Finite G] in
 private theorem deqi_G_mem_fix_base (hΩ : ConjInvariant Ω) {H₀ H : Subgroup G} {gi : G}
     (hgi : conjSub gi H₀ = H) {g : G} (hg : g ∈ pSpan (omegaHyp Ω H)) :
     g • (QuotientGroup.mk gi : G ⧸ pSpan (omegaHyp Ω H₀)) = QuotientGroup.mk gi := by
@@ -624,6 +632,7 @@ private noncomputable def deqi_G_block (lab : Subgroup G → Fin 7) (H₀ : Subg
       show lab (conjSub a H₀) = lab (conjSub b H₀)
       rw [hconj]
 
+omit [Finite G] in
 private theorem deqi_G_block_smul {lab : Subgroup G → Fin 7} {H₀ : Subgroup G}
     {σ : G →* Equiv.Perm (Fin 7)}
     (hM : pSpan (omegaHyp Ω H₀) ≤ Subgroup.normalizer (H₀ : Set G))
@@ -635,6 +644,7 @@ private theorem deqi_G_block_smul {lab : Subgroup G → Fin 7} {H₀ : Subgroup 
   rw [conjSub_mul]
   exact hlabConj g _ (hconj a)
 
+omit [Finite G] in
 private theorem deqi_G_fibre_card {lab : Subgroup G → Fin 7} {H₀ : Subgroup G}
     (hM : pSpan (omegaHyp Ω H₀) ≤ Subgroup.normalizer (H₀ : Set G))
     (hlab : ∀ H H' : Subgroup G, IsHyp Ω H → IsHyp Ω H' → lab H = lab H' → H = H')
@@ -704,6 +714,7 @@ end DeqiG
 
 open scoped Matrix
 
+omit [Finite G] in
 private theorem deqi_D_eq_one_or_eq_of_mem_zpowers {c x : G} (hc2 : c * c = 1) (hc1 : c ≠ 1)
     (hx : x ∈ Subgroup.zpowers c) : x = 1 ∨ x = c := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -745,15 +756,14 @@ private theorem deqi_D_transv_of_cols {v : Fin 3 → ZMod 2} (hv : v ≠ 0)
     rw [Matrix.mulVec_single_one] at h1
     simp only [Matrix.col_apply, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
       Pi.single_apply] at h1
-    simp only [Matrix.add_apply, Matrix.one_apply, Matrix.vecMulVec, Matrix.of_apply,
-      Pi.single_apply]
+    simp only [Matrix.add_apply, Matrix.one_apply, Matrix.vecMulVec, Matrix.of_apply]
     rw [h1, mul_comm]
   refine ⟨μ, ?_, hA⟩
   have hAv' := hAv
   rw [hA, deqi_D_mulVec_transv] at hAv'
   obtain ⟨i, hi⟩ : ∃ i, v i ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hv (funext hcon)
   have h2 := congrFun hAv' i
   simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul] at h2
@@ -774,7 +784,7 @@ private theorem deqi_D_transv_ncard {v : Fin 3 → ZMod 2} (hv : v ≠ 0) :
       (fun μ : Fin 3 → ZMod 2 => 1 + Matrix.vecMulVec v μ) ''
         ↑(Finset.univ.filter (fun μ : Fin 3 → ZMod 2 => μ ⬝ᵥ v = 0)) := by
     ext A
-    simp only [Set.mem_setOf_eq, Set.mem_image, Finset.mem_coe, Finset.mem_filter,
+    simp only [Set.mem_ofPred_eq, Set.mem_image, Finset.mem_coe, Finset.mem_filter,
       Finset.mem_univ, true_and]
     constructor
     · rintro ⟨μ, hμ, rfl⟩
@@ -817,7 +827,7 @@ def deqi_E_E (i₀ : Fin 7) : Subgroup (Multiplicative (Fin 7 → ZMod 2)) where
     rintro a ⟨ha0, ha⟩
     refine ⟨?_, ?_⟩
     · simp [toAdd_inv, ha0]
-    · simp [toAdd_inv, Finset.sum_neg_distrib, ha]
+    · simp [toAdd_inv, ha]
 
 def deqi_E_pi : Multiplicative (Fin 7 → ZMod 2) := Multiplicative.ofAdd fun _ => 1
 
@@ -952,6 +962,7 @@ namespace DE2Hyp
 variable {Ω : Set (Subgroup G)} (h : DE2Hyp Ω)
 include h
 
+omit [Finite G] in
 theorem deqi_conjSub_pSpan_omegaHyp {H : Subgroup G} (g : G) :
     conjSub g (pSpan (omegaHyp Ω H)) = pSpan (omegaHyp Ω (conjSub g H)) := by
   apply le_antisymm
@@ -1048,7 +1059,7 @@ private theorem deqi_D_conjMat_cols {e : Fin 3 → G} (he : TL4.E8Basis (zGroup 
     rw [hcolj, h1, hinvc, add_comm]
 
 private theorem deqi_D_conjMat_fix {e : Fin 3 → G} (he : TL4.E8Basis (zGroup Ω) e)
-    {K : Subgroup G} (hK : K ∈ Ω) {c : G} (hc : IsUniqueInvolution K c)
+    {K : Subgroup G} (_hK : K ∈ Ω) {c : G} (hc : IsUniqueInvolution K c)
     {v : Fin 3 → ZMod 2} (hcv : c = TL4.e8Coord e v) {k : G} (hk : k ∈ K) :
     TL4.conjMat he k *ᵥ v = v := by
   have hn : conjSub k K = K := mem_normalizer_iff_conjSub_eq.mp (Subgroup.le_normalizer hk)
@@ -1132,7 +1143,7 @@ private theorem deqi_D_adapted_basis {H : Subgroup G} (hH : IsHyp Ω H) :
     intro heq
     rw [← heq, Subgroup.card_bot] at hHc
     norm_num at hHc
-  obtain ⟨a, haH, ha1⟩ := SetLike.exists_of_lt hbot
+  obtain ⟨a, haH, ha1⟩ := _root_.IsConcreteLE.exists_of_lt hbot
   have ha1' : a ≠ 1 := fun h1 => ha1 (by rw [h1]; exact Subgroup.one_mem _)
   have haD : a ∈ zGroup Ω := hH.1 haH
   have haa : a * a = 1 := h.zGroup_mul_self a haD
@@ -1142,7 +1153,7 @@ private theorem deqi_D_adapted_basis {H : Subgroup G} (hH : IsHyp Ω H) :
     intro heq
     rw [← heq, hza] at hHc
     norm_num at hHc
-  obtain ⟨b, hbH, hb⟩ := SetLike.exists_of_lt hzlt
+  obtain ⟨b, hbH, hb⟩ := _root_.IsConcreteLE.exists_of_lt hzlt
   have hb1 : b ≠ 1 := fun h1 => hb (by rw [h1]; exact Subgroup.one_mem _)
   have hba : b ≠ a := fun h1 => hb (by rw [h1]; exact Subgroup.mem_zpowers a)
   have hHD : H < zGroup Ω := by
@@ -1151,7 +1162,7 @@ private theorem deqi_D_adapted_basis {H : Subgroup G} (hH : IsHyp Ω H) :
     have h8 := h.card_zGroup
     rw [← heq] at h8
     omega
-  obtain ⟨d, hdD, hdH⟩ := SetLike.exists_of_lt hHD
+  obtain ⟨d, hdD, hdH⟩ := _root_.IsConcreteLE.exists_of_lt hHD
   refine ⟨![a, b, d], ⟨fun x hx => h.zGroup_mul_self x hx, h.card_zGroup, ?_, ha1',
     ⟨hb1, hba⟩, ⟨?_, ?_, ?_, ?_⟩⟩, haH, hbH⟩
   · intro k
@@ -1320,10 +1331,12 @@ theorem deqi_E_pi_mul_self : deqi_E_pi * deqi_E_pi = 1 := by
   decide
 
 omit h in
+omit [Finite G] in
 theorem deqi_E_beta_pi (C : Coords Ω) : C.β deqi_E_pi = 1 :=
   (C.ker_eq deqi_E_pi).mpr (Or.inr rfl)
 
 omit h in
+omit [Finite G] in
 theorem deqi_E_eq_one_or_pi_of_beta (C : Coords Ω) {f : Multiplicative (Fin 7 → ZMod 2)}
     (hf : C.β f = 1) : f = 1 ∨ f = deqi_E_pi := by
   rcases (C.ker_eq f).mp hf with h | h
@@ -1333,7 +1346,7 @@ theorem deqi_E_eq_one_or_pi_of_beta (C : Coords Ω) {f : Multiplicative (Fin 7 �
     apply Multiplicative.toAdd.injective
     simpa [deqi_E_pi] using h
 
-omit h in
+omit h [Finite G] in
 theorem deqi_E_mem_N0_iff (C : Coords Ω) (H : Subgroup G) (f : Multiplicative (Fin 7 → ZMod 2)) :
     C.β f ∈ deqi_E_N0 C H ↔ deqi_E_theta (C.lab H) f = 0 := by
   rw [← deqi_E_mem_iff (C.lab H) f]
@@ -1356,6 +1369,7 @@ theorem deqi_E_mem_N0_iff (C : Coords Ω) (H : Subgroup G) (f : Multiplicative (
       rw [map_mul, deqi_E_beta_pi, mul_one]
 
 omit h in
+omit [Finite G] in
 theorem deqi_E_N0_le (C : Coords Ω) (H : Subgroup G) : deqi_E_N0 C H ≤ pCore 2 G := by
   rintro _ ⟨f, -, rfl⟩
   rw [← C.range_eq]
@@ -1367,7 +1381,7 @@ theorem deqi_E_card_E (i₀ : Fin 7) : Nat.card (deqi_E_E i₀) = 32 := by
       f.toAdd i₀ = 0 ∧ ∑ x, f.toAdd x = 0} := rfl
   rw [e, Nat.card_eq_fintype_card, Fintype.card_subtype, deqi_E_card_all i₀]
 
-omit h in
+omit h [Finite G] in
 theorem deqi_E_N0_card (C : Coords Ω) (H : Subgroup G) : Nat.card (deqi_E_N0 C H) = 32 := by
   have hinj : Function.Injective ((C.β).comp (deqi_E_E (C.lab H)).subtype) := by
     intro e₁ e₂ he
@@ -1393,13 +1407,14 @@ theorem deqi_E_N0_card (C : Coords Ω) (H : Subgroup G) : Nat.card (deqi_E_N0 C 
   exact deqi_E_card_E (C.lab H)
 
 omit h in
+omit [Finite G] in
 theorem deqi_E_sigma_fix (C : Coords Ω) {H : Subgroup G} (hH : IsHyp Ω H) {g : G}
     (hg : g ∈ Subgroup.normalizer (H : Set G)) : C.σ g (C.lab H) = C.lab H := by
   have h1 := C.lab_conj g H hH
   rw [mem_normalizer_iff_conjSub_eq.mp hg] at h1
   exact h1.symm
 
-omit h in
+omit h [Finite G] in
 theorem deqi_E_conj_mem_N0 (C : Coords Ω) {H : Subgroup G} (hH : IsHyp Ω H) {n : G}
     (hn : n ∈ Subgroup.normalizer (H : Set G)) {x : G} (hx : x ∈ deqi_E_N0 C H) :
     n * x * n⁻¹ ∈ deqi_E_N0 C H := by
@@ -1416,7 +1431,7 @@ theorem deqi_E_conj_mem_N0 (C : Coords Ω) {H : Subgroup G} (hH : IsHyp Ω H) {n
   rw [hs]
   exact (deqi_E_mem_iff (C.lab H) f).mp (Or.inl hf)
 
-omit h in
+omit h [Finite G] in
 theorem deqi_E_comm_mem_N0 (C : Coords Ω) {H : Subgroup G} (hH : IsHyp Ω H) {q n : G}
     (hq : q ∈ pCore 2 G) (hn : n ∈ Subgroup.normalizer (H : Set G)) :
     q * n * q⁻¹ * n⁻¹ ∈ deqi_E_N0 C H := by
@@ -1443,7 +1458,7 @@ omit h in
 theorem deqi_E_card_line : ∀ ℓ ∈ AE.fanoLines, ℓ.card = 3 := by
   decide +kernel
 
-omit h in
+omit h [Finite G] in
 theorem deqi_E_mem_N0_iff_mem_zGroup (C : Coords Ω) {H : Subgroup G} (hH : IsHyp Ω H) {x : G}
     (hx : x ∈ zGroup Ω) : x ∈ deqi_E_N0 C H ↔ x ∈ H := by
   classical
@@ -1582,8 +1597,8 @@ theorem deqi_E_pCore_le_normalizer (h : DE2Hyp Ω) {H : Subgroup G} (hH : IsHyp 
     rw [← h3, h2]
     exact hz
 
-omit h in
-theorem deqi_E_pSpan_conj_mem (h : DE2Hyp Ω) {H : Subgroup G} (hH : IsHyp Ω H) {n : G}
+omit h [Finite G] in
+theorem deqi_E_pSpan_conj_mem (h : DE2Hyp Ω) {H : Subgroup G} (_hH : IsHyp Ω H) {n : G}
     (hn : n ∈ Subgroup.normalizer (H : Set G)) {x : G}
     (hx : x ∈ pSpan (omegaHyp Ω H)) : n * x * n⁻¹ ∈ pSpan (omegaHyp Ω H) := by
   have hc : conjSub n H = H := mem_normalizer_iff_conjSub_eq.mp hn
@@ -1596,6 +1611,7 @@ theorem deqi_E_pSpan_conj_mem (h : DE2Hyp Ω) {H : Subgroup G} (hH : IsHyp Ω H)
   exact hmem
 
 omit h in
+omit [Finite G] in
 theorem deqi_E_conj_single (C : Coords Ω) {m : G} {a b : Fin 7} (hab : C.σ m a = b) :
     m * C.β (Multiplicative.ofAdd (Pi.single a (1 : ZMod 2))) * m⁻¹ =
       C.β (Multiplicative.ofAdd (Pi.single b (1 : ZMod 2))) := by
@@ -1700,11 +1716,11 @@ theorem deqi_E_indicator_mem (h : DE2Hyp Ω) (C : Coords Ω) {H : Subgroup G} (h
         funext y
         by_cases hya : y = a
         · subst hya
-          simp [ha, Finset.mem_erase, hab, Pi.single_apply]
+          simp [ha, Finset.mem_erase, hab]
         · by_cases hyb : y = b
           · subst hyb
-            simp [hb, Finset.mem_erase, hab, Pi.single_apply]
-          · simp [Finset.mem_erase, hya, hyb, Pi.single_apply]
+            simp [hb, Finset.mem_erase, hab]
+          · simp [Finset.mem_erase, hya, hyb]
       have e1 : (Multiplicative.ofAdd fun y => if y ∈ s then (1 : ZMod 2) else 0) =
           (Multiplicative.ofAdd fun y => if y ∈ (s.erase a).erase b then (1 : ZMod 2) else 0) *
             (Multiplicative.ofAdd (Pi.single a (1 : ZMod 2)) *
@@ -1731,12 +1747,12 @@ theorem deqi_E_N0_le_pSpan (h : DE2Hyp Ω) (C : Coords Ω) {H : Subgroup G} (hH 
     intro y
     have key : ∀ a : ZMod 2, a = 0 ∨ a = 1 := by decide
     rcases key (f.toAdd y) with h1 | h1
-    · rw [h1, if_neg]
+    · rw [h1, ite_eq_right]
       rw [hs, Finset.mem_filter]
       rintro ⟨-, h2⟩
       rw [h1] at h2
       exact absurd h2 (by decide)
-    · rw [h1, if_pos]
+    · rw [h1, ite_eq_left]
       rw [hs, Finset.mem_filter]
       exact ⟨Finset.mem_univ _, h1⟩
   have hf_eq : f = Multiplicative.ofAdd fun y => if y ∈ s then (1 : ZMod 2) else 0 := by
@@ -1755,7 +1771,7 @@ theorem deqi_E_N0_le_pSpan (h : DE2Hyp Ω) (C : Coords Ω) {H : Subgroup G} (hH 
   have hsi : C.lab H ∉ s := by
     intro hmem
     have := hval (C.lab H)
-    rw [if_pos hmem, hf0] at this
+    rw [ite_eq_left hmem, hf0] at this
     exact absurd this (by decide)
   rw [hf_eq]
   exact h.deqi_E_indicator_mem C hH s.card s rfl hsi heven
@@ -1779,7 +1795,7 @@ theorem deqi_E_mem_of_card_le_two {I : Subgroup G} (hI : Nat.card I ≤ 2) {u x 
   · left; rfl
   · right; rfl
 
-omit h in
+omit h [Finite G] in
 theorem deqi_E_sigma_maps_line (h : DE2Hyp Ω) (C : Coords Ω) {u : G} {ℓ : Finset (Fin 7)}
     (hline : ∀ H : Subgroup G, IsHyp Ω H → (u ∈ H ↔ C.lab H ∈ ℓ)) {g : G}
     (hgu : g * u * g⁻¹ = u) {p : Fin 7} (hp : p ∈ ℓ) : C.σ g p ∈ ℓ := by
@@ -1930,6 +1946,7 @@ theorem deqi_E_sigma_zpowers (h : DE2Hyp Ω) (C : Coords Ω) {K : Subgroup G} (h
   exact deqi_E_sigma_fix C hH' hN
 
 omit h in
+omit [Finite G] in
 theorem deqi_E_card_zpowers {z : G} (hz : z * z = 1) (hz1 : z ≠ 1) :
     Nat.card (Subgroup.zpowers z) = 2 := by
   rw [Nat.card_zpowers, orderOf_eq_prime (by rw [pow_two]; exact hz) hz1]
@@ -1986,6 +2003,7 @@ theorem deqi_E_zpowers_eq_one_or {z : G} (hz : z * z = 1) (hz1 : z ≠ 1) {k : G
     (le_of_eq (deqi_E_card_zpowers hz hz1)) (Subgroup.mem_zpowers z) hz1 hk
 
 omit h in
+omit [Finite G] in
 theorem deqi_E_conj_eq_self_of_mem {K : Subgroup G} {z : G} (hz : IsUniqueInvolution K z)
     {k : G} (hk : k ∈ K) : k * z * k⁻¹ = z := by
   have hmem : k * z * k⁻¹ ∈ K := K.mul_mem (K.mul_mem hk hz.mem) (K.inv_mem hk)
@@ -2004,7 +2022,7 @@ theorem deqi_E_mem_zpowers_of_sigma_one (h : DE2Hyp Ω) (C : Coords Ω) {K : Sub
   rw [h.inf_pCore hK hz] at hkI
   exact hkI
 
-omit h in
+omit h [Finite G] in
 theorem deqi_E_mem_N0_of_norm (C : Coords Ω) {H : Subgroup G} (hH : IsHyp Ω H)
     {q c : G} (hq : q ∈ pCore 2 G) (hc : c ∈ Subgroup.normalizer (H : Set G))
     (hc3 : c ^ 3 = 1) (hqc : (q * c⁻¹) ^ 3 = 1) : q ∈ deqi_E_N0 C H := by
@@ -2120,6 +2138,7 @@ theorem deqi_E_comm_mem_zpowers (h : DE2Hyp Ω) (C : Coords Ω) {K : Subgroup G}
     exact Subgroup.mem_zpowers z
 
 omit h in
+omit [Finite G] in
 theorem deqi_E_not_mem_pCore_of_cube {c : G} (hc3 : c ^ 3 = 1) (hc1 : c ≠ 1) :
     c ∉ pCore 2 G := by
   intro hcQ
@@ -2135,6 +2154,7 @@ theorem deqi_E_not_mem_pCore_of_cube {c : G} (hc3 : c ^ 3 = 1) (hc1 : c ≠ 1) :
       omega
 
 omit h in
+omit [Finite G] in
 theorem deqi_E_sigma_conj_xy (C : Coords Ω) {c x y : G} {A T : Equiv.Perm (Fin 7)}
     (hAA : A * A = 1) (hx : C.σ x = A) (hy : C.σ y = A * T) :
     C.σ (c * (x * y) * c⁻¹) = C.σ c * T * (C.σ c)⁻¹ := by
@@ -2202,7 +2222,7 @@ theorem deqi_E_quot_eq_of_mul_inv_mem {α : Type*} [Group α] (S : Subgroup α) 
   rw [e] at h2
   exact h2
 
-omit h in
+omit h [Finite G] in
 theorem deqi_E_N0_subgroupOf_normal (C : Coords Ω) {H : Subgroup G} (hH : IsHyp Ω H) :
     ((deqi_E_N0 C H).subgroupOf (Subgroup.normalizer (H : Set G))).Normal := by
   constructor
@@ -2217,7 +2237,7 @@ theorem deqi_E_card_M_le_data (h : DE2Hyp Ω) (C : Coords Ω) {H : Subgroup G} (
       ∃ (ℓ : Finset (Fin 7)) (_ : ℓ ∈ AE.fanoLines),
         (∀ H' : Subgroup G, IsHyp Ω H' → (z ∈ H' ↔ C.lab H' ∈ ℓ)) ∧ C.lab H ∈ ℓ := by
   obtain ⟨z, hzH, hz1⟩ : ∃ z ∈ H, z ≠ 1 := by
-    haveI : Nontrivial H := Finite.one_lt_card_iff_nontrivial.mp (by rw [hH.2]; norm_num)
+    have : Nontrivial H := Finite.one_lt_card_iff_nontrivial.mp (by rw [hH.2]; norm_num)
     obtain ⟨x, hx⟩ := exists_ne (1 : H)
     exact ⟨x.1, x.2, fun e => hx (Subtype.ext e)⟩
   obtain ⟨K, hK, hz⟩ : ∃ K ∈ Ω, IsUniqueInvolution K z := by
@@ -2230,7 +2250,7 @@ theorem deqi_E_card_M_le_data (h : DE2Hyp Ω) (C : Coords Ω) {H : Subgroup G} (
 
 omit h in
 theorem deqi_E_mul_inv_mem_N0_of_sigma (h : DE2Hyp Ω) (C : Coords Ω) {H : Subgroup G}
-    (hH : IsHyp Ω H) {K : Subgroup G} (hK : K ∈ Ω) {z : G} (hz : IsUniqueInvolution K z)
+    (_hH : IsHyp Ω H) {K : Subgroup G} (hK : K ∈ Ω) {z : G} (hz : IsUniqueInvolution K z)
     (hzN0 : z ∈ deqi_E_N0 C H) {w k : G} (hw : w ∈ K) (hk : k ∈ K) (hσ : C.σ w = C.σ k) :
     w * k⁻¹ ∈ deqi_E_N0 C H := by
   have hv : k⁻¹ * w ∈ K := K.mul_mem (K.inv_mem hk) hw
@@ -2311,7 +2331,7 @@ theorem deqi_E_mem_H_cases {H : Subgroup G} (hH : IsHyp Ω H) {z c : G} (hzH : z
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff, not_or]
     exact ⟨fun e => hcz e.symm, fun e => hd2 e.symm⟩
   have hdiff : ((H : Set G) \ {1}).ncard = 3 := by
-    rw [Set.ncard_diff_singleton_of_mem H.one_mem, ← Nat.card_coe_set_eq]
+    rw [Set.ncard_sdiff_singleton_of_mem H.one_mem, ← Nat.card_coe_set_eq]
     exact congrArg (· - 1) hH.2
   have heq := Set.eq_of_subset_of_ncard_le hsub (by rw [hcard3, hdiff]) (Set.toFinite _)
   have hu : u ∈ ({z, c * z * c⁻¹, c⁻¹ * z * c} : Set G) := by
@@ -2323,7 +2343,7 @@ omit h in
 theorem deqi_E_card_M_le (h : DE2Hyp Ω) (C : Coords Ω) {H : Subgroup G} (hH : IsHyp Ω H) :
     Nat.card ↥(pSpan (omegaHyp Ω H)) ≤ 768 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, hK, z, hz, hzH, hz1, ℓ, hℓ, hline, hi0⟩ := deqi_E_card_M_le_data h C hH
   have hN3 : 3 ∣ Nat.card ↥(Subgroup.normalizer (H : Set G)) := by
     rw [deqi_E_card_normalizer h hH]
@@ -2441,7 +2461,7 @@ theorem deqi_E_card_M_le (h : DE2Hyp Ω) (C : Coords Ω) {H : Subgroup G} (hH : 
     rw [e]
     exact (deqi_E_N0 C H).mul_mem hq' hcz'
   let N : Subgroup G := Subgroup.normalizer (H : Set G)
-  haveI hS0 : (((deqi_E_N0 C H).subgroupOf N)).Normal := deqi_E_N0_subgroupOf_normal C hH
+  have hS0 : (((deqi_E_N0 C H).subgroupOf N)).Normal := deqi_E_N0_subgroupOf_normal C hH
   let X : N := ⟨x, hxN⟩
   let Y : N := ⟨y, hyN⟩
   let Cc : N := ⟨c, hcN⟩
@@ -2580,7 +2600,7 @@ theorem deqi_E_card_M_le (h : DE2Hyp Ω) (C : Coords Ω) {H : Subgroup G} (hH : 
     obtain ⟨q, hqQ, hq1⟩ := h.exists_flip hK
     have hflip : conjSub q K ≠ K := by
       intro e
-      rw [flipVal, if_pos e] at hq1
+      rw [flipVal, ite_eq_left e] at hq1
       exact absurd hq1 (by decide)
     rcases deqi_E_twin_cases h hK hz hqQ hflip hL with rfl | rfl
     · obtain ⟨hwN, hwW⟩ := hKW w hw
@@ -2717,6 +2737,7 @@ theorem inf_zGroup_eq {H : Subgroup G} (hH : IsHyp Ω H) :
       exact le_pSpan (L := L) (P := omegaHyp Ω H) ⟨hL, x, hx, hLx⟩ hLx.mem
 
 omit h in
+omit [Finite G] in
 theorem deqi_conjSub_eq_of_centralizes {K : Subgroup G} (hK : K ≤ zGroup Ω) {q : G}
     (hq : q ∈ Subgroup.centralizer (zGroup Ω : Set G)) : conjSub q K = K := by
   have hcomm : ∀ y ∈ zGroup Ω, q⁻¹ * y * q = y := fun y hy => by
@@ -2763,7 +2784,7 @@ theorem exists_chi {H : Subgroup G} (hH : IsHyp Ω H) :
       exact hq
     exact mem_normalizer_iff_conjSub_eq.mpr (deqi_conjSub_eq_of_centralizes hH.1 hqC)
   have hNeq : N = M ⊔ Q := h.normalizer_hyp_eq_sup hH
-  haveI hKn : (M.subgroupOf N).Normal := ⟨fun x hx g => by
+  have hKn : (M.subgroupOf N).Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     have := hMnorm g.1 g.2 x hx
     simpa using this⟩
@@ -2795,7 +2816,7 @@ theorem exists_chi {H : Subgroup G} (hH : IsHyp Ω H) :
     have hrel := h.inf_pCore_relIndex hH
     rw [Subgroup.relIndex] at hrel
     exact hrel
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcyc : IsCyclic (N ⧸ K) := isCyclic_of_prime_card hcard
   let e : (N ⧸ K) ≃* Multiplicative (ZMod 2) :=
     (zmodCyclicMulEquiv hcyc).symm.trans
@@ -2843,7 +2864,7 @@ private theorem deqi_F_mem_centralizer {H : Subgroup G} (hH : IsHyp Ω H) {c : G
         _ = 1 := by rw [e]; group
     obtain ⟨k, hkL, hk⟩ : ∃ k ∈ L, dComm (c * d * c⁻¹) k ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have h1 : 1 * (c * d * c⁻¹)⁻¹ ∈ Subgroup.zpowers d :=
         h.eq_of_dComm_eq hL hdL hy (one_mem _) (fun k hk => by
           rw [hcon k hk]
@@ -2910,7 +2931,7 @@ theorem core_MH_eq_bot {H : Subgroup G} (hH : IsHyp Ω H) :
   · exact h.deqi_F_absurd_of_mem_core hH hcD hne hc
   · have hflip : ∃ L ∈ Ω, flipVal L c ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hcD (h.mem_zGroup_of_flipVal_eq_zero hcC hcon)
     obtain ⟨L, hL, hL0⟩ := hflip
     have hL1 : flipVal L c = 1 := by
@@ -2919,7 +2940,7 @@ theorem core_MH_eq_bot {H : Subgroup G} (hH : IsHyp Ω H) :
     obtain ⟨u, hu⟩ := h.exists_isUniqueInvolution hL
     obtain ⟨i, j, hQ⟩ := h.deqi_F_q8 hL hu
     have hnorm := h.norm_identity hL hQ hcC
-    rw [if_pos hL1] at hnorm
+    rw [ite_eq_left hL1] at hnorm
     have hA : i * c * i⁻¹ ∈ (pSpan (omegaHyp Ω H)).normalCore :=
       (pSpan (omegaHyp Ω H)).normalCore_normal.conj_mem c hc i
     have hB : j * c * j⁻¹ ∈ (pSpan (omegaHyp Ω H)).normalCore :=
@@ -2983,6 +3004,7 @@ theorem exists_wrData (C : Coords Ω) : Nonempty (WrData C) := by
   exact deqi_G_mem_fix_base h.hyp.conjInvariant hgfH hg
 
 omit h in
+omit [Finite G] in
 theorem deqi_C_wsum_eq_zero (C : Coords Ω) (W : WrData C) (g : G) :
     AE.Wr.wsum (W.ψ g) = 0 := by
   have hmem : W.ψ g ∈ AE.aeSubOver AE.l32 := by
@@ -2990,6 +3012,7 @@ theorem deqi_C_wsum_eq_zero (C : Coords Ω) (W : WrData C) (g : G) :
     exact MonoidHom.mem_range.mpr ⟨g, rfl⟩
   exact (AE.mem_aeSub.mp (Subgroup.mem_inf.mp hmem).1).1
 
+omit h [Finite G] in
 theorem deqi_C_mkQ_comp_injective (C : Coords Ω) (W : WrData C) :
     Function.Injective ((AE.mkQ 7).comp W.ψ) := by
   refine (injective_iff_map_eq_one _).mpr fun g hg => ?_
@@ -3008,6 +3031,7 @@ theorem deqi_C_mkQ_comp_injective (C : Coords Ω) (W : WrData C) :
     exact absurd h3 (by decide)
 
 omit h in
+omit [Finite G] in
 theorem deqi_C_exists_hyp (C : Coords Ω) {u : G} {ℓ : Finset (Fin 7)}
     (hline : ∀ H : Subgroup G, IsHyp Ω H → (u ∈ H ↔ C.lab H ∈ ℓ)) (i : Fin 7) :
     ∃ H : Subgroup G, IsHyp Ω H ∧ C.lab H = i ∧ (u ∈ H ↔ i ∈ ℓ) := by
@@ -3015,12 +3039,14 @@ theorem deqi_C_exists_hyp (C : Coords Ω) {u : G} {ℓ : Finset (Fin 7)}
   exact ⟨H, hH, hlab, by rw [hline H hH, hlab]⟩
 
 omit h in
+omit [Finite G] in
 theorem deqi_C_sigma_fix (C : Coords Ω) {H : Subgroup G} (hH : IsHyp Ω H) {g : G}
     (hg : g ∈ Subgroup.normalizer (H : Set G)) : C.σ g (C.lab H) = C.lab H := by
   have h1 := C.lab_conj g H hH
   rw [mem_normalizer_iff_conjSub_eq.mp hg] at h1
   exact h1.symm
 
+omit [Finite G] in
 theorem deqi_C_mem_normalizer_of_sigma_fix (C : Coords Ω) {H : Subgroup G} (hH : IsHyp Ω H)
     {g : G} (hg : C.σ g (C.lab H) = C.lab H) : g ∈ Subgroup.normalizer (H : Set G) := by
   have hc : IsHyp Ω (conjSub g H) := h.isHyp_conjSub hH g
@@ -3060,6 +3086,7 @@ theorem deqi_C_sigma_fix_of_mem_line {K : Subgroup G} (hK : K ∈ Ω) {u : G}
   rw [← hlab]
   exact deqi_C_sigma_fix C hH (h.le_normalizer_hyp_of_mem hK hu hH huH hg)
 
+omit h [Finite G] in
 theorem deqi_C_vec_eq_zero_of_mem_line {K : Subgroup G} (hK : K ∈ Ω) {u : G}
     (hu : IsUniqueInvolution K u) (C : Coords Ω) {ℓ : Finset (Fin 7)} (W : WrData C)
     (hline : ∀ H : Subgroup G, IsHyp Ω H → (u ∈ H ↔ C.lab H ∈ ℓ)) {g : G} (hg : g ∈ K)
@@ -3131,7 +3158,7 @@ theorem deqi_C_mem_sup {K : Subgroup G} (hK : K ∈ Ω) {u : G} (hu : IsUniqueIn
   obtain ⟨d, hd, hσ⟩ :=
     h.deqi_C_sigma_embed hK hu C hline (AE.emb ℓᶜ hα) (AE.range_emb ℓᶜ hα) hg
   refine deqi_C_mem_sup_of_perm hα (fun x hx => ?_) (deqi_C_wsum_eq_zero C W g) ⟨d, hd, ?_⟩
-  · exact h.deqi_C_vec_eq_zero_of_mem_line hK hu C W hline hg (by simpa using hx)
+  · exact DE2Hyp.deqi_C_vec_eq_zero_of_mem_line hK hu C W hline hg (by simpa using hx)
   · rw [W.perm_eq g, hσ]
 
 theorem deqi_C_map_le {K : Subgroup G} (hK : K ∈ Ω) {u : G} (hu : IsUniqueInvolution K u)
@@ -3151,7 +3178,7 @@ theorem exists_label (C : Coords Ω) (W : WrData C) :
   obtain ⟨ℓ, hℓ, hline⟩ :=
     C.line u (h.mem_zGroup_iff.mpr (Or.inr ⟨K, hK, hu⟩)) hu.ne_one
   have hα : ℓᶜ.card = 4 := AE.fanoLines_compl_card ℓ hℓ
-  have hφ := deqi_C_mkQ_comp_injective h C W
+  have hφ := deqi_C_mkQ_comp_injective C W
   have hcard : Nat.card (K.map ((AE.mkQ 7).comp W.ψ)) = 8 := by
     rw [Subgroup.card_map_of_injective hφ, h.card K hK]
   have hw : IsUniqueInvolution (K.map ((AE.mkQ 7).comp W.ψ)) ((AE.mkQ 7).comp W.ψ u) :=

@@ -102,7 +102,7 @@ theorem solvNormalCentral_parabolic_linear
     {f : ℕ} (hf : 1 ≤ f)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* LinearFlag.projectiveSL 3 (GaloisField 2 f))
     (hJ : IsParabolicTwo L J) : SolvNormalCentral (↥J ⧸ CFSG.pCore 2 ↥J) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hK : 4 ≤ Nat.card (GaloisField 2 f) := by
     have : Fintype (GaloisField 2 f) := Fintype.ofFinite _

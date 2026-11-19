@@ -72,10 +72,10 @@ private theorem commute_of_pow_three_of_inf_AA {T : Subgroup G}
   have hC3 : IsPGroup 3 ↥C := t.d.hS.isPGroup.to_le hCS
   have hCcommCC : ∀ a b : ↥C, a * b = b * a :=
     fun a b => Subtype.ext (hCcomm (a : G) (b : G) a.2 b.2)
-  letI : IsMulCommutative ↥C := ⟨⟨hCcommCC⟩⟩
-  letI : CommGroup ↥C := IsMulCommutative.instCommGroup
+  let : IsMulCommutative ↥C := ⟨⟨hCcommCC⟩⟩
+  let : CommGroup ↥C := IsMulCommutative.instCommGroup
   obtain ⟨zG, hzG, hzG1⟩ : ∃ z : G, z ∈ t.Z ∧ z ≠ 1 := by
-    haveI : Nontrivial ↥t.Z :=
+    have : Nontrivial ↥t.Z :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [t.card_Z]; norm_num)
     obtain ⟨z, hz⟩ := exists_ne (1 : ↥t.Z)
     exact ⟨z, z.2, fun h' => hz (Subtype.ext h')⟩
@@ -139,10 +139,10 @@ private theorem commute_of_pow_three_of_inf_AA {T : Subgroup G}
       rw [show (3 : ℕ) ^ n = Nat.card ↥C from hn.symm]
       exact pow_card_eq_one' (G := ↥C) (x := cc)
     have hu2 : u ^ 2 = u⁻¹ := by
-      calc u ^ 2 = u ^ 3 * u⁻¹ := by simp only [pow_succ, pow_one]; group
+      calc u ^ 2 = u ^ 3 * u⁻¹ := by simp only [pow_succ]; group
         _ = u⁻¹ := by rw [hu3, one_mul]
     have hid : (u * c) ^ 3 = u ^ 3 * ((u ^ 2)⁻¹ * c * u ^ 2) * (u⁻¹ * c * u) * c := by
-      simp only [pow_succ, pow_one]
+      simp only [pow_succ]
       group
     rw [hu3, one_mul, hu2] at hid
     have hcnorm : ((⟨u⁻¹ * c * u, hmem3⟩ : ↥C) *
@@ -154,7 +154,7 @@ private theorem commute_of_pow_three_of_inf_AA {T : Subgroup G}
           = (u * c * u⁻¹) * (u⁻¹ * c * u) * c := by
             rw [hCcomm (u⁻¹ * c * u) (u * c * u⁻¹) hmem3 hmem1]
         _ = 1 := by simpa [inv_inv] using h
-    have h0 : (φ ^ 0) cc = cc := Subtype.ext (by simpa using hφpow 0 cc)
+    have h0 : (φ ^ 0) cc = cc := Subtype.ext (by simp)
     have h1 : (φ ^ 1) cc = (⟨u * c * u⁻¹, hmem1⟩ : ↥C) :=
       Subtype.ext (by simpa using hφpow 1 cc)
     have h2 : (φ ^ 2) cc = (⟨u ^ 2 * c * (u ^ 2)⁻¹, hmem2⟩ : ↥C) :=
@@ -200,7 +200,7 @@ private theorem commute_of_pow_three_of_inf_AA {T : Subgroup G}
           exact Subgroup.mem_subgroupOf.mpr ⟨y.2, Subgroup.mem_subgroupOf.mp hy⟩
       have hCN : (C.subgroupOf T).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hCT).mpr hCnorm
-      haveI hSN : (t.d.S.subgroupOf T).Normal := hsubeq ▸ hCN
+      have hSN : (t.d.S.subgroupOf T).Normal := hsubeq ▸ hCN
       have hST : (t.d.S.subgroupOf (T ⊔ t.d.S)).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_right).mpr
           (hTSTle.trans t.P_le_normalizer_S)
@@ -299,8 +299,8 @@ theorem pRank_Dn (hK332 : CFSG.LocalAnalysis.UniquenessCase.UCK.K332ThreeAb)
     (hNIso : CFSG.Open.IsTwoLocal N) (hNM : ¬ N ≤ c.S.M) (hZN : t.Z ≤ N) :
     CFSG.Open.pRank 3 (t.Dn N) = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup G := c.standing.simple
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup G := c.standing.simple
   have hNtop : N ≠ ⊤ := CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top c.standing.nonab hNIso
   have hK : CFSG.Open.IsKGroup ↥N := c.standing.kProper.isKGroup N hNtop
   have hZp : IsPGroup 3 t.Z := IsPGroup.of_card (n := 1) (by rw [t.card_Z]; norm_num)
@@ -338,7 +338,7 @@ theorem pRank_Dn (hK332 : CFSG.LocalAnalysis.UniquenessCase.UCK.K332ThreeAb)
   have hTAA : T ⊓ t.d.AA = t.Z := by
     refine le_antisymm ?_ (le_inf hZT t.Z_le_AA)
     by_contra hnot
-    obtain ⟨y, hyTA, hyZ⟩ := SetLike.not_le_iff_exists.mp hnot
+    obtain ⟨y, hyTA, hyZ⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
     have hyT : y ∈ T := hyTA.1
     have hyAA : y ∈ t.d.AA := hyTA.2
     have hy3 : y ^ 3 = 1 := t.d.isElemAbelian_AA.2 y hyAA
@@ -348,7 +348,7 @@ theorem pRank_Dn (hK332 : CFSG.LocalAnalysis.UniquenessCase.UCK.K332ThreeAb)
     have hBAA : B ≤ t.d.AA := sup_le t.Z_le_AA (Subgroup.zpowers_le.mpr hyAA)
     have hBcomm : ∀ a b : G, a ∈ B → b ∈ B → a * b = b * a := by
       intro a b ha hb
-      haveI : IsMulCommutative ↥t.d.AA := t.d.isElemAbelian_AA.1
+      have : IsMulCommutative ↥t.d.AA := t.d.isElemAbelian_AA.1
       exact congrArg Subtype.val (IsMulCommutative.is_comm.comm ⟨a, hBAA ha⟩ ⟨b, hBAA hb⟩)
     have hBelem : CFSG.Open.IsElemAbelian 3 B :=
       ⟨IsMulCommutative.mk (Std.Commutative.mk
@@ -384,7 +384,7 @@ theorem pRank_Dn (hK332 : CFSG.LocalAnalysis.UniquenessCase.UCK.K332ThreeAb)
     have hBcard : Nat.card B = 9 := by
       have hcommZ : ∀ a ∈ t.Z, ∀ b ∈ Subgroup.zpowers y, a * b = b * a := by
         intro a ha b hb
-        haveI : IsMulCommutative ↥t.d.AA := t.d.isElemAbelian_AA.1
+        have : IsMulCommutative ↥t.d.AA := t.d.isElemAbelian_AA.1
         exact congrArg Subtype.val (IsMulCommutative.is_comm.comm
           (⟨a, t.Z_le_AA ha⟩ : ↥t.d.AA)
           (⟨b, Subgroup.zpowers_le.mpr hyAA hb⟩ : ↥t.d.AA))
@@ -416,7 +416,7 @@ theorem pRank_Dn (hK332 : CFSG.LocalAnalysis.UniquenessCase.UCK.K332ThreeAb)
       simp only [CFSG.conjugate, Subgroup.map_map]
       congr 1
       ext z
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
     have hleT : CFSG.conjugate t.Z (g * q) ≤ T := by
       rw [← hcomp]
       exact Subgroup.map_mono (f := (MulAut.conj q⁻¹).toMonoidHom) hle

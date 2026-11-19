@@ -141,7 +141,6 @@ private lemma ActsAs_injective {ι : Additive ↥Bs ≃+ Vec6} {φ ψ : MulAut �
   refine MulEquiv.ext fun b => ?_
   first
     | (apply Additive.ofMul.injective; apply ι.injective; rw [h₁ b, h₂ b])
-    | (apply ι.injective; rw [h₁ b, h₂ b])
 
 private lemma card_fixed_actsAs {ι : Additive ↥Bs ≃+ Vec6} {φ : MulAut ↥Bs} {g : Mat6}
     (h : ActsAs ι φ g) :
@@ -175,7 +174,7 @@ theorem actsAs_reflNorm {ι : Additive ↥Bs ≃+ Vec6} {φ : MulAut ↥Bs} {v :
     have h243 : Nat.card {u : Vec6 // (reflNorm v).mulVec u = u} = 243 := by
       rw [Nat.card_eq_fintype_card]
       exact reflNorm_fixed_card v hv
-    rw [hfixed, h243, natCard_bs (ι := ι)] <;> norm_num
+    rw [hfixed, h243, natCard_bs (ι := ι)]
   · intro b
     have hcv : ι (Additive.ofMul (Additive.toMul (ι.symm v))) = v := by
       rw [ofMul_toMul, AddEquiv.apply_symm_apply]
@@ -193,7 +192,7 @@ theorem actsAs_reflNorm {ι : Additive ↥Bs ≃+ Vec6} {φ : MulAut ↥Bs} {v :
       refine ⟨(bil6 (ι (Additive.ofMul b)) v).val, ?_⟩
       apply Additive.ofMul.injective
       apply ι.injective
-      rw [ofMul_pow, map_nsmul, hcv, hdiff, hcast] <;> rfl
+      rw [ofMul_pow, map_nsmul, hcv, hdiff, hcast]
     rw [hk]
     exact Subgroup.npow_mem_zpowers _ _
 
@@ -217,9 +216,9 @@ theorem actsAs_eq_reflNorm {ι : Additive ↥Bs ≃+ Vec6} {φ : MulAut ↥Bs} {
       rw [ofMul_mul, map_add, ofMul_inv, map_neg, hT b, hb]
       abel
     have h3 : ι (Additive.ofMul (c ^ n)) = n • v := by
-      rw [ofMul_zpow, map_zsmul, hcv] <;> rfl
+      rw [ofMul_zpow, map_zsmul, hcv]
     have hsub : T.mulVec u - u = n • v := by
-      rw [← h4, ← hn, h3] <;> rfl
+      rw [← h4, ← hn, h3]
     have h5 : T.mulVec u = u + n • v := by
       have h := congrArg (fun x : Vec6 => x + u) hsub
       rw [sub_add_cancel] at h
@@ -233,7 +232,7 @@ theorem actsAs_eq_reflNorm {ι : Additive ↥Bs ≃+ Vec6} {φ : MulAut ↥Bs} {
     rw [h5, hcast]
   obtain ⟨k₀, hk₀⟩ := key v
   have hk₀' : T.mulVec v = (1 + k₀) • v := by
-    rw [hk₀, add_smul, one_smul] <;> rfl
+    rw [hk₀, add_smul, one_smul]
   have hk₀sq : (1 + k₀) ^ 2 = 1 := by
     have h1 := hiso' v v
     rw [hk₀', bil6_smul_smul, hvv, mul_one] at h1
@@ -250,7 +249,7 @@ theorem actsAs_eq_reflNorm {ι : Additive ↥Bs ≃+ Vec6} {φ : MulAut ↥Bs} {
       have h1 := hiso' u v
       rw [hku, hTv, bil6_add_left, bil6_smul_left, hvv, mul_one] at h1
       have hku0 : ku = 0 := zmod_add_eq_self (bil6 u v) ku h1
-      rw [hku, hku0, zero_smul, add_zero] <;> rfl
+      rw [hku, hku0, zero_smul, add_zero]
     have hfixφ : ∀ b : ↥Bs, φ b = b := by
       intro b
       have hb := hT b
@@ -275,10 +274,10 @@ theorem actsAs_eq_reflNorm {ι : Additive ↥Bs ≃+ Vec6} {φ : MulAut ↥Bs} {
       rw [hku, hTv, bil6_add_left, bil6_smul_left, bil6_neg_right u v, bil6_neg_right v v,
         hvv, zmod_mul_neg_one] at h1
       have hku' : ku = bil6 u v := zmod_neg_add_neg (bil6 u v) ku h1
-      rw [hku, hku'] <;> rfl
+      rw [hku, hku']
     have hfun : T.mulVec = (reflNorm v).mulVec := by
       funext u
-      rw [hku_eq u, reflNorm_mulVec u v] <;> rfl
+      rw [hku_eq u, reflNorm_mulVec u v]
     exact Matrix.mulVec_injective hfun
 
 end E6Dep

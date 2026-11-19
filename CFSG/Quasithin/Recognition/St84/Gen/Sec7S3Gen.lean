@@ -16,7 +16,7 @@ variable {V G : Type*} [Group G] [MulAction G V] {Γ : SimpleGraph V}
 private theorem psl2_two_subgroup_comm {F : Type} [Field F] [Finite F] {f : ℕ}
     (hF : Nat.card F = 2 ^ f) {R : Subgroup (PSL2MatrixGroup F)}
     (hR : IsPGroup 2 R) : ∀ a ∈ R, ∀ b ∈ R, a * b = b * a := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hRS⟩ := hR.exists_le_sylow
   obtain ⟨e⟩ := CFSG.BenderSuzuki.External.huppert_II_8_2_a_sylow_equiv_additive
     (F := F) (p := 2) (f := f) hF S
@@ -72,7 +72,7 @@ theorem M72_inf_Q_two_inf_le_gen (hc : CharTwoStab (V := V) (G := G))
     (hR3 : X.R72 ≤ X.Q 3) :
     (X.M72 ⊓ X.Q 2) ⊓ (⁅X.M72, X.M72⁆ ⊔ X.R72) ≤ X.R72 := by
   classical
-  haveI : Finite ↥X.M72 :=
+  have : Finite ↥X.M72 :=
     finite_of_le_stabilizer X.hyp (H := X.M72) (X.M72_le_L.trans (X.L_le_Gi 2))
   have hRleM : X.R72 ≤ X.M72 := inf_le_left.trans X.Q_one_le_M72
   have hRn : X.M72 ≤ Subgroup.normalizer (X.R72 : Set G) :=
@@ -90,7 +90,7 @@ theorem M72_inf_Q_two_inf_le_gen (hc : CharTwoStab (V := V) (G := G))
   have hSyl : IsSylowTwoOf (X.edgeSylow 1) (X.Gi 2) :=
     isSylowTwoOf_of_edgeStab X.hyp (X.adj 1).symm
       (by simpa only [inf_comm] using X.isSylowTwoOf_edgeSylow 1)
-  haveI : Finite ↥(X.Gi 2) := X.hyp.finite_stab (X.vert 2)
+  have : Finite ↥(X.Gi 2) := X.hyp.finite_stab (X.vert 2)
   have hP : IsSylowTwoOf (X.M72 ⊓ X.edgeSylow 1) X.M72 :=
     isSylowTwoOf_inf_of_normal hSyl X.M72_le_Gi X.Gi_two_le_normalizer_M72
   have hQ2normQ1 : X.Q 2 ≤ Subgroup.normalizer (X.Q 1 : Set G) :=
@@ -119,7 +119,7 @@ theorem Q_one_le_commutator_sup_gen (hc : CharTwoStab (V := V) (G := G))
     (hR3 : X.R72 ≤ X.Q 3) (hn0 : 2 ≤ X.n 0) :
     X.Q 1 ≤ ⁅X.M72, X.M72⁆ ⊔ X.R72 := by
   classical
-  haveI : Finite ↥(X.Ki 2) :=
+  have : Finite ↥(X.Ki 2) :=
     finite_of_le_stabilizer X.hyp (H := X.Ki 2) (inf_le_right.trans (X.L_le_Gi 2))
   have hnt : Nontrivial ↥(X.Ki 2) := by
     rw [← Finite.one_lt_card_iff_nontrivial, X.card_Ki 2, X.n_two]
@@ -148,7 +148,7 @@ theorem Q_one_le_commutator_sup_gen (hc : CharTwoStab (V := V) (G := G))
       ((X.Q_le_Gi_succ 1).trans
         (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi 2)))).trans
       (Subgroup.inf_normalizer_le_normalizer_inf (H := X.Q 1) (K := X.Q 2))
-  haveI : Finite ↥(X.Q 1) :=
+  have : Finite ↥(X.Q 1) :=
     finite_of_le_stabilizer X.hyp (H := X.Q 1) (X.Q_le_Gi 1)
   have hunion : ∀ u ∈ X.Q 1, ∃ v ∈ X.Q 1, ∃ w ∈ X.R72, u = ⁅k, v⁆ * w :=
     exists_commutator_mul_of_fixedPointFree (U := X.Q 1) (R := X.R72)
@@ -259,7 +259,7 @@ theorem pCoreOf_H72_of_inf (hc : CharTwoStab (V := V) (G := G))
 theorem charTwo_H72_of_inf (hc : CharTwoStab (V := V) (G := G))
     (hR3 : X.R72 ≤ X.Q 3) (hinf : X.H72 ⊓ X.Q 2 = X.R72) : CharTwo X.H72 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CharTwo, X.pCoreOf_H72_of_inf hc hinf]
   have hC2 : IsPGroup 2 ((X.H72 ⊓ Subgroup.centralizer (X.R72 : Set G) : Subgroup G)) := by
     rw [IsPGroup.iff_orderOf]

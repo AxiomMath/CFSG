@@ -46,7 +46,7 @@ theorem mem_of_normal_of_three_dvd (hr : CFSG.Open.pRank 3 (⊤ : Subgroup Y) �
         (⟨x, mem_zpowers x⟩ : zpowers x) • (R : Subgroup N) := Sylow.pointwise_smul_def
     rw [← hsub, hfix] at hmem
     exact ⟨_, hmem, rfl⟩
-  have hR'3 : IsPGroup 3 R' := R.isPGroup'.map _
+  have hR'3 : IsPGroup 3 R' := R.isPGroup.map _
   have hR'1 : R' ≠ ⊥ := by
     intro h
     apply Sylow.ne_bot_of_dvd_card R h3

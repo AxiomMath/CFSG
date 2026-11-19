@@ -9,7 +9,7 @@ namespace CFSG.StandardType.HdRo7SU.Small
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 lemma hdRo7SmBDAux_smDual_apply {m : ℕ} (w v : SMV m) : smDual w v = smDot w v := by
-  simp [smDual, smDot, Finset.sum_apply, LinearMap.smul_apply, smul_eq_mul]
+  simp [smDual, smDot, Finset.sum_apply, smul_eq_mul]
 
 lemma hdRo7SmBDAux_smDual_add {m : ℕ} (w w' v : SMV m) :
     smDual (w + w') v = smDual w v + smDual w' v := by
@@ -51,7 +51,7 @@ lemma hdRo7SmBDAux_reflB_fullPred {m : ℕ}
     rw [hform, hdRo7SmBDAux_smDual_smul_basis b hb]
     by_cases h : i = k
     · subst h
-      simp only [if_true, Equiv.Perm.one_apply, mul_one]
+      simp only [ite_true, Equiv.Perm.one_apply, mul_one]
       rw [smul_smul, hβγ]
       module
     · simp [h]
@@ -70,13 +70,13 @@ lemma hdRo7SmBDAux_reflD_fullPred {m : ℕ}
       hdRo7SmBDAux_smDual_basis b hb, hdRo7SmBDAux_smDual_basis b hb]
     by_cases hi1 : i = j1
     · subst hi1
-      simp only [true_or, if_true, Equiv.swap_apply_left]
-      rw [if_neg hne, add_zero, mul_one, smul_smul, hβγ]
+      simp only [true_or, ite_true, Equiv.swap_apply_left]
+      rw [ite_eq_right hne, add_zero, mul_one, smul_smul, hβγ]
       module
     · by_cases hi2 : i = j2
       · subst hi2
-        simp only [or_true, if_true, Equiv.swap_apply_right]
-        rw [if_neg (Ne.symm hne), zero_add, mul_one, smul_smul, hβγ]
+        simp only [or_true, ite_true, Equiv.swap_apply_right]
+        rw [ite_eq_right (Ne.symm hne), zero_add, mul_one, smul_smul, hβγ]
         module
       · simp [hi1, hi2, Equiv.swap_apply_of_ne_of_ne hi1 hi2]
 
@@ -94,13 +94,13 @@ lemma hdRo7SmBDAux_reflD_prod {m : ℕ}
     LinearEquiv.mul_apply, hdRo7SmBDAux_sgn_apply, map_smul, hdRo7SmBDAux_sgn_apply]
   by_cases hk1 : k = j1
   · rw [hk1]
-    simp only [Equiv.swap_apply_left, if_neg (Ne.symm hne), if_pos rfl, zero_add, mul_one]
-    simp only [smul_smul, if_true, mul_one, hβγ, if_neg hne, if_neg (Ne.symm hne)]
+    simp only [Equiv.swap_apply_left, ite_eq_right (Ne.symm hne), zero_add]
+    simp only [smul_smul, ite_true, mul_one, hβγ, ite_eq_right hne]
     module
   · by_cases hk2 : k = j2
     · rw [hk2]
-      simp only [Equiv.swap_apply_right, if_neg hne, if_pos rfl, add_zero, mul_one]
-      simp only [smul_smul, if_true, mul_one, hβγ, if_neg hne, if_neg (Ne.symm hne)]
+      simp only [Equiv.swap_apply_right, ite_eq_right hne, add_zero]
+      simp only [smul_smul, ite_true, mul_one, hβγ, ite_eq_right (Ne.symm hne)]
       module
     · simp [hk1, hk2, Equiv.swap_apply_of_ne_of_ne hk1 hk2]
 
@@ -130,7 +130,7 @@ lemma hdRo7SmBDAux_even_card_of_prod {m : ℕ} (c : Fin m → ZMod 3)
     exact (by decide : (-1 : ZMod 3) ≠ 1) h2
 
 lemma hdRo7SmBDAux_list_prod_signPair_apply {m : ℕ}
-    (b : Module.Basis (Fin m) (ZMod 3) (SMV m)) (hb : ∀ k, b k = Pi.single k (1 : ZMod 3))
+    (b : Module.Basis (Fin m) (ZMod 3) (SMV m)) (_hb : ∀ k, b k = Pi.single k (1 : ZMod 3))
     (l : List (Fin m)) (i0 k : Fin m) :
     (l.map (fun j => hdRo7SmBDAux_sgn b i0 * hdRo7SmBDAux_sgn b j)).prod (b k) =
       (l.map (fun j => (if k = i0 then -1 else 1 : ZMod 3) *
@@ -252,7 +252,7 @@ lemma hdRo7SmBDAux_evenPred_mem {m : ℕ}
       hdRo7SmBDAux_list_prod_signPair_scalar l i0 k hnd hi0l]
     by_cases hk : k = i0
     · rw [hk]
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       congr 1
       show (-1 : ZMod 3) ^ l.length = c i0
       rw [show l.length = (s.erase i0).card from Finset.length_toList _]
@@ -268,11 +268,11 @@ lemma hdRo7SmBDAux_evenPred_mem {m : ℕ}
         rcases hc i0 with h | h
         · exact h.symm
         · exfalso; exact his ((hmem i0).mpr h)
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       congr 1
       by_cases hkl : k ∈ l
-      · rw [if_pos hkl, ((hmeml k).mp hkl).1]
-      · rw [if_neg hkl]
+      · rw [ite_eq_left hkl, ((hmeml k).mp hkl).1]
+      · rw [ite_eq_right hkl]
         have hck : c k = 1 := by
           rcases hc k with h | h
           · exact h
@@ -299,7 +299,7 @@ lemma hdRo7SmBDAux_reflD_evenPred {m : ℕ}
   · rw [← Finset.prod_filter (s := Finset.univ) (f := fun _ => (-1 : ZMod 3))
       (p := fun i => i = j1 ∨ i = j2)]
     have h : (Finset.univ.filter (fun i => i = j1 ∨ i = j2)) = {j1, j2} := by
-      ext i; simp [hne]
+      ext i; simp
     rw [h, Finset.prod_const, Finset.card_pair hne]
     ring
   · intro i
@@ -307,13 +307,13 @@ lemma hdRo7SmBDAux_reflD_evenPred {m : ℕ}
       hdRo7SmBDAux_smDual_basis b hb, hdRo7SmBDAux_smDual_basis b hb]
     by_cases hi1 : i = j1
     · subst hi1
-      simp only [true_or, if_true, Equiv.swap_apply_left]
-      rw [if_neg hne, add_zero, mul_one, smul_smul, hβγ]
+      simp only [true_or, ite_true, Equiv.swap_apply_left]
+      rw [ite_eq_right hne, add_zero, mul_one, smul_smul, hβγ]
       module
     · by_cases hi2 : i = j2
       · subst hi2
-        simp only [or_true, if_true, Equiv.swap_apply_right]
-        rw [if_neg (Ne.symm hne), zero_add, mul_one, smul_smul, hβγ]
+        simp only [or_true, ite_true, Equiv.swap_apply_right]
+        rw [ite_eq_right (Ne.symm hne), zero_add, mul_one, smul_smul, hβγ]
         module
       · simp [hi1, hi2, Equiv.swap_apply_of_ne_of_ne hi1 hi2]
 

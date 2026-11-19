@@ -19,14 +19,14 @@ private theorem lieRowG2E_nonab {S : Type} [Group S] [IsSimpleGroup S]
     (hc : ¬ (Nat.card S).Prime) : ∃ a b : S, a * b ≠ b * a := by
   by_contra h
   simp only [not_exists, ne_eq, not_not] at h
-  letI : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
+  let : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
   exact hc ((CommGroup.is_simple_iff_prime_card (α := S)).1 ‹IsSimpleGroup S›)
 
 
 theorem downLe_adjointG2_eight {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.card K = 8) :
     DownLe 3 2 ↥(adjointGroup .G2 K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : TauCeti.PrimePower := ⟨2, 3, Nat.prime_two, by norm_num⟩
   have hqcard : q.card = 8 := by
     rw [TauCeti.PrimePower.card_def]
@@ -39,8 +39,8 @@ theorem downLe_adjointG2_eight {K : Type} [Field K] [Finite K] [CharP K 2] (hK :
   obtain ⟨eQ⟩ := CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv K (by rw [hK, hqcard])
   let e : ↥(adjointGroup .G2 K) ≃* (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group :=
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.trans eQ
-  haveI : Finite ↥(adjointGroup .G2 K) := inferInstance
-  haveI : IsSimpleGroup ↥(adjointGroup .G2 K) := isSimpleGroup_adjointGroup_g2 (by rw [hK]; norm_num)
+  have : Finite ↥(adjointGroup .G2 K) := inferInstance
+  have : IsSimpleGroup ↥(adjointGroup .G2 K) := isSimpleGroup_adjointGroup_g2 (by rw [hK]; norm_num)
   have hcard : Nat.card ↥(adjointGroup .G2 K) = 2 ^ 18 * (3 ^ 5 * 7 ^ 2 * 19 * 73) := by
     rw [card_adjointGroup_G2, hK]
     norm_num [CFSG.Open.ordG2]
@@ -85,7 +85,7 @@ theorem downLe_adjointG2_eight {K : Type} [Field K] [Finite K] [CharP K 2] (hK :
 
 theorem kdLieRowG2Eight_holds : KDLieRowG2Eight := by
   intro q hv hq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 3) = q.card := by
     rw [GaloisField.card 2 3 (by norm_num), hq]
     norm_num

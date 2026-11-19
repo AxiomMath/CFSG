@@ -169,7 +169,7 @@ private theorem s16k_eq_prod_bot_top_of_invariant_ne_bot
 
 theorem s16k_pRank_centralizer_prod {L : Type} [Group L] {Q₁ Q₂ : Type} [CommGroup Q₁]
     [CommGroup Q₂] [Finite Q₁] [Finite Q₂] (ρ₁ : L →* MulAut Q₁) (ρ₂ : L →* MulAut Q₂)
-    (h₁ : ∀ x : Q₁, x ^ 2 = 1) (h₂ : ∀ x : Q₂, x ^ 2 = 1)
+    (_h₁ : ∀ x : Q₁, x ^ 2 = 1) (_h₂ : ∀ x : Q₂, x ^ 2 = 1)
     (hirr₁ : ∀ B : Subgroup Q₁, (∀ l : L, ∀ b ∈ B, ρ₁ l b ∈ B) → B = ⊥ ∨ B = ⊤)
     (hirr₂ : ∀ B : Subgroup Q₂, (∀ l : L, ∀ b ∈ B, ρ₂ l b ∈ B) → B = ⊥ ∨ B = ⊤)
     (hC₁ : Subgroup.centralizer ((ρ₁.range : Subgroup (MulAut Q₁)) : Set (MulAut Q₁)) = ⊥)
@@ -288,7 +288,7 @@ theorem s16k_pRank_centralizer_prod {L : Type} [Group L] {Q₁ Q₂ : Type} [Com
         _ = d j := by
               congr 1
               apply e.injective
-              simpa [he j] using MulEquiv.apply_symm_apply e (j : Q₁ × Q₂).1
+              simp [he j]
         _ = (j : Q₁ × Q₂).2 := hd j
     have hφmem : ∀ q : Q₁ × Q₂, q.2 = φ q.1 → q ∈ J := by
       intro q hq
@@ -332,7 +332,7 @@ theorem s16k_pRank_centralizer_prod {L : Type} [Group L] {Q₁ Q₂ : Type} [Com
         _ = d' j := by
               congr 1
               apply e'.injective
-              simpa [he' j] using MulEquiv.apply_symm_apply e' (j : Q₁ × Q₂).1
+              simp [he' j]
         _ = (j : Q₁ × Q₂).2 := hd' j
     have hφ'mem : ∀ q : Q₁ × Q₂, q.2 = φ' q.1 → q ∈ J' := by
       intro q hq
@@ -498,7 +498,7 @@ theorem s16k_pRank_centralizer_prod {L : Type} [Group L] {Q₁ Q₂ : Type} [Com
         Prod.ext rfl hmem2.symm
       change (c ((c⁻¹ (y, 1)).1, 1)).1 = y
       rw [hthis]
-      simpa using congrArg Prod.fst (MulEquiv.apply_symm_apply c (y, 1))
+      simp
     let c₁ : MulAut Q₁ := MulEquiv.ofBijective f ⟨hfinj, hfsurj⟩
     have hc₁comm : c₁ ∈
         Subgroup.centralizer ((ρ₁.range : Subgroup (MulAut Q₁)) : Set (MulAut Q₁)) := by
@@ -572,7 +572,7 @@ theorem s16k_pRank_centralizer_prod {L : Type} [Group L] {Q₁ Q₂ : Type} [Com
         Prod.ext hmem1.symm rfl
       change (c (1, (c⁻¹ (1, y)).2)).2 = y
       rw [hthis]
-      simpa using congrArg Prod.snd (MulEquiv.apply_symm_apply c (1, y))
+      simp
     let c₂ : MulAut Q₂ := MulEquiv.ofBijective f₂ ⟨hf₂inj, hf₂surj⟩
     have hc₂comm : c₂ ∈
         Subgroup.centralizer ((ρ₂.range : Subgroup (MulAut Q₂)) : Set (MulAut Q₂)) := by
@@ -622,7 +622,7 @@ theorem s16k_pRank_centralizer_prod {L : Type} [Group L] {Q₁ Q₂ : Type} [Com
       _ = c (q.1, 1) * c (1, q.2) := map_mul c _ _
       _ = (q.1, 1) * (1, q.2) := by rw [hq₁, hq₂]
       _ = q := by ext <;> simp
-  haveI : Finite (Subgroup (Q₁ × Q₂)) := inferInstance
+  have : Finite (Subgroup (Q₁ × Q₂)) := inferInstance
   let Mset : Set (Subgroup (Q₁ × Q₂)) := {J | s16kMinimal ρ J}
   let G : Subgroup (Q₁ × Q₂) :=
     if h : ∃ J : Subgroup (Q₁ × Q₂), s16kMinimal ρ J ∧ J ≠ s16kA₁ ∧ J ≠ s16kA₂
@@ -634,7 +634,7 @@ theorem s16k_pRank_centralizer_prod {L : Type} [Group L] {Q₁ Q₂ : Type} [Com
     have hspec := Classical.choose_spec hex
     show J = (if h : ∃ K : Subgroup (Q₁ × Q₂), s16kMinimal ρ K ∧ K ≠ s16kA₁ ∧ K ≠ s16kA₂
       then Classical.choose h else ⊥)
-    rw [dif_pos hex]
+    rw [dite_eq_left hex]
     exact unique hJ hJ₁ hJ₂ hspec.1 hspec.2.1 hspec.2.2
   have hsub : Mset ⊆ ({s16kA₁, s16kA₂, G} : Set (Subgroup (Q₁ × Q₂))) := by
     intro J hJ
@@ -704,11 +704,11 @@ theorem s16k_pRank_centralizer_prod {L : Type} [Group L] {Q₁ Q₂ : Type} [Com
   intro E hE hEea
   have hdvd : Nat.card E ∣ 6 := (Subgroup.card_dvd_of_le hE).trans hCcard
   have hEpg : IsPGroup p E := fun g => ⟨1, Subtype.ext (by simpa using hEea.2 g g.2)⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := hEpg.exists_card_eq
   by_cases hp3 : p = 3
   · subst p
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rw [hn]
     have hle6 : 3 ^ n ≤ 6 := by
       rw [← hn]
@@ -722,7 +722,7 @@ theorem s16k_pRank_centralizer_prod {L : Type} [Group L] {Q₁ Q₂ : Type} [Com
     have hn1 : n ≤ 1 := Nat.lt_succ_iff.mp hn2
     calc 3 ^ n ≤ 3 ^ 1 := Nat.pow_le_pow_right (by norm_num) hn1
       _ = 3 ^ 1 := rfl
-  · rw [if_neg hp3]
+  · rw [ite_eq_right hp3]
     rw [hn]
     have hn0 : n = 0 := by
       by_contra h

@@ -21,7 +21,7 @@ private theorem ggMultOrd_one_eq_zero {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3) :
   have h3 : ¬ p ∣ 2 ^ 1 + 1 := by
     rw [show 2 ^ 1 + 1 = (3 : ℕ) by norm_num]
     exact fun h => hp3 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).mp h)
-  rw [if_neg h1, if_neg h3]
+  rw [ite_eq_right h1, ite_eq_right h3]
 
 private theorem mvq_append {l₁ l₂ : List GGKacOrbit}
     (h₁ : ∀ o ∈ l₁, o.qs = true) (h₂ : ∀ o ∈ l₂, o.qs = true) :
@@ -81,9 +81,9 @@ private theorem ggMultV0_qs {m0 nf : ℕ} {plus : Bool} (hnf : nf ≠ 1) :
   by_cases h1 : m0 ≤ 1
   · simp [h1]
   by_cases h2 : m0 = 2
-  · by_cases hp : plus <;> simp [h1, h2, hp, decide_eq_true_eq, hnf]
+  · by_cases hp : plus <;> simp [h2, hp, hnf]
   by_cases h3 : m0 = 3
-  · by_cases hp : plus <;> simp [h1, h2, h3, hp]
+  · by_cases hp : plus <;> simp [h3, hp]
   · by_cases hp : plus <;> simp [h1, h2, h3, hp]
 
 private theorem ggMultDatumC_qs {p nf d : ℕ} (m : List ℕ) (hnf : nf ≠ 1) :
@@ -91,15 +91,15 @@ private theorem ggMultDatumC_qs {p nf d : ℕ} (m : List ℕ) (hnf : nf ≠ 1) :
   unfold ggMultDatumC
   dsimp only
   by_cases h0 : m.headD 0 = 1
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     exact mvq_append (mvq_singleton (ggMultA1'_qs hnf)) (mvq_map (fun _ => ggMultBlockA_qs hnf))
   by_cases h1 : m.headD 0 = 2 ∧ nf = 1
-  · rw [if_neg h0, if_pos h1]
+  · rw [ite_eq_right h0, ite_eq_left h1]
     exact mvq_append (mvq_singleton rfl) (mvq_map (fun _ => ggMultBlockA_qs hnf))
   by_cases h2 : 2 ≤ m.headD 0
-  · rw [if_neg h0, if_neg h1, if_pos h2]
+  · rw [ite_eq_right h0, ite_eq_right h1, ite_eq_left h2]
     exact mvq_append (mvq_singleton rfl) (mvq_map (fun _ => ggMultBlockA_qs hnf))
-  · rw [if_neg h0, if_neg h1, if_neg h2]
+  · rw [ite_eq_right h0, ite_eq_right h1, ite_eq_right h2]
     exact mvq_append (by simp) (mvq_map (fun _ => ggMultBlockA_qs hnf))
 
 private theorem ggMultDatumD_qs {p nf d : ℕ} (tw : Bool) (m : List ℕ) (hnf : nf ≠ 1) :
@@ -113,16 +113,16 @@ private theorem ggMultDatumA_qs {p nf d : ℕ} (tw : Bool) (m : List ℕ) (hnf :
   unfold ggMultDatumA
   dsimp only
   by_cases htriv : (tw = false ∧ d = 1) ∨ (tw = true ∧ d = 2)
-  · rw [if_pos htriv]
+  · rw [ite_eq_left htriv]
     exact mvq_map (fun _ => ggMultBlockA_qs hnf)
-  · rw [if_neg htriv]
+  · rw [ite_eq_right htriv]
     by_cases h2 : 2 ≤ m.headD 0
     · by_cases htw : tw = false
-      · rw [if_pos h2, if_pos htw]
+      · rw [ite_eq_left h2, ite_eq_left htw]
         exact mvq_append (mvq_singleton (ggMultA1_qs hnf)) mvq_map_true
-      · rw [if_pos h2, if_neg htw]
+      · rw [ite_eq_left h2, ite_eq_right htw]
         exact mvq_append (mvq_singleton (ggMultBlockA_qs hnf)) mvq_map_true
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       exact mvq_append (by simp) mvq_map_true
 
 theorem ggMultValidCl_qs_true {lab : LargeEvenLabel} {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3)
@@ -133,15 +133,15 @@ theorem ggMultValidCl_qs_true {lab : LargeEvenLabel} {p : ℕ} (hp : p.Prime) (h
     cases T with
     | C r =>
         simp only [ggMultTableCl] at hDmem
-        rw [if_pos h0] at hDmem
+        rw [ite_eq_left h0] at hDmem
         exact List.not_mem_nil hDmem
     | D r =>
         simp only [ggMultTableCl] at hDmem
-        rw [if_pos h0] at hDmem
+        rw [ite_eq_left h0] at hDmem
         exact List.not_mem_nil hDmem
     | A r =>
         simp only [ggMultTableCl] at hDmem
-        rw [if_pos h0] at hDmem
+        rw [ite_eq_left h0] at hDmem
         exact List.not_mem_nil hDmem
   have hnf : m ≠ 1 := by
     intro h1

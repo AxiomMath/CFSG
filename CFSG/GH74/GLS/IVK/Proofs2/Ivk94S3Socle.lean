@@ -88,7 +88,7 @@ theorem z_mem_of_normal_inf_ne_bot {P : Sylow 2 H} {z : H}
     (hz2 : z * z = 1) {M : Subgroup H} (hM : M.Normal) (hne : M ⊓ (P : Subgroup H) ≠ ⊥) :
     z ∈ M := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hnil : Group.IsNilpotent ↥(P : Subgroup H) := P.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(P : Subgroup H) := P.isPGroup.isNilpotent
   have hMP : (M.subgroupOf (P : Subgroup H)).Normal := Subgroup.Normal.subgroupOf hM _
   have hne' : M.subgroupOf (P : Subgroup H) ≠ ⊥ := by
     intro h
@@ -324,7 +324,7 @@ theorem exists_socle_data {z u : H} {Yo : Subgroup H}
     exact congrArg Subtype.val (Subgroup.mem_center_iff.1 hc ⟨x, hx⟩)
   have hPY : (P : Subgroup H) ≤ Yo := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     rw [hYo]
     exact mem_oPrimeResidualOf_of_pow (Subgroup.mem_centralizer_singleton_iff.2 (hzC x hx))
       (k := k) (by simpa using congrArg Subtype.val hk)

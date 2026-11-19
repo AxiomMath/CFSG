@@ -189,7 +189,7 @@ theorem fiveRel : FiveRel xU hU where
     exact eq12 wf_Q3 wf_Q4 wf_Q4 wf_Q3 wf_Z (by bm_strips2 CFSG.KC.BM.Five.pr2_3 69))
   ax2 := Units.ext (by
     simp only [nfQ, xAct, Units.val_mul, Units.val_pow_eq_pow_val, cxi, cx, cq0, cq1, cq2, cq3,
-      cz, pow_zero, mul_one]
+      pow_zero, mul_one]
     rw [← tx2]
     exact conj_of (k := 4) x_five
       (eq1 wf_f85 wf_Tx2 wf_Q3 wf_f85 (by bm_strips2 CFSG.KC.BM.Five.actx2 69)))
@@ -200,20 +200,18 @@ theorem fiveRel : FiveRel xU hU where
     exact conj_of (k := 4) x_five
       (eq1 wf_f85 wf_Tx3 wf_Q4 wf_f85 (by bm_strips2 CFSG.KC.BM.Five.actx3 69)))
   ah1 := Units.ext (by
-    simp only [nfQ, hAct, Units.val_mul, Units.val_pow_eq_pow_val, chi, ch, cq0, cq1, cq2, cq3,
-      cz, pow_zero, mul_one, pow_one]
+    simp only [nfQ, hAct, Units.val_mul, Units.val_pow_eq_pow_val, chi, ch, cq0, cq1, cq2, cz, pow_zero, mul_one, pow_one]
     rw [← th1]
     exact conj_of (k := 7) h_eight
       (eq1 wf_f86 wf_Th1 wf_Q2 wf_f86 (by bm_strips2 CFSG.KC.BM.Five.acth1 69)))
   ah2 := Units.ext (by
-    simp only [nfQ, hAct, Units.val_mul, Units.val_pow_eq_pow_val, chi, ch, cq0, cq1, cq2, cq3,
-      cz, pow_zero, mul_one, pow_one]
+    simp only [nfQ, hAct, Units.val_mul, Units.val_pow_eq_pow_val, chi, ch, cq0, cq1, cq2, cz, pow_zero, mul_one]
     rw [← th2]
     exact conj_of (k := 7) h_eight
       (eq1 wf_f86 wf_Th2 wf_Q3 wf_f86 (by bm_strips2 CFSG.KC.BM.Five.acth2 69)))
   ah3 := Units.ext (by
     simp only [nfQ, hAct, Units.val_mul, Units.val_pow_eq_pow_val, chi, ch, cq0, cq1, cq2, cq3,
-      cz, pow_zero, mul_one, pow_one]
+      cz, pow_one]
     rw [← th3]
     exact conj_of (k := 7) h_eight
       (eq1 wf_f86 wf_Th3 wf_Q4 wf_f86 (by bm_strips2 CFSG.KC.BM.Five.acth3 69)))
@@ -238,7 +236,7 @@ theorem n0_eq : ((evalW xU hU (nW 0) : MatBˣ) : MatB) = stripMat FiveN.n0 := by
   simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil, x_sq2,
     h_sq1] at e e' e''
   rw [← e'', ← e', ← e]
-  simp only [evalW, nW, Units.val_mul, Units.val_one, cx, cxi, ch, chi, mul_one, sq, mul_assoc]
+  simp only [evalW, nW, Units.val_mul, cxi, ch, mul_one, sq, mul_assoc]
 
 theorem n1_eq : ((evalW xU hU (nW 1) : MatBˣ) : MatB) = stripMat FiveN.n1 := by
   have e := chain (C := FiveN.n1a) (Ws := [f85_sq2, f85_sq2])
@@ -254,7 +252,7 @@ theorem n1_eq : ((evalW xU hU (nW 1) : MatBˣ) : MatB) = stripMat FiveN.n1 := by
   simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil, x_sq2, h_sq1,
     h_three] at e e' e'' e3 e4
   rw [← e4, ← e3, ← e'', ← e', ← e]
-  simp only [evalW, nW, Units.val_mul, Units.val_one, cx, cxi, ch, chi, mul_one, sq, mul_assoc,
+  simp only [evalW, nW, Units.val_mul, cx, cxi, ch, mul_one, sq, mul_assoc,
     ← pow_three']
 
 theorem n2_eq : ((evalW xU hU (nW 2) : MatBˣ) : MatB) = stripMat FiveN.n2 := by
@@ -266,7 +264,7 @@ theorem n2_eq : ((evalW xU hU (nW 2) : MatBˣ) : MatB) = stripMat FiveN.n2 := by
     (by simp [wf_f85, wf_f86]) FiveN.wf_n2b (by bm_strips4 CFSG.KC.BM.FiveN.cn2c 69)
   simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil, h_p] at e e' e''
   rw [← e'', ← e', ← e]
-  simp only [evalW, nW, Units.val_mul, Units.val_one, cx, cxi, ch, chi, mul_one, mul_assoc]
+  simp only [evalW, nW, Units.val_mul, cx, ch, chi, mul_one, mul_assoc]
 
 theorem psi_val (v : V6) : ((psi xU (qW xU hU) (zW xU hU) v : MatBˣ) : MatB) =
     MX ^ v.e * (MW ^ v.q.a0 * M2 ^ v.q.a1 * M3 ^ v.q.a2 * M4 ^ v.q.a3 * MZ ^ v.q.c) := by

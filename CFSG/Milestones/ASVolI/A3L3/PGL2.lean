@@ -15,9 +15,9 @@ open scoped Pointwise
 theorem burnsideA315y_isSylowTwoOf_of_card {W : Type*} [Group W] [Finite W] {S : Subgroup W}
     (h : Nat.card ↥S = 2 ^ (Nat.card W).factorization 2) :
     CFSG.QuasithinUnique.IsSylowTwoOf S ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 W := Sylow.ofCard S h
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   have h1 : (S.subgroupOf ⊤).index = S.index := Subgroup.relIndex_top_right S
   rw [h1]
   exact P.not_dvd_index
@@ -26,7 +26,7 @@ theorem burnsideA315y_card_sup {X : Type*} [Group X] [Finite X] {S B : Subgroup 
     (hodd : Odd (Nat.card ↥B)) (hS : IsPGroup 2 ↥S)
     (hperm : (B : Set X) * (S : Set X) = (S : Set X) * (B : Set X)) :
     Nat.card ↥(B ⊔ S) = Nat.card ↥B * Nat.card ↥S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hS.exists_card_eq
   have hdB : Nat.card ↥(B ⊓ S) ∣ Nat.card ↥B := Subgroup.card_dvd_of_le inf_le_left
   have hdS : Nat.card ↥(B ⊓ S) ∣ 2 ^ k := hk ▸ Subgroup.card_dvd_of_le inf_le_right
@@ -172,7 +172,7 @@ theorem burnsideA315y_isSquare_galois_two {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 
   · subst ha
     rw [map_zero]
     exact ⟨0, by ring⟩
-  · letI : Fintype (GaloisField p 2) := Fintype.ofFinite _
+  · let : Fintype (GaloisField p 2) := Fintype.ofFinite _
     have hchar : ringChar (GaloisField p 2) ≠ 2 := by
       rw [ringChar.eq (GaloisField p 2) p]
       exact hp2
@@ -273,7 +273,7 @@ theorem burnsideA315y_dickson_sq {p : ℕ} [Fact p.Prime]
     rw [hW, Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin] at h
     rcases hk with rfl | rfl <;> revert h <;> decide
   · exfalso
-    haveI := hP
+    have := hP
     exact burnsideA315x_case_ext hTW hp hp2 hTk hTnc P hPc hQc
   · exfalso
     have hm0 : m' ≠ 0 := by
@@ -335,7 +335,7 @@ theorem burnsideA315y_case_dihedral {X : Type} [Group X] [Finite X] {S B : Subgr
     intro h
     rw [h, mul_zero] at hHz
     exact (Nat.card_pos (α := ↥(B ⊔ S))).ne' hHz
-  haveI : NeZero z := ⟨hz0⟩
+  have : NeZero z := ⟨hz0⟩
   obtain ⟨k', rfl⟩ : ∃ k', k = k' + 2 := ⟨k - 2, by omega⟩
   have hz : z = Nat.card ↥B * 2 ^ (k' + 1) := by
     have h1 : 2 * z = 2 * (Nat.card ↥B * 2 ^ (k' + 1)) := by
@@ -443,7 +443,7 @@ theorem burnsideA315y_l2_three {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
   have hq : Nat.card (GaloisField p 1) = p ^ 1 := GaloisField.card p 1 (by norm_num)
   obtain ⟨⟨m, hm, hSc⟩, hSnc⟩ :=
     burnsideA315x_sylow_facts (F := GaloisField p 1) hp hp2 le_rfl hq hS
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨j, hj⟩ := hB3.exists_card_eq
   have hodd : Odd (Nat.card ↥B) := by
     rw [hj]
@@ -526,7 +526,7 @@ theorem burnsideA315y_l2_three {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
       ((by norm_num : Nat.Prime 5).dvd_of_dvd_pow h5)
     omega
   · exfalso
-    haveI := hP
+    have := hP
     exact burnsideA315x_case_ext le_sup_right hp hp2 hSc hSnc P hPc hQc
   ·
     right
@@ -688,7 +688,7 @@ theorem burnsideA315y_pgl2 : burnsideA315y_PGL2Statement := by
       show Matrix.ProjectiveSpecialLinearGroup.toPGL (θ (θ.symm y)) = _
       rw [θ.apply_symm_apply]
   set N := (Matrix.ProjectiveSpecialLinearGroup.toPGL (n := Fin 2) (R := ZMod p)).range
-  haveI hNn : N.Normal :=
+  have hNn : N.Normal :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.pglPSLRange_normal (ZMod p)
   have hBN : B ≤ N := by
     intro b hb
@@ -776,7 +776,7 @@ theorem burnsideA315y_pgl2 : burnsideA315y_PGL2Statement := by
     rw [← hB₀c]
     exact hε3
   by_cases h3 : IsPGroup 3 ↥B₀
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rcases burnsideA315y_l2_three hp2 hS₀syl h3 hperm₀ with
       ⟨hcyc, hε, hs⟩ | ⟨hB₀3, hS₀4⟩ | ⟨hB₀3, hS₀8, ⟨φ⟩⟩
     · exact concl_a hcyc hε hs
@@ -788,7 +788,7 @@ theorem burnsideA315y_pgl2 : burnsideA315y_PGL2Statement := by
         have := Nat.pow_right_injective le_rfl this
         omega
       subst hm1
-      haveI hBcyc : IsCyclic ↥B := isCyclic_of_prime_card hB3
+      have hBcyc : IsCyclic ↥B := isCyclic_of_prime_card hB3
       obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥B)
       have hgo : orderOf (g : PGL2 (ZMod p)) = 3 := by
         rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers hg, hB3]
@@ -818,7 +818,7 @@ theorem burnsideA315y_pgl2 : burnsideA315y_PGL2Statement := by
         have := Nat.pow_right_injective le_rfl this
         omega
       subst hm2
-      haveI hBcyc : IsCyclic ↥B := isCyclic_of_prime_card hB3
+      have hBcyc : IsCyclic ↥B := isCyclic_of_prime_card hB3
       obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥B)
       have hgo : orderOf (g : PGL2 (ZMod p)) = 3 := by
         rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers hg, hB3]

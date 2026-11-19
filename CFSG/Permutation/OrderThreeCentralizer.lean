@@ -16,7 +16,7 @@ theorem card_support_eq_three_or_six_or_nine {σ : Equiv.Perm (Fin 11)} (hσ : o
   have hσ3 : σ ^ 3 = 1 := by
     rw [← hσ]
     exact pow_orderOf_eq_one σ
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hct : σ.cycleType = Multiset.replicate σ.cycleType.card 3 :=
     Equiv.Perm.cycleType_of_pow_prime_eq_one hσ3
   have hne : σ.cycleType ≠ 0 := by
@@ -41,7 +41,7 @@ theorem card_centralizer_of_card_support_eq_nine {σ : Equiv.Perm (Fin 11)}
   have hσ3 : σ ^ 3 = 1 := by
     rw [← hσ]
     exact pow_orderOf_eq_one σ
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hct : σ.cycleType = Multiset.replicate 3 3 := by
     have h := Equiv.Perm.cycleType_of_pow_prime_eq_one hσ3
     have hsum : σ.cycleType.sum = 9 := by
@@ -56,7 +56,7 @@ theorem card_centralizer_of_card_support_eq_nine {σ : Equiv.Perm (Fin 11)}
 theorem isSolvable_centralizer_alternatingGroup_of_card_support_eq_nine
     {σ : alternatingGroup (Fin 11)} (hσ : orderOf σ = 3)
     (hs : (σ : Equiv.Perm (Fin 11)).support.card = 9) :
-    IsSolvable ↥(Subgroup.centralizer ({σ} : Set (alternatingGroup (Fin 11)))) := by
+    Group.IsSolvable ↥(Subgroup.centralizer ({σ} : Set (alternatingGroup (Fin 11)))) := by
   have hσ' : orderOf (σ : Equiv.Perm (Fin 11)) = 3 := by
     rw [Subgroup.orderOf_coe]
     exact hσ
@@ -77,7 +77,7 @@ theorem not_sq_dvd_card_centralizer_of_orderOf_eq_three {n : ℕ} (hn : n ≤ 11
   have hy3 : y ^ 3 = 1 := by
     rw [← hy]
     exact pow_orderOf_eq_one y
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hct : y.cycleType = Multiset.replicate y.cycleType.card 3 :=
     Equiv.Perm.cycleType_of_pow_prime_eq_one hy3
   have hy1 : y ≠ 1 := by
@@ -96,7 +96,7 @@ theorem not_sq_dvd_card_centralizer_of_orderOf_eq_three {n : ℕ} (hn : n ≤ 11
         y.cycleType.card.factorial := by
     rw [Equiv.Perm.nat_card_centralizer, hct]
     simp [Multiset.sum_replicate, Multiset.prod_replicate, Multiset.toFinset_replicate,
-      Multiset.count_replicate_self, hkpos.ne', Finset.prod_singleton, nsmul_eq_mul]
+      Multiset.count_replicate_self, hkpos.ne', Finset.prod_singleton]
   rw [hcard, mul_assoc] at hdiv
   have hpk : ¬ p ∣ 3 ^ y.cycleType.card * y.cycleType.card.factorial := by
     intro h

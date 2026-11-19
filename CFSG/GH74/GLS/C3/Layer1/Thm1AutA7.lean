@@ -39,7 +39,7 @@ theorem perm7_level (B : Subgroup (Perm (Fin 7))) (hB : IsPGroup 2 ↥B)
   obtain ⟨f₀, hf₀2, -, hf₀T, hinter, hcentral, hsplit⟩ := ivk_1_1T T'
   have hPeq : (T' : Subgroup (Perm (Fin 7))) ⊓ alternatingGroup (Fin 7) =
       B ⊓ alternatingGroup (Fin 7) :=
-    hSyl.eq_of_le (inf_le_inf_right _ hBT') inf_le_right T'.isPGroup'.to_inf_left
+    hSyl.eq_of_le (inf_le_inf_right _ hBT') inf_le_right T'.isPGroup.to_inf_left
   have hdih : IsDihedralOrder ↥(B ⊓ alternatingGroup (Fin 7)) 8 := by
     rw [← hPeq]
     exact ivk_1_1a T'
@@ -269,7 +269,7 @@ theorem perm7_fus (B : Subgroup (Perm (Fin 7))) (hB : IsPGroup 2 ↥B)
   obtain ⟨hf₀2, hf₀ct, hf₀T, hinter, hcentral, hsplit⟩ := hS
   have hPeq : (T' : Subgroup (Perm (Fin 7))) ⊓ alternatingGroup (Fin 7) =
       B ⊓ alternatingGroup (Fin 7) :=
-    hSyl.eq_of_le (inf_le_inf_right _ hBT') inf_le_right T'.isPGroup'.to_inf_left
+    hSyl.eq_of_le (inf_le_inf_right _ hBT') inf_le_right T'.isPGroup.to_inf_left
   have hdih : IsDihedralOrder ↥(B ⊓ alternatingGroup (Fin 7)) 8 := by
     rw [← hPeq]
     exact ivk_1_1a T'
@@ -394,7 +394,7 @@ theorem perm7_solv (B : Subgroup (Perm (Fin 7))) (hB : IsPGroup 2 ↥B)
   obtain ⟨T', hBT'⟩ := hB.exists_le_sylow
   have hPeq : (T' : Subgroup (Perm (Fin 7))) ⊓ alternatingGroup (Fin 7) =
       B ⊓ alternatingGroup (Fin 7) :=
-    hSyl.eq_of_le (inf_le_inf_right _ hBT') inf_le_right T'.isPGroup'.to_inf_left
+    hSyl.eq_of_le (inf_le_inf_right _ hBT') inf_le_right T'.isPGroup.to_inf_left
   have hzT : z ∈ (T' : Subgroup (Perm (Fin 7))) ⊓ alternatingGroup (Fin 7) := by
     rw [hPeq]
     exact hzP

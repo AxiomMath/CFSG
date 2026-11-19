@@ -74,7 +74,7 @@ theorem s16h_bl_mem_normalizer_of_stab {A L : Subgroup (MulAut W)} {t : MulAut W
   apply hn
   rw [Subgroup.mem_normalizer_iff]
   intro x
-  simp [hL1, Subgroup.mem_bot, mul_inv_eq_one, mul_eq_one_iff_eq_inv]
+  simp [hL1, Subgroup.mem_bot, mul_eq_one_iff_eq_inv]
 
 private def s16h_bl_commHom (t : MulAut W) : W →* W where
   toFun y := t y * y⁻¹
@@ -159,9 +159,9 @@ theorem s16h_bl_le_commutator_of_deltaSym [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     (hLt : ⁅L, Subgroup.zpowers t⁆ ≠ ⊥)
     (hD : DeltaSym A t (commSub (⊤ : Subgroup W) L) r m) : L ≤ ⁅A, A⁆ :=
   s16h_dc_le_commutator hW ht2 htr hp hp2 hm hr hpr hLA
-    (fun g hg => (Subgroup.mem_normalizer_iff_map_conj_eq.1
+    (fun _g hg => (Subgroup.mem_normalizer_iff_map_conj_eq.1
       (s16h_bl_mem_normalizer_of_stab hconc hg.1 hg.2)))
-    (fun l hl hfix => s16h_bl_eq_one_of_fixes hconc hl hfix) hE hLt hD
+    (fun _l hl hfix => s16h_bl_eq_one_of_fixes hconc hl hfix) hE hLt hD
 
 end Conc
 
@@ -188,9 +188,9 @@ theorem s16h_der_exists_central_of_extraspecial {A L : Subgroup X} {p : ℕ} (hp
     ∃ B : Subgroup X, B ≤ L ∧ B ≠ ⊥ ∧ IsElemAbelian p B ∧
       (∀ b ∈ B, ∀ l ∈ L, b * l = l * b) ∧ B ≤ ⁅A, A⁆ := by
   obtain ⟨hext, hcard, hexp⟩ := hL
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsExtraspecial p ↥L := hext
-  haveI : Finite ↥L := Nat.finite_of_card_ne_zero (by
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsExtraspecial p ↥L := hext
+  have : Finite ↥L := Nat.finite_of_card_ne_zero (by
     rw [hcard]
     exact pow_ne_zero 3 hp.ne_zero)
   let B : Subgroup X := (Subgroup.center ↥L).map L.subtype
@@ -206,14 +206,14 @@ theorem s16h_der_exists_central_of_extraspecial {A L : Subgroup X} {p : ℕ} (hp
     ⟨Subgroup.center.isMulCommutative (G := ↥L), fun z _ => hexp z⟩
   have hBel : IsElemAbelian p B := hZel.map L.subtype
   have hcomm_le : commutator ↥L ≤ Subgroup.center ↥L := by
-    haveI : IsMulCommutative (↥L ⧸ Subgroup.center ↥L) :=
+    have : IsMulCommutative (↥L ⧸ Subgroup.center ↥L) :=
       (IsExtraspecial.quotient_elementary_abelian p ↥L).toIsMulCommutative
     exact (Subgroup.Normal.quotient_commutative_iff_commutator_le
       (N := Subgroup.center ↥L)).mp inferInstance
   have hCne : commutator ↥L ≠ ⊥ := by
     intro hC
     have hcomm : IsMulCommutative ↥L := (commutator_eq_bot_iff (G := ↥L)).1 hC
-    letI : IsMulCommutative ↥L := hcomm
+    let : IsMulCommutative ↥L := hcomm
     have htop : Subgroup.center ↥L = ⊤ := Subgroup.center_eq_top
     have hsub : Subsingleton (↥L ⧸ Subgroup.center ↥L) :=
       (QuotientGroup.subsingleton_iff (N := Subgroup.center ↥L)).2 htop

@@ -112,6 +112,7 @@ theorem pStab {A₀ : Subgroup G} {S : Finset Vec} (hS : IsPlane S)
   have := (hAS _).1 hconj
   rwa [map_mul, map_mul, map_inv, hψl, hc', MulEquiv.apply_symm_apply] at this
 
+omit [Finite G] h in
 theorem mem_norm_pre {S : Finset Vec} (hS : IsPlane S) {I : Subgroup G}
     (hLI : L ≤ normalizer (I : Set G)) {γ : ↥I →* Multiplicative Vec}
     (hγ : IsNatVia L I ⊥ α γ) (l : ↥L) (hl : ∀ v ∈ S, act (α l) v ∈ S) :
@@ -124,6 +125,7 @@ theorem mem_norm_pre {S : Finset Vec} (hS : IsPlane S) {I : Subgroup G}
   have := burnsideC137_conj_mem_pre hγ hLI _ l⁻¹ (x := ((l⁻¹ : ↥L) : G)) (fun u _ => rfl) hl' hy
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem concl3 {S : Finset Vec} (hS : IsPlane S)
     (hstab : ∀ x ∈ P, ∃ l : ↥L, (l : G)⁻¹ * x ∈ centralizer (U : Set G) ∧
       ∀ v ∈ S, act (α l) v ∈ S) :
@@ -179,7 +181,7 @@ theorem concl3 {S : Finset Vec} (hS : IsPlane S)
   have hPeq : P = K := ((h.hmax K hPK inf_le_left).resolve_right hKX).symm
   refine ⟨⟨ℓ, crd, burnsideC137_finrank_planeSub S hS, hnat, hPeq⟩, fun l' hl' => ?_⟩
   rw [hPeq]
-  exact ⟨h.hLX l'.2, Subgroup.mem_iInf.2 fun I => h.mem_norm_pre hS (hLI I) (hnat I) l' hl'⟩
+  exact ⟨h.hLX l'.2, Subgroup.mem_iInf.2 fun I => burnsideC137_SCtx.mem_norm_pre hS (hLI I) (hnat I) l' hl'⟩
 
 theorem autR_le {A₀ : Subgroup G} {S : Finset Vec} (hS : IsPlane S)
     (hAS : ∀ a : ↥(autI h.hU L), (a : MulAut (IntMod U h.hU)) ∈ autI h.hU A₀ ↔

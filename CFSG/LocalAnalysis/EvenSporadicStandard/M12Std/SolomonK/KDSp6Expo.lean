@@ -8,9 +8,9 @@ namespace CFSG.EvenSporadicStandard.M12Std.SolomonK
 
 open CFSG.Open
 
-theorem charP_two_of_card {F : Type} [Field F] [Finite F] {f : ℕ} (hf : 1 ≤ f)
+theorem charP_two_of_card {F : Type} [Field F] [Finite F] {f : ℕ} (_hf : 1 ≤ f)
     (h : Nat.card F = 2 ^ f) : CharP F 2 := by
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   have hp : (ringChar F).Prime := CharP.char_is_prime F (ringChar F)
   rcases FiniteField.card F (ringChar F) with ⟨n, _hn, hcard⟩
   have hcard' : Nat.card F = (ringChar F) ^ (n : ℕ) := by
@@ -51,7 +51,7 @@ theorem pow_four_eq_one_proj {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type
     have hA : (A : Matrix ι ι F) ^ 2 ^ k = Matrix.scalar ι (c : F) := by
       have hc' := congrArg (fun g : GL ι F => (g : Matrix ι ι F)) hc
       simpa [A, Matrix.GeneralLinearGroup.coe_scalar, Units.val_pow_eq_pow_val] using hc'.symm
-    haveI : PerfectRing F 2 := inferInstance
+    have : PerfectRing F 2 := inferInstance
     obtain ⟨d, hd⟩ := (bijective_iterateFrobenius F 2 k).2 (c : F)
     have hd' : d ^ 2 ^ k = (c : F) := by
       simpa [iterateFrobenius_def] using hd
@@ -93,7 +93,7 @@ theorem pow_four_eq_one_proj {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type
     have hq : ((h ^ 4 : H) : StatedProj H) = 1 :=
       (QuotientGroup.eq_one_iff _).mpr hh4
     simpa using hq
-  · haveI : IsEmpty ι := not_nonempty_iff.mp hne
+  · have : IsEmpty ι := not_nonempty_iff.mp hne
     exact Subsingleton.elim _ _
 
 theorem orderOf_ne_eight_proj {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type} [Field F]

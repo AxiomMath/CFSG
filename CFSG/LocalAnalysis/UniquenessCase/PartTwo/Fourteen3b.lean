@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_isSylowOf_ge_of_isPGroup {p : ℕ} {K Y : Subgroup G} (hY : IsPGroup p Y)
     (hYK : Y ≤ K) :
     ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P K ∧ Y ≤ P := by
@@ -108,6 +109,7 @@ theorem centOverO2_le_centralizer (h : Hyp141 D L₁ L₂ X) {P : Subgroup G} (h
       (UC6S846.isPGroup_pCoreOf (L₁ ⊔ L₂)) hcP hc
   exact ((commutatorElement_eq_one_iff_mul_comm (g₁ := y) (g₂ := x)).1 hcone).symm
 
+omit [Finite G] in
 theorem eq_one_of_acts_trivially {L K : Subgroup G} (hL : IsL3 (Bar2 L) 1)
     (hK : IsPGroup 3 K) {x : G} (hxK : x ∈ K) (hxL : x ∈ L)
     (hx : ∀ l ∈ L, x * l * x⁻¹ * l⁻¹ ∈ pCoreOf 2 L) : x = 1 := by
@@ -155,8 +157,8 @@ theorem eq_one_of_acts_trivially {L K : Subgroup G} (hL : IsL3 (Bar2 L) 1)
   exact UC6S846.eq_one_of_mem_isPGroup_of_mem_isPGroup Nat.prime_three (by norm_num) hK
     (UC6S846.isPGroup_pCoreOf L) hxK hxpc
 
-theorem disjoint_centOverO2 (h : Hyp141 D L₁ L₂ X) {P : Subgroup G} (hP : IsPGroup 3 P)
-    (hXP : X ≤ P) : Disjoint X (F08.CentOverO2 P (L₁ ⊔ L₂)) := by
+theorem disjoint_centOverO2 (h : Hyp141 D L₁ L₂ X) {P : Subgroup G} (_hP : IsPGroup 3 P)
+    (_hXP : X ≤ P) : Disjoint X (F08.CentOverO2 P (L₁ ⊔ L₂)) := by
   rw [Subgroup.disjoint_def]
   intro x hx hxY
   obtain ⟨-, hxc⟩ := (mem_centOverO2_iff (X := P) (L := L₁ ⊔ L₂)).1 hxY
@@ -217,7 +219,7 @@ theorem opp_three_eq_self_of_isL3 {M L : Subgroup G} (hL : L ∈ calC M) (hs : I
     simpa [J, Opp, CFSG.RankThree.PartOne.conjBy] using h.symm
   let N : Subgroup ↥L := J.subgroupOf L
   have hNnormal : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJL).2 hnorm
-  letI : N.Normal := hNnormal
+  let : N.Normal := hNnormal
   let Q : Subgroup ↥L := CFSG.pCore 2 ↥L
   have hQ : IsPGroup 2 Q := CFSG.pCore_isPGroup
   let π : ↥L →* Bar2 L := QuotientGroup.mk' Q
@@ -272,7 +274,7 @@ theorem opp_three_eq_self_of_isL3 {M L : Subgroup G} (hL : L ∈ calC M) (hs : I
     rw [← hz']
     show (((n * q : ↥L) : ↥L ⧸ N)) ^ 2 ^ k = 1
     rw [h1, ← QuotientGroup.mk_pow, hk', QuotientGroup.mk_one]
-  haveI : Group.IsNilpotent (↥L ⧸ N) := hR.isNilpotent
+  have : Group.IsNilpotent (↥L ⧸ N) := hR.isNilpotent
   have hle : (⊤ : Subgroup ↥L) ≤ N :=
     Subgroup.le_of_commutator_eq_self_of_isSolvable_quotient (M := N) (H := ⊤) hperf
   have hJtop : N = ⊤ := top_le_iff.1 hle

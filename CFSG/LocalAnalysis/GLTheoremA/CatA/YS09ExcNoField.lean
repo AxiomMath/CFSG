@@ -171,7 +171,7 @@ private theorem div_PSL3 {lab : LargeEvenLabel} {Q : CFSG.Assembly.LargeEvenRawC
     | exact fo_linear hn hraw h3
     | (exfalso
        simp only [markTag, markRank] at t1 t2
-       (try split_ifs at t1 t2) <;> simp_all)
+       (try split_ifs at t1 t2); simp_all)
 
 private theorem div_PSU3 {lab : LargeEvenLabel} {Q : CFSG.Assembly.LargeEvenRawCont}
     (hl : LargeEvenInLambda2 lab) (hraw : CFSG.Assembly.LargeEvenRawDatum lab Q)
@@ -186,7 +186,7 @@ private theorem div_PSU3 {lab : LargeEvenLabel} {Q : CFSG.Assembly.LargeEvenRawC
     | exact (fo_G2der hraw h3).elim
     | (exfalso
        simp only [markTag, markRank] at t1 t2
-       (try split_ifs at t1 t2) <;> simp_all)
+       (try split_ifs at t1 t2); try simp_all)
 
 private theorem coinc_contra {lab : LargeEvenLabel} {Q : CFSG.Assembly.LargeEvenRawCont}
     (hl : LargeEvenInLambda2 lab) (hraw : CFSG.Assembly.LargeEvenRawDatum lab Q)
@@ -231,7 +231,7 @@ private theorem char3_or_tits_contra {lab : LargeEvenLabel} {Q : CFSG.Assembly.L
 
 private theorem lieModel_psl29_of_alt6 {X : Type} [Group X] (e : X ≃* alternatingGroup (Fin 6)) :
     CFSG.Blueprint.LieModel X .PSL 2 3 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : Nat.card (GaloisField 3 2) = 3 ^ 2 := GaloisField.card 3 2 (by norm_num)
   have hF : Fintype (GaloisField 3 2) := Fintype.ofFinite _
   obtain ⟨φ⟩ :=

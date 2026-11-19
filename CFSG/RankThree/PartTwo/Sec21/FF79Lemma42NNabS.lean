@@ -13,8 +13,9 @@ open CFSG.RankThree.PartTwo.KFacts (KPSz commutator_le_inner_of_not_three_dvd)
 
 variable {Γ : Type} [Group Γ] [Finite Γ] {Q L : Subgroup Γ} {b : Γ}
 
+omit [Finite Γ] in
 theorem NHyp.perfect (h : NHyp Q L b) : ⁅(⊤ : Subgroup L), (⊤ : Subgroup L)⁆ = ⊤ := by
-  haveI := h.isSimple
+  have := h.isSimple
   rcases (Subgroup.commutator_normal (⊤ : Subgroup L) ⊤).eq_bot_or_eq_top with hb | ht
   · exfalso
     obtain ⟨x, y, hxy⟩ := h.nonab_L
@@ -128,7 +129,7 @@ theorem nBase_nab_normal (hSz : KPSz) (h : NHyp Q L b)
       rw [h0, Subgroup.mem_bot] at hx
       exact hx1 hx
     · exact h0
-  haveI : IsSimpleGroup Q := hSQ ▸ F.isSimpleGroup j
+  have : IsSimpleGroup Q := hSQ ▸ F.isSimpleGroup j
   exact simple_case hSz h hQ hnab
 
 end CFSG.RankThree.PartTwo.Sec21.FF79.LemmaN

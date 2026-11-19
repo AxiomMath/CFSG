@@ -21,11 +21,13 @@ section Generic
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem not_smallFixedException_of_six_le
     (h6 : 6 ≤ finrank K (KCOrthogonal.fixedSpace x)) :
     ¬ KCOrthogonal.SmallFixedException (Q.comp (KCOrthogonal.fixedSpace x).subtype) := by
   rintro (⟨h3, -⟩ | ⟨⟨h4, -⟩, -⟩) <;> omega
 
+omit [CharP K 2] in
 private theorem isQuasisimple_supportedFixedDerived_of_six_le (hx : OddOrderIsometry Q p x)
     (h6 : 6 ≤ finrank K (KCOrthogonal.fixedSpace x)) :
     CFSG.IsQuasisimple ↥(supportedFixedDerived Q x) := by
@@ -115,7 +117,6 @@ private theorem fixedSpace_auxEquiv_le (hEQ : ∀ e : ↥E0, ∀ v, Q (act ρ₀
       KCOrthogonal.fixedSpace (actEquiv c₁) := by
   rw [auxEquiv_eq_mul hP hpK hM₁ â c₁]
   exact H81Orth.fixedSpace_mul_le (oddOrderIsometry_actEquiv hP hpK hEQ hreg c₁)
-    (oddOrderIsometry_auxEquiv hP hpK hEQ hreg hM₁ (â * c₁⁻¹) 1)
     (actEquiv_mul_auxEquiv_comm hP hpK hM₁ _ _ _) (auxEquiv_apply_sub hP hpK hM₁ hc₁M₁ _)
 
 private theorem supportedFixedDerived_auxEquiv_le (hEQ : ∀ e : ↥E0, ∀ v, Q (act ρ₀ e v) = Q v)

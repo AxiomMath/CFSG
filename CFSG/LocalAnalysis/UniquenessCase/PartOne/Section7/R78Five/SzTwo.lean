@@ -41,7 +41,7 @@ theorem isCyclic_of_le_of_isoLie_sz32
     rw [hAR, Subgroup.card_bot] at hAcard
     norm_num at hAcard
   have hNnorm : N = Subgroup.normalizer ((R : Subgroup X) : Set X) :=
-    (hzmax N (hN.normalizer_le hRne R.isPGroup' (hRcoe ▸ hR₀N))).resolve_right hN.1
+    (hzmax N (hN.normalizer_le hRne R.isPGroup (hRcoe ▸ hR₀N))).resolve_right hN.1
   have hTN' : T ≤ Subgroup.normalizer ((R : Subgroup X) : Set X) := hNnorm ▸ hTN
   have hnormz : Subgroup.normalizer ((R : Subgroup X) : Set X) ≤
       Subgroup.normalizer (Subgroup.zpowers z : Set X) := by
@@ -50,7 +50,7 @@ theorem isCyclic_of_le_of_isoLie_sz32
       Subgroup.inf_normalizer_le_normalizer_inf
   have hTC : T ⊓ Subgroup.centralizer (Subgroup.zpowers z : Set X) = ⊥ :=
     (IsPGroup.disjoint_of_ne 2 5 (by norm_num) _ _ (hT.to_le inf_le_left)
-      R.isPGroup').eq_bot_of_le ((le_inf (inf_le_left.trans hTN') (inf_le_right.trans
+      R.isPGroup).eq_bot_of_le ((le_inf (inf_le_left.trans hTN') (inf_le_right.trans
         (CFSG.BlockBasics.centralizer_zpowers_eq_centralizer_singleton z).le)).trans hzC)
   exact CFSG.Semidihedral.Principal.isCyclic_of_le_normalizer_of_inf_centralizer
     Nat.prime_five (Subgroup.zpowers z) T

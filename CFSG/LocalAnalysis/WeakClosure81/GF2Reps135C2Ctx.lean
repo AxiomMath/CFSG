@@ -18,10 +18,12 @@ open scoped commutatorElement Pointwise
 
 variable {W : Type} [CommGroup W] [Finite W] {Y L : Subgroup (MulAut W)}
 
+omit [Finite W] in
 theorem w135c2_Zc_le (L : Subgroup (MulAut W)) : Zc L ≤ L := by
   rintro _ ⟨z, -, rfl⟩
   exact z.2
 
+omit [Finite W] in
 private theorem w135c2_Zc_central (L : Subgroup (MulAut W)) :
     Zc L ≤ Subgroup.centralizer (L : Set (MulAut W)) := by
   intro z hz
@@ -31,6 +33,7 @@ private theorem w135c2_Zc_central (L : Subgroup (MulAut W)) :
   have h := Subgroup.mem_center_iff.mp hz' (⟨l, hl⟩ : ↥L)
   simpa using congrArg Subtype.val h
 
+omit [Finite W] in
 theorem w135c2_Zc_normal_in (hctx : Is135Context Y L) : ((Zc L).subgroupOf Y).Normal := by
   have hN : (L.subgroupOf Y).Normal := w135_normal_of_ctx hctx
   have hLY : L ≤ Y := hctx.2.2.1
@@ -100,6 +103,7 @@ private def w135c2_commZcSub (hZY : Zc L ≤ Y) (hZnorm : ((Zc L).subgroupOf Y).
       hZnorm.conj_mem' ⟨⁅l, a⁆, hlaY⟩ (Subgroup.mem_subgroupOf.mpr hlaZ) (⟨a, ha.1⟩ : ↥Y)
     simpa only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv] using hmem
 
+omit [Finite W] in
 private lemma w135c2_commZcSub_mem {hZY : Zc L ≤ Y}
     {hZnorm : ((Zc L).subgroupOf Y).Normal} {g : MulAut W} :
     g ∈ w135c2_commZcSub (Y := Y) (L := L) hZY hZnorm ↔
@@ -131,7 +135,7 @@ theorem w135c2_mem_Zc_of_comm (hctx : Is135Context Y L) {y : MulAut W} (hy : y �
   have h3 : ⁅⁅L, L⁆, Subgroup.zpowers y⁆ = ⊥ :=
     Subgroup.commutator_commutator_eq_bot_of_rotate h1 h2
   have hLL : ⁅L, L⁆ = L := by
-    haveI : Group.IsPerfect ↥L := hctx.2.2.2.2.1.1
+    have : Group.IsPerfect ↥L := hctx.2.2.2.2.1.1
     exact Subgroup.commutator_eq_self
   have hLH3bot : ⁅L, Subgroup.zpowers y⁆ = ⊥ := by
     rwa [hLL] at h3

@@ -13,15 +13,18 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjugate_one' {H : Subgroup G} : conjugate H 1 = H := by
   ext x
   simp [mem_conjugate_iff]
 
+omit [Finite G] in
 theorem card_conjugate' (Z : Subgroup G) (g : G) :
     Nat.card ↥(conjugate Z g) = Nat.card ↥Z := by
   unfold conjugate
   rw [Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective]
 
+omit [Finite G] in
 theorem isCyclic_conjugate' (Z : Subgroup G) [IsCyclic Z] (g : G) :
     IsCyclic ↥(conjugate Z g) :=
   isCyclic_of_surjective
@@ -34,14 +37,14 @@ variable {z : G} {w : ℕ} {Z A : Subgroup G}
 
 theorem stabSub_isPGroup (hD : Z4Data z w Z A) (hz : orderOf z = 2) (hF2 : IsPGroup 2 (Fz z)) :
     IsPGroup 2 ↥(stabSub hD hz) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [IsPGroup.iff_card]
   have hpos : Nat.card ↥(stabSub hD hz) ≠ 0 := (Nat.card_pos).ne'
   refine ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd hpos ?_⟩
   intro d hd hdn
   by_contra hd2
   have hodd : Odd d := hd.eq_two_or_odd'.resolve_left hd2
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(stabSub hD hz)) d hdn
   have hxG : orderOf (x : G) = d := by rw [Subgroup.orderOf_coe, hx]
   have h1 : (x : G) = 1 := stab_odd_eq_one hD hz hF2 x.2 (by rw [hxG]; exact hodd)
@@ -51,15 +54,15 @@ theorem stabSub_isPGroup (hD : Z4Data z w Z A) (hz : orderOf z = 2) (hF2 : IsPGr
 
 theorem stab_le_F (hD : Z4Data z w Z A) (hz : orderOf z = 2) (hF2 : IsPGroup 2 (Fz z)) :
     stabSub hD hz ≤ Fz z :=
-  le_Fz_of_normal_two hF2 (fun h hh => (mem_stabSub.mp hh).1)
-    (fun g hg x hx => stabSub_normal hD hz hg hx)
+  le_Fz_of_normal_two hF2 (fun _h hh => (mem_stabSub.mp hh).1)
+    (fun _g hg _x hx => stabSub_normal hD hz hg hx)
     (stabSub_isPGroup hD hz hF2)
 
 theorem z1_mem_F (hD : Z4Data z w Z A) (hz : orderOf z = 2) (hF2 : IsPGroup 2 (Fz z))
     {g : G} (hg : ∀ x ∈ Z, g⁻¹ * x * g ∈ Hz z) : g⁻¹ * z * g ∈ Fz z := by
   obtain ⟨k, hkZ, hkord, hgen, hk2⟩ := exists_gen_Z hD hz
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hD.cyc
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hD.cyc
   have hAH : ∀ y ∈ conjugate Z g, y ∈ Hz z := by
     intro y hy
     have h1 := hg _ (mem_conjugate_iff.mp hy)

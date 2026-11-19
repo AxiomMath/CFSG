@@ -405,7 +405,7 @@ theorem mem_pCoreOf_of_barAct_eq_one {S : Subgroup G} (hS2 : IsPGroup 2 S)
     exact hR (Subgroup.mem_zpowers _)
   have hQ2 : IsPGroup 2 Q := by
     rintro ⟨_, a, ha, rfl⟩
-    obtain ⟨i, hi⟩ := P2.isPGroup' ⟨π a, ha⟩
+    obtain ⟨i, hi⟩ := P2.isPGroup ⟨π a, ha⟩
     have hi' : π (a ^ 2 ^ i) = 1 := by
       rw [map_pow]
       simpa using congrArg Subtype.val hi

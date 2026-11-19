@@ -310,7 +310,6 @@ theorem not_normal_leviA2_bar (h : Setup G L f t) (d : G2Data L K) (hK : Nat.car
           simp only [e, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Matrix.cons_val_zero,
             Matrix.cons_val_one, Matrix.cons_val_two, Fin.isValue] at hab ⊢
         all_goals first
-          | rfl
           | exact absurd (congrArg Subtype.val hab) (by
               simp only [OneMemClass.coe_one]
               first

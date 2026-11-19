@@ -201,7 +201,7 @@ theorem centralizerResidualSylow_le_liftedLayer
   have hodd : Odd M.index := centralizerLiftedLayer_odd_relIndex hnonab n hn S e hfour
   have hle := two_subgroup_le_normal_of_odd_index
     (centralizerResidualSylow hnonab n hn S e : Subgroup (centralizerResidualImage n hn S e)) M
-    (centralizerResidualSylow hnonab n hn S e).isPGroup' hodd
+    (centralizerResidualSylow hnonab n hn S e).isPGroup hodd
   rintro x ⟨y, hy, rfl⟩
   exact hle hy
 

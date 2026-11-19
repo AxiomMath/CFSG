@@ -110,6 +110,7 @@ variable (ℓ Ω) in
 @[expose] noncomputable def subfieldSq (f : ℕ) : Subfield Ω :=
   (iterateFrobenius Ω ℓ (2 * f)).eqLocusField (RingHom.id Ω)
 
+omit [IsAlgClosed Ω] in
 theorem mem_subfieldSq {f : ℕ} {c : Ω} :
     c ∈ subfieldSq ℓ Ω f ↔ c ^ (ℓ ^ f) ^ 2 = c := by
   change iterateFrobenius Ω ℓ (2 * f) c = c ↔ _
@@ -273,7 +274,7 @@ theorem det_conj_eq_one (G X : GL (Fin n) Ω) (hX : (X : Matrix (Fin n) (Fin n) 
     Units.mul_inv, Matrix.det_one]
 
 theorem tauG_compat_conj (σ : Ω →+* Ω) (A H M : GL (Fin n) Ω)
-    (hdetH : (H : Matrix (Fin n) (Fin n) Ω).det = 1)
+    (_hdetH : (H : Matrix (Fin n) (Fin n) Ω).det = 1)
     (htw : ∀ X : GL (Fin n) Ω, (X : Matrix (Fin n) (Fin n) Ω).det = 1 →
       H⁻¹ * (A * tauG σ (H * X * H⁻¹) * A⁻¹) * H = tauG σ X)
     (hM : ∀ X : GL (Fin n) Ω, (X : Matrix (Fin n) (Fin n) Ω).det = 1 →
@@ -387,7 +388,7 @@ theorem exists_scalar_of_map_scalar (F : Subfield Ω) (M : Matrix (Fin 5) (Fin 5
   refine ⟨⟨s, hs⟩, ?_⟩
   have h2 : (((⟨s, hs⟩ : F) • (1 : Matrix (Fin 5) (Fin 5) F)).map F.subtype) = s • 1 := by
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.smul_apply, Matrix.one_apply, Matrix.map_apply, hij]
+    by_cases hij : i = j <;> simp [Matrix.smul_apply, Matrix.map_apply, hij]
   exact Matrix.map_injective (f := (F.subtype : F → Ω)) Subtype.val_injective (h.trans h2.symm)
 
 theorem conj_comm_smul (H M₀ M₁ : GL (Fin 5) Ω) {ζ : Ω}
@@ -437,12 +438,12 @@ theorem fixSubgroup_le_of_heis_lines
         ((M₀ ^ a * M₁ ^ b : GL (Fin 5) Ω) : Matrix (Fin 5) (Fin 5) Ω) * X → X ∈ H₀) :
     fixSubgroup Φ ≤ H₀ := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; exact (pow_pos hℓ.pos f).ne')
-  haveI : Fintype k := Fintype.ofFinite k
-  haveI : CharP k ℓ := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hk])
-  haveI : CharP Ω ℓ := charP_of_injective_algebraMap (algebraMap k Ω).injective ℓ
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed k
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; exact (pow_pos hℓ.pos f).ne')
+  have : Fintype k := Fintype.ofFinite k
+  have : CharP k ℓ := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hk])
+  have : CharP Ω ℓ := charP_of_injective_algebraMap (algebraMap k Ω).injective ℓ
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed k
   set σ : Ω →+* Ω := iterateFrobenius Ω ℓ f with hσdef
   have hσ' : ∀ c, σ c = c ^ ℓ ^ f := fun c => iterateFrobenius_def ℓ f c
   have hσfun : ⇑σ = fun c : Ω => c ^ ℓ ^ f := funext hσ'
@@ -468,8 +469,8 @@ theorem fixSubgroup_le_of_heis_lines
   obtain ⟨μ₀, g₀, hμ₀, hg₀, hg₀m⟩ := exists_unitary_of_compat (ℓ := ℓ) hf A H M₀ hHdet htw hM₀
   obtain ⟨μ₁, g₁, hμ₁, hg₁, hg₁m⟩ := exists_unitary_of_compat (ℓ := ℓ) hf A H M₁ hHdet htw hM₁
   have hU : UnitaryFieldData ℓ f F := unitaryFieldData_subfieldSq (Ω := Ω) hf
-  haveI : Finite F := finite_subfieldSq (Ω := Ω) (ℓ := ℓ) hf
-  haveI : CharP F ℓ := hU.charP
+  have : Finite F := finite_subfieldSq (Ω := Ω) (ℓ := ℓ) hf
+  have : CharP F ℓ := hU.charP
   have hF : ∀ c : Ω, c ∈ F ↔ c ^ (ℓ ^ f) ^ 2 = c := fun c => mem_subfieldSq
   have hFcard : Nat.card F = (ℓ ^ f) ^ 2 := by
     rw [hFdef, card_subfieldSq hf, ← pow_mul, mul_comm]

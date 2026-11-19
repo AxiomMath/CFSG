@@ -19,12 +19,13 @@ open CFSG.RankThree.OrthogonalInvolutions
 variable {E : Type*} [AddCommGroup E] [Module (ZMod 2) E] [FiniteDimensional (ZMod 2) E]
   {q : QuadraticForm (ZMod 2) E}
 
+omit [FiniteDimensional (ZMod 2) E] in
 private theorem polar_eq_zero_of_forall_q_eq_zero {U : Submodule (ZMod 2) E}
     (hU : ∀ u ∈ U, q u = 0) {u v : E} (hu : u ∈ U) (hv : v ∈ U) : polar q u v = 0 :=
   (LinearMap.BilinForm.mem_orthogonal_iff.mp (le_orthogonal_of_totallySingular hU hv)) u hu
 
 theorem exists_extend_of_inf_eq_bot (hq : q.polarBilin.Nondegenerate) {U Y : Submodule (ZMod 2) E}
-    (hUU : LinearMap.BilinForm.orthogonal q.polarBilin U = U) (hU : ∀ u ∈ U, q u = 0)
+    (_hUU : LinearMap.BilinForm.orthogonal q.polarBilin U = U) (hU : ∀ u ∈ U, q u = 0)
     (hY : ∀ y ∈ Y, q y = 0) (hYU : Y ⊓ U = ⊥)
     (hlt : finrank (ZMod 2) Y < finrank (ZMod 2) U) :
     ∃ Y' : Submodule (ZMod 2) E, Y ≤ Y' ∧ finrank (ZMod 2) Y' = finrank (ZMod 2) Y + 1 ∧
@@ -159,6 +160,7 @@ variable {t : E ≃ₗ[ZMod 2] E}
 
 private abbrev TMap (t : E ≃ₗ[ZMod 2] E) : E →ₗ[ZMod 2] E := (t : E →ₗ[ZMod 2] E) - 1
 
+omit [FiniteDimensional (ZMod 2) E] in
 private theorem TMap_TMap_eq_zero {t : E ≃ₗ[ZMod 2] E} (htt : t * t = 1) (v : E) :
     t (t v - v) - (t v - v) = 0 := by
   have h := commSpace_le_fixSpace htt (sub_mem_commSpace t v)
@@ -175,6 +177,7 @@ private theorem orthogonal_eq_self_of_finrank_three (hq : q.polarBilin.Nondegene
     Submodule.eq_of_le_of_finrank_eq (le_orthogonal_of_totallySingular hU) (by omega)
   exact hEq.symm
 
+omit [FiniteDimensional (ZMod 2) E] in
 private theorem polar_sub_self_eq_map_sub {t : E ≃ₗ[ZMod 2] E}
     (ht : t ∈ TauCeti.QuadraticMap.orthogonalGroup q) (x : E) :
     polar q (t x - x) x = q (t x - x) := by
@@ -334,7 +337,7 @@ theorem exists_commSpace_eq_span_pair_of_stabilizes (hq : q.polarBilin.Nondegene
     · exact h
     · rw [← h, hMfr] at hCfr
       omega
-  obtain ⟨μ, hμC, hμM⟩ := SetLike.exists_of_lt hMltC
+  obtain ⟨μ, hμC, hμM⟩ := _root_.IsConcreteLE.exists_of_lt hMltC
   have hμ0 : μ ≠ 0 := by
     intro h
     exact hμM (h ▸ (U ⊔ L).zero_mem)
@@ -772,6 +775,7 @@ theorem exists_mem_tsCompl_inf_le (hq : q.polarBilin.Nondegenerate)
   rw [← heq]
   exact inf_le_left
 
+omit [FiniteDimensional (ZMod 2) E] in
 private theorem coeff_eq_zero_of_smul_add_smul_eq_zero {a b : ZMod 2} {u w : E}
     (hli : LinearIndependent (ZMod 2) ![u, w]) (h : a • w + b • u = 0) : a = 0 ∧ b = 0 := by
   obtain ⟨hu0, hw0, huw⟩ := linearIndependent_pair_iff.mp hli

@@ -73,7 +73,7 @@ theorem not_le_normalizer_of_nonisotropic (h : UnitaryFieldData 2 m K) (hm : 2 �
     exact CFSG.Walter.psl2_even_card (f := m) (by omega)
   have hTL : (T : Subgroup (unitarySU 2 m K 3)) ≤ L := by
     intro t ht
-    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' ⟨t, ht⟩
+    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp T.isPGroup ⟨t, ht⟩
     have hpow : t ^ 2 ^ j = 1 := by
       have h := pow_orderOf_eq_one (⟨t, ht⟩ : (T : Subgroup (unitarySU 2 m K 3)))
       rw [hj] at h

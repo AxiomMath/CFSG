@@ -131,7 +131,7 @@ theorem no_right_inverse (hS : Swap.StdHyp σ) (hF : FormHyp σ B) :
     ∀ (R C : Fin 9 → A5) (N : Matrix (Fin 9) (Fin 9) (ZMod 2)),
       (Matrix.of fun i j => gramF σ B v ((R i)⁻¹ * C j)) * N ≠ 1 := by
   intro R C N hGN
-  haveI : Module.Finite (ZMod 2) V :=
+  have : Module.Finite (ZMod 2) V :=
     Module.finite_of_finrank_eq_succ (R := ZMod 2) (n := 7) (by rw [hS.finrank_eq])
   let u : Fin 9 → V := fun i => σ (R i, 1) v
   have hdep : ¬ LinearIndependent (ZMod 2) u := by

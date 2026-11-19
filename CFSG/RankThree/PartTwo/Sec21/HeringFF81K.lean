@@ -11,7 +11,7 @@ open CFSG.Assembly.RankThreeEven (localRank)
 open CFSG.Assembly.LowTwoRank (StatedClassicalModel)
 open CFSG.Blueprint (ChevalleyExceptionalModel)
 
-@[expose] def FF81TheoremAK : Prop :=
+def FF81TheoremAK : Prop :=
   ∀ (G : Type) [Group G] [Finite G] [IsSimpleGroup G], (∃ x y : G, x * y ≠ y * x) →
     IsCharTwoType G →
     ∀ b : G, orderOf b = 3 → ∀ L : Subgroup G,

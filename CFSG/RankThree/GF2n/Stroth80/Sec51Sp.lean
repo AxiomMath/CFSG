@@ -87,7 +87,7 @@ theorem not_slNat_of_form (hc : Ctx M Q Z B) {t : G} (hsl : SLNat hc t) {K : Typ
   have hm'eq : m' = Fintype.card ι := (Nat.pow_right_injective hq2 c3).symm
   obtain ⟨φ, hφ, hker, hnorm, hn, ψ, hψ⟩ := hnat
   obtain ⟨φ', hφ', hker', hnorm', hn', ψ', hψ'⟩ := hnat'
-  haveI := hn
+  have := hn
   let e : Multiplicative (Fin m' → K') ≃* Multiplicative (ι → K) := ψ'.symm.trans ψ
   let Θ : (Fin m' → K') →+ (ι → K) :=
     AddMonoidHom.mk' (fun x => Multiplicative.toAdd (e (Multiplicative.ofAdd x)))
@@ -183,7 +183,7 @@ theorem sec51_sp (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement)
   have hnat' := hnat
   obtain ⟨T, hT⟩ := exists_centLB hc t
   obtain ⟨K, fK, finK, hK, m, hm, φ, hφ, hker, hact⟩ := hnat
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   obtain ⟨u, hu0, hL, hr'⟩ := hc.sp_points h34 hRoot hs hK hm φ hφ hker hact

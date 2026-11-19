@@ -107,7 +107,7 @@ theorem inputSporOmegaDown_of_tableK (hOrd : SporadicOrdersTable) (hOut : Sporad
   obtain ⟨f⟩ := hS
   obtain ⟨hxo, J1, hJ1, ⟨eJ⟩⟩ := hx
   have hn2 := Inputs1419.two_le_of_fpf hp hp5 hn hF
-  haveI : Finite J := Finite.of_equiv _ eJ.toEquiv
+  have : Finite J := Finite.of_equiv _ eJ.toEquiv
   have hJ1' : GLAPComponent p (fixSubgroup x) J1 := by
     rw [show fixSubgroup x = Lemma1314.fixSub x from Subgroup.ext fun _ => Iff.rfl]
     exact hJ1
@@ -225,7 +225,7 @@ theorem lemma1314_iv_of_inputsK {G : Type} [Group G] [Finite G] {m p : ℕ}
         GLAPPrimeCore p ↥(Subgroup.centralizer ({d} : Set G))) = ⊥ :=
       glaPPrimeCore_quotient_eq_bot hp
     have hcomp := isComponentOf_barX_of_glaPComponent hLc
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hdvd3 : p ^ 3 ∣ Nat.card ↥(E ⊓ A) := by
       rw [GL83.PiGen.card_eq_pow_pRank hFel]
       exact pow_dvd_pow p hk3
@@ -568,12 +568,12 @@ theorem single_caseK {m p : ℕ} {B M R : Subgroup G} {d z : G} (hb : Basic m p 
     (p = 5 ∨ p = 7) ∧ IsLpType 2 p (barOf p H0) ∧ IsLpType 2 (p ^ p) (barOf p H) ∧
       ¬ InducesInner p H d := by
   have hp := hb.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKP : CFSG.Open.IsKProper G := hstd.kProper
   have hdX : d ∈ Cg z := hb.d_mem_Cg
   have hHX : H ≤ Cg z := hHc.1
   have hKX : CFSG.Open.IsKGroup ↥(Cg z) := CFSG.Open.IsKProper.isKGroup hKP (Cg z) hX
-  haveI : (GLAPPrimeCore p ↥(Cg z)).Normal := inferInstance
+  have : (GLAPPrimeCore p ↥(Cg z)).Normal := inferInstance
   have hY : CFSG.Open.IsKGroup (↥(Cg z) ⧸ GLAPPrimeCore p ↥(Cg z)) :=
     CFSG.Open.IsKGroup.quotient hKX _
   have hcomp := Lemma1314.isComponentOf_barX_of_glaPComponent hHc
@@ -674,7 +674,7 @@ theorem type_analysisK {m p : ℕ} {B M R : Subgroup G} {d z : G} (hb : Basic m 
     (hzA : z ∈ A) {H : Subgroup G} (hHdef : H = ⨆ g ∈ GLAPLayer p (Cg z), GLBConj g H0) :
     TypeResult p (Cg z) H0 H d := by
   have hp := hb.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by have := hb.five_le; omega
   have hH0H : H0 ≤ H := by
     rw [hHdef]
@@ -715,7 +715,7 @@ theorem exists_sitK {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
       TypeResult p (Cg z) H0 H d ∧ Sit m p B M R d z H := by
   have hb := basic_of_cex h h139a hU hUR hz
   have hstd := h.standing
-  haveI : IsSimpleGroup G := hstd.simple
+  have : IsSimpleGroup G := hstd.simple
   have hX : Cg z ≠ ⊤ := centralizer_ne_top_of_simple hstd.nonabelian hz.2
   obtain ⟨hAsc, hdA, hzA⟩ := A_data h hb
   have h14 := h1314 h h139a
@@ -798,9 +798,8 @@ theorem sporResidual1314_of_openK
     two_lt_kLevel_alt hnl hOrd (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by decide)
       (factorial_ne_sporOrd (Or.inr rfl))
   have hfin := finite_spor hOrd
-  interval_cases p <;> first
+  interval_cases p <;> try first
     | (exfalso; revert hp; norm_num; done)
-    | skip
   ·
     cases name with
     | Fi23 => exact absurd ⟨rfl, rfl⟩ hne
@@ -973,13 +972,13 @@ theorem input25_5Core_of_factsK
     InputsSeitz.Input25_5Core := by
   intro Y _ _ p hp hp5 hKY K d hK hdN hd hspor hJ hA h3 B _
   exfalso
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨name, ⟨e⟩⟩ := hspor
   have hKs : CFSG.Open.IsKGroup (TauCeti.CFSGIndex.sporadic name).Group :=
     ((hKY.subgroup K).quotient _).of_surjective e.toMonoidHom e.surjective
   have hq : CFSG.Open.IsQuasisimple ↥K := hK.2.2
   have hp2 : p ≠ 2 := by omega
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian ↥K hq
   have hcen := CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab
   have hout := hOut _ hq.2 hnab name ⟨e⟩

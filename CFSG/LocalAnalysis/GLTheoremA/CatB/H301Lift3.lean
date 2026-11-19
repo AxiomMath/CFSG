@@ -57,6 +57,7 @@ private theorem glaPLayer_eq_of_forall_le {p : ℕ} (hp : p.Prime) {Y Y' : Subgr
   · exact sSup_le fun Q hQ =>
       le_sSup (CFSG.HardMathSupport.Solomon.Proving.glaPComponent_of_normal_overgroup hp hYY hn hQ)
 
+omit [Finite H] in
 private theorem map_inf_comap {M : Type} [Group M] (π : H →* M) (A : Subgroup H) (B : Subgroup M) :
     (A ⊓ B.comap π).map π = A.map π ⊓ B := by
   apply le_antisymm
@@ -72,7 +73,7 @@ theorem map_glaPLayer_inf_normalizer {M : Type} [Group M] [Finite M] {p : ℕ} (
       C.map π ⊓ Subgroup.normalizer ((S.map π : Subgroup M) : Set M)) :
     (GLAPLayer p (I ⊓ Subgroup.normalizer (S : Set H))).map π =
       GLAPLayer p (I.map π ⊓ Subgroup.normalizer ((S.map π : Subgroup M) : Set M)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set NS : Subgroup H := Subgroup.normalizer (S : Set H) with hNS
   set Y : Subgroup H := I ⊓ NS with hY
   set Y' : Subgroup H := (C ⊓ NS) ⊓ (I.map π).comap π with hY'

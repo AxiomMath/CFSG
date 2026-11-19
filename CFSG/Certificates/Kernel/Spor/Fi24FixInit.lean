@@ -45,7 +45,7 @@ theorem d81_eq (c : ℕ) : d81 c = tblD c := by
   rcases Nat.lt_or_ge c 128 with h | h
   · rw [d81_lt c h]
     unfold tblD
-    simp [Array.getElem?_map, Array.getElem?_range, h]
+    simp [h]
   · rw [d81_ge h]
     unfold tblD
     rw [Array.getElem?_eq_none (by simpa using h)]
@@ -104,7 +104,7 @@ theorem rowW_initRows_val {i j : ℕ} (hi : i < 253) (hj : j < 781) :
   unfold rowW initRows
   rw [Array.getElem?_ofFn]
   simp only [hi, ↓reduceDIte]
-  rw [Option.getD_some, ofTrits_val (by norm_num), if_pos hj]
+  rw [Option.getD_some, ofTrits_val (by norm_num), ite_eq_left hj]
 
 theorem span_eq_pt_zero {R L : ℕ} {CT : ℕ → ℕ} {cs : List Char} (hL : L = 2 ^ 609961 - 1)
     (hcs : initData = String.ofList cs) (hd : digitsOK CT 33396 cs 0 = true)
@@ -131,14 +131,14 @@ theorem span_eq_pt_zero {R L : ℕ} {CT : ℕ → ℕ} {cs : List Char} (hL : L 
     unfold mat3
     rw [← hb1 _ hp, ← hb2]
     by_cases hi : i.val < 253
-    · rw [if_pos hi, rowW_initRows_val hi j.isLt]
+    · rw [ite_eq_left hi, rowW_initRows_val hi j.isLt]
       by_cases hj : j.val < 253
       · obtain ⟨a, b⟩ := (hrow j j.isLt i i.isLt).1 hj
-        rw [a, b, if_pos hj]
+        rw [a, b, ite_eq_left hj]
         by_cases e : i.val = j.val
         · simp [e, bv]
         · simp [e, Ne.symm e, bv]
-      · rw [if_neg hj]
+      · rw [ite_eq_right hj]
         have hj' : j.val - 253 < 528 := by omega
         obtain ⟨a, b⟩ := hcol (j.val - 253) hj' i hi
         have e1 : 781 * (253 + (j.val - 253)) + i.val = 781 * j.val + i.val := by omega
@@ -149,7 +149,7 @@ theorem span_eq_pt_zero {R L : ℕ} {CT : ℕ → ℕ} {cs : List Char} (hL : L 
             (j.val - 253) % 4 := by omega
         rw [e2, Array.getElem?_toList.symm.trans rfl, decode81_toList, hcs, String.toList_ofList,
           flatMap_dig4 cs _ _ ht (Nat.mod_lt _ (by norm_num)), Option.getD_some, hCT _ ht]
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       by_cases hj : j.val < 253
       · obtain ⟨a, b⟩ := (hrow j j.isLt i i.isLt).1 hj
         have e : i.val ≠ j.val := by omega
@@ -173,14 +173,14 @@ theorem span_eq_pt_zero {R L : ℕ} {CT : ℕ → ℕ} {cs : List Char} (hL : L 
     · have e : (mat3 781 609961 R).col i = vecW (rowW (initRows ()) i.val) := by
         funext j
         change mat3 781 609961 R j i = _
-        rw [hent, if_pos hi]
+        rw [hent, ite_eq_left hi]
         rfl
       rw [e]
       exact Submodule.subset_span ⟨⟨i.val, hi⟩, rfl⟩
     · have e : (mat3 781 609961 R).col i = 0 := by
         funext j
         change mat3 781 609961 R j i = _
-        rw [hent, if_neg hi]
+        rw [hent, ite_eq_right hi]
         rfl
       rw [e]
       exact Submodule.zero_mem _
@@ -189,7 +189,7 @@ theorem span_eq_pt_zero {R L : ℕ} {CT : ℕ → ℕ} {cs : List Char} (hL : L 
     have e : vecW (rowW (initRows ()) i.val) = (mat3 781 609961 R).col ⟨i.val, by omega⟩ := by
       funext j
       change _ = mat3 781 609961 R j ⟨i.val, by omega⟩
-      rw [hent, if_pos i.isLt]
+      rw [hent, ite_eq_left i.isLt]
       rfl
     beta_reduce
     rw [e]

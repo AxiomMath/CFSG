@@ -182,7 +182,7 @@ theorem exists_involution_of_borelData_p {p : ℕ} [Fact p.Prime] {Tb : Sylow p 
   have hUJ : p ^ n ≤ Nat.card (U ⊓ centralizer ({J'} : Set X) : Subgroup X) :=
     hVcard' ▸ Subgroup.card_le_of_le (le_inf hVU hVJ)
   refine ⟨J', hNU hJ'N, hJ'2, hJ'1, (A ⊔ U) ⊓ centralizer ({J'} : Set X),
-    Tb.isPGroup'.to_le (inf_le_left.trans hYP), inf_le_left.trans (hYP.trans hTbX), inf_le_right,
+    Tb.isPGroup.to_le (inf_le_left.trans hYP), inf_le_left.trans (hYP.trans hTbX), inf_le_right,
     hcount ▸ Nat.mul_le_mul_left _ hUJ, ?_, ?_⟩
   · exact succ_le_pRank_of_isElemAbelian hp hVel' hVcard'
       (mem_centralizer_iff.mpr fun v _ => mem_center_iff.mp hz v) hzt3 hztV

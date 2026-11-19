@@ -32,6 +32,7 @@ theorem exists_innSet_mul_of_congr {R Γ : Type*} [Group R] [Group Γ] (Θ : R �
   · apply (MulAut.congr Θ).injective
     rw [map_mul, MulEquiv.apply_symm_apply, h]
 
+omit [Finite K] in
 theorem rawOddInnField_omegaPlus_of {m : ℕ} (hm : 1 ≤ m) {p M : ℕ} (hpM : Nat.Coprime M p)
     (hdec : ∀ α : MulAut (matrixDerived (coordinateQuadPlus m K)),
       ∃ ι ∈ inner (matrixDerived (coordinateQuadPlus m K)),

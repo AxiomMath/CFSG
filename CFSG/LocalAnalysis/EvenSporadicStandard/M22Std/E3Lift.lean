@@ -74,7 +74,7 @@ theorem exists_mem_centralizer_of_conj_mem_lift {X U₀ L₁ : Subgroup G} (hU�
       rwa [show y⁻¹ * (y * l * y⁻¹) * y⁻¹⁻¹ = l by group] at this⟩
   have hS1p : IsPGroup 2 (L₁ ⊔ zpowers y : Subgroup G) := hL₁p.to_sup_of_normal_left' hyp hzn
   obtain ⟨Sy, hSy⟩ := (isPGroup_subgroupOf C hS1p).exists_le_sylow
-  obtain ⟨g, hg⟩ := exists_conj_mem_of_isPGroup (P := (Sy : Subgroup ↥C)) Sy.isPGroup'
+  obtain ⟨g, hg⟩ := exists_conj_mem_of_isPGroup (P := (Sy : Subgroup ↥C)) Sy.isPGroup
     (Sylow.not_dvd_index Sy) (A := (zpowers y').subgroupOf C) (isPGroup_subgroupOf C hy'p)
   obtain ⟨g0, hg0C, rfl⟩ : ∃ g0 : G, ∃ h : g0 ∈ C, g = ⟨g0, h⟩ := ⟨g.1, g.2, rfl⟩
   have hL₁Sy : ∀ (l : G) (hl : l ∈ L₁), (⟨l, hU₀C (hL₁U hl)⟩ : ↥C) ∈ (Sy : Subgroup ↥C) :=
@@ -87,7 +87,7 @@ theorem exists_mem_centralizer_of_conj_mem_lift {X U₀ L₁ : Subgroup G} (hU�
     have hTp : IsPGroup 2 T := by
       intro t
       obtain ⟨⟨s', hs', hst⟩, -⟩ := Subgroup.mem_inf.1 t.2
-      obtain ⟨n, hn⟩ := Sy.isPGroup' ⟨s', hs'⟩
+      obtain ⟨n, hn⟩ := Sy.isPGroup ⟨s', hs'⟩
       refine ⟨n, Subtype.ext ?_⟩
       have h1 : (s' : G) ^ 2 ^ n = 1 := by
         simpa using congrArg (fun a : ↥(Sy : Subgroup ↥C) => (((a : ↥C)) : G)) hn

@@ -190,7 +190,7 @@ theorem isChevSimple_commutator_reeGamma (b : ℕ) (k : Type)
   rcases Nat.eq_zero_or_pos b with rfl | hb
   · obtain ⟨-, -, -, ⟨e⟩, -, -⟩ :=
       CFSG.ComponentClassification.LiteratureLocal.G2_reeGamma_zero_structure hk
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let q8 : TauCeti.PrimePower := ⟨2, 3, Nat.prime_two, by norm_num⟩
     have hv8 : (TauCeti.LieTypeIndex.A 1 q8).Valid := by
       rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -229,7 +229,7 @@ theorem simpleNormalData_of_fixed_equiv {S : Type} [Group S]
   have hncD : ∃ x y : ↥D, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨eD.symm x, eD.symm y, fun h => hxy (by simpa using congrArg eD h)⟩
-  haveI hMn : (M.subgroupOf C).Normal := by
+  have hMn : (M.subgroupOf C).Normal := by
     rw [hNC]
     infer_instance
   refine ⟨⟨Subgroup.map_subtype_le _, hMn, eM.isSimpleGroup, ?_, ?_, ?_, ?_, ?_⟩, ?_⟩
@@ -269,7 +269,7 @@ theorem cent_reeGamma_fieldAut {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Fi
   obtain ⟨b, hb, hk, hchar, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Curtis.Coordinator.SeitzCyc.reeG2_fixed_data hK Nat.prime_three
       (by norm_num) hσ
-  haveI := hchar
+  have := hchar
   let eC' : ↥(fixSubgroup (ReeTag.G2.reeGammaFieldAut K a σ)) ≃*
       ReeTag.G2.reeGamma (fixSubfield σ) b :=
     (MulEquiv.subgroupCongr (fixSubgroup_eq_fixSub _)).trans eC
@@ -338,7 +338,7 @@ theorem cent_reeGamma_fieldAut {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Fi
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 hw hℓn
   have hℓ2 : ℓ ≠ 2 := by
     intro h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨-, -, -, -, hodd, -⟩ := small_Ree_outer_three_kernel_field_complement a ha K hK
     have hu2 : u ^ 2 = 1 := h2 ▸ huℓ
     have ho1 : (QuotientGroup.mk u :
@@ -368,7 +368,7 @@ theorem cent_reeGamma_fieldAut {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Fi
       huℓ hu_out
   obtain ⟨b', hb', hk', hchar', ⟨eρ⟩⟩ :=
     CFSG.HardMathSupport.Curtis.Coordinator.SeitzCyc.reeG2_fixed_data hK hℓ hℓ2 hρ
-  haveI := hchar'
+  have := hchar'
   have hcardu : Nat.card ↥(fixSubgroup u) =
       (3 ^ (2 * b' + 1)) ^ 3 * ((3 ^ (2 * b' + 1)) ^ 3 + 1) * (3 ^ (2 * b' + 1) - 1) := by
     rw [← Subgroup.card_map_of_injective (f := δ.toMonoidHom) δ.injective,
@@ -403,7 +403,7 @@ theorem outerCentData_reeGamma_fieldAut {a : ℕ} (ha : 1 ≤ a)
   obtain ⟨b, -, hk, hchar, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Curtis.Coordinator.SeitzCyc.reeG2_fixed_data hK Nat.prime_three
       (by norm_num) hσ
-  haveI := hchar
+  have := hchar
   obtain ⟨hdata, hL⟩ := simpleNormalData_of_fixed_equiv hk
     ((MulEquiv.subgroupCongr (fixSubgroup_eq_fixSub _)).trans eC)
   exact OuterCentData.ofSimpleNormal Nat.prime_three hdata
@@ -465,7 +465,7 @@ theorem carrierOn_suzukiReeTits :
     have : Finite (ModGL ReeTag.G2.tag X) := finite_modGL
     obtain ⟨-, hs, x, y, hxy⟩ :=
       CFSG.ComponentClassification.CatalogueBSmallRee.reeGamma_G2_simple hm X hX
-    haveI := hs
+    have := hs
     refine ⟨Finite.of_equiv _ e.symm.toEquiv, e.isSimpleGroup, e.symm x, e.symm y,
       fun h => hxy ?_⟩
     simpa using congrArg e h

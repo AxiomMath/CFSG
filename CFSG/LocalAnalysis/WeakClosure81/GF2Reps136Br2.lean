@@ -20,6 +20,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_mQuot_eq_rk_map (C V : Subgroup W) :
     E3.mQuot V C = rk ↥(V.map (QuotientGroup.mk' C)) := by
   have h := Subgroup.relIndex_ker (QuotientGroup.mk' C : W →* W ⧸ C) (K := V)
@@ -45,6 +46,7 @@ private theorem w1369_tcost_le_rk_top (t : MulAut W) (L : Subgroup (MulAut W)) :
         (Subgroup.card_map_dvd (H := X) (QuotientGroup.mk' (Cd L)))
     _ ≤ rk ↥(commSub ⊤ (Subgroup.zpowers t)) := rk_mono hXA
 
+omit [Finite W] in
 private theorem w1369_conc4_135_of_a7Four {H : Subgroup (MulAut W)} {U Z : Subgroup W}
     {m : ℕ} (h : A7Four H U Z) : Conc4_135 H U Z m := by
   unfold Conc4_135
@@ -94,8 +96,8 @@ theorem bridge_ineq (h135 : W4Lem13_5) (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgrou
         simpa [MulAut.mul_apply] using h)
   have hLne : L ≠ ⊥ := by
     intro hbot
-    haveI : Subsingleton ↥L := by rw [hbot]; infer_instance
-    haveI : Nontrivial (↥L ⧸ Subgroup.center ↥L) := c.comp.2.2.2.toNontrivial
+    have : Subsingleton ↥L := by rw [hbot]; infer_instance
+    have : Nontrivial (↥L ⧸ Subgroup.center ↥L) := c.comp.2.2.2.toNontrivial
     exact (not_subsingleton_iff_nontrivial.mpr (inferInstance : Nontrivial _))
       (inferInstance : Subsingleton (↥L ⧸ Subgroup.center ↥L))
   have htbar1 : tbar ≠ 1 := by
@@ -108,8 +110,8 @@ theorem bridge_ineq (h135 : W4Lem13_5) (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgrou
       rw [c.Lt, hsec_t, Subgroup.commutator_bot_right] at h
       exact h.symm
     obtain ⟨e⟩ := mulEquiv_secSub hstabL hf
-    haveI : Subsingleton ↥(secSub (Wd L) (Cd L) L) := by rw [hsec_L]; infer_instance
-    haveI : Subsingleton ↥L := ⟨fun a b => e.injective (Subsingleton.elim (e a) (e b))⟩
+    have : Subsingleton ↥(secSub (Wd L) (Cd L) L) := by rw [hsec_L]; infer_instance
+    have : Subsingleton ↥L := ⟨fun a b => e.injective (Subsingleton.elim (e a) (e b))⟩
     exact hLne (Subgroup.eq_bot_of_subsingleton (H := L))
   have htbar_ord : orderOf tbar = 2 := orderOf_eq_prime htbar2 htbar1
   have hcost0 : rk ↥(commSub ⊤ (Subgroup.zpowers tbar)) = tcost t L (Wd L) :=

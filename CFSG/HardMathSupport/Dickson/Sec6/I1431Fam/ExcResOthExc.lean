@@ -37,8 +37,8 @@ theorem excTLKind_exc {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ �
     rw [this, rootDiagUnit_one]
   have hTp : rootDiagUnit τ a ^ 3 = 1 := excOth_rootDiagUnit_pow_eq_one ha3
   obtain ⟨r, e, hr, hchar, he, hq'⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨hnin, hA | ⟨hr4, hc24, -⟩⟩ := exc_kind hk
   · have hNo := ssOth_e6class S Nat.prime_three hL3 hT hTp h1 i hA.1 hA.2 hnin hr
     obtain ⟨F, _, _, _, ⟨e'⟩⟩ := hq

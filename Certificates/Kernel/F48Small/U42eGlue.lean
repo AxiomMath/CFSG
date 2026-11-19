@@ -52,8 +52,8 @@ theorem checkClosed : burnsideF48s_u42eCheckClosed () = true := by
 theorem checkCand : burnsideF48s_u42eCheckCand () = true := by
   have h := letOK_u42e
   have e : burnsideF48s_u42eCheckCand () = candTw := by
-    simp only [burnsideF48s_u42eCheckCand, candTw, burnsideF48s_u42eEvL, p1W_eq, p2W_eq,
-      eCandOK_ev h, ek_eq, ek_eq']
+    simp only [burnsideF48s_u42eCheckCand, candTw, p1W_eq, p2W_eq,
+      eCandOK_ev h, ek_eq]
   rw [e]
   exact candTw_ok
 

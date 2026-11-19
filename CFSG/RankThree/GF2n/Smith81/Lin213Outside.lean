@@ -33,7 +33,7 @@ theorem sqZero_mul_eq_zero {K : Type*} [Field K] {n : ℕ} {N₁ N₂ : Matrix (
   have hsq : ∀ {A : Matrix (Fin n) (Fin n) K}, A * A = 0 →
       LinearMap.range A.mulVecLin ≤ LinearMap.ker A.mulVecLin := by
     rintro A hA _ ⟨w, rfl⟩
-    simp [LinearMap.mem_ker, Matrix.mulVecLin_apply, Matrix.mulVec_mulVec, hA]
+    simp [LinearMap.mem_ker, Matrix.mulVec_mulVec, hA]
   have key : ∀ {A B : Matrix (Fin n) (Fin n) K},
       LinearMap.range B.mulVecLin ≤ LinearMap.ker A.mulVecLin → A * B = 0 := by
     intro A B hB
@@ -237,6 +237,7 @@ section B0
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
   {S V Z : Subgroup G} {φ : S →* GL ι K} {act : GL ι K → Matrix ι ι K}
 
+omit [Finite G] in
 theorem mem_comm_sup_iff_of_coord (hN : S ≤ Subgroup.normalizer (V : Set G))
     [(Z.subgroupOf V).Normal] (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K))
     (hψ : ∀ (s : S) (v w : V), (w : G) = (s : G) * v * (s : G)⁻¹ →
@@ -340,6 +341,7 @@ theorem mem_comm_sup_iff_of_coord (hN : S ≤ Subgroup.normalizer (V : Set G))
 
 end B0
 
+omit [Finite G] in
 theorem coord_eq_zero_iff {ι : Type} {K : Type} [Field K] {V Z : Subgroup G}
     [(Z.subgroupOf V).Normal] (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (a : ↥V) :
     Multiplicative.toAdd (ψ (QuotientGroup.mk a)) = 0 ↔ (a : G) ∈ Z := by
@@ -351,6 +353,7 @@ theorem coord_eq_zero_iff {ι : Type} {K : Type} [Field K] {V Z : Subgroup G}
     · intro h; rw [h]; rfl
   rw [e, MulEquiv.map_eq_one_iff, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem comm_sup_le_of_normalizer {S V Z : Subgroup G} (hN : S ≤ Subgroup.normalizer (V : Set G))
     (hZV : Z ≤ V) {s : G} (hs : s ∈ S) : ⁅V, Subgroup.zpowers s⁆ ⊔ Z ≤ V := by
   refine sup_le ?_ hZV
@@ -361,6 +364,7 @@ theorem comm_sup_le_of_normalizer {S V Z : Subgroup G} (hN : S ≤ Subgroup.norm
   rw [e]
   exact V.mul_mem hv ((Subgroup.mem_normalizer_iff.mp (hN htS) _).mp (V.inv_mem hv))
 
+omit [Finite G] in
 theorem SectionAct.comm_sup_eq_of_range_eq {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type}
     [Field K] {S V Z : Subgroup G} {φ : S →* GL ι K} {act : GL ι K → Matrix ι ι K}
     (h : SectionAct K S V Z φ act) (hZV : Z ≤ V) {s t : S} (hs2 : (s : G) * s = 1)
@@ -380,6 +384,7 @@ theorem SectionAct.comm_sup_eq_of_range_eq {ι : Type} [Fintype ι] [DecidableEq
     rw [mem_comm_sup_iff_of_coord hN ψ hψ hZV hs2 hgV, hr]
     exact (mem_comm_sup_iff_of_coord hN ψ hψ hZV ht2 hgV).mp hg
 
+omit [Finite G] in
 theorem SectionAct.comm_sup_inf_eq {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type}
     [Field K] {S V Z : Subgroup G} {φ : S →* GL ι K} {act : GL ι K → Matrix ι ι K}
     (h : SectionAct K S V Z φ act) (hZV : Z ≤ V) {s t : S} (hs2 : (s : G) * s = 1)
@@ -397,6 +402,7 @@ theorem SectionAct.comm_sup_inf_eq {ι : Type} [Fintype ι] [DecidableEq ι] {K 
   rw [Submodule.mem_bot] at h3
   exact (coord_eq_zero_iff ψ ⟨g, hgV⟩).mp h3
 
+omit [Finite G] in
 theorem SectionAct.exists_mul_of_ker_sup {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type}
     [Field K] {S V Z : Subgroup G} {φ : S →* GL ι K} {act : GL ι K → Matrix ι ι K}
     (h : SectionAct K S V Z φ act) {s t : S}
@@ -440,8 +446,9 @@ theorem SectionAct.exists_mul_of_ker_sup {ι : Type} [Fintype ι] [DecidableEq �
   refine ⟨c, c.2, (c⁻¹ * ⟨v, hv⟩ : ↥V), (c⁻¹ * ⟨v, hv⟩ : ↥V).2, by simp, key s c (hFc ▸ hα),
     key t _ (hFc' ▸ hα')⟩
 
+omit [Finite G] in
 theorem sup_inf_sup_le {Z V₁ V₂ A₁ A₂ B₁ B₂ : Subgroup G} (hI : V₁ ⊓ V₂ = Z)
-    (hA₁ : Z ≤ A₁) (hA₁V : A₁ ≤ V₁) (hA₂ : Z ≤ A₂) (hA₂V : A₂ ≤ V₂)
+    (hA₁ : Z ≤ A₁) (hA₁V : A₁ ≤ V₁) (_hA₂ : Z ≤ A₂) (hA₂V : A₂ ≤ V₂)
     (hB₁ : Z ≤ B₁) (hB₁V : B₁ ≤ V₁) (hB₂ : Z ≤ B₂) (hB₂V : B₂ ≤ V₂)
     (hcm : ∀ a ∈ V₁, ∀ b ∈ V₂, ⁅a, b⁆ ∈ Z) :
     (A₁ ⊔ A₂) ⊓ (B₁ ⊔ B₂) ≤ (A₁ ⊓ B₁) ⊔ (A₂ ⊓ B₂) := by
@@ -507,7 +514,7 @@ theorem lin213_concl_of (H : StrothHyp M Q Z) {u : G}
     (h : u ^ 2 = 1 ∨ InZClass Z (u ^ 2) ∨ Odd (orderOf u)) :
     (orderOf u = 2 ∨ orderOf u = 4 ∨ Odd (orderOf u)) ∧
       (orderOf u = 4 → InZClass Z (u ^ 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases h with h | h | h
   · have hd : orderOf u ∣ 2 := orderOf_dvd_of_pow_eq_one h
     have hle : orderOf u ≤ 2 := Nat.le_of_dvd (by norm_num) hd
@@ -526,6 +533,7 @@ theorem lin213_concl_of (H : StrothHyp M Q Z) {u : G}
     rw [h4] at h
     exact absurd h (by decide)
 
+omit [Finite G] in
 theorem lin213_concl_conj {u : G} (g : G)
     (h : (orderOf (g * u * g⁻¹) = 2 ∨ orderOf (g * u * g⁻¹) = 4 ∨ Odd (orderOf (g * u * g⁻¹))) ∧
       (orderOf (g * u * g⁻¹) = 4 → InZClass Z ((g * u * g⁻¹) ^ 2))) :
@@ -546,6 +554,7 @@ theorem sq_eq_one_or_inZClass_of_mem_Q (H : StrothHyp M Q Z) {u : G} (hu : u ∈
   · exact Or.inl h
   · exact Or.inr ⟨1, u ^ 2, sq_mem_Z H hu, h, by group⟩
 
+omit [Finite G] in
 theorem rank_eq_one_of_hasDimOn {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     [Finite K] {S V : Subgroup G} {φ : S →* GL ι K} {act : GL ι K → Matrix ι ι K}
     (hs : SectionAct K S V Z φ act) (hcard : Nat.card K = Nat.card Z) (hZV : Z ≤ V)
@@ -582,6 +591,7 @@ theorem isTransvection_of_eq_dihTv {K : Type} [Field K] {n : ℕ} (A : SL(n, K))
       Matrix.toLin'_apply, dihTv_mulVec]
     rfl
 
+omit [Finite G] in
 theorem le_normalizer_of_comm_mem {Z V₁ V₂ C : Subgroup G}
     (hcm : ∀ a ∈ V₁, ∀ b ∈ V₂, ⁅a, b⁆ ∈ Z) (hZC : Z ≤ C) (hCV : C ≤ V₁) :
     V₂ ≤ Subgroup.normalizer (C : Set G) := by
@@ -599,9 +609,10 @@ theorem le_normalizer_of_comm_mem {Z V₁ V₂ C : Subgroup G}
   have h := hconj d⁻¹ (V₂.inv_mem hd) _ hc
   simpa [mul_assoc] using h
 
+omit [Finite G] in
 theorem comm_le_sup_comm {Z V₁ V₂ : Subgroup G} {x : G}
     (hcm : ∀ a ∈ V₁, ∀ b ∈ V₂, ⁅a, b⁆ ∈ Z) (hZ₁ : Z ≤ V₁) (hZ₂ : Z ≤ V₂)
-    (hx₁ : x ∈ Subgroup.normalizer (V₁ : Set G)) (hx₂ : x ∈ Subgroup.normalizer (V₂ : Set G)) :
+    (_hx₁ : x ∈ Subgroup.normalizer (V₁ : Set G)) (hx₂ : x ∈ Subgroup.normalizer (V₂ : Set G)) :
     ⁅V₁ ⊔ V₂, Subgroup.zpowers x⁆ ≤
       (⁅V₁, Subgroup.zpowers x⁆ ⊔ Z) ⊔ (⁅V₂, Subgroup.zpowers x⁆ ⊔ Z) := by
   have hcm' : ∀ a ∈ V₂, ∀ b ∈ V₁, ⁅a, b⁆ ∈ Z := fun a ha b hb => by
@@ -690,11 +701,13 @@ theorem lin213_caseC (H : StrothHyp M Q Z) {V₁ V₂ : Subgroup G} (hI : V₁ �
   map_mul' a b := Subtype.ext (show ((φ (a * b) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
     (φ a : Matrix (Fin n) (Fin n) K) * (φ b : Matrix (Fin n) (Fin n) K) by simp)
 
+omit [Finite G] in
 @[simp] theorem coe_phiSL {n : ℕ} {K : Type} [Field K] {L : Subgroup G} (φ : L →* GL (Fin n) K)
     (hr : φ.range = StatedSL n K) (g : L) :
     ((phiSL φ hr g : SL(n, K)) : Matrix (Fin n) (Fin n) K) = (φ g : Matrix (Fin n) (Fin n) K) :=
   rfl
 
+omit [Finite G] in
 theorem phiSL_surjective {n : ℕ} {K : Type} [Field K] {L : Subgroup G} (φ : L →* GL (Fin n) K)
     (hr : φ.range = StatedSL n K) : Function.Surjective (phiSL φ hr) := by
   intro A
@@ -705,12 +718,14 @@ theorem phiSL_surjective {n : ℕ} {K : Type} [Field K] {L : Subgroup G} (φ : L
   ext i j
   simp [hg]
 
+omit [Finite G] in
 theorem phi_eq_of_phiSL_eq {n : ℕ} {K : Type} [Field K] {L : Subgroup G} {φ : L →* GL (Fin n) K}
     {hr : φ.range = StatedSL n K} {a b : L} (h : phiSL φ hr a = phiSL φ hr b) : φ a = φ b := by
   ext i j
   have := congrArg (fun A : SL(n, K) => (A : Matrix (Fin n) (Fin n) K) i j) h
   simpa using this
 
+omit [Finite G] in
 theorem eq_of_phi_eq {n : ℕ} {K : Type} [Field K] {Q L C : Subgroup G} {φ : L →* GL (Fin n) K}
     (hker : φ.ker = Q.subgroupOf L) (hCQ : C ⊓ Q = ⊥) {a b : G} (haC : a ∈ C) (hbC : b ∈ C)
     (haL : a ∈ L) (hbL : b ∈ L) (h : φ ⟨a, haL⟩ = φ ⟨b, hbL⟩) : a = b := by
@@ -721,6 +736,7 @@ theorem eq_of_phi_eq {n : ℕ} {K : Type} [Field K] {Q L C : Subgroup G} {φ : L
   rw [hCQ, Subgroup.mem_bot] at hm
   exact (inv_mul_eq_one.mp hm)
 
+omit [Finite G] in
 theorem exists_mul_of_compl {M Q C : Subgroup G} (hn : M ≤ Subgroup.normalizer (Q : Set G))
     (hCM : C ≤ M) (hCQM : C ⊔ Q = M) {g : G} (hg : g ∈ M) : ∃ k ∈ C, ∃ w ∈ Q, g = k * w := by
   have hmul : ((C ⊔ Q : Subgroup G) : Set G) = (C : Set G) * (Q : Set G) :=
@@ -730,6 +746,7 @@ theorem exists_mul_of_compl {M Q C : Subgroup G} (hn : M ≤ Subgroup.normalizer
   obtain ⟨k, hk, w, hw, rfl⟩ := Set.mem_mul.mp hg'
   exact ⟨k, hk, w, hw, rfl⟩
 
+omit [Finite G] in
 theorem inZClass_of_compl {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {M Q Z L C : Subgroup G} (φ : L →* GL (Fin n) K) (hr : φ.range = StatedSL n K)
     (hker : φ.ker = Q.subgroupOf L) (hQL : Q ≤ L) (hLM : L ≤ M)
@@ -785,6 +802,7 @@ theorem commute_of_sub_one {K : Type} [Field K] [CharP K 2] {n : ℕ}
     _ = (R - 1) * (P - 1) + (R - 1) + (P - 1) + 1 := by rw [h12, h21]; abel
     _ = R * P := by noncomm_ring
 
+omit [Finite G] in
 theorem mem_CQt_of_comm {Q Z : Subgroup G} {x a : G} (hx : x * x = 1) (ha : a ∈ Q)
     (h : ⁅x, a⁆ ∈ Z) : a ∈ CQt Q Z (Subgroup.zpowers x) := by
   refine ⟨ha, fun t ht => ?_⟩
@@ -792,6 +810,7 @@ theorem mem_CQt_of_comm {Q Z : Subgroup G} {x a : G} (hx : x * x = 1) (ha : a �
   · simp [commutatorElement_def, Z.one_mem]
   · exact h
 
+omit [Finite G] in
 theorem exists_sit {M Q Z : Subgroup G} (H : StrothHyp M Q Z) {t : G} (ht : InZClass Z t)
     (hM : t ∈ M) (hQ : t ∉ Q) : ∃ X : Subgroup G, Sit M Q Z X t := by
   obtain ⟨g, z, hz, hz1, rfl⟩ := ht
@@ -801,12 +820,14 @@ theorem Sit.comm_of_mem_Z {M Q Z X : Subgroup G} {x : G} (hs : Sit M Q Z X x) {z
     (hz : z ∈ Z) : x * z = z * x :=
   (Sit.inf_QB_sup_Z_comm hs).2 z (Subgroup.mem_sup_right hz)
 
+omit [Finite G] in
 theorem isTransvection_phiSL {n : ℕ} {K : Type} [Field K] {L : Subgroup G}
     (φ : L →* GL (Fin n) K) (hr : φ.range = StatedSL n K) (t : L)
     (h : ((φ t : Matrix (Fin n) (Fin n) K) - 1).rank = 1) : IsTransvection (phiSL φ hr t) := by
   obtain ⟨p, r, hp, hr0, hrp, he⟩ := exists_eq_dihTv_of_rank_eq_one h (phiSL φ hr t).2
   exact isTransvection_of_eq_dihTv _ hp hr0 hrp he
 
+omit [Finite G] in
 theorem orderOf_mul_eq_of_compl {n : ℕ} {K : Type} [Field K] {Q L C : Subgroup G}
     (φ : L →* GL (Fin n) K) (hr : φ.range = StatedSL n K) (hker : φ.ker = Q.subgroupOf L)
     (hCQ : C ⊓ Q = ⊥) {a : G} (haC : a ∈ C) (haL : a ∈ L) :
@@ -831,6 +852,7 @@ theorem exists_conj_of_inZClass' {M Q Z : Subgroup G} (H : StrothHyp M Q Z) {u v
   calc b * m * a⁻¹ * (a * z₁ * a⁻¹) * (b * m * a⁻¹)⁻¹ = b * (m * z₁ * m⁻¹) * b⁻¹ := by group
     _ = b * z₂ * b⁻¹ := by rw [hm]
 
+omit [Finite G] in
 theorem phi_eq_one_of_mem {n : ℕ} {K : Type} [Field K] {Q L : Subgroup G}
     {φ : L →* GL (Fin n) K} (hker : φ.ker = Q.subgroupOf L) {w : G} (hw : w ∈ Q) (hwL : w ∈ L) :
     φ ⟨w, hwL⟩ = 1 := by
@@ -903,6 +925,7 @@ theorem exists_compl_rep {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
   obtain ⟨v, hv, hv'⟩ := h7 g w hwQ (by rw [hg, hykw])
   exact ⟨k, hkC, hkL, hk, hkQ, hφ, v, hv, by rw [← hv', hg]⟩
 
+omit [Finite G] in
 theorem phi_mat_mul_self {n : ℕ} {K : Type} [Field K] {L : Subgroup G} (φ : L →* GL (Fin n) K)
     (t : L) (ht : (t : G) * t = 1) :
     (φ t : Matrix (Fin n) (Fin n) K) * (φ t : Matrix (Fin n) (Fin n) K) = 1 := by
@@ -911,6 +934,7 @@ theorem phi_mat_mul_self {n : ℕ} {K : Type} [Field K] {L : Subgroup G} (φ : L
   have := congrArg (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K)) h
   simpa using this
 
+omit [Finite G] in
 theorem phi_inv_of_mul_self {n : ℕ} {K : Type} [Field K] {L : Subgroup G} (φ : L →* GL (Fin n) K)
     (t : L) (ht : (t : G) * t = 1) : (φ t)⁻¹ = φ t := by
   rw [← map_inv]
@@ -1080,7 +1104,7 @@ theorem lin213_core {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
       · exact Or.inl h
       · exact Or.inr (Or.inl h)
   ·
-    push_neg at hK
+    push Not at hK
     obtain ⟨hK1, hK2⟩ := hK
     obtain ⟨y₀, hy₀C, hy₀L, hy₀, hy₀Q, hφ0, v, hvQ, hyv⟩ := exists_compl_rep H h212 φ hr hker
       hQL hLM hLn hQn hCM hCQ hCQM hxC hxL hx htx hyM hy hyQ hyL hty
@@ -1173,7 +1197,7 @@ theorem lin213OutsideStatement_of (h212 : Lin212Statement) :
   obtain ⟨K, hK, hfin, hcard, φ, hr, hker, hZ₁, hV₁Q, hZ₂, hV₂Q, hI, hU, hs₁, hs₂, -, -⟩ := hS'
   have H := hc.hyp
   obtain ⟨m, -, hZm, -⟩ := H.cp
-  haveI : CharP K 2 := charP_two_of_natCard_pow_two (hcard.trans hZm)
+  have : CharP K 2 := charP_two_of_natCard_pow_two (hcard.trans hZm)
   obtain ⟨X, hsx⟩ := exists_sit H hx hxM hxQ
   obtain ⟨-, -, -, -, -, -, -, C, hCM, hCQ, hCQM, q, hq, hqC⟩ := h212' X x hsx
   have hqM : q ∈ M := cqt_Q_le_M H hq

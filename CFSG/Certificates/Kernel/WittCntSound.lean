@@ -25,7 +25,7 @@ theorem cRow_cons (n w m : Nat) (c : Nat → Bool) (k : Nat → Nat → Nat) (g 
   rw [h, strictN_eq']
   cases c (pcomp n w m g t)
   · simp
-  · simp [strictN_eq']
+  · simp
 
 @[expose] def Pruned {n : Nat} (w : Nat) (F : Nat → Nat) :
     List ((Nat → Bool) × List (Equiv.Perm (Fin n))) → Equiv.Perm (Fin n) → Prop
@@ -93,8 +93,8 @@ theorem ind_pkw (Q : (Fin 22 → Fin 22) → Prop) [DecidablePred Q] (σ d : Equ
   unfold ind
   rw [e, strictN_eq', upk22_pkw]
   by_cases h : Q ⇑(σ * d)
-  · rw [decide_eq_true h, if_pos h]
-  · rw [decide_eq_false h, if_neg h]
+  · rw [decide_eq_true h, ite_eq_left h]
+  · rw [decide_eq_false h, ite_eq_right h]
 
 theorem indB_pkw (b : Nat → Bool) (Q : (Fin 22 → Fin 22) → Prop) [DecidablePred Q]
     (hb : ∀ τ : Equiv.Perm (Fin 22), b (pkw 5 τ) = decide (Q ⇑τ)) (σ d : Equiv.Perm (Fin 22)) :
@@ -106,8 +106,8 @@ theorem indB_pkw (b : Nat → Bool) (Q : (Fin 22 → Fin 22) → Prop) [Decidabl
   unfold indB
   rw [e, strictN_eq', hb]
   by_cases h : Q ⇑(σ * d)
-  · rw [decide_eq_true h, if_pos h]
-  · rw [decide_eq_false h, if_neg h]
+  · rw [decide_eq_true h, ite_eq_left h]
+  · rw [decide_eq_false h, ite_eq_right h]
 
 theorem allB_iff (f : Nat → Bool) : ∀ n, allB f n = true ↔ ∀ i < n, f i = true
   | 0 => by simp [allB]

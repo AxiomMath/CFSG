@@ -60,6 +60,7 @@ theorem coe_diagThreeHom (x : Fin 4 → Multiplicative (ZMod p)) :
       diagonal fun i => (diagTuple c hc (snocOneHom (Multiplicative (ZMod p)) 4 x) i : K) :=
   rfl
 
+omit [Finite K] in
 theorem diagThreeHom_apply_four (x : Fin 4 → Multiplicative (ZMod p)) :
     (diagTuple c hc (snocOneHom (Multiplicative (ZMod p)) 4 x) 4 : K) = 1 := by
   have h := diagTuple_castSucc c hc (snocOneHom (Multiplicative (ZMod p)) 4 x) (Fin.last 4)
@@ -111,8 +112,8 @@ theorem concA_of_twistedE6_of_not_mem_inndiag_of_model (hK : Nat.card K = (ℓ ^
       ModelBGen p n ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f))
         (fieldActor (unitaryInvolution K ℓ f) ε)) :
     S267ConcA p S B := by
-  haveI : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Finite.of_injective φ hφ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Finite.of_injective φ hφ
+  have : Fact p.Prime := ⟨hp⟩
   have hσ : ∀ c, unitaryInvolution K ℓ f c = c ^ (ℓ ^ f) := fun c => unitaryInvolution_apply K ℓ f c
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, hΘ, -, hker, -⟩, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form (Fact.out : ℓ.Prime) hf K hK

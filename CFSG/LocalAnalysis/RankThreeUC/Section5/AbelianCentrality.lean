@@ -49,7 +49,7 @@ theorem centralizes {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     rw [← hcardBs]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBH).toEquiv
   have hcycC : IsCyclic C := by
-    haveI := hcycBs
+    have := hcycBs
     exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hBH).symm.toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hBH).symm.surjective
   have hcomm : IsMulCommutative E := ⟨⟨fun a b => by

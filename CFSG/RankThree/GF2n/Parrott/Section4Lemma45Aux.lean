@@ -18,7 +18,7 @@ theorem pPrimeCore_inf_H_eq_bot (h : Tim79a.ParrottHyp z) : pPrimeCore 2 G ⊓ H
   have hcop : Nat.Coprime (Nat.card (J z)) (Nat.card (pPrimeCore 2 G)) := by
     rw [card_J h]
     exact (pPrimeCore_coprime_card (p := 2) (G := G)).pow_left 10
-  have hKJ : pPrimeCore 2 G ⊓ J z = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop.symm
+  have hKJ : pPrimeCore 2 G ⊓ J z = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop.symm))
   have hHN : H z ≤ normalizer (J z : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (J_le_H (z := z))).mp (J_subgroupOf_normal z)
   rw [eq_bot_iff]
@@ -87,7 +87,7 @@ theorem eq_centralizer_sup_pPrimeCore_of_weakly_closed {T : Subgroup G} (hT : Is
   obtain ⟨Q, hQ⟩ := hA.exists_le_sylow
   have hQs : IsSylowOf 2 (Q : Subgroup G) ⊤ := by
     rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, Q.isPGroup', Q.not_dvd_index⟩
+    exact ⟨le_top, Q.isPGroup, Q.not_dvd_index⟩
   obtain ⟨k, -, hk⟩ := hT.exists_mem_conj hQs
   have hxQ : x ∈ (Q : Subgroup G) := hQ (Subgroup.mem_sup_left (Subgroup.mem_zpowers x))
   have hyQ : g * x * g⁻¹ ∈ (Q : Subgroup G) :=

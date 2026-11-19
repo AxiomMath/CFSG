@@ -27,7 +27,7 @@ private theorem fiveB_prodAsc_mem {H : Subgroup Gmat} {v : Array ℕ}
   rw [List.mem_map] at hx
   obtain ⟨k, hk, rfl⟩ := hx
   rw [List.mem_range] at hk
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
   rcases h ⟨k, hk⟩ with hg | hv
   · exact pow_mem hg _
   · rw [hv, pow_zero]

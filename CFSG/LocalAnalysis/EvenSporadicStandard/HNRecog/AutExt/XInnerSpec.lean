@@ -48,7 +48,7 @@ theorem exists_conj_of_order5 {N H : Subgroup (Equiv.Perm (Fin 1408))}
     (hC1 : Rep 1408 C1 c1) (hT : conjTreeOK 1408 gens gensInv C1 F1l par lab = true)
     (hF1 : xF1OK Nl F1l = true) :
     ∀ y ∈ N, y ^ 5 = 1 → y ≠ 1 → ∃ h ∈ H, h * c1 * h⁻¹ = y := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   refine forall_of_all hN (fun y => !ordTest 1408 5 y || memT 1408 F1l y)
     (fun y => y ^ 5 = 1 → y ≠ 1 → ∃ h ∈ H, h * c1 * h⁻¹ = y) ?_ hF1
   intro x g hx _ hb h5 h1

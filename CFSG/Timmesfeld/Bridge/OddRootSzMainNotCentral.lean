@@ -132,6 +132,7 @@ private theorem center_eq_bot_of_szQ_eq_bot (c : SzCfg G D d E e n) (hQ : szQ E 
   rw [c.zStar_eq, hp, Subgroup.mem_bot] at hzZ
   exact hzZ
 
+omit [Finite G] in
 private theorem szMk_eq_iff_of_szQ_eq_bot (hQ : szQ E = ⊥)
     {x y : G} (hx : x ∈ Subgroup.closure E) (hy : y ∈ Subgroup.closure E) :
     szMk E ⟨x, hx⟩ = szMk E ⟨y, hy⟩ ↔ x = y := by
@@ -149,6 +150,7 @@ private theorem szMk_eq_iff_of_szQ_eq_bot (hQ : szQ E = ⊥)
   · rintro rfl
     exact congrArg (szMk E) (Subtype.ext rfl)
 
+omit [Finite G] in
 private theorem szMk_injective_of_szQ_eq_bot (hQ : szQ E = ⊥) :
     Function.Injective (szMk E) := by
   intro x y h
@@ -230,6 +232,7 @@ private theorem szComp_mul_mem_of_szQ_eq_bot (c : SzCfg G D d E e n) (hQ : szQ E
   have huveq : b = u * v := congrArg Subtype.val hEq
   exact ⟨huveq ▸ hbC.1, huveq ▸ hbC.2⟩
 
+omit [Finite G] in
 private theorem exists_conj_base (c : SzCfg G D d E e n) : ∃ g : G, g * d * g⁻¹ = e :=
   isConj_iff.mp (c.hyp.setup.isConj c.d_mem (c.subset_commSet c.e_mem).1)
 
@@ -239,9 +242,11 @@ private theorem viewE_e_eq_image (c : SzCfg G D d E e n) {g : G} (hg : g * d * g
   rw [hg, c.viewE_eq] at h
   exact h
 
+omit [Finite G] in
 private theorem d_mem_viewE (c : SzCfg G D d E e n) : d ∈ viewE D e :=
   ⟨c.d_mem, (c.subset_commSet c.e_mem).2.1.symm, fun h => c.d_not_mem (c.rootSet_subset h)⟩
 
+omit [Finite G] in
 private theorem closure_rootSet_le_centralizer (c : SzCfg G D d E e n) :
     Subgroup.closure (rootSet D d) ≤
       Subgroup.centralizer (Subgroup.closure E : Set G) := by
@@ -251,6 +256,7 @@ private theorem closure_rootSet_le_centralizer (c : SzCfg G D d E e n) :
   intro x hx
   exact (c.commute_of_mem_rootSet_d hu hx).eq.symm
 
+omit [Finite G] in
 private theorem mem_center_of_mem_closure_rootSet (c : SzCfg G D d E e n) {t : G}
     (ht : t ∈ Subgroup.closure (rootSet D d)) (htH : t ∈ Subgroup.closure E) :
     (⟨t, htH⟩ : ↥(Subgroup.closure E)) ∈
@@ -370,6 +376,7 @@ private theorem rootSet_d_mul_mem (c : SzCfg G D d E e n) (hQ : szQ E = ⊥) {u 
   obtain ⟨g, hg⟩ := exists_conj_base c
   exact viewE_mul_mem_of_commute_d c hQ hg hu.1 hv.1 hu.2 hv.2 huv
 
+omit [Finite G] in
 private theorem isTriangle_of_not_commute (c : SzCfg G D d E e n) {y : G} (hy : y ∈ D)
     (hyd : ¬ Commute y d) (hye : ¬ Commute y e) : IsTriangle D d y e :=
   ⟨c.d_mem, (c.subset_commSet c.e_mem).1, hy, fun h => c.d_not_mem (h ▸ c.e_mem),
@@ -500,6 +507,7 @@ private theorem not_third_kind_of_not_commute (c : SzCfg G D d E e n) (hQ : szQ 
   · exact false_of_third_kind_rootSet c hQ hy hye hz1 hzy hroot
   · exact false_of_third_kind_comp c hQ hy hyd hz1 hzd hzy hcomp
 
+omit [Finite G] in
 private theorem isPGroup_zpowers_sup_conjClosure {x : G}
     (hx2 : x * x = 1) (hSK : SecondKindStructure d x e) :
     IsPGroup 2 ↥(Subgroup.zpowers x ⊔ conjClosure (Subgroup.closure ({d, x} : Set G)) (d * e)) := by
@@ -514,8 +522,8 @@ private theorem isPGroup_zpowers_sup_conjClosure {x : G}
       rw [orderOf_dvd_iff_pow_eq_one, pow_two]
       exact hq2
     rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h | h
-    · exact ⟨0, by simpa [h]⟩
-    · exact ⟨1, by simpa [h]⟩
+    · exact ⟨0, by simp [h]⟩
+    · exact ⟨1, by simp [h]⟩
   have h1 : IsPGroup 2 (Subgroup.zpowers x) :=
     RootClosure.isPGroup_zpowers_of_mul_self_eq_one hx2
   have hxN : x ∈ Subgroup.normalizer (N : Set G) := by
@@ -627,7 +635,7 @@ private theorem secondKind_commutator_d_le (c : SzCfg G D d E e n) (hQ : szQ E =
   intro q hq k hk
   rcases CFSG.Timmesfeld.Bridge.eq_one_or_eq_of_mem_zpowers hdd hk with hk1 | hkd
   · rw [hk1]
-    simpa [commutatorElement_def] using Subgroup.one_mem (Subgroup.zpowers (d * e))
+    simp [commutatorElement_def]
   · rw [hkd]
     rcases secondKind_d_pow c hQ hxD hxd hxe hSK q hq with hdq | hdq
     · have h1 : ⁅q, d⁆ = 1 := by
@@ -660,8 +668,7 @@ private theorem secondKind_commutator_x_le (c : SzCfg G D d E e n) (hQ : szQ E =
   rcases CFSG.Timmesfeld.Bridge.eq_one_or_eq_of_mem_zpowers
     (c.hyp.setup.oddT.mul_self_eq_one hxD) hk with hk1 | hkx
   · rw [hk1]
-    simpa [commutatorElement_def] using
-      Subgroup.one_mem (Subgroup.zpowers (g * (d * e) * g⁻¹))
+    simp [commutatorElement_def]
   · rw [hkx]
     have hq' : g⁻¹ * q * g ∈ conjClosure (Subgroup.closure ({d, x} : Set G)) (d * e) := by
       simpa using hSK.normal g⁻¹ hginvK' q hq
@@ -674,6 +681,7 @@ private theorem secondKind_commutator_x_le (c : SzCfg G D d E e n) (hQ : szQ E =
     rw [hEq, ← hk']
     exact Subgroup.mem_zpowers_iff.mpr ⟨k', by rw [conj_zpow]⟩
 
+omit [Finite G] in
 private theorem closure_pair_le_closure_triple {x : G} :
     Subgroup.closure ({d, x} : Set G) ≤ Subgroup.closure ({d, x, e} : Set G) := by
   apply Subgroup.closure_mono

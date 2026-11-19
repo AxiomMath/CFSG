@@ -39,17 +39,17 @@ theorem rk3Cases_A_aux_rkLin_one (m : ℕ) (eps : Bool) (Q z : ℕ)
     (h : (if eps then eP Q 3 else eM Q 3) = 1) :
     ∃ δ : ℕ, δ ≤ 1 ∧ (δ = 1 → 3 ∣ m ∧ 4 ≤ m) ∧ rkLin m eps Q 3 z = m - 1 - δ := by
   unfold rkLin
-  rw [if_pos h]
+  rw [ite_eq_left h]
   by_cases hc : ¬ 3 ∣ z ∧ 3 ∣ m ∧ 4 ≤ m ∧
       padicValNat 3 (if eps then Q - 1 else Q + 1) ≤ padicValNat 3 m
-  · exact ⟨1, le_rfl, fun _ => ⟨hc.2.1, hc.2.2.1⟩, by rw [if_pos hc]⟩
-  · exact ⟨0, by omega, fun h => by omega, by rw [if_neg hc]⟩
+  · exact ⟨1, le_rfl, fun _ => ⟨hc.2.1, hc.2.2.1⟩, by rw [ite_eq_left hc]⟩
+  · exact ⟨0, by omega, fun h => by omega, by rw [ite_eq_right hc]⟩
 
 theorem rk3Cases_A_aux_rkLin_two (m : ℕ) (eps : Bool) (Q z : ℕ)
     (h : (if eps then eP Q 3 else eM Q 3) = 2) :
     rkLin m eps Q 3 z = m / 2 := by
   unfold rkLin
-  rw [if_neg (by omega), h]
+  rw [ite_eq_right (by omega), h]
 
 theorem rk3Cases_A {l : ℕ} {Q : TauCeti.PrimePower} (hQ : Q.p = 2) (hl : 2 ≤ l) (z : ℕ) :
     Rk3Cases (.A l Q) z := by
@@ -69,7 +69,7 @@ theorem rk3Cases_A {l : ℕ} {Q : TauCeti.PrimePower} (hQ : Q.p = 2) (hl : 2 ≤
     have hv := rk3Cases_A_aux_rkLin_two (l + 1) true (2 ^ Q.exponent) z
       (by simp [eP_two_pow_three, hn])
     rw [hv]
-    simp only [hn, hn', and_true, and_false, or_false, false_or, iff_false]
+    simp only [hn, hn', and_true, and_false, false_or]
     omega
 
 theorem rk3Cases_tA {l : ℕ} {Q : TauCeti.PrimePower} (hQ : Q.p = 2) (hl : 3 ≤ l) (z : ℕ) :
@@ -84,7 +84,7 @@ theorem rk3Cases_tA {l : ℕ} {Q : TauCeti.PrimePower} (hQ : Q.p = 2) (hl : 3 �
     have hv := rk3Cases_A_aux_rkLin_two (l + 1) false (2 ^ Q.exponent) z
       (by simp [eM_two_pow_three, hn])
     rw [hv]
-    simp only [rk3Cases_tA_aux_rankOne, hn, hn', and_true, and_false, or_false, false_or,
+    simp only [rk3Cases_tA_aux_rankOne, hn, hn', and_true, and_false, false_or,
       iff_false]
     omega
   · have hn' : Odd Q.exponent := Nat.not_even_iff_odd.mp hn

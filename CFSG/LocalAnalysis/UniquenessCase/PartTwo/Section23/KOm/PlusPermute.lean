@@ -20,7 +20,7 @@ private lemma orderOf_quotient_mk'_eq_of_odd {G : Type*} [Group G]
   have hbot : N.subgroupOf K = ⊥ := Subgroup.subgroupOf_eq_bot.mpr hdisj
   let f : G →* G ⧸ N := QuotientGroup.mk' N
   have hker : (f.domRestrict K).ker = ⊥ := by
-    rw [MonoidHom.ker_restrict, QuotientGroup.ker_mk']
+    rw [MonoidHom.ker_domRestrict, QuotientGroup.ker_mk']
     exact hbot
   have hinj : Function.Injective (f.domRestrict K) :=
     (MonoidHom.ker_eq_bot_iff (f.domRestrict K)).mp hker
@@ -84,7 +84,7 @@ theorem zpowers_mul_eq_mul_zpowers {G : Type*} [Group G] [Finite G] {H S T L : S
   have hQleH : (Q : Subgroup ↥P).map P.subtype ≤ H :=
     (Subgroup.map_subtype_le (Q : Subgroup ↥P)).trans hP_le_H
   have hQ2 : IsPGroup 2 ↥((Q : Subgroup ↥P).map P.subtype) :=
-    Q.isPGroup'.map P.subtype
+    Q.isPGroup.map P.subtype
   have hSQ : S ≤ (Q : Subgroup ↥P).map P.subtype := by
     rw [← hmapS]
     exact Subgroup.map_mono (f := P.subtype) hQle
@@ -95,7 +95,7 @@ theorem zpowers_mul_eq_mul_zpowers {G : Type*} [Group G] [Finite G] {H S T L : S
   have hcop : Nat.Coprime (Nat.card ↥(S.subgroupOf P)) (S.subgroupOf P).index := by
     have h := Sylow.card_coprime_index Q
     rwa [hQeq] at h
-  haveI : (S.subgroupOf P).Normal := hS_normalP
+  have : (S.subgroupOf P).Normal := hS_normalP
   obtain ⟨C, hC⟩ := Subgroup.exists_right_complement'_of_coprime (N := S.subgroupOf P) hcop
   have hC_comm : Subgroup.IsComplement' C (S.subgroupOf P) :=
     Subgroup.isComplement'_comm.mpr hC
@@ -148,7 +148,7 @@ theorem zpowers_mul_eq_mul_zpowers {G : Type*} [Group G] [Finite G] {H S T L : S
       rw [hord_a, hord_b, show orderOf xa = orderOf a from Subgroup.orderOf_mk a haP,
         show orderOf xb = orderOf b from Subgroup.orderOf_mk b hbP]
       exact hsem.orderOf_eq t
-    haveI : IsCyclic ((↥P) ⧸ (S.subgroupOf P)) := hRcyc
+    have : IsCyclic ((↥P) ⧸ (S.subgroupOf P)) := hRcyc
     have hsub_eq : Subgroup.zpowers (QuotientGroup.mk' (S.subgroupOf P) xa) =
         Subgroup.zpowers (QuotientGroup.mk' (S.subgroupOf P) xb) := by
       rw [IsCyclic.subgroup_eq_iff_card_eq, Nat.card_zpowers, Nat.card_zpowers, hord_eq]

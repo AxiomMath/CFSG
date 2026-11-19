@@ -51,7 +51,7 @@ private theorem le_twistedE6RootGroup_of_isPGroup {ℓ f : ℕ} (hℓ : ℓ.Prim
     {A : Subgroup (ModGL TwistTag.E6.tag K)} (hAI : A ≤ twistedE6InndiagGL K σ)
     (hA : IsPGroup p A) : A ≤ twistedE6RootGroup K σ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hσ' : ∀ c, σ.toRingHom c = c ^ (ℓ ^ f) := fun c => by
     rw [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, hσ]
   have hAR : A.map (baseChangeGL (algebraMap K (AlgebraicClosure K))) ≤
@@ -60,8 +60,8 @@ private theorem le_twistedE6RootGroup_of_isPGroup {ℓ f : ℕ} (hℓ : ℓ.Prim
       (map_twistedE6InndiagGL_le_twistedFixedGroup hℓ hf hK σ hσ Fr hFr)
   have hrel := twisted_E6_relIndex_dvd_three hℓ hf K hK σ.toRingHom hσ' (AlgebraicClosure K) Fr
     hFr hAR
-  haveI : Finite (ModGL TwistTag.E6.tag K) := inferInstance
-  haveI : Finite ↥(A.map (baseChangeGL (algebraMap K (AlgebraicClosure K)))) :=
+  have : Finite (ModGL TwistTag.E6.tag K) := inferInstance
+  have : Finite ↥(A.map (baseChangeGL (algebraMap K (AlgebraicClosure K)))) :=
     Finite.of_equiv _ (A.equivMapOfInjective _ (baseChangeGL_injective _)).toEquiv
   obtain ⟨n, hn⟩ := (hA.map (baseChangeGL (algebraMap K (AlgebraicClosure K)))).index
     (((twistedE6RootGroup K σ).map (baseChangeGL (algebraMap K (AlgebraicClosure K)))).subgroupOf
@@ -96,17 +96,17 @@ private theorem not_dvd_index_X6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
         ((baseChangeGL (algebraMap K (AlgebraicClosure K))).comp
           (twistedE6RootGroup K σ).subtype))).index := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   set L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   have hσ' : ∀ c, σ.toRingHom c = c ^ (ℓ ^ f) := fun c => by
     rw [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, hσ]
   set J := twistedE6RootGroup K σ
-  haveI : Finite (ModGL TwistTag.E6.tag K) := inferInstance
-  haveI hJfin : Finite J := inferInstance
+  have : Finite (ModGL TwistTag.E6.tag K) := inferInstance
+  have hJfin : Finite J := inferInstance
   set X := X6 L Fr w0
   set R := twistedFixedGroup TwistTag.E6 L Fr
   set C' := J.map (baseChangeGL (algebraMap K L))
@@ -222,8 +222,8 @@ private theorem le_torusGroup_of_monomial {L : Type} [Field L] [IsAlgClosed L] {
     (hEc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hEp : ∀ x ∈ E, x ^ p = 1)
     (h4 : p ^ 4 ≤ Nat.card E) : E ≤ torusGroup TwistTag.E6.tag L := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by
     have := pow_pos hp.pos 4
     omega)
   let ψ : ↥E →* WeylGroup TwistTag.E6.tag :=
@@ -266,9 +266,9 @@ private theorem le_torusGroup_of_monomial {L : Type} [Field L] [IsAlgClosed L] {
       · have := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1 (hp.dvd_of_dvd_pow h)
         omega
     · exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_five).1 h
-  haveI : NeZero (5 : ℕ) := ⟨by norm_num⟩
-  haveI : NeZero ((5 : ℕ) : L) := ⟨hpL⟩
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 5
+  have : NeZero (5 : ℕ) := ⟨by norm_num⟩
+  have : NeZero ((5 : ℕ) : L) := ⟨hpL⟩
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 5
   obtain ⟨ζ, hζ⟩ : ∃ ζ : Lˣ, IsPrimitiveRoot ζ 5 :=
     ⟨_, IsPrimitiveRoot.isUnit_unit (by norm_num) hζ0⟩
   have hζo : orderOf ζ = 5 := hζ.eq_orderOf.symm
@@ -346,7 +346,7 @@ theorem exists_twLangData_of_dvd_add_one {K : Type} [Field K] [Finite K]
     ∃ D : ExcWideThree.TwLangData K σ q A, D.c = 1 ∧
       ∀ γ, D.v • permLattice TwistTag.E6.perm γ = -γ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
   have hdvd : q ∣ ringChar K ^ (n : ℕ) := by
     rw [← hn, ← Nat.card_eq_fintype_card, hK]
@@ -359,11 +359,11 @@ theorem exists_twLangData_of_dvd_add_one {K : Type} [Field K] [Finite K]
       have := Nat.le_of_dvd (by norm_num) hpq
       omega
     · exact h0
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K ℓ := ringChar.charP K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K ℓ := ringChar.charP K
   set L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   set Fr : L →+* L := iterateFrobenius L ℓ f
   have hFr : ∀ c, Fr c = c ^ (ℓ ^ f) := fun c => iterateFrobenius_def ℓ f c
   have hσ' : ∀ c, σ.toRingHom c = c ^ (ℓ ^ f) := fun c => by
@@ -374,8 +374,8 @@ theorem exists_twLangData_of_dvd_add_one {K : Type} [Field K] [Finite K]
   have hAC := le_twistedE6RootGroup_of_isPGroup hℓ hf hK σ hσ Fr hFr hp (by omega) hAI hpA
   obtain ⟨g0, hg0C, hg0⟩ := lang_conjugator_twisted K (ℓ := ℓ) hf L e6HRReflProd
   have hidx := not_dvd_index_X6 hℓ hf hK σ hσ Fr hFr e6HRReflProd_smul hg0C hg0 hp hp5 hpq
-  haveI : Finite (ModGL TwistTag.E6.tag K) := inferInstance
-  haveI : Finite (twistedE6RootGroup K σ) := inferInstance
+  have : Finite (ModGL TwistTag.E6.tag K) := inferInstance
+  have : Finite (twistedE6RootGroup K σ) := inferInstance
   have hE : IsPGroup p (A.subgroupOf (twistedE6RootGroup K σ)) :=
     hpA.comap_of_injective _ (Subgroup.subtype_injective _)
   obtain ⟨g, hg⟩ := ExcHighThree.exists_conj_le_of_not_dvd_index _ hidx hE
@@ -442,7 +442,7 @@ theorem exists_twLangData_of_dvd_add_one {K : Type} [Field K] [Finite K]
 
 theorem _root_.CFSG.StandardType.TwE6FieldCore.subfieldLangDatumFive_holds :
     TwE6FieldCore.SubfieldLangDatumFive :=
-  fun K _ _ σ q hK hσ p hp hp5 hpq A hAI hA h4 =>
+  fun _K _ _ σ _q hK hσ _p hp hp5 hpq _A hAI hA h4 =>
     exists_twLangData_of_dvd_add_one σ hK hσ hp hp5 hpq hAI hA h4
 
 end CFSG.StandardType.TwE6RootAs

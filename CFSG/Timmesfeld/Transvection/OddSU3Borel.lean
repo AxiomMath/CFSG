@@ -16,12 +16,14 @@ open Pres
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ} {H : Type*} [Group H]
 
+omit [Finite F] in
 private theorem mat_two_zero_of_mem_su3Top {σ : F ≃+* F} {z : SU σ 3}
     (hz : z ∈ su3Top σ) : mat σ 3 z 2 0 = 0 := by
   obtain ⟨β, hβ, rfl⟩ := (mem_su3Top_iff_Y (σ := σ)).1 hz
   rw [UC22.uc22pwsu3_mat_Y]
   simp
 
+omit [Finite F] [CharP F 2] in
 private theorem mat_conj_apply_two_zero {σ : F ≃+* F} (hσ : ∀ c, σ (σ c) = c)
     {u : SU σ 3} (hu : u ∈ UC22.uc22pwsu3X hσ) (y : SU σ 3) :
     mat σ 3 (u * y * u⁻¹) 2 0 = mat σ 3 y 2 0 := by
@@ -41,6 +43,7 @@ private theorem mat_conj_apply_two_zero {σ : F ≃+* F} (hσ : ∀ c, σ (σ c)
         rw [map_mul]
         simp [Matrix.mul_apply, Fin.sum_univ_three, h4, h5, h6]
 
+omit [Finite F] in
 private theorem conjSub_su3Bot_ne_su3Top {σ : F ≃+* F} (hσ : ∀ c, σ (σ c) = c)
     {u : SU σ 3} (hu : u ∈ UC22.uc22pwsu3X hσ) : conjSub (su3Bot σ) u ≠ su3Top σ := by
   intro heq
@@ -154,7 +157,7 @@ private theorem card_su3Top (hFn : Nat.card F = (2 ^ n) ^ 2) :
     intro c
     rw [show f c = longRootHom σ (i := (0 : Fin 3)) (by decide) c from rfl, mat_apply,
       coe_longRootHom]
-    simp [longRootMatrix, Matrix.add_apply, Matrix.single_apply]
+    simp [longRootMatrix, Matrix.add_apply]
   have hf : Function.Injective f := by
     intro c d hcd
     have h := congrArg (fun z => mat σ 3 z 0 2) hcd

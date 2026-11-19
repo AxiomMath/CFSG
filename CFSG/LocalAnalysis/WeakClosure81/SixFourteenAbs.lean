@@ -18,6 +18,7 @@ theorem index_eq_two_pow_rkIdx (hW : ∀ w : W, w ^ 2 = 1) (H : Subgroup W) :
   rw [card_eq_two_pow hW H, card_eq_two_pow_rk hW, ← rk_add_rkIdx H, pow_add] at h1
   exact Nat.eq_of_mul_eq_mul_left (by positivity) h1
 
+omit [Finite W] in
 theorem fixV_ne_top_of_ne_bot {D : Subgroup (MulAut W)} (hD : D ≠ ⊥) : fixV D ≠ ⊤ := by
   intro htop
   apply hD
@@ -27,6 +28,7 @@ theorem fixV_ne_top_of_ne_bot {D : Subgroup (MulAut W)} (hD : D ≠ ⊥) : fixV 
   have hw : w ∈ fixV D := by rw [htop]; exact Subgroup.mem_top w
   exact mem_fixV.1 hw d hd
 
+omit [Finite W] in
 theorem fixV_invariant_of_commute {D : Subgroup (MulAut W)} {x : MulAut W}
     (hD : ∀ d ∈ D, d * x = x * d) :
     ∀ z ∈ Subgroup.zpowers x, ∀ y ∈ fixV D, z y ∈ fixV D := by
@@ -146,7 +148,7 @@ theorem hyp139_data_of_dihedral (hW : ∀ w : W, w ^ 2 = 1) {k p : ℕ} (hk : k 
     have := rk_add_rkIdx T
     omega
   have hBcard' : Nat.card Bb = 2 ^ n := hBT.trans hTcard
-  haveI hFin : Finite Bb := Nat.finite_of_card_ne_zero (by rw [hBcard']; positivity)
+  have hFin : Finite Bb := Nat.finite_of_card_ne_zero (by rw [hBcard']; positivity)
   have hbx : b * x ≠ x * b := by
     intro hc
     have h1 : b * x * b⁻¹ = x := by rw [hc]; group

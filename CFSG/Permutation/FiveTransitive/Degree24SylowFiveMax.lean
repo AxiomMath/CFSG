@@ -11,9 +11,9 @@ namespace FiveTransitive.Degree24
 
 open MulAction SubMulAction Subgroup
 
-@[expose] abbrev FourFiveBase := Degree20.FourFiveBase
+abbrev FourFiveBase := Degree20.FourFiveBase
 
-@[expose] abbrev TwentyFourFivePoints :=
+abbrev TwentyFourFivePoints :=
   Degree20.TwentyFivePoints ⊕ Fin 4
 
 instance : SMul FourFiveBase TwentyFourFivePoints where
@@ -61,7 +61,7 @@ private theorem alternatingGroup_le_of_sylow_five_card_eq_six_hundred_twenty_fiv
     (S : Sylow 5 P) (hScard : Nat.card S = 625) :
     alternatingGroup X ≤ P := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let inclusion : S →* Equiv.Perm X :=
     P.subtype.comp (S : Subgroup P).subtype
   have hinclusion : Function.Injective inclusion := by
@@ -255,7 +255,7 @@ private theorem five_cubed_not_dvd_five_point_stabilizer_of_not_alternating
   have hfactorization :
       (Nat.card P).factorization 5 = 4 := by
     omega
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let S : Sylow 5 P := Sylow.nonempty.some
   have hScard : Nat.card S = 625 := by
     rw [S.card_eq_multiplicity, hfactorization]

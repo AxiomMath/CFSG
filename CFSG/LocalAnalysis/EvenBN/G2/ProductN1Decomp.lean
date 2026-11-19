@@ -163,7 +163,7 @@ theorem commutator_sup_central_le {N X Z : Subgroup G} (hXN : X ≤ N) (hZN : Z 
       (hcom (x' * z') (N.mul_mem (hXN hx') (hZN hz')) z hz).symm
   have hz2 : ⁅x, z'⁆ = 1 := commutatorElement_eq_one_iff_mul_comm.2 (hcom x (hXN hx) z' hz')
   rw [h1, h2, hz1, hz2]
-  simp only [mul_one, one_mul, mul_inv_cancel, mul_inv_cancel_right]
+  simp only [mul_one, one_mul, mul_inv_cancel]
   exact commutator_mem_commutator hx hx'
 
 theorem perfect_of_sup_central {N B Z : Subgroup G} (hBN : ⁅B, B⁆ ≤ N) (hZN : Z ≤ N)
@@ -237,16 +237,21 @@ variable {G : Type} [Group G] [Finite G] {F : Type} [Field F] [Finite F] [CharP 
 
 include c
 
+omit [Finite G] in
 theorem Kt_conj : (Kᵍ[t])ᵍ[t] = K := map_conj_inv_map_conj_inv c.t_mul_t K
 
+omit [Finite G] in
 theorem D_conj : Dᵍ[t] = D := by
   rw [← c.inf_eq, conjg_inf, c.Kt_conj, inf_comm]
 
+omit [Finite G] in
 theorem N_conj : Nᵍ[t] = N := by
   rw [← c.sup_eq, conjg_sup, c.Kt_conj, sup_comm]
 
+omit [Finite G] in
 theorem D_le_Kt : D ≤ Kᵍ[t] := c.inf_eq ▸ inf_le_right
 
+omit [Finite G] in
 theorem Kt_le_N : Kᵍ[t] ≤ N := c.sup_eq ▸ le_sup_right
 
 theorem Kt_le_normalizer_K : Kᵍ[t] ≤ normalizer (K : Set G) :=
@@ -269,35 +274,44 @@ theorem N_le_normalizer_D : N ≤ normalizer (D : Set G) := by
   exact CFSG.LocalAnalysis.EvenBN.Common.mem_normalizer_inf (c.N_le_normalizer_K hg)
     (c.N_le_normalizer_Kt hg)
 
+omit [Finite G] in
 theorem U_comm {n u : G} (hn : n ∈ N) (hu : u ∈ U) : n * u = u * n :=
   mem_centralizer_iff.1 (c.U_central hu) n hn
 
+omit [Finite G] in
 theorem conj_U {n u : G} (hn : n ∈ N) (hu : u ∈ U) : n * u * n⁻¹ = u := by
   rw [c.U_comm hn hu]
   group
 
+omit [Finite G] in
 theorem N_le_normalizer_U : N ≤ normalizer (U : Set G) :=
   le_normalizer_of_le_centralizer c.U_central
 
+omit [Finite G] in
 theorem conj_t_mem_N {n : G} (hn : n ∈ N) : t * n * t⁻¹ ∈ N := by
   have := mem_conjg_iff (X := N) (g := t) (x := n)
   rw [c.N_conj] at this
   exact this.1 hn
 
+omit [Finite G] in
 theorem conj_t_mem_U_iff {u : G} : u ∈ U ↔ t * u * t⁻¹ ∈ U := by
   have := mem_conjg_iff (X := U) (g := t) (x := u)
   rw [c.U_conj] at this
   exact this
 
+omit [Finite G] in
 theorem U_le_K : U ≤ K := c.U_le_D.trans c.D_le_K
 
+omit [Finite G] in
 theorem D_le_N : D ≤ N := c.D_le_K.trans c.K_le_N
 
+omit [Finite G] in
 theorem comm_mem_U {x y : G} (hx : x ∈ D) (hy : y ∈ D) : x * y * x⁻¹ * y⁻¹ ∈ U := by
   have := commutator_mem_commutator hx hy
   rw [c.D_comm, commutatorElement_def] at this
   exact this
 
+omit [Finite G] in
 theorem mem_V {x : G} : x ∈ centerMod U K ↔ x ∈ K ∧ ∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ U := by
   rw [mem_centerMod_iff c.U_le_K]
   constructor
@@ -306,6 +320,7 @@ theorem mem_V {x : G} : x ∈ centerMod U K ↔ x ∈ K ∧ ∀ k ∈ K, x * k *
   · rintro ⟨hx, hc⟩
     exact ⟨hx, c.N_le_normalizer_U (c.K_le_N hx), fun k hk _ => hc k hk⟩
 
+omit [Finite G] in
 theorem V_le_D : centerMod U K ≤ D := by
   intro x hx
   obtain ⟨hxK, hc⟩ := c.mem_V.1 hx
@@ -330,6 +345,7 @@ theorem V_le_D : centerMod U K ≤ D := by
   rw [hφk, Subgroup.mem_subgroupOf] at this
   exact this
 
+omit [Finite G] in
 theorem U_le_V : U ≤ centerMod U K := fun u hu =>
   c.mem_V.2 ⟨c.U_le_K hu, fun k hk => by
     have h : u * k = k * u := (c.U_comm (c.K_le_N hk) hu).symm
@@ -337,6 +353,7 @@ theorem U_le_V : U ≤ centerMod U K := fun u hu =>
     rw [e]
     exact one_mem U⟩
 
+omit [Finite G] in
 theorem conj_mem_V {g x : G} (hgK : g ∈ normalizer (K : Set G))
     (hgU : g ∈ normalizer (U : Set G)) (hx : x ∈ centerMod U K) :
     g * x * g⁻¹ ∈ centerMod U K := by
@@ -354,14 +371,15 @@ theorem conj_mem_V {g x : G} (hgK : g ∈ normalizer (K : Set G))
 
 theorem mem_normalizer_V {g : G} (hgK : g ∈ normalizer (K : Set G))
     (hgU : g ∈ normalizer (U : Set G)) : g ∈ normalizer ((centerMod U K : Subgroup G) : Set G) :=
-  mem_normalizer_fintype fun x hx => c.conj_mem_V hgK hgU hx
+  mem_normalizer_fintype fun _x hx => c.conj_mem_V hgK hgU hx
 
-theorem N_le_normalizer_V : N ≤ normalizer ((centerMod U K : Subgroup G) : Set G) := fun n hn =>
+theorem N_le_normalizer_V : N ≤ normalizer ((centerMod U K : Subgroup G) : Set G) := fun _n hn =>
   c.mem_normalizer_V (c.N_le_normalizer_K hn) (c.N_le_normalizer_U hn)
 
-theorem J_le_normalizer_V : J ≤ normalizer ((centerMod U K : Subgroup G) : Set G) := fun j hj =>
+theorem J_le_normalizer_V : J ≤ normalizer ((centerMod U K : Subgroup G) : Set G) := fun _j hj =>
   c.mem_normalizer_V (c.J_K hj) (c.J_U hj)
 
+omit [Finite G] in
 theorem Vt_eq : centerMod U (Kᵍ[t]) = (centerMod U K)ᵍ[t] := by
   have hUKt : U ≤ Kᵍ[t] := c.U_le_D.trans c.D_le_Kt
   ext x
@@ -388,25 +406,30 @@ theorem Vt_eq : centerMod U (Kᵍ[t]) = (centerMod U K)ᵍ[t] := by
     rw [e]
     exact h1
 
+omit [Finite G] in
 theorem W_le_D : (centerMod U K)ᵍ[t] ≤ D := by
   intro x hx
   have h1 : t * x * t⁻¹ ∈ D := c.V_le_D (mem_conjg_iff.1 hx)
   have h2 : x ∈ Dᵍ[t] := mem_conjg_iff.2 h1
   rwa [c.D_conj] at h2
 
-theorem U_le_W : U ≤ (centerMod U K)ᵍ[t] := fun u hu =>
+omit [Finite G] in
+theorem U_le_W : U ≤ (centerMod U K)ᵍ[t] := fun _u hu =>
   mem_conjg_iff.2 (c.U_le_V (c.conj_t_mem_U_iff.1 hu))
 
+omit [Finite G] in
 theorem V_inf_W : centerMod U K ⊓ (centerMod U K)ᵍ[t] = U := by
   have := c.V_inf
   rwa [c.Vt_eq] at this
 
+omit [Finite G] in
 theorem W_conj : ((centerMod U K)ᵍ[t])ᵍ[t] = centerMod U K :=
   map_conj_inv_map_conj_inv c.t_mul_t _
 
 theorem N_le_normalizer_W : N ≤ normalizer (((centerMod U K)ᵍ[t] : Subgroup G) : Set G) :=
-  fun n hn => mem_normalizer_conjg_iff.2 (c.N_le_normalizer_V (c.conj_t_mem_N hn))
+  fun _n hn => mem_normalizer_conjg_iff.2 (c.N_le_normalizer_V (c.conj_t_mem_N hn))
 
+omit [Finite G] in
 theorem conj_t_of_mem_J {j : G} (hj : j ∈ J) : t * j * t⁻¹ = j := by
   have h : j * t = t * j := mem_centralizer_singleton_iff.1 (c.J_t hj)
   rw [← h]
@@ -418,6 +441,7 @@ theorem J_le_normalizer_W : J ≤ normalizer (((centerMod U K)ᵍ[t] : Subgroup 
     rw [c.conj_t_of_mem_J hj]
     exact c.J_le_normalizer_V hj
 
+omit [Finite G] in
 theorem comm_W_V_le_U : ⁅(centerMod U K)ᵍ[t], centerMod U K⁆ ≤ U := by
   rw [commutator_le]
   intro x hx y hy
@@ -430,6 +454,7 @@ theorem W_le_normalizer_V :
     rw [commutator_comm]
     exact c.comm_W_V_le_U.trans c.U_le_V)
 
+omit [Finite G] in
 theorem theta_mem {v : G} (hv : v ∈ (centerMod U K)ᵍ[t]) : v * (t * v * t⁻¹) ∈ D₁ := by
   have hw : t * v * t⁻¹ ∈ centerMod U K := mem_conjg_iff.1 hv
   refine c.fix _ (mul_mem (c.W_le_D hv) (c.V_le_D hw)) ?_
@@ -446,6 +471,7 @@ theorem theta_mem {v : G} (hv : v ∈ (centerMod U K)ᵍ[t]) : v * (t * v * t⁻
   rw [e]
   exact c.comm_mem_U (c.W_le_D hv) (c.V_le_D hw)
 
+omit [Finite G] in
 theorem mem_U_of_theta_mem_U {v : G} (hv : v ∈ (centerMod U K)ᵍ[t])
     (h : v * (t * v * t⁻¹) ∈ U) : v ∈ U := by
   have hw : t * v * t⁻¹ ∈ centerMod U K := mem_conjg_iff.1 hv
@@ -521,7 +547,7 @@ theorem card_W_eq_card_D₁ :
   set W : Subgroup G := Vᵍ[t] with hWdef
   have hD₁N : D₁ ≤ normalizer (U : Set G) := fun x hx =>
     c.N_le_normalizer_U (c.D_le_N (c.D₁_le_D hx))
-  haveI hnormU : (U.subgroupOf D₁).Normal :=
+  have hnormU : (U.subgroupOf D₁).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer c.U_le_D₁).2 hD₁N
   have hmem : ∀ v : W, (v : G) * (t * v * t⁻¹) ∈ D₁ := fun v => c.theta_mem v.2
   let ψ : W →* D₁ ⧸ U.subgroupOf D₁ :=
@@ -621,9 +647,10 @@ theorem D_eq_sup : D = centerMod U K ⊔ (centerMod U K)ᵍ[t] := by
   apply Nat.le_of_mul_le_mul_right _ hU
   rw [h1, h2, h3, sq]
 
+omit [Finite G] in
 theorem A_le_N : A ≤ N := c.A_le_K.trans c.K_le_N
 
-theorem A_le_normalizer_D : A ≤ normalizer (D : Set G) := fun a ha =>
+theorem A_le_normalizer_D : A ≤ normalizer (D : Set G) := fun _a ha =>
   c.N_le_normalizer_D (c.A_le_N ha)
 
 theorem nonempty_mulEquiv_A : Nonempty (A ≃* SL(2, F)) := by
@@ -655,35 +682,37 @@ theorem nonempty_mulEquiv_A : Nonempty (A ≃* SL(2, F)) := by
 
 theorem A_perfect : ⁅A, A⁆ = A := by
   obtain ⟨e⟩ := c.nonempty_mulEquiv_A
-  haveI : Group.IsPerfect SL(2, F) := CFSG.LinearGroups.special_linear_dimension_two_perfect
+  have : Group.IsPerfect SL(2, F) := CFSG.LinearGroups.special_linear_dimension_two_perfect
     (CFSG.LocalAnalysis.EvenBN.Common.exists_finset_card_four c.four_le)
-  haveI : Group.IsPerfect A := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom)
+  have : Group.IsPerfect A := Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom)
     e.symm.surjective
   exact (CFSG.LocalAnalysis.EvenBN.Common.isPerfect_subgroup_iff_commutator_eq A).1 this
 
 theorem A_simple : IsSimpleGroup A := by
   obtain ⟨e⟩ := c.nonempty_mulEquiv_A
-  haveI := CFSG.LocalAnalysis.EvenBN.Common.sl2_isSimpleGroup_of_charTwo c.four_le
+  have := CFSG.LocalAnalysis.EvenBN.Common.sl2_isSimpleGroup_of_charTwo c.four_le
   exact e.isSimpleGroup
 
 theorem A_ne_bot : A ≠ ⊥ := by
-  haveI := c.A_simple
+  have := c.A_simple
   exact (Subgroup.nontrivial_iff_ne_bot A).1 inferInstance
 
 theorem A_not_pgroup : ¬ IsPGroup 2 A := by
   intro hp
-  haveI := c.A_simple
-  haveI : Group.IsNilpotent A := hp.isNilpotent
+  have := c.A_simple
+  have : Group.IsNilpotent A := hp.isNilpotent
   have hperf : Group.IsPerfect A :=
     (CFSG.LocalAnalysis.EvenBN.Common.isPerfect_subgroup_iff_commutator_eq A).2 c.A_perfect
   exact Group.IsPerfect.not_isNilpotent A inferInstance
 
+omit [Finite G] in
 theorem comm_K_V {x v : G} (hx : x ∈ K) (hv : v ∈ centerMod U K) : x * v * x⁻¹ * v⁻¹ ∈ U := by
   have h := (c.mem_V.1 hv).2 x hx
   have e : x * v * x⁻¹ * v⁻¹ = (v * x * v⁻¹ * x⁻¹)⁻¹ := by group
   rw [e]
   exact inv_mem h
 
+omit [Finite G] in
 theorem comm_Kt_W {x w : G} (hx : x ∈ Kᵍ[t]) (hw : w ∈ (centerMod U K)ᵍ[t]) :
     w * x * w⁻¹ * x⁻¹ ∈ U := by
   rw [← c.Vt_eq] at hw
@@ -727,6 +756,7 @@ theorem W_le_of_comm_le {Q : Subgroup G} (hUQ : U ≤ Q) (hN : N ≤ normalizer 
     exact this
   · exact h1.trans inf_le_left
 
+omit [Finite G] in
 theorem U_le_comm : U ≤ ⁅K, K⁆ := by
   have := commutator_mono c.D_le_K c.D_le_K
   rwa [c.D_comm] at this
@@ -735,8 +765,10 @@ theorem A_le_comm : A ≤ ⁅K, K⁆ := by
   calc A = ⁅A, A⁆ := c.A_perfect.symm
     _ ≤ ⁅K, K⁆ := commutator_mono c.A_le_K c.A_le_K
 
+omit [Finite G] in
 theorem U_le_AW : U ≤ A ⊔ (centerMod U K)ᵍ[t] := c.U_le_W.trans le_sup_right
 
+omit [Finite G] in
 theorem AW_le_K : A ⊔ (centerMod U K)ᵍ[t] ≤ K :=
   sup_le c.A_le_K (c.W_le_D.trans c.D_le_K)
 
@@ -819,8 +851,10 @@ theorem comm_comm_sup : ⁅⁅K, K⁆, ⁅K, K⁆⁆ ⊔ U = ⁅K, K⁆ := by
 theorem Bt_eq : ⁅K, K⁆ᵍ[t] = Aᵍ[t] ⊔ centerMod U K := by
   rw [c.comm_K_eq, conjg_sup, c.W_conj]
 
+omit [Finite G] in
 theorem At_le_N : Aᵍ[t] ≤ N := (conjg_mono c.A_le_K t).trans c.Kt_le_N
 
+omit [Finite G] in
 theorem At_inf_D : Aᵍ[t] ⊓ D = ⊥ := by
   have h := conjg_inf A D t
   rw [c.A_inf_D, c.D_conj, Subgroup.map_bot] at h
@@ -935,7 +969,7 @@ theorem N_eq : N = ⁅K, K⁆ ⊔ ⁅K, K⁆ᵍ[t] := by
 
 theorem W_eq_pCore :
     (centerMod U K)ᵍ[t] = pCoreOf 2 (A ⊔ (centerMod U K)ᵍ[t]) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWp : IsPGroup 2 ((centerMod U K)ᵍ[t] : Subgroup G) := c.D_pgroup.to_le c.W_le_D
   have hAnW : A ≤ normalizer (((centerMod U K)ᵍ[t] : Subgroup G) : Set G) := fun a ha =>
     c.N_le_normalizer_W (c.A_le_N ha)
@@ -956,7 +990,7 @@ theorem W_eq_pCore :
   have hTn : ((A ⊓ (O ⊔ (centerMod U K)ᵍ[t])).subgroupOf A).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left]
     exact fun a ha => mem_normalizer_inf (le_normalizer ha) (hBR (Subgroup.mem_sup_left ha))
-  haveI := c.A_simple
+  have := c.A_simple
   have hT : A ⊓ (O ⊔ (centerMod U K)ᵍ[t]) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((A ⊓ (O ⊔ (centerMod U K)ᵍ[t])).subgroupOf A) with h | h
@@ -1091,7 +1125,7 @@ theorem yamada_7_9 (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) (d : G
     ProductN1DecompAux.le_normalizer_of_le_centralizer hUc
   have htU : t ∈ normalizer (yamadaU₁ d t : Set G) := (h.t_mem_normalizer_yamadaU₁ d hK hDF).1
   have hPD : IsPGroup 2 (yamadaP d t) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact ((CFSG.ABGLocalTools.isSylowOf_iff).1 hp.sylow₁).2.1
   have hDp : IsPGroup 2 (yamadaD₇ d t) := hPD.to_le (yamadaD₇_le_yamadaP d t)
   have hfix : ∀ x ∈ yamadaD₇ d t, x * t * x⁻¹ * t⁻¹ ∈ yamadaU₁ d t → x ∈ yamadaD₁ d t := by

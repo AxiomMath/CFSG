@@ -183,7 +183,7 @@ theorem actual_beta_image_of_marking {G : Type} [Group G] [Finite G] {p : ℕ}
     rintro _ ⟨b, rfl⟩
     simpa only [ggBeta_eq] using
       CFSG.StandardType.ggLAut_mem_of_induces (L := L) (θ := θ) (B := Bs) hN' hact b.2
-  haveI : Subsingleton Kˣ :=
+  have : Subsingleton Kˣ :=
     CFSG.Monster.Existence.Compat.subsingleton_units_of_card_two hK2
   have hID : markIDImage (IsRoot τ) K (adjointGroup τ K) ⊆
       (MulAut.conj : LargeEvenCenterQuot (adjointGroup τ K) →*

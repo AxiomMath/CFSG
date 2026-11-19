@@ -31,7 +31,7 @@ theorem commute_of_forall_apply_eq {L : Subgroup G} [IsSimpleGroup ↥L]
   have hZ : ∀ K : Subgroup G, CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ K (⊥ : Submodule (ZMod 2) V) := fun _ _ _ v hv => by
     rw [(Submodule.mem_bot _).1 hv, map_zero]
     exact zero_mem _
-  obtain ⟨y, hy, hyf⟩ := SetLike.not_le_iff_exists.1 hnt
+  obtain ⟨y, hy, hyf⟩ := IsConcreteLE.not_le_iff_exists.1 hnt
   obtain ⟨l, hl, hly⟩ : ∃ l ∈ L, ρ l y ≠ y := by
     by_contra h
     exact hyf (mem_fixSub.2 fun l hl => Classical.byContradiction fun hne => h ⟨l, hl, hne⟩)
@@ -49,13 +49,13 @@ theorem factorData_of_isComponentOf [Finite G] [Finite V] (hρ : Function.Inject
     (hLC : L ⊔ Subgroup.centralizer (L : Set G) = ⊤) :
     (∀ c : G, (∀ x ∈ L, c * x = x * c) → ∀ n ∈ commOn ρ L ⊤, ρ c n = n) ∧
       commOn ρ L (commOn ρ L ⊤) = commOn ρ L ⊤ ∧ Shape148 ρ L (commOn ρ L ⊤) (fixSub ρ L) := by
-  haveI : IsSimpleGroup ↥L := by
+  have : IsSimpleGroup ↥L := by
     rcases hshape with ⟨n, -, hX⟩ | ⟨hX, -⟩
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
     · exact CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
   obtain ⟨A, hA, hLA⟩ := exists_mem_calP_commutator_ne_bot hH hL
   obtain ⟨hperf, hnt⟩ := commOn_facts_of_mem_calP hρ hL hA hLA
-  haveI hLN : L.Normal := by
+  have hLN : L.Normal := by
     rw [← Subgroup.normalizer_eq_top_iff, eq_top_iff, ← hLC]
     exact sup_le Subgroup.le_normalizer (Subgroup.centralizer_le_normalizer _)
   have hZ : Subgroup.center ↥L = ⊥ := by
@@ -107,11 +107,11 @@ theorem factorData_of_mulEquiv_perm_five [Finite G] [Finite V] (hρ : Function.I
   have hmem : ∀ x (hx : x ∈ H), x ∈ ⁅H, H⁆ ↔ e ⟨x, hx⟩ ∈ alternatingGroup (Fin 5) := fun x hx => by
     rw [mem_commutator_iff_of_mulEquiv e hx, alternatingGroup.commutator_perm_eq h5]
   have hQN : (⁅H, H⁆ : Subgroup G).Normal := by
-    haveI := hHN
+    have := hHN
     infer_instance
   have hQH : ⁅H, H⁆ ≤ H := Subgroup.commutator_le_self H
   set A : Subgroup G := ⁅H, H⁆ with hAdef
-  haveI : IsSimpleGroup ↥A := eA.isSimpleGroup
+  have : IsSimpleGroup ↥A := eA.isSimpleGroup
   have hAcomm : commutator ↥A = ⊤ := by
     rw [← TauCeti.Subgroup.map_commutator_eq_commutator (f := eA.symm.toMonoidHom)
       eA.symm.surjective, commutator_alternatingGroup_eq_top h5,
@@ -123,7 +123,7 @@ theorem factorData_of_mulEquiv_perm_five [Finite G] [Finite V] (hρ : Function.I
     rw [hAcomm] at h1
     exact bot_ne_top h1.symm
   have hAcomp : IsComponentOf A ⊤ := by
-    haveI := hQN
+    have := hQN
     exact ⟨le_top, IsSubnormal.step le_top inferInstance (IsSubnormal.refl ⊤), hAcomm,
       ((QuotientGroup.quotientMulEquivOfEq hZA).trans QuotientGroup.quotientBot).isSimpleGroup⟩
   have hcen : Subgroup.centralizer (alternatingGroup (Fin 5) : Set (Equiv.Perm (Fin 5))) = ⊥ := by
@@ -163,7 +163,7 @@ theorem factorData_of_mulEquiv_perm_five [Finite G] [Finite V] (hρ : Function.I
   rcases component_dichotomy hρ hH hAcomp (hshape A hAcomp) with
     ⟨hin, -⟩ | ⟨hZ, a, ha2, haN, haL, hS5⟩
   · exfalso
-    obtain ⟨g, hgH, hgA⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hQH fun h => by
+    obtain ⟨g, hgH, hgA⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hQH fun h => by
       rw [h] at hA60
       omega)
     obtain ⟨l, hl, hgl⟩ := hin g

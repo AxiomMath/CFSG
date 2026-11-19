@@ -12,6 +12,7 @@ variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F} {a b : Fin 3 → Fin 
 
 variable (hσ : ∀ c, σ (σ c) = c) (hf : Frame σ a b)
 
+omit [CharP F 2] in
 private theorem inv_det_props (A : Matrix (Fin 3) (Fin 3) F) (hA : A.det ≠ 0)
     (hdet : σ A.det = A.det) : (A⁻¹).det ≠ 0 ∧ σ (A⁻¹).det = (A⁻¹).det := by
   have h1 : (A⁻¹).det * A.det = 1 := by
@@ -29,10 +30,12 @@ include hσ hf
 
 noncomputable def blkA (g : SUid σ 6) : Matrix (Fin 3) (Fin 3) F := (gm hσ hf g).toBlocks₁₁
 
+omit [CharP F 2] in
 theorem blkA_one : blkA hσ hf (1 : SUid σ 6) = 1 := by
   unfold blkA
   rw [gm_one hσ hf, ← Matrix.fromBlocks_one, Matrix.toBlocks_fromBlocks₁₁]
 
+omit [CharP F 2] in
 theorem blkA_mul {g h : SUid σ 6} (hg : g ∈ Pstab σ (Wa a)) (hh : h ∈ Pstab σ (Wa a)) :
     blkA hσ hf (g * h) = blkA hσ hf g * blkA hσ hf h := by
   obtain ⟨A, B, D, hgm, -, -, -⟩ := Pstab_blocks hσ hf g hg
@@ -41,6 +44,7 @@ theorem blkA_mul {g h : SUid σ 6} (hg : g ∈ Pstab σ (Wa a)) (hh : h ∈ Psta
   rw [gm_mul hσ hf, hgm, hhm, Matrix.fromBlocks_multiply]
   simp only [Matrix.toBlocks_fromBlocks₁₁, Matrix.mul_zero, add_zero]
 
+omit [CharP F 2] in
 theorem blkA_det_ne {g : SUid σ 6} (hg : g ∈ Pstab σ (Wa a)) : (blkA hσ hf g).det ≠ 0 := by
   obtain ⟨A, B, D, hgm, hAD, -, -⟩ := Pstab_blocks hσ hf g hg
   have hAeq : blkA hσ hf g = A := by
@@ -54,6 +58,7 @@ theorem blkA_det_ne {g : SUid σ 6} (hg : g ∈ Pstab σ (Wa a)) : (blkA hσ hf 
   rw [h0, map_zero, zero_mul] at hdet
   exact zero_ne_one hdet
 
+omit [CharP F 2] in
 theorem blkA_det_fixed {g : SUid σ 6} (hg : g ∈ Pstab σ (Wa a)) :
     σ (blkA hσ hf g).det = (blkA hσ hf g).det := by
   obtain ⟨A, B, D, hgm, hAD, -, -⟩ := Pstab_blocks hσ hf g hg
@@ -74,6 +79,7 @@ theorem blkA_det_fixed {g : SUid σ 6} (hg : g ∈ Pstab σ (Wa a)) :
   apply mul_right_cancel₀ hD
   rw [h2, h1]
 
+omit [CharP F 2] in
 theorem blkA_levi (A : Matrix (Fin 3) (Fin 3) F) (hA : A.det ≠ 0) (hdet : σ A.det = A.det) :
     blkA hσ hf (levi hσ hf A hA hdet) = A := by
   unfold blkA
@@ -103,6 +109,7 @@ noncomputable def adK (e₀ : K ≃+* Fσ σ) : ↥(Pstab σ (Wa a)) →* (HermK
     rw [adEquiv_mat, adEquiv_mat, adEquiv_mat, Subgroup.coe_mul, blkA_mul hσ hf g.2 h.2, cT_mul]
     simp only [Matrix.mul_assoc]
 
+omit [CharP F 2] in
 theorem adK_mat (e₀ : K ≃+* Fσ σ) (g : ↥(Pstab σ (Wa a))) (H : HermK σ e₀) :
     (adK hσ hf e₀ g H).mat = blkA hσ hf g * H.mat * cT σ (blkA hσ hf g) := by
   rfl
@@ -126,6 +133,7 @@ theorem uK_adK (e₀ : K ≃+* Fσ σ) (g : ↥(Pstab σ (Wa a))) (H : HermK σ 
     · simp
   rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [CharP F 2] in
 private theorem levi_congr (M N : Matrix (Fin 3) (Fin 3) F) (h : M = N) (hM : M.det ≠ 0)
     (hMσ : σ M.det = M.det) (hN : N.det ≠ 0) (hNσ : σ N.det = N.det) :
     levi hσ hf M hM hMσ = levi hσ hf N hN hNσ := by

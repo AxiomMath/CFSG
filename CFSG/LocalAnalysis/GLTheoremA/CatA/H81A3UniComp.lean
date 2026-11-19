@@ -42,9 +42,9 @@ theorem diagU_mem_blockU {I : Finset (Fin 4)} (hdI : ∀ i, i ∉ I → d i = 1)
   rw [coe_diagU]
   by_cases hij' : i = j
   · subst hij'
-    rw [diagonal_apply_eq, if_pos rfl]
+    rw [diagonal_apply_eq, ite_eq_left rfl]
     exact hdI i (by tauto)
-  · rw [diagonal_apply_ne _ hij', if_neg hij']
+  · rw [diagonal_apply_ne _ hij', ite_eq_right hij']
 
 variable (h) in
 @[expose] noncomputable def swapU {i j : Fin 4} (hij : i ≠ j) : ↥(SG h) :=
@@ -87,7 +87,7 @@ theorem diagU_mul_swapU_ne {a b : Fin 4} (hab : a ≠ b) (hdab : d a ≠ d b) :
   intro he
   have h1 := congrArg (fun x : ↥(SG h) => ((x : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) a b) he
   simp only [Subgroup.coe_mul, Units.val_mul, coe_diagU, diagonal_mul, mul_diagonal,
-    swapU_apply, Equiv.swap_apply_left, if_pos rfl, ↓reduceIte] at h1
+    swapU_apply, Equiv.swap_apply_left, ↓reduceIte] at h1
   apply hdab
   linear_combination -h1
 
@@ -119,8 +119,7 @@ theorem projU_diagU_mul_swapU_ne {a b : Fin 4} (hab : a ≠ b) (hdab : d a ≠ d
   have h1 := hent r r
   have h2 := hent a b
   simp only [Subgroup.coe_mul, Units.val_mul, hx, hw, coe_diagU, diagonal_mul, mul_diagonal,
-    swapU_apply, Equiv.swap_apply_left, Equiv.swap_apply_of_ne_of_ne hra hrb, if_pos rfl,
-    if_neg hra, ↓reduceIte] at h1 h2
+    swapU_apply, Equiv.swap_apply_left, Equiv.swap_apply_of_ne_of_ne hra hrb, ite_eq_right hra, ↓reduceIte] at h1 h2
   have hc1 : (c : K) = 1 := by
     have h3 : d r * (c : K) = d r * 1 := by linear_combination -h1
     exact mul_left_cancel₀ hdr h3
@@ -179,8 +178,8 @@ theorem conj_mem_blockU_of_mem_centralizer {d : Fin 4 → K} {hn : ∀ i, h.bar 
   rw [compIndicator_mul_apply, mul_compIndicator_apply]
   by_cases hi : i ∈ I <;> by_cases hj : j ∈ I
   · simp [hi, hj]
-  · rw [if_pos hi, if_neg hj, hm' i j (hdist i j ⟨fun _ => hj, fun _ => hi⟩)]
-  · rw [if_neg hi, if_pos hj, hm' i j (hdist i j ⟨fun h' => absurd h' hi, fun h' => absurd hj h'⟩)]
+  · rw [ite_eq_left hi, ite_eq_right hj, hm' i j (hdist i j ⟨fun _ => hj, fun _ => hi⟩)]
+  · rw [ite_eq_right hi, ite_eq_left hj, hm' i j (hdist i j ⟨fun h' => absurd h' hi, fun h' => absurd hj h'⟩)]
   · simp [hi, hj]
 
 section Root
@@ -193,17 +192,20 @@ theorem norm_of_pow {d : Fin 4 → K} (hdp : ∀ i, d i ^ p = 1) : ∀ i, h.bar 
   fun i => bar_mul_self_of_pow_eq_one hpq (hdp i)
 
 variable (h) in
+omit hp2 in
 noncomputable abbrev yU : ↥(SG h) :=
-  diagU h (yd μ) (norm_of_pow hpq (yd_pow hp hp2 hμ)) (prod_yd (ne_zero_of_root hp hp2 hμ))
+  diagU h (yd μ) (norm_of_pow hpq (yd_pow hμ)) (prod_yd (ne_zero_of_root hp hμ))
 
 variable (h) in
+omit hp2 in
 noncomputable abbrev zU : ↥(SG h) :=
-  diagU h (zd μ) (norm_of_pow hpq (zd_pow hp hp2 hμ)) (prod_zd (ne_zero_of_root hp hp2 hμ))
+  diagU h (zd μ) (norm_of_pow hpq (zd_pow hμ)) (prod_zd (ne_zero_of_root hp hμ))
 
 include hp hp2 hμ hpq
 
+omit hp hp2 hμ hpq in
 theorem yd_const_blockJ : ∀ i ∈ blockJ, ∀ j ∈ blockJ, yd μ i = yd μ j :=
-  fun i hi j hj => yd_const hp hp2 hμ i j (mem_blockJ.1 hi) (mem_blockJ.1 hj)
+  fun i hi j hj => yd_const i j (mem_blockJ.1 hi) (mem_blockJ.1 hj)
 
 omit hp hp2 hμ hpq in
 theorem zd_const_blockI : ∀ i ∈ blockI, ∀ j ∈ blockI, zd μ i = zd μ j := by
@@ -215,41 +217,42 @@ theorem t2d_eq_one_of_not_mem_blockI : ∀ i, i ∉ blockI → t2d μ i = 1 := b
   intro i hi
   fin_cases i <;> simp_all [blockI, t2d]
 
-omit hpq in
+omit hpq hp2 in
 theorem zd_ne_of_mem_blockI_iff : ∀ i j, (i ∈ blockI ↔ j ∉ blockI) → zd μ i ≠ zd μ j := by
-  have h1 := inv_ne_one hp hp2 hμ
-  have h2 := ne_one_of_root hp hp2 hμ
+  have h1 := inv_ne_one hp hμ
+  have h2 := ne_one_of_root hp hμ
   intro i j hij
   fin_cases i <;> fin_cases j <;> simp_all [zd, blockI, eq_comm]
 
 theorem centralizer_projU_yU :
-    Subgroup.centralizer ({projU h (yU h hp hp2 hμ hpq)} : Set (PS h)) =
-      (Subgroup.centralizer ({yU h hp hp2 hμ hpq} : Set ↥(SG h))).map (projU h) :=
-  centralizer_projU_diagU hp hp2 (yd_pow hp hp2 hμ)
+    Subgroup.centralizer ({projU h (yU h hp hμ hpq)} : Set (PS h)) =
+      (Subgroup.centralizer ({yU h hp hμ hpq} : Set ↥(SG h))).map (projU h) :=
+  centralizer_projU_diagU hp hp2 (yd_pow hμ)
 
 theorem centralizer_projU_zU :
-    Subgroup.centralizer ({projU h (zU h hp hp2 hμ hpq)} : Set (PS h)) =
-      (Subgroup.centralizer ({zU h hp hp2 hμ hpq} : Set ↥(SG h))).map (projU h) :=
-  centralizer_projU_diagU hp hp2 (zd_pow hp hp2 hμ)
+    Subgroup.centralizer ({projU h (zU h hp hμ hpq)} : Set (PS h)) =
+      (Subgroup.centralizer ({zU h hp hμ hpq} : Set ↥(SG h))).map (projU h) :=
+  centralizer_projU_diagU hp hp2 (zd_pow hμ)
 
+omit hp2 in
 theorem projU_zU_not_mem_zpowers :
-    projU h (zU h hp hp2 hμ hpq) ∉ Subgroup.zpowers (projU h (yU h hp hp2 hμ hpq)) := by
+    projU h (zU h hp hμ hpq) ∉ Subgroup.zpowers (projU h (yU h hp hμ hpq)) := by
   have hab : (1 : Fin 4) ≠ 2 := by decide
   have hwJ : swapU h hab ∈ blockU h blockJ := swapU_mem_blockU hab (by decide) (by decide)
-  have hwy : swapU h hab * yU h hp hp2 hμ hpq = yU h hp hp2 hμ hpq * swapU h hab :=
+  have hwy : swapU h hab * yU h hp hμ hpq = yU h hp hμ hpq * swapU h hab :=
     Subgroup.mem_centralizer_singleton_iff.1
-      (blockU_le_centralizer (yd_const_blockJ hp hp2 hμ hpq) hwJ)
-  have hyC : projU h (yU h hp hp2 hμ hpq) ∈
+      (blockU_le_centralizer (yd_const_blockJ) hwJ)
+  have hyC : projU h (yU h hp hμ hpq) ∈
       Subgroup.centralizer ({projU h (swapU h hab)} : Set (PS h)) := by
     rw [Subgroup.mem_centralizer_singleton_iff, ← map_mul, ← map_mul, hwy]
   intro hmem
   have hzC := (Subgroup.zpowers_le.2 hyC) hmem
   rw [Subgroup.mem_centralizer_singleton_iff] at hzC
-  exact projU_diagU_mul_swapU_ne hab (by simpa [zd] using inv_ne_one hp hp2 hμ) hzC
+  exact projU_diagU_mul_swapU_ne hab (by simpa [zd] using inv_ne_one hp hμ) hzC
 
-theorem projU_yU_ne_one : projU h (yU h hp hp2 hμ hpq) ≠ 1 := by
+theorem projU_yU_ne_one : projU h (yU h hp hμ hpq) ≠ 1 := by
   intro h1
-  have hk : yU h hp hp2 hμ hpq ∈ (projU h).ker := h1
+  have hk : yU h hp hμ hpq ∈ (projU h).ker := h1
   rw [ker_projU] at hk
   obtain ⟨c, -, -, hc⟩ := mem_normOneScalars.1 hk
   have hm := congrArg (fun g : GL (Fin 4) K => (g : Matrix (Fin 4) (Fin 4) K)) hc
@@ -264,81 +267,86 @@ section Finite
 variable [Finite K] [Fact ℓ.Prime] [CharP K ℓ] (hK : Nat.card K = (ℓ ^ f) ^ 2) (hq : 5 ≤ ℓ ^ f)
 include hK hq
 
+omit [Fact ℓ.Prime] [CharP K ℓ] hK hq [Finite K] in
 theorem dvd_card_blockU_blockJ :
     p ∣ Nat.card (↥(blockU h blockJ) ⧸ Subgroup.center ↥(blockU h blockJ)) := by
   have hab : (1 : Fin 4) ≠ 2 := by decide
   refine dvd_card_quotient_center_of_not_commute hp
-    (x := diagU h (td μ) (norm_of_pow hpq (td_pow hp hp2 hμ)) (prod_td (ne_zero_of_root hp hp2 hμ)))
+    (x := diagU h (td μ) (norm_of_pow hpq (td_pow hμ)) (prod_td (ne_zero_of_root hp hμ)))
     (y := swapU h hab) (diagU_mem_blockU fun i hi => ?_)
-    (swapU_mem_blockU hab (by decide) (by decide)) (diagU_pow_eq_one (td_pow hp hp2 hμ))
+    (swapU_mem_blockU hab (by decide) (by decide)) (diagU_pow_eq_one (td_pow hμ))
     (diagU_mul_swapU_ne hab (by simpa [td] using (inv_ne_self hp hp2 hμ).symm))
   rw [mem_blockJ, not_not] at hi
   subst hi
   rfl
 
 theorem glaPComponent_cent_yU :
-    GLAPComponent p (Subgroup.centralizer ({yU h hp hp2 hμ hpq} : Set ↥(SG h)))
+    GLAPComponent p (Subgroup.centralizer ({yU h hp hμ hpq} : Set ↥(SG h)))
       (blockU h blockJ) :=
   CFSG.LocalAnalysis.GLTheoremA.S10.glaPComponent_of_quasisimple hp
-    (IsSubnormal.step (blockU_le_centralizer (yd_const_blockJ hp hp2 hμ hpq))
-      (blockU_normal (yd_zero_ne hp hp2 hμ) (yd_const hp hp2 hμ)) (IsSubnormal.refl _))
-    (isQuasisimple_blockU hK hq (by decide)) (dvd_card_blockU_blockJ hp hp2 hμ hpq hK hq)
+    (IsSubnormal.step (blockU_le_centralizer (yd_const_blockJ))
+      (blockU_normal (yd_zero_ne hp hp2 hμ) (yd_const)) (IsSubnormal.refl _))
+    (isQuasisimple_blockU hK hq (by decide)) (dvd_card_blockU_blockJ hp hp2 hμ hpq)
 
 theorem eq_of_glaPComponent_cent_yU {L : Subgroup ↥(SG h)}
-    (hL : GLAPComponent p (Subgroup.centralizer ({yU h hp hp2 hμ hpq} : Set ↥(SG h))) L) :
+    (hL : GLAPComponent p (Subgroup.centralizer ({yU h hp hμ hpq} : Set ↥(SG h))) L) :
     L = blockU h blockJ :=
-  eq_of_glaPComponent_of_commutator_le (blockU_le_centralizer (yd_const_blockJ hp hp2 hμ hpq))
+  eq_of_glaPComponent_of_commutator_le (blockU_le_centralizer (yd_const_blockJ))
     (isQuasisimple_blockU hK hq (by decide))
     (commutator_centralizer_le_blockU (yd_zero_ne hp hp2 hμ)) hL
 
 omit hp hp2 hμ hpq hK hq in
+omit [Finite K] [Fact ℓ.Prime] [CharP K ℓ] in
 private theorem central_kerU (X : Subgroup ↥(SG h)) :
     ∀ y ∈ X ⊓ (projU h).ker, ∀ x ∈ X, x * y = y * x := fun _ hy x _ =>
   (Subgroup.mem_center_iff.1 (ker_projU_le_center hy.2) x)
 
 theorem glaPComponent_centralizer_projU_yU :
-    GLAPComponent p (Subgroup.centralizer ({projU h (yU h hp hp2 hμ hpq)} : Set (PS h)))
+    GLAPComponent p (Subgroup.centralizer ({projU h (yU h hp hμ hpq)} : Set (PS h)))
       (JU h) := by
   rw [centralizer_projU_yU hp hp2 hμ hpq]
   exact (CFSG.glaPComponent_map_bijective_of_ker_le_center hp (projU h)
     (central_kerU _)).1 _ (glaPComponent_cent_yU hp hp2 hμ hpq hK hq)
 
 theorem eq_of_glaPComponent_centralizer_projU_yU {L : Subgroup (PS h)}
-    (hL : GLAPComponent p (Subgroup.centralizer ({projU h (yU h hp hp2 hμ hpq)} : Set (PS h)))
+    (hL : GLAPComponent p (Subgroup.centralizer ({projU h (yU h hp hμ hpq)} : Set (PS h)))
       L) : L = JU h := by
   rw [centralizer_projU_yU hp hp2 hμ hpq] at hL
   obtain ⟨L₀, hL₀, rfl⟩ := (CFSG.glaPComponent_map_bijective_of_ker_le_center hp (projU h)
     (central_kerU _)).2 L hL
   rw [eq_of_glaPComponent_cent_yU hp hp2 hμ hpq hK hq hL₀]
 
+omit hp hp2 hμ hpq in
 theorem isQuasisimple_JU : CFSG.Open.IsQuasisimple ↥(JU h) :=
   CFSG.ComponentClassification.Components.quasisimple_of_equiv
     (mapProjUEquiv _ le_rfl).symm (isQuasisimple_blockU hK hq (by decide))
 
+omit [Fact ℓ.Prime] [CharP K ℓ] hK hq in
+omit [Finite K] in
 theorem dvd_card_JU : p ∣ Nat.card (↥(JU h) ⧸ Subgroup.center ↥(JU h)) := by
   rw [← natCard_quotient_center_congr (mapProjUEquiv _ le_rfl)]
-  exact dvd_card_blockU_blockJ hp hp2 hμ hpq hK hq
+  exact dvd_card_blockU_blockJ hp hp2 hμ hpq
 
 theorem glaPLayer_JU_inf_centralizer_ne_bot :
     GLAPLayer p (JU h ⊓ Subgroup.centralizer
-      ({projU h (zU h hp hp2 hμ hpq)} : Set (PS h))) ≠ ⊥ := by
+      ({projU h (zU h hp hμ hpq)} : Set (PS h))) ≠ ⊥ := by
   have hIJ : blockI ⊆ blockJ := by decide
   have hK₂J : blockU h blockI ≤ blockU h blockJ := blockU_mono hIJ
   have hzI : ∀ i ∈ blockI, ∀ j ∈ blockI, zd μ i = zd μ j := zd_const_blockI
   set K₂ := (blockU h blockI).map (projU h) with hK₂def
   have hle : K₂ ≤ JU h ⊓ Subgroup.centralizer
-      ({projU h (zU h hp hp2 hμ hpq)} : Set (PS h)) := by
+      ({projU h (zU h hp hμ hpq)} : Set (PS h)) := by
     refine le_inf (Subgroup.map_mono hK₂J) ?_
     rw [centralizer_projU_zU hp hp2 hμ hpq]
     exact Subgroup.map_mono (blockU_le_centralizer hzI)
   have hdist : ∀ i j, (i ∈ blockI ↔ j ∉ blockI) → zd μ i ≠ zd μ j :=
-    zd_ne_of_mem_blockI_iff hp hp2 hμ
+    zd_ne_of_mem_blockI_iff hp hμ
   have hN : (K₂.subgroupOf (JU h ⊓ Subgroup.centralizer
-      ({projU h (zU h hp hp2 hμ hpq)} : Set (PS h)))).Normal := by
+      ({projU h (zU h hp hμ hpq)} : Set (PS h)))).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hg : (g : PS h) ∈ (Subgroup.centralizer
-        ({zU h hp hp2 hμ hpq} : Set ↥(SG h))).map (projU h) := by
+        ({zU h hp hμ hpq} : Set ↥(SG h))).map (projU h) := by
       rw [← centralizer_projU_zU hp hp2 hμ hpq]
       exact g.2.2
     obtain ⟨m, hm, hmg⟩ := hg
@@ -353,10 +361,10 @@ theorem glaPLayer_JU_inf_centralizer_ne_bot :
     rw [← natCard_quotient_center_congr (mapProjUEquiv _ hK₂J)]
     have hab : (2 : Fin 4) ≠ 3 := by decide
     refine dvd_card_quotient_center_of_not_commute hp
-      (x := diagU h (t2d μ) (norm_of_pow hpq (t2d_pow hp hp2 hμ))
-        (prod_t2d (ne_zero_of_root hp hp2 hμ)))
+      (x := diagU h (t2d μ) (norm_of_pow hpq (t2d_pow hμ))
+        (prod_t2d (ne_zero_of_root hp hμ)))
       (y := swapU h hab) (diagU_mem_blockU t2d_eq_one_of_not_mem_blockI)
-      (swapU_mem_blockU hab (by decide) (by decide)) (diagU_pow_eq_one (t2d_pow hp hp2 hμ))
+      (swapU_mem_blockU hab (by decide) (by decide)) (diagU_pow_eq_one (t2d_pow hμ))
       (diagU_mul_swapU_ne hab (by simpa [t2d] using (inv_ne_self hp hp2 hμ).symm))
   exact CFSG.LocalAnalysis.GLTheoremA.Y10F.glaPLayer_ne_bot_of_normal_quasisimple hp hle hN hqs
     hdvd

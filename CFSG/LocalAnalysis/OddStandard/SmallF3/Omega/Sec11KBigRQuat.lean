@@ -41,7 +41,7 @@ theorem s900_not_isPGroup_quot [Finite G] {E : Subgroup G} (hgen : oTwoRes E = E
     ¬ IsPGroup 2 (↥E ⧸ CFSG.Open.classicalInvolutionOddCore ↥E) := by
   intro hq
   let O : Subgroup ↥E := CFSG.Open.classicalInvolutionOddCore ↥E
-  haveI : O.Normal := CFSG.Open.classicalInvolutionOddCore_normal ↥E
+  have : O.Normal := CFSG.Open.classicalInvolutionOddCore_normal ↥E
   have hle' : oTwoRes E ≤ O.map E.subtype := by
     refine (Subgroup.closure_le _).2 ?_
     rintro x ⟨hxE, hxodd⟩
@@ -74,7 +74,7 @@ theorem s900_sylow_quaternion [Finite G] {E : Subgroup G} {z : G} (hgen : oTwoRe
     have ht2 : orderOf ((t : ↥E) : G) = 2 :=
       (Subgroup.orderOf_coe (t : ↥E)).trans ((Subgroup.orderOf_coe t).trans ht)
     rw [huniq _ (s : ↥E).2 hs2, huniq _ (t : ↥E).2 ht2]
-  rcases CFSG.Holt.isCyclic_or_quaternion_of_atMostOneInvolution S.isPGroup' hatmost with
+  rcases CFSG.Holt.isCyclic_or_quaternion_of_atMostOneInvolution S.isPGroup hatmost with
     hcyc | ⟨n, hn3, ⟨e⟩⟩
   · exfalso
     obtain ⟨-, -, -, ⟨hKn, hKodd, hKidx, -⟩, -⟩ :=
@@ -83,8 +83,8 @@ theorem s900_sylow_quaternion [Finite G] {E : Subgroup G} {z : G} (hgen : oTwoRe
       refine (Subgroup.closure_le _).2 ?_
       rintro x ⟨hxE, hxodd⟩
       refine ⟨⟨x, hxE⟩, ?_, rfl⟩
-      haveI : (CFSG.pPrimeCore 2 ↥E).Normal := hKn
-      obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+      have : (CFSG.pPrimeCore 2 ↥E).Normal := hKn
+      obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
       have hcard : Nat.card (↥E ⧸ CFSG.pPrimeCore 2 ↥E) = 2 ^ k :=
         (Subgroup.index_eq_card (H := CFSG.pPrimeCore 2 ↥E)).symm.trans (hKidx.trans hk)
       exact s900_mem_of_odd_orderOf (CFSG.pPrimeCore 2 ↥E) (IsPGroup.of_card hcard)

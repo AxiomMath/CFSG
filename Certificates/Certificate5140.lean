@@ -72,7 +72,7 @@ theorem certificate5140 : (s0list.length = 64)
   have hcl : ∀ x ∈ s0list, x ∈ Subgroup.closure {s | s ∈ s0gens} := by
     have := bfs_mem s0gens (Subgroup.closure {s | s ∈ s0gens})
       (fun s hs => Subgroup.subset_closure hs) 200 [1] [1]
-      (by simp [Subgroup.one_mem]) (by simp [Subgroup.one_mem])
+      (by simp) (by simp)
     unfold s0list
     exact this
   have hC : ∀ g : Pm, (s0list.all fun s => decide (g * s = s * g)) =
@@ -115,7 +115,7 @@ theorem certificate5140 : (s0list.length = 64)
     rw [elemsT_eq_elemsC, elemsT_eq_elemsC, List.all_map]
     simp only [hG, List.all_map, List.filter_map, List.length_map, Function.comp_def,
       decide_comm_ev, comm_fast, decide_mem_ev, decide_conj_mem_ev, s0_map, ev_pow', one_eq_ev,
-      decide_ev_eq, pow_fast, sift_ev, ev_mul', cOf_ev]
+      decide_ev_eq, pow_fast, sift_ev, cOf_ev]
   refine ⟨?_, ?_, hone, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · rw [← List.length_map (f := cOf), s0_map]
     exact kS

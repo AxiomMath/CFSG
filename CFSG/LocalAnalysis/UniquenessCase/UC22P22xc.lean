@@ -30,7 +30,7 @@ theorem commOn_le_iff {ρ : Representation (ZMod 2) X V} {A : Subgroup X} {U W :
 
 theorem commOn_mono {ρ : Representation (ZMod 2) X V} {A A' : Subgroup X}
     {U U' : Submodule (ZMod 2) V} (hA : A ≤ A') (hU : U ≤ U') : commOn ρ A U ≤ commOn ρ A' U' :=
-  commOn_le_iff.2 fun a ha u hu => sub_mem_commOn (hA ha) (hU hu)
+  commOn_le_iff.2 fun _a ha _u hu => sub_mem_commOn (hA ha) (hU hu)
 
 theorem commOn_le_of_invariant {ρ : Representation (ZMod 2) X V} {A : Subgroup X}
     {U : Submodule (ZMod 2) V} (hU : ∀ a ∈ A, ∀ u ∈ U, ρ a u ∈ U) : commOn ρ A U ≤ U :=
@@ -92,16 +92,16 @@ theorem NatDec.conj_mem (d : NatDec ρ Nbar Nb) {g : X} (hg : g ∈ Nbar) (i : F
     exact ha _ (hb h hh)
 
 theorem NatDec.inv_I (_d : NatDec ρ Nbar Nb) {g : X} (hg : g ∈ Nbar) :
-    ∀ u ∈ natI ρ Nbar, ρ g u ∈ natI ρ Nbar :=
+    ∀ _u ∈ natI ρ Nbar, ρ g _u ∈ natI ρ Nbar :=
   commOn_invariant (A := Nbar) (U := ⊤) (g := g)
-    (fun a ha => Nbar.mul_mem (Nbar.mul_mem hg ha) (Nbar.inv_mem hg)) (fun u _ => trivial)
+    (fun _a ha => Nbar.mul_mem (Nbar.mul_mem hg ha) (Nbar.inv_mem hg)) (fun _u _ => trivial)
 
 theorem NatDec.Ii_le_I (d : NatDec ρ Nbar Nb) (i : Fin m) : natIi ρ Nbar (Nb i) ≤ natI ρ Nbar :=
-  commOn_le_of_invariant fun a ha u hu => d.inv_I (d.le i ha) u hu
+  commOn_le_of_invariant fun _a ha u hu => d.inv_I (d.le i ha) u hu
 
 theorem NatDec.inv_Ii (d : NatDec ρ Nbar Nb) {g : X} (hg : g ∈ Nbar) (i : Fin m) :
     ∀ u ∈ natIi ρ Nbar (Nb i), ρ g u ∈ natIi ρ Nbar (Nb i) :=
-  commOn_invariant (A := Nb i) (U := natI ρ Nbar) (g := g) (fun a ha => d.conj_mem hg i ha)
+  commOn_invariant (A := Nb i) (U := natI ρ Nbar) (g := g) (fun _a ha => d.conj_mem hg i ha)
     (d.inv_I hg)
 
 theorem natC_fix {g : X} (hg : g ∈ Nbar) {c : V} (hc : c ∈ natC ρ Nbar) : ρ g c = c :=
@@ -161,8 +161,8 @@ theorem NatDec.lemma21 (d : NatDec ρ Nbar Nb) {i j : Fin m} (hji : j ≠ i) {g 
   exact sub_left_inj.1 h2
 
 theorem NatDec.pairwise_comm (d : NatDec ρ Nbar Nb) :
-    Pairwise fun i j : Fin m => ∀ x y : X, x ∈ Nb i → y ∈ Nb j → Commute x y :=
-  fun _ _ hij x y hx hy => d.comm hij hx hy
+    Pairwise fun i j : Fin m => ∀ _x _y : X, _x ∈ Nb i → _y ∈ Nb j → Commute _x _y :=
+  fun _ _ hij _x _y hx hy => d.comm hij hx hy
 
 @[expose] def NatDec.natPi (d : NatDec ρ Nbar Nb) : (∀ i, ↥(Nb i)) →* X :=
   Subgroup.noncommPiCoprod (H := Nb) d.pairwise_comm
@@ -346,7 +346,7 @@ theorem card_sup_directSum {ι : Type*} [DecidableEq ι] (Y : ι → Submodule (
 theorem card_comap_eq_mul {G H : Type*} [AddCommGroup G] [AddCommGroup H] [Finite G]
     (f : G →+ H) (hf : Function.Surjective f) (S : AddSubgroup H) :
     Nat.card (S.comap f) = Nat.card f.ker * Nat.card S := by
-  haveI : Finite H := Finite.of_surjective f hf
+  have : Finite H := Finite.of_surjective f hf
   have h1 := AddSubgroup.index_comap_of_surjective S hf
   have h2 := AddSubgroup.card_mul_index (S.comap f)
   have h3 := AddSubgroup.card_mul_index S
@@ -473,7 +473,7 @@ theorem NatDec.local_bound [Finite V] (d : NatDec ρ Nbar Nb) (i : Fin m) {P : S
       have hPq : Nat.card P = Nat.card F := by
         apply le_antisymm h1
         by_contra hlt
-        push_neg at hlt
+        push Not at hlt
         have h3 : Nat.card P * Nat.card (sl2Fix Q) ≤ Nat.card P * Nat.card F :=
           Nat.mul_le_mul_left _ h2
         have h4 : Nat.card P * Nat.card F < Nat.card F * Nat.card F :=
@@ -617,7 +617,7 @@ theorem NatDec.offender_bound [Finite V] [Finite X] (d : NatDec ρ Nbar Nb) {A :
         ≤ (∏ i, Nat.card (d.proj i A)) * ∏ i, Nat.card ↥(Fi i) :=
           Nat.mul_le_mul_right _ (d.card_le_prod_proj hA)
       _ = ∏ i, (Nat.card (d.proj i A) * Nat.card ↥(Fi i)) := (Finset.prod_mul_distrib).symm
-      _ ≤ ∏ i, Nat.card ↥(Y i) := Finset.prod_le_prod' fun i _ => (hloc i).1
+      _ ≤ ∏ i, Nat.card ↥(Y i) := Finset.prod_le_prod fun i _ => (hloc i).1
   refine ⟨?_, fun heq i => ?_⟩
   · refine Nat.le_of_mul_le_mul_right ?_ hkp_pos
     calc Nat.card A * Nat.card ↥(natF ρ Nbar A) * ∏ i, Nat.card ↥(Y i ⊓ C)
@@ -635,7 +635,7 @@ theorem NatDec.offender_bound [Finite V] [Finite X] (d : NatDec ρ Nbar Nb) {A :
     have h2 : Nat.card A * ∏ i, Nat.card ↥(Fi i) = ∏ i, Nat.card ↥(Y i) :=
       Nat.eq_of_mul_eq_mul_left hC_pos h1
     have h3 : ∏ i, (Nat.card (d.proj i A) * Nat.card ↥(Fi i)) = ∏ i, Nat.card ↥(Y i) := by
-      apply le_antisymm (Finset.prod_le_prod' fun i _ => (hloc i).1)
+      apply le_antisymm (Finset.prod_le_prod fun i _ => (hloc i).1)
       calc ∏ i, Nat.card ↥(Y i) = Nat.card A * ∏ i, Nat.card ↥(Fi i) := h2.symm
         _ ≤ (∏ i, Nat.card (d.proj i A)) * ∏ i, Nat.card ↥(Fi i) :=
           Nat.mul_le_mul_right _ (d.card_le_prod_proj hA)

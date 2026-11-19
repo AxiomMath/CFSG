@@ -48,7 +48,7 @@ theorem exists_le_factor {X : Type} [Group X] [Finite X] {H : Subgroup X} {m : �
   push Not at hall
   have hcomm : ∀ i, (Hs i).subgroupOf H ≤ centralizer (L' : Set ↥H) := by
     intro i
-    haveI : ((Hs i).subgroupOf H).Normal :=
+    have : ((Hs i).subgroupOf H).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer (le_of_isInternalDirect hd i)).2
         (le_normalizer_of_isInternalDirect hd i)
     rcases CFSG.ComponentClassification.LocalComponents.normal_contains_or_commutes L' ((Hs i).subgroupOf H)
@@ -69,8 +69,8 @@ theorem exists_le_factor {X : Type} [Group X] [Finite X] {H : Subgroup X} {m : �
     rw [Subgroup.mem_center_iff]
     intro g
     exact ((Subgroup.mem_centralizer_iff.1 (htop (Subgroup.mem_top g))) k hk).symm
-  haveI : Group.IsPerfect ↥L' := ⟨hL'c.2.2.1⟩
-  haveI : Nontrivial ↥L' := CFSG.ComponentClassification.Quasisimple.nontrivial hL'c.2.2
+  have : Group.IsPerfect ↥L' := ⟨hL'c.2.2.1⟩
+  have : Nontrivial ↥L' := CFSG.ComponentClassification.Quasisimple.nontrivial hL'c.2.2
   exact (Subgroup.nontrivial_iff_ne_bot L').1 inferInstance
     (CFSG.ComponentClassification.Quasisimple.perfect_le_center_eq_bot L' hcen)
 
@@ -89,9 +89,9 @@ theorem eq_alternating_of_isComponentOf {L : Subgroup (Equiv.Perm (Fin 5))} (hL 
   have hsub : CFSG.Open.IsSubnormal L (alternatingGroup (Fin 5)) := by
     have h1 := CFSG.Open.IsSubnormal.inf_of_le hL.2.1 (le_top : alternatingGroup (Fin 5) ≤ ⊤)
     rwa [inf_eq_left.2 hLA] at h1
-  rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hsub alternatingGroup.isSimpleGroup_five with h0 | h0
+  rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hsub (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge) with h0 | h0
   · exfalso
-    haveI : Nontrivial ↥L := CFSG.ComponentClassification.Quasisimple.nontrivial hL.2.2
+    have : Nontrivial ↥L := CFSG.ComponentClassification.Quasisimple.nontrivial hL.2.2
     exact (Subgroup.nontrivial_iff_ne_bot L).1 inferInstance h0
   · exact h0
 
@@ -103,10 +103,10 @@ theorem uc22p22we_compShape_of_factor {X : Type} [Group X] [Finite X]
   have hq : CFSG.Open.IsQuasisimple ↥L := hL.2.2
   have hne : L ≠ ⊥ := by
     intro h0
-    haveI : Nontrivial ↥L := CFSG.ComponentClassification.Quasisimple.nontrivial hq
+    have : Nontrivial ↥L := CFSG.ComponentClassification.Quasisimple.nontrivial hq
     exact (Subgroup.nontrivial_iff_ne_bot L).1 inferInstance h0
   have htopEq : IsSimpleGroup X → L = ⊤ := fun hs => by
-    haveI := hs
+    have := hs
     exact (CFSG.Open.IsSubnormal.eq_bot_or_top hL.2.1).resolve_left hne
   rcases hX with ⟨n, hn⟩ | hn | hS5
   · obtain ⟨F, _, _, hF, ⟨φ⟩⟩ := hn
@@ -116,15 +116,15 @@ theorem uc22p22we_compShape_of_factor {X : Type} [Group X] [Finite X]
         have := P22y.one_le_of_card hF
         omega
       subst hn1
-      haveI : Group.IsSolvable X := by
+      have : Group.IsSolvable X := by
         refine CFSG.LocalAnalysis.ComponentInitial.isSolvable_of_card_primeFactors_le_two ?_
         rw [P22y.card_of_isL2Ev_one ⟨F, inferInstance, inferInstance, hF, ⟨φ⟩⟩,
           show (6 : ℕ) = 2 * 3 from rfl, Nat.primeFactors_mul (by norm_num) (by norm_num),
           Nat.Prime.primeFactors Nat.prime_two, Nat.Prime.primeFactors Nat.prime_three]
         decide
-      haveI : Group.IsSolvable ↥L := Group.isSolvable_of_isSolvable_injective (Subgroup.subtype_injective L)
-      haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
-      haveI : Nontrivial ↥L := CFSG.ComponentClassification.Quasisimple.nontrivial hq
+      have : Group.IsSolvable ↥L := Group.isSolvable_of_isSolvable_injective (Subgroup.subtype_injective L)
+      have : Group.IsPerfect ↥L := ⟨hq.1⟩
+      have : Nontrivial ↥L := CFSG.ComponentClassification.Quasisimple.nontrivial hq
       exact Group.IsPerfect.not_isSolvable (↥L) inferInstance
     · have htop := htopEq (P22y.isSimpleGroup_of_isL2Ev ⟨F, inferInstance, inferInstance, hF, ⟨φ⟩⟩ hn2)
       exact Or.inl ⟨n, uc22p22d_isL2_of_statedSL hn2 hF

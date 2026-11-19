@@ -20,7 +20,7 @@ theorem eq_omegaOf_of_card {q : V6 → ZMod 2} (hq : IsQF q) (hTG : OrthOf q = T
   have hcm : Nat.card N' * 2 = Nat.card (OrthOf q) := by rw [hcard', hc]
   have hci : Nat.card N' * N'.index = Nat.card (OrthOf q) :=
     Subgroup.card_mul_index (H := N')
-  haveI : Nonempty N' := ⟨1⟩
+  have : Nonempty N' := ⟨1⟩
   have hpos' : 0 < Nat.card N' := Nat.card_pos
   have hindex : N'.index = 2 :=
     Nat.mul_left_cancel hpos' (by rw [hci, hcm])
@@ -67,7 +67,7 @@ theorem eq_omegaOf_of_card {q : V6 → ZMod 2} (hq : IsQF q) (hTG : OrthOf q = T
       congrArg (fun H : Subgroup (Equiv.Perm V6) => Nat.card H) hNO
     have hx2 : Nat.card N * 2 = Nat.card N := hc.trans hcard.symm
     have hzero : Nat.card N = 0 := by omega
-    haveI : Nonempty N := ⟨1⟩
+    have : Nonempty N := ⟨1⟩
     have hpos : 0 < Nat.card N := Nat.card_pos
     omega
   have hgen_mem_N : ∀ u v, q u = 1 → q v = 1 → transv u * transv v ∈ N := by

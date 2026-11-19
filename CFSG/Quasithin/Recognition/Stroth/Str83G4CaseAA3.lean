@@ -11,10 +11,12 @@ open CFSG.Open CFSG.Quasithin CFSG.Quasithin.F112R
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
 
+omit [Finite G] in
 private theorem path_adj {b : ℕ} (x : GPath (f112Amalgam L1 L2 S).graphHat b) {i : ℕ}
     (hi : i < b) : x (i + 1) ∈ CosetGeom.nbrs (x i) :=
   x.adj i hi
 
+omit [Finite G] in
 private theorem Z_le_X_of_mem_nbrs {v w : f112Gamma L1 L2 S} (hw : w ∈ CosetGeom.nbrs v) :
     caseAZ w ≤ caseAX v := by
   unfold caseAX
@@ -29,11 +31,11 @@ private theorem Qy_le_stab_of_mem_nbrs {a : ℕ}
 
 private theorem finite_X {a : ℕ} (hfr : Str83G4Frame L1 L2 S a)
     (v : f112Gamma L1 L2 S) : Finite ↥(caseAX v) := by
-  haveI := caseA_finite_stab L1 L2 S v
+  have := caseA_finite_stab L1 L2 S v
   exact Finite.of_injective _ (Subgroup.inclusion_injective (caseA_X_le_stab hfr v))
 
 private theorem finite_Z (v : f112Gamma L1 L2 S) : Finite ↥(caseAZ v) := by
-  haveI := caseA_finite_stab L1 L2 S v
+  have := caseA_finite_stab L1 L2 S v
   exact Finite.of_injective _
     (Subgroup.inclusion_injective ((caseA_Z_le_Qy v).trans (caseA_Qy_le_stab v)))
 
@@ -87,8 +89,8 @@ private theorem pair_count
     (hnot : ¬ caseAX δ ≤ CosetGeom.Qy α) :
     (caseAX α ⊓ CosetGeom.Qy δ).relIndex (caseAX α) = 2 ^ (2 * a + 1) ∧
       caseAZ δ ≤ caseAX α := by
-  haveI : Finite ↥(caseAX α) := finite_X hfr α
-  haveI : Finite ↥(caseAZ δ) := finite_Z δ
+  have : Finite ↥(caseAX α) := finite_X hfr α
+  have : Finite ↥(caseAZ δ) := finite_Z δ
   have hM5 : (caseAX α ⊓ CosetGeom.Qy δ).relIndex (caseAX α) ≤ 2 ^ (2 * a + 1) := by
     refine caseA_relIndex_inf_Qy_le_type1 hfr hδ hτδ (fun y hy => ?_) (fun y hy => ?_)
     · have h := caseA_Qy_le_caseAS hfr (CosetGeom.mem_nbrs_symm hτδ) (hXα hy)
@@ -97,7 +99,7 @@ private theorem pair_count
       rw [pow_two] at h
       rw [h]
       exact one_mem _
-  obtain ⟨t, htX, htQ⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨t, htX, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   have ht2 : t * t = 1 := by
     have h := (caseA_isElemAbelian_X hfr hδ).2 t htX
     rwa [pow_two] at h
@@ -154,14 +156,16 @@ private theorem pair_count
   rw [e]
   exact mul_mem hvX h1
 
+omit [Finite G] in
 theorem caseA_X_le_Qy_pred {b : ℕ} {x : GPath (f112Amalgam L1 L2 S).graphHat b}
-    (hx : caseACritPath L1 L2 S b x) (hbo : Odd b) (hb : 5 ≤ b) :
+    (hx : caseACritPath L1 L2 S b x) (_hbo : Odd b) (hb : 5 ≤ b) :
     caseAX (x 1) ≤ CosetGeom.Qy (x (b - 1)) := by
   refine caseA_X_le_Qy hx.ball
     ((hx.vtype_eq_false_iff_odd (i := 1) (by omega)).mpr (by norm_num)) ?_
   rw [hx.dist_eq (by omega) (by omega)]
   omega
 
+omit [Finite G] in
 theorem caseA_X_end_le_Qy_two {b : ℕ} {x : GPath (f112Amalgam L1 L2 S).graphHat b}
     (hx : caseACritPath L1 L2 S b x) (hbo : Odd b) (hb : 5 ≤ b) :
     caseAX (x b) ≤ CosetGeom.Qy (x 2) := by
@@ -195,9 +199,9 @@ theorem caseA_not_X_end_le_Qy_one
   have hpred : x b ∈ CosetGeom.nbrs (x (b - 1)) := by
     have h := path_adj x (i := b - 1) (by omega)
     rwa [show b - 1 + 1 = b by omega] at h
-  haveI : Finite ↥(caseAX (x b)) := finite_X hfr (x b)
-  haveI : Finite ↥(caseAZ (x 1)) := finite_Z (x 1)
-  obtain ⟨u, huZ, huQ⟩ := SetLike.not_le_iff_exists.mp hx.not_le
+  have : Finite ↥(caseAX (x b)) := finite_X hfr (x b)
+  have : Finite ↥(caseAZ (x 1)) := finite_Z (x 1)
+  obtain ⟨u, huZ, huQ⟩ := IsConcreteLE.not_le_iff_exists.mp hx.not_le
   have huX : u ∈ caseAX (x 1) := Z_le_X_of_mem_nbrs
     (CosetGeom.mem_nbrs_symm (path_adj x (i := 0) (by omega))) huZ
   have hu2 : u * u = 1 := by

@@ -76,7 +76,7 @@ theorem s16c11BigCls_eq_iff {n : ℕ} {x y : Fin n → ZMod 2} {hx : ∑ i, x i 
               (Multiplicative.ofAdd x)⁻¹ * Multiplicative.ofAdd y from rfl]
           rw [s16c11_big_cls_toAdd_allOnes_zpow n 1 i,
             s16c11_big_cls_toAdd_mul_inv n x y i, h]
-          simp only [one_zsmul, neg_one_zsmul, add_zero]
+          simp only [one_zsmul]
           abel
         · exact ((⟨Multiplicative.ofAdd x, hxA⟩ : ↥(G6.coreMod n))⁻¹ *
             ⟨Multiplicative.ofAdd y, hyA⟩).2
@@ -86,8 +86,7 @@ theorem s16c11BigCls_modAct (n : ℕ) (σ : Equiv.Perm (Fin n)) {x : Fin n → Z
     {hx : ∑ i, x i = 0} {hx' : ∑ i, x (σ⁻¹ i) = 0} :
     (FFModel.symDn_isActionModel n).modAct σ (s16c11BigCls n x hx) =
       s16c11BigCls n (fun i => x (σ⁻¹ i)) hx' := by
-  simp only [s16c11BigCls, FFModel.IsActionModel.modAct_apply,
-    FFModel.IsActionModel.modEnd_mk]
+  simp only [s16c11BigCls]
   rfl
 
 theorem s16c11BigCls_card (n : ℕ) (hn : n = 9 ∨ n = 10) :
@@ -96,8 +95,8 @@ theorem s16c11BigCls_card (n : ℕ) (hn : n = 9 ∨ n = 10) :
       Nat.card (CFSG.Quasithin.Explicit.dnModel n .symmetric).Sec := rfl
   rcases hn with rfl | rfl
   · rw [hcard, CFSG.Quasithin.Explicit.card_dn_sec (by omega) .symmetric,
-      if_neg (by decide : ¬ Even 9)]
+      ite_eq_right (by decide : ¬ Even 9)]
   · rw [hcard, CFSG.Quasithin.Explicit.card_dn_sec (by omega) .symmetric,
-      if_pos (by decide : Even 10)]
+      ite_eq_left (by decide : Even 10)]
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

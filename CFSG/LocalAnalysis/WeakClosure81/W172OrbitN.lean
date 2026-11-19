@@ -38,7 +38,7 @@ theorem w172_relIndex_uOf (h : Hyp64 1 M V₀ V x) : (UOf M V x).relIndex V = 2 
 
 theorem w172_mBar_sub_one_le_rk_nOf (h : Hyp64 1 M V₀ V x) :
     mBar M V₀ V h.elemAbelian - 1 ≤ rk ↥(NOf M V x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV := h.elemAbelian
   have hM_le : M ≤ Subgroup.normalizer (V : Set G) := h.normalizer_eq.symm.le
   have hVM : V ≤ M := by rw [← h.normalizer_eq]; exact Subgroup.le_normalizer
@@ -69,8 +69,8 @@ theorem w172_mBar_sub_one_le_rk_nOf (h : Hyp64 1 M V₀ V x) :
         (mBar M V₀ V hV : ℕ∞) := by exact_mod_cast (not_le.1 hcon)
     exact huCT (mem_cTilde_of_mQuot_lt hV h.le hM_le h.le_normalizer₀ huM hu2
       inf_le_left inf_le_right hlt)
-  haveI : IsMulCommutative ↥V := hV.1
-  letI : CommGroup ↥V := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥V := hV.1
+  let : CommGroup ↥V := IsMulCommutative.instCommGroup
   let g : MulAut ↥V := conjAct V ⟨u, huN⟩
   have hg_apply : ∀ v : ↥V, ((g v : ↥V) : G) = u * (v : G) * u⁻¹ := by
     intro v

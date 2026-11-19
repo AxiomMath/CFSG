@@ -56,7 +56,7 @@ private theorem le_of_isPerfect_le_normalizer_of_not_le {Γ : Type*} [Group Γ] 
     rw [← hπ]
     exact (Subgroup.map_eq_bot_iff W).1 h
   have hFbar : F.map π = ⊥ := by
-    haveI := hF
+    have := hF
     exact Sec15.LiebeckA6.eq_bot_of_isPerfect_le_normalizer_A6 (Group.IsPerfect.map π)
       (hW.map π) hWbar
       ((Subgroup.map_mono hFW).trans (Subgroup.le_normalizer_map π))
@@ -76,8 +76,8 @@ theorem card_le_of_isPerfect_le_normalizer {Q : Type*} [Group Q] [Finite Q]
   · obtain ⟨U, C, hP⟩ := Sec14.Res9Pair.exists_isPair hC
     have hnot : ¬ (V ≤ U ∧ V ≤ C) := by
       rintro ⟨hVU, hVC⟩
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have h3 : IsPGroup 3 ↥(U ⊓ C) :=
         IsPGroup.of_card (p := 3) (n := 1) (by rw [hP.card_inf]; norm_num)
       exact hV1 ((IsPGroup.disjoint_of_ne 2 3 (by norm_num) V (U ⊓ C) hV h3).eq_bot_of_le

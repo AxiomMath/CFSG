@@ -21,7 +21,7 @@ theorem rf4_level_of_derived {p : ℕ} (hp : p.Prime) {G : Type} [Group G] [Fini
     rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype]
   let eD : ↥((commutator ↥X).map X.subtype) ≃* ↥(commutator ↥X) :=
     ((commutator ↥X).equivMapOfInjective X.subtype X.subtype_injective).symm
-  haveI : IsSimpleGroup ↥((commutator ↥X).map X.subtype) := (eD.trans e).isSimpleGroup
+  have : IsSimpleGroup ↥((commutator ↥X).map X.subtype) := (eD.trans e).isSimpleGroup
   have hncD : ∃ a b : ↥((commutator ↥X).map X.subtype), a * b ≠ b * a := by
     obtain ⟨x, y, hxy⟩ := hnc
     refine ⟨(eD.trans e).symm x, (eD.trans e).symm y, fun h => hxy ?_⟩
@@ -50,7 +50,7 @@ theorem rf4_claim_one {p : ℕ} (hp : p.Prime) {G : Type} [Group G] [Finite G] [
     simp
   intro I hI
   rw [htop] at hI
-  haveI : IsSimpleGroup ↥(⊤ : Subgroup G) := (Subgroup.topEquiv : ↥(⊤ : Subgroup G) ≃* G).isSimpleGroup
+  have : IsSimpleGroup ↥(⊤ : Subgroup G) := (Subgroup.topEquiv : ↥(⊤ : Subgroup G) ≃* G).isSimpleGroup
   have hnc' : ∃ a b : ↥(⊤ : Subgroup G), a * b ≠ b * a := by
     obtain ⟨x, y, hxy⟩ := hnc
     refine ⟨Subgroup.topEquiv.symm x, Subgroup.topEquiv.symm y, fun h => hxy ?_⟩
@@ -73,7 +73,7 @@ theorem rf4_claim_field {a : ℕ} {K : Type} [Field K] [Finite K]
       GLAPComponent p (fixSubgroup (CFSG.LieType.Ree.ReeTag.F4.reeGammaFieldAut K a σ)) I →
         kLevel p (PSimple p I) ≤ 2 := by
   classical
-  haveI : Finite (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨b, hb, hkcard, hfixed⟩ :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.largeRee_fixed_data_odd hK hp hp2 σ hσ
   have hb0 : b = 0 := by
@@ -82,9 +82,9 @@ theorem rf4_claim_field {a : ℕ} {K : Type} [Field K] [Finite K]
     omega
   subst hb0
   have hk2 : Nat.card (CFSG.LieType.Chevalley.fixSubfield σ) = 2 := by simpa using hkcard
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
-  haveI hchar : CharP (CFSG.LieType.Chevalley.fixSubfield σ) CFSG.LieType.Ree.ReeTag.F4.prime := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
+  have hchar : CharP (CFSG.LieType.Chevalley.fixSubfield σ) CFSG.LieType.Ree.ReeTag.F4.prime := by
     have : Fintype (CFSG.LieType.Chevalley.fixSubfield σ) := Fintype.ofFinite _
     exact charP_of_card_eq_prime_pow (f := 2 * 0 + 1) (by rw [← Nat.card_eq_fintype_card, hkcard]; rfl)
   have hFix : fixSubgroup (CFSG.LieType.Ree.ReeTag.F4.reeGammaFieldAut K a σ) =
@@ -102,8 +102,8 @@ theorem rf4_claim_field {a : ℕ} {K : Type} [Field K] [Finite K]
   obtain ⟨hs0, hnc0, hcat0⟩ :=
     commutator_reeGamma_F4_zero_data (k := CFSG.LieType.Chevalley.fixSubfield σ) hk2
   obtain ⟨hcat⟩ := hcat0
-  haveI := hs0
-  haveI hsT : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.tits, tits_valid⟩).Group :=
+  have := hs0
+  have hsT : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.tits, tits_valid⟩).Group :=
     (MulEquiv.isSimpleGroup_congr hcat).mp hs0
   have hncT : ∃ a b : (TauCeti.CFSGIndex.lie ⟨.tits, tits_valid⟩).Group, a * b ≠ b * a := by
     obtain ⟨x, y, hxy⟩ := hnc0

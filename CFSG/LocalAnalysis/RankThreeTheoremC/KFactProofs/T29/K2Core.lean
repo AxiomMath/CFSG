@@ -18,12 +18,12 @@ open CFSG.HardMathSupport.Solomon.UniquenessMaximal (IsLThreeEps)
 
 theorem le_gammaQ_of_field_aut (h2316 : Input23_16Three) {X : Type} [Group X] [Finite X]
     {L : Subgroup X} [L.Normal] (hq : CFSG.Open.IsQuasisimple ↥L) (hT3 : IsThreeType ↥L)
-    (hC : centralizer (L : Set X) = ⊥) {Q E : Subgroup X} (hEQ : E ≤ Q) (hEel : IsElemAbelian 3 E)
+    (_hC : centralizer (L : Set X) = ⊥) {Q E : Subgroup X} (hEQ : E ≤ Q) (hEel : IsElemAbelian 3 E)
     (hE27 : Nat.card E = 27) {e : X} (heE : e ∈ E) (hne : e ≠ 1)
     (hfield : ∀ k : ℕ, IsFieldAutThree (MulAut.conjNormal (e ^ k) : MulAut ↥L)) :
     L ≤ K2.gammaQ Q := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have he3 : e ^ 3 = 1 := hEel.2 e heE
   have heord : orderOf e = 3 := orderOf_eq_prime he3 hne
   obtain ⟨d, hdE, hd⟩ : ∃ d ∈ E, d ∉ zpowers e := by
@@ -170,7 +170,7 @@ theorem le_gammaQ_of_typeL3 (hF2 : InnDiagRankTwo) (hFs : Field3Structure)
     (hq : CFSG.Open.IsQuasisimple ↥L) (hT : IsLThreeEps (↥L ⧸ center ↥L))
     (hC : centralizer (L : Set X) = ⊥) {Q : Sylow 3 X}
     (hQ : 3 ≤ CFSG.Open.pRank 3 (Q : Subgroup X)) : L ≤ K2.gammaQ (Q : Subgroup X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEQ, hEel, hE27⟩ := CFSG.AGLEmbedding.KFactProofs.G28.exists_elemAbelian_27 hQ
   have hinj : Function.Injective (MulAut.conjNormal : X →* MulAut ↥L) :=
     conjNormal_injective_of_centralizer_eq_bot L hC
@@ -191,8 +191,8 @@ theorem le_gammaQ_of_typeL3 (hF2 : InnDiagRankTwo) (hFs : Field3Structure)
 theorem kfactRankThreeCore_of_T29 (hT : GL83I291Three) (hF2 : InnDiagRankTwo)
     (h2316 : Input23_16Three) : K2.KFactRankThreeCore := by
   intro X _ _ hcat hcore L hLn hLs hLnab hC Q hQ hx hnot
-  haveI hLn' : L.Normal := hLn
-  haveI hLs' : IsSimpleGroup ↥L := hLs
+  have hLn' : L.Normal := hLn
+  have hLs' : IsSimpleGroup ↥L := hLs
   obtain ⟨x, hxo, hxc⟩ := hx
   have hq : CFSG.Open.IsQuasisimple ↥L := k2_isQuasisimple_of_simple hLnab
   have hcomp : IsComponentOf L ⊤ :=

@@ -110,7 +110,7 @@ theorem A1hom_mem_Lg_iff (ε : Fin 4 → ZMod 2) :
     have h1 := congrArg (fun g : MulAut (PairN 4) => g (pairVec (Pi.single 0 1) 0)) hA
     rw [pairActN_pairVec, Matrix.mulVec_zero, A1hom_apply_pairVec] at h1
     have h2 := (pairVec_inj.mp h1).2
-    rw [A1snd, if_neg h3] at h2
+    rw [A1snd, ite_eq_right h3] at h2
     exact A1vec_single_zero_ne_zero ε h2.symm
   · intro h3
     refine A1elt_mem_of_swap_zero ?_ ?_ ?_ ε h3

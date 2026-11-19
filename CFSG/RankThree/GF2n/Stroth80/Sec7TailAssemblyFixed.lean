@@ -12,6 +12,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem invAbelian_of_irred (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
     (hirr : IsIrredModule (Rt M (LB M Q B) t) (hc.CN t) Z0) : InvAbelian hc t Z0 := by

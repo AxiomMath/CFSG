@@ -90,6 +90,7 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] [Finite 
   {ψ : ↥(Vt M (LB M Q B) B Z t) ⧸ Z.subgroupOf (Vt M (LB M Q B) B Z t) ≃*
     Multiplicative (ι → K)} {u : ι → K}
 
+omit [Finite K] [CharP K 2] in
 theorem Env.step1a (I : Inputs) (e : Env hc n t m X) (hmod : OmegaModel hc t Q' E φ ψ u)
     {h : G} (hhM : h ∈ M) (hhL : conjSubgroup h (LB M Q B) = LB M Q B) {s : G}
     (hs : s ∈ conjSubgroup h (hc.CN t)) (hsN : s ∉ hc.CN t) :
@@ -134,6 +135,7 @@ theorem Env.step1a (I : Inputs) (e : Env hc n t m X) (hmod : OmegaModel hc t Q' 
   rw [← hQ1, hc.mem_Q1_iff hsM]
   exact ⟨fun hh => key.mp hh.2, fun hh => ⟨hc.Vt_le_Q t v.2, key.mpr hh⟩⟩
 
+omit [Finite K] [CharP K 2] in
 theorem Env.exists_conj_LB_le (I : Inputs) (e : Env hc n t m X) (hg : OmegaGeom Q' m)
     (hmod : OmegaModel hc t Q' E φ ψ u) {h : G} (hhM : h ∈ M)
     (hhL : conjSubgroup h (LB M Q B) = LB M Q B) {w : ι → K}
@@ -206,6 +208,7 @@ theorem Env.exists_conj_LB_le (I : Inputs) (e : Env hc n t m X) (hg : OmegaGeom 
   · have := hmod.hLr ρ
     rwa [hρ] at this
 
+omit [Finite K] [CharP K 2] in
 theorem Env.step1b (I : Inputs) (e : Env hc n t m X) (hg : OmegaGeom Q' m)
     (hmod : OmegaModel hc t Q' E φ ψ u) {h : G} (hhM : h ∈ M)
     (hhL : conjSubgroup h (LB M Q B) = LB M Q B)
@@ -225,6 +228,7 @@ theorem Env.step1b (I : Inputs) (e : Env hc n t m X) (hg : OmegaGeom Q' m)
     (Subgroup.eq_of_le_of_card_ge hRle (by rw [card_conjSubgroup])).symm
   exact hne (e.conj_CN_eq_of_Rt I hhM hhL hReq)
 
+omit [Finite K] [CharP K 2] in
 theorem Env.step1c (I : Inputs) (e : Env hc n t m X) (hg : OmegaGeom Q' m)
     (hmod : OmegaModel hc t Q' E φ ψ u) {h : G} (hhM : h ∈ M)
     (hhL : conjSubgroup h (LB M Q B) = LB M Q B)

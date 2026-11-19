@@ -43,9 +43,9 @@ theorem carrierSL_natCast_ne_zero {L : Type} [Field L] [CharP L 2] {p : ℕ} (hp
 
 theorem carrierSL_fieldEquiv {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 0 < n)
     (hK : Nat.card K = 2 ^ n) : Nonempty (GaloisField 2 n ≃+* K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hcard : Nat.card (GaloisField 2 n) = 2 ^ n :=
     GaloisField.card 2 n (by omega)
   refine ⟨FiniteField.ringEquivOfCardEq ?_⟩
@@ -76,7 +76,7 @@ private theorem sl_map_conjSLn {F K : Type} [Field F] [Field K] (e : F ≃+* K) 
       ⇑(e : F →+* K)) =
       (M : Matrix (Fin (m + 1)) (Fin (m + 1)) K) := by
     ext i j
-    simp [N, Matrix.GeneralLinearGroup.map_apply]
+    simp [N]
   have hB : (((y : Matrix (Fin (m + 1)) (Fin (m + 1)) F)).map ⇑(e : F →+* K)) =
       ((Matrix.SpecialLinearGroup.map (e : F →+* K) y :
         SL(m + 1, K)) : Matrix (Fin (m + 1)) (Fin (m + 1)) K) := by
@@ -267,7 +267,7 @@ theorem rckCarrierSL_holds :
     (outer_componentOrbitLength_spec S hT i).1
   have hhs : 0 < h * componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) :=
     Nat.mul_pos hh hs0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hKfin, hKcard⟩ := finite_card_fixSubfield (L := GGL) (r := 2)
     (n := h * componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) hhs σQ hσQ
   obtain ⟨e⟩ := carrierSL_fieldEquiv hhs hKcard

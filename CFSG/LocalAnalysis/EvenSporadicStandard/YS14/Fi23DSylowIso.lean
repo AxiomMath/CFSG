@@ -37,12 +37,12 @@ theorem factorization_two_card_Fi23D :
 
 theorem card_sylow_J (Q : Sylow 2 CFSG.Sporadic.Fi23.J) :
     Nat.card (Q : Subgroup CFSG.Sporadic.Fi23.J) = 2 ^ 18 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Sylow.card_eq_multiplicity, CFSG.Sporadic.Fi23.card_J, factorization_two_card_J]
 
 theorem card_sylow_Fi23D (S : Sylow 2 Fi23D) :
     Nat.card (S : Subgroup Fi23D) = 2 ^ 18 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hD : Nat.card Fi23D = 129123503308800 :=
     (Nat.card_congr fi23DEquiv.toEquiv).trans CFSG.Sporadic.Fi23.card_centralizer_d
   rw [Sylow.card_eq_multiplicity, hD, factorization_two_card_Fi23D]
@@ -51,7 +51,7 @@ theorem fi23D_sylow_iso (T : Sylow 2 CFSG.Sporadic.Fi23.J) :
     ∀ S : Sylow 2 Fi23D,
       Nonempty (↥(S : Subgroup Fi23D) ≃* ↥(T : Subgroup CFSG.Sporadic.Fi23.J)) := by
   intro S
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let f : Fi23D →* CFSG.Sporadic.Fi23.J :=
     (Subgroup.centralizer ({CFSG.Sporadic.Fi23.d} : Set CFSG.Sporadic.Fi23.J)).subtype.comp
       (MulEquiv.toMonoidHom fi23DEquiv)

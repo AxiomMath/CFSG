@@ -149,7 +149,7 @@ private theorem signVal_zero : signVal 0 = 1 := by simp [signVal]
 private theorem signVal_sqNegOne : signVal (squareClass (-1 : (ZMod 3)ˣ)) = -1 := by
   classical
   change (if squareClass (-1 : (ZMod 3)ˣ) = 0 then (1 : ℤˣ) else -1) = -1
-  rw [if_neg sqNegOne_ne_zero]
+  rw [ite_eq_right sqNegOne_ne_zero]
 
 private theorem signVal_add (a b : SquareClassGroup (ZMod 3)) :
     signVal (a + b) = signVal a * signVal b := by

@@ -36,7 +36,7 @@ theorem normalizer_lt_of_card_pCoreOf_ne {Y : Type} [Group Y] [Finite Y] {J : Su
   refine lt_of_le_of_ne hTJ fun heq => hcard ?_
   have hTO : (T : Subgroup Y) ≤ CFSG.Open.pCoreOf 2 J :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 (heq ▸ le_normalizer)
-      (heq ▸ le_rfl) T.isPGroup'
+      (heq ▸ le_rfl) T.isPGroup
   have hOT : CFSG.Open.pCoreOf 2 J ≤ (T : Subgroup Y) :=
     CFSG.RankThree.PartTwo.Sec19.SolEven.Yamaki.pCoreOf_le_sylow_of_le T
       (le_normalizer.trans hTJ)

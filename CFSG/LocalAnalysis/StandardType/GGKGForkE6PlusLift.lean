@@ -22,7 +22,7 @@ private theorem ggKGE6p_adjoint_E6
     (hpq : p ∣ Nat.card K + 1) : GGTorusLift p 4 (adjointGroup Tag.E6 K) := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨s, nSL, hsorder, hconj⟩ := GGPlusLiftSL2.exists_order_p_inverting_sl2 hp hp2 hpq
   have hs_pow : s ^ p = 1 := by rw [← hsorder]; exact pow_orderOf_eq_one s
   have hpow : ∀ i : Fin 4, (TableBExcTwo.rho K ggKGE6p_frame i s) ^ p = 1 := fun i => by

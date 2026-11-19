@@ -11,6 +11,7 @@ open CFSG.StandardType CFSG.Blueprint CFSG.Open CFSG.StandardType.UCoord
 variable {G : Type} [Group G] [Finite G] {Bs L : Subgroup G} {x : G} {m : ℕ}
   {V VT : Type} [Group V] [Group VT]
 
+omit [Finite G] in
 theorem qTwoLMFrameC_mem_normalizer_inf {g : G} {S K : Subgroup G}
     (hS : g ∈ Subgroup.normalizer (S : Set G)) (hK : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer ((S ⊓ K : Subgroup G) : Set G) := by
@@ -23,6 +24,7 @@ noncomputable def qTwoLMFrameC_actVT (F : QTwoFrame m V VT Bs L x) {g : G}
     MulAut VT :=
   MulAut.congr F.thetaT.symm (ggConjAut (Bs ⊓ L) (qTwoLMFrameC_mem_normalizer_inf hgBs hgL))
 
+omit [Finite G] in
 theorem qTwoLMFrameC_actVT_spec (F : QTwoFrame m V VT Bs L x) {g : G}
     (hgBs : g ∈ Subgroup.normalizer (Bs : Set G)) (hgL : g ∈ Subgroup.normalizer (L : Set G))
     (v : VT) :
@@ -31,6 +33,7 @@ theorem qTwoLMFrameC_actVT_spec (F : QTwoFrame m V VT Bs L x) {g : G}
   unfold qTwoLMFrameC_actVT
   simp [ggConjAut_apply]
 
+omit [Finite G] in
 theorem qTwoLMFrameC_actVT_normalizes (F : QTwoFrame m V VT Bs L x) {g : G}
     (hgBs : g ∈ Subgroup.normalizer (Bs : Set G)) (hgL : g ∈ Subgroup.normalizer (L : Set G))
     (σ : Equiv.Perm (Fin m)) :

@@ -320,13 +320,14 @@ section LinearMain
 variable {K : Type} [Field K] [Finite K]
 
 private theorem ringChar_ne_two_of_odd_card (hodd : Odd (Nat.card K)) : ringChar K ≠ 2 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   intro h
   have h1 := (FiniteField.even_card_iff_char_two (F := K)).mp h
   rw [← Nat.card_eq_fintype_card] at h1
   have h2 := Nat.odd_iff.mp hodd
   omega
 
+omit [Finite K] in
 private theorem negOne_ne_one (h2 : (2 : K) ≠ 0) : (-1 : GL (Fin 2) K) ≠ 1 := by
   intro h
   have := congrArg (fun g : GL (Fin 2) K => (g : Matrix (Fin 2) (Fin 2) K) 0 0) h
@@ -380,7 +381,7 @@ private def GU2 (h : UnitaryFieldData p f K) : Subgroup (GL (Fin 2) K) where
       (g : Matrix (Fin 2) (Fin 2) K) = 1 at hg
     rw [hg, hgg] at h1
     simp only [Matrix.map_one _ (map_zero h.bar) (map_one h.bar), Matrix.transpose_one,
-      Matrix.one_mul, Matrix.mul_one] at h1
+      Matrix.mul_one] at h1
     show ((((g⁻¹ : GL (Fin 2) K)) : Matrix (Fin 2) (Fin 2) K).map h.bar)ᵀ * 1 *
       ((g⁻¹ : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) = 1
     rw [Matrix.mul_one]
@@ -488,7 +489,7 @@ private theorem card_GU2 (h : UnitaryFieldData p f K) :
     Nat.card_congr (Matrix.GeneralLinearGroup.toLin.toEquiv.subtypeEquiv fun g =>
       (toLin_mem_iff h g).symm)
   rw [hcard, hU, Finset.prod_Icc_succ_top (by norm_num), Finset.Icc_self, Finset.prod_singleton]
-  norm_num <;> ring
+  norm_num
 
 private theorem card_SU5 (h : UnitaryFieldData p f K) :
     (Nat.card (StatedSU 5 (p ^ f) K) : ℤ) = ((p ^ f : ℕ) : ℤ) ^ 10 *
@@ -503,7 +504,7 @@ private theorem card_SU5 (h : UnitaryFieldData p f K) :
     rw [unitarySU_eq_gramSU h, card_gramSU]
   rw [hcard, hU, Finset.prod_Icc_succ_top (by norm_num), Finset.prod_Icc_succ_top (by norm_num),
     Finset.prod_Icc_succ_top (by norm_num), Finset.Icc_self, Finset.prod_singleton]
-  norm_num <;> ring
+  norm_num; ring
 
 private theorem card_GU2_nat (h : UnitaryFieldData p f K) (e : ℕ) (hq : p ^ f = 2 * e + 1) :
     Nat.card (GU2 h) = 8 * e * (e + 1) ^ 2 * (2 * e + 1) := by
@@ -582,7 +583,7 @@ variable {p f : ℕ} {K : Type} [Field K]
 private theorem sylowFourJoined_statedProj_SU5 (h : UnitaryFieldData p f K)
     (hodd : Odd (p ^ f)) (h3 : 3 ≤ p ^ f) :
     SylowFourJoined (StatedProj (StatedSU 5 (p ^ f) K)) := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨e, he⟩ := id hodd
   have he1 : 1 ≤ e := by omega
   have hoddK : Odd (Nat.card K) := by

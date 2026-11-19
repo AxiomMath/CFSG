@@ -35,11 +35,11 @@ theorem torusEltHom_injective [CharP K 2] (i : Fin τ.rank) :
   exact Units.ext (CharTwo.sq_injective (by simpa using h))
 
 theorem two_le_pRank_of_dvd_card_units [Finite K] [CharP K 2] {ℓ : ℕ} (hℓ : ℓ.Prime)
-    (hℓ2 : ℓ ≠ 2) (hdvd : ℓ ∣ Nat.card Kˣ) {i j : Fin τ.rank} (hij : i ≠ j)
+    (_hℓ2 : ℓ ≠ 2) (hdvd : ℓ ∣ Nat.card Kˣ) {i j : Fin τ.rank} (_hij : i ≠ j)
     (hdet : ¬ (ℓ : ℤ) ∣ 4 - τ.cartan i j * τ.cartan j i) :
     2 ≤ CFSG.Open.pRank ℓ (⊤ : Subgroup ↥(adjointGroup τ K)) := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Finite ↥(adjointGroup τ K) := Subtype.finite
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Finite ↥(adjointGroup τ K) := Subtype.finite
   have hinj : ∀ k : Fin τ.rank, Function.Injective (xUnit τ K k) :=
     fun k _ _ h => xOp_injective k (congrArg Units.val h)
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' ℓ hdvd

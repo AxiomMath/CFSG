@@ -15,8 +15,8 @@ variable {G : Type} [Group G] [Finite G] {B Bs L D J : Subgroup G} {x : G}
 
 theorem exists_symplectic_component_block
     (hS : GGQTwoSetting 3 B Bs x L D J)
-    {lab : LargeEvenLabel} (hq2 : GGLabQTwo 3 lab) (htag : lab.tag = .B ∨ lab.tag = .C)
-    (hmark : GGInnerDiagOnLabel (fun _ lab2 => lab2 = lab) 3 Bs L)
+    {lab : LargeEvenLabel} (_hq2 : GGLabQTwo 3 lab) (_htag : lab.tag = .B ∨ lab.tag = .C)
+    (_hmark : GGInnerDiagOnLabel (fun _ lab2 => lab2 = lab) 3 Bs L)
     (hidx : ((Subgroup.centralizer (L : Set G)).subgroupOf Bs).index = 3 ^ lab.rank)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G))
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
@@ -113,8 +113,8 @@ theorem exists_symplectic_full_component
   obtain ⟨K, hField, hFinite, hK, θ, E, A₀, M, k, d, hcardE, hdet, hM, hk, hE3, hrel,
     _hker, hsurj, hd1, _hdgen, hcomp, hmapE⟩ :=
       exists_symplectic_beta_d_component hS hq2 htag hmark hidx hN
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   have hDBs : D ≤ Bs := hS.1.1.2.2.1.1.trans hS.1.1.2.1.1
   have hrelD : ∀ y ∈ (ggBeta L θ (QTwoCav.d_le_normalizer hS hN)).range,
       ∃ g ∈ E, MulAut.conj ((symplecticProjEquivOfCardTwo hK lab.rank).symm g) = y := by
@@ -150,6 +150,7 @@ theorem isQuasisimple_of_symplectic_projective_image
       (MulEquiv.subgroupCongr hHQ.symm)
   exact CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm hQ
 
+omit [Finite G] in
 theorem card_automizer_symplectic_eq_original_image
     (hL : commutator L = ⊤) (hN : Bs ≤ Subgroup.normalizer (L : Set G))
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {r : ℕ} (hr : 3 ≤ r)

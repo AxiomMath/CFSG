@@ -54,7 +54,7 @@ theorem cycPerfect_map [Finite G] {ψ : G →* X} (hψ : Function.Surjective ψ)
   obtain ⟨P₀⟩ : Nonempty (Sylow p A) := inferInstance
   set P := (P₀ : Subgroup A).map A.subtype with hP
   have hPA : P ≤ A := by rintro _ ⟨x, -, rfl⟩; exact x.2
-  have hPc : IsCyclic P := hJ V₀ hV₀J hV₀ P (hPA.trans inf_le_right) (P₀.isPGroup'.map _)
+  have hPc : IsCyclic P := hJ V₀ hV₀J hV₀ P (hPA.trans inf_le_right) (P₀.isPGroup.map _)
   have hQp : IsPGroup p (A.map ψ) := hAQ ▸ hQ
   set S := P₀.mapSurjective (ψ.subgroupMap_surjective A) with hS
   have hStop : (S : Subgroup (A.map ψ)) = ⊤ :=
@@ -116,7 +116,7 @@ theorem false_of_centralizerEscapes {Y : Type} [Group Y] [Finite Y] {L J : Subgr
         Set (↥L ⧸ Subgroup.center ↥L)) ≤ M.map ψ :=
     fun hM => by
       rw [hS, Sylow.coe_mapSurjective]
-      exact normalizer_map_le_map ψ hψ hker.le hodd T'.isPGroup' hM
+      exact normalizer_map_le_map ψ hψ hker.le hodd T'.isPGroup hM
   have hNS := hNmap hNJ'
   have hne : J'.map ψ ≠ Subgroup.normalizer ((S : Subgroup (↥L ⧸ Subgroup.center ↥L)) :
       Set (↥L ⧸ Subgroup.center ↥L)) := by

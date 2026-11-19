@@ -102,7 +102,7 @@ theorem perpSpan_sup_eq_ambient_of_dist_eq_four (hP : IsGeneralizedPolygon Γ 4)
     · intro hL
       exact ⟨hL, hline_sec L hL⟩
   have hdegp : (Γ.neighborSet p).ncard = t + 1 := by
-    rw [ncard_neighborSet, hdeg p, if_pos hp]
+    rw [ncard_neighborSet, hdeg p, ite_eq_left hp]
   have ht'eq : t' = t := by
     rw [hseteq, hdegp] at hfullp
     omega
@@ -153,8 +153,8 @@ theorem finrank_perpSpan_add_one (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick 
   have hseq : perpSpan c ι p ⊔ ι q = A :=
     perpSpan_sup_eq_ambient_of_dist_eq_four hP hT hι hp hpq4
   have hq1 : finrank K (ι q) = 1 := hι.finrank_point q hq0
-  haveI : FiniteDimensional K (ι q) := Module.finite_of_finrank_pos (by omega)
-  haveI : FiniteDimensional K (perpSpan c ι p) :=
+  have : FiniteDimensional K (ι q) := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K (perpSpan c ι p) :=
     Submodule.finiteDimensional_of_le (perpSpan_le_ambient hι p)
   have hdisj : perpSpan c ι p ⊓ ι q = ⊥ := by
     rw [Submodule.eq_bot_iff]
@@ -176,7 +176,7 @@ theorem perpSpan_sup_eq_of_not_le (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick
     perpSpan c ι p ⊔ X = A := by
   have hHA : perpSpan c ι p ≤ A := perpSpan_le_ambient hι p
   have hle : perpSpan c ι p ⊔ X ≤ A := sup_le hHA hXA
-  haveI : FiniteDimensional K ↥(perpSpan c ι p ⊔ X) := Submodule.finiteDimensional_of_le hle
+  have : FiniteDimensional K ↥(perpSpan c ι p ⊔ X) := Submodule.finiteDimensional_of_le hle
   have hne : perpSpan c ι p ⊔ X ≠ perpSpan c ι p := by
     intro h
     exact hX (h ▸ le_sup_right)
@@ -200,9 +200,9 @@ theorem IsLocalAt.tangent_sup_line (hP : IsGeneralizedPolygon Γ 4) (hT : IsThic
   have hL2 : finrank K (ι L) = 2 := hι.finrank_line L hL1
   have hp1 : finrank K (ι p) = 1 := hι.finrank_point p hp
   have hσA : T ⊔ ι L ≤ A := sup_le hTA (hι.le_ambient L)
-  haveI : FiniteDimensional K ↥(T ⊔ ι L) := Submodule.finiteDimensional_of_le hσA
-  haveI : FiniteDimensional K T := Submodule.finiteDimensional_of_le hTA
-  haveI : FiniteDimensional K (ι L) := Submodule.finiteDimensional_of_le (hι.le_ambient L)
+  have : FiniteDimensional K ↥(T ⊔ ι L) := Submodule.finiteDimensional_of_le hσA
+  have : FiniteDimensional K T := Submodule.finiteDimensional_of_le hTA
+  have : FiniteDimensional K (ι L) := Submodule.finiteDimensional_of_le (hι.le_ambient L)
   have hpI : ι p ≤ T ⊓ ι L := le_inf hpT hpLle
   have hne : T ≠ ι L := by
     intro hTeq

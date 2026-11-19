@@ -104,7 +104,7 @@ private theorem kgThetaHom_apply {K : Type} [Field K] [Finite K] (g : ModGL Tag.
     (r : RecipeGroup Tag.E6 K) :
     kgThetaHom g r =
       g⁻¹ * ((recipeEquiv Tag.E6 K r : adjointGroup Tag.E6 K) : ModGL Tag.E6 K) * g := by
-  simp [kgThetaHom, MulAut.conj_apply]
+  simp [kgThetaHom]
 
 theorem kgThetaHom_injective {K : Type} [Field K] [Finite K] (g : ModGL Tag.E6 K) :
     Function.Injective (kgThetaHom g) := by

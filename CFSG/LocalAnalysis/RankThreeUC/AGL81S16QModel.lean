@@ -47,7 +47,7 @@ theorem model_Q (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) {H : Type} [Group
         rw [hinv a, ha c (ρ a⁻¹ x), hinv a] }
   have hindex : H₀.index < Nat.card F := by
     classical
-    haveI : Finite (F ≃+* F) := Finite.of_injective (fun θ : F ≃+* F => (θ : F → F))
+    have : Finite (F ≃+* F) := Finite.of_injective (fun θ : F ≃+* F => (θ : F → F))
       DFunLike.coe_injective
     let e : H → (F ≃+* F) := fun h => RingEquiv.ofBijective (θ h)
       ⟨(θ h).injective, Finite.injective_iff_surjective.mp (θ h).injective⟩

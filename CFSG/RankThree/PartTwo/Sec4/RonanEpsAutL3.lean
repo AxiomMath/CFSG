@@ -61,7 +61,7 @@ theorem card_le_three_mul_of_cosets {M : Type*} [Group M] {A D : Subgroup M} [Fi
       rw [hB, Subgroup.mem_subgroupOf]
       simpa using h
     · refine ⟨1, ?_⟩
-      simp only [Matrix.cons_val_one, Matrix.head_cons]
+      simp only [Matrix.cons_val_one]
       rw [QuotientGroup.eq]
       rw [hB, Subgroup.mem_subgroupOf]
       change α⁻¹ * β ∈ D

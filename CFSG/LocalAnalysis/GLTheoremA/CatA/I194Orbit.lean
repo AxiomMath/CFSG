@@ -245,7 +245,7 @@ theorem orbit_centralizes {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Prim
     (hcf : ∀ L : Subgroup Y, IsComponent L → IsCompCoreFreeLocalType p B L)
     {J : Subgroup Y} (hJ : IsComponent J) {w : Y}
     (hw : w ∈ GLAPPrimeCoreOf p (Subgroup.centralizer (A : Set Y))) : ∀ y ∈ J, w * y = y * w := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hB.1.is_comm.comm ⟨a, hAB ha⟩ ⟨b, hAB hb⟩)
   have hApow : ∀ x ∈ A, x ^ p = 1 := fun x hx => hB.2 x (hAB hx)
@@ -395,7 +395,7 @@ theorem orbit_centralizes {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Prim
     obtain ⟨aa, haa, rfl⟩ := Subgroup.mem_map.1 hd
     exact (hFcomm c hc aa (Subgroup.mem_subgroupOf.1 haa)).symm
   set HH : Subgroup (MulAut (barOf p J)) := CC.map ψ ⊔ innerAut (barOf p J) with hHH
-  haveI : (innerAut (barOf p J)).Normal := innerAut_normal_of _
+  have : (innerAut (barOf p J)).Normal := innerAut_normal_of _
   have hDH : AJ'.map ψ ≤ HH := (Subgroup.map_mono hAJCC).trans le_sup_left
   have hDN : AJ'.map ψ ≤ Subgroup.normalizer (HH : Set (MulAut (barOf p J))) :=
     hDH.trans Subgroup.le_normalizer

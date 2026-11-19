@@ -26,6 +26,7 @@ theorem rootChar_pow_eq_inv_of_seven {τ : Tag} (q : ℕ) (hq : 7 ∣ q + 1)
   refine eq_inv_of_mul_eq_one_left ?_
   rw [← pow_succ, show q + 1 = 7 * m from hm, pow_mul, h7, one_pow]
 
+omit [IsAlgClosed L] in
 theorem rootChar_neg_eq_inv {τ : Tag} (a : Fin τ.rank → L ˣ) (v : Fin τ.rank → ℤ) :
     rootChar a (-v) = (rootChar a v)⁻¹ := by
   simp only [rootChar, Pi.neg_apply, zpow_neg, Finset.prod_inv_distrib]
@@ -39,8 +40,8 @@ theorem smul_inv_neg_of {τ : Tag} {w0 : WeylGroup τ} (hw0 : ∀ u : Fin τ.ran
 theorem exists_two_gen_of_card_sq {G : Type*} [Group G] {p : ℕ} (hp : p.Prime)
     (E : Subgroup G) (hE : Nat.card E = p ^ 2) (hexp : ∀ x ∈ E, x ^ p = 1) :
     ∃ x1 ∈ E, ∃ x2 ∈ E, E = Subgroup.closure {x1, x2} := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; exact pow_ne_zero 2 hp.ne_zero)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; exact pow_ne_zero 2 hp.ne_zero)
   have hnt : ∃ x ∈ E, x ≠ 1 := by
     by_contra hcon
     push Not at hcon
@@ -52,7 +53,7 @@ theorem exists_two_gen_of_card_sq {G : Type*} [Group G] {p : ℕ} (hp : p.Prime)
     omega
   obtain ⟨x1, hx1E, hx1⟩ := hnt
   have hord : orderOf x1 = p := orderOf_eq_prime (hexp x1 hx1E) hx1
-  haveI : Finite (Subgroup.zpowers x1) :=
+  have : Finite (Subgroup.zpowers x1) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hord]; exact hp.ne_zero)
   have hZ : Nat.card (Subgroup.zpowers x1) = p := by rw [Nat.card_zpowers, hord]
   obtain ⟨x2, hx2E, hx2⟩ : ∃ x2 ∈ E, x2 ∉ Subgroup.zpowers x1 := by
@@ -71,7 +72,7 @@ theorem exists_two_gen_of_card_sq {G : Type*} [Group G] {p : ℕ} (hp : p.Prime)
     rcases hx with rfl | rfl
     · exact hx1E
     · exact hx2E)
-  haveI : Finite H := Finite.of_injective (Set.inclusion (SetLike.coe_subset_coe.2 hHE))
+  have : Finite H := Finite.of_injective (Set.inclusion (SetLike.coe_subset_coe.2 hHE))
     (Set.inclusion_injective _)
   have hZH : Subgroup.zpowers x1 ≤ H :=
     (Subgroup.zpowers_le).2 (Subgroup.subset_closure (by simp))
@@ -121,6 +122,7 @@ theorem twisted_w0_fix (ℓ e : ℕ) [Fact ℓ.Prime] [CharP L ℓ] {w0 : WeylGr
   intro v
   rw [hw0 v, rootChar_neg_eq_inv, rootChar_pow', rootChar_pow_eq_inv_of_seven (ℓ ^ e) hq hb v]
 
+omit [IsAlgClosed L] in
 theorem image_neg_familyKernel (a : Fin 2 → Fin Tag.E7.rank → L ˣ) {w0 : WeylGroup Tag.E7}
     (hw0 : ∀ u : Fin Tag.E7.rank → ℤ, w0 • u = -u) :
     (fun α => w0 • α) '' familyKernel (τ := Tag.E7) a = familyKernel (τ := Tag.E7) a := by
@@ -137,6 +139,7 @@ theorem image_neg_familyKernel (a : Fin 2 → Fin Tag.E7.rank → L ˣ) {w0 : We
     dsimp only
     rw [hw0 (-β), neg_neg]
 
+omit [IsAlgClosed L] in
 theorem canonicalRep_mem_familyGroup_of_closure (a : Fin 2 → Fin Tag.E7.rank → L ˣ)
     {y : WeylGroup Tag.E7}
     (hy : y ∈ Subgroup.closure ((fun α => rootReflection α) '' familyKernel (τ := Tag.E7) a)) :
@@ -238,6 +241,7 @@ theorem exists_datum_change (ℓ : ℕ) [Fact ℓ.Prime] [CharP L ℓ] (e : ℕ)
                 (Units.map (entrywiseHom Fr))).map (MulAut.conj g).toMonoidHom →
             y ∈ e7FrameGroup K
 
+omit [IsAlgClosed L] in
 theorem exp_seven_of_rootDiagUnit (a : Fin Tag.E7.rank → L ˣ) (h : rootDiagUnit Tag.E7 a ^ 7 = 1) :
     ∀ i, a i ^ 7 = 1 := by
   have h1 : rootDiagUnit Tag.E7 (a ^ 7) = rootDiagUnit Tag.E7 1 := by

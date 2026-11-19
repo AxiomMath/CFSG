@@ -18,6 +18,7 @@ open CFSG.LocalAnalysis.RankThreeUC.Section5 CFSG.LocalAnalysis.RankThreeUC.Proo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem comm_central {P : Subgroup G}
     (hcl : ⁅⁅P, P⁆, P⁆ = ⊥) (x y : P) : ⁅x, y⁆ ∈ Subgroup.center P := by
   rw [Subgroup.mem_center_iff]
@@ -30,6 +31,7 @@ theorem comm_central {P : Subgroup G}
   rw [Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at h2
   exact Subtype.ext h2.symm
 
+omit [Finite G] in
 theorem exp_sub {p : ℕ} {P : Subgroup G} (hexp : Monoid.exponent P = p) (x : P) : x ^ p = 1 := by
   rw [← hexp]; exact Monoid.pow_exponent_eq_one x
 
@@ -40,7 +42,7 @@ theorem actual_pPart_annihilation {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     ⁅P, ⁅CFSG.Open.pCoreOf 2 (B ⊔ T), A⁆⁆ = ⊥ := by
   classical
   have hp : p.Prime := h.oddPrimeClassTwoAction.setting.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne : p ≠ 2 := by
     have := h.oddPrimeClassTwoAction.setting.odd
     rintro rfl; exact absurd this (by decide)
@@ -129,7 +131,7 @@ theorem actual_pPart_annihilation {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     have : (x : G) * ((r : N) : G) = ((r : N) : G) * (x : G) := hrc
     rw [mul_inv_eq_iff_eq_mul]
     exact this.symm
-  haveI : Finite (Lin p P hp hodd' hexp' hc') :=
+  have : Finite (Lin p P hp hodd' hexp' hc') :=
     Finite.of_injective (Lin.val hp hodd' hexp' hc') (Lin.val_injective hp hodd' hexp' hc')
   have key := NormalCoprimeFixedControl.fixed_of_normalizing_pGroup_fixed tau
     (R.subgroupOf N) (A.subgroupOf N) hnorm hcop hDp hfix

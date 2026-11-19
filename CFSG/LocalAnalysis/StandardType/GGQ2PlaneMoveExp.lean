@@ -165,7 +165,7 @@ private theorem pme_orientEquiv_mem_evenSignedPermGroupOn {t : ℕ} (S : Finset 
         1 := by
       ext u k
       simp [orientEquiv]
-      rw [if_neg (by decide : (1 : F) ≠ -1)]
+      rw [ite_eq_right (by decide : (1 : F) ≠ -1)]
       rfl
     rw [h1]
     exact Subgroup.one_mem _
@@ -258,7 +258,7 @@ theorem mem_evenSignedPermGroup_of_coe_eq_moveExp {φ : V t ≃ₗ[F] V t} {π :
     rw [evenSignedPermGroupOn, evenSignedPermGroup]
     congr 1
     ext T
-    simp only [Set.mem_union, Set.mem_setOf_eq, Finset.mem_univ, true_and]
+    simp only [Set.mem_union, Set.mem_ofPred_eq, Finset.mem_univ, true_and]
   rw [← huniv]
   exact mem_evenSignedPermGroupOn_of_coe_eq_moveExp Finset.univ hφ
     (fun i hi => absurd (Finset.mem_univ i) hi) (fun i hi => absurd (Finset.mem_univ i) hi) hev
@@ -269,9 +269,9 @@ theorem mem_ambientNormalizer_orthogonal_of_coe_eq_moveExp (δ : Fin 2) {φ : V 
     φ ∈ ambientNormalizer (.orthogonal δ) t := by
   rw [ambientNormalizer]
   by_cases h : δ.val = 0
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact mem_evenSignedPermGroup_of_coe_eq_moveExp hφ (hpar h)
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact mem_signedPermGroup_of_coe_eq_moveExp hφ
 
 theorem mem_normalizerOf_orthogonal_zero_of_coe_eq_moveExp (δ : Fin 2) (S : Finset (Fin t))
@@ -281,9 +281,9 @@ theorem mem_normalizerOf_orthogonal_zero_of_coe_eq_moveExp (δ : Fin 2) (S : Fin
     φ ∈ normalizerOf (.orthogonal δ) t (.zero S) := by
   rw [normalizerOf]
   by_cases h : δ.val = 0
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact mem_evenSignedPermGroupOn_of_coe_eq_moveExp S hφ hπ hη (hpar h)
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact mem_signedPermGroupOn_of_coe_eq_moveExp S hφ hπ hη
 
 end CFSG.StandardType.GGQ2Frame.PlaneRaw

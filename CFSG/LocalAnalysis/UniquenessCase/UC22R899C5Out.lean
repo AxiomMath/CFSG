@@ -14,6 +14,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup CFSG.ABGLocalTools
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22r899c5_exists_fixed {M T L : Subgroup G} (hT : IsSylowOf 2 T M)
     (hodd : Odd (conjSetOf M L).ncard) :
     ∃ K₀ ∈ conjSetOf M L, T ≤ normalizer (K₀ : Set G) := by

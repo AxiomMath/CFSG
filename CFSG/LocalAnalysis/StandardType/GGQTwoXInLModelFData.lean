@@ -124,12 +124,12 @@ lemma q3f_conjD_apply (n : ℕ)
 lemma q3f_tau_first (n : ℕ) (hn : 2 ≤ n) {i : Fin n}
     (h : i.val = n - 1 ∨ i.val = n - 2) :
     q3f_tau n hn i = Equiv.swap ⟨0, by omega⟩ ⟨1, by omega⟩ := by
-  rw [q3f_tau, dif_pos h]
+  rw [q3f_tau, dite_eq_left h]
 
 lemma q3f_tau_chain (n : ℕ) (hn : 2 ≤ n) {i : Fin n}
     (h : ¬ (i.val = n - 1 ∨ i.val = n - 2)) :
     q3f_tau n hn i = Equiv.swap ⟨n - 2 - i.val, by omega⟩ ⟨n - 1 - i.val, by omega⟩ := by
-  rw [q3f_tau, dif_neg h]
+  rw [q3f_tau, dite_eq_right h]
 
 @[expose] noncomputable def q3f_r (n : ℕ) (hn : 2 ≤ n) (i : Fin n) :
     (Fin n → ZMod 3) ≃ₗ[ZMod 3] (Fin n → ZMod 3) :=
@@ -139,47 +139,47 @@ lemma q3f_tau_chain (n : ℕ) (hn : 2 ≤ n) {i : Fin n}
 lemma q3f_root_a (n : ℕ) (hn : 2 ≤ n) {i : Fin n} (h : i.val = n - 2)
     (w : Fin n → ZMod 3) :
     q3f_root n i w = - w ⟨0, by omega⟩ - w ⟨1, by omega⟩ := by
-  rw [q3f_root, if_pos h]
+  rw [q3f_root, ite_eq_left h]
   simp only [LinearMap.sub_apply, LinearMap.neg_apply]
   rw [q3f_dotE_apply_of_lt n 0 (by omega), q3f_dotE_apply_of_lt n 1 (by omega)]
 
 lemma q3f_root_b (n : ℕ) (hn : 2 ≤ n) {i : Fin n} (h2 : i.val ≠ n - 2)
     (h : i.val = n - 1) (w : Fin n → ZMod 3) :
     q3f_root n i w = w ⟨0, by omega⟩ - w ⟨1, by omega⟩ := by
-  rw [q3f_root, if_neg h2, if_pos h]
+  rw [q3f_root, ite_eq_right h2, ite_eq_left h]
   simp only [LinearMap.sub_apply]
   rw [q3f_dotE_apply_of_lt n 0 (by omega), q3f_dotE_apply_of_lt n 1 (by omega)]
 
 lemma q3f_root_c (n : ℕ) (hn : 3 ≤ n) {i : Fin n} (h2 : i.val ≠ n - 2)
     (h1 : i.val ≠ n - 1) (w : Fin n → ZMod 3) :
     q3f_root n i w = w ⟨n - 2 - i.val, by omega⟩ - w ⟨n - 1 - i.val, by omega⟩ := by
-  rw [q3f_root, if_neg h2, if_neg h1]
+  rw [q3f_root, ite_eq_right h2, ite_eq_right h1]
   simp only [LinearMap.sub_apply]
   rw [q3f_dotE_apply_of_lt n (n - 2 - i.val) (by omega),
     q3f_dotE_apply_of_lt n (n - 1 - i.val) (by omega)]
 
-lemma q3f_coroot_a (n : ℕ) (hn : 2 ≤ n) {j : Fin n} (h : j.val = n - 2)
+lemma q3f_coroot_a (n : ℕ) (_hn : 2 ≤ n) {j : Fin n} (h : j.val = n - 2)
     (m : ℕ) (hm : m < n) :
     q3f_coroot n j ⟨m, hm⟩ =
       if m = 0 then (-1 : ZMod 3) else if m = 1 then -1 else 0 := by
-  rw [q3f_coroot, if_pos h]
-  simp only [Pi.sub_apply, Pi.neg_apply, q3f_e, Fin.val_mk]
-  split_ifs <;> (try norm_num) <;> omega
+  rw [q3f_coroot, ite_eq_left h]
+  simp only [Pi.sub_apply, Pi.neg_apply, q3f_e]
+  split_ifs <;> (try norm_num); omega
 
-lemma q3f_coroot_b (n : ℕ) (hn : 2 ≤ n) {j : Fin n} (h2 : j.val ≠ n - 2)
+lemma q3f_coroot_b (n : ℕ) (_hn : 2 ≤ n) {j : Fin n} (h2 : j.val ≠ n - 2)
     (h : j.val = n - 1) (m : ℕ) (hm : m < n) :
     q3f_coroot n j ⟨m, hm⟩ = if m = 0 then (1 : ZMod 3) else if m = 1 then -1 else 0 := by
-  rw [q3f_coroot, if_neg h2, if_pos h]
-  simp only [Pi.sub_apply, q3f_e, Fin.val_mk]
-  split_ifs <;> (try norm_num) <;> omega
+  rw [q3f_coroot, ite_eq_right h2, ite_eq_left h]
+  simp only [Pi.sub_apply, q3f_e]
+  split_ifs <;> (try norm_num); omega
 
 lemma q3f_coroot_c (n : ℕ) (hn : 2 ≤ n) {j : Fin n} (h2 : j.val ≠ n - 2)
     (h1 : j.val ≠ n - 1) (m : ℕ) (hm : m < n) :
     q3f_coroot n j ⟨m, hm⟩ =
       if m = n - 2 - j.val then (1 : ZMod 3) else if m = n - 1 - j.val then -1 else 0 := by
-  rw [q3f_coroot, if_neg h2, if_neg h1]
-  simp only [Pi.sub_apply, q3f_e, Fin.val_mk]
-  split_ifs <;> (try norm_num) <;> omega
+  rw [q3f_coroot, ite_eq_right h2, ite_eq_right h1]
+  simp only [Pi.sub_apply, q3f_e]
+  split_ifs <;> (try norm_num); omega
 
 lemma q3f_dLin_of_ne_zero (n m : ℕ) (hm : m ≠ 0) :
     q3f_dLin n (q3f_e n m) = q3f_e n m := by
@@ -190,7 +190,7 @@ lemma q3f_dLin_of_ne_zero (n m : ℕ) (hm : m ≠ 0) :
     simp [hk0]
   · simp [hk]
 
-lemma q3f_dLin_of_zero (n : ℕ) (hn : 1 ≤ n) :
+lemma q3f_dLin_of_zero (n : ℕ) (_hn : 1 ≤ n) :
     q3f_dLin n (q3f_e n 0) = - q3f_e n 0 := by
   funext k
   simp only [q3f_dLin_apply, q3f_e, Pi.neg_apply]
@@ -212,7 +212,7 @@ lemma q3f_P_swap (n : ℕ) (p q : Fin n) (hpq : p ≠ q) (v : Fin n → ZMod 3) 
     have hp : q3f_e n p.val p = 1 := by simp [q3f_e]
     have hq : q3f_e n q.val p = 0 := by
       simp only [q3f_e]
-      rw [if_neg]
+      rw [ite_eq_right]
       exact fun h => hpq (Fin.ext h)
     rw [hp, hq]; ring
   · by_cases hkq : k = q
@@ -220,22 +220,22 @@ lemma q3f_P_swap (n : ℕ) (p q : Fin n) (hpq : p ≠ q) (v : Fin n → ZMod 3) 
       rw [Equiv.swap_apply_right]
       have hp : q3f_e n p.val q = 0 := by
         simp only [q3f_e]
-        rw [if_neg]
+        rw [ite_eq_right]
         exact fun h => hkp (Fin.ext h)
       have hq : q3f_e n q.val q = 1 := by simp [q3f_e]
       rw [hp, hq]; ring
     · rw [Equiv.swap_apply_of_ne_of_ne hkp hkq]
       have hp : q3f_e n p.val k = 0 := by
         simp only [q3f_e]
-        rw [if_neg]
+        rw [ite_eq_right]
         exact fun h => hkp (Fin.ext h)
       have hq : q3f_e n q.val k = 0 := by
         simp only [q3f_e]
-        rw [if_neg]
+        rw [ite_eq_right]
         exact fun h => hkq (Fin.ext h)
       rw [hp, hq]; ring
 
-lemma q3f_conjD_P_swap (n : ℕ) (p q : Fin n) (hpq : p ≠ q)
+lemma q3f_conjD_P_swap (n : ℕ) (p q : Fin n) (_hpq : p ≠ q)
     (hp : p.val ≠ 0) (hq : q.val ≠ 0) :
     q3f_conjD n (q3f_P n (Equiv.swap p q)) = q3f_P n (Equiv.swap p q) := by
   have hcomm : q3f_dLin n * q3f_P n (Equiv.swap p q) =
@@ -257,7 +257,7 @@ lemma q3f_conjD_P_swap (n : ℕ) (p q : Fin n) (hpq : p ≠ q)
           (by intro hh; exact hp (congrArg Fin.val hh).symm)
           (by intro hh; exact hq (congrArg Fin.val hh).symm)] at h'
         exact hk (congrArg Fin.val h')
-      simp only [hk, hk', if_false, if_true]
+      simp only [hk, hk', ite_false]
   rw [q3f_conjD_apply, hcomm, mul_assoc, q3f_dLin_mul_self, mul_one]
 
 lemma q3f_conjD_P_swap01 (n : ℕ) (hn0 : 0 < n) (hn1 : 1 < n) (v : Fin n → ZMod 3) :
@@ -287,7 +287,7 @@ lemma q3f_D_eq (n : ℕ) (hn : 2 < n) (i j : Fin n) :
   push_cast
   by_cases hij : i = j
   · simp [hij]
-  · rw [if_neg hij, if_neg (show ¬ (n ≤ 2) by omega)]
+  · rw [ite_eq_right hij, ite_eq_right (show ¬ (n ≤ 2) by omega)]
     split_ifs <;> norm_num
 
 private lemma q3f_pairing_ia (n : ℕ) (hn : 6 ≤ n) (i j : Fin n) (hia : i.val = n - 2) :
@@ -298,14 +298,14 @@ private lemma q3f_pairing_ia (n : ℕ) (hn : 6 ≤ n) (i j : Fin n) (hia : i.val
   by_cases hja : j.val = n - 2
   · rw [q3f_coroot_a n (by omega) hja 0 (by omega),
       q3f_coroot_a n (by omega) hja 1 (by omega)]
-    split_ifs <;> (try norm_num) <;> first | omega | contradiction | decide
+    split_ifs <;> (try norm_num) <;> first | omega
   · by_cases hjb : j.val = n - 1
     · rw [q3f_coroot_b n (by omega) hja hjb 0 (by omega),
         q3f_coroot_b n (by omega) hja hjb 1 (by omega)]
-      split_ifs <;> (try norm_num) <;> first | omega | contradiction | decide
+      split_ifs <;> (try norm_num) <;> first | omega | contradiction
     · rw [q3f_coroot_c n (by omega) hja hjb 0 (by omega),
         q3f_coroot_c n (by omega) hja hjb 1 (by omega)]
-      split_ifs <;> (try norm_num) <;> first | omega | contradiction | decide
+      split_ifs <;> (try norm_num) <;> first | omega
 
 private lemma q3f_pairing_ib (n : ℕ) (hn : 6 ≤ n) (i j : Fin n) (hia : ¬ i.val = n - 2)
     (hib : i.val = n - 1) :
@@ -316,14 +316,14 @@ private lemma q3f_pairing_ib (n : ℕ) (hn : 6 ≤ n) (i j : Fin n) (hia : ¬ i.
   by_cases hja : j.val = n - 2
   · rw [q3f_coroot_a n (by omega) hja 0 (by omega),
       q3f_coroot_a n (by omega) hja 1 (by omega)]
-    split_ifs <;> (try norm_num) <;> first | omega | contradiction | decide
+    split_ifs <;> (try norm_num) <;> first | omega
   · by_cases hjb : j.val = n - 1
     · rw [q3f_coroot_b n (by omega) hja hjb 0 (by omega),
         q3f_coroot_b n (by omega) hja hjb 1 (by omega)]
-      split_ifs <;> (try norm_num) <;> first | omega | contradiction | decide
+      split_ifs <;> (try norm_num) <;> first | omega | contradiction
     · rw [q3f_coroot_c n (by omega) hja hjb 0 (by omega),
         q3f_coroot_c n (by omega) hja hjb 1 (by omega)]
-      split_ifs <;> (try norm_num) <;> first | omega | contradiction | decide
+      split_ifs <;> (try norm_num) <;> first | omega
 
 private lemma q3f_pairing_ica (n : ℕ) (hn : 6 ≤ n) (i j : Fin n) (hia : ¬ i.val = n - 2)
     (hib : ¬ i.val = n - 1) (hja : j.val = n - 2) :
@@ -333,7 +333,7 @@ private lemma q3f_pairing_ica (n : ℕ) (hn : 6 ≤ n) (i j : Fin n) (hia : ¬ i
   rw [q3f_root_c n (by omega) hia hib,
     q3f_coroot_a n (by omega) hja (n - 2 - i.val) (by omega),
     q3f_coroot_a n (by omega) hja (n - 1 - i.val) (by omega)]
-  split_ifs <;> (try norm_num) <;> first | omega | contradiction | decide
+  split_ifs <;> (try norm_num) <;> first | omega
 
 private lemma q3f_pairing_icb (n : ℕ) (hn : 6 ≤ n) (i j : Fin n) (hia : ¬ i.val = n - 2)
     (hib : ¬ i.val = n - 1) (hja : ¬ j.val = n - 2) (hjb : j.val = n - 1) :
@@ -343,7 +343,7 @@ private lemma q3f_pairing_icb (n : ℕ) (hn : 6 ≤ n) (i j : Fin n) (hia : ¬ i
   rw [q3f_root_c n (by omega) hia hib,
     q3f_coroot_b n (by omega) hja hjb (n - 2 - i.val) (by omega),
     q3f_coroot_b n (by omega) hja hjb (n - 1 - i.val) (by omega)]
-  split_ifs <;> (try norm_num) <;> first | omega | contradiction | decide
+  split_ifs <;> (try norm_num) <;> first | omega
 
 private lemma q3f_pairing_icc (n : ℕ) (hn : 6 ≤ n) (i j : Fin n) (hia : ¬ i.val = n - 2)
     (hib : ¬ i.val = n - 1) (hja : ¬ j.val = n - 2) (hjb : ¬ j.val = n - 1) :
@@ -353,7 +353,7 @@ private lemma q3f_pairing_icc (n : ℕ) (hn : 6 ≤ n) (i j : Fin n) (hia : ¬ i
   rw [q3f_root_c n (by omega) hia hib,
     q3f_coroot_c n (by omega) hja hjb (n - 2 - i.val) (by omega),
     q3f_coroot_c n (by omega) hja hjb (n - 1 - i.val) (by omega)]
-  split_ifs <;> (try norm_num) <;> first | omega | contradiction | decide
+  split_ifs <;> (try norm_num) <;> first | omega
 
 private lemma q3f_pairing_ic (n : ℕ) (hn : 6 ≤ n) (i j : Fin n) (hia : ¬ i.val = n - 2)
     (hib : ¬ i.val = n - 1) :
@@ -381,17 +381,17 @@ lemma q3f_r_apply (n : ℕ) (hn : 2 ≤ n) (i : Fin n) (w : Fin n → ZMod 3) :
   by_cases hia : i.val = n - 2
   · have htau : q3f_tau n hn i = Equiv.swap ⟨0, by omega⟩ ⟨1, by omega⟩ :=
       q3f_tau_first n hn (Or.inr hia)
-    rw [q3f_r, if_pos hia, htau, q3f_root_a n (by omega) hia]
+    rw [q3f_r, ite_eq_left hia, htau, q3f_root_a n (by omega) hia]
     have hcor : q3f_coroot n i = - q3f_e n 0 - q3f_e n 1 := by
-      rw [q3f_coroot, if_pos hia]
+      rw [q3f_coroot, ite_eq_left hia]
     rw [hcor]
     exact q3f_conjD_P_swap01 n (by omega) (by omega) w
   · by_cases hib : i.val = n - 1
     · have htau : q3f_tau n hn i = Equiv.swap ⟨0, by omega⟩ ⟨1, by omega⟩ :=
         q3f_tau_first n hn (Or.inl hib)
-      rw [q3f_r, if_neg hia, htau, q3f_root_b n (by omega) hia hib]
+      rw [q3f_r, ite_eq_right hia, htau, q3f_root_b n (by omega) hia hib]
       have hcor : q3f_coroot n i = q3f_e n 0 - q3f_e n 1 := by
-        rw [q3f_coroot, if_neg hia, if_pos hib]
+        rw [q3f_coroot, ite_eq_right hia, ite_eq_left hib]
       rw [hcor]
       exact q3f_P_swap n ⟨0, by omega⟩ ⟨1, by omega⟩
         (by intro h; exact Nat.zero_ne_one (congrArg Fin.val h)) w
@@ -399,12 +399,12 @@ lemma q3f_r_apply (n : ℕ) (hn : 2 ≤ n) (i : Fin n) (w : Fin n → ZMod 3) :
       have htau : q3f_tau n hn i =
           Equiv.swap ⟨n - 2 - i.val, by omega⟩ ⟨n - 1 - i.val, by omega⟩ :=
         q3f_tau_chain n hn hne
-      rw [q3f_r, if_neg hia, htau, q3f_root_c n (by omega) hia hib]
+      rw [q3f_r, ite_eq_right hia, htau, q3f_root_c n (by omega) hia hib]
       have hcor : q3f_coroot n i = q3f_e n (n - 2 - i.val) - q3f_e n (n - 1 - i.val) := by
-        rw [q3f_coroot, if_neg hia, if_neg hib]
+        rw [q3f_coroot, ite_eq_right hia, ite_eq_right hib]
       rw [hcor]
       exact q3f_P_swap n ⟨n - 2 - i.val, by omega⟩ ⟨n - 1 - i.val, by omega⟩
-        (by intro h; have hh := congrArg Fin.val h; simp only [Fin.val_mk] at hh; omega) w
+        (by intro h; have hh := congrArg Fin.val h; simp only at hh; omega) w
 
 lemma q3f_mem_fixed_range_P (n : ℕ) (hn : 1 ≤ n) (v : Fin n → ZMod 3) :
     (∀ σ : Equiv.Perm (Fin n), q3f_P n σ v = v) ↔ ∃ c : ZMod 3, v = c • q3f_one n := by
@@ -413,13 +413,13 @@ lemma q3f_mem_fixed_range_P (n : ℕ) (hn : 1 ≤ n) (v : Fin n → ZMod 3) :
     refine ⟨v ⟨0, by omega⟩, ?_⟩
     funext j
     have hswap := congrFun (h (Equiv.swap ⟨0, by omega⟩ j)) ⟨0, by omega⟩
-    simp only [q3f_P_apply, q3f_permLin_apply, Function.comp_apply, Equiv.symm_swap,
+    simp only [q3f_P_apply, Equiv.symm_swap,
       Equiv.swap_apply_left] at hswap
     simp only [q3f_one, Pi.smul_apply, smul_eq_mul, mul_one]
     exact hswap
   · rintro ⟨c, rfl⟩ σ
     funext i
-    simp only [q3f_P_apply, q3f_permLin_apply, Function.comp_apply, Pi.smul_apply, q3f_one,
+    simp only [q3f_P_apply, Pi.smul_apply, q3f_one,
       smul_eq_mul, mul_one]
 
 lemma q3f_conjD_chain (n : ℕ) (hn : 2 ≤ n) {i : Fin n} (h2 : i.val ≠ n - 2)
@@ -428,14 +428,14 @@ lemma q3f_conjD_chain (n : ℕ) (hn : 2 ≤ n) {i : Fin n} (h2 : i.val ≠ n - 2
   have hne : ¬ (i.val = n - 1 ∨ i.val = n - 2) := by omega
   rw [q3f_tau_chain n hn hne]
   exact q3f_conjD_P_swap n ⟨n - 2 - i.val, by omega⟩ ⟨n - 1 - i.val, by omega⟩
-    (by intro h; have hh := congrArg Fin.val h; simp only [Fin.val_mk] at hh; omega)
-    (by simp only [Fin.val_mk]; omega) (by simp only [Fin.val_mk]; omega)
+    (by intro h; have hh := congrArg Fin.val h; simp only at hh; omega)
+    (by simp only; omega) (by simp only; omega)
 
 lemma q3f_r_eq_conjD (n : ℕ) (hn : 2 ≤ n) (i : Fin n) (hi : i.val ≠ n - 1) :
     q3f_r n hn i = q3f_conjD n (q3f_P n (q3f_tau n hn i)) := by
   by_cases hia : i.val = n - 2
-  · rw [q3f_r, if_pos hia]
-  · rw [q3f_r, if_neg hia, q3f_conjD_chain n hn hia hi]
+  · rw [q3f_r, ite_eq_left hia]
+  · rw [q3f_r, ite_eq_right hia, q3f_conjD_chain n hn hia hi]
 
 @[expose] def q3f_av (m : ℕ) : Fin (m + 1) := ⟨m - 1, by omega⟩
 
@@ -502,7 +502,7 @@ lemma q3f_tau_index (m : ℕ) (l : Fin m) :
   unfold q3f_index
   split_ifs with hl
   · rw [q3f_tau_first (m + 1) hm2 (Or.inl (show (q3f_bv m).val = m from rfl))]
-    congr 1 <;> apply Fin.ext <;> simp [q3f_bv, hl]
+    congr 1 <;> apply Fin.ext <;> simp [hl]
   · rw [q3f_tau_chain (m + 1) hm2 (by
       show ¬ (m - 1 - l.val = m + 1 - 1 ∨ m - 1 - l.val = m + 1 - 2)
       have hlt : l.val < m := l.isLt
@@ -520,7 +520,7 @@ lemma q3f_tau_indexK (m : ℕ) (l : Fin m) :
   unfold q3f_indexK
   split_ifs with hl
   · rw [q3f_tau_first (m + 1) hm2 (Or.inr (show (q3f_av m).val = m - 1 from rfl))]
-    congr 1 <;> apply Fin.ext <;> simp [q3f_av, hl]
+    congr 1 <;> apply Fin.ext <;> simp [hl]
   · rw [q3f_tau_chain (m + 1) hm2 (by
       show ¬ (m - 1 - l.val = m + 1 - 1 ∨ m - 1 - l.val = m + 1 - 2)
       have hlt : l.val < m := l.isLt
@@ -531,7 +531,7 @@ lemma q3f_D_av (m : ℕ) (hm : 5 ≤ m) (c : Fin (m + 1)) (hc : c ≠ q3f_av m) 
     CartanMatrix.D (m + 1) (q3f_av m) c ≠ 0 ↔ c = ⟨m - 2, by omega⟩ := by
   rw [CartanMatrix.D, Matrix.of_apply]
   simp only [q3f_av, Fin.val_mk]
-  split_ifs <;> simp_all [q3f_av, Fin.ext_iff] <;> omega
+  split_ifs <;> simp_all [q3f_av, Fin.ext_iff]; omega
 
 end CFSG.StandardType
 

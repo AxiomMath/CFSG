@@ -39,7 +39,7 @@ theorem exists_fixed_odd_lift_central {X M : Type} [Group X] [Finite X] [Group M
     (hker : φ.ker ≤ Subgroup.center X) (h2 : IsPGroup 2 φ.ker) (ζ : MulAut X) (ζM : MulAut M)
     (hζ : ∀ x, φ (ζ x) = ζM (φ x)) {b : M} (hbr : b ∈ φ.range) (hodd : Odd (orderOf b))
     (hfix : ζM b = b) : ∃ h : X, φ h = b ∧ ζ h = h := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, rfl⟩ := hbr
   obtain ⟨k, hk⟩ := h2.exists_card_eq
   have hcop : Nat.Coprime (2 ^ k) (orderOf (φ y)) :=

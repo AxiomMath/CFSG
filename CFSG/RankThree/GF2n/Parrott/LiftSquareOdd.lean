@@ -74,6 +74,7 @@ theorem eq_one_of_odd_invariant (h : Tim79a.ParrottHyp z) {R : Subgroup G} (hRH 
 private noncomputable def fixPreimageJ (h : Tim79a.ParrottHyp z) (g : ↥(H z)) : Subgroup G :=
   ((autFixedSubgroup (conjV h g)).comap (QuotientV.pi z)).map (J z).subtype
 
+omit [Finite G] in
 private theorem mem_fixPreimageJ_iff (h : Tim79a.ParrottHyp z) (g : ↥(H z)) {c : G} :
     c ∈ fixPreimageJ h g ↔
       ∃ hc : c ∈ J z, conjV h g (QuotientV.pi z ⟨c, hc⟩) = QuotientV.pi z ⟨c, hc⟩ := by

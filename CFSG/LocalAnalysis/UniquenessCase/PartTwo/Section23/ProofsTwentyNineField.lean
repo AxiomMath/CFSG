@@ -22,7 +22,7 @@ private theorem commutator_mem_innAut_of_gen {X : Type*} [Group X] {θ₀ : MulA
       (MulAut.conj : X →* MulAut X).range := by
   classical
   let Inn : Subgroup (MulAut X) := (MulAut.conj : X →* MulAut X).range
-  haveI hInn : Inn.Normal := inferInstance
+  have hInn : Inn.Normal := inferInstance
   have hcomm : IsMulCommutative (MulAut X ⧸ Inn) := by
     refine IsMulCommutative.mk ⟨fun a b => ?_⟩
     induction a using QuotientGroup.induction_on with
@@ -97,7 +97,7 @@ private theorem T_le_normalizer_fieldT1 {D : Data G} {K : Subgroup G}
     {hgen : ∀ θ : MulAut (Bar2 K), ∃ j : ℕ, ∃ x : Bar2 K,
       θ = θ₀ ^ j * MulAut.conj x} :
     D.T ≤ Subgroup.normalizer (fieldT1 D K θ₀ hgen : Set G) := by
-  haveI hInn : ((MulAut.conj : Bar2 K →* MulAut (Bar2 K)).range).Normal :=
+  have hInn : ((MulAut.conj : Bar2 K →* MulAut (Bar2 K)).range).Normal :=
     inferInstance
   rw [Subgroup.le_normalizer_iff]
   intro t htT x hx
@@ -305,6 +305,7 @@ private theorem nontrivial_odd_of_borelFixed {X : Type*} [Group X]
 private noncomputable def fieldXH (K : Subgroup G) (H Sbar : Subgroup (Bar2 K)) : Subgroup G :=
   (Subgroup.comap (QuotientGroup.mk' (CFSG.pCore 2 ↥K)) (H ⊔ Sbar)).map K.subtype
 
+omit [Finite G] in
 private theorem fieldXH_le_K {K : Subgroup G} {H Sbar : Subgroup (Bar2 K)} :
     fieldXH K H Sbar ≤ K :=
   Subgroup.map_subtype_le
@@ -400,6 +401,7 @@ private theorem fieldXH_le_N {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
   exact hPush h1930 c h3 (fieldT1 D K θ₀ hgen) hT1_le_T hT_norm_T1
     ⟨t, htT, hsup⟩ hV hJ (fieldXH K H Sbar) hXH_le_T1 hXH_le_Z
 
+omit [Finite G] in
 private theorem bar2_commutator_eq_rhoL_mul_inv {K : Subgroup G} {t x : G}
     (ht : t ∈ Subgroup.normalizer (K : Set G)) (hx : x ∈ K) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥K)
@@ -451,7 +453,7 @@ private theorem commutator_mem_inf_of_mem_fieldXH {D : Data G} {Ch : Choice2011 
         (CFSG.Open.IsSubnormal.le hK.1)).mp hKn)
   exact CFSG.RankThree.PartOne.mem_of_pElement_mem_normalizer hSyl hgK hgN ⟨i, hi⟩
 
-private theorem H_le_Sbar {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
+private theorem H_le_Sbar {D : Data G} {Ch : Choice2011 G} {_c : Ctx23L D Ch}
     {K : Subgroup G} {t : G} {ht : t ∈ Subgroup.normalizer (K : Set G)}
     {H Sbar : Subgroup (Bar2 K)}
     (hSbar : Sbar = Subgroup.map (QuotientGroup.mk' (CFSG.pCore 2 ↥K))
@@ -486,7 +488,7 @@ private theorem H_le_Sbar {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch}
   rw [hqg] at hqgS
   exact hnorm h (hHnorm hh) hqgS
 
-private theorem field_data_hnorm {D : Data G} {K : Subgroup G} {t : G}
+private theorem field_data_hnorm {_D : Data G} {K : Subgroup G} {t : G}
     (ht : t ∈ Subgroup.normalizer (K : Set G)) {θ₀ : MulAut (Bar2 K)}
     (hθ₀ : UC6S846.rhoL K ⟨t, ht⟩ = θ₀)
     (Syl : Sylow 2 (Bar2 K)) {Sbar : Subgroup (Bar2 K)}
@@ -605,9 +607,9 @@ theorem fieldGen2329_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
   have hSbar2 : IsPGroup 2 Sbar := (hS2.comap_subtype (K := K)).map q
   have hnorm' : ∀ y ∈ Subgroup.normalizer (Sbar : Set (Bar2 K)),
       UC6S846.rhoL K ⟨t, ht⟩ y * y⁻¹ ∈ Sbar → y ∈ Sbar :=
-    field_data_hnorm (D := D) (K := K) ht hθ₀ data.Syl hSyl_set data.hnorm
+    field_data_hnorm (_D := D) (K := K) ht hθ₀ data.Syl hSyl_set data.hnorm
   have hH_le_Sbar : H ≤ Sbar :=
-    H_le_Sbar (Ch := Ch) (c := c) hSbar hHnorm' hnorm'
+    H_le_Sbar (Ch := Ch) (_c := c) hSbar hHnorm' hnorm'
       fun h xK hxK hxq =>
         commutator_mem_inf_of_mem_fieldXH (Ch := Ch) (c := c)
           h1930 h4 h23 h208 h847 hK hKn hX htT hxK hXH_le_N hXH_le_S

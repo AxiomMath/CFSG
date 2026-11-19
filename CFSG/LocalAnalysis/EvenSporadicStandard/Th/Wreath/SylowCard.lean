@@ -62,17 +62,17 @@ theorem ThLocalIn.conjHom_surjective (W : ThLocalIn L S A B z) :
   have hfA : ∀ a ∈ A, f a ∈ A := by
     intro a ha
     dsimp [f]
-    rw [dif_pos ha]
+    rw [dite_eq_left ha]
     exact (φ ⟨a, ha⟩).2
   have hfmul : ∀ a ∈ A, ∀ b ∈ A, f (a * b) = f a * f b := by
     intro a ha b hb
     dsimp [f]
-    rw [dif_pos (A.mul_mem ha hb), dif_pos ha, dif_pos hb]
+    rw [dite_eq_left (A.mul_mem ha hb), dite_eq_left ha, dite_eq_left hb]
     exact congrArg (fun x : ↥A => (x : G)) (φ.map_mul ⟨a, ha⟩ ⟨b, hb⟩)
   have hfinj : ∀ a ∈ A, ∀ b ∈ A, f a = f b → a = b := by
     intro a ha b hb hab
     dsimp [f] at hab
-    rw [dif_pos ha, dif_pos hb] at hab
+    rw [dite_eq_left ha, dite_eq_left hb] at hab
     exact congrArg (fun x : ↥A => (x : G)) (φ.injective (Subtype.ext hab))
   obtain ⟨l, hlL, hl⟩ := W.surj f hfA hfmul hfinj
   have hlA : ∀ a ∈ A, l * a * l⁻¹ ∈ A := fun a ha => by

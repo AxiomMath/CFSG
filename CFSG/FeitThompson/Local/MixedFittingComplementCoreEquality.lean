@@ -258,7 +258,7 @@ theorem pComplCoreIn_competing_eq [IsSimpleGroup G]
       (normal_subgroupOf_of_le_normalizer hZM
         (le_normalizer_pCoreIn_centreIn_mixedFitting p M))
       (isPGroup_pCoreIn h.prime _)
-      (h.pCoreIn_centreIn_ne_bot h.prime h.mem_primeFactors_mixedFitting) hH.1 hZH
+      (CFSG.FeitThompson.IsMixedFittingSetup.pCoreIn_centreIn_ne_bot h.prime h.mem_primeFactors_mixedFitting) hH.1 hZH
     rw [← pComplCoreIn_eq, ← pComplCoreIn_eq] at htrans
     exact fun x hx => htrans ⟨hx, h.pComplCoreIn_le_competing hna hodd hsolv hH hTH hx⟩
 

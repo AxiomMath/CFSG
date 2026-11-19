@@ -51,8 +51,8 @@ theorem path_apply (hf : IsSymplectic f) (hab : f a b = 1) (hbc : f b c = 1) (ha
   have hcb : f c b = 1 := by rw [hf.symm']; exact hbc
   have hca : f c a = 0 := by rw [hf.symm']; exact hac
   simp only [LinearEquiv.mul_apply, tv_apply hf, map_add, map_smul, LinearMap.add_apply,
-    LinearMap.smul_apply, smul_eq_mul, hf.1, hab, hbc, hac, hba, hcb, hca, mul_zero, mul_one,
-    add_zero, zero_add]
+    LinearMap.smul_apply, smul_eq_mul, hba, hcb, hca, mul_one,
+    zero_add]
   generalize f z a = p
   generalize f z b = r
   generalize f z c = s
@@ -68,7 +68,7 @@ theorem path_coord (hf : IsSymplectic f) (hab : f a b = 1) (hbc : f b c = 1) (ha
   have hca : f c a = 0 := by rw [hf.symm']; exact hac
   rw [path_apply hf hab hbc hac z]
   simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hf.1, hab,
-    hbc, hac, hba, hcb, hca, mul_zero, mul_one, add_zero, zero_add]
+    hbc, hac, hba, hcb, hca, mul_zero, mul_one, add_zero]
   generalize f z a = p
   generalize f z b = r
   generalize f z c = s

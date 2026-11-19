@@ -102,7 +102,7 @@ private lemma ggOmW4_exists_Phi_ne_zero {ι K : Type} [DecidableEq ι] [Field K]
     have h1 := congrFun hh i
     rw [Pi.single_eq_same] at h1
     exact one_ne_zero h1
-  haveI : Nontrivial (ι → K) := ⟨Pi.single i (1 : K), 0, hw⟩
+  have : Nontrivial (ι → K) := ⟨Pi.single i (1 : K), 0, hw⟩
   have h0 : ∀ v : ι → K, Φ v = 0 := fun v => by
     by_contra hv
     exact h ⟨v, hv⟩
@@ -185,8 +185,8 @@ theorem isMulCommutative_centralizer_of_fieldInv_Omega {ι K : Type} [Fintype ι
       A * g.map σ.toRingHom * A⁻¹ = g) :
     ∀ x ∈ Subgroup.centralizer {b} ⊓ StatedOmega ⇑Φ,
       ∀ y ∈ Subgroup.centralizer {b} ⊓ StatedOmega ⇑Φ, x * y = y * x := by
-  haveI : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   have hσ2 : ∀ x : K, σ (σ x) = x := ggOmW4_sigma_sq σ A hinv
   have hAA : A * A.map σ.toRingHom = 1 := ggOmW4_AA σ Φ hΦ A hAΦ hinv hσ2
   have hfix' : ∀ g ∈ (Subgroup.centralizer {b}).comap (StatedOmega ⇑Φ).subtype,
@@ -197,10 +197,10 @@ theorem isMulCommutative_centralizer_of_fieldInv_Omega {ι K : Type} [Fintype ι
     exact hfix (g : GL ι K) hgGL
   obtain ⟨K₀, hK₀field, hK₀fin, hK₀char, Φ₀, b₀, hΦ₀, hb₀, hodd₀, hcard, hIso, hblockExp⟩ :=
     descent_centralizer_Omega σ hσ hσ2 Φ hΦ h8 A hAΦ hAA b hb hodd hfix'
-  letI : Field K₀ := hK₀field
-  letI : Fintype K₀ := hK₀fin
-  letI : CharP K₀ 2 := hK₀char
-  letI : Algebra (ZMod 2) K₀ := ZMod.algebra K₀ 2
+  let : Field K₀ := hK₀field
+  let : Fintype K₀ := hK₀fin
+  let : CharP K₀ 2 := hK₀char
+  let : Algebra (ZMod 2) K₀ := ZMod.algebra K₀ 2
   obtain ⟨e⟩ := hIso
   have hfK : Fintype.card K = 2 ^ Module.finrank (ZMod 2) K :=
     (FiniteField.pow_finrank_eq_card 2 K).symm

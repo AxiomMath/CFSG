@@ -192,7 +192,7 @@ theorem thmE_apply (hr : 4 ≤ r) (hE : TwinThmER r n) {H : Subgroup Y}
   have hcent := centralizersSylowPairsW_of_stdCentW hΩ hz hzW hstd
   have hWnorm : ∀ s ∈ (F.S₀ : Subgroup Y), conjSub s W = W := fun s hs =>
     mem_normalizer_iff_conjSub_eq.mp
-      (WTool.le_normalizer_of_le_isPGroup hΩ h16 c.hW F.S₀.isPGroup' F.hWS hs)
+      (WTool.le_normalizer_of_le_isPGroup hΩ h16 c.hW F.S₀.isPGroup F.hWS hs)
   have hK1 : (F.ρ 1).K ∈ twinSet (CoreAssembly.conjClass (tightCore R)) (F.ρ 0).K := ⟨(F.ρ 1).hK, t, hz, F.hz 1⟩
   have hprinted : TwinThmEW.PrintedWT (CoreAssembly.conjClass (tightCore R)) (F.ρ 0).K W :=
     ⟨F.S₀, (F.ρ 0).R, (F.ρ 0).hRK, F.hρS 0, c.hW, F.hWS, hWnorm, (F.ρ 1).K, hK1,

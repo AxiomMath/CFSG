@@ -91,7 +91,7 @@ theorem nonempty_mulEquiv_u0_of_eq_stab
   have e1 : ↥S₁ ≃* ↥(MulAction.stabilizer ↥P1408 p) :=
     ((Subgroup.equivMapOfInjective (MulAction.stabilizer ↥P1408 p) P1408.subtype
       P1408.subtype_injective).trans (MulEquiv.subgroupCongr hmap')).symm
-  haveI : MulAction.IsPretransitive ↥P1408 (Fin 1408) := isPretransitive_P1408
+  have : MulAction.IsPretransitive ↥P1408 (Fin 1408) := isPretransitive_P1408
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (M := ↥P1408) p (0 : Fin 1408)
   have hu0 : MulAction.stabilizer ↥P1408 (0 : Fin 1408) = u0 := by
     ext g

@@ -278,13 +278,13 @@ theorem outer [IsSimpleGroup J] (hJ : Nat.card J = 50232960)
     have hrec := rec_facts r hr
     unfold recOK at hrec
     by_cases hk : (r.2.2.1 == 0) = true
-    · rw [if_pos hk] at hrec
+    · rw [ite_eq_left hk] at hrec
       apply ne_of_nb hrec
       have := congrArg (fun π : Equiv.Perm (Fin nn) => (π ⟨r.2.2.2.1, hy⟩).val) hu2
       simp only [Equiv.Perm.mul_apply, Equiv.Perm.one_apply] at this
       rw [hu, hu] at this
       exact this
-    · rw [if_neg hk] at hrec
+    · rw [ite_eq_right hk] at hrec
       simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true] at hrec
       obtain ⟨⟨⟨⟨huy, hfw⟩, hf9⟩, hjs⟩, hall⟩ := hrec
       have hf8 := codesIn_lt hfw (by decide) (by decide)
@@ -315,7 +315,7 @@ theorem outer [IsSimpleGroup J] (hJ : Nat.card J = 50232960)
           rw [List.getElem_zip, hqt]
         have hj := hall _ hmem
         by_cases hj9 : r.2.2.2.2.2[t] < 9
-        · rw [if_pos hj9] at hj
+        · rw [ite_eq_left hj9] at hj
           have he : ev g q.2 = ev g r.2.2.2.2.1 ^ r.2.2.2.2.2[t] := by
             rw [← ev_rep]
             apply base_eq hJ hg
@@ -327,7 +327,7 @@ theorem outer [IsSimpleGroup J] (hJ : Nat.card J = 50232960)
               exact hqw.trans (eq_of_beq hj).symm
           rw [he]
           exact ⟨(r.2.2.2.2.2[t] : ℤ), by simp⟩
-        · rw [if_neg hj9] at hj
+        · rw [ite_eq_right hj9] at hj
           exact absurd (hpt.trans hqw) (ne_of_nb hj)
       exact false_of_le_zpowers hE3 hE9 hle
 

@@ -53,7 +53,7 @@ theorem exists_lift_normalizer {A : Subgroup X} (hEA : IsElemAbelian 2 A) {nb : 
   calc proj A m * piA A a * (proj A m)⁻¹
       = proj A k * (proj A n' * piA A a * (proj A n')⁻¹) * (proj A k)⁻¹ := by
         rw [hmk]
-        simp only [map_mul, mul_inv_rev]
+        simp only [mul_inv_rev]
         group
     _ = proj A k * piA A a' * (proj A k)⁻¹ := by rw [hconj]
     _ = piA A a' := by rw [hcomm]; group
@@ -65,12 +65,14 @@ theorem exists_lift_normalizer {A : Subgroup X} (hEA : IsElemAbelian 2 A) {nb : 
 theorem coe_eAbar (A : Subgroup X) (hA2 : ∀ a ∈ A, a ^ 2 = 1) (a : ↥A) :
     ((eAbar A hA2 a : ↥(Abar A)) : Mbar A) = piA A a := rfl
 
+omit [Finite X] in
 theorem proj_conj_piA {A : Subgroup X} {g : X} (hgM : g ∈ nc A) (hg : g ∈ normalizer (A : Set X))
     (a : ↥A) : proj A ⟨g, hgM⟩ * piA A a * (proj A ⟨g, hgM⟩)⁻¹ =
       piA A ⟨g * a * g⁻¹, (Subgroup.mem_normalizer_iff.1 hg a).1 a.2⟩ := by
   rw [piA_apply, piA_apply, ← map_inv, ← map_mul, ← map_mul]
   rfl
 
+omit [Finite X] in
 theorem proj_mem_normalizer_Abar {A : Subgroup X} {g : X} (hgM : g ∈ nc A)
     (hg : g ∈ normalizer (A : Set X)) :
     proj A ⟨g, hgM⟩ ∈ normalizer ((Abar A : Subgroup (Mbar A)) : Set (Mbar A)) := by

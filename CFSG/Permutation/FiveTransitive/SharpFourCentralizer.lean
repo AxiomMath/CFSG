@@ -34,6 +34,7 @@ private def fixedByEquivOfConjugate
     apply Subtype.ext
     simp
 
+omit [Finite G] [Fintype X] in
 theorem fixedBy_ncard_eq_of_conjugate
     (g h q : G) (hconj : q * g * q⁻¹ = h) :
     (MulAction.fixedBy X g).ncard =
@@ -96,11 +97,13 @@ private theorem involution_fixedBy_ncard_eq_two_or_three
 
 private def movedBy (t : G) : Set X := {x | t • x ≠ x}
 
+omit [Finite G] [Fintype X] in
 private theorem movedBy_eq_compl_fixedBy (t : G) :
     movedBy (X := X) t = (MulAction.fixedBy X t)ᶜ := by
   ext x
   simp [movedBy, MulAction.mem_fixedBy]
 
+omit [Finite G] in
 private theorem movedBy_ncard (t : G) :
     (movedBy (X := X) t).ncard =
       Fintype.card X - (MulAction.fixedBy X t).ncard := by
@@ -115,6 +118,7 @@ private theorem movedBy_ncard (t : G) :
     (e a : Fin 4 ↪ X) : G :=
   Classical.choose (exists_maps_embedding h4 e a)
 
+omit [Finite G] [Fintype X] in
 @[simp] theorem sharpTransport_smul_apply
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (e a : Fin 4 ↪ X) (i : Fin 4) :
@@ -160,6 +164,7 @@ private theorem centralizer_ncard_eq_intertwining
       Nat.card (IntertwiningEmbeddings (X := X) t σ) :=
   Nat.card_congr (centralizerEquivIntertwining h4 hcard e t σ hbase)
 
+omit [Finite G] in
 theorem centralizer_ncard_eq_of_conjugate
     (g h q : G) (hconj : q * g * q⁻¹ = h) :
     Nat.card (Subgroup.centralizer {g}) =
@@ -180,6 +185,7 @@ theorem centralizer_ncard_eq_of_conjugate
       simpa using h'
   exact Nat.card_congr (Equiv.subtypeEquiv (MulAut.conj q).toEquiv key)
 
+omit [Finite G] [Fintype X] in
 private theorem involution_smul_smul (t : G) (htwo : t ^ 2 = 1) (x : X) :
     t • (t • x) = x := by
   rw [← mul_smul, ← pow_two, htwo, one_smul]
@@ -297,14 +303,15 @@ private def singleIntertwiningEquiv
     · apply Subtype.ext
       rfl
 
+omit [Finite G] in
 theorem singleIntertwining_ncard
     (t : G) (htwo : t ^ 2 = 1) :
     Nat.card (IntertwiningEmbeddings (X := X) t baseSingleSwap) =
       (MulAction.fixedBy X t).ncard.descFactorial 2 *
         (Fintype.card X - (MulAction.fixedBy X t).ncard) := by
   classical
-  letI : Fintype (MulAction.fixedBy X t) := Fintype.ofFinite _
-  letI : Fintype (Fin 2 ↪ MulAction.fixedBy X t) := Fintype.ofFinite _
+  let : Fintype (MulAction.fixedBy X t) := Fintype.ofFinite _
+  let : Fintype (Fin 2 ↪ MulAction.fixedBy X t) := Fintype.ofFinite _
   calc
     Nat.card (IntertwiningEmbeddings (X := X) t baseSingleSwap) =
         Nat.card (SingleParameters (X := X) t) :=
@@ -322,6 +329,7 @@ private def movedImage (t : G) (x : movedBy (X := X) t) : movedBy (X := X) t :=
     intro h
     exact x.property ((MulAction.injective t) h)⟩
 
+omit [Finite G] [Fintype X] in
 private theorem movedImage_ne (t : G) (x : movedBy (X := X) t) :
     movedImage t x ≠ x := by
   intro h
@@ -437,13 +445,14 @@ private def doubleIntertwiningEquiv
     rcases p with ⟨⟨x, hx⟩, ⟨⟨z, hz⟩, hzx, hztx⟩⟩
     rfl
 
+omit [Finite G] in
 private theorem doubleParameterFiber_ncard
     (t : G) (x : movedBy (X := X) t) :
     Nat.card {z : movedBy (X := X) t //
       z ≠ x ∧ z ≠ movedImage t x} =
       Nat.card (movedBy (X := X) t) - 2 := by
   classical
-  letI : Fintype (movedBy (X := X) t) := Fintype.ofFinite _
+  let : Fintype (movedBy (X := X) t) := Fintype.ofFinite _
   calc
     Nat.card {z : movedBy (X := X) t //
         z ≠ x ∧ z ≠ movedImage t x} =
@@ -465,13 +474,14 @@ private theorem doubleParameterFiber_ncard
     _ = Nat.card (movedBy (X := X) t) - 2 := by
       rw [Nat.card_eq_fintype_card]
 
+omit [Finite G] in
 private theorem doubleParameters_ncard (t : G) :
     Nat.card (DoubleParameters (X := X) t) =
       Nat.card (movedBy (X := X) t) *
         (Nat.card (movedBy (X := X) t) - 2) := by
   classical
-  letI : Fintype (movedBy (X := X) t) := Fintype.ofFinite _
-  letI : ∀ x : movedBy (X := X) t,
+  let : Fintype (movedBy (X := X) t) := Fintype.ofFinite _
+  let : ∀ x : movedBy (X := X) t,
       Fintype {z : movedBy (X := X) t //
         z ≠ x ∧ z ≠ movedImage t x} := fun _ => Fintype.ofFinite _
   unfold DoubleParameters
@@ -479,6 +489,7 @@ private theorem doubleParameters_ncard (t : G) :
   simp_rw [doubleParameterFiber_ncard]
   simp [Nat.card_eq_fintype_card]
 
+omit [Finite G] in
 theorem doubleIntertwining_ncard
     (t : G) (htwo : t ^ 2 = 1) :
     Nat.card (IntertwiningEmbeddings (X := X) t baseDoubleSwap) =
@@ -627,7 +638,7 @@ theorem sharp_five_degree_le_twelve
     (Fintype.card_pos_iff.mp (show 0 < Fintype.card X by omega))
   let K : Subgroup G := MulAction.stabilizer G x
   let Y := SubMulAction.ofStabilizer G x
-  letI : Fintype Y := Fintype.ofFinite _
+  let : Fintype Y := Fintype.ofFinite _
   have h4K : MulAction.IsMultiplyPretransitive K Y 4 := by
     simpa [K, Y] using
       (SubMulAction.ofStabilizer.isMultiplyPretransitive

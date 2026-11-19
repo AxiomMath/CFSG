@@ -19,7 +19,7 @@ theorem burnsideF4m_A42_center_conj {D C : Type} [Group D] [Group C] [Finite C]
     (hU : IsSylowTwoOf U ⊤) {Q : Subgroup D} (hUQ : U.map ψ.toMonoidHom ≤ Q)
     {w : D} (hw : w ∈ ctr (oPPrime 2 Q)) (hw1 : w ≠ 1) (hw2 : w * w = 1) :
     ∃ h ∈ P ⊓ P', h * z₀ * h⁻¹ = ψ.symm w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : ∀ u ∈ U, ψ u * w = w * ψ u := by
     intro u hu
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hU.2.1) ⟨u, hu⟩
@@ -86,8 +86,8 @@ theorem burnsideF4m_A42_U4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgro
           (amalgamMap ((burnsideF4d_bOne β ε).comp (burnsideF4m_psi θ h1))
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) j) := by
   classical
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   obtain ⟨chart, hm⟩ := hyp.amalgam.lie_amalgam
   obtain ⟨marking, hpts, hlines, -, hshort⟩ := burnsideF4gU4Inv_marking chart
   obtain ⟨Φ, e0, e1, -, e3⟩ := burnsideF4gU4Inv_equiv_roots marking
@@ -133,9 +133,9 @@ theorem burnsideF4m_A42_U4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgro
   have hmodel := burnsideF4g_lieModel_U4 hyp.amalgam.model
   obtain ⟨F, _, _, _, hF, ⟨e⟩⟩ := Un.un_model_equiv hmodel
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero hF
-  haveI : Fact ((ζ : F) ≠ 0) := ⟨hζ⟩
-  haveI := Un.isSimpleGroup_unSU hF
-  haveI := Finite.of_equiv (↥Gp) e.symm.toEquiv
+  have : Fact ((ζ : F) ≠ 0) := ⟨hζ⟩
+  have := Un.isSimpleGroup_unSU hF
+  have := Finite.of_equiv (↥Gp) e.symm.toEquiv
   obtain ⟨z₀, t₀, V4, V, Uc, R, K, S1, SV, SL⟩ := Un.unStdDatum_four f hf F hF ζ
   obtain ⟨TD₀, hTD₀⟩ := burnsideF4g_yamU4 marking
   rw [← hM1, ← hM2] at hTD₀
@@ -235,7 +235,7 @@ theorem burnsideF4m_A42_U4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgro
         exact S1.noconj (MulAut.conj c₀) (by rw [MulAut.conj_apply]; exact hc₀)
       · refine ⟨f, chart, hm, (ψ t₀).2, fun h => hψt1 (Subtype.ext h),
           congrArg Subtype.val hψt2, fun h => absurd h (by decide), (c : E), c.2, ?_⟩
-        rw [if_pos rfl, hshort, e3]
+        rw [ite_eq_left rfl, hshort, e3]
         refine ⟨c * ψ t₀ * c⁻¹, hc, ?_⟩
         simp only [Subgroup.coe_subtype, Subgroup.coe_mul, Subgroup.coe_inv]
 

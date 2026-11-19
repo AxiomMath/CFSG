@@ -79,25 +79,25 @@ theorem ggResI_forkDatum {ML : CoxeterMatrix Λ} (hWL : GGIsWeylMatrix ML)
       simp only [Option.map_none, Option.map_some] at h1
       rw [h1]
       by_cases hc : i = c.1
-      · rw [if_pos ((hsub i hi).mpr hc), if_pos hc]
+      · rw [ite_eq_left ((hsub i hi).mpr hc), ite_eq_left hc]
         simp
-      · rw [if_neg (fun h' => hc ((hsub i hi).mp h')), if_neg hc]
+      · rw [ite_eq_right (fun h' => hc ((hsub i hi).mp h')), ite_eq_right hc]
         simp
     · have h1 := hK (some ⟨i, hi⟩) none
       rw [haR ⟨i, hi⟩] at h1
       simp only [Option.map_none, Option.map_some] at h1
       rw [h1]
       by_cases hc : i = c.1
-      · rw [if_pos ((hsub i hi).mpr hc), if_pos hc]
+      · rw [ite_eq_left ((hsub i hi).mpr hc), ite_eq_left hc]
         simp
-      · rw [if_neg (fun h' => hc ((hsub i hi).mp h')), if_neg hc]
+      · rw [ite_eq_right (fun h' => hc ((hsub i hi).mp h')), ite_eq_right hc]
         simp
   have hAK' : ggAutomizer K Bs = Subgroup.closure
       ((fun i : Λ => φ (some i)) '' {i | i ≠ b} ∪ {φ none}) := by
     rw [hAK]
     congr 1
     ext γ
-    simp only [Set.mem_union, Set.mem_range, Set.mem_image, Set.mem_setOf_eq,
+    simp only [Set.mem_union, Set.mem_range, Set.mem_image, Set.mem_ofPred_eq,
       Set.mem_singleton_iff, Subtype.exists]
     constructor
     · rintro (⟨i, hi, rfl⟩ | rfl)

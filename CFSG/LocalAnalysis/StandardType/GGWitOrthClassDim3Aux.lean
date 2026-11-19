@@ -20,9 +20,9 @@ theorem owD3_binary_represents {K : Type*} [Field K] [Fintype K] (hodd : Odd (Na
     (hV : Module.finrank K V = 2) (t : K) (ht : t ≠ 0) :
     ∃ w : V, Q w = t := by
   have h2 : (2 : K) ≠ 0 := owD3_two_ne_zero_of_odd_card hodd
-  haveI : Invertible (2 : K) := invertibleOfNonzero h2
+  have : Invertible (2 : K) := invertibleOfNonzero h2
   have hQn : Q.Nondegenerate := (QuadraticMap.nondegenerate_polar_iff (Q := Q)).mp hQ
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hV]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hV]; norm_num)
   obtain ⟨x, hx⟩ := hQn.exists_isUnit
   have hx0 : Q x ≠ 0 := isUnit_iff_ne_zero.mp hx
   have hxne : x ≠ 0 := fun h => by
@@ -60,7 +60,7 @@ theorem owD3_binary_represents {K : Type*} [Field K] [Fintype K] (hodd : Odd (Na
         ring
       rw [hyy, h0, mul_zero, smul_zero]
     exact hyVne (hVxnd.1 yV hzero)
-  haveI : Finite (IsLocalRing.ResidueField K) :=
+  have : Finite (IsLocalRing.ResidueField K) :=
     Finite.of_surjective (Ideal.Quotient.mk (IsLocalRing.maximalIdeal K)) Ideal.Quotient.mk_surjective
   obtain ⟨α, β, hαβ⟩ := TauCeti.exists_mul_sq_add_mul_sq_eq_of_isUnit (R := K)
     (isUnit_iff_ne_zero.mpr h2) (isUnit_iff_ne_zero.mpr hx0) (isUnit_iff_ne_zero.mpr hy0)
@@ -133,7 +133,7 @@ theorem owD3_order_criterion {K : Type*} [Field K] {U : Type*} [AddCommGroup U] 
     (hx : polarBilin Q a b / c = x)
     (hx0 : x ≠ 0) (hx1 : x ^ 2 ≠ 1) (hx2 : x ^ 2 ≠ 2) (hx4 : x ^ 2 ≠ 4) :
     4 < orderOf (owCr_orthRefl Q a ha * owCr_orthRefl Q b hb) := by
-  haveI : Finite (U ≃ₗ[K] U) :=
+  have : Finite (U ≃ₗ[K] U) :=
     Finite.of_injective (fun e : U ≃ₗ[K] U => (e : U → U))
       (fun e₁ e₂ h => LinearEquiv.ext (fun v => congrFun h v))
   let ra : U ≃ₗ[K] U := owCr_orthRefl Q a ha

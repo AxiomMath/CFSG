@@ -21,8 +21,8 @@ theorem exists_faithful_finite_completion_weiss {α : RankTwoAmalgam.{u}} {Y₀ 
       WeissFree ↥(c.φ1.range ⊔ c.φ2.range) c.graph n ∧ (m : ℕ∞) < c.graph.egirth := by
   obtain ⟨Y, hY, hFin, c, hc, hπ, hgirth⟩ :=
     exists_faithful_finite_completion_lt_egirth c₀ hc₀ m
-  letI : Group Y := hY
-  letI : Finite Y := hFin
+  let : Group Y := hY
+  let : Finite Y := hFin
   exact ⟨Y, hY, hFin, c, hc, hπ, completion_moufangCondition_of_hat c hc hW.1,
     completion_weissFree_of_hat c hc hn hW.2, hgirth⟩
 
@@ -38,8 +38,8 @@ theorem ofSubgroups_exists_faithful_finite_completion_weiss {X : Type u} [Group 
     exists_faithful_finite_completion_weiss
       (inclusionCompletion P1 P2 (P1 ⊔ P2) rfl)
       (inclusionCompletion_isFaithful P1 P2 (P1 ⊔ P2) rfl) hn hW m
-  letI : Group Y := hY
-  letI : Finite Y := hFin
+  let : Group Y := hY
+  let : Finite Y := hFin
   refine ⟨Y, hY, hFin, c, hc, ⟨(P1 ⊔ P2).subtype.comp π, ?_, ?_⟩, hM, hWf, hgirth⟩
   · intro g
     have h : π (c.φ1 g) = (inclusionCompletion P1 P2 (P1 ⊔ P2) rfl).φ1 g :=

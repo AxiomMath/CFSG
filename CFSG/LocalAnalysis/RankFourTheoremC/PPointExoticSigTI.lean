@@ -33,7 +33,7 @@ theorem inf_map_conj_eq_bot_of_doubleCosets {Q : Type*} [Group Q] [Finite Q] {p 
   obtain ⟨r', hr'R, hr'⟩ := Subgroup.mem_map.1 hxy
   have hxeq : x = (a * g i * b) * r' * (a * g i * b)⁻¹ := by
     rw [← hr']
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
   obtain ⟨w, hw⟩ : ∃ w, w = a⁻¹ * x * a := ⟨_, rfl⟩
   have hwR : w ∈ R := by
     have := (Subgroup.mem_normalizer_iff.1 (hNR (N.inv_mem ha)) x).1 hxR
@@ -187,7 +187,7 @@ theorem exists_sylow_weakTI_of_equiv {X Q : Type*} [Group X] [Finite X] [Group Q
     (hTI : ∀ y ∈ G, y ∉ normalizer (R : Set Q) →
       R ⊓ R.map (MulAut.conj y).toMonoidHom = ⊥) :
     ∃ R₀ : Sylow p X, WeakTI (R₀ : Subgroup X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcardR' : Nat.card ((R.subgroupOf G).map e.symm.toMonoidHom) =
       p ^ (Nat.card X).factorization p := by
     rw [Subgroup.card_map_of_injective e.symm.injective, ← hcard]
@@ -209,7 +209,7 @@ theorem exists_sylow_weakTI_of_equiv {X Q : Type*} [Group X] [Finite X] [Group Q
   have hxg' : ((g⁻¹ * x * g : G) : Q) ∈ R := hxg
   have hmem : (x : Q) ∈ R ⊓ R.map (MulAut.conj (g : Q)).toMonoidHom := by
     refine ⟨hxR, ⟨_, hxg', ?_⟩⟩
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply,
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply,
       Subgroup.coe_mul, InvMemClass.coe_inv]
     group
   rw [h1, Subgroup.mem_bot] at hmem

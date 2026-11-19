@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] {M V Q P H : Subgroup G} [Finite G]
 
+omit [Finite G] in
 theorem mem_of_conjSubgroup_le {a k : G} {K : Subgroup G} (h : conjSubgroup a K ≤ K) (hk : k ∈ K) :
     a * k * a⁻¹ ∈ K :=
   h ⟨k, hk, by simp [MulAut.conj_apply]⟩
@@ -24,7 +25,7 @@ include hc
 theorem cPbar_sq_eq_one {x : G} (hx : x ∈ cPbar V H P) : x * x = 1 := by
   have hxP : x ∈ P := (Subgroup.mem_inf.mp hx).1
   have hxc : ∀ y ∈ xOf V H, ⁅x, y⁆ ∈ wOf V H := ((Subgroup.mem_inf.mp hx).2).2
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hc.isPGroup_P⟩
   have hsqF : (⟨x, hxP⟩ : P) ^ 2 ∈ frattini ↥P :=
     CFSG.pth_power_mem_frattini_of_isPGroup (R := ↥P) (p := 2) _
   have hxV : x * x ∈ V := hc.frattini_P_le ⟨_, hsqF, by simp [pow_two]⟩
@@ -59,17 +60,17 @@ theorem isElemAbelian_cPbar : Assembly.IsElemAbelian 2 (cPbar V H P) := by
 
 theorem isElemAbelian_wOf_sup_cPbar : Assembly.IsElemAbelian 2 (wOf V H ⊔ cPbar V H P) :=
   CFSG.Open.IsElemAbelian.sup_of_commute hc.wOf_isElemAbelian hc.isElemAbelian_cPbar
-    (fun a ha b hb => (hc.cPbar_centralizes_wOf hb a ha).symm)
+    (fun a ha _b hb => (hc.cPbar_centralizes_wOf hb a ha).symm)
 
 theorem wOf_conj_facts {g : G} (hgH : g ∈ H) :
-    (∀ w ∈ wOf V H, ∀ p ∈ P, w * p * w⁻¹ ∈ P) ∧
-    (∀ w ∈ wOf V H, ∀ b ∈ conjSubgroup g V, w * b * w⁻¹ ∈ conjSubgroup g V) ∧
-    (∀ x ∈ H, ∀ w ∈ wOf V H, x * w * x⁻¹ ∈ wOf V H) :=
-  ⟨fun w hw p hp => (Subgroup.mem_normalizer_iff.mp
+    (∀ _w ∈ wOf V H, ∀ p ∈ P, _w * p * _w⁻¹ ∈ P) ∧
+    (∀ _w ∈ wOf V H, ∀ b ∈ conjSubgroup g V, _w * b * _w⁻¹ ∈ conjSubgroup g V) ∧
+    (∀ _x ∈ H, ∀ _w ∈ wOf V H, _x * _w * _x⁻¹ ∈ wOf V H) :=
+  ⟨fun _w hw p hp => (Subgroup.mem_normalizer_iff.mp
       (hc.M_le_normalizer_P (hc.pCoreH_le_M (wOf_le_pCore V H hw))) p).mp hp,
-   fun w hw b hb => (Subgroup.mem_normalizer_iff.mp
+   fun _w hw b hb => (Subgroup.mem_normalizer_iff.mp
       (hc.pCoreH_le_normalizer_conj hgH (wOf_le_pCore V H hw)) b).mp hb,
-   fun x hx w hw => (Subgroup.mem_normalizer_iff.mp (H_le_normalizer_wOf V H hx) w).mp hw⟩
+   fun _x hx _w hw => (Subgroup.mem_normalizer_iff.mp (H_le_normalizer_wOf V H hx) _w).mp hw⟩
 
 theorem sec25b_of_a {g : G} (hgX : g ∈ xOf V H)
     (hg : ∃ u ∈ V, ∃ w ∈ conjSubgroup g V, ⁅u, w⁆ ∉ wOf V H)

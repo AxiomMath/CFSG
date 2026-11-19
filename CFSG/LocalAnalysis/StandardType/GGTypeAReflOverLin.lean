@@ -32,12 +32,12 @@ theorem rankOne_pow_three_apply {T : V ≃ₗ[K] V} {w : V} {φ : Module.Dual K 
     (T ^ 3) z = z + (3 : K) • (φ z • w) := by
   have h2 : T (T z) = z + (2 : K) • (φ z • w) := by
     rw [hT, hT]
-    simp only [map_add, map_smul, hφw, smul_zero, mul_zero, add_zero, smul_add, smul_smul]
+    simp only [map_add, map_smul, hφw, smul_zero, add_zero, smul_smul]
     rw [← smul_smul, two_smul]
     abel
   have h3 : T (T (T z)) = z + (3 : K) • (φ z • w) := by
     rw [h2, hT]
-    simp only [map_add, map_smul, hφw, smul_zero, mul_zero, add_zero, smul_add, smul_smul]
+    simp only [map_add, map_smul, hφw, smul_zero, add_zero, smul_smul]
     rw [show (3 : K) * φ z = 2 * φ z + φ z by ring, add_smul]
     abel
   rw [show (T ^ 3) z = T (T (T z)) by
@@ -51,7 +51,7 @@ theorem rankOne_pow_two_apply {T : V ≃ₗ[K] V} {w : V} {φ : Module.Dual K V}
   rw [show (T ^ 2) z = T (T z) by
     rw [pow_two, LinearEquiv.mul_apply]]
   rw [hT, hT]
-  simp only [map_add, map_smul, hφw, smul_zero, mul_zero, add_zero, smul_add, smul_smul]
+  simp only [map_add, map_smul, hφw, smul_zero, add_zero, smul_smul]
   rw [← smul_smul, two_smul]
   abel
 
@@ -68,7 +68,7 @@ private lemma ggCoxB_three (t : K) : ggCoxB K ((3 : ℕ) : ℤ) t = t * (t + 1) 
 private lemma ggCoxA_two (t : K) : ggCoxA K ((2 : ℕ) : ℤ) t = 1 := by
   have h : ((2 : ℕ) : ℤ) = 2 * 1 := by norm_num
   rw [h, ggCoxA_two_mul]
-  simp [S_zero, S_one, S_neg_one]
+  simp [S_zero, S_neg_one]
 
 private lemma ggCoxB_two (t : K) : ggCoxB K ((2 : ℕ) : ℤ) t = t + 1 := by
   have h : ((2 : ℕ) : ℤ) = 2 * 1 := by norm_num
@@ -142,7 +142,7 @@ theorem reflection_mul_reflection_pow_three_cross (h2 : (2 : K) ≠ 0)
       have h4 : (4 : K) = 1 := by
         have : (4 : K) = 3 + 1 := by norm_num
         rw [this, h3zero, zero_add]
-      rwa [huv, h4]
+      rw [huv, h4]
   ·
     obtain ⟨c, hc⟩ := exists_eq_smul_of_not_linearIndependent hx0 hxy
     set φ : Module.Dual K V := c • g - f with hφdef
@@ -195,13 +195,13 @@ theorem reflection_mul_reflection_pow_three_cross (h2 : (2 : K) ≠ 0)
       have h4 : (4 : K) = 1 := by
         have : (4 : K) = 3 + 1 := by norm_num
         rw [this, h3zero, zero_add]
-      rwa [huv, h4]
+      rw [huv, h4]
 
 theorem reflection_mul_reflection_pow_two_cross (h2 : (2 : K) ≠ 0)
     {x y : V} {f g : Module.Dual K V} (hf : f x = 2) (hg : g y = 2)
     (hsq : (reflection hf * reflection hg) ^ 2 = 1)
     (hne : reflection hf ≠ reflection hg) : f y = 0 ∧ g x = 0 := by
-  haveI : NeZero (2 : K) := ⟨h2⟩
+  have : NeZero (2 : K) := ⟨h2⟩
   rcases linearIndependent_and_or_exists_transvection hf hg with
     ⟨hxy, hfg⟩ | ⟨w, φ, hφw, hT⟩
   · have hcrit := (reflection_mul_reflection_pow_eq_one_iff hf hg hxy hfg 2).mp hsq
@@ -257,7 +257,7 @@ private def swapForm (p n : ℕ) (a b : Fin (n + 1)) :
 
 private theorem swapForm_swapRoot {a b : Fin (n + 1)} (hab : a ≠ b) :
     swapForm p n a b (swapRoot p n a b) = 2 := by
-  simp [swapForm, swapRoot, Pi.single_apply, hab]
+  simp [swapForm, swapRoot, hab]
   norm_num
 
 private theorem coordPerm_swap_apply {a b : Fin (n + 1)} (hab : a ≠ b)
@@ -420,7 +420,7 @@ theorem exists_shape_of_comm_braid (hp2 : p ≠ 2) (hn : 3 ≤ n)
     rw [Pi.add_apply, Pi.smul_apply, Pi.smul_apply]
     rcases Fin.eq_castSucc_or_eq_last m with ⟨k, rfl⟩ | rfl
     · have hk : x k.castSucc = x i0.castSucc := hcoord k i0
-      rw [hk, kThreeRoot, Pi.single_apply, if_neg (Fin.castSucc_ne_last k), Pi.one_apply]
+      rw [hk, kThreeRoot, Pi.single_apply, ite_eq_right (Fin.castSucc_ne_last k), Pi.one_apply]
       simp [b]
     · rw [kThreeRoot, Pi.single_eq_same, Pi.one_apply]
       simp [a, b]
@@ -476,8 +476,8 @@ theorem exists_shape_of_comm_braid (hp2 : p ≠ 2) (hn : 3 ≤ n)
       funext j
       rw [Pi.single_apply]
       by_cases h : i = j
-      · rw [if_pos h, if_pos h.symm]
-      · rw [if_neg h, if_neg (Ne.symm h)]
+      · rw [ite_eq_left h, ite_eq_left h.symm]
+      · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
     rw [LinearMap.pi_apply_eq_sum_univ f v, Fin.sum_univ_castSucc]
     simp only [hsingle, hcoeff]
     rw [Finset.mul_sum]
@@ -533,7 +533,7 @@ theorem exists_shape_of_comm_braid (hp2 : p ≠ 2) (hn : 3 ≤ n)
     exact hcross
   have ha_ne : a ≠ 0 := by
     intro ha0
-    have h01 : (0 : ZMod p) = 1 := by simpa [ha0] using hcrossAB
+    have h01 : (0 : ZMod p) = 1 := by simp [ha0] at hcrossAB
     exact zero_ne_one h01
   have hdiff : a * B - a * A = 1 := by
     rw [← hcrossAB]
@@ -544,7 +544,7 @@ theorem exists_shape_of_comm_braid (hp2 : p ≠ 2) (hn : 3 ≤ n)
     have h := hfx
     rw [← h]
     rw [hform x, hxdecomp]
-    simp [kThreeRoot, Pi.single_apply, Finset.sum_const, nsmul_eq_mul, Pi.add_apply,
+    simp [kThreeRoot, Finset.sum_const, nsmul_eq_mul, Pi.add_apply,
       Pi.smul_apply]
     ring
   let c : ZMod p := a * A
@@ -598,7 +598,7 @@ theorem eq_kThreeRefl_or_transvection (hp2 : p ≠ 2) (hn : 3 ≤ n)
       coordPerm p n (Equiv.swap j.castSucc j.succ) * T *
         coordPerm p n (Equiv.swap j.castSucc j.succ))
     (hne : T ≠ coordPerm p n (Equiv.swap j.castSucc j.succ))
-    (hpairT : (T * kRefl p n) ^ 2 = 1 ∨ (T * kRefl p n) ^ 3 = 1)
+    (_hpairT : (T * kRefl p n) ^ 2 = 1 ∨ (T * kRefl p n) ^ 3 = 1)
     (hpairT' : ((coordPerm p n (Equiv.swap j.castSucc j.succ) * T *
         coordPerm p n (Equiv.swap j.castSucc j.succ)) * kRefl p n) ^ 2 = 1 ∨
       ((coordPerm p n (Equiv.swap j.castSucc j.succ) * T *
@@ -624,7 +624,7 @@ theorem eq_kThreeRefl_or_transvection (hp2 : p ≠ 2) (hn : 3 ≤ n)
     ring
   have hsingle_cast : ∀ i : Fin n, kThreeRoot p n i.castSucc = 0 := by
     intro i
-    rw [kThreeRoot, Pi.single_apply, if_neg (Fin.castSucc_ne_last i)]
+    rw [kThreeRoot, Pi.single_apply, ite_eq_right (Fin.castSucc_ne_last i)]
   have hsum_n : (∑ i : Fin n, (kThreeRoot p n + u • (1 : V)) i.castSucc) =
       (n : ZMod p) * u := by
     rw [Finset.sum_congr rfl (fun i _ => ?_)]
@@ -683,7 +683,7 @@ theorem eq_kThreeRefl_or_transvection (hp2 : p ≠ 2) (hn : 3 ≤ n)
     intro i hi
     change (kThreeRoot p n + u • (1 : V)) i = u
     rw [Pi.add_apply, Pi.smul_apply, Pi.one_apply, kThreeRoot, Pi.single_apply,
-      if_neg hi]
+      ite_eq_right hi]
     ring
   have hhj0 : h' 0 = u := by
     rw [show h' = t h by rfl, show t = coordPerm p n (Equiv.swap j.castSucc j.succ) by rfl,
@@ -699,11 +699,11 @@ theorem eq_kThreeRefl_or_transvection (hp2 : p ≠ 2) (hn : 3 ≤ n)
       coordPerm_apply, Equiv.symm_swap, ← hjsucc, Equiv.swap_apply_right]
     exact h_coord j.castSucc (Fin.castSucc_ne_last j)
   have hk0 : kRoot p n 0 = 1 := by
-    rw [kRoot, Pi.add_apply, Pi.one_apply, Pi.single_apply, if_neg h0last]
+    rw [kRoot, Pi.add_apply, Pi.one_apply, Pi.single_apply, ite_eq_right h0last]
     ring
   have hkj : kRoot p n j.castSucc = 1 := by
     rw [kRoot, Pi.add_apply, Pi.one_apply, Pi.single_apply,
-      if_neg (Fin.castSucc_ne_last j)]
+      ite_eq_right (Fin.castSucc_ne_last j)]
     ring
   have hh0 : h ≠ 0 := by
     intro h0
@@ -765,12 +765,12 @@ theorem eq_kThreeRefl_or_transvection (hp2 : p ≠ 2) (hn : 3 ≤ n)
         · subst hi'
           rw [Equiv.swap_apply_right, hjsucc, hkj]
           rw [Pi.add_apply, Pi.one_apply, Pi.single_apply,
-            if_neg (Fin.castSucc_ne_last j).symm]
+            ite_eq_right (Fin.castSucc_ne_last j).symm]
           norm_num
         · have hil : i ≠ Fin.last n := by rwa [hjsucc] at hi'
           rw [Equiv.swap_apply_of_ne_of_ne hi hi', kRoot, Pi.add_apply, Pi.one_apply,
-            Pi.single_apply, if_neg hil]
-          rw [Pi.add_apply, Pi.one_apply, Pi.single_apply, if_neg hi]
+            Pi.single_apply, ite_eq_right hil]
+          rw [Pi.add_apply, Pi.one_apply, Pi.single_apply, ite_eq_right hi]
           ring
     have hsum1 : (∑ i : Fin n,
         (((1 : V) + Pi.single j.castSucc (1 : ZMod p)) : V) i.castSucc) =
@@ -785,23 +785,23 @@ theorem eq_kThreeRefl_or_transvection (hp2 : p ≠ 2) (hn : 3 ≤ n)
             1 + if j = i then 1 else 0
           by_cases h : j = i
           · rw [h]
-            simp [Pi.single_apply]
+            simp
           · have hc : ¬ j.castSucc = i.castSucc := by
               simpa [Fin.castSucc_inj] using h
-            simp [Pi.single_apply, h, hc])
+            simp [h, hc])
       rw [hcongr, Finset.sum_add_distrib]
       congr 1
       · simp [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
       · rw [Finset.sum_eq_single j]
-        · rw [if_pos rfl]
+        · rw [ite_eq_left rfl]
         · intro b _ hb
-          rw [if_neg (Ne.symm hb)]
+          rw [ite_eq_right (Ne.symm hb)]
         · intro hj
           simp at hj
     have hlast1 : (((1 : V) + Pi.single j.castSucc (1 : ZMod p)) : V)
         (Fin.last n) = 1 := by
       rw [Pi.add_apply, Pi.one_apply, Pi.single_apply,
-        if_neg (Fin.castSucc_ne_last j).symm]
+        ite_eq_right (Fin.castSucc_ne_last j).symm]
       norm_num
     rw [show α' (kRoot p n) = α (t (kRoot p n)) by rfl, htkr, hαval, hsum1, hlast1]
     ring
@@ -876,7 +876,7 @@ theorem eq_kThreeRefl_or_transvection (hp2 : p ≠ 2) (hn : 3 ≤ n)
       rw [hT_refl, kRefl_apply, reflection_apply, hα_eq, hhroot, kCoroot_apply]
     · rw [LinearMap.sub_apply, kCoroot_apply]
       have hkroot : kRoot p n (Fin.last n) = 2 := by
-        simp [kRoot, kThreeRoot, Pi.single_apply, Pi.add_apply]
+        simp [kRoot, Pi.add_apply]
         norm_num
       rw [hkroot, hαroot]
       ring

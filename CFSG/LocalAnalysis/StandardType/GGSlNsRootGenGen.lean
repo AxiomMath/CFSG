@@ -67,7 +67,7 @@ private theorem one_add_mul_one_add_mul_one_sub_mul_one_sub {R : Type*} [Ring R]
   have h4 : E * X * E = 0 := by rw [hEX, zero_mul]
   have h5 : X * E * X * E = 0 := by rw [mul_assoc X E X, hEX, mul_zero, zero_mul]
   rw [h]
-  simp [hX, hEX, hE, h1, h2, h3, h4, h5]
+  simp [hX, hEX, hE, h1, h2]
 
 theorem blockUnit_mul_self {ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r}
     {i j : Fin s} (hij : i ≠ j) :
@@ -178,11 +178,11 @@ theorem frameForm_blockUnit_apply
     simp only [Prod.smul_fst, Finset.sum_apply, Pi.smul_apply]
     by_cases hk : k = i
     · subst hk
-      simp only [Pi.single_eq_same, smul_eq_mul, mul_one]
+      simp only [Pi.single_eq_same]
       exact hsum
     · simp [hk]
   · rw [Prod.snd_sum]
-    simp [Prod.smul_snd]
+    simp
 
 theorem frameForm_blockUnit
     (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r) (i j : Fin s) :
@@ -200,7 +200,7 @@ theorem frameForm_one_add_blockUnit
   rw [frameForm_add, frameForm_one, frameForm_blockUnit]
 
 theorem thetaMat_transvection_one
-    (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r) {i j : Fin s} (hij : i ≠ j) :
+    (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r) {i j : Fin s} (_hij : i ≠ j) :
     thetaMat g ε (Matrix.transvection i j (1 : AdjoinRoot g)) =
       1 + blockUnit (K := K) ε i j := by
   apply frameForm_injective g ε
@@ -215,7 +215,7 @@ theorem thetaMat_transvection_one
   · simp [LinearMap.comp_apply]
 
 theorem thetaMat_transvection_neg_one
-    (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r) {i j : Fin s} (hij : i ≠ j) :
+    (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r) {i j : Fin s} (_hij : i ≠ j) :
     thetaMat g ε (Matrix.transvection i j (-1 : AdjoinRoot g)) =
       1 - blockUnit (K := K) ε i j := by
   apply frameForm_injective g ε
@@ -641,7 +641,7 @@ theorem iSup_blocks_eq_top
 
 theorem transvection_mem_of_avoid_pair
     (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r) (hdim : 2 ≤ (rootPB g).dim)
-    (hs : 3 ≤ s) {i₀ j₀ : Fin s} (hij₀ : i₀ ≠ j₀)
+    (hs : 3 ≤ s) {i₀ j₀ : Fin s} (_hij₀ : i₀ ≠ j₀)
     {H : Subgroup (SpecialLinearGroup (Fin n) K)}
     (hpair : ∀ (i j : Fin s), i ≠ j → ({i, j} : Finset (Fin s)) ≠ {i₀, j₀} →
       pairBlock g ε i j ≤ H)

@@ -31,7 +31,7 @@ theorem coverAbelianSylowLemma : CoverAbelianSylowLemma := by
       Subgroup.index_map_of_bijective (MulAut.conj g).bijective]
   have heq : D'.span.comap π = (T : Subgroup K) :=
     le_antisymm hle
-      (((T.isPGroup'.to_le hle).toSylow hidx').maximal_isPGroup.2 T.isPGroup' hle)
+      (((T.isPGroup.to_le hle).toSylow hidx').maximal_isPGroup.2 T.isPGroup hle)
   have hN' : D'.Nondeg := hN
   have hF' : D'.NoFun := hF
   have hn' : D'.n ≤ 4 := hn

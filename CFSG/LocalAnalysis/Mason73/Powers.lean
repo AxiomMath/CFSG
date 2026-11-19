@@ -60,8 +60,7 @@ theorem exists_mul_self_eq_x1T (hn : 3 ≤ n) :
     refine ⟨mul_one _, isConst_of_eq_four (-(2 * ss n)) ?_ ?_ ?_ ?_⟩ <;>
       simp only [Pi.sub_apply, Pi.add_apply, OneMemClass.coe_one, pv_one, hv, Matrix.cons_val,
         Nat.cast_one, Nat.cast_zero, mul_one, mul_zero] <;>
-      first | ring1 | linear_combination h4 + hh2 | linear_combination -h4 - hh2 |
-        linear_combination h4 - hh2 | linear_combination -h4 + hh2
+      first | ring1 | linear_combination h4 + hh2
 
 theorem exists_pow_four_eq_zT_of_piT_s23 (hn : 3 ≤ n) {μ : L4Model n}
     (hπ : piT μ = s23 ∨ piT μ = s01) : ∃ c ∈ centralizer {μ}, c ^ 4 = zT (by omega) := by
@@ -82,8 +81,8 @@ theorem exists_pow_four_eq_zT_of_piT_s23 (hn : 3 ≤ n) {μ : L4Model n}
         ring1
     · rw [el_one_pow, zT, el_eq_el_iff (by omega)]
       refine ⟨rfl, isConst_of_eq_four (hh n) ?_ ?_ ?_ ?_⟩ <;>
-        simp only [Pi.sub_apply, Pi.smul_apply, hv, Matrix.cons_val, nsmul_eq_mul, Pi.mul_apply,
-          Pi.natCast_apply, Pi.ofNat_apply, Nat.cast_one, Nat.cast_zero, Nat.cast_ofNat, mul_one,
+        simp only [Pi.sub_apply, hv, Matrix.cons_val, nsmul_eq_mul, Pi.mul_apply,
+          Pi.ofNat_apply, Nat.cast_one, Nat.cast_zero, Nat.cast_ofNat, mul_one,
           mul_zero] <;>
         lc2 h4 hh2
   · have hc : detSum (fun i => ss n * (![1, 1, -2, 0] : Fin 4 → ZMod (2 ^ n)) i) 1 := by
@@ -98,8 +97,8 @@ theorem exists_pow_four_eq_zT_of_piT_s23 (hn : 3 ≤ n) {μ : L4Model n}
         ring1
     · rw [el_one_pow, zT, el_eq_el_iff (by omega)]
       refine ⟨rfl, isConst_of_eq_four 0 ?_ ?_ ?_ ?_⟩ <;>
-        simp only [Pi.sub_apply, Pi.smul_apply, hv, Matrix.cons_val, nsmul_eq_mul, Pi.mul_apply,
-          Pi.natCast_apply, Pi.ofNat_apply, Nat.cast_one, Nat.cast_zero, Nat.cast_ofNat, mul_one,
+        simp only [Pi.sub_apply, hv, Matrix.cons_val, nsmul_eq_mul, Pi.mul_apply,
+          Pi.ofNat_apply, Nat.cast_one, Nat.cast_zero, Nat.cast_ofNat, mul_one,
           mul_zero] <;>
         lc2 h4 hh2
 
@@ -271,7 +270,7 @@ theorem isConj_uT_mul_zT (hn : 3 ≤ n) :
   rw [he] at h2 ⊢
   refine isConj_el_s23_uT hn hd h2 ?_
   have hh2 := hh_add_hh (n := n) (by omega)
-  simp only [hv, Matrix.cons_val, Nat.cast_one, Nat.cast_zero, Nat.cast_ofNat, mul_one, mul_zero]
+  simp only [hv, Matrix.cons_val, Nat.cast_one, Nat.cast_ofNat, mul_one]
   linear_combination -hh2
 
 theorem uw1T_mul_self (hn : 3 ≤ n) : uw1T hn * uw1T hn = 1 := by
@@ -284,7 +283,7 @@ theorem uvxyT_mul_self (hn : 2 ≤ n) : uvxyT (n := n) (by omega) * uvxyT (by om
   have hh2 := hh_add_hh (n := n) (by omega)
   refine ⟨by decide, isConst_of_eq_four (-hh n) ?_ ?_ ?_ ?_⟩ <;>
     simp only [Pi.sub_apply, Pi.add_apply, Pi.zero_apply, Matrix.cons_val] <;>
-    first | ring1 | linear_combination hh2 | linear_combination -hh2
+    first | ring1
 
 theorem txT_mul_self (hn : 2 ≤ n) : txT n * txT n = 1 := by
   rw [txT, el_mul, ← el_zero_one, el_eq_el_iff hn, pv_tP]
@@ -314,7 +313,7 @@ theorem isConj_uvT_mul_zT (hn : 3 ≤ n) :
   have h2 := mul_zT_mul_self (n := n) (by omega) (uvT_mul_self (by omega))
   rw [he] at h2 ⊢
   refine isConj_el_zP_uvT hn hd h2 (k := hh n) ?_
-  simp only [hv, Matrix.cons_val, Nat.cast_one, Nat.cast_zero, Nat.cast_ofNat, mul_one, mul_zero]
+  simp only [hv, Matrix.cons_val, Nat.cast_zero, Nat.cast_ofNat, mul_zero]
   ring
 
 theorem isConj_uvxyT_mul_zT (hn : 3 ≤ n) :
@@ -460,7 +459,7 @@ theorem commutatorElement_el (hn : 2 ≤ n) {d e : Fin 4 → ZMod (2 ^ n)} {σ �
   simp only [Pi.sub_apply, Pi.add_apply, OneMemClass.coe_one, pv_one, one_mul]
   ring
 
-theorem pv_two_sub_pv_zero (hn : 2 ≤ n) {m f : Fin 4 → ZMod (2 ^ n)} {ρ σ : Fin81.R0}
+theorem pv_two_sub_pv_zero (_hn : 2 ≤ n) {m f : Fin 4 → ZMod (2 ^ n)} {ρ σ : Fin81.R0}
     (hf : IsConst ((pv (tP : Perm (Fin 4)) f - f) - (pv (ρ : Perm (Fin 4)) m - m)))
     (hσ : σ * tP = tP * σ) :
     pv (σ : Perm (Fin 4)) f 2 - pv (σ : Perm (Fin 4)) f 0 = f 2 - f 0 +
@@ -566,8 +565,8 @@ theorem g02_conj_hat (d : Fin 4 → ZMod (2 ^ n)) (π : Fin81.R0) :
   · apply Multiplicative.toAdd.injective
     funext i
     simp only [SemidirectProduct.mul_left, SemidirectProduct.inv_left, SemidirectProduct.mul_right,
-      toAdd_mul, toAdd_inv, Pi.add_apply, Pi.neg_apply, Pi.sub_apply, toAdd_ofAdd, map_one,
-      MulAut.one_apply, inv_one, OneMemClass.coe_one, one_mul]
+      toAdd_mul, Pi.add_apply, Pi.sub_apply, toAdd_ofAdd, map_one,
+      MulAut.one_apply, inv_one, one_mul]
     rw [map_inv, toAdd_inv, Pi.neg_apply, toAdd_actL4, toAdd_ofAdd]
     ring
   · simp
@@ -614,27 +613,27 @@ theorem pv_tP_single_two : pv (tP : Perm (Fin 4)) (Pi.single 2 1 : Fin 4 → ZMo
     Pi.single 0 1 := by
   rw [pv_tP]
   funext i
-  fin_cases i <;> simp [Pi.single_apply]
+  fin_cases i <;> simp
 
 theorem pv_zP_single_two : pv (zP : Perm (Fin 4)) (Pi.single 2 1 : Fin 4 → ZMod (2 ^ n)) =
     Pi.single 3 1 := by
   rw [pv_zP]
   funext i
-  fin_cases i <;> simp [Pi.single_apply]
+  fin_cases i <;> simp
 
 theorem diagAut_tT (hn : 1 ≤ n) : diagAut n (tT (n := n) hn) = txT n := by
   rw [tT, txT, diagAut_el]
   refine el_congr _ _ ?_ rfl
   rw [pv_tP_single_two]
   funext i
-  fin_cases i <;> simp [hv, Pi.single_apply]
+  fin_cases i <;> simp [hv]
 
 theorem diagAut_uvT (hn : 1 ≤ n) : diagAut n (uvT (n := n) hn) = uvxyT hn := by
   rw [uvT, uvxyT, diagAut_el]
   refine el_congr _ _ ?_ rfl
   rw [pv_zP_single_two]
   funext i
-  fin_cases i <;> simp [hv, Pi.single_apply] <;> ring
+  fin_cases i <;> simp [hv]
 
 theorem diagAut_x1T (hn : 1 ≤ n) : diagAut n (x1T (n := n) hn) = x1T hn :=
   diagAut_of_mem_A (x1T_mem_A hn)

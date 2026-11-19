@@ -61,10 +61,10 @@ theorem thompson_step {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] (
 
 theorem centralizes_pCore_of_glaPPrimeCoreOf_centralizer {Y : Type} [Group Y] [Finite Y] {p : ℕ}
     (hp : p.Prime) {A : Subgroup Y} (hA : IsPGroup p ↥A)
-    (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) :
+    (_hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) :
     GLAPPrimeCoreOf p (Subgroup.centralizer (A : Set Y)) ≤
       Subgroup.centralizer (CFSG.pCore p Y : Set Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set W := GLAPPrimeCoreOf p (Subgroup.centralizer (A : Set Y)) with hW
   set P : Subgroup Y := CFSG.pCore p Y with hPdef
   have hWC : W ≤ Subgroup.centralizer (A : Set Y) := by
@@ -138,7 +138,7 @@ theorem i194_reduced {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Prime)
     (hO : GLAPPrimeCore p Y = ⊥) {B A : Subgroup Y} (hB : IsElemAbelian p B) (hAB : A ≤ B)
     (hcf : ∀ L : Subgroup Y, IsComponent L → IsCompCoreFreeLocalType p B L) :
     GLAPPrimeCoreOf p (Subgroup.centralizer (A : Set Y)) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAp : IsPGroup p ↥A := isPGroup_of_le_elemAbelian hB hAB
   have hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hB.1.is_comm.comm ⟨a, hAB ha⟩ ⟨b, hAB hb⟩)

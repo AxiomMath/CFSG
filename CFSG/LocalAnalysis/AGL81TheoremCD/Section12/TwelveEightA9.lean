@@ -133,6 +133,7 @@ private noncomputable abbrev a9Wbar (M H Q : Subgroup G) (L : Subgroup G) :
     Subgroup (a9Kbar M H) :=
   ((a9W M H Q L).subgroupOf (a9K 3 M H)).map (a9π 3 M H)
 
+omit [Finite G] in
 private theorem a9_isElemAbelian_inf_jSub_of_wreath {M H Q : Subgroup G}
     (e : ↥Q ≃* W3) (hcomm : IsMulCommutative (Q ⊓ jSub M H : Subgroup G))
     (hcard : Nat.card (Q ⊓ jSub M H : Subgroup G) = 27) :
@@ -188,7 +189,7 @@ private theorem a9_factorization_card_L₁
   have hcardL : Nat.card L₁ = 168 * 2 ^ k := by
     rw [hmul, hquot, hk, Nat.mul_comm]
   have hne : Nat.card L₁ ≠ 0 := by
-    haveI : Nonempty ↥L₁ := ⟨1⟩
+    have : Nonempty ↥L₁ := ⟨1⟩
     exact (Nat.card_pos (α := ↥L₁)).ne'
   have h1 : 3 ^ 1 ∣ Nat.card L₁ := by
     rw [hcardL]
@@ -210,7 +211,7 @@ private theorem a9_card_thompson_inf_L₁
     (h6 : TwelveSix M H p d L₁ L₂ L₃ n₁ n₂ n₃)
     (hQsyl : CFSG.ABGLocalTools.IsSylowOf 3 Q M) :
     Nat.card (Q ⊓ jSub M H ⊓ L₁ : Subgroup G) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJN : M ≤ Subgroup.normalizer (jSub M H : Set G) :=
     TwelveFiveData.le_normalizer_jSub hd
   have hAsyl : CFSG.ABGLocalTools.IsSylowOf 3 (Q ⊓ jSub M H) (jSub M H) :=
@@ -222,6 +223,7 @@ private theorem a9_card_thompson_inf_L₁
   have hfac := a9_factorization_card_L₁ hd h6
   rw [hWsyl.card_eq, hfac, pow_one]
 
+omit [Finite G] in
 private theorem a9_card_map_mk'_eq {K W : Subgroup G} {O : Subgroup ↥K} [O.Normal]
     {n : ℕ}
     (hWK : W ≤ K) (hWcard : Nat.card W = n) (hN : ¬ 3 ∣ Nat.card O)
@@ -244,6 +246,7 @@ private theorem a9_card_map_mk'_eq {K W : Subgroup G} {O : Subgroup ↥K} [O.Nor
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hWK).toEquiv, hWcard] at hcard
   exact hcard
 
+omit [Finite G] in
 private theorem a9_subgroupOf_map_conj {K W : Subgroup G} (hWK : W ≤ K) (g : G)
     (hg : g ∈ K) :
     (W.subgroupOf K).map (MulAut.conj (⟨g, hg⟩ : ↥K)).toMonoidHom =
@@ -253,6 +256,7 @@ private theorem a9_subgroupOf_map_conj {K W : Subgroup G} (hWK : W ≤ K) (g : G
       (W.map (MulAut.conj g).toMonoidHom).subgroupOf K at h
   exact h
 
+omit [Finite G] in
 private theorem a9_centralizer_subgroupOf {K W : Subgroup G} (hWK : W ≤ K) :
     Subgroup.centralizer ((W.subgroupOf K : Subgroup ↥K) : Set ↥K) =
       (Subgroup.centralizer (W : Set G) ⊓ K).subgroupOf K := by
@@ -281,6 +285,7 @@ private theorem a9_centralizer_map_eq {K W : Subgroup G} {O : Subgroup ↥K} [O.
   have hcentK := a9_centralizer_subgroupOf hWK
   rw [hcent, hcentK]
 
+omit [Finite G] in
 private theorem a9_normalizer_image_le {K A : Subgroup G} {O : Subgroup ↥K} [O.Normal]
     (hAK : A ≤ K) :
     ((K ⊓ Subgroup.normalizer (A : Set G)).subgroupOf K).map (QuotientGroup.mk' O) ≤
@@ -297,7 +302,7 @@ private theorem a9_normalizer_image_le {K A : Subgroup G} {O : Subgroup ↥K} [O
 private theorem a9_centralizer_map_le_normalizer_map {K A W : Subgroup G}
     {O : Subgroup ↥K} [O.Normal] (hOsub : (CFSG.Open.pCoreOf 2 K).subgroupOf K = O)
     (hWK : W ≤ K) (hAK : A ≤ K) (hWcard : Nat.card W = 3)
-    (hN : ¬ 3 ∣ Nat.card O) (hA3 : IsPGroup 3 (A.subgroupOf K))
+    (hN : ¬ 3 ∣ Nat.card O) (_hA3 : IsPGroup 3 (A.subgroupOf K))
     (hc : Subgroup.centralizer (W : Set G) ⊓ K ≤
       (K ⊓ Subgroup.normalizer (A : Set G)) ⊔ CFSG.Open.pCoreOf 2 K) :
     Subgroup.centralizer (((W.subgroupOf K).map (QuotientGroup.mk' O)) :
@@ -323,7 +328,7 @@ private theorem a9_centralizer_map_le_normalizer_map {K A W : Subgroup G}
   exact a9_normalizer_image_le hAK hxH
 
 private theorem a9_exists_lift_normalizer {K A : Subgroup G} {O : Subgroup ↥K} [O.Normal]
-    (hAK : A ≤ K) (hN : ¬ 3 ∣ Nat.card O) (hA3 : IsPGroup 3 (A.subgroupOf K))
+    (_hAK : A ≤ K) (hN : ¬ 3 ∣ Nat.card O) (hA3 : IsPGroup 3 (A.subgroupOf K))
     {ybar : ↥K ⧸ O}
     (hybar : ybar ∈ Subgroup.normalizer
       (((A.subgroupOf K).map (QuotientGroup.mk' O)) : Set (↥K ⧸ O))) :
@@ -374,6 +379,7 @@ private theorem a9_map_conj_mem_blockSet {M H A W L : Subgroup G} {d : ℕ}
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hLmem
   rcases hLmem with rfl | rfl | rfl <;> simp
 
+omit [Finite G] in
 private theorem a9_map_conj_image_eq {K W : Subgroup G} {O : Subgroup ↥K} [O.Normal]
     (hWK : W ≤ K) {y : ↥K} :
     ((W.subgroupOf K).map (QuotientGroup.mk' O)).map
@@ -491,7 +497,7 @@ private theorem a9_exists_conj_embedding_baseGroup {Γ : Type} [Group Γ]
   refine ⟨(MulAut.conj σ).toMonoidHom.comp φ₀, ?_, ?_, ?_⟩
   · exact (MulAut.conj σ).injective.comp hφ₀inj
   · rw [MonoidHom.range_comp, hφ₀range]
-    haveI : (alternatingGroup Pt).Normal := alternatingGroup.normal
+    have : (alternatingGroup Pt).Normal := alternatingGroup.normal
     exact Subgroup.Normal.map_conj_eq (alternatingGroup Pt) σ
   · rw [← Subgroup.map_map]
     exact hσ
@@ -548,6 +554,7 @@ private theorem a9_pgroup_facts {A W : Subgroup G}
     norm_num
   exact ⟨hN, hA3, hW3⟩
 
+omit [Finite G] in
 private theorem a9_elAbelian_facts {A : Subgroup G}
     (hA : A ≤ a9K 3 M H) (hAel : IsElemAbelian 3 A)
     (hN : ¬ 3 ∣ Nat.card (a9O 3 M H))
@@ -570,6 +577,7 @@ private theorem a9_elAbelian_facts {A : Subgroup G}
     a9_card_map_mk'_eq hA hAcard hN hA3
   exact ⟨hAel_sub, hEel, hEcard⟩
 
+omit [Finite G] in
 private theorem a9_V1_le {A W : Subgroup G} {φ : a9Kbar M H →* Perm Pt}
     (hWA : W ≤ A)
     (hAbar : ((A.subgroupOf (a9K 3 M H)).map (a9π 3 M H)).map φ = baseGroup) :
@@ -581,6 +589,7 @@ private theorem a9_V1_le {A W : Subgroup G} {φ : a9Kbar M H →* Perm Pt}
       ≤ ((A.subgroupOf (a9K 3 M H)).map (a9π 3 M H)).map φ := Subgroup.map_mono h1
     _ = baseGroup := hAbar
 
+omit [Finite G] in
 private theorem a9_V1_card {W : Subgroup G} {φ : a9Kbar M H →* Perm Pt}
     (hφinj : Function.Injective φ) (hW : W ≤ a9K 3 M H)
     (hWcard : Nat.card W = 3) (hN : ¬ 3 ∣ Nat.card (a9O 3 M H))
@@ -599,6 +608,7 @@ private theorem a9_special_mem {t : Perm Pt}
   · exact ⟨signAt_mem_alternatingGroup 1, signAt_mem_nrm 1⟩
   · exact ⟨blockShift_mem_alternatingGroup, blockShift_mem_nrm⟩
 
+omit [Finite G] in
 private theorem a9_mem_normalizer_of_mem_nrm {A : Subgroup G} {φ : a9Kbar M H →* Perm Pt}
     (hφinj : Function.Injective φ) (hφrange : φ.range = alternatingGroup Pt)
     (hAbar : ((A.subgroupOf (a9K 3 M H)).map (a9π 3 M H)).map φ = baseGroup)
@@ -618,6 +628,7 @@ private theorem a9_mem_normalizer_of_mem_nrm {A : Subgroup G} {φ : a9Kbar M H �
   rw [← h, Subgroup.mem_comap, hyt]
   exact htN
 
+omit [Finite G] in
 private theorem a9_map_conj_mem_Vs {φ : a9Kbar M H →* Perm Pt}
     {ybar : a9Kbar M H} {t : Perm Pt} (hyt : φ ybar = t)
     {W' : Subgroup G} {V : Subgroup (Perm Pt)}
@@ -690,6 +701,7 @@ private theorem a9_blocks_invariant
   · exact a9_map_conj_mem_Vs hyt hV₂ hV₁ hV₂ hV₃ hset2
   · exact a9_map_conj_mem_Vs hyt hV₃ hV₁ hV₂ hV₃ hset3
 
+omit [Finite G] in
 private theorem a9_preimage_centralizer {φ : a9Kbar M H →* Perm Pt}
     (hφinj : Function.Injective φ) {k : ZMod 3}
     (hk : (a9Wbar M H Q L₁).map φ = Subgroup.zpowers (shiftPerm (Pi.single k 1)))
@@ -706,6 +718,7 @@ private theorem a9_preimage_centralizer {φ : a9Kbar M H →* Perm Pt}
   rw [← hm]
   exact (hgcomm.zpow_right m).eq.symm
 
+omit [Finite G] in
 private theorem a9_map_normalizes_base {A : Subgroup G} {φ : a9Kbar M H →* Perm Pt}
     (hφbase : ((A.subgroupOf (a9K 3 M H)).map (a9π 3 M H)).map φ = baseGroup)
     {gbar : a9Kbar M H}
@@ -717,6 +730,7 @@ private theorem a9_map_normalizes_base {A : Subgroup G} {φ : a9Kbar M H →* Pe
   rw [hφbase] at h
   exact h (Subgroup.mem_map_of_mem φ hgbarnorm)
 
+omit [Finite G] in
 private theorem a9_final_contradiction {φ : a9Kbar M H →* Perm Pt}
     (hφinj : Function.Injective φ) (hφrange : φ.range = alternatingGroup Pt)
     (hφbase : (a9Abar M H Q).map φ = baseGroup)

@@ -133,7 +133,7 @@ theorem r95_gB_U3 {Q : Type} [Group Q] [Finite Q] {p f : ℕ}
     obtain ⟨F, _, _, _, _, hF, ⟨e⟩⟩ :=
       CFSG.AGLEmbeddingD2.McLaughlin.OddIndex.exists_mulEquiv_SU3 hst hpf
     have hstG := CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv e hst
-    haveI := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hstG
+    have := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hstG
     have hcycG : ∀ P : Subgroup (SU (unitaryInvolution F p f) 3), IsPGroup 3 P → IsCyclic P := by
       intro P hP
       have h2 := hcyc _ (hP.map e.symm.toMonoidHom)

@@ -11,12 +11,14 @@ open Subgroup CFSG.EvenSporadicStandard.HNRecog.HaradaLA
 variable {G : Type} [Group G] [Finite G] {t z z₁ : G} {ι : Elem2 6 →* G} {zv : V6}
   {R0 F : Subgroup G}
 
+omit [Finite G] in
 private lemma conj_mem_zpowers {z k w : G} (hk : k * z * k⁻¹ = z)
     (hw : w ∈ Subgroup.zpowers z) : k * w * k⁻¹ ∈ Subgroup.zpowers z := by
   rcases Subgroup.mem_zpowers_iff.mp hw with ⟨n, rfl⟩
   rw [← conj_zpow (a := k) (b := z) (i := n), hk]
   exact Subgroup.zpow_mem_zpowers z n
 
+omit [Finite G] in
 private lemma inv_conj_mem_zpowers {z k w : G} (hk : k * z * k⁻¹ = z)
     (hw : w ∈ Subgroup.zpowers z) : k⁻¹ * w * k ∈ Subgroup.zpowers z := by
   have hcomm : k * z = z * k := mul_inv_eq_iff_eq_mul.mp hk

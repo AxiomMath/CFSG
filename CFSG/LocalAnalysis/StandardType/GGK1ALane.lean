@@ -32,8 +32,8 @@ theorem ggK1A_raw_linear_A {p r n : ℕ} (Q : LargeEvenRawCont)
   dsimp only [LargeEvenRecipeLinear] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
   refine ⟨K, i1, i2, hK, hQR, ?_⟩
-  letI := i1
-  letI := i2
+  let := i1
+  let := i2
   exact hP K hK
 
 theorem ggK1A_raw_linear_D3 {p n : ℕ} (Q : LargeEvenRawCont)
@@ -48,8 +48,8 @@ theorem ggK1A_raw_linear_D3 {p n : ℕ} (Q : LargeEvenRawCont)
   dsimp only [LargeEvenRecipeLinear] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
   refine ⟨K, i1, i2, hK, hQR, ?_⟩
-  letI := i1
-  letI := i2
+  let := i1
+  let := i2
   exact hP K hK
 
 theorem ggK1A_raw_linear_twD2 {p n : ℕ} (Q : LargeEvenRawCont)
@@ -64,8 +64,8 @@ theorem ggK1A_raw_linear_twD2 {p n : ℕ} (Q : LargeEvenRawCont)
   dsimp only [LargeEvenRecipeLinear] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
   refine ⟨K, i1, i2, hK, hQR, ?_⟩
-  letI := i1
-  letI := i2
+  let := i1
+  let := i2
   exact hP K hK
 
 theorem ggK1A_raw_unitary_twA {p r n : ℕ} (Q : LargeEvenRawCont)
@@ -81,8 +81,8 @@ theorem ggK1A_raw_unitary_twA {p r n : ℕ} (Q : LargeEvenRawCont)
   dsimp only [LargeEvenRecipeUnitary] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
   refine ⟨K, i1, i2, hK, hQR, ?_⟩
-  letI := i1
-  letI := i2
+  let := i1
+  let := i2
   exact hP K hK
 
 theorem ggK1A_raw_unitary_twD3 {p n : ℕ} (Q : LargeEvenRawCont)
@@ -97,8 +97,8 @@ theorem ggK1A_raw_unitary_twD3 {p n : ℕ} (Q : LargeEvenRawCont)
   dsimp only [LargeEvenRecipeUnitary] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
   refine ⟨K, i1, i2, hK, hQR, ?_⟩
-  letI := i1
-  letI := i2
+  let := i1
+  let := i2
   exact hP K hK
 
 theorem ggK1A_coprime_center (hS : GGK0Schur GGKacGenericClA)
@@ -123,8 +123,7 @@ theorem ggK1A_coprime_center (hS : GGK0Schur GGKacGenericClA)
 theorem ggK0MainBS_clA (hS : GGK0Schur GGKacGenericClA) :
     GGK0MainBS GGKacGenericClA GGMultValidCl := by
   classical
-  intro p lab hlab hgen
-  intro Q hQ
+  intro p lab hlab hgen Q hQ
   obtain ⟨tag, r, n⟩ := lab
   have hp : p.Prime := hgen.1.1
   have hp2 : p ≠ 2 := hgen.1.2.1

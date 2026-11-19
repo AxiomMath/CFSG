@@ -30,7 +30,7 @@ theorem degLayerRoots_J2 {d : ℤ} (hd : 1 ≤ d) :
   unfold degLayerRoots
   rw [e1, e2]
   ext v
-  simp only [Set.mem_diff, Finset.coe_filter, Set.mem_setOf_eq]
+  simp only [Set.mem_sdiff, Finset.coe_filter, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨⟨h1, h2, h3⟩, h4⟩
     refine ⟨h1, h2, ?_⟩

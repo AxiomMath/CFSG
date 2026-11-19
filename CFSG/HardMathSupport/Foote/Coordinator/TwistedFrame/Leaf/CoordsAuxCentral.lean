@@ -92,7 +92,6 @@ theorem commute_of_disjoint_support {q q' : ModGL c.tag K} (hq : q ∈ Qθ c.tag
     CoordAux.prodX_mem_pos (fun β hβ => ((hlM β).1 hβ).1) _
   have hcomm : Ψ D q * Ψ D q' = Ψ D q' * Ψ D q := by
     rw [he, he']
-    change u * P * (u' * P') = u' * P' * (u * P)
     calc u * P * (u' * P') = u * (P * u') * P' := by simp only [mul_assoc]
       _ = u * (u' * P) * P' := by rw [CoordAux.Uθ_comm hu' hPpos]
       _ = (u * u') * (P * P') := by simp only [mul_assoc]
@@ -115,7 +114,7 @@ private theorem smul_mem_Bset_iff {β : Fin c.tag.rank → ℤ} (hβ : β ∈ De
       rw [degθ_smul_of_fix hw]
       exact (CoordAux.mem_Deg1.1 hβ).2⟩
   unfold Bset
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [w_smul_mem_S₁_iff c hβr]
   exact ⟨fun h => ⟨hβ, h.2⟩, fun h => ⟨hwβ, h.2⟩⟩
 
@@ -125,11 +124,11 @@ private theorem isSig_pB {ε : (Fin c.tag.rank → ℤ) → D.L} {v : (Fin c.tag
     IsSig D ε (fun β => if β ∈ Bset c then v β else 0) := by
   refine ⟨fun β hβ => ?_, fun β hβ => ?_⟩
   · dsimp only
-    rw [if_neg (fun h => hβ h.1)]
+    rw [ite_eq_right (fun h => hβ h.1)]
   · dsimp only
     by_cases hB : β ∈ Bset c
-    · rw [if_pos hB, if_pos ((smul_mem_Bset_iff c hβ).2 hB), hv.2 β hβ]
-    · rw [if_neg hB, if_neg (fun h => hB ((smul_mem_Bset_iff c hβ).1 h)), map_zero, mul_zero]
+    · rw [ite_eq_left hB, ite_eq_left ((smul_mem_Bset_iff c hβ).2 hB), hv.2 β hβ]
+    · rw [ite_eq_right hB, ite_eq_right (fun h => hB ((smul_mem_Bset_iff c hβ).1 h)), map_zero, mul_zero]
 
 theorem eq_zero_of_central {ε : (Fin c.tag.rank → ℤ) → D.L} (hε : MonomialProp c.w ε)
     {q : ModGL c.tag K} (hq : q ∈ Qθ c.tag K) (hs : ∀ β, κ D q β ≠ 0 → β ∈ Bset c)
@@ -212,13 +211,11 @@ theorem eq_zero_of_central {ε : (Fin c.tag.rank → ℤ) → D.L} (hε : Monomi
       CoordAux.prodX_mem_pos (fun β hβ => ((hlB β).1 hβ).1) _
     have hL : Ψ D q * Ψ D r = (u * u') * (P * P') := by
       rw [he, he']
-      change u * P * (u' * P') = _
       calc u * P * (u' * P') = u * (P * u') * P' := by simp only [mul_assoc]
         _ = u * (u' * P) * P' := by rw [CoordAux.Uθ_comm hu' hPpos]
         _ = (u * u') * (P * P') := by simp only [mul_assoc]
     have hR' : Ψ D r * Ψ D q = (u * u') * (P' * P) := by
       rw [he, he']
-      change u' * P' * (u * P) = _
       calc u' * P' * (u * P) = u' * (P' * u) * P := by simp only [mul_assoc]
         _ = u' * (u * P') * P := by rw [CoordAux.Uθ_comm hu hP'pos]
         _ = (u' * u) * (P' * P) := by simp only [mul_assoc]
@@ -267,7 +264,7 @@ theorem eq_zero_of_central {ε : (Fin c.tag.rank → ℤ) → D.L} (hε : Monomi
     have h0 := hφ𝒮 _ (hunit γ hγ)
     simp only [φ] at h0
     rw [Finset.sum_eq_single (highRoot c.tag - γ)] at h0
-    · rw [if_pos (by rw [hlB]; simpa using hγ), sub_sub_cancel, Pi.single_eq_same, mul_one] at h0
+    · rw [ite_eq_left (by rw [hlB]; simpa using hγ), sub_sub_cancel, Pi.single_eq_same, mul_one] at h0
       have hNN := (hN _ hθγ).1
       have hne : N (highRoot c.tag - γ) ≠ 0 := by
         intro h

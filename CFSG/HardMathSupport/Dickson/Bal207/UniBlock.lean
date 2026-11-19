@@ -22,7 +22,7 @@ theorem uni_conj_inl_inr_left {N G : Type*} [Group N] [Group G] {φ : G →* Mul
   rw [uni_conj_inl_left]
   simp only [SemidirectProduct.mul_left, SemidirectProduct.mul_right, SemidirectProduct.left_inl,
     SemidirectProduct.right_inl, SemidirectProduct.left_inr, SemidirectProduct.right_inr,
-    map_one, MulAut.one_apply, mul_one, one_mul]
+    map_one, mul_one, one_mul]
 
 section Matrix
 
@@ -45,14 +45,14 @@ theorem uni_diagonal_commute_blockOn {r : Fin n → F} (hr : ∀ j ∈ I, ∀ k 
   · rw [hr j hj k hk, mul_comm]
   · rw [blockOn_apply_not_mem I N (Or.inr hk)]
     have hjk : j ≠ k := fun h' => hk (h' ▸ hj)
-    rw [if_neg hjk, mul_zero, zero_mul]
+    rw [ite_eq_right hjk, mul_zero, zero_mul]
   · rw [blockOn_apply_not_mem I N (Or.inl hj)]
     have hjk : j ≠ k := fun h' => hj (h' ▸ hk)
-    rw [if_neg hjk, mul_zero, zero_mul]
+    rw [ite_eq_right hjk, mul_zero, zero_mul]
   · rw [blockOn_apply_not_mem I N (Or.inl hj)]
     by_cases hjk : j = k
-    · rw [if_pos hjk, hjk, mul_one, one_mul]
-    · rw [if_neg hjk, mul_zero, zero_mul]
+    · rw [ite_eq_left hjk, hjk, mul_one, one_mul]
+    · rw [ite_eq_right hjk, mul_zero, zero_mul]
 
 theorem uni_blockOn_diagonal_mul (d : Fin n → F) :
     blockOn F I (diagonal fun a => d (I.equivFin.symm a)) *
@@ -60,7 +60,7 @@ theorem uni_blockOn_diagonal_mul (d : Fin n → F) :
   ext j k
   rw [mul_diagonal]
   by_cases hk : k ∈ I
-  · rw [if_pos hk, mul_one]
+  · rw [ite_eq_left hk, mul_one]
     by_cases hj : j ∈ I
     · rw [blockOn_apply_mem I _ hj hk, diagonal_apply, diagonal_apply]
       by_cases hjk : j = k
@@ -68,14 +68,14 @@ theorem uni_blockOn_diagonal_mul (d : Fin n → F) :
         simp
       · have hne : I.equivFin ⟨j, hj⟩ ≠ I.equivFin ⟨k, hk⟩ := fun h' =>
           hjk (by simpa using I.equivFin.injective h')
-        rw [if_neg hne, if_neg hjk]
+        rw [ite_eq_right hne, ite_eq_right hjk]
     · rw [blockOn_apply_not_mem I _ (Or.inl hj), diagonal_apply]
       have hjk : j ≠ k := fun h' => hj (h' ▸ hk)
-      rw [if_neg hjk, if_neg hjk]
-  · rw [if_neg hk, blockOn_apply_not_mem I _ (Or.inr hk), diagonal_apply]
+      rw [ite_eq_right hjk, ite_eq_right hjk]
+  · rw [ite_eq_right hk, blockOn_apply_not_mem I _ (Or.inr hk), diagonal_apply]
     by_cases hjk : j = k
-    · rw [if_pos hjk, if_pos hjk, one_mul, hjk]
-    · rw [if_neg hjk, if_neg hjk, zero_mul]
+    · rw [ite_eq_left hjk, ite_eq_left hjk, one_mul, hjk]
+    · rw [ite_eq_right hjk, ite_eq_right hjk, zero_mul]
 
 theorem uni_blockOn_eq {g : Matrix (Fin n) (Fin n) F}
     (hoff : ∀ j k, (j ∉ I ∨ k ∉ I) → g j k = if j = k then 1 else 0) :
@@ -232,7 +232,7 @@ theorem uni_exists_restr (D : primeFormUnitary h (oneGram F n))
           Matrix (Fin n) (Fin n) F) := rfl
     rw [e1, e2, hR, hY, coe_uniBlk]
     refine uni_diagonal_commute_blockOn I (fun j hj k hk => ?_) _
-    rw [if_pos hj, if_pos hk]
+    rw [ite_eq_left hj, ite_eq_left hk]
   calc D * Y * D⁻¹ = B' * ((B'⁻¹ * D) * Y * (B'⁻¹ * D)⁻¹) * B'⁻¹ := by group
     _ = B' * (Y * (B'⁻¹ * D) * (B'⁻¹ * D)⁻¹) * B'⁻¹ := by rw [hcomm]
     _ = B' * Y * B'⁻¹ := by group

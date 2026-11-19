@@ -39,7 +39,7 @@ private lemma ggLinMove_le_of_adj
     {S : Set (V ≃ₗ[ZMod p] V)} {W : Submodule (ZMod p) V}
     (hS : ∀ r ∈ S, GGLinRefl r)
     (hW : ∀ a ∈ Subgroup.closure S, ∀ w ∈ W, a w ∈ W)
-    {a b : V ≃ₗ[ZMod p] V} (ha : a ∈ S) (hb : b ∈ S) (hab : GGLinAdj a b)
+    {a b : V ≃ₗ[ZMod p] V} (_ha : a ∈ S) (hb : b ∈ S) (hab : GGLinAdj a b)
     (haW : ggLinMove a ≤ W) : ggLinMove b ≤ W := by
   obtain ⟨v, hv, hbv⟩ := hab.2
   have hvW : v ∈ W := haW hv

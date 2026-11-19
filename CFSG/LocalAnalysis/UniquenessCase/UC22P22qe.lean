@@ -15,7 +15,7 @@ section Fields
 variable {F : Type} [Field F] [Finite F]
 
 theorem uc22p22qe_sum_two_squares (hodd : Odd (Nat.card F)) (c : F) : ∃ a b : F, a ^ 2 + b ^ 2 = c := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hcard : Fintype.card F % 2 = 1 := by
     rw [Nat.card_eq_fintype_card] at hodd
     exact Nat.odd_iff.1 hodd
@@ -27,6 +27,7 @@ theorem uc22p22qe_sum_two_squares (hodd : Odd (Nat.card F)) (c : F) : ∃ a b : 
   simp only [eval_sub, eval_pow, eval_X, eval_C] at hab
   linear_combination hab
 
+omit [Finite F] in
 theorem uc22p22qe_pow_unip (t : F) (k : ℕ) : mk (unip t) ^ k = mk (unip ((k : F) * t)) := by
   induction k with
   | zero => simp [unip_zero]
@@ -36,11 +37,13 @@ theorem uc22p22qe_pow_unip (t : F) (k : ℕ) : mk (unip t) ^ k = mk (unip ((k : 
     push_cast
     ring
 
+omit [Finite F] in
 theorem uc22p22qe_unipotent_pow {p : ℕ} (hchar : (p : F) = 0) {x : PSL(2, F)} (hx : x ∈ unipotent F) :
     x ^ p = 1 := by
   obtain ⟨t, rfl⟩ := (mem_unipotent_iff_exists x).1 hx
   rw [uc22p22qe_pow_unip, hchar, zero_mul, unip_zero, map_one]
 
+omit [Finite F] in
 theorem uc22p22qe_card_unipotent (h2 : (2 : F) ≠ 0) : Nat.card (unipotent F) = Nat.card F := by
   let f : Multiplicative F →* PSL(2, F) :=
     { toFun := fun t => mk (unip (Multiplicative.toAdd t))
@@ -74,7 +77,7 @@ theorem uc22p22qe_unipotent_irr (hodd : Odd (Nat.card F)) {W : Subgroup PSL(2, F
     intro a
     by_cases ha : a = 0
     · rw [ha]
-      simpa [unip_zero] using W.one_mem
+      simp [unip_zero]
     · have := hT (Units.mk0 a ha) _ hxW
       rwa [mk_conj, diag_conj_unip, Units.val_mk0] at this
   refine le_antisymm hWU fun y hy => ?_
@@ -92,7 +95,7 @@ private theorem uc22p22qe_setup {L : Type} [Group L] [Finite L] {p n : ℕ} (hp 
     (hL : LieModel L .PSL 2 p n) {S : Subgroup L} (hS : IsSylowOf p S ⊤) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (ψ : PSL(2, F) ≃* L),
       Nat.card F = p ^ n ∧ S = (unipotent F).map ψ.toMonoidHom := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨F, hFf, hFfin, e, hF, hFq⟩ :=
     CFSG.GH74.GLS.EvenSelP.exists_l2Field_of_lieModel' hp hp2 hL
   obtain ⟨-, hSp, hSnd⟩ := isSylowOf_iff.1 hS
@@ -109,7 +112,7 @@ theorem uc22p22q_psl2_sylow_elem {L : Type} [Group L] [Finite L] {p n : ℕ} (hp
     exact (hp.odd_of_ne_two hp2).pow
   have h2 : (2 : F) ≠ 0 := CFSG.ABGLocalTools.two_ne_zero_of_odd_card hodd
   have hchar : (p : F) = 0 := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     have h0 : ((Fintype.card F : ℕ) : F) = 0 := Nat.cast_card_eq_zero F
     rw [← Nat.card_eq_fintype_card, hFq] at h0
     have hn : n ≠ 0 := by

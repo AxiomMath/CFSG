@@ -160,7 +160,7 @@ theorem exists_sylow_lifts (ctx : Stage2Ctx G z k S) (hL : LDat z K₁ K₂ L₁
   have hSbar : IsSylowOf 2 (barOf z S) (⊤ : Subgroup (CentralizerBar z)) := by
     rw [isSylowOf_iff]
     refine ⟨le_top, ?_, ?_⟩
-    · have h := T.isPGroup'
+    · have h := T.isPGroup
       rw [hT] at h
       exact h
     · rw [Subgroup.relIndex_top_right]

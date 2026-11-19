@@ -23,8 +23,8 @@ theorem outerRSplit_two_of_u4 {X : Type} [Group X] [Finite X] {n r : ℕ}
   have : Fact r.Prime := ⟨hr⟩
   have hn1 : 1 ≤ n := hX.admissible.2.1
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := (hX.statedClassicalModel (by decide)).2
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hcard : Nat.card K = 2 ^ (2 * n) := by rw [hKcard, ← pow_mul, mul_comm]
   have h : UnitaryFieldData 2 n K := ⟨Nat.prime_two, hn1, hcard⟩
   have hq : ¬(4 = 3 ∧ 2 ^ n = 2) := by omega

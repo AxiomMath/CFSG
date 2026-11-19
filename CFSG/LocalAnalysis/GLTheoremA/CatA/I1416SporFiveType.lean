@@ -82,7 +82,7 @@ theorem not_sq_five_dvd_card_mulAut_of_chev_241920
     obtain ⟨e'⟩ := CFSG.GH74.KGroups.A5.equiv_of_alt fA
     rw [CFSG.GH74.KGroups.A5.card_mulAut e']
     norm_num
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨h8, hP⟩ := sylow7_facts_168 h
     obtain ⟨P⟩ : Nonempty (Sylow 7 T) := inferInstance
     have hdvd := card_mulAut_dvd_factorial (hP P).2

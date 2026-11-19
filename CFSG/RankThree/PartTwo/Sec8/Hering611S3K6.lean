@@ -36,10 +36,10 @@ private theorem exists_subgroup_card_le_comap {X Y : Type} [Group X] [Group Y] [
     by rw [Subgroup.card_subtype, hQ]⟩
 
 theorem exists_E27_in_join
-    {K K₀ : Subgroup G} (hK₀ : K₀ ≤ K) (himg : imageSub K K₀ = ⊤)
+    {K K₀ : Subgroup G} (_hK₀ : K₀ ≤ K) (himg : imageSub K K₀ = ⊤)
     (e : K ⧸ aschbacherSolvableCore 3 K ≃* Blueprint.NativeSporadic.J3) :
     ∃ B : Subgroup G, B ≤ K₀ ∧ CFSG.Assembly.IsElemAbelian 3 B ∧ Nat.card B = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Bbar, hBbar, hBbarcard⟩ :=
     CFSG.RankThree.PartTwo.Sec4.Res423Three.exists_E27_of_J3 e
   have hsurj : Function.Surjective ((QuotientGroup.mk' (aschbacherSolvableCore 3 K)).comp

@@ -98,7 +98,7 @@ public theorem secondCase_linear_conjugate_family_card_transport
           rcases Y.2.2.2 with ⟨h, hh⟩
           refine ⟨a * h, ?_⟩
           rw [hh]
-          simp [e, subgroup_conj_equiv, conj_conj_cf, mul_assoc]⟩
+          simp [e, subgroup_conj_equiv, conj_conj_cf]⟩
       invFun := fun Y =>
         ⟨e.symm Y.1, by
           have hmap : conjugateSubgroup Y.1 a⁻¹ ≤
@@ -116,7 +116,7 @@ public theorem secondCase_linear_conjugate_family_card_transport
           rcases Y.2.2.2 with ⟨h, hh⟩
           refine ⟨a⁻¹ * h, ?_⟩
           rw [hh]
-          simp [e, subgroup_conj_equiv, conj_conj_cf, mul_assoc]⟩
+          simp [e, subgroup_conj_equiv, conj_conj_cf]⟩
       left_inv := by
         intro Y
         apply Subtype.ext

@@ -58,7 +58,7 @@ private lemma s888parC_conj_z (hq : Sec5B517Quad K z) {j : Fin 4} {r : G} (hr : 
     _ = z := by group
 
 theorem par_exists_corr (hq : Sec5B517Quad K z) {i j : Fin 4} (hij : i ≠ j) {a b w : G}
-    (ha : a ∈ K i) (hb : b ∈ K j) (ha2 : a * a = z) (hb2 : b * b = z)
+    (ha : a ∈ K i) (hb : b ∈ K j) (ha2 : a * a = z) (_hb2 : b * b = z)
     (hwa : w⁻¹ * a * w = a ∨ w⁻¹ * a * w = a * z)
     (hwb : w⁻¹ * b * w = b ∨ w⁻¹ * b * w = b * z) :
     ∃ r ∈ K i, r ^ 4 = 1 ∧ (w * r)⁻¹ * (a * b) * (w * r) = a * b := by

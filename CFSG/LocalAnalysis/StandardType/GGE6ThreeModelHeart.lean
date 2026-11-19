@@ -34,6 +34,7 @@ private def hypE6Equiv :
   left_inv x := Subtype.ext (ofAdd_toAdd x.1)
   right_inv v := Subtype.ext (toAdd_ofAdd v.1)
 
+omit [Finite L'] in
 private theorem heartCardAux (h : GGE6ThreeData Z A Φ T w) :
     Nat.card (heartOf Φ) = 3 ^ 5 := by
   have hle : hypE6Fin.toSubgroup ≤ Φ.range := by
@@ -47,16 +48,19 @@ private theorem heartCardAux (h : GGE6ThreeData Z A Φ T w) :
   rw [Subgroup.map_comap_eq_self hle]
   exact (Nat.card_congr hypE6Equiv).trans NoOffRest.card_hypE6
 
+omit [Finite L'] in
 theorem GGE6ThreeData.heart_ne_bot (h : GGE6ThreeData Z A Φ T w) : heartOf Φ ≠ ⊥ := by
   intro hbot
   have hcard := heartCardAux h
   rw [hbot, Subgroup.card_bot] at hcard
   norm_num at hcard
 
+omit [Finite L'] in
 theorem GGE6ThreeData.card_heart (h : GGE6ThreeData Z A Φ T w) :
     Nat.card (heartOf Φ) = 3 ^ 5 :=
   heartCardAux h
 
+omit [Finite L'] in
 theorem GGE6ThreeData.card_le_three_mul_card_heart (h : GGE6ThreeData Z A Φ T w) :
     Nat.card A ≤ 3 * Nat.card (heartOf Φ) := by
   rw [heartCardAux h]
@@ -64,6 +68,7 @@ theorem GGE6ThreeData.card_le_three_mul_card_heart (h : GGE6ThreeData Z A Φ T w
   · rw [hA]; norm_num
   · rw [hA]; norm_num
 
+omit [Finite L'] in
 theorem GGE6ThreeData.heart_conj_mem (h : GGE6ThreeData Z A Φ T w) {n : L'}
     (hn : MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut L'))) :
     ∀ x ∈ heartOf Φ, MulAut.conj n * x * (MulAut.conj n)⁻¹ ∈ heartOf Φ := by
@@ -78,6 +83,7 @@ theorem GGE6ThreeData.heart_conj_mem (h : GGE6ThreeData Z A Φ T w) {n : L'}
   rw [hb]
   exact NoOffRest.adAct_mem_hypE6 u hxhyp
 
+omit [Finite L'] in
 theorem GGE6ThreeData.heart_le_of_invariant (h : GGE6ThreeData Z A Φ T w)
     {A' : Subgroup (MulAut L')} (hA' : A' ≤ A) (hne : A' ≠ ⊥)
     (hinv : ∀ i, ∀ a ∈ A', MulAut.conj (w i) * a * (MulAut.conj (w i))⁻¹ ∈ A') :
@@ -92,6 +98,7 @@ theorem GGE6ThreeData.heart_le_of_invariant (h : GGE6ThreeData Z A Φ T w)
     hypE6_le_of_invariant (imageAdd Φ A') hSinv hSne
   exact (mem_imageAdd_iff h.injective ⟨x, hxA⟩).mp (hle hxhyp)
 
+omit [Finite L'] in
 theorem GGE6ThreeData.eq_one_of_forall_conj_eq (h : GGE6ThreeData Z A Φ T w) {a : MulAut L'}
     (ha : a ∈ A) (hfix : ∀ i, MulAut.conj (w i) * a * (MulAut.conj (w i))⁻¹ = a) : a = 1 := by
   have hv : ∀ i, adRefl .E6 3 i (Multiplicative.toAdd (Φ ⟨a, ha⟩)) =

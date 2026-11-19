@@ -43,6 +43,7 @@ variable
 
 include hOut hTw
 
+omit hOut hTw in
 theorem card_le_of_comm {A : Subgroup G} (hAT : A ≤ D.T)
     (hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) :
     Nat.card A ≤ 2 ^ 11 ∧ (Nat.card A = 2 ^ 11 → D.E1 ≤ A) := by
@@ -157,7 +158,7 @@ theorem thompson_eq (hHat : HatM22SmallModules) : Open.thompsonSubgroup D.T = D.
   apply le_antisymm
   · refine iSup_le fun A => iSup_le fun hAT => iSup_le fun hAc => iSup_le fun hAm => ?_
     have h1 := hAm D.E (D.E_le_T hOut hTw) hEc
-    obtain ⟨h2, h3⟩ := D.card_le_of_comm hOut hTw hAT (comm_of A hAc)
+    obtain ⟨h2, h3⟩ := D.card_le_of_comm hAT (comm_of A hAc)
     rw [D.card_E hOut hTw] at h1
     have hE1 := h3 (le_antisymm h2 h1)
     intro a ha
@@ -165,7 +166,7 @@ theorem thompson_eq (hHat : HatM22SmallModules) : Open.thompsonSubgroup D.T = D.
   · refine le_iSup_of_le D.E (le_iSup_of_le (D.E_le_T hOut hTw) (le_iSup_of_le hEc
       (le_iSup_of_le (fun B hBT hBc => ?_) le_rfl)))
     rw [D.card_E hOut hTw]
-    exact (D.card_le_of_comm hOut hTw hBT (comm_of B hBc)).1
+    exact (D.card_le_of_comm hBT (comm_of B hBc)).1
 
 theorem QE_eq : h.setting.QG ⊔ D.E = pre h.setting (Two.ebGrp.comap D.Φo) := by
   apply le_antisymm

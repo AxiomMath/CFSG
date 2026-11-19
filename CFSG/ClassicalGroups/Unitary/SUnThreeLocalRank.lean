@@ -11,7 +11,7 @@ open Matrix CFSG.Open CFSG.LieType.Universal.Unitary
 variable {L : Type} [Field L] {n : ℕ} {σ : L ≃+* L}
 variable [Finite L] {r : ℕ} [Fact r.Prime] [CharP L r]
 
-theorem two_le_pRank_centralizer_c₀_weight_one (hσ : ∀ c, σ (σ c) = c)
+theorem two_le_pRank_centralizer_c₀_weight_one (_hσ : ∀ c, σ (σ c) = c)
     (htr : ∃ c : L, c ≠ 0 ∧ σ c = -c) (ζ : FixedCubeRoot σ) (hn : n = 6 ∨ n = 7) :
     2 ≤ pRank r (Subgroup.centralizer
       ({c₀ ζ hn (Multiplicative.ofAdd ![1, 0, 0])} : Set (SU σ n))) := by
@@ -62,7 +62,7 @@ theorem two_le_pRank_centralizer_c₀_weight_three (hσ : ∀ c, σ (σ c) = c)
   · rw [Subgroup.mem_centralizer_singleton_iff]
     exact (commute_c₀_rootPos hσ ζ hn h01 c _ (by simp)).eq
 
-theorem one_le_pRank_centralizer_c₀_plane_a (hσ : ∀ c, σ (σ c) = c)
+theorem one_le_pRank_centralizer_c₀_plane_a (_hσ : ∀ c, σ (σ c) = c)
     (htr : ∃ c : L, c ≠ 0 ∧ σ c = -c) (ζ : FixedCubeRoot σ) (hn : n = 6 ∨ n = 7) :
     1 ≤ pRank r (Subgroup.centralizer
       ({c₀ ζ hn (Multiplicative.ofAdd ![1, 0, 0]), c₀ ζ hn (Multiplicative.ofAdd ![0, 1, 0])} :

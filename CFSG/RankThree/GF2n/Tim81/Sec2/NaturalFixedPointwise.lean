@@ -17,6 +17,7 @@ open scoped MatrixGroups
 variable {F : Type} [Field F] [Fintype F] [CharP F 2]
   {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
 
+omit [Fintype F] [CharP F 2] in
 private theorem fixedSub_iff_rootLine {ρ : Representation (ZMod 2) SL(2, F) W}
     {φ : W ≃+ (Fin 2 → F)}
     (hφ : ∀ g w, φ (ρ g w) = (g : Matrix (Fin 2) (Fin 2) F).mulVec (φ w))

@@ -17,7 +17,7 @@ attribute [local irreducible] dotProduct
 
 theorem e27InitG_seed {j : ℕ}
     (hj : j < 2) {m : ℕ} (hm : m < 8) : (e27InitG j).getD m 1 = (seedG j m).1 := by
-  rw [e27InitG_getD j (by omega), if_pos hm]
+  rw [e27InitG_getD j (by omega), ite_eq_left hm]
   have hn := eM_rL hj (show m / 2 < 4 by omega)
   unfold e27NReg e27KReg
   rw [hn]

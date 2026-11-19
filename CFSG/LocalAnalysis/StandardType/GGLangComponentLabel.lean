@@ -58,7 +58,7 @@ theorem exists_componentLabel_rationalComponent {τ : Tag} (hτ : τ = .E6 ∨ �
       rootSpan τ L (famOrbit S.ρ a' i') := by
     have hforb : famOrbit S.ρ a' i' = rationalRoots S.ρ (rootCharHom a) i := by
       ext γ
-      simp only [famOrbit, rationalRoots, Set.mem_setOf_eq]
+      simp only [famOrbit, rationalRoots, Set.mem_ofPred_eq]
       rw [hi']
     rw [hforb]
     exact (Subgroup.commutator_le_self _).trans inf_le_left
@@ -81,7 +81,7 @@ theorem compRank_eq_six_of_exc_of_ggHasLabel {τ : Tag} (hτ : τ = .E6 ∨ τ =
   have hi := ggLabelRigidInput_holds lab _ _ hl hΛ hlab hhas
   rw [hk] at hi
   by_contra h6
-  simp only [componentLabel, if_neg h6] at hi
+  simp only [componentLabel, ite_eq_right h6] at hi
   unfold GGLabelIso at hi
   rcases hi with rfl | ⟨-, h, -⟩ | ⟨-, h⟩ | ⟨-, h⟩ | ⟨-, h⟩ | ⟨-, h⟩ | ⟨-, h⟩ | ⟨h, -⟩
   · exact htri rfl

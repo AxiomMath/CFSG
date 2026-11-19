@@ -94,7 +94,7 @@ open Out
 theorem eq_of_fixed_of_invol {α : Type} [Finite α] (hc : Nat.card α = 3) (σ : Equiv.Perm α)
     (h1 : σ ≠ 1) (h2 : σ * σ = 1) {i j : α} (hi : σ i = i) (hj : σ j = j) : i = j := by
   classical
-  haveI : Fintype α := Fintype.ofFinite α
+  have : Fintype α := Fintype.ofFinite α
   have hf : Fintype.card α = 3 := by rw [← Nat.card_eq_fintype_card]; exact hc
   let eT : α ≃ Fin 3 := Fintype.equivFinOfCardEq hf
   have h3 : eT.permCongr σ ≠ 1 := fun h => h1 ((map_eq_one_iff _ eT.permCongrHom.injective).mp h)

@@ -45,8 +45,8 @@ theorem uc22p22r_ru_fixOn_sup (U S : Subgroup H) (W : Submodule (ZMod 2) Vmod) :
 
 theorem uc22p22r_ru_fixOn_ne_bot [Finite Vmod] {P : Subgroup H} (hP : IsPGroup 2 P)
     {Z : Submodule (ZMod 2) Vmod} (hZ : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ P Z) (hZ0 : Z ≠ ⊥) : fixOn ρ P Z ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥Z := Submodule.nontrivial_iff_ne_bot.2 hZ0
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥Z := Submodule.nontrivial_iff_ne_bot.2 hZ0
   let _ : MulAction ↥P ↥Z :=
     { smul := fun g z => ⟨ρ g z, hZ g g.2 z z.2⟩
       one_smul := fun z => Subtype.ext (by
@@ -151,7 +151,7 @@ theorem uc22p22r_ru_natL2_fix {L : Subgroup H} {W : Submodule (ZMod 2) Vmod} {n 
     intro h0
     rw [h0, zero_pow (pow_ne_zero k hr.ne_zero)] at hμ1
     exact zero_ne_one hμ1
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hμ2 : μ ^ (2 ^ n - 1) = 1 := by
     have h := FiniteField.pow_card_sub_one_eq_one μ hμ0
     rwa [← Nat.card_eq_fintype_card, hFcard] at h
@@ -188,7 +188,7 @@ theorem uc22p22r_ru_natL2_card_fix {L : Subgroup H} {W : Submodule (ZMod 2) Vmod
     have h1 : 1 < 2 ^ n := hFcard ▸ Finite.one_lt_card
     have hn : n ≠ 0 := by
       rintro rfl
-      exact lt_irrefl 1 (by simpa using h1)
+      exact lt_irrefl 1 (by simp at h1)
     rw [hFcard]
     exact dvd_pow_self 2 hn
   obtain ⟨v, hv0, hv⟩ := CFSG.Quasithin.H13.exists_fixed_vector hF2d P hP
@@ -239,8 +239,8 @@ theorem uc22p22r_ru_card_sylow {F : Type} [Field F] [Finite F] [CharP F 2] {X : 
     (θ : X ≃* Matrix.SpecialLinearGroup (Fin 2) F) (Q : Sylow 2 X) :
     Nat.card (Q : Subgroup X) = Nat.card F := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype F := Fintype.ofFinite F
   let R : Subgroup X := (CFSG.Quasithin.B45L2.rootSub (⊤ : AddSubgroup F)).map θ.symm.toMonoidHom
   have hRcard : Nat.card R = Nat.card F := by
     rw [Subgroup.card_map_of_injective θ.symm.injective, CFSG.ASVolI.burnsideK312_card_rootSub]
@@ -249,7 +249,7 @@ theorem uc22p22r_ru_card_sylow {F : Type} [Field F] [Finite F] [CharP F 2] {X : 
   have hPQ : Nat.card (P : Subgroup X) = Nat.card (Q : Subgroup X) := by
     rw [Sylow.card_eq_multiplicity, Sylow.card_eq_multiplicity]
   refine le_antisymm ?_ ?_
-  · obtain ⟨x, hx⟩ := CFSG.ASVolI.burnsideK312_sylow_conj (E := F) (Q.isPGroup'.map θ.toMonoidHom)
+  · obtain ⟨x, hx⟩ := CFSG.ASVolI.burnsideK312_sylow_conj (E := F) (Q.isPGroup.map θ.toMonoidHom)
     calc Nat.card (Q : Subgroup X) = Nat.card ((Q : Subgroup X).map θ.toMonoidHom) :=
           (Subgroup.card_map_of_injective θ.injective).symm
       _ ≤ Nat.card ((CFSG.Quasithin.B45L2.rootSub (⊤ : AddSubgroup F)).map (MulAut.conj x).toMonoidHom) :=
@@ -274,7 +274,7 @@ theorem uc22p22r_ru_core [Finite Vmod] {L U : Subgroup H} (hUL : U ≤ L) {p : �
       ¬ Nat.card ↥(fixOn ρ U W) ≡ Nat.card ↥(fixOn ρ U Y) [MOD p]) :
     ∀ x ∈ W, ρ c x = x := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcinv : c⁻¹ ∈ Subgroup.centralizer (L : Set H) := inv_mem hc
   let V₀ := ↥(fixOn ρ U W)
   let mv : (g : H) → g ∈ Subgroup.centralizer (L : Set H) → V₀ → V₀ := fun g hg v =>
@@ -392,6 +392,7 @@ section Main
 variable {H : Type} [Group H] [Finite H] {Vmod : Type} [AddCommGroup Vmod]
   [Module (ZMod 2) Vmod] [Finite Vmod] (ρ : Representation (ZMod 2) H Vmod)
 
+omit [Finite H] [Finite Vmod] in
 theorem uc22p22r_F1W_natL2 {L : Subgroup H} {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpn : (2 : ℤ) ^ n ≡ -1 [ZMOD (p : ℤ)]) (hnat : NatL2 ρ L (commOn ρ L ⊤) ⊥ n)
     {c : H} (hc : c ∈ Subgroup.centralizer (L : Set H)) {k : ℕ} (hck : c ^ (p ^ k) = 1) :
@@ -399,6 +400,7 @@ theorem uc22p22r_F1W_natL2 {L : Subgroup H} {n p : ℕ} (hp : p.Prime) (hp2 : p 
   uc22p22r_ru_natL2_fix ρ hp (uc22p22g_not_dvd_pred hp hp2 hpn) hnat hc
     (fun _ hw => uc22p22r_ru_commOn_cent ρ hc hw) hck
 
+omit [Finite Vmod] in
 theorem uc22p22r_F2W_natL2 {L : Subgroup H} {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpn : (2 : ℤ) ^ n ≡ -1 [ZMOD (p : ℤ)]) (hL : IsL2 ↥L n) (hnat : NatL2 ρ L (commOn ρ L ⊤) ⊥ n)
     {U S₂ : Subgroup H} (hU : CFSG.ABGLocalTools.IsSylowOf 2 U L)
@@ -421,10 +423,11 @@ theorem uc22p22r_F2W_natL2 {L : Subgroup H} {n p : ℕ} (hp : p.Prime) (hp2 : p 
     intro h
     rw [h, Subgroup.card_bot, hF'card] at hcard
     exact (Nat.one_lt_two_pow (by omega)).ne hcard
-  rw [uc22p22r_ru_fixOn_sup, hS₂W, uc22p22r_ru_natL2_card_fix ρ hnat Q.isPGroup' hQ1]
+  rw [uc22p22r_ru_fixOn_sup, hS₂W, uc22p22r_ru_natL2_card_fix ρ hnat Q.isPGroup hQ1]
   intro h
   exact uc22p22g_not_dvd_pred hp hp2 hpn ((Nat.modEq_iff_dvd' Nat.one_le_two_pow).1 h.symm)
 
+omit [Finite H] in
 theorem uc22p22r_F1W_omegaMinus {L : Subgroup H} {k p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpk : (2 : ℤ) ^ (2 * k) ≡ -1 [ZMOD (p : ℤ)])
     (hmods : SecSum (fun A B => NatOmegaMinus4 ρ L A B k) 1 (commOn ρ L ⊤) ⊥ ∨
@@ -483,7 +486,7 @@ theorem uc22p22r_F2W_omegaMinus {L : Subgroup H} {k p : ℕ} (hp : p.Prime) (hp2
         CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ L A := by
     intro A hA
     obtain ⟨F, _, _, _, hF, β, θ, hinv, hmem, hinj, hsurj, hact⟩ := uc22p22h_pres ρ L hk hA
-    exact ⟨uc22p22h_card_fix ρ L hk hF β θ hmem hinj hsurj hact hinv _ hQ Q.isPGroup',
+    exact ⟨uc22p22h_card_fix ρ L hk hF β θ hmem hinj hsurj hact hinv _ hQ Q.isPGroup,
       uc22p22h_irr ρ L hk hF β θ hmem hinj hact, hinv⟩
   have hYW : fixOn ρ S₂ (commOn ρ L ⊤) ≤ commOn ρ L ⊤ := fun x hx => (mem_fixOn.1 hx).1
   have hYinv : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ L (fixOn ρ S₂ (commOn ρ L ⊤)) := by

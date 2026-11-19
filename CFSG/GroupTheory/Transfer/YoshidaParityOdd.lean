@@ -10,6 +10,7 @@ namespace CFSG.GroupTheory
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conj_eq_of_mul_comm {t c : G} (hc : c * t = t * c) (g : G) :
     (c * g)⁻¹ * t * (c * g) = g⁻¹ * t * g := by
   have h : c⁻¹ * t * c = t := by
@@ -26,10 +27,10 @@ theorem exists_isConj_mem_of_odd_index {t : G} (ht : t ^ 2 = 1)
       Odd ((H ⊓ Subgroup.centralizer ({y} : Set G)).relIndex
         (Subgroup.centralizer ({y} : Set G))) := by
   classical
-  haveI : Fintype (G ⧸ H) := Fintype.ofFinite _
+  have : Fintype (G ⧸ H) := Fintype.ofFinite _
   set C := Subgroup.centralizer ({t} : Set G) with hC
   have hKn : ∀ h ∈ H, ∀ x ∈ K, h * x * h⁻¹ ∈ K := by
-    haveI : (K.subgroupOf H).Normal := Subgroup.normal_of_index_eq_two hidx
+    have : (K.subgroupOf H).Normal := Subgroup.normal_of_index_eq_two hidx
     intro h hh x hx
     exact Subgroup.mem_subgroupOf.mp
       (this.conj_mem ⟨x, hKH hx⟩ (Subgroup.mem_subgroupOf.mpr hx) ⟨h, hh⟩)
@@ -58,7 +59,7 @@ theorem exists_isConj_mem_of_odd_index {t : G} (ht : t ^ 2 = 1)
     have h2 : {g : G | g⁻¹ * t * g ∈ (K : Set G)} =
         (QuotientGroup.mk : G → G ⧸ H) ⁻¹' {x | R x} := by
       ext g
-      simp only [Set.mem_setOf_eq, Set.mem_preimage, SetLike.mem_coe]
+      simp only [Set.mem_ofPred_eq, Set.mem_preimage, SetLike.mem_coe]
       exact (hRmem g).symm
     have h3 : Nat.card {g : G // g⁻¹ * t * g ∈ (K : Set G)} =
         Nat.card H * Nat.card {x : G ⧸ H | R x} := by
@@ -100,7 +101,7 @@ theorem exists_isConj_mem_of_odd_index {t : G} (ht : t ^ 2 = 1)
     rw [hm] at h0K
     rw [Nat.odd_iff]
     omega
-  haveI : Fintype (MulAction.orbitRel.Quotient ↥C (G ⧸ H)) := Fintype.ofFinite _
+  have : Fintype (MulAction.orbitRel.Quotient ↥C (G ⧸ H)) := Fintype.ofFinite _
   have hsum := CFSG.ThompsonTransferCount.card_filter_eq_sum_orbit (H := ↥C) (α := G ⧸ H) R hRinv
   let f : MulAction.orbitRel.Quotient ↥C (G ⧸ H) → ℕ :=
     fun ω => if R ω.out then Nat.card (MulAction.orbit ↥C ω.out) else 0

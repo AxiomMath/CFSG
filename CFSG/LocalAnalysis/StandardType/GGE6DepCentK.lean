@@ -34,7 +34,6 @@ private theorem smul_xs_xx (a d c : ZMod 3) :
   fin_cases j <;> simp [xs, xx]
   all_goals
     first
-      | exact add_neg_cancel _
       | rw [sub_eq_add_neg]
 
 theorem ggE6Dep_centK {Bs K : Subgroup G} {x y : G} (hxBs : x ∈ Bs) (hyBs : y ∈ Bs)
@@ -98,7 +97,7 @@ theorem ggE6Dep_centK {Bs K : Subgroup G} {x y : G} (hxBs : x ∈ Bs) (hyBs : y 
     let β' : ↥Bs := β * γ ^ z
     have hβ'cent : (β' : G) ∈ Subgroup.centralizer (K : Set G) := by
       have hcoe : (β' : G) = (β : G) * (γ : G) ^ z := by
-        simp [β', Subgroup.coe_mul, Subgroup.coe_zpow]
+        simp [β', Subgroup.coe_mul]
       rw [hcoe]
       exact Subgroup.mul_mem _ (show (β : G) ∈ Subgroup.centralizer (K : Set G) from hbK)
         (Subgroup.zpow_mem _ hyCent z)
@@ -154,7 +153,7 @@ theorem ggE6Dep_centK {Bs K : Subgroup G} {x y : G} (hxBs : x ∈ Bs) (hyBs : y 
           have hx2Cent : x ^ 2 ∈ Subgroup.centralizer (K : Set G) := by
             have hc : (β' : G) = x ^ 2 := by
               rw [hβ'x2]
-              simp [Subgroup.coe_pow, γx]
+              simp [γx]
             rw [← hc]
             exact hβ'cent
           have hx4 : x ^ 4 = x := by
@@ -173,7 +172,7 @@ theorem ggE6Dep_centK {Bs K : Subgroup G} {x y : G} (hxBs : x ∈ Bs) (hyBs : y 
     have hb_eq : b = y ^ (a.val : ℤ) := by
       have h1 : b * y ^ z = 1 := by
         have hcoe : (β' : G) = b * y ^ z := by
-          simp [β', β, γ, Subgroup.coe_mul, Subgroup.coe_zpow]
+          simp [β', β, γ, Subgroup.coe_mul]
         rw [← hcoe, hβ'one]
         rfl
       have h2 : b = (y ^ z)⁻¹ := by

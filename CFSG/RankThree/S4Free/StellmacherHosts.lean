@@ -134,7 +134,7 @@ private theorem exists_ne_one_conj_eq {X : Type*} [Group X] [Finite X] {Q : Subg
     [Q.Normal] (hQ : IsPGroup 2 Q) (hQ1 : Q ≠ ⊥) {g : X} {k : ℕ} (hg : g ^ 2 ^ k = 1) :
     ∃ q ∈ Q, q ≠ 1 ∧ g * q * g⁻¹ = q := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction (zpowers g) Q :=
+  let : MulAction (zpowers g) Q :=
     MulAction.compHom Q ((MulAut.conjNormal (H := Q)).comp (zpowers g).subtype)
   have hfix : (1 : Q) ∈ MulAction.fixedPoints (zpowers g) Q := fun h =>
     show MulAut.conjNormal (h : X) (1 : Q) = 1 from map_one _
@@ -221,7 +221,7 @@ private theorem exists_inverted_of_surjective {A : Type*} [Group A] [Finite A]
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 A) := inferInstance
   have hP3 : ∀ x ∈ (P : Subgroup A), ∃ j : ℕ, x ^ 3 ^ j = 1 := fun x hx => by
-    obtain ⟨j, hj⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨j, hj⟩ := P.isPGroup ⟨x, hx⟩
     exact ⟨j, by simpa using congrArg Subtype.val hj⟩
   let B := (Equiv.Perm.sign.comp φ).ker
   have hsign3 : ∀ x : A, (∃ j : ℕ, x ^ 3 ^ j = 1) → Equiv.Perm.sign (φ x) = 1 := by
@@ -321,7 +321,7 @@ private theorem exists_inverted_of_surjective {A : Type*} [Group A] [Finite A]
         left_inv := fun x => Subtype.ext (by simp)
         right_inv := fun k => Subtype.ext (by simp) }
     rw [Nat.card_congr e]
-    obtain ⟨n, hn⟩ := (P.isPGroup'.to_le (inf_le_left : K ≤ P)).exists_card_eq
+    obtain ⟨n, hn⟩ := (P.isPGroup.to_le (inf_le_left : K ≤ P)).exists_card_eq
     rw [hn]
     intro h2
     have := (Nat.prime_dvd_prime_iff_eq Nat.prime_two Nat.prime_three).1

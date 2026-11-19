@@ -62,8 +62,9 @@ private theorem sec4ILiftB_subgroupOf_isPGroup (e : ↥L ⧸ Subgroup.center ↥
 
 variable [Finite G]
 
-theorem sec4ILiftPhi_spec (hL : IsOmega7Group L) (e : ↥L ⧸ Subgroup.center ↥L ≃* Sec4IOmega)
-    {P : Subgroup G} (hP : IsSylow2Of P L) {fr : Sec4IFrame Sec4IQ}
+omit [Finite G] in
+theorem sec4ILiftPhi_spec (_hL : IsOmega7Group L) (e : ↥L ⧸ Subgroup.center ↥L ≃* Sec4IOmega)
+    {P : Subgroup G} (_hP : IsSylow2Of P L) {fr : Sec4IFrame Sec4IQ}
     (hfr : Sec4IGood fr ((P.subgroupOf L).map (sec4IRho e))) {v : Fin 7 → ZMod 2}
     (hv : IsEvenVec v) :
     ∃ hx : sec4ILiftPhi e fr P v ∈ L, sec4ILiftPhi e fr P v ∈ P ∧
@@ -74,9 +75,10 @@ theorem sec4ILiftPhi_spec (hL : IsOmega7Group L) (e : ↥L ⧸ Subgroup.center �
   obtain ⟨x, hxP, hxeq⟩ := hvR
   have h : ∃ x : ↥L, (x : G) ∈ P ∧ sec4IRho e x = sec4IPsi fr v := ⟨x, hxP, hxeq⟩
   unfold sec4ILiftPhi
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact ⟨(Classical.choose h).2, (Classical.choose_spec h).1, (Classical.choose_spec h).2⟩
 
+omit [Finite G] in
 theorem sec4ILiftPhi_mem (hL : IsOmega7Group L) (e : ↥L ⧸ Subgroup.center ↥L ≃* Sec4IOmega)
     {P : Subgroup G} (hP : IsSylow2Of P L) {fr : Sec4IFrame Sec4IQ}
     (hfr : Sec4IGood fr ((P.subgroupOf L).map (sec4IRho e))) {v : Fin 7 → ZMod 2}
@@ -112,8 +114,9 @@ theorem sec4ILift_card_le (hL : IsOmega7Group L) (e : ↥L ⧸ Subgroup.center �
       rw [hcardMap, hcardF, hcard]
     exact hfr.eq_B0 ((F.subgroupOf L).map (sec4IRho e)) hmap_le hmapEl hcard'
 
-theorem sec4ILift_map_eq (hL : IsOmega7Group L) (e : ↥L ⧸ Subgroup.center ↥L ≃* Sec4IOmega)
-    {P : Subgroup G} (hP : IsSylow2Of P L) {fr : Sec4IFrame Sec4IQ}
+omit [Finite G] in
+theorem sec4ILift_map_eq (_hL : IsOmega7Group L) (e : ↥L ⧸ Subgroup.center ↥L ≃* Sec4IOmega)
+    {P : Subgroup G} (_hP : IsSylow2Of P L) {fr : Sec4IFrame Sec4IQ}
     (hfr : Sec4IGood fr ((P.subgroupOf L).map (sec4IRho e))) :
     ((sec4ILiftB e fr P).subgroupOf L).map (sec4IRho e) = sec4IB0 fr := by
   apply le_antisymm

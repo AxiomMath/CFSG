@@ -24,7 +24,7 @@ namespace CFSG.RankThree.PartTwo.Sec11
 theorem threeCoverModelA'_of_sectionFourHyp {Q : Type} [Group Q] [Finite Q] (hS : SectionFourHyp Q)
     (h : ThreeCoverModelA Q) : ThreeCoverModelA' Q := by
   rcases h with ⟨p, e, hp, he, hpi⟩ | h
-  · haveI := hp
+  · have := hp
     exact Or.inl ⟨p, e, hp, he, Sec4.Census.two_or_le_two_of_isoLThreePi hS he hpi, hpi⟩
   · exact Or.inr h
 

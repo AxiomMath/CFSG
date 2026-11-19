@@ -103,6 +103,7 @@ theorem exists_dot_eq_one (hK : Nat.card K = 2) {f : Fin 3 → K} (hf : f ≠ 0)
 
 variable [CharP K 2]
 
+omit [Finite K] in
 theorem trv_mul_self {u ψ : Fin 3 → K} (h : ψ ⬝ᵥ u = 0) :
     (1 + Matrix.vecMulVec u ψ) * (1 + Matrix.vecMulVec u ψ) = (1 : Matrix (Fin 3) (Fin 3) K) := by
   refine Matrix.ext_iff_mulVec.mpr fun v => ?_
@@ -114,22 +115,27 @@ theorem trv_mul_self {u ψ : Fin 3 → K} (h : ψ ⬝ᵥ u = 0) :
 @[expose] noncomputable def trvGL {u ψ : Fin 3 → K} (h : ψ ⬝ᵥ u = 0) : GL (Fin 3) K :=
   ⟨1 + Matrix.vecMulVec u ψ, 1 + Matrix.vecMulVec u ψ, trv_mul_self h, trv_mul_self h⟩
 
+omit [Finite K] in
 theorem coe_trvGL {u ψ : Fin 3 → K} (h : ψ ⬝ᵥ u = 0) :
     ((trvGL h : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) = 1 + Matrix.vecMulVec u ψ := rfl
 
+omit [Finite K] in
 theorem coe_trvGL_inv {u ψ : Fin 3 → K} (h : ψ ⬝ᵥ u = 0) :
     (((trvGL h)⁻¹ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) = 1 + Matrix.vecMulVec u ψ := rfl
 
+omit [Finite K] in
 theorem trvGL_mem {u ψ : Fin 3 → K} (h : ψ ⬝ᵥ u = 0) : trvGL h ∈ StatedSL 3 K := by
   rw [mem_statedSL_iff]
   apply eq_one_of_mul_self_eq_one
   rw [← Matrix.det_mul, coe_trvGL, trv_mul_self h, Matrix.det_one]
 
+omit [Finite K] in
 theorem coe_dualGL_trvGL {u ψ : Fin 3 → K} (h : ψ ⬝ᵥ u = 0) :
     ((dualGL (trvGL h) : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) = 1 + Matrix.vecMulVec ψ u := by
   rw [coe_dualGL, coe_trvGL_inv, Matrix.transpose_add, Matrix.transpose_one,
     Matrix.transpose_vecMulVec]
 
+omit [Finite K] in
 theorem pairHom_trvGL_apply {u ψ : Fin 3 → K} (h : ψ ⬝ᵥ u = 0) (x : PairMod K) :
     pairHom (trvGL h) x = (Multiplicative.ofAdd (Multiplicative.toAdd x.1 +
         (ψ ⬝ᵥ Multiplicative.toAdd x.1) • u),
@@ -143,6 +149,7 @@ theorem pairHom_trvGL_apply {u ψ : Fin 3 → K} (h : ψ ⬝ᵥ u = 0) (x : Pair
       Matrix (Fin 3) (Fin 3) K) *ᵥ Multiplicative.toAdd x.2) = _
     rw [coe_dualGL_trvGL, one_add_vecMulVec_mulVec]
 
+omit [Finite K] [CharP K 2] in
 theorem ofAdd_pair_mul_inv (v f v' f' : Fin 3 → K) :
     ((Multiplicative.ofAdd v, Multiplicative.ofAdd f) : PairMod K) *
         (Multiplicative.ofAdd v', Multiplicative.ofAdd f')⁻¹ =
@@ -154,11 +161,13 @@ theorem ofAdd_pair_mul_inv (v f v' f' : Fin 3 → K) :
 @[expose] def IsCenterType (E : Subgroup (MulAut (PairMod K))) (c : Fin 3 → K) : Prop :=
   ∀ x ∈ E, ∃ φ : Fin 3 → K, ∃ hφ : φ ⬝ᵥ c = 0, x = pairHom (trvGL hφ)
 
+omit [Finite K] in
 theorem trv_fix_zvec {c φ : Fin 3 → K} (hφ : φ ⬝ᵥ c = 0) :
     pairHom (trvGL hφ) (zvec c) = zvec c := by
   rw [pairHom_trvGL_apply]
-  refine Prod.ext ?_ ?_ <;> simp [zvec, hφ]
+  refine Prod.ext ?_ ?_ <;> simp [hφ]
 
+omit [Finite K] in
 theorem fixV_le_wSub {E : Subgroup (MulAut (PairMod K))} {c : Fin 3 → K}
     (hE : IsCenterType E c) {X : Subgroup (MulAut (PairMod K))} (hXE : X ≤ E) (hX : X ≠ ⊥) :
     fixV X ≤ wSub c := by
@@ -195,20 +204,23 @@ theorem comm_wSub (hK : Nat.card K = 2) {E : Subgroup (MulAut (PairMod K))} {c :
     rw [h1, one_smul]
     refine Prod.ext ?_ ?_ <;> apply Multiplicative.toAdd.injective <;>
       simp only [Prod.fst_mul, Prod.fst_inv, Prod.snd_mul, Prod.snd_inv, toAdd_mul, toAdd_inv,
-        toAdd_ofAdd, zvec] <;> abel
+        toAdd_ofAdd] <;> abel
 
+omit [Finite K] [CharP K 2] in
 theorem cross_dot_self (c u : Fin 3 → K) : (c ⨯₃ u) ⬝ᵥ u = 0 := by
   rw [dotProduct_comm]
   exact dot_cross_self c u
 
+omit [Finite K] [CharP K 2] in
 theorem cross_dot_left (c u : Fin 3 → K) : (c ⨯₃ u) ⬝ᵥ c = 0 := by
   rw [dotProduct_comm]
   exact dot_self_cross c u
 
+omit [Finite K] in
 theorem trv_cross_fix (c u : Fin 3 → K) :
     pairHom (trvGL (cross_dot_self c u)) (zvec c) = zvec c := by
   rw [pairHom_trvGL_apply]
-  refine Prod.ext ?_ ?_ <;> simp [zvec, cross_dot_left]
+  refine Prod.ext ?_ ?_ <;> simp [cross_dot_left]
 
 theorem eq_V₁_of_inv (hK : Nat.card K = 2) {c : Fin 3 → K} (hc : c ≠ 0)
     {J : Subgroup (PairMod K)} (hJ : J ≤ V₁ K) (hzJ : zvec c ∈ J)
@@ -342,6 +354,7 @@ theorem eq_ySub_of_inv (hK : Nat.card K = 2) {c : Fin 3 → K} (hc : c ≠ 0)
   · exact hgJ
   · exact hfgJ
 
+omit [CharP K 2] in
 theorem mem_pairSL_of_fix (hK : Nat.card K = 2) {c : Fin 3 → K} (hc : c ≠ 0)
     {p : MulAut (PairMod K)} (hpN : p ∈ pairNorm K) (hpz : p (zvec c) = zvec c) :
     p ∈ pairSL K ∧ (∀ x ∈ V₁ K, p x ∈ V₁ K) ∧ ∀ x ∈ ySub c, p x ∈ ySub c := by
@@ -355,7 +368,7 @@ theorem mem_pairSL_of_fix (hK : Nat.card K = 2) {c : Fin 3 → K} (hc : c ≠ 0)
       have h1 := hpz
       rw [hp, MulAut.mul_apply, pairAut_apply, swapAut_apply] at h1
       have h2 := congrArg (fun y : PairMod K => Multiplicative.toAdd y.1) h1
-      simp only [zvec, ofAdd_zero, map_one, toAdd_one, toAdd_ofAdd] at h2
+      simp only [ofAdd_zero, map_one, toAdd_one, toAdd_ofAdd] at h2
       exact hc h2.symm
   have hpSL := mem_pairSL_of_mem_pairSub hK hpN hpS
   obtain ⟨γ, hγ, rfl⟩ := hpSL
@@ -397,6 +410,7 @@ theorem isoMod_of_inf_eq_bot {V : Type*} [CommGroup V] {L : Subgroup (MulAut V)}
   rw [he₂, he₂]
   exact Pair.proj_equivariant hinf' hsup' h₂ h₁ hl _
 
+omit [CharP K 2] in
 theorem isInv_eq {J : Subgroup (PairMod K)} (hJ : Pair.IsInv (pairSL K) J) :
     J = ⊥ ∨ J = V₁ K ∨ J = V₂ K ∨ J = ⊤ := by
   have hinv1 : Pair.IsInv (pairSL K) (J ⊓ V₁ K) := fun l hl w hw =>

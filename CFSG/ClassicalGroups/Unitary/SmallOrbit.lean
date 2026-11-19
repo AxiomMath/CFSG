@@ -34,6 +34,7 @@ variable {K : Type} [Field K] [Finite K] {σ : K ≃+* K}
     Representation K A (Fin 4 → K) :=
   LinearEquiv.automorphismGroup.toLinearMapMonoidHom.comp (linHomOf A hlin)
 
+omit [Finite K] in
 theorem smallOrbitRep_apply (A : Subgroup (MulAut (StdMod (Fin 4) K)))
     (hlin : ∀ a ∈ A, IsSemilinear a (RingEquiv.refl K)) (a : A) (v : Fin 4 → K) :
     smallOrbitRep A hlin a v = toAddMap (a : MulAut (StdMod (Fin 4) K)) v := rfl
@@ -45,6 +46,7 @@ theorem isPGroup_two_of_elemAbelian2 {A : Subgroup (MulAut (StdMod (Fin 4) K))}
   apply Subtype.ext
   simpa using hA.2 (a : MulAut (StdMod (Fin 4) K)) a.2
 
+omit [Finite K] in
 theorem mem_fixV_ofAdd_iff (A : Subgroup (MulAut (StdMod (Fin 4) K)))
     (v : Fin 4 → K) :
     Multiplicative.ofAdd v ∈ fixV A ↔ ∀ a ∈ A, toAddMap a v = v := by
@@ -74,18 +76,21 @@ theorem mem_fixV_ofAdd_iff (A : Subgroup (MulAut (StdMod (Fin 4) K)))
   carrier := {c | σ c = c}
   zero_mem' := map_zero σ
   add_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_add, ha, hb]
   neg_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_neg, ha]
 
+omit [Finite K] in
 theorem smallOrbitTrace_apply (σ : K ≃+* K) (x : K) : smallOrbitTrace σ x = x + σ x := rfl
 
+omit [Finite K] in
 theorem map_smallOrbitTrace_fixed (hσ : IsUnitaryInvolution σ) (x : K) :
     σ (smallOrbitTrace σ x) = smallOrbitTrace σ x := by
   rw [smallOrbitTrace_apply, map_add, hσ.invol, add_comm]
 
+omit [Finite K] in
 theorem natCard_fixedFieldAdd (hσ : IsUnitaryInvolution σ) (h2 : (2 : K) = 0)
     {m : ℕ} (hK : Nat.card K = (2 ^ m) ^ 2) :
     Nat.card (fixedFieldAdd σ) = 2 ^ m := by
@@ -98,6 +103,7 @@ theorem natCard_fixedFieldAdd (hσ : IsUnitaryInvolution σ) (h2 : (2 : K) = 0)
       _ = 2 ^ m * 2 ^ m := by rw [hK, pow_two]
   exact Nat.pow_left_injective (by norm_num : (2 : ℕ) ≠ 0) hpow
 
+omit [Field K] [Finite K] in
 theorem smallOrbit_card_le_three_mul {m : ℕ} (hK : Nat.card K = (2 ^ m) ^ 2) :
     Nat.card K ≤ 2 ^ (3 * m) := by
   have hmono : (2 : ℕ) ^ (2 * m) ≤ 2 ^ (3 * m) :=
@@ -299,7 +305,7 @@ private theorem exists_small_orbit_aux [CharP K 2]
           (x : Fin 4 → K) ∈ Tfix := by
         intro a
         have h := hqfix a
-        simp only [ρQ, Representation.quotient_apply, Submodule.mapQ_apply] at h
+        simp only [ρQ, Representation.quotient_apply] at h
         have hsub : (ρD a) x - x ∈ Tsub := (Submodule.Quotient.eq Tsub).mp h
         have hcoe : (((ρD a) x - x : Dperp) : Fin 4 → K) =
             toAddMap (a : MulAut (StdMod (Fin 4) K)) (x : Fin 4 → K) - (x : Fin 4 → K) := by
@@ -402,7 +408,7 @@ private theorem exists_small_orbit_aux [CharP K 2]
         map_zero' := by apply Subtype.ext; simp [φ, smallOrbitTrace]
         map_add' := fun t t' => by
           apply Subtype.ext
-          simp [φ, smallOrbitTrace, herm_add_right, map_add] }
+          simp [φ, smallOrbitTrace, map_add] }
     have hsurjφ : Function.Surjective φ' := by
       intro a
       have ha : σ (a : K) = (a : K) := a.2
@@ -474,7 +480,7 @@ private theorem exists_small_orbit_aux [CharP K 2]
             herm σ (toAddMap a v - v) v +
             herm σ (toAddMap a v - v) (toAddMap a v - v) = 0 := by
           have h := hexp
-          simp only [add_assoc, add_left_comm, add_comm] at h ⊢
+          simp only [add_assoc] at h ⊢
           exact add_left_cancel (by simpa only [add_zero] using h)
         have htt : herm σ (toAddMap a v - v) (toAddMap a v - v) = 0 :=
           hT_iso _ hdisp _ hdisp

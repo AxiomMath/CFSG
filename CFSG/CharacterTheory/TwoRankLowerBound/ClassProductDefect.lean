@@ -127,11 +127,11 @@ theorem classProduct_defect_containment {group : Type*} [Group group] [Fintype g
   have hcoefficient' : ¬prime ∣ classProductCoefficient left right representative := by
     rwa [classProductCoefficient_eq_of_class left right (hrepresentative.trans hproduct.symm)]
   obtain ⟨first, second, hfirst, hsecond, _, hcentralizesFirst, hcentralizesSecond⟩ :=
-    p_subgroup_classProduct_fixed_pair prime _ (sylow.isPGroup'.map _) left right representative
+    p_subgroup_classProduct_fixed_pair prime _ (sylow.isPGroup.map _) left right representative
       (sylow_image_le _ sylow) hcoefficient'
-  exact ⟨p_subgroup_subconjugate_classDefect prime _ (sylow.isPGroup'.map _) first
+  exact ⟨p_subgroup_subconjugate_classDefect prime _ (sylow.isPGroup.map _) first
       hcentralizesFirst hfirst hleft,
-    p_subgroup_subconjugate_classDefect prime _ (sylow.isPGroup'.map _) second
+    p_subgroup_subconjugate_classDefect prime _ (sylow.isPGroup.map _) second
       hcentralizesSecond hsecond hright⟩
 
 end CFSG.TwoRankLowerBound.Helpers

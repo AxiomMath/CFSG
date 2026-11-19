@@ -32,7 +32,7 @@ theorem getD_map_tab {n w : Nat} {Gc : List Nat} {j : Nat} (hj : j < Gc.length) 
   rfl
 
 theorem passK_eq {n w nb : Nat} {Gc Zc : List Nat} {T : List Nat}
-    (hG : ∀ c ∈ Gc, ∀ i < n, imgW w c i < n) (hZ : ∀ c ∈ Zc, ∀ i < n, imgW w c i < n)
+    (hG : ∀ c ∈ Gc, ∀ i < n, imgW w c i < n) (_hZ : ∀ c ∈ Zc, ∀ i < n, imgW w c i < n)
     (hT : ∀ x ∈ T, x < n) (hlen : nb * (1 + Gc.length) ≤ T.length) :
     passK w nb Gc Zc T = passAll nb (Gc.map (tabC n w)) (Zc.map (tabC n w)) T := by
   apply Bool.eq_iff_iff.2
@@ -156,7 +156,7 @@ theorem ptsOf_length (B : List Nat) (G : List (Array Nat)) :
   | nil => simp
   | cons s t ih =>
     rw [List.flatMap_cons, List.length_append, List.length_append, List.length_map] at *
-    simp only [List.length_append, List.length_flatMap] at *
+    simp only [List.length_flatMap] at *
     rw [List.length_cons, Nat.succ_mul]
     simp only [List.length_map] at *
     omega

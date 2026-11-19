@@ -10,6 +10,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 theorem y_mul_self_ne_one (h : WreathRel x₁ x₂ lam) : x₁ ^ 2 * x₁ ^ 2 = 1 ∧ x₁ ^ 2 ≠ 1 := by
   have hx₁4 : x₁ ^ 4 = 1 := by
     rw [← h.ord_x₁]
@@ -21,6 +22,7 @@ theorem y_mul_self_ne_one (h : WreathRel x₁ x₂ lam) : x₁ ^ 2 * x₁ ^ 2 = 
     rw [h.ord_x₁] at hdvd
     norm_num at hdvd
 
+omit [Finite G] in
 theorem yz_mul_self_ne_one (h : WreathRel x₁ x₂ lam) :
     (x₁ ^ 2 * (x₁ * x₂) ^ 2) * (x₁ ^ 2 * (x₁ * x₂) ^ 2) = 1 ∧
       x₁ ^ 2 * (x₁ * x₂) ^ 2 ≠ 1 := by
@@ -44,6 +46,7 @@ theorem yz_mul_self_ne_one (h : WreathRel x₁ x₂ lam) :
     rw [h.ord_x₂] at hdvd
     norm_num at hdvd
 
+omit [Finite G] in
 theorem y_commute_z (h : WreathRel x₁ x₂ lam) :
     x₁ ^ 2 * (x₁ * x₂) ^ 2 = (x₁ * x₂) ^ 2 * x₁ ^ 2 := by
   have hcomm : Commute x₁ x₂ := h.comm

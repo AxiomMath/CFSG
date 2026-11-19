@@ -115,6 +115,7 @@ theorem y2l_rho_eq_one_iff (hC : centralizer (M : Set X) = M) {x : X} :
   right_inv c := by simp [Matrix.vecMul_vecMul, hK]
   map_mul' c d := by simp [Matrix.add_vecMul]
 
+omit [M.Normal] in
 theorem y2l_el_trans (K : Matrix (Fin 3) (Fin 3) (ZMod 4)) (hK : K * K = 1)
     (c : Fin 3 → ZMod 4) : y2l_el (τ.trans (y2l_rowAut K hK)) c = y2l_el τ (c ᵥ* K) :=
   rfl

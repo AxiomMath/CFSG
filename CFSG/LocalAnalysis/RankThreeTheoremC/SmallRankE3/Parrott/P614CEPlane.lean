@@ -67,7 +67,7 @@ theorem sit_normalizer_zpowers_le {P : Sylow 3 G} {M : Subgroup G} {x z : G}
     (hsit : Sit P M x z) {u : G} (huM : u ∈ M) (hu1 : u ≠ 1) (hu3 : u ^ 3 = 1)
     (hr : 3 ≤ CFSG.Open.pRank 3 (M ⊓ centralizer ({u} : Set G))) :
     normalizer ((zpowers u : Subgroup G) : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsit' := hsit.situation
   have hCM : centralizer ({u} : Set G) ≤ M := by
     by_contra hCM
@@ -89,7 +89,7 @@ theorem mem_of_mem_centralizer_of_pRank_le_two {X E : Subgroup G}
     (hX : CFSG.Open.pRank 3 X ≤ 2) (hEX : E ≤ X) (hEe : IsElemAbelian 3 E)
     (hEc : Nat.card E = 3 ^ 2) {y : G} (hyX : y ∈ X) (hy : y ^ 3 = 1)
     (hyc : y ∈ centralizer (E : Set G)) : y ∈ E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hyE
   have hcard := CFSG.RankThree.PartOne.Planes.card_sup_zpowers Nat.prime_three E hy hyE
     (mem_centralizer_iff.mp hyc)
@@ -111,7 +111,7 @@ theorem sit_exists_plane_centralizer_three {P : Sylow 3 G} {M : Subgroup G} {x z
     (hq1 : q ^ 3 = 1) (hqE : q ∉ E) :
     ∃ U : Subgroup G, U ≤ Q ∧ IsElemAbelian 3 U ∧ Nat.card U = 3 ^ 2 ∧
       ∀ u ∈ U, u ≠ 1 → 3 ≤ CFSG.Open.pRank 3 (M ⊓ centralizer ({u} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsit' := hsit.situation
   obtain ⟨hPM, hP3⟩ := sylow_le_of_isCoreMaxLocal hsit.setting hsit'.mem_sigmaA
     hsit'.isCoreMaxLocal
@@ -131,7 +131,7 @@ theorem sit_exists_plane_centralizer_three {P : Sylow 3 G} {M : Subgroup G} {x z
     rintro _ ⟨y, hy, rfl⟩
     exact M.mul_mem (M.mul_mem (M.inv_mem m.2) (hPM hy)) (M.inv_mem (M.inv_mem m.2))
   have hRp : IsPGroup 3 R := by
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     exact IsPGroup.of_card (n := n) (by rw [Subgroup.card_map_of_injective hinj, hn])
   set A : Subgroup G := A₀.map (MulAut.conj ((m : G)⁻¹)).toMonoidHom with hA
   have hAR : A ≤ R := Subgroup.map_mono hA₀P

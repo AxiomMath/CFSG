@@ -84,7 +84,7 @@ theorem A5WrTwo.exists_conj_baseEmb {u : A5WrTwo} (hu : u ∉ commutator A5WrTwo
     _ = A5WrTwo.baseEmb (p * (y, x) * p⁻¹) := by rw [← map_mul, ← map_mul]
     _ = A5WrTwo.baseEmb (p.1 * y * p.1⁻¹, p.1⁻¹ * x * p.1) := by
           apply congrArg A5WrTwo.baseEmb
-          ext <;> simp [Prod.mk_mul_mk, hp2]
+          ext <;> simp [hp2]
 
 theorem eq_top_of_diag_mem (x₀ : alternatingGroup (Fin 5))
     (K : Subgroup (alternatingGroup (Fin 5) × alternatingGroup (Fin 5)))
@@ -130,12 +130,12 @@ theorem eq_top_of_diag_mem (x₀ : alternatingGroup (Fin 5))
     have : y ∈ K₂ := by simpa [K₂, MonoidHom.inr_apply] using hyK
     rw [hbot] at this
     exact hyne (by simpa using this)
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   have hK₁top : K₁ = ⊤ := by
-    haveI := hK₁normal
+    have := hK₁normal
     exact (IsSimpleGroup.eq_bot_or_eq_top_of_normal K₁).resolve_left hK₁ne
   have hK₂top : K₂ = ⊤ := by
-    haveI := hK₂normal
+    have := hK₂normal
     exact (IsSimpleGroup.eq_bot_or_eq_top_of_normal K₂).resolve_left hK₂ne
   rw [Subgroup.eq_top_iff']
   intro p

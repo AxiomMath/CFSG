@@ -72,7 +72,7 @@ theorem exists_fixed_orderOf_four (hin : SectionSevenBase) (hC : Counterexample 
   have hsq : ∀ p ∈ fixedSubgroup β, p ^ 2 = 1 := by
     intro p hp
     have hαp : α (p : Abar i) = p := congrArg Subtype.val (mem_fixedSubgroup.mp hp)
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') p
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) p
     by_contra hp2
     have hk2 : 2 ≤ k := by
       by_contra hlt
@@ -112,7 +112,7 @@ theorem exists_fixed_orderOf_four (hin : SectionSevenBase) (hC : Counterexample 
     rw [(CFSG.SectionRank.pRank_sylow P).1]
     exact hF.two_le_pRank_top hin hC i
   obtain ⟨s, hsP, u, huP, hs, hu, hsu⟩ := exists_two_involutions hrankP
-  rcases involutory_automorphism_shape P.isPGroup' β hβ hcard with hA | hB
+  rcases involutory_automorphism_shape P.isPGroup β hβ hcard with hA | hB
   · apply hsu
     have := hA ⟨s, hsP⟩ ⟨u, huP⟩ (by rw [Subgroup.orderOf_mk]; exact hs)
       (by rw [Subgroup.orderOf_mk]; exact hu)
@@ -120,7 +120,7 @@ theorem exists_fixed_orderOf_four (hin : SectionSevenBase) (hC : Counterexample 
   ·
     obtain ⟨x, y, hgen, hy2, hyx, hy⟩ := hB
     obtain ⟨e⟩ := CFSG.GorensteinWalter.dihedral_of_generators_of_not_mem x y hgen.symm hy2 hyx hy
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') x
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) x
     have hk1 : 1 ≤ k := by
       by_contra hk0
       have hk0' : k = 0 := by omega

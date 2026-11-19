@@ -31,9 +31,9 @@ theorem diagOf_mem_blockSU (h : UnitaryFieldData 2 1 K) {N : ℕ}
       rcases hab with h' | h'
       · exact h'
       · exact h'
-    rw [if_pos rfl, if_pos rfl, hS a ha]
+    rw [ite_eq_left rfl, ite_eq_left rfl, hS a ha]
     simp
-  · rw [if_neg hab', if_neg hab']
+  · rw [ite_eq_right hab', ite_eq_right hab']
 
 private lemma ubk_perm_conj_diag (d : Fin N → Kˣ) (σ : Equiv.Perm (Fin N)) :
     (CFSG.RankThree.Classical.permGL σ : GL (Fin N) K)⁻¹ * diagHom N d *

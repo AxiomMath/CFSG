@@ -56,9 +56,9 @@ private theorem left_of_commutator_eq_bot {H L T F V X : Subgroup G} {n : ℕ}
   · exact first_of_thompsonJ_le_pCoreOf hT hJQ hXN
   · obtain ⟨k, hk, hkfin, hkchar, π, P, hP, hset⟩ :=
       exists_seedSetting hF hL hL2 hT hH hTLQ
-    letI : Field k := hk
-    letI : Finite k := hkfin
-    letI : CharP k 2 := hkchar
+    let : Field k := hk
+    let : Finite k := hkfin
+    let : CharP k 2 := hkchar
     have hnc : ⁅(⊤ : Subgroup ↥H),
         CFSG.Open.quasithinOmegaOneCenter (P : Subgroup ↥H)⁆ ≠ ⊥ :=
       hnc_of_not_le_center P hP hZ
@@ -66,8 +66,8 @@ private theorem left_of_commutator_eq_bot {H L T F V X : Subgroup G} {n : ℕ}
       not_thompsonJ_le_pCore_of P hP hJQ
     obtain ⟨k', hk'f, hk'fin, ρ, ψ, hseed⟩ :=
       exists_isSeed_of_setting' (G := ↥H) hset hnc hJT P rfl
-    letI : Field k' := hk'f
-    letI : Finite k' := hk'fin
+    let : Field k' := hk'f
+    let : Finite k' := hk'fin
     have hΛ := lamHyp_of P hP hseed hVdef hL hXN hXJ hcomm
     have hFJ' : omegaOneZJ (CFSG.Open.pCoreOf 2 H) ≤ thompsonJ T := by
       rwa [hFdef] at hFJ

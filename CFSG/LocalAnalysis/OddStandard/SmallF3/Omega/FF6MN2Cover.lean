@@ -19,13 +19,15 @@ open scoped commutatorElement
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem reflTot_apply_of_polar_eq_zero (u x : V) (h : polar Q u x = 0) :
     ((reflTot Q u : OGroup Q) : V ≃ₗ[ZMod 3] V) x = x := by
   rw [coe_reflTot_apply, h]; simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem reflTot_apply_self (u : V) (hu : Q u ≠ 0) :
     ((reflTot Q u : OGroup Q) : V ≃ₗ[ZMod 3] V) u = -u := by
-  letI : Invertible (Q u) := invertibleOfNonzero hu
+  let : Invertible (Q u) := invertibleOfNonzero hu
   rw [reflTot_of_ne hu, reflOf_eq u hu, TauCeti.QuadraticMap.coe_reflectionOrthogonal,
     TauCeti.QuadraticMap.reflection_apply_self]
 
@@ -227,7 +229,7 @@ theorem ff6m_N2_cover_of_p (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3
     · exact ht_ne_one ht1
     · exact ht_ne_pi htpi
   obtain ⟨hGfin, hGsimple⟩ := ff_fin_simple_psu3 hLie
-  haveI := hGfin
+  have := hGfin
   obtain ⟨-, hnc⟩ := ff_simple_of_lieModel_psu3 hLie
   have hfC : ∀ g : ↥G1, omegaToProj hQ (Subgroup.inclusion hG1le g) ∈
       ffFix hQ h2dim (QuotientGroup.mk (orthToSim Q p) : ProjSim Q) := by

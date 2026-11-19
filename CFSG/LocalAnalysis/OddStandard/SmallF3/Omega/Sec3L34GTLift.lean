@@ -42,7 +42,7 @@ theorem l34g_lift {A C : Type} [Group A] [Group C] [Finite A] (φ : A →* C)
     rw [hφb₁, map_one] at h1
     rw [h1, orderOf_one] at hb2
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hb₁ord : orderOf (d ^ orderOf (d ^ 2)) = 2 :=
     orderOf_eq_prime (by rw [pow_two]; exact hb₁sq) hb₁ne
   refine ⟨d ^ orderOf (d ^ 2), hφb₁, hb₁ord, l34g_oddHull φ B, ?_⟩

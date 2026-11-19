@@ -201,7 +201,7 @@ theorem pr_sel {a0 a1 a2 a3 : Nat} {g0 g1 g2 g3 : Equiv.Perm (Fin 315)}
   by_cases e2 : l = 2
   · subst e2
     exact h2
-  rw [if_neg e0, if_neg e1, if_neg e2, beq_ne e0, beq_ne e1, beq_ne e2]
+  rw [ite_eq_right e0, ite_eq_right e1, ite_eq_right e2, beq_ne e0, beq_ne e1, beq_ne e2]
   exact h3
 
 theorem pr_lt (l : Nat) :

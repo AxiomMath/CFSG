@@ -127,7 +127,7 @@ theorem no_invariant_form
     (κ : M → A) (hκ : ∀ m m' : M, κ (m + m') = κ m + κ m' + D m m')
     (hκinv : ∀ (x : X) (m : M), κ (x • m) = κ m) : False := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hF' : 4 ≤ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hzero : ∀ u v, D (θ u) (θ v) = 0 := by
     refine eq_zero_of_invariant_quadratic hF' hA (fun u v => D (θ u) (θ v)) ?_ ?_ ?_ ?_
@@ -177,7 +177,7 @@ theorem no_invariant_form
       fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two]
     have h1 : x • θ ![1, 0] = θ ![1, a] := by rw [← hθ, hx, hv]
     have h2 : θ ![1, a] = θ ![0, a] + θ ![1, 0] := by
-      rw [← map_add]; congr 1; ext i; fin_cases i <;> simp [add_comm]
+      rw [← map_add]; congr 1; ext i; fin_cases i <;> simp
     constructor
     · have := hDinv x (θ ![1, 0]) m₁
       rw [hm₁ x, h1, h2, map_add, AddMonoidHom.add_apply] at this

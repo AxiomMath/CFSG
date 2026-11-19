@@ -16,6 +16,7 @@ section Braid
 variable {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K] [Finite K] [CharP K 2]
   {Q : QuadraticForm K (ι → K)} {X : Subgroup (GL ι K)}
 
+omit [Finite K] [CharP K 2] in
 theorem exists_lift_LomGL (E : ElemMatrixIso Q X) {u : ι → K} {g : Gom Q} (hg : g ∈ Lom Q u) :
     ∃ A : X, E.equiv A = g ∧ (A : GL ι K) ∈ E.LomGL u := by
   refine ⟨E.equiv.symm g, MulEquiv.apply_symm_apply E.equiv g, ?_⟩
@@ -138,7 +139,7 @@ theorem exists_fpf_of_hom (E : ElemMatrixIso Q X) (hQ : (polarBilin Q).Nondegene
   classical
   have hsec := SecHyp.of_isOppDecomp hd hP hI
   obtain ⟨M, iM, iA, κ, hκ, hker⟩ := exists_sectionModule_ker hNφ hsec hN
-  haveI : Finite M := hκ.finite
+  have : Finite M := hκ.finite
   have hdec := isCompl_fixedSub_of_isOppDecomp hP hκ hd h₁ h₂
   have huu'' : polar Q u' u ≠ 0 := by rwa [polar_comm]
   obtain ⟨a, ha, b, hb, haa, hbb, hab3, hab1, hna, hnb⟩ :=

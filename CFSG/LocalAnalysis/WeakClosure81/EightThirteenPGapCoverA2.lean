@@ -17,7 +17,7 @@ private lemma wcgapc2_injOn_of_isPGroup {G₀ G : Type} [Group G₀] [Finite G�
   obtain ⟨n, hn⟩ := hP.exists_card_dvd_pow
   have hcop : Nat.Coprime (Nat.card ↥α.ker) (Nat.card ↥P) :=
     Nat.Coprime.of_dvd (dvd_refl _) hn (hodd.coprime_two_right.pow_right n)
-  have hinf : α.ker ⊓ P = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hinf : α.ker ⊓ P = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   intro x hx y hy hxy
   have hmem : x⁻¹ * y ∈ α.ker ⊓ P :=
     Subgroup.mem_inf.mpr
@@ -84,7 +84,7 @@ theorem a2KleinData_of_cover {G₀ G : Type} [Group G₀] [Finite G₀] [Group G
     (hα : Function.Surjective α) (hodd : Odd (Nat.card ↥α.ker))
     (h : ∀ S₀ : Sylow 2 G₀, A2KleinData (S₀ : Subgroup G₀)) (S : Sylow 2 G) :
     A2KleinData (S : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀, hS₀eq⟩ := Sylow.mapSurjective_surjective (p := 2) hα S
   let P : Subgroup G₀ := (S₀ : Subgroup G₀)
   have hSeq : (S : Subgroup G) = P.map α := by
@@ -92,7 +92,7 @@ theorem a2KleinData_of_cover {G₀ G : Type} [Group G₀] [Finite G₀] [Group G
     simpa [P] using h
   obtain ⟨hPcard, hZPcard, h₀, hh₀N, hfix₀⟩ := h S₀
   have hinj : ∀ x ∈ P, ∀ y ∈ P, α x = α y → x = y :=
-    wcgapc2_injOn_of_isPGroup (P := P) α hodd S₀.isPGroup'
+    wcgapc2_injOn_of_isPGroup (P := P) α hodd S₀.isPGroup
   have hcardS : Nat.card ↥(S : Subgroup G) = 64 := by
     rw [hSeq, wcgapc2_card_map_of_injOn α P P le_rfl hinj]
     exact hPcard
@@ -123,8 +123,8 @@ theorem a2KleinData_of_cover {G₀ G : Type} [Group G₀] [Finite G₀] [Group G
 theorem a2KleinData_of_hasSL3Cover {G : Type} [Group G] [Finite G] (h : HasSL3Cover G)
     (S : Sylow 2 G) : A2KleinData (S : Subgroup G) := by
   obtain ⟨F, hF, hFin, hFcard, α, hα, hker⟩ := h
-  letI : Field F := hF
-  letI : Finite F := hFin
+  let : Field F := hF
+  let : Finite F := hFin
   have hcenter : Nat.card (Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) F)) = 3 := by
     rw [Nat.card_congr (Matrix.SpecialLinearGroup.center_equiv_rootsOfUnity' (0 : Fin 3)).toEquiv,
       Fintype.card_fin]
@@ -142,13 +142,13 @@ theorem a2KleinData_of_hasSL3Cover {G : Type} [Group G] [Finite G] (h : HasSL3Co
 
 theorem borelGL32CenterOn_shapeSL3 :
     BorelGL32CenterOn ShapeSL3 :=
-  borelGL32CenterOn_of_kills ShapeSL3 fun Y _ _ L hL S hSy =>
-    borelKills_center_of_a2 hSy.toSylow.isPGroup'
+  borelGL32CenterOn_of_kills ShapeSL3 fun _Y _ _ _L hL _S hSy =>
+    borelKills_center_of_a2 hSy.toSylow.isPGroup
       (a2KleinData_of_hasSL3Cover (hasSL3Cover_of_shapeSL3 hL) hSy.toSylow)
 
 theorem borelGL32CenterOn_shapeL3 : BorelGL32CenterOn ShapeL3 :=
-  borelGL32CenterOn_of_kills ShapeL3 fun Y _ _ L hL S hSy =>
-    borelKills_center_of_a2 hSy.toSylow.isPGroup'
+  borelGL32CenterOn_of_kills ShapeL3 fun _Y _ _ _L hL _S hSy =>
+    borelKills_center_of_a2 hSy.toSylow.isPGroup
       (a2KleinData_of_hasSL3Cover (hasSL3Cover_of_shapeL3 hL) hSy.toSylow)
 
 end CFSG.LocalAnalysis.WeakClosure81

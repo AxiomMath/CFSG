@@ -77,7 +77,7 @@ theorem yv_kapP (a : Multiplicative (ZMod 2)) (σ : Equiv.Perm (Fin 12)) {i : �
   have h1 : (extHom σ ⟨i, by omega⟩).val = (σ ⟨i, hi⟩).val :=
     extHom_apply_lt σ ⟨i, by omega⟩ hi
   have h2 : (extHom σ ⟨i, by omega⟩ : Fin 14).val < 12 := by rw [h1]; exact (σ _).2
-  simp only [Spec.yv, dif_pos (by omega : i < 14), kapP_apply, Equiv.Perm.coe_mul,
+  simp only [Spec.yv, dite_eq_left (by omega : i < 14), kapP_apply, Equiv.Perm.coe_mul,
     Function.comp_apply]
   rw [tauPow_apply_lt a _ h2, h1]
   simp [pv, hi]
@@ -225,8 +225,7 @@ theorem gens_repr {x : Table} (hx : x ∈ yGens) :
     ∃ (a : Multiplicative (ZMod 2)) (σ : Equiv.Perm (Fin 12)), σ ∈ Cgen ∧
       tp 14 x = kapP (a, σ) := by
   have hx' := hx
-  simp only [yGens, Array.mem_def, List.mem_cons, List.not_mem_nil, or_false,
-    List.toList_toArray] at hx'
+  simp only [yGens, Array.mem_def, List.mem_cons, List.not_mem_nil, or_false] at hx'
   have hext : ∀ σ : Equiv.Perm (Fin 12), x = tbl14 σ → tp 14 x = extHom σ := by
     intro σ hσ
     subst hσ

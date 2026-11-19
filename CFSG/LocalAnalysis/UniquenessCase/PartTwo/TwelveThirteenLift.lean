@@ -40,20 +40,23 @@ private theorem pCore_quotient_eq_bot {H : Type*} [Group H] {p : ℕ} :
   rw [Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   exact hy
 
+omit [Finite G] in
 theorem pCore_bar2_eq_bot (H : Subgroup G) : CFSG.pCore 2 (Bar2 H) = ⊥ := by
   exact pCore_quotient_eq_bot
 
 theorem isSylowOf_barOf {H T : Subgroup G} (hT : IsSylowOf 2 T H) : IsSylowOf 2 (barOf H T) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hT2, hdvd⟩ := isSylowOf_iff.1 hT
   refine isSylowOf_iff.2 ⟨le_top, hT2.comap_subtype.map _, fun h => hdvd ?_⟩
   rw [relIndex_top_right] at h
   exact h.trans ((T.subgroupOf H).index_map_dvd (QuotientGroup.mk'_surjective _))
 
+omit [Finite G] in
 theorem barOf_sup_eq_top (X T : Subgroup G) : barOf (X ⊔ T) X ⊔ barOf (X ⊔ T) T = ⊤ := by
   rw [barOf, barOf, ← Subgroup.map_sup, codisjoint_iff.1 (codisjoint_subgroupOf_sup X T),
     map_top_of_surjective _ (QuotientGroup.mk'_surjective _)]
 
+omit [Finite G] in
 theorem isSubnormal_barOf {X H : Subgroup G} (h : IsSubnormal X H) :
     IsSubnormal (barOf H X) ⊤ := by
   have h1 := (h.comap H.subtype).map (QuotientGroup.mk' (CFSG.pCore 2 ↥H))
@@ -61,6 +64,7 @@ theorem isSubnormal_barOf {X H : Subgroup G} (h : IsSubnormal X H) :
     map_top_of_surjective _ (QuotientGroup.mk'_surjective _)] at h1
   exact h1
 
+omit [Finite G] in
 private theorem conj_mem_map_of_characteristic {X : Subgroup G} {D : Subgroup X}
     [hD : D.Characteristic] {g : G} (hg : g ∈ normalizer (X : Set G)) {x : G}
     (hx : x ∈ D.map X.subtype) : g * x * g⁻¹ ∈ D.map X.subtype := by
@@ -72,6 +76,7 @@ private theorem conj_mem_map_of_characteristic {X : Subgroup G} {D : Subgroup X}
     exact Subgroup.mem_map_of_mem _ hy
   · rw [Subgroup.coe_subtype, Subgroup.normalizerMonoidHom_apply_apply_coe]
 
+omit [Finite G] in
 private theorem map_pCore_le_of_isSubnormal {X H : Subgroup G} (h : CFSG.Open.IsSubnormal X H) :
     (CFSG.pCore 2 ↥X).map X.subtype ≤ (CFSG.pCore 2 ↥H).map H.subtype := by
   induction h with
@@ -92,6 +97,7 @@ private theorem map_pCore_le_of_isSubnormal {X H : Subgroup G} (h : CFSG.Open.Is
           (map_subgroupOf_eq_of_le hLM).symm
       _ ≤ (CFSG.pCore 2 ↥M).map M.subtype := map_mono hle
 
+omit [Finite G] in
 theorem nonempty_barOf_mulEquiv {X H : Subgroup G} (h : IsSubnormal X H) :
     Nonempty (barOf H X ≃* Bar2 X) := by
   have hXH : X ≤ H := h.le
@@ -123,6 +129,7 @@ theorem nonempty_barOf_mulEquiv {X H : Subgroup G} (h : IsSubnormal X H) :
   exact ⟨((MulEquiv.subgroupCongr hrange).symm.trans
     (QuotientGroup.quotientKerEquivRange ψ).symm).trans (QuotientGroup.quotientMulEquivOfEq hker)⟩
 
+omit [Finite G] in
 theorem barOf_eq_top_iff {X H : Subgroup G} (hXH : X ≤ H) :
     barOf H X = ⊤ ↔ H = X ⊔ pCoreOf 2 H := by
   rw [← (comap_injective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥H))).eq_iff, comap_top,
@@ -130,6 +137,7 @@ theorem barOf_eq_top_iff {X H : Subgroup G} (hXH : X ≤ H) :
     Subgroup.map_sup, map_subgroupOf_eq_of_le hXH, ← MonoidHom.range_eq_map, range_subtype, pCoreOf]
   exact eq_comm
 
+omit [Finite G] in
 theorem nonempty_bar2_mulEquiv_of_eq {X H : Subgroup G} (h : IsSubnormal X H)
     (hH : H = X ⊔ pCoreOf 2 H) : Nonempty (Bar2 H ≃* Bar2 X) := by
   obtain ⟨e⟩ := nonempty_barOf_mulEquiv h
@@ -153,8 +161,8 @@ theorem exists_lift {H T : Subgroup G} (hT : IsSylowOf 2 T H) {Q : Subgroup (Bar
       (IsElemAbelian 3 Q → IsElemAbelian 3 P) ∧ Permutes P T ∧
       (IrrOn (normalizer (Q : Set (Bar2 H)) ⊓ barOf H T) Q →
         IrrOn (normalizer (P : Set G) ⊓ T) P) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨π, hπ⟩ : ∃ π : ↥H →* Bar2 H, π = QuotientGroup.mk' (CFSG.pCore 2 ↥H) := ⟨_, rfl⟩
   have hπs : Function.Surjective π := by
     subst hπ

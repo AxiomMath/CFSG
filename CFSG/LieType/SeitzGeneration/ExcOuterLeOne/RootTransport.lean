@@ -213,7 +213,7 @@ theorem eq_top_of_subring {K : Type} [Field K] [Finite K] (k : Subfield K)
     (hk : ∀ F : Subfield K, k ≤ F → F = k ∨ F = ⊤) (S : Subring K) (hkS : ∀ c ∈ k, c ∈ S)
     {t : K} (ht : t ∉ k) (htS : t ∈ S) : S = ⊤ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hinv : ∀ x ∈ S, x⁻¹ ∈ S := by
     intro x hx
     by_cases hx0 : x = 0

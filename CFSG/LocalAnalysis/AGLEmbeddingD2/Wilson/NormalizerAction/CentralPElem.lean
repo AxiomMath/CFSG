@@ -43,7 +43,7 @@ theorem eq_one_of_mem_center_of_cyclic_quotient {Q : Type*} [Group Q]
   have hgrp : IsPGroup p (zpowers z) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hzp, pow_one])
   obtain ⟨P, hzP⟩ := hgrp.exists_le_sylow
-  have hPp : IsPGroup p (P : Subgroup L) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup L) := P.isPGroup
   have hS : IsCyclic ↥((P : Subgroup L).map π) :=
     hQ _ (hPp.of_surjective (π.subgroupMap (P : Subgroup L)) (π.subgroupMap_surjective _))
   have hker' : (π.subgroupMap (P : Subgroup L)).ker ≤ center ↥(P : Subgroup L) := by
@@ -54,7 +54,7 @@ theorem eq_one_of_mem_center_of_cyclic_quotient {Q : Type*} [Group Q]
     rw [mem_center_iff]
     intro g
     exact Subtype.ext (mem_center_iff.1 (hker (MonoidHom.mem_ker.2 hx1)) (g : L))
-  haveI : IsMulCommutative ↥(P : Subgroup L) :=
+  have : IsMulCommutative ↥(P : Subgroup L) :=
     (π.subgroupMap (P : Subgroup L)).isMulCommutative_of_isCyclic_of_ker_le_center hker'
   exact eq_one_of_mem_center_of_abelian hperf P hz (hzP (mem_zpowers z))
 

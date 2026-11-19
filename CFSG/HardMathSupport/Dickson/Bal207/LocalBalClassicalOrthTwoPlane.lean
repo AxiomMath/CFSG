@@ -23,18 +23,23 @@ structure IsSmall (Q : QuadraticForm K U) : Prop where
 
 namespace IsSmall
 
+omit [FiniteDimensional K U] in
 theorem charP (h : IsSmall Q) : CharP K 2 :=
   card_two_charP h.card
 
+omit [FiniteDimensional K U] in
 theorem two_eq_zero (h : IsSmall Q) : (2 : K) = 0 := by
   have := h.charP
   exact CharP.cast_eq_zero K 2
 
+omit [FiniteDimensional K U] in
 theorem cases (h : IsSmall Q) (c : K) : c = 0 ∨ c = 1 := card_two_cases' h.card c
 
+omit [FiniteDimensional K U] in
 theorem ne_zero_iff (h : IsSmall Q) (c : K) : c ≠ 0 ↔ c = 1 := by
   refine ⟨fun hc => (h.cases c).resolve_left hc, fun h1 => h1 ▸ one_ne_zero⟩
 
+omit [FiniteDimensional K U] in
 theorem aniso (h : IsSmall Q) (hd : finrank K U = 2) {u : U} (hu : u ≠ 0) : Q u = 1 := by
   rcases h.shape with ⟨-, hnp⟩ | ⟨hd4, -⟩
   · refine (h.cases (Q u)).resolve_left fun h0 => hnp ⟨Submodule.span K {u}, ?_, ?_⟩
@@ -46,7 +51,7 @@ theorem aniso (h : IsSmall Q) (hd : finrank K U = 2) {u : U} (hu : u ≠ 0) : Q 
 
 theorem exists_nonsingular (h : IsSmall Q) : ∃ a : U, Q a = 1 := by
   have h0 : 0 < finrank K U := by rcases h.shape with ⟨hd, -⟩ | ⟨hd, -⟩ <;> omega
-  haveI : Nontrivial U := Module.nontrivial_of_finrank_pos h0
+  have : Nontrivial U := Module.nontrivial_of_finrank_pos h0
   obtain ⟨c, hc⟩ := exists_ne (0 : U)
   rcases h.shape with ⟨hd, -⟩ | ⟨hd, -⟩
   · exact ⟨c, h.aniso hd hc⟩
@@ -74,12 +79,14 @@ theorem exists_partner (h : IsSmall Q) {a : U} (ha : Q a = 1) :
       exists_map_ne_zero_polar_ne_zero h.regular (by omega) ha0
     exact ⟨b, (h.ne_zero_iff _).1 hb, (h.ne_zero_iff _).1 hab⟩
 
+omit [FiniteDimensional K U] in
 theorem Q_comb {a b : U} (ha : Q a = 1) (hb : Q b = 1) (hab : polar Q a b = 1) (α β : K) :
     Q (α • a + β • b) = α * α + β * β + α * β := by
   rw [map_add_eq, QuadraticMap.map_smul, QuadraticMap.map_smul, ha, hb, polar_smul_left,
     polar_smul_right, hab]
   simp only [smul_eq_mul, mul_one]
 
+omit [FiniteDimensional K U] in
 theorem quad_eq_zero (h : IsSmall Q) {α β : K} (h0 : α * α + β * β + α * β = 0) :
     α = 0 ∧ β = 0 := by
   have h2 := h.two_eq_zero
@@ -95,6 +102,7 @@ theorem quad_eq_zero (h : IsSmall Q) {α β : K} (h0 : α * α + β * β + α * 
 @[expose] def perp (Q : QuadraticForm K U) (a b w : U) : U :=
   w + (polar Q b w • a + polar Q a w • b)
 
+omit [FiniteDimensional K U] in
 theorem perp_orth (h : IsSmall Q) {a b : U} (hab : polar Q a b = 1) (w : U) :
     polar Q a (perp Q a b w) = 0 ∧ polar Q b (perp Q a b w) = 0 := by
   have := h.charP
@@ -103,25 +111,28 @@ theorem perp_orth (h : IsSmall Q) {a b : U} (hab : polar Q a b = 1) (w : U) :
   unfold perp
   constructor
   · simp only [polar_add_right, polar_smul_right, smul_eq_mul, polar_self_eq_zero, hab, mul_zero,
-      mul_one, add_zero]
+      mul_one]
     linear_combination (polar Q a w) * h2
   · simp only [polar_add_right, polar_smul_right, smul_eq_mul, polar_self_eq_zero, hba, mul_zero,
-      mul_one, zero_add]
+      mul_one]
     linear_combination (polar Q b w) * h2
 
+omit [FiniteDimensional K U] in
 theorem perp_add_proj (h : IsSmall Q) (a b w : U) :
     perp Q a b w + (polar Q b w • a + polar Q a w • b) = w := by
   have := h.charP
   unfold perp
   rw [add_assoc, add_self_vec K, add_zero]
 
-theorem polar_perp (h : IsSmall Q) {a b w : U} (hwa : polar Q a w = 0) (hwb : polar Q b w = 0)
+omit [FiniteDimensional K U] in
+theorem polar_perp (_h : IsSmall Q) {a b w : U} (hwa : polar Q a w = 0) (hwb : polar Q b w = 0)
     (v : U) : polar Q w (perp Q a b v) = polar Q w v := by
   have hwa' : polar Q w a = 0 := by rw [polar_comm]; exact hwa
   have hwb' : polar Q w b = 0 := by rw [polar_comm]; exact hwb
   unfold perp
   simp only [polar_add_right, polar_smul_right, smul_eq_mul, hwa', hwb', mul_zero, add_zero]
 
+omit [FiniteDimensional K U] in
 theorem polar_proj {a b w : U} (hwa : polar Q a w = 0) (hwb : polar Q b w = 0) (α β : K) :
     polar Q w (α • a + β • b) = 0 := by
   have hwa' : polar Q w a = 0 := by rw [polar_comm]; exact hwa
@@ -277,6 +288,7 @@ section Braid
 variable {K : Type} [Field K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [CharP K 2] [FiniteDimensional K V] in
 theorem polar_comp_subtype' (W : Submodule K V) (u w : W) :
     polar (Q.comp W.subtype) u w = polar Q (u : V) (w : V) := by
   simp only [QuadraticMap.polar, QuadraticMap.comp_apply, map_add]
@@ -285,26 +297,31 @@ theorem polar_comp_subtype' (W : Submodule K V) (u w : W) :
 def braidSet (Q : QuadraticForm K V) (W : Submodule K V) : Set (V ≃ₗ[K] V) :=
   {ρ | ∃ a ∈ W, ∃ b ∈ W, Q a = 1 ∧ Q b = 1 ∧ polar Q a b = 1 ∧ ρ = rot Q a b}
 
+omit [FiniteDimensional K V] in
 theorem rot_mem_braidSet {W : Submodule K V} {a b : V} (ha : a ∈ W) (hb : b ∈ W)
     (hQa : Q a = 1) (hQb : Q b = 1) (hab : polar Q a b = 1) : rot Q a b ∈ braidSet Q W :=
   ⟨a, ha, b, hb, hQa, hQb, hab, rfl⟩
 
+omit [FiniteDimensional K V] in
 theorem braidSet_mem_orth {W : Submodule K V} {ρ : V ≃ₗ[K] V} (hρ : ρ ∈ braidSet Q W) :
     ρ ∈ TauCeti.QuadraticMap.orthogonalGroup Q := by
   obtain ⟨a, -, b, -, ha, hb, -, rfl⟩ := hρ
   exact rot_mem ha hb
 
+omit [FiniteDimensional K V] in
 theorem braidSet_pow_three {W : Submodule K V} {ρ : V ≃ₗ[K] V} (hρ : ρ ∈ braidSet Q W) :
     ρ ^ 3 = 1 := by
   obtain ⟨a, -, b, -, -, -, hab, rfl⟩ := hρ
   exact rot_cube hab
 
+omit [FiniteDimensional K V] in
 theorem braidSet_comm_of_fixed {W : Submodule K V} {x : V ≃ₗ[K] V}
     (hx : x ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hxW : ∀ w ∈ W, x w = w)
     {ρ : V ≃ₗ[K] V} (hρ : ρ ∈ braidSet Q W) : x * ρ = ρ * x := by
   obtain ⟨a, ha, b, hb, -, -, -, rfl⟩ := hρ
   exact rot_comm_of_fixed hx (hxW a ha) (hxW b hb)
 
+omit [FiniteDimensional K V] in
 theorem braidSet_conj {W : Submodule K V} {g : V ≃ₗ[K] V}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hgW : ∀ w ∈ W, g w ∈ W)
     {ρ : V ≃ₗ[K] V} (hρ : ρ ∈ braidSet Q W) : g * ρ * g⁻¹ ∈ braidSet Q W := by
@@ -315,6 +332,7 @@ theorem braidSet_conj {W : Submodule K V} {g : V ≃ₗ[K] V}
   · rw [TauCeti.QuadraticMap.mem_orthogonalGroup_iff.1 hg b, hQb]
   · rw [TauCeti.QuadraticMap.polar_apply_of_mem_orthogonalGroup hg a b, hab]
 
+omit [FiniteDimensional K V] in
 theorem conj_mem_closure_braidSet {W : Submodule K V} {g : V ≃ₗ[K] V}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hgW : ∀ w ∈ W, g w ∈ W)
     {n : V ≃ₗ[K] V} (hn : n ∈ Subgroup.closure (braidSet Q W)) :
@@ -331,6 +349,7 @@ theorem conj_mem_closure_braidSet {W : Submodule K V} {g : V ≃ₗ[K] V}
     rw [e]
     exact Subgroup.inv_mem _ ha
 
+omit [CharP K 2] in
 theorem tri_mem {W : Submodule K V} (hs : IsSmall (Q.comp W.subtype)) {a b e : V} (ha : a ∈ W)
     (hb : b ∈ W) (he : e ∈ W) (hQa : Q a = 1) (hQb : Q b = 1) (hab : polar Q a b = 1)
     (hQe : Q e = 1) :
@@ -344,6 +363,7 @@ theorem tri_mem {W : Submodule K V} (hs : IsSmall (Q.comp W.subtype)) {a b e : V
   · exact Or.inl (Or.inr (Or.inr (congrArg Subtype.val h)))
   · exact Or.inr h
 
+omit [CharP K 2] [FiniteDimensional K V] in
 theorem polar_tri_perp {a b e f : V} (hf : f = a ∨ f = b ∨ f = a + b)
     (he : polar Q a e = 0 ∧ polar Q b e = 0) : polar Q f e = 0 := by
   rcases hf with h | h | h
@@ -351,6 +371,7 @@ theorem polar_tri_perp {a b e f : V} (hf : f = a ∨ f = b ∨ f = a + b)
   · rw [h]; exact he.2
   · rw [h, polar_add_left, he.1, he.2, add_zero]
 
+omit [FiniteDimensional K V] in
 theorem rot_tri_cases {a b c d : V} (ha : Q a = 1) (hab : polar Q a b = 1)
     (hc : c = a ∨ c = b ∨ c = a + b) (hd : d = a ∨ d = b ∨ d = a + b) (hcd : polar Q c d = 1) :
     rot Q c d = rot Q a b ∨ rot Q c d = (rot Q a b)⁻¹ := by

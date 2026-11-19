@@ -22,26 +22,26 @@ theorem coe_cThree : ((cThree : SL2 K) : Matrix (Fin 2) (Fin 2) K) = !![0, -1; 1
 theorem cThree_pow_three : (cThree : SL2 K) ^ 3 = 1 := by
   rw [pow_succ, pow_two]
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [SpecialLinearGroup.coe_mul, coe_cThree, Matrix.mul_apply, Fin.sum_univ_two]
+    simp [coe_cThree, Matrix.mul_apply, Fin.sum_univ_two]
 
 theorem cThree_mul_u_ne : (cThree : SL2 K) * uSL 1 ≠ uSL 1 * cThree := by
   intro h
   have := congrArg (fun g : SL2 K => (g : Matrix (Fin 2) (Fin 2) K) 0 0) h
-  simp [SpecialLinearGroup.coe_mul, coe_cThree, coe_uSL, Matrix.mul_apply,
+  simp [coe_cThree, coe_uSL, Matrix.mul_apply,
     Fin.sum_univ_two] at this
 
 theorem u_mul_v_ne : (uSL 1 : SL2 K) * vSL 1 ≠ vSL 1 * uSL 1 := by
   intro h
   have := congrArg (fun g : SL2 K => (g : Matrix (Fin 2) (Fin 2) K) 0 0) h
-  simp [SpecialLinearGroup.coe_mul, coe_uSL, coe_vSL, Matrix.mul_apply, Fin.sum_univ_two] at this
+  simp [coe_uSL, coe_vSL, Matrix.mul_apply, Fin.sum_univ_two] at this
 
 theorem HSL_neg_one_sq : (HSL (-1 : Kˣ) : SL2 K) * HSL (-1) = 1 := by
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [SpecialLinearGroup.coe_mul, coe_HSL, Matrix.mul_apply, Fin.sum_univ_two]
+    simp [coe_HSL, Matrix.mul_apply, Fin.sum_univ_two]
 
 theorem cThree_comm_HSL : (cThree : SL2 K) * HSL (-1) = HSL (-1) * cThree := by
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [SpecialLinearGroup.coe_mul, coe_cThree, coe_HSL, Matrix.mul_apply, Fin.sum_univ_two]
+    simp [coe_cThree, coe_HSL, Matrix.mul_apply, Fin.sum_univ_two]
 
 end SL2
 

@@ -29,7 +29,7 @@ theorem commute_rootDiagUnit_f4CollProd (L : List ℕ) (hL : ∀ p ∈ L, 24 ≤
 theorem f4_exists_order_eightynine_commute [Finite K] [CharP K 2] {ε : Kˣ} (hε : orderOf ε = 89) :
     ∀ y ∈ ([f4Rep K [47], f4Rep K [44], f4Rep K [47, 44], f4Rep K [41, 45]] :
       List (adjointGroup .F4 K)), ∃ z : adjointGroup .F4 K, orderOf z = 89 ∧ Commute z y := by
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   have h2 : ringChar K = 2 := ringChar.eq K 2
   have key : ∀ (L : List ℕ) (c : Fin Tag.F4.rank → ℤ), (∀ p ∈ L, 24 ≤ p ∧ p ≤ 47) →
       (∀ p ∈ L, ∑ i, c i * orbitCertRoot .F4 p i = 0) → ¬ (89 : ℤ) ∣ c ⟨0, by decide⟩ →
@@ -55,11 +55,11 @@ theorem lie23To89At_F4 : Lie23To89At .F4 := by
   obtain ⟨-, K, _, _, hcard, ⟨e⟩⟩ := hM.chevalleyExceptionalModel (by decide)
   have hK2 : ringChar K = 2 :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq Nat.prime_two hadm.2.1 hcard
-  haveI : CharP K 2 := ringChar.of_eq hK2
+  have : CharP K 2 := ringChar.of_eq hK2
   have h11 : 11 ∣ f := eleven_dvd_of_twentythree_dvd_card (by simp) hadm hM
     (dvd_trans h23 (Subgroup.card_subgroup_dvd_card _))
   obtain ⟨ε, hε⟩ := exists_unit_orderOf_eightynine_of_card hcard h11
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   exact prime_dvd_card_centralizer_of_classesCover (e.trans (adjointQuotientEquiv .F4 K))
     classesCover_AS (f4_exists_order_eightynine_commute hε) hτ
 

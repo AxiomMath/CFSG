@@ -45,7 +45,7 @@ private theorem mem_sup_zL_A (s : Setting3 G L) {x : G}
 private theorem commutator_mem_Z_of_mem_A (hS : HRSetting G L)
     (hZ : Odd (Nat.card ↥(center ↥L))) (s : Setting3 G L) (h14 : s.fr'.Fact14) {a b : G}
     (ha : a ∈ s.fr.A) (hb : b ∈ s.fr.A) : ⁅a, b⁆ ∈ s.fr.Z := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   have hcab : ⁅a, b⁆ ∈ s.fr.A := by
     rw [commutatorElement_def]
     exact mul_mem (mul_mem (mul_mem ha hb) (inv_mem ha)) (inv_mem hb)
@@ -75,11 +75,11 @@ private theorem commutator_mem_Z_of_mem_A (hS : HRSetting G L)
     (s3_S_le_L s (s3_A_le_S s hcab)) hx2 hact).mp hZL
 
 private theorem subset_lf110 (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
-    (s : Setting3 G L) {g : G} (hg2 : g ^ 2 = 1) (hg : ActsAs L g s.fr'.σ)
+    (s : Setting3 G L) {g : G} (_hg2 : g ^ 2 = 1) (_hg : ActsAs L g s.fr'.σ)
     {V : Subgroup G} (hVA : V ≤ s.fr.A) :
     ((zL L ⊔ s.fr.A : Subgroup G) : Set G) ⊆
       {x : G | x ∈ L ⊔ closure {g} ∧ ∀ v ∈ V, ⁅v, x⁆ ∈ s.fr.Z} := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   have h14 : s.fr'.Fact14 := s.facts.2.2.2.1
   intro x hx
   obtain ⟨c, hc, b, hb, rfl⟩ := mem_sup_zL_A s hx
@@ -94,15 +94,15 @@ private theorem subset_lf110 (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center
     rw [commutator_mul_right_of_commute hbc hvc]
     exact commutator_mem_Z_of_mem_A hS hZ s h14 (hVA hv) hb
 
-private theorem lf110_forward (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
+private theorem lf110_forward (hS : HRSetting G L) (_hZ : Odd (Nat.card ↥(center ↥L)))
     (hOut : (innerAut (L ⧸ center L)).index = 2) (s : Setting3 G L) {g : G} (hg2 : g ^ 2 = 1)
-    (hg : ActsAs L g s.fr'.σ) {V : Subgroup G} (hVA : V ≤ s.fr.A)
+    (hg : ActsAs L g s.fr'.σ) {V : Subgroup G} (_hVA : V ≤ s.fr.A)
     {V' : Subgroup (MulAut (L ⧸ center L))} (hV_eq : jSub L V = V')
     (hclause : ∀ x : MulAut (L ⧸ center L),
       x ∈ innerAut (L ⧸ center L) ⊔ closure {s.fr'.σ} →
       (∀ a ∈ V', ⁅a, x⁆ ∈ s.fr'.Z) → x ∈ s.fr'.A) :
     ∀ x : G, x ∈ L ⊔ closure {g} → (∀ v ∈ V, ⁅v, x⁆ ∈ s.fr.Z) → x ∈ zL L ⊔ s.fr.A := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   intro x hx hxcomm
   have hgn : g ∈ normalizer (L : Set G) := mem_normalizer_of_actsAs L hg
   have hN : L ⊔ closure {g} ≤ normalizer (L : Set G) := s3_Vg_le_normalizer (L := L) hgn

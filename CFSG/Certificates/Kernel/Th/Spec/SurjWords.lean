@@ -108,7 +108,7 @@ private theorem swLetterChars (x : ℕ) :
   rw [e1, e2]
   by_cases h : x % 2 = 1
   · have : Nat.beq (x % 2) 1 = true := swBeq.2 h
-    simp [this, h]
+    simp [h]
   · have : Nat.beq (x % 2) 1 = false := by
       cases hh : Nat.beq (x % 2) 1
       · rfl
@@ -119,12 +119,12 @@ private theorem swDigit {g : ℕ} (hg : g < 8) :
     (Char.ofNat (49 + g)).isDigit = true ∧ (Char.ofNat (49 + g)).toNat = 49 + g := by
   interval_cases g <;> decide
 
-private theorem swLetterStr {x : ℕ} (hx : x / 2 < 8) :
+private theorem swLetterStr {x : ℕ} (_hx : x / 2 < 8) :
     letterStr x =
       if x % 2 = 1 then ['-', Char.ofNat (49 + x / 2)] else [Char.ofNat (49 + x / 2)] := by
   unfold letterStr
   rw [swLetterChars]
-  split_ifs <;> simp [show Char.ofNat 45 = '-' from rfl]
+  split_ifs <;> simp
 
 private theorem swTokInt {x : ℕ} (hx : x / 2 < 8) :
     (String.ofList (letterStr x)).toInt? = some (codeInt x) := by
@@ -151,14 +151,14 @@ private theorem swTokInt {x : ℕ} (hx : x / 2 < 8) :
   unfold codeInt
   rw [swLetterStr hx]
   by_cases h : x % 2 = 1
-  · simp only [h, if_true]
+  · simp only [h, ite_true]
     have e : String.ofList ['-', Char.ofNat (49 + x / 2)] =
         "-" ++ String.ofList [Char.ofNat (49 + x / 2)] := by
       apply String.toList_injective
       simp
     rw [e, String.toInt?_minus_append, hnat]
     rfl
-  · simp only [h, if_false]
+  · simp only [h, ite_false]
     exact String.toInt?_eq_some_of_toNat?_eq_some hnat
 
 private theorem swTokChars {x : ℕ} (hx : x / 2 < 8) : ∀ c ∈ letterStr x, c ≠ ' ' ∧ c ≠ '\n' := by
@@ -226,7 +226,7 @@ private theorem swLetterOfInt {x : ℕ} : letterOfInt (codeInt x) = lettOfCode x
     have hp : (0 : ℤ) < ((x / 2 + 1 : ℕ) : ℤ) := by omega
     rw [hc]
     unfold letterOfInt lettOfCode
-    rw [if_pos hp]
+    rw [ite_eq_left hp]
     refine Prod.ext ?_ ?_
     · show (((x / 2 + 1 : ℕ) : ℤ) - 1).toNat = x / 2
       omega
@@ -238,7 +238,7 @@ private theorem swLetterOfInt {x : ℕ} : letterOfInt (codeInt x) = lettOfCode x
     have hp : ¬ (0 : ℤ) < -((x / 2 + 1 : ℕ) : ℤ) := by omega
     rw [hc]
     unfold letterOfInt lettOfCode
-    rw [if_neg hp]
+    rw [ite_eq_right hp]
     refine Prod.ext ?_ ?_
     · show (-(-((x / 2 + 1 : ℕ) : ℤ)) - 1).toNat = x / 2
       omega

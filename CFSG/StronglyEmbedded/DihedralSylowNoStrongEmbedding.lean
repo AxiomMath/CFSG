@@ -126,7 +126,7 @@ theorem commute_of_mem_sylow_of_fusionStronglyEmbedded {Y : Type*} [Group Y] [Fi
     · have : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ two_ne_zero⟩
       have hφs : orderOf (φ s') = 2 := by rw [MulEquiv.orderOf_eq, Subgroup.orderOf_mk, hs]
       simpa using (commute_quaternionGroup_of_orderOf_eq_two hφs (φ t')).map φ.symm
-  · exact commute_of_isPGroup_of_bender_section hModd hNodd hB P.isPGroup' hsP hs htP
+  · exact commute_of_isPGroup_of_bender_section hModd hNodd hB P.isPGroup hsP hs htP
 
 theorem not_fusionStronglyEmbedded_of_sylow_mulEquiv_dihedralGroup {Y : Type*} [Group Y]
     [Finite Y] (P : Sylow 2 Y) {m : ℕ} (hm : 3 ≤ m) (e : (P : Subgroup Y) ≃* DihedralGroup m)

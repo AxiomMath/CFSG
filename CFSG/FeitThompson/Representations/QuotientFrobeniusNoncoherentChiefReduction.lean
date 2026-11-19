@@ -181,6 +181,11 @@ theorem subTauHom_apply_one (hc : IsSubcoherent S tau R) {U : Set (L → ℂ)}
 
 end Baseline
 
+theorem nontrivial_quotientFactor_commutator_self_of_not_isCoherent [K.Normal]
+    [Group.IsNilpotent ↥K] (hK : K ≠ ⊥) :
+    Nontrivial ↥(quotientFactor K (⁅K, K⁆ : Subgroup L)) :=
+  nontrivial_quotientFactor K _ (commutator_self_lt_self_of_isNilpotent hK)
+
 section Main
 
 variable {G : Type*} [Fintype L] [Group G] [Fintype G]
@@ -230,10 +235,7 @@ theorem relIndex_commutator_self_le_of_not_isCoherent :
 
 include hodd hK
 
-theorem nontrivial_quotientFactor_commutator_self_of_not_isCoherent :
-    Nontrivial ↥(quotientFactor K (⁅K, K⁆ : Subgroup L)) :=
-  nontrivial_quotientFactor K _ (commutator_self_lt_self_of_isNilpotent hK)
-
+omit hK in
 theorem eq_bot_of_normal_lt_quotientFactor_commutator_self_of_not_isCoherent
     (J : Subgroup (L ⧸ (⁅K, K⁆ : Subgroup L))) (hJ : J.Normal)
     (hJlt : J < quotientFactor K ⁅K, K⁆) : J = ⊥ :=
@@ -260,10 +262,9 @@ theorem obstruction_of_not_isCoherent :
     ∃ p a d : ℕ, p.Prime ∧ 1 ≤ a ∧ 1 ≤ d ∧ Nat.card ↥K = p ^ a ∧
       Nonempty (↥(quotientFactor K (⁅K, K⁆ : Subgroup L)) ≃* Multiplicative (Fin d → ZMod p)) ∧
       ¬ Nat.card ↥E ∣ p - 1 :=
-  ⟨⟨nontrivial_quotientFactor_commutator_self_of_not_isCoherent
-      (E := E) hc hodd hK hS hmul hinf hfree hnc,
+  ⟨⟨nontrivial_quotientFactor_commutator_self_of_not_isCoherent hK,
     eq_bot_of_normal_lt_quotientFactor_commutator_self_of_not_isCoherent
-      (E := E) hc hodd hK hS hmul hinf hfree hnc⟩,
+      (E := E) hc hodd hS hmul hinf hfree hnc⟩,
    relIndex_commutator_self_le_of_not_isCoherent (E := E) hc hS hmul hinf hfree hnc,
    not_isMulCommutative_of_not_isCoherent (E := E) hc hS hmul hfree hnc,
    exists_prime_pow_natCard_not_dvd_sub_one_of_not_isCoherent

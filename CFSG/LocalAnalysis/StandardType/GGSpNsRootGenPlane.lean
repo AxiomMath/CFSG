@@ -22,6 +22,7 @@ namespace CFSG.StandardType.SpNsRootGen
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {B : LinearMap.BilinForm F V}
 
+omit [Finite F] [CharP F 2] in
 private theorem gspFixPerp_mapsTo (hB : B.IsAlt) (hBn : B.Nondegenerate)
     {U : Submodule F V} {g : Gsp B} (hg : g ∈ gspFixPerp B U) :
     ∀ u ∈ U, g.app u ∈ U := by
@@ -38,7 +39,7 @@ private theorem gspFixPerp_mapsTo (hB : B.IsAlt) (hBn : B.Nondegenerate)
     _ = 0 := hB.eq_iff.mpr ((LinearMap.BilinForm.mem_orthogonal_iff.mp hx) u hu)
 
 private noncomputable def restrictToPlane (hB : B.IsAlt) (hBn : B.Nondegenerate)
-    {U : Submodule F V} (hUn : (B.restrict U).Nondegenerate) :
+    {U : Submodule F V} (_hUn : (B.restrict U).Nondegenerate) :
     ↥(gspFixPerp B U) →* Gsp (B.restrict U) :=
   let φ : ↥(gspFixPerp B U) →* (V ≃ₗ[F] V) :=
     (LinearMap.GeneralLinearGroup.generalLinearEquiv F V).toMonoidHom.comp
@@ -55,11 +56,13 @@ private noncomputable def restrictToPlane (hB : B.IsAlt) (hBn : B.Nondegenerate)
         show ((ψ x) v : V) = (x : Gsp B).app (v : V) from rfl]
       exact (x : Gsp B).2 u v)
 
+omit [Finite F] [CharP F 2] in
 private theorem restrictToPlane_apply (hB : B.IsAlt) (hBn : B.Nondegenerate)
     {U : Submodule F V} (hUn : (B.restrict U).Nondegenerate)
     (x : ↥(gspFixPerp B U)) (u : U) :
     (((restrictToPlane hB hBn hUn x).app u : U) : V) = (x : Gsp B).app (u : V) := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem restrictToPlane_injective (hB : B.IsAlt) (hBn : B.Nondegenerate)
     {U : Submodule F V} (hUn : (B.restrict U).Nondegenerate) :
     Function.Injective (restrictToPlane hB hBn hUn) := by
@@ -77,6 +80,7 @@ private theorem restrictToPlane_injective (hB : B.IsAlt) (hBn : B.Nondegenerate)
   have hyp : (y : Gsp B).app p = p := (mem_gspFixPerp.mp y.2) p hp
   rw [Gsp.map_add, Gsp.map_add, hxp, hyp, hxw]
 
+omit [Finite F] [CharP F 2] in
 private theorem restrictToPlane_surjective (hB : B.IsAlt) (hBn : B.Nondegenerate)
     {U : Submodule F V} (hUn : (B.restrict U).Nondegenerate) :
     Function.Surjective (restrictToPlane hB hBn hUn) := by
@@ -104,6 +108,7 @@ private noncomputable def gspFixPerpEquivPlane (hB : B.IsAlt) (hBn : B.Nondegene
   MulEquiv.ofBijective _ ⟨restrictToPlane_injective hB hBn hUn,
     restrictToPlane_surjective hB hBn hUn⟩
 
+omit [Finite F] [CharP F 2] in
 theorem nonempty_gspFixPerp_mulEquiv_SL (hB : B.IsAlt) (hBn : B.Nondegenerate)
     {U : Submodule F V} (hU2 : Module.finrank F U = 2) (hUn : (B.restrict U).Nondegenerate) :
     Nonempty (↥(gspFixPerp B U) ≃* Matrix.SpecialLinearGroup (Fin 2) F) := by
@@ -120,6 +125,7 @@ theorem isQuasisimple_gspFixPerp (hB : B.IsAlt) (hBn : B.Nondegenerate) {U : Sub
   obtain ⟨e⟩ := nonempty_gspFixPerp_mulEquiv_SL hB hBn hU2 hUn
   exact CFSG.LocalAnalysis.SymplecticFourStandard.RootStandard.isQuasisimple_of_sl2 hF4 e.symm
 
+omit [CharP F 2] in
 theorem exists_orderOf_eq_mem_gspFixPerp (hB : B.IsAlt) (hBn : B.Nondegenerate)
     {U : Submodule F V} (hU2 : Module.finrank F U = 2) (hUn : (B.restrict U).Nondegenerate)
     {p : ℕ} (hp : p.Prime) (hpq : p ∣ Nat.card F + 1) :

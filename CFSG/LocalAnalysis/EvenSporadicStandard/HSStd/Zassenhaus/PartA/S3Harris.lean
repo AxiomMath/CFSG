@@ -143,7 +143,7 @@ theorem s3h_odd_complement {B : Type*} [Group B] [Finite B] (s : B) (hs : s * s 
   have hsP : s ∈ (P : Subgroup B) := hP (Subgroup.mem_zpowers s)
   have hPle : (P : Subgroup B) ≤ Subgroup.zpowers s := by
     have : Nontrivial (P : Subgroup B) := ⟨⟨⟨s, hsP⟩, 1, fun h' => hs1 (congrArg Subtype.val h')⟩⟩
-    have hnt : Nontrivial (Subgroup.center ↥(P : Subgroup B)) := P.isPGroup'.center_nontrivial
+    have hnt : Nontrivial (Subgroup.center ↥(P : Subgroup B)) := P.isPGroup.center_nontrivial
     obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center ↥(P : Subgroup B))
     have hzc := z.2
     have hzne : (z : ↥(P : Subgroup B)) ≠ 1 := fun h' => hz1 (Subtype.ext h')

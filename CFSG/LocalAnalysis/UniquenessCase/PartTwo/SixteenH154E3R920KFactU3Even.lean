@@ -17,7 +17,7 @@ open CFSG.Blueprint (LieModel)
 
 theorem kFactL28_U3_even {Q : Type} [Group Q] [Finite Q] {f : ℕ} (hQ : LieModel Q .PSU 3 2 f)
     {X W T : Subgroup Q} (c : KCfgL28 X W T) : W = ⊤ := by
-  haveI : IsSimpleGroup Q := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3 hQ
+  have : IsSimpleGroup Q := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3 hQ
   have hB : fusionIsBenderGroup Q := uc22p2214_bor_bender_U3 hQ
   have hBor : fusionBenderBorel Q (2 ^ f) 3 :=
     CFSG.LocalAnalysis.EvenBN.GMSK.fusionBenderBorel_of_lieModel_PSU3 hQ
@@ -29,7 +29,7 @@ theorem kFactL28_U3_even {Q : Type} [Group Q] [Finite Q] {f : ℕ} (hQ : LieMode
   have hsolvN : Group.IsSolvable ↥(Subgroup.normalizer ((S : Subgroup Q) : Set Q)) :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.isSolvable_normalizer_of_benderBorel hBor S
   have hsolvW : Group.IsSolvable ↥W := by
-    haveI := hsolvN
+    have := hsolvN
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   have hsolvX : Group.IsSolvable ↥X :=
@@ -40,14 +40,14 @@ theorem kFactL28_U3_even {Q : Type} [Group Q] [Finite Q] {f : ℕ} (hQ : LieMode
     decide
   have hsimple : IsSimpleGroup (Bar2 X) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) c.isL2
-  haveI : (CFSG.pCore 2 ↥X).Normal := CFSG.pCore_normal (p := 2) (G := ↥X)
+  have : (CFSG.pCore 2 ↥X).Normal := CFSG.pCore_normal (p := 2) (G := ↥X)
   have hsolvBar : Group.IsSolvable (Bar2 X) := by
-    haveI := hsolvX
+    have := hsolvX
     exact Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥X))
   have hcomm : ∀ a b : Bar2 X, a * b = b * a :=
     IsSimpleGroup.comm_iff_isSolvable.mpr hsolvBar
   have hprime : (Nat.card (Bar2 X)).Prime := by
-    haveI : IsMulCommutative (Bar2 X) := IsMulCommutative.of_comm hcomm
+    have : IsMulCommutative (Bar2 X) := IsMulCommutative.of_comm hcomm
     exact (Group.is_simple_iff_prime_card (α := Bar2 X)).mp hsimple
   rw [hcard504] at hprime
   norm_num at hprime

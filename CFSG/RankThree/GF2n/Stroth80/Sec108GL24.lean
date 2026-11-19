@@ -70,8 +70,8 @@ private lemma mem_tauCyclic_cases {C : Type} [Group C] {τ : MulAut C} (hτ3 : �
   have hn' : n % 3 = 0 ∨ n % 3 = 1 ∨ n % 3 = 2 := by omega
   rcases hn' with h | h | h
   · left; apply Subtype.ext; rw [hEq, h]; simp
-  · right; left; apply Subtype.ext; rw [hEq, h]; simp [zpow_natCast]
-  · right; right; apply Subtype.ext; rw [hEq, h]; simp [zpow_natCast]
+  · right; left; apply Subtype.ext; rw [hEq, h]; simp
+  · right; right; apply Subtype.ext; rw [hEq, h]; simp
 
 private lemma zmod3_cases (a : ZMod 3) : a = 0 ∨ a = 1 ∨ a = 2 := by
   have ha : a.val = 0 ∨ a.val = 1 ∨ a.val = 2 := by
@@ -82,10 +82,10 @@ private lemma zmod3_cases (a : ZMod 3) : a = 0 ∨ a = 1 ∨ a = 2 := by
   · right; left; exact (ZMod.val_eq_one (n := 3) (by norm_num) a).mp h
   · right; right
     apply ZMod.val_injective 3
-    simpa [h, ZMod.val_two_eq_two_mod]
+    simp [h, ZMod.val_two_eq_two_mod]
 
 private lemma tau_orbit_eq {C : Type} [Group C] {τ : MulAut C} (hτ3 : τ ^ 3 = 1)
-    (hτ : ∀ c : C, τ c = c → c = 1) {c : C} (hc : c ≠ 1) :
+    (_hτ : ∀ c : C, τ c = c → c = 1) {c : C} (_hc : c ≠ 1) :
     (MulAction.orbit (tauCyclic τ) c : Set C) = ({c, τ c, τ (τ c)} : Set C) := by
   classical
   ext x
@@ -188,7 +188,7 @@ private lemma card_orbitQuotient_le_five {C : Type} [Group C] [Finite C]
   let H : Subgroup (MulAut C) := tauCyclic τ
   let α := Nonidentity C
   have hα : Nat.card α ≤ 15 := card_nonidentity_le_fifteen hC
-  letI : Fintype (OrbitQuotient τ) := Fintype.ofFinite _
+  let : Fintype (OrbitQuotient τ) := Fintype.ofFinite _
   have hdecomp : α ≃ Σ ω : OrbitQuotient τ, MulAction.orbit H ω.out :=
     MulAction.selfEquivSigmaOrbits H α
   have hcard : Nat.card α = ∑ ω : OrbitQuotient τ, Nat.card (MulAction.orbit H ω.out) := by
@@ -288,7 +288,6 @@ private lemma tau_pow_val_injective {C : Type} [Group C] {τ : MulAut C} (hτ3 :
   · rw [h0] at hd
     exact sub_eq_zero.mp hd.symm
   · rw [h1] at hd'
-    norm_num at hd'
     exact absurd hd' (tau_apply_ne_self hτ hc)
   · have hval2 : (2 : ZMod 3).val = 2 := by decide
     rw [h2, hval2] at hd'
@@ -389,7 +388,7 @@ private lemma phi_apply_eq_self {C W : Type} [Group C] [Group W] [IsSimpleGroup 
     rcases Subgroup.Normal.eq_bot_or_eq_top k.ker with hbot | htop
     · exfalso
       have hinj : Function.Injective k := (MonoidHom.ker_eq_bot_iff k).mp hbot
-      haveI : Fintype (Multiplicative (ZMod 3)) :=
+      have : Fintype (Multiplicative (ZMod 3)) :=
         Fintype.ofEquiv (ZMod 3) Multiplicative.toAdd.symm
       have hle : Nat.card W ≤ Nat.card (Multiplicative (ZMod 3)) :=
         Nat.card_le_card_of_injective k hinj
@@ -416,9 +415,9 @@ private lemma orbitAction_fixes {C W : Type} [Group C] [Finite C] [Group W]
     Quotient.mk'' (smulNonidentity φ w x) = (Quotient.mk'' x : OrbitQuotient τ) := by
   classical
   let Ω := OrbitQuotient τ
-  letI : MulAction W Ω := actionOnOrbits φ hφ
+  let : MulAction W Ω := actionOnOrbits φ hφ
   have hΩ : Nat.card Ω ≤ 5 := card_orbitQuotient_le_five hC hτ3 hτ
-  letI : Fintype Ω := Fintype.ofFinite Ω
+  let : Fintype Ω := Fintype.ofFinite Ω
   have hperm : Nat.card (Equiv.Perm Ω) ≤ 120 := by
     rw [Nat.card_perm]
     calc
@@ -463,7 +462,7 @@ private lemma phi_preserves_orbit_of_card {C W : Type} [Group C] [Finite C] [Gro
   simpa [x, smulNonidentity] using hmem
 
 theorem eq_one_of_commute_fixedPointFree {C W : Type} [Group C] [Finite C] [Group W]
-    [IsSimpleGroup W] (h2 : ∀ c : C, c * c = 1) (hC : Nat.card C ≤ 16) {τ : MulAut C}
+    [IsSimpleGroup W] (_h2 : ∀ c : C, c * c = 1) (hC : Nat.card C ≤ 16) {τ : MulAut C}
     (hτ3 : τ ^ 3 = 1) (hτ : ∀ c : C, τ c = c → c = 1) (hW : 180 < Nat.card W)
     (φ : W →* MulAut C) (hφ : ∀ w : W, φ w * τ = τ * φ w) (w : W) : φ w = 1 := by
   ext c

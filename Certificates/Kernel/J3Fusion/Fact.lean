@@ -33,18 +33,18 @@ private noncomputable abbrev tau : Fin 7 → J3Model := fun i => segVal sig segs
 
 private theorem hA : MatP 80 SA.M = matOf (J Native.j3Data).subtype (sig 0) := by
   rw [show (sig 0 : J Native.j3Data) = a Native.j3Data from rfl,
-    matOf, Subgroup.subtype_apply, coe_a, gA, dif_pos dets.1,
+    matOf, Subgroup.subtype_apply, coe_a, gA, dite_eq_left dets.1,
     Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_A]
 
 private theorem hB : MatP 80 SB.M = matOf (J Native.j3Data).subtype (sig 1) := by
   rw [show (sig 1 : J Native.j3Data) = b Native.j3Data from rfl,
-    matOf, Subgroup.subtype_apply, coe_b, gB, dif_pos dets.2,
+    matOf, Subgroup.subtype_apply, coe_b, gB, dite_eq_left dets.2,
     Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_B]
 
 private theorem uJ_eq (i : Fin 7) : uJ i = segVal sig segs i.val := by
   have hi : i.val < (List.range 7).length := by simp
   unfold uJ uN segVal segs
-  rw [List.getD_eq_getElem _ _ (by simpa using hi), List.getElem_map, List.getElem_range]
+  rw [List.getD_eq_getElem _ _ (by simp), List.getElem_map, List.getElem_range]
   exact prod_pairLetter _ _ _
 
 private theorem letOK_iff {z : ℤ} : letOK z = true ↔ 1 ≤ z.natAbs ∧ z.natAbs ≤ 7 := by
@@ -55,12 +55,12 @@ private theorem letG_eq {z : ℤ} (hz : letOK z = true) :
   rw [letOK_iff] at hz
   unfold letG zL
   by_cases h : 0 < z
-  · simp only [if_pos h]
+  · simp only [ite_eq_left h]
     have hn : (z - 1).toNat < 7 := by omega
     change uN (z - 1).toNat = segVal sig segs ((z - 1).toNat % 7)
     rw [Nat.mod_eq_of_lt hn]
     exact uJ_eq ⟨_, hn⟩
-  · simp only [if_neg h]
+  · simp only [ite_eq_right h]
     have hn : (-z - 1).toNat < 7 := by omega
     change (uN (-z - 1).toNat)⁻¹ = (segVal sig segs ((-z - 1).toNat % 7))⁻¹
     rw [Nat.mod_eq_of_lt hn]
@@ -246,23 +246,23 @@ private theorem fusion_S (t : J3Model) (ht : t ∈ S) (h1 : t * t = 1) (h2 : t �
   by_cases ho : cls.getD i 0 % 2 = 1
   · have hl : ∀ l ∈ clsRel i, letOK l = true := by
       unfold clsRel
-      rw [if_pos ho]
+      rw [ite_eq_left ho]
       exact app_ok (app_ok (app_ok (conj_ok _) (by decide)) (inv_ok (conj_ok _)))
         (inv_ok (pw_ok _))
     have h := rel_one hm hl
     unfold clsRel at h
-    rw [if_pos ho, ev_append, ev_append, ev_append, ev_four,
+    rw [ite_eq_left ho, ev_append, ev_append, ev_append, ev_four,
       ev_invWordZ fun l hl => letOK_iff.1 (conj_ok _ l hl),
       ev_invWordZ fun l hl => letOK_iff.1 (pw_ok _ l hl)] at h
     exact ⟨_, mul_inv_eq_one.1 h⟩
   · have hq := hc.resolve_left ho
     have hl : ∀ l ∈ clsRel i, letOK l = true := by
       unfold clsRel
-      rw [if_neg ho]
+      rw [ite_eq_right ho]
       exact app_ok (app_ok (pw_ok _) (pw_ok _)) (inv_ok (pw_ok _))
     have h := rel_one hm hl
     unfold clsRel at h
-    rw [if_neg ho, ev_append, ev_append,
+    rw [ite_eq_right ho, ev_append, ev_append,
       ev_invWordZ fun l hl => letOK_iff.1 (pw_ok _ l hl)] at h
     have e := mul_inv_eq_one.1 h
     change xe i * xe i = xe (cls.getD i 0 / 2) at e

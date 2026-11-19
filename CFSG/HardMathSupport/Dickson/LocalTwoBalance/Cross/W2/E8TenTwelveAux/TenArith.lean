@@ -16,7 +16,7 @@ theorem e8Ten_arith {p q : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p)
       (-(q : ZMod p)) ^ 4 + (-(q : ZMod p)) ^ 3 + (-(q : ZMod p)) ^ 2 + (-(q : ZMod p)) + 1 =
         0 ∧
       (p : ℤ) ∣ (q : ℤ) ^ 4 - (q : ℤ) ^ 3 + (q : ℤ) ^ 2 - (q : ℤ) + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ : ∃ x : ZMod p, x = (q : ZMod p) := ⟨_, rfl⟩
   rw [← hx] at he ⊢
   have hx0 : x ≠ 0 := by

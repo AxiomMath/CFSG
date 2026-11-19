@@ -22,7 +22,7 @@ theorem structOfNotLe1277_holds
   have hgm := hmf gm6 List.mem_cons_self
   have hnm := hmf nm6 (List.mem_cons_of_mem _ List.mem_cons_self)
   have s : Set77 G T L V t := set77_of h71 h74 h125 h ht h18 hGt
-  haveI : IsMulCommutative ↥V := ⟨⟨fun a b => Subtype.ext (s.d.comm a a.2 b b.2)⟩⟩
+  have : IsMulCommutative ↥V := ⟨⟨fun a b => Subtype.ext (s.d.comm a a.2 b b.2)⟩⟩
   have hNLV : Subgroup.normalizer (L : Set G) = Subgroup.normalizer (V : Set G) :=
     mEqNormV1277_of h331 h1222 h1226 G T L V t s
   have hCV : Subgroup.centralizer (V : Set G) = V := s.centralizer_V_eq h1222 h1226 h331

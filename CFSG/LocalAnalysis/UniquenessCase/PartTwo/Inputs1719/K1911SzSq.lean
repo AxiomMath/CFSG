@@ -65,9 +65,9 @@ theorem sz_prod_factor_data {Y₁ Y₂ : Type} [Group Y₁] [Group Y₂] [Finite
   have hB₂ : CFSG.BenderSuzuki.IsBenderGroup Y₂ :=
     CFSG.Timmesfeld.Bridge.isBenderGroup_of_fusionIsBenderGroup
       (uc22p2214_bor_bender_Sz h₂)
-  haveI : IsSimpleGroup Y₁ :=
+  have : IsSimpleGroup Y₁ :=
     CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hB₁
-  haveI : IsSimpleGroup Y₂ :=
+  have : IsSimpleGroup Y₂ :=
     CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hB₂
   have hZ₁ : center Y₁ = ⊥ := by
     obtain ⟨u, v, huv⟩ :=
@@ -101,8 +101,8 @@ theorem sz_prod_Q_eq_bot {Y₁ Y₂ : Type} [Group Y₁] [Group Y₂]
     Q = ⊥ := by
   obtain ⟨-, hoddn, hm, hoddm, hcard₁, hcard₂, hcop⟩ := sz_prod_arith h₁ h₂
   obtain ⟨hs₁, hs₂, hZ₁, hZ₂, hN₁, hN₂⟩ := sz_prod_factor_data h₁ h₂
-  haveI := hs₁
-  haveI := hs₂
+  have := hs₁
+  have := hs₂
   have hmain := CFSG.GroupTheory.prod_aut_fix_of_forall_eq_bot
     (m := 2 ^ n - 1) (c₁ := (2 ^ n) ^ 2 * ((2 ^ n) ^ 2 + 1))
     (c₂ := (2 ^ n) ^ 2 * ((2 ^ n) ^ 2 + 1))
@@ -143,7 +143,7 @@ theorem torusFixedConcl_sz_prod {Y₁ Y₂ : Type} [Group Y₁]
     [Group Y₂] [Finite Y₁] [Finite Y₂] {n p : ℕ} (h₁ : IsSz Y₁ n) (h₂ : IsSz Y₂ n)
     (hp : p.Prime) (hpd : p ∣ 2 ^ (2 * n) + 1) : TorusFixedConcl (Y₁ × Y₂) n p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, -, -, hcard₁, hcard₂, -⟩ := sz_prod_arith h₁ h₂
   have hpd' : p ∣ (2 ^ n) ^ 2 + 1 := by
     rw [Nat.mul_comm 2 n, pow_mul] at hpd

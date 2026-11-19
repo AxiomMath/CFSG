@@ -87,7 +87,7 @@ theorem s1611e3_para_stab {W : Type} [CommGroup W] [Finite W]
     (hZf : ∀ z ∈ Z, z ≠ 1 → ∃ w ∈ J, z w ≠ w) :
     ∀ w ∈ J ⊓ fixV T₁, w ≠ 1 → Nat.card ↥(L ⊓ centSub (Subgroup.zpowers w)) = 24 := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Fintype W := Fintype.ofFinite W
   have hp : p.Prime := by rcases hnp with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;> norm_num
   obtain ⟨I, -, hind, hsup, hnat⟩ := hsum
   have hJ : J = ⨆ i, I i := by rw [← hsup, bot_sup_eq]
@@ -121,9 +121,9 @@ theorem s1611e3_para_stab {W : Type} [CommGroup W] [Finite W]
   have hp1C : Nat.card ↥(J ⊓ fixV T₁) = p + 1 := by
     rcases hnp with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;> simpa using hCcard
   have hn0 : n ≠ 0 := by rcases hnp with ⟨_, rfl⟩ | ⟨_, rfl⟩ <;> norm_num
-  haveI : NeZero n := ⟨hn0⟩
+  have : NeZero n := ⟨hn0⟩
   have hcard0 : Nat.card ↥(I (0 : Fin n) ⊓ fixV T₁) = 2 := hnatStab 0
-  haveI : Nontrivial ↥(I (0 : Fin n) ⊓ fixV T₁) :=
+  have : Nontrivial ↥(I (0 : Fin n) ⊓ fixV T₁) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard0]; norm_num)
   obtain ⟨e, he1⟩ := exists_ne (1 : ↥(I (0 : Fin n) ⊓ fixV T₁))
   have heI : (e : W) ∈ I (0 : Fin n) := (Subgroup.mem_inf.1 e.2).1
@@ -166,12 +166,12 @@ theorem s1611e3_para_stab {W : Type} [CommGroup W] [Finite W]
       simpa [MulAut.mul_apply] using hc'
     rw [hcfix t ht] at h1
     exact h1.symm
-  letI : MulAction ↥H ↥C :=
+  let : MulAction ↥H ↥C :=
     { smul := fun h c => ⟨(h : MulAut W) (c : W), hZC (h : MulAut W) (hHZ h.2) (c : W) c.2⟩
       one_smul := fun c => Subtype.ext rfl
       mul_smul := fun h1 h2 c => Subtype.ext rfl }
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hHp : IsPGroup p ↥H := IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hHcard)
+  have : Fact p.Prime := ⟨hp⟩
+  have hHp : IsPGroup p ↥H := IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hHcard)
   have hcardCfin : Fintype.card ↥C = p + 1 := by
     rw [← Nat.card_eq_fintype_card]
     exact hp1C
@@ -191,8 +191,8 @@ theorem s1611e3_para_stab {W : Type} [CommGroup W] [Finite W]
       apply Subtype.ext
       exact (mem_fixV.1 (Subgroup.mem_inf.1 c.2).2) h h.2
   set count : ℕ := Nat.card (MulAction.fixedPoints ↥H ↥C) with hcount_def
-  haveI : Nonempty ↥C := ⟨1⟩
-  haveI : Nonempty (MulAction.fixedPoints ↥H ↥C) :=
+  have : Nonempty ↥C := ⟨1⟩
+  have : Nonempty (MulAction.fixedPoints ↥H ↥C) :=
     ⟨⟨1, MulAction.mem_fixedPoints.mpr fun h => Subtype.ext (map_one (h : MulAut W))⟩⟩
   have hcount_ge : 1 ≤ count := by rw [hcount_def]; exact Nat.card_pos
   have hcount_le : count ≤ p + 1 := by
@@ -224,7 +224,7 @@ theorem s1611e3_para_stab {W : Type} [CommGroup W] [Finite W]
         change k ((a : MulAut W) v) = (a : MulAut W) v
         rw [h1, hvfix k hk]
       obtain ⟨e', he'1⟩ : ∃ e' : ↥(I i ⊓ fixV T₁), e' ≠ 1 := by
-        haveI : Nontrivial ↥(I i ⊓ fixV T₁) :=
+        have : Nontrivial ↥(I i ⊓ fixV T₁) :=
           Finite.one_lt_card_iff_nontrivial.mp (by rw [hnatStab i]; norm_num)
         exact exists_ne 1
       have he'S : (e' : W) ∈ S := by

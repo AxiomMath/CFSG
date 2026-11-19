@@ -87,7 +87,7 @@ theorem wtIdx_spec {s : ℕ} (h : wtIdx s < 75735) : wtArr[wtIdx s]! = s := by
     exact hc.2
   · have e : (if i < 75735 && wtArr[i]! == s then i else 75735) = 75735 := by
       simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
-      rw [if_neg hc]
+      rw [ite_eq_right hc]
     rw [e] at h
     exact absurd h (lt_irrefl _)
 
@@ -326,12 +326,12 @@ theorem pairGen_mem (k : Fin 365211) : pairGen k ∈ PiGrp := Subgroup.subset_cl
 theorem pi_mul_inv_apply_fst (x : (V ≃ₗ[ZMod 2] V) × (V12 ≃ₗ[ZMod 2] V12)) (u : V) :
     x.1 ((x⁻¹).1 u) = u := by
   have := congrArg (fun z : (V ≃ₗ[ZMod 2] V) × (V12 ≃ₗ[ZMod 2] V12) => z.1 u) (mul_inv_cancel x)
-  simpa using this
+  simp
 
 theorem pi_inv_mul_apply_fst (x : (V ≃ₗ[ZMod 2] V) × (V12 ≃ₗ[ZMod 2] V12)) (u : V) :
     (x⁻¹).1 (x.1 u) = u := by
   have := congrArg (fun z : (V ≃ₗ[ZMod 2] V) × (V12 ≃ₗ[ZMod 2] V12) => z.1 u) (inv_mul_cancel x)
-  simpa using this
+  simp
 
 theorem piGrp_form {x : (V ≃ₗ[ZMod 2] V) × (V12 ≃ₗ[ZMod 2] V12)} (hx : x ∈ PiGrp) (v w : V) :
     fModel (x.1 v) (x.1 w) = fModel v w := by
@@ -399,7 +399,7 @@ theorem piGrp_perm {x : (V ≃ₗ[ZMod 2] V) × (V12 ≃ₗ[ZMod 2] V12)} (hx : 
         refine LinearMap.ext fun u => ?_
         have := congrArg (fun z : (V ≃ₗ[ZMod 2] V) × (V12 ≃ₗ[ZMod 2] V12) => z.2 u)
           (inv_mul_cancel x)
-        simpa using this
+        simp
       rw [this, Submodule.map_id]
 
 theorem exists_pi_of_weight {i : ℕ} (hi : i < 75735) :
@@ -424,9 +424,9 @@ theorem fModel_wtV_zero {j : ℕ} (hj : j < 75735) :
     fModel (wtV 0) (wtV j) = if Opp 0 j then 1 else 0 := by
   have h := gramRowCheck_holds j hj
   by_cases ho : Opp 0 j
-  · rw [if_pos ho]
+  · rw [ite_eq_left ho]
     exact h.2 ho
-  · rw [if_neg ho]
+  · rw [ite_eq_right ho]
     have hne : fModel (wtV 0) (wtV j) ≠ 1 := fun e => ho (h.1 e)
     generalize fModel (wtV 0) (wtV j) = c at hne ⊢
     revert c
@@ -446,7 +446,7 @@ theorem fModel_wtV {i j : ℕ} (hi : i < 75735) (hj : j < 75735) :
       refine LinearMap.ext fun u => ?_
       have := congrArg (fun z : (V ≃ₗ[ZMod 2] V) × (V12 ≃ₗ[ZMod 2] V12) => z.2 u)
         (mul_inv_cancel x)
-      simpa using this
+      simp
     rw [this, Submodule.map_id]
   have hrow := fModel_wtV_zero hj'
   have hform := piGrp_form hx (wtV 0) (wtV j')

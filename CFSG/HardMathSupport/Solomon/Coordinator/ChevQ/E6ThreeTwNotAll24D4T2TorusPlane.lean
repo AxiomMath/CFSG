@@ -51,7 +51,7 @@ theorem d4t2_plane_toral
     (hab : IsElemAbelian 3 F₀) (hcard : Nat.card F₀ = 3 ^ 2) (hdF : rootDiagUnit .E6 a ∈ F₀) :
     ∃ g ∈ toralCentralizer .E6 L a, ∀ x ∈ F₀, g⁻¹ * x * g ∈ torusGroup .E6 L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLp : ringChar L ≠ 3 := by
     rw [ringChar.eq L ℓ]
     exact hℓ3
@@ -70,11 +70,11 @@ theorem d4t2_plane_toral
   have hFA : F₀ ≤ adjointGroup .E6 L := fun x hx => (mem_toralCentralizer.1 (hFC hx)).1
   have hcomm : ∀ x ∈ F₀, ∀ y ∈ F₀, x * y = y * x := fun x hx y hy => hab.comm hx hy
   have hexp : ∀ x ∈ F₀, x ^ 3 = 1 := hab.2
-  haveI : Finite F₀ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite F₀ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hFfin : (F₀ : Set (ModGL Tag.E6 L)).Finite := Set.toFinite _
   have hd3 : rootDiagUnit .E6 a ^ 3 = 1 := hexp _ hdF
   have hdo : orderOf (rootDiagUnit .E6 a) = 3 := orderOf_eq_prime hd3 hd1
-  haveI : Finite (Subgroup.zpowers (rootDiagUnit .E6 a)) :=
+  have : Finite (Subgroup.zpowers (rootDiagUnit .E6 a)) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hdo]; norm_num)
   obtain ⟨e, heF, he⟩ : ∃ e ∈ F₀, e ∉ Subgroup.zpowers (rootDiagUnit .E6 a) := by
     by_contra h

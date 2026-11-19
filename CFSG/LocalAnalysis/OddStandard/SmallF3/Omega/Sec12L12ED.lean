@@ -35,7 +35,7 @@ private theorem sec12E_relIndex_odd (F : Sec12Frame t L S) :
     have h := Subgroup.subgroupOf_sup hRP hXP
     rw [hsupRX, Subgroup.subgroupOf_self, sup_comm] at h
     exact h.symm
-  haveI : ((secXR t S L).subgroupOf (secCMB t S L)).Normal := hXnorm
+  have : ((secXR t S L).subgroupOf (secCMB t S L)).Normal := hXnorm
   have hindex : ((secXR t S L).subgroupOf (secCMB t S L)).index =
       ((secXR t S L).subgroupOf (secCMB t S L)).relIndex
         ((secR t).subgroupOf (secCMB t S L)) := by
@@ -58,7 +58,7 @@ private theorem sec12E_relIndex_odd (F : Sec12Frame t L S) :
 
 theorem sec12E_exists_normal_sylow (F : Sec12Frame t L S) :
     ∃ E0 : Subgroup G, IsSylow2Of E0 (secCMB t S L) ∧ secM t S L ≤ normalizer (E0 : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRP : secR t ≤ secCMB t S L := (sec12E_R_le_C F).trans (sec12E_C_le_P F)
   have hXP : secXR t S L ≤ secCMB t S L := inf_le_left
   have hPM : secCMB t S L ≤ secM t S L := inf_le_left
@@ -66,7 +66,7 @@ theorem sec12E_exists_normal_sylow (F : Sec12Frame t L S) :
     rw [Subgroup.normal_subgroupOf_iff hRP]
     intro h k hh hk
     exact sec12E_R_normal F (hPM hk) hh
-  haveI : ((secR t).subgroupOf (secCMB t S L)).Normal := hRnorm
+  have : ((secR t).subgroupOf (secCMB t S L)).Normal := hRnorm
   have hPquot : IsPGroup 2 (↥(secCMB t S L) ⧸ (secR t).subgroupOf (secCMB t S L)) := by
     intro g
     refine Quotient.inductionOn' g fun p => ?_
@@ -75,7 +75,7 @@ theorem sec12E_exists_normal_sylow (F : Sec12Frame t L S) :
     rw [show (2 : ℕ) ^ 2 = 4 from rfl, ← map_pow, QuotientGroup.mk'_apply,
       QuotientGroup.eq_one_iff]
     simpa [Subgroup.mem_subgroupOf, Subgroup.coe_pow] using sec12E_pow_four F p.2
-  haveI : Group.IsNilpotent (↥(secCMB t S L) ⧸ (secR t).subgroupOf (secCMB t S L)) :=
+  have : Group.IsNilpotent (↥(secCMB t S L) ⧸ (secR t).subgroupOf (secCMB t S L)) :=
     hPquot.isNilpotent
   let ψ : ↥(secXR t S L) →* (↥(secCMB t S L) ⧸ (secR t).subgroupOf (secCMB t S L)) :=
     (QuotientGroup.mk' ((secR t).subgroupOf (secCMB t S L))).comp (Subgroup.inclusion hXP)
@@ -92,7 +92,7 @@ theorem sec12E_exists_normal_sylow (F : Sec12Frame t L S) :
     have hyR : (y : G) ∈ Subgroup.centralizer (secR t : Set G) :=
       (Subgroup.mem_inf.mp y.2).2
     exact (Subgroup.mem_centralizer_iff.mp hyR (x : G) hxR).symm
-  haveI : Group.IsNilpotent ↥(secXR t S L) := Subgroup.isNilpotent_of_ker_le_center ψ hker
+  have : Group.IsNilpotent ↥(secXR t S L) := Subgroup.isNilpotent_of_ker_le_center ψ hker
   let T : Sylow 2 ↥(secXR t S L) := default
   have hTnormal : (T : Subgroup ↥(secXR t S L)).Normal := inferInstance
   set E0 : Subgroup G := (T : Subgroup ↥(secXR t S L)).map (secXR t S L).subtype with hE0def

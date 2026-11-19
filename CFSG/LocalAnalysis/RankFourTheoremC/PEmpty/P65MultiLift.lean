@@ -54,7 +54,7 @@ theorem not_dvd_card_comap (hp : p.Prime) (hf : f.Prime) (hfp : f ≠ p) {D : Su
     [D.Normal] (hD : ¬ p ∣ Nat.card D) {S : Subgroup (X ⧸ D)} (hS : IsPGroup f S) :
     ¬ p ∣ Nat.card (S.comap (QuotientGroup.mk' D)) := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hgS : QuotientGroup.mk' D (g : X) ∈ S := g.2
   obtain ⟨k, hk⟩ := hS ⟨_, hgS⟩
@@ -87,7 +87,7 @@ theorem fusionIsSylowIn_of_isMaxF (hp : p.Prime) (hf : f.Prime) {B T K : Subgrou
 theorem isMaxFInvariantIn_map (hp : p.Prime) (hf : f.Prime) (hfp : f ≠ p) {D B T : Subgroup X}
     [D.Normal] (hD : ¬ p ∣ Nat.card D) (hB : IsPGroup p B) (hT : IsMaxFInvariantIn f B ⊤ T) :
     IsMaxFInvariantIn f (B.map (QuotientGroup.mk' D)) ⊤ (T.map (QuotientGroup.mk' D)) := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   set π := QuotientGroup.mk' D with hπ
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective D
   obtain ⟨⟨-, hTf, hBT⟩, hmax⟩ := hT
@@ -121,8 +121,8 @@ theorem normalizer_map_le_map_normalizer (hp : p.Prime) (hf : f.Prime) (hfp : f 
     (hsyl : fusionIsSylowIn f T ((T.map (QuotientGroup.mk' D)).comap (QuotientGroup.mk' D))) :
     normalizer ((T.map (QuotientGroup.mk' D) : Subgroup (X ⧸ D)) : Set (X ⧸ D)) ≤
       (normalizer (T : Set X)).map (QuotientGroup.mk' D) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hK3 : ¬ p ∣ Nat.card ((T.map (QuotientGroup.mk' D)).comap (QuotientGroup.mk' D)) :=
     not_dvd_card_comap hp hf hfp hD (hTf.map _)
   intro wb hwb

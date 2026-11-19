@@ -244,7 +244,7 @@ section Ext
 variable {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 
 theorem burnsideF4m_u5_sq_mem (hyp : HypF_4_4g .U5 2 1 Gp M₁ M₂) (e : E) : e * e ∈ Gp := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, fK, h, Ψ, -, -⟩ := burnsideF4m_U5_chart hyp
   set Θ : E →* MulAut (hypPSU h 2 1) :=
     (MulAut.congr Ψ.symm).toMonoidHom.comp (burnsideF4d_rho Gp) with hΘdef
@@ -453,8 +453,8 @@ end SU
 
 theorem burnsideF4m_F436U5_A_holds : burnsideF4m_F436U5_A := by
   intro E _ Gp M₁ M₂ hyp a b t ha hb ht h1 h2 h3 h4 h5 h6
-  haveI := hyp.normal
-  haveI := hyp.finite
+  have := hyp.normal
+  have := hyp.finite
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsq := burnsideF4m_u5_sq_mem hyp.toHypF_4_4g
   have htG : t ∈ Gp := by

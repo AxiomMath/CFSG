@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho q : G}
 
+omit [Finite G] in
 private theorem fzc_sy3_cocycle (q x y : G) :
     q * (x * y) * q⁻¹ * (x * y)⁻¹ =
       (q * x * q⁻¹ * x⁻¹) * (x * (q * y * q⁻¹ * y⁻¹) * x⁻¹) := by
@@ -34,6 +35,7 @@ theorem fzc_sy3_P_W (h : Ctx0 t L S x₁ x₂ lam rho) (hq : FzCQFacts t S x₁ 
     rw [e]
     exact mul_mem hp (inv_mem (fzc_sy3_Wp_le_P h hq ht h1))
 
+omit [Finite G] in
 theorem fzc_sy3_R_cos (hq : FzCQFacts t S x₁ x₂ lam rho) (hK : twoCore t = zpowers q)
     (hqt : q ^ 2 = t) (ht : t ∈ fzP t x₁ x₂ rho) :
     ∀ r ∈ fzR t x₁ x₂, r ∈ fzP t x₁ x₂ rho ∨ r * q⁻¹ ∈ fzP t x₁ x₂ rho := by

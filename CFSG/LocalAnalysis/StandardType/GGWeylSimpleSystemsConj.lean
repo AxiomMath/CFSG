@@ -156,7 +156,6 @@ theorem simpleSystems_conj {Λ Λ' : Type} [Fintype Λ] [DecidableEq Λ] [Fintyp
       (A' k l : ℚ) = ((ε k : ℚ) * c k) * C k l / ((ε l : ℚ) * c l) := by
     intro k l hkl
     have hg := hc k l hkl
-    try simp only at hg
     have hck := hc0 k
     have hcl := hc0 l
     have hεl : (ε l : ℚ) * ε l = 1 := by exact_mod_cast hε2 l

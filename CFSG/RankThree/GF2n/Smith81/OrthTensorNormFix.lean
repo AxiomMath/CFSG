@@ -101,11 +101,11 @@ theorem upper_of_kron_cubeZero (h : Fin n → Matrix (Fin 2) (Fin 2) K)
     intro i _
     by_cases hi : h i 1 0 = 0
     · simpa [x, hi] using hcol i hi
-    · simpa [x, hi]
+    · simp [x, hi]
   have hx : x = fun _ => 0 := by
     by_contra hne
     have := congrFun hc x
-    rw [kronMap_cubeZero_apply, Pi.smul_apply, cubeZero_apply, if_neg hne, smul_zero] at this
+    rw [kronMap_cubeZero_apply, Pi.smul_apply, cubeZero_apply, ite_eq_right hne, smul_zero] at this
     exact hprod this
   intro i
   by_contra hi

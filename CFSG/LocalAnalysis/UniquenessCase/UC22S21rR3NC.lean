@@ -38,7 +38,7 @@ theorem uc22r3n_false_of_le_of_cyclic (D : Data G) (Ch : Choice2011 G) (h211 : S
   have hAU : Subgroup.zpowers (a : G) ∈ uniqueSet D.M :=
     uc22p22r_mem_uniqueSet_of_sp D hpp hsp (hAX.trans hXM) hAp hA1
   have hZX : Subgroup.zpowers (a : G) ⊔ D.T ≤ X := sup_le hAX hTX
-  have hsolZ : IsSolvable ↥(Subgroup.zpowers (a : G) ⊔ D.T) :=
+  have hsolZ : Group.IsSolvable ↥(Subgroup.zpowers (a : G) ⊔ D.T) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hZX)
   have hZpi : ∀ q : ℕ, q.Prime → q ∣ Nat.card ↥(Subgroup.zpowers (a : G) ⊔ D.T) → q = 2 ∨ q = p :=
     fun q hq hqZ => hpi q hq (hqZ.trans (Subgroup.card_dvd_of_le hZX))
@@ -47,7 +47,7 @@ theorem uc22r3n_false_of_le_of_cyclic (D : Data G) (Ch : Choice2011 G) (h211 : S
       (Subgroup.zpowers (a : G) ⊔ D.T).subtype ≤ Subgroup.zpowers (a : G) ⊔ D.T :=
     Subgroup.map_subtype_le _
   have hAoddp : IsPGroup p ↥((P₀ : Subgroup ↥(Subgroup.zpowers (a : G) ⊔ D.T)).map
-      (Subgroup.zpowers (a : G) ⊔ D.T).subtype) := P₀.isPGroup'.map _
+      (Subgroup.zpowers (a : G) ⊔ D.T).subtype) := P₀.isPGroup.map _
   have hhall : IsHallOddIn ((P₀ : Subgroup ↥(Subgroup.zpowers (a : G) ⊔ D.T)).map
       (Subgroup.zpowers (a : G) ⊔ D.T).subtype) (Subgroup.zpowers (a : G) ⊔ D.T) := by
     refine ⟨hAoddZ, ?_, ?_⟩

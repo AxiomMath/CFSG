@@ -69,7 +69,7 @@ theorem eB_getD_mem (i : Fin 4) : eB.getD i (idT 275) ∈ eB := by
 
 theorem coe_el {T : Table} (h : tp 275 T ∈ mclP) : (el T : Equiv.Perm (Fin 275)) = tp 275 T := by
   unfold el
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 @[expose] noncomputable def vK (i : Fin 4) : ↥mclP := el (eB.getD i (idT 275))
 
@@ -247,7 +247,7 @@ theorem card_eNorm_le : Nat.card (eNorm basisK) ≤ 40320 := by
     rw [← Nat.card_coe_set_eq]
     exact (card_eSub basisK).trans (by norm_num)
   have h15 : ((eSub basisK : Set ↥mclP) \ {1}).ncard = 15 := by
-    rw [Set.ncard_diff_singleton_of_mem (one_mem (eSub basisK)), hE16]
+    rw [Set.ncard_sdiff_singleton_of_mem (one_mem (eSub basisK)), hE16]
   rw [h15] at h1
   have h2 := card_normCent_le
   calc Nat.card (eNorm basisK) ≤ 15 * Nat.card ↥(eNorm basisK ⊓
@@ -390,11 +390,11 @@ theorem sixteen_le_count {W : Subgroup ↥mclP} (hW : IsElemAbelian 2 W) (hWS : 
 theorem exists_aut_eq {V : Subgroup ↥mclP} (hV : IsElemAbelian 2 V) (h16 : 16 ≤ Nat.card V) :
     ∃ τ : ↥mclP ≃* ↥mclP, V = (eSub basisK).map τ.toMonoidHom := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hS2 : IsPGroup 2 Sk := IsPGroup.of_card (n := 7) (by rw [card_Sk] <;> norm_num)
+  have hS2 : IsPGroup 2 Sk := IsPGroup.of_card (n := 7) (by rw [card_Sk]; norm_num)
   obtain ⟨c, -, hc⟩ :=
     CFSG.HardMathSupport.Cooperstein.Coordinator.FFSporadic.Co2D5.exists_conj_le_of_odd_index
       (H := ⊤) (R := Sk) (E := V) le_top le_top hS2 hV.isPGroup (m := 7016625)
-      ⟨3508312, by norm_num⟩ (by rw [Subgroup.card_top, card_mclP, card_Sk] <;> norm_num)
+      ⟨3508312, by norm_num⟩ (by rw [Subgroup.card_top, card_mclP, card_Sk])
   set W := V.map (MulAut.conj c).toMonoidHom with hWdef
   have hWS : W ≤ Sk := by
     rintro _ ⟨x, hx, rfl⟩
@@ -428,7 +428,7 @@ theorem false_of_mem_cent {W : Subgroup ↥mclP} (hW : IsElemAbelian 2 W) (h8 : 
     {x : ↥mclP} (hx : x ∈ centralizer (W : Set ↥mclP)) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hxq : orderOf x = q) : False := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hWne : W ≠ ⊥ := by
     intro hb
     rw [hb, Subgroup.card_bot] at h8
@@ -509,7 +509,7 @@ theorem isPGroup_centralizer_of_card_eight {W : Subgroup ↥mclP} (hW : IsElemAb
     (n := (Nat.card ↥(centralizer (W : Set ↥mclP))).primeFactorsList.length) ?_
   refine Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' fun {q} hq hqd => ?_
   by_contra hq2
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' q hqd
   exact false_of_mem_cent hW h8 x.2 hq hq2 (by rw [Subgroup.orderOf_coe]; exact hx)
 
@@ -536,7 +536,7 @@ theorem conclK_K0 {L V MK : Subgroup ↥mclP} (h : KConfig ↥mclP L V MK) : Con
       · exact absurd h8 (by norm_num)
       · exact absurd h8 (by norm_num)
       · norm_num
-    letI : IsMulCommutative ↥V := h.elemAbelian.1
+    let : IsMulCommutative ↥V := h.elemAbelian.1
     have hE2 : CFSG.Quasithin.IsE2 3 ↥V :=
       CFSG.Quasithin.KGC31.Ru.isE2_of_card' (n := 3)
         (fun x y => mul_comm' x y)

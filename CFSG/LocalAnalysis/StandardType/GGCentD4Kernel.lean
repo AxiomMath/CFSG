@@ -29,7 +29,7 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 private lemma d1a_notMem_d4Nodes {i : Fin Tag.E6.rank} :
     i ∉ d4Nodes Tag.E6 ↔ i.val = 0 ∨ i.val = 5 := by
-  rw [d4Nodes, Set.mem_setOf_eq]
+  rw [d4Nodes, Set.mem_ofPred_eq]
   constructor
   · intro h
     have h' : ¬(1 ≤ i.val ∧ i.val ≤ 4) := fun hc => h hc
@@ -50,7 +50,7 @@ private def d1a_applyRoot : List (Fin Tag.E6.rank) → (Fin Tag.E6.rank → ℤ)
 
 private theorem d1a_mem_parabolic_iff (α : Fin Tag.E6.rank → ℤ) :
     α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6) ↔ α ∈ d1a_JList := by
-  rw [parabolicRoots, Set.mem_setOf_eq, d1a_JList, List.mem_filter]
+  rw [parabolicRoots, Set.mem_ofPred_eq, d1a_JList, List.mem_filter]
   constructor
   · rintro ⟨hroot, hJ⟩
     refine ⟨(isRoot_iff_mem_e6RootList α).1 hroot, ?_⟩
@@ -113,7 +113,7 @@ private theorem d1a_kerRoots_reps4 :
     decide +kernel
   have hK : kerRoots (reps 4) = (↑d1a_KList.toFinset : Set (Fin Tag.E6.rank → ℤ)) := by
     ext α
-    simp only [kerRoots, Set.mem_setOf_eq, Finset.mem_coe, List.mem_toFinset, d1a_KList,
+    simp only [kerRoots, Set.mem_ofPred_eq, Finset.mem_coe, List.mem_toFinset, d1a_KList,
       List.mem_filter, beq_iff_eq]
     constructor
     · rintro ⟨hroot, hp⟩
@@ -137,7 +137,7 @@ private theorem d1a_compRank_parabolic :
   let C : Finset (Option (Fin Tag.E6.rank)) := {some 1, some 2, some 3, some 4}
   have hnone : none ∉ C := by decide
   have hCJ : ∀ j, some j ∈ C ↔ j ∈ d4Nodes Tag.E6 := by
-    intro j; rw [d4Nodes, Set.mem_setOf_eq]; revert j; decide
+    intro j; rw [d4Nodes, Set.mem_ofPred_eq]; revert j; decide
   have hCcard : C.card = 4 := by decide
   have hroots : kacE6.rootsOf (C : Set (Option (Fin Tag.E6.rank))) =
       parabolicRoots Tag.E6 (d4Nodes Tag.E6) := by
@@ -263,7 +263,7 @@ theorem ntpD4_kernel
     have hset : rootCharKernel (1 : Fin Tag.E6.rank → Lˣ) =
         (↑(rootFinset Tag.E6) : Set (Fin Tag.E6.rank → ℤ)) := by
       ext α
-      simp only [rootCharKernel, Set.mem_setOf_eq, Finset.mem_coe, mem_rootFinset]
+      simp only [rootCharKernel, Set.mem_ofPred_eq, Finset.mem_coe, mem_rootFinset]
       exact ⟨fun h => h.1, fun h => ⟨h, by simp [rootChar]⟩⟩
     have hcard : (rootCharKernel (1 : Fin Tag.E6.rank → Lˣ)).ncard = 72 := by
       rw [hset, Set.ncard_coe_finset, card_rootFinset]

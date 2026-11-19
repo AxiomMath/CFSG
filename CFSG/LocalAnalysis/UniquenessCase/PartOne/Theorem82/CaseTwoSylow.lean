@@ -163,7 +163,7 @@ private theorem three_dvd_card_Lf (i : Fin 3) : 3 ∣ Nat.card (d.Lf i) := by
   exact hEcard ▸ hdvd
 
 theorem H_ne_bot (i : Fin 3) : d.H i ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hbot
   have hcard := (d.isSylowOf_H i).card_eq
   rw [hbot, Subgroup.card_bot] at hcard
@@ -213,7 +213,7 @@ private theorem Kbar_isPGroup : IsPGroup 2 ↥d.Kbar :=
     (Subgroup.subgroupOfEquivOfLe inf_le_left).symm
 
 private theorem three_not_dvd_Kbar : ¬ 3 ∣ Nat.card ↥d.Kbar := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := (SylowThreeData.Kbar_isPGroup d).exists_card_eq
   rw [hk]
   intro hdvd
@@ -225,19 +225,19 @@ theorem ker_phi_isPGroup (i : Fin 3) : IsPGroup 2 ↥((d.phi i).ker) := by
     (Subgroup.subgroupOfEquivOfLe inf_le_left).symm
 
 private theorem three_not_dvd_ker_phi (i : Fin 3) : ¬ 3 ∣ Nat.card ↥((d.phi i).ker) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := (SylowThreeData.ker_phi_isPGroup d) i |>.exists_card_eq
   rw [hk]
   intro hdvd
   exact absurd (Nat.prime_three.dvd_of_dvd_pow hdvd) (by norm_num)
 
 theorem isPerfect_Lb (i : Fin 3) : Group.IsPerfect ↥(d.Lb i) := by
-  haveI : Group.IsPerfect ↥(d.Lf i) := Subgroup.isPerfect_iff.mpr (d.hperf i)
+  have : Group.IsPerfect ↥(d.Lf i) := Subgroup.isPerfect_iff.mpr (d.hperf i)
   exact Group.IsPerfect.ofSurjective (f := (d.phi i).rangeRestrict)
     (d.phi i).rangeRestrict_surjective
 
 theorem pRank_Lb (i : Fin 3) : CFSG.Open.pRank 3 (⊤ : Subgroup ↥(d.Lb i)) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : CFSG.pRank 3 ↥(d.Lb i) = CFSG.pRank 3 (↥(d.Lf i) ⧸ (d.phi i).ker) :=
     (CFSG.pRank_congr_of_mulEquiv (QuotientGroup.quotientKerEquivRange (d.phi i)) 3).symm
   have h2 : CFSG.pRank 3 (↥(d.Lf i) ⧸ (d.phi i).ker) = CFSG.pRank 3 ↥(d.Lf i) :=
@@ -248,8 +248,8 @@ theorem pRank_Lb (i : Fin 3) : CFSG.Open.pRank 3 (⊤ : Subgroup ↥(d.Lb i)) = 
 
 private theorem three_not_dvd_center_Lb (i : Fin 3) :
     ¬ 3 ∣ Nat.card (Subgroup.center ↥(d.Lb i)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := (SylowThreeData.isPerfect_Lb d) i
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := (SylowThreeData.isPerfect_Lb d) i
   exact not_dvd_card_center_of_pRank_eq_one (by norm_num) ((SylowThreeData.pRank_Lb d) i)
 
 private theorem Lb_eq_map (i : Fin 3) : d.Lb i = ((d.Lf i).subgroupOf d.L).map d.pi := by
@@ -307,7 +307,7 @@ private theorem mu_range_top : d.mu.range = ⊤ := by
     Subgroup.range_subtype, Subgroup.range_subtype, Subgroup.range_subtype, d.Lb_sup]
 
 private theorem three_not_dvd_ker_mu : ¬ 3 ∣ Nat.card ↥d.mu.ker := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h3
   obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' 3 h3
   have hy3 : (y.1 : ((↥(d.Lb 0) × ↥(d.Lb 1)) × ↥(d.Lb 2))) ^ 3 = 1 := by
@@ -443,8 +443,8 @@ private theorem three_part_L :
   rw [h1, ← h2, h3, h4 0, h4 1, h4 2]
 
 private theorem S_inf_N : d.S ⊓ d.N = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact (IsPGroup.disjoint_of_ne 3 2 (by norm_num) d.S d.N (SylowThreeData.S_isPGroup d)
     (SylowThreeData.N_isPGroup d)).eq_bot
 
@@ -471,9 +471,9 @@ instance Lb_normal (i : Fin 3) : (d.Lb i).Normal := by
   exact ((Subgroup.normal_subgroupOf_iff_le_normalizer (d.Lf_le_L i)).mpr
     ((SylowThreeData.L_le_normalizer_Lf d) i)).map d.pi (QuotientGroup.mk'_surjective _)
 
-theorem eq_one_of_mem_Lf_of_mem_sup {i j k : Fin 3} (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k)
+theorem eq_one_of_mem_Lf_of_mem_sup {i j k : Fin 3} (hij : i ≠ j) (hik : i ≠ k) (_hjk : j ≠ k)
     {x : G} (hxS : x ∈ d.S) (hxi : x ∈ d.Lf i) (hxjk : x ∈ d.Lf j ⊔ d.Lf k) : x = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxL : x ∈ d.L := d.Lf_le_L i hxi
   set xbar : d.Q := d.pi ⟨x, hxL⟩ with hxbar
   have hmem_i : xbar ∈ d.Lb i := ⟨⟨x, hxi⟩, rfl⟩
@@ -566,7 +566,7 @@ private theorem nu_injective : Function.Injective d.nu := by
 
 private theorem card_H_mul_card_H_mul_card_H :
     Nat.card ↥(d.H 0) * Nat.card ↥(d.H 1) * Nat.card ↥(d.H 2) = Nat.card ↥d.S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [d.hS.card_eq, (SylowThreeData.three_part_L d), (d.isSylowOf_H 0).card_eq,
     (d.isSylowOf_H 1).card_eq,
     (d.isSylowOf_H 2).card_eq, pow_add, pow_add]
@@ -599,9 +599,9 @@ private theorem nu_surjective : Function.Surjective d.nu :=
 theorem S_commute : ∀ a b : G, a ∈ d.S → b ∈ d.S → a * b = b * a := by
   let e : ((↥(d.H 0) × ↥(d.H 1)) × ↥(d.H 2)) ≃* ↥d.S :=
     MulEquiv.ofBijective d.nu ⟨(SylowThreeData.nu_injective d), (SylowThreeData.nu_surjective d)⟩
-  haveI : IsMulCommutative ↥(d.H 0) := (d.isCyclic_H 0).isMulCommutative
-  haveI : IsMulCommutative ↥(d.H 1) := (d.isCyclic_H 1).isMulCommutative
-  haveI : IsMulCommutative ↥(d.H 2) := (d.isCyclic_H 2).isMulCommutative
+  have : IsMulCommutative ↥(d.H 0) := (d.isCyclic_H 0).isMulCommutative
+  have : IsMulCommutative ↥(d.H 1) := (d.isCyclic_H 1).isMulCommutative
+  have : IsMulCommutative ↥(d.H 2) := (d.isCyclic_H 2).isMulCommutative
   have key : ∀ x y : ((↥(d.H 0) × ↥(d.H 1)) × ↥(d.H 2)), x * y = y * x :=
     fun x y => (inferInstance : IsMulCommutative _).is_comm.comm x y
   intro a b ha hb
@@ -637,7 +637,7 @@ theorem AA_le_L : d.AA ≤ d.L :=
     ((SylowThreeData.A_le_L d) 2)
 
 private theorem H_comm (i : Fin 3) : ∀ a b : ↥(d.H i), a * b = b * a := fun a b => by
-  haveI : IsMulCommutative ↥(d.H i) := (d.isCyclic_H i).isMulCommutative
+  have : IsMulCommutative ↥(d.H i) := (d.isCyclic_H i).isMulCommutative
   exact IsMulCommutative.is_comm.comm a b
 
 theorem mem_A_iff (i : Fin 3) {x : G} : x ∈ d.A i ↔ x ∈ d.H i ∧ x ^ 3 = 1 := by
@@ -652,13 +652,13 @@ theorem mem_A_iff (i : Fin 3) {x : G} : x ∈ d.A i ↔ x ∈ d.H i ∧ x ^ 3 = 
         simpa [pow_one] using hx3))
 
 private theorem three_dvd_card_H (i : Fin 3) : 3 ∣ Nat.card ↥(d.H i) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [(d.isSylowOf_H i).card_eq]
   exact dvd_pow_self 3 (Nat.Prime.factorization_pos_of_dvd Nat.prime_three
     (Nat.card_pos.ne') ((SylowThreeData.three_dvd_card_Lf d) i)).ne'
 
 theorem card_A (i : Fin 3) : Nat.card (d.A i) = 3 := by
-  haveI := d.isCyclic_H i
+  have := d.isCyclic_H i
   rw [d.A_def i, Subgroup.card_map_of_injective (Subgroup.subtype_injective (d.H i)),
     CFSG.card_omega₁_of_isCyclic (p := 3)]
   exact Nat.gcd_eq_right ((SylowThreeData.three_dvd_card_H d) i)
@@ -794,7 +794,7 @@ theorem mem_AA_of_pow_eq_one {x : G} (hxS : x ∈ d.S) (hx3 : x ^ 3 = 1) : x ∈
   (SylowThreeData.mem_AA_iff d).mpr ⟨hxS, hx3⟩
 
 theorem isCyclic_A (i : Fin 3) : IsCyclic ↥(d.A i) := by
-  haveI : IsCyclic ↥(d.H i) := d.isCyclic_H i
+  have : IsCyclic ↥(d.H i) := d.isCyclic_H i
   exact Subgroup.isCyclic_of_le (H := d.A i) (H' := d.H i) (d.A_le_H i)
 
 theorem centralizes_A_of_isPGroup {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (i : Fin 3) {x : G}
@@ -810,7 +810,7 @@ theorem centralizes_A_of_isPGroup {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (i : 
       (Subgroup.mem_normalizer_iff.mp hxL y).mp h.2⟩,
       fun h => ⟨(Subgroup.mem_normalizer_iff.mp hxS y).mpr h.1,
       (Subgroup.mem_normalizer_iff.mp hxL y).mpr h.2⟩⟩
-  haveI : (CFSG.omega₁ ↥(d.H i) (p := 3)).Characteristic := CFSG.omega₁_characteristic ↥(d.H i)
+  have : (CFSG.omega₁ ↥(d.H i) (p := 3)).Characteristic := CFSG.omega₁_characteristic ↥(d.H i)
   have hxA : x ∈ Subgroup.normalizer (d.A i : Set G) :=
     CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (H := d.H i) (K := CFSG.omega₁ ↥(d.H i) (p := 3)) hxH
@@ -819,7 +819,7 @@ theorem centralizes_A_of_isPGroup {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (i : 
     have h := congrArg Subtype.val hk
     simpa using h
   have hcard_mulAut : Nat.card (MulAut ↥(d.A i)) = 2 := by
-    haveI := (SylowThreeData.isCyclic_A d) i
+    have := (SylowThreeData.isCyclic_A d) i
     rw [IsCyclic.card_mulAut, (SylowThreeData.card_A d) i,
       Nat.totient_prime (by norm_num : Nat.Prime 3)]
   have hone : (Subgroup.normalizerMonoidHom (d.A i)) ⟨x, hxA⟩ = 1 := by

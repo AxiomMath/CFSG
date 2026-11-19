@@ -24,7 +24,7 @@ theorem sr628_exists_invariant_sylow {O A : Subgroup G} (hAO : A ≤ normalizer 
   obtain ⟨Q, hQ⟩ :=
     (CFSG.RankThree.PGroups.solvable_coprime_invariant_sylow_containment hcop ρ hq).2
   refine ⟨(Q : Subgroup O).map O.subtype, Subgroup.map_subtype_le _,
-    Q.isPGroup'.map O.subtype, ?_, ?_⟩
+    Q.isPGroup.map O.subtype, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective O.subtype_injective]
     exact Sylow.card_eq_multiplicity Q
   · rw [le_normalizer_iff]

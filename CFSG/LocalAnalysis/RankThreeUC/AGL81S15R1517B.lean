@@ -26,6 +26,7 @@ theorem pRank_add_le_pRank_sup_of_commute {q : ℕ} (hq : q.Prime) {A B : Subgro
   have h := pRank_add_le_pRank_sup_add_pRank_inf hcomm hq
   rwa [hAB, pRank_add_le_pRank_sup_of_commute_aux_bot hq, add_zero] at h
 
+omit [Finite Y] in
 theorem nonTrans_of_normal_aux_le_pElement {E : Subgroup Y} (hE : IsPGroup 3 E) :
     E ≤ pElementSubgroup 3 (⊤ : Subgroup Y) := by
   intro x hx
@@ -34,6 +35,7 @@ theorem nonTrans_of_normal_aux_le_pElement {E : Subgroup Y} (hE : IsPGroup 3 E) 
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 (orderOf_dvd_of_pow_eq_one hxk)
   exact Subgroup.subset_closure ⟨mem_top x, j, hj⟩
 
+omit [Finite Y] in
 theorem nonTrans_of_normal {S : Subgroup Y} [S.Normal]
     (hle : pElementSubgroup 3 (⊤ : Subgroup Y) ≤ S)
     (hS : ∀ E : Subgroup ↥S, IsElemAbelian 3 E → Nat.card E = 9 → ∃ a ∈ E, ∃ b ∈ E, a ≠ 1 ∧ b ≠ 1 ∧
@@ -68,7 +70,7 @@ theorem nonTrans_of_normal {S : Subgroup Y} [S.Normal]
 theorem out1517_of_data421_aux_card_le {p : ℕ} (hp : p.Prime) {G : Type*} [Group G] [Finite G]
     {E N : Subgroup G} (hE : IsElemAbelian p E) (hEN : E ≤ N) :
     Nat.card E ≤ p ^ CFSG.Open.pRank p N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hE.isPGroup.exists_card_eq
   rw [hk]
   exact Nat.pow_le_pow_right hp.pos (CFSG.SectionRank.le_pRank hp.one_lt hEN hE hk)
@@ -126,11 +128,12 @@ theorem out1517_of_data421_aux_card_le_sup {p : ℕ} (hp : p.Prime) {S C : Subgr
     _ ≤ p ^ CFSG.Open.pRank p C * p ^ CFSG.Open.pRank p S := Nat.mul_le_mul h5 h1
     _ = p ^ (CFSG.Open.pRank p S + CFSG.Open.pRank p C) := by rw [pow_add, mul_comm]
 
+omit [Finite Y] in
 theorem out1517_of_data421_aux_mem_sup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Subgroup Y}
     [S.Normal]
     (hOut : ∀ φ : MulAut ↥S, ∃ k : ℕ, φ ^ (2 ^ k) ∈ (MulAut.conj : ↥S →* MulAut ↥S).range)
     {y : Y} (hy : y ^ p = 1) : y ∈ S ⊔ Subgroup.centralizer (S : Set Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hy1 : y = 1
   · rw [hy1]
     exact one_mem _
@@ -158,6 +161,7 @@ theorem out1517_of_data421_aux_mem_sup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
   rw [← hm]
   exact pow_mem hmem m
 
+omit [Finite Y] in
 theorem out1517_of_data421_aux_inf_centralizer {S : Subgroup Y} (hZ : Subgroup.center ↥S = ⊥) :
     S ⊓ Subgroup.centralizer (S : Set Y) = ⊥ := by
   refine eq_bot_iff.2 fun x hx => ?_
@@ -187,6 +191,7 @@ theorem out1517_of_data421_aux_three_le_gen {p : ℕ} (hp : p.Prime) (hp2 : p �
     rw [CFSG.SectionRank.pRank_eq_pRank_top_subgroup S] at h2
     omega
 
+omit [Finite Y] in
 theorem out1517_of_data421_aux_map_centralizer {S D : Subgroup Y} (hDS : D ≤ S) :
     (Subgroup.centralizer ((D.subgroupOf S : Subgroup ↥S) : Set ↥S)).map S.subtype ≤
       Subgroup.centralizer (D : Set Y) := by
@@ -200,7 +205,7 @@ theorem out1517_of_data421_aux_not_isPSolvable {p : ℕ} (hp : p.Prime) {S D : S
     (h : ¬ CFSG.HallHigman.IsPSolvable p
       ↥(Subgroup.centralizer ((D.subgroupOf S : Subgroup ↥S) : Set ↥S))) :
     ¬ CFSG.HallHigman.IsPSolvable p ↥(Subgroup.centralizer (D : Set Y)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hsolv
   refine h ?_
   have h1 := CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.PSolvableClosure.isPSolvable_of_le
@@ -233,7 +238,7 @@ theorem out1517_of_data421_aux_rank_centralizer {p : ℕ} (hp : p.Prime) {S D : 
 theorem out1517_of_data421_aux_isSylowOf_of_le {p : ℕ} (hp : p.Prime) {P K N : Subgroup Y}
     (h : CFSG.ABGLocalTools.IsSylowOf p P N) (hPK : P ≤ K) (hKN : K ≤ N) :
     CFSG.ABGLocalTools.IsSylowOf p P K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at h ⊢
   obtain ⟨-, hP, hdvd⟩ := h
   exact ⟨hPK, hP, fun hd => hdvd (hd.trans (Dvd.intro _ (Subgroup.relIndex_mul_relIndex P K N hPK hKN)))⟩
@@ -241,12 +246,13 @@ theorem out1517_of_data421_aux_isSylowOf_of_le {p : ℕ} (hp : p.Prime) {P K N :
 theorem out1517_of_data421_aux_isSylowOf_subgroupOf {p : ℕ} (hp : p.Prime) {P K S : Subgroup Y}
     (h : CFSG.ABGLocalTools.IsSylowOf p P K) (hKS : K ≤ S) :
     CFSG.ABGLocalTools.IsSylowOf p (P.subgroupOf S) (K.subgroupOf S) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at h ⊢
   obtain ⟨hPK, hP, hdvd⟩ := h
   exact ⟨Subgroup.comap_mono hPK, hP.comap_subtype, by
     rwa [Subgroup.relIndex_subgroupOf hKS]⟩
 
+omit [Finite Y] in
 theorem out1517_of_data421_aux_normalizer_subgroupOf {S D : Subgroup Y} (hDS : D ≤ S) :
     Subgroup.normalizer ((D.subgroupOf S : Subgroup ↥S) : Set ↥S) =
       (Subgroup.normalizer (D : Set Y)).subgroupOf S := by
@@ -289,7 +295,7 @@ theorem out1517_of_data421_aux_sylowShape {S D : Subgroup Y} (hDS : D ≤ S)
     · rw [← hcard]
       exact (Nat.card_congr e.toEquiv).symm
   · refine Or.inr ?_
-    haveI := hcyc
+    have := hcyc
     exact isCyclic_of_surjective _ (Subgroup.centerCongr e).surjective
 
 theorem out1517_of_data421_of_rank (hK4143 : K4143) {p : ℕ} (hp : p.Prime)
@@ -299,7 +305,7 @@ theorem out1517_of_data421_of_rank (hK4143 : K4143) {p : ℕ} (hp : p.Prime)
     (he : 3 ≤ CFSG.Open.pRank p (⊤ : Subgroup ↥S) +
       CFSG.Open.pRank p (Subgroup.centralizer (S : Set Y)))
     (hD : Data421 ↥S p) : Out1517 Y p ∧ pElementSubgroup 3 (⊤ : Subgroup Y) ≤ S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle : pElementSubgroup 3 (⊤ : Subgroup Y) ≤ S := hK4143 Y S inferInstance hq hZ hshape h3S h3Y
   refine ⟨?_, hle⟩
   have hP3 : ∀ P : Subgroup Y, IsPGroup 3 P → P ≤ S := fun P hP =>

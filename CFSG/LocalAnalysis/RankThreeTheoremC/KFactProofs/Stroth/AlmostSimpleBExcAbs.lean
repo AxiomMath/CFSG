@@ -26,11 +26,11 @@ theorem odd_card_of_normal_of_noSylowNormalizes {p : ℕ} (hp : p.Prime)
   classical
   by_contra hodd
   have h2 : 2 ∣ Nat.card N := (Nat.not_odd_iff_even.1 hodd).two_dvd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow p C) := inferInstance
   obtain ⟨S, hS⟩ := exists_sylow_normalized_of_isPGroup (ℓ := 2) N (P : Subgroup C)
-    P.isPGroup' hcop
+    P.isPGroup hcop
   have hSne : (S : Subgroup N) ≠ ⊥ := by
     intro h0
     have h1 : Nat.card (S : Subgroup N) = 1 := by rw [h0]; simp
@@ -44,7 +44,7 @@ theorem odd_card_of_normal_of_noSylowNormalizes {p : ℕ} (hp : p.Prime)
   have hR2 : IsPGroup 2 R := by
     intro x
     obtain ⟨_, ⟨s, hs, rfl⟩, hx⟩ := x.2
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     refine ⟨k, ?_⟩
     have hk' : s ^ 2 ^ k = 1 := congrArg Subtype.val hk
     apply Subtype.ext
@@ -66,7 +66,7 @@ theorem centralizer_pPart_of_sylowTorus {p m : ℕ} (hp : p.Prime) (hT : SylowTo
     (Nat.card X).factorization p ≤
       (Nat.card (Subgroup.centralizer ({d} : Set X))).factorization p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T, E, hTc, hconj, -, -, -, -⟩ := hT.exists_torus
   have hdP : IsPGroup p (Subgroup.zpowers d) := by
     intro g
@@ -76,7 +76,7 @@ theorem centralizer_pPart_of_sylowTorus {p m : ℕ} (hp : p.Prime) (hT : SylowTo
     simp only [pow_one, Subgroup.coe_pow, Subgroup.coe_one]
     rw [← hn, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hdp, one_zpow]
   obtain ⟨Q, hdQ⟩ := hdP.exists_le_sylow
-  obtain ⟨g, hg⟩ := hconj (Q : Subgroup X) Q.isPGroup'
+  obtain ⟨g, hg⟩ := hconj (Q : Subgroup X) Q.isPGroup
   have hcomm : ∀ a ∈ (Q : Subgroup X), ∀ b ∈ (Q : Subgroup X), a * b = b * a := by
     intro a ha b hb
     obtain ⟨s, hs, hsa⟩ := hg ha
@@ -98,7 +98,7 @@ theorem pClosureOdd_of_sylowTorus {p m : ℕ} (hp : p.Prime) (hT : SylowTorus X 
     (h : NoSylowNormalizesTwo p X) : PClosureOdd p X := by
   intro d _ hdp
   refine OddPCoreInClosure.of_odd_core fun N hN hcop => ?_
-  haveI := hN
+  have := hN
   exact odd_card_of_normal_of_noSylowNormalizes hp h (Subgroup.centralizer ({d} : Set X))
     (centralizer_pPart_of_sylowTorus hp hT hdp) N hcop
 

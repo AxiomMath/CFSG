@@ -294,8 +294,8 @@ private theorem gh73x_factorial_ne {n j : ℕ} (hn : 10 ≤ n) (hn' : n ≤ 11) 
 
 theorem not_psl4_of_card
     (hc : ∃ j : ℕ, Nat.card X = 64 * (2 * j + 1))
-    {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 ≤ f)
-    (hq : p ^ f % 8 ≠ 1) :
+    {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (_hf : 1 ≤ f)
+    (_hq : p ^ f % 8 ≠ 1) :
     ¬ LieModel X .PSL 4 p f := by
   intro hL
   have hcard : Nat.card X = ordA 3 (p ^ f) := card_of_lieModel_PSL (by norm_num) hL
@@ -305,8 +305,8 @@ theorem not_psl4_of_card
 
 theorem not_psu4_of_card
     (hc : ∃ j : ℕ, Nat.card X = 64 * (2 * j + 1))
-    {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 ≤ f)
-    (hq : p ^ f % 8 ≠ 7) :
+    {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (_hf : 1 ≤ f)
+    (_hq : p ^ f % 8 ≠ 7) :
     ¬ LieModel X .PSU 4 p f := by
   intro hL
   have hcard : Nat.card X = ordTwistedA 3 (p ^ f) := card_of_lieModel_PSU (by norm_num) hp2 hL
@@ -429,7 +429,7 @@ theorem not_Ly_of_card
 
 theorem psp4_mod_eight_of_card
     (hc : ∃ j : ℕ, Nat.card X = 64 * (2 * j + 1))
-    {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 ≤ f)
+    {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (_hf : 1 ≤ f)
     (hL : LieModel X .PSp 2 p f) : p ^ f % 8 = 3 ∨ p ^ f % 8 = 5 := by
   by_contra hne
   have hcard : Nat.card X = ordBC 2 (p ^ f) := card_of_lieModel_PSp (by norm_num) hp2 hL

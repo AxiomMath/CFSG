@@ -202,13 +202,13 @@ theorem ggA6F4_comp_iso_sp
     ∃ (F : Type) (_ : Field F) (_ : Finite F), Nat.card F = 2 ∧
       Nonempty (↥L ≃* ↥(CFSG.Open.StatedSp 3 F)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Finite ↥(adjointGroup Tag.F4 K) := by
+  have : Finite ↥(adjointGroup Tag.F4 K) := by
     have : Finite (Module.End K (RootModule Tag.F4 K)) := Module.finite_of_finite K
     infer_instance
   have hpK : ¬ 3 ∣ Nat.card K := by
@@ -274,9 +274,9 @@ theorem ggA6F4_comp_iso_sp
     have hinner := twistInner_of_shape S hT i 3 18 hr3 (hn18 i) (by decide) (by decide)
       (by decide) (by decide)
     obtain ⟨F, hfin, hF2, g, hg, hgk⟩ := exists_sp3_cover S hq2 hT i v hJ hroots hinner hs1
-    haveI : CharP ↥F 2 := by
-      haveI : Finite ↥F := hfin
-      haveI : Fintype ↥F := Fintype.ofFinite ↥F
+    have : CharP ↥F 2 := by
+      have : Finite ↥F := hfin
+      have : Fintype ↥F := Fintype.ofFinite ↥F
       exact charP_of_card_eq_prime_pow (f := 1)
         (by rw [← Nat.card_eq_fintype_card, hF2]; norm_num)
     have hcenter : Subgroup.center (CFSG.Open.StatedSp 3 ↥F) = ⊥ :=

@@ -69,6 +69,7 @@ theorem eq_zero_or_one (hK : Nat.card K = 2) (c : K) : c = 0 ∨ c = 1 := by
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem mem_pairSL_of_odd (hK : Nat.card K = 2) {y : MulAut (PairMod K)} (hyN : y ∈ pairNorm K)
     {p : ℕ} (hp : Odd p) (hyp : y ^ p = 1) : y ∈ pairSL K :=
   mem_pairSL_of_mem_pairSub hK hyN (mem_pairSub_of_odd hyN hp hyp)

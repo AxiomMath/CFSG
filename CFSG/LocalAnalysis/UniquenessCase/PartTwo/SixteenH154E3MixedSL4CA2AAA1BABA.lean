@@ -14,19 +14,20 @@ open scoped Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s16h_sl4_fpf_of_row {L : Subgroup (MulAut W)} {U Z : Subgroup W}
     (hrow : s16h_H5RowSL2 L U Z 2) {a : MulAut W}
     (haL : a ∈ L) (ha3 : a ^ 3 = 1) (ha1 : a ≠ 1) :
     ∀ u ∈ U, a u * u⁻¹ ∈ Z → u ∈ Z := by
   obtain ⟨-, K, hKf, hKfin, hKcard, hReal⟩ := hrow
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Fintype.card K = 2 ^ 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hKcard
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hcard
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hcard
   obtain ⟨π, hπ⟩ := hReal
   have hπi : Function.Injective π :=
     FFModel.RealizesVia.injective_of_faithful_on (FFModel.nat_faithful (StatedSL 2 K)) hπ

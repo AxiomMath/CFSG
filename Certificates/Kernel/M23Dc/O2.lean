@@ -40,7 +40,7 @@ theorem rows_get (rows : List (List ℕ)) (l k : ℕ) :
     have e : (default : Array ℕ) = #[] := rfl
     simp [e]
   | some r =>
-    simp only [Option.map_some, Option.getD_some, getElem!_def, List.getElem?_toArray]
+    simp only [Option.map_some, Option.getD_some, List.getElem?_toArray]
     cases r[k]? <;> rfl
 
 theorem pn_get (j l k : ℕ) : ((Om j).pn[l]!)[k]! = (((oc j).2.1).getD l []).getD k 0 :=
@@ -88,7 +88,7 @@ theorem m23K_spec {j : ℕ} (hj' : j < 16) :
       have e : (Ps j).length = ((oc j).2.1.take 3).length := List.length_map ..
       omega
     have ht : ((oc j).2.1.take 3).getD l [] = (oc j).2.1.getD l [] := by
-      simp [List.getD_eq_getElem?_getD, List.getElem?_take, hl]
+      simp [List.getD_eq_getElem?_getD, hl]
     rw [pn_get, ← ht]
     exact codeK_rows (fun r hr x hx => (hrows r hr).1 x hx) (fun r hr => (hrows r hr).2) l hl3 k hk
 
@@ -110,7 +110,7 @@ open CFSG.Open (pCoreOf)
 
 theorem X0_map_full {j : ℕ} (h12 : ¬(j = 1 ∨ j = 2)) :
     (X0 j).map (fun k => (Om j).lbl[k]!) = (Om j).lbl.toList := by
-  rw [X0, if_neg h12, ← Om_size]
+  rw [X0, ite_eq_right h12, ← Om_size]
   apply List.ext_getElem (by simp)
   intro n h1 h2
   simp only [List.getElem_map, List.getElem_range, Array.getElem_toList]
@@ -132,7 +132,7 @@ theorem m23K_memStmt {j : ℕ} (hj : j < 16) :
       change _ ∈ m23CtxK.D.Om[j]!.lbl.toList
       rw [hOmj, getElem!_pos _ k hk']
       exact Array.getElem_mem_toList hk'
-    have hX : X0 j = [0, 7] := by rw [X0, if_pos h12]
+    have hX : X0 j = [0, 7] := by rw [X0, ite_eq_left h12]
     refine m23CtxK.memStmt_sub hjJ hodd' (B := (X0 j).map fun k => (Om j).lbl[k]!) ?_ ?_ hspec ?_
     · intro x hx
       obtain ⟨k, hk', rfl⟩ := List.mem_map.1 hx

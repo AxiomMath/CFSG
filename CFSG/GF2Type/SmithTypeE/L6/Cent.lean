@@ -15,10 +15,12 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_cent2 {t u x : G} : x ∈ cent2 t u ↔ Commute x t ∧ Commute x u := by
   rw [mem_inf, mem_centralizer_singleton_iff, mem_centralizer_singleton_iff]
   exact ⟨fun h => ⟨h.1, h.2⟩, fun h => ⟨h.1, h.2⟩⟩
 
+omit [Finite G] in
 theorem z_mem_cent2 (S : Setting G) {t u : G} (htM : t ∈ S.M) (huM : u ∈ S.M) :
     S.z ∈ cent2 t u :=
   mem_cent2.mpr ⟨(S.mem_M_iff.mp htM).symm, (S.mem_M_iff.mp huM).symm⟩

@@ -12,7 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem LocalSetting.centralizer_le_of_good {p : ℕ} {M V : Subgroup G} (hp : p.Prime)
+theorem LocalSetting.centralizer_le_of_good {p : ℕ} {M V : Subgroup G} (_hp : p.Prime)
     (hS : LocalSetting p M V) {v : G} (hv : v ∈ V) (hv1 : v ≠ 1)
     (h : 2 ≤ CFSG.Open.pRank p (M ⊓ centralizer ({v} : Set G))) :
     centralizer ({v} : Set G) ≤ M := by
@@ -54,6 +54,7 @@ theorem cj_ne_of_not_mem {M : Subgroup G} (hM : normalizer (M : Set G) = M) {g :
     rw [mem_cj_iff, e]
   rw [← h1, h]
 
+omit [Finite G] in
 theorem not_inf_centralizer_le_of_dvd {p : ℕ} {M M' : Subgroup G} {u : G}
     (hspe : ¬ p ∣ Nat.card ↥(M ⊓ M'))
     (hdvd : p ∣ Nat.card ↥(M ⊓ centralizer ({u} : Set G))) :
@@ -61,6 +62,7 @@ theorem not_inf_centralizer_le_of_dvd {p : ℕ} {M M' : Subgroup G} {u : G}
   intro hle
   exact hspe (dvd_trans hdvd (Subgroup.card_dvd_of_le (le_inf inf_le_left hle)))
 
+omit [Finite G] in
 theorem not_inf_centralizer_le_of_dvd' {p : ℕ} {M M' : Subgroup G} {u : G}
     (hspe : ¬ p ∣ Nat.card ↥(M ⊓ M'))
     (hdvd : p ∣ Nat.card ↥(M' ⊓ centralizer ({u} : Set G))) :
@@ -114,7 +116,7 @@ theorem qProp_mirror {p n : ℕ} {M L V : Subgroup G} {sing : G → Prop} {g : G
 
 
 theorem unitary_caseII {p n : ℕ} {M L V : Subgroup G} {sing : G → Prop} {g : G} (hp : p.Prime)
-    (hn : 1 ≤ n) (hS : LocalSetting p M V) (hF : U4LocalFacts p n M L V sing)
+    (_hn : 1 ≤ n) (_hS : LocalSetting p M V) (hF : U4LocalFacts p n M L V sing)
     (hSg : LocalSetting p (cj g M) (cj g V))
     (hFg : U4LocalFacts p n (cj g M) (cj g L) (cj g V) (fun x => sing (g⁻¹ * x * g)))
     (hAM : cj g V ≤ M) (hAL : cj g V ≤ L ⊔ (M ⊓ centralizer (V : Set G)))

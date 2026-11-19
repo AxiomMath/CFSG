@@ -53,6 +53,7 @@ section Rep
 
 variable {G V : Type} [Group G] [Finite G] [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite G] in
 theorem finrank_range_sub_one (ρ : Representation (ZMod 2) G V) (t : G) :
     Module.finrank (ZMod 2) (LinearMap.range (ρ t - 1)) =
       Module.finrank (ZMod 2) V - Module.finrank (ZMod 2) (repFixedSpace ρ {t}) := by
@@ -69,15 +70,15 @@ theorem IsPair.le_finrank_inf_range (hP : IsPair L L₂) {F : Type} [Field F] [F
     {M : Submodule (ZMod 2) V} (hM : IsMinInv ρ (L ⊔ L₂) M) :
     n ≤ Module.finrank (ZMod 2) ↥(M ⊓ LinearMap.range (ρ t - 1)) := by
   classical
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hFn : Nat.card F = 2 ^ n := by rw [Nat.card_eq_fintype_card, hF]
   have h4 : 4 ≤ Nat.card F := by
     rw [hFn]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
-  haveI : IsSimpleGroup SL(2, F) := P22y.isSimpleGroup_sl2 h4
-  haveI : IsSimpleGroup ↥L := e.isSimpleGroup
-  haveI := hP.sup_normal
+  have : IsSimpleGroup SL(2, F) := P22y.isSimpleGroup_sl2 h4
+  have : IsSimpleGroup ↥L := e.isSimpleGroup
+  have := hP.sup_normal
   have hBL := hP.fixSub_eq_bot hB
   have hfix : fixSub ρ L ⊓ fixSub ρ L₂ = ⊥ := by rw [hB, inf_bot_eq]
   have hMt : ∀ m ∈ M, ρ t m ∈ M := fun m hm =>
@@ -85,7 +86,7 @@ theorem IsPair.le_finrank_inf_range (hP : IsPair L L₂) {F : Type} [Field F] [F
   have hMH : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ (L ⊔ L₂ ⊔ zpowers t) M := fun h hh m hm =>
     invariant_of_incL_tElt (L ⊔ L₂) t ht (ρ.comp (L ⊔ L₂ ⊔ zpowers t).subtype) M
       (fun l u hu => hM.1 l l.2 u hu) hMt ⟨h, hh⟩ m hm
-  haveI : Nontrivial ↥M := Submodule.nontrivial_iff_ne_bot.mpr hM.2.1
+  have : Nontrivial ↥M := Submodule.nontrivial_iff_ne_bot.mpr hM.2.1
   let σ : ↥(L ⊔ L₂ ⊔ zpowers t) →* GLV ↥M :=
     (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) ↥M).toMonoidHom.comp
       (restr ρ hMH).asGroupHom
@@ -163,9 +164,9 @@ theorem IsPair.isMinInv_top (hP : IsPair L L₂) (hirr : ρ.IsIrreducible) {F : 
     (htd : Module.finrank (ZMod 2) V - Module.finrank (ZMod 2) (repFixedSpace ρ {t}) ≤ n + 1) :
     IsMinInv ρ (L ⊔ L₂) ⊤ := by
   classical
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   obtain ⟨hVnt, hirr'⟩ := (CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff ρ).mp hirr
-  haveI := hVnt
+  have := hVnt
   obtain ⟨M, -, hM⟩ := exists_isMinInv ρ (K := L ⊔ L₂) (U := ⊤)
     (fun _ _ _ _ => Submodule.mem_top) top_ne_bot
   have hMG : ∀ g : G, M.map (ρ g) = M := by
@@ -213,11 +214,11 @@ theorem IsPair.natOmegaPlus4_of_not_mem_normalizer (ρ : Representation (ZMod 2)
     rw [hFn]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
-  haveI : IsSimpleGroup SL(2, F) := P22y.isSimpleGroup_sl2 h4
-  haveI : IsSimpleGroup ↥L := e.isSimpleGroup
+  have : IsSimpleGroup SL(2, F) := P22y.isSimpleGroup_sl2 h4
+  have : IsSimpleGroup ↥L := e.isSimpleGroup
   have hV := hP.isMinInv_top hirr e hn hF hB ht htN htd
   obtain ⟨hVnt, -⟩ := (CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff ρ).mp hirr
-  haveI := hVnt
+  have := hVnt
   let ρGL : G →* GLV V :=
     (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) V).toMonoidHom.comp ρ.asGroupHom
   have hρGL : ∀ (g : G) (v : V), ρGL g v = ρ g v := fun g v => by

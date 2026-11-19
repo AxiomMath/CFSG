@@ -12,9 +12,10 @@ open Subgroup CFSG.Assembly
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem inCatalog_of_kProper {N : Subgroup X} (hK : KProper InCatalog X) (hN : N ≠ ⊤)
     (hNs : IsSimpleGroup N) (hNab : ∃ a b : N, a * b ≠ b * a) : InCatalog N := by
-  haveI : ((⊥ : Subgroup X).subgroupOf N).Normal := by
+  have : ((⊥ : Subgroup X).subgroupOf N).Normal := by
     rw [bot_subgroupOf]; infer_instance
   let e : N ⧸ (⊥ : Subgroup X).subgroupOf N ≃* N :=
     (QuotientGroup.quotientMulEquivOfEq (bot_subgroupOf N)).trans QuotientGroup.quotientBot
@@ -26,6 +27,7 @@ theorem inCatalog_of_kProper {N : Subgroup X} (hK : KProper InCatalog X) (hN : N
   obtain ⟨i, ⟨f⟩⟩ := hK N ⊥ hN bot_le hs hnab
   exact ⟨i, ⟨e.symm.trans f⟩⟩
 
+omit [Finite X] in
 theorem le_normalizer_inf_centralizer {M N : Subgroup X} (hMN : M ≤ normalizer (N : Set X)) :
     M ≤ normalizer ((M ⊓ centralizer (N : Set X) : Subgroup X) : Set X) := by
   intro m hm
@@ -62,7 +64,7 @@ theorem le_normalizer_inf_centralizer {M N : Subgroup X} (hMN : M ≤ normalizer
     simpa using this
 
 theorem maxElevenProp_of_facts (hSp : SporadicFacts) (hE : ElevenSimpleCases) (hX : LocalFacts X)
-    (hK : KProper InCatalog X) {M : Subgroup X} (hM : IsCoatom M) (h11 : 11 ∣ Nat.card M) :
+    (hK : KProper InCatalog X) {M : Subgroup X} (hM : IsCoatom M) (_h11 : 11 ∣ Nat.card M) :
     (∃ N : Subgroup X, N ≤ M ∧ Nat.card N = 9196830720 ∧
       ∀ P : Subgroup X, P ≤ M → ⁅P, P⁆ = P → P ≤ N) ∨
     (∀ y ∈ M, orderOf y = 3 → ¬ 11 ∣ Nat.card (M ⊓ Subgroup.centralizer {y} : Subgroup X)) ∨
@@ -77,7 +79,7 @@ theorem maxElevenProp_of_facts (hSp : SporadicFacts) (hE : ElevenSimpleCases) (h
   refine Or.inl ?_
   push Not at hc
   obtain ⟨y, hyM, hy, h11y⟩ := hc
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨t', ht'⟩ := exists_prime_orderOf_dvd_card' (G := ↥(M ⊓ centralizer {y})) 11 h11y
   obtain ⟨htM, htC⟩ := mem_inf.mp t'.2
   set t : X := (t' : X) with ht_def
@@ -138,7 +140,7 @@ theorem maxElevenProp_of_facts (hSp : SporadicFacts) (hE : ElevenSimpleCases) (h
       exists_minNormal_le hC1 inf_le_left (le_normalizer_inf_centralizer hMN)
     obtain ⟨-, -, htN'⟩ := hS N' hN'1 hN'M hMN' hmin'
     have htc : t ∈ centralizer (N : Set X) := (mem_inf.mp (hN'C htN')).2
-    haveI := hNs
+    have := hNs
     have hcen : center N = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center N) with h | h
       · exact h

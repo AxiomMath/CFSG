@@ -25,8 +25,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
     apply Units.ext
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.diagonal, Matrix.mul_apply,
-        Fin.sum_univ_three]
+      simp [Matrix.GeneralLinearGroup.mkOfDetNeZero, Matrix.diagonal, Matrix.mul_apply]
 
 @[expose] noncomputable def dHom (hK : Nat.card K = (2 ^ 1) ^ 2) : Kˣ →* MulAut (HMod 1 K) :=
   (rhoT hK).comp (diagGL1 K)
@@ -34,6 +33,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 @[expose] noncomputable def Dsub (hK : Nat.card K = (2 ^ 1) ^ 2) : Subgroup (MulAut (HMod 1 K)) :=
   (dHom hK).range
 
+omit [Finite K] [CharP K 2] in
 private theorem coe_diagGL1 (c : Kˣ) :
     ((diagGL1 K c : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
       Matrix.diagonal ![1, 1, (c : K)] := rfl
@@ -56,8 +56,9 @@ private theorem dHom_injective (hK : Nat.card K = (2 ^ 1) ^ 2) : Function.Inject
   rw [Units.val_one]
   linear_combination e22 - e00
 
+omit [Finite K] [CharP K 2] in
 private theorem card_units_eq_three (hK : Nat.card K = (2 ^ 1) ^ 2) : Nat.card Kˣ = 3 := by
-  rw [Nat.card_units, hK] <;> norm_num
+  rw [Nat.card_units, hK]; norm_num
 
 theorem card_Dsub (hK : Nat.card K = (2 ^ 1) ^ 2) : Nat.card ↥(Dsub hK) = 3 :=
   (Nat.card_congr (MonoidHom.ofInjective (dHom_injective hK)).symm.toEquiv).trans
@@ -213,7 +214,7 @@ private theorem exists_factor (hK : Nat.card K = (2 ^ 1) ^ 2) {z : MulAut (HMod 
     rw [Matrix.mul_smul, Matrix.mul_one]
     ext i j
     rw [Matrix.smul_apply, Matrix.mul_diagonal]
-    fin_cases i <;> fin_cases j <;> simp <;> field_simp <;> ring
+    fin_cases i <;> fin_cases j <;> simp <;> field_simp
   have hscal : rhoT hK (scalGL (Units.mk0 α hα0)) = 1 :=
     rhoT_eq_one_of_smul hK (coe_scalGL (Units.mk0 α hα0)) (norm_eq_one_of_four hK hα0)
   rw [hD, map_mul, map_mul, hscal, mul_one]
@@ -268,7 +269,7 @@ theorem part3 (hK : Nat.card K = (2 ^ 1) ^ 2) {M : Subgroup (MulAut (HMod 1 K))}
     have hc3 : c ^ 3 = 1 := Units.ext (by
       rw [Units.val_pow_eq_pow_val, Units.val_one]
       exact pow_three_eq_one_of_four hK c.ne_zero)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hordc : orderOf c = 3 := orderOf_eq_prime hc3 hc1
     have htop : Subgroup.zpowers c = ⊤ :=
       Subgroup.eq_top_of_le_card (Subgroup.zpowers c)

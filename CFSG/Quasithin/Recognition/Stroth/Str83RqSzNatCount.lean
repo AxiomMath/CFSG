@@ -46,14 +46,14 @@ private noncomputable def szc_szRep (a c : ℕ) :
       ext i j
       by_cases hij : i = j
       · simp [szc_mat, Matrix.one_apply, hij]
-      · simp [szc_mat, Matrix.one_apply, hij, zero_pow (pow_ne_zero c two_ne_zero)]
+      · simp [szc_mat, hij, zero_pow (pow_ne_zero c two_ne_zero)]
     change szc_mat a c (1 : suzukiGroup a (GaloisField 2 (2 * a + 1))) *ᵥ v = v
     rw [h1, Matrix.one_mulVec]
   map_mul' g h := by
     apply LinearMap.ext
     intro v
     have hm : szc_mat a c (g * h) = szc_mat a c g * szc_mat a c h := by
-      simp only [szc_mat, Subgroup.coe_mul, map_mul]
+      simp only [szc_mat, Subgroup.coe_mul]
       exact matrix_map_pow_mul c _ _
     change szc_mat a c (g * h) *ᵥ v =
       szc_mat a c g *ᵥ (szc_mat a c h *ᵥ v)
@@ -68,8 +68,8 @@ private theorem szc_J_map_pow (a c : ℕ) :
   ext i j
   rw [Matrix.map_apply, CFSG.LinearAlgebra.exteriorSquareJ_apply]
   split_ifs with h
-  · simp [h]
-  · simp [h, zero_pow (pow_ne_zero c two_ne_zero)]
+  · simp
+  · simp [zero_pow (pow_ne_zero c two_ne_zero)]
 
 private theorem szc_map_szEquiv (a c : ℕ) (g : suzukiGroup a (GaloisField 2 (2 * a + 1))) :
     ((((szEquiv a g : ↥(Sz a)) : GL (Fin 4) (GaloisField 2 (2 * a + 1))) :
@@ -293,7 +293,7 @@ private theorem szc_fixedSub_zpowers_eq_of_mem_conj_szZ
     fixedSub ρ (Subgroup.zpowers z) =
       fixedSub ρ (CFSG.CGT.Timmesfeld75.conjSubgroup g (szZ a (GaloisField 2 (2 * a + 1)))) := by
   let K := GaloisField 2 (2 * a + 1)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let w : suzukiGroup a K := suzukiWElt a K
   have hsz : szZ a K = CFSG.CGT.Timmesfeld75.conjSubgroup w (suzukiZ0 a K) := rfl
   have hconj : CFSG.CGT.Timmesfeld75.conjSubgroup g (szZ a K) =
@@ -331,7 +331,7 @@ private theorem szc_natCard_fixedSub_zpowers_of_mem_conj_szZ
       (szZ a (GaloisField 2 (2 * a + 1)))) (hz1 : z ≠ 1) :
     Nat.card (fixedSub ρ (Subgroup.zpowers z)) =
       Nat.card (GaloisField 2 (2 * a + 1)) ^ 2 := by
-  letI : Fintype (GaloisField 2 (2 * a + 1)) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 (2 * a + 1)) := Fintype.ofFinite _
   rw [szc_fixedSub_zpowers_eq_of_mem_conj_szZ hK ρ hρ hz hz1]
   exact natCard_fixedSub_conj_szZ hK ρ hρ g
 
@@ -342,7 +342,7 @@ theorem natCard_inf_centralizer_sylow_of_isSzNaturalSection
   classical
   obtain ⟨e, c, φ, hφsurj, hφker, hφeq⟩ := hN
   let K := GaloisField 2 (2 * a + 1)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let e0 : oTwoQuot ↥H ≃* suzukiGroup a K := e.trans (szEquiv a).symm
   let ρ : Representation (ZMod 2) ↥(suzukiGroup a K) (Fin 4 → K) := szc_szRep a c
   have hφeq' : szc_Intertwines e c φ := hφeq
@@ -383,7 +383,7 @@ theorem natCard_inf_centralizer_of_isSzNaturalSection
   classical
   obtain ⟨e, c, φ, hφsurj, hφker, hφeq⟩ := hN
   let K := GaloisField 2 (2 * a + 1)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let e0 : oTwoQuot ↥H ≃* suzukiGroup a K := e.trans (szEquiv a).symm
   let ρ : Representation (ZMod 2) ↥(suzukiGroup a K) (Fin 4 → K) := szc_szRep a c
   have hφeq' : szc_Intertwines e c φ := hφeq

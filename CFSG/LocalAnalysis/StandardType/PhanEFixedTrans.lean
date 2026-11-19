@@ -22,10 +22,11 @@ variable (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
   (hsq : ∀ i, n i * n i = 1)
 
 include hext hw₀ in
+omit hw₀ in
 theorem stdδ_one_flip :
     stdδ hct ((1 : K) : K ⧸ borel D H) (stdFlip F (nrep hct w₀) ((1 : K) : K ⧸ borel D H)) =
       w₀ := by
-  apply (stdδ_flip_mk_eq_iff hct F hext hw₀ (nrep hct w₀) (1 : K) w₀).2
+  apply (stdδ_flip_mk_eq_iff hct F hext (nrep hct w₀) (1 : K) w₀).2
   have h1 : (1 : K)⁻¹ * (nrep hct w₀ * F.φ (1 : K)) = nrep hct w₀ := by
     rw [map_one, mul_one, inv_one, one_mul]
   rw [h1]
@@ -37,7 +38,7 @@ theorem exists_stdFix_mk_eq (hBU : BruhatExtras D H) (L : StdLevi F (nrep hct w�
     ∃ g ∈ stdFix F (nrep hct w₀), ((g : K) : K ⧸ borel D H) = x := by
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x
   have hcell : g⁻¹ * (nrep hct w₀ * F.φ g) ∈ bruhatCell hct w₀ :=
-    (stdδ_flip_mk_eq_iff hct F hext hw₀ (nrep hct w₀) g w₀).1 hx
+    (stdδ_flip_mk_eq_iff hct F hext (nrep hct w₀) g w₀).1 hx
   obtain ⟨b₁, hb₁, b₂, hb₂, heq⟩ := hcell
   have hb₂φ : F.φ b₂ ∈ borel D H := (F.mem_borel_iff b₂).2 hb₂
   have hγ : nrep hct w₀ * b₂ * (nrep hct w₀)⁻¹ ∈
@@ -52,8 +53,8 @@ theorem exists_stdFix_mk_eq (hBU : BruhatExtras D H) (L : StdLevi F (nrep hct w�
       _ = (b₁ * nrep hct w₀ * b₂) * (nrep hct w₀)⁻¹ := by rw [heq]
       _ = b₁ * (nrep hct w₀ * b₂ * (nrep hct w₀)⁻¹) := by group
   obtain ⟨b, hbB, hbfix⟩ :=
-    exists_mul_mem_fix (stdTau F (nrep hct w₀)) (stdTau_stdTau hct F hext hw₀ hsq)
-      (borel_inf_map_stdTau hct F hext hw₀ hsq hBU)
+    exists_mul_mem_fix (stdTau F (nrep hct w₀)) (stdTau_stdTau hct F hw₀ hsq)
+      (borel_inf_map_stdTau hct F hw₀ hBU)
       (fun s hs hτs => torus_lang F hext L hs hτs) hb₁ hγ hh
   refine ⟨g * b, (mem_stdFix_iff F (nrep hct w₀) (g * b)).2 hbfix, ?_⟩
   rw [QuotientGroup.eq]

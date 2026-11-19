@@ -13,6 +13,7 @@ namespace KGFive
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {H D S B L M : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem pre_img_eq [(D.subgroupOf H).Normal] {U : Subgroup G} (hDU : D ≤ U) (hUH : U ≤ H) :
     KGC.pre H D (KGC.img H D U) = U := by
   ext g
@@ -35,7 +36,7 @@ theorem relIndex_sup_eq {L S : Subgroup G} (hS : S ≤ normalizer (L : Set G)) :
 theorem isSylowOf_sup (d : KGC.KGData p H D S B L M z) [hDn : (D.subgroupOf H).Normal]
     (hsyl : CFSG.ABGLocalTools.IsSylowOf 2 (KGC.img H D S ⊓ KGC.img H D L) (KGC.img H D L)) :
     CFSG.ABGLocalTools.IsSylowOf 2 S (L ⊔ S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at hsyl ⊢
   obtain ⟨-, -, hodd⟩ := hsyl
   refine ⟨le_sup_right, d.S_two, ?_⟩
@@ -51,7 +52,7 @@ theorem false_of_sylow (h282 : KFact282) (d3 : KGC.KGData3 p H D S B L M z)
     (hc : KGStep4Concl (KGC.QA H D) (KGC.img H D L) (KGC.img H D S))
     (hsyl : CFSG.ABGLocalTools.IsSylowOf 2 (KGC.img H D S ⊓ KGC.img H D L) (KGC.img H D L))
     (hB : ¬ fusionIsBenderGroup ↥(KGC.img H D L)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have d : KGC.KGData p H D S B L M z := d3.toData
   have hXH : L ⊔ S ≤ H := sup_le d.L_le_H d.S_le_H
   have hLX : L ≤ L ⊔ S := le_sup_left

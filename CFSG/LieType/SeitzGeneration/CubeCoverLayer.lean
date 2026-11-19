@@ -18,7 +18,7 @@ variable {G C : Type*} [Group G] [Group C] {π : G →* C}
 theorem commute_of_comp_commute_of_perfect {A : Type*} [Group A] (hA : commutator A = ⊤)
     (hker : π.ker ≤ Subgroup.center G) {α : A →* G} {g : G}
     (h : ∀ a, Commute (π (α a)) (π g)) : ∀ a, Commute (α a) g := by
-  haveI : Group.IsPerfect A := ⟨hA⟩
+  have : Group.IsPerfect A := ⟨hA⟩
   have hcomp : π.comp α = π.comp ((MulAut.conj g).toMonoidHom.comp α) := by
     ext a
     change π (α a) = π ((MulAut.conj g) (α a))
@@ -99,7 +99,7 @@ theorem exists_lift_frames {Y : Type*} [Group Y] (hY : commutator Y = ⊤)
       ∀ ε ∈ E, ∃ m : Fin 3, (∀ i, (ρ i).range.map ε.toMonoidHom = (ρ (i + m)).range) ∧
         (m = 0 → ∀ i, ∃ a ∈ 𝒟, ∀ s, ε (ρ i s) = ρ i (a s)) := by
   classical
-  haveI : Group.IsPerfect Y := ⟨hY⟩
+  have : Group.IsPerfect Y := ⟨hY⟩
   choose ρlift hρlift using hlift
   let ρ : Fin 3 → Y →* G := fun i => ρlift (ρ₀ i)
   have hρ : ∀ i, π.comp (ρ i) = ρ₀ i := fun i => hρlift (ρ₀ i)
@@ -231,7 +231,7 @@ theorem exists_lift_layer_le_seitzHyperGamma {k : Type} [Field k] [Finite k]
         (m = 0 → ∀ i, ∃ γ : GL (Fin 3) k, ∀ s, ind ε (ρ₀ i s) = ρ₀ i (conjSL γ s))) :
     ∃ ρ : Fin 3 → SpecialLinearGroup (Fin 3) k →* G,
       (∀ i, π.comp (ρ i) = ρ₀ i) ∧ ∀ i, (ρ i).range ≤ seitzHyperGamma 3 E := by
-  haveI : Group.IsPerfect (SpecialLinearGroup (Fin 3) k) :=
+  have : Group.IsPerfect (SpecialLinearGroup (Fin 3) k) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le (n := 3) (by norm_num)
   have hA : commutator (SpecialLinearGroup (Fin 3) k) = ⊤ := Group.IsPerfect.commutator_eq_top
   have hk : 5 ≤ Nat.card k := four_lt_card_of_three_dvd h3 h4
@@ -261,7 +261,7 @@ theorem exists_lift_layer_le_seitzHyperGamma {k : Type} [Field k] [Finite k]
     (hfix σ hσρ) hdecγ i
 
 theorem seitzHyperGamma_eq_top_of_layers (hperf : commutator G = ⊤)
-    (hπ : Function.Surjective π) (hker : π.ker ≤ Subgroup.center G) {p : ℕ}
+    (_hπ : Function.Surjective π) (hker : π.ker ≤ Subgroup.center G) {p : ℕ}
     {E : Subgroup (MulAut G)} {ι : Type*} (L : ι → Subgroup G)
     (hL : ∀ j, L j ≤ seitzHyperGamma p E)
     (hgen : (⊤ : Subgroup C) ≤ ⨆ j, (L j).map π) : seitzHyperGamma p E = ⊤ := by

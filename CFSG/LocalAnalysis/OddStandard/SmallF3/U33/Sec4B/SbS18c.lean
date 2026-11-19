@@ -11,7 +11,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
-private theorem l18_conj_eq_of_mem_C (hc : Ctx13 t L S x₁ x₂ lam rho tau om) {g y : G}
+private theorem l18_conj_eq_of_mem_C (_hc : Ctx13 t L S x₁ x₂ lam rho tau om) {g y : G}
     (hg : g ∈ ctxCY t tau x₁ x₂ rho) (hy : y ∈ ctxYq t tau x₁ x₂ rho) :
     g * y * g⁻¹ = y := by
   have hc' : y * g = g * y :=
@@ -208,7 +208,7 @@ private theorem l18_t_mem_normalizer_tauom (hc : Ctx13 t L S x₁ x₂ lam rho t
       rw [heq]
       exact Subgroup.mul_mem _ (Subgroup.subset_closure (by simp))
         (Subgroup.subset_closure (by simp))
-  · simpa using Subgroup.one_mem (closure ({tau, om} : Set G))
+  · simp
   · intro x y hx hy ihx ihy
     have heq : t * (x * y) * t⁻¹ = (t * x * t⁻¹) * (t * y * t⁻¹) := by group
     rw [heq]

@@ -367,7 +367,7 @@ theorem rowF_sound {A B lp : ℕ → ℕ} {base r : List ℕ} {a b a' b' : Pm}
         · rfl
         · exact absurd (Nat.eq_of_beq_eq_true e) h0
       rw [hb0] at hk
-      simp only [bAnd_eq', Bool.and_eq_true] at hk
+      simp only [Bool.and_eq_true] at hk
       obtain ⟨k0, k1, k2⟩ := hk
       intro p hp
       rcases (honL p).1 hp with e | e | e
@@ -527,12 +527,12 @@ theorem fixCnt_sound {P : ℕ} {x : Pm} (hP : PR P x) :
   refine Finset.sum_congr rfl fun p _ => ?_
   rw [gp_eq hP p]
   by_cases e : x p = p
-  · rw [if_pos e, e, Nat.beq_refl]
+  · rw [ite_eq_left e, e, Nat.beq_refl]
   · have hb : Nat.beq (x p : ℕ) p = false := by
       cases hb : Nat.beq (x p : ℕ) p
       · rfl
       · exact absurd (Fin.ext (Nat.eq_of_beq_eq_true hb)) e
-    rw [if_neg e, hb]
+    rw [ite_eq_right e, hb]
 
 @[expose] def PFixL (line : Fin 2925 → Finset (Fin 1755)) (t : Pm) (v : Fin 2925) : Prop :=
   ∀ p ∈ line v, t p = p
@@ -626,7 +626,6 @@ theorem pflK_sound {lp : ℕ → ℕ} {line : Fin 2925 → Finset (Fin 1755)} {T
       exact ⟨⟨w, hL w hw⟩, (hmem _).1 hw, fun e2 => hwv (congrArg Fin.val e2),
         (hline _ p).2 ⟨k', hk', e'.trans e⟩⟩
     · intro hv k hk
-      beta_reduce
       have hp : (⟨lp (3 * v + k), hlt v hk⟩ : Fin 1755) ∈ line v := (hline v _).2 ⟨k, hk, rfl⟩
       obtain ⟨w, hw1, hw2, hw3⟩ := hv _ hp
       refine List.any_eq_true.2 ⟨w, (hmem w).2 hw1, ?_⟩

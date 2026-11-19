@@ -99,14 +99,14 @@ theorem caseA_gen_Q0 (X : Setup Γ G) (hn : 1 ≤ X.n 0) (hsec : IsElemSec (X.Z 
     ∀ N : Subgroup G, X.Z 1 ≤ N → N ≤ X.Q 0 → X.L 0 ≤ Subgroup.normalizer (N : Set G) →
       N = X.Q 0 := by
   intro N hZN hNQ hLN
-  haveI : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (H := X.L 0) (X.L_le_Gi 0)
-  haveI : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (H := X.Q 0) (X.Q_le_Gi 0)
-  haveI : Finite ↥N := Finite.of_injective _ (Subgroup.inclusion_injective hNQ)
+  have : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (H := X.L 0) (X.L_le_Gi 0)
+  have : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (H := X.Q 0) (X.Q_le_Gi 0)
+  have : Finite ↥N := Finite.of_injective _ (Subgroup.inclusion_injective hNQ)
   set D := X.Q 1 ⊓ Subgroup.centralizer (X.Ki 1 : Set G) with hDdef
   have hDQ : D ≤ X.Q 0 := by
     have h : D ≤ X.Q 0 ⊓ X.Q 2 := hA1 ▸ le_sup_left
     exact h.trans inf_le_left
-  haveI : Finite ↥(D ⊓ N) :=
+  have : Finite ↥(D ⊓ N) :=
     Finite.of_injective _ (Subgroup.inclusion_injective (inf_le_right.trans hNQ))
   have hKN : X.K ≤ Subgroup.normalizer (X.L 0 : Set G) :=
     (X.K_le_Gi 0).trans (le_normalizer_oTwoPrime (X.Gi 0))

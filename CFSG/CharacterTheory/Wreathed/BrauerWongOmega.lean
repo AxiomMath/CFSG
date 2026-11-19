@@ -110,7 +110,7 @@ theorem modelBase_sylow_of_forall {n : ℕ} (S : Sylow 2 G) (e : S ≃* Wreath (
     ∃ P : Sylow 2 C, (P : Subgroup C).map C.subtype = modelBase S e := by
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBp : IsPGroup 2 ((modelBase S e).subgroupOf C) :=
-    (S.isPGroup'.to_le (modelBase_le_sylow S e)).of_equiv
+    (S.isPGroup.to_le (modelBase_le_sylow S e)).of_equiv
       (Subgroup.subgroupOfEquivOfLe hBC).symm
   obtain ⟨P, hP⟩ := hBp.exists_le_sylow
   refine ⟨P, ?_⟩
@@ -118,7 +118,7 @@ theorem modelBase_sylow_of_forall {n : ℕ} (S : Sylow 2 G) (e : S ≃* Wreath (
   have hBP₀ : modelBase S e ≤ P₀ := by
     intro x hx
     exact ⟨⟨x, hBC hx⟩, hP hx, rfl⟩
-  have hP₀p : IsPGroup 2 P₀ := P.isPGroup'.map C.subtype
+  have hP₀p : IsPGroup 2 P₀ := P.isPGroup.map C.subtype
   have hP₀C : P₀ ≤ C := Subgroup.map_subtype_le _
   symm
   apply eq_of_normalizer_inf_le hP₀p hBP₀

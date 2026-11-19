@@ -153,10 +153,10 @@ theorem cl24_cross_NE {N N' E E' j d : ℕ} (hj : 0 < j) (hd : 0 < d) (hN : N * 
       _ = (j * d) * (N' * E) := by ring
   exact Nat.eq_of_mul_eq_mul_left (Nat.mul_pos hj hd) h
 
-theorem cl24_E_lt {E E' j d : ℕ} (hj : 0 < j) (hjd : j < d) (hE : j * E = d * E')
+theorem cl24_E_lt {E E' j d : ℕ} (_hj : 0 < j) (hjd : j < d) (hE : j * E = d * E')
     (hE' : 0 < E') : E' < E := by
   by_contra h
-  push_neg at h
+  push Not at h
   nlinarith [Nat.mul_le_mul_left j h, Nat.mul_lt_mul_of_pos_right hjd hE']
 
 @[expose] def Cl24PM (j : ℕ) (x : ℤ) : Prop :=
@@ -203,7 +203,7 @@ theorem cl24PM_pow_add {j e : ℕ} (hj : 1 ≤ j) (he : 3 ≤ e) :
   push_cast
   simpa using h0.add_right 1
 
-theorem cl24CofMod_of_mul {j R : ℕ} (hj : 1 ≤ j) (hR : Cl24PM j (R : ℤ)) :
+theorem cl24CofMod_of_mul {j R : ℕ} (_hj : 1 ≤ j) (hR : Cl24PM j (R : ℤ)) :
     Cl24CofMod (((3 ^ j) ^ 2 - 1) * R) j := by
   obtain ⟨s, hs, hRs⟩ := hR
   refine ⟨s, hs, ?_⟩

@@ -105,7 +105,7 @@ theorem stabS_ne_of_flag (hI : finrank (ZMod 2) I = 4) {p Pl : Submodule (ZMod 2
     rfl
   have hnot : ∃ U : SuperOf p 3, U.1 ≠ Pl := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : Subsingleton (SuperOf p 3) :=
       ⟨fun a b => Subtype.ext ((hcon a).trans (hcon b).symm)⟩
     have h1 := (Finite.card_le_one_iff_subsingleton (α := SuperOf p 3)).2 hsub
@@ -172,7 +172,6 @@ theorem flagSet_ncard [FiniteDimensional (ZMod 2) I] (hI : finrank (ZMod 2) I = 
     Set.ncard_insert_of_notMem, Set.ncard_insert_of_notMem, Set.ncard_insert_of_notMem,
     Set.ncard_insert_of_notMem, Set.ncard_singleton]
   all_goals first
-    | rfl
     | (simp only [Set.mem_insert_iff, Set.mem_singleton_iff, not_or]
        repeat' constructor
        all_goals assumption)
@@ -202,9 +201,9 @@ theorem overgroups_flag_eq [FiniteDimensional (ZMod 2) I] (hI : finrank (ZMod 2)
   have hcard := flagSet_ncard hI hp hℓ hPl hpℓ hℓPl
   have hov := Bstd_overgroups_ncard_le e
   rw [hB] at hov
-  haveI : Finite (I ≃ₗ[ZMod 2] I) :=
+  have : Finite (I ≃ₗ[ZMod 2] I) :=
     Finite.of_injective (fun f : I ≃ₗ[ZMod 2] I => (f : I → I)) DFunLike.coe_injective
-  haveI : Finite (Subgroup (I ≃ₗ[ZMod 2] I)) := inferInstance
+  have : Finite (Subgroup (I ≃ₗ[ZMod 2] I)) := inferInstance
   exact (Set.eq_of_subset_of_ncard_le hsub (by rw [hcard]; exact hov)).symm
 
 end Flags

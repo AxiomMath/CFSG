@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem J_subgroupOf_eq_pCore (z : G) :
     (J z).subgroupOf (H z) = pCore 2 (H z) := by
   show (J z).comap (H z).subtype = pCore 2 (H z)
@@ -30,6 +31,7 @@ instance J_subgroupOf_normal (z : G) :
   (MulAut.congr (Subgroup.subgroupOfEquivOfLe (J_le_H (z := z)))).toMonoidHom.comp
     (conjJ z)
 
+omit [Finite G] in
 theorem conjJ'_apply_coe (g : H z) (x : J z) :
     ((conjJ' z g x : J z) : G) = (g : G) * (x : G) * (g : G)⁻¹ := by
   simp [conjJ', conjJ, MulAut.congr, MulEquiv.trans_apply,
@@ -77,6 +79,7 @@ private lemma quotientMulEquivOfEq_symm_mk' {X : Type*} [Group X] {M N : Subgrou
     (QuotientV.centerIn_subgroupOf_eq_center (z := z)).symm)).toMonoidHom.comp
     ((centerQuotientAutHom (J z)).comp (conjJ' z))
 
+omit [Finite G] in
 theorem conjV_mk (h : Tim79a.ParrottHyp z) (g : H z) (x : J z) :
     conjV h g (QuotientV.pi z x) = QuotientV.pi z (conjJ' z g x) := by
   rw [conjV, MonoidHom.comp_apply, MonoidHom.comp_apply]
@@ -93,13 +96,9 @@ theorem conjV_mk (h : Tim79a.ParrottHyp z) (g : H z) (x : J z) :
           (QuotientGroup.mk' ((centerIn (J z)).subgroupOf (J z)) x))) =
     QuotientGroup.mk' ((centerIn (J z)).subgroupOf (J z)) (((conjJ' z) g) x)
   rw [quotientMulEquivOfEq_symm_mk']
-  change QuotientGroup.quotientMulEquivOfEq
-      (QuotientV.centerIn_subgroupOf_eq_center (z := z)).symm
-      (quotientAut ((conjJ' z) g)
-        (QuotientGroup.mk' (Subgroup.center (J z)) x)) =
-    QuotientGroup.mk' ((centerIn (J z)).subgroupOf (J z)) (((conjJ' z) g) x)
   rw [quotientAut_mk, quotientMulEquivOfEq_mk']
 
+omit [Finite G] in
 theorem commutator_mem_centerIn (h : Tim79a.ParrottHyp z) (a b : J z) :
     ⁅(a : G), (b : G)⁆ ∈ centerIn (J z) := by
   have hJcomm : ⁅J z, J z⁆ = Subgroup.zpowers z := by
@@ -111,12 +110,14 @@ theorem commutator_mem_centerIn (h : Tim79a.ParrottHyp z) (a b : J z) :
   exact (Subgroup.zpowers_le_of_mem (H := centerIn (J z))
     ⟨z_mem_J h, z_centralizes_J h⟩) hmem
 
+omit [Finite G] in
 theorem conjJ'_mul_inv_mem_centerIn (h : Tim79a.ParrottHyp z) {g : H z}
     (hg : (g : G) ∈ J z) (x : J z) :
     ((conjJ' z g x : J z) : G) * (x : G)⁻¹ ∈ centerIn (J z) := by
   have hcomm := commutator_mem_centerIn h (⟨(g : G), hg⟩ : J z) x
   simpa [conjJ'_apply_coe, commutatorElement_def] using hcomm
 
+omit [Finite G] in
 theorem conjV_apply_pi_eq (h : Tim79a.ParrottHyp z) {g : H z}
     (hg : (g : G) ∈ J z) (x : J z) :
     conjV h g (QuotientV.pi z x) = QuotientV.pi z x := by
@@ -127,6 +128,7 @@ theorem conjV_apply_pi_eq (h : Tim79a.ParrottHyp z) {g : H z}
   rw [Subgroup.mem_subgroupOf, div_eq_mul_inv]
   exact conjJ'_mul_inv_mem_centerIn h hg x
 
+omit [Finite G] in
 theorem J_le_ker_conjV (h : Tim79a.ParrottHyp z) :
     (J z).subgroupOf (H z) ≤ (conjV h).ker := by
   intro g hg
@@ -140,6 +142,7 @@ theorem J_le_ker_conjV (h : Tim79a.ParrottHyp z) :
     (↥(H z) ⧸ (J z).subgroupOf (H z)) →* MulAut (QuotientV.V z) :=
   QuotientGroup.lift _ (conjV h) (J_le_ker_conjV h)
 
+omit [Finite G] in
 @[simp] theorem actionA_mk (h : Tim79a.ParrottHyp z) (g : H z) :
     actionA h (QuotientGroup.mk' ((J z).subgroupOf (H z)) g) = conjV h g :=
   QuotientGroup.lift_mk' _ _ g

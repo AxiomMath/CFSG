@@ -306,7 +306,7 @@ theorem exists_rhat {M V : Subgroup G} (hVM : V ≤ M) (hMV : M ≤ Subgroup.nor
           refine mem_normalizer_of_conj_mem ?_
           rintro _ ⟨x, hx, rfl⟩
           exact ⟨⟨n, hn⟩ * x * ⟨n, hn⟩⁻¹, hPn.conj_mem x hx _, rfl⟩
-        · exact P.isPGroup'.map N₁.subtype
+        · exact P.isPGroup.map N₁.subtype
       rw [hO3, le_bot_iff, Subgroup.map_eq_bot_iff_of_injective _ N₁.subtype_injective] at hle
       have hcard := P.card_eq_multiplicity
       rw [hle, Subgroup.card_bot] at hcard

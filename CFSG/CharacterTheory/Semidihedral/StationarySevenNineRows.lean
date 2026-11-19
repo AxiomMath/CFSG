@@ -228,7 +228,7 @@ theorem supplied_quaternion_sixteen {G : Type} [Group G] [Finite G] (S : Sylow 2
     rw [ht, Subgroup.coe_pow]
     norm_num
   have hQS : Q ≤ (S : Subgroup G) := Subgroup.map_subtype_le _
-  have hQ2 : IsPGroup 2 Q := S.isPGroup'.to_le hQS
+  have hQ2 : IsPGroup 2 Q := S.isPGroup.to_le hQS
   have htQ : t ∈ Q := by
     rw [← hz]
     exact Subgroup.mem_map_of_mem _ hzQ

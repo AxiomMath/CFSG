@@ -68,7 +68,7 @@ private lemma baseMap_of_mem (c : SpChart hC B.hα k F)
     (baseMap (B := B) c hθ x : MGroup Q₀) = (θ ⟨x, hx⟩ : MGroup Q₀) := by
   classical
   have hx' : (x : G) ∈ Halpha D hC.alpha := hx
-  rw [baseMap, dif_pos hx']
+  rw [baseMap, dite_eq_left hx']
 
 
 @[instance_reducible] private noncomputable def conjActD :
@@ -240,7 +240,7 @@ private noncomputable def residualMap (c : SpChart hC B.hα k F) (g : G)
         hψmem x hx⟩
     else ⟨mRefl Q₀ (mLift Q₀ 0), ⟨mLift Q₀ 0, mForm_mLift 0, rfl⟩⟩
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private lemma residualMap_apply (c : SpChart hC B.hα k F) (g : G)
     (ψ : ↥(Halpha D (hC.conj g).alpha) ≃*
       ↥(Subgroup.centralizer {mRefl Q₀ (mLift Q₀ (c.vec (hC.conj g).d))}))
@@ -250,7 +250,7 @@ private lemma residualMap_apply (c : SpChart hC B.hα k F) (g : G)
     (residualMap (B := B) c g ψ hψmem x : MGroup Q₀) =
       (ψ ⟨x, mem_Halpha_of_mem_commSet (hC.conj g) (B.conj g).hα hx⟩ : MGroup Q₀) := by
   classical
-  simp only [residualMap, dif_pos hx]
+  simp only [residualMap, dite_eq_left hx]
 
 omit [Finite G] in
 private lemma mem_Halpha_conj_d (g : G) {hu : hC.d ∈ Halpha D hC.alpha} :
@@ -265,7 +265,7 @@ private lemma coord_ne_zero_of_not_commute {Y : MSpace k F}
   h (Subgroup.mem_centralizer_singleton_iff.mp
     (mRefl_mem_centralizer_of_polar_eq_zero (by rw [polar_comm, polar_mU_eq_snd, hb])))
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private lemma not_commute_mRefl_of_not_commute (c : SpChart hC B.hα k F) (g : G)
     {ψ : ↥(Halpha D (hC.conj g).alpha) ≃*
       ↥(Subgroup.centralizer {mRefl Q₀ (mLift Q₀ (c.vec (hC.conj g).d))})}
@@ -291,7 +291,7 @@ private lemma not_commute_mRefl_of_not_commute (c : SpChart hC B.hα k F) (g : G
   have h := hc'.map ψ.symm.toMonoidHom
   simpa using h.map (Subgroup.subtype (Halpha D (hC.conj g).alpha))
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private lemma coord_ne_zero_of_mem_residualSlice (c : SpChart hC B.hα k F) (g : G)
     {hu : hC.d ∈ Halpha D hC.alpha}
     {θ : ↥(Halpha D hC.alpha) ≃* ↥(Subgroup.centralizer {mRefl Q₀ mU})}
@@ -409,7 +409,7 @@ private lemma residualSlice_fusion (c : SpChart hC B.hα k F)
   obtain ⟨r, hr, hreq⟩ := exists_conj_of_spForm_eq (B := B) g hgv cv hx hx' hs.2 hb
   exact ⟨⟨r, hr.1⟩, (Subgroup.mem_comap).mpr hr.2, hreq⟩
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private lemma commute_mRefl_mLift_of_mem_slice (c : SpChart hC B.hα k F) (g : G)
     {hu : hC.d ∈ Halpha D hC.alpha}
     {θ : ↥(Halpha D hC.alpha) ≃* ↥(Subgroup.centralizer {mRefl Q₀ mU})}
@@ -476,7 +476,7 @@ private lemma mem_map_residualCentralizer (c : SpChart hC B.hα k F) (g : G)
   rw [residualCentralizer, Subgroup.mem_comap, Subgroup.mem_centralizer_singleton_iff]
   exact hcv
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private lemma residualMap_fusion (c : SpChart hC B.hα k F)
     (hQ₀ : ∀ a b, polar Q₀ a b = spForm k F a b)
     {hu : hC.d ∈ Halpha D hC.alpha}
@@ -563,6 +563,7 @@ private lemma exists_conj_commSet_not_commute (hk : 2 ≤ k)
     rw [heq] at hnotcommU
     exact hnotcommU (Subgroup.mem_centralizer_singleton_iff.mp (mRefl_mLift_mem_centralizer _))
 
+omit [Finite G] in
 private lemma exists_conj_residualMap (c : SpChart hC B.hα k F)
     (hQ₀ : ∀ a b, polar Q₀ a b = spForm k F a b)
     {hu : hC.d ∈ Halpha D hC.alpha}
@@ -656,7 +657,7 @@ private lemma residualMap_conj (c : SpChart hC B.hα k F) (g : G)
   rw [residualMap_apply (B := B) c g ψ hψmem hconjsv, hψapply, hψr,
     residualMap_apply (B := B) c g ψ hψmem hs.1]
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private lemma residualMap_notMem_modelBaseSet (c : SpChart hC B.hα k F) (g : G)
     (ψ : ↥(Halpha D (hC.conj g).alpha) ≃*
       ↥(Subgroup.centralizer {mRefl Q₀ (mLift Q₀ (c.vec (hC.conj g).d))}))
@@ -690,7 +691,7 @@ private lemma residualMap_notMem_modelBaseSet (c : SpChart hC B.hα k F) (g : G)
     simpa using h.map (Subgroup.subtype (Halpha D (hC.conj g).alpha))
   exact hs.2 hsd
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private lemma residualMap_bijOn (c : SpChart hC B.hα k F) (g : G)
     (ψ : ↥(Halpha D (hC.conj g).alpha) ≃*
       ↥(Subgroup.centralizer {mRefl Q₀ (mLift Q₀ (c.vec (hC.conj g).d))}))
@@ -767,7 +768,7 @@ private lemma baseSet_commute_iff
     calc (z : G) * (y : G) = ((z : G) * (y : G) * (z : G)⁻¹) * (z : G) := by group
       _ = (y : G) * (z : G) := by rw [h4]
 
-omit [Fintype F] [DecidableEq F] [CharP F 2] in
+omit [Fintype F] [DecidableEq F] [CharP F 2] [Finite G] in
 private lemma sliceSet_commute_iff (g : G) {F' : ↥D ≃ ↥(mClass Q₀)}
     {ψ : ↥(Halpha D (hC.conj g).alpha) →* MGroup Q₀} (hψinj : Function.Injective ψ)
     (hψF : ∀ x, ∀ hx : x ∈ commSet D (hC.conj g).d,
@@ -803,7 +804,7 @@ private lemma sliceSet_commute_iff (g : G) {F' : ↥D ≃ ↥(mClass Q₀)}
     show (x : G) * (y : G) = (y : G) * (x : G)
     exact congrArg (fun t : ↥(Halpha D (hC.conj g).alpha) => (t : G)) h1
 
-omit [Fintype F] [DecidableEq F] [CharP F 2] in
+omit [Fintype F] [DecidableEq F] [CharP F 2] [Finite G] in
 private lemma patchSet_adj_iff (g : G)
     {θ : ↥(Halpha D hC.alpha) ≃* ↥(Subgroup.centralizer {mRefl Q₀ mU})}
     {F' : ↥D ≃ ↥(mClass Q₀)}
@@ -914,6 +915,7 @@ private lemma baseMap_bijOn (c : SpChart hC B.hα k F)
   exact ⟨baseMap_mapsTo (B := B) c hθ, baseMap_injOn (B := B) c hθ,
     baseMap_surjOn (B := B) c hQ₀ hθ⟩
 
+omit [Finite G] in
 private lemma disjoint_residualMap_image_baseSet (c : SpChart hC B.hα k F) (g : G)
     {hu : hC.d ∈ Halpha D hC.alpha}
     {θ : ↥(Halpha D hC.alpha) ≃* ↥(Subgroup.centralizer {mRefl Q₀ mU})}
@@ -948,6 +950,7 @@ private lemma exists_conj_of_notMem_baseSet (c : SpChart hC B.hα k F) (g : G)
     (fun _ ha _ hb => (exists_conj_of_mem_commSet (B := B) c ha hb).elim
       fun h hh => ⟨h, h.2, hh⟩) hx
 
+omit [Finite G] in
 private lemma residualMap_fusion_sliceSet (c : SpChart hC B.hα k F)
     (hQ₀ : ∀ a b, polar Q₀ a b = spForm k F a b)
     {hu : hC.d ∈ Halpha D hC.alpha}
@@ -1035,7 +1038,7 @@ private lemma exists_equivariant_patchMap (c : SpChart hC B.hα k F) (hnk : B.n 
       hψform hk hs h hsh)
   exact ⟨F', hFeq, fun x hx => hFB x ((mem_baseSet_iff (B := B) (hu := hu)).mp hx), hFS⟩
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private lemma eq_psi_of_notMem_residualSlice (c : SpChart hC B.hα k F) (g : G)
     {hu : hC.d ∈ Halpha D hC.alpha}
     {θ : ↥(Halpha D hC.alpha) ≃* ↥(Subgroup.centralizer {mRefl Q₀ mU})}

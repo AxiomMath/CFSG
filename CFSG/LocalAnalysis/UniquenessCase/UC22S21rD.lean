@@ -41,10 +41,12 @@ section Core
 
 variable {P W : Type} [Group P] [Finite P] [Group W] [Finite W]
 
+omit [Finite P] in
 theorem uc22s21rd_pCore_le {T : Subgroup P} (hT : IsSylowIn 2 T ⊤) : CFSG.pCore 2 P ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact IsSylowIn.le_of_normal hT le_top inferInstance CFSG.pCore_isPGroup
 
+omit [Finite P] [Finite W] in
 theorem uc22s21rd_normal_comap (ρ : P →* W) {R : Subgroup W}
     (hRn : ρ.range ≤ normalizer (R : Set W)) : (R.comap ρ).Normal := by
   refine ⟨fun y hy x => ?_⟩
@@ -52,6 +54,7 @@ theorem uc22s21rd_normal_comap (ρ : P →* W) {R : Subgroup W}
   rw [map_mul, map_mul, map_inv]
   exact (Subgroup.mem_normalizer_iff.mp (hRn ⟨x, rfl⟩) (ρ y)).mp hy
 
+omit [Finite P] [Finite W] in
 theorem uc22s21rd_map_normalizer (ρ : P →* W) {Z : Subgroup P} {g : P}
     (hg : g ∈ normalizer (Z : Set P)) : ρ g ∈ normalizer ((Z.map ρ : Subgroup W) : Set W) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -64,6 +67,7 @@ theorem uc22s21rd_map_normalizer (ρ : P →* W) {Z : Subgroup P} {g : P}
     rw [map_mul, map_mul, map_inv, hzw]
     group
 
+omit [Finite W] in
 theorem uc22s21rd_mem_normalizer_inf {A B : Subgroup W} {g : W}
     (hA : g ∈ normalizer (A : Set W)) (hB : g ∈ normalizer (B : Set W)) :
     g ∈ normalizer ((A ⊓ B : Subgroup W) : Set W) := by
@@ -79,10 +83,10 @@ theorem uc22s21rd_inF {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {T : Subgroup P}
       Z ≤ fratSub R ∨ Z = R) :
     F12.InF 1 (⊤ : Subgroup (P ⧸ CFSG.pCore 2 P)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set πX : P →* P ⧸ CFSG.pCore 2 P := QuotientGroup.mk' (CFSG.pCore 2 P) with hπX
   set Y : Subgroup P := R.comap ρ with hY
-  haveI hYn : Y.Normal := uc22s21rd_normal_comap ρ hRn
+  have hYn : Y.Normal := uc22s21rd_normal_comap ρ hRn
   have hkerπ : πX.ker = CFSG.pCore 2 P := QuotientGroup.ker_mk' _
   have hkπ : ρ.ker ≤ πX.ker := by
     rw [hkerπ]
@@ -92,7 +96,7 @@ theorem uc22s21rd_inF {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {T : Subgroup P}
     rw [hY, Subgroup.map_comap_eq]
     exact inf_eq_right.2 hRr
   set RX : Subgroup (P ⧸ CFSG.pCore 2 P) := Y.map πX with hRX
-  haveI hRXn : RX.Normal := Subgroup.Normal.map hYn πX (QuotientGroup.mk'_surjective _)
+  have hRXn : RX.Normal := Subgroup.Normal.map hYn πX (QuotientGroup.mk'_surjective _)
   have hRXq : IsPGroup q ↥RX := by
     rintro ⟨_, y, hy, rfl⟩
     obtain ⟨k, hk⟩ := hRq ⟨ρ y, hy⟩
@@ -107,9 +111,9 @@ theorem uc22s21rd_inF {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {T : Subgroup P}
       (QuotientGroup.mk'_surjective _)]
   refine uc22s21rb_inF_one_frattini hq hq2 hRXq hQR pCore_two_quotient_eq_bot ?_
   intro N hN hNR
-  haveI hNc : (N.comap πX).Normal := Subgroup.Normal.comap hN πX
+  have hNc : (N.comap πX).Normal := Subgroup.Normal.comap hN πX
   set Z : Subgroup P := N.comap πX ⊓ Y with hZ
-  haveI hZn : Z.Normal := inferInstance
+  have hZn : Z.Normal := inferInstance
   set Zb : Subgroup W := Z.map ρ with hZb
   have hZbR : Zb ≤ R := by
     rintro _ ⟨z, hz, rfl⟩
@@ -143,6 +147,7 @@ theorem uc22s21rd_inF {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {T : Subgroup P}
     rw [h1, hπker _ hk, one_mul]
     exact hz.1
 
+omit [Finite P] in
 theorem uc22s21rd_unique_max {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {T : Subgroup P}
     (hT : IsSylowIn 2 T ⊤) (ρ : P →* W) (hker : ρ.ker ≤ CFSG.pCore 2 P) {R : Subgroup W}
     (hR0 : R ≠ ⊥) (hRq : IsPGroup q ↥R) (hRn : ρ.range ≤ normalizer (R : Set W))
@@ -151,9 +156,9 @@ theorem uc22s21rd_unique_max {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {T : Subgr
       Z ≤ fratSub R ∨ Z = R) :
     ∃ M₀ : Subgroup P, M₀ < ⊤ ∧ ∀ Z : Subgroup P, T ≤ Z → Z < ⊤ → Z ≤ M₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y : Subgroup P := R.comap ρ with hY
-  haveI hYn : Y.Normal := uc22s21rd_normal_comap ρ hRn
+  have hYn : Y.Normal := uc22s21rd_normal_comap ρ hRn
   have hkerT : ρ.ker ≤ T := hker.trans (uc22s21rd_pCore_le hT)
   have hRY : Y.map ρ = R := by
     rw [hY, Subgroup.map_comap_eq]
@@ -187,7 +192,7 @@ theorem uc22s21rd_unique_max {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {T : Subgr
         have h1 : tb = f⁻¹ * ρ y := by rw [← hft]; group
         rw [h1]
         exact R.mul_mem (R.inv_mem hfR) hr
-      haveI : Fact q.Prime := ⟨hq⟩
+      have : Fact q.Prime := ⟨hq⟩
       have hdisj := IsPGroup.disjoint_of_ne 2 q (Ne.symm hq2) (T.map ρ) R hT2 hRq
       have htb1 : tb = 1 := Subgroup.disjoint_def.mp hdisj htb htbR
       have hft' : f * tb = ρ y := hft
@@ -234,6 +239,7 @@ section GLevel
 
 variable {G : Type} [Group G] [Finite G] {W : Type} [Group W] [Finite W]
 
+omit [Finite G] in
 theorem uc22s21rd_isSylowIn_subgroupOf {X T : Subgroup G} (hT : IsSylowIn 2 T X) :
     IsSylowIn 2 (T.subgroupOf X) ⊤ := by
   have := (CFSG.Quasithin.E1.isSylowIn_subgroupOf_iff (p := 2) (H := X) hT.le le_rfl).mpr hT

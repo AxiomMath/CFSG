@@ -20,7 +20,7 @@ open Matrix
 
 variable {π : Bool} {f : ℕ} {F : Type} [Field F] [Finite F]
 
-private theorem odd_card_ker_projOf (hF : PiField π 2 f F) (hq : ModThree π (2 ^ f))
+private theorem odd_card_ker_projOf (hF : PiField π 2 f F) (_hq : ModThree π (2 ^ f))
     (hf : 1 ≤ f) : Odd (Nat.card ↥(projOf (glPi π 3 (2 ^ f) F)).ker) := by
   rw [ker_projOf_eq_subgroupOf (glPi π 3 (2 ^ f) F)]
   have hdvd : Nat.card ↥((StatedScalars (Fin 3) F).subgroupOf
@@ -46,6 +46,7 @@ private theorem exists_sq_one_lift (hF : PiField π 2 f F) (hq : ModThree π (2 
     (ker_projOf_le_center (glPi π 3 (2 ^ f) F)) (odd_card_ker_projOf hF hq hf)
     (MonoidHom.mem_range.mpr ((projOf_surjective _) s)) hs2
 
+omit [Finite F] in
 private theorem mul_comm_of_proj_comm (hF : PiField π 2 f F) (hq : ModThree π (2 ^ f))
     (hf : 1 ≤ f) {x s : ↥(projImage (glPi π 3 (2 ^ f) F))}
     {X U : ↥(glPi π 3 (2 ^ f) F)} (hX : projOf _ X = x) (hU : projOf _ U = s)
@@ -121,6 +122,7 @@ private theorem mul_comm_of_proj_comm (hF : PiField π 2 f F) (hq : ModThree π 
         (X : GL (Fin 3) F) := by group
     _ = (U : GL (Fin 3) F) * (X : GL (Fin 3) F) := by rw [hconj]
 
+omit [Finite F] in
 private theorem not_type123_three_of_commuting_involution [CharP F 2]
     {X U : GL (Fin 3) F} (hU2 : U * U = 1) (hU1 : U ≠ 1) (hXU : X * U = U * X)
     (h3 : Type123 π (2 ^ f) F X 3) : False := by
@@ -189,6 +191,7 @@ private theorem not_type123_three_of_commuting_involution [CharP F 2]
   · exact hWbot h
   · exact hWtop h
 
+omit [Finite F] in
 private theorem not_type123_one_of_commuting_involution [CharP F 2]
     (hF : PiField π 2 f F) (hq : ModThree π (2 ^ f))
     {X U : GL (Fin 3) F} (hU2 : U * U = 1) (hU1 : U ≠ 1) (hXU : X * U = U * X)
@@ -233,10 +236,8 @@ private theorem not_type123_one_of_commuting_involution [CharP F 2]
   have hd : Function.Injective ![τ, τ ^ 2, 1] := by
     intro i j hij
     fin_cases i <;> fin_cases j <;>
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-        Matrix.head_cons, Matrix.tail_cons, Fin.zero_eta, Fin.mk_one] at hij ⊢
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Fin.zero_eta, Fin.mk_one] at hij ⊢
     all_goals first
-      | rfl
       | exact absurd hij hτ1 | exact absurd hij.symm hτ1
       | exact absurd hij hτ2 | exact absurd hij.symm hτ2
       | exact absurd hij hττ | exact absurd hij.symm hττ
@@ -260,6 +261,7 @@ private theorem not_type123_one_of_commuting_involution [CharP F 2]
       _ = 1 := by rw [hconjU]; group
   exact hU1 hUeq
 
+omit [Finite F] in
 private theorem blockSL2_inf_statedScalars_eq_bot (hF : PiField π 2 f F) :
     CFSG.LocalAnalysis.GLTheoremA.KD1426Lie.blockSL2 hF ⊓ StatedScalars (Fin 3) F = ⊥ := by
   rw [eq_bot_iff]
@@ -284,6 +286,7 @@ private theorem blockSL2_inf_statedScalars_eq_bot (hF : PiField π 2 f F) :
   have hb1 : blockHom C = 1 := by rw [← hζ, hζ1, map_one]
   exact Subgroup.mem_bot.mpr hb1
 
+omit [Finite F] in
 private theorem exists_block_form_of_mem_glPi_inf_centralizer_diagE
     (hF : PiField π 2 f F) {e : Fˣ} (he1 : e ≠ 1) {q : GL (Fin 3) F}
     (hqH : q ∈ glPi π 3 (2 ^ f) F)
@@ -337,6 +340,7 @@ private theorem exists_block_form_of_mem_glPi_inf_centralizer_diagE
   refine ⟨aU, B, hBmem, ?_⟩
   rw [hqmat, haU, hBU, Units.val_mk0, GeneralLinearGroup.val_mkOfDetNeZero]
 
+omit [Finite F] in
 private theorem blockSL2_conj_mem (hF : PiField π 2 f F) {e : Fˣ} (he1 : e ≠ 1)
     {q b : GL (Fin 3) F}
     (hq : q ∈ glPi π 3 (2 ^ f) F ⊓
@@ -377,7 +381,8 @@ private theorem blockSL2_conj_mem (hF : PiField π 2 f F) {e : Fˣ} (he1 : e ≠
   rw [hres]
   exact Subgroup.mem_map.mpr ⟨A, hAsl, rfl⟩
 
-private theorem exists_scalar_commutator_lift (hF : PiField π 2 f F) (hq : ModThree π (2 ^ f))
+omit [Finite F] in
+private theorem exists_scalar_commutator_lift (_hF : PiField π 2 f F) (_hq : ModThree π (2 ^ f))
     {x : ↥(projImage (glPi π 3 (2 ^ f) F))} {X : ↥(glPi π 3 (2 ^ f) F)}
     (hXmap : projOf _ X = x) {c : ↥(projImage (glPi π 3 (2 ^ f) F))}
     (hc : c ∈ Subgroup.centralizer ({x} : Set ↥(projImage (glPi π 3 (2 ^ f) F))))
@@ -408,9 +413,10 @@ private theorem exists_scalar_commutator_lift (hF : PiField π 2 f F) (hq : ModT
       _ = GeneralLinearGroup.scalar (Fin 3) t * (X : GL (Fin 3) F) := by rw [← ht]
   exact ⟨t, ht'⟩
 
+omit [Finite F] in
 private theorem conj_lift_comm_diagE (hF : PiField π 2 f F) (hq : ModThree π (2 ^ f))
     {x : ↥(projImage (glPi π 3 (2 ^ f) F))} {X : ↥(glPi π 3 (2 ^ f) F)}
-    (hXmap : projOf _ X = x) {e : Fˣ} (he1 : e ≠ 1)
+    (hXmap : projOf _ X = x) {e : Fˣ} (_he1 : e ≠ 1)
     {z : GL (Fin 3) F} (hz : z ∈ zPi π 3 (2 ^ f) F) {g : GL (Fin 3) F}
     (hD : g⁻¹ * ((X : GL (Fin 3) F) * z) * g = diagE e)
     {c : ↥(projImage (glPi π 3 (2 ^ f) F))}
@@ -418,7 +424,7 @@ private theorem conj_lift_comm_diagE (hF : PiField π 2 f F) (hq : ModThree π (
     {h : ↥(glPi π 3 (2 ^ f) F)} (hhmap : projOf _ h = c) :
     (g⁻¹ * (h : GL (Fin 3) F) * g) * diagE e =
       diagE e * (g⁻¹ * (h : GL (Fin 3) F) * g) := by
-  haveI : CharP F 2 := hF.charP
+  have : CharP F 2 := hF.charP
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   obtain ⟨τ, hτ, hτ1⟩ := exists_tau hF hq
   obtain ⟨t, ht'⟩ := exists_scalar_commutator_lift hF hq hXmap hc hhmap
@@ -700,7 +706,7 @@ theorem glaPLayer_centralizer_ne_bot_projImage_glPi (hF : PiField π 2 f F)
     (hs : orderOf s = 2) (hxs : x * s = s * x) :
     GLAPLayer 3 (Subgroup.centralizer ({x} : Set ↥(projImage (glPi π 3 (2 ^ f) F)))) ≠ ⊥ := by
   have hf : 1 ≤ f := hF.one_le
-  haveI : CharP F 2 := hF.charP
+  have : CharP F 2 := hF.charP
   have hs2 : s ^ 2 = 1 := by
     have := pow_orderOf_eq_one s
     rwa [hs] at this

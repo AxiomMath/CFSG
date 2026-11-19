@@ -35,41 +35,49 @@ variable {G : Type*} [Group G] {K : Type*} [Field K] [Finite K] [CharP K 2]
 local notation "P[" α "]" => rootOp D ρ α 1
 local notation "Q[" α "]" => rootOp D ρ α 2
 
+omit [Finite K] [CharP K 2] in
 private theorem three_eq_zero (hN : Nat.card Kˣ = 3) : (3 : ZMod (Nat.card Kˣ)) = 0 := by
   rw [hN]
   exact ZMod.natCast_self 3
 
+omit [Finite K] [CharP K 2] in
 private theorem two_eq_neg_one (hN : Nat.card Kˣ = 3) : (2 : ZMod (Nat.card Kˣ)) = -1 := by
   rw [hN]
   decide
 
+omit [Finite K] [CharP K 2] in
 private theorem two_natCast_eq_neg_one (hN : Nat.card Kˣ = 3) :
     ((2 : ℕ) : ZMod (Nat.card Kˣ)) = -1 := by
   rw [hN]
   decide
 
+omit [Finite K] [CharP K 2] in
 private theorem add_self_castW (hN : Nat.card Kˣ = 3) (α : Fin 4 → ℤ) :
     castW (Nat.card Kˣ) α + castW (Nat.card Kˣ) α = -castW (Nat.card Kˣ) α := by
   rw [← two_smul (ZMod (Nat.card Kˣ)) (castW (Nat.card Kˣ) α), two_eq_neg_one hN,
     neg_one_smul]
 
+omit [Finite K] [CharP K 2] in
 private theorem two_smul_castW_neg (hN : Nat.card Kˣ = 3) (β : Fin 4 → ℤ) :
     ((2 : ℕ) : ZMod (Nat.card Kˣ)) • castW (Nat.card Kˣ) (-β) =
       castW (Nat.card Kˣ) β := by
   have h2 : ((2 : ℕ) : ZMod (Nat.card Kˣ)) = -1 := by rw [hN]; decide
   rw [h2, smul_castW_neg, neg_neg, one_smul]
 
+omit [CharP K 2] in
 private theorem rootOp_one_mem_wtSpace {α : Fin 4 → ℤ} (hα : IsD4Root α)
     {a : Fin 4 → ZMod (Nat.card Kˣ)} {x : X} (hx : x ∈ D.wtSpace ρ a) :
     P[α] x ∈ D.wtSpace ρ (a + castW (Nat.card Kˣ) α) := by
   simpa using rootOp_mem_wtSpace D ρ α hα a hx 1
 
+omit [CharP K 2] in
 private theorem rootOp_one_neg_mem_wtSpace {α : Fin 4 → ℤ} (hα : IsD4Root α)
     {a : Fin 4 → ZMod (Nat.card Kˣ)} {x : X} (hx : x ∈ D.wtSpace ρ a) :
     P[(-α)] x ∈ D.wtSpace ρ (a - castW (Nat.card Kˣ) α) := by
   have h := rootOp_mem_wtSpace D ρ (-α) hα.neg a hx 1
   simpa [castW_neg, sub_eq_add_neg] using h
 
+omit [CharP K 2] in
 private theorem rootOp_two_mem_wtSpace (hN : Nat.card Kˣ = 3) {α : Fin 4 → ℤ} (hα : IsD4Root α)
     {a : Fin 4 → ZMod (Nat.card Kˣ)} {x : X} (hx : x ∈ D.wtSpace ρ a) :
     Q[α] x ∈ D.wtSpace ρ (a - castW (Nat.card Kˣ) α) := by
@@ -77,6 +85,7 @@ private theorem rootOp_two_mem_wtSpace (hN : Nat.card Kˣ = 3) {α : Fin 4 → �
   rw [two_natCast_eq_neg_one hN, neg_one_smul] at h
   rwa [sub_eq_add_neg]
 
+omit [CharP K 2] in
 private theorem rootOp_two_neg_mem_wtSpace (hN : Nat.card Kˣ = 3) {α : Fin 4 → ℤ} (hα : IsD4Root α)
     {a : Fin 4 → ZMod (Nat.card Kˣ)} {x : X} (hx : x ∈ D.wtSpace ρ a) :
     Q[(-α)] x ∈ D.wtSpace ρ (a + castW (Nat.card Kˣ) α) := by
@@ -85,13 +94,15 @@ private theorem rootOp_two_neg_mem_wtSpace (hN : Nat.card Kˣ = 3) {α : Fin 4 �
 
 private theorem rootOp_two_mul_self (hN : Nat.card Kˣ = 3) {α : Fin 4 → ℤ} (hα : IsD4Root α) :
     Q[α] * Q[α] = 0 := by
-  rw [rootOp_mul D ρ α hα 2 2, hN, if_neg (by norm_num), zero_smul]
+  rw [rootOp_mul D ρ α hα 2 2, hN, ite_eq_right (by norm_num), zero_smul]
 
+omit [Finite K] [CharP K 2] in
 private theorem add_castW_add_self (hN : Nat.card Kˣ = 3) (a : Fin 4 → ZMod (Nat.card Kˣ))
     (α : Fin 4 → ℤ) :
     a + castW (Nat.card Kˣ) α + castW (Nat.card Kˣ) α = a - castW (Nat.card Kˣ) α := by
   rw [add_assoc, add_self_castW hN, sub_eq_add_neg]
 
+omit [Finite K] [CharP K 2] in
 private theorem rho_n_apply (α : Fin 4 → ℤ) (x : X) :
     ρ (D.n α) x = ρ (D.x α 1) (ρ (D.x (-α) 1) (ρ (D.x α 1) x)) := by
   have h : ρ (D.n α) = ρ (D.x α 1) * ρ (D.x (-α) 1) * ρ (D.x α 1) := by
@@ -99,6 +110,7 @@ private theorem rho_n_apply (α : Fin 4 → ℤ) (x : X) :
   rw [h]
   simp [Module.End.mul_apply]
 
+omit [CharP K 2] in
 private theorem rho_x_one_apply (hform : ∀ α, IsD4Root α → ∀ c : K,
       ρ (D.x α c) = 1 + c • P[α] + c ^ 2 • Q[α])
     {α : Fin 4 → ℤ} (hα : IsD4Root α) (y : X) :
@@ -106,10 +118,12 @@ private theorem rho_x_one_apply (hform : ∀ α, IsD4Root α → ∀ c : K,
   rw [hform α hα 1]
   simp
 
+omit [Finite K] in
 private theorem x_one_inv {α : Fin 4 → ℤ} (hα : IsD4Root α) : D.x α 1 = (D.x α 1)⁻¹ := by
   have h := D.x_neg hα 1
   rwa [show (-1 : K) = 1 from CharTwo.neg_eq 1] at h
 
+omit [CharP K 2] in
 private theorem rho_n_one_two_expansion (hN : Nat.card Kˣ = 3)
     (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥)
     (hC : IsSmallClass (Nat.card Kˣ) 1 C)
@@ -153,7 +167,7 @@ private theorem rho_n_one_two_expansion (hN : Nat.card Kˣ = 3)
         (Q[(-α)] x + P[α] (P[(-α)] (P[α] x)))) + (P[α] x + P[α] x) := by
     rw [rho_n_apply, rho_x_one_apply hform hα, rho_x_one_apply hform hα.neg,
       rho_x_one_apply hform hα]
-    simp only [LinearMap.add_apply, LinearMap.smul_apply, Module.End.one_apply, map_add,
+    simp only [map_add,
       zP'x, zQx, zQ'Px, zPPx, zPQ'x, zQP'Px, zQPx, zero_add, add_zero]
     abel
   exact hdecomp0
@@ -222,6 +236,7 @@ theorem rootOp_one_two_eq (hN : Nat.card Kˣ = 3)
   have hx2 : x + x = 0 := add_self_eq_zero K x
   exact add_left_cancel (h2.trans hx2.symm)
 
+omit [Finite K] in
 private theorem rho_x_neg_comm {γ γ' : Fin 4 → ℤ} (hγ : IsD4Root γ) (hγ' : IsD4Root γ')
     (hdot : γ ⬝ᵥ γ' = 1) (x : X) :
     ρ (D.x (-γ') 1) x =
@@ -250,6 +265,7 @@ private theorem rho_x_neg_comm {γ γ' : Fin 4 → ℤ} (hγ : IsD4Root γ) (hγ
   rw [hfive]
   simp only [Module.End.mul_apply]
 
+omit [CharP K 2] in
 private theorem rootOp_two_comp_zeros₁ (hN : Nat.card Kˣ = 3)
     (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥)
     (hC : IsSmallClass (Nat.card Kˣ) 1 C)
@@ -318,6 +334,7 @@ private theorem rootOp_two_comp_zeros₂ (hN : Nat.card Kˣ = 3)
       (rootOp_two_mul_self (D := D) (ρ := ρ) hN hγ.neg)
     simpa [Module.End.mul_apply] using h
 
+omit [CharP K 2] in
 private theorem rootOp_two_comp_left (hform : ∀ α, IsD4Root α → ∀ c : K,
       ρ (D.x α c) = 1 + c • P[α] + c ^ 2 • Q[α])
     {γ γ' : Fin 4 → ℤ} (hγ : IsD4Root γ) (hδ : IsD4Root (γ' - γ)) {x : X}
@@ -332,7 +349,7 @@ private theorem rootOp_two_comp_left (hform : ∀ α, IsD4Root α → ∀ c : K,
     ρ (D.x (-γ') 1) x =
       x + Q[(-(γ' - γ))] (Q[(-γ)] x) + (Q[(-γ)] x + Q[(-γ)] x) := by
   simp only [hsix, rho_x_one_apply hform hγ.neg, rho_x_one_apply hform hδ.neg,
-    LinearMap.add_apply, LinearMap.smul_apply, Module.End.one_apply, map_add,
+    map_add,
     zPγx, zPδx, zQδx, zPδQγx, zPγQγx, zQγQγx, zPγQδQγx, zQγQδQγx, zero_add, add_zero]
   abel
 
@@ -413,6 +430,7 @@ theorem rootOp_two_eq_zero_of (hN : Nat.card Kˣ = 3)
     ⨅ (γ : {γ : Fin 4 → ℤ // IsD4Root γ ∧ a + castW (Nat.card Kˣ) γ ∈ C}),
       LinearMap.ker (rootOp D ρ (-γ.1) 2)
 
+omit [CharP K 2] in
 theorem mem_unSpace {C : Finset (Fin 4 → ZMod (Nat.card Kˣ))}
     {a : Fin 4 → ZMod (Nat.card Kˣ)} {x : X} :
     x ∈ unSpace D ρ C a ↔ x ∈ D.wtSpace ρ a ∧
@@ -475,6 +493,7 @@ private theorem unSpace_iSup_le_comap_rootOp_one (hN : Nat.card Kˣ = 3)
     rw [hzero]
     exact Submodule.zero_mem _
 
+omit [CharP K 2] in
 private theorem unSpace_iSup_le_comap_rootOp_two (hN : Nat.card Kˣ = 3)
     (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥)
     {β : Fin 4 → ℤ} (hβ : IsD4Root β) :
@@ -581,13 +600,13 @@ private theorem rootOp_two_eq_zero_of_unSpace_eq_top (hN : Nat.card Kˣ = 3)
     have h := wtProj_of_mem D ρ (a := a) hyb
     change wtProj D ρ a y ∈ unSpace D ρ C a
     by_cases hab : a = b
-    · rwa [h, if_pos hab, hab]
-    · rw [h, if_neg hab]
+    · rwa [h, ite_eq_left hab, hab]
+    · rw [h, ite_eq_right hab]
       exact Submodule.zero_mem _
   have hxun : x ∈ unSpace D ρ C a := by
     have h := hmap hxS
     change wtProj D ρ a x ∈ unSpace D ρ C a at h
-    rwa [wtProj_of_mem D ρ hx, if_pos rfl] at h
+    rwa [wtProj_of_mem D ρ hx, ite_eq_left rfl] at h
   by_cases hmem : a - castW (Nat.card Kˣ) β ∈ C
   · have hmem' : a + castW (Nat.card Kˣ) (-β) ∈ C := by
       rw [castW_neg]

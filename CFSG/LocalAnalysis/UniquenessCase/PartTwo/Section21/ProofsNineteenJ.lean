@@ -59,6 +59,7 @@ private theorem exists_mem_normalizer_sylow_of_isJ1 {L : Subgroup G} (hJ1 : IsJ1
     rwa [hy, hybar3] at this
   exact ⟨y, hNQ, hdvd⟩
 
+omit [Finite G] in
 private theorem conj_mem_inf_of_mem_normalizer_sylow {L T : Subgroup G} {Q : Sylow 2 ↥L}
     (hQ : (Q : Subgroup ↥L).map L.subtype = T ⊓ L) {a : ↥L}
     (ha : a ∈ Subgroup.normalizer ((Q : Subgroup ↥L) : Set ↥L)) {z : ↥L}
@@ -111,7 +112,7 @@ private theorem exists_mem_normalizer_of_isJ1 {L T : Subgroup G} (hT : IsPGroup 
 theorem exists_orderOf_eq_three_le_normalizer_of_isJ1 (D : Data G) {L : Subgroup G}
     (hL : L ∈ calC D.M) (hLn : (L.subgroupOf D.M).Normal) (hJ1 : IsJ1 (Bar2 L)) :
     ∃ u ∈ L, orderOf u = 3 ∧ Subgroup.zpowers u ≤ Subgroup.normalizer (D.T : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLM : L ≤ D.M := hL.1.le
   have hML : D.M ≤ Subgroup.normalizer (L : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).mp hLn

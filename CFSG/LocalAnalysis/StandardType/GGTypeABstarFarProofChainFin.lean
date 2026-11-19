@@ -63,7 +63,7 @@ private theorem bfChainFin_swap_braid {α : Type*} [DecidableEq α] {a b c : α}
   have hcube : (Equiv.swap a b * Equiv.swap b c) ^ 3
       = (Equiv.swap a b * Equiv.swap b c * Equiv.swap a b)
         * (Equiv.swap b c * Equiv.swap a b * Equiv.swap b c) := by
-    simp only [pow_succ, pow_one, pow_zero, one_mul, mul_assoc]
+    simp only [pow_succ, pow_zero, one_mul, mul_assoc]
   rw [hcube, h1, h2, Equiv.swap_comm c a, Equiv.swap_mul_self]
 
 private theorem bfChainFin_swap_braid' {α : Type*} [DecidableEq α] {a b c : α}
@@ -75,7 +75,7 @@ private theorem bfChainFin_swap_braid' {α : Type*} [DecidableEq α] {a b c : α
   rw [hinv, inv_pow, h, inv_one]
 
 private theorem bfChainFin_swap_commute {α : Type*} [DecidableEq α] {a b c d : α}
-    (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d) :
+    (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ c) (hbd : b ≠ d) (_hcd : c ≠ d) :
     Equiv.swap a b * Equiv.swap c d = Equiv.swap c d * Equiv.swap a b := by
   have hdisj : Equiv.Perm.Disjoint (Equiv.swap a b) (Equiv.swap c d) := by
     intro x

@@ -79,18 +79,19 @@ private theorem b5_FiveNineTwo_isSolvable_of_closure_pair {Γ : Type*} [Group Γ
     obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.1 (hQ y)
     rw [← hi, ← hj]
     exact (Commute.refl _).zpow_zpow i j |>.eq
-  haveI : Group.IsSolvable (Γ ⧸ Subgroup.zpowers (t * s)) := isSolvable_of_comm hcommQ
-  haveI : Group.IsSolvable ↥(Subgroup.zpowers (t * s)) := by
-    refine isSolvable_of_comm ?_
+  have : Group.IsSolvable (Γ ⧸ Subgroup.zpowers (t * s)) := _root_.Group.isSolvable_of_comm hcommQ
+  have : Group.IsSolvable ↥(Subgroup.zpowers (t * s)) := by
+    refine _root_.Group.isSolvable_of_comm ?_
     intro a b
     obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.1 a.2
     obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.1 b.2
     apply Subtype.ext
     rw [Subgroup.coe_mul, Subgroup.coe_mul, ← hi, ← hj]
     exact ((Commute.refl _).zpow_zpow i j).eq
-  exact solvable_of_ker_le_range (Subgroup.zpowers (t * s)).subtype
+  exact Group.isSolvable_of_ker_le_range (Subgroup.zpowers (t * s)).subtype
     (QuotientGroup.mk' (Subgroup.zpowers (t * s))) (by simp [QuotientGroup.ker_mk'])
 
+omit [Finite G] in
 theorem isSolvable_sup_zpowers_of_mul_self_eq_one {t s : G} (ht : t * t = 1) (hs : s * s = 1) :
     Group.IsSolvable ↥(zpowers t ⊔ zpowers s) := by
   have hD : zpowers t ⊔ zpowers s = Subgroup.closure ({t, s} : Set G) := by

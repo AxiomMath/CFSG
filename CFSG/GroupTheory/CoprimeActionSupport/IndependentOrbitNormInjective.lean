@@ -43,7 +43,7 @@ theorem fixed_range {F : Type*} [Field F] {A : Type*} [Group A] [Fintype A]
     LinearMap.range ((∑ a : A, ρ a).comp E.subtype) ≤
       {v : V | ∀ a : A, ρ a v = v} := by
   rintro _ ⟨e, rfl⟩ a
-  simp only [LinearMap.comp_apply, Submodule.subtype_apply, LinearMap.sum_apply, Set.mem_setOf_eq]
+  simp only [LinearMap.comp_apply, Submodule.subtype_apply, LinearMap.sum_apply]
   rw [map_sum]
   simp only [← Module.End.mul_apply, ← map_mul]
   exact Equiv.sum_comp (Equiv.mulLeft a) (fun b => ρ b (e : V))

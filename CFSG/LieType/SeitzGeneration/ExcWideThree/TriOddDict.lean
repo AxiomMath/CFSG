@@ -203,6 +203,7 @@ theorem triOdd_g2OrbitYUnit_short {L : Type} [Field L] (c : L) :
   simp [mul_assoc]
 
 include hσ3 in
+omit [Finite K] hσ3 in
 theorem triOdd_map_sigma_map_subtype (M : Matrix.SpecialLinearGroup (Fin 2) (fixedField σ.toRingHom)) :
     Matrix.SpecialLinearGroup.map σ.toRingHom
       (Matrix.SpecialLinearGroup.map (fixedField σ.toRingHom).subtype M) =
@@ -221,7 +222,7 @@ include hσ3 in
     Matrix.SpecialLinearGroup (Fin 2) (fixedField σ.toRingHom) →* ↥(FixedSub σ) :=
   ((slShort σ.toRingHom hσ3).comp
     (Matrix.SpecialLinearGroup.map (fixedField σ.toRingHom).subtype)).codRestrict (FixedSub σ)
-      (fun M => slShort_mem_FixedSub σ hσ3 _ (triOdd_map_sigma_map_subtype σ hσ3 M))
+      (fun M => slShort_mem_FixedSub σ hσ3 _ (triOdd_map_sigma_map_subtype σ M))
 
 theorem triOddJDict_slLongJ_upper (c : fixedField σ.toRingHom) :
     triOddJDict σ hK2 hq hK hσq hσ3 hk3 (triOddSlLongJ σ hσ3 (sl2Upper c)) =
@@ -330,7 +331,7 @@ theorem triOdd_jClassSplit_of_model (hK3 : ringChar K ≠ 3) (hq4 : 4 ≤ q)
     rw [ENat.card_eq_coe_natCard]
     exact_mod_cast (by omega : 3 ≤ Nat.card (fixSubfield σ))
   have h3F : ringChar (fixSubfield σ) ≠ 3 := by
-    haveI : CharP (fixSubfield σ) (ringChar K) :=
+    have : CharP (fixSubfield σ) (ringChar K) :=
       (RingHom.charP_iff_charP (fixSubfield σ).subtype (ringChar K)).2 (ringChar.charP K)
     rw [ringChar.eq (fixSubfield σ) (ringChar K)]
     exact hK3

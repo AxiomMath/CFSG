@@ -40,17 +40,17 @@ theorem s16h_e3_z3_transvection_normal_five
       Subgroup.map (SemidirectProduct.inl :
         Matrix.GeneralLinearGroup (Fin 3) OmegaField →*
           coordinateSemilinearGroup 3 OmegaField) F ≤ K := by
-  haveI : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
-  haveI : Finite OmegaField := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (OmegaField ≃+* OmegaField) :=
+  have : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
+  have : Finite OmegaField := Module.finite_of_finite (ZMod 2)
+  have : Finite (OmegaField ≃+* OmegaField) :=
     Finite.of_injective (fun σ : OmegaField ≃+* OmegaField => (σ : OmegaField → OmegaField))
       (fun _ _ h => RingEquiv.ext (congrFun h))
-  haveI : Finite (coordinateSemilinearGroup 3 OmegaField) :=
+  have : Finite (coordinateSemilinearGroup 3 OmegaField) :=
     Finite.of_injective (fun g : coordinateSemilinearGroup 3 OmegaField => (g.left, g.right))
       (fun _ _ h => SemidirectProduct.ext (congrArg Prod.fst h) (congrArg Prod.snd h))
   obtain ⟨D, hDK, hDN, hDrange, hDnt, hgen, hO2D, hcard, h3, h7⟩ :=
     s16h_e3_z3_transvection_closure_hypotheses N K hKN hKnorm hO2 hZK hno huK hu2 hu1
-  haveI : Nontrivial ↥D := hDnt
+  have : Nontrivial ↥D := hDnt
   obtain ⟨F, hFnorm, hFcard⟩ :=
     s16h_e3_exists_normal_card_five (D := ↥D) hgen hO2D hcard h3 h7
   exact s16h_e3_z3_normal_five_of_closure N K D hDK hDN hDrange hcard F hFnorm hFcard

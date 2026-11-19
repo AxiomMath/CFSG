@@ -31,8 +31,8 @@ theorem catalogIs_pSimple_sesqSpecialUnitaryGroup_isUnA {ℓ f : ℕ} {E : Type}
     {k : ℕ} (hk : 4 ≤ k) (hdim : finrank E M = k) :
     catalogIs (PSimple 3 (sesqSpecialUnitaryGroup B)) (isUnA k 2) := by
   classical
-  haveI : Finite E := hE.finite
-  haveI : Finite M := Module.finite_of_finite E
+  have : Finite E := hE.finite
+  have : Finite M := Module.finite_of_finite E
   have hq : CFSG.IsQuasisimple ↥(sesqSpecialUnitaryGroup B) :=
     CFSG.RankThree.PartOne.KCOrthogonal.isQuasisimple_sesqSpecialUnitaryGroup_of_three_le hE hBs hBl
       (by omega) (by rw [hdim, hℓf]; intro h; simp at h; omega)
@@ -60,7 +60,7 @@ theorem catalogIs_pSimple_sesqSpecialUnitaryGroup_isUnA {ℓ f : ℕ} {E : Type}
   let ψq : ↥(StatedSU k (ℓ ^ f) E) ⧸ Subgroup.center ↥(StatedSU k (ℓ ^ f) E) ≃*
       ↥(sesqSpecialUnitaryGroup B) ⧸ Subgroup.center ↥(sesqSpecialUnitaryGroup B) :=
     QuotientGroup.congr _ _ ψ (Subgroup.map_center_eq ψ)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hcardE : Fintype.card E = (ℓ ^ f) ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hE.card, ← pow_mul, mul_comm]
   obtain ⟨q', hv, -, hq'c, ⟨χ⟩⟩ :=

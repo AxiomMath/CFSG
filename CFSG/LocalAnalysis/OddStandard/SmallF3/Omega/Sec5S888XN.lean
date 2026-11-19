@@ -27,7 +27,7 @@ theorem strongly_closed_in_normalizer [Finite X] (hS : PlaneSys V W) (hpar : Pla
     (h73 : ∀ v : V, SuppTwo hS v → centralizer ({(v : X)} : Set X) ≤ normalizer (V : Set X)) :
     ∀ u ∈ normalizer (V : Set X), (∃ k : X, u ∈ CFSG.conjugate V k) → u ∈ V := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rintro u hu ⟨k, hk⟩
   have hu2 : u * u = 1 := by
     have hkm : k * u * k⁻¹ ∈ V := xn_mem_conjugate_iff.mp hk
@@ -46,7 +46,7 @@ theorem strongly_closed_in_normalizer [Finite X] (hS : PlaneSys V W) (hpar : Pla
     exact orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hu'2)
   obtain ⟨P, hP⟩ := hP0.exists_le_sylow
   have hVN : V ≤ N := Subgroup.le_normalizer
-  haveI hVnormal : (V.subgroupOf N).Normal := by
+  have hVnormal : (V.subgroupOf N).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hVN]
     intro h k hh hk
     exact (Subgroup.mem_set_normalizer_iff.mp hk h).mp hh
@@ -59,7 +59,7 @@ theorem strongly_closed_in_normalizer [Finite X] (hS : PlaneSys V W) (hpar : Pla
     intro v hv
     exact Subgroup.mem_map.mpr ⟨⟨v, hVN hv⟩, hVP (Subgroup.mem_subgroupOf.mpr hv), rfl⟩
   have hTN : T ≤ N := Subgroup.map_subtype_le _
-  have hTp : IsPGroup 2 T := P.isPGroup'.map N.subtype
+  have hTp : IsPGroup 2 T := P.isPGroup.map N.subtype
   have hrel : T.relIndex N = (P : Subgroup N).index := by
     unfold Subgroup.relIndex
     rw [show T.subgroupOf N = (P : Subgroup N) from

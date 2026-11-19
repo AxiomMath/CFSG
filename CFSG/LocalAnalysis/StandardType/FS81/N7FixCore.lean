@@ -18,7 +18,7 @@ theorem n7Fix_core (hG : GoldExclusionSylow) {X : Type} [Group X] [Finite X]
     (S : N7Setup X) : False := by
   obtain ⟨P, hPH⟩ := S.exists_sylow_le_H
   have hF1P : S.F1 ≤ (P : Subgroup X) := S.F1_le_sylow hPH
-  obtain ⟨τ, hτ, hτc⟩ := S.exists_central_E6 hPH P.isPGroup'
+  obtain ⟨τ, hτ, hτc⟩ := S.exists_central_E6 hPH P.isPGroup
   have hτF : τ ∈ S.F1 := Subgroup.subset_closure hτ
   have hab : IsMulCommutative S.F1 := ⟨⟨fun a b => Subtype.ext (S.F1_comm a.2 b.2)⟩⟩
   have hD : ∀ a ∈ S.F1, ∀ d : X, d * τ = τ * d → d⁻¹ * a * d ∈ (P : Subgroup X) →

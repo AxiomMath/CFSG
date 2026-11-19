@@ -233,7 +233,7 @@ theorem A2_psu3 {p f : ℕ} {K : Type} [Field K]
     padicValNat p (Nat.card (CFSG.ClassicalGroups.UnitaryFlag.unitaryPSU h 3)) = f * 3 ∧
       Nat.card (CFSG.ClassicalGroups.UnitaryFlag.unitaryPSU h 3) <
         p ^ (3 * padicValNat p (Nat.card (CFSG.ClassicalGroups.UnitaryFlag.unitaryPSU h 3))) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hf : f ≠ 0 := by have := h.one_le; omega
   have hlQ : p ∣ p ^ f := A2_dvd_pow hf
   have hQ : 0 < p ^ f := pow_pos h.prime.pos f
@@ -254,7 +254,7 @@ theorem A2_su3 {p f : ℕ} {K : Type} [Field K]
     padicValNat p (Nat.card (CFSG.ClassicalGroups.UnitaryFlag.unitarySU p f K 3)) = f * 3 ∧
       Nat.card (CFSG.ClassicalGroups.UnitaryFlag.unitarySU p f K 3) <
         p ^ (3 * padicValNat p (Nat.card (CFSG.ClassicalGroups.UnitaryFlag.unitarySU p f K 3))) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hf : f ≠ 0 := by have := h.one_le; omega
   have hlQ : p ∣ p ^ f := A2_dvd_pow hf
   have hQ : 0 < p ^ f := pow_pos h.prime.pos f

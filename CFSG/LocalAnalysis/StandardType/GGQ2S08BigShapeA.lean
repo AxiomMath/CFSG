@@ -46,8 +46,8 @@ theorem ggQ2s08_bigA_input_of_components (hB : GGQ2S08ROComponentsThreeInput)
     simpa using (Fintype.card_congr e).symm
   have hfr : Module.finrank (ZMod 3) M.V = lab.rank + 1 := by
     rw [hA.2.2.2.1, hcard]
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
-  haveI : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
   let bV : Module.Basis (Fin (lab.rank + 1)) (ZMod 3) M.V :=
     Module.finBasisOfFinrankEq (ZMod 3) M.V hfr
   let κ : M.V ≃ₗ[ZMod 3] Vn (lab.rank + 1) := bV.equivFun

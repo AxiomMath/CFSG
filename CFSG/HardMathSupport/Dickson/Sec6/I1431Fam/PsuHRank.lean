@@ -26,14 +26,14 @@ theorem t6psuh_not_isTypeL2_gramSU (hO : CFSG.ComponentClassification.CatLeaf.Li
     (hE : UnitaryFieldData ℓ f E) {m : ℕ} (hm : 3 ≤ m) (hnq : ¬ (m = 3 ∧ ℓ ^ f = 2)) {r : ℕ}
     (hr : 10 ≤ r) : ¬ IsTypeL2 r ↥(gramSU hE (idGram E m)) := by
   intro hT
-  haveI := hE.finite
+  have := hE.finite
   have hperf : Group.IsPerfect ↥(gramSU hE (idGram E m)) :=
     CFSG.RankThree.Classical.isPerfect_gramSU_one hE hm hnq
   have h1 : IsTypeL2 r (primeFormP hE (idGram E m)) :=
     (isTypeL2_congr_of_central hperf (QuotientGroup.mk' (normOneScalars hE (gramSU hE (idGram E m)) m))
       (QuotientGroup.mk'_surjective _)
       (by rw [QuotientGroup.ker_mk']; exact normOneScalars_le_center hE _ m)).1 hT
-  haveI hs : IsSimpleGroup (primeFormP hE (idGram E m)) :=
+  have hs : IsSimpleGroup (primeFormP hE (idGram E m)) :=
     CFSG.RankThree.Classical.isSimpleGroup_primeFormP_one hE hm hnq
   have hnab : ∃ a b : primeFormP hE (idGram E m), a * b ≠ b * a := by
     by_contra hcon
@@ -97,7 +97,7 @@ theorem t6psuh_rank_two (hO : CFSG.ComponentClassification.CatLeaf.LieOrderFormu
     (hT : IsTypeL2 r ↥(specialBlock B x (b : K[X]))) :
     primaryMultiplicity (x : Module.End K V) (b : K[X]) = 2 := by
   by_contra hne
-  haveI := hK.finite
+  have := hK.finite
   have hm3 : 3 ≤ primaryMultiplicity (x : Module.End K V) (b : K[X]) := by
     have := hgood.1
     omega
@@ -152,7 +152,7 @@ theorem t6psuh_rank_two (hO : CFSG.ComponentClassification.CatLeaf.LieOrderFormu
       (blockGLDet (x : Module.End K V) (b : K[X]))
     obtain ⟨eSL⟩ := nonempty_specialLinearGroup_mulEquiv_ker_det
       (E := AdjoinRoot (b : K[X])) (W := primaryComponent (x : Module.End K V) (b : K[X]))
-    haveI : Finite (AdjoinRoot (b : K[X])) := Module.finite_of_finite K
+    have : Finite (AdjoinRoot (b : K[X])) := Module.finite_of_finite K
     exact not_isTypeL2_specialLinear hO hm3 hr
       (p6_isTypeL2_of_equiv (((MulEquiv.subgroupCongr hspec).trans e).trans eSL.symm) hT)
 

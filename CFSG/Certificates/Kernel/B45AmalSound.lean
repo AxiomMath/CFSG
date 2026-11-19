@@ -73,9 +73,9 @@ theorem packCols_tab34P (p : Equiv.Perm (Fin 22)) : packCols (tab34P p) = cols34
     by_cases hi : i < 34
     · have h := rows34L_spec (rows10L (psiL p)) _ ht ⟨i, hi⟩ ⟨j, hj⟩
       rw [untab_apply] at h
-      simp only [hi, decide_true, Bool.true_and, dif_pos, Fin.getElem_fin] at h ⊢
+      simp only [hi, decide_true, Bool.true_and, dite_eq_left, Fin.getElem_fin] at h ⊢
       change (tab34P p)[i][j] = _ at h
-      simp only [Fin.coe_cast, h, bitF_beq_one]
+      simp only [_root_.Fin.val_cast, h, bitF_beq_one]
     · simp [hi]
 
 theorem packCols_tab34 (g : G22) : packCols (tab34 g) = cols34L (g : Equiv.Perm (Fin 22)) :=

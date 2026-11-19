@@ -110,7 +110,7 @@ theorem le_pCore_of_isPGroup_of_le_fittingRaw {p : ℕ} (hp : p.Prime) {Q : Subg
   have hnorm : ((S : Subgroup (fittingRaw X)).map (fittingRaw X).subtype).Normal :=
     ConjAct.normal_of_characteristic_of_normal
   have hle : (S : Subgroup (fittingRaw X)).map (fittingRaw X).subtype ≤ pCore p X :=
-    le_pCore hp hnorm (S.isPGroup'.map _)
+    le_pCore hp hnorm (S.isPGroup.map _)
   refine le_trans ?_ hle
   calc Q = (Q.subgroupOf (fittingRaw X)).map (fittingRaw X).subtype :=
         (Subgroup.map_subgroupOf_eq_of_le hQF).symm

@@ -20,6 +20,7 @@ section Star
 
 variable {G : Type} [Group G] [Finite G] {H : Subgroup G}
 
+omit [Finite G] in
 theorem star_not_isCyclic {P : Subgroup G} (hPH : P ≤ H) (hP3 : ∀ p ∈ P, p ^ 3 = 1)
     (hP9 : Nat.card P = 9) : ¬ IsCyclic ↥(star H P) := by
   intro hcyc
@@ -41,7 +42,7 @@ theorem star_not_isCyclic {P : Subgroup G} (hPH : P ≤ H) (hP3 : ∀ p ∈ P, p
     have h4 := S126L26.eq_one_of_two_three' h2 h3
     rw [Subgroup.mem_bot]
     exact Subtype.ext (congrArg (Subtype.val : ↥H → G) h4)
-  haveI : IsCyclic ↥P := isCyclic_of_injective f hinj
+  have : IsCyclic ↥P := isCyclic_of_injective f hinj
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥P)
   have hg3 : g ^ 3 = 1 := Subtype.ext (by simpa using hP3 g g.2)
   have := orderOf_dvd_of_pow_eq_one hg3
@@ -69,7 +70,7 @@ theorem exists_odd_normal_fpf (h1222 : Stmt12_2_2)
     CFSG.Quasithin.H13.P31Sec.isQuasisimple_star hKc h918.K_quasisimple
   have hNn : (star H K).Normal := normal_star (by simpa [hKK] using h918.K₀_normal)
   have hSzM : SuzukiModel (↥(star H K) ⧸ Subgroup.center ↥(star H K)) 2 n := hSz
-  haveI : Group.IsPerfect ↥(star H K) := hq.1
+  have : Group.IsPerfect ↥(star H K) := hq.1
   have hOut : IsCyclic (Outer ↥(star H K)) :=
     ((CFSG.LieType.Suzuki.Suzuki_model_and_perfect_cover_outer_cyclicity.{0} _ 2 n hSzM).2
       ↥(star H K) ⟨MulEquiv.refl _⟩).1
@@ -121,7 +122,7 @@ theorem exists_odd_normal_fpf (h1222 : Stmt12_2_2)
     | mem u hu =>
       obtain ⟨t, ht, rfl⟩ := hu
       exact Subgroup.subset_closure ⟨s * t, S.mul_mem hs ht, by group⟩
-    | one => simpa using E₀.one_mem
+    | one => simp
     | mul a b _ _ ha hb =>
       have := E₀.mul_mem ha hb
       simpa [mul_assoc] using this

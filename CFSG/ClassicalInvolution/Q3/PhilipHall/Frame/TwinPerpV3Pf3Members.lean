@@ -200,7 +200,7 @@ theorem members_isPGroup_of_alpha1 (hV : V3Hyp51B n) (h : PerpHypS n Y R S t) (h
     obtain ⟨p, hp, hpk⟩ := hle k.2
     have hpk' : p = k := Subtype.ext hpk
     subst hpk'
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨p, hp⟩
     exact ⟨m, by simpa using congrArg Subtype.val hm⟩
   rintro _ ⟨g, rfl⟩
   exact isPGroup_conjSub g hK2

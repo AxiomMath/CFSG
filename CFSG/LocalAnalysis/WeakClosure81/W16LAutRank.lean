@@ -21,7 +21,7 @@ theorem autRank166Input_holds : AutRank166Input := by
       exact (hB.card_le_of_sq_eq_one_aut E fun x hx => by
         simpa [pow_two] using hE.2 x hx).2 (by decide)
   · intro X _ _ Y n hn hY hYe hX E hE hEY
-    haveI : Group.IsPerfect X := ⟨hX.1⟩
+    have : Group.IsPerfect X := ⟨hX.1⟩
     exact CFSG.ClassicalGroups.Unitary.card_le_of_isElemAbelian_mulAut_of_lieModel_psu3 hX.2.1 E hE
   · intro X _ _ Y hY hYe hgen hp E hE hEY
     exact autRank166_dih Y hY hgen hp E hE hEY

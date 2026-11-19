@@ -21,7 +21,7 @@ theorem isSimpleGroup_projSU_three_four : IsSimpleGroup (projSU 3 2 2) :=
   CFSG.PGLModel.isSimpleGroup_projSU_of_admissible ⟨Nat.prime_two, by norm_num, le_rfl, by decide⟩
 
 theorem isPerfect_projSU_three_four : Group.IsPerfect (projSU 3 2 2) := by
-  haveI := isSimpleGroup_projSU_three_four
+  have := isSimpleGroup_projSU_three_four
   refine TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative fun hc => ?_
   have hp := (Group.is_simple_iff_prime_card (α := projSU 3 2 2)).mp inferInstance
   rw [CFSG.PGLModel.card_projSU_three_four] at hp
@@ -72,7 +72,7 @@ private theorem exists_surjective_projSU_of_ker {X : Type*} [Group X] [Group.IsP
     {N : Subgroup X} [N.Normal] (hN : Group.IsSolvable N) (e : X ⧸ N ≃* projSU 3 2 2)
     {M : Type*} [Monoid M] (ρ : X →* M) (hρ : ∃ x, ρ x ≠ 1) :
     ∃ π : X ⧸ ρ.ker →* projSU 3 2 2, Function.Surjective π := by
-  haveI := isSimpleGroup_projSU_three_four
+  have := isSimpleGroup_projSU_three_four
   have hKN : ρ.ker ≤ N := ker_le_of_perfect hN (MulEquiv.isSimpleGroup e) ρ hρ
   refine ⟨e.toMonoidHom.comp
     (QuotientGroup.map ρ.ker N (MonoidHom.id X) (by rw [Subgroup.comap_id]; exact hKN)), ?_⟩
@@ -124,7 +124,7 @@ theorem false_of_perfect_cover_act_u34 {G : Type} [Group G] [Finite G]
     (e : Pi ⧸ N ≃* projSU 3 2 2) (hS : IsPGroup 5 S)
     (hPS : Pi ≤ Subgroup.normalizer (S : Set G)) (hact : ∃ x ∈ Pi, ∃ s ∈ S, x * s * x⁻¹ ≠ s) :
     False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨X₂, hX₂, h3⟩ := exists_twoLocal_three_le_pRank (by norm_num) hS hPS hact
     fun V _ _ _ ρ hρ => exists_two_element_fixed_of_seven_u34 hN e (by norm_num) ρ hρ
       (le_trans (by norm_num) (eight_le_finrank_of_u34 hN e ρ hρ))

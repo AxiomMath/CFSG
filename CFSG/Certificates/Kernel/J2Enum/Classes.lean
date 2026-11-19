@@ -133,7 +133,6 @@ private theorem pow_conj_eq_one {n : ℕ} (c γ : Equiv.Perm (Fin n)) (e : ℕ) 
   constructor
   · intro h
     have := congrArg (fun z => c⁻¹ * z * c) h
-    try simp only at this
     rwa [show c⁻¹ * (c * γ ^ e * c⁻¹) * c = γ ^ e by group, show c⁻¹ * 1 * c = 1 by group] at this
   · intro h
     rw [h]
@@ -429,7 +428,6 @@ theorem classes_sound' {n w kS kO BP NS CH g N cap mx r s my : ℕ} {PS PSI LR T
     have hpm : (ys.map fun y => c⁻¹ * y * c).Perm ys := by
       refine (List.perm_ext_iff_of_nodup ((hXnd my).map fun a b e => ?_) (hXnd my)).2 fun z => ?_
       · have := congrArg (fun t => c * t * c⁻¹) e
-        try simp only at this
         rwa [show c * (c⁻¹ * a * c) * c⁻¹ = a by group,
           show c * (c⁻¹ * b * c) * c⁻¹ = b by group] at this
       · constructor

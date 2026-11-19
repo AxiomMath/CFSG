@@ -24,9 +24,9 @@ theorem r95_frattini_lift {E Qm : Type} [Group E] [Finite E] [Group Qm] (π : E 
   have hle : N ≤ Subgroup.normalizer (P : Set E) := Subgroup.le_normalizer_comap π
   let P' : Subgroup ↥N := P.subgroupOf N
   have hP'normal : P'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hPN).mpr hle
-  haveI : P'.Normal := hP'normal
+  have : P'.Normal := hP'normal
   let R' : Sylow p ↥P' := default
-  have hR'p : IsPGroup p (R' : Subgroup ↥P') := R'.isPGroup'
+  have hR'p : IsPGroup p (R' : Subgroup ↥P') := R'.isPGroup
   let H' : Subgroup ↥N := (R' : Subgroup ↥P').map P'.subtype
   let R : Subgroup E := H'.map N.subtype
   let π' : ↥P' →* ↥V :=
@@ -90,16 +90,16 @@ theorem r95_exists_seven_normalizer {Q : Type} [Group Q] [Finite Q] {E : Subgrou
     Subgroup.normalizer (R : Set Q) := by
   classical
   obtain ⟨Qm, hQm, π, hπ, hm⟩ := hE
-  letI : Group Qm := hQm
-  haveI : Finite Qm := Finite.of_surjective π hπ
+  let : Group Qm := hQm
+  have : Finite Qm := Finite.of_surjective π hπ
   have hm7 : LieModel Qm .PSL 2 7 1 :=
     CFSG.LocalAnalysis.ComponentInitial.PSL3_two_PSL2_seven_paired_isomorphism Qm hm
   have hX : CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.IsLThreeTwo Qm :=
     CFSG.AGLEmbeddingD2.McLaughlin.Lie.isLThreeTwo_of_statedClassicalModel
       (CFSG.Blueprint.LieModel.statedClassicalModel hm7 (by decide))
   have hcard : Nat.card Qm = 168 := CFSG.AGLEmbeddingD2.McLaughlin.isLThreeTwo_card_eq hX
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := Qm) 3 (by rw [hcard]; norm_num)
   obtain ⟨b, hb7, hb1, hcb⟩ :=
     CFSG.AGLEmbeddingD2.McLaughlin.OddIndex.exists_frobenius_pair hX hc
@@ -108,12 +108,12 @@ theorem r95_exists_seven_normalizer {Q : Type} [Group Q] [Finite Q] {E : Subgrou
   set c' : Qm := if c * b = b ^ 2 * c then c else c⁻¹ with hc'def
   have hc'ord : orderOf c' = 3 := by
     by_cases h : c * b = b ^ 2 * c
-    · rw [hc'def, if_pos h]; exact hc
-    · rw [hc'def, if_neg h, orderOf_inv, hc]
+    · rw [hc'def, ite_eq_left h]; exact hc
+    · rw [hc'def, ite_eq_right h, orderOf_inv, hc]
   have hc'b : c' * b = b ^ 2 * c' := by
     by_cases h : c * b = b ^ 2 * c
-    · rw [hc'def, if_pos h]; exact h
-    · rw [hc'def, if_neg h]
+    · rw [hc'def, ite_eq_left h]; exact h
+    · rw [hc'def, ite_eq_right h]
       rcases hcb with h1 | h2
       · exact absurd h1 h
       · exact h2

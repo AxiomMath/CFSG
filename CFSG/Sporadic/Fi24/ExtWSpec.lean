@@ -42,7 +42,7 @@ theorem eq_of_pw {r : ℕ} {X Y : Array W} (hr : r ≤ 781) (hX : canonRows r X 
   refine eq_of_matW_eq hX hY ?_
   ext i j
   have := congrFun (congrFun h ⟨i.val, by omega⟩) j
-  rwa [matW_apply, matW_apply] at this ⊢
+  rw [matW_apply, matW_apply] at this ⊢; assumption
 
 theorem eqRows_of_pw {r : ℕ} {X Y : Array W} (hr : r ≤ 781) (hX : canonRows r X = true)
     (hY : canonRows r Y = true) (h : matW 781 781 X = matW 781 781 Y) : eqRows r X Y = true := by
@@ -88,14 +88,14 @@ theorem pw_transposeW {R : Array W} (hR : RowsWF R) (hs : R.size = 253) :
   rw [Matrix.transpose_apply, matW_apply, matW_apply, rowW_transposeW R i.val i.isLt,
     ofTrits_val (by norm_num)]
   by_cases hj : j.val < 253
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     exact tritZ_eq_val (hR.row j.val) i.val
-  · rw [if_neg hj, rowW_ge (by omega), W.val_zero]
+  · rw [ite_eq_right hj, rowW_ge (by omega), W.val_zero]
 
 theorem zeroFrom_transposeW (R : Array W) : ZeroFrom 253 (transposeW 253 781 R) := by
   intro i j hj
   by_cases hi : i < 781
-  · rw [rowW_transposeW R i hi, ofTrits_val (by norm_num), if_neg (by omega)]
+  · rw [rowW_transposeW R i hi, ofTrits_val (by norm_num), ite_eq_right (by omega)]
   · rw [rowW_ge (by rw [transposeW_size]; omega), W.val_zero]
 
 theorem canonRows_transposeW (R : Array W) : canonRows 781 (transposeW 253 781 R) = true :=
@@ -111,7 +111,7 @@ theorem canonRows_transposeW (R : Array W) : canonRows 781 (transposeW 253 781 R
 theorem topL_pad (A : Matrix (Fin 253) (Fin 253) (ZMod 3)) : topL (pad A) = A := by
   ext i j
   unfold topL pad
-  rw [dif_pos ⟨i.isLt, j.isLt⟩]
+  rw [dite_eq_left ⟨i.isLt, j.isLt⟩]
 
 theorem pad_injective {A B : Matrix (Fin 253) (Fin 253) (ZMod 3)} (h : pad A = pad B) : A = B := by
   rw [← topL_pad A, ← topL_pad B, h]
@@ -121,26 +121,26 @@ theorem sum_781 (f : Fin 781 → ZMod 3) (hf : ∀ k : Fin 781, 253 ≤ k.val �
   let g : ℕ → ZMod 3 := fun k => if h : k < 781 then f ⟨k, h⟩ else 0
   have e1 : ∑ k, f k = ∑ k : Fin 781, g k.val := by
     refine Finset.sum_congr rfl fun k _ => ?_
-    simp only [g, dif_pos k.isLt]
+    simp only [g, dite_eq_left k.isLt]
   have e2 : ∑ k : Fin 253, f ⟨k.val, by omega⟩ = ∑ k : Fin 253, g k.val := by
     refine Finset.sum_congr rfl fun k _ => ?_
-    simp only [g, dif_pos (by omega : k.val < 781)]
+    simp only [g, dite_eq_left (by omega : k.val < 781)]
   rw [e1, e2, Fin.sum_univ_eq_sum_range g, Fin.sum_univ_eq_sum_range g,
     ← Finset.sum_range_add_sum_Ico _ (by norm_num : 253 ≤ 781)]
   rw [Finset.sum_eq_zero (s := Finset.Ico 253 781) (fun k hk => by
     rw [Finset.mem_Ico] at hk
-    simp only [g, dif_pos hk.2]
+    simp only [g, dite_eq_left hk.2]
     exact hf _ hk.1), add_zero]
 
 theorem pad_mul (A B : Matrix (Fin 253) (Fin 253) (ZMod 3)) : pad A * pad B = pad (A * B) := by
   ext i j
-  rw [Matrix.mul_apply, sum_781 _ (fun k hk => by unfold pad; rw [dif_neg (by omega), zero_mul])]
+  rw [Matrix.mul_apply, sum_781 _ (fun k hk => by unfold pad; rw [dite_eq_right (by omega), zero_mul])]
   unfold pad
   by_cases hij : i.val < 253 ∧ j.val < 253
-  · rw [dif_pos hij, Matrix.mul_apply]
+  · rw [dite_eq_left hij, Matrix.mul_apply]
     refine Finset.sum_congr rfl fun k _ => ?_
-    rw [dif_pos ⟨hij.1, k.isLt⟩, dif_pos ⟨k.isLt, hij.2⟩]
-  · rw [dif_neg hij]
+    rw [dite_eq_left ⟨hij.1, k.isLt⟩, dite_eq_left ⟨k.isLt, hij.2⟩]
+  · rw [dite_eq_right hij]
     refine Finset.sum_eq_zero fun k _ => ?_
     by_cases hi : i.val < 253
     · have hj : ¬j.val < 253 := fun h => hij ⟨hi, h⟩
@@ -152,12 +152,12 @@ theorem pad_one_mul (A : Matrix (Fin 781) (Fin 781) (ZMod 3)) (i j : Fin 781) :
   rw [Matrix.mul_apply, Finset.sum_eq_single i]
   · unfold pad
     by_cases hi : i.val < 253
-    · rw [dif_pos ⟨hi, hi⟩, if_pos hi, Matrix.one_apply_eq, one_mul]
-    · rw [dif_neg (fun h => hi h.1), if_neg hi, zero_mul]
+    · rw [dite_eq_left ⟨hi, hi⟩, ite_eq_left hi, Matrix.one_apply_eq, one_mul]
+    · rw [dite_eq_right (fun h => hi h.1), ite_eq_right hi, zero_mul]
   · intro k _ hk
     unfold pad
     split_ifs with h
-    · rw [Matrix.one_apply, if_neg (fun e => hk (Fin.ext (by simpa using (congrArg Fin.val e).symm))),
+    · rw [Matrix.one_apply, ite_eq_right (fun e => hk (Fin.ext (by simpa using (congrArg Fin.val e).symm))),
         zero_mul]
     · rw [zero_mul]
   · simp
@@ -167,12 +167,12 @@ theorem mul_pad_one (A : Matrix (Fin 781) (Fin 781) (ZMod 3)) (i j : Fin 781) :
   rw [Matrix.mul_apply, Finset.sum_eq_single j]
   · unfold pad
     by_cases hj : j.val < 253
-    · rw [dif_pos ⟨hj, hj⟩, if_pos hj, Matrix.one_apply_eq, mul_one]
-    · rw [dif_neg (fun h => hj h.1), if_neg hj, mul_zero]
+    · rw [dite_eq_left ⟨hj, hj⟩, ite_eq_left hj, Matrix.one_apply_eq, mul_one]
+    · rw [dite_eq_right (fun h => hj h.1), ite_eq_right hj, mul_zero]
   · intro k _ hk
     unfold pad
     split_ifs with h
-    · rw [Matrix.one_apply, if_neg (fun e => hk (Fin.ext (by simpa using congrArg Fin.val e))),
+    · rw [Matrix.one_apply, ite_eq_right (fun e => hk (Fin.ext (by simpa using congrArg Fin.val e))),
         mul_zero]
     · rw [mul_zero]
   · simp
@@ -182,14 +182,14 @@ theorem eq_pad_of {A : Matrix (Fin 781) (Fin 781) (ZMod 3)} (h1 : pad 1 * A = A)
   ext i j
   unfold pad topL
   by_cases hij : i.val < 253 ∧ j.val < 253
-  · rw [dif_pos hij]
-  · rw [dif_neg hij]
+  · rw [dite_eq_left hij]
+  · rw [dite_eq_right hij]
     by_cases hi : i.val < 253
     · have := congrFun (congrFun h2 i) j
-      rw [mul_pad_one, if_neg (fun h => hij ⟨hi, h⟩)] at this
+      rw [mul_pad_one, ite_eq_right (fun h => hij ⟨hi, h⟩)] at this
       exact this.symm
     · have := congrFun (congrFun h1 i) j
-      rw [pad_one_mul, if_neg hi] at this
+      rw [pad_one_mul, ite_eq_right hi] at this
       exact this.symm
 
 theorem pw_pad {X : Array W} (hs : X.size = 253) (hz : ZeroFrom 253 X) :
@@ -198,8 +198,8 @@ theorem pw_pad {X : Array W} (hs : X.size = 253) (hz : ZeroFrom 253 X) :
   unfold pad
   rw [matW_apply]
   by_cases hij : i.val < 253 ∧ j.val < 253
-  · rw [dif_pos hij, matW_apply]
-  · rw [dif_neg hij]
+  · rw [dite_eq_left hij, matW_apply]
+  · rw [dite_eq_right hij]
     by_cases hi : i.val < 253
     · exact hz i j (by omega)
     · rw [rowW_ge (by omega), W.val_zero]
@@ -207,7 +207,7 @@ theorem pw_pad {X : Array W} (hs : X.size = 253) (hz : ZeroFrom 253 X) :
 theorem zeroFrom_idW253 : ZeroFrom 253 (idW 253) := by
   intro i j hj
   by_cases hi : i < 253
-  · rw [rowW_idW i hi, W.val_setTrit (by omega) (W.val_zero _), if_neg (by omega), W.val_zero]
+  · rw [rowW_idW i hi, W.val_setTrit (by omega) (W.val_zero _), ite_eq_right (by omega), W.val_zero]
   · rw [rowW_ge (by rw [idW_size]; omega), W.val_zero]
 
 theorem canonRows_idW253 : canonRows 253 (idW 253) = true :=
@@ -271,7 +271,7 @@ theorem zeroFrom_rowsOfSeed (d : ℕ) (hd : d ≤ 781) (s : String) : ZeroFrom d
   intro i j hj
   by_cases hi : i < d
   · unfold rowsOfSeed
-    rw [rowW_ofFn, dif_pos hi, ofTrits_val (by omega), if_neg (by omega)]
+    rw [rowW_ofFn, dite_eq_left hi, ofTrits_val (by omega), ite_eq_right (by omega)]
   · rw [rowW_ge (by rw [rowsOfSeed_size']; omega), W.val_zero]
 
 theorem canonRows_rowsOfSeed (d : ℕ) (hd : d ≤ 781) (s : String) :
@@ -283,7 +283,7 @@ theorem matW_rowsOfSeed' (d : ℕ) (hd : d ≤ 781) (s : String) :
     matW d d (rowsOfSeed d s) = Blueprint.NativeSporadic.decode 3 d 1 s := by
   ext i j
   unfold rowsOfSeed
-  rw [matW_apply, rowW_ofFn, dif_pos i.isLt, ofTrits_val (by omega), if_pos j.isLt,
+  rw [matW_apply, rowW_ofFn, dite_eq_left i.isLt, ofTrits_val (by omega), ite_eq_left j.isLt,
     CFSG.F3.Native.decode_apply_eq_decodeEntries, List.getElem?_toArray]
 
 theorem rowW_ofFn_ofTrits_val {n d m : ℕ} (hd : d ≤ 832) (e : Array ℕ) {i j : ℕ} (hi : i < n) :
@@ -297,7 +297,7 @@ theorem rowW_ofFn_ofTrits_val {n d m : ℕ} (hd : d ≤ 832) (e : Array ℕ) {i 
 theorem rowW_matF_val {i j : ℕ} (hi : i < 781) (hj : j < 781) :
     (rowW (matF ()) i).val j = (((decode81 formData)[781 * i + j]?.getD 0 : ℕ) : ZMod 3) :=
   (rowW_ofFn_ofTrits_val (n := 781) (d := 781) (m := 781) (by norm_num) (decode81 formData)
-    hi).trans (if_pos hj)
+    hi).trans (ite_eq_left hj)
 
 theorem rowsWF_matF : RowsWF (matF ()) := by
   intro x hx
@@ -323,7 +323,7 @@ theorem basisRows_size : (basisRows ()).size = 253 := by unfold basisRows; simp
 theorem zeroFrom_basisRows : ZeroFrom 253 (basisRows ()) := by
   intro i j hj
   by_cases hi : i < 253
-  · rw [rowW_basisRows_val hi, if_neg (by omega)]
+  · rw [rowW_basisRows_val hi, ite_eq_right (by omega)]
   · rw [rowW_ge (by rw [basisRows_size]; omega), W.val_zero]
 
 theorem zeroFrom_initRows_rows (i : ℕ) (hi : 253 ≤ i) (j : ℕ) : (rowW (initRows ()) i).val j = 0 := by
@@ -357,25 +357,25 @@ theorem swapIfInBounds_self (X : Array W) (c : ℕ) : X.swapIfInBounds c c = X :
 
 theorem initRows_val {i j : ℕ} (hi : i < 253) (hj : j < 253) :
     (rowW (initRows ()) i).val j = if j = i then 1 else 0 := by
-  rw [CFSG.KC.Fi24FixS.rowW_initRows_val hi (by omega), if_pos hj]
+  rw [CFSG.KC.Fi24FixS.rowW_initRows_val hi (by omega), ite_eq_left hj]
   split_ifs <;> rfl
 
 theorem colStep_unit {X : Array W} {r : ℕ} (hs : X.size = r) (hw : RowsWF X)
     (hu : ∀ i < r, ∀ j < r, (rowW X i).val j = if j = i then 1 else 0) (c : ℕ) (hc : c < r)
     (piv : Array ℕ) : ∃ piv', colStep ⟨X, c, piv⟩ c = ⟨X, c + 1, piv'⟩ := by
   have hcs : c < X.size := by rw [hs]; exact hc
-  have hcc : (rowW X c).val c = 1 := by rw [hu c hc c hc, if_pos rfl]
+  have hcc : (rowW X c).val c = 1 := by rw [hu c hc c hc, ite_eq_left rfl]
   have e : ∀ h (hx : h < X.size), X[h] = rowW X h := by
     intro h hx; unfold rowW; rw [Array.getElem?_eq_getElem hx, Option.getD_some]
   have hpiv : findPiv X (c >>> 6) ((1 : UInt64) <<< (c &&& 63).toUInt64) c = c := by
     unfold findPiv
-    rw [dif_pos hcs, e c hcs, nz_bit, bitP_of_val_one (hw.row c) hcc, Bool.true_or, if_pos rfl]
+    rw [dite_eq_left hcs, e c hcs, nz_bit, bitP_of_val_one (hw.row c) hcc, Bool.true_or, ite_eq_left rfl]
   have h1 : (⟨X, c, piv⟩ : RRef).rank < (⟨X, c, piv⟩ : RRef).rows.size := hcs
   unfold colStep
-  rw [if_pos h1]
+  rw [ite_eq_left h1]
   change ∃ piv', (if findPiv X (c >>> 6) ((1 : UInt64) <<< (c &&& 63).toUInt64) c <
       X.size then _ else _) = _
-  rw [hpiv, if_pos hcs]
+  rw [hpiv, ite_eq_left hcs]
   dsimp only
   rw [swapIfInBounds_self]
   have e2 : (X[c]?.getD W.zero) = rowW X c := rfl
@@ -388,10 +388,10 @@ theorem colStep_unit {X : Array W} {r : ℕ} (hs : X.size = r) (hw : RowsWF X)
       intro Y hy; unfold rowW; rw [Array.getElem?_eq_getElem hy, Option.getD_some]
     rw [e5 _ hh, e5 _ hh', rowW_elimRows _ _ _ _ _ _ hh']
     by_cases hhc : h = c
-    · rw [if_pos hhc]
-    · rw [if_neg hhc]
+    · rw [ite_eq_left hhc]
+    · rw [ite_eq_right hhc]
       have h0 : (rowW X h).val c = 0 := by
-        rw [hu h (by rw [hs] at hh'; exact hh') c hc, if_neg (Ne.symm hhc)]
+        rw [hu h (by rw [hs] at hh'; exact hh') c hc, ite_eq_right (Ne.symm hhc)]
       obtain ⟨b1, b2⟩ := bits_of_val_zero (hw.row h) h0
       rw [limbP_bit, limbM_bit, b1, b2]
       simp
@@ -402,7 +402,7 @@ theorem colStep_unit {X : Array W} {r : ℕ} (hs : X.size = r) (hw : RowsWF X)
 
 theorem colStep_full (st : RRef) (h : st.rows.size ≤ st.rank) (c : ℕ) : colStep st c = st := by
   unfold colStep
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
 
 theorem rref_unit {X : Array W} {r : ℕ} (hs : X.size = r) (hw : RowsWF X)
     (hu : ∀ i < r, ∀ j < r, (rowW X i).val j = if j = i then 1 else 0) (d : ℕ) :

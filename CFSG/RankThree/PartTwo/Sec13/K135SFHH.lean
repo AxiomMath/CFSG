@@ -133,7 +133,7 @@ theorem commutator_eq_bot_of_centralizes_pCore {Y : Type*} [Group Y] [Finite Y]
     (Xb : Subgroup Y) [Group.IsPerfect Xb]
     (hQ : Xb ≤ Subgroup.centralizer (((CFSG.pCore 3 Rb).map Rb.subtype : Subgroup Y) : Set Y)) :
     ⁅Rb, Xb⁆ = ⊥ := by
-  haveI hQn : ((CFSG.pCore 3 Rb).map Rb.subtype).Normal := sf_hh_normal_pCore3 Rb
+  have hQn : ((CFSG.pCore 3 Rb).map Rb.subtype).Normal := sf_hh_normal_pCore3 Rb
   have hQ3 : IsPGroup 3 ↥((CFSG.pCore 3 Rb).map Rb.subtype) :=
     (CFSG.pCore_isPGroup (p := 3) (G := ↥Rb)).map Rb.subtype
   have hQR : ∀ x ∈ Rb,

@@ -15,7 +15,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {s : Setting3 G L}
   {e : Setting3.Ext s}
 
-private theorem y4_phi_eq_one_of_mem_B (c : Ctx4 s e) {b : G} (hb : b ∈ s.fr.B) :
+private theorem y4_phi_eq_one_of_mem_B (_c : Ctx4 s e) {b : G} (hb : b ∈ s.fr.B) :
     f3phi s b = 1 := by
   have hbt : b * s.t = s.t * b :=
     s3_comm_t_of_mem_L s (s3_S_le_L s (s3_B_le_S s hb))

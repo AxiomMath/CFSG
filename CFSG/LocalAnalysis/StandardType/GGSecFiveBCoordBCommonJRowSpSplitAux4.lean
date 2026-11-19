@@ -27,7 +27,7 @@ theorem ggCommonJSpSplit_count {K : Type} [Field K] {p r : ℕ} (hp : p.Prime) (
       if lam = 1 then p ^ (r - Nat.card {i : Fin r // f₀ i = 1})
       else p ^ (r - Nat.card {i : Fin r // f₀ i = lam ∨ f₀ i = lam⁻¹} + 1) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let τ : (Fin r → Multiplicative (ZMod p)) →* StatedSp r K :=
     TableBSymp.spTorusSp (m := r) hζ
   have hτ : Function.Injective τ := TableBSymp.spTorusSp_injective (m := r) hζ hζo
@@ -55,7 +55,7 @@ theorem ggCommonJSpSplit_count {K : Type} [Field K] {p r : ℕ} (hp : p.Prime) (
       (Subgroup.comap τ (Subgroup.centralizer (J : Set (StatedSp r K)))) τ hτ).toEquiv).symm
   rw [hcard, Nat.card_congr (Equiv.subtypeEquivRight hfixτ)]
   by_cases hlam : lam = 1
-  · rw [if_pos hlam]
+  · rw [ite_eq_left hlam]
     have hiff : ∀ g : Fin r → Multiplicative (ZMod p),
         ((lam = 1 ∧ ∀ i, f₀ i = 1 → g i = 1) ∨
           (lam ≠ 1 ∧ ∃ c : Multiplicative (ZMod p), ∀ i,
@@ -73,11 +73,11 @@ theorem ggCommonJSpSplit_count {K : Type} [Field K] {p r : ℕ} (hp : p.Prime) (
     have hScard : S.card = Nat.card {i : Fin r // f₀ i = 1} := by
       rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
     rw [hScard]
-  · rw [if_neg hlam]
+  · rw [ite_eq_right hlam]
     have hne_inv : lam ≠ lam⁻¹ := by
       intro h
       apply hlam
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hx : Multiplicative.toAdd lam = -Multiplicative.toAdd lam := by
         have := congrArg Multiplicative.toAdd h
         simpa using this

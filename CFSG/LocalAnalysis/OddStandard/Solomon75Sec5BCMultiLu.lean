@@ -31,7 +31,7 @@ variable {X : Type} [Group X] [Finite X] {n : ℕ} {z : X} {Z : Subgroup X}
   {S : Sylow 2 ↥(normalizer (Z : Set X))}
 
 theorem exists_Lu_model (h : Sec5Data X n z Z S) {A : Subgroup X}
-    (hA : Sec5Comp X n (normalizer (Z : Set X)) A) {u : X} (huZ : u ∈ Z) (hu1 : u ≠ 1)
+    (hA : Sec5Comp X n (normalizer (Z : Set X)) A) {u : X} (huZ : u ∈ Z) (_hu1 : u ≠ 1)
     (hAu : IsIntrinsicIn X (normalizer (Z : Set X)) A u) {t : X} (htA : t ∈ normalizer (A : Set X))
     (htu : t * u = u * t) (M : AhatModel X n A) :
     ∃ (L E : Subgroup X) (_ : Sec5Comp X n (centralizer ({u} : Set X)) L)

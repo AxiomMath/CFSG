@@ -20,6 +20,7 @@ open CFSG.Assembly.LowTwoRank (StatedClassicalModel)
 variable {G : Type} [Group G] [Finite G] {S : Subgroup G} {e : ↥S ≃* Multiplicative F6}
   {ψ : ↥(Nor S) →* OmG} {t : ↥S}
 
+omit [Finite G] in
 theorem sq_S (e : ↥S ≃* Multiplicative F6) (x : ↥S) : x * x = 1 := by
   apply eq_one_of_toAdd_e_zero (e := e)
   rw [toAdd_e_mul]
@@ -28,6 +29,7 @@ theorem sq_S (e : ↥S ≃* Multiplicative F6) (x : ↥S) : x * x = 1 := by
   simp only [Pi.add_apply, Pi.zero_apply]
   exact h _
 
+omit [Finite G] in
 theorem mem_Cen_iff_stab (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0)
     (n : ↥(Nor S)) :
     (n : G) ∈ Cen (t : G) ↔ ψ n ∈ MulAction.stabilizer OmG tau0 := by
@@ -39,11 +41,13 @@ theorem mem_Cen_iff_stab (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = 
     (fun n => (mem_Cen_iff_stab H het ⟨n.1, (Subgroup.mem_inf.1 n.2).1⟩).1
       (Subgroup.mem_inf.1 n.2).2)
 
+omit [Finite G] in
 theorem psiY_coe (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0)
     (n : ↥(Nor S ⊓ Cen (t : G))) :
     ((psiY H het n : ↥(MulAction.stabilizer OmG tau0)) : OmG) =
       ψ ⟨n.1, (Subgroup.mem_inf.1 n.2).1⟩ := rfl
 
+omit [Finite G] in
 theorem psiY_surj (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0) :
     Function.Surjective (psiY H het) := by
   intro g
@@ -53,6 +57,7 @@ theorem psiY_surj (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0) :
   rw [psiY_coe]
   exact hn
 
+omit [Finite G] in
 theorem pow4_of_psi_mem (H : OmSet S e ψ) (hE : Nat.card Eτ = 16) (x : ↥(Nor S))
     (hx : ψ x ∈ Eτ) : (x : G) ^ 4 = 1 := by
   have h1 : ψ x * ψ x = 1 := by
@@ -67,6 +72,7 @@ theorem pow4_of_psi_mem (H : OmSet S e ψ) (hE : Nat.card Eτ = 16) (x : ↥(Nor
         rw [show (4 : ℕ) = 2 + 2 from rfl, pow_add, pow_two]
     _ = 1 := h4
 
+omit [Finite G] in
 theorem psi_Op_le (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0)
     (m : ↥(Nor S)) (hm : (m : G) ∈ Op 2 (Nor S ⊓ Cen (t : G))) : ψ m ∈ Eτ := by
   let N : Subgroup OmG := ((Op 2 (Nor S ⊓ Cen (t : G))).subgroupOf (Nor S)).map ψ
@@ -98,6 +104,7 @@ theorem psi_Op_le (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0)
       rw [← map_pow, h1, map_one]
   exact hle hmN
 
+omit [Finite G] in
 theorem mem_Op_Y (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0)
     (hE : Nat.card Eτ = 16) (x : ↥(Nor S ⊓ Cen (t : G))) :
     (x : G) ∈ Op 2 (Nor S ⊓ Cen (t : G)) ↔ ((psiY H het x : ↥(MulAction.stabilizer OmG tau0)) : OmG) ∈ Eτ := by
@@ -122,6 +129,7 @@ theorem mem_Op_Y (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0)
       rw [Subgroup.mem_comap, Subgroup.mem_subgroupOf] at hy
       exact ⟨2, pow4_of_psi_mem H hE ⟨y.1, (Subgroup.mem_inf.1 y.2).1⟩ hy⟩
 
+omit [Finite G] in
 theorem relIndex_Op_Y (H : OmSet S e ψ) (het : Multiplicative.toAdd (e t) = tau0)
     (hE : Nat.card Eτ = 16) : S.relIndex (Op 2 (Nor S ⊓ Cen (t : G))) = 16 := by
   have hle : Op 2 (Nor S ⊓ Cen (t : G)) ≤ Nor S := (S3.Op_le 2 _).trans inf_le_left
@@ -177,7 +185,7 @@ theorem quot_equiv_A5 (hE : Nat.card Eτ = 16) (hPair : HypOmPair) :
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup K
     rw [card_stabilizer_sing qMinus_tau0 tau0_ne_zero, hK] at h1
     omega
-  haveI : Finite (↥(MulAction.stabilizer OmG tau0) ⧸ K) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite (↥(MulAction.stabilizer OmG tau0) ⧸ K) := Nat.finite_of_card_ne_zero (by omega)
   have hP : Nat.card ↥P2 = 60 := by
     rw [Nat.card_congr eA.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup]
     simp [Fintype.card_fin]
@@ -186,6 +194,7 @@ theorem quot_equiv_A5 (hE : Nat.card Eτ = 16) (hPair : HypOmPair) :
     (Nat.bijective_iff_injective_and_card ι).2 ⟨hinj, by rw [hP, hQ]⟩
   exact ⟨(MulEquiv.ofBijective ι hbij).symm.trans eA⟩
 
+omit [Finite G] in
 theorem data_B (H : OmSet S e ψ)
     (het : Multiplicative.toAdd (e t) = tau0) (hPar : HypOmParabolic) (hPair : HypOmPair) :
     S.relIndex (Op 2 (Nor S ⊓ Cen (t : G))) = 16 ∧

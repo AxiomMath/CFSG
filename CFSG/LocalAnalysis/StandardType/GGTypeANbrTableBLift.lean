@@ -27,6 +27,7 @@ end Over
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_datum_of_label (hRig : GGLabelRigidInput) {Bs K : Subgroup G}
     (hInnK : GGInnerDiagOn Bs K) {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
     (hhas : GGHasLabel lab (K ⧸ Subgroup.center K)) {P : LargeEvenRawCont}

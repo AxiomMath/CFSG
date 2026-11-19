@@ -48,6 +48,7 @@ private theorem eq_of_rho_eq' {B : Type*} [Group B] {M T : Subgroup G} (hT : IsS
   rw [inf_oddIn_eq_bot_of_syl' hT, mem_bot] at h4
   exact inv_mul_eq_one.mp (Subtype.ext h4)
 
+omit [Finite G] in
 private theorem mem_imgT_iff' {M T : Subgroup G} {ρ : ↥M →* WrE} {z : WrE} :
     z ∈ imgT T M ρ ↔ ∃ m : ↥M, (m : G) ∈ T ∧ ρ m = z := by
   unfold imgT
@@ -55,6 +56,7 @@ private theorem mem_imgT_iff' {M T : Subgroup G} {ρ : ↥M →* WrE} {z : WrE} 
   exact ⟨fun ⟨m, hm, e⟩ => ⟨m, mem_subgroupOf.mp hm, e⟩,
     fun ⟨m, hm, e⟩ => ⟨m, mem_subgroupOf.mpr hm, e⟩⟩
 
+omit [Finite G] in
 private theorem comm_conj_of_comm {a d z g : G} (hg : g⁻¹ * a * g = d) (hz : z * d = d * z) :
     g * z * g⁻¹ * a = a * (g * z * g⁻¹) := by
   have ha : a = g * d * g⁻¹ := by rw [← hg]; group

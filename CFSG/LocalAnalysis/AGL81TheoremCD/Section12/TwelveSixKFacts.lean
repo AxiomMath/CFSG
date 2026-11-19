@@ -29,7 +29,7 @@ theorem prime_dvd_card_mulAut_of_lieModel_psp43 {X : Type} [Group X] [Finite X]
   have hle : Nat.card (MulAut CFSG.GH74.Exceptional.PSp43) ≤ 51840 :=
     CFSG.Quasithin.SimsF5.card_mulAut_PSp43_le
   have hpos : 0 < Nat.card (MulAut CFSG.GH74.Exceptional.PSp43) := by
-    haveI : Nonempty (MulAut CFSG.GH74.Exceptional.PSp43) := ⟨1⟩
+    have : Nonempty (MulAut CFSG.GH74.Exceptional.PSp43) := ⟨1⟩
     exact Nat.card_pos
   obtain ⟨k, hk⟩ := hdvd25920
   have hk1 : 1 ≤ k := by

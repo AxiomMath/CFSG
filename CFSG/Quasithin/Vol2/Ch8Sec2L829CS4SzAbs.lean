@@ -21,7 +21,7 @@ theorem card_sup_dvd_of_normal {Γ : Type} [Group Γ] [Finite Γ] {R A B : Subgr
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have h := hAn.conj_mem ⟨(n : Γ), hA hn⟩ (Subgroup.mem_subgroupOf.mpr hn) ⟨(g : Γ), hAB g.2⟩
     exact Subgroup.mem_subgroupOf.mp h
-  haveI := hAn'
+  have := hAn'
   let A' : Subgroup ↥(A ⊔ B) := A.subgroupOf (A ⊔ B)
   let B' : Subgroup ↥(A ⊔ B) := B.subgroupOf (A ⊔ B)
   have hsup : A' ⊔ B' = ⊤ := by
@@ -61,7 +61,7 @@ theorem not_three_dvd_sup_of_normal {Γ : Type} [Group Γ] [Finite Γ] (R : Subg
     (hNn : ∀ i, ((N i).subgroupOf R).Normal) (hp : ∀ i, ¬ 3 ∣ Nat.card ↥(N i)) :
     ¬ 3 ∣ Nat.card ↥(⨆ i, N i) := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   have key : ∀ s : Finset ι, ¬ 3 ∣ Nat.card ↥(s.sup N) ∧ s.sup N ≤ R := by
     intro s
     induction s using Finset.induction_on with
@@ -124,7 +124,7 @@ theorem not_three_dvd_of_components {Γ : Type} [Group Γ] [Finite Γ] (R : Subg
       have hx : x ∈ (⊤ : Subgroup ↥K) := Subgroup.mem_top x
       rw [← hcomm, Subgroup.mem_bot] at hx
       exact hx
-    haveI := hsimp
+    have := hsimp
     obtain ⟨x, y, hxy⟩ := exists_pair_ne (↥K ⧸ Subgroup.center ↥K)
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective x
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective y

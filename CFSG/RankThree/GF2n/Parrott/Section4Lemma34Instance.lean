@@ -81,7 +81,7 @@ private theorem lemma34_transitive_of_fixedPointFree {Q : Type} [Group Q] [Finit
     group
   have h1D : (1 : Q) ∈ (D : Set Q) := D.one_mem
   have hDcard : ((D : Set Q) \ {1}).ncard = 15 := by
-    rw [Set.ncard_diff_singleton_of_mem h1D, ← Nat.card_coe_set_eq]
+    rw [Set.ncard_sdiff_singleton_of_mem h1D, ← Nat.card_coe_set_eq]
     show Nat.card D - 1 = 15
     rw [hD]
   have hOpos : 0 < Nat.card (MulAction.orbit (ConjAct Q) a) :=

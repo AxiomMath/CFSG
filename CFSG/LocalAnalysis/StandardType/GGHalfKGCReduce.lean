@@ -48,7 +48,7 @@ private theorem ggHalfKGCReduce_center_eq_bot_of_mulEquiv {G H : Type} [Group G]
 theorem ggHalfNbrCent_of_centSolv {Y : Type} [Group Y] [Finite Y] (X J R : Subgroup Y) (x : Y)
     (n : ℕ) (hX : CFSG.Assembly.IsQuasisimple ↥X)
     (hOut : Nat.card (Outer (↥X ⧸ Subgroup.center ↥X)) ≤ 2)
-    (hlt : Nat.card (Matrix.SpecialLinearGroup (Fin (n - 1)) (GaloisField 2 1)) <
+    (_hlt : Nat.card (Matrix.SpecialLinearGroup (Fin (n - 1)) (GaloisField 2 1)) <
       Nat.card (↥X ⧸ Subgroup.center ↥X))
     (hcs : GGKGCCentSolv (↥X ⧸ Subgroup.center ↥X) n)
     (hx : x ∈ Subgroup.normalizer (X : Set Y)) (hx3 : x ^ 3 = 1)
@@ -56,11 +56,11 @@ theorem ggHalfNbrCent_of_centSolv {Y : Type} [Group Y] [Finite Y] (X J R : Subgr
     (hJc : CFSG.Assembly.IsComponentOf J (X ⊓ Subgroup.centralizer ({x} : Set Y)))
     (hR : R ≤ Subgroup.normalizer (X : Set Y)) (hRJ : R ≤ Subgroup.centralizer (J : Set Y))
     (hRp : ⁅R, R⁆ = R) : R ≤ Subgroup.centralizer (X : Set Y) := by
-  haveI hPerfX : Group.IsPerfect ↥X := Group.IsPerfect.mk hX.1
-  haveI hSolvOutP : Group.IsSolvable (Outer (↥X ⧸ Subgroup.center ↥X)) :=
+  have hPerfX : Group.IsPerfect ↥X := Group.IsPerfect.mk hX.1
+  have hSolvOutP : Group.IsSolvable (Outer (↥X ⧸ Subgroup.center ↥X)) :=
     ggHalfKGCReduce_isSolvable_of_card_le_two hOut
-  haveI hSolvOutX : Group.IsSolvable (Outer ↥X) := solvable_of_centerQuotient ↥X
-  haveI hPerfR : Group.IsPerfect ↥R := Subgroup.isPerfect_iff.mpr hRp
+  have hSolvOutX : Group.IsSolvable (Outer ↥X) := solvable_of_centerQuotient ↥X
+  have hPerfR : Group.IsPerfect ↥R := Subgroup.isPerfect_iff.mpr hRp
   let P : Type := ↥X ⧸ Subgroup.center ↥X
   let π : ↥X →* P := QuotientGroup.mk' (Subgroup.center ↥X)
   have hker : (MulAut.conj : ↥X →* MulAut ↥X).ker = Subgroup.center ↥X := by
@@ -278,11 +278,11 @@ theorem ggHalfNbrCent_of_centSolv {Y : Type} [Group Y] [Finite Y] (X J R : Subgr
           exact p.2
         have hc := hcenter hp
         simpa using (Subgroup.mem_center_iff.mp hc ⟨(q : Y), hJX q.2⟩).symm
-      haveI hPerfJ : Group.IsPerfect ↥J := Group.IsPerfect.mk hJc.2.2.1
+      have hPerfJ : Group.IsPerfect ↥J := Group.IsPerfect.mk hJc.2.2.1
       have hsolv : Group.IsSolvable ↥J := Group.isSolvable_of_comm fun p q => hJabel p q
-      haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJc.2.2.2
-      haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := IsSimpleGroup.toNontrivial
-      haveI : Nontrivial ↥J :=
+      have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJc.2.2.2
+      have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := IsSimpleGroup.toNontrivial
+      have : Nontrivial ↥J :=
         Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥J))
       exfalso
       exact Group.IsPerfect.not_isSolvable (G := ↥J) hsolv
@@ -314,9 +314,9 @@ theorem ggHalfNbrCent_of_centSolv {Y : Type} [Group Y] [Finite Y] (X J R : Subgr
       rw [Subgroup.eq_bot_iff_forall]
       intro y hy
       by_contra hyne
-      haveI : Nontrivial ↥φ.range :=
+      have : Nontrivial ↥φ.range :=
         ⟨⟨y, hy⟩, ⟨1, φ.range.one_mem⟩, fun h => hyne (Subtype.ext_iff.mp h)⟩
-      haveI : Group.IsPerfect ↥φ.range := hφperf
+      have : Group.IsPerfect ↥φ.range := hφperf
       exact Group.IsPerfect.not_isSolvable (G := ↥φ.range) hφrangeSolv
     have hcr1_all : ∀ r : ↥R, c r = 1 := by
       intro r

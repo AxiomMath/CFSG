@@ -21,7 +21,7 @@ theorem kd264I5Aut_l28 (e : TauCeti.ValidLieTypeIndex) [Finite (TauCeti.CFSGInde
   have hq8 : q.p ^ q.exponent = 8 := (TauCeti.PrimePower.card_def q).symm.trans hq
   obtain ⟨hp2, hk3⟩ := CFSG.LocalAnalysis.GLTheoremA.KD264Lie.I5Aut.prime_pow_eq_eight
     q.prime_p q.exponent_pos hq8
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hd : CFSG.AGLEmbedding.IsLinTwoIndex 2 3 e := ⟨q, he, hp2, hk3⟩
   obtain ⟨φ⟩ := CFSG.AGLEmbedding.nonempty_mulEquiv_psl2GF_of_isLinTwoIndex hd
   have hL : CFSG.HardMathSupport.Timmesfeld.ComponentBalance.IsL2TwoPowOdd

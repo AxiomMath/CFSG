@@ -43,7 +43,7 @@ theorem sec9u_exists_E16_commute (hT6 : Asc82Tab6M) {G : Type} [Group G] [Finite
     obtain ⟨b₂, hb₂, hbf₂⟩ := hBF f₂ h₂
     have hbb : b₁ * b₂ = b₂ * b₁ := by
       have hcommB : (⟨b₁, hb₁⟩ : ↥B) * ⟨b₂, hb₂⟩ = ⟨b₂, hb₂⟩ * ⟨b₁, hb₁⟩ := by
-        haveI : IsMulCommutative ↥B := hB.1.1
+        have : IsMulCommutative ↥B := hB.1.1
         exact mul_comm' _ _
       simpa using congrArg Subtype.val hcommB
     calc f₁ * f₂

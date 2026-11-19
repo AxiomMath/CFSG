@@ -17,8 +17,8 @@ variable {p k : ℕ}
 
 private theorem pow_injective_of_not_dvd {p : ℕ} (hp : p.Prime) {c : ℕ} (hc : ¬ p ∣ c) :
     ∀ x y : Multiplicative (ZMod p), x ^ c = y ^ c → x = y := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hc0 : (c : ZMod p) ≠ 0 := by
     rw [Ne, ZMod.natCast_eq_zero_iff]
     exact hc
@@ -55,7 +55,7 @@ private theorem sign_mul_eq_or_neg_of_eq_or_neg {p : ℕ} {ε δ a b : ZMod p}
     (h : a = b ∨ a = -b) : ε * a = δ * b ∨ ε * a = -(δ * b) := by
   rcases h with h | h
   · rw [h]
-    rcases hε with rfl | rfl <;> rcases hδ with rfl | rfl <;> simp [mul_neg]
+    rcases hε with rfl | rfl <;> rcases hδ with rfl | rfl <;> simp
   · rw [h]
     rcases hε with rfl | rfl <;> rcases hδ with rfl | rfl <;> simp [mul_neg]
 
@@ -206,14 +206,14 @@ theorem ggCoord_iff_of_normalizes (hp : p.Prime) (hp2 : p ≠ 2) (hk : 3 ≤ k)
       SpCoord.IsSignedPerm ⇑(φ * u * φ⁻¹))
     (f : Fin k → Multiplicative (ZMod p)) :
     (GGCoordDense (φ f) ↔ GGCoordDense f) ∧ (GGCoordSparse (φ f) ↔ GGCoordSparse f) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hφ' : ∀ u : MulAut (Fin k → Multiplicative (ZMod p)),
       SpCoord.IsSignedPerm ⇑u → SpCoord.IsSignedPerm ⇑(φ⁻¹ * u * φ) := by
     intro v hv
     let S := SignedPermCount.signedPermSubgroup p k
-    haveI : Finite (MulAut (Fin k → Multiplicative (ZMod p))) :=
+    have : Finite (MulAut (Fin k → Multiplicative (ZMod p))) :=
       Finite.of_injective (fun f : MulAut _ => (f : _ → _)) DFunLike.coe_injective
-    haveI : Finite S :=
+    have : Finite S :=
       Finite.of_injective (fun s : S => (s : MulAut (Fin k → Multiplicative (ZMod p))))
         Subtype.val_injective
     let T : S → S := fun u => ⟨φ * (u : MulAut (Fin k → Multiplicative (ZMod p))) * φ⁻¹,
@@ -419,16 +419,16 @@ theorem card_scalar_param {p r : ℕ} (P Q : Fin r → Prop) [DecidablePred P]
         obtain ⟨c, hc⟩ := g.2
         have hc₀ : (if h : P i₀ then g.1 i₀ else (g.1 i₀)⁻¹) = c := by
           rcases hi₀ with h | h
-          · rw [dif_pos h, (hc i₀).1 h]
+          · rw [dite_eq_left h, (hc i₀).1 h]
           · have hP : ¬ P i₀ := fun hp => hdisj i₀ hp h
-            rw [dif_neg hP, (hc i₀).2 h, inv_inv]
+            rw [dite_eq_right hP, (hc i₀).2 h, inv_inv]
         apply Subtype.ext
         funext i
         by_cases hi : P i
         · simp [hi, (hc i).1 hi, hc₀]
         · by_cases hi' : Q i
           · have hiP : ¬ P i := fun h => hdisj i h hi'
-            simp [hi, hi', hiP, (hc i).2 hi', hc₀]
+            simp [hi, hi', (hc i).2 hi', hc₀]
           · simp [hi, hi']
       right_inv := by
         intro x
@@ -440,7 +440,7 @@ theorem card_scalar_param {p r : ℕ} (P Q : Fin r → Prop) [DecidablePred P]
         · funext i
           have hiP : ¬ P i := fun h => i.2 (Or.inl h)
           have hiQ : ¬ Q i := fun h => i.2 (Or.inr h)
-          simp only [dif_neg hiP, dif_neg hiQ] }
+          simp only [dite_eq_right hiP, dite_eq_right hiQ] }
   rw [Nat.card_congr e, Nat.card_prod, Nat.card_fun]
   have hp : Nat.card (Multiplicative (ZMod p)) = p := Nat.card_zmod p
   rw [hp]

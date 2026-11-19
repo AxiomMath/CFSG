@@ -65,7 +65,7 @@ theorem mem_normalizer_inf {D N : Subgroup G} {g : G} (hgD : g ∈ D)
     exact D.mul_mem (D.mul_mem (D.inv_mem hgD) hz.1) hgD
 
 theorem core5 {L1 L2 S : Subgroup G} (h : F13Setup L1 L2 S)
-    (hT1 : RankOneTwist (oTwoQuot ↥L1)) (hT2 : RankOneTwist (oTwoQuot ↥L2)) :
+    (hT1 : RankOneTwist (oTwoQuot ↥L1)) (_hT2 : RankOneTwist (oTwoQuot ↥L2)) :
     ∃ D1 D2 : Subgroup G, HallTwoPrime D1 (borelOf L1 S) ∧ HallTwoPrime D2 (borelOf L2 S) ∧
       borelOf L1 S = (S ⊓ L1) ⊔ D1 ∧ borelOf L2 S = (S ⊓ L2) ⊔ D2 ∧
       (∀ x ∈ D1, ∀ y ∈ D2, x * y = y * x) ∧

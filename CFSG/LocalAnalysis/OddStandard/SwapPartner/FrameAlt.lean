@@ -16,6 +16,7 @@ private theorem sign_conj_eq (d σ : Perm (Fin 10)) :
   simp only [map_mul, map_inv]
   exact mul_inv_cancel_comm _ _
 
+omit [Finite G] in
 theorem map_alternatingGroup_eq_of_even {ι ι₀ : Perm (Fin 10) →* G} {d : Perm (Fin 10)}
     (h : ∀ σ, sign σ = 1 → ι σ = ι₀ (d * σ * d⁻¹)) :
     (alternatingGroup (Fin 10)).map ι = (alternatingGroup (Fin 10)).map ι₀ := by

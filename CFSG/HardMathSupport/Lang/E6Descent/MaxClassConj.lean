@@ -16,7 +16,7 @@ variable {P : Type u} [Group P] (N : Subgroup P) (hN : ∀ a ∈ N, ∀ b ∈ N,
 
 @[expose] def NMod (N : Subgroup P) (_hN : ∀ a ∈ N, ∀ b ∈ N, a * b = b * a) : Type u := Additive ↥N
 
-@[expose] instance NMod.instAddCommGroup : AddCommGroup (NMod N hN) :=
+instance NMod.instAddCommGroup : AddCommGroup (NMod N hN) :=
   letI : CommGroup ↥N :=
     { (inferInstance : Group ↥N) with mul_comm := fun a b => Subtype.ext (hN a a.2 b b.2) }
   inferInstanceAs (AddCommGroup (Additive ↥N))
@@ -82,7 +82,7 @@ theorem conjEnd_mul (g h : P) : (conjEnd g * conjEnd h : Module.End ℤ (NMod N 
 
 @[expose] def GS (K : Subgroup P) : AddSubgroup (NMod N hN) where
   carrier := {u | u.toP ∈ K}
-  zero_mem' := by simpa using K.one_mem
+  zero_mem' := by simp
   add_mem' := fun {u v} hu hv => by
     show (u + v).toP ∈ K
     rw [NMod.toP_add]; exact K.mul_mem hu hv
@@ -90,8 +90,10 @@ theorem conjEnd_mul (g h : P) : (conjEnd g * conjEnd h : Module.End ℤ (NMod N 
     show (-u).toP ∈ K
     rw [NMod.toP_neg]; exact K.inv_mem hu
 
+omit [N.Normal] in
 theorem mem_GS {K : Subgroup P} {u : NMod N hN} : u ∈ GS K ↔ u.toP ∈ K := Iff.rfl
 
+omit [N.Normal] in
 theorem card_GS {K : Subgroup P} (hK : K ≤ N) : Nat.card (GS (N := N) (hN := hN) K) = Nat.card K :=
   Nat.card_congr
     { toFun := fun u => ⟨u.1.toP, u.2⟩

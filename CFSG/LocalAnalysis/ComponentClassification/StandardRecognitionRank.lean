@@ -95,7 +95,7 @@ theorem standard_centralizer_rank_split [Finite G] {L : Subgroup G}
         (CFSG.SectionRank.pRank_eq_pRank_top_subgroup (centralizer (L : Set G))).symm)
     omega
   rcases (CFSG.LocalAnalysis.ComponentInitial.pgroup_rank_one_classification Nat.prime_two
-      S.isPGroup').1 hrank with hcyc | ⟨-, n, hn, ⟨e⟩⟩
+      S.isPGroup).1 hrank with hcyc | ⟨-, n, hn, ⟨e⟩⟩
   · obtain ⟨-, heven, -⟩ := hL
     exact Or.inl ⟨hcyc, S.ne_bot_of_dvd_card (even_iff_two_dvd.1 heven)⟩
   · obtain ⟨t, htS, ht, hu⟩ := exists_unique_involution_of_quaternion e

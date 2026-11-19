@@ -64,7 +64,7 @@ theorem mA_eltMul (hn : 0 < n) (x y : Array ℕ) :
   obtain ⟨hd, hm⟩ := index_div_mod (i := (i : ℕ)) hn j.2
   have hget : eA n (eltMul n x y) i j = sumLt n (fun l => eA n x (i : ℕ) l *
       (if eE n x = 1 then eB n y l (j : ℕ) else eA n y l (j : ℕ))) % 3 := by
-    rw [eA, eltMul_get (by omega), if_pos hk, hd, hm]
+    rw [eA, eltMul_get (by omega), ite_eq_left hk, hd, hm]
   simp only [mA, Matrix.of_apply]
   rw [hget, ← CharP.natCast_eq_natCast_mod K 3, sumLt_cast]
   by_cases h1 : eE n x = 1
@@ -82,7 +82,7 @@ theorem mB_eltMul (hn : 0 < n) (x y : Array ℕ) :
   have hsub : n * n + (n * (i : ℕ) + (j : ℕ)) - n * n = n * (i : ℕ) + (j : ℕ) := by omega
   have hget : eB n (eltMul n x y) i j = sumLt n (fun l => eB n x (i : ℕ) l *
       (if eE n x = 1 then eA n y l (j : ℕ) else eB n y l (j : ℕ))) % 3 := by
-    rw [eB, eltMul_get (by omega), if_neg hk', if_pos hk, hsub, hd, hm]
+    rw [eB, eltMul_get (by omega), ite_eq_right hk', ite_eq_left hk, hsub, hd, hm]
   simp only [mB, Matrix.of_apply]
   rw [hget, ← CharP.natCast_eq_natCast_mod K 3, sumLt_cast]
   by_cases h1 : eE n x = 1
@@ -94,7 +94,7 @@ theorem eE_eltMul (hn : 0 < n) (x y : Array ℕ) :
   have h1 : ¬ (2 * (n * n) < n * n) := by
     have := Nat.mul_pos hn hn
     omega
-  rw [eE, eltMul_get (by omega), if_neg h1, if_neg (lt_irrefl _)]
+  rw [eE, eltMul_get (by omega), ite_eq_right h1, ite_eq_right (lt_irrefl _)]
 
 end Spec
 
@@ -122,31 +122,34 @@ theorem eltInv_get {x : Array ℕ} {k : ℕ} (hk : k < 2 * (n * n) + 1) :
   rw [getElem!_pos _ _ (by rw [size_eltInv]; exact hk)]
   simp [eltInv]
 
+omit [CharP K 3] in
 theorem mA_eltOne (hn : 0 < n) : mA n K (eltOne n) = 1 := by
   ext i j
   have hk : n * (i : ℕ) + (j : ℕ) < n * n := lt_mul_of_lt i.2 j.2
   obtain ⟨hd, hm⟩ := index_div_mod (i := (i : ℕ)) hn j.2
   simp only [mA, Matrix.of_apply, eA]
-  rw [eltOne_get (by omega), if_pos (by omega), Nat.mod_eq_of_lt hk, hd, hm]
+  rw [eltOne_get (by omega), ite_eq_left (by omega), Nat.mod_eq_of_lt hk, hd, hm]
   by_cases hij : i = j
   · simp [Matrix.one_apply, hij]
   · have : (i : ℕ) ≠ (j : ℕ) := fun h => hij (Fin.ext h)
-    simp [Matrix.one_apply, hij, this]
+    simp [hij, this]
 
+omit [CharP K 3] in
 theorem mB_eltOne (hn : 0 < n) : mB n K (eltOne n) = 1 := by
   ext i j
   have hk : n * (i : ℕ) + (j : ℕ) < n * n := lt_mul_of_lt i.2 j.2
   obtain ⟨hd, hm⟩ := index_div_mod (i := (i : ℕ)) hn j.2
   simp only [mB, Matrix.of_apply, eB]
-  rw [eltOne_get (by omega), if_pos (by omega), Nat.add_mod_left, Nat.mod_eq_of_lt hk, hd, hm]
+  rw [eltOne_get (by omega), ite_eq_left (by omega), Nat.add_mod_left, Nat.mod_eq_of_lt hk, hd, hm]
   by_cases hij : i = j
   · simp [Matrix.one_apply, hij]
   · have : (i : ℕ) ≠ (j : ℕ) := fun h => hij (Fin.ext h)
-    simp [Matrix.one_apply, hij, this]
+    simp [hij, this]
 
-theorem eE_eltOne (hn : 0 < n) : eE n (eltOne n) = 0 := by
-  rw [eE, eltOne_get (by omega), if_neg (lt_irrefl _)]
+theorem eE_eltOne (_hn : 0 < n) : eE n (eltOne n) = 0 := by
+  rw [eE, eltOne_get (by omega), ite_eq_right (lt_irrefl _)]
 
+omit [CharP K 3] in
 theorem mA_eltInv (hn : 0 < n) (x : Array ℕ) :
     mA n K (eltInv n x) = if eE n x = 1 then (mA n K x)ᵀ else (mB n K x)ᵀ := by
   ext i j
@@ -154,11 +157,12 @@ theorem mA_eltInv (hn : 0 < n) (x : Array ℕ) :
   obtain ⟨hd, hm⟩ := index_div_mod (i := (i : ℕ)) hn j.2
   simp only [mA, Matrix.of_apply, eA]
   have := eltInv_get (n := n) (x := x) (k := n * (i : ℕ) + (j : ℕ)) (by omega)
-  rw [this, if_pos hk, hd, hm]
+  rw [this, ite_eq_left hk, hd, hm]
   by_cases h1 : eE n x = 1
-  · simp [h1, mA, eA]
+  · simp [h1, eA]
   · simp [h1, mB, eB]
 
+omit [CharP K 3] in
 theorem mB_eltInv (hn : 0 < n) (x : Array ℕ) :
     mB n K (eltInv n x) = if eE n x = 1 then (mB n K x)ᵀ else (mA n K x)ᵀ := by
   ext i j
@@ -169,22 +173,23 @@ theorem mB_eltInv (hn : 0 < n) (x : Array ℕ) :
   have hsub : n * n + (n * (i : ℕ) + (j : ℕ)) - n * n = n * (i : ℕ) + (j : ℕ) := by omega
   simp only [mB, Matrix.of_apply, eB]
   have := eltInv_get (n := n) (x := x) (k := n * n + (n * (i : ℕ) + (j : ℕ))) (by omega)
-  rw [this, if_neg hk', if_pos hk2, hsub, hd, hm]
+  rw [this, ite_eq_right hk', ite_eq_left hk2, hsub, hd, hm]
   by_cases h1 : eE n x = 1
-  · simp [h1, mB, eB]
+  · simp [h1, eB]
   · simp [h1, mA, eA]
 
 theorem eE_eltInv (hn : 0 < n) (x : Array ℕ) : eE n (eltInv n x) = eE n x := by
   have h1 : ¬ (2 * (n * n) < n * n) := by
     have := Nat.mul_pos hn hn
     omega
-  rw [eE, eltInv_get (by omega), if_neg h1, if_neg (lt_irrefl _)]
+  rw [eE, eltInv_get (by omega), ite_eq_right h1, ite_eq_right (lt_irrefl _)]
 
 theorem cast_eq_iff {a b : ℕ} (hb : b < 3) : ((a : ℕ) : K) = (b : K) ↔ a % 3 = b := by
   rw [CharP.natCast_eq_natCast K 3]
   unfold Nat.ModEq
   rw [Nat.mod_eq_of_lt hb]
 
+omit [CharP K 3] in
 theorem mul_entry (x : Array ℕ) (i j : Fin n) :
     (mA n K x * (mB n K x)ᵀ) i j = ((sumLt n (fun l => eA n x i l * eB n x j l) : ℕ) : K) := by
   simp [Matrix.mul_apply, mA, mB, sumLt_cast]
@@ -209,12 +214,12 @@ theorem eltValid_iff (x : Array ℕ) :
     by_cases hij : i = j
     · have h1 : ((sumLt n (fun l => eA n x i l * eB n x j l) : ℕ) : K) = ((1 : ℕ) : K) := by
         simpa [hij] using this
-      rw [if_pos hij]
+      rw [ite_eq_left hij]
       exact (cast_eq_iff K (b := 1) (by norm_num)).1 h1
     · have hne : (⟨i, hi⟩ : Fin n) ≠ ⟨j, hj⟩ := fun h => hij (Fin.mk.inj h)
       have h0 : ((sumLt n (fun l => eA n x i l * eB n x j l) : ℕ) : K) = ((0 : ℕ) : K) := by
         simpa [hne] using this
-      rw [if_neg hij]
+      rw [ite_eq_right hij]
       exact (cast_eq_iff K (b := 0) (by norm_num)).1 h0
 
 theorem eA_lt {x : Array ℕ} (h : ∀ k < 2 * (n * n), x[k]! < 3) {i j : ℕ} (hi : i < n)
@@ -231,12 +236,13 @@ theorem eltValid_eltOne (hn : 0 < n) : eltValid n (eltOne n) = true := by
   rw [eltValid_iff (ZMod 3)]
   refine ⟨size_eltOne, ?_, ?_, ?_⟩
   · intro k hk
-    rw [eltOne_get (by omega), if_pos hk]
+    rw [eltOne_get (by omega), ite_eq_left hk]
     split_ifs <;> norm_num
-  · rw [eltOne_get (by omega), if_neg (lt_irrefl _)]
+  · rw [eltOne_get (by omega), ite_eq_right (lt_irrefl _)]
     norm_num
   · rw [mA_eltOne (ZMod 3) hn, mB_eltOne (ZMod 3) hn, Matrix.transpose_one, Matrix.mul_one]
 
+omit [CharP K 3] in
 theorem mB_mul_transpose {x : Array ℕ} (h : mA n K x * (mB n K x)ᵀ = 1) :
     mB n K x * (mA n K x)ᵀ = 1 := by
   have := congrArg Matrix.transpose h
@@ -251,20 +257,20 @@ theorem eltValid_eltMul (hn : 0 < n) {x y : Array ℕ} (hx : eltValid n x = true
   · intro k hk
     rw [eltMul_get (by omega)]
     by_cases h1 : k < n * n
-    · rw [if_pos h1]; exact Nat.mod_lt _ (by norm_num)
-    · rw [if_neg h1, if_pos hk]; exact Nat.mod_lt _ (by norm_num)
+    · rw [ite_eq_left h1]; exact Nat.mod_lt _ (by norm_num)
+    · rw [ite_eq_right h1, ite_eq_left hk]; exact Nat.mod_lt _ (by norm_num)
   · have h1 : ¬ (2 * (n * n) < n * n) := by
       have := Nat.mul_pos hn hn
       omega
-    rw [eltMul_get (by omega), if_neg h1, if_neg (lt_irrefl _)]
+    rw [eltMul_get (by omega), ite_eq_right h1, ite_eq_right (lt_irrefl _)]
     exact Nat.mod_lt _ (by norm_num)
   · rw [mA_eltMul (ZMod 3) hn, mB_eltMul (ZMod 3) hn]
     by_cases h1 : eE n x = 1
-    · rw [if_pos h1, if_pos h1, Matrix.transpose_mul]
+    · rw [ite_eq_left h1, ite_eq_left h1, Matrix.transpose_mul]
       calc mA n (ZMod 3) x * mB n (ZMod 3) y * ((mA n (ZMod 3) y)ᵀ * (mB n (ZMod 3) x)ᵀ) =
           mA n (ZMod 3) x * (mB n (ZMod 3) y * (mA n (ZMod 3) y)ᵀ) * (mB n (ZMod 3) x)ᵀ := by simp only [Matrix.mul_assoc]
         _ = 1 := by rw [mB_mul_transpose (ZMod 3) hym, Matrix.mul_one]; exact hxm
-    · rw [if_neg h1, if_neg h1, Matrix.transpose_mul]
+    · rw [ite_eq_right h1, ite_eq_right h1, Matrix.transpose_mul]
       calc mA n (ZMod 3) x * mA n (ZMod 3) y * ((mB n (ZMod 3) y)ᵀ * (mB n (ZMod 3) x)ᵀ) =
           mA n (ZMod 3) x * (mA n (ZMod 3) y * (mB n (ZMod 3) y)ᵀ) * (mB n (ZMod 3) x)ᵀ := by simp only [Matrix.mul_assoc]
         _ = 1 := by rw [hym, Matrix.mul_one]; exact hxm
@@ -279,29 +285,29 @@ theorem eltValid_eltInv (hn : 0 < n) {x : Array ℕ} (hx : eltValid n x = true) 
     by_cases h1 : k < n * n
     · have hd : k / n < n := Nat.div_lt_of_lt_mul (by rw [mul_comm]; exact h1)
       have hm : k % n < n := Nat.mod_lt _ hn
-      rw [if_pos h1]
+      rw [ite_eq_left h1]
       split_ifs
       · exact eA_lt hxb hm hd
       · exact eB_lt hxb hm hd
     · have h2 : k - n * n < n * n := by omega
       have hd : (k - n * n) / n < n := Nat.div_lt_of_lt_mul (by rw [mul_comm]; exact h2)
       have hm : (k - n * n) % n < n := Nat.mod_lt _ hn
-      rw [if_neg h1, if_pos hk]
+      rw [ite_eq_right h1, ite_eq_left hk]
       split_ifs
       · exact eB_lt hxb hm hd
       · exact eA_lt hxb hm hd
   · have h1 : ¬ (2 * (n * n) < n * n) := by
       have := Nat.mul_pos hn hn
       omega
-    rw [eltInv_get (by omega), if_neg h1, if_neg (lt_irrefl _)]
+    rw [eltInv_get (by omega), ite_eq_right h1, ite_eq_right (lt_irrefl _)]
     exact hxe
   · rw [mA_eltInv (ZMod 3) hn, mB_eltInv (ZMod 3) hn]
     have hc : (mB n (ZMod 3) x)ᵀ * mA n (ZMod 3) x = 1 := mul_eq_one_comm.1 hxm
     have hc' : (mA n (ZMod 3) x)ᵀ * mB n (ZMod 3) x = 1 := mul_eq_one_comm.1 (mB_mul_transpose (ZMod 3) hxm)
     by_cases h1 : eE n x = 1
-    · rw [if_pos h1, if_pos h1, Matrix.transpose_transpose]
+    · rw [ite_eq_left h1, ite_eq_left h1, Matrix.transpose_transpose]
       exact hc'
-    · rw [if_neg h1, if_neg h1, Matrix.transpose_transpose]
+    · rw [ite_eq_right h1, ite_eq_right h1, Matrix.transpose_transpose]
       exact hc
 
 end Spec2
@@ -324,17 +330,18 @@ variable {n K}
 theorem unitA_val {x : Array ℕ} (h : eltValid n x = true) :
     ((unitA n K x : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = mA n K x := by
   unfold unitA
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem unitA_inv_val {x : Array ℕ} (h : eltValid n x = true) :
     (((unitA n K x)⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = (mB n K x)ᵀ := by
   unfold unitA
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   rfl
 
 theorem eE_lt_two {x : Array ℕ} (h : eltValid n x = true) : eE n x < 2 :=
   ((eltValid_iff (ZMod 3) x).1 h).2.2.1
 
+omit [CharP K 3] in
 theorem dualAut_mul_self' : dualAut n K * dualAut n K = 1 := by
   obtain ⟨-, -, -, hdd, -⟩ := standard_automorphism_transport (n := n) (K := K)
   exact hdd
@@ -348,9 +355,9 @@ theorem unitA_eltMul (hn : 0 < n) {x y : Array ℕ} (hx : eltValid n x = true)
   rw [unitA_val (eltValid_eltMul (n := n) hn hx hy), Units.val_mul, unitA_val hx,
     mA_eltMul K hn]
   by_cases h1 : eE n x = 1
-  · rw [if_pos h1, if_pos h1, Matrix.GeneralLinearGroup.coe_inverseTranspose, unitA_inv_val hy,
+  · rw [ite_eq_left h1, ite_eq_left h1, Matrix.GeneralLinearGroup.coe_inverseTranspose, unitA_inv_val hy,
       Matrix.transpose_transpose]
-  · rw [if_neg h1, if_neg h1, unitA_val hy]
+  · rw [ite_eq_right h1, ite_eq_right h1, unitA_val hy]
 
 theorem ev_eltMul (hn : 0 < n) {x y : Array ℕ} (hx : eltValid n x = true)
     (hy : eltValid n y = true) : ev n K (eltMul n x y) = ev n K x * ev n K y := by
@@ -367,7 +374,7 @@ theorem ev_eltMul (hn : 0 < n) {x y : Array ℕ} (hx : eltValid n x = true)
     · simp [h0, k0]
     · simp [h0, k1, mul_assoc]
   · rcases (by omega : eE n y = 0 ∨ eE n y = 1) with k0 | k1
-    · simp only [h1, k0, if_true, map_mul]
+    · simp only [h1, k0, ite_true]
       calc conjAut n K (unitA n K x) *
             conjAut n K (Matrix.GeneralLinearGroup.inverseTranspose (unitA n K y)) *
             dualAut n K ^ ((1 + 0) % 2) =
@@ -377,7 +384,7 @@ theorem ev_eltMul (hn : 0 < n) {x y : Array ℕ} (hx : eltValid n x = true)
         _ = conjAut n K (unitA n K x) * (dualAut n K * conjAut n K (unitA n K y)) := by
           rw [hcomm]
         _ = _ := by simp [mul_assoc]
-    · simp only [h1, k1, if_true, map_mul]
+    · simp only [h1, k1, ite_true]
       calc conjAut n K (unitA n K x) *
             conjAut n K (Matrix.GeneralLinearGroup.inverseTranspose (unitA n K y)) *
             dualAut n K ^ ((1 + 1) % 2) =
@@ -408,9 +415,9 @@ theorem ev_eltInv (hn : 0 < n) {x : Array ℕ} (hx : eltValid n x = true) :
       apply Units.ext
       rw [unitA_val hzv, mA_eltMul K hn, mA_eltInv K hn]
       by_cases h1 : eE n x = 1
-      · rw [if_pos h1, mB_eltInv K hn, if_pos h1, Units.val_one]
+      · rw [ite_eq_left h1, mB_eltInv K hn, ite_eq_left h1, Units.val_one]
         exact hxm
-      · rw [if_neg h1, if_neg h1, Units.val_one]
+      · rw [ite_eq_right h1, ite_eq_right h1, Units.val_one]
         exact hxm
     unfold ev
     rw [hu, eE_eltMul hn, eE_eltInv hn]
@@ -828,33 +835,33 @@ theorem mA_eltMinusOne (hn : 0 < n) : mA n K (eltMinusOne n) = -1 := by
   have hk : n * (i : ℕ) + (j : ℕ) < n * n := lt_mul_of_lt i.2 j.2
   obtain ⟨hd, hm⟩ := index_div_mod (i := (i : ℕ)) hn j.2
   simp only [mA, Matrix.of_apply, eA]
-  rw [eltMinusOne_get (by omega), if_pos (by omega), Nat.mod_eq_of_lt hk, hd, hm]
+  rw [eltMinusOne_get (by omega), ite_eq_left (by omega), Nat.mod_eq_of_lt hk, hd, hm]
   by_cases hij : i = j
-  · simp [Matrix.one_apply, hij, two_eq_neg_one K]
+  · simp [hij, two_eq_neg_one K]
   · have : (i : ℕ) ≠ (j : ℕ) := fun h => hij (Fin.ext h)
-    simp [Matrix.one_apply, hij, this]
+    simp [hij, this]
 
 theorem mB_eltMinusOne (hn : 0 < n) : mB n K (eltMinusOne n) = -1 := by
   ext i j
   have hk : n * (i : ℕ) + (j : ℕ) < n * n := lt_mul_of_lt i.2 j.2
   obtain ⟨hd, hm⟩ := index_div_mod (i := (i : ℕ)) hn j.2
   simp only [mB, Matrix.of_apply, eB]
-  rw [eltMinusOne_get (by omega), if_pos (by omega), Nat.add_mod_left, Nat.mod_eq_of_lt hk, hd, hm]
+  rw [eltMinusOne_get (by omega), ite_eq_left (by omega), Nat.add_mod_left, Nat.mod_eq_of_lt hk, hd, hm]
   by_cases hij : i = j
-  · simp [Matrix.one_apply, hij, two_eq_neg_one K]
+  · simp [hij, two_eq_neg_one K]
   · have : (i : ℕ) ≠ (j : ℕ) := fun h => hij (Fin.ext h)
-    simp [Matrix.one_apply, hij, this]
+    simp [hij, this]
 
-theorem eE_eltMinusOne (hn : 0 < n) : eE n (eltMinusOne n) = 0 := by
-  rw [eE, eltMinusOne_get (by omega), if_neg (lt_irrefl _)]
+theorem eE_eltMinusOne (_hn : 0 < n) : eE n (eltMinusOne n) = 0 := by
+  rw [eE, eltMinusOne_get (by omega), ite_eq_right (lt_irrefl _)]
 
 theorem eltValid_eltMinusOne (hn : 0 < n) : eltValid n (eltMinusOne n) = true := by
   rw [eltValid_iff (ZMod 3)]
   refine ⟨size_eltMinusOne, ?_, ?_, ?_⟩
   · intro k hk
-    rw [eltMinusOne_get (by omega), if_pos hk]
+    rw [eltMinusOne_get (by omega), ite_eq_left hk]
     split_ifs <;> norm_num
-  · rw [eltMinusOne_get (by omega), if_neg (lt_irrefl _)]
+  · rw [eltMinusOne_get (by omega), ite_eq_right (lt_irrefl _)]
     norm_num
   · rw [mA_eltMinusOne (ZMod 3) hn, mB_eltMinusOne (ZMod 3) hn, Matrix.transpose_neg,
       Matrix.transpose_one, neg_mul_neg, Matrix.mul_one]
@@ -895,7 +902,7 @@ section InF
 
 variable {n : ℕ} {K : Type} [Field K] [CharP K 3]
 
-theorem inF_of_unit_pow (hn : 0 < n) {g : Array ℕ} (hv : eltValid n g = true) (he : eE n g = 0)
+theorem inF_of_unit_pow (_hn : 0 < n) {g : Array ℕ} (hv : eltValid n g = true) (he : eE n g = 0)
     (μ : Kˣ) (hdet : (mA n K g).det = (μ : K) ^ n) :
     ∃ G : SpecialLinearGroup (Fin n) K, ev n K g = MulAut.conj (proj n K G) := by
   have hμ : (μ : K) ≠ 0 := μ.ne_zero
@@ -913,6 +920,7 @@ theorem inF_of_unit_pow (hn : 0 < n) {g : Array ℕ} (hv : eltValid n g = true) 
   unfold ev
   rw [he, pow_zero, mul_one, hu, map_mul, conjAut_scalar, mul_one, conjAut_toGL]
 
+omit [CharP K 3] in
 theorem mA_det4 (x : Array ℕ) : (mA 4 K x).det = ((det4Z x : ℤ) : K) := by
   rw [Matrix.det_succ_row_zero]
   simp only [Fin.sum_univ_succ, Matrix.det_fin_three, Fin.sum_univ_zero, mA, Matrix.of_apply,
@@ -1098,7 +1106,7 @@ end Sound
 theorem charP_three_of_card {K : Type*} [Field K] [Finite K] (hK : Nat.card K = 3) :
     CharP K 3 := by
   have h : (3 : K) = 0 := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     have := card_nsmul_eq_zero (G := K) (x := (1 : K))
     rw [← Nat.card_eq_fintype_card, hK] at this
     simpa using this
@@ -1106,7 +1114,7 @@ theorem charP_three_of_card {K : Type*} [Field K] [Finite K] (hK : Nat.card K = 
 
 theorem card_GL_three {K : Type*} [Field K] [Finite K] (hK : Nat.card K = 3) (n : ℕ) :
     Nat.card (GL (Fin n) K) = ∏ i : Fin n, (3 ^ n - 3 ^ (i : ℕ)) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hc : Fintype.card K = 3 := by rw [← Nat.card_eq_fintype_card]; exact hK
   rw [Matrix.card_GL_field, hc]
 
@@ -1128,7 +1136,7 @@ theorem pairWit_of_locCheck {n : ℕ} (hn3 : 3 ≤ n) {K : Type} [Field K] [Fini
     (hGL : Nat.card (GL (Fin n) K) = 2 ^ d.k * m) :
     ∀ x t : MulAut (projectiveSL n K), orderOf x = 8 → orderOf t = 2 → x * t = t * x →
       PairWit (MulAut.conj : projectiveSL n K →* MulAut (projectiveSL n K)).range x t := by
-  haveI := charP_three_of_card hK
+  have := charP_three_of_card hK
   intro x t hx ht hxt
   exact locCheck_sound hn3 hK (hInF) h hm hGL hx ht hxt
 

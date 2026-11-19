@@ -24,8 +24,8 @@ theorem D1OneSmall3Data.false_of_isFi22 (hsec : SporSectionFacts3)
   obtain ⟨hsimple, hnonab⟩ := hd.toCore.isSimpleGroup
   have eq : K ≃* K ⧸ Subgroup.center K :=
     ((QuotientGroup.quotientMulEquivOfEq hd.center).trans QuotientGroup.quotientBot).symm
-  haveI : IsSimpleGroup K := hsimple
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := eq.symm.isSimpleGroup
+  have : IsSimpleGroup K := hsimple
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := eq.symm.isSimpleGroup
   obtain ⟨a, b, hab⟩ := hnonab
   refine false_of_mem_sectionExcluded3 hsec hd.cfg.glob.rank (primeComplementCore (G := H) p)
     (K := K) inferInstance ⟨eq a, eq b, fun h => hab (eq.injective ?_)⟩ (s := .Fi22) (by simp)

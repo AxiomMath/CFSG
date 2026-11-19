@@ -232,6 +232,7 @@ private theorem s95f_assemble (S : s95f_Setup ρ X X')
   obtain ⟨u, rfl⟩ := hsurj m
   rw [hρd, hc, hc]
 
+omit [CharP K 2] in
 private theorem s95f_lemmaU (S : s95f_Setup ρ X X') (Θ : AddSubgroup (Mm →ₗ[K] (Fin 2 → K)))
     (hΘ : ∀ θ ∈ Θ, ∀ (a : K) m, θ (ρ (uSL a) m) = uMat a *ᵥ θ m)
     (hsep : ∀ x ∈ X, (∀ θ ∈ Θ, θ x = 0) → x = 0)

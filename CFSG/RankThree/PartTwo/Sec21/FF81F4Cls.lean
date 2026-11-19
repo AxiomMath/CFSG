@@ -17,6 +17,7 @@ section SoundI
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem finite_adjF [Finite K] : Finite (adjointGroup ReeTag.F4.tag K) := by
   have : Finite (Module.End K (RootModule Tag.F4 K)) := Module.finite_of_finite K
   infer_instance

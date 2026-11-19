@@ -84,7 +84,7 @@ theorem sq_eq_one_of_pow_four (M : Matrix (Fin 2) (Fin 2) K) (h : M ^ 4 = 1) : M
     have e2 : (t * d + d * t) = 0 := by rw [mul_comm d t, ← two_mul, h2, zero_mul]
     rw [e1, hch]
     have hMM : M * M = t • M + d • (1 : Matrix (Fin 2) (Fin 2) K) := by rw [← pow_two]; exact hch
-    simp only [add_mul, mul_add, smul_mul_assoc, mul_smul_comm, smul_smul, one_mul, mul_one]
+    simp only [add_mul, mul_add, smul_mul_assoc, mul_smul_comm, one_mul, mul_one]
     rw [hMM]
     simp only [smul_add, smul_smul]
     have : (t * d) • M + (d * t) • M = 0 := by rw [← add_smul, e2, zero_smul]
@@ -95,7 +95,7 @@ theorem sq_eq_one_of_pow_four (M : Matrix (Fin 2) (Fin 2) K) (h : M ^ 4 = 1) : M
   · rw [ht0, zero_smul, zero_add] at hch
     rw [ht0] at h4
     simp only [ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true, zero_pow, zero_smul, zero_add,
-      mul_zero, zero_mul] at h4
+      zero_mul] at h4
     have hd1 : d ^ 2 = 1 := by
       have : (d ^ 2) • (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by rw [← h4, h]
       have h7 := congrArg (fun A : Matrix (Fin 2) (Fin 2) K => A 0 0) this

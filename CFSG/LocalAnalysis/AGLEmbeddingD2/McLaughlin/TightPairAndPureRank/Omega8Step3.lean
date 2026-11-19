@@ -124,6 +124,7 @@ end Transport
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem trJ_gnC_le_pCore {M S L T X₀ J : Subgroup G} (hL : IsWeakSBlock M S L)
     (hXM : X₀ ≤ M) (hTX : T ≤ X₀) (hQT : pCoreOf 2 M ≤ T) (hLX : L ≤ X₀)
     (hbJ : barM M J = barM M L)
@@ -152,7 +153,7 @@ theorem trJ_gnC_le_pCore {M S L T X₀ J : Subgroup G} (hL : IsWeakSBlock M S L)
     obtain ⟨y, hy, hyg⟩ := hg
     refine ⟨y * c * y⁻¹, (inferInstance : C.Normal).conj_mem c hc y, ?_⟩
     simp [map_mul, map_inv, hca, hyg]⟩
-  haveI := hWn
+  have := hWn
   rcases hsimple.eq_bot_or_eq_top_of_normal (W.subgroupOf (barM M L)) with h | h
   · have hmem : (⟨ρ x, hρx⟩ : ↥(barM M L)) ∈ W.subgroupOf (barM M L) :=
       Subgroup.mem_subgroupOf.mpr ⟨hρx, ⟨x, hxC, rfl⟩⟩
@@ -348,6 +349,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isSubnormal_subgroupOf_chain {A B : Subgroup G} (h : IsSubnormal A B) (K : Subgroup G) :
     IsSubnormal (A.subgroupOf K) (B.subgroupOf K) :=
   h.comap K.subtype
@@ -364,7 +366,7 @@ theorem isLThreeTwo_commutator_top {S : Type} [Group S] (h : IsLThreeTwo S) :
         Subgroup.commutator_mem_commutator (Subgroup.mem_top a) (Subgroup.mem_top b)
       rw [h0, Subgroup.mem_bot] at h1
       exact commutatorElement_eq_one_iff_mul_comm.mp h1
-    letI : CommGroup S := { ‹Group S› with mul_comm := hcomm }
+    let : CommGroup S := { ‹Group S› with mul_comm := hcomm }
     have hfin : Finite S := Nat.finite_of_card_ne_zero (by rw [isLThreeTwo_card_eq h]; norm_num)
     have := IsSimpleGroup.prime_card (α := S)
     rw [isLThreeTwo_card_eq h] at this

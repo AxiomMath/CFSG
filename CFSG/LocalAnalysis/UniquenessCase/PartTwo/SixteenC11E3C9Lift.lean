@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s1611e3_le_normalizer_preBarSub_bot {M V₀ V : Subgroup G}
     (hV : IsElemAbelian 2 V) (hM : M ≤ stabTil V₀ V) :
     M ≤ normalizer (preBarSub M V₀ V hV ⊥ : Set G) := by
@@ -31,7 +32,7 @@ private theorem s1611e3_le_normalizer_preBarSub_bot {M V₀ V : Subgroup G}
       show actTil V₀ V hV (Subgroup.inclusion hM x) = 1
       have : Subgroup.inclusion hM x = ⟨(x : G), h⟩ := Subtype.ext rfl
       rw [this, h1]
-  haveI : ((preBarSub M V₀ V hV ⊥).subgroupOf M).Normal :=
+  have : ((preBarSub M V₀ V hV ⊥).subgroupOf M).Normal :=
     hker ▸ (inferInstance :
       ((actTil V₀ V hV).comp (Subgroup.inclusion hM)).ker.Normal)
   exact Subgroup.le_normalizer_of_normal_subgroupOf hKM
@@ -41,7 +42,7 @@ theorem s1611e3_exists_X_lift (D : Data G) {V₀ V : Subgroup G} (hV : IsElemAbe
     ∃ X : Subgroup G, X ≤ D.M ∧ D.T ≤ X ∧ barSub V₀ V hV X = Mbar D.M V₀ V hV ∧
       ∃ π : ↥X →* ↥(Mbar D.M V₀ V hV), Function.Surjective π ∧ Group.IsSolvable ↥π.ker := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hM : D.M ≤ stabTil V₀ V :=
     le_stabTil h.pairFacts.le_normalizer h.pairFacts.le_normalizer₀
   have hT : IsSylowIn 2 D.T D.M := TwelveShort.isSylowIn_of_le D D.sylowM.le
@@ -79,10 +80,10 @@ theorem s1611e3_exists_X_lift (D : Data G) {V₀ V : Subgroup G} (hV : IsElemAbe
   have hQ₀Y : Q₀ ≤ Y := by rw [hY]; exact le_inf (hQ₀T.trans hTX) hQ₀K
   have hYnorm : Y ≤ normalizer (Q₀ : Set G) := by
     rw [hY]; exact inf_le_left.trans (by rw [hX]; exact inf_le_right)
-  haveI : (Q₀.subgroupOf Y).Normal :=
+  have : (Q₀.subgroupOf Y).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQ₀Y).2 hYnorm
   have hQ₀Yp : IsPGroup 2 (Q₀.subgroupOf Y) := hQ₀_syl.isPGroup.comap_subtype
-  haveI := hQ₀Yp.isNilpotent
+  have := hQ₀Yp.isNilpotent
   have hdvd : Q₀.relIndex Y ∣ Q₀.relIndex K := by
     rw [← Subgroup.relIndex_mul_relIndex Q₀ Y K hQ₀Y hY_K]
     exact ⟨Y.relIndex K, rfl⟩
@@ -90,9 +91,9 @@ theorem s1611e3_exists_X_lift (D : Data G) {V₀ V : Subgroup G} (hV : IsElemAbe
   have hodd' : Odd (Q₀.relIndex Y) :=
     Nat.not_even_iff_odd.mp fun he => hoddY (even_iff_two_dvd.mp he)
   have hodd_card : Odd (Nat.card (↥Y ⧸ (Q₀.subgroupOf Y))) := hodd'
-  haveI : Group.IsSolvable (↥Y ⧸ (Q₀.subgroupOf Y)) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd_card
-  haveI hYsolv : Group.IsSolvable ↥Y := Group.isSolvable_of_subgroup_quotient (Q₀.subgroupOf Y)
-  haveI hYsubsolv : Group.IsSolvable ↥(Y.subgroupOf X) :=
+  have : Group.IsSolvable (↥Y ⧸ (Q₀.subgroupOf Y)) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd_card
+  have hYsolv : Group.IsSolvable ↥Y := Group.isSolvable_of_subgroup_quotient (Q₀.subgroupOf Y)
+  have hYsubsolv : Group.IsSolvable ↥(Y.subgroupOf X) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hYX).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hYX).injective

@@ -218,7 +218,7 @@ theorem cruxPLocal_holds : CruxPLocalStmt := by
     refine Subgroup.mem_inf.mpr ⟨?_, (Hz z).mul_mem ((Hz z).mul_mem hc hpz) ((Hz z).inv_mem hc)⟩
     exact Width.Fz_conj_mem (Subgroup.mem_centralizer_singleton_iff.mpr hcu) hpu
   have hP2 : IsPGroup 2 ↥(Fz u ⊓ Hz z : Subgroup G) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact IsPGroup.iff_card.mpr ⟨5, by rw [hcardP]; norm_num⟩
   exact ⟨hP2, hcardP, Subgroup.mem_inf.mpr ⟨huFu, hFH huF⟩, hE, hsqP, hcommP, hnorm⟩
 

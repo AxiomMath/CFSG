@@ -70,7 +70,7 @@ theorem isCyclic_center_of_unique_involution (T : Sylow 2 H) (t : H)
       (((w : ↥(T : Subgroup H)) : ↥(T : Subgroup H)) : H) = t) :
     IsCyclic ↥(center ↥(T : Subgroup H)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hTp : IsPGroup 2 ↥(T : Subgroup H) := T.isPGroup'
+  have hTp : IsPGroup 2 ↥(T : Subgroup H) := T.isPGroup
   have hCp : IsPGroup 2 ↥(center ↥(T : Subgroup H)) := hTp.to_subgroup _
   obtain ⟨m, hm⟩ := hCp.exists_card_eq
   let : CommGroup ↥(center ↥(T : Subgroup H)) :=

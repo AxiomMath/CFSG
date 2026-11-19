@@ -40,7 +40,7 @@ theorem wWord4_smul_e3 :
     (coxeterSystem Tag.E6).wordProd wWord4 • (Pi.single (e6Index 3) 1 : Fin Tag.E6.rank → ℤ) =
       gammaVec := by
   simp only [wWord4, CoxeterSystem.wordProd, List.map, List.prod_cons, List.prod_nil, mul_smul,
-    one_smul, simple_smul, gammaVec]
+    one_smul, simple_smul]
   decide +kernel
 
 theorem isRoot_gammaVec : IsRoot Tag.E6 gammaVec := by

@@ -115,7 +115,7 @@ theorem exists_lift_pair_odd (hΩ : HypOmegaGen Ω) (hΩ' : HypOmegaGen (quotFam
 
 theorem quotOdd_exists_W {K : Subgroup G} {S : Sylow 2 G} {R W H : Subgroup G}
     (hst : EStandQ8 Ω K S R W) (hC : CentPairs Ω (S : Subgroup G) W H) (hN : Odd (Nat.card N))
-    (hNH : N ≤ H) :
+    (_hNH : N ≤ H) :
     ∃ Wb ∈ WSet (quotFamily Ω N), Wb ≤ (S : Subgroup G).map (QuotientGroup.mk' N) ∧
       (∀ s ∈ (S : Subgroup G).map (QuotientGroup.mk' N), conjSub s Wb = Wb) ∧
       CentPairs (quotFamily Ω N) ((S : Subgroup G).map (QuotientGroup.mk' N)) Wb
@@ -124,7 +124,7 @@ theorem quotOdd_exists_W {K : Subgroup G} {S : Sylow 2 G} {R W H : Subgroup G}
   have hΩ := hst.hyp
   obtain ⟨hΩ', -, -⟩ := oddQuotHypQ8 hΩ hst.cls hst.q8 hN
   obtain ⟨hWΩ, hWS, hWn⟩ := hst.hW
-  have hS2 : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hS2 : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   refine ⟨W.map π, map_mem_WSet hΩ hΩ' hN hWΩ, Subgroup.map_mono hWS, ?_, ?_⟩
   · rintro _ ⟨s, hs, rfl⟩
     rw [← AscQuot.map_conjSub, hWn s hs]
@@ -183,7 +183,7 @@ theorem quotOdd_exists_W {K : Subgroup G} {S : Sylow 2 G} {R W H : Subgroup G}
   exact (centralizer_map_le hN hb2).trans (Subgroup.map_mono hCb)
 
 theorem printedQuotOdd_proved : PrintedQuotOdd :=
-  ⟨fun G _ _ Ω K S R W H N _ hst hC hN hNH => quotOdd_exists_W hst hC hN hNH⟩
+  ⟨fun _G _ _ _Ω _K _S _R _W _H _N _ hst hC hN hNH => quotOdd_exists_W hst hC hN hNH⟩
 
 end OddCent
 

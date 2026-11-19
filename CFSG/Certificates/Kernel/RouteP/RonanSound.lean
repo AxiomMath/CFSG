@@ -25,7 +25,7 @@ theorem land_shr_one (a p : Nat) :
   rw [h1, h2]
   by_cases h : (a >>> p) % 2 = 1
   · simp [h]
-  · simp only [h, decide_false, Bool.false_eq_true, if_false]
+  · simp only [h, decide_false, Bool.false_eq_true, ite_false]
     omega
 
 theorem kvN_eq (a b p : Nat) : kvN a b p = kv a b p := by
@@ -37,7 +37,7 @@ theorem eLN_eq (NW : Nat → Nat → Nat) (KA KB : Nat → Nat) (z : Int) (N : N
     eLN NW KA KB z N = eL NW KA KB z N := by
   unfold eLN eL
   by_cases hN : N < 920808
-  · rw [if_pos hN]
+  · rw [ite_eq_left hN]
     have hb : Nat.blt N (nat_lit 920808) = true := Nat.blt_eq.mpr hN
     rw [hb]
     cases z with
@@ -65,7 +65,7 @@ theorem eLN_eq (NW : Nat → Nat → Nat) (KA KB : Nat → Nat) (z : Int) (N : N
       change 3 * ptR (NW n) (N / 3) + (N % 3 + 2 * kvN (KA n) (KB n) (ptR (NW n) (N / 3))) % 3 = _
       rw [ptR_eq, kvN_eq]
       omega
-  · rw [if_neg hN]
+  · rw [ite_eq_right hN]
     have hb : Nat.blt N (nat_lit 920808) = false := by
       rw [Bool.eq_false_iff]
       intro h

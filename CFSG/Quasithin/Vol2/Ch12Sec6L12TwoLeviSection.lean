@@ -35,11 +35,11 @@ theorem false_of_le_solvable_of_surjective {X H : Type*} [Group X] [Group H]
     [IsSimpleGroup H] (hnonab : ∃ a b : H, a * b ≠ b * a) {P Y : Subgroup X}
     (hYP : Y ≤ P) (hP : Group.IsSolvable ↥P) (φ : ↥Y →* H)
     (hφ : Function.Surjective φ) : False := by
-  haveI : Group.IsSolvable ↥P := hP
+  have : Group.IsSolvable ↥P := hP
   have hY : Group.IsSolvable ↥Y :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hYP)
       (Subgroup.inclusion_injective hYP)
-  haveI : Group.IsSolvable ↥Y := hY
+  have : Group.IsSolvable ↥Y := hY
   exact false_of_solvable_of_surjective hnonab φ hφ
 
 theorem exists_quotient_modO2 {X H : Type} [Group X] [Finite X] [Group H] [IsSimpleGroup H]
@@ -49,15 +49,15 @@ theorem exists_quotient_modO2 {X H : Type} [Group X] [Finite X] [Group H] [IsSim
     (hsolv : Group.IsSolvable (↥P ⧸ ((perfectCore P).subgroupOf P))) :
     ∃ Q : Subgroup (ModO2 (perfectCore P)),
       ∃ ψ : ↥Q →* H, Function.Surjective ψ := by
-  haveI : Finite H := Finite.of_surjective φ hφ
+  have : Finite H := Finite.of_surjective φ hφ
   let g : ↥Y →* ↥P ⧸ ((perfectCore P).subgroupOf P) :=
     (QuotientGroup.mk' ((perfectCore P).subgroupOf P)).comp (Subgroup.inclusion hYP)
   have hgker : g.ker = (perfectCore P).subgroupOf Y := by
     ext y
     simp only [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, g, MonoidHom.comp_apply,
-      Subgroup.coe_inclusion, QuotientGroup.mk'_apply]
+      QuotientGroup.mk'_apply]
     exact QuotientGroup.eq_one_iff (Subgroup.inclusion hYP y)
-  haveI : Group.IsSolvable (↥P ⧸ ((perfectCore P).subgroupOf P)) := hsolv
+  have : Group.IsSolvable (↥P ⧸ ((perfectCore P).subgroupOf P)) := hsolv
   have htop : ((perfectCore P).subgroupOf Y).map φ = ⊤ := by
     have h := CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L613.map_ker_eq_top_of_solvable
       (S := H) (fun hcomm => by
@@ -107,7 +107,7 @@ theorem exists_quotient_modO2 {X H : Type} [Group X] [Finite X] [Group H] [IsSim
       exact Subgroup.inf_normalizer_le_normalizer_inf
         (H := Y ⊓ perfectCore P) (K := pCoreOf 2 (perfectCore P))
         ⟨Subgroup.le_normalizer hm, hX0normO hm.2⟩
-    haveI := hnormal
+    have := hnormal
     have hmapN : ((((Y ⊓ perfectCore P) ⊓ pCoreOf 2 (perfectCore P)).subgroupOf
         (Y ⊓ perfectCore P)).map ψ).Normal :=
       Subgroup.Normal.map inferInstance ψ hψ
@@ -115,7 +115,7 @@ theorem exists_quotient_modO2 {X H : Type} [Group X] [Finite X] [Group H] [IsSim
         (Y ⊓ perfectCore P)).map ψ) :=
       hInf2.of_equiv (Subgroup.subgroupOfEquivOfLe (inf_le_left :
         (Y ⊓ perfectCore P) ⊓ pCoreOf 2 (perfectCore P) ≤ Y ⊓ perfectCore P)).symm |>.map ψ
-    haveI := hmapN
+    have := hmapN
     have hbot := eq_bot_of_normal_isPGroup_of_isSimpleGroup hnonab hmapP
     intro m hm
     have hmψ : ψ m ∈ (((Y ⊓ perfectCore P) ⊓ pCoreOf 2 (perfectCore P)).subgroupOf
@@ -133,13 +133,13 @@ theorem sq_eq_one_of_isPSL_two_two {X : Type} [Group X] [Finite X] {m : ℕ} (hm
     intro S x hx
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hF : Nat.card (GaloisField 2 m) = 2 ^ m := GaloisField.card 2 m (by omega)
-    haveI : Finite (CFSG.Theory.Comparator.PSL2Model m) := Finite.of_equiv X e.toEquiv
+    have : Finite (CFSG.Theory.Comparator.PSL2Model m) := Finite.of_equiv X e.toEquiv
     let S' : Sylow 2 (CFSG.Theory.Comparator.PSL2Model m) :=
       S.mapSurjective (f := e.toMonoidHom) e.surjective
     obtain ⟨f⟩ := CFSG.BenderSuzuki.External.huppert_II_8_2_a_sylow_equiv_additive hF S'
     have hchar : CharP (GaloisField 2 m) 2 :=
       CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hF
-    haveI : CharP (GaloisField 2 m) 2 := hchar
+    have : CharP (GaloisField 2 m) 2 := hchar
     have hexp' : ∀ z : Multiplicative (GaloisField 2 m), z ^ 2 = 1 := by
       intro z
       obtain ⟨a, rfl⟩ := Multiplicative.ofAdd.surjective z
@@ -230,7 +230,7 @@ theorem false_of_char2LeviFamily_of_surjective
     exact false_of_le_solvable_of_surjective hHc hYP hsolvP φ hφ
   ·
     have hsimple : IsSimpleGroup X := CFSG.Timmesfeld.isSimpleGroup_of_lieModel hmodel
-    haveI : IsSimpleGroup X := hsimple
+    have : IsSimpleGroup X := hsimple
     have hnoncomm : ∃ a b : X, a * b ≠ b * a := by
       by_contra h
       have hcomm : ∀ a b : X, a * b = b * a := by
@@ -284,7 +284,7 @@ theorem false_of_char2LeviFamily_of_surjective
       rw [Subgroup.map_top_of_surjective (f := e.toMonoidHom) e.surjective]
       rw [← _root_.commutator_def]
       exact hcommX
-    haveI : IsSimpleGroup ↥(⊤ : Subgroup X) := Subgroup.topEquiv.isSimpleGroup
+    have : IsSimpleGroup ↥(⊤ : Subgroup X) := Subgroup.topEquiv.isSimpleGroup
     have hcentTop : Subgroup.center ↥(⊤ : Subgroup X) = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         (Subgroup.center ↥(⊤ : Subgroup X)) with h | h
@@ -303,7 +303,7 @@ theorem false_of_char2LeviFamily_of_surjective
     let eK : ((↥(⊤ : Subgroup X)) ⧸ Subgroup.center ↥(⊤ : Subgroup X)) ≃* X :=
       (QuotientGroup.quotientMulEquivOfEq hcentTop).trans
         (QuotientGroup.quotientBot.trans Subgroup.topEquiv)
-    haveI : IsSimpleGroup ((↥(⊤ : Subgroup X)) ⧸
+    have : IsSimpleGroup ((↥(⊤ : Subgroup X)) ⧸
         Subgroup.center ↥(⊤ : Subgroup X)) := eK.isSimpleGroup
     have hq : CFSG.Open.IsQuasisimple ↥(⊤ : Subgroup X) := ⟨hcommTop, inferInstance⟩
     have hpar : IsParabolic2 (⊤ : Subgroup X) P := by
@@ -359,7 +359,7 @@ theorem false_of_char2LeviFamily_of_surjective
       · exact absurd rfl ht
     by_cases hsolvP : Group.IsSolvable ↥P
     · exact false_of_le_solvable_of_surjective hHc hYP hsolvP φ hφ
-    · haveI : ((perfectCore P).subgroupOf P).Normal := perfectCore_normal P
+    · have : ((perfectCore P).subgroupOf P).Normal := perfectCore_normal P
       have hX0 : perfectCore P ≠ ⊥ := by
         intro h
         exact hsolvP ((isSolvable_iff_perfectCore_eq_bot P).mpr h)
@@ -374,7 +374,7 @@ theorem false_of_char2LeviFamily_of_surjective
           rw [hr r le_rfl]
         rw [CFSG.Quasithin.derivedSeriesOf_eq_map_derivedSeries] at hle
         exact (Subgroup.map_le_iff_le_comap).mp hle
-      haveI : Finite H := Finite.of_surjective φ hφ
+      have : Finite H := Finite.of_surjective φ hφ
       obtain ⟨Q, ψ, hψ⟩ := exists_quotient_modO2 hHc hYP φ hφ hsolvQuot
       rcases hsmall with ⟨m, hm, hL2⟩ | ⟨m, -, -, hSz⟩ | hL3 | hL4small
       · exact false_of_L2_of_surjective hH2 hm hL2 ψ hψ

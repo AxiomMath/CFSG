@@ -20,7 +20,7 @@ open Matrix
 
 theorem nar24_of_mat (h : Nar24Mat) : Nar24 := by
   intro M _ _ hE H D τ hs hnc h64 hDH hD hfpf hτ hcomm hnorm hcen
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hEl, hcard⟩ := hE
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (W := M) (p := 2) (n := 6)
     (fun a b => congrArg Subtype.val
@@ -30,7 +30,7 @@ theorem nar24_of_mat (h : Nar24Mat) : Nar24 := by
   let Φ := CFSG.SectionRank.Ccomm.elemAutEquivGL e
   let f : MulAut M →* GL (Fin 6) (ZMod 2) := Φ.toMonoidHom
   have hf : Function.Injective f := Φ.injective
-  haveI : IsSimpleGroup ↥H := hs
+  have : IsSimpleGroup ↥H := hs
   refine h (H.map f) (D.map f) (f τ) ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_
   · exact (Subgroup.equivMapOfInjective H f hf).symm.isSimpleGroup
   · intro hc

@@ -341,13 +341,13 @@ private theorem exists_mem_centDer_trace {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn
   have hrestrW : ((g : (Fin (2 * 4) → K) ≃ₗ[K] (Fin (2 * 4) → K)) :
       (Fin (2 * 4) → K) →ₗ[K] (Fin (2 * 4) → K)).restrict hpW = LinearMap.id :=
     LinearMap.ext fun w => Subtype.ext (by
-      rw [LinearMap.restrict_coe_apply, LinearEquiv.coe_coe, hW _ w.2]
+      rw [_root_.LinearMap.coe_restrict_apply, LinearEquiv.coe_coe, hW _ w.2]
       rfl)
   have hrestrΦ : ((g : (Fin (2 * 4) → K) ≃ₗ[K] (Fin (2 * 4) → K)) :
       (Fin (2 * 4) → K) →ₗ[K] (Fin (2 * 4) → K)).restrict hpΦ =
         (Matrix.toLin b b (Matrix.diagonal d)).restrictScalars K :=
     LinearMap.ext fun w => Subtype.ext (by
-      rw [LinearMap.restrict_coe_apply, LinearEquiv.coe_coe, hgapp]
+      rw [_root_.LinearMap.coe_restrict_apply, LinearEquiv.coe_coe, hgapp]
       rfl)
   have htoLin : Matrix.toLin' ((y : GL (Fin (2 * 4)) K) : Matrix (Fin (2 * 4)) (Fin (2 * 4)) K) =
       ((g : (Fin (2 * 4) → K) ≃ₗ[K] (Fin (2 * 4) → K)) :

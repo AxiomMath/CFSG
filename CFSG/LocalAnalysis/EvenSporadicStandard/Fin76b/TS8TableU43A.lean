@@ -39,14 +39,14 @@ theorem card_U43Ext :
     intro x y hxy
     by_cases hx : (x : Equiv.Perm (Fin 820)) ∈ CFSG.EvenSporadicStandard.M24Std.CU43.P <;>
       by_cases hy : (y : Equiv.Perm (Fin 820)) ∈ CFSG.EvenSporadicStandard.M24Std.CU43.P
-    · simp only [f, dif_pos hx, dif_pos hy, Prod.mk.injEq] at hxy
+    · simp only [f, dite_eq_left hx, dite_eq_left hy, Prod.mk.injEq] at hxy
       exact Subtype.ext (congrArg
         (fun p : ↥CFSG.EvenSporadicStandard.M24Std.CU43.P => (p : Equiv.Perm (Fin 820))) hxy.1)
-    · simp only [f, dif_pos hx, dif_neg hy, Prod.mk.injEq] at hxy
+    · simp only [f, dite_eq_left hx, dite_eq_right hy, Prod.mk.injEq] at hxy
       exact absurd hxy.2 (by simp)
-    · simp only [f, dif_neg hx, dif_pos hy, Prod.mk.injEq] at hxy
+    · simp only [f, dite_eq_right hx, dite_eq_left hy, Prod.mk.injEq] at hxy
       exact absurd hxy.2 (by simp)
-    · simp only [f, dif_neg hx, dif_neg hy, Prod.mk.injEq] at hxy
+    · simp only [f, dite_eq_right hx, dite_eq_right hy, Prod.mk.injEq] at hxy
       have h1 := congrArg
         (fun p : ↥CFSG.EvenSporadicStandard.M24Std.CU43.P => (p : Equiv.Perm (Fin 820))) hxy.1
       exact Subtype.ext (mul_right_cancel h1)
@@ -72,7 +72,7 @@ theorem card_U43Ext :
 theorem max_of_card {X : Type} [Group X] [Finite X] (hX : Nat.card X = 6531840)
     {H : Subgroup X} (hH : Nat.card H = 256) {R : Subgroup X} (hR : IsPGroup 2 R) (hHR : H ≤ R) :
     R ≤ H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hR
   have h2 : Nat.card R ∣ Nat.card X := Subgroup.card_subgroup_dvd_card R
   rw [hn, hX] at h2
@@ -91,7 +91,7 @@ theorem isPGroup_closure_seven {X : Type} [Group X] {ζ α t g₁ g₂ h₁ h₂
     (hζα : ζ * α * ζ⁻¹ = α * t) (hζt : ζ * t * ζ⁻¹ = t) (hh1 : h₁ = ζ * g₁ * ζ⁻¹)
     (hh2 : h₂ = ζ * g₂ * ζ⁻¹) :
     IsPGroup 2 (closure ({ζ, α, t, g₁, g₂, h₁, h₂} : Set X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set A : Subgroup X := closure ({α, t, g₁, g₂, h₁, h₂} : Set X) with hAdef
   have hζi : ζ⁻¹ = ζ := inv_eq_of_mul_eq_one_right hζ
   have key : ∀ y : X, ζ * (ζ * y * ζ⁻¹) * ζ⁻¹ = y := by

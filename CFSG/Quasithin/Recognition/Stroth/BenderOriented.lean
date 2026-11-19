@@ -14,6 +14,7 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique CFSG.LieType.BorelTits
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isSzU3Quot_oTwoQuot_congr {H K : Subgroup G} (hHK : H = K) {q : ℕ}
     (h : IsSzU3Quot (oTwoQuot ↥H) q) : IsSzU3Quot (oTwoQuot ↥K) q := by
   subst hHK
@@ -24,6 +25,7 @@ private theorem pCoreOf_sup_pCoreOf_right {L1 L2 S : Subgroup G} (hF : Hyp111 L1
   have h := pCoreOf_sup_pCoreOf (L1 := L2) (L2 := L1) (S := S) hF.symm
   simpa [Q1, Q2, P1, P2, bigB_comm] using h
 
+omit [Finite G] in
 private theorem sup_eq_one_of_S_eq {L1 L2 S : Subgroup G}
     (hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S) : L1 ⊔ S = L1 ⊔ Q1 L1 L2 S := by
   have h1 : L1 ⊔ S = L1 ⊔ ((S ⊓ L1) ⊔ Q1 L1 L2 S) := by
@@ -52,6 +54,7 @@ private theorem isSylowTwoOf_sup_one_of_hyp111
   exact sup_le le_sup_left
     ((le_sup_right : S ≤ bigB L1 L2 S).trans le_sup_right)
 
+omit [Finite G] in
 private theorem inf_centralizer_le_of_hyp111 {L1 L2 S : Subgroup G} (hF : Hyp111 L1 L2 S) :
     (L1 ⊔ S) ⊓ Subgroup.centralizer (Q1 L1 L2 S : Set G) ≤ Q1 L1 L2 S := by
   have hP : P1 L1 L2 S = L1 ⊔ S ⊔ borelOf L2 S := by
@@ -70,6 +73,7 @@ private theorem inf_centralizer_le_of_hyp111 {L1 L2 S : Subgroup G} (hF : Hyp111
     exact hF.h1.charTwo
   exact (inf_le_inf_right (Subgroup.centralizer (Q1 L1 L2 S : Set G)) hH).trans hchar
 
+omit [Finite G] in
 theorem oTwoUpper_le_of_lemmaT
     {H Q Y : Subgroup G} {s : G}
     (hQH : Q ≤ H) (hQN : H ≤ Subgroup.normalizer (Q : Set G)) (hQ2 : IsPGroup 2 Q)
@@ -181,7 +185,7 @@ private theorem oTwoUpper_le_pCoreOf_of_data
   rwa [hH, hQ] at hres
 
 theorem false_of_commutator_le_of_bender {L1 L2 S : Subgroup G}
-    {q : ℕ} (hF : Hyp111 L1 L2 S) (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
+    {q : ℕ} (hF : Hyp111 L1 L2 S) (_hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
     (hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S) (hq : IsSzU3Quot (oTwoQuot ↥L1) q)
     {Y : Subgroup G} (hYQ : Y ≤ Q1 L1 L2 S)
     (hYn : L1 ⊔ S ≤ Subgroup.normalizer (Y : Set G))
@@ -221,6 +225,7 @@ namespace OrientedBenderPair
 
 variable {L1 L2 S : Subgroup G} {q r : ℕ}
 
+omit [Finite G] in
 theorem sup_eq₁ (h : OrientedBenderPair L1 L2 S q r) : L1 ⊔ S = L1 ⊔ Q1 L1 L2 S := by
   have h1 : L1 ⊔ S = L1 ⊔ ((S ⊓ L1) ⊔ Q1 L1 L2 S) := by
     conv_lhs => rw [h.s1]
@@ -228,6 +233,7 @@ theorem sup_eq₁ (h : OrientedBenderPair L1 L2 S q r) : L1 ⊔ S = L1 ⊔ Q1 L1
   conv_lhs => rw [← sup_assoc]
   rw [show L1 ⊔ (S ⊓ L1) = L1 from le_antisymm (sup_le le_rfl inf_le_right) le_sup_left]
 
+omit [Finite G] in
 theorem sup_eq₂ (h : OrientedBenderPair L1 L2 S q r) : L2 ⊔ S = L2 ⊔ Q2 L1 L2 S := by
   have h1 : L2 ⊔ S = L2 ⊔ ((S ⊓ L2) ⊔ Q2 L1 L2 S) := by
     conv_lhs => rw [h.s2]

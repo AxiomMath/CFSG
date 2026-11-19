@@ -587,7 +587,7 @@ private theorem theorem_8_18_nilpotentNormalHallIn_conjBy
     rw [hsub] at hnormMap
     exact hnormMap
   · let eH : H ≃* H.conjBy g := (MulAut.conj g).subgroupMap H
-    letI : Group.IsNilpotent H := hHnil
+    let : Group.IsNilpotent H := hHnil
     exact Group.nilpotent_of_surjective eH.toMonoidHom eH.surjective
   · let eM : M ≃* M.conjBy g := (MulAut.conj g).subgroupMap M
     have hsub :
@@ -1036,7 +1036,7 @@ private theorem theorem_8_18_fittingSubgroup_map_mulEquiv
     constructor
     · exact (show (fittingSubgroup A).Normal from inferInstance).map
         e.toMonoidHom e.surjective
-    · haveI : Group.IsNilpotent (fittingSubgroup A) := inferInstance
+    · have : Group.IsNilpotent (fittingSubgroup A) := inferInstance
       exact Group.nilpotent_of_mulEquiv (e.subgroupMap (fittingSubgroup A))
   · have hpre :
         (fittingSubgroup B).map e.symm.toMonoidHom ≤ fittingSubgroup A := by
@@ -1044,7 +1044,7 @@ private theorem theorem_8_18_fittingSubgroup_map_mulEquiv
       constructor
       · exact (show (fittingSubgroup B).Normal from inferInstance).map
           e.symm.toMonoidHom e.symm.surjective
-      · haveI : Group.IsNilpotent (fittingSubgroup B) := inferInstance
+      · have : Group.IsNilpotent (fittingSubgroup B) := inferInstance
         exact Group.nilpotent_of_mulEquiv
           (e.symm.subgroupMap (fittingSubgroup B))
     intro b hb
@@ -1302,7 +1302,7 @@ public theorem theorem_8_18_typeFData_conj_back
       theorem_8_18_section12ComplementIn_conjBy (G := G) g⁻¹ hComp
     simpa [Subgroup.conjBy_inv] using hCompBack
   · exact Subgroup.map_mono hU1le
-  · letI : IsMulCommutative U1 := hU1comm
+  · let : IsMulCommutative U1 := hU1comm
     change IsMulCommutative
       (U1.map (MulAut.conj g⁻¹).toMonoidHom)
     exact Subgroup.map_isMulCommutative
@@ -1450,7 +1450,7 @@ public theorem theorem_8_18_typePDefinitionData_conj_back
       simpa [Subgroup.conjBy] using hBack
     simpa [hDback] using hBack'
   · let eU : U ≃* U.conjBy g⁻¹ := (MulAut.conj g⁻¹).subgroupMap U
-    letI : Group.IsNilpotent U := hUnil
+    let : Group.IsNilpotent U := hUnil
     exact Group.nilpotent_of_surjective eU.toMonoidHom eU.surjective
   · have hBack := Subgroup.map_mono
       (f := (MulAut.conj g⁻¹).toMonoidHom) hW1norm
@@ -1626,7 +1626,7 @@ public theorem theorem_8_18_typeIIDefinitionData_conj_back
       (G := G) (M := M) (MF := MF) (g := g) hMF hMFg hP
   · exact theorem_8_18_typeIIToIVSourceCondition_conj_back
       (G := G) (M := M) (g := g) hCond
-  · letI : IsMulCommutative U := hComm
+  · let : IsMulCommutative U := hComm
     change IsMulCommutative
       (U.map (MulAut.conj g⁻¹).toMonoidHom)
     exact Subgroup.map_isMulCommutative
@@ -1701,7 +1701,7 @@ public theorem theorem_8_18_typeIDefinitionData_conj_back
         theorem_8_18_section12ComplementIn_conjBy (G := G) g⁻¹ hComp
       simpa [Subgroup.conjBy_inv] using hCompBack
     · exact Subgroup.map_mono hU1le
-    · letI : IsMulCommutative U1 := hU1comm
+    · let : IsMulCommutative U1 := hU1comm
       change IsMulCommutative
         (U1.map (MulAut.conj g⁻¹).toMonoidHom)
       exact Subgroup.map_isMulCommutative
@@ -2852,7 +2852,7 @@ public theorem theorem_8_18
       AS A0S A1S DS tildeAS tildeA0S tildeA1S
       AT A0T A1T DT tildeAT tildeA0T tildeA1T RS RT := by
   intro hG hDataNotation
-  letI : IsMinCE G := hG
+  let : IsMinCE G := hG
   have hData : theorem_8_18_source_data S T SF TF SS TT
       AS A0S A1S DS tildeAS tildeA0S tildeA1S
       AT A0T A1T DT tildeAT tildeA0T tildeA1T RS RT :=

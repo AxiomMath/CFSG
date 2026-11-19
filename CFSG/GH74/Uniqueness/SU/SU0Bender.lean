@@ -88,7 +88,7 @@ theorem pPrimeCore_centralizer_eq_bot
   have hnorm : ((Q : Subgroup K).subgroupOf (centralizer ({x} : Set K))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQC).mpr hle
   refine pPrimeCore_eq_bot_of_centralizer_le
-    ((Q : Subgroup K).subgroupOf (centralizer ({x} : Set K))) Q.isPGroup'.comap_subtype ?_
+    ((Q : Subgroup K).subgroupOf (centralizer ({x} : Set K))) Q.isPGroup.comap_subtype ?_
   intro c hc
   rw [Subgroup.mem_centralizer_iff] at hc
   rw [Subgroup.mem_subgroupOf]

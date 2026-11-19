@@ -24,10 +24,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_map_conj_iff {H : Subgroup G} {g y : G} :
     y ∈ H.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * y * g ∈ H := by
   rw [Subgroup.mem_map_equiv, MulAut.conj_symm_apply]
 
+omit [Finite G] in
 private theorem mem_iff_mem_conj_inv {H : Subgroup G} {g y : G}
     (hg : g⁻¹ ∈ normalizer (H : Set G)) : y ∈ H ↔ g⁻¹ * y * g ∈ H := by
   simpa using (Subgroup.mem_normalizer_iff.mp hg y)
@@ -90,6 +92,7 @@ private theorem caseI_thirdSylow_exists
   exact ⟨u, h, T, T', hTdef, hT'def, hTsyl, hT'syl, huL2, huNQv0, huNQv1, huNW,
     hhNQv2, hhNW, hhT', heq⟩
 
+omit [Finite G] in
 private theorem caseI_thirdSylow_bigB
     {L1 L2 S : Subgroup G} (t : Track L1 L2 S) {a f : ℕ} (hfr : Frame L1 L2 S a f)
     {u h : G} {T T' : Subgroup G} (hTdef : T = S ⊓ L2)
@@ -141,6 +144,7 @@ private theorem caseI_thirdSylow_bigB
       (le_normalizer_pCoreOf 2 (P1 L1 L2 S))) hkbigB
   exact ⟨hkbigB, hkQv0⟩
 
+omit [Finite G] in
 private theorem caseI_thirdSylow_Qd_eq {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
     {u h : G} (hkQv0 : h⁻¹ * u * t.x₂ ∈ normalizer (t.Qv 0 : Set G)) :
     (t.Qv 2).map (MulAut.conj u).toMonoidHom =
@@ -173,6 +177,7 @@ private theorem caseI_thirdSylow_Qd_eq {L1 L2 S : Subgroup G} (t : Track L1 L2 S
     rw [hmapQv] at h3
     exact mem_map_conj_iff.mpr h3
 
+omit [Finite G] in
 private theorem caseI_thirdSylow_inf {L1 L2 S : Subgroup G} (t : Track L1 L2 S) {u h : G}
     (huNQv0 : u ∈ normalizer (t.Qv 0 : Set G))
     (huNW : u ∈ normalizer (t.W : Set G))
@@ -211,6 +216,7 @@ private theorem caseI_thirdSylow_inf {L1 L2 S : Subgroup G} (t : Track L1 L2 S) 
         (mem_iff_mem_conj_inv ((normalizer (t.W : Set G)).inv_mem hhNW)).mp hy
       exact mem_map_conj_iff.mpr hzh.1
 
+omit [Finite G] in
 private theorem caseI_thirdSylow_Aδ {L1 L2 S : Subgroup G} (t : Track L1 L2 S) {u : G}
     (huNQv1 : u ∈ normalizer (t.Qv 1 : Set G))
     (hQv1NQv2 : t.Qv 1 ≤ normalizer (t.Qv 2 : Set G)) :
@@ -274,6 +280,7 @@ private theorem caseI_thirdSylow_Qv1_sup
     inf_comm (t.Qv 0) (t.Qv 1), sup_comm t.Am t.Ap] at h
   exact h
 
+omit [Finite G] in
 private theorem caseI_thirdSylow_commutators_Ap {L1 L2 S : Subgroup G}
     (t : Track L1 L2 S) {Qd : Subgroup G} (hQd_inf_Qv0 : t.Qv 0 ⊓ Qd = t.W)
     (hQd_normal : t.Qv 1 ≤ normalizer (Qd : Set G))
@@ -303,6 +310,7 @@ private theorem caseI_thirdSylow_commutators_Ap {L1 L2 S : Subgroup G}
   rw [← hQd_inf_Qv0]
   exact ⟨hmem0, hmemQd⟩
 
+omit [Finite G] in
 private theorem caseI_thirdSylow_commutators_Am {L1 L2 S : Subgroup G}
     (t : Track L1 L2 S) {h : G} {Qd : Subgroup G}
     (hQd_inf_Qv2 : t.Qv 2 ⊓ (t.Qv 0).map (MulAut.conj h).toMonoidHom = t.W)
@@ -334,6 +342,7 @@ private theorem caseI_thirdSylow_commutators_Am {L1 L2 S : Subgroup G}
   rw [← hQd_inf_Qv2]
   exact ⟨hmem2, hmemQd⟩
 
+omit [Finite G] in
 private theorem caseI_thirdSylow_centralizes {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
     {Qd : Subgroup G} (hQv1_sup : t.Qv 1 ≤ t.Ap ⊔ t.Am)
     (hQv1NW : t.Qv 1 ≤ normalizer (t.W : Set G))
@@ -354,6 +363,7 @@ private theorem caseI_thirdSylow_centralizes {L1 L2 S : Subgroup G} (t : Track L
   rw [hid]
   exact (t.W).mul_mem h1 ((Subgroup.mem_normalizer_iff.mp hbNW _).mp h2)
 
+omit [Finite G] in
 private theorem caseI_thirdSylow_normal {L1 L2 S : Subgroup G} (t : Track L1 L2 S) :
     ⁅t.Qv 0, S⁆ ≤ t.Qv 0 ∧ ⁅S, t.Qv 0⁆ ≤ t.Qv 0 := by
   have hSNQv0 : S ≤ normalizer (t.Qv 0 : Set G) := by
@@ -429,6 +439,7 @@ private theorem caseI_thirdSylow_bPrime
     exact hnot hprod
   exact ⟨b₁, b₂, hb₁Am, hb₂Am, hnotmem⟩
 
+omit [Finite G] in
 private theorem caseI_thirdSylow_final {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
     {u : G} {Qd : Subgroup G} (hQddef : Qd = (t.Qv 2).map (MulAut.conj u).toMonoidHom)
     (huNQv1 : u ∈ normalizer (t.Qv 1 : Set G))
@@ -486,6 +497,7 @@ theorem caseI_not_le_Am_sup {a f : ℕ} (hfr : Frame L1 L2 S a f)
   exact caseI_thirdSylow_final t (Qd := (t.Qv 2).map (MulAut.conj u).toMonoidHom) rfl
     huNQv1 huNW hcent hb₁ hb₂ hnot
 
+omit [Finite G] in
 private theorem caseI_S_le_normalizer_Qv_zero {L1 L2 S : Subgroup G}
     (t : Track L1 L2 S) : S ≤ normalizer (t.Qv 0 : Set G) := by
   rw [t.Qv_zero]
@@ -493,6 +505,7 @@ private theorem caseI_S_le_normalizer_Qv_zero {L1 L2 S : Subgroup G}
     (le_sup_right : bigB L1 L2 S ≤ P1 L1 L2 S)).trans
       (le_normalizer_pCoreOf 2 (P1 L1 L2 S))
 
+omit [Finite G] in
 private theorem caseI_S_le_normalizer_Qv_one {L1 L2 S : Subgroup G}
     (t : Track L1 L2 S) : S ≤ normalizer (t.Qv 1 : Set G) := by
   rw [t.Qv_one]
@@ -500,6 +513,7 @@ private theorem caseI_S_le_normalizer_Qv_one {L1 L2 S : Subgroup G}
     (le_sup_right : bigB L1 L2 S ≤ P2 L1 L2 S)).trans
       (le_normalizer_pCoreOf 2 (P2 L1 L2 S))
 
+omit [Finite G] in
 private theorem caseI_Sm_le_normalizer_Qv_one {L1 L2 S : Subgroup G}
     (t : Track L1 L2 S) : t.Sm ≤ normalizer (t.Qv 1 : Set G) := by
   have hSmP2 : t.Sm ≤ P2 L1 L2 S := by
@@ -515,6 +529,7 @@ private theorem caseI_Zv_neg_one_le_normalizer_Qv_one
   have hQv0S : t.Qv 0 ≤ S := by rw [t.Qv_zero]; exact Q1_le_S hfr.hF
   exact hZQ.trans (hQv0S.trans (caseI_S_le_normalizer_Qv_one t))
 
+omit [Finite G] in
 private theorem caseI_S_le_Qv_one_sup_Qv_zero {L1 L2 S : Subgroup G} {t : Track L1 L2 S}
     (hS : S ≤ t.Zv (-1) ⊔ t.Qv 1) (hZQ : t.Zv (-1) ≤ t.Qv 0) :
     S ≤ t.Qv 1 ⊔ t.Qv 0 :=
@@ -750,7 +765,7 @@ private theorem caseI_commutator_mem_W_of_Am_le
     {l : G} (hl : l ∈ t.L0) (hodd : Odd (orderOf l)) :
     ∀ x ∈ t.Qv 1, l * x * l⁻¹ * x⁻¹ ∈ t.W := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSQ : S ≤ t.Qv 1 ⊔ t.Qv 0 := caseI_S_le_Qv_one_sup_Qv_zero hS hZQ
   have hQv0L0 : t.Qv 0 ≤ t.L0 := by
     rw [t.Qv_zero]; exact (Q1_le_S hfr.hF).trans le_sup_left
@@ -794,6 +809,7 @@ private theorem caseI_commutator_mem_W_of_Am_le
     (P := t.Qv 1) (X₁ := t.Qv 0) (X₂ := t.Qv 2) (t.isPGroup_Qv 1) hQv1L0 hQv0L0 hQv2L0
     t.L0_le_normalizer_Qv_one hL0NW h₁ h₂ hgen hl (Nat.coprime_two_right.mpr hodd)
 
+omit [Finite G] in
 private theorem caseI_Sm_le_normalizer_Am {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
     (hSA : S ≤ normalizer (t.Ap : Set G)) :
     t.Sm ≤ normalizer (t.Am : Set G) := by
@@ -802,6 +818,7 @@ private theorem caseI_Sm_le_normalizer_Am {L1 L2 S : Subgroup G} (t : Track L1 L
   have h2 := Subgroup.le_normalizer_map (f := (MulAut.conj t.x₂).toMonoidHom) (H := t.Ap)
   rwa [t.map_Ap_x₂] at h2
 
+omit [Finite G] in
 private theorem caseI_Sm_commutator_Qv_one_le {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
     (hSQ : ⁅S, t.Qv 1⁆ ≤ t.Ap ⊔ t.Am) : ⁅t.Sm, t.Qv 1⁆ ≤ t.Ap ⊔ t.Am := by
   have hmapQv1 : (t.Qv 1).map (MulAut.conj t.x₂).toMonoidHom = t.Qv 1 := by
@@ -811,6 +828,7 @@ private theorem caseI_Sm_commutator_Qv_one_le {L1 L2 S : Subgroup G} (t : Track 
     sup_comm] at h
   exact h
 
+omit [Finite G] in
 private theorem caseI_Sm_commutator_Am_le {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
     (hSW : ⁅S, t.Ap⁆ ≤ t.W) : ⁅t.Sm, t.Am⁆ ≤ t.W := by
   have h := Subgroup.map_mono (f := (MulAut.conj t.x₂).toMonoidHom) hSW
@@ -829,7 +847,7 @@ private theorem caseI_commutator_mem_W_of_middle
     {l : G} (hl : l ∈ t.L0) (hodd : Odd (orderOf l)) :
     ∀ x ∈ t.Qv 1, l * x * l⁻¹ * x⁻¹ ∈ t.W := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQv1L0 : t.Qv 1 ≤ t.L0 := (t.Qv_le_Sm hfr).1.trans le_sup_right
   have hQv1NAp : t.Qv 1 ≤ normalizer (t.Ap : Set G) :=
     (le_inf le_normalizer (t.Qv_one_le_normalizer_Qv hfr).1).trans
@@ -892,7 +910,7 @@ private theorem caseI_commutator_W_Zv_one
     {l : G} (hl : l ∈ t.L0) (hodd : Odd (orderOf l)) :
     ∀ x ∈ t.W, l * x * l⁻¹ * x⁻¹ ∈ t.Zv 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQv1L0 : t.Qv 1 ≤ t.L0 := (t.Qv_le_Sm hfr).1.trans le_sup_right
   have hZv1L0 : t.Zv (-1) ≤ t.L0 :=
     hZQ.trans ((show t.Qv 0 ≤ S from by rw [t.Qv_zero]; exact Q1_le_S hfr.hF).trans
@@ -939,7 +957,7 @@ theorem caseI_commutator_mem_Zv_one {a f : ℕ}
     {l : G} (hl : l ∈ t.L0) (hodd : Odd (orderOf l)) :
     ∀ x ∈ t.Qv 1, l * x * l⁻¹ * x⁻¹ ∈ t.Zv 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQv1L0 : t.Qv 1 ≤ t.L0 := (t.Qv_le_Sm hfr).1.trans le_sup_right
   have hWZ : t.W ≤ normalizer (t.Zv 1 : Set G) :=
     (hW.2.1.trans hQv1L0).trans t.L0_le_normalizer_Zv_one
@@ -1000,6 +1018,7 @@ private theorem caseI_oTwoRes_commutator
   intro d hd l hlY
   exact ((CFSG.GroupTheory.mem_commutatorCentralizerIn hL0NZ).mp (hYle hlY)).2 d hd
 
+omit [Finite G] in
 private theorem caseI_oTwoRes_centralizer {Q Lstar : Subgroup G}
     (hα : ∀ l ∈ Lstar, Odd (orderOf l) → ∀ x ∈ Q, l * x * l⁻¹ = x) :
     (oTwoRes Lstar ≤ Subgroup.centralizer (Q : Set G)) ∧
@@ -1022,6 +1041,7 @@ private theorem caseI_oTwoRes_centralizer {Q Lstar : Subgroup G}
   rw [← hcomm]
   group
 
+omit [Finite G] in
 private theorem caseI_oTwoRes_fixed_points {E Q Lstar : Subgroup G}
     (hCE : ∀ e ∈ E, (∀ l ∈ Lstar, Odd (orderOf l) → l * e * l⁻¹ = e) → e ∈ Q) :
     ∀ e ∈ E, (∀ l ∈ oTwoRes Lstar, l * e * l⁻¹ = e) → e ∈ Q := by

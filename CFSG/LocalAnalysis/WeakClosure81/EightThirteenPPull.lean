@@ -14,9 +14,9 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem exists_isBarMap {H C : Subgroup G} (hC : (C.subgroupOf H).Normal) :
     ∃ (Q : Type) (_ : Group Q) (_ : Finite Q) (φ : ↥H →* Q), IsBarMap H C φ := by
-  haveI : (C.subgroupOf H).Normal := hC
+  have : (C.subgroupOf H).Normal := hC
   let Q := ↥H ⧸ (C.subgroupOf H)
-  haveI : Finite Q := by infer_instance
+  have : Finite Q := by infer_instance
   refine ⟨Q, inferInstance, by infer_instance, QuotientGroup.mk' (C.subgroupOf H), ?_⟩
   refine ⟨QuotientGroup.mk'_surjective (C.subgroupOf H), ?_⟩
   intro k
@@ -27,7 +27,8 @@ section Pull
 
 variable {H C : Subgroup G} {Q : Type} [Group Q] [Finite Q] {φ : ↥H →* Q}
 
-theorem a_le_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) {T A : Subgroup G} (hAH : A ≤ H)
+omit [Finite Q] [Finite G] in
+theorem a_le_barPre (hφ : IsBarMap H C φ) (_hCH : C ≤ H) {T A : Subgroup G} (hAH : A ≤ H)
     {Lb Kb : Subgroup Q}
     (h : ∀ x ∈ barSub H φ A, ∃ k ∈ Kb, ∃ t ∈ cenTMod (⊥ : Subgroup Q) Lb (barSub H φ T),
       (k * t)⁻¹ * x ∈ (⊥ : Subgroup Q)) :
@@ -63,7 +64,8 @@ theorem a_le_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) {T A : Subgroup G} (
     have := (hφ.ker_iff ((k * tbH)⁻¹ * ⟨x, hxH⟩)).mp hker2
     simpa using this
 
-theorem b_not_le_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) {T A : Subgroup G} (hAH : A ≤ H)
+omit [Finite Q] in
+theorem b_not_le_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) {T A : Subgroup G} (_hAH : A ≤ H)
     {Lb Kb : Subgroup Q}
     (h : ¬ ∀ x ∈ barSub H φ A, ∃ o ∈ oTwoMod (⊥ : Subgroup Q) Kb,
       ∃ t ∈ cenTMod (⊥ : Subgroup Q) Lb (barSub H φ T), (o * t)⁻¹ * x ∈ (⊥ : Subgroup Q)) :
@@ -113,8 +115,9 @@ theorem b_not_le_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) {T A : Subgroup 
     rw [Subgroup.mem_bot]
     simpa only [map_mul, map_inv, mul_inv_rev] using hker
 
+omit [Finite G] [Finite Q] in
 private theorem wc813ppull_relIndex_barPre (hφ : IsBarMap H C φ)
-    {Ab Bb : Subgroup Q} (hAB : Ab ≤ Bb) :
+    {Ab Bb : Subgroup Q} (_hAB : Ab ≤ Bb) :
     (barPre H φ Ab).relIndex (barPre H φ Bb) = Ab.relIndex Bb := by
   simp only [barPre]
   rw [Subgroup.relIndex_map_map_of_injective (f := H.subtype) (H := Ab.comap φ)
@@ -122,7 +125,8 @@ private theorem wc813ppull_relIndex_barPre (hφ : IsBarMap H C φ)
   rw [Subgroup.relIndex_comap (f := φ) (K := Bb.comap φ)]
   rw [Subgroup.map_comap_eq_self_of_surjective hφ.surjective Bb]
 
-private theorem wc813ppull_barPre_inf_eq (hφ : IsBarMap H C φ) (hCH : C ≤ H)
+omit [Finite Q] [Finite G] in
+private theorem wc813ppull_barPre_inf_eq (hφ : IsBarMap H C φ) (_hCH : C ≤ H)
     {M : Subgroup G} (hCM : C ≤ M) (Kb : Subgroup Q) :
     barPre H φ Kb ⊓ M = barPre H φ (Kb ⊓ barSub H φ (H ⊓ M)) := by
   apply le_antisymm
@@ -146,6 +150,7 @@ private theorem wc813ppull_barPre_inf_eq (hφ : IsBarMap H C φ) (hCH : C ≤ H)
     rw [hg_eq]
     exact M.mul_mem (hCM hC) hmM
 
+omit [Finite Q] [Finite G] in
 theorem d_index_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) {M : Subgroup G} (hCM : C ≤ M)
     {Kb : Subgroup Q} (h : (Kb ⊓ barSub H φ (H ⊓ M)).relIndex Kb = 5) :
     (barPre H φ Kb ⊓ M).relIndex (barPre H φ Kb) = 5 := by
@@ -153,6 +158,7 @@ theorem d_index_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) {M : Subgroup G} 
   rw [wc813ppull_relIndex_barPre hφ (inf_le_left : Kb ⊓ barSub H φ (H ⊓ M) ≤ Kb)]
   exact h
 
+omit [Finite Q] [Finite G] in
 theorem barSub_conjClosure_le {L : Subgroup G} (hLH : L ≤ H) :
     barSub H φ (conjClosure L H) ≤ conjClosure (barSub H φ L) ⊤ := by
   have h1 : conjClosure L H ≤ barPre H φ (conjClosure (barSub H φ L) ⊤) := by
@@ -179,6 +185,7 @@ theorem barSub_conjClosure_le {L : Subgroup G} (hLH : L ≤ H) :
       rw [hsub]
       exact Subgroup.map_comap_le (f := φ) (conjClosure (barSub H φ L) ⊤)
 
+omit [Finite Q] in
 theorem eShape_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) {T A : Subgroup G} (hAH : A ≤ H)
     (hTH : T ≤ H) {Lb Kb : Subgroup Q}
     (h : EShape813Gen (⊥ : Subgroup Q) ⊤ (barSub H φ T) (barSub H φ A) Lb Kb) :
@@ -248,6 +255,7 @@ private theorem wc813ppull_relIndex_sup_eq (hCH : C ≤ H) {S : Subgroup G} (hSH
     exact Nat.card_pos
   exact Nat.eq_of_mul_eq_mul_right hpos (by rw [mul_comm]; exact h1)
 
+omit [Finite Q] in
 theorem isSylowIn_inf_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) {T : Subgroup G}
     (hT : IsSylowIn 2 T H) {Kb : Subgroup Q}
     (h : IsSylowIn 2 (barSub H φ T ⊓ Kb) Kb) :
@@ -312,6 +320,7 @@ theorem isSylowIn_inf_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) {T : Subgro
   exact ⟨inf_le_right, IsPGroup.to_le hT.2.1 inf_le_left,
     mt even_iff_two_dvd.mpr (Nat.not_even_iff_odd.mpr hodd3)⟩
 
+omit [Finite Q] in
 theorem Concl813Gen.of_bar (hφ : IsBarMap H C φ) (hCH : C ≤ H) {M T A : Subgroup G}
     (hCM : C ≤ M) (hT : IsSylowIn 2 T H) (hAH : A ≤ H) {Lb Kb : Subgroup Q}
     (h : Concl813Gen (⊥ : Subgroup Q) (barSub H φ (H ⊓ M)) ⊤ (barSub H φ T)
@@ -329,6 +338,7 @@ theorem Concl813Gen.of_bar (hφ : IsBarMap H C φ) (hCH : C ≤ H) {M T A : Subg
   e_shape := eShape_barPre hφ hCH hAH hT.1 h.e_shape
   t_sylow := isSylowIn_inf_barPre hφ hCH hT h.t_sylow
 
+omit [Finite Q] in
 theorem Concl813''.of_bar {V H T A : Subgroup G} {φ : ↥H →* Q}
     (hφ : IsBarMap H (cGrp H T) φ) (hCH : cGrp H T ≤ H)
     (hCM : cGrp H T ≤ normalizer (V : Set G)) (hT : IsSylowIn 2 T H) (hAH : A ≤ H)

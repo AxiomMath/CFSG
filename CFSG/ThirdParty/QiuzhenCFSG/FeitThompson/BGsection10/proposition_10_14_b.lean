@@ -24,7 +24,7 @@ public theorem CFSG.proposition_10_14_b
     ∀ {R : Subgroup G}, IsPGroup p.val R → 1 < groupRank R →
       R ∈ section9UniqueSubgroups G := by
   intro R hRp hRrank_gt
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hRrank : 2 ≤ groupRank R := Nat.succ_le_of_lt hRrank_gt
   obtain ⟨A, hAR, hArankTwo⟩ :=
     section10_exists_elementaryAbelian_rank_two_subgroup_of_pgroup_rank_two

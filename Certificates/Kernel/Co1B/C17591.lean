@@ -228,7 +228,7 @@ theorem typN_eq (v : Nat) : typN (xsSet ()) v = typK XB v := by
       rw [Bool.eq_false_iff]
       intro e
       exact h (Nat.eq_of_beq_eq_true e)
-    rw [hb, if_neg (by simpa using h)]
+    rw [hb, ite_eq_right (by simpa using h)]
     cases memK XB v <;> rfl
 
 theorem foldl_filter {α β : Type} (q : β → α → Bool) : ∀ (cs : List β) (l : List α),

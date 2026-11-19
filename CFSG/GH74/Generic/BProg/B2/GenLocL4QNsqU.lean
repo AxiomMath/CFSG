@@ -122,7 +122,6 @@ theorem Wb_mul_Uc (c m w0 w1 s t : F) (hm : m ≠ 0) (hw : w0 ^ 2 - c * w1 ^ 2 =
   fin_cases i <;> fin_cases j <;> simp [Wb, G1, Uc, Lc, Matrix.mul_apply, Fin.sum_univ_four]
   all_goals (try field_simp)
   all_goals first
-    | ring1
     | linear_combination (-(w0 * s - c * w1 * t)) * hw
     | linear_combination (-(c * (w0 * t - w1 * s))) * hw
     | linear_combination (-(w0 * t - w1 * s)) * hw

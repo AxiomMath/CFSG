@@ -34,7 +34,7 @@ private theorem spEleH_ker_three_eq_one {G R : Type} [Group G] [Finite G] {H : S
 
 theorem spEleH_holds : SpEleH := by
   intro G _ _ H E m K _ _ _ hEN ζ fr hHp hEab hC3 b hb
-  haveI : Group.IsPerfect ↥H := ⟨hHp⟩
+  have : Group.IsPerfect ↥H := ⟨hHp⟩
   let u : Fin m → Multiplicative (ZMod 3) := fr.τ.symm ⟨b, hb⟩
   have hτu : fr.τ u = ⟨b, hb⟩ := fr.τ.apply_symm_apply ⟨b, hb⟩
   let T : ↥(StatedSp m K) := spPlaneTorus m ζ u
@@ -64,7 +64,7 @@ theorem spEleH_holds : SpEleH := by
       Subgroup.pow_mem fr.π.ker hx3ker (n / 3)
     have hcube : ((x ^ 3) ^ (n / 3)) ^ 3 = 1 := by
       rw [← pow_mul, Nat.div_mul_cancel hdvd]
-      simpa [n] using pow_orderOf_eq_one (x ^ 3)
+      simp [n]
     exact hne (spEleH_ker_three_eq_one hC3 fr.ker_le hmem hcube)
   let k : ℕ := n % 3
   have hk : k = n % 3 := rfl
@@ -85,7 +85,7 @@ theorem spEleH_holds : SpEleH := by
   let h : ↥H := x ^ (n * k)
   have hh3 : h ^ 3 = 1 := by
     have hx3n : (x ^ 3) ^ n = 1 := by
-      simpa [n] using pow_orderOf_eq_one (x ^ 3)
+      simp [n]
     calc h ^ 3 = (x ^ 3) ^ (n * k) := by
           show (x ^ (n * k)) ^ 3 = (x ^ 3) ^ (n * k)
           rw [← pow_mul, Nat.mul_comm (n * k) 3, pow_mul]

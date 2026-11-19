@@ -143,7 +143,7 @@ theorem card_sup_zpowers_of_not_mem (hp : p.Prime) (hB : IsElemAbelian p B) {D :
   have hcomm : ∀ x ∈ D, ∀ y ∈ Subgroup.zpowers e, x * y = y * x := fun x hx y hy =>
     hB.comm (hDB hx) (Subgroup.zpowers_le.mpr heB hy)
   have he1 : e ≠ 1 := fun h => heD (h ▸ D.one_mem)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card (Subgroup.zpowers e) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime (hB.2 e heB) he1]
   have hinf : D ⊓ Subgroup.zpowers e = ⊥ := by
@@ -230,18 +230,18 @@ theorem concA_of_block (hp : p.Prime) [hSn : S.Normal] (hB : IsElemAbelian p B)
           fun h => ?_⟩⟩
       · dsimp only
         by_cases hx : (x : Ω) ∈ innerPart S B
-        · rw [dif_pos hx, MulAut.conj_apply]
+        · rw [dite_eq_left hx, MulAut.conj_apply]
           exact Dat.map_conj _ h
-        · rw [dif_neg hx, MulAut.mul_apply, MulAut.conj_apply, Dat.map_conj,
+        · rw [dite_eq_right hx, MulAut.mul_apply, MulAut.conj_apply, Dat.map_conj,
             map_semiAut_pow hact, hxk x]
-          simp only [Subgroup.coe_mk]
+          simp only
           group
-      · simp only [dif_pos hx]
+      · simp only [dite_eq_left hx]
       · rcases Nat.eq_zero_or_pos (k x) with h0 | h0
         · exact absurd (by rw [hxk x, h0, pow_zero, mul_one]; exact hy x) hx
         · exact h0
       · dsimp only
-        rw [dif_neg hx, MulAut.mul_apply, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_mul,
+        rw [dite_eq_right hx, MulAut.mul_apply, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_mul,
           Subgroup.coe_inv, coe_semiAut_pow_apply]
   set X : Subgroup ↥H := ModelGen.fixFam (fun x : {x : ↥B // (x : Ω) ∈ D} => lift x.1)
     with hXdef
@@ -352,7 +352,7 @@ theorem concA_of_block (hp : p.Prime) [hSn : S.Normal] (hB : IsElemAbelian p B)
     have hz : ∀ v, glEquiv z v = (c : K) • v := by
       intro v
       rw [glEquiv_apply, ← hc']
-      simp [Matrix.GeneralLinearGroup.scalar, Matrix.smul_mulVec, Matrix.one_mulVec]
+      simp [Matrix.GeneralLinearGroup.scalar]
     obtain ⟨u, hu, hu0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hU0
     obtain ⟨w, hw, hw0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hW0
     have e1 : ε₁ = c := smul_left_injective K hu0 ((hzU u hu).symm.trans (hz u))

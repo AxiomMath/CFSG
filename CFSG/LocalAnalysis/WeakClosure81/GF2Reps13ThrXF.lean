@@ -30,6 +30,7 @@ structure HAb (A X Q : Subgroup (MulAut W)) (t : MulAut W) (p : ℕ) : Prop wher
   hXgen : X = conjClosure A Q
   hQ7 : p = 7 → Nat.card ↥Q = 7
 
+omit [Finite W] in
 private theorem w16g_conjClosure_map_conj (A Q : Subgroup (MulAut W)) {a : MulAut W}
     (ha : a ∈ A) :
     conjClosure A (Q.map (MulAut.conj a).toMonoidHom) = conjClosure A Q := by
@@ -50,7 +51,7 @@ private theorem w16g_conjClosure_map_conj (A Q : Subgroup (MulAut W)) {a : MulAu
     rw [MulAut.conj_apply]
     group
 
-private theorem w16g_rk_commSub_conj (A : Subgroup (MulAut W)) {a t : MulAut W} (ha : a ∈ A) :
+private theorem w16g_rk_commSub_conj (A : Subgroup (MulAut W)) {a t : MulAut W} (_ha : a ∈ A) :
     rk ↥(commSub ⊤ (Subgroup.zpowers (a * t * a⁻¹))) =
       rk ↥(commSub ⊤ (Subgroup.zpowers t)) := by
   have hs : a * t * a⁻¹ = MulAut.conj a t := (MulAut.conj_apply a t).symm
@@ -59,8 +60,7 @@ private theorem w16g_rk_commSub_conj (A : Subgroup (MulAut W)) {a t : MulAut W} 
     have hs_zp : Subgroup.zpowers (a * t * a⁻¹) =
         (Subgroup.zpowers t).map (MulAut.conj a).toMonoidHom := by
       rw [hs]
-      simpa using
-        (MonoidHom.map_zpowers (f := (MulAut.conj a).toMonoidHom) t).symm
+      simp
     rw [hs_zp, CFSG.RankThree.S4Free.Stell.map_commSub a ⊤ (Subgroup.zpowers t),
       Subgroup.map_top_of_surjective _ a.surjective]
   rw [hcomm, CFSG.RankThree.S4Free.Stell.rk_map_mulAut]
@@ -101,6 +101,7 @@ theorem HAb.conj (h : HAb A X Q t p) {a : MulAut W} (ha : a ∈ A) :
     rw [← h.hQ7 hp7]
     exact Subgroup.card_map_of_injective (MulAut.conj a).injective
 
+omit [Finite W] in
 private theorem w16g_sup_zpowers_eq_of_relIndex {H X : Subgroup (MulAut W)} {ℓ : MulAut W}
     {p : ℕ} (hp : p.Prime) (hHle : H ≤ X) (hHrel : H.relIndex X = p) (hℓX : ℓ ∈ X)
     (hℓnot : ℓ ∉ H) : H ⊔ Subgroup.zpowers ℓ = X := by
@@ -122,6 +123,7 @@ private theorem w16g_sup_zpowers_eq_of_relIndex {H X : Subgroup (MulAut W)} {ℓ
       exact Nat.eq_of_mul_eq_mul_left hp.pos (by rw [mul_one]; exact h1')
     exact le_antisymm hle (Subgroup.relIndex_eq_one.mp he1)
 
+omit [Finite W] in
 private theorem w16g_conj_mem_s13KerOn {X : Subgroup (MulAut W)} {U : Subgroup W}
     {s : MulAut W}
     (hsX : ∀ x ∈ X, s * x * s⁻¹ ∈ X)
@@ -141,6 +143,7 @@ private theorem w16g_conj_mem_s13KerOn {X : Subgroup (MulAut W)} {U : Subgroup W
   rw [hhcent (s.symm w) hw']
   exact MulEquiv.apply_symm_apply s w
 
+omit [Finite W] in
 private theorem w16g_inverted_mod_hyperplane {X H : Subgroup (MulAut W)} {s q : MulAut W}
     (hXcomm : ∀ y ∈ X, ∀ z ∈ X, y * z = z * y)
     (hHle : H ≤ X) (hHrel : H.relIndex X = 3) (hqX : q ∈ X) (hqnot : q ∉ H)
@@ -180,6 +183,7 @@ private theorem w16g_inverted_mod_hyperplane {X H : Subgroup (MulAut W)} {s q : 
   rw [hprod]
   exact H.mul_mem (hsH h' hh'H) hh'H
 
+omit [Finite W] in
 private theorem w16g_exists_inverted_nontrivial (h : HAb A X Q t p) {a : MulAut W}
     (ha : a ∈ A) {U : Subgroup W} (hU : U ∈ s13Supp X (Q.map (MulAut.conj a).toMonoidHom)) :
     ∃ q ∈ X, (a * t * a⁻¹) * q * (a * t * a⁻¹)⁻¹ = q⁻¹ ∧ q ∉ s13KerOn X U := by

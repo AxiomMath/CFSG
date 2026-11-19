@@ -164,7 +164,7 @@ theorem exists_aut_invariant_two_subgroup {J : Type*} [Group J] [Finite J] (Z : 
   have hPchar : (P : Subgroup Ut).Characteristic :=
     Sylow.characteristic_of_normal P inferInstance
   refine ⟨(P : Subgroup Ut).map Ut.subtype, ?_, ?_, ?_⟩
-  · exact (P.isPGroup').map Ut.subtype
+  · exact (P.isPGroup).map Ut.subtype
   ·
     intro hbot
     have hPbot : (P : Subgroup Ut) = ⊥ := by

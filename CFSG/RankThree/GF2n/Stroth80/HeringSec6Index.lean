@@ -52,7 +52,7 @@ theorem relIndex_SL (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} {t : 
       exact ⟨hx, hLRB hx, hxv⟩)
   have hq : 2 ≤ Nat.card Z := HS6.two_le_card_Z hc
   have hKg : Nat.card (GaloisField 2 n') = Nat.card Z := hglob.card
-  haveI := hnorm'
+  have := hnorm'
   have hcardV' : Nat.card ↥(Vt M (LB M Q B) B Z t) = Nat.card Z * Nat.card Z ^ m' := by
     have hcardQ : Nat.card (↥(Vt M (LB M Q B) B Z t) ⧸ Z.subgroupOf (Vt M (LB M Q B) B Z t)) =
         Nat.card Z ^ m' := by
@@ -77,6 +77,7 @@ theorem relIndex_SL (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} {t : 
   rw [mul_comm]
   exact hrel
 
+omit [Finite G] in
 theorem card_map_LB_eq_relIndex (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {ι : Type}
     {K : Type} [Field K] [Fintype ι] [DecidableEq ι] (φ : ↥(Rt M (LB M Q B) t) →* GL ι K)
     (hker : φ.ker = (hc.CN t).subgroupOf (Rt M (LB M Q B) t)) :
@@ -95,7 +96,7 @@ theorem relIndex_orth (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement)
     (hnat : NaturalRep (ι := ι) K X (Rt M (LB M Q B) t) (Vt M (LB M Q B) B Z t) Z (hc.CN t)) :
     (hc.CN t).relIndex (LB M Q B) = Nat.card K ^ (Module.finrank K (ι → K) - 2) := by
   obtain ⟨φ, hφ, hker, hnorm, hn, ψ, hψ⟩ := hnat
-  haveI := hn
+  have := hn
   obtain ⟨u, hQu, hu0, -, -, hL, -⟩ := hc.omega_points_core h34 hRoot hs hnatSO hK E hQ h3 hX
     φ hφ hker ψ hψ (hc.omega_singular h34 hRoot hs hnatSO hK E hQ h3 hX φ hφ ψ hψ)
   rw [← card_map_LB_eq_relIndex hc hs.mem φ hker, hL]
@@ -106,10 +107,10 @@ theorem relIndex_omegaPlus (h34 : Stroth34Statement) (hRoot : Stroth310RootState
     (h : OmegaPlusNat hc t m) :
     (hc.CN t).relIndex (LB M Q B) = Nat.card Z ^ (2 * m - 2) := by
   obtain ⟨K, fK, finK, hK, hnat⟩ := h
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hnatSO : SpNat hc t ∨ OmegaNat hc t := Or.inr ⟨K, fK, finK, hK, Or.inl ⟨m, hm, hnat⟩⟩
   have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]; omega
@@ -124,10 +125,10 @@ theorem relIndex_omegaMinus (h34 : Stroth34Statement) (hRoot : Stroth310RootStat
     (h : OmegaMinusNat hc t m) :
     (hc.CN t).relIndex (LB M Q B) = Nat.card Z ^ (2 * m - 2) := by
   obtain ⟨K, fK, finK, hK, b, c, hirr, hnat⟩ := h
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
     Or.inr ⟨K, fK, finK, hK, Or.inr ⟨m, b, c, hm, hirr, hnat⟩⟩
   have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
@@ -193,7 +194,7 @@ theorem relIndex_omegaPlus_four_of_ne (h34 : Stroth34Statement) (hc : Ctx M Q Z 
     hi ▸ Subgroup.relIndex_dvd_card (hc.CN t) (LB M Q B)
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hd1
   obtain ⟨K, fK, finK, hK, φ, hφ, hker, -⟩ := h
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hΛX : ((LB M Q B).subgroupOf (Rt M (LB M Q B) t)).map φ ≤

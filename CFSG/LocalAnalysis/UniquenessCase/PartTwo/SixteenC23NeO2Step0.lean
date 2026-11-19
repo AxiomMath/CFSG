@@ -44,10 +44,12 @@ theorem c23ne_card_conj_V₀ (h : C23NeO2 M V₀ V N₁ N₂ Y g) :
   rw [card_eq_two_pow_mSub hp, h.pair'.rank_V₀]
   norm_num
 
+omit [Finite G] in
 private theorem c23ne_mQuot_inf_le (h : C23NeO2 M V₀ V N₁ N₂ Y g) :
     E3.mQuot V (V ⊓ conjSubgroup M g) ≤ 2 := by
   rw [c23a_o2_mQuot_inf_left]; exact h.mU
 
+omit [Finite G] in
 private theorem c23ne_comm_mem_conj_V₀ (h : C23NeO2 M V₀ V N₁ N₂ Y g) {u w : G}
     (hu : u ∈ conjSubgroup M g) (hw : w ∈ conjSubgroup V₀ g) :
     u * w * u⁻¹ * w⁻¹ ∈ conjSubgroup V₀ g :=

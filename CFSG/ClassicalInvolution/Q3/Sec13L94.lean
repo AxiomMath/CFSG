@@ -26,6 +26,7 @@ section Q8
 
 variable {L : Subgroup G} {s : G}
 
+omit [Finite G] in
 private theorem comm_of_mem (hs : IsUniqueInvolution L s) {x : G} (hx : x ∈ L) : x * s = s * x :=
   mul_inv_eq_iff_eq_mul.1 (hs.conj_eq (conjSub_eq_self_of_mem hx))
 
@@ -140,6 +141,7 @@ private theorem exists_fixed (hs : IsUniqueInvolution L s) (h8 : Nat.card L = 8)
 
 end Q8
 
+omit [Finite G] in
 private theorem exists_noncomm (hΩ : HypOmegaGen Ω) {L : Subgroup G} (hL : L ∈ Ω)
     (h2 : IsPGroup 2 L) : ∃ x ∈ L, ∃ y ∈ L, x * y ≠ y * x := by
   obtain ⟨-, P, hP, hPnab⟩ := hΩ.omega1 L hL
@@ -149,6 +151,7 @@ private theorem exists_noncomm (hΩ : HypOmegaGen Ω) {L : Subgroup G} (hL : L �
   push Not at h
   exact hPnab (IsMulCommutative.of_comm fun a b => Subtype.ext (h a a.2 b b.2))
 
+omit [Finite G] in
 private theorem eq_one_or_eq_of_mem_zpowers {s w : G} (hs : s * s = 1)
     (hw : w ∈ Subgroup.zpowers s) : w = 1 ∨ w = s := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hw
@@ -158,13 +161,16 @@ private theorem eq_one_or_eq_of_mem_zpowers {s w : G} (hs : s * s = 1)
   · exact Or.inl (zpow_zero s)
   · exact Or.inr (zpow_one s)
 
+omit [Finite G] in
 private theorem comm_of_conj_eq {x y : G} (h : y * x * y⁻¹ = x) : x * y = y * x := by
   calc x * y = y * x * y⁻¹ * y := by rw [h]
     _ = y * x := by group
 
+omit [Finite G] in
 private theorem conj_eq_of_comm {x y : G} (h : x * y = y * x) : y * x * y⁻¹ = x := by
   rw [← h, mul_inv_cancel_right]
 
+omit [Finite G] in
 private theorem isPGroup_zpowers_of_mul_self {x : G} (hx : x * x = 1) :
     IsPGroup 2 (Subgroup.zpowers x) := by
   have hdvd : orderOf x ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [sq, hx])
@@ -172,6 +178,7 @@ private theorem isPGroup_zpowers_of_mul_self {x : G} (hx : x * x = 1) :
   · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h, pow_zero])
   · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h, pow_one])
 
+omit [Finite G] in
 private theorem orderOf_inv_conj (y x : G) : orderOf (y⁻¹ * x * y) = orderOf x := by
   simpa [MulAut.conj_apply] using MulEquiv.orderOf_eq (MulAut.conj y⁻¹) x
 
@@ -586,6 +593,7 @@ theorem exists_mGrp_conj (hP : Q3CL.PartIHypG Ω) (h2 : ∀ L ∈ Ω, IsPGroup 2
   rw [hKn] at h1
   exact (hr.eq h1).symm
 
+omit [Finite G] in
 private theorem not_mGrp_le_of_muIsoS4 {W : Subgroup G} (hS4 : MuIsoS4 Ω W) {P : Subgroup G}
     (hP : IsPGroup 2 P) (hMP : MGrp Ω W ≤ P) : False := by
   obtain ⟨φ⟩ := hS4
@@ -597,7 +605,7 @@ private theorem not_mGrp_le_of_muIsoS4 {W : Subgroup G} (hS4 : MuIsoS4 Ω W) {P 
   have h2 : orderOf ((φ.symm σ : ↥(muGroup Ω W)) : NQuot (W ⊔ OCW W)) = 3 := by
     rw [Subgroup.orderOf_coe, h1]
   have h3 : Thompson.piG W m = Thompson.piN W ⟨m, hmN⟩ := by
-    simp only [Thompson.piG, dif_pos hmN]
+    simp only [Thompson.piG, dite_eq_left hmN]
   rw [hmy, h3] at h2
   have h4 : orderOf (Thompson.piN W ⟨m, hmN⟩) ∣ orderOf (⟨m, hmN⟩ : ↥(Subgroup.normalizer
       (W : Set G))) := orderOf_map_dvd _ _
@@ -627,7 +635,7 @@ theorem exists_isSylow2In_le_normalizer (hP : Q3CL.PartIHypG Ω)
   swap
   ·
     exfalso
-    refine not_mGrp_le_of_muIsoS4 hS4 S₀.isPGroup' (iSup₂_le fun R hR => ?_)
+    refine not_mGrp_le_of_muIsoS4 hS4 S₀.isPGroup (iSup₂_le fun R hR => ?_)
     obtain ⟨J, hJ, hRJ⟩ := exists_isSylow2In_of_mem_RSet hR.1
     have hRJeq : J = R := hRJ.2.2 J le_rfl (h2 J hJ) hRJ.1
     subst hRJeq
@@ -646,7 +654,7 @@ theorem exists_isSylow2In_le_normalizer (hP : Q3CL.PartIHypG Ω)
         (S₀ : Subgroup G) := iSup₂_le fun U hU => hU.2
     have hηeq : η = η₀ := huniq η ⟨S₀, hη, hinv⟩ fun m hm U hU => hinv m (hMS₀ hm) U hU
     subst hηeq
-    obtain ⟨S, hS, hWS⟩ := IsSylow2In.exists_ge (S₀.isPGroup'.to_le hWS₀) hWH
+    obtain ⟨S, hS, hWS⟩ := IsSylow2In.exists_ge (S₀.isPGroup.to_le hWS₀) hWH
     obtain ⟨S₁, hSS₁⟩ := hS.2.1.exists_le_sylow
     refine ⟨S, hS, hWS, fun s hs => ?_⟩
     obtain ⟨x, hx⟩ := exists_conjSub_eq_of_sylow S₀ S₁

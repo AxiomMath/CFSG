@@ -15,7 +15,7 @@ variable {C : Type} [Group C] {Q : Subgroup C} [hQn : Q.Normal]
 
 private lemma cSide_conjLinEquiv_eq_one_iff_mem (hC : WeakHyp C Q) (x : C) :
     conjLinEquiv hQn x = 1 ↔ x ∈ Q := by
-  haveI : Finite Q := hC.plus.finite
+  have : Finite Q := hC.plus.finite
   have hE := hC.plus.isExtraspecialPGroup
   refine ⟨?_, fun hx => conjLinEquiv_eq_one_of_mem hx⟩
   intro hx
@@ -50,7 +50,7 @@ theorem cSide_swapCent_iff [Finite C] (hC : WeakHyp C Q) (S : CSideSetup C Q) {t
       ∃ w : A5WrTwo, w ∉ commutator A5WrTwo ∧
         w * A5WrTwo.baseEmb (S.θ ⟨σ, hσ⟩) = A5WrTwo.baseEmb (S.θ ⟨σ, hσ⟩) * w := by
   classical
-  haveI : Finite Q := hC.plus.finite
+  have : Finite Q := hC.plus.finite
   have hQL : Q ≤ commutator C := hC.le_commutator
   have hcomm_e : ∀ u : C, S.e (u : C ⧸ Q) ∈ commutator A5WrTwo ↔ u ∈ commutator C := by
     intro u

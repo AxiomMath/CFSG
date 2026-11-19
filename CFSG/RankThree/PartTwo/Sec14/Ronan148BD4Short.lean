@@ -170,7 +170,7 @@ theorem eq_bot_of_le_short_fixed {n : ℕ} (hn : 2 ≤ n) {K : Type} [Field K] [
     have hτne : τ ≠ 1 := hτ1
     have hτord : orderOf τ = 3 := orderOf_eq_prime hτ3' hτne
     obtain ⟨-, -, -, hcyc, -⟩ := even_triality_exact_automorphism_normal_form hn1 K hK σ hσ
-    haveI : IsCyclic (K ≃+* K) := hcyc
+    have : IsCyclic (K ≃+* K) := hcyc
     have hσord := Sec8.Item8ModelProof.orderOf_sigma hn1 hK hσ
     have hcardσ : Nat.card (autFixedSubfield σ) = 2 ^ n := KFacts.card_fixSubfield_of_cube hn1 hK hσ
     have hfix : Nat.card (autFixedSubfield τ) = 2 ^ n := by

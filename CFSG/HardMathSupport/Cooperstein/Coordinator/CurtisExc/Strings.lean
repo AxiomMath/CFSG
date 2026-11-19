@@ -42,7 +42,7 @@ theorem lElt_eq (c : K) : (lElt c : SL(2, K)) = WSL * uElt (-c) * WSL⁻¹ := by
   rw [eq_mul_inv_iff_mul_eq]
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
-  simp [lElt, uElt, WSL, Matrix.mul_fin_two]
+  simp [lElt, uElt, WSL]
 
 theorem rankOne_l' (s : Fin τ.rank) (c : K) :
     yC τ K s c = nC τ K s * xC τ K s (-c) * (nC τ K s)⁻¹ := by
@@ -55,7 +55,7 @@ theorem lElt_inv' (c : K) : (lElt c : SL(2, K))⁻¹ = lElt (-c) := by
   rw [inv_eq_iff_mul_eq_one]
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul]
-  simp [lElt, Matrix.mul_fin_two, Matrix.one_fin_two]
+  simp [lElt, Matrix.one_fin_two]
 
 theorem fixSub_stable_rankOne (ρ : Representation k (adjointGroup τ K) V) (s : Fin τ.rank)
     (Q : Subgroup (adjointGroup τ K))

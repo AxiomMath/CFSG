@@ -19,11 +19,11 @@ variable {G : Type} [Group G]
 theorem exists_isSecMod_of_sectionAct {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
     [CharP K 2] {R V Z : Subgroup G} (φ : ↥R →* GL ι K)
     (h : SectionAct K R V Z φ (fun g => (g : Matrix ι ι K))) :
-    ∃ (iA : DistribMulAction ↥R (ι → K)),
+    ∃ (_iA : DistribMulAction ↥R (ι → K)),
       (∀ (r : ↥R) (x : ι → K), r • x = (φ r : Matrix ι ι K) *ᵥ x) ∧
       ∃ κ : ↥V →* Multiplicative (ι → K), IsSecMod R V Z (ι → K) κ := by
   obtain ⟨-, hN, ψ, hψ⟩ := h
-  let iA : DistribMulAction ↥R (ι → K) :=
+  let _iA : DistribMulAction ↥R (ι → K) :=
     { smul := fun r x => (φ r : Matrix ι ι K) *ᵥ x
       one_smul := fun x => by
         show (φ 1 : Matrix ι ι K) *ᵥ x = x
@@ -34,7 +34,7 @@ theorem exists_isSecMod_of_sectionAct {ι K : Type} [Fintype ι] [DecidableEq ι
         simp [Matrix.mulVec_mulVec]
       smul_zero := fun r => Matrix.mulVec_zero _
       smul_add := fun r x y => Matrix.mulVec_add _ _ _ }
-  refine ⟨iA, fun r x => rfl, ?_⟩
+  refine ⟨_iA, fun r x => rfl, ?_⟩
   let κ : ↥V →* Multiplicative (ι → K) :=
     ψ.toMonoidHom.comp (QuotientGroup.mk' (Z.subgroupOf V))
   refine ⟨κ, ?_, ?_, ?_, ?_⟩
@@ -118,7 +118,7 @@ theorem step78_core {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K] [Finit
   have hVW : V ≤ W := hd.1.trans hd.2.1
   have hsecWV : SecHyp R W V := SecHyp.of_isOppDecomp hd hWn hVn
   obtain ⟨Y, iY, iD, κ, hκ, hker⟩ := exists_sectionModule_ker hNφ hsecWV hNW
-  haveI : Finite Y := hκ.finite
+  have : Finite Y := hκ.finite
   have hdec := isCompl_fixedSub_of_isOppDecomp hWn hκ hd h₁ h₂
   have hβL : β ∈ L₁.subgroupOf R := Subgroup.mem_subgroupOf.mpr hβ
   have hβ1 : φ β ≠ 1 := by

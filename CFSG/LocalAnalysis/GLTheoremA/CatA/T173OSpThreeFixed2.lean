@@ -43,6 +43,7 @@ theorem spPrimaryBlocks_of_order_three (hF : Nat.card F = 2) (hℓ : 1 ≤ ℓ) 
     (K := F) Nat.prime_two le_rfl hK Nat.prime_three (by norm_num) (by norm_num) hℓ
     (CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.proj ℓ F d) ha).2 d rfl hxp
 
+omit [Finite F] in
 theorem spFixedFactor_eq_bot_of_spFixedDim_eq_zero [CharP F 2] {d : ↥(StatedSp ℓ F)}
     (hd3 : d ^ 3 = 1) (hd : spFixedDim d = 0) : spFixedFactor d = ⊥ := by
   have hsq : Squarefree (minpoly F (spEnd d)) :=
@@ -64,19 +65,19 @@ theorem spFixedFactor_eq_bot_of_spFixedDim_eq_zero [CharP F 2] {d : ↥(StatedSp
   rw [map_one]
   exact Units.ext hmap
 
-theorem two_le_fixed_half [CharP F 2] (hF : Nat.card F = 2) (hℓ : 1 ≤ ℓ)
+theorem two_le_fixed_half [CharP F 2] (hF : Nat.card F = 2) (_hℓ : 1 ≤ ℓ)
     {d : ↥(StatedSp ℓ F)}
-    (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1)
+    (hd3 : d ^ 3 = 1) (_hd1 : d ≠ 1)
     (hQ : CFSG.Open.IsQuasisimple ↥⁅spFixedFactor d, spFixedFactor d⁆)
     (blocks : SpPrimaryBlocks 2 1 3 d
       (CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.proj ℓ F d))
     {s : ℕ} (hs : spFixedDim d = 2 * s) : 2 ≤ s := by
   have hns : ¬ Group.IsSolvable ↥⁅spFixedFactor d, spFixedFactor d⁆ := by
     intro hs
-    haveI : Group.IsPerfect ↥⁅spFixedFactor d, spFixedFactor d⁆ :=
+    have : Group.IsPerfect ↥⁅spFixedFactor d, spFixedFactor d⁆ :=
       Group.isPerfect_def.mpr hQ.1
-    haveI : Nontrivial ↥⁅spFixedFactor d, spFixedFactor d⁆ := by
-      haveI : IsSimpleGroup (↥⁅spFixedFactor d, spFixedFactor d⁆ ⧸
+    have : Nontrivial ↥⁅spFixedFactor d, spFixedFactor d⁆ := by
+      have : IsSimpleGroup (↥⁅spFixedFactor d, spFixedFactor d⁆ ⧸
           Subgroup.center ↥⁅spFixedFactor d, spFixedFactor d⁆) := hQ.2
       exact (QuotientGroup.mk'_surjective (Subgroup.center ↥⁅spFixedFactor d,
         spFixedFactor d⁆)).nontrivial
@@ -98,7 +99,7 @@ theorem two_le_fixed_half [CharP F 2] (hF : Nat.card F = 2) (hℓ : 1 ≤ ℓ)
         rw [card_spFixedFactor_of_dim_two (ℓ := 2) (f := 1) (p := 3) blocks hdim2, hF]
         norm_num
       have hsolv : Group.IsSolvable ↥(spFixedFactor d) := by
-        haveI : Fintype ↥(spFixedFactor d) := Fintype.ofFinite _
+        have : Fintype ↥(spFixedFactor d) := Fintype.ofFinite _
         refine CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
           (p := 2) (q := 3) (a := 1) (b := 1) Nat.prime_two Nat.prime_three (by norm_num) ?_
         rw [← Nat.card_eq_fintype_card, hcard]
@@ -108,6 +109,7 @@ theorem two_le_fixed_half [CharP F 2] (hF : Nat.card F = 2) (hℓ : 1 ≤ ℓ)
         (Subgroup.inclusion_injective _))).elim
   · exact hge
 
+omit [Finite F] in
 theorem spSupported_unitary_le_centralizer_fixed_commutator [CharP F 2]
     {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1) :
     spSupported d ({X ^ 2 + X + 1} : Set F[X]) ≤
@@ -148,7 +150,7 @@ theorem spSupported_unitary_le_centralizer_fixed_commutator [CharP F 2]
   exact (hx' y (Set.mem_singleton y)).symm
 
 theorem mem_commutator_fixed_of_cube_one (hF : Nat.card F = 2) {d : ↥(StatedSp ℓ F)}
-    (hd3 : d ^ 3 = 1)
+    (_hd3 : d ^ 3 = 1)
     (blocks : SpPrimaryBlocks 2 1 3 d
       (CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.proj ℓ F d))
     {s : ℕ} (hs : spFixedDim d = 2 * s) (h2s : 2 ≤ s) {a : ↥(StatedSp ℓ F)}

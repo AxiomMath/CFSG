@@ -22,8 +22,7 @@ private theorem pls2a_jShift21_emb21 (B₂ : GL (Fin 2) K) (g₁' : GL (Fin 3) K
     (u : Fin 2 → K) :
     jShift21 K f (glLin B₂ u) = glLin g₁' (jShift21 K f u) := by
   funext i
-  fin_cases i <;> simp [jShift21, glLin_apply, hg₁', emb21, Matrix.mulVec, Fin.sum_univ_three,
-    Fin.sum_univ_two, map_add, map_mul, vecHead, vecTail]
+  fin_cases i <;> simp [jShift21, glLin_apply, hg₁', emb21, Matrix.mulVec, map_add, map_mul, vecHead, vecTail]
 
 private theorem pls2a_jShift21Inv_emb21 (B₁ : GL (Fin 2) K) (g₁ : GL (Fin 3) K)
     (hg₁ : (g₁ : Matrix (Fin 3) (Fin 3) K) = emb21 (B₁ : Matrix (Fin 2) (Fin 2) K))
@@ -34,8 +33,9 @@ private theorem pls2a_jShift21Inv_emb21 (B₁ : GL (Fin 2) K) (g₁ : GL (Fin 3)
     jShift21Inv K f (glLin g₁ v) = glLin g₂' (jShift21Inv K f v) := by
   funext i
   fin_cases i <;> simp [jShift21Inv, glLin_apply, hg₁, hg₂', emb21, Matrix.mulVec,
-    Fin.sum_univ_three, Fin.sum_univ_two, map_add, map_mul, vecHead, vecTail]
+    map_add, map_mul, vecHead, vecTail]
 
+omit [Finite K] [CharP K 2] in
 private theorem pls2a_stab_Vsub_one (M : Matrix (Fin 2) (Fin 2) K) (g : GL (Fin 3) K)
     (hg : (g : Matrix (Fin 3) (Fin 3) K) = emb21 M) :
     (Vsub 3 1).map (glLin g).toLinearMap = Vsub 3 1 := by
@@ -46,23 +46,25 @@ private theorem pls2a_stab_Vsub_one (M : Matrix (Fin 2) (Fin 2) K) (g : GL (Fin 
     have hv2 : v 2 = 0 := hv 2 (by norm_num)
     fin_cases j
     · simp at hj
-    · simp [glLin_apply, hg, emb21, Matrix.mulVec, Fin.sum_univ_three, vecHead, vecTail, hv1, hv2]
-    · simp [glLin_apply, hg, emb21, Matrix.mulVec, Fin.sum_univ_three, vecHead, vecTail, hv1, hv2]
+    · simp [glLin_apply, hg, emb21, Matrix.mulVec, vecHead, vecTail, hv1, hv2]
+    · simp [glLin_apply, hg, emb21, Matrix.mulVec, vecHead, vecTail, hv1, hv2]
   · intro v hv
     rw [Submodule.mem_map]
     refine ⟨v, hv, ?_⟩
     ext j
     fin_cases j
-    · simp [glLin_apply, hg, emb21, Matrix.mulVec, Fin.sum_univ_three, vecHead, vecTail]
-    · simp [glLin_apply, hg, emb21, Matrix.mulVec, Fin.sum_univ_three, vecHead, vecTail,
+    · simp [glLin_apply, hg, emb21, Matrix.mulVec, vecHead, vecTail]
+    · simp [glLin_apply, hg, emb21, Matrix.mulVec, vecHead, vecTail,
         hv 1 (by norm_num), hv 2 (by norm_num)]
-    · simp [glLin_apply, hg, emb21, Matrix.mulVec, Fin.sum_univ_three, vecHead, vecTail,
+    · simp [glLin_apply, hg, emb21, Matrix.mulVec, vecHead, vecTail,
         hv 1 (by norm_num), hv 2 (by norm_num)]
 
+omit [Finite K] [CharP K 2] in
 private theorem pls2a_stab_Vsub_zero (g : GL (Fin 3) K) :
     (Vsub 3 0).map (glLin g).toLinearMap = Vsub 3 0 := by
   simp [Vsub_zero]
 
+omit [Finite K] [CharP K 2] in
 private theorem pls2a_stab_Vsub_top (g : GL (Fin 3) K) :
     (Vsub 3 3).map (glLin g).toLinearMap = Vsub 3 3 := by
   simp [Vsub_self]
@@ -104,10 +106,12 @@ private theorem pls2a_map_span_jShift21Inv (B₁ : GL (Fin 2) K) (g₁ : GL (Fin
     obtain ⟨u, hu, rfl⟩ := hv
     exact ⟨glLin g₁ u, ⟨u, hu, rfl⟩, pls2a_jShift21Inv_emb21 B₁ g₁ hg₁ g₂' hg₂' u⟩
 
+omit [Finite K] [CharP K 2] in
 theorem pls2a_stdFlag_3_mem : (stdFlag K 3) ∈ refSet K 3 [0, 1, 3] := by
   intro i hi
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem pls2a_mem_Vsub_one {v : Fin 3 → K} (h1 : v 1 = 0) (h2 : v 2 = 0) :
     v ∈ Vsub 3 1 := by
   intro j hj
@@ -118,12 +122,14 @@ private theorem pls2a_mem_Vsub_one {v : Fin 3 → K} (h1 : v 1 = 0) (h2 : v 2 = 
   · have hj2 : j = (2 : Fin 3) := Fin.eq_of_val_eq h
     rw [hj2]; exact h2
 
+omit [Finite K] [CharP K 2] in
 private theorem pls2a_mem_Vsub_two {v : Fin 3 → K} (h : v 2 = 0) : v ∈ Vsub 3 2 := by
   intro j hj
   have hjval : j.val = 2 := by have := j.isLt; omega
   have hj2 : j = (2 : Fin 3) := Fin.eq_of_val_eq hjval
   rw [hj2]; exact h
 
+omit [Finite K] [CharP K 2] in
 private theorem pls2a_mem_Vsub_two_one {v : Fin 2 → K} (h : v 1 = 0) : v ∈ Vsub 2 1 := by
   intro j hj
   have hjval : j.val = 1 := by have := j.isLt; omega
@@ -140,11 +146,13 @@ private theorem pls2a_jShift21_jShift21Inv (hK : Nat.card K = (2 ^ f) ^ 2) (v : 
   · show sg K f (sg K f (v 2)) = v 2
     exact sg_sg hK (v 2)
 
+omit [Finite K] [CharP K 2] in
 private theorem pls2a_flagAct_E {n : ℕ} (g : GL (Fin n) K) (x : FlagK K n) (j : ℕ) :
     (flagAct g x).E j = (x.E j).map (glLin g).toLinearMap := by
   change (flagMap (glLin g) x).E j = _
   rw [flagMap_E]
 
+omit [Finite K] [CharP K 2] in
 private theorem pls2a_stabV_of_emb21 (B : GL (Fin 2) K) (g : GL (Fin 3) K)
     (hg : (g : Matrix (Fin 3) (Fin 3) K) = emb21 (B : Matrix (Fin 2) (Fin 2) K)) :
     StabV 3 [0, 1, 3] g := by
@@ -225,10 +233,10 @@ theorem psiA2A1_flagAct (hK : Nat.card K = (2 ^ f) ^ 2) (B₁ B₂ : GL (Fin 2) 
   have hg₁_mem : flagAct g₁ c.1 ∈ refSet K 3 [0, 1, 3] :=
     StabV.flagAct_mem_refSet (pls2a_stabV_of_emb21 B₁ g₁ hg₁) hc
   have hc_def : psiA2A1 hK c = Classical.choose (exists_psiA2A1 hK (c := c) hc) := by
-    rw [psiA2A1, dif_pos hc]
+    rw [psiA2A1, dite_eq_left hc]
   have hd_def : psiA2A1 hK (flagAct g₁ c.1, flagAct B₂ c.2) =
       Classical.choose (exists_psiA2A1 hK (c := (flagAct g₁ c.1, flagAct B₂ c.2)) hg₁_mem) := by
-    rw [psiA2A1, dif_pos hg₁_mem]
+    rw [psiA2A1, dite_eq_left hg₁_mem]
   rw [hc_def, hd_def]
   have hc' := Classical.choose_spec (exists_psiA2A1 hK (c := c) hc)
   have hd' := Classical.choose_spec
@@ -277,7 +285,7 @@ theorem psiA2A1_flagAct (hK : Nat.card K = (2 ^ f) ^ 2) (B₁ B₂ : GL (Fin 2) 
 theorem psiA2A1_stdFlag (hK : Nat.card K = (2 ^ f) ^ 2) :
     psiA2A1 hK (stdFlag K 3, stdFlag K 2) = (stdFlag K 3, stdFlag K 2) := by
   have hc : (stdFlag K 3) ∈ refSet K 3 [0, 1, 3] := pls2a_stdFlag_3_mem
-  rw [psiA2A1, dif_pos hc]
+  rw [psiA2A1, dite_eq_left hc]
   have hc' := Classical.choose_spec (exists_psiA2A1 hK (c := (stdFlag K 3, stdFlag K 2)) hc)
   refine Prod.ext ?_ ?_
   · show (Classical.choose (exists_psiA2A1 hK (c := (stdFlag K 3, stdFlag K 2)) hc)).1 =

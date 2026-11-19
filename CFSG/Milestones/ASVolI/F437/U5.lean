@@ -121,9 +121,9 @@ theorem burnsideF437_sylowInputDeg_U5 (hcls : burnsideF437_ClassInputDeg .U5 1)
     burnsideF437_SylowInputDeg .U5 1 := by
   intro E _ Gp M₁ M₂ Y _ β M _ ε z hyp Tb hTb fb hfbT hfbS hsq hFG hsyl
   left
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   have hgraph : hyp.amalgam.toHypF_4_4g.chart.IsGraphInv (fb : E) := by
     rcases hFG with h | h
     · exact absurd rfl (burnsideF437_field_kind h).2

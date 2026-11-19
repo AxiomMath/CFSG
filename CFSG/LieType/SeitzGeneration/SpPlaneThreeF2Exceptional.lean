@@ -82,7 +82,7 @@ theorem pow_three_eq_one_of_commute_of_not_big_or_fixed [Finite K] (hK : Nat.car
       ∃ (M : Subgroup ↥E) (_ : Nat.card M = 3), 3 ≤ Module.finrank K (spLineSpace M)))
     (g : StatedSp r K) (hg : ∀ x ∈ E, g * x = x * g) : g ^ 3 = 1 := by
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have h2 := SpPlaneThreeF2.one_add_one_of_card_two hK
   have h3 : (3 : K) ≠ 0 := by
     have : (3 : K) = 1 := by linear_combination h2

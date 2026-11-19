@@ -75,9 +75,9 @@ theorem enT_decode (r : List (ℕ × Bool)) (hl : ∀ l ∈ r, l.1 < 8) (hlen : 
     unfold Dce.cdL at h3
     simpa using h3
 
-@[expose] def codeLetter (x : ℕ) : ℕ × Bool := (x / 2, decide (x % 2 = 0))
+def codeLetter (x : ℕ) : ℕ × Bool := (x / 2, decide (x % 2 = 0))
 
-@[expose] noncomputable def codeWord (w n : ℕ) : List (ℕ × Bool) :=
+noncomputable def codeWord (w n : ℕ) : List (ℕ × Bool) :=
   (List.range n).map fun i => codeLetter (bitsN w (4 * i) 4)
 
 theorem codeWord_lt (w n : ℕ) : ∀ l ∈ codeWord w n, l.1 < 8 := by
@@ -93,7 +93,7 @@ section Letters
 
 end Letters
 
-@[expose] def digitOf (l : ℤ) : ℕ := if l = 1 ∨ l = -1 then 0 else if l = 2 then 1 else 2
+def digitOf (l : ℤ) : ℕ := if l = 1 ∨ l = -1 then 0 else if l = 2 then 1 else 2
 
 section Words
 

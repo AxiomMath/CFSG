@@ -42,10 +42,10 @@ private theorem foldl_unit (R : Array Nat) (t : Nat) : ∀ (n : Nat),
     · subst h
       simp
     · have h' : ¬ t = n := fun e => h e.symm
-      simp only [h, decide_false, Bool.false_eq_true, if_false]
+      simp only [h, decide_false, Bool.false_eq_true, ite_false]
       by_cases ht : t < n
       · simp [ht, show t < n + 1 by omega]
-      · simp [ht, show ¬ t < n + 1 by omega, show t ≠ n from h']
+      · simp [ht, show ¬ t < n + 1 by omega]
 
 private theorem vec_unit {Z : Array Nat} {t : Nat} (ht : t < 112) :
     vecMulN 112 Z (1 <<< t) = Z[t]?.getD 0 := by

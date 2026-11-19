@@ -21,7 +21,7 @@ section Final
 
 theorem tabCo1_centShapeMulti (hOut : SporadicOuterLeTwo) (hG : GOK) :
     CentShapeMulti 5 (GoodSpor 5 [.J2]) (RkSpor 5 [.J2]) ↥GA := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   refine ⟨fun k hk1 hk5 => ?_, fun E hE hnc => tabCo1_plane hOut hG E hE hnc⟩
   have hord : orderOf k = 5 := orderOf_eq_prime hk5 hk1
   obtain ⟨c, h0 | h1 | h5⟩ := tabCo1_census hG k hord
@@ -35,8 +35,8 @@ theorem tabCo1_centShapeMulti (hOut : SporadicOuterLeTwo) (hG : GOK) :
 
 theorem centShapeMulti_Co1_five (hOut : SporadicOuterLeTwo) :
     CentShapeMulti 5 (GoodSpor 5 [.J2]) (RkSpor 5 [.J2]) (NativeSporadic.Carrier .Co1) := by
-  haveI : Finite ↥GA := finite_GA
-  haveI : Finite (NativeSporadic.Carrier .Co1) :=
+  have : Finite ↥GA := finite_GA
+  have : Finite (NativeSporadic.Carrier .Co1) :=
     CFSG.Sporadic.finite_carrier_of_ne_M .Co1 (by decide)
   have hG : GOK := Certificates.certificate13670
   have h := tabCo1_centShapeMulti hOut hG

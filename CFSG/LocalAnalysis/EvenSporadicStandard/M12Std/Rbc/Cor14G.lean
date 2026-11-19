@@ -28,7 +28,7 @@ theorem Out.false_of_isCompIn_rankOne
     {L : Subgroup G} {t : G} (hO : Out G L t) {z : G} (hz : orderOf z = 2) {X : Subgroup G}
     (hzX : z ∈ X) (hX : IsCompIn X (centralizer ({z} : Set G))) (hrk : CFSG.pRank 2 ↥X = 1) :
     False := by
-  haveI := hO.std.simple
+  have := hO.std.simple
   rcases oddLie_or_m11_of_rankOne hCIT hO.std.nonabelian hz hzX hX hrk with h | h
   · exact hO.false_of_noM12List hMcard (Or.inr (Or.inl h))
   · exact hO.false_of_isSporadic_m11 h

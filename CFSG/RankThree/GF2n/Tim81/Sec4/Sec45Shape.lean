@@ -61,12 +61,14 @@ namespace Sec45ShapeWith
 variable {M V H : Subgroup G} {F : Type} [Field F] [Fintype F] [CharP F 2] {l : ℕ}
   {hl : Fintype.card F = 2 ^ (2 * l)} {ψ : HBar V H ≃* SL(2, F)}
 
+omit [Finite G] in
 theorem orth' (hw : Sec45ShapeWith M V H F l hl ψ)
     (hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H))
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))] :
     Sec2.IsOrthModule hl (repW (hW := hW) ψ) :=
   hw.orth hW inferInstance
 
+omit [Finite G] in
 theorem orth_subRepW (hw : Sec45ShapeWith M V H F l hl ψ)
     (hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H))
     [Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))] :
@@ -109,6 +111,7 @@ theorem orth_subRepW (hw : Sec45ShapeWith M V H F l hl ψ)
         (CFSG.QuasithinUnique.Setup.SL2Modules.fieldAut F j g)
         ((e.toAddEquiv.trans β) u) := rfl
 
+omit [Finite G] in
 theorem isOrthModule_repW_of_one
     {hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H)}
     [inst : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))]
@@ -118,7 +121,7 @@ theorem isOrthModule_repW_of_one
     (hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW'))) :
     letI := hmod
     Sec2.IsOrthModule hl (repW (hW := hW') ψ) := by
-  letI := hmod
+  let := hmod
   have hW'eq : hW' = hW := Subsingleton.elim _ _
   subst hW'eq
   have hmod_eq : hmod = inst := Subsingleton.elim _ _
@@ -131,9 +134,11 @@ namespace Sec45Shape
 
 variable {M V H : Subgroup G} {h₀ : G}
 
+omit [Finite G] in
 theorem Pc_le (hS : Sec45Shape M V H h₀) : Pc M V ≤ H :=
   hS.mem.2.1
 
+omit [Finite G] in
 theorem not_le (hS : Sec45Shape M V H h₀) : ¬ H ≤ M :=
   hS.mem.2.2
 
@@ -166,18 +171,18 @@ theorem quotModHyp (h : RootHyp M V) (hS : Sec45Shape M V H h₀) :
   conj₀ := fun g hg n hn =>
     (Subgroup.mem_normalizer_iff.1 (Tim79a.H_le_normalizer_xOf V H hg) n).1 hn
 
-theorem kOf_le_M (h : RootHyp M V) (hS : Sec45Shape M V H h₀) : kOf V H ≤ M := by
+theorem kOf_le_M (h : RootHyp M V) (_hS : Sec45Shape M V H h₀) : kOf V H ≤ M := by
   have := h.kOf_le_conjSubgroup_of_mem (V := V) (H := H) (y := 1) H.one_mem
   simpa [conjSubgroup_one] using this
 
 theorem card_inf_Pc_xOf (h : RootHyp M V) (hS : Sec45Shape M V H h₀) :
     Nat.card ↥(Pc M V ⊓ Tim79a.xOf V H) = Nat.card V ^ 3 := by
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hW := hS.isElemAbelian h
-  letI := moduleOfElemAbelian hW
+  let := moduleOfElemAbelian hW
   have hcard := h.card_inf_Pc_W0_eq_pow_of_isOrthModule (hW := hW) hS.Pc_le hS.le_pCore
     hS.hH hS.not_le (W₀ := Tim79a.xOf V H) ψ hl le_rfl
     (Tim79a.H_le_normalizer_xOf V H) (hw.orth_subRepW hW)
@@ -186,9 +191,9 @@ theorem card_inf_Pc_xOf (h : RootHyp M V) (hS : Sec45Shape M V H h₀) :
 theorem card_Pc_inf_kOf (h : RootHyp M V) (hS : Sec45Shape M V H h₀) :
     Nat.card ↥(Pc M V ⊓ kOf V H) * Nat.card V ^ 2 = Nat.card ↥(Pc M V) := by
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hcard := h.card_imgK_eq_two_pow hS.Pc_le hS.le_pCore hS.hH hS.not_le ψ hl
   have hsplit := RootHyp.card_imgK_mul_card_inf (V := V) (H := H) (X := Pc M V) hS.Pc_le
   rw [hcard] at hsplit
@@ -202,11 +207,11 @@ theorem card_Pc_inf_kOf (h : RootHyp M V) (hS : Sec45Shape M V H h₀) :
 theorem inf_Pc_xOf_eq_commutator (h : RootHyp M V) (hS : Sec45Shape M V H h₀) :
     Pc M V ⊓ Tim79a.xOf V H = ⁅Tim79a.xOf V H, Pc M V⁆ := by
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hW := hS.isElemAbelian h
-  letI := moduleOfElemAbelian hW
+  let := moduleOfElemAbelian hW
   exact h.inf_Pc_W0_eq_commutator_of_isOrthModule (hW := hW) hS.Pc_le hS.le_pCore
     hS.hH hS.not_le (W₀ := Tim79a.xOf V H) ψ hl le_rfl
     (Tim79a.H_le_normalizer_xOf V H) (hw.orth_subRepW hW)
@@ -217,12 +222,12 @@ theorem pCore_eq_and (h : RootHyp M V) (hS : Sec45Shape M V H h₀) :
       inSubgroup frattini (inSubgroup (pCore 2) M) = V ∧
       inSubgroup commutator (inSubgroup (pCore 2) M) = V := by
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let := hField
+  let := hFintype
+  let := hCharP
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hW := hS.isElemAbelian h
-  letI := moduleOfElemAbelian hW
+  let := moduleOfElemAbelian hW
   exact h.pCore_eq_Pc_and_of_isOrthModule hS.mem hS.le_pCore hS.hH hW ψ hl (hw.orth' hW)
 
 theorem commutator_Pc (h : RootHyp M V) (hS : Sec45Shape M V H h₀) :
@@ -244,12 +249,12 @@ theorem exists_mem_conj_of_mem_classD (h : RootHyp M V) (hS : Sec45Shape M V H h
     (hdW : d ∈ Tim79a.xOf V H) (hdD : d ∈ Tim78.classD V) :
     ∃ y ∈ H, d ∈ conjSubgroup y V := by
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let := hField
+  let := hFintype
+  let := hCharP
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hW := hS.isElemAbelian h
-  letI := moduleOfElemAbelian hW
+  let := moduleOfElemAbelian hW
   exact ((h.mem_conjSubgroup_iff_of_isOrthModule hS.Pc_le hS.le_pCore hS.hH hS.not_le
     hW ψ hl (hw.orth' hW) hdW).mp hdD).2
 

@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22s13f_cMStar_le (M X : Subgroup G) : cMStar M X ≤ M :=
   Subgroup.map_subtype_le _
 
@@ -70,6 +71,7 @@ theorem uc22s13f_lift {M K : Subgroup G} (hKM : K ≤ M) (hKn : (K.subgroupOf M)
     rw [he, map_mul, map_inv, inv_mul_eq_one] at h1
     exact h1
 
+omit [Finite G] in
 theorem uc22s13f_two {M : Subgroup G} {c : G} (hc : c ∈ M) {k : ℕ}
     (h : (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨c, hc⟩ : Bar2 M) ^ (2 ^ k) = 1) :
     ∃ j : ℕ, c ^ (2 ^ j) = 1 := by
@@ -114,6 +116,7 @@ theorem uc22s13f_exists_perfect {M K : Subgroup G} (hKM : K ≤ M) (hKn : (K.sub
   exact commutator_mono (commutator_mono inf_le_left inf_le_left)
     (commutator_mono inf_le_left inf_le_left) h1
 
+omit [Finite G] in
 theorem uc22s13f_conj_mem_centralizer {x₀ g c : G}
     (hc : c ∈ centralizer ({g * x₀ * g⁻¹} : Set G)) :
     g⁻¹ * c * g ∈ centralizer ({x₀} : Set G) := by
@@ -122,6 +125,7 @@ theorem uc22s13f_conj_mem_centralizer {x₀ g c : G}
     _ = g⁻¹ * ((g * x₀ * g⁻¹) * c) * g := by rw [hc]
     _ = x₀ * (g⁻¹ * c * g) := by group
 
+omit [Finite G] in
 theorem uc22s13f_mem_cMStar_of_derived {M K L : Subgroup G} {x₀ g : G} (hx₀M : x₀ ∈ M)
     (hCM : centralizer ({x₀} : Set G) ≤ M)
     (hP : ⁅⁅centralizer ({(QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨x₀, hx₀M⟩ : Bar2 M)} :
@@ -143,7 +147,7 @@ theorem uc22s13f_mem_cMStar_of_derived {M K L : Subgroup G} {x₀ g : G} (hx₀M
   set A₀ := centralizer ({x₀} : Set G) with hA₀
   set A₂ := A₀.subgroupOf M with hA₂
   have hconj : ∀ u : G, (MulAut.conj g⁻¹).toMonoidHom u = g⁻¹ * u * g := fun u => by
-    simp [MulAut.conj_apply]
+    simp
   have hH₀A : H₀.map (MulAut.conj g⁻¹).toMonoidHom ≤ A₀ := by
     rintro _ ⟨c, ⟨-, hc⟩, rfl⟩
     rw [hconj]
@@ -194,7 +198,7 @@ theorem uc22s13f_exists_two {M K L : Subgroup G} (hKM : K ≤ M) (hKn : (K.subgr
   have hh'M : g⁻¹ * h * g ∈ M := hCM hh'C
   have ht'M : g⁻¹ * t₁ * g ∈ M := hCM ht'C
   have ht'j : (g⁻¹ * t₁ * g) ^ (2 ^ j) = 1 := by
-    have h1 : (MulAut.conj g⁻¹) t₁ = g⁻¹ * t₁ * g := by simp [MulAut.conj_apply]
+    have h1 : (MulAut.conj g⁻¹) t₁ = g⁻¹ * t₁ * g := by simp
     rw [← h1, ← map_pow, hj, map_one]
   have ht'L : g⁻¹ * t₁ * g ∈ cMStar M L := by
     refine uc22s13b_mem_cMStar ht'M (hT _ ?_ j ?_)

@@ -76,7 +76,7 @@ theorem m22_fixSub_card_not_dvd (L : Type) [Group L] [Finite L]
 theorem m23_all_inner
     (β' : MulAut (NativeSporadic.Carrier .M23)) :
     ∃ t : NativeSporadic.Carrier .M23, ∀ y, β' y = t * y * t⁻¹ := by
-  haveI : Finite (NativeSporadic.Carrier .M23) := CFSG.Sporadic.Mathieu.fam_m23_simplicity.1
+  have : Finite (NativeSporadic.Carrier .M23) := CFSG.Sporadic.Mathieu.fam_m23_simplicity.1
   have hc : Subgroup.center (NativeSporadic.Carrier .M23) = ⊥ := m23_center_eq_bot'
   have htop := inner_eq_top_of_card_le hc m23_mulAut_card
   have hmem : β' ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner (NativeSporadic.Carrier .M23) := by
@@ -88,7 +88,7 @@ theorem m23_all_inner
 theorem m24_all_inner
     (β' : MulAut (NativeSporadic.Carrier .M24)) :
     ∃ t : NativeSporadic.Carrier .M24, ∀ y, β' y = t * y * t⁻¹ := by
-  haveI : Finite (NativeSporadic.Carrier .M24) := CFSG.Sporadic.Mathieu.fam_m24_simplicity.1
+  have : Finite (NativeSporadic.Carrier .M24) := CFSG.Sporadic.Mathieu.fam_m24_simplicity.1
   have hc : Subgroup.center (NativeSporadic.Carrier .M24) = ⊥ := m24_center_eq_bot'
   have htop := inner_eq_top_of_card_le hc m24_mulAut_card
   have hmem : β' ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner (NativeSporadic.Carrier .M24) := by
@@ -142,7 +142,7 @@ theorem m23_fixSub_card_not_dvd
     exact h
   have hne : ∃ y, t * y * t⁻¹ ≠ y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hβX1
     refine MulEquiv.ext (fun y => ?_)
     rw [MulAut.one_apply, ht]
@@ -181,7 +181,7 @@ theorem m24_fixSub_card_not_dvd
     exact h
   have hne : ∃ y, t * y * t⁻¹ ≠ y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hβX1
     refine MulEquiv.ext (fun y => ?_)
     rw [MulAut.one_apply, ht]

@@ -20,7 +20,7 @@ public theorem CFSG.isElementaryAbelian_of_card_eq_p_sq_of_forall_pow_eq_one
     IsElementaryAbelian p S := by
   have hcyc : IsCyclic (S ⧸ Subgroup.center S) :=
     IsPGroup.cyclic_center_quotient_of_card_eq_prime_sq (p := p) (G := S) hcard
-  letI : IsMulCommutative S := lemma_4_1 (G := S) hcyc
+  let : IsMulCommutative S := lemma_4_1 (G := S) hcyc
   refine {
     toIsMulCommutative := inferInstance
     exponent_dvd_p := ?_
@@ -59,7 +59,7 @@ public theorem CFSG.normal_subgroup_card_eq_prime_le_center
     {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] [Fact (IsPGroup p G)]
     (N : Subgroup G) [N.Normal] (hNcard : Nat.card N = p) :
     N ≤ Subgroup.center G := by
-  letI : Nontrivial N :=
+  let : Nontrivial N :=
     Finite.one_lt_card_iff_nontrivial.mp (hNcard ▸ (Fact.out : Nat.Prime p).one_lt)
   obtain ⟨x, hx_ne, hx_center⟩ :=
     exists_nontrivial_center_mem_normal_local (N := N) (p := p)
@@ -77,7 +77,7 @@ public theorem CFSG.exists_central_normal_subgroup_card_eq_prime_of_nontrivial_n
     (N : Subgroup G) [N.Normal] (hN_ne_bot : N ≠ ⊥) :
     ∃ Z : Subgroup G, Z.Normal ∧ Z ≤ N ∧ Nat.card Z = p ∧ Z ≤ Subgroup.center G := by
   have hNp : IsPGroup p N := (Fact.out : IsPGroup p G).to_subgroup N
-  letI : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).2 hN_ne_bot
+  let : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).2 hN_ne_bot
   obtain ⟨n, hn_pos, hNcard_pow⟩ :=
     (IsPGroup.nontrivial_iff_card (p := p) (G := N) hNp).mp inferInstance
   obtain ⟨Z, hZ_normal, hZ_le_N, hZ_card_pow⟩ :=
@@ -86,7 +86,7 @@ public theorem CFSG.exists_central_normal_subgroup_card_eq_prime_of_nontrivial_n
   have hZ_card : Nat.card Z = p := by
     simpa using hZ_card_pow
   refine ⟨Z, hZ_normal, hZ_le_N, hZ_card, ?_⟩
-  letI : Z.Normal := hZ_normal
+  let : Z.Normal := hZ_normal
   exact normal_subgroup_card_eq_prime_le_center (G := G) (p := p) (N := Z) hZ_card
 
 
@@ -104,7 +104,7 @@ private theorem CFSG.lemma_4_5_a_preimage_case {R : Type*} [Group R] [Finite R] 
   let T : Subgroup R := Sbar.comap q
   have hT_normal : T.Normal := by
     simpa [T, q] using (inferInstance : (Sbar.comap (QuotientGroup.mk' Z)).Normal)
-  letI : T.Normal := hT_normal
+  let : T.Normal := hT_normal
   have hker_le_T : q.ker ≤ T := by
     simpa [T] using (Subgroup.ker_le_comap (f := q) (H := Sbar))
   let ZT : Subgroup T := q.ker.subgroupOf T
@@ -132,11 +132,11 @@ private theorem CFSG.lemma_4_5_a_preimage_case {R : Type*} [Group R] [Finite R] 
     rw [hTmap_eq]
     exact hSbar_elem.toIsMulCommutative
   have hder_le_ZT : _root_.commutator T ≤ ZT := by
-    letI : IsMulCommutative (T.map q) := hTmap_comm
-    letI : CommGroup ↥qT.range := IsMulCommutative.instCommGroup
+    let : IsMulCommutative (T.map q) := hTmap_comm
+    let : CommGroup ↥qT.range := IsMulCommutative.instCommGroup
     have hquot_comm : IsMulCommutative (T ⧸ qT.ker) := by
       let e : T ⧸ qT.ker ≃* qT.range := QuotientGroup.quotientKerEquivRange qT
-      letI : CommGroup (T ⧸ qT.ker) := e.toMonoidHom.commGroupOfInjective e.injective
+      let : CommGroup (T ⧸ qT.ker) := e.toMonoidHom.commGroupOfInjective e.injective
       infer_instance
     have hder_le_ker : _root_.commutator T ≤ qT.ker := by
       exact (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := qT.ker)).1 hquot_comm
@@ -159,7 +159,7 @@ private theorem CFSG.lemma_4_5_a_preimage_case {R : Type*} [Group R] [Finite R] 
         (Subgroup.lowerCentralSeries_succ_eq_bot (⊤ : Subgroup T) (n := 1) hL1_le_center)
     have hnil : Group.IsNilpotent T :=
       (Subgroup.nilpotent_iff_lowerCentralSeries (G := T)).2 ⟨2, hL2_bot⟩
-    letI : Group.IsNilpotent T := hnil
+    let : Group.IsNilpotent T := hnil
     have hclass : Group.nilpotencyClass T ≤ 2 :=
       (Subgroup.lowerCentralSeries_eq_bot_iff_nilpotencyClass_le (G := T)).1 hL2_bot
     unfold NilpotencyClassLe
@@ -174,7 +174,7 @@ private theorem CFSG.lemma_4_5_a_preimage_case {R : Type*} [Group R] [Finite R] 
       simpa [hZT_card] using congrArg Subtype.val this
     simpa [omega₁, omega, pow_one] using hz_pow
   have hder_le_omega : _root_.commutator T ≤ ΩT := hder_le_ZT.trans hZT_le_omega
-  haveI : Fact (IsPGroup p T) := ⟨(Fact.out : IsPGroup p R).to_subgroup T⟩
+  have : Fact (IsPGroup p T) := ⟨(Fact.out : IsPGroup p R).to_subgroup T⟩
   obtain ⟨φ, hφ⟩ := proposition_4_3_b (R := T) (p := p) hpodd (Or.inl hclassT) hder_le_omega
   have hOmega_eq_ker : ΩT = φ.ker := by
     apply le_antisymm
@@ -230,9 +230,9 @@ private theorem CFSG.lemma_4_5_a_preimage_case {R : Type*} [Group R] [Finite R] 
     simpa [hOmegaT_card_eq_ker] using hcancel
   let Ω : Subgroup R := ΩT.map T.subtype
   have hΩ_normal : Ω.Normal := by
-    letI : ΩT.Characteristic := omega₁_characteristic T
+    let : ΩT.Characteristic := omega₁_characteristic T
     simpa [Ω] using (inferInstance : (ΩT.map T.subtype).Normal)
-  letI : Ω.Normal := hΩ_normal
+  let : Ω.Normal := hΩ_normal
   have hΩ_card_eq : Nat.card Ω = Nat.card ΩT := by
     exact Subgroup.card_map_of_injective (f := T.subtype) Subtype.coe_injective
   have hΩ_p : IsPGroup p Ω := (Fact.out : IsPGroup p R).to_subgroup Ω
@@ -243,7 +243,7 @@ private theorem CFSG.lemma_4_5_a_preimage_case {R : Type*} [Group R] [Finite R] 
     exact (Nat.pow_le_pow_iff_right (show 1 < p from (Fact.out : Nat.Prime p).one_lt)).1 hpow
   obtain ⟨K, hK_normal, hK_le_Ω, hKcard⟩ :=
     exists_normal_subgroup_card_pow_of_normal (G := R) (p := p) Ω inferInstance hmΩ 2 hm_ge_two
-  letI : K.Normal := hK_normal
+  let : K.Normal := hK_normal
   have hOmegaT_pow : ∀ x : ΩT, ((x : T) : R) ^ p = 1 := by
     intro x
     have hxker : (x : T) ∈ φ.ker := by simpa [hOmega_eq_ker] using x.2
@@ -259,7 +259,7 @@ private theorem CFSG.lemma_4_5_a_preimage_case {R : Type*} [Group R] [Finite R] 
     simpa [← hxy] using hOmegaT_pow ⟨x, hxΩT⟩
   have hKcyc : IsCyclic (K ⧸ Subgroup.center K) :=
     IsPGroup.cyclic_center_quotient_of_card_eq_prime_sq (p := p) (G := K) hKcard
-  letI : IsMulCommutative K := lemma_4_1 (G := K) hKcyc
+  let : IsMulCommutative K := lemma_4_1 (G := K) hKcyc
   refine ⟨K, hK_normal, hKcard, ?_⟩
   refine {
     toIsMulCommutative := inferInstance
@@ -310,9 +310,9 @@ private theorem CFSG.lemma_4_5_a_cyclic_case {R : Type*} [Group R] [Finite R] {p
     exact ⟨QuotientGroup.mk' Z r, rfl⟩
   have hQcenter_cyc : IsCyclic (R ⧸ Subgroup.center R) :=
     isCyclic_of_surjective π hπ_surj
-  letI : IsMulCommutative R := lemma_4_1 (G := R) hQcenter_cyc
+  let : IsMulCommutative R := lemma_4_1 (G := R) hQcenter_cyc
   let C' : Subgroup R := C
-  letI : C'.Normal := Subgroup.normal_of_isMulCommutative C'
+  let : C'.Normal := Subgroup.normal_of_isMulCommutative C'
   have hx_ne : x ≠ 1 := by
     intro hx1
     have hCbot : C' = ⊥ := by simp [C', C, hx1]
@@ -337,12 +337,12 @@ private theorem CFSG.lemma_4_5_a_cyclic_case {R : Type*} [Group R] [Finite R] {p
   obtain ⟨U, hU_normal, hU_le_C, hUcard⟩ :=
     exists_normal_subgroup_card_pow_of_normal (G := R) (p := p)
       (N := C') inferInstance hmC 1 (Nat.succ_le_of_lt hmC_pos)
-  letI : U.Normal := hU_normal
+  let : U.Normal := hU_normal
   have hU_ne_Z : U ≠ Z := by
     intro hUZ
     exact hZ_not_le_C (hUZ ▸ hU_le_C)
   let Ω : Subgroup R := U ⊔ Z
-  letI : Ω.Normal := Subgroup.normal_of_isMulCommutative Ω
+  let : Ω.Normal := Subgroup.normal_of_isMulCommutative Ω
   have hOmega_pow : ∀ y : Ω, y ^ p = 1 := by
     intro y
     rcases (Subgroup.mem_sup_of_normal_right).1 y.2 with ⟨u, huU, z, hzZ, huz⟩
@@ -390,14 +390,14 @@ private theorem CFSG.lemma_4_5_a_cyclic_case {R : Type*} [Group R] [Finite R] {p
             exact False.elim (by omega)
   obtain ⟨K, hK_normal, hK_le_Ω, hKcard⟩ :=
     exists_normal_subgroup_card_pow_of_normal (G := R) (p := p) Ω inferInstance hmΩ 2 hm_ge_two
-  letI : K.Normal := hK_normal
+  let : K.Normal := hK_normal
   have hKpow : ∀ y : K, y ^ p = 1 := by
     intro y
     apply Subtype.ext
     simpa using hOmega_pow ⟨(y : R), hK_le_Ω y.2⟩
   have hKcyc : IsCyclic (K ⧸ Subgroup.center K) :=
     IsPGroup.cyclic_center_quotient_of_card_eq_prime_sq (p := p) (G := K) hKcard
-  letI : IsMulCommutative K := lemma_4_1 (G := K) hKcyc
+  let : IsMulCommutative K := lemma_4_1 (G := K) hKcyc
   refine ⟨K, hK_normal, hKcard, ?_⟩
   refine {
     toIsMulCommutative := inferInstance
@@ -420,14 +420,14 @@ public theorem CFSG.lemma_4_5_a {R : Type u} [Group R] [Finite R] {p : ℕ} [Fac
       by_contra hnS
       have hnS0 : nS = 0 := Nat.eq_zero_of_not_pos hnS
       have hS_card_one : Nat.card S = 1 := by simpa [hnS0] using hSpow
-      letI : Subsingleton S := (Nat.card_eq_one_iff_unique.mp hS_card_one).1
+      let : Subsingleton S := (Nat.card_eq_one_iff_unique.mp hS_card_one).1
       exact hSncyc (isCyclic_of_subsingleton (α := S))
     obtain ⟨k, hk_pos, hcenter_card⟩ :=
       IsPGroup.card_center_eq_prime_pow (G := S) (p := p) hSpow hnS_pos
     obtain ⟨Z, hZ_normal, hZ_le_center, hZcard⟩ :=
       exists_normal_subgroup_card_pow_of_normal (G := S) (p := p)
         (N := Subgroup.center S) inferInstance hcenter_card 1 (Nat.succ_le_of_lt hk_pos)
-    letI : Z.Normal := hZ_normal
+    let : Z.Normal := hZ_normal
     by_cases hQcyc : IsCyclic (S ⧸ Z)
     · exact lemma_4_5_a_cyclic_case (p := p) Z hZ_le_center hZcard hQcyc hSncyc
     · have hQ_card : Nat.card S = Nat.card (S ⧸ Z) * p := by
@@ -442,10 +442,10 @@ public theorem CFSG.lemma_4_5_a {R : Type u} [Group R] [Finite R] {p : ℕ} [Fac
           (Nat.mul_lt_mul_of_pos_left ((Fact.out : Nat.Prime p).one_lt)
             (Nat.card_pos (α := S ⧸ Z)))
       have hQp : IsPGroup p (S ⧸ Z) := (Fact.out : IsPGroup p S).to_quotient Z
-      letI : Fact (IsPGroup p (S ⧸ Z)) := ⟨hQp⟩
+      let : Fact (IsPGroup p (S ⧸ Z)) := ⟨hQp⟩
       obtain ⟨Sbar, hSbar_normal, hSbar_card, hSbar_elem⟩ :=
         aux (S := S ⧸ Z) hQcyc
-      letI : Sbar.Normal := hSbar_normal
+      let : Sbar.Normal := hSbar_normal
       exact
         lemma_4_5_a_preimage_case (R := S) (p := p) hpodd Z hZ_le_center hZcard
           Sbar hSbar_card hSbar_elem

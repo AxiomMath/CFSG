@@ -18,7 +18,7 @@ theorem b_index_nine_package :
     (short_centralizer_quotient_sylow_two).1 (Sylow.nonempty (p := 2) (G := Jbar)).some
   let U : Subgroup Cbar := (S : Subgroup Cbar)
   have hU : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤ := by
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     rw [show (U.subgroupOf ⊤).index = U.index from Subgroup.relIndex_top_right U]
     exact S.not_dvd_index
   have hUC : U ≤ Jbar := by

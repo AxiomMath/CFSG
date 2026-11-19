@@ -41,8 +41,8 @@ theorem exists_minimal_invariant_submodule [Finite G] [Finite V]
       push Not at hlt
       have hfind := Nat.find_min' hP ⟨W', hW'W.trans hWU, hbot, hInv', rfl⟩
       omega
-    haveI : Fintype ↥W' := Fintype.ofFinite ↥W'
-    haveI : Fintype ↥W := Fintype.ofFinite ↥W
+    have : Fintype ↥W' := Fintype.ofFinite ↥W'
+    have : Fintype ↥W := Fintype.ofFinite ↥W
     have hEqSet : (W' : Set V) = (W : Set V) :=
       Set.eq_of_subset_of_card_le hW'W (by
         rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card] at hle

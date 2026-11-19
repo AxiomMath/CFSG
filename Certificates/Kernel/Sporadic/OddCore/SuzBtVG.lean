@@ -54,11 +54,11 @@ theorem hpV : ∀ i < SuzBtV0.cnt, btPtK 1782 11 (mask 11) 3 33 (mask 33) 7 SuzB
     SuzBtV0.G SuzBtV0.K SuzBtV0.R SuzBtV0.POS i = true := fun i hi =>
   btSl_spec SuzBtVF.kV0Sl (Nat.zero_le _) (by rw [SuzBtVF.kV0Cnt] at hi; omega) hi
 
-theorem hfixV : ∀ h ∈ VV, (∀ t, h (c1Base t) = c1Base t) → h = 1 :=
-  fun h hh hf => invE1_eq_one (VV_le hh) hf
+theorem hfixV : ∀ _h ∈ VV, (∀ t, _h (c1Base t) = c1Base t) → _h = 1 :=
+  fun _h hh hf => invE1_eq_one (VV_le hh) hf
 
-theorem hfixL : ∀ h ∈ genSub 1782 4 lgp, (∀ t, h (c1Base t) = c1Base t) → h = 1 :=
-  fun h hh hf => invE1_eq_one (l1_le hh) hf
+theorem hfixL : ∀ _h ∈ genSub 1782 4 lgp, (∀ t, _h (c1Base t) = c1Base t) → _h = 1 :=
+  fun _h hh hf => invE1_eq_one (l1_le hh) hf
 
 theorem cntV_lt {i : Nat} (hi : i < 512) : i < SuzBtV0.cnt := by
   rw [SuzBtVF.kV0Cnt]
@@ -73,13 +73,13 @@ noncomputable def elV (i : Nat) : Equiv.Perm (Fin 1782) :=
 
 theorem elV_mem {i : Nat} (hi : i < 512) : elV i ∈ VV := by
   unfold elV
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   exact (Classical.choose_spec (stV_ex hi)).1
 
 theorem elV_key {i : Nat} (hi : i < 512) (t : Fin 3) :
     pg 11 (mask 11) (btKey 33 (mask 33) SuzBtV0.K i) t = elV i (c1Base t) := by
   unfold elV
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   exact (Classical.choose_spec (stV_ex hi)).2 t
 
 theorem elV_of {i : Nat} (hi : i < 512) {x : Equiv.Perm (Fin 1782)} (hx : x ∈ VV)
@@ -161,7 +161,7 @@ theorem conj_l1_iff {x : Equiv.Perm (Fin 1782)} :
   | mem z hz =>
     obtain ⟨j, hj, rfl⟩ := hz
     exact h j hj
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul a c _ _ ha hc =>
     have e : x * (a * c) * x⁻¹ = (x * a * x⁻¹) * (x * c * x⁻¹) := by group
     rw [e]

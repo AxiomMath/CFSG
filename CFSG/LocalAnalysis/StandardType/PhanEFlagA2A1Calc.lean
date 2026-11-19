@@ -34,23 +34,27 @@ private theorem q2cFA2_farSet_le : ∀ i, i < [0, 1, 3].length → [0, 1, 3].get
   have hi' : i < 3 := by simpa using hi
   interval_cases i <;> decide
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFA2_blockU_013 (E : FlagK K 3) :
     blockU K 3 [0, 1, 3] E.E 1 1 = E.E 1 ⊔ Vsub 3 1 := by
   simp only [blockU, List.getD_cons_zero, List.getD_cons_succ, Nat.sub_self, Nat.zero_add,
     Vsub_self, inf_top_eq]
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFA2_R₀_eq :
     {c : FlagK K 3 × FlagK K 2 | c.1 ∈ refSet K 3 [0, 1, 3]} =
       refSet K 3 [0, 1, 3] ×ˢ (Set.univ : Set (FlagK K 2)) := by
   ext c
   simp [Set.mem_prod]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFA2_farSet_inf_Vsub_one {E : FlagK K 3} (hfar : E ∈ farSet 3 [0, 1, 3]) :
     E.E 1 ⊓ Vsub 3 1 = ⊥ := by
   have h := (mem_farSet_iff (K := K) (n := 3) (d := [0, 1, 3]) q2cFA2_farSet_le).mp hfar
     1 (by decide) 1 (by norm_num)
   simpa using h.1 (by decide)
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFA2_farSet_inf_Vsub_two {E : FlagK K 3} (hfar : E ∈ farSet 3 [0, 1, 3]) :
     E.E 2 ⊓ Vsub 3 1 = ⊥ := by
   have h := (mem_farSet_iff (K := K) (n := 3) (d := [0, 1, 3]) q2cFA2_farSet_le).mp hfar
@@ -129,15 +133,18 @@ private def q2cFA2_vEmb (v : Fin 3 → K) : Fin 3 → K := ![v 0, 0, 0]
 
 private def q2cFA2_wEmb (v : Fin 3 → K) : Fin 3 → K := ![0, v 1, v 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFA2_vEmb_mem (v : Fin 3 → K) : q2cFA2_vEmb v ∈ Vsub 3 1 := by
   intro j hj
   fin_cases j <;> simp_all [q2cFA2_vEmb]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFA2_vEmb_add_wEmb (v : Fin 3 → K) :
     q2cFA2_vEmb v + q2cFA2_wEmb v = v := by
   funext i
   fin_cases i <;> simp [q2cFA2_vEmb, q2cFA2_wEmb]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFA2_wEmb_eq_sub (v : Fin 3 → K) :
     q2cFA2_wEmb v = v - q2cFA2_vEmb v := by
   funext i
@@ -220,7 +227,7 @@ theorem q2cFA2_finrank_sup_jShift21_span {L : Submodule K (Fin 2 → K)}
     q2cFA2_finrank_jShift21_span hL] at hsum
   exact hsum
 
-theorem q2cFA2_finrank_jShift21Inv_span (hK : Nat.card K = (2 ^ f) ^ 2)
+theorem q2cFA2_finrank_jShift21Inv_span (_hK : Nat.card K = (2 ^ f) ^ 2)
     {M : Submodule K (Fin 3 → K)} (hV : Vsub 3 1 ≤ M) (hfin : finrank K M = 2) :
     finrank K (Submodule.span K (jShift21Inv K f '' (M : Set (Fin 3 → K)))) = 1 := by
   have hne : M ≠ Vsub 3 1 := by
@@ -262,7 +269,7 @@ private theorem q2cFA2_dirZ_eq (z : Submodule K (Fin 2 → K)) :
   rfl
 
 private theorem q2cFA2_dirZ_span_jShift21Inv_line (hK : Nat.card K = (2 ^ f) ^ 2)
-    {u : Fin 3 → K} (hu : u ∉ Vsub 3 1) :
+    {u : Fin 3 → K} (_hu : u ∉ Vsub 3 1) :
     Exch.dirZ K f (Submodule.span K (jShift21Inv K f ''
       ((Vsub 3 1 ⊔ K ∙ u : Submodule K (Fin 3 → K)) : Set (Fin 3 → K)))) =
       Vsub 3 1 ⊔ K ∙ u := by
@@ -273,14 +280,12 @@ private theorem q2cFA2_dirZ_span_jShift21Inv_line (hK : Nat.card K = (2 ^ f) ^ 2
     apply le_antisymm
     · apply sup_le le_sup_left
       rw [Submodule.span_singleton_le_iff_mem]
-      change q2cFA2_wEmb u ∈ Vsub 3 1 ⊔ K ∙ u
       rw [Submodule.mem_sup]
       refine ⟨-q2cFA2_vEmb u, neg_mem (q2cFA2_vEmb_mem u), u,
         Submodule.mem_span_singleton_self u, ?_⟩
       rw [q2cFA2_wEmb_eq_sub, sub_eq_add_neg, add_comm]
     · apply sup_le le_sup_left
       rw [Submodule.span_singleton_le_iff_mem]
-      change u ∈ Vsub 3 1 ⊔ K ∙ q2cFA2_wEmb u
       rw [Submodule.mem_sup]
       exact ⟨q2cFA2_vEmb u, q2cFA2_vEmb_mem u, q2cFA2_wEmb u,
         Submodule.mem_span_singleton_self _, q2cFA2_vEmb_add_wEmb u⟩
@@ -357,6 +362,7 @@ theorem q2cFA2_isGateAt_prod {I J : Type} {C₁ C₂ : Type}
     rw [h₁ z.1 hz.1, h₂ z.2 hz.2]
     omega
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFA2_isGateAt_gateFlag {m : ℕ} {d : List ℕ} (hd : IsCut (m + 1) d)
     {E : FlagK K (m + 1)} (hE : E ∈ farSet (m + 1) d) {x₀ : FlagK K (m + 1)}
     (hx₀ : x₀ ∈ refSet K (m + 1) d) :
@@ -376,6 +382,7 @@ theorem q2cFA2_isGateAt_gateFlag {m : ℕ} {d : List ℕ} (hd : IsCut (m + 1) d)
     ← length_flagδ_eq_cdist (K := K) m (gateFlag hd hE) z]
   exact hgate
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFA2_cdist_prod_eq_four {E F : FlagK K 3} {z z' : FlagK K 2}
     (h : cdist ((flagSys K 2).prod (flagSys K 1)) (E, z) (F, z') = 4) :
     cdist (flagSys K 2) E F = 3 ∧ cdist (flagSys K 1) z z' = 1 := by
@@ -389,12 +396,14 @@ theorem q2cFA2_cdist_prod_eq_four {E F : FlagK K 3} {z z' : FlagK K 2}
     simpa using length_flagδ_le (K := K) (m := 1) z z'
   omega
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFA2_cdist_flagSys_two_eq_three_of_opp {E F : FlagK K 3} (h : Opp E F) :
     cdist (flagSys K 2) E F = 3 := by
   have h' := (opp_iff_length_flagδ E F).mp h
   rw [← length_flagδ_eq_cdist (K := K) 2 E F]
   simpa using h'
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFA2_opp_of_cdist_flagSys_two_eq_three {E F : FlagK K 3}
     (h : cdist (flagSys K 2) E F = 3) : Opp E F := by
   have h' : (symCox 2).length (flagδ (K := K) 2 E F) = 3 := by
@@ -403,6 +412,7 @@ theorem q2cFA2_opp_of_cdist_flagSys_two_eq_three {E F : FlagK K 3}
   rw [opp_iff_length_flagδ E F]
   simpa using h'
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFA2_cdist_flagSys_one_eq_one {z z' : FlagK K 2} (h : z ≠ z') :
     cdist (flagSys K 1) z z' = 1 := by
   have hle : cdist (flagSys K 1) z z' ≤ 1 := by

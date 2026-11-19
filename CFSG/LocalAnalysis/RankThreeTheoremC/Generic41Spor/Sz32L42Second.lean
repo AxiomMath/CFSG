@@ -76,8 +76,8 @@ theorem sz32_second_point_core {P : Sylow 5 G} {V Z T H : Subgroup G} {x e u : G
     (hthree : ∀ s ∈ T, s ≠ 1 → ∃ h₁ ∈ H, ∃ h₂ ∈ H, zpowers (h₁ * s * h₁⁻¹) ≠ zpowers s ∧
       zpowers (h₂ * s * h₂⁻¹) ≠ zpowers s ∧ zpowers (h₁ * s * h₁⁻¹) ≠ zpowers (h₂ * s * h₂⁻¹)) :
     False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : IsMulCommutative V := hVel.1
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : IsMulCommutative V := hVel.1
   have hVc : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : V) ⟨b, hb⟩)
   have hu1 : u ≠ 1 := fun h => huZ (h ▸ one_mem _)
@@ -161,6 +161,7 @@ theorem sz32_second_point_core {P : Sylow 5 G} {V Z T H : Subgroup G} {x e u : G
   exact hd12 ((hnotx h₁ hh₁ hd1).trans (hnotx h₂ hh₂ hd2).symm)
 
 
+omit [Finite G] in
 theorem sz32_psi_mem_zpowers {J : Subgroup G} {Q : Type} [Group Q] (ψ : ↥J →* Q) {c d : G}
     (hc : c ∈ J) (hd : d ∈ J) (hcd : c ∈ zpowers d) : ψ ⟨c, hc⟩ ∈ zpowers (ψ ⟨d, hd⟩) := by
   obtain ⟨k, hk⟩ := mem_zpowers_iff.1 hcd
@@ -168,12 +169,14 @@ theorem sz32_psi_mem_zpowers {J : Subgroup G} {Q : Type} [Group Q] (ψ : ↥J �
   have : (⟨d, hd⟩ : ↥J) ^ k = ⟨c, hc⟩ := Subtype.ext (by rw [Subgroup.coe_zpow]; exact hk)
   rw [← this, map_zpow]
 
+omit [Finite G] in
 theorem sz32_psi_lines_eq {J : Subgroup G} {Q : Type} [Group Q] (ψ : ↥J →* Q) {a b : G}
     (ha : a ∈ J) (hb : b ∈ J) (h : zpowers a = zpowers b) :
     zpowers (ψ ⟨a, ha⟩) = zpowers (ψ ⟨b, hb⟩) :=
   le_antisymm (zpowers_le.2 (sz32_psi_mem_zpowers ψ ha hb (h ▸ mem_zpowers a)))
     (zpowers_le.2 (sz32_psi_mem_zpowers ψ hb ha (h ▸ mem_zpowers b)))
 
+omit [Finite G] in
 theorem sz32_psi_conj {J : Subgroup G} {Q : Type} [Group Q] (ψ : ↥J →* Q) {h s : G} (hh : h ∈ J)
     (hs : s ∈ J) :
     ψ ⟨h * s * h⁻¹, J.mul_mem (J.mul_mem hh hs) (J.inv_mem hh)⟩ =
@@ -246,7 +249,7 @@ theorem sz32_second_point_plane_false (hS : Setting G) {P : Sylow 5 G} {M : Subg
     {Q : Type} [Group Q] [Finite Q] (ψ : ↥J →* Q) (hψ : Function.Surjective ψ)
     (hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J) (hQ : SecondPointFacts 5 Q)
     (hpl : SylowIsPlane 5 Q) (h3 : NormalizerThreeLines 5 Q) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hmvQ : NormalizerMovesLines 5 Q := by
     rcases hQ.shape with ⟨-, h⟩ | ⟨hh, -⟩
     · exact h
@@ -282,7 +285,7 @@ theorem sz32_second_point_not_sz32 (hSz : Sz32Facts) {P : Sylow 5 G} {M : Subgro
     (hCJ : centralizer ({u} : Set G) ≤ normalizer (J : Set G))
     {Q : Type} [Group Q] [Finite Q] (ψ : ↥J →* Q) (hψ : Function.Surjective ψ)
     (hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J) (hQ : IsSz32Type 5 Q) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨Tsyl', hTsyl', -, -⟩ := spw_sylow_data hgen hJC hCJ ψ hψ hker
   obtain ⟨hcyc, hcard⟩ := hSz.sylow Q hQ Tsyl'
   obtain ⟨g, hg⟩ := hcyc.exists_generator
@@ -312,13 +315,13 @@ theorem sz32_second_point_A10 (hS : Setting G) (hClass : GenericComponentClass G
         (zpowers x).map (MulAut.conj g).toMonoidHom = zpowers e)
     (hgen : IsGenericPoint 5 P M u) (huV : u ∈ V) (huZ : u ∉ Z) (hSu : u3S P u = V) :
     ∃ J : Subgroup G, PointConfig IsA10Type G 5 P M u J := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨J, hJC, hCJ, hperf, hlt, hmin, hnot, Q, hQg, ψ, hψ, hker, hlist, -⟩ :=
     hClass 5 hp P M hM hfail hIH u hgen (le_refl 5)
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hz : Subgroup.center Q = ⊥ :=
     u3main_center_bot (CFSG.AGLEmbedding.glbPrimeCore_le 5 J) hperf hlt hmin ψ hψ hker
-  haveI : IsMulCommutative V := hVel.1
+  have : IsMulCommutative V := hVel.1
   have hVc : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : V) ⟨b, hb⟩)
   have hTV : u3T P u J ≤ V := (inf_le_left : u3T P u J ≤ u3S P u).trans hSu.le

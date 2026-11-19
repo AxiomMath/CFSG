@@ -209,7 +209,7 @@ theorem not_uOne_le_uTwo (hm : 1 ≤ m) : ¬ uOne m ≤ uTwo m := by
   obtain ⟨b, c, hbc⟩ := hle hu
   obtain ⟨ha, -, -⟩ := uGL_injective hbc
   have h1 : a 0 j = 1 := by
-    simp [a, Matrix.single_apply]
+    simp [a]
   have h0 : a 0 j = 0 := by
     rw [ha]
     rfl
@@ -223,7 +223,7 @@ theorem not_uTwo_le_uOne (hm : 1 ≤ m) : ¬ uTwo m ≤ uOne m := by
   obtain ⟨a, c, hbc⟩ := hle hu
   obtain ⟨-, hb, -⟩ := uGL_injective hbc
   have h1 : b j 0 = 1 := by
-    simp [b, Matrix.single_apply]
+    simp [b]
   have h0 : b j 0 = 0 := by
     rw [hb]
     rfl

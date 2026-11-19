@@ -81,7 +81,7 @@ theorem primeStable_of_normal_sylow {actors target : Type*} [Group actors] [Fini
     rwa [QuotientGroup.ker_mk']
   have actor_image := prime_element_mem_normal_sylow prime image (projection actor) projection_pow
   change projection actor ∈ primeCore prime (actors ⧸ action.ker)
-  exact normal_le_primeCore prime image image.isPGroup' actor_image
+  exact normal_le_primeCore prime image image.isPGroup actor_image
 
 theorem exists_normal_sylow_in_subgroup {group : Type*} [Group group] [Finite group]
     (prime : ℕ) [Fact (Nat.Prime prime)] (sylow : Sylow prime group) [(sylow : Subgroup group).Normal]
@@ -89,7 +89,7 @@ theorem exists_normal_sylow_in_subgroup {group : Type*} [Group group] [Finite gr
     ∃ internal : Sylow prime subgroup, (internal : Subgroup subgroup).Normal := by
   let intersection := (sylow : Subgroup group).subgroupOf subgroup
   have intersection_prime : IsPGroup prime intersection :=
-    sylow.isPGroup'.comap_of_injective subgroup.subtype Subtype.val_injective
+    sylow.isPGroup.comap_of_injective subgroup.subtype Subtype.val_injective
   have not_divides : ¬ prime ∣ intersection.index := by
     change ¬ prime ∣ (sylow : Subgroup group).relIndex subgroup
     intro divides

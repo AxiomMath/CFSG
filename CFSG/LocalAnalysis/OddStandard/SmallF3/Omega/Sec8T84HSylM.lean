@@ -56,9 +56,9 @@ theorem hPm_complement (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V 
 
 theorem sec8t84_modelSylow : Sec8T84ModelSylow := by
   intro V _ _ _ Q hQ hdim hsgn P hP
-  haveI : Finite (ProjOrth Q) := by
-    haveI hV : Finite V := Module.finite_of_finite (ZMod 3)
-    haveI hE : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite (ProjOrth Q) := by
+    have hV : Finite V := Module.finite_of_finite (ZMod 3)
+    have hE : Finite (V ≃ₗ[ZMod 3] V) :=
       Finite.of_injective (fun g : V ≃ₗ[ZMod 3] V => g.toEquiv)
         (fun g h hgh => LinearEquiv.ext fun x => by
           simpa using congrArg (fun e : V ≃ V => e x) hgh)

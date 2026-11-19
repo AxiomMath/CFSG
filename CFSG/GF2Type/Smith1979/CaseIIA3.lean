@@ -104,6 +104,7 @@ namespace Data
 variable (D : Data S g t)
 include D
 
+omit D in
 theorem resCt_epsU (c : ↥(centralizer ({t} : Set S.O))) (x : S.Qt) :
     resCt t c (epsU t x) = epsU t (((c : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) x) := by
   have hc : (c : S.O) * t = t * (c : S.O) := mem_centralizer_singleton_iff.mp c.2
@@ -138,9 +139,9 @@ theorem alphaK_conj {k : S.O} (hk : IsK t k) (c : ↥(centralizer ({t} : Set S.O
   obtain ⟨y, rfl⟩ := epsU_surjective t u'
   have h1 := D.alphaK_epsU (hk.conj c) x y
   have e1 : resCt t c⁻¹ (epsU t x) =
-      epsU t ((((c : S.O)⁻¹ : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) x) := D.resCt_epsU c⁻¹ x
+      epsU t ((((c : S.O)⁻¹ : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) x) := Data.resCt_epsU c⁻¹ x
   have e2 : resCt t c⁻¹ (epsU t y) =
-      epsU t ((((c : S.O)⁻¹ : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) y) := D.resCt_epsU c⁻¹ y
+      epsU t ((((c : S.O)⁻¹ : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) y) := Data.resCt_epsU c⁻¹ y
   have h2 := D.alphaK_epsU hk ((((c : S.O)⁻¹ : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) x)
     ((((c : S.O)⁻¹ : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) y)
   have e : (((c : S.O) * k * (c : S.O)⁻¹ : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) y - y =

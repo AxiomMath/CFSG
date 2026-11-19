@@ -58,7 +58,7 @@ theorem ch17575_brMask_lev_of
       lev a + lev b = lev c + 2)
     {a b c : Fin 78} (h : (brMask a b).testBit c = true) : lev a + lev b = lev c + 2 :=
   hgr a b c (by
-    rw [eLab, eLab, bracket_lab, ch17575_toVec_apply, if_pos h]
+    rw [eLab, eLab, bracket_lab, ch17575_toVec_apply, ite_eq_left h]
     exact one_ne_zero)
 
 section Grading
@@ -77,22 +77,22 @@ theorem ch17575_step {a : Fin 78} (ha : 6 ≤ (a : ℕ)) (hla : 3 ≤ lev a) (d 
           w (lab k) + d * if (brMask a 77).testBit k then w (lab 77) else 0 := by
   have h77 : lev 77 = 0 := ch17575_lev_negTheta
   refine ⟨?_, fun k hk => ?_⟩
-  · rw [ch17575_pinnedX_apply ha, if_neg (fun h => by
+  · rw [ch17575_pinnedX_apply ha, ite_eq_right (fun h => by
       rw [h] at hla
       change 3 ≤ lev 77 at hla
       omega), add_zero, Finset.sum_eq_zero, mul_zero, add_zero]
     intro m _
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hb
     have := ch17575_brMask_lev_of hgr hb
     change lev a + lev m = lev 77 + 2 at this
     omega
-  · rw [ch17575_pinnedX_apply ha, if_neg (fun h => by
+  · rw [ch17575_pinnedX_apply ha, ite_eq_right (fun h => by
       rw [h, hk] at hla
       omega), add_zero, Finset.sum_eq_single (77 : Fin 78)]
     · rfl
     · intro m _ hm
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hb
       have := ch17575_brMask_lev_of hgr hb
       exact hm (Fin.ext (ch17575_lev_zero m (by omega)))
@@ -125,14 +125,14 @@ theorem ch17575_prod_apply : ∀ P : List ((ℕ × ℕ) × F4), (∀ p ∈ P, p.
     have s2 := ch17575_step hgr (a := ⟨p.1.2, h2'⟩) h2 l2
     rw [List.map_cons, List.prod_cons, Units.val_mul, Module.End.mul_apply, ← hw]
     by_cases ho : p.1.1 = p.1.2
-    · rw [yElt, if_pos ho]
+    · rw [yElt, ite_eq_left ho]
       refine ⟨(s1 _ w).1.trans ih77, fun k hk => ?_⟩
-      rw [List.map_cons, List.sum_cons, (s1 _ w).2 k hk, ih k hk, ih77, ch17575Contrib, if_pos ho]
+      rw [List.map_cons, List.sum_cons, (s1 _ w).2 k hk, ih k hk, ih77, ch17575Contrib, ite_eq_left ho]
       split_ifs <;> simp [add_comm]
-    · rw [yElt, if_neg ho, Units.val_mul, Module.End.mul_apply]
+    · rw [yElt, ite_eq_right ho, Units.val_mul, Module.End.mul_apply]
       refine ⟨((s1 _ _).1.trans (s2 _ w).1).trans ih77, fun k hk => ?_⟩
       rw [List.map_cons, List.sum_cons, (s1 _ _).2 k hk, (s2 _ w).2 k hk, (s2 _ w).1, ih k hk, ih77,
-        ch17575Contrib, if_neg ho]
+        ch17575Contrib, ite_eq_right ho]
       split_ifs <;> simp only [mul_one, mul_zero, add_zero, zero_add] <;> ring
 
 end Grading
@@ -153,10 +153,10 @@ theorem ch17575_prod_ofFn_last {G : Type*} [Monoid G] :
 
 theorem ch17575_proj1_apply (y : RootModule Tag.E6 K) (k : Fin 78) :
     ch17575Proj1 y (lab k) = if lev k = 1 then y (lab k) else 0 := by
-  rw [ch17575Proj1, Finsupp.finset_sum_apply, Finset.sum_eq_single k]
-  · rw [Finsupp.smul_apply, ch17575_eLab_apply, if_pos rfl, smul_eq_mul, mul_one]
+  rw [ch17575Proj1, _root_.Finsupp.finsetSum_apply, Finset.sum_eq_single k]
+  · rw [Finsupp.smul_apply, ch17575_eLab_apply, ite_eq_left rfl, smul_eq_mul, mul_one]
   · intro j _ hj
-    rw [Finsupp.smul_apply, ch17575_eLab_apply, if_neg hj, smul_zero]
+    rw [Finsupp.smul_apply, ch17575_eLab_apply, ite_eq_right hj, smul_zero]
   · simp
 
 theorem ch17575_lev1_eq_zero
@@ -172,7 +172,7 @@ theorem ch17575_lev1_eq_zero
     ∀ k : Fin 78, lev k = 1 → e (lab k) = 0 := by
   set y := ch17575Proj1 e with hydef
   have hy : ∀ k : Fin 78, lev k ≠ 1 → y (lab k) = 0 := fun k hk => by
-    rw [hydef, ch17575_proj1_apply, if_neg hk]
+    rw [hydef, ch17575_proj1_apply, ite_eq_right hk]
   have hbr : ∀ β : Fin 78, (β : ℕ) ∈ testB →
       bracket K (eLab K β) y = form K (eLab K β) e • y := by
     intro β hβB
@@ -186,9 +186,9 @@ theorem ch17575_lev1_eq_zero
         refine Finset.sum_congr rfl fun m _ => ?_
         split_ifs with hb
         · have := ch17575_brMask_lev_of hgr hb
-          rw [hydef, ch17575_proj1_apply, if_pos (by omega)]
+          rw [hydef, ch17575_proj1_apply, ite_eq_left (by omega)]
         · rfl
-      rw [hs, hydef, ch17575_proj1_apply, if_pos hk, eq_neg_of_add_eq_zero_left (hβ β hβB k hk),
+      rw [hs, hydef, ch17575_proj1_apply, ite_eq_left hk, eq_neg_of_add_eq_zero_left (hβ β hβB k hk),
         CharTwo.neg_eq]
     · rw [hy k hk, mul_zero]
       refine Finset.sum_eq_zero fun m _ => ?_
@@ -219,7 +219,7 @@ theorem ch17575_lev1_eq_zero
   intro k hk
   have := congrArg (fun v => v (lab k)) hy0
   simp only [Finsupp.zero_apply] at this
-  rw [hydef, ch17575_proj1_apply, if_pos hk] at this
+  rw [hydef, ch17575_proj1_apply, ite_eq_left hk] at this
   exact this
 
 theorem ch17575_rootVec_theta : rootVec Tag.E6 K theta = eLab K 76 := by
@@ -314,7 +314,7 @@ theorem ch17575_eq_of_mem_conjOrbit_of_inverts
       rw [h] at hlβ
       omega
     rw [hxβ, Finsupp.add_apply, Finsupp.add_apply, Finsupp.smul_apply, smul_eq_mul,
-      ch17575_eLab_apply, if_neg hne, zero_add, bracket_comm, form_comm] at h0
+      ch17575_eLab_apply, ite_eq_right hne, zero_add, bracket_comm, form_comm] at h0
     exact h0
   have he1 := ch17575_lev1_eq_zero hgr hsq hker e hβ
   have hprod := ch17575_prod_apply hgr (List.ofFn fun j => (orbAt j, cs j)) (by
@@ -332,21 +332,21 @@ theorem ch17575_eq_of_mem_conjOrbit_of_inverts
     have h := hprod.2 ⟨_, hk78⟩ hkl
     rw [← he, he1 _ hkl, List.map_ofFn, List.sum_ofFn, Finset.sum_eq_single j] at h
     · have hc0 : toK (cs j) = 0 := by
-        simp only [Function.comp_apply, ch17575Contrib, hkb, if_true, mul_one] at h
+        simp only [Function.comp_apply, ch17575Contrib, hkb, ite_true, mul_one] at h
         by_cases ho : (orbAt j).1 = (orbAt j).2
-        · rw [if_pos ho, add_zero] at h
+        · rw [ite_eq_left ho, add_zero] at h
           exact h.symm
-        · rw [if_neg ho, (hoth j).2 ho, if_neg Bool.false_ne_true, mul_zero, add_zero] at h
+        · rw [ite_eq_right ho, (hoth j).2 ho, ite_eq_right Bool.false_ne_true, mul_zero, add_zero] at h
           exact h.symm
       have : cs j = 0 := hc0
       rw [this, ch17575_yElt_zero]
     · intro j' _ hj'
       obtain ⟨h1, h2⟩ := hoth j'
-      simp only [Function.comp_apply, ch17575Contrib, h1 hj', Bool.false_eq_true, if_false,
+      simp only [Function.comp_apply, ch17575Contrib, h1 hj', Bool.false_eq_true, ite_false,
         mul_zero, zero_add]
       by_cases ho : (orbAt j').1 = (orbAt j').2
-      · rw [if_pos ho]
-      · rw [if_neg ho, h2 ho, if_neg Bool.false_ne_true, mul_zero]
+      · rw [ite_eq_left ho]
+      · rw [ite_eq_right ho, h2 ho, ite_eq_right Bool.false_ne_true, mul_zero]
     · simp
   have hqeq : q = yElt (orbAt (Fin.last 14)) (cs (Fin.last 14)) := by
     rw [hqcs]
@@ -354,7 +354,7 @@ theorem ch17575_eq_of_mem_conjOrbit_of_inverts
   have h14 : orbAt (Fin.last 14) = (76, 76) := rfl
   have hc14 := hcs (Fin.last 14)
   rw [h14] at hc14 hqeq
-  rw [yElt, if_pos rfl, labRoot, show e6Certificate.root (76 - 6) = theta from root_seventy] at hqeq
+  rw [yElt, ite_eq_left rfl, labRoot, show e6Certificate.root (76 - 6) = theta from root_seventy] at hqeq
   have hch : choices (76, 76) = [0, 1] := rfl
   rw [hch, List.mem_cons, List.mem_singleton] at hc14
   rcases hc14 with h0 | h1

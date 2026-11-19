@@ -13,8 +13,8 @@ open Subgroup
 theorem smallSections_quotient {X : Type} [Group X] (N : Subgroup X) [N.Normal]
     (h : SmallSections X) : SmallSections (X ⧸ N) := by
   intro Kbar Lbar inst hsimple hnonab
-  letI : Lbar.Normal := inst
-  letI : IsSimpleGroup (Kbar ⧸ Lbar) := hsimple
+  let : Lbar.Normal := inst
+  let : IsSimpleGroup (Kbar ⧸ Lbar) := hsimple
   let K : Subgroup X := Kbar.comap (QuotientGroup.mk' N)
   let f : K →* Kbar ⧸ Lbar :=
     (QuotientGroup.mk' Lbar).comp ((QuotientGroup.mk' N).subgroupComap Kbar)
@@ -43,7 +43,7 @@ theorem smallSections_quotient {X : Type} [Group X] (N : Subgroup X) [N.Normal]
   constructor
   · rw [← Nat.card_congr e.toEquiv]
     exact hres.1
-  · haveI : Group.IsSolvable
+  · have : Group.IsSolvable
         (CFSG.ComponentClassification.OuterAutomorphisms.Outer (K ⧸ f.ker)) := hres.2
     exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e
 
@@ -176,7 +176,7 @@ theorem nonconj_quotient {X : Type} [Group X] [Finite X] (S : Subgroup X) [S.Nor
 
 theorem centralizer_quotient_le {X : Type} [Group X] (S : Subgroup X) [S.Normal] [Finite S]
     {F : Subgroup X} {v : X} (hinv : ∀ s ∈ S, v * s * v⁻¹ = s⁻¹)
-    (hab : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a) (hodd : Odd (Nat.card S))
+    (_hab : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a) (hodd : Odd (Nat.card S))
     (hC : ∀ g : X, g * v = v * g → g ∈ F ⊔ Subgroup.zpowers v) :
     ∀ y : X ⧸ S, y * QuotientGroup.mk' S v = QuotientGroup.mk' S v * y →
       y ∈ F.map (QuotientGroup.mk' S) ⊔ Subgroup.zpowers (QuotientGroup.mk' S v) := by
@@ -245,7 +245,7 @@ theorem finalData_quotient {X : Type} [Group X] [Finite X] {W : Type} [AddCommGr
       (F.map (QuotientGroup.mk' (CFSG.solvableRadical X)))
       (QuotientGroup.mk' (CFSG.solvableRadical X) v) := by
   let S : Subgroup X := CFSG.solvableRadical X
-  haveI hSn : S.Normal := inferInstance
+  have hSn : S.Normal := inferInstance
   obtain ⟨hvS, -, hinv, hab, hodd⟩ := radical_structure h
   have h5 : ¬ 5 ∣ Nat.card S := not_five_dvd_card_solvableRadical h
   have hPS : P ⊓ S = ⊥ := by

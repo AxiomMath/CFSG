@@ -10,12 +10,12 @@ namespace CFSG.Quasithin.RonanH155
 theorem ronanH155_pCore_le_ker_GL32 {G : Type*} [Group G] [Finite G]
     (π : G →* GL (Fin 3) (ZMod 2)) (hsurj : Function.Surjective π) :
     CFSG.pCore 2 G ≤ π.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
     CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
   have hNn : (CFSG.pCore 2 G).Normal := CFSG.pCore_normal
   have hNp : IsPGroup 2 (CFSG.pCore 2 G) := CFSG.pCore_isPGroup
-  haveI : ((CFSG.pCore 2 G).map π).Normal := Subgroup.Normal.map hNn π hsurj
+  have : ((CFSG.pCore 2 G).map π).Normal := Subgroup.Normal.map hNn π hsurj
   have hM : IsPGroup 2 ((CFSG.pCore 2 G).map π) := hNp.map π
   intro g hg
   rw [MonoidHom.mem_ker]
@@ -39,7 +39,7 @@ theorem ronanH155_alt3_core {G : Type*} [Group G] [Finite G] {W : Type*} [CommGr
     (ψ : ↥C →* MulAut W) (hsurj : Function.Surjective ψ) (hker : ψ.ker = A.subgroupOf C) :
     CFSG.Open.pCoreOf 2 C = A ∧
       ∃ π : ↥C →* GL (Fin 3) (ZMod 2), Function.Surjective π ∧ π.ker = A.subgroupOf C := by
-  haveI : Finite W := Nat.finite_of_card_ne_zero (by rw [hW]; norm_num)
+  have : Finite W := Nat.finite_of_card_ne_zero (by rw [hW]; norm_num)
   obtain ⟨f⟩ := CFSG.GF2Type.Aschbacher1976Full.HS.nonempty_mulAut_mulEquiv_GL3 hW
     (fun a b => mul_comm a b) hsq
   have hπsurj : Function.Surjective (f.toMonoidHom.comp ψ) := by
@@ -74,13 +74,13 @@ theorem alt3_abstract {G : Type*} [Group G] [Finite G] {W : Type*} [CommGroup W]
     (h7 : ∃ h : ↥N, ψ h ^ 7 = 1 ∧ ψ h ≠ 1) (h2 : ∃ y : ↥N, ψ y ^ 2 = 1 ∧ ψ y ≠ 1) :
     CFSG.Open.pCoreOf 2 C = A ∧
       ∃ π : ↥C →* GL (Fin 3) (ZMod 2), Function.Surjective π ∧ π.ker = A.subgroupOf C := by
-  haveI : Finite W := Nat.finite_of_card_ne_zero (by rw [hW]; norm_num)
+  have : Finite W := Nat.finite_of_card_ne_zero (by rw [hW]; norm_num)
   have hcomm : ∀ a b : W, a * b = b * a := fun a b => mul_comm a b
   have h14 : 14 ∣ Nat.card ψ.range := by
     obtain ⟨h, hh7, hh1⟩ := h7
     obtain ⟨y, hy2, hy1⟩ := h2
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hmemh : ψ h ∈ ψ.range := MonoidHom.mem_range.mpr ⟨h, rfl⟩
     have hmemy : ψ y ∈ ψ.range := MonoidHom.mem_range.mpr ⟨y, rfl⟩
     have d7 : orderOf (⟨ψ h, hmemh⟩ : ↥ψ.range) ∣ Nat.card ψ.range :=

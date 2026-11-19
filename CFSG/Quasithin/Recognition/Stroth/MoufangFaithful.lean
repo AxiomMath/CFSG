@@ -18,7 +18,7 @@ theorem exists_moufangN_smul_base_edge {t : ZMod (2 * n) → V}
     (hT : IsThick Γ) (hM : MoufangCondition D Γ n) (k : ZMod (2 * n)) :
     ∃ nN : ↥(moufangN D Γ n t),
       ((nN : ↥(littleGroup D Γ n)) : D) • baseChamber t = aptEdge t k := by
-  letI : MulAction ↥(moufangN D Γ n t) (AptEdge t) := aptEdgeMulAction ht hn hP hT
+  let : MulAction ↥(moufangN D Γ n t) (AptEdge t) := aptEdgeMulAction ht hn hP hT
   have hcard : (MulAction.orbit ↥(moufangN D Γ n t) (aptEdgeOf t (n : ZMod (2 * n)))).ncard =
       (Set.univ : Set (AptEdge t)).ncard := by
     rw [Set.ncard_univ, card_orbit_aptEdge_base (t := t) ht hn hP hT hM,

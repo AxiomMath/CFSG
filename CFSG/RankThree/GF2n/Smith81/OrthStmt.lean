@@ -99,6 +99,7 @@ section Fusion
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem Jx_le_Q {M Q Z X : Subgroup G} {x : G} (hs : Sit M Q Z X x) : Jx Q X x ≤ Q := by
   intro b hb
   have hbD : b ∈ ⁅Q, Subgroup.zpowers x⁆ := (Subgroup.mem_inf.mp hb).1

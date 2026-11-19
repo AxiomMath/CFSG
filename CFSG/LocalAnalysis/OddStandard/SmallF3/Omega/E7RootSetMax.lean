@@ -63,7 +63,7 @@ theorem isCoatom_of_cert
   obtain ⟨p, c, r, hinj, hp0, hL, hW, hc0, hsz, hfix⟩ := Certificates.certificate709545
   have hΩ : Nat.card (omegaGroup hQ) = 4585351680 :=
     natCard_omegaGroup_seven hQ (Module.finrank_fin_fun (ZMod 3))
-  haveI : Finite (omegaGroup hQ) := Nat.finite_of_card_ne_zero (by rw [hΩ]; norm_num)
+  have : Finite (omegaGroup hQ) := Nat.finite_of_card_ne_zero (by rw [hΩ]; norm_num)
   have horb : (MulAction.orbit (omegaGroup hQ) rootSetV).ncard = 3159 := by
     have h1 := MulAction.index_stabilizer (omegaGroup hQ) rootSetV
     have h2 := Subgroup.card_mul_index (MulAction.stabilizer (omegaGroup hQ) rootSetV)
@@ -90,7 +90,7 @@ theorem isCoatom_of_cert
     rw [Set.ncard_image_of_injective _ hinj, e, Set.ncard_coe_finset, hsz]
   have hB0 : blk 0 = {rootSetV} := by
     ext X
-    simp only [blk, Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [blk, Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨i, hi, rfl⟩
       rw [(hc0 i).1 hi, hp0]

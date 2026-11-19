@@ -233,7 +233,7 @@ theorem Gomi410Cex.exists_not_isGomiParabolicSwap (h : Gomi410Cex f hyp G)
   let S : Subgroup (MulAut ↥(gomiV G)) := (S₀ : Subgroup ↥Y).map Y.subtype
   have hLle : autOn B (gomiV G) ≤ Y := AutOn.autOn_mono hB.le
   have hS : IsSylowIn 2 S Y := by
-    refine ⟨Subgroup.map_subtype_le _, S₀.isPGroup'.map Y.subtype, ?_⟩
+    refine ⟨Subgroup.map_subtype_le _, S₀.isPGroup.map Y.subtype, ?_⟩
     have hsub : S.subgroupOf Y = (S₀ : Subgroup ↥Y) := subgroupOf_map_subtype_eq_ef36
     show ¬ 2 ∣ (S.subgroupOf Y).index
     rw [hsub]

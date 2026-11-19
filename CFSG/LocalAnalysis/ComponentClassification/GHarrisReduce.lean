@@ -49,7 +49,7 @@ theorem nonempty_equiv_map_mk {P : Subgroup G} (hP : IsPGroup 2 P) :
 theorem isTypeHS_quotient (h : IsTypeHS G) : IsTypeHS (G ⧸ pPrimeCore 2 G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, Q, ⟨e⟩⟩ := h
-  obtain ⟨e'⟩ := nonempty_equiv_map_mk P.isPGroup'
+  obtain ⟨e'⟩ := nonempty_equiv_map_mk P.isPGroup
   exact ⟨P.mapSurjective (QuotientGroup.mk'_surjective _), Q, ⟨e'.symm.trans e⟩⟩
 
 omit [Finite G] in

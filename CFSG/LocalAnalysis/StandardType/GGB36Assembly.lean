@@ -51,9 +51,9 @@ private theorem ltqAsm_one_le_n_of_hasLabel_exc {lab : LargeEvenLabel} {R : Type
   rcases ht with ht | ht <;> subst ht
   · unfold GGHasLabel LargeEvenRawDatum at h
     obtain ⟨K, hfield, hfin, hcard, -⟩ := h
-    haveI := hfield
-    haveI := hfin
-    haveI : Fintype K := Fintype.ofFinite K
+    have := hfield
+    have := hfin
+    have : Fintype K := Fintype.ofFinite K
     have h1 : 1 < Fintype.card K := Fintype.one_lt_card
     rw [← Nat.card_eq_fintype_card, hcard] at h1
     rcases Nat.eq_zero_or_pos n with h0 | h0
@@ -61,9 +61,9 @@ private theorem ltqAsm_one_le_n_of_hasLabel_exc {lab : LargeEvenLabel} {R : Type
     · exact h0
   · unfold GGHasLabel LargeEvenRawDatum at h
     obtain ⟨K, hfield, hfin, hcard, -⟩ := h
-    haveI := hfield
-    haveI := hfin
-    haveI : Fintype K := Fintype.ofFinite K
+    have := hfield
+    have := hfin
+    have : Fintype K := Fintype.ofFinite K
     have h1 : 1 < Fintype.card K := Fintype.one_lt_card
     rw [← Nat.card_eq_fintype_card, hcard] at h1
     rcases Nat.eq_zero_or_pos n with h0 | h0

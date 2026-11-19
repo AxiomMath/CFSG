@@ -223,7 +223,7 @@ theorem isPGroup_spRadical (p : ℕ) [Fact p.Prime] [CharP K p]
     ext i j
     rw [Matrix.natCast_apply]
     by_cases h : i = j
-    · simp [h, CharP.cast_eq_zero K p]
+    · simp [h]
     · simp [h]
   have hone : mat (g : StatedSp r K) ^ p ^ 2 = 1 := by
     rw [← add_sub_cancel (1 : Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K) (mat (g : StatedSp r K)),
@@ -316,7 +316,7 @@ private lemma transvection_preserves (w : Fin r ⊕ Fin r → K) :
   rw [transvection_mulVec, transvection_mulVec]
   have hww : pairedSympForm K r w w = 0 := pairedSympForm_self w
   simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, smul_eq_mul, hww,
-    mul_zero, add_zero, zero_add]
+    mul_zero, add_zero]
   rw [pairedSympForm_swap v w]
   ring
 
@@ -364,10 +364,10 @@ private lemma eichler_mul_inv {w y : Fin r ⊕ Fin r → K}
   rw [← mulVec_mulVec, eichlerInv_mulVec, eichler_mulVec, one_mulVec]
   have h1 : pairedSympForm K r (v - pairedSympForm K r v w • y - pairedSympForm K r v y • w) w =
       pairedSympForm K r v w := by
-    simp [map_sub, map_smul, pairedSympForm_self, hwy, hyw]
+    simp [map_sub, map_smul, pairedSympForm_self, hyw]
   have h2 : pairedSympForm K r (v - pairedSympForm K r v w • y - pairedSympForm K r v y • w) y =
       pairedSympForm K r v y := by
-    simp [map_sub, map_smul, pairedSympForm_self, hwy, hyw]
+    simp [map_sub, map_smul, pairedSympForm_self, hwy]
   rw [h1, h2]
   abel
 
@@ -379,10 +379,10 @@ private lemma eichler_inv_mul {w y : Fin r ⊕ Fin r → K}
   rw [← mulVec_mulVec, eichler_mulVec, eichlerInv_mulVec, one_mulVec]
   have h1 : pairedSympForm K r (v + pairedSympForm K r v w • y + pairedSympForm K r v y • w) w =
       pairedSympForm K r v w := by
-    simp [map_add, map_smul, pairedSympForm_self, hwy, hyw]
+    simp [map_add, map_smul, pairedSympForm_self, hyw]
   have h2 : pairedSympForm K r (v + pairedSympForm K r v w • y + pairedSympForm K r v y • w) y =
       pairedSympForm K r v y := by
-    simp [map_add, map_smul, pairedSympForm_self, hwy, hyw]
+    simp [map_add, map_smul, pairedSympForm_self, hwy]
   rw [h1, h2]
   abel
 
@@ -401,7 +401,7 @@ private lemma eichler_preserves {w y : Fin r ⊕ Fin r → K}
   have hww : pairedSympForm K r w w = 0 := pairedSympForm_self w
   have hyy : pairedSympForm K r y y = 0 := pairedSympForm_self y
   simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, smul_eq_mul, hww, hyy,
-    hwy, hyw, mul_zero, add_zero, zero_add]
+    hwy, hyw, mul_zero, add_zero]
   rw [pairedSympForm_swap v y, pairedSympForm_swap v w]
   ring
 
@@ -489,7 +489,7 @@ theorem exists_scalar_mul_mem_spRadical {W : Submodule K (Fin r ⊕ Fin r → K)
     have hcomm := commute_mat_of_mem_radical hw₀ hw₀0 hs hc hmem
     rw [mat_transvectionSp] at hcomm
     have h1 := congrArg (fun M : Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K => M *ᵥ v) hcomm
-    simp only [← mulVec_mulVec, transvection_mulVec, mulVec_add, mulVec_smul, one_mulVec] at h1
+    simp only [← mulVec_mulVec, transvection_mulVec, mulVec_add, mulVec_smul] at h1
     exact add_left_cancel h1
   have hnondeg : ∀ {w : Fin r ⊕ Fin r → K}, w ≠ 0 →
       ∃ v, pairedSympForm K r v w ≠ 0 := by
@@ -575,7 +575,7 @@ theorem exists_scalar_mul_mem_spRadical {W : Submodule K (Fin r ⊕ Fin r → K)
     rw [mat_eichlerSp] at hcomm
     obtain ⟨v, hv⟩ := hnondeg hw₀0
     have h1 := congrArg (fun M : Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K => M *ᵥ v) hcomm
-    simp only [← mulVec_mulVec, eichler_mulVec, mulVec_add, mulVec_smul, one_mulVec] at h1
+    simp only [← mulVec_mulVec, eichler_mulVec, mulVec_add, mulVec_smul] at h1
     have h2 : pairedSympForm K r v w₀ • (mat s *ᵥ y)
           + pairedSympForm K r v y • (mat s *ᵥ w₀)
         = pairedSympForm K r (mat s *ᵥ v) w₀ • y

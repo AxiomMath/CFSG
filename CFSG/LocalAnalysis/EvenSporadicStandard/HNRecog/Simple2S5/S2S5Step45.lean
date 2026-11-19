@@ -20,7 +20,7 @@ private noncomputable abbrev centC (t : Equiv.Perm (Fin 1408)) :
 
 private lemma zpowers_eq_one_or_self {G : Type*} [Group G] {t x : G} (ht : t * t = 1)
     (ht1 : t ≠ 1) (hx : x ∈ Subgroup.zpowers t) : x = 1 ∨ x = t := by
-  haveI : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
+  have : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
   have ho2 : orderOf t = 2 := orderOf_eq_prime (by rw [pow_two]; exact ht) ht1
   have hmod : (orderOf t : ℤ) = 2 := by rw [ho2]; norm_num
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -61,7 +61,7 @@ private theorem exists_filtered_pair {t : Equiv.Perm (Fin 1408)}
   have hzw_le : Subgroup.zpowers t ≤ centY S t ⊓ O :=
     le_inf (Subgroup.zpowers_le.mpr htY) (Subgroup.zpowers_le.mpr hC.mem_O)
   have hYO_eq : centY S t ⊓ O = Subgroup.zpowers t := le_antisymm hYO_le hzw_le
-  haveI : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
+  have : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
   have ht2 : t ^ 2 = 1 := by rw [pow_two]; exact hS.sq
   have hcard_zpw : Nat.card ↥(Subgroup.zpowers t) = 2 := by
     rw [Nat.card_zpowers, orderOf_eq_prime ht2 hS.ne]

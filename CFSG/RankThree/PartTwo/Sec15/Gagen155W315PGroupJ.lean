@@ -20,7 +20,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec14
 
 private theorem center_nativeJ2_eq_bot :
     Subgroup.center CFSG.Blueprint.NativeSporadic.J2 = ⊥ := by
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
     CFSG.Sporadic.J2.isSimpleGroup_J2
   have hxg : CFSG.RankThree.PartTwo.Sec17.G1724.xE *
       CFSG.RankThree.PartTwo.Sec17.G1724.gE ≠
@@ -91,15 +91,15 @@ theorem j2prod_facts
     (2 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup ↥V) ∧ 5 ∣ Nat.card E) ∨
       (5 ∣ Nat.card V ∧ 2 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup ↥E)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hA5s : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hA5s : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hJ2s : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
+  have hJ2s : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
     CFSG.Sporadic.J2.isSimpleGroup_J2
-  haveI : Group.IsPerfect ↥E := hEp
+  have : Group.IsPerfect ↥E := hEp
   have hVne : V ≠ ⊥ := by
     intro h
-    haveI : Nontrivial ↥V := CFSG.LocalCores.isQuasisimple_nontrivial hVq
+    have : Nontrivial ↥V := CFSG.LocalCores.isQuasisimple_nontrivial hVq
     rw [h] at this
     obtain ⟨a, b, hab⟩ := this
     exact hab (Subsingleton.elim a b)
@@ -160,8 +160,8 @@ theorem aschbacherSolvableCore_le_pCore_two {W : Type} [Group W] [Finite W]
     (hp : ∀ p : ℕ, p.Prime → 5 ≤ p → ¬ p ^ 2 ∣ Nat.card (W ⧸ aschbacherSolvableCore 3 W)) :
     aschbacherSolvableCore 3 W ≤ CFSG.pCore 2 W := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := CFSG.pCore 2 W with hO
   set θ := aschbacherSolvableCore 3 W with hθ
   obtain ⟨hθsol, hθchar, hθ3, hmax, -, -, -⟩ :=
@@ -179,11 +179,11 @@ theorem aschbacherSolvableCore_le_pCore_two {W : Type} [Group W] [Finite W]
   set Z : Subgroup K := θ.map (QuotientGroup.mk' O) with hZ
   have hqK : CFSG.IsQuasisimple K := hq
   have hKperf : Group.IsPerfect K := hqK.1
-  haveI : Group.IsPerfect K := hKperf
-  haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hqK
+  have : Group.IsPerfect K := hKperf
+  have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hqK
   have hθn : θ.Normal := Subgroup.normal_of_characteristic θ
   have hZn : Z.Normal := hθn.map (QuotientGroup.mk' O) (QuotientGroup.mk'_surjective O)
-  haveI : Z.Normal := hZn
+  have : Z.Normal := hZn
   have hZcard : Nat.card ↥Z ∣ Nat.card ↥θ :=
     Subgroup.card_map_dvd θ (QuotientGroup.mk' O)
   have hZcenter : Z ≤ Subgroup.center K := by

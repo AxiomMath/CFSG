@@ -30,7 +30,7 @@ theorem s16h_e3_CycTwoP7M6AA2AAA2BA_centralizer_aux
     (hmax : ∀ Q : Subgroup (MulAut (Vtil V₀ V hV)), Q ≤ Mbar D.M V₀ V hV →
       IsPGroup 7 ↥Q → Q ≤ P)
     {x : MulAut (Vtil V₀ V hV)} (hxM : x ∈ Mbar D.M V₀ V hV)
-    (hxn : x ∈ normalizer (lBar V₀ V hV L : Set (MulAut (Vtil V₀ V hV))))
+    (_hxn : x ∈ normalizer (lBar V₀ V hV L : Set (MulAut (Vtil V₀ V hV))))
     (hxc : x ∈ Subgroup.centralizer (P : Set (MulAut (Vtil V₀ V hV)))) :
     x ∈ P :=
   hmax (Subgroup.zpowers x) (Subgroup.zpowers_le.mpr hxM)

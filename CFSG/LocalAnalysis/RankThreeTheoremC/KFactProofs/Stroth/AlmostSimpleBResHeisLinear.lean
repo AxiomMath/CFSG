@@ -146,41 +146,37 @@ theorem exists_heisenberg_pair_linear {K : Type} [Field K] [Finite K] [CharP K 2
     · exact ⟨rfl, rfl⟩
     · exfalso
       have e := congrFun (congrFun hv 0) 0
-      simp [heisC, heisD, scalar_apply, diagonal_apply] at e
+      simp [heisC, heisD, scalar_apply] at e
       exact v.ne_zero (by linear_combination -e)
     · exfalso
       have e := congrFun (congrFun hv 0) 0
-      simp [heisC, heisD, pow_two, Matrix.mul_apply, Fin.sum_univ_three, scalar_apply,
-        diagonal_apply] at e
+      simp [heisC, heisD, pow_two, Matrix.mul_apply, Fin.sum_univ_three, scalar_apply] at e
       exact v.ne_zero (by linear_combination -e)
     · exfalso
       have e00 := congrFun (congrFun hv 0) 0
       have e11 := congrFun (congrFun hv 1) 1
-      simp [heisD, scalar_apply, diagonal_apply] at e00 e11
+      simp [heisD, scalar_apply] at e00 e11
       exact hω1 (by linear_combination e11 - e00)
     · exfalso
       have e := congrFun (congrFun hv 0) 0
-      simp [heisC, heisD, scalar_apply, diagonal_apply] at e
+      simp [heisC, heisD, scalar_apply] at e
       exact v.ne_zero (by linear_combination -e)
     · exfalso
       have e := congrFun (congrFun hv 0) 0
-      simp [heisC, heisD, pow_two, Matrix.mul_apply, Fin.sum_univ_three, scalar_apply,
-        diagonal_apply] at e
+      simp [heisC, heisD, pow_two, Matrix.mul_apply, Fin.sum_univ_three, scalar_apply] at e
       exact v.ne_zero (by linear_combination -e)
     · exfalso
       have e00 := congrFun (congrFun hv 0) 0
       have e11 := congrFun (congrFun hv 1) 1
-      simp [heisD, pow_two, scalar_apply, diagonal_apply] at e00 e11
+      simp [heisD, pow_two, scalar_apply] at e00 e11
       exact hω2 (by linear_combination e11 - e00)
     · exfalso
       have e := congrFun (congrFun hv 0) 0
-      simp [heisC, heisD, pow_two, Matrix.mul_apply, Fin.sum_univ_three, scalar_apply,
-        diagonal_apply] at e
+      simp [heisC, heisD, pow_two, Matrix.mul_apply, Fin.sum_univ_three, scalar_apply] at e
       exact v.ne_zero (by linear_combination -e)
     · exfalso
       have e := congrFun (congrFun hv 0) 0
-      simp [heisC, heisD, pow_two, Matrix.mul_apply, Fin.sum_univ_three, scalar_apply,
-        diagonal_apply] at e
+      simp [heisC, heisD, pow_two, Matrix.mul_apply, Fin.sum_univ_three, scalar_apply] at e
       exact v.ne_zero (by linear_combination -e)
   have hind : ∀ i j : ℤ, proj 3 K d ^ i * proj 3 K c ^ j = 1 → (3 : ℤ) ∣ i ∧ (3 : ℤ) ∣ j := by
     intro i j hij

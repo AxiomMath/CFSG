@@ -66,11 +66,11 @@ open CFSG.RankThree.PartTwo.Sec19 CFSG.LieType.Chevalley CFSG.Blueprint.Chevalle
 
 theorem census423_of_trialityD4_ge4
     {X : Type} [Group X] [Finite X] {f : ℕ} (hf : 2 ≤ f)
-    (hX : Blueprint.ChevalleyExceptionalModel X .trialityD4 2 f) (hq : CFSG.IsQuasisimple X)
-    (hZ : Subgroup.center X = ⊥) : Census423 X := by
+    (hX : Blueprint.ChevalleyExceptionalModel X .trialityD4 2 f) (_hq : CFSG.IsQuasisimple X)
+    (_hZ : Subgroup.center X = ⊥) : Census423 X := by
   obtain ⟨K, _, _, _, σ, hK, hσ, hσ3, hf1, hsimple, ⟨e⟩⟩ :=
     Res417Seven.exists_graphFixedRootGroup_of_trialityD4 hX
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Finite.of_equiv X e.toEquiv
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Finite.of_equiv X e.toEquiv
   exact census423_of_equiv_alpha e fun D hDc hDexp hD9 =>
     D4.alphaVanishes_C0_big CFSG.Goldschmidt.topStatement ⟨hf1, hK, hσ⟩ hf hDc hDexp hD9
 
@@ -86,8 +86,8 @@ theorem census423_of_trialityD4
     subst hf
     obtain ⟨K, _, _, _, σ, hK, hσ, hσ3, hf1, hsimple, ⟨e⟩⟩ :=
       Res417Seven.exists_graphFixedRootGroup_of_trialityD4 hX
-    haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Finite.of_equiv X e.toEquiv
-    haveI : IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := hsimple
+    have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Finite.of_equiv X e.toEquiv
+    have : IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := hsimple
     have P : D4Par 1 K σ := ⟨hf1, hK, hσ⟩
     exact census423_of_equiv_alpha e fun D hDc hDexp hD9 =>
       D4.alphaVanishes_C0_two P

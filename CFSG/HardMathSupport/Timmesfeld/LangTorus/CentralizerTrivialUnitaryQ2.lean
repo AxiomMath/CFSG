@@ -17,6 +17,7 @@ open scoped MatrixGroups
 section FixedMatrices
 variable {L : Type} [Field L] [CharP L 2] {n : ℕ}
 
+omit [CharP L 2] in
 theorem stdUnitary_diag2n (sigma : L →+* L) {i j : Fin n} (hij : i ≠ j)
     (omega : Lˣ) (hbar : Units.map sigma.toMonoidHom omega = omega⁻¹) :
     stdUnitary sigma (Matrix.SpecialLinearGroup.diag2n hij (omega : L) omega.ne_zero) =
@@ -47,9 +48,9 @@ theorem stdUnitary_diag2n (sigma : L →+* L) {i j : Fin n} (hij : i ≠ j)
     funext k
     have hk : d k ≠ 0 := by
       by_cases hki : k = i
-      · subst k; simpa [d] using omega.ne_zero
+      · subst k; simp [d]
       · by_cases hkj : k = j
-        · subst k; simpa [d, hki] using (omega⁻¹).ne_zero
+        · subst k; simp [d, hki]
         · simp [d, hki, hkj]
     exact mul_inv_cancel₀ hk
   apply Subtype.ext
@@ -62,7 +63,7 @@ theorem stdUnitary_eq_self_of_permMatrix
     stdUnitary sigma X = X := by
   have hmap : (pi.permMatrix L).map sigma = pi.permMatrix L := by
     ext a b
-    simp [Equiv.Perm.permMatrix, map_zero, map_one]
+    simp [Equiv.Perm.permMatrix]
   have hinv : (pi.permMatrix L)⁻¹ = (pi.permMatrix L)ᵀ := by
     refine Matrix.inv_eq_left_inv ?_
     rw [Matrix.transpose_permMatrix, ← Matrix.permMatrix_mul]
@@ -160,7 +161,7 @@ theorem unitary_fixed_image_le_rationalComponent
           ((hnorm _).mp (hpsi ▸ MonoidHom.mem_range.mpr ⟨X, rfl⟩))
       · change S.D.step (z * psi X * z⁻¹) = z * psi X * z⁻¹
         rw [hconj, hX]
-  haveI : Group.IsPerfect C := hCperf
+  have : Group.IsPerfect C := hCperf
   have hPperf : ⁅f.range, f.range⁆ = f.range :=
     Subgroup.isPerfect_iff.mp (Group.IsPerfect.range f)
   have hle := CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs256j.le_rationalComponent_of_perfect S i hP hPperf

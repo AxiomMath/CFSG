@@ -15,7 +15,7 @@ theorem lieOddRankChevLinCore_of_matrix (hmat : LinCoreMatrix)
     (hG : CFSG.Open.GriessAllModelsStatement) : LieOddRankChevLinCore := by
   intro K _ _ hq l Q hv hQ he r hr hr2 hc
   obtain ⟨hrQ, hrl⟩ := hc
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨e⟩ := he
   have hl : 2 ≤ l := by
     by_contra h
@@ -24,7 +24,7 @@ theorem lieOddRankChevLinCore_of_matrix (hmat : LinCoreMatrix)
     omega
   obtain ⟨F, instF, instFin, Z₀, hZ₀N, j, hcard, hZ₀D, hcenter, hrank⟩ :=
     coverIdLin hG hq hl hv hQ e
-  haveI := hZ₀N
+  have := hZ₀N
   rw [hrank r hr hr2]
   have hrF : r ∣ Fintype.card F - 1 := by
     rw [hcard]

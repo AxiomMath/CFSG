@@ -63,7 +63,7 @@ abbrev mu3U (K : Type) [Field K] : Subgroup Kˣ := rootsOfUnity 3 K
 theorem emb3_mul (X Y : Matrix (Fin 2) (Fin 2) K) : emb3 (X * Y) = emb3 X * emb3 Y := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [emb3, Matrix.mul_apply, Fin.sum_univ_succ, Fin.sum_univ_two]
+    simp [emb3, Matrix.mul_apply, Fin.sum_univ_succ]
 
 theorem emb3_one : emb3 (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by
   ext i j
@@ -71,7 +71,7 @@ theorem emb3_one : emb3 (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by
 
 theorem det_emb3 (X : Matrix (Fin 2) (Fin 2) K) : (emb3 X).det = X.det := by
   rw [emb3, Matrix.det_fin_three, Matrix.det_fin_two]
-  simp [Matrix.det_fin_two]
+  simp
 
 theorem zero_of_comm {a b c : K} (hab : a ≠ b) (h : c * b = a * c) : c = 0 := by
   have h' : c * (b - a) = 0 := by rw [mul_sub, h]; ring
@@ -190,7 +190,7 @@ theorem centralizer_block (h : UnitaryFieldData p f K) {ζu : Kˣ}
 theorem emb3_comm_diag (Y : Matrix (Fin 2) (Fin 2) K) (a c : K) :
     emb3 Y * Matrix.diagonal ![a, a, c] = Matrix.diagonal ![a, a, c] * emb3 Y := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [emb3, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [emb3, Matrix.mul_apply, Matrix.diagonal_apply]
   all_goals ring
 
 theorem det_ne_zero_of_GL {n : Type} [Fintype n] [DecidableEq n] (A : GL n K) :
@@ -313,7 +313,7 @@ theorem diagU_eq_Mh (h : UnitaryFieldData p f K) (hbar : ∀ x : K, x ^ 3 = 1 �
       rw [← Units.val_pow_eq_pow_val, ha, Units.val_one]
     have hc0 : ((c : Kˣ) : K) ^ 3 = 1 := by
       rw [← Units.val_pow_eq_pow_val, hc, Units.val_one]
-    fin_cases i <;> simp [hbar _ ha0, hbar _ hc0, hbar _ ha', hbar _ hc']
+    fin_cases i <;> simp [hbar _ ha0, hbar _ hc0]
   · exact map_zero h.bar
 
 theorem Psi_comm_diagU (h : UnitaryFieldData p f K) (hbar : ∀ x : K, x ^ 3 = 1 → h.bar x = x)
@@ -334,7 +334,7 @@ theorem block_factor (P : GL (Fin 3) K) (h02 : (P : Matrix (Fin 3) (Fin 3) K) 0 
       (P : Matrix (Fin 3) (Fin 3) K) 1 1] * Matrix.diagonal ![1, 1, (P : Matrix (Fin 3) (Fin 3) K) 2 2] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [emb3, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, h02, h12, h20, h21]
+    simp [emb3, Matrix.mul_apply, Matrix.diagonal_apply, h02, h12, h20, h21]
 
 @[expose] noncomputable def embSL3 (X : Matrix.SpecialLinearGroup (Fin 2) K) : GL (Fin 3) K :=
   emb3GL (Matrix.SpecialLinearGroup.toGL X)

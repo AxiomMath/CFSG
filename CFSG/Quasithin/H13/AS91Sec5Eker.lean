@@ -59,7 +59,7 @@ theorem E_inf_stab_eq_Eker {m : G ⧸ c.G2} (hm : c.OnL c.x0 m) {y : G ⧸ c.G1}
 private theorem ncard_onL_diff {m : G ⧸ c.G2} (hm : c.OnL c.x0 m) :
     ({a | c.OnL a m} \ {c.x0}).ncard = 4 := by
   have hx : c.x0 ∈ {a | c.OnL a m} := hm
-  rw [Set.ncard_diff_singleton_of_mem hx, c.ncard_onL m]
+  rw [Set.ncard_sdiff_singleton_of_mem hx, c.ncard_onL m]
 
 theorem card_Eker {m : G ⧸ c.G2} (hm : c.OnL c.x0 m) : Nat.card (c.Eker m) = 2 ^ 9 := by
   have hne : ({a | c.OnL a m} \ {c.x0}).Nonempty :=

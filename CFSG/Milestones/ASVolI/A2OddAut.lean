@@ -44,7 +44,7 @@ end Induced
     ext z
     induction z using QuotientGroup.induction_on with
     | H z =>
-      simp only [map_mul, MulAut.mul_apply]
+      simp only [MulAut.mul_apply]
       rfl
 
 section Induced2
@@ -72,7 +72,7 @@ theorem burnsideA26_sqt_of_sections {G : Type} [Group G] [Finite G] (L : Subgrou
     CFSG.IsStronglyQuasithin ((↥L ⧸ pCore 2 ↥L) ⧸ Subgroup.center (↥L ⧸ pCore 2 ↥L)) := by
   set Q := ↥L ⧸ pCore 2 ↥L
   let N : Subgroup ↥L := (Subgroup.center Q).comap (QuotientGroup.mk' (pCore 2 ↥L))
-  haveI : N.Normal := inferInstance
+  have : N.Normal := inferInstance
   have hle : pCore 2 ↥L ≤ N := fun n hn => by
     show QuotientGroup.mk' (pCore 2 ↥L) n ∈ Subgroup.center Q
     have h1 : QuotientGroup.mk' (pCore 2 ↥L) n = 1 := (QuotientGroup.eq_one_iff n).2 hn
@@ -83,8 +83,8 @@ theorem burnsideA26_sqt_of_sections {G : Type} [Group G] [Finite G] (L : Subgrou
   let e : Q ⧸ Subgroup.center Q ≃* ↥L ⧸ N :=
     (QuotientGroup.quotientMulEquivOfEq hmap.symm).trans
       (QuotientGroup.quotientQuotientEquivQuotient (pCore 2 ↥L) N hle)
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hq.2.1
-  haveI : IsSimpleGroup (↥L ⧸ N) := e.symm.isSimpleGroup
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hq.2.1
+  have : IsSimpleGroup (↥L ⧸ N) := e.symm.isSimpleGroup
   have hnonab : ∃ a b : ↥L ⧸ N, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hq.2.2
     refine ⟨e a, e b, fun h => hab ?_⟩
@@ -141,8 +141,8 @@ theorem burnsideA26_congr_symm_congr {S M : Type*} [Group S] [Group M] (e : S �
 
 theorem burnsideA26_charP_two {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.card K = 2 ^ n) :
     CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
 
 theorem burnsideA26_mem_of_index_le_two {A : Type*} [Group A] [Finite A] (H : Subgroup A)
@@ -204,7 +204,7 @@ theorem burnsideA26_g2
     {S : Type} [Group S] {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.card K = 2 ^ n)
     (hK4 : 4 ≤ Nat.card K) (e : S ≃* AdjointQuotient Tag.G2 K) (θ : MulAut S) :
     ChA.IsInnDiagFieldAut S θ := by
-  haveI : CharP K 2 := burnsideA26_charP_two hK
+  have : CharP K 2 := burnsideA26_charP_two hK
   have hK3 : ringChar K ≠ 3 := by
     rw [ringChar.eq K 2]
     norm_num
@@ -339,8 +339,8 @@ theorem burnsideA26_f4
     (e : S ≃* DerivedCentralQuotient
       (reeFixedGroup Tag.F4 K reeF4Perm fun i => if i ∈ reeF4Long then 2 ^ a else 2 ^ (a + 1)))
     (θ : MulAut S) : ChA.IsInnDiagFieldAut S θ := by
-  haveI : CharP K 2 := burnsideA26_charP_two hK
-  haveI : CharP K F4.prime := (inferInstance : CharP K 2)
+  have : CharP K 2 := burnsideA26_charP_two hK
+  have : CharP K F4.prime := (inferInstance : CharP K 2)
   obtain ⟨ψ₁, ψ₂, hin, hθ, σ, hσ⟩ :=
     burnsideA26_f4_aux ha hK _ (reeGamma_eq_reeFixedGroup (t := F4)) e θ
   exact ⟨ψ₁, ψ₂, Or.inl hin, Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl
@@ -353,7 +353,7 @@ section RankFam
 theorem burnsideA26_mem_of_pow_mem {Γ : Type} [Group Γ] [Finite Γ] {x y : Γ} (hx3 : x ^ 3 = 1)
     (hx1 : x ≠ 1) (hy : y ∈ Subgroup.zpowers x) (hy1 : y ≠ 1) {M : Subgroup Γ} (hyM : y ∈ M) :
     x ∈ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hox : orderOf x = 3 := orderOf_eq_prime hx3 hx1
   have hoy : orderOf y = 3 := by
     have hdvd : orderOf y ∣ 3 := by
@@ -375,7 +375,7 @@ theorem burnsideA26_three_le_pRank {Γ : Type} [Group Γ] [Finite Γ] {M : Subgr
     (ha : a ∈ M) (hb : b ∈ M) (hc : c ∉ M) (ha3 : a ^ 3 = 1) (hb3 : b ^ 3 = 1) (hc3 : c ^ 3 = 1)
     (hab : Commute a b) (hac : Commute a c) (hbc : Commute b c) (ha1 : a ≠ 1)
     (hb' : b ∉ Subgroup.zpowers a) : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup Γ) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc1 : c ≠ 1 := fun h => hc (h ▸ M.one_mem)
   have hb1 : b ≠ 1 := fun h => hb' (h ▸ Subgroup.one_mem _)
   set A := Subgroup.zpowers a
@@ -467,9 +467,9 @@ theorem burnsideA26_rank_ge_three {G : Type} [Group G] [Finite G] {L : Subgroup 
     (hzin : ρ z ∉ (MulAut.conj : S →* MulAut S).range) {a b : S} (ha3 : a ^ 3 = 1)
     (hb3 : b ^ 3 = 1) (hab : a * b = b * a) (ha1 : a ≠ 1) (hb : b ∉ Subgroup.zpowers a)
     (hfa : ρ z a = a) (hfb : ρ z b = b) : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set K₀ : Subgroup G := π.ker.map L.subtype with hK₀def
-  haveI : K₀.Normal := ⟨by
+  have : K₀.Normal := ⟨by
     rintro _ ⟨k, hk, rfl⟩ g
     refine ⟨MulAut.conjNormal g k, ?_, ?_⟩
     · show π (MulAut.conjNormal g k) = 1
@@ -615,7 +615,7 @@ theorem burnsideA26_rank_ge_three {G : Type} [Group G] [Finite G] {L : Subgroup 
       apply hb
       refine ⟨k, hιinj ?_⟩
       rw [← hk, map_zpow])
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardK₀ : ¬ 3 ∣ Nat.card K₀ := by
     rw [hK₀def, Subgroup.card_map_of_injective L.subtype_injective]
     obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 hK₀
@@ -633,14 +633,14 @@ open CFSG.SectionRank
 
 theorem burnsideA26_pCore_quotient {L : Type} [Group L] [Finite L] :
     pCore 2 (L ⧸ pCore 2 L) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup L := pCore 2 L
   set M : Subgroup (L ⧸ N) := pCore 2 (L ⧸ N)
   have hMp : IsPGroup 2 (M.comap (QuotientGroup.mk' N)) := by
     refine IsPGroup.comap_of_ker_isPGroup (CFSG.pCore_isPGroup) _ ?_
     rw [QuotientGroup.ker_mk']
     exact CFSG.pCore_isPGroup
-  haveI : (M.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap inferInstance _
+  have : (M.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap inferInstance _
   have hle : M.comap (QuotientGroup.mk' N) ≤ N :=
     le_sSup (show M.comap (QuotientGroup.mk' N) ∈ {K : Subgroup L | K.Normal ∧ IsPGroup 2 K} from
       ⟨inferInstance, hMp⟩)
@@ -655,9 +655,9 @@ theorem burnsideA26_center_bar
     {L : Type} [Group L] [Finite L] (hq : CFSG.IsQuasisimple (L ⧸ pCore 2 L)) {n : ℕ}
     (hS : ChevalleyExceptionalModel ((L ⧸ pCore 2 L) ⧸ Subgroup.center (L ⧸ pCore 2 L))
       .trialityD4 2 n) : Subgroup.center (L ⧸ pCore 2 L) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q := L ⧸ pCore 2 L
-  haveI : Group.IsPerfect Q := hq.1
+  have : Group.IsPerfect Q := hq.1
   have hodd : Odd (Nat.card (Subgroup.center Q)) := by
     by_contra hne
     have h2 : 2 ∣ Nat.card (Subgroup.center Q) := by
@@ -746,8 +746,8 @@ section ExistsZFam
 theorem burnsideA26_order_three_eq {A : Type} [Group A] [Finite A] [IsCyclic A] {σ τ : A}
     (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) (hτ3 : τ ^ 3 = 1) (hτ1 : τ ≠ 1) : τ = σ ∨ τ = σ⁻¹ := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype A := Fintype.ofFinite A
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle := IsCyclic.card_pow_eq_one_le (α := A) (n := 3) (by norm_num)
   have hσinv1 : σ⁻¹ ≠ 1 := fun h => hσ1 (inv_eq_one.mp h)
   have hne : σ ≠ σ⁻¹ := by
@@ -790,7 +790,7 @@ theorem burnsideA26_exists_z {G : Type} [Group G] [Finite G] {C : Type} [Group C
     {x : G} (h3 : 3 ∣ orderOf (Θ (ρ' x))) :
     ∃ (z : G) (σ₁ : A), IsPGroup 3 (Subgroup.zpowers z) ∧ (σ₁ = σ ∨ σ₁ = σ⁻¹) ∧
       ρ' z = F σ₁ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set d : G →* A := Θ.comp ρ'
   have hdx : d x = Θ (ρ' x) := rfl
   have hpos : 0 < orderOf (d x) := orderOf_pos _
@@ -846,7 +846,7 @@ open CFSG.ComponentClassification.CatalogueSchreierLinearTwo
 theorem burnsideA26_l2 {S : Type} [Group S] {K : Type} [Field K] [Finite K] {n : ℕ}
     (hK : Nat.card K = 2 ^ n) (e : S ≃* StatedProj (StatedSL 2 K)) (θ : MulAut S) :
     ChA.IsInnDiagFieldAut S θ := by
-  haveI : CharP K 2 := burnsideA26_charP_two hK
+  have : CharP K 2 := burnsideA26_charP_two hK
   let Φ := projectiveSpecialLinearGroupEquivStatedProj 2 K
   obtain ⟨g, σ, hgσ⟩ := CFSG.RankThree.PartTwo.KFacts.exists_pglAction_mul_psl2FieldAut
     (MulAut.congr (e.trans Φ.symm) θ)
@@ -897,7 +897,7 @@ theorem burnsideA26_3d4_abs {G : Type} [Group G] [Finite G]
     (hy₁₂ : y₁ * y₂ = y₂ * y₁) (hy₁1 : y₁ ≠ 1) (hy₂ : y₂ ∉ Subgroup.zpowers y₁) (x : G) :
     Nat.Coprime (orderOf (Θ (MulAut.congr
       (e.trans (burnsideA26_dcqEquiv H C hHC hZC)) (burnsideA26_indAut L x)))) 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hnc
   have h3 : 3 ∣ orderOf (Θ (MulAut.congr
       (e.trans (burnsideA26_dcqEquiv H C hHC hZC)) (burnsideA26_indAut L x))) := by
@@ -1029,7 +1029,7 @@ theorem burnsideA26_3d4
       ((↥L ⧸ pCore 2 ↥L) ⧸ Subgroup.center (↥L ⧸ pCore 2 ↥L)) .trialityD4 2 n) (x : G) :
     ChA.IsInnDiagFieldAut ((↥L ⧸ pCore 2 ↥L) ⧸ Subgroup.center (↥L ⧸ pCore 2 ↥L))
       (burnsideA26_indAut L x) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcenter : Subgroup.center (↥L ⧸ pCore 2 ↥L) = ⊥ := burnsideA26_center_bar hq hS
   obtain ⟨hadm, K, _, _, hcard, σ, hσ, ⟨e⟩⟩ := id hS
   have hf : 1 ≤ n := hadm.2.1
@@ -1039,12 +1039,12 @@ theorem burnsideA26_3d4
   have hσσ' : σ'.toRingHom = σ := RingHom.ext fun c => by
     rw [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, hσ', hσ]
   subst hσσ'
-  haveI : CharP K 2 := burnsideA26_charP_two (n := 3 * n) (by rw [hK, ← pow_mul, mul_comm])
+  have : CharP K 2 := burnsideA26_charP_two (n := 3 * n) (by rw [hK, ← pow_mul, mul_comm])
   have hK2 : ringChar K = 2 := ringChar.eq K 2
   obtain ⟨hactEq, hNF, ⟨Θ, hΘ, -, hΘker, -⟩, hcyc, hcardAut, hHC, hZC, -⟩ :=
     even_triality_exact_automorphism_normal_form hf K hK σ' hσ'
-  haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
-  haveI : IsCyclic (K ≃+* K) := hcyc
+  have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
+  have : IsCyclic (K ≃+* K) := hcyc
   have hσ'3 : σ' ^ 3 = 1 := by
     have h1 := pow_orderOf_eq_one σ'
     rwa [hσ'ord] at h1
@@ -1061,9 +1061,9 @@ theorem burnsideA26_3d4
     refine ⟨g, ?_⟩
     rw [hΘ m g δ hgδ]
     exact hgδ
-  haveI : CharP (fixSubfield σ') 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2
+  have : CharP (fixSubfield σ') 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2
     (by exact_mod_cast two_eq_zero_fixSubfield σ' hK2)
-  haveI : Finite (fixSubfield σ') := Subtype.finite
+  have : Finite (fixSubfield σ') := Subtype.finite
   obtain ⟨y₁, y₂, hy₁3, hy₂3, hy₁₂, hy₁1, hy₂⟩ := burnsideA26_g2_E9 (k := fixSubfield σ')
   have hcop := fun x' : G => burnsideA26_3d4_abs hSQT3 L hcenter
     (twistedFixedGroup TwistTag.D4 K σ'.toRingHom)
@@ -1384,9 +1384,9 @@ theorem burnsideA26_psl2_odd_inner {K : Type} [Field K] [Finite K] {p k : ℕ} (
 theorem burnsideA26_a6 {S : Type} [Group S] (e : S ≃* alternatingGroup (Fin 6)) (θ : MulAut S)
     (hθ : Odd (orderOf θ)) : θ ∈ (MulAut.conj : S →* MulAut S).range := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK9 : Nat.card (GaloisField 3 2) = 3 ^ 2 := GaloisField.card 3 2 (by norm_num)
-  haveI : Fintype (GaloisField 3 2) := Fintype.ofFinite _
+  have : Fintype (GaloisField 3 2) := Fintype.ofFinite _
   obtain ⟨e0⟩ := unique_field_nine_projective_linear_alternating_six_isomorphism
     (GaloisField 3 2) (by rw [← Nat.card_eq_fintype_card, hK9]; norm_num)
   exact burnsideA26_psl2_odd_inner Nat.prime_three hK9 (Or.inr rfl) (e.trans e0.symm) θ hθ
@@ -1458,7 +1458,7 @@ theorem as_A_2_6
     exact burnsideA26_u3 hn2 hcard e θ hodd
   ·
     obtain ⟨-, K, _, _, hcard, ⟨e⟩⟩ := hm
-    haveI := burnsideA26_charP_two hcard
+    have := burnsideA26_charP_two hcard
     exact burnsideA26_sp4 hcard e θ hodd
   ·
     obtain ⟨⟨-, hn1, hn3⟩, K, _, _, hcard, ⟨e⟩⟩ := hm

@@ -25,8 +25,8 @@ theorem tw_index_eq_three {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
     (((twistedE6RootGroup K σ).map (baseChangeGL (algebraMap K (AlgebraicClosure K)))).subgroupOf
         (twistedFixedGroup TwistTag.E6 (AlgebraicClosure K) Fr)).index = 3 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨hfinR, -, hder, ⟨kk, hk⟩, -, hRcard, -⟩ :=
     CFSG.RankThree.Classical2.twisted_E6_full_rational_fixed_group_order hp hf K hK σ.toRingHom hσ
       (AlgebraicClosure K) Fr hFr
@@ -68,8 +68,8 @@ theorem tw_index_eq_three {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
     have hpos : 1 ≤ (p ^ f) ^ 2 := Nat.one_le_pow _ _ (pow_pos hp.pos f)
     omega
   have hCpos : 0 < Nat.card C := by
-    haveI : Finite (Module.End K (RootModule TwistTag.E6.tag K)) := Module.finite_of_finite K
-    haveI : Finite (ModGL TwistTag.E6.tag K) := inferInstance
+    have : Finite (Module.End K (RootModule TwistTag.E6.tag K)) := Module.finite_of_finite K
+    have : Finite (ModGL TwistTag.E6.tag K) := inferInstance
     have h1 : Nat.card C = Nat.card (twistedE6RootGroup K σ) :=
       Subgroup.card_map_of_injective (baseChangeGL_injective _)
     rw [h1]
@@ -97,7 +97,7 @@ theorem tw_class_correction {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
   obtain ⟨-, hnormal, hidx⟩ := tw_index_eq_three hp hf hK σ hσ hq Fr hFr
   set R := twistedFixedGroup TwistTag.E6 (AlgebraicClosure K) Fr with hR
   set C := (twistedE6RootGroup K σ).map (baseChangeGL (algebraMap K (AlgebraicClosure K))) with hC
-  haveI := hnormal
+  have := hnormal
   set N : Subgroup R := C.subgroupOf R with hN
   let mk : R →* R ⧸ N := QuotientGroup.mk' N
   have hcard : Nat.card (⊤ : Subgroup (R ⧸ N)) ∣ 3 := by

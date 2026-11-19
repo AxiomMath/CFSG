@@ -13,7 +13,7 @@ variable {X : Type} [Group X] [Finite X] {J D E : Subgroup X} {a : X}
 
 theorem GomiU42Data.not_mem_E (h : GomiU42Data X J D E a) : a ∉ E := by
   intro haE
-  haveI := h.elementary
+  have := h.elementary
   have h1 : E ⊓ centralizer ({a} : Set X) = E := by
     apply le_antisymm inf_le_left
     refine le_inf le_rfl fun x hx => ?_

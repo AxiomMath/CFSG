@@ -16,7 +16,7 @@ variable {E : Type*} [CommGroup E]
 theorem exists_ne_one_six_le_finrank_Csub [Finite E] (hE3 : ∀ e : E, e ^ 3 = 1)
     (ρ : E →* Module.End (ZMod 2) V) (hρ : ∀ e : E, (∀ v, ρ e v = v) → e = 1)
     (hE : Nat.card E = 3 ^ 4) : ∃ a : E, a ≠ 1 ∧ 6 ≤ finrank (ZMod 2) (Csub ρ a ⊤) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : ∀ e : E, ∀ u ∈ (⊤ : Submodule (ZMod 2) V), ρ e u ∈ (⊤ : Submodule (ZMod 2) V) :=
     fun _ _ _ => Submodule.mem_top
   obtain ⟨y₀, hy₀⟩ : ∃ y : E, y ≠ 1 := by
@@ -102,6 +102,7 @@ section Form
 
 variable (b : LinearMap.BilinForm (ZMod 2) V)
 
+omit [Module.Finite (ZMod 2) V] in
 theorem apply_eq_zero_of_mem_Csub_of_mem_Dsub (ρ : E →* Module.End (ZMod 2) V) {a : E}
     (ha : ∀ u v, b (ρ a u) (ρ a v) = b u v) {x y : V} (hx : x ∈ Csub ρ a ⊤)
     (hy : y ∈ Dsub ρ a ⊤) : b x y = 0 := by
@@ -119,6 +120,7 @@ theorem apply_eq_zero_of_mem_Csub_of_mem_Dsub (ρ : E →* Module.End (ZMod 2) V
   have key : ∀ c : ZMod 2, c + c + c = c := by decide
   rwa [key] at h3
 
+omit [Module.Finite (ZMod 2) V] in
 theorem nondegenerate_restrict_Csub [Finite E] (hE3 : ∀ e : E, e ^ 3 = 1) (hb : b.Nondegenerate)
     (hsymm : ∀ u v, b u v = b v u) (ρ : E →* Module.End (ZMod 2) V) {a : E}
     (ha : ∀ u v, b (ρ a u) (ρ a v) = b u v) : (b.restrict (Csub ρ a ⊤)).Nondegenerate := by
@@ -145,7 +147,7 @@ theorem exists_hyperbolic_triple [Finite E] (hE3 : ∀ e : E, e ^ 3 = 1) (hb : b
     ∃ e f : Fin 3 → V, (∀ i, ρ a (e i) = e i) ∧ (∀ i, ρ a (f i) = f i) ∧
       (∀ i j, b (e i) (e j) = 0) ∧ (∀ i j, b (f i) (f j) = 0) ∧
       ∀ i j, b (e i) (f j) = if i = j then 1 else 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsymm : ∀ u v, b u v = b v u := fun u v => by
     rw [← hbalt.neg_eq u v, ZMod.neg_eq_self_mod_two]
   have hnd := nondegenerate_restrict_Csub b hE3 hb hsymm ρ ha

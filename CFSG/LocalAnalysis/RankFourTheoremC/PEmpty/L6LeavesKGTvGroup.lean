@@ -49,13 +49,13 @@ theorem eq_bot_of_pow_four [Finite X] [N.Normal] (hNs : IsSimpleGroup ↥N)
   rcases eq_bot_or_le_of_normal hNs hC (K := K) with h | h
   · exact h
   · exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hp : IsPGroup 2 ↥N := fun g => ⟨2, by
       apply Subtype.ext
       have := h4 (g : X) (h g.2)
       simpa using this⟩
     obtain ⟨x, y, hxy⟩ := hNn
-    haveI : Nontrivial ↥N := ⟨⟨x, 1, fun h1 => hxy (by rw [h1, one_mul, mul_one])⟩⟩
+    have : Nontrivial ↥N := ⟨⟨x, 1, fun h1 => hxy (by rw [h1, one_mul, mul_one])⟩⟩
     have hbot := hp.bot_lt_center
     rcases hNs.eq_bot_or_eq_top_of_normal (Subgroup.center ↥N) with hc | hc
     · rw [hc] at hbot
@@ -81,7 +81,7 @@ theorem exists_irreducible_module [Finite X] [N.Normal] (hNs : IsSimpleGroup ↥
   have hO2 : ∀ K : Subgroup (LinearMap.GeneralLinearGroup (ZMod 2) M), K ≤ ρ₀.range →
       (∀ x ∈ ρ₀.range, ∀ k ∈ K, x * k * x⁻¹ ∈ K) → (∀ k ∈ K, k ^ 4 = 1) → K = ⊥ := by
     intro K hKR hKn hK4
-    haveI : (K.comap ρ₀).Normal := ⟨fun n hn g => by
+    have : (K.comap ρ₀).Normal := ⟨fun n hn g => by
       have := hKn (ρ₀ g) ⟨g, rfl⟩ (ρ₀ n) hn
       rwa [← map_mul, ← map_inv, ← map_mul] at this⟩
     have h4 : ∀ k ∈ K.comap ρ₀, k ^ 4 = 1 := fun k hk =>
@@ -97,7 +97,7 @@ theorem exists_irreducible_module [Finite X] [N.Normal] (hNs : IsSimpleGroup ↥
   let S : i285_Setup M := ⟨ρ₀.range, φ, a₀, hφa, hφ, ha₀, hτX, hO2⟩
   have hSτ : S.τ = ρ₀ a := hτeq.symm
   have hXW : S.X ≤ S.W := by
-    haveI : (S.W.comap ρ₀).Normal := ⟨fun n hn g => by
+    have : (S.W.comap ρ₀).Normal := ⟨fun n hn g => by
       have := S.conj_mem_W (x := ρ₀ g) ⟨g, rfl⟩ (w := ρ₀ n) hn
       rwa [← map_mul, ← map_inv, ← map_mul] at this⟩
     have haW : a ∈ S.W.comap ρ₀ := by

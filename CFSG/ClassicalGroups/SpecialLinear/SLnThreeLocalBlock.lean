@@ -67,12 +67,12 @@ theorem commute_blockEmb_blockEmb (hn : n = 6 ∨ n = 7) {j j' : Fin 3} (hjj : j
   carrier := {g | ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ w = w}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Subgroup.coe_mul, Units.val_mul, ← Matrix.mulVec_mulVec] at *
+    simp only [Set.mem_ofPred_eq, Subgroup.coe_mul, Units.val_mul, ← Matrix.mulVec_mulVec] at *
     rw [hb, ha]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     have h1 : (((a : GL (Fin n) K)⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ
         (((a : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ w) = w := by
       rw [Matrix.mulVec_mulVec]
@@ -115,7 +115,7 @@ theorem blockEmb_mulVec_vecOfBlk_of_ne (hn : n = 6 ∨ n = 7) {j i : Fin 3} (hij
   · subst hk
     have : (fun q => (Pi.single (p, i) (1 : K) : Blk → K) (q, k)) = 0 := by
       funext q
-      simp [Pi.single_apply, hij.symm]
+      simp [hij.symm]
     simp [this]
   · simp [Pi.mulSingle_eq_of_ne hk]
 

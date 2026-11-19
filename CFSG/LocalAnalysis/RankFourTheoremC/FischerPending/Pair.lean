@@ -50,7 +50,7 @@ theorem ObstructionSetting.exists_invariantTwoMaximalWithin_inf_centralizer_ne_b
   have hXc : Nat.Coprime p (Nat.card X) := coprime_card_pPrimeCoreIn_sup hN₀M
   let φ := ambientSubgroupActionHom (P : Subgroup G) X hPX
   let _ : MulDistribMulAction (P : Subgroup G) X := MulDistribMulAction.compHom X φ
-  obtain ⟨S, hSinv⟩ := coprime_pGroup_has_invariant_sylow p hprime P.isPGroup' hXc 2
+  obtain ⟨S, hSinv⟩ := coprime_pGroup_has_invariant_sylow p hprime P.isPGroup hXc 2
     Nat.prime_two
   have hSinv' : ∀ g : (P : Subgroup G), (S : Subgroup X).map (φ g).toMonoidHom = S := by
     intro g
@@ -73,7 +73,7 @@ theorem ObstructionSetting.exists_invariantTwoMaximalWithin_inf_centralizer_ne_b
   obtain ⟨n, hnP, hnD, hnC⟩ :=
     hS.exists_mem_normalizer_not_mem_centralizer hD1 hp hext hPD hDab hCD
   have hn : ∃ k : ℕ, n ^ (p ^ k) = 1 := by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨n, hnP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨n, hnP⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   have hnz : n * z = z * n := mem_centralizer_iff.mp hzc n hnP
   have hbot : ∀ d ∈ D, d ∉ zpowers z → T₀ ⊓ centralizer ({d} : Set G) = ⊥ := fun d hd hdz =>
@@ -140,7 +140,7 @@ theorem ObstructionSetting.transitivity_data (hS : ObstructionSetting G) (hD1 : 
   have hPM := hS.sylow_le hp hM
   have hDM : D ≤ M := hext.obstruction.2.1.trans hPM
   obtain ⟨A, hAP, hA, hAc⟩ := hS.exists_elemAbelian_card_eq hp P
-  obtain ⟨-, z, hzD, hz1, hzc, hzp, -⟩ := isolatedPlane_structure hprime P.isPGroup'
+  obtain ⟨-, z, hzD, hz1, hzc, hzp, -⟩ := isolatedPlane_structure hprime P.isPGroup
     (hext.isIsolatedPlane_of_isMulCommutative hprime hDab) hAP
     ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p A).2 hA) hAc
   have hPN₀ := le_normalizer_zpowers_of_le_centralizer hzc
@@ -199,7 +199,7 @@ theorem ObstructionSetting.exists_relative_pair (hS : ObstructionSetting G) (hD1
       le_normalizer_pPrimeCoreIn_sup hPM hPN₀
     have hX := h13 p hp P M D hext hPD hDab z hzD hz1 hzc hzp
     obtain ⟨c, hcC, hc⟩ := rank_two_maximal_two_subgroups_common_signalizer_transitivity p
-      hprime D R₀ T₀ _ (P.isPGroup'.to_le hDP) hR₀ hT₀max (coprime_card_pPrimeCoreIn_sup hN₀M)
+      hprime D R₀ T₀ _ (P.isPGroup.to_le hDP) hR₀ hT₀max (coprime_card_pPrimeCoreIn_sup hN₀M)
       (hDP.trans hPX) (hX R₀ (global_invariant_two_maximal_is_maximal_within D M R₀ hR₀ hR₀M)).le
       (hX T₀ hT₀).le
     have hcomp : (MulAut.conj c).toMonoidHom.comp (MulAut.conj g).toMonoidHom =

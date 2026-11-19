@@ -93,7 +93,7 @@ theorem e3_20 (hV : IsElemAbelian 2 V) {T : Sylow 2 G} {M H : Subgroup G}
     exact_mod_cast hlt
   have hTH : (T : Subgroup G) ≤ H := hH.1.1
   have hTS : IsSylowIn 2 (T : Subgroup G) H :=
-    ⟨hTH, T.isPGroup', fun h2 => T.not_dvd_index (h2.trans (Subgroup.relIndex_dvd_index_of_le hTH))⟩
+    ⟨hTH, T.isPGroup, fun h2 => T.not_dvd_index (h2.trans (Subgroup.relIndex_dvd_index_of_le hTH))⟩
   have h19 := e3_19 hV hTS (i := 0) hj.symm (by simpa using hjs)
   have key : ∀ Y : Subgroup G, (T : Subgroup G) ≤ Y → Y < H → Y ≤ M := by
     intro Y hTY hYH
@@ -129,7 +129,7 @@ theorem e3_20 (hV : IsElemAbelian 2 V) {T : Sylow 2 G} {M H : Subgroup G}
         rw [← h]
         exact inf_le_right
       have hWH : wClos V 0 (T : Subgroup G) ≤ H := (wClos_le (V := V) _ _).trans hTH
-      refine CFSG.LieType.BorelTits.le_pCoreOf 2 hWH ?_ (T.isPGroup'.to_le (wClos_le (V := V) _ _))
+      refine CFSG.LieType.BorelTits.le_pCoreOf 2 hWH ?_ (T.isPGroup.to_le (wClos_le (V := V) _ _))
       exact (Subgroup.normal_subgroupOf_iff_le_normalizer hWH).2 hHN
     exact key _ (le_inf hTH hTN) hlt'
 

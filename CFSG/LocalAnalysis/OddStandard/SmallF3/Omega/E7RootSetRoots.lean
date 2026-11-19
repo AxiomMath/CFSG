@@ -45,7 +45,7 @@ private theorem e7RootsP1_rootList_lt : ∀ c ∈ rootList, c < 2187 := by
 
 private theorem e7RootsP1_certCodes_lt : ∀ c ∈ e7RootsP1_certCodes, c < 2187 := by
   intro c hc
-  simp only [e7RootsP1_certCodes, List.mem_map, Function.comp_apply] at hc
+  simp only [e7RootsP1_certCodes, List.mem_map] at hc
   obtain ⟨v, -, rfl⟩ := hc
   exact encV_lt (redV v)
 
@@ -67,7 +67,7 @@ private theorem e7RootsP1_decSet_tables :
 private theorem e7RootsP1_set_eq :
     ({α : Fin Tag.E7.rank → ℤ | IsRoot Tag.E7 α} : Set _) = ↑e7RootsP1_certVecs.toFinset := by
   ext v
-  rw [Set.mem_setOf_eq, Finset.mem_coe, List.mem_toFinset]
+  rw [Set.mem_ofPred_eq, Finset.mem_coe, List.mem_toFinset]
   exact e7RootsP1_isRoot_iff v
 
 private theorem e7RootsP1_certCodes_image :

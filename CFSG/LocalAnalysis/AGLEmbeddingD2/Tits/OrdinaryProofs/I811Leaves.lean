@@ -41,7 +41,7 @@ theorem isSylowTwoOf_of_normalizer {G : Type*} [Group G] [Finite G] {U I : Subgr
     have hmem : (⟨u, hUI hu⟩ : I) ∈ U.subgroupOf I := hu
     exact Subgroup.mem_map.mpr ⟨⟨u, hUI hu⟩, hWT hmem, rfl⟩
   have hZ2 : IsPGroup 2 Z := by
-    exact T.isPGroup'.map I.subtype
+    exact T.isPGroup.map I.subtype
   have hZsub : Z.subgroupOf I = T.toSubgroup := by
     rw [hZdef]
     exact Subgroup.comap_map_eq_self_of_injective Subtype.val_injective _

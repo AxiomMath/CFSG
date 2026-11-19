@@ -24,9 +24,9 @@ variable {m : ℕ} {F : Type} [Field F]
 
 private theorem isPerfect_gramSU_five (hF : UnitaryFieldData 2 m F) :
     Group.IsPerfect ↥(gramSU hF ((1 : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F)) := by
-  haveI := hF.finite
-  haveI : CharP F 2 := hF.charP
-  haveI := isPerfect_statedSU_odd (p := 2) (f := m) (F := F)
+  have := hF.finite
+  have : CharP F 2 := hF.charP
+  have := isPerfect_statedSU_odd (p := 2) (f := m) (F := F)
     (by rw [hF.card, ← pow_mul, mul_comm]) (n := 5) (by norm_num)
     (fun hh => absurd (Prod.mk.inj hh).1 (by norm_num))
   have hHS : StatedSU 5 (2 ^ m) F =
@@ -46,8 +46,8 @@ theorem exists_su5_cover (hF : UnitaryFieldData 2 m F) {L : Type} [Group L] [Fin
         (g : primeFormP hF ((1 : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F))) ∧
       (normOneScalars hF (gramSU hF ((1 : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F)) 5).map α =
         Subgroup.center L := by
-  haveI := hF.finite
-  haveI : CharP F 2 := hF.charP
+  have := hF.finite
+  have : CharP F 2 := hF.charP
   obtain ⟨β, hβs, hβk, hβ⟩ : ∃ β : gramSU hF ((1 : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F) →*
       primeFormP hF ((1 : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F), Function.Surjective β ∧
       β.ker = normOneScalars hF (gramSU hF ((1 : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F)) 5 ∧
@@ -120,7 +120,7 @@ theorem conj_apply_eq_of_cover {Ω : Type} [Group Ω] {K : Subgroup Ω}
     (g : gramSU hF ((1 : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F)) :
     b * (α g : Ω) * b⁻¹ =
       α (primeFormConjSU hF ((1 : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F) A g) := by
-  haveI := isPerfect_gramSU_five hF
+  have := isPerfect_gramSU_five hF
   obtain ⟨c, hc⟩ : ∃ c : MulAut ↥K, ∀ k : ↥K, (c k : Ω) = b * k * b⁻¹ :=
     ⟨Subgroup.normalizerMonoidHom (H := K) ⟨b, hb⟩, fun _ => rfl⟩
   have key := CFSG.LieType.Steinberg.eq_of_comp_eq_of_isPerfect

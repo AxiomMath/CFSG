@@ -47,12 +47,12 @@ theorem lieCompExport_of_quasisimple_fix {q : ℕ} {S : Type} [Group S] [Finite 
     (hA6 : IsEmpty ((↥(fixSubgroup β) ⧸ Subgroup.center ↥(fixSubgroup β)) ≃*
       alternatingGroup (Fin 6))) :
     LieCompExport q β := by
-  haveI hn : ((fixSubgroup β).subgroupOf (fixSubgroup β)).Normal := by
+  have hn : ((fixSubgroup β).subgroupOf (fixSubgroup β)).Normal := by
     rw [Subgroup.subgroupOf_self]
     exact Subgroup.normal_top
   have hsol : Group.IsSolvable
       (↥(fixSubgroup β) ⧸ (fixSubgroup β).subgroupOf (fixSubgroup β)) := by
-    haveI : Subsingleton (↥(fixSubgroup β) ⧸ (fixSubgroup β).subgroupOf (fixSubgroup β)) := by
+    have : Subsingleton (↥(fixSubgroup β) ⧸ (fixSubgroup β).subgroupOf (fixSubgroup β)) := by
       refine ⟨fun a b => ?_⟩
       induction a using QuotientGroup.induction_on with | H a => ?_
       induction b using QuotientGroup.induction_on with | H b => ?_
@@ -108,13 +108,13 @@ theorem lieCompExport_reeGamma_inner {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field 
     (y : ReeTag.F4.reeGamma K a) (hy : orderOf y = 3) :
     LieCompExport 2 (MulAut.conj y) := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨e⟩ := CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.centralizer_mulEquiv_unitarySU a K
     hK y hy
   have hF'card : Nat.card (GaloisField 2 (2 * (2 * a + 1))) = (2 ^ (2 * a + 1)) ^ 2 := by
     rw [GaloisField.card 2 _ (by omega), ← pow_mul, mul_comm]
-  haveI : Fintype (GaloisField 2 (2 * (2 * a + 1))) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (2 * (2 * a + 1))) := Fintype.ofFinite _
   have hF'fcard : Fintype.card (GaloisField 2 (2 * (2 * a + 1))) = (2 ^ (2 * a + 1)) ^ 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hF'card
@@ -136,7 +136,7 @@ theorem lieCompExport_reeGamma_inner {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field 
       hF'fcard (by norm_num) hmq
     rw [hch] at h
     exact h
-  haveI : Finite ↥(CFSG.Open.StatedSU 3 (2 ^ (2 * a + 1)) (GaloisField 2 (2 * (2 * a + 1)))) :=
+  have : Finite ↥(CFSG.Open.StatedSU 3 (2 ^ (2 * a + 1)) (GaloisField 2 (2 * (2 * a + 1)))) :=
     Finite.of_equiv _ E.toEquiv
   refine lieCompExport_of_quasisimple_fix (q := 2) (CFSG.LocalCores.isQuasisimple_of_mulEquiv
     E.symm hq) ⟨_, inferInstance, inferInstance, hFD, E.symm.toMonoidHom, E.symm.surjective, ?_⟩
@@ -166,7 +166,7 @@ theorem exists_fixSubgroup_fieldAut_equiv {a : ℕ} {K : Type} [Field K] [Finite
     exact charP_of_card_eq_prime_pow (f := 2 * b + 1) (by
       rw [← Nat.card_eq_fintype_card, hkcard]
       rfl)
-  haveI := hchar
+  have := hchar
   have hFix : fixSubgroup (ReeTag.F4.reeGammaFieldAut K a σ) =
       (ReeTag.F4.reeGammaFieldAut K a σ).toMonoidHom.eqLocus (MonoidHom.id _) := rfl
   refine ⟨b, hkcard, hchar, ⟨?_⟩⟩
@@ -180,16 +180,16 @@ theorem lieCompExport_reeGamma_fieldAut {a : ℕ} {K : Type} [Field K] [Finite K
     [CharP K ReeTag.F4.prime] (hK : Nat.card K = 2 ^ (2 * a + 1)) (σ : K ≃+* K)
     (hσ : orderOf σ = 3) : LieCompExport 2 (ReeTag.F4.reeGammaFieldAut K a σ) := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨b, hkcard, hchar, ⟨eC⟩⟩ := exists_fixSubgroup_fieldAut_equiv hK Nat.prime_three
     (by norm_num) σ hσ
-  haveI := hchar
-  haveI : Finite (fixSubfield σ) := Subtype.finite
-  haveI : Finite (ModGL ReeTag.F4.tag (fixSubfield σ)) := finite_modGL
-  haveI : Finite ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) := Subtype.finite
+  have := hchar
+  have : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag (fixSubfield σ)) := finite_modGL
+  have : Finite ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) := Subtype.finite
   set δ := ReeTag.F4.reeGammaFieldAut K a σ with hδ
-  haveI : Finite ↥(fixSubgroup δ) := Subtype.finite
+  have : Finite ↥(fixSubgroup δ) := Subtype.finite
   rcases Nat.eq_zero_or_pos b with rfl | hb
   ·
     have hk2 : Nat.card (fixSubfield σ) = 2 := by simpa using hkcard
@@ -204,12 +204,12 @@ theorem lieCompExport_reeGamma_fieldAut {a : ℕ} {K : Type} [Field K] [Finite K
         (commutatorMulEquiv (ReeTag.reeFixedEquivReeGamma (fixSubfield σ) 0).symm))
     let eJ : ↥⁅fixSubgroup δ, fixSubgroup δ⁆ ≃* (CFSGIndex.lie ⟨.tits, hv⟩).Group := eJT.trans eT
     have hT := (CFSG.LieType.Simplicity.titsData (fixSubfield σ) hk2).isQuasisimple hk2
-    haveI : Finite ↥(commutator ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0)) := Subtype.finite
-    haveI : Finite ↥⁅fixSubgroup δ, fixSubgroup δ⁆ := Subtype.finite
-    haveI : IsSimpleGroup (CFSGIndex.lie ⟨.tits, hv⟩).Group :=
+    have : Finite ↥(commutator ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0)) := Subtype.finite
+    have : Finite ↥⁅fixSubgroup δ, fixSubgroup δ⁆ := Subtype.finite
+    have : IsSimpleGroup (CFSGIndex.lie ⟨.tits, hv⟩).Group :=
       (CFSG.LieType.Simplicity.fam_tits_simplicity _ 2 1
         (CFSG.RankThree.PartOne.CTP.reeTitsModel_tits ⟨hv, ⟨MulEquiv.refl _⟩⟩)).2
-    haveI hJs : IsSimpleGroup ↥⁅fixSubgroup δ, fixSubgroup δ⁆ :=
+    have hJs : IsSimpleGroup ↥⁅fixSubgroup δ, fixSubgroup δ⁆ :=
       (MulEquiv.isSimpleGroup_congr eJ).2 inferInstance
     obtain ⟨xT, yT, hxyT⟩ := exists_noncomm_of_isQuasisimple hT
     have hJnc : ∃ x y : ↥⁅fixSubgroup δ, fixSubgroup δ⁆, x * y ≠ y * x :=
@@ -234,7 +234,7 @@ theorem lieCompExport_reeGamma_fieldAut {a : ℕ} {K : Type} [Field K] [Finite K
     let E : ↥(fixSubgroup δ) ≃* (CFSGIndex.lie ⟨.reeF4 b, hv⟩).Group := eC.trans eCat.symm
     have hs : IsSimpleGroup ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) :=
       CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb hkcard
-    haveI : IsSimpleGroup ↥(fixSubgroup δ) := (MulEquiv.isSimpleGroup_congr eC).2 hs
+    have : IsSimpleGroup ↥(fixSubgroup δ) := (MulEquiv.isSimpleGroup_congr eC).2 hs
     have hnc : ∃ x y : ↥(fixSubgroup δ), x * y ≠ y * x := by
       by_contra hcon
       push Not at hcon
@@ -251,7 +251,7 @@ theorem lieCompExport_reeGamma_fieldAut {a : ℕ} {K : Type} [Field K] [Finite K
         exact h
       rw [hperf] at hc
       exact top_ne_bot hc
-    haveI : IsSimpleGroup (CFSGIndex.lie ⟨.reeF4 b, hv⟩).Group :=
+    have : IsSimpleGroup (CFSGIndex.lie ⟨.reeF4 b, hv⟩).Group :=
       (MulEquiv.isSimpleGroup_congr E).1 inferInstance
     refine lieCompExport_of_quasisimple_fix (LieSemisimple.isQuasisimple_of_isSimpleGroup
       inferInstance hnc)
@@ -271,8 +271,8 @@ theorem lieCompExport_reeF4 (m : ℕ) (hv : (LieTypeIndex.reeF4 m).Valid) {S : T
   obtain ⟨-, a, ha, -, K, _, _, _, hK, ⟨e⟩⟩ :=
     CFSG.RankThree.PartTwo.Sec4.exists_mulEquiv_reeGamma hR
   refine LieCompExport.of_congr e ?_
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   have hβ' : (MulAut.congr e β) ^ 3 = 1 := by rw [← map_pow, hβ, map_one]
   have hβ1' : MulAut.congr e β ≠ 1 := fun h =>
     hβ1 ((MulAut.congr e).injective (h.trans (map_one _).symm))

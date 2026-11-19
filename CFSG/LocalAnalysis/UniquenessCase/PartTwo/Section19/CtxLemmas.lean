@@ -30,6 +30,7 @@ theorem exists_isElemAbelian_card_prime_sq_of_isZModSq {A : Subgroup G} {n r : �
     exact hr.dvd_of_dvd_pow hdvd
   exact CFSG.GroupTheory.exists_isElemAbelian_card_prime_sq_of_mulEquiv_zmod_sq e hr hdvd'
 
+omit [Finite G] in
 theorem mem_powTorsionSubgroup {A : Subgroup G} [IsMulCommutative ↥A] {r : ℕ} {x : G} :
     x ∈ (MonoidHom.ker (powMonoidHom r : ↥A →* ↥A)).map A.subtype ↔
       x ∈ A ∧ x ^ r = 1 := by

@@ -49,7 +49,7 @@ theorem blk3_isometry (hk : ∀ c ∈ k, σ c = c) {A : Matrix (Fin 2) (Fin 2) k
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [conjTr, blk3, Matrix.mul_apply, Fin.sum_univ_three, hfix] <;>
-    first | ring1 | linear_combination hdet + (A 0 1 * A 1 0 : F) * h2 |
+    first | linear_combination hdet + (A 0 1 * A 1 0 : F) * h2 |
       linear_combination (A 0 0 * A 1 0 : F) * h2 | linear_combination (A 0 1 * A 1 1 : F) * h2
 
 @[expose] noncomputable def blk3Elt (hk : ∀ c ∈ k, σ c = c)

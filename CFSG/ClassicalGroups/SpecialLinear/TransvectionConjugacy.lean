@@ -85,7 +85,7 @@ theorem exists_conj_transvSL_eq {K : Type*} [Field K]
     rw [hcols_eq]
     exact hli
   have hunit : IsUnit g0.det :=
-    (Matrix.isUnit_iff_isUnit_det _).mp (Matrix.linearIndependent_cols_iff_isUnit.mp hcols)
+    (Matrix.isUnit_iff_isUnit_det _).mp (Matrix.linearIndependent_col_iff_isUnit.mp hcols)
   let d : K := g0.det
   have hd : d ≠ 0 := hunit.ne_zero
   let D : Matrix (Fin 3) (Fin 3) K := Matrix.diagonal ![1, 1, d⁻¹]

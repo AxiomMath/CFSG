@@ -679,7 +679,7 @@ private theorem l1_claimA
 
 theorem sec6Lambda1At_of_ctrl
     {X : Type} [Group X] [Finite X] {n : ℕ} {t : X}
-    (hS : Sec6Setting X n t) (hK : Sec6Lemma51 X n) (hC : Sec6CtrlAt X n t)
+    (hS : Sec6Setting X n t) (_hK : Sec6Lemma51 X n) (hC : Sec6CtrlAt X n t)
     (hU : ∀ x ∈ Sec6M X n (cen t), orderOf x = 2 → ∀ L F : Subgroup X, Sec6MComp X n (cen t) L →
       Sec6KComp X n (cen x) F → sec6Piece L x ≤ F → F = oddCoreOf F ⊔ sec6Piece L x) :
     Sec6Lambda1At X n t := by

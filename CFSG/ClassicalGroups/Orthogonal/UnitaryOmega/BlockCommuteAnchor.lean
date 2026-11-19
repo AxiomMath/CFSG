@@ -22,9 +22,9 @@ theorem mem_normBlock_iff_fixes_suppPerp {n : ℕ} {S : Finset (Fin n)} (hS : 2 
     g ∈ normBlock E n S ↔ ∀ v ∈ suppPerp (normHypForm E n)
       (coordSupport (LinearEquiv.refl F ((F × F) × (Fin n → K))) S),
         (g : ((F × F) × (Fin n → K)) ≃ₗ[F] ((F × F) × (Fin n → K))) v = v := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   rw [normBlock, Subgroup.mem_subgroupOf,
     mem_supportedDerived_iff_mem_orthDerived (Q := normHypForm E n)
       (normHypForm_polarBilin_nondegenerate E n)
@@ -56,9 +56,9 @@ theorem fixes_anchor_of_commute_normBlock {n : ℕ} (hn : 2 ≤ n) {S : Finset (
     ∀ w : F × F,
       (a : ((F × F) × (Fin n → K)) ≃ₗ[F] ((F × F) × (Fin n → K))) (w, 0) = (w, 0) := by
   classical
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
-  haveI : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   obtain ⟨k, hk⟩ : S.Nonempty := Finset.card_pos.mp (by omega)
   let V := (F × F) × (Fin n → K)
   let x : V := (0, Pi.single k 1)

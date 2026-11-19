@@ -185,7 +185,7 @@ theorem family_top :
     f.family ⊤ = {X | ∃ P : Subgroup G, IsSylowOf p P ⊤ ∧ ∃ F ∈ f.sets P,
       X = normalizer (F : Set G)} := by
   ext X
-  simp only [family, Set.mem_setOf_eq, top_inf_eq]
+  simp only [family, Set.mem_ofPred_eq, top_inf_eq]
 
 theorem isNormalSetIn_family [Finite G] [Fact p.Prime] (M : Subgroup G) :
     IsNormalSetIn (f.family M) M := by

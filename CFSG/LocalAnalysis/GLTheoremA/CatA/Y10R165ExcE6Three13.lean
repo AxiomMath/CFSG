@@ -36,8 +36,8 @@ theorem concl165Avoid_of_lifted_layers {H G 𝔽 : Type} [Group H] [Finite H] [G
     (hcomm : ∀ a ∈ J, ∀ b ∈ J₁, Commute a b) :
     Concl165Avoid H p q Ã π.ker := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   have hJperf : ⁅J, J⁆ = J :=
     (Subgroup.isPerfect_iff (H := J)).mp (Group.IsPerfect.mk hJq.1)
   obtain ⟨S, eS, hSleC, -, hSker, hSπ, -⟩ :=

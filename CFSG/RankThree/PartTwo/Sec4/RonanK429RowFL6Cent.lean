@@ -128,7 +128,7 @@ theorem no_seven_r2 {X : Matrix (Fin 6) (Fin 6) (ZMod 2)} (hX : X * r2M = r2M * 
 theorem not_seven_dvd_r2 (s : SL(6, ZMod 2)) (hs : (s : Matrix (Fin 6) (Fin 6) (ZMod 2)) = r2M) :
     ¬ 7 ∣ Nat.card (Subgroup.centralizer ({s} : Set SL(6, ZMod 2))) := by
   intro hdvd
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card'
     (G := Subgroup.centralizer ({s} : Set SL(6, ZMod 2))) 7 hdvd
   have hcomm : (g : SL(6, ZMod 2)) * s = s * g := Subgroup.mem_centralizer_singleton_iff.mp g.2
@@ -290,7 +290,7 @@ theorem ros_comm_rep3M (A : Matrix (Fin 3) (Fin 3) (GaloisField 2 2)) :
   rw [← ros_scalar_omega, ← map_mul, ← map_mul]
   congr 1
   ext i j
-  simp only [Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.of_apply]
+  simp only [Matrix.mul_diagonal, Matrix.diagonal_mul]
   exact mul_comm _ _
 
 theorem rosSL_le_centralizer (s : SL(6, ZMod 2))
@@ -339,11 +339,11 @@ end L6
 theorem L6.good429_r1 (s : SL(6, ZMod 2))
     (hs : (s : Matrix (Fin 6) (Fin 6) (ZMod 2)) = L6.r1M) :
     Good429 (Subgroup.centralizer ({s} : Set SL(6, ZMod 2))) := by
-  haveI : IsSimpleGroup SL(4, ZMod 2) := isSimpleGroup_SL_zmod_two (by norm_num)
-  haveI : Group.IsPerfect SL(4, ZMod 2) := isPerfect_of_simple L6.exists_not_comm_SL4
-  haveI : IsSimpleGroup L6.iota4.range :=
+  have : IsSimpleGroup SL(4, ZMod 2) := isSimpleGroup_SL_zmod_two (by norm_num)
+  have : Group.IsPerfect SL(4, ZMod 2) := isPerfect_of_simple L6.exists_not_comm_SL4
+  have : IsSimpleGroup L6.iota4.range :=
     (MonoidHom.ofInjective L6.iota4_injective).symm.isSimpleGroup
-  haveI : Group.IsPerfect L6.iota4.range :=
+  have : Group.IsPerfect L6.iota4.range :=
     Group.IsPerfect.ofSurjective (f := L6.iota4.rangeRestrict) L6.iota4.rangeRestrict_surjective
   have hcard : Nat.card L6.iota4.range = 20160 := by
     rw [← Nat.card_congr (MonoidHom.ofInjective L6.iota4_injective).toEquiv, card_SL4_zmod_two]
@@ -369,8 +369,8 @@ theorem L6.good429_r2 (s : SL(6, ZMod 2)) (hs : (s : Matrix (Fin 6) (Fin 6) (ZMo
 
 theorem L6.good429_r3 (s : SL(6, ZMod 2)) (hs : (s : Matrix (Fin 6) (Fin 6) (ZMod 2)) = rep3M) :
     Good429 (Subgroup.centralizer ({s} : Set SL(6, ZMod 2))) := by
-  haveI : Group.IsPerfect SL(3, GaloisField 2 2) := isPerfect_SL3_gf4
-  haveI : Group.IsPerfect rosSL.range :=
+  have : Group.IsPerfect SL(3, GaloisField 2 2) := isPerfect_SL3_gf4
+  have : Group.IsPerfect rosSL.range :=
     Group.IsPerfect.ofSurjective (f := rosSL.rangeRestrict) rosSL.rangeRestrict_surjective
   have hcard : Nat.card rosSL.range = 60480 := by
     rw [← Nat.card_congr (MonoidHom.ofInjective rosSL_injective).toEquiv, card_SL3_gf4]

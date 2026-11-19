@@ -67,7 +67,7 @@ theorem tab_lt (hg : FzbNorm P g) {x : ℕ} (hx : x < 64) : (C.tab g)[x]! < 64 :
   rw [tab_getElem C g hx]
   exact C.enc_lt _ (hg _ (C.dec_mem x hx))
 
-theorem tab_enc (hg : FzbNorm P g) {p : G} (hp : p ∈ P) :
+theorem tab_enc (_hg : FzbNorm P g) {p : G} (hp : p ∈ P) :
     (C.tab g)[C.enc p]! = C.enc (g * p * g⁻¹) := by
   rw [tab_getElem C g (C.enc_lt p hp), C.dec_enc p hp]
 
@@ -87,7 +87,7 @@ private theorem tab_enc_mul (C : FzbCoding P) {g : G} (hg : FzbNorm P g) {x y : 
       (g * C.dec x * g⁻¹) * (g * C.dec y * g⁻¹) := by group
   rw [heq, C.enc_mul _ hgx _ hgy]
 
-theorem tab_mul (hg : FzbNorm P g) (hg' : FzbNorm P g') {x : ℕ} (hx : x < 64) :
+theorem tab_mul (_hg : FzbNorm P g) (hg' : FzbNorm P g') {x : ℕ} (hx : x < 64) :
     (C.tab (g * g'))[x]! = (C.tab g)[(C.tab g')[x]!]! := by
   have hlt : (C.tab g')[x]! < 64 := tab_lt C hg' hx
   rw [tab_getElem C (g * g') hx, tab_getElem C g hlt, ← tab_dec C hg' hx]
@@ -201,7 +201,7 @@ theorem tab_fix_count (hg : FzbNorm P g) :
     exact Subtype.ext (C.dec_enc y.1 (Subgroup.mem_inf.mp y.2).1)
 
 theorem tab_twist {words : Array (List ℕ)} (hw : wordsOK words = true) {g : Array ℕ}
-    (hg : isAutArr g = true) {a : G} (ha : FzbNorm P a) {p0 : Array ℕ}
+    (hg : isAutArr g = true) {a : G} (_ha : FzbNorm P a) {p0 : Array ℕ}
     (h : conjP g (C.tab a) p0 = true) {x : ℕ} (hx : x < 64) :
     (C.twist hw g hg).enc (a * (C.twist hw g hg).dec x * a⁻¹) = p0[x]! := by
   set C' : FzbCoding P := C.twist hw g hg with hC'

@@ -25,7 +25,7 @@ private theorem matrix_pow_five_or_two_of_pow_ten (A : Matrix (Fin 4) (Fin 4) (Z
   have hdeg : μ.natDegree ≤ 4 := by
     have h1 := natDegree_le_of_dvd (Matrix.minpoly_dvd_charpoly A) (Matrix.charpoly_monic A).ne_zero
     rwa [Matrix.charpoly_natDegree_eq_dim, Fintype.card_fin] at h1
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h2 : (2 : (ZMod 2)[X]) = 0 := by
     have : ((2 : ℕ) : (ZMod 2)[X]) = 0 := CharP.cast_eq_zero _ 2
     simpa using this
@@ -78,7 +78,7 @@ end GLFourTwo
 private theorem false_of_prod_equiv {M K : Type} [Group M] [Group K] [Finite K]
     (e : M ≃* Equiv.Perm (Fin 3) × K) (h5 : 5 ∣ Nat.card K)
     (hno : ∀ y : M, y ^ 10 = 1 → y ^ 5 = 1 ∨ y ^ 2 = 1) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 5 h5
   have hτ10 : (Equiv.swap (0 : Fin 3) 1) ^ 10 = 1 := by decide
   have hτ5 : (Equiv.swap (0 : Fin 3) 1) ^ 5 ≠ 1 := by decide
@@ -162,9 +162,9 @@ theorem OrthData.not_isReducible_of_width_eq_four [IsSimpleGroup G]
       norm_num at hdvd
   · have h60' := h60 hp
     rcases O.iso with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
-    · haveI : Finite (timmesfeldOmega O.q) := Nat.finite_of_card_ne_zero (by omega)
+    · have : Finite (timmesfeldOmega O.q) := Nat.finite_of_card_ne_zero (by omega)
       exact false_of_prod_equiv e (by rw [h60']; norm_num) hno
-    · haveI : Finite (timmesfeldIsometries O.q) :=
+    · have : Finite (timmesfeldIsometries O.q) :=
         Nat.finite_of_card_ne_zero (by rw [hiso, h60']; norm_num)
       exact false_of_prod_equiv e (by rw [hiso, h60']; norm_num) hno
 

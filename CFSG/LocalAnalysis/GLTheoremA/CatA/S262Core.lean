@@ -35,7 +35,7 @@ theorem i262_of_lie_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (p = 3 ∧ (catalogIs K S265.tyA ∨ catalogIs K S265.tyUn ∨ catalogIs K S265.tyC ∨
         catalogIs K S265.tyD)) ∨
       (p = 5 ∧ catalogIs K S265.tyE) ∨ catalogIs K (S265.tyF p) := by
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv K e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv K e.toEquiv
   let A' : Subgroup (MulAut (TauCeti.CFSGIndex.lie d).Group) :=
     A.map (MulAut.congr e).toMonoidHom
   have hA' : IsElemAbelian p A' := hA.map _
@@ -145,7 +145,7 @@ theorem i262_of_psl27 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (p = 3 ∧ (catalogIs K S265.tyA ∨ catalogIs K S265.tyUn ∨ catalogIs K S265.tyC ∨
         catalogIs K S265.tyD)) ∨
       (p = 5 ∧ catalogIs K S265.tyE) ∨ catalogIs K (S265.tyF p) := by
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv K e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv K e.toEquiv
   let A' : Subgroup (MulAut (TauCeti.CFSGIndex.lie d).Group) :=
     A.map (MulAut.congr e).toMonoidHom
   have hA' : IsElemAbelian p A' := hA.map _
@@ -222,7 +222,7 @@ theorem i262_of_psu33 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (p = 3 ∧ (catalogIs K S265.tyA ∨ catalogIs K S265.tyUn ∨ catalogIs K S265.tyC ∨
         catalogIs K S265.tyD)) ∨
       (p = 5 ∧ catalogIs K S265.tyE) ∨ catalogIs K (S265.tyF p) := by
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv K e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv K e.toEquiv
   let A' : Subgroup (MulAut (TauCeti.CFSGIndex.lie d).Group) :=
     A.map (MulAut.congr e).toMonoidHom
   have hA' : IsElemAbelian p A' := hA.map _
@@ -285,9 +285,9 @@ theorem i262_of_parts (hExc : ∀ p : ℕ, p.Prime → p ≠ 2 → KD264ExcNoGoo
     | lie d =>
       have hchar : d.1.characteristic = 2 := by simpa [onLie] using hi
       exact i262_of_lie_two hp hp2 hExc hG d hchar e hpK A hA hAcard hgood
-    | alternating n hn => exact False.elim (by simpa [onLie] using hi)
-    | sporadic s => exact False.elim (by simpa [onLie] using hi)
-    | cyclic q hq => exact False.elim (by simpa [onLie] using hi)
+    | alternating n hn => exact False.elim (by simp [onLie] at hi)
+    | sporadic s => exact False.elim (by simp [onLie] at hi)
+    | cyclic q hq => exact False.elim (by simp [onLie] at hi)
   · rcases CFSG.StandardType.ChevTwo.ambiguousChev_two_cases hi with
       ⟨h5, rfl⟩ | ⟨h6, rfl⟩ | ⟨h8, rfl⟩ | ⟨q, hv, hq7, rfl⟩ | ⟨q, hv, hq3, rfl⟩
     · exact i262_of_alternating hp hp2 hA8 5 h5 (Or.inl rfl) e A hA hAcard hgood

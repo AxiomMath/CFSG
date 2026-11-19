@@ -40,8 +40,8 @@ theorem l2_om_sign_family {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     rintro _ ⟨j, rfl⟩ _ ⟨k, rfl⟩ _
     exact hr_comm j k
   let C : Subgroup (V ≃ₗ[K] V) := Subgroup.closure (Set.range r)
-  haveI hCcomm : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
-  letI : CommGroup C := { C.toGroup with mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
+  have hCcomm : IsMulCommutative C := Subgroup.isMulCommutative_closure hpair
+  let : CommGroup C := { C.toGroup with mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
   let f : Fin 8 → C := fun j => ⟨r j, Subgroup.subset_closure ⟨j, rfl⟩⟩
   let g : Finset (Fin 8) → V ≃ₗ[K] V := fun J => ((∏ j ∈ J, f j : C) : V ≃ₗ[K] V)
   have hC_le_O : C ≤ TauCeti.QuadraticMap.orthogonalGroup Q := by
@@ -71,7 +71,7 @@ theorem l2_om_sign_family {K V : Type} [Field K] [AddCommGroup V] [Module K V]
       exact mul_right_cancel₀ (hw0 j) (by rw [h1, one_mul])
     have hs0 : s ≠ 0 := by
       rintro rfl
-      simpa using hs2
+      simp at hs2
     have hconj : x i * r j * (x i)⁻¹ = r j := by
       rw [reflect_conj (hxO i) (w j), hs,
         CFSG.LocalAnalysis.ComponentInitial.reflect_smul_of_ne_zero hs0 (w j)]
@@ -103,15 +103,15 @@ theorem l2_om_sign_family {K V : Type} [Field K] [AddCommGroup V] [Module K V]
       rw [hg_insert a s ha, LinearEquiv.mul_apply]
       by_cases hka : k = a
       · rw [hka] at ih ⊢
-        rw [ih, if_neg ha, l2_reflect_apply_self (hw0 a)]
-        rw [if_pos (Finset.mem_insert_self a s)]
+        rw [ih, ite_eq_right ha, l2_reflect_apply_self (hw0 a)]
+        rw [ite_eq_left (Finset.mem_insert_self a s)]
       · have hak : a ≠ k := fun h => hka h.symm
         have hfix : r a (w k) = w k :=
           reflect_apply_of_polar_eq_zero (hwo a k hak)
         rw [ih]
         by_cases hks : k ∈ s
-        · rw [if_pos hks, map_neg, hfix, if_pos (Finset.mem_insert_of_mem hks)]
-        · rw [if_neg hks, hfix, if_neg (by simp [hks, hka])]
+        · rw [ite_eq_left hks, map_neg, hfix, ite_eq_left (Finset.mem_insert_of_mem hks)]
+        · rw [ite_eq_right hks, hfix, ite_eq_right (by simp [hks, hka])]
   · intro J hJe1 hJe2
     change ((∏ j ∈ J, f j : C) : V ≃ₗ[K] V) ∈
       ⁅TauCeti.QuadraticMap.orthogonalGroup Q,

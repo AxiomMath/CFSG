@@ -162,7 +162,7 @@ private theorem largeEvenMarking_suConjSet_two {f : ℕ} (hF : Nat.card F = (2 ^
     (φ : ↥(SU (unitaryInvolution F 2 f) 2) →* X)
     (hφ : Function.Surjective φ)
     (hker : φ.ker ≤ Subgroup.center ↥(SU (unitaryInvolution F 2 f) 2)) :
-    LargeEvenMarking X (fun lab R _ I _ θ => GGChevStTag lab ∧
+    LargeEvenMarking X (fun lab _R _ I _ θ => GGChevStTag lab ∧
       ∀ α ∈ suConjSet φ, ∃ ψ ∈ I, ∀ y : X,
         ψ (θ (QuotientGroup.mk y)) = θ (QuotientGroup.mk (α y))) := by
   classical
@@ -176,7 +176,7 @@ private theorem largeEvenMarking_suConjSet_two {f : ℕ} (hF : Nat.card F = (2 ^
   have hSL := largeEvenMarking_slConjSet (m := 1)
     (F := CFSG.LieType.Steinberg.fixedSubfield F 2 f) hcard hf le_rfl (fun _ => hf2)
     (φ.comp e.toMonoidHom) hφ' hker'
-  refine largeEvenMarking_mono (P := _) (P' := _) (fun lab R _ I F θ hP => ⟨hP.1, ?_⟩) hSL
+  refine largeEvenMarking_mono (P := _) (P' := _) (fun lab _R _ I F θ hP => ⟨hP.1, ?_⟩) hSL
   intro α hα
   exact hP.2 α (suConjSet_subset_slConjSet φ hφ e hα)
 
@@ -191,7 +191,7 @@ private theorem largeEvenMarking_suConjSet_three_le (hF : Nat.card F = (2 ^ f) ^
     (φ : ↥(SU (unitaryInvolution F 2 f) k) →* X)
     (hφ : Function.Surjective φ)
     (hker : φ.ker ≤ Subgroup.center ↥(SU (unitaryInvolution F 2 f) k)) :
-    LargeEvenMarking X (fun lab R _ I _ θ => GGChevStTag lab ∧
+    LargeEvenMarking X (fun lab _R _ I _ θ => GGChevStTag lab ∧
       ∀ α ∈ suConjSet φ, ∃ ψ ∈ I, ∀ y : X,
         ψ (θ (QuotientGroup.mk y)) = θ (QuotientGroup.mk (α y))) := by
   classical
@@ -206,7 +206,7 @@ private theorem largeEvenMarking_suConjSet_three_le (hF : Nat.card F = (2 ^ f) ^
   let H := LargeEvenSUGroup (Fin k) F (2 ^ f)
   have hperfS : Group.IsPerfect (CFSG.Open.StatedSU k (2 ^ f) F) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hF hk hnq
-  haveI : Group.IsPerfect ↥H := hperfS
+  have : Group.IsPerfect ↥H := hperfS
   have hZ : Subgroup.center ↥H = (LargeEvenScalars (Fin k) F).subgroupOf H :=
     (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card hF hk hnq).2
   have hSU : SUid (unitaryInvolution F 2 f) k = H := SUid_eq_statedSU hF k
@@ -262,7 +262,7 @@ private theorem largeEvenMarking_suConjSet_three_le (hF : Nat.card F = (2 ^ f) ^
   have hsimple : IsSimpleGroup (LargeEvenProj H) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 f hF k hk hnq
   have hnonab : ∃ a b : LargeEvenProj H, a * b ≠ b * a := by
-    haveI : Group.IsPerfect (LargeEvenProj H) :=
+    have : Group.IsPerfect (LargeEvenProj H) :=
       Group.IsPerfect.ofSurjective (f := LargeEvenProjMk H) (QuotientGroup.mk'_surjective _)
     have := hsimple.toNontrivial
     by_contra h
@@ -331,7 +331,7 @@ theorem largeEvenMarking_suConjSet {F : Type} [Field F] [Finite F] [CharP F 2] {
     {X : Type} [Group X] (φ : ↥(SU (unitaryInvolution F 2 f) k) →* X)
     (hφ : Function.Surjective φ)
     (hker : φ.ker ≤ Subgroup.center ↥(SU (unitaryInvolution F 2 f) k)) :
-    LargeEvenMarking X (fun lab R _ I _ θ => GGChevStTag lab ∧
+    LargeEvenMarking X (fun lab _R _ I _ θ => GGChevStTag lab ∧
       ∀ α ∈ suConjSet φ, ∃ ψ ∈ I, ∀ y : X,
         ψ (θ (QuotientGroup.mk y)) = θ (QuotientGroup.mk (α y))) := by
   classical

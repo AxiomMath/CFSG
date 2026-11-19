@@ -792,7 +792,7 @@ theorem exists_conj_sl3_x_of_involution {t : Matrix.SpecialLinearGroup (Fin (2 +
     rw [this]
     exact hli
   have hunit : IsUnit g0.det :=
-    (Matrix.isUnit_iff_isUnit_det _).mp (Matrix.linearIndependent_cols_iff_isUnit.mp hcols)
+    (Matrix.isUnit_iff_isUnit_det _).mp (Matrix.linearIndependent_col_iff_isUnit.mp hcols)
   set d : K := g0.det with hd
   have hd0 : d ≠ 0 := hunit.ne_zero
   set D : Matrix (Fin 3) (Fin 3) K := Matrix.diagonal ![1, 1, d⁻¹] with hD

@@ -85,7 +85,7 @@ theorem conclK_m24_octad
       exact hinf_card_ge
     exact inf_eq_left.mp (Subgroup.eq_of_le_of_card_ge inf_le_left hcard_eSub_le)
   have hE2 : IsPGroup 2 ↥(eSub basis_o) := IsPGroup.of_card (n := 4) (card_eSub basis_o)
-  haveI : IsSimpleGroup ↥(StatedSL 4 (ZMod 2)) := E16.isSimpleGroup_statedSL4
+  have : IsSimpleGroup ↥(StatedSL 4 (ZMod 2)) := E16.isSimpleGroup_statedSL4
   have hNo : NoNormalTwo ↥(StatedSL 4 (ZMod 2)) :=
     noNormalTwo_of_simple not_isPGroup_sl4
   have hsurj : Function.Surjective α := by
@@ -126,7 +126,7 @@ theorem conclK_m24_octad
     (isNaturalSection_iff_isSumOfNaturalModules_one _ _ bot_le).mp hsec
   have hcommV : IsMulCommutative ↥(eSub basis_o) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_o x y hx hy
-  letI : IsMulCommutative ↥(eSub basis_o) := hcommV
+  let : IsMulCommutative ↥(eSub basis_o) := hcommV
   have hFFM : IsFFModule (autOn Mo (eSub basis_o)) :=
     FFn.isFFModule_autOn_of_sum (n := 3) (k := 1) (by decide) le_rfl (by norm_num) hsum
   have hFF : IsFFModule (autOn (Subgroup.normalizer (eSub basis_o : Set G₀))

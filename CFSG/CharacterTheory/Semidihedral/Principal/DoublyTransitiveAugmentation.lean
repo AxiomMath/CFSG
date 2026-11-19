@@ -133,7 +133,7 @@ theorem prime_dvd_card_fixedBy_of_not_dvd_index [Finite Ω] [MulAction.IsPretran
   let S : Sylow p (Subgroup.centralizer ({g} : Set W)) := Classical.ofNonempty
   let P : Subgroup W := (S : Subgroup _).map (Subgroup.centralizer ({g} : Set W)).subtype
   have hPC : P ≤ Subgroup.centralizer ({g} : Set W) := Subgroup.map_subtype_le _
-  have hPp : IsPGroup p P := S.isPGroup'.map _
+  have hPp : IsPGroup p P := S.isPGroup.map _
   let F : SubMulAction P Ω :=
     { carrier := MulAction.fixedBy Ω g
       smul_mem' := fun y x hx => by

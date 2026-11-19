@@ -85,20 +85,22 @@ theorem rhoL_apply (l : LocalGroup (reflClass Q) t) (w : perp Q v y) :
   rho_apply hnd hv hyv t ht _ w
 
 include hnd hv hyv ht in
+omit [FiniteDimensional (ZMod 2) V] hnd hyv in
 theorem coe_eq_reflect : (t : V ≃ₗ[ZMod 2] V) = reflect Q v :=
   LinearEquiv.ext fun x => by rw [ht, reflect_apply_of_map_eq_one hv]
 
 include hnd hv hyv ht in
+omit [FiniteDimensional (ZMod 2) V] in
 theorem lift_mem_localClass {w : perp Q v y} (hw0 : w ≠ 0) :
     (⟨reflect Q (lift Q v w), reflect_mem_orthogonalGroup Q _⟩ :
       TauCeti.QuadraticMap.orthogonalGroup Q) ∈ LocalClass (reflClass Q) t := by
   refine ⟨⟨_, map_lift hv w, rfl⟩, fun h => ?_, Subtype.ext ?_⟩
   · have h2 : reflect Q (lift Q v w) = reflect Q v := by
-      rw [← coe_eq_reflect hnd hv hyv t ht, ← h]
+      rw [← coe_eq_reflect hv t ht, ← h]
     have h3 := eq_of_reflect_eq hnd (map_lift hv w) h2 hv
     apply hw0
     rw [← proj_lift hyv w, h3, proj_left]
-  · rw [Subgroup.coe_mul, Subgroup.coe_mul, coe_eq_reflect hnd hv hyv t ht]
+  · rw [Subgroup.coe_mul, Subgroup.coe_mul, coe_eq_reflect hv t ht]
     exact reflect_lift_commute hv (t := reflect Q v) (fun x => reflect_apply_of_map_eq_one hv x) w
 
 include hnd hv hyv ht in
@@ -215,7 +217,7 @@ theorem localQuotient_simple [FiniteDimensional (ZMod 2) V] (hnd : (polarBilin Q
     rw [hdimW, hdim]
     omega
   let e := localQuotientEquiv hnd hv hyv t ht
-  haveI := isSimpleGroup_commutator_isometryGroup hB hndW hk (by omega)
+  have := isSimpleGroup_commutator_isometryGroup hB hndW hk (by omega)
   exact ⟨Recognition.R3.isSimpleGroup_commutator_of_mulEquiv e.symm,
     exists_ne_commutator_of_mulEquiv e.symm
       (nonabelian_commutator_isometryGroup hB hndW (by omega))⟩

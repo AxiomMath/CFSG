@@ -146,7 +146,7 @@ private theorem p9uOA_single_mem {p : ℕ} {G : Type} [Group G] [Finite G] {Bs L
     (hBN : Bs ≤ Subgroup.normalizer (L : Set G)) (hp : p.Prime) (hp2 : p ≠ 2)
     (i : Fin Φ.r) (a : Multiplicative (ZMod p)) :
     ∃ b : ↥Bs, (b : G) ∈ L ∧ Φ.β b = Φ.Δ.τΩ Φ.hA (Pi.mulSingle i a) := by
-  haveI : Nontrivial (Fin Φ.r) := Fin.nontrivial_iff_two_le.mpr (by have := Φ.hr; omega)
+  have : Nontrivial (Fin Φ.r) := Fin.nontrivial_iff_two_le.mpr (by have := Φ.hr; omega)
   obtain ⟨j, hji⟩ : ∃ j : Fin Φ.r, j ≠ i := exists_ne i
   have hij : i ≠ j := hji.symm
   obtain ⟨w, hw, hwN⟩ := Φ.dinvReal i j hij
@@ -178,8 +178,7 @@ private theorem p9uOA_single_mem {p : ℕ} {G : Type} [Group G] [Finite G] {Bs L
   have hbwb : (b : G) * Φ.ψ w * (b : G)⁻¹ ∈ L :=
     (Subgroup.mem_normalizer_iff.mp (hBN b.2) (Φ.ψ w)).mp hwL
   refine ⟨b * c⁻¹, ?_, ?_⟩
-  · change ((b * c⁻¹ : ↥Bs) : G) ∈ L
-    rw [Subgroup.coe_mul, Subgroup.coe_inv, hcdef, ggConjAut_apply Bs hwN b]
+  · rw [Subgroup.coe_mul, Subgroup.coe_inv, hcdef, ggConjAut_apply Bs hwN b]
     have heq : (b : G) * (Φ.ψ w * (b : G) * (Φ.ψ w)⁻¹)⁻¹
         = ((b : G) * Φ.ψ w * (b : G)⁻¹) * (Φ.ψ w)⁻¹ := by group
     rw [heq]
@@ -189,16 +188,16 @@ private theorem p9uOA_single_mem {p : ℕ} {G : Type} [Group G] [Finite G] {Bs L
     congr 1
     rw [mul_inv_dinv hij f, hfi, hfj, one_pow, Pi.mulSingle_one, mul_one]
 
-theorem qtwoDL1_baseO_odd (ha₀ : GGLNoncyclicInput) {G : Type}
+theorem qtwoDL1_baseO_odd (_ha₀ : GGLNoncyclicInput) {G : Type}
     [Group G] [Finite G] {p : ℕ}
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Finset (Subgroup G)}
     (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦)
     (hodd : Odd (Nat.card ↥(Subgroup.centralizer (Bs : Set G))))
-    (Φ : OrthTorus.OrthFrameCore p Bs L) (hF : Nat.card Φ.F = 2)
+    (Φ : OrthTorus.OrthFrameCore p Bs L) (_hF : Nat.card Φ.F = 2)
     (hZ : Subgroup.center ↥L = ⊥)
-    {r₀ r₀' : MulAut ↥Bs} (hr₀ : r₀ ∈ ggAutomizer L Bs) (hrefl₀ : GGIsReflection p r₀)
-    (hr₀' : r₀' ∈ ggAutomizer L Bs) (hrefl₀' : GGIsReflection p r₀')
-    (hne : r₀ * r₀' ≠ r₀' * r₀) :
+    {r₀ r₀' : MulAut ↥Bs} (hr₀ : r₀ ∈ ggAutomizer L Bs) (_hrefl₀ : GGIsReflection p r₀)
+    (hr₀' : r₀' ∈ ggAutomizer L Bs) (_hrefl₀' : GGIsReflection p r₀')
+    (_hne : r₀ * r₀' ≠ r₀' * r₀) :
     Odd (Nat.card ↥(Subgroup.centralizer
       ((ggHyperplane Bs r₀ ⊓ ggHyperplane Bs r₀' : Subgroup G) : Set G) ⊓
         Subgroup.centralizer (L : Set G))) := by

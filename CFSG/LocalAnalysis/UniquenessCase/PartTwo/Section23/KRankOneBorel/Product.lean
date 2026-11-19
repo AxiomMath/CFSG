@@ -42,7 +42,7 @@ private theorem le_normalizer_sup_of_quotient {Y : Type} [Group Y] [Finite Y]
     (S : Sylow 2 Y) (H : Subgroup Y) (hSH : (S : Subgroup Y) ≤ H)
     (hHY₂ : H ⊔ Y₂ ≠ ⊤) :
     H ≤ normalizer ((((S : Subgroup Y) ⊔ Y₂) : Subgroup Y) : Set Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrq : RankOneOver (Y ⧸ Y₂) := rankOneOver_quotient hsup hr
   have hle : ((S.mapSurjective (QuotientGroup.mk'_surjective Y₂) : Sylow 2 (Y ⧸ Y₂)) :
       Subgroup (Y ⧸ Y₂)) ≤ H.map (QuotientGroup.mk' Y₂) := by
@@ -71,10 +71,10 @@ private theorem le_normalizer_sup_of_quotient {Y : Type} [Group Y] [Finite Y]
   · exact absurd (sup_eq_top_of_map_quotient_eq_top htop) hHY₂
 
 private theorem le_of_sup_eq_top_of_perfect {Y : Type} [Group Y] [Finite Y]
-    {Y₁ Y₂ : Subgroup Y} [Y₁.Normal] [Y₂.Normal] (hsup : Y₁ ⊔ Y₂ = ⊤)
+    {Y₁ Y₂ : Subgroup Y} [Y₁.Normal] [Y₂.Normal] (_hsup : Y₁ ⊔ Y₂ = ⊤)
     (hcomm : ⁅Y₁, Y₂⁆ = ⊥) (hp₁ : ⁅Y₁, Y₁⁆ = Y₁) (S : Sylow 2 Y) (H : Subgroup Y)
     (hSH : (S : Subgroup Y) ≤ H) (hHY₂ : H ⊔ Y₂ = ⊤) : Y₁ ≤ H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcent : Y₂ ≤ Subgroup.centralizer ((Y₁ : Subgroup Y) : Set Y) := by
     have hc : ⁅Y₂, Y₁⁆ = (⊥ : Subgroup Y) := by rw [Subgroup.commutator_comm]; exact hcomm
     exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp hc
@@ -115,7 +115,7 @@ private theorem le_of_sup_eq_top_of_perfect {Y : Type} [Group Y] [Finite Y]
 private theorem sup_eq_inf_sup_of_isSylow {Y : Type} [Group Y] [Finite Y]
     {Y₁ Y₂ : Subgroup Y} [Y₁.Normal] [Y₂.Normal] (hsup : Y₁ ⊔ Y₂ = ⊤) (S : Sylow 2 Y) :
     (S : Subgroup Y) ⊔ Y₂ = ((S : Subgroup Y) ⊓ Y₁) ⊔ Y₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_normal S Y₁
   have hf₁ : Function.Surjective ((QuotientGroup.mk' Y₂).comp Y₁.subtype) :=
     surjective_quotient_comp_subtype hsup
@@ -130,7 +130,7 @@ private theorem sup_eq_inf_sup_of_isSylow {Y : Type} [Group Y] [Finite Y]
     rw [hQcoe]
     exact Subgroup.map_mono inf_le_left
   have h2 : IsPGroup 2 (((S : Subgroup Y).map (QuotientGroup.mk' Y₂) : Subgroup (Y ⧸ Y₂))) :=
-    S.isPGroup'.map (QuotientGroup.mk' Y₂)
+    S.isPGroup.map (QuotientGroup.mk' Y₂)
   have hmax : (S : Subgroup Y).map (QuotientGroup.mk' Y₂) =
       ((S : Subgroup Y) ⊓ Y₁).map (QuotientGroup.mk' Y₂) := by
     have := (Q.maximal_isPGroup.eq_of_le h2 hle).symm
@@ -145,7 +145,7 @@ private theorem sup_eq_inf_sup_of_isSylow {Y : Type} [Group Y] [Finite Y]
 private theorem eq_sup_inf_of_isSylow {Y : Type} [Group Y] [Finite Y]
     {Y₁ Y₂ : Subgroup Y} [Y₁.Normal] [Y₂.Normal] (hsup : Y₁ ⊔ Y₂ = ⊤) (S : Sylow 2 Y) :
     (S : Subgroup Y) = ((S : Subgroup Y) ⊓ Y₁) ⊔ ((S : Subgroup Y) ⊓ Y₂) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm ?_ (sup_le inf_le_left inf_le_left)
   intro s hs
   have hsY₂ : s ∈ ((S : Subgroup Y) ⊓ Y₁) ⊔ Y₂ := by
@@ -164,7 +164,7 @@ private theorem inf_sup_le_normalizer {Y : Type} [Group Y] [Finite Y]
     (hcomm : ⁅Y₁, Y₂⁆ = ⊥) (S : Sylow 2 Y) :
     (((S : Subgroup Y) ⊔ Y₁) ⊓ ((S : Subgroup Y) ⊔ Y₂)) ≤
       normalizer ((S : Subgroup Y) : Set Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcent₂ : Y₂ ≤ Subgroup.centralizer ((Y₁ : Subgroup Y) : Set Y) := by
     have hc : ⁅Y₂, Y₁⁆ = (⊥ : Subgroup Y) := by rw [Subgroup.commutator_comm]; exact hcomm
     exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp hc
@@ -212,9 +212,9 @@ theorem dich_of_product {Y : Type} [Group Y] [Finite Y] (Y₁ Y₂ : Subgroup Y)
     (h21 : Y₂ ≤ H → Y₁ ≤ H) :
     H ≤ normalizer ((S : Subgroup Y) : Set Y) ∨ H = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Y₁.Normal := hn₁
-  haveI : Y₂.Normal := hn₂
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Y₁.Normal := hn₁
+  have : Y₂.Normal := hn₂
   by_cases hHY₂ : H ⊔ Y₂ = ⊤
   · have hY₁H : Y₁ ≤ H :=
       le_of_sup_eq_top_of_perfect hsup hcomm hp₁ S H hSH hHY₂

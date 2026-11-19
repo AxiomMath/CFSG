@@ -70,7 +70,7 @@ theorem ggI1OfPairL_of_rank (h : GGI1PairRank) : GGI1OfPairL := by
   have hβ : p ∈ LargeEvenBeta 4 G := hI.2.2.2.2.2.1
   have hp : p.Prime := hβ.1
   have hp2 : p ≠ 2 := hβ.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxB : x ∈ B := hS.2.1
   have hx1 : x ≠ 1 := hS.2.2.1
   have hxp : x ^ p = 1 := hS.1.1.2 x hxB
@@ -179,11 +179,11 @@ theorem ggTPNTrKernelI1_holds :
     ∀ (G : Type) [Group G] [Finite G] (p : ℕ) (B Bs : Subgroup G) (x : G) (L D J : Subgroup G)
       (y : G) (K : Subgroup G), GGConfig p B Bs x L D J → GGInnerDiagOn Bs L →
       GGInnerDiagOn Bs K → GGNbr p B x D J y K →
-      ∀ (hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
+      ∀ (_hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
         (hx : x ∈ Subgroup.normalizer (K : Set G)), Bs ⊓ Subgroup.centralizer (J : Set G) ≤ D →
         GGTPNKernel (ggAutsOf K Bs hN) (K.normalizerMonoidHom ⟨x, hx⟩) (J.subgroupOf K) :=
-  fun _ _ _ p B Bs x L D J y K hc hL hK hn hJK hN hx hCJ =>
-    (ggTPNTrLocal_holds _ p B Bs x L D J y K hc hL hK hn hJK hN hx hCJ).2
+  fun _ _ _ p B Bs x L D J y K hc hL hK hn _hJK hN hx hCJ =>
+    (ggTPNTrLocal_holds _ p B Bs x L D J y K hc hL hK hn _hJK hN hx hCJ).2
 
 end CFSG.StandardType
 

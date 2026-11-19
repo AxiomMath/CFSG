@@ -30,7 +30,7 @@ theorem ggTypeAFar_abab_mem_K (hN : GGTypeANbrCfg p B Bs x L D J n f y K)
     (hCu : u ∈ Subgroup.centralizer (Bs : Set G)) : u ∈ K := by
   classical
   have hp : p.Prime := hN.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hf : 1 ≤ f := hN.one_le_f
   have h2 : (2 : GaloisField 2 f) = 0 :=
     two_eq_zero_of_card (GaloisField.card 2 f (by omega)) hf

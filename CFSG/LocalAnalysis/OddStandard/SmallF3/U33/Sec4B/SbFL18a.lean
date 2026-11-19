@@ -13,6 +13,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma conj_eq_inv_of_sq_eq_one {g x : G} (hg2 : g * g = 1)
     (h : (g * x) * (g * x) = 1) : g * x * g = x⁻¹ := by
   have hg_inv : g⁻¹ = g := (eq_inv_of_mul_eq_one_right hg2).symm
@@ -21,6 +22,7 @@ private lemma conj_eq_inv_of_sq_eq_one {g x : G} (hg2 : g * g = 1)
   simp only [mul_inv_rev, hg_inv]
   rw [mul_assoc, hg2, mul_one]
 
+omit [Finite G] in
 private lemma comm_mem_Y_of_sq_eq_one {Ξ Y : Subgroup G} {g : G} (hg2 : g * g = 1)
     (hsq : ∀ x ∈ Ξ, x * x ∈ Y) {x : G} (hx : x ∈ Ξ)
     (ht : (g * x) * (g * x) = 1) : g * x * g⁻¹ * x⁻¹ ∈ Y := by
@@ -32,9 +34,10 @@ private lemma comm_mem_Y_of_sq_eq_one {Ξ Y : Subgroup G} {g : G} (hg2 : g * g =
   rw [h2]
   exact Y.inv_mem (hsq x hx)
 
+omit [Finite G] in
 private lemma inv_mul_comm_of_T {Ξ Y : Subgroup G} {g : G} (hg2 : g * g = 1)
     (hYc : ∀ y ∈ Y, ∀ x ∈ Ξ, x * y = y * x) (hY2 : ∀ y ∈ Y, y * y = 1)
-    {b x : G} (hbΞ : b ∈ Ξ) (hbT : (g * b) * (g * b) = 1) (hxΞ : x ∈ Ξ)
+    {b x : G} (hbΞ : b ∈ Ξ) (hbT : (g * b) * (g * b) = 1) (_hxΞ : x ∈ Ξ)
     (hxT : (g * x) * (g * x) = 1) (hy : b⁻¹ * x ∈ Y) :
     g * (b⁻¹ * x) = (b⁻¹ * x) * g := by
   have hg_inv : g⁻¹ = g := (eq_inv_of_mul_eq_one_right hg2).symm
@@ -66,6 +69,7 @@ private lemma inv_mul_comm_of_T {Ξ Y : Subgroup G} {g : G} (hg2 : g * g = 1)
     rw [hgyg, mul_assoc, hg2, mul_one]
   exact mul_right_cancel htwo
 
+omit [Finite G] in
 private lemma inv_mul_comm_of_cent {g b x : G} (hb : b * g = g * b) (hx : x * g = g * x) :
     g * (b⁻¹ * x) = (b⁻¹ * x) * g := by
   have hx_eq : x = b * (b⁻¹ * x) := by group
@@ -153,10 +157,10 @@ private theorem card_le_sixteen_of_data {Y D : Subgroup G} {g : G}
     _ = 16 := by norm_num
 
 theorem fl2_card_T_le {Ξ Y D : Subgroup G} {g : G} (hg2 : g * g = 1)
-    (hgΞ : ∀ x ∈ Ξ, g * x * g⁻¹ ∈ Ξ) (hgY : ∀ y ∈ Y, g * y * g⁻¹ ∈ Y) (hYΞ : Y ≤ Ξ)
+    (_hgΞ : ∀ x ∈ Ξ, g * x * g⁻¹ ∈ Ξ) (hgY : ∀ y ∈ Y, g * y * g⁻¹ ∈ Y) (hYΞ : Y ≤ Ξ)
     (hYc : ∀ y ∈ Y, ∀ x ∈ Ξ, x * y = y * x) (hY2 : ∀ y ∈ Y, y * y = 1)
     (hsq : ∀ x ∈ Ξ, x * x ∈ Y) (hY : Nat.card Y = 16)
-    (hCY : Nat.card {y : G // y ∈ Y ∧ g * y = y * g} ≤ 4) (hDΞ : D ≤ Ξ)
+    (hCY : Nat.card {y : G // y ∈ Y ∧ g * y = y * g} ≤ 4) (_hDΞ : D ≤ Ξ)
     (hD : ∀ x ∈ Ξ, g * x * g⁻¹ * x⁻¹ ∈ Y → x ∈ D) (hDcard : Nat.card D ≤ 64) :
     Nat.card {x : G // x ∈ Ξ ∧ (g * x) * (g * x) = 1} ≤ 16 := by
   have hYD : Y ≤ D := by
@@ -171,7 +175,7 @@ theorem fl2_card_T_le {Ξ Y D : Subgroup G} {g : G} (hg2 : g * g = 1)
 
 theorem fl2_card_cent_le {Ξ Y D : Subgroup G} {g : G} (hgY : ∀ y ∈ Y, g * y * g⁻¹ ∈ Y)
     (hYΞ : Y ≤ Ξ) (hY : Nat.card Y = 16)
-    (hCY : Nat.card {y : G // y ∈ Y ∧ g * y = y * g} ≤ 4) (hDΞ : D ≤ Ξ)
+    (hCY : Nat.card {y : G // y ∈ Y ∧ g * y = y * g} ≤ 4) (_hDΞ : D ≤ Ξ)
     (hD : ∀ x ∈ Ξ, g * x * g⁻¹ * x⁻¹ ∈ Y → x ∈ D) (hDcard : Nat.card D ≤ 64) :
     Nat.card {x : G // x ∈ Ξ ∧ g * x = x * g} ≤ 16 := by
   have hYD : Y ≤ D := by

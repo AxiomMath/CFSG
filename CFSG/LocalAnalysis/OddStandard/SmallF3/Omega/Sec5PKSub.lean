@@ -20,7 +20,7 @@ theorem sec5pk_isSubnormal_sup {X K O : Subgroup G} (hKX : K ≤ X) (hOX : O ≤
   have hN : N.Normal := by
     rw [Subgroup.normal_subgroupOf_iff hOX]
     exact fun h k hh hk => hO k hk h hh
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have hEq : (K ⊔ O).subgroupOf X = K' ⊔ N := Subgroup.subgroupOf_sup hKX hOX
   rw [hEq]
   have hmap : (K'.map (QuotientGroup.mk' N)).IsSubnormal :=
@@ -29,7 +29,7 @@ theorem sec5pk_isSubnormal_sup {X K O : Subgroup G} (hKX : K ≤ X) (hOX : O ≤
   rwa [Subgroup.comap_map_eq (f := QuotientGroup.mk' N) K',
     QuotientGroup.ker_mk'] at hcomap
 
-theorem sec5pk_isSubnormal_of_normal {X M A : Subgroup G} (hAM : A ≤ M) (hMX : M ≤ X)
+theorem sec5pk_isSubnormal_of_normal {X M A : Subgroup G} (hAM : A ≤ M) (_hMX : M ≤ X)
     (hA : ∀ m ∈ M, ∀ a ∈ A, m * a * m⁻¹ ∈ A) (hM : (M.subgroupOf X).IsSubnormal) :
     (A.subgroupOf X).IsSubnormal := by
   let A' : Subgroup ↥X := A.subgroupOf X

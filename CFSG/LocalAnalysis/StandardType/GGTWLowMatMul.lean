@@ -118,7 +118,7 @@ private lemma l05nLX_pi_ext_basis {p d : ℕ} {f g : Module.End (ZMod p) (GGDepA
     _ = g (Pi.single k x) := by rw [hsingle]
 
 private lemma l05nLX_apply_length {p d : ℕ} {A : List (List ℕ)} (hA : ggTWLMatWF d A)
-    {v : List ℕ} (hv : v.length = d) : (ggTWLMatApply p d A v).length = d := by
+    {v : List ℕ} (_hv : v.length = d) : (ggTWLMatApply p d A v).length = d := by
   have hcol : ∀ t ∈ List.zip v A, t.2.length = d := by
     intro t ht
     obtain ⟨i, hi, hti⟩ := List.mem_iff_getElem.mp ht
@@ -197,12 +197,12 @@ private lemma l05nLX_basis_toZ {p d : ℕ} (k : Fin d) :
       (d := 0) (n := j.val) (by rw [List.length_map, List.length_range]; exact j.isLt),
     List.getElem_map, List.getElem_range]
   by_cases h : j.val = k.val
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hjk : j = k := Fin.ext h
-    rw [if_pos hjk]; simp
-  · rw [if_neg h]
+    rw [ite_eq_left hjk]; simp
+  · rw [ite_eq_right h]
     have hjk : ¬ (j = k) := fun hh => h (Fin.ext_iff.mp hh)
-    rw [if_neg hjk]; simp
+    rw [ite_eq_right hjk]; simp
 
 private lemma l05nLX_one_lin {p d : ℕ} :
     ggTWLMatWF d (ggTWLMatOne d) ∧ ggTWLMatLin p d (ggTWLMatOne d) = 1 := by

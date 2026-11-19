@@ -25,7 +25,7 @@ theorem twoLocalPrimeRank_statedSp_le {K : Type} [Field K] [Finite K] [CharP K 2
   have hcomm : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g := fun g hg h hh =>
     congrArg Subtype.val (hE.1.is_comm.comm ⟨g, hg⟩ ⟨h, hh⟩)
   have hexp : ∀ g ∈ E, g ^ p = 1 := by
-    haveI : CFSG.IsElementaryAbelian p E := hE.isElementaryAbelian
+    have : CFSG.IsElementaryAbelian p E := hE.isElementaryAbelian
     exact fun g hg => CFSG.elemPow_eq_one_of_isElementaryAbelian g hg
   obtain ⟨a, ha1, ha2, hcard⟩ :=
     CFSG.RankThree.PartOne.KFU.card_le_of_normalizes (spForm ℓ K) (natRep (StatedSp ℓ K))
@@ -100,9 +100,9 @@ theorem rk2_up_BD {K : Type} [Group K] [Finite K] {lab : GLALabel} (hK : Rk2IsLa
     have hl : 2 ≤ ℓ := hlab.2.1
     obtain ⟨-, F, hF, hFin, hFcard, ⟨φ⟩⟩ :=
       hM'.statedClassicalModel (by decide : StatedLieTag.PSp ∈ classicalTags)
-    letI : Field F := hF
-    letI : Finite F := hFin
-    haveI : CharP F 2 :=
+    let : Field F := hF
+    let : Finite F := hFin
+    have : CharP F 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         Nat.prime_two (k := n) hn1 hFcard
     have hdF : p ∣ Nat.card F + 1 := by rw [hFcard]; exact hd
@@ -134,9 +134,9 @@ theorem rk2_up_BD {K : Type} [Group K] [Finite K] {lab : GLALabel} (hK : Rk2IsLa
           CFSG.StandardType.markDeg] using hM
       obtain ⟨-, F, hF, hFin, hFcard, ⟨φ⟩⟩ :=
         hM'.statedClassicalModel (by decide : StatedLieTag.PSL ∈ classicalTags)
-      letI : Field F := hF
-      letI : Finite F := hFin
-      haveI : CharP F 2 :=
+      let : Field F := hF
+      let : Finite F := hFin
+      have : CharP F 2 :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
           Nat.prime_two (k := n) hn1 hFcard
       have hdF : p ∣ Nat.card F + 1 := by rw [hFcard]; exact hd
@@ -160,9 +160,9 @@ theorem rk2_up_BD {K : Type} [Group K] [Finite K] {lab : GLALabel} (hK : Rk2IsLa
           CFSG.StandardType.markDeg, h3] using hM
       obtain ⟨-, F, hF, hFin, hFcard, ⟨φ⟩⟩ :=
         hM'.statedClassicalModel (by decide : StatedLieTag.POmegaPlus ∈ classicalTags)
-      letI : Field F := hF
-      letI : Finite F := hFin
-      haveI : CharP F 2 :=
+      let : Field F := hF
+      let : Finite F := hFin
+      have : CharP F 2 :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
           Nat.prime_two (k := n) hn1 hFcard
       have hdF : p ∣ Nat.card F + 1 := by rw [hFcard]; exact hd

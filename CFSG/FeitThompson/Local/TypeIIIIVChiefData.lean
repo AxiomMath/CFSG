@@ -466,7 +466,7 @@ theorem FPF_type_iii_iv_chief_data
   have hqprime : q.Prime := hqdef ▸ hcIIToIV.prime_natCard_W₁
   have hsolvM : Group.IsSolvable ↥M := hG.isSolvable_of_ne_top M hM.1
   have hpprime : p.Prime := by
-    haveI : Fintype G := Fintype.ofFinite G
+    have : Fintype G := Fintype.ofFinite G
     have hG6 : CFSG.FeitThompson.Prep06.IsMinimalOddSimple G :=
       ⟨hG.odd_natCard, hG.isSimpleGroup, hG.not_isMulCommutative, hG.isSolvable_of_ne_top⟩
     have h := hprime G hG6 M U W₁ W₂ hM (by tauto) hc

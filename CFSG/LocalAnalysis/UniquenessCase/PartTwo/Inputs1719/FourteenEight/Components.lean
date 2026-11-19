@@ -14,6 +14,7 @@ open Subgroup CFSG.Open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_conj_mem_calC {M L : Subgroup G} (hL : L ∈ calC M) {g : G} (hg : g ∈ M) :
     L.map (MulAut.conj g).toMonoidHom ∈ calC M := by
   have hM : M.map (MulAut.conj g).toMonoidHom = M :=
@@ -35,6 +36,7 @@ theorem fstar_eq_pCoreOf_of_mem_calC {M L : Subgroup G}
   simp only [Fstar, pCoreOf, CFSG.Adapters.genFittingFStar_eq_foundations]
   rw [h]
 
+omit [Finite G] in
 theorem exists_conj_of_ncard_eq_two {M L : Subgroup G} (h2 : (conjSetOf M L).ncard = 2) :
     ∃ t ∈ M, L.map (MulAut.conj t).toMonoidHom ≠ L ∧
       conjSetOf M L = {L, L.map (MulAut.conj t).toMonoidHom} := by

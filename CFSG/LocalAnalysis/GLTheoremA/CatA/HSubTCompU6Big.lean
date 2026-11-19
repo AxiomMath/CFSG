@@ -39,7 +39,7 @@ theorem catalogIs_u5two_of_statedSU5 {X : Type} [Group X] (e : X ≃* StatedSU 5
       TauCeti.ValidLieTypeIndex.fieldExponent
       ⟨.twistedA 4 ppTwo, hvalid⟩ = 2 ^ 1 := by
     rw [hc2, hf2]
-  haveI : Fintype (GaloisField (TauCeti.ValidLieTypeIndex.characteristic
+  have : Fintype (GaloisField (TauCeti.ValidLieTypeIndex.characteristic
     ⟨.twistedA 4 ppTwo, hvalid⟩)
       (2 * TauCeti.ValidLieTypeIndex.fieldExponent
         ⟨.twistedA 4 ppTwo, hvalid⟩)) := Fintype.ofFinite _
@@ -83,8 +83,8 @@ theorem typed_big (d : Fin 6 → F4) (c : F4) {D : GL (Fin 6) F4}
   have ha : Fintype.card (Blk d c) = 4 ∨ Fintype.card (Blk d c) = 5 := by omega
   let eK := MonoidHom.ofInjective (embSU_injective d c)
 
-  haveI := isSimple_statedSU _ ha
-  haveI hs : IsSimpleGroup ↥(embSU d c).range := eK.symm.isSimpleGroup
+  have := isSimple_statedSU _ ha
+  have hs : IsSimpleGroup ↥(embSU d c).range := eK.symm.isSimpleGroup
   have hsub : CFSG.Open.IsSubnormal J (embSU d c).range := by
     have h := hJ.2.1.inf_of_le hKC
     rwa [inf_eq_left.2 hJK] at h
@@ -129,7 +129,7 @@ theorem typed_cube_one (B : primeFormUnitary hF4 (idGram F4 6)) (hB3 : B ^ 3 = 1
       by_cases hij : i = j
       · subst hij
         simp [hconst i]
-      · simp [Matrix.diagonal_apply_ne _ hij, Matrix.one_apply_ne hij]
+      · simp [Matrix.diagonal_apply_ne _ hij]
     have hB : (B : GL (Fin 6) F4) = (P : GL (Fin 6) F4) * D * (P : GL (Fin 6) F4)⁻¹ := by
       rw [hDeq]
       group

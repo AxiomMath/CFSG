@@ -203,7 +203,7 @@ theorem exists_spMat_of_wt_two {n : ℕ} (hn : 5 ≤ n)
             by_contra hne
             exact h ((hσ j).2 i hne)
           simp [h, hzero]
-      rw [show M i j = f j i from by simp [f, Matrix.mulVec_single_one], hcol, spMat_apply]
+      rw [show M i j = f j i from by simp [f], hcol, spMat_apply]
       rfl
     exact ⟨σe, s, hsign, hM⟩
   · push Not at h1

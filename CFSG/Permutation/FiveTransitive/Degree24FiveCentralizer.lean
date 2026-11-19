@@ -30,9 +30,9 @@ theorem sylow_five_centralizer_card_dvd_seven_hundred_fifty
           (S : Set (fixingSubgroup P s))) ∣
       750 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
   obtain ⟨u, huRaw⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)

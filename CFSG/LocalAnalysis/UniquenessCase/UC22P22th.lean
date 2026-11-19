@@ -19,7 +19,7 @@ theorem thinList13_of_bridge
     exact hrank r hr hr2
   have hZ := uc22p22th_center_eq_bot hq.1 hO2 hrank'
   obtain ⟨hsimple, hnonab⟩ := uc22p22th_simple hq hZ
-  haveI := hsimple
+  have := hsimple
   have hSQT : CFSG.IsStronglyQuasithin X := fun p hp hp2 => (hrank p hp hp2).trans (by norm_num)
   have hcat := uc22p22th_catalog hnonab hK hB
   have hlist := CFSG.Milestones.cl_lit_sqtk_simple_list X hnonab hSQT hcat

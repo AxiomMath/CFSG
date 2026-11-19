@@ -28,12 +28,12 @@ theorem noGLAP3_of_constrained {G : Type} [Group G] [Finite G] (D Q : Subgroup G
     rw [Subgroup.mem_centralizer_iff]
     intro n hn
     exact (hcomm j hj n hn).symm
-  haveI : Group.IsSolvable ↥A :=
+  have : Group.IsSolvable ↥A :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hAC)
   have hne : A ≠ ⊥ := glaPComponent_ne_bot hA
-  haveI : Nontrivial ↥A := (Subgroup.nontrivial_iff_ne_bot A).2 hne
+  have : Nontrivial ↥A := (Subgroup.nontrivial_iff_ne_bot A).2 hne
   have hperf : ⁅A, A⁆ = A := glaPComponent_perfect hA
-  haveI : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr hperf
+  have : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr hperf
   exact Group.IsPerfect.not_isSolvable ↥A inferInstance
 
 theorem exists_glaPComponent_of_equiv {G G' : Type} [Group G] [Finite G] [Group G'] [Finite G']

@@ -76,7 +76,7 @@ theorem res822_le_center_of_quasisimple {N : Subgroup X} [N.Normal] (hX : CFSG.I
 theorem res822_not_two_dvd_card_of_central [Finite X] {N : Subgroup X} (hN : N ≤ Subgroup.center X)
     (hO : CFSG.pCore 2 X = ⊥) : ¬ 2 ∣ Nat.card N := by
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := N) 2 h2
   have hzc : (z : X) ∈ Subgroup.center X := hN z.2
   let W : Subgroup X := Subgroup.zpowers (z : X)
@@ -115,7 +115,7 @@ theorem res822_center_bot_of_simple {Y : Type} [Group Y] [IsSimpleGroup Y] (hY :
 theorem res822_nonabelian_of_not_prime {Y : Type} [Group Y] [IsSimpleGroup Y] [Finite Y]
     (hnp : ¬ (Nat.card Y).Prime) : ¬ ∀ a b : Y, a * b = b * a := by
   intro hcomm
-  letI : CommGroup Y := { ‹Group Y› with mul_comm := hcomm }
+  let : CommGroup Y := { ‹Group Y› with mul_comm := hcomm }
   exact hnp IsSimpleGroup.prime_card
 
 theorem res822_ker_eq_center_of_quasisimple {Y : Type} [Group Y] [IsSimpleGroup Y]
@@ -196,9 +196,9 @@ theorem res822Act_apply {V L : Subgroup G} (hLV : L ≤ Subgroup.normalizer (V :
 theorem res822_pCore_map_ker {X Y : Type} [Group X] [Finite X] [Group Y] [Finite Y] [IsSimpleGroup Y]
     (hY3 : 3 ∣ Nat.card Y) (φ : X →* Y) (hφ : Function.Surjective φ) :
     CFSG.pCore 2 X ≤ φ.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup Y := (CFSG.pCore 2 X).map φ
-  haveI : K.Normal := Subgroup.Normal.map (CFSG.LieType.BorelTits.pCore_normal 2) φ hφ
+  have : K.Normal := Subgroup.Normal.map (CFSG.LieType.BorelTits.pCore_normal 2) φ hφ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with h | h
   · intro x hx
     rw [MonoidHom.mem_ker]
@@ -225,9 +225,9 @@ theorem res822_pCore_le_ker' {V L : Subgroup G} [Finite G] (hLV : L ≤ Subgroup
     (hA : Nonempty (↥(autOn L V) ≃* CFSG.Blueprint.NativeSporadic.Carrier .M22)) :
     CFSG.pCore 2 ↥L ≤ (res822Act' hLV).ker := by
   obtain ⟨eA⟩ := hA
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
     (CFSG.Sporadic.Mathieu.fam_m22_simplicity).2.2
-  haveI : IsSimpleGroup ↥(autOn L V) := MulEquiv.isSimpleGroup eA
+  have : IsSimpleGroup ↥(autOn L V) := MulEquiv.isSimpleGroup eA
   have hcard : Nat.card ↥(autOn L V) = 443520 := (Nat.card_congr eA.toEquiv).trans
     CFSG.Sporadic.Mathieu.card_M22
   have hY3 : 3 ∣ Nat.card ↥(autOn L V) := by rw [hcard]; norm_num
@@ -267,9 +267,9 @@ theorem res822ThreeCover_of
     exact h
   have hker : CFSG.pCore 2 ↥L ≤ (res822Act' hLV).ker := res822_pCore_le_ker' hLV (res822_autOn_iso hM)
   obtain ⟨eA⟩ := res822_autOn_iso hM
-  haveI hSimpM22 : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
+  have hSimpM22 : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
     (CFSG.Sporadic.Mathieu.fam_m22_simplicity).2.2
-  haveI hSimpA : IsSimpleGroup ↥(autOn L (fsuV T I)) := MulEquiv.isSimpleGroup eA
+  have hSimpA : IsSimpleGroup ↥(autOn L (fsuV T I)) := MulEquiv.isSimpleGroup eA
   have hcardA : Nat.card ↥(autOn L (fsuV T I)) = 443520 :=
     (Nat.card_congr eA.toEquiv).trans CFSG.Sporadic.Mathieu.card_M22
   have hnabA : ¬ ∀ a b : ↥(autOn L (fsuV T I)), a * b = b * a :=
@@ -290,7 +290,7 @@ theorem res822ThreeCover_of
   have hodd : ¬ 2 ∣ Nat.card ψ.ker := res822_not_two_dvd_card_of_central hkerψ.le hO
   have hn' := hn
   unfold NoThreeInCV at hn'
-  push_neg at hn'
+  push Not at hn'
   obtain ⟨y, hyM, hycent, hy3⟩ := hn'
   have hyL : y ∈ L := by
     have h := hthree G T L I hyp h731 h821 hc hrow hrowM hnot y hyM hy3
@@ -354,9 +354,9 @@ theorem res822_psi_of {V L : Subgroup G} [Finite G]
       ψ.ker = Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L) ∧
       ∀ l : ↥L, ψ (QuotientGroup.mk l) = res822Act' hLV l := by
   obtain ⟨eA⟩ := hA
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
     (CFSG.Sporadic.Mathieu.fam_m22_simplicity).2.2
-  haveI hSimpA : IsSimpleGroup ↥(autOn L V) := MulEquiv.isSimpleGroup eA
+  have hSimpA : IsSimpleGroup ↥(autOn L V) := MulEquiv.isSimpleGroup eA
   have hcardA : Nat.card ↥(autOn L V) = 443520 :=
     (Nat.card_congr eA.toEquiv).trans CFSG.Sporadic.Mathieu.card_M22
   have hnabA : ¬ ∀ a b : ↥(autOn L V), a * b = b * a :=

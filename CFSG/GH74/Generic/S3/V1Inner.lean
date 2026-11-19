@@ -47,7 +47,7 @@ theorem exists_v1_choice {t : StatedLieTag} {p f : ℕ} {v w : G} {Iv Iw Ivw P :
       KGroups.L3Eps.l3eps_sylow_four C.tag C.prime.2.1 hX hS2 hSmax
     obtain ⟨qa, hqa, rfl⟩ := ha
     obtain ⟨qb, hqb, rfl⟩ := hb
-    have hQ2 : IsPGroup 2 (Q : Subgroup ↥Ivw) := Q.isPGroup'
+    have hQ2 : IsPGroup 2 (Q : Subgroup ↥Ivw) := Q.isPGroup
     have hQZ : ∀ z : ↥Ivw, z ∈ (Q : Subgroup ↥Ivw) → z ∈ center ↥Ivw → z = 1 :=
       fun z hzQ hzZ => eq_one_of_mem_pGroup_of_mem_center_odd hQ2 hodd hzQ hzZ
     have hqa2 : qa * qa = 1 := by

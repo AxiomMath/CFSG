@@ -24,7 +24,7 @@ theorem exists_minimal_nonscalar_normal [Finite G] (ρ : Representation F G V)
       (∃ b ∈ B, ¬ ∃ c : F, ρ b = c • (1 : V →ₗ[F] V)) ∧
       (∀ x ∈ B, ∀ y ∈ B, ∃ c : F, ρ ⁅x, y⁆ = c • (1 : V →ₗ[F] V)) := by
   obtain ⟨t, ht, hnt⟩ := h
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   let S : Set (Subgroup G) :=
     {B | B.Normal ∧ B ≤ T ∧ ∃ b ∈ B, ¬ ∃ c : F, ρ b = c • (1 : V →ₗ[F] V)}
@@ -32,15 +32,15 @@ theorem exists_minimal_nonscalar_normal [Finite G] (ρ : Representation F G V)
   obtain ⟨B, hBS, hmin⟩ := (wellFounded_lt (α := Subgroup G)).has_min S ⟨T, hTS⟩
   obtain ⟨hBn, hBT, b, hb, hbn⟩ := hBS
   refine ⟨B, hBn, hBT, ⟨b, hb, hbn⟩, ?_⟩
-  haveI : B.Normal := hBn
+  have : B.Normal := hBn
   have hB1 : B ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.mem_bot] at hb
     exact hbn ⟨1, by rw [hb, map_one, one_smul]⟩
   have hlt : ⁅B, B⁆ < B := by
-    haveI : Group.IsSolvable B :=
+    have : Group.IsSolvable B :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hBT)
-    haveI : Nontrivial B := (Subgroup.nontrivial_iff_ne_bot B).mpr hB1
+    have : Nontrivial B := (Subgroup.nontrivial_iff_ne_bot B).mpr hB1
     rw [← B.range_subtype, MonoidHom.range_eq_map, ← Subgroup.map_commutator,
       Subgroup.map_subtype_lt_map_subtype]
     exact Group.IsSolvable.commutator_lt_top_of_nontrivial B
@@ -81,8 +81,8 @@ theorem scalar_of_normal_solvable [Finite F] [Module.Finite F V] [Finite G] (h2 
     by_contra hnsc
     exact hno ⟨t, ht, hnsc⟩
   obtain ⟨B, hBn, hBT, ⟨b0, hb0B, hb0⟩, hsc⟩ := exists_minimal_nonscalar_normal ρ T hnt
-  haveI : B.Normal := hBn
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by omega)
+  have : B.Normal := hBn
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by omega)
   have hns : ∃ b ∈ B, ∀ c : F, ρ b ≠ c • (1 : V →ₗ[F] V) :=
     ⟨b0, hb0B, fun c hc => hb0 ⟨c, hc⟩⟩
   obtain ⟨k0, hk0K, hk0⟩ := hK1
@@ -96,11 +96,11 @@ theorem scalar_of_normal_solvable [Finite F] [Module.Finite F V] [Finite G] (h2 
           (fun x hx => hcomm b hb x hx)
       exact hk0 (perfect_trivial_of_comm ρ hK hc k0 hk0K)
     · have hnsimple : ∃ U : Submodule F V, (∀ b ∈ B, U ≤ U.comap (ρ b)) ∧ U ≠ ⊥ ∧ U ≠ ⊤ := by
-        push_neg at hsimple
+        push Not at hsimple
         exact hsimple
       exact hk0 (eigen_case ρ hirr hd2 hd3 B K hab hns hK hnsimple k0 hk0K)
   · have hnab : ∃ x ∈ B, ∃ y ∈ B, ρ x * ρ y ≠ ρ y * ρ x := by
-      push_neg at hab
+      push Not at hab
       obtain ⟨b, hb, b', hb', hne⟩ := hab
       exact ⟨b, hb, b', hb', hne⟩
     have hd : Module.finrank F V = 2 ∨ Module.finrank F V = 3 := by omega
@@ -142,7 +142,7 @@ theorem core_irreducible {F : Type} [Field F] [Finite F] {G : Type} [Group G] [F
   · exact perfect_trivial_of_comm ρ hK (fun a _ b _ => comm_of_finrank_le_one hd1 (ρ a) (ρ b))
   have hd2 : 2 ≤ Module.finrank F V := by omega
   by_contra hne
-  push_neg at hne
+  push Not at hne
   obtain ⟨k, hk, hkne⟩ := hne
   obtain ⟨K', hK'def⟩ : ∃ K' : Subgroup G, K' = K.map (MulAut.conj n).toMonoidHom :=
     ⟨_, rfl⟩

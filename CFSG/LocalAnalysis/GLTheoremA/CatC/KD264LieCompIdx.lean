@@ -134,7 +134,7 @@ theorem compAlgAt_of_mulEquiv {S S' : Type} [Group S] [Group S'] (e : S ≃* S')
     obtain ⟨k, rfl⟩ : ∃ k, ε k = k' := ⟨ε.symm k', ε.apply_symm_apply k'⟩
     rw [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.trans_apply,
       MulEquiv.symm_apply_apply]
-    simp [ε, Subgroup.coe_equivMapOfInjective_apply, MulEquiv.subgroupCongr_apply,
+    simp [ε, MulEquiv.subgroupCongr_apply,
       CFSG.GroupActions.subgroupStabRestrict_apply, hξ, MulAut.congr_apply]
   have hnat := centerQuotientHom_congr ε (CFSG.GroupActions.subgroupStabRestrict K ⟨ξ, hξstab⟩)
   rw [hα'] at hnat
@@ -170,8 +170,8 @@ private theorem kd264CompIdx_at
                     innAutDerived (↥J ⧸ Subgroup.center ↥J)) := by
   intro p hp hp2 hpc β hβmem hβp hβ1 J hJ
   obtain ⟨hfin, hsimple⟩ := CFSG.Assembly.lie_finite_simple d
-  haveI := hfin
-  haveI := hsimple
+  have := hfin
+  have := hsimple
   have hnc : ∃ a b : (TauCeti.CFSGIndex.lie d).Group, a * b ≠ b * a :=
     exists_mul_ne_mul_of_glaPComponent hp hJ
   have hpil : PerfectInLayer β :=

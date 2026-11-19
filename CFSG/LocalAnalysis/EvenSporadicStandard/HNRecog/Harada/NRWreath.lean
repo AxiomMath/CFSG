@@ -32,7 +32,7 @@ private theorem natCard_A5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
   norm_num
 
 private theorem natCard_A5WrTwo : Nat.card A5WrTwo = 7200 := by
-  haveI : Finite (Multiplicative (ZMod 2)) := inferInstance
+  have : Finite (Multiplicative (ZMod 2)) := inferInstance
   rw [RegularWreathProduct.card]
   have h2 : Nat.card (Multiplicative (ZMod 2)) = 2 := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
@@ -53,7 +53,7 @@ private theorem natCard_A5WrTwo : Nat.card A5WrTwo = 7200 := by
         (if x = 1 then p.1 else p.2) *
           (if (1 : Multiplicative (ZMod 2))⁻¹ * x = 1 then q.1 else q.2)
       rcases coord_cases x with rfl | rfl <;>
-        simp [inv_one_eq, inv_one_mul, ofAdd_one_ne_one]
+        simp
     · simp [RegularWreathProduct.mul_def]
 
 @[expose] def wrSwap : A5WrTwo := ⟨1, Multiplicative.ofAdd 1⟩
@@ -94,9 +94,8 @@ theorem wrSwap_mul_wrBase_mul_inv (p : alternatingGroup (Fin 5) × alternatingGr
   apply RegularWreathProduct.ext
   · funext x
     rcases coord_cases x with rfl | rfl <;>
-      simp [wrSwap, wrBase, Prod.swap, RegularWreathProduct.mul_def, hσ2, hσinv,
-        ofAdd_one_ne_one]
-  · simp [wrSwap, wrBase, RegularWreathProduct.mul_def, hσ2, hσinv]
+      simp [wrSwap, wrBase, Prod.swap, RegularWreathProduct.mul_def]
+  · simp [wrSwap, wrBase, RegularWreathProduct.mul_def]
 
 theorem wrSwap_mul_self : wrSwap * wrSwap = wrBase 1 := by
   have hσ2 : (Multiplicative.ofAdd 1 : Multiplicative (ZMod 2)) *
@@ -106,7 +105,7 @@ theorem wrSwap_mul_self : wrSwap * wrSwap = wrBase 1 := by
   apply RegularWreathProduct.ext
   · funext x
     rcases coord_cases x with rfl | rfl <;>
-      simp [wrSwap, wrBase, RegularWreathProduct.mul_def, hσ2, hσinv]
-  · simp [wrSwap, wrBase, RegularWreathProduct.mul_def, hσ2, hσinv]
+      simp [wrSwap, wrBase, RegularWreathProduct.mul_def, hσ2]
+  · simp [wrSwap, wrBase, RegularWreathProduct.mul_def, hσ2]
 
 end CFSG.EvenSporadicStandard.HNRecog.Harada

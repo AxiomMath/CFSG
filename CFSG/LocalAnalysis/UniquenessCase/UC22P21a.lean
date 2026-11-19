@@ -10,6 +10,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_of_inverts {A B : Subgroup G} (hAB : A ≤ B) {t : G}
     (ht : ∀ x ∈ B, t * x * t⁻¹ = x⁻¹) : t ∈ normalizer (A : Set G) := by
   rw [mem_normalizer_iff]

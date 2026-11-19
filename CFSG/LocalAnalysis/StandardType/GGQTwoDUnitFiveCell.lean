@@ -47,7 +47,7 @@ theorem ggQTwoCellInputOn_unit_five (hBal : GGLBalanceInput) (hTBF : GGTBFixInpu
     GGQTwoCellInputOn (fun m => m = 5) qtwoOrthL.compl := by
   classical
   intro G _ _ p B Bs x L D J 𝒦 ι M e hcfg m e' hm hM hcell
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨F0, _, _, _, ψ, ε, hbase⟩ := ggQTwoDUnit_base_of_ne_six ggLabelRigidInput_holds hTBF
     hWI hcfg e' (by omega) (by omega) hM hcell
   obtain ⟨βL, ω, hcoords⟩ := ggQTwoDUnit_coords hTBF hWI hcfg e' (by omega) hM hbase

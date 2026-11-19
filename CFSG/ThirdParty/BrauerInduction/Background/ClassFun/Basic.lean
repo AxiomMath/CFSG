@@ -643,7 +643,7 @@ embeds linearly into the finite-dimensional function space `G → k`.
 -/
 noncomputable instance finiteDimensional :
     FiniteDimensional k (ClassFun k G) := by
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
 
   let coeLinearMap : ClassFun k G →ₗ[k] (G → k) := {
     toFun := fun f => f

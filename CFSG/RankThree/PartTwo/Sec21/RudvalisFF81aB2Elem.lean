@@ -32,6 +32,7 @@ theorem mem_normalizer_of_conj_mem {H : Subgroup G} {g : G}
       simpa using this
     exact this ▸ hy
 
+omit [Finite G] in
 theorem exists_pow_eq_zpow {x : G} (hx : x ^ 3 = 1) (k : ℤ) : ∃ n : ℕ, n < 3 ∧ x ^ k = x ^ n := by
   refine ⟨(k % 3).toNat, ?_, ?_⟩
   · have h0 : 0 ≤ k % 3 := Int.emod_nonneg _ (by norm_num)
@@ -48,6 +49,7 @@ variable {b₁ b₂ b₃ : G}
 @[expose] def coord (b₁ b₂ b₃ : G) (v : Fin 3 × Fin 3 × Fin 3) : G :=
   b₁ ^ (v.1 : ℕ) * b₂ ^ (v.2.1 : ℕ) * b₃ ^ (v.2.2 : ℕ)
 
+omit [Finite G] in
 theorem coord_mem (v : Fin 3 × Fin 3 × Fin 3) :
     coord b₁ b₂ b₃ v ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G) := by
   have h1 : b₁ ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G) := Subgroup.subset_closure (by simp)
@@ -59,12 +61,14 @@ variable (h12 : b₁ * b₂ = b₂ * b₁) (h13 : b₁ * b₃ = b₃ * b₁) (h2
   (h1 : b₁ ^ 3 = 1) (h2 : b₂ ^ 3 = 1) (h3 : b₃ ^ 3 = 1)
 include h12 h13 h23 h1 h2 h3
 
+omit [Finite G] in
 theorem exists_coord {z : G} (hz : z ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G)) :
     ∃ v, coord b₁ b₂ b₃ v = z := by
   obtain ⟨v, hv⟩ := CFSG.RankThree.PartOne.NF7J.mem_range_of_closure b₁ b₂ b₃ h12 h13 h23 h1 h2
     h3 hz
   exact ⟨v, hv⟩
 
+omit [Finite G] in
 theorem coord_injective (hcard : Nat.card (Subgroup.closure ({b₁, b₂, b₃} : Set G)) = 27) :
     Function.Injective (coord b₁ b₂ b₃) := by
   set B₁ := Subgroup.closure ({b₁, b₂, b₃} : Set G)
@@ -79,6 +83,7 @@ theorem coord_injective (hcard : Nat.card (Subgroup.closure ({b₁, b₂, b₃} 
 
 end Coords
 
+omit [Finite G] in
 theorem card_cen_cycle_le {b₁ b₂ b₃ c : G} (h12 : b₁ * b₂ = b₂ * b₁) (h13 : b₁ * b₃ = b₃ * b₁)
     (h23 : b₂ * b₃ = b₃ * b₂) (h1 : b₁ ^ 3 = 1) (h2 : b₂ ^ 3 = 1) (h3 : b₃ ^ 3 = 1)
     (hcard : Nat.card (Subgroup.closure ({b₁, b₂, b₃} : Set G)) = 27)
@@ -149,6 +154,7 @@ section Cube
 
 variable {b : G} {W B₂ : Subgroup G}
 
+omit [Finite G] in
 theorem pow_mul_cube (hb3 : b ^ 3 = 1) (hbW : ∀ y ∈ W, b * y = y * b) (hWB₂ : W ≤ B₂)
     (hW3 : ∀ y ∈ W, y ^ 3 = 1) (hB₂ab : ∀ x ∈ B₂, ∀ y ∈ B₂, x * y = y * x)
     (hbB₂ : ∀ x ∈ B₂, b * x * b⁻¹ * x⁻¹ ∈ W) {x : G} (hx : x ∈ B₂) (n : ℕ) :
@@ -227,10 +233,12 @@ section Main
 
 variable {b b₁ b₂ b₃ c : G} {B₂ : Subgroup G}
 
+omit [Finite G] in
 theorem B₁_le_B : Subgroup.closure ({b₁, b₂, b₃} : Set G) ≤
     Subgroup.closure ({b, b₁, b₂, b₃} : Set G) :=
   Subgroup.closure_mono (by intro x hx; simp only [Set.mem_insert_iff] at hx ⊢; tauto)
 
+omit [Finite G] in
 theorem b_mem_B : b ∈ Subgroup.closure ({b, b₁, b₂, b₃} : Set G) :=
   Subgroup.subset_closure (by simp)
 
@@ -256,6 +264,7 @@ section Inputs
 
 variable {b b₁ b₂ b₃ c : G}
 
+omit [Finite G] in
 theorem cube_mem_centralizer (hcb : c * b * c⁻¹ = b) (hc₁ : c * b₁ * c⁻¹ = b₂)
     (hc₂ : c * b₂ * c⁻¹ = b₃) (hc₃ : c * b₃ * c⁻¹ = b₁) :
     c ^ 3 ∈ Subgroup.centralizer (Subgroup.closure ({b, b₁, b₂, b₃} : Set G) : Set G) := by
@@ -318,6 +327,7 @@ theorem exists_pow_isPGroup (hcb : c * b * c⁻¹ = b) (hc₁ : c * b₁ * c⁻�
   · rw [hconj b₂ (by simp), hc₂]
   · rw [hconj b₃ (by simp), hc₃]
 
+omit [Finite G] in
 theorem cube_mem_A {B₂ : Subgroup G} (hB₁B₂ : Subgroup.closure ({b₁, b₂, b₃} : Set G) ≤ B₂)
     (hcb : c * b * c⁻¹ = b) (hc₁ : c * b₁ * c⁻¹ = b₂) (hc₂ : c * b₂ * c⁻¹ = b₃)
     (hc₃ : c * b₃ * c⁻¹ = b₁) (hcp : IsPGroup 3 (Subgroup.zpowers c))
@@ -373,6 +383,7 @@ theorem exists_cube_eq {B₁ B₂ : Subgroup G} (hB₁B₂ : B₁ ≤ B₂)
   obtain ⟨x, hx⟩ := hmem
   exact ⟨x, x.2, congrArg Subtype.val hx⟩
 
+omit [Finite G] in
 theorem conj_cube_eq {B₁ B₂ : Subgroup G} (hB₁B₂ : B₁ ≤ B₂)
     (hB₂ab : ∀ x ∈ B₂, ∀ y ∈ B₂, x * y = y * x) (hB₁3 : ∀ y ∈ B₁, y ^ 3 = 1) {s : G}
     (hs : ∀ x ∈ B₂, s * x * s⁻¹ * x⁻¹ ∈ B₁) {x : G} (hx : x ∈ B₂) :
@@ -412,26 +423,35 @@ namespace Setup
 variable {b b₁ b₂ b₃ c : G} {B₂ : Subgroup G} (h : Setup b b₁ b₂ b₃ c B₂)
 include h
 
+omit [Finite G] h in
 theorem mem₁ : b₁ ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G) := Subgroup.subset_closure (by simp)
+omit [Finite G] h in
 theorem mem₂ : b₂ ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G) := Subgroup.subset_closure (by simp)
+omit [Finite G] h in
 theorem mem₃ : b₃ ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G) := Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 theorem b3 : b ^ 3 = 1 := h.B3 b b_mem_B
 
+omit [Finite G] in
 theorem B₁3 : ∀ y ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G), y ^ 3 = 1 :=
   fun y hy => h.B3 y (B₁_le_B hy)
 
+omit [Finite G] in
 theorem bB₁ : ∀ y ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G), b * y = y * b :=
   fun y hy => h.Bab b b_mem_B y (B₁_le_B hy)
 
+omit [Finite G] in
 theorem B₁comm : ∀ x ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G),
     ∀ y ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G), x * y = y * x :=
   fun x hx y hy => h.Bab x (B₁_le_B hx) y (B₁_le_B hy)
 
+omit [Finite G] in
 theorem bn : ∀ x ∈ B₂, b * x * b⁻¹ ∈ B₂ := fun x hx => by
   have := mul_mem (h.B₁B₂ (h.bB₂ x hx)) hx
   rwa [inv_mul_cancel_right] at this
 
+omit [Finite G] in
 theorem A_cen : ∀ a ∈ Subgroup.zpowers b ⊔ B₂, ∀ z ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G),
     a * z = z * a := by
   have hle : Subgroup.zpowers b ⊔ B₂ ≤
@@ -446,6 +466,7 @@ theorem A_cen : ∀ a ∈ Subgroup.zpowers b ⊔ B₂, ∀ z ∈ Subgroup.closur
   intro a ha z hz
   exact ((Subgroup.mem_centralizer_iff.mp (hle ha)) z hz).symm
 
+omit [Finite G] in
 theorem cA : ∀ x ∈ Subgroup.zpowers b ⊔ B₂, c * x * c⁻¹ ∈ Subgroup.zpowers b ⊔ B₂ := by
   have hmap : (Subgroup.zpowers b ⊔ B₂).map (MulAut.conj c).toMonoidHom ≤
       Subgroup.zpowers b ⊔ B₂ := by
@@ -483,10 +504,10 @@ theorem card_cen_le {y : G} (hy : y ∈ Subgroup.zpowers b ⊔ B₂ ⊔ Subgroup
       _ = c ^ r * a * z := hz2
       _ = c ^ r * z * a := by rw [mul_assoc, haz, ← mul_assoc]
   refine (Subgroup.card_le_of_le hle).trans ?_
-  have h12 : b₁ * b₂ = b₂ * b₁ := h.B₁comm _ h.mem₁ _ h.mem₂
-  have h13 : b₁ * b₃ = b₃ * b₁ := h.B₁comm _ h.mem₁ _ h.mem₃
-  have h23 : b₂ * b₃ = b₃ * b₂ := h.B₁comm _ h.mem₂ _ h.mem₃
-  exact card_cen_cycle_le h12 h13 h23 (h.B₁3 _ h.mem₁) (h.B₁3 _ h.mem₂) (h.B₁3 _ h.mem₃)
+  have h12 : b₁ * b₂ = b₂ * b₁ := h.B₁comm _ Setup.mem₁ _ Setup.mem₂
+  have h13 : b₁ * b₃ = b₃ * b₁ := h.B₁comm _ Setup.mem₁ _ Setup.mem₃
+  have h23 : b₂ * b₃ = b₃ * b₂ := h.B₁comm _ Setup.mem₂ _ Setup.mem₃
+  exact card_cen_cycle_le h12 h13 h23 (h.B₁3 _ Setup.mem₁) (h.B₁3 _ Setup.mem₂) (h.B₁3 _ Setup.mem₃)
     h.B₁card h.c₁ h.c₂ h.c₃ hr12
 
 theorem relIndex_A_le :
@@ -583,6 +604,7 @@ theorem isPGroup_P : IsPGroup 3 ↥(Subgroup.zpowers b ⊔ B₂ ⊔ Subgroup.zpo
       zpow_mul, zpow_natCast, hck, one_zpow]
   exact IsPGroup.to_sup_of_normal_left' hA hcp (zpowers_le_normalizer h.cA)
 
+omit [Finite G] in
 theorem B_le_P : Subgroup.closure ({b, b₁, b₂, b₃} : Set G) ≤
     Subgroup.zpowers b ⊔ B₂ ⊔ Subgroup.zpowers c := by
   rw [Subgroup.closure_le]
@@ -590,10 +612,11 @@ theorem B_le_P : Subgroup.closure ({b, b₁, b₂, b₃} : Set G) ≤
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
   rcases hx with rfl | rfl | rfl | rfl
   · exact Subgroup.mem_sup_left (Subgroup.mem_sup_left (Subgroup.mem_zpowers _))
-  · exact Subgroup.mem_sup_left (Subgroup.mem_sup_right (h.B₁B₂ h.mem₁))
-  · exact Subgroup.mem_sup_left (Subgroup.mem_sup_right (h.B₁B₂ h.mem₂))
-  · exact Subgroup.mem_sup_left (Subgroup.mem_sup_right (h.B₁B₂ h.mem₃))
+  · exact Subgroup.mem_sup_left (Subgroup.mem_sup_right (h.B₁B₂ Setup.mem₁))
+  · exact Subgroup.mem_sup_left (Subgroup.mem_sup_right (h.B₁B₂ Setup.mem₂))
+  · exact Subgroup.mem_sup_left (Subgroup.mem_sup_right (h.B₁B₂ Setup.mem₃))
 
+omit [Finite G] in
 theorem P_le_N : Subgroup.zpowers b ⊔ B₂ ⊔ Subgroup.zpowers c ≤
     Subgroup.normalizer (Subgroup.closure ({b, b₁, b₂, b₃} : Set G) : Set G) := by
   refine sup_le (sup_le ((Subgroup.zpowers_le).2 ?_) h.B₂N) ((Subgroup.zpowers_le).2 h.cN)
@@ -642,11 +665,11 @@ theorem normalizer_P_le (hΩ : ∀ x ∈ B₂, x ^ 3 = 1 → x ∈ Subgroup.clos
 
 theorem exists_sylow (hΩ : ∀ x ∈ B₂, x ^ 3 = 1 → x ∈ Subgroup.closure ({b₁, b₂, b₃} : Set G)) :
     ∃ S : Sylow 3 G, (S : Subgroup G) = Subgroup.zpowers b ⊔ B₂ ⊔ Subgroup.zpowers c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P := Subgroup.zpowers b ⊔ B₂ ⊔ Subgroup.zpowers c with hPdef
   obtain ⟨S, hPS⟩ := h.isPGroup_P.exists_le_sylow
   refine ⟨S, le_antisymm ?_ hPS⟩
-  haveI : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup.isNilpotent
   have hNC := Group.normalizerCondition_of_isNilpotent (G := ↥(S : Subgroup G))
   rw [normalizerCondition_iff_only_full_group_self_normalizing] at hNC
   have hH := hNC (P.subgroupOf S) ?_
@@ -673,7 +696,7 @@ theorem exists_sylow (hΩ : ∀ x ∈ B₂, x ^ 3 = 1 → x ∈ Subgroup.closure
       exact Subgroup.mem_subgroupOf.mp h1
   have hsN := h.normalizer_P_le hΩ hsP
   have hsp : IsPGroup 3 (Subgroup.zpowers (s : G)) :=
-    (S.isPGroup'.to_le (Subgroup.zpowers_le.2 s.2))
+    (S.isPGroup.to_le (Subgroup.zpowers_le.2 s.2))
   have hR := h.Pmax (P ⊔ Subgroup.zpowers (s : G))
     (sup_le h.P_le_N ((Subgroup.zpowers_le).2 hsN))
     (IsPGroup.to_sup_of_normal_left' h.isPGroup_P hsp ((Subgroup.zpowers_le).2 hsP))
@@ -685,10 +708,11 @@ theorem exists_sylow (hΩ : ∀ x ∈ B₂, x ^ 3 = 1 → x ∈ Subgroup.closure
     exact hsR
   exact Subgroup.mem_subgroupOf.mpr hs'
 
+omit [Finite G] in
 theorem b₁_ne_one : b₁ ≠ 1 := by
   intro h1
-  have hinj := coord_injective (h.B₁comm _ h.mem₁ _ h.mem₂) (h.B₁comm _ h.mem₁ _ h.mem₃)
-    (h.B₁comm _ h.mem₂ _ h.mem₃) (h.B₁3 _ h.mem₁) (h.B₁3 _ h.mem₂) (h.B₁3 _ h.mem₃) h.B₁card
+  have hinj := coord_injective (h.B₁comm _ Setup.mem₁ _ Setup.mem₂) (h.B₁comm _ Setup.mem₁ _ Setup.mem₃)
+    (h.B₁comm _ Setup.mem₂ _ Setup.mem₃) (h.B₁3 _ Setup.mem₁) (h.B₁3 _ Setup.mem₂) (h.B₁3 _ Setup.mem₃) h.B₁card
   have e : coord b₁ b₂ b₃ (1, 0, 0) = coord b₁ b₂ b₃ (0, 0, 0) := by
     simp [coord, h1]
   exact absurd (hinj e) (by decide)
@@ -707,7 +731,7 @@ theorem not_mem_commutator
   intro hb hmem
   obtain ⟨s, hs1, hs⟩ := hbN' hb hmem
   obtain ⟨x, hx, hxb⟩ := exists_cube_eq h.B₁B₂ h.B₂ab h.B₂3 h.B₁3 hΩ
-    (by rw [hB₂card, h.B₁card]; norm_num) h.mem₁
+    (by rw [hB₂card, h.B₁card]; norm_num) Setup.mem₁
   have hfix : s * b₁ * s⁻¹ = b₁ := by
     rw [← hxb]
     exact conj_cube_eq h.B₁B₂ h.B₂ab h.B₁3 hs hx
@@ -718,7 +742,7 @@ theorem not_mem_commutator
   apply h.b₁_ne_one
   calc b₁ = b₁ * (b₁ * b₁) * (b₁ * b₁)⁻¹ := (mul_inv_cancel_right b₁ (b₁ * b₁)).symm
     _ = b₁ ^ 3 * (b₁ * b₁)⁻¹ := by rw [pow_three]
-    _ = 1 := by rw [h.B₁3 _ h.mem₁, hsq, inv_one, one_mul]
+    _ = 1 := by rw [h.B₁3 _ Setup.mem₁, hsq, inv_one, one_mul]
 
 end Setup
 
@@ -728,7 +752,7 @@ theorem false_of_omega {b b₁ b₂ b₃ c : G} {B₂ : Subgroup G} (h : Setup b
       (⟨b, hb⟩ : ↥(Subgroup.normalizer (Subgroup.closure ({b, b₁, b₂, b₃} : Set G) : Set G))) ∉
         commutator ↥(Subgroup.normalizer (Subgroup.closure ({b, b₁, b₂, b₃} : Set G) : Set G)))
     (hbG : b ∈ commutator G) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := h.exists_sylow hΩ
   have hBS : Subgroup.closure ({b, b₁, b₂, b₃} : Set G) ≤ S := hS ▸ h.B_le_P
   have hSN : (S : Subgroup G) ≤
@@ -740,6 +764,7 @@ theorem false_of_omega {b b₁ b₂ b₃ c : G} {B₂ : Subgroup G} (h : Setup b
   exact hbN _ (CFSG.RankThree.Transfer.WCP.mem_commutator_of_weaklyClosed S hBS hSN hwc h.Bab
     b_mem_B h.b3 hbG)
 
+omit [Finite G] in
 theorem exp_three_of_irreducible_of {b b₁ b₂ b₃ c : G} {B₂ : Subgroup G}
     (h : Setup b b₁ b₂ b₃ c B₂) {T : Set G} (hT : ∀ g ∈ T, ∀ x ∈ B₂, g * x * g⁻¹ ∈ B₂)
     (hirr : ∀ U : Subgroup G, Subgroup.closure ({b₁, b₂, b₃} : Set G) ≤ U → U ≤ B₂ →

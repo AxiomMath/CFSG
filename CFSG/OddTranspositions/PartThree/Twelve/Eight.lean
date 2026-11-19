@@ -367,7 +367,7 @@ theorem ncard_le_ncard_mul_of_fibres {α β : Type} [Finite α] [Finite β] (P :
     calc (P.toFinset.filter fun p => p.1 = x).card ≤ {z | (x, z) ∈ P}.toFinset.card := by
           refine Finset.card_le_card_of_injOn Prod.snd (fun p hp => ?_) (fun p hp p' hp' h => ?_)
           · rw [Finset.mem_coe, Finset.mem_filter, Set.mem_toFinset] at hp
-            rw [Finset.mem_coe, Set.mem_toFinset, Set.mem_setOf_eq, ← hp.2]
+            rw [Finset.mem_coe, Set.mem_toFinset, Set.mem_ofPred_eq, ← hp.2]
             exact hp.1
           · rw [Finset.mem_coe, Finset.mem_filter] at hp hp'
             exact Prod.ext (hp.2.trans hp'.2.symm) h

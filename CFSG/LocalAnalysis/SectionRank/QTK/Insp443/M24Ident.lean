@@ -44,7 +44,7 @@ theorem refData_o :
         omega
       rw [← MonoidHom.range_eq_top]
       exact Subgroup.eq_top_of_card_eq _ h2
-    haveI : IsSimpleGroup ↥(StatedSL 4 (ZMod 2)) := E16.isSimpleGroup_statedSL4
+    have : IsSimpleGroup ↥(StatedSL 4 (ZMod 2)) := E16.isSimpleGroup_statedSL4
     exact simple_of_surj _ hsurj hker
 
 end M24
@@ -88,7 +88,7 @@ theorem KConfig.m24_eq_sextet
     norm_num
   have hL_le : L ≤ Ls.map f :=
     le_of_perfect_of_relIndex_le (K := L) (H := Ls.map f) (N := Ns.map f) hLN h.perfect hi
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hy5 : f y5 ∈ L := by
     refine mem_of_sylow (p := 5) (N := Ns.map f) (M₀ := L) (x := f y5) (y := y)
       ?_ ?_ ?_ hLN hNL hy hyk hy1
@@ -202,7 +202,7 @@ theorem KConfig.m24_eq_u5
     norm_num
   have hL_le : L ≤ Lq.map f :=
     le_of_perfect_of_relIndex_le (K := L) (H := Lq.map f) (N := Nq.map f) hLN h.perfect hi
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hy7 : f y7 ∈ L := by
     refine mem_of_sylow (p := 7) (N := Nq.map f) (M₀ := L) (x := f y7) (y := y)
       ?_ ?_ ?_ hLN hNL hy hyk hy1

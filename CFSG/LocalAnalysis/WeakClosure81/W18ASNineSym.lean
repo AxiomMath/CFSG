@@ -20,10 +20,10 @@ theorem noSocle185Factor_perm (hO : LieOrderFormulasInput) (n : ℕ) :
       exact (Nat.factorial_dvd_factorial hn : Nat.factorial n ∣ Nat.factorial 6)
     exact (hT.card_facts hO).2.1 (hd.trans h720)
   · have h7 : 7 ≤ n := by omega
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     refine NoSocle185Factor.of_index_two (alternatingGroup (Fin n))
       alternatingGroup.index_eq_two ?_
-    haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin n)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
     refine NoSocle185Factor.of_isSimpleGroup fun T _ hT => ⟨fun e => ?_⟩
     obtain ⟨t, m, p, f, hp, hp2, hadm, hY⟩ := hT.oddLieType

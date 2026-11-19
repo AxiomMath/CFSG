@@ -55,7 +55,7 @@ theorem j0_catalog (c : Ctx82E3 D) {J : Subgroup G} (hJ : J ∈ thetaComponentsA
     (CFSG.RankThree.PartOne.mem_thetaComponentsAt_iff.mp hJ).1
   have hKc : CFSG.Open.IsKGroup ↥(Subgroup.centralizer ({a} : Set G)) :=
     isKGroup_centralizer c ha1
-  haveI := j0_isSimpleGroup (a := a) hJ
+  have := j0_isSimpleGroup (a := a) hJ
   let e : ↥(J.subgroupOf (Subgroup.centralizer ({a} : Set G))) ≃* ↥J :=
     Subgroup.subgroupOfEquivOfLe hJC
   let f : ↥J →* J0 J :=
@@ -71,11 +71,11 @@ theorem outer_jtilde_solvable (c : Ctx82E3 D) {J : Subgroup G}
     (hJ : J ∈ thetaComponentsAt 3 a) (h3a : orderOf a = 3)
     (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) :
     Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer (Jtilde J)) := by
-  haveI := jtilde_perfect (a := a) hJ
+  have := jtilde_perfect (a := a) hJ
   have ha1 : a ≠ 1 := by rintro rfl; rw [orderOf_one] at h3a; omega
-  haveI := j0_isSimpleGroup (a := a) hJ
+  have := j0_isSimpleGroup (a := a) hJ
   have hcat : IsCatalogGroup (J0 J) := j0_catalog c (a := a) hJ ha1
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer (J0 J)) :=
     hSch (J0 J) (j0_isSimpleGroup (a := a) hJ) (j0_nonabelian (a := a) hJ) hcat
   exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient (Jtilde J)
@@ -103,8 +103,8 @@ theorem piJ_range_le_conj {J : Subgroup G} (hIJ : Ia c a ≤ Subgroup.normalizer
     (hJ : J ∈ thetaComponentsAt 3 a) (h3a : orderOf a = 3)
     (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) :
     (piJ c hIJ).range ≤ (MulAut.conj : Jtilde J →* MulAut (Jtilde J)).range := by
-  haveI : Group.IsPerfect ↥(Ia c a) := Ia_perfect c a
-  haveI := outer_jtilde_solvable c (a := a) hJ h3a hSch
+  have : Group.IsPerfect ↥(Ia c a) := Ia_perfect c a
+  have := outer_jtilde_solvable c (a := a) hJ h3a hSch
   exact range_le_conj_range_of_perfect _
 
 theorem conj_ker {H : Type} [Group H] :
@@ -139,10 +139,10 @@ theorem ker_eq_bot_of_isTripleCover {T B : Type} [Group T] [Finite T] [Group B]
     {ζ : T} (hζZ : ζ ∈ Subgroup.center T) (hζ3 : orderOf ζ = 3) (hζB : f ζ ≠ 1) :
     f.ker = ⊥ := by
   classical
-  haveI hTperf : Group.IsPerfect T := hperf
+  have hTperf : Group.IsPerfect T := hperf
   have hZcard : Nat.card (Subgroup.center T) = 3 := hT.1
-  haveI : Group.IsPerfect B := Group.IsPerfect.ofSurjective (f := f) hf
-  haveI : Nontrivial B := ⟨1, f ζ, hζB.symm⟩
+  have : Group.IsPerfect B := Group.IsPerfect.ofSurjective (f := f) hf
+  have : Nontrivial B := ⟨1, f ζ, hζB.symm⟩
   set Z := Subgroup.center T with hZ
   have hZgen : Subgroup.zpowers ζ = Z := by
     refine Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hζZ) (le_of_eq ?_)
@@ -150,14 +150,14 @@ theorem ker_eq_bot_of_isTripleCover {T B : Type} [Group T] [Finite T] [Group B]
   by_contra hne
   set K := f.ker with hKdef
   have hKne : K ≠ ⊥ := hne
-  haveI hKnorm : K.Normal := MonoidHom.normal_ker f
+  have hKnorm : K.Normal := MonoidHom.normal_ker f
   let q : T →* T ⧸ Z := QuotientGroup.mk' Z
-  haveI hA6simple : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
+  have hA6simple : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by norm_num)
-  haveI hsimple : IsSimpleGroup (T ⧸ Z) := by
+  have hsimple : IsSimpleGroup (T ⧸ Z) := by
     obtain ⟨e⟩ := hT.2
     exact MulEquiv.isSimpleGroup e
-  haveI hKmapNormal : (K.map q).Normal := hKnorm.map q (QuotientGroup.mk'_surjective Z)
+  have hKmapNormal : (K.map q).Normal := hKnorm.map q (QuotientGroup.mk'_surjective Z)
   rcases Subgroup.Normal.eq_bot_or_eq_top (K.map q) with hbot | htop
   · have hKZ : K ≤ Z := by
       rw [← QuotientGroup.ker_mk' Z]

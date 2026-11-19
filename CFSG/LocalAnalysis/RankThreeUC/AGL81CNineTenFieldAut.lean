@@ -56,7 +56,7 @@ private theorem pow_three_mul_mem_centralizer {G : Type*} [Group G] {K : Subgrou
     simpa using conj_mem_centralizer (inv_mem hg2) hm
   have hkey : (g * m) ^ 3
       = g ^ 3 * ((g ^ 2)⁻¹ * m * g ^ 2) * (g⁻¹ * m * g) * m := by
-    simp only [pow_succ, pow_zero, one_mul, mul_one, inv_pow]
+    simp only [pow_succ, pow_zero, one_mul]
     group
   rw [hkey]
   exact mul_mem (mul_mem (mul_mem hg3 h2) h1) hm
@@ -65,7 +65,7 @@ theorem isElemAbelian_sup_zpowers_of_notMem {X : Type*} [Group X] [Finite X] {p 
     (hp : p.Prime) {A : Subgroup X} {a : ℕ} (hA : IsElemAbelian p A) (hAc : Nat.card A = p ^ a)
     {y : X} (hy : y ∉ A) (hyp : y ^ p = 1) (hcomm : ∀ b ∈ A, b * y = y * b) :
     IsElemAbelian p (A ⊔ zpowers y) ∧ Nat.card ↥(A ⊔ zpowers y) = p ^ (a + 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hy1 : y ≠ 1 := fun h => hy (h ▸ A.one_mem)
   have hyord : orderOf y = p := orderOf_eq_prime hyp hy1
   have hcardE : Nat.card (zpowers y) = p := by rw [Nat.card_zpowers, hyord]
@@ -101,7 +101,7 @@ theorem exists_mul_commute_of_mem_normalizer (h714 : SevenOneFourField) {X : Typ
     (hx : x ∈ normalizer (D : Set X)) (hxp : x ^ p = 1) :
     ∃ l ∈ D, (x * l) ^ p ∈ centralizer (D : Set X) ∧
       ∃ z ∈ D, orderOf z = p ∧ x * l * z = z * (x * l) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hNd : D ≤ normalizer (D : Set X) := Subgroup.le_normalizer
   have hLE : D ≤ normalizer (centralizer (D : Set X)) := by
     rw [Subgroup.le_normalizer_iff]

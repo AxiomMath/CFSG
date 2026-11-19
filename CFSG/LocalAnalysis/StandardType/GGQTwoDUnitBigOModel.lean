@@ -185,7 +185,7 @@ theorem qtwoDB43_model_of (hRig : GGLabelRigidInput) (hm : 6 ≤ m) {N : Subgrou
       (∀ (s : ↥Bs) (n : ↥N), (s : G) * n = n * s →
         σ n * τ (Multiplicative.ofAdd (βL (Additive.ofMul s))) =
           τ (Multiplicative.ofAdd (βL (Additive.ofMul s))) * σ n) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨V, i₁, i₂, i₃, Q, σ, β, hQ, hdim, hplus, hZ, hcompat⟩ :=
     qtwoDB43_quad hRig hm hinner hBs hSC hBsN hΛ hlab htag
   obtain ⟨τ, hτ⟩ := qtwoDB43_exists_tau β βL

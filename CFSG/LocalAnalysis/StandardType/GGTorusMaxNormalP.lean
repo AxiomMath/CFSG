@@ -18,7 +18,7 @@ private theorem tmNormP_normal_pgroup_le_sylow {G : Type*} [Group G] [Finite G] 
   have hQp' : IsPGroup p (Q.subgroupOf H) :=
     IsPGroup.of_injective hQp (Q.subgroupOfEquivOfLe hQH).toMonoidHom
       (Q.subgroupOfEquivOfLe hQH).injective
-  haveI := hQnorm
+  have := hQnorm
   have hle : Q.subgroupOf H ≤ (P.subtype hPH : Subgroup H) :=
     IsPGroup.le_sylow_of_normal hQp' (P.subtype hPH)
   have hle' : Q.subgroupOf H ≤ (P : Subgroup G).subgroupOf H := by
@@ -31,7 +31,7 @@ private theorem tmNormP_normal_pgroup_le_sylow {G : Type*} [Group G] [Finite G] 
 
 theorem tmNormP_overgroup_le_normalizer {L : Type*} [Group L] [Finite L] (p : ℕ) [Fact p.Prime]
     (E : Subgroup L) (hEp : IsPGroup p E) (hE0 : E ≠ ⊥)
-    (hEab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
+    (_hEab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
     (hcent : ∀ g ∈ Subgroup.normalizer (E : Set L), (∀ e ∈ E, g * e = e * g) → g ∈ E)
     (hirr : ∀ F : Subgroup L, F ≤ E →
       (∀ g ∈ Subgroup.normalizer (E : Set L), ∀ f ∈ F, g * f * g⁻¹ ∈ F) → F = ⊥ ∨ F = E)
@@ -45,7 +45,7 @@ theorem tmNormP_overgroup_le_normalizer {L : Type*} [Group L] [Finite L] (p : �
     le_trans (tmNormP_normal_pgroup_le_sylow hQH hQn hQp P hPH) hPM
   have hMQ : ∀ m ∈ Subgroup.normalizer (E : Set L), ∀ q ∈ Q, m * q * m⁻¹ ∈ Q :=
     fun m hm q hq => hQn m (hMH hm) q hq
-  letI : MulAction Q E := MulAction.compHom E (Subgroup.inclusion hQM)
+  let : MulAction Q E := MulAction.compHom E (Subgroup.inclusion hQM)
   have hdvd : p ∣ Nat.card E := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hEp
     have hn0 : n ≠ 0 := by

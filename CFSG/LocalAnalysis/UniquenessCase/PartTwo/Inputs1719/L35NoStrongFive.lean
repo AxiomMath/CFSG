@@ -67,7 +67,7 @@ theorem k_L35NoStrongFive_of_smallIdent (hSI : CFSG.AGLEmbedding.KFactSmallIdent
   obtain ⟨T⟩ : Nonempty (Sylow 5 X) := inferInstance
   have hTcyc : ¬ IsCyclic (T : Subgroup X) := hd.not_isCyclic_sylow T
   have hTsyl : CFSG.RankThree.PartOne.IsSylowOf 5 (T : Subgroup X) ⊤ :=
-    ⟨le_top, T.isPGroup',
+    ⟨le_top, T.isPGroup,
       by simpa [Subgroup.relIndex_top_right] using T.not_dvd_index⟩
   obtain ⟨g, hgT⟩ :=
     CFSG.RankThree.PartOne.IsStronglyPEmbedded.exists_conj_ge hN hTsyl
@@ -77,7 +77,7 @@ theorem k_L35NoStrongFive_of_smallIdent (hSI : CFSG.AGLEmbedding.KFactSmallIdent
     hNne (CFSG.RankThree.PartOne.StrongP.conjSub_eq_top_iff.mp h)
   have hΓ : CFSG.Open.GLBCore 5 1 (T : Subgroup X) ≠ ⊤ :=
     ne_top_of_le_ne_top hN'ne
-      (CFSG.LocalAnalysis.UniquenessCase.UCK.glbCore_le_of_isStronglyPEmbedded hN' T.isPGroup'
+      (CFSG.LocalAnalysis.UniquenessCase.UCK.glbCore_le_of_isStronglyPEmbedded hN' T.isPGroup
         hgT)
   exact not_isSmallStrongP_five hcard hsimple
     (hSI X hsimple hnab hcat 5 Nat.prime_five (by norm_num) T hTcyc hΓ hrk)

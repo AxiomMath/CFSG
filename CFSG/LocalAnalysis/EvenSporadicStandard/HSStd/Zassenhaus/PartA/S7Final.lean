@@ -44,7 +44,7 @@ theorem s7
       (fun f hf => mem_centralizer_iff.2 fun x hx => (a.toPA5.s7_F_comm_core hb f hf x hx).symm)
       (a.toPA5.s7_core_comm hb) hinv a.toPA5.s7_JT (a.toPA5.s7_JT_perfect hb)
       (a.toPA5.s7_yT_mem_JT hb) (a.toPA5.s7_JT_map_le hb) ⟨D₁, hD₁, hBD⟩
-  haveI := hEn
+  have := hEn
   have hF : a.s7_F.map a.s7_N₁.subtype = a.F₀ :=
     Subgroup.map_subgroupOf_eq_of_le (a.toPA5.s7_F₀_le_N₁ hb)
   have hEperf := s7tg_map_perfect a.s7_N₁ E' hEp

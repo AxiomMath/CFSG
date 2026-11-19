@@ -27,7 +27,7 @@ theorem isIrreducible_of_simple {G : Type*} [Group G] [Finite G] (V : FDRep ℂ 
   have hcard : ((Nat.card G : ℂ)) ≠ 0 := Nat.cast_ne_zero.2 Nat.card_pos.ne'
   have : Invertible ((Nat.card G : ℂ)) := invertibleOfNonzero hcard
   have h := FDRep.char_orthonormal V V
-  rw [if_pos ⟨Iso.refl V⟩] at h
+  rw [ite_eq_left ⟨Iso.refl V⟩] at h
   have hch : Representation.character (V.ρ) = V.character := rfl
   rw [isIrreducible_iff_cfInner_self_eq_one, cfInner_def, hch]
   have hinv : ∀ g : G, (starRingEnd ℂ) (V.character g) = V.character g⁻¹ := fun g => by
@@ -233,9 +233,9 @@ theorem eq_of_sum_sub_sum_eq (hc : IsSubcoherent S tau R) {χ ψ : L → ℂ}
     intro α hα A hA r hr
     rw [cfInner_sum_left]
     by_cases hrA : r ∈ A
-    · rw [if_pos hrA, Finset.sum_eq_single_of_mem r hrA
+    · rw [ite_eq_left hrA, Finset.sum_eq_single_of_mem r hrA
         fun s hs hsr => hc.cfInner_R_of_ne hα s (hA hs) r hr hsr, hc.cfInner_R_self hα r hr]
-    · rw [if_neg hrA]
+    · rw [ite_eq_right hrA]
       exact Finset.sum_eq_zero fun s hs =>
         hc.cfInner_R_of_ne hα s (hA hs) r hr fun hsr => hrA (hsr ▸ hs)
   have crossχ : ∀ {A : Finset (G → ℂ)}, A ⊆ R ψ → ∀ r ∈ R χ, cfInner (∑ s ∈ A, s) r = 0 := by
@@ -255,11 +255,11 @@ theorem eq_of_sum_sub_sum_eq (hc : IsSubcoherent S tau R) {χ ψ : L → ℂ}
       constructor
       · intro hmem
         by_contra hmem'
-        rw [if_pos hmem, if_neg hmem'] at hh
+        rw [ite_eq_left hmem, ite_eq_right hmem'] at hh
         exact one_ne_zero hh
       · intro hmem'
         by_contra hmem
-        rw [if_neg hmem, if_pos hmem'] at hh
+        rw [ite_eq_right hmem, ite_eq_left hmem'] at hh
         exact zero_ne_one hh
     · exact ⟨fun hmem => absurd (hE hmem) hr, fun hmem => absurd (hE' hmem) hr⟩
   · refine Finset.ext fun r => ?_
@@ -270,11 +270,11 @@ theorem eq_of_sum_sub_sum_eq (hc : IsSubcoherent S tau R) {χ ψ : L → ℂ}
       constructor
       · intro hmem
         by_contra hmem'
-        rw [if_pos hmem, if_neg hmem'] at hh
+        rw [ite_eq_left hmem, ite_eq_right hmem'] at hh
         exact one_ne_zero hh
       · intro hmem'
         by_contra hmem
-        rw [if_neg hmem, if_pos hmem'] at hh
+        rw [ite_eq_right hmem, ite_eq_left hmem'] at hh
         exact zero_ne_one hh
     · exact ⟨fun hmem => absurd (hF hmem) hr, fun hmem => absurd (hF' hmem) hr⟩
 

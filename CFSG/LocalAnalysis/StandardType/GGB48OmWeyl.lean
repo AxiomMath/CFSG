@@ -36,8 +36,8 @@ private theorem card_E_eq_27 {K : Type} [Field K] [Finite K] [CharP K 2] (hK : N
     (hself : ∀ g : ↥(omegaMinus8 K b c), g ∈ Subgroup.centralizer (E : Set ↥(omegaMinus8 K b c)) →
       g ^ 3 = 1 → g ∈ E) :
     Nat.card E = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   let H : Subgroup (GL CFSG.ClassicalGroups.Orthogonal.OmegaMinus8ThreeLocal.OmegaIdx K) := omegaMinus8 K b c
   set E₁ : Subgroup (GL CFSG.ClassicalGroups.Orthogonal.OmegaMinus8ThreeLocal.OmegaIdx K) := E.map H.subtype with hE₁
   have hE₁_ea : IsElemAbelian 3 E₁ := by
@@ -136,7 +136,7 @@ theorem exists_signedRealizers {K : Type} [Field K] [Finite K] [CharP K 2] (hK :
       (∀ i, s i ∈ Subgroup.normalizer (E : Set ↥(omegaMinus8 K b c))) ∧
         ∀ i j, (∀ e ∈ E, s i * e * (s i)⁻¹ = s j * e * (s j)⁻¹) → i = j := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : (3 : K) ≠ 0 := by
     intro h
     have hdvd : (2 : ℕ) ∣ 3 := (CharP.cast_eq_zero_iff K 2 3).mp h

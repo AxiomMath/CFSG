@@ -69,7 +69,7 @@ theorem rckRowIIAtTri_of_modelPair
     have h1 : (MulAut.conj (1 : (triD4Universal F σ).K)).toMonoidHom =
         MonoidHom.id (triD4Universal F σ).K := by
       ext y
-      simp [MulAut.conj_apply]
+      simp
     show ggRootSub (triD4Universal F σ).D e.toMonoidHom β 1 = _
     rw [ggRootSub, h1, Subgroup.map_id]
   have hcardR : Nat.card R = 2 := by

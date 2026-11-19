@@ -50,14 +50,14 @@ theorem bdeg_idxOne (hn : 3 ≤ n) (hε : ε r₀ = {idxOne hn, idxLast hn}) :
     bdeg ε (r₀, idxOne hn) = 1 := by
   have hmem : idxOne hn ∈ ε r₀ := by rw [hε]; simp
   simp only [bdeg]
-  rw [if_pos hmem, idxOne_val]
+  rw [ite_eq_left hmem, idxOne_val]
 
 omit [Fintype τ] [DecidableEq τ] in
 theorem bdeg_idxLast (hn : 3 ≤ n) (hε : ε r₀ = {idxOne hn, idxLast hn}) :
     bdeg ε (r₀, idxLast hn) = n - 1 := by
   have hmem : idxLast hn ∈ ε r₀ := by rw [hε]; simp
   simp only [bdeg]
-  rw [if_pos hmem, idxLast_val]
+  rw [ite_eq_left hmem, idxLast_val]
 
 omit [Fintype τ] in
 theorem bdeg_eq_zero_of_ne (hn : 3 ≤ n) (hε : ε r₀ = {idxOne hn, idxLast hn})
@@ -74,12 +74,12 @@ theorem bdeg_eq_zero_of_ne (hn : 3 ≤ n) (hε : ε r₀ = {idxOne hn, idxLast h
       push Not
       exact ⟨hj1, hj2⟩
     simp only [bdeg]
-    rw [if_neg hnot]
+    rw [ite_eq_right hnot]
   · have hnot : j ∉ ε r := by
       rw [hε' r hr]
       simp
     simp only [bdeg]
-    rw [if_neg hnot]
+    rw [ite_eq_right hnot]
 
 omit [Fintype τ] [DecidableEq τ] in
 theorem idxOne_exists_singleton (hn : 3 ≤ n) (hε : ε r₀ = {idxOne hn, idxLast hn})
@@ -429,9 +429,9 @@ theorem bPsi_bvec (hn : 3 ≤ n) (hε : ε r₀ = {idxOne hn, idxLast hn})
     simp
   by_cases hxy : x = idxZero hn ∧ y = idxLast hn
   · have hxy' : idxZero hn = x ∧ idxLast hn = y := ⟨hxy.1.symm, hxy.2.symm⟩
-    rw [if_pos (hiff.mpr hxy), if_pos hxy']
+    rw [ite_eq_left (hiff.mpr hxy), ite_eq_left hxy']
   · have hxy' : ¬ (idxZero hn = x ∧ idxLast hn = y) := fun h => hxy ⟨h.1.symm, h.2.symm⟩
-    rw [if_neg (fun h => hxy (hiff.mp h)), if_neg hxy']
+    rw [ite_eq_right (fun h => hxy (hiff.mp h)), ite_eq_right hxy']
 
 theorem bMat_apply [CharP k 2] (hn : 3 ≤ n) (hε : ε r₀ = {idxOne hn, idxLast hn})
     (hε' : ∀ r, r ≠ r₀ → ε r = ∅) (H : τ → Matrix (Fin n) (Fin n) k)
@@ -560,7 +560,7 @@ theorem bDer_eq_zero_of_twist_ne [CharP k 2] (_hn : 3 ≤ n)
       rw [Finset.card_eq_zero] at hcard
       rw [hcard] at hbi
       exact Finset.notMem_empty b hbi
-    rw [if_neg hno]
+    rw [ite_eq_right hno]
     simp
 
 theorem bDer_apply_off [CharP k 2] (hn : 3 ≤ n) (hε : ε r₀ = {idxOne hn, idxLast hn})
@@ -703,13 +703,13 @@ theorem bPsi_bDer_mulVec_off [CharP k 2] (hn : 3 ≤ n)
       rw [Finset.sum_eq_single b]
       · rw [bPsi_apply, Matrix.single_apply]
         by_cases hxa : x = a
-        · rw [if_pos ⟨hxa.symm, rfl⟩, if_pos hxa]
+        · rw [ite_eq_left ⟨hxa.symm, rfl⟩, ite_eq_left hxa]
           simp
-        · rw [if_neg (fun h : a = x ∧ b = b => hxa h.1.symm), if_neg hxa]
+        · rw [ite_eq_right (fun h : a = x ∧ b = b => hxa h.1.symm), ite_eq_right hxa]
           simp
       · intro z _ hz
         have h : ¬ (a = x ∧ b = z) := fun h => hz h.2.symm
-        rw [Matrix.single_apply, if_neg h, zero_mul]
+        rw [Matrix.single_apply, ite_eq_right h, zero_mul]
       · intro hb
         exact absurd (Finset.mem_univ b) hb
     have h2 : (∑ z : Fin n, bPsi hn hε hε' v x z *
@@ -718,13 +718,13 @@ theorem bPsi_bDer_mulVec_off [CharP k 2] (hn : 3 ≤ n)
       rw [Finset.sum_eq_single a]
       · rw [bPsi_apply, Matrix.single_apply]
         by_cases hyb : y = b
-        · rw [if_pos ⟨rfl, hyb.symm⟩, if_pos hyb]
+        · rw [ite_eq_left ⟨rfl, hyb.symm⟩, ite_eq_left hyb]
           simp
-        · rw [if_neg (fun h : a = a ∧ b = y => hyb h.2.symm), if_neg hyb]
+        · rw [ite_eq_right (fun h : a = a ∧ b = y => hyb h.2.symm), ite_eq_right hyb]
           simp
       · intro z _ hz
         have h : ¬ (a = z ∧ b = y) := fun h => hz h.1.symm
-        rw [Matrix.single_apply, if_neg h, mul_zero]
+        rw [Matrix.single_apply, ite_eq_right h, mul_zero]
       · intro ha
         exact absurd (Finset.mem_univ a) ha
     rw [Matrix.add_apply, Matrix.mul_apply, Matrix.mul_apply, h1, h2]
@@ -735,7 +735,7 @@ theorem bPsi_bDer_mulVec_off [CharP k 2] (hn : 3 ≤ n)
   · rw [hx]
     by_cases hy : y = b
     · rw [hy]
-      simp only [true_and, if_true]
+      simp only [true_and, ite_true]
       have hf : (Finset.univ.filter fun p : Fin n × Fin n =>
           (p.1 = b ∧ p.2 = b) ∨ (p.2 = a ∧ p.1 = a)) =
           ({(b, b), (a, a)} : Finset (Fin n × Fin n)) := by
@@ -744,7 +744,7 @@ theorem bPsi_bDer_mulVec_off [CharP k 2] (hn : 3 ≤ n)
           Finset.mem_singleton, Prod.ext_iff]
         tauto
       rw [hf, Finset.sum_pair (by exact fun h => hab (congrArg Prod.fst h.symm))]
-    · simp only [hy, true_and, false_and, or_false, if_false, add_zero]
+    · simp only [hy, true_and, false_and, or_false, ite_false, add_zero]
       have hf : (Finset.univ.filter fun p : Fin n × Fin n =>
           p.1 = b ∧ p.2 = y) = ({(b, y)} : Finset (Fin n × Fin n)) := by
         ext p
@@ -754,7 +754,7 @@ theorem bPsi_bDer_mulVec_off [CharP k 2] (hn : 3 ≤ n)
       simp
   · by_cases hy : y = b
     · rw [hy]
-      simp only [hx, false_and, false_or, true_and, if_false, zero_add]
+      simp only [hx, false_and, false_or, true_and, ite_false, zero_add]
       have hf : (Finset.univ.filter fun p : Fin n × Fin n =>
           p.2 = a ∧ p.1 = x) = ({(x, a)} : Finset (Fin n × Fin n)) := by
         ext p
@@ -763,7 +763,7 @@ theorem bPsi_bDer_mulVec_off [CharP k 2] (hn : 3 ≤ n)
         tauto
       rw [hf, Finset.sum_singleton]
       simp
-    · simp only [hx, hy, false_and, false_or, if_false, add_zero]
+    · simp only [hx, hy, false_and, false_or, ite_false, add_zero]
       rw [Finset.filter_false, Finset.sum_empty]
 
 
@@ -771,7 +771,7 @@ theorem bDer_apply_self_diag [CharP k 2] (hn : 3 ≤ n)
     (hε : ε r₀ = {idxOne hn, idxLast hn}) (hε' : ∀ r, r ≠ r₀ → ε r = ∅)
     (a x : Fin n) :
     bDer ε (r₀, a, a) (bIdxOf hn hε hε' x x) (bIdxOf hn hε hε' x x) = (1 : k) := by
-  rw [bDer, kronDer_single_self_apply, if_pos rfl]
+  rw [bDer, kronDer_single_self_apply, ite_eq_left rfl]
   have hf : (Finset.univ.filter fun i : τ × Fin n =>
       ((fun p : τ × Fin n => p.1 = r₀) i ∧
         a ∈ (((bIdxOf hn hε hε' x x) i : Set.powersetCard (Fin n) (bdeg ε i)) :
@@ -787,7 +787,7 @@ theorem bDer_apply_self_diag [CharP k 2] (hn : 3 ≤ n)
       rw [h] at ha
       exact Finset.notMem_empty a ha
     by_cases hx : a = x
-    · rw [if_pos hx]
+    · rw [ite_eq_left hx]
       constructor
       · rintro ⟨-, ha⟩
         by_cases h1 : i = (r₀, idxOne hn)
@@ -801,7 +801,7 @@ theorem bDer_apply_self_diag [CharP k 2] (hn : 3 ≤ n)
         refine ⟨rfl, ?_⟩
         rw [bIdxOf_apply_first hn hε hε' x x]
         simp [hx]
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       constructor
       · rintro ⟨-, ha⟩
         by_cases h1 : i = (r₀, idxOne hn)
@@ -828,7 +828,7 @@ theorem trace_bPsi_bDer_self [CharP k 2] (hn : 3 ≤ n)
   · rw [bDer_apply_self_diag hn hε hε', one_mul]
   · intro t _ ht
     rw [bDer, kronDer_single_self_apply,
-      if_neg (fun h => ht h.symm), zero_mul]
+      ite_eq_right (fun h => ht h.symm), zero_mul]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -846,7 +846,7 @@ theorem bPsi_bvec_mem_sl (hn : 3 ≤ n)
   simp only [Matrix.trace, Matrix.diag_apply]
   apply Finset.sum_eq_zero
   intro x _
-  rw [Matrix.single_apply, if_neg]
+  rw [Matrix.single_apply, ite_eq_right]
   rintro ⟨h1, h2⟩
   exact idxZero_ne_idxLast hn (h1.trans h2.symm)
 
@@ -934,13 +934,13 @@ theorem bPsi_uE0 [CharP k 2] (hn : 3 ≤ n) (hε : ε r₀ = {idxOne hn, idxLast
     bPsi hn hε hε' (uE0 hn hε hε' i j) = Matrix.single i j (1 : k) := by
   unfold uE0
   by_cases hjs : j = idxLast hn
-  · rw [if_pos hjs]
+  · rw [ite_eq_left hjs]
     subst hjs
     rw [bPsi_bDer_mulVec_off hn hε hε' hi0, bPsi_bvec]
     rw [Matrix.single_mul_single_same,
       Matrix.single_mul_single_of_ne (h := hij.symm), add_zero]
     simp
-  · rw [if_neg hjs]
+  · rw [ite_eq_right hjs]
     rw [bPsi_bDer_mulVec_off hn hε hε' hi0]
     rw [bPsi_bDer_bvec_second hn hε hε' j hj0 hjs]
     rw [Matrix.single_mul_single_same,
@@ -964,7 +964,7 @@ theorem bPsi_uE1 [CharP k 2] (hn : 3 ≤ n) (hε : ε r₀ = {idxOne hn, idxLast
     bPsi hn hε hε' (uE1 hn hε hε' i) = Matrix.single i (idxZero hn) (1 : k) := by
   unfold uE1
   by_cases hi1 : i = idxOne hn
-  · rw [if_pos hi1]
+  · rw [ite_eq_left hi1]
     have hjs : idxLast hn ≠ idxZero hn := idxLast_ne_idxZero hn
     have hij : i ≠ idxLast hn := by rw [hi1]; exact idxOne_ne_idxLast hn
     rw [bPsi_bDer_mulVec_off hn hε hε' hjs,
@@ -972,7 +972,7 @@ theorem bPsi_uE1 [CharP k 2] (hn : 3 ≤ n) (hε : ε r₀ = {idxOne hn, idxLast
     rw [Matrix.single_mul_single_of_ne
         (h := hi0.symm), Matrix.single_mul_single_same, zero_add]
     simp
-  · rw [if_neg hi1]
+  · rw [ite_eq_right hi1]
     have hj0 : idxOne hn ≠ idxZero hn := idxOne_ne_idxZero hn
     have hij : i ≠ idxOne hn := hi1
     rw [bPsi_bDer_mulVec_off hn hε hε' hj0,
@@ -1001,10 +1001,10 @@ theorem bPsi_uD [CharP k 2] (hn : 3 ≤ n) (hε : ε r₀ = {idxOne hn, idxLast 
       Matrix.single i i (1 : k) + Matrix.single (idxZero hn) (idxZero hn) (1 : k) := by
   unfold uD
   by_cases his : i = idxLast hn
-  · rw [if_pos his]
+  · rw [ite_eq_left his]
     subst his
     exact bPsi_bDer_bvec_D hn hε hε'
-  · rw [if_neg his]
+  · rw [ite_eq_right his]
     rw [bPsi_bDer_mulVec_off hn hε hε' hi0]
     rw [bPsi_bDer_bvec_second hn hε hε' i hi0 his]
     rw [Matrix.single_mul_single_same, Matrix.single_mul_single_same]
@@ -1199,9 +1199,9 @@ theorem sl_le_bCyc_map [CharP k 2] (hn : 3 ≤ n)
     apply Submodule.sum_mem
     intro j _
     by_cases hij : i = j
-    · rw [if_pos hij, zero_smul]
+    · rw [ite_eq_left hij, zero_smul]
       exact Submodule.zero_mem C
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       exact Submodule.smul_mem C _ (hE i j hij)
   · apply Submodule.sum_mem
     intro i hi

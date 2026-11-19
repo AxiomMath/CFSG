@@ -33,7 +33,7 @@ theorem l28l44_le_normalizer_of_not_le {X : Type} [Group X] [Finite X] (hK1 : KF
     intro t ht
     rw [← hmapQ] at ht
     obtain ⟨q, hq, rfl⟩ := ht
-    obtain ⟨m, hm⟩ := Q.isPGroup' ⟨q, hq⟩
+    obtain ⟨m, hm⟩ := Q.isPGroup ⟨q, hq⟩
     refine ⟨m, ?_⟩
     have h1 := congrArg (fun z : ↥(Q : Subgroup K) => ((z : K) : X)) hm
     simpa using h1

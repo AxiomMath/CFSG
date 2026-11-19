@@ -24,17 +24,17 @@ theorem nonempty_bar2_hinf_tailRankOneParabolic_equiv [Finite K] [FiniteDimensio
     (hcomm : ∀ b₁ ∈ tailBorel r qA, ∀ b₂ ∈ tailBorel r qA, ⁅b₁, b₂⁆ ∈ tailUnipotent r qA)
     {n : ℕ} (hn : 2 ≤ n) (hK : Nat.card K = 2 ^ n) :
     Nonempty (Bar2 (Hinf (tailRankOneParabolic qA a₀ i)) ≃* SpecialLinearGroup (Fin 2) K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : ringChar K = 2 :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq Nat.prime_two (by omega) hK
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   have hK4 : ∃ s : Finset K, s.card = 4 := by
     refine exists_finset_card_four ?_
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple (K := K) hK4
-  haveI : Group.IsPerfect (SpecialLinearGroup (Fin 2) K) :=
+  have : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple (K := K) hK4
+  have : Group.IsPerfect (SpecialLinearGroup (Fin 2) K) :=
     CFSG.LinearGroups.special_linear_dimension_two_perfect (K := K) hK4
   have hT : CFSG.pCore 2 (SpecialLinearGroup (Fin 2) K) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
@@ -45,7 +45,7 @@ theorem nonempty_bar2_hinf_tailRankOneParabolic_equiv [Finite K] [FiniteDimensio
         htop ▸ CFSG.pCore_isPGroup (p := 2) (G := SpecialLinearGroup (Fin 2) K)
       have hpg : IsPGroup 2 (SpecialLinearGroup (Fin 2) K) :=
         h1.of_equiv Subgroup.topEquiv
-      haveI : Group.IsNilpotent (SpecialLinearGroup (Fin 2) K) :=
+      have : Group.IsNilpotent (SpecialLinearGroup (Fin 2) K) :=
         IsPGroup.isNilpotent (p := 2) (G := SpecialLinearGroup (Fin 2) K) hpg
       exact Group.IsPerfect.not_isSolvable (G := SpecialLinearGroup (Fin 2) K) inferInstance
   exact KTabD.nonempty_bar2_hinf_equiv_of_leviHom_of_equiv

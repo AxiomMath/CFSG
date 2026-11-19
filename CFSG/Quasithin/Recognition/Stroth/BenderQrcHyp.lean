@@ -16,6 +16,7 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique CFSG.LieType.BorelTits
 variable {G : Type} [Group G] [Finite G]
 variable {L1 L2 S : Subgroup G} {q r : ℕ}
 
+omit [Finite G] in
 theorem exists_pow_mem_of_sup_eq_of_normalizes {H C D : Subgroup G}
     (hCH : C ≤ H) (hCn : H ≤ Subgroup.normalizer (C : Set G))
     (hDN : H ≤ Subgroup.normalizer (D : Set G)) (htop : D ⊔ C = H)
@@ -27,7 +28,7 @@ theorem exists_pow_mem_of_sup_eq_of_normalizes {H C D : Subgroup G}
     (F1.mem_sup_iff_exists_mul_of_normalizes (H := D) (K := C)
       (hCH.trans hDN)).mp hxK
   obtain ⟨n, hn⟩ := hD a haD
-  haveI : (C.subgroupOf H).Normal :=
+  have : (C.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCH).mpr hCn
   let φ : ↥H →* ↥H ⧸ C.subgroupOf H := QuotientGroup.mk' (C.subgroupOf H)
   have hmemA : a ∈ H := htop ▸ Subgroup.mem_sup_left haD

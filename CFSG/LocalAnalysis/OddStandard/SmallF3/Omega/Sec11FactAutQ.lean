@@ -16,7 +16,7 @@ theorem asc82FactAutQ_of_check (h : check () = true) : Asc82FactAutQ := by
   obtain ⟨e1⟩ := h1
   obtain ⟨e2⟩ := h2
   obtain ⟨σ⟩ := twoCore_iso_qm0 K1 K2 hc hcard e1 e2
-  haveI : IsMulCommutative ↥P := hP.1.1
+  have : IsMulCommutative ↥P := hP.1.1
   let τ : ↥(twoCoreIn (K1 ⊔ K2)) →* S81 := qm0.subtype.comp σ.toMonoidHom
   have hτ : Function.Injective τ := Subtype.val_injective.comp σ.injective
   let Pm : Subgroup S81 := (P.subgroupOf (twoCoreIn (K1 ⊔ K2))).map τ

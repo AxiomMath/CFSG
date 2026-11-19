@@ -18,19 +18,22 @@ section Small
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private theorem torusGroup_E8_eq_bot_of_card_two (hF : Nat.card F = 2) :
     torusGroup .E8 F = ⊥ := by
   refine torusGroup_eq_bot_of_forall_units_eq_one (τ := .E8) (K := F) fun u => ?_
   have hcard : Nat.card Fˣ = 1 := by rw [Nat.card_units, hF]
-  haveI : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.1 hcard).1
+  have : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.1 hcard).1
   exact Subsingleton.elim u 1
 
+omit [Finite F] in
 theorem parabolicLevi_eq_subsystemGroup_E8_two (hF : Nat.card F = 2)
     (J : Set (Fin Tag.E8.rank)) :
     parabolicLevi .E8 F J = subsystemGroup .E8 F J := by
   rw [parabolicLevi, torusGroup_E8_eq_bot_of_card_two hF, bot_sup_eq]
   rfl
 
+omit [Finite F] in
 theorem parabolicLevi_le_rootSpan_perpRoots_E8_two (hF : Nat.card F = 2)
     {J : Set (Fin Tag.E8.rank)} (h7 : (7 : Fin Tag.E8.rank) ∉ J) :
     parabolicLevi .E8 F J ≤ rootSpan .E8 F (perpRoots .E8) := by
@@ -258,8 +261,8 @@ private theorem card_le_pow_six_of_notMem_E8 (hF : Nat.card F = 2)
     {J : Set (Fin Tag.E8.rank)} {i : Fin Tag.E8.rank} (hi7 : i ≠ 7) (hi : i ∉ J)
     {E : Subgroup (ModGL .E8 F)} (hE : E ≤ subsystemGroup .E8 F J)
     (hEel : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 6 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hd : 3 ∣ Nat.card F + 1 := by rw [hF]
   have hi_cases : i = 0 ∨ i = 1 ∨ i = 2 ∨ i = 3 ∨ i = 4 ∨ i = 5 ∨ i = 6 := by

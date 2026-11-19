@@ -94,7 +94,7 @@ theorem GGHeartDict.comp_transport {G : Type} [Group G]
       Nat.card (SimpleGraph.Iso.connectedComponentEquiv iso c).supp
     exact Nat.card_congr (SimpleGraph.ConnectedComponent.isoEquivSupp iso c)
   · ext v
-    rw [Set.mem_setOf_eq, Set.mem_preimage, E6Heart.compKernel, Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq, Set.mem_preimage, E6Heart.compKernel, Set.mem_ofPred_eq]
     constructor
     · intro h b hb
       let a : c.supp := (SimpleGraph.ConnectedComponent.isoEquivSupp iso c).symm ⟨b, hb⟩

@@ -125,7 +125,7 @@ theorem owL5_exists_second_isotropic {K : Type*} [Field K] [Finite K]
     ∃ u' : U, u' ≠ 0 ∧ Q u' = 0 ∧ polarBilin Q u' a = 0 ∧ polarBilin Q u' u = 0 ∧
       u' ∉ Submodule.span K {u} := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have ha_ne : a ≠ 0 := fun h => ha (by rw [h, map_zero])
   let V : Submodule K U := LinearMap.BilinForm.orthogonal (polarBilin Q) (K ∙ a)
   have hQV : (polarBilin (Q.comp V.subtype)).Nondegenerate :=

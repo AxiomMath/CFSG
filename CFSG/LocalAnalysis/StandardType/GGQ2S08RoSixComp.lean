@@ -89,7 +89,7 @@ theorem fr_injOn (c : GGQ2S08RoSix Bs L x) (w : Fin 6) {u : ↥(LargeEvenSUGroup
       group
     rw [h3, ← TypeA.PGLTor.scalar_mul_comm μ c.Q⁻¹, mul_assoc, inv_mul_cancel, mul_one]
   have hww := hu w
-  rw [if_pos rfl, hu', Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
+  rw [ite_eq_left rfl, hu', Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
     Matrix.diagonal_apply_eq] at hww
   have hμ1 : μ = 1 := Units.ext hww
   apply Subtype.ext
@@ -114,7 +114,7 @@ noncomputable def stabEquiv (c : GGQ2S08RoSix Bs L x) (w : Fin 6) :
   (MonoidHom.ofInjective (c.fr_comp_injective w)).trans (MulEquiv.subgroupCongr (c.range_fr_comp w))
 
 theorem stabImg_simple (c : GGQ2S08RoSix Bs L x) (w : Fin 6) : IsSimpleGroup ↥(c.stabImg w) := by
-  haveI := ggQ2s08r6_stab_simple c.hK w
+  have := ggQ2s08r6_stab_simple c.hK w
   exact (c.stabEquiv w).symm.isSimpleGroup
 
 noncomputable abbrev compL (c : GGQ2S08RoSix Bs L x) (w : Fin 6) : Subgroup ↥L :=
@@ -241,7 +241,7 @@ theorem le_normalizer_comp (c : GGQ2S08RoSix Bs L x) (w : Fin 6) :
   rwa [show b⁻¹ * (b * g * b⁻¹) * b = g by group] at h
 
 theorem compL_le_stabPre (c : GGQ2S08RoSix Bs L x) (w : Fin 6) : c.compL w ≤ c.stabPre w :=
-  Subgroup.commutator_le.mpr fun a ha b hb =>
+  Subgroup.commutator_le.mpr fun _a ha _b hb =>
     (c.stabPre w).mul_mem ((c.stabPre w).mul_mem ((c.stabPre w).mul_mem ha hb)
       ((c.stabPre w).inv_mem ha)) ((c.stabPre w).inv_mem hb)
 
@@ -333,7 +333,7 @@ theorem comp_subnormal (c : GGQ2S08RoSix Bs L x) (w : Fin 6) {b : Bs}
     rw [hgb, mul_inv_cancel_right]
   have h := c.conj_mem_compL_of_commute w hb2 hb3 hn hq
   refine ⟨_, h, ?_⟩
-  simp only [Subgroup.coe_subtype, Subgroup.coe_mul, Subgroup.coe_inv, MulMemClass.coe_mul,
+  simp only [Subgroup.coe_subtype, MulMemClass.coe_mul,
     InvMemClass.coe_inv]
   rw [← hqa]
   rfl
@@ -354,7 +354,7 @@ theorem comp_pComponent (c : GGQ2S08RoSix Bs L x) (w : Fin 6) {b : Bs}
     (hb2 : ∀ i i', i ≠ w → i' ≠ w → c.diag b i = c.diag b i')
     (hb3 : ∀ i, i ≠ w → c.diag b i ≠ c.diag b w) :
     LargeEvenPComponent 3 (Subgroup.centralizer ({x, (b : G)} : Set G)) (c.comp w) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle := c.comp_le_centralizer_of_const w hb2
   exact (ggLargeEvenPComponent_iff 3 _ _).mpr ⟨hle,
     isPComponent_subgroupOf_of_isComponentOf_of_dvd

@@ -456,8 +456,8 @@ theorem dce_sound {G : Type*} [Group G] (gen : ℕ → G)
     {FB HB GB TB OB WD RR NRN : ℕ → ℕ}
     {LT LI TL NL ND NO NF nH nT nW NR nRN I0 AL MD NORD SUM WH qT qO hT : ℕ}
     {h0 h1 g0 g1 p0 p1 s0 sT o0 sO f0 f1 c0 c1 : ℕ} {Ch Cg Ct Cts Cos Cf Cc : List ℕ}
-    (hTL : TL = 3) (hNL : NL = 4) (hND : ND ≤ 256) (hNO : NO < 65535) (hnH : nH < 2 ^ 20)
-    (hnT : nT < 2 ^ 17) (hNF : NF < 2 ^ 20) (hnW : nW < 2 ^ 16)
+    (hTL : TL = 3) (hNL : NL = 4) (hND : ND ≤ 256) (hNO : NO < 65535) (_hnH : nH < 2 ^ 20)
+    (_hnT : nT < 2 ^ 17) (hNF : NF < 2 ^ 20) (_hnW : nW < 2 ^ 16)
     (hhdr : Nat.beq (McL.Dce.runHdr HB LT TL NL Ch h0) h1 = true) (hh0 : h0 = 1)
     (hh1 : h1 = nH + 1)
     (hgom : Nat.beq (McL.Dce.runGom HB GB OB I0 nH Cg g0) g1 = true) (hg0 : g0 = 1)
@@ -478,7 +478,7 @@ theorem dce_sound {G : Type*} [Group G] (gen : ℕ → G)
         Nat.beq (McL.Dce.runSorted (McL.Dce.mat EB) qb m Ce Y0) Y1 = true ∧
         Nat.beq (McL.Dce.sortedCount Y1) m = true ∧ D' = D ∧ X0 = 2 ∧ X1 = m + 1 ∧ Y0 = 1 ∧
         McL.Dce.bits MD (20 * D) 20 = m)
-    (hlet : McL.Dce.lettersOK LT LI TL NL = true) (hrels : McL.Dce.relsOK RR NL NR = true)
+    (hlet : McL.Dce.lettersOK LT LI TL NL = true) (_hrels : McL.Dce.relsOK RR NL NR = true)
     (hRRc : relsNorm RR NR = true)
     (hwords : McL.Dce.wordsOK WD RR LI NL NR WH nW = true)
     (htsq : McL.Dce.tsqOK RR TL NR hT = true)

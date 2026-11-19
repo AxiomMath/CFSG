@@ -36,7 +36,7 @@ theorem step76EightWildWitness_of_moves_meet (h34 : Stroth34Statement)
     Step76EightWildWitnessStatement := by
   intro G _ _ M Q Z B hc n t hs hno h4 Z0 hZ0 g hgM hΓ hwild
   classical
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   have htZ0 : t ∈ Z0 := IsCentrePre.mem_of_mem_LB (hc := hc) ht hZ0

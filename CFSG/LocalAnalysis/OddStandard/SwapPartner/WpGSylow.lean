@@ -27,13 +27,13 @@ theorem Tgrp_le_centralizer_x₂ (hC : CentData z ι) {Q : Subgroup (Perm (Fin 1
   have h2 : Commute (ι q) (z * ι τ₀) := hqz.mul_right hqt
   exact h1.mul_left h2
 
-theorem x₂_mem_Tgrp (hC : CentData z ι) {Q : Subgroup (Perm (Fin 10))} (hQ : GoodQ Q) :
+theorem x₂_mem_Tgrp (_hC : CentData z ι) {Q : Subgroup (Perm (Fin 10))} (hQ : GoodQ Q) :
     z * ι τ₀ ∈ Tgrp z ι Q :=
   mul_mem (z_mem_Tgrp Q) (map_le_Tgrp Q (Subgroup.mem_map_of_mem ι hQ.τ₀_mem))
 
 theorem exists_sylow_ge [Finite G] {T C : Subgroup G} (hT : IsPGroup 2 T) (hTC : T ≤ C) :
     ∃ T₂ : Subgroup G, T ≤ T₂ ∧ T₂ ≤ C ∧ IsPGroup 2 T₂ ∧ ¬ 2 ∣ T₂.relIndex C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT' : IsPGroup 2 (T.subgroupOf C) := by
     have e := Subgroup.subgroupOfEquivOfLe hTC
     exact hT.of_equiv e.symm
@@ -41,7 +41,7 @@ theorem exists_sylow_ge [Finite G] {T C : Subgroup G} (hT : IsPGroup 2 T) (hTC :
   refine ⟨(P : Subgroup C).map C.subtype, ?_, Subgroup.map_subtype_le _, ?_, ?_⟩
   · rw [← Subgroup.map_subgroupOf_eq_of_le hTC]
     exact Subgroup.map_mono hP
-  · obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).mp P.isPGroup'
+  · obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).mp P.isPGroup
     refine IsPGroup.of_card (n := n) ?_
     rw [Subgroup.card_map_of_injective C.subtype_injective]
     exact hn
@@ -68,9 +68,9 @@ theorem center_le_Fgrp (hC : CentData z ι) {Q : Subgroup (Perm (Fin 10))} (hQ :
     exact (Subgroup.mem_centralizer_iff.mp hwT z (z_mem_Tgrp Q)).symm
   have hRz : (Tgrp z ι Q ⊔ zpowers w : Subgroup G) ≤ centralizer ({z} : Set G) :=
     sup_le hTz (zpowers_le.mpr hwz)
-  haveI : Finite (centralizer ({z} : Set G)) :=
+  have : Finite (centralizer ({z} : Set G)) :=
     Nat.finite_of_card_ne_zero (by rw [card_centralizer_z hC]; norm_num)
-  haveI : Finite (Tgrp z ι Q ⊔ zpowers w : Subgroup G) :=
+  have : Finite (Tgrp z ι Q ⊔ zpowers w : Subgroup G) :=
     Finite.of_injective (Subgroup.inclusion hRz) (Subgroup.inclusion_injective hRz)
   have hR2 : IsPGroup 2 (Tgrp z ι Q ⊔ zpowers w : Subgroup G) :=
     h2.to_le (sup_le hT (zpowers_le.mpr hwT₂))
@@ -123,7 +123,7 @@ theorem eq_x₂_of_mem_Fgrp (hC : CentData z ι) {Q : Subgroup (Perm (Fin 10))} 
   have hx1 : (z * ι τ₀) ≠ 1 := x₂_ne_one hC
   fin_cases k
   · fin_cases i <;> fin_cases j <;>
-      simp only [Fin.zero_eta, Fin.mk_one, Fin.val_zero, Fin.val_one, pow_zero, pow_one,
+      simp only [pow_zero, pow_one,
         one_mul, mul_one] at hijk
     ·
       subst hijk

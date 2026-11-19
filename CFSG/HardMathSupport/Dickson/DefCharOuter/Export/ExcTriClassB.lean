@@ -54,18 +54,18 @@ include hf hK hσ
 theorem exc_cent_classB {c : K} (hc : σ c = c) (hc0 : c ≠ 0)
     (w : MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom))
     (hw : Nat.Coprime 3 (orderOf w))
-    (hwβ : w * (MulAut.conj (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc) *
+    (hwβ : w * (MulAut.conj (longElt σ (Or.inr (Or.inr rfl)) c hc) *
       fieldActor (t := TwistTag.D4) σ σ) =
-      (MulAut.conj (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc) *
+      (MulAut.conj (longElt σ (Or.inr (Or.inr rfl)) c hc) *
       fieldActor (t := TwistTag.D4) σ σ) * w)
-    (hfix : ∀ x ∈ fixSubgroup (MulAut.conj (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc) *
+    (hfix : ∀ x ∈ fixSubgroup (MulAut.conj (longElt σ (Or.inr (Or.inr rfl)) c hc) *
       fieldActor (t := TwistTag.D4) σ σ), w x = x) :
     w ∈ innerAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
   classical
   have hσ3 : ∀ c, σ (σ (σ c)) = c := ringEquiv_cube_apply_eq hK hσ
   obtain ⟨-, hex, ⟨Θ, hΘ, -, hker, -⟩, -, -, -, -, -⟩ :=
     odd_triality_exact_automorphism_normal_form Nat.prime_three (by norm_num) hf K hK σ hσ
-  set z := longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc with hzdef
+  set z := longElt σ (Or.inr (Or.inr rfl)) c hc with hzdef
   set δ₀ := fieldActor (t := TwistTag.D4) σ σ with hδ₀
   have hzJ : z ∈ fixSubgroup δ₀ := R2Aux.longElt_mem_fix hf hK σ hσ (Or.inr (Or.inr rfl)) hc
   have hzC : z ∈ fixSubgroup (MulAut.conj z * δ₀) := by
@@ -134,7 +134,7 @@ theorem exc_cent_classB {c : K} (hc : σ c = c) (hc0 : c ≠ 0)
         (j' : ModGL TwistTag.D4.tag (fixSubfield σ)) * pinnedX TwistTag.D4.tag K rootD c =
         pinnedX TwistTag.D4.tag K rootD c * baseChangeGL (fixSubfield σ).subtype
           (j' : ModGL TwistTag.D4.tag (fixSubfield σ)) :=
-      (commute_pinnedX_rootD_of_mem_posUnipotent hf hK σ hσ hjUK c).eq
+      (commute_pinnedX_rootD_of_mem_posUnipotent hjUK c).eq
     have hy : (⟨_, hJC hj'J⟩ : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) ∈
         fixSubgroup (MulAut.conj z * δ₀) := by
       rw [fixSubgroup_conj_mul_fieldActor_eq hf hK σ hσ hc hc0]
@@ -152,7 +152,7 @@ theorem exc_cent_classB {c : K} (hc : σ c = c) (hc0 : c ≠ 0)
       ← map_mul] at h1
     exact hιinj h1
   have hne : (∅ : Set (Fin TwistTag.D4.foldedTag.rank)) ≠ Set.univ := by
-    haveI : Nonempty (Fin TwistTag.D4.foldedTag.rank) := ⟨⟨0, by decide⟩⟩
+    have : Nonempty (Fin TwistTag.D4.foldedTag.rank) := ⟨⟨0, by decide⟩⟩
     exact Set.empty_ne_univ
   have hrig := (diagram_fixed_parabolic_radical_diagonal_field_pointwise_rigidity
     TwistTag.D4 (fixSubfield σ) (fixSubfieldRestrict σ σ) hσ₀3 hne).2.1 (g' : ModGL TwistTag.D4.tag (fixSubfield σ)) hg'
@@ -164,7 +164,7 @@ theorem exc_cent_classB {c : K} (hc : σ c = c) (hc0 : c ≠ 0)
       fieldActor (t := TwistTag.D4) (fixSubfieldRestrict σ σ) (fixSubfieldRestrict φ σ))
     (fun x => by
       simp only [MulAut.mul_apply, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv,
-        coe_fieldActor, rootDiagUnit_one, mul_one, one_mul, inv_one])
+        coe_fieldActor, rootDiagUnit_one, mul_one, inv_one])
     (fun x hx => Subtype.ext (by
       simp only [MulAut.mul_apply, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv,
         coe_fieldActor]
@@ -191,27 +191,27 @@ theorem exc_cent_classB {c : K} (hc : σ c = c) (hc0 : c ≠ 0)
 theorem exc_noComponent_classB {c : K} (hc : σ c = c) (hc0 : c ≠ 0) :
     ∀ A : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom),
       ¬ GLAPComponent 3 (fixSubgroup (MulAut.conj
-        (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc) *
+        (longElt σ (Or.inr (Or.inr rfl)) c hc) *
           fieldActor (t := TwistTag.D4) σ σ)) A := by
   classical
-  haveI := finite_graphFixedRootGroup_D4 σ
-  haveI : Finite (adjointGroup Tag.G2 (fixSubfield σ)) := generated_group_finite Tag.G2 _
+  have := finite_graphFixedRootGroup_D4 σ
+  have : Finite (adjointGroup Tag.G2 (fixSubfield σ)) := generated_group_finite Tag.G2 _
   rw [fixSubgroup_conj_mul_fieldActor_eq hf hK σ hσ hc hc0]
   have hzJ := R2Aux.longElt_mem_fix hf hK σ hσ (Or.inr (Or.inr rfl)) hc
   refine R2Aux.noGLAP3_of_equiv
     (R2Aux.infCentralizerEquiv (fixSubgroup (fieldActor (t := TwistTag.D4) σ σ))
-      (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc) hzJ (R2Aux.fixEquivG2 hf hK σ hσ)) ?_
+      (longElt σ (Or.inr (Or.inr rfl)) c hc) hzJ (R2Aux.fixEquivG2 hf hK σ hσ)) ?_
   obtain ⟨h, c'', hc'', hE⟩ := R2Aux.exists_conj_g2Top hf hK σ hσ hc hc0
   rw [hE]
   refine R2Aux.noGLAP3_centralizer_conj h _ ?_
   have hcard : Nat.card (fixSubfield σ) = 3 ^ f :=
     CFSG.RankThree.PartOne.KGD.card_fixSubfield_cube Nat.prime_three hf hK σ hσ
-  haveI : CharP (fixSubfield σ) 3 := inferInstance
+  have : CharP (fixSubfield σ) 3 := inferInstance
   exact R2Aux.noGLAP3_centralizer_g2Top (K := fixSubfield σ)
     (by rw [hcard]; exact Nat.le_self_pow (by omega) 3) hc''
 
 theorem outerCentData_three_classB {c : K} (hc : σ c = c) (hc0 : c ≠ 0) :
-    OuterCentData 3 (MulAut.conj (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc) *
+    OuterCentData 3 (MulAut.conj (longElt σ (Or.inr (Or.inr rfl)) c hc) *
       fieldActor (t := TwistTag.D4) σ σ) :=
   OuterCentData.ofNoComponent (exc_noComponent_classB hf hK σ hσ hc hc0)
     (fun _ => glaPPrimeCoreOf_fixSubgroup_conj_mul_fieldActor hf hK σ hσ hc hc0)

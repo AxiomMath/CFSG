@@ -61,6 +61,7 @@ section Restrict
 
 variable {V : Type u} [AddCommGroup V] [Module F V] [FiniteDimensional F V]
 
+omit [Finite F] [CharP F 3] [FiniteDimensional F V] in
 theorem commutator_fix_of_restrict {J T P : Subgroup (LinearMap.GeneralLinearGroup F V)}
     (W : Submodule F V) (hJp : ⁅J, J⁆ = J)
     (hJn : ∀ M : Subgroup (LinearMap.GeneralLinearGroup F V), M ≤ J →
@@ -263,9 +264,9 @@ theorem core_three (d : ℕ) :
   | _ d IHd =>
   intro V _ _ _ hd J T P hJp hJn hJT hT2 hPJ hP3 hP9 hPq
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_generalLinearGroup (F := F) (V := V)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_generalLinearGroup (F := F) (V := V)
   have hrestr : ∀ W : Submodule F V, W ≠ ⊤ → ∀ {T : Subgroup (LinearMap.GeneralLinearGroup F V)},
       J ≤ Subgroup.normalizer (T : Set (LinearMap.GeneralLinearGroup F V)) → IsPGroup 2 T →
       T ≤ stabSub W → J ≤ stabSub W → ∀ g ∈ ⁅T, J⁆, ∀ w ∈ W,
@@ -305,7 +306,7 @@ theorem core_three (d : ℕ) :
     exact hne (commutator_eq_bot_of_commutator_commutator hJp
       (IHm _ (hTm ▸ hcard) _ rfl hJT0 (hT2.to_le hT0le)))
   have hTne : T ≠ ⊥ := fun h => hne (by rw [h, Subgroup.commutator_bot_left])
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hTne
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hTne
   set N : Subgroup (LinearMap.GeneralLinearGroup F V) := (frattini ↥T).map T.subtype with hNdef
   have hNT : N ≤ T := by
     rw [hNdef]
@@ -576,7 +577,7 @@ theorem commute_of_commutator_mem_center {G : Type*} [Group G] {J₀ : Subgroup 
           group
         rw [e, Subgroup.mem_center_iff.1 (hb.2 j hj) a, mul_inv_cancel_right]
         exact mul_mem (hb.2 j hj) (ha.2 j hj)⟩
-      one_mem' := ⟨one_mem _, fun j _ => by simp [Subgroup.one_mem]⟩
+      one_mem' := ⟨one_mem _, fun j _ => by simp⟩
       inv_mem' := fun {a} ha => ⟨inv_mem ha.1, fun j hj => by
         have hc : ⁅j, a⁆ ∈ Subgroup.center G := by
           rw [← commutatorElement_inv]
@@ -617,8 +618,8 @@ theorem commutator_eq_bot_of_quadratic_lift_three {S K : Type*} [Group S] [Group
       (((ρ u : LinearMap.GeneralLinearGroup F V) : V →ₗ[F] V) - 1) ^ 2 = 0) :
     ⁅T, J⁆ = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite S := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite S := Finite.of_surjective π hπ
   have hQS : ∀ M : Subgroup K, M ≤ J₀ → J₀ ≤ Subgroup.normalizer (M : Set K) →
       (∃ y ∈ P, y ≠ 1 ∧ y ∈ M) → M = J₀ := by
     intro M hMJ hJM hy
@@ -672,8 +673,8 @@ theorem commutator_eq_bot_of_quadratic_lift_three {S K : Type*} [Group S] [Group
     intro t
     obtain ⟨k, hk⟩ := hπ t
     exact ⟨⟨k, show π k ∈ T by rw [hk]; exact t.2⟩, Subtype.ext hk⟩
-  haveI : Finite ↥T := inferInstance
-  haveI hTnil : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : Finite ↥T := inferInstance
+  have hTnil : Group.IsNilpotent ↥T := hT.isNilpotent
   have hRker : πR.ker ≤ Subgroup.center ↥R := by
     intro k hk
     rw [Subgroup.mem_center_iff]
@@ -682,7 +683,7 @@ theorem commutator_eq_bot_of_quadratic_lift_three {S K : Type*} [Group S] [Group
       have := congrArg Subtype.val hk
       exact this
     exact Subtype.ext (Subgroup.mem_center_iff.1 (hker hk') g)
-  haveI : Group.IsNilpotent ↥R := Subgroup.isNilpotent_of_ker_le_center πR hRker
+  have : Group.IsNilpotent ↥R := Subgroup.isNilpotent_of_ker_le_center πR hRker
   obtain ⟨S₂⟩ : Nonempty (Sylow 2 ↥R) := inferInstance
   have hS₂char : (S₂ : Subgroup ↥R).Characteristic := Sylow.characteristic_of_normal S₂ inferInstance
   set Tt : Subgroup K := (S₂ : Subgroup ↥R).map R.subtype with hTt

@@ -6,7 +6,7 @@ public import Mathlib.Algebra.BigOperators.Ring.Finset
 public import Mathlib.Algebra.Order.Ring.Nat
 public import Mathlib.Algebra.Order.Sub.Basic
 public import Mathlib.Data.Fintype.BigOperators
-public import Mathlib.Data.Nat.SuccPred
+public import Mathlib.Order.SuccPred.Nat
 public import Mathlib.Data.ZMod.Defs
 
 public section
@@ -103,7 +103,7 @@ theorem testBit_spreadGo {q R w c : ℕ} (hc : c < w) (hR : R < 2 ^ w) (r : ℕ)
         simp [hs]
       · by_cases hsr : s + 1 ≤ r
         · have h3 : r - s = (r - (s + 1)) + 1 := by omega
-          simp [Ne.symm hrs, hrs, hsr, h3, show s ≤ r by omega]
+          simp [Ne.symm hrs, hsr, h3, show s ≤ r by omega]
         · have h4 : ¬ (s ≤ r ∧ r < 121) := by omega
           simp [Ne.symm hrs, hsr, h4]
     · have hb : Nat.blt s 121 = false := by
@@ -153,7 +153,7 @@ theorem testBit_spreadYGo {q R c : ℕ} (hc : c < 22) (hR : R < 2 ^ 22) (r : ℕ
         simp [hs]
       · by_cases hsr : s + 1 ≤ r
         · have h3 : r - s = (r - (s + 1)) + 1 := by omega
-          simp [Ne.symm hrs, hrs, hsr, h3, show s ≤ r by omega]
+          simp [Ne.symm hrs, hsr, h3, show s ≤ r by omega]
         · have h4 : ¬ (s ≤ r ∧ r < 22) := by omega
           simp [Ne.symm hrs, hsr, h4]
     · have hb : Nat.blt s 22 = false := by
@@ -284,7 +284,7 @@ theorem rowInv_lt (a : List ℕ) {q : ℕ} (hq : q < 121) : rowInv a q < 2 ^ 121
       _ ≤ 2 ^ 121 := Nat.pow_le_pow_right (by decide) (by omega)
   · exact Nat.two_pow_pos _
 
-theorem ind_testBit_rowSym {i j k l : ℕ} (hi : i < 11) (hj : j < 11) (hk : k < 11) (hl : l < 11) :
+theorem ind_testBit_rowSym {i j k l : ℕ} (hi : i < 11) (hj : j < 11) (_hk : k < 11) (hl : l < 11) :
     ind ((rowSym (11 * i + j)).testBit (11 * k + l)) =
       (if i = k ∧ j = l then 1 else 0) + (if j = k ∧ i = l then 1 else 0) := by
   unfold rowSym
@@ -312,7 +312,7 @@ theorem ind_testBit_rowDiag {i j k l : ℕ} (hj : j < 11) (hl : l < 11) :
     show ind ((0 : ℕ).testBit (11 * k + l)) = _
     simp [ind, hij]
 
-theorem ind_testBit_rowInv (a : List ℕ) {i j k l : ℕ} (hi : i < 11) (hj : j < 11) (hk : k < 11)
+theorem ind_testBit_rowInv (a : List ℕ) {i j k l : ℕ} (_hi : i < 11) (hj : j < 11) (hk : k < 11)
     (hl : l < 11) :
     ind ((rowInv a (11 * i + j)).testBit (11 * k + l)) =
       ind ((a.getD i 0).testBit k) * ind ((a.getD j 0).testBit l) +
@@ -334,7 +334,7 @@ theorem ind_testBit_rowInv (a : List ℕ) {i j k l : ℕ} (hi : i < 11) (hj : j 
     · subst huk
       simp
     · simp [huk]
-  rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq' (Finset.range 11) k, if_pos (Finset.mem_range.2 hk)]
+  rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq' (Finset.range 11) k, ite_eq_left (Finset.mem_range.2 hk)]
 
 end CFSG.KC.CosetJ.F2
 

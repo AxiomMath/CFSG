@@ -28,29 +28,34 @@ private theorem fk_fr_prod_mul_self
         CharP.cast_eq_zero (ZMod 2) 2, zero_smul]
     simpa [two_nsmul] using h
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma fk_fr_Q_sub (fr : NFrame Q (Fin 6) (-1)) {a b : Fin 6} (hab : a ≠ b) :
     Q (fr.b a - fr.b b) = 1 := by
   rw [sub_eq_add_neg, QuadraticMap.map_add Q, QuadraticMap.map_neg,
     QuadraticMap.polar_neg_right, fr.norm a, fr.norm b, fr.orth a b hab, neg_zero, add_zero]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma fk_fr_polar_sub_left (fr : NFrame Q (Fin 6) (-1)) {a b : Fin 6} (hab : a ≠ b) :
     polar Q (fr.b a - fr.b b) (fr.b a) = 1 := by
   rw [QuadraticMap.polar_sub_left, QuadraticMap.polar_self,
     QuadraticMap.polar_comm Q (fr.b b) (fr.b a), fr.norm a, fr.orth a b hab]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma fk_fr_polar_sub_right (fr : NFrame Q (Fin 6) (-1)) {a b : Fin 6} (hab : a ≠ b) :
     polar Q (fr.b a - fr.b b) (fr.b b) = -1 := by
   rw [QuadraticMap.polar_sub_left, QuadraticMap.polar_self, fr.norm b, fr.orth a b hab]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma fk_fr_polar_sub_of_ne (fr : NFrame Q (Fin 6) (-1)) {a b c : Fin 6}
     (hca : c ≠ a) (hcb : c ≠ b) :
     polar Q (fr.b a - fr.b b) (fr.b c) = 0 := by
   rw [QuadraticMap.polar_sub_left, fr.orth a c hca.symm, fr.orth b c hcb.symm]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fk_fr_signChange_single_eq_reflection (fr : NFrame Q (Fin 6) (-1)) (i : Fin 6)
     [Invertible (Q (fr.b i))] :
     fr.signChange {i} = TauCeti.QuadraticMap.reflectionOrthogonal Q (fr.b i) := by
@@ -62,7 +67,7 @@ private theorem fk_fr_signChange_single_eq_reflection (fr : NFrame Q (Fin 6) (-1
   · subst hji
     rw [TauCeti.QuadraticMap.reflection_apply_self]
     simp
-  · rw [if_neg (by simpa [Finset.mem_singleton] using hji),
+  · rw [ite_eq_right (by simpa [Finset.mem_singleton] using hji),
       TauCeti.QuadraticMap.reflection_apply, fr.orth i j (Ne.symm hji), mul_zero, zero_smul,
       sub_zero]
 
@@ -70,7 +75,7 @@ private theorem fk_fr_detSpinor_signChange_single (hQ : Q.Nondegenerate)
     (fr : NFrame Q (Fin 6) (-1)) (i : Fin 6) :
     detSpinorNorm hQ (fr.signChange {i}) =
       ((-1 : (ZMod 3)ˣ), Multiplicative.ofAdd (squareClass (-1 : (ZMod 3)ˣ))) := by
-  haveI : Invertible (Q (fr.b i)) :=
+  have : Invertible (Q (fr.b i)) :=
     invertibleOfNonzero (by rw [fr.norm i]; exact neg_ne_zero.mpr one_ne_zero)
   rw [fk_fr_signChange_single_eq_reflection fr i, detSpinorNorm_reflectionOrthogonal]
   have hunit : unitOfInvertible (Q (fr.b i)) = (-1 : (ZMod 3)ˣ) :=
@@ -93,12 +98,13 @@ private theorem fk_fr_detSpinor_signChange (hQ : Q.Nondegenerate) (fr : NFrame Q
       by_cases hji : j = i
       · subst hji
         simp [Finset.mem_symmDiff, hi]
-      · simp [Finset.mem_symmDiff, Finset.mem_singleton, hji, hi]
+      · simp [Finset.mem_symmDiff, Finset.mem_singleton, hji]
     have hprod : fr.signChange (insert i K) = fr.signChange {i} * fr.signChange K := by
       rw [← hsym, ← fr.signChange_mul]
     rw [hprod, map_mul, fk_fr_detSpinor_signChange_single hQ fr i, ih,
       Finset.card_insert_of_notMem hi, pow_succ', pow_succ', Prod.mk_mul_mk]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem fk_fr_swap_eq_reflection (fr : NFrame Q (Fin 6) (-1)) {a b : Fin 6}
     (hab : a ≠ b) [Invertible (Q (fr.b a - fr.b b))] :
     fr.permOrth (Equiv.swap a b) =
@@ -128,7 +134,7 @@ private theorem fk_fr_detSpinor_swap (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 
     {i j : Fin 6} (hij : i ≠ j) :
     detSpinorNorm hQ (fr.permOrth (Equiv.swap i j)) =
       ((-1 : (ZMod 3)ˣ), (1 : Multiplicative (SquareClassGroup (ZMod 3)))) := by
-  haveI : Invertible (Q (fr.b i - fr.b j)) :=
+  have : Invertible (Q (fr.b i - fr.b j)) :=
     invertibleOfNonzero (by rw [fk_fr_Q_sub fr hij]; exact one_ne_zero)
   rw [fk_fr_swap_eq_reflection fr hij, detSpinorNorm_reflectionOrthogonal]
   have hunit : unitOfInvertible (Q (fr.b i - fr.b j)) = (1 : (ZMod 3)ˣ) :=
@@ -148,14 +154,14 @@ private theorem fk_fr_detSpinor_permOrth (hQ : Q.Nondegenerate) (fr : NFrame Q (
     rw [fr.permOrth_mul, map_mul, fk_fr_detSpinor_swap hQ fr hab, Equiv.Perm.sign_mul,
       Equiv.Perm.sign_swap hab]
     by_cases hs : Equiv.Perm.sign τ = 1
-    · rw [ih, hs, if_pos rfl,
-        if_neg (by decide : (-1 : ℤˣ) * (1 : ℤˣ) ≠ 1), mul_one]
+    · rw [ih, hs, ite_eq_left rfl,
+        ite_eq_right (by decide : (-1 : ℤˣ) * (1 : ℤˣ) ≠ 1), mul_one]
     · have hs' : Equiv.Perm.sign τ = -1 := by
         rcases Int.units_eq_one_or (Equiv.Perm.sign τ) with h | h
         · exact absurd h hs
         · exact h
-      rw [ih, hs', if_neg (by decide : (-1 : ℤˣ) ≠ 1),
-        if_pos (by decide : (-1 : ℤˣ) * (-1) = 1)]
+      rw [ih, hs', ite_eq_right (by decide : (-1 : ℤˣ) ≠ 1),
+        ite_eq_left (by decide : (-1 : ℤˣ) * (-1) = 1)]
       exact fk_fr_prod_mul_self _
 
 theorem fk_fr_sign_of_mem_omega (hQ : Q.Nondegenerate) {c : ZMod 3} (hc : c = 1 ∨ c = -1)
@@ -166,7 +172,7 @@ theorem fk_fr_sign_of_mem_omega (hQ : Q.Nondegenerate) {c : ZMod 3} (hc : c = 1 
   · rw [mem_omegaGroup_iff hQ, map_mul, fk_fr_detSpinor_permOrth hQ fr σ,
       fk_fr_detSpinor_signChange hQ fr K] at h
     by_contra hs
-    rw [if_neg hs] at h
+    rw [ite_eq_right hs] at h
     have h2 : (Multiplicative.ofAdd (squareClass (-1 : (ZMod 3)ˣ))) ^ K.card = 1 := by
       have := (Prod.ext_iff.mp h).2
       simpa using this

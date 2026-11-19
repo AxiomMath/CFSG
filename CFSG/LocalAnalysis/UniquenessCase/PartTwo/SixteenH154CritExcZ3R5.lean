@@ -48,7 +48,7 @@ private lemma s16h_card_fixV_zpowers_of_five {W : Type} [CommGroup W] [Finite W]
     (hR5 : IsPGroup 5 R) {x : MulAut W} (hxR : x ∈ R) (hx1 : x ≠ 1) :
     Nat.card ↥(fixV (Subgroup.zpowers x)) = 4 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set U : Subgroup W := fixV (Subgroup.zpowers x) with hU_eq
   have hmod5 : Nat.card W ≡ Nat.card ↥U [MOD 5] := by
     have hle : Subgroup.zpowers x ≤ R := Subgroup.zpowers_le.mpr hxR
@@ -110,7 +110,7 @@ private lemma s16h_card_fixV_zpowers_of_five {W : Type} [CommGroup W] [Finite W]
 private lemma s16h_card_mulAut_le_six {F : Type} [Group F] [Finite F] (hF : Nat.card F = 4) :
     Nat.card (MulAut F) ≤ 6 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let S := {x : F // x ≠ 1}
   have hScard : Nat.card S = 3 := by
     rw [Nat.card_eq_fintype_card]
@@ -142,8 +142,8 @@ theorem s16h_false_of_five_torus {W : Type} [CommGroup W] [Finite W] (hcard : Na
     (hR5 : IsPGroup 5 R) (hR1 : R ≠ ⊥) (hD : IsElemAbelian 3 D) (hD27 : 27 ≤ Nat.card ↥D)
     (hDR : D ≤ normalizer (R : Set (MulAut W))) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hfix4 : ∀ x ∈ R, x ≠ 1 → Nat.card ↥(fixV (Subgroup.zpowers x)) = 4 :=
     fun x hx hx1 => s16h_card_fixV_zpowers_of_five hcard hl hfpf hRl hR5 hx hx1
   have hR_dvd : Nat.card ↥R ∣ 60 := by
@@ -193,7 +193,7 @@ theorem s16h_false_of_five_torus {W : Type} [CommGroup W] [Finite W] (hcard : Na
       rwa [← hRzp]
     have hmain := s16h_card_le_mul_cent_of_normalizes (X := MulAut W) (e := ρ)
       (p := 5) (q := 3) (by norm_num) hρ5 (by norm_num) hEn (fun x hx => hD.2 x hx)
-    rw [if_neg (by norm_num : ¬ (3 ∣ 5 - 1)), one_mul] at hmain
+    rw [ite_eq_right (by norm_num : ¬ (3 ∣ 5 - 1)), one_mul] at hmain
     have hcard' : Nat.card ↥D ≤ Nat.card ↥(D ⊓ Subgroup.centralizer ({ρ} : Set (MulAut W))) :=
       hmain
     have heq : D ⊓ Subgroup.centralizer ({ρ} : Set (MulAut W)) = D :=
@@ -336,7 +336,7 @@ theorem s16h_false_of_five_torus {W : Type} [CommGroup W] [Finite W] (hcard : Na
     simpa [hU_eq] using hUF
   have hFtop : F = ⊤ := by
     have hHD : H ≤ D := by rw [hH_eq]; exact inf_le_left
-    haveI : IsMulCommutative ↥D := hD.1
+    have : IsMulCommutative ↥D := hD.1
     have hHab : IsElemAbelian 3 H :=
       ⟨IsMulCommutative.of_comm (fun a b =>
           Subtype.ext (congrArg (fun x : ↥D => (x : MulAut W))

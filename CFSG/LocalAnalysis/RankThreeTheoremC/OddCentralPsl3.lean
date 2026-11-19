@@ -33,7 +33,7 @@ theorem eq_bot_of_central_odd_kernel_psl {J Q : Type} [Group J] [Finite J] [Grou
   obtain ⟨R, hzR⟩ := hzp.exists_le_sylow
   have hzR' : (z : J) ∈ (R : Subgroup J) := hzR (mem_zpowers _)
   set f : J →* PSL(2, GaloisField p 2) := e.toMonoidHom.comp ψ with hf
-  obtain ⟨S, hS⟩ := (R.isPGroup'.map f).exists_le_sylow
+  obtain ⟨S, hS⟩ := (R.isPGroup.map f).exists_le_sylow
   have hKcard : Nat.card (GaloisField p 2) = p ^ 2 := GaloisField.card p 2 (by norm_num)
   have hK7 : 7 ≤ Nat.card (GaloisField p 2) := by
     rw [hKcard]

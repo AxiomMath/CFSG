@@ -209,7 +209,7 @@ theorem Ctx17_42.ncard_mul_pRank_le_pRank_Dc {D : Data G} {V₀ V L X : Subgroup
     have hZcard : ¬ r ∣ Nat.card ((Subgroup.center (K γ)).map (K γ).subtype) := by
       rw [Subgroup.card_map_of_injective (K γ).subtype_injective]
       exact hZcenter γ hγ
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     have hEA : IsPGroup r (A γ) := (hA_el γ).isPGroup
     rw [inf_comm]
     exact disjoint_iff.mp (TauCeti.disjoint_of_not_dvd_natCard_of_isPGroup hZcard hEA)

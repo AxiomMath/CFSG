@@ -354,7 +354,7 @@ public theorem huppert_II_8_22_unique_family
     exact hdistinct i j (h⁻¹ * g) hsingle
   have hsylow_coprime_conj (Q : Sylow p H) (i : Fin r) (g : H) :
       Nat.Coprime (Nat.card Q) (Nat.card (g • Z i : Subgroup H)) := by
-    rcases Q.isPGroup'.exists_card_eq with ⟨n, hQcard⟩
+    rcases Q.isPGroup.exists_card_eq with ⟨n, hQcard⟩
     rw [hQcard]
     change Nat.Coprime (p ^ n)
       (Nat.card ((Z i).map (MulAut.conj g).toMonoidHom))
@@ -432,7 +432,7 @@ public theorem huppert_II_8_22_unique_family
   rcases hTfamily with ⟨g, hTg⟩ | hTtorus
   · have hTp : IsPGroup p T := by
       rw [hTg]
-      exact P0.isPGroup'.map (MulAut.conj g).toMonoidHom
+      exact P0.isPGroup.map (MulAut.conj g).toMonoidHom
     let I : Subgroup H := T.comap H.subtype
     have hIp : IsPGroup p I := hTp.comap_subtype
     obtain ⟨Q, hIQ⟩ := hIp.exists_le_sylow

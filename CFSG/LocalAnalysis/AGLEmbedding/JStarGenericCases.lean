@@ -59,7 +59,7 @@ theorem le_pRank_inf (h : JStarHypOf p Rb Y₀ Jt Xt T B φ) {k : ℕ}
   have hS : CFSG.ABGLocalTools.IsSylowOf p (Rb : Subgroup Y)
       (Subgroup.normalizer (Jt : Set Y)) := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨h.le_normalizer, Rb.isPGroup', fun hdvd => Rb.not_dvd_index
+    exact ⟨h.le_normalizer, Rb.isPGroup, fun hdvd => Rb.not_dvd_index
       (hdvd.trans (Subgroup.relIndex_dvd_index_of_le h.le_normalizer))⟩
   obtain ⟨Q, hQ⟩ := hS.inf_of_le_normalizer Subgroup.le_normalizer le_rfl
   obtain ⟨E, hEQ, hE, hEcard⟩ := h.exists_elem_le_sylow_of_le_pRank hk Q

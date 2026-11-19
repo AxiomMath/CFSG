@@ -15,7 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G]
 
-theorem fixed_coord_mem {X Y : Subgroup G} (hXY : ⁅X, Y⁆ = ⊥) {b : G}
+theorem fixed_coord_mem {X Y : Subgroup G} (_hXY : ⁅X, Y⁆ = ⊥) {b : G}
     (hX : b ∈ normalizer (X : Set G)) (hY : b ∈ normalizer (Y : Set G)) {x y : G} (hx : x ∈ X)
     (hy : y ∈ Y) (hfix : b * (x * y) * b⁻¹ = x * y) : x⁻¹ * (b * x * b⁻¹) ∈ X ⊓ Y := by
   have hxb : b * x * b⁻¹ ∈ X := (mem_normalizer_iff.mp hX x).mp hx

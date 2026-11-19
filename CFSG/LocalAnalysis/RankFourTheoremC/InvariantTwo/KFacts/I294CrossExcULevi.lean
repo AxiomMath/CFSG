@@ -125,7 +125,7 @@ theorem det_leviGL (h : UnitaryFieldData ℓ f K) (A : GL (Fin r) K) :
   congr 2
   have h1 := congrArg Units.val (map_inv (Matrix.GeneralLinearGroup.det (n := Fin r) (R := K)) A)
   rw [Units.val_inv_eq_inv_val] at h1
-  simpa [Matrix.GeneralLinearGroup.val_det_apply] using h1
+  simp
 
 @[expose] noncomputable def leviNorm (h : UnitaryFieldData ℓ f K) : Kˣ →* Kˣ where
   toFun u := u * (Units.map h.bar.toMonoidHom u)⁻¹
@@ -184,7 +184,7 @@ section Orders
 theorem crossExcU_card_GL {K : Type} [Field K] [Finite K] (r : ℕ) :
     Nat.card (GL (Fin r) K) = Nat.card K ^ (r * (r - 1) / 2) *
       ∏ j ∈ Finset.range r, (Nat.card K ^ (j + 1) - 1) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcard : Fintype.card K = Nat.card K := Nat.card_eq_fintype_card.symm
   rw [Matrix.card_GL_field, hcard,
     Fin.prod_univ_eq_prod_range (fun i => Nat.card K ^ r - Nat.card K ^ i) r]
@@ -216,11 +216,11 @@ theorem crossExcU_prod_Icc (Q n : ℕ) (hQ : 1 ≤ Q) :
   refine Finset.prod_congr rfl fun i _ => ?_
   rcases Nat.even_or_odd i with he | ho
   · have hno : ¬ Odd i := Nat.not_odd_iff_even.2 he
-    rw [if_pos he, if_neg hno, he.neg_pow, Nat.cast_sub (Nat.one_le_pow _ _ hQ)]
+    rw [ite_eq_left he, ite_eq_right hno, he.neg_pow, Nat.cast_sub (Nat.one_le_pow _ _ hQ)]
     push_cast
     ring
   · have hne : ¬ Even i := Nat.not_even_iff_odd.2 ho
-    rw [if_neg hne, if_pos ho, ho.neg_pow]
+    rw [ite_eq_right hne, ite_eq_left ho, ho.neg_pow]
     push_cast
     ring
 
@@ -234,16 +234,17 @@ theorem crossExcUEvenProd_eq (Q : ℕ) (n : ℕ) :
     · unfold crossExcUEvenProd at ih ⊢
       rw [Finset.prod_Icc_succ_top (by omega : 2 ≤ n + 1), ih]
       rcases Nat.even_or_odd (n + 1) with he | ho
-      · rw [if_pos he]
+      · rw [ite_eq_left he]
         have h2 : (n + 1) / 2 = n / 2 + 1 := by obtain ⟨k, hk⟩ := he; omega
         have h3 : 2 * (n / 2 + 1) = n + 1 := by omega
         rw [h2, Finset.prod_range_succ, h3]
-      · rw [if_neg (Nat.not_even_iff_odd.2 ho), mul_one]
+      · rw [ite_eq_right (Nat.not_even_iff_odd.2 ho), mul_one]
         have h2 : (n + 1) / 2 = n / 2 := by obtain ⟨k, hk⟩ := ho; omega
         rw [h2]
 
 variable {ℓ f : ℕ} {K : Type} [Field K] [Finite K] {r ε : ℕ}
 
+omit [Finite K] in
 theorem crossExcU_card_hypSU_nat (h : UnitaryFieldData ℓ f K) (hε : ε ≤ 1)
     (hn : 1 ≤ 2 * r + ε) :
     Nat.card (hypSU h r ε) = (ℓ ^ f) ^ ((2 * r + ε) * (2 * r + ε - 1) / 2) *
@@ -259,23 +260,23 @@ theorem crossExcU_card_hypSU_nat (h : UnitaryFieldData ℓ f K) (hε : ε ≤ 1)
 
 theorem crossExcU_not_dvd_oddProd {p : ℕ} (hp : p.Prime) (heven : Even (unitaryOrder ℓ f p))
     (n : ℕ) : ¬ p ∣ crossExcUOddProd (ℓ ^ f) n := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hd
-  obtain ⟨i, -, hdi⟩ := (Prime.dvd_finset_prod_iff hp.prime _).1 hd
+  obtain ⟨i, -, hdi⟩ := (Prime.dvd_finsetProd_iff hp.prime _).1 hd
   by_cases ho : Odd i
-  · rw [if_pos ho] at hdi
+  · rw [ite_eq_left ho] at hdi
     have h1 : (((ℓ ^ f) ^ i + 1 : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ p).2 hdi
     rw [Nat.cast_add, Nat.cast_pow, Nat.cast_one] at h1
     have h2 : (-((ℓ ^ f : ℕ) : ZMod p)) ^ i = 1 :=
       (Odd.neg_pow ho _).trans (neg_eq_of_add_eq_zero_right h1)
     have h3 : unitaryOrder ℓ f p ∣ i := orderOf_dvd_of_pow_eq_one h2
     exact (Nat.not_even_iff_odd.2 ho) (even_iff_two_dvd.2 ((even_iff_two_dvd.1 heven).trans h3))
-  · rw [if_neg ho] at hdi
+  · rw [ite_eq_right ho] at hdi
     exact hp.one_lt.ne' (Nat.dvd_one.1 hdi)
 
 theorem crossExcU_not_dvd_succ {p : ℕ} (hp : p.Prime) (heven : Even (unitaryOrder ℓ f p)) :
     ¬ p ∣ ℓ ^ f + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hd
   have h1 : (((ℓ ^ f) + 1 : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ p).2 hd
   rw [Nat.cast_add, Nat.cast_one] at h1
@@ -339,12 +340,12 @@ theorem crossExcU_isMulCommutative_of_not_dvd_index (S : Subgroup G)
   have hQ : ¬ p ∣ (Q.map S.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact Nat.Prime.not_dvd_mul Fact.out Q.not_dvd_index hidx
-  let R₀ : Sylow p G := (Q.isPGroup'.map S.subtype).toSylow hQ
+  let R₀ : Sylow p G := (Q.isPGroup.map S.subtype).toSylow hQ
   have hR₀ : IsMulCommutative (R₀ : Subgroup G) :=
-    hS _ (Subgroup.map_subtype_le _) R₀.isPGroup'
+    hS _ (Subgroup.map_subtype_le _) R₀.isPGroup
   obtain ⟨R, hPR⟩ := hP.exists_le_sylow
   have hR : IsMulCommutative (R : Subgroup G) := by
-    haveI := hR₀
+    have := hR₀
     exact (R₀.equiv R).surjective.isMulCommutative
   exact isMulCommutative_anti hPR
 
@@ -354,7 +355,7 @@ theorem crossExcU_exists_conj_mem_of_not_dvd_index (S : Subgroup G) (hidx : ¬ p
   have hQ : ¬ p ∣ (Q.map S.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact Nat.Prime.not_dvd_mul Fact.out Q.not_dvd_index hidx
-  let R₀ : Sylow p G := (Q.isPGroup'.map S.subtype).toSylow hQ
+  let R₀ : Sylow p G := (Q.isPGroup.map S.subtype).toSylow hQ
   have hR₀S : (R₀ : Subgroup G) ≤ S := Subgroup.map_subtype_le _
   have hzp : IsPGroup p (Subgroup.zpowers y) := by
     intro z
@@ -381,7 +382,7 @@ theorem crossExcU_abelian_hypSU (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p
     (hp5 : 5 ≤ p) (hpℓ : ¬ p ∣ ℓ) (heven : Even (unitaryOrder ℓ f p)) (hε : ε ≤ 1)
     (hn : 1 ≤ 2 * r + ε) (hne : (2 * r + ε) / unitaryOrder ℓ f p < p)
     (P : Subgroup (hypSU h r ε)) (hP : IsPGroup p P) : IsMulCommutative P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ Nat.card K := by
     rw [h.card_eq_sq]
     exact fun hd => hpℓ (hp.dvd_of_dvd_pow (hp.dvd_of_dvd_pow hd))
@@ -413,7 +414,7 @@ theorem crossExcU_rank_hypSU (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p.Pr
     (hpℓ : ¬ p ∣ ℓ) (heven : Even (unitaryOrder ℓ f p)) (hε : ε ≤ 1) (hn : 1 ≤ 2 * r + ε)
     (h4 : 4 * unitaryOrder ℓ f p ≤ 2 * r + ε) (Y : hypSU h r ε) (hY : Y ^ p = 1) :
     3 ≤ CFSG.Open.pRank p (centralizer ({Y} : Set (hypSU h r ε))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ Nat.card K := by
     rw [h.card_eq_sq]
     exact fun hd => hpℓ (hp.dvd_of_dvd_pow (hp.dvd_of_dvd_pow hd))
@@ -449,7 +450,7 @@ theorem crossExcU_rank_hypSU (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p.Pr
   have hFm : Nat.card F = p ^ CFSG.Open.pRank p
       (centralizer ({a} : Set (GL (Fin r) K)) ⊓ (leviPhi (r := r) h).ker) := by
     rw [hFcard, inf_eq_left.2 hEN, hEcard]
-  haveI := hF.1
+  have := hF.1
   let φ' : F →* hypSU h r ε := (leviSUHom (r := r) (ε := ε) h).comp F.subtype
   have hinj : Function.Injective φ' := hι.comp F.subtype_injective
   have hrange : φ'.range ≤ centralizer ({leviSUHom (r := r) (ε := ε) h A} : Set (hypSU h r ε)) := by
@@ -473,7 +474,7 @@ theorem unitaryRankAt_of_even (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p.P
     (hpℓ : ¬ p ∣ ℓ) (heven : Even (unitaryOrder ℓ f p)) (n : ℕ) :
     UnitaryRankAt ℓ f K n p (unitaryOrder ℓ f p) := by
   intro h4 Y hY
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpos := unitaryOrder_pos (f := f) hp hpℓ
   obtain ⟨r, ε, hε, rfl⟩ : ∃ r ε, ε ≤ 1 ∧ n = 2 * r + ε := ⟨n / 2, n % 2, by omega, by omega⟩
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := r) (ε := ε) h
@@ -485,7 +486,7 @@ theorem unitaryAbelianAt_of_even (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : 
     (hp5 : 5 ≤ p) (hpℓ : ¬ p ∣ ℓ) (heven : Even (unitaryOrder ℓ f p)) (n : ℕ) :
     UnitaryAbelianAt ℓ f K n p (unitaryOrder ℓ f p) := by
   intro hne P hP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpos := unitaryOrder_pos (f := f) hp hpℓ
   rcases Nat.eq_zero_or_pos n with rfl | hn0
   · have hpK : ¬ p ∣ Nat.card K := by
@@ -503,7 +504,7 @@ theorem unitaryAbelianAt_of_even (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : 
     obtain ⟨R, hR⟩ := exists_isHypTransport (r := r) (ε := ε) h
     have hcomap : IsPGroup p (P.comap (hypTransport h hR).toMonoidHom) :=
       hP.comap_of_injective _ (hypTransport h hR).injective
-    haveI hab := crossExcU_abelian_hypSU h hp hp5 hpℓ heven hε hn0 hne _ hcomap
+    have hab := crossExcU_abelian_hypSU h hp hp5 hpℓ heven hε hn0 hne _ hcomap
     rw [← Subgroup.map_comap_eq_self_of_surjective
       (f := (hypTransport h hR).toMonoidHom) (hypTransport h hR).surjective P]
     infer_instance

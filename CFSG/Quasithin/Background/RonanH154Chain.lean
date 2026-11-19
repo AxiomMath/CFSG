@@ -198,7 +198,7 @@ theorem X6_minimal :
   by_cases heq : W' = X2
   · exact Or.inl heq
   right
-  obtain ⟨v, hvW, hvX2⟩ := SetLike.exists_of_lt (lt_of_le_of_ne h2 (Ne.symm heq))
+  obtain ⟨v, hvW, hvX2⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne h2 (Ne.symm heq))
   obtain ⟨m, hm, rfl⟩ := toW_surj 10 v
   have hm6 : m ∈ combos w6 := (toW_mem_X6_iff hm).1 (h6 hvW)
   have hm2 : m ∉ combos w2 := fun h => hvX2 ((toW_mem_X2_iff hm).2 h)
@@ -224,7 +224,7 @@ theorem top_minimal_X6 :
   by_cases heq : W' = X6
   · exact Or.inl heq
   right
-  obtain ⟨v, hvW, hvX6⟩ := SetLike.exists_of_lt (lt_of_le_of_ne h6 (Ne.symm heq))
+  obtain ⟨v, hvW, hvX6⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne h6 (Ne.symm heq))
   obtain ⟨m, hm, rfl⟩ := toW_surj 10 v
   have hm6 : m ∉ combos w6 := fun h => hvX6 ((toW_mem_X6_iff hm).2 h)
   obtain ⟨r, hr, hsr⟩ := chc_cert10comb m hm hm6

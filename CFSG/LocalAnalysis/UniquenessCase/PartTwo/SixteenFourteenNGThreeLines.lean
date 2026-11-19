@@ -53,7 +53,7 @@ private theorem s1614_li_mod_sq {c : ℕ} (hc : ¬ 3 ∣ c) : c * c % 3 = 1 := b
     exact hm
 
 private theorem s1614_li_comm_pow {Q : Type*} [CommGroup Q] {a b : Q}
-    (ha3 : a ^ 3 = 1) (hb3 : b ^ 3 = 1) {c : ℕ} (hc : ¬ 3 ∣ c) :
+    (_ha3 : a ^ 3 = 1) (hb3 : b ^ 3 = 1) {c : ℕ} (hc : ¬ 3 ∣ c) :
     (a * b ^ c) ^ c = b * a ^ c := by
   have hc2 : c * c % 3 = 1 := s1614_li_mod_sq hc
   have hbc : b ^ (c * c) = b := by
@@ -63,8 +63,8 @@ private theorem s1614_li_comm_pow {Q : Type*} [CommGroup Q] {a b : Q}
 private theorem s1614_li_noncomm {W : Type} [CommGroup W] [Finite W]
     {L : Subgroup (MulAut W)} (hL : IsPOnePlusTwo 3 ↥L) :
     ∃ a b : ↥L, a * b ≠ b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CFSG.IsExtraspecial 3 ↥L := hL.1
   have hcard : Nat.card ↥L = 27 := by rw [hL.2.1]; norm_num
   have hZ : Nat.card (Subgroup.center ↥L) = 3 := CFSG.IsExtraspecial.center_order_p 3 ↥L
   by_contra h
@@ -82,8 +82,8 @@ private theorem s1614_li_center_eq_zpowers {W : Type} [CommGroup W] [Finite W]
     {L : Subgroup (MulAut W)} (hL : IsPOnePlusTwo 3 ↥L) {ℓ : ↥L}
     (hℓ : ℓ ∈ Subgroup.center ↥L) (hℓ1 : ℓ ≠ 1) :
     Subgroup.zpowers ℓ = Subgroup.center ↥L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CFSG.IsExtraspecial 3 ↥L := hL.1
   have hZ : Nat.card (Subgroup.center ↥L) = 3 := CFSG.IsExtraspecial.center_order_p 3 ↥L
   have h3 : ℓ ^ 3 = 1 := hL.2.2 ℓ
   have hle : Subgroup.zpowers ℓ ≤ Subgroup.center ↥L := Subgroup.zpowers_le.mpr hℓ
@@ -97,14 +97,14 @@ private theorem s1614_li_center_eq_zpowers {W : Type} [CommGroup W] [Finite W]
   simp [hcard, hZ]
 
 private theorem s1614_li_conj_center {W : Type} [CommGroup W] [Finite W]
-    (hW : ∀ x : W, x * x = 1) (hcard : Nat.card W = 2 ^ 6) {L M : Subgroup (MulAut W)}
+    (_hW : ∀ x : W, x * x = 1) (_hcard : Nat.card W = 2 ^ 6) {L M : Subgroup (MulAut W)}
     (hL : IsPOnePlusTwo 3 ↥L)
     (hMN : M ≤ Subgroup.normalizer (L : Set (MulAut W))) {ℓ : ↥L}
     (hℓ : ℓ ∈ Subgroup.center ↥L) (hℓ1 : ℓ ≠ 1) {t : MulAut W} (ht : t ∈ M)
     (ht2 : t * t = 1) :
     ∃ e : ℕ, ¬ 3 ∣ e ∧ t * (ℓ : MulAut W) * t⁻¹ = (ℓ : MulAut W) ^ e := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CFSG.IsExtraspecial 3 ↥L := hL.1
   have hZcard : Nat.card (Subgroup.center ↥L) = 3 := CFSG.IsExtraspecial.center_order_p 3 ↥L
   have hℓ3 : (ℓ : MulAut W) ^ 3 = 1 := by
     have h := congrArg (fun x : ↥L => (x : MulAut W)) (hL.2.2 ℓ)
@@ -172,8 +172,8 @@ theorem s1614_lines {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x * x =
           g ∉ Subgroup.zpowers (ℓ : MulAut W) ∧
           ∃ a b : ℕ, ¬ 3 ∣ a ∧ t * g * t⁻¹ = g ^ a * (ℓ : MulAut W) ^ b := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hExtra : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hExtra : CFSG.IsExtraspecial 3 ↥L := hL.1
   have hLcard : Nat.card ↥L = 27 := by rw [hL.2.1]; norm_num
   have hZcard : Nat.card (Subgroup.center ↥L) = 3 := CFSG.IsExtraspecial.center_order_p 3 ↥L
   have hZeq : Subgroup.zpowers ℓ = Subgroup.center ↥L := s1614_li_center_eq_zpowers hL hℓ hℓ1
@@ -461,7 +461,7 @@ theorem s1614_lines {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x * x =
         ← pow_mul]
     let Z : Subgroup ↥L := Subgroup.center ↥L
     let Q := ↥L ⧸ Z
-    haveI : IsMulCommutative Q :=
+    have : IsMulCommutative Q :=
       IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := Q)
         (by
           have h := CFSG.LargeExtraspecial.AS35QTh.card_quotient_center hLcard hncL

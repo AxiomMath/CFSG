@@ -24,14 +24,14 @@ theorem isSolvable_CHL (h69 : R6_9 Dat) (h620 : m.C620)
     (hr : m.r = 5) {w : G} (hw₁ : ∀ z ∈ m.Z, w * z * w⁻¹ ∈ m.L)
     (hw₂ : ∀ z ∈ m.Z, w⁻¹ * z * w ∈ m.L) :
     Group.IsSolvable ↥(centralizer (m.L : Set G) ⊓ m.H) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   set C := centralizer (m.L : Set G) ⊓ m.H with hC
   set J₀ := CFSG.perfectResidual ↥C with hJ₀
   set J := J₀.map C.subtype with hJ
   have hres := CFSG.perfect_residual_characterization (G := ↥C)
-  haveI hJperf : Group.IsPerfect ↥J₀ := hres.2.2.1
+  have hJperf : Group.IsPerfect ↥J₀ := hres.2.2.1
   have hcardJ : Nat.card J = Nat.card J₀ := Subgroup.card_map_of_injective C.subtype_injective
   have hJC : J ≤ C := Subgroup.map_subtype_le _
   have hHJ : m.H ≤ normalizer (J : Set G) := by
@@ -48,7 +48,7 @@ theorem isSolvable_CHL (h69 : R6_9 Dat) (h620 : m.C620)
     intro x hx
     rw [mem_center_iff]
     intro y
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     have hk' : ((x : ↥C) : G) ^ 5 ^ k = 1 := by
       have := congrArg (fun t : ↥(P : Subgroup ↥J₀) => (((t : ↥J₀) : ↥C) : G)) hk
       simpa using this
@@ -98,7 +98,7 @@ theorem isSolvable_CHL (h69 : R6_9 Dat) (h620 : m.C620)
   have hJsolv : Group.IsSolvable ↥J₀ := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   have hJbot : J₀ = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥J₀ := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have : Nontrivial ↥J₀ := (Subgroup.nontrivial_iff_ne_bot _).2 hne
     exact Group.IsPerfect.not_isSolvable ↥J₀ hJsolv
   exact hres.2.2.2.2.2.1 hJbot
 

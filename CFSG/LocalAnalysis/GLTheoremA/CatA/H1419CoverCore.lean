@@ -97,7 +97,7 @@ theorem unique_three_cover {C₁ C₂ L : Type} [Group C₁] [Group C₂] [Group
     (q₂ : C₂ →* L) (hq₂ : Function.Surjective q₂) (hk₂ : q₂.ker ≤ center C₂)
     (hc₁ : Nat.card q₁.ker = 3) (hc₂ : Nat.card q₂.ker = 3)
     (hM : ¬ 9 ∣ Nat.card (hopfMultiplier L)) : Nonempty (C₁ ≃* C₂) := by
-  haveI : Finite L := Finite.of_surjective q₁ hq₁
+  have : Finite L := Finite.of_surjective q₁ hq₁
   let ψ : hopfMultiplier L →* q₁.ker :=
     hopfMultiplierToKer q₁ hq₁ hk₁
   have hψ : Function.Surjective ψ := hopfMultiplierToKer_surjective q₁ hq₁ hk₁

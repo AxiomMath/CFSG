@@ -91,7 +91,7 @@ theorem isQuasisimple_projSL_three_four : CFSG.IsQuasisimple (projSL 3 (GaloisFi
   refine ⟨isPerfect_projSL, hq, ?_⟩
   by_contra hab
   push Not at hab
-  haveI : Group.IsPerfect (projSL 3 (GaloisField 2 2)) := isPerfect_projSL
+  have : Group.IsPerfect (projSL 3 (GaloisField 2 2)) := isPerfect_projSL
   have hperf : Group.IsPerfect (projSL 3 (GaloisField 2 2) ⧸
       Subgroup.center (projSL 3 (GaloisField 2 2))) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective _)

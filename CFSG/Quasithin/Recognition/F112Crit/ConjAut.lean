@@ -90,6 +90,7 @@ open scoped IsMulCommutative
 
 variable [IsMulCommutative ↥V]
 
+omit [IsMulCommutative ↥V] in
 theorem add_self_eq_zero (h2 : ∀ v ∈ V, v * v = 1) (a : Additive ↥V) : a + a = 0 := by
   rw [eq_iff_val]
   show ((Additive.toMul a : ↥V) : G) * ((Additive.toMul a : ↥V) : G) = 1

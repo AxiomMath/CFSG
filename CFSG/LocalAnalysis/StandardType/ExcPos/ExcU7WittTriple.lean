@@ -43,7 +43,7 @@ private theorem u7wt_exists_iso_orth {K : Type*} [Field K] [CharP K 2] {σ : K �
     (ha : herm σ a a = 0) :
     ∃ b : Fin n → K, b ≠ 0 ∧ herm σ b b = 0 ∧ herm σ a b = 0 ∧
       b ∉ Submodule.span K {a} := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   obtain ⟨φ, hφ⟩ := exists_eQuotEquiv_isometry (σ := σ) hσ (by omega : 3 ≤ n) ha0 ha
   have hn2 : 2 ≤ n - 2 := by omega
   obtain ⟨c, hc0, hc⟩ := CFSG.LieType.SeitzGeneration.Centers.exists_isotropic_ne_zero
@@ -82,7 +82,7 @@ theorem exists_isotropic_third [IsAlgClosed L] [CharP L 2] (σ : L ≃+* L) {f :
     ∃ w : Fin 6 → L, (∀ i, σ (σ (w i)) = w i) ∧ LinearIndependent L ![v, u, w] ∧
       ∑ i, σ (w i) * w i = 0 ∧ ∑ i, σ (v i) * w i = 0 ∧ ∑ i, σ (u i) * w i = 0 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set F : Subfield L := (σ.toRingHom.comp σ.toRingHom).eqLocusField (RingHom.id L) with hFdef
   have hFmem : ∀ c : L, c ∈ F ↔ σ (σ c) = c := fun c => by
     rw [hFdef, RingHom.mem_eqLocusField]
@@ -99,10 +99,10 @@ theorem exists_isotropic_third [IsAlgClosed L] [CharP L 2] (σ : L ≃+* L) {f :
     rw [hpow, ← CFSG.RankThree.Classical2.natCard_setOf_pow_eq_self (Ω := L) (ℓ := 2)
       (e := 2 * f) (by omega)]
     exact Nat.card_congr (Equiv.subtypeEquivRight hFpow)
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by
+  have : Finite F := Nat.finite_of_card_ne_zero (by
     rw [hFcard]
     exact pow_ne_zero 2 (pow_ne_zero f (by norm_num)))
-  haveI : CharP F 2 := charP_of_card_sq (p := 2) (f := f) hFcard
+  have : CharP F 2 := charP_of_card_sq (p := 2) (f := f) hFcard
   set σF : F ≃+* F := CFSG.LieType.BorelTits.unitaryInvolution F 2 f with hσFdef
   have hσF : IsUnitaryInvolution σF := by
     rw [hσFdef]

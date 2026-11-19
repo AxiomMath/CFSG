@@ -196,7 +196,7 @@ theorem exists_unipotent_isometry {k : Type*} [Field k] [Finite k] (hk : ringCha
       push Not at h
       exact hBu_ne (LinearMap.ext h)
     have hspan : Submodule.span k ({u, z} : Set (Fin n → k)) < ⊤ := pair_span_lt_top hn u z
-    obtain ⟨y, -, hy⟩ := SetLike.exists_of_lt hspan
+    obtain ⟨y, -, hy⟩ := _root_.IsConcreteLE.exists_of_lt hspan
     let w : Fin n → k := y - (B u y / B u z) • z
     have hBuw : B u w = 0 := by
       simp only [w, map_sub, map_smul]
@@ -944,7 +944,7 @@ theorem planeGen_of_semilinear_not_linear {F : Type} [Field F] [Finite F] {n : �
           by_cases hτ1 : τ = 1
           · rwa [show y = y' from by simp [y', hτ1]]
           · have hys : y = y' * fieldAut n F σ := by
-              simp only [y', if_neg hτ1]
+              simp only [y', ite_eq_right hτ1]
               rw [mul_assoc, ← map_mul, hσ2, map_one, mul_one]
             rw [hys, MulAut.mul_apply, hfσfix, hy'fix]
         have hstab : (Subgroup.zpowers (fieldAut n F σ) ⊔ Subgroup.zpowers y) ≤
@@ -1129,7 +1129,7 @@ theorem planeGen_of_semilinear_not_linear {F : Type} [Field F] [Finite F] {n : �
         by_cases hτ1 : τ = 1
         · rwa [show y = y' from by simp [y', hτ1]]
         · have hys : y = y' * fieldAut n F σ := by
-            simp only [y', if_neg hτ1]
+            simp only [y', ite_eq_right hτ1]
             rw [mul_assoc, ← map_mul, hσ2, map_one, mul_one]
           rw [hys, MulAut.mul_apply, hfσfix, hy'fix]
       have hstab : (Subgroup.zpowers (fieldAut n F σ) ⊔ Subgroup.zpowers y) ≤

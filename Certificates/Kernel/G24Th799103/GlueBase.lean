@@ -128,7 +128,7 @@ theorem popT_eq (M : Nat) : ∀ m, Nat.rec (motive := fun _ => Nat) (nat_lit 0)
       (nat_lit 0) (fun i acc => cond (Nat.testBit M i) (Nat.succ acc) acc) m) = _
     rw [popT_eq M m, Finset.range_add_one, Finset.filter_insert]
     by_cases h : Nat.testBit M m = true
-    · rw [h, if_pos rfl, Finset.card_insert_of_notMem (by simp)]
+    · rw [h, ite_eq_left rfl, Finset.card_insert_of_notMem (by simp)]
       rfl
     · rw [Bool.not_eq_true] at h
       rw [h]
@@ -183,7 +183,7 @@ theorem smul_fix_eq {u g : Pm} (h : u * g = g * u) :
   have hi : u⁻¹ * g = g * u⁻¹ := by
     rw [inv_mul_eq_iff_eq_mul, ← mul_assoc, h, mul_inv_cancel_right]
   ext i
-  rw [Set.mem_smul_set_iff_inv_smul_mem, Set.mem_setOf_eq, Set.mem_setOf_eq, Equiv.Perm.smul_def]
+  rw [Set.mem_smul_set_iff_inv_smul_mem, Set.mem_ofPred_eq, Set.mem_ofPred_eq, Equiv.Perm.smul_def]
   constructor
   · intro e
     have := congrArg u e
@@ -203,7 +203,7 @@ theorem ptsM_fixMK {g M : Nat} (hg : PP 1365 11 g) (h : fixMK g M = true) :
     generalize Nat.testBit M i = a at e
     generalize Nat.beq (pg 11 (mask 11) g i) i = b at e
     cases a <;> cases b <;> first | rfl | exact absurd e (by decide)
-  simp only [ptsM, Set.mem_setOf_eq]
+  simp only [ptsM, Set.mem_ofPred_eq]
   rw [e', Nat.beq_eq, ← Fin.val_inj, toPerm_apply hg]
 
 
@@ -334,12 +334,12 @@ theorem mem_R_of_inRK {g t : Nat} (hg : PP 1365 11 g) (h : inRK g t = true) :
     toPerm 1365 11 g ∈ gR := by
   unfold inRK at h
   cases e : Nat.beq t 0 <;> rw [e] at h
-  · rw [cond_false] at h
+  · rw [Bool.cond_false] at h
     have hm := mem_D_of_inDK (hg.mul pp_tau) h
     rw [toPerm_mul hg pp_tau] at hm
     have := gR.mul_mem (D_le_R hm) tau_mem_R
     rwa [mul_assoc, tau_parts.1, mul_one] at this
-  · rw [cond_true] at h
+  · rw [_root_.Bool.cond_true] at h
     exact D_le_R (mem_D_of_inDK hg h)
 
 end CertificateChecks.KernelG24Th

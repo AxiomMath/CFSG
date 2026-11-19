@@ -59,8 +59,8 @@ private theorem orthTATwo_lambda2 {R : Type} [Group R] {k : ℕ}
     (hlab : GGHasLabel (⟨.A, 2, k⟩ : LargeEvenLabel) R) :
     LargeEvenInLambda2 (⟨.A, 2, k⟩ : LargeEvenLabel) := by
   obtain ⟨K, hF, hFin, hcard, -⟩ := hlab
-  haveI := hF
-  haveI := hFin
+  have := hF
+  have := hFin
   exact orthTATwo_lambda2_A (orthTATwo_one_le_of_card hcard) (by norm_num) (by intro h; omega)
 
 private theorem orthTATwo_iso {k : ℕ} {lab0 : LargeEvenLabel}
@@ -154,7 +154,7 @@ theorem orthT_A2
     have hle : Module.finrank K U ≤ Module.finrank K V := Submodule.finrank_le U
     rw [hU3] at hle
     omega
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) hVpos
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) hVpos
   have hscal : (CFSG.ClassicalGroups.Orthogonal.scalars K V).subgroupOf (orthDerived Q) = ⊥ :=
     CFSG.StandardType.OrthRestOdd.scalars_subgroupOf_orthDerived_eq_bot Q hQ
   have hn1 : 1 ≤ n := orthTATwo_one_le_of_card hK

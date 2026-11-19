@@ -239,7 +239,7 @@ theorem centralizer_eq_sup_of_pow_eq_one [IsAlgClosed Ω] {p : ℕ} [Fact p.Prim
       torusGroup Tag.E6 Ω ⊔ rootSpan Tag.E6 Ω (torusRootKernel x) := by
   have : NeZero (p : Ω) := ⟨hpΩ⟩
   have := IsSepClosed.hasEnoughRootsOfUnity Ω p
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω p
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω p
   have hp0 : p ≠ 0 := (Fact.out : p.Prime).ne_zero
   set ζ : Ωˣ := (hζ₀.isUnit hp0).unit with hζdef
   have hζ : IsPrimitiveRoot ζ p := IsPrimitiveRoot.coe_units_iff.mp (by

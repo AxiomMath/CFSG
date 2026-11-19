@@ -27,7 +27,7 @@ private theorem p9uBO_permAut_swap_ne {p k : ℕ} [Fact p.Prime] {i j l : Fin k}
   have h1 := congrArg (fun u : MulAut (Fin k → Multiplicative (ZMod p)) =>
       u (Pi.mulSingle i (Multiplicative.ofAdd (1 : ZMod p)))) h
   simp only [MulAut.mul_apply, SpCoord.permAut_mulSingle, Equiv.swap_apply_of_ne_of_ne hij hil,
-    Equiv.swap_apply_left, Equiv.swap_apply_right] at h1
+    Equiv.swap_apply_left] at h1
   have h2 := congrFun h1 j
   simp only [Pi.mulSingle_eq_same, Pi.mulSingle_eq_of_ne hjl] at h2
   exact one_ne_zero (Multiplicative.ofAdd.injective h2)
@@ -46,7 +46,7 @@ private theorem p9uBO_swap_pair {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [F
           GGIsReflection p r₀' ∧ r₀ * r₀' ≠ r₀' * r₀ ∧
           (∀ s : ↥Bs, ((r₀ s : ↥Bs) : G) = Φ.ψ w₀ * (s : G) * (Φ.ψ w₀)⁻¹) ∧
           (∀ s : ↥Bs, ((r₀' s : ↥Bs) : G) = Φ.ψ w₁ * (s : G) * (Φ.ψ w₁)⁻¹) := by
-  haveI := Φ.finite_linearEquiv
+  have := Φ.finite_linearEquiv
   let i : Fin Φ.r := ⟨0, by omega⟩
   let j : Fin Φ.r := ⟨1, by omega⟩
   let k : Fin Φ.r := ⟨2, by omega⟩
@@ -94,7 +94,7 @@ theorem qtwoDL1_base_orth (ha₀ : GGLNoncyclicInput) {G : Type}
     hr₀act, hr₀'act⟩ := p9uBO_swap_pair Φ (by omega)
   refine ⟨r₀, hr₀, hrefl₀, r₀', hr₀', hrefl₀', hne, ?_⟩
   obtain ⟨alg, E, χ, ζ, hζ, hζp, hχQ, hχτ⟩ := Φ.exists_normIso hF
-  letI := alg
+  let := alg
   let C : QTwoDL1ONormChart Φ := ⟨E, χ, ζ, hζ, hζp, hχQ, hχτ⟩
   obtain ⟨hcard, hin⟩ := qtwoDL1_baseO_centChart ha₀ hcfg Φ hF hZ C hij hjk hik hw₀ hw₁
     hr₀act hr₀'act

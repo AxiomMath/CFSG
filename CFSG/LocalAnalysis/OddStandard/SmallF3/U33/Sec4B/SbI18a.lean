@@ -95,7 +95,7 @@ theorem l18_exists_comm_tau_not_mem_V (hc : Ctx18B t L S x₁ x₂ lam rho tau o
     l17_K_normalizes_Y hc.toCtx13 t (l17_mem_K hc.toCtx13).1 e heY
   have hteQ : t * e * t⁻¹ ∈ ctxQ t tau x₁ x₂ rho := ctxYq_le_ctxQ hteY
   have hy1invQ : y₁⁻¹ ∈ ctxQ t tau x₁ x₂ rho := (ctxQ t tau x₁ x₂ rho).inv_mem hy1Q
-  haveI : IsMulCommutative (ctxQ t tau x₁ x₂ rho) :=
+  have : IsMulCommutative (ctxQ t tau x₁ x₂ rho) :=
     IsMulCommutative.of_comm (fun a b => Subtype.ext (IsZ4Z4E4.comm hc.q_iso a.2 b.2))
   have hA : t * y₁ * t⁻¹ = v * y₁ := by rw [hvdef]; group
   have hD : t * (om * c * om⁻¹) * t⁻¹ = (t * e * t⁻¹) * (w * c) := by

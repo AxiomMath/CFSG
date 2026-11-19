@@ -13,8 +13,8 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {hQ : Q.Nondegenerate}
 
-theorem t5_isI4PlusIn_omega_iff (hdim : Module.finrank (ZMod 3) V = 6) (hs : quadSign Q = -1)
-    {g : omegaGroup hQ} (hg : (g : OGroup Q) * g = 1) (hg1 : g ≠ 1) :
+theorem t5_isI4PlusIn_omega_iff (hdim : Module.finrank (ZMod 3) V = 6) (_hs : quadSign Q = -1)
+    {g : omegaGroup hQ} (hg : (g : OGroup Q) * g = 1) (_hg1 : g ≠ 1) :
     IsI4PlusIn (⊤ : Subgroup ↥(omegaGroup hQ)) g ↔ invType (g : OGroup Q) = (4, 1) := by
   constructor
   · rintro ⟨hord, K, hgK, -, -, hKsl⟩

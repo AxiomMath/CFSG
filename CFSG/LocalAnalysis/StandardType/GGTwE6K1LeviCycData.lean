@@ -42,7 +42,7 @@ private theorem e6_card_fixedBy_base :
       ↑((rootFinset Tag.E6).filter (fun v => reflect Tag.E6 0 (reflect Tag.E6 2 v) = v)) := by
     ext v
     simp only [Set.mem_image, MulAction.mem_fixedBy, Finset.coe_filter, mem_rootFinset,
-      Set.mem_setOf_eq, pairRefl, e6_rootReflection_single, Subtype.exists, exists_and_right,
+      Set.mem_ofPred_eq, pairRefl, e6_rootReflection_single, Subtype.exists, exists_and_right,
       exists_eq_right]
     constructor
     · rintro ⟨hv, hfix⟩
@@ -92,7 +92,7 @@ private theorem e6_ncard_kernelRoots_triChar (b : Fin Tag.E6.rank → ZMod 3) :
   rw [← Set.ncard_coe_finset]
   congr 1
   ext α
-  simp only [Finset.coe_filter, Set.mem_setOf_eq, mem_rootFinset]
+  simp only [Finset.coe_filter, Set.mem_ofPred_eq, mem_rootFinset]
   exact mem_kernelRoots_triChar
 
 private theorem e6_not_two_orth_a2 {b : Fin Tag.E6.rank → ZMod 3}

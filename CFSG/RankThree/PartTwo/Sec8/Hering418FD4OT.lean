@@ -17,7 +17,7 @@ theorem exists_pow_four_eq [Finite F] [CharP F 2] (d : F) : ∃ e : F, e ^ 4 = d
   have hinj : Function.Injective (fun y : F => y ^ 4) := by
     intro y z h
     have h2 : (y - z) ^ 4 = 0 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have h3 : (y - z) ^ (2 ^ 2) = y ^ (2 ^ 2) - z ^ (2 ^ 2) := sub_pow_char_pow y z 2
       rw [show (2 : ℕ) ^ 2 = 4 by norm_num] at h3
       rw [h3]
@@ -26,7 +26,7 @@ theorem exists_pow_four_eq [Finite F] [CharP F 2] (d : F) : ∃ e : F, e ^ 4 = d
   exact (Finite.injective_iff_surjective.mp hinj) d
 
 theorem eq_one_of_pow_four_eq_one [CharP F 2] {c : F} (hc : c ^ 4 = 1) : c = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h3 : (c - 1) ^ (2 ^ 2) = c ^ (2 ^ 2) - 1 ^ (2 ^ 2) := sub_pow_char_pow c 1 2
   rw [show (2 : ℕ) ^ 2 = 4 by norm_num, hc, one_pow, sub_self] at h3
   exact sub_eq_zero.mp (pow_eq_zero_iff (by norm_num) |>.mp h3)
@@ -38,7 +38,7 @@ theorem scalar_eq_scalar_iff {c d : Fˣ} :
   · intro h
     have h0 := congrArg (fun g : GL (Fin 3) F => (g : Matrix (Fin 3) (Fin 3) F) 0 0) h
     simp only [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply,
-      if_true] at h0
+      ite_true] at h0
     exact Units.ext h0
   · rintro rfl
     rfl

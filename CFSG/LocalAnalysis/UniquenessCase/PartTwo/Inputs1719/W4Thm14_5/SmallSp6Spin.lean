@@ -201,7 +201,7 @@ theorem exists_eq_rep_of_commute_endRing (ρ : Representation (ZMod 2) (StatedSp
   have hBρ := CFSG.Theory.Representation.baseChange_intertwines k (CFSG.endFieldRep ρ) S'
     (fieldSp 3 K σ) hS'ρ
   have hBinj : Function.Injective (S'.baseChange k) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap S' hS'inj
   have hσ : ∀ a : Kˣ, σ (a : K) = a := by
     intro a

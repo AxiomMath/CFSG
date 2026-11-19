@@ -108,7 +108,7 @@ namespace IsSmallClass
 variable {N : ℕ} {σ : ZMod N} {C : Finset (Fin 4 → ZMod N)}
 
 theorem nontrivial (h : IsSmallClass N σ C) : Nontrivial (ZMod N) := by
-  haveI : Fact (1 < N) := ⟨by have := h.three_le; omega⟩
+  have : Fact (1 < N) := ⟨by have := h.three_le; omega⟩
   infer_instance
 
 theorem isUnit_two (h : IsSmallClass N σ C) : IsUnit (2 : ZMod N) := by
@@ -131,7 +131,7 @@ theorem add_smul_castW_ne (h : IsSmallClass N σ C) (a : Fin 4 → ZMod N) {α :
 theorem two_smul_not_mem (h : IsSmallClass N σ C) {a : Fin 4 → ZMod N} (ha : a ∈ C)
     {α : Fin 4 → ℤ} (hα : IsD4Root α) (hmem : a + σ • castW N α ∈ C) :
     a + (2 * σ) • castW N α ∉ C := by
-  haveI := h.nontrivial
+  have := h.nontrivial
   intro h2
   have h2σ : (2 * σ : ZMod N) ≠ 0 := (h.isUnit_two.mul h.isUnit).ne_zero
   rcases h.step a ha α hα (2 * σ) h2σ h2 with h3 | h3

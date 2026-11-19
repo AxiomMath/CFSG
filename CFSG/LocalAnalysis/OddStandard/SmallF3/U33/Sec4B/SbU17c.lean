@@ -72,7 +72,7 @@ theorem l17_U_le_R (hc : Ctx17 t L S x₁ x₂ lam rho tau om 𝒮) {R A : Subgr
     have hrv : r⁻¹ * v = v * r⁻¹ :=
       Subgroup.mem_centralizer_iff.mp hvCent r⁻¹ (Subgroup.inv_mem _ hrO)
     have hvx : x * v = v * x := by
-      haveI : IsMulCommutative ↥A := hA.2.1.1
+      have : IsMulCommutative ↥A := hA.2.1.1
       exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥A) (⟨v, hVA hv⟩ : ↥A))
     dsimp only [s]
     calc v * (r⁻¹ * x) = (v * r⁻¹) * x := by group

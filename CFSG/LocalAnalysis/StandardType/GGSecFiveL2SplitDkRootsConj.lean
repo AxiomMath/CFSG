@@ -18,11 +18,11 @@ private theorem flip2_flip {k : ℕ} {x y a : Fin k} (hax : a ≠ x) (hay : a �
   funext c
   simp only [flip2]
   by_cases hcx : c = x
-  · rw [if_pos (Or.inl hcx), hcx, ggDPair_apply_right hax, ggDPair_apply_right hax]
+  · rw [ite_eq_left (Or.inl hcx), hcx, ggDPair_apply_right hax, ggDPair_apply_right hax]
   by_cases hcy : c = y
-  · rw [if_pos (Or.inr hcy), hcy, ggDPair_apply_of_ne (Ne.symm hay) (Ne.symm hxy),
+  · rw [ite_eq_left (Or.inr hcy), hcy, ggDPair_apply_of_ne (Ne.symm hay) (Ne.symm hxy),
       ggDPair_apply_of_ne (Ne.symm hay) (Ne.symm hxy), neg_zero]
-  rw [if_neg (not_or.2 ⟨hcx, hcy⟩)]
+  rw [ite_eq_right (not_or.2 ⟨hcx, hcy⟩)]
   simp only [Pi.add_apply, Pi.single_eq_of_ne hcx]
 
 private theorem pair_comp {k : ℕ} (σ : Equiv.Perm (Fin k)) {a b p q : Fin k} (hσa : σ a = p)

@@ -22,6 +22,7 @@ namespace HS9
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem exists_gen_Vt95 {hc : Ctx M Q Z B} {t : G} {Z0 : Subgroup G} (hcen : Centre95 hc t Z0) :
     ∃ s ∈ Z0, ⁅Q, Subgroup.zpowers s⁆ ⊔ Z = Vt M (LB M Q B) B Z t := by
   obtain ⟨s0, hs0, hs0Q⟩ : ∃ s ∈ Z0, s ∉ Q := by

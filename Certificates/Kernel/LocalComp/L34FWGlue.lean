@@ -57,7 +57,7 @@ noncomputable def invP (j : ℕ) : Equiv.Perm (Fin 42) :=
 theorem invP_spec {j : ℕ} (hj : j < 315) : invP j ∈ S ∧ invP j * invP j = 1 ∧ invP j ≠ 1 ∧
     TabRep (unpack 42 6 (L34O.T 0 j)) (invP j) := by
   unfold invP
-  rw [dif_pos hj]
+  rw [dite_eq_left hj]
   exact (exists_of_mem_invTabs (mem_invTabs hj)).choose_spec
 
 theorem reach {y : Equiv.Perm (Fin 42)} (hyS : y ∈ S) (hy2 : y * y = 1) (hy1 : y ≠ 1) :

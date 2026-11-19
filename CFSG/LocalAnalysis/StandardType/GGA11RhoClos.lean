@@ -18,9 +18,9 @@ private noncomputable def a11rc_TV (i j : Fin 9) : SL 9 :=
   if h : i ≠ j then SpecialLinearGroup.transvection h 1 else 1
 
 private theorem a11rc_TV_of_ne {i j : Fin 9} (h : i ≠ j) :
-    a11rc_TV i j = SpecialLinearGroup.transvection h 1 := dif_pos h
+    a11rc_TV i j = SpecialLinearGroup.transvection h 1 := dite_eq_left h
 
-private theorem a11rc_TV_self (i : Fin 9) : a11rc_TV i i = 1 := dif_neg (fun h => h rfl)
+private theorem a11rc_TV_self (i : Fin 9) : a11rc_TV i i = 1 := dite_eq_right (fun h => h rfl)
 
 private theorem a11rc_blk_ne_three (a : Fin 12) (ha : a.val < 9) : blk a ≠ 3 := by
   revert ha; fin_cases a <;> decide
@@ -44,28 +44,28 @@ private theorem a11rc_tv9_eq_TV (a b : Fin 12) (ha : a.val < 9) (hb : b.val < 9)
   rw [tv9]
   by_cases hab : a = b
   · subst hab
-    rw [dif_neg (by simp)]
+    rw [dite_eq_right (by simp)]
     rw [a11rc_TV_self]
   · have hne : a11rc_f9 a ≠ a11rc_f9 b := by
       intro h
       apply hab
       apply Fin.ext
-      simpa only [a11rc_f9, dif_pos ha, dif_pos hb] using congrArg Fin.val h
-    rw [dif_pos ⟨ha, hb, hab⟩, a11rc_TV_of_ne hne]
+      simpa only [a11rc_f9, dite_eq_left ha, dite_eq_left hb] using congrArg Fin.val h
+    rw [dite_eq_left ⟨ha, hb, hab⟩, a11rc_TV_of_ne hne]
     exact transvection_eq_of_eq _ _
-      (by rw [a11rc_f9, dif_pos ha]) (by rw [a11rc_f9, dif_pos hb]) 1
+      (by rw [a11rc_f9, dite_eq_left ha]) (by rw [a11rc_f9, dite_eq_left hb]) 1
 
 private theorem a11rc_signedPerm_det (π : Equiv.Perm (Fin 9)) :
     (signedPerm π (1 : Fin 9 → F2)).det = 1 := by
   let S : Submonoid (Equiv.Perm (Fin 9)) :=
     { carrier := {x | (signedPerm x (1 : Fin 9 → F2)).det = 1}
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         rw [signedPerm_one]
         simp
       mul_mem' := by
         intro x y hx hy
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         have hmul : signedPerm (x * y) (1 : Fin 9 → F2) =
             signedPerm x (1 : Fin 9 → F2) * signedPerm y (1 : Fin 9 → F2) := by
           rw [signedPerm_mul_signedPerm]
@@ -119,7 +119,7 @@ private theorem a11rc_permSL_eq (π : Equiv.Perm (Fin 9)) :
       one_mem' := by simp
       mul_mem' := by
         intro x y hx hy
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         rw [map_mul, map_mul, hx, hy] }
   have hle : Submonoid.closure (Set.range (fun i : Fin 8 => Equiv.swap i.castSucc i.succ)) ≤ S := by
     rw [Submonoid.closure_le]
@@ -164,7 +164,7 @@ private theorem a11rc_tvAt_eq (l : Fin 4) (a b : Fin 12) (ha : blk a ≠ l) (hb 
 private theorem a11rc_trAt_eq (l : Fin 4) (a b : Fin 12) (hab : a ≠ b)
     (ha : blk a ≠ l) (hb : blk b ≠ l) :
     trAt l a b = permSL 8 (Equiv.swap (a11rc_phi l a ha) (a11rc_phi l b hb)) := by
-  rw [trAt, dif_pos ⟨a11rc_val_lt_of_blk_ne l a ha, a11rc_val_lt_of_blk_ne l b hb, hab⟩]
+  rw [trAt, dite_eq_left ⟨a11rc_val_lt_of_blk_ne l a ha, a11rc_val_lt_of_blk_ne l b hb, hab⟩]
   rfl
 
 private theorem a11rc_swapBlocks_conj (l : Fin 4) (p q z : Fin 12) :
@@ -180,13 +180,13 @@ private theorem a11rc_fin_swap_val (x y w : Fin 12) (hx : x.val < 9) (hy : y.val
   simp only [Equiv.swap_apply_def]
   by_cases hwx : w = x <;> by_cases hwy : w = y <;> simp_all [Fin.ext_iff]
 
-private theorem a11rc_phi_swap (l : Fin 4) (p q z : Fin 12) (hpq : p ≠ q)
+private theorem a11rc_phi_swap (l : Fin 4) (p q z : Fin 12) (_hpq : p ≠ q)
     (hp : blk p ≠ l) (hq : blk q ≠ l) (hz : blk z ≠ l)
     (hz' : blk (Equiv.swap p q z) ≠ l) :
     a11rc_phi l (Equiv.swap p q z) hz' =
       (Equiv.swap (a11rc_phi l p hp) (a11rc_phi l q hq)) (a11rc_phi l z hz) := by
   apply Fin.ext
-  simp only [a11rc_phi, a11rc_f9]
+  simp only [a11rc_phi]
   rw [a11rc_fin_swap_val (swapBlocks l p) (swapBlocks l q) (swapBlocks l z)
         (a11rc_val_lt_of_blk_ne l p hp) (a11rc_val_lt_of_blk_ne l q hq)
         (a11rc_val_lt_of_blk_ne l z hz)]
@@ -194,7 +194,7 @@ private theorem a11rc_phi_swap (l : Fin 4) (p q z : Fin 12) (hpq : p ≠ q)
 
 private theorem a11rc_conj_tvAt {G : Type} [Group G] (Φ : Fin 4 → SL 9 →* G)
     (ρ : Equiv.Perm (Fin 12) →* G) (hrho : RhoEval Φ ρ)
-    (l : Fin 4) (p q r s : Fin 12) (hpq : p ≠ q) (hrs : r ≠ s)
+    (l : Fin 4) (p q r s : Fin 12) (hpq : p ≠ q) (_hrs : r ≠ s)
     (hlp : blk p ≠ l) (hlq : blk q ≠ l) (hlr : blk r ≠ l) (hls : blk s ≠ l) :
     ρ (Equiv.swap p q) * Φ l (tvAt l r s) * (ρ (Equiv.swap p q))⁻¹ =
       Φ l (tvAt l (Equiv.swap p q r) (Equiv.swap p q s)) := by
@@ -238,10 +238,10 @@ private theorem a11rc_TV_castSucc (i j : Fin 8) :
   by_cases hij : i = j
   · subst hij
     rw [a11rc_TV_self]
-    rw [show a11rc_TVS i i = 1 by rw [a11rc_TVS]; exact dif_neg (fun h => h rfl), map_one]
+    rw [show a11rc_TVS i i = 1 by rw [a11rc_TVS]; exact dite_eq_right (fun h => h rfl), map_one]
   · rw [a11rc_TV_of_ne (fun h => hij (Fin.castSucc_injective 8 h))]
     rw [show a11rc_TVS i j = SpecialLinearGroup.transvection hij 1 by
-      rw [a11rc_TVS]; exact dif_pos hij]
+      rw [a11rc_TVS]; exact dite_eq_left hij]
     rw [slBlockHom_transvection]
 
 private theorem a11rc_base_mem {G : Type} [Group G] (Φ : Fin 4 → SL 9 →* G)
@@ -256,10 +256,10 @@ private theorem a11rc_base_mem {G : Type} [Group G] (Φ : Fin 4 → SL 9 →* G)
   simp only [Equiv.Perm.one_apply]
   rw [a11rc_tv9_eq_TV a b (by omega) (by omega)]
   have hfa : a11rc_f9 a = (⟨a.val, ha⟩ : Fin 8).castSucc := by
-    rw [a11rc_f9, dif_pos (by omega)]
+    rw [a11rc_f9, dite_eq_left (by omega)]
     rfl
   have hfb : a11rc_f9 b = (⟨b.val, hb⟩ : Fin 8).castSucc := by
-    rw [a11rc_f9, dif_pos (by omega)]
+    rw [a11rc_f9, dite_eq_left (by omega)]
     rfl
   rw [hfa, hfb, a11rc_TV_castSucc]
   exact Subgroup.subset_closure ⟨1, a11rc_TVS ⟨a.val, ha⟩ ⟨b.val, hb⟩, by simp⟩
@@ -311,7 +311,7 @@ private theorem a11rc_root_mem {G : Type} [Group G] (Φ : Fin 4 → SL 9 →* G)
 
 private theorem a11rc_F2_eq_zero_or_one (c : F2) : c = 0 ∨ c = 1 := by
   classical
-  haveI : Fintype F2 := Fintype.ofFinite F2
+  have : Fintype F2 := Fintype.ofFinite F2
   have hcard : Fintype.card F2 = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 1 (by omega)
@@ -326,7 +326,7 @@ private theorem a11rc_F2_eq_zero_or_one (c : F2) : c = 0 ∨ c = 1 := by
 private theorem a11rc_transvection_zero {i j : Fin 9} (hij : i ≠ j) :
     SpecialLinearGroup.transvection hij (0 : F2) = 1 := by
   have h := map_one (SpecialLinearGroup.transvectionHom (A := F2) hij)
-  simpa using h
+  simp
 
 private theorem a11rc_blk_swapBlocks (l : Fin 4) (a : Fin 12) :
     blk (swapBlocks l a) = Equiv.swap l 3 (blk a) := by
@@ -388,11 +388,11 @@ private theorem a11rc_range_gen {G : Type} [Group G] (Φ : Fin 4 → SL 9 →* G
         (by exact i.isLt) (by exact j.isLt)]
     have hfi : a11rc_f9 (Fin.castLE (by omega : 9 ≤ 12) i) = i := by
       unfold a11rc_f9
-      rw [dif_pos (by exact i.isLt)]
+      rw [dite_eq_left (by exact i.isLt)]
       rfl
     have hfj : a11rc_f9 (Fin.castLE (by omega : 9 ≤ 12) j) = j := by
       unfold a11rc_f9
-      rw [dif_pos (by exact j.isLt)]
+      rw [dite_eq_left (by exact j.isLt)]
       rfl
     rw [a11rc_TV_congr hfi hfj, a11rc_TV_of_ne hij]
   rwa [htv] at hroot

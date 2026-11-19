@@ -27,7 +27,7 @@ theorem sporKRest_exists_sylow_of_normalizer {G : Type} [Group G] [Finite G] (S 
       (∀ Y : Subgroup G, Subgroup.normalizer ((S₀ : Subgroup G) : Set G) ≤ Y →
         Y = Subgroup.normalizer ((S₀ : Subgroup G) : Set G) ∨ Y = ⊤) ∧
       IsPGroup 3 ↥(CFSG.generalizedFitting ↥(Subgroup.normalizer ((S₀ : Subgroup G) : Set G))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hScard : Nat.card ↥S = 3 ^ (Nat.card G).factorization 3 := by
     rw [hS, hG, factorization_three_7920]
     norm_num
@@ -51,25 +51,25 @@ theorem sporKRest_exists_sylow_of_normalizer {G : Type} [Group G] [Finite G] (S 
     have hS'normal : (S' : Subgroup ↥N).Normal := by
       rw [hS'coe, ← hnorm]
       exact Subgroup.normal_in_normalizer
-    haveI : (S' : Subgroup ↥N).Normal := hS'normal
+    have : (S' : Subgroup ↥N).Normal := hS'normal
     have hS'card : Nat.card ↥(S' : Subgroup ↥N) = 9 := by
       rw [hS'coe]
       exact hSsub
     have hS'solv : Group.IsSolvable ↥S' := by
-      haveI : Group.IsNilpotent ↥S' := IsPGroup.isNilpotent (Sylow.isPGroup' S')
+      have : Group.IsNilpotent ↥S' := IsPGroup.isNilpotent (Sylow.isPGroup S')
       exact IsNilpotent.to_isSolvable
     have hQcard : Nat.card (↥N ⧸ (S' : Subgroup ↥N)) = 2 ^ 4 := by
       have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (S' : Subgroup ↥N)
       rw [hN, hS'card] at h
       omega
     have hQsolv : Group.IsSolvable (↥N ⧸ (S' : Subgroup ↥N)) := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Group.IsNilpotent (↥N ⧸ (S' : Subgroup ↥N)) :=
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Group.IsNilpotent (↥N ⧸ (S' : Subgroup ↥N)) :=
         IsPGroup.isNilpotent (IsPGroup.of_card (p := 2) (n := 4) hQcard)
       exact IsNilpotent.to_isSolvable
     have hNsolv : Group.IsSolvable ↥N := by
-      haveI : Group.IsSolvable ↥(S' : Subgroup ↥N) := hS'solv
-      haveI : Group.IsSolvable (↥N ⧸ (S' : Subgroup ↥N)) := hQsolv
+      have : Group.IsSolvable ↥(S' : Subgroup ↥N) := hS'solv
+      have : Group.IsSolvable (↥N ⧸ (S' : Subgroup ↥N)) := hQsolv
       exact Group.isSolvable_of_subgroup_quotient (S' : Subgroup ↥N)
     have hC : Subgroup.centralizer ((S' : Subgroup ↥N) : Set ↥N) ≤ (S' : Subgroup ↥N) := by
       intro t ht

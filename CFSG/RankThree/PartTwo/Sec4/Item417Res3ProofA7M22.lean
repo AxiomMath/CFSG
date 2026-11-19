@@ -225,7 +225,7 @@ theorem IsInnerInConf417.isHeisCentral_of_inverting (h : IsInnerInConf417 L A E 
       rw [← Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) ρ.range]
       exact Subgroup.map_mono hP
     have hcardle : Nat.card ((P : Subgroup L).map f) ≤ Nat.card ρ.range := by
-      obtain ⟨k, hk⟩ := (P.isPGroup'.map f).exists_card_eq
+      obtain ⟨k, hk⟩ := (P.isPGroup.map f).exists_card_eq
       have hdvd := Subgroup.card_subgroup_dvd_card ((P : Subgroup L).map f)
       rw [hk] at hdvd ⊢
       rw [hR9]

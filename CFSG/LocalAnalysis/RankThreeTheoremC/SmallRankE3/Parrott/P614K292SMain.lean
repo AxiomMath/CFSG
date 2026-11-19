@@ -17,7 +17,7 @@ open P614K292 P614K292S
 theorem kD292Shape3_holds : KD292Shape3 := by
   intro hT X _ _ L x Px B cfg
   have h := cfg.setup
-  haveI : L.Normal := h.normal
+  have : L.Normal := h.normal
   obtain ⟨hcyc, hΩ, hLε, hZ3⟩ := core_facts hT cfg
   obtain ⟨π, p, f, K, _, ν, M⟩ := exists_lModel h.comp.2.2 hLε (dvd_of_eq hZ3)
   have hinj : Function.Injective ν := by

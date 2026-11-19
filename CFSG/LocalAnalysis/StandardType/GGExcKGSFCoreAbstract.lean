@@ -20,12 +20,12 @@ theorem sf_core_abstract [Finite A] {p : ℕ} (hp : p.Prime)
         (∀ b ∈ E', D b) → Nat.card E = c → Nat.card E' = c →
         ∃ κ : A, D κ ∧ E.map (MulAut.conj κ).toMonoidHom = E')
     {E : Subgroup A} (hE : IsElemAbelian p E) (h4 : p ^ 4 ≤ Nat.card E)
-    (hEP : E ≤ (P : Subgroup N).map N.subtype) (hED : ∀ b ∈ E, D b)
+    (_hEP : E ≤ (P : Subgroup N).map N.subtype) (hED : ∀ b ∈ E, D b)
     (huniq : ∀ E' : Subgroup A, E' ≤ (P : Subgroup N).map N.subtype → IsElemAbelian p E' →
       Nat.card E' = Nat.card E → E' = E) :
     ∃ κ : A, D κ ∧ (E.map (MulAut.conj κ).toMonoidHom = B ∨
       E.map (MulAut.conj κ).toMonoidHom = B ⊓ Inn) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨s, hs⟩ := exists_card_eq_pow hE
   have hE0s : IsElemAbelian p (B ⊓ Inn) := isElemAbelian_of_le hB inf_le_left
   obtain ⟨r, hr⟩ := exists_card_eq_pow hE0s

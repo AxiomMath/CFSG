@@ -21,6 +21,7 @@ structure SwapCfg (Y T L₁ L₂ : Subgroup (LGL 2 V)) (a : LGL 2 V) : Prop wher
 
 variable {Y T L₁ L₂ : Subgroup (LGL 2 V)} {a : LGL 2 V}
 
+omit [Finite V] in
 theorem SwapCfg.conj_mem₁ (c : SwapCfg Y T L₁ L₂ a) {l : LGL 2 V} (hl : l ∈ L₁) :
     a * l * a⁻¹ ∈ L₂ := by
   have h : a * l * a⁻¹ ∈ cj a L₁ := by
@@ -29,6 +30,7 @@ theorem SwapCfg.conj_mem₁ (c : SwapCfg Y T L₁ L₂ a) {l : LGL 2 V} (hl : l 
     rwa [this]
   rwa [c.swap] at h
 
+omit [Finite V] in
 theorem SwapCfg.inf_le_centre (c : SwapCfg Y T L₁ L₂ a) : L₁ ⊓ L₂ ≤ quasiCentre L₁ := by
   intro l hl
   rw [Subgroup.mem_inf] at hl
@@ -38,6 +40,7 @@ theorem SwapCfg.inf_le_centre (c : SwapCfg Y T L₁ L₂ a) : L₁ ⊓ L₂ ≤ 
 
 @[expose] def zeta (a l : LGL 2 V) : LGL 2 V := l * (a * l * a⁻¹)
 
+omit [Finite V] in
 theorem zeta_mul (c : SwapCfg Y T L₁ L₂ a) {l l' : LGL 2 V} (hl : l ∈ L₁) (hl' : l' ∈ L₁) :
     zeta a (l * l') = zeta a l * zeta a l' := by
   have hm : a * l * a⁻¹ ∈ L₂ := c.conj_mem₁ hl
@@ -49,11 +52,13 @@ theorem zeta_mul (c : SwapCfg Y T L₁ L₂ a) {l l' : LGL 2 V} (hl : l ∈ L₁
     _ = l * ((a * l * a⁻¹) * l') * (a * l' * a⁻¹) := by rw [hcomm]
     _ = l * (a * l * a⁻¹) * (l' * (a * l' * a⁻¹)) := by group
 
+omit [Finite V] in
 theorem zeta_mem_Y (c : SwapCfg Y T L₁ L₂ a) {l : LGL 2 V} (hl : l ∈ L₁) : zeta a l ∈ Y := by
   unfold zeta
   exact Y.mul_mem (c.two.le₁ hl)
     (Y.mul_mem (Y.mul_mem c.mem (c.two.le₁ hl)) (Y.inv_mem c.mem))
 
+omit [Finite V] in
 theorem zeta_comm_a (c : SwapCfg Y T L₁ L₂ a) {l : LGL 2 V} (hl : l ∈ L₁) :
     a * zeta a l = zeta a l * a := by
   unfold zeta
@@ -70,6 +75,7 @@ theorem zeta_comm_a (c : SwapCfg Y T L₁ L₂ a) {l : LGL 2 V} (hl : l ∈ L₁
       _ = l * (a * l * a⁻¹) := hcomm.symm
   exact mul_inv_eq_iff_eq_mul.mp key
 
+omit [Finite V] in
 theorem zeta_eq_iff (c : SwapCfg Y T L₁ L₂ a) {l l' : LGL 2 V} (hl : l ∈ L₁) (hl' : l' ∈ L₁)
     (h : zeta a l = zeta a l') : l'⁻¹ * l ∈ L₁ ⊓ L₂ := by
   unfold zeta at h
@@ -84,15 +90,18 @@ theorem zeta_eq_iff (c : SwapCfg Y T L₁ L₂ a) {l l' : LGL 2 V} (hl : l ∈ L
     exact L₂.mul_mem hm' (L₂.inv_mem hm)
   exact Subgroup.mem_inf.mpr ⟨hmem1, hmem2⟩
 
+omit [Finite V] in
 theorem zeta_one : zeta a (1 : LGL 2 V) = 1 := by
   simp [zeta]
 
+omit [Finite V] in
 theorem zeta_inv (c : SwapCfg Y T L₁ L₂ a) {l : LGL 2 V} (hl : l ∈ L₁) :
     zeta a l⁻¹ = (zeta a l)⁻¹ := by
   have hl1 : l⁻¹ ∈ L₁ := L₁.inv_mem hl
   refine eq_inv_of_mul_eq_one_left ?_
   rw [← zeta_mul c hl1 hl, inv_mul_cancel, zeta_one]
 
+omit [Finite V] in
 theorem zeta_conj {b : LGL 2 V} (hba : b * a = a * b) (l : LGL 2 V) :
     b * zeta a l * b⁻¹ = zeta a (b * l * b⁻¹) := by
   have hc : Commute b a := hba
@@ -105,6 +114,7 @@ theorem zeta_conj {b : LGL 2 V} (hba : b * a = a * b) (l : LGL 2 V) :
       group
     _ = (b * l * b⁻¹) * (a * (b * l * b⁻¹) * a⁻¹) := by rw [hb1, hb2]
 
+omit [Finite V] in
 theorem eq_one_of_comm_zeta (c : SwapCfg Y T L₁ L₂ a) {b : LGL 2 V} (hbY : b ∈ Y)
     (hba : b * a = a * b) (hbb : b * b = 1) (hbL : cj b L₁ = L₁)
     (h : ∀ l ∈ L₁, b * zeta a l = zeta a l * b) : b = 1 := by

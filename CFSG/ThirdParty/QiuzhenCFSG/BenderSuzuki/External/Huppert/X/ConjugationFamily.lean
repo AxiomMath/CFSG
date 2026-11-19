@@ -239,7 +239,7 @@ private theorem HuppertExtremal.exists_sylow_normalizer
   let N : Subgroup G := Subgroup.normalizer (U : Set G)
   let NP : Subgroup G := (P : Subgroup G) ⊓ N
   let NPN : Subgroup N := NP.subgroupOf N
-  have hNPp : IsPGroup p NP := IsPGroup.to_le P.isPGroup' inf_le_left
+  have hNPp : IsPGroup p NP := IsPGroup.to_le P.isPGroup inf_le_left
   have hNPNp : IsPGroup p NPN :=
     hNPp.of_equiv (Subgroup.subgroupOfEquivOfLe
       (by simp [NP, N])).symm
@@ -459,7 +459,7 @@ private theorem exists_larger_normalizer_pSubgroup
   have hPR₁lt : P < R₁ := by
     apply lt_of_le_of_ne hPR₁
     intro hPR₁eq
-    obtain ⟨y, hyNR, hyPR⟩ := SetLike.exists_of_lt hPRnorm
+    obtain ⟨y, hyNR, hyPR⟩ := _root_.IsConcreteLE.exists_of_lt hPRnorm
     apply hyPR
     have hyR₁ : (y : G) ∈ R₁ :=
       Subgroup.mem_map.mpr ⟨y, hyNR, rfl⟩
@@ -539,7 +539,7 @@ private theorem exists_extremal_representative
   have hBp : IsPGroup p B := by
     change IsPGroup p
       ((P : Subgroup G).map (MulAut.conj a).toMonoidHom)
-    exact IsPGroup.map (p := p) (H := (P : Subgroup G)) P.isPGroup'
+    exact IsPGroup.map (p := p) (H := (P : Subgroup G)) P.isPGroup
       (MulAut.conj a).toMonoidHom
   obtain ⟨R, hRp, hAR, hRB, hRN⟩ :=
     exists_larger_normalizer_pSubgroup (G := G) (p := p) hBp hABlt
@@ -553,7 +553,7 @@ private theorem exists_extremal_representative
   have hSGN : SG ≤ N := by
     simpa [SG] using Subgroup.map_le_range N.subtype (S : Subgroup N)
   have hSGp : IsPGroup p SG := by
-    simpa [SG] using S.isPGroup'.map N.subtype
+    simpa [SG] using S.isPGroup.map N.subtype
   obtain ⟨T, hSGT⟩ := hSGp.exists_le_sylow
   obtain ⟨b, hb⟩ := MulAction.exists_smul_eq G P T
   have hPb : P.toSubgroup.conjBy b = (T : Subgroup G) := by
@@ -585,7 +585,7 @@ private theorem exists_extremal_representative
       rw [hPb]
       exact hRSG.trans hSGT))
   let VP : Subgroup G := (P : Subgroup G) ⊓ N
-  have hVPp : IsPGroup p VP := IsPGroup.to_le P.isPGroup' inf_le_left
+  have hVPp : IsPGroup p VP := IsPGroup.to_le P.isPGroup inf_le_left
   let VPN : Subgroup N := VP.subgroupOf N
   have hVPNp : IsPGroup p VPN :=
     hVPp.of_equiv (Subgroup.subgroupOfEquivOfLe (by simp [VP, N])).symm
@@ -610,7 +610,7 @@ private theorem exists_extremal_representative
   have hAVP : A < VP := by
     obtain ⟨R2, _hR2p, hAR2, hR2P, hR2N⟩ :=
       exists_larger_normalizer_pSubgroup (G := G) (p := p)
-        (P := A) (R := (P : Subgroup G)) P.isPGroup' hAP
+        (P := A) (R := (P : Subgroup G)) P.isPGroup hAP
     exact hAR2.trans_le (le_inf hR2P (by simpa [N] using hR2N))
   have hAVPc : A < VP.conjBy c := by
     have hlt := (Subgroup.map_lt_map_iff_of_injective

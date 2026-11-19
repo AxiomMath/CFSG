@@ -100,7 +100,7 @@ theorem l2_nu_facts {K : Type} [Field K] [Finite K] {r : ℕ} (hr : 4 ≤ r) {α
     have h := (pow_dvd_pow 2 (show 2 ≤ r - 1 by omega)).trans hu2
     simpa using h
   have hw2 : 2 ∣ w := by omega
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = Nat.card K := Nat.card_eq_fintype_card.symm
   have hF : ringChar K ≠ 2 := by
     intro h

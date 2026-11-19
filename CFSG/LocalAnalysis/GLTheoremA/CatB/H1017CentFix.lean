@@ -13,8 +13,8 @@ variable {X : Type} [Group X] [Finite X]
 
 theorem exists_involution_of_two_group {Q : Subgroup X} (hQ : IsPGroup 2 Q) (hne : Q ≠ ⊥) :
     ∃ t ∈ Q, orderOf t = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hne
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hne
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hQ
   have hn0 : n ≠ 0 := by
     rintro rfl
@@ -32,8 +32,8 @@ theorem glaTwoLocalRank_le_of_cent {p k m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       IsElemAbelian p F → Nat.card F = p ^ k →
         ¬ 2 ^ m ∣ Nat.card (Subgroup.centralizer (F : Set X))) :
     GLATwoLocalRank p X ≤ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine glaTwoLocalRank_le_of_card_le hp fun R E₀ hR hR2 hEN hE₀ => ?_
   by_contra hlt
   push Not at hlt

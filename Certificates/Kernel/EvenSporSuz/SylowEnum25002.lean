@@ -49,17 +49,17 @@ theorem treePar_getD {i : ℕ} (hi : i < 16384) (hi0 : i ≠ 0) :
     omega
   unfold treePar
   rw [parse_eq, getD_cons_append, Array.getD_eq_getD_getElem?, Array.getElem?_map,
-    Array.getElem?_range, if_pos hk, Option.map_some, Option.getD_some, Nat.add_sub_cancel]
+    Array.getElem?_range, ite_eq_left hk, Option.map_some, Option.getD_some, Nat.add_sub_cancel]
   simp only [Array.getD_eq_getD_getElem?, List.getElem?_toArray, ← List.getD_eq_getElem?_getD]
   obtain ⟨h1, h2⟩ := flatP_getD tp k
   rw [h1, h2]
 
-theorem tree : (∃ h : ps.getD 0 0 < ed.length, (ed[ps.getD 0 0]).1 = one3) ∧
+theorem tree : (∃ _h : ps.getD 0 0 < ed.length, (ed[ps.getD 0 0]).1 = one3) ∧
     (∀ i < 16384, i ≠ 0 → (tp.getD (i - 1) (0, 0)).1 < i ∧ (tp.getD (i - 1) (0, 0)).2 < 4 ∧
-      ∃ (h : ps.getD i 0 < ed.length) (h' : ps.getD (tp.getD (i - 1) (0, 0)).1 0 < ed.length),
+      ∃ (_h : ps.getD i 0 < ed.length) (h' : ps.getD (tp.getD (i - 1) (0, 0)).1 0 < ed.length),
         (ed[ps.getD i 0]).1 = mulF3 (ed[ps.getD (tp.getD (i - 1) (0, 0)).1 0]).1
           (gs.getD (tp.getD (i - 1) (0, 0)).2 0)) ∧
-    (∀ j < 16384, ∃ h : iv.getD j 0 < 16384, ps.getD (iv.getD j 0) 0 = j) := by
+    (∀ j < 16384, ∃ _h : iv.getD j 0 < 16384, ps.getD (iv.getD j 0) 0 = j) := by
   refine tree_sound (fun c hc => ?_) treeGlob.2.2.1 treeGlob.2.2.2 treeGlob.2.1
   interval_cases c
   exacts [tr250020, tr250021, tr250022, tr250023]
@@ -71,7 +71,7 @@ theorem sMats_getD {g : ℕ} (hg : g < 4) : sMats.getD g oneM = jMats.getD g one
   unfold sMats
   rw [ngS_eq, Array.getD_eq_getD_getElem?, Array.getD_eq_getD_getElem?, Array.getElem?_extract]
   simp only [hs]
-  rw [if_pos (by omega), Nat.zero_add]
+  rw [ite_eq_left (by omega), Nat.zero_add]
 
 theorem lanes_buildE : ∀ i < 16384, ∃ h : ps.getD i 0 < ed.length,
     lanesMt ((buildE sMats treePar).getD i oneM) = (ed[ps.getD i 0]).1 := by

@@ -74,7 +74,7 @@ theorem GGSixCtxV2.ggKd_inf_normalizer_le_normalizer_ggSRd
   exact mem_normalizer_ggSR_inf_centralizer (h.ggKd_le_ggG0 hd hmK)
     (h.ggKd_le_centralizer hd hmK) hmR
 
-theorem GGSixCtxV2.ggSRd_le_normalizer_ggKd (h : GGSixCtxV2 p B Bs x L D J Δ t n f ψ)
+theorem GGSixCtxV2.ggSRd_le_normalizer_ggKd (_h : GGSixCtxV2 p B Bs x L D J Δ t n f ψ)
     {R : Subgroup G} (hRJ : R ≤ J) (hR1 : R ≠ ⊥) (hR2 : IsPGroup 2 R)
     (hZJ : Odd (Nat.card (Subgroup.center ↥J))) {d : G}
     (hcomp : IsComponentOf (ggKd p B x L D J d) (Subgroup.centralizer {d})) :

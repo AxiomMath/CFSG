@@ -226,7 +226,7 @@ theorem lk_borel_le (i : Fin r) : lkBbar r qA ≤ lkPi r qA i := by
 
 theorem lk_ubar_le_bbar [FiniteDimensional K A] (hani : qA.Anisotropic) :
     lkUbar r qA ≤ lkBbar r qA :=
-  Subgroup.map_mono fun x hx =>
+  Subgroup.map_mono fun _x hx =>
     Subgroup.mem_subgroupOf.2 (tailUnipotent_le_tailBorel hani (Subgroup.mem_subgroupOf.1 hx))
 
 theorem lk_anti [FiniteDimensional K A] (hani : qA.Anisotropic) {a₀ : A} (ha₀ : a₀ ≠ 0)
@@ -389,17 +389,17 @@ theorem lk_model {ι : Type} [Fintype ι] [DecidableEq ι] {A : Type} [AddCommGr
             ∃ i : Fin r, X ≤ statedProjectiveSubspaceStabilizer Q0 (F i) := by
   have hr2 : 2 ≤ r := by omega
   have hpos : 0 < finrank K A := by rcases hm with h | h <;> omega
-  haveI : FiniteDimensional K A := Module.finite_of_finrank_pos hpos
-  haveI : Nontrivial A := Module.nontrivial_of_finrank_pos hpos
+  have : FiniteDimensional K A := Module.finite_of_finrank_pos hpos
+  have : Nontrivial A := Module.nontrivial_of_finrank_pos hpos
   obtain ⟨a₀, ha₀⟩ := exists_ne (0 : A)
   have hBI := borelInterface_of_tailIsometry (p := 2) ψ hQ hE hr hani hreg hm hF
   obtain ⟨-, -, -, hcl4, -⟩ := hBI
-  haveI : Finite A := Module.finite_of_finite K
-  haveI : Finite (lkGL r K A) := Finite.of_injective
+  have : Finite A := Module.finite_of_finite K
+  have : Finite (lkGL r K A) := Finite.of_injective
     (fun g : lkGL r K A => (g : ((Fin r ⊕ Fin r → K) × A) → (Fin r ⊕ Fin r → K) × A))
     DFunLike.coe_injective
-  haveI : Finite (orthElementaryGroup (quadTail r qA)) := inferInstance
-  haveI : Finite (lkQ r qA) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
+  have : Finite (orthElementaryGroup (quadTail r qA)) := inferInstance
+  have : Finite (lkQ r qA) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   obtain ⟨S₁, hS₁⟩ :=
     (orthogonal_geometry_tail_Sylow_flag_normalizer (p := 2) hr hani hreg hm).2.2.1
   have hN₁ := (orthogonal_geometry_tail_Sylow_flag_normalizer (p := 2) hr hani hreg hm).2.2.2.1

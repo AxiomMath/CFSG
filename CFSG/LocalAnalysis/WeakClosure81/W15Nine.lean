@@ -49,11 +49,11 @@ theorem centralizesMod_of_card_le (h : Cex15 M V₀ V U S) {y : G} (hyM : y ∈ 
   have hc2 : CentralizesMod V₀ V (y * y) := by
     rw [hy2]
     intro v _
-    simpa using V₀.one_mem
+    simp
   have h4 : 2 ^ (1 + 1) * Nat.card (centMod V₀ V y) ≤ Nat.card V := hGT.1 y hyM hnot hc2
   have h4' : 4 * Nat.card (centMod V₀ V y) ≤ Nat.card V := by simpa using h4
   have hpos : 0 < Nat.card (centMod V₀ V y) := by
-    haveI : Nonempty (centMod V₀ V y) := ⟨⟨1, V.one_mem, by simpa using V₀.one_mem⟩⟩
+    have : Nonempty (centMod V₀ V y) := ⟨⟨1, V.one_mem, by simp⟩⟩
     exact Nat.card_pos
   omega
 

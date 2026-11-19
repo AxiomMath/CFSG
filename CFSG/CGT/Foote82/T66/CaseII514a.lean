@@ -22,6 +22,7 @@ theorem factorization_25920 : (25920 : ℕ).factorization 2 = 6 := by
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem conj_mem_layerIn' {G : Subgroup (GLV V)} {g e : GLV V} (hg : g ∈ G)
     (he : e ∈ layerIn G) : g * e * g⁻¹ ∈ layerIn G := by
   have : (CFSG.layer ↥G).Characteristic := CFSG.LocalCores.layer_characteristic
@@ -40,6 +41,7 @@ theorem conj_mem_of_isComponentOf {G K : Subgroup (GLV V)} (hK : IsComponentOf K
   exact Subgroup.mem_subgroupOf.1
     ((Subgroup.mem_normalizer_iff.1 (hnorm he₀) ⟨k, hKG hk⟩).1 (Subgroup.mem_subgroupOf.2 hk))
 
+omit [Finite V] in
 theorem layerIn_le_of_commutator_le {G N : Subgroup (GLV V)} (hN : ⁅G, G⁆ ≤ N) :
     layerIn G ≤ N := by
   rw [layerIn_eq_sSup]
@@ -80,7 +82,7 @@ theorem fus (hs : CaseIISplit) (hG1 : CaseIIG1) (h513 : ∀ x ∈ G, x * z * x�
   have h2 := c.finrank_range_subOne hs c.z_mem
   have hV₁ : (fixedSpace (HH G L v)).map (subOne a) =
       (fixedSpace (HH G L v)).map (subOne z) := by
-    have := c.map_V₁_eq (a := z) hzaH
+    have := CFSG.CGT.Foote82.CaseII.Ctx.map_V₁_eq (a := z) hzaH
     rwa [show z * (z⁻¹ * a) = a by group] at this
   have hconj : Module.finrank (ZMod 2) ↥(LinearMap.range (subOne a)) =
       Module.finrank (ZMod 2) ↥(LinearMap.range (subOne z)) := by

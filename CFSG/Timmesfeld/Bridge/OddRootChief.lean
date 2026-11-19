@@ -35,6 +35,7 @@ namespace OddRootChief
 
 variable [Finite K] {D : Set K} {V : Subgroup K} [hVn : V.Normal] {x a b : K} {n : ℕ}
 
+omit [Finite K] in
 theorem isBender (c : OddRootChief D V x a b n) : IsBenderGroup (K ⧸ V) := by
   obtain ⟨e⟩ := c.iso
   exact .isPSL2 n c.two_le e
@@ -164,23 +165,25 @@ theorem sylow_eq_sup (c : OddRootChief D V x a b n) (S : Sylow 2 K) (haS : a ∈
     intro d hd
     exact hd.2
 
+omit [Finite K] in
 theorem isElemAbelian_closure (c : OddRootChief D V x a b n) (S : Sylow 2 K) :
     IsElemAbelian 2 (Subgroup.closure (D ∩ (S : Set K))) := by
   have hpair : ∀ f ∈ D ∩ (S : Set K), ∀ g ∈ D ∩ (S : Set K), Commute f g :=
-    fun f hf g hg => c.oddT.commute_of_isPGroup S.isPGroup' hf.1 hg.1 hf.2 hg.2
+    fun f hf g hg => c.oddT.commute_of_isPGroup S.isPGroup hf.1 hg.1 hf.2 hg.2
   have hPw : (D ∩ (S : Set K)).Pairwise Commute := fun f hf g hg _ => hpair f hf g hg
   refine ⟨IsMulCommutative.of_comm (fun u v => ?_), fun u hu => ?_⟩
   · exact Subtype.ext (commute_of_mem_closure hpair u.2 v.2).eq
   rw [pow_two]
   exact mul_self_eq_one_of_mem_closure hPw (fun f hf => c.oddT.mul_self_eq_one hf.1) hu
 
+omit [Finite K] in
 private theorem commute_commutator (c : OddRootChief D V x a b n)
     {S : Sylow 2 K} {f g : K} (hf : f ∈ D ∩ (S : Set K)) (hg : g ∈ D ∩ (S : Set K))
     {v : K} (hv : v ∈ V) : Commute g ⁅f, v⁆ := by
   have hD := c.oddT
   have hfD : f ∈ D := hf.1
   have hgD : g ∈ D := hg.1
-  have hfg : Commute f g := hD.commute_of_isPGroup S.isPGroup' hfD hgD hf.2 hg.2
+  have hfg : Commute f g := hD.commute_of_isPGroup S.isPGroup hfD hgD hf.2 hg.2
   have hfg2 : f * g * (f * g) = 1 := by
     rw [show f * g * (f * g) = f * (g * f) * g by group, ← hfg.eq,
       show f * (f * g) * g = f * f * (g * g) by group,
@@ -219,11 +222,12 @@ private theorem commute_commutator (c : OddRootChief D V x a b n)
   rw [h']
   exact hfg.symm.mul_right hcomm.symm.inv_right
 
+omit [Finite K] in
 private theorem commute_commutator_closure (c : OddRootChief D V x a b n)
     {S : Sylow 2 K} {s g : K} (hs : s ∈ Subgroup.closure (D ∩ (S : Set K)))
     (hg : g ∈ D ∩ (S : Set K)) {v : K} (hv : v ∈ V) : Commute g ⁅s, v⁆ := by
   have hEcomm : ∀ f ∈ D ∩ (S : Set K), ∀ g ∈ D ∩ (S : Set K), Commute f g :=
-    fun f hf g hg => c.oddT.commute_of_isPGroup S.isPGroup' hf.1 hg.1 hf.2 hg.2
+    fun f hf g hg => c.oddT.commute_of_isPGroup S.isPGroup hf.1 hg.1 hf.2 hg.2
   have hgE : ∀ t ∈ Subgroup.closure (D ∩ (S : Set K)), Commute g t := fun t ht =>
     commute_of_mem_closure hEcomm (Subgroup.subset_closure hg) ht
   induction hs using Subgroup.closure_induction with
@@ -291,6 +295,7 @@ theorem exists_complement (c : OddRootChief D V x a b n)
   exact SignalizerFunctorTheorem.McBride.exists_complement_of_sylow_complement Nat.prime_two
     c.two S (hS ▸ le_sup_right) hVC hVCS
 
+omit [Finite K] in
 private theorem exists_sylow_pair (c : OddRootChief D V x a b n) :
     ∃ S : Sylow 2 K, a ∈ S ∧ b ∈ S := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -323,6 +328,7 @@ private theorem exists_sylow_pair (c : OddRootChief D V x a b n) :
   exact ⟨S, hSle (Subgroup.subset_closure (Set.mem_insert _ _)),
     hSle (Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _)))⟩
 
+omit [Finite K] in
 private theorem centralizer_trivial (c : OddRootChief D V x a b n)
     (hVc : ¬ V ≤ Subgroup.center K) : ∀ v ∈ V, (∀ k : K, Commute k v) → v = 1 := by
   intro v hv hcomm
@@ -399,6 +405,7 @@ private theorem complement_upperUnipotent (c : OddRootChief D V x a b n)
       (MonoidHom.ext fun _ => rfl)
   exact ⟨R, φR, hVR, hVR', hAmap, hdecomp⟩
 
+omit [Finite K] in
 private theorem conjClosure_range_le_normal {R : Subgroup K} {V : Subgroup K} [V.Normal]
     (hVcomm : ∀ v ∈ V, ∀ w ∈ V, Commute v w) {w : K} (hw : w ∈ V)
     (hdecomp : ∀ k : K, ∃ v ∈ V, ∃ r ∈ R, v * r = k) :
@@ -443,7 +450,7 @@ private theorem exists_natural_theta (c : OddRootChief D V x a b n)
   have hVcomm := commute_of_minimal c.two c.ne_bot c.min
   have hfix := c.centralizer_trivial hVc
   have hVS : V ≤ (S : Subgroup K) := hS ▸ le_sup_right
-  have hnil : Group.IsNilpotent ↥(S : Subgroup K) := S.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(S : Subgroup K) := S.isPGroup.isNilpotent
   have hVSn : (V.subgroupOf (S : Subgroup K)).Normal := hVn.subgroupOf _
   have hne' : V.subgroupOf (S : Subgroup K) ≠ ⊥ := by
     intro h0
@@ -476,6 +483,7 @@ private theorem exists_natural_theta (c : OddRootChief D V x a b n)
   have hW₁eq : W₁ = V := (c.min W₁ hW₁n hW₁V).resolve_left hW₁ne
   exact ⟨θ, hθ, by rw [hθrange, hW₁eq]⟩
 
+omit [Finite K] hVn in
 private theorem theta_aux {R : Subgroup K}
     {φR : ↥R ≃* Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n)}
     {θ : (Fin 2 → GaloisField 2 n) → K} (hθ : ARS.IsNaturalModule φR θ)

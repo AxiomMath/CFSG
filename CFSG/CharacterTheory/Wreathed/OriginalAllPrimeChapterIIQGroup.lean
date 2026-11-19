@@ -252,7 +252,7 @@ theorem isQGroup_of_layer_le
   set Yb := modelY Sb eb
   have hYK : Yb ≤ Kb := hSK ▸ inf_le_right
   have hYJ : Yb ≤ J := hYM.trans hMJ
-  have hY2 : IsPGroup 2 Yb := Sb.isPGroup'.to_le (modelY_le_sylow Sb eb)
+  have hY2 : IsPGroup 2 Yb := Sb.isPGroup.to_le (modelY_le_sylow Sb eb)
   obtain ⟨Q₀, hQ₀⟩ :=
     (show IsPGroup 2 (Yb.subgroupOf J) from hY2.comap_subtype).exists_le_sylow
   set R₀ := (Q₀ : Subgroup J).map J.subtype

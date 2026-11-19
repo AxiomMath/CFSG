@@ -48,7 +48,7 @@ theorem invol_eq_or_of_mem_USet {U : Subgroup G} (hU : U ∈ USet (CoreAssembly.
   · obtain ⟨J₂, hJ₂, hRJ₂, -, -⟩ := mem_RSet_iff.mp h
     obtain ⟨j, hj⟩ := Sec6Gen.exists_uniqueInvolution hΩ hJ₂
     obtain ⟨-, -, -, -, -, -, -, -, h4⟩ := Sec6Gen.exists_data_of_mem_USet hΩ hU
-    have huU : u ∈ U := S1911.mem_of_le_member hu hUJ (S.isPGroup'.to_le hUS) (by omega)
+    have huU : u ∈ U := S1911.mem_of_le_member hu hUJ (S.isPGroup.to_le hUS) (by omega)
     have hju : u = j := (hj.unique u (hRJ₂ (Subgroup.mem_sup_left huU)) hu.sq).resolve_left
       hu.ne_one
     exact hd.invol_eq_or hη hinv hWη hV₀η hJ₂ (le_sup_right.trans hRJ₂) (hju ▸ hj)
@@ -78,7 +78,7 @@ theorem exists_conj_eq_of_comm {x : G} (hx : x ∈ S19B.sec19BPrime K S W L) {J 
       refine ⟨(Subgroup.mem_normalizer_iff.mp hxJ y).mpr hyJ, ?_⟩
       have h := Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.inv_mem _ hxz) hyz) hxz
       simpa [mul_assoc] using h
-  have hx2 : IsPGroup 2 (Subgroup.zpowers x) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxS)
+  have hx2 : IsPGroup 2 (Subgroup.zpowers x) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxS)
   have hNH : J ⊓ Subgroup.centralizer ({z} : Set G) ⊔ Subgroup.zpowers x ≤
       Subgroup.normalizer ((J ⊓ Subgroup.centralizer ({z} : Set G) : Subgroup G) : Set G) :=
     sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr hxH)
@@ -283,7 +283,7 @@ theorem exists_conj_eq_of_comm_t (hr : 4 ≤ r) {x : G} (hx : x ∈ S19B.sec19BP
     rintro y (rfl | rfl)
     · exact hzW
     · exact htW
-  have hZ2 : IsPGroup 2 Z := S.isPGroup'.to_le (hZW.trans hd.hWS)
+  have hZ2 : IsPGroup 2 Z := S.isPGroup.to_le (hZW.trans hd.hWS)
   have hZN : Z ≤ Subgroup.normalizer ((conjSub g K : Subgroup G) : Set G) := by
     rw [hZ, Subgroup.closure_le]
     rintro y (rfl | rfl)
@@ -322,7 +322,7 @@ theorem exists_sylow_conj {x : G} (hx : x ∈ S19B.sec19BPrime K S W L) {s : G}
   set H := Subgroup.centralizer ({x} : Set G) ⊓ Subgroup.centralizer ({z} : Set G) with hH
   have hP₀H : (S : Subgroup G) ⊓ Subgroup.centralizer ({x} : Set G) ≤ H :=
     le_inf inf_le_right (inf_le_left.trans hd0.hSz)
-  obtain ⟨T, hT, hP₀T⟩ := IsSylow2In.exists_ge (S.isPGroup'.to_le inf_le_left) hP₀H
+  obtain ⟨T, hT, hP₀T⟩ := IsSylow2In.exists_ge (S.isPGroup.to_le inf_le_left) hP₀H
   obtain ⟨c, hcH, hsc⟩ := Sec7.exists_conj_le_of_isSylow2In hT hs2
     (Subgroup.zpowers_le.mpr ⟨hsx, hsz⟩)
   have hcs : c⁻¹ * s * c ∈ T := by
@@ -340,7 +340,7 @@ theorem exists_sylow_conj {x : G} (hx : x ∈ S19B.sec19BPrime K S W L) {s : G}
     hxS' r hr.1 (Subgroup.mem_centralizer_iff.mp hxR r hr)
   have hR : (S' : Subgroup G) ⊓ K = (S : Subgroup G) ⊓ K := by
     have hRK := hd0.isSylow2In_inf
-    exact hRK.2.2 _ inf_le_right (S'.isPGroup'.to_le inf_le_left) (le_inf hRS' inf_le_right)
+    exact hRK.2.2 _ inf_le_right (S'.isPGroup.to_le inf_le_left) (le_inf hRS' inf_le_right)
   have hWS' : W ≤ (S' : Subgroup G) := fun w hw =>
     hxS' w (hd.hWS hw) (Subgroup.mem_centralizer_iff.mp hxW w hw)
   have hS'z : (S' : Subgroup G) ≤ Subgroup.centralizer ({z} : Set G) := by

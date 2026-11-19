@@ -22,7 +22,7 @@ private theorem statedScalars_subgroupOf_eq_bot_of_isPGroup {d p m : ℕ} {F : T
   rw [eq_bot_iff]
   intro x hx
   rw [Subgroup.mem_bot]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨kx, hkx⟩ := hMp x
   have h1 : orderOf x ∣ p ^ kx := orderOf_dvd_of_pow_eq_one hkx
   have h2 : orderOf x ∣ Nat.card ((StatedScalars (Fin d) F).subgroupOf M) :=
@@ -72,12 +72,11 @@ private theorem isDiag_inv_of_isDiag {d : ℕ} {F : Type} [Field F] {a : GL (Fin
     (((a⁻¹ : GL (Fin d) F)) : Matrix (Fin d) (Fin d) F).IsDiag := by
   have hAA : (a : Matrix (Fin d) (Fin d) F) *
       (((a⁻¹ : GL (Fin d) F)) : Matrix (Fin d) (Fin d) F) = 1 := by
-    simpa using congrArg (fun u : GL (Fin d) F => (u : Matrix (Fin d) (Fin d) F))
-      (mul_inv_cancel a)
+    simp
   intro i j hij
   have h := congrFun (congrFun hAA i) j
   rw [← ha.diagonal_diag, Matrix.diagonal_mul, Matrix.diag_apply, Matrix.one_apply,
-    if_neg hij] at h
+    ite_eq_right hij] at h
   have haii : (a : Matrix (Fin d) (Fin d) F) i i ≠ 0 := by
     intro h0
     have hd := congrFun (congrFun hAA i) i
@@ -101,8 +100,7 @@ private theorem diag_conj_mem_uniBlockSet {n d : ℕ} {F : Type} [Field F] {I : 
     intro i
     have hAA : (a : Matrix (Fin d) (Fin d) F) *
         (((a⁻¹ : GL (Fin d) F)) : Matrix (Fin d) (Fin d) F) = 1 := by
-      simpa using congrArg (fun u : GL (Fin d) F => (u : Matrix (Fin d) (Fin d) F))
-        (mul_inv_cancel a)
+      simp
     have h := congrFun (congrFun hAA i) i
     rw [← hdiag.diagonal_diag, Matrix.diagonal_mul, Matrix.diag_apply, Matrix.one_apply_eq] at h
     exact h
@@ -112,8 +110,8 @@ private theorem diag_conj_mem_uniBlockSet {n d : ℕ} {F : Type} [Field F] {I : 
       (ap := (((a⁻¹ : GL (Fin d) F)) : Matrix _ _ F)) hdiag hdiag' i j]
   by_cases h : i = j
   · subst h
-    rw [hg.2 i i hij, if_pos rfl, mul_one, ha_ap i]
-  · rw [hg.2 i j hij, if_neg h, mul_zero, zero_mul]
+    rw [hg.2 i i hij, ite_eq_left rfl, mul_one, ha_ap i]
+  · rw [hg.2 i j hij, ite_eq_right h, mul_zero, zero_mul]
 
 theorem uni_iv_frame {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : UniArith p n d F)
     {Q : Type} [Group Q] {ψ : Q ≃* UniPSU n d F} {Bbar : Subgroup Q}
@@ -162,8 +160,7 @@ theorem uni_iv_frame {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : UniArith
   have hStatedScalars_U_bot : (StatedScalars (Fin d) F).subgroupOf U = ⊥ :=
     statedScalars_subgroupOf_eq_bot_of_isPGroup Nat.prime_two h2dvd U hU2 hdU
   have hπker : (UniMk n d F).ker = (StatedScalars (Fin d) F).subgroupOf (UniSU n d F) := by
-    simpa [UniMk, LargeEvenProjMk] using
-      (QuotientGroup.ker_mk' ((LargeEvenScalars (Fin d) F).subgroupOf (UniSU n d F)))
+    simp [UniMk, LargeEvenProjMk]
   set KA : Subgroup ↥(UniSU n d F) := A.subgroupOf (UniSU n d F) with hKA
   set KA' : Subgroup ↥(UniSU n d F) := A'.subgroupOf (UniSU n d F) with hKA'
   set KU : Subgroup ↥(UniSU n d F) := U.subgroupOf (UniSU n d F) with hKU

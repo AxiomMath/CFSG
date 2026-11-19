@@ -91,6 +91,7 @@ end Representation
 variable {a : ℕ} {K : Type} [Field K] [CharP K 2] [Fintype K]
   {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [CharP K 2] [Fintype K] in
 private theorem three_mul_finrank_le (n : ℕ)
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) (g x : ↥(suzukiGroup a K))
     (hcomm : Nat.card W ^ 4 ≤ Nat.card W *
@@ -141,6 +142,7 @@ private theorem three_mul_finrank_le (n : ℕ)
   have h3 : 3 * l ≤ 4 * (k + n) := by omega
   simpa [hl, hk] using h3
 
+omit [CharP K 2] [Fintype K] in
 private theorem finrank_le_twelve_mul (n : ℕ)
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) [Fact ρ.IsIrreducible]
     (hnt : ∃ g, ρ g ≠ 1) {x g₁ g₂ : ↥(suzukiGroup a K)}

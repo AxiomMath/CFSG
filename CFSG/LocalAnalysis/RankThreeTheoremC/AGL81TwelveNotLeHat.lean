@@ -13,6 +13,7 @@ open CFSG.Open CFSG.AGLEmbedding CFSG.HardMathSupport.Cooperstein.Proving Subgro
 
 variable {G : Type} [Group G] [Finite G] {M D : Subgroup G}
 
+omit [Finite G] in
 theorem inf_pCoreOf_le_of_le (hDM : D ≤ M) : D ⊓ pCoreOf 2 M ≤ pCoreOf 2 D := by
   intro x hx
   obtain ⟨hxD, hxT⟩ := mem_inf.mp hx
@@ -30,6 +31,7 @@ theorem inf_pCoreOf_le_of_le (hDM : D ≤ M) : D ⊓ pCoreOf 2 M ≤ pCoreOf 2 D
     exact hy
   exact mem_pCoreOf_iff.mpr ⟨⟨x, hxD⟩, hN hz, rfl⟩
 
+omit [Finite G] in
 theorem barMHomSub_mem_pCore_iff (hDM : D ≤ M) (d : ↥D) :
     barMHomSub hDM d ∈ CFSG.pCore 2 ↥(barM M D) ↔ (d : G) ∈ pCoreOf 2 D := by
   have hP : pCoreOf 2 (barM M D) = barM M (pCoreOf 2 D) :=
@@ -60,6 +62,7 @@ theorem barMHomSub_mem_pCore_iff (hDM : D ≤ M) (d : ↥D) :
   · intro hd
     exact ⟨inclusion hDM d, mem_subgroupOf.mpr hd, rfl⟩
 
+omit [Finite G] in
 theorem le_sup_pCoreOf_of_hatOf_eq (hDM : D ≤ M) {X Y : Subgroup G} (hXD : X ≤ D)
     (hYD : Y ≤ D) (h : hatOf (barM M D) (barM M X) = hatOf (barM M D) (barM M Y)) :
     X ≤ Y ⊔ pCoreOf 2 D := by
@@ -81,7 +84,8 @@ theorem le_sup_pCoreOf_of_hatOf_eq (hDM : D ≤ M) {X Y : Subgroup G} (hXD : X �
   rw [he]
   exact mul_mem_sup hyY (by simpa using hq)
 
-theorem isSubnormal_hatOf (hDM : D ≤ M) {X : Subgroup G} (hX : IsSubnormal X D) :
+omit [Finite G] in
+theorem isSubnormal_hatOf (_hDM : D ≤ M) {X : Subgroup G} (hX : IsSubnormal X D) :
     IsSubnormal (hatOf (barM M D) (barM M X)) ⊤ := by
   have h1 : IsSubnormal (barM M X) (barM M D) :=
     (hX.comap M.subtype).map (QuotientGroup.mk' (CFSG.pCore 2 ↥M))
@@ -90,12 +94,14 @@ theorem isSubnormal_hatOf (hDM : D ≤ M) {X : Subgroup G} (hX : IsSubnormal X D
   have h3 := h2.map (QuotientGroup.mk' (CFSG.pCore 2 ↥(barM M D)))
   rwa [map_top_of_surjective _ (QuotientGroup.mk'_surjective _)] at h3
 
+omit [Finite G] in
 theorem inf_pCoreOf_eq_of_isSubnormal {X : Subgroup G} (hX : IsSubnormal X D) :
     X ⊓ pCoreOf 2 D = pCoreOf 2 X :=
   le_antisymm (inf_pCoreOf_le_of_le hX.le)
     (le_inf (CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_le 2 X)
       (pCoreOf_le_pCoreOf_of_isSubnormal 2 hX))
 
+omit [Finite G] in
 theorem nonempty_hatOf_mulEquiv (hDM : D ≤ M) {X : Subgroup G} (hXD : X ≤ D)
     (hO : X ⊓ pCoreOf 2 D = pCoreOf 2 X) :
     Nonempty (↥(hatOf (barM M D) (barM M X)) ≃* ↥X ⧸ CFSG.pCore 2 ↥X) := by

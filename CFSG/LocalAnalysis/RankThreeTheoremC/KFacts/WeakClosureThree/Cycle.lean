@@ -117,7 +117,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem dichThreeLieAt_of_cycleWitness (hw : CycleWitness G) : DichThreeLieAt G := by
   obtain ⟨u, v, w, y, h⟩ := hw
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set U : Subgroup G := closure ({u, v, w, y} : Set G) with hUdef
   have hU : IsPGroup 3 U := h.isPGroup
   have hpair : HasNoncommPair 3 G := by
@@ -170,6 +170,7 @@ theorem dichThreeLieAt_of_threeLocal (h : ThreeLocal G) : DichThreeLieAt G := by
   · exact ⟨Or.inl h, Or.inl (SylowDichotomyAt.of_sylow_comm h)⟩
   · exact dichThreeLieAt_of_cycleWitness h
 
+omit [Finite G] in
 theorem mem_of_pow_three_of_not_dvd_index (N : Subgroup G) [N.Normal] (hN : ¬ 3 ∣ N.index)
     {x : G} (hx : x ^ 3 = 1) : x ∈ N := by
   have h1 : (QuotientGroup.mk x : G ⧸ N) ^ 3 = 1 := by rw [← QuotientGroup.mk_pow, hx]; rfl
@@ -181,6 +182,7 @@ theorem mem_of_pow_three_of_not_dvd_index (N : Subgroup G) [N.Normal] (hN : ¬ 3
   rw [Nat.Coprime.gcd_eq_one hcop, Nat.dvd_one, orderOf_eq_one_iff] at h2
   exact (QuotientGroup.eq_one_iff x).1 h2
 
+omit [Finite G] in
 theorem CycleWitness.of_normal_coprime_index (N : Subgroup G) [N.Normal] (hN : ¬ 3 ∣ N.index)
     (hw : CycleWitness G) : CycleWitness N := by
   obtain ⟨u, v, w, y, h⟩ := hw
@@ -204,7 +206,7 @@ theorem CycleWitness.of_normal_coprime_index (N : Subgroup G) [N.Normal] (hN : �
 theorem CycleWitness.of_surjective_coprime_ker {H : Type} [Group H] (π : G →* H)
     (hker : ¬ 3 ∣ Nat.card π.ker) (hw : CycleWitness G) : CycleWitness H := by
   obtain ⟨u, v, w, y, h⟩ := hw
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨_, _, _, _, h.map_of_injOn π ?_⟩
   intro a ha b hb hab
   have hU := h.isPGroup
@@ -226,7 +228,7 @@ theorem CycleWitness.of_surjective_coprime_ker {H : Type} [Group H] (π : G →*
 
 theorem ThreeLocal.of_mulEquiv {H : Type} [Group H] [Finite H] (e : G ≃* H) (h : ThreeLocal H) :
     ThreeLocal G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases h with h | h
   · refine Or.inl fun S => ?_
     have hcard : Nat.card (S.map e.toMonoidHom) = 3 ^ (Nat.card H).factorization 3 := by
@@ -241,7 +243,7 @@ theorem ThreeLocal.of_mulEquiv {H : Type} [Group H] [Finite H] (e : G ≃* H) (h
 
 theorem ThreeLocal.of_normal_coprime_index (N : Subgroup G) [N.Normal] (hN : ¬ 3 ∣ N.index)
     (h : ThreeLocal G) : ThreeLocal N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases h with h | h
   · exact Or.inl (sylow_comm_of_subgroup N h)
   · exact Or.inr (h.of_normal_coprime_index N hN)
@@ -249,7 +251,7 @@ theorem ThreeLocal.of_normal_coprime_index (N : Subgroup G) [N.Normal] (hN : ¬ 
 theorem ThreeLocal.of_surjective_coprime_ker {H : Type} [Group H] [Finite H] (π : G →* H)
     (hπ : Function.Surjective π) (hker : ¬ 3 ∣ Nat.card π.ker) (h : ThreeLocal G) :
     ThreeLocal H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases h with h | h
   · exact Or.inl (sylow_comm_of_surjective π hπ h)
   · exact Or.inr (h.of_surjective_coprime_ker π hker)
@@ -312,7 +314,7 @@ private theorem inl_conj_wbase (q x : Multiplicative (ZMod 3)) (g : D) :
 
 theorem cycleWitness_wreath [Finite D] (hdvd : 3 ∣ Nat.card D) :
     CycleWitness (D ≀ᵣ Multiplicative (ZMod 3)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 3 hdvd
   have hg3 : g ^ 3 = 1 := by rw [← hg]; exact pow_orderOf_eq_one g
   have hg1 : g ≠ 1 := fun h => by rw [h, orderOf_one] at hg; omega
@@ -368,7 +370,7 @@ end Wreath
 
 theorem threeLocal_of_sigma {G : Type} [Group G] [Finite G] {e a N : ℕ} (ha : 1 ≤ a)
     (h : ∀ P : Sylow 3 G, Nonempty (P ≃* sigmaModel 3 e a N)) : ThreeLocal G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hm : N / e < 3
   · exact Or.inl (sylow_isMulCommutative_of_sigmaModel_of_lt Nat.prime_three hm h)
   push Not at hm
@@ -392,7 +394,7 @@ theorem threeLocal_of_sigma {G : Type} [Group G] [Finite G] {e a N : ℕ} (ha : 
   set j₁ : Fin (Nat.digits 3 (N / e))[i₁] := ⟨0, hpos⟩
   have hW : CycleWitness (wreathTower 3 (Multiplicative (ZMod (3 ^ a))) i₁) := by
     obtain ⟨n', hn'⟩ : ∃ n', (i₁ : ℕ) = n' + 1 := ⟨(i₁ : ℕ) - 1, by omega⟩
-    haveI : NeZero (3 ^ a) := ⟨pow_ne_zero a (by norm_num)⟩
+    have : NeZero (3 ^ a) := ⟨pow_ne_zero a (by norm_num)⟩
     have hC : Nat.card (Multiplicative (ZMod (3 ^ a))) = 3 ^ a := by
       rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
     have hD := card_wreathTower 3 (Multiplicative (ZMod (3 ^ a))) hC n'

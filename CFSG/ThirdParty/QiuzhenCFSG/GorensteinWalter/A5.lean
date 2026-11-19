@@ -525,7 +525,7 @@ theorem closure_a5x_a5y :
       rw [← Nat.card_eq_fintype_card]
       have h60' : Nat.card (alternatingGroup (Fin 5)) = 60 := by
         rw [nat_card_alternatingGroup]
-        norm_num <;> decide
+        norm_num; decide
       exact h60'
     have hle'' : Fintype.card ↥C ≤ 60 := by
       rw [← h60]
@@ -546,7 +546,7 @@ theorem closure_a5x_a5y :
       have h := Subgroup.index_mul_card K
       have h60 : Nat.card ↥(alternatingGroup (Fin 5)) = 60 := by
         rw [nat_card_alternatingGroup]
-        norm_num <;> decide
+        norm_num; decide
       rw [hKcard, h30card, h60] at h
       omega
     have : K.Normal := Subgroup.normal_of_index_eq_two hKindex
@@ -557,7 +557,7 @@ theorem closure_a5x_a5y :
         rw [hKtop]
         have h60 : Nat.card ↥(alternatingGroup (Fin 5)) = 60 := by
           rw [nat_card_alternatingGroup]
-          norm_num <;> decide
+          norm_num; decide
         exact (Nat.card_congr (Subgroup.topEquiv (G := alternatingGroup (Fin 5))).toEquiv).trans h60
       omega
   -- |C| = 60
@@ -592,14 +592,14 @@ theorem repPerm_mul_mk : ∀ x y : alternatingGroup (Fin 5),
       QuotientGroup.mk (repPerm x.1) * QuotientGroup.mk (repPerm y.1) := by
   intro x y
   have hy : y.1 ∈ Subgroup.closure ({a5x.1, a5y.1} : Set (Equiv.Perm (Fin 5))) := by
-    simpa [closure_a5x_a5y] using y.2
+    simp [closure_a5x_a5y]
   have hPy : P y.1 := Subgroup.closure_induction_left
     (s := ({a5x.1, a5y.1} : Set (Equiv.Perm (Fin 5))))
     (p := fun f _ => P f)
     (one := by
       intro p
       have hrep1 : repPerm (1 : Equiv.Perm (Fin 5)) = 1 := by decide
-      simp [P, hrep1, QuotientGroup.mk_one])
+      simp [hrep1, QuotientGroup.mk_one])
     (mul_left := by
       intro x0 hx0 y0 hy0 hPy0 p
       rcases (by simpa using hx0 : x0 = a5x.1 ∨ x0 = a5y.1) with rfl | rfl
@@ -638,7 +638,7 @@ theorem repPerm_mul_mk : ∀ x y : alternatingGroup (Fin 5),
         have hPx : P (a5x.1⁻¹) := by simpa using P_a5x_inv
         have h1 : (QuotientGroup.mk (repPerm (p.1 * (a5x.1⁻¹ * y0))) : PSL2 (ZMod 5)) =
             QuotientGroup.mk (repPerm (p.1 * a5x.1⁻¹)) * QuotientGroup.mk (repPerm y0) := by
-          simpa [mul_assoc] using hPy0 (p * ⟨a5x.1⁻¹, by simpa using a5x.2.inv_mem⟩)
+          simpa [mul_assoc] using hPy0 (p * ⟨a5x.1⁻¹, by simp⟩)
         calc
           (QuotientGroup.mk (repPerm (p.1 * (a5x.1⁻¹ * y0))) : PSL2 (ZMod 5))
               = QuotientGroup.mk (repPerm (p.1 * a5x.1⁻¹)) * QuotientGroup.mk (repPerm y0) := h1
@@ -648,12 +648,12 @@ theorem repPerm_mul_mk : ∀ x y : alternatingGroup (Fin 5),
               (QuotientGroup.mk (repPerm a5x.1⁻¹) * QuotientGroup.mk (repPerm y0)) := by
                 rw [mul_assoc]
           _ = QuotientGroup.mk (repPerm p.1) *
-              QuotientGroup.mk (repPerm (a5x.1⁻¹ * y0)) := by rw [← hPy0 ⟨a5x.1⁻¹, by simpa using a5x.2.inv_mem⟩]
+              QuotientGroup.mk (repPerm (a5x.1⁻¹ * y0)) := by rw [← hPy0 ⟨a5x.1⁻¹, by simp⟩]
       · -- x0 = a5y.1
         have hPy : P (a5y.1⁻¹) := by simpa using P_a5y_inv
         have h1 : (QuotientGroup.mk (repPerm (p.1 * (a5y.1⁻¹ * y0))) : PSL2 (ZMod 5)) =
             QuotientGroup.mk (repPerm (p.1 * a5y.1⁻¹)) * QuotientGroup.mk (repPerm y0) := by
-          simpa [mul_assoc] using hPy0 (p * ⟨a5y.1⁻¹, by simpa using a5y.2.inv_mem⟩)
+          simpa [mul_assoc] using hPy0 (p * ⟨a5y.1⁻¹, by simp⟩)
         calc
           (QuotientGroup.mk (repPerm (p.1 * (a5y.1⁻¹ * y0))) : PSL2 (ZMod 5))
               = QuotientGroup.mk (repPerm (p.1 * a5y.1⁻¹)) * QuotientGroup.mk (repPerm y0) := h1
@@ -663,7 +663,7 @@ theorem repPerm_mul_mk : ∀ x y : alternatingGroup (Fin 5),
               (QuotientGroup.mk (repPerm a5y.1⁻¹) * QuotientGroup.mk (repPerm y0)) := by
                 rw [mul_assoc]
           _ = QuotientGroup.mk (repPerm p.1) *
-              QuotientGroup.mk (repPerm (a5y.1⁻¹ * y0)) := by rw [← hPy0 ⟨a5y.1⁻¹, by simpa using a5y.2.inv_mem⟩])
+              QuotientGroup.mk (repPerm (a5y.1⁻¹ * y0)) := by rw [← hPy0 ⟨a5y.1⁻¹, by simp⟩])
     hy
   exact hPy x
 
@@ -765,7 +765,7 @@ public theorem pPrimeCore_two_alternatingGroupFive :
   · exfalso
     have h60 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
       rw [nat_card_alternatingGroup]
-      norm_num <;> decide
+      norm_num; decide
     have hcard : Nat.card K = 60 := by
       rw [hKtop]
       exact (Nat.card_congr (Subgroup.topEquiv (G := alternatingGroup (Fin 5))).toEquiv).trans h60
@@ -808,15 +808,15 @@ public theorem sylowTwo_alternatingGroupFive_isKleinFour
       have hno4 : ∀ σ : Equiv.Perm (Fin 5), σ ∈ alternatingGroup (Fin 5) → σ ^ 4 = 1 → σ ^ 2 = 1 := by
         decide
       have hdvd4 : orderOf x ∣ 4 := by
-        exact dvd_trans (orderOf_dvd_natCard x) (by simpa [hcard4])
+        exact dvd_trans (orderOf_dvd_natCard x) (by simp [hcard4])
       have hne4 : orderOf x ≠ 4 := by
         intro hord
         have hp : orderOf (x : Equiv.Perm (Fin 5)) = 4 := by
           simpa [Subgroup.orderOf_coe] using hord
         have hp4 : (x : Equiv.Perm (Fin 5)) ^ 4 = 1 :=
-          orderOf_dvd_iff_pow_eq_one.mp (by simpa [hp])
+          orderOf_dvd_iff_pow_eq_one.mp (by simp [hp])
         have hp2 : (x : Equiv.Perm (Fin 5)) ^ 2 = 1 :=
-          hno4 (x : Equiv.Perm (Fin 5)) (by simpa using x.1.2) hp4
+          hno4 (x : Equiv.Perm (Fin 5)) (by simp) hp4
         have hdiv : orderOf (x : Equiv.Perm (Fin 5)) ∣ 2 := orderOf_dvd_iff_pow_eq_one.mpr hp2
         have hdiv' : ¬ (4 : ℕ) ∣ 2 := by norm_num
         apply hdiv'

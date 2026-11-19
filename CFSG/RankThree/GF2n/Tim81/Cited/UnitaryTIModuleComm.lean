@@ -200,8 +200,8 @@ theorem commSpanOn_ne_of_isPGroup [Finite W] {P : Subgroup G} [Finite P] (hP : I
     {E : Submodule (ZMod 2) W} (hE : ∀ p ∈ P, ∀ e ∈ E, σ p e ∈ E) (hne : E ≠ ⊥) :
     commSpanOn σ P E ≠ E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Submodule (ZMod 2) W) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Submodule (ZMod 2) W) :=
     Finite.of_injective (fun M : Submodule (ZMod 2) W => (M : Set W)) SetLike.coe_injective
   let S : Set (Submodule (ZMod 2) W) := {M | (∀ p ∈ P, ∀ m ∈ M, σ p m ∈ M) ∧ M < E}
   have hS : (⊥ : Submodule (ZMod 2) W) ∈ S := by
@@ -226,12 +226,12 @@ theorem commSpanOn_ne_of_isPGroup [Finite W] {P : Subgroup G} [Finite P] (hP : I
     { toSubmodule := Ebar, apply_mem_toSubmodule := hEbar }
   have hEbar0 : Ebar ≠ ⊥ := by
     intro h
-    obtain ⟨e, he, heM⟩ := SetLike.exists_of_lt hME
+    obtain ⟨e, he, heM⟩ := _root_.IsConcreteLE.exists_of_lt hME
     have : (Submodule.Quotient.mk e : W ⧸ M) ∈ Ebar := ⟨e, he, rfl⟩
     rw [h, Submodule.mem_bot, Submodule.Quotient.mk_eq_zero] at this
     exact heM this
-  haveI : Nontrivial Ebar := Submodule.nontrivial_iff_ne_bot.mpr hEbar0
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Nontrivial Ebar := Submodule.nontrivial_iff_ne_bot.mpr hEbar0
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   obtain ⟨v, hv0, hvfix⟩ := CFSG.RankThree.OddKernel.exists_ne_zero_fixed hP Xe.toRepresentation
   obtain ⟨e, he, hev⟩ := v.2
   have heM : e ∉ M := by
@@ -317,38 +317,38 @@ variable [Finite W]
 
 private theorem natCard_submodule (P : Submodule (ZMod 2) W) :
     Nat.card P = 2 ^ Module.finrank (ZMod 2) P := by
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]
 
 theorem natCard_sup_of_inf_eq_bot {P Q : Submodule (ZMod 2) W} (h : P ⊓ Q = ⊥) :
     Nat.card ↥(P ⊔ Q) = Nat.card P * Nat.card Q := by
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   have hr := Submodule.finrank_sup_add_finrank_inf_eq P Q
   rw [h, finrank_bot, add_zero] at hr
   rw [natCard_submodule, natCard_submodule, natCard_submodule, hr, pow_add]
 
 theorem natCard_sup_le (P Q : Submodule (ZMod 2) W) :
     Nat.card ↥(P ⊔ Q) ≤ Nat.card P * Nat.card Q := by
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   have hr := Submodule.finrank_sup_add_finrank_inf_eq P Q
   rw [natCard_submodule, natCard_submodule, natCard_submodule, ← pow_add]
   exact Nat.pow_le_pow_right (by norm_num) (by omega)
 
 theorem natCard_mono {P Q : Submodule (ZMod 2) W} (h : P ≤ Q) : Nat.card P ≤ Nat.card Q := by
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   rw [natCard_submodule, natCard_submodule]
   exact Nat.pow_le_pow_right (by norm_num) (Submodule.finrank_mono h)
 
 theorem eq_of_le_of_natCard_le {P Q : Submodule (ZMod 2) W} (h : P ≤ Q)
     (hc : Nat.card Q ≤ Nat.card P) : P = Q := by
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   rw [natCard_submodule, natCard_submodule] at hc
   exact Submodule.eq_of_le_of_finrank_le h
     ((Nat.pow_le_pow_iff_right (by norm_num)).1 hc)
 
 private theorem natCard_map_mul_natCard_inf_ker (f : W →ₗ[ZMod 2] W) (V₀ : Submodule (ZMod 2) W) :
     Nat.card ↥(V₀.map f) * Nat.card ↥(V₀ ⊓ LinearMap.ker f) = Nat.card V₀ := by
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   have hrn := LinearMap.finrank_range_add_finrank_ker (f.domRestrict V₀)
   have hrange : Module.finrank (ZMod 2) (LinearMap.range (f.domRestrict V₀)) =
       Module.finrank (ZMod 2) (V₀.map f) := by
@@ -362,6 +362,7 @@ private theorem natCard_map_mul_natCard_inf_ker (f : W →ₗ[ZMod 2] W) (V₀ :
     exact (Submodule.comapSubtypeEquivOfLe inf_le_left).finrank_eq
   rw [natCard_submodule, natCard_submodule, natCard_submodule, ← pow_add, ← hrange, ← hker, hrn]
 
+omit [Finite W] in
 theorem natCard_map_apply (U : Submodule (ZMod 2) W) (g : G) :
     Nat.card ↥(U.map (σ g)) = Nat.card U := by
   have hinj : Function.Injective (σ g) := fun v w h => by
@@ -386,10 +387,10 @@ theorem natCard_map_apply (U : Submodule (ZMod 2) W) (g : G) :
   inv_mem' {g} hg := by
     change U.map (σ g⁻¹) = U
     conv_lhs => rw [← hg]
-    change (U.map (σ g)).map (σ g⁻¹) = U
     rw [← Submodule.map_comp, ← Module.End.mul_eq_comp, ← map_mul, inv_mul_cancel, map_one]
     exact Submodule.map_id U
 
+omit [Finite W] in
 theorem mem_stabSub {U : Submodule (ZMod 2) W} {g : G} : g ∈ stabSub σ U ↔ U.map (σ g) = U :=
   Iff.rfl
 
@@ -400,6 +401,7 @@ theorem mem_stabSub_of_forall {U : Submodule (ZMod 2) W} {g : G} (h : ∀ u ∈ 
     exact h u hu
   exact (eq_of_le_of_natCard_le hle (natCard_map_apply U g).ge)
 
+omit [Finite W] in
 theorem apply_mem_of_mem_stabSub {U : Submodule (ZMod 2) W} {g : G} (hg : g ∈ stabSub σ U)
     {u : W} (hu : u ∈ U) : σ g u ∈ U := by
   rw [← mem_stabSub.1 hg]

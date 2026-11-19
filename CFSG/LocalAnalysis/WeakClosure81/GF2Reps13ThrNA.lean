@@ -14,8 +14,8 @@ variable {A X Q : Subgroup (MulAut W)} {t : MulAut W} {p : ℕ}
 
 private theorem w16g_odd_card_of_isElemAbelian {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {X : Subgroup (MulAut W)} (hX : IsElemAbelian p X) : Odd (Nat.card X) := by
-  haveI : Finite X := inferInstance
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite X := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p X := fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hX.2 (x : MulAut W) x.2)⟩

@@ -54,7 +54,7 @@ theorem tableIII_card_bar_dvd_4A (hI : TwoHSInterface) [Finite G] {a z a' c : G}
     exact Subgroup.card_dvd_of_le hle
   have hnoinv : ¬ 2 ∣ Nat.card ↥(tableIIIBar z (Gxyz a' z c)) := by
     intro h2dvd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨y, hy2⟩ := exists_prime_orderOf_dvd_card' 2 h2dvd
     obtain ⟨x, hxH, hxy⟩ := tableIII_exists_of_mem_bar y.2
     have hbar2 : barOf z x ^ 2 = 1 := by
@@ -82,7 +82,7 @@ theorem tableIII_card_bar_ne_4A (hI : TwoHSInterface) [Finite G] {a z a' c : G}
   have hHcard : Nat.card ↥(Gxyz a' z c) = 2 ^ 7 * 15 := by
     rw [hcard, hQcard, hB]
   have h5dvd : 5 ∣ Nat.card ↥(Gxyz a' z c) := by rw [hHcard]; norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨ρ, hρ5⟩ := exists_prime_orderOf_dvd_card' 5 h5dvd
   set ρ' : ↥(Gx z) := ⟨(ρ : G), hHGz ρ.2⟩ with hρ'def
   have hρ'val : (ρ' : G) = (ρ : G) := by rw [hρ'def]

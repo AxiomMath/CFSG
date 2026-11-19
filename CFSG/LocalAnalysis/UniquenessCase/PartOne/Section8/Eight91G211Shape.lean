@@ -97,26 +97,26 @@ private theorem g211s_sylow {G : Type} [Group G] [Finite G] {X R : Subgroup G}
   norm_num at h32
 
 private theorem g211s_solvable {G : Type} [Group G] [Finite G] {X : Subgroup G}
-    (hSU : R891SU32 (Bar2 X)) : IsSolvable ↥X := by
+    (hSU : R891SU32 (Bar2 X)) : Group.IsSolvable ↥X := by
   let U : Subgroup ↥X := CFSG.pCore 2 ↥X
   obtain ⟨φ, hφ, hK, _⟩ := hSU
   have hKp : IsPGroup 3 ↥φ.ker :=
     IsPGroup.of_card (n := 3) (by rw [g211s_card_ker hK]; norm_num)
-  have hKsol : IsSolvable ↥φ.ker :=
+  have hKsol : Group.IsSolvable ↥φ.ker :=
     @IsNilpotent.to_isSolvable ↥φ.ker _ (IsPGroup.isNilpotent hKp)
-  have hQ8sol : IsSolvable (QuaternionGroup 2) := by
+  have hQ8sol : Group.IsSolvable (QuaternionGroup 2) := by
     have hp : IsPGroup 2 (QuaternionGroup 2) :=
       IsPGroup.of_card (n := 3) (by
         rw [Nat.card_eq_fintype_card, QuaternionGroup.card]
         norm_num)
     exact @IsNilpotent.to_isSolvable (QuaternionGroup 2) _ (IsPGroup.isNilpotent hp)
-  have hquotsol : IsSolvable (Bar2 X ⧸ φ.ker) :=
+  have hquotsol : Group.IsSolvable (Bar2 X ⧸ φ.ker) :=
     @Group.isSolvable_of_surjective (QuaternionGroup 2) (Bar2 X ⧸ φ.ker) _ _
       (QuotientGroup.quotientKerEquivOfSurjective φ hφ).symm.toMonoidHom
       (QuotientGroup.quotientKerEquivOfSurjective φ hφ).symm.surjective hQ8sol
-  have hBarsol : IsSolvable (Bar2 X) :=
+  have hBarsol : Group.IsSolvable (Bar2 X) :=
     @Group.isSolvable_of_subgroup_quotient (Bar2 X) _ φ.ker _ hKsol hquotsol
-  have hUsol : IsSolvable ↥U :=
+  have hUsol : Group.IsSolvable ↥U :=
     @IsNilpotent.to_isSolvable ↥U _ (CFSG.pCore_isPGroup (p := 2) (G := ↥X)).isNilpotent
   exact @Group.isSolvable_of_subgroup_quotient (↥X) _ U _ hUsol hBarsol
 
@@ -519,7 +519,7 @@ theorem r891g211_su32_action {G : Type} [Group G] [Finite G] {X R : Subgroup G}
     (hRX : R ≤ X) (hR : IsExtraspecialExpP 3 1 ↥R) (hSU : R891SU32 (Bar2 X))
     (hAut : ∀ (K : Type) [Group K] [Finite K], IsExtraspecialExpP 3 1 K →
       ∀ α : MulAut K, (∀ x : K, x⁻¹ * α x ∈ center K) → α ^ 3 = 1) :
-    IsSylowOf 3 R X ∧ IsSolvable ↥X ∧
+    IsSylowOf 3 R X ∧ Group.IsSolvable ↥X ∧
       ∃ (T0 : Subgroup G) (ψ : ↥T0 →* QuaternionGroup 2),
         T0 ≤ X ∧ T0 ≤ normalizer (R : Set G) ∧ Function.Surjective ψ ∧
         ∀ t : ↥T0, (∀ r ∈ R, (t : G) * r * (t : G)⁻¹ * r⁻¹ ∈ ZOf R) ↔ ψ t = 1 := by

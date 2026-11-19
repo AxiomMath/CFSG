@@ -141,7 +141,7 @@ theorem gens_spec : ∀ j < 3, validM 3 ((3 + 3) * 36) L H (gk j) = true ∧
   intro j hj
   refine ⟨gens_valid j hj, ?_⟩
   unfold gS
-  rw [dif_pos hj, (exists_of_symplP (p := 3) (r := 3) (gens_sympl j hj)).choose_spec]
+  rw [dite_eq_left hj, (exists_of_symplP (p := 3) (r := 3) (gens_sympl j hj)).choose_spec]
 
 theorem sp63_sylow : ∃ S₀ : Subgroup (SpJP 3 3), Nat.card S₀ = 3 ^ (Nat.card (SpJP 3 3)).factorization 3 ∧
     ∀ s ∈ S₀, orderOf s = 3 → 81 ∣ Nat.card ↥(S₀ ⊓ centralizer ({s} : Set (SpJP 3 3))) := by

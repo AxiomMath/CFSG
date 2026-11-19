@@ -90,10 +90,10 @@ open CFSG.Open CFSG.AGLEmbedding Subgroup
 
 private theorem eq_bot_of_perfect_of_le {X : Type*} [Group X] {J K₁ : Subgroup X} (hJK : J ≤ K₁)
     (hJp : ⁅J, J⁆ = J) (hs : Group.IsSolvable K₁) : J = ⊥ := by
-  haveI := hs
-  haveI : Group.IsSolvable J :=
+  have := hs
+  have : Group.IsSolvable J :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJK)
-  haveI : Group.IsPerfect J :=
+  have : Group.IsPerfect J :=
     (CFSG.LocalAnalysis.EvenBN.Common.isPerfect_subgroup_iff_commutator_eq J).mpr hJp
   obtain ⟨n, hn⟩ := (inferInstance : Group.IsSolvable J).solvable
   have htop : ∀ k, derivedSeries J k = ⊤ := by
@@ -114,7 +114,7 @@ theorem kFactTenFourteenTwoA5Gamma_of_rest
     (hNS : RankOneCent.KFactStepThreeNormSolv) (hR : KFactTenFourteenTwoA5GammaRest) :
     KFactTenFourteenTwoA5Gamma := by
   intro p K _ _ T K₁ J hp hp2 hL hZ hrank hΓ hK₁ hJs hJp hJ1 hJirr
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hns : ¬ Group.IsSolvable K₁ := fun hs => hJ1 (eq_bot_of_perfect_of_le hJs.le hJp hs)
   by_cases hC2 : IsCaseTwoGroup p K
   · exact (hns (isSolvable_of_ne_top_of_isCaseTwoGroup hC2 K₁ hK₁)).elim
@@ -147,7 +147,7 @@ theorem kFactTenFourteenTwoA5Gamma_of_rest
       have := (Nat.pow_dvd_pow_iff_le_right hp.one_lt).mp h1
       omega
     obtain ⟨D, hDT, hD, hDc⟩ :=
-      GL83.I243.Inner.exists_isElemAbelian_card_sq_of_not_isCyclic hp2 T.isPGroup' hTnc
+      GL83.I243.Inner.exists_isElemAbelian_card_sq_of_not_isCyclic hp2 T.isPGroup hTnc
     have hTK₁ : (T : Subgroup K) ≤ K₁ := by
       intro t ht
       refine hΓ (RankOneCent.normalizer_le_narrowGamma hDT hD hDc
@@ -169,7 +169,7 @@ theorem kFactTenFourteenTwoA5Gamma_of_rest
         obtain ⟨i, hi, ⟨e⟩⟩ := hS
         exact ⟨i, hi, ⟨Subgroup.topEquiv.trans e⟩⟩)
       (CFSG.ABGLocalTools.isSylowOf_iff.mpr
-        ⟨le_top, T.isPGroup', by rw [relIndex_top_right]; exact T.not_dvd_index⟩)
+        ⟨le_top, T.isPGroup, by rw [relIndex_top_right]; exact T.not_dvd_index⟩)
     exact (hns (hEq ▸ hsol)).elim
   obtain ⟨i, hi, ⟨e⟩⟩ := hL
   by_cases hi10 : ∃ h, i = .alternating 10 h

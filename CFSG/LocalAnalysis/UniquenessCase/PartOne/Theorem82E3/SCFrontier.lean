@@ -481,10 +481,10 @@ section FixedZeroAlpha
 
 
 theorem sc_fixed_zero_alpha_false
-    {G : Type} [Group G] [Finite G] (hS : Standing G) (hUC : CFSG.Open.rankThreeUC G)
-    (hC : AGL81TheoremC G) (S : Setup G) (hMS : S.InMSigma)
+    {G : Type} [Group G] [Finite G] (hS : Standing G) (_hUC : CFSG.Open.rankThreeUC G)
+    (_hC : AGL81TheoremC G) (S : Setup G) (_hMS : S.InMSigma)
     (c : Ctx82E3 (PartTwo.Three.dataOfSetup hS S))
-    (h812 : ¬ QuasisimpleModOTwo c.L) {p : ℕ} (hSC : c.IsSCPrime p)
+    (_h812 : ¬ QuasisimpleModOTwo c.L) {p : ℕ} (hSC : c.IsSCPrime p)
     (d : SylowThreeData G) (hdM : d.M = (PartTwo.Three.dataOfSetup hS S).M)
     (hdL : d.L = c.L) {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P (PartTwo.Three.dataOfSetup hS S).M)
@@ -495,16 +495,16 @@ theorem sc_fixed_zero_alpha_false
     (hPn : ∀ i, P ≤ normalizer (d.Lf i : Set G))
     (hRank : ∀ i, CFSG.Open.pRank p (d.Lf i) = 1)
     (hAxis : ∀ i, normalizer (d.A i : Set G) ≤ (PartTwo.Three.dataOfSetup hS S).M)
-    (hNA : normalizer (d.AA : Set G) ≤ (PartTwo.Three.dataOfSetup hS S).M)
-    (hPL : P ≤ c.L) (hNP : normalizer (P : Set G) ≤ (PartTwo.Three.dataOfSetup hS S).M)
-    (hPG : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤)
+    (_hNA : normalizer (d.AA : Set G) ≤ (PartTwo.Three.dataOfSetup hS S).M)
+    (_hPL : P ≤ c.L) (_hNP : normalizer (P : Set G) ≤ (PartTwo.Three.dataOfSetup hS S).M)
+    (_hPG : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤)
     (a : G) (ha : a ∈ d.AA) (ha1 : a ≠ 1)
     (hEscape : ¬ centralizer ({a} : Set G) ≤ (PartTwo.Three.dataOfSetup hS S).M)
     (hFactor : ∀ B : Subgroup G, B ≤ d.AA → Nat.card B = 3 →
       let H : Subgroup G := centralizer (B : Set G)
       H = (H ⊓ d.M) ⊔ (CFSG.pPrimeCore 3 H).map H.subtype)
-    (hGamma : ¬ CFSG.Open.rankThreeGamma 2 3 d.AA ≤ d.M)
-    (hFull : CFSG.Open.rankThreeGamma 2 3 d.AA = ⊤)
+    (_hGamma : ¬ CFSG.Open.rankThreeGamma 2 3 d.AA ≤ d.M)
+    (_hFull : CFSG.Open.rankThreeGamma 2 3 d.AA = ⊤)
     (hAlpha : ∀ E : Subgroup G, E ≤ d.AA → Nat.card E = 9 →
       CFSG.RankThree.LocalRank.thetaAlpha 3 E = ⊥) : False := by
   classical
@@ -736,10 +736,10 @@ theorem sc_fixed_centralizer_escape_false
     hP hdS hinj hcomp hperm hPn hRank hAxis hNA hPL hNP hPG a ha ha1 hEscape hFactor hGamma
 
 theorem sc_transitive_factors_false
-    {G : Type} [Group G] [Finite G] (hS : Standing G) (hUC : CFSG.Open.rankThreeUC G)
-    (hC : AGL81TheoremC G) (S : Setup G) (hMS : S.InMSigma)
+    {G : Type} [Group G] [Finite G] (hS : Standing G) (_hUC : CFSG.Open.rankThreeUC G)
+    (_hC : AGL81TheoremC G) (S : Setup G) (_hMS : S.InMSigma)
     (c : Ctx82E3 (PartTwo.Three.dataOfSetup hS S))
-    (h812 : ¬ QuasisimpleModOTwo c.L) {p : ℕ} (hSC : c.IsSCPrime p)
+    (_h812 : ¬ QuasisimpleModOTwo c.L) {p : ℕ} (hSC : c.IsSCPrime p)
     (d : SylowThreeData G) (hdM : d.M = (PartTwo.Three.dataOfSetup hS S).M)
     (hdL : d.L = c.L) {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P (PartTwo.Three.dataOfSetup hS S).M)

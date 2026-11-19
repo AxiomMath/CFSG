@@ -32,7 +32,7 @@ theorem not_caseVI_of_caseE1 [Finite G] {M Q Z B : Subgroup G}
     omega
   subst hn4
   obtain ⟨K, fK, finK, hKc, φ, hφr, hφk, -⟩ := hn
-  haveI : CharP K 2 := orthE2_charP_two (hKc.trans hf)
+  have : CharP K 2 := orthE2_charP_two (hKc.trans hf)
   have hker : ∀ s : ↥(Lgen M (LB M Q B)), φ s = 1 ↔ (s : G) ∈ Q := fun s => by
     rw [← MonoidHom.mem_ker, hφk, Subgroup.mem_subgroupOf]
   have htS : t ∈ Lgen M (LB M Q B) := le_Lgen_self M (LB M Q B) htL
@@ -135,7 +135,7 @@ theorem not_caseVI_of_caseE1 [Finite G] {M Q Z B : Subgroup G}
     unfold QuotSat IsOmegaPlus IsOmegaMinus at hR
     rcases hR with ⟨hNR, K₂, fK₂, finK₂, ⟨hK₂, hne⟩⟩ | ⟨hNR, K₂, fK₂, finK₂, ⟨hK₂, b, c, hirr, hne⟩⟩
     · have eR := hne.some
-      haveI : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
+      have : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
       have hΩ := orthE2_card_omega_plus_two (K := K₂) (by rw [hK₂]; exact hq4)
       have hK₂K : Nat.card K₂ = Nat.card K := hK₂.trans hKc.symm
       have hdivZ : ((Nat.card K₂ : ℕ) : ℤ) ^ 2 ∣
@@ -147,7 +147,7 @@ theorem not_caseVI_of_caseE1 [Finite G] {M Q Z B : Subgroup G}
       rw [Nat.card_congr eR.toEquiv, ← hK₂K]
       exact hdivN
     · have eR := hne.some
-      haveI : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
+      have : CharP K₂ 2 := orthE2_charP_two (hK₂.trans hf)
       have hΩ := orthE2_card_omega_minus_two (K := K₂) hirr
       have hK₂K : Nat.card K₂ = Nat.card K := hK₂.trans hKc.symm
       have hdivZ : ((Nat.card K₂ : ℕ) : ℤ) ^ 2 ∣

@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 
 private lemma ctxW_mul_comm (h : Ctx t L S x₁ x₂ lam rho tau) {a b : G}
     (ha : a ∈ ctxW t x₁ x₂) (hb : b ∈ ctxW t x₁ x₂) : a * b = b * a := by
-  haveI : IsMulCommutative (ctxW t x₁ x₂) := h.toCtx0.abelian_W
+  have : IsMulCommutative (ctxW t x₁ x₂) := h.toCtx0.abelian_W
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥(ctxW t x₁ x₂)) ⟨b, hb⟩)
 
 private lemma lam_mem_S (h : Ctx t L S x₁ x₂ lam rho tau) : lam ∈ S := by
@@ -39,6 +39,7 @@ private lemma lam_tau_zpow_mul (h : Ctx t L S x₁ x₂ lam rho tau) (a b c d : 
     _ = lam ^ a * lam ^ c * tau ^ b * tau ^ d := by group
     _ = lam ^ (a + c) * tau ^ (b + d) := by rw [← zpow_add, mul_assoc, ← zpow_add]
 
+omit [Finite G] in
 private lemma commutatorElement_eq_mul_mul_inv (a b : G) : ⁅a, b⁆ = a * b * (b * a)⁻¹ := by
   rw [commutatorElement_def]
   group
@@ -294,7 +295,7 @@ theorem conj_mem_ctxW_of_mem_normalizer (h : Ctx t L S x₁ x₂ lam rho tau) {n
     have hmap := Subgroup.map_commutator (f := (MulAut.conj n⁻¹).toMonoidHom) (H₁ := S) (H₂ := S)
     rw [hmapS] at hmap
     rw [← hmap]
-    exact Subgroup.mem_map.mpr ⟨s, hs, by simp [MulAut.conj_apply]⟩
+    exact Subgroup.mem_map.mpr ⟨s, hs, by simp⟩
   have hs'W : n⁻¹ * s * n ∈ ctxW t x₁ x₂ := commutator_le_ctxW h hs'
   have hcomm : w * (n⁻¹ * s * n) = (n⁻¹ * s * n) * w := ctxW_mul_comm h hw hs'W
   calc (n * w * n⁻¹) * s = n * (w * (n⁻¹ * s * n)) * n⁻¹ := by group

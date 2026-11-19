@@ -15,12 +15,12 @@ namespace Core3Arith
 theorem orderA_two (q : ℕ) :
     orderA 2 q = q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 - 1)) / Nat.gcd 3 (q - 1) := by
   have h : Finset.Icc 2 (2 + 1) = {2, 3} := by decide
-  simp [orderA, h, Finset.prod_pair]
+  simp [orderA, h]
 
 theorem orderTwistedA_two (q : ℕ) :
     orderTwistedA 2 q = q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 + 1)) / Nat.gcd 3 (q + 1) := by
   have h : Finset.Icc 2 (2 + 1) = {2, 3} := by decide
-  simp [orderTwistedA, h, Finset.prod_pair, Nat.even_iff]
+  simp [orderTwistedA, h, Nat.even_iff]
 
 theorem pow_three_dvd_orderA_two (q : ℕ) : q ^ 3 ∣ orderA 2 q := by
   rw [orderA_two]

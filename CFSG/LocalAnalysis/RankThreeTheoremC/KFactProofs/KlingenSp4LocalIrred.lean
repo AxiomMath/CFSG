@@ -145,7 +145,7 @@ theorem irr_conj_entry (s : F) :
   rw [← map_inv, irr_gL_inv, Subgroup.coe_mul, Subgroup.coe_mul, Units.val_mul, Units.val_mul,
     coe_leviSp, coe_leviSp, coe_eEl, irr_gL_inv, irr_gL_inv, neg_neg, coe_gL, coe_gL]
   simp only [blockMat, fromBlocks_multiply, fromBlocks_apply₁₁]
-  simp [L2, A2, C2, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  simp [L2, A2, C2]; ring
 
 end Conj
 

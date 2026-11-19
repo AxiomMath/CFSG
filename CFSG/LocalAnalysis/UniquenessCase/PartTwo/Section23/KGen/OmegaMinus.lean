@@ -329,7 +329,7 @@ theorem genLine_statedOmegaMinus_three [Finite K] [CharP K 2] {b c : K}
     have h2 : (1 : K) = 0 := by
       have h := congrFun hc (Sum.inr (Sum.inl (⟨0, by norm_num⟩ : Fin (3 - 1))))
       rw [← h1] at h
-      simpa using h
+      simp at h
     exact one_ne_zero h2
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hg₂flip
   have hconj1 : permGL (minusFlip (3 - 1) ⟨1, by norm_num⟩) * E g₂ *

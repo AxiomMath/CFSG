@@ -207,7 +207,7 @@ theorem FusedCentral.U_le_E (hF : FusedCentral H p P z)
     (hUcomm : ∀ x ∈ U, ∀ y ∈ U, x * y = y * x)
     (hUN : ∀ x ∈ (P : Subgroup H), x ∈ normalizer (U : Set H)) (hzU : z ∈ U) :
     ∀ x ∈ U, fusedPi p H x ∈ E := by
-  have hUp : IsPGroup p U := P.isPGroup'.to_le hUP
+  have hUp : IsPGroup p U := P.isPGroup.to_le hUP
   have hzpo : orderOf (fusedPi p H z) = p :=
     orderOf_mk_of_coprime hF.prime (primeComplementCore (G := H) p)
       (primeComplementCore_coprime p) hF.order_z
@@ -355,7 +355,7 @@ theorem FusedCentral.exists_reflection (hF : FusedCentral H p P z)
     have hmemP : x * (t * x * t⁻¹) ∈ (P : Subgroup H) :=
       (P : Subgroup H).mul_mem hxP (htP x hxP)
     have hzs : z ^ s ∈ (P : Subgroup H) := zpow_mem hF.mem_P s
-    refine fusedPi_inj hprime P.isPGroup' hmemP hzs ?_
+    refine fusedPi_inj hprime P.isPGroup hmemP hzs ?_
     rw [map_mul, map_mul, map_mul, map_inv, map_zpow]
     exact hs.symm
   obtain ⟨s, hs⟩ := hconjU u huU
@@ -463,7 +463,7 @@ theorem FusedCentral.exists_reflection (hF : FusedCentral H p P z)
       exact hy.2
     have hcardY : Nat.card Y ≤ p ^ 2 := by
       have h1 := hrs.card_le_of_comm hle hmapcomm
-      rwa [card_map_fusedPi hprime (P.isPGroup'.to_le hYP)] at h1
+      rwa [card_map_fusedPi hprime (P.isPGroup.to_le hYP)] at h1
     have hUeqY : U = Y := Subgroup.eq_of_le_of_card_ge hUY (by rw [hUc]; exact hcardY)
     rw [hUeqY]
     exact ⟨hwB, hwE⟩
@@ -637,7 +637,7 @@ theorem FusedCentral.center_fixed (hF : FusedCentral H p P z) (θ : MulAut H) (k
       rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
       rw [← map_mul, ← map_mul, hB'comm a ha b hb]
     have h1 := hrs.card_le_of_comm hle hcm
-    rw [card_map_fusedPi hprime (P.isPGroup'.to_le hB'P), hB'c] at h1
+    rw [card_map_fusedPi hprime (P.isPGroup.to_le hB'P), hB'c] at h1
     have : p ^ 2 < p ^ 3 := Nat.pow_lt_pow_right hprime.one_lt (by norm_num)
     omega
   obtain ⟨a, haB, haQ, haz⟩ := hex_a
@@ -696,7 +696,7 @@ theorem FusedCentral.center_fixed (hF : FusedCentral H p P z) (θ : MulAut H) (k
     intro hc
     obtain ⟨m, hm⟩ := hπz _ ((hzmem _).mp hc)
     apply haz
-    have : a = z ^ m := fusedPi_inj hprime P.isPGroup' (hB'P haB) (zpow_mem hF.mem_P m) hm
+    have : a = z ^ m := fusedPi_inj hprime P.isPGroup (hB'P haB) (zpow_mem hF.mem_P m) hm
     rw [this]
     exact Subgroup.zpow_mem_zpowers _ m
   have hτa : τ ⟨π a, haE⟩ = ⟨π a, haE⟩ := by

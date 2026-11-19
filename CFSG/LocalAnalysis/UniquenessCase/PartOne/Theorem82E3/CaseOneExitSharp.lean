@@ -39,7 +39,7 @@ theorem case811ExitSharp_of_quasisimpleModOTwo (c : Ctx82E3 D)
           D.sig = {5}) ∨
         ∃ (fam : LieFam811) (r f : ℕ), IsLie811 c.Lbar fam r f)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hqsC : CFSG.IsQuasisimple c.Lbar :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff c.Lbar).2.2.1.mpr (c.isQuasisimple_lbar h811)
   have hodd : Odd (Nat.card (Subgroup.center c.Lbar)) := c.odd_card_center_lbar

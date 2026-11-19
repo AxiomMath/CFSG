@@ -35,8 +35,8 @@ theorem orthogonalDet_mono (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) 1)
     change (CFSG.ClassicalInvolution.detSpinorNorm hQ (fr.permOrth σ)).1 = _
     rw [h]
     by_cases hs : Equiv.Perm.sign σ = 1
-    · rw [if_pos hs, if_pos hs]; rfl
-    · rw [if_neg hs, if_neg hs]
+    · rw [ite_eq_left hs, ite_eq_left hs]; rfl
+    · rw [ite_eq_right hs, ite_eq_right hs]
   have ht : QuadraticMap.orthogonalDet Q (fr.signChange J) = (-1 : (ZMod 3)ˣ) ^ J.card := by
     have h := congrArg Prod.fst (ffMono_detSpinor_signChange hQ fr J)
     change (CFSG.ClassicalInvolution.detSpinorNorm hQ (fr.signChange J)).1 = _
@@ -61,7 +61,7 @@ theorem mono_parity (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) 1)
     have h : (-1 : (ZMod 3)ˣ) ^ J.card = -1 := by
       calc (-1 : (ZMod 3)ˣ) ^ J.card
           = QuadraticMap.orthogonalDet Q (fr.permOrth σ * fr.signChange J) := by
-            rw [hdet2, if_pos hs, one_mul]
+            rw [hdet2, ite_eq_left hs, one_mul]
         _ = -1 := hdet1
     exact (neg_one_pow_eq_neg_one_iff_odd (by decide : (-1 : (ZMod 3)ˣ) ≠ 1)).mp h
   · right
@@ -69,7 +69,7 @@ theorem mono_parity (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) 1)
     have hneg : (-1 : (ZMod 3)ˣ) * (-1 : (ZMod 3)ˣ) ^ J.card = -1 := by
       calc (-1 : (ZMod 3)ˣ) * (-1 : (ZMod 3)ˣ) ^ J.card
           = QuadraticMap.orthogonalDet Q (fr.permOrth σ * fr.signChange J) := by
-            rw [hdet2, if_neg hs]
+            rw [hdet2, ite_eq_right hs]
         _ = -1 := hdet1
     have h : (-1 : (ZMod 3)ˣ) ^ J.card = 1 := by
       have hmul : (-1 : (ZMod 3)ˣ) * (-1 : (ZMod 3)ˣ) ^ J.card =
@@ -83,10 +83,12 @@ theorem mono_parity (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) 1)
 @[expose] noncomputable def hH2 (fr : NFrame Q (Fin 6) c) : OGroup Q :=
   fr.permOrth (Equiv.swap 4 5) * fr.signChange {1, 3}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem hH1_mul_self (fr : NFrame Q (Fin 6) c) : hH1 fr * hH1 fr = 1 := by
   rw [hH1]
   exact fr.signChange_mul_self {3, 4, 5}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem hH2_mul_self (fr : NFrame Q (Fin 6) c) : hH2 fr * hH2 fr = 1 := by
   have h := ffMono_mul fr (Equiv.swap 4 5) (Equiv.swap 4 5) {1, 3} {1, 3}
   rw [hH2, h, Equiv.swap_mul_self 4 5]
@@ -94,14 +96,17 @@ theorem hH2_mul_self (fr : NFrame Q (Fin 6) c) : hH2 fr * hH2 fr = 1 := by
       ({1, 3} : Finset (Fin 6)) := by decide
   rw [hmap, symmDiff_self, Finset.bot_eq_empty, fr.permOrth_one, fr.signChange_empty, mul_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma t84h_repr_sub (fr : NFrame Q (Fin 6) c) (a b j : Fin 6) :
     fr.b.repr (fr.b a - fr.b b) j = (if a = j then 1 else 0) - (if b = j then 1 else 0) := by
   simp only [map_sub, Module.Basis.repr_self, Finsupp.sub_apply, Finsupp.single_apply]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma t84h_repr_add (fr : NFrame Q (Fin 6) c) (a b j : Fin 6) :
     fr.b.repr (fr.b a + fr.b b) j = (if a = j then 1 else 0) + (if b = j then 1 else 0) := by
   simp only [map_add, Module.Basis.repr_self, Finsupp.add_apply, Finsupp.single_apply]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma t84h_linearIndependent_of_pivot {ι : Type} [Fintype ι]
     {fr : NFrame Q (Fin 6) c} (v : ι → V) (p : ι → Fin 6)
     (hdiag : ∀ i, fr.b.repr (v i) (p i) = 1)
@@ -137,6 +142,7 @@ private lemma t84h_card_le_finrank {ι : Type} [Fintype ι] {v : ι → V}
         (finrank_span_eq_card hv).symm
     _ ≤ Module.finrank (ZMod 3) W := Submodule.finrank_mono hle
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem hH1_invDim (fr : NFrame Q (Fin 6) c) : invDim (hH1 fr) = 3 := by
   rw [hH1, ffMono_invDim_signChange]
   decide
@@ -159,9 +165,9 @@ theorem hH2_invDim (fr : NFrame Q (Fin 6) c) : invDim (hH2 fr) = 3 := by
   have hg3 : (g : V ≃ₗ[ZMod 3] V) (fr.b 3) = -fr.b 3 := by
     rw [hgb 3]; simp [Equiv.swap_apply_def]
   have hg4 : (g : V ≃ₗ[ZMod 3] V) (fr.b 4) = fr.b 5 := by
-    rw [hgb 4]; simp [Equiv.swap_apply_def]
+    rw [hgb 4]; simp
   have hg5 : (g : V ≃ₗ[ZMod 3] V) (fr.b 5) = fr.b 4 := by
-    rw [hgb 5]; simp [Equiv.swap_apply_def]
+    rw [hgb 5]; simp
   have h1 : fr.b 1 ∈ commSp g := by
     rw [mem_commSp_iff hgg', hg1]
   have h3 : fr.b 3 ∈ commSp g := by
@@ -179,17 +185,17 @@ theorem hH2_invDim (fr : NFrame Q (Fin 6) c) : invDim (hH2 fr) = 3 := by
     apply t84h_linearIndependent_of_pivot (fr := fr)
       (![fr.b 1, fr.b 3, fr.b 4 - fr.b 5] : Fin 3 → V) (![1, 3, 4] : Fin 3 → Fin 6)
     · intro i
-      fin_cases i <;> simp [t84h_repr_sub]
+      fin_cases i <;> simp
     · intro i j hij
-      fin_cases i <;> fin_cases j <;> simp_all [t84h_repr_sub]
+      fin_cases i <;> fin_cases j <;> simp_all
   have hon_li : LinearIndependent (ZMod 3)
       (![fr.b 0, fr.b 2, fr.b 4 + fr.b 5] : Fin 3 → V) := by
     apply t84h_linearIndependent_of_pivot (fr := fr)
       (![fr.b 0, fr.b 2, fr.b 4 + fr.b 5] : Fin 3 → V) (![0, 2, 4] : Fin 3 → Fin 6)
     · intro i
-      fin_cases i <;> simp [t84h_repr_add]
+      fin_cases i <;> simp
     · intro i j hij
-      fin_cases i <;> fin_cases j <;> simp_all [t84h_repr_add]
+      fin_cases i <;> fin_cases j <;> simp_all
   have hoff_le : 3 ≤ Module.finrank (ZMod 3) (commSp g) := by
     have h := t84h_card_le_finrank hoff_li (W := commSp g) (fun i => by
       fin_cases i
@@ -219,6 +225,7 @@ theorem hH1_ne_one (fr : NFrame Q (Fin 6) c) : hH1 fr ≠ 1 := by
   rw [h0] at h3
   exact absurd h3 (by decide)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem hH1_ne_piOrth (fr : NFrame Q (Fin 6) c) : hH1 fr ≠ piOrth Q := by
   intro h
   have h3 : invDim (piOrth Q) = 3 := by rw [← h]; exact hH1_invDim fr

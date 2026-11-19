@@ -28,7 +28,7 @@ private theorem selfRecip_dvd {p : (ZMod 2)[X]} (hm : p.Monic) (hd : p.natDegree
   · have h0 : p.coeff 0 = 1 := by
       have := hc 0 (by norm_num)
       simpa [hlead] using this
-    simp [Finset.sum_range_succ, h0] at hsum
+    simp [h0] at hsum
     refine ⟨1, le_rfl, by norm_num, ?_⟩
     rw [hsum]
     exact ⟨1, by rw [CharTwo.sub_eq_add]; ring⟩

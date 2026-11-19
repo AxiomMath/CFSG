@@ -10,7 +10,7 @@ open CFSG CFSG.SeitzReduction.SymplecticPilot
 open CFSG.Open (StatedSp)
 
 theorem ggTBJ_sp_core {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Type} [Field K] [Finite K]
-    [CharP K 2] (hK4 : 4 ≤ Nat.card K) {ζ : Kˣ} (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1)
+    [CharP K 2] (hK4 : 4 ≤ Nat.card K) {ζ : Kˣ} (_hζo : orderOf ζ = p) (hζ : ζ ^ p = 1)
     (f₀ : Fin m → Multiplicative (ZMod p)) {J : Subgroup (StatedSp m K)}
     (hJ : CFSG.Assembly.IsComponentOf J
       (Subgroup.centralizer ({TableBSymp.spTorusSp hζ f₀} : Set (StatedSp m K))))
@@ -25,8 +25,8 @@ theorem ggTBJ_sp_core {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Type} [Fie
       Nat.card {f : Fin m → Multiplicative (ZMod p) // s₂ f = f} * p = p ^ m ∧
       s₁ * s₂ ≠ s₂ * s₁ := by
   classical
-  haveI : Fact p.Prime := Fact.mk hp
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := Fact.mk hp
+  have : NeZero p := ⟨hp.ne_zero⟩
   let t : Fin m → Kˣ := fun i => TableBSymp.zmodPowHom hζ (f₀ i)
   have hJ' : CFSG.Assembly.IsComponentOf J
       (Subgroup.centralizer ({diagSp K m t} : Set (StatedSp m K))) := by

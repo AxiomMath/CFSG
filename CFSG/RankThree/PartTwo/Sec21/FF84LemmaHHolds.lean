@@ -13,7 +13,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21
 
 theorem lemmaH_holds : LemmaH := by
   intro G _ _ K T N x hK60 hKs hT3 hKT hNT hKN hNnorm hxK hx3 hfpf
-  haveI := hKs
+  have := hKs
   set W : Subgroup G := Nor T ⊓ Nor N with hW
   have hKW : K ≤ W := le_inf hKT hKN
   have hTNor : T ≤ Nor N := by
@@ -45,7 +45,7 @@ theorem lemmaH_holds : LemmaH := by
   have hπker : ∀ w : ↥W, π w = 1 ↔ (w : G) ∈ N := fun w => by
     rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   set Q : Subgroup (↥W ⧸ N.subgroupOf W) := (T.subgroupOf W).map π with hQdef
-  haveI hQn : Q.Normal := Subgroup.Normal.map hT1 π hπ
+  have hQn : Q.Normal := Subgroup.Normal.map hT1 π hπ
   have hker : (π.domRestrict (T.subgroupOf W)).ker =
       (N.subgroupOf W).subgroupOf (T.subgroupOf W) := by
     ext t
@@ -91,7 +91,7 @@ theorem lemmaH_holds : LemmaH := by
   have hx'3 : x' ^ 3 = 1 := by
     apply Subtype.ext
     simpa [x'] using (hx3 ▸ pow_orderOf_eq_one x)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx'1 : x' ≠ 1 := by
     intro h
     have h1 : x = 1 := congrArg Subtype.val h

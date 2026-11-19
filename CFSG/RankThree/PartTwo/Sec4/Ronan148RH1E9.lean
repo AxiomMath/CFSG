@@ -121,14 +121,15 @@ section Row
 
 
 variable {G : Type} [Group G] [Finite G] in
+omit [Finite G] in
 theorem eq_one_of_central_of_isA5Type
     {K' : Subgroup G} (hK'q : IsQuasisimple K')
     (hT : IsA5Type (K' ⧸ CFSG.pCore 2 K')) {x : G} (hxK : x ∈ K')
     (hxc : ∀ k ∈ K', k * x = x * k) (hx3 : x ^ 3 = 1) : x = 1 := by
   set Γ := ↥K'
   have hZ : Subgroup.center (Γ ⧸ CFSG.pCore 2 Γ) = ⊥ := by
-    haveI := hT.isSimpleGroup
-    haveI : Group.IsPerfect Γ := hK'q.1
+    have := hT.isSimpleGroup
+    have : Group.IsPerfect Γ := hK'q.1
     exact center_eq_bot_of_isSimpleGroup_of_isPerfect
   have eT : (⊤ : Subgroup Γ) ≃* Γ := Subgroup.topEquiv
   have hTq : IsQuasisimple (⊤ : Subgroup Γ) := CFSG.LocalCores.isQuasisimple_of_mulEquiv eT.symm hK'q
@@ -214,8 +215,8 @@ theorem row427_of_e9Move
       obtain ⟨a, ha⟩ := exists_card_eq_sixty_mul hT
       rw [ha]
       exact Dvd.intro _ rfl
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨t₀, ht₀⟩ := exists_prime_orderOf_dvd_card' (G := ↥K') 2 (dvd_trans (by norm_num) h60)
     obtain ⟨f₀, hf₀⟩ := exists_prime_orderOf_dvd_card' (G := ↥K') 3 (dvd_trans (by norm_num) h60)
     have hcK : ∀ k ∈ K', k * d = d * k := fun k hk =>

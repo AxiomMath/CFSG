@@ -11,7 +11,7 @@ open CFSG.Blueprint.NativeSporadic CFSG.Open
 
 theorem wcOn_B_three_aux
     [Finite CFSG.Blueprint.NativeSporadic.B] : WCOn 3 CFSG.Blueprint.NativeSporadic.B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact WCOn.of_hasNoncommPair (hasNoncommPair_of_commData (G := CFSG.Blueprint.NativeSporadic.B)
     Nat.prime_three CFSG.Monster.B.Pinned.commData_three (i := 0) (j := 1) rfl)
 
@@ -21,7 +21,7 @@ theorem wcOn_B_three
 
 theorem wcOn_B_five_aux
     [Finite CFSG.Blueprint.NativeSporadic.B] : WCOn 5 CFSG.Blueprint.NativeSporadic.B := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact WCOn.of_hasNoncommPair (hasNoncommPair_of_commData (G := CFSG.Blueprint.NativeSporadic.B)
     Nat.prime_five CFSG.Monster.B.Pinned.commData_five (i := 0) (j := 1) rfl)
 

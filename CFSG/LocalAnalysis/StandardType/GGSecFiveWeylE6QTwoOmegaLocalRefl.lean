@@ -29,7 +29,7 @@ theorem six_le_ncard_isReflection_fix_of_omegaPlus (hK : Nat.card K = 2) {Bs L :
     6 ≤ Set.ncard {r : MulAut ↥Bs | r ∈ ggAutomizer L Bs ∧ GGIsReflection 3 r ∧
       r ⟨e, heBs⟩ = ⟨e, heBs⟩} := by
   classical
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   obtain ⟨hxBs, hxL, hxord, hEbot, hExbot⟩ := bstar_basic hZ2 hBs hx1 hBL
   have hcompl : Subgroup.IsComplement' (EB Bs L) ((Subgroup.zpowers x).subgroupOf Bs) :=
@@ -81,8 +81,6 @@ theorem six_le_ncard_isReflection_fix_of_omegaPlus (hK : Nat.card K = 2) {Bs L :
     intro y
     have hconjE : conjE L Bs (l y) = (MulAut.congr ΘE).symm (omPlusRefl 3 y) := by
       apply (MulAut.congr ΘE).injective
-      change (MulAut.congr ΘE) (conjE L Bs (l y)) =
-        (MulAut.congr ΘE) ((MulAut.congr ΘE).symm (omPlusRefl 3 y))
       rw [show (MulAut.congr ΘE) (conjE L Bs (l y)) = conjC Bs L θ ΘE (l y) from rfl,
         hconjC y, MulEquiv.apply_symm_apply]
     constructor

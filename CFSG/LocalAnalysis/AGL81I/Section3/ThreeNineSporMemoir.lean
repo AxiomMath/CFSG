@@ -18,11 +18,12 @@ open scoped Pointwise
 
 variable {L : Type} [Group L] [Finite L] {p d : ℕ} {Y : Subgroup L}
 
-private theorem eb_le_y_of_data {Eb : Subgroup L} {p : ℕ} (hEb : IsElemAbelian p Eb)
+omit [Finite L] in
+private theorem eb_le_y_of_data {Eb : Subgroup L} {p : ℕ} (_hEb : IsElemAbelian p Eb)
     (hcent : ∀ e ∈ Eb, e ≠ 1 → Subgroup.centralizer ({e} : Set L) ≤ Y) : Eb ≤ Y := by
   intro e he
   by_cases he1 : e = 1
-  · simpa [he1] using Y.one_mem
+  · simp [he1]
   · exact hcent e he he1 (Subgroup.mem_centralizer_singleton_iff.mpr rfl)
 
 private theorem pRank_top_le_three_of_data (h : SporOvergroupData L p d Y) :
@@ -34,7 +35,7 @@ private theorem glaPPrimeCore_inf_centralizer_eq_bot_of_data (h : SporOvergroupD
     (hO : OPrimeCoreTrivialAt p L) {Eb : Subgroup L} (hEb : IsElemAbelian p Eb)
     (hcent : ∀ e ∈ Eb, e ≠ 1 → Subgroup.centralizer ({e} : Set L) ≤ Y) :
     ∀ e ∈ Eb, e ≠ 1 → GLAPPrimeCoreOf p Y ⊓ Subgroup.centralizer ({e} : Set L) = ⊥ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   intro e he he1
   have hEbY : Eb ≤ Y := eb_le_y_of_data hEb hcent
   have hVleY : GLAPPrimeCoreOf p Y ≤ Y := GLAPPrimeCoreOf_le Y
@@ -71,7 +72,7 @@ private theorem glaPPrimeCore_inf_centralizer_eq_bot_of_data (h : SporOvergroupD
 theorem gLAPPrimeCoreOf_eq_bot_of_data (h : SporOvergroupData L p d Y)
     (hO : OPrimeCoreTrivialAt p L) : GLAPPrimeCoreOf p Y = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨Eb, hEb, hcard, hcent, hnorm⟩ := h.barE
   have hEbY : Eb ≤ Y := eb_le_y_of_data hEb hcent
   have hVleY : GLAPPrimeCoreOf p Y ≤ Y := GLAPPrimeCoreOf_le Y
@@ -98,11 +99,12 @@ theorem gLAPPrimeCoreOf_eq_bot_of_data (h : SporOvergroupData L p d Y)
 
 theorem exists_sylow_le_of_data (h : SporOvergroupData L p d Y) :
     ∃ Q : Sylow p L, (Q : Subgroup L) ≤ Y := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨Eb, hEb, -, -, hnorm⟩ := h.barE
   obtain ⟨Q, hEbQ⟩ := (CFSG.Open.IsElemAbelian.isPGroup hEb).exists_le_sylow
-  exact ⟨Q, Subgroup.le_normalizer.trans (hnorm Q Q.isPGroup' hEbQ)⟩
+  exact ⟨Q, Subgroup.le_normalizer.trans (hnorm Q Q.isPGroup hEbQ)⟩
 
+omit [Finite L] in
 theorem card_dvd_card_mulAut_of_centralizer_inf_eq_bot {J : Subgroup L} (hJY : J ≤ Y)
     (hJn : (J.subgroupOf Y).Normal) (hC : Subgroup.centralizer (J : Set L) ⊓ Y = ⊥) :
     Nat.card Y ∣ Nat.card (MulAut ↥J) := by
@@ -126,7 +128,7 @@ theorem card_dvd_card_mulAut_of_centralizer_inf_eq_bot {J : Subgroup L} (hJY : J
       intro j
       let j' : ↥(J.subgroupOf Y) := ⟨⟨(j : L), hJY j.2⟩, j.2⟩
       have h := congrArg (fun f : MulAut ↥(J.subgroupOf Y) => f j') hrho1
-      simp only [rho, MulAut.conjNormal_apply, MulAut.one_apply] at h
+      simp only [rho, MulAut.one_apply] at h
       have h2 := congrArg Subtype.val h
       have h2' : ((y : Y) * (j' : Y) * (y : Y)⁻¹ : Y) = (j' : Y) := h2
       simpa [j'] using congrArg (fun z : Y => (z : L)) h2'
@@ -192,7 +194,7 @@ private theorem center_sylow_le_of_le_normalizer {p : ℕ} [Fact p.Prime]
     have hmap := congrArg (Subgroup.map Q.subtype) hbot
     rwa [Subgroup.map_subgroupOf_eq_of_le inf_le_left, Subgroup.map_bot] at hmap
   have hZmeet : ((Q ⊓ M).subgroupOf Q) ⊓ Subgroup.center ↥Q ≠ ⊥ := by
-    haveI : ((Q ⊓ M).subgroupOf Q).Normal := hIntNormal
+    have : ((Q ⊓ M).subgroupOf Q).Normal := hIntNormal
     exact CFSG.GroupTheory.CoprimeActionSupport.NormalPSubgroupMeetsCenter.inf_center_ne_bot
       hQ.isPGroup ((Q ⊓ M).subgroupOf Q) hneSub
   have hcardMeet : Nat.card ↥(((Q ⊓ M).subgroupOf Q) ⊓ Subgroup.center ↥Q) = p := by
@@ -219,20 +221,20 @@ private theorem sylow_center_data {L : Type} [Group L] [Finite L] {p d : ℕ} {Y
       CFSG.ABGLocalTools.IsSylowOf p (QY : Subgroup Y) ⊤ ∧
         Nat.card (Subgroup.center ↥(QY : Subgroup Y)) = p := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨Eb, hEb, -, -, hnorm⟩ := h.barE
   obtain ⟨Q, hEbQ⟩ := (CFSG.Open.IsElemAbelian.isPGroup hEb).exists_le_sylow
   have hQleY : (Q : Subgroup L) ≤ Y :=
-    Subgroup.le_normalizer.trans (hnorm Q Q.isPGroup' hEbQ)
+    Subgroup.le_normalizer.trans (hnorm Q Q.isPGroup hEbQ)
   have hQY_syl : CFSG.ABGLocalTools.IsSylowOf p (Q : Subgroup L) Y := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨hQleY, Q.isPGroup', ?_⟩
+    refine ⟨hQleY, Q.isPGroup, ?_⟩
     exact fun hdvd => Q.not_dvd_index
       (hdvd.trans (Subgroup.relIndex_dvd_index_of_le hQleY))
   obtain ⟨QY, hQY⟩ := hQY_syl.exists_sylow_eq_subgroupOf
   have hQYtop : CFSG.ABGLocalTools.IsSylowOf p (QY : Subgroup Y) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, QY.isPGroup', by rw [Subgroup.relIndex_top_right]; exact QY.not_dvd_index⟩
+    exact ⟨le_top, QY.isPGroup, by rw [Subgroup.relIndex_top_right]; exact QY.not_dvd_index⟩
   have e : ↥(QY : Subgroup Y) ≃* ↥(Q : Subgroup L) :=
     (MulEquiv.subgroupCongr hQY).trans (Subgroup.subgroupOfEquivOfLe hQleY)
   have hZcard : Nat.card (Subgroup.center ↥(QY : Subgroup Y)) = p := by
@@ -255,12 +257,13 @@ private theorem y_ne_bot_of_data (h : SporOvergroupData L p d Y) : Y ≠ ⊥ := 
 
 private theorem exists_minimal_normal_of_data (hYne : Y ≠ ⊥) :
     ∃ N : Subgroup ↥Y, Minimal (fun M : Subgroup ↥Y => M.Normal ∧ M ≠ ⊥) N := by
-  haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
+  have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
   obtain ⟨N, -, hNmin⟩ := Finite.exists_le_minimal
     (p := fun M : Subgroup ↥Y => M.Normal ∧ M ≠ ⊥) (a := ⊤)
     ⟨inferInstance, top_ne_bot⟩
   exact ⟨N, hNmin⟩
 
+omit [Finite L] in
 private theorem not_isPGroup_of_normal_of_data
     (hOp : ∀ R : Subgroup L, IsPGroup p R → R ≤ Y → (R.subgroupOf Y).Normal → R = ⊥)
     {N : Subgroup ↥Y} (hN : N.Normal) (hNne : N ≠ ⊥) : ¬ IsPGroup p ↥N := by
@@ -298,7 +301,7 @@ private theorem minimal_normal_center_eq_bot_of_data [Fact p.Prime]
     {N : Subgroup ↥Y}
     (hNmin : Minimal (fun M : Subgroup ↥Y => M.Normal ∧ M ≠ ⊥) N) :
     Subgroup.center ↥N = ⊥ := by
-  haveI : N.Normal := hNmin.1.1
+  have : N.Normal := hNmin.1.1
   have hNne : N ≠ ⊥ := hNmin.1.2
   have hNmin' : ∀ M : Subgroup ↥Y, M.Normal → M ≤ N → M = ⊥ ∨ M = N := by
     intro M hMn hMN
@@ -311,18 +314,21 @@ private theorem minimal_normal_center_eq_bot_of_data [Fact p.Prime]
   · exact False.elim (hsecond (p_dvd_card_of_normal_of_data h hO hNmin.1.1 hNne))
   · exact hthird.1
 
+omit [Finite L] in
 private theorem sylow_le_normalizer_of_normal {Q M : Subgroup ↥Y} (hM : M.Normal) :
     Q ≤ Subgroup.normalizer (M : Set ↥Y) := by
-  haveI : M.Normal := hM
+  have : M.Normal := hM
   have hMnormTop : (⊤ : Subgroup ↥Y) ≤ Subgroup.normalizer (M : Set ↥Y) := by
     rw [Subgroup.normalizer_eq_top]
   exact le_top.trans hMnormTop
 
+omit [Finite L] in
 private theorem center_sylow_map_card {Q : Subgroup ↥Y}
     (hZcard : Nat.card ↥(Subgroup.center ↥Q) = p) :
     Nat.card ↥((Subgroup.center ↥Q).map Q.subtype) = p := by
   rw [Subgroup.card_map_of_injective Q.subtype_injective, hZcard]
 
+omit [Finite L] in
 private theorem center_sylow_map_ne_bot [Fact p.Prime] {Q : Subgroup ↥Y}
     (hZcard : Nat.card ↥(Subgroup.center ↥Q) = p) :
     (Subgroup.center ↥Q).map Q.subtype ≠ ⊥ := by
@@ -336,7 +342,7 @@ private theorem center_sylow_map_ne_bot [Fact p.Prime] {Q : Subgroup ↥Y}
 private theorem minimal_normal_unique_of_data [Fact p.Prime]
     (h : SporOvergroupData L p d Y)
     (hO : GLAPPrimeCoreOf p Y = ⊥)
-    (hOp : ∀ R : Subgroup L, IsPGroup p R → R ≤ Y → (R.subgroupOf Y).Normal → R = ⊥)
+    (_hOp : ∀ R : Subgroup L, IsPGroup p R → R ≤ Y → (R.subgroupOf Y).Normal → R = ⊥)
     {Q : Subgroup ↥Y} (hQ : IsSylowOf p Q ⊤)
     (hZcard : Nat.card ↥(Subgroup.center ↥Q) = p)
     {N M : Subgroup ↥Y}
@@ -372,7 +378,7 @@ private theorem centralizer_eq_bot_of_minimal_normal [Fact p.Prime]
     {N : Subgroup ↥Y}
     (hNmin : Minimal (fun K : Subgroup ↥Y => K.Normal ∧ K ≠ ⊥) N) :
     Subgroup.centralizer (N : Set ↥Y) = ⊥ := by
-  haveI : N.Normal := hNmin.1.1
+  have : N.Normal := hNmin.1.1
   have hcenterN : Subgroup.center ↥N = ⊥ :=
     minimal_normal_center_eq_bot_of_data h hO hOp hNmin
   have hCnormal : (Subgroup.centralizer (N : Set ↥Y)).Normal := Subgroup.normal_centralizer
@@ -390,7 +396,7 @@ private theorem centralizer_eq_bot_of_minimal_normal [Fact p.Prime]
     (Subgroup.le_centralizer_iff_isMulCommutative (K := N)).mp hNleC
   have hcenterTop : Subgroup.center ↥N = ⊤ := Subgroup.center_eq_top_iff.mpr hNcomm
   rw [hcenterN] at hcenterTop
-  haveI : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr hNmin.1.2
+  have : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr hNmin.1.2
   exact top_ne_bot hcenterTop.symm
 
 private theorem exists_simple_factor_component_of_data [Fact p.Prime] {N : Subgroup ↥Y}
@@ -398,7 +404,7 @@ private theorem exists_simple_factor_component_of_data [Fact p.Prime] {N : Subgr
     (hcenterN : Subgroup.center ↥N = ⊥) (hNp : p ∣ Nat.card ↥N) :
     ∃ T₀ : Subgroup ↥Y, T₀ ≤ N ∧ (T₀.subgroupOf N).Normal ∧ IsSimpleGroup ↥T₀ ∧
       (∃ a b : ↥T₀, a * b ≠ b * a) ∧ p ∣ Nat.card ↥T₀ ∧ CFSG.IsComponent T₀ := by
-  haveI : N.Normal := hNmin.1.1
+  have : N.Normal := hNmin.1.1
   obtain ⟨T, hTmin, hTsimple, hTnonab, hTpdvd⟩ :=
     Helpers.minimal_normal_subgroup_contains_normal_simple_with_nonab_of_centerless N hNmin
   have hTnonab' : ∃ a b : ↥T, a * b ≠ b * a := hTnonab hcenterN
@@ -412,7 +418,7 @@ private theorem exists_simple_factor_component_of_data [Fact p.Prime] {N : Subgr
     rw [hTeq]
     exact hTmin.1.1
   have hT₀simple : IsSimpleGroup ↥T₀ := by
-    haveI : IsSimpleGroup ↥T := hTsimple
+    have : IsSimpleGroup ↥T := hTsimple
     exact (Subgroup.equivMapOfInjective T N.subtype N.subtype_injective).symm.isSimpleGroup
   have hT₀nonab : ∃ a b : ↥T₀, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hTnonab'
@@ -423,7 +429,7 @@ private theorem exists_simple_factor_component_of_data [Fact p.Prime] {N : Subgr
       Subgroup.card_map_of_injective N.subtype_injective]
     exact hTp
   have hT₀ne : T₀ ≠ ⊥ := by
-    haveI : IsSimpleGroup ↥T₀ := hT₀simple
+    have : IsSimpleGroup ↥T₀ := hT₀simple
     exact (Subgroup.nontrivial_iff_ne_bot T₀).mp inferInstance
   have hT₀component : CFSG.IsComponent T₀ := by
     refine ⟨(CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hT₀nonab).1, ?_⟩
@@ -433,12 +439,14 @@ private theorem exists_simple_factor_component_of_data [Fact p.Prime] {N : Subgr
 private abbrev conjActImage (Q : Subgroup ↥Y) : Subgroup (ConjAct ↥Y) :=
   Q.map (ConjAct.toConjAct : ↥Y ≃* ConjAct ↥Y).toMonoidHom
 
+omit [Finite L] in
 private theorem orbit_iso {T₀ : Subgroup ↥Y}
     (A : ↥(MulAction.orbit (ConjAct ↥Y) T₀)) :
     Nonempty (↥T₀ ≃* ↥A.1) := by
   obtain ⟨g, hg⟩ := MulAction.mem_orbit_iff.mp A.2
   exact ⟨(Subgroup.equivSMul g T₀).trans (MulEquiv.subgroupCongr hg)⟩
 
+omit [Finite L] in
 private theorem orbit_component {T₀ : Subgroup ↥Y} (hT₀ : CFSG.IsComponent T₀)
     (A : ↥(MulAction.orbit (ConjAct ↥Y) T₀)) : CFSG.IsComponent A.1 := by
   obtain ⟨g, hg⟩ := MulAction.mem_orbit_iff.mp A.2
@@ -449,18 +457,20 @@ private theorem orbit_component {T₀ : Subgroup ↥Y} (hT₀ : CFSG.IsComponent
   rw [hsmul]
   exact CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj (ConjAct.ofConjAct g)) hT₀
 
+omit [Finite L] in
 private theorem orbit_centerless {T₀ : Subgroup ↥Y} (hT₀simple : IsSimpleGroup ↥T₀)
     (hT₀nonab : ∃ a b : ↥T₀, a * b ≠ b * a)
     (A : ↥(MulAction.orbit (ConjAct ↥Y) T₀)) :
     Subgroup.center ↥A.1 = ⊥ := by
   obtain ⟨e⟩ := orbit_iso A
   have hmap := Subgroup.map_center_eq e
-  haveI : IsSimpleGroup ↥T₀ := hT₀simple
+  have : IsSimpleGroup ↥T₀ := hT₀simple
   have hcenterT₀ : Subgroup.center ↥T₀ = ⊥ :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hT₀nonab).2
   rw [hcenterT₀, Subgroup.map_bot] at hmap
   exact hmap.symm
 
+omit [Finite L] in
 private theorem orbit_pdvd {T₀ : Subgroup ↥Y} (hT₀p : p ∣ Nat.card ↥T₀)
     (A : ↥(MulAction.orbit (ConjAct ↥Y) T₀)) : p ∣ Nat.card ↥A.1 := by
   obtain ⟨e⟩ := orbit_iso A
@@ -485,12 +495,12 @@ private theorem orbit_card_le_three [Fact p.Prime] {T₀ : Subgroup ↥Y}
       Subgroup.center ↥A.1 = ⊥)
     (hpdvd : ∀ A : ↥(MulAction.orbit (ConjAct ↥Y) T₀), p ∣ Nat.card ↥A.1) :
     Nat.card ↥(MulAction.orbit (ConjAct ↥Y) T₀) ≤ 3 := by
-  letI : Fintype ↥Y := Fintype.ofFinite _
-  letI : Fintype (ConjAct ↥Y) := Fintype.ofEquiv ↥Y ConjAct.ofConjAct.symm.toEquiv
-  haveI : Finite ↥(MulAction.orbit (ConjAct ↥Y) T₀) := by
+  let : Fintype ↥Y := Fintype.ofFinite _
+  let : Fintype (ConjAct ↥Y) := Fintype.ofEquiv ↥Y ConjAct.ofConjAct.symm.toEquiv
+  have : Finite ↥(MulAction.orbit (ConjAct ↥Y) T₀) := by
     rw [MulAction.orbit]
     exact (Set.finite_range (fun g : ConjAct ↥Y => g • T₀)).to_subtype
-  letI : Fintype ↥(MulAction.orbit (ConjAct ↥Y) T₀) := Fintype.ofFinite _
+  let : Fintype ↥(MulAction.orbit (ConjAct ↥Y) T₀) := Fintype.ofFinite _
   have hbound := Helpers.commuting_centerless_prime_divisible_factors_card_le_rank
     p (Fact.out : p.Prime) (fun A : ↥(MulAction.orbit (ConjAct ↥Y) T₀) => A.1)
     hcomm hcenter hpdvd
@@ -592,6 +602,7 @@ private theorem false_of_two_factors [Fact p.Prime] {T₀ Q : Subgroup ↥Y}
   exact center_sylow_map_ne_bot hZcard
     (le_bot_iff.mp (hdisj ▸ le_inf hZA hZB))
 
+omit [Finite L] in
 private theorem eq_of_subsingleton_orbit {T₀ N : Subgroup ↥Y}
     (hcard1 : Nat.card ↥(MulAction.orbit (ConjAct ↥Y) T₀) = 1)
     (hNmin : Minimal (fun K : Subgroup ↥Y => K.Normal ∧ K ≠ ⊥) N)
@@ -610,10 +621,11 @@ private theorem eq_of_subsingleton_orbit {T₀ N : Subgroup ↥Y}
       congr 1
     rwa [hsmul] at hg
   have hT₀ne : T₀ ≠ ⊥ := by
-    haveI : IsSimpleGroup ↥T₀ := hT₀simple
+    have : IsSimpleGroup ↥T₀ := hT₀simple
     exact (Subgroup.nontrivial_iff_ne_bot T₀).mp inferInstance
   exact le_antisymm (hNmin.2 ⟨hT₀normal, hT₀ne⟩ hT₀leN) hT₀leN
 
+omit [Finite L] in
 private theorem exists_simple_normal_of_eq {N T₀ : Subgroup ↥Y} (hNT : N = T₀)
     (hT₀normal : T₀.Normal) (hT₀simple : IsSimpleGroup ↥T₀)
     (hT₀nonab : ∃ a b : ↥T₀, a * b ≠ b * a)
@@ -630,7 +642,7 @@ private theorem exists_simple_normal_of_eq {N T₀ : Subgroup ↥Y} (hNT : N = T
     exact hT₀normal
   let eJ : ↥T₀ ≃* ↥J := Subgroup.equivMapOfInjective T₀ Y.subtype Y.subtype_injective
   have hJsimple : IsSimpleGroup ↥J := by
-    haveI : IsSimpleGroup ↥T₀ := hT₀simple
+    have : IsSimpleGroup ↥T₀ := hT₀simple
     exact eJ.symm.isSimpleGroup
   have hJnonab : ∃ a b : ↥J, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hT₀nonab
@@ -724,16 +736,16 @@ theorem exists_simple_normal_of_data (h : SporOvergroupData L p d Y) (hp5 : 5 �
     ∃ J : Subgroup L, J ≤ Y ∧ (J.subgroupOf Y).Normal ∧ IsSimpleGroup ↥J ∧
       (∃ a b : ↥J, a * b ≠ b * a) ∧ Subgroup.centralizer (J : Set L) ⊓ Y = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨D⟩ := simple_normal_data_of_data h hO hOp hZ
   let Index : Set (Subgroup ↥Y) := MulAction.orbit (ConjAct ↥Y) D.T₀
-  haveI : Finite ↥Index := by
-    letI : Fintype ↥Y := Fintype.ofFinite _
-    letI : Fintype (ConjAct ↥Y) := Fintype.ofEquiv ↥Y ConjAct.ofConjAct.symm.toEquiv
+  have : Finite ↥Index := by
+    let : Fintype ↥Y := Fintype.ofFinite _
+    let : Fintype (ConjAct ↥Y) := Fintype.ofEquiv ↥Y ConjAct.ofConjAct.symm.toEquiv
     rw [show Index = Set.range (fun g : ConjAct ↥Y => g • D.T₀) from rfl]
     exact (Set.finite_range (fun g : ConjAct ↥Y => g • D.T₀)).to_subtype
-  haveI : Nonempty ↥Index := ⟨⟨D.T₀, MulAction.mem_orbit_self D.T₀⟩⟩
-  letI : Fintype ↥Index := Fintype.ofFinite _
+  have : Nonempty ↥Index := ⟨⟨D.T₀, MulAction.mem_orbit_self D.T₀⟩⟩
+  let : Fintype ↥Index := Fintype.ofFinite _
   by_cases hcard1 : Nat.card ↥Index = 1
   · have hNT : D.N = D.T₀ :=
       eq_of_subsingleton_orbit hcard1 D.hNmin D.hT₀leN D.hT₀simple

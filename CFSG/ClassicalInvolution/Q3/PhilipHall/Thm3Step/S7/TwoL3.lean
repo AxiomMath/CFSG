@@ -61,16 +61,16 @@ theorem centComponent_of_frame {X : Type} [Group X] {t : X} (ht : orderOf t = 2)
     exact even_iff_two_dvd.mpr (h2 ▸ orderOf_dvd_natCard _)
   ·
     set Z : Subgroup H := (Subgroup.center (GL (Fin 2) F)).comap H.subtype with hZ
-    haveI hcen : IsCyclic ↥(Subgroup.center (GL (Fin 2) F)) := by
+    have hcen : IsCyclic ↥(Subgroup.center (GL (Fin 2) F)) := by
       rw [Matrix.GeneralLinearGroup.center_eq_range_scalar]
       exact isCyclic_of_surjective (GeneralLinearGroup.scalar (Fin 2)).rangeRestrict
         (MonoidHom.rangeRestrict_surjective _)
-    haveI : IsCyclic ↥(Z.map H.subtype) :=
+    have : IsCyclic ↥(Z.map H.subtype) :=
       Subgroup.isCyclic_of_le (Subgroup.map_comap_le _ _)
-    haveI : IsCyclic ↥Z :=
+    have : IsCyclic ↥Z :=
       isCyclic_of_surjective (Z.equivMapOfInjective H.subtype H.subtype_injective).symm
         (MulEquiv.surjective _)
-    haveI : IsCyclic ↥(Z.map π) :=
+    have : IsCyclic ↥(Z.map π) :=
       isCyclic_of_surjective (π.subgroupMap Z) (π.subgroupMap_surjective Z)
     refine Subgroup.isCyclic_of_le (H' := Z.map π) ?_
     rintro x ⟨hxC, hxJ⟩
@@ -110,8 +110,8 @@ theorem l3CentComponent : L3CentComponent := by
       TA3.Q5L3.slPartTopEquiv hneg
   · obtain ⟨⟨hℓ, hm1, -, -⟩, K, _, _, hK, ⟨e₀⟩⟩ := hl.statedClassicalModel (by decide)
     have h : UnitaryFieldData p f K := ⟨hℓ, hm1, by rw [hK, ← pow_mul, mul_comm]⟩
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : CharP K p := h.charP
+    have : Fact p.Prime := ⟨hp⟩
+    have : CharP K p := h.charP
     obtain ⟨π, hrange, hk, hneg⟩ :=
       TA3.Q5U3.exists_frame h hp2 (Subgroup.topEquiv.trans e₀) (Subgroup.mem_top z) hz
     rw [top_inf_eq] at hrange

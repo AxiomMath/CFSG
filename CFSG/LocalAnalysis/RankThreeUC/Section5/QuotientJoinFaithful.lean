@@ -48,9 +48,9 @@ theorem injective {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [AddCommGr
     haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
     haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
     Function.Injective ((sigma p P).comp (Sstar P T B ⊔ Bstar P A).subtype) := by
-  haveI : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
   have hnorm : Bstar P A ≤ Subgroup.normalizer (Sstar P T B : Set (MulAut ↥P)) :=
     (RstarCoprime.Bstar_mono hAB).trans
       (RstarCoprime.Bstar_le_normalizer_Sstar hc.oddPrimeClassTwoAction hc.faithfulBinaryIrreducibleAction)

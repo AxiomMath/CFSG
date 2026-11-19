@@ -15,7 +15,7 @@ variable {V G : Type*} [Group G] [MulAction G V] {Γ : SimpleGraph V} {s : ℕ}
 theorem sylow_pretransitive_of_card_prime_pow {p k : ℕ} [Fact p.Prime]
     {H α : Type*} [Group H] [MulAction H α] [Finite H] [Finite α]
     (hcard : Nat.card α = p ^ k) (htrans : ∀ a b : α, ∃ h : H, h • a = b)
-    {P : Subgroup H} (hP2 : IsPGroup p P) (hPidx : ¬ p ∣ P.index)
+    {P : Subgroup H} (_hP2 : IsPGroup p P) (hPidx : ¬ p ∣ P.index)
     (a b : α) : ∃ g ∈ P, g • a = b := by
   classical
   let H0 : Subgroup H := MulAction.stabilizer H b
@@ -56,7 +56,7 @@ theorem sylow_pretransitive_of_card_prime_pow {p k : ℕ} [Fact p.Prime]
     exact Subgroup.card_dvd_of_injective f hf
   obtain ⟨m, hm⟩ := hq_dvd
   have hqpos : 0 < q := by
-    haveI : Nonempty (↥(H0.subgroupOf P)) := ⟨1⟩
+    have : Nonempty (↥(H0.subgroupOf P)) := ⟨1⟩
     exact Nat.card_pos
   have hEq : m * p ^ k = r * P.index := by
     have h1 : q * (m * p ^ k) = Nat.card H := by
@@ -93,7 +93,7 @@ theorem sylow_pretransitive_of_card_prime_pow_sylow {p k : ℕ} [Fact p.Prime]
     {H α : Type*} [Group H] [MulAction H α] [Finite H] [Finite α]
     (hcard : Nat.card α = p ^ k) (htrans : ∀ a b : α, ∃ h : H, h • a = b)
     (P : Sylow p H) (a b : α) : ∃ g ∈ (P : Subgroup H), g • a = b :=
-  sylow_pretransitive_of_card_prime_pow hcard htrans P.isPGroup' P.not_dvd_index a b
+  sylow_pretransitive_of_card_prime_pow hcard htrans P.isPGroup P.not_dvd_index a b
 
 theorem G1Set_transitive_neighborSet_gen (h : Hyp30 Γ G)
     (hQ : ∀ (v : V) (P : Subgroup G), IsPGroup 2 P → P ≤ MulAction.stabilizer G v →
@@ -108,8 +108,8 @@ theorem G1Set_transitive_neighborSet_gen (h : Hyp30 Γ G)
   have ht1 : 1 ≤ t := by omega
   have hts' : t < s := by omega
   let H : Subgroup G := arcStab (G := G) P
-  haveI hHfin : Finite H := by
-    haveI := h.finite_stab (P.vert 0)
+  have hHfin : Finite H := by
+    have := h.finite_stab (P.vert 0)
     exact Finite.of_injective
       (Subgroup.inclusion (arcStab_le_stabilizer P (i := 0) (Nat.zero_le t)))
       (Subgroup.inclusion_injective _)
@@ -141,7 +141,7 @@ theorem G1Set_transitive_neighborSet_gen (h : Hyp30 Γ G)
     have h := Set.ncard_sdiff_singleton_add_one (s := Γ.neighborSet (P.vert t)) hmem
       (h.finite_neighborSet (P.vert t))
     omega
-  haveI hΩfin : Finite Ω := by
+  have hΩfin : Finite Ω := by
     have hfin : (Ω : Set V).Finite :=
       (h.finite_neighborSet (P.vert t)).subset (fun x hx => hx.1)
     exact hfin.to_subtype
@@ -158,7 +158,7 @@ theorem G1Set_transitive_neighborSet_gen (h : Hyp30 Γ G)
   let S' : Subgroup G := (S : Subgroup H).map H.subtype
   have hS'2 : IsPGroup 2 S' := by
     change IsPGroup 2 ((S : Subgroup H).map H.subtype)
-    exact S.isPGroup'.map H.subtype
+    exact S.isPGroup.map H.subtype
   have hS'mem : ∀ g : G, g ∈ S' ↔ ∃ h ∈ (S : Subgroup H), (h : G) = g := by
     intro g
     change g ∈ (S : Subgroup H).map H.subtype ↔ _
@@ -194,7 +194,7 @@ theorem G1Set_transitive_neighborSet_gen (h : Hyp30 Γ G)
     rw [← Subgroup.smul_def]
     exact hval
 
-theorem G1Set_transitive_neighborSet (h : Hyp30 Γ G) (hn : ∀ v, nOf Γ v = 2)
+theorem G1Set_transitive_neighborSet (h : Hyp30 Γ G) (_hn : ∀ v, nOf Γ v = 2)
     (hQ : ∀ (v : V) (P : Subgroup G), IsPGroup 2 P → P ≤ MulAction.stabilizer G v →
       ∀ a b : V, Γ.Adj v a → Γ.Adj v b → a ≠ b → (∀ g ∈ P, g • a = a) →
         (∀ g ∈ P, g • b = b) → P ≤ G1 (Γ := Γ) (G := G) v)
@@ -239,7 +239,7 @@ theorem pCoreOf_edge_ne_bot (h : Hyp30 Γ G) {x y : V} (hxy : Γ.Adj x y) :
       rw [hw] at h1
       exact Subtype.ext h1
   let X : Subgroup G := (U : Subgroup N).map N.subtype
-  have hX2 : IsPGroup 2 X := U.isPGroup'.map N.subtype
+  have hX2 : IsPGroup 2 X := U.isPGroup.map N.subtype
   have hXne : X ≠ ⊥ := by
     obtain ⟨z, hzne⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hUne
     refine Subgroup.ne_bot_iff_exists_ne_one.mpr
@@ -302,10 +302,10 @@ theorem centerOf_pCoreOf_edge_ne_bot (h : Hyp30 Γ G) {x y : V} (hxy : Γ.Adj x 
   have hSle : S ≤ MulAction.stabilizer G x :=
     (CFSG.LieType.BorelTits.pCoreOf_le 2
       (MulAction.stabilizer G x ⊓ MulAction.stabilizer G y)).trans inf_le_left
-  haveI : Finite ↥S := by
-    haveI := h.finite_stab x
+  have : Finite ↥S := by
+    have := h.finite_stab x
     exact Finite.of_injective (Subgroup.inclusion hSle) (Subgroup.inclusion_injective _)
-  haveI : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
+  have : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
   have hcenter : Subgroup.center ↥S ≠ ⊥ :=
     (Subgroup.nontrivial_iff_ne_bot _).mp hSp.center_nontrivial
   intro hbot
@@ -327,14 +327,14 @@ theorem G1_inf_G1_le_pCoreOf_gen (h : Hyp30 Γ G)
     (hK : ∀ (i : ℤ) (a b : V), Γ.Adj (T.line.vert i) a → Γ.Adj (T.line.vert i) b →
       a ≠ T.line.vert (i - 1) → a ≠ T.line.vert (i + 1) →
       b ≠ T.line.vert (i - 1) → b ≠ T.line.vert (i + 1) → ∃ k ∈ T.K, k • a = b)
-    {x y w : V} (hxy : Γ.Adj x y) (hyw : Γ.Adj y w) (hxw : w ≠ x) :
+    {x y w : V} (hxy : Γ.Adj x y) (hyw : Γ.Adj y w) (_hxw : w ≠ x) :
     G1 (Γ := Γ) (G := G) y ⊓ G1 (Γ := Γ) (G := G) w ≤
       pCoreOf 2 (MulAction.stabilizer G x ⊓ MulAction.stabilizer G y) := by
   classical
   let X : Subgroup G := G1 (Γ := Γ) (G := G) y ⊓ G1 (Γ := Γ) (G := G) w
   let A : Subgroup G := G1 (Γ := Γ) (G := G) y
   let B : Subgroup G := MulAction.stabilizer G x ⊓ MulAction.stabilizer G y
-  haveI : Finite A := finite_G1 h y
+  have : Finite A := finite_G1 h y
   have hX2 : IsPGroup 2 X := G1_pair_isPGroup_gen h hs hev hs6 T hK hyw
   have hXA : X ≤ A := inf_le_left
   have hAn : A ≤ Subgroup.normalizer (X : Set G) := by
@@ -356,7 +356,7 @@ theorem G1_inf_G1_le_pCoreOf_gen (h : Hyp30 Γ G)
     exact stabilizer_le_normalizer_G1 h y (Subgroup.mem_inf.mp hb).2
   exact le_pCoreOf_of_two_normal hX2 hXA hAn hAB hBn
 
-theorem G1_inf_G1_le_pCoreOf (h : Hyp30 Γ G) (hn : ∀ v, nOf Γ v = 2)
+theorem G1_inf_G1_le_pCoreOf (h : Hyp30 Γ G) (_hn : ∀ v, nOf Γ v = 2)
     (hs : IsSingularity Γ G s) (hev : Even s) (hs6 : 6 ≤ s) (T : KTrack (Γ := Γ) (G := G))
     (hK : ∀ (i : ℤ) (a b : V), Γ.Adj (T.line.vert i) a → Γ.Adj (T.line.vert i) b →
       a ≠ T.line.vert (i - 1) → a ≠ T.line.vert (i + 1) →
@@ -469,7 +469,7 @@ theorem centerOf_pCoreOf_edge_fixes_neighbors_gen (h : Hyp30 Γ G)
   have hEq : g • z1 = g • z2 := by rw [hg, hgz2]
   exact hz2z1 (MulAction.injective g hEq).symm
 
-theorem centerOf_pCoreOf_edge_fixes_neighbors (h : Hyp30 Γ G) (hn : ∀ v, nOf Γ v = 2)
+theorem centerOf_pCoreOf_edge_fixes_neighbors (h : Hyp30 Γ G) (_hn : ∀ v, nOf Γ v = 2)
     (hs : IsSingularity Γ G s) (hev : Even s) (hs6 : 6 ≤ s) (T : KTrack (Γ := Γ) (G := G))
     (hK : ∀ (i : ℤ) (a b : V), Γ.Adj (T.line.vert i) a → Γ.Adj (T.line.vert i) b →
       a ≠ T.line.vert (i - 1) → a ≠ T.line.vert (i + 1) →
@@ -658,7 +658,7 @@ theorem centerOf_pCoreOf_edge_fixes_arc_gen (h : Hyp30 Γ G)
             _ ≤ s := Nat.div_mul_le_self s 2
         omega
 
-theorem centerOf_pCoreOf_edge_fixes_arc (h : Hyp30 Γ G) (hn : ∀ v, nOf Γ v = 2)
+theorem centerOf_pCoreOf_edge_fixes_arc (h : Hyp30 Γ G) (_hn : ∀ v, nOf Γ v = 2)
     (hs : IsSingularity Γ G s) (hev : Even s) (hs6 : 6 ≤ s) (T : KTrack (Γ := Γ) (G := G))
     (hK : ∀ (i : ℤ) (a b : V), Γ.Adj (T.line.vert i) a → Γ.Adj (T.line.vert i) b →
       a ≠ T.line.vert (i - 1) → a ≠ T.line.vert (i + 1) →
@@ -784,7 +784,7 @@ theorem centerOf_pCoreOf_edge_le_GmPair_gen (h : Hyp30 Γ G)
         SimpleGraph.dist_comm (u := v) (v := y)] at hcase
       exact hfix_fwd v hcase (by omega)
 
-theorem centerOf_pCoreOf_edge_le_GmPair (h : Hyp30 Γ G) (hn : ∀ v, nOf Γ v = 2)
+theorem centerOf_pCoreOf_edge_le_GmPair (h : Hyp30 Γ G) (_hn : ∀ v, nOf Γ v = 2)
     (hs : IsSingularity Γ G s) (hev : Even s) (hs6 : 6 ≤ s) (T : KTrack (Γ := Γ) (G := G))
     (hK : ∀ (i : ℤ) (a b : V), Γ.Adj (T.line.vert i) a → Γ.Adj (T.line.vert i) b →
       a ≠ T.line.vert (i - 1) → a ≠ T.line.vert (i + 1) →
@@ -972,7 +972,7 @@ theorem eq_bot_of_le_G1Set_arc_gen (h : Hyp30 Γ G)
   rw [hbot] at hsub
   exact le_bot_iff.mp hsub
 
-theorem eq_bot_of_le_G1Set_arc (h : Hyp30 Γ G) (hn : ∀ v, nOf Γ v = 2)
+theorem eq_bot_of_le_G1Set_arc (h : Hyp30 Γ G) (_hn : ∀ v, nOf Γ v = 2)
     (hs : IsSingularity Γ G s) (hev : Even s) (hs6 : 6 ≤ s) (T : KTrack (Γ := Γ) (G := G))
     (hK : ∀ (i : ℤ) (a b : V), Γ.Adj (T.line.vert i) a → Γ.Adj (T.line.vert i) b →
       a ≠ T.line.vert (i - 1) → a ≠ T.line.vert (i + 1) →
@@ -1083,7 +1083,7 @@ theorem even_singularity_far_fixed_false_gen (h : Hyp30 Γ G)
     eq_bot_of_le_G1Set_arc_gen h hs hev hs6 T hK R (by omega) hRfix
   exact hZne hZbot
 
-theorem even_singularity_far_fixed_false (h : Hyp30 Γ G) (hn : ∀ v, nOf Γ v = 2)
+theorem even_singularity_far_fixed_false (h : Hyp30 Γ G) (_hn : ∀ v, nOf Γ v = 2)
     (hs : IsSingularity Γ G s) (hev : Even s) (hs6 : 6 ≤ s) (T : KTrack (Γ := Γ) (G := G))
     (hK : ∀ (i : ℤ) (a b : V), Γ.Adj (T.line.vert i) a → Γ.Adj (T.line.vert i) b →
       a ≠ T.line.vert (i - 1) → a ≠ T.line.vert (i + 1) →
@@ -1265,7 +1265,7 @@ theorem even_singularity_far_moved_false_gen (h : Hyp30 Γ G)
         exact hZ'w.trans (Gm_le_G1 h (by omega) (by omega))
   exact hZ'ne hZ'bot
 
-theorem even_singularity_far_moved_false (h : Hyp30 Γ G) (hn : ∀ v, nOf Γ v = 2)
+theorem even_singularity_far_moved_false (h : Hyp30 Γ G) (_hn : ∀ v, nOf Γ v = 2)
     (hs : IsSingularity Γ G s) (hev : Even s) (hs6 : 6 ≤ s) (T : KTrack (Γ := Γ) (G := G))
     (hK : ∀ (i : ℤ) (a b : V), Γ.Adj (T.line.vert i) a → Γ.Adj (T.line.vert i) b →
       a ≠ T.line.vert (i - 1) → a ≠ T.line.vert (i + 1) →
@@ -1320,7 +1320,7 @@ theorem even_singularity_ge_six_false_gen (h : Hyp30 Γ G)
     obtain ⟨b, hbZ, hbv⟩ := hex'
     exact even_singularity_far_moved_false_gen h hs hev hs6 T hK hQ hxy hfar1 hfar2 hbZ hbv
 
-theorem even_singularity_ge_six_false (h : Hyp30 Γ G) (hn : ∀ v, nOf Γ v = 2)
+theorem even_singularity_ge_six_false (h : Hyp30 Γ G) (_hn : ∀ v, nOf Γ v = 2)
     (hs : IsSingularity Γ G s) (hev : Even s) (hs6 : 6 ≤ s) (T : KTrack (Γ := Γ) (G := G))
     (hK : ∀ (i : ℤ) (a b : V), Γ.Adj (T.line.vert i) a → Γ.Adj (T.line.vert i) b →
       a ≠ T.line.vert (i - 1) → a ≠ T.line.vert (i + 1) →
@@ -1346,7 +1346,7 @@ theorem singularity_le_four_of_even_gen (h : Hyp30 Γ G)
     omega
   exact even_singularity_ge_six_false_gen h hs hev hs6 T hK hQ
 
-theorem singularity_le_four_of_even (h : Hyp30 Γ G) (hn : ∀ v, nOf Γ v = 2)
+theorem singularity_le_four_of_even (h : Hyp30 Γ G) (_hn : ∀ v, nOf Γ v = 2)
     (hs : IsSingularity Γ G s) (hev : Even s) (T : KTrack (Γ := Γ) (G := G))
     (hK : ∀ (i : ℤ) (a b : V), Γ.Adj (T.line.vert i) a → Γ.Adj (T.line.vert i) b →
       a ≠ T.line.vert (i - 1) → a ≠ T.line.vert (i + 1) →

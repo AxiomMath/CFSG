@@ -50,9 +50,9 @@ theorem sylow_pc_units (hk : constsOK c rm tm0 tm1 tm2 tm3 tm4 tm5 tm6 tm7 up dg
   let g : ℕ → Sˣ := fun k => if h : k < n then Classical.choose (hex k h) else 1
   have hg : ∀ k < n, unitsHom S (g k) = pkMat (RB (regAt PR k)) := by
     intro k hk'
-    simp only [g, dif_pos hk']
+    simp only [g, dite_eq_left hk']
     exact Classical.choose_spec (hex k hk')
-  haveI := unitsHom_finite S
+  have := unitsHom_finite S
   exact ⟨g, hg, pc_card_dvd (unitsHom S) (unitsHom_injective S) hk hn hp g hg hpw hrun2⟩
 
 theorem dvd_card_of_bounds {G : Type*} [Group G] (P : Subgroup G) {m : ℕ} (hm : 0 < m)

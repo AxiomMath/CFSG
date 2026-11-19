@@ -54,7 +54,7 @@ theorem transvection_on_D_out {u v t : G}
   obtain ⟨fv, hfv⟩ := acts_exists hca ha3 hc3 hvN
   obtain ⟨ft, hft⟩ := acts_exists hca ha3 hc3 htN
   have htv : t * v = u := by rw [ht]; group
-  have hftv : Acts a c u (ft ∘ fv) := htv ▸ acts_mul hca ha3 hc3 ha1 hc1 hnot hft hfv
+  have hftv : Acts a c u (ft ∘ fv) := htv ▸ acts_mul hft hfv
   have hfuw : ft ∘ fv = fu := acts_unique hca ha3 hc3 ha1 hc1 hnot hftv hfu
   have hadd_u := acts_add hca ha3 hc3 ha1 hc1 hnot hfu
   have hadd_v := acts_add hca ha3 hc3 ha1 hc1 hnot hfv
@@ -123,7 +123,7 @@ theorem transvection_on_D_out {u v t : G}
   refine ⟨kap a c d, (mem_D_iff hca ha3 hc3).2 ⟨d, rfl⟩, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · intro h
     apply hd0
-    exact kap_inj hca ha3 hc3 ha1 hc1 hnot (h.trans (kap_zero hca ha3 hc3).symm)
+    exact kap_inj hca ha3 hc3 ha1 hc1 hnot (h.trans (kap_zero).symm)
   · rw [← hfu d, hfuU', hUd, kap_neg hca ha3 hc3]
   · rw [← hfv d, hfvV', hVd, kap_neg hca ha3 hc3]
   · rw [hkd, hdfix]
@@ -134,7 +134,7 @@ theorem transvection_on_D_out {u v t : G}
     obtain ⟨κ, hκ⟩ := hall w
     refine ⟨κ.val, ?_⟩
     have hsm : ((κ * d.1, κ * d.2) : ZMod 3 × ZMod 3) = κ.val • d := by
-      ext <;> simp [nsmul_eq_mul, ZMod.natCast_zmod_val]
+      ext <;> simp [nsmul_eq_mul]
     rw [hkd, hκ, hsm, kap_add hca ha3 hc3, kap_nsmul hca ha3 hc3]
 
 end DTransOut

@@ -22,7 +22,7 @@ theorem ap_lineL {l : ℕ} (hl : l < letters.size) {j : ℕ} (hj : j < nLines) :
     ap lineL[l]! j = ap lineT (ap letters[l]! (ap reps j)) :=
   ap_lineLetters hl hj
 
-@[expose] def subSizesF : Fin 5 → ℕ := ![1, 5586, 58653, 52136, 6384]
+def subSizesF : Fin 5 → ℕ := ![1, 5586, 58653, 52136, 6384]
 
 theorem subSizes_getElem (i : Fin 5) : subSizes[i.val]! = subSizesF i := by
   revert i; decide

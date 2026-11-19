@@ -14,7 +14,7 @@ open scoped commutatorElement
 
 theorem u4ChiefFacts : U4ChiefFacts := by
   intro G _ _ p n L U d hp hpq hn hLU S hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 := prime_ne_two_of_dvd_two_pow_add_one hn hpq
   obtain ⟨σ, hσ, h2, hSU⟩ := statedSU_data d.card_F
   let e : ↥(StatedSU 4 (2 ^ n) d.F) ≃* ↥(SUid σ 4) := MulEquiv.subgroupCongr hSU.symm
@@ -27,7 +27,7 @@ theorem u4ChiefFacts : U4ChiefFacts := by
     fun l => rfl
   obtain ⟨P, hP⟩ := hS.exists_sylow_eq_subgroupOf
   have hPpc : CFSG.pCore 2 ↥L ≤ (P : Subgroup ↥L) := by
-    have hp2g := (CFSG.pCore_isPGroup (p := 2) (G := ↥L)).to_sup_of_normal_left P.isPGroup'
+    have hp2g := (CFSG.pCore_isPGroup (p := 2) (G := ↥L)).to_sup_of_normal_left P.isPGroup
     have := P.maximal_isPGroup.eq_of_ge hp2g le_sup_right
     rw [← this]
     exact le_sup_left
@@ -35,7 +35,7 @@ theorem u4ChiefFacts : U4ChiefFacts := by
   have hE : IsSylowOf 2 E ⊤ := by
     rw [isSylowOf_iff]
     refine ⟨le_top, ?_, ?_⟩
-    · exact (hP ▸ P.isPGroup').map ε'
+    · exact (hP ▸ P.isPGroup).map ε'
     · have hker_le : ε'.ker ≤ S.subgroupOf L := by rw [hε'ker, ← hP]; exact hPpc
       have hidx : E.index = (S.subgroupOf L).index := Subgroup.index_map_eq (S.subgroupOf L) hε'surj hker_le
       rw [Subgroup.relIndex_top_right, hidx, ← hP]

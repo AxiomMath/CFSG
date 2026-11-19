@@ -84,42 +84,42 @@ theorem ff_isOmega6Plus_ne_bot {X : Subgroup G} (h : IsOmega6Plus X) : X ≠ ⊥
 theorem ff_simple_of_lieModel_psl2 {X : Type} [Group X] (h : LieModel X .PSL 2 3 2) :
     IsSimpleGroup X ∧ ∃ a b : X, a * b ≠ b * a := by
   obtain ⟨hfin, hs⟩ := ff_fin_simple_psl2 h
-  haveI := hfin
+  have := hfin
   exact ⟨hs, ff_noncomm_of_simple_card hs (by rw [ff_card_model_psl2 h]; norm_num)⟩
 
 theorem ff_simple_of_lieModel_psp {X : Type} [Group X] (h : LieModel X .PSp 2 3 1) :
     IsSimpleGroup X ∧ ∃ a b : X, a * b ≠ b * a := by
   obtain ⟨hfin, hs⟩ := ff_fin_simple_psp h
-  haveI := hfin
+  have := hfin
   exact ⟨hs, ff_noncomm_of_simple_card hs (by rw [ff_card_model_psp h]; norm_num)⟩
 
 theorem ff_simple_of_lieModel_psl3 {X : Type} [Group X] (h : LieModel X .PSL 3 3 1) :
     IsSimpleGroup X ∧ ∃ a b : X, a * b ≠ b * a := by
   obtain ⟨hfin, hs⟩ := ff_fin_simple_psl3 h
-  haveI := hfin
+  have := hfin
   exact ⟨hs, ff_noncomm_of_simple_card hs (by rw [ff_card_model_psl3 h]; norm_num)⟩
 
 theorem ff_isL29_not_solvable {X : Subgroup G} (h : IsL29 X) : ¬ Group.IsSolvable ↥X := by
   intro hs
-  haveI := hs
+  have := hs
   obtain ⟨hsimple, a, b, hab⟩ := ff_simple_of_lieModel_psl2 h
-  haveI := hsimple
-  haveI : Group.IsSolvable (↥X ⧸ oddCore ↥X) := inferInstance
+  have := hsimple
+  have : Group.IsSolvable (↥X ⧸ oddCore ↥X) := inferInstance
   exact hab ((IsSimpleGroup.comm_iff_isSolvable (G := ↥X ⧸ oddCore ↥X)).mpr inferInstance a b)
 
 theorem ff_isOmega5_of_lieModel {X : Subgroup G} (h : LieModel ↥X .PSp 2 3 1) : IsOmega5 X := by
   obtain ⟨hfin, hs⟩ := ff_fin_simple_psp h
-  haveI := hfin
+  have := hfin
   exact ff_lieModel_quot_oddCore h hs (by rw [ff_card_model_psp h]; norm_num)
 
 theorem ff_isL29_of_lieModel {X : Subgroup G} (h : LieModel ↥X .PSL 2 3 2) : IsL29 X := by
   obtain ⟨hfin, hs⟩ := ff_fin_simple_psl2 h
-  haveI := hfin
+  have := hfin
   exact ff_lieModel_quot_oddCore h hs (by rw [ff_card_model_psl2 h]; norm_num)
 
 theorem ff_isL3Eps3_of_lieModel {X : Subgroup G} (h : LieModel ↥X .PSL 3 3 1) : IsL3Eps3 X := by
   obtain ⟨hfin, hs⟩ := ff_fin_simple_psl3 h
-  haveI := hfin
+  have := hfin
   exact Or.inl (ff_lieModel_quot_oddCore h hs (by rw [ff_card_model_psl3 h]; norm_num))
 
 theorem ff_layer_ffX_eq_of_normal_simple {B : Type} [Group B] [Finite B] (E : Subgroup B)
@@ -131,7 +131,7 @@ theorem ff_layer_ffX_eq_of_normal_simple {B : Type} [Group B] [Finite B] (E : Su
     apply le_antisymm
     · exact sSup_le (fun K hK => ff_perfect_le_of_quot_two E h2 K hK.1.1)
     · exact le_sSup ⟨ff_isQuasisimple_of_simple hE hnc, Subgroup.Normal.isSubnormal ‹_›⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hodd : ∀ g : B, Odd (orderOf g) → g ∈ E := by
       intro g hg
       have hx : (QuotientGroup.mk g : B ⧸ E) ^ orderOf g = 1 := by
@@ -171,17 +171,17 @@ theorem ff_layer_ffX_eq_of_normal_simple {B : Type} [Group B] [Finite B] (E : Su
 
 theorem ff_layer_eq_bot_of_solvable {B : Type} [Group B] (h : Group.IsSolvable B) :
     CFSG.layer B = ⊥ := by
-  haveI := h
+  have := h
   have hl : CFSG.layer B = sSup {K : Subgroup B | CFSG.IsComponent K} := rfl
   rw [hl, eq_bot_iff]
   refine sSup_le (fun K hK => ?_)
   exfalso
   obtain ⟨⟨hperf, -, a, b, hab⟩, -⟩ := hK
-  haveI := hperf
+  have := hperf
   by_cases hsub : Subsingleton ↥K
-  · haveI : Subsingleton (↥K ⧸ center ↥K) := QuotientGroup.mk_surjective.subsingleton
+  · have : Subsingleton (↥K ⧸ center ↥K) := QuotientGroup.mk_surjective.subsingleton
     exact hab (Subsingleton.elim _ _)
-  · haveI : Nontrivial ↥K := not_subsingleton_iff_nontrivial.mp hsub
+  · have : Nontrivial ↥K := not_subsingleton_iff_nontrivial.mp hsub
     exact Group.IsPerfect.not_isSolvable ↥K inferInstance
 
 theorem ff_layerModel_psl2 {B : Type} [Group B] [Finite B] (h : LayerModel B .PSL 2 2) :

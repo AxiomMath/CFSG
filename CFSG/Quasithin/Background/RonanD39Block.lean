@@ -167,8 +167,8 @@ theorem block_step [Finite Γ] [Finite Q] (hQ : ∀ q : Q, q ^ 2 = 1) {Λ T A : 
     exact h1
   have hΛK : Λ ≤ K := le_inf hΛH (le_stabilizer_of_isInv hY.1)
   have hA₁K : A₁ ≤ K := le_inf hA₁H (fun a ha => hA₁Y a ha)
-  letI iY : MulDistribMulAction ↥K ↥Y := subAct Y hYK
-  letI iQ : MulDistribMulAction ↥K (QuotMod P hPH) :=
+  let iY : MulDistribMulAction ↥K ↥Y := subAct Y hYK
+  let iQ : MulDistribMulAction ↥K (QuotMod P hPH) :=
     MulDistribMulAction.compHom _ (Subgroup.inclusion hKH)
   have hA₁p : IsPGroup 2 ↥(A₁.subgroupOf K) := by
     refine isPGroup_two_of_sq_eq_one fun x => Subtype.ext (Subtype.ext ?_)

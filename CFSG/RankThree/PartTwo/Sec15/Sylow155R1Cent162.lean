@@ -25,6 +25,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem res1Cent_mem_normalizer_commutator {H K : Subgroup G} {g : G}
     (hH : g ∈ Subgroup.normalizer (H : Set G)) (hK : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer ((⁅H, K⁆ : Subgroup G) : Set G) := by
@@ -70,6 +71,7 @@ private theorem res1Cent_mem_normalizer_centralizer {W : Subgroup G} {s : G}
     _ = s * (m * (s⁻¹ * w * s)) * s⁻¹ := by rw [h1]
     _ = s * m * s⁻¹ * w := by group
 
+omit [Finite G] in
 private theorem res1Cent_centralizer_le_normalizer_zpowers (z : G) :
     Subgroup.centralizer ({z} : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers z : Set G) := by
   intro g hg
@@ -90,6 +92,7 @@ private theorem res1Cent_normalizer_zpowers_le (j : G) :
   rw [hC] at h1
   exact CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 _ h1
 
+omit [Finite G] in
 private theorem res1Cent_orderOf_conj (y z : G) : orderOf (y * z * y⁻¹) = orderOf z :=
   orderOf_injective (MulAut.conj y).toMonoidHom (MulAut.conj y).injective z
 
@@ -102,7 +105,7 @@ private theorem res1Cent_le_of_two_involutions {V R O N : Subgroup G} (hV : IsPG
     (he2 : orderOf e = 2) (heV : e ∈ V) (heC : e ∈ Subgroup.centralizer (V : Set G))
     (hez : e ≠ z) : O ≤ N := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set E : Subgroup G := Subgroup.closure {z, e} with hEdef
   have hEZ : E ≤ V ⊓ Subgroup.centralizer (V : Set G) := by
     rw [hEdef, Subgroup.closure_le]
@@ -184,7 +187,7 @@ theorem host_le_normalizer_ob (_ : Res1Tau Q P A c L X K Y M T P' Yc z) :
 
 theorem odd_card_ob (_ : Res1Tau Q P A c L X K Y M T P' Yc z) :
     Odd (Nat.card (res1Ob A X Y M)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact Nat.coprime_two_left.mp (coprime_card_pPrimeCoreOf 2 _)
 
 theorem eq_of_mem_center (hbot : Item145BotS14) (h1444 : Item1444 A (lB A))
@@ -275,7 +278,7 @@ theorem j_mem_scriptQ (τ : Res1Tau Q P A c L X K Y M T P' Yc z) :
 
 theorem j_not_le (τ : Res1Tau Q P A c L X K Y M T P' Yc z) :
     ¬ res1J A X Y M z ≤ n155 A K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hJN
   apply τ.ob_not_le
   have hzN : Subgroup.zpowers z ≤ Subgroup.normalizer (res1Ob A X Y M : Set G) :=
@@ -296,7 +299,7 @@ theorem centralizer_le (hbot : Item145BotS14) (h1444 : Item1444 A (lB A))
       CFSG.Open.pCoreOf 2 (Subgroup.centralizer ({j} : Set G)) ≠ ⊥)
     {j : G} (hj : j ∈ res1J A X Y M z) (hj1 : j ≠ 1) :
     Subgroup.centralizer ({j} : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQj : IsPGroup 2 ↥(CFSG.Open.pCoreOf 2 (Subgroup.centralizer ({j} : Set G))) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) _
   obtain ⟨M'', hNM, hM''⟩ := CFSG.CGT.PushingUp.exists_isMaximalTwoLocal_ge

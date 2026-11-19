@@ -104,7 +104,7 @@ theorem eq_bot_of_isCyclic_sylow {K : Subgroup X} [K.Normal] (hKc : K ≤ Subgro
     intro t ht htt
     have h2 : orderOf (QuotientGroup.mk' K t) ∣ 2 :=
       orderOf_dvd_of_pow_eq_one (by rw [pow_two, ← map_mul, htt, map_one])
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 R.isPGroup') ⟨_, ht⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 R.isPGroup) ⟨_, ht⟩
     replace hk : orderOf (QuotientGroup.mk' K t) = r ^ k :=
       (Subgroup.orderOf_coe (⟨_, ht⟩ : (R : Subgroup (X ⧸ K)))).trans hk
     have h1 : orderOf (QuotientGroup.mk' K t) = 1 := by

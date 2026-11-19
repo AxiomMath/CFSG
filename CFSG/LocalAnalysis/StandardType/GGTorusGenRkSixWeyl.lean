@@ -94,7 +94,7 @@ theorem exists_lift_mem_normalizer_six_one
     ∃ n : L', (QuotientGroup.mk n : L' ⧸ Z) = φ (permSU hφ.field σ) ∧
       (n : M) ∈ Subgroup.normalizer (E : Set M) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hd6 : 3 ≤ 6 := by norm_num
   have hZp : ∀ a : MulAut L', Z.map a.toMonoidHom = Z := fun a =>
     map_aut_eq_of_center_two Z hZ a
@@ -144,7 +144,7 @@ theorem exists_lift_mem_normalizer_six_one
       show (QuotientGroup.mk (n₀ * (a_e n₀)⁻¹) : L' ⧸ Z) = φ s
       rw [QuotientGroup.mk_mul, QuotientGroup.mk_inv, ← hā_mk n₀, hn₀, hφs]
     have hφsp : (φ s) ^ p = 1 := by rw [← map_pow, hsp, map_one]
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hu : ∃ n : ℕ, orderOf (φ s) = p ^ n :=
       CFSG.LieType.CentralExt.exists_orderOf_eq_pow_of_pow_eq_one (n := 1) (by simpa using hφsp)
     have hpZ : ¬ p ∣ Nat.card Z := by
@@ -255,7 +255,7 @@ theorem exists_lift_mem_normalizer_six_one
   have hKnorm : K.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (H := Zm) (K := E ⊔ Zm) le_sup_right).mpr
       (sup_le hE_norm Subgroup.le_normalizer)
-  haveI : K.Normal := hKnorm
+  have : K.Normal := hKnorm
   have hsupKF : K ⊔ F = ⊤ := by
     have hcd := Subgroup.codisjoint_subgroupOf_sup Zm E
     rw [sup_comm Zm E] at hcd
@@ -273,7 +273,7 @@ theorem exists_lift_mem_normalizer_six_one
       have heq : (x.1 : ↥(E ⊔ Zm))⁻¹ * (y.1 : ↥(E ⊔ Zm)) =
           (x.2 : ↥(E ⊔ Zm)) * (y.2 : ↥(E ⊔ Zm))⁻¹ := by
         have h := congrArg (fun t => (x.1 : ↥(E ⊔ Zm))⁻¹ * t) hxy
-        simp only [mul_assoc, inv_mul_cancel_left] at h
+        simp only [inv_mul_cancel_left] at h
         rw [h]; group
       have hmem : (x.1 : ↥(E ⊔ Zm))⁻¹ * (y.1 : ↥(E ⊔ Zm)) ∈ K ⊓ F := by
         rw [Subgroup.mem_inf]

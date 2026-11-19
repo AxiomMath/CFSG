@@ -44,7 +44,7 @@ theorem p_noncyclic : P_noncyclic := by
       exact (QuotientGroup.mk_surjective (s := Subgroup.center (Hat K))).nontrivial
     exact ⟨hnt, (Group.isPerfect_def).1 hperf, hsimple⟩
   apply CFSG.GorensteinWalter.quasisimple_not_quotient_isTwoGroup hgw
-  obtain ⟨k, hk⟩ := Pbar.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := Pbar.isPGroup.exists_card_eq
   apply IsPGroup.of_card (n := k)
   show (pPrimeCore 2 (Hat K)).index = 2 ^ k
   rw [hidx]

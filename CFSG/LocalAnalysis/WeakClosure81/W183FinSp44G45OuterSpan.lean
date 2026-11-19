@@ -229,11 +229,11 @@ private theorem w183finSp44_autOf_inj {x y : El} (hx : validB x = true) (hy : va
   have hxr : autCongr GF4 (autOf x) =
       SpChain.spInner 2 GF4 (SpChain.antiSpEquiv GF4 (toS4 x.1 (validB_symp hx))) *
         SpChain.exceptionalAut GF4 ^ x.2 := by
-    rw [autOf, dif_pos hx, map_mul, autCongr_conj, autCongr_pow, autCongr_minorAut]
+    rw [autOf, dite_eq_left hx, map_mul, autCongr_conj, autCongr_pow, autCongr_minorAut]
   have hyr : autCongr GF4 (autOf y) =
       SpChain.spInner 2 GF4 (SpChain.antiSpEquiv GF4 (toS4 y.1 (validB_symp hy))) *
         SpChain.exceptionalAut GF4 ^ y.2 := by
-    rw [autOf, dif_pos hy, map_mul, autCongr_conj, autCongr_pow, autCongr_minorAut]
+    rw [autOf, dite_eq_left hy, map_mul, autCongr_conj, autCongr_pow, autCongr_minorAut]
   let qx : StatedSp 2 GF4 × Fin (2 * 2) :=
     (SpChain.antiSpEquiv GF4 (toS4 x.1 (validB_symp hx)), ⟨x.2, by omega⟩)
   let qy : StatedSp 2 GF4 × Fin (2 * 2) :=

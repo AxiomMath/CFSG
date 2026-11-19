@@ -163,7 +163,7 @@ public theorem firstCase_klein_eight_dvd_b1
     have hxH : x.1 ∉ c.Hhat := hxJ'.2.1
     have hxcard : firstCaseCosetInvolutions c x.1 = 1 := hxJ'.2.2
     have hconj : s.1 * x.1 * s.1⁻¹ = x.1 := congrArg Subtype.val hfix
-    have hSpow : IsPGroup 2 S := c.S.isPGroup'
+    have hSpow : IsPGroup 2 S := c.S.isPGroup
     let T : Subgroup S := Subgroup.zpowers s
     have hTne : T ≠ ⊥ := by
       intro hbot

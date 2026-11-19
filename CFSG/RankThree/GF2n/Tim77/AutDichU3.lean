@@ -12,7 +12,7 @@ open CFSG.CGT.T75B (rootGroup mem_rootGroup)
 theorem sylow_eq_of_involution_mem {L : Type} [Group L] [Finite L]
     (hK : CFSG.BenderSuzuki.IsBenderGroup L) (S S' : Sylow 2 L) {c : L} (hc : orderOf c = 2)
     (hcS : c ∈ (S : Subgroup L)) (hcS' : c ∈ (S' : Subgroup L)) : S = S' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN := CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isStronglyEmbeddedOrder_normalizer hK S
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq L S S'
   have hgc : g⁻¹ * c * g ∈ (S : Subgroup L) := CFSG.CGT.T75B.mem_smul_sylow.mp hcS'
@@ -29,7 +29,7 @@ theorem sylow_eq_of_involution_mem {L : Type} [Group L] [Finite L]
 theorem involution_mem_sylow_of_normalizer {L : Type} [Group L] (S : Sylow 2 L) {c : L}
     (hc : orderOf c = 2) (hcN : c ∈ Subgroup.normalizer ((S : Subgroup L) : Set L)) :
     c ∈ (S : Subgroup L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 (Subgroup.zpowers c) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hc, pow_one])
   have h2 := S.isPGroup.to_sup_of_normal_left' hp (Subgroup.zpowers_le.mpr hcN)
@@ -42,7 +42,7 @@ theorem autDich_u3 {L : Type} [Group L] [Finite L] {f : ℕ} (hf : 2 ≤ f)
     (hā : orderOf ā = 2) (hfix : σ ā = ā) :
     (∃ τ : L, τ * τ = 1 ∧ τ * ā = ā * τ ∧ ∀ z : L, σ z = τ * z * τ⁻¹) ∨
       (∃ t : L, orderOf t = 2 ∧ σ t = t ∧ ¬ Commute ā t) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : CFSG.BenderSuzuki.IsBenderGroup L := CFSG.BenderSuzuki.IsBenderGroup.isPSU3 f hf e
   have hI : CFSG.CGT.T75B.Lemma21Input L := CFSG.CGT.T75B.lemma21Input_of_mulEquiv hf e
   have hā2 : ā * ā = 1 := by

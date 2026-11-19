@@ -249,7 +249,7 @@ theorem burnsideF4m_u4_parP_twoClosed :
     rintro _ ⟨⟨r, hr⟩, rfl⟩
     exact hgen r hr
   have := h.finite
-  haveI : Finite (Kˣ × GL (Fin 2) K) := inferInstance
+  have : Finite (Kˣ × GL (Fin 2) K) := inferInstance
   have hodd : ¬ 2 ∣ Nat.card ψ.range := by
     intro h2
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ψ.range) 2 h2
@@ -293,7 +293,7 @@ section Ext
 variable {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 
 theorem burnsideF4m_u4_sq_mem (hyp : HypF_4_4g .U4 2 1 Gp M₁ M₂) (e : E) : e * e ∈ Gp := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, fK, h, Φ, -, -⟩ := burnsideF4m_U4_chart hyp
   set Θ : E →* MulAut (hypSU h 2 0) :=
     (MulAut.congr Φ.symm).toMonoidHom.comp (burnsideF4d_rho Gp) with hΘdef

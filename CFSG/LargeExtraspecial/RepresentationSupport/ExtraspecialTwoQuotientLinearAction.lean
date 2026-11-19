@@ -18,6 +18,7 @@ instance instAddGroup (E : Type*) [Group E] : AddGroup (QSpace E) :=
 
 variable {E : Type*} [Group E] [Finite E]
 
+omit [Finite E] in
 theorem comm_mem_center (hE : CFSG.IsExtraspecialPGroup 2 E) (a b : E) :
     ⁅a, b⁆ ∈ Subgroup.center E := by
   rw [← hE.2.1]
@@ -85,8 +86,8 @@ theorem linearAction_ofMul_mk [Fact (CFSG.IsExtraspecialPGroup 2 E)] (α : MulAu
 theorem finrank_eq [h : Fact (CFSG.IsExtraspecialPGroup 2 E)] {w : ℕ}
     (hcard : Nat.card E = 2 ^ (1 + 2 * w)) :
     Module.finrank (ZMod 2) (QSpace E) = 2 * w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (QSpace E) := inferInstanceAs (Finite (Additive (E ⧸ Subgroup.center E)))
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (QSpace E) := inferInstanceAs (Finite (Additive (E ⧸ Subgroup.center E)))
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center E)
   rw [h.out.2.2.2, hcard] at h1
   have h2 : Nat.card (QSpace E) = 2 ^ (2 * w) := by

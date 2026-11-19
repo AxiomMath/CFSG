@@ -78,7 +78,7 @@ theorem three_le_pRank_centralizer_of_commute {z : Y} (hz : orderOf z = 3)
       ∃ w : Y, w * x = x * w ∧ w ^ 3 = 1 ∧ w ∉ zpowers x ⊔ zpowers z)
     {D : Subgroup Y} (hD : IsElemAbelian 3 D) (hDc : Nat.card D = 3 ^ 2) :
     3 ≤ Open.pRank 3 (centralizer (D : Set Y)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzc : ∀ g : Y, g ^ 3 = 1 → g * z = z * g := fun g hg =>
     mul_comm_of_conj_mem_zpowers hz
       ((inferInstance : (zpowers z).Normal).conj_mem z (mem_zpowers z) g)
@@ -90,7 +90,7 @@ theorem three_le_pRank_centralizer_of_commute {z : Y} (hz : orderOf z = 3)
       have := congrArg (fun H : Subgroup Y => Nat.card H) h
       simp only [Nat.card_zpowers, hz, hDc] at this
       norm_num at this
-    obtain ⟨x, hxD, hxz⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨x, hxD, hxz⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hx3 : x ^ 3 = 1 := hD.2 x hxD
     obtain ⟨w, hwx, hw3, hwD⟩ := hw x hx3 hxz
     have hDxz := eq_sup_zpowers_of_card hDc hz hzD hxD hxz

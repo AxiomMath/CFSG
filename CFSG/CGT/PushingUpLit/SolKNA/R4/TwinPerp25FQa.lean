@@ -156,7 +156,7 @@ theorem sd_coord (c : QuatCoord R x y n) (hn : 2 ≤ n) {m : G} {i j : ℤ} (hm 
     exact tp_no_comm c hno (R.mul_mem c.hb (R.zpow_mem c.ha jh)) (c.sq_mul jh) hc
   · exact hjo
 
-theorem ff_not_commute (c : QuatCoord R x y n) (hn : 2 ≤ n) {m₁ m₂ : G} {i₁ j₁ i₂ j₂ : ℤ}
+theorem ff_not_commute (c : QuatCoord R x y n) (_hn : 2 ≤ n) {m₁ m₂ : G} {i₁ j₁ i₂ j₂ : ℤ}
     (hx₁ : m₁ * x * m₁⁻¹ = x ^ i₁) (hy₁ : m₁ * y * m₁⁻¹ = y * x ^ j₁)
     (hx₂ : m₂ * x * m₂⁻¹ = x ^ i₂) (hy₂ : m₂ * y * m₂⁻¹ = y * x ^ j₂)
     (hf₁ : (2 : ℤ) ^ (n + 1) ∣ i₁ - (1 + 2 ^ n)) (hf₁' : (2 : ℤ) ^ n ∣ j₁)

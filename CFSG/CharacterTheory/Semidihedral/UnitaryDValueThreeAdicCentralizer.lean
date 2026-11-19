@@ -123,7 +123,7 @@ theorem factorization_card_centralizer (hgw : D.GWStep) {v : G} (hv : v ∈ D.QT
     have hS'card :
         Nat.card S' = 3 ^ (Nat.card (Subgroup.centralizer ({v} : Set G))).factorization 3 := by
       rw [Subgroup.card_map_of_injective Subtype.val_injective, Sylow.card_eq_multiplicity]
-    have hS'p : IsPGroup 3 S' := S.isPGroup'.map _
+    have hS'p : IsPGroup 3 S' := S.isPGroup.map _
     obtain ⟨R, hR⟩ := hS'p.exists_le_sylow
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G R (D.sylowQT E.three_dvd_q)
     set R' : Subgroup G := S'.map (MulAut.conj g).toMonoidHom

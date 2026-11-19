@@ -102,14 +102,14 @@ theorem bigNormalStatement_of_bar (hC : BigWbarCardStatement)
     (hE : BigEpsilonNormalizerLeStatement) : BigNormalStatement := by
   intro G _ _ M V Q P H hH hnorm
   have hc : MinCex M V Q P H := hH.setup.mc.toMinCex
-  haveI : (RbarM M V H).Normal := by
+  have : (RbarM M V H).Normal := by
     rw [← hnorm]
     exact Subgroup.normalClosure_normal
   have hN1 : Subgroup.normalizer (RbarM M V H : Set (Mbar M)) = ⊤ :=
     Subgroup.normalizer_eq_top_iff.mpr inferInstance
   have hN2 : Subgroup.normalizer (WbarM M V H : Set (Mbar M)) = ⊤ :=
     top_le_iff.mp (hN1 ▸ hE G M V Q P H hH)
-  haveI : (WbarM M V H).Normal := Subgroup.normalizer_eq_top_iff.mp hN2
+  have : (WbarM M V H).Normal := Subgroup.normalizer_eq_top_iff.mp hN2
   have hpg : IsPGroup 2 ↥(WbarM M V H) := by
     intro g
     refine ⟨1, ?_⟩

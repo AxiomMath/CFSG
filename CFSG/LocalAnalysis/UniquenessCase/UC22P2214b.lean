@@ -51,7 +51,7 @@ theorem uc22p2214_centralizesBar_of_comm {M V K : Subgroup G} (hVM : M ≤ norma
     (hO2 : CFSG.pCore 2 (MBar M V) = ⊥) (hK : K ∈ calC M) (hKV : ¬ K ≤ centralizer (V : Set G)) {x : G}
     (hx : x ∈ normalizer (K : Set G)) (h : ∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ centralizer (V : Set G)) :
     CentralizesBar x K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKM : K ≤ M := uc22p22a_le_of_isSubnormal hK.1
   have hq : CFSG.Open.IsQuasisimple ↥(mbarImage M V K) :=
     (uc22br4_isComponentOf_mbarImage M V K hVM hO2 hK hKV).2.2
@@ -73,11 +73,11 @@ theorem uc22p2214_centralizesBar_of_comm {M V K : Subgroup G} (hVM : M ≤ norma
   have hg : Function.Surjective g := QuotientGroup.mk'_surjective _
   have hgker : Group.IsSolvable g.ker := by
     rw [QuotientGroup.ker_mk']
-    haveI := (CFSG.pCore_isPGroup (p := 2) (G := ↥K)).isNilpotent
+    have := (CFSG.pCore_isPGroup (p := 2) (G := ↥K)).isNilpotent
     infer_instance
-  haveI hsolv : Group.IsSolvable f.ker := uc22p22a_ker_solvable g hg hgker hK.2.2 f hf hq
+  have hsolv : Group.IsSolvable f.ker := uc22p22a_ker_solvable g hg hgker hK.2.2 f hf hq
   have hcen : f.ker.map g ≤ center (Bar2 K) := by
-    haveI : Group.IsSolvable ↥(f.ker.map g) := Group.isSolvable_of_surjective (g.subgroupMap_surjective f.ker)
+    have : Group.IsSolvable ↥(f.ker.map g) := Group.isSolvable_of_surjective (g.subgroupMap_surjective f.ker)
     exact uc22p22a_qs_solvable_normal_le_center hK.2.2 ((inferInstance : f.ker.Normal).map _ hg) inferInstance
   have hchar : ∀ γ : ↥(normalizer (K : Set G)),
       (CFSG.pCore 2 ↥K).map (K.normalizerMonoidHom γ).toMonoidHom = CFSG.pCore 2 ↥K := fun γ =>
@@ -112,6 +112,7 @@ theorem uc22p2214_isSylowOf_inf {Q : Type*} [Group Q] [Finite Q] {p : ℕ} [Fact
     have h2 := h1.inf_of_le_normalizer hHM ((Subgroup.normal_subgroupOf_iff_le_normalizer hHM).1 hn)
     rwa [inf_assoc, inf_eq_right.2 hHM] at h2
 
+omit [Finite G] in
 theorem uc22p2214_conjSetOf_eq {M K K' : Subgroup G} (hK' : K' ∈ conjSetOf M K) :
     conjSetOf M K' = conjSetOf M K := by
   obtain ⟨g, hg, rfl⟩ := hK'
@@ -163,7 +164,7 @@ theorem uc22p2214_fix (D : Data G) {Ch : Choice2011 G} (c : Ctx22b D Ch) {K : Su
 theorem uc22p2214_two_le_pRank_of_surj {K : Subgroup G} {Y : Type*} [Group Y] [Finite Y] (f : ↥K →* Y)
     (hf : Function.Surjective f) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup Y)) : 2 ≤ CFSG.Open.pRank p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E₀, -, hE₀, hcard⟩ := CFSG.PreuniquenessRankFour.Helpers.pRank_attained p hp (⊤ : Subgroup Y)
   have hE₀p : IsPGroup p ↥E₀ := IsPGroup.of_card hcard
   have hE₀nc : ¬ IsCyclic ↥E₀ := by
@@ -177,7 +178,7 @@ theorem uc22p2214_two_le_pRank_of_surj {K : Subgroup G} {Y : Type*} [Group Y] [F
     have h5 : p < p ^ 2 := by nlinarith [hp.two_le]
     omega
   let f' : ↥(E₀.comap f) →* ↥E₀ := f.subgroupComap E₀
-  have hf' : Function.Surjective f' := f.subgroupComap_surjective_of_surjective E₀ hf
+  have hf' : Function.Surjective f' := f.subgroupComap_surjective E₀ hf
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p ↥(E₀.comap f)))
   have hPtop : ((Sylow.mapSurjective hf' P : Sylow p ↥E₀) : Subgroup ↥E₀) = ⊤ :=
     le_antisymm le_top ((Sylow.mapSurjective hf' P).maximal_isPGroup.2 (hE₀p.to_subgroup ⊤) le_top)
@@ -185,7 +186,7 @@ theorem uc22p2214_two_le_pRank_of_surj {K : Subgroup G} {Y : Type*} [Group Y] [F
     intro hc
     apply hE₀nc
     have h1 : IsCyclic ↥((P : Subgroup ↥(E₀.comap f)).map f') := by
-      haveI := hc
+      have := hc
       exact isCyclic_of_surjective _ (f'.subgroupMap_surjective _)
     rw [← Sylow.coe_mapSurjective hf' P, hPtop] at h1
     exact isCyclic_of_surjective (Subgroup.topEquiv.toMonoidHom) Subgroup.topEquiv.surjective
@@ -196,11 +197,11 @@ theorem uc22p2214_two_le_pRank_of_surj {K : Subgroup G} {Y : Type*} [Group Y] [F
     rw [hR, Subgroup.map_map]
   have hRp : IsPGroup p ↥R := by
     rw [hRe]
-    exact P.isPGroup'.map _
+    exact P.isPGroup.map _
   have hRnc : ¬ IsCyclic ↥R := by
     rw [hRe]
     intro hc
-    haveI := hc
+    have := hc
     let e := (P : Subgroup ↥(E₀.comap f)).equivMapOfInjective _ hinj
     exact hPnc (isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective)
   have hRK : R ≤ K := Subgroup.map_subtype_le _

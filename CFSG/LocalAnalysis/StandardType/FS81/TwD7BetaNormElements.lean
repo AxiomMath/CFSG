@@ -57,14 +57,14 @@ theorem exists_even_sign_action_of_std_twD7
   rw [hact j, hcol]
   by_cases hj : j ∈ T
   · have hs : s j = -1 := by simp [s, sgnOn, hj]
-    rw [hs, if_pos hj]
+    rw [hs, ite_eq_left hj]
     have hv : (Pi.single j (-1) : Coords 8) = -(Pi.single j (1 : ZMod 3) : Coords 8) := by
       ext i
       by_cases hij : i = j <;> simp [hij]
     rw [hv]
     exact (B.vec_neg (Pi.single j (1 : ZMod 3))).trans (congrArg Inv.inv (B.vec_single j))
   · have hs : s j = 1 := by simp [s, sgnOn, hj]
-    rw [hs, B.vec_single, if_neg hj]
+    rw [hs, B.vec_single, ite_eq_right hj]
 
 theorem exists_even_inverter_of_std_twD7
     {G : Type} [Group G] [Finite G] {b₀ : G} {K E : Subgroup G}
@@ -141,7 +141,7 @@ theorem tail_mem_commutator_centralizer_of_std_twD7
   have hTE : Even T.card := by fin_cases i <;> decide
   obtain ⟨g, hg, -, hact⟩ := exists_even_sign_action_of_std_twD7 hstd B hB hrec T hT0 hTE
   let C : Subgroup G := centralizer ({B.b 1} : Set G) ⊓ K
-  have hgfix : g * B.b 1 * g⁻¹ = B.b 1 := by simpa only [if_neg hT1] using hact 1
+  have hgfix : g * B.b 1 * g⁻¹ = B.b 1 := by simpa only [ite_eq_right hT1] using hact 1
   have hgC : g ∈ C := by
     refine ⟨?_, hg⟩
     change g ∈ centralizer ({B.b 1} : Set G)

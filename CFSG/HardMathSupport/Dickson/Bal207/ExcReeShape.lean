@@ -75,7 +75,7 @@ theorem excRee_compShape_of_comm_mem {T : ∀ (Q : Type) [Group Q], Prop} {S : T
       simp [commutatorElement_def]
     rw [this]
     exact hCN _ x.2 _ y.2
-  haveI hNn : (N.subgroupOf (fixSubgroup β)).Normal := excRee_normal_of_commutator_le hCN'
+  have hNn : (N.subgroupOf (fixSubgroup β)).Normal := excRee_normal_of_commutator_le hCN'
   have hsol : Group.IsSolvable (↥(fixSubgroup β) ⧸ N.subgroupOf (fixSubgroup β)) :=
     Group.isSolvable_of_comm (excRee_quotient_comm_of_commutator_le hCN')
   have hcomp : CFSG.Open.IsComponentOf N (fixSubgroup β) :=
@@ -129,9 +129,9 @@ section Inner
 theorem excRee_compShape_inner {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.prime]
     (hK : Nat.card K = 2 ^ (2 * 2 + 1)) {y : ReeTag.F4.reeGamma K 2} (hy : orderOf y = 5) :
     CompShape (ExcReeType K) (MulAut.conj y) := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hy5 : y ^ 5 = 1 := by
     rw [← hy]
     exact pow_orderOf_eq_one y
@@ -155,7 +155,7 @@ theorem excRee_compShape_inner {K : Type} [Field K] [Finite K] [CharP K ReeTag.F
     rw [hC, ← hsup]
     exact le_sup_right
   obtain ⟨hsimp, hnc⟩ := excRee_suzuki_simple hK
-  haveI : IsSimpleGroup ↥S := eS.isSimpleGroup
+  have : IsSimpleGroup ↥S := eS.isSimpleGroup
   have hncS : ∃ a b : ↥S, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnc
     exact ⟨eS.symm a, eS.symm b, fun h => hab (by simpa using congrArg eS h)⟩
@@ -168,7 +168,7 @@ theorem excRee_compShape_inner {K : Type} [Field K] [Finite K] [CharP K ReeTag.F
     CFSG.HardMathSupport.Malle.LocalAction.mem_sup_of_commute hcomm hc₁
   obtain ⟨a₂, ha₂, s₂, hs₂, rfl⟩ :=
     CFSG.HardMathSupport.Malle.LocalAction.mem_sup_of_commute hcomm hc₂
-  haveI := hAcyc
+  have := hAcyc
   have hA12 : a₁ * a₂ = a₂ * a₁ :=
     congrArg Subtype.val (IsMulCommutative.is_comm.comm (⟨a₁, ha₁⟩ : ↥A) ⟨a₂, ha₂⟩)
   rw [hcomm a₁ ha₁ s₁ hs₁, hcomm a₂ ha₂ s₂ hs₂,
@@ -187,12 +187,12 @@ theorem excRee_compShape_field {K : Type} [Field K] [Finite K] [CharP K ReeTag.F
     (hK : Nat.card K = 2 ^ (2 * 2 + 1)) {σ : K ≃+* K} (hσ : orderOf σ = 5) :
     CompShape (ExcReeType K) (ReeTag.F4.reeGammaFieldAut K 2 σ) := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K 2) := Subtype.finite
   obtain ⟨b, hkcard, hchar, ⟨eC⟩⟩ :=
     exists_fixSubgroup_fieldAut_equiv' hK Nat.prime_five (by norm_num) σ hσ
-  haveI := hchar
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have := hchar
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hfix2 : Nat.card (fixSubfield σ) = 2 := by
     obtain ⟨-, h⟩ := CFSG.RankThree.Chevalley.SteinbergBT.card_fixSubfield Nat.prime_two
       (by norm_num : 1 ≤ 2 * 2 + 1) hK σ
@@ -203,10 +203,10 @@ theorem excRee_compShape_field {K : Type} [Field K] [Finite K] [CharP K ReeTag.F
     have h2 := Nat.pow_right_injective (le_refl 2) h1
     omega
   subst hb0
-  haveI : Finite (ModGL ReeTag.F4.tag (fixSubfield σ)) := finite_modGL
-  haveI : Finite ↥(ReeTag.F4.reeGamma (fixSubfield σ) 0) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag (fixSubfield σ)) := finite_modGL
+  have : Finite ↥(ReeTag.F4.reeGamma (fixSubfield σ) 0) := Subtype.finite
   obtain ⟨hs, hnc, ⟨hcat⟩⟩ := commutator_reeGamma_F4_zero_data hfix2
-  haveI := hs
+  have := hs
   set β := ReeTag.F4.reeGammaFieldAut K 2 σ with hβ
   set C := fixSubgroup β with hC
   set D := commutator ↥C with hD
@@ -219,7 +219,7 @@ theorem excRee_compShape_field {K : Type} [Field K] [Finite K] [CharP K ReeTag.F
     (D.equivMapOfInjective eC.toMonoidHom eC.injective).trans (MulEquiv.subgroupCongr hmap)
   let eN : ↥D ≃* ↥N := D.equivMapOfInjective C.subtype C.subtype_injective
   let eDN : ↥(commutator ↥(ReeTag.F4.reeGamma (fixSubfield σ) 0)) ≃* ↥N := eD.symm.trans eN
-  haveI : IsSimpleGroup ↥N := eDN.symm.isSimpleGroup
+  have : IsSimpleGroup ↥N := eDN.symm.isSimpleGroup
   have hncN : ∃ x y : ↥N, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨eDN x, eDN y, fun h => hxy (eDN.injective (by

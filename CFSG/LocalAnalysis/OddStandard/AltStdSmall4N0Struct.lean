@@ -16,8 +16,9 @@ variable {G : Type} [Group G] [Finite G] {L Q : Subgroup G} {n : ℕ}
 
 include c hF hS hT
 
+omit hF in
 private theorem exists_eq_mul_z {u : G} (hu : u ∈ P) (huT : u ∉ T) : ∃ t ∈ T, u = t * z := by
-  obtain ⟨j, hj⟩ := (mem_E_iff θ hn _).1 (bz_mem_E hn c (P_le_N0 hn c hS hu))
+  obtain ⟨j, hj⟩ := (mem_E_iff θ hn _).1 (bz_mem_E hn c (P_le_N0 hn hS hu))
   obtain ⟨t₁, ht₁, hb⟩ := hT.trans j
   have hy : t₁⁻¹ * u ∈ B0 θ hn z :=
     P_inv_mul_mem_B0 hn c hS (hT.le_P ht₁) hu (by rw [hb, hj])
@@ -36,10 +37,10 @@ theorem TData.eq_of_abelian {U : Subgroup G} (hUP : U ≤ P)
   classical
   by_cases hle : U ≤ T
   · apply Subgroup.eq_of_le_of_card_ge hle
-    rw [hU, hT.card_eq hn c hF hS]
+    rw [hU, hT.card_eq hn c hS]
   exfalso
   obtain ⟨u, huU, huT⟩ := Set.not_subset.1 hle
-  obtain ⟨t, ht, rfl⟩ := exists_eq_mul_z hn c hF hS hT (hUP huU) huT
+  obtain ⟨t, ht, rfl⟩ := exists_eq_mul_z hn c hS hT (hUP huU) huT
   have hUT : ∀ x ∈ U, x ∈ T → x ∈ E θ hn := by
     intro x hxU hxT
     apply hT.cent x hxT
@@ -53,7 +54,7 @@ theorem TData.eq_of_abelian {U : Subgroup G} (hUP : U ≤ P)
   let f : U → E θ hn × Bool := fun y =>
     if hy : (y : G) ∈ T then (⟨y, hUT y y.2 hy⟩, false)
     else (⟨y * (t * z)⁻¹, by
-      obtain ⟨t', ht', hy'⟩ := exists_eq_mul_z hn c hF hS hT (hUP y.2) hy
+      obtain ⟨t', ht', hy'⟩ := exists_eq_mul_z hn c hS hT (hUP y.2) hy
       apply hUT _ (mul_mem y.2 (inv_mem huU))
       rw [hy']
       have : t' * z * (t * z)⁻¹ = t' * t⁻¹ := by group
@@ -62,7 +63,7 @@ theorem TData.eq_of_abelian {U : Subgroup G} (hUP : U ≤ P)
   have hf : Function.Injective f := by
     intro y y' h
     by_cases hy : (y : G) ∈ T <;> by_cases hy' : (y' : G) ∈ T <;>
-      simp only [f, hy, hy', dif_pos, dif_neg, not_false_eq_true, Prod.mk.injEq,
+      simp only [f, hy, hy', dite_eq_left, dite_eq_right, not_false_eq_true, Prod.mk.injEq,
         Bool.false_eq_true, Bool.true_eq_false, and_false, and_true] at h
     · simpa using congrArg (fun e : E θ hn => (e : G)) h
     · simpa using congrArg (fun e : E θ hn => (e : G)) h
@@ -84,22 +85,23 @@ theorem TData.normal {g : G} (hg : g ∈ N0 θ hn z) {x : G} (hx : x ∈ T) :
       rw [show h * y * h⁻¹ * (h * y' * h⁻¹) = h * (y * y') * h⁻¹ by group,
         hT.comm hn c hF hS hy hy']
       group
-    · rw [card_map_of_injective (MulAut.conj h).injective, hT.card_eq hn c hF hS]
+    · rw [card_map_of_injective (MulAut.conj h).injective, hT.card_eq hn c hS]
   have hhx : h * x * h⁻¹ ∈ T := by
     rw [← hT']
     exact ⟨x, hx, rfl⟩
   obtain ⟨p, hp, o, ho, rfl⟩ := hS.decomp d hd
   have hOle : O ≤ AltStdSec.oddCoreOf (N0 θ hn z) :=
-    le_oddCoreOf (fun _ ho => C0_le_N0 hn c (hS.O_le ho)) hS.O_norm hS.O_odd
+    le_oddCoreOf (fun _ ho => C0_le_N0 hn (hS.O_le ho)) hS.O_norm hS.O_odd
   set t := h * x * h⁻¹ with htdef
-  have htN : t ∈ N0 θ hn z := P_le_N0 hn c hS (hT.le_P hhx)
-  have hpN : p ∈ N0 θ hn z := P_le_N0 hn c hS hp
+  have htN : t ∈ N0 θ hn z := P_le_N0 hn hS (hT.le_P hhx)
+  have hpN : p ∈ N0 θ hn z := P_le_N0 hn hS hp
   have ho' : o * (t * o⁻¹ * t⁻¹) ∈ O := mul_mem ho (hS.O_norm t htN _ (inv_mem ho))
   have h1 : g * x * g⁻¹ = (p * (o * (t * o⁻¹ * t⁻¹)) * p⁻¹) * (p * t * p⁻¹) := by
     rw [htdef, hh]; group
   rw [h1]
   exact mul_mem (mem_sup_right (hOle (hS.O_norm p hpN _ ho'))) (mem_sup_left (hT.conj_P p hp t hhx))
 
+omit hF hS in
 theorem TData.gen {g : G} (hg : g ∈ N0 θ hn z) :
     g ∈ T ⊔ AltStdSec.oddCoreOf (N0 θ hn z) ⊔ centralizer ({z} : Set G) := by
   obtain ⟨j, hj⟩ := conj_z_eq hn c hg
@@ -117,16 +119,16 @@ theorem TData.gen {g : G} (hg : g ∈ N0 θ hn z) :
   exact mul_mem (mem_sup_left (mem_sup_left ht)) (mem_sup_right hc)
 
 theorem TData.n0Data : N0Data θ hn z T where
-  le := fun _ hx => P_le_N0 hn c hS (hT.le_P hx)
+  le := fun _ hx => P_le_N0 hn hS (hT.le_P hx)
   homo := hT.homo hn c hF hS
   E_le := hT.E_le
-  cent := hT.inf_cent hn c hF hS
+  cent := hT.inf_cent hn c
   norm := by
     apply mem_normalizer_fintype
     intro x hx
-    exact hT.conj_P z (hS.B0_le (z_mem_B0 hn c)) x hx
+    exact hT.conj_P z (hS.B0_le (z_mem_B0 hn)) x hx
   normal := fun _ hg _ hx => hT.normal hn c hF hS hg hx
-  gen := fun _ hg => hT.gen hn c hF hS hg
+  gen := fun _ hg => hT.gen hn c hg
 
 end CFSG.OddStandard.AltStdSmall4.N0
 

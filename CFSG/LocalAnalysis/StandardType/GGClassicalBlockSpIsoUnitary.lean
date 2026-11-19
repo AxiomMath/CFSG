@@ -165,8 +165,8 @@ private lemma ggJS2_J_mul_self (n : ℕ) (K : Type) [Field K] :
     ggJS2_J n K * ggJS2_J n K = -1 := by
   unfold ggJS2_J
   rw [Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.mul_one, Matrix.zero_mul, zero_add, add_zero,
-    Matrix.mul_neg, Matrix.neg_mul, neg_zero]
+  simp only [Matrix.mul_zero, Matrix.mul_one, zero_add, add_zero,
+    Matrix.mul_neg, neg_zero]
   rw [show (-1 : ggJS2_M n K) = Matrix.fromBlocks (-1) 0 0 (-1) by
     rw [← Matrix.fromBlocks_one, Matrix.fromBlocks_neg]
     simp]
@@ -328,7 +328,7 @@ lemma ggJS2_GUFull_eq_primeFormUnitary {E : Type} [Field E] {m p f Q : ℕ}
   apply le_antisymm
   · rw [GUFull, Subgroup.closure_le]
     intro A hA
-    rw [Set.mem_setOf_eq] at hA
+    rw [Set.mem_ofPred_eq] at hA
     change A ∈ primeFormUnitary h (idGram E m)
     rw [mem_primeFormUnitary]
     have hmap : (A : Matrix (Fin m) (Fin m) E).map h.bar =
@@ -339,7 +339,7 @@ lemma ggJS2_GUFull_eq_primeFormUnitary {E : Type} [Field E] {m p f Q : ℕ}
     simpa only [idGram, Units.val_one, Matrix.mul_one] using hA
   · intro A hA
     refine Subgroup.subset_closure ?_
-    rw [Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq]
     have hA' := (mem_primeFormUnitary.mp hA)
     have hmap : (A : Matrix (Fin m) (Fin m) E).map h.bar =
         (A : Matrix (Fin m) (Fin m) E).map (· ^ Q) := by
@@ -484,7 +484,7 @@ private lemma ggJS2_blockDegree_eq_natDegree {K : Type} [Field K] [CharP K 2] {n
     blockDegree (Algebra.adjoin K (Units.val '' ({(β : GL (Fin n ⊕ Fin n) K)} :
       Set (GL (Fin n ⊕ Fin n) K)))) e = a.natDegree := by
   classical
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   have hsq : Squarefree (minpoly K (spEnd β)) := ggJS2_squarefree_minpoly_spEnd β hodd
   let bm : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K := (β : GL (Fin n ⊕ Fin n) K)
   let A : Subalgebra K (Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) :=
@@ -699,13 +699,13 @@ theorem blockGroup_iso_Sp_unitary {K : Type} [Field K] [Fintype K] [CharP K 2] {
       CFSG.RankThree.Classical.monic_X_sub_one
       ((irreducible_of_mem_primaryFactors ha).associated_of_dvd
         CFSG.RankThree.Classical.irreducible_X_sub_one hdvdX))
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   have h0 : a.coeff 0 ≠ 0 := H.coeff_zero_ne ha
   obtain ⟨d, hd, hσd⟩ := exists_rootInv_eq_pow h0 hrec hsq2
   let E : Type := AdjoinRoot a
   let m : ℕ := Module.finrank E (primaryComponent (spEnd β) a)
-  haveI : Finite E := Module.finite_of_finite K
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Module.finite_of_finite K
+  have : Fintype E := Fintype.ofFinite E
   have han : a.natDegree = 2 * d := by rw [← finrank_adjoinRoot, hd]
   have hd1 : 1 ≤ d := by
     have hpos : 0 < a.natDegree := Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors ha)

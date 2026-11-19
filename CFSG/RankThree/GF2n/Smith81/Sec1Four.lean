@@ -167,7 +167,7 @@ theorem exists_mem_Q_not_mem_Z (H : StrothHyp M Q Z) : ∃ q ∈ Q, q ∉ Z := b
   exact hb1 (Subtype.ext this)
 
 theorem exists_fixed_sq (H : StrothHyp M Q Z) {x : G} (hxM : x ∈ M) (hx2 : x * x = 1)
-    (hnt : ∃ z ∈ Z, x * z * x⁻¹ ≠ z) {z₀ u : G} (hz₀ : z₀ ∈ Z) (hz₀1 : z₀ ≠ 1)
+    (hnt : ∃ z ∈ Z, x * z * x⁻¹ ≠ z) {z₀ u : G} (_hz₀ : z₀ ∈ Z) (_hz₀1 : z₀ ≠ 1)
     (hset : ∀ y ∈ Z, x * y * x⁻¹ = y → y = 1 ∨ y = z₀) (huZ : u ∈ Z)
     (hu : u * (x * u * x⁻¹) = z₀) : ∃ q ∈ Q, x * q * x⁻¹ = q ∧ q * q = z₀ := by
   obtain ⟨K, _, _, hch, γ, M₀, hD⟩ := stroth_globalModelData H

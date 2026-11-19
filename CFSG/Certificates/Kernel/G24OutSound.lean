@@ -31,15 +31,15 @@ theorem recO_spec {S TP TG : ℕ → ℕ} {f T A B R k r : ℕ}
   unfold recO at h
   simp only [strictB_eq, bIf_eq', Nat.beq_eq, Nat.blt_eq] at h
   by_cases hr : Nat.land r 1 = 0
-  · rw [if_pos hr] at h
+  · rw [ite_eq_left hr] at h
     by_cases h3 : Nat.shiftRight r 1 < 3
-    · rw [if_pos h3] at h
+    · rw [ite_eq_left h3] at h
       refine Or.inl ⟨hr, h3, fun e => ?_⟩
-      rw [if_pos e] at h
+      rw [ite_eq_left e] at h
       exact Bool.false_ne_true h
-    · rw [if_neg h3] at h
+    · rw [ite_eq_right h3] at h
       exact absurd h Bool.false_ne_true
-  · rw [if_neg hr] at h
+  · rw [ite_eq_right hr] at h
     exact Or.inr ⟨hr, fun b hb => Nat.eq_of_beq_eq_true (allN_spec h b hb)⟩
 
 theorem ptsK_spec {f : ℕ → ℕ} {k : ℕ} (h : ptsK f k = true) : ∀ b < 3, f b = kpt k b :=
@@ -49,7 +49,7 @@ theorem fixK_spec {S : ℕ → ℕ} {J n : ℕ} (h : fixK S J n = true) :
     ∀ q < n, q ≠ 0 → ∃ j < J, ap (S j) 0 = 0 ∧ ap (S j) q ≠ q := by
   intro q hq h0
   have h1 := allN_spec h q hq
-  rw [bIf_eq', if_neg (fun e => h0 (Nat.eq_of_beq_eq_true e)), bIf_eq'] at h1
+  rw [bIf_eq', ite_eq_right (fun e => h0 (Nat.eq_of_beq_eq_true e)), bIf_eq'] at h1
   by_contra hne
   simp only [not_exists, not_and] at hne
   have hall : allN J (fun j => bIf(bAnd(Nat.beq (ap (S j) (nat_lit 0)) (nat_lit 0),
@@ -60,7 +60,7 @@ theorem fixK_spec {S : ℕ → ℕ} {J n : ℕ} (h : fixK S J n = true) :
       · have e1 := hne j hj e0
         simp [e0, e1]
       · simp [e0]
-  rw [if_pos hall] at h1
+  rw [ite_eq_left hall] at h1
   exact Bool.false_ne_true h1
 
 end CFSG.KC.G24Key

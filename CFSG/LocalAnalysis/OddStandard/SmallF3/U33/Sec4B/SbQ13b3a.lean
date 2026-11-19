@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 theorem q13b_N_S_le_U (h : Q13Om t L S x₁ x₂ lam rho tau om) {𝒮 : Subgroup G}
     (h𝒮 : IsPGroup 2 𝒮) (hU : ctxU t tau x₁ x₂ lam ≤ 𝒮) :
     normalizer (S : Set G) ⊓ 𝒮 ≤ ctxU t tau x₁ x₂ lam := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨𝒯, h𝒮𝒯⟩ := h𝒮.exists_le_sylow
   have hS_lt : S < (𝒯 : Subgroup G) :=
     lt_of_lt_of_le (q13b_S_lt_U h) (hU.trans h𝒮𝒯)

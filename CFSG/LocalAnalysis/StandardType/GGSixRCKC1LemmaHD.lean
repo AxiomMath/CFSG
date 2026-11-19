@@ -66,13 +66,13 @@ private theorem rckHD_spin_cent {m : ℕ} (hm : 3 ≤ m) {F : Type} [Field F]
 private theorem rckHD_trivialUniversal (β : Fin 0 → ℤ) :
     RCKLemmaHCent trivialUniversal β := by
   intro x hx hx1
-  haveI : Subsingleton trivialUniversal.K := by
+  have : Subsingleton trivialUniversal.K := by
     change Subsingleton (Matrix.SpecialLinearGroup (Fin 1) (ZMod 2))
     infer_instance
   exact absurd (Subsingleton.elim x 1) hx1
 
 theorem rck_lemmaHC_D
-    {m g : ℕ} (hg : 1 ≤ g) {β : Fin (ggU .POmegaPlus m g).D.rank → ℤ}
+    {m g : ℕ} (_hg : 1 ≤ g) {β : Fin (ggU .POmegaPlus m g).D.rank → ℤ}
     (hβ : GGLongRoot (ggU .POmegaPlus m g).D β) :
     RCKLemmaHCent (ggU .POmegaPlus m g) β := by
   by_cases hm : 3 ≤ m
@@ -80,13 +80,13 @@ theorem rck_lemmaHC_D
     have hM' : M = ⟨spinGroup (Spin.quadPlus m (GaloisField 2 g)),
         Spin.plusDatum m (GaloisField 2 g) hm⟩ := by
       rw [← hM]
-      simp only [ggU, lieUniversal, dif_pos hm]
+      simp only [ggU, lieUniversal, dite_eq_left hm]
     subst hM'
     exact rckHD_spin_cent hm (rckHD_mem_roots_of_ggLongRoot hβ)
   · generalize hM : ggU .POmegaPlus m g = M at β hβ ⊢
     have hM' : M = trivialUniversal := by
       rw [← hM]
-      simp only [ggU, lieUniversal, dif_neg hm]
+      simp only [ggU, lieUniversal, dite_eq_right hm]
     subst hM'
     exact rckHD_trivialUniversal β
 

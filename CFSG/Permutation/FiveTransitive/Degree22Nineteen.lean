@@ -90,7 +90,7 @@ theorem five_point_stabilizer_card_mod_nineteen
   have hPcard : Nat.card P = 3160080 * h := by
     rw [hHindex] at hHindexCard
     exact hHindexCard.symm
-  letI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 19) := ⟨by norm_num⟩
   let S : Sylow 19 P := Sylow.nonempty.some
   have hPfactorization :
       (3160080 * h).factorization 19 = 1 := by
@@ -150,7 +150,7 @@ theorem five_point_stabilizer_card_mod_nineteen
     change 22 - g.support.card = 3
     rw [hgsupport]
   have hP3 : MulAction.IsMultiplyPretransitive P X 3 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 3) (n := 5)
         (by omega) (by
@@ -227,9 +227,9 @@ theorem five_point_stabilizer_card_mod_nineteen
     rw [T.card_eq_multiplicity, hJcard,
       hJfactorization]
     norm_num
-  letI : IsCyclic T :=
+  let : IsCyclic T :=
     isCyclic_of_prime_card hTcard
-  letI : IsMulCommutative T :=
+  let : IsMulCommutative T :=
     IsCyclic.isMulCommutative
   obtain ⟨u, huorder⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := T)
@@ -309,7 +309,7 @@ theorem five_point_stabilizer_card_mod_nineteen
     simp only [T.coe_coe]
   have hrJDvd : CJ.relIndex NJ ∣ 18 := by
     rwa [hrJEq]
-  letI : CJ.IsFiniteRelIndex NJ :=
+  let : CJ.IsFiniteRelIndex NJ :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hNJmod : NJ.index % 19 = 1 := by
     change
@@ -378,14 +378,14 @@ theorem five_point_stabilizer_card_mod_nineteen
     let transfer : J →* T :=
       MonoidHom.transferSylow T hnormalizer
     let Q : Subgroup J := transfer.ker
-    letI : Q.Normal := by
+    let : Q.Normal := by
       dsimp only [Q, transfer]
       infer_instance
     have hcomplement : IsComplement' Q T := by
       simpa only [Q, transfer] using
         MonoidHom.ker_transferSylow_isComplement'
           T hnormalizer
-    have hcardMul := hcomplement.card_mul
+    have hcardMul := hcomplement.card_mul_card
     have hQcard : Nat.card Q = 18 * h := by
       rw [hTcard, hJcard] at hcardMul
       omega
@@ -400,7 +400,7 @@ theorem five_point_stabilizer_card_mod_nineteen
       omega
     have hJ2 :
         MulAction.IsMultiplyPretransitive J Y 2 := by
-      letI : MulAction.IsMultiplyPretransitive P X 5 :=
+      let : MulAction.IsMultiplyPretransitive P X 5 :=
         hP5
       change
         MulAction.IsMultiplyPretransitive
@@ -409,9 +409,9 @@ theorem five_point_stabilizer_card_mod_nineteen
       apply SubMulAction.ofFixingSubgroup.isMultiplyPretransitive
         (m := 2) (n := 5) P (Set.range e)
       omega
-    letI : MulAction.IsPreprimitive J Y :=
+    let : MulAction.IsPreprimitive J Y :=
       MulAction.isPreprimitive_of_is_two_pretransitive hJ2
-    letI : Nonempty Y :=
+    let : Nonempty Y :=
       Fintype.card_pos_iff.mp (by
         rw [← Nat.card_eq_fintype_card, hYcard]
         norm_num)

@@ -12,14 +12,17 @@ section Quot
 
 variable {Γ : Type} [Group Γ] [Finite Γ] (J₀ : Subgroup Γ) [J₀.Normal]
 
+omit [Finite Γ] in
 theorem img_isPGroup {T : Subgroup Γ} (hT : IsPGroup 2 ↥T) :
     IsPGroup 2 ↥(T.map (QuotientGroup.mk' J₀)) :=
   hT.map (QuotientGroup.mk' J₀)
 
+omit [Finite Γ] in
 theorem img_index_odd {T : Subgroup Γ} (hT : ¬ 2 ∣ T.index) :
     ¬ 2 ∣ (T.map (QuotientGroup.mk' J₀)).index := fun h =>
   hT (dvd_trans h (Subgroup.index_map_dvd (H := T) (QuotientGroup.mk'_surjective J₀)))
 
+omit [Finite Γ] in
 theorem img_factor {Y T : Subgroup Γ} (h : ∀ g : Γ, ∃ y ∈ Y, ∃ t ∈ T, g = y * t) :
     ∀ x : Γ ⧸ J₀, ∃ y ∈ Y.map (QuotientGroup.mk' J₀), ∃ t ∈ T.map (QuotientGroup.mk' J₀),
       x = y * t := by
@@ -29,10 +32,12 @@ theorem img_factor {Y T : Subgroup Γ} (h : ∀ g : Γ, ∃ y ∈ Y, ∃ t ∈ T
   exact ⟨QuotientGroup.mk' J₀ y, Subgroup.mem_map_of_mem _ hy, QuotientGroup.mk' J₀ t,
     Subgroup.mem_map_of_mem _ ht, map_mul (QuotientGroup.mk' J₀) y t⟩
 
+omit [Finite Γ] in
 theorem img_normal {Y : Subgroup Γ} [Y.Normal] : (Y.map (QuotientGroup.mk' J₀)).Normal :=
   Subgroup.Normal.map inferInstance (QuotientGroup.mk' J₀) (QuotientGroup.mk'_surjective J₀)
 
-theorem img_unique_max {T Mm : Subgroup Γ} (hJM : J₀ ≤ Mm)
+omit [Finite Γ] in
+theorem img_unique_max {T Mm : Subgroup Γ} (_hJM : J₀ ≤ Mm)
     (hM : ∀ B : Subgroup Γ, T ≤ B → B ≠ ⊤ → B ≤ Mm) :
     ∀ B' : Subgroup (Γ ⧸ J₀), T.map (QuotientGroup.mk' J₀) ≤ B' → B' ≠ ⊤ →
       B' ≤ Mm.map (QuotientGroup.mk' J₀) := by
@@ -55,6 +60,7 @@ theorem img_unique_max {T Mm : Subgroup Γ} (hJM : J₀ ≤ Mm)
   obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective J₀ y
   exact Subgroup.mem_map_of_mem _ (hle (Subgroup.mem_comap.2 hy))
 
+omit [Finite Γ] in
 theorem img_ne_bot {V : Subgroup Γ} (h : ¬ V ≤ J₀) : V.map (QuotientGroup.mk' J₀) ≠ ⊥ := by
   intro hV
   apply h
@@ -64,6 +70,7 @@ theorem img_ne_bot {V : Subgroup Γ} (h : ¬ V ≤ J₀) : V.map (QuotientGroup.
   rw [hV, Subgroup.mem_bot] at hmem
   exact (QuotientGroup.eq_one_iff v).1 hmem
 
+omit [Finite Γ] in
 theorem img_elemAbelian {V : Subgroup Γ} (h : IsElemAbelian 2 V) :
     IsElemAbelian 2 (V.map (QuotientGroup.mk' J₀)) := by
   unfold IsElemAbelian at h ⊢
@@ -83,6 +90,7 @@ theorem img_elemAbelian {V : Subgroup Γ} (h : IsElemAbelian 2 V) :
     obtain ⟨v, hv, rfl⟩ := Subgroup.mem_map.1 hx
     rw [← map_pow, hp v hv, map_one]
 
+omit [Finite Γ] in
 theorem img_subgroupOf_normal {I P : Subgroup Γ} (hPI : P ≤ I) [(P.subgroupOf I).Normal] :
     ((P.map (QuotientGroup.mk' J₀)).subgroupOf (I.map (QuotientGroup.mk' J₀))).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -95,6 +103,7 @@ theorem img_subgroupOf_normal {I P : Subgroup Γ} (hPI : P ≤ I) [(P.subgroupOf
   refine Subgroup.mem_subgroupOf.2 (Subgroup.mem_map.2 ⟨i * p * i⁻¹, hconj, ?_⟩)
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, map_mul, map_inv, ← hig, ← hpn]
 
+omit [Finite Γ] in
 theorem img_dihedral {I P : Subgroup Γ} (hPI : P ≤ I) [(P.subgroupOf I).Normal]
     [((P.map (QuotientGroup.mk' J₀)).subgroupOf (I.map (QuotientGroup.mk' J₀))).Normal]
     (hJ : ∀ x ∈ I, x ∈ J₀ → x ∈ P) {D : Type} [Group D] (e : ↥I ⧸ P.subgroupOf I ≃* D) :
@@ -128,6 +137,7 @@ theorem img_dihedral {I P : Subgroup Γ} (hPI : P ≤ I) [(P.subgroupOf I).Norma
   exact ⟨((QuotientGroup.quotientMulEquivOfEq hker.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective f hf)).symm.trans e⟩
 
+omit [Finite Γ] in
 theorem img_normal_two_group_eq_bot {T Mm : Subgroup Γ} (hT : IsPGroup 2 ↥T)
     (hT' : ¬ 2 ∣ T.index) (hTM : T ≤ Mm) (hJM : J₀ ≤ Mm)
     (hcore : ∀ N : Subgroup Γ, N.Normal → N ≤ Mm → N ≤ J₀)
@@ -150,6 +160,7 @@ theorem img_normal_two_group_eq_bot {T Mm : Subgroup Γ} (hT : IsPGroup 2 ↥T)
   have hx : x ∈ J₀ := hle (Subgroup.mem_comap.2 hw)
   exact Subgroup.mem_bot.2 ((QuotientGroup.eq_one_iff x).2 hx)
 
+omit [Finite Γ] in
 theorem img_centralizer_eq_bot {Y T Mm : Subgroup Γ} [Y.Normal] (hT : IsPGroup 2 ↥T)
     (hT' : ¬ 2 ∣ T.index) (hTM : T ≤ Mm) (hJM : J₀ ≤ Mm)
     (hcore : ∀ N : Subgroup Γ, N.Normal → N ≤ Mm → N ≤ J₀)
@@ -158,7 +169,7 @@ theorem img_centralizer_eq_bot {Y T Mm : Subgroup Γ} [Y.Normal] (hT : IsPGroup 
       (∀ y ∈ Y.map (QuotientGroup.mk' J₀), x * y = y * x) → x = 1) :
     ∀ x : Γ ⧸ J₀, (∀ y ∈ Y.map (QuotientGroup.mk' J₀), x * y = y * x) → x = 1 := by
   intro x hx
-  haveI : (Y.map (QuotientGroup.mk' J₀)).Normal := img_normal J₀
+  have : (Y.map (QuotientGroup.mk' J₀)).Normal := img_normal J₀
   obtain ⟨C, hCdef⟩ : ∃ C : Subgroup (Γ ⧸ J₀),
       C = Subgroup.centralizer
         ((Y.map (QuotientGroup.mk' J₀) : Subgroup (Γ ⧸ J₀)) : Set (Γ ⧸ J₀)) :=

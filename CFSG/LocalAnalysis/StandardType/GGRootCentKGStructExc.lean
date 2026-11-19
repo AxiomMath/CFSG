@@ -39,7 +39,7 @@ private theorem largeEvenMarking_of_rawDatum_inn {X : Type} [Group X]
     (hQ : ∀ (R : Type) [Group R] (I F : Set (MulAut R)), Q R I F →
       Nonempty (X ⧸ Subgroup.center X ≃* R) ∧ LargeEvenInnSet R ⊆ I) :
     LargeEvenMarking X (fun lab R _ I _ _ => GGChevStTag lab ∧ LargeEvenInnSet R ⊆ I) := by
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
   refine ⟨hX.1, lab, hlab, ?_⟩
   refine largeEvenRawDatum_mono (fun R _ I F hRI => ?_) hraw
   obtain ⟨⟨e⟩, hInn⟩ := hQ R I F hRI
@@ -50,7 +50,7 @@ theorem largeEvenMarking_inn_of_lieModel {X : Type} [Group X]
     (hX : CFSG.Assembly.IsQuasisimple X) {t : StatedLieTag} {n f : ℕ}
     (ht : GGInnerTag t) (hM : LieModel (X ⧸ Subgroup.center X) t n 2 f) :
     LargeEvenMarking X (fun lab R _ I _ _ => GGChevStTag lab ∧ LargeEvenInnSet R ⊆ I) := by
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
   have hnab := exists_mul_ne_mul_centerQuot_of_perfect hX.1 inferInstance
   obtain ⟨lab, hlab, htag, -, -, -, hraw⟩ :=
     exists_label_rawDatum_of_lieModel
@@ -122,7 +122,7 @@ open KGExc
 
 theorem ggRootCentKGStructTag_E8 : GGRootCentKGStructTag .E8 := by
   intro G _ _ _ n f ψ _ _ hadm hrank hker hcomm hLie hC _ _ r hr _ E hEN hEC _ hEinn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hinj : Function.Injective ψ := by
@@ -159,7 +159,7 @@ theorem ggRootCentKGStructTag_E8 : GGRootCentKGStructTag .E8 := by
 
 theorem ggRootCentKGStructTag_E7 : GGRootCentKGStructTag .E7 := by
   intro G _ _ _ n f ψ _ _ hadm hrank hker hcomm hLie hC _ _ r hr _ E hEN hEC _ hEinn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hinj : Function.Injective ψ := by

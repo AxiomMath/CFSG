@@ -195,6 +195,7 @@ private theorem q8_V (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
   exact q8_closure_pair hS hZ s (Subgroup.subset_closure (by simp))
     (Subgroup.subset_closure (by simp)) ha₂ hb₂ s.facts.2.2.2.1.2.1.2.1
 
+omit [Finite G] in
 private theorem q8_conj_of {x : G} {H : Subgroup G}
     (hH : Nonempty (↥H ≃* QuaternionGroup 2)) :
     Nonempty (↥(conjSub x H) ≃* QuaternionGroup 2) := by
@@ -203,6 +204,7 @@ private theorem q8_conj_of {x : G} {H : Subgroup G}
     fun a b h => (MulAut.conj x).injective h
   exact ⟨(H.equivMapOfInjective (MulAut.conj x).toMonoidHom hinj).symm.trans e⟩
 
+omit [Finite G] in
 private theorem card_conjSub {x : G} (H : Subgroup G) :
     Nat.card ↥(conjSub x H) = Nat.card ↥H := by
   have hinj : Function.Injective (MulAut.conj x).toMonoidHom :=
@@ -221,6 +223,7 @@ private theorem commute_conj_UV (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(cen
     (MulAut.conj x).toMonoidHom v₀ * (MulAut.conj x).toMonoidHom u₀
   rw [← map_mul, ← map_mul, (commute_UV hS hZ s u₀ hu₀ v₀ hv₀).eq]
 
+omit [Finite G] in
 private theorem sup_subgroupOf_eq {P Q A : Subgroup G} (hP : P ≤ A) (hQ : Q ≤ A)
     (h : P ⊔ Q = A) : P.subgroupOf A ⊔ Q.subgroupOf A = ⊤ := by
   rw [← Subgroup.map_subtype_inj (H := A)]
@@ -229,11 +232,13 @@ private theorem sup_subgroupOf_eq {P Q A : Subgroup G} (hP : P ≤ A) (hQ : Q �
   rw [Subgroup.map_sup, Subgroup.map_subgroupOf_eq_of_le hP,
     Subgroup.map_subgroupOf_eq_of_le hQ, h, htop]
 
+omit [Finite G] in
 private theorem eq_of_subgroupOf_eq {P Q A : Subgroup G} (hP : P ≤ A) (hQ : Q ≤ A)
     (h : P.subgroupOf A = Q.subgroupOf A) : P = Q := by
   have h' := (Subgroup.subgroupOf_inj (K := A)).mp h
   rwa [inf_eq_left.mpr hP, inf_eq_left.mpr hQ] at h'
 
+omit [Finite G] in
 private theorem isQ8Decomp_of_data {P Q A : Subgroup G} (hP : P ≤ A) (hQ : Q ≤ A)
     (hsup : P ⊔ Q = A) (hinf : Nat.card ↥(P ⊓ Q) = 2)
     (hPe : Nonempty (↥P ≃* QuaternionGroup 2))

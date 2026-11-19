@@ -36,6 +36,7 @@ private theorem sec5op4h_mem_commutator_of_mem_closure_odd {X : Type*} [Group X]
   rw [orderOf_eq_one_iff, QuotientGroup.eq_one_iff] at h1
   exact h1
 
+omit [Finite G] in
 theorem sec5op4_twoCore_le_commutator {K : Subgroup G} (hK : twoRes K = K) :
     twoCoreIn K ≤ ⁅K, K⁆ := by
   intro x hx

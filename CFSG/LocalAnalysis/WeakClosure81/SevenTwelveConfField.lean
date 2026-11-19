@@ -19,8 +19,8 @@ private lemma two_lt_two_pow {n : ℕ} (hn : 1 < n) : 2 < 2 ^ n :=
 theorem exists_zech_of_card_two_pow {F : Type} [Field F] [Finite F] {n : ℕ}
     (hF : Nat.card F = 2 ^ n) (hn : 1 < n) :
     ∃ c : F, c ≠ 0 ∧ c ≠ 1 ∧ ∃ m j : ℕ, c ^ (2 * m) = c ∧ c ^ j = c + 1 := by
-  haveI : CharP F 2 := charP_two_of_card_eq_two_pow hF
-  haveI : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_two_of_card_eq_two_pow hF
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   have hcard : Fintype.card F = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]; exact hF
@@ -48,8 +48,8 @@ theorem exists_zech_unitary {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ
     (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 < n) :
     ∃ c : F, unitaryInvolution F 2 n c = c ∧ c ≠ 0 ∧ c ≠ 1 ∧
       ∃ m j : ℕ, c ^ (2 * m) = c ∧ c ^ j = c + 1 := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   have hord : orderOf g = (2 ^ n) ^ 2 - 1 := by
     rw [orderOf_eq_card_of_forall_mem_zpowers hg,

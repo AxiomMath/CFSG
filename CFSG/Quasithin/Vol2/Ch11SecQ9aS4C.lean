@@ -54,7 +54,7 @@ theorem card_torus [Finite K] : Nat.card ↥(torus 2 K) = (Nat.card K - 1) ^ 2 :
 theorem unipotent_inf_torus [Finite K] [CharP K 2] : unipotent 2 K ⊓ torus 2 K = ⊥ := by
   obtain ⟨P₀, hP₀⟩ := exists_sylow_unipotent (K := K) 2 2
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hU2 : IsPGroup 2 (unipotent 2 K) := hP₀ ▸ P₀.isPGroup'
+  have hU2 : IsPGroup 2 (unipotent 2 K) := hP₀ ▸ P₀.isPGroup
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hU2
   have hodd : Odd (Nat.card ↥(torus 2 K)) := by
     have := Fintype.ofFinite K
@@ -74,7 +74,7 @@ theorem exists_conj_torus_of_isHall_sp [Finite K] [CharP K 2] {D : Subgroup (Sta
   obtain ⟨hDB, hDodd, k, hk⟩ := hD
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_unipotent (K := K) 2 2
-  have hU2 : IsPGroup 2 (unipotent 2 K) := hP ▸ P.isPGroup'
+  have hU2 : IsPGroup 2 (unipotent 2 K) := hP ▸ P.isPGroup
   have hUB : unipotent 2 K ≤ borelSubgroup 2 K := unipotent_le_borelSubgroup
   have hBN : borelSubgroup 2 K ≤ Subgroup.normalizer (unipotent 2 K : Set (StatedSp 2 K)) :=
     (normalizer_unipotent (r := 2) (K := K)).ge

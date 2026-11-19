@@ -74,7 +74,7 @@ end Adjoint
 
 theorem dvd_add_one_of_pow_eq {p a b : ℕ} (hp : p.Prime) (hb : b = a ^ p) (hpb : p ∣ b + 1) :
     p ∣ a + 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have h1 : (b : ZMod p) + 1 = 0 := by
     have h0 : ((b + 1 : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 hpb
     simpa using h0
@@ -91,7 +91,7 @@ theorem exists_orderOf_prime_primeFormP {ℓ e : ℕ} {K₀ : Type} [Field K₀]
     (hpq : p ∣ ℓ ^ e + 1) :
     ∃ x : primeFormP h₀ ((1 : GL (Fin n) K₀) : Matrix (Fin n) (Fin n) K₀), orderOf x = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card K₀ = (ℓ ^ e) ^ 2 := by rw [h₀.card, ← pow_mul, mul_comm]
   have hq1 : 1 ≤ ℓ ^ e := Nat.one_le_pow _ _ h₀.prime.pos
   have hdvd : p ∣ Nat.card K₀ˣ := by
@@ -170,7 +170,7 @@ theorem exists_ne_zero_entry_det_one {F : Type} [Field F] {n : ℕ} (hn : 3 ≤ 
     (M : Matrix (Fin n) (Fin n) F) (hM : M.det = 1) : ∃ i j, M i j ≠ 0 := by
   by_contra hall
   push Not at hall
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   have h0 : M = 0 := Matrix.ext fun i j => hall i j
   simp [h0] at hM
 
@@ -272,7 +272,7 @@ theorem psu_normalizes {ℓ f : ℕ} {K : Type} [Field K] [Finite K] (h : Unitar
     simp only [Matrix.map_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul] at e1 e0 ⊢
     by_cases hij : i = j
     · subst hij
-      simp only [if_true, mul_one, mul_zero, ite_true] at e1 e0 ⊢
+      simp only [ite_true, mul_one] at e1 e0 ⊢
       exact e1.trans e0.symm
     · simpa [hij] using e1
   have hunitG0 : IsUnit G0.det := by

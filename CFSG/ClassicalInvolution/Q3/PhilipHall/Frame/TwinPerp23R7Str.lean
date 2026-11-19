@@ -135,7 +135,7 @@ theorem p23E7Elem_of_orb (hO : P23E7Orb n) : P23E7Elem n := by
 
 theorem p23E7Strong_of_steps (hF : P23E7Fus n) (hO : P23E7Orb n) : P23E7Strong n := by
   intro hcit hP Y _ _ R S t K' W u e g hc hno hE hZ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C := Subgroup.centralizer ({t} : Set Y) with hCdef
   obtain ⟨htA, horb⟩ := hO hcit hP Y R S t K' W u e g hc hno hE hZ
   have hfus := hF hcit hP Y R S t K' W u e g hc hno hE hZ

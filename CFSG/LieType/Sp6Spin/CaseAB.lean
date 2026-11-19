@@ -103,17 +103,17 @@ private theorem smul_rootWt_ne_zero (r : RootSubgroupIndex 3) {k : ℕ}
       exact h2k h2k'
   | difference i j hij =>
       have hi := congrFun h i
-      rw [Pi.smul_apply, rootWt_difference_apply hij, if_pos rfl, Pi.zero_apply,
+      rw [Pi.smul_apply, rootWt_difference_apply hij, ite_eq_left rfl, Pi.zero_apply,
         smul_eq_mul, mul_one] at hi
       exact hk hi
   | positiveSum i j hij =>
       have hi := congrFun h i
-      rw [Pi.smul_apply, rootWt_positiveSum_apply hij, if_pos rfl, Pi.zero_apply,
+      rw [Pi.smul_apply, rootWt_positiveSum_apply hij, ite_eq_left rfl, Pi.zero_apply,
         smul_eq_mul, mul_one] at hi
       exact hk hi
   | negativeSum i j hij =>
       have hi := congrFun h i
-      rw [Pi.smul_apply, rootWt_negativeSum_apply hij, if_pos rfl, Pi.zero_apply,
+      rw [Pi.smul_apply, rootWt_negativeSum_apply hij, ite_eq_left rfl, Pi.zero_apply,
         smul_eq_mul] at hi
       have hk' : (k : ZMod (Nat.card Kˣ)) = 0 := by
         simpa using congrArg Neg.neg hi
@@ -130,23 +130,23 @@ private theorem smul_rootWt_two_nonzero {r : RootSubgroupIndex 3} (hr : IsShortI
   | negativeLong i => simp [IsShortIndex] at hr
   | difference i j hij =>
       refine ⟨i, j, hij, ?_, ?_⟩
-      · rw [Pi.smul_apply, rootWt_difference_apply hij, if_pos rfl, smul_eq_mul, mul_one]
+      · rw [Pi.smul_apply, rootWt_difference_apply hij, ite_eq_left rfl, smul_eq_mul, mul_one]
         exact hk
-      · rw [Pi.smul_apply, rootWt_difference_apply hij, if_neg (Ne.symm hij), if_pos rfl,
+      · rw [Pi.smul_apply, rootWt_difference_apply hij, ite_eq_right (Ne.symm hij), ite_eq_left rfl,
           smul_eq_mul]
         simpa using hk
   | positiveSum i j hij =>
       refine ⟨i, j, hij.ne, ?_, ?_⟩
-      · rw [Pi.smul_apply, rootWt_positiveSum_apply hij, if_pos rfl, smul_eq_mul, mul_one]
+      · rw [Pi.smul_apply, rootWt_positiveSum_apply hij, ite_eq_left rfl, smul_eq_mul, mul_one]
         exact hk
-      · rw [Pi.smul_apply, rootWt_positiveSum_apply hij, if_neg hij.ne', if_pos rfl,
+      · rw [Pi.smul_apply, rootWt_positiveSum_apply hij, ite_eq_right hij.ne', ite_eq_left rfl,
           smul_eq_mul, mul_one]
         exact hk
   | negativeSum i j hij =>
       refine ⟨i, j, hij.ne, ?_, ?_⟩
-      · rw [Pi.smul_apply, rootWt_negativeSum_apply hij, if_pos rfl, smul_eq_mul]
+      · rw [Pi.smul_apply, rootWt_negativeSum_apply hij, ite_eq_left rfl, smul_eq_mul]
         simpa using hk
-      · rw [Pi.smul_apply, rootWt_negativeSum_apply hij, if_neg hij.ne', if_pos rfl,
+      · rw [Pi.smul_apply, rootWt_negativeSum_apply hij, ite_eq_right hij.ne', ite_eq_left rfl,
           smul_eq_mul]
         simpa using hk
 
@@ -226,14 +226,14 @@ private theorem natural_pattern_lines (x : ZMod (Nat.card Kˣ)) (hx : x ≠ 0)
       intro h
       exact hx (by simpa using congrFun h 2)
     rw [hpat (Pi.single 2 x : Fin 3 → ZMod (Nat.card Kˣ)) hne]
-    exact if_pos ⟨2, Or.inl rfl⟩
+    exact ite_eq_left ⟨2, Or.inl rfl⟩
   have hY₂ : S.mult (Pi.single 2 (-x)) = 1 := by
     have hne : (Pi.single 2 (-x) : Fin 3 → ZMod (Nat.card Kˣ)) ≠ 0 := by
       intro h
       have h' : -x = 0 := by simpa using congrFun h 2
       exact hx (neg_eq_zero.mp h')
     rw [hpat (Pi.single 2 (-x) : Fin 3 → ZMod (Nat.card Kˣ)) hne]
-    exact if_pos ⟨2, Or.inr rfl⟩
+    exact ite_eq_left ⟨2, Or.inr rfl⟩
   obtain ⟨y₁, hy₁mem, hy₁0⟩ :=
     exists_mem_ne_zero_of_mult_ne_zero (S := S)
       (a := (Pi.single 2 x : Fin 3 → ZMod (Nat.card Kˣ))) (by rw [hY₁]; norm_num)
@@ -420,7 +420,7 @@ private theorem mult_single_two_mul_eq_zero {x y : ZMod (Nat.card Kˣ)} (h2y : 2
     intro h
     have h' : (k : ZMod (Nat.card Kˣ)) * 2 = 0 := by simpa using congrFun h 2
     exact natCast_mul_two_ne_zero hk1 hklt h'
-  rw [hpat _ hne, if_neg]
+  rw [hpat _ hne, ite_eq_right]
   rintro ⟨i, hi | hi⟩
   · by_cases hi2 : i = 2
     · subst hi2
@@ -557,7 +557,7 @@ private theorem false_of_natural_pattern (x : ZMod (Nat.card Kˣ)) (hx : x ≠ 0
     have hsingle : ∀ (i : Fin 3) (z : ZMod (Nat.card Kˣ)),
         ((k : ZMod (Nat.card Kˣ)) • rootWt K r) ≠ Pi.single i z :=
       fun i z => smul_rootWt_ne_single hr hk1 hklt
-    rw [hpat _ hne, if_neg]
+    rw [hpat _ hne, ite_eq_right]
     rintro ⟨i, hi | hi⟩
     · exact hsingle i x hi
     · exact hsingle i (-x) hi

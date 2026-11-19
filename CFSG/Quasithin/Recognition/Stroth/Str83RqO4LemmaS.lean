@@ -31,6 +31,7 @@ private theorem lms_Qv_zero_le_normalizer {R : Subgroup G} (hR : R ≤ t.Zv 0) :
   rw [this]
   exact hr
 
+omit [Finite G] in
 private theorem lms_map_normalizer {R : Subgroup G} {x : G} (hx : x ∈ normalizer (R : Set G)) :
     (normalizer (R : Set G)).map (MulAut.conj x).toMonoidHom = normalizer (R : Set G) :=
   Subgroup.mem_normalizer_iff_map_conj_eq.mp (Subgroup.le_normalizer hx)
@@ -90,7 +91,7 @@ theorem eq_bot_of_cosetTrans_normalizer
       (M := t.MX Y 1) (N := t.LX Y 1) (P := t.PX Y)
       (oTwoPrime_le (t.MX Y 1)) (le_normalizer_oTwoPrime (t.MX Y 1)) hP
     have hcharN : normalizer ((t.PX Y : Subgroup G) : Set G) ≤ normalizer (C : Set G) := by
-      haveI : (C.subgroupOf (t.PX Y)).Characteristic := hCchar
+      have : (C.subgroupOf (t.PX Y)).Characteristic := hCchar
       have h := normalizer_le_normalizer_map_of_characteristic (H := t.PX Y)
         (K := C.subgroupOf (t.PX Y))
       rwa [Subgroup.map_subgroupOf_eq_of_le hCP] at h

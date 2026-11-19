@@ -69,6 +69,7 @@ include hθq
 theorem polar_theta (u v : V) : polar q (θ u) (θ v) = polar q u v := by
   simp only [polar, ← map_add θ, hθq]
 
+omit hθq in
 theorem theta_theta (hθ3 : ∀ v, θ (θ (θ v)) = v) (hfix : ∀ v, θ v = v → v = 0) (v : V) :
     θ (θ v) = θ v + v := by
   have h := hfix (θ (θ v) + θ v + v) (by rw [map_add θ, map_add θ, hθ3]; abel)
@@ -80,7 +81,7 @@ theorem theta_theta (hθ3 : ∀ v, θ (θ (θ v)) = v) (hfix : ∀ v, θ v = v �
 theorem q_eq_polar_theta (hθ3 : ∀ v, θ (θ (θ v)) = v) (hfix : ∀ v, θ v = v → v = 0) (v : V) :
     q v = polar q (θ v) v := by
   have h1 : q (θ (θ v)) = q v := by rw [hθq, hθq]
-  rw [theta_theta hθq hθ3 hfix, QuadraticMap.map_add (⇑q) (θ v) v, hθq, zmod2_add_self,
+  rw [theta_theta hθ3 hfix, QuadraticMap.map_add (⇑q) (θ v) v, hθq, zmod2_add_self,
     zero_add] at h1
   exact h1.symm
 
@@ -181,22 +182,22 @@ theorem exists_fam (hq : q.polarBilin.Nondegenerate) [FiniteDimensional (ZMod 2)
     obtain ⟨b, hb⟩ := exists_fam hq k (by omega)
     obtain ⟨w, hw1, hw⟩ := exists_next hθq hθ3 hfix hq (by omega) hb
     have hθw : ∀ i < k, polar q (θ w) (b i) = 0 := fun i hi => by
-      rw [← polar_theta hθq, theta_theta hθq hθ3 hfix, polar_add_left, polar_theta hθq,
+      rw [← polar_theta hθq, theta_theta hθ3 hfix, polar_add_left, polar_theta hθq,
         (hw i hi).1, (hw i hi).2, add_zero]
     refine ⟨fun i => if i = k then w else b i, fun i hi => ?_, fun i hi j hj hij => ?_⟩
     · by_cases hik : i = k
-      · simp only [hik, if_true, hw1]
-      · simp only [hik, if_false]
+      · simp only [hik, ite_true, hw1]
+      · simp only [hik, ite_false]
         exact hb.1 i (by omega)
     · by_cases hik : i = k
       · have hjk : j ≠ k := fun e => hij (hik.trans e.symm)
-        simp only [hik, if_true, hjk, if_false]
+        simp only [hik, ite_true, hjk, ite_false]
         exact ⟨(hw j (by omega)).1, hθw j (by omega)⟩
       · by_cases hjk : j = k
-        · simp only [hik, if_false, hjk, if_true]
+        · simp only [hik, ite_false, hjk, ite_true]
           rw [polar_comm, (hw i (by omega)).1, polar_comm, (hw i (by omega)).2]
           exact ⟨rfl, rfl⟩
-        · simp only [hik, if_false, hjk]
+        · simp only [hik, ite_false, hjk]
           exact hb.2 i (by omega) j (by omega) hij
 
 variable {b : ℕ → V} (hb : IsFam q θ 6 b)
@@ -238,9 +239,10 @@ theorem q_famMap (x : V12) : q (famMap θ b x) = q0 x := by
     simp only [polar_add_left, polar_add_right, polar_smul_left, polar_smul_right, h1, h2, h3,
       h4, smul_zero, add_zero]
 
+omit hb hθq in
 theorem theta_famMap (x : V12) : θ (famMap θ b x) = famMap θ b (theta0 x) := by
   simp only [famMap_apply, map_sum, map_add, map_smul, theta0_lo, theta0_hi,
-    theta_theta hθq hθ3 hfix, smul_add, add_smul]
+    theta_theta hθ3 hfix, smul_add, add_smul]
   exact Finset.sum_congr rfl fun i _ => by abel
 
 end General
@@ -259,6 +261,6 @@ theorem exists_isometry_theta0 {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
   have he' : ∀ v, famMap θ b (e.symm v) = v := fun v => e.apply_symm_apply v
   refine ⟨e.symm, fun v => ?_, fun v => hinj ?_⟩
   · rw [← q_famMap hθq hθ3 hfix hb, he']
-  · rw [he', ← theta_famMap hθq hθ3 hfix hb, he']
+  · rw [he', ← theta_famMap hθ3 hfix, he']
 
 end CFSG.GF2Type.Smith1979.GammaU

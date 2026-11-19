@@ -39,6 +39,7 @@ section Split
 variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {x : LinearMap.GeneralLinearGroup K V}
 
+omit [FiniteDimensional K V] in
 theorem blockGL_ext {X : Module.End K V} {b : K[X]} {γ₁ γ₂ : blockGL X b}
     (h : ∀ v (hv : v ∈ primaryComponent X b), blockApply γ₁ v hv = blockApply γ₂ v hv) :
     γ₁ = γ₂ := by
@@ -55,7 +56,7 @@ theorem exists_block_split (hsq : Squarefree (minpoly K (x : Module.End K V))) {
     ∃ s ∈ linearSpecialBlock x h, ∃ c ∈ gl_centralizer x,
       (∀ m ∈ linearSpecialBlock x h, c * m = m * c) ∧ g = s * c := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   let Γ := glCentralizerEquivPi hsq
   let hb : primaryFactors (x : Module.End K V) := ⟨h, hh⟩
   let g0 : gl_centralizer x := ⟨g, hg⟩

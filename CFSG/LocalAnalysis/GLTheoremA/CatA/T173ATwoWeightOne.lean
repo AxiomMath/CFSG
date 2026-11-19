@@ -18,12 +18,14 @@ open scoped BigOperators
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem pow_apply_of_fixed (e : V ≃ₗ[ZMod 2] V) {w : V} (hw : e w = w) (n : ℕ) :
     (e ^ n) w = w := by
   induction n with
   | zero => rfl
   | succ n ih => rw [pow_succ, LinearEquiv.mul_apply, hw, ih]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem sum_pow_apply (e : V ≃ₗ[ZMod 2] V) (n : ℕ) (v : V) :
     e (∑ i ∈ Finset.range n, (e ^ i) v) - (∑ i ∈ Finset.range n, (e ^ i) v) =
       (e ^ n) v - v := by
@@ -43,12 +45,14 @@ private theorem sum_pow_apply (e : V ≃ₗ[ZMod 2] V) (n : ℕ) (v : V) :
       rw [h2, ih]
       abel
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem comSp_pow_le (e : V ≃ₗ[ZMod 2] V) (n : ℕ) : comSp (e ^ n) ≤ comSp e := by
   intro a ha
   rw [S172A.GL.mem_comSp] at ha ⊢
   obtain ⟨v, hv⟩ := ha
   exact ⟨∑ i ∈ Finset.range n, (e ^ i) v, by rw [sum_pow_apply e n v, hv]⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem map_fixSp_conj (σ e : V ≃ₗ[ZMod 2] V) :
     Submodule.map σ.toLinearMap (fixSp e) = fixSp (σ * e * σ.symm) := by
   apply le_antisymm
@@ -71,6 +75,7 @@ private theorem map_fixSp_conj (σ e : V ≃ₗ[ZMod 2] V) :
       simpa only [LinearEquiv.mul_apply] using hv
     exact hv'
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem map_comSp_conj (σ e : V ≃ₗ[ZMod 2] V) :
     Submodule.map σ.toLinearMap (comSp e) = comSp (σ * e * σ.symm) := by
   apply le_antisymm

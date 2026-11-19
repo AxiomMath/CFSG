@@ -29,7 +29,7 @@ theorem cyclic_sylow_image_full_odd_part
       Nat.card (cyclicSylowImage X A) =
         p ^ (Nat.card (conjugacyWithin H z)).factorization p := by
   have hAX : cyclicSylowImage X A ≤ X := Subgroup.map_subtype_le _
-  refine ⟨A.isPGroup'.map X.subtype, ?_, ?_⟩
+  refine ⟨A.isPGroup.map X.subtype, ?_, ?_⟩
   · have hXodd : Odd (Nat.card X) := hXcard ▸ point_subgroup_full_class_card_odd h S hzS hzcenter
     exact hXodd.of_dvd_nat (Subgroup.card_dvd_of_le hAX)
   · rw [cyclic_sylow_image_card X hp A, hXcard]

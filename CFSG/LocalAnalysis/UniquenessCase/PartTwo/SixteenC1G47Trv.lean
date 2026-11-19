@@ -60,7 +60,7 @@ private noncomputable def trvExp {E : Type*} [Group E] (σ : MulAut E) (x : E) :
 
 theorem s16c1_G47_two_transv {E : Type*} [Group E] (hE : ∀ x : E, x * x = 1) {σ τ : MulAut E}
     {a b : E} (ha : a ≠ 1) (hb : b ≠ 1) (hab : a ≠ b) (hσ : ∀ x, σ x = x ∨ σ x = x * a)
-    (hτ : ∀ x, τ x = x ∨ τ x = x * b) (hσ1 : σ ≠ 1) (hτ1 : τ ≠ 1) :
+    (hτ : ∀ x, τ x = x ∨ τ x = x * b) (_hσ1 : σ ≠ 1) (hτ1 : τ ≠ 1) :
     orderOf (σ * τ) = 2 ∨ orderOf (σ * τ) = 3 ∨ orderOf (σ * τ) = 4 := by
   have hcomm : ∀ x y : E, x * y = y * x := by
     intro x y
@@ -68,7 +68,7 @@ theorem s16c1_G47_two_transv {E : Type*} [Group E] (hE : ∀ x : E, x * x = 1) {
     rw [mul_inv_rev, inv_eq_of_mul_eq_one_right (hE y),
       inv_eq_of_mul_eq_one_right (hE x)] at hxy
     exact hxy.symm
-  haveI : IsMulCommutative E := IsMulCommutative.of_comm hcomm
+  have : IsMulCommutative E := IsMulCommutative.of_comm hcomm
   have ha2 : a * a = 1 := hE a
   have hb2 : b * b = 1 := hE b
   have hσa : σ a = a := by
@@ -232,8 +232,8 @@ theorem s16c1_G47_two_transv {E : Type*} [Group E] (hE : ∀ x : E, x * x = 1) {
           = x * (zpowTwo a (trvExp σ x) * zpowTwo a (trvExp σ x))
               * (zpowTwo b (trvExp τ x) * zpowTwo b (trvExp τ x)) from by ac_rfl]
       simp only [← zpowTwo_add ha2, ← zpowTwo_add hb2]
-      rw [show trvExp σ x + trvExp σ x = 0 from by ring_nf <;> simp,
-        show trvExp τ x + trvExp τ x = 0 from by ring_nf <;> simp]
+      rw [show trvExp σ x + trvExp σ x = 0 from by ring_nf; simp,
+        show trvExp τ x + trvExp τ x = 0 from by ring_nf; simp]
       simp [zpowTwo_zero]
     have hdvd : orderOf (σ * τ) ∣ 2 := orderOf_dvd_of_pow_eq_one h2
     have hne : orderOf (σ * τ) ≠ 1 := fun h => hφne (orderOf_eq_one_iff.mp h)
@@ -244,45 +244,45 @@ theorem s16c1_G47_two_transv {E : Type*} [Group E] (hE : ∀ x : E, x * x = 1) {
     have h4 : (σ * τ) ^ 4 = 1 := by
       ext x
       have hs1 : trvExp σ ((σ * τ) x) = trvExp σ x := by
-        rw [hs_step x]; ring_nf <;> simp
+        rw [hs_step x]; ring_nf
       have ht1 : trvExp τ ((σ * τ) x) = trvExp σ x + trvExp τ x := by
-        rw [ht_step x]; ring_nf <;> simp
+        rw [ht_step x]; ring_nf
       have hs2 : trvExp σ (((σ * τ) ^ 2) x) = trvExp σ x := by
         rw [show ((σ * τ) ^ 2) x = (σ * τ) ((σ * τ) x) from by rw [pow_two, MulAut.mul_apply]]
-        rw [hs_step ((σ * τ) x), hs1, ht1]; ring_nf <;> simp
+        rw [hs_step ((σ * τ) x), hs1, ht1]; ring_nf
       have ht2 : trvExp τ (((σ * τ) ^ 2) x) = trvExp τ x := by
         rw [show ((σ * τ) ^ 2) x = (σ * τ) ((σ * τ) x) from by rw [pow_two, MulAut.mul_apply]]
-        rw [ht_step ((σ * τ) x), hs1, ht1]; ring_nf <;> simp
+        rw [ht_step ((σ * τ) x), hs1, ht1]; ring_nf; simp
       have hs3 : trvExp σ (((σ * τ) ^ 3) x) = trvExp σ x := by
         rw [show ((σ * τ) ^ 3) x = (σ * τ) (((σ * τ) ^ 2) x) from by
           rw [show (3 : ℕ) = 2 + 1 by norm_num, pow_succ', MulAut.mul_apply]]
-        rw [hs_step (((σ * τ) ^ 2) x), hs2, ht2]; ring_nf <;> simp
+        rw [hs_step (((σ * τ) ^ 2) x), hs2, ht2]; ring_nf
       have ht3 : trvExp τ (((σ * τ) ^ 3) x) = trvExp σ x + trvExp τ x := by
         rw [show ((σ * τ) ^ 3) x = (σ * τ) (((σ * τ) ^ 2) x) from by
           rw [show (3 : ℕ) = 2 + 1 by norm_num, pow_succ', MulAut.mul_apply]]
-        rw [ht_step (((σ * τ) ^ 2) x), hs2, ht2]; ring_nf <;> simp
+        rw [ht_step (((σ * τ) ^ 2) x), hs2, ht2]; ring_nf
       have h1 : (σ * τ) x = x * zpowTwo a (trvExp σ x) * zpowTwo b (trvExp τ x) := by
         rw [hstep x]
-        rw [show trvExp σ x + 0 * trvExp τ x = trvExp σ x from by ring_nf <;> simp]
+        rw [show trvExp σ x + 0 * trvExp τ x = trvExp σ x from by ring_nf]
       have h2p : ((σ * τ) ^ 2) x = (σ * τ) x * zpowTwo a (trvExp σ x)
           * zpowTwo b (trvExp σ x + trvExp τ x) := by
         rw [show ((σ * τ) ^ 2) x = (σ * τ) ((σ * τ) x) from by rw [pow_two, MulAut.mul_apply]]
         rw [hstep ((σ * τ) x), hs1, ht1]
         rw [show trvExp σ x + 0 * (trvExp σ x + trvExp τ x) = trvExp σ x from by
-          ring_nf <;> simp]
+          ring_nf]
       have h3p : ((σ * τ) ^ 3) x = ((σ * τ) ^ 2) x * zpowTwo a (trvExp σ x)
           * zpowTwo b (trvExp τ x) := by
         rw [show ((σ * τ) ^ 3) x = (σ * τ) (((σ * τ) ^ 2) x) from by
           rw [show (3 : ℕ) = 2 + 1 by norm_num, pow_succ', MulAut.mul_apply]]
         rw [hstep (((σ * τ) ^ 2) x), hs2, ht2]
-        rw [show trvExp σ x + 0 * trvExp τ x = trvExp σ x from by ring_nf <;> simp]
+        rw [show trvExp σ x + 0 * trvExp τ x = trvExp σ x from by ring_nf]
       have h4p : ((σ * τ) ^ 4) x = ((σ * τ) ^ 3) x * zpowTwo a (trvExp σ x)
           * zpowTwo b (trvExp σ x + trvExp τ x) := by
         rw [show ((σ * τ) ^ 4) x = (σ * τ) (((σ * τ) ^ 3) x) from by
           rw [show (4 : ℕ) = 3 + 1 by norm_num, pow_succ', MulAut.mul_apply]]
         rw [hstep (((σ * τ) ^ 3) x), hs3, ht3]
         rw [show trvExp σ x + 0 * (trvExp σ x + trvExp τ x) = trvExp σ x from by
-          ring_nf <;> simp]
+          ring_nf]
       rw [h4p, h3p, h2p, h1]
       rw [show ((x * zpowTwo a (trvExp σ x) * zpowTwo b (trvExp τ x))
               * zpowTwo a (trvExp σ x) * zpowTwo b (trvExp σ x + trvExp τ x))
@@ -296,9 +296,9 @@ theorem s16c1_G47_two_transv {E : Type*} [Group E] (hE : ∀ x : E, x * x = 1) {
       rw [← zpowTwo_add ha2, ← zpowTwo_add ha2, ← zpowTwo_add ha2,
           ← zpowTwo_add hb2, ← zpowTwo_add hb2, ← zpowTwo_add hb2]
       rw [show trvExp σ x + trvExp σ x + trvExp σ x + trvExp σ x = 0 from by
-            ring_nf <;> simp,
+            ring_nf; simp,
           show trvExp τ x + (trvExp σ x + trvExp τ x) + trvExp τ x
-              + (trvExp σ x + trvExp τ x) = 0 from by ring_nf <;> simp]
+              + (trvExp σ x + trvExp τ x) = 0 from by ring_nf; simp]
       simp [zpowTwo_zero]
     have hdvd : orderOf (σ * τ) ∣ 4 := orderOf_dvd_of_pow_eq_one h4
     have hne : orderOf (σ * τ) ≠ 1 := fun h => hφne (orderOf_eq_one_iff.mp h)
@@ -313,47 +313,47 @@ theorem s16c1_G47_two_transv {E : Type*} [Group E] (hE : ∀ x : E, x * x = 1) {
     have h4 : (σ * τ) ^ 4 = 1 := by
       ext x
       have hs1 : trvExp σ ((σ * τ) x) = trvExp σ x + trvExp τ x := by
-        rw [hs_step x]; ring_nf <;> simp
+        rw [hs_step x]; ring_nf
       have ht1 : trvExp τ ((σ * τ) x) = trvExp τ x := by
-        rw [ht_step x]; ring_nf <;> simp
+        rw [ht_step x]; ring_nf
       have hs2 : trvExp σ (((σ * τ) ^ 2) x) = trvExp σ x := by
         rw [show ((σ * τ) ^ 2) x = (σ * τ) ((σ * τ) x) from by rw [pow_two, MulAut.mul_apply]]
-        rw [hs_step ((σ * τ) x), hs1, ht1]; ring_nf <;> simp
+        rw [hs_step ((σ * τ) x), hs1, ht1]; ring_nf; simp
       have ht2 : trvExp τ (((σ * τ) ^ 2) x) = trvExp τ x := by
         rw [show ((σ * τ) ^ 2) x = (σ * τ) ((σ * τ) x) from by rw [pow_two, MulAut.mul_apply]]
-        rw [ht_step ((σ * τ) x), hs1, ht1]; ring_nf <;> simp
+        rw [ht_step ((σ * τ) x), hs1, ht1]; ring_nf
       have hs3 : trvExp σ (((σ * τ) ^ 3) x) = trvExp σ x + trvExp τ x := by
         rw [show ((σ * τ) ^ 3) x = (σ * τ) (((σ * τ) ^ 2) x) from by
           rw [show (3 : ℕ) = 2 + 1 by norm_num, pow_succ', MulAut.mul_apply]]
-        rw [hs_step (((σ * τ) ^ 2) x), hs2, ht2]; ring_nf <;> simp
+        rw [hs_step (((σ * τ) ^ 2) x), hs2, ht2]; ring_nf
       have ht3 : trvExp τ (((σ * τ) ^ 3) x) = trvExp τ x := by
         rw [show ((σ * τ) ^ 3) x = (σ * τ) (((σ * τ) ^ 2) x) from by
           rw [show (3 : ℕ) = 2 + 1 by norm_num, pow_succ', MulAut.mul_apply]]
-        rw [ht_step (((σ * τ) ^ 2) x), hs2, ht2]; ring_nf <;> simp
+        rw [ht_step (((σ * τ) ^ 2) x), hs2, ht2]; ring_nf
       have h1 : (σ * τ) x = x * zpowTwo a (trvExp σ x + trvExp τ x)
           * zpowTwo b (trvExp τ x) := by
         rw [hstep x]
-        rw [show trvExp σ x + 1 * trvExp τ x = trvExp σ x + trvExp τ x from by ring_nf <;> simp]
+        rw [show trvExp σ x + 1 * trvExp τ x = trvExp σ x + trvExp τ x from by ring_nf]
       have h2p : ((σ * τ) ^ 2) x = (σ * τ) x * zpowTwo a (trvExp σ x)
           * zpowTwo b (trvExp τ x) := by
         rw [show ((σ * τ) ^ 2) x = (σ * τ) ((σ * τ) x) from by rw [pow_two, MulAut.mul_apply]]
         rw [hstep ((σ * τ) x), hs1, ht1]
         rw [show (trvExp σ x + trvExp τ x) + 1 * trvExp τ x = trvExp σ x from by
-          ring_nf <;> simp]
+          ring_nf; simp]
       have h3p : ((σ * τ) ^ 3) x = ((σ * τ) ^ 2) x * zpowTwo a (trvExp σ x + trvExp τ x)
           * zpowTwo b (trvExp τ x) := by
         rw [show ((σ * τ) ^ 3) x = (σ * τ) (((σ * τ) ^ 2) x) from by
           rw [show (3 : ℕ) = 2 + 1 by norm_num, pow_succ', MulAut.mul_apply]]
         rw [hstep (((σ * τ) ^ 2) x), hs2, ht2]
         rw [show trvExp σ x + 1 * trvExp τ x = trvExp σ x + trvExp τ x from by
-          ring_nf <;> simp]
+          ring_nf]
       have h4p : ((σ * τ) ^ 4) x = ((σ * τ) ^ 3) x * zpowTwo a (trvExp σ x)
           * zpowTwo b (trvExp τ x) := by
         rw [show ((σ * τ) ^ 4) x = (σ * τ) (((σ * τ) ^ 3) x) from by
           rw [show (4 : ℕ) = 3 + 1 by norm_num, pow_succ', MulAut.mul_apply]]
         rw [hstep (((σ * τ) ^ 3) x), hs3, ht3]
         rw [show (trvExp σ x + trvExp τ x) + 1 * trvExp τ x = trvExp σ x from by
-          ring_nf <;> simp]
+          ring_nf; simp]
       rw [h4p, h3p, h2p, h1]
       rw [show (((x * zpowTwo a (trvExp σ x + trvExp τ x) * zpowTwo b (trvExp τ x))
               * zpowTwo a (trvExp σ x) * zpowTwo b (trvExp τ x))
@@ -367,8 +367,8 @@ theorem s16c1_G47_two_transv {E : Type*} [Group E] (hE : ∀ x : E, x * x = 1) {
       rw [← zpowTwo_add ha2, ← zpowTwo_add ha2, ← zpowTwo_add ha2,
           ← zpowTwo_add hb2, ← zpowTwo_add hb2, ← zpowTwo_add hb2]
       rw [show (trvExp σ x + trvExp τ x) + trvExp σ x + (trvExp σ x + trvExp τ x)
-            + trvExp σ x = 0 from by ring_nf <;> simp,
-          show trvExp τ x + trvExp τ x + trvExp τ x + trvExp τ x = 0 from by ring_nf <;> simp]
+            + trvExp σ x = 0 from by ring_nf; simp,
+          show trvExp τ x + trvExp τ x + trvExp τ x + trvExp τ x = 0 from by ring_nf; simp]
       simp [zpowTwo_zero]
     have hdvd : orderOf (σ * τ) ∣ 4 := orderOf_dvd_of_pow_eq_one h4
     have hne : orderOf (σ * τ) ≠ 1 := fun h => hφne (orderOf_eq_one_iff.mp h)
@@ -384,32 +384,32 @@ theorem s16c1_G47_two_transv {E : Type*} [Group E] (hE : ∀ x : E, x * x = 1) {
     have h3 : (σ * τ) ^ 3 = 1 := by
       ext x
       have hs1 : trvExp σ ((σ * τ) x) = trvExp σ x + trvExp τ x := by
-        rw [hs_step x]; ring_nf <;> simp
+        rw [hs_step x]; ring_nf
       have ht1 : trvExp τ ((σ * τ) x) = trvExp σ x := by
-        rw [ht_step x]; ring_nf <;> simp
+        rw [ht_step x]; ring_nf; simp
       have hs2 : trvExp σ (((σ * τ) ^ 2) x) = trvExp τ x := by
         rw [show ((σ * τ) ^ 2) x = (σ * τ) ((σ * τ) x) from by rw [pow_two, MulAut.mul_apply]]
-        rw [hs_step ((σ * τ) x), hs1, ht1]; ring_nf <;> simp
+        rw [hs_step ((σ * τ) x), hs1, ht1]; ring_nf; simp
       have ht2 : trvExp τ (((σ * τ) ^ 2) x) = trvExp σ x + trvExp τ x := by
         rw [show ((σ * τ) ^ 2) x = (σ * τ) ((σ * τ) x) from by rw [pow_two, MulAut.mul_apply]]
-        rw [ht_step ((σ * τ) x), hs1, ht1]; ring_nf <;> simp
+        rw [ht_step ((σ * τ) x), hs1, ht1]; ring_nf; simp
       have h1 : (σ * τ) x = x * zpowTwo a (trvExp σ x + trvExp τ x)
           * zpowTwo b (trvExp τ x) := by
         rw [hstep x]
-        rw [show trvExp σ x + 1 * trvExp τ x = trvExp σ x + trvExp τ x from by ring_nf <;> simp]
+        rw [show trvExp σ x + 1 * trvExp τ x = trvExp σ x + trvExp τ x from by ring_nf]
       have h2p : ((σ * τ) ^ 2) x = (σ * τ) x * zpowTwo a (trvExp τ x)
           * zpowTwo b (trvExp σ x) := by
         rw [show ((σ * τ) ^ 2) x = (σ * τ) ((σ * τ) x) from by rw [pow_two, MulAut.mul_apply]]
         rw [hstep ((σ * τ) x), hs1, ht1]
         rw [show (trvExp σ x + trvExp τ x) + 1 * trvExp σ x = trvExp τ x from by
-          ring_nf <;> simp]
+          ring_nf; simp]
       have h3p : ((σ * τ) ^ 3) x = ((σ * τ) ^ 2) x * zpowTwo a (trvExp σ x)
           * zpowTwo b (trvExp σ x + trvExp τ x) := by
         rw [show ((σ * τ) ^ 3) x = (σ * τ) (((σ * τ) ^ 2) x) from by
           rw [show (3 : ℕ) = 2 + 1 by norm_num, pow_succ', MulAut.mul_apply]]
         rw [hstep (((σ * τ) ^ 2) x), hs2, ht2]
         rw [show trvExp τ x + 1 * (trvExp σ x + trvExp τ x) = trvExp σ x from by
-          ring_nf <;> simp]
+          ring_nf; simp]
       rw [h3p, h2p, h1]
       rw [zpowTwo_add ha2 (trvExp σ x) (trvExp τ x),
           zpowTwo_add hb2 (trvExp σ x) (trvExp τ x)]
@@ -422,8 +422,8 @@ theorem s16c1_G47_two_transv {E : Type*} [Group E] (hE : ∀ x : E, x * x = 1) {
                 * (zpowTwo b (trvExp τ x) * zpowTwo b (trvExp τ x))
                 * (zpowTwo b (trvExp σ x) * zpowTwo b (trvExp σ x)) from by ac_rfl]
       simp only [← zpowTwo_add ha2, ← zpowTwo_add hb2]
-      rw [show trvExp σ x + trvExp σ x = 0 from by ring_nf <;> simp,
-          show trvExp τ x + trvExp τ x = 0 from by ring_nf <;> simp]
+      rw [show trvExp σ x + trvExp σ x = 0 from by ring_nf; simp,
+          show trvExp τ x + trvExp τ x = 0 from by ring_nf; simp]
       simp [zpowTwo_zero]
     have hdvd : orderOf (σ * τ) ∣ 3 := orderOf_dvd_of_pow_eq_one h3
     have hne : orderOf (σ * τ) ≠ 1 := fun h => hφne (orderOf_eq_one_iff.mp h)
@@ -435,12 +435,12 @@ theorem s16c1_G47_two_le_card_fixed {G : Type*} [Group G] [Finite G] {S V₀ : S
     (hS : IsPGroup 2 S) (hSN : S ≤ normalizer (V₀ : Set G)) (hV₀ : IsPGroup 2 V₀)
     (hcard : Nat.card V₀ ≤ 4) :
     Nat.card V₀ ≤ 2 * Nat.card ↥(V₀ ⊓ centralizer (S : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
-  haveI : Subgroup.Normalizes S V₀ := ⟨hSN⟩
+  have : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
+  have : Subgroup.Normalizes S V₀ := ⟨hSN⟩
   have hsmul : ∀ (s : ↥S) (v : ↥V₀),
       ((s • v : ↥V₀) : G) = (s : G) * (v : G) * (s : G)⁻¹ :=
     fun s v => Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe S V₀ s v
-  haveI : Nonempty ↥(V₀ ⊓ centralizer (S : Set G)) := ⟨⟨1, by simp⟩⟩
+  have : Nonempty ↥(V₀ ⊓ centralizer (S : Set G)) := ⟨⟨1, by simp⟩⟩
   let e : ↥(V₀ ⊓ centralizer (S : Set G)) ≃ ↥(MulAction.fixedPoints ↥S ↥V₀) :=
   { toFun := fun x =>
       ⟨⟨x.1, x.2.1⟩, by
@@ -475,7 +475,6 @@ theorem s16c1_G47_two_le_card_fixed {G : Type*} [Group G] [Finite G] {S V₀ : S
   · have hfmod : f % 2 = 0 := by
       have h := hmod
       rw [Nat.ModEq] at h
-      norm_num at h
       omega
     have h2f : 2 ≤ f := Nat.le_of_dvd (by omega) (Nat.dvd_of_mod_eq_zero hfmod)
     omega

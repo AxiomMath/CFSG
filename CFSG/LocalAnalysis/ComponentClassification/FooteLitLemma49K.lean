@@ -49,7 +49,7 @@ theorem exists_omega_of_isCoverOverTwo_sz_quotient {K R : Subgroup G} (hRK : IsS
   have hQO : ∀ x ∈ (Q : Subgroup ↥K), ρ x = 1 → x = 1 := by
     intro x hxQ hx1
     rw [hρ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at hx1
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨x, hxQ⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨x, hxQ⟩
     have h1 : orderOf x ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one (by
       have := congrArg Subtype.val hk
       simpa using this)

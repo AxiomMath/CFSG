@@ -116,7 +116,7 @@ theorem ggCorFiveTwentyQFourReflFailNonSplitInput_of_qFour
       GGRootGenOpenLabel p lab ∧ ¬ GGRootGenSpOrthSplitLabel p lab) :
     GGCorFiveTwentyQFourReflFailNonSplitInput := by
   intro G _ _ p B Bs x L D J hHyp hq hN _ _
-  haveI : Fact p.Prime := ⟨hHyp.1.1.2.2.2.2.2.1.1⟩
+  have : Fact p.Prime := ⟨hHyp.1.1.2.2.2.2.2.1.1⟩
   obtain ⟨T⟩ := hTB G p B Bs x L D J hHyp hq hN hq
   exact normalizer_of_tb_rootGen_qFour hLB hP hHyp T (rootGenL_qFour_of_open hRig hL hHyp hq hN)
     fun y K hnb => rootGenNbr_qFour_of_open hRig hraw hiso hK hHyp hq hN hnb

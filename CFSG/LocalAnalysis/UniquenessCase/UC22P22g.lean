@@ -56,13 +56,13 @@ theorem uc22p22g_inner_of_pElement {H : Type} [Group H] [Finite H] (L : Subgroup
     {h : H} {b : ℕ} (hh : h ^ (p ^ b) = 1) :
     ∃ l ∈ L, l⁻¹ * h ∈ Subgroup.centralizer (L : Set H) := by
   classical
-  haveI : Finite ↥L := Finite.of_injective _ Subtype.val_injective
-  haveI : Finite (Outer ↥L) := uc22p22g_finite_outer ↥L
+  have : Finite ↥L := Finite.of_injective _ Subtype.val_injective
+  have : Finite (Outer ↥L) := uc22p22g_finite_outer ↥L
   let ψ : H →* Outer ↥L :=
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner ↥L)).comp
       (MulAut.conjNormal (H := L))
   let Q : Subgroup (Outer ↥L) := ψ.range
-  haveI : Finite Q := Finite.of_injective _ Subtype.val_injective
+  have : Finite Q := Finite.of_injective _ Subtype.val_injective
   obtain ⟨a, m, hm, hcard⟩ :=
     Nat.exists_eq_pow_mul_and_not_dvd (Nat.card_pos (α := Q)).ne' p hp.ne_one
   let r : H →* Q := ψ.rangeRestrict
@@ -163,7 +163,7 @@ theorem uc22p22g_card_le {H : Type} [Group H] [Finite H] (L : Subgroup H) [L.Nor
       rwa [h1, Subgroup.coe_one, inv_one, one_mul] at this
     exact Subtype.ext (hC _ h2 ⟨1, by rw [pow_one]; exact hEp x⟩)
   let e : ↥E ≃* ↥φ.range := MonoidHom.ofInjective hinj
-  haveI : CFSG.IsElementaryAbelian p ↥φ.range := CFSG.IsElementaryAbelian.of_mulEquiv e hE
+  have : CFSG.IsElementaryAbelian p ↥φ.range := CFSG.IsElementaryAbelian.of_mulEquiv e hE
   have := hrank φ.range inferInstance
   rwa [← Nat.card_congr e.toEquiv] at this
 
@@ -177,16 +177,16 @@ theorem uc22p22g_isL2_psl {X : Type} [Group X] {n : ℕ} (h : IsL2 X n) :
     have : n = 1 := by omega
     subst this
     exact h22 (by simp)
-  haveI : CharP F 2 := uc22p22d_charP_two (by omega) hFcard
+  have : CharP F 2 := uc22p22d_charP_two (by omega) hFcard
   exact ⟨hn2, F, hF1, hF2, hFcard, inferInstance,
     ⟨e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F).symm⟩⟩
 
 theorem uc22p22g_outer_comm {X : Type} [Group X] {n : ℕ} (h : IsL2 X n) :
     ∀ a b : Outer X, a * b = b * a := by
   obtain ⟨-, F, hF1, hF2, hFcard, -, ⟨e⟩⟩ := uc22p22g_isL2_psl h
-  haveI : IsCyclic (Outer (CFSG.GorensteinWalter.PSL2 F)) :=
+  have : IsCyclic (Outer (CFSG.GorensteinWalter.PSL2 F)) :=
     CFSG.ClassicalInvolution.Q3.TL4.Bend.isCyclic_outer_psl2_even hFcard
-  haveI : IsCyclic (Outer X) :=
+  have : IsCyclic (Outer X) :=
     (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).isCyclic.2 inferInstance
   intro a b
   exact IsMulCommutative.is_comm.comm a b
@@ -211,7 +211,7 @@ theorem uc22p22g_center_bot {X : Type} [Group X] {n : ℕ} (h : IsL2 X n) :
 theorem uc22p22g_rank {X : Type} [Group X] {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : IsL2 X n)
     (E : Subgroup X) [CFSG.IsElementaryAbelian p ↥E] : Nat.card E ≤ p := by
   obtain ⟨-, F, hF1, hF2, hFcard, hchar, ⟨e⟩⟩ := uc22p22g_isL2_psl h
-  haveI : NeZero (p : F) := ⟨CFSG.RankThree.PartOne.LIT.natCast_ne_zero_of_charTwo hp hp2⟩
+  have : NeZero (p : F) := ⟨CFSG.RankThree.PartOne.LIT.natCast_ne_zero_of_charTwo hp hp2⟩
   have hA : CFSG.IsElementaryAbelian p ↥(E.map e.toMonoidHom) :=
     CFSG.IsElementaryAbelian.of_mulEquiv (E.equivMapOfInjective e.toMonoidHom e.injective)
       inferInstance
@@ -233,8 +233,8 @@ theorem uc22p22g_pRank_le_one {H : Type} [Group H] [Finite H] (L : Subgroup H) [
     exact Subgroup.mem_bot.2 (congrArg Subtype.val hz)
   have hcard : ∀ E : Subgroup H, CFSG.IsElementaryAbelian p ↥E → Nat.card E ≤ p := by
     intro E hE
-    haveI := hE
-    exact uc22p22g_card_le L hLC (fun E' hE' => by haveI := hE'; exact uc22p22g_rank hp hp2 hL E')
+    have := hE
+    exact uc22p22g_card_le L hLC (fun E' hE' => by have := hE'; exact uc22p22g_rank hp hp2 hL E')
       (fun c hc ⟨k, hk⟩ => hC c hc k hk)
       (fun h ⟨k, hk⟩ => uc22p22g_inner_of_pElement L hp (uc22p22g_outer_comm hL) hOp hk) E
   refine csSup_le' ?_
@@ -269,6 +269,7 @@ section Modules
 
 variable {H : Type} [Group H] [Finite H] {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [Finite H] in
 theorem uc22p22g_map_conj_eq_of_normal (L : Subgroup H) [L.Normal] (h : H) :
     L.map (MulAut.conj h).toMonoidHom = L := by
   ext x
@@ -279,6 +280,7 @@ theorem uc22p22g_map_conj_eq_of_normal (L : Subgroup H) [L.Normal] (h : H) :
   · intro hx
     exact ⟨h⁻¹ * x * h, by simpa using ‹L.Normal›.conj_mem x hx h⁻¹, by group⟩
 
+omit [Finite W] [Finite H] in
 theorem uc22p22g_commOn_top (ρ : Representation (ZMod 2) H W) (hirr : ρ.IsIrreducible)
     (hfaith : Function.Injective ρ) {L : Subgroup H} [L.Normal] (hL : L ≠ ⊥) :
     commOn ρ L ⊤ = ⊤ := by
@@ -301,6 +303,7 @@ theorem uc22p22g_commOn_top (ρ : Representation (ZMod 2) H W) (hirr : ρ.IsIrre
     exact Subgroup.one_mem _
   · exact h
 
+omit [Finite H] [Finite W] in
 theorem uc22p22g_cent_nat (ρ : Representation (ZMod 2) H W) (hfaith : Function.Injective ρ)
     {L : Subgroup H} {n p : ℕ} (hp : p.Prime) (hpn : ¬ p ∣ 2 ^ n - 1)
     (hnat : NatL2 ρ L ⊤ ⊥ n) {c : H} (hc : c ∈ Subgroup.centralizer (L : Set H)) {k : ℕ}
@@ -372,7 +375,7 @@ theorem uc22p22g_cent_nat (ρ : Representation (ZMod 2) H W) (hfaith : Function.
     intro h0
     rw [h0, zero_pow (pow_ne_zero k hp.ne_zero)] at hμ1
     exact zero_ne_one hμ1
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hμ2 : μ ^ (2 ^ n - 1) = 1 := by
     have := FiniteField.pow_card_sub_one_eq_one μ hμ0
     rwa [← Nat.card_eq_fintype_card, hFcard] at this
@@ -411,7 +414,7 @@ theorem uc22p22g_centRank8_holds :
   intro H _ _ W _ _ _ ρ hfaith L hL hirr8 c hc j hcj
   classical
   obtain ⟨-, F, hF1, hF2, hFcard, hchar, ⟨e⟩⟩ := uc22p22g_isL2_psl hL
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hF : Fintype.card F = 2 ^ 3 := by rw [← Nat.card_eq_fintype_card, hFcard]
   let eSL : ↥L ≃* Matrix.SpecialLinearGroup (Fin 2) F :=
     e.trans CFSG.Walter.psl2MulEquivSL2OfCharTwo
@@ -425,8 +428,8 @@ theorem uc22p22g_centRank8_holds :
     have h2 : Nat.card ↥(⊥ : Submodule (ZMod 2) W) = 1 := Nat.card_unique
     rw [h1, h2, mul_one] at hcard
     exact hcard
-  haveI : Nontrivial W := Finite.one_lt_card_iff_nontrivial.mp (by rw [hWcard]; norm_num)
-  haveI : IsSimpleGroup ↥L :=
+  have : Nontrivial W := Finite.one_lt_card_iff_nontrivial.mp (by rw [hWcard]; norm_num)
+  have : IsSimpleGroup ↥L :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL
   obtain ⟨l₀, hl₀⟩ := exists_ne (1 : ↥L)
   have hnt' : ∃ g, ρ' g ≠ 1 := by
@@ -443,11 +446,11 @@ theorem uc22p22g_centRank8_holds :
     intro a ha u hu
     have := hU (eSL ⟨a, ha⟩) u hu
     rwa [hρ', eSL.symm_apply_apply] at this
-  haveI : Fact ρ'.IsIrreducible := ⟨hirr'⟩
+  have : Fact ρ'.IsIrreducible := ⟨hirr'⟩
   obtain ⟨d, hd1, hDcard, hb⟩ :=
     binary_SL2_irreducible_Frobenius_descent (n := 3) (by norm_num) hF ρ' hnt'
-  haveI : Finite (EndRing ρ') := finite_endRing ρ'
-  haveI : Module.Finite (EndRing ρ') W := Module.Finite.of_finite
+  have : Finite (EndRing ρ') := finite_endRing ρ'
+  have : Module.Finite (EndRing ρ') W := Module.Finite.of_finite
   obtain ⟨E, _, _, _, ιF, ιD, J, hJne, hJn, -, hshift, hdim⟩ :=
     hb (Module.finBasis (EndRing ρ') W)
   have hfinrank : Module.finrank (ZMod 2) W = 8 := by
@@ -467,7 +470,7 @@ theorem uc22p22g_centRank8_holds :
     · omega
     · exact hd
   have hcard2 : Nat.card (EndRing ρ') = 2 := by rw [hDcard, hd]; rfl
-  letI : Fintype (EndRing ρ') := Fintype.ofFinite _
+  let : Fintype (EndRing ρ') := Fintype.ofFinite _
   have hkey : ∀ x : EndRing ρ', x = 0 ∨ x = 1 := by
     intro x
     by_contra hx
@@ -519,7 +522,7 @@ theorem uc22p22g_cent_trivial (ρ : Representation (ZMod 2) H W) (hfaith : Funct
           SecSum (fun A B => NatOmegaMinus4 ρ L A B k) 2 (commOn ρ L ⊤) ⊥)) ∨
       (n = 3 ∧ IsL2 ↥L 3 ∧ SecIrr ρ L (commOn ρ L ⊤) ⊥ 8)) :
     ∀ c ∈ Subgroup.centralizer (L : Set H), ∀ j : ℕ, c ^ (p ^ j) = 1 → c = 1 := by
-  haveI : IsSimpleGroup ↥L :=
+  have : IsSimpleGroup ↥L :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL
   have hLne : L ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot L).1 inferInstance
   have htop := uc22p22g_commOn_top ρ hirr hfaith hLne
@@ -551,21 +554,22 @@ theorem uc22p22g_prod_not_simple {A B : Type} [Group A] [Group B] [Nontrivial A]
     have : ((1, b) : A × B) ∈ (MonoidHom.snd A B).ker := by rw [h]; trivial
     exact hb (MonoidHom.mem_ker.1 this)
 
+omit [Finite H] [Finite W] in
 theorem uc22p22g_not_natOmegaPlus4 (ρ : Representation (ZMod 2) H W) {L : Subgroup H} {n : ℕ}
     (hL : IsL2 ↥L n) (hLg : lgConj L = L) : ¬ NatOmegaPlus4 ρ (lgConj L) ⊤ ⊥ n := by
   rw [hLg]
   rintro ⟨F, hF1, hF2, hFcard, -, -, -, φ, -⟩
   obtain ⟨hn2, -⟩ := uc22p22g_isL2_psl hL
-  haveI : CharP F 2 := uc22p22d_charP_two (by omega) hFcard
+  have : CharP F 2 := uc22p22d_charP_two (by omega) hFcard
   have h4 : 4 ≤ Nat.card F := by
     rw [hFcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
   obtain ⟨ψ⟩ := uc22p22d_omegaPlus4_equiv h4
-  haveI : IsSimpleGroup ↥L :=
+  have : IsSimpleGroup ↥L :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL
-  haveI hsimp := CFSG.Quasithin.QP.sl2_isSimpleGroup h4
-  haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) F) := hsimp.toNontrivial
+  have hsimp := CFSG.Quasithin.QP.sl2_isSimpleGroup h4
+  have : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) F) := hsimp.toNontrivial
   exact uc22p22g_prod_not_simple
     ((φ.trans ψ.symm).isSimpleGroup_congr.1 inferInstance)
 
@@ -591,7 +595,7 @@ theorem s22_16_of_s15 (D : Data G) (Ch : Choice2011 G) (hK147 : K147) (h22V : S2
   have hgt : ¬ MBarGT D.M ⊥ c.V (n + 1) := fun h =>
     h9' (uc22br4_mBarGT_mono D.M ⊥ c.V h (by omega))
   have hn3' : 3 ≤ n := le_trans (hn3 c) hn
-  haveI : IsSimpleGroup ↥(mbarImage D.M c.V K) :=
+  have : IsSimpleGroup ↥(mbarImage D.M c.V K) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
   have hKV : ¬ K ≤ centralizer (c.V : Set G) := fun hle =>
     (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
@@ -601,7 +605,7 @@ theorem s22_16_of_s15 (D : Data G) (Ch : Choice2011 G) (hK147 : K147) (h22V : S2
     · exact (hJL hL2).elim
     · exact h
     · exact (uc22p22g_isSz_isL2_false hSz hL2).elim
-  haveI hMnorm : (mbarImage D.M c.V K).Normal :=
+  have hMnorm : (mbarImage D.M c.V K).Normal :=
     uc22br4_mbarImage_normal D.M c.V K hKM
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hKM).1 hnorm)
   have hlg : lgConj (mbarImage D.M c.V K) = mbarImage D.M c.V K :=

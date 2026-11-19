@@ -266,6 +266,7 @@ theorem sporadicCover880 :
 
 end Multipliers
 
+omit [Finite G] in
 theorem mem_centSection_iff {M A B : Subgroup G} {x : G} :
     x ∈ centSection M A B ↔ x ∈ M ∧ x ∈ normalizer (A : Set G) ∧
       x ∈ normalizer (B : Set G) ∧ ∀ a ∈ A, x * a * x⁻¹ * a⁻¹ ∈ B := Iff.rfl
@@ -301,7 +302,7 @@ section J2
 theorem opp_three_eq_self_of_j2 {M L : Subgroup G} (hL : L ∈ calC M)
     (hs : IsSpor (Bar2 L) .J2) : Opp 3 L = L := by
   obtain ⟨eJ⟩ := hs
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
     CFSG.Sporadic.J2.isSimpleGroup_J2
   have hsimple : IsSimpleGroup (Bar2 L) := eJ.isSimpleGroup
   have h3 : 3 ∣ Nat.card (Bar2 L) := by
@@ -316,7 +317,7 @@ end J2
 section Certified
 
 
-theorem seventeen_twentytwo (D : Data G) (V₀ V : Subgroup G) (hV : Hyp125 D V₀ V)
+theorem seventeen_twentytwo (D : Data G) (V₀ V : Subgroup G) (_hV : Hyp125 D V₀ V)
     (h17_20 : R17_20At D V₀ V) (h17_21 : R17_21At D V₀ V)
     (h880 : F08.R880 D) :
     R17_22At D V₀ V := by

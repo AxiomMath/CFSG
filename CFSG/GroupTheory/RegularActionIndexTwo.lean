@@ -24,7 +24,7 @@ theorem natCard_commutator_eq_card_add_one {V X : Subgroup G}
     rw [h] at hmem
     exact hmem
   obtain ⟨z₀, hz₀⟩ := hΔne
-  haveI : Nonempty ↥(nonIdentity ⁅V, X⁆) := ⟨⟨z₀, hz₀⟩⟩
+  have : Nonempty ↥(nonIdentity ⁅V, X⁆) := ⟨⟨z₀, hz₀⟩⟩
   have hf : Function.Bijective (fun x : X =>
       (⟨(x : G)⁻¹ * z₀ * (x : G), hreg.1 x x.2 z₀ hz₀⟩ :
         ↥(nonIdentity ⁅V, X⁆))) := by
@@ -61,7 +61,7 @@ theorem exists_relIndex_two_le_of_rk {W : Type} [CommGroup W] [Finite W]
     (hA : rk W ≤ rk A + 1) :
     ∃ H : Subgroup W, H ≤ A ∧ H.relIndex ⊤ = 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWpg : IsPGroup 2 W := isPGroup_two_of_sq_eq_one hW2
   by_cases hAW : A = ⊤
   · subst hAW

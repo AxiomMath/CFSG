@@ -107,7 +107,7 @@ theorem rck_kernel_stable
 
 theorem rck_dvd_of_orderOf_two {p f : ℕ} (hp : p.Prime)
     (h : orderOf ((2 ^ f : ℕ) : ZMod p) = 2) : p ∣ 2 ^ f + 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hsq : (((2 ^ f : ℕ) : ZMod p)) ^ 2 = 1 := by
     have := pow_orderOf_eq_one (((2 ^ f : ℕ) : ZMod p))
     rwa [h] at this

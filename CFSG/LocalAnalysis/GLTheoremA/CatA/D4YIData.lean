@@ -48,6 +48,7 @@ section Data
 
 variable {H : Type} [Group H] [Finite H] {K B : Subgroup H}
 
+omit [Finite H] in
 theorem rest2_data (hK : catalogIs ↥K isD4any) (hn : ¬ catalogIs ↥K S9.isD4two)
     (hB : IsElemAbelian 3 B) (hBK : B ≤ Subgroup.normalizer (K : Set H))
     (hout : ∃ b ∈ B, ∃ hb : b ∈ Subgroup.normalizer (K : Set H), NotCentralOut (conjAut K b hb))
@@ -67,7 +68,7 @@ theorem rest2_data (hK : catalogIs ↥K isD4any) (hn : ¬ catalogIs ↥K S9.isD4
   classical
   obtain ⟨n, hn2, hKn⟩ := exists_isD4pow2 hK hn
   obtain ⟨K₀, _, _, _, hK₀, ⟨Φ⟩⟩ := exists_om8_of_isD4pow2 hn2 hKn
-  haveI : IsCyclic (K₀ ≃+* K₀) := CFSG.RankThree.PartOne.KFOUT3.isCyclic_aut (by omega) hK₀
+  have : IsCyclic (K₀ ≃+* K₀) := CFSG.RankThree.PartOne.KFOUT3.isCyclic_aut (by omega) hK₀
   have hcomm : ∀ σ τ : K₀ ≃+* K₀, σ * τ = τ * σ := fun σ τ =>
     (IsCyclic.commGroup (α := K₀ ≃+* K₀)).mul_comm σ τ
   set N : Subgroup H := Subgroup.normalizer (K : Set H) with hN
@@ -157,7 +158,7 @@ theorem rest2_data (hK : catalogIs ↥K isD4any) (hn : ¬ catalogIs ↥K S9.isD4
       fun b k => rfl
     have hThne : Th ≠ ⊥ := by
       intro hbot
-      obtain ⟨t, ht, htk⟩ := (SetLike.not_le_iff_exists.1 hTnc)
+      obtain ⟨t, ht, htk⟩ := (IsConcreteLE.not_le_iff_exists.1 hTnc)
       obtain ⟨k, hk, hkt⟩ : ∃ k ∈ K, k * t ≠ t * k := by
         by_contra hh
         push Not at hh
@@ -174,7 +175,7 @@ theorem rest2_data (hK : catalogIs ↥K isD4any) (hn : ¬ catalogIs ↥K S9.isD4
       rw [Subgroup.mem_normalizer_iff]
       intro y
       have h1 := Subgroup.mem_normalizer_iff.1 (hBT (Subgroup.mem_subgroupOf.1 hb)) (y : H)
-      simp only [hT', Subgroup.mem_subgroupOf, SetLike.mem_coe, Subgroup.coe_mul,
+      simp only [hT', Subgroup.mem_subgroupOf, Subgroup.coe_mul,
         Subgroup.coe_inv] at h1 ⊢
       exact h1
     have hnorm : Bbar K B ≤ Subgroup.normalizer (Th : Set (MulAut ↥K)) := fun σ hσ => by

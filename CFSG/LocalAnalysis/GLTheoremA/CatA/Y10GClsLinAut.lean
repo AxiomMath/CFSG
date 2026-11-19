@@ -19,7 +19,7 @@ theorem odd_order_aut_eq_conj_mul_field {K : Type} [Field K] [Finite K] [CharP K
   · obtain ⟨A, rfl⟩ := hi
     exact ⟨A, σ, rfl⟩
   · exfalso
-    haveI : (inndiag : Subgroup (MulAut (projectiveSL d K))).Normal := inndiag_normal hd
+    have : (inndiag : Subgroup (MulAut (projectiveSL d K))).Normal := inndiag_normal hd
     have hcpI : (fieldAut d K σ * graphAut) ^ p ∈
         (inndiag : Subgroup (MulAut (projectiveSL d K))) := by
       have h1 : QuotientGroup.mk' (inndiag : Subgroup (MulAut (projectiveSL d K)))

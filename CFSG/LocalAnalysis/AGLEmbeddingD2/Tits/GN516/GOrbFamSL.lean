@@ -11,7 +11,7 @@ namespace CFSG.AGLEmbeddingD2.Tits.GN516.Fam
 theorem edgeCond_sl {m : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]
     (H : Fin (CFSG.LieType.Universal.SpecialLinear.rootDatum m F).rank →
       Subgroup (Matrix.SpecialLinearGroup (Fin (m + 1)) F))
-    (hrank : 3 ≤ (CFSG.LieType.Universal.SpecialLinear.rootDatum m F).rank)
+    (_hrank : 3 ≤ (CFSG.LieType.Universal.SpecialLinear.rootDatum m F).rank)
     (u v : Fin (CFSG.LieType.Universal.SpecialLinear.rootDatum m F).rank)
     (hadj : (TauCeti.diagramGraph
       (CFSG.LieType.Universal.SpecialLinear.rootDatum m F).cartan).Adj u v) :

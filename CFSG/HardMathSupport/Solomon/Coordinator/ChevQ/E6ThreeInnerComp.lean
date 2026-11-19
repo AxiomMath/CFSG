@@ -330,7 +330,7 @@ theorem exists_inner_moving_all_factors [Finite K]
     ∃ v : adjointGroup Tag.E6 K, MulAut.conj v ∈ E ∧ ∀ i : Fin 3,
       MulAut.conj v ∉ factorFixer K i := by
   have hcard27 : Nat.card E = 27 := by rw [hcard]; norm_num
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard27]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard27]; norm_num)
   have hne : ∀ i, (factorFixer K i).subgroupOf E ≠ ⊤ := fun i hi =>
     hER (e6NormalizesR_of_le_factorFixer fun ε hε => by
       have h : (⟨ε, hε⟩ : E) ∈ (factorFixer K i).subgroupOf E := by

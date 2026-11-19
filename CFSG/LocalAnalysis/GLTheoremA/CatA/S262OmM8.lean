@@ -34,14 +34,14 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup)
 open CFSG.AGLEmbedding.ToralCensus (PerfectThreeIn)
 
 theorem exists_twistedD_four_of_gf2OmMinus8 (d : ValidLieTypeIndex) (h : gf2OmMinus8 d.1) :
-    ∃ (q : PrimePower) (hv : (LieTypeIndex.twistedD 4 q).Valid),
+    ∃ (q : PrimePower) (_hv : (LieTypeIndex.twistedD 4 q).Valid),
       d.1 = .twistedD 4 q ∧ q.card = 2 := by
-  obtain ⟨e, hv⟩ := d
+  obtain ⟨e, _hv⟩ := d
   cases e with
   | twistedD r q =>
     by_cases hr : r = 4
     · subst hr
-      exact ⟨q, hv, rfl, by simpa [gf2OmMinus8] using h⟩
+      exact ⟨q, _hv, rfl, by simpa [gf2OmMinus8] using h⟩
     · exfalso
       simp [gf2OmMinus8, hr] at h
   | A r q => simp [gf2OmMinus8] at h
@@ -76,13 +76,13 @@ theorem e9GoodOn_gf2OmMinus8 (hPL : KD264PL 3) : E9GoodOn gf2OmMinus8 := by
     have h := CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeTwistedD_even 4 q hv hp2
       (MulEquiv.refl T)
     rwa [hp2, hexp] at h
-  haveI : IsSimpleGroup T := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmodel
+  have : IsSimpleGroup T := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmodel
   obtain ⟨-, K, hfieldK, hfiniteK, hcardK, b, c, hbc, ⟨eK⟩⟩ := hmodel
-  letI : Field K := hfieldK
-  letI : Finite K := hfiniteK
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfieldK
+  let : Finite K := hfiniteK
+  have : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = 2 := by simpa using hcardK
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card]; exact hK2)
   let V := Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → K
   let Q : QuadraticForm K V := CFSG.LieType.Universal.Spin.quadMinus 4 K b c
@@ -187,7 +187,7 @@ theorem e9GoodOn_gf2OmMinus8 (hPL : KD264PL 3) : E9GoodOn gf2OmMinus8 := by
     have hcongr := congrArg e.symm hcommΩ
     simpa using hcongr
   have h3P : 3 ∣ Nat.card ↥P := by
-    haveI : Fintype ↥P := Fintype.ofFinite _
+    have : Fintype ↥P := Fintype.ofFinite _
     have hyord : orderOf y = 3 := orderOf_eq_prime hy3 hy1
     have h := orderOf_dvd_card (x := (⟨y, hyP⟩ : ↥P))
     have hord : orderOf (⟨y, hyP⟩ : ↥P) = orderOf y :=

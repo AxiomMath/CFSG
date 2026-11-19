@@ -88,8 +88,8 @@ theorem oddNormal_le_ker_psiY [Finite Yt] (hgen : pSpan Λ = ⊤) (I : AEIdent �
     show permQ 5 (ψ y) = σ
     rw [hy, permQ_mkQ]
     rfl
-  haveI : (N.map ρ').Normal := Subgroup.Normal.map inferInstance ρ' hρ'surj
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : (N.map ρ').Normal := Subgroup.Normal.map inferInstance ρ' hρ'surj
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   rcases Subgroup.Normal.eq_bot_or_eq_top (N.map ρ') with hbot | htop
   · intro n hn
     have h1 : ρ' n = 1 := by

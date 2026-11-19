@@ -32,7 +32,7 @@ theorem AGL81ElevenNineData.lie_of_not_centRankThreeAt_cl (hKF : KFactTenElevenO
     (hd : AGL81ElevenNineData 3 P M H Q K L W a₀) (hc : ¬ CentRankThreeAt 3 M)
     (hNI : HasNormalIndex M 3) :
     ∃ e : ℕ, IsLieOver (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) (.A 2) 2 e := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hp, hp2, hyps, -, -, hrk, hdvd, hrkW, a, hap, haJ, hnon⟩ :=
     hd.blockFieldIndexW_hyps hS h85 h93 hNX h98
   have h2 := nineThreeTwo_of_not_inner_wPre hp hp2 hyps hrk hdvd hrkW hap haJ hnon

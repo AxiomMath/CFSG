@@ -22,7 +22,7 @@ private theorem centralizes_of_autQuotient_eq_one {X : Type*} [Group X] [Finite 
       (Subgroup.normalizerMonoidHom P ⟨u, huN⟩) = 1) :
     u ∈ Subgroup.centralizer (P : Set X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let α : MulAut ↥P := Subgroup.normalizerMonoidHom P ⟨u, huN⟩
   have hαρ : CFSG.SectionRank.Ccomm.autQuotient (frattini ↥P) α = 1 := hρ
   have hker : α ∈ (CFSG.SectionRank.Ccomm.autQuotient (frattini ↥P)).ker :=
@@ -114,7 +114,7 @@ private theorem mem_frattiniPreimage_of_cube_one {X : Type} [Group X]
   · exact h3 (QuotientGroup.mk' O u) ⟨1, by rw [h, pow_one]⟩
 
 private theorem rho_ker_map_eq_top {X : Type} [Group X] [Finite X] {p : ℕ}
-    (hp : p.Prime) (hp5 : 5 ≤ p) {P : Subgroup X} (hP : IsPGroup p ↥P)
+    (hp : p.Prime) (hp5 : 5 ≤ p) {P : Subgroup X} (_hP : IsPGroup p ↥P)
     {H : Type} [Group H] {Lb : Subgroup H} {n : ℕ} (hn : 9 ≤ n)
     (e : ↥Lb ≃* alternatingGroup (Fin n)) {Y : Type} [Group Y] [Finite Y]
     (φ : Y →* ↥Lb) (hφsurj : Function.Surjective φ)
@@ -138,13 +138,13 @@ private theorem rho_ker_map_eq_top {X : Type} [Group X] [Finite X] {p : ℕ}
     · intro h
       rw [MonoidHom.comp_apply, h, map_one]
   have hnotker : ¬ ρ.ker ≤ φ.ker := by rwa [hkerφ] at hnotker'
-  haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (by
       have : 5 ≤ Nat.card (Fin n) := by simpa using (show 5 ≤ n by omega)
       exact this)
-  haveI : IsSimpleGroup ↥Lb := e.isSimpleGroup
+  have : IsSimpleGroup ↥Lb := e.isSimpleGroup
   have hnormal : (ρ.ker.map φ).Normal := (MonoidHom.normal_ker ρ).map φ hφsurj
-  haveI := hnormal
+  have := hnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (ρ.ker.map φ) with hbot | htop
   · exfalso
     apply hnotker
@@ -207,7 +207,7 @@ private theorem exists_sylow_with_frattini_data {X : Type} [Group X] [Finite X] 
       Nat.card (↥P ⧸ frattini ↥P) ≤ p ^ 4 ∧
       Subgroup.normalizer (P : Set X) ⊔ O = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let U : Subgroup X := Subgroup.closure ({u₁, u₂} : Set X)
   have hcardU : Nat.card U = 9 :=
     CFSG.RankThree.Asc83Table.card_closure_pair_eq_nine hu₁ hu₂ hu hu₁1 hu₂z
@@ -247,7 +247,7 @@ theorem exists_isSylowOf_le_centralizer_of_alternating (hGL4 : KFactA9NotInvolve
     ∃ P : Subgroup X, CFSG.ABGLocalTools.IsSylowOf p P O ∧
       Subgroup.closure ({u₁, u₂} : Set X) ≤ Subgroup.centralizer (P : Set X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let U : Subgroup X := Subgroup.closure ({u₁, u₂} : Set X)
   obtain ⟨P, hP, hUP, hPcard, hfrattini⟩ :=
     exists_sylow_with_frattini_data hp hp5 O hO hu₁ hu₂ hu hu₁1 hu₂z hrank
@@ -258,7 +258,7 @@ theorem exists_isSylowOf_le_centralizer_of_alternating (hGL4 : KFactA9NotInvolve
     exact inf_le_left
   have hΦchar : (frattini ↥P).Characteristic :=
     (CFSG.GroupTheory.frattini_elementary_quotient hPpg).1
-  letI : (frattini ↥P).Characteristic := hΦchar
+  let : (frattini ↥P).Characteristic := hΦchar
   let ρ : Y →* MulAut (↥P ⧸ frattini ↥P) :=
     (CFSG.SectionRank.Ccomm.autQuotient (frattini ↥P)).comp
       ((Subgroup.normalizerMonoidHom P).comp (Subgroup.inclusion hYN))
@@ -299,7 +299,7 @@ theorem pRank_le_one_of_alternating (hGL4 : KFactA9NotInvolvedGL4)
     CFSG.Open.pRank p O ≤ 1 ∧
       (p ∣ Nat.card O → p ∣ Nat.card ↥(O ⊓ Subgroup.centralizer ({u₁} : Set X))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let U : Subgroup X := Subgroup.closure ({u₁, u₂} : Set X)
   have hu1U : u₁ ∈ U := Subgroup.subset_closure (by simp)
   obtain ⟨P, hP, hUP⟩ :=

@@ -69,7 +69,7 @@ theorem ggTorusRootSL2_dNonsplit
   refine ⟨0, TypeA.ggTorusLift_zero (ggKGOrth_two_dvd_card_plus hl4),
     ggTorusRootSL2_of_rootDatum hp (fun φ hφ _ => hφ) hZ hcp ?_⟩
   let α := OrthTorus.rPlusEquiv K (by omega : 1 ≤ l)
-  haveI : Finite ↥(orthDerived (TableBOrth.qPlusForm K l)) := Finite.of_equiv _ α.toEquiv
+  have : Finite ↥(orthDerived (TableBOrth.qPlusForm K l)) := Finite.of_equiv _ α.toEquiv
   refine ggKGRootDatum_of_mulEquiv α (ggKGRootDatum_orthDerived
     (TableBOrth.nondegenerate_qPlusForm (K := K) l) hp hp2 hpK hF4 (ℓ := l) ?_ hl4
     (isChevSimple_of_mulEquiv_orth α.symm hchevR))
@@ -89,7 +89,7 @@ theorem ggTorusRootSL2_twdNonsplit
   refine ⟨0, TypeA.ggTorusLift_zero (ggKGOrth_two_dvd_card_minus hm b c hbc),
     ggTorusRootSL2_of_rootDatum hp (fun φ hφ _ => hφ) hZ hcp ?_⟩
   let α := OrthTorus.rMinusEquiv K m b c
-  haveI : Finite ↥(orthDerived (TableBOrth.qMinusForm K m b c)) := Finite.of_equiv _ α.toEquiv
+  have : Finite ↥(orthDerived (TableBOrth.qMinusForm K m b c)) := Finite.of_equiv _ α.toEquiv
   refine ggKGRootDatum_of_mulEquiv α (ggKGRootDatum_orthDerived
     (TableBOrth.nondegenerate_qMinusForm m hbc) hp hp2 hpK hF4 (ℓ := m + 1) ?_ (by omega)
     (isChevSimple_of_mulEquiv_orth α.symm hchevR))
@@ -132,7 +132,7 @@ theorem ggRealRootSL2On_twdNonsplit_four :
   · omega
   · obtain ⟨K, _, _, hK, b, c, hbc, hQ'⟩ := hQ
     have hmark : MarkedModel ⟨.twD, l, n⟩ (OrthRest.RMinus K (l - 1) b c) := by
-      simp only [MarkedModel, markTag, markRank, markChar, markDeg, h2, h3, if_false]
+      simp only [MarkedModel, markTag, markRank, markChar, markDeg, h2, h3, ite_false]
       exact Or.inl ⟨by decide, statedClassicalModel_omegaMinus l n hK b c hbc
         ⟨Nat.prime_two, hn, hl4⟩⟩
     have hpK : p ∣ Nat.card K + 1 := by rw [hK]; exact hpn

@@ -68,12 +68,12 @@ private theorem finrank_eq_one_of_isFlipflopPt {p : Submodule K (Fin n ⊕ Fin n
 private def flipHermLeft (σ : K ≃+* K) (w : Fin n ⊕ Fin n → K) :
     Submodule K (Fin n ⊕ Fin n → K) where
   carrier := {y | flipHerm σ y w = 0}
-  zero_mem' := by simpa only [Set.mem_setOf_eq] using flipHerm_zero_left w
+  zero_mem' := by simpa only [Set.mem_ofPred_eq] using flipHerm_zero_left w
   add_mem' {y z} hy hz := by
-    simp only [Set.mem_setOf_eq] at hy hz ⊢
+    simp only [Set.mem_ofPred_eq] at hy hz ⊢
     rw [flipHerm_add_left, hy, hz, add_zero]
   smul_mem' a y hy := by
-    simp only [Set.mem_setOf_eq] at hy ⊢
+    simp only [Set.mem_ofPred_eq] at hy ⊢
     rw [flipHerm_smul_left, hy, mul_zero]
 
 private def polarLeft (w : Fin n ⊕ Fin n → K) :
@@ -81,10 +81,10 @@ private def polarLeft (w : Fin n ⊕ Fin n → K) :
   carrier := {y | polar (quadPlus n K) y w = 0}
   zero_mem' := by simp
   add_mem' {y z} hy hz := by
-    simp only [Set.mem_setOf_eq] at hy hz ⊢
+    simp only [Set.mem_ofPred_eq] at hy hz ⊢
     rw [QuadraticMap.polar_add_left, hy, hz, add_zero]
   smul_mem' a y hy := by
-    simp only [Set.mem_setOf_eq] at hy ⊢
+    simp only [Set.mem_ofPred_eq] at hy ⊢
     rw [QuadraticMap.polar_smul_left, hy, smul_zero]
 
 private def polarRight (w : Fin n ⊕ Fin n → K) :
@@ -92,10 +92,10 @@ private def polarRight (w : Fin n ⊕ Fin n → K) :
   carrier := {y | polar (quadPlus n K) w y = 0}
   zero_mem' := by simp
   add_mem' {y z} hy hz := by
-    simp only [Set.mem_setOf_eq] at hy hz ⊢
+    simp only [Set.mem_ofPred_eq] at hy hz ⊢
     rw [QuadraticMap.polar_add_right, hy, hz, add_zero]
   smul_mem' a y hy := by
-    simp only [Set.mem_setOf_eq] at hy ⊢
+    simp only [Set.mem_ofPred_eq] at hy ⊢
     rw [QuadraticMap.polar_smul_right, hy, smul_zero]
 
 @[expose] def spanAt (c : FlipFrame σ n) (S : Finset (Fin n)) :
@@ -589,13 +589,13 @@ theorem isFlipflopSub_elt (hσ : ∀ x, σ (σ x) = x) (c : FlipFrame σ (m + 1)
     (i : Fin (m + 1)) : IsFlipflopSub σ (c.elt i) := by
   rw [elt]
   by_cases hlast : i = Fin.last m
-  · rw [if_pos hlast]
+  · rw [ite_eq_left hlast]
     exact c.isFlipflopSub_sub hσ (m + 1)
-  · rw [if_neg hlast]
+  · rw [ite_eq_right hlast]
     by_cases halt : (i : ℕ) + 1 = m
-    · rw [if_pos halt]
+    · rw [ite_eq_left halt]
       exact c.isFlipflopSub_alt hσ
-    · rw [if_neg halt]
+    · rw [ite_eq_right halt]
       exact c.isFlipflopSub_sub hσ _
 
 theorem finrank_elt (hσ : ∀ x, σ (σ x) = x) (c : FlipFrame σ (m + 1))
@@ -607,22 +607,22 @@ theorem finrank_elt (hσ : ∀ x, σ (σ x) = x) (c : FlipFrame σ (m + 1))
   · have hlt : ¬ (i : ℕ) + 1 < m := by
       rw [hlast]
       simp [Fin.val_last]
-    rw [if_pos hlast, if_neg hlt, c.finrank_sub (by omega)]
-  · rw [if_neg hlast]
+    rw [ite_eq_left hlast, ite_eq_right hlt, c.finrank_sub (by omega)]
+  · rw [ite_eq_right hlast]
     by_cases halt : (i : ℕ) + 1 = m
     · have hlt : ¬ (i : ℕ) + 1 < m := by omega
-      rw [if_pos halt, if_neg hlt, c.finrank_alt hσ]
+      rw [ite_eq_left halt, ite_eq_right hlt, c.finrank_alt hσ]
     · have hlt : (i : ℕ) + 1 < m := by
         have hi := i.is_lt
         have hne : (i : ℕ) ≠ m := by
           intro h
           exact hlast (Fin.ext (by simpa [Fin.val_last] using h))
         omega
-      rw [if_neg halt, if_pos hlt, c.finrank_sub (by omega)]
+      rw [ite_eq_right halt, ite_eq_left hlt, c.finrank_sub (by omega)]
 
 theorem elt_last_inf_alt (hσ : ∀ x, σ (σ x) = x) (c : FlipFrame σ (m + 1)) :
     c.elt (Fin.last m) ⊓ c.alt = c.sub m := by
-  rw [elt, if_pos rfl]
+  rw [elt, ite_eq_left rfl]
   have hlast : c.sub (m + 1) = c.spanAt Finset.univ := by
     rw [sub]
     congr 1

@@ -23,7 +23,7 @@ theorem centralizerSylowImage_le (u : G)
 theorem centralizerSylowImage_isPGroup (u : G)
     (T : Sylow 2 (Subgroup.centralizer ({u} : Set G))) :
     IsPGroup 2 (centralizerSylowImage u T) :=
-  T.isPGroup'.map (Subgroup.centralizer ({u} : Set G)).subtype
+  T.isPGroup.map (Subgroup.centralizer ({u} : Set G)).subtype
 
 theorem involution_mem_centralizerSylowImage {u : G} (hu : orderOf u = 2)
     (T : Sylow 2 (Subgroup.centralizer ({u} : Set G))) :
@@ -83,9 +83,9 @@ theorem centralizerSylowImage_ambient_sylow [Finite G] (u : G)
     lt_of_le_of_ne hTS (Ne.symm hne)
   have hgrowth :=
     CFSG.ProperTwoGeneratedCore.LocalCriterionMaximalPrime.pSubgroup_lt_normalizer_intersection
-      2 Nat.prime_two (centralizerSylowImage u T) (S : Subgroup G) S.isPGroup' hlt
+      2 Nat.prime_two (centralizerSylowImage u T) (S : Subgroup G) S.isPGroup hlt
   let Q := (S : Subgroup G) ⊓ Subgroup.normalizer (centralizerSylowImage u T : Set G)
-  have hQp : IsPGroup 2 Q := S.isPGroup'.of_injective (Subgroup.inclusion inf_le_left)
+  have hQp : IsPGroup 2 Q := S.isPGroup.of_injective (Subgroup.inclusion inf_le_left)
     (Subgroup.inclusion_injective _)
   have hQT := centralizerSylowImage_maximal u T Q hQp hgrowth.le
     (inf_le_right.trans hnormalizer)

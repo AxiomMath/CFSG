@@ -16,6 +16,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private theorem isElemAbelian_zpowers_of_sq {a : G} (ha : a ^ 2 = 1) :
     CFSG.Open.IsElemAbelian 2 (zpowers a) := by
   have haz : a ^ (2 : ℤ) = 1 := by
@@ -33,6 +34,7 @@ private theorem isElemAbelian_zpowers_of_sq {a : G} (ha : a ^ 2 = 1) :
     show (x : G) ^ 2 = 1
     rw [← hm, pow_two, ← zpow_add, show m + m = 2 * m by ring, zpow_mul a 2 m, haz, one_zpow]
 
+omit [Finite G] in
 private theorem isElemAbelian_closure_pair {a b : G} (ha : a * a = 1) (hb : b * b = 1)
     (hab : a * b = b * a) :
     CFSG.Open.IsElemAbelian 2 (closure ({a, b} : Set G)) := by
@@ -50,9 +52,10 @@ private theorem isElemAbelian_closure_pair {a b : G} (ha : a * a = 1) (hb : b * 
   obtain ⟨j, rfl⟩ := hy
   exact (Commute.zpow_zpow (show Commute a b from hab) i j).eq
 
+omit [Finite G] in
 private theorem isElemAbelian_mono {H K : Subgroup G} (hH : CFSG.Open.IsElemAbelian 2 H)
     (hKH : K ≤ H) : CFSG.Open.IsElemAbelian 2 K := by
-  haveI : IsMulCommutative ↥H := hH.1
+  have : IsMulCommutative ↥H := hH.1
   refine ⟨IsMulCommutative.of_comm ?_, ?_⟩
   · intro a b
     apply Subtype.ext

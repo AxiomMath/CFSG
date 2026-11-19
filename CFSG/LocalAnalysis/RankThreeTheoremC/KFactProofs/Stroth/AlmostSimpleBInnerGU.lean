@@ -22,6 +22,7 @@ theorem finite_sesqUnitaryGroup' : Finite ↥(sesqUnitaryGroup Hf) := by
   have : Finite (LinearMap.GeneralLinearGroup E W) := Finite.of_injective _ Units.val_injective
   infer_instance
 
+omit [FiniteDimensional E W] in
 private theorem eq_one_of_apply_smul_char_two [CharP E 2] (g : LinearMap.GeneralLinearGroup E W)
     (hg : g ^ 2 = 1) (c : E) (hcw : ∀ w, (g : Module.End E W) w = c • w) : g = 1 := by
   rcases subsingleton_or_nontrivial W with hW | hW
@@ -48,7 +49,7 @@ theorem eq_one_of_commute_special_unitary_of_sq_eq_one (hℓ : ℓ = 2) (hHf : H
   have hq : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by have := hE.one_le; omega : f ≠ 0) hE.prime.one_lt
     omega
-  haveI : CharP E 2 := hℓ ▸ hE.charP
+  have : CharP E 2 := hℓ ▸ hE.charP
   obtain ⟨c, hcw⟩ :=
     CFSG.RankThree.PartOne.KCUnitary.exists_smul_of_commute_special_unitary hE hHf hHfl hm hq
       (g : Module.End E W) fun δ hδ => by

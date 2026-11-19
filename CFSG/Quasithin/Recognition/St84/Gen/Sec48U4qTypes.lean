@@ -23,7 +23,7 @@ namespace U4qBase
 
 theorem isTwoNatType_L0 (B : X.U4qBase) :
     CFSG.Quasithin.F112R.St84.IsTwoNatType (X.L 0) (X.n 0) := by
-  haveI : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
+  have : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 0)
   have hQ0 : pCoreOf 2 (X.L 0) = X.Q 0 := (X.hyp.isLocL2_oTwoPrime (X.vert 0)).pCoreOf_eq
   have hn := n1_eq_two_mul B
   have hsec := B.isElemSec_Q0
@@ -53,7 +53,7 @@ theorem isTwoNatType_L0 (B : X.U4qBase) :
 
 theorem isOmega4MinusType_L1 (B : X.U4qBase) :
     CFSG.Quasithin.IsOmega4MinusType (X.L 1) (X.n 0) := by
-  haveI : Finite ↥(X.L 1) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 1)
+  have : Finite ↥(X.L 1) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 1)
   have hQ1 : pCoreOf 2 (X.L 1) = X.Q 1 := (X.hyp.isLocL2_oTwoPrime (X.vert 1)).pCoreOf_eq
   have hn := n1_eq_two_mul B
   have hT : IsSylowTwoOf X.S (X.L 1) := by

@@ -30,7 +30,7 @@ private theorem IsE27InvConfig.commute_facts {V W₁ W₂ W₃ : Subgroup G} {t�
     (∀ a ∈ W₁, ∀ b ∈ W₂, Commute a b) ∧ (∀ a ∈ W₁, ∀ c ∈ W₃, Commute a c) ∧
       (∀ b ∈ W₂, ∀ c ∈ W₃, Commute b c) ∧
       (∀ a ∈ W₁ ⊔ W₂, ∀ c ∈ W₃, Commute a c) := by
-  haveI : IsMulCommutative V := hc.elem.1
+  have : IsMulCommutative V := hc.elem.1
   have hW₁V : W₁ ≤ V := by
     rw [hc.join]
     exact le_sup_left.trans le_sup_left
@@ -80,7 +80,7 @@ private theorem le_of_conj_of_mem {D W : Subgroup G} {t v a r : G}
       group
     have hmem : v * (t * v * t⁻¹)⁻¹ ∈ D := D.mul_mem hvD (D.inv_mem htvD)
     rwa [hkey] at hmem
-  haveI : Finite W := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite W := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hdvd : orderOf a ∣ Nat.card W := Subgroup.orderOf_dvd_natCard W ha
   rw [hcard] at hdvd
   have hne1 : orderOf a ≠ 1 := fun h => ha1 (orderOf_eq_one_iff.mp h)

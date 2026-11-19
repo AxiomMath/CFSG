@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c13bc_le_oddBar {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {N : Subgroup (MulAut (Vtil V₀ V hV))} (hNM : N ≤ Mbar M V₀ V hV)
     (hNn : ∀ m ∈ Mbar M V₀ V hV, ∀ x ∈ N, m * x * m⁻¹ ∈ N) (hodd : Odd (Nat.card N)) :
@@ -36,7 +37,7 @@ theorem s16c13bc_insp_of_stable (D : Data G) {V : Subgroup G} (h : Hyp125 D ⊥ 
     {Xb : Subgroup (MulAut (Vtil ⊥ V h.isElemAbelian))}
     (hXb : Xb ≤ Mbar D.M ⊥ V h.isElemAbelian) (hXp : IsPGroup p Xb) (hXc : ¬ IsCyclic Xb)
     (hstab : StableUnder Xb Ut) : Insp1613U D V := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have hV := h.isElemAbelian
   have hP := h.pairFacts
   have hMst : D.M ≤ stabTil ⊥ V := le_stabTil hP.le_normalizer hP.le_normalizer₀
@@ -96,7 +97,7 @@ theorem s16c13bc_insp_of_central_pair (D : Data G) {V : Subgroup G} (h : Hyp125 
     (hψn : ψ ∉ Subgroup.zpowers z) {n : Vtil ⊥ V h.isElemAbelian} (hn1 : n ≠ 1)
     (hnfix : n ∈ fixV (barSub ⊥ V h.isElemAbelian (E3.wClos V D.k D.T)))
     (hψfix : ψ n = n) : Insp1613U D V := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have hV := h.isElemAbelian
   set S : Set (Vtil ⊥ V hV) :=
     (fun g : MulAut (Vtil ⊥ V hV) => g n) '' (Subgroup.zpowers z : Set _) with hS
@@ -248,9 +249,9 @@ theorem s16c13bc_insp_of_normal_prime (D : Data G) {V : Subgroup G} (h : Hyp125 
     (hψo : orderOf ψ = p) (hψZ : ψ ∉ Z) (hψn : ψ n = n) : Insp1613U D V := by
   have hpp : p.Prime := (D.sig_prime p hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hV := h.isElemAbelian
-  haveI : IsCyclic Z := isCyclic_of_prime_card hZc
+  have : IsCyclic Z := isCyclic_of_prime_card hZc
   obtain ⟨z₀, hz₀⟩ := IsCyclic.exists_generator (α := Z)
   have hzo : orderOf (z₀ : MulAut (Vtil ⊥ V hV)) = p := by
     rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers hz₀]

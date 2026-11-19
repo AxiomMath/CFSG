@@ -16,7 +16,7 @@ theorem exists_sub_of_surjective_coprime {C Q : Type*} [Group C] [Group Q] [Fini
     (π : C →* Q) (hπ : Function.Surjective π) {k : ℕ} (hQ : Nat.card Q = 3 ^ k)
     (hker : ¬ 3 ∣ Nat.card π.ker) :
     ∃ S : Subgroup C, Nat.card S = 3 ^ k ∧ Function.Injective (π.comp S.subtype) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ^ k ∣ Nat.card C := by
     rw [← Subgroup.card_ker_mul_card_of_surjective hπ, hQ]
     exact Dvd.intro_left _ rfl
@@ -80,7 +80,7 @@ theorem exists_elemAbelian_lift {G : Type} [Group G] [Finite G] {K : Subgroup G}
     ∃ E : Subgroup K, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ k ∧
       (∀ e ∈ E, a * (e : G) = (e : G) * a) ∧
       E.map (QuotientGroup.mk' (aschbacherSolvableCore 3 K)) = E₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set θ : Subgroup K := aschbacherSolvableCore 3 K with hθ
   set π₀ : K →* K ⧸ θ := QuotientGroup.mk' θ with hπ₀
   obtain ⟨hθs, -, hθ3, -, -⟩ := solvable_prime_complement_core_characterization (H := K)
@@ -187,7 +187,7 @@ theorem exists_elemAbelian_nine_statedSU {F : Type} [Field F] [Finite F] {q : �
     (hF : Nat.card F = q ^ 2) (hq : 3 ∣ q + 1) :
     ∃ E : Subgroup (CFSG.Assembly.LowTwoRank.StatedSU 3 q F), IsElemAbelian 3 E ∧
       Nat.card E = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq0 : q ≠ 0 := by
     rintro rfl
     have : 0 < Nat.card F := Nat.card_pos
@@ -232,9 +232,9 @@ theorem exists_elemAbelian_nine_statedSU {F : Type} [Field F] [Finite F] {q : �
     · rw [hz]
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply, Matrix.diagonal_apply,
+        simp [Matrix.mul_apply, Matrix.scalar_apply, Matrix.diagonal_apply,
           hq0, hwq] <;>
-        first | ring1 | linear_combination hw3 | linear_combination (w ^ 3 + 1) * hw3
+        linear_combination hw3
   have hd3 : d ^ 3 = 1 := by
     apply Units.ext
     rw [Units.val_pow_eq_pow_val, hd, Units.val_one]
@@ -356,7 +356,7 @@ theorem exists_not_mem_zpowers_of_card_nine {A : Type*} [Group A] [Finite A]
 
 theorem eq_one_of_pow_three_of_mem_theta {K : Type*} [Group K] [Finite K] {t : K}
     (ht3 : t ^ 3 = 1) (ht : t ∈ aschbacherSolvableCore 3 K) : t = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, hθ3, -⟩ := solvable_prime_complement_core_characterization (H := K)
     Nat.prime_three
   have h1 : orderOf t ∣ Nat.card (aschbacherSolvableCore 3 K) := by
@@ -374,8 +374,8 @@ theorem Cfg.e27_of_elemAbelian_nine
     (hZ3 : Nat.card (Subgroup.center (K ⧸ aschbacherSolvableCore 3 K)) ≤ 3)
     {E : Subgroup K} (hE : IsElemAbelian 3 E) (hE9 : Nat.card E = 9)
     (hEa : ∀ e ∈ E, a * ((e : K) : G) = ((e : K) : G) * a) : c.E27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hEc : IsMulCommutative E := hE.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hEc : IsMulCommutative E := hE.1
   let ρE : E →* MulAut (L ⧸ aschbacherSolvableCore 3 L) := (rhoK c.hKL).comp E.subtype
   have hρE : ∀ e : E, ρE e =
       rho L ⟨((e : K) : G), L.le_normalizer (c.hKL (e : K).2)⟩ := fun e => rfl

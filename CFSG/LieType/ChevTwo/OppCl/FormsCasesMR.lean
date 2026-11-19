@@ -21,6 +21,7 @@ variable {Φ : ReflForm F V} {Sing : V → Prop} {TS : Submodule F V → Prop}
   {ρ : H →* Module.End F V} {p : ℕ} [Fact p.Prime]
   {Rh : Subgroup (Equiv.Perm V)} {X : ℕ → Submodule F V} {m : ℕ} {M W' : Submodule F V}
 
+omit [Finite F] [CharP F 2] [Fact (Nat.Prime p)] in
 theorem realize_mid_rank_one (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') {x w' : V} (hx : x ∈ M)
     (hw' : w' ∈ W') :
     ∃ u ∈ Urad Φ ρ W', ∀ w ∈ X m,
@@ -44,10 +45,11 @@ theorem realize_mid_rank_one (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') {x w' : 
     rw [this]
     exact Submodule.smul_mem _ _ hw'
 
+omit [Finite F] [CharP F 2] [Fact p.Prime] in
 theorem realize_mid_core (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (a : V →ₗ[F] V)
     (ha : ∀ v, a v ∈ M) (ha0 : ∀ v ∈ M ⊔ W', a v = 0) :
     ∃ u ∈ Urad Φ ρ W', ∀ w ∈ X m, ρ u w - w - a w ∈ W' := by
-  haveI : FiniteDimensional F V := Module.Finite.of_finite
+  have : FiniteDimensional F V := Module.Finite.of_finite
   have hW : Φ.IsTotallyIsotropic (X m) := C.hTS _ (C.hXts m)
   have hW' : Φ.IsTotallyIsotropic W' := C.hTS _ C.hsplit.ts_W'
   have hMperp : M ≤ Φ.perp W' := fun μ hμ w' hw' => Φ.refl _ _ (C.hsplit.perp_MW' μ hμ w' hw')

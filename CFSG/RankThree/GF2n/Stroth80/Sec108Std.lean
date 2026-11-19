@@ -36,23 +36,25 @@ variable {𝔊 : Type} [Group 𝔊] [Finite 𝔊] {K : Type} [Field K] [Finite K
 abbrev oddBar (H : Subgroup 𝔊) : Subgroup (𝔊 ⧸ standardComponentOddCore 𝔊) :=
   H.map (QuotientGroup.mk' (standardComponentOddCore 𝔊))
 
+omit [Finite 𝔊] in
 theorem LeviStd.isSimpleGroup (hS : LeviStd K X Yh Nf) : IsSimpleGroup X := by
   have h4 : ∃ s : Finset K, s.card = 4 := by
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     have h : 4 ≤ (Finset.univ : Finset K).card := by
       simpa [Nat.card_eq_fintype_card] using hS.four_le_card
     obtain ⟨t, -, ht⟩ := Finset.exists_subset_card_eq h
     exact ⟨t, ht⟩
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) :=
     CFSG.ComponentClassification.GMS78.u3_isSimpleGroup_SL2 K h4
   obtain ⟨e⟩ := hS.mulEquiv
   exact e.isSimpleGroup
 
+omit [Finite 𝔊] in
 theorem LeviStd.not_isMulCommutative (hS : LeviStd K X Yh Nf) :
     ¬ IsMulCommutative X := by
   obtain ⟨e⟩ := hS.mulEquiv
   have hnc : ¬ IsMulCommutative (Matrix.SpecialLinearGroup (Fin 2) K) := by
-    haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) K) := by
+    have : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) K) := by
       rw [← Finite.one_lt_card_iff_nontrivial]
       obtain ⟨m, hm⟩ := CFSG.ComponentClassification.GMS78.u3_even_card_SL2 K
       have hpos : 0 < Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) := Nat.card_pos
@@ -68,16 +70,18 @@ theorem LeviStd.not_isMulCommutative (hS : LeviStd K X Yh Nf) :
       Subgroup.subsingleton_iff.mp ((subsingleton_iff_bot_eq_top).mp hbt)
     exact (not_subsingleton _) hsub
   intro hc
-  haveI : IsMulCommutative X := hc
+  have : IsMulCommutative X := hc
   exact hnc e.surjective.isMulCommutative
 
+omit [Finite 𝔊] in
 theorem LeviStd.even_card (hS : LeviStd K X Yh Nf) : Even (Nat.card X) := by
   obtain ⟨e⟩ := hS.mulEquiv
   rw [Nat.card_congr e.toEquiv]
   exact CFSG.ComponentClassification.GMS78.u3_even_card_SL2 K
 
+omit [Finite 𝔊] in
 theorem LeviStd.commutator_eq (hS : LeviStd K X Yh Nf) : ⁅X, X⁆ = X := by
-  haveI := hS.isSimpleGroup
+  have := hS.isSimpleGroup
   have hcomm : commutator X = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator X) with h | h
     · exfalso
@@ -115,14 +119,14 @@ private theorem oddCore_inf_eq_bot (hS : LeviStd K X Yh Nf) :
 private theorem oddCore_le_normalizer (hS : LeviStd K X Yh Nf) :
     standardComponentOddCore 𝔊 ≤ Subgroup.normalizer (X : Set 𝔊) := by
   let O := standardComponentOddCore 𝔊
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA : 2 ^ 2 ≤ Nat.card Yh := by
     rw [show 2 ^ 2 = 4 by norm_num, hS.card_Yh]
     exact hS.four_le_card
   have hodd : ¬ 2 ∣ Nat.card O :=
     (CFSG.ComponentClassification.GMS78.odd_card_standardComponentOddCore'
       (H := 𝔊)).not_two_dvd_nat
-  haveI : CFSG.IsElementaryAbelian 2 Yh :=
+  have : CFSG.IsElementaryAbelian 2 Yh :=
     { toIsMulCommutative := hS.elemAb.1
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
         Subtype.ext (by
@@ -161,7 +165,8 @@ theorem LeviStd.oddCore_le_centralizer (hS : LeviStd K X Yh Nf) :
 theorem LeviStd.inf_oddCore (hS : LeviStd K X Yh Nf) :
     X ⊓ standardComponentOddCore 𝔊 = ⊥ := oddCore_inf_eq_bot hS
 
-private theorem oddBar_centralizer_le (hS : LeviStd K X Yh Nf) :
+omit [Finite 𝔊] in
+private theorem oddBar_centralizer_le (_hS : LeviStd K X Yh Nf) :
     oddBar (Subgroup.centralizer (X : Set 𝔊)) ≤
       Subgroup.centralizer (oddBar X : Set (𝔊 ⧸ standardComponentOddCore 𝔊)) := by
   intro z hz
@@ -171,7 +176,8 @@ private theorem oddBar_centralizer_le (hS : LeviStd K X Yh Nf) :
   obtain ⟨x, hx, rfl⟩ := hw
   rw [← map_mul, ← map_mul, (Subgroup.mem_centralizer_iff.mp hc x hx)]
 
-private theorem inv_mul_mem_oddCore_of_mem_centralizer (hS : LeviStd K X Yh Nf)
+omit [Finite 𝔊] in
+private theorem inv_mul_mem_oddCore_of_mem_centralizer (_hS : LeviStd K X Yh Nf)
     {k : 𝔊 ⧸ standardComponentOddCore 𝔊}
     (hk : k ∈ Subgroup.centralizer (oddBar X : Set (𝔊 ⧸ standardComponentOddCore 𝔊)))
     {g : 𝔊} (hg : QuotientGroup.mk' (standardComponentOddCore 𝔊) g = k) {x : X} :
@@ -324,13 +330,13 @@ private noncomputable def oddBarMulEquivX (hS : LeviStd K X Yh Nf) :
 
 private theorem oddBar_isSimpleGroup (hS : LeviStd K X Yh Nf) :
     IsSimpleGroup (oddBar X) := by
-  haveI := hS.isSimpleGroup
+  have := hS.isSimpleGroup
   exact (oddBarMulEquivX hS).isSimpleGroup
 
 private theorem oddBar_not_isMulCommutative (hS : LeviStd K X Yh Nf) :
     ¬ IsMulCommutative (oddBar X) := by
   intro hc
-  haveI : IsMulCommutative (oddBar X) := hc
+  have : IsMulCommutative (oddBar X) := hc
   exact hS.not_isMulCommutative (oddBarMulEquivX hS).surjective.isMulCommutative
 
 private theorem oddBar_even_card (hS : LeviStd K X Yh Nf) :
@@ -338,13 +344,14 @@ private theorem oddBar_even_card (hS : LeviStd K X Yh Nf) :
   rw [Nat.card_congr (oddBarMulEquivX hS).toEquiv]
   exact hS.even_card
 
+omit [Finite 𝔊] in
 private theorem elemAb_oddBar_yHat (hS : LeviStd K X Yh Nf) :
     IsElemAbelian 2 (oddBar Yh) :=
   hS.elemAb.map (QuotientGroup.mk' _)
 
 private theorem card_oddBar_yHat (hS : LeviStd K X Yh Nf) :
     Nat.card (oddBar Yh) = Nat.card K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← hS.card_Yh]
   exact CFSG.RankThree.PartTwo.Sec14.Ronan148B.card_map_mk'_of_isPGroup
     (p := 2) (N := standardComponentOddCore 𝔊)
@@ -356,6 +363,7 @@ private theorem four_le_card_oddBar_yHat (hS : LeviStd K X Yh Nf) :
   rw [card_oddBar_yHat hS]
   exact hS.four_le_card
 
+omit [Finite 𝔊] in
 private theorem oddBar_yHat_le_centralizer (hS : LeviStd K X Yh Nf) :
     oddBar Yh ≤ Subgroup.centralizer (oddBar X : Set (𝔊 ⧸ standardComponentOddCore 𝔊)) := by
   intro z hz
@@ -365,6 +373,7 @@ private theorem oddBar_yHat_le_centralizer (hS : LeviStd K X Yh Nf) :
   obtain ⟨x, hx, rfl⟩ := hw
   rw [← map_mul, ← map_mul, (Subgroup.mem_centralizer_iff.mp (hS.Yh_le_centralizer hy) x hx)]
 
+omit [Finite 𝔊] in
 private theorem normalizer_le_normalizer_yHat (hS : LeviStd K X Yh Nf) :
     Subgroup.normalizer (X : Set 𝔊) ≤ Subgroup.normalizer (Yh : Set 𝔊) := by
   intro n hn
@@ -397,7 +406,8 @@ private theorem normalizer_le_normalizer_yHat (hS : LeviStd K X Yh Nf) :
       simpa [mul_assoc] using this
     exact hS.mem_of_pow y hyC 1 (by simpa using hy2)
 
-private theorem exists_lift_conj_yHat (hS : LeviStd K X Yh Nf)
+omit [Finite 𝔊] in
+private theorem exists_lift_conj_yHat (_hS : LeviStd K X Yh Nf)
     {z : 𝔊 ⧸ standardComponentOddCore 𝔊}
     (hne : oddBar Yh ⊓ conjSubgroup z (oddBar Yh) ≠ ⊥) :
     ∃ g : 𝔊, QuotientGroup.mk' (standardComponentOddCore 𝔊) g = z ∧
@@ -432,7 +442,7 @@ private theorem exists_conj_zpowers_eq (hS : LeviStd K X Yh Nf) {g y y₂ : 𝔊
       QuotientGroup.mk' (standardComponentOddCore 𝔊) y) :
     ∃ n ∈ standardComponentOddCore 𝔊,
       Subgroup.zpowers (g * y₂ * g⁻¹) = Subgroup.zpowers (n * y * n⁻¹) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hy2 : y ^ 2 = 1 := hS.elemAb.2 y hy
   have hP₁ : IsPGroup 2 (Subgroup.zpowers y) := by
     have ho : orderOf y = 2 := orderOf_eq_prime hy2 hy1
@@ -573,7 +583,8 @@ theorem LeviStd.isTI_oddBar (hS : LeviStd K X Yh Nf) : IsTI (oddBar Yh) := by
       exact (Subgroup.mem_normalizer_iff''.mp hz w).symm
     rw [hconj, inf_idem]
 
-private theorem map_conjSubgroup_oddBar (hS : LeviStd K X Yh Nf) (g : 𝔊) :
+omit [Finite 𝔊] in
+private theorem map_conjSubgroup_oddBar (_hS : LeviStd K X Yh Nf) (g : 𝔊) :
     (conjSubgroup g Yh).map (QuotientGroup.mk' (standardComponentOddCore 𝔊)) =
       conjSubgroup (QuotientGroup.mk' (standardComponentOddCore 𝔊) g) (oddBar Yh) := by
   ext w
@@ -610,7 +621,7 @@ private theorem normalizer_oddBar_ge (hS : LeviStd K X Yh Nf) :
       Subgroup.normalizer (oddBar X : Set (𝔊 ⧸ standardComponentOddCore 𝔊)) := by
   intro z hz
   obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective (standardComponentOddCore 𝔊) z
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNodd : ¬ 2 ∣ Nat.card (standardComponentOddCore 𝔊) :=
     (CFSG.ComponentClassification.GMS78.odd_card_standardComponentOddCore'
       (H := 𝔊)).not_two_dvd_nat
@@ -667,7 +678,7 @@ theorem LeviStd.standard (hS : LeviStd K X Yh Nf) : standardComponentIsStandard 
           Set (𝔊 ⧸ standardComponentOddCore 𝔊)) := by
     rw [← hS.normalizer_oddBar]
     exact CFSG.RankThree.GF2n.Tim79a.bar_normalizer_le_normalizer_centralizer (oddBar X)
-  haveI := oddBar_isSimpleGroup hS
+  have := oddBar_isSimpleGroup hS
   refine ⟨CFSG.RankThree.GF2n.Tim79a.bar_isQuasisimple
     (oddBar_not_isMulCommutative hS), ?_, ?_, ?_, ?_⟩
   · have hB4 := four_le_card_oddBar_yHat hS
@@ -694,9 +705,10 @@ theorem LeviStd.standard (hS : LeviStd K X Yh Nf) : standardComponentIsStandard 
     exact CFSG.RankThree.GF2n.Tim79a.bar_commutator_ne_bot (oddBar_isSimpleGroup hS)
       (oddBar_not_isMulCommutative hS) (oddBar_even_card hS) (elemAb_oddBar_yHat hS).1 hCN h2 g
 
+omit [Finite 𝔊] in
 private theorem exists_card_pow_two (hS : LeviStd K X Yh Nf) :
     ∃ f : ℕ, 2 ≤ f ∧ Nat.card K = 2 ^ f := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hncard⟩ := FiniteField.card K 2
   refine ⟨(n : ℕ), ?_, ?_⟩
   · have hpos : 0 < (n : ℕ) := n.pos
@@ -713,8 +725,8 @@ private theorem oddBar_mulEquiv_statedSp (hS : LeviStd K X Yh Nf) {f : ℕ}
     Nonempty (oddBar X ≃* StatedSp 1 (GaloisField 2 f)) := by
   let eX : oddBar X ≃* X := oddBarMulEquivX hS
   obtain ⟨eSL⟩ := hS.mulEquiv
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   have hc : Fintype.card K = Fintype.card (GaloisField 2 f) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hf,
       GaloisField.card 2 f hf0]

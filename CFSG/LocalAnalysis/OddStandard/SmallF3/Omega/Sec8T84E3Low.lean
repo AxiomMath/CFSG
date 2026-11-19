@@ -37,7 +37,7 @@ private theorem local_mem_sup_decomp {G : Type} [Group G] {S1 S2 : Subgroup G}
 private theorem local_u_comm {G : Type} [Group G] {E : Subgroup G}
     (hE : CFSG.Open.IsElemAbelian 2 E) {a b : G} (ha : a ∈ E) (hb : b ∈ E) :
     a * b = b * a := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : E) (⟨b, hb⟩ : E))
 
 private theorem local_u_inv {G : Type} [Group G] {E : Subgroup G}

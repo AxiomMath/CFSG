@@ -18,8 +18,8 @@ theorem le_centralizer_of_isPGroup_of_card_eq {p : ℕ} (hp : p.Prime) {P Z : Su
     (hP : IsPGroup p P) (hZ : Nat.card Z = p) (hPZ : P ≤ Subgroup.normalizer (Z : Set G)) :
     P ≤ Subgroup.centralizer (Z : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : MulDistribMulAction P Z := Subgroup.conjMulDistribMulActionOfLeNormalizer P Z hPZ
+  have : Fact p.Prime := ⟨hp⟩
+  let : MulDistribMulAction P Z := Subgroup.conjMulDistribMulActionOfLeNormalizer P Z hPZ
   have hmod := hP.card_modEq_card_fixedPoints Z
   rw [hZ] at hmod
   set F := MulAction.fixedPoints P Z with hF
@@ -36,7 +36,7 @@ theorem le_centralizer_of_isPGroup_of_card_eq {p : ℕ} (hp : p.Prime) {P Z : Su
     omega
   have hall : ∀ y : Z, y ∈ F := by
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨y, hy⟩ := h
     have hss : F ⊂ Set.univ := Set.ssubset_univ_iff.2 fun hFu => hy (hFu ▸ Set.mem_univ y)
     have := Set.ncard_lt_ncard hss
@@ -56,8 +56,8 @@ theorem exists_sylow_self_normalized {p : ℕ} (hp : p.Prime) {S W : Subgroup G}
     ∃ P : Subgroup G, P ≤ W ∧ IsPGroup p P ∧ ¬ p ∣ P.relIndex W ∧
       S ≤ Subgroup.normalizer (P : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : MulDistribMulAction S W := Subgroup.conjMulDistribMulActionOfLeNormalizer S W hSW
+  have : Fact p.Prime := ⟨hp⟩
+  let : MulDistribMulAction S W := Subgroup.conjMulDistribMulActionOfLeNormalizer S W hSW
   have hnot : ¬ p ∣ Nat.card (Sylow p W) := by
     intro hdvd
     have h1 := card_sylow_modEq_one p W
@@ -69,7 +69,7 @@ theorem exists_sylow_self_normalized {p : ℕ} (hp : p.Prime) {S W : Subgroup G}
   obtain ⟨Q, hQ⟩ := hS.nonempty_fixed_point_of_prime_not_dvd_card (Sylow p W) hnot
   have hfix : ∀ t : S, t • Q = Q := fun t => MulAction.mem_fixedPoints.mp hQ t
   refine ⟨(Q : Subgroup W).map W.subtype, Subgroup.map_subtype_le _,
-    Q.isPGroup'.map W.subtype, ?_, ?_⟩
+    Q.isPGroup.map W.subtype, ?_, ?_⟩
   · rw [Subgroup.relIndex, ← Subgroup.comap_subtype,
       Subgroup.comap_map_eq_self_of_injective W.subtype_injective]
     exact Q.not_dvd_index
@@ -91,6 +91,7 @@ theorem exists_sylow_self_normalized {p : ℕ} (hp : p.Prime) {S W : Subgroup G}
       have := key ⟨s, hs⟩⁻¹ _ hy
       simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem mk_mem_center_of_mem_centModSubgroup {p : ℕ} {L : Subgroup G} {z : G} (hzL : z ∈ L)
     (hz : z ∈ centModSubgroup p L) :
     (QuotientGroup.mk (⟨z, hzL⟩ : L) : PQuot p L) ∈ Subgroup.center (PQuot p L) := by
@@ -148,6 +149,7 @@ theorem card_inf_centModSubgroup (p : ℕ) (L : Subgroup G) :
     ring
   exact Nat.eq_of_mul_eq_mul_right hidx this
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_centModSubgroup (p : ℕ) (L : Subgroup G) :
     Subgroup.normalizer (L : Set G) ≤ Subgroup.normalizer (centModSubgroup p L : Set G) := by
   have key : ∀ n ∈ Subgroup.normalizer (L : Set G), ∀ g ∈ centModSubgroup p L,
@@ -169,6 +171,7 @@ theorem normalizer_le_normalizer_centModSubgroup (p : ℕ) (L : Subgroup G) :
   have := key n⁻¹ (Subgroup.inv_mem _ hn) _ h
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem commutator_le_normalizer_of_stable {T B K : Subgroup G} (𝒦 : Set (Subgroup G))
     (hK : K ∈ 𝒦) (hT : ∀ t ∈ T, ∀ K' ∈ 𝒦, GLBConj t K' ∈ 𝒦)
     (hB : ∀ K' ∈ 𝒦, B ≤ Subgroup.normalizer (K' : Set G)) :
@@ -189,6 +192,7 @@ theorem commutator_le_normalizer_of_stable {T B K : Subgroup G} (𝒦 : Set (Sub
     rw [← hconj, mul_inv_cancel, gLBConj_one]
   rw [commutatorElement_def, hconj, hconj, hconj, hb' _ htK, hinvt, hbinv K hK]
 
+omit [Finite G] in
 theorem isElemAbelian_sup_zpowers {p : ℕ} {B : Subgroup G} {z : G} (hB : IsElemAbelian p B)
     (hzB : B ≤ Subgroup.centralizer ({z} : Set G)) (hz : z ^ p = 1) :
     IsElemAbelian p (B ⊔ Subgroup.zpowers z) := by
@@ -249,11 +253,13 @@ theorem isElemAbelian_sup_zpowers {p : ℕ} {B : Subgroup G} {z : G} (hB : IsEle
     have h3 : a⁻¹ * (a * z * a⁻¹ * z⁻¹)⁻¹ * a⁻¹⁻¹ = a⁻¹ * z * a⁻¹⁻¹ * z⁻¹ := by group
     rwa [h3] at h1
 
+omit [Finite G] in
 theorem mem_cosetStab {p : ℕ} {L : Subgroup G} {z g : G} :
     g ∈ cosetStab p L z ↔
       g ∈ Subgroup.normalizer (L : Set G) ∧ g * z * g⁻¹ * z⁻¹ ∈ GLAPPrimeCoreOf p L :=
   Iff.rfl
 
+omit [Finite G] in
 theorem mem_normalizer_sup {A C : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hC : g ∈ Subgroup.normalizer (C : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊔ C : Subgroup G) : Set G) := by
@@ -283,7 +289,7 @@ theorem lemma48 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B : Subgroup G} {x : G
     ∃ z ∈ B, ∃ hzL : z ∈ L, orderOf z = p ∧
       (QuotientGroup.mk (⟨z, hzL⟩ : L) : PQuot p L) ∈ Subgroup.center (PQuot p L) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Cx := Subgroup.centralizer ({x} : Set G) with hCx
   set O := GLAPPrimeCoreOf p L with hO
   set Z₀ := L ⊓ centModSubgroup p L with hZ₀def
@@ -311,13 +317,13 @@ theorem lemma48 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B : Subgroup G} {x : G
     rw [ha, hcardZ₀] at hmul
     have ha1 : 1 ≤ a := by
       by_contra h0
-      push_neg at h0
+      push Not at h0
       interval_cases a
       rw [pow_zero, one_mul] at hmul
       exact hPidx (hmul ▸ dvd_mul_left p _)
     have ha2 : a ≤ 1 := by
       by_contra h2
-      push_neg at h2
+      push Not at h2
       have h3 : p * p ∣ Nat.card O * p := by
         rw [← hmul, ← pow_two]
         exact Dvd.dvd.mul_right (pow_dvd_pow p h2) _
@@ -325,7 +331,7 @@ theorem lemma48 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B : Subgroup G} {x : G
     rw [ha, le_antisymm ha2 ha1, pow_one]
   obtain ⟨z, hzP, hz1⟩ : ∃ z ∈ P, z ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : P = ⊥ := (Subgroup.eq_bot_iff_forall P).2 h
     rw [this, Subgroup.card_bot] at hPcard
     exact hp.one_lt.ne hPcard
@@ -382,14 +388,14 @@ theorem lemma48 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B : Subgroup G} {x : G
   have hRCx : R ≤ Cx := hRT.trans hTCx
   have hBR : B ≤ Subgroup.normalizer (R : Set G) := Subgroup.normalizer_commutator_ge_right T B
   have hcop : Nat.Coprime (Nat.card B) (Nat.card T) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨m, hm⟩ := hBpg.exists_card_eq
     obtain ⟨n, hn⟩ := hT2.exists_card_eq
     rw [hm, hn]
     exact Nat.Coprime.pow _ _ ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
   have hsolv : Group.IsSolvable T := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := hT2.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := hT2.isNilpotent
     infer_instance
   have hRR : ⁅R, B⁆ = R := GL83.commutator_double_eq_self B T hBT hcop hsolv
   set 𝒦 : Set (Subgroup G) :=
@@ -459,7 +465,7 @@ theorem lemma48 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B : Subgroup G} {x : G
     hRCx.trans (le_normalizer_glaPPrimeCoreOf p Cx)
   set H := OC ⊔ R with hH
   have hRp : ¬ p ∣ Nat.card R := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := hR2.exists_card_eq
     rw [hn]
     intro h
@@ -495,10 +501,10 @@ theorem lemma48 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B : Subgroup G} {x : G
           (Subgroup.mem_sup_right hy)
       intro y hy
       exact (hmemK' y).1 (sup_le hOCK hRK hy)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S2, hS2⟩ := exists_sylow_normalized (r := 2) hEH hEp hHp
   set S := (S2 : Subgroup H).map H.subtype with hS
-  have hSp : IsPGroup 2 S := S2.isPGroup'.map H.subtype
+  have hSp : IsPGroup 2 S := S2.isPGroup.map H.subtype
   have h2H : 2 ∣ Nat.card H := by
     obtain ⟨n, hn⟩ := hR2.exists_card_eq
     have hn0 : n ≠ 0 := by

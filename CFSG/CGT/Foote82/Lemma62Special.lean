@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {G L K : Subgroup (GLV V)} {s : GLV V} {p : ℕ}
 
+omit [Finite V] in
 private theorem mem_normalizer_of_conj_mem {M : Subgroup (GLV V)} {g : GLV V}
     (h1 : ∀ m ∈ M, g * m * g⁻¹ ∈ M) (h2 : ∀ m ∈ M, g⁻¹ * m * g ∈ M) :
     g ∈ Subgroup.normalizer (M : Set (GLV V)) := by
@@ -21,6 +22,7 @@ private theorem mem_normalizer_of_conj_mem {M : Subgroup (GLV V)} {g : GLV V}
   refine ⟨h1 m, fun hm => ?_⟩
   simpa [mul_assoc] using h2 _ hm
 
+omit [Finite V] in
 private theorem zpowers_conj_mem {g d : GLV V} (h : g * d = d * g) :
     ∀ b ∈ Subgroup.zpowers d, g * b * g⁻¹ ∈ Subgroup.zpowers d := by
   intro b hb
@@ -31,39 +33,49 @@ private theorem zpowers_conj_mem {g d : GLV V} (h : g * d = d * g) :
   rw [this]
   exact Subgroup.zpow_mem_zpowers d n
 
+omit [Finite V] in
 private theorem Core62.perfect (hc : Core62 G L K s p) : ⁅L, L⁆ = L :=
   Subgroup.isPerfect_iff.1 (Group.isPerfect_def.2 hc.conf.setup.component.2.2.1)
 
+omit [Finite V] in
 private theorem Core62.sq (hc : Core62 G L K s p) : s ^ 2 = 1 := by
   have h := pow_orderOf_eq_one s
   rwa [hc.s_ord] at h
 
+omit [Finite V] in
 private theorem Core62.inv_s (hc : Core62 G L K s p) : s⁻¹ = s :=
   inv_eq_of_mul_eq_one_right (by rw [← pow_two, hc.sq])
 
+omit [Finite V] in
 private theorem Core62.s_conj_mem (hc : Core62 G L K s p) : ∀ k ∈ K, s * k * s⁻¹ ∈ K := fun k hk =>
   (Subgroup.mem_normalizer_iff.1 (hc.conf.S_le (Subgroup.mem_zpowers s)) k).1 hk
 
-private theorem Core62.L_conj_mem (hc : Core62 G L K s p) : ∀ l ∈ L, ∀ k ∈ K, l * k * l⁻¹ ∈ K :=
-  fun l hl k hk => (Subgroup.mem_normalizer_iff.1 (hc.conf.L_le hl) k).1 hk
+omit [Finite V] in
+private theorem Core62.L_conj_mem (hc : Core62 G L K s p) : ∀ _l ∈ L, ∀ k ∈ K, _l * k * _l⁻¹ ∈ K :=
+  fun _l hl k hk => (Subgroup.mem_normalizer_iff.1 (hc.conf.L_le hl) k).1 hk
 
+omit [Finite V] in
 private theorem Core62.L_comm (hc : Core62 G L K s p) : ∀ l ∈ L, l * s = s * l := by
   intro l hl
   have hLC : L ≤ G ⊓ Subgroup.centralizer ((Subgroup.zpowers s : Subgroup (GLV V)) : Set (GLV V)) :=
     hc.conf.setup.component.1
   exact ((Subgroup.mem_centralizer_iff.1 (hLC hl).2) s (Subgroup.mem_zpowers s)).symm
 
+omit [Finite V] in
 private theorem Core62.frat_comm (hc : Core62 G L K s p) :
-    ∀ d ∈ frat K, ∀ k ∈ K, k * d = d * k := fun d hd k hk =>
+    ∀ _d ∈ frat K, ∀ k ∈ K, k * _d = _d * k := fun _d hd k hk =>
   Subgroup.mem_centralizer_iff.1 (hc.frat_center hd) k hk
 
+omit [Finite V] in
 private theorem Core62.frat_comm_L (hc : Core62 G L K s p) :
-    ∀ d ∈ frat K, ∀ l ∈ L, l * d = d * l := fun d hd l hl =>
+    ∀ _d ∈ frat K, ∀ l ∈ L, l * _d = _d * l := fun _d hd l hl =>
   Subgroup.mem_centralizer_iff.1 (Subgroup.commutator_eq_bot_iff_le_centralizer.1 hc.frat_L hd) l hl
 
+omit [Finite V] in
 private theorem Core62.bot_lt_top (hc : Core62 G L K s p) : (⊥ : Submodule (ZMod 2) V) < ⊤ :=
   lt_of_le_of_lt bot_le (lt_of_lt_of_le hc.conf.setup.irrTilde.1 le_top)
 
+omit [Finite V] in
 private theorem Core62.odd_of_le (hc : Core62 G L K s p) {B : Subgroup (GLV V)} (h : B ≤ K) :
     Odd (Nat.card B) :=
   Odd.of_dvd_nat hc.conf.odd (Subgroup.card_dvd_of_le h)
@@ -98,7 +110,7 @@ private theorem Core62.s_centralizes_center (hc : Core62 G L K s p) :
     intro k hk
     have h1 : s⁻¹ * k * s ∈ K := by
       have := hc.s_conj_mem k hk
-      rwa [hsinv] at this ⊢
+      rw [hsinv] at this ⊢; assumption
     have h2 := Subgroup.mem_centralizer_iff.1 hzC _ h1
     calc k * (s * z * s⁻¹) = s * ((s⁻¹ * k * s) * z) * s⁻¹ := by group
       _ = s * (z * (s⁻¹ * k * s)) * s⁻¹ := by rw [h2]
@@ -186,7 +198,7 @@ theorem Core62.irreducible (hc : Core62 G L K s p) :
     ∀ M : Subgroup (GLV V), frat K ≤ M → M ≤ K → L ≤ Subgroup.normalizer (M : Set (GLV V)) →
       M = frat K ∨ M = K := by
   intro M hFM hMK hLM
-  haveI := Fact.mk hc.prime
+  have := Fact.mk hc.prime
   by_cases hMK' : M = K
   · exact Or.inr hMK'
   refine Or.inl ?_
@@ -225,7 +237,7 @@ theorem Core62.irreducible (hc : Core62 G L K s p) :
   exact le_antisymm (fun m hm => hc.center_le_frat ⟨hMK hm, h3 hm⟩) hFM
 
 theorem Core62.pow_eq_one (hc : Core62 G L K s p) : ∀ k ∈ K, k ^ p = 1 := by
-  haveI := Fact.mk hc.prime
+  have := Fact.mk hc.prime
   have hcomm : ∀ x ∈ K, ∀ y ∈ K, ⁅y, x⁆ ∈ frat K := fun x hx y hy =>
     commutator_le_frat hc.pgroup (Subgroup.commutator_mem_commutator hy hx)
   have hmul : ∀ x ∈ K, ∀ y ∈ K, (x * y) ^ p = x ^ p * y ^ p := by
@@ -266,8 +278,8 @@ theorem Core62.frat_eq_center (hc : Core62 G L K s p) :
   le_antisymm (le_inf (frat_le K) hc.frat_center) hc.center_le_frat
 
 theorem Core62.frat_eq_commutator (hc : Core62 G L K s p) : frat K = ⁅K, K⁆ := by
-  haveI := Fact.mk hc.prime
-  haveI : Fact (IsPGroup p ↥K) := ⟨hc.pgroup⟩
+  have := Fact.mk hc.prime
+  have : Fact (IsPGroup p ↥K) := ⟨hc.pgroup⟩
   refine le_antisymm ?_ (commutator_le_frat hc.pgroup)
   have hle : frattini ↥K ≤ _root_.commutator ↥K := by
     rw [CFSG.frattini_eq_closure_commutator_union_powers (R := ↥K) (p := p), Subgroup.closure_le]
@@ -297,7 +309,7 @@ theorem Core62.fixedSpace_eq_bot_of_mem_frat (hc : Core62 G L K s p) :
   · exact absurd (Subgroup.zpowers_eq_bot.1 h) hd1
 
 theorem Core62.card_frat (hc : Core62 G L K s p) : Nat.card (frat K) = p := by
-  haveI := Fact.mk hc.prime
+  have := Fact.mk hc.prime
   have hVne := hc.bot_lt_top
   have hKbot : K ≠ ⊥ := by
     intro hK
@@ -307,8 +319,8 @@ theorem Core62.card_frat (hc : Core62 G L K s p) : Nat.card (frat K) = p := by
     exact hVne.ne h1
   have hFne : frat K ≠ ⊥ := by
     intro hF
-    haveI : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot K).2 hKbot
-    haveI : Nontrivial ↥(Subgroup.center ↥K) := hc.pgroup.center_nontrivial
+    have : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot K).2 hKbot
+    have : Nontrivial ↥(Subgroup.center ↥K) := hc.pgroup.center_nontrivial
     obtain ⟨z, hz1⟩ := exists_ne (1 : ↥(Subgroup.center ↥K))
     have hzC : ((z : ↥K) : GLV V) ∈ Subgroup.centralizer (K : Set (GLV V)) := by
       rw [Subgroup.mem_centralizer_iff]

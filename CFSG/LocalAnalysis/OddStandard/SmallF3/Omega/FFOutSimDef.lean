@@ -35,6 +35,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 @[expose] noncomputable def ffX0Lin (fr : NFrame Q (Fin 6) 1) : V →ₗ[ZMod 3] V :=
   Matrix.toLin fr.b fr.b ffH
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffX0Lin_apply_apply (fr : NFrame Q (Fin 6) 1) (v : V) :
     ffX0Lin fr (ffX0Lin fr v) = -v := by
   have h : (ffX0Lin fr).comp (ffX0Lin fr) = -LinearMap.id := by
@@ -42,6 +43,7 @@ theorem ffX0Lin_apply_apply (fr : NFrame Q (Fin 6) 1) (v : V) :
     rw [← Matrix.toLin_mul, ffH_mul_self, map_neg, Matrix.toLin_one]
   simpa using LinearMap.congr_fun h v
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffOutSimDef_repr (fr : NFrame Q (Fin 6) 1) (v : V) :
     ⇑(fr.b.repr (ffX0Lin fr v)) = ffH.mulVec ⇑(fr.b.repr v) := by
   have h := LinearMap.toMatrix_mulVec_repr fr.b fr.b (ffX0Lin fr) v
@@ -49,13 +51,15 @@ private theorem ffOutSimDef_repr (fr : NFrame Q (Fin 6) 1) (v : V) :
   exact h.symm
 
 @[expose] noncomputable def ffX0E (fr : NFrame Q (Fin 6) 1) : V ≃ₗ[ZMod 3] V :=
-  LinearEquiv.ofLinear (ffX0Lin fr) (-ffX0Lin fr)
+  LinearEquiv.ofLinearMap (ffX0Lin fr) (-ffX0Lin fr)
     (LinearMap.ext fun v => by simp [ffX0Lin_apply_apply])
     (LinearMap.ext fun v => by simp [ffX0Lin_apply_apply])
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffX0E_apply (fr : NFrame Q (Fin 6) 1) (v : V) : ffX0E fr v = ffX0Lin fr v :=
   rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffX0E_isSimilitude (fr : NFrame Q (Fin 6) 1) : IsSimilitude Q (ffX0E fr) (-1) := by
   intro v
   rw [ffX0E_apply, fr.map_eq (ffX0Lin fr v), fr.map_eq v, ffOutSimDef_repr fr v,
@@ -68,6 +72,7 @@ theorem ffX0E_isSimilitude (fr : NFrame Q (Fin 6) 1) : IsSimilitude Q (ffX0E fr)
 @[expose] noncomputable def ffX0 (fr : NFrame Q (Fin 6) 1) : ProjSim Q :=
   QuotientGroup.mk (ffX0S fr)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffX0_mul_self (fr : NFrame Q (Fin 6) 1) : ffX0 fr * ffX0 fr = 1 := by
   rw [ffX0, ← QuotientGroup.mk_mul, QuotientGroup.eq_one_iff]
   refine mem_piSim_iff.mpr (Or.inr ?_)
@@ -77,9 +82,11 @@ theorem ffX0_mul_self (fr : NFrame Q (Fin 6) 1) : ffX0 fr * ffX0 fr = 1 := by
   change ffX0Lin fr (ffX0Lin fr v) = (piOrth Q : V ≃ₗ[ZMod 3] V) v
   rw [ffX0Lin_apply_apply, coe_piOrth_apply]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffX0_inv (fr : NFrame Q (Fin 6) 1) : (ffX0 fr)⁻¹ = ffX0 fr :=
   inv_eq_of_mul_eq_one_right (ffX0_mul_self fr)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffX0_not_simInGStar (fr : NFrame Q (Fin 6) 1) : ¬ SimInGStar (ffX0 fr) := by
   rintro ⟨y, hy⟩
   obtain ⟨t, rfl⟩ := QuotientGroup.mk'_surjective (piGroup Q) y
@@ -105,6 +112,7 @@ theorem ffX0_not_simInGStar (fr : NFrame Q (Fin 6) 1) : ¬ SimInGStar (ffX0 fr) 
   rw [hs, fr.norm 0] at hq
   exact (by decide : ((-1 : (ZMod 3)ˣ) : ZMod 3) * 1 ≠ 1) hq
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffToMatrix_mono (fr : NFrame Q (Fin 6) 1) (σ : Equiv.Perm (Fin 6))
     (K : Finset (Fin 6)) :
     LinearMap.toMatrix fr.b fr.b
@@ -113,8 +121,9 @@ theorem ffToMatrix_mono (fr : NFrame Q (Fin 6) 1) (σ : Equiv.Perm (Fin 6))
   ext i j
   rw [LinearMap.toMatrix_apply, LinearEquiv.coe_coe, ffMono_basis fr σ K j]
   by_cases hi : i = σ j <;> by_cases hj : j ∈ K <;>
-    simp [ffMat, hi, hj, Module.Basis.repr_self, Finsupp.single_apply]
+    simp [ffMat, hi, hj, Module.Basis.repr_self]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffOutSimDef_mk_eq {a b : simGroup Q}
     (h : a = b ∨ a = orthToSim Q (piOrth Q) * b) :
     (QuotientGroup.mk a : ProjSim Q) = QuotientGroup.mk b := by
@@ -123,6 +132,7 @@ private theorem ffOutSimDef_mk_eq {a b : simGroup Q}
   · rw [QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff (orthToSim Q (piOrth Q))).mpr
       (mem_piSim_iff.mpr (Or.inr rfl)), one_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffX0_conj_of_mat (fr : NFrame Q (Fin 6) 1) {σ τ : Equiv.Perm (Fin 6)}
     {K J : Finset (Fin 6)}
     (h : ffH * ffMat σ K = ffMat τ J * ffH ∨ ffH * ffMat σ K = -(ffMat τ J * ffH)) :

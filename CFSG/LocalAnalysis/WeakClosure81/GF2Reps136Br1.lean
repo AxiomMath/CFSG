@@ -18,6 +18,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w136b_stab_L (L : Subgroup (MulAut W)) :
     StabPair L (Wd L) (Cd L) := by
   have hgenU : ∀ l ∈ L, ∀ u ∈ Wd L, l u ∈ Wd L := by
@@ -46,6 +47,7 @@ private theorem w136b_stab_L (L : Subgroup (MulAut W)) :
     _ = l ((l⁻¹ * x * l) z) := rfl
     _ = l z := by rw [h2]
 
+omit [Finite W] in
 private theorem w136b_conj_inv_eq {L : Subgroup (MulAut W)} {t : MulAut W}
     (ht : L.map (MulAut.conj t).toMonoidHom = L) :
     L.map (MulAut.conj t⁻¹).toMonoidHom = L := by
@@ -64,8 +66,9 @@ private theorem w136b_conj_inv_eq {L : Subgroup (MulAut W)} {t : MulAut W}
     · have hmem : (MulAut.conj t) x ∈ L.map (MulAut.conj t).toMonoidHom :=
         Subgroup.mem_map_of_mem _ hx
       rwa [ht] at hmem
-    · simp [MulAut.conj_apply, mul_assoc]
+    · simp [mul_assoc]
 
+omit [Finite W] in
 private theorem w136b_stab_t {L : Subgroup (MulAut W)} {t : MulAut W}
     (ht : L.map (MulAut.conj t).toMonoidHom = L) :
     StabPair (Subgroup.zpowers t) (Wd L) (Cd L) := by
@@ -158,7 +161,7 @@ private theorem w136b_stabPair_le_stabSub_right {A : Subgroup (MulAut W)} {U Z :
   fun a ha => w136b_mem_stabSub_of_forall_mem (hA a ha).2
 
 private theorem w136b_stabPair_sup {A B : Subgroup (MulAut W)} {U Z : Subgroup W}
-    (hA : StabPair A U Z) (hB : StabPair B U Z) : StabPair (A ⊔ B) U Z := fun a ha =>
+    (hA : StabPair A U Z) (hB : StabPair B U Z) : StabPair (A ⊔ B) U Z := fun _a ha =>
   ⟨fun u hu => (mem_stabSub.mp (sup_le (w136b_stabPair_le_stabSub_left hA)
       (w136b_stabPair_le_stabSub_left hB) ha) u).2 hu,
     fun z hz => (mem_stabSub.mp (sup_le (w136b_stabPair_le_stabSub_right hA)

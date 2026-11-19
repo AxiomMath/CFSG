@@ -31,7 +31,7 @@ theorem map_pCoreOf_phiL_le {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch)
     ((CFSG.Open.pCoreOf 2 c.K).subgroupOf c.K).map
         ((c.phiL hV).comp (Subgroup.inclusion c.K_le_L)) ≤
       CFSG.Open.pCoreOf 2 ((c.K.subgroupOf c.L).map (c.phiL hV)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Kstar : Subgroup ↥(c.H hV) := (c.K.subgroupOf c.L).map (c.phiL hV)
   let ρ : ↥c.K →* ↥Kstar :=
     ((c.phiL hV).comp (Subgroup.inclusion c.K_le_L)).codRestrict Kstar fun k =>
@@ -134,15 +134,15 @@ private theorem pointTorus_fixed {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D
       (∀ u ∈ CFSG.Open.pCoreOf 2 ((c.K.subgroupOf c.L).map (c.phiL hV)),
         g * u * g⁻¹ = u → u = 1) := by
   classical
-  letI : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   let g : ↥(c.H hV) := c.phiL hV ⟨d, hdL⟩
@@ -179,15 +179,15 @@ private theorem fixed_V_of_centralizes_Kbar {D : Data G} {Ch : Choice2011 G}
     (hdK : ∀ k ∈ c.K, d * k * d⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 c.K) :
     c.V ⊓ Subgroup.centralizer ({d} : Set G) = ⊥ := by
   classical
-  letI : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.toCtx23L.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.toCtx23L.W hV) :=
     MulAction.compHom (c.toCtx23L.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   let g : ↥(c.H hV) := c.phiL hV ⟨d, hdL⟩

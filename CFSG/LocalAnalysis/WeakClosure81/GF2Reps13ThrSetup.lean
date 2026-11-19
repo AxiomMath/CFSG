@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W] {A : Subgroup (MulAut W)} {t : MulAut W} {p : ℕ}
 
+omit [Finite W] in
 theorem s13_pCore_facts (A : Subgroup (MulAut W)) (p : ℕ) :
     (∀ g ∈ A, ∀ x ∈ pCoreOf p A, g * x * g⁻¹ ∈ pCoreOf p A) ∧ pCoreOf p A ≤ A ∧
       IsPGroup p ↥(pCoreOf p A) := by
@@ -108,7 +109,7 @@ private theorem w16g_p_ne_two (h : Cfg133 A t p) : p ≠ 2 := by
   exact h.hP hcomm
 
 private theorem w16g_orderOf_t (h : Cfg133 A t p) : orderOf t = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime h.ht2 h.ht1
 
 theorem s13_P_facts (h : Cfg133 A t p) :
@@ -137,7 +138,7 @@ theorem s13_P_facts (h : Cfg133 A t p) :
   have hPp : IsPGroup p ↥(⁅pCoreOf p A, Subgroup.zpowers t⁆) := hOp.to_le hle
   have htP : t ∈ normalizer ((⁅pCoreOf p A, Subgroup.zpowers t⁆ : Subgroup (MulAut W)) :
       Set (MulAut W)) := w16g_mem_normalizer_commutator_zpowers hnormO rfl
-  haveI : Fact p.Prime := ⟨h.hp⟩
+  have : Fact p.Prime := ⟨h.hp⟩
   have hOodd : Odd (Nat.card ↥(pCoreOf p A)) := by
     obtain ⟨k, hk⟩ := hOp.exists_card_eq
     rw [hk]
@@ -168,7 +169,7 @@ theorem s13_P_facts (h : Cfg133 A t p) :
     · intro g hg
       obtain ⟨o, ho, s, hs, rfl⟩ := hg
       exact hgen o ho s hs
-    · simpa using (⁅pCoreOf p A, Subgroup.zpowers t⁆).one_mem
+    · simp
     · intro a b ha hb ha' hb'
       have heq : y * (a * b) * y⁻¹ = (y * a * y⁻¹) * (y * b * y⁻¹) := by group
       rw [heq]

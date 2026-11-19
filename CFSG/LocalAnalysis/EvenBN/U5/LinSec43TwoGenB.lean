@@ -97,7 +97,7 @@ theorem sylow_mul_sub_one_eq_zero [Finite G] {k : Type*} [Field k] [Finite k] {m
     (hpR : p ∈ R) (hp'R : p' ∈ R) :
     ((φ ⟨p', hp'R⟩ : SL(2, k)) - 1 : Matrix (Fin 2) (Fin 2) k) *
       ((φ ⟨p, hpR⟩ : SL(2, k)) - 1 : Matrix (Fin 2) (Fin 2) k) = 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hxR, hPx⟩ := Prelim.exists_conj_of_isSylowOf
     (Prelim.isSylowOf_ofSL_upperUnipotent hk hm φ) hP₀
   have hroot : ∀ q ∈ P₀, ∀ hqR : q ∈ R, ∃ t : k,
@@ -166,7 +166,7 @@ theorem comm_mem_centralizer_of_isSylowOf [Finite G] {k : Type*} [Field k] [Fini
   exact mul_inv_eq_iff_eq_mul.mpr hC.eq
 
 theorem card_inf_centralizer_le_of_isNaturalSection [Finite G] {k : Type*} [Field k] [Finite k]
-    {X A B : Subgroup G} (hN : IsNaturalSection X A B k) (hBA : B ≤ A) {p x : G} (hp : p ∈ X)
+    {X A B : Subgroup G} (hN : IsNaturalSection X A B k) (_hBA : B ≤ A) {p x : G} (hp : p ∈ X)
     (hp1 : p ≠ 1) (hpB : ∀ b ∈ B, p * b * p⁻¹ ∈ B)
     (hx : ∀ a ∈ A, (p * a * p⁻¹)⁻¹ * (x * a * x⁻¹) ∈ B) :
     Nat.card (A ⊓ centralizer ({x} : Set G) : Subgroup G) ≤

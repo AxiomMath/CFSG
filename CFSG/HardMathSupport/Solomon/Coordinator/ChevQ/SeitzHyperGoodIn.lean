@@ -392,6 +392,7 @@ section KLevel
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem hyperGen_inner_of_simple {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hL : SeitzHyperLie fun d p _ => SeitzGoodIndex p d.1) {K E : Subgroup Y} [K.Normal]
     (d : TauCeti.ValidLieTypeIndex)
@@ -456,6 +457,7 @@ theorem seitzHyperGamma_eq_top_of_hyperGen_inn (hZ : Subgroup.center S = ⊥) (p
 
 variable [Finite S]
 
+omit [Finite S] in
 theorem inn_data (hs : IsSimpleGroup S) (hnab : ∃ a b : S, a * b ≠ b * a) {C : Type}
     [Group C] (e : S ≃* C) :
     CFSG.Open.IsQuasisimple (MulAut.conj : S →* MulAut S).range ∧
@@ -472,6 +474,7 @@ theorem inn_data (hs : IsSimpleGroup S) (hnab : ∃ a b : S, a * b ≠ b * a) {C
   exact ⟨CFSG.Open.IsQuasisimple.of_mulEquiv ε.symm (isQuasisimple_of_simple hs hnab), hc,
     nonempty_quot_equiv_of_center_bot hc (ε.symm.trans e)⟩
 
+omit [Finite S] in
 theorem seitzHyperGamma_eq_top_of_inner (hL : SeitzHyperLie fun d p _ => SeitzGoodIndex p d.1)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hs : IsSimpleGroup S)
     (hnab : ∃ a b : S, a * b ≠ b * a) (d : TauCeti.ValidLieTypeIndex)
@@ -481,7 +484,7 @@ theorem seitzHyperGamma_eq_top_of_inner (hL : SeitzHyperLie fun d p _ => SeitzGo
     (hinn : E ≤ (MulAut.conj : S →* MulAut S).range) : seitzHyperGamma p E = ⊤ := by
   have hZ := center_eq_bot_of_simple hs hnab
   obtain ⟨-, hc, he⟩ := inn_data hs hnab e
-  haveI : (MulAut.conj : S →* MulAut S).range.Normal := inferInstance
+  have : (MulAut.conj : S →* MulAut S).range.Normal := inferInstance
   refine seitzHyperGamma_eq_top_of_hyperGen_inn hZ p ?_
   refine hyperGen_inner_of_simple hp hp2 hL d he hpd hlist hE hcard ?_ (le_sup_of_le_left hinn)
     (by rw [hc, Subgroup.card_bot]; exact hp.not_dvd_one) hgood
@@ -509,7 +512,7 @@ theorem outerSimple_of_inputs (hC1 : KFactSeitzOuterCubeRankTwo)
   · by_cases hc : IsClassicalIndex d.1
     · exact hC2c p hp hp2 S hs hnab d hc he hpd hlist hexc hL hcube E hE hcard hout
     · exact hC2e p hp hp2 S hs hnab d hc he hpd hlist hexc hL hcube E hE hcard hout
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have hZ := center_eq_bot_of_simple hs hnab
     have hinj := conj_injective_of_center_bot hZ
     obtain ⟨e⟩ := he

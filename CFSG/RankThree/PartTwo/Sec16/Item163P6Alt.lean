@@ -16,6 +16,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem center_quot_eq_bot_of_alternating {Y : Subgroup G}
     (hK : Nonempty (↥Y ⧸ CFSG.pCore 2 ↥Y ≃* alternatingGroup (Fin 10))) :
     Subgroup.center (↥Y ⧸ CFSG.pCore 2 ↥Y) = ⊥ := by
@@ -27,6 +28,7 @@ namespace Conf685
 
 variable {A : Subgroup G} {c : G} {L Y S : Subgroup G}
 
+omit [Finite G] in
 private theorem map_actQ_le_normalizer {Y M A : Subgroup G}
     (hAM : A ≤ Subgroup.normalizer (M : Set G))
     (hMN : M ≤ Subgroup.normalizer (Y : Set G)) :

@@ -43,7 +43,7 @@ theorem exists_fixed_singular {U : Type} [AddCommGroup U] [Module k U] [FiniteDi
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite U := Module.finite_of_finite k
-  letI : MulAction G {u : U // Q u = 0} :=
+  let : MulAction G {u : U // Q u = 0} :=
     { smul := fun g u => ⟨ρ g u.1, (hρ g u.1).trans u.2⟩
       one_smul := fun u => Subtype.ext (by show ρ 1 u.1 = u.1; simp)
       mul_smul := fun g h u => Subtype.ext (by show ρ (g * h) u.1 = ρ g (ρ h u.1); simp) }
@@ -62,13 +62,16 @@ open QuadraticMap (polar polar_comm polar_smul_left polar_smul_right polar_sub_l
 variable {V : Type} [AddCommGroup V] [Module k V] [FiniteDimensional k V] {Q : QuadraticForm k V}
   {G : Type*} [Group G] {ρ : Representation k G V}
 
+omit [Finite k] [CharP k 2] [FiniteDimensional k V] in
 private theorem polar_iso (hiso : ∀ g v, Q (ρ g v) = Q v) (g : G) (x y : V) :
     polar Q (ρ g x) (ρ g y) = polar Q x y := by
   simp only [polar, ← map_add, hiso]
 
+omit [Finite k] [FiniteDimensional k V] in
 private theorem polar_self_eq_zero (x : V) : polar Q x x = 0 := by
   rw [polar_self, two_smul, CharTwo.add_self_eq_zero]
 
+omit [Finite k] [CharP k 2] [FiniteDimensional k V] in
 private theorem exists_polar_eq_one (hQ : Q.polarBilin.Nondegenerate) {x : V} (hx : x ≠ 0) :
     ∃ y, polar Q x y = 1 := by
   by_contra h
@@ -95,7 +98,7 @@ private theorem exists_pair (hQ : Q.polarBilin.Nondegenerate) (hdim : 5 ≤ finr
   let Φ : V →ₗ[k] k × k := (Q.polarBilin.flip v).prod (Q.polarBilin c₀)
   let U := LinearMap.ker Φ
   have hmemU : ∀ x, x ∈ U ↔ polar Q x v = 0 ∧ polar Q c₀ x = 0 := fun x => by
-    simp [U, Φ, Prod.ext_iff]
+    simp [U, Φ]
   have hUdim : 3 ≤ finrank k U := by
     have h1 := LinearMap.finrank_range_add_finrank_ker Φ
     have h2 : finrank k (LinearMap.range Φ) ≤ 2 := by
@@ -158,7 +161,7 @@ private theorem card_le_of_pair (hQ : Q.polarBilin.Nondegenerate) (hρ : Functio
   obtain ⟨W, hmemW, hWdim⟩ : ∃ W : Submodule k V,
       (∀ x, x ∈ W ↔ polar Q v x = 0 ∧ polar Q w x = 0) ∧ finrank k W = finrank k V - 2 := by
     let Ψ : V →ₗ[k] k × k := (Q.polarBilin v).prod (Q.polarBilin w)
-    refine ⟨LinearMap.ker Ψ, fun x => by simp [Ψ, Prod.ext_iff], ?_⟩
+    refine ⟨LinearMap.ker Ψ, fun x => by simp [Ψ], ?_⟩
     have hsurj : Function.Surjective Ψ := fun p => ⟨p.1 • c₀ + p.2 • c₁, by
       ext <;> simp [Ψ, hvc₀, hvc₁, hwc₀, hwc₁]⟩
     have h1 := LinearMap.finrank_range_add_finrank_ker Ψ

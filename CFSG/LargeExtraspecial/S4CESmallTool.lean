@@ -154,7 +154,7 @@ theorem eq_one_of_mem_ker_of_pow_eq_one [Finite K] (hK : commutator K = ⊤) {p 
   have : Finite ((S : Subgroup K).map π) :=
     Finite.of_surjective (fun x : (S : Subgroup K) => (⟨π x, x, x.2, rfl⟩ : (S : Subgroup K).map π))
       (by rintro ⟨_, x, hx, rfl⟩; exact ⟨⟨x, hx⟩, rfl⟩)
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (S.isPGroup'.map π)
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (S.isPGroup.map π)
   have hk1 : k ≤ 1 := by
     by_contra hk1
     apply hpX

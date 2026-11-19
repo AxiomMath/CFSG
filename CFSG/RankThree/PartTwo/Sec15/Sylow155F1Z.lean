@@ -153,7 +153,7 @@ theorem isPGroup_inf_centralizer_delta {A : Subgroup G} {LB : Subgroup G → Sub
   have hT'bot : T' ≠ ⊥ := by
     rw [Ne, hT', Subgroup.map_eq_bot_iff_of_injective _ C.subtype_injective]
     exact Sylow.ne_bot_of_dvd_card T hqC
-  have hT'q : IsPGroup q T' := T.isPGroup'.map _
+  have hT'q : IsPGroup q T' := T.isPGroup.map _
   have hT'odd : Odd (Nat.card T') := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hT'q
     rw [hk]

@@ -26,7 +26,7 @@ theorem exists_mem_not_mem_thetaQuotCentralizer_of_five {A X : Subgroup G}
     (e : ↥X ⧸ aschbacherSolvableCore 3 ↥X ≃* alternatingGroup (Fin 5)) :
     ∃ y ∈ A, y ∈ X ∧ y ∉ Sec4.thetaQuotCentralizer X := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   have hXs : IsSimpleGroup (↥X ⧸ aschbacherSolvableCore 3 ↥X) := e.isSimpleGroup
   have hX60 : Nat.card (↥X ⧸ aschbacherSolvableCore 3 ↥X) = 60 := Proof15Res8Diag.card_five e
   set θ := aschbacherSolvableCore 3 ↥X with hθ
@@ -397,7 +397,7 @@ theorem exists_hyperplane_of_card_range_le_three {A X : Subgroup G} (hA : Late.I
   rw [commutatorElement_def]
   group
 
-theorem exists_lbConfig_of_hyperplane {A L : Subgroup G} {c : G} (h : Sec15R G A c L)
+theorem exists_lbConfig_of_hyperplane {A L : Subgroup G} {c : G} (_h : Sec15R G A c L)
     {X B : Subgroup G} (hΔ : X = delta A (lB A) X) (hB : IsHyperplane A B) (hB3 : IsPGroup 3 B)
     (hBX : ∀ x ∈ X, ∀ y ∈ B, ⁅x, y⁆ ∈ (aschbacherSolvableCore 3 ↥X).map X.subtype)
     (h3 : 3 ∣ Nat.card (↥X ⧸ aschbacherSolvableCore 3 ↥X)) :

@@ -20,12 +20,12 @@ theorem l34g_simpleFStar_of_inFStar [Finite G] {J : Subgroup G} (hJ : InFStar J)
   unfold InFStar IsFStarGroup IsFGroup at hJc
   have hne : oddCore ↥J ≠ ⊤ := by
     intro htop
-    haveI : Subsingleton (↥J ⧸ oddCore ↥J) := by
+    have : Subsingleton (↥J ⧸ oddCore ↥J) := by
       rw [htop]
       exact QuotientGroup.subsingleton_quotient_top
     rcases hJc with ⟨-, hQ⟩ | ⟨-, hS⟩
     · rcases hQ with hΩ | hU
-      · haveI : IsSimpleGroup (↥J ⧸ oddCore ↥J) :=
+      · have : IsSimpleGroup (↥J ⧸ oddCore ↥J) :=
           (l34g_simple_of_simpleFStar (Or.inl hΩ)).1
         exact not_subsingleton (↥J ⧸ oddCore ↥J) inferInstance
       · obtain ⟨hcard, -⟩ := hU
@@ -33,12 +33,12 @@ theorem l34g_simpleFStar_of_inFStar [Finite G] {J : Subgroup G} (hJ : InFStar J)
           rw [Nat.card_eq_one_iff_unique]
           exact ⟨inferInstance, ⟨1⟩⟩
         omega
-    · haveI : IsSimpleGroup (↥J ⧸ oddCore ↥J) :=
+    · have : IsSimpleGroup (↥J ⧸ oddCore ↥J) :=
         (l34g_simple_of_simpleFStar (Or.inr hS)).1
       exact not_subsingleton (↥J ⧸ oddCore ↥J) inferInstance
   have hOZ : oddCore ↥J ≤ center ↥J :=
     (CFSG.LocalCores.quasisimple_normal_subgroups hq inferInstance).resolve_left hne
-  haveI : Group.IsPerfect ↥J := hq.1
+  have : Group.IsPerfect ↥J := hq.1
   have hcenter : (center ↥J).map (QuotientGroup.mk' (oddCore ↥J)) =
       center (↥J ⧸ oddCore ↥J) :=
     CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel

@@ -92,7 +92,7 @@ theorem Sec11Q8Pair.zpowers_central1 (P : Sec11Q8Pair z Q1 Q2) {w x : E}
   · rw [h]; exact (P.z_central1 hx).symm
 
 theorem Sec11Q8Pair.comm_ne_of_commutator_eq_z (P : Sec11Q8Pair z Q1 Q2) {u v : E}
-    (hu : u ∈ Q1) (hv : v ∈ Q1) (h : u * v * u⁻¹ * v⁻¹ = z) : u * v ≠ v * u := by
+    (_hu : u ∈ Q1) (_hv : v ∈ Q1) (h : u * v * u⁻¹ * v⁻¹ = z) : u * v ≠ v * u := by
   intro hc
   apply P.z_ne
   rw [← h, hc]
@@ -113,7 +113,7 @@ theorem Sec11Q8Pair.exists_outside1 (P : Sec11Q8Pair z Q1 Q2) : ∃ a ∈ Q1, a 
   have hcardz : Nat.card ↥(zpowers z) = 2 := by
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime (p := 2) (by rw [pow_two, P.z_sq]) P.z_ne
-  haveI : Finite ↥(zpowers z) := Nat.finite_of_card_ne_zero (by rw [hcardz]; norm_num)
+  have : Finite ↥(zpowers z) := Nat.finite_of_card_ne_zero (by rw [hcardz]; norm_num)
   have hle : Q1 ≤ zpowers z := fun a ha => h a ha
   have hcard := Subgroup.card_le_of_le hle
   rw [P.card1, hcardz] at hcard
@@ -172,8 +172,8 @@ theorem Sec11Q8Pair.exists_gen1 (P : Sec11Q8Pair z Q1 Q2) :
     rcases hx with rfl | rfl
     · exact ha
     · exact hb
-  haveI hQ1fin : Finite ↥Q1 := Nat.finite_of_card_ne_zero (by rw [P.card1]; norm_num)
-  haveI hfinab : Finite ↥(Subgroup.closure ({a, b} : Set E)) :=
+  have hQ1fin : Finite ↥Q1 := Nat.finite_of_card_ne_zero (by rw [P.card1]; norm_num)
+  have hfinab : Finite ↥(Subgroup.closure ({a, b} : Set E)) :=
     Finite.of_injective (Subgroup.inclusion hle_ab) (Subgroup.inclusion_injective hle_ab)
   have hcard_ab_dvd : Nat.card ↥(Subgroup.closure ({a, b} : Set E)) ∣ 8 := by
     have h := Subgroup.card_dvd_of_le hle_ab

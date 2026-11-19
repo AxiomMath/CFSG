@@ -39,7 +39,7 @@ theorem isCyclic_sylow_of_quotient {G : Type*} [Group G] [Finite G] (N : Subgrou
     rw [injective_iff_map_eq_one]
     intro x hx
     have hxN : (x : G) ∈ N := (QuotientGroup.eq_one_iff _).mp hx
-    obtain ⟨k, hk⟩ := S.isPGroup' x
+    obtain ⟨k, hk⟩ := S.isPGroup x
     have h1 : orderOf (x : G) ∣ 2 ^ k := by
       apply orderOf_dvd_of_pow_eq_one
       simpa using congrArg Subtype.val hk

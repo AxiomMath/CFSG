@@ -94,7 +94,7 @@ private theorem orbit_card_ge_five {X : Subgroup (alternatingGroup (Fin 10))}
     5 ≤ (MulAction.orbit ↥X w).ncard := by
   classical
   obtain ⟨e⟩ := hX
-  have hsimple5 : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have hsimple5 : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hsimple : IsSimpleGroup ↥X :=
     @MulEquiv.isSimpleGroup ↥X inferInstance (alternatingGroup (Fin 5)) inferInstance hsimple5 e
   have hcardX : Nat.card ↥X = 60 := card_of_mulEquiv_alt5 ⟨e⟩
@@ -134,7 +134,7 @@ private theorem disjoint_moved_of_commute
     Disjoint (moved X₁) (moved X₂) := by
   classical
   obtain ⟨e₂⟩ := h₂
-  have hsimple5 : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have hsimple5 : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hsimple₂ : IsSimpleGroup ↥X₂ :=
     @MulEquiv.isSimpleGroup ↥X₂ inferInstance (alternatingGroup (Fin 5)) inferInstance hsimple5 e₂
   have hcard₂ : Nat.card ↥X₂ = 60 := card_of_mulEquiv_alt5 ⟨e₂⟩

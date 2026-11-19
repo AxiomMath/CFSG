@@ -75,17 +75,17 @@ theorem exists_noncomm_unipotent_two [Finite K] :
       (Sum.inr 1)) h
   simp only [Subgroup.coe_mul, Units.val_mul, hu_mat, coe_upperUnipotentSp, blockMat,
     Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, Matrix.fromBlocks_apply₁₁,
-    Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂] at h1
-  simp [A, C, Matrix.single_apply] at h1
+    Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₂] at h1
+  simp [A, C] at h1
 
 
 theorem pRank_le_three_psp_two_prime {p : ℕ} [hp : Fact p.Prime] {G : Type} [Group G] [Finite G]
     (h : StatedClassicalModel G .PSp 2 p 1) : CFSG.Open.pRank p (⊤ : Subgroup G) ≤ 3 := by
   obtain ⟨hadm, K, hKf, hKfin, hK, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  haveI : CharP K p := charP_of_card_eq_prime_pow hadm.2.1 hK
-  haveI : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
+  let := hKf
+  let := hKfin
+  have : CharP K p := charP_of_card_eq_prime_pow hadm.2.1 hK
+  have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
   let H : Subgroup (GL (Fin 2 ⊕ Fin 2) K) := StatedSp 2 K
   let π : ↥H →* G :=
     e.symm.toMonoidHom.comp (QuotientGroup.mk' ((StatedScalars (Fin 2 ⊕ Fin 2) K).subgroupOf H))
@@ -96,7 +96,7 @@ theorem pRank_le_three_psp_two_prime {p : ℕ} [hp : Fact p.Prime] {G : Type} [G
     exact e.symm.injective (hu1.trans (map_one e.symm).symm)
   have hlt : ∀ x : Fin 2 ⊕ Fin 2, spPos 2 x < 4 := fun x => by
     have := (flagOrder 2 x).isLt
-    simpa [spPos] using this
+    simp [spPos]
   obtain ⟨u, v, hu, hv, huv⟩ := exists_noncomm_unipotent_two (K := K)
   refine pRank_top_le_of_nonab π hπ (U := Lev (matrixHom H) (spPos 2) 1 le_rfl)
     (isPGroup_Lev (matrixHom_injective H) (D := 4) (fun a b => by have := hlt b; omega))
@@ -115,10 +115,10 @@ end Sp
 theorem rankThreeCent_psp {p r f : ℕ} [hp : Fact p.Prime] (hr : 3 ≤ r) {G : Type} [Group G]
     [Finite G] (h : StatedClassicalModel G .PSp r p f) : RankThreeCent p G := by
   obtain ⟨hadm, K, hKf, hKfin, hK, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  haveI : CharP K p := charP_of_card_eq_prime_pow hadm.2.1 hK
-  haveI : Nonempty (Fin r ⊕ Fin r) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  let := hKf
+  let := hKfin
+  have : CharP K p := charP_of_card_eq_prime_pow hadm.2.1 hK
+  have : Nonempty (Fin r ⊕ Fin r) := ⟨Sum.inl ⟨0, by omega⟩⟩
   let H : Subgroup (GL (Fin r ⊕ Fin r) K) := StatedSp r K
   let π : ↥H →* G :=
     e.symm.toMonoidHom.comp (QuotientGroup.mk' ((StatedScalars (Fin r ⊕ Fin r) K).subgroupOf H))
@@ -194,23 +194,23 @@ theorem rankThreeCent_psp {p r f : ℕ} [hp : Fact p.Prime] (hr : 3 ≤ r) {G : 
     (by simp only [spPos, flagOrder_inl, flagOrder_inr]; omega)
     (by simp only [spPos, flagOrder_inl, flagOrder_inr]; omega) ?_ ?_ ?_ ?_
   · rw [hentry]
-    simp [C₁, Matrix.single_apply, h02, h02.symm]
+    simp [C₁, h02, h02.symm]
   · rw [hentry]
-    simp [C₁, Matrix.single_apply, h01, h01.symm, h12, h12.symm]
+    simp [C₁, h01, h12.symm]
   · rw [hentry]
-    simp [C₂, Matrix.single_apply, h01, h01.symm, h12, h12.symm]
+    simp [C₂, h01.symm, h12]
   · rw [hentry]
-    simp [C₂, Matrix.single_apply]
+    simp [C₂]
 
 
 theorem rankThreeCent_psp_two {p f : ℕ} [hp : Fact p.Prime] (hf : 2 ≤ f) {G : Type} [Group G]
     [Finite G] (h : StatedClassicalModel G .PSp 2 p f)
     (h3 : 3 ≤ CFSG.Open.pRank p (⊤ : Subgroup G)) : RankThreeCent p G := by
   obtain ⟨hadm, K, hKf, hKfin, hK, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  haveI : CharP K p := charP_of_card_eq_prime_pow hadm.2.1 hK
-  haveI : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
+  let := hKf
+  let := hKfin
+  have : CharP K p := charP_of_card_eq_prime_pow hadm.2.1 hK
+  have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
   let H : Subgroup (GL (Fin 2 ⊕ Fin 2) K) := StatedSp 2 K
   let π : ↥H →* G :=
     e.symm.toMonoidHom.comp (QuotientGroup.mk' ((StatedScalars (Fin 2 ⊕ Fin 2) K).subgroupOf H))
@@ -221,7 +221,7 @@ theorem rankThreeCent_psp_two {p f : ℕ} [hp : Fact p.Prime] (hf : 2 ≤ f) {G 
     exact e.symm.injective (hu1.trans (map_one e.symm).symm)
   have hlt : ∀ x : Fin 2 ⊕ Fin 2, spPos 2 x < 4 := fun x => by
     have := (flagOrder 2 x).isLt
-    simpa [spPos] using this
+    simp [spPos]
   let C : K → Matrix (Fin 2) (Fin 2) K := fun t => Matrix.single 0 0 t
   have hC : ∀ t, (C t)ᵀ = C t := fun t => by simp [C, Matrix.transpose_single]
   have hmem : ∀ t : K, upperUnipotentSp 2 K (hC t) ∈ Lev (matrixHom H) (spPos 2) 3 (by omega) := by
@@ -237,7 +237,7 @@ theorem rankThreeCent_psp_two {p f : ℕ} [hp : Fact p.Prime] (hf : 2 ≤ f) {G 
     intro t t' htt'
     have h1 := congrArg (fun x : ↥(Lev (matrixHom H) (spPos 2) 3 (by omega)) =>
       (matrixHom H (x : ↥H) - 1) (Sum.inl 0) (Sum.inr 0)) htt'
-    simp only [g, matrixHom_upperUnipotentSp_sub_one] at h1
+    simp only [g] at h1
     simpa [C] using h1
   have hcard : p ^ 2 ≤ Nat.card ↥(Lev (matrixHom H) (spPos 2) 3 (by omega)) := by
     calc p ^ 2 ≤ p ^ f := Nat.pow_le_pow_right hp.out.pos hf

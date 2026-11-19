@@ -131,6 +131,7 @@ theorem str86_exists_q2_mul_inv_mem
   rw [heq]
   exact (bigB L1 L2 S).mul_mem hcB hsB
 
+omit [Finite G] in
 private theorem r3_conj_mem_of_mem_bigB {L1 L2 S X : Subgroup G}
     (hXB : bigB L1 L2 S ≤ Subgroup.normalizer (X : Set G))
     {g h x : G} (hhB : g⁻¹ * h ∈ bigB L1 L2 S) (hx : g⁻¹ * x * g ∈ X) :

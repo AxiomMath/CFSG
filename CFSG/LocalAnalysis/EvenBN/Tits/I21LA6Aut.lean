@@ -90,7 +90,7 @@ theorem A6_card_centralizer_involution {J : Type*} [Group J] [Finite J]
   obtain ⟨ψ, hψ⟩ := a6aut_exists_equiv_rep e ha ha1
   rw [a6aut_card_centralizer_congr ψ a, hψ, ← a6aut_card_cent_rep]
   exact Nat.card_congr (Equiv.subtypeEquiv (Equiv.refl _) fun x => by
-    simp [mem_centralizer_singleton_iff, eq_comm])
+    simp [mem_centralizer_singleton_iff])
 
 theorem a6aut_comm_of_sq_eq_one {G : Type*} [Group G] {x y : G} (hx : x * x = 1) (hy : y * y = 1)
     (hxy : (x * y) * (x * y) = 1) : x * y = y * x := by
@@ -209,7 +209,7 @@ theorem a6aut_order_eight_core {c : MulAut A₆} (hc2 : c * c = 1) (hc1 : c ≠ 
       σ ∈ Subgroup.closure (((MulAut.conj : A₆ →* MulAut A₆).range : Set (MulAut A₆)) ∪ {c}) := by
   obtain ⟨y, hy5, hcy⟩ := hy
   let J' : Subgroup (MulAut A₆) := (MulAut.conj : A₆ →* MulAut A₆).range
-  haveI hJ'n : J'.Normal := inner_normal _
+  have hJ'n : J'.Normal := inner_normal _
   let eJ : A₆ ≃* J' := MonoidHom.ofInjective inner_conjugation_injective
   have hJ360 : Nat.card J' = 360 := by
     rw [← Nat.card_congr eJ.toEquiv]

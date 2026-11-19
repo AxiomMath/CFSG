@@ -62,14 +62,14 @@ theorem card_le_card_fixedSubgroup_sq {G : Type*} [Group G] [Finite G] (σ : Mul
 
 theorem exists_sylow_two_invariant {G : Type*} [Group G] [Finite G] (σ : MulAut G)
     (hσ : σ * σ = 1) : ∃ P : Sylow 2 G, ∀ x ∈ (P : Subgroup G), σ x ∈ (P : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup (MulAut G) := Subgroup.zpowers σ
   have hH : IsPGroup 2 H := by
     have hdvd : orderOf σ ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hσ)
     rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h | h
     · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h]; rfl)
     · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h]; rfl)
-  letI : MulAction H (Sylow 2 G) := MulAction.compHom (Sylow 2 G) H.subtype
+  let : MulAction H (Sylow 2 G) := MulAction.compHom (Sylow 2 G) H.subtype
   have hmod := hH.card_modEq_card_fixedPoints (Sylow 2 G)
   have hone := card_sylow_modEq_one 2 G
   have hodd : Nat.card (MulAction.fixedPoints H (Sylow 2 G)) ≠ 0 := by
@@ -105,7 +105,7 @@ theorem four_lt_card_fixedSubgroup_of_unique_abelian {G : Type*} [Group G] [Fini
     (huniq : ∀ B : Subgroup G, B ≤ S₀ → (∀ x ∈ B, ∀ y ∈ B, x * y = y * x) →
       Nat.card B = Nat.card A₀ → B = A₀)
     (σ : MulAut G) (hσ : σ * σ = 1) : 4 < Nat.card (fixedSubgroup σ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_two_invariant σ hσ
   let S₀' : Sylow 2 G := hS.toSylow hidx
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S₀' P

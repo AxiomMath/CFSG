@@ -37,11 +37,11 @@ structure GGFixLineHyp (p N : ℕ) [Fact p.Prime] {V : Type} [AddCommGroup V] [M
 
 @[expose] def ggLinStab {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     (T : Submodule (ZMod p) V) : Subgroup (V ≃ₗ[ZMod p] V) where
-  carrier := {g | (∀ v ∈ T, g v ∈ T) ∧ ∀ v ∈ T, g.symm v ∈ T}
-  mul_mem' := fun {a b} ha hb =>
-    ⟨fun v hv => ha.1 _ (hb.1 v hv), fun v hv => hb.2 _ (ha.2 v hv)⟩
-  one_mem' := ⟨fun v hv => hv, fun v hv => hv⟩
-  inv_mem' := fun {a} ha => ⟨ha.2, ha.1⟩
+  carrier := {g | (∀ _v ∈ T, g _v ∈ T) ∧ ∀ _v ∈ T, g.symm _v ∈ T}
+  mul_mem' := fun {_a _b} ha hb =>
+    ⟨fun _v hv => ha.1 _ (hb.1 _v hv), fun _v hv => hb.2 _ (ha.2 _v hv)⟩
+  one_mem' := ⟨fun _v hv => hv, fun _v hv => hv⟩
+  inv_mem' := fun {_a} ha => ⟨ha.2, ha.1⟩
 
 lemma ggLinStab_map {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     {T : Submodule (ZMod p) V} (g : ↥(ggLinStab T)) :

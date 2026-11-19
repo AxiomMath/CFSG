@@ -120,7 +120,7 @@ theorem ggQTwoEdgeLeInput_of_cells {R : ℕ → Prop} (hR : ∀ m, R m → 5 ≤
   classical
   intro G _ _ p B Bs x L D J 𝒦 ι M e hcfg m e' hm hM i j hij
   have hJoin : L ⊔ ⨆ K ∈ 𝒦, K ≤ ggG0 p B x L D J :=
-    ggJoin_le_ggG0 (Bs := Bs) hcfg.1.2.2.2.1
+    ggJoin_le_ggG0 (_Bs := Bs) hcfg.1.2.2.2.1
   by_cases hc : qtwoOrthL G L 𝒦
   · obtain ⟨X, hfacts, hframe, hX⟩ := hOrth G p B Bs x L D J 𝒦 ι M e hcfg m e' hm hM hc
     exact qtwoW_le_of_frame hJoin hX hfacts (hR m hm) hM hframe hij

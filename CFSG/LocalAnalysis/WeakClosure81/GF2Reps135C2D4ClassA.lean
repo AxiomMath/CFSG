@@ -88,6 +88,7 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] (hK : Nat.card
 local notation "C₀" => graphFixedRootGroup TwistTag.D4 K σ.toRingHom
 local notation "Xr" => pinnedX TwistTag.D4.tag K
 
+omit [Finite W] in
 private theorem w183_classA_hnab_of_ctx (hctx : Is135Context Y L) :
     ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a := by
   have hq : IsQuasisimple ↥L := hctx.2.2.2.2.1
@@ -98,6 +99,7 @@ private theorem w183_classA_hnab_of_ctx (hctx : Is135Context Y L) :
   have hL : (x' * y' : ↥L) = y' * x' := Subtype.ext h
   rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hL]
 
+omit [Finite W] in
 private theorem w183_classA_ne_bot_of_ctx (hctx : Is135Context Y L) : L ≠ ⊥ := by
   intro hbot
   obtain ⟨a, ha, b, hb, hab⟩ := w183_classA_hnab_of_ctx hctx
@@ -112,7 +114,7 @@ theorem w135c2_trialityD4_classA (hW : ∀ w : W, w ^ 2 = 1) (hctx : Is135Contex
     4 ≤ E3.mQuot ⊤ (fixV (Subgroup.zpowers (x : MulAut W))) := by
   classical
   have hσ3 : σ.toRingHom ^ 3 = 1 := sigma_cube hK σ hσ
-  haveI : CharP K 2 := charP_two_of_card hf hK
+  have : CharP K 2 := charP_two_of_card hf hK
   have hHmem : Xr d4H 1 ∈ C₀ := Xr_H_mem_C0 σ hσ3 (map_one σ)
   let ξ : ↥C₀ := ⟨Xr d4H 1, hHmem⟩
   obtain ⟨T, hTc, hTconj, hTgen⟩ := trialityLongRoot_gen hf hK σ hσ

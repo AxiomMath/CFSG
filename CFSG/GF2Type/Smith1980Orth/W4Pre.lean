@@ -55,6 +55,7 @@ variable (htt : t * t = 1) (hk3 : k ^ 3 = 1) (htk : t * k * t⁻¹ = k⁻¹)
 include htt hk3 htk
 
 omit hk3 in
+omit htt in
 theorem conj_zpow_k (n : ℤ) : t * k ^ n * t⁻¹ = k ^ (-n) := by
   rw [← conj_zpow, htk, inv_zpow']
 
@@ -72,12 +73,13 @@ theorem zpow_eq_one_of_eq_neg {n : ℤ} (h : k ^ n = k ^ (-n)) : k ^ n = 1 := by
         ring
     _ = 1 := by rw [h2, h3, inv_one, mul_one]
 
+omit hk3 in
 theorem mem_sup_cases {s : S.O} (hs : s ∈ zpowers k ⊔ zpowers t) :
     ∃ n : ℤ, s = k ^ n ∨ s = k ^ n * t := by
   have hle : zpowers t ≤ normalizer ((zpowers k : Subgroup S.O) : Set S.O) :=
     zpowers_le.mpr (S4.mem_normalizer_of_conj_le fun p hp => by
       obtain ⟨n, rfl⟩ := mem_zpowers_iff.mp hp
-      rw [conj_zpow_k htt htk n]
+      rw [conj_zpow_k htk n]
       exact zpow_mem (mem_zpowers k) _)
   have hs' : s ∈ ((zpowers k : Subgroup S.O) : Set S.O) *
       ((zpowers t : Subgroup S.O) : Set S.O) := by
@@ -92,16 +94,17 @@ theorem mem_sup_cases {s : S.O} (hs : s ∈ zpowers k ⊔ zpowers t) :
 theorem eq_one_or_eq_of_comm {s : S.O} (hs : s ∈ zpowers k ⊔ zpowers t) (hst : s * t = t * s) :
     s = 1 ∨ s = t := by
   have hti : t⁻¹ = t := inv_eq_of_mul_eq_one_right htt
-  obtain ⟨n, rfl | rfl⟩ := mem_sup_cases htt hk3 htk hs
+  obtain ⟨n, rfl | rfl⟩ := mem_sup_cases htt htk hs
   · left
     have h1 : t * k ^ n * t⁻¹ = k ^ n := by rw [← hst, mul_inv_cancel_right]
-    rw [conj_zpow_k htt htk] at h1
+    rw [conj_zpow_k htk] at h1
     exact zpow_eq_one_of_eq_neg hk3 h1.symm
   · right
     have h2 : t * (k ^ n * t) = t * k ^ n * t⁻¹ := by rw [hti, mul_assoc]
-    rw [mul_assoc, htt, mul_one, h2, conj_zpow_k htt htk] at hst
+    rw [mul_assoc, htt, mul_one, h2, conj_zpow_k htk] at hst
     rw [zpow_eq_one_of_eq_neg hk3 hst, one_mul]
 
+omit htt in
 theorem t_not_mem_Cb (hk1 : k ≠ 1) : t ∉ Cb S k t := by
   intro h
   have h1 := k_comm_of_mem_Cb h
@@ -132,12 +135,13 @@ theorem exists_mem_Cb_of_comm {x : S.O} (hxM : x ∈ S.Mbar) (hxt : x * t = t * 
   · exact ⟨c, hc, Or.inl (one_mul c)⟩
   · exact ⟨c, hc, Or.inr rfl⟩
 
+omit hk3 in
 theorem conj_k_cases {x : S.O} (hxM : x ∈ S.Mbar) : x * k * x⁻¹ = k ∨ x * k * x⁻¹ = k⁻¹ := by
   obtain ⟨s, hs, c, hc, rfl⟩ := hdec hxM
   have hck : c * k * c⁻¹ = k := by rw [← k_comm_of_mem_Cb hc, mul_inv_cancel_right]
   have e : s * c * k * (s * c)⁻¹ = s * (c * k * c⁻¹) * s⁻¹ := by group
   rw [e, hck]
-  obtain ⟨n, rfl | rfl⟩ := mem_sup_cases htt hk3 htk hs
+  obtain ⟨n, rfl | rfl⟩ := mem_sup_cases htt htk hs
   · left
     rw [(Commute.zpow_self k n).eq, mul_inv_cancel_right]
   · right
@@ -162,7 +166,7 @@ theorem Nbar_le_zpowers {g : G} (H : Hyp4 S g) (ht : t ∈ S.Lbar g) (hirr : ¬ 
     have hcu := apply_mem_Vt_of_mem_Cb H hc hu
     have hck : c * k ^ n = k ^ n * c :=
       ((Commute.zpow_left (k_comm_of_mem_Cb hc) n).eq).symm
-    obtain ⟨j, rfl | rfl⟩ := mem_sup_cases htt hk3 htk hs
+    obtain ⟨j, rfl | rfl⟩ := mem_sup_cases htt htk hs
     · refine Submodule.subset_span ⟨(c : S.Qt ≃ₗ[ZMod 2] S.Qt) u, hcu, j + n, ?_⟩
       have e : k ^ j * c * k ^ n = k ^ (j + n) * c := by
         rw [mul_assoc, hck, ← mul_assoc, ← zpow_add]
@@ -172,7 +176,7 @@ theorem Nbar_le_zpowers {g : G} (H : Hyp4 S g) (ht : t ∈ S.Lbar g) (hirr : ¬ 
         _ = _ := rfl
     · refine Submodule.subset_span ⟨(c : S.Qt ≃ₗ[ZMod 2] S.Qt) u, hcu, j - n, ?_⟩
       have h1 : t * k ^ n = k ^ (-n) * t := by
-        rw [← conj_zpow_k htt htk n]
+        rw [← conj_zpow_k htk n]
         group
       have e : k ^ j * t * c * k ^ n = k ^ (j - n) * (t * c) := by
         calc k ^ j * t * c * k ^ n = k ^ j * t * (c * k ^ n) := by group
@@ -263,7 +267,7 @@ theorem card_RmodN_dvd {g : G} (H : Hyp4 S g) (ht : t ∈ S.Lbar g) (hirr : ¬ S
       exact Subtype.ext (inv_mul_eq_one.mp h2)
     · exfalso
       rw [h] at hC
-      exact t_not_mem_Cb htt hk3 htk hk1 hC
+      exact t_not_mem_Cb hk3 htk hk1 hC
   have hsurj : Function.Surjective f := by
     rintro ⟨e, he⟩
     rw [← range_resV H.conj_mem t] at he

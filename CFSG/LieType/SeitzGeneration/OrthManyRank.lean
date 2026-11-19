@@ -28,7 +28,7 @@ theorem manyRank_card_natCast_ne_zero {K : Type} [Field K] [Finite K] {p : ℕ} 
     (hpl : p ≠ ringChar K) : ((Nat.card K : ℕ) : ZMod p) ≠ 0 := by
   intro h
   rw [ZMod.natCast_eq_zero_iff] at h
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hq, hcard⟩ := FiniteField.card K (ringChar K)
   rw [Nat.card_eq_fintype_card, hcard] at h
   have hpq : p ∣ ringChar K := hp.dvd_of_dvd_pow h
@@ -36,7 +36,7 @@ theorem manyRank_card_natCast_ne_zero {K : Type} [Field K] [Finite K] {p : ℕ} 
 
 theorem manyRank_orderOf_pos {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime)
     (hpl : p ≠ ringChar K) : 0 < orderOf ((Nat.card K : ℕ) : ZMod p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [orderOf_pos_iff, isOfFinOrder_iff_pow_eq_one]
   exact ⟨p - 1, by have := hp.one_lt; omega,
     ZMod.pow_card_sub_one_eq_one (manyRank_card_natCast_ne_zero hp hpl)⟩
@@ -47,7 +47,7 @@ variable {K V : Type} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional
   {Q : QuadraticForm K V}
 
 theorem manyRank_finrank_three_le {S₁ S₂ S₃ : Submodule K V} (h₁ : PolarNondegOn Q S₁)
-    (h₂ : PolarNondegOn Q S₂) (h₃ : PolarNondegOn Q S₃) (h12 : OrthSep Q S₁ S₂)
+    (h₂ : PolarNondegOn Q S₂) (_h₃ : PolarNondegOn Q S₃) (h12 : OrthSep Q S₁ S₂)
     (h13 : OrthSep Q S₁ S₃) (h23 : OrthSep Q S₂ S₃) :
     finrank K S₁ + finrank K S₂ + finrank K S₃ ≤ finrank K V := by
   have hd12 : S₁ ⊓ S₂ = ⊥ := by
@@ -109,7 +109,7 @@ theorem natDegree_eq_orderOf {x : V ≃ₗ[K] V} (hp : p.Prime) (hxp : x ^ p = 1
   ·
     exfalso
     subst hpl
-    haveI : Fact (ringChar K).Prime := ⟨hp⟩
+    have : Fact (ringChar K).Prime := ⟨hp⟩
     have hX : (Polynomial.X - 1 : Polynomial K) ^ ringChar K = Polynomial.X ^ ringChar K - 1 := by
       rw [sub_pow_char, one_pow]
     have h1 : h ∣ (Polynomial.X - 1 : Polynomial K) :=
@@ -251,7 +251,7 @@ variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [Finite
   {Q : QuadraticForm K V}
 
 theorem rankLE2_of_finrank_lt (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (hpl : p ≠ ringChar K)
+    (_hp2 : p ≠ 2) (hpl : p ≠ ringChar K)
     (hlt : finrank K V < 3 * orderOf ((Nat.card K : ℕ) : ZMod p)) :
     RankLE2 p (orthDerived Q) := by
   intro F hF

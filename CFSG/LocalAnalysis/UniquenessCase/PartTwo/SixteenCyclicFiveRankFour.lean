@@ -48,7 +48,7 @@ theorem one_lt_s15_of_cyclic_five_rank_four
   have hirr : ∀ B : Subgroup (Vtil V₀ V hV),
       (∀ l ∈ lBar V₀ V hV L, ∀ b ∈ B, l b ∈ B) → B = ⊥ ∨ B = ⊤ := by
     intro B hB
-    letI : Module (ZMod 2) (Additive ↥B) :=
+    let : Module (ZMod 2) (Additive ↥B) :=
       AddCommGroup.zmodModule (fun x => by
         apply Additive.toMul.injective
         rw [two_nsmul, toMul_add, toMul_zero]
@@ -127,7 +127,7 @@ theorem one_lt_s15_of_cyclic_five_rank_four
           (Subgroup.centralizer (lBar V₀ V hV L : Set (MulAut (Vtil V₀ V hV)))) :=
       CFSG.SectionRank.pRank_mono hp.one_lt inf_le_right
     have hAutCard : Nat.card (MulAut ↥(lBar V₀ V hV L)) = 4 := by
-      haveI : IsCyclic ↥(lBar V₀ V hV L) := hL.1
+      have : IsCyclic ↥(lBar V₀ V hV L) := hL.1
       rw [IsCyclic.card_mulAut, hHcard, Nat.totient_prime (p := 5) (by norm_num)]
     have hAutRank : CFSG.Open.pRank p
         (⊤ : Subgroup (MulAut ↥(lBar V₀ V hV L))) = 0 := by

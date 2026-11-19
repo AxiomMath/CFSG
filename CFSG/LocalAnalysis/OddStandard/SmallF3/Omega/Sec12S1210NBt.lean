@@ -26,7 +26,7 @@ theorem sec12N_cent_card {V : Subgroup G} {t : G} (htN : t ∈ secN V)
   have htN' : t ∈ normalizer (V : Set G) := htN
   have hbt : ((sec12J_beta V ⟨t, htN'⟩ : ↥(secNb V)) : MulAut ↥V) = betaOf V t := by
     unfold betaOf
-    rw [dif_pos htN']
+    rw [dite_eq_left htN']
     rfl
   have hmemiff : ∀ x : ↥(secNb V),
       x ∈ Subgroup.centralizer ({sec12J_beta V ⟨t, htN'⟩} : Set ↥(secNb V)) ↔

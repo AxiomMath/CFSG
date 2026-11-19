@@ -135,8 +135,9 @@ theorem str83G4_x_eq_n_sup_x1
     hHK (Subgroup.mem_sup_left hl)
   simpa [mul_assoc] using (Subgroup.mem_normalizer_iff.mp hK (b * z * b⁻¹)).mp (hZ2K hbZ2)
 
+omit [Finite G] in
 private theorem isChiefStep_of_inf_chief {H U X X1 N N1 : Subgroup G}
-    (hXeq : X = N ⊔ X1) (hN1eq : N1 = N ⊓ X1) (hX1n : IsNormalIn H U X1)
+    (hXeq : X = N ⊔ X1) (_hN1eq : N1 = N ⊓ X1) (hX1n : IsNormalIn H U X1)
     (hXn : IsNormalIn H U X) (hlt : X1 < X) (hstepN : IsChiefStep H U N1 N)
     (hN1X1 : N1 ≤ X1) (hN1N : N1 ≤ N)
     (hNX1 : N ≤ Subgroup.normalizer (X1 : Set G)) :

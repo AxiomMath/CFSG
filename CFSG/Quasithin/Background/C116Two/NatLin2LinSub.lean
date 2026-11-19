@@ -26,7 +26,7 @@ private theorem card_le_two_mul_of_cosets {G : Type} [Group G] [Finite G] (J K :
 private theorem three_involutions_false {F : Type} [Field F] [Finite F] (x y z : F ≃+* F)
     (hx : ∀ c, x (x c) = c) (hy : ∀ c, y (y c) = c) (hz : ∀ c, z (z c) = c)
     (hxy : x ≠ y) (hxz : x ≠ z) (hyz : y ≠ z) : False := by
-  haveI : Finite (F ≃+* F) := Finite.of_injective (fun σ : F ≃+* F => (σ : F → F))
+  have : Finite (F ≃+* F) := Finite.of_injective (fun σ : F ≃+* F => (σ : F → F))
     (fun a b h => RingEquiv.ext fun c => congrFun h c)
   have hcard := card_involutions_le_two F
   let v : Fin 3 → {σ : F ≃+* F // ∀ c, σ (σ c) = c} := ![⟨x, hx⟩, ⟨y, hy⟩, ⟨z, hz⟩]
@@ -46,8 +46,8 @@ theorem exists_linear_subgroup {F : Type} [Field F] [Fintype F] [CharP F 2]
       (∀ b ∈ B₁, IsSemilinear (RingEquiv.refl F) b) ∧ Nat.card B ≤ 2 * Nat.card B₁ ∧
       (B₁ = B ∨ ∃ φ ∈ B, ∃ σ : F ≃+* F, σ ≠ 1 ∧ (∀ c, σ (σ c) = c) ∧ IsSemilinear σ φ ∧
         φ * φ = 1) := by
-  haveI : Finite (Multiplicative (Fin 2 → F)) := inferInstanceAs (Finite (Fin 2 → F))
-  haveI : Finite (MulAut (Multiplicative (Fin 2 → F))) := MulEquiv.finite_left
+  have : Finite (Multiplicative (Fin 2 → F)) := inferInstanceAs (Finite (Fin 2 → F))
+  have : Finite (MulAut (Multiplicative (Fin 2 → F))) := MulEquiv.finite_left
   choose! σ hσ using fun b (hb : b ∈ B) => exists_semilinear_of_normalizer b (hN b hb)
   have hsq1 : ∀ b ∈ B, b * b = 1 := fun b hb => by rw [← sq]; exact hB.2 b hb
   have hone : ∀ τ : F ≃+* F, IsSemilinear τ (1 : MulAut (Multiplicative (Fin 2 → F))) →
@@ -73,7 +73,7 @@ theorem exists_linear_subgroup {F : Type} [Field F] [Fintype F] [CharP F 2]
   by_cases hall : ∀ b ∈ B, b ∈ B₁
   · exact ⟨B₁, hB₁B, hlin, card_le_two_mul_of_cosets B B₁ 1 (fun x hx => Or.inl (hall x hx)),
       Or.inl (le_antisymm hB₁B fun b hb => hall b hb)⟩
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨φ, hφB, hφB₁⟩ := hall
     have hσφ : σ φ ≠ RingEquiv.refl F := fun h => hφB₁ ((hmem φ hφB).2 h)
     have hcos : ∀ x ∈ B, x ∈ B₁ ∨ φ * x ∈ B₁ := by

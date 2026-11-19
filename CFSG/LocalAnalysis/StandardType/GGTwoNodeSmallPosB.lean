@@ -50,7 +50,7 @@ theorem lr6SmallRankPosB_of_closed
   let P : Pt := ⟨p, D, nF, gens, x', b⟩
   let Q : SPt := ⟨P, s⟩
   have hb : P.bound = posBound p N := pgb_posBCell_bound hmemL
-  haveI : Fact P.p.Prime := ‹Fact p.Prime›
+  have : Fact P.p.Prime := ‹Fact p.Prime›
   have hQ : Q ∈ posBPts () := by
     simp only [posBPts, List.mem_append, or_assoc]
     rcases hcell with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩

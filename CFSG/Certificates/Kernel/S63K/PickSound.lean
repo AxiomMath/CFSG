@@ -80,17 +80,17 @@ theorem loop (f : ℕ → Array ℕ) (F : ℕ → ℕ) (t : ℕ) :
     by_cases ht : t ≤ E.length
     · have hb : Nat.ble t E.length = true := by simpa using ht
       rw [hb]
-      simp only [bodyP, ge_iff_le, hsz, ht, ↓reduceIte, Id.run, cond_true]
+      simp only [bodyP, ge_iff_le, hsz, ht, ↓reduceIte, Id.run, _root_.Bool.cond_true]
       change s.2.2.toList = _
       rw [hp]
     · have hb : Nat.ble t E.length = false := by
         cases e : Nat.ble t E.length
         · rfl
         · exact absurd (Nat.le_of_ble_eq_true e) ht
-      rw [hb, cond_false]
+      rw [hb, Bool.cond_false]
       have hcont : s.1.contains (f c) = E.any (fun e => eqM e (F c)) := by rw [hfc, hc]
       cases ha : E.any (fun e => eqM e (F c))
-      · simp only [bodyP, ge_iff_le, hsz, ht, ↓reduceIte, hcont, ha, Bool.not_false, cond_false]
+      · simp only [bodyP, ge_iff_le, hsz, ht, ↓reduceIte, hcont, ha, Bool.not_false, Bool.cond_false]
         apply ih (c + 1) _ _ _ _ hf'
         refine ⟨?_, ?_, fun y => ?_⟩
         · change s.2.1 ++ Array.map (mulR (f c)) s.2.1 = _
@@ -116,7 +116,7 @@ theorem loop (f : ℕ → Array ℕ) (F : ℕ → ℕ) (t : ℕ) :
             exact mulR_unpackR _ _
           rw [e2, List.foldl_map, fold_insert, hc, List.any_append]
       · simp only [bodyP, ge_iff_le, hsz, ht, ↓reduceIte, hcont, ha, Bool.not_true,
-          Bool.false_eq_true, cond_true]
+          Bool.false_eq_true, _root_.Bool.cond_true]
         exact ih (c + 1) _ _ _ ⟨he, hp, hc⟩ hf'
 
 theorem pickSpan_eq {n t Z : ℕ} {f : ℕ → Array ℕ} {F : ℕ → ℕ}

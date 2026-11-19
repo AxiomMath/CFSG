@@ -84,7 +84,7 @@ theorem A_lt_B_succ {M : ℕ} (hM : 2 ≤ M) :
         refine Nat.mul_lt_mul_of_pos_left ?_ (by positivity)
         exact Nat.mul_lt_mul_of_pos_left h3 (by positivity)
 
-theorem su_sl_false {q N : ℕ} (hq : 2 ≤ q) (hN : 4 ≤ N) (hqm : q % 3 = 2) (hNm : N % 3 = 1)
+theorem su_sl_false {q N : ℕ} (_hq : 2 ≤ q) (hN : 4 ≤ N) (hqm : q % 3 = 2) (hNm : N % 3 = 1)
     (h : q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 + 1)) = N ^ 3 * ((N ^ 2 - 1) * (N ^ 3 - 1))) : False := by
   have hne : q ≠ N := by omega
   rcases lt_or_gt_of_ne hne with hlt | hgt

@@ -43,12 +43,12 @@ end FongKFCo1
 theorem kdL64I246Co1Case_holds :
     KDL64I246Co1Case := by
   intro Z _ _ _ hpc L hL hCo P hPL hPp hPidx _ Y hY2 _
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hLq : Open.IsQuasisimple ↥L := hL.2.2
   have hZp : IsPGroup 5 (center ↥L) :=
     CFSG.LocalAnalysis.RankFourTheoremC.isPGroup_center_component hpc hL
   obtain ⟨φ'⟩ := hCo
-  haveI : Group.IsPerfect ↥L := ⟨hLq.1⟩
+  have : Group.IsPerfect ↥L := ⟨hLq.1⟩
   have hker : (QuotientGroup.mk' (center ↥L)).ker = ⊥ :=
     CFSG.RankThree.PartOne.MultRes.sporadicKernelTrivial_co1_five ↥L (↥L ⧸ center ↥L)
       (QuotientGroup.mk' (center ↥L)) ⟨φ'⟩ (QuotientGroup.mk'_surjective _)
@@ -57,7 +57,7 @@ theorem kdL64I246Co1Case_holds :
   let ψ : ↥L ≃* (↥L ⧸ center ↥L) :=
     (QuotientGroup.quotientBot (G := ↥L)).symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
   let φ : ↥L ≃* NativeSporadic.Co1 := ψ.trans φ'
-  haveI : Finite NativeSporadic.Co1 := Finite.of_equiv ↥L φ.toEquiv
+  have : Finite NativeSporadic.Co1 := Finite.of_equiv ↥L φ.toEquiv
   obtain ⟨P₀, Sg, N, hP₀, hSg, hSr, hN, hgen⟩ := FongKFCo1.co1Gen_witness
   exact @FongKFCo1.le_of_normalizers_generate 5 _ Z NativeSporadic.Co1 _ _
     (inferInstance : Group NativeSporadic.Co1) _ L φ P hPL hPp hPidx Y hY2 P₀ hP₀ (Fin 2) Sg hSg hSr

@@ -21,18 +21,18 @@ theorem ggF4Orig_card_le_pow_mul {G : Type} [Group G] [Finite G] {p : ℕ} {Bs :
     { carrier := {b | φ i b = b}
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul, ha, hb]
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         exact map_one (φ i)
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv, ha] }
   have hFcard : ∀ i, Nat.card (F i) * p = Nat.card ↥Bs := fun i => (he i).2
   have hFpos : ∀ i, 0 < Nat.card (F i) := fun i => by
-    haveI : Nonempty ↥(F i) := ⟨⟨1, by simp [F]⟩⟩
+    have : Nonempty ↥(F i) := ⟨⟨1, by simp [F]⟩⟩
     exact Nat.card_pos
   have hindex : ∀ i, (F i).index = p := fun i => by
     have h1 : Nat.card (F i) * (F i).index = Nat.card ↥Bs := Subgroup.card_mul_index (F i)

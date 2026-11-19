@@ -162,7 +162,7 @@ theorem s16e_mem_sig_of_elem_core (D : Data G) (hSg : UC6S846.SigmaStd D) (h127 
     (hs : s15 D.M V₀ V hV L = 1) {p r : ℕ} (hp : p = 3 ∨ p = 7) (hr : 6 ≤ r)
     (hE : IsElemAbelianOfRank p r ↥(lBar V₀ V hV L)) : p ∈ D.sig := by
   have hpp : p.Prime := by rcases hp with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp2 : p ≠ 2 := by rcases hp with rfl | rfl <;> norm_num
   have hwT : wTil V₀ V hV L = ⊤ := wTil_eq_top_of_case163_2 hconc hs
   obtain ⟨t, htA, ht2, ht1, htrk, hW⟩ := id hconc
@@ -175,7 +175,7 @@ theorem s16e_mem_sig_of_elem_core (D : Data G) (hSg : UC6S846.SigmaStd D) (h127 
     s16e_comm_le_commutator hpp (by omega) hLA hLn hE hLt hD
   have hpf := hset.hyp16.hyp125.pairFacts
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hpf.le_normalizer hpf.le_normalizer₀
-  haveI hNorm : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have hNorm : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     s15_Three_cTilde_normal hV hMs
   obtain ⟨Φ, -⟩ := s15_Three_barImage_equiv hV hMs
   let Xbar : Subgroup (F11.MBar11 D.M V₀ V) :=

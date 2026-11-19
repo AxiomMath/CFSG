@@ -30,7 +30,7 @@ theorem D2L34BetaConf3.exists_escape_of_not_isCyclic (hc : D2L34BetaConf3 d P M 
   obtain ⟨T, hXT⟩ := hXp.exists_le_sylow
   set E₀ : Subgroup G := (T : Subgroup N₁).map N₁.subtype with hE₀
   have hXE₀ : X ≤ E₀ := fun x hx => ⟨⟨x, hXN₁ hx⟩, hXT (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
-  have hE₀p : IsPGroup 3 E₀ := T.isPGroup'.map N₁.subtype
+  have hE₀p : IsPGroup 3 E₀ := T.isPGroup.map N₁.subtype
   have hXne : X ≠ ⊥ := fun h => hXc (h ▸ isCyclic_of_subsingleton ..)
   have hE₀M : E₀ ≤ M := le_of_stronglyEmbedded_of_inf_ne_bot Nat.prime_three hstr hE₀p
     fun h => hXne (le_bot_iff.mp (h ▸ le_inf hXE₀ hXM))
@@ -44,7 +44,7 @@ theorem D2L34BetaConf3.exists_escape_of_not_isCyclic (hc : D2L34BetaConf3 d P M 
     have hXsub : IsCyclic (X.subgroupOf E₀) := Subgroup.isCyclic _
     exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hXE₀).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hXE₀).surjective
-  have : Fact (IsPGroup 3 (T : Subgroup N₁)) := ⟨T.isPGroup'⟩
+  have : Fact (IsPGroup 3 (T : Subgroup N₁)) := ⟨T.isPGroup⟩
   obtain ⟨E, -, hEc, hEel⟩ :=
     CFSG.lemma_4_5_a (R := (T : Subgroup N₁)) (p := 3) (by norm_num) hTc
   set E' : Subgroup G := (E.map (T : Subgroup N₁).subtype).map N₁.subtype with hE'
@@ -149,7 +149,7 @@ theorem exists_conj_eq_of_escape (hOnly : D2OnlyL34At P M) {N X : Subgroup G}
     omega
   have hAK₀ : (X.subgroupOf N₁).map (QuotientGroup.mk' (primeComplementCore (G := N₁) 3)) ≤ K₀ := by
     rw [← hRbar₀]
-    exact le_of_isPGroup_of_not_dvd_index Nat.prime_three hidx3 Rbar₀.isPGroup'
+    exact le_of_isPGroup_of_not_dvd_index Nat.prime_three hidx3 Rbar₀.isPGroup
   have htr := hesc₀.exists_conj_eq_of_l34 hd₀ hi hAK₀
   obtain ⟨T, hT⟩ := hesc₀.isSylow
   have hidxX : ¬ 3 ∣ (X.subgroupOf N₁).index := by

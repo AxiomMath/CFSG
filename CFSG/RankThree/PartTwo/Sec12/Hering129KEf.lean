@@ -70,6 +70,7 @@ section Central
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem normal_zpowers_of_central {x : H} (hxc : ∀ h : H, x * h = h * x) :
     (Subgroup.zpowers x).Normal :=
   ⟨fun n hn g => by
@@ -79,6 +80,7 @@ theorem normal_zpowers_of_central {x : H} (hxc : ∀ h : H, x * h = h * x) :
     rw [this]
     exact Subgroup.zpow_mem_zpowers x k⟩
 
+omit [Finite H] in
 theorem zpow_eq_one_or_mem {x : H} (hx3 : x ^ 3 = 1) {S : Subgroup H} {k : ℤ}
     (h : x ^ k ∈ S) : x ^ k = 1 ∨ x ∈ S := by
   have hk : x ^ k = x ^ (k % 3) := by
@@ -104,7 +106,7 @@ theorem zpow_eq_one_or_mem {x : H} (hx3 : x ^ 3 = 1) {S : Subgroup H} {k : ℤ}
 theorem mem_normalizer_sup_of_central {x n : H} (hxc : ∀ h : H, x * h = h * x)
     {F : Subgroup H} (hn : n ∈ Subgroup.normalizer (F : Set H)) :
     n ∈ Subgroup.normalizer ((Subgroup.zpowers x ⊔ F : Subgroup H) : Set H) := by
-  haveI := normal_zpowers_of_central hxc
+  have := normal_zpowers_of_central hxc
   refine Subgroup.mem_normalizer_fintype fun e he => ?_
   obtain ⟨m, hm, f, hf, rfl⟩ := Subgroup.mem_sup_of_normal_left.mp he
   have hnf : n * f * n⁻¹ ∈ F := (Subgroup.mem_normalizer_iff.mp hn f).mp hf
@@ -138,7 +140,7 @@ theorem exists_E_of_hess (hL3 : Gap129HessL3) (hD4 : Gap129HessD4)
     (hAel : CFSG.Assembly.IsElemAbelian 3 A) (hA27 : Nat.card A = 27)
     (hgen : A = Subgroup.zpowers x ⊔ Subgroup.zpowers b ⊔ Subgroup.zpowers c)
     (hx1 : x ≠ 1) (hxc : ∀ h : H, x * h = h * x) (hxY : x ∉ Y) (hcY : c ∈ Y)
-    (hbxc : b ∉ Subgroup.zpowers x ⊔ Subgroup.zpowers c)
+    (_hbxc : b ∉ Subgroup.zpowers x ⊔ Subgroup.zpowers c)
     (hAC : A ⊓ Sec4.thetaQuotCentralizer Y = Subgroup.zpowers x)
     (hX : ∃ X : Subgroup H, X ≤ Y ∧ X ≤ Subgroup.centralizer ({b} : Set H) ∧
       Group.IsPerfect X ∧ (X.subgroupOf (Y ⊓ Subgroup.centralizer ({b} : Set H))).IsSubnormal ∧
@@ -163,7 +165,7 @@ theorem exists_E_of_hess (hL3 : Gap129HessL3) (hD4 : Gap129HessD4)
   have hb3 : b ^ 3 = 1 := hAel.2 b hbA
   have hc3 : c ^ 3 = 1 := hAel.2 c hcA
   have hT : aschbacherSolvableCore 3 H ≤ Y := by
-    haveI := hYn
+    have := hYn
     exact Hering129KEa.theta_le_of_sup_eq_top hA3 hYA
   have hHD := hessData_of_core hYn hY hT hAel hA27 hgen hb3 hxc hcY hAC hX hkind
   obtain ⟨η, -⟩ := (theta_component_quotient_structure (G := H) Nat.prime_three hY).2.2.1
@@ -193,7 +195,7 @@ theorem exists_E_of_hess (hL3 : Gap129HessL3) (hD4 : Gap129HessD4)
     obtain ⟨f, hf, hfc⟩ := h1
     exact (hinjFA (hFAF hf) (hAFA hcA) hfc) ▸ hf
   have hxF : x ∉ F := fun h => hxY (hFYle h)
-  haveI hxN : (Subgroup.zpowers x).Normal := Hering129KEf.normal_zpowers_of_central hxc
+  have hxN : (Subgroup.zpowers x).Normal := Hering129KEf.normal_zpowers_of_central hxc
   obtain ⟨hEab, hE27⟩ := Sec13.isElemAbelian_zpowers_sup_of_card_nine hx3 hxF le_rfl hF9'
     hFel'.2 (fun y _ => hxc y)
   set E : Subgroup H := Subgroup.zpowers x ⊔ F with hEdef
@@ -212,7 +214,7 @@ theorem exists_E_of_hess (hL3 : Gap129HessL3) (hD4 : Gap129HessD4)
   have hπc3 : (π c) ^ 3 = 1 := by rw [← map_pow, hc3, map_one]
   obtain ⟨f₀, hf₀F, hf₀c⟩ : ∃ f₀ ∈ Fh, f₀ ∉ Subgroup.zpowers (π c) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Fh ≤ Subgroup.zpowers (π c) := hcon
     have h1 := Subgroup.card_le_of_le hle
     rw [hF9, Nat.card_zpowers] at h1
@@ -249,7 +251,7 @@ theorem exists_E_of_hess (hL3 : Gap129HessL3) (hD4 : Gap129HessD4)
     rw [(Commute.zpow_right (show Commute n x from (hxc n).symm) k).eq, mul_inv_cancel_right]
   have hnF : ∀ n', n' ∈ Subgroup.normalizer (E : Set H) → n' ∈ Subgroup.normalizer (F : Set H) := by
     intro n' hn'
-    haveI := hYn
+    have := hYn
     have := Hering129KEf.mem_normalizer_inf_of_normal (Y := Y) hn'
     rwa [hEY] at this
   refine ⟨E, ⟨hEab, hE27⟩, ?_, ⟨Subgroup.mem_sup_right hcF', hcY⟩,

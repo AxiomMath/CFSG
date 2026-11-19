@@ -15,6 +15,7 @@ open scoped commutatorElement Matrix
 
 variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {m : ℕ}
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB3_m2b_mem_range_iff_uFactor_eq_one (h : UnitaryFieldData 2 1 F0)
     (hm : 3 ≤ m) (hq : ¬(m = 3 ∧ 2 ^ 1 = 2))
     (γ : MulAut (StatedProj (StatedSU m (2 ^ 1) F0))) :
@@ -31,6 +32,7 @@ private theorem qtwoDB3_m2b_mem_range_iff_uFactor_eq_one (h : UnitaryFieldData 2
       exact h1.symm
     exact ⟨A, by rw [hAφ, hφ, map_one, mul_one]⟩
 
+omit [Finite F0] [CharP F0 2] in
 theorem qtwoDB3_range_normal (h : UnitaryFieldData 2 1 F0) (hm : 5 ≤ m)
     (α β : MulAut (StatedProj (StatedSU m (2 ^ 1) F0)))
     (hβ : β ∈ (uConjAut h (by omega : 1 ≤ m)).range) :
@@ -48,7 +50,7 @@ private theorem qtwoDB3_m2b_diag_conjTr_mul (hF0 : Nat.card F0 = 4) (c : Fin m �
         ((qTwoChartTwoThree_diag c : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) *
       ((qTwoChartTwoThree_diag c : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) = 1 := by
   classical
-  haveI : Fintype F0 := Fintype.ofFinite F0
+  have : Fintype F0 := Fintype.ofFinite F0
   have hcard : Fintype.card F0 = 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact hF0
@@ -103,6 +105,7 @@ private theorem qtwoDB3_m2b_card_comap {G H : Type*} [Group G] [Group H] [Finite
   rw [hker_card] at h
   exact h.symm
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB3_m2b_ker_le_center (h : UnitaryFieldData 2 1 F0) (hm : 3 ≤ m) :
     (uConjAut h (by omega : 1 ≤ m)).ker ≤ Subgroup.center ↥(uU h m) := by
   intro A hA
@@ -113,11 +116,12 @@ private theorem qtwoDB3_m2b_ker_le_center (h : UnitaryFieldData 2 1 F0) (hm : 3 
   apply Subtype.ext
   rw [Subgroup.coe_mul, Subgroup.coe_mul, hc, Matrix.GeneralLinearGroup.scalar_commute]
 
+omit [CharP F0 2] in
 private theorem qtwoDB3_m2b_card_ker_dvd_three (h : UnitaryFieldData 2 1 F0)
     (hF0 : Nat.card F0 = 4) (hm : 3 ≤ m) :
     Nat.card (uConjAut h (by omega : 1 ≤ m)).ker ∣ 3 := by
   classical
-  haveI : Fintype F0 := Fintype.ofFinite F0
+  have : Fintype F0 := Fintype.ofFinite F0
   have hscalar_inj : Function.Injective
       (Matrix.GeneralLinearGroup.scalar (Fin m) : F0ˣ →* GL (Fin m) F0) := by
     intro a b hab
@@ -201,7 +205,7 @@ theorem qtwoDB3_exists_U (h : UnitaryFieldData 2 1 F0) (hF0 : Nat.card F0 = 4) (
         ((u : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) = 1) ∧
       ∀ c ∈ Dh, qTwoChartTwoThree_diag c ∈ Subgroup.normalizer (U : Set (GL (Fin m) F0)) := by
   classical
-  haveI : Fintype F0 := Fintype.ofFinite F0
+  have : Fintype F0 := Fintype.ofFinite F0
   have hm3 : 3 ≤ m := by omega
   let ι : ↥(uU h m) →* MulAut (StatedProj (StatedSU m (2 ^ 1) F0)) :=
     uConjAut h (by omega : 1 ≤ m)

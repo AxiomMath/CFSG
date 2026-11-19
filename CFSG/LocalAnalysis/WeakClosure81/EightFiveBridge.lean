@@ -29,7 +29,7 @@ theorem pCoreOf_subgroupOf_normal {K H : Subgroup G} (hKH : K ≤ H)
 
 theorem fusionOddCoreOf_eq_bot_of_charTwo {X : Type*} [Group X] [Finite X]
     (hX : CharTwo (⊤ : Subgroup X)) (K : Subgroup X) [K.Normal] : fusionOddCoreOf K = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup X := pCoreOf 2 (⊤ : Subgroup X) with hQ
   set N : Subgroup X := fusionOddCoreOf K with hN
   have hNodd : Odd (Nat.card N) := by

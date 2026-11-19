@@ -14,6 +14,7 @@ section Helpers
 
 variable (A K : Subgroup S)
 
+omit [Finite S] in
 lemma mem_sup_decomp
     (hKA : ∀ g ∈ K, ∀ a ∈ A, g * a * g⁻¹ ∈ A) {x : S} :
     x ∈ A ⊔ K ↔ ∃ a ∈ A, ∃ k ∈ K, a * k = x := by
@@ -21,6 +22,7 @@ lemma mem_sup_decomp
   rw [← SetLike.mem_coe, Subgroup.coe_mul_of_right_le_normalizer_left A K hle]
   exact Set.mem_mul
 
+omit [Finite S] in
 lemma mul_eq_imp (hAK : A ⊓ K = ⊥) {a a' k k' : S} (ha : a ∈ A) (ha' : a' ∈ A)
     (hk : k ∈ K) (hk' : k' ∈ K) (h : a * k = a' * k') : a = a' ∧ k = k' := by
   have h1 : k * k'⁻¹ = a⁻¹ * a' := by
@@ -39,6 +41,7 @@ lemma mul_eq_imp (hAK : A ⊓ K = ⊥) {a a' k k' : S} (ha : a ∈ A) (ha' : a' 
     exact mul_right_cancel h
   exact ⟨ha_eq, hk_eq⟩
 
+omit [Finite S] in
 lemma exists_k_of_mem_sup
     (hKA : ∀ g ∈ K, ∀ a ∈ A, g * a * g⁻¹ ∈ A) {x : S} (hx : x ∈ A ⊔ K) :
     ∃ k ∈ K, ∃ a ∈ A, a * k = x := by
@@ -50,11 +53,13 @@ lemma exists_k_of_mem_sup
   ⟨Classical.choose (exists_k_of_mem_sup A K hKA p.2),
    (Classical.choose_spec (exists_k_of_mem_sup A K hKA p.2)).1⟩
 
+omit [Finite S] in
 lemma projK_spec
     (hKA : ∀ g ∈ K, ∀ a ∈ A, g * a * g⁻¹ ∈ A) (p : ↥(A ⊔ K)) :
     ∃ a ∈ A, a * ((projK A K hKA p : ↥K) : S) = (p : S) :=
   (Classical.choose_spec (exists_k_of_mem_sup A K hKA p.2)).2
 
+omit [Finite S] in
 lemma projK_unique (hAK : A ⊓ K = ⊥)
     (hKA : ∀ g ∈ K, ∀ a ∈ A, g * a * g⁻¹ ∈ A) (p : ↥(A ⊔ K))
     {k : S} (hk : k ∈ K) (h : ∃ a ∈ A, a * k = (p : S)) :
@@ -63,6 +68,7 @@ lemma projK_unique (hAK : A ⊓ K = ⊥)
   obtain ⟨a', ha', haeq'⟩ := projK_spec A K hKA p
   exact (mul_eq_imp A K hAK ha ha' hk (projK A K hKA p).2 (haeq.trans haeq'.symm)).2
 
+omit [Finite S] in
 lemma projK_mul (hAK : A ⊓ K = ⊥)
     (hKA : ∀ g ∈ K, ∀ a ∈ A, g * a * g⁻¹ ∈ A) (p q : ↥(A ⊔ K)) :
     projK A K hKA (p * q) = projK A K hKA p * projK A K hKA q := by
@@ -84,6 +90,7 @@ lemma projK_mul (hAK : A ⊓ K = ⊥)
     (hKA : ∀ g ∈ K, ∀ a ∈ A, g * a * g⁻¹ ∈ A) : ↥(A ⊔ K) →* ↥K :=
   MonoidHom.mk' (projK A K hKA) (projK_mul A K hAK hKA)
 
+omit [Finite S] in
 lemma conj_mem_sup (hKA : ∀ g ∈ K, ∀ a ∈ A, g * a * g⁻¹ ∈ A) {ε : S →* G} {s : G}
     (hsA : ∀ a ∈ A, ∃ a' ∈ A, ε a' = s * ε a * s⁻¹)
     (hsK : ∀ g ∈ K, ∃ g' ∈ K, ε g' = s * ε g * s⁻¹)
@@ -102,12 +109,14 @@ lemma conj_mem_sup (hKA : ∀ g ∈ K, ∀ a ∈ A, g * a * g⁻¹ ∈ A) {ε : 
   ⟨Classical.choose (conj_mem_sup A K hKA hsA hsK p.2),
    (Classical.choose_spec (conj_mem_sup A K hKA hsA hsK p.2)).1⟩
 
+omit [Finite S] in
 lemma conjFun_spec (hKA : ∀ g ∈ K, ∀ a ∈ A, g * a * g⁻¹ ∈ A) {ε : S →* G} {s : G}
     {hsA : ∀ a ∈ A, ∃ a' ∈ A, ε a' = s * ε a * s⁻¹}
     {hsK : ∀ g ∈ K, ∃ g' ∈ K, ε g' = s * ε g * s⁻¹} (p : ↥(A ⊔ K)) :
     ε ((conjFun A K hKA s hsA hsK p : ↥(A ⊔ K)) : S) = s * ε (p : S) * s⁻¹ :=
   (Classical.choose_spec (conj_mem_sup A K hKA hsA hsK p.2)).2
 
+omit [Finite S] in
 lemma conjFun_mul (hKA : ∀ g ∈ K, ∀ a ∈ A, g * a * g⁻¹ ∈ A) {ε : S →* G}
     (hε : Function.Injective ε) {s : G}
     {hsA : ∀ a ∈ A, ∃ a' ∈ A, ε a' = s * ε a * s⁻¹}

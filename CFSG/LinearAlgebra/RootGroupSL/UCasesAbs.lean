@@ -10,6 +10,7 @@ namespace CFSG.LinearAlgebra.RootGroupSL
 variable {k E V : Type} [Field k] [Field E] [Algebra k E] [AddCommGroup V] [Module k V]
   [Module.Finite k V] [Finite k] [Finite E] [CharP k 2]
 
+omit [Finite k] [Finite E] [CharP k 2] in
 private lemma datumElt_proof_irrel [Module.Finite k E] (ι : E →ₗ[k] V) (π : V →ₗ[k] E)
     (h1 h2 : ∀ t, π (ι t) = 0) (t : E) :
     datumElt ι π h1 t = datumElt ι π h2 t := by
@@ -17,6 +18,7 @@ private lemma datumElt_proof_irrel [Module.Finite k E] (ι : E →ₗ[k] V) (π 
   ext v
   rfl
 
+omit [Finite k] [Finite E] [CharP k 2] in
 private lemma datumRoot_proof_irrel [Module.Finite k E] (ι : E →ₗ[k] V) (π : V →ₗ[k] E)
     (h1 h2 : ∀ t, π (ι t) = 0) : datumRoot ι π h1 = datumRoot ι π h2 := by
   unfold datumRoot
@@ -29,6 +31,7 @@ private lemma datumRoot_proof_irrel [Module.Finite k E] (ι : E →ₗ[k] V) (π
       exact ⟨t, by rw [← datumElt_proof_irrel ι π h1 h2 t, ht]⟩
   rw [hset]
 
+omit [Finite k] [Finite E] [CharP k 2] in
 private lemma datumRoot_congr [Module.Finite k E] {ι1 ι2 : E →ₗ[k] V} {π1 π2 : V →ₗ[k] E}
     (h1 : ∀ t, π1 (ι1 t) = 0) (h2 : ∀ t, π2 (ι2 t) = 0) (hι : ι1 = ι2) (hπ : π1 = π2) :
     datumRoot ι1 π1 h1 = datumRoot ι2 π2 h2 := by
@@ -45,13 +48,13 @@ theorem eq_datumU1_or_eq_datumU2 (hd : 2 ≤ Module.finrank k E) (ι : E →ₗ[
     (hnc : ¬ datumQ ι π ≤ Subgroup.centralizer (U : Set (SpecialLinearGroup k V))) :
     U = datumU1 ι ∨ U = datumU2 π := by
   classical
-  haveI : Module.Finite k E := by
+  have : Module.Finite k E := by
     rw [Module.finite_def, Submodule.fg_def]
     exact ⟨Set.univ, Set.finite_univ, Submodule.span_univ⟩
   obtain ⟨X', hX'AC, hX'Mod, hX'Fin, L, hLι, hLπ⟩ := exists_datumLin ι π h hι hπ
-  letI : AddCommGroup X' := hX'AC
-  letI : Module k X' := hX'Mod
-  letI : Module.Finite k X' := hX'Fin
+  let : AddCommGroup X' := hX'AC
+  let : Module k X' := hX'Mod
+  let : Module.Finite k X' := hX'Fin
   let T : SpecialLinearGroup k V ≃* SpecialLinearGroup k (DSpace E X') :=
     SpecialLinearGroup.congr_linearEquiv L
   have hιL : L.toLinearMap ∘ₗ ι = stdIota k E X' := by

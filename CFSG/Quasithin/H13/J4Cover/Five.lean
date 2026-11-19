@@ -147,7 +147,7 @@ private theorem alt5_le_map_rho
       rw [show (20 : ℕ) * 3 = 60 by norm_num]
       rwa [hc] at h60
     exact Nat.dvd_of_mul_dvd_mul_left (by norm_num) h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   rcases (Nat.dvd_prime Nat.prime_three).mp hc3 with hc1 | hc3'
   · exfalso
     have hn20 : n = 20 := by rw [hc, hc1, mul_one]
@@ -220,7 +220,7 @@ private theorem three_dvd_card_ker
     have h1 : ρ g = 1 := congrArg Subtype.val hmem
     rw [h1, orderOf_one] at hρg
     omega
-  haveI : IsSimpleGroup ↥Alt := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥Alt := alternatingGroup.isSimpleGroup (by simp)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (S.subgroupOf Alt) with h | h
   · exact absurd h hne
   · have hA5S : Alt ≤ S := Subgroup.subgroupOf_eq_top.mp h
@@ -338,7 +338,7 @@ private theorem map_eq_map_P0
     exact mul_dvd_mul h3K h3map
   have h56 : Nat.card ↥(Xm.map α) ≠ 56 := by
     intro h56
-    haveI : IsSimpleGroup (MulAut ↥V0) :=
+    have : IsSimpleGroup (MulAut ↥V0) :=
       CFSG.Quasithin.J4Fam.isSimpleGroup_mulAut_of_subgroup_eight V0
         (CFSG.Quasithin.J4Rad.V0_comm hM) (CFSG.Quasithin.J4Rad.V0_sq hM)
         (CFSG.Quasithin.J4Rad.card_V0 hM)

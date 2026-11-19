@@ -69,7 +69,7 @@ theorem exists_conj_le_of_isPGroup [Finite Y] {K A B : Subgroup Y} (hA : IsPGrou
   obtain ⟨RA, hRA⟩ := (hA.comap_subtype (K := K)).exists_le_sylow
   obtain ⟨RB, hRB⟩ := (hB.comap_subtype (K := K)).exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq K RA RB
-  refine ⟨(c : Y)⁻¹, K.inv_mem c.2, (RB : Subgroup K).map K.subtype, RB.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(c : Y)⁻¹, K.inv_mem c.2, (RB : Subgroup K).map K.subtype, RB.isPGroup.map _, ?_, ?_⟩
   · intro b hb
     exact ⟨⟨b, hBK hb⟩, hRB hb, rfl⟩
   · intro x hx
@@ -98,7 +98,7 @@ namespace Hyp
 
 variable {S : Sylow 2 Y} {V : Subgroup Y}
 
-theorem isPGroup (hV : Hyp S V) : IsPGroup 2 V := S.isPGroup'.to_le hV.le
+theorem isPGroup (hV : Hyp S V) : IsPGroup 2 V := S.isPGroup.to_le hV.le
 
 theorem comm (hV : Hyp S V) {a b : Y} (ha : a ∈ V) (hb : b ∈ V) : a * b = b * a :=
   comm_of_mem hV.elem.1 ha hb
@@ -319,7 +319,7 @@ theorem exists_card_commutator_le [Finite Y] {S : Sylow 2 Y} {V : Subgroup Y} (h
     have h := rightConjugate_le_normalizer (hV2R.trans hRN) k⁻¹
     rwa [hV'def, rightConjugate_rightConjugate_inv] at h
   obtain ⟨n, hnN, R', hR'p, hSR', hnR'⟩ := exists_conj_le_of_isPGroup
-    (isPGroup_rightConjugate (isPGroup_rightConjugate hV2p a) k⁻¹) S.isPGroup' hstep
+    (isPGroup_rightConjugate (isPGroup_rightConjugate hV2p a) k⁻¹) S.isPGroup hstep
     hV.le_normalizer
   have hR'S : R' = S := le_antisymm (S.maximal_isPGroup.2 hR'p hSR') hSR'
   rw [hR'S, rightConjugate_mul, rightConjugate_mul, ← mul_assoc] at hnR'

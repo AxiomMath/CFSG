@@ -59,7 +59,7 @@ private theorem e6D4Psi0_compRank :
   have hnone : none ∉ C := by decide
   have hCJ : ∀ j, some j ∈ C ↔ j ∈ e6D4J := by
     intro j
-    simp only [e6D4J, Set.mem_setOf_eq]
+    simp only [e6D4J, Set.mem_ofPred_eq]
     revert j
     decide
   have hCcard : C.card = 4 := by decide
@@ -244,7 +244,7 @@ theorem e6D4_twistKindOf_neg
       parabolicRoots Tag.E6 {j | j ∉ ({0, 5} : Finset (Fin 6))}) = TwistKind.inner := by
   change twistKindOf ρ ((fun α => v • α) '' e6D4Psi0) = TwistKind.inner
   rw [twistKindOf]
-  exact if_pos (e6D4_twistInner_iterate ρ hρ v)
+  exact ite_eq_left (e6D4_twistInner_iterate ρ hρ v)
 
 theorem twistKindOf_id_eq_inner {τ : Tag} (ρ : Equiv.Perm (Fin τ.rank → ℤ))
     (hρ : ∀ α, ρ α = α) (Ψ : Set (Fin τ.rank → ℤ)) : twistKindOf ρ Ψ = TwistKind.inner := by
@@ -259,7 +259,7 @@ theorem twistKindOf_id_eq_inner {τ : Tag} (ρ : Equiv.Perm (Fin τ.rank → ℤ
     obtain ⟨hs, -⟩ := Nat.sInf_mem ⟨1, hmem⟩
     omega
   rw [twistKindOf, horb, Function.iterate_one]
-  exact if_pos ⟨1, Subgroup.one_mem _, fun γ _ => by rw [hρ', one_smul]⟩
+  exact ite_eq_left ⟨1, Subgroup.one_mem _, fun γ _ => by rw [hρ', one_smul]⟩
 
 end CFSG.StandardType
 

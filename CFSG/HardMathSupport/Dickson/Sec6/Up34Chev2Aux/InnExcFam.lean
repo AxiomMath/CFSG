@@ -41,7 +41,7 @@ theorem noL34Layer_conj_adjoint_two {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ 
       rw [Subgroup.mem_center_iff]
       intro g
       have := DFunLike.congr_fun h1 g
-      simp only [MulAut.conj_apply, MulAut.one_apply, inv_one, mul_one, one_mul] at this
+      simp only [MulAut.conj_apply, inv_one, mul_one, one_mul] at this
       calc g * y ^ 3 = y ^ 3 * g * (y ^ 3)⁻¹ * y ^ 3 := by rw [this]
         _ = y ^ 3 * g := by group
     rwa [hZ, Subgroup.mem_bot] at h2
@@ -50,8 +50,7 @@ theorem noL34Layer_conj_adjoint_two {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ 
     baseChange_mem_adjointGroup_of_mem_inndiag (adjointGroup_le_inndiagGroup y.2)
   refine noL34Layer_exc_inner_untw_two hτ hI hS hD hE hf hF (MulAut.conj y) (y : ModGL τ F) hyL
     (fun c => by simp [MulAut.conj_apply]) ?_ ?_
-  · change ((y : ModGL τ F)) ^ 3 = 1
-    rw [← Subgroup.coe_pow, hy3']
+  · rw [← Subgroup.coe_pow, hy3']
     rfl
   · intro h1
     apply hy1

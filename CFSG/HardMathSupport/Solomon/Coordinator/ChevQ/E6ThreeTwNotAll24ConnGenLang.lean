@@ -102,7 +102,7 @@ theorem exists_langSetup_pair_of_toral_datum {τ : Tag} {L : Type} [Field L] [Is
     apply hu1
     rw [← hga, h]
     group
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hqpow : IsPrimePow D.q ∧ ((D.q : ℕ) : L) = 0 := by
     rw [hDq]
     exact ⟨hℓ.isPrimePow.pow (by omega), (CharP.cast_eq_zero_iff L ℓ _).2
@@ -146,17 +146,17 @@ theorem exists_langSetup_pair_of_inndiag_twE6 {ℓ f : ℕ}
         rootDiagUnit Tag.E6 b * ι c * (rootDiagUnit Tag.E6 b)⁻¹) ∧
       twE6MatFixDim K σ h = 6 + (kernelRoots (rootCharHom a)).ncard := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ι₁ : K →+* L := algebraMap K L with hι₁
   have hFr : ∀ c : L, iterateFrobenius L ℓ f c = c ^ (ℓ ^ f) := fun c =>
     iterateFrobenius_def ℓ f c

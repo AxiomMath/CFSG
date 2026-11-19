@@ -19,7 +19,7 @@ theorem cyclic_or_dihedral_of_surj_odd_ker {A B : Type} [Group A] [Finite A] [Gr
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro S
   obtain ⟨S₀, rfl⟩ := Sylow.mapSurjective_surjective hψ 2 S
-  have hinj := injective_on_pgroup ψ hk (S₀ : Subgroup A) S₀.isPGroup'
+  have hinj := injective_on_pgroup ψ hk (S₀ : Subgroup A) S₀.isPGroup
   let e₁ : ↥(S₀ : Subgroup A) ≃* ↥(ψ.comp (S₀ : Subgroup A).subtype).range :=
     MonoidHom.ofInjective hinj
   have hr : (ψ.comp (S₀ : Subgroup A).subtype).range = (S₀ : Subgroup A).map ψ := by

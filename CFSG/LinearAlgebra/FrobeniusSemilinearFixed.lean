@@ -107,17 +107,17 @@ private lemma frobFix_exists_root {Q : ℕ} (hQ : 2 ≤ Q) {m : ℕ} (b : ℕ �
   have hsumcoeff : (∑ i ∈ Finset.range m,
         Polynomial.C (b i) * Polynomial.X ^ (Q ^ (m - i) - 1)).coeff (Q ^ (m - j) - 1) =
       b j := by
-    rw [Polynomial.finset_sum_coeff, Finset.sum_eq_single j]
-    · rw [Polynomial.coeff_C_mul_X_pow, if_pos rfl]
+    rw [Polynomial.finsetSum_coeff, Finset.sum_eq_single j]
+    · rw [Polynomial.coeff_C_mul_X_pow, ite_eq_left rfl]
     · intro i hi hij
-      rw [Polynomial.coeff_C_mul_X_pow, if_neg]
+      rw [Polynomial.coeff_C_mul_X_pow, ite_eq_right]
       exact fun h => hexp_ne i hi hij h.symm
     · intro hnot
       exact absurd (Finset.mem_range.mpr hj) hnot
   have hcoeff : R.coeff (Q ^ (m - j) - 1) = b j := by
     dsimp only [R]
     rw [Polynomial.coeff_sub, Polynomial.coeff_one,
-      if_neg (ne_of_gt (hpos j (Finset.mem_range.mpr hj))), hsumcoeff]
+      ite_eq_right (ne_of_gt (hpos j (Finset.mem_range.mpr hj))), hsumcoeff]
     ring
   have hdeg : R.degree ≠ 0 := by
     have hle := Polynomial.le_degree_of_ne_zero (p := R) (n := Q ^ (m - j) - 1)
@@ -133,12 +133,12 @@ private lemma frobFix_exists_root {Q : ℕ} (hQ : 2 ≤ Q) {m : ℕ} (b : ℕ �
   have hR0 : R.eval 0 = -1 := by
     have hcoeff0 : R.coeff 0 = -1 := by
       dsimp only [R]
-      rw [Polynomial.coeff_sub, Polynomial.coeff_one, if_pos rfl,
-        Polynomial.finset_sum_coeff]
+      rw [Polynomial.coeff_sub, Polynomial.coeff_one, ite_eq_left rfl,
+        Polynomial.finsetSum_coeff]
       have hzero : ∀ i ∈ Finset.range m,
           (Polynomial.C (b i) * Polynomial.X ^ (Q ^ (m - i) - 1)).coeff 0 = 0 := by
         intro i hi
-        rw [Polynomial.coeff_C_mul_X_pow, if_neg]
+        rw [Polynomial.coeff_C_mul_X_pow, ite_eq_right]
         exact fun h => (ne_of_gt (hpos i hi)) h.symm
       rw [Finset.sum_eq_zero hzero]
       ring
@@ -150,7 +150,7 @@ private lemma frobFix_exists_root {Q : ℕ} (hQ : 2 ≤ Q) {m : ℕ} (b : ℕ �
   have hsum1 : ∑ i ∈ Finset.range m, b i * y ^ (Q ^ (m - i) - 1) = 1 := by
     have h := hyeval
     dsimp only [R] at h
-    simp only [Polynomial.eval_sub, Polynomial.eval_finset_sum, Polynomial.eval_mul,
+    simp only [Polynomial.eval_sub, Polynomial.eval_finsetSum, Polynomial.eval_mul,
       Polynomial.eval_C, Polynomial.eval_pow, Polynomial.eval_X, Polynomial.eval_one] at h
     exact sub_eq_zero.mp h
   refine ⟨y, hy_ne, ?_⟩
@@ -249,14 +249,14 @@ theorem exists_ne_zero_fixed_of_frobeniusSemilinear {V : Type*} [AddCommGroup V]
   obtain ⟨m, hm, hli, hdep⟩ := frobFix_exists_max (L := L) w hw0
   obtain ⟨k, rfl⟩ : ∃ k, m = k + 1 := ⟨m - 1, by omega⟩
   have hmem : w (k + 1) ∈ Submodule.span L (Set.range (fun i : Fin (k + 1) => w ↑i)) := by
-    have h := mt (linearIndependent_fin_succ' (K := L) (n := k + 1)
+    have h := mt (linearIndependent_finSucc' (K := L) (n := k + 1)
       (v := fun i : Fin ((k + 1) + 1) => (w ↑i : V))).mpr hdep
     rcases (not_and_or.mp h) with h1 | h2
     · exact absurd hli h1
     · exact not_not.mp h2
   obtain ⟨a, ha⟩ := (Submodule.mem_span_range_iff_exists_fun L).mp hmem
   let A : ℕ → L := fun i => if h : i < k + 1 then a ⟨i, h⟩ else 0
-  have hA : ∀ i (h : i < k + 1), A i = a ⟨i, h⟩ := fun i h => dif_pos h
+  have hA : ∀ i (h : i < k + 1), A i = a ⟨i, h⟩ := fun i h => dite_eq_left h
   have hwrel : ∑ i ∈ Finset.range (k + 1), A i • w i = w (k + 1) := by
     rw [Finset.sum_range]
     have hsum : (∑ i : Fin (k + 1), A ↑i • w ↑i) = ∑ i : Fin (k + 1), a i • w ↑i := by

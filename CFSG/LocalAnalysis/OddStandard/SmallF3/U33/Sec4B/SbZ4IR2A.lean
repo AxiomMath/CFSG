@@ -26,6 +26,7 @@ theorem z4i_NQ_V (hz : Ctx4Z t L S x₁ x₂ lam rho tau) {g a : G}
 
 private def conjHom (g : G) : G →* G := (MulAut.conj g).toMonoidHom
 
+omit [Finite G] in
 private theorem conjHom_apply (g x : G) : conjHom g x = g * x * g⁻¹ := rfl
 
 theorem z4i_NQ_norm_E (hz : Ctx4Z t L S x₁ x₂ lam rho tau) {g e : G}
@@ -98,7 +99,7 @@ theorem z4i_lam_norm_KI (hz : Ctx4Z t L S x₁ x₂ lam rho tau) {k : G}
   hz.z4i_norm_KI_of hz.z4i_lam_mem_NQ hz.t_lam_comm.symm
     (by rw [hz.lam_rho]; exact inv_mem (mem_zpowers rho)) hk
 
-theorem z4i_comm_t_KI (hz : Ctx4Z t L S x₁ x₂ lam rho tau) {k : G}
+theorem z4i_comm_t_KI (_hz : Ctx4Z t L S x₁ x₂ lam rho tau) {k : G}
     (hk : k ∈ ctxKI t tau x₁ x₂ rho) : t * k * t⁻¹ * k⁻¹ ∈ ctxCQ t tau x₁ x₂ rho := by
   have h : t * k * t⁻¹ * k⁻¹ = (k * t * k⁻¹ * t⁻¹)⁻¹ := by group
   rw [h]

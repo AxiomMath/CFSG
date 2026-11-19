@@ -13,6 +13,7 @@ open CFSG CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem quasithinGenFitting_Hz (z : G) : CFSG.Open.quasithinGenFitting (Hz z) = Fz z := by
   rw [CFSG.Quasithin.quasithinGenFitting_eq_map_subtype,
     ← CFSG.generalizedFitting_eq_componentClassification]
@@ -21,7 +22,7 @@ theorem quasithinGenFitting_Hz (z : G) : CFSG.Open.quasithinGenFitting (Hz z) = 
 theorem isZ4Q8Q8_Fz {z : G} (hz : orderOf z = 2) (hZ : IsZ4Star z 2) :
     CFSG.Quasithin.HSType.IsZ4Q8Q8 ↥(Fz z) := by
   obtain ⟨Z, A, hD⟩ := Width.exists_Z4Data hZ
-  haveI := hD.cyc
+  have := hD.cyc
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥Z)
   have hgZ : (g : G) ∈ Z := g.2
   have hgF : (g : G) ∈ Fz z := hD.sup_eq ▸ Subgroup.mem_sup_left hgZ

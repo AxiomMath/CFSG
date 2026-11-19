@@ -38,7 +38,7 @@ lemma ggSporKRestPC_eval_map {K G : Type} [Group K] [Group G]
 lemma ggSporKRestPC_sg_map {K : Type} [Group K] {n : ℕ}
     (φ : K →* Perm (Fin n)) (a b : K) (d : PermCover.Data) :
     (ggSporKRestPC_sg a b d).map φ = PermCover.sg (φ a) (φ b) d := by
-  simp only [ggSporKRestPC_sg, PermCover.sg, List.map_map, Function.comp_apply]
+  simp only [ggSporKRestPC_sg, PermCover.sg, List.map_map]
   apply List.map_congr_left
   intro w _
   exact ggSporKRestPC_eval_map φ a b (sporKRestParse w)
@@ -46,7 +46,7 @@ lemma ggSporKRestPC_sg_map {K : Type} [Group K] {n : ℕ}
 lemma ggSporKRestPC_tab_map {K : Type} [Group K] {n : ℕ}
     (φ : K →* Perm (Fin n)) (a b : K) (d : PermCover.Data) :
     (ggSporKRestPC_tab a b d).map φ = PermCover.tab (φ a) (φ b) d := by
-  simp only [ggSporKRestPC_tab, PermCover.tab, List.map_map, Function.comp_apply]
+  simp only [ggSporKRestPC_tab, PermCover.tab, List.map_map]
   apply List.map_congr_left
   intro w _
   rw [Function.comp_apply, sporKRestEval_map, ggSporKRestPC_sg_map]
@@ -61,7 +61,7 @@ lemma ggSporKRestPC_letters_map {K : Type} [Group K] {n : ℕ}
     (φ : K →* Perm (Fin n)) (a b : K) (d : PermCover.Data) (c : PermCover.ClassData) :
     (ggSporKRestPC_letters a b d c).map φ = PermCover.letters (φ a) (φ b) d c := by
   simp only [ggSporKRestPC_letters, PermCover.letters, List.map_append, List.map_flatMap,
-    List.map_map, Function.comp_apply, ggSporKRestPC_sg_map]
+    List.map_map, ggSporKRestPC_sg_map]
   congr 1
   apply List.flatMap_congr
   intro e _
@@ -74,7 +74,7 @@ lemma ggSporKRestPC_ent_flatMap {K : Type} [Group K] (a b : K) (d : PermCover.Da
     (ggSporKRestPC_ent a b d c).flatMap (fun e => e.2.2)
       = c.ent.flatMap (fun e =>
           e.zs.map (fun w => sporKRestEval [a, b] (sporKRestParse w))) := by
-  simp only [ggSporKRestPC_ent, List.flatMap_map, Function.comp_apply]
+  simp only [ggSporKRestPC_ent, List.flatMap_map]
 
 lemma ggSporKRestPC_mem_of_map {K G : Type} [Group K] [Group G]
     (φ : K →* G) (hφ : Function.Injective φ) {l : List K} {m : List G}
@@ -111,7 +111,7 @@ theorem sporKRest_cover_of_permModel {K : Type} [Group K] [Finite K] {n : ℕ}
     (hab : Subgroup.closure ({a, b} : Set K) = ⊤) {p : ℕ} (hp : p.Prime) (sylowOrder : ℕ)
     (hord : sylowOrder = p ^ (Nat.card K).factorization p) (d : PermCover.Data)
     (hcheck : PermCover.check (φ a) (φ b) sylowOrder d = true) : SporKRestCover p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hspec := PermCover.check_sound hcheck
   unfold PermCover.spec at hspec
   obtain ⟨h1, h2, h3, h4, h5, h6⟩ := hspec
@@ -246,7 +246,7 @@ theorem sporKRest_cover_of_permCheck {n : ℕ} (a b : Perm (Fin n)) (Kn : Subgro
   · apply Subgroup.map_injective (Subgroup.subtype_injective Kn)
     rw [MonoidHom.map_closure, Subgroup.map_top, Subgroup.subtype_range]
     have hset : Kn.subtype '' ({⟨a, ha⟩, ⟨b, hb⟩} : Set ↥Kn) = {a, b} := by
-      simpa using Set.image_pair Kn.subtype (⟨a, ha⟩ : ↥Kn) (⟨b, hb⟩ : ↥Kn)
+      simp
     rw [hset, hKn]
   · exact hcheck
 

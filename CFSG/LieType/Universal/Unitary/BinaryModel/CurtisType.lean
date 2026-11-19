@@ -65,7 +65,7 @@ theorem suFrob_prod_btop_eq (φ₀ : F →+* k) {n : ℕ} (ε : Fin f → Finset
     simp only [Finset.mem_filter, Finset.mem_univ, true_and, bdeg, Fin.lt_def]
     by_cases hj : j ∈ ε r
     · simp [hj]
-    · simp only [hj, if_false, false_and, iff_false]
+    · simp only [hj, ite_false, false_and, iff_false]
       intro h
       omega
   have hinner : ∀ r : Fin f,
@@ -484,8 +484,8 @@ theorem prod_btop_suFrob_levelSign_eq_one {n : ℕ}
           suFrob φ₀ f r (levelSign (unitaryInvolution F 2 f) (ζ : F) s a) = 1 := by
         intro a ha hab
         rw [levelSign_eq_long h,
-          if_neg (fun hh => ha (by simpa [b] using hh)),
-          if_neg (fun hh => hab (by simpa [b'] using hh)),
+          ite_eq_right (fun hh => ha (by simpa [b] using hh)),
+          ite_eq_right (fun hh => hab (by simpa [b'] using hh)),
           suFrob_apply, map_one, one_pow]
       have hkey : suFrob φ₀ f r (levelSign (unitaryInvolution F 2 f) (ζ : F) s b) *
           suFrob φ₀ f r (levelSign (unitaryInvolution F 2 f) (ζ : F) s b') = 1 := by
@@ -515,13 +515,13 @@ theorem prod_btop_suFrob_levelSign_eq_one {n : ℕ}
       · have hb'S : b' ∈ Finset.univ.filter (fun a : Fin n => a < j) := by
           simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hbS ⊢
           exact hiff.mp hbS
-        rw [if_pos hbS, if_pos hb'S, hkey]
+        rw [ite_eq_left hbS, ite_eq_left hb'S, hkey]
       · have hb'S : b' ∉ Finset.univ.filter (fun a : Fin n => a < j) := by
           intro hh
           exact hbS (by
             simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hh ⊢
             exact hiff.mpr hh)
-        rw [if_neg hbS, if_neg hb'S, mul_one]
+        rw [ite_eq_right hbS, ite_eq_right hb'S, mul_one]
     · have hbdeg : bdeg ε (r, j) = 0 := by simp [bdeg, hj]
       have hbtop : ((btop ε (r, j) : Set.powersetCard (Fin n) (bdeg ε (r, j))) :
             Finset (Fin n)) = ∅ := by
@@ -582,16 +582,16 @@ theorem bForm_suRep_levelWeyl_bTop (hF : Nat.card F = (2 ^ f) ^ 2) (hn : 2 ≤ n
         Matrix (Fin n) (Fin n) k)) *ᵥ bvec ε) ⬝ᵥ bvec ε = _
     rw [hbv, smul_dotProduct, single_dotProduct, one_mul, bvec]
     by_cases hu : bPerm ε (fun _ => levelPerm s) (btop ε) = btop ε
-    · rw [if_pos hu, hu, Pi.single_eq_same]
+    · rw [ite_eq_left hu, hu, Pi.single_eq_same]
       simp
-    · rw [if_neg hu, Pi.single_eq_of_ne hu, smul_zero]
+    · rw [ite_eq_right hu, Pi.single_eq_of_ne hu, smul_zero]
   rw [hform]
   by_cases hP : ∀ r, upIdx s ∉ ε r ∧ downIdx s ∉ ε r
-  · rw [if_pos ((bPerm_btop_eq_iff ε s).mpr hP), if_pos hP,
+  · rw [ite_eq_left ((bPerm_btop_eq_iff ε s).mpr hP), ite_eq_left hP,
       prod_btop_suFrob_levelSign_eq_one ζ hζ φ₀ ε s hP]
   · have hu : bPerm ε (fun _ => levelPerm s) (btop ε) ≠ btop ε :=
       fun hh => hP ((bPerm_btop_eq_iff ε s).mp hh)
-    rw [if_neg hu, if_neg hP]
+    rw [ite_eq_right hu, ite_eq_right hP]
 
 theorem bForm_suRep_mem_L_bTop (hF : Nat.card F = (2 ^ f) ^ 2) (hn : 2 ≤ n)
     (ζ : traceZero (unitaryInvolution F 2 f)) (hζ : (ζ : F) ≠ 0) (φ₀ : F →+* k)
@@ -778,7 +778,7 @@ theorem exists_chiEps_ne_one_of_not_full_of_not_P (hF : Nat.card F = (2 ^ f) ^ 2
       exact Nat.not_dvd_of_pos_of_lt (Nat.pos_of_ne_zero ha0) (by omega) hdvd
     obtain ⟨t, ht, htmat⟩ := exists_mem_levelTorus_tFun_even hF s hlt hEven' hc0 hσc
     refine ⟨t, ht, ?_⟩
-    rw [chiEps_of_tFun φ₀ ε s hc0 htmat, if_pos hEven, mul_one, ← map_pow]
+    rw [chiEps_of_tFun φ₀ ε s hc0 htmat, ite_eq_left hEven, mul_one, ← map_pow]
     intro h1
     have h2 : c ^ a = 1 := by
       apply φ₀.injective
@@ -842,7 +842,7 @@ theorem exists_chiEps_ne_one_of_not_full_of_not_P (hF : Nat.card F = (2 ^ f) ^ 2
     obtain ⟨t, ht, htmat⟩ := exists_mem_levelTorus_tFun hF s hc0 hne
     refine ⟨t, ht, ?_⟩
     have hχeq : chiEps φ₀ ε t = φ₀ (c ^ N) := by
-      rw [chiEps_of_tFun φ₀ ε s hc0 htmat, if_neg hEven, unitaryInvolution_apply,
+      rw [chiEps_of_tFun φ₀ ε s hc0 htmat, ite_eq_right hEven, unitaryInvolution_apply,
         ← map_pow, ← map_pow, ← map_mul, ← pow_mul, ← pow_add]
     rw [hχeq]
     intro h1
@@ -907,19 +907,19 @@ theorem isCurtisType_suRep (hF : Nat.card F = (2 ^ f) ^ 2) (hn : 2 ≤ n)
           simp
         have hneg := (curtisDatum_dScalar_eq_neg_one hF n hn ζ hζ
           (chiEps φ₀ ε) s htriv).1
-        rw [hform, if_pos hP, hneg, muEps, if_neg hnotfull]
+        rw [hform, ite_eq_left hP, hneg, muEps, ite_eq_right hnotfull]
         simp
       · by_cases hfs : IsFullNode ε s
         · have htriv : ∀ t ∈ levelTorus (unitaryInvolution F 2 f) s, chiEps φ₀ ε t = 1 :=
             fun t ht => chiEps_eq_one_of_isFullNode hF φ₀ ε hfs ht
           have hneg := (curtisDatum_dScalar_eq_neg_one hF n hn ζ hζ
             (chiEps φ₀ ε) s htriv).1
-          rw [hform, if_neg hP, hneg, muEps, if_pos hfs]
+          rw [hform, ite_eq_right hP, hneg, muEps, ite_eq_left hfs]
           simp
         · have hnt := exists_chiEps_ne_one_of_not_full_of_not_P hF φ₀ ε s hP hfs
           have hzero := (curtisDatum_dScalar_eq_zero hF n hn ζ hζ
             (chiEps φ₀ ε) hχmul s hnt).1
-          rw [hform, if_neg hP, hzero, muEps, if_neg hfs]
+          rw [hform, ite_eq_right hP, hzero, muEps, ite_eq_right hfs]
           simp
     rw [heckeT_suRep_bTop hF hn ζ hζ φ₀ ε s, hmu]
 

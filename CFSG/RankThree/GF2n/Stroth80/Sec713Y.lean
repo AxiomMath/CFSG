@@ -14,6 +14,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem exists_pow_two_mem_Q [(Q.subgroupOf M).Normal] {N : Subgroup G} (hQN : Q ≤ N)
     (hNM : N ≤ M) (hN2 : IsPGroup 2 ↥(bar M Q N)) {n : G} (hn : n ∈ N) :
     ∃ k : ℕ, n ^ (2 ^ k) ∈ Q := by
@@ -32,7 +33,7 @@ theorem sec713Y_of_inputs (h34 : Stroth34Statement) (h311a : Stroth311aStatement
     (hPts : Sec5NatPointsOmegaStatement) : Sec713YStatement := by
   intro G _ _ M Q Z B hc n t hs Z0 hZ0
   classical
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   obtain ⟨r, hr⟩ := hA G M Q Z B hc n t hs
   have hZN := sec7ctr_Z0_le_CN hc hs hZ0

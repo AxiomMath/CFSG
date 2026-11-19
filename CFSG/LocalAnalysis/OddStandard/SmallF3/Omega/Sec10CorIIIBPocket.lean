@@ -33,7 +33,7 @@ theorem c3b_genFittingFStar_simple {G : Type} [Group G] [Finite G] [IsSimpleGrou
 theorem c3b_classicalInvolutionWitness_of_isSL23Mod {G : Type} [Group G] {K : Subgroup G}
     (h : IsSL23Mod K) : CFSG.Open.classicalInvolutionWitness K := by
   obtain ⟨e⟩ := h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO : CFSG.Open.classicalInvolutionOddCore ↥K = CFSG.oddCore ↥K := rfl
   exact Or.inl ⟨3, 1, inferInstance, by norm_num, by norm_num,
     ⟨((QuotientGroup.quotientMulEquivOfEq hO).trans e).trans
@@ -51,7 +51,7 @@ theorem c3b_oddLieType_or_m11_of_isI4PlusIn
   rw [top_inf_eq] at hKle hKsub
   have hsub : CFSG.Open.IsSubnormal K (centralizer ({z} : Set G)) :=
     (CFSG.Open.IsSubnormal.iff_subgroupOf hKle).2 hKsub
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥K) := inferInstance
   obtain ⟨e⟩ := hK
   have hO : CFSG.Open.classicalInvolutionOddCore ↥K = CFSG.oddCore ↥K := rfl

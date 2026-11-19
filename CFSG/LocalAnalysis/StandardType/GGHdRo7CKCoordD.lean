@@ -19,7 +19,7 @@ open CFSG.Open
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 private theorem hdRo7CKCoordAux_rank_eq_of_iso {lab lab' : LargeEvenLabel}
-    (htag : lab.tag = .B ∨ lab.tag = .C) (htag' : lab'.tag = .B ∨ lab'.tag = .C)
+    (htag : lab.tag = .B ∨ lab.tag = .C) (_htag' : lab'.tag = .B ∨ lab'.tag = .C)
     (h : GGLabelIso lab lab') : lab.rank = lab'.rank := by
   unfold GGLabelIso at h
   rcases h with h | h | h | h | h | h | h | h
@@ -108,7 +108,7 @@ theorem hdRo7CKCoordAux_rankUpper (hRig : GGLabelRigidInput)
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
     (hrow : GGResRowAt ggRowCorank2C p J K) (labK : LargeEvenLabel) (hlab : LargeEvenInLambda2 labK)
     (hKlab : GGHasLabel labK (↥K ⧸ Subgroup.center ↥K)) (htag : labK.tag = .B ∨ labK.tag = .C)
-    (hn1 : labK.n = 1) :
+    (_hn1 : labK.n = 1) :
     Nat.card ↥Bs ≤ p ^ (labK.rank + 1) := by
   obtain ⟨labJ, labX, hJ2, hX2, hHasJ, hHasX, hp3, htagJ, hnJ, htagX, hnX, hrankJX⟩ := hrow
   have hrankKX : labK.rank = labX.rank :=
@@ -165,10 +165,10 @@ theorem hdRo7CKCoordAux_rankUpper (hRig : GGLabelRigidInput)
     intro a b hab
     exact Subtype.ext (congrArg (fun w : ↥(Bs ⊓ Subgroup.centralizer (J : Set G)) => (w : G)) hab)
   have hcard_ker : Nat.card ↥g.ker ≤ p ^ 3 := by
-    haveI : IsMulCommutative ↥Bs := hBs_ab.1
+    have : IsMulCommutative ↥Bs := hBs_ab.1
     let C : Subgroup G := Bs ⊓ Subgroup.centralizer (J : Set G)
     let BsB : Subgroup ↥Bs := B.subgroupOf Bs
-    haveI : BsB.Normal := Subgroup.normal_of_comm BsB
+    have : BsB.Normal := Subgroup.normal_of_isMulCommutative BsB
     let f : ↥C →* (↥Bs ⧸ BsB) :=
       (QuotientGroup.mk' BsB).comp (Subgroup.inclusion (inf_le_left : C ≤ Bs))
     have hfker : Nat.card ↥f.ker = Nat.card ↥D := by
@@ -226,12 +226,12 @@ theorem hdRo7CKCoordAux_rankUpper (hRig : GGLabelRigidInput)
   have hmodel : StatedClassicalModel (↥J ⧸ Subgroup.center ↥J) .PSp labJ.rank 2 labJ.n :=
     hdRo7CLCoordAux_statedClassicalModel_of_hasLabel_BC (f := labJ.n) htagJ hm (by omega) hHasJ
   obtain ⟨-, K', hK'field, hK'fin, hK'card, ⟨θ⟩⟩ := hmodel
-  letI : Field K' := hK'field
-  letI : Finite K' := hK'fin
+  let : Field K' := hK'field
+  let : Finite K' := hK'fin
   have hK'card2 : Nat.card K' = 2 := by rw [hK'card, hnJ]; norm_num
-  haveI : CharP K' 2 :=
+  have : CharP K' 2 :=
     charP_two_of_card (show Nat.card K' = 2 ^ 1 by rw [hK'card2]; norm_num)
-  haveI : NeZero labJ.rank := ⟨by omega⟩
+  have : NeZero labJ.rank := ⟨by omega⟩
   have hPcenter : Subgroup.center (LargeEvenProj (LargeEvenSpGroup K' labJ.rank)) = ⊥ :=
     TableBSymp.center_spProj_eq_bot
   have hcard_range : Nat.card ↥g.range ≤ p ^ labJ.rank := by

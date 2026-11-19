@@ -48,7 +48,7 @@ theorem singer_pow_thirteen : singer ^ 13 = 1 := by decide +kernel
 theorem singer_ne_one : singer ≠ 1 := by decide +kernel
 
 theorem orderOf_singer : orderOf singer = 13 := by
-  haveI : Fact (Nat.Prime 13) := ⟨by decide +kernel⟩
+  have : Fact (Nat.Prime 13) := ⟨by decide +kernel⟩
   exact orderOf_eq_prime_iff.mpr ⟨singer_pow_thirteen, singer_ne_one⟩
 
 theorem thirteen_dvd_card_of_u_v_w {S : Subgroup (MulAut D)}

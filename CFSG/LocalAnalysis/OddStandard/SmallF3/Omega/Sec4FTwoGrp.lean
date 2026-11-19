@@ -14,6 +14,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z : G} {A B : Subgroup G}
   {φ : (Fin 7 → ZMod 2) → G}
 
+omit [Finite G] in
 private theorem Sec4MRealizes.pow {m : G} {σ : Equiv.Perm (Option (Fin 7))}
     (hσ : Sec4MRealizes t φ m σ) (n : ℕ) :
     Sec4MRealizes t φ (m ^ n) (σ ^ n) := by

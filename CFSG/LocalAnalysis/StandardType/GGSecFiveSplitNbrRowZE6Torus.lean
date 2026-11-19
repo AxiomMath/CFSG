@@ -43,7 +43,7 @@ theorem ggTorusDetEltElt_of_sylowTorus_frame {G₀ : Type} [Group G₀] {p : ℕ
     (hc : ∀ i j, i ≠ j → ∀ A B, Commute (ρ i A) (ρ j B)) (r : ℕ) :
     GGTorusDetEltElt p r R := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨e, m, he, -, hm⟩ :=
     exists_frameTorus_of_commutingFrames hp (u : ZMod p) s n hs hn hZ ρ hρ hc
   have hF : IsElemAbelian p e.range := by

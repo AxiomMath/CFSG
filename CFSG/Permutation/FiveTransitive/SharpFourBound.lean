@@ -65,11 +65,12 @@ theorem eq_of_agrees_four
   rw [mul_smul, ← hagrees]
   simp
 
+omit [Finite G] [Fintype X] in
 theorem exists_maps_embedding
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (a b : Fin 4 ↪ X) :
     ∃ g : G, ∀ i, g • a i = b i := by
-  letI : MulAction.IsMultiplyPretransitive G X 4 := h4
+  let : MulAction.IsMultiplyPretransitive G X 4 := h4
   obtain ⟨g, hg⟩ := h4.exists_smul_eq a b
   refine ⟨g, ?_⟩
   intro i
@@ -78,11 +79,12 @@ theorem exists_maps_embedding
 
 @[expose] noncomputable def sharpLift
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
-    (hcard : Nat.card G = (Fintype.card X).descFactorial 4)
+    (_hcard : Nat.card G = (Fintype.card X).descFactorial 4)
     (e : Fin 4 ↪ X) (σ : Equiv.Perm (Fin 4)) : G :=
   Classical.choose
     (exists_maps_embedding h4 e (σ.toEmbedding.trans e))
 
+omit [Finite G] in
 @[simp] theorem sharpLift_smul_apply
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (hcard : Nat.card G = (Fintype.card X).descFactorial 4)
@@ -171,7 +173,7 @@ theorem fixedBy_ncard_le_three_of_ne_one
   classical
   by_contra hnot
   have hfour : 4 ≤ (MulAction.fixedBy X g).ncard := by omega
-  letI : Fintype (MulAction.fixedBy X g) := Fintype.ofFinite _
+  let : Fintype (MulAction.fixedBy X g) := Fintype.ofFinite _
   have heNonempty : Nonempty (Fin 4 ↪ MulAction.fixedBy X g) := by
     rw [Function.Embedding.nonempty_iff_card_le, Fintype.card_fin,
       ← Nat.card_eq_fintype_card, Nat.card_coe_set_eq]
@@ -214,7 +216,7 @@ private theorem exists_two_disjoint_involution_pairs
     exact hx hxeq.symm
   have hzExists : ∃ z ∈ M, z ≠ x ∧ z ≠ g • x := by
     by_contra hnone
-    push_neg at hnone
+    push Not at hnone
     have hsub : M ⊆ ({x, g • x} : Set X) := by
       intro y hy
       by_cases hyx : y = x

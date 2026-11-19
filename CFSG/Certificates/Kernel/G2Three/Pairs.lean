@@ -16,7 +16,7 @@ theorem digit_char {d : ℕ} (hd : d < 10) : Char.ofNat (48 + d) = Nat.digitChar
 theorem digsF_small {f n : ℕ} (acc : List Char) (hn : n < 10) :
     digsF (f + 1) n acc = Nat.toDigits 10 n ++ acc := by
   have hb : Nat.blt n 10 = true := Nat.blt_eq.mpr hn
-  rw [digsF, hb, cond_true, Nat.toDigits_of_lt_base hn]
+  rw [digsF, hb, _root_.Bool.cond_true, Nat.toDigits_of_lt_base hn]
   exact congrArg (· :: acc) (digit_char hn)
 
 theorem digsF_eq (f : ℕ) :
@@ -33,7 +33,7 @@ theorem digsF_eq (f : ℕ) :
         cases hq : Nat.blt n 10
         · rfl
         · exact absurd (Nat.blt_eq.mp hq) hn
-      rw [digsF, hb, cond_false, Nat.toDigits_eq_if (by decide), if_neg hn, List.append_assoc,
+      rw [digsF, hb, Bool.cond_false, Nat.toDigits_eq_ite (by decide), ite_eq_right hn, List.append_assoc,
         List.singleton_append]
       have h' : n / 10 < 10 ^ (f + 1) := by
         rw [Nat.div_lt_iff_lt_mul (by decide), ← Nat.pow_succ]

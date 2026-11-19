@@ -73,7 +73,7 @@ private theorem exists_sylow_isCyclic_map_of_le_centralizer {A H : Subgroup G} {
   let Z : Subgroup H := (zpowers t).subgroupOf H
   have hZ2' : IsPGroup 2 Z := hZ2.comap_subtype
   obtain ⟨S, hZS⟩ := hZ2'.exists_le_sylow
-  have hSG2 : IsPGroup 2 ((S : Subgroup H).map H.subtype) := S.isPGroup'.map H.subtype
+  have hSG2 : IsPGroup 2 ((S : Subgroup H).map H.subtype) := S.isPGroup.map H.subtype
   have hSGle : (S : Subgroup H).map H.subtype ≤ centralizer (A : Set G) := by
     rintro _ ⟨s, _, rfl⟩
     exact hHle s.2

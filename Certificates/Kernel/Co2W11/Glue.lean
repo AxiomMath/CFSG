@@ -41,8 +41,8 @@ theorem unpack_wordB (w : List Bool) : ∀ acc : Nat, unpackR 22 (wordB 22 SA.M 
       cases b <;> exact strictN_eq _ _
     rw [e, ih, ← mulRows_unpackW]
     cases b
-    · rw [if_neg (by decide), if_neg (by decide), unpack_SB]
-    · rw [if_pos rfl, if_pos rfl, unpack_SA]
+    · rw [ite_eq_right (by decide), ite_eq_right (by decide), unpack_SB]
+    · rw [ite_eq_left rfl, ite_eq_left rfl, unpack_SA]
 
 theorem mat_word (w : List Bool) : rowsMatrix 22 (unpackR 22 (wordB 22 SA.M SB.M w (idF 22))) =
     rowsMatrix 22 (w12WordRows (w12Co2RowsA ()) (w12Co2RowsB ()) w) := by
@@ -268,8 +268,8 @@ theorem exists_seed_elt (b : Bool) :
   change rowsMatrix 22 (mulRows 22 (idRows 22) (if b then w12Co2RowsA () else w12Co2RowsB ())) *ᵥ v = _
   rw [rowsMatrix_mulRows, rowsMatrix_idRows, one_mul]
   cases b
-  · rw [if_neg (by decide), if_neg (by decide), unpack_SB]
-  · rw [if_pos rfl, if_pos rfl, unpack_SA]
+  · rw [ite_eq_right (by decide), ite_eq_right (by decide), unpack_SB]
+  · rw [ite_eq_left rfl, ite_eq_left rfl, unpack_SA]
 
 theorem forms_nofix (c : Vec22)
     (h : ∀ (g : NativeSporadic.Co2) (v : Vec22), c ⬝ᵥ co2Act g v = c ⬝ᵥ v) : c = 0 := by
@@ -315,9 +315,9 @@ theorem vecMul_fixH0 (c : Vec22) :
     rw [rowsMatrix_apply, e, Option.getD_some, rows_fixH0 i]
     by_cases hi : i = 3
     · have hi' : i.val = 3 := by rw [hi]; rfl
-      rw [if_pos hi', if_pos hi, toVecD_xor, toVecD_two_pow]
+      rw [ite_eq_left hi', ite_eq_left hi, toVecD_xor, toVecD_two_pow]
     · have hi' : ¬ (i.val = 3) := fun h => hi (Fin.ext h)
-      rw [if_neg hi', if_neg hi, toVecD_two_pow, add_zero]
+      rw [ite_eq_right hi', ite_eq_right hi, toVecD_two_pow, add_zero]
   generalize toVecD 22 Fm.lam = L at hrow ⊢
   generalize rowsMatrix 22 (unpackR 22 (Nat.xor (idF 22) (Nat.shiftLeft Fm.lam (Nat.mul 22 Fm.p))))
     = M at hrow ⊢
@@ -329,7 +329,7 @@ theorem vecMul_fixH0 (c : Vec22) :
     split_ifs <;> simp_all
   rw [Finset.sum_congr rfl (fun i _ => e i), Finset.sum_add_distrib, Finset.sum_ite_eq',
     Finset.sum_ite_eq']
-  simp only [Finset.mem_univ, if_true]
+  simp only [Finset.mem_univ, ite_true]
 
 theorem forms_fixH0 (c : Vec22)
     (h : ∀ g : NativeSporadic.Co2, co2Act g (toVecD 22 40) = toVecD 22 40 →

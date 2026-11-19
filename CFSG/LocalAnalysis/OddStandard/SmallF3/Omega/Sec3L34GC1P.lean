@@ -12,7 +12,7 @@ open Subgroup
 
 variable {G : Type} [Group G] {E K : Subgroup G} {x : G}
 
-theorem l34g_p_pGroup (hKN : K ≤ normalizer (E : Set G))
+theorem l34g_p_pGroup (_hKN : K ≤ normalizer (E : Set G))
     (h3 : ∀ g ∈ K, ∃ n : ℕ, ∀ e ∈ E, g ^ 3 ^ n * e = e * g ^ 3 ^ n) :
     IsPGroup 3 ↥(l34gImg E K) := by
   rintro ⟨p, hp⟩
@@ -27,7 +27,7 @@ theorem l34g_p_pGroup (hKN : K ≤ normalizer (E : Set G))
   rw [h1]
   exact (l34gAct_eq_one_iff hpow).2 fun e he => hn e he
 
-theorem l34g_p_commute (hKN : K ≤ normalizer (E : Set G)) (hxN : x ∈ normalizer (E : Set G))
+theorem l34g_p_commute (_hKN : K ≤ normalizer (E : Set G)) (hxN : x ∈ normalizer (E : Set G))
     (hxK : ∀ k ∈ K, x * k = k * x) :
     ∀ p ∈ l34gImg E K, p * E.normalizerMonoidHom ⟨x, hxN⟩ =
       E.normalizerMonoidHom ⟨x, hxN⟩ * p := by
@@ -36,7 +36,7 @@ theorem l34g_p_commute (hKN : K ≤ normalizer (E : Set G)) (hxN : x ∈ normali
   rw [← map_mul, ← map_mul]
   exact congrArg _ (Subtype.ext (hxK k hkK).symm)
 
-theorem l34g_p_normalizes (hKN : K ≤ normalizer (E : Set G)) (hxK : ∀ k ∈ K, x * k = k * x) :
+theorem l34g_p_normalizes (_hKN : K ≤ normalizer (E : Set G)) (hxK : ∀ k ∈ K, x * k = k * x) :
     ∀ p ∈ l34gImg E K, ∀ c ∈ l34gImg E (E ⊓ centralizer ({x} : Set G)),
       p * c * p⁻¹ ∈ l34gImg E (E ⊓ centralizer ({x} : Set G)) := by
   intro p hp c hc

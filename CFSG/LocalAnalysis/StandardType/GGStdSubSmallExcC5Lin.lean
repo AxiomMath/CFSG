@@ -68,7 +68,7 @@ theorem three_cube_le_card_inf (hr : 6 ≤ r) {f : Multiplicative (Fin r → ZMo
     exact (Nat.pow_le_pow_iff_right (by norm_num)).1 hcard
   have hAO : finrank (ZMod 3) ↥(A' ⊓ O) ≤ 1 := by
     have hord : orderOf x ≤ 3 := orderOf_le_of_pow_eq_one (by norm_num) hx
-    haveI : Finite (Subgroup.zpowers x) := Nat.finite_of_card_ne_zero (by
+    have : Finite (Subgroup.zpowers x) := Nat.finite_of_card_ne_zero (by
       rw [Nat.card_zpowers]
       exact (orderOf_pos_iff.2 (isOfFinOrder_iff_pow_eq_one.2 ⟨3, by norm_num, hx⟩)).ne')
     have hinj : Function.Injective (fun v : ↥(A' ⊓ O) => (⟨f (Multiplicative.ofAdd v.1),
@@ -87,13 +87,13 @@ theorem three_cube_le_card_inf (hr : 6 ≤ r) {f : Multiplicative (Fin r → ZMo
   have hsup2 : finrank (ZMod 3) ↥(A' ⊔ Gs) ≤ r := (Submodule.finrank_le _).trans hV.le
   have hmod2 := Submodule.finrank_sup_add_finrank_inf_eq A' Gs
   have hdim3 : 3 ≤ finrank (ZMod 3) ↥(A' ⊓ Gs) := by omega
-  haveI : Finite (Multiplicative (Fin r → ZMod 3)) :=
+  have : Finite (Multiplicative (Fin r → ZMod 3)) :=
     Finite.of_equiv (Fin r → ZMod 3) Multiplicative.ofAdd
-  haveI : Finite ↥f.range := Finite.of_surjective
+  have : Finite ↥f.range := Finite.of_surjective
     (fun u : Multiplicative (Fin r → ZMod 3) => (⟨f u, u, rfl⟩ : ↥f.range)) fun s => by
       obtain ⟨u, hu⟩ := s.2
       exact ⟨u, Subtype.ext hu⟩
-  haveI : Finite ↥(A ⊓ Kl) := Finite.of_injective
+  have : Finite ↥(A ⊓ Kl) := Finite.of_injective
     (fun s : ↥(A ⊓ Kl) => (⟨s.1, hA s.2.1⟩ : ↥f.range)) fun a b h =>
       Subtype.ext (congrArg (fun y : ↥f.range => y.1) h)
   have hinj2 : Function.Injective (fun v : ↥(A' ⊓ Gs) =>

@@ -15,9 +15,11 @@ open CFSG.RankThree.PartOne (pElementSubgroup)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s13_Bar13_opp_le (p : ℕ) (X : Subgroup G) : Opp p X ≤ X :=
   (Subgroup.closure_le X).2 fun _ hx => hx.1
 
+omit [Finite G] in
 theorem s13_Bar13_opp_conjInv (p : ℕ) {M X : Subgroup G}
     (hX : ∀ g ∈ M, ∀ x ∈ X, g * x * g⁻¹ ∈ X) :
     ∀ g ∈ M, ∀ x ∈ Opp p X, g * x * g⁻¹ ∈ Opp p X := by
@@ -42,6 +44,7 @@ theorem s13_Bar13_opp_conjInv (p : ℕ) {M X : Subgroup G}
     exact Subgroup.closure_mono hsub
   simpa [MulAut.conj_apply] using hmap ⟨x, hx, rfl⟩
 
+omit [Finite G] in
 theorem s13_Bar13_barPreimage_conjInv {M : Subgroup G} {Y : Subgroup (Bar2 M)} (hY : Y.Normal) :
     ∀ g ∈ M, ∀ x ∈ barPreimage M Y, g * x * g⁻¹ ∈ barPreimage M Y := by
   intro g hg x hx
@@ -53,9 +56,11 @@ theorem s13_Bar13_barPreimage_conjInv {M : Subgroup G} {Y : Subgroup (Bar2 M)} (
     simpa only [map_mul, map_inv] using hconj
   · rfl
 
+omit [Finite G] in
 theorem s13_barPreimage_le (M : Subgroup G) (Y : Subgroup (Bar2 M)) : barPreimage M Y ≤ M := by
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem s13_barImage_barPreimage (M : Subgroup G) (Y : Subgroup (Bar2 M)) :
     barImage M (barPreimage M Y) = Y := by
   show ((((Y.comap (QuotientGroup.mk' (CFSG.pCore 2 ↥M))).map M.subtype).subgroupOf M).map
@@ -66,17 +71,20 @@ theorem s13_barImage_barPreimage (M : Subgroup G) (Y : Subgroup (Bar2 M)) :
     Subgroup.map_comap_eq_self_of_surjective
       (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥M)) Y]
 
+omit [Finite G] in
 theorem s13_barImage_self (M : Subgroup G) : barImage M M = ⊤ := by
   show ((M.subgroupOf M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥M))) = ⊤
   rw [Subgroup.subgroupOf_self,
     Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥M))]
 
+omit [Finite G] in
 theorem s13_barImage_sup {M A B : Subgroup G} (hA : A ≤ M) (hB : B ≤ M) :
     barImage M (A ⊔ B) = barImage M A ⊔ barImage M B := by
   show (((A ⊔ B).subgroupOf M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥M))) = _
   rw [Subgroup.subgroupOf_sup hA hB, Subgroup.map_sup]
   rfl
 
+omit [Finite G] in
 theorem s13_barImage_cMStar (M X : Subgroup G) :
     barImage M (cMStar M X) = Subgroup.centralizer (barImage M X : Set (Bar2 M)) :=
   s13_barImage_barPreimage M _
@@ -111,24 +119,28 @@ theorem s13_barImage_Sp (M : Subgroup G) {p : ℕ} (hp : p.Prime) :
     s13_barImage_opp (M := M) (P := cMStar M (Lp M p)) hp hle,
     s13_barImage_cMStar M (Lp M p), s13_barImage_Lp M hp]
 
+omit [Finite G] in
 theorem s13_Lp_le (M : Subgroup G) (p : ℕ) : Lp M p ≤ M :=
   (s13_Bar13_opp_le p (OTwoEIn M)).trans (s13_barPreimage_le M _)
 
+omit [Finite G] in
 theorem s13_Sp_le (M : Subgroup G) (p : ℕ) : Sp M p ≤ M :=
   (s13_Bar13_opp_le p (cMStar M (Lp M p))).trans (s13_barPreimage_le M _)
 
+omit [Finite G] in
 theorem s13_Lp_normal (M : Subgroup G) (p : ℕ) : ((Lp M p).subgroupOf M).Normal := by
-  haveI hchar : (CFSG.layer (Bar2 M)).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hchar : (CFSG.layer (Bar2 M)).Characteristic := CFSG.LocalCores.layer_characteristic
   have hconj := s13_Bar13_barPreimage_conjInv (M := M) (Y := CFSG.layer (Bar2 M)) inferInstance
   have hOpp := s13_Bar13_opp_conjInv p hconj
   show (((Opp p (barPreimage M (CFSG.layer (Bar2 M)))).subgroupOf M)).Normal
   exact ⟨fun n hn g => hOpp g.1 g.2 n.1 hn⟩
 
+omit [Finite G] in
 theorem s13_Sp_normal (M : Subgroup G) (p : ℕ) : ((Sp M p).subgroupOf M).Normal := by
-  haveI hLp : (barImage M (Lp M p)).Normal :=
+  have hLp : (barImage M (Lp M p)).Normal :=
     (s13_Lp_normal M p).map (QuotientGroup.mk' (CFSG.pCore 2 ↥M))
       (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥M))
-  haveI hcent : (Subgroup.centralizer (barImage M (Lp M p) : Set (Bar2 M))).Normal :=
+  have hcent : (Subgroup.centralizer (barImage M (Lp M p) : Set (Bar2 M))).Normal :=
     Subgroup.normal_centralizer
   have hconj := s13_Bar13_barPreimage_conjInv (M := M)
     (Y := Subgroup.centralizer (barImage M (Lp M p) : Set (Bar2 M))) hcent
@@ -137,6 +149,7 @@ theorem s13_Sp_normal (M : Subgroup G) (p : ℕ) : ((Sp M p).subgroupOf M).Norma
     (barImage M (Lp M p) : Set (Bar2 M))))).subgroupOf M)).Normal
   exact ⟨fun n hn g => hOpp g.1 g.2 n.1 hn⟩
 
+omit [Finite G] in
 theorem s13_barImage_Lp_le_layer (M : Subgroup G) (p : ℕ) :
     barImage M (Lp M p) ≤ CFSG.layer (Bar2 M) := by
   calc barImage M (Lp M p)
@@ -146,13 +159,14 @@ theorem s13_barImage_Lp_le_layer (M : Subgroup G) (p : ℕ) :
         rw [show OTwoEIn M = barPreimage M (CFSG.layer (Bar2 M)) from rfl]
         exact s13_barImage_barPreimage M (CFSG.layer (Bar2 M))
 
-theorem s13_mem_of_barImage_of_pPart {M N : Subgroup G} (hNM : N ≤ M)
+omit [Finite G] in
+theorem s13_mem_of_barImage_of_pPart {M N : Subgroup G} (_hNM : N ≤ M)
     (hN : (N.subgroupOf M).Normal) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {x : G} (hxM : x ∈ M)
     (hx : ∃ k : ℕ, x ^ p ^ k = 1)
     (hbar : (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨x, hxM⟩ : Bar2 M) ∈ barImage M N) : x ∈ N := by
   classical
   let π : ↥M →* Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
-  letI : (N.subgroupOf M).Normal := hN
+  let : (N.subgroupOf M).Normal := hN
   let φ : ↥M →* ↥M ⧸ (N.subgroupOf M) := QuotientGroup.mk' (N.subgroupOf M)
   change π ⟨x, hxM⟩ ∈ (N.subgroupOf M).map π at hbar
   obtain ⟨n, hnN, hnπ⟩ := hbar
@@ -161,7 +175,7 @@ theorem s13_mem_of_barImage_of_pPart {M N : Subgroup G} (hNM : N ≤ M)
     rw [MonoidHom.mem_ker]
     simp [map_mul, map_inv, hnπ]
   rw [show π.ker = CFSG.pCore 2 ↥M from QuotientGroup.ker_mk' (CFSG.pCore 2 ↥M)] at htker
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_orderOf.mp CFSG.pCore_isPGroup)
     (⟨n⁻¹ * ⟨x, hxM⟩, htker⟩ : ↥(CFSG.pCore 2 ↥M))
   have hord : orderOf (n⁻¹ * ⟨x, hxM⟩) = 2 ^ a :=
@@ -227,7 +241,7 @@ theorem s13_cop {M Y : Subgroup G} {p r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h
     exact CFSG.pCore_isPGroup
   let Qb : Subgroup (Bar2 M) := Subgroup.zpowers s
   have hQb : IsPGroup p Qb := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     refine IsPGroup.of_card (n := 1) ?_
     rw [show Nat.card Qb = orderOf s from Nat.card_zpowers s, hs, pow_one]
   obtain ⟨A₀, hA₀, hA₀map, hdisj⟩ :=

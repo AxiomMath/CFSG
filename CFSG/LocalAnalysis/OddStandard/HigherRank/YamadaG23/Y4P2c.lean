@@ -40,7 +40,7 @@ theorem y4_extremal_cent_B (c : Ctx4 s e) {x : G} (hx : IsExtremalConj s.T₂ s.
   rw [y4_card_M2 c] at hcp
   have hinf : centEl (M2 s) x ⊓ f3P s = centEl s.fr.B x := by
     rw [centEl, centEl, ← y4_M2_inf_P c]
-    simp only [inf_assoc, inf_left_comm, inf_comm]
+    simp only [inf_assoc, inf_comm]
   have hle := y4_card_le_relIndex_mul (F := s.C₂) (C := centEl (M2 s) x) (N := f3P s)
     (fun y hy => y4_M2_le_C2 c.toF33 (Subgroup.mem_inf.mp hy).1) (f3_P_le_C₂ c.toF33)
   rw [hinf, f3_P_relIndex_C₂ c.toF33] at hle

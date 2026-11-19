@@ -86,7 +86,7 @@ private theorem ltrra3a_psl_iso
 
 theorem exists_linear_component_label
     {R : Type} [Group R] [Finite R] {lab : LargeEvenLabel} {β : MulAut R}
-    {Jb : Subgroup R} (hcen : Subgroup.center R = ⊥) (hΛ : LargeEvenInLambda2 lab)
+    {Jb : Subgroup R} (hcen : Subgroup.center R = ⊥) (_hΛ : LargeEvenInLambda2 lab)
     (htag : lab.tag = .A) (hβ3 : β ^ 3 = 1) (hin : Y10GField.InnDiagKind R lab β)
     (hJb : CFSG.Assembly.IsComponentOf Jb (ggAutFixedSubgroup β)) :
     ∃ labC : LargeEvenLabel, LargeEvenInLambda2 labC ∧ labC.tag = .A ∧ lab.n ∣ labC.n ∧

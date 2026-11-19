@@ -76,7 +76,7 @@ theorem le_centralizer_of_card_le_two [Finite G] {L Z : Subgroup G}
     fin_cases a <;> fin_cases b <;> simp [f] at hab' ⊢
     all_goals first
       | exact absurd hab'.symm hz1 | exact absurd hab' hz1 | exact absurd hab'.symm hw1
-      | exact absurd hab' hw1 | exact absurd hab'.symm hwz | exact absurd hab' hwz
+      | exact absurd hab'.symm hwz | exact absurd hab' hwz
   have := Nat.card_le_card_of_injective f hf
   simp at this
   omega
@@ -137,7 +137,7 @@ theorem isQ8D8_pCoreOf_normal {X : Type} [Group X] [Finite X] {Y : Subgroup X}
     (hext : IsExt ↥Y (fun V _ => IsExtraspecial2 2 V) (fun Z _ => IsAlt 5 Z))
     (hperf : ⁅Y, Y⁆ = Y) (hc : Nat.card (pCoreOf 2 Y) = 2 ^ 5) :
     IsQ8D8 ↥(pCoreOf 2 Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨V, hVn, hV, hA⟩ := hext
   have hq := Q8D8Rec.isQ8D8_of_perfect_alt5 V hV hA (commutator_eq_top_of_perfect hperf)
   have hWY : V.map Y.subtype ≤ Y := by
@@ -189,7 +189,7 @@ theorem exists_yPair_conj {Y H : Type*} [Group Y] [Group H] [Finite H] (E0 : Y �
 
 theorem y9J2 : Y9J2 := by
   intro G _ _ L1 L2 S hF h1 h2 hA
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Y, _, ⟨e⟩, T, M₁, M₂, hp, ⟨ψ1⟩, -, ⟨ψ2⟩⟩ := hA
   obtain ⟨E0⟩ : Nonempty (Y ≃* ↥CFSG.Sporadic.J2.J) :=
     ⟨(e.trans quasithinJ2MulEquivNative).trans CFSG.Sporadic.Bridge.J2.nativeEquiv⟩

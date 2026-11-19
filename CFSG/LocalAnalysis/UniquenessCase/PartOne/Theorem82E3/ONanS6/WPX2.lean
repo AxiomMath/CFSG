@@ -42,7 +42,7 @@ theorem isCyclic_outer_thetaQuot_of_mem_thetaComponentsAt
   let S : Type := Q ⧸ Subgroup.center Q
   have hQ : CFSG.IsQuasisimple Q := hLsub.2.2
   have hsimple : IsSimpleGroup S := hQ.2.1
-  haveI : IsSimpleGroup S := hsimple
+  have : IsSimpleGroup S := hsimple
   have hnab : ∃ a b : S, a * b ≠ b * a := hQ.2.2
   have hK : CFSG.Open.IsKGroup ↥C := isKGroup_centralizer c hx1
   let φ : P' →* S :=
@@ -63,7 +63,7 @@ theorem isCyclic_outer_thetaQuot_of_mem_thetaComponentsAt
     rw [hcard] at h2
     exact h3 h2
   obtain ⟨f, hf⟩ := hPSz S hnab hcat h3S
-  haveI : Group.IsPerfect Q := hQ.1
+  have : Group.IsPerfect Q := hQ.1
   have hcycQ : IsCyclic (Outer Q) :=
     isCyclic_outer_of_perfect_cover_of_suzukiModel' (J := Q) hf (MulEquiv.refl S)
   have hmap : P'.map C.subtype = L := by

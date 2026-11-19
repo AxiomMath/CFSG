@@ -20,9 +20,9 @@ private theorem layer_normal : (CFSG.layer X).Normal := by
   exact CFSG.ComponentClassification.Layer.normal X
 
 theorem layer_le_iff_forall_isComponentOf {H : Subgroup X} :
-    CFSG.layer X ≤ H ↔ ∀ K : Subgroup X, IsComponentOf K ⊤ → K ≤ H :=
-  ⟨fun h K hK => (le_layer_of_isComponentOf hK).trans h,
-    fun h => sSup_le fun K hK => h K ((CFSG.isComponent_iff_open K).1 hK)⟩
+    CFSG.layer X ≤ H ↔ ∀ _K : Subgroup X, IsComponentOf _K ⊤ → _K ≤ H :=
+  ⟨fun h _K hK => (le_layer_of_isComponentOf hK).trans h,
+    fun h => sSup_le fun _K hK => h _K ((CFSG.isComponent_iff_open _K).1 hK)⟩
 
 theorem mem_centralizer_layer_of_forall_isComponentOf {c : X}
     (h : ∀ K : Subgroup X, IsComponentOf K ⊤ → c ∈ centralizer (K : Set X)) :
@@ -44,9 +44,9 @@ theorem centralizer_layer_le_of_fittingSubgroup_eq_bot [Finite X]
 theorem centralizer_layer_eq_bot_of_fittingSubgroup_eq_bot [Finite X]
     (hF : CFSG.fittingSubgroup X = ⊥) : centralizer (CFSG.layer X : Set X) = ⊥ := by
   have hle := centralizer_layer_le_of_fittingSubgroup_eq_bot hF
-  haveI : (CFSG.layer X).Normal := layer_normal
-  haveI : (centralizer (CFSG.layer X : Set X)).Normal := inferInstance
-  haveI : IsMulCommutative (centralizer (CFSG.layer X : Set X)) :=
+  have : (CFSG.layer X).Normal := layer_normal
+  have : (centralizer (CFSG.layer X : Set X)).Normal := inferInstance
+  have : IsMulCommutative (centralizer (CFSG.layer X : Set X)) :=
     le_centralizer_iff_isMulCommutative.1 fun x hx =>
       mem_centralizer_iff.2 fun h hh => mem_centralizer_iff.1 hx h (hle hh)
   have hnil : centralizer (CFSG.layer X : Set X) ≤ CFSG.fittingSubgroup X :=
@@ -64,10 +64,10 @@ theorem isSolvable_outer_of_isComponentOf (hSch : SchreierFor CFSG.Assembly.InCa
     {X : Type} [Group X] [Finite X] (hcat : CatalogSimpleSections X) {K : Subgroup X}
     (hK : IsComponentOf K ⊤) : Group.IsSolvable (Outer K) := by
   have hnonab := ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hK.2.2
-  haveI : IsSimpleGroup (K ⧸ center K) := hK.2.2.2
+  have : IsSimpleGroup (K ⧸ center K) := hK.2.2.2
   have hcatK : IsCatalogGroup (K ⧸ center K) := hcat K (center K) inferInstance hK.2.2.2 hnonab
-  haveI : Group.IsPerfect K := ⟨hK.2.2.1⟩
-  haveI : Group.IsSolvable (Outer (K ⧸ center K)) := hSch (K ⧸ center K) hnonab hcatK
+  have : Group.IsPerfect K := ⟨hK.2.2.1⟩
+  have : Group.IsSolvable (Outer (K ⧸ center K)) := hSch (K ⧸ center K) hnonab hcatK
   exact solvable_of_centerQuotient K
 
 end Outer
@@ -98,7 +98,7 @@ theorem isSolvable_quotient_of_ker_le {G A B : Type*} [Group G] [Group A] [Group
       rw [MonoidHom.mem_ker, MonoidHom.comp_apply, QuotientGroup.mk'_apply,
         QuotientGroup.eq_one_iff]
       exact hΨ y hy
-  haveI : Group.IsSolvable (π.ker ⧸ Ψ.ker) :=
+  have : Group.IsSolvable (π.ker ⧸ Ψ.ker) :=
     Group.isSolvable_of_isSolvable_injective (QuotientGroup.kerLift_injective Ψ)
   refine Group.isSolvable_of_ker_le_range f g ?_
   intro q hq
@@ -116,8 +116,8 @@ variable {X : Type*} [Group X]
   toFun g :=
     { toFun := fun K => ⟨MulAut.conj g • K.1, hP K.1 g K.2⟩
       invFun := fun K => ⟨MulAut.conj g⁻¹ • K.1, hP K.1 g⁻¹ K.2⟩
-      left_inv := fun K => Subtype.ext (by simp [smul_smul, ← map_mul])
-      right_inv := fun K => Subtype.ext (by simp [smul_smul, ← map_mul]) }
+      left_inv := fun K => Subtype.ext (by simp [smul_smul])
+      right_inv := fun K => Subtype.ext (by simp [smul_smul]) }
   map_one' := Equiv.ext fun K => Subtype.ext (by simp)
   map_mul' g h := Equiv.ext fun K => Subtype.ext (by simp [mul_smul])
 
@@ -241,16 +241,16 @@ theorem isSolvable_quotient_layer_of_card_components_le
       Nat.subtype_card hfin.toFinset fun K => hfin.mem_toFinset
     rw [h1]
     exact hn _ fun K hK => hfin.mem_toFinset.1 hK
-  haveI : Group.IsSolvable (Equiv.Perm {K : Subgroup X // IsComponentOf K ⊤}) :=
+  have : Group.IsSolvable (Equiv.Perm {K : Subgroup X // IsComponentOf K ⊤}) :=
     Equiv.Perm.isSolvable hcard
-  haveI : ∀ K : {K : Subgroup X // IsComponentOf K ⊤}, Group.IsSolvable (Outer K.1) :=
+  have : ∀ K : {K : Subgroup X // IsComponentOf K ⊤}, Group.IsSolvable (Outer K.1) :=
     fun K => isSolvable_outer_of_isComponentOf hSch hcat K.2
-  haveI : Group.IsSolvable (∀ K : {K : Subgroup X // IsComponentOf K ⊤}, Outer K.1) :=
+  have : Group.IsSolvable (∀ K : {K : Subgroup X // IsComponentOf K ⊤}, Outer K.1) :=
     isSolvable_pi_of_finite_index
   let Ψ : π.ker →* ∀ K : {K : Subgroup X // IsComponentOf K ⊤}, Outer K.1 :=
-    Pi.monoidHom fun K => (QuotientGroup.mk' (inner K.1)).comp
+    _root_.MonoidHom.pi fun K => (QuotientGroup.mk' (inner K.1)).comp
       (K.1.normalizerMonoidHom.comp (Subgroup.inclusion (hker K.1 K.2)))
-  haveI : (CFSG.layer X).Normal := layer_normal
+  have : (CFSG.layer X).Normal := layer_normal
   refine isSolvable_quotient_of_ker_le π Ψ (CFSG.layer X) hEker fun y hy => ?_
   refine mem_layer_of_forall_exists_inner hF fun K hK => ?_
   have h1 := (QuotientGroup.eq_one_iff _).1 (congrFun hy ⟨K, hK⟩)

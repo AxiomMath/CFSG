@@ -70,7 +70,7 @@ theorem charTwoFacts_of_model (hw : S.width = 6) {g : G} (H : Hyp4 S g) (C : Con
     {ψ : S.Qt ≃ₗ[ZMod 2] V12} (hq : ∀ v, q0 (ψ v) = S.q v) (hE : E.map (tau S ψ) = E') :
     CharTwoFacts S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hτ := tau_injective (S := S) ψ
   have hτa := tau_apply_apply (S := S) ψ
   have hψ0 : ∀ v : S.Qt, ψ v = 0 → v = 0 := fun v h => ψ.injective (h.trans (map_zero ψ).symm)

@@ -60,6 +60,7 @@ section LiftMain
 
 variable {A B : Type*} [Group A] [Finite A] [Group B] [Finite B]
 
+omit [Finite B] in
 theorem exists_component_lift (π : A →* B) (hπ : Function.Surjective π) (Γ : Subgroup A)
     (hΓker : ⁅Γ, π.ker⁆ = ⊥) (T Sg : Subgroup B) [T.Normal] [IsSimpleGroup Sg]
     (hnab : ∃ a b : Sg, a * b ≠ b * a) (hST : Sg ≤ T) (hSTn : T ≤ normalizer (Sg : Set B))

@@ -54,7 +54,7 @@ theorem exists_lift_pgroup [Finite C] (ρ : C →* P) {R : Subgroup P} (hR : R �
     have hle := (P₁.mapSurjective hπ₁).maximal_isPGroup.le_of_ge hRtop le_top
     rw [Sylow.coe_mapSurjective] at hle
     exact le_antisymm le_top hle
-  refine ⟨(P₁ : Subgroup ↥Y₁).map Y₁.subtype, P₁.isPGroup'.map Y₁.subtype, ?_⟩
+  refine ⟨(P₁ : Subgroup ↥Y₁).map Y₁.subtype, P₁.isPGroup.map Y₁.subtype, ?_⟩
   have h1 : ((P₁ : Subgroup ↥Y₁).map π₁).map R.subtype =
       ((P₁ : Subgroup ↥Y₁).map Y₁.subtype).map ρ := by
     rw [Subgroup.map_map, Subgroup.map_map]
@@ -334,7 +334,7 @@ theorem data_of_core (hs : IsSimpleGroup J) (hn : ∃ a b : J, a * b ≠ b * a)
     have h2 : Nat.card ↥(Q'' : Subgroup ↥ρ.range) =
         Nat.card ↥(Q' : Subgroup ↥(centralizer ({y} : Set J))) := by
       rw [Sylow.coe_mapSurjective]
-      exact card_map_of_isPGroup ρ.rangeRestrict hker Q'.isPGroup'
+      exact card_map_of_isPGroup ρ.rangeRestrict hker Q'.isPGroup
     have h3 : Nat.card ↥(Q' : Subgroup ↥(centralizer ({y} : Set J))) =
         Nat.card ↥(Q : Subgroup J) := by
       rw [Sylow.coe_subtype]

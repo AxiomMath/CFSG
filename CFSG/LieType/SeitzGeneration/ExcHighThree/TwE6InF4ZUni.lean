@@ -36,7 +36,7 @@ private def reflect2 (g : Matrix (Fin 2) (Fin 2) K) : Matrix (Fin 2) (Fin 2) K :
 
 private theorem blockSix_one : blockSix (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [blockSix, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [blockSix]
 
 private theorem blockSix_mul (g h : Matrix (Fin 2) (Fin 2) K) :
     blockSix (g * h) = blockSix g * blockSix h := by
@@ -161,7 +161,7 @@ private theorem torusUnit_one {k K : Type} [Field k] [Finite k] [Field K] [Finit
 
 theorem coe_iota_f4Z (k K : Type) [Field k] [Finite k] [Field K] [Finite K] [Algebra k K]
     (σ : K ≃+* K) (hfix : ∀ c : k, σ (algebraMap k K c) = algebraMap k K c)
-    (hK : Nat.card K = Nat.card k ^ 2) :
+    (_hK : Nat.card K = Nat.card k ^ 2) :
     ((((phiG σ hfix).comp (e6FixedF4EquivAll k).symm.toMonoidHom)
       ⟨f4Z k, f4Z_mem_adjointGroup⟩ : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
       (weylWord K (e6Flat (f4Word 0)) * (xUnit TwistTag.E6.tag K e6Three 1 *
@@ -298,7 +298,7 @@ private theorem coe_wSL1m :
   rw [wSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wSL1m, tv, Matrix.transvection, Matrix.SpecialLinearGroup.transvection_coe,
+    simp [wSL1m, tv, Matrix.SpecialLinearGroup.transvection_coe,
       Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply, Matrix.single_apply]
 
 private theorem coe_wSL3m :
@@ -306,7 +306,7 @@ private theorem coe_wSL3m :
   rw [wSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wSL3m, tv, Matrix.transvection, Matrix.SpecialLinearGroup.transvection_coe,
+    simp [wSL3m, tv, Matrix.SpecialLinearGroup.transvection_coe,
       Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply, Matrix.single_apply]
 
 private theorem coe_wSL0m :
@@ -314,7 +314,7 @@ private theorem coe_wSL0m :
   rw [wSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wSL0m, tv, Matrix.transvection, Matrix.SpecialLinearGroup.transvection_coe,
+    simp [wSL0m, tv, Matrix.SpecialLinearGroup.transvection_coe,
       Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply, Matrix.single_apply]
 
 private theorem coe_wSL4m :
@@ -322,22 +322,21 @@ private theorem coe_wSL4m :
   rw [wSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wSL4m, tv, Matrix.transvection, Matrix.SpecialLinearGroup.transvection_coe,
+    simp [wSL4m, tv, Matrix.SpecialLinearGroup.transvection_coe,
       Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply, Matrix.single_apply]
 
 private theorem coe_zW1 : ((zW1 : SL(6, K)) : Matrix (Fin 6) (Fin 6) K) = zW1mat := by
   rw [zW1, Matrix.SpecialLinearGroup.coe_mul, coe_wSL1m, coe_wSL3m, zW1mat]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wSL1m, wSL3m, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply, Matrix.single_apply]
+    simp [wSL1m, wSL3m, Matrix.mul_apply, Fin.sum_univ_six]
 
 private theorem coe_zW2 : ((zW2 : SL(6, K)) : Matrix (Fin 6) (Fin 6) K) = zW2mat := by
   rw [zW2, Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul,
     Matrix.SpecialLinearGroup.coe_mul, coe_wSL0m, coe_wSL4m, coe_wSL1m, coe_wSL3m, zW2mat]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wSL0m, wSL4m, wSL1m, wSL3m, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply,
-      Matrix.single_apply]
+    simp [wSL0m, wSL4m, wSL1m, wSL3m, Matrix.mul_apply, Fin.sum_univ_six]
 
 private theorem coe_zR (ε : K) :
     ((zR ε : SL(6, K)) : Matrix (Fin 6) (Fin 6) K) =
@@ -356,8 +355,8 @@ private theorem coe_zRW1 (ε : K) (hε : ε ≠ 0) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [zW1mat, Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply,
-      Matrix.single_apply, mul_inv_cancel₀ hε, inv_mul_cancel₀ hε] <;>
-    field_simp [hε] <;> ring
+      Matrix.single_apply];
+    field_simp [hε]; ring
 
 private theorem coe_zRW2 (ε : K) (hε : ε ≠ 0) :
     ((zW2 : SL(6, K)) : Matrix (Fin 6) (Fin 6) K) *
@@ -367,8 +366,8 @@ private theorem coe_zRW2 (ε : K) (hε : ε ≠ 0) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [zW2mat, Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply,
-      Matrix.single_apply, mul_inv_cancel₀ hε, inv_mul_cancel₀ hε] <;>
-    field_simp [hε] <;> ring
+      Matrix.single_apply];
+    field_simp [hε]; ring
 
 private theorem coe_zR1 (ε : K) (hε : ε ≠ 0) :
     (((zW1 * zR ε * zW1⁻¹ : SL(6, K))) : Matrix (Fin 6) (Fin 6) K) = zR1 ε := by
@@ -410,8 +409,8 @@ private theorem coe_zSix (ε : K) (hε : ε ≠ 0) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply,
-      Matrix.single_apply, mul_inv_cancel₀ hε, inv_mul_cancel₀ hε] <;>
-    field_simp [hε] <;> ring
+      Matrix.single_apply];
+    field_simp [hε]; ring
 
 private def dwMatInv : Matrix (Fin 6) (Fin 6) K :=
   !![0, 1, 0, 0, 0, 0;
@@ -424,7 +423,7 @@ private def dwMatInv : Matrix (Fin 6) (Fin 6) K :=
 private theorem dwMat_one_mul_inv : dwMat (1 : K) 1 * dwMatInv (K := K) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [dwMat, dwMatInv, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply]
+    simp [dwMat, dwMatInv, Matrix.mul_apply, Fin.sum_univ_six]
 
 private theorem coe_DW (u su : K) (hu : u ≠ 0) (hsu : su ≠ 0) :
     ((DW u su : SL(6, K)) : Matrix (Fin 6) (Fin 6) K) = dwMat u su := by
@@ -432,7 +431,7 @@ private theorem coe_DW (u su : K) (hu : u ≠ 0) (hsu : su ≠ 0) :
     Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [dwMat, tv, Matrix.transvection, Matrix.SpecialLinearGroup.transvection_coe,
+    simp [dwMat, tv, Matrix.SpecialLinearGroup.transvection_coe,
       Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply, Matrix.single_apply] <;>
     field_simp [hu, hsu] <;> ring <;> simp
 
@@ -538,8 +537,8 @@ private theorem map_DW_eq_orbitN [Finite K] (σ : K →+* K) (Ψ : SL(6, K) →*
         ModGL TwistTag.E6.tag K) := rfl
   rw [horbit, coe_orbitX_zero σ (u : orbitField TwistTag.E6 K σ aSixteen),
     coe_orbitY_zero σ c]
-  simp only [c, hu, htσ, a5Node_zero, a5Node_four, map_neg, map_inv₀, inv_inv,
-    Units.val_inv_eq_inv_val, Subfield.coe_neg, Subfield.coe_inv, neg_inj]
+  simp only [c, hu, htσ, a5Node_four, map_neg, map_inv₀, inv_inv,
+    Units.val_inv_eq_inv_val, Subfield.coe_neg, Subfield.coe_inv]
 
 private theorem det_dwMat_one : (dwMat (1 : K) 1).det = 1 := by
   rw [← coe_DW 1 1 (by norm_num) (by norm_num)]
@@ -573,8 +572,8 @@ private theorem dSix_eq (t : Kˣ) :
     DW_one_inv_eq, coe_dwInvSL, dwMat, dwMatInv]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply, Matrix.diagonal,
-      Units.val_inv_eq_inv_val, mul_inv_cancel₀ t.ne_zero]
+    simp [Matrix.mul_apply, Fin.sum_univ_six, Matrix.diagonal,
+      Units.val_inv_eq_inv_val]
 
 private theorem blockSix_mul_zSix (g : Matrix (Fin 2) (Fin 2) K) (ε : K) :
     blockSix g * zSixMat ε = zSixMat ε * blockSix g := by
@@ -586,7 +585,7 @@ private theorem dSix_eq_SL (t : Kˣ) :
     dSix t = DW (t : K) (t : K)⁻¹ * (DW 1 1)⁻¹ :=
   Subtype.ext (dSix_eq t)
 
-private theorem blockSixSL_mem_unitarySL (σ : K →+* K) (hσ : ∀ c, σ (σ c) = c) (g : SL2 K)
+private theorem blockSixSL_mem_unitarySL (σ : K →+* K) (_hσ : ∀ c, σ (σ c) = c) (g : SL2 K)
     (hg : (((g : Matrix (Fin 2) (Fin 2) K).map σ)ᵀ * (g : Matrix (Fin 2) (Fin 2) K)) = 1) :
     blockSixSL g ∈ unitarySL σ := by
   have h00 : σ (g 0 0) * g 0 0 + σ (g 1 0) * g 1 0 = 1 := by
@@ -605,7 +604,7 @@ private theorem blockSixSL_mem_unitarySL (σ : K →+* K) (hσ : ∀ c, σ (σ c
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [blockSixSL, blockSix, antiId, Matrix.mul_apply, Fin.sum_univ_six, Matrix.map_apply,
-      Matrix.one_apply, h00, h01, h10, h11] <;> ring
+      h00, h01, h10, h11] <;> ring
   all_goals first
     | linear_combination h10
     | linear_combination h01
@@ -691,12 +690,12 @@ private theorem suY_mul_add (β : Kˣ) (c d : K) : suY β c * suY β d = suY β 
 private theorem suX_zero (β : Kˣ) : suX β 0 = 1 := by
   apply Subtype.ext
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [suX, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [suX]
 
 private theorem suY_zero (β : Kˣ) : suY β 0 = 1 := by
   apply Subtype.ext
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [suY, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [suY]
 
 private theorem uX_mul_add (β : Kˣ) (c d : K) : uX β c * uX β d = uX β (c + d) := by
   apply Subtype.ext
@@ -733,11 +732,11 @@ private theorem uY_pow (β : Kˣ) (c : K) (n : ℕ) : (uY β c) ^ n = uY β (n *
   | succ n ih => rw [pow_succ, ih, uY_mul_add, Nat.cast_succ, add_mul, one_mul]
 
 private theorem uX_pow_ringChar (β : Kˣ) (c : K) : (uX β c) ^ ringChar K = 1 := by
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : CharP K (ringChar K) := ringChar.charP K
   rw [uX_pow, CharP.cast_eq_zero K (ringChar K), zero_mul, uX_zero]
 
 private theorem uY_pow_ringChar (β : Kˣ) (c : K) : (uY β c) ^ ringChar K = 1 := by
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : CharP K (ringChar K) := ringChar.charP K
   rw [uY_pow, CharP.cast_eq_zero K (ringChar K), zero_mul, uY_zero]
 
 private def diag2 (t : Kˣ) : SL2 K :=
@@ -779,13 +778,12 @@ private theorem uX_uY_product (β : Kˣ) (t : Kˣ) (ht : (t : K) + 1 ≠ 0) (hβ
   rw [← blockSix_mul, ← blockSix_mul, ← Matrix.SpecialLinearGroup.coe_mul,
     ← Matrix.SpecialLinearGroup.coe_mul, suX_suY_product β t ht hβ, dSix_eq_blockSix_diag2]
 
-private theorem sigma_suA (σ : K ≃+* K) (hσσ : ∀ c : K, σ (σ c) = c) {β : Kˣ} {t : Kˣ}
+private theorem sigma_suA (σ : K ≃+* K) (_hσσ : ∀ c : K, σ (σ c) = c) {β : Kˣ} {t : Kˣ}
     (hβσ : σ (β : K) = -((β : K))⁻¹) (htσ : σ (t : K) = (t : K)⁻¹)
     (ht1 : (1 : K) + (t : K) ≠ 0) (hβ2 : (β : K) ^ 2 ≠ 1) :
     σ (suA β t) = -suA β t := by
   rw [suA]
-  simp only [map_neg, map_div₀, map_add, map_sub, map_pow, map_mul, map_one, map_inv₀,
-    hβσ, htσ, hσσ]
+  simp only [map_neg, map_div₀, map_add, map_sub, map_pow, map_mul, map_one, hβσ, htσ]
   have htinv1 : (t : K)⁻¹ + 1 ≠ 0 := by
     have h : (t : K)⁻¹ + 1 = (1 + (t : K)) / (t : K) := by
       field_simp [t.ne_zero]
@@ -803,13 +801,12 @@ private theorem sigma_suA (σ : K ≃+* K) (hσσ : ∀ c : K, σ (σ c) = c) {�
     mul_inv_cancel₀ ht1, inv_mul_cancel₀ ht1]
   ring
 
-private theorem sigma_suB (σ : K ≃+* K) (hσσ : ∀ c : K, σ (σ c) = c) {β : Kˣ} {t : Kˣ}
+private theorem sigma_suB (σ : K ≃+* K) (_hσσ : ∀ c : K, σ (σ c) = c) {β : Kˣ} {t : Kˣ}
     (hβσ : σ (β : K) = -((β : K))⁻¹) (htσ : σ (t : K) = (t : K)⁻¹)
     (ht1 : (1 : K) + (t : K) ≠ 0) (hβ2 : (β : K) ^ 2 ≠ 1) :
     σ (suB β t) = -suB β t := by
   rw [suB]
-  simp only [map_neg, map_mul, map_div₀, map_add, map_sub, map_pow, map_one, map_inv₀,
-    hβσ, htσ, hσσ]
+  simp only [map_mul, map_div₀, map_sub, map_pow, map_one, hβσ, htσ]
   have htinv1 : (t : K)⁻¹ + 1 ≠ 0 := by
     have h : (t : K)⁻¹ + 1 = (1 + (t : K)) / (t : K) := by
       field_simp [t.ne_zero]
@@ -827,13 +824,12 @@ private theorem sigma_suB (σ : K ≃+* K) (hσσ : ∀ c : K, σ (σ c) = c) {�
     mul_inv_cancel₀ ht1, inv_mul_cancel₀ ht1]
   ring
 
-private theorem sigma_suC (σ : K ≃+* K) (hσσ : ∀ c : K, σ (σ c) = c) {β : Kˣ} {t : Kˣ}
+private theorem sigma_suC (σ : K ≃+* K) (_hσσ : ∀ c : K, σ (σ c) = c) {β : Kˣ} {t : Kˣ}
     (hβσ : σ (β : K) = -((β : K))⁻¹) (htσ : σ (t : K) = (t : K)⁻¹)
     (ht1 : (1 : K) + (t : K) ≠ 0) (hβ2 : (β : K) ^ 2 ≠ 1) :
     σ (suC β t) = -suC β t := by
   rw [suC]
-  simp only [map_neg, map_add, map_mul, map_div₀, map_sub, map_pow, map_one, map_inv₀,
-    hβσ, htσ, hσσ]
+  simp only [map_add, map_mul, map_div₀, map_sub, map_pow, map_one, hβσ, htσ]
   have htinv1 : (t : K)⁻¹ + 1 ≠ 0 := by
     have h : (t : K)⁻¹ + 1 = (1 + (t : K)) / (t : K) := by
       field_simp [t.ne_zero]
@@ -856,7 +852,7 @@ private theorem sigma_involutive (k K : Type) [Field k] [Finite k] [Field K] [Fi
     (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ Nat.card k)
     (hK : Nat.card K = Nat.card k ^ 2) : ∀ c : K, σ (σ c) = c := by
   intro c
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   rw [hσ, hσ, ← pow_mul, ← pow_two, ← hK, Nat.card_eq_fintype_card]
   exact FiniteField.pow_card c
 
@@ -865,8 +861,8 @@ private theorem isPerfect_unitarySL_card (k K : Type) [Field k] [Finite k] [Fiel
     (hK : Nat.card K = Nat.card k ^ 2) : Group.IsPerfect (unitarySL σ.toRingHom) := by
   obtain ⟨f, hf, hqcard, hp⟩ := card_eq_ringChar_pow k
   let p := ringChar k
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := charP_of_injective_algebraMap (algebraMap k K).injective p
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := charP_of_injective_algebraMap (algebraMap k K).injective p
   have hKp : Nat.card K = p ^ (2 * f) := by
     change Nat.card K = (ringChar k) ^ (2 * f)
     rw [hK, hqcard, ← pow_mul]
@@ -925,20 +921,19 @@ private theorem exists_beta (k K : Type) [Field k] [Finite k] [Field K] [Finite 
       Units.mk0 (β₀ * (t : K)) (mul_ne_zero hβ₀0 t.ne_zero)
     else Units.mk0 β₀ hβ₀0, ?_, ?_⟩
   · by_cases h : β₀ ^ 2 = 1
-    · simp only [h, dif_pos, Units.val_mk0]
-      change σ (β₀ * (t : K)) = -((β₀ * (t : K)))⁻¹
+    · simp only [h, dite_eq_left, Units.val_mk0]
       rw [map_mul, hβ₀σ, htσ]
       field_simp [hβ₀0, t.ne_zero]
-    · simp only [h, dif_neg, not_false_eq_true, Units.val_mk0]
+    · simp only [h, dite_eq_right, not_false_eq_true, Units.val_mk0]
       exact hβ₀σ
   · intro hh
     by_cases h : β₀ ^ 2 = 1
-    · simp only [h, dif_pos] at hh
+    · simp only [h, dite_eq_left] at hh
       apply ht2
       have hmul : ((β₀ : K) * (t : K)) ^ 2 = 1 := hh
       rw [mul_pow] at hmul
       rwa [h, one_mul] at hmul
-    · simp only [h, dif_neg, not_false_eq_true] at hh
+    · simp only [h, dite_eq_right, not_false_eq_true] at hh
       exact h hh
 
 private theorem exists_psi_t (k K : Type) [Field k] [Finite k] [Field K] [Finite K] [Algebra k K]
@@ -948,11 +943,11 @@ private theorem exists_psi_t (k K : Type) [Field k] [Finite k] [Field K] [Finite
     ∃ (ε : K) (Ψ : SL(6, K) →* ModGL TwistTag.E6.tag K),
       ε ≠ 0 ∧ σ ε = -ε ∧ IsPsiTw σ.toRingHom ε Ψ := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hf, hqcard, hp⟩ := card_eq_ringChar_pow k
   let p := ringChar k
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := charP_of_injective_algebraMap (algebraMap k K).injective p
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := charP_of_injective_algebraMap (algebraMap k K).injective p
   have hKp : Nat.card K = p ^ (2 * f) := by
     change Nat.card K = (ringChar k) ^ (2 * f)
     rw [hK, hqcard, ← pow_mul]
@@ -987,7 +982,7 @@ private theorem exists_psi_t (k K : Type) [Field k] [Finite k] [Field K] [Finite
 private theorem map_dSix_eq_torusWord (k K : Type) [Field k] [Finite k] [Field K] [Finite K]
     [Algebra k K] (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ Nat.card k)
     (hK : Nat.card K = Nat.card k ^ 2) (t : Kˣ) (htσ : σ (t : K) = (t : K)⁻¹)
-    (ε : K) (hε0 : ε ≠ 0) (Ψ : SL(6, K) →* ModGL TwistTag.E6.tag K)
+    (ε : K) (_hε0 : ε ≠ 0) (Ψ : SL(6, K) →* ModGL TwistTag.E6.tag K)
     (hΨ : IsPsiTw σ.toRingHom ε Ψ) :
     Ψ (dSix t) = torusWord σ hσ hK t := by
   have hDWt := map_DW_eq_orbitN (K := K) σ.toRingHom Ψ hΨ t htσ
@@ -1012,7 +1007,7 @@ private theorem torusWord_mem_closure_uniCent_aux (k K : Type) [Field k] [Finite
     (hfix : ∀ c : k, σ (algebraMap k K c) = algebraMap k K c)
     (hK : Nat.card K = Nat.card k ^ 2) (t : Kˣ)
     (ht2 : (t : K) ^ 2 ≠ 1) (htσ : σ (t : K) = (t : K)⁻¹)
-    (ε : K) (hε : σ ε = -ε) (hε0 : ε ≠ 0)
+    (ε : K) (_hε : σ ε = -ε) (hε0 : ε ≠ 0)
     (β : Kˣ) (hβσ : σ (β : K) = -((β : K))⁻¹) (hβ2 : (β : K) ^ 2 ≠ 1)
     (Ψ : SL(6, K) →* ModGL TwistTag.E6.tag K) (hΨ : IsPsiTw σ.toRingHom ε Ψ) :
     torusWord σ hσ hK t ∈ Subgroup.closure {x : twistedE6RootGroup K σ |

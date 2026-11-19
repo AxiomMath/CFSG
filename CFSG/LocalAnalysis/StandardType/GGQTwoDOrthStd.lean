@@ -20,6 +20,7 @@ section Std
 variable {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs Y : Subgroup G}
   (Φ : OrthFrameCore p Bs Y)
 
+omit [Finite G] in
 theorem qtwoOrth_std_torus (hF : Nat.card Φ.F = 2) (m : ℕ) (hm : 3 ≤ m) (hr : Φ.r = m + 1) :
     ∃ (_ : Algebra Φ.F (GaloisField 2 2))
       (E : QuadExt Φ.F (GaloisField 2 2) (unitaryInvolution (GaloisField 2 2) 2 1))
@@ -37,7 +38,7 @@ theorem qtwoOrth_std_torus (hF : Nat.card Φ.F = 2) (m : ℕ) (hm : 3 ≤ m) (hr
           qtwoStdW E m hm (Fin.cast hr k) (Fin.cast hr k')) := by
   classical
   obtain ⟨inst, E₀, χ₀, ζ, hζ1, hζp, hχQ, hχτ⟩ := Φ.exists_normIso hF
-  letI := inst
+  let := inst
   let K := GaloisField 2 2
   let σ : K ≃+* K := unitaryInvolution K 2 1
   have hKcard : Nat.card K = 4 := by
@@ -253,7 +254,7 @@ theorem qtwoOrth_std_torus (hF : Nat.card Φ.F = 2) (m : ℕ) (hm : 3 ≤ m) (hr
     · subst hj
       rw [SpCoord.sgnAut_apply, Function.update_self, Function.update_self, map_inv]
     · have hej : e j ≠ e (Fin.last m) := fun h => hj (e.injective h)
-      rw [SpCoord.sgnAut_apply, Function.update_of_ne hej, Function.update_apply, if_neg hj]
+      rw [SpCoord.sgnAut_apply, Function.update_of_ne hej, Function.update_apply, ite_eq_right hj]
   have hμ_torus : ∀ f : Fin Φ.r → Multiplicative (ZMod p),
       μ * Φ.Δ.τ f * μ⁻¹ = Φ.Δ.τ (w f) := by
     intro f
@@ -291,10 +292,10 @@ theorem qtwoOrth_std_torus (hF : Nat.card Φ.F = 2) (m : ℕ) (hm : 3 ≤ m) (hr
     have hbv : b.val = k.val + 1 := rfl
     have hcv : c.val = b.val + 1 := by simp only [b, c]
     have hstdk : omStd Φ.r (by omega) k = (⟨(k, b), hkb⟩, false) := by
-      rw [omStd, dif_pos hklt]
+      rw [omStd, dite_eq_left hklt]
     have hstdk' : omStd Φ.r (by omega) k' = (⟨(b, c), hbc⟩, false) := by
       have hlt' : k'.val + 1 < Φ.r := by rw [hk'v]; exact c.isLt
-      rw [omStd, dif_pos hlt']
+      rw [omStd, dite_eq_left hlt']
       refine Prod.ext (Subtype.ext (Prod.ext hb_eq.symm (Fin.ext ?_))) rfl
       simp only [c]
       omega
@@ -318,12 +319,12 @@ theorem qtwoOrth_std_torus (hF : Nat.card Φ.F = 2) (m : ℕ) (hm : 3 ≤ m) (hr
     have hw_c : w = SpCoord.sgnAut (p := p) c := by
       rw [hw_last]
     have hstdk : omStd Φ.r (by omega) k = (⟨(a, b), hab⟩, false) := by
-      rw [omStd, dif_pos (by omega)]
+      rw [omStd, dite_eq_left (by omega)]
       refine Prod.ext (Subtype.ext (Prod.ext ha_eq.symm (Fin.ext ?_))) rfl
       simp only [b]
       omega
     have hstdk' : omStd Φ.r (by omega) k' = (⟨(b, c), hbc⟩, true) := by
-      rw [omStd, dif_neg (by rw [hk'v]; omega)]
+      rw [omStd, dite_eq_right (by rw [hk'v]; omega)]
       refine Prod.ext (Subtype.ext (Prod.ext ?_ ?_)) rfl
       · apply Fin.ext
         simp only [b]
@@ -364,7 +365,7 @@ theorem qtwoOrth_std_torus (hF : Nat.card Φ.F = 2) (m : ℕ) (hm : 3 ≤ m) (hr
     by_cases hk : k.val + 1 < Φ.r
     · have hstd : omStd Φ.r (by omega) k =
           (⟨(k, ⟨k.val + 1, hk⟩), by rw [Fin.lt_def]; exact Nat.lt_succ_self _⟩, false) := by
-        rw [omStd, dif_pos hk]
+        rw [omStd, dite_eq_left hk]
       have hpair : Φ.rank1 (omStd Φ.r (by omega) k) =
           Φ.rank1 (⟨(k, ⟨k.val + 1, hk⟩),
             by rw [Fin.lt_def]; exact Nat.lt_succ_self _⟩, false) := by
@@ -384,7 +385,7 @@ theorem qtwoOrth_std_torus (hF : Nat.card Φ.F = 2) (m : ℕ) (hm : 3 ≤ m) (hr
       have hw_b : w = SpCoord.sgnAut b := by
         rw [hw_last]
       have hstd : omStd Φ.r (by omega) k = (⟨(a, b), hab⟩, true) := by
-        rw [omStd, dif_neg hk]
+        rw [omStd, dite_eq_right hk]
         refine Prod.ext (Subtype.ext (Prod.ext (Fin.ext ?_) (Fin.ext ?_))) rfl
         · simp only [a]; omega
         · simp only [b]; omega

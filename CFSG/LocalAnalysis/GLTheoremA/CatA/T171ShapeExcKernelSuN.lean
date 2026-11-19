@@ -55,8 +55,8 @@ theorem suN_not_small_of_isQuasisimple {τ : Tag} {L : Type} [Field L] [IsAlgClo
     h216 (Prod.ext hν3 hQ2)
   have hsolv : Group.IsSolvable (rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
     isSolvable_of_card_dvd_216 hdiv
-  haveI : Group.IsPerfect (rationalComponent S.ρ S.Γ (rootCharHom a) i) := hQS.1
-  haveI : Nontrivial (rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
+  have : Group.IsPerfect (rationalComponent S.ρ S.Γ (rootCharHom a) i) := hQS.1
+  have : Nontrivial (rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
     by_contra hnt
     rw [not_nontrivial_iff_subsingleton] at hnt
     obtain ⟨u, v, huv⟩ := hQS.2.2

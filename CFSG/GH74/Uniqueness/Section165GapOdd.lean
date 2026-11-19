@@ -75,7 +75,7 @@ theorem unitary_cube_mem
   by_cases hB : ∃ Q : Sylow 2 K, A ≤ Bender.borel (Q : Subgroup K)
   · obtain ⟨Q, hQ⟩ := hB
     obtain ⟨t₀, hc⟩ := h.exists_benderCore Q
-    obtain ⟨q', -, hq⟩ := hc.exists_conj_cartan_of_odd Q.isPGroup' hQ hA
+    obtain ⟨q', -, hq⟩ := hc.exists_conj_cartan_of_odd Q.isPGroup hQ hA
     have hxc := hq x hx
     have hx'c := hq x' hx'
     have hord' : orderOf (q' * x * q'⁻¹) = orderOf (q' * x' * q'⁻¹) := by

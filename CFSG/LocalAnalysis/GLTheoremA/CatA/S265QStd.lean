@@ -22,9 +22,9 @@ theorem factS_of_factSQ (hQ : QFactS) : FactS := by
   classical
   have hp := cfg.prime
   have hp2 := cfg.odd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hSn : S.Normal := cfg.normal
-  haveI hNn : (GLAPPrimeCoreOf p S).Normal := normal_glaPPrimeCoreOf hSn
+  have : Fact p.Prime := ⟨hp⟩
+  have hSn : S.Normal := cfg.normal
+  have hNn : (GLAPPrimeCoreOf p S).Normal := normal_glaPPrimeCoreOf hSn
   set N : Subgroup A := GLAPPrimeCoreOf p S with hNdef
   have hNp : ¬ p ∣ Nat.card N := not_dvd_card_glaPPrimeCoreOf hp S
   set π : A →* A ⧸ N := QuotientGroup.mk' N with hπ

@@ -64,8 +64,7 @@ private lemma w183b2_map_eq_zero_of_ne_zero {k : Type*} [Field k] {V W : Type*}
     (h : TensorProduct.map x y = 0) : y = 0 := by
   have hLI : LinearIndependent k ![x] := by
     rw [Fintype.linearIndependent_iff]
-    intro g hg
-    intro i
+    intro g hg i
     have hg' : g 0 • x = 0 := by simpa using hg
     fin_cases i
     by_contra hg0
@@ -88,8 +87,8 @@ theorem w183b2_pair_line {k : Type} [Field k] [CharP k 2] {U₁ U₂ : Type} [Ad
   set γ : Module.End k U₁ := α * α' with hγ
   set βf : Module.End k U₂ := bf - 1 with hβf
   set βg : Module.End k U₂ := bg - 1 with hβg
-  haveI hchar₁ : CharP (Module.End k U₁) 2 := w183b2_charP_end k U₁
-  haveI hchar₂ : CharP (Module.End k U₂) 2 := w183b2_charP_end k U₂
+  have hchar₁ : CharP (Module.End k U₁) 2 := w183b2_charP_end k U₁
+  have hchar₂ : CharP (Module.End k U₂) 2 := w183b2_charP_end k U₂
   have hα2 : α * α = 0 := by rw [hα]; exact w183b2_sq_sub_one af haf
   have hα'2 : α' * α' = 0 := by rw [hα']; exact w183b2_sq_sub_one ag hag
   have hc : α * α' = α' * α := by
@@ -175,8 +174,8 @@ theorem w183b2_pair_line {k : Type} [Field k] [CharP k 2] {U₁ U₂ : Type} [Ad
     have hw0 : βf * βg = 0 := by
       have hmul : TensorProduct.map α (βf * βg) = 0 := by
         have h := congrArg (fun x => TensorProduct.map α (1 : Module.End k U₂) * x) hrel0
-        simp only [mul_add, mul_add, w183b2_map_mul_one_left, one_mul, mul_one, hα2,
-          hαα'0, TensorProduct.map_zero_left, mul_zero, add_zero, zero_add] at h
+        simp only [mul_add, mul_add, w183b2_map_mul_one_left, mul_one, hα2,
+          hαα'0, TensorProduct.map_zero_left, mul_zero, add_zero] at h
         exact h
       exact w183b2_map_eq_zero_of_ne_zero hαne hmul
     have hrel1 : TensorProduct.map α (bf * βg) + TensorProduct.map α' (βf * bg) = 0 := by
@@ -200,8 +199,8 @@ theorem w183b2_pair_line {k : Type} [Field k] [CharP k 2] {U₁ U₂ : Type} [Ad
   · have hw0 : βf * βg = 0 := by
       have hmul : TensorProduct.map γ (βf * βg) = 0 := by
         have h := congrArg (fun x => TensorProduct.map γ (1 : Module.End k U₂) * x) hrel
-        simp only [mul_add, mul_add, mul_add, w183b2_map_mul_one_left, one_mul, mul_one,
-          hγα, hγα', hγγ, TensorProduct.map_zero_left, mul_zero, add_zero, zero_add] at h
+        simp only [mul_add, mul_add, mul_add, w183b2_map_mul_one_left, mul_one,
+          hγα, hγα', hγγ, TensorProduct.map_zero_left, mul_zero, add_zero] at h
         exact h
       exact w183b2_map_eq_zero_of_ne_zero hγ0 hmul
     have hrel1 : TensorProduct.map α (bf * βg) + TensorProduct.map α' (βf * bg)
@@ -212,8 +211,8 @@ theorem w183b2_pair_line {k : Type} [Field k] [CharP k 2] {U₁ U₂ : Type} [Ad
     have hw1 : bf * βg = 0 := by
       have hmul : TensorProduct.map γ (bf * βg) = 0 := by
         have h := congrArg (fun x => TensorProduct.map α' (1 : Module.End k U₂) * x) hrel1
-        simp only [mul_add, mul_add, w183b2_map_mul_one_left, one_mul, mul_one, hα'α,
-          hα'2, hα'γ, TensorProduct.map_zero_left, mul_zero, add_zero, zero_add] at h
+        simp only [mul_add, mul_add, w183b2_map_mul_one_left, hα'α,
+          hα'2, hα'γ, TensorProduct.map_zero_left, mul_zero, add_zero] at h
         exact h
       exact w183b2_map_eq_zero_of_ne_zero hγ0 hmul
     have hrel2 : TensorProduct.map α' (βf * bg) + TensorProduct.map γ (bf * bg) = 0 := by
@@ -223,8 +222,8 @@ theorem w183b2_pair_line {k : Type} [Field k] [CharP k 2] {U₁ U₂ : Type} [Ad
     have hw2 : βf * bg = 0 := by
       have hmul : TensorProduct.map γ (βf * bg) = 0 := by
         have h := congrArg (fun x => TensorProduct.map α (1 : Module.End k U₂) * x) hrel2
-        simp only [mul_add, w183b2_map_mul_one_left, one_mul, mul_one, hαα', hαγ,
-          TensorProduct.map_zero_left, mul_zero, add_zero, zero_add] at h
+        simp only [mul_add, w183b2_map_mul_one_left, hαα', hαγ,
+          TensorProduct.map_zero_left, mul_zero, add_zero] at h
         exact h
       exact w183b2_map_eq_zero_of_ne_zero hγ0 hmul
     have hrel3 : TensorProduct.map γ (bf * bg) = 0 := by

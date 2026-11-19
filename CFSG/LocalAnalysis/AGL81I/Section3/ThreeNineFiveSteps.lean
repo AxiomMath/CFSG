@@ -38,7 +38,7 @@ theorem normalizer_inf_le_gammaIn {G : Type} [Group G] [Finite G] {k p : ℕ}
       Subgroup.normalizer ((F.subgroupOf T : Subgroup T) : Set T) := by
     rw [Subgroup.mem_normalizer_iff]
     intro h
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul,
+    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul,
       Subgroup.coe_inv]
     exact Subgroup.mem_normalizer_iff.mp hnN h
   have hle : F.subgroupOf T ≤ R.subgroupOf T := fun x hx =>
@@ -71,7 +71,7 @@ theorem normalizer_inf_le_of_le_D (h : ThreeNineHyp K E D X₁ p d) {F : Subgrou
     (one_le_pRank_of_isPGroup h.d_prime (h.isPGroup_D.to_le hFD) hF1)).trans h.gammaD
 
 theorem D_le (h : ThreeNineHyp K E D X₁ p d) : D ≤ X₁ :=
-  fun x hx => h.normalizer_inf_le_of_le_D le_rfl h.D_ne_bot
+  fun _x hx => h.normalizer_inf_le_of_le_D le_rfl h.D_ne_bot
     ⟨Subgroup.le_normalizer hx, (le_sup_right : D ≤ K ⊔ D) hx⟩
 
 theorem not_K_le (h : ThreeNineHyp K E D X₁ p d) : ¬ K ≤ X₁ := fun hK =>
@@ -108,7 +108,7 @@ theorem D_faithful (h : ThreeNineHyp K E D X₁ p d) :
 
 theorem inf_K_le (h : ThreeNineHyp K E D X₁ p d) {Q : Subgroup X} (hQ : IsPGroup p Q)
     (hEQ : E ≤ Q) : Q ⊓ K ≤ X₁ :=
-  fun x hx => h.normQ Q hQ hEQ ⟨Subgroup.le_normalizer hx.1, (le_sup_left : K ≤ K ⊔ D) hx.2⟩
+  fun _x hx => h.normQ Q hQ hEQ ⟨Subgroup.le_normalizer hx.1, (le_sup_left : K ≤ K ⊔ D) hx.2⟩
 
 theorem D_le_K_of_inner (h : ThreeNineHyp K E D X₁ p d) (hZ : Subgroup.center ↥K = ⊥)
     (hinn : ∀ x ∈ D, ∃ k ∈ K, ∀ c ∈ K, x * c * x⁻¹ = k * c * k⁻¹) : D ≤ K := by

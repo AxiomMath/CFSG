@@ -41,7 +41,7 @@ theorem perm_centralizes_alt_eq_one {β : Type} [Fintype β] [DecidableEq β]
   by_contra hq1
   obtain ⟨x, hx⟩ : ∃ x, q x ≠ x := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hq1 (Equiv.ext h)
   obtain ⟨y, hyx, hyw⟩ : ∃ y : β, y ≠ x ∧ y ≠ q x := by
     have hc : ({x, q x} : Finset β).card < (Finset.univ : Finset β).card := by
@@ -82,7 +82,7 @@ theorem s4_no_eight {β : Type} [Fintype β] [DecidableEq β] (hβ : Fintype.car
     (Q : Subgroup (Equiv.Perm β)) (hQ : Nat.card Q = 8)
     (hn : ∀ g ∈ alternatingGroup β, ∀ q ∈ Q, g * q * g⁻¹ ∈ Q) : False := by
   have hnat : Nat.card β = 4 := by rw [Nat.card_eq_fintype_card, hβ]
-  haveI : Nontrivial β := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial β := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
   have hA : Nat.card (alternatingGroup β) = 12 := by
     have h1 := two_mul_nat_card_alternatingGroup (α := β)
     have h2 : Nat.card (Equiv.Perm β) = 24 := by
@@ -91,7 +91,7 @@ theorem s4_no_eight {β : Type} [Fintype β] [DecidableEq β] (hβ : Fintype.car
     omega
   obtain ⟨t, htQ, htA⟩ : ∃ t ∈ Q, t ∉ alternatingGroup β := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hle : Q ≤ alternatingGroup β := fun u hu => h u hu
     have hdvd := Subgroup.card_dvd_of_le hle
     rw [hQ, hA] at hdvd
@@ -151,7 +151,7 @@ theorem seven_norm_card_eq_one {β : Type} [Fintype β] [DecidableEq β]
     (Q : Subgroup (Equiv.Perm β)) (h3 : Nat.Coprime 3 (Nat.card Q))
     (hn : ∀ g ∈ alternatingGroup β, ∀ q ∈ Q, g * q * g⁻¹ ∈ Q) : Nat.card Q = 1 := by
   have hnat : Nat.card β = 7 := by rw [Nat.card_eq_fintype_card, hβ]
-  haveI : Nontrivial β := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial β := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
   have hA : Nat.card (alternatingGroup β) = 2520 := by
     have h1 := two_mul_nat_card_alternatingGroup (α := β)
     have h2 : Nat.card (Equiv.Perm β) = 5040 := by
@@ -162,7 +162,7 @@ theorem seven_norm_card_eq_one {β : Type} [Fintype β] [DecidableEq β]
     alternatingGroup.isSimpleGroup (by omega)
   obtain ⟨K, hKdef⟩ : ∃ K : Subgroup (alternatingGroup β),
       K = Q.subgroupOf (alternatingGroup β) := ⟨_, rfl⟩
-  haveI hKn : K.Normal := by
+  have hKn : K.Normal := by
     refine ⟨fun n hnK g => ?_⟩
     rw [hKdef, Subgroup.mem_subgroupOf] at hnK ⊢
     have h := hn (g : Equiv.Perm β) g.2 (n : Equiv.Perm β) hnK
@@ -378,12 +378,12 @@ private theorem kd1913InnBoundM12
     (hord : orderOf x = 3) :
     Nat.card (GLAPPrimeCoreOf 3 (innerAut S ⊓ Subgroup.centralizer ({x} : Set (MulAut S)))) ≤ 4 := by
   obtain ⟨hfin, -, hsimp⟩ := CFSG.Sporadic.Mathieu.fam_m12_simplicity
-  haveI := hfin
-  haveI : IsSimpleGroup ↥CFSG.Blueprint.NativeSporadic.M12 := hsimp
+  have := hfin
+  have : IsSimpleGroup ↥CFSG.Blueprint.NativeSporadic.M12 := hsimp
   have hM : ∃ u : ↥CFSG.Blueprint.NativeSporadic.M12,
       Nat.card ↥(Subgroup.centralizer ({u} : Set ↥CFSG.Blueprint.NativeSporadic.M12)) <
         Nat.card ↥CFSG.Blueprint.NativeSporadic.M12 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hdvd : 3 ∣ Nat.card ↥CFSG.Blueprint.NativeSporadic.M12 := by
       rw [CFSG.Sporadic.Schreier.m12_card]
       norm_num
@@ -404,12 +404,12 @@ private theorem kd1913InnBoundM22
     (hord : orderOf x = 3) :
     Nat.card (GLAPPrimeCoreOf 3 (innerAut S ⊓ Subgroup.centralizer ({x} : Set (MulAut S)))) ≤ 4 := by
   obtain ⟨hfin, -, hsimp⟩ := CFSG.Sporadic.Mathieu.fam_m22_simplicity
-  haveI := hfin
-  haveI : IsSimpleGroup ↥CFSG.Blueprint.NativeSporadic.M22 := hsimp
+  have := hfin
+  have : IsSimpleGroup ↥CFSG.Blueprint.NativeSporadic.M22 := hsimp
   have hM : ∃ u : ↥CFSG.Blueprint.NativeSporadic.M22,
       Nat.card ↥(Subgroup.centralizer ({u} : Set ↥CFSG.Blueprint.NativeSporadic.M22)) <
         Nat.card ↥CFSG.Blueprint.NativeSporadic.M22 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hdvd : 3 ∣ Nat.card ↥CFSG.Blueprint.NativeSporadic.M22 := by
       rw [CFSG.Sporadic.Schreier.m22_card]
       norm_num
@@ -440,11 +440,13 @@ section CycleFacts
 
 variable {α : Type} [Fintype α] [DecidableEq α]
 
+omit [Fintype α] [DecidableEq α] in
 theorem apply_zpow_comm {f a : Equiv.Perm α} (ha : Commute a f) (i : ℤ) (x : α) :
     a ((f ^ i) x) = (f ^ i) (a x) := by
   have h := congrArg (fun g : Equiv.Perm α => g x) ((ha.zpow_right i).eq)
   simpa [Equiv.Perm.mul_apply] using h
 
+omit [Fintype α] [DecidableEq α] in
 theorem sameCycle_conj_iff {f a : Equiv.Perm α} (ha : Commute a f) (x y : α) :
     f.SameCycle (a x) (a y) ↔ f.SameCycle x y := by
   constructor
@@ -463,10 +465,10 @@ theorem cycleOf_conj_apply {f a : Equiv.Perm α} (ha : Commute a f) (x y : α) :
   rw [Equiv.Perm.cycleOf_apply, Equiv.Perm.cycleOf_apply]
   by_cases h : f.SameCycle x y
   · have h' : f.SameCycle (a x) (a y) := (sameCycle_conj_iff ha x y).2 h
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
     exact hc y
   · have h' : ¬ f.SameCycle (a x) (a y) := fun h'' => h ((sameCycle_conj_iff ha x y).1 h'')
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 theorem cycleOf_conj_of_commute {f a : Equiv.Perm α} (ha : Commute a f) (x : α) :
     a * f.cycleOf x * a⁻¹ = f.cycleOf (a x) := by
@@ -515,6 +517,7 @@ theorem cycleOf_mem_alternating {f : Equiv.Perm α} (hf : f ^ 3 = 1) (x : α) :
   · rw [h1] at h
     norm_num at h
 
+omit [Fintype α] [DecidableEq α] in
 theorem zpow_apply_eq_iff {σ : Equiv.Perm α} (hσ : σ ^ 3 = 1) {x : α} (hx : σ x ≠ x) (t : ℤ) :
     (σ ^ t) x = x ↔ (3 : ℤ) ∣ t := by
   have hσ' : σ ^ (3 : ℤ) = 1 := by
@@ -554,6 +557,7 @@ section Core
 
 variable {α : Type} [Fintype α] [DecidableEq α]
 
+omit [Fintype α] [DecidableEq α] in
 theorem three_free_aux {O : Subgroup (Equiv.Perm α)} (hcop : Nat.Coprime 3 (Nat.card O))
     (hord : ∀ g ∈ O, orderOf g ∣ Nat.card O) (g : Equiv.Perm α) (hg : g ∈ O)
     (h3 : g ^ 3 = 1) : g = 1 := by
@@ -656,6 +660,7 @@ section Restrict
 
 variable {α : Type} [Fintype α] [DecidableEq α]
 
+omit [Fintype α] [DecidableEq α] in
 theorem fix_iff_of_commute {σ g : Equiv.Perm α} (hg : Commute g σ) (x : α) :
     σ (g x) = g x ↔ σ x = x := by
   have h : g (σ x) = σ (g x) := by
@@ -674,6 +679,7 @@ def restrictFix (σ : Equiv.Perm α) (X : Subgroup (Equiv.Perm α)) (hX : ∀ g 
   map_one' := rfl
   map_mul' _ _ := rfl
 
+omit [Fintype α] [DecidableEq α] in
 theorem restrictFix_eq_one_iff {σ : Equiv.Perm α} {X : Subgroup (Equiv.Perm α)}
     (hX : ∀ g ∈ X, Commute g σ) (g : X) :
     restrictFix σ X hX g = 1 ↔ ∀ x, σ x = x → (g : Equiv.Perm α) x = x := by
@@ -685,6 +691,7 @@ theorem restrictFix_eq_one_iff {σ : Equiv.Perm α} {X : Subgroup (Equiv.Perm α
     ext ⟨y, hy⟩
     exact h y hy
 
+omit [Fintype α] in
 theorem ofSubtype_commute_fix (σ : Equiv.Perm α) (π : Equiv.Perm {x : α // σ x = x}) :
     Commute (Equiv.Perm.ofSubtype π) σ := by
   show Equiv.Perm.ofSubtype π * σ = σ * Equiv.Perm.ofSubtype π
@@ -760,7 +767,7 @@ theorem core_card_le_four {H₀ : Subgroup (Equiv.Perm α)} (hA : alternatingGro
   have h3Q : Nat.Coprime 3 (Nat.card Q) := by
     rw [hQcard]
     exact hcop
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod : Fintype.card α % 3 = Fintype.card {x : α // σ x = x} % 3 := by
     have hσ' : σ ^ 3 ^ 1 = 1 := by rw [pow_one]; exact hσ
     have h := Equiv.Perm.card_compl_support_modEq (p := 3) (n := 1) hσ'
@@ -773,7 +780,7 @@ theorem core_card_le_four {H₀ : Subgroup (Equiv.Perm α)} (hA : alternatingGro
     exact h.symm
   obtain ⟨x0, hx0⟩ : ∃ x0, σ x0 ≠ x0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hσ1 (Equiv.ext fun x => hcon x)
   have hlt : Fintype.card {x : α // σ x = x} < Fintype.card α :=
     Fintype.card_subtype_lt (p := fun x => σ x = x) hx0
@@ -798,12 +805,12 @@ theorem core_card_le_four {H₀ : Subgroup (Equiv.Perm α)} (hA : alternatingGro
       have : Nat.card Q ∣ 8 * 3 := by norm_num; exact hdvd
       exact Nat.Coprime.dvd_of_dvd_mul_right h3Q.symm this
     by_contra hgt
-    push_neg at hgt
+    push Not at hgt
     have hle : Nat.card Q ≤ 8 := Nat.le_of_dvd (by norm_num) h8
     have heq : Nat.card Q = 8 := by
       obtain ⟨m, hm⟩ : ∃ m, Nat.card Q = m := ⟨_, rfl⟩
       rw [hm] at hgt hle h8 ⊢
-      interval_cases m <;> simp_all <;> norm_num at h8
+      interval_cases m <;> simp_all
     exact s4_no_eight h4 Q heq hQnorm
   · exact le_of_eq_of_le (seven_norm_card_eq_one h7 Q h3Q hQnorm) (by norm_num)
 
@@ -834,7 +841,7 @@ theorem map_centralizer_singleton_equiv {G H : Type*} [Group G] [Group H] (θ : 
   · rintro ⟨z, hz, rfl⟩
     have hz' : z * x = x * z := Subgroup.mem_centralizer_singleton_iff.1 hz
     rw [Subgroup.mem_centralizer_singleton_iff]
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, ← map_mul, hz']
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, ← map_mul, hz']
   · intro hy
     have hy' : y * θ x = θ x * y := Subgroup.mem_centralizer_singleton_iff.1 hy
     refine ⟨θ.symm y, ?_, by simp⟩

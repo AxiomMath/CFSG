@@ -31,10 +31,10 @@ theorem polarNondegOn_fixSub_orthEight (hQ : (polarBilin Q).Nondegenerate) {E : 
     (hEO : E ≤ TauCeti.QuadraticMap.orthogonalGroup Q) (hodd : Odd (Nat.card E)) :
     PolarNondegOn Q (CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.fixSub E) := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun f : V ≃ₗ[K] V => (f : V → V)) DFunLike.coe_injective
-  haveI := Fintype.ofFinite E
+  have := Fintype.ofFinite E
   intro x hx hxx
   apply eq_zero_of_polar_eq_zero hQ
   intro v
@@ -91,15 +91,15 @@ theorem exists_hyperplane_fix_orthEight {D : Subgroup (V ≃ₗ[K] V)} (hD : IsE
     ∃ H : Subgroup (V ≃ₗ[K] V), H ≤ D ∧ Nat.card D = 3 * Nat.card H ∧
       ∃ x ∈ U, x ≠ 0 ∧ ∀ h ∈ H, h x = x := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : IsElementaryAbelian 3 ↥D :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Module.finite_of_finite K
+  have : IsElementaryAbelian 3 ↥D :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 D).2 hD
-  haveI : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).2 hD1
-  letI : MulDistribMulAction ↥D (Multiplicative ↥U) :=
+  have : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).2 hD1
+  let : MulDistribMulAction ↥D (Multiplicative ↥U) :=
     MulDistribMulAction.compHom _ (subAct_orthEight hU)
   have hcop : ¬ 3 ∣ Nat.card (Multiplicative ↥U) := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     rw [show Nat.card (Multiplicative ↥U) = Nat.card ↥U from rfl, Module.natCard_eq_pow_finrank (K := K),
       Nat.card_eq_fintype_card, hn, ← pow_mul]
@@ -161,7 +161,7 @@ theorem exists_singular_of_polar_eq_zero_orthEight {v w : V} (hvw : polar Q v w 
 theorem exists_card_twentySeven_orthEight {G : Type*} [Group G] [Finite G] {H : Subgroup G}
     (hH : IsElemAbelian 3 H) (h27 : 27 ≤ Nat.card H) :
     ∃ F : Subgroup G, F ≤ H ∧ Nat.card F = 3 ^ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := hH.isPGroup.exists_card_eq
   have hm3 : 3 ≤ m := by
     by_contra hlt
@@ -178,9 +178,9 @@ theorem exists_fix_singular_orthEight (hQ : (polarBilin Q).Nondegenerate) {D : S
     ∃ F : Subgroup (V ≃ₗ[K] V), F ≤ D ∧ Nat.card F = 3 ^ 3 ∧
       ∃ u : V, u ≠ 0 ∧ Q u = 0 ∧ ∀ g ∈ F, g u = u := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun f : V ≃ₗ[K] V => (f : V → V)) DFunLike.coe_injective
   have hD1 : D ≠ ⊥ := by
     intro h
@@ -290,8 +290,8 @@ theorem elemAbelian_sup_step_orthEight {A : Subgroup (V ≃ₗ[K] V)} {k : ℕ} 
     {x : V} (hmove : t x ≠ x) (hAx : ∀ a ∈ A, a x = x) :
     IsElemAbelian 3 (A ⊔ Subgroup.zpowers t) ∧ Nat.card ↥(A ⊔ Subgroup.zpowers t) = 3 ^ (k + 1) := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun f : V ≃ₗ[K] V => (f : V → V)) DFunLike.coe_injective
   have hcomm : ∀ a ∈ A, ∀ b ∈ Subgroup.zpowers t, a * b = b * a := by
     intro a ha b hb
@@ -434,7 +434,7 @@ theorem sum_single_mul_single_orthEight {n : ℕ} (x y : Fin n) :
   by_cases hxy : x = y
   · subst hxy
     simp
-  · simp [Pi.single_apply, hxy]
+  · simp [hxy]
 
 theorem rotPairs_block_orthEight {m : ℕ} {V : Type} [AddCommGroup V] [Module K V] {Q : QuadraticForm K V}
     (hv : (Fin m → K) → (Fin m → K) → V) (hQ : ∀ f g, Q (hv f g) = ∑ i, f i * g i)
@@ -454,7 +454,7 @@ theorem rotPairs_block_orthEight {m : ℕ} {V : Type} [AddCommGroup V] [Module K
   have hm1 : (-1 : K) = 1 := CharTwo.neg_eq 1
   refine ⟨⟨one_ne_zero, ?_, ?_, ?_⟩, ⟨one_ne_zero, ?_, ?_, ?_⟩, ?_, ?_, ?_, ?_⟩ <;>
     simp only [hQ, hP, hm1, Pi.add_apply, add_mul, mul_add, Finset.sum_add_distrib,
-      sum_single_mul_single_orthEight, if_pos, if_neg hab, if_neg hba] <;>
+      sum_single_mul_single_orthEight, ite_eq_left, ite_eq_right hab, ite_eq_right hba] <;>
     simp <;> linear_combination h2
 
 theorem exists_five_rotPairs_quadPlus_orthEight {n : ℕ} (hn : 6 ≤ n) :
@@ -485,8 +485,8 @@ theorem exists_five_rotPairs_quadPlus_orthEight {n : ℕ} (hn : 6 ≤ n) :
     intro k l hk hl
     rw [hs k, hs l, sum_single_mul_single_orthEight]
     by_cases hkl : k = l
-    · rw [if_pos ((ha k l hk hl).2 hkl), if_pos hkl]
-    · rw [if_neg (fun h => hkl ((ha k l hk hl).1 h)), if_neg hkl]
+    · rw [ite_eq_left ((ha k l hk hl).2 hkl), ite_eq_left hkl]
+    · rw [ite_eq_right (fun h => hkl ((ha k l hk hl).1 h)), ite_eq_right hkl]
   let u : Fin 5 → Fin n ⊕ Fin n → K :=
     ![Sum.elim (s 0) (s 0), Sum.elim (s 0 + s 1) (s 0), Sum.elim (s 2) (s 2), Sum.elim (s 2 + s 3) (s 2),
       Sum.elim (s 4) (s 4)]
@@ -558,7 +558,7 @@ theorem exists_rotCoeff_orthEight [Finite K] (hK : Nat.card K = 2 ^ 3) {b c : K}
     rw [hφ] at ha
     have h3 : a ^ 3 = 1 := by linear_combination (a - 1) * ha + (a - 1) * h2
     have h8 : a ^ 8 = a := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       have := FiniteField.pow_card a
       rwa [Fintype.card_eq_nat_card, hK] at this
     have h6 : a ^ 6 = 1 := by rw [show (6 : ℕ) = 3 * 2 from rfl, pow_mul, h3, one_pow]
@@ -611,8 +611,8 @@ theorem exists_five_rotPairs_quadMinus_orthEight [Finite K] (hK : Nat.card K = 2
     intro k l hk hl
     rw [hs k, hs l, sum_single_mul_single_orthEight]
     by_cases hkl : k = l
-    · rw [if_pos ((ha k l hk hl).2 hkl), if_pos hkl]
-    · rw [if_neg (fun h => hkl ((ha k l hk hl).1 h)), if_neg hkl]
+    · rw [ite_eq_left ((ha k l hk hl).2 hkl), ite_eq_left hkl]
+    · rw [ite_eq_right (fun h => hkl ((ha k l hk hl).1 h)), ite_eq_right hkl]
   obtain ⟨z₁, hz₁⟩ : ∃ z : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K,
       z = Sum.elim (0 : Fin (n - 1) → K) (Sum.elim (0 : Fin (n - 1) → K) ![(1 : K), 0]) := ⟨_, rfl⟩
   obtain ⟨z₂, hz₂⟩ : ∃ z : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K,
@@ -626,7 +626,7 @@ theorem exists_five_rotPairs_quadMinus_orthEight [Finite K] (hK : Nat.card K = 2
       rw [← hα]
       field_simp
     · rw [hz₁, hz₂, polar_quadMinus_aniso_orthEight, CharTwo.neg_eq]
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, mul_zero, add_zero, one_mul,
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, mul_zero, add_zero, one_mul,
         zero_mul, mul_inv_cancel₀ hb]
       linear_combination α * h2
   have hza : ∀ f g : Fin (n - 1) → K, ∀ z ∈ ({z₁, z₂} : Set _),
@@ -698,11 +698,11 @@ theorem nonempty_equiv_elementaryGroup_plus_orthEight {n : ℕ} (hn : 3 ≤ n) {
   obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeD_even n q hv hqp eS
   rw [hqp, hqe] at hF
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by norm_num) hF
   have hv₀ : quadPlus n F (Sum.elim (Pi.single (⟨0, by omega⟩ : Fin n) (1 : F))
       (Pi.single (⟨0, by omega⟩ : Fin n) (1 : F))) ≠ 0 := by
-    rw [quadPlus_elim_orthEight, sum_single_mul_single_orthEight, if_pos rfl]
+    rw [quadPlus_elim_orthEight, sum_single_mul_single_orthEight, ite_eq_left rfl]
     exact one_ne_zero
   refine ⟨F, inferInstance, inferInstance, inferInstance, hF, ⟨e.trans ?_⟩⟩
   exact (statedProjEquiv (coe_quadPlus n F) (commutator_orthogonalGroup_quadPlus hn)).trans
@@ -717,11 +717,11 @@ theorem nonempty_equiv_elementaryGroup_minus_orthEight {n : ℕ} (hn : 2 ≤ n) 
   obtain ⟨-, F, _, _, hF, b, c, hbc, ⟨e⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeTwistedD_even n q hv hqp eS
   rw [hqp, hqe] at hF
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by norm_num) hF
   have hv₀ : quadMinus n F b c (Sum.elim (Pi.single (⟨0, by omega⟩ : Fin (n - 1)) (1 : F))
       (Sum.elim (Pi.single (⟨0, by omega⟩ : Fin (n - 1)) (1 : F)) 0)) ≠ 0 := by
-    rw [quadMinus_hyp_orthEight, sum_single_mul_single_orthEight, if_pos rfl]
+    rw [quadMinus_hyp_orthEight, sum_single_mul_single_orthEight, ite_eq_left rfl]
     exact one_ne_zero
   refine ⟨F, inferInstance, inferInstance, inferInstance, b, c, hF, hbc, ⟨e.trans ?_⟩⟩
   exact (statedProjEquiv (coe_quadMinus n F b c) (commutator_orthogonalGroup_quadMinus_of_two_le hn hbc)).trans
@@ -941,8 +941,8 @@ theorem le_glbCore_of_inner_orthEight {X : Type} [Group X] [Finite X] (hcore : G
     (h5 : ∃ A : Subgroup (V ≃ₗ[F] V), A ≤ elementaryGroup Q ∧ IsElemAbelian 3 A ∧ Nat.card A = 3 ^ 5) :
     K ≤ GLBCore 3 2 B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (V ≃ₗ[F] V) := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (V ≃ₗ[F] V) := by
     have : Finite V := Module.finite_of_finite F
     exact Finite.of_injective (fun f : V ≃ₗ[F] V => (f : V → V)) DFunLike.coe_injective
   have hZ : Subgroup.center ↥K = ⊥ := by
@@ -1121,7 +1121,7 @@ theorem le_glbCore_of_twE6Eight_diag
       twistedE6Inn L σ ⊔ twistedE6Diag L σ) :
     K ≤ GLBCore 3 2 B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set A := InputsSeitz3.autIm B K with hAdef
   set A' := A.map (MulAut.congr θ).toMonoidHom with hA'def
   have hAel : IsElemAbelian 3 A := InputsSeitz3.isElemAbelian_autIm hB K
@@ -1130,7 +1130,7 @@ theorem le_glbCore_of_twE6Eight_diag
     rw [hA'def, CFSG.LieType.SeitzGeneration.card_map_congr θ A, hAdef, InputsSeitz3.card_autIm hBN hC,
       GL83.PiGen.card_eq_pow_pRank hB]
   have hout' := CFSG.LieType.SeitzGeneration.not_le_range_conj_map_congr θ hout
-  obtain ⟨a, haA', ha⟩ := SetLike.not_le_iff_exists.1 hout'
+  obtain ⟨a, haA', ha⟩ := IsConcreteLE.not_le_iff_exists.1 hout'
   have ha3 : a ^ 3 = 1 := hA'el.2 a haA'
   obtain ⟨E, hEc, hEa, hEA'⟩ := Sylow.exists_subgroup_card_pow_prime_le_le Nat.prime_three (n := 3)
     (H := Subgroup.zpowers a) (L := A')

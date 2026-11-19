@@ -247,7 +247,7 @@ theorem mem_Tg_iff (ht : tabOK D = true) {g : Mns} : g ∈ Tg ↔ ∃ c < 256, e
   · intro hg
     have hle : Tg ≤ subS D (fun _ => true) ht closedP_true := by
       refine (Subgroup.closure_le _).2 fun x hx => ?_
-      simp only [Set.mem_setOf_eq, gensT, List.mem_cons, List.not_mem_nil, or_false] at hx
+      simp only [Set.mem_ofPred_eq, gensT, List.mem_cons, List.not_mem_nil, or_false] at hx
       rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
       · exact ⟨1, by norm_num, rfl, elS_1⟩
       · exact ⟨2, by norm_num, rfl, elS_2⟩
@@ -317,7 +317,7 @@ theorem mem_Ag_iff (ht : tabOK D = true) (hc : clOK D = true) (ha : aOK D = true
     have hg4 := (cl_facts hc).2
     have hle : Ag ≤ subS D (memA D) ht (cl_facts hc).1 := by
       refine (Subgroup.closure_le _).2 fun x hx => ?_
-      simp only [Set.mem_setOf_eq, gensA, List.mem_cons, List.not_mem_nil, or_false] at hx
+      simp only [Set.mem_ofPred_eq, gensA, List.mem_cons, List.not_mem_nil, or_false] at hx
       rcases hx with rfl | rfl | rfl | rfl | rfl
       · exact ⟨1, by norm_num, hg4 1 (by simp), elS_1⟩
       · exact ⟨2, by norm_num, hg4 2 (by simp), elS_2⟩

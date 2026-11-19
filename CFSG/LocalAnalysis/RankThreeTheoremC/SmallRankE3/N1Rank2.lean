@@ -68,7 +68,7 @@ private theorem p65r2_isCyclic_center {p : ℕ} (hp : p.Prime) {Q B U : Subgroup
     (hU : IsElemAbelian p U) (hU9 : Nat.card U = p ^ 2)
     (hmem : ∀ y ∈ centralizer (B : Set G), y ^ p = 1 → y ∈ B) (hBU : B ≠ U) :
     IsCyclic (center Q) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hnc
   set Y : Subgroup G := (center Q).map Q.subtype with hY
   have hYQ : Y ≤ Q := map_subtype_le _
@@ -113,11 +113,11 @@ private theorem p65r2_isCyclic_center {p : ℕ} (hp : p.Prime) {Q B U : Subgroup
 private theorem p65r2_relIndex_centralizer_le {p : ℕ} (hp : p.Prime) {R U : Subgroup G}
     (hR : IsPGroup p R) (hUR : U ≤ R) (hRU : R ≤ normalizer (U : Set G)) (hU : IsElemAbelian p U)
     (hUc : Nat.card U = p ^ 2) : (centralizer (U : Set G)).relIndex R ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hUn : (U.subgroupOf R).Normal := (normal_subgroupOf_iff_le_normalizer hUR).mpr hRU
-  haveI : CFSG.IsElementaryAbelian p U :=
+  have : Fact p.Prime := ⟨hp⟩
+  have hUn : (U.subgroupOf R).Normal := (normal_subgroupOf_iff_le_normalizer hUR).mpr hRU
+  have : CFSG.IsElementaryAbelian p U :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p U).2 hU
-  haveI : CFSG.IsElementaryAbelian p (U.subgroupOf R) := CFSG.IsElementaryAbelian.subgroupOf hUR
+  have : CFSG.IsElementaryAbelian p (U.subgroupOf R) := CFSG.IsElementaryAbelian.subgroupOf hUR
   have hcard : Nat.card (U.subgroupOf R) = p ^ 2 :=
     (Nat.card_congr (subgroupOfEquivOfLe hUR).toEquiv).trans hUc
   have h := CFSG.GroupTheory.SteinbergBS.index_centralizer_le hR (U.subgroupOf R) hcard
@@ -137,7 +137,7 @@ private theorem p65r2_pRank_centralizer_ge {p : ℕ} (hp : p.Prime) {R U : Subgr
     (hR : IsPGroup p R) (hUR : U ≤ R) (hRU : R ≤ normalizer (U : Set G)) (hU : IsElemAbelian p U)
     (hUc : Nat.card U = p ^ 2) (hR3 : 3 ≤ Open.pRank p R) :
     3 ≤ Open.pRank p (R ⊓ centralizer (U : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨A, hAR, hA, hAc⟩ := p65r2_exists_isElemAbelian hp hR3
   by_cases hUA : U ≤ A
   ·
@@ -281,7 +281,7 @@ private theorem p65r2_weakly_closed (hS : Sit G p P M) (hx : SmallRankPoint P M 
     (hw3 : orderOf w = p) (hwc : ∀ q ∈ Q, q * w = w * q) {g : G}
     (hg : g * w * g⁻¹ ∈ zpowers x ⊔ zpowers z) : g * w * g⁻¹ ∈ zpowers w := by
   have hwz : w ∈ zpowers z := p65r2_central_mem_zpowers hS hx hz hBQ hUQ hU hU9 hU3 hw3 hwc
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hz3 : orderOf z = p := orderOf_eq_prime hz.pow_eq_one hz.ne_one
   have heq : zpowers w = zpowers z := Subgroup.eq_of_le_of_card_ge (zpowers_le.2 hwz)
     (by rw [Nat.card_zpowers, Nat.card_zpowers, hz3, hw3])
@@ -308,7 +308,7 @@ private theorem p65r2_normalizer_zpowers_le (hS : Sit G p P M) {E : Subgroup G}
     (hy : orderOf y = p) (hEy : E ≤ centralizer ({y} : Set G)) :
     normalizer ((zpowers y : Subgroup G) : Set G) ≤ M := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hCM := p65r2_centralizer_le hS hEM hE hE3 hyM hy hEy
   obtain ⟨S, hES, hSC, hS3, hSidx⟩ :=
     p65r2_exists_sylow hprime hEy (elementary_isPGroup p E hE)
@@ -328,7 +328,7 @@ private theorem p65r2_normalizer_le_of_le_U (hS : Sit G p P M) {E U S : Subgroup
     (hU9 : Nat.card U = p ^ 2) (hSU : S ≤ U) (hS1 : 1 ≤ Open.pRank p S) :
     normalizer (S : Set G) ≤ M := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   obtain ⟨E₁, hE₁S, -, hE₁c⟩ := p65r2_exists_isElemAbelian hprime (k := 1) hS1
   have hS3 : p ≤ Nat.card S := by
     have := Subgroup.card_le_of_le hE₁S
@@ -379,9 +379,9 @@ theorem p65_centralizer_cyclicAt (hK : KFactP65RankTwoAt G) (hS : Sit G p P M)
   classical
   by_contra hnc
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : Fact f.Prime := ⟨hf⟩
-  haveI : IsSimpleGroup G := hS.simple
+  have : Fact p.Prime := ⟨hprime⟩
+  have : Fact f.Prime := ⟨hf⟩
+  have : IsSimpleGroup G := hS.simple
   have hpl := hS.plane hx hz
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup G) := hpl.isIsolatedPlane.1
   have hRn : R ≤ normalizer ((R ⊓ centralizer (Fs : Set G) : Subgroup G) : Set G) :=

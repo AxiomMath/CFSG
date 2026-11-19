@@ -78,7 +78,7 @@ private lemma eq_one_of_orderOf_eq_three {S : Type} [Group S] (e : S ≃* Stated
     (I : Subgroup S) (hsc : ∀ g ∈ H, g ∈ StatedScalars ι K → g ^ 3 = 1 → g = 1)
     {Q : Subgroup I} (hQ : IsPGroup 2 Q) (g : preimageSubgroup e I)
     (hgord : orderOf g = 3) (hQmem : liftHom e I g ∈ Q) : g = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp hQ) ⟨liftHom e I g, hQmem⟩
   have hpow2 : orderOf (liftHom e I g) = 2 ^ n :=
     (Subgroup.orderOf_coe ⟨liftHom e I g, hQmem⟩).trans hn
@@ -120,8 +120,8 @@ theorem exists_subgroup_surjective_of_statedProj {ι : Type} [Fintype ι] [Decid
     ∃ (X : Subgroup (GL ι K)) (ψ : X →* alternatingGroup (Fin 9)),
       X ≤ H ∧ Function.Surjective ψ ∧ ¬ 3 ∣ Nat.card ψ.ker := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let ψ : preimageSubgroup e I →* alternatingGroup (Fin 9) := φ.comp (liftHom e I)
   refine ⟨preimageSubgroup e I, ψ, preimageSubgroup_le e I, ?_, ?_⟩
   · exact hφ.comp (liftHom_surjective e I)

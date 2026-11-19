@@ -25,7 +25,7 @@ theorem l62Data_toBar {X : Type} [Group X] [Finite X] {S : Sylow 3 X} {x z : X}
       (S : Subgroup X).map (barMk X) := Sylow.coe_mapSurjective _ _
   have hrank' : CFSG.Open.pRank 3
       ((S.mapSurjective hsurj : Sylow 3 (Bar X)) : Subgroup (Bar X)) = 3 := by
-    rw [hS'map, qs_pRank (Q := (S : Subgroup X)) S.isPGroup' le_rfl]
+    rw [hS'map, qs_pRank (Q := (S : Subgroup X)) S.isPGroup le_rfl]
     exact h.rank
   have hrank_top' : CFSG.Open.pRank 3 (⊤ : Subgroup (Bar X)) ≤ 3 :=
     (CFSG.LocalAnalysis.RankThreeTheoremC.pRank_le_pRank_sylow Nat.prime_three
@@ -40,13 +40,13 @@ theorem l62Data_toBar {X : Type} [Group X] [Finite X] {S : Sylow 3 X} {x z : X}
     intro h1
     have hk : x ∈ (barMk X).ker := MonoidHom.mem_ker.mpr h1
     have hbot : x ∈ (S : Subgroup X) ⊓ (barMk X).ker := Subgroup.mem_inf.mpr ⟨h.x_mem, hk⟩
-    rw [qs_inf_ker (Q := (S : Subgroup X)) S.isPGroup' le_rfl, Subgroup.mem_bot] at hbot
+    rw [qs_inf_ker (Q := (S : Subgroup X)) S.isPGroup le_rfl, Subgroup.mem_bot] at hbot
     exact h.x_ne hbot
   have hz1' : barMk X z ≠ 1 := by
     intro h1
     have hk : z ∈ (barMk X).ker := MonoidHom.mem_ker.mpr h1
     have hbot : z ∈ (S : Subgroup X) ⊓ (barMk X).ker := Subgroup.mem_inf.mpr ⟨h.z_mem, hk⟩
-    rw [qs_inf_ker (Q := (S : Subgroup X)) S.isPGroup' le_rfl, Subgroup.mem_bot] at hbot
+    rw [qs_inf_ker (Q := (S : Subgroup X)) S.isPGroup le_rfl, Subgroup.mem_bot] at hbot
     exact h.z_ne hbot
   have hx3' : barMk X x ^ 3 = 1 := by
     rw [← map_pow, h.x_pow, map_one]
@@ -88,13 +88,13 @@ theorem l62Data_toBar {X : Type} [Group X] [Finite X] {S : Sylow 3 X} {x z : X}
       have himg : barMk X (g * w) = barMk X (w * g) := by
         rw [map_mul, map_mul, hwim]
         exact hcomm' (barMk X g) hcg
-      exact qs_injOn (Q := (S : Subgroup X)) S.isPGroup' (mul_mem hg hwS) (mul_mem hwS hg) himg
+      exact qs_injOn (Q := (S : Subgroup X)) S.isPGroup (mul_mem hg hwS) (mul_mem hwS hg) himg
     have hw3X : w ^ 3 = 1 := by
       have hp3 : w ^ 3 ∈ (S : Subgroup X) := pow_mem hwS 3
       have h1X : (1 : X) ∈ (S : Subgroup X) := one_mem _
       have himg3 : barMk X (w ^ 3) = barMk X 1 := by
         rw [map_pow, hwim, hw3', map_one]
-      exact qs_injOn (Q := (S : Subgroup X)) S.isPGroup' hp3 h1X himg3
+      exact qs_injOn (Q := (S : Subgroup X)) S.isPGroup hp3 h1X himg3
     obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp (h.z_gen w hwS hwcent hw3X)
     rw [← hwim]
     exact Subgroup.mem_zpowers_iff.mpr ⟨n, by rw [← map_zpow, hn]⟩

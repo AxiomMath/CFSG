@@ -113,7 +113,7 @@ theorem coreOfData {L : Type} [Group L] [Finite L] {p d : ℕ} {Y : Subgroup L}
     obtain ⟨T, hET⟩ := (CFSG.Open.IsElemAbelian.isPGroup hEb).exists_le_sylow
     rw [← Sylow.card_eq_multiplicity T]
     exact Subgroup.card_dvd_of_le
-      (Subgroup.le_normalizer.trans (hN T T.isPGroup' hET))
+      (Subgroup.le_normalizer.trans (hN T T.isPGroup hET))
   obtain ⟨D, hDsyl, hDne, hND⟩ := h.sylowD
   have hDY : D ≤ Y := Subgroup.le_normalizer.trans (hND D le_rfl hDne)
   have hDcard : Nat.card D = d ^ (Nat.card L).factorization d := by
@@ -218,7 +218,7 @@ private theorem ly_g2_case {L : Type} [Group L] [Finite L] {d : ℕ} {Y M : Subg
       ChevalleyExceptionalModel (oPrimeModPrimeComplement d Y) .G2 5 1 := by
   subst d
   obtain ⟨hsM, hmodM, hsub⟩ := hG2 M hM hMc
-  haveI := hsM
+  have := hsM
   have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hY : Y = M := by
     by_contra hne
@@ -242,8 +242,8 @@ theorem threeNineFiveSporBig_of_overgroup_facts (hob : SporBigOvergroup)
     ThreeNineFiveSporBig := by
   intro X _ _ K E D X₁ p d s h hsb hs
   obtain ⟨e⟩ := hs
-  haveI : IsSimpleGroup (Carrier s) := hsimp s
-  haveI : IsSimpleGroup ↥K := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup (Carrier s) := hsimp s
+  have : IsSimpleGroup ↥K := MulEquiv.isSimpleGroup e
   have hcK : Nat.card ↥K = Nat.card (Carrier s) := Nat.card_congr e.toEquiv
   have hNp : ¬ (Nat.card (Carrier s)).Prime := by
     by_cases hsM : s = .M

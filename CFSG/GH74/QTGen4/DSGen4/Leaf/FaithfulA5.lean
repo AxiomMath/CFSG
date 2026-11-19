@@ -24,7 +24,7 @@ theorem not_sixty_dvd_natCard_linearEquiv {V : Type*} [AddCommGroup V] [Module (
     ¬ 60 ∣ Nat.card (V ≃ₗ[ZMod 2] V) := by
   rw [natCard_linearEquiv_zmod_two, Matrix.card_GL_field]
   generalize Module.finrank (ZMod 2) V = d at hV ⊢
-  interval_cases d <;> simp [Fin.prod_univ_succ, ZMod.card] <;> norm_num
+  interval_cases d <;> simp [Fin.prod_univ_succ, ZMod.card]
 
 theorem sixteen_le_natCard_of_sixty_dvd {M : Type*} [AddCommGroup M] [Module (ZMod 2) M]
     [Finite M] (h : 60 ∣ Nat.card (M ≃ₗ[ZMod 2] M)) : 16 ≤ Nat.card M := by
@@ -245,7 +245,7 @@ theorem pCoreOf_le_self (p : ℕ) {G : Type} [Group G] (H : Subgroup G) : pCoreO
 
 theorem pCoreOf_le_of_normalizes {G : Type} [Group G] [Finite G] {L P : Subgroup G}
     (hLP : L ≤ P) (hPL : P ≤ Subgroup.normalizer (L : Set G)) : pCoreOf 2 L ≤ pCoreOf 2 P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar := Subgroup.characteristic_iff_map_le.mp (CFSG.pCore_characteristic (p := 2) (G := ↥L))
   have hsub : ∀ p ∈ P, ∀ h ∈ pCoreOf 2 L, p * h * p⁻¹ ∈ pCoreOf 2 L := by
     intro p hp h hh
@@ -308,7 +308,7 @@ theorem leafFaithfulA5 : LeafFaithfulA5 := by
   intro G _ _ P L E K hLP hPL hEP hPE hPK hsec hcard hq hcore hnt
   have hLE : L ≤ Subgroup.normalizer (E : Set G) := fun l hl => hPE (hLP hl)
   have hLK : L ≤ Subgroup.normalizer (K : Set G) := fun l hl => hPK (hLP hl)
-  haveI hEK : SecOK E K :=
+  have hEK : SecOK E K :=
     ⟨fun a ha b hb => hsec.2.1 (Subgroup.commutator_mem_commutator ha hb),
       fun a ha => hsec.2.2 a ha⟩
   have hcoreL : ∀ q ∈ pCore 2 ↥L, ∀ y ∈ E, y⁻¹ * ((q : G) * y * (q : G)⁻¹) ∈ K := by
@@ -343,10 +343,10 @@ theorem leafFaithfulA5 : LeafFaithfulA5 := by
   by_contra hne
   obtain ⟨hXK, hXE'⟩ := not_or.mp hne
   have hLX : L ≤ Subgroup.normalizer (X : Set G) := fun l hl => hPX (hLP hl)
-  haveI hXK' : SecOK X K :=
+  have hXK' : SecOK X K :=
     ⟨fun a ha b hb => SecOK.comm (Y := E) (Z := K) a (hXE ha) b (hXE hb),
       fun a ha => SecOK.sq (Y := E) (Z := K) a (hXE ha)⟩
-  haveI hEX : SecOK E X :=
+  have hEX : SecOK E X :=
     ⟨fun a ha b hb => hKX (SecOK.comm (Y := E) (Z := K) a ha b hb),
       fun a ha => hKX (SecOK.sq (Y := E) (Z := K) a ha)⟩
   have hcoreX : ∀ q ∈ pCore 2 ↥L, ∀ y ∈ X, y⁻¹ * ((q : G) * y * (q : G)⁻¹) ∈ K :=
@@ -418,7 +418,7 @@ theorem leafFaithfulA5 : LeafFaithfulA5 := by
       rw [commutatorElement_def, map_mul, map_mul, map_mul, map_inv, map_inv, hcommGroup g h]
       group
     exact hmemE _ ((secRho_eq_one_iff L E K hLE hLK ⁅g, h⁆).mp h1)
-  haveI hcommQ : IsMulCommutative (oTwoQuot ↥L) := by
+  have hcommQ : IsMulCommutative (oTwoQuot ↥L) := by
     refine Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr ?_
     show ⁅(⊤ : Subgroup ↥L), ⊤⁆ ≤ pCore 2 ↥L
     rw [Subgroup.commutator_le]

@@ -163,7 +163,7 @@ end Assembly
 theorem footeMarkedChoiceSemisimple_of_vanishing (hV : FooteMarkedVanishing) :
     FooteMarkedChoiceSemisimple := by
   intro G _ _ t L 𝓢 hset N hNc
-  haveI : IsSimpleGroup (L ⧸ Open.fusionZStar L) :=
+  have : IsSimpleGroup (L ⧸ Open.fusionZStar L) :=
     (GrSLit.fusionZStar_quotient_of_isPComponent hset.2.1.1.2.2.1.2.1
       hset.2.1.1.2.2.1.2.2).1
   exact choiceSemisimple_of_vanishing hset.2.2.2.2.1 hNc.balanced
@@ -180,8 +180,8 @@ theorem footeMarkedVanishing_of_absorption_of_factorCover
   intro G _ _ t L S hset N hN K1 hK1 K2 hK2 hne V E hVK1 hEK2 hV4 hE4 hEV e he he1
   classical
   let T := L ⧸ Open.fusionZStar L
-  haveI hTsimple : IsSimpleGroup T := footeSwapSetting_top_simple hset
-  haveI hGsimp : IsSimpleGroup G := hset.2.2.1
+  have hTsimple : IsSimpleGroup T := footeSwapSetting_top_simple hset
+  have hGsimp : IsSimpleGroup G := hset.2.2.1
   have hTnonab : ∃ a b : T, a * b ≠ b * a := footeSwapSetting_top_nonabelian hset
   have hFam : FooteMarked.IsomorphicFamily S T := hset.2.2.2.2.1
   have hTop : GSThmB.IsSmallAltOrL2 T := by

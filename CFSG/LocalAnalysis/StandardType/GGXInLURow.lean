@@ -30,7 +30,7 @@ theorem lup8f_mem_commutator_unitary
   classical
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C := lup8f_central_cover M
-  haveI : C.N.Normal := C.normal
+  have : C.N.Normal := C.normal
   obtain ⟨eps, heps⟩ := lup8f_frame0_eps hS hxL M C hp hdvd hn
   let F1 := lup8f_frame1 hS hxL M C (lup8f_frame0_of_eps (lup8f_L_perfect hS) M C eps heps)
     hp hdvd hn

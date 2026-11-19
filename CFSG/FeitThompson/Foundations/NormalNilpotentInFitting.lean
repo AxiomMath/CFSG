@@ -23,7 +23,7 @@ private theorem pow_factorization_dvd_natCard_fittingRaw_inf {N : Subgroup G} (h
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow p N))
   have hchar : (S : Subgroup N).Characteristic := sylow_characteristic_of_isNilpotent S
   have hnorm : ((S : Subgroup N).map N.subtype).Normal := inferInstance
-  have hpg : IsPGroup p ((S : Subgroup N).map N.subtype) := S.isPGroup'.map N.subtype
+  have hpg : IsPGroup p ((S : Subgroup N).map N.subtype) := S.isPGroup.map N.subtype
   have hle : (S : Subgroup N).map N.subtype ≤ fittingRaw G ⊓ N :=
     le_inf (le_fittingRaw_of_isPGroup hp hnorm hpg) (Subgroup.map_subtype_le _)
   have hcard : Nat.card ((S : Subgroup N).map N.subtype)

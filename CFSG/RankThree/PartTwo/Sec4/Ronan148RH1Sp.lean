@@ -31,7 +31,7 @@ theorem noCfg_projSp_two {r N : ℕ} (hr : 3 ≤ r)
     NoCfgS427 S ∧ NoONS427 S := by
   let e' : S ≃* StatedProj (StatedSp r (GaloisField 2 1)) :=
     e.trans (CFSG.PGLModel.projSpEquivStatedProj r (GaloisField 2 1))
-  haveI : Finite (StatedProj (StatedSp r (GaloisField 2 1))) := Finite.of_equiv S e'.toEquiv
+  have : Finite (StatedProj (StatedSp r (GaloisField 2 1))) := Finite.of_equiv S e'.toEquiv
   refine ⟨NoCfgS427.of_mulEquiv e' (noCfgS427_statedSp_two hr), noONS427_of_card ?_⟩
   rw [Nat.card_congr e.toEquiv, hN]
   exact fun h => h31 ((show 31 ∣ 19 * 31 * 343 by norm_num).trans h)

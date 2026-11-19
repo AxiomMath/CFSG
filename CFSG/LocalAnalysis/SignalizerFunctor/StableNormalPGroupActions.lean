@@ -78,7 +78,7 @@ theorem zj_growth_closure_le_prime_core (prime : ℕ) (prime_prime : prime.Prime
     (proper : kernel < embeddedOrderThompsonCenter (sylow : Subgroup GroupType)) :
     zjGrowthFixedSubgroup (sylow : Subgroup GroupType) kernel ≤ primeSetCore {prime} ∧
       zjGrowthClosure (sylow : Subgroup GroupType) kernel ≤ primeSetCore {prime} := by
-  have properties := zj_growth_fixed_subgroup_properties prime prime_prime _ kernel sylow.isPGroup' proper
+  have properties := zj_growth_fixed_subgroup_properties prime prime_prime _ kernel sylow.isPGroup proper
   have fixed_le := stable_abelian_subgroup_le_prime_core prime prime_prime stable self_centralizing sylow
     _ properties.2.2.1 properties.2.2.2.1
   let := prime_set_core_normal (GroupType := GroupType) {prime}

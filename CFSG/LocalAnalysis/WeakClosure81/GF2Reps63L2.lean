@@ -14,10 +14,10 @@ theorem exists_even_orderOf_ne_two_of_psl2 {W : Type} [Group W] {p e : ℕ} (hp 
     ∃ x : W, Even (orderOf x) ∧ orderOf x ≠ 2 := by
   obtain ⟨hp', he, -⟩ := h.1
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨eW⟩⟩ := h.2
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fact p.Prime := ⟨hp'⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fact p.Prime := ⟨hp'⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let φ : W ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) K :=
     eW.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
   have hKodd : CFSG.GorensteinWalter.IsOddPrimePower (Nat.card K) :=

@@ -107,6 +107,7 @@ section Count
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem relIndex_le_two_pow {B₀ D : Subgroup G} (hB₀ : ∀ x ∈ B₀, ∀ y ∈ B₀, x * y = y * x)
     (h2 : ∀ Q : Subgroup G, Q ≤ B₀ → (∀ q ∈ Q, q * q ∈ D) → D.relIndex Q ≤ 2) :
     ∀ (j : ℕ) (B : Subgroup G), B ≤ B₀ → (∀ b ∈ B, b ^ (2 ^ j) ∈ D) → D.relIndex B ≤ 2 ^ j := by
@@ -237,6 +238,7 @@ theorem torusRedPow_surjective (k : Fin 3 → ℕ) (i : ℕ) : Function.Surjecti
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem nonempty_mho_two_pow_addEquiv {X : Subgroup G} {k : Fin 3 → ℕ} (e : Additive X ≃+ Torus k)
     {i : ℕ} (hi : ∀ j, i ≤ k j) :
     Nonempty (Additive ↥(CFSG.GroupTheory.HuppertProduct.mho X (2 ^ i)) ≃+ Torus (fun j => k j - i)) := by
@@ -384,6 +386,7 @@ theorem mem_zpowers_c_sup_mhoOne {D : Subgroup G} {τ : StrothTypeIndex}
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left (Subgroup.pow_mem _ (Subgroup.mem_zpowers _) _))
     (Subgroup.mem_sup_right (pow_mem_mho (Additive.toMul (dD.e.symm w)).2))
 
+omit [Finite G] in
 theorem exists_eq_of_mem_commutator {D : Subgroup G} (hD : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x)
     {s : G} (hs : s ∈ Subgroup.normalizer (D : Set G)) (hss : s * s ∈ D) {z : G}
     (hz : z ∈ ⁅Subgroup.zpowers s, D⁆) : ∃ d ∈ D, s * d * s⁻¹ * d⁻¹ = z := by

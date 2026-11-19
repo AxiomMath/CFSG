@@ -30,12 +30,12 @@ theorem conj_of_witOK {p : TauCeti.GroupPresentation} {J : Subgroup (GL (Fin 248
     intro d
     unfold wordLetter
     by_cases h0 : d = 0
-    · simp only [L, if_pos h0]
+    · simp only [L, ite_eq_left h0]
       exact hA
     · by_cases h1 : d = 1
-      · simp only [L, if_neg h0, if_pos h1]
+      · simp only [L, ite_eq_right h0, ite_eq_left h1]
         exact hB
-      · simp only [L, if_neg h0, if_neg h1]
+      · simp only [L, ite_eq_right h0, ite_eq_right h1]
         exact hBi
   let H : J := ((List.range hn).map fun i => L (BigS.bitsN hw (2 * i) 2)).prod
   have hH : 𝕄 H = pkMat (BigS.wordAB c rm ONE (RB 1) (RB 2) Bi hw hn) := by

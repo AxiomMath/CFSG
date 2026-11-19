@@ -15,6 +15,7 @@ section Setup
 
 variable {K : Type} [Group K] [Finite K] (S : Subgroup K) [S.Normal]
 
+omit [Finite K] in
 theorem orderOf_conjNormal_eq_two (hC : centralizer (S : Set K) = ⊥) {z : K}
     (hz : orderOf z = 2) : orderOf (MulAut.conjNormal (H := S) z) = 2 := by
   have hz2 : z ^ 2 = 1 := by rw [← hz]; exact pow_orderOf_eq_one z

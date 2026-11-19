@@ -13,19 +13,23 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {T M H P : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem zP_mem (h : KuHyp G T M H P z) : z ∈ P := by
   have hz : z ∈ P ⊓ Subgroup.centralizer (P : Set G) := by
     rw [h.pCentP]
     exact Subgroup.mem_zpowers z
   exact (Subgroup.mem_inf.mp hz).1
 
+omit [Finite G] in
 theorem zP_pc (h : KuHyp G T M H P z) : z ∈ P ⊓ Subgroup.centralizer (P : Set G) := by
   rw [h.pCentP]
   exact Subgroup.mem_zpowers z
 
+omit [Finite G] in
 theorem zP_comm (h : KuHyp G T M H P z) {a : G} (ha : a ∈ P) : a * z = z * a :=
   Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp h.zP_pc).2 a ha
 
+omit [Finite G] in
 theorem center_P_le (h : KuHyp G T M H P z) :
     Subgroup.center ↥P ≤ Subgroup.zpowers (⟨z, h.zP_mem⟩ : ↥P) := by
   intro c hc
@@ -42,6 +46,7 @@ theorem center_P_le (h : KuHyp G T M H P z) :
   refine ⟨k, Subtype.ext ?_⟩
   simpa using hk
 
+omit [Finite G] in
 theorem zpowers_le_center_P (h : KuHyp G T M H P z) :
     Subgroup.zpowers (⟨z, h.zP_mem⟩ : ↥P) ≤ Subgroup.center ↥P := by
   rw [Subgroup.zpowers_le]
@@ -49,20 +54,24 @@ theorem zpowers_le_center_P (h : KuHyp G T M H P z) :
   have hz : (a : G) * z = z * (a : G) := h.zP_comm a.2
   simpa using hz
 
+omit [Finite G] in
 theorem center_P_eq (h : KuHyp G T M H P z) :
     Subgroup.center ↥P = Subgroup.zpowers (⟨z, h.zP_mem⟩ : ↥P) :=
   le_antisymm h.center_P_le h.zpowers_le_center_P
 
+omit [Finite G] in
 theorem card_center_P (h : KuHyp G T M H P z) : Nat.card (Subgroup.center ↥P) = 2 := by
   have hEx := h.pExtra.1
-  haveI := hEx
+  have := hEx
   exact CFSG.IsExtraspecial.center_order_p 2 ↥P
 
+omit [Finite G] in
 theorem orderOf_zP (h : KuHyp G T M H P z) : orderOf (⟨z, h.zP_mem⟩ : ↥P) = 2 := by
   have hc := h.card_center_P
   rw [h.center_P_eq, Nat.card_zpowers] at hc
   exact hc
 
+omit [Finite G] in
 theorem zP_ne (h : KuHyp G T M H P z) : z ≠ 1 := by
   intro h1
   have hord := h.orderOf_zP
@@ -70,6 +79,7 @@ theorem zP_ne (h : KuHyp G T M H P z) : z ≠ 1 := by
   rw [e, orderOf_one] at hord
   norm_num at hord
 
+omit [Finite G] in
 theorem zP_sq (h : KuHyp G T M H P z) : z * z = 1 := by
   have hord := h.orderOf_zP
   have hp : (⟨z, h.zP_mem⟩ : ↥P) ^ 2 = 1 := by
@@ -81,26 +91,30 @@ theorem zP_sq (h : KuHyp G T M H P z) : z * z = 1 := by
   rw [← pow_two]
   exact hG
 
+omit [Finite G] in
 theorem quot_P_comm (h : KuHyp G T M H P z) :
     ∀ u v : ↥P ⧸ Subgroup.center ↥P, u * v = v * u := by
   have hEx := h.pExtra.1
-  haveI := hEx
+  have := hEx
   intro u v
   have hA : CFSG.IsElementaryAbelian 2 (↥P ⧸ Subgroup.center ↥P) :=
     CFSG.IsExtraspecial.quotient_elementary_abelian 2 ↥P
   exact hA.toIsMulCommutative.is_comm.comm u v
 
+omit [Finite G] in
 theorem isEA_quot_P (h : KuHyp G T M H P z) :
     CFSG.IsElementaryAbelian 2 (↥P ⧸ Subgroup.center ↥P) := by
   have hEx := h.pExtra.1
-  haveI := hEx
+  have := hEx
   exact CFSG.IsExtraspecial.quotient_elementary_abelian 2 ↥P
 
+omit [Finite G] in
 theorem sq_quot_P (h : KuHyp G T M H P z) (u : ↥P ⧸ Subgroup.center ↥P) : u ^ 2 = 1 := by
-  haveI := h.isEA_quot_P
+  have := h.isEA_quot_P
   exact Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
     (CFSG.IsElementaryAbelian.exponent_dvd_p 2 (↥P ⧸ Subgroup.center ↥P)) u
 
+omit [Finite G] in
 theorem kuZCore_P (h : KuHyp G T M H P z) : KuZCore (↥P) (⟨z, h.zP_mem⟩ : ↥P) := by
   have hne : (⟨z, h.zP_mem⟩ : ↥P) ≠ 1 := by
     intro h1
@@ -116,7 +130,7 @@ theorem kuZCore_P (h : KuHyp G T M H P z) : KuZCore (↥P) (⟨z, h.zP_mem⟩ : 
 theorem mem_P_of_acts_trivially_aux (h : KuHyp G T M H P z) {g : G} (hg : g ∈ H)
     (hgP : ∀ p ∈ P, g * p * g⁻¹ * p⁻¹ ∈ Subgroup.zpowers z) : g ∈ P := by
   have hC : KuZCore (↥P) (⟨z, h.zP_mem⟩ : ↥P) := h.kuZCore_P
-  haveI := h.isEA_quot_P
+  have := h.isEA_quot_P
   have hz : z ≠ 1 := h.zP_ne
   have hz2 : z * z = 1 := h.zP_sq
   have hcoe : ∀ a b : ↥P, ((⁅a, b⁆ : ↥P) : G) = ⁅(a : G), (b : G)⁆ := fun a b => by

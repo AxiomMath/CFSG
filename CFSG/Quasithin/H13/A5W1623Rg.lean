@@ -55,7 +55,7 @@ theorem isSylowTwoOf_unitriangular_four :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := ZMod 2) 2 (n := 4) (by norm_num)
   rw [← hP]
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   rw [show ((P : Subgroup (SpecialLinearGroup (Fin 4) (ZMod 2))).subgroupOf ⊤).index =
     (P : Subgroup (SpecialLinearGroup (Fin 4) (ZMod 2))).index from
       Subgroup.relIndex_top_right _]

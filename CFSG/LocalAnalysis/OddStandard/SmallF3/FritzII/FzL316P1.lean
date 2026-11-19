@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem fzl_tau_sq {t tau lam rho : G} {Z E W Q R T : Subgroup G}
     (h : FzStr t tau lam rho Z E W Q R T) : tau ^ 2 = 1 := by
   rcases h.tau_sq with h1 | h1
@@ -44,6 +45,7 @@ theorem fzl_tau_sq {t tau lam rho : G} {Z E W Q R T : Subgroup G}
         _ = n * t := by rw [hc]
     rw [← hcomm]; group
 
+omit [Finite G] in
 theorem fzl_Q_nrm_E {t tau lam rho : G} {Z E W Q R T : Subgroup G}
     (h : FzStr t tau lam rho Z E W Q R T) : ∀ n ∈ Q, ∀ e ∈ E, n * e * n⁻¹ ∈ E := by
   intro n hnQ e he

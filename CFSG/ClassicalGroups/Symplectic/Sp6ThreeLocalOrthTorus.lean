@@ -78,7 +78,7 @@ theorem orthTorus_mul {n n' : Fin 3 → K} (h : IsHyperbolicPair n n') (x y : K)
     add_zero, smul_smul, mul_inv]
   module
 
-theorem orthTorus_transpose {n n' : Fin 3 → K} (h : IsHyperbolicPair n n') (l : K) :
+theorem orthTorus_transpose {n n' : Fin 3 → K} (_h : IsHyperbolicPair n n') (l : K) :
     (orthTorus n n' l)ᵀ = orthTorus n n' l⁻¹ := by
   unfold orthTorus
   rw [Matrix.transpose_add, Matrix.transpose_add, Matrix.transpose_one, Matrix.transpose_smul,
@@ -160,7 +160,7 @@ theorem dvd_card_centralizer_c₀_weight_three_of_dvd_sub_one [Finite K] {s : SL
     (hs : IsCubeRootBlock s) {p : ℕ} (hp : p.Prime) (hpq : p ∣ Nat.card K - 1) :
     p ∣ Nat.card (Subgroup.centralizer
       ({c₀ hs (Multiplicative.ofAdd ![1, 1, 1])} : Set (StatedSp 3 K))) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨n, n', h⟩ := exists_hyperbolicPair (K := K)
   have hcard : p ∣ Nat.card Kˣ := by
     rw [Nat.card_units]

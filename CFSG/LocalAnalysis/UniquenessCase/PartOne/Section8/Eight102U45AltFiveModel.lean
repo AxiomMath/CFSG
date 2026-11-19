@@ -26,7 +26,7 @@ private def Q {G : Type} [Group G] (Y ℓ : Subgroup G) : Subgroup G :=
 
 private theorem mapL_inf {G G' : Type} [Group G] [Group G']
     {Y : Subgroup G} {Y' : Subgroup G'} (e : Y ≃* Y')
-    {Z₁ Z₂ : Subgroup G} (h₁ : Z₁ ≤ Y) (h₂ : Z₂ ≤ Y) :
+    {Z₁ Z₂ : Subgroup G} (_h₁ : Z₁ ≤ Y) (_h₂ : Z₂ ≤ Y) :
     mapL e (Z₁ ⊓ Z₂) = mapL e Z₁ ⊓ mapL e Z₂ := by
   rw [mapL, mapL, mapL, Subgroup.subgroupOf, Subgroup.subgroupOf, Subgroup.subgroupOf,
     Subgroup.comap_inf, Subgroup.map_inf _ _ _ (embedOf_injective e)]
@@ -53,13 +53,13 @@ private theorem isCyclic_Q_mapL_iff {G G' : Type} [Group G] [Group G'] [Finite G
   have hZ : Q Y ℓ ≤ Y := inf_le_left.trans inf_le_left
   constructor
   · intro h
-    haveI : IsCyclic ↥(Q Y ℓ) := h
+    have : IsCyclic ↥(Q Y ℓ) := h
     rw [← mapL_Q e hℓ]
     exact isCyclic_of_injective (mapLEquiv e hZ).symm.toMonoidHom
       (mapLEquiv e hZ).symm.injective
   · intro h
     rw [← mapL_Q e hℓ] at h
-    haveI : IsCyclic ↥(mapL e (Q Y ℓ)) := h
+    have : IsCyclic ↥(mapL e (Q Y ℓ)) := h
     exact isCyclic_of_injective (mapLEquiv e hZ).toMonoidHom
       (mapLEquiv e hZ).injective
 
@@ -74,9 +74,9 @@ private theorem center_longSL_eq_bot {F : Type} [Field F] [Finite F] [CharP F 2]
     (hb2 : 2 ≤ b) (hF : Nat.card F = (2 ^ b) ^ 2) :
     Subgroup.center (longSL (unitaryInvolution F 2 b)) = ⊥ := by
   obtain ⟨eL⟩ := nonempty_longSL_mulEquiv (F := F) (b := b) (by omega) hF
-  haveI : IsSimpleGroup (projSL 2 (GaloisField 2 b)) :=
+  have : IsSimpleGroup (projSL 2 (GaloisField 2 b)) :=
     CFSG.RankThree.PartTwo.Sec21.isSimpleGroup_projSL_two hb2
-  haveI : IsSimpleGroup (longSL (unitaryInvolution F 2 b)) := eL.isSimpleGroup
+  have : IsSimpleGroup (longSL (unitaryInvolution F 2 b)) := eL.isSimpleGroup
   exact CFSG.LocalAnalysis.UniquenessCase.UCK.K332Route.center_eq_bot_of_simple
     (inferInstance : IsSimpleGroup _)
     (CFSG.RankThree.PartTwo.Sec21.exists_not_commute_of_mulEquiv_projSL eL)
@@ -85,11 +85,11 @@ private theorem not_nonempty_derInf8_mulEquiv_projSL_two {X : Type} [Group X] [F
     {n : ℕ} (hn : 1 ≤ n) {J : Subgroup X} (hL : IsL2 (Bar2 J) n) :
     ¬ Nonempty (J ≃* projSL 2 (GaloisField 2 (2 * n))) := by
   rintro ⟨eJ⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2n : 2 ≤ 2 * n := by omega
-  haveI : IsSimpleGroup (projSL 2 (GaloisField 2 (2 * n))) :=
+  have : IsSimpleGroup (projSL 2 (GaloisField 2 (2 * n))) :=
     CFSG.RankThree.PartTwo.Sec21.isSimpleGroup_projSL_two h2n
-  haveI : IsSimpleGroup J := eJ.isSimpleGroup
+  have : IsSimpleGroup J := eJ.isSimpleGroup
   have hna : ∃ a b : J, a * b ≠ b * a :=
     CFSG.RankThree.PartTwo.Sec21.exists_not_commute_of_mulEquiv_projSL eJ
   have hO : CFSG.pCore 2 ↥J = ⊥ :=
@@ -312,7 +312,7 @@ theorem isCyclic_centralizer_inf_centralizer_derInf8_of_isL2 {X : Type} [Group X
       centralizer (F08.DerInf8 (⊤ ⊓ centralizer (A : Set X)) : Set X)) := by
   have hn1 : 1 ≤ n := (hX.admissible).2.1
   have hn0 : 2 ≤ n := by obtain ⟨k, hk⟩ := hn; omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F := GaloisField 2 (2 * n)
   let σ : F ≃+* F := unitaryInvolution F 2 n
   have hF : Nat.card F = (2 ^ n) ^ 2 := card_galoisField_two_mul n (by omega)

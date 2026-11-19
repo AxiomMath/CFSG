@@ -194,12 +194,14 @@ section Planes
 variable {INV : List (List Nat)} (hW : ∀ j < 191, WT (INV.getD j []))
 include hW
 
+omit hW in
 theorem ppPlane_bit {b j k : Nat} (hj : j < 191) (hk : k < 11) :
     (ppPlane INV b).testBit (11 * j + k) = tb (INV.getD j []) k b := by
   unfold ppPlane lanes
   rw [lanesW_bit (fun j => wordB_lt _ b) hk, testBit_wordB _ hk]
   simp [hj]
 
+omit hW in
 theorem ttPlane_bit {b s : Nat} (q : Nat) :
     (ttPlane INV b s).testBit q =
       (decide (q % 11 = 0) && decide (q / 11 < 191) && tb (INV.getD (q / 11) []) b s) := by
@@ -216,8 +218,8 @@ theorem ttPlane_bit {b s : Nat} (q : Nat) :
     · rw [Nat.testBit_eq_false_of_lt (Nat.one_lt_two_pow h)]
       simp [h]
   cases hb : tb (INV.getD (q / 11) []) b s
-  · simp only [cond_false, Nat.zero_testBit, Bool.and_false]
-  · simp only [cond_true, h1, Bool.and_true, Bool.true_and, Bool.and_comm]
+  · simp only [Bool.cond_false, Nat.zero_testBit, Bool.and_false]
+  · simp only [_root_.Bool.cond_true, h1, Bool.true_and, Bool.and_comm]
 
 end Planes
 
@@ -251,7 +253,7 @@ theorem testBit_spread (m q : Nat) : (spread m).testBit q =
   rw [hm]
   cases m.testBit (q / 11)
   · simp
-  · simp only [cond_true, testBit_one_eq, Bool.and_true]
+  · simp only [_root_.Bool.cond_true, testBit_one_eq, Bool.and_true]
     exact Bool.and_comm _ _
 
 theorem testBit_laneNZ (X q : Nat) : (laneNZ X).testBit q =
@@ -334,6 +336,7 @@ section Rows
 variable {INV : List (List Nat)} (hW : ∀ j < 191, WT (INV.getD j []))
 include hW
 
+omit hW in
 theorem aPl_bit {PP : List Nat} (hPP : ppOK INV PP = true) (t : List Nat) {s j k : Nat}
     (hj : j < 191) (hk : k < 11) :
     (aPl PP t s).testBit (11 * j + k) = ((compT t (INV.getD j [])).getD k 0).testBit s := by
@@ -341,10 +344,11 @@ theorem aPl_bit {PP : List Nat} (hPP : ppOK INV PP = true) (t : List Nat) {s j k
   rw [testBit_xsel, getD_compT, testBit_actT]
   apply bx_congr
   intro b hb
-  rw [ppOK_spec hPP b hb, ppPlane_bit hW hj hk]
+  rw [ppOK_spec hPP b hb, ppPlane_bit hj hk]
   unfold tb
   exact Bool.and_comm _ _
 
+omit hW in
 theorem bPl_bit {TT : List (List Nat)} (hTT : ttOK INV TT = true) (t : List Nat) {s j k : Nat}
     (hs : s < 11) (hj : j < 191) (hk : k < 11) :
     (bPl TT t s).testBit (11 * j + k) = ((compT (INV.getD j []) t).getD k 0).testBit s := by
@@ -364,7 +368,7 @@ theorem bPl_bit {TT : List (List Nat)} (hTT : ttOK INV TT = true) (t : List Nat)
       simp only [decide_true, Bool.true_and]
       apply bx_congr
       intro b hb
-      rw [ttOK_spec hTT b hb s hs, ttPlane_bit hW]
+      rw [ttOK_spec hTT b hb s hs, ttPlane_bit]
       simp [Nat.mul_mod_right, Nat.mul_div_cancel_left _ (by norm_num : 0 < 11), hj]
     · simp only [hkk, decide_false, Bool.false_and]
       unfold bx
@@ -372,7 +376,7 @@ theorem bPl_bit {TT : List (List Nat)} (hTT : ttOK INV TT = true) (t : List Nat)
         intro b
         rcases Nat.lt_or_ge b 11 with hb | hb
         · left
-          rw [ttOK_spec hTT b hb s hs, ttPlane_bit hW]
+          rw [ttOK_spec hTT b hb s hs, ttPlane_bit]
           have : (11 * j + k - k') % 11 ≠ 0 := by omega
           simp [this]
         · exact Or.inr hb
@@ -413,6 +417,7 @@ theorem bPl_bit {TT : List (List Nat)} (hTT : ttOK INV TT = true) (t : List Nat)
     unfold tb
     rfl
 
+omit hW in
 theorem ePl_bit {WALL : Nat} (hWl : wallOK INV WALL = true) {row : List Nat} {s j k : Nat}
     (hs : s < 11) (hj : j < row.length) (hk : k < 11) (hp : row.getD j 0 < 191) :
     (ePl WALL row s).testBit (11 * j + k) =
@@ -443,13 +448,13 @@ theorem ptRowOK_spec {m i : Nat} :
     · simp only [Nat.add_zero, List.getD_cons_zero]
       by_cases hji : j0 = i
       · subst hji
-        simp only [beq_self_eq_true, cond_true, beq_iff_eq] at h1
+        simp only [beq_self_eq_true, _root_.Bool.cond_true, beq_iff_eq] at h1
         exact ⟨fun _ => h1, fun h => absurd rfl h, fun h => absurd rfl h⟩
       · have hb : (j0 == i) = false := by simpa using hji
-        rw [hb, cond_false] at h1
+        rw [hb, Bool.cond_false] at h1
         refine ⟨fun h => absurd h hji, fun _ hm => ?_, fun _ hm => ?_⟩
-        · rw [hm, cond_true] at h1; simpa using h1
-        · rw [hm, cond_false] at h1; simpa using h1
+        · rw [hm, _root_.Bool.cond_true] at h1; simpa using h1
+        · rw [hm, Bool.cond_false] at h1; simpa using h1
     · simp only [List.getD_cons_succ]
       have := ih2 j (by simpa using hj)
       rw [show j0 + (j + 1) = j0 + 1 + j by omega]
@@ -484,7 +489,7 @@ theorem rowOK_spec {INV : List (List Nat)} {CML : List Nat} {PTL : List (List Na
     have hbits : ∀ k < 11, ∀ s < 11, (aPl PP t s).testBit (11 * j + k) =
         ((compT t (INV.getD j [])).getD k 0).testBit s ∧ (bPl TT t s).testBit (11 * j + k) =
         ((compT (INV.getD j []) t).getD k 0).testBit s := fun k hk s hs =>
-      ⟨aPl_bit hW hPP t hj hk, bPl_bit hW hTT t hs hj hk⟩
+      ⟨aPl_bit hPP t hj hk, bPl_bit hTT t hs hj hk⟩
     unfold comT
     by_cases heq : compT t (INV.getD j []) = compT (INV.getD j []) t
     · rw [heq, beq_self_eq_true, Bool.true_xor, Bool.not_eq_true', List.any_eq_false]
@@ -557,7 +562,7 @@ theorem rowOK_spec {INV : List (List Nat)} {CML : List Nat} {PTL : List (List Na
           simp
       apply (WT_eq (hW _ hp) (WT_compT hWt (hW j hj)) ?_).symm.symm
       intro k hk s hs
-      rw [← ePl_bit hW hWl hs (by omega) hk hp, ← hz k hk s hs, aPl_bit hW hPP t hj hk]
+      rw [← ePl_bit hWl hs (by omega) hk hp, ← hz k hk s hs, aPl_bit hPP t hj hk]
     · have hm : m.testBit j = false := by rw [hcom j hj]; exact hc
       by_cases hji : j = i
       · exfalso

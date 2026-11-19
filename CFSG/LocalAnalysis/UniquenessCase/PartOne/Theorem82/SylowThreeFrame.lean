@@ -264,7 +264,7 @@ theorem exists_sign_in_product (i : Fin 3) :
         _ = q nY * q aY * (q nY)⁻¹ := by rw [hlY_eq]
         _ = q (nY * aY * nY⁻¹) := by simp
         _ = q ainvY := by rw [hsub]
-    rw [if_pos hji]
+    rw [ite_eq_left hji]
     exact hq_inj _ _ hleftAA hrightAA hq_eq
   · have hij : i ≠ j := fun h => hji h.symm
     have hrightAA : a ∈ d.AA := haAA
@@ -296,7 +296,7 @@ theorem exists_sign_in_product (i : Fin 3) :
         _ = q ⟨⁅n, a⁆, hmemY⟩ * q aY := map_mul q _ _
         _ = 1 * q aY := by rw [hqcy]
         _ = q aY := one_mul _
-    rw [if_neg hji]
+    rw [ite_eq_right hji]
     exact hq_inj _ _ hleftAA hrightAA hq_eq
 
 end SylowThreeData

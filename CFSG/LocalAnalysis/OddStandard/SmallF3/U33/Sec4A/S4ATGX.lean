@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private lemma conjIn_trans {M : Subgroup G} {a b : G} (ha : a ∈ conjIn M t) {m : G} (hm : m ∈ M)
     (hb : m * a * m⁻¹ = b) : b ∈ conjIn M t := by
   obtain ⟨k, hk, rfl⟩ := ha

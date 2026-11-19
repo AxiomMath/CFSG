@@ -72,9 +72,9 @@ theorem forall_eq_or_forall_eq_inv [Finite H] {Q : Subgroup H} (hQ : (Nat.card Q
 theorem false_of_forall_apply_apply_eq_inv [Finite H] (hcomm : ∀ a b : H, a * b = b * a) {D : Subgroup H}
     (hD : D.index.Prime) (hD2 : D.index ≠ 2) {u₁ u₂ : MulAut H} (hu₁ : ∀ x, x ∈ D ↔ u₁ x ∈ D)
     (hu₂ : ∀ x, x ∈ D ↔ u₂ x ∈ D) (hinv : ∀ x, u₁ (u₂ x) = (u₂ (u₁ x))⁻¹) : False := by
-  haveI : D.Normal := ⟨fun n hn g => by rw [hcomm g n, mul_inv_cancel_right]; exact hn⟩
-  haveI : Fact D.index.Prime := ⟨hD⟩
-  haveI : IsCyclic (H ⧸ D) := isCyclic_of_prime_card (p := D.index) D.index_eq_card.symm
+  have : D.Normal := ⟨fun n hn g => by rw [hcomm g n, mul_inv_cancel_right]; exact hn⟩
+  have : Fact D.index.Prime := ⟨hD⟩
+  have : IsCyclic (H ⧸ D) := isCyclic_of_prime_card (p := D.index) D.index_eq_card.symm
   obtain ⟨m₁, hm₁⟩ := MonoidHom.map_cyclic (QuotientGroup.map D D u₁.toMonoidHom fun x hx => (hu₁ x).mp hx)
   obtain ⟨m₂, hm₂⟩ := MonoidHom.map_cyclic (QuotientGroup.map D D u₂.toMonoidHom fun x hx => (hu₂ x).mp hx)
   have h₁ : ∀ x : H, ((u₁ x : H) : H ⧸ D) = (x : H ⧸ D) ^ m₁ := fun x => hm₁ x
@@ -137,17 +137,20 @@ end Generic
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P T B : Subgroup G} {e : ℕ}
   {V : Type} [AddCommGroup V] [Module (ZMod 2) V] {ρ : Representation (ZMod 2) G V}
 
+omit [Finite G] in
 theorem mem_Sstar_iff (hP : P.Normal) {ψ : MulAut ↥P} :
     ψ ∈ Sstar P T B ↔ ∃ s ∈ twoCoreCommutator T B, conjOnP P hP s = ψ := by
   rw [show Sstar P T B = (twoCoreCommutator T B).map (conjOnP P hP) from (image_eq P hP _).symm,
     Subgroup.mem_map]
 
+omit [Finite G] in
 theorem map_subtype_map_conjOnP (hP : P.Normal) (g : G) (K : Subgroup ↥P) :
     (K.map (conjOnP P hP g).toMonoidHom).map P.subtype =
       (K.map P.subtype).map (MulAut.conj g).toMonoidHom := by
   rw [Subgroup.map_map, Subgroup.map_map]
   congr 1
 
+omit [Finite G] in
 theorem map_conjOnP_eq_iff (hP : P.Normal) (g : G) {D : Subgroup G} (hDP : D ≤ P) :
     (D.subgroupOf P).map (conjOnP P hP g).toMonoidHom = D.subgroupOf P ↔
       g ∈ Subgroup.normalizer (D : Set G) := by
@@ -293,9 +296,9 @@ theorem card_center_Sstar (hc : BinaryActionRankCounterexample G p P T B e ρ) :
     Nat.card (Subgroup.center ↥(Sstar P T B)) = 2 := by
   obtain ⟨hS2, hSne, -, -⟩ :=
     CoprimeStarSubgroupStructure.«structure» hc.oddPrimeClassTwoAction hc.faithfulBinaryIrreducibleAction
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥(Sstar P T B) := (Subgroup.nontrivial_iff_ne_bot _).mpr hSne
-  haveI : Nontrivial (Subgroup.center ↥(Sstar P T B)) := hS2.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥(Sstar P T B) := (Subgroup.nontrivial_iff_ne_bot _).mpr hSne
+  have : Nontrivial (Subgroup.center ↥(Sstar P T B)) := hS2.center_nontrivial
   rw [Nat.card_eq_two_iff' (1 : Subgroup.center ↥(Sstar P T B))]
   obtain ⟨y, hy⟩ := exists_ne (1 : Subgroup.center ↥(Sstar P T B))
   have hmem : ∀ c : Subgroup.center ↥(Sstar P T B), ((c : ↥(Sstar P T B)) : MulAut ↥P) ∈
@@ -458,8 +461,8 @@ theorem commutator_mem_normalizer_and_mul_self_mem_normalizer
       Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _), ?_⟩
     simp [commutatorElement_def, map_mul, map_inv]
   · rw [hsp.2]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (IsPGroup 2 ↥(Sstar P T B)) := ⟨hS2⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (IsPGroup 2 ↥(Sstar P T B)) := ⟨hS2⟩
     refine ⟨(⟨_, h1⟩ : ↥(Sstar P T B)) ^ 2, CFSG.pth_power_mem_frattini_of_isPGroup (p := 2) _, ?_⟩
     simp [pow_two, map_mul]
 

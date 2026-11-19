@@ -32,7 +32,7 @@ theorem exists_compatibleAt_singleton_ne_bot (d : Datum p α θ)
   refine ⟨(P : Subgroup (θ a)).map (θ a).subtype,
     ⟨Compatible.of_le_of_isInvariant d ((compatible_values_and_commonSignalizer d).1 a ha)
       (Subgroup.map_subtype_le _) hWinv,
-      (CFSG.primeSupported_singleton_iff_isPGroup q hq.1).mpr (P.isPGroup'.map _)⟩, fun h => ?_⟩
+      (CFSG.primeSupported_singleton_iff_isPGroup q hq.1).mpr (P.isPGroup.map _)⟩, fun h => ?_⟩
   exact Sylow.ne_bot_of_dvd_card P hdvd
     ((Subgroup.map_eq_bot_iff_of_injective _ (θ a).subtype_injective).mp h)
 

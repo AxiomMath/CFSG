@@ -55,7 +55,7 @@ theorem fieldInvert_of_mulAut {p : ℕ} (hp : p = 3 ∨ p = 5) {A : Type} [Group
     calc (s : A) * φ = φ * s * φ⁻¹ * φ := by rw [h]
       _ = φ * s := by group
   refine ⟨s, ⟨s.2, mem_centralizer_singleton_iff.2 hsφ⟩, ?_, hsx'⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine orderOf_eq_prime (by simpa using congrArg Subtype.val hs2) ?_
   intro h1
   rw [h1, one_mul, inv_one, mul_one] at hsx'

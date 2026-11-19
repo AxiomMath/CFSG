@@ -113,10 +113,10 @@ theorem q125_GT {l p : Nat} (hl : l < 8) (hp : p < 360) :
 theorem q125_LP_apply {l : Nat} (hl : l ≤ 8) (p : Fin 360) :
     letK (gtK (fun l => AP.S l) 8) l p = (q125LP l p).val := by
   rcases l with _ | l
-  · rw [q125LP, if_pos rfl, Equiv.Perm.one_apply]
+  · rw [q125LP, ite_eq_left rfl, Equiv.Perm.one_apply]
     rfl
   · rw [q125_GT (by omega) p.2, q125_pg (q125_root_pp (by omega))]
-    simp only [q125LP, Nat.add_one_ne_zero, if_false, Nat.add_sub_cancel]
+    simp only [q125LP, Nat.add_one_ne_zero, ite_false, Nat.add_sub_cancel]
 
 theorem q125_LP_inv {l : Nat} (hl : l ≤ 8) : (q125LP l)⁻¹ = q125LP l := by
   unfold q125LP
@@ -475,7 +475,7 @@ theorem q125_WP1 : q125WP 1 = toPerm 360 9 (AP.S 0) := by
   rw [List.range_succ_eq_map (n := 19), List.map_cons, List.prod_cons, List.map_map]
   have h0 : q125LP (q125Lt 1 0) = toPerm 360 9 (AP.S 0) := by
     have e : q125Lt 1 0 = 1 := rfl
-    rw [e, q125LP, if_neg one_ne_zero]
+    rw [e, q125LP, ite_eq_right one_ne_zero]
   have hr : ((List.range 19).map ((fun i => q125LP (q125Lt 1 i)) ∘ Nat.succ)).prod = 1 := by
     refine List.prod_eq_one fun x hx => ?_
     obtain ⟨i, -, rfl⟩ := List.mem_map.1 hx

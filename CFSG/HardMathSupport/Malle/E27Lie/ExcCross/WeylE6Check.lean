@@ -38,7 +38,7 @@ theorem card_fixed3_ge {n : ℕ} {C M : Matrix (Fin n) (Fin n) ℤ} (b : Fin 4 �
       _ = 0 := by simp [hsol]
   have hcard : (Finset.univ.image f).card = 81 := by
     rw [Finset.card_image_of_injective _ hinj]
-    simp [Fintype.card_fun, ZMod.card]
+    simp [ZMod.card]
   calc 81 = (Finset.univ.image f).card := hcard.symm
     _ ≤ (fixed3 C M).card := Finset.card_le_card hsub
 

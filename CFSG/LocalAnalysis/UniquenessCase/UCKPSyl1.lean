@@ -144,14 +144,14 @@ theorem card_sylow_quotient_center {X : Type*} [Group X] [Finite X] {q : ℕ} [F
     (hZ : Nat.Coprime q (Nat.card (center X))) :
     Nat.card (Sylow q (X ⧸ center X)) = Nat.card (Sylow q X) := by
   obtain ⟨S⟩ : Nonempty (Sylow q X) := inferInstance
-  haveI : Fact (IsPGroup q (S : Subgroup X)) := ⟨S.isPGroup'⟩
+  have : Fact (IsPGroup q (S : Subgroup X)) := ⟨S.isPGroup⟩
   have hidx : ¬ q ∣ ((S : Subgroup X).map (QuotientGroup.mk' (center X))).index := fun h =>
     S.not_dvd_index (h.trans (Subgroup.index_map_dvd _ (QuotientGroup.mk'_surjective _)))
   have hN : normalizer (((S : Subgroup X).map (QuotientGroup.mk' (center X)) : Subgroup _) :
       Set (X ⧸ center X)) = (normalizer ((S : Subgroup X) : Set X)).map
         (QuotientGroup.mk' (center X)) :=
     CFSG.normalizer_map_quotient_eq_map_normalizer q (S : Subgroup X) (center X) inferInstance hZ
-  rw [Sylow.card_eq_index_normalizer ((S.isPGroup'.map _).toSylow hidx),
+  rw [Sylow.card_eq_index_normalizer ((S.isPGroup.map _).toSylow hidx),
     Sylow.card_eq_index_normalizer S]
   change (normalizer (((S : Subgroup X).map (QuotientGroup.mk' (center X)) : Subgroup _) :
     Set (X ⧸ center X))).index = (normalizer ((S : Subgroup X) : Set X)).index
@@ -194,7 +194,7 @@ theorem u3SylOmega_of_griess (hgr : CFSG.Open.GriessAllModelsStatement) : U3SylO
 
 theorem u3SylCount_of_griess (hgr : CFSG.Open.GriessAllModelsStatement) : U3SylCount := by
   intro X _ _ n hX q p hq hq3 hqn hp hp2 hpn
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hn2 : 2 ≤ n := u3Range X n hX
   have hZ : Nat.Coprime q (Nat.card (center X)) := hq.coprime_iff_not_dvd.2 fun h =>
     absurd (Nat.le_of_dvd (by norm_num) (h.trans (u3Center_of_griess hgr X n hX))) (by omega)
@@ -206,7 +206,7 @@ theorem u3SylCount_of_griess (hgr : CFSG.Open.GriessAllModelsStatement) : U3SylC
     CFSG.SeitzReduction.RankOne.statedClassicalModel_of_lieModel_psu3 hX.2
   have hKU : UnitaryFieldData 2 n K := ⟨Nat.prime_two, by omega, by rw [hK, ← pow_mul, mul_comm]⟩
   obtain ⟨k, hk⟩ : ∃ k, 2 ^ n = k + 1 := ⟨2 ^ n - 1, (Nat.sub_add_cancel Nat.one_le_two_pow).symm⟩
-  haveI : Finite (primeFormP hU (1 : Matrix (Fin 3) (Fin 3) (GaloisField 2 (2 * n)))) :=
+  have : Finite (primeFormP hU (1 : Matrix (Fin 3) (Fin 3) (GaloisField 2 (2 * n)))) :=
     Finite.of_equiv _ φ.toEquiv
   have hcard : Nat.card (primeFormP hU (1 : Matrix (Fin 3) (Fin 3) (GaloisField 2 (2 * n)))) *
       Nat.gcd 3 (k + 2) = (k + 1) ^ 3 * (k * (k + 2)) * ((k + 2) * (k ^ 2 + k + 1)) := by

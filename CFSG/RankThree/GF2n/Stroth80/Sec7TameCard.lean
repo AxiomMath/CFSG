@@ -29,7 +29,7 @@ theorem sec7_card_inf_conj_of_tame (h34 : Stroth34Statement) (hZV : Sec7ZVStatem
     Nat.card Z ^ 5 ≤
       Nat.card ↥(Vt M (LB M Q B) B Z t ⊓ conjSubgroup g (Vt M (LB M Q B) B Z t)) := by
   classical
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have hs5 := hs.toSec5
   have ht : t ∈ LB M Q B := hs5.mem
   have htM : t ∈ M := hc.LB_le_M ht

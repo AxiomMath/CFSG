@@ -63,7 +63,6 @@ theorem sigmaCase_of {p : ℕ} (hp : Cn p) (h : sigK p = true) :
     left
     rw [notB_iff] at h1
     rw [comp_eqK hp hp, idTab42, beq_unpack (cnMul hp hp) cn_pidn]
-    change (!Nat.beq (mulK p p) (pidn 42 6)) = true
     rw [h1]
     rfl
   · rcases orB_iff.1 h2 with h3 | h4

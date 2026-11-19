@@ -12,6 +12,7 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin
 
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 private theorem perpA3_mem_USet_of_etaG {η : Set (Subgroup G)} (hη : η ∈ etaG Ω) {U : Subgroup G}
     (hU : U ∈ η) : U ∈ USet Ω := by
   obtain ⟨S, hS, -⟩ := hη
@@ -77,7 +78,7 @@ theorem exists_wSet_of_omegaStar (h : EndHyp Ω) {K J : Subgroup G} (hK : K ∈ 
   set W : Subgroup G := ⨆ Y ∈ η, Y with hWdef
   have hW : W ∈ WSet Ω := ⟨η, hη, rfl⟩
   have hWS : W ≤ (S : Subgroup G) := iSup₂_le hηS
-  have hWo : IsPGroup 2 W := S.isPGroup'.to_le hWS
+  have hWo : IsPGroup 2 W := S.isPGroup.to_le hWS
   have hWab : ∀ x ∈ W, ∀ y ∈ W, x * y = y * x := TC.etaSpan_comm hyp hη
   have hWW : Commutes W W := fun x hx y hy => hWab x hx y hy
   have hcard4 : ∀ Y ∈ η, Nat.card ↥Y = 4 := fun Y hY =>

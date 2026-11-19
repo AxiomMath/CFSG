@@ -14,7 +14,7 @@ variable (p : ℕ) [Fact p.Prime] (n : ℕ)
 private theorem card_SL (hp : 5 ≤ p) (hn : 1 < n) :
     Nat.card SL(2, GaloisField p n) = p ^ n * ((p ^ n) ^ 2 - 1) := by
   have hn0 : n ≠ 0 := by omega
-  haveI : Fintype (GaloisField p n) := Fintype.ofFinite _
+  have : Fintype (GaloisField p n) := Fintype.ofFinite _
   have hq : Fintype.card (GaloisField p n) = p ^ n := by
     rw [← Nat.card_eq_fintype_card]; exact GaloisField.card p n hn0
   have hq1 : 2 ≤ p ^ n := by
@@ -37,7 +37,7 @@ private theorem card_SL (hp : 5 ≤ p) (hn : 1 < n) :
   have : 0 < p ^ n - 1 := by omega
   exact Nat.mul_div_cancel_left _ this
 
-private theorem card_center (hp : 5 ≤ p) (hn : 1 < n) :
+private theorem card_center (hp : 5 ≤ p) (_hn : 1 < n) :
     Nat.card (Subgroup.center SL(2, GaloisField p n)) = 2 := by
   rw [Nat.card_congr (Matrix.SpecialLinearGroup.center_equiv_rootsOfUnity).toEquiv]
   have h : IsPrimitiveRoot (-1 : GaloisField p n) 2 := IsPrimitiveRoot.neg_one p (by omega)
@@ -57,7 +57,7 @@ theorem card_PSL (hp : 5 ≤ p) (hn : 1 < n) :
 
 theorem card_upperSubgroup (hn : 1 < n) :
     Nat.card (upperSubgroup (GaloisField p n)) = p ^ n := by
-  haveI : Finite (GaloisField p n) := inferInstance
+  have : Finite (GaloisField p n) := inferInstance
   rw [upperSubgroup_card_of_finite]
   exact GaloisField.card p n (by omega)
 
@@ -74,7 +74,7 @@ theorem upperSubgroup_isSylow (hp : 5 ≤ p) (hn : 1 < n) :
   apply Subgroup.eq_of_le_of_card_ge hP
   rw [card_upperSubgroup p n hn]
   have hpp : p.Prime := Fact.out
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup
   have hdvd : Nat.card (P : Subgroup PSL(2, GaloisField p n)) ∣
       Nat.card PSL(2, GaloisField p n) := Subgroup.card_subgroup_dvd_card _
   have hdvd2 : p ^ k ∣ p ^ n * ((p ^ n) ^ 2 - 1) := by

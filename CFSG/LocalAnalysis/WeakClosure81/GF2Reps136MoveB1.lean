@@ -16,6 +16,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_mQuot_eq_rk_section (I Z : Subgroup W) :
     E3.mQuot I Z = rk ↥(⊤ : Subgroup (Sect I Z)) := by
   rw [CFSG.Quasithin.rk_top]

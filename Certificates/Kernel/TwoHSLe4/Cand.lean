@@ -67,7 +67,7 @@ theorem craw_of
   unfold candOk at hw
   dsimp only at hw
   by_cases h0 : (k == 0) = true
-  · rw [h0, cond_true] at hw
+  · rw [h0, _root_.Bool.cond_true] at hw
     simp only [Bool.and_eq_true, Bool.not_eq_true', r4eq_iff, rveq_iff, memR_iff] at hw
     obtain ⟨⟨⟨hya, hx⟩, hxz⟩, hn⟩ := hw
     obtain ⟨q, hq, hpq⟩ := hH x hx hxz
@@ -77,20 +77,20 @@ theorem craw_of
     rw [hn] at hm
     exact absurd hm Bool.false_ne_true
   rw [Bool.not_eq_true] at h0
-  rw [h0, cond_false] at hw
+  rw [h0, Bool.cond_false] at hw
   by_cases h1' : (k == 1) = true
-  · rw [h1', cond_true, Bool.not_eq_true'] at hw
+  · rw [h1', _root_.Bool.cond_true, Bool.not_eq_true'] at hw
     have hm := memR_iff.2 hsq
     rw [hw] at hm
     exact absurd hm Bool.false_ne_true
   rw [Bool.not_eq_true] at h1'
-  rw [h1', cond_false, Bool.and_eq_true, Bool.and_eq_true, memR_iff, memR_iff] at hw
+  rw [h1', Bool.cond_false, Bool.and_eq_true, Bool.and_eq_true, memR_iff, memR_iff] at hw
   obtain ⟨⟨hx, hy⟩, hk⟩ := hw
   by_cases h2' : (k == 2) = true
-  · rw [h2', cond_true, r4eq_iff] at hk
+  · rw [h2', _root_.Bool.cond_true, r4eq_iff] at hk
     exact ⟨toR4 alpha1, List.mem_map_of_mem (by simp [alphaReps]), x, hx, y, hy, hk⟩
   rw [Bool.not_eq_true] at h2'
-  rw [h2', cond_false, Bool.and_eq_true, r4eq_iff] at hk
+  rw [h2', Bool.cond_false, Bool.and_eq_true, r4eq_iff] at hk
   exact ⟨toR4 alpha2, List.mem_map_of_mem (by simp [alphaReps]), x, hx, y, hy, hk.2⟩
 
 set_option maxHeartbeats 0 in

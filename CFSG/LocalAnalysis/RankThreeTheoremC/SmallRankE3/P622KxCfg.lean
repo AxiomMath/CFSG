@@ -36,7 +36,7 @@ theorem ne_two (c : P622KxCfg p P M x z T S L) : p ≠ 2 :=
   c.conf.failure.ne_two
 
 theorem orderOf_z (c : P622KxCfg p P M x z T S L) : orderOf z = p := by
-  haveI : Fact p.Prime := ⟨c.conf.failure.prime⟩
+  have : Fact p.Prime := ⟨c.conf.failure.prime⟩
   exact orderOf_eq_prime c.conf.failure.central.pow_eq_one c.conf.failure.central.ne_one
 
 theorem isSimple (c : P622KxCfg p P M x z T S L) : IsSimpleGroup ↥L :=

@@ -163,7 +163,7 @@ theorem coverK_sound {E : Nat → Nat} (hE : ∀ e < 1024, elementColumns[e]! = 
   · exact j4n_memK e LL hm
   ·
     exfalso
-    rw [if_neg hm] at h1
+    rw [ite_eq_right hm] at h1
     have hall : CFSG.KC.Enum.allN 2048 (fun v => quadK (E e) (E e) v) = true := by
       rw [CFSG.KS.Raw.Orb.allN_iff]
       intro v hv

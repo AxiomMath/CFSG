@@ -32,7 +32,7 @@ theorem DichThreeLieAt.dichThreeAt (h : DichThreeLieAt K) : DichThreeAt K :=
   ⟨h.1.omegaDichAt, h.2⟩
 
 theorem OmegaDichLieAt.of_mulEquiv (e : K ≃* L) (h : OmegaDichLieAt L) : OmegaDichLieAt K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases h with h | h | h
   · exact Or.inl (sylow_comm_of_mulEquiv e h)
   · exact Or.inr (Or.inl (h.map e.symm.toMonoidHom e.symm.injective))
@@ -56,10 +56,10 @@ theorem factorization_lt_of_not_dvd {k : ℕ} (h : ¬ 3 ^ k ∣ Nat.card K) :
 
 theorem sylow_comm_of_factorization_le_two (h : (Nat.card K).factorization 3 ≤ 2) :
     ∀ S : Sylow 3 K, IsMulCommutative (S : Subgroup K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro S
   by_contra hS
-  have h1 := pow_three_le_card_of_nonabelian S.isPGroup' hS
+  have h1 := pow_three_le_card_of_nonabelian S.isPGroup hS
   rw [S.card_eq_multiplicity] at h1
   have h2 : 3 ^ (Nat.card K).factorization 3 ≤ 3 ^ 2 := Nat.pow_le_pow_right (by norm_num) h
   omega
@@ -119,7 +119,7 @@ theorem dichThreeLieAt_of_four_le_pRank (h : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subg
 theorem sylow_comm_of_abelian_full {A : Subgroup K} (hA : IsMulCommutative A)
     (hcard : Nat.card A = 3 ^ (Nat.card K).factorization 3) :
     ∀ S : Sylow 3 K, IsMulCommutative (S : Subgroup K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro S
   let A' : Sylow 3 K := Sylow.ofCard A hcard
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq K A' S
@@ -135,7 +135,7 @@ theorem sylow_comm_of_abelian_full {A : Subgroup K} (hA : IsMulCommutative A)
 theorem dichThreeLieAt_of_factorization_le_pRank
     (h : (Nat.card K).factorization 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup K)) :
     DichThreeLieAt K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne : {k | ∃ E : Subgroup K, E ≤ ⊤ ∧ IsElemAbelian 3 E ∧ Nat.card E = 3 ^ k}.Nonempty :=
     ⟨0, ⊥, bot_le, ⟨inferInstance, fun x hx => by rw [(Subgroup.mem_bot).1 hx, one_pow]⟩,
       by simp⟩

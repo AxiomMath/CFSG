@@ -28,7 +28,7 @@ theorem ssTw_formPerm_three {α : Type*} [DecidableEq α] {a b c : α} (hab : a 
     List.formPerm [a, b, c] a = b ∧ List.formPerm [a, b, c] b = c ∧
       List.formPerm [a, b, c] c = a := by
   refine ⟨?_, ?_, ?_⟩ <;>
-    simp [List.formPerm_cons_cons, Equiv.swap_apply_def, hab, hbc, hac, hab.symm, hbc.symm,
+    simp [List.formPerm_cons_cons, Equiv.swap_apply_def, hab, hac, hbc.symm,
       hac.symm]
 
 theorem ssBig_d4_std (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (hℓ5 : 5 ≤ ℓ) (hf : 1 ≤ f)

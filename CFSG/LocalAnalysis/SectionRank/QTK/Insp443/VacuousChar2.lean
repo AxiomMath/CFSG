@@ -15,7 +15,7 @@ open CFSG.Open CFSG.Blueprint CFSG.Quasithin
 
 theorem twoLocalsSolvable_of_statedClassicalModel_psl_three_two {S : Type} [Group S] [Finite S]
     (h : StatedClassicalModel S .PSL 3 2 1) : TwoLocalsSolvable S := by
-  haveI hsimple : IsSimpleGroup S :=
+  have hsimple : IsSimpleGroup S :=
     CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel h
   have hcard : Nat.card S = 168 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_three_two h
@@ -48,7 +48,7 @@ theorem twoLocalsSolvable_of_reeTitsModel_tits
   have hsolv : Group.IsSolvable ↥P :=
     CFSG.Quasithin.C35Pf.solvOver_of_isTits hTits (T : Subgroup S) P
       (CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow T) (hTP rfl) hP
-  haveI : Group.IsSolvable ↥P := hsolv
+  have : Group.IsSolvable ↥P := hsolv
   exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hN)
     (Subgroup.inclusion_injective hN)
 

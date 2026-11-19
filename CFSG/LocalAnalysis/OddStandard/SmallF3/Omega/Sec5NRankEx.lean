@@ -95,9 +95,9 @@ theorem NrSetting.mem_nrQC_of_rho_eq_one (e : ↥E) (h : nrRho S e = 1) : (e : G
     rw [h1]
     by_cases hc : (e : G) * nrqG Ψ (nrGen g) * (e : G)⁻¹ = nrqG Ψ (nrGen g)
     · have h3 : ε g = false := by simp [ε, hc]
-      rw [h3, if_neg (by simp), mul_one, hc]
+      rw [h3, ite_eq_right (by simp), mul_one, hc]
     · have h3 : ε g = true := by simp [ε, hc]
-      rw [h3, if_pos rfl]
+      rw [h3, ite_eq_left rfl]
       rcases hrel g with h2 | h2
       · exact absurd h2 hc
       · exact h2

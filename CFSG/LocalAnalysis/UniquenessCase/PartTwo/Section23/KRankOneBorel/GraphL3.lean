@@ -17,7 +17,7 @@ theorem projStabilizer_inf_le_normalizer {K : Type} [Field K] [Finite K] [CharP 
     projStabilizer (flagSpace 3 K 1) ⊓ projStabilizer (flagSpace 3 K 2) ≤
       normalizer ((projUnitriangular 3 K : Subgroup (projectiveSL 3 K)) :
         Set (projectiveSL 3 K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx
   rw [normalizer_projUnitriangular (K := K) (n := 3) 2]
   obtain ⟨hx1, hx2⟩ := Subgroup.mem_inf.mp hx
@@ -89,7 +89,7 @@ theorem graphL3_dich {X : Type} [Group X] [Finite X] {n : ℕ} (hX : LieModel X 
     (hθS : (S : Subgroup X).map θ.toMonoidHom = S) (H : Subgroup X)
     (hSH : (S : Subgroup X) ≤ H) (hθH : H.map θ.toMonoidHom = H) :
     H ≤ normalizer ((S : Subgroup X) : Set X) ∨ H = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : CFSG.QuasithinUnique.IsSylowTwoOf (S : Subgroup X) ⊤ :=
     CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow S
   obtain ⟨K, _, _, _, φ, hK, hφU, hR, -⟩ :=
@@ -126,7 +126,7 @@ theorem graphL3_dich {X : Type} [Group X] [Finite X] {n : ℕ} (hX : LieModel X 
       ext x
       simp [MulAut.congr_apply]
     have h := congrArg (Subgroup.map φ.toMonoidHom) heq
-    simp only [Subgroup.map_map, MonoidHom.comp_assoc] at h
+    simp only [Subgroup.map_map] at h
     rw [hcomp] at h
     have hα : Subgroup.map (MulAut.congr φ θ).toMonoidHom
         (projStabilizer (flagSpace 3 K 1)) = projStabilizer (flagSpace 3 K 1) := by

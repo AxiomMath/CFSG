@@ -122,7 +122,7 @@ noncomputable abbrev B5 : Subgroup XT := Subgroup.closure (cg2 '' {j | j < 5})
 
 theorem two_lt (n m : ℕ) (h : 2 * n = m) : {g : ℕ | 2 * g < m} = {g | g < n} := by
   ext g
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   omega
 
 theorem x1_card : Nat.card B4 ≠ 0 ∧ Nat.card B4 ≤ 6912 := by
@@ -152,16 +152,16 @@ theorem x1_card : Nat.card B4 ≠ 0 ∧ Nat.card B4 ≤ 6912 := by
   have e1 : gX '' {g | 2 * g < nat_lit 8} = cg2 '' {j | j < 4} := by
     rw [two_lt 4 8 rfl]
     ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq, cg2, f5]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, cg2, f5]
     constructor
     · rintro ⟨g, hg, rfl⟩
-      exact ⟨g, hg, by rw [if_neg (by omega)]⟩
+      exact ⟨g, hg, by rw [ite_eq_right (by omega)]⟩
     · rintro ⟨g, hg, rfl⟩
-      exact ⟨g, hg, by rw [if_neg (by omega)]⟩
+      exact ⟨g, hg, by rw [ite_eq_right (by omega)]⟩
   rw [e0, Subgroup.closure_empty, Subgroup.relIndex_bot_left, e1] at s
   exact s
 
-theorem img_f5 {n : ℕ} {ST : ℕ → ℕ} {gen : ℕ → XT} (hn : n ≤ 5)
+theorem img_f5 {n : ℕ} {ST : ℕ → ℕ} {gen : ℕ → XT} (_hn : n ≤ 5)
     (h : ∀ j < n, bval gen (wWord (ST j)) (wLen (ST j)) = cg2 j) :
     (fun j => bval gen (wWord (ST j)) (wLen (ST j))) '' {j | j < n} = cg2 '' {j | j < n} :=
   Set.image_congr fun j hj => h j hj

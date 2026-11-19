@@ -29,7 +29,7 @@ theorem blockMat_mul (A B : Matrix (Fin 2) (Fin 2) K) (d e : K) :
 
 theorem blockMat_one : blockMat (1 : Matrix (Fin 2) (Fin 2) K) 1 = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [blockMat, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [blockMat]
 
 @[expose] noncomputable def embSLFun (A : GL (Fin 2) K) : Matrix.SpecialLinearGroup (Fin 3) K :=
   ⟨blockMat (A : Matrix (Fin 2) (Fin 2) K) ((A : Matrix (Fin 2) (Fin 2) K).det)⁻¹, by
@@ -82,7 +82,7 @@ variable {K : Type*} [Field K] [Finite K]
 theorem card_embSL_range_index :
     (embSL (K := K)).range.index =
       (Nat.card K) ^ 2 * ((Nat.card K) ^ 2 + Nat.card K + 1) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   set q := Nat.card K with hq
   have hqc : Fintype.card K = q := (Nat.card_eq_fintype_card).symm
   have hq2 : 2 ≤ q := by
@@ -151,7 +151,7 @@ theorem exists_conj_le_of_not_dvd_index {G : Type*} [Group G] [Finite G] {p : �
     ∃ c : G, R.map (MulAut.conj c).toMonoidHom ≤ M := by
   obtain ⟨S0⟩ : Nonempty (Sylow p M) := inferInstance
   set S1 : Subgroup G := (S0 : Subgroup M).map M.subtype with hS1def
-  have hS1 : IsPGroup p S1 := S0.isPGroup'.map M.subtype
+  have hS1 : IsPGroup p S1 := S0.isPGroup.map M.subtype
   have hidx : ¬ p ∣ S1.index := by
     rw [hS1def, Subgroup.index_map_subtype]
     intro h

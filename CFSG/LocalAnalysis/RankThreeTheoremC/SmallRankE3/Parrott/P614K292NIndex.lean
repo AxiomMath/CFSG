@@ -118,7 +118,7 @@ theorem not_three_dvd_relIndex_normalizer (hK : PiField π p f K) (hq : ModThree
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 3 ↥(slPi π 3 (p ^ f) K)))
   set Q : Subgroup (GL (Fin 3) K) :=
     (S : Subgroup ↥(slPi π 3 (p ^ f) K)).map (slPi π 3 (p ^ f) K).subtype
-  have hQp : IsPGroup 3 Q := S.isPGroup'.map _
+  have hQp : IsPGroup 3 Q := S.isPGroup.map _
   have hQL : Q ≤ slPi π 3 (p ^ f) K := by
     rintro _ ⟨s, -, rfl⟩
     exact s.2

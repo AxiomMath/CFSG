@@ -26,6 +26,7 @@ private theorem isSylowIn_T_inf_normalizer (c : Ctx23L D Ch) :
     exact D.sylowM.le
   exact E6.isSylowIn_of_le hSylH (le_inf le_sup_right hTN) inf_le_left
 
+omit [Finite G] in
 private theorem conjSubgroup_le_of_le {H X : Subgroup G} (hXH : X ≤ H) {h : G} (hh : h ∈ H) :
     conjSubgroup X h ≤ H := by
   intro y hy
@@ -33,6 +34,7 @@ private theorem conjSubgroup_le_of_le {H X : Subgroup G} (hXH : X ≤ H) {h : G}
   rw [← show (h : G)⁻¹ * (h * y * h⁻¹) * h = y by group]
   exact H.mul_mem (H.mul_mem (H.inv_mem hh) (hXH hy)) hh
 
+omit [Finite G] in
 private theorem le_closure_iUnion_conj (H X : Subgroup G) :
     X ≤ Subgroup.closure (⋃ h : ↥H, (conjSubgroup X (h : G) : Set G)) := by
   intro x hx
@@ -41,6 +43,7 @@ private theorem le_closure_iUnion_conj (H X : Subgroup G) :
   change x ∈ conjSubgroup X (1 : G)
   rwa [CFSG.Quasithin.conjSubgroup_one]
 
+omit [Finite G] in
 private theorem closure_iUnion_conj_le {H M X : Subgroup G}
     (hconj : ∀ h ∈ H, conjSubgroup X h ≤ M) :
     Subgroup.closure (⋃ h : ↥H, (conjSubgroup X (h : G) : Set G)) ≤ M := by
@@ -50,12 +53,14 @@ private theorem closure_iUnion_conj_le {H M X : Subgroup G}
   obtain ⟨h, hy⟩ := hy
   exact hconj h h.2 hy
 
+omit [Finite G] in
 private theorem conjSubgroup_closure_eq (S : Set G) (h0 : G) :
     conjSubgroup (Subgroup.closure S) h0 =
       Subgroup.closure ((MulAut.conj (h0 : G)⁻¹).toMonoidHom '' S) := by
   change (Subgroup.closure S).map (MulAut.conj (h0 : G)⁻¹).toMonoidHom = _
   exact MonoidHom.map_closure _ S
 
+omit [Finite G] in
 private theorem conjSubgroup_closure_iUnion_le (H X : Subgroup G) {h0 : G} (hh0 : h0 ∈ H) :
     conjSubgroup (Subgroup.closure (⋃ h : ↥H, (conjSubgroup X (h : G) : Set G))) h0 ≤
       Subgroup.closure (⋃ h : ↥H, (conjSubgroup X (h : G) : Set G)) := by
@@ -79,6 +84,7 @@ private theorem conjSubgroup_closure_iUnion_le (H X : Subgroup G) {h0 : G} (hh0 
   rw [he]
   exact hy'
 
+omit [Finite G] in
 private theorem le_conjSubgroup_closure_iUnion (H X : Subgroup G) {h0 : G} (hh0 : h0 ∈ H) :
     Subgroup.closure (⋃ h : ↥H, (conjSubgroup X (h : G) : Set G)) ≤
       conjSubgroup (Subgroup.closure (⋃ h : ↥H, (conjSubgroup X (h : G) : Set G))) h0 := by
@@ -89,8 +95,7 @@ private theorem le_conjSubgroup_closure_iUnion (H X : Subgroup G) {h0 : G} (hh0 
   intro y hyS
   refine Subgroup.subset_closure ?_
   refine ⟨(MulAut.conj (h0 : G)) y, ?_, ?_⟩
-  · change (MulAut.conj (h0 : G)) y ∈ S
-    rw [MulAut.conj_apply]
+  · rw [MulAut.conj_apply]
     rw [hS, Set.mem_iUnion] at hyS ⊢
     obtain ⟨h, hy⟩ := hyS
     refine ⟨(h * ⟨(h0 : G)⁻¹, H.inv_mem hh0⟩ : ↥H), ?_⟩
@@ -108,6 +113,7 @@ private theorem le_conjSubgroup_closure_iUnion (H X : Subgroup G) {h0 : G} (hh0 
     rw [MulAut.conj_apply, MulAut.conj_apply]
     group
 
+omit [Finite G] in
 private theorem normalizer_closure_iUnion_conj (H X : Subgroup G) :
     H ≤ Subgroup.normalizer
       (Subgroup.closure (⋃ h : ↥H, (conjSubgroup X (h : G) : Set G)) : Set G) := by
@@ -116,6 +122,7 @@ private theorem normalizer_closure_iUnion_conj (H X : Subgroup G) :
   exact le_antisymm (conjSubgroup_closure_iUnion_le H X hh0)
     (le_conjSubgroup_closure_iUnion H X hh0)
 
+omit [Finite G] in
 private theorem twoElements_closure_iUnion_conj (H X : Subgroup G)
     (hX2 : ∀ x ∈ X, x ^ 2 = 1) :
     ∀ y ∈ ⋃ h : ↥H, (conjSubgroup X (h : G) : Set G), ∃ n : ℕ, y ^ (2 ^ n) = 1 := by

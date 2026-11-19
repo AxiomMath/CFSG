@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem exists_le_card_four {R : Subgroup G} (hR : IsPGroup 2 R) (hcard : 2 < Nat.card R) :
     ∃ R' : Subgroup G, R' ≤ R ∧ Nat.card R' = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hR
   have hn2 : 2 ≤ n := by
     by_contra h
@@ -58,7 +58,7 @@ theorem rankThreeGamma_le_of_le_F (c : MinCex193 D V₀ V p X) {F R : Subgroup G
   exact normalizer_le_of_uniqueMax (c.hyp.uniqueMax X le_rfl c.hyp.noncyclic) hQb hQ2 hXQ
 
 theorem exists_four_group (c : MinCex193 D V₀ V p X) {E F B : Subgroup G} {g : G}
-    (hE : Hyp198 D X E F) (hFE : F < E) (hEV : E ≤ V)
+    (hE : Hyp198 D X E F) (_hFE : F < E) (hEV : E ≤ V)
     (hB : B ∈ E3.gammaSet V 1 (conjSubgroup V g))
     (hAV : ⁅conjSubgroup V g, V⁆ ≤ conjSubgroup V g ⊓ V)
     (hcard : 2 < Nat.card ↥(commEB E F B)) :

@@ -78,7 +78,7 @@ theorem false_of_not_commutator_le (hset : GoldSetting G S A) (h4 : Nat.card A =
       (fun c hc hc2 => hinv c (hself c (hKS hc.1) fun w hw => (hc.2 w (hT₁K hw)).symm) hc2)
       (fun c hc hc2 => hL t htS ht2 htA c (hKS hc.1) (hc.2 t htK) hc2)
     intro c hc hcc
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨c, hKS hc⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨c, hKS hc⟩
     exact key k c ⟨hc, hcc⟩ (by simpa using congrArg Subtype.val hk)
   have hyK : (x⁻¹ * t * x) * (x⁻¹ * (x⁻¹ * t * x) * x) ∈ K :=
     K.mul_mem (conj_mem_of_mem_normalizer hxK htK)

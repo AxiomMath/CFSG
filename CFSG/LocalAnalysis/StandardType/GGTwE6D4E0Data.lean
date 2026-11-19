@@ -35,8 +35,8 @@ theorem rootSL2_WSL_mem_Γ_raw (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     {γ : Fin TwistTag.E6.tag.rank → ℤ} (hγ : IsRoot TwistTag.E6.tag γ) :
     rootSL2 TwistTag.E6.tag (AlgebraicClosure K) γ WSL ∈
       (LangDatum.ofTwist TwistTag.E6 Fr (2 ^ n) hFr v hg0C hg0).Γ := by
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have h₁ := ennola_step_pinnedX (rawTwLang (σ := σ) Fr hFr v g0 hg0C hg0) hv hK hγ 1
   have h₂ := ennola_step_pinnedX (rawTwLang (σ := σ) Fr hFr v g0 hg0C hg0) hv hK
@@ -64,10 +64,10 @@ theorem a3_E0_data (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) (hσ : ∀ c, 
       ∀ μ : Fin Tag.E6.rank → ℤ, IsRoot Tag.E6 μ → iform μ α = 0 → iform μ β = 0 →
         rootSL2 Tag.E6 (AlgebraicClosure K) μ WSL ∈ E0 := by
   classical
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set L := AlgebraicClosure K with hL
   set D := LangDatum.ofTwist TwistTag.E6 Fr (2 ^ n) hFr v hg0C hg0 with hD
   obtain ⟨u, hUeq, hlayer⟩ := ggLayerOf_pair_A3 ζ hζ hζo hα hβ hαβ

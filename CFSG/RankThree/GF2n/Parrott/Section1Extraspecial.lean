@@ -20,25 +20,30 @@ private abbrev centreImage (J : Subgroup H) : Subgroup H :=
 private abbrev centralizerIn (P J : Subgroup H) : Subgroup H :=
   J ⊓ Subgroup.centralizer (P : Set H)
 
+omit [Finite H] in
 private lemma card_centreImage {J : Subgroup H} (hJ : IsExtraspecial2 J) :
     Nat.card (centreImage J) = 2 := by
   change Nat.card ((Subgroup.center J).map J.subtype) = 2
   rw [← hJ.2.1]
   exact hJ.2.2
 
+omit [Finite H] in
 private lemma centreImage_le {J : Subgroup H} : centreImage J ≤ J :=
   Subgroup.map_subtype_le _
 
+omit [Finite H] in
 private lemma centreImage_le_centralizer (J : Subgroup H) :
     centreImage J ≤ Subgroup.centralizer (J : Set H) := by
   rintro z ⟨w, hw, rfl⟩
   exact Subgroup.mem_centralizer_iff.mpr fun y _hy =>
     congrArg Subtype.val (Subgroup.mem_center_iff.mp hw ⟨y, _hy⟩)
 
+omit [Finite H] in
 private lemma inf_centralizer_eq_centreImage (J : Subgroup H) :
     J ⊓ Subgroup.centralizer (J : Set H) = centreImage J :=
   (CFSG.center_map_subtype_eq_inf_centralizer J).symm
 
+omit [Finite H] in
 private lemma normalizer_le_normalizer_centreImage (J : Subgroup H) :
     Subgroup.normalizer (J : Set H) ≤ Subgroup.normalizer (centreImage J : Set H) := by
   have step : ∀ (m : H), m ∈ Subgroup.normalizer (J : Set H) → ∀ (j : ↥J),
@@ -84,6 +89,7 @@ private lemma normalizer_le_normalizer_centreImage (J : Subgroup H) :
     rw [hz_eq]
     exact hzj
 
+omit [Finite H] in
 private lemma normalizer_le_centralizer_of_card_two {Z : Subgroup H} (hZ : Nat.card Z = 2) :
     Subgroup.normalizer (Z : Set H) ≤ Subgroup.centralizer (Z : Set H) := by
   intro n hn
@@ -113,11 +119,13 @@ private lemma normalizer_le_centralizer_of_card_two {Z : Subgroup H} (hZ : Nat.c
       z * n = (n * z * n⁻¹) * n := by rw [hconjH]
       _ = n * z := by group
 
+omit [Finite H] in
 private lemma normalizer_le_centralizer_centreImage {J : Subgroup H} (hJ : IsExtraspecial2 J) :
     Subgroup.normalizer (J : Set H) ≤ Subgroup.centralizer (centreImage J : Set H) :=
   (normalizer_le_normalizer_centreImage J).trans
     (normalizer_le_centralizer_of_card_two (card_centreImage hJ))
 
+omit [Finite H] in
 private lemma commutator_centreImage_normalizer {J P : Subgroup H} (hJ : IsExtraspecial2 J)
     (hNP : P ≤ Subgroup.normalizer (J : Set H)) :
     ⁅centreImage J, P⁆ = ⊥ := by
@@ -133,9 +141,9 @@ private lemma sup_centralizer_commutator_eq {p : ℕ} (hp : p.Prime) (hp2 : p �
     simpa only [Subgroup.commutator_comm] using
       (CFSG.HardMathSupport.Timmesfeld.ComponentBalance.commutator_le_of_normalizer
         (Y := J) (B := P) hNP)
-  · letI : Fact p.Prime := ⟨hp⟩
+  · let : Fact p.Prime := ⟨hp⟩
     have hcop : Nat.Coprime p (Nat.card J) := by
-      letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨n, hn⟩ := hJ.1.exists_card_eq
       rw [hn]
       refine Nat.prime_two.coprime_pow_of_not_dvd (a := p) (m := n) ?_
@@ -145,8 +153,9 @@ private lemma sup_centralizer_commutator_eq {p : ℕ} (hp : p.Prime) (hp2 : p �
       (X := H) (p := p) (Y := J) (B := P) hP hNP hcop
     simpa only [centralizerIn, Subgroup.commutator_comm] using h
 
-private lemma commutator_centralizer_commutator_eq_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    {J P : Subgroup H} (hJ : IsExtraspecial2 J) (hP : IsPGroup p P)
+omit [Finite H] in
+private lemma commutator_centralizer_commutator_eq_bot {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
+    {J P : Subgroup H} (hJ : IsExtraspecial2 J) (_hP : IsPGroup p P)
     (hNP : P ≤ Subgroup.normalizer (J : Set H)) :
     ⁅centralizerIn P J, ⁅P, J⁆⁆ = ⊥ := by
   set C : Subgroup H := centralizerIn P J
@@ -240,7 +249,7 @@ private lemma centreImage_le_commutator {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   simpa only [hEq] using (inf_le_right : centreImage J ⊓ K ≤ K)
 
 private lemma isExtraspecial2_of_centre_eq {J L : Subgroup H} (hJ : IsExtraspecial2 J)
-    (hL_le_J : L ≤ J) (hZL : centreImage J ≤ L)
+    (hL_le_J : L ≤ J) (_hZL : centreImage J ≤ L)
     (hcenter : (Subgroup.center L).map L.subtype = centreImage J) (hLne : L ≠ centreImage J) :
     IsExtraspecial2 L := by
   have hLp : IsPGroup 2 L := hJ.1.to_le hL_le_J
@@ -323,20 +332,23 @@ private lemma center_centralizer_eq_centreImage {p : ℕ} (hp : p.Prime) (hp2 : 
     exact Subgroup.mem_centralizer_iff.mp (centreImage_le_centralizer J hz) (d : H)
       (hC_le_J d.2)
 
-private lemma centreImage_le_centralizerIn {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    {J P : Subgroup H} (hJ : IsExtraspecial2 J) (hP : IsPGroup p P)
+omit [Finite H] in
+private lemma centreImage_le_centralizerIn {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
+    {J P : Subgroup H} (hJ : IsExtraspecial2 J) (_hP : IsPGroup p P)
     (hNP : P ≤ Subgroup.normalizer (J : Set H)) :
     centreImage J ≤ centralizerIn P J :=
   le_inf centreImage_le
     (Subgroup.commutator_eq_bot_iff_le_centralizer.mp
       (commutator_centreImage_normalizer hJ hNP))
 
+omit [Finite H] in
 private lemma commutator_le {J P : Subgroup H}
     (hNP : P ≤ Subgroup.normalizer (J : Set H)) : ⁅P, J⁆ ≤ J := by
   simpa only [Subgroup.commutator_comm] using
     (CFSG.HardMathSupport.Timmesfeld.ComponentBalance.commutator_le_of_normalizer
       (Y := J) (B := P) hNP)
 
+omit [Finite H] in
 private lemma commutator_ne_bot_of_not_centralizes {J P : Subgroup H}
     (hnot : ¬ P ≤ Subgroup.centralizer (J : Set H)) : ⁅P, J⁆ ≠ ⊥ := by
   intro hbot
@@ -415,7 +427,7 @@ private lemma commutator_isExtraspecial2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     (commutator_ne_centreImage_of_not_centralizes hp hp2 hJ hP hNP hnot)
 
 theorem prop5_centralizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    {J P : Subgroup H} (hJ : IsExtraspecial2 J) (hP : IsPGroup p P) (hPne : P ≠ ⊥)
+    {J P : Subgroup H} (hJ : IsExtraspecial2 J) (hP : IsPGroup p P) (_hPne : P ≠ ⊥)
     (hNP : P ≤ Subgroup.normalizer (J : Set H)) :
     IsExtraspecial2 (J ⊓ Subgroup.centralizer (P : Set H)) ∨
       J ⊓ Subgroup.centralizer (P : Set H) = (Subgroup.center J).map J.subtype := by
@@ -429,7 +441,7 @@ theorem prop5_centralizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     simpa only [centralizerIn, centreImage] using h
 
 theorem prop5_commutator_corrected {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    {J P : Subgroup H} (hJ : IsExtraspecial2 J) (hP : IsPGroup p P) (hPne : P ≠ ⊥)
+    {J P : Subgroup H} (hJ : IsExtraspecial2 J) (hP : IsPGroup p P) (_hPne : P ≠ ⊥)
     (hNP : P ≤ Subgroup.normalizer (J : Set H)) :
     IsExtraspecial2 (⁅P, J⁆ : Subgroup H) ∨
       ⁅P, J⁆ = (Subgroup.center J).map J.subtype ∨ ⁅P, J⁆ = ⊥ := by

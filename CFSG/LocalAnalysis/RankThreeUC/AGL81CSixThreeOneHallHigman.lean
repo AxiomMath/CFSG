@@ -84,7 +84,7 @@ theorem five_eq_of_hallHigman {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {σ : Typ
     Matrix.GeneralLinearGroup.toLin
   let H' : Subgroup (LinearMap.GeneralLinearGroup (ZMod p) (σ → ZMod p)) := H.map e.toMonoidHom
   let eH : ↥H ≃* ↥H' := Subgroup.equivMapOfInjective H e.toMonoidHom e.injective
-  haveI : Finite ↥H' := Finite.of_injective (fun y : ↥H' => eH.symm y) eH.symm.injective
+  have : Finite ↥H' := Finite.of_injective (fun y : ↥H' => eH.symm y) eH.symm.injective
   have hH' : CFSG.HallHigman.IsPSolvable p ↥H' :=
     CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.PSolvableClosure.isPSolvable_map
       e.toMonoidHom hH
@@ -134,7 +134,7 @@ private theorem pCore_eq_bot_of_normal {p : ℕ} [Fact p.Prime] {G : Type*} [Gro
     CFSG.pCore p ↥M = ⊥ := by
   let K : Subgroup ↥M := CFSG.pCore p ↥M
   have hKchar : K.Characteristic := CFSG.pCore_characteristic
-  haveI : K.Characteristic := hKchar
+  have : K.Characteristic := hKchar
   have hKnormal : (K.map M.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
   have hKp : IsPGroup p ↥(K.map M.subtype) := CFSG.pCore_isPGroup.map M.subtype
   have hle : K.map M.subtype ≤ CFSG.pCore p G := le_sSup ⟨hKnormal, hKp⟩
@@ -162,7 +162,7 @@ private theorem isPGroup_two_le_of_odd_index {K : Type*} [Group K] [Finite K] {N
 private theorem not_dvd_card_of_solvable_normal {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
     {σ : Type} [Fintype σ] [DecidableEq σ] (hσ : Fintype.card σ ≤ 4)
     {G : Subgroup (GL σ (ZMod p))} (hO : CFSG.pCore p ↥G = ⊥) (M : Subgroup ↥G) [M.Normal]
-    (hM : IsSolvable ↥M)
+    (hM : Group.IsSolvable ↥M)
     (hM2 : p = 5 → ∀ S : Sylow 2 ↥M, ∀ a ∈ (S : Subgroup ↥M), ∀ b ∈ (S : Subgroup ↥M),
       a * b = b * a) : ¬ p ∣ Nat.card ↥M := by
   intro hpM
@@ -185,7 +185,7 @@ private theorem not_dvd_card_of_solvable_normal {p : ℕ} [Fact p.Prime] (hp5 : 
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥H) := inferInstance
   obtain ⟨aH, haH, bH, hbH, habH⟩ := hsylH S
   let P : Subgroup ↥M := ((S : Subgroup ↥H).map eM.symm.toMonoidHom)
-  have hP2 : IsPGroup 2 P := S.isPGroup'.map eM.symm.toMonoidHom
+  have hP2 : IsPGroup 2 P := S.isPGroup.map eM.symm.toMonoidHom
   have haP : eM.symm aH ∈ P := Subgroup.mem_map.2 ⟨aH, haH, rfl⟩
   have hbP : eM.symm bH ∈ P := Subgroup.mem_map.2 ⟨bH, hbH, rfl⟩
   have hPnab : (eM.symm aH) * (eM.symm bH) ≠ (eM.symm bH) * (eM.symm aH) := by
@@ -197,9 +197,9 @@ private theorem not_dvd_card_of_solvable_normal {p : ℕ} [Fact p.Prime] (hp5 : 
 private theorem exists_nonabelian_two_subgroup_le_of_piCore_eq_bot {p : ℕ} [Fact p.Prime]
     (hp5 : 5 ≤ p) {σ : Type} [Fintype σ] [DecidableEq σ] (hσ : Fintype.card σ ≤ 4)
     {G : Subgroup (GL σ (ZMod p))} (M : Subgroup ↥G) [M.Normal]
-    {x : ↥G} (hxp : x ^ p = 1) (hxM : x ∉ M)
+    {x : ↥G} (_hxp : x ^ p = 1) (hxM : x ∉ M)
     {K : Subgroup ↥G} (N : Subgroup ↥K) (hN : N = M.subgroupOf K) [N.Normal]
-    (xK : ↥K) (hxK : (xK : ↥G) = x) (hxKp : xK ^ p = 1)
+    (xK : ↥K) (hxK : (xK : ↥G) = x) (_hxKp : xK ^ p = 1)
     (hNcop : ¬ p ∣ Nat.card ↥N) (hidx : N.index ∣ p)
     (hpi : CFSG.piCore {q : Nat.Primes | q.val = p} ↥K = ⊥) :
     p = 5 ∧ ∃ P : Subgroup ↥K, IsPGroup 2 P ∧ P ≤ N ∧
@@ -235,7 +235,7 @@ private theorem exists_nonabelian_two_subgroup_le_of_piCore_eq_bot {p : ℕ} [Fa
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥H) := inferInstance
   obtain ⟨aH, haH, bH, hbH, habH⟩ := hsylH S
   let P : Subgroup ↥K := (S : Subgroup ↥H).map eK.symm.toMonoidHom
-  have hP2 : IsPGroup 2 P := S.isPGroup'.map eK.symm.toMonoidHom
+  have hP2 : IsPGroup 2 P := S.isPGroup.map eK.symm.toMonoidHom
   have haP : eK.symm aH ∈ P := Subgroup.mem_map.2 ⟨aH, haH, rfl⟩
   have hbP : eK.symm bH ∈ P := Subgroup.mem_map.2 ⟨bH, hbH, rfl⟩
   have hPnab : (eK.symm aH) * (eK.symm bH) ≠ (eK.symm bH) * (eK.symm aH) := by
@@ -275,7 +275,7 @@ private theorem false_of_nonabelian_two_subgroup_le {p : ℕ} [Fact p.Prime] {σ
 private theorem commute_of_pow_prime_of_solvable_normal {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
     {σ : Type} [Fintype σ] [DecidableEq σ] (hσ : Fintype.card σ ≤ 4)
     {G : Subgroup (GL σ (ZMod p))} (hO : CFSG.pCore p ↥G = ⊥) (M : Subgroup ↥G) [M.Normal]
-    (hM : IsSolvable ↥M)
+    (hM : Group.IsSolvable ↥M)
     (hM2 : p = 5 → ∀ S : Sylow 2 ↥M, ∀ a ∈ (S : Subgroup ↥M), ∀ b ∈ (S : Subgroup ↥M),
       a * b = b * a)
     {x : ↥G} (hxp : x ^ p = 1) : ∀ m ∈ M, x * m = m * x := by
@@ -294,7 +294,7 @@ private theorem commute_of_pow_prime_of_solvable_normal {p : ℕ} [Fact p.Prime]
     rw [hx1, one_mul, mul_one]
   · let K : Subgroup ↥G := Subgroup.zpowers x ⊔ M
     let N : Subgroup ↥K := M.subgroupOf K
-    haveI hN : N.Normal := Subgroup.Normal.subgroupOf inferInstance K
+    have hN : N.Normal := Subgroup.Normal.subgroupOf inferInstance K
     have hMK : M ≤ K := le_sup_right
     let xK : ↥K := ⟨x, Subgroup.mem_sup_left (Subgroup.mem_zpowers x)⟩
     have hxK : (xK : ↥G) = x := rfl
@@ -329,7 +329,7 @@ private theorem commute_of_pow_prime_of_solvable_normal {p : ℕ} [Fact p.Prime]
 
 theorem commute_of_solvable_normal {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {σ : Type} [Fintype σ]
     [DecidableEq σ] (hσ : Fintype.card σ ≤ 4) {G : Subgroup (GL σ (ZMod p))}
-    (hO : CFSG.pCore p ↥G = ⊥) (M : Subgroup ↥G) [M.Normal] (hM : IsSolvable ↥M)
+    (hO : CFSG.pCore p ↥G = ⊥) (M : Subgroup ↥G) [M.Normal] (hM : Group.IsSolvable ↥M)
     (hM2 : p = 5 → ∀ S : Sylow 2 ↥M, ∀ a ∈ (S : Subgroup ↥M), ∀ b ∈ (S : Subgroup ↥M),
       a * b = b * a)
     {x : ↥G} {k : ℕ} (hx : x ^ p ^ k = 1) : ∀ m ∈ M, x * m = m * x := by
@@ -339,7 +339,7 @@ theorem commute_of_solvable_normal {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {σ 
 theorem le_center_of_solvable_normal {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {σ : Type}
     [Fintype σ] [DecidableEq σ] (hσ : Fintype.card σ ≤ 4) {G : Subgroup (GL σ (ZMod p))}
     (hG : oPPrimeHull p G = G) (hO : CFSG.pCore p ↥G = ⊥) (M : Subgroup ↥G) [M.Normal]
-    (hM : IsSolvable ↥M)
+    (hM : Group.IsSolvable ↥M)
     (hM2 : p = 5 → ∀ S : Sylow 2 ↥M, ∀ a ∈ (S : Subgroup ↥M), ∀ b ∈ (S : Subgroup ↥M),
       a * b = b * a) :
     M ≤ Subgroup.center ↥G := by

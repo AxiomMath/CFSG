@@ -185,7 +185,7 @@ theorem exists_noncommuting_cls (H : StrothHyp M Q Z) {z : G} (hz : z ∈ Z) (hz
 
 theorem exists_orderOf_mul_eq_four (H : StrothHyp M Q Z) {z : G} (hz : z ∈ Z) (hz1 : z ≠ 1) :
     ∃ d ∈ CFSG.Timmesfeld.CorB.cls z, ∃ e ∈ CFSG.Timmesfeld.CorB.cls z, orderOf (d * e) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨d, hd, e, he, hdQ, heQ, hde⟩ := exists_noncommuting_cls H hz hz1
   have hsq : ∀ w ∈ CFSG.Timmesfeld.CorB.cls z, w * w = 1 := by
     intro w hw
@@ -270,6 +270,7 @@ section Recog
 
 variable [Finite G] {M Q Z : Subgroup G}
 
+omit [Finite G] in
 theorem image_clsIn (z : G) :
     (Subgroup.normalClosure ({z} : Set G)).subtype '' CFSG.Timmesfeld.CorB.clsIn z =
       CFSG.Timmesfeld.CorB.cls z := by

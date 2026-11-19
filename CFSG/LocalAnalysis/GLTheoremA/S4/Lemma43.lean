@@ -39,7 +39,7 @@ theorem lemma43 {p : ℕ} (hp : p.Prime) (hS3 : Stage3 G p) (h183 : Input18_3_4)
     (h1131 : I1131At G p) (h1122 : I1122IsoAt G p) (h1132 : I1132UsedAt G p)
     (hLB : LBalanceAt G p) : Lemma43At G p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro B x L hS hBL
   obtain ⟨hB, hx, hLc⟩ := hS
   have hZL : Nat.card (Subgroup.center (PQuot p L)) = p :=

@@ -83,7 +83,7 @@ private theorem ggTP_aut_eq_one_or_isTransvection {G : Type} [Group G] {Bs : Sub
     (hψ : ∀ b : ↥Bs, ((b⁻¹ * ψ b : ↥Bs) : G) ∈ Subgroup.zpowers y) :
     ψ = 1 ∨ GGIsTransvection 3 ψ := by
   classical
-  haveI : IsMulCommutative ↥Bs := hBs.1
+  have : IsMulCommutative ↥Bs := hBs.1
   let c : ↥Bs := ⟨y, hyBs⟩
   have hψc : ψ c = c := by simpa only [c] using hψy
   have hc3 : c ^ 3 = 1 := by
@@ -206,7 +206,7 @@ private noncomputable def ggTP_kerEquiv {G : Type} [Group G] {Bs : Subgroup G} {
       obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp gg.2
       have hgb : (⟨(gg : G), hgBs⟩ : ↥Bs) = (⟨y, hyBs⟩ : ↥Bs) ^ k := by
         ext
-        simpa [hk]
+        simp [hk]
       rw [hgb, map_zpow, hφy]
     let x : ↥(ggTP_Fx φ) :=
       ⟨Additive.ofMul (⟨(gg : G), hgBs⟩ : ↥Bs), by
@@ -241,7 +241,7 @@ private theorem ggTP_card_fixH {G : Type} [Group G] {Bs X : Subgroup G} {y : G} 
     (hfixg : Nat.card {v : E6Dep.Vec6 // v 5 = 0 ∧ g.mulVec v = v} = 3 ^ 4) :
     Nat.card {b : ↥Bs // φ b = b} = 3 ^ 5 := by
   have hker : Nat.card (ggTP_f κ φ).ker = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     rw [Nat.card_congr (ggTP_kerEquiv hyBs hκ.1 hφy), Nat.card_zpowers]
     exact orderOf_eq_prime hy3 hy1
   have hcardRange : Nat.card (ggTP_f κ φ).range = 3 ^ 4 := by

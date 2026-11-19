@@ -35,9 +35,9 @@ private theorem isMetacyclic_of_isPGroup_subgroup_mulAut {X : Type} [Group X] [F
     rw [hZ, Subgroup.mem_bot, inv_mul_eq_one] at hc
     exact hc
   let I : Subgroup (MulAut X) := CFSG.ComponentClassification.OuterAutomorphisms.inner X
-  haveI hIn : I.Normal := inferInstance
+  have hIn : I.Normal := inferInstance
   let N : Subgroup ↥R := I.subgroupOf R
-  haveI hNn : N.Normal := inferInstance
+  have hNn : N.Normal := inferInstance
   have hNcyc : IsCyclic ↥N := by
     have hN3 : IsPGroup 3 ↥N := hR.to_subgroup N
     let B : Subgroup (MulAut X) := N.map (Subgroup.subtype R)
@@ -56,7 +56,7 @@ private theorem isMetacyclic_of_isPGroup_subgroup_mulAut {X : Type} [Group X] [F
         ((MulAut.conj : X →* MulAut X).subgroupMap_surjective A)
     exact (N.equivMapOfInjective (Subgroup.subtype R) Subtype.val_injective).isCyclic.mpr hBcyc
   have hquotcyc : IsCyclic (↥R ⧸ N) := by
-    haveI : IsCyclic (Outer X) := hOut
+    have : IsCyclic (Outer X) := hOut
     let g : ↥R →* Outer X := (QuotientGroup.mk' I).comp (Subgroup.subtype R)
     have hker : g.ker = N := by
       ext x
@@ -84,7 +84,7 @@ private theorem isMetacyclic_of_isPGroup_subgroup_mulAut {X : Type} [Group X] [F
   have hA3 : IsPGroup 3 ↥A := hR.comap_of_injective _ hinj
   have hAcyc : IsCyclic ↥A := hcyc A hA3
   have hRA : A.map (MulAut.conj : X →* MulAut X) = R := Subgroup.map_comap_eq_self hRI
-  haveI := hAcyc
+  have := hAcyc
   rw [← hRA]
   exact isCyclic_of_surjective ((MulAut.conj : X →* MulAut X).subgroupMap A)
     ((MulAut.conj : X →* MulAut X).subgroupMap_surjective A)
@@ -106,7 +106,7 @@ theorem exists_metacyclic_hom_of_isL2 {D : Data G} (h82 : F08.R82 D)
   have hsimple : IsSimpleGroup (Bar2 L) :=
     isSimpleGroup_bar2_of_isL2_or_isSz (Or.inl hL2)
   have hZ : Subgroup.center (Bar2 L) = ⊥ := by
-    haveI := hsimple
+    have := hsimple
     exact uc22p21k_center_eq_bot hL.2.2
   have hEv : IsL2Ev (Bar2 L) n := (P22fin.isL2Ev_of_isL2 hL2).1
   have hcyc : ∀ S : Subgroup (Bar2 L), IsPGroup 3 S → IsCyclic S := fun S hS =>

@@ -37,7 +37,7 @@ theorem card_T (h : d.Hyp) (hK : ∀ v ∈ d.V₂, ∀ m ∈ d.M, m * v * m⁻¹
 
 theorem isSylowOf_T (h : d.Hyp) (hKl : d.KLinear) (hH : d.H ≤ d.L ⊔ zpowers d.t) :
     CFSG.ABGLocalTools.IsSylowOf 2 (d.P ⊔ zpowers d.t) (normalizer (d.R₃ : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK := h.comm_M_V₂_mem_W_linear hKl
   have hKY := h.M_le_normalizer_Y_linear hKl
   set Nh : Subgroup G := normalizer (d.S : Set G) ⊓ d.H with hNh
@@ -197,7 +197,7 @@ theorem mem_normalizer_V₃_of_T (h : d.Hyp) (hKl : d.KLinear) {n : G}
 theorem map_conj_P_eq_P (h : d.Hyp) (hKl : d.KLinear) {n : G}
     (hn : n ∈ normalizer ((d.P ⊔ zpowers d.t : Subgroup G) : Set G)) :
     d.P.map (MulAut.conj n).toMonoidHom = d.P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK := h.comm_M_V₂_mem_W_linear hKl
   have hKY := h.M_le_normalizer_Y_linear hKl
   obtain ⟨hQ1c, -⟩ := h.P_comm_sq_mem_V₃ hKl
@@ -223,7 +223,7 @@ theorem map_conj_P_eq_P (h : d.Hyp) (hKl : d.KLinear) {n : G}
     rw [hP'def, Subgroup.card_map_of_injective (MulAut.conj n).injective, h.card_P hK hKY]
   have hle : P' ≤ d.P := by
     by_contra hcon
-    obtain ⟨y, hyP', hyP⟩ := SetLike.not_le_iff_exists.1 hcon
+    obtain ⟨y, hyP', hyP⟩ := IsConcreteLE.not_le_iff_exists.1 hcon
     obtain ⟨z, hz, rfl⟩ := hyP'
     have hyT : (MulAut.conj n).toMonoidHom z ∈ d.P ⊔ zpowers d.t := hP'T ⟨z, hz, rfl⟩
     set y : G := (MulAut.conj n).toMonoidHom z with hydef
@@ -345,7 +345,7 @@ theorem exists_sylow_T (h : d.Hyp) (hKl : d.KLinear) (hH : d.H ≤ d.L ⊔ zpowe
     ∃ S₂ : Sylow 2 G, (S₂ : Subgroup G) = d.P ⊔ zpowers d.t := by
   have hK := h.comm_M_V₂_mem_W_linear hKl
   have hKY := h.M_le_normalizer_Y_linear hKl
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact exists_sylow_of_normalizer_le (IsPGroup.of_card (h.card_T hK hKY))
     (h.isSylowOf_T hKl hH) (h.normalizer_T_le_normalizer_R₃ hKl)
 

@@ -472,7 +472,7 @@ private theorem isFlipflopPt_stdE_three (σ : K ≃+* K) :
   · intro h
     have h1 := congrFun h (.inl 3)
     simp [stdE] at h1
-  · rw [flipHerm_stdE_stdE, if_pos rfl]
+  · rw [flipHerm_stdE_stdE, ite_eq_left rfl]
     exact one_ne_zero
 
 private theorem isFlipflopPt_stdE_four (σ : K ≃+* K) :
@@ -481,7 +481,7 @@ private theorem isFlipflopPt_stdE_four (σ : K ≃+* K) :
   · intro h
     have h1 := congrFun h (.inl 4)
     simp [stdE] at h1
-  · rw [flipHerm_stdE_stdE, if_pos rfl]
+  · rw [flipHerm_stdE_stdE, ite_eq_left rfl]
     exact one_ne_zero
 
 private noncomputable def stdPointThree (σ : K ≃+* K) : FlipPt σ 5 :=

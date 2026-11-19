@@ -22,9 +22,9 @@ open CFSG.ClassicalGroups.UnitaryFlag (gramForm_isSymm gramForm_separatingLeft u
 
 private theorem not_isSolvable_of_quasisimple {X : Type*} [Group X]
     (hX : CFSG.Open.IsQuasisimple X) : ¬ Group.IsSolvable X := by
-  haveI := hX.2.toNontrivial
-  haveI : Nontrivial X := (QuotientGroup.mk_surjective (s := Subgroup.center X)).nontrivial
-  haveI : Group.IsPerfect X := ⟨hX.1⟩
+  have := hX.2.toNontrivial
+  have : Nontrivial X := (QuotientGroup.mk_surjective (s := Subgroup.center X)).nontrivial
+  have : Group.IsPerfect X := ⟨hX.1⟩
   exact Group.IsPerfect.not_isSolvable X
 
 section Orders
@@ -32,7 +32,7 @@ section Orders
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
 
 private theorem natCard_su_zero : Nat.card ↥(SU (unitaryInvolution F 2 f) 0) = 1 := by
-  haveI : Subsingleton ↥(SU (unitaryInvolution F 2 f) 0) :=
+  have : Subsingleton ↥(SU (unitaryInvolution F 2 f) 0) :=
     ⟨fun _ _ => Subtype.ext (Units.ext (Matrix.ext fun i => i.elim0))⟩
   exact Nat.card_of_subsingleton 1
 
@@ -55,13 +55,13 @@ theorem two_le_of_su_isQuasisimple {F : Type} [Field F] [Finite F] [CharP F 2] {
     (hX : CFSG.Open.IsQuasisimple X) : 2 ≤ k ∧ (k ≤ 3 → 2 ≤ f) := by
   have hns : ∀ a b : ℕ, Nat.card ↥(SU (unitaryInvolution F 2 f) k) ≠ 2 ^ a * 3 ^ b := by
     intro a b h
-    haveI : Finite ↥(SU (unitaryInvolution F 2 f) k) :=
+    have : Finite ↥(SU (unitaryInvolution F 2 f) k) :=
       Nat.finite_of_card_ne_zero (by rw [h]; positivity)
     have := Fintype.ofFinite ↥(SU (unitaryInvolution F 2 f) k)
-    haveI := CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
+    have := CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       (G := ↥(SU (unitaryInvolution F 2 f) k)) Nat.prime_two Nat.prime_three (by norm_num)
       (by rw [← Nat.card_eq_fintype_card, h])
-    exact not_isSolvable_of_quasisimple hX (solvable_of_surjective hφ)
+    exact not_isSolvable_of_quasisimple hX (Group.isSolvable_of_surjective hφ)
   rcases Nat.lt_or_ge k 2 with hk | hk
   · exfalso
     obtain rfl | rfl : k = 0 ∨ k = 1 := by omega

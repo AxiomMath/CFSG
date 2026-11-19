@@ -148,7 +148,7 @@ theorem distinct_even_component_sylow_join_rank
     exact sylow_two_not_isCyclic_of_perfect M hMeven U
       (isCyclic_of_injective e.toMonoidHom e.injective)
   exact commuting_rank_one_noncyclic_two_subgroups_join_rank P Q
-    (T.isPGroup'.map L.subtype) (U.isPGroup'.map M.subtype)
+    (T.isPGroup.map L.subtype) (U.isPGroup.map M.subtype)
     hPrank' hQrank' hPncyclic hQncyclic hcomm
 
 end CFSG.ProperTwoGeneratedCore

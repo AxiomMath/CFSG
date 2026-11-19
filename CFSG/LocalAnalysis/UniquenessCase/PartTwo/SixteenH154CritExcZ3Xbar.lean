@@ -127,9 +127,9 @@ theorem s16h_z3_sub_of_invariant {X : Type*} [Group X] {L L₂ : Subgroup X}
     ((Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcomm) ha b hb).symm
   have hcard9 : Nat.card ↥(L ⊔ L₂) = 9 := by
     rw [s16h_z3_card_sup_eq hcommLR hinf, hL, hL₂]
-  haveI : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hL]; norm_num)
-  haveI : Finite ↥L₂ := Nat.finite_of_card_ne_zero (by rw [hL₂]; norm_num)
-  haveI : Finite ↥(L ⊔ L₂) := Nat.finite_of_card_ne_zero (by rw [hcard9]; norm_num)
+  have : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hL]; norm_num)
+  have : Finite ↥L₂ := Nat.finite_of_card_ne_zero (by rw [hL₂]; norm_num)
+  have : Finite ↥(L ⊔ L₂) := Nat.finite_of_card_ne_zero (by rw [hcard9]; norm_num)
   have hYdvd : Nat.card ↥Y ∣ 9 := by
     rw [← hcard9]
     exact Subgroup.card_dvd_of_le hY
@@ -141,7 +141,7 @@ theorem s16h_z3_sub_of_invariant {X : Type*} [Group X] {L L₂ : Subgroup X}
     exact by simpa using hcard_eq
   ·
     have hYcard3 : Nat.card ↥Y = 3 := by simpa using hcard_eq
-    haveI : Finite ↥Y := Nat.finite_of_card_ne_zero (by rw [hYcard3]; norm_num)
+    have : Finite ↥Y := Nat.finite_of_card_ne_zero (by rw [hYcard3]; norm_num)
     have hYne : Y ≠ ⊥ := by
       intro hbot
       rw [hbot] at hYcard3

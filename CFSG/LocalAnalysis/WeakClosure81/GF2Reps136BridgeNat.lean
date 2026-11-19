@@ -103,6 +103,7 @@ private theorem w1369_alternatingNatural_sec {A : Subgroup (MulAut W)} {U Z : Su
     (h : AlternatingNatural (secSub U Z A) ⊤ ⊥ n) : AlternatingNatural A U Z n :=
   (realizes_secSub_iff (FFModel.altDn n) hA hZU hf).1 h
 
+omit [Finite W] in
 private theorem w1369_conc_four_exp1 {L : Subgroup (MulAut W)} {U Z : Subgroup W} {m n : ℕ}
     (h : (IsSLn ↥L n 1 ∧ BinaryNaturalSL L U Z n 1) ∨
       (IsSpn ↥L n 1 ∧ NatSpn L U Z n 1) ∨
@@ -115,6 +116,7 @@ private theorem w1369_conc_four_exp1 {L : Subgroup (MulAut W)} {U Z : Subgroup W
   · exact Or.inr (Or.inl ⟨n, Or.inr (Or.inr (Or.inl ⟨h1, h2⟩))⟩)
   · exact Or.inr (Or.inl ⟨n, Or.inr (Or.inr (Or.inr (Or.inl ⟨h1, h2⟩)))⟩)
 
+omit [Finite W] in
 private theorem w1369_conc_alt {L : Subgroup (MulAut W)} {U Z : Subgroup W} {m n : ℕ}
     (h : IsAlt ↥L n ∧ AlternatingNatural L U Z n) : Conc4_135 L U Z m := by
   unfold Conc4_135

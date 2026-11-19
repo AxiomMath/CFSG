@@ -18,7 +18,7 @@ theorem t148_diagUnits_comm (a b c a' b' c' : Fˣ) :
 theorem t148_diagUnits_one : diagUnits (1 : Fˣ) 1 1 = 1 := by
   apply Units.ext
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [coe_diagUnits, Matrix.diagonal_apply, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [coe_diagUnits]
 
 theorem t148_diagUnits_pow (u v w : Fˣ) (n : ℕ) :
     diagUnits u v w ^ n = diagUnits (u ^ n) (v ^ n) (w ^ n) := by

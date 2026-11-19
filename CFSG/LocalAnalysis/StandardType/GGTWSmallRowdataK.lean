@@ -95,7 +95,7 @@ theorem ggTWSmall_rowdata_K
     (hTw : r₀ ≤ 5 → GGTWTwA5Open)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K) {N : ℕ}
-    (hN : N = 5 ∨ N = 6 ∨ N = 7 ∨ N = 9 ∨ N = 10) (hrN : r₀ + 1 ≤ N)
+    (_hN : N = 5 ∨ N = 6 ∨ N = 7 ∨ N = 9 ∨ N = 10) (hrN : r₀ + 1 ≤ N)
     {labJ : LargeEvenLabel} (hJΛ : LargeEvenInLambda2 labJ)
     (hJl : GGHasLabel labJ (↥J ⧸ Subgroup.center ↥J)) (hJtag : labJ.tag = .A ∨ labJ.tag = .twA)
     (hJr : labJ.rank + 3 = N) (hrowK : GGResRowAt ggRowTwoNode p J K) :

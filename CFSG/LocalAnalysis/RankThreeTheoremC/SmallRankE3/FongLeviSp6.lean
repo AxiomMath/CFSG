@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.ComponentInitial
 theorem sp6_eq_two_of_prime_dvd_card {F : Type} [Field F] [Finite F] [CharP F 2] {p : ℕ}
     (hp : p.Prime) (hpF : p ∣ Nat.card F) : p = 2 := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   rw [← Nat.card_eq_fintype_card] at hn
   rw [hn] at hpF
@@ -47,7 +47,7 @@ theorem sp6_not_dvd_card_sl_le_two {F : Type} [Field F] [Finite F] [CharP F 2] {
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : ¬ p ∣ Nat.card F ^ 2 - 1) {m : ℕ} (hm : m ≤ 2) :
     ¬ p ∣ Nat.card (Matrix.SpecialLinearGroup (Fin m) F) := by
   rcases Nat.lt_or_ge m 2 with h | h
-  · haveI := sp6_subsingleton_sl (F := F) h
+  · have := sp6_subsingleton_sl (F := F) h
     rw [Nat.card_of_subsingleton (1 : Matrix.SpecialLinearGroup (Fin m) F)]
     exact hp.not_dvd_one
   · obtain rfl : m = 2 := by omega
@@ -63,7 +63,7 @@ theorem sp6_not_dvd_card_statedSp {F : Type} [Field F] [Finite F] [CharP F 2] {p
     ¬ p ∣ Nat.card (StatedSp m F) := by
   rw [CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.card_statedSp]
   interval_cases m
-  · simp only [pow_zero, Finset.Icc_eq_empty_of_lt (show 0 < 1 by norm_num), Finset.prod_empty,
+  · simp only [Finset.Icc_eq_empty_of_lt (show 0 < 1 by norm_num), Finset.prod_empty,
       mul_one]
     exact hp.not_dvd_one
   · simp only [one_pow, pow_one, Finset.Icc_self, Finset.prod_singleton, mul_one]
@@ -79,7 +79,7 @@ theorem sp6_commutator_sp {F : Type} [Field F] [Finite F] [CharP F 2] (h4 : 4 �
   · have hc : Nat.card (StatedSp 0 F) = 1 := by
       rw [CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.card_statedSp]
       simp
-    haveI := (Nat.card_eq_one_iff_unique.1 hc).1
+    have := (Nat.card_eq_one_iff_unique.1 hc).1
     refine (Subgroup.eq_top_iff' _).2 fun x => ?_
     rw [Subsingleton.elim x 1]
     exact Subgroup.one_mem _
@@ -89,7 +89,7 @@ theorem sp6_commutator_sl {F : Type} [Field F] [Finite F] (h4 : 4 ≤ Nat.card F
     commutator (Matrix.SpecialLinearGroup (Fin k) F) = ⊤ := by
   by_cases hk : 2 ≤ k
   · exact (spFlag_isQuasisimple_SL (K := F) hk (Or.inr h4)).1
-  · haveI := sp6_subsingleton_sl (F := F) (m := k) (by omega)
+  · have := sp6_subsingleton_sl (F := F) (m := k) (by omega)
     refine (Subgroup.eq_top_iff' _).2 fun x => ?_
     rw [Subsingleton.elim x 1]
     exact Subgroup.one_mem _
@@ -182,7 +182,7 @@ theorem sp6_block_zero_props {F : Type} [Field F] [Finite F] [CharP F 2]
   exact hp.not_dvd_one
 
 theorem sp6_block_three_props {F : Type} [Field F] [Finite F] [CharP F 2]
-    (h4 : 4 ≤ Nat.card F) {p : ℕ} (hpq : ¬ p ∣ Nat.card F ^ 2 - 1) {A : Type} [Group A]
+    (_h4 : 4 ≤ Nat.card F) {p : ℕ} (hpq : ¬ p ∣ Nat.card F ^ 2 - 1) {A : Type} [Group A]
     {k : ℕ} (hk : k = 3) (e : A ≃* Matrix.SpecialLinearGroup (Fin k) F) :
     CFSG.Open.IsQuasisimple A ∧ ¬ p ∣ Nat.card (Subgroup.center A) ∧
       Nonempty (A ⧸ Subgroup.center A ≃*

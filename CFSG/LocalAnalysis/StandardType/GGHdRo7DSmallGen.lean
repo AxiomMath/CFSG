@@ -26,7 +26,7 @@ private lemma hdRo7DSmGenAux_dB_one_dE {n : ℕ} (k : Fin (n + 1)) (v : DV n) :
   rw [Finset.sum_eq_single k]
   · simp
   · intro b _ hb
-    rw [if_neg hb]
+    rw [ite_eq_right hb]
     simp
   · intro hk
     exact absurd (Finset.mem_univ k) hk
@@ -83,10 +83,10 @@ private lemma hdRo7DSmGenAux_dActL_dE {n : ℕ} (σ : Equiv.Perm (Fin (n + 1)))
     hdRo7DSmGenAux_dE_apply]
   by_cases h : j = σ k
   · have h' : σ.symm j = k := by rw [h, Equiv.symm_apply_apply]
-    rw [if_pos h', if_pos h, h']
+    rw [ite_eq_left h', ite_eq_left h, h']
     simp
   · have h' : ¬ σ.symm j = k := fun hh => h (by rw [← hh, Equiv.apply_symm_apply])
-    rw [if_neg h', if_neg h, smul_zero, mul_zero]
+    rw [ite_eq_right h', ite_eq_right h, smul_zero, mul_zero]
 
 private def hdRo7DSmGenAux_pairSign {n : ℕ} (i j : Fin (n + 1)) : Fin (n + 1) → ZMod 3 :=
   fun k => if k = i ∨ k = j then -1 else 1
@@ -103,9 +103,9 @@ private lemma hdRo7DSmGenAux_pairSign_swap {n : ℕ} {i j : Fin (n + 1)}
       hdRo7DSmGenAux_pairSign i j k := by
   unfold hdRo7DSmGenAux_pairSign
   by_cases hki : k = i
-  · rw [hki, Equiv.swap_apply_left, if_pos (Or.inr rfl), if_pos (Or.inl rfl)]
+  · rw [hki, Equiv.swap_apply_left, ite_eq_left (Or.inr rfl), ite_eq_left (Or.inl rfl)]
   · by_cases hkj : k = j
-    · rw [hkj, Equiv.swap_apply_right, if_pos (Or.inl rfl), if_pos (Or.inr rfl)]
+    · rw [hkj, Equiv.swap_apply_right, ite_eq_left (Or.inl rfl), ite_eq_left (Or.inr rfl)]
     · rw [Equiv.swap_apply_of_ne_of_ne hki hkj]
 
 private lemma hdRo7DSmGenAux_pairSign_eq_mul {n : ℕ} {i j : Fin (n + 1)} (hij : i ≠ j)
@@ -114,12 +114,12 @@ private lemma hdRo7DSmGenAux_pairSign_eq_mul {n : ℕ} {i j : Fin (n + 1)} (hij 
       (if k = i then -1 else 1 : ZMod 3) * (if k = j then -1 else 1) := by
   unfold hdRo7DSmGenAux_pairSign
   by_cases hki : k = i
-  · rw [hki, if_pos (Or.inl rfl), if_pos rfl, if_neg hij]
+  · rw [hki, ite_eq_left (Or.inl rfl), ite_eq_left rfl, ite_eq_right hij]
     ring
   · by_cases hkj : k = j
-    · rw [hkj, if_pos (Or.inr rfl), if_neg (Ne.symm hij), if_pos rfl]
+    · rw [hkj, ite_eq_left (Or.inr rfl), ite_eq_right (Ne.symm hij), ite_eq_left rfl]
       ring
-    · rw [if_neg (fun h => h.elim hki hkj), if_neg hki, if_neg hkj]
+    · rw [ite_eq_right (fun h => h.elim hki hkj), ite_eq_right hki, ite_eq_right hkj]
       ring
 
 private lemma hdRo7DSmGenAux_dAct_sub_apply {n : ℕ} (i j : Fin (n + 1)) (v : DV n)
@@ -395,8 +395,8 @@ private lemma hdRo7DSmGenAux_conj_sgn {n : ℕ} (σ : Equiv.Perm (Fin (n + 1)))
   congr 1
   have hiff : σ.symm k = a ↔ k = σ a := Equiv.symm_apply_eq σ
   by_cases h : k = σ a
-  · rw [if_pos (hiff.mpr h), if_pos h]
-  · rw [if_neg (fun hh => h (hiff.mp hh)), if_neg h]
+  · rw [ite_eq_left (hiff.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun hh => h (hiff.mp hh)), ite_eq_right h]
 
 private lemma hdRo7DSmGenAux_exists_perm_pair {m : ℕ} (a b x y : Fin m)
     (hab : a ≠ b) (hxy : x ≠ y) : ∃ σ : Equiv.Perm (Fin m), σ a = x ∧ σ b = y := by
@@ -494,13 +494,13 @@ private lemma hdRo7DSmGenAux_list_prod_sign {n : ℕ} (l : List (Fin (n + 1)))
     have hnot : i ∉ l := (List.nodup_cons.mp hnd).1
     rw [List.map_cons, List.prod_cons, ih hnd']
     by_cases hki : k = i
-    · rw [hki, if_pos rfl, if_neg hnot, if_pos (List.mem_cons_self)]
+    · rw [hki, ite_eq_left rfl, ite_eq_right hnot, ite_eq_left (List.mem_cons_self)]
       ring
-    · rw [if_neg hki]
+    · rw [ite_eq_right hki]
       by_cases hmem : k ∈ l
-      · rw [if_pos hmem, if_pos (List.mem_cons_of_mem i hmem)]
+      · rw [ite_eq_left hmem, ite_eq_left (List.mem_cons_of_mem i hmem)]
         ring
-      · rw [if_neg hmem, if_neg (fun h => by
+      · rw [ite_eq_right hmem, ite_eq_right (fun h => by
             rcases List.mem_cons.mp h with h' | h'
             · exact hki h'
             · exact hmem h')]
@@ -615,7 +615,7 @@ private lemma hdRo7DSmGenAux_diag_mem {n : ℕ} (G : Subgroup (DGL n)) (i0 : Fin
     rw [hdRo7DSmGenAux_list_prod_signPair_apply l i0 k,
       hdRo7DSmGenAux_list_prod_signPair_scalar l i0 k hnd hi0l]
     by_cases hk : k = i0
-    · rw [hk, if_pos rfl]
+    · rw [hk, ite_eq_left rfl]
       congr 1
       show (-1 : ZMod 3) ^ l.length = c i0
       rw [show l.length = (s.erase i0).card from Finset.length_toList _]
@@ -633,11 +633,11 @@ private lemma hdRo7DSmGenAux_diag_mem {n : ℕ} (G : Subgroup (DGL n)) (i0 : Fin
         · exact h.symm
         · exfalso
           exact his ((hmem i0).mpr h)
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       congr 1
       by_cases hkl : k ∈ l
-      · rw [if_pos hkl, ((hmeml k).mp hkl).1]
-      · rw [if_neg hkl]
+      · rw [ite_eq_left hkl, ((hmeml k).mp hkl).1]
+      · rw [ite_eq_right hkl]
         have hck : c k = 1 := by
           rcases hc k with h | h
           · exact h

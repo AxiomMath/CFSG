@@ -200,7 +200,7 @@ theorem omegaCentDecompOf_gen (Ω : Subgroup SpGL) (hΩ : Ω ≤ StatedSp 4 (ZMo
       have hsolv : Group.IsSolvable ↥(A₀ ⊓ OmInSp Ω) := by
         rcases hC.fixed with ⟨h0, -⟩ | ⟨-, ⟨e⟩⟩
         · omega
-        · haveI := sp1_solvable
+        · have := sp1_solvable
           rw [hs0] at e
           have hA₀ : Group.IsSolvable ↥A₀ :=
             Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective

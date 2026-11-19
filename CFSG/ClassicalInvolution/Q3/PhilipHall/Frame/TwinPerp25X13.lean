@@ -33,7 +33,7 @@ theorem aePerm_mkQ (n : ℕ) (x : Wr n) : aePerm n (mkQ n x) = x.perm := rfl
 
 theorem alt5_not_solvable : ¬ Group.IsSolvable (alternatingGroup (Fin 5)) := by
   intro hs
-  haveI := alternatingGroup.isSimpleGroup_five
+  have := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hcomm := IsSimpleGroup.comm_iff_isSolvable.mpr hs
   let a : alternatingGroup (Fin 5) := ⟨Equiv.swap 0 1 * Equiv.swap 1 2, by
     rw [Equiv.Perm.mem_alternatingGroup]; decide⟩
@@ -58,8 +58,8 @@ theorem ae5_not_solvable {X : Type} [Group X] [Finite X] {Φ : Set (Subgroup X)}
       exact Subgroup.mem_map_of_mem _ hmem
     obtain ⟨y, hy⟩ := this
     exact ⟨y, by rw [hθ, MonoidHom.comp_apply, hy, aePerm_mkQ]⟩
-  haveI : Group.IsSolvable θ.range := solvable_of_surjective θ.rangeRestrict_surjective
-  exact alt5_not_solvable (solvable_of_solvable_injective (f := Subgroup.inclusion hA5)
+  have : Group.IsSolvable θ.range := Group.isSolvable_of_surjective θ.rangeRestrict_surjective
+  exact alt5_not_solvable (Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hA5)
     (Subgroup.inclusion_injective hA5))
 
 end Perm
@@ -105,9 +105,9 @@ theorem secFacts_ae5 (hS : TwinDisc.Q8Section X Φ) (I : AEIdent Φ 5) (hker : I
   have hcen := ae5_center hS.gen I hker
   have hns : ¬ Group.IsSolvable X := by
     intro hsol
-    haveI := hsol
+    have := hsol
     have hinj : Function.Injective (pSpan Φ).subtype := Subgroup.subtype_injective _
-    exact ae5_not_solvable I (solvable_of_solvable_injective hinj)
+    exact ae5_not_solvable I (Group.isSolvable_of_isSolvable_injective hinj)
   exact ⟨secFacts_of_fixTwo ht.sq hcen hns hfix, hfix⟩
 
 end AE5Facts

@@ -206,6 +206,7 @@ section Linear8
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec8_natural_data (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hyp hc n t) :
     NaturalScalarData hc t := by
   obtain ⟨m, hm2, K', hF, hFin, hcard, hnat⟩ := hs.sp
@@ -244,8 +245,8 @@ theorem sec8_linModel [(Q.subgroupOf M).Normal] (h34 : Stroth34Statement)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) :
     EndLinModel (Mbar M Q) (bar M Q (H0 M Z)) (bar M Q Z0) :=
   endg_linModel h34 h310chi hc hs.toSec5 (Or.inl hs.spNat) (sec8_natural_data hc hs) hZ0
-    (fun z hz w hw => sec8_W_centralized h51 hA hzt h310chi hc hs hZ0 hz hw)
-    (fun u hu huQ => sec8_ZV_of_parts h51 hA hzt h310chi hc hs hZ0 hu huQ)
+    (fun _z hz _w hw => sec8_W_centralized h51 hA hzt h310chi hc hs hZ0 hz hw)
+    (fun _u hu huQ => sec8_ZV_of_parts h51 hA hzt h310chi hc hs hZ0 hu huQ)
 
 end Linear8
 
@@ -264,7 +265,7 @@ theorem endg_quot_facts_sp (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hyp hc
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
   obtain ⟨m, hm2, K', hF, hFin, hcard, hnat⟩ := hs.sp
-  haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
+  have : CharP K' 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
   have hK4 : 4 ≤ Nat.card K' := by rw [hcard]; exact hq4
   obtain ⟨φ, hφr, hφk, -⟩ := hnat
   obtain ⟨π, hπs, hπk⟩ := hc.exists_bar_hom ht φ hφr hφk

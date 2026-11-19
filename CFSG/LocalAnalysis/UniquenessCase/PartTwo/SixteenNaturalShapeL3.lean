@@ -33,8 +33,8 @@ theorem SumOfNatShape.small_cases_of_not_sixteen_dvd_card
     have hn3 : 3 ≤ n := s16k_three_le_of_isSLn hq hSL
     by_cases hn4 : 4 ≤ n
     · obtain ⟨K, hF, hFin, hK, ⟨e⟩⟩ := hSL
-      letI : Field K := hF
-      letI : Finite K := hFin
+      let : Field K := hF
+      let : Finite K := hFin
       have hK2 : Nat.card K = 2 := by simpa using hK
       have hcard : Nat.card ↥L = Nat.card (StatedSL n K) := Nat.card_congr e.toEquiv
       have h16' : (16 : ℕ) ∣ Nat.card ↥L := by
@@ -53,8 +53,8 @@ theorem SumOfNatShape.small_cases_of_not_sixteen_dvd_card
     obtain ⟨hSp, -⟩ := h
     have hn6 : 6 ≤ n := s16k_six_le_of_isSpn hq hSp
     obtain ⟨-, K, hF, hFin, hK, ⟨e⟩⟩ := hSp
-    letI : Field K := hF
-    letI : Finite K := hFin
+    let : Field K := hF
+    let : Finite K := hFin
     have hK2 : Nat.card K = 2 := by simpa using hK
     have hm : 3 ≤ n / 2 := by omega
     have hcard : Nat.card ↥L = Nat.card (StatedSp (n / 2) K) := Nat.card_congr e.toEquiv
@@ -73,9 +73,9 @@ theorem SumOfNatShape.small_cases_of_not_sixteen_dvd_card
     have hn6 : 6 ≤ n := s16k_six_le_of_isOmegaPlus hq hOP
     have hOP' := hOP
     obtain ⟨hEven, K, hF, hFin, hK, ⟨e⟩⟩ := hOP
-    letI : Field K := hF
-    letI : Finite K := hFin
-    haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) hK
+    let : Field K := hF
+    let : Finite K := hFin
+    have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) hK
     have hK2 : Nat.card K = 2 := by simpa using hK
     have hcard : Nat.card ↥L =
         Nat.card (StatedProj (StatedOmega (StatedQuadPlus (n / 2) K))) := Nat.card_congr e.toEquiv
@@ -112,9 +112,9 @@ theorem SumOfNatShape.small_cases_of_not_sixteen_dvd_card
     have hn4 : 4 ≤ n := s16k_four_le_of_isOmegaMinus hq hOM
     have hOM' := hOM
     obtain ⟨hEven, K, hF, hFin, b, c, hK, hirr, ⟨e⟩⟩ := hOM
-    letI : Field K := hF
-    letI : Finite K := hFin
-    haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) hK
+    let : Field K := hF
+    let : Finite K := hFin
+    have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) hK
     have hK2 : Nat.card K = 2 := by simpa using hK
     have hcard : Nat.card ↥L =
         Nat.card (StatedProj (StatedOmega (StatedQuadMinus (n / 2) K b c))) :=
@@ -195,8 +195,8 @@ theorem SumOfNatShape.alt_seven_of_card_eq_2520
     ⟨hSL3, -⟩ | ⟨hOM4, -⟩ | ⟨n, hAlt, hsum⟩
   ·
     obtain ⟨K, hF, hFin, hK, ⟨e⟩⟩ := hSL3
-    letI : Field K := hF
-    letI : Finite K := hFin
+    let : Field K := hF
+    let : Finite K := hFin
     have hK2 : Nat.card K = 2 := by simpa using hK
     have hcard : Nat.card ↥L = 168 := by
       rw [Nat.card_congr e.toEquiv,

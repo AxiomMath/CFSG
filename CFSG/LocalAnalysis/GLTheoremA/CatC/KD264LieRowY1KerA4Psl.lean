@@ -161,7 +161,6 @@ theorem three_dvd_card_PSL2 {ζ : K} (hζ : IsPrimitiveRoot ζ 3) :
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul] at h01
     simp [A0, T, Matrix.mul_apply, Fin.sum_univ_two] at h01
     first
-      | exact hζζ h01
       | exact hζζ h01.symm
   let q : Matrix.SpecialLinearGroup (Fin 2) K ⧸
       Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) K) :=

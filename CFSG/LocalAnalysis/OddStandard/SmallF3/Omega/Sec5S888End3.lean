@@ -66,14 +66,14 @@ private theorem s888_isPGroup_pi {ι : Type*} [Finite ι] {G : ι → Type*} [�
     IsPGroup p (Subgroup.pi Set.univ S) :=
   (IsPGroup.pi h).of_equiv (s888_piEquiv G S)
 
-private theorem s888_sylow_eq_pi {ι : Type*} [Finite ι] {G : ι → Type*} [∀ i, Group (G i)]
-    [Finite (∀ i, G i)] {p : ℕ} [Fact p.Prime] (S : Sylow p (∀ i, G i)) :
-    (S : Subgroup (∀ i, G i)) =
-      Subgroup.pi Set.univ (fun i =>
-        (S.mapSurjective (s888_pi_eval_surjective i) : Subgroup (G i))) :=
+private theorem s888_sylow_eq_pi {ι : Type*} [Finite ι] {G : ι → Type*} [∀ _i, Group (G _i)]
+    [Finite (∀ _i, G _i)] {p : ℕ} [Fact p.Prime] (S : Sylow p (∀ _i, G _i)) :
+    (S : Subgroup (∀ _i, G _i)) =
+      Subgroup.pi Set.univ (fun _i =>
+        (S.mapSurjective (s888_pi_eval_surjective _i) : Subgroup (G _i))) :=
   S.maximal_isPGroup.eq_of_le
-    (s888_isPGroup_pi (fun i => (S.mapSurjective (s888_pi_eval_surjective i)).isPGroup))
-    (fun x hx i _ => ⟨x, hx, rfl⟩)
+    (s888_isPGroup_pi (fun _i => (S.mapSurjective (s888_pi_eval_surjective _i)).isPGroup))
+    (fun x hx _i _ => ⟨x, hx, rfl⟩)
 
 private theorem s888_omega1_central_of_goldtype (hN11a : S_N11a) (hN11c : S_N11c)
     {K : Type} [Group K] [Finite K] [IsSimpleGroup K]
@@ -171,8 +171,8 @@ theorem omega1_commutes_of_layer (hN11a : S_N11a) (hN11c : S_N11c) {Y : Type} [G
     intro K
     let eK : ↥(K.1) ⧸ center ↥(K.1) ≃* ↥(K.1) :=
       (QuotientGroup.quotientMulEquivOfEq (hcenter K)).trans QuotientGroup.quotientBot
-    haveI : IsSimpleGroup (↥(K.1) ⧸ center ↥(K.1)) := K.2.1.2.1
-    haveI : IsSimpleGroup ↥(K.1) := eK.symm.isSimpleGroup
+    have : IsSimpleGroup (↥(K.1) ⧸ center ↥(K.1)) := K.2.1.2.1
+    have : IsSimpleGroup ↥(K.1) := eK.symm.isSimpleGroup
     have htype : goldschmidtSimpleType ↥(K.1) :=
       s888_goldschmidtSimpleType_of_mulEquiv
         (hc K.1 ((s888_isComponent_iff_openComponentOf K.1).1 K.2)) eK

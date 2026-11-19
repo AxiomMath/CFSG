@@ -33,26 +33,26 @@ theorem l04fD5_A_mul_d {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N)
   have hprev : (j : ℕ) - 1 < N - 1 := by omega
   simp only [hc']
   by_cases hlast : (j : ℕ) + 1 < N - 1
-  · rw [if_pos j.isLt, if_pos hlast]
+  · rw [ite_eq_left j.isLt, ite_eq_left hlast]
     by_cases hj0 : (j : ℕ) = 0
-    · rw [if_pos hj0, hj0]; norm_num
-    · rw [if_neg hj0, if_pos hprev]
+    · rw [ite_eq_left hj0, hj0]; norm_num
+    · rw [ite_eq_right hj0, ite_eq_left hprev]
       have hsub : ((↑j - 1 : ℕ) : ZMod p) = (↑j : ZMod p) - 1 := by
         rw [Nat.cast_sub (by omega : 1 ≤ (j : ℕ))]
         norm_num
       simp only [Nat.cast_add, Nat.cast_one]
       rw [hsub]; ring
-  · rw [if_pos j.isLt, if_neg hlast]
+  · rw [ite_eq_left j.isLt, ite_eq_right hlast]
     have hlast' : (j : ℕ) + 1 = N - 1 := by omega
     by_cases hj0 : (j : ℕ) = 0
-    · rw [if_pos hj0, hj0]
+    · rw [ite_eq_left hj0, hj0]
       have hN : N = 2 := by omega
       have h2 : (2 : ZMod p) = 0 := by
         have hNcast : ((N : ℕ) : ZMod p) = 0 := (CharP.cast_eq_zero_iff (ZMod p) p N).2 hpN
         simpa [hN] using hNcast
       norm_num
       exact h2
-    · rw [if_neg hj0, if_pos hprev]
+    · rw [ite_eq_right hj0, ite_eq_left hprev]
       have hjval : (j : ℕ) = N - 2 := by omega
       have e1 : (N - 2 : ℕ) + 1 = N - 1 := by omega
       have e2 : (N - 2 : ℕ) - 1 + 1 = N - 2 := by omega

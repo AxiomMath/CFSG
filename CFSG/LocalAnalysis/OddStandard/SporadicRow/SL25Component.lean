@@ -29,7 +29,7 @@ theorem nonempty_mulEquiv_sl2_five_of_oddLieOrder
   have hz : Nat.card (center B) ∣ 2 ^ a :=
     (dvd_mul_left (Nat.card (center B)) 4).trans h4
   have h2 : IsPGroup 2 (center B) := IsPGroup.of_card_dvd_pow hz
-  haveI : IsSimpleGroup (B ⧸ center B) := hB.2.1
+  have : IsSimpleGroup (B ⧸ center B) := hB.2.1
   obtain ⟨e⟩ :=
     CFSG.QuasithinUnique.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty
       (G := B ⧸ center B) h60

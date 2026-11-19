@@ -47,7 +47,7 @@ theorem ggTWSmallA_K
     (h6f : GGResSevenInput) (h6g : GGResTwA2Input)
     (hLE3 : GGResTwoNodeLE3SmallInput) (hIndep : GGResTwoNodeIndepInput)
     (hC : GGTWSmallCells) (hPZ : GGPZInput) (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput)
-    (hMult : GGTWMultLeaves) (hZ : GGTWZKInput)
+    (hMult : GGTWMultLeaves) (_hZ : GGTWZKInput)
     (hHL : GGTWHLSmall) {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp p B Bs x L D J y K) (hF : ¬ GGCoxeterForkDatum p Bs L K)

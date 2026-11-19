@@ -13,16 +13,18 @@ variable {W : Type} [CommGroup W] [Finite W] {A : Subgroup (MulAut W)} {t : MulA
 
 private theorem w16g_odd_card_of_isElemAbelian {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {X : Subgroup (MulAut W)} (hX : IsElemAbelian p X) : Odd (Nat.card X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hX.isPGroup
   rw [hn]
   exact (hp.odd_of_ne_two hp2).pow
 
+omit [Finite W] in
 private theorem w16g_map_map_conj (U : Subgroup W) (g h : MulAut W) :
     (U.map h.toMonoidHom).map g.toMonoidHom = U.map (g * h).toMonoidHom := by
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite W] in
 private theorem w16g_map_map_inv (U : Subgroup W) (g : MulAut W) :
     (U.map g.toMonoidHom).map g⁻¹.toMonoidHom = U := by
   rw [Subgroup.map_map]
@@ -31,6 +33,7 @@ private theorem w16g_map_map_inv (U : Subgroup W) (g : MulAut W) :
     simp
   rw [hcomp, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w16g_stableUnder_iSup_map_orbit {U₀ : Subgroup W}
     {Y : Subgroup (MulAut W)} : StableUnder Y (⨆ g ∈ Y, U₀.map g.toMonoidHom) := by
   intro a ha u hu

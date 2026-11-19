@@ -617,6 +617,7 @@ theorem indClassFun_hallCoreIn_sup_eq_bridgePermChar {S W₁ : Subgroup G} (h1 :
     ← indClassFun_one_eq_frobeniusComplementChar]
   rfl
 
+omit [Fintype G] in
 theorem mem_mixedSupport_of_mem_sdiff_union {S W₁ W₂ : Subgroup G} (h1 : W₁ ≤ S) (h2 : W₂ ≤ S)
     {x : ↥S} (hx : x ∈ ((hallCore ↥S : Subgroup ↥S) : Set ↥S) \ {1} ∪
       cyclicTIsetConj (W₁.subgroupOf S) (W₂.subgroupOf S)) :
@@ -685,6 +686,7 @@ theorem isPrimeTIBridgeConfig_subgroupOf {S U W₁ W₂ : Subgroup G}
     rw [hbot, Subgroup.mem_bot] at hmem
     exact Subgroup.mem_bot.2 (Subtype.ext hmem)
 
+omit [Fintype G] in
 theorem coreCentralizer_eq_bot {S U : Subgroup G}
     (h : centralizerIn U (hallCoreOf S) = ⊥) :
     coreCentralizer (hallCore ↥S) (U.subgroupOf S) = ⊥ := by

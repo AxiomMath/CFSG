@@ -67,8 +67,8 @@ theorem m42_comp_le_Lay {H M : Subgroup G} (hMH : M ≤ H) {C : Subgroup ↥H}
 theorem m42_nonab_of_card {N : Subgroup G} [IsSimpleGroup ↥N] [Finite G]
     (h : ¬ (Nat.card N).Prime) : ∃ a b : ↥N, a * b ≠ b * a := by
   by_contra hcon
-  push_neg at hcon
-  letI : CommGroup ↥N := { (inferInstance : Group ↥N) with mul_comm := hcon }
+  push Not at hcon
+  let : CommGroup ↥N := { (inferInstance : Group ↥N) with mul_comm := hcon }
   exact h (IsSimpleGroup.prime_card (α := ↥N))
 
 theorem m42_simple_le_Lay {H N : Subgroup G} [Finite G] (hNH : N ≤ H)
@@ -90,29 +90,29 @@ variable [Finite G] {β e f : G} {H Λ Δ X : Subgroup G} (S : M42Sit β e f H �
 include S
 
 theorem Δ_nonab : ∃ a b : ↥Δ, a * b ≠ b * a := by
-  haveI : IsSimpleGroup ↥Δ := S.Δiso.simple
+  have : IsSimpleGroup ↥Δ := S.Δiso.simple
   refine m42_nonab_of_card ?_
   rw [S.Δiso.card]
   norm_num
 
 theorem Λ_nonab : ∃ a b : ↥Λ, a * b ≠ b * a := by
-  haveI : IsSimpleGroup ↥Λ := S.Λiso.simple
+  have : IsSimpleGroup ↥Λ := S.Λiso.simple
   refine m42_nonab_of_card ?_
   rw [S.Λiso.card]
   norm_num
 
-theorem Δ_le_H : Δ ≤ H := fun x hx => (S.Δ_le hx).1
+theorem Δ_le_H : Δ ≤ H := fun _x hx => (S.Δ_le hx).1
 
-theorem Λ_le_H : Λ ≤ H := fun x hx => (S.Λ_le hx).1
+theorem Λ_le_H : Λ ≤ H := fun _x hx => (S.Λ_le hx).1
 
 theorem Δ_le_closure3 : Δ ≤ Subgroup.closure {x | x ∈ Δ ∧ orderOf x = 3} := by
-  haveI : IsSimpleGroup ↥Δ := S.Δiso.simple
+  have : IsSimpleGroup ↥Δ := S.Δiso.simple
   set T := Subgroup.closure {x | x ∈ Δ ∧ orderOf x = 3} with hT
   have hconj : ∀ g ∈ Δ, ∀ t ∈ T, g * t * g⁻¹ ∈ T := fun g hg =>
     m42_closure_conj_mem fun x hx => Subgroup.subset_closure
       ⟨Δ.mul_mem (Δ.mul_mem hg hx.1) (Δ.inv_mem hg), by rw [m42_orderOf_conj, hx.2]⟩
   let T' : Subgroup ↥Δ := T.subgroupOf Δ
-  haveI : T'.Normal := ⟨fun n hn g => by
+  have : T'.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hconj g.1 g.2 n.1 hn⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal T' with h | h
@@ -129,8 +129,8 @@ theorem Δ_le_closure3 : Δ ≤ Subgroup.closure {x | x ∈ Δ ∧ orderOf x = 3
     exact Subgroup.mem_subgroupOf.mp this
 
 theorem Δ_inf_H0 : Opp 3 H ⊓ Δ = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup ↥Δ := S.Δiso.simple
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup ↥Δ := S.Δiso.simple
   rcases m42_simple_inf (S := Δ) (N := Opp 3 H) (fun s hs n hn =>
     ⟨m42_Opp_conj_mem (S.Δ_le_H hs) hn.1, Δ.mul_mem (Δ.mul_mem hs hn.2) (Δ.inv_mem hs)⟩)
     with h | h
@@ -142,7 +142,7 @@ theorem Δ_inf_H0 : Opp 3 H ⊓ Δ = ⊥ := by
 
 theorem Δ_normal (hN : FF79LemmaN) (hQ : FF84.LemmaQ) :
     ∀ h ∈ H, ∀ d ∈ Δ, h * d * h⁻¹ ∈ Δ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hMH, hMn⟩ := S.Δ_sup_H0 hQ
   have key : ∀ h ∈ H, ∀ x ∈ Δ, orderOf x = 3 → h * x * h⁻¹ ∈ Δ := by
     intro h hh x hx hox
@@ -233,21 +233,21 @@ theorem X_normal (hN : FF79LemmaN) (hQ : FF84.LemmaQ) :
   exact S.Xf_conj (S.Δ_le_Y hk) h1
 
 theorem Opp_eq (hN : FF79LemmaN) (hQ : FF84.LemmaQ) : Opp 3 H = X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact le_antisymm (S.H0_le_X hN)
     (m42_le_Opp S.X_le_H (S.X_normal hN hQ) S.coprimeX)
 
 theorem Δ_le_Lay (hN : FF79LemmaN) (hQ : FF84.LemmaQ) : Δ ≤ Lay H := by
-  haveI : IsSimpleGroup ↥Δ := S.Δiso.simple
+  have : IsSimpleGroup ↥Δ := S.Δiso.simple
   exact m42_simple_le_Lay S.Δ_le_H (S.Δ_normal hN hQ) S.Δ_nonab
 
 theorem Λ_le_Lay (hN : FF79LemmaN) (hQ : FF84.LemmaQ) : Λ ≤ Lay H := by
-  haveI : IsSimpleGroup ↥Λ := S.Λiso.simple
+  have : IsSimpleGroup ↥Λ := S.Λiso.simple
   exact m42_simple_le_Lay S.Λ_le_H (S.Λ_normal hN hQ) S.Λ_nonab
 
 theorem Lay_le (hN : FF79LemmaN) (hQ : FF84.LemmaQ) : Lay H ≤ Δ ⊔ Λ := by
   let Δ' : Subgroup ↥H := Δ.subgroupOf H
-  haveI : Δ'.Normal := ⟨fun n hn g => by
+  have : Δ'.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using S.Δ_normal hN hQ g.1 g.2 n.1 hn⟩
   have hcomp : ∀ C : Subgroup ↥H, CFSG.IsComponent C → C.map H.subtype ≤ Δ ⊔ Λ := by
@@ -276,7 +276,7 @@ theorem Lay_eq (hN : FF79LemmaN) (hQ : FF84.LemmaQ) : Lay H = Δ ⊔ Λ :=
   le_antisymm (S.Lay_le hN hQ) (sup_le (S.Δ_le_Lay hN hQ) (S.Λ_le_Lay hN hQ))
 
 theorem Λ_inf_Δ (hN : FF79LemmaN) (hQ : FF84.LemmaQ) : Δ ⊓ Λ = ⊥ := by
-  haveI : IsSimpleGroup ↥Δ := S.Δiso.simple
+  have : IsSimpleGroup ↥Δ := S.Δiso.simple
   rcases m42_simple_inf (S := Δ) (N := Λ) (fun s hs n hn => by
     have := S.comm_ΛΔ hN hQ n hn.1 s hs
     have e1 : s * n * s⁻¹ = n := by rw [← this]; group

@@ -80,7 +80,7 @@ theorem false_of_guarded_component_of_pairedOmegaBlock
     (hmark : LargeEvenMarking C (fun lab _ _ _ _ _ => GuardedLargeEvenLabel lab)) :
     False := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H := glBlockCentralizer (CFSG.Open.StatedOmega ⇑Φ).subtype {b} ε
   have hcomm : ⁅H, H⁆ ≤ H := Subgroup.commutator_le.2 fun a ha b hb =>
     H.mul_mem (H.mul_mem (H.mul_mem ha hb) (H.inv_mem ha)) (H.inv_mem hb)
@@ -92,12 +92,12 @@ theorem false_of_guarded_component_of_pairedOmegaBlock
     largeEvenMarking_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hCH) hmark
   obtain ⟨d, m, E, hfield, hfin, hd, hcardE, -, hdeg, ⟨eH⟩⟩ :=
     blockGroup_iso_Omega_linear Φ hΦ h8 b hb hodd hε he he' hne hεe
-  letI : Field E := hfield
-  letI : Fintype E := hfin
+  let : Field E := hfield
+  let : Fintype E := hfin
   obtain ⟨f, -, hcardK⟩ := FiniteField.card K 2
   have hcardE2 : Fintype.card E = 2 ^ ((f : ℕ) * d) := by
     rw [hcardE, hcardK, ← pow_mul]
-  letI : CharP E 2 := charP_of_card_eq_prime_pow hcardE2
+  let : CharP E 2 := charP_of_card_eq_prime_pow hcardE2
   have hE2 : Fintype.card E = 2 := by
     simpa only [Nat.card_eq_fintype_card] using
       card_eq_two_of_guarded_component_of_linearBlock
@@ -164,7 +164,7 @@ theorem fixed_omega_block_of_guarded_component
     (hmark : LargeEvenMarking C (fun lab _ _ _ _ _ => GuardedLargeEvenLabel lab)) :
     (b : Matrix ι ι K) * ε = ε := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let M : Matrix ι ι K := LinearMap.toMatrix₂' K (QuadraticMap.polarBilin Φ)
   have hM : IsUnit M.det := TableC.polarGram_isUnit_det Φ hΦ
   have hMt : Matrix.transpose M = M := TableC.polarGram_transpose Φ
@@ -205,12 +205,12 @@ theorem fixed_omega_block_of_guarded_component
       largeEvenMarking_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hCH) hmark
     obtain ⟨d, m, E, hfield, hfin, -, hcardE, -, -, ⟨eH⟩⟩ :=
       blockGroup_iso_Omega_unitary Φ hΦ h8 b hb hodd hε he h1
-    letI : Field E := hfield
-    letI : Fintype E := hfin
+    let : Field E := hfield
+    let : Fintype E := hfin
     obtain ⟨f, -, hcardK⟩ := FiniteField.card K 2
     have hEpow : Fintype.card E = 2 ^ ((f : ℕ) * d * 2) := by
       simpa only [hcardK, ← pow_mul, Nat.mul_assoc] using hcardE
-    letI : CharP E 2 := charP_of_card_eq_prime_pow hEpow
+    let : CharP E 2 := charP_of_card_eq_prime_pow hEpow
     have hEnat : Nat.card E = (Fintype.card K ^ d) ^ 2 := by
       rw [Nat.card_eq_fintype_card]
       exact hcardE

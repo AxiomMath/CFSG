@@ -26,7 +26,7 @@ theorem ggTBJ_sp_stdModel {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) [NeZero m] 
         GGTorusWeylElt p A n) := by
   classical
   obtain ⟨hψ0, hker0, hperf0, hAe0, hAI0, hr0, h3_0, -⟩ := hA
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζo⟩ := ReflSp.exists_orderOf_eq (K := K) hp hpq
   have hζ : ζ ^ p = 1 := by rw [← hζo]; exact pow_orderOf_eq_one ζ
   have hZ : Subgroup.center (LargeEvenProj (LargeEvenSpGroup K m)) = ⊥ :=

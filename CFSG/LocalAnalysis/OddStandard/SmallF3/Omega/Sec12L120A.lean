@@ -10,6 +10,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
 
+omit [Finite G] in
 private theorem sec120_mem_P_iff {p : G} :
     p ∈ secCMB t S L ↔ p ∈ secM t S L ∧ p ∈ centralizer (secB S L : Set G) := by
   rw [secCMB, Subgroup.mem_inf]

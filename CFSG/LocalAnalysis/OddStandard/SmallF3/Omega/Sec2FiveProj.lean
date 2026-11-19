@@ -25,7 +25,7 @@ theorem piOrth_not_mem_omegaGroup_five (hQ : Q.Nondegenerate)
 theorem natCard_omegaProj_five (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 5) :
     Nat.card (omegaProj hQ) = 25920 := by
   have h := card_omegaProj_mul hQ (by rw [hdim]; norm_num)
-  rw [if_neg (piOrth_not_mem_omegaGroup_five hQ hdim), mul_one,
+  rw [ite_eq_right (piOrth_not_mem_omegaGroup_five hQ hdim), mul_one,
     natCard_omegaGroup_five hQ hdim] at h
   exact h
 
@@ -38,7 +38,7 @@ theorem natCard_projOrth_five (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMo
 
 theorem natCard_centralizer_toProj_five (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 5) {t : OGroup Q} (htt : t * t = 1)
-    (hr : invDim t = 2 ∨ invDim t = 4) :
+    (_hr : invDim t = 2 ∨ invDim t = 4) :
     Nat.card (Subgroup.centralizer ({toProj Q t} : Set (ProjOrth Q))) * 2 =
       Nat.card (OGroup (Q.restrict (fixSp t))) * Nat.card (OGroup (Q.restrict (commSp t))) := by
   have hnc : ¬ IsConj (piOrth Q * t) t := by

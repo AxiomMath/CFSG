@@ -29,10 +29,10 @@ theorem geometry7 (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0) {Q : QuadraticForm K
         (∀ g ∈ orthogonalGroup Q, (∀ f ∈ F, g * f = f * g) → ∀ h ∈ Hv, g * h * g⁻¹ ∈ Hv) ∧
         CFSG.Open.IsQuasisimple Hv ∧ 3 ∣ Nat.card (Hv ⧸ Subgroup.center Hv) ∧
         (∃ w : V, w ≠ 0 ∧ ∀ h ∈ Hv, h w = w) := by
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun f : V ≃ₗ[K] V => (f : V → V)) DFunLike.coe_injective
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype P := Fintype.ofFinite P
   let ρ : P →* Module.End K V :=
     (LinearEquiv.automorphismGroup.toLinearMapMonoidHom).comp P.subtype
   have hρ : ∀ (g : P) (v : V), ρ g v = (g : V ≃ₗ[K] V) v := fun g v => rfl

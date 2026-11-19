@@ -114,7 +114,7 @@ theorem act_TX_mem {g : VM ≃ₗ[ZMod 2] VM} (hg : g ∈ Hm) (c : TX) :
       exact this
     have h1 : c.1 (Sum.inl 0) = g c.1 (Sum.inl 0) := by
       conv_lhs => rw [hc']
-      simp [e0, mkV, ex, Pi.single_apply]
+      simp [e0, mkV, ex]
     have ha0 : g c.1 (Sum.inl 0) = 0 := by
       rw [← h1]
       exact hc.1

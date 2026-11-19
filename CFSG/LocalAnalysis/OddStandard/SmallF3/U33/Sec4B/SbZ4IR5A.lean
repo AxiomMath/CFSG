@@ -26,6 +26,7 @@ theorem z4i_eq_of_map_eq (hN : Odd (Nat.card N)) {P A B : Subgroup X} (hP : IsPG
     (hA : A ≤ P) (hB : B ≤ P) (h : A.map (z4iπ N) = B.map (z4iπ N)) : A = B :=
   le_antisymm (z4i_le_of_map_eq N hN hP hA hB h) (z4i_le_of_map_eq N hN hP hB hA h.symm)
 
+omit [Finite X] in
 theorem z4i_map_ne_one (hN : Odd (Nat.card N)) {a : X} (ha : a * a = 1) (ha1 : a ≠ 1) :
     z4iπ N a ≠ 1 := by
   intro h

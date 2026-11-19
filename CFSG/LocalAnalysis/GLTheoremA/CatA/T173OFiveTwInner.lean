@@ -74,9 +74,9 @@ theorem card_outer_dvd_two_and_center_eq_bot_of_su_two {F : Type} [Field F] [Fin
     (ρ : ↥(CFSG.Assembly.LargeEvenSUGroup (Fin n) F 2) →* L) (hρ : Function.Surjective ρ)
     (hρk : ρ.ker ≤ Subgroup.center _) :
     Nat.card (Outer L) ∣ 2 ∧ Subgroup.center L = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : UnitaryFieldData 2 1 F := ⟨Nat.prime_two, le_rfl, by simpa using hF⟩
-  haveI : CharP F 2 := hU.charP
+  have : CharP F 2 := hU.charP
   have hF' : Nat.card F = (2 ^ 1) ^ 2 := by simpa using hF
   have hn1 : 1 ≤ n := by omega
   have hn3' : n ≠ 3 := by
@@ -97,7 +97,7 @@ theorem card_outer_dvd_two_and_center_eq_bot_of_su_two {F : Type} [Field F] [Fin
     exact Subgroup.card_eq_one.mp hcard
   have hperfSU : Group.IsPerfect ↥(StatedSU n (2 ^ 1) F) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hF' (n := n) hn hnq
-  haveI : Group.IsPerfect ↥(CFSG.Assembly.LargeEvenSUGroup (Fin n) F 2) := hperfSU
+  have : Group.IsPerfect ↥(CFSG.Assembly.LargeEvenSUGroup (Fin n) F 2) := hperfSU
   have e2 : ↥(StatedSU n (2 ^ 1) F) ⧸ Subgroup.center ↥(StatedSU n (2 ^ 1) F) ≃*
       unitaryPSU hU n := QuotientGroup.quotientMulEquivOfEq hcenSU
   let e : L ⧸ Subgroup.center L ≃* unitaryPSU hU n :=
@@ -159,7 +159,7 @@ private lemma mem_centralizer_A_of_inner_lift {Γ : Type} [Group Γ] [Finite Γ]
     {a : Γ} (ha : a ∈ A) (haN : a ∈ Subgroup.normalizer (L : Set Γ))
     {y : ↥L} (hyconj : MulAut.conj y = L.normalizerMonoidHom ⟨a, haN⟩) :
     (y : Γ) ∈ Subgroup.centralizer (A : Set Γ) := by
-  haveI : IsMulCommutative ↥A := hAel.1
+  have : IsMulCommutative ↥A := hAel.1
   rw [Subgroup.mem_centralizer_iff]
   intro a' ha'
   have ha'N : a' ∈ Subgroup.normalizer (L : Set Γ) := hAN ha'
@@ -216,7 +216,7 @@ private lemma conj_mem_normalizer_stdLayerD {F : Type} [Field F] {σ : F ≃+* F
     {d : Γ₂ F} (hdA : d ∈ A) {a : Γ₂ F} (ha : a ∈ A) :
     (stdLayerD (twistedE6RootGroup F σ) d).map (MulAut.conj a).toMonoidHom =
       stdLayerD (twistedE6RootGroup F σ) d := by
-  haveI : IsMulCommutative ↥A := hAel.1
+  have : IsMulCommutative ↥A := hAel.1
   have hN : A ≤ Subgroup.normalizer (twistedE6RootGroup F σ : Set (Γ₂ F)) :=
     hAL.trans (sup_le
       ((graphFixedParabolicLevi_le (t := TwistTag.E6) (K := F) (σ := σ.toRingHom)
@@ -282,7 +282,7 @@ theorem inner_of_card_outer_dvd_two {F : Type} [Field F] [Finite F] {σ : F ≃+
       y ∈ Subgroup.centralizer (A : Set (Γ₂ F)) ∧
       a * y⁻¹ ∈ Subgroup.centralizer
         (stdLayerD (twistedE6RootGroup F σ) d : Set (Γ₂ F)) := by
-  haveI : Finite (Γ₂ F) := finite_modGL
+  have : Finite (Γ₂ F) := finite_modGL
   have hAN := le_normalizer_stdLayerD hAel hAL hdA
   intro a ha
   have haN : a ∈ Subgroup.normalizer

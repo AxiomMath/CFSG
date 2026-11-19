@@ -42,9 +42,9 @@ theorem heisCoreOn_idxA_of_rank_facts
   have hp2 : p ≠ 2 := by omega
   obtain ⟨hCyc, hout⟩ := heis_out_data hp hp5 hmodel (by decide) (fun _ => hgcd)
     (fun h => absurd h (by decide))
-  haveI := hperf
-  haveI := hsimple
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hperf
+  have := hsimple
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ Nat.card (GaloisField 2 f) := by
     rw [hcard]
     intro h

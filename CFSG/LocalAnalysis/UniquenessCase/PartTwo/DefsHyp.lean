@@ -67,15 +67,17 @@ open Classical in
 @[expose] noncomputable def v1Sub : Subgroup G :=
   if V₀ = ⊥ then ⨆ m : M, conjSubgroup (wSub V₀ V hV L ⊓ centralizer (L : Set G)) (m : G) else V₀
 
+omit [Finite G] in
 theorem v1Sub_of_ne_bot (h : V₀ ≠ ⊥) : v1Sub M V₀ V hV L = V₀ := by
   unfold v1Sub
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
+omit [Finite G] in
 theorem v1Sub_of_eq_bot (h : V₀ = ⊥) :
     v1Sub M V₀ V hV L =
       ⨆ m : M, conjSubgroup (wSub V₀ V hV L ⊓ centralizer (L : Set G)) (m : G) := by
   unfold v1Sub
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 @[expose] noncomputable def wConj : Set (Subgroup G) :=
   {X | ∃ m ∈ M, X = conjSubgroup (wSub V₀ V hV L) m}

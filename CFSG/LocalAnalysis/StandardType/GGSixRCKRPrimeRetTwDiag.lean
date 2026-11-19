@@ -33,7 +33,7 @@ theorem rckRet_innerDiag_TwE6
     (hψ : ∀ x, ψ x = zh * (show ModGL Tag.E6 GGL from rckTw6_iota h (rckTw6_psi h hh x)) * zh⁻¹) :
     GGPsiInnerDiag (twistedE6Datum 2 h) ψ t := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hh1 : 1 ≤ h := hh
   let k := GaloisField 2 (2 * h)
   let θ : k ≃+* k := frobQEquiv hh1
@@ -77,12 +77,12 @@ theorem rckRet_innerDiag_TwE6
     obtain ⟨y, hy⟩ := IsAlgClosed.exists_pow_nat_eq c (n := 2 ^ h)
       (pow_pos (by norm_num : (0 : ℕ) < 2) h)
     exact ⟨y, by rw [ggFrobT_apply, hy]⟩
-  letI : Algebra k GGL := ι.toAlgebra
-  haveI : CharP k 2 := inferInstance
-  haveI : CharP GGL 2 := inferInstance
-  haveI : IsScalarTower (ZMod 2) k GGL :=
+  let : Algebra k GGL := ι.toAlgebra
+  have : CharP k 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
+  have : IsScalarTower (ZMod 2) k GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : IsAlgClosure k GGL :=
+  have : IsAlgClosure k GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := k) }
   have hd_inndiag : d ∈ (twistedE6InndiagGL k θ).map (baseChangeGL (algebraMap k GGL)) :=

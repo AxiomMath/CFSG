@@ -31,10 +31,10 @@ theorem qTwoLMDivF_fullW {G : Type} [Group G] [Finite G] {B Bs L D J : Subgroup 
           Subgroup.normalizer ((ggGamma L hN).range : Set (MulAut ↥L))),
         ggConjAut (ggGamma L hN).range hn = MulAut.congr Θ (qTwoLMDivF_permQ m σ)) := by
   subst hFm
-  letI := hFrameL.fieldF0
-  letI := hFrameL.finiteF0
-  letI := hFrameL.charF0
-  letI := hFrameL.groupL0
+  let := hFrameL.fieldF0
+  let := hFrameL.finiteF0
+  let := hFrameL.charF0
+  let := hFrameL.groupL0
   have hU : QTwoDivInnerFrame hFrameL.m Bs L hN hFrameL.F0 hFrameL.L0 hFrameL.c hFrameL.πSU
       hFrameL.ρ :=
     ⟨hFrameL.hcardF0, hFrameL.hc_surj, hFrameL.hc_ker, hFrameL.hc_two, hFrameL.hπ_surj,

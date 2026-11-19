@@ -112,6 +112,7 @@ theorem conj_inj_of_centerless {Y : Type} [Group Y] (hcen : ∀ z : Y, (∀ x, z
   simp only [MulAut.conj_apply, MulAut.one_apply] at this
   exact mul_inv_eq_iff_eq_mul.mp this
 
+omit [Finite Γ] [Module.Finite (ZMod p) V] in
 theorem exists_iota (hf : Hyp89 p ρ K a) {y : ↥K ⧸ center ↥K}
     (hy : bAutN K a hf.norm = MulAut.conj y)
     (hcen : ∀ z : ↥K ⧸ center ↥K, (∀ x, z * x = x * z) → z = 1) {k : Γ} (hk : k ∈ K) :

@@ -29,7 +29,7 @@ theorem exists_index_two {X : Subgroup G} {t : G} (htX : t ∈ X) (ht : orderOf 
   have hP2 : Nat.card P = 2 := by
     apply le_antisymm
     · have hle := hX ((P : Subgroup X).map X.subtype) (Subgroup.map_subtype_le _)
-        (P.isPGroup'.map _)
+        (P.isPGroup.map _)
       rwa [Subgroup.card_map_of_injective X.subtype_injective] at hle
     · exact Nat.le_of_dvd Nat.card_pos (P.dvd_card_of_dvd_card h2X)
   have hP : Subgroup.normalizer (P : Set X) ≤ Subgroup.centralizer (P : Set X) := by
@@ -353,7 +353,7 @@ theorem lemma_5_3_of
     obtain ⟨S₂, hS₂⟩ := hJ'p.exists_le_sylow
     have hS₂card : Nat.card S₂ ≤ 2 := by
       have hle := hsub2 ((S₂ : Subgroup Cb).map Cb.subtype) (Subgroup.map_subtype_le _)
-        ⟨J', hS₂ (Subgroup.mem_zpowers J'), rfl⟩ (S₂.isPGroup'.map _)
+        ⟨J', hS₂ (Subgroup.mem_zpowers J'), rfl⟩ (S₂.isPGroup.map _)
       have := Subgroup.card_le_of_le hle
       rwa [Subgroup.card_map_of_injective Cb.subtype_injective, Nat.card_zpowers,
         s.orderOf_J] at this
@@ -401,7 +401,7 @@ theorem lemma_5_3_of
   obtain ⟨P⟩ : Nonempty (Sylow 3 N) := inferInstance
   set PG := (P : Subgroup N).map N.subtype with hPGdef
   have hPGN : PG ≤ N := Subgroup.map_subtype_le _
-  have hPG3 : IsPGroup 3 PG := P.isPGroup'.map _
+  have hPG3 : IsPGroup 3 PG := P.isPGroup.map _
   have hPGcard : Nat.card PG = 3 ^ (Nat.card N).factorization 3 := by
     rw [Subgroup.card_map_of_injective N.subtype_injective, Sylow.card_eq_multiplicity]
   set M := O ⊔ PG with hMdef

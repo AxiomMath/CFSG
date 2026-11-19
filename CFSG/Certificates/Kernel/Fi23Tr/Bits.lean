@@ -184,7 +184,7 @@ theorem fold_cond {α : Type} (c : α → Bool) (v : α → Nat) :
     rw [List.foldl_cons]
     have hl' : ∀ a ∈ l, c a = true → v a < 31672 := fun x hx => hl x (List.mem_cons_of_mem _ hx)
     by_cases hca : c a = true
-    · rw [if_pos hca]
+    · rw [ite_eq_left hca]
       have ha := hl a List.mem_cons_self hca
       have hs : (pSet C (v a)).size = 3959 := by rw [size_pSet, hC]
       obtain ⟨h1, h2⟩ := fold_cond c v l hl' _ hs
@@ -200,7 +200,7 @@ theorem fold_cond {α : Type} (c : α → Bool) (v : α → Nat) :
         · rcases List.mem_cons.1 hx with rfl | hx
           · exact Or.inl (Or.inr h.2.symm)
           · exact Or.inr ⟨x, hx, h⟩
-    · rw [if_neg hca]
+    · rw [ite_eq_right hca]
       obtain ⟨h1, h2⟩ := fold_cond c v l hl' C hC
       refine ⟨h1, fun y => ?_⟩
       rw [h2]

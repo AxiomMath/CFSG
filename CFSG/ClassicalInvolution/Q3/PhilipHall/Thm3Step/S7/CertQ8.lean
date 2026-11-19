@@ -21,7 +21,7 @@ section Lift
 variable {G : Type*} [Group G] {i j : G}
 
 theorem orderOf_eq_four_of_q8Rel (h : Q8Rel i j) : orderOf i = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime_pow (n := 1) (by simpa using h.2.1) (by simpa using h.1)
 
 theorem q8Rel_mul_j (h : Q8Rel i j) : i * j = j * i⁻¹ := by
@@ -276,7 +276,7 @@ theorem exists_conj_mem_of_le_normalizer {Q S : Subgroup G}
     rw [← this]
     exact Dvd.dvd.mul_right h2 _
   have hz : IsPGroup 2 (Subgroup.zpowers (⟨u, hu⟩ : H)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine IsPGroup.of_card (n := k) ?_
     rw [Nat.card_zpowers, Subgroup.orderOf_mk, hk]
   obtain ⟨g, hg⟩ := exists_conj_mem_of_isPGroup hP2 hPi hz
@@ -366,7 +366,7 @@ abbrev q8Fam (G : Type) [Group G] : Set (Subgroup G) :=
   {T | Nonempty (↥T ≃* QuaternionGroup 2)}
 
 theorem conjInvariant_q8Fam : ConjInvariant (q8Fam G) :=
-  fun g T hT => nonempty_conjSub_mulEquiv hT g
+  fun g _T hT => nonempty_conjSub_mulEquiv hT g
 
 theorem mem_of_mul_closed {T X : Set G} (h1 : (1 : G) ∈ T) (hX : ∀ x ∈ T, ∀ s ∈ X, x * s ∈ T)
     (hgen : Subgroup.closure X = ⊤) (g : G) : g ∈ T := by
@@ -723,7 +723,7 @@ theorem normB_iff (h : Q8Rel i j) {g : G} :
       Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))⟩
 
 theorem ord4B_iff {u : G} : ord4B u = true ↔ orderOf u = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [ord4B, Bool.and_eq_true, decide_eq_true_iff, Bool.not_eq_true', decide_eq_false_iff_not]
   constructor
   · rintro ⟨h4, h2⟩
@@ -911,7 +911,7 @@ theorem q8RelB_map (hf : Function.Injective f) (i j : M) : q8RelB (f i) (f j) = 
 theorem classStepB_map (hf : Function.Injective f) (i j u x : M) :
     classStepB (f i) (f j) (f u) (f x) = classStepB i j u x := by
   simp only [classStepB, ← map_inv, ← map_mul, hf.eq_iff, inSpanB_map hf, normB_map hf,
-    normVB_map hf, ← map_q8Span, List.any_map, Function.comp_def, decide_eq_decide]
+    normVB_map hf, ← map_q8Span, List.any_map, Function.comp_def]
 
 theorem classCheck_map (hf : Function.Injective f) (i j : M) (S X : List M) :
     classCheck (f i) (f j) (S.map f) (X.map f) = classCheck i j S X := by

@@ -61,7 +61,7 @@ theorem exists_W_not_S1 (hII : II4_4_4_center) (hq : II4_4_quat)
 
 theorem g_mem_A (hII : II4_4_4_center) (hq : II4_4_quat) (hrec : Bg.B_reciprocity)
     (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) (he : (Pz S z).relIndex (S1 S K₁) = 2) {m : ℕ}
-    (hm : 2 ≤ m) (hk : Nat.card ↥(Vof S K₁ W₂) = 2 ^ (m + 1)) (hSne : S ≠ S1 S K₁) {y : G}
+    (hm : 2 ≤ m) (hk : Nat.card ↥(Vof S K₁ W₂) = 2 ^ (m + 1)) (_hSne : S ≠ S1 S K₁) {y : G}
     (hyW : y ∈ Wsub S U) (hyS1 : y ∈ S1 S K₁) (hyA : y ∉ Aof S K₁ W₂ h)
     (hyV₁ : ∀ c ∈ Vof S K₁ W₂, y * c * y⁻¹ = c⁻¹)
     (hrelA : (Aof S K₁ W₂ h).relIndex (Wsub S U ⊓ S1 S K₁) = 2)

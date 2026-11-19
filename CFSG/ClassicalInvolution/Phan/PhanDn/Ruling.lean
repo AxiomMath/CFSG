@@ -105,21 +105,21 @@ theorem rulingHom_tauAt (E : QuadExt F K σ) (n : ℕ) (k : Fin n) :
     | inl i =>
       rw [Pi.sub_apply, Pi.smul_apply, swapAt_inl]
       by_cases hi : i = k
-      · rw [if_pos hi, hi]
+      · rw [ite_eq_left hi, hi]
         simp only [Pi.add_apply]
-        rw [stdE_inl, stdF_inl, if_pos rfl, add_zero, smul_eq_mul, mul_one,
+        rw [stdE_inl, stdF_inl, ite_eq_left rfl, add_zero, smul_eq_mul, mul_one,
           CharTwo.sub_eq_add, ← add_assoc, CharTwo.add_self_eq_zero, zero_add]
-      · rw [if_neg hi, Pi.add_apply, stdE_inl, stdF_inl, if_neg hi, add_zero, smul_zero,
+      · rw [ite_eq_right hi, Pi.add_apply, stdE_inl, stdF_inl, ite_eq_right hi, add_zero, smul_zero,
           sub_zero]
     | inr i =>
       rw [Pi.sub_apply, Pi.smul_apply, swapAt_inr]
       by_cases hi : i = k
-      · rw [if_pos hi, hi]
+      · rw [ite_eq_left hi, hi]
         simp only [Pi.add_apply]
-        rw [stdE_inr, stdF_inr, if_pos rfl, zero_add, smul_eq_mul, mul_one,
+        rw [stdE_inr, stdF_inr, ite_eq_left rfl, zero_add, smul_eq_mul, mul_one,
           CharTwo.sub_eq_add, add_comm (v (Sum.inr k)) (v (Sum.inl k) + v (Sum.inr k)),
           add_assoc, CharTwo.add_self_eq_zero, add_zero]
-      · rw [if_neg hi, Pi.add_apply, stdE_inr, stdF_inr, if_neg hi, add_zero, smul_zero,
+      · rw [ite_eq_right hi, Pi.add_apply, stdE_inr, stdF_inr, ite_eq_right hi, add_zero, smul_zero,
           sub_zero]
   refine QuadForm.dicksonInvariant_eq_one_of_reflection (Φ := quadPlusForm n K)
     (X₀ := stdLag n K) (isLagrangian_stdLag n K) (g := swapAt n k) ?_ (Z := ⊥)

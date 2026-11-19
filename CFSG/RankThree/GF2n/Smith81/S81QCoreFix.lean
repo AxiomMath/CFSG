@@ -58,6 +58,7 @@ variable {K : Type} [Field K] [CharP K 2] [Finite K] {X : Type} [AddCommGroup X]
   zero_mem' u _ := map_zero _
   smul_mem' c v hv u hu := by rw [map_smul, hv u hu]
 
+omit [CharP K 2] [Finite K] in
 theorem mem_fix0 {v : X} :
     v ∈ fix0 A ↔ ∀ u : ↥(EAut0 K), (u : W K ≃ₗ[K] W K) ∈ rootRad0 K → A u v = v := Iff.rfl
 
@@ -78,6 +79,7 @@ theorem mem_fix0 {v : X} :
       rw [this]
       exact (fix0 A).smul_mem c (hw.2 u hu)
 
+omit [CharP K 2] [Finite K] in
 theorem mem_V1_0 {β : X →ₗ[K] X →ₗ[K] K} {w : X} :
     w ∈ V1_0 A β ↔ (∀ v ∈ fix0 A, β v w = 0) ∧
       ∀ u : ↥(EAut0 K), (u : W K ≃ₗ[K] W K) ∈ rootRad0 K → A u w - w ∈ fix0 A := Iff.rfl
@@ -112,12 +114,14 @@ theorem toRankOne_V1_eq0 (β : X →ₗ[K] X →ₗ[K] K) :
   · rintro ⟨h1, h2⟩
     exact ⟨h1, fun n => h2 _ (u_mem_rootRad0 n)⟩
 
+omit [Finite K] in
 theorem conj_mem_rootRad0_of_mem_StabP0 {g : ↥(EAut0 K)} (hg : g ∈ StabP0 K) {x : ↥(EAut0 K)}
     (hx : (x : W K ≃ₗ[K] W K) ∈ rootRad0 K) :
     ((g * x * g⁻¹ : ↥(EAut0 K)) : W K ≃ₗ[K] W K) ∈ rootRad0 K := by
   obtain ⟨c, hc, hw⟩ := hg
   exact conj_rootRad0_of_line g.2 hc hw _ hx
 
+omit [Finite K] in
 theorem fix0_map_le_of_mem_StabP0 {g : ↥(EAut0 K)} (hg : g ∈ StabP0 K) :
     (fix0 A).map (A g : X →ₗ[K] X) ≤ fix0 A := by
   rintro _ ⟨v, hv, rfl⟩
@@ -158,6 +162,7 @@ theorem fix0_map_le_of_mem_P {g : ↥(EAut0 K)} (hg : g ∈ (d6RootDatum K).P) :
     rw [inv_inv]
     exact hg.1 x hx
 
+omit [CharP K 2] [Finite K] in
 theorem mem_lineStab0 {L : Submodule K X} {g : ↥(EAut0 K)} :
     g ∈ lineStab0 A L ↔ (∀ x ∈ L, A g x ∈ L) ∧ ∀ x ∈ L, A g⁻¹ x ∈ L := Iff.rfl
 
@@ -169,6 +174,7 @@ variable {K : Type} [Field K] [CharP K 2] [Finite K]
 
 @[expose] def XL (β : Rt) (hβ : β ∈ Perp) (c : K) : ↥(LamG K) := ⟨xE β c, xE_mem_LamG hβ c⟩
 
+omit [Finite K] in
 theorem XL_mem_PΛ {β : Rt} (hβ : β ∈ Perp)
     (h : pr (a0 : Fin e7Data.d) β = 0 ∨ pr (a0 : Fin e7Data.d) β = 1) (c : K) :
     XL β hβ c ∈ PΛ K :=
@@ -179,6 +185,7 @@ theorem lamGEquivEAut0_XL {β : Rt} (hβ : β ∈ Perp) (c : K) :
       ⟨vAut0 K (xuWUnit hβ c), vAut0_xuWUnit_mem_EAut0 hβ c⟩ :=
   Subtype.ext (lamGHom_xE hβ c)
 
+omit [Finite K] in
 theorem sD_conj_XL_alpha (c : K) :
     XL (-alphaA2) (neg_mem_Perp alphaA2_mem_Perp) c = sD K * XL alphaA2 alphaA2_mem_Perp c * sD K := by
   apply Subtype.ext
@@ -195,6 +202,7 @@ theorem pr_zero_root : pr (a0 : Fin e7Data.d) (0 : Rt) = 0 := by
   unfold pr
   simp
 
+omit [Finite K] in
 theorem XL_mem_of_pr_neg (H : Subgroup ↥(LamG K)) (hP : PΛ K ≤ H) (hs : sD K ∈ H) :
     ∀ (n : ℕ) (β : Rt) (hβ : β ∈ Perp), pr (a0 : Fin e7Data.d) β = -1 → ht (-β) ≤ n →
       ∀ c : K, XL β hβ c ∈ H := by
@@ -257,10 +265,11 @@ theorem XL_mem_of_pr_neg (H : Subgroup ↥(LamG K)) (hP : PΛ K ≤ H) (hs : sD 
         apply Subtype.ext
         show ⁅xE (β + Pi.single i 1) c, xE (-(Pi.single i 1 : Rt)) 1⁆ = xE β c
         rw [comm_xE (perp_iff.1 hβ'P).1 (isRoot_neg hγroot) hne c 1,
-          if_pos (by rw [hsum]; exact (perp_iff.1 hβ).1), hsum, mul_one]
+          ite_eq_left (by rw [hsum]; exact (perp_iff.1 hβ).1), hsum, mul_one]
       rw [← hcomm, commutatorElement_def]
       exact mul_mem (mul_mem (mul_mem ih' hα) (inv_mem ih')) (inv_mem hα)
 
+omit [Finite K] in
 theorem XL_mem_all (H : Subgroup ↥(LamG K)) (hP : PΛ K ≤ H) (hs : sD K ∈ H) {β : Rt}
     (hβ : β ∈ Perp) (c : K) : XL β hβ c ∈ H := by
   have hroot : IsRoot .E7 β := (perp_iff.1 hβ).1
@@ -302,6 +311,7 @@ theorem closure_P_s0 (H : Subgroup ↥(EAut0 K)) (hP : (d6RootDatum K).P ≤ H)
 
 variable {X : Type} [AddCommGroup X] [Module K X] [FiniteDimensional K X]
 
+omit [FiniteDimensional K X] in
 theorem sv_D6 (A : ↥(EAut0 K) →* (X ≃ₗ[K] X)) (hline : Module.finrank K (fix0 A) = 1)
     (hspan : ⨆ g : ↥(EAut0 K), (fix0 A).map (A g : X →ₗ[K] X) = ⊤) (hV : 1 < Module.finrank K X)
     {v₀ : X} (hv₀ : v₀ ∈ fix0 A) (hne : v₀ ≠ 0) : A (d6RootDatum K).s v₀ ∉ fix0 A := by

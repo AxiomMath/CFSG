@@ -46,8 +46,8 @@ theorem model_descent_explicit {ψ : L' →* R} (hker : ψ.ker ≤ Subgroup.cent
       Body ψ.ker A (Φb.comp (redSub hker hAle).rangeRestrict) T w := by
   classical
   let Z2 : Subgroup L' := twoSub ψ.ker hker
-  haveI : Z2.Normal := twoSub_normal hker
-  haveI : Finite (MulAut (L' ⧸ Z2)) :=
+  have : Z2.Normal := twoSub_normal hker
+  have : Finite (MulAut (L' ⧸ Z2)) :=
     Finite.of_injective (fun φ : MulAut (L' ⧸ Z2) => (φ : L' ⧸ Z2 → L' ⧸ Z2))
       DFunLike.coe_injective
   obtain ⟨hΦbinj, hΦbrange, hComm, hZodd, hFix, hNorm, hCob, hAct, hInn, hAut10, hAut11, hOdd12⟩ :=

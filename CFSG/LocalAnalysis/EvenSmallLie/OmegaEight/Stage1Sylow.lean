@@ -287,7 +287,7 @@ theorem exists_conj_eq_mul [Finite G] (hG : IsSimpleGroup G) (hnab : ∃ a b : G
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := hTH.exists_le_sylow
   have hlt : TH < S := lt_of_le_of_ne hS (fun h => hA.not_isSylow hG hnab hodd hUL S h.symm)
-  obtain ⟨n, hnS, hnN, hnTH⟩ := exists_mem_normalizer_not_mem S.isPGroup' hlt
+  obtain ⟨n, hnS, hnN, hnTH⟩ := exists_mem_normalizer_not_mem S.isPGroup hlt
   have hTHC : TH ≤ centralizer ({t} : Set G) :=
     sup_le (hUL.trans hA.le_centralizer) (zpowers_le.2 (mem_centralizer_singleton_iff.2 rfl))
   have hnt : n * t ≠ t * n := by
@@ -295,7 +295,7 @@ theorem exists_conj_eq_mul [Finite G] (hG : IsSimpleGroup G) (hnab : ∃ a b : G
     set V : Subgroup G := TH ⊔ zpowers n
     have hVS : V ≤ S := sup_le hS (zpowers_le.2 hnS)
     have hV : V = TH := hA.sylow V (sup_le hTHC (zpowers_le.2
-      (mem_centralizer_singleton_iff.2 hnt))) (S.isPGroup'.to_le hVS) le_sup_left
+      (mem_centralizer_singleton_iff.2 hnt))) (S.isPGroup.to_le hVS) le_sup_left
     exact hnTH (hV ▸ mem_sup_right (mem_zpowers n))
   have hmem : n * t * n⁻¹ ∈ TH := (mem_normalizer_iff.1 hnN t).1 t_mem_sup
   have hcent : ∀ x ∈ TH, n * t * n⁻¹ * x = x * (n * t * n⁻¹) := by

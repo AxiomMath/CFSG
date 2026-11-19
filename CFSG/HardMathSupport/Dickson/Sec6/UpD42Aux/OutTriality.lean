@@ -16,10 +16,10 @@ theorem finite_fixedPoints_trialityD4 (q : PrimePower)
     Finite ↥(TauCeti.fixedSubgroup (d4Index q hv).steinberg) := by
   classical
   let L := d4Closure q hv
-  haveI : CharP L q.p := (d4Char_eq q hv) ▸ inferInstance
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : CharP L q.p := (d4Char_eq q hv) ▸ inferInstance
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let F := frobeniusFixedSubring L q.p (3 * q.exponent)
-  haveI : Finite F := finite_frobeniusFixedSubring L q.p (3 * q.exponent)
+  have : Finite F := finite_frobeniusFixedSubring L q.p (3 * q.exponent)
     (by have h := q.exponent_pos; omega)
   have hentry : ∀ (g : D4Tripled.points L), (d4Index q hv).steinberg g = g →
       ∀ r c, (((g : Matrix.GeneralLinearGroup (Fin 24) L) :
@@ -56,8 +56,8 @@ theorem pRank_three_trialityD4_le_three (q : PrimePower)
     (hv : (LieTypeIndex.trialityD4 q).Valid) (hp2 : q.p = 2) :
     letI := finite_fixedPoints_trialityD4 q hv
     CFSG.Open.pRank 3 (⊤ : Subgroup (FixedPointCandidate (d4Index q hv).steinberg)) ≤ 3 := by
-  letI := finite_fixedPoints_trialityD4 q hv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let := finite_fixedPoints_trialityD4 q hv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let H := TauCeti.fixedSubgroup (d4Index q hv).steinberg
   let Y := commutator ↥H
   have hY2 : CFSG.Open.pRank 3 (⊤ : Subgroup ↥Y) ≤ 2 := by
@@ -65,7 +65,7 @@ theorem pRank_three_trialityD4_le_three (q : PrimePower)
       (⊤ : Subgroup ↥Y)
     let φ : ↥Y →* D4Tripled.points (d4Closure q hv) := H.subtype.comp Y.subtype
     have hinj : Function.Injective φ := H.subtype_injective.comp Y.subtype_injective
-    letI : Finite (E.map φ) := Finite.of_equiv E
+    let : Finite (E.map φ) := Finite.of_equiv E
       (E.equivMapOfInjective φ hinj).toEquiv
     have hc' := card_le_nine_of_fixedPoints hp2 (E.map φ)
       (isElemAbelian_map_up34 φ hinj hE) (by
@@ -82,7 +82,7 @@ theorem upD42Chev2Out_triality_holds : UpD42Chev2Out
   cases d with
   | trialityD4 q =>
     have hp2 : q.p = 2 := hc
-    letI := finite_fixedPoints_trialityD4 q hv
+    let := finite_fixedPoints_trialityD4 q hv
     have h3 := pRank_three_trialityD4_le_three q hv hp2
     let e' : S ≃* FixedPointCandidate (d4Index q hv).steinberg := by
       exact e

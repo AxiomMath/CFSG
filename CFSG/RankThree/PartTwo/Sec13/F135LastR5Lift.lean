@@ -59,9 +59,9 @@ theorem exists_invariant_sylow_two {X : Type*} [Group X] [Finite X] {p : ℕ} (h
     (hK : ¬ p ∣ Nat.card K) :
     ∃ T : Subgroup X, CFSG.ABGLocalTools.IsSylowOf 2 T K ∧ F ≤ Subgroup.normalizer (T : Set X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : MulDistribMulAction F K := MulDistribMulAction.compHom K (Subgroup.inclusion hFK)
-  haveI : Finite (Sylow 2 K) :=
+  have : Fact p.Prime := ⟨hp⟩
+  let : MulDistribMulAction F K := MulDistribMulAction.compHom K (Subgroup.inclusion hFK)
+  have : Finite (Sylow 2 K) :=
     Finite.of_injective (fun P : Sylow 2 K => (P : Set K)) SetLike.coe_injective
   have hcard : ¬ p ∣ Nat.card (Sylow 2 K) := by
     obtain ⟨P⟩ := (Sylow.nonempty : Nonempty (Sylow 2 K))
@@ -97,7 +97,7 @@ theorem exists_two_lift {M : Type*} [Group M] [Finite M] {p : ℕ} (hp : p.Prime
     (hFT : F.map (QuotientGroup.mk' R) ≤ Subgroup.normalizer (T : Set (M ⧸ R))) :
     ∃ T' : Subgroup M, T' ≠ ⊥ ∧ IsPGroup 2 T' ∧ F ≤ Subgroup.normalizer (T' : Set M) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKcard := r5a_card_comap R T
   have hFK : F ≤ Subgroup.normalizer ((T.comap (QuotientGroup.mk' R) : Subgroup M) : Set M) := by
     intro f hf
@@ -137,7 +137,7 @@ theorem exists_pSubgroup_lift {M : Type*} [Group M] [Finite M] {p : ℕ} (hp : p
     (hF₀ : IsPGroup p F₀) :
     ∃ F : Subgroup M, IsPGroup p F ∧ F.map (QuotientGroup.mk' R) = F₀ ∧ F ⊓ R = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨F, hFs⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (F₀.comap (QuotientGroup.mk' R))
   have hFK : F ≤ F₀.comap (QuotientGroup.mk' R) := hFs.le
   have hFp : IsPGroup p F := hFs.isPGroup

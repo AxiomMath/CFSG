@@ -37,7 +37,7 @@ variable {Ω : Type} [Group Ω]
       rw [MulAut.mul_apply, QuotientGroup.congr_mk, QuotientGroup.congr_mk, QuotientGroup.congr_mk]
       congr 1
       apply Subtype.ext
-      simp only [MulAut.mul_apply, MulAut.conjNormal_apply, map_mul, Subgroup.coe_mul, mul_assoc]
+      simp only [MulAut.mul_apply, MulAut.conjNormal_apply, map_mul, mul_assoc]
 
 theorem actQuot_mk (S : Subgroup Ω) [S.Normal] (g : Ω) (s : ↥S) :
     actQuot S g (QuotientGroup.mk s) =
@@ -84,12 +84,12 @@ section Main
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
-theorem exists_elemAbelian_aut_rank_ge_three {p : ℕ} (hp : p.Prime) {S B D : Subgroup Ω}
+theorem exists_elemAbelian_aut_rank_ge_three {p : ℕ} (_hp : p.Prime) {S B D : Subgroup Ω}
     (hSn : S.Normal) (hSq : CFSG.Open.IsQuasisimple ↥S) (hSp : GLAPPrimeCore p ↥S = ⊥)
     (hBel : IsElemAbelian p B) (hCD : B ⊓ centModSubgroup p S ≤ D)
     (hrel : (B ⊓ centModSubgroup p S).relIndex D = p) (hD : p ^ 2 * Nat.card D ≤ Nat.card B) :
     ∃ A : Subgroup (MulAut (↥S ⧸ Subgroup.center ↥S)), IsElemAbelian p A ∧ p ^ 3 ≤ Nat.card A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   have hSperf : ⁅S, S⁆ = S := commutator_self_eq_of_isQuasisimple hSq
   have hcore : GLAPPrimeCoreOf p S = ⊥ := glaPPrimeCoreOf_eq_bot hSp
   set φ : ↥B →* MulAut (↥S ⧸ Subgroup.center ↥S) := (actQuot S).comp B.subtype with hφ
@@ -144,8 +144,7 @@ theorem exists_elemAbelian_aut_rank_ge_three {p : ℕ} (hp : p.Prime) {S B D : S
   exact Nat.le_of_mul_le_mul_right h1 hCpos
 
 theorem s2019FactAmbiguous_of_aut (h : S2019FactAmbAut) : S2019FactAmbiguous := by
-  intro p q hp hp2 hq hq2 hqp Ω _ _ S B D J hSn hSq hSp hcat hBel hSB hrank
-  intro hC hDB hCD hrel hD hJ hBJ hcm T hTS hT2 hJT
+  intro p q hp hp2 hq hq2 hqp Ω _ _ S B D J hSn hSq hSp hcat hBel hSB hrank hC hDB hCD hrel hD hJ hBJ hcm T hTS hT2 hJT
   exfalso
   let eS : PQuot p S ≃* ↥S :=
     (QuotientGroup.quotientMulEquivOfEq hSp).trans QuotientGroup.quotientBot

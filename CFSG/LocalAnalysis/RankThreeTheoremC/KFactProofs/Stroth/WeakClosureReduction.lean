@@ -40,15 +40,15 @@ private theorem relIndex_eq_relIndex_sup {G : Type} [Group G] [Finite G] (S N : 
 theorem kFactWeakClosure_of_inner (hIA : KFactInnerAction) (hWC : KFactWeakClosureInner) :
     KFactWeakClosure := by
   intro p hp hp2 X _ _ K hKn hs hnab hcat hC hpK Q hKQ hQab hrank A hAQ hA
-  haveI := hKn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hKn
+  have : Fact p.Prime := ⟨hp⟩
   have hidx : ¬ p ∣ ((Q : Subgroup X).subgroupOf K).index := by
     have e : ((Q : Subgroup X).subgroupOf K).index = (Q : Subgroup X).index := by
       rw [← Subgroup.relIndex, relIndex_eq_relIndex_sup, sup_comm, hKQ,
         Subgroup.relIndex_top_right]
     rw [e]
     exact Q.not_dvd_index
-  let PK : Sylow p ↥K := (Q.isPGroup'.comap_subtype (K := K)).toSylow hidx
+  let PK : Sylow p ↥K := (Q.isPGroup.comap_subtype (K := K)).toSylow hidx
   have hPK : (PK : Subgroup K) = (Q : Subgroup X).subgroupOf K := IsPGroup.toSylow_coe _ _
   have hmemPK : ∀ g : ↥K, g ∈ (PK : Subgroup K) ↔ (g : X) ∈ (Q : Subgroup X) := by
     intro g
@@ -62,7 +62,7 @@ theorem kFactWeakClosure_of_inner (hIA : KFactInnerAction) (hWC : KFactWeakClosu
   have hPne : (PK : Subgroup K) ≠ ⊥ := PK.ne_bot_of_dvd_card hpK
   have hQK : (Q : Subgroup X) ≤ K := by
     intro a ha
-    obtain ⟨n, hn⟩ := Q.isPGroup' ⟨a, ha⟩
+    obtain ⟨n, hn⟩ := Q.isPGroup ⟨a, ha⟩
     have han : a ^ p ^ n = 1 := congrArg Subtype.val hn
     let φ : MulAut ↥K := MulAut.conjNormal a
     have hφ : φ ^ p ^ n = 1 := by

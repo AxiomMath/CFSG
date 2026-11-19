@@ -33,10 +33,10 @@ theorem glaLayer_le_centralizer_of_pGroup {X V : Subgroup G} (hV2 : IsPGroup 2 V
     hLV | hLV
   · exfalso
     obtain ⟨-, -, hperf, hsimp⟩ := hL
-    haveI : Group.IsNilpotent L := (hV2.to_le hLV).isNilpotent
-    haveI : Group.IsPerfect L := ⟨hperf⟩
-    haveI : Nontrivial (L ⧸ center L) := hsimp.toNontrivial
-    haveI : Nontrivial L := (QuotientGroup.mk'_surjective (center L)).nontrivial
+    have : Group.IsNilpotent L := (hV2.to_le hLV).isNilpotent
+    have : Group.IsPerfect L := ⟨hperf⟩
+    have : Nontrivial (L ⧸ center L) := hsimp.toNontrivial
+    have : Nontrivial L := (QuotientGroup.mk'_surjective (center L)).nontrivial
     exact Group.IsPerfect.not_isSolvable (G := L) inferInstance
   · exact (Subgroup.commutator_eq_bot_iff_le_centralizer).mp hLV
 
@@ -51,7 +51,7 @@ theorem ggExcAdjOddLayerCentre_holds
     (τ : Tag) : GGExcAdjOddLayerCentre τ := by
   intro K _ _ _ A hA _ z hz hzc hz2
   classical
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   set X : Subgroup (adjointGroup τ K) := centralizer (A : Set (adjointGroup τ K)) with hXdef
   set E : Subgroup (adjointGroup τ K) := GLALayer X with hEdef
   have hinj : Function.Injective (adjointGroup τ K).subtype := (adjointGroup τ K).subtype_injective

@@ -210,9 +210,9 @@ private theorem diagMap_mem_g2mmn (f : Module.Basis (Fin n) (ZMod p) U)
     have hsC : ∀ k, s k ∈ Subgroup.closure ({ζ, -1} : Set (ZMod p)ˣ) := by
       intro k
       by_cases hk : k = i₀
-      · rw [show s k = (if k = i₀ then -1 else 1) from rfl, if_pos hk]
+      · rw [show s k = (if k = i₀ then -1 else 1) from rfl, ite_eq_left hk]
         exact Subgroup.subset_closure (by simp)
-      · rw [show s k = (if k = i₀ then -1 else 1) from rfl, if_neg hk]
+      · rw [show s k = (if k = i₀ then -1 else 1) from rfl, ite_eq_right hk]
         exact Subgroup.one_mem _
     have hprods : ∏ k, s k = -1 := by
       rw [Fintype.prod_eq_mul_prod_compl i₀]
@@ -220,7 +220,7 @@ private theorem diagMap_mem_g2mmn (f : Module.Basis (Fin n) (ZMod p) U)
         apply Finset.prod_eq_one
         intro k hk
         simp only [Finset.mem_compl, Finset.mem_singleton] at hk
-        rw [show s k = (if k = i₀ then -1 else 1) from rfl, if_neg hk]
+        rw [show s k = (if k = i₀ then -1 else 1) from rfl, ite_eq_right hk]
       rw [h1, mul_one]
       simp [s]
     have hprod' : ∏ k, (d * s) k = 1 := by
@@ -237,9 +237,9 @@ private theorem diagMap_mem_g2mmn (f : Module.Basis (Fin n) (ZMod p) U)
       funext k
       have hs2 : s k * s k = 1 := by
         by_cases hk : k = i₀
-        · rw [show s k = (if k = i₀ then -1 else 1) from rfl, if_pos hk]
+        · rw [show s k = (if k = i₀ then -1 else 1) from rfl, ite_eq_left hk]
           exact Units.ext (by simp)
-        · rw [show s k = (if k = i₀ then -1 else 1) from rfl, if_neg hk]; exact mul_one 1
+        · rw [show s k = (if k = i₀ then -1 else 1) from rfl, ite_eq_right hk]; exact mul_one 1
       simp only [Pi.mul_apply, mul_assoc, hs2, mul_one]
     have heq : diagMap p f (d * s) * diagMap p f s = diagMap p f d := by
       rw [diagMap_mul, hss]

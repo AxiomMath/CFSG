@@ -37,12 +37,12 @@ noncomputable def retractCompVert (hσ : IsUnitaryInvolution σ)
 theorem retractCompVert_line (hσ : IsUnitaryInvolution σ) {U : FlagVert σ 3}
     (hU : Module.finrank K U.1 = 2) :
     retractCompVert hσ U = chosenLinePoint hσ U hU := by
-  erw [retractCompVert, dif_pos hU]
+  erw [retractCompVert, dite_eq_left hU]
 
 theorem retractCompVert_ret (hσ : IsUnitaryInvolution σ) {U : FlagVert σ 3}
     (hU : Module.finrank K U.1 ≠ 2) :
     retractCompVert hσ U = ⟨U, hU⟩ := by
-  erw [retractCompVert, dif_neg hU]
+  erw [retractCompVert, dite_eq_right hU]
 
 noncomputable def retractConnector (hσ : IsUnitaryInvolution σ)
     (U : FlagVert σ 3) : (flagGraph σ 3).Walk U (retractCompVert hσ U).1 := by
@@ -59,7 +59,7 @@ theorem retractConnector_line (hσ : IsUnitaryInvolution σ) {U : FlagVert σ 3}
       (Walk.cons (chosenLinePoint_adj hσ U hU).symm Walk.nil).copy rfl
         (congrArg (compIncl σ) (retractCompVert_line hσ hU).symm) := by
   unfold retractConnector
-  rw [dif_pos hU]
+  rw [dite_eq_left hU]
 
 theorem retractConnector_ret (hσ : IsUnitaryInvolution σ) {U : FlagVert σ 3}
     (hU : Module.finrank K U.1 ≠ 2) :
@@ -67,12 +67,12 @@ theorem retractConnector_ret (hσ : IsUnitaryInvolution σ) {U : FlagVert σ 3}
       (Walk.nil : (flagGraph σ 3).Walk U U).copy rfl
         (congrArg (compIncl σ) (retractCompVert_ret hσ hU).symm) := by
   unfold retractConnector
-  rw [dif_neg hU]
+  rw [dite_eq_right hU]
 
 @[simp] theorem retractCompVert_retained (hσ : IsUnitaryInvolution σ) (U : CompVert σ) :
     retractCompVert hσ U.1 = U := by
   classical
-  erw [retractCompVert, dif_neg U.2]
+  erw [retractCompVert, dite_eq_right U.2]
   rfl
 
 theorem flagGraph_not_two_two {U W : FlagVert σ 3}

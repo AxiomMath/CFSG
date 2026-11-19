@@ -66,6 +66,7 @@ section Eichler
 
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite K] in
 theorem Ctx.LB_eichler_of_prod (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) {b : M₀.E}
     (hb0 : b ≠ 0) (hB : ∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • b)
     (hcent : ∀ x ∈ Q, x ∈ Subgroup.centralizer (B : Set G) ↔ M₀.B (M₀.π x) b = 0)
@@ -98,6 +99,7 @@ section PartOne
 
 open CFSG.ClassicalGroups.Orthogonal
 
+omit [Finite G] in
 theorem polarBilin_toQuadraticForm_nondegenerate {QF V : Subgroup G} {K : Type} [Field K]
     {γ : G → K} (M₀ : Tim79.QuadModel QF V K γ) :
     (QuadraticMap.polarBilin M₀.toQuadraticForm).Nondegenerate := by
@@ -116,7 +118,7 @@ theorem Ctx.card_LB_lt_of_width_two (hc : Ctx M Q Z B) (hw : Width Q Z 2) :
     Nat.card (LB M Q B) < Nat.card Q * Nat.card Z ^ 2 := by
   classical
   by_contra hge
-  push_neg at hge
+  push Not at hge
   obtain ⟨K, _, _, _, γ, M₀, h⟩ := stroth_globalModelData hc.hyp
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
   have hKcard : Nat.card K = Nat.card Z := h.card
@@ -179,7 +181,7 @@ theorem Ctx.card_LB_lt_of_width_two (hc : Ctx M Q Z B) (hw : Width Q Z 2) :
     have h6 := card_eq_card_mul_range (H := LB M Q B) le_sup_left Φ hΦker
     rw [hL2] at h6
     exact (Nat.eq_of_mul_eq_mul_left hQpos h6).symm
-  haveI : Finite (rootGroup M₀.toQuadraticForm b) :=
+  have : Finite (rootGroup M₀.toQuadraticForm b) :=
     Nat.finite_of_card_ne_zero (by rw [hcardroot]; positivity)
   have hreq : Φ.range = rootGroup M₀.toQuadraticForm b :=
     Subgroup.eq_of_le_of_card_ge hrange (by rw [hcardroot, hcardrange])

@@ -29,13 +29,13 @@ theorem ggOrdPToralF4Rest_of_hard (h : GGOrdPToralF4RestHard) : GGOrdPToralF4Res
   have hp5 : 5 ≤ p := by
     have h2 := hp.two_le
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     interval_cases p
     · exact hp2 rfl
     · exact hp3 rfl
     · exact absurd hp (by norm_num)
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
-  haveI : Finite (adjointGroup .F4 (GaloisField 2 f)) := generated_group_finite .F4 _
+  have : Finite (adjointGroup .F4 (GaloisField 2 f)) := generated_group_finite .F4 _
   by_cases h1 : p ∣ 2 ^ f - 1
   · exact absurd ⟨hp5, h1⟩ hsplit
   by_cases h2 : p ∣ 2 ^ f + 1

@@ -83,6 +83,7 @@ noncomputable def toJsubHom [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype 
     apply Subtype.ext
     rfl
 
+omit [FiniteDimensional F V] in
 theorem toJsubHom_injective [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : HypBlocks.Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
@@ -93,6 +94,7 @@ theorem toJsubHom_injective [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype 
     (fun g : ↥(Jsub A hp hpF hA t ht D) => ((g : SpecialLinearGroup F V) : V ≃ₗ[F] V)) hab
   exact Subtype.ext (Subtype.ext h)
 
+omit [FiniteDimensional F V] in
 theorem dvd_card_Jsub [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : HypBlocks.Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
@@ -140,6 +142,7 @@ noncomputable def toLsubHom [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype 
     apply Subtype.ext
     rfl
 
+omit [FiniteDimensional F V] in
 theorem toLsubHom_injective [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : HypBlocks.Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
@@ -150,13 +153,14 @@ theorem toLsubHom_injective [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype 
     ((g : SpecialLinearGroup F V) : V ≃ₗ[F] V)) hab
   exact Subtype.ext (Subtype.ext h)
 
+omit [FiniteDimensional F V] in
 theorem dvd_card_Lsub [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : HypBlocks.Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
     (hAdet : A ≤ LinearEquiv.det.ker) {k : ℕ} (hk : Nat.card A = p ^ k) (hk3 : 3 ≤ k)
     {D E : HypBlocks.Hyperplane A p} (hDE : D ≠ E) :
     p ∣ Nat.card ↥(Lsub A hp hpF hA t ht D E) := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   have hcardDE : Nat.card ↥(D.1 ⊓ E.1) = p ^ (k - 2) := by
     have hprod : Nat.card ↥(D.1 ⊓ E.1) * (D.1 ⊓ E.1).index = Nat.card A :=
       Subgroup.card_mul_index (D.1 ⊓ E.1)
@@ -191,6 +195,7 @@ noncomputable def blockEndSL [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype
     SpecialLinearGroup F V :=
   ⟨HypBlocks.blockEnd A hp hpF hA t ht D, blockEnd_mem_specialLinear A hp hpF hA t ht hpd D⟩
 
+omit [FiniteDimensional F V] in
 theorem mem_centralizer_blockEndSL_iff [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : HypBlocks.Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
@@ -263,7 +268,7 @@ theorem normal_Jsub [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp :
 theorem normal_Lsub [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : HypBlocks.Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
-    (hpd : ¬ p ∣ Fintype.card F - 1) {D E : HypBlocks.Hyperplane A p} (hDE : D ≠ E) :
+    (hpd : ¬ p ∣ Fintype.card F - 1) {D E : HypBlocks.Hyperplane A p} (_hDE : D ≠ E) :
     ((Lsub A hp hpF hA t ht D E).subgroupOf
       (Jsub A hp hpF hA t ht D ⊓
         Subgroup.centralizer
@@ -352,10 +357,11 @@ theorem normal_Lsub [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp :
     · exact hconjE.eq
 
 
+omit [FiniteDimensional F V] in
 theorem Lsub_le_inf [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : HypBlocks.Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
-    (hpd : ¬ p ∣ Fintype.card F - 1) {D E : HypBlocks.Hyperplane A p} (hDE : D ≠ E) :
+    (hpd : ¬ p ∣ Fintype.card F - 1) {D E : HypBlocks.Hyperplane A p} (_hDE : D ≠ E) :
     Lsub A hp hpF hA t ht D E ≤
       Jsub A hp hpF hA t ht D ⊓
         Subgroup.centralizer
@@ -413,12 +419,12 @@ theorem glaPComponent_Jsub [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A
       (Subgroup.centralizer
         ({blockEndSL A hp hpF hA t ht hpd D} : Set (SpecialLinearGroup F V)))
       (Jsub A hp hpF hA t ht D) := by
-  haveI : Fintype V := by
+  have : Fintype V := by
     classical
     haveI : Module.Free F V := Module.Free.of_divisionRing F V
     exact Fintype.ofEquiv (Fin (Module.finrank F V) → F)
       (Module.finBasis F V).equivFun.symm.toEquiv
-  haveI : Finite (SpecialLinearGroup F V) := inferInstance
+  have : Finite (SpecialLinearGroup F V) := inferInstance
   have hle : Jsub A hp hpF hA t ht D ≤
       Subgroup.centralizer
         ({blockEndSL A hp hpF hA t ht hpd D} : Set (SpecialLinearGroup F V)) := by
@@ -443,7 +449,7 @@ theorem glaPLayer_Jsub_inf_centralizer [Fintype F] (A : Subgroup (V ≃ₗ[F] V)
       (Jsub A hp hpF hA t ht D ⊓
         Subgroup.centralizer
           ({blockEndSL A hp hpF hA t ht hpd E} : Set (SpecialLinearGroup F V))) ≠ ⊥ := by
-  haveI : Fintype V := by
+  have : Fintype V := by
     classical
     haveI : Module.Free F V := Module.Free.of_divisionRing F V
     exact Fintype.ofEquiv (Fin (Module.finrank F V) → F)

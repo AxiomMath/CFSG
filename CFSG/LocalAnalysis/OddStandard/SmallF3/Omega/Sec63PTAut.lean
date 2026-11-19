@@ -21,7 +21,7 @@ theorem asc82FactOm6PA6_of_fbar (h : Asc82FactOm6PA6Bar) : Asc82FactOm6PA6 := by
     have h1 := pow_orderOf_eq_one x
     rwa [hx2, pow_two] at h1
   obtain ⟨e⟩ := sec63PT_exists_equiv_p3 hY.2
-  haveI := sec63PT_nontrivial_p3
+  have := sec63PT_nontrivial_p3
   have hcen : oddCore ↥Y ≤ center ↥Y := sec63PT_oddCore_le_center hY.1 e
   have hσσ : conjAut Y hxx hxN * conjAut Y hxx hxN = 1 := conjAut_mul_self Y hxx hxN
   obtain ⟨α, hασ, hαα⟩ := sec63PT_exists_induced_aut_quotient e hσσ

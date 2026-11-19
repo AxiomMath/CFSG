@@ -14,6 +14,7 @@ section General
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem not_isPGroup_closure_of_map {K : Subgroup G} {X : Type*} [Group X] (φ : ↥K →* X)
     {d e : ↥K} (hnp : ¬ IsPGroup 2 ↥(Subgroup.closure ({φ d, φ e} : Set X))) :
     ¬ IsPGroup 2 ↥(Subgroup.closure ({(d : G), (e : G)} : Set G)) := by
@@ -47,6 +48,7 @@ theorem odd_orderOf_mul_of_not_isPGroup (h : Hyp73 V H E J) {X : Type*} [Group X
   rw [← Subgroup.orderOf_coe (d * e), Subgroup.coe_mul]
   exact h'
 
+omit [Finite G] in
 private lemma mul_self_eq_one_of_mem_omegaSet (h : Hyp73 V H E J) {A : Subgroup G}
     (hA : A ∈ omegaSet V H E) {d : ↥(kSub V H E)} (hd : (d : G) ∈ A) : d * d = 1 := by
   refine Subtype.ext ?_
@@ -55,12 +57,14 @@ private lemma mul_self_eq_one_of_mem_omegaSet (h : Hyp73 V H E J) {A : Subgroup 
     (d : G) hd
   rwa [pow_two] at hd2
 
+omit [Finite G] in
 private lemma odd_orderOf_mul_swap {v w : ↥(kSub V H E)} (hv : v * v = 1) (hw : w * w = 1)
     (hodd : Odd (orderOf (v * w))) : Odd (orderOf (w * v)) := by
   rw [show w * v = (v * w)⁻¹ by
     rw [mul_inv_rev, inv_eq_of_mul_eq_one_right hv, inv_eq_of_mul_eq_one_right hw], orderOf_inv]
   exact hodd
 
+omit [Finite G] in
 private lemma closure_pair_subgroupOf_le {X₀ : Subgroup G} {a b : ↥(kSub V H E)}
     (ha : (a : G) ∈ X₀) (hb : (b : G) ∈ X₀) :
     Subgroup.closure ({a, b} : Set ↥(kSub V H E)) ≤ X₀.subgroupOf (kSub V H E) := by
@@ -71,6 +75,7 @@ private lemma closure_pair_subgroupOf_le {X₀ : Subgroup G} {a b : ↥(kSub V H
   · exact Subgroup.mem_subgroupOf.mpr ha
   · exact Subgroup.mem_subgroupOf.mpr hb
 
+omit [Finite G] in
 private lemma conj_mem_omegaSet_and_mem (h : Hyp73 V H E J) {U : Subgroup G}
     (hU : U ∈ omegaSet V H E) {x v : ↥(kSub V H E)} (hvU : (v : G) ∈ U) :
     conjSubgroup U (x : G) ∈ omegaSet V H E ∧
@@ -81,11 +86,13 @@ private lemma conj_mem_omegaSet_and_mem (h : Hyp73 V H E J) {U : Subgroup G}
     show (x : G) * ((x : G)⁻¹ * (v : G) * (x : G)) * (x : G)⁻¹ = (v : G) from by group]
   exact hvU
 
+omit [Finite G] in
 private lemma map_conj_mul_self_eq {X : Type*} [Group X] {φ : ↥(kSub V H E) →* X}
     {x v : ↥(kSub V H E)} (hx : φ x * φ x = φ v) : φ (x⁻¹ * v * x) = φ v := by
   rw [map_mul, map_mul, map_inv, ← hx]
   group
 
+omit [Finite G] in
 private lemma exists_mul_inv_mul_eq_of_odd {u v w : ↥(kSub V H E)} (hu : u * u = 1)
     (hw : w * w = 1) (hv : v * v = 1) (huw : Odd (orderOf (u * w)))
     (hwv : Odd (orderOf (w * v))) :
@@ -98,6 +105,7 @@ private lemma exists_mul_inv_mul_eq_of_odd {u v w : ↥(kSub V H E)} (hu : u * u
   rw [mul_inv_rev,
     show (y₂⁻¹ * y₁⁻¹) * u * (y₁ * y₂) = y₂⁻¹ * (y₁⁻¹ * u * y₁) * y₂ from by group, hy₁, hy₂]
 
+omit [Finite G] in
 private lemma map_eq_one_or_eq_map_of_conj_eq {X : Type*} [Group X]
     {φ : ↥(kSub V H E) →* X} {u v w y₁ y₂ : ↥(kSub V H E)} (hv : v * v = 1) (hw : w * w = 1)
     (hφu : φ u = φ v) (hodd : Odd (orderOf (v * w)))
@@ -128,6 +136,7 @@ private lemma map_eq_one_or_eq_map_of_conj_eq {X : Type*} [Group X]
     rwa [sup_bot_eq] at h
   exact CFSG.GH74.Uniqueness.Bender.eq_one_or_eq_of_mem_zpowers hvφ hzp
 
+omit [Finite G] in
 private lemma conj_mul_eq_of_conj {v x y : ↥(kSub V H E)}
     (hy : y⁻¹ * (x⁻¹ * v * x) * y = v) :
     ((x * y : ↥(kSub V H E)) : G)⁻¹ * (v : G) * ((x * y : ↥(kSub V H E)) : G) = (v : G) := by
@@ -137,6 +146,7 @@ private lemma conj_mul_eq_of_conj {v x y : ↥(kSub V H E)}
   have := congrArg (Subtype.val) h
   simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using this
 
+omit [Finite G] in
 private lemma conj_mul_mul_eq_of_conj {v x y : ↥(kSub V H E)}
     (hy : y⁻¹ * (x⁻¹ * v * x) * y = v) (hv : v * v = 1) :
     ((x * y * v : ↥(kSub V H E)) : G)⁻¹ * (v : G) * ((x * y * v : ↥(kSub V H E)) : G) =

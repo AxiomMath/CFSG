@@ -39,9 +39,9 @@ theorem inf_centralizer_self_eq_bot_of_center {K : Subgroup Y} (hZ : center K = 
 theorem exists_orderOf_eq_mem_center_of_le_sylow {p : ℕ} [Fact p.Prime] {R N : Subgroup Y}
     (hR : IsPGroup p R) (hNR : N ≤ R) (hRN : R ≤ normalizer (N : Set Y)) (hN : N ≠ ⊥) :
     ∃ z ∈ N, orderOf z = p ∧ ∀ g ∈ R, g * z = z * g := by
-  haveI : Group.IsNilpotent R := hR.isNilpotent
+  have : Group.IsNilpotent R := hR.isNilpotent
   set N' : Subgroup R := N.subgroupOf R with hN'
-  haveI : N'.Normal := ⟨fun n hn g => by
+  have : N'.Normal := ⟨fun n hn g => by
     rw [hN', Subgroup.mem_subgroupOf] at hn ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hRN g.2) n).mp hn⟩
   have hN'ne : N' ≠ ⊥ := by
@@ -53,7 +53,7 @@ theorem exists_orderOf_eq_mem_center_of_le_sylow {p : ℕ} [Fact p.Prime] {R N :
     rw [h, Subgroup.mem_bot] at hx'
     exact (Subgroup.mem_bot).mpr (congrArg Subtype.val hx')
   have hM : N' ⊓ center R ≠ ⊥ := Group.IsNilpotent.inf_center_ne_bot_of_normal hN'ne
-  haveI : Nontrivial (N' ⊓ center R : Subgroup R) := (Subgroup.nontrivial_iff_ne_bot _).mpr hM
+  have : Nontrivial (N' ⊓ center R : Subgroup R) := (Subgroup.nontrivial_iff_ne_bot _).mpr hM
   have hMp : IsPGroup p (N' ⊓ center R : Subgroup R) := hR.to_subgroup _
   have hdvd : p ∣ Nat.card (N' ⊓ center R : Subgroup R) := by
     rcases hMp.card_eq_or_dvd with h1 | h1
@@ -97,6 +97,7 @@ theorem le_openPRank_sup_of_commute {p k l : ℕ} (hp : 1 < p) {A B H : Subgroup
   CFSG.SectionRank.le_pRank hp hH (hA.sup_of_commute hB hc)
     (by rw [CFSG.CGT.T75P.card_sup_of_commute hc hAB, hAk, hBl, pow_add])
 
+omit [Finite Y] in
 theorem centralizer_subgroupOf_sup_sylow_eq_bot {p : ℕ} [Fact p.Prime] {K : Subgroup Y}
     [K.Normal] (R : Sylow p Y) (hKC : K ⊓ centralizer (K : Set Y) = ⊥)
     (hRC : (R : Subgroup Y) ⊓ centralizer (K : Set Y) = ⊥) :
@@ -108,7 +109,7 @@ theorem centralizer_subgroupOf_sup_sylow_eq_bot {p : ℕ} [Fact p.Prime] {K : Su
   have hWp : IsPGroup p (H ⊓ C : Subgroup Y) := by
     rintro ⟨w, hwH, hwC⟩
     obtain ⟨k, hk, r, hr, rfl⟩ := Subgroup.mem_sup_of_normal_left.mp hwH
-    obtain ⟨n, hn⟩ := R.isPGroup' ⟨r, hr⟩
+    obtain ⟨n, hn⟩ := R.isPGroup ⟨r, hr⟩
     have hrn : r ^ p ^ n = 1 := by simpa using congrArg Subtype.val hn
     refine ⟨n, Subtype.ext ?_⟩
     have h1 : (k * r) ^ p ^ n ∈ K := by
@@ -134,7 +135,7 @@ theorem centralizer_subgroupOf_sup_sylow_eq_bot {p : ℕ} [Fact p.Prime] {K : Su
         simpa [mul_assoc] using this
   have hWR : H ⊓ C ≤ (R : Subgroup Y) := by
     have hsup := R.maximal_isPGroup.eq_of_ge
-      (IsPGroup.to_sup_of_normal_left' hWp R.isPGroup' hRW) le_sup_right
+      (IsPGroup.to_sup_of_normal_left' hWp R.isPGroup hRW) le_sup_right
     rw [← hsup]
     exact le_sup_left
   rw [eq_bot_iff]
@@ -178,7 +179,7 @@ theorem card_inf_sylow_of_le_normalizer {p : ℕ} [Fact p.Prime] (R : Sylow p Y)
   set L : Subgroup Y := M ⊔ (R : Subgroup Y) with hL
   have hML : M ≤ L := le_sup_left
   have hRL : (R : Subgroup Y) ≤ L := le_sup_right
-  haveI : (M.subgroupOf L).Normal :=
+  have : (M.subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hML).mpr (sup_le Subgroup.le_normalizer hRM)
   obtain ⟨P, hP⟩ :=
     CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_normal (R.subtype hRL) (M.subgroupOf L)

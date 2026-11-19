@@ -41,7 +41,7 @@ theorem map_conjNormal_subgroupOf [P.Normal] [D.Normal] (g : Λ) :
     (D.subgroupOf P).map ((MulAut.conjNormal (H := P) g : MulAut P) : ↥P →* ↥P) =
       D.subgroupOf P := by
   ext y
-  simp only [mem_map, mem_subgroupOf, MonoidHom.coe_coe]
+  simp only [mem_map, mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
   constructor
   · rintro ⟨z, hz, rfl⟩
     rw [MulAut.conjNormal_apply]
@@ -85,6 +85,7 @@ universe u
 variable {Λ : Type u} [Group Λ] [Finite Λ] {T W R : Subgroup Λ} {a : ℕ} {K : Type} [Field K]
   [Finite K] {φ : Λ →* suzukiGroup a K} {u : Λ}
 
+omit [Finite Λ] in
 theorem normal_D (hc : LCfgCore (⊤ : Subgroup Λ) W (oTwo Λ) u) :
     (D W (oTwo Λ) u).Normal := by
   refine ⟨fun d hd g => ?_⟩
@@ -92,6 +93,7 @@ theorem normal_D (hc : LCfgCore (⊤ : Subgroup Λ) W (oTwo Λ) u) :
   rw [← hgd, mul_inv_cancel_right]
   exact hd
 
+omit [Finite Λ] in
 theorem comm_oTwo_mem_D (hc : LCfgCore (⊤ : Subgroup Λ) W (oTwo Λ) u)
     (hX : oTwo Λ = X W (oTwo Λ) u) :
     ∀ x ∈ oTwo Λ, ∀ y ∈ oTwo Λ, x * y * x⁻¹ * y⁻¹ ∈ D W (oTwo Λ) u := by
@@ -99,6 +101,7 @@ theorem comm_oTwo_mem_D (hc : LCfgCore (⊤ : Subgroup Λ) W (oTwo Λ) u)
   rw [hX] at hx hy
   exact hc.comm_X_mem_D hx hy
 
+omit [Finite Λ] in
 theorem sq_oTwo_mem_D (hc : LCfgCore (⊤ : Subgroup Λ) W (oTwo Λ) u)
     (hX : oTwo Λ = X W (oTwo Λ) u) {x : Λ} (hx : x ∈ oTwo Λ) : x * x ∈ D W (oTwo Λ) u := by
   rw [hX] at hx
@@ -132,12 +135,13 @@ theorem normalizer_A_le (h : SzCfg T W R φ) (hc : LCfgCore (⊤ : Subgroup Λ) 
   refine hC (mem_centralizer_iff.mpr fun x hx => ?_)
   exact h.comm_W (hXA hx) hw
 
+omit [Finite Λ] in
 theorem ker_modAct (h : SzCfg T W R φ) (hc : LCfgCore (⊤ : Subgroup Λ) W (oTwo Λ) u)
     (hR : R = oTwo Λ) (hX : oTwo Λ = X W (oTwo Λ) u)
     (hC : centralizer (oTwo Λ : Set Λ) ≤ oTwo Λ) :
     haveI := normal_D hc
     (modAct (P := oTwo Λ) (D := D W (oTwo Λ) u)).ker = oTwo Λ := by
-  haveI hDn := normal_D hc
+  have hDn := normal_D hc
   set Dd := D W (oTwo Λ) u with hDd
   apply le_antisymm
   · set K₁ := (modAct (P := oTwo Λ) (D := Dd)).ker with hK₁
@@ -173,12 +177,13 @@ theorem ker_modAct (h : SzCfg T W R φ) (hc : LCfgCore (⊤ : Subgroup Λ) W (oT
     convert this using 1
     simp only [mul_inv_rev, inv_inv, mul_assoc]
 
+omit [Finite Λ] in
 theorem nonempty_range_mulEquiv (h : SzCfg T W R φ)
     (hc : LCfgCore (⊤ : Subgroup Λ) W (oTwo Λ) u) (hR : R = oTwo Λ)
     (hX : oTwo Λ = X W (oTwo Λ) u) (hC : centralizer (oTwo Λ : Set Λ) ≤ oTwo Λ) :
     haveI := normal_D hc
     Nonempty (↥(modAct (P := oTwo Λ) (D := D W (oTwo Λ) u)).range ≃* suzukiGroup a K) := by
-  haveI := normal_D hc
+  have := normal_D hc
   have hk : (modAct (P := oTwo Λ) (D := D W (oTwo Λ) u)).ker = φ.ker := by
     rw [ker_modAct h hc hR hX hC, h.ker_eq, hR]
   exact ⟨(QuotientGroup.quotientKerEquivRange _).symm.trans
@@ -190,11 +195,11 @@ theorem oTwo_range_eq_bot (h : SzCfg T W R φ)
     (hX : oTwo Λ = X W (oTwo Λ) u) (hC : centralizer (oTwo Λ : Set Λ) ≤ oTwo Λ) :
     haveI := normal_D hc
     oTwo ↥(modAct (P := oTwo Λ) (D := D W (oTwo Λ) u)).range = ⊥ := by
-  haveI := normal_D hc
+  have := normal_D hc
   obtain ⟨e⟩ := nonempty_range_mulEquiv h hc hR hX hC
   obtain ⟨-, -, hs⟩ := CFSG.LieType.Ree.suzuki_simple h.one_le h.card_K
-  haveI := hs
-  haveI : IsSimpleGroup ↥(modAct (P := oTwo Λ) (D := D W (oTwo Λ) u)).range := e.isSimpleGroup
+  have := hs
+  have : IsSimpleGroup ↥(modAct (P := oTwo Λ) (D := D W (oTwo Λ) u)).range := e.isSimpleGroup
   rcases (inferInstance : (oTwo ↥(modAct (P := oTwo Λ) (D := D W (oTwo Λ) u)).range).Normal
     ).eq_bot_or_eq_top with h1 | h1
   · exact h1
@@ -213,7 +218,7 @@ theorem isL24Sz_image (h : SzCfg T W R φ) (hc : LCfgCore (⊤ : Subgroup Λ) W 
       ((normalizer (W : Set Λ)).map (modAct (P := oTwo Λ) (D := D W (oTwo Λ) u)))
       (W.map (modAct (P := oTwo Λ) (D := D W (oTwo Λ) u)))
       (modAct (P := oTwo Λ) (D := D W (oTwo Λ) u)).range := by
-  haveI := normal_D hc
+  have := normal_D hc
   set ρ := modAct (P := oTwo Λ) (D := D W (oTwo Λ) u) with hρ
   have hker := ker_modAct h hc hR hX hC
   have hkT : ρ.ker ≤ T := by rw [hker]; exact h.oTwo_le_T
@@ -254,13 +259,13 @@ theorem isNatSzExt (h : SzCfg T W R φ) (hc : LCfgCore (⊤ : Subgroup Λ) W (oT
     (hC : centralizer (oTwo Λ : Set Λ) ≤ oTwo Λ) (h25 : Hyp25dSz.{u}) :
     ∃ n, 1 ≤ n ∧ Stell.IsNatSzExt Λ n := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hDn := normal_D hc
+  have hDn := normal_D hc
   set Dd := D W (oTwo Λ) u with hDd
-  letI : CommGroup (ModPD (oTwo Λ) Dd) := modCommGroup (comm_oTwo_mem_D hc hX)
+  let : CommGroup (ModPD (oTwo Λ) Dd) := modCommGroup (comm_oTwo_mem_D hc hX)
   set ρ := modAct (P := oTwo Λ) (D := Dd) with hρ
   have hker : ρ.ker = oTwo Λ := ker_modAct h hc hR hX hC
-  have hDA : Dd ≤ A W (oTwo Λ) := hc.D_le_A
-  have hAP : A W (oTwo Λ) ≤ oTwo Λ := hc.A_le_P
+  have hDA : Dd ≤ A W (oTwo Λ) := CFSG.RankThree.S4Free.Stell33.LCfgCore.D_le_A
+  have hAP : A W (oTwo Λ) ≤ oTwo Λ := CFSG.RankThree.S4Free.Stell33.LCfgCore.A_le_P
   set Z₀ : Subgroup (ModPD (oTwo Λ) Dd) :=
     ((A W (oTwo Λ)).subgroupOf (oTwo Λ)).map (QuotientGroup.mk' (Dd.subgroupOf (oTwo Λ)))
     with hZ₀
@@ -321,7 +326,7 @@ theorem isNatSzExt (h : SzCfg T W R φ) (hc : LCfgCore (⊤ : Subgroup Λ) W (oT
     induction v using QuotientGroup.induction_on with | H x => ?_
     have hxX : (x : Λ) ∈ X W (oTwo Λ) u := hX ▸ x.2
     obtain ⟨a', ha', b', hb', hab⟩ := hc.mem_X_iff.mp hxX
-    have hx : x = ⟨a', hAP ha'⟩ * ⟨b', hc.B_le_P hb'⟩ := Subtype.ext hab
+    have hx : x = ⟨a', hAP ha'⟩ * ⟨b', CFSG.RankThree.S4Free.Stell33.LCfgCore.B_le_P hb'⟩ := Subtype.ext hab
     rw [hx, QuotientGroup.mk_mul]
     have hA1 : ((⟨a', hAP ha'⟩ : oTwo Λ) : ModPD (oTwo Λ) Dd) ∈ Z₀ :=
       ⟨⟨a', hAP ha'⟩, mem_subgroupOf.mpr ha', rfl⟩
@@ -357,12 +362,12 @@ theorem isNatSzExt (h : SzCfg T W R φ) (hc : LCfgCore (⊤ : Subgroup Λ) W (oT
   have hinj : ψ'.ker = ⊥ := by
     obtain ⟨e⟩ := nonempty_range_mulEquiv h hc hR hX hC
     obtain ⟨-, -, hs⟩ := CFSG.LieType.Ree.suzuki_simple h.one_le h.card_K
-    haveI := hs
-    haveI : IsSimpleGroup ↥ρ.range := e.isSimpleGroup
+    have := hs
+    have : IsSimpleGroup ↥ρ.range := e.isSimpleGroup
     rcases (MonoidHom.normal_ker ψ').eq_bot_or_eq_top with h1 | h1
     · exact h1
     · exfalso
-      haveI := nontrivial_sz n
+      have := nontrivial_sz n
       obtain ⟨y, hy⟩ := exists_ne (1 : CFSG.Open.Sz n)
       obtain ⟨x, rfl⟩ := hψ' y
       exact hy (MonoidHom.mem_ker.mp (h1 ▸ mem_top x))

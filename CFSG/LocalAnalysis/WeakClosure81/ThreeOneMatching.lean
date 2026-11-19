@@ -13,10 +13,12 @@ namespace ThreeOne
 
 variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
 
+omit [Fintype Ω] in
 private lemma isSwap_conj {g s : Perm Ω} (hs : s.IsSwap) : (g * s * g⁻¹).IsSwap := by
   obtain ⟨a, b, hab, rfl⟩ := hs
   exact ⟨g a, g b, fun h => hab (g.injective h), by rw [Equiv.swap_apply_apply]⟩
 
+omit [Fintype Ω] in
 private lemma conj_mem_swaps {T : Subgroup (Perm Ω)} {σ g : Perm Ω}
     (hTσ : ∀ x y, x ≠ y → (swap x y ∈ T ↔ σ x = y)) (hg : ∀ x, g (σ x) = σ (g x))
     {s : Perm Ω} (hs : s ∈ T ∧ s.IsSwap) : (g * s * g⁻¹) ∈ T ∧ (g * s * g⁻¹).IsSwap := by
@@ -40,15 +42,16 @@ private lemma partner_spec {T : Subgroup (Perm Ω)} {x : Ω}
     partner T x ≠ x ∧ swap x (partner T x) ∈ T := by
   have hx : partner T x = h.choose := by
     show (if h' : ∃ y, y ≠ x ∧ swap x y ∈ T then h'.choose else x) = h.choose
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   rw [hx]
   exact h.choose_spec
 
 private lemma partner_eq_self {T : Subgroup (Perm Ω)} {x : Ω}
     (h : ¬ ∃ y, y ≠ x ∧ swap x y ∈ T) : partner T x = x := by
   show (if h' : ∃ y, y ≠ x ∧ swap x y ∈ T then h'.choose else x) = x
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
+omit [Fintype Ω] in
 private lemma eq_of_swap_mem {T : Subgroup (Perm Ω)} (hT : IsSylowIn 2 T ⊤) {x y y' : Ω}
     (hyx : y ≠ x) (hy : swap x y ∈ T) (hy'x : y' ≠ x) (hy' : swap x y' ∈ T) : y = y' := by
   by_contra hne
@@ -83,7 +86,7 @@ private lemma partner_involutive {T : Subgroup (Perm Ω)} (hT : IsSylowIn 2 T �
   · have hspec := partner_spec h
     have hx : partner T x = h.choose := by
       show (if h' : ∃ y, y ≠ x ∧ swap x y ∈ T then h'.choose else x) = h.choose
-      rw [dif_pos h]
+      rw [dite_eq_left h]
     have hx' : partner T h.choose = x :=
       (partner_eq_iff hT h.choose_spec.1).mpr (by rw [swap_comm]; exact h.choose_spec.2)
     rw [hx]
@@ -91,6 +94,7 @@ private lemma partner_involutive {T : Subgroup (Perm Ω)} (hT : IsSylowIn 2 T �
   · rw [partner_eq_self h]
     exact partner_eq_self h
 
+omit [Fintype Ω] in
 private lemma not_exists_swap_partner_iff {T : Subgroup (Perm Ω)} {x : Ω} :
     (¬ ∃ z, z ≠ x ∧ swap x z ∈ T) ↔ ∀ t ∈ T, t.IsSwap → t x = x := by
   constructor
@@ -132,11 +136,11 @@ theorem exists_matching {T : Subgroup (Perm Ω)} (hT : IsSylowIn 2 T ⊤) :
     · exact (partner_eq_self_iff.mp hx)
     · exact (partner_eq_self_iff.mp hy)
 
+omit [Fintype Ω] in
 theorem setNormalizer_eq_centralizer {T : Subgroup (Perm Ω)} {σ : Perm Ω}
-    (hσ : ∀ x, σ (σ x) = x) (hTσ : ∀ x y, x ≠ y → (swap x y ∈ T ↔ σ x = y)) :
+    (_hσ : ∀ x, σ (σ x) = x) (hTσ : ∀ x y, x ≠ y → (swap x y ∈ T ↔ σ x = y)) :
     Subgroup.normalizer {t : Perm Ω | t ∈ T ∧ t.IsSwap} = Subgroup.centralizer {σ} := by
   classical
-  change Subgroup.normalizer {t : Perm Ω | t ∈ T ∧ t.IsSwap} = Subgroup.centralizer {σ}
   ext g
   rw [Subgroup.mem_centralizer_singleton_iff]
   change (∀ s : Perm Ω, s ∈ {t : Perm Ω | t ∈ T ∧ t.IsSwap} ↔
@@ -200,11 +204,11 @@ theorem setNormalizer_eq_centralizer {T : Subgroup (Perm Ω)} {σ : Perm Ω}
       have heq : g⁻¹ * (g * s * g⁻¹) * g⁻¹⁻¹ = s := by group
       rwa [heq] at hmem
 
+omit [Fintype Ω] in
 theorem le_centralizer_of_matching {T : Subgroup (Perm Ω)} {σ : Perm Ω}
     (hσ : ∀ x, σ (σ x) = x) (hTσ : ∀ x y, x ≠ y → (swap x y ∈ T ↔ σ x = y)) :
     T ≤ Subgroup.centralizer {σ} := by
   rw [← setNormalizer_eq_centralizer hσ hTσ]
-  change T ≤ Subgroup.normalizer {t : Perm Ω | t ∈ T ∧ t.IsSwap}
   intro t ht
   rw [Subgroup.mem_set_normalizer_iff]
   intro s

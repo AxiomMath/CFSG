@@ -222,7 +222,7 @@ theorem invAut_inner_of_isL2Pair {X : Type} [Group X] {S : Subgroup X} {q : ℕ}
     rw [← hKσ]
     exact Subgroup.mem_map_iff_mem (f := σ.toMonoidHom) σ.injective
   obtain ⟨φ, hφz⟩ : ∃ φ : X ≃* X, ∀ z, φ z = s⁻¹ * σ z * s :=
-    ⟨σ.trans (MulAut.conj s⁻¹), fun z => by simp [MulAut.conj_apply]⟩
+    ⟨σ.trans (MulAut.conj s⁻¹), fun z => by simp⟩
   have hφK : ∀ z : X, φ z ∈ conjSubgroup g S ↔ z ∈ conjSubgroup g S := by
     intro z
     have h1 : σ z ∈ conjSubgroup s (conjSubgroup g S) ↔
@@ -257,7 +257,7 @@ theorem invAut_inner_of_suzuki {X : Type} [Group X] [Finite X]
     {a : ℕ} (ha : 1 ≤ a) (e : X ≃* Sz a) (σ : MulAut X) (hσ2 : σ * σ = 1) {S : Subgroup X}
     (hS : IsElemAbelian 2 S) (hcard : Nat.card S = 2 ^ (2 * a + 1))
     (hfix : ∀ y ∈ S, σ y = y) : ∃ s ∈ S, ∀ z : X, σ z = s * z * s⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨b, hb⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.BenderDoubleCover.exists_eq_conj_of_suzuki ha e σ hσ2
   obtain ⟨P, hSP⟩ :=
@@ -338,7 +338,7 @@ theorem prop24Inner_holds :
   intro G _ _ A Ab L Lb M S hrel u hu hC hsq
   obtain ⟨hN, hO2, hmod⟩ := S.tim77_2_4_one CFSG.CGT.T75N.benderCenterInput
     CFSG.CGT.T75N.unitaryTwoGenerationInput
-  haveI := hN
+  have := hN
   have hMe : ∀ m ∈ M, m * m = 1 := fun m hm => by
     rw [← sq]
     exact S.isElemAbelian_M.2 m hm

@@ -61,7 +61,7 @@ private theorem y4_J_comm_exp {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33H
 
 private theorem y4_a12_order {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     orderOf (s.fr.a₁ * s.fr.a₂) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (y5_a12_sq hH)
     (fun h1 => y5_a12_not_mem_J hH (h1 ▸ Subgroup.one_mem (thompsonSubgroup s.fr.B)))
 
@@ -82,7 +82,7 @@ theorem y4_card_J (hH : F33Hyp s e) : Nat.card ↥(thompsonSubgroup s.fr.B) = 16
       = Nat.card (Multiplicative (ZMod 4) × Multiplicative (ZMod 4)) :=
         Nat.card_congr e.toEquiv
     _ = 16 := by
-        simp [Nat.card_prod, Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
+        simp [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
 
 theorem y4_J_comm (hH : F33Hyp s e) :
     ∀ a ∈ thompsonSubgroup s.fr.B, ∀ b ∈ thompsonSubgroup s.fr.B, a * b = b * a :=
@@ -103,7 +103,7 @@ theorem y4_J_sq_mem_V (hH : F33Hyp s e) :
   refine Subgroup.subset_closure ⟨Subgroup.mul_mem _ hj hj, ?_⟩
   show (j * j) ^ 2 = 1
   have hsq : (j * j) ^ 2 = j ^ 4 := by
-    simp only [pow_succ, pow_zero, pow_one]
+    simp only [pow_succ, pow_zero]
     group
   rw [hsq, h4]
 
@@ -187,7 +187,7 @@ theorem y4_B_cases (hH : F33Hyp s e) :
       have h := y5_J_conj s y⁻¹ hyinv (y * j * y⁻¹) hj
       have heq : y⁻¹ * (y * j * y⁻¹) * (y⁻¹)⁻¹ = j := by group
       rwa [heq] at h
-  haveI : ((thompsonSubgroup s.fr.B).subgroupOf s.fr.B).Normal :=
+  have : ((thompsonSubgroup s.fr.B).subgroupOf s.fr.B).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (H := s.fr.B)
       (N := thompsonSubgroup s.fr.B) hJnormB
   have hJleB : thompsonSubgroup s.fr.B ≤ s.fr.B := y5_J_le_B s

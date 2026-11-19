@@ -38,7 +38,7 @@ private theorem t263_d4RankCase
     {S B : Subgroup Ω} (hSn : S.Normal) (hB : GLAIsBmax 3 B)
     (hT : ∃ T : Subgroup Ω, T ≠ ⊥ ∧ IsPGroup 2 T ∧ T ≤ S ∧ B ≤ Subgroup.normalizer (T : Set Ω)) :
     D4RankCase S B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hBcard, -, -, -⟩ :
       CFSG.Open.IsElemAbelian 3 B ∧ Nat.card ↥B = 3 ^ GLATwoLocalRank 3 Ω ∧
         ∃ U : Subgroup Ω, U ≠ ⊥ ∧ IsPGroup 2 U ∧ B ≤ Subgroup.normalizer (U : Set Ω) := id hB
@@ -122,7 +122,7 @@ theorem t263NoTri_holds
   intro Ω _ _ S B hSn hSq hSp hSc hD4 hB hT c hc hnon
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hBel : CFSG.Open.IsElemAbelian 3 B := hB.1
   have hAN : B ≤ Subgroup.normalizer (S : Set Ω) := by
     rw [Subgroup.normalizer_eq_top_iff.2 hSn]

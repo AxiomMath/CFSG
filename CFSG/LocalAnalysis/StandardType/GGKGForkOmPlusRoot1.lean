@@ -16,7 +16,7 @@ theorem ggKGOmR_isSignedPerm {m p : ℕ} {K : Type} [Field K] [Finite K] [CharP 
     (hu : ∀ f, w₀ * omPlusTorus hζ f * w₀⁻¹ = omPlusTorus hζ (u f)) :
     IsSignedPerm ⇑u := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set g : GL (Fin m ⊕ Fin m) K := (w₀ : GL (Fin m ⊕ Fin m) K) with hg
   have hconj : ∀ f : Fin m → Multiplicative (ZMod p),
       g * TableBSymp.spTorusGL hζ f * g⁻¹ = TableBSymp.spTorusGL hζ (u f) := by
@@ -41,8 +41,8 @@ theorem ggKGOmR_isSignedPerm {m p : ℕ} {K : Type} [Field K] [Finite K] [CharP 
     by_contra hne
     have h1 := hj' (Pi.mulSingle i (Multiplicative.ofAdd (1 : ZMod p))) i
     have h2 := hj' (Pi.mulSingle i (Multiplicative.ofAdd (1 : ZMod p))) i'
-    rw [toAdd_mulSingle, if_pos rfl, mul_one] at h1
-    rw [toAdd_mulSingle, if_neg (Ne.symm hne), mul_zero] at h2
+    rw [toAdd_mulSingle, ite_eq_left rfl, mul_one] at h1
+    rw [toAdd_mulSingle, ite_eq_right (Ne.symm hne), mul_zero] at h2
     rw [show u (Pi.mulSingle i (Multiplicative.ofAdd 1)) (j i) =
         u (Pi.mulSingle i (Multiplicative.ofAdd 1)) (j i') by rw [hji]] at h1
     rw [h2] at h1

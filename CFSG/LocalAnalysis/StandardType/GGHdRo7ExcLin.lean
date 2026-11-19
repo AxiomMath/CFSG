@@ -24,7 +24,7 @@ theorem cartanE_connected_free (r : ℕ) (hr : 4 ≤ r) (i j : Fin r) :
     Relation.ReflTransGen
       (fun a b : Fin r => Tag.cartanE r a b = -1 ∧ Tag.cartanE r b a = -1) i j := by
   set R := (fun a b : Fin r => Tag.cartanE r a b = -1 ∧ Tag.cartanE r b a = -1) with hR
-  have hsymm : Symmetric R := fun a b h => ⟨h.2, h.1⟩
+  have hsymm : (∀ ⦃a₀ b₀⦄, R a₀ b₀ → R b₀ a₀) := fun a b h => ⟨h.2, h.1⟩
   have hpath : ∀ k (hk : 2 + k < r),
       Relation.ReflTransGen R ⟨2, by omega⟩ ⟨2 + k, hk⟩ := by
     intro k
@@ -36,10 +36,10 @@ theorem cartanE_connected_free (r : ℕ) (hr : 4 ≤ r) (i j : Fin r) :
       have hne : ¬ (2 + k = 2 + (k + 1)) := by omega
       have hne' : ¬ (2 + (k + 1) = 2 + k) := by omega
       constructor
-      · simp only [Tag.cartanE, Fin.mk.injEq, hne, if_false]
-        rw [if_pos (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨by omega, by omega⟩)))))]
-      · simp only [Tag.cartanE, Fin.mk.injEq, hne', if_false]
-        rw [if_pos (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨by omega, by omega⟩)))))]
+      · simp only [Tag.cartanE, Fin.mk.injEq, hne, ite_false]
+        rw [ite_eq_left (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨by omega, by omega⟩)))))]
+      · simp only [Tag.cartanE, Fin.mk.injEq, hne', ite_false]
+        rw [ite_eq_left (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨by omega, by omega⟩)))))]
   have h02 : R ⟨0, by omega⟩ ⟨2, by omega⟩ := by
     constructor <;> simp [Tag.cartanE]
   have h13 : R ⟨1, by omega⟩ ⟨3, by omega⟩ := by
@@ -69,7 +69,7 @@ theorem cartan_connected_free_E7E8 {τ : Tag}
 
 noncomputable def reflLin {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (c : V →ₗ[ZMod 3] ZMod 3) (δ : V) (h : c δ = 2) : V ≃ₗ[ZMod 3] V :=
-  LinearEquiv.ofLinear (Module.reflection (f := c) (x := δ) h)
+  LinearEquiv.ofLinearMap (Module.reflection (f := c) (x := δ) h)
     (Module.reflection (f := c) (x := δ) h)
     (LinearMap.ext fun y => by
       simp [Module.reflection_apply, map_sub, map_smul])
@@ -79,7 +79,7 @@ noncomputable def reflLin {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
 theorem reflLin_apply {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (c : V →ₗ[ZMod 3] ZMod 3) (δ : V) (h : c δ = 2) (x : V) :
     reflLin c δ h x = x - c x • δ := by
-  simp [reflLin, LinearEquiv.ofLinear_apply, Module.reflection_apply]
+  simp [reflLin, LinearEquiv.coe_ofLinearMap, Module.reflection_apply]
 
 theorem absIrred_reflLin_E7E8 {τ : Tag}
     (hτ : τ = Tag.E7 ∨ τ = Tag.E8) :

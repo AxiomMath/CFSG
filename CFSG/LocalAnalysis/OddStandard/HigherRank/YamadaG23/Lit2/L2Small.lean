@@ -14,8 +14,8 @@ theorem l2_card_dvd_L34 {M : Type} [Group M] (hM : CFSG.Blueprint.LieModel M .PS
   have h := CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero
     (by norm_num : (3 : ℕ) ≠ 0) hM
   obtain ⟨-, K, hKf, hKfin, hcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hcardM : Nat.card M = Nat.card (CFSG.Open.StatedProj (CFSG.Open.StatedSL 3 K)) :=
     Nat.card_congr e.toEquiv
   have hdvd : Nat.card (CFSG.Open.StatedProj (CFSG.Open.StatedSL 3 K)) ∣

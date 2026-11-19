@@ -29,42 +29,48 @@ section A0
 variable (hA : a0TabK R 64 = true) (hc : coordK R Q = true)
 
 include hA hc in
+omit hA in
 theorem compA_phiA (M M' : ℕ) : compA (phiA Q M) (phiA Q M') = phiA Q (MULF M' M) := by
   refine ext64 (size_compA _ _) (size_phiA _) fun k hk => ?_
-  have h1 := vec_lt (crd_lt hA hc hk) M'
-  rw [compA_get _ _ hk, phiA_get _ hk, phiA_get _ (psc_lt hA hc h1), crd_psc hA hc h1,
+  have h1 := vec_lt (crd_lt hc hk) M'
+  rw [compA_get _ _ hk, phiA_get _ hk, phiA_get _ (psc_lt hc h1), crd_psc hc h1,
     phiA_get _ hk, mulF_assoc]
 
 include hA hc in
+omit hA in
 theorem phiA_one : phiA Q ONE = idA () := by
   refine ext64 (size_phiA _) size_idA fun k hk => ?_
-  rw [phiA_get _ hk, mulF_one (lt36 (crd_lt hA hc hk)), psc_crd hA hc hk, idA_get hk]
+  rw [phiA_get _ hk, mulF_one (lt36 (crd_lt hc hk)), psc_crd hc hk, idA_get hk]
 
 include hA hc in
+omit hA in
 theorem phiA_inj {N N' : ℕ} (hN : N < 2 ^ 36) (hN' : N' < 2 ^ 36) (h : phiA Q N = phiA Q N') :
     N = N' := by
   refine rows_ext hN hN' fun j hj => ?_
   have hp := pow_lt64 hj
-  have hk := psc_lt hA hc hp
+  have hk := psc_lt hc hp
   have e : (phiA Q N)[psc Q (2 ^ j)]! = (phiA Q N')[psc Q (2 ^ j)]! := by rw [h]
-  rw [phiA_get _ hk, phiA_get _ hk, crd_psc hA hc hp] at e
+  rw [phiA_get _ hk, phiA_get _ hk, crd_psc hc hp] at e
   have := congrArg (crd Q) e
-  rwa [crd_psc hA hc (vec_lt hp _), crd_psc hA hc (vec_lt hp _)] at this
+  rwa [crd_psc hc (vec_lt hp _), crd_psc hc (vec_lt hp _)] at this
 
 include hA hc in
+omit hA in
 theorem decide_phiA {N N' : ℕ} (hN : N < 2 ^ 36) (hN' : N' < 2 ^ 36) :
     decide (phiA Q N = phiA Q N') = Nat.beq N N' := by
   apply Bool.eq_iff_iff.2
   rw [decide_eq_true_eq, Nat.beq_eq]
-  exact ⟨phiA_inj hA hc hN hN', fun h => by rw [h]⟩
+  exact ⟨phiA_inj hc hN hN', fun h => by rw [h]⟩
 
 include hA hc in
+omit hA in
 theorem phiA_zero (N : ℕ) : (phiA Q N)[0]! = 0 := by
-  rw [phiA_get _ (by norm_num), (coord_facts hc).1, zero_mulF, psc_zero hA hc]
+  rw [phiA_get _ (by norm_num), (coord_facts hc).1, zero_mulF, psc_zero hc]
 
 include hA hc in
+omit hA in
 theorem phiA_psc (N : ℕ) {x : ℕ} (hx : x < 64) : (phiA Q N)[psc Q x]! = psc Q (MULF x N) := by
-  rw [phiA_get _ (psc_lt hA hc hx), crd_psc hA hc hx]
+  rw [phiA_get _ (psc_lt hc hx), crd_psc hc hx]
 
 end A0
 
@@ -74,6 +80,7 @@ variable (hG : ∀ j : Fin 12, yamakiMat6 j = pkMat 6 (R j.val)) (hA : a0TabK R 
   (hc : coordK R Q = true)
 
 include hG hA hc in
+omit hc in
 theorem z6Pos_recX {k : ℕ} (hk : k < 64) : z6Pos (enumA0 ()) (arrN (recX R 12 k)) = k := by
   obtain ⟨hE, -⟩ := enumA0_inv hG hA
   have := lookup_of_inv hE hk
@@ -82,6 +89,7 @@ theorem z6Pos_recX {k : ℕ} (hk : k < 64) : z6Pos (enumA0 ()) (arrN (recX R 12 
   rfl
 
 include hG hA hc in
+omit hc in
 theorem enumA0_get {k : ℕ} (hk : k < 64) : (enumA0 ()).elems[k]! = arrN (recX R 12 k) :=
   (enumA0_inv hG hA).1.2.2.2.1 k hk
 
@@ -91,31 +99,31 @@ theorem z6Gl_eq (hg : glK R Q = true) {i : ℕ} (hi : i < 11) : z6Gl i = phiA Q 
   refine ext64 Array.size_ofFn (size_phiA _) fun k hk => ?_
   unfold z6Gl
   simp only
-  have hx := vec_lt (crd_lt hA hc hk) (Q i)
-  have hp := psc_lt hA hc hx
+  have hx := vec_lt (crd_lt hc hk) (Q i)
+  have hp := psc_lt hc hx
   have e : MULF (MULF (R i) (recX R 12 k)) (R i) = recX R 12 (psc Q (MULF (crd Q k) (Q i))) :=
     pkMat_inj (MULF_lt _ _) (hlt _ hp) (by rw [pkMat_MULF, pkMat_MULF, conjX hA hc hg hi k hk])
-  rw [getElem!_ofFn_nat _ hk, phiA_get _ hk, enumA0_get hG hA hc hk, genA_eq12 hG (by omega),
-    arrN_mul, arrN_mul, e, z6Pos_recX hG hA hc hp]
+  rw [getElem!_ofFn_nat _ hk, phiA_get _ hk, enumA0_get hG hA hk, genA_eq12 hG (by omega),
+    arrN_mul, arrN_mul, e, z6Pos_recX hG hA hp]
 
 include hG hA hc in
 theorem z6MulTab_get {i j : ℕ} (hi : i < 64) (hj : j < 64) :
     ((z6MulTab ())[i]!)[j]! = psc Q (crd Q i ^^^ crd Q j) := by
   have hlt := (enumA0_inv hG hA).2.2.2.2
-  have hx := xor_lt64 (crd_lt hA hc hi) (crd_lt hA hc hj)
-  have hp := psc_lt hA hc hx
+  have hx := xor_lt64 (crd_lt hc hi) (crd_lt hc hj)
+  have hp := psc_lt hc hx
   have e : MULF (recX R 12 i) (recX R 12 j) = recX R 12 (psc Q (crd Q i ^^^ crd Q j)) :=
     pkMat_inj (MULF_lt _ _) (hlt _ hp) (by rw [pkMat_MULF]; exact mulX hA hc j hj i hi)
   unfold z6MulTab
   simp only
-  rw [getElem!_ofFn_nat _ hi, getElem!_ofFn_nat _ hj, enumA0_get hG hA hc hi,
-    enumA0_get hG hA hc hj, arrN_mul, e, z6Pos_recX hG hA hc hp]
+  rw [getElem!_ofFn_nat _ hi, getElem!_ofFn_nat _ hj, enumA0_get hG hA hi,
+    enumA0_get hG hA hj, arrN_mul, e, z6Pos_recX hG hA hp]
 
 include hG hA hc in
 theorem z6MulTab_psc {x y : ℕ} (hx : x < 64) (hy : y < 64) :
     ((z6MulTab ())[psc Q x]!)[psc Q y]! = psc Q (x ^^^ y) := by
-  rw [z6MulTab_get hG hA hc (psc_lt hA hc hx) (psc_lt hA hc hy), crd_psc hA hc hx,
-    crd_psc hA hc hy]
+  rw [z6MulTab_get hG hA hc (psc_lt hc hx) (psc_lt hc hy), crd_psc hc hx,
+    crd_psc hc hy]
 
 end Gl
 
@@ -182,7 +190,7 @@ include hG hA hc hg hl in
 theorem z6GsL_eq : z6GsL () = #[phiA Q (Q 0), phiA Q (Q 11)] := by
   unfold z6GsL
   rw [z6Gl_eq hG hA hc hg (by norm_num : 0 < 11), z6Gl_eq hG hA hc hg (by norm_num : 9 < 11),
-    z6Gl_eq hG hA hc hg (by norm_num : 10 < 11), compA_phiA hA hc, (lb_facts hl).2.1]
+    z6Gl_eq hG hA hc hg (by norm_num : 10 < 11), compA_phiA hc, (lb_facts hl).2.1]
 
 theorem gsL_get {s : ℕ} (hs : s < 2) :
     (#[phiA Q (Q 0), phiA Q (Q 11)])[s]! = phiA Q (Q (Nat.mul s 11)) := by
@@ -191,10 +199,10 @@ theorem gsL_get {s : ℕ} (hs : s < 2) :
   · rfl
   · rfl
 
-theorem phiA_stL (hA : a0TabK R 64 = true) (hc : coordK R Q = true) (x : ℕ) {s : ℕ}
+theorem phiA_stL (_hA : a0TabK R 64 = true) (hc : coordK R Q = true) (x : ℕ) {s : ℕ}
     (hs : s < 2) :
     phiA Q (stL Q x s) = compA (phiA Q x) (#[phiA Q (Q 0), phiA Q (Q 11)])[s]! := by
-  rw [gsL_get hs, compA_phiA hA hc]
+  rw [gsL_get hs, compA_phiA hc]
   unfold stL
   rfl
 
@@ -237,8 +245,8 @@ theorem enumL_inv :
   have hsz : (z6GsL ()).size = 2 := by rw [hgs]; rfl
   have hk : 0 < (z6GsL ()).size := by rw [hsz]; norm_num
   have hd : ∀ t < 168, ∀ t' < 168, phiA Q (lbL Q t) = phiA Q (lbL Q t') → t = t' :=
-    fun t ht t' ht' e => hX t ht t' ht' (phiA_inj hA hc (hlt t ht) (hlt t' ht') e)
-  have hT0 : phiA Q (lbL Q 0) = idA () := by rw [h0, phiA_one hA hc]
+    fun t ht t' ht' e => hX t ht t' ht' (phiA_inj hc (hlt t ht) (hlt t' ht') e)
+  have hT0 : phiA Q (lbL Q 0) = idA () := by rw [h0, phiA_one hc]
   have hS' := enumL_step hA hc hl hgs
   have hB' := enumL_tree hA hc hl hgs
   have hCn' : recC Q 140 2 (168 * (z6GsL ()).size) = 168 := by rw [hsz]; exact hCn
@@ -277,10 +285,10 @@ theorem z6LbarCheck_of (hm : lbMemK Q = true) : z6LbarCheck () = true := by
     rfl
   · rw [hgs]
     change compA (phiA Q (Q 0)) (phiA Q (Q 0)) = idA ()
-    rw [compA_phiA hA hc, ha, phiA_one hA hc]
+    rw [compA_phiA hc, ha, phiA_one hc]
   · rw [hgs]
     change compA (phiA Q (Q 11)) (compA (phiA Q (Q 11)) (phiA Q (Q 11))) = idA ()
-    rw [compA_phiA hA hc, compA_phiA hA hc, hb, phiA_one hA hc]
+    rw [compA_phiA hc, compA_phiA hc, hb, phiA_one hc]
 
 include hG hA hc hg hl in
 theorem img_fold {v : ℕ} (hv : v < 64) :
@@ -288,7 +296,7 @@ theorem img_fold {v : ℕ} (hv : v < 64) :
       J.foldr (fun m acc => ((z6MulTab ())[((z6EnumL ()).elems[m]!)[v]!]!)[acc]!) 0 =
         psc Q (J.foldr (fun m a => Nat.xor (MULF (crd Q v) (lbL Q m)) a) 0)
   | [], _ => by
-    rw [List.foldr_nil, List.foldr_nil, psc_zero hA hc]
+    rw [List.foldr_nil, List.foldr_nil, psc_zero hc]
   | m :: J, hJ => by
     have hm := hJ m List.mem_cons_self
     have ih := img_fold hv J fun x hx => hJ x (List.mem_cons_of_mem _ hx)
@@ -296,9 +304,9 @@ theorem img_fold {v : ℕ} (hv : v < 64) :
       intro J
       induction J with
       | nil => norm_num
-      | cons x J ihJ => exact xor_lt64 (vec_lt (crd_lt hA hc hv) _) ihJ
+      | cons x J ihJ => exact xor_lt64 (vec_lt (crd_lt hc hv) _) ihJ
     rw [List.foldr_cons, List.foldr_cons, ih, enumL_get hG hA hc hg hl hm, phiA_get _ hv,
-      z6MulTab_psc hG hA hc (vec_lt (crd_lt hA hc hv) _) (hlt J)]
+      z6MulTab_psc hG hA hc (vec_lt (crd_lt hc hv) _) (hlt J)]
     rfl
 
 include hG hA hc hg hl in
@@ -309,12 +317,12 @@ theorem z6OrbCheck_of (ho : orbK Q = true) : z6OrbCheck () = true := by
   have hbp : z6BPos () = #[psc Q 1, psc Q 2, psc Q 4, psc Q 8, psc Q 16, psc Q 32] := by
     have e : ∀ j < 6, z6Pos (enumA0 ()) ((gA0 ())[j]!) = psc Q (2 ^ j) := by
       intro j hj
-      have hp := psc_lt hA hc (pow_lt64 hj)
+      have hp := psc_lt hc (pow_lt64 hj)
       rw [gA0_eq hG hj]
       have : arrN (R (j + 3)) = arrN (recX R 12 (psc Q (2 ^ j))) := by
         unfold arrN matN
         rw [genX hA hc hj]
-      rw [this, z6Pos_recX hG hA hc hp]
+      rw [this, z6Pos_recX hG hA hp]
     unfold z6BPos
     simp only
     refine Array.ext (by simp [size_gA0]) fun i h1 h2 => ?_

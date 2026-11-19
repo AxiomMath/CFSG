@@ -42,12 +42,12 @@ theorem normalizer_le_normalizer_centralizer (H : Subgroup G) :
 theorem exists_mem_normalizer_of_lt {p : ℕ} [Fact p.Prime] {H P : Subgroup G}
     (hP : IsPGroup p P) (hHP : H < P) :
     ∃ x ∈ P, x ∉ H ∧ x ∈ Subgroup.normalizer (H : Set G) := by
-  haveI : Group.IsNilpotent P := hP.isNilpotent
+  have : Group.IsNilpotent P := hP.isNilpotent
   have hlt : H.subgroupOf P < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hHP.not_ge fun x hx => ?_
     have hx' : (⟨x, hx⟩ : P) ∈ H.subgroupOf P := h ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp hx'
-  obtain ⟨⟨x, hxP⟩, hxN, hxH⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
+  obtain ⟨⟨x, hxP⟩, hxN, hxH⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   refine ⟨x, hxP, fun hx => hxH (Subgroup.mem_subgroupOf.mpr hx), ?_⟩
   rw [Subgroup.mem_normalizer_iff]
   intro h
@@ -228,7 +228,7 @@ theorem eq_blockU_of_le_centralizer (hH1 : H1Natural m) (hZ : blockZ J = ⊥)
     (hC : Subgroup.centralizer (J : Set G) = ⊥) {a : ↥(blockU J)} (ha : quadQ m (S.vec a) = 0)
     {X : Subgroup G} (hX : IsPGroup 2 X) (hAX : blockU J ≤ X)
     (hXC : X ≤ Subgroup.centralizer (perpSub S a : Set G)) : X = blockU J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   obtain ⟨x, hxX, hxA, hxN⟩ := exists_mem_normalizer_of_lt hX (lt_of_le_of_ne hAX (Ne.symm hne))
   rw [Setting.normalizer_blockU_eq S] at hxN
@@ -239,7 +239,7 @@ theorem normalizer_perpSub_le (hH1 : H1Natural m) (hZ : blockZ J = ⊥)
     (hC : Subgroup.centralizer (J : Set G) = ⊥) {a : ↥(blockU J)} (ha1 : a ≠ 1)
     (ha : quadQ m (S.vec a) = 0) :
     Subgroup.normalizer (perpSub S a : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA2 := isPGroup_blockU S
   have hA₁2 : IsPGroup 2 (perpSub S a) := hA2.to_le (perpSub_le_blockU S a)
   have hA₁1 : perpSub S a ≠ ⊥ := fun h => ha1 (Subtype.ext (by

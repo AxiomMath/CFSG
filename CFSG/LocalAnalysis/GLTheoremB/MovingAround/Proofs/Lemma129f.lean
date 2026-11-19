@@ -23,7 +23,7 @@ theorem A0_inf_F_ne_bot (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p S F 
     E ⊓ A ⊓ F ≠ ⊥ := by
   intro hbot
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hFA := hs.F_le_A
   have hA0el : IsElemAbelian p (E ⊓ A) := (A_el h).mono inf_le_right
   have hcard := Lemma129b.card_sup_of_commute_disjoint (H := E ⊓ A) (K := F)
@@ -86,7 +86,7 @@ theorem implementer_range_ne_bot (h : Cex127 G m p B M E A N D) (hs : Setup2 M A
   exact (Subgroup.mem_bot).2 this
 
 theorem alt_orbit_big (h23 : Input23_5) (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p S F K)
-    (D' : AltData p N K F) (hAK : A ≤ Subgroup.normalizer (K : Set G))
+    (D' : AltData p N K F) (_hAK : A ≤ Subgroup.normalizer (K : Set G))
     (hcase : CFSG.Open.pRank p A = CFSG.Open.pRank p F ∨
       (p = 3 ∧ D'.δ = 4 ∧ CFSG.Open.pRank p A = CFSG.Open.pRank p F + 1))
     (κ₀ : ↥(barX p N (E ⊓ A)) →* ↥(barX p N K))
@@ -97,7 +97,7 @@ theorem alt_orbit_big (h23 : Input23_5) (h : Cex127 G m p B M E A N D) (hs : Set
         ((κ₀ a : ↥(barX p N K)) : ↥N ⧸ GLAPPrimeCore p ↥N)⁻¹) :
     ∃ i : Fin D'.n, p ^ CFSG.Open.pRank p F ≤ orbitLen D'.ψ κ₀.range i := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 := ne_two_of h
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hAN := A_le_N h

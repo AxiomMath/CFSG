@@ -70,7 +70,7 @@ theorem card_H0_dvd_mulAut_of_centTrivial (hc : Ctx M Q Z B)
     rw [e1]
     exact h3
   have hcard := Subgroup.card_ker_mul_card_range act
-  haveI : Finite (MulAut (↥(Lgen M (LB M Q B)) ⧸ Q.subgroupOf (Lgen M (LB M Q B)))) :=
+  have : Finite (MulAut (↥(Lgen M (LB M Q B)) ⧸ Q.subgroupOf (Lgen M (LB M Q B)))) :=
     Finite.of_injective (fun α : MulAut (↥(Lgen M (LB M Q B)) ⧸
       Q.subgroupOf (Lgen M (LB M Q B))) => (α : _ → _)) DFunLike.coe_injective
   have hk : Nat.card act.ker ∣ Nat.card Q := by
@@ -94,6 +94,7 @@ theorem card_H0_dvd_of_centTrivial (hc : Ctx M Q Z B)
   (card_H0_dvd_mulAut_of_centTrivial hc hCT).trans
     (mul_dvd_mul_left _ (card_mulAut_dvd_outer_mul _))
 
+omit [Finite G] in
 theorem e3_quot {f : ℕ} (hf1 : 1 ≤ f) (hf : Nat.card Z = 2 ^ f)
     (hE3 : QuotSat (Lgen M (LB M Q B)) Q (IsPSLModel 6 (Nat.card Z)) ∨
       QuotSat (Lgen M (LB M Q B)) Q (IsPSUModel 6 (Nat.card Z))) :

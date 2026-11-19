@@ -13,10 +13,11 @@ section CentralInSylow
 
 variable {X Y : Type} [Group X] [Group Y] [Finite X] [Finite Y]
 
+omit [Finite Y] in
 theorem centralInSylow_map (φ : X →* Y) (hφ : Function.Surjective φ) (S : Subgroup X)
     (h : CentralInSylow X S) : CentralInSylow Y (S.map φ) := by
   obtain ⟨P, hSP, hcen⟩ := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨P.mapSurjective hφ, Subgroup.map_mono hSP, ?_⟩
   intro y hy z hz
   obtain ⟨s, hs, rfl⟩ := Subgroup.mem_map.mp hy
@@ -61,10 +62,10 @@ private theorem w85g_image_conjugatesOfSet_singleton {G H : Type*} [Group G] [Gr
     obtain rfl : b = a := hb
     rw [isConj_iff] at hconj
     obtain ⟨c, hc⟩ := hconj
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     exact isConj_iff.mpr ⟨f c, by rw [← hc]; simp [map_mul]⟩
   · intro hy
-    rw [Set.mem_setOf_eq, isConj_iff] at hy
+    rw [Set.mem_ofPred_eq, isConj_iff] at hy
     obtain ⟨c, hc⟩ := hy
     obtain ⟨a', ha'⟩ := hf c
     refine ⟨a' * a * a'⁻¹, ?_, ?_⟩
@@ -86,7 +87,7 @@ theorem barSituation_map_two {X Y : Type} [Group X] [Finite X] [Group Y] {S : Su
     obtain ⟨⟨s, hs⟩, hs1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hSne
     exact ⟨s, hs, fun h => hs1 (Subtype.ext h)⟩
   have hord : orderOf s = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (p := 2) (hS.elemAbelian.2 s hs) hs_ne
   have hSeq : S = Subgroup.zpowers s := by
     refine (Subgroup.eq_of_le_of_card_ge (H := Subgroup.zpowers s) (K := S) ?_ ?_).symm
@@ -118,7 +119,7 @@ theorem barSituation_map_two {X Y : Type} [Group X] [Finite X] [Group Y] {S : Su
       (φ '' Group.conjugatesOfSet ({s} : Set X)) := hD0.image φ hne
   have himageS : (S.map φ : Set Y) = φ '' (S : Set X) := by
     ext y
-    simp [Subgroup.mem_map]
+    simp
   have hmapNormal : Subgroup.normalClosure (φ '' (S : Set X)) = ⊤ := by
     have h := congrArg (Subgroup.map φ) hS.normalClosure_eq_top
     rwa [Subgroup.map_normalClosure (S : Set X) φ hφ,

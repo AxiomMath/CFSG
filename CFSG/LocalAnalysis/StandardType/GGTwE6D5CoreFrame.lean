@@ -83,7 +83,7 @@ theorem exists_langSetup_ofTwist_twE6_spec {K : Type} [Field K] [Finite K] (σ :
         g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) x * g0 ∈
           torusGroup TwistTag.E6.tag (AlgebraicClosure K) →
         g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) x * g0 ∈ S.D.torus := by
-  haveI : CharP K 2 := ringChar.of_eq hK2
+  have : CharP K 2 := ringChar.of_eq hK2
   obtain ⟨f, hf, rfl⟩ : ∃ f, 1 ≤ f ∧ q = 2 ^ f := by
     have : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
@@ -94,7 +94,7 @@ theorem exists_langSetup_ofTwist_twE6_spec {K : Type} [Field K] [Finite K] (σ :
     have h1 : 1 < Nat.card K := Finite.one_lt_card
     rw [hK, hqf, h0] at h1
     norm_num at h1
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   let D : LangDatum TwistTag.E6.tag (AlgebraicClosure K) :=
     LangDatum.ofTwist TwistTag.E6 Fr (2 ^ f) hFr v hg0 hlang

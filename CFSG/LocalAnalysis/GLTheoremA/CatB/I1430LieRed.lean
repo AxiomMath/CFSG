@@ -137,6 +137,7 @@ private theorem orderBC_two_ne {ℓ N : ℕ} (hℓ : 3 ≤ ℓ) (hN : ¬ 2 ^ 16 
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 private theorem chevAut_eq_conj {K : Subgroup Q} (hKn : K.Normal) {y g : Q}
     (hyN : y ∈ Subgroup.normalizer (K : Set Q)) (hgK : g ∈ K)
     (hg : ∀ k ∈ K, y⁻¹ * k * y = g * k * g⁻¹) :

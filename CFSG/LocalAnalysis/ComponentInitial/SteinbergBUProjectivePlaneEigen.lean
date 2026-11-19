@@ -161,7 +161,7 @@ theorem exists_eigenbasis (hp : p.Prime) (hp2 : p ≠ 2) {ζ : K} (hζ : IsPrimi
   have hPcol : Pm.col = v := by
     funext c r
     rfl
-  have hPu : IsUnit Pm := Matrix.linearIndependent_cols_iff_isUnit.1 (by rw [hPcol]; exact hli)
+  have hPu : IsUnit Pm := Matrix.linearIndependent_col_iff_isUnit.1 (by rw [hPcol]; exact hli)
   refine ⟨hPu.unit, ?_⟩
   have hAP : A * Pm = Pm * diagonal (fun i : Fin p => ζ ^ (i : ℕ)) := by
     ext r c

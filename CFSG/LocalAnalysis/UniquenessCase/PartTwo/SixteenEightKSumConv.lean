@@ -29,7 +29,7 @@ theorem s16k_isAlt_five_of_isOmegaMinus_four {X : Type} [Group X] (h : IsOmegaMi
     IsAlt X 5 := by
   obtain ⟨-, K, hF, hfin, b, c, hK, hirr, ⟨e⟩⟩ := h
   have hK2 : Nat.card K = 2 := by simpa using hK
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = Fintype.card (ZMod 2) := by
     rw [← Nat.card_eq_fintype_card, hK2, ZMod.card]
   let φ : K ≃+* ZMod 2 := FiniteField.ringEquivOfCardEq hcard

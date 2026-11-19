@@ -152,7 +152,7 @@ theorem lin_sec43_one (h42 : c.Sec42) :
     exact Nat.pow_lt_pow_right h4 (by norm_num)
   obtain ⟨b, hb, hbt⟩ : ∃ b ∈ c.Bc, b ∉ c.Bt := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : c.Bc ≤ c.Bt := hcon
     have h1 := inf_eq_left.2 hle
     rw [h42.inf] at h1
@@ -160,7 +160,7 @@ theorem lin_sec43_one (h42 : c.Sec42) :
     exact lt_irrefl _ hFlt
   obtain ⟨b', hb', hb'B⟩ : ∃ b' ∈ c.Bt, b' ∉ c.Bc := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : c.Bt ≤ c.Bc := hcon
     have h1 := inf_eq_right.2 hle
     rw [h42.inf] at h1
@@ -181,7 +181,7 @@ theorem lin_sec43_one (h42 : c.Sec42) :
           ⟨hBtD hb', mem_centralizer_singleton_iff.2 hcomm.symm⟩
         rwa [lin_inf_centralizer_Bc hl k c h42 hb hbt] at this)⟩
       inf_centralizer_left := fun a ha hat => lin_inf_centralizer_Bc hl k c h42 ha hat }
-  haveI := hYel
+  have := hYel
   exact hprod.le_or_le hY
 
 end CaseBData

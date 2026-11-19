@@ -14,11 +14,13 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s15_Two_imgTil_iSup {ι : Sort*} (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (U : ι → Subgroup G) (hU : ∀ i, U i ≤ V) :
     imgTil V₀ V hV (⨆ i, U i) = ⨆ i, imgTil V₀ V hV (U i) :=
   s15_Core_imgTil_iSup V₀ V hV U hU
 
+omit [Finite G] in
 theorem s15_Two_eq_of_imgTil_eq_top {V₀ V U : Subgroup G} (hV : IsElemAbelian 2 V)
     (hUV : U ≤ V) (hV₀ : V₀ ≤ U) (h : imgTil V₀ V hV U = ⊤) : U = V := by
   refine le_antisymm hUV fun v hv => ?_
@@ -96,6 +98,7 @@ theorem s15_Two_commute_of_inf_eq_bot {W : Type*} [CommGroup W] {A Y X : Subgrou
     hY hX hdis ⟨y, hyA⟩ ⟨x, hxA⟩ hy hx
   exact (congrArg Subtype.val hcommute.eq).symm
 
+omit [Finite G] in
 theorem s15_Two_le_wSub {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀ : V₀ ≤ V)
     (L : Subgroup G) : V₀ ≤ wSub V₀ V hV L := by
   intro g hg
@@ -107,21 +110,23 @@ theorem s15_Two_le_wSub {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀ : 
   rw [h1]
   exact (wTil V₀ V hV L).one_mem
 
+omit [Finite G] in
 theorem s15_Two_wConj_eq_range (M V₀ V L : Subgroup G) (hV : IsElemAbelian 2 V) :
     wConj M V₀ V hV L = Set.range fun m : M => conjSubgroup (wSub V₀ V hV L) (m : G) := by
   ext X
-  rw [wConj, Set.mem_setOf_eq, Set.mem_range]
+  rw [wConj, Set.mem_ofPred_eq, Set.mem_range]
   constructor
   · rintro ⟨m, hm, hX⟩
     exact ⟨⟨m, hm⟩, hX.symm⟩
   · rintro ⟨m, hX⟩
     exact ⟨m, m.2, hX.symm⟩
 
+omit [Finite G] in
 theorem s15_Two_wStarConj_eq_range (M V₀ V L : Subgroup G) (hV : IsElemAbelian 2 V) :
     wStarConj M V₀ V hV L = Set.range fun m : M =>
       imgTil (v1Sub M V₀ V hV L) V hV (conjSubgroup (wSub V₀ V hV L) (m : G)) := by
   ext X
-  rw [wStarConj, Set.mem_setOf_eq, Set.mem_range]
+  rw [wStarConj, Set.mem_ofPred_eq, Set.mem_range]
   constructor
   · rintro ⟨m, hm, hX⟩
     exact ⟨⟨m, hm⟩, hX.symm⟩
@@ -214,9 +219,9 @@ theorem s15_Two_inf_barSub_cTilde_eq_bot {D : Data G} {V₀ V L : Subgroup G}
         barSub V₀ V hV (F11.CTilde D.M (v1Sub D.M V₀ V hV L) V) ≤
       Mbar D.M V₀ V hV :=
     inf_le_left.trans (s15_Infra_iSup_barSub_le h)
-  haveI hYN : ((⨆ m : D.M, barSub V₀ V hV (conjSubgroup L (m : G))).subgroupOf
+  have hYN : ((⨆ m : D.M, barSub V₀ V hV (conjSubgroup L (m : G))).subgroupOf
       (Mbar D.M V₀ V hV)).Normal := s15_Infra_iSup_barSub_normal h
-  haveI hXN : ((barSub V₀ V hV (F11.CTilde D.M (v1Sub D.M V₀ V hV L) V)).subgroupOf
+  have hXN : ((barSub V₀ V hV (F11.CTilde D.M (v1Sub D.M V₀ V hV L) V)).subgroupOf
       (Mbar D.M V₀ V hV)).Normal := s15_Two_barSub_cTilde_normal h
   have hN : (((⨆ m : D.M, barSub V₀ V hV (conjSubgroup L (m : G))) ⊓
       barSub V₀ V hV (F11.CTilde D.M (v1Sub D.M V₀ V hV L) V)).subgroupOf
@@ -261,7 +266,7 @@ theorem s15_Two_iSup_commSub_eq_top (D : Data G) (h1217 : R1217 D) {V₀ V L : S
     _ ≤ ⨆ m : D.M, commSub ⊤
           (barSub V₀ V h.isElemAbelian (conjSubgroup L (m : G))) := by
         refine iSup₂_le fun I hI => ?_
-        have hIeq : I = commSub I X := (Set.mem_setOf_eq.mp hI).1.symm
+        have hIeq : I = commSub I X := (Set.mem_ofPred_eq.mp hI).1.symm
         calc I = commSub I X := hIeq
           _ ≤ commSub ⊤ X := commSub_mono le_top le_rfl
           _ ≤ commSub ⊤ (⨆ m : D.M,

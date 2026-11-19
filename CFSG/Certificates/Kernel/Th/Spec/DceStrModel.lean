@@ -125,7 +125,7 @@ theorem struct_model (D : DceStructData) (h : dceStructChk D = true)
     rw [← hc.b_cntpts]
     exact sortedCount_lt _
   have hNO0 : 0 < E.ThB_NO := Nat.lt_of_le_of_lt (Nat.zero_le _) hc.b_i0
-  have hgomB := gom_mem hCB hrelsB hnormB himpB hc.b_hdr hc.b_gom
+  have hgomB := gom_mem hCB himpB hc.b_hdr hc.b_gom
   have hpsiB := psi_sem hCB hrelsB hnormB himpB hc.b_hdr hc.b_psi
   have hcov : DceS.runCover E.ThB_FB E.ThB_OB 5 1184 E.ThB_osh E.ThB_owd E.ThB_om E.ThB_NB
       E.ThB_sel E.ThB_NF E.ThB_NO E.ThB_AL E.cs13 1 = 1 + E.ThB_ND * 2 ^ 20 := by
@@ -195,7 +195,7 @@ theorem struct_model (D : DceStructData) (h : dceStructChk D = true)
     by_cases h7 : g < 7
     · exact Or.inl (Subgroup.subset_closure ⟨g, h7, rfl⟩)
     · have h8 : g = 7 := by
-        simp only [Set.mem_setOf_eq] at hg
+        simp only [Set.mem_ofPred_eq] at hg
         omega
       subst h8
       exact Or.inr (Or.inl (xl_u xg hLB).1.symm)

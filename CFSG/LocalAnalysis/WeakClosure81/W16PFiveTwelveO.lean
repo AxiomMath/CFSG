@@ -64,15 +64,15 @@ theorem sum_eq_zero_of_free_orbits {X V : Type*} [DecidableEq X] [AddCommMonoid 
 
 theorem permMod_fixed_of_index_two {G : Type} [Group G] [Finite G] {V : Type} [AddCommGroup V]
     [Module (ZMod 2) V] [Finite V] (ρ : G →* LGL 2 V) {B A D : Subgroup G} (hAB : A ≤ B)
-    (hA : IsElemAbelian 2 A) (hDA : D ≤ A) (hD2 : D.relIndex A = 2)
+    (_hA : IsElemAbelian 2 A) (hDA : D ≤ A) (hD2 : D.relIndex A = 2)
     (hD : ∀ w : V, (∀ d ∈ D, ρ d w = w) → ∀ a ∈ A, ρ a w = w)
     (hfree : ∀ g : G, g ∉ B → ∀ a ∈ A, g⁻¹ * a * g ∈ B → a = 1) {z : V}
     (hz : ∀ b ∈ B, ρ b z = z) : ∀ g : G, ρ g z = z := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Fintype (G ⧸ B) := Fintype.ofFinite (G ⧸ B)
-  haveI : Fintype ↥A := Fintype.ofFinite ↥A
-  haveI : Fintype ↥D := Fintype.ofFinite ↥D
+  have : Fintype G := Fintype.ofFinite G
+  have : Fintype (G ⧸ B) := Fintype.ofFinite (G ⧸ B)
+  have : Fintype ↥A := Fintype.ofFinite ↥A
+  have : Fintype ↥D := Fintype.ofFinite ↥D
   let f : G ⧸ B → V := fun ω =>
     Quotient.liftOn' ω (fun g : G => ρ g z) (fun g₁ g₂ h => by
       have hmem : g₁⁻¹ * g₂ ∈ B := QuotientGroup.leftRel_apply.mp h
@@ -88,7 +88,6 @@ theorem permMod_fixed_of_index_two {G : Type} [Group G] [Finite G] {V : Type} [A
     refine QuotientGroup.induction_on ω ?_
     intro g
     rw [show h • (g : G ⧸ B) = ((h * g : G) : G ⧸ B) from rfl, hf_mk, hf_mk]
-    change ρ (h * g) z = ρ h (ρ g z)
     rw [map_mul]
     rfl
   have h2 : ∀ v : V, v + v = 0 := fun v => by

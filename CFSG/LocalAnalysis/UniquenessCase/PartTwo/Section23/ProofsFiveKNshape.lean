@@ -21,8 +21,8 @@ private theorem isComponent_eq_top_of_isSimpleGroup {X : Type} [Group X] [IsSimp
   rcases Subgroup.IsSubnormal.eq_bot_or_top_of_isSimpleGroup
     (inferInstance : IsSimpleGroup X) hK.2 with h | h
   · exfalso
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
-    haveI : Subsingleton (↥K ⧸ Subgroup.center ↥K) := by
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
+    have : Subsingleton (↥K ⧸ Subgroup.center ↥K) := by
       rw [h]
       infer_instance
     exact false_of_nontrivial_of_subsingleton (↥K ⧸ Subgroup.center ↥K)
@@ -31,14 +31,14 @@ private theorem isComponent_eq_top_of_isSimpleGroup {X : Type} [Group X] [IsSimp
 private theorem not_isSimpleGroup_of_isL2Square {X : Type} [Group X] {j : ℕ}
     (h : IsL2Square X j) : ¬ IsSimpleGroup X := by
   obtain ⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩ := h
-  letI : Group A := gA
-  letI : Group B := gB
-  haveI hAs : IsSimpleGroup A :=
+  let : Group A := gA
+  let : Group B := gB
+  have hAs : IsSimpleGroup A :=
     LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hA
-  haveI hBs : IsSimpleGroup B :=
+  have hBs : IsSimpleGroup B :=
     LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hB
-  haveI : Nontrivial A := hAs.toNontrivial
-  haveI : Nontrivial B := hBs.toNontrivial
+  have : Nontrivial A := hAs.toNontrivial
+  have : Nontrivial B := hBs.toNontrivial
   intro hX
   exact CFSG.LocalAnalysis.EvenBN.U5.not_isSimpleGroup_prod (G₁ := A) (G₂ := B)
     ((MulEquiv.isSimpleGroup_congr e).mp hX)
@@ -46,14 +46,14 @@ private theorem not_isSimpleGroup_of_isL2Square {X : Type} [Group X] {j : ℕ}
 theorem not_isQuasisimple_of_isL2Square {X : Type} [Group X] {j : ℕ}
     (h : IsL2Square X j) : ¬ CFSG.Open.IsQuasisimple X := by
   obtain ⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩ := h
-  letI : Group A := gA
-  letI : Group B := gB
-  haveI hAs : IsSimpleGroup A :=
+  let : Group A := gA
+  let : Group B := gB
+  have hAs : IsSimpleGroup A :=
     LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hA
-  haveI hBs : IsSimpleGroup B :=
+  have hBs : IsSimpleGroup B :=
     LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hB
-  haveI : Nontrivial A := hAs.toNontrivial
-  haveI : Nontrivial B := hBs.toNontrivial
+  have : Nontrivial A := hAs.toNontrivial
+  have : Nontrivial B := hBs.toNontrivial
   have hAnc : ¬ IsMulCommutative A := by
     obtain ⟨a, b, hab⟩ :=
       CFSG.ComponentClassification.HarrisLit.nonabelian_of_lieModel_psl2 hA
@@ -75,7 +75,7 @@ theorem not_isQuasisimple_of_isL2Square {X : Type} [Group X] {j : ℕ}
     QuotientGroup.congr (Subgroup.center X) (Subgroup.center (A × B)) e hZmap
   let eBot : ((A × B) ⧸ Subgroup.center (A × B)) ≃* A × B :=
     (QuotientGroup.quotientMulEquivOfEq hZAB).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
   exact CFSG.LocalAnalysis.EvenBN.U5.not_isSimpleGroup_prod (G₁ := A) (G₂ := B)
     ((eQ.trans eBot).symm.isSimpleGroup)
 
@@ -88,8 +88,8 @@ private theorem card_mul_gcd_of_isL3 {X : Type} [Group X] {k : ℕ} (h3 : IsL3 X
     Nat.card X * Nat.gcd 3 (2 ^ k - 1) =
       2 ^ (3 * k) * ((2 ^ (2 * k) - 1) * (2 ^ (3 * k) - 1)) := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e3⟩⟩ := h3.statedClassicalModel (by decide)
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have h := CFSG.Timmesfeld.ClassicalOrders.card_psl_three_mul_gcd (K := K)
   rw [← Nat.card_congr e3.toEquiv, hKcard] at h
   have hp3 : (2 ^ k) ^ 3 = 2 ^ (3 * k) := by rw [← pow_mul]; congr 1; ring
@@ -184,7 +184,7 @@ private theorem nparamSingle_isL2_eq {X : Type} [Group X] [Finite X] {k j : ℕ}
   rcases h with hSz | hL2k | hSU3 | hSL3 | hSp4
   · exact (not_isL2_of_isSz hSz hL2).elim
   · exact S17.isL2_field_unique hL2k hL2
-  · haveI : IsSimpleGroup X :=
+  · have : IsSimpleGroup X :=
       LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hL2
     have hnc : ¬ IsMulCommutative X := by
       obtain ⟨a, b, hab⟩ :=
@@ -197,7 +197,7 @@ private theorem nparamSingle_isL2_eq {X : Type} [Group X] [Finite X] {k j : ℕ}
       exact LieModel.of_mulEquiv
         ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot) hU3q
     exact (not_isL2_of_isU3 hU3 hL2).elim
-  · haveI : IsSimpleGroup X :=
+  · have : IsSimpleGroup X :=
       LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hL2
     have hnc : ¬ IsMulCommutative X := by
       obtain ⟨a, b, hab⟩ :=
@@ -243,7 +243,7 @@ private theorem prodFirstFactor_ne_prodSecondFactor {X A B : Type} [Group X] [Gr
   exact ha hcoord
 
 private theorem isComponent_eq_prodFactor {X A B : Type} [Group X] [Finite X]
-    [Group A] [Group B] [IsSimpleGroup A] [IsSimpleGroup B] [Nontrivial A] [Nontrivial B]
+    [Group A] [Group B] [IsSimpleGroup A] [IsSimpleGroup B]
     (e : X ≃* A × B) (hAnc : ¬ IsMulCommutative A) (hBnc : ¬ IsMulCommutative B)
     {C : Subgroup X} (hC : CFSG.IsComponent C) :
     C = CFSG.GroupTheory.prodFirstFactor e ∨
@@ -291,7 +291,7 @@ private theorem isComponent_eq_prodFactor {X A B : Type} [Group X] [Finite X]
 private theorem isL2_of_isL2_of_mem_calC {G : Type} [Group G] [Finite G]
     {L L₁ : Subgroup G} {j : ℕ} (hL₁ : L₁ ∈ calC L)
     (h : IsL2 (Bar2 L) j) : IsL2 (Bar2 L₁) j := by
-  haveI : IsSimpleGroup (Bar2 L) :=
+  have : IsSimpleGroup (Bar2 L) :=
     LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) h
   have htop : barImage L L₁ = ⊤ :=
     isComponent_eq_top_of_isSimpleGroup (uc22p22l_barImage_isComponent hL₁)
@@ -305,14 +305,14 @@ private theorem isL2_of_isL2Square_of_mem_calC {G : Type} [Group G] [Finite G]
     {L L₁ : Subgroup G} {j : ℕ} (hL₁ : L₁ ∈ calC L)
     (h : IsL2Square (Bar2 L) j) : IsL2 (Bar2 L₁) j := by
   obtain ⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩ := h
-  letI : Group A := gA
-  letI : Group B := gB
-  haveI hAs : IsSimpleGroup A :=
+  let : Group A := gA
+  let : Group B := gB
+  have hAs : IsSimpleGroup A :=
     LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hA
-  haveI hBs : IsSimpleGroup B :=
+  have hBs : IsSimpleGroup B :=
     LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hB
-  haveI : Nontrivial A := hAs.toNontrivial
-  haveI : Nontrivial B := hBs.toNontrivial
+  have : Nontrivial A := hAs.toNontrivial
+  have : Nontrivial B := hBs.toNontrivial
   have hAnc : ¬ IsMulCommutative A := by
     obtain ⟨a, b, hab⟩ :=
       CFSG.ComponentClassification.HarrisLit.nonabelian_of_lieModel_psl2 hA

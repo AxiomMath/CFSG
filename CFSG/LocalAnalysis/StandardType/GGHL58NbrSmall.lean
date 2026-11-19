@@ -28,7 +28,7 @@ private lemma l05nQS_not_excl_of_S {p : ℕ} {lab : LargeEvenLabel}
   · rcases h.1 with h | h <;> rw [h] at hBC <;> exact absurd hBC (by decide)
 
 private lemma l05nQS_ne_two_of_S {p : ℕ} {lab : LargeEvenLabel}
-    (hpp : p.Prime) (hlab : LargeEvenInLambda2 lab)
+    (_hpp : p.Prime) (hlab : LargeEvenInLambda2 lab)
     (h : (lab.tag = .A ∨ lab.tag = .twA) ∧ 3 ≤ lab.rank ∧ p ∣ ggTorM lab ∧
       ¬ p ∣ lab.rank + 1) : p ≠ 2 := by
   intro h2
@@ -45,12 +45,12 @@ private lemma l05nQS_split_of_S {p : ℕ} {lab : LargeEvenLabel}
   · left
     refine ⟨?_, ?_⟩
     · rw [hA]; simp [LargeEvenUntwisted]
-    · rwa [if_neg (by rw [hA]; decide)] at hdvdM
+    · rwa [ite_eq_right (by rw [hA]; decide)] at hdvdM
   · right; left
     refine ⟨?_, ?_, ?_⟩
     · rw [htwA]; simp [LargeEvenUntwisted]
     · rw [htwA]; decide
-    · rwa [if_pos (by rw [htwA]; decide)] at hdvdM
+    · rwa [ite_eq_left (by rw [htwA]; decide)] at hdvdM
 
 private theorem l05nQS_core_K_aInd (hT : GGTBTorAll) (hLift : GGTBTorLiftRows)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
@@ -129,10 +129,10 @@ theorem ggHL58Nbr_of_torData {S : ℕ → LargeEvenLabel → Prop} (hW' : GGTBWN
   exact ggHL58Nbr_of_lift hW' hH hCent hM hN
     (ggAutomizerLift_of_torData hp2 hBs hSdef hN hom hpm hTor)
 
-theorem ggHL58Nbr_small_of_inputs (hRig : GGLabelRigidInput) (hT : GGTBTorAll)
+theorem ggHL58Nbr_small_of_inputs (_hRig : GGLabelRigidInput) (hT : GGTBTorAll)
     (hLift : GGTBTorLiftRows) (hW : GGTBWNormLabelInput) {G : Type} [Group G] [Finite G] {p : ℕ}
     [Fact p.Prime] {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
-    (hH : GGResHyp p B Bs x L D J y K) (hyK : y ∉ K)
+    (hH : GGResHyp p B Bs x L D J y K) (_hyK : y ∉ K)
     (hCent : Bs ⊓ Subgroup.centralizer (K : Set G) ≤ Subgroup.zpowers y)
     (h : GGInnerDiagOnLabel (fun p lab => (lab.tag = .A ∨ lab.tag = .twA) ∧ 3 ≤ lab.rank ∧
       p ∣ ggTorM lab ∧ ¬ p ∣ lab.rank + 1) p Bs K) : GGTWHLAt p Bs K y := by

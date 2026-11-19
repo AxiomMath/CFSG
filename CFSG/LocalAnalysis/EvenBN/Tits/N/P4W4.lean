@@ -22,7 +22,7 @@ theorem Us_fixes_z0 (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h
 
 theorem Us_le_W1s (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h09 : Node09 d z₀)
     (h10 : Node10 d z₀) (h17s : Node17s d z₀) (h17 : Node17 d z₀) (h18 : Node18 d) :
-    Us d ≤ W1s hz := fun u hu =>
+    Us d ≤ W1s hz := fun _u hu =>
   (mem_W1s_iff hz).2 ⟨(le_sup_left : Us d ≤ U0s d).trans
     (node19_W0 h49 hd hz h09 h10 h17s h17 h18).2.2.2.2.1 hu,
     Us_fixes_z0 h49 hd hz h10 h17s hu⟩

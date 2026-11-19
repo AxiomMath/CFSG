@@ -1449,7 +1449,7 @@ theorem original_layer_cover_factorization_gives_exact_core_intersection {G : Ty
       rw [Subgroup.card_eq_one] at h1
       rw [h1]
       exact isCyclic_of_subsingleton
-    obtain ⟨k, hk⟩ := U.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := U.isPGroup.exists_card_eq
     have hk0 : k ≠ 0 := by
       rintro rfl
       exact hU1 (by rw [hk, pow_zero])
@@ -1673,7 +1673,7 @@ theorem original_all_covers_are_same_layer_central_products {G : Type u}
       rw [Subgroup.card_eq_one] at h1
       rw [h1]
       exact isCyclic_of_subsingleton
-    obtain ⟨k, hk⟩ := U.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := U.isPGroup.exists_card_eq
     have hk0 : k ≠ 0 := by
       rintro rfl
       exact hU1 (by rw [hk, pow_zero])

@@ -48,14 +48,14 @@ private theorem finite_G2 {Y : Type w} [Group Y] [Finite Y] {c₀ : α.Completio
 
 private theorem finite_Ghat1 {Y : Type w} [Group Y] [Finite Y] {c₀ : α.Completion Y}
     (hc₀ : c₀.IsFaithful) : Finite ↥α.Ghat1 := by
-  haveI := finite_G1 (α := α) hc₀
+  have := finite_G1 (α := α) hc₀
   exact Finite.of_surjective
     (fun g : α.G1 => (⟨Amalgam.ξ α.toAmalgam RankTwoIndex.one g, ⟨g, rfl⟩⟩ : ↥α.Ghat1))
     (by rintro ⟨y, g, rfl⟩; exact ⟨g, rfl⟩)
 
 private theorem finite_Ghat2 {Y : Type w} [Group Y] [Finite Y] {c₀ : α.Completion Y}
     (hc₀ : c₀.IsFaithful) : Finite ↥α.Ghat2 := by
-  haveI := finite_G2 (α := α) hc₀
+  have := finite_G2 (α := α) hc₀
   exact Finite.of_surjective
     (fun g : α.G2 => (⟨Amalgam.ξ α.toAmalgam RankTwoIndex.two g, ⟨g, rfl⟩⟩ : ↥α.Ghat2))
     (by rintro ⟨y, g, rfl⟩; exact ⟨g, rfl⟩)
@@ -70,7 +70,7 @@ private theorem finite_nbrs_γ₀ {Y : Type w} [Group Y] [Finite Y] {c₀ : α.C
     (hc₀ : c₀.IsFaithful) :
     (α.graphHat.neighborSet
       (CosetGeom.γ₀ (Gsub α) α.Ghat1 α.Ghat2)).Finite := by
-  haveI := finite_Ghat1 (α := α) hc₀
+  have := finite_Ghat1 (α := α) hc₀
   let f : ↥α.Ghat1 → α.Γhat := fun g =>
     (⟨(g : α.Ghat), Subgroup.mem_sup_left g.2⟩ : ↥(α.Ghat1 ⊔ α.Ghat2)) •
       CosetGeom.γ₁ (α.Ghat1 ⊔ α.Ghat2) α.Ghat1 α.Ghat2
@@ -94,7 +94,7 @@ private theorem finite_nbrs_γ₁ {Y : Type w} [Group Y] [Finite Y] {c₀ : α.C
     (hc₀ : c₀.IsFaithful) :
     (α.graphHat.neighborSet
       (CosetGeom.γ₁ (Gsub α) α.Ghat1 α.Ghat2)).Finite := by
-  haveI := finite_Ghat2 (α := α) hc₀
+  have := finite_Ghat2 (α := α) hc₀
   let f : ↥α.Ghat2 → α.Γhat := fun g =>
     (⟨(g : α.Ghat), Subgroup.mem_sup_right g.2⟩ : ↥(α.Ghat1 ⊔ α.Ghat2)) •
       CosetGeom.γ₀ (α.Ghat1 ⊔ α.Ghat2) α.Ghat1 α.Ghat2
@@ -185,7 +185,7 @@ private theorem free_action_eq_one {Y : Type w} [Group Y] {c₀ : α.Completion 
   free_action_vertices hc₀ f v h
 
 private theorem no_inversions {Y : Type w} [Group Y] {c₀ : α.Completion Y}
-    (hc₀ : c₀.IsFaithful) (f : ↥(thetaSub c₀).ker) {a b : α.Γhat}
+    (_hc₀ : c₀.IsFaithful) (f : ↥(thetaSub c₀).ker) {a b : α.Γhat}
     (h : α.graphHat.Adj a b) (hfa : (f : Gsub α) • a = b) : (f : Gsub α) • b ≠ a := by
   intro hfb
   have hne := CosetGeom.vtype_ne_of_adj h
@@ -193,14 +193,14 @@ private theorem no_inversions {Y : Type w} [Group Y] {c₀ : α.Completion Y}
   exact hne rfl
 
 private theorem finite_orbits {Y : Type w} [Group Y] [Finite Y] {c₀ : α.Completion Y}
-    (hc₀ : c₀.IsFaithful) :
+    (_hc₀ : c₀.IsFaithful) :
     Finite (MulAction.orbitRel.Quotient ↥(thetaSub c₀).ker α.Γhat) := by
-  haveI hF : (thetaSub c₀).ker.FiniteIndex := by
-    haveI : Finite ↥(thetaSub c₀).range := inferInstance
+  have hF : (thetaSub c₀).ker.FiniteIndex := by
+    have : Finite ↥(thetaSub c₀).range := inferInstance
     exact Subgroup.finiteIndex_ker (thetaSub c₀)
-  haveI : Fintype (↥(Gsub α) ⧸ (thetaSub c₀).ker) :=
+  have : Fintype (↥(Gsub α) ⧸ (thetaSub c₀).ker) :=
     (thetaSub c₀).ker.fintypeQuotientOfFiniteIndex
-  haveI : Finite (↥(Gsub α) ⧸ (thetaSub c₀).ker) :=
+  have : Finite (↥(Gsub α) ⧸ (thetaSub c₀).ker) :=
     Fintype.finite (inferInstance : Fintype (↥(Gsub α) ⧸ (thetaSub c₀).ker))
   let base : Bool → α.Γhat := fun b =>
     if b then CosetGeom.γ₁ (Gsub α) α.Ghat1 α.Ghat2
@@ -266,7 +266,7 @@ private theorem finite_orbits {Y : Type w} [Group Y] [Finite Y] {c₀ : α.Compl
 
 private theorem residuallyFinite_ker {Y : Type w} [Group Y] [Finite Y] {c₀ : α.Completion Y}
     (hc₀ : c₀.IsFaithful) : Group.ResiduallyFinite ↥(thetaSub c₀).ker := by
-  haveI := finite_orbits (α := α) hc₀
+  have := finite_orbits (α := α) hc₀
   exact CFSG.Geometry.Trees.residuallyFinite_of_free_action
     (F := ↥(thetaSub c₀).ker) (V := α.Γhat) (T := α.graphHat)
     (graphHat_isTree_of_faithful hc₀)
@@ -352,10 +352,10 @@ private theorem exists_normal_ker {Y : Type w} [Group Y] [Finite Y] {c₀ : α.C
     (hc₀ : c₀.IsFaithful) (m : ℕ) :
     ∃ N : Subgroup ↥(Gsub α), N.Normal ∧ N.FiniteIndex ∧ N ≤ (thetaSub c₀).ker ∧
       ∀ r ∈ badSet (α := α) c₀ m, r ∉ N := by
-  haveI : (thetaSub c₀).ker.FiniteIndex := by
-    haveI : Finite ↥(thetaSub c₀).range := inferInstance
+  have : (thetaSub c₀).ker.FiniteIndex := by
+    have : Finite ↥(thetaSub c₀).range := inferInstance
     exact Subgroup.finiteIndex_ker (thetaSub c₀)
-  haveI : Group.ResiduallyFinite ↥(thetaSub c₀).ker := residuallyFinite_ker hc₀
+  have : Group.ResiduallyFinite ↥(thetaSub c₀).ker := residuallyFinite_ker hc₀
   exact CFSG.Geometry.Trees.exists_normal_finiteIndex_le_of_residuallyFinite
     (G := ↥(Gsub α)) (F := (thetaSub c₀).ker) (badSet (α := α) c₀ m)
     (badSet_finite hc₀ m) (fun r hr => hr.1) (by
@@ -792,7 +792,7 @@ private abbrev gpathTail {V : Type*} {Γ : SimpleGraph V} {n : ℕ} (q : GPath �
 
 private def gpathToWalk {V : Type*} {Γ : SimpleGraph V} :
     ∀ {n : ℕ}, (q : GPath Γ n) → Γ.Walk (q 0) (q n)
-  | 0, q => SimpleGraph.Walk.nil
+  | 0, _q => SimpleGraph.Walk.nil
   | n + 1, q => SimpleGraph.Walk.cons (q.adj 0 (Nat.succ_pos n)) (gpathToWalk (gpathTail q))
 
 private theorem gpathToWalk_length {V : Type*} {Γ : SimpleGraph V} {n : ℕ} (q : GPath Γ n) :
@@ -823,7 +823,7 @@ private theorem gpathToWalk_chain {V : Type*} {Γ : SimpleGraph V} {n : ℕ} (q 
     | succ m =>
       rw [gpathToWalk, SimpleGraph.Walk.edges_cons, gpathToWalk_edges (gpathTail q),
         List.range_succ_eq_map]
-      simp only [List.map_cons, List.map_map, Function.comp]
+      simp only [List.map_cons, List.map_map]
       refine List.IsChain.cons_cons ?_ ?_
       · intro heq
         rcases Sym2.eq_iff.mp heq with ⟨h1, -⟩ | ⟨h1, -⟩
@@ -975,11 +975,11 @@ theorem exists_faithful_finite_completion_lt_egirth {α : RankTwoAmalgam.{u}} {Y
       c.IsFaithful ∧ (∃ π : Y →* Y₀, π.comp c.φ1 = c₀.φ1 ∧ π.comp c.φ2 = c₀.φ2) ∧
       (m : ℕ∞) < c.graph.egirth := by
   obtain ⟨N, hNnormal, hNfin, hNle, hR⟩ := exists_normal_ker (α := α) (c₀ := c₀) hc₀ m
-  letI : N.Normal := hNnormal
+  let : N.Normal := hNnormal
   let c : α.Completion (↥(Gsub α) ⧸ N) := quotientCompletion c₀ hc₀ N hNle
   have hc : c.IsFaithful := quotientCompletion_isFaithful c₀ hc₀ N hNle
-  letI : Fintype (↥(Gsub α) ⧸ N) := N.fintypeQuotientOfFiniteIndex
-  haveI : Finite (↥(Gsub α) ⧸ N) :=
+  let : Fintype (↥(Gsub α) ⧸ N) := N.fintypeQuotientOfFiniteIndex
+  have : Finite (↥(Gsub α) ⧸ N) :=
     Fintype.finite (inferInstance : Fintype (↥(Gsub α) ⧸ N))
   refine ⟨↥(Gsub α) ⧸ N, inferInstance, inferInstance, c, hc, ?_, ?_⟩
   · exact ⟨quotientPi c₀ N hNle, quotientPi_comp_φ1 c₀ hc₀ N hNle,
@@ -997,8 +997,8 @@ theorem ofSubgroups_exists_faithful_finite_completion_lt_egirth {X : Type u} [Gr
     RankTwoAmalgam.inclusionCompletion_isFaithful P1 P2 (P1 ⊔ P2) rfl
   obtain ⟨Y, hY, hFin, c, hc, ⟨π, hπ1, hπ2⟩, hgirth⟩ :=
     exists_faithful_finite_completion_lt_egirth c₀ hc₀ m
-  letI : Group Y := hY
-  letI : Finite Y := hFin
+  let : Group Y := hY
+  let : Finite Y := hFin
   refine ⟨Y, hY, hFin, c, hc, ⟨(P1 ⊔ P2).subtype.comp π, ?_, ?_⟩, hgirth⟩
   · intro g
     have h : π (c.φ1 g) = c₀.φ1 g := DFunLike.congr_fun hπ1 g

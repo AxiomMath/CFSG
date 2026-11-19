@@ -51,7 +51,7 @@ theorem qTwoNbrRec_coverDiag
         ∃ c : F, ((g : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) = diagonal (fun _ => c)) ∧
       ∀ b : ↥Bs, ∃ t : Fin d → F, LineU.ActsDiagU φ (qTwoNbrRec_gammaB q hN b) t := by
   obtain ⟨ψ, hψκ, hψs, hψc, hψodd⟩ := qTwoNbrRec_exists_psiBar q hq θ
-  haveI : Finite ↥(qTwoNbrRec_Kb q) :=
+  have : Finite ↥(qTwoNbrRec_Kb q) :=
     Finite.of_surjective (qTwoNbrRec_kappa q) (qTwoNbrRec_kappa_surjective q)
   have hperfKb : commutator ↥(qTwoNbrRec_Kb q) = ⊤ := qTwoNbrRec_Kb_perfect q hperf
   let A : Subgroup (MulAut ↥(qTwoNbrRec_Kb q)) := (qTwoNbrRec_gammaB q hN).range

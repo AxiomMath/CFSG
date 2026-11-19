@@ -186,7 +186,7 @@ theorem exists_le_centralizer_omega_sl2_sixteen189 {X : Type} [Group X] [Finite 
   set Ω : Subgroup X := Subgroup.closure {z : X | z ∈ Q ∧ z * z = 1}
   have hΩP : Ω ≤ P := (Subgroup.closure_le _).mpr fun z hz => hQP hz.1
   have hT2 : ∀ t ∈ T, t * t = 1 := fun t ht =>
-    mul_self_eq_one_of_le189 φ P.isPGroup'.to_inf_left inf_le_right ht
+    mul_self_eq_one_of_le189 φ P.isPGroup.to_inf_left inf_le_right ht
   have hc : ∀ {s t : X}, s ∈ T → t ∈ T → s * t = t * s := fun hs ht =>
     mul_comm_of_mul_self189 hT2 hs ht
   have h16 : 16 ≤ Nat.card T := by

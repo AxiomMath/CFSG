@@ -93,13 +93,13 @@ theorem cfInner_signedTwoColumn_signedTwoColumn (hW : IsCyclicTIPair W W1 W2)
     by_cases h : i = i' <;> simp [h, hsq]
   ·
     rw [signedTwoColumn_apply_false, signedTwoColumn_apply_true, cfInner_smul_left,
-      cfInner_smul_right, hconj, hij, if_neg (fun h => hjk h.2.symm),
-      if_neg (show ¬((i, false) = (i', true)) by simp)]
+      cfInner_smul_right, hconj, hij, ite_eq_right (fun h => hjk h.2.symm),
+      ite_eq_right (show ¬((i, false) = (i', true)) by simp)]
     ring
   ·
     rw [signedTwoColumn_apply_true, signedTwoColumn_apply_false, cfInner_smul_left,
-      cfInner_smul_right, map_neg, hconj, hij, if_neg (fun h => hjk h.2),
-      if_neg (show ¬((i, true) = (i', false)) by simp)]
+      cfInner_smul_right, map_neg, hconj, hij, ite_eq_right (fun h => hjk h.2),
+      ite_eq_right (show ¬((i, true) = (i', false)) by simp)]
     ring
   ·
     rw [signedTwoColumn_apply_true, signedTwoColumn_apply_true, cfInner_smul_left,

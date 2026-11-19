@@ -16,12 +16,12 @@ open CFSG.LocalAnalysis.GLTheoremA
 
 theorem solvable_no_perfect {X : Type} [Group X] {C Q : Subgroup X} (hC : Group.IsSolvable ↥C)
     (hQC : Q ≤ C) (hperf : ⁅Q, Q⁆ = Q) (hne : Q ≠ ⊥) : False := by
-  haveI : Group.IsSolvable ↥C := hC
+  have : Group.IsSolvable ↥C := hC
   have hsol : Group.IsSolvable ↥Q :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hQC)
       (Subgroup.inclusion_injective hQC)
-  haveI : Group.IsSolvable ↥Q := hsol
-  haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hne
+  have : Group.IsSolvable ↥Q := hsol
+  have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hne
   have hcomm : commutator ↥Q = ⊤ := by
     rw [← CFSG.StandardType.ggCommutator_subgroupOf Q, hperf, Subgroup.subgroupOf_self]
   have hlt : commutator ↥Q < ⊤ := Group.IsSolvable.commutator_lt_top_of_nontrivial ↥Q
@@ -81,7 +81,7 @@ theorem fldExc_core_or {S : Type} [Group S] [Finite S] (hRig : GGLabelRigidInput
   have hJ' : GLAPComponent p (fixSubgroup f') (J.map e'.toMonoidHom) := by
     rw [← hfe, ← Y10F.fixSubgroup_map_congr]
     exact (Y10F.glaPComponent_map_iff hp e'.injective).mpr hJ
-  haveI : Finite R := Finite.of_equiv (S ⧸ Subgroup.center S) θ.toEquiv
+  have : Finite R := Finite.of_equiv (S ⧸ Subgroup.center S) θ.toEquiv
   obtain ⟨hpn, hsolv | ⟨R₀, _, lab', hs0, hna0, hlam', hcan', hGH, ⟨θ₀⟩⟩⟩ := hfix f' hf' hord'
   ·
     exfalso
@@ -93,7 +93,7 @@ theorem fldExc_core_or {S : Type} [Group S] [Finite S] (hRig : GGLabelRigidInput
       exact h2
     exact solvable_no_perfect hsolv hle hperf
       (CFSG.LocalAnalysis.GLTheoremA.glaPComponent_ne_bot' hJ')
-  haveI : IsSimpleGroup R₀ := hs0
+  have : IsSimpleGroup R₀ := hs0
   have hsub : fixSubgroup f' = ggFixSub f' := rfl
   have hJeq : J.map e'.toMonoidHom = ggFixDer f' := by
     rw [hsub] at hJ'
@@ -101,8 +101,8 @@ theorem fldExc_core_or {S : Type} [Group S] [Finite S] (hRig : GGLabelRigidInput
   let eJ : ↥J ≃* R₀ :=
     ((Subgroup.equivMapOfInjective J e'.toMonoidHom e'.injective).trans
       (MulEquiv.subgroupCongr hJeq)).trans θ₀
-  haveI : IsSimpleGroup ↥J := eJ.isSimpleGroup
-  haveI : Group.IsPerfect ↥J :=
+  have : IsSimpleGroup ↥J := eJ.isSimpleGroup
+  have : Group.IsPerfect ↥J :=
     Subgroup.isPerfect_iff.mpr (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ)
   obtain ⟨eQ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLinFld.nonempty_quotCenter_equiv eJ
   have hGJ : GGHasLabel lab' (↥J ⧸ Subgroup.center ↥J) := ggHasLabel_congr hGH eQ.symm

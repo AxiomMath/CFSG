@@ -164,7 +164,7 @@ theorem irreducible_of_standard
   have h1 : stdX σ ≤ M₀ := by
     intro x hx
     refine Subgroup.mem_map.2 ⟨g * x * g⁻¹, hXM (Subgroup.mem_map.2 ⟨x, hx, rfl⟩), ?_⟩
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   have h2 : M₀ ≤ twE6LongRootRadical (stdX σ) := by
     rintro _ ⟨m, hm, rfl⟩
     have := hMQ hm

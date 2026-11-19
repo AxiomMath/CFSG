@@ -51,11 +51,13 @@ open CFSG.Open CFSG.LocalAnalysis.UniquenessCase.UC22.InS3.UC326
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private lemma isSimpleGroup_of_isComponent_of_center_eq_bot {L : Subgroup X}
     (hL : CFSG.IsComponent L) (hZ : Subgroup.center ↥L = ⊥) : IsSimpleGroup ↥L :=
   (MulEquiv.isSimpleGroup_congr
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot)).mp hL.1.2.1
 
+omit [Finite X] in
 private lemma exists_noncomm_of_isComponent {L : Subgroup X} (hL : CFSG.IsComponent L) :
     ∃ a b : ↥L, a * b ≠ b * a := by
   obtain ⟨a, b, hab⟩ := hL.1.2.2
@@ -64,6 +66,7 @@ private lemma exists_noncomm_of_isComponent {L : Subgroup X} (hL : CFSG.IsCompon
   refine ⟨a, b, fun h => hab ?_⟩
   rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, h]
 
+omit [Finite X] in
 private lemma eq_of_isElemAbelian_card27 {P : Subgroup X}
     (hPZ : Nonempty (↥P ≃* ZWr 1)) {E F : Subgroup X} (hEP : E ≤ P) (hFP : F ≤ P)
     (hE : IsElemAbelian 3 E) (hF : IsElemAbelian 3 F) (hEcard : Nat.card E = 27)
@@ -172,13 +175,13 @@ private lemma not_eightyone_dvd_card_of_isSylow {L T : Subgroup X}
   rcases hTcard with h | h <;> rw [h] at hdvdT <;> norm_num at hdvdT
 
 private lemma le_of_card_inf_eq_three (hO3 : RankThreeTheoremC.KFactOutThreePrimeSimple)
-    {P L T : Subgroup X} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤)
+    {P L T : Subgroup X} (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤)
     (hKg : CFSG.Open.IsKGroup X) (hLn : L.Normal) (hLsimple : IsSimpleGroup ↥L)
     (hLnonab : ∃ a b : ↥L, a * b ≠ b * a)
     (hC : Subgroup.centralizer (L : Set X) = ⊥)
-    (hTsyl : CFSG.ABGLocalTools.IsSylowOf 3 T L) (hTP : T ≤ P)
+    (hTsyl : CFSG.ABGLocalTools.IsSylowOf 3 T L) (_hTP : T ≤ P)
     (hPcard : Nat.card ↥P = 81) (hTcard : Nat.card T = 3) : P ≤ L := by
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   intro x hx
   have hK : CFSG.IsKGroup ↥L :=
     CFSG.IsKGroup.subgroup
@@ -251,7 +254,7 @@ private lemma isSylow_inf_of_normal {P L : Subgroup X}
   · have hTP : P ⊓ L ≤ P := inf_le_left
     have hsub : (P ⊓ L).subgroupOf P = L.subgroupOf P := by
       ext x
-      simp [Subgroup.mem_inf, and_comm]
+      simp
     have hN : ((P ⊓ L).subgroupOf P).Normal := by
       rw [hsub]
       exact hLn.subgroupOf P

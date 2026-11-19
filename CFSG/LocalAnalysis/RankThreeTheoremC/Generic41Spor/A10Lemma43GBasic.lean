@@ -39,6 +39,7 @@ private theorem a10t1_Y_orderOf {A : Subgroup G} (hA : IsPGroup 5 A) {a : G} (ha
     omega
   · exact h1
 
+omit [Finite G] in
 private theorem a10t1_Y_zpowers_subgroupOf {a : G} (ha : a ∈ M) :
     (Subgroup.zpowers a).subgroupOf M = Subgroup.zpowers (⟨a, ha⟩ : ↥M) := by
   ext m
@@ -49,16 +50,19 @@ private theorem a10t1_Y_zpowers_subgroupOf {a : G} (ha : a ∈ M) :
   · rintro ⟨k, rfl⟩
     exact ⟨k, by simp⟩
 
+omit [Finite G] in
 private theorem a10t1_Y_img_zpowers {a : G} (ha : a ∈ M) :
     a10Img M (Subgroup.zpowers a) = Subgroup.zpowers (a10π M ⟨a, ha⟩) := by
   unfold a10Img
   rw [a10t1_Y_zpowers_subgroupOf ha, MonoidHom.map_zpowers]
 
+omit [Finite G] in
 private theorem a10t1_Y_img_sup {A B : Subgroup G} (hA : A ≤ M) (hB : B ≤ M) :
     a10Img M (A ⊔ B) = a10Img M A ⊔ a10Img M B := by
   unfold a10Img
   rw [Subgroup.subgroupOf_sup hA hB, Subgroup.map_sup]
 
+omit [Finite G] in
 private theorem a10t1_Y_comm {A : Subgroup G} (hA : IsMulCommutative A) :
     IsMulCommutative (a10Img M A) := by
   rw [isMulCommutative_iff_of_setLike]
@@ -70,10 +74,10 @@ private theorem a10t1_Y_comm {A : Subgroup G} (hA : IsMulCommutative A) :
 private theorem a10t1_Y_sylow_subgroupOf (P : Sylow 5 G) {M : Subgroup G}
     (hPM : (P : Subgroup G) ≤ M) :
     ∃ T : Sylow 5 M, (T : Subgroup M) = (P : Subgroup G).subgroupOf M := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h : CFSG.ABGLocalTools.IsSylowOf 5 (P : Subgroup G) M := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨hPM, P.isPGroup', fun h =>
+    exact ⟨hPM, P.isPGroup, fun h =>
       P.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hPM))⟩
   exact h.exists_sylow_eq_subgroupOf
 
@@ -91,7 +95,7 @@ theorem a10_Y_basic (hS : Setting G) (hX : A10Facts) (hc : PointConfig IsA10Type
       (∃ S : Sylow 5 (A10Y M), (S : Subgroup (A10Y M)) = a10Img M (P : Subgroup G)) ∧
       CFSG.Open.pRank 5 (⊤ : Subgroup (A10Y M)) ≤ 3 ∧ IsMulCommutative (a10Img M (P : Subgroup G)) ∧
       a10π M ⟨x, hxM⟩ ∈ a10Img M (P : Subgroup G) ∧ orderOf (a10π M ⟨x, hxM⟩) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hMtop : M ≠ ⊤ := fun h => hc.not_le (h ▸ le_top)
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
   have hrank : CFSG.Open.pRank 5 M ≤ 3 := by
@@ -104,7 +108,7 @@ theorem a10_Y_basic (hS : Setting G) (hX : A10Facts) (hc : PointConfig IsA10Type
   refine ⟨(CFSG.AGLEmbedding.catalogSimpleSections_of_isKProper hS.kProper M hMtop).quotient _,
     primeComplementCore_quotient_eq_bot 5, ?_, a10t1_Y_rank M hrank,
     a10t1_Y_comm (a10_P_comm hX hc hP), Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr hxP),
-    a10t1_Y_orderOf P.isPGroup' hxM hxP hpd.x_ord⟩
+    a10t1_Y_orderOf P.isPGroup hxM hxP hpd.x_ord⟩
   obtain ⟨T', hT'⟩ := a10t1_Y_sylow_subgroupOf P hPM
   exact ⟨T'.mapSurjective (QuotientGroup.mk'_surjective _), by
     rw [Sylow.coe_mapSurjective, hT']
@@ -119,13 +123,13 @@ theorem a10_Y_points (hX : A10Facts) (hc : PointConfig IsA10Type G 5 P M x J)
       a10π M ⟨a₁, ha₁M⟩ ∉ Subgroup.zpowers (a10π M ⟨a₂, ha₂M⟩) ∧
       a10Img M (u3T P x J) =
         Subgroup.zpowers (a10π M ⟨a₁, ha₁M⟩) ⊔ Subgroup.zpowers (a10π M ⟨a₂, ha₂M⟩) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hpd := a10_pdata hX hc hP
   have hxP : x ∈ (P : Subgroup G) := hpd.D_le hpd.x_mem
   have hTP : u3T P x J ≤ (P : Subgroup G) := hpd.T_le
   have hxJ : x ∉ J := (plane_T_structure hX.sylow hc).2.2
   have hxT : x ∉ u3T P x J := fun h => hxJ (Subgroup.mem_inf.mp h).2
-  have hPp : IsPGroup 5 (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup 5 (P : Subgroup G) := P.isPGroup
   have ha₁T : a₁ ∈ u3T P x J := hT ▸ Subgroup.mem_sup_left (Subgroup.mem_zpowers a₁)
   have ha₂T : a₂ ∈ u3T P x J := hT ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers a₂)
   have hz₁ : Subgroup.zpowers a₁ ≤ M := (Subgroup.zpowers_le).mpr ha₁M

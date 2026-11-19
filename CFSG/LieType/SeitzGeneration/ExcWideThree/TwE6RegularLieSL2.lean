@@ -55,11 +55,11 @@ private theorem exists_twistedFrobenius {ℓ f : ℕ} (hℓ : ℓ.Prime) (K : Ty
       (∀ c, Fr c = c ^ (ℓ ^ f)) ∧
         (algebraMap K (AlgebraicClosure K)).comp σ.toRingHom =
           Fr.comp (algebraMap K (AlgebraicClosure K)) := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fintype K := Fintype.ofFinite K
   have hchar : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI := hchar
+  have := hchar
   refine ⟨hchar, iterateFrobenius (AlgebraicClosure K) ℓ f, fun c => iterateFrobenius_def ℓ f c,
     RingHom.ext fun c => ?_⟩
   simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingHom.coe_coe, hσ, map_pow,
@@ -92,7 +92,7 @@ theorem pinnedX_mem_twistedE6RootGroup {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 
     (hβ : β = e6HighestRoot ∨ β = -e6HighestRoot) {c : K} (hc : σ c = c) :
     pinnedX TwistTag.E6.tag K β c ∈ twistedE6RootGroup K σ := by
   obtain ⟨hchar, Fr, hFr, hcomm⟩ := exists_twistedFrobenius hℓ K hK σ hσ
-  haveI := hchar
+  have := hchar
   have hβmem : pinnedX TwistTag.E6.tag K β c ∈
       rootSubgroup TwistTag.E6.tag K e6HighestRoot ⊔
         rootSubgroup TwistTag.E6.tag K (-e6HighestRoot) := by
@@ -173,7 +173,7 @@ private theorem exists_rootSL2_eq_of_mem_rootSpan {ℓ f : ℕ} (hℓ : ℓ.Prim
       rootSL2 TwistTag.E6.tag K e6HighestRoot
         (Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype B₀) := by
   obtain ⟨hchar, Fr, hFr, hcomm⟩ := exists_twistedFrobenius hℓ K hK σ hσ
-  haveI := hchar
+  have := hchar
   set ι : K →+* AlgebraicClosure K := algebraMap K (AlgebraicClosure K) with hι
   rw [CFSG.LieType.HighestRoot.rootSpan_pair_eq,
     ← range_rootSL2_of_isRoot (K := AlgebraicClosure K) isRoot_e6HighestRoot] at hu

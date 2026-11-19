@@ -74,7 +74,7 @@ theorem planeGen_inner_sp_model_three (hF2 : SpPlaneThreeF2Gen) {d : TauCeti.Val
   intro E₁ hE₁ hcard₁
   have hcomm₁ : ∀ x ∈ E₁, ∀ y ∈ E₁, x * y = y * x := by
     intro x hx y hy
-    haveI := hE₁.1
+    have := hE₁.1
     exact congrArg Subtype.val (IsMulCommutative.is_comm.comm (⟨x, hx⟩ : E₁) ⟨y, hy⟩)
   refine CFSG.RankThree.PartOne.CTP.closure_centralizers_of_lift (proj r K)
     (CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.proj_surjective (r := r) (K := K))
@@ -107,7 +107,7 @@ theorem seitzInnerThreeSymplecticHigh_of_F2 (hF2 : SpPlaneThreeF2Gen) :
           TauCeti.LieTypeIndex.B r q = TauCeti.LieTypeIndex.B 4 q := by
         rcases hr34 with h | h <;> subst h <;> simp
       exact hex (Or.inl ⟨rfl, Or.inr (Or.inr (Or.inr (Or.inl ⟨q, hq2, he1, hB⟩)))⟩)
-    haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B r q, hv⟩) :=
+    have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B r q, hv⟩) :=
       Nat.finite_of_card_ne_zero (by
         rw [CFSG.RankThree.PartOne.CTP.card_fixedField_B r q hv]
         exact pow_ne_zero _ q.prime_p.ne_zero)
@@ -126,7 +126,7 @@ theorem seitzInnerThreeSymplecticHigh_of_F2 (hF2 : SpPlaneThreeF2Gen) :
         rw [← h2]
         exact dvd_pow_self _ q.exponent_pos.ne'
       exact hq2 ((Nat.prime_dvd_prime_iff_eq q.prime_p Nat.prime_two).1 hdvd)
-    haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.C r q, hv⟩) :=
+    have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.C r q, hv⟩) :=
       Nat.finite_of_card_ne_zero (by
         rw [card_fixedField_C r q hv]
         exact pow_ne_zero _ q.prime_p.ne_zero)

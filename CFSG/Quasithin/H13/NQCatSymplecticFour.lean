@@ -61,7 +61,7 @@ theorem threeFreeBorelDatum_statedSp (hleaf : EvenSymplecticThreeFreeSylowOvergr
     obtain ⟨-, -, -, -, ⟨P, hP⟩, -⟩ :=
       symplectic_higher_order_and_Sylow (K := K) 2 (Nat.card K) rfl (r := 2) (by norm_num)
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   three_free := (hleaf K 2 (by norm_num)).1
 
 theorem card_ker_powMonoidHom_dvd {X : Type*} [CommGroup X] [Finite X] [IsCyclic X] (p : ℕ) :

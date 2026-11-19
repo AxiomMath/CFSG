@@ -50,9 +50,9 @@ variable {Y : Type*} [Group Y] [Finite Y]
 
 theorem inf_centralizer_ne_bot_of_isPGroup {R N : Subgroup Y} (hR : IsPGroup 2 R) (hNR : N ≤ R)
     (hRN : R ≤ normalizer (N : Set Y)) (hN : N ≠ ⊥) : N ⊓ centralizer (R : Set Y) ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent R := hR.isNilpotent
-  haveI : (N.subgroupOf R).Normal := (normal_subgroupOf_iff_le_normalizer hNR).2 hRN
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent R := hR.isNilpotent
+  have : (N.subgroupOf R).Normal := (normal_subgroupOf_iff_le_normalizer hNR).2 hRN
   have hne : N.subgroupOf R ≠ ⊥ := by
     intro h
     apply hN
@@ -74,7 +74,7 @@ theorem inf_centralizer_ne_bot_of_isPGroup {R N : Subgroup Y} (hR : IsPGroup 2 R
 
 theorem exists_orderOf_eq_two_of_isPGroup {N : Subgroup Y} (hN : IsPGroup 2 N) (hne : N ≠ ⊥) :
     ∃ t ∈ N, orderOf t = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hN
   have hk0 : k ≠ 0 := by
     rintro rfl
@@ -87,8 +87,8 @@ theorem exists_mem_center_of_normal_le_centralizer {R N : Subgroup Y} (hR : IsSy
     (hNn : N.Normal) (hN : IsPGroup 2 N)
     (hNC : N ≤ centralizer (twoResidualOf (⊤ : Subgroup Y) : Set Y)) (hne : N ≠ ⊥) :
     ∃ t ∈ R, orderOf t = 2 ∧ t ∈ center Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hNn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hNn
   have hNR : N ≤ R := by
     have h := hR.eq_of_le le_sup_left le_top (hR.isPGroup.to_sup_of_normal_right hN)
     rw [← h]
@@ -111,7 +111,7 @@ theorem exists_mem_center_of_centralizer {R : Subgroup Y} (hR : IsSylowOf 2 R �
     (hinf : twoResidualOf ⊤ ⊓ centralizer (twoResidualOf (⊤ : Subgroup Y) : Set Y) = ⊥)
     (hne : centralizer (twoResidualOf (⊤ : Subgroup Y) : Set Y) ≠ ⊥) :
     ∃ t ∈ R, orderOf t = 2 ∧ t ∈ center Y := by
-  haveI : (twoResidualOf (⊤ : Subgroup Y)).Normal := twoResidualOf_top_normal
+  have : (twoResidualOf (⊤ : Subgroup Y)).Normal := twoResidualOf_top_normal
   have hC2 : IsPGroup 2 (centralizer (twoResidualOf (⊤ : Subgroup Y) : Set Y)) := by
     intro c
     obtain ⟨k, hk⟩ := exists_pow_mem_twoResidualOf (mem_top (c : Y))
@@ -125,7 +125,7 @@ theorem exists_mem_center_of_centralizer {R : Subgroup Y} (hR : IsSylowOf 2 R �
 
 theorem eq_bot_of_isCyclic_of_isSylowOf {L T : Subgroup Y}
     (hT : IsSylowOf 2 T (twoResidualOf L)) (hcyc : IsCyclic T) : T = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hT
   have hQc : IsCyclic Q := by
     let e : (Q : Subgroup ↥(twoResidualOf L)) ≃* T :=
@@ -133,9 +133,9 @@ theorem eq_bot_of_isCyclic_of_isSylowOf {L T : Subgroup Y}
         (twoResidualOf L).subtype_injective).trans (MulEquiv.subgroupCongr hQ)
     exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
   obtain ⟨N, hNn, hNc⟩ := CFSG.exists_normal_isComplement'_of_isCyclic_sylow_two Q hQc
-  haveI := hNn
+  have := hNn
   have hidx : N.index = Nat.card Q := hNc.symm.index_eq_card
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup
   have hle : twoResidualOf L ≤ N.map (twoResidualOf L).subtype := by
     have h := twoResidualOf_le_of_forall (H := twoResidualOf L)
       (L := N.map (twoResidualOf L).subtype) fun x hx hodd =>
@@ -153,7 +153,7 @@ theorem eq_bot_of_isCyclic_of_isSylowOf {L T : Subgroup Y}
   rw [← hQ, hQbot, Subgroup.map_bot]
 
 theorem odd_card_of_isSylowOf_bot {K : Subgroup Y} (hT : IsSylowOf 2 ⊥ K) : Odd (Nat.card K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := (isSylowOf_iff.1 hT).2.2
   rw [relIndex_bot_left] at h
   exact Nat.odd_iff.2 (Nat.two_dvd_ne_zero.1 h)
@@ -178,7 +178,7 @@ theorem exists_isIsolatedIn_of_normal_le_centralizer {H : Subgroup G} {N : Subgr
     (hNn : N.Normal) (hN : IsPGroup 2 N)
     (hNC : N ≤ centralizer (twoResidualOf (⊤ : Subgroup (Bar H)) : Set (Bar H))) (hne : N ≠ ⊥) :
     ∃ t, IsIsolatedIn H t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨R, hR⟩ := exists_isSylowOf 2 H
   have hRbar : IsSylowOf 2 (bar H R) ⊤ := by
     rw [← bar_self]
@@ -224,8 +224,8 @@ theorem O_le_O_of_le_normalizer {K H : Subgroup G} (hKH : K ≤ H)
 
 theorem exists_isIsolatedIn_of_isIsolatedIn_twoResidualOf {H : Subgroup G} {z : G}
     (hz : IsIsolatedIn (twoResidualOf H) z) : ∃ t, IsIsolatedIn H t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (twoResidualOf (⊤ : Subgroup (Bar H))).Normal := twoResidualOf_top_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (twoResidualOf (⊤ : Subgroup (Bar H))).Normal := twoResidualOf_top_normal
   set K := twoResidualOf (⊤ : Subgroup (Bar H)) with hK
   have hLH : twoResidualOf H ≤ H := twoResidualOf_le_self H
   have hzL : z ∈ twoResidualOf H := hz.1
@@ -286,7 +286,7 @@ theorem exists_isIsolatedIn_of_isIsolatedIn_twoResidualOf {H : Subgroup G} {z : 
   have hΩn : Ω.Normal := by
     constructor
     rintro n ⟨hnKC, hn2⟩ g
-    haveI : (centralizer (K : Set (Bar H))).Normal := inferInstance
+    have : (centralizer (K : Set (Bar H))).Normal := inferInstance
     refine ⟨mem_inf.2 ⟨(inferInstance : K.Normal).conj_mem n (mem_inf.1 hnKC).1 g,
       (inferInstance : (centralizer (K : Set (Bar H))).Normal).conj_mem n
         (mem_inf.1 hnKC).2 g⟩, ?_⟩
@@ -306,8 +306,8 @@ theorem exists_isIsolatedIn_of_isIsolatedIn_twoResidualOf {H : Subgroup G} {z : 
 theorem exists_isIsolatedIn_of_isCyclic_or_isDih
     {H E T : Subgroup G} (hEH : E ≤ H) (hE : IsE16 E) (hT : IsSylowOf 2 T (twoResidualOf H))
     (hTc : IsCyclic T ∨ IsDih T) : ∃ t, IsIsolatedIn H t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (twoResidualOf (⊤ : Subgroup (Bar H))).Normal := twoResidualOf_top_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (twoResidualOf (⊤ : Subgroup (Bar H))).Normal := twoResidualOf_top_normal
   have hLH : twoResidualOf H ≤ H := twoResidualOf_le_self H
   have hTbar : IsSylowOf 2 (bar H T) (twoResidualOf (⊤ : Subgroup (Bar H))) := by
     rw [← bar_twoResidualOf]
@@ -391,6 +391,7 @@ section Factors2
 
 variable {G : Type} [Group G]
 
+omit [Group G] in
 theorem exists_factors_of
     (hWalter : ∀ {X : Type} [Group X] [Finite X], CFSG.oddCore X = ⊥ →
       (∀ N : Subgroup X, N.Normal → N.index ≠ 2) → ∀ (T T₁ T₂ : Subgroup X),
@@ -413,8 +414,8 @@ theorem exists_factors_of
       (F₁.subgroupOf (twoResidualOf ⊤)).Normal ∧ (F₂.subgroupOf (twoResidualOf ⊤)).Normal ∧
       F₁ ⊓ F₂ = ⊥ ∧ Odd ((F₁ ⊔ F₂).relIndex (twoResidualOf ⊤)) ∧
       IsAStarFactor F₁ ∧ IsAStarFactor F₂ ∧ IsSylowOf 2 T₁ F₁ ∧ IsSylowOf 2 T₂ F₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (twoResidualOf (⊤ : Subgroup Y)).Normal := twoResidualOf_top_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (twoResidualOf (⊤ : Subgroup Y)).Normal := twoResidualOf_top_normal
   set K := twoResidualOf (⊤ : Subgroup Y) with hK
   have hTK : T ≤ K := hT.le
   have h₁K : T₁ ≤ K := (le_sup_left.trans hsup.le).trans hTK
@@ -534,7 +535,7 @@ theorem isCyclic_or_isDih_of_inf_eq_bot {T : Subgroup G} (hTS : T ≤ 𝔖.S) {P
     obtain ⟨a, ha, ⟨e'⟩⟩ := hD.of_le hMD hV hVM
     exact Or.inr ⟨a, ha, ⟨e.trans e'⟩⟩
   · push Not at h4
-    haveI := hD.isCyclic_of_le hMD h4
+    have := hD.isCyclic_of_le hMD h4
     exact Or.inl (isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective)
 
 theorem prop_4_3_core_of
@@ -567,7 +568,7 @@ theorem prop_4_3_core_of
         F₁ ⊓ F₂ = ⊥ ∧ Odd ((F₁ ⊔ F₂).relIndex (twoResidualOf ⊤)) ∧
         IsAStarFactor F₁ ∧ IsAStarFactor F₂ ∧
         IsSylowOf 2 (bar H (T ⊓ 𝔖.S₁)) F₁ ∧ IsSylowOf 2 (bar H (T ⊓ 𝔖.S₂)) F₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hd := 𝔖.decomp
   have hLH : twoResidualOf H ≤ H := twoResidualOf_le_self H
   have hTH : T ≤ H := hT.le.trans hLH

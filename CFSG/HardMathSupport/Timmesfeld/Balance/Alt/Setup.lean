@@ -15,6 +15,7 @@ variable {G : Type*} [Group G] [Finite G]
     ↥L →* ↥X ⧸ GLAPPrimeCore p ↥X :=
   (QuotientGroup.mk' (GLAPPrimeCore p ↥X)).comp (Subgroup.inclusion hLX)
 
+omit [Finite G] in
 theorem mem_ker_thetaHom (p : ℕ) {X L : Subgroup G} (hLX : L ≤ X) (ℓ : ↥L) :
     ℓ ∈ (thetaHom p hLX).ker ↔ Subgroup.inclusion hLX ℓ ∈ GLAPPrimeCore p ↥X := by
   rw [MonoidHom.mem_ker, thetaHom, MonoidHom.comp_apply, QuotientGroup.mk'_apply,

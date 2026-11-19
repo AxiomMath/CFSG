@@ -43,7 +43,7 @@ public theorem piCore_normal_local {G : Type u} [Group G] [Finite G]
   refine Subgroup.closure_induction'' hgen ?_ ?_ ?_ hn
   · intro y hy
     simpa [mul_assoc] using (piCore π G).inv_mem (hgen y hy)
-  · simpa using (piCore π G).one_mem
+  · simp
   · intro a b _ _ ha hb
     simpa [mul_assoc, mul_left_comm, mul_right_comm] using
       (piCore π G).mul_mem ha hb

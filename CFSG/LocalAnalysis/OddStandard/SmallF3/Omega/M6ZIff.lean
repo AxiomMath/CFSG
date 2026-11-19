@@ -122,7 +122,7 @@ theorem m6z_card_pocketed_omegaProj_eight (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 8) (hs : quadSign Q = 1) :
     Nat.card {u : OGroup Q // u * u = 1 ∧ invType u = (4, 1)} =
       2 * Nat.card {x : omegaProj hQ // IsI4PlusIn (⊤ : Subgroup (omegaProj hQ)) x} := by
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   have h5 : 5 ≤ Module.finrank (ZMod 3) V := by omega
   refine m6z_card_eq_mul_of_card_fiber
     (m6zPhi (V := V) (Q := Q) hQ h5) 2 ?_

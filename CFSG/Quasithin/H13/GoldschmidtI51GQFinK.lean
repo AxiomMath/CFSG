@@ -22,16 +22,16 @@ theorem rK_iff (b : Bool) (σ : Perm (Fin 6)) : (b = false ∨ sign σ = 1) ↔ 
 
 theorem aK_iff (o : Bool) (σ : Perm (Fin 6)) : (if o then InP1 σ else InP2 σ) ↔ aK o (enc σ) = true := by
   cases o
-  · rw [if_neg Bool.false_ne_true]
+  · rw [ite_eq_right Bool.false_ne_true]
     exact (p2K_iff σ).symm
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     exact (p1K_iff σ).symm
 
 theorem bK_iff (o : Bool) (σ : Perm (Fin 6)) : (if o then InP2 σ else InP1 σ) ↔ bK o (enc σ) = true := by
   cases o
-  · rw [if_neg Bool.false_ne_true]
+  · rw [ite_eq_right Bool.false_ne_true]
     exact (p1K_iff σ).symm
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     exact (p2K_iff σ).symm
 
 @[expose] noncomputable def NC (o : Bool) : ℕ := Bool.rec (motive := fun _ => ℕ) 4534290 1061460 o
@@ -175,7 +175,6 @@ theorem core_of (b o : Bool) {R : Perm (Fin 6) → Prop} {ls : List (Perm (Fin 6
     intro x hx
     rw [← hS, List.mem_map] at hx
     obtain ⟨s, hs', rfl⟩ := hx
-    try dsimp only
     rw [← enc_inv h16, ← enc_mul h16, ← enc_mul h16]
     exact (hA _).1 (hs s hs')
   rw [qCore.eq_1, (hR n).1 hn, hall] at hw
@@ -235,9 +234,7 @@ theorem gq3_of (b o : Bool) {la lb : List (Perm (Fin 6))} {n f : Perm (Fin 6)}
     rw [← hLA]
     exact List.mem_map_of_mem ha
   have hx := allK_iff.1 (gq_check b o) (enc a) hm
-  try dsimp only at hx
   obtain ⟨c, hc, hf⟩ := exists_of_anyK hLB hx
-  try dsimp only at hf
   have hz : mulK 6 (mulK 6 (invPK 6 (enc c)) (enc a)) (FC o) = enc (c⁻¹ * a * f) := by
     rw [enc_mul h16, enc_mul h16, enc_inv h16, hF]
   rw [hz, Bool.or_eq_true] at hf

@@ -71,7 +71,7 @@ private theorem hasF_sum {m : Nat} {a : Nat → Nat} (ha : ∀ k < m, a k < 2 ^ 
     HasF m a (∑ k ∈ Finset.range m, a k * 2 ^ (64 * k)) :=
   ⟨packSum_lt m ha, fun k hk => by
     have h := packSum_get (w := 64) (g := a) m ha k
-    rw [if_pos hk] at h
+    rw [ite_eq_left hk] at h
     exact h⟩
 
 private theorem fvK_div (x k : Nat) : fvK (x / 2 ^ 64) k = fvK x (k + 1) := by
@@ -231,10 +231,10 @@ private theorem step_sel {m : Nat} {a wf : Nat → Nat} {h E L H Wm y : Nat} {se
     rw [redF_mod]
     by_cases hs : sel p = true
     · have hlt : a (p + 1) * 1000002 + y < 2 ^ 64 := by have := ha (p + 1) hp; omega
-      rw [hsel p hp, if_pos hs, if_pos hs, Nat.and_two_pow_sub_one_eq_mod, Nat.mod_eq_of_lt hlt]
+      rw [hsel p hp, ite_eq_left hs, ite_eq_left hs, Nat.and_two_pow_sub_one_eq_mod, Nat.mod_eq_of_lt hlt]
       have e : a (p + 1) + (a (p + 1) * 1000002 + y) = a (p + 1) * 1000003 + y := by omega
       rw [e]
-    · rw [hsel p hp, if_neg hs, if_neg hs, Nat.and_zero, Nat.add_zero]
+    · rw [hsel p hp, ite_eq_right hs, ite_eq_right hs, Nat.and_zero, Nat.add_zero]
 
 private theorem loop_inv {n : Nat} {E L H : Nat} {W c : Nat → Nat} {adj : Nat → Nat → Bool}
     (hE : HasF (n + 1) (fun _ => 1) E) (hL : HasF (n + 1) (fun _ => 2 ^ 42 - 1) L)
@@ -260,14 +260,14 @@ private theorem loop_inv {n : Nat} {E L H : Nat} {W c : Nat → Nat} {adj : Nat 
     rw [hv v hv', List.filter_cons]
     have hm := hmod v (by omega)
     by_cases hs : adj w v = true
-    · rw [if_pos hs] at hm
-      rw [if_pos hs, List.foldl_cons]
+    · rw [ite_eq_left hs] at hm
+      rw [ite_eq_left hs, List.foldl_cons]
       have e : a1 (v + 1) % pM = (a0 (v + 1) % pM * 1000003 + c w + 1) % pM := by
         rw [hm, pM_eq]
         omega
       rw [e]
-    · rw [if_neg hs] at hm
-      rw [if_neg hs]
+    · rw [ite_eq_right hs] at hm
+      rw [ite_eq_right hs]
       rw [hm]
 
 private theorem hasF_cons {m : Nat} {b : Nat → Nat} {x : Nat} (hx : HasF m b (x / 2 ^ 64)) :
@@ -573,7 +573,7 @@ theorem round_sound {n d K X Q X' Q' T O : Nat} {R M S W : Nat → Nat} (hn : n 
       (((List.range n).map (rg O)).filter (fun w => decide (w ∈ decodeRow d (R v)))) := by
     rw [hv1, hfilt]
     have h : (if v + 1 = 0 then 5 else startK X Q T (v + 1 - 1)) % pM = startK X Q T v := by
-      rw [if_neg (Nat.succ_ne_zero v)]
+      rw [ite_eq_right (Nat.succ_ne_zero v)]
       exact Nat.mod_eq_of_lt (startK_lt X Q T v)
     rw [h]
   rw [e1, e2, e3, e4, e5, ← hrr, hvg, hv2, sigCode_eq_foldl, e6, List.foldl_map, pM_eq]
@@ -634,7 +634,7 @@ theorem cellCntK_eq (n Q q : Nat) :
       cases Nat.beq (rk Q m) q
       · rfl
       · change s + 1 + _ = s + (_ + if true = true then 1 else 0)
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         omega
   have h := key n 0
   rw [Nat.zero_add] at h

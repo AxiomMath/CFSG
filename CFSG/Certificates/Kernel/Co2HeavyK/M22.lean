@@ -31,7 +31,7 @@ theorem unpack_letterP (A B Ai Bi : ℕ) (l : ℕ × Bool) :
   · subst hi
     cases s <;> rfl
   · rw [beq_false hi]
-    cases s <;> simp only [selN_eq, hi, if_false, if_true, Bool.false_eq_true]
+    cases s <;> simp only [selN_eq, hi, ite_false, ite_true, Bool.false_eq_true]
 
 theorem wordP_cons (A B Ai Bi : ℕ) (l : ℕ × Bool) (w : List (ℕ × Bool)) (acc : ℕ) :
     wordP A B Ai Bi (l :: w) acc = wordP A B Ai Bi w (mulV acc (letterP A B Ai Bi l)) :=

@@ -57,7 +57,7 @@ theorem eq_bot_of_normalized_by_sylow [IsSimpleGroup L]
     {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (P : Sylow 2 L) {X : Subgroup L} (hX : IsPGroup p ↥X)
     (hnorm : ∀ s ∈ (P : Subgroup L), ∀ x ∈ X, s * x * s⁻¹ ∈ X) : X = ⊥ := by
   have hZ : center L = ⊥ := center_eq_bot_of_fusionBenderBorel hB hq hk
-  have hP2 : IsPGroup 2 ↥(P : Subgroup L) := P.isPGroup'
+  have hP2 : IsPGroup 2 ↥(P : Subgroup L) := P.isPGroup
   have hPne : (P : Subgroup L) ≠ ⊥ := by
     intro h
     have h1 := (benderBorel_sylowCenter hB P).2.2.2

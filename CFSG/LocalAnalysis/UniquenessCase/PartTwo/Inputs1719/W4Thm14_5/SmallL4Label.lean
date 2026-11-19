@@ -187,7 +187,7 @@ theorem finrank_range_sub_one_eq_mul {G W : Type} [Group G] [Finite G] [AddCommG
     Nat.pow_right_injective le_rfl (hC.symm.trans h2)
   rw [hfixW] at hd2
   rw [hfixR] at hd2
-  haveI : FiniteDimensional (Module.End (MonoidAlgebra (ZMod 2) G) ρ.asModule) ρ.asModule :=
+  have : FiniteDimensional (Module.End (MonoidAlgebra (ZMod 2) G) ρ.asModule) ρ.asModule :=
     finiteDimensional_endField ρ
   have hrn1 := LinearMap.finrank_range_add_finrank_ker (ρ g - 1)
   have hrn2 := LinearMap.finrank_range_add_finrank_ker (R g - 1)

@@ -14,7 +14,7 @@ variable {G : Type} [Group G]
 @[expose] def affC (B P : Subgroup G) (g : G) (hPB : P ≤ Subgroup.normalizer (B : Set G)) :
     Subgroup G where
   carrier := {c | c ∈ P ∧ ∀ y ∈ conjSubgroup g B, ⁅c, y⁆ ∈ B}
-  one_mem' := ⟨P.one_mem, fun y _ => by simpa using B.one_mem⟩
+  one_mem' := ⟨P.one_mem, fun y _ => by simp⟩
   mul_mem' := by
     rintro a b ⟨haP, ha⟩ ⟨hbP, hb⟩
     refine ⟨P.mul_mem haP hbP, fun y hy => ?_⟩
@@ -123,6 +123,7 @@ theorem B_le_aC (h48 : Hyp48 M B T g) : B ≤ H.aC g := fun b hb =>
     rw [commutatorElement_eq_one_iff_mul_comm.mpr this]
     exact B.one_mem⟩
 
+omit [Finite G] in
 theorem P_inf_Bg (hBgQ : conjSubgroup g B ⊓ Q = ⊥) : P ⊓ conjSubgroup g B = ⊥ := by
   rw [eq_bot_iff]
   intro x hx

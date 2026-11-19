@@ -82,7 +82,7 @@ theorem false_of_clauseC_of_blocks {P : Sylow 3 G} {M U : Subgroup G} (hU : IsEl
   have hP81 : Nat.card (P : Subgroup G) = 81 := card_eq_eighty_one_of_equiv e
   have hP3 : ∀ x ∈ (P : Subgroup G), ∃ k : ℕ, x ^ 3 ^ k = 1 := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   obtain ⟨y, hyP, hy3, x, hx, hyx⟩ := exists_three_element_nontrivial_commutator e hHn hcyc
     (C := (P : Subgroup G) ⊓ (M ⊓ centralizer (U : Set G))) (hK.mono inf_le_right)
@@ -247,7 +247,7 @@ theorem IsWitnessGen.not_clauseC_of_solvable_quotient (hS : StandingGen G)
   have hrankJ := hC _ (S1414.thompsonJ_ne_bot hT.isPGroup hT1) (thompsonJ_le_self T)
     (S1414.characteristic_thompsonJ T)
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 3 (P : Subgroup G) M :=
-    CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨hPM, P.isPGroup', fun h =>
+    CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨hPM, P.isPGroup, fun h =>
       P.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hPM))⟩
   have hcyc := cyclicMod_of_le_sup hJM hMJ inf_le_left (le_sup_normalizer_thompsonJ hT)
     ((pRank_mono 3 (by norm_num) inf_le_right).trans hrankJ) hSyl

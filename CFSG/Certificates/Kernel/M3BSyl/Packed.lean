@@ -44,7 +44,7 @@ theorem toMatK_mmK {A B : MatK} (hA : A.length = 12) (hB : GoodMat B) :
   have := congrFun (vz_vmK hB (A.getD j 0)) i
   simp only [toMatK, Matrix.of_apply, Matrix.mul_apply] at this ⊢
   rw [e, this]
-  simp only [Matrix.vecMul, dotProduct, toMatK, Matrix.of_apply]
+  simp only [Matrix.vecMul, dotProduct, Matrix.of_apply]
 
 theorem goodMat_idK : GoodMat idK := M3BF.goodMat_idRows
 

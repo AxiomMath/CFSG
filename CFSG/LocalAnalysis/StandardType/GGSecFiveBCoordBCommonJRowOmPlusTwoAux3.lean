@@ -187,7 +187,7 @@ private theorem ggCommonJOmPlusTwo_ne_zero_of_occurs (m : ℕ)
           rw [h]
           rfl
       rw [hbot] at hcentcard
-      haveI : Unique ↥(⊥ : Submodule (ZMod 3) (Fin m → ZMod 3)) := Submodule.uniqueBot
+      have : Unique ↥(⊥ : Submodule (ZMod 3) (Fin m → ZMod 3)) := Submodule.uniqueBot
       rw [Nat.card_unique] at hcentcard
       omega
   | extension e =>
@@ -196,10 +196,10 @@ private theorem ggCommonJOmPlusTwo_ne_zero_of_occurs (m : ℕ)
       ext y
       have hy : y = 0 := Subsingleton.elim y 0
       rw [hy]
-      simpa using map_zero χ
+      simp
 
 private theorem ggCommonJOmPlusTwo_card_inf_cent (hK : Nat.card K = 2) (m : ℕ)
-    (f : Fin m → Multiplicative (ZMod 3)) (c : PlaneRaw.Code m)
+    (_f : Fin m → Multiplicative (ZMod 3)) (c : PlaneRaw.Code m)
     (hc : PlaneRaw.admissible (.orthogonal 1) c) :
     Nat.card ↥((ggCommonJOmPlusTwo_tau hK m).range ⊓
         Subgroup.centralizer
@@ -292,7 +292,7 @@ theorem ggCommonJOmPlusTwo_position (hK : Nat.card K = 2) {m : ℕ}
   refine ⟨hcard, ?_⟩
   intro hthree
   have hcentcard : Nat.card ↥cent = 3 := by rw [← hcard]; exact hthree
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpow : 3 ^ Module.finrank (ZMod 3) ↥cent = 3 := by
     rw [FiniteField.pow_finrank_eq_natCard]
     exact hcentcard
@@ -385,9 +385,9 @@ theorem ggCommonJOmPlusTwo_label (hK : Nat.card K = 2) {m : ℕ}
         obtain ⟨E, hEfield, hEfin, hEchar, hEcard, ⟨φB⟩⟩ :=
           SpBlocks.exists_blockGroup_extension_mulEquiv (ζ := otc_zeta K) (m := m + 1)
             hK (otc_zeta_injective K) he'
-        letI : Field E := hEfield
-        letI : Finite E := hEfin
-        letI : CharP E 2 := hEchar
+        let : Field E := hEfield
+        let : Finite E := hEfin
+        let : CharP E 2 := hEchar
         let k := (PlaneRaw.Code.extSupport (liftV m 1 e)).card
         have hk : k = 4 := by
           dsimp only [k]

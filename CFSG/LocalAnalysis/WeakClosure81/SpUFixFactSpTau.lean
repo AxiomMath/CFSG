@@ -43,8 +43,7 @@ private theorem spUFix_mat_spTransvection_inl_zero (c : F) [CharP F 2] :
     rw [spEnd_apply, mat_apply, Matrix.mulVec_single_one, Matrix.col_apply]
   rw [h, spEnd_spTransvection, spForm_single_inl_zero]
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.transvection, Matrix.single_apply, Matrix.one_apply, Pi.single_apply,
-      CharTwo.neg_eq]
+    simp [Matrix.transvection, CharTwo.neg_eq]
 
 private theorem spUFix_mat_tauSp_spTransvection_inl_zero (c : F) [CharP F 2] :
     mat 2 F (tauSp (spTransvection (Pi.single (Sum.inl (0 : Fin 2)) 1) c)) =
@@ -58,7 +57,7 @@ private theorem spUFix_mat_tauSp_spTransvection_inl_zero (c : F) [CharP F 2] :
     CFSG.LieType.Universal.Symplectic.SpExtras.mat_elt]
   simp [CFSG.SeitzReduction.F4Pilot.tauIdx,
     CFSG.SeitzReduction.F4Pilot.tauExp,
-    CFSG.LieType.Universal.Symplectic.SpExtras.E, spUFix_smul_single]
+    CFSG.LieType.Universal.Symplectic.SpExtras.E]
   abel
 
 private theorem spUFix_tauSp_sub_one (c : F) [CharP F 2] :
@@ -70,11 +69,11 @@ private theorem spUFix_tauSp_sub_one (c : F) [CharP F 2] :
   · rw [LinearMap.sub_apply, Module.End.one_apply, spEnd_apply, ← mat_apply,
       spUFix_mat_tauSp_spTransvection_inl_zero]
     simp only [Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec_eq]
-    simp [Pi.single_apply, Pi.smul_apply, smul_eq_mul]
+    simp
   · rw [LinearMap.sub_apply, Module.End.one_apply, spEnd_apply, ← mat_apply,
       spUFix_mat_tauSp_spTransvection_inl_zero]
     simp only [Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec_eq]
-    simp [Pi.single_apply, Pi.smul_apply, smul_eq_mul]
+    simp
 
 private theorem spUFix_spEnd_conj_sub_one_apply (H G0 : StatedSp 2 F) (y : Fin 2 ⊕ Fin 2 → F) :
     (spEnd (H * G0 * H⁻¹) - 1) (spEnd H y) = spEnd H ((spEnd G0 - 1) y) := by
@@ -120,7 +119,7 @@ private theorem spUFix_conj_tauSp_ne [CharP F 2] (H : StatedSp 2 F) {c : F} (hc 
     constructor
     · intro hz
       have h := congrFun hz (Sum.inl (1 : Fin 2))
-      simpa using h
+      simp at h
     · intro a hz
       have h := congrFun hz (Sum.inl (0 : Fin 2))
       simp at h
@@ -171,7 +170,7 @@ theorem spUFix_tauSp_spTransvection_ne [Finite F] [CharP F 2] {a : Fin 2 ⊕ Fin
   have he : (Pi.single (Sum.inl (0 : Fin 2)) 1 : Fin 2 ⊕ Fin 2 → F) ≠ 0 := by
     intro hz
     have h := congrFun hz (Sum.inl (0 : Fin 2))
-    simpa using h
+    simp at h
   obtain ⟨h, hh⟩ := exists_spEnd_eq he ha
   have hconj : spTransvection a c =
       h * spTransvection (Pi.single (Sum.inl (0 : Fin 2)) 1) c * h⁻¹ := by

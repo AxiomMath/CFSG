@@ -18,13 +18,14 @@ private lemma s888D4_qsub_eq_sSup (K₁ K₂ : Subgroup G) (h : G) :
     Qsub K₁ K₂ h = twoCoreIn (sSup (Gamma5 K₁ K₂ h)) := by
   rw [Qsub, Gamma5]
   congr 1
-  simp only [sSup_insert, sSup_singleton, sSup_empty, sup_bot_eq]
+  simp only [sSup_insert, sSup_singleton]
   ac_rfl
 
 theorem sec5_qsub_eq_of_gamma_eq {K₁ K₂ P₁ P₂ : Subgroup G} {h h' : G}
     (hΓ : Gamma5 P₁ P₂ h' = Gamma5 K₁ K₂ h) : Qsub P₁ P₂ h' = Qsub K₁ K₂ h := by
   rw [s888D4_qsub_eq_sSup P₁ P₂ h', s888D4_qsub_eq_sSup K₁ K₂ h, hΓ]
 
+omit [Group G] in
 theorem asc82CHdLeN_of [Finite G] (h37 : Asc82Lemma37) (h52a : Asc82Lemma52a)
     (h513 : Asc82Lemma513) (h514 : Asc82Lemma514) (h515c : Asc82Lemma515c) : Asc82CHdLeN := by
   intro G₀ _ _ t L S z r B A K₁ K₂ h c d hd

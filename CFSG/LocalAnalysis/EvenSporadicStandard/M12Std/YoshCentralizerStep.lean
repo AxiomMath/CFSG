@@ -65,7 +65,7 @@ theorem centralizer_quotient_out {G : Type} [Group G] [Finite G] (c : G)
     (hhc : h * c = c * h) (hy₀h : ⁅y₀, h⁆ ≠ 1 ∧ ⁅y₀, h⁆ ≠ c)
     (hnot : ∃ x ∈ E, h⁻¹ * x * h ∉ E) :
     CentralizerQuotientOut G c := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmemC : ∀ g : G, g ∈ Subgroup.centralizer ({c} : Set G) ↔ g * c = c * g := fun g =>
     Subgroup.mem_centralizer_singleton_iff
   have hLC : L ≤ Subgroup.centralizer ({c} : Set G) := fun ℓ hℓ => (hmemC ℓ).2 (hLc ℓ hℓ)
@@ -85,7 +85,7 @@ theorem centralizer_quotient_out {G : Type} [Group G] [Finite G] (c : G)
   have hcC1 : cC ≠ 1 := fun h1 => hc1 (congrArg Subtype.val h1)
   have hOC : ∀ Q : Subgroup ↥(Subgroup.centralizer ({c} : Set G)), Q.Normal →
       Odd (Nat.card Q) → Q = ⊥ := fun Q hQ hodd => by
-    haveI := hQ
+    have := hQ
     exact eq_bot_of_normal_odd c hO Q hodd
   have hSyl : Nat.card (S.subgroupOf (Subgroup.centralizer ({c} : Set G))) =
       2 ^ (Nat.card ↥(Subgroup.centralizer ({c} : Set G))).factorization 2 :=

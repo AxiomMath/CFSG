@@ -15,7 +15,7 @@ section Helpers
 private theorem s15_semiBot_conj_perfect {W : Type*} [Group W] {K : Subgroup W}
     (hK : Group.IsPerfect ↥K) (n : W) :
     Group.IsPerfect ↥(K.map (MulAut.conj n).toMonoidHom) := by
-  haveI := hK
+  have := hK
   exact Group.IsPerfect.map (H := K) (f := (MulAut.conj n).toMonoidHom)
 
 private theorem s15_semiBot_no_two_quotient_of_perfect {W : Type*} [CommGroup W] [Finite W]
@@ -23,15 +23,15 @@ private theorem s15_semiBot_no_two_quotient_of_perfect {W : Type*} [CommGroup W]
     ∀ N : Subgroup Q, N.Normal → (∃ k : ℕ, N.index = 2 ^ k) → N = ⊤ := by
   intro N hN hk
   obtain ⟨k, hk⟩ := hk
-  haveI := hN
-  haveI := hQ
+  have := hN
+  have := hQ
   by_contra hNtop
-  haveI : Nontrivial (↥Q ⧸ N) := QuotientGroup.nontrivial_iff.mpr hNtop
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial (↥Q ⧸ N) := QuotientGroup.nontrivial_iff.mpr hNtop
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (↥Q ⧸ N) = 2 ^ k := by
     rw [← Subgroup.index_eq_card, hk]
   have hpg : IsPGroup 2 (↥Q ⧸ N) := IsPGroup.of_card (p := 2) hcard
-  haveI : Group.IsNilpotent (↥Q ⧸ N) := hpg.isNilpotent
+  have : Group.IsNilpotent (↥Q ⧸ N) := hpg.isNilpotent
   exact (Group.IsPerfect.not_isSolvable (↥Q ⧸ N))
     (inferInstance : Group.IsSolvable (↥Q ⧸ N))
 
@@ -51,8 +51,8 @@ theorem s15_semiBot_commSub_top_iSup_component (h1217 : R1217 D) (h : Hyp151 D V
   have hKM : K ≤ Mb := hK.1.trans (barSub_mono V₀ V hV h.le)
   have hKne : K ≠ ⊥ := by
     intro hKbot
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
-    haveI : Subsingleton (↥K ⧸ Subgroup.center ↥K) := by rw [hKbot]; infer_instance
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
+    have : Subsingleton (↥K ⧸ Subgroup.center ↥K) := by rw [hKbot]; infer_instance
     obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (↥K ⧸ Subgroup.center ↥K))
     exact hab (Subsingleton.elim a b)
   let X : Subgroup (MulAut (Vtil V₀ V hV)) :=

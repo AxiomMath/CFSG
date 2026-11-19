@@ -28,7 +28,7 @@ private theorem card_eq_one_of_card_generalizedFitting_eq_one
     intro g
     have hg : g ∈ (⊥ : Subgroup G) := htop (Subgroup.mem_top g)
     simpa using hg
-  haveI : Subsingleton G := ⟨fun a b => by rw [htriv a, htriv b]⟩
+  have : Subsingleton G := ⟨fun a b => by rw [htriv a, htriv b]⟩
   exact Nat.card_unique
 
 private theorem centralizer_generalizedFitting_eq_of_card_eq_three
@@ -37,9 +37,9 @@ private theorem centralizer_generalizedFitting_eq_of_card_eq_three
       CFSG.generalizedFitting G := by
   let F := CFSG.generalizedFitting G
   have hB : Subgroup.centralizer (F : Set G) ≤ F := CFSG.centralizer_generalizedFitting_le G
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcyc : IsCyclic F := isCyclic_of_prime_card h
-  letI : IsCyclic F := hcyc
+  let : IsCyclic F := hcyc
   refine le_antisymm hB ?_
   exact Subgroup.le_centralizer_iff_isMulCommutative.mpr inferInstance
 
@@ -55,10 +55,10 @@ theorem card_dvd_six_of_card_generalizedFitting
       change (CFSG.generalizedFitting G).Normal
       rw [CFSG.generalizedFitting_eq_componentClassification]
       exact CFSG.ComponentClassification.GeneralizedFitting.normal G
-    letI : F.Normal := hFn
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    let : F.Normal := hFn
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcyc : IsCyclic F := isCyclic_of_prime_card h3
-    letI : IsCyclic F := hcyc
+    let : IsCyclic F := hcyc
     have hcent : Subgroup.centralizer (F : Set G) = F := by
       simpa [F] using centralizer_generalizedFitting_eq_of_card_eq_three h3
     let φ : G →* MulAut F := MulAut.conjNormal
@@ -83,7 +83,7 @@ theorem card_dvd_six_of_card_generalizedFitting
       refine (Subgroup.card_subgroup_dvd_card φ.range).trans ?_
       have haut : Nat.card (MulAut F) = 2 := by
         rw [IsCyclic.card_mulAut, h3, Nat.totient_prime Nat.prime_three]
-      rwa [haut]
+      rw [haut]
     have hG : Nat.card G = 3 * F.index := by
       have hcard := Subgroup.card_mul_index F
       rw [h3] at hcard
@@ -115,7 +115,7 @@ theorem nonempty_mulEquiv_perm_three_of_card_generalizedFitting
       have hcard : Nat.card F = Nat.card G := by rw [htop, Subgroup.card_top]
       have h36 : (3 : ℕ) = 6 := by rw [← h3, hcard, h6]
       norm_num at h36
-    obtain ⟨x, -, hxF⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hFne)
+    obtain ⟨x, -, hxF⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hFne)
     have hxcent : x ∉ Subgroup.centralizer (F : Set G) := by rwa [hcent]
     have hxnot : ¬ ∀ y ∈ F, y * x = x * y := by
       intro hx

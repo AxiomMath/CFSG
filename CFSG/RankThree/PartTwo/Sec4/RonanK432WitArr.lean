@@ -34,10 +34,10 @@ theorem wordA_rep_mem {n : ℕ} {S : Array (Array ℕ)} {K : Subgroup (Equiv.Per
     have hlet : ∃ h ∈ K, Rep n (letterA S (S.map (invCand n)) l) h := by
       unfold letterA
       by_cases hpos : 0 < l
-      · rw [if_pos hpos]
+      · rw [ite_eq_left hpos]
         have hk : l.toNat - 1 < j := by omega
         exact ⟨permOfArr n S[l.toNat - 1]!, hK _ hk, rep_of_validA (hv _ (by omega))⟩
-      · rw [if_neg hpos]
+      · rw [ite_eq_right hpos]
         have hk : (-l).toNat - 1 < j := by omega
         refine ⟨(permOfArr n S[(-l).toNat - 1]!)⁻¹, K.inv_mem (hK _ hk), ?_⟩
         rw [getElem!_map_arr S _ (by omega)]

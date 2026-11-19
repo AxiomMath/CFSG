@@ -42,22 +42,22 @@ private theorem c2psucov_data
           ((StatedScalars (Fin n) K).subgroupOf (StatedSU n (2 ^ f) K)).map φ =
             Subgroup.center ↥L := by
   classical
-  haveI : Fintype W := Fintype.ofFinite W
-  haveI : Finite (MulAut W) :=
+  have : Fintype W := Fintype.ofFinite W
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W))
       (fun a b h => MulEquiv.ext (congr_fun h))
   have hW' : ∀ w : W, w * w = 1 := fun w => by rw [← pow_two]; exact hW w
-  haveI : Group.IsPerfect ↥L := hQ.1
+  have : Group.IsPerfect ↥L := hQ.1
   have hodd : Odd (Nat.card (Subgroup.center ↥L)) :=
     CFSG.QuasithinUnique.Setup.Family.odd_card_center_of_irreducible hW'
       (fun U hU => hirr.2.2.2 U hU bot_le le_top)
   have hsc : StatedClassicalModel (↥L ⧸ Subgroup.center ↥L) .PSU n 2 f :=
     hlie.statedClassicalModel (by decide)
   obtain ⟨⟨-, hf, hm, hq⟩, K, hKfield, hKfin, hK, ⟨e⟩⟩ := hsc
-  letI : Field K := hKfield
-  haveI : Finite K := hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  let : Field K := hKfield
+  have : Finite K := hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     CFSG.SectionRank.ClassicalOdd.charP_of_card (p := 2) (f := f * 2) (by rw [hK, pow_mul])
   obtain ⟨φ, hφs, hφk, hφmap⟩ :=
     CFSG.LocalAnalysis.RankThreeUC.S15.GN15.exists_su_cover hodd hK hf hm hq e
@@ -75,10 +75,10 @@ theorem w135c2_psu_cover
   classical
   obtain ⟨hm, hf, hq, K, hKfield, hKfin, hKchar, hK, φ, hφs, hφk, -⟩ :=
     c2psucov_data hW hQ hirr hlie
-  letI : Field K := hKfield
-  haveI : Finite K := hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  have : Finite K := hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := hKchar
   let ψ : SU (unitaryInvolution K 2 f) n ≃* ↥(StatedSU n (2 ^ f) K) := suToStated hK n
   have hfpos : 0 < f := hf
   have hcardK : Nat.card K = 2 ^ (2 * f) := by

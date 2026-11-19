@@ -122,8 +122,8 @@ theorem w183b2_pair_gen_a5 : ∀ (Y : Type) [Group Y], IsL2 Y 2 → ∀ P₁ P�
   intro Y _ hY P₁ P₂ hE1 hE2 hc1 hc2 hne
   obtain ⟨e⟩ := CFSG.Quasithin.nonempty_equiv_alt5_of_isPSL_two_two_two
     (isL2_iff_isPSL.mp hY)
-  haveI hP1fin : Finite ↥P₁ := Nat.finite_of_card_ne_zero (by rw [hc1]; norm_num)
-  haveI hP2fin : Finite ↥P₂ := Nat.finite_of_card_ne_zero (by rw [hc2]; norm_num)
+  have hP1fin : Finite ↥P₁ := Nat.finite_of_card_ne_zero (by rw [hc1]; norm_num)
+  have hP2fin : Finite ↥P₂ := Nat.finite_of_card_ne_zero (by rw [hc2]; norm_num)
   have hP12 : P₁ ⊓ P₂ = ⊥ := by
     by_contra h
     obtain ⟨x, hx, hx1⟩ : ∃ x : Y, x ∈ P₁ ⊓ P₂ ∧ x ≠ 1 := by
@@ -142,7 +142,7 @@ theorem w183b2_pair_gen_a5 : ∀ (Y : Type) [Group Y], IsL2 Y 2 → ∀ P₁ P�
       intro y hy
       rw [Subgroup.mem_centralizer_singleton_iff]
       exact congrArg Subtype.val ((isMulCommutative_iff.mp hE2.1) ⟨y, hy⟩ ⟨x, hxP2⟩)
-    haveI : Finite ↥(Subgroup.centralizer ({x} : Set Y)) :=
+    have : Finite ↥(Subgroup.centralizer ({x} : Set Y)) :=
       Nat.finite_of_card_ne_zero (by rw [hCx]; norm_num)
     have h1 : P₁ = Subgroup.centralizer ({x} : Set Y) :=
       Subgroup.eq_of_le_of_card_ge hP1le (le_of_eq (by rw [hCx, hc1]))
@@ -153,7 +153,7 @@ theorem w183b2_pair_gen_a5 : ∀ (Y : Type) [Group Y], IsL2 Y 2 → ∀ P₁ P�
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
       Fintype.card_fin]
     norm_num
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by rw [hY60]; norm_num)
+  have : Finite Y := Nat.finite_of_card_ne_zero (by rw [hY60]; norm_num)
   refine ⟨?_, ?_⟩
   · intro E F hE hF h8
     have hEdvd : Nat.card E ∣ 4 := by
@@ -264,9 +264,9 @@ theorem w183b2_pair_gen_a5 : ∀ (Y : Type) [Group Y], IsL2 Y 2 → ∀ P₁ P�
       intro y hy
       rw [Subgroup.mem_centralizer_singleton_iff]
       exact congrArg Subtype.val ((isMulCommutative_iff.mp hE2.1) ⟨y, hy⟩ ⟨b, hb⟩)
-    haveI : Finite ↥(Subgroup.centralizer ({a} : Set Y)) :=
+    have : Finite ↥(Subgroup.centralizer ({a} : Set Y)) :=
       Nat.finite_of_card_ne_zero (by rw [hCa]; norm_num)
-    haveI : Finite ↥(Subgroup.centralizer ({b} : Set Y)) :=
+    have : Finite ↥(Subgroup.centralizer ({b} : Set Y)) :=
       Nat.finite_of_card_ne_zero (by rw [hCb]; norm_num)
     have hP1eq : P₁ = Subgroup.centralizer ({a} : Set Y) :=
       Subgroup.eq_of_le_of_card_ge hP1le (le_of_eq (by rw [hCa, hc1]))

@@ -177,17 +177,17 @@ theorem letters : Letters 3510 12 8 LF ℓF := by
   refine ⟨fun k hk p hp => ?_, fun k hk => ?_⟩
   · rcases Nat.lt_or_ge k 2 with h2 | h2
     · have e : ℓF k = fi22GenPerm k := by
-        simp only [ℓF, ℓ0, if_pos (show k < 8 by omega), if_pos h2]
+        simp only [ℓF, ℓ0, ite_eq_left (show k < 8 by omega), ite_eq_left h2]
       rw [LF_a h2, e]
       exact at_gen h2 p hp
     rcases Nat.lt_or_ge k 8 with h8 | h8
     · have e : ℓF k = fi22ExtRep (k - 2) := by
-        simp only [ℓF, ℓ0, if_pos h8, if_neg (show ¬ k < 2 by omega)]
+        simp only [ℓF, ℓ0, ite_eq_left h8, ite_eq_right (show ¬ k < 2 by omega)]
       rw [LF_t h2 h8, e]
       exact at_t (by omega) p hp
     rcases Nat.lt_or_ge k 10 with h10 | h10
     · have e : ℓF k = (fi22GenPerm (k - 8))⁻¹ := by
-        simp only [ℓF, ℓ0, if_neg (show ¬ k < 8 by omega), if_pos (show k - 8 < 2 by omega)]
+        simp only [ℓF, ℓ0, ite_eq_right (show ¬ k < 8 by omega), ite_eq_left (show k - 8 < 2 by omega)]
       rw [LF_ai h8 h10, e]
       rcases Nat.lt_or_ge k 9 with h9 | h9
       · have ek : k - 8 = 0 := by omega
@@ -198,12 +198,12 @@ theorem letters : Letters 3510 12 8 LF ℓF := by
         exact at_ai1 p hp
     · have e : ℓF k = fi22ExtRep (k - 10) := by
         have e1 : k - 8 - 2 = k - 10 := by omega
-        simp only [ℓF, ℓ0, if_neg (show ¬ k < 8 by omega), if_neg (show ¬ k - 8 < 2 by omega), e1]
+        simp only [ℓF, ℓ0, ite_eq_right (show ¬ k < 8 by omega), ite_eq_right (show ¬ k - 8 < 2 by omega), e1]
         exact t_inv (by omega)
       rw [LF_t' h10, e]
       exact at_t (by omega) p hp
   · have e : 8 + k - 8 = k := by omega
-    simp only [ℓF, if_neg (show ¬ 8 + k < 8 by omega), if_pos hk, e]
+    simp only [ℓF, ite_eq_right (show ¬ 8 + k < 8 by omega), ite_eq_left hk, e]
 
 end Certs
 
@@ -234,10 +234,10 @@ theorem actPerm_mem :
     refine fi22P.mul_mem (actPerm_mem l fun j hj => hx j (List.mem_cons_of_mem _ hj)) ?_
     rcases Nat.lt_or_ge k 8 with h | h
     · have hk2 : k < 2 := by omega
-      simp only [ℓF, ℓ0, if_pos h, if_pos hk2]
+      simp only [ℓF, ℓ0, ite_eq_left h, ite_eq_left hk2]
       exact gen_mem hk2
     · have hk2 : k - 8 < 2 := by omega
-      simp only [ℓF, ℓ0, if_neg (show ¬ k < 8 by omega), if_pos hk2]
+      simp only [ℓF, ℓ0, ite_eq_right (show ¬ k < 8 by omega), ite_eq_left hk2]
       exact fi22P.inv_mem (gen_mem hk2)
 
 theorem vE_mem {i : ℕ} (hi : 6 ≤ i) : vE i ∈ fi22P := by

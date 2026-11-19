@@ -51,7 +51,7 @@ theorem concl_of_adapted {W : Type} [CommGroup W] {H : Subgroup (MulAut W)}
     ext g
     rw [Subgroup.mem_map_equiv, mem_vecStab, mem_vecStab]
     rfl
-  haveI : Finite ↥H := Finite.of_equiv _ Φ.toEquiv
+  have : Finite ↥H := Finite.of_equiv _ Φ.toEquiv
   have key := Concl.map_mulEquiv Φ (stdConcl hK)
   rw [← hS, ← hP, ← hF] at key
   exact key

@@ -11,6 +11,7 @@ open CFSG.RankThree.GF2n.Smith81 CFSG.RankThree.GF2n.Smith81.A5Cube Matrix exter
 
 variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F}
 
+omit [CharP F 2] in
 private theorem u6f_ιMulti_ne_zero {v : Fin 3 → Fin 6 → F} (h : LinearIndependent F v) :
     exteriorPower.ιMulti F 3 v ≠ 0 := by
   have hinj : LinearMap.ker (Fintype.linearCombination F v) = ⊥ :=
@@ -36,6 +37,7 @@ private theorem u6f_ιMulti_ne_zero {v : Fin 3 → Fin 6 → F} (h : LinearIndep
   rw [h2] at h1
   exact one_ne_zero h1.symm
 
+omit [CharP F 2] in
 private theorem u6f_linIndep3 {a b c : Fin 6 → F}
     (h : ∀ α β γ : F, α • a + β • b + γ • c = 0 → α = 0 ∧ β = 0 ∧ γ = 0) :
     LinearIndependent F ![a, b, c] := by
@@ -47,6 +49,7 @@ private theorem u6f_linIndep3 {a b c : Fin 6 → F}
   fin_cases i
   exacts [h0, h1, h2]
 
+omit [CharP F 2] in
 private theorem u6f_mem_of_perp {T : Submodule F (Fin 6 → F)} (hT : Module.finrank F T = 3)
     (hTiso : ∀ x ∈ T, ∀ y ∈ T, herm σ x y = 0) {v : Fin 3 → Fin 6 → F}
     (hv : LinearIndependent F v) (hvT : ∀ i, v i ∈ T) {x : Fin 6 → F}
@@ -68,13 +71,14 @@ private theorem u6f_mem_of_perp {T : Submodule F (Fin 6 → F)} (hT : Module.fin
   funext i
   exact hx i
 
+omit [CharP F 2] in
 private theorem u6f_extend3 {U : Submodule F (Fin 6 → F)} (hU : Module.finrank F U = 3)
-    {a : Fin 6 → F} (ha : a ∈ U) (ha0 : a ≠ 0) :
+    {a : Fin 6 → F} (_ha : a ∈ U) (ha0 : a ≠ 0) :
     ∃ b c : Fin 6 → F, b ∈ U ∧ c ∈ U ∧
       ∀ α β γ : F, α • a + β • b + γ • c = 0 → α = 0 ∧ β = 0 ∧ γ = 0 := by
   obtain ⟨b, hbU, hb⟩ : ∃ b ∈ U, ∀ α : F, b ≠ α • a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : U ≤ Submodule.span F {a} := by
       intro x hx
       obtain ⟨α, rfl⟩ := hcon x hx
@@ -84,7 +88,7 @@ private theorem u6f_extend3 {U : Submodule F (Fin 6 → F)} (hU : Module.finrank
     omega
   obtain ⟨c, hcU, hc⟩ : ∃ c ∈ U, ∀ α β : F, c ≠ α • a + β • b := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have ha_mem : a ∈ Submodule.span F (Set.range ![a, b]) :=
       Submodule.subset_span ⟨0, by simp⟩
     have hb_mem : b ∈ Submodule.span F (Set.range ![a, b]) :=
@@ -122,6 +126,7 @@ private theorem u6f_extend3 {U : Submodule F (Fin 6 → F)} (hU : Module.finrank
   have hα : α • a = 0 := by simpa only [zero_smul, add_zero] using h'
   exact ⟨(smul_eq_zero.mp hα).resolve_right ha0, rfl, rfl⟩
 
+omit [CharP F 2] in
 private theorem u6f_five_indep {S T : Submodule F (Fin 6 → F)} {a b c d₀ e₀ d e : Fin 6 → F}
     {p q r s : F} (haS : a ∈ S) (hbS : b ∈ S) (hcS : c ∈ S) (hd₀T : d₀ ∈ T) (he₀T : e₀ ∈ T)
     (hline : ∀ x ∈ S ⊓ T, ∃ κ : F, κ • a = x)
@@ -164,6 +169,7 @@ private theorem u6f_five_indep {S T : Submodule F (Fin 6 → F)} {a b c d₀ e�
   fin_cases i
   exacts [h0, h1, h2, hg3, hg4]
 
+omit [CharP F 2] in
 theorem u6_exists_five (hσ : IsUnitaryInvolution σ) {S T : Submodule F (Fin 6 → F)}
     (hS : Module.finrank F S = 3) (hT : Module.finrank F T = 3)
     (hSiso : ∀ x ∈ S, ∀ y ∈ S, herm σ x y = 0) (hTiso : ∀ x ∈ T, ∀ y ∈ T, herm σ x y = 0)

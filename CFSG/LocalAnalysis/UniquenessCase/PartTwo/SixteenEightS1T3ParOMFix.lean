@@ -94,7 +94,7 @@ theorem s16t3_omminus_fix {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
     ∃ g ∈ StatedOmega (StatedQuadMinus m K b c),
       ∀ x ∈ X, g⁻¹ * x * g ∈ s16t3Borel (StatedQuadMinus m K b c) (m - 1) := by
   have hK2 : IsF2 K := IsF2.of_natCard_eq_two hK
-  haveI : IsF2 K := hK2
+  have : IsF2 K := hK2
   have hc : c = 1 := by
     apply IsF2.eq_one_of_ne_zero
     intro hc0
@@ -110,8 +110,8 @@ theorem s16t3_omminus_fix {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
       _ = 0 := IsF2.one_add_one
   subst hb
   subst hc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero IsF2.two_eq_zero
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero IsF2.two_eq_zero
   let qA : QuadraticForm K (Fin 2 → K) := minusTailForm K 1 1
   let Q : QuadraticForm K ((Fin (m - 1) ⊕ Fin (m - 1) → K) × (Fin 2 → K)) :=
     quadTail (m - 1) qA
@@ -220,7 +220,7 @@ theorem s16t3_omminus_fix {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
       intro i hi1 hir w hw
       have hj : i - 1 < m - 1 := by omega
       have hji : ((⟨i - 1, hj⟩ : Fin (m - 1)) : ℕ) + 1 = i := by
-        simp only [Fin.val_mk]; omega
+        simp only; omega
       have h := hmap ⟨i - 1, hj⟩
       have hw' : w ∈ s₀ ⟨i - 1, hj⟩ := by
         show w ∈ tailFlag K (Fin 2 → K) (m - 1) (((⟨i - 1, hj⟩ : Fin (m - 1)) : ℕ) + 1)

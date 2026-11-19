@@ -17,7 +17,7 @@ private theorem orderOf_eq_of_isConj_class {G : Type} [Group G] {a b : G} (h : I
   rw [← hc]
   simpa [MulAut.conj_apply] using (MulEquiv.orderOf_eq (MulAut.conj c) a).symm
 
-theorem fusion3_class (hI : TwoHSInterface) {G : Type} [Group G] {a z : G} (h : IsF5Type a z)
+theorem fusion3_class (_hI : TwoHSInterface) {G : Type} [Group G] {a z : G} (h : IsF5Type a z)
     (hF1 : Fusion1Facts a z) (hF2 : Fusion2Facts a z) {t : G}
     (ht : IsConj a t ∨ IsConj z t) (hat : IsConj a (a * t) ∨ IsConj z (a * t)) :
     (IsConj z t ∧ IsConj a (a * t) ∧ IsShapeTwoTwoSixS5 ↥(Gxy a t) ∧ a ∈ Qz t) ∨

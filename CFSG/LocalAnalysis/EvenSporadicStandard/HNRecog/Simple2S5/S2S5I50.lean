@@ -58,7 +58,7 @@ private theorem nonempty_psu3_mulEquiv_of_chain
     rw [hcP, hordP]
   obtain ⟨eI⟩ := nonempty_mulEquiv_psu3 g hgen I.subtype I.subtype_injective hρ hcardI
   obtain ⟨-, K, _, _, hK, ⟨eS⟩⟩ := hB
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKK : Fintype.card K = Fintype.card F25 := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, F25.card]
     norm_num
@@ -113,7 +113,7 @@ private theorem exists_gens_of_chain (cd : ExactFin.ChainData) (hP : cd.check 50
   · change Subgroup.closure _ = Subgroup.closure {g | ∃ i < cd.k, g = permOfArr 50 cd.S[i]!}
     congr 1
     ext g
-    simp only [Set.mem_range, Set.mem_setOf_eq]
+    simp only [Set.mem_range, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨k, rfl⟩
       exact ⟨k, by omega, rfl⟩

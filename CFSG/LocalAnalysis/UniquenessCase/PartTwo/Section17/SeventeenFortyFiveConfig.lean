@@ -51,6 +51,7 @@ noncomputable def bar2SquareEquiv {I L K : Subgroup G}
     Bar2 I ≃* ↥(barImage I L) × ↥(barImage I K) :=
   (bar2SquareHom hsup hcomm hdisj).symm
 
+omit [Finite G] in
 theorem bar2SquareHom_apply {I L K : Subgroup G}
     (hsup : barImage I L ⊔ barImage I K = ⊤)
     (hcomm : ∀ a ∈ barImage I L, ∀ b ∈ barImage I K, a * b = b * a)
@@ -59,6 +60,7 @@ theorem bar2SquareHom_apply {I L K : Subgroup G}
     bar2SquareHom hsup hcomm hdisj p = ((p.1 : Bar2 I) * (p.2 : Bar2 I)) := by
   simp [bar2SquareHom, CFSG.Quasithin.Vol2.Ch10.SecE.coe_prodEquivSup]
 
+omit [Finite G] in
 theorem bar2SquareEquiv_apply_fst {I L K : Subgroup G}
     (hsup : barImage I L ⊔ barImage I K = ⊤)
     (hcomm : ∀ a ∈ barImage I L, ∀ b ∈ barImage I K, a * b = b * a)
@@ -68,6 +70,7 @@ theorem bar2SquareEquiv_apply_fst {I L K : Subgroup G}
   rw [bar2SquareHom_apply]
   simp
 
+omit [Finite G] in
 theorem bar2SquareEquiv_apply_snd {I L K : Subgroup G}
     (hsup : barImage I L ⊔ barImage I K = ⊤)
     (hcomm : ∀ a ∈ barImage I L, ∀ b ∈ barImage I K, a * b = b * a)
@@ -163,7 +166,7 @@ theorem ker_conjModPCore_eq_centOverO2 (D : Data G) {X N : Subgroup G}
     exact Subgroup.mem_sup_right (mem_centOverO2_iff.mpr ⟨hnM, hcomm⟩)
 
 theorem range_conjModPCore_eq_inner (D : Data G) {X N : Subgroup G}
-    (hXM : X ≤ D.M) (hN : N = X ⊔ F08.CentOverO2 D.M X)
+    (_hXM : X ≤ D.M) (hN : N = X ⊔ F08.CentOverO2 D.M X)
     (hNX : N ≤ Subgroup.normalizer (X : Set G)) :
     (conjModPCore 2 X N hNX).range =
       CFSG.ComponentClassification.OuterAutomorphisms.inner (Bar2 X) := by
@@ -312,8 +315,8 @@ theorem exists_elemAbelian_lift_of_bar {X : Subgroup G} {r : ℕ} (hr : r.Prime)
     have := congrArg (fun y : Y => ((a : ↥K) : Y) * y) heq
     simpa using this.symm
   have hcardK : Nat.card ↥K = Nat.card ↥H := hKcard
-  letI : Fintype ↥K := Fintype.ofFinite ↥K
-  letI : Fintype ↥H := Fintype.ofFinite ↥H
+  let : Fintype ↥K := Fintype.ofFinite ↥K
+  let : Fintype ↥H := Fintype.ofFinite ↥H
   have hcard' : Fintype.card ↥K = Fintype.card ↥H := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hKcard]
   let e₀ : ↥K ≃ ↥H := Fintype.equivOfCardEq hcard'
@@ -771,7 +774,6 @@ theorem product_borel_data_isL2_square {A B : Type} [Group A] [Group B] [Finite 
     have : S.relIndex (Subgroup.normalizer (S : Set (A × B))) = 49 := by omega
     exact this
   · rw [hNcard]
-    change (56 * 56 : ℕ).factorization 7 = 2
     exact CFSG.GroupTheory.factorization_eq_of_pow_dvd (by norm_num : Nat.Prime 7) (by norm_num)
       (by norm_num : 7 ^ 2 ∣ 56 * 56) (by norm_num : ¬ 7 ^ 3 ∣ 56 * 56)
   · rw [Nat.card_prod, Nat.factorization_mul Nat.card_pos.ne' Nat.card_pos.ne']
@@ -809,7 +811,6 @@ theorem product_borel_data_isSz_square
     have : S.relIndex (Subgroup.normalizer (S : Set (A × B))) = 961 := by omega
     exact this
   · rw [hNcard]
-    change (31744 * 31744 : ℕ).factorization 31 = 2
     exact CFSG.GroupTheory.factorization_eq_of_pow_dvd (by norm_num : Nat.Prime 31) (by norm_num)
       (by norm_num : 31 ^ 2 ∣ 31744 * 31744) (by norm_num : ¬ 31 ^ 3 ∣ 31744 * 31744)
   · rw [Nat.card_prod, Nat.factorization_mul Nat.card_pos.ne' Nat.card_pos.ne']
@@ -817,9 +818,9 @@ theorem product_borel_data_isSz_square
     rw [hfacA, hfacB]
 
 theorem borel_order_data_of_bar (D : Data G) {X : Subgroup G} {p r : ℕ}
-    (hXM : X ≤ D.M) (hMX : D.M ≤ Subgroup.normalizer (X : Set G))
+    (_hXM : X ≤ D.M) (_hMX : D.M ≤ Subgroup.normalizer (X : Set G))
     (hp : p.Prime) (hp2 : p ≠ 2) (hr : r.Prime) (hr2 : r ≠ 2)
-    (hSyl : CFSG.QuasithinUnique.IsSylowTwoOf (D.T ⊓ X) X)
+    (_hSyl : CFSG.QuasithinUnique.IsSylowTwoOf (D.T ⊓ X) X)
     (hQ : CFSG.Open.pCoreOf 2 X ≤ D.T ⊓ X)
     (hNbar : ¬ p ∣ Nat.card ↥(Subgroup.normalizer
       (barImage X (D.T ⊓ X) : Set (Bar2 X))))

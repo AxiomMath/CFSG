@@ -86,12 +86,12 @@ theorem cntPI_lane {n k : Nat} (iv : Nat → Bool) (q : Nat → Nat → Bool) (h
       split_ifs
       · exact Nat.lt_of_le_of_lt (cls16_cntB_le _ n) hn
       · omega) k j hj
-  rw [if_pos hj] at h
+  rw [ite_eq_left hj] at h
   rw [← h]
   congr 2
   refine sum_congr rfl fun i hi => ?_
   rw [mem_range] at hi
-  rw [if_pos hi]
+  rw [ite_eq_left hi]
 
 theorem pcP_pcB {n : Nat} {mul : Nat → Nat → Nat} {OT LB RP CZ nl t x0 : Nat} (hn : n < 32768)
     (h : pcP n mul OT LB RP CZ nl t x0 = true) : pcB n mul OT LB RP CZ nl t x0 = true := by

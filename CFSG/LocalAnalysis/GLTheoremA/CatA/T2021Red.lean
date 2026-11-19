@@ -30,7 +30,7 @@ theorem le_normalizer_of_comm {K : Type} [Group K] (hK : ∀ g h : K, g * h = h 
 theorem card_zpowers_sup {K : Type} [Group K] [Finite K] {p : ℕ} (hp : p.Prime) (hK : ∀ g h : K, g * h = h * g)
     {u v : K} (hu : orderOf u = p) (hv : orderOf v = p) (huv : u ∉ Subgroup.zpowers v) :
     Nat.card ↥(Subgroup.zpowers u ⊔ Subgroup.zpowers v) = p ^ 2 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hnorm : Subgroup.zpowers v ≤ Subgroup.normalizer (Subgroup.zpowers u : Set K) :=
     le_normalizer_of_comm hK _ _
   have hmul := card_sup_mul_card_inf_of_le_normalizer hnorm
@@ -69,7 +69,7 @@ theorem i2021_of_facts (hRank : T2021RankFact) (hFix : T2021FixFact) (hLay : T20
     (hTD4f : T2021TD4Fact) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : I2021At G p := by
   classical
   intro B x L b hS hChev hb hbx hR hcent hrank hT
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨⟨⟨hBmax, hxE, hcompL⟩, -⟩, -, hBN⟩, -⟩ := hS
   have hBel : CFSG.Open.IsElemAbelian p B := hBmax.1
   have hBcomm : ∀ g ∈ B, ∀ h ∈ B, g * h = h * g := fun g hg h hh => isElemAbelian_commute hBel hg hh
@@ -82,7 +82,7 @@ theorem i2021_of_facts (hRank : T2021RankFact) (hFix : T2021FixFact) (hLay : T20
   set ψ : ↥B →* MulAut ↥L := conjHom L B hBN hBcomm with hψ
   have hψx1 : ψ ⟨x, hxB⟩ = 1 := by
     ext y
-    simp only [hψ, conjHom_apply, conjAutOf_apply, MulAut.one_apply, Subgroup.coe_inv]
+    simp only [hψ, conjHom_apply, conjAutOf_apply, MulAut.one_apply]
     have h := hxL y.1 y.2
     calc x⁻¹ * (y : G) * x = x⁻¹ * ((y : G) * x) := by group
       _ = x⁻¹ * (x * (y : G)) := by rw [← h]

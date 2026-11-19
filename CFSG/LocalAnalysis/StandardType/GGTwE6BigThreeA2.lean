@@ -79,7 +79,7 @@ private theorem ggTwE6BigThreeA2_exists_order34_subgroup
     ∃ X : Subgroup (MulAut (twistedE6RootGroup K σ)),
       X ≤ E ∧ twistedE6InndiagConj K σ h ∈ X ∧ Nat.card X = 3 ^ 4 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hinj := twistedE6InndiagConj_injective Nat.prime_two (le_refl 1)
     (hK.trans (by norm_num)) σ hσ
   have hconj3 : twistedE6InndiagConj K σ h ^ 3 = 1 := by rw [← map_pow, hh3, map_one]
@@ -158,11 +158,11 @@ private theorem ggTwE6BigThreeA2_goodLang_of_lemmaK
     ∃ D : TwE6LineLang K σ 2 h, D.S.D = LangDatum.ofTwist TwistTag.E6 Fr 2 hFr
       CFSG.HardMathSupport.Lang.E6Descent.twE6W0 hgC hg := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card]; exact hK.trans (by norm_num))
   have hchar : ringChar K = 2 := ringChar.eq K 2
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨p₀, hp₀, hp₀ℓ, hq₀⟩ := exists_setup_prime Nat.prime_two (le_refl 1)
     Nat.prime_three (by norm_num) (by decide)
@@ -266,11 +266,11 @@ private theorem ggTwE6BigThreeA2_exists_good_lang
           (baseChangeGL (τ := Tag.E6) (algebraMap K (AlgebraicClosure K))))) :
     ∃ D : TwE6LineLang K σ 2 h, ∀ γ, IsRoot Tag.E6 γ → D.S.ρ γ = -γ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card]; exact hK.trans (by norm_num))
   let Ω := AlgebraicClosure K
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 1
   have hFrLem : ∀ c, Fr c = c ^ (2 ^ 1) := fun c => iterateFrobenius_def 2 1 c
   have hFr2 : ∀ c, Fr c = c ^ 2 := fun c => iterateFrobenius_def 2 1 c
@@ -301,14 +301,14 @@ private theorem ggTwE6BigThreeA2_exists_good_lang
     obtain ⟨C, hC, hCtor⟩ := htor
     exact ⟨C⁻¹, inv_mem hC, fun x hx => by simpa using hCtor x hx⟩
   let k := GaloisField 2 (2 * 1)
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have hcardk : Fintype.card k = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       CFSG.LieType.Universal.card_galoisField_two_mul 2 1 (le_refl 1), hK]
     norm_num
   let τ : k ≃+* K := FiniteField.ringEquivOfCardEq hcardk
-  letI : Algebra k Ω := ((algebraMap K Ω).comp τ.toRingHom).toAlgebra
-  haveI : IsAlgClosure k Ω :=
+  let : Algebra k Ω := ((algebraMap K Ω).comp τ.toRingHom).toAlgebra
+  have : IsAlgClosure k Ω :=
     ⟨IsAlgClosure.isAlgClosed K,
       ggTwE6BigThreeA2_isAlgebraic_of_ringEquiv_algebraMap τ (fun x => rfl)
         (AlgebraicClosure.isAlgebraic K)⟩
@@ -365,8 +365,8 @@ private theorem ggTwE6BigThreeA2_orbit_one_of_rho_neg
     exact (isRootComponent_componentRoots i).neg_mem γ hγ
 
 private theorem ggTwE6BigThreeA2_false_of_orbit_one
-    {K : Type} [Field K] [Finite K] (σ : K ≃+* K) (hK : Nat.card K = 4)
-    (hσ : ∀ c, σ c = c ^ 2) {h : twistedE6InndiagGL K σ} (hh1 : h ≠ 1) (hh3 : h ^ 3 = 1)
+    {K : Type} [Field K] [Finite K] (σ : K ≃+* K) (_hK : Nat.card K = 4)
+    (_hσ : ∀ c, σ c = c ^ 2) {h : twistedE6InndiagGL K σ} (_hh1 : h ≠ 1) (_hh3 : h ^ 3 = 1)
     (hdim : twE6MatFixDim K σ h = 24) (D : TwE6LineLang K σ 2 h)
     (hone : ∀ i : KernelComponent (rootCharHom D.a),
       componentOrbitLength D.S.ρ (componentRoots (rootCharHom D.a) i) = 1)
@@ -383,9 +383,9 @@ private theorem ggTwE6BigThreeA2_false_of_orbit_one
     (rationalComponent_of_unitary_frame_T D.S D.hT i (le_refl 3) hψ hΨ π hπ).2
       (by rw [hone i, pow_one, D.sq_eq])
   obtain ⟨hperf, hsimp, -⟩ := hqs
-  haveI := hperf
-  haveI := hsimp
-  haveI : Nontrivial ↥(rationalComponent D.S.ρ D.S.Γ (rootCharHom D.a) i) :=
+  have := hperf
+  have := hsimp
+  have : Nontrivial ↥(rationalComponent D.S.ρ D.S.Γ (rootCharHom D.a) i) :=
     (QuotientGroup.mk_surjective (s := Subgroup.center _)).nontrivial
   exact Group.IsPerfect.not_isSolvable _ (isSolvable_of_card_dvd_216 h216)
 
@@ -393,8 +393,8 @@ theorem ggTwE6BigThreeA2_holds :
     GGTwE6BigThreeA2 := by
   intro K _ _ σ hK hσ h hh1 hh3 hdim E hE hcard hfE hR htor J hJ
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card]; exact hK.trans (by norm_num))
   obtain ⟨X, hXE, hfX, hXcard⟩ :=
     ggTwE6BigThreeA2_exists_order34_subgroup σ hK hσ hh1 hh3 hE hcard hfE

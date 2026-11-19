@@ -24,6 +24,7 @@ theorem exists_mem_irrSet_of_ne_bot {H : Subgroup (MulAut W)} (hH : QuadTrivial 
   obtain ⟨I, hI, -⟩ := exists_mem_irrSet_le hH hM hne'
   exact ⟨I, hI⟩
 
+omit [Finite W] in
 private theorem gf2_Kernel_conj_mem_inf_centSub {Y A : Subgroup (MulAut W)}
     (hA : ∀ y ∈ Y, ∀ a ∈ A, y * a * y⁻¹ ∈ A) {U : Subgroup W} (hU : StableUnder Y U) :
     ∀ y ∈ Y, ∀ m ∈ A ⊓ centSub U, y * m * y⁻¹ ∈ A ⊓ centSub U := by

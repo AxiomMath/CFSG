@@ -14,6 +14,7 @@ open QuadraticMap
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4I_exists_lift_pow7 {y : ProjOrth Q} (hy : y ^ 7 = 1) :
     ∃ g : OGroup Q, toProj Q g = y ∧ g ^ 7 = 1 := by
   obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective (piGroup Q) y

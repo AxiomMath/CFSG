@@ -40,7 +40,7 @@ theorem card_pGrp : ∀ c < 32, Nat.card (pGrp (five CFSG.KD.GUC0.CG c)) = 32 :=
     unfold pGrp
     congr 1
     ext U
-    simp only [Set.mem_setOf_eq, List.mem_map]
+    simp only [Set.mem_ofPred_eq, List.mem_map]
     constructor
     · rintro ⟨g, hg, hU⟩
       exact ⟨g, hg, IsP.inj (isP_autP (hex g hg)) hU⟩
@@ -71,7 +71,7 @@ theorem pGrp_eq_genGrp {c : Nat} (hc : c < 32) :
   unfold pGrp Viol.genGrp Viol.GenSet
   congr 1
   ext U
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨g, hg, hU⟩
     obtain ⟨l, hl, rfl⟩ := mem_five.1 hg

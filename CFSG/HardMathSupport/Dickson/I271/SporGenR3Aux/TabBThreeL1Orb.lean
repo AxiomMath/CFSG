@@ -179,17 +179,17 @@ theorem exists_param_of_mem {j : Fin 15} {u : ModGL Tag.E6 K}
       by_contra h
       exact hne h ((hpair h).symm.trans hρ).symm
     refine ⟨ofK c, ?_, ?_⟩
-    · rw [choices, if_pos ho]
+    · rw [choices, ite_eq_left ho]
       rcases hc with rfl | rfl
       · exact List.mem_cons_self
       · exact List.mem_cons_of_mem _ List.mem_cons_self
-    · rw [yElt, if_pos ho, toK_ofK]
+    · rw [yElt, ite_eq_left ho, toK_ofK]
       rfl
   · have ho : (orbAt j).1 ≠ (orbAt j).2 := fun h => hρ (hfix h)
     refine ⟨ofK c, ?_, ?_⟩
-    · rw [choices, if_neg ho]
+    · rw [choices, ite_eq_right ho]
       rcases F4_cases (ofK c) with h | h | h | h <;> rw [h] <;> simp
-    · rw [yElt, if_neg ho, toK_ofK, ← hpair ho]
+    · rw [yElt, ite_eq_right ho, toK_ofK, ← hpair ho]
       rfl
 
 theorem exists_params_of_mem_stdRadical {u : ModGL Tag.E6 K} (hu : u ∈ stdRadical firstJ) :

@@ -48,8 +48,8 @@ theorem TwoPTwo.sup_inf_eq_of_invariant (h : TwoPTwo K S X p) {Y : Subgroup G} (
     rw [hmul]
     exact L.mul_mem (Subgroup.mem_sup_left hsr) hsy
   have hSX : S ⊓ X = ⊥ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (Nat.Prime p) := ⟨h.prime⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime p) := ⟨h.prime⟩
     exact disjoint_iff.mp
       (IsPGroup.disjoint_of_ne 2 p (Ne.symm h.odd) S X h.sylowTwo.isPGroup h.sylowP.isPGroup)
   apply le_antisymm
@@ -117,7 +117,7 @@ theorem nine1Hyp_of_minimal {W : Subgroup G} (hp : p.Prime) (hp2 : p ≠ 2)
     exact hTW
   have hS : ¬ p ∣ Nat.card ↥(T ⊓ normalizer (X : Set G)) := by
     intro hdvd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2 : IsPGroup 2 ↥(T ⊓ normalizer (X : Set G)) := hT.to_le inf_le_left
     obtain ⟨n, hn⟩ := h2.exists_card_eq
     rw [hn] at hdvd

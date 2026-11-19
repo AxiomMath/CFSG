@@ -102,8 +102,8 @@ theorem isPGroup_sup_of_commute {p : ℕ} [Fact p.Prime] {P Q : Subgroup G}
 theorem isMulCommutative_sup_of_commute {P Q : Subgroup G}
     (h : ∀ a ∈ P, ∀ b ∈ Q, a * b = b * a) (hP : IsMulCommutative P) (hQ : IsMulCommutative Q) :
     IsMulCommutative ↥(P ⊔ Q) := by
-  haveI : IsMulCommutative ↥P := hP
-  haveI : IsMulCommutative ↥Q := hQ
+  have : IsMulCommutative ↥P := hP
+  have : IsMulCommutative ↥Q := hQ
   rw [isMulCommutative_iff]
   intro x y
   obtain ⟨a, ha, b, hb, hx⟩ := (mem_sup_iff_of_commute h).1 x.2

@@ -19,6 +19,7 @@ namespace LinEngine
 variable {F V : Type} [Field F] [AddCommGroup V] [Module F V] [FiniteDimensional F V]
 variable {p : ℕ}
 
+omit [FiniteDimensional F V] in
 theorem isCompl_blockSpace_fixedByEnd (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : HypBlocks.Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
@@ -28,6 +29,7 @@ theorem isCompl_blockSpace_fixedByEnd (A : Subgroup (V ≃ₗ[F] V)) [Fintype A]
   rw [OmEngine.fixedByEnd_blockEnd_eq_ker_projBlock A hp hpF hA t ht D]
   exact HypBlocks.isCompl_blockSpace_ker A hp hpF hA D
 
+omit [FiniteDimensional F V] in
 theorem blockEnd_sub_one_apply (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : HypBlocks.Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
@@ -100,6 +102,7 @@ theorem range_blockEnd_sub_one (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp : 
       exact h'
     exact h
 
+omit [FiniteDimensional F V] in
 theorem isCompl_sup_blockSpace_inf_fixedByEnd (A : Subgroup (V ≃ₗ[F] V)) [Fintype A]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : HypBlocks.Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
@@ -150,6 +153,7 @@ theorem isCompl_sup_blockSpace_inf_fixedByEnd (A : Subgroup (V ≃ₗ[F] V)) [Fi
     rw [← hur, ← hvs]
     abel
 
+omit [FiniteDimensional F V] in
 theorem blockEnd_mem_specialLinear [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : HypBlocks.Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
@@ -170,8 +174,8 @@ theorem dvd_finrank_blockSpace [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Finty
     (hD : HypBlocks.blockSpace A D.1 ≠ ⊥) :
     CFSG.LocalAnalysis.GLTheoremA.rk2Ord p n ∣
       Module.finrank F ↥(HypBlocks.blockSpace A D.1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := by
     have h2 : ringChar F = 2 := by
       rw [FiniteField.even_card_iff_char_two]
       have hdvd : 2 ∣ 2 ^ n := dvd_pow_self 2 (by omega)
@@ -188,11 +192,13 @@ theorem dvd_finrank_blockSpace [Fintype F] (A : Subgroup (V ≃ₗ[F] V)) [Finty
   rwa [hq, range_blockEnd_sub_one A hp hpF hA t ht D] at hdvd
 
 
+omit [FiniteDimensional F V] in
 theorem fixedBySet_singleton (s : V ≃ₗ[F] V) :
     fixedBySet ({s} : Set (V ≃ₗ[F] V)) = HypBlocks.fixedByEnd s := by
   ext w
   simp [fixedBySet]
 
+omit [FiniteDimensional F V] in
 theorem fixedBySet_pair (s t : V ≃ₗ[F] V) :
     fixedBySet ({s, t} : Set (V ≃ₗ[F] V)) =
       HypBlocks.fixedByEnd s ⊓ HypBlocks.fixedByEnd t := by
@@ -211,6 +217,7 @@ abbrev Lsub (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] (hp : p.Prime) (hpF : (p 
     HypBlocks.blockEnd A hp hpF hA t ht E}
     (HypBlocks.blockSpace A D.1 ⊔ HypBlocks.blockSpace A E.1)
 
+omit [FiniteDimensional F V] in
 theorem mem_Jsub {A : Subgroup (V ≃ₗ[F] V)} [Fintype A] {hp : p.Prime} {hpF : (p : F) ≠ 0}
     {hA : IsElemAbelian p A} {t : HypBlocks.Hyperplane A p → ↥A} {ht : ∀ D, t D ∉ D.1}
     {D : HypBlocks.Hyperplane A p} {g : SpecialLinearGroup F V} :
@@ -220,6 +227,7 @@ theorem mem_Jsub {A : Subgroup (V ≃ₗ[F] V)} [Fintype A] {hp : p.Prime} {hpF 
           (g : V ≃ₗ[F] V) * s = s * (g : V ≃ₗ[F] V) :=
   Iff.rfl
 
+omit [FiniteDimensional F V] in
 theorem mem_Lsub {A : Subgroup (V ≃ₗ[F] V)} [Fintype A] {hp : p.Prime} {hpF : (p : F) ≠ 0}
     {hA : IsElemAbelian p A} {t : HypBlocks.Hyperplane A p → ↥A} {ht : ∀ D, t D ∉ D.1}
     {D E : HypBlocks.Hyperplane A p} {g : SpecialLinearGroup F V} :

@@ -21,9 +21,9 @@ theorem phiTwoTwE6Eight_holds : PhiTwoTwE6Eight := by
   intro K _ _ σ hcard hσ v Fr g0 hv hFr hg0C hg0
   classical
   have hcard' : Nat.card K = (2 ^ 3) ^ 2 := by simpa using hcard
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 3) hcard'
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 3) hcard'
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hcard]
     norm_num
@@ -46,7 +46,7 @@ theorem phiTwoTwE6Eight_holds : PhiTwoTwE6Eight := by
     · exact absurd (sub_eq_zero.mp h) hx1
     · exact h
   have hσσ : ∀ c, σ (σ c) = c := fun c => by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     have h64 : Fintype.card K = 64 := by rw [← Nat.card_eq_fintype_card]; exact hcard
     rw [hσ, hσ, ← pow_mul, show 8 * 8 = Fintype.card K by rw [h64], FiniteField.pow_card]
   have hε : σ.toRingHom (1 : K) = -1 := by

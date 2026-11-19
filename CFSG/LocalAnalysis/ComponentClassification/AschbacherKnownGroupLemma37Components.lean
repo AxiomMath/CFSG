@@ -329,7 +329,7 @@ theorem quasisimple_of_abelian_index_two [Finite G] {A : Subgroup G}
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S := (S₀ : Subgroup A).map A.subtype with hS
-  have hSp : IsPGroup 2 S := S₀.isPGroup'.map _
+  have hSp : IsPGroup 2 S := S₀.isPGroup.map _
   obtain ⟨k, K, hk, hKq, hcomm, hsup⟩ := hA
   have hKA : ∀ i, K i ≤ A := fun i => (hKq i).1
   by_cases hk1 : k = 1
@@ -366,7 +366,7 @@ theorem quasisimple_of_abelian_index_two [Finite G] {A : Subgroup G}
       intro y
       apply Subtype.ext
       exact (hcomm i' i hii'.symm _ hrK' y y.2).symm
-    have hp : IsPGroup 2 (zpowers r') := T.isPGroup'.to_le (zpowers_le.2 hr'T)
+    have hp : IsPGroup 2 (zpowers r') := T.isPGroup.to_le (zpowers_le.2 hr'T)
     have hbot := Walter.W67.inf_commutator_eq_bot_of_isPGroup T hab hcen hp
     rw [Group.IsPerfect.commutator_eq_top, inf_top_eq] at hbot
     have : r' = 1 := by
@@ -383,8 +383,8 @@ theorem quasisimple_of_abelian_index_two [Finite G] {A : Subgroup G}
   have hR₁K : R₁ ≤ K i₁ := map_subtype_le _
   have hRcomm : ∀ x ∈ R₀, ∀ y ∈ R₁, x * y = y * x :=
     fun x hx y hy => hcomm i₀ i₁ hi x (hR₀K hx) y (hR₁K hy)
-  have hR₀p : IsPGroup 2 R₀ := T₀.isPGroup'.map _
-  have hR₁p : IsPGroup 2 R₁ := T₁.isPGroup'.map _
+  have hR₀p : IsPGroup 2 R₀ := T₀.isPGroup.map _
+  have hR₁p : IsPGroup 2 R₁ := T₁.isPGroup.map _
   have hRp : IsPGroup 2 (R₀ ⊔ R₁ : Subgroup G) := by
     refine hR₀p.to_sup_of_normal_left' hR₁p ?_
     refine le_trans ?_ (Subgroup.centralizer_le_normalizer _)

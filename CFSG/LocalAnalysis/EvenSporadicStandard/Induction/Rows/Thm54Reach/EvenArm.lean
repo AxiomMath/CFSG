@@ -21,8 +21,8 @@ open CFSG.LocalAnalysis.EvenBN.GMSK.CatEvenBender (EvenOuterListOf)
 
 theorem exists_orderOf_eq_two_of_isPGroup {G : Type} [Group G] [Finite G] {U : Subgroup G}
     (hU : IsPGroup 2 U) (hne : U ≠ ⊥) : ∃ z ∈ U, orderOf z = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial U := (Subgroup.nontrivial_iff_ne_bot U).2 hne
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial U := (Subgroup.nontrivial_iff_ne_bot U).2 hne
   obtain ⟨n, hn, hcard⟩ := hU.nontrivial_iff_card.1 inferInstance
   have hdvd : 2 ∣ Nat.card U := by
     rw [hcard]
@@ -53,7 +53,7 @@ theorem odd_card_center_of_evenLie
     Odd (Nat.card ↥(center ↥P)) := by
   by_contra hodd
   have hev2 : Even (Nat.card ↥(center ↥P)) := Nat.not_odd_iff_even.1 hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨r, hr⟩ := exists_prime_orderOf_dvd_card' (G := ↥(center ↥P)) 2
     (even_iff_two_dvd.1 hev2)
   have hr2 : orderOf ((r : ↥P) : Y) = 2 := by

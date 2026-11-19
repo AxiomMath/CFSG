@@ -12,14 +12,14 @@ open scoped IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem exists_y0 (h1222 : Stmt12_2_2) {T L V V₁ V₂ : Subgroup G} (hcx : Cx1291 G T L V 4)
+theorem exists_y0 (_h1222 : Stmt12_2_2) {T L V V₁ V₂ : Subgroup G} (hcx : Cx1291 G T L V 4)
     (hs : Setting1282One G T L V 4 V₁ V₂) :
     ∃ y₀ : G, y₀ ∈ L ⊓ Subgroup.centralizer (V₂ : Set G) ∧ orderOf y₀ = 3 := by
   classical
   obtain ⟨hc, -⟩ := hcx.hyp.natural
   obtain ⟨hcard, hsq, -⟩ := hcx.hyp.card_sq
-  haveI := hc
-  letI : Module (ZMod 2) (Additive ↥V) := zmodModuleOf hsq
+  have := hc
+  let : Module (ZMod 2) (Additive ↥V) := zmodModuleOf hsq
   have hV₂V : V₂ ≤ V := hs.v2.1
   have hLV : L ≤ Subgroup.normalizer (V : Set G) := hcx.hyp.hyp.irrPlus.2.2.1
   have htop : autOn L V = ⊤ := autOn_eq_top_of_hyp1281One hcx.hyp

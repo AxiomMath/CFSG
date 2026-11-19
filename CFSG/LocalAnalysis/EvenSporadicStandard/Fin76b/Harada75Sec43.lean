@@ -133,6 +133,7 @@ theorem eq_one_or_of_card_two {H : Subgroup S} (h : Nat.card H = 2) {z : S} (hz 
     exact ⟨hz1.symm, hcon.1.symm⟩
   omega
 
+omit [Finite S] in
 theorem commutes_of_cover {A F : Subgroup S} {z : S} (hzz : z * z = 1)
     (hcover : ∀ x ∈ A, x ∈ F ∨ x * z ∈ F) {y : S} (hyF : ∀ f ∈ F, y * f = f * y)
     (hyz : y * z = z * y) : ∀ x ∈ A, y * x = x * y := by

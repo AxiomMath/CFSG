@@ -19,6 +19,7 @@ variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
 open scoped Classical
 
+omit [Finite W] in
 private lemma w172_odd_nsmul {n : ℕ} (hn : Odd n) (v : W) : n • v = v := by
   rw [← Nat.cast_smul_eq_nsmul (ZMod 2) n v, (ZMod.natCast_eq_one_iff_odd).mpr hn,
     one_smul]
@@ -120,6 +121,7 @@ private lemma w172_mem_X {A K : Subgroup (LGL 2 W)} (hAodd : Odd (Nat.card A)) {
   unfold w172X
   rw [Submodule.mem_inf, mem_fixSub, w172_mem_commSub_iff hAodd]
 
+omit [Finite W] in
 private lemma w172_maxsub {p : ℕ} (hp : p.Prime) {A K M : Subgroup (LGL 2 W)}
     (hK : K.relIndex A = p) (hKM : K ≤ M) (hMA : M ≤ A) (hne : M ≠ K) : M = A := by
   have h1 := Subgroup.relIndex_mul_relIndex K M A hKM hMA
@@ -131,6 +133,7 @@ private lemma w172_maxsub {p : ℕ} (hp : p.Prime) {A K M : Subgroup (LGL 2 W)}
   have h2 : M.relIndex A = 1 := Nat.eq_of_mul_eq_mul_left hp.pos (by rw [mul_one]; exact h1)
   exact le_antisymm hMA (Subgroup.relIndex_eq_one.mp h2)
 
+omit [Finite W] in
 private lemma w172_hyp_eq {p : ℕ} (hp : p.Prime) {A K L : Subgroup (LGL 2 W)}
     (hK : K.relIndex A = p) (hL : L.relIndex A = p) (hKA : K ≤ A) (hLK : L ≤ K) : L = K := by
   have h1 := Subgroup.relIndex_mul_relIndex L K A hLK hKA
@@ -138,6 +141,7 @@ private lemma w172_hyp_eq {p : ℕ} (hp : p.Prime) {A K L : Subgroup (LGL 2 W)}
   have h2 : L.relIndex K = 1 := Nat.eq_of_mul_eq_mul_right hp.pos (by rw [one_mul]; exact h1)
   exact le_antisymm hLK (Subgroup.relIndex_eq_one.mp h2)
 
+omit [Finite W] in
 private lemma w172_hyp_sup {p : ℕ} (hp : p.Prime) {A K K' : Subgroup (LGL 2 W)}
     (hK' : K'.relIndex A = p) (hK : K.relIndex A = p) (hK'A : K' ≤ A) (hKA : K ≤ A)
     (hne : K ≠ K') : K' ⊔ K = A := by
@@ -147,7 +151,8 @@ private lemma w172_hyp_sup {p : ℕ} (hp : p.Prime) {A K K' : Subgroup (LGL 2 W)
     rwa [h] at hm
   exact w172_hyp_eq hp hK' hK hK'A hKK'
 
-private lemma w172_isPGroup {p : ℕ} (hp : p.Prime) {A : Subgroup (LGL 2 W)}
+omit [Finite W] in
+private lemma w172_isPGroup {p : ℕ} (_hp : p.Prime) {A : Subgroup (LGL 2 W)}
     (hexp : ∀ a ∈ A, a ^ p = 1) : IsPGroup p A := by
   rw [isPGroup_iff_orderOf_dvd_pow]
   intro a
@@ -160,6 +165,7 @@ private lemma w172_odd_card {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {A : Subgro
   obtain ⟨n, hn⟩ := hAp.exists_card_dvd_pow
   exact (hp.odd_of_ne_two hp2).pow.of_dvd_nat hn
 
+omit [Finite W] in
 private lemma w172_map_commSub_of_commute {A : Subgroup (LGL 2 W)} {g : LGL 2 W}
     (hg : ∀ a ∈ A, g * a = a * g) {w : W} (hw : w ∈ commSub A) : g w ∈ commSub A := by
   unfold commSub at hw ⊢
@@ -181,6 +187,7 @@ private lemma w172_map_commSub_of_commute {A : Subgroup (LGL 2 W)} {g : LGL 2 W}
     rw [map_smul]
     exact Submodule.smul_mem _ c hx
 
+omit [Finite W] in
 private lemma w172_map_X {A K : Subgroup (LGL 2 W)} (hKA : K ≤ A) {g : LGL 2 W}
     (hg : ∀ a ∈ A, g * a = a * g) {w : W} (hw : w ∈ w172X A K) : g w ∈ w172X A K := by
   refine Submodule.mem_inf.mpr ⟨?_, w172_map_commSub_of_commute hg hw.2⟩
@@ -192,7 +199,7 @@ private lemma w172_map_X {A K : Subgroup (LGL 2 W)} (hKA : K ≤ A) {g : LGL 2 W
     _ = g w := by rw [(mem_fixSub K).mp hw.1 k hk]
 
 private lemma w172_fixed_eq_zero {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    {A K : Subgroup (LGL 2 W)} (hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
+    {A K : Subgroup (LGL 2 W)} (_hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     (hexp : ∀ a ∈ A, a ^ p = 1) (hK : W172Hyp p A K) {g : LGL 2 W} (hgA : g ∈ A)
     (hgK : g ∉ K) {w : W} (hw : w ∈ w172X A K) (hgw : g w = w) : w = 0 := by
   have hAodd := w172_odd_card hp hp2 (w172_isPGroup hp hexp)
@@ -218,7 +225,7 @@ private lemma w172_fixed_eq_zero {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   exact hsum0
 
 private lemma w172_X_ne_bot {A K : Subgroup (LGL 2 W)}
-    (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hKA : K ≤ A) (hAodd : Odd (Nat.card A))
+    (_hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hKA : K ≤ A) (hAodd : Odd (Nat.card A))
     {w : W} (hw : ∀ k ∈ K, k w = w) (hwA : ∃ a ∈ A, a w ≠ w) : w172X A K ≠ ⊥ := by
   intro hbot
   obtain ⟨a, haA, haw⟩ := hwA
@@ -312,9 +319,9 @@ private lemma w172_simple_card {p : ℕ} (hp : p.Prime) {M G : Type} [AddCommGro
     rintro _ ⟨g, rfl⟩ _ ⟨h, rfl⟩ _
     show E (ψ g) * E (ψ h) = E (ψ h) * E (ψ g)
     rw [← hEmul, ← hEmul, hcomm g h]
-  haveI hScomm' : IsMulCommutative (Subring.closure S) :=
+  have hScomm' : IsMulCommutative (Subring.closure S) :=
     Subring.isMulCommutative_closure hScomm
-  letI : CommRing (Subring.closure S) := by
+  let : CommRing (Subring.closure S) := by
     open scoped IsMulCommutative in infer_instance
   have hRS : ∀ r ∈ S, ∀ a : Subring.closure S,
       (a : Module.End (ZMod 2) M) * r = r * (a : Module.End (ZMod 2) M) := by
@@ -360,8 +367,8 @@ private lemma w172_simple_card {p : ℕ} (hp : p.Prime) {M G : Type} [AddCommGro
         exact Submodule.mem_top
       rw [LinearMap.mem_ker] at hx
       simpa using hx
-  haveI : NoZeroDivisors (Subring.closure S) := hnzd
-  haveI : IsDomain (Subring.closure S) := NoZeroDivisors.to_isDomain _
+  have : NoZeroDivisors (Subring.closure S) := hnzd
+  have : IsDomain (Subring.closure S) := NoZeroDivisors.to_isDomain _
   let f : Polynomial (Subring.closure S) := Polynomial.X ^ p - Polynomial.C 1
   have hf0 : f ≠ 0 := Polynomial.X_pow_sub_C_ne_zero hp.pos 1
   have hfdeg : f.natDegree = p := Polynomial.natDegree_X_pow_sub_C
@@ -409,7 +416,7 @@ private lemma w172_exists_hyp_aux {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {A : Subgroup (LGL 2 W)} (hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     (hexp : ∀ a ∈ A, a ^ p = 1) {z : LGL 2 W} (hzA : z ∈ A) (hz1 : z ≠ 1) :
     ∃ K : Subgroup (LGL 2 W), K ≤ A ∧ K.relIndex A = p ∧ z ∉ K ∧ w172X A K ≠ ⊥ := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hAp : IsPGroup p A := w172_isPGroup hp hexp
   have hAodd : Odd (Nat.card A) := w172_odd_card hp hp2 hAp
   obtain ⟨u0, hu0⟩ : ∃ u : W, z u ≠ u := by
@@ -418,7 +425,7 @@ private lemma w172_exists_hyp_aux {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       by_contra hu
       exact h ⟨u, hu⟩
     exact hz1 (LinearEquiv.ext h')
-  haveI : WellFoundedLT (Submodule (ZMod 2) W) := Finite.to_wellFoundedLT
+  have : WellFoundedLT (Submodule (ZMod 2) W) := Finite.to_wellFoundedLT
   let 𝒰 : Set (Submodule (ZMod 2) W) :=
     {U | (∀ a ∈ A, ∀ u ∈ U, a u ∈ U) ∧ ∃ u ∈ U, z u ≠ u}
   have hne : 𝒰.Nonempty :=
@@ -486,7 +493,7 @@ private lemma w172_exists_hyp_aux {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     intro h
     apply hu1
     rw [h, map_zero]
-  haveI : Nontrivial U := ⟨⟨⟨u1, hu1U⟩, 0, fun h => hu1pos (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial U := ⟨⟨⟨u1, hu1U⟩, 0, fun h => hu1pos (congrArg Subtype.val h)⟩⟩
   have hsimpleψ : ∀ N : Submodule (ZMod 2) U, (∀ g : A, ∀ x ∈ N, ψ g x ∈ N) →
       N = ⊥ ∨ N = ⊤ := by
     intro N hN
@@ -648,6 +655,7 @@ theorem w172_X_fixed_eq_zero {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {A K : Sub
     (hw : w ∈ w172X A K) (hgw : g w = w) : w = 0 :=
   w172_fixed_eq_zero hp hp2 hcomm hexp hK hgA hgK hw hgw
 
+omit [Finite W] in
 theorem w172_map_X_of_commute {A K : Subgroup (LGL 2 W)} (hKA : K ≤ A) {g : LGL 2 W}
     (hg : ∀ a ∈ A, g * a = a * g) {w : W} (hw : w ∈ w172X A K) : g w ∈ w172X A K :=
   w172_map_X hKA hg hw

@@ -53,20 +53,20 @@ theorem herm_single (b : K →+* K) (i l : Fin d) (a c : K) :
     rw [Finset.sum_eq_single i]
     · simp
     · intro k _ hk
-      simp [Pi.single_apply, hk]
+      simp [hk]
     · simp
-  · rw [if_neg hil]
+  · rw [ite_eq_right hil]
     refine Finset.sum_eq_zero fun k _ => ?_
     by_cases hk : k = i
     · subst hk
-      simp [Pi.single_apply, Ne.symm hil]
+      simp [Ne.symm hil]
     · simp [Pi.single_apply, hk]
 
 theorem herm_pair_self [CharP K 2] (b : K →+* K) {i j : Fin d} (hij : i ≠ j) :
     herm b (Pi.single i (1 : K) + Pi.single j (1 : K))
       (Pi.single i (1 : K) + Pi.single j (1 : K)) = 0 := by
-  simp only [herm_add_left, herm_add_right, herm_single, if_true, if_neg hij,
-    if_neg (Ne.symm hij), map_one, mul_one]
+  simp only [herm_add_left, herm_add_right, herm_single, ite_true, ite_eq_right hij,
+    ite_eq_right (Ne.symm hij), map_one, mul_one]
   have : (1 : K) + 1 = 0 := CharTwo.add_self_eq_zero 1
   linear_combination this
 
@@ -275,9 +275,9 @@ theorem exists_orbit_family (h : UnitaryFieldData 2 n K) [CharP K 2] {p : ℕ} (
     · exact hort k k' k.2 k'.2 (fun e => hkk (Fin.ext e))
   have hoff : tv h.bar U j i ≠ 0 := by
     have h1 : tv h.bar U j i = ∑ k : Fin p, x k j * h.bar (x k i) := by
-      simp [tv, Matrix.add_apply, Matrix.mul_apply, adjM, Matrix.one_apply, hij.symm, hU]
+      simp [tv, Matrix.add_apply, Matrix.mul_apply, adjM, hij.symm, hU]
     rw [h1, Finset.sum_eq_single (⟨0, hp0⟩ : Fin p)]
-    · simp [hx, hv0, Pi.single_apply, hij, hij.symm]
+    · simp [hx, hv0, hij, hij.symm]
     · intro k _ hk
       have hk0 : 0 < (k : ℕ) := by
         rcases Nat.eq_zero_or_pos (k : ℕ) with h0 | h0

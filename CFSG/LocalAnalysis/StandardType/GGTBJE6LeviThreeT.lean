@@ -22,7 +22,7 @@ theorem ggTBJE6LeviL_threeT
     (hL : GGHasLabel (⟨.E6, 0, n⟩ : LargeEvenLabel) (↥L ⧸ Subgroup.center ↥L))
     (hp3 : p = 3) (h3 : 3 ∣ 2 ^ n - 1) {labJ : LargeEvenLabel}
     (hΛJ : LargeEvenInLambda2 labJ) (hJlab : GGHasLabel labJ (↥J ⧸ Subgroup.center ↥J))
-    (hdvd : n ∣ labJ.n) (hD4 : ¬ (labJ.tag = .D ∧ labJ.rank = 4)) :
+    (_hdvd : n ∣ labJ.n) (hD4 : ¬ (labJ.tag = .D ∧ labJ.rank = 4)) :
     GGResSideDatum p Bs L J ∨ GGResLeviSideDatumLE3 p Bs L J := by
   have hp : p.Prime := hH.1.1.2.2.2.2.2.1.1
   have hp2 : p ≠ 2 := hH.1.1.2.2.2.2.2.1.2.1
@@ -105,7 +105,7 @@ theorem ggTBJE6LeviK_threeT
     (hK : GGHasLabel (⟨.E6, 0, n⟩ : LargeEvenLabel) (↥K ⧸ Subgroup.center ↥K))
     (hp3 : p = 3) (h3 : 3 ∣ 2 ^ n - 1) {labJ : LargeEvenLabel}
     (hΛJ : LargeEvenInLambda2 labJ) (hJlab : GGHasLabel labJ (↥J ⧸ Subgroup.center ↥J))
-    (hdvd : n ∣ labJ.n) (hD4 : ¬ (labJ.tag = .D ∧ labJ.rank = 4)) :
+    (_hdvd : n ∣ labJ.n) (hD4 : ¬ (labJ.tag = .D ∧ labJ.rank = 4)) :
     GGResSideDatum p Bs K J ∨ GGResLeviSideDatumLE3 p Bs K J := by
   have hp2 : p ≠ 2 := hH.1.1.2.2.2.2.2.1.2.1
   have hnb : GGNbr p B x D J y K := hH.2.2.2.2.1

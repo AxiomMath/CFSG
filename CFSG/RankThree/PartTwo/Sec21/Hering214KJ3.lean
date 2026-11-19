@@ -45,7 +45,7 @@ theorem exists_conj_of_pow_three_j3
 theorem eInvFourFact_j3_of_dichotomy
     (h : J3SylowDichotomy) : EInvFourFact NativeSporadic.J3 := by
   obtain ⟨hfin, -, hsimple⟩ := CFSG.Sporadic.J3.fam_j3_simplicity
-  haveI := hfin
+  have := hfin
   have hZ : Subgroup.center NativeSporadic.J3 = ⊥ :=
     center_eq_bot_of_simple_of_not_prime hsimple (by rw [CFSG.Sporadic.J3.card_J3]; norm_num)
   obtain ⟨P₀, hP₀⟩ := h

@@ -33,14 +33,14 @@ theorem normal_le_center_or_eq_top {Q : Type*} [Group Q] (hq : IsQuasisimple Q)
 theorem pCore_le_center {Q : Type*} [Group Q] [Finite Q] {p : ℕ} (hp : p.Prime)
     (hq : IsQuasisimple Q) : CFSG.pCore p Q ≤ center Q := by
   have : Fact p.Prime := ⟨hp⟩
-  haveI : (CFSG.pCore p Q).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore p Q).Normal := CFSG.pCore_normal
   rcases normal_le_center_or_eq_top hq (CFSG.pCore p Q) with h | h
   · exact h
   · exfalso
     have hpg : IsPGroup p (⊤ : Subgroup Q) := h ▸ CFSG.pCore_isPGroup
     have hnil : Group.IsNilpotent Q := (hpg.of_equiv Subgroup.topEquiv).isNilpotent
     have hperf : Group.IsPerfect Q := ⟨hq.1⟩
-    haveI : Nontrivial (Q ⧸ center Q) := hq.2.toNontrivial
+    have : Nontrivial (Q ⧸ center Q) := hq.2.toNontrivial
     have : Nontrivial Q := (QuotientGroup.mk'_surjective (center Q)).nontrivial
     exact Group.IsPerfect.not_isSolvable Q inferInstance
 

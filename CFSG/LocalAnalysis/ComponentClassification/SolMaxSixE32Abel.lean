@@ -68,6 +68,7 @@ theorem pow_val_add (i : Fin 5) (a b : ZMod 2) :
 theorem commute_pow (i j : Fin 5) (a b : ℕ) : Commute (g i ^ a) (g j ^ b) :=
   ((h.commute i j).pow_left a).pow_right b
 
+omit h in
 theorem mono_zero : mono g 0 = 1 := by simp [mono]
 
 theorem mono_add (v w : Fin 5 → ZMod 2) : mono g (v + w) = mono g v * mono g w := by
@@ -101,9 +102,10 @@ theorem mono_add (v w : Fin 5 → ZMod 2) : mono g (v + w) = mono g v * mono g w
     _ = (A0 * A1 * A2 * A3 * A4) * (B0 * B1 * B2 * B3 * B4) := by
         rw [c3.mul_mul_mul_comm]
 
+omit h in
 theorem mono_single (i : Fin 5) : mono g (Pi.single i 1) = g i := by
   have h1 : (1 : ZMod 2).val = 1 := by decide
-  fin_cases i <;> simp [mono, Pi.single_apply, h1]
+  fin_cases i <;> simp [mono, h1]
 
 theorem mono_self (v : Fin 5 → ZMod 2) : mono g v * mono g v = 1 := by
   rw [← h.mono_add]
@@ -115,7 +117,7 @@ theorem mono_self (v : Fin 5 → ZMod 2) : mono g v * mono g v = 1 := by
     generalize v i = a
     revert a
     decide
-  rw [this, h.mono_zero]
+  rw [this, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_zero]
 
 theorem mono_inv (v : Fin 5 → ZMod 2) : (mono g v)⁻¹ = mono g v :=
   inv_eq_of_mul_eq_one_right (h.mono_self v)
@@ -133,7 +135,7 @@ theorem conj_mono (ν : X) (c : Fin 5 → Fin 5 → ZMod 2)
     have h0 : (0 : ZMod 2).val = 0 := rfl
     have h1 : (1 : ZMod 2).val = 1 := rfl
     obtain rfl | rfl : a = 0 ∨ a = 1 := by revert a; decide
-    · rw [h0, pow_zero, zero_smul, h.mono_zero]
+    · rw [h0, pow_zero, zero_smul, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_zero]
     · rw [h1, pow_one, one_smul]
   have hmul : ν * mono g v * ν⁻¹ =
       (ν * g 0 ^ (v 0).val * ν⁻¹) * (ν * g 1 ^ (v 1).val * ν⁻¹) *
@@ -150,7 +152,7 @@ theorem mem_closure_iff (y : X) :
   · intro hy
     let S : Subgroup X :=
       { carrier := {y | ∃ v, y = mono g v}
-        one_mem' := ⟨0, h.mono_zero.symm⟩
+        one_mem' := ⟨0, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_zero.symm⟩
         mul_mem' := by
           rintro _ _ ⟨v, rfl⟩ ⟨w, rfl⟩
           exact ⟨v + w, (h.mono_add v w).symm⟩
@@ -160,7 +162,7 @@ theorem mem_closure_iff (y : X) :
     have hle : Subgroup.closure (Set.range g) ≤ S := by
       rw [Subgroup.closure_le]
       rintro _ ⟨i, rfl⟩
-      exact ⟨Pi.single i 1, (h.mono_single i).symm⟩
+      exact ⟨Pi.single i 1, (CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single i).symm⟩
     exact hle hy
   · rintro ⟨v, rfl⟩
     unfold mono

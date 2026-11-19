@@ -50,7 +50,7 @@ theorem exists_hom_signed {ι : Type*} (s : ι → G) {N : ℕ} (P : ℕ → V) 
   have hf : ∀ g ∈ H, ∀ p < N, f g p < N ∧ (g • P p = P (f g p) ∨ g • P p = -P (f g p)) := by
     intro g hg p hp
     have h := hex g hg p hp
-    have e : f g p = Classical.choose h := dif_pos h
+    have e : f g p = Classical.choose h := dite_eq_left h
     rw [e]
     exact Classical.choose_spec h
   have huniq : ∀ g ∈ H, ∀ p < N, ∀ q < N, (g • P p = P q ∨ g • P p = -P q) → f g p = q := by

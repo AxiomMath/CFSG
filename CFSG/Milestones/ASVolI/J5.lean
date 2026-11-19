@@ -550,7 +550,7 @@ end
 
 private theorem burnsideJ10b_isL225Plus_of_RT {Y : Type} [Group Y]
     (h : CFSG.Quasithin.RuRank3.IsL225Plus Y) : ChIJK.IsL225Plus Y := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨K, hK, hidx, ⟨e⟩, -, hS⟩ := h
   refine ⟨K, hK, hidx, ?_, ?_⟩
   · exact CFSG.Assembly.LowTwoRank.statedClassicalModel_psl_two_of_mulEquiv _ 5 2
@@ -607,7 +607,7 @@ private theorem burnsideJ10b_psl25_perfect [Fact (Nat.Prime 5)] :
   have hK : 4 ≤ Nat.card (GaloisField 5 2) := by
     rw [GaloisField.card 5 2 (by norm_num)]
     norm_num
-  haveI : IsSimpleGroup PSL(2, GaloisField 5 2) :=
+  have : IsSimpleGroup PSL(2, GaloisField 5 2) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hK
   obtain ⟨a, b, hab⟩ := CFSG.Walter.psl2_exists_mul_ne_mul (GaloisField 5 2) hK
   rw [Group.isPerfect_def]
@@ -622,14 +622,14 @@ private theorem burnsideJ10b_commutator_eq [Fact (Nat.Prime 5)] {G : Type*} [Gro
     Subgroup G)
     (K : Subgroup F) [K.Normal] (hidx : K.index = 2) (e : K ≃* PSL(2, GaloisField 5 2)) :
     ⁅F, F⁆ = K.map F.subtype := by
-  haveI : Group.IsPerfect PSL(2, GaloisField 5 2) := burnsideJ10b_psl25_perfect
-  haveI : Group.IsPerfect K :=
+  have : Group.IsPerfect PSL(2, GaloisField 5 2) := burnsideJ10b_psl25_perfect
+  have : Group.IsPerfect K :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have h1 : commutator F = K := by
     apply le_antisymm
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : IsCyclic (F ⧸ K) := isCyclic_of_prime_card (p := 2) (by rw [← Subgroup.index, hidx])
-      haveI : IsMulCommutative (F ⧸ K) := inferInstance
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : IsCyclic (F ⧸ K) := isCyclic_of_prime_card (p := 2) (by rw [← Subgroup.index, hidx])
+      have : IsMulCommutative (F ⧸ K) := inferInstance
       exact Subgroup.Normal.quotient_commutative_iff_commutator_le.mp this
     · calc K = ⁅K, K⁆ := (Subgroup.commutator_eq_self).symm
         _ ≤ ⁅(⊤ : Subgroup F), ⊤⁆ := Subgroup.commutator_mono le_top le_top
@@ -657,7 +657,7 @@ private theorem burnsideJ10b_aut_core [Fact (Nat.Prime 5)] {G : Type*} [Group G]
     have := hmap ⟨k, hk, rfl⟩
     simpa [MulAut.conj_apply] using this
   let Y : Subgroup ↥S := K.subgroupOf S
-  haveI hYn : Y.Normal := ⟨fun n hn g => by
+  have hYn : Y.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hKn g g.2 n hn⟩
   have hKcard : Nat.card K = 7800 := by
@@ -691,7 +691,7 @@ private theorem burnsideJ10b_aut_core [Fact (Nat.Prime 5)] {G : Type*} [Group G]
   have hAut : Nat.card (MulAut ↥Y) = 31200 := by
     rw [Nat.card_congr (MulAut.congr eY).toEquiv]
     exact burnsideJ10b_card_mulAut_psl25
-  haveI : Finite (MulAut ↥Y) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
+  have : Finite (MulAut ↥Y) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
   exact ⟨(CFSG.Sporadic.Recognition.LyonsSims.conjNormalEquiv Y hYC (by rw [hAut]; exact hS)).trans
     (MulAut.congr eY)⟩
 
@@ -703,7 +703,7 @@ private theorem burnsideJ10b_no_involution_centralizes {G : Type} [Group G] [Fin
     (t : G) (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (P : Subgroup G) (hP : Nat.card P = 25) :
     ¬ P ≤ Subgroup.centralizer ({t} : Set G) := by
   intro hPle
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hP5 : IsPGroup 5 P := IsPGroup.of_card (n := 2) (by rw [hP]; norm_num)
   obtain ⟨s, hs, hs1⟩ := M.exists_S0_ne_one
   rcases (M.lemma_J27_4 hs hs1).2 t ht2 ht1 with hz | hs'
@@ -777,7 +777,7 @@ private theorem burnsideJ10b_eq_of_card_three {α : Type*} [Finite α] (hc : Nat
   by_contra hcon
   push Not at hcon
   obtain ⟨hxa, hxb, hxc⟩ := hcon
-  haveI := Fintype.ofFinite α
+  have := Fintype.ofFinite α
   have h4 : ({a, b, c, x} : Finset α).card = 4 := by
     rw [Finset.card_insert_of_notMem, Finset.card_insert_of_notMem, Finset.card_insert_of_notMem,
       Finset.card_singleton]
@@ -832,7 +832,7 @@ private theorem burnsideJ10b_J54_abstract [Fact (Nat.Prime 5)] {G Ω : Type} [Gr
     rw [orbitRel_apply] at h
     rw [orbit_eq_iff.mpr h]
   have hq3 := hrt.rank_three ω
-  haveI : Finite (orbitRel.Quotient ↥(stabilizer G ω) Ω) :=
+  have : Finite (orbitRel.Quotient ↥(stabilizer G ω) Ω) :=
     Nat.finite_of_card_ne_zero (by rw [hq3]; norm_num)
   have hcover : ∀ x : Ω, x ∈ orbit ↥(stabilizer G ω) ω ∨ x ∈ orbit ↥(stabilizer G ω) δ ∨
       x ∈ orbit ↥(stabilizer G ω) γ := by
@@ -851,7 +851,7 @@ private theorem burnsideJ10b_J54_abstract [Fact (Nat.Prime 5)] {G Ω : Type} [Gr
       have h' : orbitRel ↥(stabilizer G ω) Ω x γ := Quotient.exact h
       rwa [orbitRel_apply] at h'
   have hswap : ∃ c : G, c • ω = γ ∧ c • γ = ω := by
-    haveI := hrt.transitive
+    have := hrt.transitive
     refine CFSG.Quasithin.RuRank3.exists_smul_swap (fun z hz => ?_)
     rcases hcover z with h | h | h
     · exfalso
@@ -880,7 +880,7 @@ private theorem burnsideJ10b_J54_abstract [Fact (Nat.Prime 5)] {G Ω : Type} [Gr
       burnsideJ10b_card_isL225Plus hL
     set Fγ : Subgroup G := stabilizer G ω ⊓ stabilizer G γ with hFγ
     obtain ⟨K, hKn, hidx, ⟨e⟩, hCK, -⟩ := hL
-    haveI := hKn
+    have := hKn
     obtain ⟨c, hcω, hcγ⟩ := hswap
     have hfixmem : ∀ f, f ∈ Fγ ↔ f • ω = ω ∧ f • γ = γ := fun f => by
       rw [hFγ, Subgroup.mem_inf, mem_stabilizer_iff, mem_stabilizer_iff]
@@ -1044,7 +1044,7 @@ section
 
 theorem as_J_5_4 : J_5_4 := by
   intro G _ _ L V T h V2 hV2 g hg hgH v hv hvQ B5 hB5 hinv X hX a ha hA hQ δ hδc _ _
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨M, y, -, -, -, -, -, -, -, -, -, -, -, hF⟩ :=
     RuChoice.reduce h hV2 hg hgH hv hvQ hB5 hinv hX ha hA hQ
   obtain ⟨φ⟩ := M.theorem_J47 CFSG.Quasithin.Fan86.hayashiFiveThree_proved'
@@ -1717,7 +1717,7 @@ private theorem burnsideJ55_Fd_orbits :
   refine ⟨burnsideJ55_r7, burnsideJ55_r6, burnsideJ55_r2, hC7, hC6, hC2, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · ext x
     rw [Set.mem_union, Set.mem_union, hO7, hO6, hO2]
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [burnsideJ55_Fcls_iff]
     constructor
     · rintro (h | h | h)
@@ -1736,15 +1736,15 @@ private theorem burnsideJ55_Fd_orbits :
     exact h2c
   · rw [hO7, hO6]
     exact Set.disjoint_left.2 fun x hx hx' => by
-      simp only [Set.mem_setOf_eq] at hx hx'
+      simp only [Set.mem_ofPred_eq] at hx hx'
       omega
   · rw [hO7, hO2]
     exact Set.disjoint_left.2 fun x hx hx' => by
-      simp only [Set.mem_setOf_eq] at hx hx'
+      simp only [Set.mem_ofPred_eq] at hx hx'
       omega
   · rw [hO6, hO2]
     exact Set.disjoint_left.2 fun x hx hx' => by
-      simp only [Set.mem_setOf_eq] at hx hx'
+      simp only [Set.mem_ofPred_eq] at hx hx'
       omega
 
 end
@@ -1846,7 +1846,7 @@ private theorem burnsideJ55_ncard_D_notN {s : Fin 4060} (hs : s ∈ ruS) :
   have e : {n | ruAdj 0 n ∧ ¬ ruAdj s n} =
       {n | ruAdj 0 n} \ {n | ruAdj 0 n ∧ ruAdj s n} := by
     ext n
-    simp only [Set.mem_setOf_eq, Set.mem_diff, not_and]
+    simp only [Set.mem_ofPred_eq, Set.mem_sdiff, not_and]
     constructor
     · rintro ⟨h1, h2⟩
       exact ⟨h1, fun _ => h2⟩
@@ -1860,7 +1860,7 @@ private theorem burnsideJ55_ncard_S_N {s : Fin 4060} (hs : s ∈ ruS) :
   have e : {n | n ∈ ruS ∧ ruAdj s n} =
       {n | ruAdj s n} \ {n | ruAdj s n ∧ ruAdj 0 n} := by
     ext n
-    simp only [Set.mem_setOf_eq, Set.mem_diff, not_and, burnsideJ55_mem_S_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_sdiff, not_and, burnsideJ55_mem_S_iff]
     constructor
     · rintro ⟨⟨h1, h2⟩, h3⟩
       exact ⟨h3, fun _ => h2⟩
@@ -1875,7 +1875,7 @@ private theorem burnsideJ55_ncard_S_N {s : Fin 4060} (hs : s ∈ ruS) :
       exact and_comm
     rw [e2]
     exact burnsideJ55_ncard_D_N hs
-  rw [e, Set.ncard_diff hsub (Set.toFinite _), ncard_ruAdj, h780]
+  rw [e, Set.ncard_sdiff hsub (Set.toFinite _), ncard_ruAdj, h780]
 
 end
 
@@ -1896,7 +1896,7 @@ private theorem burnsideJ55_ncard_orbSet_S
   constructor
   · intro h
     have h1 := burnsideJ55_unique_975 hs hy h
-    have hy' : y ∈ burnsideJ55_orbSet s y := ⟨1, one_mem _, by simp [hs], rfl⟩
+    have hy' : y ∈ burnsideJ55_orbSet s y := ⟨1, one_mem _, by simp, rfl⟩
     rw [h1] at hy'
     exact hy'.2
   · intro h
@@ -1923,7 +1923,7 @@ private theorem burnsideJ55_conj_pow_two {a b : X} (hba : b * a * b⁻¹ = a ^ 2
 private theorem burnsideJ55_frob20 [Finite X] (hcard : Nat.card X = 20) {a b : X} (ha5 : a ^ 5 = 1)
     (ha1 : a ≠ 1) (hb4 : b ^ 4 = 1) (hb2 : b ^ 2 ≠ 1) (hba : b * a * b⁻¹ = a ^ 2) :
     Nonempty (X ≃* ↥(CFSG.Open.Sz 0)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hordA : orderOf a = 5 := orderOf_eq_prime ha5 ha1
   have hordB : orderOf b = 4 := by
     have := orderOf_eq_prime_pow (p := 2) (n := 1) (x := b) (by simpa using hb2)
@@ -2040,7 +2040,7 @@ private theorem burnsideJ55_frob20 [Finite X] (hcard : Nat.card X = 20) {a b : X
       exact mul_eq_right.1 hconj
     have h2 := orderOf_dvd_of_pow_eq_one h1
     rw [hordA] at h2
-    interval_cases j <;> simp_all <;> omega
+    interval_cases j <;> simp_all
   subst hj0
   simpa using hnN
 
@@ -2128,7 +2128,7 @@ private theorem burnsideJ55_inc_dist_lt_eight_iff (u v : Y ⧸ M1) :
       · rintro ⟨x, rfl, rfl⟩
         exact ⟨y * x, rfl, rfl⟩
     rcases a with a | a <;> rcases b with b | b
-    · simp only [Equiv.sumCongr_apply, Sum.map_inl, Equiv.coe_toEmbedding]
+    · simp only [Equiv.sumCongr_apply, Sum.map_inl]
       exact ⟨fun h => absurd h (burnsideJ55_inc_not_adj_inl_inl M1 M2 _ _),
         fun h => absurd h (burnsideJ55_inc_not_adj_inl_inl M1 M2 _ _)⟩
     · exact key a b
@@ -2203,10 +2203,10 @@ private theorem burnsideJ55_parabolic {G Ω : Type} [Group G] [MulAction G Ω] (
 private theorem burnsideJ55_psl_of_stated {N : Type} [Group N]
     (h : CFSG.Open.StatedClassicalModel N .PSL 2 5 2) :
     Nonempty (N ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 5 2)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := h
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 5 2) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 5 2) := Fintype.ofFinite _
   have hcard : Fintype.card K = Fintype.card (GaloisField 5 2) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK,
       GaloisField.card 5 2 (by norm_num)]
@@ -2217,7 +2217,7 @@ private theorem burnsideJ55_psl_of_stated {N : Type} [Group N]
 private theorem burnsideJ55_center_trivial {N : Type} [Group N]
     (e : N ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 5 2)) :
     ∀ z : N, (∀ g : N, g * z = z * g) → z = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   intro z hz
   have h1 : e z ∈ Subgroup.center (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 5 2)) := by
     rw [Subgroup.mem_center_iff]
@@ -2229,7 +2229,7 @@ private theorem burnsideJ55_center_trivial {N : Type} [Group N]
 
 private theorem burnsideJ55_isL225Plus {Y : Type} [Group Y] (h : ChIJK.IsL225Plus Y) :
     CFSG.Quasithin.RuRank3.IsL225Plus Y := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨N, hN, hidx, hmodel, P, n, hn4, ⟨eP⟩⟩ := h
   obtain ⟨eN⟩ := burnsideJ55_psl_of_stated hmodel
   have hNcard : Nat.card N = 7800 := by
@@ -2241,7 +2241,7 @@ private theorem burnsideJ55_isL225Plus {Y : Type} [Group Y] (h : ChIJK.IsL225Plu
     have := Subgroup.card_mul_index N
     rw [hNcard, hidx] at this
     omega
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite Y := Nat.finite_of_card_ne_zero (by omega)
   have hPcard : Nat.card (P : Subgroup Y) = 2 ^ n := by
     rw [Nat.card_congr eP.toEquiv, CFSG.Semidihedral.card n (by omega)]
   have hn : n = 4 := by
@@ -2573,7 +2573,7 @@ section
 
 theorem burnsideJ55_Tr.gamma_mem_S {γ : Ω} (hS : ChIJK.RudvalisSetting G Ω ω δ γ) : T.Φ
     γ ∈ ruS := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hrt := burnsideJ55_toRT hS.rank3
   obtain ⟨ψ⟩ := hrt.twoF4 ω
   have hFcard : Nat.card (MulAction.stabilizer G ω) = 35942400 := by
@@ -2750,7 +2750,7 @@ private theorem burnsideJ55_part4 {G Ω : Type} [Group G] [Finite G] [MulAction 
       (∀ τ ∈ ChIJK.DeltaAt G ω δ ω ∩ ChIJK.SigmaAt G ω γ γ,
         ChIJK.IsSylowTwoIn (MulAction.stabilizer G ω ⊓ MulAction.stabilizer G γ ⊓
           MulAction.stabilizer G τ) (MulAction.stabilizer G ω ⊓ MulAction.stabilizer G γ)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨T⟩ := burnsideJ55_exists_Tr hS
   have hs := T.gamma_mem_S hS
   have hnadj : ¬ ruAdj 0 (T.Φ γ) := fun h => hs.2 ((ruAdj_zero_iff _).1 h)
@@ -2786,7 +2786,7 @@ private theorem burnsideJ55_part4 {G Ω : Type} [Group G] [Finite G] [MulAction 
     have e : {n | ruAdj 0 n ∧ ¬ ruAdj (T.Φ γ) n} =
         {n | ruAdj 0 n} \ {n | ruAdj 0 n ∧ ruAdj (T.Φ γ) n} := by
       ext n
-      simp only [Set.mem_setOf_eq, Set.mem_diff, not_and]
+      simp only [Set.mem_ofPred_eq, Set.mem_sdiff, not_and]
       constructor
       · rintro ⟨h1, h2⟩
         exact ⟨h1, fun _ => h2⟩
@@ -2932,7 +2932,7 @@ private theorem burnsideJ55_part5 {G Ω : Type} [Group G] [MulAction G Ω] {ω �
     have e : {n | n ∈ ruS ∧ ruAdj (T.Φ γ) n} =
         {n | ruAdj (T.Φ γ) n} \ {n | ruAdj (T.Φ γ) n ∧ ruAdj 0 n} := by
       ext n
-      simp only [Set.mem_setOf_eq, Set.mem_diff, not_and, hS']
+      simp only [Set.mem_ofPred_eq, Set.mem_sdiff, not_and, hS']
       constructor
       · rintro ⟨⟨h1, h2⟩, h3⟩
         exact ⟨h3, fun _ => h2⟩
@@ -2947,7 +2947,7 @@ private theorem burnsideJ55_part5 {G Ω : Type} [Group G] [MulAction G Ω] {ω �
         exact and_comm
       rw [e2]
       exact ncard_common_of_not_ruAdj (fun h => hs.1 h.symm) hnadj
-    rw [e, Set.ncard_diff hsub (Set.toFinite _), ncard_ruAdj, h780]
+    rw [e, Set.ncard_sdiff hsub (Set.toFinite _), ncard_ruAdj, h780]
   refine ⟨?_, ?_, ?_⟩
   · rw [hset, hpre, hn975]
   · intro σ hσ τ hτ
@@ -3253,7 +3253,7 @@ private theorem burnsideJ55_J513 {G Ω : Type} [Group G] [MulAction G Ω] {ω δ
     intro x
     rw [T.mem_orbit_stab_iff γ x, orbit_ruR0_of_mem_ruS hs]
   have hVS : ∀ v, T.Φ (V v) ∈ ruS := fun v => (hOrb _).1 (hVmem v)
-  haveI : Nonempty Ω := ⟨ω⟩
+  have : Nonempty Ω := ⟨ω⟩
   have hDl : ∀ u, Function.invFunOn φ (ChIJK.DeltaAt G ω δ ω) u ∈ ChIJK.DeltaAt G ω δ ω ∧
       φ (Function.invFunOn φ (ChIJK.DeltaAt G ω δ ω) u) = u := fun u =>
     Function.invFunOn_pos (hRB.bij.surjOn (Set.mem_univ u))
@@ -3385,7 +3385,7 @@ private theorem burnsideJ55_two_walk (M1 M2 : Subgroup Y) (a b : Y ⧸ M1) (y₁
   exact ⟨SimpleGraph.Walk.cons h1 (SimpleGraph.Walk.cons h2 SimpleGraph.Walk.nil), rfl⟩
 
 private theorem burnsideJ55_octagon_ball_walk (x₀ : X) (M1 M2 : Subgroup Y)
-    (hM1 : ∀ y, y ∈ M1 ↔ y • x₀ = x₀) (Γ : X → X → Prop)
+    (_hM1 : ∀ y, y ∈ M1 ↔ y • x₀ = x₀) (Γ : X → X → Prop)
     (hinv : ∀ (y : Y) a b, Γ (y • a) (y • b) ↔ Γ a b) (m₀ : Y) (hm₀ : m₀ ∈ M2)
     (hm₀Γ : Γ x₀ (m₀ • x₀)) (h3 : ∀ a b, Γ x₀ a → Γ x₀ b → ∃ f ∈ M1, f • a = b) :
     ∀ (k : ℕ) (q : X), q ∈ (burnsideJ55_ballStep Γ)^[k] {x₀} →
@@ -3622,7 +3622,7 @@ private theorem burnsideJ55_tits_side {F : Type} [Group F] (ρ : F →* Equiv.Pe
       Subgroup.mem_subgroupOf]
     exact J47.mem_twoF4N_iff (hmem m)
   refine ⟨_, M2, hpair, fun y => ?_⟩
-  letI : MulAction F (Fin 1755) := MulAction.compHom (Fin 1755) ρ
+  let : MulAction F (Fin 1755) := MulAction.compHom (Fin 1755) ρ
   have hsmul : ∀ (y : F) (x : Fin 1755), y • x = ρ y x := fun _ _ => rfl
   have h00 : (0 : Fin 1755) ∈ titsLine (0 : Fin 2925) :=
     mem_titsLine.2 ⟨0, titsKappa_zero, titsBeta_zero⟩
@@ -3683,7 +3683,7 @@ private theorem burnsideJ55_exists_phi {F Ω : Type} [Group F] [MulAction F Ω] 
     have key : ∀ c : F, c • δ = g • δ → c⁻¹ * g ∈ H := by
       intro c hc
       rw [hH, mul_smul, ← hc, inv_smul_smul]
-    simp only [φ, dif_pos h]
+    simp only [φ, dite_eq_left h]
     rw [QuotientGroup.eq]
     exact key _ (Classical.choose_spec h)
   have hφ1 : φ δ = ((1 : F) : F ⧸ H) := by
@@ -3891,10 +3891,10 @@ private theorem burnsideJ11b_parabolic {G Ω : Type} [Group G] [MulAction G Ω] 
 private theorem burnsideJ11b_psl_of_stated {N : Type} [Group N]
     (h : CFSG.Open.StatedClassicalModel N .PSL 2 5 2) :
     Nonempty (N ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 5 2)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := h
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 5 2) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 5 2) := Fintype.ofFinite _
   have hcard : Fintype.card K = Fintype.card (GaloisField 5 2) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK,
       GaloisField.card 5 2 (by norm_num)]
@@ -3905,7 +3905,7 @@ private theorem burnsideJ11b_psl_of_stated {N : Type} [Group N]
 private theorem burnsideJ11b_center_trivial {N : Type} [Group N]
     (e : N ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 5 2)) :
     ∀ z : N, (∀ g : N, g * z = z * g) → z = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   intro z hz
   have h1 : e z ∈ Subgroup.center (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 5 2)) := by
     rw [Subgroup.mem_center_iff]
@@ -3917,7 +3917,7 @@ private theorem burnsideJ11b_center_trivial {N : Type} [Group N]
 
 private theorem burnsideJ11b_isL225Plus {Y : Type} [Group Y] (h : ChIJK.IsL225Plus Y) :
     CFSG.Quasithin.RuRank3.IsL225Plus Y := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨N, hN, hidx, hmodel, P, n, hn4, ⟨eP⟩⟩ := h
   obtain ⟨eN⟩ := burnsideJ11b_psl_of_stated hmodel
   have hNcard : Nat.card N = 7800 := by
@@ -3929,7 +3929,7 @@ private theorem burnsideJ11b_isL225Plus {Y : Type} [Group Y] (h : ChIJK.IsL225Pl
     have := Subgroup.card_mul_index N
     rw [hNcard, hidx] at this
     omega
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite Y := Nat.finite_of_card_ne_zero (by omega)
   have hPcard : Nat.card (P : Subgroup Y) = 2 ^ n := by
     rw [Nat.card_congr eP.toEquiv, CFSG.Semidihedral.card n (by omega)]
   have hn : n = 4 := by
@@ -4411,8 +4411,8 @@ private theorem burnsideJ57_J510_abs (col : V → Bool) (hc : ∀ x y, Γ.Adj x 
   have hpath : p.IsPath := p.isPath_of_length_eq_dist hp
   have hnb : ∀ i, i + 2 ≤ r → p.getVert (i + 2) ≠ p.getVert i := by
     intro i hi h
-    have := hpath.getVert_injOn (by simp only [Set.mem_setOf_eq]; omega)
-      (by simp only [Set.mem_setOf_eq]; omega) h
+    have := hpath.getVert_injOn (by simp only [Set.mem_ofPred_eq]; omega)
+      (by simp only [Set.mem_ofPred_eq]; omega) h
     omega
   have hcont : ∀ i, i < r → d i < d (i + 1) → ∀ k, i + k ≤ r → d i + k ≤ 8 →
       d (i + k) = d i + k := by
@@ -4541,7 +4541,7 @@ private theorem burnsideJ57_J58_abs {Ω : Type} (x : V) {lay : V → ℕ} (hL : 
     fun z => (hL.reachable z).exists_walk_length_eq_dist
   let pmap : Ω → Σ z, Γ.Walk x z := fun v =>
     if h : v ∈ L then ⟨f v, Classical.choose (hex (f v))⟩ else ⟨x, SimpleGraph.Walk.nil⟩
-  have hp1 : ∀ v ∈ L, pmap v = ⟨f v, Classical.choose (hex (f v))⟩ := fun v hv => dif_pos hv
+  have hp1 : ∀ v ∈ L, pmap v = ⟨f v, Classical.choose (hex (f v))⟩ := fun v hv => dite_eq_left hv
   have hmain : ∀ v ∈ L, (pmap v).1 = f v ∧ (pmap v).2.length = Γ.dist x (f v) ∧
       ∀ q : Γ.Walk x (f v), q.length = Γ.dist x (f v) →
         (⟨f v, q⟩ : Σ z, Γ.Walk x z) = pmap v := by
@@ -4583,7 +4583,7 @@ variable {Γ b}
 private theorem burnsideJ57_winc_zero (y : V) :
     burnsideJ57_Winc Γ b 0 y = {⟨y, SimpleGraph.Walk.nil⟩} := by
   ext ⟨z, w⟩
-  simp only [burnsideJ57_Winc, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [burnsideJ57_Winc, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hl, -⟩
     cases w with
@@ -4647,7 +4647,7 @@ noncomputable def burnsideJ57_firstEquiv (n : ℕ) (y : V) (S : Finset V)
         | @cons _ y' _ h w' =>
           have hy' : y' ∈ S := by simpa using hS1
           have hd1 : Γ.dist b y' = Γ.dist b y + 1 := by
-            have := hw.2 1 (by simp [hw.1])
+            have := hw.2 1 (by simp)
             simpa using this
           refine ⟨⟨⟨y', hy'⟩, ⟨⟨z, w'⟩, ?_, ?_⟩⟩, rfl⟩
           · have := hw.1
@@ -4678,18 +4678,18 @@ private theorem burnsideJ57_winc_finite [Finite V] (n : ℕ) : ∀ y, Finite ↥
   | succ n ih =>
     intro y
     classical
-    haveI : ∀ y', Finite ↥(burnsideJ57_Winc Γ b n y') := ih
+    have : ∀ y', Finite ↥(burnsideJ57_Winc Γ b n y') := ih
     set S : Finset V := (Set.toFinite (burnsideJ57_Fp Γ b y)).toFinset with hSdef
     have hS : ∀ y' ∈ S, Γ.Adj y y' ∧ Γ.dist b y' = Γ.dist b y + 1 := by
       intro y' hy'
       simpa [hSdef, burnsideJ57_Fp] using hy'
     have e := burnsideJ57_firstEquiv (b := b) n y S hS
-    haveI : Finite ↥{q ∈ burnsideJ57_Winc Γ b (n + 1) y | q.2.getVert 1 ∈ S} :=
+    have : Finite ↥{q ∈ burnsideJ57_Winc Γ b (n + 1) y | q.2.getVert 1 ∈ S} :=
       Finite.of_equiv _ e
     have heq : {q ∈ burnsideJ57_Winc Γ b (n + 1) y | q.2.getVert 1 ∈ S} =
         burnsideJ57_Winc Γ b (n + 1) y := by
       ext q
-      simp only [Set.mem_setOf_eq, and_iff_left_iff_imp]
+      simp only [Set.mem_ofPred_eq, and_iff_left_iff_imp]
       intro hq
       have := burnsideJ57_winc_first_mem hq
       simpa [hSdef] using this
@@ -4700,7 +4700,7 @@ private theorem burnsideJ57_winc_card_first [Finite V] (n : ℕ) (y : V) (S : Fi
     {q ∈ burnsideJ57_Winc Γ b (n + 1) y | q.2.getVert 1 ∈ S}.ncard =
       ∑ y' ∈ S, (burnsideJ57_Winc Γ b n y').ncard := by
   classical
-  haveI : ∀ y', Finite ↥(burnsideJ57_Winc Γ b n y') := burnsideJ57_winc_finite n
+  have : ∀ y', Finite ↥(burnsideJ57_Winc Γ b n y') := burnsideJ57_winc_finite n
   rw [← Nat.card_coe_set_eq, ← Nat.card_congr (burnsideJ57_firstEquiv (b := b) n y S hS),
     Nat.card_sigma]
   rw [← Finset.sum_coe_sort S (fun y' => (burnsideJ57_Winc Γ b n y').ncard)]
@@ -4713,7 +4713,7 @@ private theorem burnsideJ57_Fp_ncard [Finite V] (col : V → Bool) (hc : ∀ x y
     obtain ⟨y1, ⟨h1, h2⟩, huniq⟩ := burnsideJ57_J59_abs hL (e := Γ.dist b y) rfl hy hy8
     have : {y' | Γ.Adj y y' ∧ Γ.dist b y' + 1 = Γ.dist b y} = {y1} := by
       ext y'
-      simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
       constructor
       · rintro ⟨ha, hd⟩
         exact huniq y' ⟨ha, by omega⟩
@@ -4723,7 +4723,7 @@ private theorem burnsideJ57_Fp_ncard [Finite V] (col : V → Bool) (hc : ∀ x y
   have hsplit : Γ.neighborSet y =
       {y' | Γ.Adj y y' ∧ Γ.dist b y' + 1 = Γ.dist b y} ∪ burnsideJ57_Fp Γ b y := by
     ext y'
-    simp only [SimpleGraph.mem_neighborSet, Set.mem_union, Set.mem_setOf_eq, burnsideJ57_Fp]
+    simp only [SimpleGraph.mem_neighborSet, Set.mem_union, Set.mem_ofPred_eq, burnsideJ57_Fp]
     constructor
     · intro h
       have := burnsideJ57_lay_adj col hc hL h
@@ -4743,7 +4743,7 @@ private theorem burnsideJ57_Fp_ncard [Finite V] (col : V → Bool) (hc : ∀ x y
 
 private theorem burnsideJ57_Fp_base : burnsideJ57_Fp Γ b b = Γ.neighborSet b := by
   ext y'
-  simp only [burnsideJ57_Fp, SimpleGraph.mem_neighborSet, Set.mem_setOf_eq, SimpleGraph.dist_self,
+  simp only [burnsideJ57_Fp, SimpleGraph.mem_neighborSet, Set.mem_ofPred_eq, SimpleGraph.dist_self,
     zero_add]
   constructor
   · exact fun h => h.1
@@ -4776,7 +4776,7 @@ private theorem burnsideJ57_count_A [Finite V] (col : V → Bool) (hc : ∀ x y,
     have hset : {q ∈ burnsideJ57_Winc Γ b (n + 1) y | q.2.getVert 1 ∈ S} =
         burnsideJ57_Winc Γ b (n + 1) y := by
       ext q
-      simp only [Set.mem_setOf_eq, and_iff_left_iff_imp]
+      simp only [Set.mem_ofPred_eq, and_iff_left_iff_imp]
       intro hq
       have := burnsideJ57_winc_first_mem hq
       simpa [hSdef] using this
@@ -4795,7 +4795,7 @@ private theorem burnsideJ57_count_A [Finite V] (col : V → Bool) (hc : ∀ x y,
         omega
       have hcol := hpar.1 hev
       have := hdeg5 y (hcol.symm)
-      rw [if_pos he]
+      rw [ite_eq_left he]
       rw [hcard]
       congr 1
       omega
@@ -4804,7 +4804,7 @@ private theorem burnsideJ57_count_A [Finite V] (col : V → Bool) (hc : ∀ x y,
         omega
       have hcol : col b ≠ col y := fun h => hev (hpar.2 h)
       have := hdeg3 y (fun h => hcol h.symm)
-      rw [if_neg he]
+      rw [ite_eq_right he]
       rw [hcard]
       congr 1
       omega
@@ -4826,7 +4826,7 @@ private theorem burnsideJ57_count_B [Finite V] (col : V → Bool) (hc : ∀ x y,
   have hset : {q ∈ burnsideJ57_Winc Γ b (n + 1) y | y' ∉ q.2.support} =
       {q ∈ burnsideJ57_Winc Γ b (n + 1) y | q.2.getVert 1 ∈ S.erase y'} := by
     ext q
-    simp only [Set.mem_setOf_eq, Finset.mem_erase]
+    simp only [Set.mem_ofPred_eq, Finset.mem_erase]
     constructor
     · rintro ⟨hq, hnot⟩
       refine ⟨hq, ?_, by simpa [hSdef] using burnsideJ57_winc_first_mem hq⟩
@@ -4891,7 +4891,7 @@ private theorem burnsideJ57_J511_abs [Finite V] (col : V → Bool) (hc : ∀ x y
       have hset : {q ∈ burnsideJ57_Winc Γ y 8 y | q.2.getVert 1 ∈ S} =
           burnsideJ57_Winc Γ y 8 y := by
         ext q
-        simp only [Set.mem_setOf_eq, and_iff_left_iff_imp]
+        simp only [Set.mem_ofPred_eq, and_iff_left_iff_imp]
         intro hq
         have := burnsideJ57_winc_first_mem (n := 7) hq
         simpa [hSdef] using this
@@ -5110,13 +5110,13 @@ variable {A B A' B' : Type} {Γ : SimpleGraph (A ⊕ B)} {Γ' : SimpleGraph (A' 
   map_rel_iff' := by
     intro x y
     rcases x with a | c <;> rcases y with a' | c'
-    · simp only [Equiv.sumCongr_apply, Sum.map_inl, Equiv.coe_toEmbedding]
+    · simp only [Equiv.sumCongr_apply, Sum.map_inl]
       exact ⟨fun h => ((hbip' _ _ h) rfl).elim, fun h => ((hbip _ _ h) rfl).elim⟩
     · exact (hadj a c').symm
-    · simp only [Equiv.sumCongr_apply, Sum.map_inl, Sum.map_inr, Equiv.coe_toEmbedding]
+    · simp only [Equiv.sumCongr_apply, Sum.map_inl, Sum.map_inr]
       rw [SimpleGraph.adj_comm Γ', SimpleGraph.adj_comm Γ]
       exact (hadj a' c).symm
-    · simp only [Equiv.sumCongr_apply, Sum.map_inr, Equiv.coe_toEmbedding]
+    · simp only [Equiv.sumCongr_apply, Sum.map_inr]
       exact ⟨fun h => ((hbip' _ _ h) rfl).elim, fun h => ((hbip _ _ h) rfl).elim⟩
 
 private theorem burnsideJ57_dist_iso {V W : Type} {G : SimpleGraph V} {H : SimpleGraph W} (e : G ≃g H)
@@ -5207,13 +5207,13 @@ private theorem burnsideJ57_OctCard_of_iso (eA : A ≃ A') (eB : B ≃ B')
     fun S S' h => burnsideJ57_ncard_equiv eA _ _ h
   refine ⟨?_, ?_, ?_, ?_⟩
   · rw [← H.card2]
-    exact hsetA _ _ fun a => by simp only [Set.mem_setOf_eq, hd0]
+    exact hsetA _ _ fun a => by simp only [Set.mem_ofPred_eq, hd0]
   · rw [← H.card4]
-    exact hsetA _ _ fun a => by simp only [Set.mem_setOf_eq, hd0]
+    exact hsetA _ _ fun a => by simp only [Set.mem_ofPred_eq, hd0]
   · rw [← H.card6]
-    exact hsetA _ _ fun a => by simp only [Set.mem_setOf_eq, hd0]
+    exact hsetA _ _ fun a => by simp only [Set.mem_ofPred_eq, hd0]
   · rw [← H.card8]
-    exact hsetA _ _ fun a => by simp only [Set.mem_setOf_eq, hd0]
+    exact hsetA _ _ fun a => by simp only [Set.mem_ofPred_eq, hd0]
 
 private theorem burnsideJ57_Oct12_of_iso (eA : A ≃ A') (eB : B ≃ B')
     (hbip : ∀ x y, Γ.Adj x y → x.isRight ≠ y.isRight)
@@ -5236,7 +5236,7 @@ private theorem burnsideJ57_Oct12_of_iso (eA : A ≃ A') (eB : B ≃ B')
       Γ.dist (Sum.inl a) (Sum.inl c) < 8}.ncard =
       {c : A' | Γ'.dist (Sum.inl b') (Sum.inl c) = 8 ∧ 0 < Γ'.dist (Sum.inl (eA a)) (Sum.inl c) ∧
       Γ'.dist (Sum.inl (eA a)) (Sum.inl c) < 8}.ncard :=
-    hsetA _ _ fun c => by simp only [Set.mem_setOf_eq, hd0, hd]
+    hsetA _ _ fun c => by simp only [Set.mem_ofPred_eq, hd0, hd]
   rw [hc]
   refine ⟨h1, ?_⟩
   rw [h2, hd0]
@@ -5274,12 +5274,12 @@ private theorem burnsideJ57_Oct7_of_iso (eA : A ≃ A') (eB : B ≃ B')
   have e1 := himg {c : A | Γ.dist (Sum.inl b) (Sum.inl c) = 8 ∧ 0 < Γ.dist (Sum.inl y) (Sum.inl c) ∧
       Γ.dist (Sum.inl y) (Sum.inl c) < 8}
     {c : A' | Γ'.dist (Sum.inl b') (Sum.inl c) = 8 ∧ 0 < Γ'.dist (Sum.inl (eA y)) (Sum.inl c) ∧
-      Γ'.dist (Sum.inl (eA y)) (Sum.inl c) < 8} (fun c => by simp only [Set.mem_setOf_eq, hd0, hd])
+      Γ'.dist (Sum.inl (eA y)) (Sum.inl c) < 8} (fun c => by simp only [Set.mem_ofPred_eq, hd0, hd])
   have e2 := himg {c : A | Γ.dist (Sum.inl b) (Sum.inl c) = 8 ∧
       ¬ (0 < Γ.dist (Sum.inl x) (Sum.inl c) ∧ Γ.dist (Sum.inl x) (Sum.inl c) < 8)}
     {c : A' | Γ'.dist (Sum.inl b') (Sum.inl c) = 8 ∧
       ¬ (0 < Γ'.dist (Sum.inl (eA x)) (Sum.inl c) ∧ Γ'.dist (Sum.inl (eA x)) (Sum.inl c) < 8)}
-    (fun c => by simp only [Set.mem_setOf_eq, hd0, hd])
+    (fun c => by simp only [Set.mem_ofPred_eq, hd0, hd])
   rw [← e1, ← e2, Set.image_eq_image eA.injective, eA.injective.eq_iff] at key
   exact key
 
@@ -5743,8 +5743,8 @@ private theorem burnsideJ57_J511 [Finite G] (hOct : burnsideJ57_OctBase (incGrap
           {q ∈ NgeoSet (incGraph (FdOf G ω δ) M2) (Sum.inl (φ δ)) y e |
             y' ∉ q.2.support}.ncard = 8 ^ ((7 - e) / 2)) := by
   obtain ⟨lay, hL⟩ := hOct.layers (Sum.inl (φ δ))
-  haveI : Finite (↥(MulAction.stabilizer G ω) ⧸ FdOf G ω δ) := inferInstance
-  haveI : Finite (↥(MulAction.stabilizer G ω) ⧸ M2) := inferInstance
+  have : Finite (↥(MulAction.stabilizer G ω) ⧸ FdOf G ω δ) := inferInstance
+  have : Finite (↥(MulAction.stabilizer G ω) ⧸ M2) := inferInstance
   refine burnsideJ57_J511_abs (b := Sum.inl (φ δ)) (fun x => x.isRight) hOct.bip hL ?_ ?_ hy he8
   · intro x hx
     rcases x with a | c
@@ -6160,7 +6160,7 @@ private theorem burnsideJ57_J57_a (hRB : RuBuilding G Ω ω δ γ M2 φ)
       2 * 2 ^ 9 = (DeltaAt G ω δ ω ∩ SigmaAt G ω γ δ).ncard := by
   refine ⟨?_, by rw [burnsideJ57_card_DS hRB hSig hOct hCard]; norm_num⟩
   ext u
-  rw [hθ u, Set.mem_setOf_eq]
+  rw [hθ u, Set.mem_ofPred_eq]
   have hset : ∀ u : Ω, DeltaAt G ω δ u ∩ DeltaAt G ω δ ω ∩ SigmaAt G ω γ δ = LambdaAt G ω δ γ u :=
     fun u => by
       unfold LambdaAt
@@ -6181,9 +6181,9 @@ private theorem burnsideJ57_J57_a (hRB : RuBuilding G Ω ω δ γ M2 φ)
       have := (((burnsideJ57_J512 hRB hSig hOct h12 6 (Or.inr (Or.inr rfl)) huS.1 hd).2).1 hcard)
       omega
 
-private theorem burnsideJ57_J57_c (hRB : RuBuilding G Ω ω δ γ M2 φ)
+private theorem burnsideJ57_J57_c (_hRB : RuBuilding G Ω ω δ γ M2 φ)
     (hOct : burnsideJ57_OctBase (incGraph (FdOf G ω δ) M2)) {u : Ω}
-    (hu : u ∈ DeltaAt G ω δ ω) (hd : (incGraph (FdOf G ω δ) M2).dist (Sum.inl (φ δ))
+    (_hu : u ∈ DeltaAt G ω δ ω) (hd : (incGraph (FdOf G ω δ) M2).dist (Sum.inl (φ δ))
       (Sum.inl (φ u)) = 2) :
     ∃! l : ↥(MulAction.stabilizer G ω) ⧸ M2,
       (incGraph (FdOf G ω δ) M2).Adj (Sum.inl (φ δ)) (Sum.inr l) ∧
@@ -6242,7 +6242,7 @@ private theorem burnsideJ57_J57_d (hRB : RuBuilding G Ω ω δ γ M2 φ)
     · exact hl1.symm
   have hdiff : ((incGraph (FdOf G ω δ) M2).neighborSet (Sum.inr l) \
       {Sum.inl (φ δ), Sum.inl (φ u)}).ncard = 1 := by
-    rw [Set.ncard_diff hPN (Set.toFinite _), hN, hP2]
+    rw [Set.ncard_sdiff hPN (Set.toFinite _), hN, hP2]
   obtain ⟨z, hz⟩ := Set.ncard_eq_one.1 hdiff
   have hzmem : z ∈ (incGraph (FdOf G ω δ) M2).neighborSet (Sum.inr l) \
       {Sum.inl (φ δ), Sum.inl (φ u)} := by

@@ -24,17 +24,18 @@ structure SigmaStd (D : Data G) : Prop where
   solvable_of : (D.sig2 ∪ D.sig3).Nonempty → Group.IsSolvable ↥D.M
   four_mem : ∀ r : ℕ, r.Prime → r ≠ 2 → 4 ≤ Open.pRank r D.M → r ∈ D.sig
 
+omit [Finite G] in
 theorem not_solvable_of_mem_calC {M L : Subgroup G} (hL : L ∈ calC M) : ¬ Group.IsSolvable ↥M := by
   intro hs
   have hLM : L ≤ M := hL.1.le
-  haveI : Group.IsSolvable ↥L :=
+  have : Group.IsSolvable ↥L :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hLM)
       (Subgroup.inclusion_injective hLM)
-  haveI : Group.IsSolvable (Bar2 L) := inferInstance
+  have : Group.IsSolvable (Bar2 L) := inferInstance
   obtain ⟨hperf, hsimple⟩ := hL.2.2
-  haveI : Nontrivial (Bar2 L ⧸ center (Bar2 L)) := hsimple.toNontrivial
-  haveI : Nontrivial (Bar2 L) := (QuotientGroup.mk'_surjective (center (Bar2 L))).nontrivial
-  exact (IsSolvable.commutator_lt_top_of_nontrivial (Bar2 L)).ne hperf
+  have : Nontrivial (Bar2 L ⧸ center (Bar2 L)) := hsimple.toNontrivial
+  have : Nontrivial (Bar2 L) := (QuotientGroup.mk'_surjective (center (Bar2 L))).nontrivial
+  exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (Bar2 L)).ne hperf
 
 theorem sig_subset_sig1 {D : Data G} (hSg : SigmaStd D) (hns : ¬ Group.IsSolvable ↥D.M) :
     D.sig ⊆ D.sig1 := by
@@ -58,11 +59,11 @@ theorem exists_elemAbelian_sq_of_isSU3 (hSyl : UCK.U3Syl) {L : Subgroup G} {n : 
     (hX : IsSU3 (Bar2 L) n) {q : ℕ} (hq : q.Prime) (hq3 : 3 < q) (hqn : q ∣ 2 ^ n + 1) :
     ∃ E : Subgroup G, E ≤ L ∧ IsElemAbelian q E ∧ Nat.card E = q ^ 2 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2 : q ≠ 2 := by rintro rfl; omega
   obtain ⟨S⟩ : Nonempty (Sylow q (Bar2 L)) := inferInstance
   obtain ⟨Eb, hEbS, hEbel, hEbcard⟩ :=
-    (hSyl (Bar2 L) n hX q hq hq3 hqn (S : Subgroup (Bar2 L)) S.isPGroup' S.not_dvd_index).1
+    (hSyl (Bar2 L) n hX q hq hq3 hqn (S : Subgroup (Bar2 L)) S.isPGroup S.not_dvd_index).1
   let π : ↥L →* Bar2 L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
   have hker : IsPGroup 2 π.ker := by
     rw [QuotientGroup.ker_mk']; exact CFSG.pCore_isPGroup

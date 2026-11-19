@@ -85,8 +85,8 @@ theorem isCyclic_center_of_component (hO : GLAPPrimeCore 3 X = ⊥) {P K : Subgr
     rintro _ ⟨z, hz, rfl⟩
     exact ⟨z.2, Subgroup.mem_centralizer_iff.2 fun k hk =>
       congrArg Subtype.val ((Subgroup.mem_center_iff.1 hz) ⟨k, hk⟩)⟩
-  haveI := hcyc
-  haveI : IsCyclic ↥((Subgroup.center ↥K).map K.subtype) := Subgroup.isCyclic_of_le hle
+  have := hcyc
+  have : IsCyclic ↥((Subgroup.center ↥K).map K.subtype) := Subgroup.isCyclic_of_le hle
   exact isCyclic_of_injective
     (Subgroup.equivMapOfInjective (Subgroup.center ↥K) K.subtype K.subtype_injective).toMonoidHom
     (Subgroup.equivMapOfInjective (Subgroup.center ↥K) K.subtype K.subtype_injective).injective
@@ -95,7 +95,7 @@ theorem le_x0_of_coverX0 (hO : GLAPPrimeCore 3 X = ⊥) {P : Subgroup X} (hP : I
     {K : Subgroup X} (hK : IsComponentOf K ⊤) (hPK : P ≤ Subgroup.normalizer (K : Set X))
     (hZK : Subgroup.center ↥K ≠ ⊥) (hcyc : IsCyclic ↥(pCoreOf 3 (P ⊔ K))) {Y : Type} [Group Y]
     (e : ↥K ⧸ Subgroup.center ↥K ≃* Y) (h : CoverX0 Y 3) : K ≤ Inputs245.x0 3 P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal (Inputs245.sylowOf hP)
     (CFSG.Open.IsSubnormal.top_iff.1 hK.2.1)
   have hSP : (S : Subgroup ↥K).map K.subtype ≤ P := by
@@ -187,6 +187,7 @@ theorem x0_eq_top_of_datum (hp : p.Prime) (hp2 : p ≠ 2) (π : K →* Y) (hπ :
   rw [← Subgroup.comap_map_eq_self (H := Inputs245.x0 p T) (hker ▸ hZ), hmap,
     Subgroup.comap_top]
 
+omit [Finite K] [Finite Y] in
 theorem comap_map_conj_le (π : K →* Y) (g : K) {H : Subgroup Y} {T : Subgroup K}
     (hHT : H.comap π ≤ T) :
     (H.map (MulAut.conj (π g)).toMonoidHom).comap π ≤ T.map (MulAut.conj g).toMonoidHom := by

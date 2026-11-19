@@ -34,7 +34,7 @@ local notation "ι₆" => Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2
 
 private theorem s1614_ao_charP (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) :
     CharP K 2 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h := FiniteField.cast_card_eq_zero K
   rw [← Nat.card_eq_fintype_card, hK] at h
   exact CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero (by exact_mod_cast h)
@@ -42,7 +42,7 @@ private theorem s1614_ao_charP (K : Type) [Field K] [Finite K] (hK : Nat.card K 
 theorem s1614_hyp2iii_omega (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) (b c : K)
     (hbc : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     S1614Hyp2iii (FFModel.nat (StatedOmega (StatedQuadMinus 3 K b c))) := by
-  haveI : CharP K 2 := s1614_ao_charP K hK
+  have : CharP K 2 := s1614_ao_charP K hK
   rw [← coe_quadMinus 3 K b c]
   intro H hkH hHs h2
   obtain ⟨s, hs, hH⟩ := s1614_hyperplane _ K hK h2

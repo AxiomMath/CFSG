@@ -93,9 +93,9 @@ theorem combined_eq {letters : Array Table} {φ : ℕ → ℕ} {g : CFSG.Perm.Na
   | cons T Ts ih =>
     rw [List.map_cons]
     by_cases h : inTree T v = true
-    · simp only [combined, h, if_true]
+    · simp only [combined, h, ite_true]
       exact hT T List.mem_cons_self v h
-    · simp only [combined, h, if_false]
+    · simp only [combined, h]
       obtain ⟨T', hT'mem, hT'in⟩ := hv
       rcases List.mem_cons.mp hT'mem with rfl | hT'mem
       · exact absurd hT'in h

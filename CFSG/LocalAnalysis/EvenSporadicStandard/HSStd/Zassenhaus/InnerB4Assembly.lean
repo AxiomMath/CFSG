@@ -56,7 +56,7 @@ theorem InnerD8Config.diag_mem_commutator (c : InnerD8Config L t)
         _ = (k : G) * (t * k * t⁻¹) := hk.eq.symm
     have h2 : t * ((k : G) * (t * k * t⁻¹)) = ((k : G) * (t * k * t⁻¹)) * t :=
       mul_inv_eq_iff_eq_mul.1 h1
-    first | exact h2 | exact h2.symm
+    exact h2.symm
   have hDu : D ≤ centralizer ({c.u} : Set G) := by
     rintro _ ⟨k, rfl⟩
     rw [InnerD8Config.diagHom_apply]

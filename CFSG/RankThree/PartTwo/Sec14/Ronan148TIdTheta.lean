@@ -148,7 +148,7 @@ theorem thetaHeis148 : ThetaHeis148 := by
     (by rw [hKhmap]; exact hTperf)
   set D : Subgroup (GL (Fin 3) F) := ⁅Kh, Kh⁆ with hD
   rw [hKhmap] at hDmap
-  haveI : Group.IsPerfect D := Subgroup.isPerfect_iff.mpr hDperf
+  have : Group.IsPerfect D := Subgroup.isPerfect_iff.mpr hDperf
   have hDT : ∀ d ∈ D, pmk d ∈ T := fun d hd => hDmap ▸ ⟨d, hd, rfl⟩
   have hTD : ∀ t ∈ T, ∃ d ∈ D, pmk d = t := by
     intro t ht
@@ -211,7 +211,7 @@ theorem thetaHeis148 : ThetaHeis148 := by
         (fun w hw => mulVec_mem_comSpace hD1a hw) (fun w hw => mulVec_mem_comSpace hD2a hw))
   by_contra hθ
   have hchar := solvable_prime_complement_core_characterization (H := ↥K₀) Nat.prime_three
-  haveI := hchar.2.1
+  have := hchar.2.1
   obtain ⟨r, hr, B, hBn, hB1, hBN, hBexp, hBc⟩ :=
     CFSG.GH74.Uniqueness.exists_abelian_elemental_normal_of_solvable
       (N := aschbacherSolvableCore 3 ↥K₀) inferInstance hchar.1 hθ

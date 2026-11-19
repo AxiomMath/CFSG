@@ -123,13 +123,13 @@ theorem le_prodSub_right {G : Type} [Group G] (E P : Subgroup G)
 theorem card_prodSub {G : Type} [Group G] (E P : Subgroup G)
     (h : ∀ p ∈ P, ∀ e ∈ E, ∃ e' ∈ E, ∃ p' ∈ P, p * e = e' * p')
     (hE : Nat.card E = 9) (hP : Nat.card P = 8) : Nat.card (prodSub E P h) = 72 := by
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   let f : E × P → prodSub E P h := fun q => ⟨q.1.1 * q.2.1, q.1.1, q.1.2, q.2.1, q.2.2, rfl⟩
   have hsurj : Function.Surjective f := by
     rintro ⟨g, e, he, p, hp, rfl⟩
     exact ⟨(⟨e, he⟩, ⟨p, hp⟩), rfl⟩
-  haveI : Finite (prodSub E P h) := Finite.of_surjective f hsurj
+  have : Finite (prodSub E P h) := Finite.of_surjective f hsurj
   have hle : Nat.card (prodSub E P h) ≤ 72 := by
     have := Nat.card_le_card_of_surjective f hsurj
     rw [Nat.card_prod, hE, hP] at this
@@ -150,8 +150,8 @@ theorem mem_inn_of_mem {Jh : Type} [Group Jh] (hQ : CFSG.Open.IsQuasisimple Jh)
     (f : (Jh ⧸ Subgroup.center Jh) ≃* alternatingGroup (Fin 6))
     (E : Subgroup (MulAut Jh)) (hE : Nat.card E = 9) (x : MulAut Jh) (hx : x ∈ E) :
     x ∈ innAut Jh := by
-  haveI : Group.IsPerfect Jh := ⟨hQ.1⟩
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
+  have : Group.IsPerfect Jh := ⟨hQ.1⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
   have hx9 : x ^ 9 = 1 := by
     have h := pow_card_eq_one' (x := (⟨x, hx⟩ : E))
     rw [hE] at h
@@ -194,8 +194,8 @@ theorem caseA {Jh : Type} [Group Jh] (hQ : CFSG.Open.IsQuasisimple Jh)
     exact ⟨e', he', t, Subgroup.mem_inf.mpr ⟨ht, hti⟩, hpe.symm⟩
   have hKcard : Nat.card (innAut Jh) = 360 := by
     rw [Nat.card_congr (innIso Jh).symm.toEquiv, Nat.card_congr f.toEquiv, card_alt6]
-  haveI : Finite (innAut Jh) := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (innAut Jh) := Nat.finite_of_card_ne_zero (by rw [hKcard]; norm_num)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQeq⟩ := hSyl
   have hPcard : Nat.card (T' ⊓ innAut Jh : Subgroup (MulAut Jh)) = 8 := by
     rw [← hQeq, Subgroup.card_map_of_injective (innAut Jh).subtype_injective]
@@ -215,7 +215,7 @@ theorem caseB {Jh : Type} [Group Jh] (hQ : CFSG.Open.IsQuasisimple Jh)
     (hL : CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.IsLThreeTwo
       (Jh ⧸ Subgroup.center Jh))
     (E : Subgroup (MulAut Jh)) (hE : Nat.card E = 9) : False := by
-  haveI : Group.IsPerfect Jh := ⟨hQ.1⟩
+  have : Group.IsPerfect Jh := ⟨hQ.1⟩
   obtain ⟨e⟩ := CFSG.AGLEmbeddingD2.McLaughlin.OddIndex.nonempty_mulEquiv_GL_of_isLThreeTwo hL
   have hcard1 : Nat.card (E.map (centerQuotientHom Jh)) = 9 := by
     rw [Subgroup.card_map_of_injective (centerQuotientHom_injective Jh), hE]

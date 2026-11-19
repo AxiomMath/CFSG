@@ -93,7 +93,7 @@ theorem polar_comp_equivFun_symm_single {ι V : Type*} [Fintype ι] [DecidableEq
   simp only [polar_comp_linearMap, LinearEquiv.coe_coe]
   rw [Basis.equivFun_symm_single, Basis.equivFun_symm_apply, ← polarBilin_apply_apply, map_sum]
   simp only [map_smul, polarBilin_apply_apply, h, smul_eq_mul, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 section Transport
 
@@ -159,8 +159,8 @@ theorem elementaryGroup_le_of_adapted {d : ℕ} (hd : 6 ≤ d) {Q : QuadraticFor
     refine polar_comp_equivFun_symm_single Q b (fun j => ?_) w
     rw [hbpol a j ha]
     by_cases hj : j.val = starNat a.val
-    · rw [if_pos hj, if_pos (Fin.ext hj)]
-    · rw [if_neg hj, if_neg fun h => hj (congrArg Fin.val h)]
+    · rw [ite_eq_left hj, ite_eq_left (Fin.ext hj)]
+    · rw [ite_eq_right hj, ite_eq_right fun h => hj (congrArg Fin.val h)]
   have hs : (⟨2, by omega⟩ : Fin d) ≠ (hypCoord hd Q' hQs hps).star ⟨0, by omega⟩ := by
     rw [hypCoord_star]
     intro h

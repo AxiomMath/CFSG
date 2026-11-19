@@ -13,7 +13,7 @@ variable {G : Type} [Group G]
 theorem sec8t84g3b_pow_mod {X N : Subgroup G} (hN : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N)
     {a b : G} (ha : a ∈ X) (hb : b ∈ X) (hc : a * b * a⁻¹ * b⁻¹ ∈ N) (n : ℕ) :
     (a * b) ^ n * (a ^ n * b ^ n)⁻¹ ∈ N := by
-  haveI : (N.subgroupOf X).Normal := ⟨fun x hx g => hN g.1 g.2 x hx⟩
+  have : (N.subgroupOf X).Normal := ⟨fun x hx g => hN g.1 g.2 x hx⟩
   let ρ : ↥X →* ↥X ⧸ N.subgroupOf X := QuotientGroup.mk' _
   have key : ∀ x : ↥X, ρ x = 1 ↔ (x : G) ∈ N := fun x => QuotientGroup.eq_one_iff x
   let a' : ↥X := ⟨a, ha⟩

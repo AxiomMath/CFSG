@@ -187,10 +187,10 @@ theorem rank_sub_one_of_unitary_linear_embedding
       rw [hAct, map_sub]
   have hNatM : Matrix.toLin' (mat SUσ m r - 1) = N := by
     ext x
-    simp [N, Matrix.toLin'_apply, Matrix.sub_mulVec, natRep_apply, mat_apply]
+    simp [N, Matrix.toLin'_apply, natRep_apply, mat_apply]
   have hNatN : Matrix.toLin' (mat SUσ n (ι r) - 1) = N' := by
     ext x
-    simp [N', Matrix.toLin'_apply, Matrix.sub_mulVec, natRep_apply, mat_apply]
+    simp [N', Matrix.toLin'_apply, natRep_apply, mat_apply]
   rw [Matrix.rank_eq_finrank_range_toLin _
     (Pi.basisFun SUF (Fin n)) (Pi.basisFun SUF (Fin n)), Matrix.toLin_eq_toLin', hNatN,
     Matrix.rank_eq_finrank_range_toLin _
@@ -258,7 +258,7 @@ theorem rank_sub_one_of_mem_suPair
         simp only [mul_one, mul_zero, zero_smul, zero_add, mul_inv_cancel₀ hσc, one_smul]
   have hNat : Matrix.toLin' (mat SUσ n r - 1) = N := by
     refine LinearMap.ext fun x => ?_
-    simp [N, Matrix.toLin'_apply, Matrix.sub_mulVec, natRep_apply, mat_apply]
+    simp [N, Matrix.toLin'_apply, natRep_apply, mat_apply]
   rw [Matrix.rank_eq_finrank_range_toLin _
     (Pi.basisFun SUF (Fin n)) (Pi.basisFun SUF (Fin n)), Matrix.toLin_eq_toLin', hNat, hRange]
   have hlin : LinearIndependent SUF ![v, w] := by

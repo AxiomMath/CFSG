@@ -138,7 +138,7 @@ theorem inf_iSup_le_of_normal_family {p : ℕ} [Fact p.Prime] {T H E Q : Subgrou
     (hle : ∀ L ∈ 𝓕, L ≤ E) (hn : ∀ L ∈ 𝓕, E ≤ normalizer (L : Set G))
     (hQ : ∀ L ∈ 𝓕, T ⊓ L ≤ Q) : T ⊓ (⨆ L ∈ 𝓕, L) ≤ Q := by
   classical
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
   let S : Finset (Subgroup G) := (Set.toFinite 𝓕).toFinset
   have hS : ∀ L ∈ S, L ∈ 𝓕 := fun L hL => (Set.toFinite 𝓕).mem_toFinset.mp hL
   have hkey : T ⊓ (S.sup id) ≤ Q :=
@@ -155,7 +155,7 @@ theorem le_of_isPGroup_of_isSylowOf_le_normal {p : ℕ} [Fact p.Prime] {P K H Q 
   classical
   have hKnorm : (K.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).mpr hHK
-  haveI := hKnorm
+  have := hKnorm
   have hPidx : ¬ p ∣ P.relIndex H := (isSylowOf_iff.mp hP).2.2
   have hKind : ¬ p ∣ K.relIndex H := by
     intro hdvd

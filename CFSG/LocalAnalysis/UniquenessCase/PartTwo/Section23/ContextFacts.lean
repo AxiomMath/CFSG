@@ -94,7 +94,7 @@ theorem V_le_T (h4 : S23_4 D Ch) (h1930 : H1930 D) : c.V ≤ D.T :=
       (CFSG.ABGLocalTools.isSylowOf_iff.mp
         (D.sylowG.of_le (Ctx23L.N_mem_calMOf_T c).2 le_top)))
 
-theorem V_ne_bot (h4 : S23_4 D Ch) (h1930 : H1930 D) : c.V ≠ ⊥ := by
+theorem V_ne_bot (_h4 : S23_4 D Ch) (_h1930 : H1930 D) : c.V ≠ ⊥ := by
   intro hV
   have hZ : D.Z ≤ c.V := uc22p22v_le_conjClosure c.N D.Z
   exact uc22main1_Z_ne_bot D (le_bot_iff.mp (hV ▸ hZ))
@@ -152,7 +152,7 @@ theorem isElemAbelian_E (h4 : S23_4 D Ch) (h39 : S23_39 D Ch) (h1930 : H1930 D) 
     have hv2 : (v : G) ^ 2 = 1 := hV2 v hv
     rw [← map_pow, hv2, map_one]
 
-theorem E_ne_bot (h4 : S23_4 D Ch) (h1930 : H1930 D) : c.E ≠ ⊥ := by
+theorem E_ne_bot (_h4 : S23_4 D Ch) (_h1930 : H1930 D) : c.E ≠ ⊥ := by
   intro hE
   have hZV : D.Z ≤ c.V := uc22p22v_le_conjClosure c.N D.Z
   have hVE : c.V ≤ c.E := uc22p22v_le_conjClosure D.M c.V
@@ -188,7 +188,7 @@ theorem Z_right_TI (h4 : S23_4 D Ch) (h1930 : H1930 D) (g : G) :
   have hUZ : D.U = D.Z := (h4 h1930 c).1
   have hTI : CFSG.CGT.Timmesfeld75.IsTI D.Z := hUZ ▸ c.hTI
   have h := hTI g⁻¹
-  simp only [CFSG.CGT.Timmesfeld75.conjSubgroup, CFSG.Quasithin.conjSubgroup] at h
+  simp only [CFSG.CGT.Timmesfeld75.conjSubgroup] at h
   rcases h with h | h
   · exact Or.inl h
   · exact Or.inr (Subgroup.eq_of_le_of_card_ge (inf_eq_left.mp h)

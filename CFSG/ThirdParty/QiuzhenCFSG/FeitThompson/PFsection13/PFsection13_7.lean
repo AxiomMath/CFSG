@@ -328,7 +328,7 @@ private theorem theorem_13_7_eta10_S1_witness_source
     have hPCnormal : ((P ⊔ C).subgroupOf Smax).Normal := by
       simpa [hfit] using section8FittingSubgroup_normal_in Smax
     simpa [hH] using hPCnormal
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hoddSmax : Odd (Nat.card Smax) :=
     section13_odd_card_subgroup_of_odd_group Smax IsMinCE.odd_order
   have hμne : μsum 1 ≠ Section1.conjugateCharacter (μsum 1) :=
@@ -459,7 +459,7 @@ private theorem theorem_13_7_eta10_orthogonal_irreducible_generators_source
       _hd_card, _hU_card, _hV_card, _hSfam, _hTfam, hDadeS, _hDadeT,
       _hnotationData, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       _hChoice, _hMin, hFourSixS, _hFourSixT⟩
-  letI : IsMinCE G := _hMin
+  let : IsMinCE G := _hMin
   exact theorem_13_7_eta10_orthogonal_irreducible_generators_of_coherent_source
     Smax Tmax W W1 W2 P U Sfam τS τ1 ω η μ ν μsum νsum δ δ' σ p q
     hpos.2.1 hpos.1 hTypeP hFourSixS _hSfam hcoh hcohExt hDadeS hnotation
@@ -692,7 +692,7 @@ private theorem theorem_13_7_theorem_13_5_hypothesis_core_source
       ω η μ ν μsum νsum δ δ' σ p q u v c d hsource hnotation hH with
     ⟨τ1, S1, ζ0, ζ1, hcoh, hH5, hS1, hζ0, hζ1, hζ_ne,
       hspan, horth⟩
-  letI : IsMulCommutative (H.subgroupOf Smax) :=
+  let : IsMulCommutative (H.subgroupOf Smax) :=
     theorem_13_5_H_subgroupOf_isMulCommutative
       Smax Tmax W W1 W2 P Q U V C D H Sfam Tfam τS τT
         p q u v c d hsource hH5 hS1.1
@@ -948,7 +948,7 @@ private theorem theorem_13_7_exists_W1_order_comm_of_source
     ⟨_hMF, hW1cyc, hW1ne, _hW1Hall, _hScomp, _hUleDer, _hUnil,
       _hW1norm, _hDercomp, _hMFnotcyc, _hsecond, _hfit, _hfitDer,
       _hW2le, _hW2cyc, _hW2ne, hcentW1, _hnorm⟩
-  letI : IsCyclic W1 := hW1cyc
+  let : IsCyclic W1 := hW1cyc
   rcases IsCyclic.exists_generator (α := W1) with ⟨yW1, hygen⟩
   let y : G := yW1
   have hyW1 : y ∈ W1 := yW1.property
@@ -2037,7 +2037,7 @@ private theorem theorem_13_7_subgroupSupportEnergy_punctured_eq_card_mul_cfNormS
     Section7.subgroupSupportEnergy H (Section7.puncturedSubgroupSet H) α =
       (Nat.card H : ℝ) * Section5.cfNormSq α - Complex.normSq (α 1) := by
   classical
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   have henergy :
       Section7.subgroupSupportEnergy H (Section7.puncturedSubgroupSet H) α =
         ∑ x : H, if x = 1 then 0 else Complex.normSq (α x) := by
@@ -2124,9 +2124,9 @@ private theorem theorem_13_7_H_isMulCommutative_of_source
     ⟨_hcase, _hptypeS, _hptypeT, _hp_card, _hq_card, hC, _hD, _hc_card, _hd_card,
       _hU_card, _hV_card, _hSfam, _hTfam, _hDadeS, _hDadeT, _hnotation, _hChoice,
       _hMin⟩
-  letI : IsElementaryAbelian p P := hPelem
-  letI : IsMulCommutative P := IsElementaryAbelian.toIsMulCommutative p
-  letI : IsMulCommutative U := hUcomm
+  let : IsElementaryAbelian p P := hPelem
+  let : IsMulCommutative P := IsElementaryAbelian.toIsMulCommutative p
+  let : IsMulCommutative U := hUcomm
   have hCU : C ≤ U := by
     rw [hC]
     exact inf_le_left
@@ -2134,7 +2134,7 @@ private theorem theorem_13_7_H_isMulCommutative_of_source
     refine IsMulCommutative.mk <| Std.Commutative.mk <| fun x y => ?_
     apply Subtype.ext
     exact setLike_mul_comm (s := U) (hCU x.property) (hCU y.property)
-  letI : IsMulCommutative C := hCcomm
+  let : IsMulCommutative C := hCcomm
   have hCcent : C ≤ Subgroup.centralizer (P : Set G) := by
     intro z hz
     rw [hC] at hz
@@ -2312,7 +2312,7 @@ private theorem theorem_13_7_alpha_one_normSq_large_of_energy_lt_from_norm_formu
     (_henergy_lt : Section7.subgroupSupportEnergy H (Section7.puncturedSubgroupSet H) α <
       (Nat.card (Section7.puncturedSubgroupSet H) : ℝ)) :
     (Nat.card (Section7.puncturedSubgroupSet H) : ℝ) ≤ Complex.normSq (α 1) := by
-  letI : IsMulCommutative H :=
+  let : IsMulCommutative H :=
     theorem_13_7_H_isMulCommutative_of_source
       Smax Tmax W W1 W2 P Q U V C D H Sfam Tfam τS τT p q u v c d
       _hsource _hH

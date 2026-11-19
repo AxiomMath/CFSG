@@ -76,8 +76,8 @@ private theorem pow_three_eq_one_of_mem_sup {K : Type} [Field K] [Finite K] [Cha
     CFSG.ComponentClassification.OuterAutomorphisms.inner
       (matrixDerived (coordinateQuadPlus 4 K))
   have hN : N.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
-  haveI : N.Normal := hN
-  haveI : J.Normal := hJ
+  have : N.Normal := hN
+  have : J.Normal := hJ
   have hc3J : c ^ 3 ∈ J := by
     have h1 : (QuotientGroup.mk (j * c) : MulAut (matrixDerived (coordinateQuadPlus 4 K)) ⧸ J) =
         QuotientGroup.mk c := by
@@ -185,7 +185,7 @@ private theorem exists_zpow_mul_mem_of_mem_sup {K : Type} [Field K] [Finite K] [
     {s : MulAut (matrixDerived (coordinateQuadPlus 4 K))}
     (hs : s ∈ J ⊔ (fieldAutP (K := K) 4).range) :
     ∃ m : ℤ, (fieldAutP (K := K) 4 σ₀) ^ m * s ∈ J := by
-  haveI : J.Normal := hJ
+  have : J.Normal := hJ
   rw [Subgroup.mem_sup_of_normal_left (s := J) (t := (fieldAutP (K := K) 4).range)] at hs
   obtain ⟨j, hj, f, hf, rfl⟩ := hs
   obtain ⟨τ, rfl⟩ := MonoidHom.mem_range.mp hf
@@ -207,10 +207,10 @@ theorem card_le_nine_of_plusFour (hT : PlusFourTrialityInput) {K : Type} [Field 
   obtain ⟨θ, hθ3, hρθ, hφθ, hgen, huniq, -⟩ := hT K
   have hJ := normal_sup_zpowers_of_plusFour hθ3 hρθ hφθ hgen
   have hmemS := mem_sup_range_of_pow_three hθ3 hgen huniq hJ
-  haveI : IsCyclic (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) :=
     CFSG.RankThree.GF2n.Stroth80.isCyclic_ringEquiv K
   obtain ⟨σ₀, hσ₀⟩ := IsCyclic.exists_generator (α := K ≃+* K)
-  haveI : (CFSG.ComponentClassification.OuterAutomorphisms.inner
+  have : (CFSG.ComponentClassification.OuterAutomorphisms.inner
       (matrixDerived (coordinateQuadPlus 4 K)) ⊔ Subgroup.zpowers θ).Normal := hJ
   have hmain := CFSG.card_le_sq_of_two_cyclic_layers (p := 3) (by norm_num)
     (N := CFSG.ComponentClassification.OuterAutomorphisms.inner

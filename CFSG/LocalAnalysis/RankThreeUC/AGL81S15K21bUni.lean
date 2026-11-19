@@ -160,7 +160,7 @@ theorem tau_map_U0 : (U0 F).map (tau F).toMonoidHom = U0 F := by
     refine ⟨uSL c (a * c - b) a, ⟨(c, a * c - b, a), rfl⟩, ?_⟩
     show tauFun (uSL c (a * c - b) a) = uSL a b c
     rw [tauFun_uSL]
-    congr 1 <;> ring
+    congr 1; ring
 
 theorem conj_mem_U0 {A u : SpecialLinearGroup (Fin 3) F}
     (h10 : (A : Matrix (Fin 3) (Fin 3) F) 1 0 = 0) (h20 : (A : Matrix (Fin 3) (Fin 3) F) 2 0 = 0)

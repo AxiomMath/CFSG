@@ -93,7 +93,7 @@ theorem perm_sq_eq_one_of_commute_odd {n : ℕ} (h7 : 7 ≤ n) (hodd : Odd n)
     have hset : ({x : Fin n | x ≠ p.ω} : Set (Fin n)) = Set.univ \ {p.ω} := by
       ext x
       simp
-    rw [Nat.card_coe_set_eq, hset, Set.ncard_diff_singleton_of_mem (Set.mem_univ p.ω),
+    rw [Nat.card_coe_set_eq, hset, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ p.ω),
       Set.ncard_univ, Nat.card_fin]
     omega
   have hfix := fix_pairs_of_commute_odd p (W := {x : Fin n | x ≠ p.ω}) (e := σ)
@@ -111,7 +111,7 @@ theorem perm_sq_eq_one_of_commute_odd {n : ℕ} (h7 : 7 ≤ n) (hodd : Odd n)
 private theorem bk2_isSylowTwoOf_top (G : Type) [Group G] [Finite G] (P : Sylow 2 G) :
     CFSG.QuasithinUnique.IsSylowTwoOf (P : Subgroup G) ⊤ := by
   unfold CFSG.QuasithinUnique.IsSylowTwoOf
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   have h1 : ((P : Subgroup G).subgroupOf ⊤).index = (P : Subgroup G).index :=
     Subgroup.relIndex_top_right (P : Subgroup G)
   rw [h1]

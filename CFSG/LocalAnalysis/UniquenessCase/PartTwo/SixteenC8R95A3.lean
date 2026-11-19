@@ -18,16 +18,16 @@ theorem r95_char_seven_of_section {Q : Type} [Group Q] [Finite Q]
     {p f : ℕ} (hQ : LieModel Q .PSL 2 p f) {E : Subgroup Q} {Qm : Type} [Group Qm]
     (π : E →* Qm) (hπ : Function.Surjective π) (hm : LieModel Qm .PSL 3 2 1) : p = 7 := by
   obtain ⟨⟨hp, -⟩, K, _, _, hK, ⟨eK⟩⟩ := hQ.statedClassicalModel (by decide)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let e : Q ≃* CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K :=
     eK.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
-  haveI : Finite Qm := Finite.of_surjective π hπ
-  haveI : Finite (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K) :=
+  have : Finite Qm := Finite.of_surjective π hπ
+  have : Finite (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K) :=
     Finite.of_equiv Q e.toEquiv
   by_cases h2 : p = 2
   ·
     subst h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let E' : Subgroup (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K) := E.map e.toMonoidHom
     have hE' : CFSG.Walter.HasAbelianSylowTwo ↥E' := fun P =>
       (CFSG.Glauberman.Dickson.h826_sylow_elementary hK E' P).toIsMulCommutative
@@ -38,7 +38,7 @@ theorem r95_char_seven_of_section {Q : Type} [Group Q] [Finite Q]
       CFSG.Walter.HasAbelianSylowTwo.of_surjective hψ hE'
     obtain ⟨K3, _, _, hc3, ⟨e3⟩⟩ :=
       CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hm
-    haveI := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+    have := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by norm_num) hc3
     obtain ⟨m, hm3, S, r, hr, s, hs, -, hro, -, -, hconj⟩ :=
       CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSL_three_dihedral_sylow
@@ -70,20 +70,20 @@ theorem r95_char_seven_of_section {Q : Type} [Group Q] [Finite Q]
     obtain ⟨⟨-, -⟩, K7, _, _, hK7, ⟨e7'⟩⟩ := hm7.statedClassicalModel (by decide)
     let e7 : Qm ≃* CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K7 :=
       e7'.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K7).symm
-    haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K7) :=
+    have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K7) :=
       CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K7 (by rw [hK7]; norm_num)
-    haveI : Group.IsPerfect (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K7) := inferInstance
-    haveI : Group.IsPerfect Qm :=
+    have : Group.IsPerfect (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K7) := inferInstance
+    have : Group.IsPerfect Qm :=
       Group.IsPerfect.ofSurjective (f := e7.symm.toMonoidHom) e7.symm.surjective
     obtain ⟨⟨k, hk, -⟩, -, hPperf, -⟩ := CFSG.perfect_residual_characterization (G := ↥E)
     have hPmap : (CFSG.perfectResidual ↥E).map π = ⊤ := by
       rw [hk, map_derivedSeries_eq hπ, Group.IsPerfect.derivedSeries_eq_top]
-    haveI : Group.IsPerfect ↥(CFSG.perfectResidual ↥E) := hPperf
+    have : Group.IsPerfect ↥(CFSG.perfectResidual ↥E) := hPperf
     let ι : ↥E →* CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K :=
       e.toMonoidHom.comp E.subtype
     let X : Subgroup (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K) :=
       (CFSG.perfectResidual ↥E).map ι
-    haveI hX : Group.IsPerfect ↥X := Group.IsPerfect.map ι
+    have hX : Group.IsPerfect ↥X := Group.IsPerfect.map ι
     let φ : ↥X ≃* ↥(CFSG.perfectResidual ↥E) :=
       (Subgroup.equivMapOfInjective (CFSG.perfectResidual ↥E) ι
         (e.injective.comp E.subtype_injective)).symm

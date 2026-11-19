@@ -46,7 +46,7 @@ theorem prop3_generic
   ·
     obtain ⟨n, h5', h9, ⟨e⟩⟩ := h1
     have hcard : Nat.card S = n.factorial / 2 := by
-      haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
       rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
         Fintype.card_fin]
     exact no_m22_surj_of_not_dvd (by rw [hcard]; interval_cases n <;> norm_num) A φ

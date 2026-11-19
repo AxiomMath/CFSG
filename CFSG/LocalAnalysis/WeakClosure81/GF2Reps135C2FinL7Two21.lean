@@ -28,7 +28,7 @@ theorem lt_orbitSize_of_symmetric_seven (S : Finset (Fin 7)) (h0 : (⟨0, by ome
   have hne : j ≠ (⟨7 - (j : ℕ), by omega⟩ : Fin 7) := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [Fin.val_mk] at hv
+    simp only at hv
     omega
   have h2 : 2 ≤ S.card := by
     have h := Finset.one_lt_card.mpr ⟨j, hj, _, hkj, hne⟩

@@ -19,7 +19,7 @@ theorem ronOdd5_short (hyp : HypF_4_4 .U5 2 1 Gp M₁ M₂) {fb : E}
       ∃ P : Subgroup E, P ≤ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ∧
         P ≤ Subgroup.centralizer ({t} : Set E) ∧ Nat.card P = 256 := by
   obtain ⟨K, fK, h, φ, hφ, hrange, h1, h2, -⟩ := burnsideF437U_U5_model hyp hgr
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hpc := burnsideF437U_U5_pCore h
   have hB : Gp ⊓ (M₁ ⊓ M₂) = (u5PtStab h ⊓ u5LnStab h).map φ := by
     rw [show Gp ⊓ (M₁ ⊓ M₂) = (Gp ⊓ M₁) ⊓ (Gp ⊓ M₂) by

@@ -182,7 +182,7 @@ theorem onB_of {y0 y1 y2 y3 : ℕ} (h : OnOmega4 2 (dec y0) (dec y1) (dec y2) (d
     have h3' : ¬ y3 % 32 = 0 := fun e => h3 ((dec_eq_zero_iff y3).2 e)
     simp [h0, h1, h2, h3']
   · have h0' : ¬ y0 % 32 = 0 := fun e => h0 ((dec_eq_zero_iff y0).2 e)
-    rw [if_neg h0', eq32_iff]
+    rw [ite_eq_right h0', eq32_iff]
     simp only [dec_fm, dec_fa, dec_fpow]
     norm_num at h
     linear_combination h

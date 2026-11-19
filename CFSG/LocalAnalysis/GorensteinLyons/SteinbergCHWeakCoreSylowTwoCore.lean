@@ -45,7 +45,7 @@ theorem normalizer_eq_mul_normalizer_sylow {G : Type*} [Group G] [Finite G] {p :
       have h1 := map_mono (f := (MulAut.conj g).toMonoidHom) hPW
       rwa [hgW] at h1
     obtain ⟨w, hw⟩ := CFSG.LargeEvenClassification.Helpers.sylow_contains_conjugate_inside hp P W
-      _ hPW hQW (P.isPGroup'.map _)
+      _ hPW hQW (P.isPGroup.map _)
     have hcomp : ((P : Subgroup G).map (MulAut.conj g).toMonoidHom).map
         (MulAut.conj (w : G)).toMonoidHom =
         (P : Subgroup G).map (MulAut.conj ((w : G) * g)).toMonoidHom := by

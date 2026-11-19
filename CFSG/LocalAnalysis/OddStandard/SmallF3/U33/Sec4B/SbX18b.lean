@@ -47,7 +47,7 @@ theorem l18_false_caseB (hG : Sec4Glob G) (hc : Ctx18B t L S x₁ x₂ lam rho t
         _ = (x₁ ^ 2)⁻¹ * x₁ ^ 2 := by rw [← h2]
         _ = 1 := by group
     exact (l17_yz_ne hc.toCtx13).2.1 hz1
-  haveI : IsSimpleGroup G := hG.simple
+  have : IsSimpleGroup G := hG.simple
   obtain ⟨w, hwM₁, -, -⟩ :=
     Outside.H74_of_simple hnab hℰ hℰidx hM₁le hM₁idx htℰ htM₁ ht2
   have hu2 : (w * t * w⁻¹) * (w * t * w⁻¹) = 1 := by

@@ -18,9 +18,9 @@ open CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl (torusHom torus tor
 
 private theorem g4sp_isSylowOf_unipotent {K : Type} [Field K] [Finite K] [CharP K 2]
     [Finite (StatedSp 2 K)] : CFSG.ABGLocalTools.IsSylowOf 2 (unipotent 2 K) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_unipotent (K := K) 2 2
-  refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, hP ▸ P.isPGroup', ?_⟩
+  refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, hP ▸ P.isPGroup, ?_⟩
   rw [relIndex_top_right, ← hP]
   exact P.not_dvd_index
 
@@ -77,7 +77,7 @@ theorem cartanAt_of_isSp4 {X : Type} [Group X] [Finite X] {n : ℕ} (h : IsSp4 X
       CartanAt U n (Multiplicative (ZMod (2 ^ n - 1) × ZMod (2 ^ n - 1))) := by
   obtain ⟨K, _, _, _, hK, ⟨e⟩⟩ :=
     CFSG.SeitzReduction.SymplecticPilot.exists_mulEquiv_statedSp_of_lieModel h
-  haveI : Finite (StatedSp 2 K) := Finite.of_equiv X e.toEquiv
+  have : Finite (StatedSp 2 K) := Finite.of_equiv X e.toEquiv
   exact ⟨_, isSylowOf_map_equiv g4sp_isSylowOf_unipotent e.symm,
     (g4sp_cartanAt_unipotent hK).map e.symm⟩
 

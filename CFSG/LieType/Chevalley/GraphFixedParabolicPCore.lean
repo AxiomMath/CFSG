@@ -58,8 +58,8 @@ theorem pCore_graphFixedParabolic_le_of_conj (t : TwistTag) (K : Type) [Field K]
     (CFSG.pCore (ringChar K) (graphFixedParabolic t K σ.toRingHom J)).map
         (graphFixedParabolic t K σ.toRingHom J).subtype ≤
       graphFixedParabolicRadical t K σ.toRingHom J := by
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
   have hσ : Function.Surjective σ.toRingHom := σ.surjective
   obtain ⟨-, -, -, -, -, -, -, -, hQP, hQN, hLP, hfac, -, -, -, -, hpg, -⟩ :=
     diagram_fixed_parabolic_root_radical_Levi_factors t K σ J
@@ -112,8 +112,8 @@ theorem graphFixedParabolicRadical_le_pCore (t : TwistTag) (K : Type) [Field K] 
     graphFixedParabolicRadical t K σ.toRingHom J ≤
       (CFSG.pCore (ringChar K) (graphFixedParabolic t K σ.toRingHom J)).map
         (graphFixedParabolic t K σ.toRingHom J).subtype := by
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
   obtain ⟨-, -, -, -, -, -, -, -, hQP, hQN, -, -, -, -, -, -, hpg, -⟩ :=
     diagram_fixed_parabolic_root_radical_Levi_factors t K σ J
   exact le_pCore_map_subtype (ringChar K) hQP hQN (hpg (ringChar K))

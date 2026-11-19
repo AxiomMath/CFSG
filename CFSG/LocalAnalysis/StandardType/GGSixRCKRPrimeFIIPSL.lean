@@ -21,10 +21,10 @@ theorem rckLemmaFIIAt_PSL
   rcases hmodel with ⟨m, g, φ, hg, hφr, hφk, hdiag⟩
   have hm0 : m ≠ 0 := by
     rintro rfl
-    haveI : Subsingleton (ggU .PSL 0 g).K := by
+    have : Subsingleton (ggU .PSL 0 g).K := by
       show Subsingleton (Matrix.SpecialLinearGroup (Fin 1) (ZMod 2))
       infer_instance
-    haveI : Subsingleton ↥(φ.range) :=
+    have : Subsingleton ↥(φ.range) :=
       (MonoidHom.rangeRestrict_surjective φ).subsingleton
     have hrange_bot : φ.range = ⊥ := Subgroup.eq_bot_of_subsingleton (φ.range)
     have hKbot : K = ⊥ := by rw [← hφr, hrange_bot]

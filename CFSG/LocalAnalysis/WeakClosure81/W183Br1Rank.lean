@@ -28,7 +28,7 @@ private theorem w183_exists_mul_ne_of_isU3_two {X : Type} [Group X] (h : IsU3 X 
   have hcomm : IsMulCommutative X := IsMulCommutative.of_comm (fun a b => by
     by_contra hab
     exact hnab ⟨a, b, hab⟩)
-  letI : IsMulCommutative X := hcomm
+  let : IsMulCommutative X := hcomm
   have hp : (Nat.card X).Prime := CommGroup.is_simple_iff_prime_card.mp hsimple
   rw [hcard] at hp
   norm_num at hp
@@ -40,7 +40,7 @@ private theorem w183_quasisimple_of_simple {X : Type} [Group X]
   refine ⟨?_, ?_⟩
   · rcases hs.eq_bot_or_eq_top_of_normal (commutator X) with h | h
     · exfalso
-      haveI := (commutator_eq_bot_iff X).mp h
+      have := (commutator_eq_bot_iff X).mp h
       obtain ⟨a, b, hab⟩ := hnab
       exact hab (mul_comm a b)
     · exact h
@@ -52,7 +52,7 @@ private theorem w183_component_cover_of_simple {W : Type} [Group W] {Y L : Subgr
     (hLY : L ≤ Y) (hLn : (L.subgroupOf Y).Normal)
     (hsimple : IsSimpleGroup ↥L) (hnab : ∃ a b : ↥L, a * b ≠ b * a) :
     CFSG.Open.IsComponentOf (L.subgroupOf Y) ⊤ ∧ CoverOf ↥(L.subgroupOf Y) ↥L := by
-  haveI := hsimple
+  have := hsimple
   have hqL : CFSG.Open.IsQuasisimple ↥L := w183_quasisimple_of_simple hsimple hnab
   have hqL' : CFSG.Open.IsQuasisimple ↥(L.subgroupOf Y) :=
     CFSG.Open.IsQuasisimple.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLY) hqL
@@ -122,7 +122,7 @@ theorem br1_rank_false_one (hrk : FinRk2) (hU : FinRkU34) (h65f : Asch6_5Four)
     (hshape : IsL2 ↥L 2 ∨ IsL3 ↥L 1 ∨ IsU3 ↥L 2) {D : Subgroup (LGL 2 V)} (hD : D ∈ Γ)
     (h8 : 8 ≤ Nat.card ↥D) : False := by
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite (LGL 2 V) := w183_finite_lgl
   have hDY : D ≤ Y := h.le_G D hD
   have hel : IsElemAbelian 2 D := h.isElemAb D hD
   obtain ⟨hN, hC⟩ := w183_restrict_normal_cent hLY hLn hcent
@@ -207,8 +207,8 @@ theorem br1_rank_false_two (hrk : FinRk2) (htwo : Br2TwoComp Y T L₁ L₂)
     (hDn : D ≤ Subgroup.normalizer (L₁ : Set (LGL 2 V))) (hel : IsElemAbelian 2 D)
     (h3 : 3 ≤ mOf D (D ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V)))) : False := by
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
-  haveI : Finite (alphaQuot Y L₁) := w183_alpha_finite Y L₁
+  have : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite (alphaQuot Y L₁) := w183_alpha_finite Y L₁
   obtain ⟨hN, hC⟩ := w183_alpha_normal_cent htwo
   obtain ⟨e⟩ := w183_alpha_shape htwo
   have hshape' : IsL2 ↥(alphaL Y L₁) 2 ∨ IsL3 ↥(alphaL Y L₁) 1 := by

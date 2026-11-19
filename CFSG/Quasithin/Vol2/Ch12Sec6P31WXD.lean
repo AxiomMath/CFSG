@@ -126,7 +126,7 @@ theorem inf_ne_bot_of_threeRank [Finite Y] (hR : P31D.ThreeRankLE2 Y) {X₁ X₂
         _ = (a₂ * a₁) * (b₂ * b₁) := by group
     exact (decomp_unique hX (X₁.mul_mem ha₁ ha₂) (X₁.mul_mem ha₂ ha₁) (X₂.mul_mem hb₁ hb₂)
       (X₂.mul_mem hb₂ hb₁) h2).2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y', hy'⟩ := exists_prime_orderOf_dvd_card' (G := ↥X₁) 3 h₁
   set y : Y := (y' : Y) with hy
   have hyX : y ∈ X₁ := y'.2
@@ -215,6 +215,7 @@ theorem borel_pair_le (hTs : IsSylowTwoOf Ts ⊤) (hnormal : (X₁ ⊔ X₂).Nor
     rw [hsplit]
     exact Subgroup.inf_normalizer_le_normalizer_sup _ _ ⟨hx1, hxN⟩
 
+omit [Finite Y] in
 theorem inf_eq_borel_pair [Finite Y] (hTs : IsSylowTwoOf Ts ⊤) (hnormal : (X₁ ⊔ X₂).Normal)
     (hcomm : ∀ a ∈ X₁, ∀ b ∈ X₂, a * b = b * a) (hX : X₁ ⊓ X₂ = ⊥)
     (hs₁ : IsSimpleGroup ↥X₁) (hs₂ : IsSimpleGroup ↥X₂) {Ms : Subgroup Y}
@@ -240,8 +241,8 @@ theorem inf_eq_borel_pair [Finite Y] (hTs : IsSylowTwoOf Ts ⊤) (hnormal : (X�
   have hBY : borel X₁ Ts ⊔ borel X₂ Ts ≤ Ms ⊓ (X₁ ⊔ X₂) :=
     le_inf (hBle.trans hBM) (hBle.trans inf_le_left)
   have hYK : Ms ⊓ (X₁ ⊔ X₂) ≤ X₁ ⊔ X₂ := inf_le_right
-  haveI := hs₁
-  haveI := hs₂
+  have := hs₁
+  have := hs₂
   rcases P31D.borel_pair_maximal_overgroups hcomm hX (inf_le_left : borel X₁ Ts ≤ X₁)
     (inf_le_left : borel X₂ Ts ≤ X₂) hc₁ hc₂ hne₁ hBY hYK ht₁ ht₂ htN with ⟨h1, h2, h3⟩ | ⟨h1, -, -⟩
   · exact ⟨h3, h1, h2⟩
@@ -263,7 +264,7 @@ theorem mul_pow_mem {B U : Subgroup Y} (hUB : U ≤ B) (hBU : B ≤ Subgroup.nor
     (hcomm : ∀ a ∈ B, ∀ b ∈ B, a * b * a⁻¹ * b⁻¹ ∈ U) {a b : Y} (ha : a ∈ B) (hb : b ∈ B)
     {p k l : ℕ} (hak : a ^ (p ^ k) ∈ U) (hbl : b ^ (p ^ l) ∈ U) :
     (a * b) ^ (p ^ (k + l)) ∈ U := by
-  haveI hN : (U.subgroupOf B).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).2 hBU
+  have hN : (U.subgroupOf B).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).2 hBU
   have hc : (QuotientGroup.mk ⟨a, ha⟩ : ↥B ⧸ U.subgroupOf B) *
       (QuotientGroup.mk ⟨b, hb⟩ : ↥B ⧸ U.subgroupOf B) =
       (QuotientGroup.mk ⟨b, hb⟩ : ↥B ⧸ U.subgroupOf B) * QuotientGroup.mk ⟨a, ha⟩ := by
@@ -295,7 +296,7 @@ theorem mul_pow_mem {B U : Subgroup Y} (hUB : U ≤ B) (hBU : B ≤ Subgroup.nor
   mul_mem' := by
     rintro a b ⟨ha, k, hk⟩ ⟨hb, l, hl⟩
     exact ⟨B.mul_mem ha hb, k + l, mul_pow_mem hUB hBU hcomm ha hb hk hl⟩
-  one_mem' := ⟨B.one_mem, 0, by simpa using U.one_mem⟩
+  one_mem' := ⟨B.one_mem, 0, by simp⟩
   inv_mem' := by
     rintro a ⟨ha, k, hk⟩
     refine ⟨B.inv_mem ha, k, ?_⟩
@@ -398,7 +399,7 @@ theorem permData_build {Ts Ms Tls Bs Us : Subgroup Y} {p : ℕ} {n r : Y} (hp : 
       obtain ⟨hbB, k', hk'⟩ := hb
       refine ⟨hTsB u hu b hbB, k', ?_⟩
       have e : (u * b * u⁻¹) ^ (p ^ k') = u * b ^ (p ^ k') * u⁻¹ := by
-        simpa [MulAut.conj_apply] using ((MulAut.conj u).toMonoidHom.map_pow b (p ^ k'))
+        simp
       rw [e]
       exact hTsU u hu _ hk'
     intro u hu
@@ -428,8 +429,8 @@ theorem permData_of_pair [Finite Y] (hL : L2BorelFacts) {m : ℕ} (hm : 3 ≤ m)
     _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
   have h64 : 64 ≤ 4 ^ m := calc 64 = 4 ^ 3 := by norm_num
     _ ≤ 4 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  haveI hs₁ : IsSimpleGroup ↥X₁ := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 2 2 m hX₁).2
-  haveI hs₂ : IsSimpleGroup ↥X₂ := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 2 2 m hX₂).2
+  have hs₁ : IsSimpleGroup ↥X₁ := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 2 2 m hX₁).2
+  have hs₂ : IsSimpleGroup ↥X₂ := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 2 2 m hX₂).2
   obtain ⟨hSylK, hSyl₁, hSyl₂, hsplit⟩ := sylow_pair hTs hnormal hcomm hX
   obtain ⟨hcX₁, hcU₁, hcB₁, hcoat₁, hab₁, hcyc₁, hfrob₁⟩ :=
     hL m (by omega) Y X₁ (Ts ⊓ X₁) hX₁ hSyl₁
@@ -553,7 +554,7 @@ theorem permData_of_pair [Finite Y] (hL : L2BorelFacts) {m : ℕ} (hm : 3 ≤ m)
     exact P31NT.three_dvd_two_pow_sub_one_iff.1 (hcop.dvd_of_dvd_mul_left hd)
   have hm3 : ¬ 3 ∣ m := by
     intro h3m
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hv := P31NT.padicValNat_three_two_pow_sub_one hm_even (by omega)
     have hv3 : 1 ≤ padicValNat 3 m := one_le_padicValNat_of_dvd (by omega) h3m
     have h9 : 3 ^ 2 ∣ 2 ^ m - 1 := (padicValNat_dvd_iff_le (by omega)).2 (by omega)

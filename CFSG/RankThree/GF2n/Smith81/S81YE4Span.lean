@@ -28,7 +28,7 @@ theorem e4_fixed_coord_zero [CharP K 2] {a : K} (ha : a ≠ 0) {c' : W K}
   have hsh : shift (-theta4) (shift theta4 (μ : Fin e7Data.d)) = (μ : Fin e7Data.d) :=
     shift_neg_shift isRoot_theta4 hμ
   have h := rootOp_apply (K := K) isRoot_theta4 (emb K c') (shift theta4 (μ : Fin e7Data.d))
-  rw [hr, if_pos hb, hsh] at h
+  rw [hr, ite_eq_left hb, hsh] at h
   have h3 : emb K c' (μ : Fin e7Data.d) = 0 := by
     simpa using h.symm
   rw [← emb_apply_coe c' μ]
@@ -37,7 +37,7 @@ theorem e4_fixed_coord_zero [CharP K 2] {a : K} (ha : a ≠ 0) {c' : W K}
 theorem e4_single_fixed [CharP K 2] (a : K) (μ : Idx0) (hμ : pr (μ : Fin e7Data.d) theta4 ≠ -1) :
     vAut0 K (xuWUnit theta4_mem_Perp a) (Finsupp.single μ 1) = Finsupp.single μ 1 := by
   apply emb_injective
-  rw [emb_xuWUnit, emb_single, act7_xm, rootOp_single (K := K) isRoot_theta4, if_neg hμ,
+  rw [emb_xuWUnit, emb_single, act7_xm, rootOp_single (K := K) isRoot_theta4, ite_eq_right hμ,
     smul_zero, add_zero]
 
 theorem e4_single_pure [CharP K 2] (P : ↥(Lam K)) (μ : Idx0) :

@@ -77,7 +77,7 @@ private theorem fourFive_subgroup_coordinate_surjective
       Nat.card Degree20.FiveCycle = 5 := by
     change Nat.card (ZMod 5) = 5
     rw [Nat.card_zmod]
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hzmem :
       z ∈ Subgroup.zpowers (a.1 i) :=
     mem_zpowers_of_prime_card hcardFive hai

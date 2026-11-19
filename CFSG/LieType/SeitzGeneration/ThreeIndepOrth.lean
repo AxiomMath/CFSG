@@ -132,7 +132,7 @@ theorem cubeA_indep (a b : ℕ) (ha : a < 3) (hb : b < 3)
     (h : ∀ X : Matrix (Fin 2) (Fin 2) K, cubeA ^ a * (X * cubeA ^ b) = X) : a = 0 ∧ b = 0 := by
   have h1 := h 1
   have h2 := h !![1, 0; 0, 0]
-  interval_cases a <;> interval_cases b <;> first | exact ⟨rfl, rfl⟩ | skip
+  interval_cases a <;> interval_cases b <;> try exact ⟨rfl, rfl⟩
   all_goals simp [pow_succ, cubeA] at h1 h2
 
 @[expose] def leftA : Module.End K (Matrix (Fin 2) (Fin 2) K) := LinearMap.mulLeft K cubeA

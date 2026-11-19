@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {T M L D H K : Subgroup G} {q : ℕ}
 
+omit [Finite G] in
 theorem VMod.card_V_le {V L Z : Subgroup G} (m : VMod V L Z) : Nat.card V ≤ 64 := by
   have h := Nat.card_le_card_of_injective m.Φ m.inj
   have e : Nat.card (Multiplicative (Fin 6 → ZMod 2)) = 64 := by
@@ -31,7 +32,7 @@ theorem A2Cfg.not_K_le_normalizer_Vp (hG1 : Leaf_G1)
     ¬ K ≤ Subgroup.normalizer (a2Vp L T H : Set G) := by
   classical
   intro hKN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hxY, hxK, hx3⟩ := c.exists_x h37 h38
   obtain ⟨m, -⟩ := c.exists_vmod h36 h5 h7 h9 hGA h128 h37 h38 h39
   have hVe := c.V_elemAbelian
@@ -63,8 +64,7 @@ theorem A2Cfg.not_K_le_normalizer_Vp (hG1 : Leaf_G1)
     exact (a2Z T).one_mem
   have hAX : ∀ N : Subgroup G, N ≤ a2Vp L T H → K ≤ Subgroup.normalizer (N : Set G) →
       a2Vp L T H ≤ Subgroup.normalizer (N : Set G) := by
-    intro N hN _
-    intro a ha
+    intro N hN _ a ha
     refine Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun n hn => ?_)
     exact (F7.isElemAbelian_comm hAab (hN hn) ha)
   obtain ⟨N₀, N₁, hc, hZN₀, hN₁A, n, hn, hnn⟩ :=
@@ -91,7 +91,7 @@ theorem A2Cfg.not_K_le_normalizer_Vp (hG1 : Leaf_G1)
     exact hnn ((SecRep.fix_iff hh s _ ⟨n, hn⟩).mp h2)
   have h10 : 10 ≤ Module.finrank (ZMod 2) W :=
     hG1 q c.q_prime c.q_mod _ c.model W rb ⟨(⟨x, hxK⟩ : ↥K), by rw [hrb]; exact hxne⟩
-  haveI : Module.Finite (ZMod 2) W := Module.finite_iff_finite.mpr inferInstance
+  have : Module.Finite (ZMod 2) W := Module.finite_iff_finite.mpr inferInstance
   have hVcard := m.card_V_le
   have hA64 : Nat.card ↥(a2Vp L T H) ≤ 64 := (Subgroup.card_le_of_le hVp).trans hVcard
   have hN64 : Nat.card ↥N₁ ≤ 64 := (Subgroup.card_le_of_le hN₁A).trans hA64

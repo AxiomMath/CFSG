@@ -86,8 +86,8 @@ theorem lie23To89_psp {X : Type} [Group X] [Finite X] {n f : ℕ}
     (h23 : 23 ∣ Nat.card ↥(centralizer ({τ} : Set X))) :
     89 ∣ Nat.card ↥(centralizer ({τ} : Set X)) := by
   obtain ⟨-, K, _, _, hcard, ⟨φ⟩⟩ := hm
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   rw [card_centralizer_eq φ τ] at h23 ⊢
   exact eightynine_dvd_card_centralizer (φ τ) (by rw [MulEquiv.orderOf_eq]; exact hτ) h23

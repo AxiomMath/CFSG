@@ -53,7 +53,7 @@ theorem isElemAbelian_of_le_normalizer_borel (h : BorelQuotient D n H π M) (hM 
       (rootGroup_le_posUnipotent ((RootSystem.ofCartan D.isFiniteType D.divisible).single_mem i₀)
         (ht_single_pos i₀) hw), rfl⟩
   set Tn : Subgroup N := (T : Subgroup Y).subgroupOf N with hTn
-  haveI hTnn : Tn.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hTN).2 le_rfl
+  have hTnn : Tn.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hTN).2 le_rfl
   let ψ : ↥T₀ →* N ⧸ Tn :=
     (QuotientGroup.mk' Tn).comp ((π'.comp T₀.subtype).codRestrict N fun t => hT0mem t.1 t.2)
   have hψ : ∀ t : ↥T₀, ψ t = QuotientGroup.mk ⟨π' t, hT0mem t.1 t.2⟩ := fun t => rfl
@@ -82,7 +82,7 @@ theorem isElemAbelian_of_le_normalizer_borel (h : BorelQuotient D n H π M) (hM 
   have hmeet : ∀ x ∈ V, x ∈ (T : Subgroup Y) → x = 1 := by
     intro x hxV hxT
     obtain ⟨k, hk⟩ := hV3 ⟨x, hxV⟩
-    obtain ⟨m, hm⟩ := (T.isPGroup' (G := Y)) ⟨x, hxT⟩
+    obtain ⟨m, hm⟩ := (T.isPGroup (G := Y)) ⟨x, hxT⟩
     have h3 : orderOf x ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hk)
     have h2 : orderOf x ∣ 2 ^ m := orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hm)
     have := Nat.eq_one_of_dvd_coprimes (Nat.Coprime.pow k m (by norm_num : Nat.Coprime 3 2)) h3 h2
@@ -135,7 +135,7 @@ theorem eq_bot_of_le_normalizer_borel (h : BorelQuotient D n H π M) (hH : ∀ k
       (rootGroup_le_posUnipotent ((RootSystem.ofCartan D.isFiniteType D.divisible).single_mem i₀)
         (ht_single_pos i₀) hw), by simp [map_mul]⟩
   obtain ⟨k, hk⟩ := hV3 ⟨π' (t * u * w), hv⟩
-  obtain ⟨m, hm⟩ := (T.isPGroup' (G := Y)) ⟨π' (t * u * w), hs⟩
+  obtain ⟨m, hm⟩ := (T.isPGroup (G := Y)) ⟨π' (t * u * w), hs⟩
   have h3 : orderOf (π' (t * u * w)) ∣ 3 ^ k :=
     orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hk)
   have h2 : orderOf (π' (t * u * w)) ∣ 2 ^ m :=

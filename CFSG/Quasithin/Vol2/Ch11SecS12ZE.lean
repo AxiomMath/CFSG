@@ -96,7 +96,7 @@ theorem hom_eq_one_of_SL34 {A : Type*} [Group A] [Finite A] (hA : commutator A =
       decide
     have hS3 : ∀ s ∈ (S : Subgroup A), s ^ 3 = 1 := by
       intro s hs
-      obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
       have hk' : s ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
       have hπ3 : π s ^ 3 = 1 :=
         pow_three_eq_one_of_pow_three_pow hF k (by rw [← map_pow, hk', map_one])
@@ -116,7 +116,7 @@ theorem hom_eq_one_of_SL34 {A : Type*} [Group A] [Finite A] (hA : commutator A =
       have hg : Function.Injective g := by
         rw [injective_iff_map_eq_one]
         intro x hx
-        obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, x.2.1⟩
+        obtain ⟨k, hk⟩ := S.isPGroup ⟨x, x.2.1⟩
         have hk' : (x : A) ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
         obtain ⟨m, hm⟩ := hker ⟨x, hx⟩
         have hm' : (x : A) ^ 2 ^ m = 1 := by simpa using congrArg Subtype.val hm

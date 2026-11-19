@@ -65,7 +65,7 @@ theorem ys_sign : ∀ y ∈ a8ys, sign y = 1 := by
   intro y hy
   simp only [a8ys, List.mem_cons, List.not_mem_nil, or_false] at hy
   rcases hy with rfl | rfl | rfl | rfl | rfl | rfl <;>
-    simp [Perm.sign_mul, Perm.sign_swap]
+    simp [Perm.sign_mul]
 
 theorem ys_comm : ∀ y ∈ a8ys, comp (tab y) (tab a8t) = comp (tab a8t) (tab y) := by
   intro y hy

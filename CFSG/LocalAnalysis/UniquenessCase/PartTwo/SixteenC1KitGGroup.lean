@@ -28,7 +28,7 @@ theorem s16c1g_closure_pair {G : Type*} [Group G] [Finite G] [DecidableEq G] {a 
     · exact hab
     · exact hab.symm
     · exact absurd rfl hxy
-  haveI : IsMulCommutative E := Subgroup.isMulCommutative_closure hpair
+  have : IsMulCommutative E := Subgroup.isMulCommutative_closure hpair
   have hcommE : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x :=
     fun x hx y hy => setLike_mul_comm hx hy
   have h3 : ∀ x ∈ E, x ^ 3 = 1 := by
@@ -139,7 +139,7 @@ theorem s16c1g_E_spec {p : List ℕ × List ℕ} (hp : s16c1g_goodE p = true) :
     s16c1g_E p ≤ Ω₀ true ∧ IsPGroup 3 (s16c1g_E p) ∧ ¬ IsCyclic (s16c1g_E p) := by
   classical
   obtain ⟨hΩ1, hΩ2, h1, h2, hcomm, hn1, hn2, hne, hne2⟩ := s16c1g_goodE_spec hp
-  haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
+  have : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
   obtain ⟨hpg, hnc⟩ := s16c1g_closure_pair h1 h2 hcomm hn1 hn2 hne hne2
   refine ⟨?_, hpg, hnc⟩
   rw [s16c1g_E, Subgroup.closure_le]

@@ -633,7 +633,6 @@ theorem j3 : j3S16OK = true := by
     unfold quadCheck
     rw [eC, allRec_iff]
     intro i hi
-    beta_reduce
     have ci := cCT i hi
     have hq := s16j3qA i (by rw [hnC] at hi; exact hi)
     rw [s16j3q_pc] at hq
@@ -645,7 +644,6 @@ theorem j3 : j3S16OK = true := by
     refine ⟨⟨invOK_unpack ci cai iai, qi⟩, ?_⟩
     rw [allRec_iff]
     intro j hj
-    beta_reduce
     have cj := cCT j hj
     have hq' := s16j3qA j (by rw [hnC] at hj; exact hj)
     rw [s16j3q_pc] at hq'

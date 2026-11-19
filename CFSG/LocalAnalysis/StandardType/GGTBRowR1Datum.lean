@@ -93,8 +93,8 @@ theorem ggR1_datum_of_tableBPos
   have hcardC : Nat.card ↥(Bs ⊓ Subgroup.centralizer (L : Set G)) = p := by
     rw [inf_centralizer_eq_zpowers_of_elemAbelian hp hBs hxBs hS.2.2.1 hLx hS.2.2.2.2,
       Nat.card_zpowers, orderOf_eq_prime (hBs.2 x hxBs) hS.2.2.1]
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hcardV : Nat.card ↥Bs = p ^ Module.finrank (ZMod p) V := by
     rw [card_eq_of_ggLin ιV, Module.natCard_eq_pow_finrank (K := ZMod p) (V := V),
       Nat.card_zmod]
@@ -115,7 +115,7 @@ theorem ggR1_datum_of_tableBPos
     ιV (Or.inl (by omega))
 
 theorem ggR1E8_det
-    {p : ℕ} [Fact p.Prime] {n f : ℕ} (hadm : StatedLieAdmissible .E8 n 2 f) :
+    {p : ℕ} [Fact p.Prime] {n f : ℕ} (_hadm : StatedLieAdmissible .E8 n 2 f) :
     ∀ C : Matrix (Fin (ggU .E8 n f).D.rank) (Fin (ggU .E8 n f).D.rank) ℤ,
       GGIntCartan (coxeterMatrix (ggU .E8 n f).D.isFiniteType) C → ((C.det : ℤ) : ZMod p) ≠ 0 := by
   change ∀ C : Matrix (Fin 8) (Fin 8) ℤ,

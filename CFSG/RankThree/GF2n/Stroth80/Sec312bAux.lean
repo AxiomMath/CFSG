@@ -67,6 +67,7 @@ theorem Ctx.mem_normalizer_conj_LB_of_fix {hc : Ctx M Q Z B} {n : ℕ} {t : G}
     (M₀.img_mono le_sup_left ((heB _).mpr ⟨s * a, h4⟩))
 
 
+omit [Finite G] in
 theorem Ctx.CN_conj_eq (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (t : G) :
     (hc.conj_of_mem hm).CN t = hc.CN t := by
   ext x

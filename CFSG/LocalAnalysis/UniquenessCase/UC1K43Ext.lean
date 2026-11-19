@@ -21,7 +21,8 @@ variable {G : Type} [Group G] [Finite G]
   ∀ A : Subgroup G, IsPGroup 2 A → A ≠ ⊥ → IsMulCommutative ↥A →
     D ≤ normalizer (A : Set G) → ⁅D, A⁆ = A → False
 
-theorem centralizes {D T A : Subgroup G} (hDT : D ≤ normalizer (T : Set G))
+omit [Finite G] in
+theorem centralizes {D T A : Subgroup G} (_hDT : D ≤ normalizer (T : Set G))
     (hTA : T ≤ normalizer (A : Set G)) (hTD : ⁅D, T⁆ = T)
     (hc : ∀ d ∈ D, ∀ a ∈ A, d * a = a * d) : ∀ t ∈ T, ∀ a ∈ A, t * a = a * t := by
   have hle : ⁅D, T⁆ ≤ centralizer (A : Set G) := by
@@ -56,7 +57,7 @@ theorem fixedPointSubgroup_eq_bot_of_commutatorAction_eq_top
     (hD : Nat.card D = 3) (hA2 : IsPGroup 2 A) (hAc : IsMulCommutative A)
     (hcomm : commutatorAction (A := D) (G := A) = ⊤) :
     fixedPointSubgroup D A = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hA2
   have hcop : Nat.Coprime (Nat.card D) (Nat.card A) := by
     rw [hD, hn]
@@ -75,7 +76,7 @@ theorem NoAbelianD.centralizes_abelian {D A : Subgroup G} (hNo : NoAbelianD D)
     (hD : Nat.card D = 3) (hA2 : IsPGroup 2 A) (hAc : IsMulCommutative ↥A)
     (hDA : D ≤ normalizer (A : Set G)) :
     ∀ d ∈ D, ∀ a ∈ A, d * a = a * d := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hA2
   have hcop : Nat.Coprime (Nat.card D) (Nat.card A) := by
     rw [hD, hn]
@@ -240,10 +241,10 @@ theorem class_two_of_thompson_critical {P : Type} [Group P] [Finite P]
     (hP : IsPGroup 2 P) {C : Subgroup P} (hC : CFSG.SectionRank.Ccomm.IsThompsonCritical C)
     (hZcen : C ⊓ centralizer (C : Set P) ≤ Subgroup.center P) :
     commutator P ≤ Subgroup.center P ∧ ∀ x : P, x ^ 2 ∈ Subgroup.center P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : ((infCentralizer C).subgroupOf C).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : ((infCentralizer C).subgroupOf C).Normal :=
     Subgroup.normal_of_le_center (subgroupOf_inf_centralizer_le_center hZcen)
-  haveI : Fact (infCentralizer C ≤ Subgroup.center P) := ⟨hZcen⟩
+  have : Fact (infCentralizer C ≤ Subgroup.center P) := ⟨hZcen⟩
   obtain ⟨hCchar, hCΦ, hPC, hCcen⟩ := hC
   have hker : (commutatorQuotientPairing hPC hZcen).ker ≤ C ⊓ centralizer (C : Set P) :=
     commutatorQuotientPairing_ker_le ⟨hCchar, hCΦ, hPC, hCcen⟩ hZcen
@@ -258,11 +259,12 @@ theorem class_two_of_thompson_critical {P : Type} [Group P] [Finite P]
   rw [MonoidHom.mem_ker, map_pow]
   exact commutatorQuotientPairing_target_sq hCΦ hP (commutatorQuotientPairing hPC hZcen x)
 
+omit [Finite G] in
 theorem le_normalizer_map_subtype_of_characteristic {D T : Subgroup G}
     (hN : D ≤ normalizer (T : Set G)) {K : Subgroup ↥T} [K.Characteristic] :
     D ≤ normalizer ((K.map T.subtype : Subgroup G) : Set G) := by
-  haveI : Subgroup.Normalizes D T := ⟨hN⟩
-  haveI : IsInvariant ↥D ↥T K := isInvariant_of_characteristic K
+  have : Subgroup.Normalizes D T := ⟨hN⟩
+  have : IsInvariant ↥D ↥T K := isInvariant_of_characteristic K
   intro d hd
   rw [Subgroup.mem_normalizer_iff]
   intro z
@@ -286,22 +288,22 @@ theorem inf_centralizer_le_center_of_noAbelianD {D T : Subgroup G} (hD : Nat.car
     (hT2 : IsPGroup 2 T) (hN : D ≤ normalizer (T : Set G)) (hDT : ⁅D, T⁆ = T)
     (hNo : NoAbelianD D) {C : Subgroup ↥T} (hC : CFSG.SectionRank.Ccomm.IsThompsonCritical C) :
     C ⊓ centralizer (C : Set ↥T) ≤ Subgroup.center ↥T := by
-  haveI : Subgroup.Normalizes D T := ⟨hN⟩
-  haveI : C.Characteristic := hC.1
-  haveI : (centralizer (C : Set ↥T)).Characteristic :=
+  have : Subgroup.Normalizes D T := ⟨hN⟩
+  have : C.Characteristic := hC.1
+  have : (centralizer (C : Set ↥T)).Characteristic :=
     CFSG.SectionRank.Ccomm.characteristic_centralizer (K := C)
   set Z : Subgroup ↥T := C ⊓ centralizer (C : Set ↥T) with hZdef
   have hZchar : Z.Characteristic := by
     rw [hZdef]
     exact CFSG.SectionRank.Ccomm.characteristic_inf (H := C) (K := centralizer (C : Set ↥T))
-  haveI : Z.Characteristic := hZchar
+  have : Z.Characteristic := hZchar
   set Zg : Subgroup G := Z.map T.subtype with hZg
   have hZg2 : IsPGroup 2 Zg := (hT2.to_subgroup Z).map T.subtype
   have hZgc : IsMulCommutative ↥Zg := by
     have hZc : IsMulCommutative ↥Z := by
       refine IsMulCommutative.of_comm (fun a b : ↥Z => ?_)
       exact Subtype.ext (mem_centralizer_iff.mp a.2.2 (b : ↥T) b.2.1).symm
-    letI : IsMulCommutative ↥Z := hZc
+    let : IsMulCommutative ↥Z := hZc
     exact Subgroup.map_isMulCommutative (f := T.subtype) (H := Z)
   have hDZg : D ≤ normalizer (Zg : Set G) :=
     le_normalizer_map_subtype_of_characteristic hN (K := Z)
@@ -323,15 +325,16 @@ theorem inf_centralizer_le_center_of_noAbelianD {D T : Subgroup G} (hD : Nat.car
     exact hTcentZg (y : ↥T) y.2 (T.subtype z) (Subgroup.mem_map_of_mem T.subtype hz)
   exact hZdef ▸ hZle_center
 
-theorem class_two {D T : Subgroup G} (hD : Nat.card D = 3) (hT2 : IsPGroup 2 T) (hT0 : T ≠ ⊥)
-    (hN : D ≤ normalizer (T : Set G)) (hDT : ⁅D, T⁆ = T) (hZ : IsCyclic ↥(center ↥T))
+theorem class_two {D T : Subgroup G} (hD : Nat.card D = 3) (hT2 : IsPGroup 2 T) (_hT0 : T ≠ ⊥)
+    (hN : D ≤ normalizer (T : Set G)) (hDT : ⁅D, T⁆ = T) (_hZ : IsCyclic ↥(center ↥T))
     (hNo : NoAbelianD D) :
     commutator ↥T ≤ center ↥T ∧ ∀ x : ↥T, x ^ 2 ∈ center ↥T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨C, hC⟩, -⟩ := CFSG.SectionRank.Ccomm.thompson_critical_subgroup (P := ↥T) (p := 2) hT2
   exact class_two_of_thompson_critical hT2 hC
     (inf_centralizer_le_center_of_noAbelianD hD hT2 hN hDT hNo hC)
 
+omit [Finite G] in
 theorem commutatorAction_quotient_commutator_eq_top {D T : Subgroup G}
     (hN : D ≤ normalizer (T : Set G)) (hDT : ⁅D, T⁆ = T)
     [Subgroup.Normalizes D T]
@@ -339,9 +342,9 @@ theorem commutatorAction_quotient_commutator_eq_top {D T : Subgroup G}
     [((commutator ↥T) : Subgroup ↥T).Normal] :
     @commutatorAction ↥D (↥T ⧸ commutator ↥T) _ _
       (quotientMulDistribMulAction (A := ↥D) (G := ↥T) (commutator ↥T) inferInstance) = ⊤ := by
-  haveI : MulAction.QuotientAction ↥D (commutator ↥T) :=
+  have : MulAction.QuotientAction ↥D (commutator ↥T) :=
     quotientAction_of_isInvariant (A := ↥D) _ inferInstance
-  letI : MulDistribMulAction ↥D (↥T ⧸ commutator ↥T) :=
+  let : MulDistribMulAction ↥D (↥T ⧸ commutator ↥T) :=
     quotientMulDistribMulAction (A := ↥D) (G := ↥T) (commutator ↥T) inferInstance
   have hcommT : commutatorAction (A := ↥D) (G := ↥T) = ⊤ := by
     apply Subgroup.map_subtype_inj.mp
@@ -372,20 +375,20 @@ theorem commutatorAction_quotient_commutator_eq_top {D T : Subgroup G}
 theorem center_le_commutator_of_extraspecial {D T : Subgroup G} (hD : Nat.card D = 3)
     (hT2 : IsPGroup 2 T) (hN : D ≤ normalizer (T : Set G)) (hDT : ⁅D, T⁆ = T)
     (hNo : NoAbelianD D) : Subgroup.center ↥T ≤ commutator ↥T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Subgroup.Normalizes D T := ⟨hN⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Subgroup.Normalizes D T := ⟨hN⟩
   set Zmap : Subgroup G := (Subgroup.center ↥T).map T.subtype with hZmap
   have hZmap2 : IsPGroup 2 Zmap := (hT2.to_subgroup (Subgroup.center ↥T)).map T.subtype
   have hZmapc : IsMulCommutative ↥Zmap := by
-    letI : IsMulCommutative ↥(Subgroup.center ↥T) := inferInstance
+    let : IsMulCommutative ↥(Subgroup.center ↥T) := inferInstance
     exact Subgroup.map_isMulCommutative (f := T.subtype) (H := Subgroup.center ↥T)
   have hDcentZmap := hNo.centralizes_abelian hD hZmap2 hZmapc
     (le_normalizer_map_subtype_of_characteristic hN (K := Subgroup.center ↥T))
-  haveI : (commutator ↥T).Characteristic := inferInstance
-  haveI : IsInvariant ↥D ↥T (commutator ↥T) := isInvariant_of_characteristic _
-  haveI : MulAction.QuotientAction ↥D (commutator ↥T) :=
+  have : (commutator ↥T).Characteristic := inferInstance
+  have : IsInvariant ↥D ↥T (commutator ↥T) := isInvariant_of_characteristic _
+  have : MulAction.QuotientAction ↥D (commutator ↥T) :=
     quotientAction_of_isInvariant (A := ↥D) _ inferInstance
-  letI : MulDistribMulAction ↥D (↥T ⧸ commutator ↥T) :=
+  let : MulDistribMulAction ↥D (↥T ⧸ commutator ↥T) :=
     quotientMulDistribMulAction (A := ↥D) (G := ↥T) (commutator ↥T) inferInstance
   have hcomm := commutatorAction_quotient_commutator_eq_top hN hDT
   have hA2 : IsPGroup 2 (↥T ⧸ commutator ↥T) := hT2.to_quotient (commutator ↥T)
@@ -419,8 +422,8 @@ theorem center_card_two_of_extraspecial {D T : Subgroup G} (hD : Nat.card D = 3)
     (hNo : NoAbelianD D) (hclass : commutator ↥T ≤ Subgroup.center ↥T)
     (hsq : ∀ x : ↥T, x ^ 2 ∈ Subgroup.center ↥T) (hZ : IsCyclic ↥(center ↥T)) :
     Nat.card ↥(Subgroup.center ↥T) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hT0
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hT0
   have hZT' : Subgroup.center ↥T = commutator ↥T :=
     le_antisymm (center_le_commutator_of_extraspecial hD hT2 hN hDT hNo) hclass
   have hsq_comm : ∀ x y : ↥T, ⁅x, y⁆ ^ 2 = 1 := by
@@ -455,7 +458,7 @@ theorem center_card_two_of_extraspecial {D T : Subgroup G} (hD : Nat.card D = 3)
   have hcard_dvd : Nat.card ↥(Subgroup.center ↥T) ∣ 2 := by
     rw [← IsCyclic.exponent_eq_card (α := ↥(Subgroup.center ↥T))]
     exact hexp
-  haveI : Nontrivial ↥(Subgroup.center ↥T) := hT2.center_nontrivial
+  have : Nontrivial ↥(Subgroup.center ↥T) := hT2.center_nontrivial
   have hcard_ge : 2 ≤ Nat.card ↥(Subgroup.center ↥T) := by
     have := Finite.one_lt_card (α := ↥(Subgroup.center ↥T))
     omega
@@ -463,6 +466,7 @@ theorem center_card_two_of_extraspecial {D T : Subgroup G} (hD : Nat.card D = 3)
   · omega
   · exact h
 
+omit [Finite G] in
 theorem quotient_center_elementary_abelian_of_extraspecial {T : Subgroup G}
     (hclass : commutator ↥T ≤ Subgroup.center ↥T)
     (hsq : ∀ x : ↥T, x ^ 2 ∈ Subgroup.center ↥T) :
@@ -481,10 +485,10 @@ theorem quotient_center_elementary_abelian_of_extraspecial {T : Subgroup G}
 theorem extraspecial {D T : Subgroup G} (hD : Nat.card D = 3) (hT2 : IsPGroup 2 T)
     (hT0 : T ≠ ⊥) (hN : D ≤ normalizer (T : Set G)) (hDT : ⁅D, T⁆ = T)
     (hZ : IsCyclic ↥(center ↥T)) (hNo : NoAbelianD D) : CFSG.IsExtraspecial 2 ↥T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Subgroup.Normalizes D T := ⟨hN⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Subgroup.Normalizes D T := ⟨hN⟩
   obtain ⟨hclass, hsq⟩ := class_two hD hT2 hT0 hN hDT hZ hNo
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hT0
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hT0
   have hcenter_ne_top : Subgroup.center ↥T ≠ ⊤ := by
     intro htop
     have hcomm : IsMulCommutative ↥T := by

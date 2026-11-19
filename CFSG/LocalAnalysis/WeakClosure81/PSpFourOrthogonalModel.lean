@@ -36,10 +36,10 @@ theorem exists_orthogonal_model_of_lieModel_psp_prime
         commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ⊔ S.map ρ = A.map ρ := by
   obtain ⟨K', hK'field, hK'fin, hK'card, ⟨eL'⟩⟩ :=
     CFSG.GH74.GLS.SP.exists_model_of_lieModel_psp (Gs := L₀) (p := p) (f := 1) hLie
-  letI : Field K' := hK'field
-  letI : Finite K' := hK'fin
-  letI : Fintype K' := Fintype.ofFinite K'
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K' := hK'field
+  let : Finite K' := hK'fin
+  let : Fintype K' := Fintype.ofFinite K'
+  let : Fintype K := Fintype.ofFinite K
   have hK'p : Nat.card K' = p := by simpa using hK'card
   have hpK : Nat.Prime (Nat.card K) := by rwa [hK]
   have hoddK : Odd (Nat.card K) := by

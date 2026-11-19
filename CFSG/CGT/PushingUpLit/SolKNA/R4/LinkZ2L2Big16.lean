@@ -147,6 +147,7 @@ theorem isSquare_of_autU_eq (h2 : (2 : F) ≠ 0) {σ₀ : F ≃+* F} {q : ℕ}
     rw [← hcd, pow_mul, hwqm1, one_pow]
   exact (isSquare_iff_pow_eq_one h2 w).mpr hmain
 
+omit [Finite F] in
 theorem gD_quot_gD {σ₀ : F ≃+* F} (hσ₀2 : σ₀ * σ₀ = 1) (w y : Fˣ) :
     gD w σ₀ * (gD y σ₀)⁻¹ = gD (w * y⁻¹) 1 := by
   have hσinv : σ₀⁻¹ = σ₀ := inv_eq_of_mul_eq_one_right hσ₀2
@@ -154,6 +155,7 @@ theorem gD_quot_gD {σ₀ : F ≃+* F} (hσ₀2 : σ₀ * σ₀ = 1) (w y : Fˣ)
   refine ⟨?_, rfl⟩
   rw [autU_inv, ← autU_comp, hσ₀2, autU_one_aut]
 
+omit [Finite F] in
 theorem gA_quot_gA {σ₀ : F ≃+* F} (hσ₀2 : σ₀ * σ₀ = 1) (w y : Fˣ) :
     gA w σ₀ * (gA y σ₀)⁻¹ = gD (w * y⁻¹) 1 := by
   have hσinv : σ₀⁻¹ = σ₀ := inv_eq_of_mul_eq_one_right hσ₀2
@@ -274,7 +276,7 @@ theorem z2BigModelPi4_holds (r : ℕ) : Z2BigModelPi4 r := by
     exists_normalized_emb hL.simple hL.odd hL.even hL.model
       (quatInvolution_sq hr e) (quatInvolution_ne_one hr e)
       (quatInvolution_mem_fstar hL.index hr e)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : (2 : F) ≠ 0 := (field_facts hp hL.odd hF h4).2
   have hf0 : f ≠ 0 := by
     rintro rfl

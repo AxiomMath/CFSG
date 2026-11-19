@@ -49,7 +49,7 @@ theorem asch6_6Family_of_cited
     (h4 : Asch6_4Odd) (h5 : Asch6_5Odd) : Asch6_6Family := by
   intro Q _ _ V _ _ hV ρ hρ L A hL hA hAe hq hshape
   have hLsub : CFSG.ComponentClassification.GeneralizedFitting.subgroup Q = L := hL
-  haveI hLnormal : L.Normal := hLsub ▸ CFSG.ComponentClassification.GeneralizedFitting.normal Q
+  have hLnormal : L.Normal := hLsub ▸ CFSG.ComponentClassification.GeneralizedFitting.normal Q
   have hcent_le : Subgroup.centralizer (L : Set Q) ≤ L :=
     hLsub ▸ CFSG.ComponentClassification.GeneralizedFitting.centralizer_le Q
   have hsub : CFSG.Open.IsSubnormal L ⊤ :=
@@ -59,7 +59,7 @@ theorem asch6_6Family_of_cited
     exact le_top
   rcases hshape with ⟨p, e, hp, hp2, h9, hL2⟩ | ⟨p, e, Y, hYgrp, hp, hp2, h3, hY, hcov⟩
   ·
-    haveI hsimp : IsSimpleGroup ↥L :=
+    have hsimp : IsSimpleGroup ↥L :=
       CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel_psl_two hL2
     have hnab : ∃ a b : ↥L, a * b ≠ b * a := by
       obtain ⟨-, F, _, _, hF, ⟨eF⟩⟩ := hL2
@@ -71,7 +71,7 @@ theorem asch6_6Family_of_cited
       let e' := eF.trans
         (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F).symm
       exact ⟨e'.symm x, e'.symm y, fun hc => hxy (by simpa using congrArg e' hc)⟩
-    haveI hperf : Group.IsPerfect ↥L :=
+    have hperf : Group.IsPerfect ↥L :=
       ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top ↥L hnab⟩
     have hZ : Subgroup.center ↥L = ⊥ :=
       CFSG.ComponentClassification.Helpers.center_eq_bot ↥L hnab

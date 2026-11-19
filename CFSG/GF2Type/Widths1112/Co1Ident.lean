@@ -34,7 +34,7 @@ theorem co1_ident
       (∀ (m : S.Mbar) (v : S.Qt), ψ (((m : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) v) =
         CFSG.Monster.GMS.co1Act (e m) (ψ v)) ∧
       ∀ v : S.Qt, S.q v = CFSG.Sporadic.Co1.Module.q₀ (ψ v) := by
-  haveI : Nontrivial NativeSporadic.Co1 := CFSG.Sporadic.Co1.fam_co1_simplicity.2.1
+  have : Nontrivial NativeSporadic.Co1 := CFSG.Sporadic.Co1.fam_co1_simplicity.2.1
   have h24 : Module.finrank (ZMod 2) S.Qt = 24 := by
     have := S.finrank_Qt_eq_two_mul_width
     omega
@@ -93,13 +93,13 @@ theorem co1_ident
       rw [hΘ, ψ.symm_apply_apply, Pi.zero_apply] at h
       exact h
     obtain ⟨x, hx⟩ : ∃ x : S.Qt, x ≠ 0 := by
-      haveI : Nontrivial S.Qt := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+      have : Nontrivial S.Qt := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
       exact exists_ne 0
     apply hx
     apply S.q_nondegenerate.1 x
     intro y
     rw [QuadraticMap.polarBilin_apply_apply]
-    simp only [QuadraticMap.polar, hq0, sub_zero, sub_self]
+    simp only [QuadraticMap.polar, hq0, sub_self]
   rcases CFSG.Sporadic.Co1.Module.co1_invariant_quadratic hbil hinv with h0 | hq
   · exact absurd h0 hΘne
   · refine ⟨ψ, hmain, fun v => ?_⟩

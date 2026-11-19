@@ -92,7 +92,7 @@ private theorem rckK1Ilrc_isLongestRoot_unitary_odd
   have hhtr : ht r = (n : ℤ) - 1 := by
     have h1 : 2 * ht r = SUExtras.lv n (Unitary.toStd n r) := SUExtras.two_mul_ht (n := n) r
     rw [htoStd_two, map_nsmul, SUExtras.lv_weight] at h1
-    simp only [nsmul_eq_mul, mul_one, Nat.cast_ofNat] at h1
+    simp only [nsmul_eq_mul, Nat.cast_ofNat] at h1
     omega
   have hroots : (Unitary.rootDatum hF n).roots = roots (Unitary.isFiniteType_cartan n)
       (Unitary.divisible n) := rfl
@@ -109,7 +109,7 @@ private theorem rckK1Ilrc_isLongestRoot_unitary_odd
     exact absurd hji_eq hji
   · have h1 := SUExtras.two_mul_ht γ₀
     rw [hstd, map_nsmul, SUExtras.lv_weight] at h1
-    simp only [nsmul_eq_mul, mul_one, Nat.cast_ofNat] at h1
+    simp only [nsmul_eq_mul, Nat.cast_ofNat] at h1
     have hival : i.val = 0 := by
       have : (↑↑i : ℤ) = 0 := by linarith [h1, hhteq, hhtr]
       omega
@@ -145,7 +145,7 @@ theorem rckK1I_longRootConj
     (hβ' : β' ∈ (ggU t n f).D.roots) (hlong' : GGLongRoot (ggU t n f).D β') :
     ∃ u : (ggU t n f).K,
       ((ggU t n f).D.rootGroup β).map (MulAut.conj u).toMonoidHom = (ggU t n f).D.rootGroup β' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases ht with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   ·
     obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by have := hadm.2.2.1; omega⟩

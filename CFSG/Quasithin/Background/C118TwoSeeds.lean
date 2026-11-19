@@ -76,7 +76,7 @@ theorem partnerData_in (X₁ X₂ : SeedData T) :
 
 theorem Vh_le_Qh_of_commutator_eq_bot (X₁ X₂ : SeedData T) (h : ⁅X₁.Vh, X₂.Vh⁆ = ⊥) :
     X₁.Vh ≤ X₂.Qh := fun s hs =>
-  X₂.partnerData.nat.cent_le s trivial fun v hv =>
+  X₂.partnerData.nat.cent_le s trivial fun _v hv =>
     CFSG.QuasithinUnique.Setup.Campbell.mul_comm_of_commutator_eq_bot h hs hv
 
 theorem Fh_le_of_Vh_le_Qh (X₁ X₂ : SeedData T) (hV : X₁.Vh ≤ X₂.Qh)

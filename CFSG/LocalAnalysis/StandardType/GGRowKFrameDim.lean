@@ -30,7 +30,7 @@ private theorem l05nFD_cartan_col {p N : ℕ} [Fact p.Prime] {Λ : Type} [Fintyp
   · have hne : e a ≠ e k := fun h => hak (e.injective h)
     have hle : MK (e a) (e k) ≤ 3 := by
       rw [hMK, CoxeterMatrix.reindex_apply, Equiv.symm_apply_apply, Equiv.symm_apply_apply,
-        l05nFD_coxeterA_entry, if_neg hak]
+        l05nFD_coxeterA_entry, ite_eq_right hak]
       split_ifs <;> omega
     have h1 : CK (e a) (e k) = CartanMatrix.A (N - 1) a k := by
       have := ((GGIntCartan.pair hCK hA hne).2 hle).1
@@ -45,7 +45,7 @@ private theorem l05nFD_cartan_kernel {p N : ℕ} [NeZero (N - 1)] (hN : 2 ≤ N)
   intro j
   have hrow := cartanA_ker_coord (c := c) hc (j : ℕ) j.isLt
   have h0 : (fun m => if hm : m < N - 1 then c ⟨m, hm⟩ else 0) 0 = c 0 := by
-    simp only [dif_pos (by omega : 0 < N - 1)]
+    simp only [dite_eq_left (by omega : 0 < N - 1)]
     rfl
   rw [h0] at hrow
   rw [hrow]
@@ -61,9 +61,9 @@ private theorem l05nFD_ker_le_one {p N : ℕ} [Fact p.Prime] {Λ : Type} [Fintyp
       (CK (e a) (e k) : ZMod p) = (CartanMatrix.A (N - 1) a k : ZMod p))
     {v w : V} (hv : ∀ i, α i v = 0) (hw : ∀ i, α i w = 0) (hw0 : w ≠ 0) :
     ∃ c : ZMod p, v = c • w := by
-  haveI : FiniteDimensional (ZMod p) V :=
+  have : FiniteDimensional (ZMod p) V :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; omega)
-  haveI : NeZero (N - 1) := ⟨by omega⟩
+  have : NeZero (N - 1) := ⟨by omega⟩
   let T : V →ₗ[ZMod p] (Λ → ZMod p) :=
     { toFun := fun v => fun i => α i v
       map_add' := by intro v w; ext i; simp
@@ -179,26 +179,26 @@ private theorem l05nFD_A_mul_d {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N)
   have hprev : (j : ℕ) - 1 < N - 1 := by omega
   simp only [hc']
   by_cases hlast : (j : ℕ) + 1 < N - 1
-  · rw [if_pos j.isLt, if_pos hlast]
+  · rw [ite_eq_left j.isLt, ite_eq_left hlast]
     by_cases hj0 : (j : ℕ) = 0
-    · rw [if_pos hj0, hj0]; norm_num
-    · rw [if_neg hj0, if_pos hprev]
+    · rw [ite_eq_left hj0, hj0]; norm_num
+    · rw [ite_eq_right hj0, ite_eq_left hprev]
       have hsub : ((↑j - 1 : ℕ) : ZMod p) = (↑j : ZMod p) - 1 := by
         rw [Nat.cast_sub (by omega : 1 ≤ (j : ℕ))]
         norm_num
       simp only [Nat.cast_add, Nat.cast_one]
       rw [hsub]; ring
-  · rw [if_pos j.isLt, if_neg hlast]
+  · rw [ite_eq_left j.isLt, ite_eq_right hlast]
     have hlast' : (j : ℕ) + 1 = N - 1 := by omega
     by_cases hj0 : (j : ℕ) = 0
-    · rw [if_pos hj0, hj0]
+    · rw [ite_eq_left hj0, hj0]
       have hN : N = 2 := by omega
       have h2 : (2 : ZMod p) = 0 := by
         have hNcast : ((N : ℕ) : ZMod p) = 0 := (CharP.cast_eq_zero_iff (ZMod p) p N).2 hpN
         simpa [hN] using hNcast
       norm_num
       exact h2
-    · rw [if_neg hj0, if_pos hprev]
+    · rw [ite_eq_right hj0, ite_eq_left hprev]
       have hjval : (j : ℕ) = N - 2 := by omega
       have e1 : (N - 2 : ℕ) + 1 = N - 1 := by omega
       have e2 : (N - 2 : ℕ) - 1 + 1 = N - 2 := by omega
@@ -321,7 +321,7 @@ theorem ggXDatumA_dep_K_dim {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pr
     ¬ LinearIndependent (ZMod p) h := by
   classical
   intro hli
-  haveI : NeZero (N - 1) := ⟨by omega⟩
+  have : NeZero (N - 1) := ⟨by omega⟩
   have hcol := l05nFD_cartan_col (p := p) e hMK hCK
   let M : AddSubgroup V :=
     { carrier := {w | ∃ b : ↥Bs, (b : G) ∈ K ∧ ι (Additive.ofMul b) = w}
@@ -348,7 +348,7 @@ theorem ggXDatumA_dep_K_dim {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pr
     have hd0 : d = 0 := funext fun i =>
       (Fintype.linearIndependent_iff.mp hlie) d (by simpa [v, d] using hv) i
     have h1 : d ⟨0, by omega⟩ = 0 := congrFun hd0 ⟨0, by omega⟩
-    have h2 : (1 : ZMod p) = 0 := by simpa [d] using h1
+    have h2 : (1 : ZMod p) = 0 := by simp [d] at h1
     exact one_ne_zero h2
   have hαv : ∀ k : Λ, α k v = 0 := by
     intro k
@@ -407,7 +407,7 @@ theorem ggXDatumA_frame_K_dim {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.
     (hdep : ¬ LinearIndependent (ZMod p) h) (hdim : Module.finrank (ZMod p) V = N - 1) :
     GGDepAFrame p N (fun i => h (e i)) (fun i => α (e i)) (ι (Additive.ofMul ⟨y, hy⟩)) := by
   classical
-  haveI : NeZero (N - 1) := ⟨by omega⟩
+  have : NeZero (N - 1) := ⟨by omega⟩
   have hcol := l05nFD_cartan_col (p := p) e hMK hCK
   have hx_ne : ι (Additive.ofMul (⟨y, hy⟩ : ↥Bs)) ≠ 0 := by
     intro h0
@@ -445,7 +445,7 @@ theorem ggNbr_cent_le_of_fix {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
       v ∈ Submodule.span (ZMod p) ({ι (Additive.ofMul (⟨y, hy⟩ : ↥Bs))} : Set V)) :
     Bs ⊓ Subgroup.centralizer (K : Set G) ≤ Subgroup.zpowers y := by
   intro b hb
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let bb : ↥Bs := ⟨b, hb.1⟩
   have hfixb : ∀ j : Λ, φ j bb = bb := by
     intro j

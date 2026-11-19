@@ -119,7 +119,7 @@ theorem uni_exists_frame {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : UniA
       exact hy
   obtain ⟨A₀, hA₀map⟩ := surjective_pgroup_sylow_lift p hp f hf hE.isPGroup
   let A₁ : Subgroup (↥(UniSU n d F)) := (A₀ : Subgroup Ppre).map Ppre.subtype
-  have hA₁p : IsPGroup p A₁ := A₀.isPGroup'.map Ppre.subtype
+  have hA₁p : IsPGroup p A₁ := A₀.isPGroup.map Ppre.subtype
   have hA₁map : A₁.map (UniMk n d F) = E := by
     apply le_antisymm
     · rintro _ ⟨x, hx, rfl⟩

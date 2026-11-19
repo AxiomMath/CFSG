@@ -20,7 +20,7 @@ private theorem psuC2a_commuting_join {G : Type*} [Group G] {ι : Type*} [Decida
   | empty =>
       have hbot : (⨆ i ∈ (∅ : Finset ι), H i) = (⊥ : Subgroup G) := by simp
       rw [hbot]
-      exact isSolvable_of_comm (fun p q => Subsingleton.elim (p * q) (q * p))
+      exact _root_.Group.isSolvable_of_comm (fun p q => Subsingleton.elim (p * q) (q * p))
   | insert a t ha ih =>
       rw [Finset.iSup_insert]
       set J : Subgroup G := ⨆ i ∈ t, H i with hJ
@@ -68,9 +68,9 @@ private theorem psuC2a_commuting_join {G : Type*} [Group G] {ι : Type*} [Decida
             exact ⟨(⟨x, hx⟩, 1), by simp [φ]⟩
           · intro y hy
             exact ⟨(1, ⟨y, hy⟩), by simp [φ]⟩
-      haveI : Group.IsSolvable ↥(H a) := hsolv a (Finset.mem_insert_self a t)
-      haveI : Group.IsSolvable ↥J := ht
-      exact solvable_of_surjective
+      have : Group.IsSolvable ↥(H a) := hsolv a (Finset.mem_insert_self a t)
+      have : Group.IsSolvable ↥J := ht
+      exact Group.isSolvable_of_surjective
         (f := φ.codRestrict (H a ⊔ J) (fun w => hrange ▸ ⟨w, rfl⟩))
         (fun z =>
           let ⟨w, hw⟩ := MonoidHom.mem_range.mp
@@ -134,9 +134,9 @@ private theorem psuC2a_orbit_mem {f n : ℕ} {K : Type} [Field K] [Finite K] [Ch
   have hdagA : psuDag h e ∈ psuAlg B := ((hP.1 _).mp hdagP).1
   have hdagprim : IsPrimIdemIn (psuAlg B) (psuDag h e) := (hP.1 _).1 hdagP
   by_cases hd : psuDag h e = e
-  · rw [psuOrbitIdem, if_pos hd]
+  · rw [psuOrbitIdem, ite_eq_left hd]
     exact ⟨heA, hd, hprim.2.1.eq⟩
-  · rw [psuOrbitIdem, if_neg hd]
+  · rw [psuOrbitIdem, ite_eq_right hd]
     have hne : e ≠ psuDag h e := fun h => hd h.symm
     have he_hd : e * psuDag h e = 0 := hP.2.1 e he (psuDag h e) hdagP hne
     have hd_e : psuDag h e * e = 0 := hP.2.1 (psuDag h e) hdagP e he (fun h => hne h.symm)
@@ -155,8 +155,8 @@ private theorem psuC2a_orbit_self {f n : ℕ} {K : Type} [Field K] [Finite K] [C
   have hdagP : psuDag h e ∈ P := psuC2a_dag_perm S P hP e he
   have hdagprim : IsPrimIdemIn (psuAlg B) (psuDag h e) := (hP.1 _).1 hdagP
   by_cases hd : psuDag h e = e
-  · rw [psuOrbitIdem, if_pos hd, hprim.2.1.eq]
-  · rw [psuOrbitIdem, if_neg hd]
+  · rw [psuOrbitIdem, ite_eq_left hd, hprim.2.1.eq]
+  · rw [psuOrbitIdem, ite_eq_right hd]
     have hne : e ≠ psuDag h e := fun h => hd h.symm
     have hd_e : psuDag h e * e = 0 := hP.2.1 (psuDag h e) hdagP e he (fun h => hne h.symm)
     rw [add_mul, hprim.2.1.eq, hd_e, add_zero]
@@ -174,8 +174,8 @@ private theorem psuC2a_orbit_dag {f n : ℕ} {K : Type} [Field K] [Finite K] [Ch
       intro hh
       exact hd (((psuDag_dag h e).symm.trans hh).symm)
     have h1 : psuOrbitIdem h (psuDag h e) = psuDag h e + psuDag h (psuDag h e) := by
-      rw [psuOrbitIdem, if_neg hd']
-    have h2 : psuOrbitIdem h e = e + psuDag h e := by rw [psuOrbitIdem, if_neg hd]
+      rw [psuOrbitIdem, ite_eq_right hd']
+    have h2 : psuOrbitIdem h e = e + psuDag h e := by rw [psuOrbitIdem, ite_eq_right hd]
     rw [h1, h2, psuDag_dag, add_comm]
 
 private theorem psuC2a_orbit_mul_other {f n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
@@ -186,9 +186,9 @@ private theorem psuC2a_orbit_mul_other {f n : ℕ} {K : Type} [Field K] [Finite 
   intro e he p hp hpe hpde
   have hdP : psuDag h e ∈ P := psuC2a_dag_perm S P hP e he
   by_cases hd : psuDag h e = e
-  · have hε : psuOrbitIdem h e = e := by rw [psuOrbitIdem, if_pos hd]
+  · have hε : psuOrbitIdem h e = e := by rw [psuOrbitIdem, ite_eq_left hd]
     rw [hε, hP.2.1 e he p hp (fun hh => hpe hh.symm)]
-  · have hε : psuOrbitIdem h e = e + psuDag h e := by rw [psuOrbitIdem, if_neg hd]
+  · have hε : psuOrbitIdem h e = e + psuDag h e := by rw [psuOrbitIdem, ite_eq_right hd]
     rw [hε, add_mul, hP.2.1 e he p hp (fun hh => hpe hh.symm),
       hP.2.1 (psuDag h e) hdP p hp (fun hh => hpde hh.symm), add_zero]
 
@@ -203,11 +203,11 @@ private theorem psuC2a_orbit_orth {f n : ℕ} {K : Type} [Field K] [Finite K] [C
   have hdag' : psuOrbitIdem h (psuDag h e') = psuOrbitIdem h e' :=
     psuC2a_orbit_dag S P hP e' he'
   by_cases hd' : psuDag h e' = e'
-  · have hε' : psuOrbitIdem h e' = e' := by rw [psuOrbitIdem, if_pos hd']
+  · have hε' : psuOrbitIdem h e' = e' := by rw [psuOrbitIdem, ite_eq_left hd']
     have hpe : e' ≠ e := fun hh => hne (by rw [hh])
     have hpde : e' ≠ psuDag h e := fun hh => hne (by rw [hh, psuC2a_orbit_dag S P hP e he])
     rw [hε', psuC2a_orbit_mul_other S P hP e he e' he' hpe hpde]
-  · have hε' : psuOrbitIdem h e' = e' + psuDag h e' := by rw [psuOrbitIdem, if_neg hd']
+  · have hε' : psuOrbitIdem h e' = e' + psuDag h e' := by rw [psuOrbitIdem, ite_eq_right hd']
     have h1 : psuOrbitIdem h e * e' = 0 :=
       psuC2a_orbit_mul_other S P hP e he e' he' (fun hh => hne (by rw [hh]))
         (fun hh => hne (by rw [hh, psuC2a_orbit_dag S P hP e he]))
@@ -230,8 +230,8 @@ private theorem psuC2a_orbit_sum {f n : ℕ} {K : Type} [Field K] [Finite K] [Ch
     have hterm : ∀ ε ∈ Q, ε * e = if ε = psuOrbitIdem h e then e else 0 := by
       intro ε hε
       by_cases hq : ε = psuOrbitIdem h e
-      · rw [if_pos hq, hq, psuC2a_orbit_self S P hP e he]
-      · rw [if_neg hq]
+      · rw [ite_eq_left hq, hq, psuC2a_orbit_self S P hP e he]
+      · rw [ite_eq_right hq]
         obtain ⟨e₀, he₀, rfl⟩ := Finset.mem_image.mp hε
         calc psuOrbitIdem h e₀ * e
             = psuOrbitIdem h e₀ * (psuOrbitIdem h e * e) := by
@@ -240,7 +240,7 @@ private theorem psuC2a_orbit_sum {f n : ℕ} {K : Type} [Field K] [Finite K] [Ch
           _ = 0 := by
                 rw [psuC2a_orbit_orth S P hP e₀ he₀ e he (fun hh => hq hh), zero_mul]
     rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq' Q (psuOrbitIdem h e) (fun _ => e),
-      if_pos (Finset.mem_image.mpr ⟨e, he, rfl⟩)]
+      ite_eq_left (Finset.mem_image.mpr ⟨e, he, rfl⟩)]
   calc (∑ ε ∈ Q, ε) = (∑ ε ∈ Q, ε) * 1 := (mul_one _).symm
     _ = (∑ ε ∈ Q, ε) * (∑ e ∈ P, e) := by rw [hP.2.2]
     _ = ∑ e ∈ P, (∑ ε ∈ Q, ε) * e := by rw [Finset.mul_sum]
@@ -954,7 +954,7 @@ private noncomputable def psuC2a_Phi {f n : ℕ} {K : Type} [Field K] [Finite K]
     intro x y
     funext ε
     apply Units.ext
-    simp only [Pi.mul_apply, Units.val_mul, Units.val_one, Units.val_mk0]
+    simp only [Pi.mul_apply, Units.val_mul, Units.val_mk0]
     have hmul : ((((x * y : psuC2a_C h B) : AutPSU.XJ h n) : GL (Fin n) K)) =
         ((((x : psuC2a_C h B) : AutPSU.XJ h n) : GL (Fin n) K)) *
         ((((y : psuC2a_C h B) : AutPSU.XJ h n) : GL (Fin n) K)) := by
@@ -983,8 +983,7 @@ private theorem psuC2a_blocks_le_C {f n : ℕ} {K : Type} [Field K]
     (P : Finset (Matrix (Fin n) (Fin n) K)) :
     (⨆ e ∈ P, psuBlock h B e) ≤ psuC2a_C h B := by
   apply iSup_le; intro e
-  apply iSup_le; intro he
-  intro x hx
+  apply iSup_le; intro he x hx
   rw [psuC2a_C, Subgroup.mem_comap]
   rw [psuBlock, glBlockCentralizer, Subgroup.mem_comap, Subgroup.mem_inf] at hx
   rw [Subgroup.mem_centralizer_iff] at hx ⊢
@@ -1026,7 +1025,7 @@ private theorem psuC2a_blocks_solvable {f n : ℕ} {K : Type} [Field K] [Finite 
     rw [← hfe]
     exact hsolv e he
   · intro ε hε ε' hε' hne x hx y hy
-    simp only [psuBlock, glBlockCentralizer, Subgroup.mem_comap, Subgroup.mem_inf] at hx hy
+    simp only [glBlockCentralizer, Subgroup.mem_comap, Subgroup.mem_inf] at hx hy
     have hxB : ((x : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
         (B : Matrix (Fin n) (Fin n) K) =
         (B : Matrix (Fin n) (Fin n) K) * ((x : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by
@@ -1067,11 +1066,11 @@ private theorem psuC2a_centralizer_solvable {f n : ℕ} {K : Type} [Field K] [Fi
     (hP : PrimFamily (psuAlg B) P)
     (hsolv : ∀ e ∈ P, Group.IsSolvable ↥(psuBlock h B e)) :
     Group.IsSolvable ↥(psuC2a_C h B) := by
-  haveI hJ : Group.IsSolvable ↥(⨆ e ∈ P, psuBlock h B e) :=
+  have hJ : Group.IsSolvable ↥(⨆ e ∈ P, psuBlock h B e) :=
     psuC2a_blocks_solvable S P hP hsolv
-  haveI hn : NeZero n := ⟨by have := S.four_le; omega⟩
+  have hn : NeZero n := ⟨by have := S.four_le; omega⟩
   have hJC : (⨆ e ∈ P, psuBlock h B e) ≤ psuC2a_C h B := psuC2a_blocks_le_C P
-  refine solvable_of_ker_le_range (Subgroup.inclusion hJC) (psuC2a_Phi S P hP) ?_
+  refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hJC) (psuC2a_Phi S P hP) ?_
   rw [Subgroup.inclusion_range]
   exact psuC2a_Phi_ker_le S P hP
 
@@ -1104,13 +1103,13 @@ theorem psuGraph_exists_nonsolvable_block {f n : ℕ} {K : Type} [Field K] [Fini
   classical
   by_contra hall
   push Not at hall
-  haveI hn : NeZero n := ⟨by have := S.four_le; omega⟩
-  haveI hCsolv : Group.IsSolvable ↥(psuC2a_C h B) :=
+  have hn : NeZero n := ⟨by have := S.four_le; omega⟩
+  have hCsolv : Group.IsSolvable ↥(psuC2a_C h B) :=
     psuC2a_centralizer_solvable S P hP hall
   have hC := psuC2a_C_le_chat (h := h) (B := B)
   have hker : (psuC2a_lambda (h := h) (B := B)).ker ≤ (Subgroup.inclusion hC).range := by
     rw [psuC2a_lambda_ker_eq (h := h) (B := B), Subgroup.inclusion_range]
-  exact hns (solvable_of_ker_le_range (Subgroup.inclusion hC) (psuC2a_lambda (h := h) (B := B))
+  exact hns (Group.isSolvable_of_ker_le_range (Subgroup.inclusion hC) (psuC2a_lambda (h := h) (B := B))
     hker)
 
 end CFSG.StandardType

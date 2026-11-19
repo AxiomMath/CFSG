@@ -355,7 +355,7 @@ theorem O2In_conj_mem {G : Type} [Group G] {H : Subgroup G} {u h : G} (hu : u �
 
 theorem isPGroup_O2In {G : Type} [Group G] [Finite G] (H : Subgroup G) :
     IsPGroup 2 (O2In H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (CFSG.LieType.BorelTits.pCore_isPGroup 2).map H.subtype
 
 theorem O2In_stab_V0 :
@@ -382,7 +382,7 @@ theorem O2In_stab_V0 :
   · have hKA : KSp ≤ AutPerm := KSp_le_MY0.trans MY0_le_autPerm
     have hp : IsPGroup 2 (img11 KSp) :=
       IsPGroup.of_card (n := 6) (by rw [card_img11' hKA, card_KSp]; norm_num)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hKH
       (fun h hh => Subgroup.mem_normalizer_fintype fun n hn =>
         conj_mem_img11_KSp (hHS hh) hn) hp

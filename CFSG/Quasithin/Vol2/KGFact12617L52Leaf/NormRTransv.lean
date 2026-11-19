@@ -21,7 +21,7 @@ theorem eq_zero_or_eq_one_of_card_eq_two (hF : Nat.card F = 2) (c : F) : c = 0 �
 theorem one_add_one_of_card_eq_two (hF : Nat.card F = 2) : (1 : F) + 1 = 0 := by
   rcases eq_zero_or_eq_one_of_card_eq_two hF (1 + 1) with h | h
   · exact h
-  · exact absurd (by simpa using h : (1 : F) = 0) one_ne_zero
+  · exact absurd (by simp at h : (1 : F) = 0) one_ne_zero
 
 theorem rep_eq_zero {ρ : H →* Module.End F V} {r : H} {v : V} (h : ρ r v = 0) : v = 0 := by
   have := congrArg (ρ r⁻¹) h

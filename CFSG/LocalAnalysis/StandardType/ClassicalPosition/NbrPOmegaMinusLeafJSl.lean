@@ -36,6 +36,7 @@ variable (S : Set (GL (Ix n) (GaloisField 2 f))) (J' : Subgroup (UK n f)) (ε e_
   (heJ : IsPrimIdemIn (AdS f S) e_J)
 include S J' ε e_J hB hF hE heJ
 
+omit hF in
 theorem nbrpmmx_J_sl
     (hcase : e_J ≠ ε ∧ Fadj n f e_J ≠ e_J ∧ ε = e_J + Fadj n f e_J ∧
       blockDegree (AdS f S) e_J < 2) :

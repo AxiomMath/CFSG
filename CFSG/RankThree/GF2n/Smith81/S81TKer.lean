@@ -15,14 +15,17 @@ variable {K : Type} [Field K] [CharP K 2]
 @[expose] def Pσ (K : Type) [Field K] (β : Rt) (ε : ℤ) : Module.End K (V K) :=
   projP K (fun b => pr b β = ε)
 
+omit [CharP K 2] in
 theorem Pσ_apply (β : Rt) (ε : ℤ) (v : V K) (b : Fin e7Data.d) :
     Pσ K β ε v b = if pr b β = ε then v b else 0 := projP_apply _ v b
 
+omit [CharP K 2] in
 theorem Pσ_idem (β : Rt) (ε : ℤ) (v : V K) : Pσ K β ε (Pσ K β ε v) = Pσ K β ε v := by
   ext b
   simp only [Pσ_apply]
   split_ifs <;> rfl
 
+omit [CharP K 2] in
 theorem Pσ_sum {β : Rt} (hβ : IsRoot .E7 β) (v : V K) :
     Pσ K β (-1) v + Pσ K β 0 v + Pσ K β 1 v = v := by
   ext b
@@ -34,9 +37,9 @@ theorem Pσ_rootOp_of_ne {β : Rt} (hβ : IsRoot .E7 β) {ε : ℤ} (hε : ε �
   ext b
   rw [Pσ_apply, rootOp_apply hβ]
   by_cases h1 : pr b β = ε
-  · rw [if_pos h1, if_neg (fun h2 => hε (h1.symm.trans h2))]
+  · rw [ite_eq_left h1, ite_eq_right (fun h2 => hε (h1.symm.trans h2))]
     try rfl
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     try rfl
 
 theorem Pσ_one_rootOp {β : Rt} (hβ : IsRoot .E7 β) (v : V K) :
@@ -44,20 +47,19 @@ theorem Pσ_one_rootOp {β : Rt} (hβ : IsRoot .E7 β) (v : V K) :
   ext b
   rw [Pσ_apply]
   by_cases h1 : pr b β = 1
-  · rw [if_pos h1]
-  · rw [if_neg h1, rootOp_apply hβ, if_neg h1]
-    try rfl
+  · rw [ite_eq_left h1]
+  · rw [ite_eq_right h1, rootOp_apply hβ, ite_eq_right h1]
 
 theorem rootOp_Pσ_of_ne {β : Rt} (hβ : IsRoot .E7 β) {ε : ℤ} (hε : ε ≠ -1) (v : V K) :
     e7Data.rootOp K β (Pσ K β ε v) = 0 := by
   ext b
   rw [rootOp_apply hβ]
   by_cases h1 : pr b β = 1
-  · rw [if_pos h1, Pσ_apply]
+  · rw [ite_eq_left h1, Pσ_apply]
     have h2 : pr (shift (-β) b) β = -1 := pr_shift_neg hβ h1
-    rw [if_neg (fun h3 => hε (h3.symm.trans h2))]
+    rw [ite_eq_right (fun h3 => hε (h3.symm.trans h2))]
     try rfl
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     try rfl
 
 theorem rootOp_Pσ_neg_one {β : Rt} (hβ : IsRoot .E7 β) (v : V K) :
@@ -65,10 +67,10 @@ theorem rootOp_Pσ_neg_one {β : Rt} (hβ : IsRoot .E7 β) (v : V K) :
   ext b
   rw [rootOp_apply hβ, rootOp_apply hβ]
   by_cases h1 : pr b β = 1
-  · rw [if_pos h1, if_pos h1, Pσ_apply]
+  · rw [ite_eq_left h1, ite_eq_left h1, Pσ_apply]
     have h2 : pr (shift (-β) b) β = -1 := pr_shift_neg hβ h1
-    rw [if_pos h2]
-  · rw [if_neg h1, if_neg h1]
+    rw [ite_eq_left h2]
+  · rw [ite_eq_right h1, ite_eq_right h1]
 
 theorem rootOp_neg_rootOp {β : Rt} (hβ : IsRoot .E7 β) (v : V K) :
     e7Data.rootOp K (-β) (e7Data.rootOp K β v) = Pσ K β (-1) v := by
@@ -76,11 +78,11 @@ theorem rootOp_neg_rootOp {β : Rt} (hβ : IsRoot .E7 β) (v : V K) :
   rw [rootOp_apply (isRoot_neg hβ), Pσ_apply]
   by_cases h1 : pr b β = -1
   · have h2 : pr b (-β) = 1 := by rw [pr_neg, h1]; norm_num
-    rw [if_pos h2, if_pos h1, rootOp_apply hβ, neg_neg]
+    rw [ite_eq_left h2, ite_eq_left h1, rootOp_apply hβ, neg_neg]
     have h3 : pr (shift β b) β = 1 := pr_shift_self hβ h1
-    rw [if_pos h3, shift_neg_shift hβ h1]
+    rw [ite_eq_left h3, shift_neg_shift hβ h1]
   · have h2 : ¬ pr b (-β) = 1 := by rw [pr_neg]; omega
-    rw [if_neg h2, if_neg h1]
+    rw [ite_eq_right h2, ite_eq_right h1]
 
 theorem rootOp_rootOp_neg {β : Rt} (hβ : IsRoot .E7 β) (v : V K) :
     e7Data.rootOp K β (e7Data.rootOp K (-β) v) = Pσ K β 1 v := by
@@ -89,8 +91,8 @@ theorem rootOp_rootOp_neg {β : Rt} (hβ : IsRoot .E7 β) (v : V K) :
   by_cases h1 : pr b β = 1
   · have h2 : pr (shift (-β) b) β = -1 := pr_shift_neg hβ h1
     have h3 : pr (shift (-β) b) (-β) = 1 := by rw [pr_neg, h2]; norm_num
-    rw [if_pos h1, if_pos h1, rootOp_apply (isRoot_neg hβ), if_pos h3, neg_neg, shift_shift_neg hβ h1]
-  · rw [if_neg h1, if_neg h1]
+    rw [ite_eq_left h1, ite_eq_left h1, rootOp_apply (isRoot_neg hβ), ite_eq_left h3, neg_neg, shift_shift_neg hβ h1]
+  · rw [ite_eq_right h1, ite_eq_right h1]
 
 end SigmaBeta
 
@@ -101,6 +103,7 @@ variable {K : Type} [Field K] [CharP K 2]
 theorem ipR_neg_left (α β : Rt) : ipR (-α) β = - ipR α β := by
   rw [ipR, MinData.toWeight_neg, neg_dotProduct]
 
+omit [CharP K 2] in
 theorem NOp_cons_apply (β : Rt) (S : List Rt) (v : V K) :
     NOp K (β :: S) v = NOp K S v + e7Data.rootOp K β (tOp K S v) := by
   rw [NOp_eq, NOp_eq, tOp_cons, LinearMap.sub_apply, LinearMap.sub_apply, Module.End.mul_apply,
@@ -201,7 +204,7 @@ theorem ker_NOp_le_aux : ∀ (S : List Rt), SOrth S → ∀ c : V K, NOp K S c =
       intro a ha
       rw [Pσ_apply]
       by_cases hp : pr a β = 0
-      · rw [if_pos hp]
+      · rw [ite_eq_left hp]
         apply hu'
         intro hperp
         apply ha
@@ -209,7 +212,7 @@ theorem ker_NOp_le_aux : ∀ (S : List Rt), SOrth S → ∀ c : V K, NOp K S c =
         rcases List.mem_cons.1 hγ with rfl | hγS
         · exact hp
         · exact hperp γ hγS
-      · rw [if_neg hp]
+      · rw [ite_eq_right hp]
     · calc c = Pσ K β (-1) c + Pσ K β 0 c + Pσ K β 1 c := (Pσ_sum hβ c).symm
         _ = (Pσ K β 1 c + Pσ K β (-1) c) + (NOp K S (Pσ K β 0 w₂) + Pσ K β 0 u') := by
           rw [← hc0']; abel
@@ -232,7 +235,7 @@ theorem tOp_apply_of_no_top {S : List Rt} (hS : ∀ β ∈ S, IsRoot .E7 β) (v 
     have hνβ : pr ν β ≠ 1 := h β (List.mem_cons_self ..)
     have h' : ∀ γ ∈ S, pr ν γ ≠ 1 := fun γ hγ => h γ (List.mem_cons_of_mem _ hγ)
     rw [tOp_cons, Module.End.mul_apply, LinearMap.add_apply, Module.End.one_apply, Finsupp.add_apply,
-      rootOp_apply hβ, if_neg hνβ, add_zero]
+      rootOp_apply hβ, ite_eq_right hνβ, add_zero]
     exact ih hS' h'
 
 theorem tOp_apply_of_one_top {S : List Rt} (hS : SOrth S) (v : V K) (ν : Fin e7Data.d) {i : Rt}
@@ -250,7 +253,7 @@ theorem tOp_apply_of_one_top {S : List Rt} (hS : SOrth S) (v : V K) (ν : Fin e7
       rootOp_apply hβ]
     rcases List.mem_cons.1 hi with hiβ | hiS
     · rw [hiβ] at h1 ⊢
-      rw [if_pos h1]
+      rw [ite_eq_left h1]
       have hne : ∀ γ ∈ S, γ ≠ β := fun γ hγ e => hβS (by rw [← e]; exact hγ)
       have hS'r : ∀ γ ∈ S, IsRoot .E7 γ := fun γ hγ => hS'.root hγ
       have hνS : ∀ γ ∈ S, pr ν γ ≠ 1 := fun γ hγ =>
@@ -266,7 +269,7 @@ theorem tOp_apply_of_one_top {S : List Rt} (hS : SOrth S) (v : V K) (ν : Fin e7
       rw [tOp_apply_of_no_top (S := S) hS'r v ν hνS,
         tOp_apply_of_no_top (S := S) hS'r v (shift (-β) ν) hpsh]
     · have hβi : β ≠ i := fun e => hβS (by rw [e]; exact hiS)
-      rw [if_neg (h β (List.mem_cons_self ..) hβi), add_zero]
+      rw [ite_eq_right (h β (List.mem_cons_self ..) hβi), add_zero]
       exact ih hS' hiS (fun γ hγ hγi => h γ (List.mem_cons_of_mem _ hγ) hγi)
 
 end Coord
@@ -287,16 +290,16 @@ private theorem aux_range_rootOp_kill {i β : Rt} {ν : Fin e7Data.d} (hi : IsRo
   have h2 : ¬ (pr (shift (-i) ν) β = -1) := by
     rw [aux_range_pr_shift_orth hi h1 hiβ]
     exact hν
-  rw [rootOp_single hβ, if_neg h2]
+  rw [rootOp_single hβ, ite_eq_right h2]
 
 private theorem aux_range_rootOp_nu {β : Rt} {ν : Fin e7Data.d} (hβ : IsRoot .E7 β)
     (hν : pr ν β ≠ -1) : e7Data.rootOp K β (Finsupp.single ν 1) = 0 := by
-  rw [rootOp_single hβ, if_neg hν]
+  rw [rootOp_single hβ, ite_eq_right hν]
 
 private theorem aux_range_rootOp_top {i : Rt} {ν : Fin e7Data.d} (hi : IsRoot .E7 i)
     (h1 : pr ν i = 1) :
     e7Data.rootOp K i (Finsupp.single (shift (-i) ν) 1) = Finsupp.single ν 1 := by
-  rw [rootOp_single hi, if_pos (pr_shift_neg hi h1), shift_shift_neg hi h1]
+  rw [rootOp_single hi, ite_eq_left (pr_shift_neg hi h1), shift_shift_neg hi h1]
 
 private theorem aux_range_tOp {i : Rt} {ν : Fin e7Data.d} (hi : IsRoot .E7 i) (h1 : pr ν i = 1)
     (S : List Rt) :
@@ -373,21 +376,21 @@ theorem ker_NOp_le_L {S : List Rt} (hS : SOrth S) {okD : Rt → Prop} {inL : Fin
     ext b
     rw [projP_apply]
     by_cases hb : inL b
-    · rw [if_pos hb]
-    · rw [if_neg hb]
+    · rw [ite_eq_left hb]
+    · rw [ite_eq_right hb]
       exact ((Finsupp.mem_supported' K c).1 hc b hb).symm
   refine ⟨projP K inL w₀, ?_, projP K inL u₀, ?_, ?_⟩
   · rw [Finsupp.mem_supported']
     intro x hx
     have hx' : ¬ inL x := hx
-    rw [projP_apply, if_neg hx']
+    rw [projP_apply, ite_eq_right hx']
   · rw [Finsupp.mem_supported']
     intro x hx
     rw [projP_apply]
     by_cases hxl : inL x
-    · rw [if_pos hxl]
+    · rw [ite_eq_left hxl]
       exact (Finsupp.mem_supported' K u₀).1 hu₀ x (fun hperp => hx ⟨hxl, hperp⟩)
-    · rw [if_neg hxl]
+    · rw [ite_eq_right hxl]
   · have := congrArg (projP K inL) hc₀
     rwa [hPc, map_add, projP_NOp_apply hS.1 inL hp] at this
 

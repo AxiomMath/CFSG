@@ -81,8 +81,8 @@ theorem act_W (n : ↥(fz410M R E)) (hn : (n : G) ∈ fzN2 t x₁ x₂) : Φ n D
 theorem act_rho_ne_one : Φ ⟨rho, D.rho_mem_M⟩ ≠ 1 := by
   intro h1
   have hcard : Nat.card (Fz410Om E P Q) = 4 := D.card_Om
-  haveI : Finite (Fz410Om E P Q) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Nontrivial (Fz410Om E P Q) :=
+  have : Finite (Fz410Om E P Q) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Nontrivial (Fz410Om E P Q) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
   obtain ⟨A₁, hA₁⟩ := exists_ne D.Wom
   have hA₁W : A₁.1 ≠ W := fun h => hA₁ (Subtype.ext h)
@@ -113,6 +113,7 @@ theorem act_rho_ne_one : Φ ⟨rho, D.rho_mem_M⟩ ≠ 1 := by
   · apply haE
     exact (Subgroup.mem_normalizer_iff.mp hρE a).mpr hE
 
+omit hΦ in
 theorem act_rho_pow : Φ ⟨rho, D.rho_mem_M⟩ ^ 3 = 1 := by
   rw [← map_pow]
   have h : (⟨rho, D.rho_mem_M⟩ : ↥(fz410M R E)) ^ 3 = 1 := by
@@ -120,6 +121,7 @@ theorem act_rho_pow : Φ ⟨rho, D.rho_mem_M⟩ ^ 3 = 1 := by
     simpa using D.str.rho_ord
   rw [h, map_one]
 
+omit hΦ in
 theorem act_lam_sq : Φ ⟨lam, D.lam_mem_M⟩ ^ 2 = 1 := by
   rw [← map_pow]
   have h : (⟨lam, D.lam_mem_M⟩ : ↥(fz410M R E)) ^ 2 = 1 := by
@@ -127,6 +129,7 @@ theorem act_lam_sq : Φ ⟨lam, D.lam_mem_M⟩ ^ 2 = 1 := by
     simpa using D.str.lam_sq
   rw [h, map_one]
 
+omit hΦ in
 theorem act_lam_rho : Φ ⟨lam, D.lam_mem_M⟩ * Φ ⟨rho, D.rho_mem_M⟩ * (Φ ⟨lam, D.lam_mem_M⟩)⁻¹ =
     (Φ ⟨rho, D.rho_mem_M⟩)⁻¹ := by
   have h : (⟨lam, D.lam_mem_M⟩ : ↥(fz410M R E)) * ⟨rho, D.rho_mem_M⟩ * ⟨lam, D.lam_mem_M⟩⁻¹ =
@@ -141,7 +144,7 @@ theorem act_lam_rho : Φ ⟨lam, D.lam_mem_M⟩ * Φ ⟨rho, D.rho_mem_M⟩ * (�
 
 theorem ker_le (n : ↥(fz410M R E)) (hn : Φ n = 1) : (n : G) ∈ R := by
   have hcard : Nat.card (Fz410Om E P Q) = 4 := D.card_Om
-  haveI : Finite (Fz410Om E P Q) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Fz410Om E P Q) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hnN2 : (n : G) ∈ fzN2 t x₁ x₂ := by
     have h1 : fz410Cj (n : G) W = W := by
       have h0 : (Φ n D.Wom).1 = (D.Wom).1 := by rw [hn]; rfl
@@ -169,8 +172,8 @@ theorem ker_le (n : ↥(fz410M R E)) (hn : Φ n = 1) : (n : G) ∈ R := by
     exact h2.symm
   obtain ⟨hi0, hj0⟩ := fz410_perm_faithful hcard D.Wom
     (D.act_W Φ hΦ ⟨rho, D.rho_mem_M⟩ D.rho_mem_N2)
-    (D.act_W Φ hΦ ⟨lam, D.lam_mem_M⟩ D.lam_mem_N2) (D.act_rho_pow Φ hΦ)
-    (D.act_rho_ne_one Φ hΦ) (D.act_lam_sq Φ hΦ) (D.act_lam_rho Φ hΦ) i j hi hj hprod
+    (D.act_W Φ hΦ ⟨lam, D.lam_mem_M⟩ D.lam_mem_N2) (D.act_rho_pow Φ)
+    (D.act_rho_ne_one Φ hΦ) (D.act_lam_sq Φ) (D.act_lam_rho Φ) i j hi hj hprod
   subst hi0
   subst hj0
   rw [hnrij]

@@ -66,7 +66,7 @@ theorem rk_le_four_of_avoid {V : Type} [CommGroup V] (ρ : ↥M24g →* MulAut V
     have hcw := card_fixW_conj c ⟨y, hy⟩
     rw [hc] at hcw
     rw [← hcw, card_fixW_tA]
-  haveI : Finite ↥W := (Nat.card_ne_zero.mp (by rw [hcardW]; norm_num)).2
+  have : Finite ↥W := (Nat.card_ne_zero.mp (by rw [hcardW]; norm_num)).2
   have hdvd : Nat.card ↥I ∣ Nat.card ↥W := Subgroup.card_dvd_of_le hI
   have hcardI : Nat.card ↥I = 32 := by
     have h1 : Nat.card ↥I ∣ 2 ^ 5 := by

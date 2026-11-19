@@ -17,11 +17,11 @@ private theorem card_fiber_eq_card_comap_centralizer {K : Type*} [Group K] [Fini
   classical
   let P : Subgroup K :=
     (Subgroup.centralizer ({(c : K ⧸ Q)} : Set (K ⧸ Q))).comap (QuotientGroup.mk' Q)
-  letI : MulAction ↥P K := MulAction.compHom K (MulAut.conj.comp P.subtype)
-  haveI : Fintype ↥P := Fintype.ofFinite ↥P
-  haveI : Fintype (MulAction.orbit ↥P c) :=
+  let : MulAction ↥P K := MulAction.compHom K (MulAut.conj.comp P.subtype)
+  have : Fintype ↥P := Fintype.ofFinite ↥P
+  have : Fintype (MulAction.orbit ↥P c) :=
     (Finite.finite_mulAction_orbit (M := ↥P) c).fintype
-  haveI : Fintype (MulAction.stabilizer ↥P c) := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer ↥P c) := Fintype.ofFinite _
   have hOS := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (↥P) c
   have hsmul : ∀ (p : ↥P) (x : K), p • x = (p : K) * x * (p : K)⁻¹ := by
     intro p x

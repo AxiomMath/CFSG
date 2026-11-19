@@ -171,16 +171,16 @@ theorem mulD_lt {k k' : ℕ} (hk : k < 8) : mulD k k' < 8 := by
   unfold mulD
   split_ifs <;> omega
 
-theorem tP_mul_eq {k k' : ℕ} (hk : k < 8) (hk' : k' < 8) : tP k * tP k' = tP (mulD k k') := by
+theorem tP_mul_eq {k k' : ℕ} (_hk : k < 8) (hk' : k' < 8) : tP k * tP k' = tP (mulD k k') := by
   have hd (n : ℕ) : dP ^ n = dP ^ (n % 4) := pow_eq_pow_mod n d_pow4
   have hf (n : ℕ) : fP ^ n = fP ^ (n % 2) := pow_eq_pow_mod n f_pow2
   unfold tP mulD
   rcases (show k' / 4 = 0 ∨ k' / 4 = 1 by omega) with h | h
-  · rw [if_pos h, h, pow_zero, one_mul, mul_assoc, ← pow_add, hd (k % 4 + k' % 4)]
+  · rw [ite_eq_left h, h, pow_zero, one_mul, mul_assoc, ← pow_add, hd (k % 4 + k' % 4)]
     have e1 : (4 * (k / 4) + (k % 4 + k' % 4) % 4) / 4 = k / 4 := by omega
     have e2 : (4 * (k / 4) + (k % 4 + k' % 4) % 4) % 4 = (k % 4 + k' % 4) % 4 := by omega
     rw [e1, e2]
-  · rw [if_neg (by omega), h, pow_one]
+  · rw [ite_eq_right (by omega), h, pow_one]
     have e1 : (4 * ((k / 4 + 1) % 2) + (3 * (k % 4) + k' % 4) % 4) / 4 = (k / 4 + 1) % 2 := by
       omega
     have e2 : (4 * ((k / 4 + 1) % 2) + (3 * (k % 4) + k' % 4) % 4) % 4 =

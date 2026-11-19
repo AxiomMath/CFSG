@@ -48,7 +48,7 @@ theorem pow_eq_one_of_mem_torus3 {n : ℕ} {t : GL (Fin 3) K}
   have : d ^ n = 1 := funext fun i => (mem_rootsOfUnity _ _).1 (hdM i)
   rw [this, map_one]
 
-theorem mem_torus3_of_isDiag {n : ℕ} (hn : n ≠ 0) {t : GL (Fin 3) K}
+theorem mem_torus3_of_isDiag {n : ℕ} (_hn : n ≠ 0) {t : GL (Fin 3) K}
     (hd : (t : Matrix (Fin 3) (Fin 3) K).IsDiag) (hdet : (t : Matrix (Fin 3) (Fin 3) K).det = 1)
     (hpow : t ^ n = 1) : t ∈ torus3 (rootsOfUnity n K) := by
   set c : Fin 3 → K := fun i => (t : Matrix (Fin 3) (Fin 3) K) i i
@@ -109,8 +109,8 @@ theorem pow_eq_one_of_mem_conjTorus {n : ℕ} {P g : GL (Fin 3) K} (hg : g ∈ c
   rw [mem_conjTorus] at hg
   have h := pow_eq_one_of_mem_torus3 hg
   have e : (P⁻¹ * g * P) ^ n = P⁻¹ * g ^ n * P := by
-    rw [show P⁻¹ * g * P = (MulAut.conj P⁻¹) g by simp [MulAut.conj_apply], ← map_pow]
-    simp [MulAut.conj_apply]
+    rw [show P⁻¹ * g * P = (MulAut.conj P⁻¹) g by simp, ← map_pow]
+    simp
   rw [e] at h
   calc g ^ n = P * (P⁻¹ * g ^ n * P) * P⁻¹ := by group
     _ = 1 := by rw [h]; group
@@ -267,7 +267,7 @@ theorem frameGroupOf_eq_conjTorus {n : ℕ} (hn : n ≠ 0) {b : Fin 3 → Fin 3 
       by_cases hr : r = i
       · subst hr
         simp
-      · simp [Pi.single_apply, hr]
+      · simp [hr]
 
 theorem conj_mem_frameGroupOf {n : ℕ} {b : Fin 3 → Fin 3 → K} {g e : GL (Fin 3) K}
     (he : e ∈ frameGroupOf n b)

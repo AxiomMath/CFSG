@@ -29,7 +29,7 @@ theorem ggSecFiveNSU6SmallInput_of_frame
   have hp3 : p = 3 := by
     rw [hn1] at hpd
     exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).mp (by simpa using hpd)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hconf : GGConfig p B Bs x L D J := hcfg.1.1
   obtain ⟨y, K, hN⟩ := exists_ggNbr hconf.1.2.2.2.2.2.2.2 hconf.2.2
   have hH : GGResHyp p B Bs x L D J y K :=
@@ -45,7 +45,7 @@ theorem ggSecFiveNSU6SmallInput_of_frame
       h6]
   have hJoin : Nat.card ↥(ggAutomizerJoin L Bs 𝒦) = (n + 1).factorial := by
     rw [← Nat.card_congr e.toEquiv, hM, card_coxeterGroup_reindex, l05nK3a_card_coxeterA]
-  haveI : Finite (MulAut ↥Bs) :=
+  have : Finite (MulAut ↥Bs) :=
     Finite.of_injective (fun φ : MulAut ↥Bs => (φ : ↥Bs → ↥Bs)) DFunLike.coe_injective
   have hle : Nat.card ↥(ggAutomizer L Bs) ≤ Nat.card ↥(ggAutomizerJoin L Bs 𝒦) :=
     Subgroup.card_le_of_le (ggAutomizer_le_ggAutomizerJoin (Or.inl rfl))

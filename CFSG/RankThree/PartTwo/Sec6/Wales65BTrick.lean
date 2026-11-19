@@ -13,13 +13,14 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isSolvable_subgroup_of_le {M N : Subgroup G} (hMN : M ≤ N) (hN : Group.IsSolvable N) :
     Group.IsSolvable M :=
   Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hMN)
     (Subgroup.inclusion_injective _)
 
 theorem mem_thetaQuotCentralizer_of_isSolvable {X Z : Subgroup G} {b : G}
-    (hXp : Group.IsPerfect X) (hXq : IsQuasisimple (X ⧸ aschbacherSolvableCore 3 X))
+    (_hXp : Group.IsPerfect X) (hXq : IsQuasisimple (X ⧸ aschbacherSolvableCore 3 X))
     (hbX : b ∈ Subgroup.normalizer (X : Set G)) (hZp : Group.IsPerfect Z) (hZX : Z ≤ X)
     (hXZ : X ≤ Z ⊔ inSubgroup (aschbacherSolvableCore 3) X)
     (hsol : Group.IsSolvable (⁅Z, Subgroup.zpowers b⁆ : Subgroup G)) :
@@ -161,7 +162,7 @@ theorem le_centralizer_of_commutator_zpowers_eq {Y M : Subgroup G} {b : G}
 omit [Finite G] in
 theorem commutator_eq_bot_of_commutator_zpowers_eq {Y N : Subgroup G} {b : G}
     (hYp : Group.IsPerfect Y) (hYb : ⁅Y, Subgroup.zpowers b⁆ = Y)
-    (hYN : Y ≤ Subgroup.normalizer (N : Set G)) (hNYb : ⁅N, Y⁆ ≤ Subgroup.centralizer {b}) :
+    (_hYN : Y ≤ Subgroup.normalizer (N : Set G)) (hNYb : ⁅N, Y⁆ ≤ Subgroup.centralizer {b}) :
     ⁅N, Y⁆ = ⊥ := by
   have hYC := le_centralizer_of_commutator_zpowers_eq hYb hNYb (le_normalizer_commutator_right N Y)
   have h1 : ⁅⁅N, Y⁆, Y⁆ = ⊥ := by

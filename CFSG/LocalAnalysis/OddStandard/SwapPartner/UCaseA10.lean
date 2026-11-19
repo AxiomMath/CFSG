@@ -75,7 +75,7 @@ theorem card_le_two_of_isPGroup_centralizer {X : Type*} [Group X] [Finite X] {t 
       _ = c * (u0 * k) * c⁻¹ := by rw [hkcomm]
       _ = c * u0 * c⁻¹ * (c * k * c⁻¹) := by group
       _ = t * (MulAut.conj c).toMonoidHom k := by rw [← hu0]; rfl
-  haveI hK'perf : Group.IsPerfect (K.map (MulAut.conj c).toMonoidHom) :=
+  have hK'perf : Group.IsPerfect (K.map (MulAut.conj c).toMonoidHom) :=
     Group.IsPerfect.map (f := (MulAut.conj c).toMonoidHom)
   have hK'comm : ⁅K.map (MulAut.conj c).toMonoidHom,
       K.map (MulAut.conj c).toMonoidHom⁆ = K.map (MulAut.conj c).toMonoidHom :=

@@ -65,14 +65,14 @@ theorem ggCompFieldDataQ_of_catalogue
       ext x
       simp [mem_fixSubgroup]
     rw [hfix] at hC
-    haveI := (CFSG.Assembly.lie_finite_simple d).2
-    haveI : IsSimpleGroup S := e.isSimpleGroup
+    have := (CFSG.Assembly.lie_finite_simple d).2
+    have : IsSimpleGroup S := e.isSimpleGroup
     have hnc : ∃ a b : S, a * b ≠ b * a := by
       by_contra hcomm
-      push_neg at hcomm
+      push Not at hcomm
       have htop : Subgroup.center ↥C = ⊤ :=
         eq_top_iff.mpr fun x _ => Subgroup.mem_center_iff.mpr fun g => Subtype.ext (hcomm g x)
-      haveI := hC.2.2.2
+      have := hC.2.2.2
       obtain ⟨a, b, hab⟩ := exists_pair_ne (↥C ⧸ Subgroup.center ↥C)
       apply hab
       induction a using QuotientGroup.induction_on with | H a => ?_
@@ -108,7 +108,7 @@ theorem ggExcCompFieldInputQ
     (s : ↥(adjointGroup τ K)) (hs : s ^ p = 1) (C : Subgroup ↥(adjointGroup τ K))
     (hC : IsComponentOf C (Subgroup.centralizer ({s} : Set ↥(adjointGroup τ K)))) :
     GGCompFieldDataQ (Nat.card K) C := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   let q₀ : PrimePower := ⟨2, n, Nat.prime_two, n.pos⟩
   have hk : Nat.card K = q₀.card := by
@@ -116,7 +116,7 @@ theorem ggExcCompFieldInputQ
   have hq₀ : q₀.card = 2 ^ (n : ℕ) := PrimePower.card_def q₀
   have hv0 : ∀ c : LieTypeIndex, c.InStandardRange → ¬ c.IsDuplicateRepresentative →
       c.Valid := fun c h1 h2 => (LieTypeIndex.valid_iff c).2 ⟨h1, h2⟩
-  haveI : Finite ↥(adjointGroup τ K) := inferInstance
+  have : Finite ↥(adjointGroup τ K) := inferInstance
   have hβ : MulAut.conj s ∈ innAutDerived ↥(adjointGroup τ K) :=
     inner_le_innAutDerived _ ⟨s, rfl⟩
   have hβp : (MulAut.conj s) ^ p = 1 := by rw [← map_pow, hs, map_one]
@@ -160,7 +160,7 @@ theorem ggE6CompFieldInputQ
     (X : Subgroup ↥(adjointGroup .E6 K))
     (hX : IsComponentOf X (CFSG.StandardType.LayerSixE.autFix (Subgroup.zpowers α))) :
     GGCompFieldDataQ (Nat.card K) X := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   let q₀ : PrimePower := ⟨2, n, Nat.prime_two, n.pos⟩
   have hk : Nat.card K = q₀.card := by
@@ -184,7 +184,7 @@ theorem ggTwE6CompFieldInputQ
     (X : Subgroup ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)))
     (hX : IsComponentOf X (CFSG.StandardType.LayerSixE.autFix (Subgroup.zpowers α))) :
     GGCompFieldDataQ (2 ^ f) X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 (2 * f)
   let σ : K ≃+* K := CFSG.StandardType.frobQEquiv hf
   have hK : Nat.card K = (2 ^ f) ^ 2 := by

@@ -73,7 +73,7 @@ theorem fixedFreeFive_projectiveSL_three_four :
     obtain ⟨c, -, hc⟩ := LinearFlag.mem_scalars.1 (LinearFlag.proj_eq_one_iff.1 hv)
     have h02 := congrFun (congrFun hc 0) 2
     have h12 := congrFun (congrFun hc 1) 2
-    simp only [uSL, MonoidHom.coe_mk, OneHom.coe_mk, uMat] at h02 h12
+    simp only [uSL, MonoidHom.coe_mk, uMat] at h02 h12
     simp at h02 h12
     exact toAdd_eq_zero.mp (Prod.ext h02 h12)
   · intro k hk0 hk5 v
@@ -106,11 +106,11 @@ theorem StronglyEmbeddedThreeKIB_of_small (hG3 : Gls3StronglyThreeEmbeddedPlus)
     (hSmall : KIB3Small) : StronglyEmbeddedThreeKIB := by
   intro X _ _ hX hO h2 N hN
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar Nat.prime_three hO hN
   set K := CFSG.generalizedFitting X
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hK1 : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
   obtain ⟨P, hPN, -⟩ := exists_sylow_glbCore_ne_top_of_isStronglyPEmbedded hO hK1 hN
   have hrk : 2 ≤ CFSG.Open.pRank 3 (P : Subgroup X) := by
@@ -119,7 +119,7 @@ theorem StronglyEmbeddedThreeKIB_of_small (hG3 : Gls3StronglyThreeEmbeddedPlus)
   have hΓX : gammaCore 3 1 ⊤ (P : Subgroup X) < ⊤ := by
     refine lt_top_iff_ne_top.2 fun h => hN.1 (top_le_iff.1 ?_)
     rw [← h]
-    exact CFSG.LocalAnalysis.UniquenessCase.UCK.gammaCore_le_of_isStronglyPEmbedded hN P.isPGroup'
+    exact CFSG.LocalAnalysis.UniquenessCase.UCK.gammaCore_le_of_isStronglyPEmbedded hN P.isPGroup
       hPN
   obtain ⟨-, -, hrows⟩ := hG3 X hX K hKn hKs hKnab hKC P hrk hΓX
   rcases hrows with ⟨q, hq3, hI, -⟩ | ⟨q, hq3, hI, -⟩ | ⟨m, hI, -⟩ | ⟨hI, -⟩ | ⟨⟨φ, -⟩, -⟩ |

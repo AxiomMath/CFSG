@@ -63,9 +63,9 @@ theorem lin_exists_z₂ (hd : d.Hyp) :
   rw [hcard, d.card_CPI₆] at hle
   exact absurd hle (not_le.2 (lins2a_lt_pow_three (lt_of_lt_of_le (by norm_num) h4)))
 
-theorem lin_card_le_of_sq_N₂ (hd : d.Hyp) {X : Subgroup G} (hX : X ≤ d.N₂)
+theorem lin_card_le_of_sq_N₂ (_hd : d.Hyp) {X : Subgroup G} (hX : X ≤ d.N₂)
     (hX2 : ∀ x ∈ X, x * x = 1) : Nat.card X ≤ 2 ^ f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsPGroup 2 X := isPGroup_iff_pow_pow_eq_one.2 fun g => ⟨1, by
     rw [pow_one, pow_two]
     exact Subtype.ext (hX2 _ g.2)⟩

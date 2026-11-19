@@ -18,6 +18,7 @@ open CFSG.Yardstones.Mf4cdcdf2e013 (Standing4 Setup4)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22ine229_le_pPrimeCore_normalizer {X : Subgroup G} {p q : ℕ} (hp : p.Prime)
     (hq : q.Prime) (hqp : q ≠ p) (hXc : Nat.card X = q) :
     X ≤ (CFSG.pPrimeCore p ↥(normalizer (X : Set G))).map (normalizer (X : Set G)).subtype := by
@@ -40,7 +41,7 @@ theorem uc22ine229_normalizer_le_of_thin_setup4 (hSE : StronglyEmbeddedFive)
     (hXc : Nat.card X = q) : normalizer (X : Set G) ≤ (UC6.dataOfSetup4 hS hU S).M := by
   have hSg := UC6S846.sigmaStd_dataOfSetup4 hS hU S
   have hpP : p.Prime := ((UC6.dataOfSetup4 hS hU S).sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hsp := UC6S846.sp_of_mem_sig hSg (UC6S846.not_solvable_of_mem_calC hY) hp
   let k : Sec7Core4 G := .ofUnique hS hU S.M S.maxLocal p hp hsp
   have hno : Sec7Core4.KIDExcluded k := uc22ine229_kIDExcluded_setup4 hB3 hS hU S hσ hp hp5 hsp

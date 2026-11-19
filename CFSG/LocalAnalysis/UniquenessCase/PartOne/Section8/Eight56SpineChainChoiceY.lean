@@ -60,7 +60,7 @@ theorem exists_choiceY_of_choiceX {G : Type} [Group G] [Finite G] (D : Data G)
   have hX''Z' : X'' ≤ Z' := Subgroup.map_mono (hX'Y.trans hYZ.le)
   have hX''card : Nat.card X'' = 3 := (Subgroup.card_map_of_injective hinj).trans hX'card
   have hX''nc : ¬ centralizer (X'' : Set G) ≤ D.M := fun hle => by
-    obtain ⟨c, hc, hcM⟩ := SetLike.not_le_iff_exists.1 hX'nc
+    obtain ⟨c, hc, hcM⟩ := IsConcreteLE.not_le_iff_exists.1 hX'nc
     refine hcM (hconj_mem c (hle ?_))
     refine Subgroup.mem_centralizer_iff.2 fun x'' hx'' => ?_
     have ha := Subgroup.mem_centralizer_iff.1 hc (k * x'' * k⁻¹) ((hmem X' x'').1 hx'')
@@ -68,7 +68,7 @@ theorem exists_choiceY_of_choiceX {G : Type} [Group G] [Finite G] (D : Data G)
       _ = k⁻¹ * (c * (k * x'' * k⁻¹)) * k := by rw [ha]
       _ = k⁻¹ * c * k * x'' := by group
   have hZ'N : ¬ normalizer (Z' : Set G) ≤ D.M := fun hle => by
-    obtain ⟨n, hn, hnM⟩ := SetLike.not_le_iff_exists.1 hN
+    obtain ⟨n, hn, hnM⟩ := IsConcreteLE.not_le_iff_exists.1 hN
     refine hnM (hconj_mem n (hle ?_))
     refine Subgroup.mem_normalizer_iff.2 fun h => ?_
     have hn' := Subgroup.mem_normalizer_iff.1 hn (k * h * k⁻¹)

@@ -363,7 +363,7 @@ theorem geL_eq {z : ℕ → ℕ} (hz : ∀ i < 240, z i ≤ 4) {v : ℕ} (hv1 : 
   have hlt : ((lsum fun i => z i + (8 - v)) >>> 3) &&& lowW 16 240 < 2 ^ (16 * 240) :=
     lt_of_le_of_lt Nat.and_le_right (low_lt (by norm_num) 240)
   refine (eq_sum_lanes 16 240 _ hlt).trans (lsum_congr fun i hi' => ?_)
-  rw [fld_shr3_low (by norm_num) hi', fld_lsum hb, if_pos hi']
+  rw [fld_shr3_low (by norm_num) hi', fld_lsum hb, ite_eq_left hi']
   have := hz i hi'
   generalize z i = a at this ⊢
   interval_cases a <;> interval_cases v <;> decide
@@ -396,8 +396,7 @@ include hD in
 theorem iform_root_self {v : ℕ} (hv : v < 240) : iform (vec v) (vec v) = 2 := by
   obtain ⟨w, j, hw⟩ := isRoot_iff_exists_smul_single.1 (hD.isRoot v hv)
   rw [← hw, iform_smul, iform_single Tag.E8 e8_sym]
-  simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.sum_ite_eq,
-    Finset.mem_univ, if_true]
+  simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   fin_cases j <;> decide
 
 include hD in
@@ -565,7 +564,7 @@ theorem mv_fld {V Y : ℕ} {QS MVS : ℕ → ℕ} (hvec : vec = vecOf 8 V)
     have n2 : f ≠ 2 := by omega
     have n3 : f ≠ 3 := by omega
     have n4 : f ≠ 4 := by omega
-    rw [if_neg n0, if_neg n1, if_neg n2, if_neg n3, if_neg n4, Nat.zero_or, Nat.zero_or,
+    rw [ite_eq_right n0, ite_eq_right n1, ite_eq_right n2, ite_eq_right n3, ite_eq_right n4, Nat.zero_or, Nat.zero_or,
       Nat.zero_or, Nat.zero_or]
     unfold lsum
     refine (Finset.sum_eq_zero fun i hi => ?_).symm
@@ -573,7 +572,7 @@ theorem mv_fld {V Y : ℕ} {QS MVS : ℕ → ℕ} (hvec : vec = vecOf 8 V)
     have h2 := hz4 i (Finset.mem_range.1 hi)
     have h3 : ¬ (iform (vec i) (vec x) + 2 = (f : ℤ)) := fun h => by omega
     beta_reduce
-    rw [if_neg h3, zero_mul]
+    rw [ite_eq_right h3, zero_mul]
   all_goals simp only [↓reduceIte, Nat.reduceEqDiff, Nat.zero_or, Nat.or_zero]
   all_goals
     refine lsum_congr fun i hi => ?_
@@ -778,7 +777,7 @@ theorem fld_cj8 (RTs : ℕ → ℕ) (t l : ℕ) {m : ℕ} (hm : m < 8) :
     fld (cj8 RTs t l) 8 m = fld (RTs l) 8 (fld (RTs (fld t 8 l)) 8 (fld t 8 m)) := by
   have h := fld_pack (fun j => fld (RTs l) 8 (fld (RTs (fld t 8 l)) 8 (fld t 8 j)))
     (fun j => fld_lt _ _ _) 8 m
-  rw [if_pos hm] at h
+  rw [ite_eq_left hm] at h
   rw [← h]
   simp only [cj8, strictN_eq]
   rfl
@@ -899,7 +898,7 @@ theorem searchRaw_of_checks
     rw [hL] at hlen
     have h := hnd j hj
     simp only [ndOK, strictB_eq, andB_eq_true, ble_eq_true, beq_eq_true, boolRec_true,
-      blt_eq_true, nland, nshr, nmul, nsub, nshl] at h
+      blt_eq_true, nland, nshr, nmul] at h
     obtain ⟨-, -, -, hch, -⟩ := h
     obtain ⟨hrec, hcov⟩ := chWalk_spec ND _ _ _ _ _ _ _ (hch hlen)
     have ht : ∀ a < (fld ND 288 j >>> 64) &&& 15,
@@ -939,7 +938,7 @@ theorem searchRaw_of_checks
     rw [hL] at hlen
     have h := hnd j hj
     simp only [ndOK, strictB_eq, andB_eq_true, ble_eq_true, beq_eq_true, boolRec_true,
-      blt_eq_true, nland, nshr, nmul, nsub, nshl] at h
+      blt_eq_true, nland, nshr, nmul] at h
     obtain ⟨-, -, -, -, hlf⟩ := h
     have hw := hlf (by rw [hlen]; rfl)
     obtain ⟨g, hg⟩ := cjW_spec hD _ _ _ ψ hiso (fun m hm => ⟨hent _ (by

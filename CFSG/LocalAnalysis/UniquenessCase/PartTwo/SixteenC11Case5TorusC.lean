@@ -29,6 +29,7 @@ variable {K : Type} [Field K] [Finite K]
 @[expose] noncomputable def s16c11_case5_S0 : Subgroup (MulAut (VM K)) :=
   s16c11_case5_V ⊔ Subgroup.zpowers (s16c11_case5_sigma (K := K))
 
+omit [Finite K] in
 theorem s16c11_case5_mem_lrRange {x : MulAut (VM K)} :
     x ∈ s16c11_case5_lrRange ↔ ∃ A B : GL (Fin 2) K, x = lr A B := by
   rw [s16c11_case5_lrRange, MonoidHom.mem_range]
@@ -38,6 +39,7 @@ theorem s16c11_case5_mem_lrRange {x : MulAut (VM K)} :
   · rintro ⟨A, B, h⟩
     exact ⟨(A, B), by simpa [s16c11_case5_lrHom] using h.symm⟩
 
+omit [Finite K] in
 theorem s16c11_case5_lr_inj_left (A A' B : GL (Fin 2) K) (h : lr A B = lr A' B) : A = A' := by
   have key : ∀ X : Matrix (Fin 2) (Fin 2) K,
       (A : Matrix (Fin 2) (Fin 2) K) * X * (B : Matrix (Fin 2) (Fin 2) K)ᵀ =
@@ -58,22 +60,23 @@ section Normalizer
 
 variable [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_scalar_comm (u : Kˣ) (A : GL (Fin 2) K) :
     A * Matrix.GeneralLinearGroup.scalar (Fin 2) u =
       Matrix.GeneralLinearGroup.scalar (Fin 2) u * A := by
   ext i j
-  simp [Matrix.GeneralLinearGroup.scalar, Matrix.scalar, Matrix.mul_apply, Fin.sum_univ_two,
-    Matrix.diagonal_apply]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply] <;> ring
+  simp [Matrix.GeneralLinearGroup.scalar, Matrix.scalar, Matrix.mul_apply, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp <;> ring
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_matrix_scalar_comm (u : Kˣ) (X : Matrix (Fin 2) (Fin 2) K) :
     X * (Matrix.GeneralLinearGroup.scalar (Fin 2) u : Matrix (Fin 2) (Fin 2) K) =
       (Matrix.GeneralLinearGroup.scalar (Fin 2) u : Matrix (Fin 2) (Fin 2) K) * X := by
   ext i j
-  simp [Matrix.GeneralLinearGroup.scalar, Matrix.scalar, Matrix.mul_apply, Fin.sum_univ_two,
-    Matrix.diagonal_apply]
+  simp [Matrix.GeneralLinearGroup.scalar, Matrix.scalar, Matrix.mul_apply, Matrix.diagonal_apply]
   fin_cases i <;> fin_cases j <;> simp <;> ring
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_lr_scalar_swap (u : Kˣ) :
     lr 1 (Matrix.GeneralLinearGroup.scalar (Fin 2) u) =
       lr (Matrix.GeneralLinearGroup.scalar (Fin 2) u) 1 := by
@@ -86,16 +89,19 @@ theorem s16c11_case5_lr_scalar_swap (u : Kˣ) :
     simp [Matrix.transpose_apply, Matrix.diagonal_apply, eq_comm]]
   exact s16c11_case5_matrix_scalar_comm u X
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_scalar_conj_trM (u : Kˣ) :
     (trM : MulAut (VM K)) * lr (Matrix.GeneralLinearGroup.scalar (Fin 2) u) 1 * trM⁻¹ =
       lr (Matrix.GeneralLinearGroup.scalar (Fin 2) u) 1 := by
   rw [trM_lr, s16c11_case5_lr_scalar_swap, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_lr_scalar_comm (A B : GL (Fin 2) K) (u : Kˣ) :
     lr A B * lr (Matrix.GeneralLinearGroup.scalar (Fin 2) u) 1 =
       lr (Matrix.GeneralLinearGroup.scalar (Fin 2) u) 1 * lr A B := by
   rw [lr_mul, lr_mul, mul_one, one_mul, s16c11_case5_scalar_comm]
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_conj_scalar_frM (A B : GL (Fin 2) K) (τ : K ≃+* K) (c : Kˣ) :
     (lr A B * frM τ) * lr (Matrix.GeneralLinearGroup.scalar (Fin 2) c) 1 *
         (lr A B * frM τ)⁻¹ =
@@ -114,6 +120,7 @@ theorem s16c11_case5_conj_scalar_frM (A B : GL (Fin 2) K) (τ : K ≃+* K) (c : 
     _ = lr (Matrix.GeneralLinearGroup.scalar (Fin 2) (Units.map τ.toRingHom c)) 1 := by
         rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_conj_scalar_frM_trM (A B : GL (Fin 2) K) (τ : K ≃+* K) (c : Kˣ) :
     (lr A B * frM τ * trM) * lr (Matrix.GeneralLinearGroup.scalar (Fin 2) c) 1 *
         (lr A B * frM τ * trM)⁻¹ =
@@ -137,6 +144,7 @@ theorem s16c11_case5_conj_scalar_frM_trM (A B : GL (Fin 2) K) (τ : K ≃+* K) (
     _ = lr (Matrix.GeneralLinearGroup.scalar (Fin 2) (Units.map τ.toRingHom c)) 1 := by
         rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_frM_eq_one {x : MulAut (VM K)}
     (hx : x ∈ Subgroup.centralizer (s16c11C5Scal K : Set (MulAut (VM K))))
     {A B : GL (Fin 2) K} {τ : K ≃+* K}
@@ -170,19 +178,21 @@ theorem s16c11_case5_frM_eq_one {x : MulAut (VM K)}
   · have := hτc (Units.mk0 x hx0)
     simpa using this
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_frM_one : frM (1 : K ≃+* K) = 1 := by
   ext X
   apply Multiplicative.ofAdd.injective
   simp [frM]
 
 omit [CharP K 2] in
+omit [Finite K] in
 theorem s16c11_case5_t_inv (μ : Kˣ) :
     (s16c11_case5_t μ)⁻¹ = s16c11_case5_t μ⁻¹ := by
   apply Subtype.ext
   simp only [s16c11_case5_t, SpecialLinearGroup.diag2_inv, SpecialLinearGroup.diag2_coe',
     Units.val_inv_eq_inv_val]
 
-omit [CharP K 2] in
+omit [CharP K 2] [Finite K] in
 theorem s16c11_case5_t_conj_u (μ : Kˣ) (a : K) :
     s16c11_case5_t μ * s16c11_case5_u a * (s16c11_case5_t μ)⁻¹ =
       s16c11_case5_u ((μ : K) ^ 2 * a) := by
@@ -193,12 +203,10 @@ theorem s16c11_case5_t_conj_u (μ : Kˣ) (a : K) :
     Matrix.transvection]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.diagonal_mul, Matrix.mul_add, Matrix.mul_one, Matrix.add_mul,
-      Matrix.one_mul, Matrix.mul_assoc, Matrix.diagonal_mul_diagonal, Matrix.diagonal_apply,
-      Matrix.single_apply, Matrix.add_apply, pow_two, Units.val_inv_eq_inv_val] <;>
-    field_simp [μ.ne_zero] <;> ring
+    simp [Matrix.mul_add, Matrix.add_apply, pow_two, Units.val_inv_eq_inv_val];
+    field_simp [μ.ne_zero]
 
-omit [CharP K 2] in
+omit [CharP K 2] [Finite K] in
 theorem s16c11_case5_D0_conj_rhoU (μ : Kˣ) (a b : K) :
     s16c11_case5_D0Hom μ * s16c11_case5_rhoU a b * (s16c11_case5_D0Hom μ)⁻¹ =
       s16c11_case5_rhoU ((μ : K) ^ 2 * a) ((μ : K) ^ 2 * b) := by
@@ -209,7 +217,7 @@ theorem s16c11_case5_D0_conj_rhoU (μ : Kˣ) (a b : K) :
   congr 1
   exact Prod.ext (s16c11_case5_t_conj_u μ a) (s16c11_case5_t_conj_u μ b)
 
-omit [CharP K 2] in
+omit [CharP K 2] [Finite K] in
 theorem s16c11_case5_D0_comm_sigma (μ : Kˣ) :
     s16c11_case5_D0Hom μ * s16c11_case5_sigma =
       s16c11_case5_sigma * s16c11_case5_D0Hom μ := by
@@ -219,6 +227,7 @@ theorem s16c11_case5_D0_comm_sigma (μ : Kˣ) :
       (Matrix.SpecialLinearGroup.toGL (s16c11_case5_t μ))
   rw [trM_lr]
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_lr_mem_centralizer_scal (A B : GL (Fin 2) K) :
     lr A B ∈ Subgroup.centralizer (s16c11C5Scal K : Set (MulAut (VM K))) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -236,6 +245,7 @@ theorem s16c11_case5_lr_mem_centralizer_scal (A B : GL (Fin 2) K) :
           _ = lr A B * y⁻¹ := by group
       exact h
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_trM_mem_centralizer_scal :
     (trM : MulAut (VM K)) ∈
       Subgroup.centralizer (s16c11C5Scal K : Set (MulAut (VM K))) := by
@@ -260,10 +270,12 @@ theorem s16c11_case5_trM_mem_centralizer_scal :
           _ = trM * y⁻¹ := by group
       exact h
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_trM_conj_lr (A B : GL (Fin 2) K) :
     (trM : MulAut (VM K)) * lr A B * trM = lr B A := by
   rw [trM_lr, mul_assoc, trM_mul_self, mul_one]
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_trM_mem_normalizer :
     (trM : MulAut (VM K)) ∈
       Subgroup.normalizer (s16c11_case5_Omega (K := K) : Set (MulAut (VM K))) := by
@@ -283,19 +295,21 @@ theorem s16c11_case5_trM_mem_normalizer :
     refine ⟨(h, g), ?_⟩
     show lr (Matrix.SpecialLinearGroup.toGL h) (Matrix.SpecialLinearGroup.toGL g) = y
     rw [rho_apply] at hgh
-    simp only [Prod.fst, Prod.snd] at hgh
+    simp only at hgh
     rw [← s16c11_case5_trM_conj_lr (Matrix.SpecialLinearGroup.toGL g)
       (Matrix.SpecialLinearGroup.toGL h), hgh]
     calc (trM : MulAut (VM K)) * (trM * y * trM⁻¹) * trM
         = (trM * trM) * y * (trM⁻¹ * trM) := by group
       _ = y := by rw [trM_mul_self, inv_mul_cancel, one_mul, mul_one]
 
+omit [CharP K 2] [Finite K] in
 theorem s16c11_case5_Omega_le_lrRange :
     s16c11_case5_Omega (K := K) ≤ s16c11_case5_lrRange (K := K) := by
   rintro x ⟨⟨g, h⟩, rfl⟩
   exact s16c11_case5_mem_lrRange.mpr
     ⟨Matrix.SpecialLinearGroup.toGL g, Matrix.SpecialLinearGroup.toGL h, rfl⟩
 
+omit [Finite K] [CharP K 2] in
 theorem s16c11_case5_lrRange_le_centralizer :
     s16c11_case5_lrRange (K := K) ≤
       Subgroup.centralizer (s16c11C5Scal K : Set (MulAut (VM K))) := by
@@ -304,6 +318,7 @@ theorem s16c11_case5_lrRange_le_centralizer :
   obtain ⟨A, B, rfl⟩ := hx
   exact s16c11_case5_lr_mem_centralizer_scal A B
 
+omit [CharP K 2] [Finite K] in
 theorem s16c11_case5_S0_le_N1 :
     s16c11_case5_S0 (K := K) ≤ s16c11_case5_N1 (K := K) := by
   rw [s16c11_case5_S0]

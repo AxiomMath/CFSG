@@ -73,7 +73,7 @@ theorem hasCh_admSet_iff (p L H : Submodule K (Fin 4 → K)) :
     HasCh (admSet Adm) p L H ↔ AdmCh Adm p L H := by
   constructor
   · rintro ⟨x, hx, h1, h2, h3⟩
-    have hx' : Adm (x.E 1) (x.E 2) (x.E 3) := by simpa only [admSet, Set.mem_setOf_eq] using hx
+    have hx' : Adm (x.E 1) (x.E 2) (x.E 3) := by simpa only [admSet, Set.mem_ofPred_eq] using hx
     refine ⟨⟨?_, ?_, ?_, ?_, ?_⟩, ?_⟩
     · rw [← h1]; exact FlagK.finrank_E_one x
     · rw [← h2]; exact FlagK.finrank_E_two x
@@ -86,7 +86,7 @@ theorem hasCh_admSet_iff (p L H : Submodule K (Fin 4 → K)) :
       FlagK.ofChain4_E_one p L H hp hL hH hpL hLH,
       FlagK.ofChain4_E_two p L H hp hL hH hpL hLH,
       FlagK.ofChain4_E_three p L H hp hL hH hpL hLH⟩
-    simp only [admSet, Set.mem_setOf_eq, FlagK.ofChain4_E_one, FlagK.ofChain4_E_two,
+    simp only [admSet, Set.mem_ofPred_eq, FlagK.ofChain4_E_one, FlagK.ofChain4_E_two,
       FlagK.ofChain4_E_three]
     exact hAdm
 
@@ -113,7 +113,7 @@ private lemma plh_flagOfAdm_E_three (p : Submodule K (Fin 4 → K))
 private lemma plh_flagOfAdm_mem (p : Submodule K (Fin 4 → K))
     (a : Submodule K (Fin 4 → K) × Submodule K (Fin 4 → K)) (ha : AdmCh Adm p a.1 a.2) :
     plh_flagOfAdm Adm p a ha ∈ admSet Adm := by
-  simp only [admSet, Set.mem_setOf_eq, plh_flagOfAdm, FlagK.ofChain4_E_one,
+  simp only [admSet, Set.mem_ofPred_eq, plh_flagOfAdm, FlagK.ofChain4_E_one,
     FlagK.ofChain4_E_two, FlagK.ofChain4_E_three]
   exact ha.2
 

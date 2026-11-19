@@ -39,10 +39,10 @@ theorem exists_fixed_normalizing {K : Type*} [Group K] [Finite K] [IsSimpleGroup
     · intro hx
       have := hPKmem ⟨φ⁻¹, Subgroup.inv_mem _ (Subgroup.mem_zpowers φ)⟩ (φ x) hx
       simpa using this
-  haveI : Finite (K ⋊[N.subtype] N) := Finite.of_equiv (K × N) SemidirectProduct.equivProd.symm
+  have : Finite (K ⋊[N.subtype] N) := Finite.of_equiv (K × N) SemidirectProduct.equivProd.symm
   set f : K ⋊[N.subtype] N := inr ⟨φ, Subgroup.mem_zpowers φ⟩ with hf
   set Kn : Subgroup (K ⋊[N.subtype] N) := (inl : K →* K ⋊[N.subtype] N).range with hKn
-  haveI hKnN : Kn.Normal := by
+  have hKnN : Kn.Normal := by
     rw [hKn, range_inl_eq_ker_rightHom]
     exact MonoidHom.normal_ker _
   have hfconj : ∀ x : K, f * inl x * f⁻¹ = inl (φ x) := by
@@ -77,7 +77,7 @@ theorem exists_fixed_normalizing {K : Type*} [Group K] [Finite K] [IsSimpleGroup
     refine ⟨j, ?_⟩
     rw [hf, ← map_pow, hj, ← mk_eq_inl_mul_inr]
   set PhK : Subgroup (K ⋊[N.subtype] N) := (PK : Subgroup K).map inl with hPhK
-  have hPhKp : IsPGroup p PhK := PK.isPGroup'.map inl
+  have hPhKp : IsPGroup p PhK := PK.isPGroup.map inl
   have hfconj' : ∀ x : K, f⁻¹ * inl x * f = inl (φ⁻¹ x) := by
     intro x
     have h := hfconj (φ⁻¹ x)
@@ -111,7 +111,7 @@ theorem exists_fixed_normalizing {K : Type*} [Group K] [Finite K] [IsSimpleGroup
     · rintro ⟨hxS, k, rfl⟩
       have hQp : IsPGroup p ((S : Subgroup (K ⋊[N.subtype] N)).comap
           (inl : K →* K ⋊[N.subtype] N)) :=
-        S.isPGroup'.comap_of_injective inl inl_injective
+        S.isPGroup.comap_of_injective inl inl_injective
       have hle : (PK : Subgroup K) ≤ (S : Subgroup (K ⋊[N.subtype] N)).comap
           (inl : K →* K ⋊[N.subtype] N) := fun y hy => hPhKS ⟨y, hy, rfl⟩
       have hm : (S : Subgroup (K ⋊[N.subtype] N)).comap

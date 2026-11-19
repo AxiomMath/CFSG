@@ -105,7 +105,7 @@ theorem ggStdSubTwoTorusNormSmallR_unitDvd63
     intro e he
     obtain ⟨g, τ, h1, h2, -, -, h5⟩ := hEdesc e he
     refine hUswN e ⟨g, τ, h1, h2, h5 s hsS t htS ?_⟩
-    simp [hrdef, hst]
+    simp [hrdef]
   have hEsmall : Nat.card E < 3 ^ 3 :=
     hsmall E hEab hElayer hEfix (Or.inr ⟨Usw, hUsw1, hUsw2, hUswA, hEnorm⟩)
   have hSle : S.card ≤ 4 := by

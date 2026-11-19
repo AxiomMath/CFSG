@@ -55,7 +55,7 @@ theorem e6QTwoBstarConjAction_eq_one_iff {G : Type} [Group G] {Bs L : Subgroup G
 
 theorem e6QTwoCenterMapMulAut {L' : Type} [Group L'] (a : MulAut L') :
     (Subgroup.center L').map (a : L' →* L') = Subgroup.center L' := by
-  simpa using Subgroup.map_center_eq a
+  simp
 
 noncomputable def e6QTwoQuotCenterAutHom (L' : Type) [Group L'] :
     MulAut L' →* MulAut (L' ⧸ Subgroup.center L') where
@@ -89,7 +89,7 @@ theorem e6QTwoQuotCenterAutHom_injective {L' : Type} [Group L']
     have h2 : QuotientGroup.mk' (Subgroup.center L') (l⁻¹ * a l) = 1 := by
       rw [map_mul, map_inv, ← h, inv_mul_cancel]
     exact (QuotientGroup.eq_one_iff (l⁻¹ * a l)).mp h2
-  letI : CommGroup (Subgroup.center L') :=
+  let : CommGroup (Subgroup.center L') :=
     { (inferInstance : Group (Subgroup.center L')) with
       mul_comm := fun x y => Subtype.ext (Subgroup.mem_center_iff.mp x.2 y).symm }
   let f : L' →* Subgroup.center L' :=
@@ -233,13 +233,12 @@ theorem e6QTwoMulAutConjCongr {L' R : Type*} [Group L'] [Group R] (e : L' ≃* R
   ext r
   obtain ⟨x, rfl⟩ := e.surjective r
   rw [MulAut.conj_apply, MulAut.congr_apply]
-  simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply,
-    MulAut.conj_apply, map_mul, map_inv]
+  simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply, MulAut.conj_apply, map_mul, map_inv]
 
 theorem e6QTwoMulAutCongrApply {L' R : Type*} [Group L'] [Group R] (e : L' ≃* R)
     (f : MulAut L') (x : L') : (MulAut.congr e) f (e x) = e (f x) := by
   rw [MulAut.congr_apply]
-  simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+  simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
 
 theorem e6QTwoLargeEvenInducesEqOfForallExists {R : Type} {L' : Type*} [Group L'] [Group R]
     {θ : L' ⧸ Subgroup.center L' ≃* R} {rel : L' → L' → Prop}
@@ -251,6 +250,7 @@ theorem e6QTwoLargeEvenInducesEqOfForallExists {R : Type} {L' : Type*} [Group L'
   obtain ⟨l', hl'⟩ := hrel l
   rw [hφ l l' hl', hφ' l l' hl']
 
+omit [Finite K] in
 private theorem e6QTwoFrameActConjOfGGFrameActs {d n : ℕ} {h : UnitaryFieldData 2 n K}
     {Q : GL (Fin d) K}
     {hQ : Q ∈ primeFormUnitary h (RankThree.PartOne.KCUnitaryModel.idGram K d)}
@@ -261,6 +261,7 @@ private theorem e6QTwoFrameActConjOfGGFrameActs {d n : ℕ} {h : UnitaryFieldDat
   intro u v huv
   rw [MulAut.conj_apply, hfr u v huv]
 
+omit [Finite K] in
 theorem e6QTwoFrameActMulComm {d n : ℕ} {h : UnitaryFieldData 2 n K}
     {Q : GL (Fin d) K}
     {hQ : Q ∈ primeFormUnitary h (RankThree.PartOne.KCUnitaryModel.idGram K d)}
@@ -285,6 +286,7 @@ private noncomputable def e6QTwoProdUnitsHom : (Fin 6 → Kˣ) →* Kˣ where
 
 noncomputable def e6QTwoTorParamSubgroup : Subgroup (Fin 6 → Kˣ) := e6QTwoProdUnitsHom.ker
 
+omit [Finite K] in
 private theorem e6QTwoMemTorParamSubgroup {σ : Fin 6 → Kˣ} :
     σ ∈ e6QTwoTorParamSubgroup ↔ ∏ k, σ k = 1 := by
   rw [e6QTwoTorParamSubgroup, MonoidHom.mem_ker]; rfl
@@ -393,6 +395,7 @@ private noncomputable def e6QTwoFrameChange (hK : Nat.card K = 4) (Q : GL (Fin 6
       LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
   TableBUE.conjProj (USixTwo.fieldDataFour hK) Q hQ
 
+omit [Finite K] in
 private theorem e6QTwoFrameChangeApply (hK : Nat.card K = 4) (Q : GL (Fin 6) K)
     (hQ : Q ∈ primeFormUnitary (USixTwo.fieldDataFour hK)
       (RankThree.PartOne.KCUnitaryModel.idGram K 6))

@@ -62,7 +62,7 @@ theorem exists_sylow_exp_three (hC : ¬ 3 ∣ Nat.card (Subgroup.centralizer (A 
   · rw [Subgroup.card_map_of_injective (Xsub A Xs).subtype_injective]
     exact hSxcard
   · rintro _ ⟨y, hy, rfl⟩
-    obtain ⟨k, hk⟩ := Sx.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := Sx.isPGroup ⟨y, hy⟩
     have hyk : y ^ (3 ^ k) = 1 := congrArg Subtype.val hk
     have hπy : piX Xs y ∈ Xs := by
       have : piX Xs y ∈ (piX Xs).range := ⟨y, rfl⟩

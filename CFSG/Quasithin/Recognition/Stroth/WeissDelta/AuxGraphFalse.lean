@@ -17,8 +17,8 @@ variable {V : Type} {Γ : SimpleGraph V} {H : Type} [Group H] [MulAction H V] [G
 attribute [local instance] auxAction
 
 private theorem finite_auxS [Finite V] (W : ClosedGoodPath H Γ) : Finite ↥W.auxS := by
-  haveI : Finite ↥(auxComp Γ (W.kernelAt 0) (W.x 0)) := Subtype.finite
-  haveI : Finite (Equiv.Perm ↥(auxComp Γ (W.kernelAt 0) (W.x 0))) := inferInstance
+  have : Finite ↥(auxComp Γ (W.kernelAt 0) (W.x 0)) := Subtype.finite
+  have : Finite (Equiv.Perm ↥(auxComp Γ (W.kernelAt 0) (W.x 0))) := inferInstance
   exact Finite.of_injective
     (fun x : ↥W.auxS => (x : Equiv.Perm ↥(auxComp Γ (W.kernelAt 0) (W.x 0))))
     Subtype.val_injective
@@ -42,7 +42,7 @@ private theorem false_of_secondKernel_ne_bot [Finite V] [Finite H] {W : ClosedGo
     {z : ↥(auxComp Γ (W.kernelAt 0) (W.x 0))}
     (hz : secondKernel ↥W.auxS W.auxI z ≠ ⊥) : False := by
   classical
-  haveI : Finite ↥W.auxS := finite_auxS W
+  have : Finite ↥W.auxS := finite_auxS W
   obtain ⟨hne, h3, hval, hloc, -⟩ := hQ.aux_local
   obtain ⟨p, hp0, hp⟩ := exists_auxI_path hQ z
   let r : GPath W.auxI 2 := p.take 2 (by norm_num)
@@ -56,7 +56,7 @@ theorem ClosedGoodPath.QuarterHyp.false_of_sz [Finite V]
     [Finite H] {W : ClosedGoodPath H Γ} (hQ : W.QuarterHyp) {a : ℕ} (ha : 1 ≤ a)
     (hT0 : IsLocalSz H Γ (W.x 0) a) : False := by
   classical
-  haveI : Finite ↥W.auxS := finite_auxS W
+  have : Finite ↥W.auxS := finite_auxS W
   have hM : MoufangCondition ↥W.auxS W.auxI 4 := hQ.moufangCondition_aux
   have hW : WeissFree ↥W.auxS W.auxI 4 := hQ.weissFree_aux
   obtain ⟨hne, -, hval, -, hK⟩ := hQ.aux_local
@@ -87,7 +87,7 @@ theorem ClosedGoodPath.QuarterHyp.false_of_l2 [Finite V] [Finite H]
     {W : ClosedGoodPath H Γ} (hQ : W.QuarterHyp) {m : ℕ} (hm : 2 ≤ m)
     (hT0 : IsLocalL2 H Γ (W.x 0) m) : False := by
   classical
-  haveI : Finite ↥W.auxS := finite_auxS W
+  have : Finite ↥W.auxS := finite_auxS W
   have hM : MoufangCondition ↥W.auxS W.auxI 4 := hQ.moufangCondition_aux
   have hW : WeissFree ↥W.auxS W.auxI 4 := hQ.weissFree_aux
   obtain ⟨hne, h3, hval, hloc, hK⟩ := hQ.aux_local

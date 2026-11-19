@@ -158,7 +158,7 @@ theorem comm_X1_X8 (t u : F.K) :
       have hsc4 : F.sigma c4 = (f ^ 2 * F.sigma f)⁻¹ := by
         rw [hc4, map_inv₀, map_mul, F.sigma_sigma]
       rw [hsc4, hf, hdd, hff]
-      simp only [map_mul, map_pow, F.sigma_sigma]
+      simp only [map_mul, F.sigma_sigma]
       field_simp [ht, hu, hst, hsu]
     have := eq_of_conj_eq hm4 hR4
     rwa [hconj] at this
@@ -305,7 +305,7 @@ theorem comm_X1_X'8 (t u : F.K) :
       rw [this]
       congr 1
       rw [hcc, hdd]
-      simp only [map_mul, map_pow, F.sigma_sigma]
+      simp only [map_mul, F.sigma_sigma]
       field_simp [ht, hu, hst, hsu]
     have := eq_of_conj_eq hm2 hR2
     rwa [hconj] at this
@@ -328,7 +328,7 @@ theorem comm_X1_X'8 (t u : F.K) :
       rw [this]
       congr 1
       rw [hdd, hee, hcc]
-      simp only [map_mul, map_pow, F.sigma_sigma]
+      simp only [map_mul, F.sigma_sigma]
       field_simp [ht, hu, hst, hsu]
     have := eq_of_conj_eq hm3 hR3
     rwa [hconj] at this
@@ -357,7 +357,7 @@ theorem comm_X1_X'8 (t u : F.K) :
       have hsc : F.sigma c = (ee ^ 2 * F.sigma ee)⁻¹ := by
         rw [hc, map_inv₀, map_mul, F.sigma_sigma]
       rw [hsc, hee, hdd, hff]
-      simp only [map_mul, map_pow, F.sigma_sigma]
+      simp only [map_mul, F.sigma_sigma]
       field_simp [ht, hu, hst, hsu]
     have := eq_of_conj_eq hm4 hR4
     rwa [hconj] at this
@@ -418,7 +418,7 @@ theorem comm_X1_X'8 (t u : F.K) :
       have hsc2 : F.sigma c2 = (gg ^ 2 * F.sigma gg)⁻¹ := by
         rw [hc2, map_inv₀, map_mul, F.sigma_sigma]
       rw [hsc2, hgg, hff]
-      simp only [map_mul, map_pow, F.sigma_sigma]
+      simp only [map_mul]
       field_simp [ht, hu, hst, hsu]
     have := eq_of_conj_eq hm6 hR6
     rwa [hconj] at this

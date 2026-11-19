@@ -17,6 +17,7 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {W : Type} [Group W]
     (M : Matrix ι ι (ZMod 2)) : Prop :=
   ∀ w : W, Multiplicative.toAdd (θ (g w)) = M *ᵥ Multiplicative.toAdd (θ w)
 
+omit [DecidableEq ι] in
 theorem Acts.mul {θ : W ≃* Multiplicative (ι → ZMod 2)} {g g' : MulAut W}
     {M M' : Matrix ι ι (ZMod 2)} (h : Acts θ g M) (h' : Acts θ g' M') :
     Acts θ (g * g') (M * M') := by
@@ -36,6 +37,7 @@ theorem Acts.matrix_eq {θ : W ≃* Multiplicative (ι → ZMod 2)} {g : MulAut 
     rw [← hw', ← h w, ← h' w]
   exact Matrix.toLin'.injective (LinearMap.ext fun v => by simpa using hv v)
 
+omit [DecidableEq ι] in
 theorem Acts.ext {θ : W ≃* Multiplicative (ι → ZMod 2)} {g g' : MulAut W}
     {M : Matrix ι ι (ZMod 2)} (h : Acts θ g M) (h' : Acts θ g' M) : g = g' := by
   refine MulEquiv.ext fun w => ?_

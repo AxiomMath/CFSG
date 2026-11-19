@@ -43,6 +43,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
   ![Multiplicative.ofAdd c, Multiplicative.ofAdd (σ c), Multiplicative.ofAdd (σ (σ c)),
     Multiplicative.ofAdd f3, Multiplicative.ofAdd f4]
 
+omit [Finite K] [CharP K 2] in
 theorem d4Param_mem (σ : K →+* K) (hσ3 : ∀ c, σ (σ (σ c)) = c) (c f3 f4 : K) (h3 : σ f3 = f3)
     (h4 : σ f4 = f4) :
     d4Param σ c f3 f4 ∈ MonoidHom.eqLocus (paramTwist σ d4π) (MonoidHom.id _) := by
@@ -53,7 +54,7 @@ theorem d4Param_mem (σ : K →+* K) (hσ3 : ∀ c, σ (σ (σ c)) = c) (c f3 f4
 
 
 theorem triD4_rank {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} (hK : Nat.card K = 2 ^ (3 * n))
-    (σ : K →+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n) (hσsurj : Function.Surjective σ)
+    (σ : K →+* K) (_hσ : ∀ c, σ c = c ^ 2 ^ n) (hσsurj : Function.Surjective σ)
     (hσ3 : ∀ c, σ (σ (σ c)) = c) (hu : ∃ u : Kˣ, (u : K) ^ 2 ≠ 1) :
     5 * n ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (commutator (twistFixed TwistTag.D4 K σ))) := by
   classical

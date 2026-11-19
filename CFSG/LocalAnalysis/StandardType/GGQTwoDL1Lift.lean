@@ -8,6 +8,7 @@ namespace CFSG.StandardType.QTwo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma p9uLF_conj_pow_eq {X : Subgroup G} {c t : G} (htX : t ∈ X)
     (h : ∀ y ∈ X, t * y * t⁻¹ = c * y * c⁻¹) :
     ∀ N : ℕ, ∀ y ∈ X, t ^ N * y * (t ^ N)⁻¹ = c ^ N * y * (c ^ N)⁻¹ := by

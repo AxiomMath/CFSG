@@ -51,6 +51,7 @@ structure S828Ctx (T L I H : Subgroup G) (h : G) (k : ℕ) [IsMulCommutative ↥
   hB5 : ∀ p ∈ pCoreOf 2 (ch82I (fsuV T I) h),
     (∀ v ∈ fsuV T I, v * p * v⁻¹ * p⁻¹ ∈ ch82U (fsuV T I) h) → p ∈ ch82B (fsuV T I) h
 
+omit [Finite G] in
 theorem s828_k_le_two {T L I : Subgroup G} [IsMulCommutative ↥(fsuV T I)] {h : G} {k : ℕ}
     (hrow : Case8_2 T L I) (hC5 : Concl825 T L I h k) : k ≤ 2 := by
   rcases hrow with hr | hr | hr | hr
@@ -100,7 +101,7 @@ theorem s828_ctx (hE214 : ASInputs.AS_E_2_14)
   have hKn' := (Subgroup.normal_subgroupOf_iff_le_normalizer hKle).mp hKn
   have hhI : h ∈ ch82I (fsuV T I) h := hC.2.1
   obtain ⟨hIN, hcore, hILU, hVB⟩ :=
-    s828_lemma13 (H := H) hC5 hS hLUT hLN hhI hLUC hK hKle hKn' hLUK hq
+    s828_lemma13 (_H := H) hC5 hS hLUT hLN hhI hLUC hK hKle hKn' hLUK hq
   have hVT : fsuV T I ≤ T := fsuV_le_T hyp.fsu hV hN
   have hTV : T ≤ Subgroup.normalizer (fsuV T I : Set G) := le_sup_right.trans hN
   have hk2 := s828_k_le_two hrow hC5

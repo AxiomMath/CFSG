@@ -25,7 +25,7 @@ theorem card_PSp43 : Nat.card CFSG.GH74.Exceptional.PSp43 = 25920 := by
 theorem psp43_equiv_of_lieModel {S : Type} [Group S] (h : LieModel S .PSp 2 3 1) :
     Nonempty (S ≃* CFSG.GH74.Exceptional.PSp43) := by
   obtain ⟨-, -, F, _, _, hF, ⟨e⟩⟩ := CFSG.GH74.Generic.lieModel_psp_data h
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hc : Fintype.card F = Fintype.card (ZMod 3) := by
     rw [← Nat.card_eq_fintype_card, hF, ZMod.card]
     norm_num
@@ -39,11 +39,11 @@ theorem center_PSp43_eq_bot : Subgroup.center CFSG.GH74.Exceptional.PSp43 = ⊥ 
   have hsimple : IsSimpleGroup CFSG.GH74.Exceptional.PSp43 :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp (ZMod 3) 2 (by norm_num)
       (Or.inr (Or.inl ⟨by rw [Nat.card_eq_fintype_card, ZMod.card], le_rfl⟩))
-  haveI : IsSimpleGroup CFSG.GH74.Exceptional.PSp43 := hsimple
+  have : IsSimpleGroup CFSG.GH74.Exceptional.PSp43 := hsimple
   refine CFSG.HardMathSupport.Timmesfeld.DefChar.center_eq_bot_of_simple hsimple ?_
   by_contra hc
   push Not at hc
-  haveI : IsMulCommutative CFSG.GH74.Exceptional.PSp43 := ⟨⟨fun a b => hc a b⟩⟩
+  have : IsMulCommutative CFSG.GH74.Exceptional.PSp43 := ⟨⟨fun a b => hc a b⟩⟩
   have hp := (Group.is_simple_iff_prime_card (α := CFSG.GH74.Exceptional.PSp43)).1 hsimple
   rw [card_PSp43] at hp
   norm_num at hp
@@ -177,7 +177,7 @@ theorem not_sq_dvd_1843262023680 {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (hp7 : 
 
 theorem isPGroup_seven_of_pow_eq_one {G : Type} [Group G] {E : Subgroup G}
     (h : ∀ x ∈ E, x ^ 7 = 1) : IsPGroup 7 E := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   rw [IsPGroup.iff_orderOf]
   intro g
   have hg : orderOf g ∣ 7 := orderOf_dvd_iff_pow_eq_one.mpr (by
@@ -195,7 +195,7 @@ theorem not_sq_dvd_mulAut_of_outer_le_two {S : Type} [Group S] [Finite S]
   have hnab : ∃ a b : S, a * b ≠ b * a := by
     by_contra hc
     push Not at hc
-    haveI : IsMulCommutative S := ⟨⟨fun a b => hc a b⟩⟩
+    have : IsMulCommutative S := ⟨⟨fun a b => hc a b⟩⟩
     have hprime := (Group.is_simple_iff_prime_card (α := S)).1 hS
     rw [hcard] at hprime
     norm_num at hprime
@@ -245,7 +245,7 @@ theorem pRank_mulAut_PSp43_le_one {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) :
 theorem k5U42_holds : K5U42 := by
   intro Y _ _ hq _ hmodel p hp h5
   rw [CFSG.SectionRank.pRank_coe_eq_openPRank p (⊤ : Subgroup (MulAut Y))]
-  haveI : Group.IsPerfect Y := hq.1
+  have : Group.IsPerfect Y := hq.1
   obtain ⟨e⟩ := psp43_equiv_of_lieModel hmodel
   have hinj : CFSG.Open.pRank p (⊤ : Subgroup (MulAut Y)) ≤
       CFSG.Open.pRank p (⊤ : Subgroup (MulAut (Y ⧸ center Y))) :=
@@ -263,8 +263,8 @@ theorem k5U42_holds : K5U42 := by
 theorem k5L227_holds : K5L227 := by
   intro Y _ _ hq _ hmodel p hp h5
   rw [CFSG.SectionRank.pRank_coe_eq_openPRank p (⊤ : Subgroup (MulAut Y))]
-  haveI : Group.IsPerfect Y := hq.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect Y := hq.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GaloisField 3 3) 3 3
     (by norm_num) (by rw [GaloisField.card 3 3 (by norm_num)]) hmodel
   have hinj : CFSG.Open.pRank p (⊤ : Subgroup (MulAut Y)) ≤

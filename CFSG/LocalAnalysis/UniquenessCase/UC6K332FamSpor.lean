@@ -24,7 +24,7 @@ open CFSG.RankThree.PartTwo.Sec4.RonanK432
 theorem isSimpleGroup_of_isAlt {X : Type} [Group X] {n : ℕ} (hn : 5 ≤ n) (h : UC22.IsAlt X n) :
     IsSimpleGroup X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (by simpa using hn)
   exact e.isSimpleGroup_congr.mpr inferInstance
 

@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.GroupTheory.Perm.Centralizer
 public import Mathlib.GroupTheory.SpecificGroups.Alternating
 public import Mathlib.GroupTheory.Subgroup.Centralizer
@@ -98,7 +98,7 @@ public theorem a7rho_centralizer_odd_trivial
     rw [Subgroup.mem_bot]
     exact orderOf_eq_one_iff.mp hx1
   apply (Subgroup.map_injective (f := A.subtype) A.subtype_injective)
-  simpa [hmapbot]
+  simp [hmapbot]
 
 /-- The concrete `(4,2)`-element of `A₇`, identified with the generator of
 the concrete D₈ Sylow `2`-subgroup from `Classification`. -/
@@ -143,7 +143,7 @@ public theorem exists_mem_sylow_isConj_a7rho
       rw [Sylow.coe_subgroup_smul]
       exact Set.mem_smul_set.mpr ⟨a7rho, a7rho_mem_a7SylowD8, by
         change MulAut.conj (g⁻¹) a7rho = r
-        simp [r, MulAut.conj_apply]⟩
+        simp [r]⟩
     simpa [r] using (hS ▸ hrS)
   · rw [isConj_iff]
     refine ⟨g, ?_⟩
@@ -236,7 +236,7 @@ public theorem a7rho_centralizer_odd_trivial_of_sylow_image
           _ = 1 := by simp
       exact hfx
     · intro hx
-      simpa [f', MulAut.conj_apply, hx]
+      simp [f', hx]
   simpa [hker_eq] using hker
 
 end CFSG.GorensteinWalter

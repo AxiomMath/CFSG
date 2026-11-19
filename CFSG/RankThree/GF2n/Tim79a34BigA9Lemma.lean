@@ -95,10 +95,12 @@ theorem quo_sq (a : Quo P V) : a * a = 1 := by
   exact S.P_sq x x.2
 
 include S in
+omit [V.Normal] in
 theorem A_comm (a b : ↥A) : a * b = b * a :=
   Subtype.ext (S.V_cent a (S.A_le_V a.2) b (S.V_le_P (S.A_le_V b.2)))
 
 include S in
+omit [V.Normal] in
 theorem A_sq (a : ↥A) : a * a = 1 :=
   Subtype.ext (S.V_sq a (S.A_le_V a.2))
 
@@ -168,6 +170,7 @@ abbrev Aspace : Type := F2 ↥A S.A_comm S.A_sq
       rw [map_mul]; rfl)
 
 include S in
+omit [P.Normal] [V.Normal] [A.Normal] in
 theorem commutator_mul_central {x y v w : Mg} (hx : x ∈ P) (hy : y ∈ P) (hv : v ∈ V)
     (hw : w ∈ V) : ⁅x * v, y * w⁆ = ⁅x, y⁆ := by
   have hvc : Commute v (y * w) := S.V_cent v hv (y * w) (P.mul_mem hy (S.V_le_P hw))
@@ -192,14 +195,17 @@ theorem commutator_mul_central {x y v w : Mg} (hx : x ∈ P) (hy : y ∈ P) (hv 
       rw [ex, ey]
       exact (S.commutator_mul_central x.2 y.2 hx' hy').symm)
 
+omit [P.Normal] [A.Normal] in
 theorem kE_mk (x y : ↥P) : kE S (x : Quo P V) (y : Quo P V) =
     ⟨⁅(x : Mg), (y : Mg)⁆, S.P_comm x x.2 y y.2⟩ := rfl
 
 include S in
+omit [P.Normal] [V.Normal] [A.Normal] in
 theorem conj_central {c : Mg} (hc : c ∈ V) {x : Mg} (hx : x ∈ P) : x * c * x⁻¹ = c := by
   rw [← S.V_cent c hc x hx, mul_inv_cancel_right]
 
 include S in
+omit [P.Normal] [A.Normal] in
 theorem kE_mul_left (a a' b : Quo P V) : kE S (a * a') b = kE S a b * kE S a' b := by
   induction a using QuotientGroup.induction_on with | _ x => ?_
   induction a' using QuotientGroup.induction_on with | _ x' => ?_
@@ -213,6 +219,7 @@ theorem kE_mul_left (a a' b : Quo P V) : kE S (a * a') b = kE S a b * kE S a' b 
   exact S.V_cent _ h1 _ h2
 
 include S in
+omit [P.Normal] [A.Normal] in
 theorem kE_mul_right (a b b' : Quo P V) : kE S a (b * b') = kE S a b * kE S a b' := by
   induction a using QuotientGroup.induction_on with | _ x => ?_
   induction b using QuotientGroup.induction_on with | _ y => ?_
@@ -243,6 +250,7 @@ theorem kappa_equivariant (m : Mg) (x y : S.U) :
   obtain ⟨b, rfl⟩ := F2.ofMul.surjective y
   exact congrArg F2.ofMul (S.kE_equivariant m a b)
 
+omit [A.Normal] in
 theorem actU_trivial {Q : Subgroup Mg} (hQ : ∀ q ∈ Q, ∀ x ∈ P, ⁅q, x⁆ ∈ V) (q : Mg)
     (hq : q ∈ Q) : S.actU q = 1 := by
   refine LinearMap.ext fun x => ?_
@@ -253,6 +261,7 @@ theorem actU_trivial {Q : Subgroup Mg} (hQ : ∀ q ∈ Q, ∀ x ∈ P, ⁅q, x�
   rw [cE_mk, QuotientGroup.eq_iff_div_mem, Subgroup.mem_subgroupOf]
   simpa [MulAut.conjNormal_apply, commutatorElement_def, div_eq_mul_inv] using hQ q hq p p.2
 
+omit [P.Normal] [V.Normal] in
 theorem actA_trivial {Q : Subgroup Mg} (hQA : ∀ q ∈ Q, ∀ a ∈ A, q * a = a * q) (q : Mg)
     (hq : q ∈ Q) : S.actA q = 1 := by
   refine LinearMap.ext fun x => ?_
@@ -306,6 +315,7 @@ section Final
 
 variable [P.Normal] [V.Normal] [A.Normal] (S : Setup P V A) {Q : Subgroup Mg} [Q.Normal]
 
+omit [A.Normal] in
 theorem rho_injective (Lb : Subgroup (Mg ⧸ Q)) [IsSimpleGroup ↥Lb]
     (hQ : ∀ q ∈ Q, ∀ x ∈ P, ⁅q, x⁆ ∈ V)
     (hnt : ∃ m : Mg, (m : Mg ⧸ Q) ∈ Lb ∧ ∃ x ∈ P, ⁅m, x⁆ ∉ V) :
@@ -331,6 +341,7 @@ theorem rho_injective (Lb : Subgroup (Mg ⧸ Q)) [IsSimpleGroup ↥Lb]
     rw [cE_mk, QuotientGroup.eq_iff_div_mem, Subgroup.mem_subgroupOf] at h3
     exact hmx (by simpa [MulAut.conjNormal_apply, commutatorElement_def, div_eq_mul_inv] using h3)
 
+omit [P.Normal] [A.Normal] in
 theorem kappa_span (hspan : A ≤ ⁅P, P⁆) (l : Module.Dual (ZMod 2) S.Aspace)
     (hl : ∀ x y, l (S.kappa x y) = 0) : l = 0 := by
   let lφ : ↥A →* Multiplicative (ZMod 2) :=
@@ -365,8 +376,8 @@ namespace CFSG.RankThree.GF2n.Tim79a
 theorem a9_data_of_pq {Mg : Type} [Group Mg] [Finite Mg] (Q P V A : Subgroup Mg)
     [Q.Normal] [P.Normal] [V.Normal] [A.Normal] (Lb : Subgroup (Mg ⧸ Q))
     (e : ↥Lb ≃* alternatingGroup (Fin 9))
-    (hAV : A ≤ V) (hVP : V ≤ P) (hPQ : P ≤ Q)
-    (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) (hVsq : ∀ v ∈ V, v * v = 1)
+    (hAV : A ≤ V) (hVP : V ≤ P) (_hPQ : P ≤ Q)
+    (_hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) (hVsq : ∀ v ∈ V, v * v = 1)
     (hVcent : ∀ v ∈ V, ∀ x ∈ P, v * x = x * v)
     (hsq : ∀ x ∈ P, x * x ∈ V) (hcomm : ∀ x ∈ P, ∀ y ∈ P, ⁅x, y⁆ ∈ A)
     (hQ : ∀ q ∈ Q, ∀ x ∈ P, ⁅q, x⁆ ∈ V) (hQA : ∀ q ∈ Q, ∀ a ∈ A, q * a = a * q)
@@ -382,8 +393,8 @@ theorem a9_data_of_pq {Mg : Type} [Group Mg] [Finite Mg] (Q P V A : Subgroup Mg)
       (∀ (g : L) (x y : U), κ (ρ g x) (ρ g y) = ρA g (κ x y)) ∧
       (∀ l : Module.Dual (ZMod 2) A', (∀ x y, l (κ x y) = 0) → l = 0) := by
   have S : BigA9Data.Setup P V A := ⟨hAV, hVP, hVsq, hVcent, hsq, hcomm⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥Lb := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥Lb := e.isSimpleGroup
   have hU : Nat.card S.U = 2 ^ 8 :=
     (BigA9Data.F2.natCard_eq).trans (BigA9Data.natCard_quo hVP hcard)
   have hA : Nat.card S.Aspace = 2 ^ 2 :=

@@ -83,11 +83,11 @@ theorem exists_stable_opposite {K : Type} [Field K] [Finite K] {d : ℕ}
     simp only [polarBilin_apply_apply]
   obtain ⟨Y₁, hY₁⟩ := Submodule.exists_isCompl Wperp
   let P₁ : (Fin d → K) →ₗ[K] (Fin d → K) :=
-    Wperp.subtype ∘ₗ Submodule.linearProjOfIsCompl Wperp Y₁ hY₁
-  have hP₁_mem : ∀ v, P₁ v ∈ Wperp := fun v => (Submodule.linearProjOfIsCompl Wperp Y₁ hY₁ v).2
+    Wperp.subtype ∘ₗ Submodule.projectionOnto Wperp Y₁ hY₁
+  have hP₁_mem : ∀ v, P₁ v ∈ Wperp := fun v => (Submodule.projectionOnto Wperp Y₁ hY₁ v).2
   have hP₁_fix : ∀ u ∈ Wperp, P₁ u = u := by
     intro u hu
-    have := Submodule.linearProjOfIsCompl_apply_left hY₁ ⟨u, hu⟩
+    have := Submodule.projectionOnto_apply_left hY₁ ⟨u, hu⟩
     exact congrArg Subtype.val this
   let σ (g : G) : (Fin d → K) ≃+ (Fin d → K) :=
     coordinateSemilinearMap (g : coordinateSemilinearGroup d K)

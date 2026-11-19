@@ -59,7 +59,7 @@ theorem psum_top (f : Nat → Nat) (m : Nat) :
     psum f (m + 1) m = ∑ t ∈ Finset.range (m + 1), f t := by
   rw [psum_eq_sum, ← Finset.sum_range_reflect f (m + 1)]
   refine Finset.sum_congr rfl fun t ht => ?_
-  rw [if_pos (by simp at ht; omega)]
+  rw [ite_eq_left (by simp at ht; omega)]
   congr 1
 
 theorem lanes_top {w : Nat} {f : Nat → Nat} {n : Nat} (hf : ∀ i < n + 1, f i < 2 ^ w) :
@@ -112,6 +112,7 @@ theorem rep_lt {w n : Nat} (hw : 0 < w) (hn : w * n = 3584) {v : Nat} (hv : v < 
   rw [rep_eq hw hn, ← hn]
   exact lanes_lt n fun _ _ => hv
 
+set_option exponentiation.threshold 3584 in
 theorem testBit_rep {w n : Nat} (hw : 0 < w) (hn : w * n = 3584) {v : Nat} (hv : v < 2 ^ w)
     {p : Nat} (hp : 3584 ≤ p) : (rep w v).testBit p = false :=
   Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le (rep_lt hw hn hv) (Nat.pow_le_pow_right (by decide) hp))
@@ -160,6 +161,7 @@ theorem rep_lt' : (rep 2 1 < 2 ^ 3584) ∧ rep 4 3 < 2 ^ 3584 ∧ rep 8 15 < 2 ^
     rep_lt (n := 56) (by decide) (by decide) (by decide),
     rep_lt (n := 56) (by decide) (by decide) (by decide)⟩
 
+set_option exponentiation.threshold 3584 in
 theorem tb_ge {r : Nat} (hr : r < 2 ^ 3584) {p : Nat} (hp : 3584 ≤ p) : r.testBit p = false :=
   Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le hr (Nat.pow_le_pow_right (by decide) hp))
 
@@ -183,7 +185,7 @@ theorem mI0 : mI masks (nat_lit 0) = rep 2 1 := by
     decide_eq_false (show ¬ 17920 ≤ 3584 * 0 + q by omega),
     decide_eq_false (show ¬ 21504 ≤ 3584 * 0 + q by omega),
     show 3584 * 0 + q = q by omega]
-  simp only [Bool.false_or, Bool.or_false, Bool.true_and, Bool.false_and]
+  simp only [Bool.or_false, Bool.false_and]
 
 theorem mI1 : mI masks (nat_lit 1) = rep 4 3 := by
   obtain ⟨h0, h1, h2, h3, h4, h5, h6⟩ := rep_lt'
@@ -282,7 +284,7 @@ theorem mI6 : mI masks (nat_lit 6) = rep 64 1 := by
     tb_ge h5 (show 3584 ≤ 3584 * 6 + q - 17920 by omega),
     decide_eq_true (show 21504 ≤ 3584 * 6 + q by omega),
     show 3584 * 6 + q - 21504 = q by omega]
-  simp only [Bool.false_or, Bool.or_false, Bool.true_and, Bool.false_and]
+  simp only [Bool.false_or, Bool.or_false, Bool.true_and]
 
 theorem final_sum {w n B : Nat} {c : Nat → Nat} (hc : ∀ i, c i ≤ B) (hB : (n + 1) * B < 2 ^ w) :
     lanes w c (n + 1) * lanes w (fun _ => 1) (n + 1) % 2 ^ (w * (n + 1)) / 2 ^ (w * n) =
@@ -291,6 +293,7 @@ theorem final_sum {w n B : Nat} {c : Nat → Nat} (hc : ∀ i, c i ≤ B) (hB : 
   intro i _
   exact Nat.lt_of_le_of_lt (psum_le hc _ _) hB
 
+set_option exponentiation.threshold 3584 in
 theorem popK_eq {x : Nat} (hx : x < 2 ^ 3584) :
     popK masks x = (List.range 3584).countP fun i => x.testBit i := by
   have ha : Nat.sub x (Nat.land (Nat.shiftRight x (nat_lit 1)) (mI masks (nat_lit 0))) =
@@ -393,7 +396,7 @@ theorem sum_blocks (h : Nat → Nat) : ∀ n,
   | n + 1 => by
     rw [Finset.sum_range_succ, sum_blocks h n, Nat.mul_succ, Finset.sum_range_add]
 
-theorem andPop_eq {A B : Bits} (hA : A.size = 55) (hB : B.size = 55) :
+theorem andPop_eq {A B : Bits} (_hA : A.size = 55) (_hB : B.size = 55) :
     andPop A B = (List.range 3520).countP fun y => bitAt A y && bitAt B y := by
   unfold andPop
   rw [fold_add_sum, countP_range, show 3520 = 64 * 55 by rfl, ← sum_blocks]

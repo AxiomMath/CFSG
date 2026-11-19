@@ -33,7 +33,7 @@ theorem ggExcReflTBWeylDatumQFourOn_rowR5U :
     ggWeylOfType_of_frame hp hp2 hBs hSC hNT hNL hZ hF
   obtain ⟨V, _, _, ⟨ιV⟩⟩ := exists_ggLinData (p := p) hBs
   obtain ⟨hno6, hpar, hdepth⟩ := ggCartanA_pathTree (k := k) ⟨0, by omega⟩ rfl
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdet : (((CartanMatrix.A k).det : ℤ) : ZMod p) ≠ 0 := by
     rw [CartanMatrix.A_det]
     intro h0
@@ -43,8 +43,8 @@ theorem ggExcReflTBWeylDatumQFourOn_rowR5U :
   have hS : LargeEvenSStar p B x L := hcfg.1.2.2.2.2.2.2.1
   have hmul := card_range_ggGamma_mul_of hp hBs hxBs hS.2.2.1 hLx hS.2.2.2.2 hNL
   have hV : Module.finrank (ZMod p) V = k + 1 := by
-    haveI : Module.Finite (ZMod p) V := by
-      haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+    have : Module.Finite (ZMod p) V := by
+      have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
       exact Module.Finite.of_finite
     have hcardV : Nat.card ↥Bs = p ^ Module.finrank (ZMod p) V := by
       rw [card_eq_of_ggLin ιV, Module.natCard_eq_pow_finrank (K := ZMod p) (V := V),

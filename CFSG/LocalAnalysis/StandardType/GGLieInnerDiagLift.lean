@@ -76,8 +76,8 @@ theorem ggLieInnerDiag_of_lift (hraw : GGRawInnFieldInput) (hiso : GGRawInndiagI
     (hcomps : GGInnerDiagOnComps G) :
     GGMarkingAll (K := ↥J) fun _ _ _ I' _ θ' => GGAutsInduceOn A J θ' I' := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite G := Finite.of_surjective ψ hψ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite G := Finite.of_surjective ψ hψ
   let E : Set G := {s | ∃ a ∈ A, ∀ x : X, ψ (a x) = s * ψ x * s⁻¹}
   have hEcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x := by
     intro s hs t ht

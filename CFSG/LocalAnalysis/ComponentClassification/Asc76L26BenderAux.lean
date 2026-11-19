@@ -177,7 +177,7 @@ theorem fix_le_center (hK : fusionIsBenderGroup K) (P : Sylow 2 Y) {y : Y}
     apply Subtype.ext
     rw [hαapp, hyZ _ ((hZ z).mp hz), mul_inv_cancel_right]
   have hαpow : ∃ n : ℕ, α ^ (2 ^ n) = 1 := by
-    obtain ⟨n, hn⟩ := P.isPGroup' ⟨y, hy⟩
+    obtain ⟨n, hn⟩ := P.isPGroup ⟨y, hy⟩
     refine ⟨n, ?_⟩
     have hyn : y ^ (2 ^ n) = 1 := by
       have := congrArg Subtype.val hn

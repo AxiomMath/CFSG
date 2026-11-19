@@ -67,9 +67,9 @@ theorem theta_eq_pCore_two_of_j2
     intro y
     obtain ⟨q, rfl⟩ := hπsurj y
     exact ⟨QuotientGroup.mk q, hψ q⟩
-  haveI : Nontrivial CFSG.Blueprint.NativeSporadic.J2 :=
+  have : Nontrivial CFSG.Blueprint.NativeSporadic.J2 :=
     CFSG.Sporadic.J2.isSimpleGroup_J2.toNontrivial
-  haveI : Nontrivial (↥L ⧸ aschbacherSolvableCore 3 ↥L) := φ.symm.injective.nontrivial
+  have : Nontrivial (↥L ⧸ aschbacherSolvableCore 3 ↥L) := φ.symm.injective.nontrivial
   have hsimple :
       IsSimpleGroup ((↥L ⧸ CFSG.pCore 2 ↥L) ⧸ Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L)) :=
     hq.2.1
@@ -205,14 +205,14 @@ theorem C5_nonab_of_simple_card {X : Type} [Group X] [Finite X] [IsSimpleGroup X
   have hcomm : ∀ a b : X, a * b = b * a := fun a b => by
     by_contra hne
     exact hcon ⟨a, b, hne⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := X) 2 (by rw [hcard]; norm_num)
   have hnorm : (Subgroup.zpowers g).Normal :=
     ⟨fun n hn x => by
       have h1 : x * n * x⁻¹ = n := by rw [hcomm x n, mul_inv_cancel_right]
       rw [h1]
       exact hn⟩
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.zpowers g) with hbot | htop
   · have hg1 : g ∈ Subgroup.zpowers g := Subgroup.mem_zpowers g
     rw [hbot, Subgroup.mem_bot] at hg1
@@ -231,6 +231,7 @@ theorem C5_alt10_center {z : alternatingGroup (Fin 10)}
   rw [hc, Subgroup.mem_bot] at hmem
   exact hmem
 
+omit [Finite G] in
 theorem C5_mem_cQuot (Y₀ : Subgroup G) {x : G} :
     x ∈ cQuot Y₀ ↔ x ∈ Subgroup.normalizer (Y₀ : Set G) ∧
       ∀ y ∈ Y₀, x * y * x⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 Y₀ :=
@@ -239,7 +240,7 @@ theorem C5_mem_cQuot (Y₀ : Subgroup G) {x : G} :
 theorem C5_false_of_elemAbelian (h : Sec17Std G A c L Y₀) (h5 : 5 ∣ Nat.card (cQuot Y₀))
     {F : Subgroup G} (hFel : CFSG.Open.IsElemAbelian 5 F) (hFcard : Nat.card F = 5 ^ 2)
     (hFY : F ≤ Y₀) (hFC : F ⊓ cQuot Y₀ = ⊥) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(cQuot Y₀)) 5 h5
   have he : (x : G) ∈ cQuot Y₀ := x.2
   have hoe : orderOf (x : G) = 5 := by rw [Subgroup.orderOf_coe, hx]
@@ -293,7 +294,7 @@ theorem not_five_dvd_cQuot_of_a10 (h : Sec17Std G A c L Y₀)
     ¬ 5 ∣ Nat.card (cQuot Y₀) := by
   intro h5
   obtain ⟨eA⟩ := hA
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hk : 2 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup (alternatingGroup (Fin 10))) := by
     have h10 := CFSG.Quasithin.H13.A7.section_rank_alternating_odd_prime_rank.1 10 5
       (by norm_num) (by norm_num)
@@ -358,7 +359,7 @@ theorem C5_quot_case (h : Sec17Std G A c L Y₀)
     {E : Subgroup Q} (hEel : CFSG.Open.IsElemAbelian 5 E) (hEcard : Nat.card E = 5 ^ 2) :
     ¬ 5 ∣ Nat.card (cQuot Y₀) := by
   intro h5
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hEbar_el : CFSG.Open.IsElemAbelian 5 (E.map eQ.symm.toMonoidHom) :=
     a1_isElemAbelian_map hEel eQ.symm.toMonoidHom
   have hEbar_card : Nat.card (E.map eQ.symm.toMonoidHom) = 5 ^ 2 := by
@@ -385,13 +386,14 @@ theorem C5_quot_case (h : Sec17Std G A c L Y₀)
   exact C5_false_of_elemAbelian h h5 hFel hFcard hFY hFC
 
 set_option maxHeartbeats 1000000 in
+omit [Finite G] in
 theorem C5_quot_simple
     (eJ : ↥L ⧸ aschbacherSolvableCore 3 ↥L ≃* CFSG.Blueprint.NativeSporadic.J2) :
     IsSimpleGroup (↥L ⧸ aschbacherSolvableCore 3 ↥L) ∧
       Nat.card (↥L ⧸ aschbacherSolvableCore 3 ↥L) = 604800 := by
   have hJs : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
   refine ⟨?_, ?_⟩
-  · haveI := hJs
+  · have := hJs
     exact eJ.isSimpleGroup
   · rw [Nat.card_congr eJ.toEquiv, CFSG.Sporadic.J2.card_J2]
 
@@ -400,7 +402,7 @@ theorem not_five_dvd_cQuot_of_j2
     (h135 : Item135) (h : Sec17Std G A c L Y₀)
     (hJ : Nonempty (↥L ⧸ aschbacherSolvableCore 3 ↥L ≃* CFSG.Blueprint.NativeSporadic.J2)) :
     ¬ 5 ∣ Nat.card (cQuot Y₀) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hθ : aschbacherSolvableCore 3 ↥L = CFSG.pCore 2 ↥L :=
     theta_eq_pCore_two_of_j2 h135 h.toSec14Std hJ
   have hN : ¬ 5 ∣ Nat.card (aschbacherSolvableCore 3 ↥L) := by
@@ -408,7 +410,7 @@ theorem not_five_dvd_cQuot_of_j2
     exact C5_not_five_dvd_of_isPGroup_two (CFSG.pCore_isPGroup (p := 2) (G := ↥L))
   obtain ⟨eJ⟩ := hJ
   obtain ⟨hs, hcard⟩ := C5_quot_simple eJ
-  haveI := hs
+  have := hs
   have hna : ∃ a b : ↥L ⧸ aschbacherSolvableCore 3 ↥L, a * b ≠ b * a :=
     C5_nonab_of_simple_card hcard
   have hk2 := CFSG.RankThree.PartTwo.Sec17.G1724.two_le_pRank_five_J2
@@ -500,6 +502,7 @@ theorem c6_pow_decomp {G : Type*} [Group G] (C T : Subgroup G)
     rw [pow_succ (v * t) n, hwe, pow_succ t n]
     group
 
+omit [Finite G] in
 theorem c6_cQuot_le_normalizer (Y₀ : Subgroup G) :
     cQuot Y₀ ≤ Subgroup.normalizer (Y₀ : Set G) := by
   intro x hx

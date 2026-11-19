@@ -25,7 +25,7 @@ theorem r3_u_normalizes {N : Type} [Group N] [Finite N] {p : ℕ} (hp : p.Prime)
     u ∈ Subgroup.normalizer (J₀ : Set N) := by
   classical
   by_contra hu
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne : J₀.map (MulAut.conj u).toMonoidHom ≠ J₀ := fun h =>
     hu (r3e_mem_normalizer_of_map_eq h)
   have hm₀ := hmult J₀ hJ₀

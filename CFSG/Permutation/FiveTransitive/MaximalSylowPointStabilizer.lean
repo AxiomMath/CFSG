@@ -18,13 +18,13 @@ theorem exists_sylow_with_same_image_of_orbit_max
       (T : Subgroup (stabilizer K x)).map (stabilizer K x).subtype =
         (stabilizer S x).map (S : Subgroup K).subtype := by
   let Q := (stabilizer S x).map (S : Subgroup K).subtype
-  have hQp : IsPGroup p Q := (S.isPGroup'.to_subgroup (stabilizer S x)).map _
+  have hQp : IsPGroup p Q := (S.isPGroup.to_subgroup (stabilizer S x)).map _
   have hQx : Q ≤ stabilizer K x := by
     rintro q ⟨r,hr,rfl⟩
     exact hr
   obtain ⟨T,hQT⟩ := hQp.comap_subtype.exists_le_sylow (G := stabilizer K x)
   let R := (T : Subgroup (stabilizer K x)).map (stabilizer K x).subtype
-  have hRp : IsPGroup p R := T.isPGroup'.map _
+  have hRp : IsPGroup p R := T.isPGroup.map _
   obtain ⟨U,hRU⟩ := hRp.exists_le_sylow
   obtain ⟨k,hk⟩ := exists_smul_eq K U S
   have hkmap : (U : Subgroup K).map (MulAut.conj k).toMonoidHom = (S : Subgroup K) :=

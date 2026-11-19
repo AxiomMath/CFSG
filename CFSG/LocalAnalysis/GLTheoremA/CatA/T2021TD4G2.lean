@@ -75,7 +75,7 @@ private theorem t2021TD4G2_exists_ne_one {E : Subgroup X} (hE : Nat.card E = 3) 
 private theorem t2021TD4G2_conj_mem_of_three {E U : Subgroup X} (hE : Nat.card E = 3)
     (h3 : ∀ e ∈ E, e ^ 3 = 1) {x : X} (hxE : x ∈ E) (hx1 : x ≠ 1) (hx : ∀ u ∈ U, x * u * x⁻¹ ∈ U) :
     ∀ e ∈ E, ∀ u ∈ U, e * u * e⁻¹ ∈ U := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf x = 3 := orderOf_eq_prime (h3 x hxE) hx1
   have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
   have hzE : Subgroup.zpowers x = E :=
@@ -125,12 +125,12 @@ theorem t2021TD4_g2Core {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K]
   obtain ⟨hF, -, ⟨Φ⟩⟩ := t2021TD4G2_setup hf σ hK hσ
   rcases (show f = 1 ∨ 2 ≤ f by omega) with rfl | hf2
   · obtain ⟨hs, hc⟩ := CFSG.QuasithinUnique.Id2519.g2Two_derived (k := fixSubfield σ) (by simpa using hF)
-    haveI := hs
+    have := hs
     refine ⟨(MulEquiv.commutatorCongr Φ).isSimpleGroup, ?_⟩
     rw [Nat.card_congr (MulEquiv.commutatorCongr Φ).toEquiv, hc]
     norm_num
   · have h3 : 3 ≤ Nat.card (fixSubfield σ) := hF ▸ le_trans (by norm_num) (t2021TD4G2_four_le hf2)
-    haveI := CFSG.QuasithinUnique.Id2519.isSimpleGroup_adjointGroup_g2 h3
+    have := CFSG.QuasithinUnique.Id2519.isSimpleGroup_adjointGroup_g2 h3
     let e : ↥(commutator ↥(autFix (fieldActor (t := TwistTag.D4) σ σ))) ≃*
         ↥(adjointGroup Tag.G2 (fixSubfield σ)) :=
       ((MulEquiv.subgroupCongr (t2021TD4G2_commutator_eq_top hf2 σ hK hσ)).trans Subgroup.topEquiv).trans Φ
@@ -211,7 +211,7 @@ private theorem t2021TD4G2_witness_big {f : ℕ}
       U ≤ commutator ↥(autFix (fieldActor (t := TwistTag.D4) σ σ)) ∧ IsPGroup 2 U ∧ U ≠ ⊥ ∧
         ∀ u ∈ U, x * u * x⁻¹ ∈ U := by
   obtain ⟨hF, -, ⟨Φ⟩⟩ := t2021TD4G2_setup (by omega) σ hK hσ
-  haveI : CharP (fixSubfield σ) 2 :=
+  have : CharP (fixSubfield σ) 2 :=
     CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero (t2021TD4G2_two_eq_zero (by omega) hF)
   obtain ⟨s, hs2, hsx⟩ := CFSG.RankThree.PartTwo.Sec4.HeringK419G2.exists_involution_commute
     (hF ▸ t2021TD4G2_four_le hf) (z := Φ x) (by rw [← map_pow, hx3, map_one])
@@ -258,7 +258,7 @@ private theorem t2021TD4G2_nine
         rw [← map_pow, hE3 e he, map_one])
       (by rw [Subgroup.card_map_of_injective Φ.injective, hcard]; norm_num)
   have hchar : ringChar (fixSubfield σ) = 2 := by
-    haveI : CharP (fixSubfield σ) 2 :=
+    have : CharP (fixSubfield σ) 2 :=
       CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero (t2021TD4G2_two_eq_zero hf hF)
     exact ringChar.eq (fixSubfield σ) 2
   rw [hchar] at hRp
@@ -285,10 +285,10 @@ theorem t2021TD4_g2Two {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] 
     ∃ U : Subgroup ↥(autFix (fieldActor (t := TwistTag.D4) σ σ)),
       U ≤ commutator ↥(autFix (fieldActor (t := TwistTag.D4) σ σ)) ∧ IsPGroup 2 U ∧ U ≠ ⊥ ∧
         ∀ e ∈ E₀, ∀ u ∈ U, e * u * e⁻¹ ∈ U := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hA, -⟩ := t2021TD4G2_setup hf σ hK hσ
-  haveI : Finite ↥(autFix (fieldActor (t := TwistTag.D4) σ σ)) :=
+  have : Finite ↥(autFix (fieldActor (t := TwistTag.D4) σ σ)) :=
     Nat.finite_of_card_ne_zero (by rw [hA]; exact (t2021TD4G2_ordG2_pos hf).ne')
   rcases hcard with hle | ⟨h9, hfe⟩
   · have hp : IsPGroup 3 E₀ := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 _ g.2)⟩

@@ -26,7 +26,7 @@ theorem leviBlock_pRank_range_le_one {X : Type} [Group X] [Finite X] {P : Subgro
     (hp : p.Prime) (hp2 : p ≠ 2) (hrk : CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 1)
     {M : Type} [Group M] [Finite M] (β : ↥P →* M) (hβ : IsPGroup 2 β.ker) :
     CFSG.Open.pRank p (⊤ : Subgroup ↥β.range) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : ¬ p ∣ Nat.card β.ker := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hβ
     intro hdvd
@@ -46,7 +46,7 @@ theorem leviBlock_eq_one_of_ne {ι : Type} [Fintype ι] [DecidableEq ι] {G : ι
     {j₀ : ι} {u₀ : G j₀} (hu₀S : u₀ ∈ S j₀) (hu₀ord : orderOf u₀ = p)
     {j : ι} (hj : j ≠ j₀) {v : G j} (hvS : v ∈ S j) (hvp : v ^ p = 1) : v = 1 := by
   by_contra hv
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hvord : orderOf v = p := orderOf_eq_prime hvp hv
   have haord : orderOf (Pi.mulSingle j₀ u₀ : ∀ j, G j) = p := by
     rw [orderOf_piMulSingle, hu₀ord]
@@ -109,7 +109,7 @@ theorem leviSurj_of_blocks {X : Type} [Group X] [Finite X] {P : Subgroup X} {z :
       CFSG.Open.IsQuasisimple ↥(S j) ∧ ¬ p ∣ Nat.card (Subgroup.center ↥(S j))) :
     ∃ j₀ : ι, (∃ u ∈ S j₀, orderOf u = p) ∧
       LeviSurj p P z (↥(S j₀) ⧸ Subgroup.center ↥(S j₀)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨j₀, u₀, hu₀S, hu₀ord⟩ : ∃ j₀ : ι, ∃ u ∈ S j₀, orderOf u = p := by
     have hz0ord : orderOf (⟨z, hzP⟩ : ↥P) = p := by rw [Subgroup.orderOf_mk, hz]
     have hz0ne : β ⟨z, hzP⟩ ≠ 1 := by

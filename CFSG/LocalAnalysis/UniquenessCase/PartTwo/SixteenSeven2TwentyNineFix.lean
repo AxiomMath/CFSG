@@ -16,6 +16,7 @@ private theorem s16c167_rk_sup_of_inf_bot {A B : Subgroup W} (h : A ⊓ B = ⊥)
   rw [h, rk_bot] at h1
   omega
 
+omit [Finite W] in
 private theorem s16c167_inf_fixV_sup {Q : Subgroup (MulAut W)} {A B : Subgroup W}
     (hdisj : A ⊓ B = ⊥) (hA : ∀ q ∈ Q, ∀ x ∈ A, q x ∈ A)
     (hB : ∀ q ∈ Q, ∀ x ∈ B, q x ∈ B) :
@@ -62,7 +63,7 @@ private theorem s16c167_inf_fixV_sup {Q : Subgroup (MulAut W)} {A B : Subgroup W
 
 private theorem s16c167_one_le_rk_of_ne_bot {C I : Subgroup W} (hCI : C ≤ I)
     (hI : Nat.card ↥I = 8) (hne : C ≠ ⊥) : 1 ≤ rk ↥C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : Nat.card ↥C ∣ 8 := by
     rw [← hI]; exact Subgroup.card_dvd_of_le hCI
   have hne1 : Nat.card ↥C ≠ 1 := fun h => hne ((Subgroup.card_eq_one).mp h)
@@ -80,12 +81,12 @@ private theorem s16c167_one_le_rk_of_ne_bot {C I : Subgroup W} (hCI : C ≤ I)
 private theorem s16c167_fixV_inf_ne_bot {Q : Subgroup (MulAut W)} (hQ : IsPGroup 2 ↥Q)
     {I : Subgroup W} (hI : Nat.card ↥I = 8)
     (hinv : ∀ q ∈ Q, ∀ v ∈ I, q v ∈ I) : I ⊓ fixV Q ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let act : MulAction ↥Q ↥I :=
     { smul := fun q v => ⟨q.1 v.1, hinv q.1 q.2 v.1 v.2⟩
       one_smul := fun _ => Subtype.ext rfl
       mul_smul := fun _ _ _ => Subtype.ext rfl }
-  letI := act
+  let := act
   have hdvd : 2 ∣ Nat.card ↥I := by rw [hI]; norm_num
   have h1 : (1 : ↥I) ∈ MulAction.fixedPoints ↥Q ↥I := fun q => Subtype.ext (map_one q.1)
   obtain ⟨b, hb, hb1⟩ := hQ.exists_fixed_point_of_prime_dvd_card_of_fixed_point ↥I hdvd h1
@@ -166,7 +167,7 @@ private theorem s16c167_isIrr_action_nontrivial {L : Subgroup (MulAut W)} {V : S
 private theorem s16c167_faithful_of_isIrr {L : Subgroup (MulAut W)} (hL : IsPSL 3 2 1 ↥L)
     {I : Subgroup W} (hI : XMod.IsIrr ↥L I) (hc : Nat.card ↥I = 8) :
     ∀ l ∈ L, (∀ v ∈ I, l v = v) → l = 1 := by
-  haveI : IsSimpleGroup ↥L := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 hL).2
+  have : IsSimpleGroup ↥L := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 1 hL).2
   have hnt := s16c167_isIrr_action_nontrivial hI hc
   let K : Subgroup ↥L :=
     { carrier := {l | ∀ v ∈ I, (l : MulAut W) v = v}
@@ -194,7 +195,7 @@ private theorem s16c167_faithful_of_isIrr {L : Subgroup (MulAut W)} (hL : IsPSL 
     have hmem : ((g⁻¹ : ↥L) : MulAut W) v ∈ I := hI.1 g⁻¹ v hv
     rw [hn _ hmem, Subgroup.coe_inv]
     exact mulAut_apply_inv_apply g v
-  haveI : K.Normal := hKnormal
+  have : K.Normal := hKnormal
   have hKproper : K ≠ ⊤ := by
     intro htop
     obtain ⟨l, hl, v, hv, hlv⟩ := hnt
@@ -208,6 +209,7 @@ private theorem s16c167_faithful_of_isIrr {L : Subgroup (MulAut W)} (hL : IsPSL 
     simpa using this
   exact congrArg Subtype.val hone
 
+omit [Finite W] in
 private theorem s16c167_mul_inv_mem_of_relIndex_two {H K : Subgroup W} (hrel : H.relIndex K = 2)
     {x y : W} (hxK : x ∈ K) (hyK : y ∈ K) (hxH : x ∉ H) (hyH : y ∉ H) : y * x⁻¹ ∈ H := by
   obtain ⟨a, haK, -, ha⟩ :=
@@ -229,7 +231,7 @@ private theorem s16c167_mul_inv_mem_of_relIndex_two {H K : Subgroup W} (hrel : H
 
 theorem s16c167_natSum3_few_fixers (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
     {J : Subgroup W} (hL : IsPSL 3 2 1 ↥L) (hJ : NatSum3 L J) {Q : Subgroup (MulAut W)}
-    (hQL : Q ≤ L) (hQ : IsPGroup 2 ↥Q) {Y : Subgroup W} (hY : Y ≤ J ⊓ fixV Q)
+    (hQL : Q ≤ L) (_hQ : IsPGroup 2 ↥Q) {Y : Subgroup W} (hY : Y ≤ J ⊓ fixV Q)
     (hrk : 6 ≤ rk ↥Y) : Nat.card ↥Q ≤ 4 := by
   obtain ⟨I₀, I₁, I₂, hi₀, hi₁, hi₂, hc₀, hc₁, hc₂, h01, h012, hsum⟩ := hJ
   have hI₀rk : rk ↥I₀ = 3 := by

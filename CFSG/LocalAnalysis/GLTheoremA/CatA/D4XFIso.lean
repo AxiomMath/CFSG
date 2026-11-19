@@ -45,10 +45,10 @@ theorem equiv_triality_of_statedProj {K : Type} [Group K] {K₀ : Type} [Field K
 theorem equiv_projOmegaPlus_of_statedProj {K : Type} [Group K] {K₀ : Type} [Field K₀]
     (hK₀ : Nat.card K₀ = 2) (e : K ≃* StatedProj (StatedOmega (StatedQuadPlus 4 K₀))) :
     Nonempty (K ≃* CFSG.PGLModel.projOmegaPlus 4 (GaloisField 2 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite K₀ := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Fintype K₀ := Fintype.ofFinite K₀
-  haveI : Fintype (GaloisField 2 1) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K₀ := Nat.finite_of_card_ne_zero (by omega)
+  have : Fintype K₀ := Fintype.ofFinite K₀
+  have : Fintype (GaloisField 2 1) := Fintype.ofFinite _
   have hF : Nat.card (GaloisField 2 1) = 2 := by
     rw [GaloisField.card 2 1 (by norm_num)]
     norm_num

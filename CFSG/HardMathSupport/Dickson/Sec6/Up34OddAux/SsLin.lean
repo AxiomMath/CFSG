@@ -27,18 +27,18 @@ variable {n : ℕ} {k : Type} [Field k] [Finite k]
 
 theorem charP_of_natCard_eq_prime_pow {p f : ℕ} (hp : p.Prime) (hk : Nat.card k = p ^ f) :
     CharP k p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype k := Fintype.ofFinite k
   exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hk)
 
 theorem exists_card_adjoinRoot_eq_pow {p f : ℕ} (hp : p.Prime) (hk : Nat.card k = p ^ f)
     {h : k[X]} [Fact (Irreducible h)] : ∃ f' : ℕ, 1 ≤ f' ∧ Nat.card (AdjoinRoot h) = p ^ f' := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP k p := charP_of_natCard_eq_prime_pow hp hk
-  haveI : CharP (AdjoinRoot h) p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP k p := charP_of_natCard_eq_prime_pow hp hk
+  have : CharP (AdjoinRoot h) p :=
     charP_of_injective_algebraMap (algebraMap k (AdjoinRoot h)).injective p
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite k
-  haveI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite k
+  have : Fintype (AdjoinRoot h) := Fintype.ofFinite _
   obtain ⟨m, -, hm⟩ := FiniteField.card (AdjoinRoot h) p
   exact ⟨m, m.pos, by rw [Nat.card_eq_fintype_card, hm]⟩
 
@@ -122,9 +122,9 @@ theorem not_isLThreeFour_specialFactor (hO : LieOrderFormulasInput) {p f : ℕ} 
     (hsq : Squarefree (minpoly K (glA A : Module.End K (Fin n → K)))) {h : K[X]}
     (hh : h ∈ primaryFactors (glA A : Module.End K (Fin n → K))) (hgood : IsGoodFactor A h) :
     ¬ IsLThreeFour (↥(specialFactor A h) ⧸ Subgroup.center ↥(specialFactor A h)) := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨f', hf', hE⟩ := exists_card_adjoinRoot_eq_pow (k := K) hp hK (h := h)
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   have hm : 2 ≤ primaryMultiplicity (glA A : Module.End K (Fin n → K)) h := by
     unfold IsGoodFactor at hgood
     omega
@@ -135,19 +135,19 @@ theorem noL34Layer_conjAut_psl (hO : LieOrderFormulasInput) {p f : ℕ} (hp : p.
     (hp5 : 5 ≤ p) (hK : Nat.card K = p ^ f) {A : GL (Fin n) K} {c : Kˣ}
     (hA : A ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin n) c) :
     NoL34Layer (LinearFlag.conjAut n K A) := by
-  haveI : CharP K p := charP_of_natCard_eq_prime_pow hp hK
+  have : CharP K p := charP_of_natCard_eq_prime_pow hp hK
   have hpk : ((3 : ℕ) : K) ≠ 0 := by
     intro h0
     have := (CharP.cast_eq_zero_iff K p 3).1 h0
     have := Nat.le_of_dvd (by norm_num) this
     omega
   have hsq := squarefree_minpoly_glA hpk hA
-  haveI : ∀ b : {b : primaryFactors (glA A : Module.End K (Fin n → K)) // ¬ IsGoodFactor A b},
+  have : ∀ b : {b : primaryFactors (glA A : Module.End K (Fin n → K)) // ¬ IsGoodFactor A b},
       Group.IsSolvable (blockGL (glA A : Module.End K (Fin n → K)) b.1.1) := fun b =>
     isSolvable_blockGL_of_not_good b.1.2 b.2
-  haveI : Group.IsSolvable ((b : primaryFactors (glA A : Module.End K (Fin n → K))) →
+  have : Group.IsSolvable ((b : primaryFactors (glA A : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) := inferInstance
-  haveI : Group.IsSolvable ((b : {b : primaryFactors (glA A : Module.End K (Fin n → K)) //
+  have : Group.IsSolvable ((b : {b : primaryFactors (glA A : Module.End K (Fin n → K)) //
       ¬ IsGoodFactor A b}) → blockGL (glA A : Module.End K (Fin n → K)) b.1.1) :=
     isSolvable_pi_of_finite_up34
   exact noL34Layer_of_centralQuotient (LinearFlag.proj n K) (LinearFlag.proj_surjective n K)
@@ -205,7 +205,7 @@ theorem noL34InnAt_psl (hO : LieOrderFormulasInput) :
   have hC : StatedClassicalModel P .PSL n p f := (lieModel_classical_iff (by decide)).mp hm
   obtain ⟨-, K, _, _, hK, ⟨e0⟩⟩ := hC
   let e : P ≃* LinearFlag.projectiveSL n K := e0.trans (statedProjEquiv n K)
-  haveI : Finite (LinearFlag.projectiveSL n K) := Finite.of_equiv P e.toEquiv
+  have : Finite (LinearFlag.projectiveSL n K) := Finite.of_equiv P e.toEquiv
   refine noL34Layer_congr e ?_
   have hψ3' : (MulAut.congr e ψ) ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hψi : MulAut.congr e ψ ∈ inner (LinearFlag.projectiveSL n K) :=

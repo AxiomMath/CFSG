@@ -205,7 +205,7 @@ theorem burnsideF48s_sp43_model : burnsideF48s_EModel burnsideF48s_sp43G burnsid
 
 theorem burnsideF48s_sp43_card_K : Nat.card ↥burnsideF48s_sp43K = 2 := by
   obtain ⟨-, -, r6, r3, -, -⟩ := burnsideF48s_sp43_rels
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [burnsideF48s_sp43K, Nat.card_zpowers]
   exact orderOf_eq_prime (by rw [← pow_mul]; exact r6) r3
 
@@ -244,10 +244,10 @@ theorem burnsideF48s_sp43_cands : burnsideF48s_ECands burnsideF48s_sp43G burnsid
   refine ⟨hfin, ?_⟩
   rw [hX]
   by_cases hev : k % 2 = 0
-  · rw [if_pos hev] at hcard
+  · rw [ite_eq_left hev] at hcard
     refine Or.inr ⟨hcard.trans (by norm_num), r2 k ?_⟩
     interval_cases k <;> simp_all
-  · rw [if_neg hev] at hcard
+  · rw [ite_eq_right hev] at hcard
     exact Or.inl (lt_of_le_of_lt hcard (by norm_num))
 
 end TC
@@ -264,7 +264,7 @@ theorem burnsideF48s_sp43_conj
       Nat.card ↥K'' = Nat.card ↥burnsideF48s_sp43K →
       ∃ t ∈ burnsideF48s_sp43P1 ⊓ burnsideF48s_sp43P2, ∀ z, z ∈ K'' ↔
         t * z * t⁻¹ ∈ burnsideF48s_sp43K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKB := burnsideF48s_sp43_model.K_le
   have hcK := burnsideF48s_sp43_card_K
   refine burnsideF48s_e_sylow_conj (q := 2) hKB (IsPGroup.of_card (n := 1) (by rw [hcK]; norm_num))

@@ -397,17 +397,17 @@ theorem E6QTwo.exists_localSetting_and_package
   classical
   obtain ⟨ω, hω⟩ := USixTwo.exists_root_omega (K := K) hK4
   have horderx : orderOf x = 3 := orderOf_eq_prime (hBs.2 x hxB) hx1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hxL, φ, hmapφ⟩ :=
     exists_not_mem_and_map_eq_torU hG hK4 hω θ hperf hBs hNT hcard hxB hx1 hLx hN hcyc
       hstar hBsN hI hW
   obtain ⟨V, hVadd, hVmod, ⟨ι⟩⟩ := exists_ggLinData (p := 3) hBs
-  letI := hVadd
-  letI := hVmod
+  let := hVadd
+  let := hVmod
   have hVcard : Nat.card V = 3 ^ 5 := by
     rw [← card_eq_of_ggLin ι]
     exact hcard
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hVcard]; norm_num)
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hVcard]; norm_num)
   obtain ⟨h, α, hα, β, hP, hβ, hWcard, hmapA, hmem_e6⟩ :=
     exists_e6_model hNT hW ι hVcard
   obtain ⟨vx, hvxdef, hvx, hfixv, hBxx, himg_eq⟩ :=

@@ -31,31 +31,31 @@ theorem val_finRotate_eq [NeZero p] (j : Fin p) :
 theorem companionMat_apply_lt [NeZero p] (c : F) (i j : Fin p) (hj : (j : ℕ) + 1 < p) :
     companionMat p c i j = if (i : ℕ) = (j : ℕ) + 1 then 1 else 0 := by
   have hv : ((finRotate p j : Fin p) : ℕ) = (j : ℕ) + 1 := by
-    rw [val_finRotate_eq, if_pos hj]
+    rw [val_finRotate_eq, ite_eq_left hj]
   have hne : (j : ℕ) ≠ p - 1 := by omega
-  rw [companionMat_apply, if_neg hne]
+  rw [companionMat_apply, ite_eq_right hne]
   by_cases h : i = finRotate p j
   · have h' : (i : ℕ) = (j : ℕ) + 1 := by rw [h, hv]
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : ¬ (i : ℕ) = (j : ℕ) + 1 := fun e => h (Fin.ext (by rw [hv]; exact e))
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 theorem companionMat_apply_last [NeZero p] (c : F) (i j : Fin p) (hj : (j : ℕ) + 1 = p) :
     companionMat p c i j = if (i : ℕ) = 0 then c else 0 := by
   have hnl : ¬ ((j : ℕ) + 1 < p) := by omega
   have hv : ((finRotate p j : Fin p) : ℕ) = 0 := by
-    rw [val_finRotate_eq, if_neg hnl]
+    rw [val_finRotate_eq, ite_eq_right hnl]
   have hγ : (j : ℕ) = p - 1 := by omega
-  rw [companionMat_apply, if_pos hγ]
+  rw [companionMat_apply, ite_eq_left hγ]
   by_cases h : i = finRotate p j
   · have h' : (i : ℕ) = 0 := by rw [h, hv]
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : ¬ (i : ℕ) = 0 := fun e => h (Fin.ext (by rw [hv]; exact e))
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 theorem companionMat_succ_self [NeZero p] (c : F) (b : Fin p) :
     companionMat p c (b + 1) b = if (b : ℕ) = p - 1 then c else 1 := by
-  rw [companionMat_apply, finRotate_apply, if_pos rfl]
+  rw [companionMat_apply, finRotate_apply, ite_eq_left rfl]
 
 theorem companionMat_pow_apply [NeZero p] (c : F) (m j : Fin p) :
     ∀ k : ℕ, k ≤ p → (companionMat p c ^ k) m j =
@@ -70,8 +70,8 @@ theorem companionMat_pow_apply [NeZero p] (c : F) (m j : Fin p) :
       simp
     · have hm := m.isLt
       have hj := j.isLt
-      rw [if_neg h, if_neg (show ¬ ((j : ℕ) = (m : ℕ)) from fun e => h (Fin.ext e.symm)),
-        if_neg (show ¬ ((j : ℕ) = (m : ℕ) + p) by omega)]
+      rw [ite_eq_right h, ite_eq_right (show ¬ ((j : ℕ) = (m : ℕ)) from fun e => h (Fin.ext e.symm)),
+        ite_eq_right (show ¬ ((j : ℕ) = (m : ℕ) + p) by omega)]
   | succ k ih =>
     intro hk
     have hkp : k ≤ p := by omega
@@ -79,23 +79,23 @@ theorem companionMat_pow_apply [NeZero p] (c : F) (m j : Fin p) :
         (companionMat p c ^ k) m (finRotate p j) * (if (j : ℕ) = p - 1 then c else 1) := by
       rw [pow_succ, Matrix.mul_apply]
       simp only [companionMat_apply, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-        if_true]
+        ite_true]
     rw [hsum, ih m (finRotate p j) hkp, val_finRotate_eq]
     have hj := j.isLt
     have hm := m.isLt
     by_cases hj1 : (j : ℕ) + 1 < p
-    · rw [if_pos hj1, if_neg (show ¬ ((j : ℕ) = p - 1) by omega), mul_one,
+    · rw [ite_eq_left hj1, ite_eq_right (show ¬ ((j : ℕ) = p - 1) by omega), mul_one,
         show (j : ℕ) + 1 + k = (j : ℕ) + (k + 1) by omega]
     · have hjp : (j : ℕ) + 1 = p := by omega
-      rw [if_neg hj1, if_pos (show (j : ℕ) = p - 1 by omega)]
+      rw [ite_eq_right hj1, ite_eq_left (show (j : ℕ) = p - 1 by omega)]
       by_cases hkm : k = (m : ℕ)
-      · rw [if_pos (show 0 + k = (m : ℕ) by omega),
-          if_neg (show ¬ ((j : ℕ) + (k + 1) = (m : ℕ)) by omega),
-          if_pos (show (j : ℕ) + (k + 1) = (m : ℕ) + p by omega), one_mul]
-      · rw [if_neg (show ¬ (0 + k = (m : ℕ)) by omega),
-          if_neg (show ¬ (0 + k = (m : ℕ) + p) by omega),
-          if_neg (show ¬ ((j : ℕ) + (k + 1) = (m : ℕ)) by omega),
-          if_neg (show ¬ ((j : ℕ) + (k + 1) = (m : ℕ) + p) by omega), zero_mul]
+      · rw [ite_eq_left (show 0 + k = (m : ℕ) by omega),
+          ite_eq_right (show ¬ ((j : ℕ) + (k + 1) = (m : ℕ)) by omega),
+          ite_eq_left (show (j : ℕ) + (k + 1) = (m : ℕ) + p by omega), one_mul]
+      · rw [ite_eq_right (show ¬ (0 + k = (m : ℕ)) by omega),
+          ite_eq_right (show ¬ (0 + k = (m : ℕ) + p) by omega),
+          ite_eq_right (show ¬ ((j : ℕ) + (k + 1) = (m : ℕ)) by omega),
+          ite_eq_right (show ¬ ((j : ℕ) + (k + 1) = (m : ℕ) + p) by omega), zero_mul]
 
 theorem companionMat_pow_self [NeZero p] (c : F) :
     companionMat p c ^ p = c • (1 : Matrix (Fin p) (Fin p) F) := by
@@ -107,8 +107,8 @@ theorem companionMat_pow_self [NeZero p] (c : F) :
   by_cases h : m = j
   · subst h
     simp [NeZero.ne p]
-  · rw [if_neg h, if_neg (show ¬ ((j : ℕ) + p = (m : ℕ)) by omega),
-      if_neg (show ¬ ((j : ℕ) + p = (m : ℕ) + p) from fun e => h (Fin.ext (by omega)))]
+  · rw [ite_eq_right h, ite_eq_right (show ¬ ((j : ℕ) + p = (m : ℕ)) by omega),
+      ite_eq_right (show ¬ ((j : ℕ) + p = (m : ℕ) + p) from fun e => h (Fin.ext (by omega)))]
 
 theorem companionMat_sub_one_mul_geom [NeZero p] (c : F) :
     (companionMat p c - 1) * ∑ i ∈ Finset.range p, companionMat p c ^ i =
@@ -134,11 +134,11 @@ theorem geom_companionMat_apply [NeZero p] (c : F) (m j : Fin p) :
   have hj := j.isLt
   by_cases hjm : j ≤ m
   · have hjm' : (j : ℕ) ≤ (m : ℕ) := hjm
-    rw [if_pos hjm]
+    rw [ite_eq_left hjm]
     have hlt : (m : ℕ) - (j : ℕ) < p := by omega
     have e1 : (j : ℕ) + ((m : ℕ) - (j : ℕ)) = (m : ℕ) := by omega
     rw [Finset.sum_eq_single ((m : ℕ) - (j : ℕ))]
-    · rw [if_pos e1]
+    · rw [ite_eq_left e1]
     · intro i hi hne
       have hi' := Finset.mem_range.1 hi
       split_ifs with h1 h2
@@ -152,12 +152,12 @@ theorem geom_companionMat_apply [NeZero p] (c : F) (m j : Fin p) :
   · have hmj : (m : ℕ) < (j : ℕ) := by
       have : ¬ (j : ℕ) ≤ (m : ℕ) := fun h => hjm h
       omega
-    rw [if_neg hjm]
+    rw [ite_eq_right hjm]
     have hlt : (m : ℕ) + p - (j : ℕ) < p := by omega
     have e2 : (j : ℕ) + ((m : ℕ) + p - (j : ℕ)) = (m : ℕ) + p := by omega
     have e3 : ¬ ((j : ℕ) + ((m : ℕ) + p - (j : ℕ)) = (m : ℕ)) := by omega
     rw [Finset.sum_eq_single ((m : ℕ) + p - (j : ℕ))]
-    · rw [if_neg e3, if_pos e2]
+    · rw [ite_eq_right e3, ite_eq_left e2]
     · intro i hi hne
       have hi' := Finset.mem_range.1 hi
       split_ifs with h1 h2
@@ -175,8 +175,8 @@ theorem companionMat_mul_diagonal [NeZero p] (c : F) (t : Fin p → F) :
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul, companionMat_apply]
   by_cases h : m = finRotate p j
   · have hj : m - 1 = j := by rw [h, finRotate_apply, add_sub_cancel_right]
-    rw [if_pos h, hj, mul_comm]
-  · rw [if_neg h, zero_mul, mul_zero]
+    rw [ite_eq_left h, hj, mul_comm]
+  · rw [ite_eq_right h, zero_mul, mul_zero]
 
 theorem companionMat_pow_mul_diagonal [NeZero p] (c : F) (t : Fin p → F) (k : ℕ) :
     companionMat p c ^ k * diagonal t =
@@ -205,7 +205,7 @@ theorem det_companionMat_sub_one (hp : Odd p) (c : F) : (companionMat p c - 1).d
   rcases Nat.lt_or_ge p 2 with hp2 | hp2
   · obtain rfl : p = 1 := by have := hp.pos; omega
     rw [Matrix.det_fin_one, Matrix.sub_apply, companionMat_apply, Matrix.one_apply_eq,
-      if_pos (Subsingleton.elim (0 : Fin 1) (finRotate 1 0))]
+      ite_eq_left (Subsingleton.elim (0 : Fin 1) (finRotate 1 0))]
     simp
   obtain ⟨n, rfl⟩ : ∃ n, p = n + 1 := ⟨p - 1, by omega⟩
   have hn : Even n := by
@@ -222,7 +222,7 @@ theorem det_companionMat_sub_one (hp : Odd p) (c : F) : (companionMat p c - 1).d
   have hA00 : (companionMat (n + 1) c - 1) 0 0 = -1 := by
     rw [Matrix.sub_apply, companionMat_apply_lt c 0 0 hz, Matrix.one_apply_eq]
     have hne : ¬ (((0 : Fin (n + 1)) : ℕ) = ((0 : Fin (n + 1)) : ℕ) + 1) := by omega
-    rw [if_neg hne, zero_sub]
+    rw [ite_eq_right hne, zero_sub]
   have hA0l : (companionMat (n + 1) c - 1) 0 (Fin.last n) = c := by
     rw [Matrix.sub_apply, companionMat_apply_last c 0 (Fin.last n) (by rw [Fin.val_last]),
       Matrix.one_apply_ne h01]
@@ -238,7 +238,7 @@ theorem det_companionMat_sub_one (hp : Odd p) (c : F) : (companionMat p c - 1).d
     have hne : ¬ (((0 : Fin (n + 1)) : ℕ) = (x : ℕ) + 1) := by
       rw [Fin.val_zero]
       omega
-    rw [if_neg hne, sub_zero]
+    rw [ite_eq_right hne, sub_zero]
   have hF4 : ∀ i j : Fin n, i < j → (companionMat (n + 1) c - 1) (Fin.succ i) (Fin.succ j) = 0 := by
     intro i j hij
     have hij' : (i : ℕ) < (j : ℕ) := hij
@@ -255,14 +255,14 @@ theorem det_companionMat_sub_one (hp : Odd p) (c : F) : (companionMat p c - 1).d
       have hne2 : ¬ (((Fin.succ i : Fin (n + 1)) : ℕ) = ((Fin.succ j : Fin (n + 1)) : ℕ) + 1) := by
         rw [Fin.val_succ, Fin.val_succ]
         omega
-      rw [companionMat_apply_lt c (Fin.succ i) (Fin.succ j) hv, if_neg hne2]
+      rw [companionMat_apply_lt c (Fin.succ i) (Fin.succ j) hv, ite_eq_right hne2]
     · have hv : ((Fin.succ j : Fin (n + 1)) : ℕ) + 1 = n + 1 := by
         rw [Fin.val_succ]
         omega
       have hne2 : ¬ (((Fin.succ i : Fin (n + 1)) : ℕ) = 0) := by
         rw [Fin.val_succ]
         omega
-      rw [companionMat_apply_last c (Fin.succ i) (Fin.succ j) hv, if_neg hne2]
+      rw [companionMat_apply_last c (Fin.succ i) (Fin.succ j) hv, ite_eq_right hne2]
   have hF5 : ∀ i : Fin n, (companionMat (n + 1) c - 1) (Fin.succ i) (Fin.succ i) = -1 := by
     intro i
     have hi := i.isLt
@@ -273,14 +273,14 @@ theorem det_companionMat_sub_one (hp : Odd p) (c : F) : (companionMat p c - 1).d
         omega
       have hne2 : ¬ (((Fin.succ i : Fin (n + 1)) : ℕ) = ((Fin.succ i : Fin (n + 1)) : ℕ) + 1) := by
         omega
-      rw [companionMat_apply_lt c (Fin.succ i) (Fin.succ i) hv, if_neg hne2, zero_sub]
+      rw [companionMat_apply_lt c (Fin.succ i) (Fin.succ i) hv, ite_eq_right hne2, zero_sub]
     · have hv : ((Fin.succ i : Fin (n + 1)) : ℕ) + 1 = n + 1 := by
         rw [Fin.val_succ]
         omega
       have hne2 : ¬ (((Fin.succ i : Fin (n + 1)) : ℕ) = 0) := by
         rw [Fin.val_succ]
         omega
-      rw [companionMat_apply_last c (Fin.succ i) (Fin.succ i) hv, if_neg hne2, zero_sub]
+      rw [companionMat_apply_last c (Fin.succ i) (Fin.succ i) hv, ite_eq_right hne2, zero_sub]
   have hF6 : ∀ i j : Fin n, j < i →
       (companionMat (n + 1) c - 1) (Fin.succ i) (Fin.castSucc j) = 0 := by
     intro i j hji
@@ -288,31 +288,31 @@ theorem det_companionMat_sub_one (hp : Odd p) (c : F) : (companionMat p c - 1).d
     have hi := i.isLt
     have hj := j.isLt
     have hv : ((Fin.castSucc j : Fin (n + 1)) : ℕ) + 1 < n + 1 := by
-      rw [Fin.coe_castSucc]
+      rw [Fin.val_castSucc]
       omega
     have hne : (Fin.succ i : Fin (n + 1)) ≠ Fin.castSucc j := fun h => by
       have := congrArg Fin.val h
-      simp only [Fin.val_succ, Fin.coe_castSucc] at this
+      simp only [Fin.val_succ, Fin.val_castSucc] at this
       omega
     have hne2 : ¬ (((Fin.succ i : Fin (n + 1)) : ℕ) = ((Fin.castSucc j : Fin (n + 1)) : ℕ) + 1) := by
-      rw [Fin.val_succ, Fin.coe_castSucc]
+      rw [Fin.val_succ, Fin.val_castSucc]
       omega
-    rw [Matrix.sub_apply, companionMat_apply_lt c (Fin.succ i) (Fin.castSucc j) hv, if_neg hne2,
+    rw [Matrix.sub_apply, companionMat_apply_lt c (Fin.succ i) (Fin.castSucc j) hv, ite_eq_right hne2,
       Matrix.one_apply_ne hne, sub_zero]
   have hF7 : ∀ i : Fin n, (companionMat (n + 1) c - 1) (Fin.succ i) (Fin.castSucc i) = 1 := by
     intro i
     have hi := i.isLt
     have hv : ((Fin.castSucc i : Fin (n + 1)) : ℕ) + 1 < n + 1 := by
-      rw [Fin.coe_castSucc]
+      rw [Fin.val_castSucc]
       omega
     have hne : (Fin.succ i : Fin (n + 1)) ≠ Fin.castSucc i := fun h => by
       have := congrArg Fin.val h
-      simp only [Fin.val_succ, Fin.coe_castSucc] at this
+      simp only [Fin.val_succ, Fin.val_castSucc] at this
       omega
     have hval : ((Fin.succ i : Fin (n + 1)) : ℕ) = ((Fin.castSucc i : Fin (n + 1)) : ℕ) + 1 := by
-      rw [Fin.val_succ, Fin.coe_castSucc]
+      rw [Fin.val_succ, Fin.val_castSucc]
     rw [Matrix.sub_apply, companionMat_apply_lt c (Fin.succ i) (Fin.castSucc i) hv,
-      if_pos hval, Matrix.one_apply_ne hne, sub_zero]
+      ite_eq_left hval, Matrix.one_apply_ne hne, sub_zero]
   have hLow : ((companionMat (n + 1) c - 1).submatrix Fin.succ Fin.succ).IsLowerTriangular := by
     intro i j hij
     exact hF4 i j hij
@@ -336,8 +336,8 @@ theorem det_companionMat_sub_one (hp : Odd p) (c : F) : (companionMat p c - 1).d
 
 theorem exists_pow_mul_eq_pow_of_not_pow [Finite F] (hp : p.Prime) {c : Fˣ}
     (hc : ¬ ∃ μ : Fˣ, μ ^ p = c) (y : Fˣ) : ∃ m < p, ∃ μ : Fˣ, c ^ m * y = μ ^ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
   obtain ⟨a, ha⟩ := Subgroup.mem_zpowers_iff.1 (hg c)
   obtain ⟨b, hb⟩ := Subgroup.mem_zpowers_iff.1 (hg y)
@@ -383,7 +383,7 @@ theorem singerX_sub_one_eq [NeZero p] {c : F} (hc : c - 1 ≠ 0) (l : F) :
     by_cases h : i = j
     · subst h
       simp
-    · simp [Matrix.diagonal_apply, Matrix.one_apply, h]
+    · simp [h]
   have h1 : (c - 1)⁻¹ • ((companionMat p c - 1) * ∑ i ∈ Finset.range p, companionMat p c ^ i) =
       1 := by
     rw [companionMat_sub_one_mul_geom, smul_smul, inv_mul_cancel₀ hc, one_smul]
@@ -415,12 +415,12 @@ theorem singerX_sub_one_apply_of_three_le [NeZero p] (hp : 3 ≤ p) {c : F} (hc1
       have h1 : a ≠ k := fun h => by
         rw [h] at ha
         omega
-      rw [Matrix.sub_apply, companionMat_apply_lt c a k hk1, Matrix.one_apply, if_neg h1,
-        if_neg (show ¬ ((a : ℕ) = (k : ℕ) + 1) by omega), sub_zero]
+      rw [Matrix.sub_apply, companionMat_apply_lt c a k hk1, Matrix.one_apply, ite_eq_right h1,
+        ite_eq_right (show ¬ ((a : ℕ) = (k : ℕ) + 1) by omega), sub_zero]
     rw [hC, zero_mul, zero_mul]
   · have hk1 : singerT l k - 1 = 0 := by
       unfold singerT
-      rw [if_neg (show ¬ ((k : ℕ) = 0) by omega), if_neg (show ¬ ((k : ℕ) = 1) by omega), sub_self]
+      rw [ite_eq_right (show ¬ ((k : ℕ) = 0) by omega), ite_eq_right (show ¬ ((k : ℕ) = 1) by omega), sub_self]
     rw [hk1, mul_zero, zero_mul]
 
 theorem singerX_sub_one_zero_apply [NeZero p] (hp : 3 ≤ p) {c : F} (hc1 : c ≠ 1) (l : F)
@@ -434,16 +434,16 @@ theorem singerX_sub_one_zero_apply [NeZero p] (hp : 3 ≤ p) {c : F} (hc1 : c �
   · have hC0 : (companionMat p c - 1) 0 0 = -1 := by
       rw [Matrix.sub_apply, companionMat_apply_lt c 0 0 h01, Matrix.one_apply_eq]
       have hne : ¬ (((0 : Fin p) : ℕ) = ((0 : Fin p) : ℕ) + 1) := by omega
-      rw [if_neg hne, zero_sub]
+      rw [ite_eq_right hne, zero_sub]
     have hs0 : singerT l (0 : Fin p) = l := by
       unfold singerT
-      rw [if_pos (Fin.val_zero _)]
+      rw [ite_eq_left (Fin.val_zero _)]
     have hN : (∑ i ∈ Finset.range p, companionMat p c ^ i) 0 j = c := by
       have hnle : ¬ (j ≤ 0) := fun h => by
         have := Fin.le_iff_val_le_val.1 h
         rw [Fin.val_zero] at this
         omega
-      rw [geom_companionMat_apply, if_neg hnle]
+      rw [geom_companionMat_apply, ite_eq_right hnle]
     rw [hC0, hs0, hN, div_eq_mul_inv]
     ring
   · intro k _ hk
@@ -455,12 +455,12 @@ theorem singerX_sub_one_zero_apply [NeZero p] (hp : 3 ≤ p) {c : F} (hc1 : c �
         omega
       have hC : (companionMat p c - 1) 0 k = 0 := by
         have hkp : (k : ℕ) + 1 < p := by omega
-        rw [Matrix.sub_apply, companionMat_apply_lt c 0 k hkp, Matrix.one_apply, if_neg h0k,
-          if_neg (show ¬ (((0 : Fin p) : ℕ) = (k : ℕ) + 1) by rw [Fin.val_zero]; omega), sub_zero]
+        rw [Matrix.sub_apply, companionMat_apply_lt c 0 k hkp, Matrix.one_apply, ite_eq_right h0k,
+          ite_eq_right (show ¬ (((0 : Fin p) : ℕ) = (k : ℕ) + 1) by rw [Fin.val_zero]; omega), sub_zero]
       rw [hC, zero_mul, zero_mul]
     · have hk2 : singerT l k - 1 = 0 := by
         unfold singerT
-        rw [if_neg hk0, if_neg hk1, sub_self]
+        rw [ite_eq_right hk0, ite_eq_right hk1, sub_self]
       rw [hk2, mul_zero, zero_mul]
   · intro h
     exact absurd (Finset.mem_univ _) h
@@ -479,13 +479,13 @@ theorem single_mul_companion_eq [NeZero p] (c : F) {a b : Fin p} {d e : F}
         intro hh
         exact hy (add_right_cancel hh).symm
       rw [Matrix.single_mul_apply_same, Matrix.mul_single_apply_of_ne (hbj := hy),
-        companionMat_apply, if_neg hne, mul_zero]
+        companionMat_apply, ite_eq_right hne, mul_zero]
   · rw [Matrix.single_mul_apply_of_ne (h := hx)]
     by_cases hy : y = b
     · have hne : x ≠ finRotate p a := by
         rw [finRotate_apply]
         exact hx
-      rw [hy, Matrix.mul_single_apply_same, companionMat_apply, if_neg hne, zero_mul]
+      rw [hy, Matrix.mul_single_apply_same, companionMat_apply, ite_eq_right hne, zero_mul]
     · rw [Matrix.mul_single_apply_of_ne (hbj := hy)]
 
 theorem eq_top_of_torus_companion_root [Fact p.Prime] (hp3 : 3 ≤ p) {c : F} (hc : c ≠ 0)
@@ -494,7 +494,7 @@ theorem eq_top_of_torus_companion_root [Fact p.Prime] (hp3 : 3 ≤ p) {c : F} (h
       (g' : Matrix (Fin p) (Fin p) F) * companionMat p c = companionMat p c * g → g' ∈ K)
     {i j : Fin p} (hij : i ≠ j) {d : F} (hd : d ≠ 0)
     (hx : Matrix.SpecialLinearGroup.transvection hij d ∈ K) : K = ⊤ := by
-  haveI : NeZero p := ⟨by omega⟩
+  have : NeZero p := ⟨by omega⟩
   have hp : p.Prime := Fact.out
   have hall : ∀ e : F, Matrix.SpecialLinearGroup.transvection hij e ∈ K := fun e =>
     transvection_mem_all_of_torus hT hp3 hij hd hx e
@@ -559,13 +559,13 @@ theorem singerX_mem [Finite F] (hp : p.Prime) (hp5 : 5 ≤ p) {c : Fˣ}
       (g : Matrix (Fin p) (Fin p) F) * companionMat p (c : F) =
         companionMat p (c : F) * (g : Matrix (Fin p) (Fin p) F) → g ∈ K) :
     ∃ g ∈ K, (g : Matrix (Fin p) (Fin p) F) = singerX (c : F) l := by
-  haveI : NeZero p := ⟨by omega⟩
+  have : NeZero p := ⟨by omega⟩
   have hodd : Odd p := hp.odd_of_ne_two (by omega)
   have hc1 : (c : F) - 1 ≠ 0 := by
     intro h
     apply hc
     refine ⟨1, Units.ext ?_⟩
-    simp only [Units.val_pow_eq_pow_val, Units.val_one, one_pow]
+    simp only [Units.val_one, one_pow]
     linear_combination -h
   obtain ⟨m, -, μ, hμ⟩ := exists_pow_mul_eq_pow_of_not_pow hp hc (Units.mk0 ((c : F) - 1) hc1)
   have hμF : (c : F) ^ m * ((c : F) - 1) = (μ : F) ^ p := by
@@ -664,7 +664,7 @@ theorem companionConj_coe (hodd : Odd p) {c : F} (hc : c ≠ 0)
 theorem singerTorusGen_of_prime [Finite F] [Fact p.Prime] (hp : 5 ≤ p)
     (hpq : p ∣ Nat.card F - 1) : SingerTorusGen F p := by
   intro c hc K hT hL
-  haveI : NeZero p := ⟨by omega⟩
+  have : NeZero p := ⟨by omega⟩
   have hprime : p.Prime := Fact.out
   have hp3 : 3 ≤ p := by omega
   have hodd : Odd p := hprime.odd_of_ne_two (by omega)
@@ -727,7 +727,7 @@ theorem singerTorusGen_of_prime [Finite F] [Fact p.Prime] (hp : 5 ≤ p)
     have hcon' : ∀ l : F, l ≠ 0 → l = 1 := fun l hl => by
       by_contra h1
       exact hcon ⟨l, hl, h1⟩
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     have hsub : (Finset.univ : Finset F) ⊆ {0, 1} := by
       intro l _
       by_cases h : l = 0

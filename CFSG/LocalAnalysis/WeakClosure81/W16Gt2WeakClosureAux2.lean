@@ -17,7 +17,7 @@ namespace Cfg1620
 
 variable {M V₀ V U S R H : Subgroup G} {g : G} {B : Subgroup G}
 
-theorem commutator_mem_inf_conjSubgroup (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen G)
+theorem commutator_mem_inf_conjSubgroup (h1 : W16One G) (_h5 : W16Five G) (_h15 : W16Fifteen G)
     (hS : Std15 G) (c : Cfg1620 M V₀ V U S R H g B) {h w : G} (hh : h ∈ H) (hwM : w ∈ M)
     (hwW : w ∈ conjSubgroup V h) :
     ∀ a ∈ U ⊔ V₀, ⁅a, w⁆ ∈ V ⊓ conjSubgroup V₀ h := by

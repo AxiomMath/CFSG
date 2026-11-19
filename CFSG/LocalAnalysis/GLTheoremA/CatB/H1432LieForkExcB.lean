@@ -24,7 +24,7 @@ private theorem descent_e_three {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ =
     ∃ (d : ℕ) (T : F ≃+* F) (r j : ℕ) (δ : MulAut ↥(adjointGroup τ F)), f = 3 * d ∧
       Nat.card ↥(fixSubfield T) = 3 ^ d ∧ (β ^ r) ^ j = β ∧
         δ * β ^ r * δ⁻¹ = entrywiseAdjointAut τ T := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : ¬ 3 ∣ Nat.card F - 1 := by
     have h3 : 3 ∣ 3 ^ f := dvd_pow_self 3 (by omega)
     have h1 : 1 ≤ 3 ^ f := Nat.one_le_pow _ _ (by norm_num)
@@ -52,7 +52,7 @@ theorem lieOuterThreeAt_e7 : LieOuterThreeAt FamE7 := by
   obtain ⟨d, T, r, j, δ, rfl, hTc, hrj, hδ⟩ :=
     descent_e_three (Or.inr (Or.inl rfl)) hf F hFcard β hβ3 hβinn
   refine outerSubThree_of_conj_pow hrj hδ ?_
-  haveI : Finite ↥(fixSubfield T) := Subtype.finite
+  have : Finite ↥(fixSubfield T) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E7 ↥(fixSubfield T)) .E7 3 d :=
     ⟨⟨Nat.prime_three, by omega, rfl⟩, untwisted_adjointGroup hTc⟩
   exact outerSubThree_entrywise_of_model T (by decide) (Or.inr (Or.inl ⟨rfl, by decide, hM⟩))
@@ -73,7 +73,7 @@ theorem lieOuterThreeAt_e8 : LieOuterThreeAt FamE8 := by
   obtain ⟨d, T, r, j, δ, rfl, hTc, hrj, hδ⟩ :=
     descent_e_three (Or.inr (Or.inr rfl)) hf F hFcard β hβ3 hβinn
   refine outerSubThree_of_conj_pow hrj hδ ?_
-  haveI : Finite ↥(fixSubfield T) := Subtype.finite
+  have : Finite ↥(fixSubfield T) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E8 ↥(fixSubfield T)) .E8 3 d :=
     ⟨⟨Nat.prime_three, by omega, rfl⟩, untwisted_adjointGroup hTc⟩
   exact outerSubThree_entrywise_of_model T (by decide) (Or.inr (Or.inl ⟨rfl, by decide, hM⟩))
@@ -87,7 +87,7 @@ section E6
 private theorem outerSubThree_entrywise_e6 {d : ℕ} (hd : 1 ≤ d) {K : Type} [Field K] [Finite K]
     (σ : K ≃+* K) (hcard : Nat.card ↥(fixSubfield σ) = 3 ^ d) :
     OuterSubThree .E6 0 (3 * d) (fixSubgroup (entrywiseAdjointAut Tag.E6 σ)) := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E6 ↥(fixSubfield σ)) .E6 3 d :=
     ⟨⟨Nat.prime_three, hd, rfl⟩, untwisted_adjointGroup hcard⟩
   exact outerSubThree_entrywise_of_model σ (by decide) (Or.inr (Or.inl ⟨rfl, by decide, hM⟩))

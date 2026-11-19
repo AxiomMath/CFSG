@@ -190,6 +190,7 @@ section Eigen
 
 variable {K : Type} [Field K] {V : Type*} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 theorem primaryComponent_X_sub_C_eq_eigenspace (x : Module.End K V) (d : K) :
     primaryComponent x (X - C d) = x.eigenspace d := by
   ext v
@@ -227,8 +228,8 @@ variable {K0 : Type} [Field K0]
 theorem exists_cube_root_units (h : UnitaryFieldData 2 3 K0) {c : K0ˣ} (hc : c ^ 3 = 1) :
     ∃ ν : K0ˣ, ν ^ 3 = c := by
   classical
-  haveI := h.finite
-  haveI : Fintype K0 := Fintype.ofFinite K0
+  have := h.finite
+  have : Fintype K0 := Fintype.ofFinite K0
   obtain ⟨γ, hγ⟩ := IsCyclic.exists_generator (α := K0ˣ)
   have hcard : Nat.card K0ˣ = 63 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, h.card]
@@ -374,7 +375,7 @@ theorem blockImage_equiv_statedProj (h : UnitaryFieldData 2 3 K0)
           LinearMap.GeneralLinearGroup K0 (Fin 6 → K0)) : Module.End K0 (Fin 6 → K0))
             (i.1 : K0[X])) (2 ^ 3) E)) := by
   obtain ⟨E, hEf, hEfin, hEcard, ⟨e4⟩⟩ := specialBlock_equiv_statedSU h A H i.1 hself hdeg
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnq : (primaryMultiplicity ((t6psub_toLin A : LinearMap.GeneralLinearGroup K0 (Fin 6 → K0)) :
       Module.End K0 (Fin 6 → K0)) (i.1 : K0[X]), 2 ^ 3) ≠ (3, 2) := by
     intro h0
@@ -386,8 +387,8 @@ theorem blockImage_equiv_statedProj (h : UnitaryFieldData 2 3 K0)
   have e5 : ↥(t6psub_block A i) ≃* ↥(specialBlock (idForm h 6) (t6psub_toLin A) (i.1 : K0[X])) :=
     (Subgroup.equivMapOfInjective (t6psub_block A i) (t6psuh_toLinSU h 6)
       t6psuh_toLinSU_injective).trans (MulEquiv.subgroupCongr (t6psub_map_block A H i))
-  haveI := h.finite
-  haveI : Finite (GL (Fin 6) K0) :=
+  have := h.finite
+  have : Finite (GL (Fin 6) K0) :=
     Finite.of_injective (fun g : GL (Fin 6) K0 => (g : Matrix (Fin 6) (Fin 6) K0))
       Units.val_injective
   have hperf : commutator ↥(t6psub_block A i) = ⊤ :=

@@ -155,7 +155,7 @@ theorem gap17_45_nonabComponent_of_phaseReduction (hPR : Gap17_45_PhaseReduction
   · have hBab : IsMulCommutative B := by
       have : IsCyclic B := isCyclic_of_prime_card (p := 5) (hp := ⟨by norm_num⟩) hB5
       exact ⟨⟨IsCyclic.commGroup.mul_comm⟩⟩
-    haveI : IsSimpleGroup L := hLs
+    have : IsSimpleGroup L := hLs
     have h5' : CFSG.Open.pRank 5 (⊤ : Subgroup L) ≤ 1 := by
       rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup]
       exact h5

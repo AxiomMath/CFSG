@@ -20,7 +20,7 @@ theorem excTL_two_sl3 {τ : Tag} (hτ : τ ≠ .G2) {K : Type} [Field K] [Finite
     (nγ : iform γ γ = 2 * h) (nδ : iform δ δ = 2 * h) (hab : iform γ δ = -h) :
     ∃ ρ : Matrix.SpecialLinearGroup (Fin 3) K →* (Module.End K (RootModule τ K))ˣ,
       ∀ α ∈ excTLHex γ δ, ∀ c : K, pinnedX τ K α c ∈ ρ.range := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero
     (by rw [← one_add_one_eq_two]; exact (excTL_two_facts K hK).2.1)
   have hδγ : iform δ γ = -h := by rw [iform_comm]; exact hab
   have hh := excTL_h_cases hτ hγ nγ

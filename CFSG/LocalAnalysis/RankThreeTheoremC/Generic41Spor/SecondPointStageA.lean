@@ -22,13 +22,13 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3 (u3S u3T u3ZT u3U0 U3LineW
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem second_point_S_decomp (hS : Setting G) {p : ℕ} [Fact p.Prime] (h5 : 5 ≤ p) {P : Sylow p G}
+theorem second_point_S_decomp (_hS : Setting G) {p : ℕ} [Fact p.Prime] (h5 : 5 ≤ p) {P : Sylow p G}
     {M : Subgroup G} {u : G} (hgen : IsGenericPoint p P M u) {J : Subgroup G}
     (hJC : J ≤ Subgroup.centralizer ({u} : Set G))
     (hCJ : Subgroup.centralizer ({u} : Set G) ≤ Subgroup.normalizer (J : Set G))
     (hperf : Group.IsPerfect J) (hlt : rankThreePrimeCore p J < J)
     (hmin : ∀ N : Subgroup G, N ≤ J → (N.subgroupOf J).Normal → rankThreePrimeCore p J ≤ N →
-      N = rankThreePrimeCore p J ∨ N = J) (hnot : ¬ J ≤ M)
+      N = rankThreePrimeCore p J ∨ N = J) (_hnot : ¬ J ≤ M)
     {Q : Type} [Group Q] [Finite Q] (ψ : ↥J →* Q) (hψ : Function.Surjective ψ)
     (hker : ψ.ker = (rankThreePrimeCore p J).subgroupOf J) (hQ : SecondPointFacts p Q) :
     ∃ Z : Subgroup G, IsCyclic Z ∧ u ∈ Z ∧ Z ≤ u3S P u ∧
@@ -47,7 +47,7 @@ theorem second_point_S_decomp (hS : Setting G) {p : ℕ} [Fact p.Prime] (h5 : 5 
     intro j
     rw [← MonoidHom.mem_ker, hker, Subgroup.mem_subgroupOf]
   have hPO : (P : Subgroup G) ⊓ O = ⊥ := by
-    have hPp : IsPGroup p ↥((P : Subgroup G) ⊓ O) := P.isPGroup'.to_inf_left
+    have hPp : IsPGroup p ↥((P : Subgroup G) ⊓ O) := P.isPGroup.to_inf_left
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hPp
     have hdvd : Nat.card ((P : Subgroup G) ⊓ O : Subgroup G) ∣ Nat.card O :=
       Subgroup.card_dvd_of_le inf_le_right
@@ -104,7 +104,7 @@ theorem second_point_S_decomp (hS : Setting G) {p : ℕ} [Fact p.Prime] (h5 : 5 
     have e1 : (ρ.comp T'.subtype).range = T'.map ρ := by
       rw [MonoidHom.range_comp, Subgroup.range_subtype]
     rw [← e1, ← Nat.card_congr (MonoidHom.ofInjective hinjρ).toEquiv, hT'card]
-  have hSp : IsPGroup p S' := (P.isPGroup'.to_le hSP).comap_subtype
+  have hSp : IsPGroup p S' := (P.isPGroup.to_le hSP).comap_subtype
   have hdvdA : Nat.card (S'.map ρ) ∣ Nat.card T := by
     have := hQ.autBound Tsyl' (S'.map ρ) (hSp.map ρ)
     rwa [hcardS] at this
@@ -193,12 +193,12 @@ theorem second_point_S_decomp (hS : Setting G) {p : ℕ} [Fact p.Prime] (h5 : 5 
     · obtain ⟨ET, hETT, hETel, hETcard, -⟩ :=
         exists_isElemAbelian_card_sq_of_nonabelian hc3 hexp hnab
       exact ⟨ET, hETT, hETel, hETcard⟩
-  have hZp : IsPGroup p ↥Z := P.isPGroup'.to_le (hZS.trans hSP)
+  have hZp : IsPGroup p ↥Z := P.isPGroup.to_le (hZS.trans hSP)
   have hZcyc : IsCyclic Z := by
     by_contra hnc
-    haveI : Fact (IsPGroup p ↥Z) := ⟨hZp⟩
+    have : Fact (IsPGroup p ↥Z) := ⟨hZp⟩
     obtain ⟨E, -, hEcard, hEel⟩ := CFSG.lemma_4_5_a hp2 hnc
-    haveI : CFSG.IsElementaryAbelian p (E.map Z.subtype) := CFSG.IsElementaryAbelian.map_subtype
+    have : CFSG.IsElementaryAbelian p (E.map Z.subtype) := CFSG.IsElementaryAbelian.map_subtype
     set E' : Subgroup G := E.map Z.subtype with hE'
     have hE'card : Nat.card E' = p ^ 2 := by
       rw [hE', Subgroup.card_map_of_injective Z.subtype_injective, hEcard]

@@ -42,23 +42,23 @@ variable {W V : Type} [CommGroup W] [CommGroup V] [Finite W] [Finite V]
 theorem sp4Line_of_map_congr (H : Subgroup (MulAut W)) (H' : Subgroup (MulAut V)) (n : ℕ)
     (e : W ≃* V) (hH' : H' = H.map (CFSG.Quasithin.H.congrHom e))
     (h : Sp4Line V H' n) : Sp4Line W H n := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   intro S
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   let ℓ : Subgroup W := fixedPointSubgroup ↥S W
   let Pℓ : Subgroup ↥H := MulAction.stabilizer ↥H (ℓ : Set W)
   dsimp only
   intro Tstar hTnorm hT2 hST
-  letI : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
-  letI : MulAction ↥H' V := MulAction.compHom V H'.subtype
-  letI : MulAction ↥H' (Set V) := Set.mulActionSet
+  let : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
+  let : MulAction ↥H' V := MulAction.compHom V H'.subtype
+  let : MulAction ↥H' (Set V) := Set.mulActionSet
   let eH : ↥H ≃* ↥H' :=
     ((MulAut.congr e).subgroupMap H).trans (MulEquiv.subgroupCongr hH'.symm)
   let S' : Sylow 2 ↥H' := S.mapSurjective (f := eH.toMonoidHom) eH.surjective
-  letI : MulDistribMulAction ↥S' V :=
+  let : MulDistribMulAction ↥S' V :=
     MulDistribMulAction.compHom V (H'.subtype.comp (S' : Subgroup ↥H').subtype)
   let ℓ' : Subgroup V := fixedPointSubgroup ↥S' V
   let Pℓ' : Subgroup ↥H' := MulAction.stabilizer ↥H' (ℓ' : Set V)
@@ -228,7 +228,7 @@ end Transport
 
 theorem kTab23b_Sp4_line_uncond (W : Type) [CommGroup W] [Finite W]
     (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H)
+    (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H)
     (hline : IsSp4 ↥H n ∧ NatSpn H ⊤ ⊥ 4 n)
     (hSp4 : Sp4NaturalLine) :
     letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
@@ -251,8 +251,8 @@ theorem kTab23b_Sp4_line_uncond (W : Type) [CommGroup W] [Finite W]
         ∀ Pstar : Subgroup ↥H, Minimal Good Pstar →
           Pstar ≠ ⊤ ∧ (IsL2 (Bar2 (Hinf Pstar)) n ∨ (n = 1 ∧ Hinf Pstar = ⊥)) := by
   obtain ⟨-, K, hF, hFin, hK, hReal⟩ := hline.2
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   obtain ⟨π, e, he⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.KTabC.exists_natEquiv
       (ι := Fin 2 ⊕ Fin 2) (Γ := CFSG.Open.StatedSp 2 K) (H := H) hReal

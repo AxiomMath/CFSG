@@ -73,6 +73,7 @@ section Center
 variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
   {M : Type*} [CommGroup M] {χ : Multiplicative (Fin τ.rank → ℤ) →* M}
 
+omit [IsAlgClosed L] in
 theorem center_eq_bot_of_cartan_det_eq_four (i : KernelComponent χ)
     (hdet : (Matrix.of fun β γ : simpleRoots (componentRoots χ i) =>
       corootPair (β : Fin τ.rank → ℤ) γ).det = 4) :
@@ -265,10 +266,10 @@ theorem not_twistInner_of_twistKind_twoD_exc
   intro hi
   rcases h with h | ⟨h, -⟩
   · unfold twistKind at h
-    rw [if_pos hi] at h
+    rw [ite_eq_left hi] at h
     exact TwistKind.noConfusion h
   · unfold twistKind at h
-    rw [if_pos hi] at h
+    rw [ite_eq_left hi] at h
     exact TwistKind.noConfusion h
 
 theorem shape_of_twistKind_twoD

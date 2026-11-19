@@ -46,11 +46,12 @@ theorem f112ll_P2_eq_P2'_sup_S {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 S) :
     _ = oTwoRes L2 ⊔ (f112saX1 L1 L2 S ⊔ S) := by rw [sup_comm S (f112saX1 L1 L2 S)]
     _ = (oTwoRes L2 ⊔ f112saX1 L1 L2 S) ⊔ S := (sup_assoc _ _ _).symm
 
+omit [Finite H] in
 private theorem f112ll_mem_of_odd_of_eq_sup_two {P P' T : Subgroup H}
     (hPP' : P' ≤ P) (hTP : T ≤ P) (hsup : P = P' ⊔ T) (hT : IsPGroup 2 T)
     (hPN : P ≤ Subgroup.normalizer (P' : Set H)) {x : H} (hx : x ∈ P)
     (hodd : Odd (orderOf x)) : x ∈ P' := by
-  haveI hN : (P'.subgroupOf P).Normal :=
+  have hN : (P'.subgroupOf P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPP').mpr hPN
   have hsup' : T.subgroupOf P ⊔ P'.subgroupOf P = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hTP hPP', sup_comm T P', ← hsup,
@@ -105,11 +106,13 @@ private noncomputable def f112llMBpre {L1 L2 S : Subgroup H}
         (baseB (f112Gold L1 L2 S))).map (f112EOdd L1 L2 S).subtype).comap
       (f112Gold L1 L2 S).ofB).map (f112P2 L1 L2 S).subtype)
 
+omit [Finite H] in
 private theorem f112llMBpre_le {L1 L2 S : Subgroup H}
     (M : Subgroup ↥(f112EOdd L1 L2 S)) :
     f112llMBpre (L1 := L1) (L2 := L2) (S := S) M ≤ f112P2 L1 L2 S :=
   Subgroup.map_subtype_le _
 
+omit [Finite H] in
 private theorem f112llMBpre_conj {L1 L2 S : Subgroup H}
     {M : Subgroup ↥(f112EOdd L1 L2 S)} (hMnorm : M.Normal) :
     oTwoRes L2 ≤ Subgroup.normalizer
@@ -263,11 +266,13 @@ private noncomputable def f112llMApre {L1 L2 S : Subgroup H}
         (baseA (f112Gold L1 L2 S))).map (f112EOdd L1 L2 S).subtype).comap
       (f112Gold L1 L2 S).ofA).map (f112P1 L1 L2 S).subtype)
 
+omit [Finite H] in
 private theorem f112llMApre_le {L1 L2 S : Subgroup H}
     (M : Subgroup ↥(f112EOdd L1 L2 S)) :
     f112llMApre (L1 := L1) (L2 := L2) (S := S) M ≤ f112P1 L1 L2 S :=
   Subgroup.map_subtype_le _
 
+omit [Finite H] in
 private theorem f112llMApre_conj {L1 L2 S : Subgroup H}
     {M : Subgroup ↥(f112EOdd L1 L2 S)} (hMnorm : M.Normal) :
     oTwoRes L1 ≤ Subgroup.normalizer

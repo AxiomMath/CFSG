@@ -17,14 +17,14 @@ theorem sigma_eq_frobenius_pow {L K : Type} [Field L] [Finite L] [Field K] [Fini
   classical
   set p := ringChar L with hpdef
   have hp : p.Prime := CharP.char_is_prime L p
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP L p := ringChar.charP L
-  haveI : CharP K p := charP_of_injective_algebraMap (algebraMap L K).injective p
-  haveI : Fintype L := Fintype.ofFinite L
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Module.Finite L K := Module.Finite.of_finite
-  letI : Algebra (ZMod p) K := (ZMod.castHom dvd_rfl K).toAlgebra
-  letI : Algebra (ZMod p) L := (ZMod.castHom dvd_rfl L).toAlgebra
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP L p := ringChar.charP L
+  have : CharP K p := charP_of_injective_algebraMap (algebraMap L K).injective p
+  have : Fintype L := Fintype.ofFinite L
+  have : Fintype K := Fintype.ofFinite K
+  have : Module.Finite L K := Module.Finite.of_finite
+  let : Algebra (ZMod p) K := (ZMod.castHom dvd_rfl K).toAlgebra
+  let : Algebra (ZMod p) L := (ZMod.castHom dvd_rfl L).toAlgebra
   obtain ⟨m, hm⟩ : ∃ m : ℕ, Nat.card L = p ^ m := by
     obtain ⟨n, -, hn⟩ := FiniteField.card L p
     exact ⟨n, by rw [Nat.card_eq_fintype_card, hn]⟩

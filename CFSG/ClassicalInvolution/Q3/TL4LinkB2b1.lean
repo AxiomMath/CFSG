@@ -70,6 +70,7 @@ private theorem conjSub_layerY_le (hΩ : ConjInvariant Ω) (g x : G) :
   obtain ⟨L, hL, rfl⟩ := hC
   exact le_layerY ⟨conjSub g L, xMem_conjSub hΩ hL g, conjSub_coreAt_conj g x L⟩
 
+omit [Finite G] in
 theorem layerY_conj (hΩ : ConjInvariant Ω) (g x : G) :
     layerY Ω (g * x * g⁻¹) = conjSub g (layerY Ω x) := by
   refine le_antisymm ?_ (conjSub_layerY_le hΩ g x)
@@ -78,18 +79,21 @@ theorem layerY_conj (hΩ : ConjInvariant Ω) (g x : G) :
   have e : g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x := by group
   rwa [e] at h
 
+omit [Finite G] in
 theorem layerQ_conj (hΩ : ConjInvariant Ω) (g x : G) :
     layerQ Ω (g * x * g⁻¹) = conjSub g (layerQ Ω x) := by
   unfold layerQ
   rw [layerY_conj hΩ g x]
   exact Thompson.oddCoreOf_conjSub_eq g (layerY Ω x)
 
+omit [Finite G] in
 theorem RigidEdge.symm {K J : Subgroup G} {k j : G} (h : RigidEdge K J k j) :
     RigidEdge J K j k := by
   intro P T hP hT hPT e he he2
   rw [Set.pair_comm]
   exact h T P hT hP hPT.symm e (by rw [inf_comm]; exact he) he2
 
+omit [Finite G] in
 theorem RigidEdge.conj {K J : Subgroup G} {k j : G} (h : RigidEdge K J k j) (g : G) :
     RigidEdge (conjSub g K) (conjSub g J) (g * k * g⁻¹) (g * j * g⁻¹) := by
   intro P T hP hT hPT e he he2
@@ -123,6 +127,7 @@ namespace Tri
 
 variable {K J M : Subgroup G} {t u : G}
 
+omit [Finite G] in
 theorem inv_M (h : Tri r Ω K J M t u) : IsUniqueInvolution M (t * u) := by
   obtain ⟨z, hz⟩ := Sec6Gen.exists_uniqueInvolution h.fam.hyp h.adj_M.1
   have e := h.h2 J h.adj_J M h.adj_M h.adj_MJ u z h.inv_J hz
@@ -132,10 +137,12 @@ theorem inv_M (h : Tri r Ω K J M t u) : IsUniqueInvolution M (t * u) := by
 theorem comm_tu (h : Tri r Ω K J M t u) : t * u = u * t :=
   Q3CL.T8.mul_comm_of_mem_omegaNbr h.fam.hyp h.inv_K h.adj_J h.inv_J
 
+omit [Finite G] in
 theorem ne_tu (h : Tri r Ω K J M t u) : t ≠ u := by
   intro htu
   exact h.adj_J.2.1 (h.fam.noTwins K h.mem J ⟨h.adj_J.1, t, h.inv_K, htu ▸ h.inv_J⟩)
 
+omit [Finite G] in
 theorem conj (h : Tri r Ω K J M t u) (g : G) :
     Tri r Ω (conjSub g K) (conjSub g J) (conjSub g M) (g * t * g⁻¹) (g * u * g⁻¹) := by
   have hΩ : ConjInvariant Ω := h.fam.hyp.conjInvariant
@@ -255,6 +262,7 @@ theorem rot (h : Tri r Ω K J M t u) : Tri r Ω J M K u (t * u) := by
       exact (h.inv_M.eq this).symm
     rwa [hgu] at hc
 
+omit [Finite G] in
 theorem edge_conj (h : Tri r Ω K J M t u) :
     ∀ x ∈ ({t, u, t * u} : Set G), ∃ c : G, x = c * t * c⁻¹ := by
   have key : ∀ {L : Subgroup G} {z : G}, L ∈ Ω → IsUniqueInvolution L z →

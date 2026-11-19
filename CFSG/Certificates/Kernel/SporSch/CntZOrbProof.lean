@@ -24,9 +24,9 @@ theorem orb_sum (T : Nat → Bool) {c nr q : Nat} (OJ OE RP : Nat → Nat) (hc :
     intro j _
     have := Finset.card_le_card_of_injOn (f := OE) (s := (range c).filter fun k => OJ k = j)
       (t := range q) (fun k hk => by
-        simp only [coe_filter, Set.mem_setOf_eq, mem_range] at hk
+        simp only [coe_filter, Set.mem_ofPred_eq, mem_range] at hk
         exact mem_coe.2 (mem_range.2 (hE k hk.1))) (fun k hk k' hk' e => by
-        simp only [coe_filter, Set.mem_setOf_eq, mem_range] at hk hk'
+        simp only [coe_filter, Set.mem_ofPred_eq, mem_range] at hk hk'
         exact hinj k hk.1 k' hk'.1 (hk.2.trans hk'.2.symm) e)
     simpa using this
   have hsum : ∑ j ∈ range nr, #((range c).filter fun k => OJ k = j) = ∑ _j ∈ range nr, q := by

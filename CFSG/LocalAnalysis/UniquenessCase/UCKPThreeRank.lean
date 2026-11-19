@@ -31,7 +31,7 @@ theorem u3ThreeRank : U3ThreeRank := by
     CFSG.SeitzReduction.RankOne.statedClassicalModel_of_lieModel_psu3 hX.2
   have hu : UnitaryFieldData 2 n K :=
     ⟨Nat.prime_two, by omega, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI : Finite K := hu.finite
+  have : Finite K := hu.finite
   have hq : 2 < 2 ^ n :=
     calc 2 < 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
@@ -42,7 +42,7 @@ theorem u3ThreeRank : U3ThreeRank := by
     omega
   let e : X ⧸ center X ≃* unitaryPSU hu 3 :=
     ψ.trans (unitaryPSUEquiv hu (by norm_num : 1 ≤ 3)).symm
-  haveI hNbar : (psuConj hu).range.Normal := (stdPinnedPSU3_stable (h := hu) hq).normal
+  have hNbar : (psuConj hu).range.Normal := (stdPinnedPSU3_stable (h := hu) hq).normal
   let ε : MulAut X →* MulAut (unitaryPSU hu 3) := (MulAut.congr e).toMonoidHom.comp autQuot
   have hεinj : Function.Injective ε :=
     (MulAut.congr e).injective.comp (autQuot_injective hX.1.1)
@@ -59,7 +59,7 @@ theorem u3ThreeRank : U3ThreeRank := by
     rw [h1]
     exact mem_psuConj_range_of_isInnerAut (isInnerAut_conj _)
   ·
-    haveI : IsCyclic (K ≃+* K) := CFSG.RankThree.GF2n.Stroth80.isCyclic_ringEquiv K
+    have : IsCyclic (K ≃+* K) := CFSG.RankThree.GF2n.Stroth80.isCyclic_ringEquiv K
     have hcyc : IsCyclic (MulAut (unitaryPSU hu 3) ⧸ (psuConj hu).range) := by
       refine isCyclic_of_surjective ((QuotientGroup.mk' (psuConj hu).range).comp (psuField hu)) ?_
       intro y
@@ -70,7 +70,7 @@ theorem u3ThreeRank : U3ThreeRank := by
         have hA1 : (QuotientGroup.mk (psuConj hu A) : MulAut (unitaryPSU hu 3) ⧸ (psuConj hu).range)
             = 1 := (QuotientGroup.eq_one_iff _).mpr ⟨A, rfl⟩
         rw [MonoidHom.comp_apply, QuotientGroup.mk'_apply, QuotientGroup.mk_mul, hA1, one_mul]
-    haveI : IsCyclic χ.range := Subgroup.isCyclic χ.range
+    have : IsCyclic χ.range := Subgroup.isCyclic χ.range
     exact isCyclic_of_surjective (QuotientGroup.quotientKerEquivRange χ).symm.toMonoidHom
       (QuotientGroup.quotientKerEquivRange χ).symm.surjective
   ·

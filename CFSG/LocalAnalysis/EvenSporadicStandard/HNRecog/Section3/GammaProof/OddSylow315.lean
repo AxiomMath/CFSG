@@ -13,8 +13,8 @@ private lemma gamma_false_315_normal_three (hK : Nat.card K = 315)
     (P : Sylow 3 K) (hPnormal : P.Normal) (hPcard : Nat.card (P : Subgroup K) = 9) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : P.Normal := hPnormal
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : P.Normal := hPnormal
   obtain ⟨g, hgord⟩ := exists_prime_orderOf_dvd_card' (G := K) 7 (by rw [hK]; norm_num)
   let R : Subgroup K := Subgroup.zpowers g
   have hRcard : Nat.card R = 7 := by
@@ -49,7 +49,7 @@ private lemma gamma_false_315_nonnormal_three (hK : Nat.card K = 315)
     (P : Sylow 3 K) (hn : Nat.card (Sylow 3 K) = 7)
     (hPcard : Nat.card (P : Subgroup K) = 9) : False := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let N : Subgroup K := Subgroup.normalizer (P : Set K)
   have hidx : N.index = 7 := by
     have h := P.card_eq_index_normalizer
@@ -110,8 +110,8 @@ theorem gamma_odd_false_315 (hK : Nat.card K = 315)
     (h5 : ∀ g : K, orderOf g = 5 → Nat.card ↥(Subgroup.centralizer ({g} : Set K)) ∣ 15) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hf3 : (Nat.card K).factorization 3 = 2 := by
     rw [hK]
     exact CFSG.GroupTheory.factorization_eq_of_pow_dvd (by norm_num) (by norm_num)
@@ -129,7 +129,7 @@ theorem gamma_odd_false_315 (hK : Nat.card K = 315)
     rw [P3.card_eq_multiplicity, hf3]
     norm_num
   rcases h3cases with h3n | h3n
-  · haveI : Subsingleton (Sylow 3 K) := (Nat.card_eq_one_iff_unique.1 h3n).1
+  · have : Subsingleton (Sylow 3 K) := (Nat.card_eq_one_iff_unique.1 h3n).1
     exact gamma_false_315_normal_three hK h7 P3 P3.normal_of_subsingleton hP3card
   · exact gamma_false_315_nonnormal_three hK h5 P3 h3n hP3card
 

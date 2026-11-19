@@ -20,7 +20,7 @@ open CFSG CFSG.LargeExtraspecial
 theorem dw3CaseIINonsplit :
     DW3CaseIINonsplit := by
   intro G _ _ _ S hw hnwc A hEA hA hM _ hII hNS
-  haveI := hEA
+  have := hEA
   obtain ⟨g₀, hg₀Q, hg₀z⟩ := hnwc
   have hg₀A : g₀ * S.z * g₀⁻¹ ∈ A := hII g₀ hg₀Q
   by_cases hgood : ∃ g : G, g * S.z * g⁻¹ ∈ A ∧ g * S.z * g⁻¹ ≠ S.z ∧ A ≤ S.Qa g

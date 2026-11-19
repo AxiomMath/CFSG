@@ -16,10 +16,10 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec13
 
 theorem step155HostE0WRes1TypeFBarNotLe_a7_gen
     (h316 : Sec19.Item316)
-    (h148HJ : Item148HJS14) (P : ∀ (Y : Type) [Group Y], Prop) :
-    Step155HostE0WRes1TypeFBarNotLe (fun X _ => Nonempty (X ≃* alternatingGroup (Fin 7))) P :=
+    (h148HJ : Item148HJS14) (P : ∀ (_Y : Type) [Group _Y], Prop) :
+    Step155HostE0WRes1TypeFBarNotLe (fun _X _ => Nonempty (_X ≃* alternatingGroup (Fin 7))) P :=
   step155HostE0WRes1TypeFBarNotLe_of_in Sec14.Ronan149.item149S14_holds
-    (fun G _ _ A c L hR hq hN hS X K Y M T P' hC _hmax _hab _hE _h146 _hRP _hIX Yc _hAt
+    (fun G _ _ A c L hR hq hN hS _X _K _Y _M _T _P' hC _hmax _hab _hE _h146 _hRP _hIX _Yc _hAt
       _hYsimple _hP _hEA _hEO _hcomm _hfield hLX =>
       res1L112InAt_a7 Sec14.Ronan148M.concl142S14_holds Sec14.Ronan148M.item148R_holds
         Sec14.Ronan149.item145BotS14_holds
@@ -47,11 +47,11 @@ theorem step155HostE0WRes1TypeFBarNotLe_a7_gen
 
 theorem step155HostE0WRes1TypeFBarNotLe_m22_gen
     (h316 : Sec19.Item316)
-    (h148HJ : Item148HJS14) (h159 : Item159R) (P : ∀ (Y : Type) [Group Y], Prop) :
-    Step155HostE0WRes1TypeFBarNotLe (fun X _ => Nonempty (X ≃* CFSG.Blueprint.NativeSporadic.M22))
+    (h148HJ : Item148HJS14) (h159 : Item159R) (P : ∀ (_Y : Type) [Group _Y], Prop) :
+    Step155HostE0WRes1TypeFBarNotLe (fun _X _ => Nonempty (_X ≃* CFSG.Blueprint.NativeSporadic.M22))
       P :=
   step155HostE0WRes1TypeFBarNotLe_of_in Sec14.Ronan149.item149S14_holds
-    (fun G _ _ A c L hR hq hN hS X K Y M T P' hC _hmax _hab _hE _h146 _hRP _hIX Yc _hAt
+    (fun G _ _ A c L hR hq hN hS _X _K _Y _M _T _P' hC _hmax _hab _hE _h146 _hRP _hIX _Yc _hAt
       _hYsimple _hP _hEA _hEO _hcomm _hfield hLX =>
       res1L112InAt_m22 Sec14.Ronan148M.concl142S14_holds Sec14.Ronan148M.item148R_holds
         Sec14.Ronan149.item145BotS14_holds

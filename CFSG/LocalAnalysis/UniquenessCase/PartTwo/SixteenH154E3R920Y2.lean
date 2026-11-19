@@ -19,11 +19,13 @@ namespace R920Cfg
 
 variable {D : Data G} {L D₃ A : Subgroup G}
 
+omit [Finite G] in
 private theorem r920y2_conj_mem_of_mem (H : Subgroup G) {h x : G} (hh : h ∈ H) (hx : x ∈ H) :
     MulAut.conj h x ∈ H := by
   rw [MulAut.conj_apply]
   exact H.mul_mem (H.mul_mem hh hx) (H.inv_mem hh)
 
+omit [Finite G] in
 private theorem r920y2_map_conj_one (H : Subgroup G) :
     H.map (MulAut.conj (1 : G)).toMonoidHom = H := by
   rw [show MulAut.conj (1 : G) = 1 from map_one MulAut.conj]
@@ -33,7 +35,7 @@ theorem mem_calY2_9 (c : R920Cfg D L D₃ A) (h61 : UC6.R6_1 D) (h3 : 3 ∈ D.si
     (hex : ∃ N : Subgroup G, rankThreeIsMaxTwoLocal N ∧ L ≤ N ∧ N ≠ D.M) : L ∈ calY2_9 D := by
   have hO : Opp 3 L = L := c.opp_eq
   obtain ⟨N, hN, hLN, hNM⟩ := hex
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   have hY9 : L ∈ F09.calY9 D := by
     refine ⟨c.le_M, ?_, ?_⟩
     ·
@@ -77,7 +79,7 @@ theorem mem_calY2_9 (c : R920Cfg D L D₃ A) (h61 : UC6.R6_1 D) (h3 : 3 ∈ D.si
                   exact r920y2_conj_mem_of_mem N'' h.2 (hL_N'' hx))
             _ ≤ 1 := c.pRank_le_one_of_maxTwoLocal h61 h3 hN''max hL_N'' hN''M
         ·
-          haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+          have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
           have hLle : L ≤ ⨆ h : ↥N'', L.map (MulAut.conj (h : G)).toMonoidHom := by
             have h1 : L.map (MulAut.conj ((1 : ↥N'') : G)).toMonoidHom = L := by
               simpa using r920y2_map_conj_one L

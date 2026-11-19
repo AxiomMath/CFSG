@@ -188,7 +188,7 @@ theorem le_normalizer_of_solvable (h415 : Sec4.Item4_15)
     by_cases hj1 : j = 1
     · subst hj1
       have hPC : (P : Subgroup X) ≤ Subgroup.centralizer (U' : Set X) :=
-        le_centralizer_of_card_three P.isPGroup' (by simpa using hj') (hPH.trans hHN)
+        le_centralizer_of_card_three P.isPGroup (by simpa using hj') (hPH.trans hHN)
       have hU'Z : U' ≤ Z := le_inf hU'P (Subgroup.le_centralizer_iff.mp hPC)
       exact (Subgroup.eq_of_le_of_card_ge hU'Z (by rw [hZ3, hj', pow_one])).ge
     · refine le_of_nine_dvd h415 hX P hU'P ?_

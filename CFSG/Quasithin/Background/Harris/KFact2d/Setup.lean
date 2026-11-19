@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem nonab_star_of_perfect {M H K : Subgroup G} (hKH : K ≤ H) (hperf : ⁅K, K⁆ = K)
     [Nontrivial ↥(E2.star M H K)] : ∃ a b : ↥(E2.star M H K), a * b ≠ b * a := by
   by_contra hcon
@@ -58,7 +59,7 @@ theorem exists_case2dStar {T N K K0 : Subgroup G} (hmp : MinParabolic K T N) (hK
     · exact Or.inl h
     · exact Or.inr h
   have hKH : K0 ≤ K := le_of_mem_cComp hK0
-  haveI : Nontrivial ↥(E2.star N K K0) := hsimp.toNontrivial
+  have : Nontrivial ↥(E2.star N K K0) := hsimp.toNontrivial
   have hnab := nonab_star_of_perfect (M := N) hKH hK0.2.1
   have hZ : Subgroup.center ↥(E2.star N K K0) = ⊥ :=
     CFSG.Quasithin.Ch3E213M.OL.center_eq_bot_of_simple hnab

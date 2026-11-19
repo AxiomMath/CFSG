@@ -39,10 +39,10 @@ theorem kFactNineThreeNoTwoAt_caseTwo
     rcases RankOneSylow.eq_three_or_five_of_isCaseTwoGroup hKc with rfl | rfl
     · exact Nat.prime_three
     · exact Nat.prime_five
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ Nat.card T := by
     have hle := kFactCaseTwoSylow p K hKc T
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup
     rw [hk] at hle ⊢
     rcases k with _ | k
     · simp at hle
@@ -147,7 +147,7 @@ theorem le_centralizer_of_alt {X : Type} [Group X] [Finite X] {K : Subgroup X} [
     rw [hA, Subgroup.card_map_of_injective hinj, Sylow.card_eq_multiplicity,
       Nat.card_congr e.toEquiv, ← two_mul_nat_card_alternatingGroup,
       Nat.factorization_mul two_ne_zero Nat.card_pos.ne']
-    simp [Nat.Prime.factorization Nat.prime_two, Finsupp.single_apply, Ne.symm hp2]
+    simp [Nat.Prime.factorization Nat.prime_two, Ne.symm hp2]
   let AS : Sylow p (Perm (Fin n)) := Sylow.ofCard A hAcard
   obtain ⟨A', hA'A, hA'⟩ := exists_isSCp_le_sylow AS
   have hWbot : W = ⊥ :=
@@ -163,7 +163,7 @@ theorem kFactNineThreeNoTwoAt_alt {p n : ℕ} (hn : 5 ≤ n) (hpn : (p = 3 ∧ n
     KFactNineThreeNoTwoAt p (.alternating n hn) := by
   intro X _ _ K hK ⟨e⟩ _ T S hS hTS
   have hp : p.Prime := by rcases hpn with ⟨rfl, -⟩ | ⟨rfl, -⟩ <;> norm_num
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact le_centralizer_of_alt hn (by omega) (by omega) (by rcases hpn with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;> norm_num) e T hS hTS
 
 theorem factorization_three_perm_six : (Nat.card (Perm (Fin 6))).factorization 3 = 2 := by
@@ -177,7 +177,7 @@ theorem le_centralizer_of_alt6 {X : Type} [Group X] [Finite X] {K : Subgroup X} 
     (hTS : (T : Subgroup K).map K.subtype ≤ Subgroup.normalizer (S : Set X)) :
     S ≤ Subgroup.centralizer (K : Set X) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let φ : X →* MulAut (alternatingGroup (Fin 6)) :=
     (MulAut.congr e).toMonoidHom.comp (MulAut.conjNormal (H := K))
   have hφK : ∀ k : K, φ k = MulAut.conj (e k) := by
@@ -409,7 +409,7 @@ theorem le_centralizer_of_ti {X : Type} [Group X] [Finite X] {K : Subgroup X} [K
   have hTfix : ∀ u ∈ (T : Subgroup K), u • T = T := fun u hu =>
     CFSG.Permutation.SylowTrivialIntersection.smul_self_of_mem hu
   have hTodd : Odd (Nat.card T) := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup
     rw [hk]
     exact Odd.pow (Nat.Prime.odd_of_ne_two Fact.out hp2)
   have hΩeven : 2 ∣ Nat.card (Sylow p K) := by
@@ -486,7 +486,7 @@ theorem le_centralizer_of_ti {X : Type} [Group X] [Finite X] {K : Subgroup X} [K
         have hg : g ∈ N₀ := by rw [ht]; exact Subgroup.mem_top g
         have := Sylow.smul_eq_iff_mem_normalizer.mp (hg T)
         exact (Subgroup.mem_normalizer_iff.mp this t).mp ‹_›⟩
-      haveI := Sylow.unique_of_normal T hTn
+      have := Sylow.unique_of_normal T hTn
       have h1 : Nat.card (Sylow p K) = 1 := Nat.card_unique
       rw [hcount] at h1
       have := Nat.card_pos (α := (T : Subgroup K))
@@ -573,11 +573,11 @@ theorem kFactNineThreeNoTwoAt_linTwo {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   obtain ⟨x, hv⟩ := d
   simp only at hdq
   subst hdq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hst : StatedClassicalModel K .PSL (1 + 1) q.p q.exponent :=
     CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv_typeA hv eK
   rw [hqp] at hst
-  haveI : IsSimpleGroup K := (CFSG.LieType.Simplicity.fam_PSL_simplicity K _ _ _ hst).2
+  have : IsSimpleGroup K := (CFSG.LieType.Simplicity.fam_PSL_simplicity K _ _ _ hst).2
   have hcount := CFSG.LargeExtraspecial.Bender.card_sylow_of_psl2 K p q.exponent hst
   obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ := hst
   let e' : K ≃* PSL(2, F) :=

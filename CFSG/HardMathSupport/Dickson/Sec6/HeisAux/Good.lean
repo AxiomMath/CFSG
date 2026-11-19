@@ -15,6 +15,7 @@ open Matrix CFSG.Open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupp
 
 variable {K : Type} [Field K] [CharP K 2] [Finite K] {ω : K} {σ : K ≃+* K}
 
+omit [CharP K 2] [Finite K] in
 theorem conjAut_comm_fieldAut_of_rat (g : GL (Fin 3) K)
     (h : ∀ i j, σ ((g : Matrix (Fin 3) (Fin 3) K) i j) = (g : Matrix (Fin 3) (Fin 3) K) i j) :
     LinearFlag.conjAut 3 K g * LinearFlag.fieldAut 3 K σ =
@@ -56,6 +57,7 @@ theorem core_gen_conj (hK : Nat.card K = 64) (hσ : orderOf σ = 3) (hω : ω ^ 
   exact GenP_of_conj τ A (core_gen hK hσ hω hσω hg hel hcard hf' (Bk⁻¹ * g0 * Bk)
     (Bk⁻¹ * g1 * Bk) θ hθ (key g0 _ hg0) (key g1 _ hg1) (hcj g0 hd) (hcj g1 hC))
 
+omit [Finite K] in
 theorem exists_good_code (hω : ω ^ 2 + ω + 1 = 0) {ζ : K} (hζ : ζ ^ 2 + ζ + 1 = 0) :
     ∃ z : Fin 4, (z = 2 ∨ z = 3) ∧ ev ω z = ζ := by
   have h2 : (2 : K) = 0 := two_eq_zero_K
@@ -120,7 +122,7 @@ theorem good_gen (hK : Nat.card K = 64) (hσ : orderOf σ = 3) (hω : ω ^ 2 + �
   have hdiag : Φ (Matrix.diagonal ![θF, θF * ζF, θF * ζF ^ 2]) = (θF : K) • toMat ω (dM z) := by
     rw [toMat_dM hω, hzζ]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [hΦapp, Matrix.diagonal_apply, ζF, pow_two]
+    fin_cases i <;> fin_cases j <;> simp [hΦapp, ζF, pow_two]
   have hcomp : Φ (!![0, 0, μF; 1, 0, 0; 0, 1, 0]) = toMat ω (CM m) := by
     rw [toMat_CM, hmμ]
     ext i j

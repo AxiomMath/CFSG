@@ -135,6 +135,7 @@ theorem ActsAs.mul {a b : G} (hb : b ∈ M) {π π' : Equiv.Perm (Fin n)} (ha : 
   have h2 := ha (conjU S hb u) v (by rw [h, conjU_apply]; group)
   rw [h2, h1, altAct_mul]
 
+omit [Finite G] in
 theorem actsAs_of_mem (x : ↥X) : T.ActsAs (x : G) (T.α x : Equiv.Perm (Fin n)) :=
   fun u v h => T.beta_equivar x u v h
 

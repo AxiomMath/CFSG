@@ -73,7 +73,6 @@ theorem conj_translation (n : SpecialLinearGroup (Fin 2) K) (β b : Matrix (Fin 
   ext1
   · simp
   · simp [Matrix.mul_adjugate, ← Matrix.mul_assoc]
-    try abel
 
 end Aff
 

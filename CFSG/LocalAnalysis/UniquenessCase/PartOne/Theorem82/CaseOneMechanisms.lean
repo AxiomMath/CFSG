@@ -25,7 +25,7 @@ theorem exists_mem_L_mul_eq {c : Counterexample4 G} (h : Case811Sylow c) {m : G}
     (hm : m ∈ c.S.M) :
     ∃ l ∈ c.L, ∃ n ∈ c.S.M ⊓ Subgroup.normalizer (h.A : Set G), m = l * n := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hP_sylow_L : CFSG.ABGLocalTools.IsSylowOf 3 h.P c.L :=
     h.sylow.of_le h.P_le_L c.hyp81.1
   have unique_of_le_normalizer : ∀ {n : G}, n ∈ Subgroup.normalizer (h.P : Set G) →
@@ -84,9 +84,9 @@ theorem pRank_M_le_pRank_L_add_one {c : Counterexample4 G} (h : Case811Sylow c) 
     (hC : CFSG.Open.pRank p (c.S.M ⊓ Subgroup.centralizer (h.A : Set G)) ≤ 1) :
     CFSG.Open.pRank p c.S.M ≤ CFSG.Open.pRank p c.L + 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hpp : p.Prime := Fact.out
-  haveI : ((c.L).subgroupOf c.S.M).Normal :=
+  have : ((c.L).subgroupOf c.S.M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer c.hyp81.1).mpr c.le_normalizer_L
   let N : Subgroup G := c.S.M ⊓ Subgroup.normalizer (h.A : Set G)
   let C : Subgroup G := c.S.M ⊓ Subgroup.centralizer (h.A : Set G)
@@ -104,13 +104,13 @@ theorem pRank_M_le_pRank_L_add_one {c : Counterexample4 G} (h : Case811Sylow c) 
     rwa [CFSG.SectionRank.pRank_coe_eq_openPRank]
   obtain ⟨Q₀, hQ₀⟩ := hT
   have hQ₀cyc : IsCyclic ↥(Q₀ : Subgroup ↥N) := by
-    haveI : IsCyclic ↥((Q₀ : Subgroup ↥N).map N.subtype) := hQ₀ ▸ hTcyc
+    have : IsCyclic ↥((Q₀ : Subgroup ↥N).map N.subtype) := hQ₀ ▸ hTcyc
     exact isCyclic_of_surjective
       ((Q₀ : Subgroup ↥N).equivMapOfInjective N.subtype N.subtype_injective).symm.toMonoidHom
       (MulEquiv.surjective _)
   have hNcyc : ∀ Q : Sylow p ↥N, IsCyclic (Q : Subgroup ↥N) := by
     intro Q
-    haveI : IsCyclic ↥(Q₀ : Subgroup ↥N) := hQ₀cyc
+    have : IsCyclic ↥(Q₀ : Subgroup ↥N) := hQ₀cyc
     exact isCyclic_of_surjective (Sylow.equiv Q₀ Q).toMonoidHom (MulEquiv.surjective _)
   have hNrankOpen : CFSG.Open.pRank p (⊤ : Subgroup ↥N) ≤ 1 :=
     CFSG.LocalAnalysis.RankFourTheoremC.pRank_top_le_one_of_forall_sylow_isCyclic hNcyc
@@ -163,9 +163,9 @@ theorem pRank_M_le_pRank_L_of_not_dvd {c : Counterexample4 G} (h : Case811Sylow 
     (hC : ¬ p ∣ Nat.card (c.S.M ⊓ Subgroup.centralizer (h.A : Set G) : Subgroup G)) :
     CFSG.Open.pRank p c.S.M ≤ CFSG.Open.pRank p c.L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hpp : p.Prime := Fact.out
-  haveI : ((c.L).subgroupOf c.S.M).Normal :=
+  have : ((c.L).subgroupOf c.S.M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer c.hyp81.1).mpr c.le_normalizer_L
   let N : Subgroup G := c.S.M ⊓ Subgroup.normalizer (h.A : Set G)
   let C : Subgroup G := c.S.M ⊓ Subgroup.centralizer (h.A : Set G)
@@ -284,9 +284,9 @@ theorem false_of_pElement_not_mem_L {c : Counterexample4 G} (h : Case811Sylow c)
     (hdvd : ∀ X : Subgroup G, X ≤ h.A → Nat.card X = 3 →
       p ∣ Nat.card (c.L ⊓ Subgroup.centralizer (X : Set G) : Subgroup G)) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp_prime : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
   have hy_pow : y ^ p = 1 := by rw [← hyp]; exact pow_orderOf_eq_one y
   have hy_cent : ∀ X : Subgroup G, X ≤ h.A → y ∈ Subgroup.centralizer (X : Set G) := by
     intro X hXA

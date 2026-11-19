@@ -29,7 +29,7 @@ section Decode
 
 open CFSG.KC.TcRes.Lane
 
-theorem root_lanes {n N W : ℕ} {yc rtR : ℕ → ℕ} {V X Y NEG PAR i : ℕ} (hn1 : 1 ≤ n)
+theorem root_lanes {n N W : ℕ} {yc rtR : ℕ → ℕ} {V X Y NEG PAR i : ℕ} (_hn1 : 1 ≤ n)
     (h : rootOK n N W yc rtR V X Y NEG PAR i = true) :
     (∀ m < n, fld (fld V (16 * n) i) 16 m < 16) ∧
     (∀ m, fld (fld X (2 * (16 * n)) i) 16 m ≤ 7) ∧
@@ -52,7 +52,7 @@ theorem root_lanes {n N W : ℕ} {yc rtR : ℕ → ℕ} {V X Y NEG PAR i : ℕ} 
     intro m
     rcases lt_or_ge m (2 * n) with hm | hm
     · have h1 := lt_of_land_eq_zero (b := 3) (fld_lt _ 16 m) (by norm_num)
-        (by intro j h1 h2; interval_cases j <;> first | rfl | decide)
+        (by intro j h1 h2; interval_cases j <;> first | rfl)
         (fld_land_eq_zero hX (by decide) hm)
       have h2 : fld (fld X (2 * (16 * n)) i) 16 m < 8 := lt_of_lt_of_eq h1 (by norm_num)
       omega
@@ -60,7 +60,7 @@ theorem root_lanes {n N W : ℕ} {yc rtR : ℕ → ℕ} {V X Y NEG PAR i : ℕ} 
       omega
   have hVl : ∀ m < n, fld (fld V (16 * n) i) 16 m < 16 := fun m hm =>
     lt_of_lt_of_eq (lt_of_land_eq_zero (b := 4) (fld_lt _ 16 m) (by norm_num)
-      (by intro j h1 h2; interval_cases j <;> first | rfl | decide)
+      (by intro j h1 h2; interval_cases j <;> first | rfl)
       (fld_land_eq_zero hV (by decide) hm)) (by norm_num)
   have h7 : 7 * ones n < 2 ^ (16 * n) := by
     rw [mul_ones]
@@ -70,7 +70,7 @@ theorem root_lanes {n N W : ℕ} {yc rtR : ℕ → ℕ} {V X Y NEG PAR i : ℕ} 
     have hyi : fld Y (2 * (16 * n)) i < 2 ^ (16 * (2 * n)) := e2 ▸ fld_lt _ _ _
     rcases lt_or_ge m (2 * n) with hm | hm
     · have h1 := lt_of_land_eq_zero (b := 2) (fld_lt _ 16 m) (by norm_num)
-        (by intro j h1 h2; interval_cases j <;> first | rfl | decide)
+        (by intro j h1 h2; interval_cases j <;> first | rfl)
         (fld_land_eq_zero hY (by decide) hm)
       have h2 : fld (fld Y (2 * (16 * n)) i) 16 m < 4 := lt_of_lt_of_eq h1 (by norm_num)
       omega
@@ -133,7 +133,7 @@ theorem iform_single (τ : Tag) (hsym : ∀ i j : Fin τ.rank, τ.symmetrizedCar
     (x : Fin τ.rank → ℤ) (k : Fin τ.rank) :
     iform x (Pi.single k 1) = ∑ j, τ.cartan k j * x j := by
   simp only [iform, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [hsym, cartan_symm_of τ hsym j k, mul_comm]
 
@@ -221,7 +221,7 @@ theorem datumRaw_of_checks (τ : Tag) {N W : ℕ} {yc rtR : ℕ → ℕ} {V X Y 
       exact hycb m
     rcases lt_or_ge j (2 * τ.rank) with hj | hj
     · have h1 := lt_of_land_eq_zero (b := 2) (fld_lt _ 16 j) (by norm_num)
-        (by intro j h1 h2; interval_cases j <;> first | rfl | decide)
+        (by intro j h1 h2; interval_cases j <;> first | rfl)
         (fld_land_eq_zero (hyM m m.2) (by decide) hj)
       have h2 : fld (yc m) 16 j < 4 := lt_of_lt_of_eq h1 (by norm_num)
       omega
@@ -602,7 +602,7 @@ theorem forestRaw_of_checks
       have e : tf 172878758016 j = j := by
         have := j.2
         change j.1 < 6 at this
-        interval_cases hj : j.1 <;> first | rfl | decide
+        interval_cases hj : j.1 <;> first | rfl
       rw [e, one_smul]
       exact ⟨by have := j.2; change j.1 < 6 at this; omega, hD.simple j⟩
     exact wordOK_spec hD _ _ _ _ 1 h1 h

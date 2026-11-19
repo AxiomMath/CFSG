@@ -36,9 +36,10 @@ theorem a10y_sylow_pow (h : A10YData Y P x t₁ t₂ J₁ J₂ F) {q : Y} (hq : 
     ∃ k : ℕ, q ^ (5 ^ k) = 1 := by
   obtain ⟨S, hS⟩ := h.sylow
   rw [← hS] at hq
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨q, hq⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨q, hq⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
+omit [Finite Y] in
 theorem a10y_mem_normalizer_of_pow_coprime {H : Subgroup Y} {y : Y} {n : ℕ}
     (hy : y ^ n = 1) {m : ℕ} (hm : Nat.Coprime m n) (hym : y ^ m ∈ normalizer (H : Set Y)) :
     y ∈ normalizer (H : Set Y) := by
@@ -145,8 +146,8 @@ theorem a10y_V (h : A10YData Y P x t₁ t₂ J₁ J₂ F) :
 theorem a10y_sylow_comm (h : A10YData Y P x t₁ t₂ J₁ J₂ F) (H : Subgroup Y) (S : Sylow 5 ↥H) :
     IsMulCommutative (S : Subgroup ↥H) := by
   obtain ⟨S₀, hS₀⟩ := h.sylow
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  obtain ⟨Q, hQ⟩ := (S.isPGroup'.map H.subtype).exists_le_sylow
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  obtain ⟨Q, hQ⟩ := (S.isPGroup.map H.subtype).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Y S₀ Q
   have hmem : ∀ y ∈ (Q : Subgroup Y), ∃ s ∈ P, g * s * g⁻¹ = y := by
     intro y hy
@@ -171,8 +172,8 @@ theorem a10y_sylow_comm (h : A10YData Y P x t₁ t₂ J₁ J₂ F) (H : Subgroup
 theorem a10y_no_central_five (h : A10YData Y P x t₁ t₂ J₁ J₂ F) {H : Subgroup Y} (hH : ⁅H, H⁆ = H)
     {z : Y} (hz : z ∈ H) (hc : ∀ a ∈ H, z * a = a * z) (h5 : z ^ 5 = 1) : z = 1 := by
   by_contra hz1
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Group.IsPerfect ↥H := Subgroup.isPerfect_iff.2 hH
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Group.IsPerfect ↥H := Subgroup.isPerfect_iff.2 hH
   have hperf : commutator ↥H = ⊤ := Group.IsPerfect.commutator_eq_top
   have hzc : (⟨z, hz⟩ : ↥H) ∈ Subgroup.center ↥H := by
     rw [Subgroup.mem_center_iff]
@@ -190,7 +191,7 @@ theorem a10y_no_central_five (h : A10YData Y P x t₁ t₂ J₁ J₂ F) {H : Sub
 
 theorem a10y_comp_simple (h : A10YData Y P x t₁ t₂ J₁ J₂ F) {A : Subgroup Y} (hA : IsComponentOf A ⊤) :
     center ↥A = ⊥ ∧ IsSimpleGroup ↥A ∧ (∃ a b : ↥A, a * b ≠ b * a) ∧ IsCatalogGroup ↥A := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hperf : ⁅A, A⁆ = A := Subgroup.isPerfect_iff.1 (Group.isPerfect_def.2 hA.2.2.1)
   have hcop : Nat.Coprime 5 (Nat.card (center ↥A)) := by
     rw [Nat.Prime.coprime_iff_not_dvd (by norm_num)]

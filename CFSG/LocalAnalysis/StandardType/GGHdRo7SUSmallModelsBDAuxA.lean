@@ -34,13 +34,13 @@ lemma hdRo7SmBDAux_diagMap_apply {m : ℕ}
     funext j
     rw [Module.Basis.equivFun_self, Pi.single_apply]
     by_cases h : k = j
-    · rw [if_pos h, if_pos h.symm]
-    · rw [if_neg h, if_neg (fun hh => h hh.symm)]
+    · rw [ite_eq_left h, ite_eq_left h.symm]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h hh.symm)]
   rw [hk]
   funext j
   by_cases h : j = k
   · subst h; rfl
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 lemma hdRo7SmBDAux_permMap_apply {m : ℕ}
     (b : Module.Basis (Fin m) (ZMod 3) (SMV m)) (σ : Equiv.Perm (Fin m)) (k : Fin m) :
@@ -123,13 +123,13 @@ lemma hdRo7SmBDAux_list_prod_sign {m : ℕ} (l : List (Fin m)) (hnd : l.Nodup)
     rw [List.map_cons, List.prod_cons, ih hnd']
     by_cases hki : k = i
     · subst hki
-      rw [if_pos rfl, if_neg hnot, if_pos (List.mem_cons_self)]
+      rw [ite_eq_left rfl, ite_eq_right hnot, ite_eq_left (List.mem_cons_self)]
       ring
-    · rw [if_neg hki]
+    · rw [ite_eq_right hki]
       by_cases hmem : k ∈ l
-      · rw [if_pos hmem, if_pos (List.mem_cons_of_mem i hmem)]
+      · rw [ite_eq_left hmem, ite_eq_left (List.mem_cons_of_mem i hmem)]
         ring
-      · rw [if_neg hmem, if_neg (fun h => by
+      · rw [ite_eq_right hmem, ite_eq_right (fun h => by
             rcases List.mem_cons.mp h with h' | h'
             · exact hki h'
             · exact hmem h')]
@@ -196,8 +196,8 @@ lemma hdRo7SmBDAux_fullPred_mem {m : ℕ}
       hdRo7SmBDAux_permMap_apply, ha' k, hdRo7SmBDAux_list_prod_sign l hnd k]
     congr 1
     by_cases hkl : k ∈ l
-    · rw [if_pos hkl]; exact (hmem k).mp hkl
-    · rw [if_neg hkl]
+    · rw [ite_eq_left hkl]; exact (hmem k).mp hkl
+    · rw [ite_eq_right hkl]
       have hcne : c k ≠ -1 := fun h => hkl ((hmem k).mpr h)
       rcases hc k with h | h
       · exact h

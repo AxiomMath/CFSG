@@ -57,7 +57,7 @@ private lemma V₂_ne_bot (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) : V₂ ≠ ⊥ :
   norm_num at hcard
 
 private lemma nontrivial_V₁ (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) : Nontrivial V₁ := by
-  haveI : Finite V₁ := Nat.finite_of_card_ne_zero (by rw [h.card₁]; norm_num)
+  have : Finite V₁ := Nat.finite_of_card_ne_zero (by rw [h.card₁]; norm_num)
   exact Finite.one_lt_card_iff_nontrivial.mp (by rw [h.card₁]; norm_num)
 
 private lemma V₁_ne_top (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) : V₁ ≠ ⊤ := by
@@ -99,8 +99,8 @@ private lemma fixedSubgroup_inf (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) :
 
 private lemma fixedSubgroup_ne_bot (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) :
     TauCeti.fixedSubgroup (ρ z).toMonoidHom ≠ ⊥ := by
-  haveI : IsMulCommutative V := h.elemAb.toIsMulCommutative
-  haveI : Nontrivial V₁ := nontrivial_V₁ h
+  have : IsMulCommutative V := h.elemAb.toIsMulCommutative
+  have : Nontrivial V₁ := nontrivial_V₁ h
   intro hbot
   obtain ⟨w, hw⟩ := exists_ne (1 : V₁)
   have hzz := apply_apply_self h
@@ -124,7 +124,7 @@ private lemma fixedSubgroup_ne_bot (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) :
 
 private lemma fixedSubgroup_ne_top (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) :
     TauCeti.fixedSubgroup (ρ z).toMonoidHom ≠ ⊤ := by
-  haveI : Nontrivial V₁ := nontrivial_V₁ h
+  have : Nontrivial V₁ := nontrivial_V₁ h
   intro htop
   obtain ⟨w, hw⟩ := exists_ne (1 : V₁)
   have hwA : (w : V) ∈ TauCeti.fixedSubgroup (ρ z).toMonoidHom := by rw [htop]; trivial
@@ -298,7 +298,7 @@ private theorem mem_Q_of_permHom_eq_one (h : XHyp ρ Q V₁ V₂ z Q₁ t₁)
     {x : X} (hx : x ∈ H)
     (hπ : permHom h H hHnorm ⟨x, hx⟩ = 1) : x ∈ Q := by
   classical
-  haveI : IsMulCommutative V := h.elemAb.toIsMulCommutative
+  have : IsMulCommutative V := h.elemAb.toIsMulCommutative
   have hQ'leQ : ⁅Q, Q⁆ ≤ Q := by
     simpa using Subgroup.commutator_le_sup (H₁ := Q) (H₂ := Q)
   have hfix : ∀ S (hS : S ∈ threeSubgroups ρ V₁ V₂ z),
@@ -425,7 +425,7 @@ theorem XHyp.concl_of_le_centralizer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ 
   have hJn : ∀ c ∈ centralizer ({z} : Set X), ∀ y ∈ J, c * y * c⁻¹ ∈ J := by
     intro c hc y hy
     refine ⟨?_, ?_⟩
-    · haveI : (layer X).Characteristic := layer_characteristic (G := X)
+    · have : (layer X).Characteristic := layer_characteristic (G := X)
       exact (inferInstance : (layer X).Normal).conj_mem y hy.1 c
     · change c * y * c⁻¹ ∈ centralizer ({z} : Set X)
       rw [Subgroup.mem_centralizer_iff] at hc ⊢
@@ -441,7 +441,7 @@ theorem XHyp.concl_of_le_centralizer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ 
     · exfalso
       have hKJ : K ≤ J := le_inf (component_le_layer hK) hKz
       have hKzpow : K ≤ zpowers z := hKJ.trans hJz
-      haveI : IsMulCommutative K := by
+      have : IsMulCommutative K := by
         rw [isMulCommutative_iff]
         intro a b
         obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.mp (hKzpow a.2)
@@ -450,14 +450,14 @@ theorem XHyp.concl_of_le_centralizer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ 
         change (a : X) * (b : X) = (b : X) * (a : X)
         rw [← hm, ← hn]
         exact zpow_mul_comm z m n
-      haveI : Group.IsPerfect K := hK.1.1
+      have : Group.IsPerfect K := hK.1.1
       have hbot : K = ⊥ := Subgroup.eq_bot_of_subsingleton K
       exact (Subgroup.nontrivial_iff_ne_bot K).mp (isQuasisimple_nontrivial hK.1) hbot
     · have hKQ' : K ≤ ⁅Q, Q⁆ :=
         h.le_commutator_of_perfect (Y := K) hKz (Subgroup.isPerfect_iff.mp hK.1.1)
       have hQ'layer : ⁅Q, Q⁆ ≤ layer X := hQ'J.trans inf_le_left
-      haveI : IsSimpleGroup ↥⁅Q, Q⁆ := h.isSimpleGroup_commutator
-      haveI : (K.subgroupOf ⁅Q, Q⁆).Normal :=
+      have : IsSimpleGroup ↥⁅Q, Q⁆ := h.isSimpleGroup_commutator
+      have : (K.subgroupOf ⁅Q, Q⁆).Normal :=
         Subgroup.normal_subgroupOf_of_le_normalizer
           (hQ'layer.trans (layer_le_normalizer hK))
       rcases Subgroup.Normal.eq_bot_or_eq_top (K.subgroupOf ⁅Q, Q⁆) with hbot | htop
@@ -477,7 +477,7 @@ theorem XHyp.concl_of_le_centralizer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ 
       have hcomm : g * p = p * g := (Subgroup.mem_centralizer_iff.mp (hPle hp)) g hg
       rw [← hcomm]
       simpa using hg
-    letI : Group.IsPerfect P := Subgroup.isPerfect_iff.mpr hPperf
+    let : Group.IsPerfect P := Subgroup.isPerfect_iff.mpr hPperf
     let πP := permHom h P hPnorm
     have hsign : Equiv.Perm.sign.comp πP = 1 := by
       apply MonoidHom.ext
@@ -493,10 +493,10 @@ theorem XHyp.concl_of_le_centralizer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ 
       rintro _ ⟨p, rfl⟩
       rw [Equiv.Perm.mem_alternatingGroup]
       exact congrArg (fun f : P →* ℤˣ => f p) hsign
-    haveI hcommAlt : IsMulCommutative (alternatingGroup α) := by
+    have hcommAlt : IsMulCommutative (alternatingGroup α) := by
       apply alternatingGroup.isMulCommutative_of_card_le_three
       rw [threeSubgroups_card h]
-    haveI : IsMulCommutative πP.range := by
+    have : IsMulCommutative πP.range := by
       refine IsMulCommutative.of_comm ?_
       intro x y
       apply Subtype.ext
@@ -505,9 +505,9 @@ theorem XHyp.concl_of_le_centralizer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ 
       exact congrArg Subtype.val
         (mul_comm' (⟨(x : Equiv.Perm α), hrange_alt x.2⟩ : alternatingGroup α)
           ⟨(y : Equiv.Perm α), hrange_alt y.2⟩)
-    haveI : Group.IsPerfect πP.range := Group.IsPerfect.range (f := πP)
+    have : Group.IsPerfect πP.range := Group.IsPerfect.range (f := πP)
     have hrange : πP.range = ⊥ := by
-      haveI : Subsingleton πP.range := inferInstance
+      have : Subsingleton πP.range := inferInstance
       exact Subgroup.eq_bot_of_subsingleton πP.range
     apply le_bot_iff.mp
     intro p hp
@@ -710,7 +710,7 @@ theorem XHyp.concl_of_le_centralizer [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ 
       rw [← MonoidHom.comap_ker]
       rfl
     rw [hcomp]
-    haveI : Nontrivial α := ⟨a, b, hab⟩
+    have : Nontrivial α := ⟨a, b, hab⟩
     rw [Subgroup.index_comap_of_surjective]
     · exact alternatingGroup.index_eq_two
     · rw [← MonoidHom.range_eq_top]

@@ -18,9 +18,11 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 @[expose] noncomputable def orthToSim (Q : QuadraticForm (ZMod 3) V) : OGroup Q →* simGroup Q :=
   Subgroup.inclusion orthogonalGroup_le_simGroup
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem orthToSim_injective : Function.Injective (orthToSim Q) :=
   Subgroup.inclusion_injective _
 
+omit [FiniteDimensional (ZMod 3) V] in
 @[simp] theorem coe_orthToSim (t : OGroup Q) :
     ((orthToSim Q t : simGroup Q) : V ≃ₗ[ZMod 3] V) = (t : V ≃ₗ[ZMod 3] V) :=
   rfl
@@ -28,6 +30,7 @@ theorem orthToSim_injective : Function.Injective (orthToSim Q) :=
 @[expose] noncomputable def piSim (Q : QuadraticForm (ZMod 3) V) : Subgroup (simGroup Q) :=
   (piGroup Q).map (orthToSim Q)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_piSim_iff {g : simGroup Q} :
     g ∈ piSim Q ↔ g = 1 ∨ g = orthToSim Q (piOrth Q) := by
   constructor
@@ -39,6 +42,7 @@ theorem mem_piSim_iff {g : simGroup Q} :
     · exact (piSim Q).one_mem
     · exact ⟨piOrth Q, mem_piGroup_iff.mpr (Or.inr rfl), rfl⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem orthToSim_piOrth_comm (g : simGroup Q) :
     g * orthToSim Q (piOrth Q) = orthToSim Q (piOrth Q) * g := by
   apply Subtype.ext
@@ -66,10 +70,12 @@ abbrev ProjSim (Q : QuadraticForm (ZMod 3) V) : Type := simGroup Q ⧸ piSim Q
         QuotientGroup.eq_one_iff]
       exact ⟨g, hg, rfl⟩)
 
+omit [FiniteDimensional (ZMod 3) V] in
 @[simp] theorem projOrthToProjSim_toProj (t : OGroup Q) :
     projOrthToProjSim Q (toProj Q t) = QuotientGroup.mk (orthToSim Q t) :=
   rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem projOrthToProjSim_injective : Function.Injective (projOrthToProjSim Q) := by
   rw [injective_iff_map_eq_one]
   intro a ha
@@ -97,6 +103,7 @@ theorem projOrthToProjSim_injective : Function.Injective (projOrthToProjSim Q) :
     group
   map_mul' s t := simConj_mul _ s t
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem coe_simAutAux (γ : simGroup Q) (t : OGroup Q) :
     ((simAutAux γ t : OGroup Q) : V ≃ₗ[ZMod 3] V) =
       (γ : V ≃ₗ[ZMod 3] V) * (t : V ≃ₗ[ZMod 3] V) * (γ : V ≃ₗ[ZMod 3] V)⁻¹ :=
@@ -113,12 +120,14 @@ theorem coe_simAutAux (γ : simGroup Q) (t : OGroup Q) :
     simp only [Subgroup.coe_mul, mul_inv_rev]
     group)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem coe_simAct (γ : simGroup Q) (t : OGroup Q) :
     ((simAct Q γ t : OGroup Q) : V ≃ₗ[ZMod 3] V) =
       (γ : V ≃ₗ[ZMod 3] V) * (t : V ≃ₗ[ZMod 3] V) * (γ : V ≃ₗ[ZMod 3] V)⁻¹ :=
   rfl
 
-theorem simAct_piOrth (γ : simGroup Q) : simAct Q γ (piOrth Q) = piOrth Q := by
+omit [FiniteDimensional (ZMod 3) V] in
+theorem simAct_piOrth [FiniteDimensional (ZMod 3) V] (γ : simGroup Q) : simAct Q γ (piOrth Q) = piOrth Q := by
   apply Subtype.ext
   rw [coe_simAct]
   have h := orthToSim_piOrth_comm γ
@@ -126,6 +135,7 @@ theorem simAct_piOrth (γ : simGroup Q) : simAct Q γ (piOrth Q) = piOrth Q := b
   simp only [Subgroup.coe_mul, coe_orthToSim] at h'
   rw [h', mul_inv_cancel_right]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem simAct_orthToSim (t s : OGroup Q) :
     simAct Q (orthToSim Q t) s = t * s * t⁻¹ := by
   apply Subtype.ext
@@ -198,6 +208,7 @@ theorem projSimAct_projOrthToProjSim (x y : ProjOrth Q) :
           rw [← hc, mul_assoc, mul_inv_cancel, mul_one]
         exact this)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem projSimActO_mk (γ : simGroup Q) (t : OGroup Q) :
     projSimActO Q (QuotientGroup.mk γ) t = simAct Q γ t :=
   rfl
@@ -207,6 +218,7 @@ theorem toProj_projSimActO (x : ProjSim Q) (t : OGroup Q) :
   obtain ⟨γ, rfl⟩ := QuotientGroup.mk_surjective x
   rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem projSimActO_projOrthToProjSim_toProj (s t : OGroup Q) :
     projSimActO Q (projOrthToProjSim Q (toProj Q s)) t = s * t * s⁻¹ := by
   rw [projOrthToProjSim_toProj, projSimActO_mk, simAct_orthToSim]

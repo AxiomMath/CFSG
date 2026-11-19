@@ -132,7 +132,7 @@ private theorem exists_acts_evenFix0_of_rootS3 {G : Type} [Group G] [Finite G]
       rwa [hxeq] at hy
   have hsNsup : s ∈ Subgroup.normalizer
       ((Subgroup.zpowers b₀ ⊔ (E ⊓ K) : Subgroup G) : Set G) :=
-    Subgroup.normalizer_inf_normalizer_le_normalizer_sup (Subgroup.zpowers b₀) (E ⊓ K)
+    Subgroup.inf_normalizer_le_normalizer_sup (Subgroup.zpowers b₀) (E ⊓ K)
       ⟨hsZ, hsT⟩
   have hsNE : s ∈ Subgroup.normalizer (E : Set G) := by
     rw [← hsup]

@@ -24,7 +24,7 @@ variable {r : ℕ} {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {K : 
   {S : Sylow 2 G} {R W H : Subgroup G}
 
 theorem MinCex.section_le_H_hom (c : MinCex r Ω K S R W H) (hT4 : Thm4RTwinBelow r (Nat.card G))
-    {Y : Type} [Group Y] [Finite Y] (ι : Y →* G) (hι : Function.Injective ι)
+    {Y : Type} [Group Y] [Finite Y] (ι : Y →* G) (_hι : Function.Injective ι)
     (hY : Nat.card Y < Nat.card G) {Λ : Set (Subgroup Y)} (hΛ : HypOmegaGen Λ)
     (hΛcls : Q3CL.ClassicalClause Λ)
     (hΛq8 : ∀ L ∈ Λ, ∃ P : Subgroup Y, IsSylow2In P L ∧ Nonempty (↥P ≃* QuaternionGroup (2 ^ (r - 2))))

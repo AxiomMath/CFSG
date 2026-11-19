@@ -22,7 +22,7 @@ open scoped Pointwise
 theorem orbitUnion_twE6MaxA2A1 :
     TwistTag.E6.orbitUnion twE6MaxA2A1 = {i : Fin TwistTag.E6.tag.rank | i.val ≠ 3} := by
   ext i
-  rw [TwistTag.mem_orbitUnion, Set.mem_setOf_eq]
+  rw [TwistTag.mem_orbitUnion, Set.mem_ofPred_eq]
   simp only [twE6MaxA2A1, Set.mem_ofPred_eq, TwistTag.mem_orbit_iff]
   revert i
   decide
@@ -31,7 +31,7 @@ theorem orbitUnion_twE6MaxA1A2 :
     TwistTag.E6.orbitUnion twE6MaxA1A2 =
       {i : Fin TwistTag.E6.tag.rank | i.val ≠ 2 ∧ i.val ≠ 4} := by
   ext i
-  rw [TwistTag.mem_orbitUnion, Set.mem_setOf_eq]
+  rw [TwistTag.mem_orbitUnion, Set.mem_ofPred_eq]
   simp only [twE6MaxA1A2, Set.mem_ofPred_eq, TwistTag.mem_orbit_iff]
   revert i
   decide
@@ -40,7 +40,7 @@ theorem orbitUnion_twE6MaxD4 :
     TwistTag.E6.orbitUnion twE6MaxD4 =
       {i : Fin TwistTag.E6.tag.rank | i.val ≠ 0 ∧ i.val ≠ 5} := by
   ext i
-  rw [TwistTag.mem_orbitUnion, Set.mem_setOf_eq]
+  rw [TwistTag.mem_orbitUnion, Set.mem_ofPred_eq]
   simp only [twE6MaxD4, Set.mem_ofPred_eq, TwistTag.mem_orbit_iff]
   revert i
   decide
@@ -50,11 +50,11 @@ private theorem parabolicDegree_setOf_val_ne {τ : Tag} {k : ℕ} (hk : k < τ.r
     parabolicDegree τ {i : Fin τ.rank | i.val ≠ k} v = v ⟨k, hk⟩ := by
   classical
   rw [parabolicDegree, Finset.sum_eq_single (⟨k, hk⟩ : Fin τ.rank)]
-  · rw [if_neg]
+  · rw [ite_eq_right]
     intro hmem
     exact hmem (by simp)
   · intro b _ hb
-    rw [if_pos]
+    rw [ite_eq_left]
     exact fun h' => hb (Fin.ext h')
   · intro h
     exact absurd (Finset.mem_univ _) h
@@ -70,7 +70,7 @@ private theorem parabolicDegree_setOf_val_ne_pair {τ : Tag} {k l : ℕ} (hk : k
   · simp
     ring
   · intro b hb hbne
-    rw [if_pos]
+    rw [ite_eq_left]
     simp only [Finset.mem_erase, Finset.mem_univ, and_true] at hb
     exact ⟨fun h => hb (Fin.ext h), fun h => hbne (Fin.ext h)⟩
   · intro h
@@ -400,7 +400,7 @@ section Arithmetic
 variable {F : Type} [Field F] [Finite F] {n : ℕ}
 
 private theorem two_le_two_pow_of_card (hF : Nat.card F = (2 ^ n) ^ 2) : 2 ≤ 2 ^ n := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : 2 ≤ Nat.card F := by
     have h := Fintype.one_lt_card (α := F)
     rwa [Nat.card_eq_fintype_card]
@@ -412,6 +412,7 @@ private theorem two_le_two_pow_of_card (hF : Nat.card F = (2 ^ n) ^ 2) : 2 ≤ 2
   calc 2 = 2 ^ 1 := by norm_num
     _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
 
+omit [Field F] [Finite F] in
 private theorem card_eq_two_pow_of_card (hF : Nat.card F = (2 ^ n) ^ 2) :
     Nat.card F = 2 ^ (2 * n) := by
   calc Nat.card F = (2 ^ n) ^ 2 := hF
@@ -425,7 +426,7 @@ private theorem exists_unit_sq_ne_one_of_card (hF : Nat.card F = (2 ^ n) ^ 2) :
     ∃ u : Fˣ, ((u : F)) ^ 2 ≠ 1 := by
   by_contra h
   simp only [not_exists, not_not] at h
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hdvd : Fintype.card F - 1 ∣ 2 := by
     rw [← FiniteField.forall_pow_eq_one_iff F 2]
     intro u
@@ -484,7 +485,7 @@ private theorem coprime_four_card_sub_one (hF : Nat.card F = (2 ^ n) ^ 2) :
 
 private theorem eq_one_of_pow_four_eq_one (hF : Nat.card F = (2 ^ n) ^ 2) {x : Fˣ} (hx : x ^ 4 = 1) :
     x = 1 := by
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
   have hcop := coprime_four_card_sub_one hF
   have h1 : orderOf x ∣ 4 := orderOf_dvd_iff_pow_eq_one.mpr hx
   have h2 : orderOf x ∣ Nat.card Fˣ := by
@@ -690,7 +691,7 @@ theorem card_le_mul_card_inf_of_le_sup_cyclic {G : Type*} [Group G] [Finite G]
     · intro hg
       have h' := N.mul_mem (N.mul_mem (N.inv_mem hn) hg) hn
       rwa [show n⁻¹ * (n * g * n⁻¹) * n = g from by group] at h'
-  haveI hN' : (N.subgroupOf H).Normal := by
+  have hN' : (N.subgroupOf H).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hNH]
     intro h k hh hk
     exact (Subgroup.le_normalizer_iff.mp hNnorm) k hk h hh
@@ -714,7 +715,7 @@ theorem card_le_mul_card_inf_of_le_sup_cyclic {G : Type*} [Group G] [Finite G]
     rw [h1, h2, hker, card_subgroupOf_inf]
   let ψ : ↥C →* H ⧸ N.subgroupOf H := q.comp (Subgroup.inclusion hCH)
   have hψcyc : IsCyclic ↥ψ.range := by
-    haveI : IsCyclic ↥C := hC
+    have : IsCyclic ↥C := hC
     exact isCyclic_of_surjective ψ.rangeRestrict (MonoidHom.rangeRestrict_surjective ψ)
   have hle_range : f.range ≤ ψ.range := by
     rintro y ⟨x, rfl⟩
@@ -737,7 +738,7 @@ theorem card_le_mul_card_inf_of_le_sup_cyclic {G : Type*} [Group G] [Finite G]
     refine Subtype.ext ?_
     show (y : H ⧸ N.subgroupOf H) ^ p = 1
     rw [show (y : H ⧸ N.subgroupOf H) = f x from hx.symm, ← map_pow, hxp, map_one]
-  haveI : IsCyclic ↥f.range := Subgroup.isCyclic_of_le hle_range
+  have : IsCyclic ↥f.range := Subgroup.isCyclic_of_le hle_range
   have hpr : Nat.card ↥f.range ≤ p :=
     card_le_prime_of_cyclic_of_pow_eq_one hp hexp
   calc Nat.card ↥E = Nat.card ↥f.range * Nat.card ↥(E ⊓ N) := hcard
@@ -755,11 +756,11 @@ private def twistDiagHom (i j : Fin τ.rank) (hij : i ≠ j) : Kˣ →* (Fin τ.
     funext k
     by_cases hki : k = i
     · subst hki
-      simp [Pi.mulSingle_eq_of_ne hij]
+      simp
     · by_cases hkj : k = j
       · subst hkj
-        simp [Pi.mulSingle_eq_of_ne (Ne.symm hij)]
-      · simp [Pi.mulSingle_eq_of_ne hki, Pi.mulSingle_eq_of_ne hkj]
+        simp
+      · simp
   map_mul' a b := by
     funext k
     by_cases hki : k = i
@@ -851,8 +852,7 @@ private theorem torusCoordHom_mem_sup {i j : Fin τ.rank} (hij : i ≠ j)
       · by_cases hkj : k = j
         · subst hkj
           simp [uC, twistDiagHom, huj, Pi.mulSingle_eq_of_ne (Ne.symm hij)]
-        · simp [uC, hki, hkj, Pi.mulSingle_eq_of_ne hki, Pi.mulSingle_eq_of_ne hkj,
-            twistDiagHom]
+        · simp [uC, hki, hkj, twistDiagHom]
     rw [hCeq]
     exact (mem_twistedTorusSub (τ := τ) (K := K) hij).mpr
       ⟨u i, (coe_torusCoordHom_twistDiagHom (τ := τ) (K := K) hij (u i)).symm⟩
@@ -900,7 +900,7 @@ theorem card_le_mul_card_inf_subsystemGroup_A1A2
     constructor
     · intro hk
       have h : k.val = 2 ∨ k.val = 4 := by
-        simp only [Set.mem_setOf_eq, not_and_or, not_not] at hk
+        simp only [Set.mem_ofPred_eq, not_and_or, not_not] at hk
         exact hk
       rcases h with h | h
       · left; exact Fin.ext h
@@ -992,7 +992,7 @@ theorem card_le_mul_card_inf_subsystemGroup_A1A2
           simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hx
           have hx2 : x ≠ (⟨2, by decide⟩ : Fin TwistTag.E6.tag.rank) := hx.1
           have hx4 : x ≠ (⟨4, by decide⟩ : Fin TwistTag.E6.tag.rank) := hx.2
-          simp only [if_neg hx2, if_neg hx4, add_zero, zpow_zero]
+          simp only [ite_eq_right hx2, ite_eq_right hx4, add_zero, zpow_zero]
         rw [hsub, Finset.prod_insert (by simp), Finset.prod_singleton]
         simp
       rw [← hprod]
@@ -1010,9 +1010,9 @@ theorem card_le_mul_card_inf_subsystemGroup_A1A2
   have hCcyc : IsCyclic ↥(twistedTorusSub (τ := TwistTag.E6.tag) (K := F)
       (⟨2, by decide⟩ : Fin TwistTag.E6.tag.rank)
       (⟨4, by decide⟩ : Fin TwistTag.E6.tag.rank) (by decide)) := by
-    haveI hfin : Finite Fˣ := Finite.of_injective (fun u : Fˣ => (u : F))
+    have hfin : Finite Fˣ := Finite.of_injective (fun u : Fˣ => (u : F))
       (fun a b h => Units.ext h)
-    haveI : IsCyclic Fˣ := instIsCyclicUnitsOfFinite
+    have : IsCyclic Fˣ := instIsCyclicUnitsOfFinite
     exact isCyclic_of_surjective _ (MonoidHom.rangeRestrict_surjective _)
   have hCN : twistedTorusSub (τ := TwistTag.E6.tag) (K := F)
       (⟨2, by decide⟩ : Fin TwistTag.E6.tag.rank)
@@ -1054,7 +1054,7 @@ theorem card_le_mul_card_inf_subsystemGroup_D4
     constructor
     · intro hk
       have h : k.val = 0 ∨ k.val = 5 := by
-        simp only [Set.mem_setOf_eq, not_and_or, not_not] at hk
+        simp only [Set.mem_ofPred_eq, not_and_or, not_not] at hk
         exact hk
       rcases h with h | h
       · left; exact Fin.ext h
@@ -1167,9 +1167,9 @@ theorem card_le_mul_card_inf_subsystemGroup_D4
   have hCcyc : IsCyclic ↥(twistedTorusSub (τ := TwistTag.E6.tag) (K := F)
       (⟨0, by decide⟩ : Fin TwistTag.E6.tag.rank)
       (⟨5, by decide⟩ : Fin TwistTag.E6.tag.rank) (by decide)) := by
-    haveI hfin : Finite Fˣ := Finite.of_injective (fun u : Fˣ => (u : F))
+    have hfin : Finite Fˣ := Finite.of_injective (fun u : Fˣ => (u : F))
       (fun a b h => Units.ext h)
-    haveI : IsCyclic Fˣ := instIsCyclicUnitsOfFinite
+    have : IsCyclic Fˣ := instIsCyclicUnitsOfFinite
     exact isCyclic_of_surjective _ (MonoidHom.rangeRestrict_surjective _)
   have hCN : twistedTorusSub (τ := TwistTag.E6.tag) (K := F)
       (⟨0, by decide⟩ : Fin TwistTag.E6.tag.rank)

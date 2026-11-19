@@ -22,7 +22,7 @@ private theorem coordElt_injective {G : Type} [Group G] {ι : Elem2 6 →* G}
 theorem harada_prop_2_1 [Finite G] [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b * a)
     (hD : HData G t z b z₁ S Eg T T' W0 ι) : 2 ∣ S.index := by
   by_contra hidx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : ∀ n ∈ normalizer (S : Set G), n * t * n⁻¹ = t :=
     fun n hn => HarCoreData.normalizer_fixes_t hD.core hD.z_sq hidx hn
   have hinv : ∀ u ∈ Eg, u ^ 2 = 1 → u ≠ 1 → u ≠ t →

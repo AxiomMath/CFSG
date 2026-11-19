@@ -104,7 +104,7 @@ theorem co1_conj_s_zero :
 
 theorem sdSpor_Co1_5 : SDSporAt .Co1 5 := by
   intro K _ _ ⟨e⟩
-  haveI hfin : Finite (NativeSporadic.Carrier .Co1) := (inferInstance : Finite NativeSporadic.Co1)
+  have hfin : Finite (NativeSporadic.Carrier .Co1) := (inferInstance : Finite NativeSporadic.Co1)
   refine SylowDichotomyAt.of_mulEquiv Nat.prime_five e ?_
   exact sylowDichotomyAt_five_of_scalRel_two co1Scal_rel co1_conj_s_zero
 

@@ -38,7 +38,7 @@ theorem s7_sym7_involution (σ : Sym 7) (h2 : σ ^ 2 = 1) (h1 : σ ≠ 1) :
     (σ.cycleType = {2, 2, 2} ∧ ∃ τ₁ τ₂ τ₃ : Sym 7, τ₁.IsSwap ∧ τ₂.IsSwap ∧ τ₃.IsSwap ∧
       τ₁ ≠ τ₂ ∧ τ₃ ≠ τ₁ ∧ τ₃ ≠ τ₂ ∧ τ₃ ≠ τ₁ * τ₂ ∧ τ₁ * τ₂ = τ₂ * τ₁ ∧
       τ₁ * τ₃ = τ₃ * τ₁ ∧ τ₂ * τ₃ = τ₃ * τ₂ ∧ σ = τ₁ * τ₂ * τ₃) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hct : σ.cycleType = Multiset.replicate σ.cycleType.card 2 :=
     Equiv.Perm.cycleType_of_pow_prime_eq_one h2
   have hpos : 0 < σ.cycleType.card := Equiv.Perm.card_cycleType_pos.mpr h1

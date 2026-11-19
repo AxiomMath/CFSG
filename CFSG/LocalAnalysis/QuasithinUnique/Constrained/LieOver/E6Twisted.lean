@@ -86,7 +86,7 @@ theorem lc_map_eq {G : Type} [Group G] {C U Q P : Subgroup G}
 
 theorem lc_charTwo_of {G : Type} [Group G] {C U Q P : Subgroup G}
     (hUC : U ≤ C) (hQU : Q ≤ U) (hU2 : IsPGroup 2 ↥(U.subgroupOf C))
-    (hQP : Q ≤ P) (hPC : P ≤ C) (hPN : P ≤ Subgroup.normalizer (Q : Set G))
+    (hQP : Q ≤ P) (_hPC : P ≤ C) (hPN : P ≤ Subgroup.normalizer (Q : Set G))
     (hsc : P ⊓ Subgroup.centralizer (Q : Set G) ≤ Q) :
     CFSG.QuasithinUnique.CharTwo (P.subgroupOf C) := by
   classical
@@ -171,8 +171,8 @@ theorem lc_isSylow
     (K : Type) [Field K] [Finite K] [CharP K 2] (σ : K ≃+* K) :
     CFSG.QuasithinUnique.IsSylowTwoOf (graphFixedPosUnipotent TwistTag.E6 K σ.toRingHom)
       (graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem TwistTag.E6.tag).length
   obtain ⟨PU, hPU⟩ := (exceptional_fixed_Sylow_opposition TwistTag.E6 K 2 σ w₀ hw₀).1
   have hUC : graphFixedPosUnipotent TwistTag.E6 K σ.toRingHom ≤
@@ -187,7 +187,7 @@ theorem lc_charTwo
     CFSG.QuasithinUnique.CharTwo
       ((graphFixedParabolic TwistTag.E6 K σ.toRingHom J).subgroupOf
         (graphFixedRootGroup TwistTag.E6 K σ.toRingHom)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hQU, hQP, hPN, -⟩ := lc_radical_facts K σ J
   have hU2 := isPGroup_graphFixedPosUnipotent_subgroupOf 2 (t := TwistTag.E6)
     (σ := σ.toRingHom)
@@ -227,7 +227,7 @@ theorem lc_cover
   refine ⟨a, fun x hx => Subgroup.mem_subgroupOf.2 ?_⟩
   have hJa : J ⊆ {b | b ≠ a} := by
     intro b hb
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     intro hba
     exact ha (hba ▸ hb)
   have hPJa : graphFixedParabolic TwistTag.E6 K σ.toRingHom J ≤
@@ -283,8 +283,8 @@ theorem lc_parabolicData
       ((graphFixedPosUnipotent TwistTag.E6 K σ.toRingHom).subgroupOf
         (graphFixedRootGroup TwistTag.E6 K σ.toRingHom))
       (Set.range (lcMaxPar K σ)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hUC : graphFixedPosUnipotent TwistTag.E6 K σ.toRingHom ≤
       graphFixedRootGroup TwistTag.E6 K σ.toRingHom :=
     graphFixedPosUnipotent_le_graphFixedRootGroup TwistTag.E6 K σ.toRingHom
@@ -323,7 +323,7 @@ theorem lc_sylowFacts
   have h2 : CFSG.Blueprint.TwistedChevalleyModel S TwistTag.E6 (2 ^ f) := h.2
   obtain ⟨K, hF, hFin, hChar, σ₀, hσ₀, -, ⟨e⟩⟩ :=
     CFSG.LieType.Chevalley.TwistedE6Cover.twisted_E6_model hf h2
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   let σ : K ≃+* K := RingEquiv.ofBijective σ₀ ⟨σ₀.injective, hσ₀⟩
   have e' : S ≃* ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := e
   exact CFSG.QuasithinUnique.B113Lie.SylowFacts.of_mulEquiv_isSylow e'

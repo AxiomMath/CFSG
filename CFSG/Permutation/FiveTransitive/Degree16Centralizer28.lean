@@ -22,9 +22,9 @@ theorem alternatingGroup_le_of_sylow_seven_centralizer_card_eq_twenty_eight
       Nat.card (Subgroup.centralizer (S : Set P)) = 28) :
     alternatingGroup X ≤ P := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  letI : IsCyclic S := isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S := IsCyclic.isMulCommutative
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : IsCyclic S := isCyclic_of_prime_card hScard
+  let : IsMulCommutative S := IsCyclic.isMulCommutative
   obtain ⟨u, hu⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
   have huorder : orderOf u = 7 := hu.trans hScard
@@ -113,7 +113,7 @@ theorem alternatingGroup_le_of_sylow_seven_centralizer_card_eq_twenty_eight
       norm_num
     · rw [hrange] at hkerMul
       omega
-  letI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   obtain ⟨v, hvorder⟩ :=
     exists_prime_orderOf_dvd_card' (G := cycleMap.ker) 2 htwoDvdKer
   let vC : C := v

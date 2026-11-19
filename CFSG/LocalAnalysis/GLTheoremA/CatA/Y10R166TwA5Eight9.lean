@@ -24,7 +24,7 @@ theorem evenRank_le_pRank_twA5Bar_inf_layers {F : Type} [Field F] [Finite F]
     evenRank (unitaryPSU h 6) ≤
       CFSG.Open.pRank 3 ((twA5Hom h).range.map (unitaryProj h 6) ⊓
         blockSU h suFiveIndex) + 2 := by
-  haveI : Finite F := h.finite
+  have : Finite F := h.finite
   have h2 : 2 ≤ CFSG.Open.pRank 3 ((twA5Hom h).range.map (unitaryProj h 6) ⊓
       blockSU h suFiveIndex) := by
     refine CFSG.SectionRank.le_pRank (p := 3) (by norm_num) ?_ (twA5Jrange_isElemAbelian h) ?_

@@ -55,7 +55,7 @@ theorem comm_r4_mem_S {c : Equiv.Perm (Fin 42)} (hc : c ∈ R) :
 private theorem w183finL34_exists_ne_one_ne {G : Type*} [Group G] [Fintype G] [DecidableEq G]
     {A : Subgroup G} (hcard : Nat.card A = 4) {x : G} (hxA : x ∈ A) (hx1 : x ≠ 1) :
     ∃ y ∈ A, y ≠ 1 ∧ y ≠ x := by
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hcardA : Fintype.card A = 4 := by rwa [← Nat.card_eq_fintype_card]
   have hne : (⟨1, A.one_mem⟩ : A) ≠ ⟨x, hxA⟩ := fun h => hx1 (congrArg Subtype.val h).symm
   have hs : ({⟨1, A.one_mem⟩, ⟨x, hxA⟩} : Finset A).card = 2 := Finset.card_pair hne
@@ -119,7 +119,7 @@ theorem outer_class_r4
   obtain ⟨u, huA, hu1, hut⟩ := w183finL34_exists_ne_one_ne hcard ht ht1
   have huR : u ∈ R := hAR huA
   have hutc : u * t = t * u := by
-    letI : IsMulCommutative A := hel.1
+    let : IsMulCommutative A := hel.1
     simpa using congrArg Subtype.val (mul_comm' (⟨u, huA⟩ : A) (⟨t, ht⟩ : A))
   rcases CFSG.GH74.GLS.IVK.l34_inv_cases htR ht2 with
       ⟨c, hc, hce, -⟩ | ⟨c, hc, hce, -⟩ | ⟨c, hc, hce, -⟩ | ⟨c, hc, hce, -⟩
@@ -208,7 +208,7 @@ theorem le_S_of_ti1
       rwa [pow_two] at this
     have hwA : x * u ∈ A := A.mul_mem hxA huA
     have hux_comm : u * x = x * u := by
-      letI : IsMulCommutative A := hel.1
+      let : IsMulCommutative A := hel.1
       simpa using congrArg Subtype.val (mul_comm' (⟨u, huA⟩ : A) (⟨x, hxA⟩ : A))
     have hw1 : x * u ≠ 1 := by
       intro h
@@ -266,7 +266,7 @@ theorem le_S_of_ti1
       have := hel.2 y hyA
       rwa [pow_two] at this
     have hyx_comm : y * x = x * y := by
-      letI : IsMulCommutative A := hel.1
+      let : IsMulCommutative A := hel.1
       simpa using congrArg Subtype.val (mul_comm' (⟨y, hyA⟩ : A) (⟨x, hxA⟩ : A))
     have huS : x * y ∉ S := by
       intro h

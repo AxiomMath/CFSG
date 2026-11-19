@@ -35,6 +35,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} [(Q.subgroupOf M
         m).rootGroup (unitaryLongRoot m (by omega))) x).map Φ) →
     Nat.card ↥(Pc M V) = Nat.card V ^ (2 * m - 3)
 
+omit [Finite G] in
 theorem maxAb_bar_Z0_comm {Z0 : Subgroup G}
     (hmax : IsMaxAbNormalMod (NormH0 M Z Z0) Z0 Q)
     (hE : Assembly.IsElemAbelian 2
@@ -203,6 +204,7 @@ theorem maxAb_bar_Z0_comm {Z0 : Subgroup G}
   rw [← hVeq]
   exact ⟨a, Subgroup.mem_subgroupOf.mpr haG, rfl⟩
 
+omit [Finite G] in
 theorem generalizedFitting_MbarPrime_eq_of_fitting {Z0 : Subgroup G} {N : Subgroup G}
     (hF : generalizedFitting ↥(bar M Q (NormH0 M Z Z0)) =
       (bar M Q N).subgroupOf (bar M Q (NormH0 M Z Z0))) :
@@ -225,6 +227,7 @@ theorem generalizedFitting_MbarPrime_eq_of_fitting {Z0 : Subgroup G} {N : Subgro
       exact ⟨⟨⟨y.1, hKH y.2⟩, y.2⟩, hy, rfl⟩
   exact Subgroup.map_injective e.injective (hmapF.trans (hF.trans hmapS.symm))
 
+omit [Finite G] in
 theorem isMaximalTwoLocal_of_isMaxTwoLocalSubgroup {M : Subgroup G}
     (h : CFSG.Open.IsMaxTwoLocalSubgroup M) : IsMaximalTwoLocal M :=
   ⟨h.1, fun H hMH hH => hMH.ne (h.2 H hH hMH.le).symm⟩

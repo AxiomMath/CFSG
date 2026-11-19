@@ -35,8 +35,8 @@ theorem T1_bot {Ê J : Subgroup M6} (hperf : ⁅J, J⁆ = J)
     · subst hj1; exact h12
     · rw [hS j hj1 hj]; exact fun e => h2 e.symm
   obtain ⟨y, hyÊ, hNS⟩ := exists_nonscalar hne hS h1 h2 h12 hblock hcard
-  have hcy := cube_one (l := l) (i1 := i1) (i2 := i2) hcube hblock hd1 y hyÊ
-  have hcy2 := cube_one (l := l) (i1 := i2) (i2 := i1) hcube hblock hd2 y hyÊ
+  have hcy := cube_one (_l := l) (i1 := i1) (_i2 := i2) hcube hblock hd1 y hyÊ
+  have hcy2 := cube_one (_l := l) (i1 := i2) (_i2 := i1) hcube hblock hd2 y hyÊ
   set Y : Matrix (Fin 6) (Fin 6) F4 := mM6 y with hYdef
   set a := Y i1 i1 with ha_def
   set b := Y i2 i2 with hb_def
@@ -72,7 +72,7 @@ theorem T1_bot {Ê J : Subgroup M6} (hperf : ⁅J, J⁆ = J)
       rintro rfl; exact hd1 i hi hij
     have hj2 : j ≠ i2 := by
       rintro rfl; exact hd2 i hi hij
-    simp only [δ, if_neg hi1, if_neg hi2, if_neg hj1, if_neg hj2]
+    simp only [δ, ite_eq_right hi1, ite_eq_right hi2, ite_eq_right hj1, ite_eq_right hj2]
   set Δ : GL (Fin 6) F4 := dGL δ hδ0 with hΔ
   have hΔU : Δ ∈ primeFormUnitary hF4 (idGram F4 6) := dGL_mem_UG δ hδ0 hδ3
   set Ŷ : GL (Fin 6) F4 := (y : GL (Fin 6) F4) * Δ with hŶ
@@ -126,13 +126,13 @@ theorem T1_bot {Ê J : Subgroup M6} (hperf : ⁅J, J⁆ = J)
   have r1 : ∀ v : Fin 6 → F4, ((Ŷ : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4).mulVec v i1 = x1 * v i1 := by
     intro v
     rw [hMv, hrow _ i1 hY1]
-    simp only [δ, if_pos rfl]
+    simp only [δ, ite_eq_left rfl]
     change a * (x1 / a * v i1) = x1 * v i1
     field_simp
   have r2 : ∀ v : Fin 6 → F4, ((Ŷ : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4).mulVec v i2 = x2 * v i2 := by
     intro v
     rw [hMv, hrow _ i2 hY2]
-    simp only [δ, if_neg hne.symm, if_pos rfl]
+    simp only [δ, ite_eq_right hne.symm]
     change b * (x2 / b * v i2) = x2 * v i2
     field_simp
   have hMY : ∀ v : Fin 6 → F4, v i1 = 0 → v i2 = 0 →

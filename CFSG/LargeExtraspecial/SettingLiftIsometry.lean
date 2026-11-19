@@ -58,7 +58,7 @@ theorem mul_inv_mem_center_of_conjAut_eq (hQn : Q.Normal)
     have hy1 : b⁻¹ * y * b ∈ Q := by
       simpa using hQn.conj_mem y hy b⁻¹
     have hh := congrArg (fun φ : MulAut ↥Q => ((φ ⟨b⁻¹ * y * b, hy1⟩ : ↥Q) : H)) h
-    simp only [conjAut_apply, Subgroup.coe_mk] at hh
+    simp only [conjAut_apply] at hh
     have hconj : a * (b⁻¹ * y * b) * a⁻¹ = y := by
       rw [hh]
       group
@@ -90,6 +90,7 @@ section ExtraspecialLemmas
 
 variable {H : Type*} [Group H] {Q : Subgroup H} [Finite Q] (hQn : Q.Normal)
 
+omit [Finite ↥Q] in
 theorem mem_center_of_mul_mul_inv_mem_center_of_fixedFree
     (hE : IsExtraspecialPGroup 2 Q) [Module (ZMod 2) (Additive (Abelianization Q))]
     {u : ↥Q} {N x' : H}

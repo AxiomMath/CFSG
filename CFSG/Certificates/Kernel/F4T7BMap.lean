@@ -28,8 +28,9 @@ theorem sel_map (b : Bool) (p : α) : f (sel o b p) = sel o' b (f p) := by
   cases b <;> simp only [sel, cond, zr_map o o' f hx ht]
 
 include ha hx ht in
+omit ha in
 theorem lit_map (b : Bool) (p : α) : f (lit o b p) = lit o' b (f p) := by
-  cases b <;> simp only [lit, cond, bnot_map o o' f ha hx ht]
+  cases b <;> simp only [lit, cond, bnot_map o o' f hx ht]
 
 include hx ht in
 theorem kl_map (c : Nat) (l h : α) : f (kl o c l h) = kl o' c (f l) (f h) := by
@@ -45,11 +46,11 @@ theorem img_map (A : MatT α) (u : Pt) : (img o A u).map f = img o' (A.map f) u 
 
 include ha hx ht in
 theorem eqV_map (w : VT α) (e : Pt) : f (eqV o w e) = eqV o' (w.map f) e := by
-  simp only [eqV, VT.map, ha, lit_map o o' f ha hx ht]
+  simp only [eqV, VT.map, ha, lit_map o o' f hx ht]
 
 include ha hx ht in
 theorem mulOf_map (w : VT α) (u : Pt) : f (mulOf o w u) = mulOf o' (w.map f) u := by
-  simp only [mulOf, bor_map o o' f ha hx ht, eqV_map o o' f ha hx ht]
+  simp only [mulOf, bor_map o o' f ha hx, eqV_map o o' f ha hx ht]
 
 include ha hx ht in
 theorem mtab_map (A : MatT α) (om : List Pt) :
@@ -68,7 +69,7 @@ theorem orL_map (l : List α) : f (orL o l) = orL o' (l.map f) := by
   | nil => exact zr_map o o' f hx ht
   | cons a l ih =>
     simp only [orL, List.foldr_cons, List.map_cons] at ih ⊢
-    rw [bor_map o o' f ha hx ht, ih]
+    rw [bor_map o o' f ha hx, ih]
 
 include ha ht in
 theorem andL_map (l : List α) : f (andL o l) = andL o' (l.map f) := by
@@ -138,9 +139,9 @@ theorem parT_map (T : List (List α)) : f (parT o T) = parT o' (T.map (List.map 
   apply List.filterMap_congr
   intro l _
   by_cases h : k < l
-  · simp only [h, if_true, Option.map_some, invP_map o o' f ha hx ht]
+  · simp only [h, ite_true, Option.map_some, invP_map o o' f ha hx ht]
     rw [getD_nil_map, getD_nil_map]
-  · simp only [h, if_false, Option.map_none]
+  · simp only [h, ite_false, Option.map_none]
 
 include ha hx ht in
 theorem invT_map (T U : List (List α)) :
@@ -151,7 +152,7 @@ theorem invT_map (T U : List (List α)) :
   intro k _
   apply List.map_congr_left
   intro j _
-  simp only [Function.comp, ha, bor_map o o' f ha hx ht, bnot_map o o' f ha hx ht,
+  simp only [Function.comp, ha, bor_map o o' f ha hx, bnot_map o o' f hx ht,
     getD2_map o o' f hx ht]
 
 include hx in
@@ -177,7 +178,7 @@ theorem stabX_map (A : MatT α) (om : List Pt) : f (stabX o A om) = stabX o' (A.
 
 include ha hx ht in
 theorem badX_map (A : MatT α) (om : List Pt) : f (badX o A om) = badX o' (A.map f) om := by
-  simp only [badX, bor_map o o' f ha hx ht, bnot_map o o' f ha hx ht, stabT_map o o' f ha hx ht,
+  simp only [badX, bor_map o o' f ha hx, bnot_map o o' f hx ht, stabT_map o o' f ha hx ht,
     invT_map o o' f ha hx ht, parT_map o o' f ha hx ht, mtab_map o o' f ha hx ht,
     adjT_map o o' f ha hx]
 

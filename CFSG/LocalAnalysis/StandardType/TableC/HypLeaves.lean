@@ -18,7 +18,7 @@ theorem ggTC_rank_le {G : Type} [Group G] [Finite G] {p : ℕ} {B : Subgroup G} 
   intro E T hT h2T hE hEN
   obtain ⟨-, hBcard, -⟩ := hB
   have hEp : IsPGroup p E := CFSG.StandardType.isPGroup_of_isElemAbelian hE
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq hEp
   have hk_le : k ≤ CFSG.Open.GLATwoLocalRank p G :=
     CFSG.HardMathSupport.Timmesfeld.ComponentBalance.le_glaTwoLocalRank_of_le_normalizer
@@ -38,7 +38,7 @@ private theorem ggTC_nbr_of_dvd
     (hDK : ¬ D ≤ Subgroup.centralizer (ggKd p B x L D J d : Set G)) :
     GGNbr p B x D J d (ggKd p B x L D J d) := by
   have hp : p.Prime := hctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hd1 : d ≠ 1 := fun h => hdx (h ▸ Subgroup.one_mem _)
   set K := ggKd p B x L D J d with hKdef
   have hK : IsComponentOf K (Subgroup.centralizer {d}) := h65 d hd hd1
@@ -156,7 +156,7 @@ theorem GGTCCtx.h6
   have hctx : GGSixCtxV2 p B Bs x L D J (ggU t n f).D t n f ψ := h.1
   have hcomp : ∀ d ∈ D, d ≠ 1 →
       IsComponentOf (ggKd p B x L D J d) (Subgroup.centralizer {d}) := h.2.2.2.1
-  haveI : Fact p.Prime := ⟨hctx.prime⟩
+  have : Fact p.Prime := ⟨hctx.prime⟩
   have hxB : x ∈ B := hctx.sstar.2.1
   have hxp : x ^ p = 1 := hctx.sstar.1.1.2 x hxB
   refine ggG0_le_of hLH ?_

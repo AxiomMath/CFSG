@@ -17,7 +17,7 @@ theorem relIndex_dvd_card_of_sup_eq {G : Type*} [Group G] [Finite G] {K U C : Su
   classical
   set U' : Subgroup ↥K := U.subgroupOf K with hU'
   set C' : Subgroup ↥K := C.subgroupOf K with hC'
-  haveI hU'n : U'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUK).2 hn
+  have hU'n : U'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUK).2 hn
   have hsup' : U' ⊔ C' = ⊤ := by
     apply Subgroup.map_injective K.subtype_injective
     rw [Subgroup.map_sup, hU', hC', Subgroup.map_subgroupOf_eq_of_le hUK,
@@ -54,9 +54,9 @@ theorem exists_sylow_centralized {p : ℕ} (hp : p ∈ uniqueFourSigma m.M)
     (hcyc : ∀ S : Sylow m.r ↥m.K, IsCyclic ↥S) (h626 : m.C626) (h628b : m.C628b) (h631 : m.C631) :
     ∃ P₁ : Subgroup G, IsSylowOf p P₁ m.M ∧ m.A ⊓ m.L ≤ centralizer (P₁ : Set G) := by
   classical
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hpr : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hpr⟩
+  have : Fact p.Prime := ⟨hpr⟩
   set Y : Subgroup G := m.A ⊓ m.L with hY
   have hYR : Y ≤ m.R := inf_le_left.trans (sup_le m.hZ.le m.E_le_R)
   have hYr : IsPGroup m.r Y := m.d.sylow.isPGroup.to_le hYR
@@ -98,7 +98,7 @@ theorem four_le_pRank_sylow_M {p : ℕ} (hp : p ∈ uniqueFourSigma m.M) {P₁ :
     (hP₁ : IsSylowOf p P₁ m.M) : 4 ≤ CFSG.Open.pRank p P₁ := by
   classical
   have hpr : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hpr⟩
+  have : Fact p.Prime := ⟨hpr⟩
   obtain ⟨E, hEM, hEel, hEcard⟩ := CFSG.PreuniquenessRankFour.Helpers.pRank_attained p hpr m.M
   obtain ⟨k, hkM, hk⟩ := exists_conj_le_of_isSylowOf hP₁ hEM hEel.isPGroup
   have hE'le : E.map (MulAut.conj k⁻¹).toMonoidHom ≤ P₁ := by
@@ -116,7 +116,7 @@ theorem two_lt_pRank_normalizer {p : ℕ} (hp : p ∈ uniqueFourSigma m.M)
     2 < CFSG.Open.pRank p (⊤ : Subgroup ↥(normalizer (B : Set G))) := by
   classical
   have hpr : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hpr⟩
+  have : Fact p.Prime := ⟨hpr⟩
   obtain ⟨P₁, hP₁, hcent⟩ := m.exists_sylow_centralized hp hcyc h626 h628b h631
   have hP₁N : P₁ ≤ normalizer (B : Set G) := by
     intro x hx
@@ -140,7 +140,7 @@ theorem dvd_card_inf_normalizer {p : ℕ} (hp : p ∈ uniqueFourSigma m.M)
     {B : Subgroup G} (hB : B ≤ m.A ⊓ m.L) : p ∣ Nat.card ↥(m.M ⊓ normalizer (B : Set G)) := by
   classical
   have hpr : p.Prime := hp.1.1
-  haveI : Fact p.Prime := ⟨hpr⟩
+  have : Fact p.Prime := ⟨hpr⟩
   obtain ⟨P₁, hP₁, hcent⟩ := m.exists_sylow_centralized hp hcyc h626 h628b h631
   have hP₁N : P₁ ≤ normalizer (B : Set G) := by
     intro x hx

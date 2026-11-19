@@ -13,6 +13,7 @@ open Subgroup CFSG.Open
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem map_fixedPointSubgroup_le_centralizer {E K : Subgroup G}
     [MulDistribMulAction E K]
     (hact : ∀ (e : E) (x : K), ((e • x : K) : G) = (e : G) * (x : G) * (e : G)⁻¹)
@@ -35,7 +36,7 @@ theorem le_glbCore_of_coprime {p k : ℕ} [Fact p.Prime] {E K : Subgroup G}
     K ≤ GLBCore p k E := by
   classical
   have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
-  letI : MulDistribMulAction E K :=
+  let : MulDistribMulAction E K :=
     MulDistribMulAction.compHom K (K.normalizerMonoidHom.comp (Subgroup.inclusion hEK))
   have hact : ∀ (e : E) (x : K), ((e • x : K) : G) = (e : G) * (x : G) * (e : G)⁻¹ :=
     fun _ _ => rfl
@@ -44,8 +45,8 @@ theorem le_glbCore_of_coprime {p k : ℕ} [Fact p.Prime] {E K : Subgroup G}
   have hnt : Nontrivial E := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     exact lt_of_lt_of_le (one_lt_pow' hp1 (by omega)) hcard
-  letI : IsElementaryAbelian p E := hEel
-  letI : Nontrivial E := hnt
+  let : IsElementaryAbelian p E := hEel
+  let : Nontrivial E := hnt
   have hgen := CFSG.SolvableHall.coprime_hyperplane_generation (A := E) (H := K) (p := p) hK
   have htop : (⊤ : Subgroup K).map K.subtype = K :=
     le_antisymm (Subgroup.map_subtype_le ⊤) fun x hx =>

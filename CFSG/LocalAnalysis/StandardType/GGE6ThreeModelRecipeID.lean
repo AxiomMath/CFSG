@@ -28,7 +28,7 @@ private theorem map_congr_eq_of_normal {R C : Type} [Group R] [Group C]
     ext φ
     rfl
   rw [hcomp, hcomp2, ← Subgroup.map_map]
-  haveI : (J.map (MulAut.congr e).toMonoidHom).Normal :=
+  have : (J.map (MulAut.congr e).toMonoidHom).Normal :=
     hJ.map _ (MulAut.congr e).surjective
   have hconj : (MulAut.congr (e.symm.trans e')).toMonoidHom =
       MulAut.conj (e.symm.trans e') := by

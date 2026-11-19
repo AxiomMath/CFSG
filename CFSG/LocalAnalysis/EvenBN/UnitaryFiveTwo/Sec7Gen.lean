@@ -107,7 +107,7 @@ theorem quotient_equiv (h : d.Hyp) (hU : d.UnitaryProductData A) :
 
 theorem isQuasisimple (h : d.Hyp) (hU : d.UnitaryProductData A) :
     CFSG.Open.IsQuasisimple ↥A := by
-  haveI := h.isSimpleGroup_L
+  have := h.isSimpleGroup_L
   obtain ⟨e⟩ := h.quotient_equiv hU
   have hperf : Group.IsPerfect ↥A :=
     (Common.isPerfect_subgroup_iff_commutator_eq A).mpr hU.perfect
@@ -125,7 +125,7 @@ theorem odd_center (h : d.Hyp) (hU : d.UnitaryProductData A) :
     exact h.centralizer_inf_H_eq.le
   · rw [h.range_delta_eq hU]
     have hnc := h.not_comm_L
-    push_neg at hnc
+    push Not at hnc
     exact hnc
 
 end OddCenter

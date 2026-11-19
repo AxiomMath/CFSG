@@ -20,13 +20,15 @@ namespace Cfg1620
 
 variable {M V₀ V U S R H : Subgroup G} {g : G} {B : Subgroup G}
 
+omit [Finite G] in
 private theorem le_normalizer_inf_centralizer_I :
     H ≤ Subgroup.normalizer
-      ((H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G) : Subgroup G) : Set G) := fun h hh =>
+      ((H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G) : Subgroup G) : Set G) := fun _h hh =>
   mem_normalizer_inf_centralizer_wc16 (Subgroup.le_normalizer hh)
     (le_normalizer_conjClosure (U ⊔ V₀) H hh)
 
-private theorem commutator_conj_mem_of_mem {y : G} (hyH : y ∈ H)
+omit [Finite G] in
+private theorem commutator_conj_mem_of_mem {y : G} (_hyH : y ∈ H)
     (hy : ∀ k ∈ conjClosure V H,
       ⁅y, k⁆ ∈ H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G))
     {h : G} (hh : h ∈ H) :
@@ -47,6 +49,7 @@ private theorem commutator_conj_mem_of_mem {y : G} (hyH : y ∈ H)
       (⁅y, h⁻¹ * k * h⁆)).1 h1
   rwa [hkey] at hmem
 
+omit [Finite G] in
 private theorem commutator_inv_mem_of_mem {y : G} (hyH : y ∈ H)
     (hy : ∀ k ∈ conjClosure V H,
       ⁅y, k⁆ ∈ H ⊓ centralizer (conjClosure (U ⊔ V₀) H : Set G)) :

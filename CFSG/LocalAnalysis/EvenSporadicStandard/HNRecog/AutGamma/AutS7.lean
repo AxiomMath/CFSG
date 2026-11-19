@@ -18,7 +18,7 @@ theorem exists_inner_of_normalizes {S : Subgroup G} (hS : IsShapeSym 7 ↥S) {g 
     ∃ s ∈ S, ∀ t ∈ S, g * t * g⁻¹ = s * t * s⁻¹ := by
   classical
   obtain ⟨φ⟩ := hS
-  haveI : Finite ↥S := (φ.toEquiv.finite_iff).2 inferInstance
+  have : Finite ↥S := (φ.toEquiv.finite_iff).2 inferInstance
   let cH : ↥S →* ↥S :=
     { toFun := fun t => ⟨g * (t : G) * g⁻¹, hg t t.2⟩
       map_one' := Subtype.ext (by

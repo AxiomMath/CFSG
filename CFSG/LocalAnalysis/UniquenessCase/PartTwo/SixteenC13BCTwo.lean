@@ -44,7 +44,7 @@ theorem s16c13bc_case168_2 (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 2
   have hp3 : (3 : ℕ) ∈ D.sig := by
     rw [h2.2.2]
     exact Set.mem_singleton 3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨L₀, J₀, J₁, F, hLX, hKX, hKL, hK, hdir, hle, hE₀, hE₁, hfam⟩ := s16c2m_setting D hc h2
   obtain ⟨G3, π, -, -, ⟨a, ha⟩, -, hact, -, -, -, -, hcommπ⟩ :=
     s16c2m_members F hKX hKL hK hE₀ hE₁
@@ -109,7 +109,7 @@ theorem s16c13bc_case168_2 (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 2
   have hZO : Z ≤ oddBar D.M ⊥ V hV :=
     s16c13bc_le_oddBar hV hZM hZn (hZcard ▸ ⟨1, rfl⟩)
   have hWT : E3.wClos V D.k D.T ≤ D.T := E3.wClos_le_of_forall fun A hA => hA.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP2 : IsPGroup 2 ↥(barSub ⊥ V hV (E3.wClos V D.k D.T)) :=
     s15_LP_isPGroup_barSub hV (D.sylowM.isPGroup.to_le hWT)
   have hWM : barSub ⊥ V hV (E3.wClos V D.k D.T) ≤ Mbar D.M ⊥ V hV :=

@@ -20,12 +20,12 @@ private lemma charP_two_D23 {K : Type} [Field K] [Finite K] {n : ℕ}
   exact CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero ((pow_eq_zero_iff hn).mp h)
 
 theorem kTab23d_sp6 {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n) (S : Sylow 2 ↥H)
+    (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n) (S : Sylow 2 ↥H)
     (h : IsSpn ↥H 6 n ∧ NatSpn H ⊤ ⊥ 6 n) : IsSp4 (Bar2 (Hinf (pointStab H S))) n := by
   obtain ⟨-, K, hKf, hKfin, hK, hreal⟩ := h.2
-  letI := hKf
-  letI := hKfin
-  haveI : CharP K 2 := charP_two_D23 hK (by omega)
+  let := hKf
+  let := hKfin
+  have : CharP K 2 := charP_two_D23 hK (by omega)
   have hK4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num

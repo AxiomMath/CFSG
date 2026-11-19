@@ -163,7 +163,7 @@ private lemma ggHalfGraphI1_conj_single {c : SpecialLinearGroup (Fin 6) F2}
   exact add_left_cancel key
 
 private lemma ggHalfGraphI1_column {c : SpecialLinearGroup (Fin 6) F2}
-    {i j k l : Fin 6} (hij : i ≠ j) (hkl : k ≠ l)
+    {i j k l : Fin 6} (_hij : i ≠ j) (_hkl : k ≠ l)
     (h : (c : Matrix (Fin 6) (Fin 6) F2) * Matrix.single i j 1 *
       ((c⁻¹ : SpecialLinearGroup (Fin 6) F2) : Matrix (Fin 6) (Fin 6) F2) =
       Matrix.single k l 1) :
@@ -245,8 +245,8 @@ private lemma ggHalfGraphI1_eq_signedPerm {c : SpecialLinearGroup (Fin 6) F2}
     _ = signedPerm ggHalfGraphI1_sigma 1 a b := by
           rw [signedPerm_apply]
           by_cases h : a = ggHalfGraphI1_sigma b
-          · rw [h, ggHalfGraphI1_v_same, if_pos rfl]; rfl
-          · rw [ggHalfGraphI1_v_ne (show a ≠ ggHalfGraphI1_sigma b from h), if_neg h]
+          · rw [h, ggHalfGraphI1_v_same, ite_eq_left rfl]; rfl
+          · rw [ggHalfGraphI1_v_ne (show a ≠ ggHalfGraphI1_sigma b from h), ite_eq_right h]
 
 private lemma ggHalfGraphI1_sigmaPerm_conj_swap23 :
     (sigmaPerm 3 : Equiv.Perm (Fin 6)) *
@@ -439,7 +439,7 @@ theorem graph_I1 {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {
       change ggHalfSLoc a = ggHalfSLoc b
       exact hh.symm))
   have hmain : α (slE a b) = slE (ggHalfSLoc b) (ggHalfSLoc a) := by
-    rw [slE, dif_neg hab, slE, dif_neg hS]
+    rw [slE, dite_eq_right hab, slE, dite_eq_right hS]
     rw [hαc', MulAut.mul_apply, MulAut.conj_apply, ggHalfGraphI1_graphAut_transvection hab, hc]
     rw [conj_transvection_of_coe_eq_signedPerm (g := slPerm gf2_two ggHalfGraphI1_sigma)
       (π := ggHalfGraphI1_sigma) (ε := 1) (coe_slPerm gf2_two ggHalfGraphI1_sigma)

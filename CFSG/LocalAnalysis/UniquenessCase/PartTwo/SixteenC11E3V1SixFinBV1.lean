@@ -36,7 +36,7 @@ theorem s1611e3_sixGhatOf_injective {c d : s1611e3_SixCode} (hc : s1611e3_sixCod
   simp only [s1611e3_sixCodeValid] at hc hd
   rw [show τ = sixAlpha σ from hc, show τ' = sixAlpha σ' from hd]
   cases ε <;> cases ε' <;>
-    simp only [s1611e3_sixGhatOf, Bool.false_eq_true, if_true, if_false, reduceIte] at h
+    simp only [s1611e3_sixGhatOf, Bool.false_eq_true, ite_true, ite_false] at h
   · rw [sixRho_injective h]
   · exact absurd h (s1611e3_sixRho_ne_swap_mul σ σ')
   · refine absurd ?_ (s1611e3_sixRho_ne_swap_mul σ σ')

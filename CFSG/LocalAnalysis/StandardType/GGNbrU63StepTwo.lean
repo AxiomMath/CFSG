@@ -48,7 +48,7 @@ theorem all_inner_of_rank (hKd : UnitaryFieldData 2 n F) (hpq : 3 ∣ 2 ^ n + 1)
     ∀ (b : G) (hb : b ∈ Bs), ∃ (M : GL (Fin 6) F) (hMgu : M ∈ LargeEvenGUSet (Fin 6) F (2 ^ n)),
       IsInner n M ∧ ggLAut K θ ⟨b, hN hb⟩ = TableB.projConj (unitarySU 2 n F 6)
         ⟨M, TableBUE.gu_subset_normalizer (d := 6) hKd hMgu⟩ := by
-  haveI : Finite F := hKd.finite
+  have : Finite F := hKd.finite
   classical
   intro b hb
   obtain ⟨A, hA, hgraph⟩ := ggLAut_mem_of_induces K θ hN hBI hb
@@ -89,7 +89,7 @@ theorem card_le_of_center_two (hKd : UnitaryFieldData 2 n F) (hpq : 3 ∣ 2 ^ n 
     (hA27 : Nat.card (ggGamma K hN).range = 3 ^ 3) :
     Nat.card Bs ≤ 3 ^ 4 := by
   classical
-  haveI : Finite F := hKd.finite
+  have : Finite F := hKd.finite
   have h2 : IsPGroup 2 (ggQuotHom θ).ker := by rw [ker_ggQuotHom θ]; exact hZ2
   obtain ⟨U, E, hU, hU2, hEU, hE, hEc⟩ :=
     exists_twoLocal_three_of_quot hKd hpq (ggQuotHom θ) (ggQuotHom_surjective θ) h2
@@ -136,7 +136,7 @@ theorem not_ggFixCompCyclic_of_heisTriple (hKd : UnitaryFieldData 2 n F) (hpq : 
     (hyA : TableB.projConj (unitarySU 2 n F 6) ⟨y, hyN⟩ ∈ TypeA.inducedSub ψ A)
     (hzA : TableB.projConj (unitarySU 2 n F 6) ⟨z, hzN⟩ ∈ TypeA.inducedSub ψ A) :
     ∀ a₀ ∈ A, a₀ ≠ 1 → ¬ GGFixCompCyclic 3 a₀ := by
-  haveI : Finite F := hKd.finite
+  have : Finite F := hKd.finite
   have hAbcard : Nat.card (TypeA.inducedSub ψ A) = 27 := by
     rw [TypeA.card_inducedSub hψ hker hperf (fun a ha => by
       obtain ⟨y, -, hy⟩ := hAI a ha
@@ -194,7 +194,7 @@ theorem center_two_and_frame
           ggLAut K θ ⟨b, hN hb⟩ = TableB.projConj (unitarySU 2 n F 6) ⟨M, hM⟩ ∧
             ((P⁻¹ * M * P : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).IsDiag) →
         ∀ g ∈ Bs, g ∈ K := by
-  haveI : Finite F := hKd.finite
+  have : Finite F := hKd.finite
   classical
   by_cases hn1 : n = 1
   · subst hn1
@@ -373,7 +373,7 @@ theorem nbrU63_stepTwo
       have hy''z : (GeneralLinearGroup.scalar (Fin 6) c * y') * z' =
           z' * (GeneralLinearGroup.scalar (Fin 6) c * y') := by
         rw [mul_assoc, hyz, ← mul_assoc, ← mul_assoc, (TypeA.PGLTor.commute_scalar c z').eq]
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hζ : IsPrimitiveRoot ζ 3 := by
         have := IsPrimitiveRoot.orderOf ζ
         rwa [orderOf_eq_prime hζ3 hζ1] at this

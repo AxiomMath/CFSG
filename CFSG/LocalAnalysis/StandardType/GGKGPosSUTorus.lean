@@ -122,11 +122,11 @@ theorem longTorusFun_lowIdx_eq_zpow {n : ℕ} (c : Fin (n / 2)) (ζ : F) (s : Fi
   have hc := c.isLt
   have hs := s.isLt
   by_cases h1 : s.val = c.val
-  · rw [if_pos (Fin.ext (by rw [val_lowIdx]; exact h1)), if_pos h1, zpow_one]
-  · rw [if_neg (fun h => h1 (by rw [h, val_lowIdx])), if_neg h1]
+  · rw [ite_eq_left (Fin.ext (by rw [val_lowIdx]; exact h1)), ite_eq_left h1, zpow_one]
+  · rw [ite_eq_right (fun h => h1 (by rw [h, val_lowIdx])), ite_eq_right h1]
     by_cases h2 : s.val + c.val + 1 = n
-    · rw [if_pos (Fin.ext (by rw [Fin.val_rev, val_lowIdx]; omega)), if_pos h2, _root_.zpow_neg_one]
-    · rw [if_neg (fun h => h2 (by rw [h, Fin.val_rev, val_lowIdx]; omega)), if_neg h2,
+    · rw [ite_eq_left (Fin.ext (by rw [Fin.val_rev, val_lowIdx]; omega)), ite_eq_left h2, _root_.zpow_neg_one]
+    · rw [ite_eq_right (fun h => h2 (by rw [h, Fin.val_rev, val_lowIdx]; omega)), ite_eq_right h2,
         zpow_zero]
 
 end Field

@@ -114,6 +114,7 @@ theorem Cfg3.X1_inf_X2 (c : Cfg3 G p f z S K₁ K₂ t u H w₁ X₁ Y) : X₁ �
   have : Nat.card ↥(X₁ ⊓ XB t X₁ : Subgroup G) = 1 := by omega
   exact Subgroup.eq_bot_of_card_eq _ this
 
+omit [Finite G] in
 theorem RR_le_normalizer (t : G) (X₁ : Subgroup G) :
     RR t X₁ ≤ normalizer ((XB t X₁ : Subgroup G) : Set G) :=
   CFSG.LieType.BorelTits.pCoreOf_le 5 _
@@ -122,6 +123,7 @@ theorem RR_pGroup (t : G) (X₁ : Subgroup G) : IsPGroup 5 ↥(RR t X₁) :=
   haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   CFSG.LieType.BorelTits.pCoreOf_isPGroup 5 _
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_RR (t : G) (X₁ : Subgroup G) :
     normalizer ((XB t X₁ : Subgroup G) : Set G) ≤ normalizer ((RR t X₁ : Subgroup G) : Set G) :=
   CFSG.LieType.BorelTits.le_normalizer_pCoreOf 5 _

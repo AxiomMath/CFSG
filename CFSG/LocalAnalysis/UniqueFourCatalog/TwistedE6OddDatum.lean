@@ -27,7 +27,7 @@ theorem e6odd_isSolvable_iSup_of_pairwise_commute {G : Type*} [Group G] {ι : Ty
     (hcomm : ∀ i j, i ≠ j → ∀ x ∈ H i, ∀ y ∈ H j, Commute x y) :
     Group.IsSolvable ↥(⨆ i, H i) := by
   classical
-  haveI := Fintype.ofFinite ι
+  have := Fintype.ofFinite ι
   have key : ∀ S : Finset ι, Group.IsSolvable ↥(⨆ i ∈ S, H i) := by
     intro S
     induction S using Finset.induction_on with
@@ -43,8 +43,8 @@ theorem e6odd_isSolvable_iSup_of_pairwise_commute {G : Type*} [Group G] {ι : Ty
           iSup₂_le fun i hi x hx => Subgroup.mem_centralizer_singleton_iff.2
             (hcomm i j (fun h => hj (h ▸ hi)) x hx n hn).eq
         exact (Subgroup.mem_centralizer_singleton_iff.1 (hle he)).symm
-      haveI := hsolv j
-      haveI := ih
+      have := hsolv j
+      have := ih
       exact e6odd_isSolvable_sup_of_commute hcom
   have hU : (⨆ i ∈ (Finset.univ : Finset ι), H i) = ⨆ i, H i :=
     le_antisymm (iSup₂_le fun i _ => le_iSup _ i)
@@ -76,8 +76,8 @@ theorem exists_isQuasisimple_orbitGroupC_of_isPerfect {P : Subgroup (adjointGrou
     (hPX : P ≤ D.totalFixedGroup) (hPperf : Group.IsPerfect ↥P) (hP1 : P ≠ ⊥) :
     ∃ J' : Set.range D.classOrbit, CFSG.Open.IsQuasisimple ↥((D.withOrbit J').orbitGroupC) := by
   by_contra hno
-  push_neg at hno
-  haveI := D.finite_orbitIndex
+  push Not at hno
+  have := D.finite_orbitIndex
   have hsolv : ∀ J' : Set.range D.classOrbit,
       Group.IsSolvable ↥((D.withOrbit J').orbitGroupC) := fun J' =>
     (isQuasisimple_or_isSolvable_orbitGroupC D J').resolve_left (hno J')
@@ -87,14 +87,14 @@ theorem exists_isQuasisimple_orbitGroupC_of_isPerfect {P : Subgroup (adjointGrou
     exact Subtype.ext (D.commute_of_ne hne
       ((D.withOrbit J₁).mem_fixedGroup.1 ((D.withOrbit J₁).orbitGroupC_le_fixedGroup hx)).1
       ((D.withOrbit J₂).mem_fixedGroup.1 ((D.withOrbit J₂).orbitGroupC_le_fixedGroup hy)).1).eq
-  haveI := e6odd_isSolvable_iSup_of_pairwise_commute
+  have := e6odd_isSolvable_iSup_of_pairwise_commute
     (fun J' : Set.range D.classOrbit => (D.withOrbit J').orbitGroupC) hsolv hcomm
   have hle := le_iSup_orbitGroupC_of_isPerfect D hPX hPperf
-  haveI : Group.IsSolvable ↥P :=
+  have : Group.IsSolvable ↥P :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hP1
-  haveI := hPperf
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hP1
+  have := hPperf
   exact Group.IsPerfect.not_isSolvable ↥P ‹_›
 
 end Datum

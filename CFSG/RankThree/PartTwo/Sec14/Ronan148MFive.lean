@@ -72,7 +72,7 @@ section Five
 theorem step148RankFive_of_sol
     (hsol : Step148RankFiveSol) : Step148RankFive := by
   intro G _ _ A c L h Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ hF hA hXJ
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR := hsol G A c L h Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ hF hA hXJ
   set X := deltaZero A (lB A) Y with hXdef

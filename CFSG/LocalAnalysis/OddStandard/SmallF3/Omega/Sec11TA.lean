@@ -13,7 +13,7 @@ variable {G : Type} [Group G]
 
 theorem sec11_ncard_conjClassIn [Finite G] (M : Subgroup G) (t : G) :
     (conjClassIn M t).ncard = (M ⊓ centralizer ({t} : Set G)).relIndex M := by
-  letI : MulAction ↥M G := MulAction.compHom G (MulAut.conj.comp M.subtype)
+  let : MulAction ↥M G := MulAction.compHom G (MulAut.conj.comp M.subtype)
   have hstab : MulAction.stabilizer ↥M t = (M ⊓ centralizer ({t} : Set G)).subgroupOf M := by
     ext m
     rw [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf, Subgroup.mem_inf,
@@ -22,7 +22,7 @@ theorem sec11_ncard_conjClassIn [Finite G] (M : Subgroup G) (t : G) :
     exact ⟨fun h => ⟨m.2, mul_inv_eq_iff_eq_mul.mp h⟩, fun h => mul_inv_eq_iff_eq_mul.mpr h.2⟩
   have horbit : MulAction.orbit ↥M t = conjClassIn M t := by
     ext y
-    simp only [MulAction.mem_orbit_iff, conjClassIn, Set.mem_setOf_eq]
+    simp only [MulAction.mem_orbit_iff, conjClassIn, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨m, rfl⟩
       exact ⟨m, m.2, rfl⟩
@@ -62,7 +62,7 @@ theorem sec11_relIndex_S_T [Finite G] {M T S : Subgroup G} {t : G} (hT : IsSylow
     have hodd : Odd (S.relIndex C * C.relIndex (centralizer ({t} : Set G))) := by
       rw [hprod]; exact hZodd
     exact (Nat.odd_mul.mp hodd).1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ : ∃ n, Nat.card ↥T = 2 ^ n := hT.2.1.exists_card_eq
   have hdvd : S.relIndex T ∣ 2 ^ n := by
     have h := (S.subgroupOf T).index_dvd_card

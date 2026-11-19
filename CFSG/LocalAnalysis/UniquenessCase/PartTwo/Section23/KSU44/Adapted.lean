@@ -95,9 +95,6 @@ private noncomputable def coordAddEquiv_S03 {K : Type} [Field K]
           ((Mx : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ v) = v
         rw [Matrix.mulVec_mulVec, hmatMxi, Matrix.one_mulVec]
       map_add' := fun v w => by
-        change (Mxi : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ (v + w) =
-          (Mxi : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ v +
-            (Mxi : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ w
         rw [Matrix.mulVec_add] }
 
 private lemma exists_adapted_coord_S03 {W : Type} [CommGroup W] {K : Type} [Field K]
@@ -142,13 +139,13 @@ theorem exists_adapted_equiv {W : Type} [CommGroup W] {H : Subgroup (MulAut W)}
             Multiplicative.toAdd (e w)) ∧
       (S : Subgroup ↥H) = (hypUnitriangular hK 2 0).map Φ.toMonoidHom := by
   obtain ⟨π, e, he⟩ := exists_hypNatEquiv hK hreal
-  haveI : Finite ↥(hypSU hK 2 0) := by
-    haveI := hK.finite
+  have : Finite ↥(hypSU hK 2 0) := by
+    have := hK.finite
     infer_instance
-  haveI : Finite ↥H := Finite.of_injective π.symm.toEquiv π.symm.toEquiv.injective
+  have : Finite ↥H := Finite.of_injective π.symm.toEquiv π.symm.toEquiv.injective
   obtain ⟨S₀, hS₀⟩ :=
     (unitary_order_and_Sylow hK (r := 2) (ε := 0) (by norm_num) (by norm_num)).2.1
-  haveI : Finite (Sylow 2 ↥(hypSU hK 2 0)) := Sylow.finite_of_finiteIndex S₀
+  have : Finite (Sylow 2 ↥(hypSU hK 2 0)) := Sylow.finite_of_finiteIndex S₀
   let S' : Sylow 2 ↥(hypSU hK 2 0) :=
     S.mapSurjective (f := π.symm.toMonoidHom) π.symm.surjective
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq ↥(hypSU hK 2 0) S₀ S'

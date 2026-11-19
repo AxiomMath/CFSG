@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def ConjGenerated (M V₀ V : Subgroup G) : Prop :=
   ∀ v ∈ V, v ∉ V₀ → V = Subgroup.closure {x : G | ∃ m ∈ M, x = m * v * m⁻¹}
 
+omit [Finite G] in
 theorem eq_of_normalizer_of_not_le_of_conjGenerated {M V₀ V W : Subgroup G}
     (hgen : ConjGenerated M V₀ V) (hW : W ≤ V)
     (hMW : M ≤ Subgroup.normalizer (W : Set G)) (hnot : ¬ W ≤ V₀) : W = V := by
@@ -33,17 +34,20 @@ theorem eq_of_normalizer_of_not_le_of_conjGenerated {M V₀ V W : Subgroup G}
   rintro y ⟨m, hmM, rfl⟩
   exact (Subgroup.mem_normalizer_iff.1 (hMW hmM) w).1 hwW
 
+omit [Finite G] in
 theorem le_of_normalizer_of_ne_of_conjGenerated {M V₀ V W : Subgroup G}
     (hgen : ConjGenerated M V₀ V) (hW : W ≤ V)
     (hMW : M ≤ Subgroup.normalizer (W : Set G)) (hne : W ≠ V) : W ≤ V₀ := by
   by_contra hnot
   exact hne (eq_of_normalizer_of_not_le_of_conjGenerated hgen hW hMW hnot)
 
+omit [Finite G] in
 private theorem timmesfeld_conjSubgroup_eq (T : Subgroup G) (g : G) :
     CFSG.CGT.Timmesfeld75.conjSubgroup g T = conjSubgroup T g⁻¹ := by
   ext x
   rw [CFSG.CGT.Timmesfeld75.mem_conjSubgroup, mem_conjSubgroup_iff, inv_inv]
 
+omit [Finite G] in
 private theorem conjSubgroup_zpowers (x g : G) :
     conjSubgroup (Subgroup.zpowers x) g = Subgroup.zpowers (g⁻¹ * x * g) := by
   rw [conjSubgroup, MonoidHom.map_zpowers]
@@ -72,7 +76,7 @@ theorem conjSubgroup_inf_self_eq_bot {M V₀ : Subgroup G}
     exact hg ((le_of_eq hN) (conjSubgroup_eq_iff_mem_normalizer.mp heqC))
 
 private theorem mQuot_inf_le_of_le {V D Cc : Subgroup G} (hV : IsPGroup 2 V) (hD : D ≤ V)
-    (hC : Cc ≤ V) : E3.mQuot D (D ⊓ Cc) ≤ E3.mQuot V Cc := by
+    (_hC : Cc ≤ V) : E3.mQuot D (D ⊓ Cc) ≤ E3.mQuot V Cc := by
   have hDp : IsPGroup 2 D := hV.to_le hD
   have hle : (D ⊓ Cc).relIndex D ≤ Cc.relIndex V := by
     rw [inf_comm, Subgroup.inf_relIndex_right]
@@ -82,6 +86,7 @@ private theorem mQuot_inf_le_of_le {V D Cc : Subgroup G} (hV : IsPGroup 2 V) (hD
   rw [h1, h2] at hle
   exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).1 hle
 
+omit [Finite G] in
 private theorem mQuot_conjSubgroup_left {V A : Subgroup G} {m : G}
     (hm : m ∈ Subgroup.normalizer (V : Set G)) :
     E3.mQuot V (conjSubgroup A m) = E3.mQuot V A := by
@@ -89,6 +94,7 @@ private theorem mQuot_conjSubgroup_left {V A : Subgroup G} {m : G}
   have h := E3.mQuot_conjSubgroup V A m
   rwa [hV] at h
 
+omit [Finite G] in
 private theorem le_preTil_fixV_actTil {V₀ V C : Subgroup G} (hV : IsElemAbelian 2 V)
     {t : G} (hts : t ∈ stabTil V₀ V) (hCV : C ≤ V)
     (hCt : C ≤ Subgroup.centralizer ({t} : Set G)) :
@@ -103,6 +109,7 @@ private theorem le_preTil_fixV_actTil {V₀ V C : Subgroup G} (hV : IsElemAbelia
   rw [h1]
   exact V₀.one_mem
 
+omit [Finite G] in
 theorem mQuot_preTil (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (S : Subgroup (Vtil V₀ V hV)) :
     E3.mQuot V (preTil V₀ V hV S) = rkIdx S := by
@@ -120,6 +127,7 @@ theorem mQuot_preTil (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
   unfold rkIdx
   rw [Subgroup.index_comap_of_surjective S (mkTil_surjective V₀ V hV)]
 
+omit [Finite G] in
 private theorem cTilde_conj_mem {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ Subgroup.normalizer (V : Set G))
     (hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G)) {x m : G}
@@ -138,14 +146,14 @@ private theorem cTilde_conj_mem {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
   rw [hprod, map_mul, map_mul, map_inv, hx1]
   simp
 
-theorem mem_cTilde_of_mQuot_lt {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀ : V₀ ≤ V)
+theorem mem_cTilde_of_mQuot_lt {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (_hV₀ : V₀ ≤ V)
     (hM : M ≤ Subgroup.normalizer (V : Set G))
     (hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G)) {t : G} (ht : t ∈ M)
     (ht2 : ∃ k : ℕ, orderOf t = 2 ^ k) {C : Subgroup G} (hCV : C ≤ V)
     (hCt : C ≤ Subgroup.centralizer ({t} : Set G))
     (hlt : (E3.mQuot V C : ℕ∞) < (mBar M V₀ V hV : ℕ∞)) :
     t ∈ F11.CTilde M V₀ V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMs : M ≤ stabTil V₀ V := le_inf hM hM₀
   have hts : t ∈ stabTil V₀ V := hMs ht
   by_contra hmem
@@ -179,6 +187,7 @@ theorem mem_cTilde_of_mQuot_lt {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) 
     exact_mod_cast (h1.trans h2)
   exact absurd (lt_of_lt_of_le hlt hbar) (lt_irrefl _)
 
+omit [Finite G] in
 private theorem centralizer_zpowers_eq_singleton (x : G) :
     Subgroup.centralizer (Subgroup.zpowers x : Set G) = Subgroup.centralizer ({x} : Set G) := by
   refine le_antisymm (Subgroup.centralizer_le ?_) ?_
@@ -230,7 +239,7 @@ private theorem centralizer_singleton_of_mem_cTilde_of_mQuot_lt {M V₀ V : Subg
     exact absurd (lt_of_lt_of_le hlt hle') (lt_irrefl _)
   obtain ⟨w, hwD, hwCx, hw1⟩ : ∃ w, w ∈ D ∧ w ∈ V ⊓
       Subgroup.centralizer (Subgroup.zpowers x : Set G) ∧ w ≠ 1 := by
-    haveI : Nontrivial ↥(D ⊓ (V ⊓ Subgroup.centralizer (Subgroup.zpowers x : Set G))) :=
+    have : Nontrivial ↥(D ⊓ (V ⊓ Subgroup.centralizer (Subgroup.zpowers x : Set G))) :=
       (Subgroup.nontrivial_iff_ne_bot _).mpr hDne
     obtain ⟨w, hw⟩ := exists_ne (1 : ↥(D ⊓ (V ⊓ Subgroup.centralizer (Subgroup.zpowers x : Set G))))
     exact ⟨w, (Subgroup.mem_inf.1 w.2).1, (Subgroup.mem_inf.1 w.2).2,
@@ -298,10 +307,10 @@ theorem mQuot_centralizer_ge_rk_conjSubgroup_inf {M V₀ V : Subgroup G}
       have hltD : (E3.mQuot V (V ⊓ Subgroup.centralizer (Subgroup.zpowers x : Set G)) : ℕ∞)
           < (rk D : ℕ∞) := by rwa [hD] at hlt
       rw [hb, rk_bot] at hltD
-      simpa using hltD
+      simp at hltD
     exact absurd hlt0 (not_lt_of_ge (bot_le : (0 : ℕ∞) ≤ _))
   obtain ⟨v₀, hv₀D, hv₀1⟩ : ∃ v₀, v₀ ∈ D ∧ v₀ ≠ 1 := by
-    haveI : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot _).mpr hDne
+    have : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot _).mpr hDne
     obtain ⟨w, hw⟩ := exists_ne (1 : ↥D)
     exact ⟨w, w.2, fun h => hw (Subtype.ext (by simpa using h))⟩
   have hv₀V : v₀ ∈ V := hDleV hv₀D
@@ -383,7 +392,7 @@ theorem commutator_le_inf_of_mQuot_add_lt {M V₀ V A B E : Subgroup G}
     rw [hCc] at hc
     exact Subgroup.mem_centralizer_singleton_iff.mp (Subgroup.mem_inf.1 hc).2
   obtain ⟨k, hk⟩ : ∃ k, orderOf e = 2 ^ k := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hEp) (⟨e, heE⟩ : E)
     exact ⟨k, (Subgroup.orderOf_coe (⟨e, heE⟩ : E)).trans hk⟩
   have heCt : e ∈ F11.CTilde M V₀ V := by

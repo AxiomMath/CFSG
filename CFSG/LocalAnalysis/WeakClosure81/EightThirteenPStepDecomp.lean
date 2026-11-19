@@ -12,7 +12,7 @@ variable {Q : Type} [Group Q] [Finite Q]
 
 theorem sq_central_of_decomp_of_k1 {A : Subgroup Q} (hK1 : K1In ⊤ A) (hA : IsElemAbelian 2 A)
     {J : Subgroup Q} (hJ : IsComponentOf J ⊤) {a b s c : Q} (ha : a ∈ A) (hb : b ∈ A)
-    (hmoved : conjSubgroup J a ≠ J) (hsJ : s ∈ J) (hs : s * s = 1)
+    (hmoved : conjSubgroup J a ≠ J) (hsJ : s ∈ J) (_hs : s * s = 1)
     (hc : c ∈ centralizer (J : Set Q)) (hbsc : b = s * c) :
     ∀ w ∈ J, ∀ l ∈ J, ((s * (w * s * w⁻¹)) * (s * (w * s * w⁻¹))) * l =
       l * ((s * (w * s * w⁻¹)) * (s * (w * s * w⁻¹))) := by
@@ -149,13 +149,13 @@ theorem sq_central_of_decomp_of_k1 {A : Subgroup Q} (hK1 : K1In ⊤ A) (hA : IsE
     apply Prod.ext
     · apply Subtype.ext
       dsimp only [P, W]
-      simp only [Prod.fst_mul, Prod.fst_inv, Subtype.coe_mk, Subgroup.coe_mul,
+      simp only [Prod.fst_mul, Prod.fst_inv, Subgroup.coe_mul,
         Subgroup.coe_inv]
       rw [he_def]
       group
     · apply Subtype.ext
       dsimp only [P, W]
-      simp only [Prod.snd_mul, Prod.snd_inv, Subtype.coe_mk, Subgroup.coe_mul,
+      simp only [Prod.snd_mul, Prod.snd_inv, Subgroup.coe_mul,
         Subgroup.coe_inv]
       rw [hf_def]
       group

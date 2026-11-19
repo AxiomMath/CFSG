@@ -54,11 +54,13 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {m : ℕ} [NeZero m]
   ((Matrix.GeneralLinearGroup.toLin : GL (Fin m ⊕ Fin m) K ≃* _).toMonoidHom).comp
     ((LargeEvenSpGroup K m).subtype.comp (TableBSymp.spProjEquivSp (K := K) (m := m)).toMonoidHom)
 
+omit [Finite K] in
 theorem spRep_apply (r : LargeEvenProj (LargeEvenSpGroup K m)) (v : Fin m ⊕ Fin m → K) :
     (spRep r : Module.End K (Fin m ⊕ Fin m → K)) v =
       mat m K (TableBSymp.spProjEquivSp r) *ᵥ v := by
-  simp [spRep, Matrix.GeneralLinearGroup.toLin_apply, mat]
+  simp [spRep, mat]
 
+omit [Finite K] in
 theorem spRep_injective : Function.Injective (spRep (K := K) (m := m)) := by
   intro r s h
   have h1 : (LargeEvenSpGroup K m).subtype (TableBSymp.spProjEquivSp r) =
@@ -67,6 +69,7 @@ theorem spRep_injective : Function.Injective (spRep (K := K) (m := m)) := by
   exact (TableBSymp.spProjEquivSp (K := K) (m := m)).injective
     (Subtype.ext h1)
 
+omit [Finite K] in
 theorem spRep_isometry (r : LargeEvenProj (LargeEvenSpGroup K m)) (v w : Fin m ⊕ Fin m → K) :
     spBilin K m ((spRep r : Module.End K (Fin m ⊕ Fin m → K)) v)
       ((spRep r : Module.End K (Fin m ⊕ Fin m → K)) w) = spBilin K m v w := by

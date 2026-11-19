@@ -87,7 +87,7 @@ theorem natCard_omegaGroup_seven (hQ : Q.Nondegenerate)
 theorem natCard_omegaProj_seven (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 7) :
     Nat.card (omegaProj hQ) = 4585351680 := by
   have h := card_omegaProj_mul hQ (by rw [hdim]; norm_num)
-  rw [if_neg (piOrth_not_mem_omegaGroup_seven hQ hdim), mul_one,
+  rw [ite_eq_right (piOrth_not_mem_omegaGroup_seven hQ hdim), mul_one,
     natCard_omegaGroup_seven hQ hdim] at h
   exact h
 

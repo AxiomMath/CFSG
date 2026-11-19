@@ -116,7 +116,7 @@ theorem rootSpan_rationalRoots_le_centralizer_of_fixed
     rootSpan τ L (rationalRoots S.ρ χ i) ≤
       Subgroup.centralizer ({y} : Set (ModGL τ L)) :=
   rootSpan_ratOrbit_le_centralizer_of_fixed S.D S.ρ S.frob
-    (fun γ hγ => isRoot_of_mem_componentRoots hγ) hyF hiC
+    (fun _γ hγ => isRoot_of_mem_componentRoots hγ) hyF hiC
 
 theorem mem_centralizer_of_mem_centralizer_rootSpan
     {τ : Tag} {L : Type} [Field L]
@@ -178,7 +178,7 @@ theorem exists_isPrimitiveRoot_units_of_isAlgClosed {Ω : Type} [Field Ω] [IsAl
     ∃ ζ : Ωˣ, IsPrimitiveRoot ζ p := by
   have : NeZero (p : Ω) := ⟨hpΩ⟩
   have : HasEnoughRootsOfUnity Ω p := IsSepClosed.hasEnoughRootsOfUnity Ω p
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω p
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω p
   exact ⟨(hζ₀.isUnit hp.ne_zero).unit, IsPrimitiveRoot.coe_units_iff.mp (by
     rw [IsUnit.unit_spec]
     exact hζ₀)⟩
@@ -234,12 +234,12 @@ theorem mem_center_of_map_mem_statedScalars (φ : K →+* L) (hφ : Function.Inj
   have hoff : ∀ i j, i ≠ j → (A : Matrix (Fin n) (Fin n) K) i j = 0 := by
     intro i j hij
     apply hφ
-    rw [hentry i j, if_neg hij, map_zero]
+    rw [hentry i j, ite_eq_right hij, map_zero]
   have hdiag : ∀ i, (A : Matrix (Fin n) (Fin n) K) i i =
       (A : Matrix (Fin n) (Fin n) K) ⟨0, hn⟩ ⟨0, hn⟩ := by
     intro i
     apply hφ
-    rw [hentry i i, hentry ⟨0, hn⟩ ⟨0, hn⟩, if_pos rfl, if_pos rfl]
+    rw [hentry i i, hentry ⟨0, hn⟩ ⟨0, hn⟩, ite_eq_left rfl, ite_eq_left rfl]
   have hA0 : (A : Matrix (Fin n) (Fin n) K) ⟨0, hn⟩ ⟨0, hn⟩ ≠ 0 := by
     intro h0
     have hzero : (A : Matrix (Fin n) (Fin n) K) = 0 := by

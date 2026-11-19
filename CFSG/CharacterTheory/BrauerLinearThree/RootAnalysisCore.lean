@@ -508,11 +508,11 @@ theorem false_of_pcore_comm [Finite G] [IsSimpleGroup G] (N : Subgroup G)
     symm
     apply Subgroup.eq_of_le_of_card_ge hNP
     rw [hNcard]
-    exact Nat.le_of_dvd (by positivity) (card_dvd_cube_of_isPGroup hZ hcard P.isPGroup')
+    exact Nat.le_of_dvd (by positivity) (card_dvd_cube_of_isPGroup hZ hcard P.isPGroup)
   have hTI : ∀ Q : Sylow (ringChar F) G, ∀ g ∈ (P : Subgroup G), g ∈ (Q : Subgroup G) →
       g ≠ 1 → Q = P := by
     intro Q g hgP hgQ hg1
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hgP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hgP⟩
     have hk' : g ^ (ringChar F ^ k) = 1 := by simpa using congrArg Subtype.val hk
     obtain ⟨j, hj1, hjp⟩ := exists_pow_ne_one_pow_eq_one hg1 hk'
     have hg'P : g ^ (ringChar F ^ j) ∈ (P : Subgroup G) := Subgroup.pow_mem _ hgP _
@@ -534,7 +534,7 @@ theorem false_of_pcore_comm [Finite G] [IsSimpleGroup G] (N : Subgroup G)
     have hle : ∀ S : Sylow (ringChar F) G, Commutes (S : Subgroup G) (S : Subgroup G) →
         g ^ (ringChar F ^ j) ∈ (S : Subgroup G) → (S : Subgroup G) ≤ N' := by
       intro S hSc hgS y hy
-      obtain ⟨k', hk'⟩ := S.isPGroup' ⟨y, hy⟩
+      obtain ⟨k', hk'⟩ := S.isPGroup ⟨y, hy⟩
       apply hN'all y _ k' (by simpa using congrArg Subtype.val hk')
       rw [Subgroup.mem_centralizer_singleton_iff]
       exact hSc y hy _ hgS
@@ -616,7 +616,7 @@ theorem false_of_pcore_comm [Finite G] [IsSimpleGroup G] (N : Subgroup G)
     · have hJP : J ∈ (P : Subgroup G) := by
         rw [ht]
         exact Subgroup.mem_top J
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨J, hJP⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨J, hJP⟩
       have hk' : J ^ (ringChar F ^ k) = 1 := by simpa using congrArg Subtype.val hk
       have hdvd : 2 ∣ ringChar F ^ k := by
         rw [← hJ]

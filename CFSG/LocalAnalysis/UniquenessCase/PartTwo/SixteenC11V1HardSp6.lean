@@ -17,7 +17,7 @@ theorem s16c11_v1_hard_sp_six (h : H1SpSixNatural) (D : Data G) (hin : In10 D) (
     (h1610 : R16_10_2 D)
     {V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D ⊥ V L hV)
-    (hs : s15 D.M ⊥ V hV L = 1) (hout : Out10 D ⊥ V hV)
+    (hs : s15 D.M ⊥ V hV L = 1) (_hout : Out10 D ⊥ V hV)
     (hsig : D.sig = {3}) (hK : IsSym ↥(kBar D.M ⊥ V hV L) 3)
     {L₀ : Subgroup (MulAut (Vtil ⊥ V hV))}
     (hdir : IsInternalDirect (kBar D.M ⊥ V hV L) L₀ (Mbar D.M ⊥ V hV))

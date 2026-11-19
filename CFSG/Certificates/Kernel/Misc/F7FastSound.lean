@@ -108,9 +108,9 @@ theorem f7S_unit {c p k : ℕ} (hk : k < 8)
   rw [show 3 * (45 * i + p) + r = 3 * p + (135 * i + r) by omega, ht]
   by_cases hik : i = k
   · subst hik
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rcases (by omega : r = 0 ∨ r = 1 ∨ r = 2) with rfl | rfl | rfl <;> simp <;> decide
-  · rw [if_neg hik, decide_eq_false (by omega), Nat.zero_testBit]
+  · rw [ite_eq_right hik, decide_eq_false (by omega), Nat.zero_testBit]
 
 theorem f7S_zero {c p k j : ℕ} (hj : j < p)
     (hz : Nat.land (Nat.shiftRight c (Nat.mul 135 k))
@@ -150,20 +150,20 @@ theorem f7Canon_echelon {c pw : ℕ} (h : f7Canon c pw = true) :
   set piv := (List.range 8).map (pvF pw) with hpiv
   have hnth : ∀ k < 8, nthF piv k = pvF pw k := fun k hk => by
     rw [f7S_nthF, hpiv]
-    simp [List.getD_eq_getElem?_getD, List.getElem?_range, hk]
+    simp [List.getD_eq_getElem?_getD, hk]
   have hok : pivOK (enc (decC 8 c)) piv = true := by
     rw [pivOK, allN_iff]
     intro k hk
     rw [bAnd_eq, allN_iff, hnth k hk, Nat.blt_eq]
     refine ⟨hlt k hk, fun i hi => ?_⟩
-    rw [row_enc (decC 8 c) ⟨i, hi⟩, lane_encV, ev, dif_pos (hlt k hk), nIf_eq, Nat.beq_eq]
+    rw [row_enc (decC 8 c) ⟨i, hi⟩, lane_encV, ev, dite_eq_left (hlt k hk), nIf_eq, Nat.beq_eq]
     change (((c / 2 ^ (3 * (45 * i + pvF pw k)) % 8 : ℕ) : ZMod 7)).val =
       if Nat.beq i k = true then 1 else 0
     rw [f7S_unit hk (Nat.eq_of_beq_eq_true (h1 k hk).2) hi]
     by_cases hik : i = k
-    · rw [if_pos hik, if_pos (by rw [hik]; exact Nat.beq_refl k)]
+    · rw [ite_eq_left hik, ite_eq_left (by rw [hik]; exact Nat.beq_refl k)]
       rfl
-    · rw [if_neg hik, if_neg (fun h => hik (Nat.eq_of_beq_eq_true h))]
+    · rw [ite_eq_right hik, ite_eq_right (fun h => hik (Nat.eq_of_beq_eq_true h))]
       rfl
   obtain ⟨p, hp, hpv⟩ := pivOK_spec hok
   have hp' : ∀ k : Fin 8, (p k : ℕ) = pvF pw k := fun k => by rw [hp, hnth k k.isLt]
@@ -356,7 +356,7 @@ theorem f7S_rows8 (h : ℕ → ℕ) :
     simp
   · intro j hj hj0
     have hj' := mem_range.1 hj
-    rw [if_neg (by omega), zero_mul]
+    rw [ite_eq_right (by omega), zero_mul]
   · intro h0
     exact absurd (mem_range.2 (by norm_num)) h0
 
@@ -427,20 +427,20 @@ theorem f7S_wMaskC (c r : ℕ) :
   · rintro ⟨hc, m, hm, hle, hb⟩
     refine ⟨m, hm, hle, ?_⟩
     by_cases h : r + 13 * m < 360
-    · rw [if_pos h, f7S_seven_tb, decide_eq_true_iff] at hb
-      rw [f7S_g, if_pos h, f7S_fld_tb, show 3 * (r + 13 * m) + (b - 3 * (r + 13 * m)) = b by omega,
+    · rw [ite_eq_left h, f7S_seven_tb, decide_eq_true_iff] at hb
+      rw [f7S_g, ite_eq_left h, f7S_fld_tb, show 3 * (r + 13 * m) + (b - 3 * (r + 13 * m)) = b by omega,
         hc, decide_eq_true hb]
       rfl
-    · rw [if_neg h, Nat.zero_testBit] at hb
+    · rw [ite_eq_right h, Nat.zero_testBit] at hb
       exact absurd hb (by decide)
   · rintro ⟨m, hm, hle, hb⟩
     by_cases h : r + 13 * m < 360
-    · rw [f7S_g, if_pos h, f7S_fld_tb, Bool.and_eq_true, decide_eq_true_iff,
+    · rw [f7S_g, ite_eq_left h, f7S_fld_tb, Bool.and_eq_true, decide_eq_true_iff,
         show 3 * (r + 13 * m) + (b - 3 * (r + 13 * m)) = b by omega] at hb
       refine ⟨hb.2, m, hm, hle, ?_⟩
-      rw [if_pos h, f7S_seven_tb, decide_eq_true_iff]
+      rw [ite_eq_left h, f7S_seven_tb, decide_eq_true_iff]
       exact hb.1
-    · rw [f7S_g, if_neg h, Nat.zero_testBit] at hb
+    · rw [f7S_g, ite_eq_right h, Nat.zero_testBit] at hb
       exact absurd hb (by decide)
 
 theorem f7S_wSpread (r : ℕ) : wSpread r = ∑ m ∈ range 28, 2 ^ (29 * r + 377 * m) := by
@@ -454,7 +454,7 @@ theorem f7S_wMaskT (r : ℕ) : wMaskT r = ∑ n ∈ range 28, (if r + 13 * n < 3
   rw [wMaskT, sumN_eq]
   exact sum_congr rfl fun m _ => f7S_ifN7 (r + 13 * m) (32 * (r + 13 * m))
 
-theorem f7S_wTerm (c r : ℕ) (hr : r < 13) : ((c &&& wMaskC r) * wSpread r) &&& wMaskT r =
+theorem f7S_wTerm (c r : ℕ) (_hr : r < 13) : ((c &&& wMaskC r) * wSpread r) &&& wMaskT r =
     ∑ n ∈ range 28, f7S_g c r n * 2 ^ (32 * (r + 13 * n)) := by
   have hP : (c &&& wMaskC r) * wSpread r =
       ∑ x ∈ range 28 ×ˢ range 28, f7S_g c r x.1 * 2 ^ (32 * r + 39 * x.1 + 377 * x.2) := by
@@ -493,28 +493,28 @@ theorem f7S_wTerm (c r : ℕ) (hr : r < 13) : ((c &&& wMaskC r) * wSpread r) &&&
     have hn' := mem_range.1 hn
     dsimp only at hle hb hle' hb'
     by_cases h : r + 13 * n < 360
-    · rw [if_pos h, f7S_seven_tb, decide_eq_true_iff] at hb'
+    · rw [ite_eq_left h, f7S_seven_tb, decide_eq_true_iff] at hb'
       have hlt := f7S_tb_lt (f7S_g_lt c r m) hb
       have hmn : m = n ∧ m' = n := by omega
       refine ⟨n, hn, hle', ?_⟩
       have e : 32 * r + 39 * m + 377 * m' = 32 * (r + 13 * n) := by omega
       rw [e, hmn.1] at hb
       exact hb
-    · rw [if_neg h, Nat.zero_testBit] at hb'
+    · rw [ite_eq_right h, Nat.zero_testBit] at hb'
       exact absurd hb' (by decide)
   · rintro ⟨n, hn, hle, hb⟩
     have hn' := mem_range.1 hn
     have hlt := f7S_tb_lt (f7S_g_lt c r n) hb
     have h : r + 13 * n < 360 := by
       by_contra h
-      rw [f7S_g, if_neg h, Nat.zero_testBit] at hb
+      rw [f7S_g, ite_eq_right h, Nat.zero_testBit] at hb
       exact absurd hb (by decide)
     have e : 32 * r + 39 * n + 377 * n = 32 * (r + 13 * n) := by ring
     refine ⟨⟨(n, n), mem_product.2 ⟨hn, hn⟩, by dsimp only; omega, ?_⟩, n, hn, hle, ?_⟩
     · dsimp only
       rw [e]
       exact hb
-    · rw [if_pos h, f7S_seven_tb, decide_eq_true_iff]
+    · rw [ite_eq_left h, f7S_seven_tb, decide_eq_true_iff]
       exact hlt
 
 theorem f7S_widenSum (c : ℕ) :
@@ -545,9 +545,9 @@ theorem f7S_widenSum (c : ℕ) :
   · rintro ⟨⟨r, n⟩, hi, hle, hb⟩
     dsimp only at hle hb
     by_cases h : r + 13 * n < 360
-    · rw [f7S_g, if_pos h] at hb
+    · rw [f7S_g, ite_eq_left h] at hb
       exact ⟨r + 13 * n, mem_range.2 h, hle, hb⟩
-    · rw [f7S_g, if_neg h, Nat.zero_testBit] at hb
+    · rw [f7S_g, ite_eq_right h, Nat.zero_testBit] at hb
       exact absurd hb (by decide)
   · rintro ⟨k, hk, hle, hb⟩
     have hk' := mem_range.1 hk
@@ -558,7 +558,7 @@ theorem f7S_widenSum (c : ℕ) :
       rw [e]
       exact hle
     · dsimp only
-      rw [f7S_g, e, if_pos hk']
+      rw [f7S_g, e, ite_eq_left hk']
       exact hb
 
 theorem widenF_eq (c : ℕ) : widenF c = enc (decC 8 c) := by
@@ -690,7 +690,7 @@ theorem f7S_slot (w v : ℕ) (f R : ℕ → ℕ) (hFR : ∀ k < 45, ∀ k' < 45,
   have hM' : ∑ k ∈ range 45, f k * R k =
       ∑ k ∈ range 45, ∑ k' ∈ range 45, if k = k' then f k * R k' else 0 := by
     refine sum_congr rfl fun k hk => ?_
-    rw [sum_ite_eq, if_pos hk]
+    rw [sum_ite_eq, ite_eq_left hk]
   have hterm : ∀ k ∈ range 45, ∀ k' ∈ range 45,
       f k * 2 ^ (w * k) * (R k' * 2 ^ (w * (44 - k'))) =
         (if k < k' then f k * R k' * 2 ^ (w * (44 + k - k')) else 0) +
@@ -702,12 +702,12 @@ theorem f7S_slot (w v : ℕ) (f R : ℕ → ℕ) (hFR : ∀ k < 45, ∀ k' < 45,
     have e1 : w * k + w * (44 - k') = w * (k + (44 - k')) := by ring
     rw [f7S_pow_aux, e1]
     rcases lt_trichotomy k k' with h | rfl | h
-    · rw [if_pos h, if_neg (ne_of_lt h), if_neg (by omega), mul_zero, add_zero, mul_zero,
+    · rw [ite_eq_left h, ite_eq_right (ne_of_lt h), ite_eq_right (by omega), mul_zero, add_zero, mul_zero,
         add_zero, show k + (44 - k') = 44 + k - k' by omega]
-    · rw [if_neg (lt_irrefl _), if_pos rfl, if_neg (lt_irrefl _), mul_zero, add_zero, zero_add,
+    · rw [ite_eq_right (lt_irrefl _), ite_eq_left rfl, ite_eq_right (lt_irrefl _), mul_zero, add_zero, zero_add,
         mul_comm (2 ^ (w * 44)), show k + (44 - k) = 44 by omega]
     · have e2 : w * 44 + w + w * (k - k' - 1) = w * (44 + 1 + (k - k' - 1)) := by ring
-      rw [if_neg (by omega), if_neg (by omega), if_pos h, zero_add, zero_add, f7S_pow_aux2, e2,
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left h, zero_add, zero_add, f7S_pow_aux2, e2,
         show k + (44 - k') = 44 + 1 + (k - k' - 1) by omega]
   have hP : (∑ k ∈ range 45, f k * 2 ^ (w * k)) * (∑ k ∈ range 45, R k * 2 ^ (w * (44 - k))) =
       L + 2 ^ (w * 44) * ((∑ k ∈ range 45, f k * R k) + 2 ^ w * H) := by
@@ -747,7 +747,7 @@ theorem f7S_rowImgK {S c : ℕ} (hc : c < 8) (hf : ∀ k < 45, S / 2 ^ (3 * (45 
       (revM (enc G)) = encV (Matrix.vecMul (rows (decC 8 S) ⟨c, hc⟩) G) := by
   have hev : ∀ k < 45, ev (rows (decC 8 S) ⟨c, hc⟩) k = S / 2 ^ (3 * (45 * c + k)) % 8 := by
     intro k hk
-    rw [ev, dif_pos hk]
+    rw [ev, dite_eq_left hk]
     change (((S / 2 ^ (3 * (45 * c + k)) % 8 : ℕ) : ZMod 7)).val = _
     rw [ZMod.val_natCast, Nat.mod_eq_of_lt (hf k hk)]
   have hFR : ∀ k < 45, ∀ k' < 45,
@@ -809,14 +809,14 @@ theorem f7S_col (U : Matrix (Fin 8) (Fin 45) (ZMod 7)) {q : ℕ} (hq : q < 45) :
     intro l
     rw [laneV_and, f7S_laneV_shr, hmask, lane_D hlt32, enc, lane_D (ent_lt32 U), lane_D hlt']
     by_cases hl : l < 360
-    · rw [if_pos hl, if_pos hl]
+    · rw [ite_eq_left hl, ite_eq_left hl]
       by_cases h0 : l % 45 = 0
-      · rw [if_pos h0, if_pos h0, if_pos (by omega : l + q < 45 * 8),
+      · rw [ite_eq_left h0, ite_eq_left h0, ite_eq_left (by omega : l + q < 45 * 8),
           show (l + q) / 45 = l / 45 by omega, show (l + q) % 45 = q by omega,
           show (4294967295 : ℕ) = 2 ^ 32 - 1 by norm_num, Nat.and_two_pow_sub_one_eq_mod,
           Nat.mod_eq_of_lt (lt_trans (ent_lt U _ _) (by norm_num))]
-      · rw [if_neg h0, if_neg h0, Nat.and_zero]
-    · rw [if_neg hl, if_neg hl, Nat.and_zero]
+      · rw [ite_eq_right h0, ite_eq_right h0, Nat.and_zero]
+    · rw [ite_eq_right hl, ite_eq_right hl, Nat.and_zero]
   change f7Seven - ((enc U >>> (32 * q)) &&& f7ColMask) = _
   rw [hcol, h7, f7S_D_sub fun l _ => by split_ifs; exacts [(ent_lt U _ _).le, le_rfl], f7S_rows8]
   refine D_congr fun l _ => ?_
@@ -828,7 +828,7 @@ theorem inSpan8_iff {U V : Matrix (Fin 8) (Fin 45) (ZMod 7)} {p : Fin 8 → Fin 
   set piv := (List.range 8).map (pvF pw) with hpiv
   have hnth : ∀ c < 8, nthF piv c = pvF pw c := fun c hc => by
     rw [f7S_nthF, hpiv]
-    simp [List.getD_eq_getElem?_getD, List.getElem?_range, hc]
+    simp [List.getD_eq_getElem?_getD, hc]
   have hpv' : ∀ c, (p c : ℕ) = nthF piv c := fun c => by rw [hnth c c.isLt, hpv]
   have hq : ∀ c < 8, pvF pw c < 45 := fun c hc => by
     rw [← hpv ⟨c, hc⟩]

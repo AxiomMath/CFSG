@@ -28,7 +28,7 @@ theorem baseChangeGL_mem_adjointGroup_of_mem (f : K₁ →+* K₂) {g : ModGL τ
       exact xUnit_mem_adjointGroup _ _
     · rw [show y = yUnit τ K₁ i c from Units.ext h, baseChangeGL_yUnit]
       exact yUnit_mem_adjointGroup _ _
-  | one => simpa using one_mem _
+  | one => simp
   | mul x y _ _ hx hy => simpa using mul_mem hx hy
   | inv x _ hx => simpa using inv_mem hx
 
@@ -114,10 +114,10 @@ theorem exists_f4_fixed_in_e6 (q : PrimePower) (hvE : (LieTypeIndex.E6 q).Valid)
       (γ : MulAut (Cat ⟨.E6 q, hvE⟩)), ∀ g, g ∈ H ↔ γ g = g := by
   obtain ⟨K₂, _, _, hK₂, -, ⟨eE⟩⟩ := exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e6 q hvE
   obtain ⟨K₁, _, _, hK₁, -, ⟨eF⟩⟩ := exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.f4 q hvF
-  haveI : Finite K₁ := Nat.finite_of_card_ne_zero (by rw [hK₁, PrimePower.card_def]; exact pow_ne_zero _ q.prime_p.ne_zero)
-  haveI : Finite K₂ := Nat.finite_of_card_ne_zero (by rw [hK₂, PrimePower.card_def]; exact pow_ne_zero _ q.prime_p.ne_zero)
-  haveI : Fintype K₁ := Fintype.ofFinite K₁
-  haveI : Fintype K₂ := Fintype.ofFinite K₂
+  have : Finite K₁ := Nat.finite_of_card_ne_zero (by rw [hK₁, PrimePower.card_def]; exact pow_ne_zero _ q.prime_p.ne_zero)
+  have : Finite K₂ := Nat.finite_of_card_ne_zero (by rw [hK₂, PrimePower.card_def]; exact pow_ne_zero _ q.prime_p.ne_zero)
+  have : Fintype K₁ := Fintype.ofFinite K₁
+  have : Fintype K₂ := Fintype.ofFinite K₂
   have hcard : Fintype.card K₁ = Fintype.card K₂ := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK₁, hK₂]
   obtain ⟨H₀, φ₀, γ₀, hγ₀⟩ := exists_f4_fixed_in_e6_field K₂

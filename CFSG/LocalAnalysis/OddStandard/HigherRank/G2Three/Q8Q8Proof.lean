@@ -181,7 +181,7 @@ theorem lemma22_1 : Lemma22_1 := by
   have hdecomp : ∀ x : A, ∃ u ∈ U, ∃ v ∈ V, u * v = x := by
     intro x
     have hx : x ∈ U ⊔ V := by rw [hsup]; exact Subgroup.mem_top x
-    haveI : V.Normal := hVnorm
+    have : V.Normal := hVnorm
     exact (Subgroup.mem_sup_of_normal_right (s := U) (t := V)).mp hx
   have hsq_uv : ∀ u ∈ U, ∀ v ∈ V, (u * v) ^ 2 = u ^ 2 * v ^ 2 := by
     intro u hu v hv

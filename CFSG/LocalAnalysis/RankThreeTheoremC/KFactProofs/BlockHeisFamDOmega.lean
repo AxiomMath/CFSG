@@ -23,8 +23,8 @@ theorem heisD_sylowShape_statedProj_statedOmega {F : Type} [Field F] [Finite F] 
     (hO : ∀ P : Sylow p ↥(TauCeti.QuadraticMap.orthogonalGroup Q), Nonempty (↥P ≃* M)) :
     ∀ S : Sylow p (StatedProj (StatedOmega Q₀)), Nonempty (↥S ≃* M) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite ((ι → F) ≃ₗ[F] (ι → F)) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite ((ι → F) ≃ₗ[F] (ι → F)) :=
     Finite.of_injective (fun g : (ι → F) ≃ₗ[F] (ι → F) => (g : (ι → F) → (ι → F)))
       fun g₁ g₂ h => LinearEquiv.ext (congrFun h)
   obtain ⟨-, -, -, -, -, hsq', -, -, -⟩ :=
@@ -32,7 +32,7 @@ theorem heisD_sylowShape_statedProj_statedOmega {F : Type} [Field F] [Finite F] 
   have hsq : ∀ g : ↥(TauCeti.QuadraticMap.orthogonalGroup Q),
       g ^ 2 ∈ commutator ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := fun g =>
     mem_commutator_of_coe_mem (by simpa using hsq' (g : (ι → F) ≃ₗ[F] (ι → F)) g.2)
-  haveI : Nontrivial (ι → F) := by
+  have : Nontrivial (ι → F) := by
     obtain ⟨T, hT3, -⟩ := hT
     refine Module.nontrivial_of_finrank_pos (R := F) ?_
     have := Submodule.finrank_le T
@@ -117,7 +117,7 @@ theorem heisD_exists_sigmaModel_sylow_of_form {X : Type} [Group X] {K : Type} [F
       ∃ N : ℕ, ∀ S : Sylow p X, Nonempty (↥(S : Subgroup X) ≃*
         sigmaModel p (orderOf ((2 ^ f : ℕ) : ZMod p))
           (padicValNat p ((2 ^ f) ^ orderOf ((2 ^ f : ℕ) : ZMod p) - 1)) N) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ Fintype.card K := by
     rw [hK]
     intro hd
@@ -144,7 +144,7 @@ theorem heisD_exists_sigmaModel_sylow_of_omegaModel {X : Type} [Group X] {t : St
           (padicValNat p ((2 ^ f) ^ orderOf ((2 ^ f : ℕ) : ZMod p) - 1)) N) := by
   rcases ht with rfl | rfl
   · obtain ⟨⟨-, -, hn⟩, K, _, _, hK, ⟨e⟩⟩ := h
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcard : Fintype.card K = 2 ^ f := by rw [← Nat.card_eq_fintype_card, hK]
     obtain ⟨hQnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadPlus (K := K) (n := n)
       (by omega)
@@ -152,7 +152,7 @@ theorem heisD_exists_sigmaModel_sylow_of_omegaModel {X : Type} [Group X] {t : St
       (CFSG.LieType.Universal.Spin.coe_quadPlus n K) hQnd hT (finrank_quadPlus_space n)
       (ε := 1) (Or.inl ⟨rfl, isPlusType_quadPlus K n⟩) e hp hp2
   · obtain ⟨⟨-, -, hn⟩, K, _, _, hK, b, c, hirr, ⟨e⟩⟩ := h
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcard : Fintype.card K = 2 ^ f := by rw [← Nat.card_eq_fintype_card, hK]
     obtain ⟨hQnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadMinus (K := K) (n := n) hn
       hirr

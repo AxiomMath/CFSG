@@ -34,7 +34,7 @@ theorem no_wild_plus6_of (h34 : Stroth34Statement) (hA : Sec7AExistsStatement)
   push Not at hex
   obtain ⟨Md, iD, iA, κ, hκ, S, hSA, hS2, hSw⟩ :=
     exists_conj_section_data h52a hA h310chi hc hs hxM hxt hxV hx2
-  haveI : Finite Md := hκ.finite
+  have : Finite Md := hκ.finite
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hWN := sec7_N_comm_W_le_V h52a hA hc hs
   have hVW : Vt M (LB M Q B) B Z t ≤ Wt Q (Vt M (LB M Q B) B Z t) := sec7_V_le_W h310chi hc hs
@@ -231,7 +231,7 @@ theorem no_wild_plus6_of (h34 : Stroth34Statement) (hA : Sec7AExistsStatement)
       SecHyp.of_isOppDecomp hdP hPn hVn
     obtain ⟨Y, iY, iYD, κ', hκ', hkerY⟩ :=
       exists_sectionModule_ker hker hsecP (fun k hk y hy => hWN k hk y (hPW hy))
-    haveI : Finite Y := hκ'.finite
+    have : Finite Y := hκ'.finite
     have hdec := isCompl_fixedSub_of_isOppDecomp hPn hκ' hdP hLR hL2R
     have hPcard := natCard_eq_of_isSecMod hVPlt.le hκ'
     have hYcard : Nat.card Y = Nat.card K ^ 4 := by

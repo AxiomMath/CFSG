@@ -21,15 +21,14 @@ open scoped Pointwise Matrix
 theorem k_Omega6Minus_irr :
     ∀ {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W)) (n : ℕ),
       NatOmegaMinus H ⊤ ⊥ 6 n → CFSG.LocalAnalysis.RankThreeUC.IsIrrOn H := by
-  intro W _ _ H n hN
-  intro A hA
+  intro W _ _ H n hN A hA
   obtain ⟨F, hFfield, hFfinite, b, c, hFcard, hpoly, ε, ψ, hψ⟩ :=
     exists_natCoords_of_natOmegaMinus hN
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hFcard])
   let ι : Type := Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2
   let V : Type := ι → F
@@ -40,7 +39,7 @@ theorem k_Omega6Minus_irr :
     { carrier := {x | Multiplicative.ofAdd x ∈ A.map ψW}
       zero_mem' := by
         change Multiplicative.ofAdd (0 : V) ∈ A.map ψW
-        simpa using (A.map ψW).one_mem
+        simp
       add_mem' := by
         intro x y hx hy
         change Multiplicative.ofAdd (x + y) ∈ A.map ψW
@@ -60,7 +59,7 @@ theorem k_Omega6Minus_irr :
     { carrier := {x | ∀ t : F, t • x ∈ A'}
       zero_mem' := by
         intro t
-        simpa using A'.zero_mem
+        simp
       add_mem' := by
         intro x y hx hy t
         rw [smul_add]
@@ -239,9 +238,9 @@ theorem k1_of_irr : K_Omega6Minus_outIndex := by
   intro W _ _ H n hn hO hN E hEN hE
   have hS : ∀ s : W, s * s = 1 := by
     obtain ⟨F, _, _, b, c, hF, -, ε, ψ, -⟩ := exists_natCoords_of_natOmegaMinus hN
-    haveI := Fintype.ofFinite F
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
+    have := Fintype.ofFinite F
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF])
     intro s
     have h1 : ψ (⟨s, Subgroup.mem_top s⟩ * ⟨s, Subgroup.mem_top s⟩) = 1 := by
       rw [map_mul]

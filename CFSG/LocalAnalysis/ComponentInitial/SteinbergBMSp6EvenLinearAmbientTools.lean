@@ -197,7 +197,7 @@ theorem not_two_dvd_index_normalizer [Finite G] {C : Subgroup G}
       exact hc
   obtain ⟨S⟩ : Nonempty (Sylow 2 X) := inferInstance
   set P := (S : Subgroup X).map X.subtype with hPdef
-  have hPp : IsPGroup 2 P := S.isPGroup'.map _
+  have hPp : IsPGroup 2 P := S.isPGroup.map _
   have hPX : P ≤ X := map_subtype_le _
   have hCp : IsPGroup 2 C := fun c => ⟨1, by
     rw [pow_one]
@@ -211,7 +211,7 @@ theorem not_two_dvd_index_normalizer [Finite G] {C : Subgroup G}
   have hP'X : (P' : Subgroup G) ≤ X := by
     by_contra hne
     have hlt : P < P' := lt_of_le_of_ne hPP' fun h => hne (h ▸ hPX)
-    have : Group.IsNilpotent (P' : Subgroup G) := P'.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (P' : Subgroup G) := P'.isPGroup.isNilpotent
     have hlt' : P.subgroupOf P' < ⊤ := by
       rw [lt_top_iff_ne_top]
       intro h
@@ -227,7 +227,7 @@ theorem not_two_dvd_index_normalizer [Finite G] {C : Subgroup G}
     set Q := P ⊔ zpowers (g : G) with hQ
     have hQP' : Q ≤ P' := sup_le hPP' (zpowers_le.2 g.2)
     have hQX : Q ≤ X := sup_le hPX (zpowers_le.2 hgX)
-    have hQp : IsPGroup 2 (Q.subgroupOf X) := (P'.isPGroup'.to_le hQP').comap_subtype
+    have hQp : IsPGroup 2 (Q.subgroupOf X) := (P'.isPGroup.to_le hQP').comap_subtype
     have hSQ : (S : Subgroup X) ≤ Q.subgroupOf X := fun s hs =>
       mem_subgroupOf.2 (le_sup_left (a := P) ⟨s, hs, rfl⟩)
     have hQS := S.maximal_isPGroup.eq_of_ge hQp hSQ

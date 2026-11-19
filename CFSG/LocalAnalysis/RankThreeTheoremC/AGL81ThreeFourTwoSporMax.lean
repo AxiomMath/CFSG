@@ -41,12 +41,12 @@ theorem threeFourTwoNoneAt_of_normalizer_maximal {p : ℕ} {X : Type*} [Group X]
     ThreeFourTwoNoneAt p X := by
   refine threeFourTwoNoneAt_of_inf hX hnab hout ?_
   intro Y _ _ K Y₀ E R hp _ hKn hKX _ _ _ hER hE hEc hcore _ hKY₀
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hKn
+  have : Fact p.Prime := ⟨hp⟩
+  have := hKn
   obtain ⟨hpK, hTK⟩ := hT K hKX
   obtain ⟨e⟩ := hKX
   have hZK : K ⊓ centralizer (K : Set Y) = ⊥ := by
-    haveI : IsSimpleGroup K := MulEquiv.isSimpleGroup e
+    have : IsSimpleGroup K := MulEquiv.isSimpleGroup e
     obtain ⟨a, b, hab⟩ := hnab
     have hZ := CFSG.ComponentClassification.Helpers.center_eq_bot K
       ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
@@ -74,7 +74,7 @@ theorem threeFourTwoNoneAt_of_normalizer_maximal {p : ℕ} {X : Type*} [Group X]
     rwa [hT₀] at h
   refine Or.inl ?_
   rcases hmax _ hle with h | h
-  · haveI : Group.IsSolvable (Y₀.subgroupOf K) := by
+  · have : Group.IsSolvable (Y₀.subgroupOf K) := by
       rw [h]
       exact hsol
     let f : (K ⊓ Y₀ : Subgroup Y) →* Y₀.subgroupOf K :=
@@ -88,14 +88,14 @@ theorem threeFourTwoNoneAt_of_normalizer_maximal {p : ℕ} {X : Type*} [Group X]
 theorem isSolvable_and_not_dvd_of_card_le_two {G : Type*} [Group G] [Finite G]
     (h : Nat.card G ≤ 2) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     Group.IsSolvable G ∧ ¬ p ∣ Nat.card G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpos : 0 < Nat.card G := Nat.card_pos
   refine ⟨?_, fun hdvd => ?_⟩
   · have h2 : IsPGroup 2 G := by
       rcases (by omega : Nat.card G = 2 ^ 0 ∨ Nat.card G = 2 ^ 1) with hc | hc
       · exact IsPGroup.of_card hc
       · exact IsPGroup.of_card hc
-    haveI := h2.isNilpotent
+    have := h2.isNilpotent
     infer_instance
   · have hle := Nat.le_of_dvd hpos hdvd
     have h3 : 3 ≤ p := by
@@ -112,10 +112,10 @@ theorem sporadicIndex_facts_of_bridge {s : TauCeti.SporadicName}
       (∃ a b : (TauCeti.CFSGIndex.sporadic s).Group, a * b ≠ b * a) ∧
       Group.IsSolvable (Outer (TauCeti.CFSGIndex.sporadic s).Group) := by
   obtain ⟨b⟩ := hb
-  haveI := hs
-  haveI hX : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group := b.symm.isSimpleGroup
-  haveI : Finite (TauCeti.CFSGIndex.sporadic s).Group := Finite.of_equiv _ b.toEquiv
-  haveI : Finite (MulAut (TauCeti.CFSGIndex.sporadic s).Group) := MulEquiv.finite_left
+  have := hs
+  have hX : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group := b.symm.isSimpleGroup
+  have : Finite (TauCeti.CFSGIndex.sporadic s).Group := Finite.of_equiv _ b.toEquiv
+  have : Finite (MulAut (TauCeti.CFSGIndex.sporadic s).Group) := MulEquiv.finite_left
   have hcard : Nat.card (TauCeti.CFSGIndex.sporadic s).Group = Nat.card (Carrier s) :=
     (Nat.card_congr b.toEquiv).symm
   have hO' : Nat.card (Outer (TauCeti.CFSGIndex.sporadic s).Group) ≤ 2 := by
@@ -134,7 +134,7 @@ theorem threeFourTwoNoneAt_mcl :
     ThreeFourTwoNoneAt 5 (TauCeti.CFSGIndex.sporadic .McL).Group := by
   have hO : Nat.card (Outer (CFSG.Blueprint.NativeSporadic.Carrier .McL)) ≤ 2 :=
     CFSG.Sporadic.Schreier.McL_outer_card_le_two.1
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
     CFSG.Sporadic.McL.fam_mcl_simplicity.1
   have hsq : 5 ^ 2 ∣ Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .McL) := by
     show 5 ^ 2 ∣ Nat.card CFSG.Blueprint.NativeSporadic.McL
@@ -146,13 +146,13 @@ theorem threeFourTwoNoneAt_mcl :
   refine threeFourTwoNoneAt_of_normalizer_maximal hX hnab hout fun K _ _ hK => ?_
   obtain ⟨e⟩ := nonempty_mulEquiv_carrier_of_sporadicIndex (s := .McL)
     CFSG.Sporadic.Bridge.McL.nonempty_mulEquiv hK
-  haveI : Finite (MulAut (CFSG.Blueprint.NativeSporadic.Carrier .McL)) := MulEquiv.finite_left
+  have : Finite (MulAut (CFSG.Blueprint.NativeSporadic.Carrier .McL)) := MulEquiv.finite_left
   refine ⟨?_, fun T => ?_⟩
   · rw [Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).toEquiv]
     exact (isSolvable_and_not_dvd_of_card_le_two hO Nat.prime_five (by norm_num)).2
   obtain ⟨hc, hmax, -, hZ, -, hexp, hsol, -⟩ :=
     CFSG.AGLEmbeddingD2.heisLocal_mclP (e.trans CFSG.RankThree.Native.mcl275Equiv) T
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨B, hBT, hB, hBc⟩ := exists_isElemAbelian_card_sq_of_card_cube hc hexp
   exact ⟨CFSG.SectionRank.le_pRank (by norm_num) hBT hB hBc, hZ, hsol, hmax⟩
 
@@ -160,7 +160,7 @@ theorem threeFourTwoNoneAt_j4 :
     ThreeFourTwoNoneAt 11 (TauCeti.CFSGIndex.sporadic .J4).Group := by
   have hO : Nat.card (Outer (CFSG.Blueprint.NativeSporadic.Carrier .J4)) ≤ 2 :=
     CFSG.AGLEmbedding.card_outer_J4.le.trans (by norm_num)
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J4) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J4) :=
     CFSG.Sporadic.J4.fam_j4_simplicity.1
   have hsq : 11 ^ 2 ∣ Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .J4) := by
     show 11 ^ 2 ∣ Nat.card CFSG.Blueprint.NativeSporadic.J4
@@ -171,7 +171,7 @@ theorem threeFourTwoNoneAt_j4 :
     CFSG.Sporadic.J4.fam_j4_simplicity.2.2 hO (by norm_num) hsq
   refine threeFourTwoNoneAt_of_normalizer_maximal hX hnab hout fun K _ _ hK => ?_
   obtain ⟨e⟩ := hK
-  haveI : IsSimpleGroup K := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup K := MulEquiv.isSimpleGroup e
   have hCK : centralizer ((⊤ : Subgroup K) : Set K) = ⊥ := by
     obtain ⟨a, b, hab⟩ := hnab
     rw [coe_top, centralizer_univ, CFSG.ComponentClassification.Helpers.center_eq_bot K
@@ -185,7 +185,7 @@ theorem threeFourTwoNoneAt_j4 :
       (CFSG.ComponentClassification.OuterAutomorphisms.equivalence Subgroup.topEquiv).toEquiv]
     exact (hloc T).1
   obtain ⟨-, hc, hmax, -, hZ, -, hexp, hsol, -⟩ := hloc T
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨B, hBT, hB, hBc⟩ := exists_isElemAbelian_card_sq_of_card_cube hc hexp
   exact ⟨CFSG.SectionRank.le_pRank (by norm_num) hBT hB hBc, hZ, hsol, hmax⟩
 

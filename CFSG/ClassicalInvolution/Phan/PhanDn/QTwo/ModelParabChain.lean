@@ -35,6 +35,7 @@ theorem qTwoParab_mono {C C' : Set (Fin (m + 1))} (h : C ⊆ C') :
   intro j hj
   exact hx j (fun hjc => hj (h hjc))
 
+omit [Finite K] [CharP K 2] in
 theorem span_stdE_eq_coordSpan (I : Set (Fin (m + 1))) :
     Submodule.span K (stdE (K := K) (n := m + 1) '' I) =
       coordSpan (K := K) (m + 1) I ∅ := by
@@ -79,7 +80,7 @@ theorem diagHom_map_coordSpan (t : Fin (m + 1) → normOne (unitaryInvolution K 
     rw [hvec]
     exact Submodule.smul_mem _ _ (Submodule.subset_span (Or.inr (Set.mem_image_of_mem _ hj)))
 
-theorem diagHom_mem_qTwoParab_empty (hK : Nat.card K = 4) (hm : 3 ≤ m)
+theorem diagHom_mem_qTwoParab_empty (_hK : Nat.card K = 4) (hm : 3 ≤ m)
     (t : Fin (m + 1) → normOne (unitaryInvolution K 2 1)) :
     (⟨diagHom F (unitaryInvolution K 2 1) (m + 1) t,
       diagTorusV_le_orthDerived E (by omega : 4 ≤ m + 1)
@@ -137,7 +138,7 @@ theorem mem_cutSet_iff {c : ℕ} :
     · exact zero_mem_cutSet
     · exact succ_mem_cutSet hj
 
-theorem cutSet_le (hlast : Fin.last m ∉ C) {c : ℕ} (hc : c ∈ cutSet C) : c ≤ m + 1 := by
+theorem cutSet_le (_hlast : Fin.last m ∉ C) {c : ℕ} (hc : c ∈ cutSet C) : c ≤ m + 1 := by
   rcases (mem_cutSet_iff).mp hc with rfl | ⟨j, hj, rfl⟩
   · omega
   · omega
@@ -194,23 +195,26 @@ theorem nextCut_le_of_blockIndex_lt (hlast : Fin.last m ∉ C) {i j : Fin (m + 1
 noncomputable def V (c : ℕ) : Submodule K (Fin (m + 1) ⊕ Fin (m + 1) → K) :=
   coordSpan (K := K) (m + 1) {i : Fin (m + 1) | i.val < c} ∅
 
+omit [Finite K] [CharP K 2] in
 theorem V_zero : V (K := K) (m := m) 0 = ⊥ := by
   rw [V, show {i : Fin (m + 1) | i.val < 0} = (∅ : Set (Fin (m + 1))) by
     ext i; simp]
   simp [coordSpan]
 
+omit [Finite K] [CharP K 2] in
 theorem stdE_mem_V {j : Fin (m + 1)} {c : ℕ} (hj : j.val < c) :
     stdE (K := K) (n := m + 1) j ∈ V (K := K) (m := m) c := by
   rw [V, coordSpan]
   exact Submodule.subset_span (Or.inl (Set.mem_image_of_mem _ hj))
 
+omit [Finite K] [CharP K 2] in
 theorem V_apply_eq_zero {c : ℕ} {v : Fin (m + 1) ⊕ Fin (m + 1) → K}
     (hv : v ∈ V (K := K) (m := m) c) {i : Fin (m + 1)} (hi : c ≤ i.val) :
     v (Sum.inl i) = 0 := by
   rw [V, coordSpan, Set.image_empty, Set.union_empty] at hv
   refine Submodule.span_induction (p := fun v _ => v (Sum.inl i) = 0) ?_ ?_ ?_ ?_ hv
   · rintro _ ⟨k, hk, rfl⟩
-    rw [stdE_inl, if_neg (by
+    rw [stdE_inl, ite_eq_right (by
       intro h
       have h' : i.val = k.val := congrArg Fin.val h
       have hk' : k.val < c := hk
@@ -244,7 +248,7 @@ theorem elt_alt_eq (hm : 1 ≤ m) :
     have := congrArg Fin.val h
     simp [Fin.val_last] at this
     omega
-  · simp only [Fin.val_mk]
+  · simp only
     omega
 
 theorem elt_alt_eq_coordSpan (hm : 1 ≤ m) :
@@ -257,9 +261,10 @@ theorem elt_alt_eq_coordSpan (hm : 1 ≤ m) :
     have := congrArg Fin.val hcon
     simp [Fin.val_last] at this
     omega
-  · simp only [Fin.val_mk]
+  · simp only
     omega
 
+omit [Finite K] [CharP K 2] in
 theorem V_last : V (K := K) (m := m) (m + 1) = stdLag (m + 1) K := by
   rw [V, stdLag_eq_span_stdE, coordSpan]
   congr 1
@@ -358,7 +363,7 @@ namespace ChainAssembly
 
 variable (hlast : Fin.last m ∉ C)
 
-noncomputable abbrev starts (C' : Set (Fin (m + 1))) (h' : Fin.last m ∉ C') : Finset ℕ :=
+noncomputable abbrev starts (C' : Set (Fin (m + 1))) (_h' : Fin.last m ∉ C') : Finset ℕ :=
   (cutSet C').erase (m + 1)
 
 theorem mem_starts_iff {c : ℕ} :
@@ -416,7 +421,7 @@ theorem blockStart_mem_cut (i : Fin (m + 1)) : blockStart (C := C) i ∈ cutSet 
 theorem blockStart_le (i : Fin (m + 1)) : blockStart (C := C) i ≤ i.val := by
   have h := Finset.max'_mem ((cutSet C).filter (fun c => c ≤ i.val))
     (blockStartNonempty (C := C) i)
-  simpa [blockStart] using (Finset.mem_filter.mp h).2
+  simp [blockStart]
 
 theorem blockIndex_eq (i : Fin (m + 1)) :
     blockIndex C i = ((cutSet C).filter (fun c => c ≤ i.val)).card := rfl
@@ -442,7 +447,7 @@ theorem blockStart_lt_next (i : Fin (m + 1)) :
       ⟨blockStart (C := C) i, blockStart_lt (C := C) i⟩ ≤ blockStart (C := C) i := by
     simpa [blockStart] using Finset.le_max' _ _ hmem
   have hgt := nextCut_gt (C := C) hlast ⟨blockStart (C := C) i, blockStart_lt (C := C) i⟩
-  simp only [Fin.val_mk] at hle hgt
+  simp only at hle hgt
   omega
 
 theorem blockStart_eq_of_mem {c : ℕ} (hc : c ∈ starts C hlast) {i : Fin (m + 1)}
@@ -472,7 +477,7 @@ theorem blockStart_ne_of_not_mem {c : ℕ} (hc : c ∈ starts C hlast) {i : Fin 
         blockStart (C := C) i := by
       simpa [blockStart] using Finset.le_max' _ _ hmem
     have hgt := nextCut_gt (C := C) hlast ⟨c, starts_lt (C := C) hlast hc⟩
-    simp only [Fin.val_mk] at hle hgt
+    simp only at hle hgt
     omega
 
 theorem blockIndex_eq_of_interval {c : ℕ} (hc : c ∈ starts C hlast)
@@ -684,7 +689,7 @@ open ChainAssembly in
 theorem qTwoParab_prod_of_last_not_mem
     (hK : Nat.card K = 4) (m : ℕ) (hm : 3 ≤ m)
     {C : Set (Fin (m + 1))}
-    (hC : C ∈ qTwoShape (CFSG.StandardType.ggCoxeterMatrixD (m + 1)))
+    (_hC : C ∈ qTwoShape (CFSG.StandardType.ggCoxeterMatrixD (m + 1)))
     (hlast : Fin.last m ∉ C)
     {x : ↥(CFSG.RankThree.Classical2.orthDerived (Qn E (m + 1)))}
     (hx : x ∈ qTwoParab E m C) :
@@ -739,7 +744,7 @@ theorem qTwoParab_prod_of_last_not_mem
     have h := (mem_qTwoParab (E := E) (m := m) (C := C)).mp hy j hj
     simpa [y] using
       (flagVert_smul_eq_iff (E := E) (m := m) y (flagChamber E m j)).mp h
-  letI : Fintype (blockKappa C hlast) := Finset.Subtype.fintype (starts C hlast)
+  let : Fintype (blockKappa C hlast) := Finset.Subtype.fintype (starts C hlast)
   let k : blockKappa C hlast → ℕ := fun a =>
     blockLen (C := C) hlast a.1 (starts_lt (C := C) hlast a.2)
   let b : blockKappa C hlast → ℕ := fun a => a.1
@@ -807,7 +812,7 @@ theorem qTwoParab_prod_of_last_not_mem
       have hj := j.isLt
       have hlen := block_start_add_len (C := C) hlast
         (starts_lt (C := C) hlast a.2)
-      simp only [Fin.val_mk]
+      simp only
       change b a + j.val < nextCut (C := C) hlast
         ⟨a.1, starts_lt (C := C) hlast a.2⟩
       dsimp [b, k] at hj ⊢

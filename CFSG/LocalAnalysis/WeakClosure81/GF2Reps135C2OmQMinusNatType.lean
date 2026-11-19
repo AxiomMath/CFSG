@@ -42,6 +42,7 @@ private theorem c2slomqmn_epsHt_le {n : ℕ}
   · simp only [minusWt, map_zero]
     positivity
 
+omit [Finite K] [CharP K 2] [CharP k 2] in
 private theorem c2slomqmn_naturalRep_map_vector {n : ℕ} (φ : K →+* k)
     (g : spinGroup (quadMinus n K b c)) (v : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) :
     SmallO8mCurtis.naturalRep n b c φ g (fun a => φ (v a)) =
@@ -54,6 +55,7 @@ private theorem c2slomqmn_naturalRep_map_vector {n : ℕ} (φ : K →+* k)
   ext a
   simp [Matrix.mulVec_apply_eq_sum, map_sum, map_mul]
 
+omit [Finite K] [CharP k 2] in
 private theorem c2slomqmn_naturalRep_Weyl_highest {n : ℕ} (hn : 4 ≤ n)
     (hirrQ : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (φ : K →+* k) (i : Fin (n - 1)) :
     SmallO8mCurtis.naturalRep n b c φ (minusWeyl n hirrQ i)
@@ -66,7 +68,7 @@ private theorem c2slomqmn_naturalRep_Weyl_highest {n : ℕ} (hn : 4 ≤ n)
       else eVec n (⟨0, by omega⟩ : Fin (n - 1)) := by
     by_cases h0 : i.val = 0
     · have hi : i = (⟨0, by omega⟩ : Fin (n - 1)) := Fin.ext h0
-      rw [if_pos h0, hi, minusWeyl_of_lt n hirrQ
+      rw [ite_eq_left h0, hi, minusWeyl_of_lt n hirrQ
         (k := (⟨0, by omega⟩ : Fin (n - 1))) (c2slomqmn_zero_succ_lt hn)]
       have h := (minusFrame n b c).toHypFrame.spinAction_longWeyl_vec_left
         (succ_ne_of_lt n (k := (⟨0, by omega⟩ : Fin (n - 1)))
@@ -75,7 +77,7 @@ private theorem c2slomqmn_naturalRep_Weyl_highest {n : ℕ} (hn : 4 ≤ n)
     · have hzi : (⟨0, by omega⟩ : Fin (n - 1)) ≠ i := by
         intro h
         exact h0 (by simpa using congrArg Fin.val h.symm)
-      rw [if_neg h0]
+      rw [ite_eq_right h0]
       by_cases hlt : i.val + 1 < n - 1
       · have hzj : (⟨0, by omega⟩ : Fin (n - 1)) ≠ (⟨i.val + 1, hlt⟩ : Fin (n - 1)) := by
           intro h
@@ -99,7 +101,8 @@ private theorem c2slomqmn_naturalRep_Weyl_highest {n : ℕ} (hn : 4 ≤ n)
   simp only [hvec] at h
   split_ifs at h ⊢ <;> simpa only [hvec] using h
 
-private theorem c2slomqmn_naturalRep_first_X_next_of_val_eq_zero {n : ℕ} (hn : 4 ≤ n)
+omit [Finite K] [CharP K 2] [CharP k 2] in
+private theorem c2slomqmn_naturalRep_first_X_next_of_val_eq_zero {n : ℕ} (_hn : 4 ≤ n)
     (φ : K →+* k) {j : Fin (n - 1)} (hj : j.val + 1 < n - 1) (hj0 : j.val = 0) (a : K) :
     SmallO8mCurtis.naturalRep n b c φ
         ((minusFrame n b c).longRoot (succ_ne_of_lt n hj) true false (.ofAdd a))
@@ -142,6 +145,7 @@ private theorem c2slomqmn_naturalRep_first_X_next_of_val_eq_zero {n : ℕ} (hn :
   simp [eVec, Pi.single_apply, map_add, Pi.smul_apply]
   split_ifs <;> simp_all
 
+omit [CharP k 2] in
 private theorem c2slomqmn_highestVec_mem_fixU {n : ℕ} (hn : 4 ≤ n)
     (hirrQ : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (φ : K →+* k) :
     (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin (n - 1))) (1 : k)) ∈
@@ -177,6 +181,7 @@ private theorem c2slomqmn_highestVec_mem_fixU {n : ℕ} (hn : 4 ≤ n)
     Matrix.one_apply, Pi.single_apply]
   split_ifs <;> simp
 
+omit [CharP k 2] in
 private theorem c2slomqmn_naturalRep_highestChar {n : ℕ} (hn : 4 ≤ n)
     (hirrQ : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (φ : K →+* k)
     {g : spinGroup (quadMinus n K b c)}
@@ -236,7 +241,7 @@ private theorem c2slomqmn_naturalRep_heckeT_highestVec {n : ℕ} (hn : 4 ≤ n)
       rw [hmul, hnn, c2slomqmn_naturalRep_Weyl_highest hn hirrQ φ i]
   rw [hsum]
   by_cases hi : i.val = 0
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     clear hmul hnn hsum hcount
     have hk : i.val + 1 < n - 1 := by omega
     let f : K → D.X i := fun a =>
@@ -271,7 +276,7 @@ private theorem c2slomqmn_naturalRep_heckeT_highestVec {n : ℕ} (hn : 4 ≤ n)
       simpa using FiniteField.sum_pow_lt_card_sub_one K 1 (by
         rw [← Nat.card_eq_fintype_card]; omega)
     rw [hcard, zero_smul, hsum0, map_zero, zero_smul, add_zero]
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     have hfix : ∀ x : D.X i,
         SmallO8mCurtis.naturalRep n b c φ (x : spinGroup _)
           (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin (n - 1))) (1 : k)) =

@@ -435,7 +435,7 @@ theorem commutatorElement_mem_of_inf_centralizer_sup_eq [Finite J] [Group.IsSolv
     rw [hsup, inf_subgroupOf_eq_subgroupOf_inf]
     exact comap_mono hNQP
   have hPNQ : P ≤ normalizer ((N ⊔ Q : Subgroup J) : Set J) := fun x hx =>
-    normalizer_inf_normalizer_le_normalizer_sup N Q ⟨hPN hx, hPQ hx⟩
+    inf_normalizer_le_normalizer_sup N Q ⟨hPN hx, hPQ hx⟩
   have hnorm : (P.subgroupOf W).map (mk' (U.subgroupOf W)) ≤
       normalizer ((((N ⊔ Q : Subgroup J).subgroupOf W).map (mk' (U.subgroupOf W)) :
         Subgroup (↥W ⧸ U.subgroupOf W)) : Set (↥W ⧸ U.subgroupOf W)) :=

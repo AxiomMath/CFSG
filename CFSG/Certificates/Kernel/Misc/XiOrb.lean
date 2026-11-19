@@ -51,7 +51,7 @@ theorem mem_map_ap {S : Nat} {T : Table} {g : Nat → Nat} (hT : TR 693 T g) {q 
   · rintro ⟨p, hp, h1, rfl⟩
     exact ⟨p, mem_members_fl.2 ⟨hp, h1⟩, (hT.2 p hp).1⟩
 
-theorem key_iff {T : Table} {g : Nat → Nat} (hT : TR 693 T g) {S S' S'' : Nat} (hS : S < 2 ^ 693)
+theorem key_iff {T : Table} {g : Nat → Nat} (hT : TR 693 T g) {S S' S'' : Nat} (_hS : S < 2 ^ 693)
     (hS' : S' < 2 ^ 693) (hS'' : S'' < 2 ^ 693)
     (hset : ∀ q, S''.testBit q = true ↔ ∃ p < 693, S.testBit p = true ∧ g p = q) :
     packImg T (members (fl S)) = packList (members (fl S')) ↔ S' = S'' := by
@@ -215,7 +215,7 @@ theorem oInner_step {R : Flags} {gs gi : Array Table} {gm gim : Nat → Nat → 
   rcases hcase with ⟨hknown, hnn⟩ | ⟨hnew, hnn⟩
   · refine ⟨st, ?_, ?_⟩
     · unfold oInner
-      rw [if_neg (by simp [hcont.2 hknown])]
+      rw [ite_eq_right (by simp [hcont.2 hknown])]
     · rw [hnn]
       exact hI
   · have hn0 : st.1.size = nn (2 * h + l) := hI.size
@@ -227,7 +227,7 @@ theorem oInner_step {R : Flags} {gs gi : Array Table} {gm gim : Nat → Nat → 
     refine ⟨(st.1.push (imgFlags gi[l]! st.1[h]!), st.2.1.push h, st.2.2.1.push l,
       st.2.2.2.insert (packImg gs[l]! M) st.1.size), ?_, ?_⟩
     · unfold oInner
-      rw [if_pos hnotc]
+      rw [ite_eq_left hnotc]
     · rw [hnn]
       have hsh : st.1[h]! = fl (HSo h) := hI.sets h hlt
       have hF : imgFlags gi[l]! st.1[h]! = fl (HSo (nn (2 * h + l))) := by
@@ -331,7 +331,7 @@ theorem orbitEnum_spec {R : Flags} {gs gi : Array Table} {gm gim : Nat → Nat �
         have := (H.step (2 * h) (by omega)).1
         omega
       unfold oBody
-      rw [if_pos hlt]
+      rw [ite_eq_left hlt]
       show OInv HSo Jo (nn (2 * (h + 1)))
         (Id.run (forIn [:gs.size] st (oInner gs gi (members st.1[h]!) h)))
       have hM : members st.1[h]! = members (fl (HSo h)) := by
@@ -490,9 +490,9 @@ theorem orbK_spec {UP X Y c J : Nat} {HS ML : Nat → Nat} (o : Nat) (ho : o < 3
     by_cases hc : (0 < kst X Y HS ML J o t ∧ t / 2 < kst X Y HS ML J o t - 1 ∧
         fd 11 J t < kst X Y HS ML J o t ∧
         HS (1408 * o + fd 11 J t) = imgP (if t % 2 = 1 then Y else X) (ML (1408 * o + t / 2)))
-    · rw [if_pos hc] at hs
+    · rw [ite_eq_left hc] at hs
       exact ⟨hc, hs⟩
-    · rw [if_neg hc] at hs
+    · rw [ite_eq_right hc] at hs
       exact absurd hs hne
   have hJ : ∀ t < 2816, fd 11 J t < 1408 := by
     intro t ht
@@ -500,7 +500,7 @@ theorem orbK_spec {UP X Y c J : Nat} {HS ML : Nat → Nat} (o : Nat) (ho : o < 3
     have hl1 := hle t (by omega)
     have hl2 := hle (t + 1) (by omega)
     by_cases hc : fd 11 J t + 1 = kst X Y HS ML J o t
-    · rw [if_pos hc] at h4
+    · rw [ite_eq_left hc] at h4
       omega
     · omega
   refine ⟨fun t ht => ?_, fun t ht => ⟨hJ t ht, fun q => ?_⟩⟩
@@ -508,10 +508,10 @@ theorem orbK_spec {UP X Y c J : Nat} {HS ML : Nat → Nat} (o : Nat) (ho : o < 3
     beta_reduce
     refine ⟨by omega, ?_⟩
     by_cases hc : fd 11 J t + 1 = kst X Y HS ML J o t
-    · rw [if_pos hc] at h4
+    · rw [ite_eq_left hc] at h4
       right
       omega
-    · rw [if_neg hc] at h4
+    · rw [ite_eq_right hc] at h4
       left
       omega
   · obtain ⟨⟨h0, h1, h2, h3⟩, h4⟩ := hstep t ht

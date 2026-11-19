@@ -85,7 +85,7 @@ theorem pPrimeCore_le_map [Finite B] [Finite I] (hf : Function.Surjective f)
   obtain ⟨P⟩ : Nonempty (Sylow 2 W) := inferInstance
   have hPker : ∀ a ∈ (P : Subgroup W), (a : B) ∈ f.ker := by
     intro a ha
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨a, ha⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨a, ha⟩
     refine mem_ker_of_isPGroup a.2 (k := k) ?_
     have := congrArg (fun x : (P : Subgroup W) => ((x : W) : B)) hk
     simpa using this
@@ -214,7 +214,7 @@ theorem central_quotient_normal_two_index_odd_core_correspondence {B C : Type*} 
       intro s hs
       have hsR : ((s : K) : B) ∈ R := by
         simpa [QuotientGroup.eq_one_iff] using hs
-      obtain ⟨k, hk⟩ := S.isPGroup' s
+      obtain ⟨k, hk⟩ := S.isPGroup s
       have h1 : orderOf ((s : K) : B) ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one (by
         have := congrArg (fun x : (S : Subgroup K) => ((x : K) : B)) hk
         simpa using this)

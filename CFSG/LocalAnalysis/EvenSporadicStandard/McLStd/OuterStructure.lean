@@ -160,7 +160,7 @@ theorem exists_sylow [Finite G] : ∃ P : Subgroup G, P ≤ centralizer ({t} : S
   refine ⟨(Q : Subgroup M).map M.subtype, ?_, ?_, ?_, ?_⟩
   · rintro _ ⟨y, -, rfl⟩
     exact y.2
-  · exact (Q.isPGroup').of_equiv (Subgroup.equivMapOfInjective _ M.subtype M.subtype_injective)
+  · exact (Q.isPGroup).of_equiv (Subgroup.equivMapOfInjective _ M.subtype M.subtype_injective)
   · exact ⟨t', hQ (mem_zpowers t'), rfl⟩
   · have : ((Q : Subgroup M).map M.subtype).relIndex M = (Q : Subgroup M).index := by
       rw [Subgroup.relIndex, show ((Q : Subgroup M).map M.subtype).subgroupOf M = Q from

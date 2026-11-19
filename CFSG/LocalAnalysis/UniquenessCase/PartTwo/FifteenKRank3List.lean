@@ -15,8 +15,8 @@ open CFSG.Open
 
 private theorem s15k_r3_charP {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hK]; norm_num)
 
@@ -27,10 +27,10 @@ private theorem s15k_r3_ln {X : Type} [Group X] [Finite X] {n : ℕ} (hn : 3 ≤
   have hsc := CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by omega) h
   rw [CFSG.Open.StatedClassicalModel] at hsc
   obtain ⟨-, K, hF, hFin, hK, ⟨e⟩⟩ := hsc
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   have hK2 : Nat.card K = 2 := by simpa using hK
-  haveI : CharP K 2 := s15k_r3_charP hK2
+  have : CharP K 2 := s15k_r3_charP hK2
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3) e]
   exact ⟨fun h4 => CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.ThreeRankCls.psl_two_le_pRank_three h4,
     fun h6 => CFSG.SectionRank.ClassicalEven.psl_three_le_pRank_three h6⟩
@@ -38,8 +38,8 @@ private theorem s15k_r3_ln {X : Type} [Group X] [Finite X] {n : ℕ} (hn : 3 ≤
 private theorem s15k_r3_sp {X : Type} [Group X] [Finite X] {n : ℕ} (hn : 6 ≤ n)
     (h : IsSpn X n 1) : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
   obtain ⟨-, K, hF, hFin, hK, ⟨e⟩⟩ := h
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   have hK2 : Nat.card K = 2 := by simpa using hK
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3) e]
   have := CFSG.RankThree.PartTwo.Sec19.Census194.RonanC194.le_pRank_statedSp
@@ -52,10 +52,10 @@ private theorem s15k_r3_omp {X : Type} [Group X] [Finite X] {n : ℕ} (h : IsOme
   · subst h6
     exact s15k_omp6_isAlt8 h
   · obtain ⟨-, K, hF, hFin, hK, ⟨e⟩⟩ := h
-    letI : Field K := hF
-    letI : Finite K := hFin
+    let : Field K := hF
+    let : Finite K := hFin
     have hK2 : Nat.card K = 2 := by simpa using hK
-    haveI : CharP K 2 := s15k_r3_charP hK2
+    have : CharP K 2 := s15k_r3_charP hK2
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3) e]
     exact CFSG.SectionRank.ClassicalEven.omegaPlus_three_le_pRank_three (by omega)
 
@@ -65,10 +65,10 @@ private theorem s15k_r3_omm {X : Type} [Group X] [Finite X] {n : ℕ} (hn : 6 �
   · subst h6
     exact (rRank3Omega153_holds X h).ge
   · obtain ⟨⟨m, hm⟩, K, hF, hFin, b, c, hK, hirr, ⟨e⟩⟩ := h
-    letI : Field K := hF
-    letI : Finite K := hFin
+    let : Field K := hF
+    let : Finite K := hFin
     have hK2 : Nat.card K = 2 := by simpa using hK
-    haveI : CharP K 2 := s15k_r3_charP hK2
+    have : CharP K 2 := s15k_r3_charP hK2
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3) e]
     exact CFSG.SectionRank.ClassicalEven.omegaMinus_three_le_pRank_three (by omega) b c
 

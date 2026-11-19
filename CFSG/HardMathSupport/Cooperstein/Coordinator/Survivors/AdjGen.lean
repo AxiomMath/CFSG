@@ -92,7 +92,7 @@ theorem xOp_one_rootVec_of_ne (H : AdjHyp τ θ) (i : Fin τ.rank) {α : Fin τ.
     subst hq
     simp [Finset.sum_range_succ]
 
-theorem xOp_rootVec_of_up_zero (H : AdjHyp τ θ) (i : Fin τ.rank) (c : F)
+theorem xOp_rootVec_of_up_zero (_H : AdjHyp τ θ) (i : Fin τ.rank) (c : F)
     {α : Fin τ.rank → ℤ} (hα : IsRoot τ α) (h₁ : α ≠ Pi.single i 1) (h₂ : α ≠ -Pi.single i 1)
     (hr : ¬ IsRoot τ (α + Pi.single i 1)) : xOp τ F i c (rootVec τ F α) = rootVec τ F α := by
   rw [xOp_rootVec_of_ne_eq i c hα h₁ h₂]
@@ -178,13 +178,13 @@ theorem coordR_rootVec {α : Fin τ.rank → ℤ} (hα : IsRoot τ α) (β : Fin
   unfold coordR
   rw [rootVec_eq_single hα]
   by_cases hβ : IsRoot τ β
-  · rw [dif_pos hβ, Finsupp.single_apply]
+  · rw [dite_eq_left hβ, Finsupp.single_apply]
     by_cases h : α = β
     · subst h; simp
-    · rw [if_neg h, if_neg]
+    · rw [ite_eq_right h, ite_eq_right]
       intro h'
       exact h (congrArg Subtype.val (Sum.inr.inj h'))
-  · rw [dif_neg hβ, if_neg]
+  · rw [dite_eq_right hβ, ite_eq_right]
     rintro rfl
     exact hβ hα
 
@@ -203,14 +203,14 @@ theorem coordR_Dop (H : AdjHyp τ θ) (i : Fin τ.rank) (v : RootModule τ F) {�
     congr 1
     rcases b with j | ⟨α, hα⟩
     · change coordR (Dop τ F i (hVec τ F j)) β = coordR (hVec τ F j) _
-      rw [Dop_hVec, coordR_smul, coordR_rootVec (isRoot_single _ i), coordR_hVec, if_neg (Ne.symm hβe),
+      rw [Dop_hVec, coordR_smul, coordR_rootVec (isRoot_single _ i), coordR_hVec, ite_eq_right (Ne.symm hβe),
         mul_zero]
     · change coordR (Dop τ F i (Finsupp.single (Sum.inr ⟨α, hα⟩) 1)) β =
         coordR (Finsupp.single (Sum.inr ⟨α, hα⟩) 1) _
       rw [← rootVec_eq_single hα]
       by_cases h1 : α = Pi.single i 1
       · subst h1
-        rw [Dop_rootVec_single, coordR_zero, coordR_rootVec (isRoot_single _ i), if_neg]
+        rw [Dop_rootVec_single, coordR_zero, coordR_rootVec (isRoot_single _ i), ite_eq_right]
         intro h
         apply H.two i
         have : β = Pi.single i 1 + Pi.single i 1 := eq_add_of_sub_eq h.symm
@@ -218,7 +218,7 @@ theorem coordR_Dop (H : AdjHyp τ θ) (i : Fin τ.rank) (v : RootModule τ F) {�
       by_cases h2 : α = -Pi.single i 1
       · subst h2
         rw [Dop_rootVec_neg_single, coordR_add, coordR_hVec, coordR_rootVec (isRoot_single _ i),
-          coordR_rootVec (isRoot_neg_single _ i), if_neg (Ne.symm hβe), if_neg]
+          coordR_rootVec (isRoot_neg_single _ i), ite_eq_right (Ne.symm hβe), ite_eq_right]
         · simp
         · intro h
           apply hβ.ne_zero
@@ -231,9 +231,9 @@ theorem coordR_Dop (H : AdjHyp τ θ) (i : Fin τ.rank) (v : RootModule τ F) {�
         by_cases hr : IsRoot τ (α + Pi.single i 1)
         · rw [coordR_rootVec hr]
           by_cases h : α + Pi.single i 1 = β
-          · rw [if_pos h, if_pos]
+          · rw [ite_eq_left h, ite_eq_left]
             rw [← h]; abel
-          · rw [if_neg h, if_neg]
+          · rw [ite_eq_right h, ite_eq_right]
             intro h'
             apply h
             rw [h']; abel
@@ -242,7 +242,7 @@ theorem coordR_Dop (H : AdjHyp τ θ) (i : Fin τ.rank) (v : RootModule τ F) {�
           · exfalso; apply hr
             have : α + Pi.single i 1 = β := by rw [h]; abel
             rw [this]; exact hβ
-          · rw [if_neg h]
+          · rw [ite_eq_right h]
 
 
 theorem adj_induction {P : RootModule τ F → Prop} (h0 : P 0) (hadd : ∀ v w, P v → P w → P (v + w))
@@ -289,16 +289,16 @@ theorem Dop_inl (H : AdjHyp τ θ) (i : Fin τ.rank) (v : RootModule τ F) (k : 
     by_cases h1 : α = Pi.single i 1
     · subst h1
       rw [Dop_rootVec_single, coordR_rootVec (isRoot_single _ i),
-        if_neg (single_ne_neg_single i)]
+        ite_eq_right (single_ne_neg_single i)]
       split_ifs <;> simp
     by_cases h2 : α = -Pi.single i 1
     · subst h2
       rw [Dop_rootVec_neg_single, Finsupp.add_apply, rootVec_inl, hVec_inl,
-        coordR_rootVec (isRoot_neg_single _ i), if_pos rfl]
+        coordR_rootVec (isRoot_neg_single _ i), ite_eq_left rfl]
       by_cases hk : k = i
       · subst hk; simp
       · simp [Ne.symm hk, hk]
-    · rw [Dop_rootVec_of_ne H i hα h1 h2, rootVec_inl, coordR_rootVec hα, if_neg h2]
+    · rw [Dop_rootVec_of_ne H i hα h1 h2, rootVec_inl, coordR_rootVec hα, ite_eq_right h2]
       split_ifs <;> simp
 
 theorem coordR_Dop_single (H : AdjHyp τ θ) (i : Fin τ.rank) (v : RootModule τ F) :
@@ -318,9 +318,9 @@ theorem coordR_Dop_single (H : AdjHyp τ θ) (i : Fin τ.rank) (v : RootModule �
     congr 1
     refine Finset.sum_congr rfl fun j _ => by ring
   · intro j
-    rw [Dop_hVec, coordR_smul, coordR_rootVec (isRoot_single _ i), if_pos rfl, coordR_hVec]
+    rw [Dop_hVec, coordR_smul, coordR_rootVec (isRoot_single _ i), ite_eq_left rfl, coordR_hVec]
     simp only [hVec_inl, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ,
-      if_true, zero_add]
+      ite_true, zero_add]
   · intro α
     by_cases hα : IsRoot τ α
     swap
@@ -329,14 +329,14 @@ theorem coordR_Dop_single (H : AdjHyp τ θ) (i : Fin τ.rank) (v : RootModule �
     by_cases h1 : α = Pi.single i 1
     · subst h1
       rw [Dop_rootVec_single, coordR_zero, coordR_rootVec (isRoot_single _ i),
-        if_neg (single_ne_neg_single i)]
+        ite_eq_right (single_ne_neg_single i)]
     by_cases h2 : α = -Pi.single i 1
     · subst h2
       rw [Dop_rootVec_neg_single, coordR_add, coordR_hVec, coordR_rootVec (isRoot_single _ i),
-        coordR_rootVec (isRoot_neg_single _ i), if_pos rfl, if_pos rfl, zero_add]
-    · rw [Dop_rootVec_of_ne H i hα h1 h2, coordR_rootVec hα, if_neg h2]
+        coordR_rootVec (isRoot_neg_single _ i), ite_eq_left rfl, ite_eq_left rfl, zero_add]
+    · rw [Dop_rootVec_of_ne H i hα h1 h2, coordR_rootVec hα, ite_eq_right h2]
       by_cases hr : IsRoot τ (α + Pi.single i 1)
-      · rw [coordR_rootVec hr, if_neg]
+      · rw [coordR_rootVec hr, ite_eq_right]
         intro h
         apply hα.ne_zero
         have : α + Pi.single i 1 = 0 + Pi.single i 1 := by rw [zero_add]; exact h
@@ -354,7 +354,7 @@ theorem coordR_eq_zero_of_Dop {v : RootModule τ F} (hv : ∀ i, Dop τ F i v = 
   by_cases hneg : ∃ j : Fin τ.rank, α = -Pi.single j 1
   · obtain ⟨j, rfl⟩ := hneg
     have := Dop_inl H j v j
-    rw [hv j, if_pos rfl] at this
+    rw [hv j, ite_eq_left rfl] at this
     exact this.symm
   · push Not at hneg
     obtain ⟨i, h1, h2, hr⟩ := H.succ hα hαθ hneg
@@ -370,7 +370,7 @@ theorem cartan_cond_of_Dop {v : RootModule τ F} (hv : ∀ i, Dop τ F i v = 0) 
     ∑ j, ((τ.cartan j i).natAbs : F) * v (Sum.inl j) = 0 := by
   have h2 : coordR v (-Pi.single i 1) = 0 := by
     have := Dop_inl H i v i
-    rw [hv i, if_pos rfl] at this
+    rw [hv i, ite_eq_left rfl] at this
     exact this.symm
   have h1 := coordR_Dop_single H i v
   rw [hv i, coordR_zero, h2, zero_add] at h1
@@ -381,15 +381,14 @@ theorem eq_decomp_of_Dop (hθ : IsRoot τ θ) {v : RootModule τ F} (hv : ∀ i,
     v = coordR v θ • rootVec τ F θ + ∑ j, v (Sum.inl j) • hVec τ F j := by
   ext b
   rcases b with k | ⟨α, hα⟩
-  · simp only [Finsupp.add_apply, Finsupp.smul_apply, rootVec_inl, smul_zero, zero_add,
-      smul_eq_mul]
+  · simp only [Finsupp.add_apply, Finsupp.smul_apply, rootVec_inl, smul_eq_mul]
     rw [Finsupp.coe_finsetSum, Finset.sum_apply]
     simp [hVec_inl]
   · simp only [Finsupp.add_apply, Finsupp.smul_apply, smul_eq_mul]
     rw [Finsupp.coe_finsetSum, Finset.sum_apply]
     have hh : ∀ j, (hVec τ F j : RootModule τ F) (Sum.inr ⟨α, hα⟩) = 0 := fun j => by
       unfold hVec
-      simp [Finsupp.single_apply]
+      simp
     simp only [Finsupp.smul_apply, hh, smul_zero, Finset.sum_const_zero, add_zero]
     rw [rootVec_eq_single hθ, Finsupp.single_apply]
     by_cases h : α = θ
@@ -398,7 +397,7 @@ theorem eq_decomp_of_Dop (hθ : IsRoot τ θ) {v : RootModule τ F} (hv : ∀ i,
     · have : coordR v α = 0 := coordR_eq_zero_of_Dop H hv hα h
       have h' : ¬ (Sum.inr ⟨θ, hθ⟩ : Label τ) = Sum.inr ⟨α, hα⟩ := fun e =>
         h (congrArg Subtype.val (Sum.inr.inj e)).symm
-      rw [if_neg h', mul_zero]
+      rw [ite_eq_right h', mul_zero]
       simpa [coordR, hα] using this
 
 end Kernel

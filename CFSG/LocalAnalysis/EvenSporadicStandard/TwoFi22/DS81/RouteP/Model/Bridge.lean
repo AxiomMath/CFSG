@@ -70,13 +70,13 @@ theorem letterPerm_litInt {G : Type*} [Group G] (π : ℕ → G) (l : Fin nG × 
     have h1 : -((i.val : ℤ) + 1) < 0 := by omega
     have h2 : (-(-((i.val : ℤ) + 1)) - 1).toNat = i.val := by omega
     have h3 : (-(-((i.val : ℤ) + 1)) - 1).toNat < 22 := by rw [h2]; exact hi
-    simp only [litInt, letterPerm, Bool.false_eq_true, if_false]
-    rw [if_neg (fun h => h0 h.1), if_pos ⟨h1, h3⟩, h2]
+    simp only [litInt, letterPerm, Bool.false_eq_true, ite_false]
+    rw [ite_eq_right (fun h => h0 h.1), ite_eq_left ⟨h1, h3⟩, h2]
   · have h1 : 0 < (i.val : ℤ) + 1 := by omega
     have h2 : ((i.val : ℤ) + 1 - 1).toNat = i.val := by omega
     have h3 : ((i.val : ℤ) + 1 - 1).toNat < 22 := by rw [h2]; exact hi
-    simp only [litInt, letterPerm, if_true]
-    rw [if_pos ⟨h1, h3⟩, h2]
+    simp only [litInt, letterPerm, ite_true]
+    rw [ite_eq_left ⟨h1, h3⟩, h2]
 
 theorem wprod_eq_wordG {G : Type*} [Group G] (π : ℕ → G) (w : List (Fin nG × Bool)) :
     wprod (fun i : Fin nG => π i.val) w = wordG (letterPerm π 22) (w.map litInt) := by
@@ -133,7 +133,7 @@ theorem rep_genQ {i : ℕ} (hi : i < 22) :
   rw [rep_iff_rho]
   have e : rho (genQ i) = genPerm i := by
     have : i < nG := hi
-    rw [genQ, dif_pos this, rho_of]
+    rw [genQ, dite_eq_left this, rho_of]
   rw [e]
   exact rep_genPerm hi
 

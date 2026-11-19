@@ -20,7 +20,7 @@ namespace Setting11
 variable {M V Q : Subgroup G}
 
 theorem V_le_Q (hset : Setting11 M V Q) : V ≤ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVpg : IsPGroup 2 V := B2F.isPGroup_of_isElemAbelian hset.isElemAbelian
   have hVcV : V ≤ Subgroup.centralizer (V : Set G) := fun v hv => by
     rw [Subgroup.mem_centralizer_iff]
@@ -97,6 +97,7 @@ end Setting11
 @[expose] def elevenBlocksB (M Q U : Subgroup G) : Set (Subgroup G) :=
   {E | E ∈ bhsBlocks (Subgroup.centralizer (U : Set G)) Q ∧ ¬ E ≤ M}
 
+omit [Finite G] in
 theorem mem_elevenBlocksB_iff {M Q U E : Subgroup G} :
     E ∈ elevenBlocksB M Q U ↔ E ∈ bhsBlocks (Subgroup.centralizer (U : Set G)) Q ∧ ¬ E ≤ M :=
   Iff.rfl

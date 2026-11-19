@@ -18,7 +18,7 @@ theorem planeOK_of_gens {A : Subgroup K} {Γ : Set K} (hΓ : Γ ⊆ centSet A) (
   rw [eq_top_iff, ← hgen]
   exact Subgroup.closure_mono hΓ
 
-theorem le_closure_centSet {A : Subgroup K} (hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) :
+theorem le_closure_centSet {A : Subgroup K} (_hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) :
     A ≤ Subgroup.closure (centSet A) := by
   intro x hx
   by_cases hx1 : x = 1

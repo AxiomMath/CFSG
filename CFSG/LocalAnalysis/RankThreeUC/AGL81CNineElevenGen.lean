@@ -20,7 +20,7 @@ theorem pRank_pPrimeCore_le_pRank_relPPrimeCore {p : ℕ} (hp : p.Prime) {H L : 
     (hLH : L ≤ H) (hLs : (L.subgroupOf H).IsSubnormal) {r : ℕ} (hr : r.Prime) :
     CFSG.Open.pRank r (CFSG.pPrimeCore p ↥L) ≤
       CFSG.Open.pRank r (CFSG.Open.relPPrimeCore p H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O : Subgroup ↥L := CFSG.pPrimeCore p ↥L
   let O' : Subgroup G := O.map L.subtype
   have hO'H : O' ≤ H := (Subgroup.map_subtype_le O).trans hLH
@@ -67,7 +67,7 @@ theorem pRank_relPPrimeCore_le_three (h : NineSettingGen G M p Q H E k) {r : ℕ
   · by_cases hsig : r ∈ CFSG.LocalAnalysis.RankThreeUC.S15.sigmaM G M
     · by_contra h3
       have h2 : 2 ≤ CFSG.Open.pRank r (CFSG.Open.relPPrimeCore p H) := by omega
-      haveI : Fact r.Prime := ⟨hr⟩
+      have : Fact r.Prime := ⟨hr⟩
       obtain ⟨T, hT⟩ :=
         CFSG.ABGLocalTools.exists_isSylowOf (p := r) (CFSG.Open.relPPrimeCore p H)
       have hTM : T ≤ M := hT.le.trans h.relPPrimeCore_le

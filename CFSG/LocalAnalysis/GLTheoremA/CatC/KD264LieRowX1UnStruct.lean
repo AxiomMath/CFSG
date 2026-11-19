@@ -21,7 +21,7 @@ theorem abelian_exp_three_of_card7 [Finite K] (hK : Nat.card K = 4) [FiniteDimen
     (hQ : Struct.IsGoodIn (Struct.scalars K V) Q) (hcard : 3 ^ (N - 1) ≤ Nat.card Q) :
     (∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x) ∧ ∀ x ∈ Q, x ^ 3 = 1 := by
   classical
-  haveI : Finite (V ≃ₗ[K] V) := Struct.finite_linearEquiv
+  have : Finite (V ≃ₗ[K] V) := Struct.finite_linearEquiv
   have hZ := Struct.scalarLike_scalars (V := V) hK
   by_cases hab : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x
   · refine ⟨hab, ?_⟩

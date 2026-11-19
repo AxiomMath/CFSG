@@ -146,7 +146,7 @@ theorem exists_hom_ne_one_of_central_three {Y : Type*} [Group Y] [Finite Y] (hY 
     norm_num
   obtain ⟨Q, hQ⟩ := hzp.exists_le_sylow
   have hQidx : (Q : Subgroup Y).index = 8 := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp Q.isPGroup
     have h := (Q : Subgroup Y).card_mul_index
     rw [hY, hn] at h
     have hnd : ¬ 3 ∣ (Q : Subgroup Y).index := Q.not_dvd_index
@@ -162,7 +162,7 @@ theorem exists_hom_ne_one_of_central_three {Y : Type*} [Group Y] [Finite Y] (hY 
     · exfalso; apply hnd; omega
     · omega
   have hQcard : Nat.card Q = 3 ^ 2 := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp Q.isPGroup
     have h := (Q : Subgroup Y).card_mul_index
     rw [hY, hn, hQidx] at h
     have h9 : 3 ^ n = 3 ^ 2 := by omega
@@ -194,7 +194,7 @@ theorem exists_hom_ne_one_of_central_three {Y : Type*} [Group Y] [Finite Y] (hY 
   · rintro y ⟨k, hk⟩
     have h1 : (τ y) ^ 2 ^ k = 1 := by rw [← map_pow, hk, map_one]
     have h2 : orderOf (τ y) ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one h1
-    obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup') (τ y)
+    obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) (τ y)
     rw [hj] at h2
     have h3 : j = 0 := by
       by_contra hj0

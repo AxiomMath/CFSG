@@ -32,6 +32,7 @@ theorem wordOfCodes_flip (w : List ℕ) (hw : ∀ c ∈ w, c < 8) :
     rw [letterOfCode_flipCode (hw c (List.mem_cons_self ..)),
       ih (fun c' hc' => hw c' (List.mem_cons_of_mem _ hc'))]
 
+omit [CharP K ReeTag.F4.prime] in
 theorem finite_adj : Finite (adjointGroup ReeTag.F4.tag K) := by
   have : Finite (Module.End K (RootModule Tag.F4 K)) := Module.finite_of_finite K
   infer_instance

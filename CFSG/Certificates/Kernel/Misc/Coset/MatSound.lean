@@ -144,7 +144,7 @@ theorem eq_of_eqM {X Y : List (List Nat)} (h : eqM X Y = true) : X = Y := by
 theorem matL_rows {p d : Nat} [NeZero p] (M : Matrix (Fin d) (Fin d) (ZMod p)) :
     matL p d (rowsOf M) = M := by
   ext i j
-  simp [matL, rowsOf, nthN_eq, nthR_eq, List.getD_eq_getElem?_getD, ZMod.natCast_zmod_val]
+  simp [matL, rowsOf, nthN_eq, nthR_eq, List.getD_eq_getElem?_getD]
 
 theorem length_rows {p d : Nat} (M : Matrix (Fin d) (Fin d) (ZMod p)) : (rowsOf M).length = d := by
   simp [rowsOf]

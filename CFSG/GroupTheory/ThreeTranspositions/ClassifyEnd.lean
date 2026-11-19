@@ -49,7 +49,7 @@ theorem card_eq_six_or_one_twenty_of_pair (hP : Pair X E) (hX : ¬ HasE9 X)
       c * e = e * c → ∃ g : X, g * a * g⁻¹ = c ∧ g * b * g⁻¹ = e :=
     fun a ha b hb c hc e he hab habc hce hcec =>
       Pair.exists_conj_pair_of_commute hP hZ hS ha hb hc he hab habc hce hcec
-  haveI := Pair.finite hP
+  have := Pair.finite hP
   rcases tn_or_hasOrthHypPairs (sympConfig hP hZ hS hsymp htrans) with hTN | hOrth
   · obtain ⟨m, hm, φ, -⟩ := classicalConclusion_sym hP hZ hS hsymp htrans hTN
     exact card_eq_six_or_one_twenty_of_mulEquiv_perm hm φ hX

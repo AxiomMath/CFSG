@@ -23,11 +23,11 @@ theorem exists_kForm_equiv {K F : Type} [Field K] [Fintype K] [CharP K 2] [Field
         act (FiniteField.frobeniusAlgHom K F : F →+* F)
           ((D2.slMap σ g : SL(2, F)) : Mat2 F) (θ e : Hyp F) := by
   classical
-  haveI : CharP F 2 := charP_of_injective_algebraMap (algebraMap K F).injective 2
+  have : CharP F 2 := charP_of_injective_algebraMap (algebraMap K F).injective 2
   have hk0 : 0 < k := by omega
   have hn : 1 ≤ 3 * k := by omega
   have hF : Fintype.card F = 2 ^ (3 * k) := by rw [hcardF, hk, ← pow_mul, mul_comm]
-  haveI : Finite E := Module.finite_of_finite K
+  have : Finite E := Module.finite_of_finite K
   have hq : 2 ≤ Fintype.card K := by
     rw [hk]
     calc 2 = 2 ^ 1 := by norm_num
@@ -41,7 +41,7 @@ theorem exists_kForm_equiv {K F : Type} [Field K] [Fintype K] [CharP K 2] [Field
       rw [← pow_mul, ← pow_mul, hcardF]
       ring_nf
     rw [hτ, hτ, hτ, h1, FiniteField.pow_card]
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
+  have : Finite (EndRing ρ) := finite_endRing ρ
   have hnt1 : (1 : ℕ) < Nat.card (EndRing ρ) := Finite.one_lt_card
   have hfixU := card_fixRoot_gen (ρ := ρ) hk hn hF hnt
   obtain ⟨e₀, he₀, he₀0⟩ : ∃ e₀ : E, (∀ t : F, ρ (uElt t) e₀ = e₀) ∧ e₀ ≠ 0 := by

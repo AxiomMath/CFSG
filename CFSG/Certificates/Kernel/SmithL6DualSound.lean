@@ -112,7 +112,7 @@ theorem foldl_bits (p : Nat → Bool) : ∀ n t,
     rw [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil]
     have ih := foldl_bits p n t
     by_cases hp : p n = true
-    · rw [if_pos hp, Nat.testBit_or, ih, Nat.testBit_two_pow]
+    · rw [ite_eq_left hp, Nat.testBit_or, ih, Nat.testBit_two_pow]
       by_cases h1 : t < n
       · have h2 : n ≠ t := by omega
         simp [h1, h2, Nat.lt_succ_of_lt h1]
@@ -121,7 +121,7 @@ theorem foldl_bits (p : Nat → Bool) : ∀ n t,
           simp [hp]
         · have h3 : ¬ t < n + 1 := by omega
           simp [h1, h2, h3]
-    · rw [if_neg hp, ih]
+    · rw [ite_eq_right hp, ih]
       by_cases h1 : t < n
       · simp [h1, Nat.lt_succ_of_lt h1]
       · by_cases h2 : t = n

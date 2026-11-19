@@ -26,7 +26,7 @@ theorem sym1119_isPGroup_P (h : Sec11Data G A c L a R Y d x s r g) :
   obtain ⟨k, hk⟩ := Item1119Proof.exists_pow_eq_one_of_mem_P h q.2
   exact ⟨k, Subtype.ext (by simpa using hk)⟩
 
-theorem sym1119_A_lt_W0 (h45 : Sec4.Item4_5) (h : Sec11Data G A c L a R Y d x s r g)
+theorem sym1119_A_lt_W0 (_h45 : Sec4.Item4_5) (h : Sec11Data G A c L a R Y d x s r g)
     (hord : orderOf x = 27) : A < sym1119W0 A x := by
   refine lt_of_le_of_ne (sym1119_A_le_W0 A x) fun hAW => ?_
   have hy : x ^ 3 ∈ A := hAW ▸ sym1119_y_mem_W0 A x

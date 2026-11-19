@@ -67,7 +67,7 @@ theorem le_L9_sup {D : Data G} {D₃ : Subgroup G} (hY : Hyp97 D Y H D₃ S) : Y
 
 theorem isTwoReducedIn_conjClosure_L9 {D : Data G} {D₃ : Subgroup G} (hY : Hyp97 D Y H D₃ S)
     (hSH : IsSylowOf 2 S H) : IsTwoReducedIn (L9 Y H ⊔ S) V₀ ∧ V₀ ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLH : L9 Y H ≤ H := L9_le_of_le hY.1.2.1.1
   obtain ⟨hSG, hS2, hodd⟩ := isSylowOf_iff.1 (hSH.of_le le_sup_right (sup_le hLH hSH.le))
   have hF : CFSG.QuasithinUnique.CharTwo (L9 Y H ⊔ S) :=
@@ -80,7 +80,7 @@ theorem isTwoReducedIn_conjClosure_L9 {D : Data G} {D₃ : Subgroup G} (hY : Hyp
 theorem not_L9_le_centralizer {D : Data G} {D₃ : Subgroup G} (hY : Hyp97 D Y H D₃ S)
     (hR : pCoreOf 2 Y ≠ ⊥) (hSM : ¬ IsSylowOf 2 S D.M) :
     ¬ L9 Y H ≤ centralizer (V₀ : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hLC
   obtain ⟨hSY, hS2, hodd⟩ := isSylowOf_iff.1 hY.2.2.2
   have hZS := CFSG.QuasithinUnique.Setup.omegaOneCenterOf_le S
@@ -114,7 +114,7 @@ theorem inf_centralizer_le_I9 {D : Data G} {D₃ : Subgroup G} (hY : Hyp97 D Y H
 theorem inf_centralizer_le_of_hyp97 {D : Data G} {D₃ : Subgroup G} (hY : Hyp97 D Y H D₃ S)
     (hA5 : IsAlt (Bar2 (Opp 3 Y)) 5) (hR : pCoreOf 2 Y ≠ ⊥) (hSM : ¬ IsSylowOf 2 S D.M)
     (hs : IsSimpleGroup (Lbar9 Y H)) : Y ⊓ centralizer (V₀ : Set G) ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set E := Y ⊓ centralizer (V₀ : Set G) with hE
   have hXY : Opp 3 Y ≤ Y := opp_le_self 3 Y
   have hYE : Y ≤ normalizer (E : Set G) := B2F.le_normalizer_inf le_normalizer

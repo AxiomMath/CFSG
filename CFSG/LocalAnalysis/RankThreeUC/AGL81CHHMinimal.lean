@@ -30,8 +30,8 @@ variable {K : Type*} [Group K] [Finite K] {B Q : Subgroup K} {d : ℕ}
 
 theorem commutator_eq (h : HHMinimal B Q) (hd : d.Prime) (hd3 : d ≠ 3) (hQ : IsPGroup 3 Q)
     (hB : IsPGroup d B) : ⁅Q, B⁆ = Q := by
-  haveI : Fact d.Prime := ⟨hd⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact d.Prime := ⟨hd⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime (Nat.card B) (Nat.card Q) :=
     IsPGroup.coprime_card_of_ne d 3 hd3 B Q hB hQ
   exact GorensteinWalter.commutator_eq_self_of_minimal_invariant_coprime B Q B
@@ -39,16 +39,16 @@ theorem commutator_eq (h : HHMinimal B Q) (hd : d.Prime) (hd3 : d ≠ 3) (hQ : I
 
 theorem commutator_self_le_centralizer (h : HHMinimal B Q) (hQ : IsPGroup 3 Q) :
     ⁅Q, Q⁆ ≤ centralizer (B : Set K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRQ : ⁅Q, Q⁆ ≤ Q := Subgroup.commutator_le_self Q
   have hBR : B ≤ normalizer ((⁅Q, Q⁆ : Subgroup K) : Set K) :=
     GorensteinWalter.le_normalizer_commutator_of_le_normalizer B Q Q h.normalizes h.normalizes
   have hQne : Q ≠ ⊥ := by
     intro hbot
     exact h.nontrivial (by rw [hbot, Subgroup.commutator_bot_left])
-  haveI : Group.IsNilpotent ↥Q := hQ.isNilpotent
-  haveI : Group.IsSolvable ↥Q := inferInstance
-  haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
+  have : Group.IsNilpotent ↥Q := hQ.isNilpotent
+  have : Group.IsSolvable ↥Q := inferInstance
+  have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
   have hlt : ⁅Q, Q⁆ < Q := by
     have hcom : _root_.commutator ↥Q < ⊤ :=
       Group.IsSolvable.commutator_lt_top_of_nontrivial ↥Q
@@ -79,12 +79,12 @@ theorem commutator_self_le_centralizer_self (h : HHMinimal B Q) (hd : d.Prime) (
 
 theorem pow_three_mem_centralizer (h : HHMinimal B Q) (hQ : IsPGroup 3 Q) :
     ∀ x ∈ Q, x ^ 3 ∈ centralizer (B : Set K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQne : Q ≠ ⊥ := by
     intro hbot
     exact h.nontrivial (by rw [hbot, Subgroup.commutator_bot_left])
-  haveI : Group.IsNilpotent ↥Q := hQ.isNilpotent
-  haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
+  have : Group.IsNilpotent ↥Q := hQ.isNilpotent
+  have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
   let S : Set K := {y | ∃ x ∈ Q, y = x ^ 3}
   let R : Subgroup K := Subgroup.closure S
   have hRQ : R ≤ Q := by
@@ -116,7 +116,7 @@ theorem pow_three_mem_centralizer (h : HHMinimal B Q) (hQ : IsPGroup 3 Q) :
   have hNnormal : N.Normal :=
     NormalizerCondition.normal_of_coatom N
       (Group.normalizerCondition_of_isNilpotent (G := ↥Q)) hN
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hNindex : N.index = 3 :=
     (IsPGroup.isCoatom_iff_index_eq_prime (p := 3) hQ).mp hN
   have hsub : R ≤ N.map (Subgroup.subtype Q) := by
@@ -138,6 +138,7 @@ theorem pow_three_mem_centralizer (h : HHMinimal B Q) (hQ : IsPGroup 3 Q) :
   intro x hx
   exact hcent (Subgroup.subset_closure ⟨x, hx, rfl⟩)
 
+omit [Finite K] in
 theorem inf_centralizer_le_of_not_comm (h : HHMinimal B Q)
     (hnc : ¬ ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x) :
     Q ⊓ centralizer (Q : Set K) ≤ centralizer (B : Set K) := by

@@ -20,6 +20,7 @@ variable {hc : Ctx M Q Z B} {t : G} {K : Type} [Field K] [Finite K] {γ : G → 
   {M₀ : Tim79.QuadModel Q Z K γ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
 
 variable (M₀) in
+omit [Finite G] [Finite K] in
 theorem isQuadSpace_quadModel : IsQuadSpace M₀.B M₀.Qf := ⟨M₀.alt, M₀.nondeg, M₀.Qf_add⟩
 
 structure SetupW (hc : Ctx M Q Z B) (t : G) {K : Type} [Field K] [Finite K] {γ : G → K}
@@ -33,10 +34,10 @@ variable (S : SetupW hc t M₀ φ)
 
 @[expose] noncomputable def Wsub : Submodule K M₀.E :=
   imgSub M₀ (Wt Q (Vt M (LB M Q B) B Z t))
-    (fun c e he => smul_mem_img_Wt M₀ S.glob.reg (hc.Vt_le_Q t) c he)
+    (fun c _e he => smul_mem_img_Wt M₀ S.glob.reg (hc.Vt_le_Q t) c he)
 
 @[expose] noncomputable def Vsub : Submodule K M₀.E :=
-  imgSub M₀ (Vt M (LB M Q B) B Z t) (fun c e he => hc.smul_mem_img_Vt S.glob t c he)
+  imgSub M₀ (Vt M (LB M Q B) B Z t) (fun c _e he => hc.smul_mem_img_Vt S.glob t c he)
 
 @[expose] noncomputable def VW : Submodule K ↥S.Wsub := S.Vsub.comap S.Wsub.subtype
 
@@ -90,10 +91,10 @@ theorem orth_Wsub : M₀.B.orthogonal S.Wsub = S.Vsub := by
 
 @[expose] noncomputable def actWsub (r : ↥(Rt M (LB M Q B) t)) : S.Wsub →ₗ[K] S.Wsub :=
   LinearMap.restrict ((actM φ (r : G) : M₀.E ≃ₗ[K] M₀.E) : M₀.E →ₗ[K] M₀.E)
-    (fun w hw => S.actM_mem_W r.2 hw)
+    (fun _w hw => S.actM_mem_W r.2 hw)
 
 @[expose] noncomputable def actWq (r : ↥(Rt M (LB M Q B) t)) : S.Wq →ₗ[K] S.Wq :=
-  S.VW.mapQ S.VW (S.actWsub r) (fun w hw => S.actM_mem_V r.2 hw)
+  S.VW.mapQ S.VW (S.actWsub r) (fun _w hw => S.actM_mem_V r.2 hw)
 
 theorem actWq_one : S.actWq 1 = LinearMap.id := by
   refine Submodule.linearMap_qext _ (LinearMap.ext fun w => ?_)
@@ -114,7 +115,7 @@ theorem actWq_mul (r s : ↥(Rt M (LB M Q B) t)) : S.actWq (r * s) = S.actWq r �
   rfl
 
 @[expose] noncomputable def ActR (r : ↥(Rt M (LB M Q B) t)) : S.Wq ≃ₗ[K] S.Wq :=
-  LinearEquiv.ofLinear (S.actWq r) (S.actWq r⁻¹)
+  LinearEquiv.ofLinearMap (S.actWq r) (S.actWq r⁻¹)
     (by rw [← S.actWq_mul, mul_inv_cancel, S.actWq_one])
     (by rw [← S.actWq_mul, inv_mul_cancel, S.actWq_one])
 
@@ -141,7 +142,7 @@ theorem ActR_eq_one_of_rho_eq_one {r : ↥(Rt M (LB M Q B) t)} (hr : S.vd.ρ r =
 
 @[expose] noncomputable def Act : SL(2, K) × SL(2, K) →* (S.Wq ≃ₗ[K] S.Wq) :=
   S.vd.ρ.liftOfSurjective S.vd.ρ_surj
-    ⟨S.ActRhom, fun r hr =>
+    ⟨S.ActRhom, fun _r hr =>
       MonoidHom.mem_ker.mpr (S.ActR_eq_one_of_rho_eq_one (MonoidHom.mem_ker.mp hr))⟩
 
 theorem Act_rho (r : ↥(Rt M (LB M Q B) t)) : S.Act (S.vd.ρ r) = S.ActR r :=
@@ -157,8 +158,8 @@ theorem Act_rho_mk (r : ↥(Rt M (LB M Q B) t)) (w : S.Wsub) :
 
 @[expose] noncomputable def bwq : S.Wq →ₗ[K] S.Wq →ₗ[K] K :=
   LinearMap.liftQ₂ S.VW S.VW S.BW
-    (fun v hv => LinearMap.mem_ker.mpr (LinearMap.ext fun w => S.B_Vsub_Wsub w.2 hv))
-    (fun v hv => LinearMap.mem_ker.mpr (LinearMap.ext fun w => S.B_Wsub_Vsub w.2 hv))
+    (fun _v hv => LinearMap.mem_ker.mpr (LinearMap.ext fun w => S.B_Vsub_Wsub w.2 hv))
+    (fun _v hv => LinearMap.mem_ker.mpr (LinearMap.ext fun w => S.B_Wsub_Vsub w.2 hv))
 
 theorem bwq_mk (w w' : S.Wsub) : S.bwq (S.mkW w) (S.mkW w') = M₀.B (w : M₀.E) (w' : M₀.E) :=
   rfl

@@ -310,7 +310,7 @@ theorem asch6_6PglMod : Asch6_6PglMod := by
     rw [htop, Subgroup.index_top] at hidx
     omega
   obtain ⟨g₀, hg₀⟩ := hex
-  haveI := hLn
+  have := hLn
   have hnat : IsNaturalL3Two ρ L I := w183Pgl_natural hV ρ hcent e hA hAe hAL hq hg₀ hI
   refine ⟨hnat, fun g hg => ?_⟩
   obtain ⟨hd, hp⟩ := w183Pgl_outer ρ hcent hLI hnat hg

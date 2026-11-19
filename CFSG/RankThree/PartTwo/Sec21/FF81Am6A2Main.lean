@@ -198,7 +198,7 @@ theorem a2_stage2 {G : Type} [Group G] (θP : ↥(B3Levi 𝔽₂) →* G) (hθ :
       (∀ (x : ↥(adjointGroup .F4 𝔽₂)) (hx : x ∈ Lv 𝔽₂ {3}), θA ⟨x, Lv_three_le_A hx⟩ ∈ X) ∧
       θA.range ≤ M := by
   obtain ⟨F, hFdef⟩ : ∃ F : H6 →* G, ∀ y, F y = f (g₁⁻¹ * y * g₁) :=
-    ⟨f.comp (MulAut.conj g₁⁻¹).toMonoidHom, fun y => by simp [MulAut.conj_apply]⟩
+    ⟨f.comp (MulAut.conj g₁⁻¹).toMonoidHom, fun y => by simp⟩
   have hFconj : ∀ y, F (g₁ * y * g₁⁻¹) = f y := fun y => by
     rw [hFdef]
     congr 1

@@ -121,8 +121,7 @@ theorem card_Qa_le :
     have hj13 := j.isLt
     have hij' : i.val < j.val := hij
     have hcj := (hd.2 i i.isLt).2.2 j hj13
-    simp only [CFSG.KS.PK.bIf_eq, Nat.blt_eq, hij', ↓reduceIte, CFSG.KS.PK.strictB_eq,
-      CFSG.KS.PK.bAnd_eq, Bool.and_eq_true, cj_index] at hcj
+    simp only [CFSG.KS.PK.bIf_eq, Nat.blt_eq, hij', ↓reduceIte, Bool.and_eq_true, cj_index] at hcj
     have hc := Nat.eq_of_beq_eq_true hcj.2
     have h4 : Nat.shiftLeft 1 (Nat.shiftLeft j.val 1) = 4 ^ j.val := by
       change 1 <<< (j.val <<< 1) = _

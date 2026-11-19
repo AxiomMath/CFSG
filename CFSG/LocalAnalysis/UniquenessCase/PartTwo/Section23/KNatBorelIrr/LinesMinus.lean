@@ -21,9 +21,9 @@ theorem borelIrr_of_omegaMinusFour {W : Type} [CommGroup W] [Finite W]
     (hstab : StableUnder (Hinf P ⊓ normalizer (S : Set (MulAut W))) J) :
     J = ⊥ ∨ J = fixV S := by
   obtain ⟨-, K, hField, hFinite, b, c, hK, hirr, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   rw [show 4 / 2 = 2 by norm_num] at hR
   have he0 : (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin (2 - 1))) 1 :
       Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K) ≠ 0 := by
@@ -42,9 +42,9 @@ theorem borelIrr_of_omegaMinusSix {W : Type} [CommGroup W] [Finite W]
     (hstab : StableUnder (Hinf P ⊓ normalizer (S : Set (MulAut W))) J) :
     J = ⊥ ∨ J = fixV S := by
   obtain ⟨-, K, hField, hFinite, b, c, hK, hirr, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   rw [show 6 / 2 = 3 by norm_num] at hR
   have he0 : (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin (3 - 1))) 1 :
       Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → K) ≠ 0 := by
@@ -65,9 +65,9 @@ theorem borelIrr_of_omegaMinusEight {W : Type} [CommGroup W] [Finite W]
     (hstab : StableUnder (Hinf P ⊓ normalizer (S : Set (MulAut W))) J) :
     J = ⊥ ∨ J = fixV S := by
   obtain ⟨-, K, hField, hFinite, b, c, hK, hirr, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   rw [show 8 / 2 = 4 by norm_num] at hR
   have he0 : (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin (4 - 1))) 1 :
       Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → K) ≠ 0 := by

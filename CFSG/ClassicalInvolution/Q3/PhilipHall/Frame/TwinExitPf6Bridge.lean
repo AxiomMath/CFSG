@@ -99,7 +99,7 @@ theorem secAut_mk (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers c))
       g * (h : ↥(Subgroup.centralizer ({c} : Set G))) * g⁻¹) :
     secAut Ω c hΩ hc2 g (QuotientGroup.mk' (classicalInvolutionOddCore ↥(coreHull Ω c)) h) =
       QuotientGroup.mk' (classicalInvolutionOddCore ↥(coreHull Ω c)) h' := by
-  haveI := normal_coreHull hΩ hc2
+  have := normal_coreHull hΩ hc2
   have : h' = MulAut.conjNormal g h := Subtype.ext (by rw [e, MulAut.conjNormal_apply])
   subst this
   exact QuotientGroup.congr_mk' _ _ _ _ h
@@ -109,7 +109,7 @@ theorem secMap_secAut (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers
     (y : ↥(coreHull Ω c) ⧸ classicalInvolutionOddCore ↥(coreHull Ω c)) :
     secMap Ω c hΩ hc2 (secAut Ω c hΩ hc2 g y) =
       oddQuotMk c g * secMap Ω c hΩ hc2 y * (oddQuotMk c g)⁻¹ := by
-  haveI := normal_coreHull hΩ hc2
+  have := normal_coreHull hΩ hc2
   obtain ⟨h, rfl⟩ := QuotientGroup.mk'_surjective (classicalInvolutionOddCore ↥(coreHull Ω c)) y
   set h' : ↥(coreHull Ω c) := ⟨g * (h : ↥(Subgroup.centralizer ({c} : Set G))) * g⁻¹,
     this.conj_mem _ h.2 g⟩ with hh'

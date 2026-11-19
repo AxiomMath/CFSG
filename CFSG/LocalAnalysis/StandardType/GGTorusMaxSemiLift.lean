@@ -23,11 +23,11 @@ open Matrix CFSG.Open CFSG.ClassicalGroups.UnitaryFlag
 
 private theorem semilinearSimilitudes_finite {K : Type} [Field K] [Finite K]
     (h : UnitaryFieldData 2 1 K) (r ε : ℕ) : Finite (semilinearSimilitudes h r ε) := by
-  haveI : Finite (K ≃+* K) :=
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun τ : K ≃+* K => (τ : K → K))
       (fun _ _ h => DFunLike.coe_injective h)
-  haveI : Finite (GL (HypIndex r ε) K) := inferInstance
-  haveI : Finite (SemiGL (HypIndex r ε) K) :=
+  have : Finite (GL (HypIndex r ε) K) := inferInstance
+  have : Finite (SemiGL (HypIndex r ε) K) :=
     Finite.of_injective (fun x : SemiGL (HypIndex r ε) K => (x.left, x.right))
       (fun _ _ h => SemidirectProduct.ext (congrArg Prod.fst h) (congrArg Prod.snd h))
   exact Subtype.finite
@@ -61,7 +61,6 @@ private theorem semilinearLiftFst_surjective {X : Type} [Group X] {K : Type} [Fi
   intro x
   obtain ⟨γ, hγ⟩ := hΦ (ψ' x)
   refine ⟨⟨(x, γ), ?_⟩, rfl⟩
-  change (x, γ) ∈ semilinearLiftFibre h hr hε ψ'
   change ψ' x = (semilinearAutHom h hr hε) γ
   exact hγ.symm
 
@@ -88,7 +87,7 @@ private theorem semilinearLiftLinear_index {X : Type} [Group X] {K : Type} [Fiel
     [Finite K] {r ε : ℕ} (h : UnitaryFieldData 2 1 K) (hr : 1 ≤ r) (hε : ε ≤ 1)
     (ψ' : X →* MulAut (hypPSU h r ε)) (hK : Nat.card K = 4) :
     (semilinearLiftLinear h hr hε ψ').index ≤ 2 := by
-  haveI : Finite (K ≃+* K) :=
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun τ : K ≃+* K => (τ : K → K))
       (fun _ _ h => DFunLike.coe_injective h)
   rw [semilinearLiftLinear, Subgroup.index_ker]
@@ -258,7 +257,7 @@ private theorem semilinearLiftRepresentation_kernel_scalar {X : Type} [Group X]
     rw [hlin, semilinearLiftReindex_scalar]
   rw [hρ, Matrix.GeneralLinearGroup.coe_scalar]
 
-private noncomputable def semilinearLiftKerExists {X : Type} [Group X] {K : Type} [Field K]
+private theorem semilinearLiftKerExists {X : Type} [Group X] {K : Type} [Field K]
     {r ε : ℕ} (h : UnitaryFieldData 2 1 K) (hr : 1 ≤ r) (hε : ε ≤ 1)
     (hn : 3 ≤ 2 * r + ε) (ψ' : X →* MulAut (hypPSU h r ε))
     (z : (semilinearLiftFst h hr hε ψ').ker) : ∃ c : Kˣ,
@@ -392,7 +391,7 @@ private theorem semilinearLiftFibre_finite {X : Type} [Group X] [Finite X] {K : 
     [Field K] [Finite K] {r ε : ℕ} (h : UnitaryFieldData 2 1 K) (hr : 1 ≤ r)
     (hε : ε ≤ 1) (ψ' : X →* MulAut (hypPSU h r ε)) :
     Finite ↥(semilinearLiftFibre h hr hε ψ') := by
-  haveI : Finite (semilinearSimilitudes h r ε) := semilinearSimilitudes_finite h r ε
+  have : Finite (semilinearSimilitudes h r ε) := semilinearSimilitudes_finite h r ε
   exact Subtype.finite
 
 theorem exists_semilinearLift {X : Type} [Group X] [Finite X] {K : Type} [Field K] [Finite K]
@@ -423,7 +422,7 @@ theorem exists_semilinearLift {X : Type} [Group X] [Finite X] {K : Type} [Field 
     exact hψ ((MulAut.congr e).injective (by simpa [ψ'] using hab))
   have hΦ_surj : Function.Surjective (semilinearAutHom h hr hε) :=
     semilinearAutHom_surjective' h hr hε (Or.inr hr2) hn
-  haveI : Finite ↥(semilinearLiftFibre h hr hε ψ') :=
+  have : Finite ↥(semilinearLiftFibre h hr hε ψ') :=
     semilinearLiftFibre_finite h hr hε ψ'
   refine ⟨↥(semilinearLiftFibre h hr hε ψ'), inferInstance, inferInstance,
     semilinearLiftFst h hr hε ψ', semilinearLiftLinear h hr hε ψ',

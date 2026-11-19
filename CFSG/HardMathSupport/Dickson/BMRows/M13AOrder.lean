@@ -76,7 +76,7 @@ theorem card_centralizer_xE_le (φ : Gmat ≃* MGriess) :
     Nat.card ↥(Subgroup.centralizer ({gw thirteenX} : Set Gmat)) ≤ 451 * 936 := by
   obtain ⟨⟨hfin, -, -, -⟩, a, z, ha, hz, hnc, hcls, hA, hBz, hgraph⟩ :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite MGriess := hfin
+  have : Finite MGriess := hfin
   have ht2 : orderOf (φ tGmat) = 2 := by
     rw [MulEquiv.orderOf_eq]
     exact CFSG.Monster.Tri.orderOf_tGmat
@@ -118,8 +118,8 @@ theorem card_centralizer_xE_le (φ : Gmat ≃* MGriess) :
 theorem card_centralizer_conj_xE_le (φ : Gmat ≃* MGriess) {s m : Gmat} {k : ℕ} (hk : k % 13 ≠ 0)
     (h : m * s * m⁻¹ = gw thirteenX ^ k) :
     Nat.card ↥(Subgroup.centralizer ({s} : Set Gmat)) ≤ 451 * 936 := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hk1 : gw thirteenX ^ k ≠ 1 := by
     intro h1
     have := orderOf_dvd_of_pow_eq_one h1
@@ -132,7 +132,7 @@ theorem card_centralizer_conj_xE_le (φ : Gmat ≃* MGriess) {s m : Gmat} {k : �
 theorem acompOK_conj_xE (φ : Gmat ≃* MGriess) {s m : Gmat} {k : ℕ} (hs : orderOf s = 13)
     (hk : k % 13 ≠ 0) (h : m * s * m⁻¹ = gw thirteenX ^ k) :
     I1415Rows.ACompOK 13 s := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
   refine I1415Rows.acompOK_of_not_dvd_card (by norm_num) hs fun hdvd => ?_
   have h1 := Nat.le_of_dvd Nat.card_pos hdvd
   have h2 := card_centralizer_conj_xE_le φ hk h
@@ -155,8 +155,8 @@ theorem acompOK_M_thirteen :
   let e : CFSG.Monster.Existence.MGriess ≃* Carrier .M := e₀
   have φ := CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth
   let eG : Gmat ≃* Carrier .M := φ.symm.trans e
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
-  haveI : Finite (Carrier .M) := Finite.of_equiv Gmat eG.toEquiv
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite (Carrier .M) := Finite.of_equiv Gmat eG.toEquiv
   intro k hk
   have hs : orderOf (eG.symm k) = 13 := by
     rw [MulEquiv.orderOf_eq]

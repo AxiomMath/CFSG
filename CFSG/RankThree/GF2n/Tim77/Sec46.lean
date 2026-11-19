@@ -18,27 +18,32 @@ section QZ
 
 variable {G : Type} [Group G] [Finite G] {A Abar S₀ B : Subgroup G}
 
+omit [Finite G] in
 theorem sec46_comm_A (h : Sec3Ctx A Abar S₀ B) {b a : G} (hb : b ∈ B) (ha : a ∈ A) :
     b * a = a * b :=
   (Subgroup.mem_centralizer_iff.mp (h.b_le_centralizer hb) a ha).symm
 
+omit [Finite G] in
 theorem sec46_conj_fix (h : Sec3Ctx A Abar S₀ B) {b a : G} (hb : b ∈ B) (ha : a ∈ A) :
     b * a * b⁻¹ = a := by
   rw [sec46_comm_A h hb ha]
   group
 
+omit [Finite G] in
 theorem sec46_conj_swap {g b y : G} (hgb : g * b = b * g) :
     g * (b * y * b⁻¹) * g⁻¹ = b * (g * y * g⁻¹) * b⁻¹ := by
   have h1 : g * b * g⁻¹ = b := by rw [hgb]; group
   calc g * (b * y * b⁻¹) * g⁻¹ = (g * b * g⁻¹) * (g * y * g⁻¹) * (g * b * g⁻¹)⁻¹ := by group
     _ = b * (g * y * g⁻¹) * b⁻¹ := by rw [h1]
 
+omit [Finite G] in
 theorem sec46_conj_kak (h : Sec3Ctx A Abar S₀ B) {b k a : G} (hb : b ∈ B) (ha : a ∈ A) :
     b * (k * a * k⁻¹) * b⁻¹ = (b * k * b⁻¹) * a * (b * k * b⁻¹)⁻¹ := by
   have hfix := sec46_conj_fix h hb ha
   calc b * (k * a * k⁻¹) * b⁻¹ = (b * k * b⁻¹) * (b * a * b⁻¹) * (b * k * b⁻¹)⁻¹ := by group
     _ = (b * k * b⁻¹) * a * (b * k * b⁻¹)⁻¹ := by rw [hfix]
 
+omit [Finite G] in
 theorem sec46_Q_eq_closure (A Abar B : Subgroup G) :
     Sec45Q A Abar B = Subgroup.closure {x | x ∈ Section3.A0 A Abar ∨
       ∃ b ∈ B, ∃ y ∈ Section3.Abar0 A Abar, x = b * y * b⁻¹} := by
@@ -55,9 +60,11 @@ theorem sec46_Q_eq_closure (A Abar B : Subgroup G) :
       rw [show b⁻¹ * (b * y * b⁻¹) * b = y by group]
       exact hy
 
+omit [Finite G] in
 theorem sec46_A0_le_Q (A Abar B : Subgroup G) : Section3.A0 A Abar ≤ Sec45Q A Abar B :=
   le_sup_left
 
+omit [Finite G] in
 theorem sec46_conj_mem_Q {b y : G} (hb : b ∈ B) (hy : y ∈ Section3.Abar0 A Abar) :
     b * y * b⁻¹ ∈ Sec45Q A Abar B := by
   unfold Sec45Q
@@ -66,6 +73,7 @@ theorem sec46_conj_mem_Q {b y : G} (hb : b ∈ B) (hy : y ∈ Section3.Abar0 A A
   rw [show b⁻¹ * (b * y * b⁻¹) * b = y by group]
   exact hy
 
+omit [Finite G] in
 theorem sec46_Abar0_le_Q (A Abar B : Subgroup G) (hB1 : (1 : G) ∈ B) :
     Section3.Abar0 A Abar ≤ Sec45Q A Abar B := fun y hy => by
   have := sec46_conj_mem_Q (A := A) (Abar := Abar) hB1 hy
@@ -117,12 +125,15 @@ theorem sec46_Q_elemAbelian (h : Sec3Ctx A Abar S₀ B)
       calc b * y * b⁻¹ * (b * y * b⁻¹) = b * (y * y) * b⁻¹ := by group
         _ = 1 := by rw [hyy]; group
 
+omit [Finite G] in
 theorem sec46_A_le_Z (A Abar B : Subgroup G) : A ≤ Sec45Z A Abar B := le_sup_left
 
+omit [Finite G] in
 theorem sec46_conj_le_Z {b : G} (hb : b ∈ B) : conjSubgroup b Abar ≤ Sec45Z A Abar B := by
   unfold Sec45Z
   exact le_sup_of_le_right (le_iSup₂ (f := fun b (_ : b ∈ B) => conjSubgroup b Abar) b hb)
 
+omit [Finite G] in
 theorem sec46_Abar_le_Z (A Abar B : Subgroup G) (hB1 : (1 : G) ∈ B) :
     Abar ≤ Sec45Z A Abar B := by
   have := sec46_conj_le_Z (A := A) (Abar := Abar) (B := B) hB1
@@ -132,10 +143,12 @@ theorem sec46_Q_le_Z (h : Sec3Ctx A Abar S₀ B) : Sec45Q A Abar B ≤ Sec45Z A 
   unfold Sec45Q Sec45Z
   exact sup_le_sup h.setup.L_le (iSup₂_mono fun b _ => conjSubgroup_mono h.setup.Lb_le)
 
+omit [Finite G] in
 theorem sec46_k_mem_Z {k : G} (hk : k ∈ A ⊔ Abar) (hB1 : (1 : G) ∈ B) :
     k ∈ Sec45Z A Abar B :=
   (sup_le (sec46_A_le_Z A Abar B) (sec46_Abar_le_Z A Abar B hB1)) hk
 
+omit [Finite G] in
 theorem sec46_conj_mem_Z (h : Sec3Ctx A Abar S₀ B) {b x : G} (hb : b ∈ B)
     (hx : x ∈ Sec45Z A Abar B) : b * x * b⁻¹ ∈ Sec45Z A Abar B := by
   have hle : Sec45Z A Abar B ≤ (Sec45Z A Abar B).comap (MulAut.conj b).toMonoidHom := by
@@ -272,12 +285,14 @@ theorem sec46_hNc (h : Sec3Ctx A Abar S₀ B)
     ∀ x ∈ Sec45Q A Abar B, ∀ w ∈ Sec45Q A Abar B, x * w = w * x :=
   fun _ hx _ hw => IsElemAbelian.comm (sec46_Q_elemAbelian h hS) hx hw
 
+omit [Finite G] in
 theorem sec46_D_le_Z {t : G}
     (ht : t ∈ sec41g_D (Sec45Z A Abar B) A (Section3.A0 A Abar)) : t ∈ Sec45Z A Abar B := by
   obtain ⟨y, hy, a, ha, -, rfl⟩ := sec41g_mem_D.mp ht
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hy (sec46_A_le_Z A Abar B ha))
     (Subgroup.inv_mem _ hy)
 
+omit [Finite G] in
 theorem sec46_D_sq (h : Sec3Ctx A Abar S₀ B) {t : G}
     (ht : t ∈ sec41g_D (Sec45Z A Abar B) A (Section3.A0 A Abar)) : t * t = 1 := by
   obtain ⟨y, -, a, ha, -, rfl⟩ := sec41g_mem_D.mp ht
@@ -309,6 +324,7 @@ theorem sec46_conj_A_mem (h : Sec3Ctx A Abar S₀ B)
   · exact Or.inr (sec46_hAN h hS x' hx' (sec41g_mem_conj haA₀))
   · exact Or.inl (sec41g_mem_D.mpr ⟨x', hx', a, ha, haA₀, rfl⟩)
 
+omit [Finite G] in
 theorem sec46_conj_Abar_eq (h : Sec3Ctx A Abar S₀ B) {b k : G} (hb : b ∈ B)
     (hk : Abar = conjSubgroup k A) : conjSubgroup b Abar = conjSubgroup (b * k * b⁻¹) A := by
   have h1 : conjSubgroup b⁻¹ A = A :=
@@ -514,7 +530,7 @@ theorem sec46_single
     ∃ d₀ ∈ sec41g_D (Sec45Z A Abar B) A (Section3.A0 A Abar),
       ∀ d ∈ sec41g_D (Sec45Z A Abar B) A (Section3.A0 A Abar),
         ∃ g ∈ Sec45Z A Abar B, d = g * d₀ * g⁻¹ := by
-  obtain ⟨a₀, ha₀A, ha₀N⟩ := SetLike.exists_of_lt (lt_of_le_of_ne h.setup.L_le h.setup.ne)
+  obtain ⟨a₀, ha₀A, ha₀N⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne h.setup.L_le h.setup.ne)
   refine ⟨a₀, sec41g_mem_D.mpr ⟨1, Subgroup.one_mem _, a₀, ha₀A, ha₀N, by simp⟩,
     fun d hd => ?_⟩
   obtain ⟨y, hy, a, ha, haA₀, rfl⟩ := sec41g_mem_D.mp hd
@@ -525,6 +541,7 @@ theorem sec46_single
   rw [← hg]
   group
 
+omit [Finite G] in
 theorem sec46_not_solvable {b : G}
     (hY : ¬ Group.IsSolvable ↥(A ⊔ Abar ⊔ conjSubgroup b Abar)) (hb : b ∈ B) :
     ¬ Group.IsSolvable ↥(Sec45Z A Abar B) := by
@@ -532,7 +549,7 @@ theorem sec46_not_solvable {b : G}
   have hle : A ⊔ Abar ⊔ conjSubgroup b Abar ≤ Sec45Z A Abar B :=
     sup_le (sup_le (sec46_A_le_Z A Abar B) (sec46_Abar_le_Z A Abar B B.one_mem))
       (sec46_conj_le_Z hb)
-  exact hY (solvable_of_solvable_injective (Subgroup.inclusion_injective hle))
+  exact hY (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle))
 
 end Data
 
@@ -548,6 +565,7 @@ theorem sec46_relIndex_A (h : Sec3Ctx A Abar S₀ B) (hq : Section3.q A Abar = 2
   rw [← h.setup.relIndex_Lb]
   exact hqAb
 
+omit [Finite G] in
 theorem sec46_rootType_B (h : Sec3Ctx A Abar S₀ B) :
     IsRootTypeIn 2 (centralizer (B : Set G)) A := by
   obtain ⟨c, hc⟩ := h.nota.conj
@@ -563,6 +581,7 @@ theorem sec46_rootType_B (h : Sec3Ctx A Abar S₀ B) :
   rw [conjSubgroup_inv_conj_cancel, ← hc] at this
   exact this
 
+omit [Finite G] in
 theorem sec46_B_ti (h : Sec3Ctx A Abar S₀ B) : IsTI B := by
   obtain ⟨c, hc⟩ := h.nota.conj
   rw [hc]
@@ -774,7 +793,7 @@ theorem sec46_u3_aux (h : Sec3Ctx A Abar S₀ B) (hq : Section3.q A Abar = 2)
     {m : ℕ} (hm : 2 ≤ m) (e : L ≃* CFSG.Theory.Comparator.PSU3Model m) : False := by
   obtain ⟨k, hk, hAk, -⟩ := sa_exists_k h
   have hkZ := sec46_k_mem_Z hk (B.one_mem : (1 : G) ∈ B)
-  obtain ⟨a, haA, haN⟩ := SetLike.exists_of_lt (lt_of_le_of_ne h.setup.L_le h.setup.ne)
+  obtain ⟨a, haA, haN⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne h.setup.L_le h.setup.ne)
   have haZ : a ∈ Sec45Z A Abar B := sec46_A_le_Z A Abar B haA
   obtain ⟨β, hβ⟩ : ∃ β : G, β = k * a * k⁻¹ := ⟨_, rfl⟩
   have hβZ : β ∈ Sec45Z A Abar B := by

@@ -66,7 +66,7 @@ theorem false_of_sylow (h : d.Hyp) {Q : Subgroup G}
     rw [zpowers_le]
     refine mem_normalizer_fintype fun x hx => ?_
     have := htN x hx
-    rwa [h.t_inv] at this ⊢
+    rw [h.t_inv] at this ⊢; assumption
   have hindex : Q.relIndex (S₂ : Subgroup G) = 2 := by
     have hcard := PGrp.card_sup_mul_card_inf hzN
     have hdvd : Nat.card ↥(zpowers d.t ⊓ Q) ∣ 2 := by
@@ -89,7 +89,7 @@ theorem false_of_sylow (h : d.Hyp) {Q : Subgroup G}
     exact Nat.eq_of_mul_eq_mul_right Nat.card_pos hrel
   obtain ⟨N, hNn, hNsq, htN'⟩ :=
     CFSG.Quasithin.thompson_transfer_exists_normal S₂ hQS hindex h.t_two hno
-  haveI := h.simple
+  have := h.simple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with hN | hN
   · obtain ⟨a, b, hab⟩ := h.nonab
     have hsq : ∀ x : G, x * x = 1 := fun x => by

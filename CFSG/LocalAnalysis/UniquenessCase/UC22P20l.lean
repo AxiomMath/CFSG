@@ -88,7 +88,7 @@ theorem uc22p20l_prod_splitBN {A C : Type} [Group A] [Group C] {B₁ N₁ : Subg
   refine ⟨?_, ?_, ?_, ?_⟩
   · rw [uc22p20l_prod_sup_prod, h₁.gen, h₂.gen]
     ext x
-    simp [mem_prod]
+    simp
   · rw [hinf]
     refine (normal_subgroupOf_iff (prod_mono inf_le_right inf_le_right)).2 ?_
     rintro ⟨h₁', h₂'⟩ ⟨k₁, k₂⟩ hh hk
@@ -199,7 +199,7 @@ theorem uc22p20l_not_two_dvd_card_center {X Y : Type} [Group X] [Group Y] [Finit
     (hc : ∀ z ∈ Subgroup.center Y, f z ∈ Subgroup.center X) :
     ¬ 2 ∣ Nat.card (Subgroup.center Y) := by
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have hz2 : (z : Y) ^ 2 = 1 := by
     have := pow_orderOf_eq_one z
@@ -260,9 +260,9 @@ theorem uc22p20l_splitBN_of_cover {X : Type} [Group X] [Finite X]
 theorem uc22p20l_splitBN_of_szL2Product {X : Type} [Group X] [Finite X] {n : ℕ}
     (h : IsSzL2Product X n) : ∃ B N : Subgroup X, IsSplitBNPair 2 B N := by
   obtain ⟨A, C, _, _, ⟨e⟩, hA, hC⟩ := h
-  haveI : Finite (A × C) := Finite.of_equiv X e.toEquiv
-  haveI : Finite A := Finite.of_surjective (Prod.fst : A × C → A) Prod.fst_surjective
-  haveI : Finite C := Finite.of_surjective (Prod.snd : A × C → C) Prod.snd_surjective
+  have : Finite (A × C) := Finite.of_equiv X e.toEquiv
+  have : Finite A := Finite.of_surjective (Prod.fst : A × C → A) Prod.fst_surjective
+  have : Finite C := Finite.of_surjective (Prod.snd : A × C → C) Prod.snd_surjective
   have hsz : ∀ {Y : Type} [Group Y] [Finite Y], (IsSz Y n ∨ IsL2 Y n) →
       ∃ B N : Subgroup Y, IsSplitBNPair 2 B N := fun h =>
     h.elim (fun h => lieModel_has_splitBNPair Nat.prime_two (by decide) h)

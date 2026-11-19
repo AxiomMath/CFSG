@@ -102,7 +102,7 @@ theorem exists_actsAs {K H : Subgroup X} {g₀ : X} (hH : IsPGroup 2 H)
       exact Or.inl ⟨hbg, hbW⟩
   obtain ⟨Q, hQ⟩ := (hH.comap_subtype (K := W)).exists_le_sylow
   set P := (Q : Subgroup W).map W.subtype with hP
-  have hPp : IsPGroup 2 P := Q.isPGroup'.map _
+  have hPp : IsPGroup 2 P := Q.isPGroup.map _
   have hPW : P ≤ W := map_subtype_le _
   have hHP : H ≤ P := fun h hh => ⟨⟨h, mem_sup_left hh⟩, hQ hh, rfl⟩
   have hnot : ¬ P ≤ W₁ := by

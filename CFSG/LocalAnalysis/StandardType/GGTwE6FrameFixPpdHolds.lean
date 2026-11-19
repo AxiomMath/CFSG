@@ -232,7 +232,7 @@ theorem ggTwE6FrameFixPpdInput_holds :
     GGTwE6FrameFixPpdInput := by
   intro f hf h3 M' S hInn hSM hSI hSel hmax α hαM hαI hα3 hαS
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 (2 * f)
   let σ : K ≃+* K := frobQEquiv hf
   have hK : Nat.card K = (2 ^ f) ^ 2 := by
@@ -244,9 +244,9 @@ theorem ggTwE6FrameFixPpdInput_holds :
   have hFr : ∀ c, Fr c = c ^ 2 ^ f := fun c => iterateFrobenius_def 2 f c
   let q := 2 ^ f
   have hFrq : ∀ c, Fr c = c ^ q := hFr
-  haveI : CharP K 2 := charP_two_of_card (m := f * 2) (by rw [hK, pow_mul])
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : CharP K 2 := charP_two_of_card (m := f * 2) (by rw [hK, pow_mul])
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have halg : letI := ZMod.algebra Ω 2; Algebra.IsAlgebraic (ZMod 2) Ω :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.isAlgebraic_zmod_algebraicClosure_of_finite K 2
   let Cσ := ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)
@@ -386,7 +386,7 @@ theorem ggTwE6FrameFixPpdInput_holds :
     let x : ModGL Tag.E6 Ω := y₃ * rootDiagUnit Tag.E6 c * y₃⁻¹
     have hxR : x ∈ TwistedDiag.Rgrp Ω Fr :=
       mem_Rgrp_conj_rootDiagUnit Fr hFrq hy₃G hy₃n hcact'
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     have hcord : orderOf c = r := by
       refine orderOf_eq_prime ?_ hcne
       funext i
@@ -425,7 +425,7 @@ theorem ggTwE6FrameFixPpdInput_holds :
     let C := TwistedDiag.Cgrp K σ.toRingHom Ω
     obtain ⟨-, -, hCnorm, hCidx, -⟩ :=
       TwistedDiag.cgrp_facts (ℓ := 2) hf K hK σ.toRingHom hσ h3 Ω Fr hFr
-    haveI : (C.subgroupOf R).Normal := hCnorm
+    have : (C.subgroupOf R).Normal := hCnorm
     have hrel : (C.subgroupOf R).relIndex ⊤ = 3 := by
       have h1 : (C.subgroupOf R).relIndex (R.subgroupOf R) = C.relIndex R :=
         Subgroup.relIndex_subgroupOf (le_refl R)

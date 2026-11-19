@@ -9,7 +9,7 @@ namespace CFSG.RankThree.PartTwo.Late.KFParSp6
 open Matrix CFSG.Assembly.LowTwoRank CFSG.LocalAnalysis.ComponentInitial
   CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher
 
-@[expose] abbrev J6 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2) :=
+abbrev J6 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2) :=
   Matrix.fromBlocks 0 1 (-1) 0
 
 theorem pairedSympForm_eq_dot (x y : Fin 3 ⊕ Fin 3 → ZMod 2) :
@@ -30,8 +30,8 @@ theorem J6_mulVec_inr (x : Fin 3 ⊕ Fin 3 → ZMod 2) (i : Fin 3) :
       (if i = a then x (Sum.inl a) else 0) := by
     intro a
     by_cases hia : i = a
-    · simp [J6, Matrix.one_apply, hia, neg_eq_self_zmod2]
-    · simp [J6, Matrix.one_apply, hia, neg_eq_self_zmod2]
+    · simp [J6, hia]
+    · simp [J6, hia]
   have h2 : ∀ a : Fin 3, J6 (Sum.inr i) (Sum.inr a) * x (Sum.inr a) = 0 := by
     intro a
     simp [J6]
@@ -43,8 +43,7 @@ theorem J6_transpose : J6ᵀ = J6 := by
   have hneg : (-1 : ZMod 2) = 1 := by decide
   ext i j
   rcases i with i | i <;> rcases j with j | j <;>
-    simp [J6, Matrix.fromBlocks, hneg, Matrix.one_apply, eq_comm] <;>
-    (try split_ifs) <;> decide
+    simp [J6, Matrix.fromBlocks, Matrix.one_apply, eq_comm]
 
 theorem pairedSympForm_comm (x y : Fin 3 ⊕ Fin 3 → ZMod 2) :
     pairedSympForm (ZMod 2) 3 x y = pairedSympForm (ZMod 2) 3 y x := by
@@ -100,7 +99,7 @@ theorem tvMat_form (v x y : Fin 3 ⊕ Fin 3 → ZMod 2) :
       pairedSympForm (ZMod 2) 3 x y := by
   rw [tvMat_mulVec, tvMat_mulVec]
   simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-    pairedSympForm_self, mul_zero, zero_add, add_zero]
+    pairedSympForm_self, mul_zero, add_zero]
   rw [pairedSympForm_comm v y]
   have h2 : (2 : ZMod 2) = 0 := rfl
   linear_combination (pairedSympForm (ZMod 2) 3 x v * pairedSympForm (ZMod 2) 3 y v) * h2

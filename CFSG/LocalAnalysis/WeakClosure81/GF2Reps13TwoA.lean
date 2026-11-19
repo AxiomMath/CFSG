@@ -116,7 +116,7 @@ theorem w16h_inverts_of_abelian (h : Cfg132 t P) (hab : ∀ x ∈ P, ∀ y ∈ P
 theorem w16h_elemAbelian_of_exp_three (h : Cfg132 t P)
     (hab : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x) (hexp : ∀ x ∈ P, x ^ 3 = 1) :
     ∃ k : ℕ, k ≤ 3 ∧ IsElemAbelianOfRank 3 k ↥P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card (p := 3)).mp h.hP
   have hE : IsElemAbelianOfRank 3 m ↥P :=
     w16g_isElemAbelianOfRank_of_card (p := 3)
@@ -135,11 +135,11 @@ theorem w16h_elemAbelian_of_exp_three (h : Cfg132 t P)
     (by norm_num) (by norm_num) hm0 hE hinv
   have hd3 : dParam 3 = 2 := by
     rw [dParam]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine orderOf_eq_prime (p := 2) (by decide) (by decide)
   have hdd : dihedralDeg 3 = 2 := by
     rw [dihedralDeg, hd3]
-    rw [if_pos (show Even 2 from ⟨1, by norm_num⟩)]
+    rw [ite_eq_left (show Even 2 from ⟨1, by norm_num⟩)]
   rw [hdd] at hbound
   have hrk : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3 := h.hrk
   omega
@@ -189,6 +189,7 @@ private theorem w16g_fixSub_eq_fixV {G : Type*} [CommGroup G] (c : MulAut G) :
       exact w16g_zpow_apply_eq_self h k,
     fun h => h c (Subgroup.mem_zpowers c)⟩
 
+omit [Finite W] in
 private theorem w16g_stableUnder_commSub {H X : Subgroup (MulAut W)}
     (hn : ∀ h ∈ H, ∀ a ∈ X, h * a * h⁻¹ ∈ X) {M : Subgroup W} (hM : StableUnder H M) :
     StableUnder H (commSub M X) := by
@@ -260,10 +261,10 @@ private theorem w16g_rk_commSub_le_six (h : Cfg132 t P) {x : MulAut W}
   omega
 
 private theorem w16g_six_le_rk_commSub (h : Cfg132 t P) {x : MulAut W} (hx9 : orderOf x = 9)
-    (hfix : ∀ u ∈ commSub ⊤ (Subgroup.zpowers x), x u = u → u = 1) :
+    (_hfix : ∀ u ∈ commSub ⊤ (Subgroup.zpowers x), x u = u → u = 1) :
     6 ≤ rk ↥(commSub ⊤ (Subgroup.zpowers x)) := by
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq h.hW
+  let : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq h.hW
   let W₁ : Subgroup W := commSub ⊤ (Subgroup.zpowers x)
   have hUx : ∀ u ∈ W₁, x u ∈ W₁ :=
     w16g_stableUnder_commSub (H := Subgroup.zpowers x) (X := Subgroup.zpowers x)
@@ -447,7 +448,7 @@ private theorem w16g_six_le_rk_of_x_stable (hW : ∀ w : W, w ^ 2 = 1) {x : MulA
     (hx9 : orderOf x = 9) {U : Subgroup W} (hUx : ∀ u ∈ U, x u ∈ U) (hne : U ≠ ⊥)
     (hfix3 : ∀ u ∈ U, (x ^ 3) u = u → u = 1) : 6 ≤ rk U := by
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
+  let : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
   have hUx_inv : ∀ u ∈ U, x⁻¹ u ∈ U := by
     have hle : U.map x.toMonoidHom ≤ U := by
       rintro _ ⟨u, hu, rfl⟩; exact hUx u hu
@@ -568,7 +569,7 @@ private theorem w16g_irreducible_nine (h : Cfg132 t P)
   have hW₁x3' : ∀ g ∈ Subgroup.zpowers (x ^ 3), ∀ w ∈ W₁, g w ∈ W₁ :=
     fun g hg w hw => (mem_stabSub.1 (Subgroup.zpowers_le.mpr hx3_stab hg) w).2 hw
   have hx3ord : orderOf (x ^ 3) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h3 : (x ^ 3) ^ 3 = 1 := by
       rw [← pow_mul, show 3 * 3 = 9 by norm_num, ← hx9]
       exact pow_orderOf_eq_one x
@@ -654,7 +655,7 @@ private theorem w16g_acts_as_power (h : Cfg132 t P)
     (hx9 : orderOf x = 9) :
     ∀ y ∈ P, ∃ i : ℕ, ∀ u ∈ commSub ⊤ (Subgroup.zpowers x), y u = (x ^ i) u := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let W₁ : Subgroup W := commSub ⊤ (Subgroup.zpowers x)
   have hodd : Odd (orderOf x) := by rw [hx9]; norm_num
   have hW₁x : ∀ u ∈ W₁, x u ∈ W₁ :=
@@ -838,7 +839,7 @@ private theorem w16g_kernel_trivial (h : Cfg132 t P)
     (hx9 : orderOf x = 9) :
     ∀ c ∈ P, (∀ u ∈ commSub ⊤ (Subgroup.zpowers x), c u = u) → c = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card (p := 3)).mp h.hP
   intro c hcP hctriv
   let W₁ : Subgroup W := commSub ⊤ (Subgroup.zpowers x)
@@ -979,7 +980,7 @@ theorem w16h_abelian (h : Cfg132 t P) (hab : ∀ x ∈ P, ∀ y ∈ P, x * y = y
   · right
     have hexp : ∀ x ∈ P, x ^ 3 = 1 := by
       intro x hx
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       obtain ⟨k, hk⟩ := h.hP.exists_orderOf_eq_pow ⟨x, hx⟩
       have hxord : orderOf x = 3 ^ k := by
         rw [← Subgroup.orderOf_mk x hx]; exact hk

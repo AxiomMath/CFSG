@@ -59,7 +59,7 @@ theorem s16h_qp_orth3Aut (γ : ↥(StatedSL 2 GF4)) (v : Orth3) :
         (s16h_qp v) := by
   funext i
   fin_cases i <;>
-    simp [s16h_qp, s16h_orth3Aut, s16h_orth3ActM, Matrix.mulVec, Fin.sum_univ_two]
+    simp [s16h_qp, s16h_orth3Aut, s16h_orth3ActM, Matrix.mulVec]
 
 theorem s16h_qp_orth3Scal (μ : GF4) (hμ : μ ≠ 0) (v : Orth3) :
     s16h_qp (orth3Scal μ hμ v) = μ • s16h_qp v := by

@@ -29,7 +29,7 @@ theorem le_glbCore_of_seitzHyperGamma_cube {B K : Subgroup X} (hB : IsElemAbelia
     (hgen : CFSG.LieType.Seitz.seitzHyperGamma 3 F = ⊤) :
     K ≤ GLBCore 3 2 B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEel : IsElemAbelian 3 E := elem_mono hB hEB
   set E₂ : Subgroup X := InputsSeitz3.autPre E K F with hE₂
   have hE₂E : E₂ ≤ E := InputsSeitz3.autPre_le E K F
@@ -92,12 +92,12 @@ theorem exists_hyp_twoGroup_d4Two {S : Type} [Group S]
     ∃ H : Subgroup S, H ≤ D ∧ Nat.card H = 3 ^ 3 ∧
       ∃ U : Subgroup S, U ≠ ⊥ ∧ IsPGroup 2 ↥U ∧ ∀ h ∈ H, ∀ u ∈ U, h * u * h⁻¹ ∈ U := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Q := quadPlus 4 (ZMod 2) with hQdef
   have hQ : (polarBilin Q).Nondegenerate := nondegenerate_polarBilin_quadPlus 4 (ZMod 2)
   have hstd : IsPlusSpace Q 4 := ⟨LinearEquiv.refl _ _, fun v => rfl⟩
   set E := elementaryGroup Q with hEdef
-  haveI : Finite ((Fin 4 ⊕ Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 4 ⊕ Fin 4 → ZMod 2)) :=
+  have : Finite ((Fin 4 ⊕ Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 4 ⊕ Fin 4 → ZMod 2)) :=
     ClassicalEA.finite_linearEquiv
   let θ : S →* ((Fin 4 ⊕ Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 4 ⊕ Fin 4 → ZMod 2)) :=
     E.subtype.comp ψ.toMonoidHom
@@ -199,7 +199,7 @@ theorem exists_coordinateQuadPlus_ne_zero_d4Eight (F : Type) [Field F] :
   refine ⟨fun j => Sum.elim (fun i : Fin 4 => if i = 0 then (1 : F) else 0)
     (fun i : Fin 4 => if i = 0 then (1 : F) else 0) ((plusIndexEquiv 4).symm j), ?_⟩
   rw [coordinateQuadPlus_apply]
-  simp [Fin.sum_univ_four]
+  simp
 
 theorem card_le_nine_of_graphType_d4Eight {F : Type} [Field F] [Finite F] (hF : Nat.card F = 2 ^ 3)
     {α : MulAut ↥(adjointGroup Tag.D4 F)} (h3 : α ^ 3 = 1) (hG : D4ElemType α fun ε _ => ε ≠ 0)
@@ -209,8 +209,8 @@ theorem card_le_nine_of_graphType_d4Eight {F : Type} [Field F] [Finite F] (hF : 
   obtain ⟨g, a, σ, ε, hε3, -, hε0, hα⟩ := hG
   have hε : ε = 1 ∨ ε = 2 := by omega
   have hns := CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.OuterFourSeitz.not_semilin_of_graphNF hF hε hα h3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by norm_num) hF
   set ψ := coordinatePlusWitnessEquiv F (CFSG.HardMathSupport.Dickson.Bal207.D4Graph.isoAdj F).symm with hψ
   set t := MulAut.congr ψ α with ht
@@ -406,7 +406,7 @@ theorem card_autIm_le_nine_mul_d4Eight {B K : Subgroup X} (hB : IsElemAbelian 3 
     Nat.card ↥(InputsSeitz3.autIm B K) ≤
       Nat.card ↥(InputsSeitz3.autIm B K ⊓ (MulAut.conj : ↥K →* MulAut ↥K).range) * 3 * 3 := by
   classical
-  haveI : Finite (MulAut ↥K) := CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.CartanConjAux.finite_mulAut ↥K
+  have : Finite (MulAut ↥K) := CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.CartanConjAux.finite_mulAut ↥K
   set A := InputsSeitz3.autIm B K with hAdef
   set A₁ := A ⊓ (MulAut.conj : ↥K →* MulAut ↥K).range with hA₁def
   have hmemA : ∀ z (hz : z ∈ B), K.normalizerMonoidHom ⟨z, hBN hz⟩ ∈ A := fun z hz =>
@@ -465,7 +465,7 @@ theorem card_autIm_le_three_mul_d4Eight {B K : Subgroup X} (hB : IsElemAbelian 3
     Nat.card ↥(InputsSeitz3.autIm B K) ≤
       Nat.card ↥(InputsSeitz3.autIm B K ⊓ (MulAut.conj : ↥K →* MulAut ↥K).range) * 3 := by
   classical
-  haveI : Finite (MulAut ↥K) := CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.CartanConjAux.finite_mulAut ↥K
+  have : Finite (MulAut ↥K) := CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.CartanConjAux.finite_mulAut ↥K
   set A := InputsSeitz3.autIm B K with hAdef
   set A₁ := A ⊓ (MulAut.conj : ↥K →* MulAut ↥K).range with hA₁def
   have hmemA : ∀ z (hz : z ∈ B), K.normalizerMonoidHom ⟨z, hBN hz⟩ ∈ A := fun z hz =>
@@ -537,7 +537,7 @@ theorem le_glbCore_of_d4Eight_outer (hcore : GLAPPrimeCore 3 X = ⊥) {B : Subgr
     K ≤ GLBCore 3 2 B := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hZ : Subgroup.center ↥K = ⊥ := by
     by_contra hZ
     exact InputsSeitz7.cen_ne_bot_of_center_ne_bot hcore hB hrk hK hZ hBN hC
@@ -609,7 +609,7 @@ theorem le_glbCore_of_d4Eight_outer (hcore : GLAPPrimeCore 3 X = ⊥) {B : Subgr
       OuterFourInAux.d4FieldFixed_holds X K b hbN hK hLie hb3 hFA
     set L : Subgroup X := K ⊓ Subgroup.centralizer ({b} : Set X) with hLdef
     have hZL : Subgroup.center ↥L = ⊥ := by
-      haveI := hLs
+      have := hLs
       refine TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative fun hc => ?_
       have h1 := (commutator_eq_bot_iff ↥L).2 hc
       rw [hLq.1] at h1

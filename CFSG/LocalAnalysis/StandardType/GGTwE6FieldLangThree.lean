@@ -24,8 +24,8 @@ theorem subfieldLangDatumThree_holds :
     SubfieldLangDatumThree := by
   intro K _ _ σ q hK hσ hchar h3 A hAI hA h5
   classical
-  haveI : CharP K 2 := ringChar.of_eq hchar
-  haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := ringChar.of_eq hchar
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hdvd : q ∣ 2 ^ (m : ℕ) := by
     rw [← hm, ← Nat.card_eq_fintype_card, hK]
@@ -44,7 +44,7 @@ theorem subfieldLangDatumThree_holds :
   have hScard : Nat.card S = Nat.card A := by
     rw [hS, Subgroup.card_map_of_injective (NoOffTwE6Three.twConj_injective hn hK σ hσ)]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAΓ).toEquiv
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hFr : ∀ c, iterateFrobenius (AlgebraicClosure K) 2 n c = c ^ 2 ^ n :=
     fun c => iterateFrobenius_def 2 n c

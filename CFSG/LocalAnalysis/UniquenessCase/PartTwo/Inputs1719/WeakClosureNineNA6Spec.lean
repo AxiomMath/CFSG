@@ -516,7 +516,7 @@ theorem ov_spec {T₀ : Subgroup P10} {TL : List (List ℕ)} (hT : Desc T₀ TL)
     exact hσH
   rw [psl29_eq, closure_le]
   intro g hg
-  simp only [pslGens, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+  simp only [pslGens, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
   rcases hg with rfl | rfl | rfl
   · exact hgens 0 (by norm_num)
   · exact hgens 1 (by norm_num)

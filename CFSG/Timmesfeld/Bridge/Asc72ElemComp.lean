@@ -124,7 +124,7 @@ theorem false_of_nonSimple_minimalNormal (hS : Setup G D)
       exact W.S_ne_bot i (eq_bot_of_le_of_isSolvable hrad (W.le i)
         (fun m hm x hx => W.conj_mem_of_mem hm hx)
         (CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp hodd))))
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 heven
     exact ⟨x, x.2, by rw [Subgroup.orderOf_coe, hx]⟩
   have haa : a * a = 1 := by rw [← pow_two, ← ha, pow_orderOf_eq_one]
@@ -132,7 +132,7 @@ theorem false_of_nonSimple_minimalNormal (hS : Setup G D)
     rintro rfl
     rw [orderOf_one] at ha
     exact absurd ha (by decide)
-  haveI := W.simple i
+  have := W.simple i
   set Inv : Set (W.S i) := {x | x * x = 1} with hInv
   have hInvC : ∀ x ∈ Inv, ∀ y ∈ Inv, Commute x y := fun x hx y hy =>
     Subtype.ext (key x x.2 (congrArg Subtype.val hx) y y.2 (congrArg Subtype.val hy)).eq
@@ -203,7 +203,7 @@ theorem false_of_almostSimple_elemComponents (hS : Setup G D)
     · exact h u hu
   have hMH : M ≤ M ⊔ Subgroup.zpowers u := le_sup_left
   have huH : u ∈ M ⊔ Subgroup.zpowers u := Subgroup.mem_sup_right (Subgroup.mem_zpowers u)
-  haveI : IsMulCommutative (Subgroup.zpowers u) := Subgroup.zpowers_isMulCommutative u
+  have : IsMulCommutative (Subgroup.zpowers u) := Subgroup.zpowers_isMulCommutative u
   have hHtop : M ⊔ Subgroup.zpowers u ≠ ⊤ := fun h =>
     hcomm (Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top h)
   have hcard : Nat.card ↥(M ⊔ Subgroup.zpowers u) < Nat.card G :=
@@ -233,7 +233,7 @@ theorem false_of_almostSimple_elemComponents (hS : Setup G D)
   have hB := ih ↥(M ⊔ Subgroup.zpowers u) hcard (conjSet M u) hSH
     (radical_eq_bot_of_ge_normal hrad hC hMH)
     (disconnected_of_not_commute_of_elemAbelian hE₁ hx hy hxy) hE₁
-  haveI := IsBenderGroup.isSimpleGroup hB
+  have := IsBenderGroup.isSimpleGroup hB
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (M.subgroupOf (M ⊔ Subgroup.zpowers u)) with h | h
   · apply hM.2.1

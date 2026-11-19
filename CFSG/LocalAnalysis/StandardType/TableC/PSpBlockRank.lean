@@ -94,9 +94,9 @@ private lemma pbr_exists_mul_sub_one {ι F : Type} [Fintype ι] [DecidableEq ι]
     ∃ b ∈ Algebra.adjoin F (Units.val '' S), (b * a - 1) * e = 0 := by
   classical
   obtain ⟨K, hKfield, hKalg, hKfin, π, _hπsurj, hπker, _⟩ := exists_blockField hS hodd he
-  letI : Field K := hKfield
-  letI : Algebra F K := hKalg
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Algebra F K := hKalg
+  let : Finite K := hKfin
   have hπa : π ⟨a, ha⟩ ≠ 0 := fun h0 => hae ((hπker ⟨a, ha⟩).mp h0)
   obtain ⟨bA, hbA⟩ := _hπsurj ((π ⟨a, ha⟩)⁻¹)
   have hmem : (bA : Matrix ι ι F) * a - 1 ∈ Algebra.adjoin F (Units.val '' S) :=
@@ -113,7 +113,7 @@ private lemma pbr_exists_mul_sub_one {ι F : Type} [Fintype ι] [DecidableEq ι]
 private lemma pbr_not_isQuasisimple_bot {M : Type} [Group M] :
     ¬ IsQuasisimple (⊥ : Subgroup M) := by
   rintro ⟨-, hsimple⟩
-  haveI : Subsingleton (↥(⊥ : Subgroup M)) :=
+  have : Subsingleton (↥(⊥ : Subgroup M)) :=
     ⟨fun a b => Subtype.ext (by
       rw [Subgroup.mem_bot.mp a.2, Subgroup.mem_bot.mp b.2])⟩
   have hcenter : Subgroup.center (↥(⊥ : Subgroup M)) = ⊤ := by
@@ -121,7 +121,7 @@ private lemma pbr_not_isQuasisimple_bot {M : Type} [Group M] :
     intro x _
     rw [Subgroup.mem_center_iff]
     exact fun g => Subsingleton.elim (g * x) (x * g)
-  haveI : Subsingleton (↥(⊥ : Subgroup M) ⧸ Subgroup.center (↥(⊥ : Subgroup M))) :=
+  have : Subsingleton (↥(⊥ : Subgroup M) ⧸ Subgroup.center (↥(⊥ : Subgroup M))) :=
     QuotientGroup.subsingleton_iff.mpr hcenter
   obtain ⟨x, y, hxy⟩ := hsimple.toNontrivial.exists_pair_ne
   exact hxy (Subsingleton.elim x y)
@@ -388,7 +388,7 @@ private lemma pbr_J_transpose (n : ℕ) (F : Type) [Field F] [CharP F 2] :
 private lemma pbr_J_mul_self (n : ℕ) (F : Type) [Field F] [CharP F 2] :
     pbr_J n F * pbr_J n F = 1 := by
   rw [pbr_J, Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.mul_one, Matrix.one_mul, Matrix.zero_mul, zero_add,
+  simp only [Matrix.mul_zero, Matrix.mul_one, zero_add,
     add_zero, Matrix.mul_neg, neg_zero]
   rw [pbr_neg_one_matrix_eq_one, Matrix.fromBlocks_one]
 

@@ -16,7 +16,7 @@ section Helpers
 theorem card_comap_of_surjective {G Γ : Type*} [Group G] [Group Γ] [Finite G] (π : G →* Γ)
     (hπ : Function.Surjective π) (X : Subgroup Γ) :
     Nat.card (X.comap π) = Nat.card π.ker * Nat.card X := by
-  haveI : Finite Γ := Finite.of_surjective π hπ
+  have : Finite Γ := Finite.of_surjective π hπ
   have h1 := Subgroup.card_mul_index (X.comap π)
   have h2 := Subgroup.card_mul_index X
   have h3 := Subgroup.card_ker_mul_card_of_surjective hπ
@@ -112,8 +112,8 @@ theorem goodFamily_of_lift3 (π : G →* H) (hπ : Function.Surjective π) {Z T 
     (hAc : ∃ m, Nat.card Ab = 3 * m ∧ ¬ 3 ∣ m) (hPc : ∃ m, Nat.card Pb = 3 * m ∧ ¬ 3 ∣ m)
     (hgen : L.map π ≤ (Ab ⊔ (T.map π ⊓ L.map π)) ⊔ Pb) : GoodFamily T 3 := by
   classical
-  haveI : Finite H := Finite.of_surjective π hπ
-  haveI hZn : Z.Normal := hker ▸ MonoidHom.normal_ker π
+  have : Finite H := Finite.of_surjective π hπ
+  have hZn : Z.Normal := hker ▸ MonoidHom.normal_ker π
   have hT2 : IsPGroup 2 T := hT.isPGroup
   have hkerZ : ∀ x : G, π x = 1 ↔ x ∈ Z := fun x => by rw [← hker]; exact MonoidHom.mem_ker
   have hodd : Nat.Coprime (Nat.card π.ker) 2 := by rw [hker, hZ3]; norm_num

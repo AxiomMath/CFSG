@@ -38,7 +38,7 @@ theorem normal_subgroupOf_of_commutator_le (h : ⁅X, X⁆ ≤ H) : (H.subgroupO
 
 theorem isSolvable_quotient_of_commutator_le [(H.subgroupOf X).Normal] (h : ⁅X, X⁆ ≤ H) :
     Group.IsSolvable (↥X ⧸ H.subgroupOf X) := by
-  haveI : IsMulCommutative (↥X ⧸ H.subgroupOf X) :=
+  have : IsMulCommutative (↥X ⧸ H.subgroupOf X) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.2
       (commutator_le_subgroupOf_of_commutator_le h)
   infer_instance
@@ -66,18 +66,18 @@ end Commutator
 theorem layerIs_of_commutator_le {G : Type} [Group G] [Finite G] {X N : Subgroup G} (hNX : N ≤ X)
     (hcomm : ⁅X, X⁆ ≤ N) (hq : CFSG.IsQuasisimple ↥N) {p : ℕ} {Qq : TauCeti.CFSGIndex → Prop}
     (hcat : catalogIs (PSimple p N) Qq) : LayerIs p X Qq ∧ GLALayer X = N := by
-  haveI hn : (N.subgroupOf X).Normal := normal_subgroupOf_of_commutator_le hcomm
+  have hn : (N.subgroupOf X).Normal := normal_subgroupOf_of_commutator_le hcomm
   exact layerIs_of_normal_quasisimple hNX hn hq (isSolvable_quotient_of_commutator_le hcomm) hcat
 
 theorem layerIs_of_ker_solvable {G : Type} [Group G] [Finite G] {X N : Subgroup G} (hNX : N ≤ X)
     (hq : CFSG.IsQuasisimple ↥N) {A : Type} [Group A] [Group.IsSolvable A] (φ : ↥X →* A)
     (hker : φ.ker = N.subgroupOf X) {p : ℕ} {Qq : TauCeti.CFSGIndex → Prop}
     (hcat : catalogIs (PSimple p N) Qq) : LayerIs p X Qq ∧ GLALayer X = N := by
-  haveI hn : (N.subgroupOf X).Normal := hker ▸ φ.normal_ker
-  haveI : (φ.ker).Normal := φ.normal_ker
-  haveI : Group.IsSolvable ↥φ.range := solvable_of_solvable_injective φ.range.subtype_injective
+  have hn : (N.subgroupOf X).Normal := hker ▸ φ.normal_ker
+  have : (φ.ker).Normal := φ.normal_ker
+  have : Group.IsSolvable ↥φ.range := Group.isSolvable_of_isSolvable_injective φ.range.subtype_injective
   have hsol : Group.IsSolvable (↥X ⧸ N.subgroupOf X) :=
-    solvable_of_solvable_injective (G' := ↥φ.range)
+    Group.isSolvable_of_isSolvable_injective (G' := ↥φ.range)
       (f := ((QuotientGroup.quotientMulEquivOfEq hker).symm.trans
         (QuotientGroup.quotientKerEquivRange φ)).toMonoidHom)
       ((QuotientGroup.quotientMulEquivOfEq hker).symm.trans

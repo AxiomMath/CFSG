@@ -31,8 +31,8 @@ theorem comm_fi24R2_of_mem_C {g : J} (hg : g ∈ fi24C) : g * fi24R2 = fi24R2 * 
   (Subgroup.mem_centralizer_singleton_iff (G := J)).1 hg
 
 theorem fi24_hR : IsExtraSpec2 RJ ∧ Nat.card RJ = 2 ^ 13 := by
-  haveI := fi24C_finite
-  haveI := fi24QC_extraspecial
+  have := fi24C_finite
+  have := fi24QC_extraspecial
   have hQC : timmesfeldIsExtraspecial ↥fi24QC :=
     (CFSG.LargeExtraspecial.Bridge.timmesfeldIsExtraspecial_iff _).2
       (CFSG.IsExtraspecial.isExtraspecialPGroup (p := 2) (P := ↥fi24QC))
@@ -42,7 +42,7 @@ theorem fi24_hR : IsExtraSpec2 RJ ∧ Nat.card RJ = 2 ^ 13 := by
   rw [Subgroup.card_map_of_injective fi24C.subtype_injective, card_fi24QC]
 
 theorem fi24C_le_normalizer_RJ : fi24C ≤ Subgroup.normalizer (RJ : Set J) := by
-  haveI := fi24QC_normal
+  have := fi24QC_normal
   have h := Subgroup.le_normalizer_map (H := fi24QC) fi24C.subtype
   rw [Subgroup.normalizer_eq_top] at h
   intro g hg

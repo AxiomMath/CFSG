@@ -25,7 +25,7 @@ theorem exists_sylow_pair {M P : Subgroup G} (hP : IsPGroup 2 P) (hPM : P ≤ M)
   obtain ⟨S₀, hS₀⟩ := hP'.exists_le_sylow
   let S : Subgroup G := (S₀ : Subgroup ↥M).map M.subtype
   have hSM : S ≤ M := Subgroup.map_subtype_le _
-  have hS2 : IsPGroup 2 S := S₀.isPGroup'.map M.subtype
+  have hS2 : IsPGroup 2 S := S₀.isPGroup.map M.subtype
   have hPS : P ≤ S := by
     intro x hx
     have : (⟨x, hPM hx⟩ : ↥M) ∈ P.subgroupOf M := hx
@@ -44,7 +44,7 @@ theorem exists_sylow_pair {M P : Subgroup G} (hP : IsPGroup 2 P) (hPM : P ≤ M)
   refine ⟨S, T, hPS, hSM, hS2, hmax, hT, ?_⟩
   apply hmax
   · exact inf_le_right
-  · exact T.isPGroup'.of_injective (Subgroup.inclusion (inf_le_left : (T : Subgroup G) ⊓ M ≤ T))
+  · exact T.isPGroup.of_injective (Subgroup.inclusion (inf_le_left : (T : Subgroup G) ⊓ M ≤ T))
       (Subgroup.inclusion_injective _)
   · exact le_inf hT hSM
 
@@ -210,7 +210,7 @@ theorem false_of_lt {S : Subgroup G} {T : Sylow 2 G} (hS2 : IsPGroup 2 S) (hSM :
     (hST : S ≤ (T : Subgroup G)) (hTM : (T : Subgroup G) ⊓ M = S)
     (hne : S ≠ (T : Subgroup G)) (hR3 : 3 ≤ Nat.card ↥(rOf M X)) : False := by
   classical
-  obtain ⟨t, htT, htS, htN⟩ := exists_mem_normalizer_of_lt T.isPGroup' hST hne
+  obtain ⟨t, htT, htS, htN⟩ := exists_mem_normalizer_of_lt T.isPGroup hST hne
   have htM : t ∉ M := fun htM => htS (hTM ▸ Subgroup.mem_inf.2 ⟨htT, htM⟩)
   have hSQ : pCoreOf 2 M ≠ S := by
     intro h

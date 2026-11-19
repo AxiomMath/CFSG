@@ -21,7 +21,7 @@ theorem four_le_card_sylow_of_isQuasisimple {M : Type*} [Group M] [Finite M]
     intro Q
     have h1 : Nat.card Q = Nat.card P := by
       rw [Sylow.card_eq_multiplicity, Sylow.card_eq_multiplicity]
-    obtain ⟨n, hn⟩ := Q.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := Q.isPGroup.exists_card_eq
     have hn1 : n ≤ 1 := by
       by_contra hn2
       push Not at hn2
@@ -59,7 +59,7 @@ theorem normal_of_component_of_card_sylow [Finite G] {M X : Subgroup G} (hM : Is
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hP'le).toEquiv,
       Subgroup.card_map_of_injective N.subtype_injective]
   have hQp : IsPGroup 2 Q := by
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     exact IsPGroup.of_card (by rw [hcardQ]; exact hn)
   obtain ⟨S, hS⟩ := hQp.exists_le_sylow
   have := Subgroup.card_le_of_le hS

@@ -18,7 +18,7 @@ namespace CFSG.StandardType.LieKnownR2.POmega.Inner
   ∀ v, Q (A.val *ᵥ (fun i => φ (v i))) = (μ : F) * φ (Q v)
 
 @[expose] def GGMatrixSemilinearAction {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
-    (Q : QuadraticForm F (ι → F)) (A : GL ι F) (φ : F ≃+* F) (μ : Fˣ)
+    (Q : QuadraticForm F (ι → F)) (A : GL ι F) (φ : F ≃+* F) (_μ : Fˣ)
     (y : MulAut ↥(spinGroup Q)) : Prop :=
   ∀ x : ↥(spinGroup Q),
     Spin.spinMatrix Q (y x) = A * glFieldEquiv ι φ (Spin.spinMatrix Q x) * A⁻¹

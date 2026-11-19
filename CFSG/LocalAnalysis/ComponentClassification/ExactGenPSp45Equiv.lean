@@ -150,7 +150,7 @@ private theorem permOfArr_eq_of_rep {n : ℕ} {t : Array ℕ} {g : Equiv.Perm (F
     refine ⟨fun i hi => h.lt hi, fun i hi j hj hij => ?_⟩
     have h1 : g ⟨i, hi⟩ = g ⟨j, hj⟩ := Fin.ext ((h ⟨i, hi⟩).symm.trans (hij.trans (h ⟨j, hj⟩)))
     exact congrArg Fin.val (g.injective h1)
-  rw [permOfArr, dif_pos hc]
+  rw [permOfArr, dite_eq_left hc]
   exact Equiv.ext fun x => Fin.ext (h x)
 
 private theorem scalar_smul_vec (c : (ZMod 5)ˣ) (v : Vec) :
@@ -184,7 +184,7 @@ private theorem psp45_equiv_zmod (hcard : Nat.card pspP = 4680000) :
     Nonempty (StatedProj (StatedSp 2 (ZMod 5)) ≃* pspP) := by
   have hG : Nat.card (StatedProj (StatedSp 2 (ZMod 5))) = 4680000 :=
     CFSG.RankThree.PartTwo.Sec21.Item221ResProof.PSp45.card_psp (by simp)
-  haveI : Finite (StatedProj (StatedSp 2 (ZMod 5))) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite (StatedProj (StatedSp 2 (ZMod 5))) := Nat.finite_of_card_ne_zero (by omega)
   have hle : pspP ≤ projAct.range := by
     rw [pspP, Subgroup.closure_le]
     rintro _ (rfl | rfl)
@@ -197,7 +197,7 @@ private theorem psp45_equiv_zmod (hcard : Nat.card pspP = 4680000) :
   have hrange : Nat.card projAct.range ≤ 4680000 := by
     rw [← hG]
     exact Nat.card_le_card_of_surjective _ projAct.rangeRestrict_surjective
-  haveI : Finite projAct.range := Finite.of_surjective _ projAct.rangeRestrict_surjective
+  have : Finite projAct.range := Finite.of_surjective _ projAct.rangeRestrict_surjective
   have heq : pspP = projAct.range :=
     Subgroup.eq_of_le_of_card_ge hle (by rw [hcard]; exact hrange)
   have hbij : Function.Bijective projAct.rangeRestrict :=
@@ -213,7 +213,7 @@ theorem psp45_equiv (hcard : Nat.card pspP = 4680000) (S : Type) [Group S]
     Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) h
   obtain ⟨-, K, _, _, hK, ⟨eS⟩⟩ := hB
   obtain ⟨eP⟩ := psp45_equiv_zmod hcard
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKK : Fintype.card K = Fintype.card (ZMod 5) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, Nat.card_zmod]
     norm_num

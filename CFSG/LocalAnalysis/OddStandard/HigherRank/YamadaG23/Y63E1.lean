@@ -16,13 +16,13 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 private lemma exists_conjSub_inv_le_of_sylow {H T E : Subgroup G} (hT : IsSylowIn 2 H T)
     (hEH : E ≤ H) (hE : IsPGroup 2 E) : ∃ c ∈ H, conjSub c⁻¹ E ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsub_pg : IsPGroup 2 (T.subgroupOf H) := hT.2.1.comap_subtype
   have hTsub_ne : ¬ 2 ∣ (T.subgroupOf H).index := by
     simpa only [Subgroup.relIndex] using hT.2.2
   let P : Sylow 2 ↥H := hTsub_pg.toSylow hTsub_ne
   have hPcoe : (P : Subgroup ↥H) = T.subgroupOf H := rfl
-  haveI : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex P
   have hEsub_pg : IsPGroup 2 (E.subgroupOf H) := hE.comap_subtype
   obtain ⟨Q, hQ⟩ := hEsub_pg.exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq (M := ↥H) P Q
@@ -45,6 +45,7 @@ private lemma exists_conjSub_inv_le_of_sylow {H T E : Subgroup G} (hT : IsSylowI
   have h4 : (c : G)⁻¹ * e * (c : G) ∈ T := h3 ▸ Subgroup.mem_subgroupOf.mp h2
   simpa [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] using h4
 
+omit [Finite G] in
 private lemma y63_conjSub_mul (a b : G) (X : Subgroup G) :
     conjSub (a * b) X = conjSub a (conjSub b X) := by
   ext z
@@ -94,7 +95,7 @@ theorem y63_extr_cent {Q T : Subgroup G} {t x : G} (hQ : IsPGroup 2 ↥Q)
     (hT : IsSylowIn 2 (centralizer ({t} : Set G)) T) (hxt : IsConj t x)
     (hcard : Nat.card ↥T ≤ Nat.card ↥(centEl Q x)) :
     ∃ y : G, y * t * y⁻¹ = x ∧ centEl Q x = conjSub y T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y₀, hy₀⟩ := isConj_iff.mp hxt
   let D : Subgroup G := conjSub y₀⁻¹ (centEl Q x)
   have hDdef : D = conjSub y₀⁻¹ (centEl Q x) := rfl

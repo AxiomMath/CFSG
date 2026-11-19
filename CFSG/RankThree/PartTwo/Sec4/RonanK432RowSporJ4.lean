@@ -76,7 +76,7 @@ theorem j4_isConj_of_orderThree :
 
 theorem listRow_j4 :
     ListRow NativeSporadic.J4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, y, -, hx3, -, hxy, hcx, hcy, -⟩ := CFSG.SectionRank.J4_sylow3_cubic_witness
   have hx1 : x ≠ 1 := by
     rintro rfl

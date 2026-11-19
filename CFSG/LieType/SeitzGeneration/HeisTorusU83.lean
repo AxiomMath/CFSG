@@ -120,9 +120,9 @@ theorem ug83_hom_single (j : Fin m) (ρ : K) :
   · subst hab
     by_cases haj : a = j
     · subst haj
-      simp [ug83_P_apply, Pi.single_apply, Matrix.one_apply]
-    · simp [ug83_P_apply, Pi.single_apply, Matrix.one_apply, haj]
-  · simp [ug83_P_apply, Pi.single_apply, Matrix.one_apply, hab]
+      simp [ug83_P_apply]
+    · simp [ug83_P_apply, haj]
+  · simp [ug83_P_apply, Pi.single_apply, hab]
     rintro rfl rfl
     exact absurd rfl hab
 
@@ -410,7 +410,7 @@ theorem ug83_Mem_hom_single
   by_cases hi : i = k
   · subst hi
     simpa using hσ
-  · simp [Function.update_apply, hi]
+  · simp [hi]
 
 theorem ug83_good_column (hXU : X ≤ primeFormUnitary h 1)
     (hD : ∀ g ∈ primeFormUnitary h (1 : Matrix (Fin n) (Fin n) K),
@@ -439,7 +439,7 @@ theorem ug83_coord_gram {a b : Fin n} (hab : a ≠ b) :
     ug83_adj h (ug83_frame (Pi.single a 1 : Fin n → K) (Pi.single b 1)) *
       ug83_frame (Pi.single a 1 : Fin n → K) (Pi.single b 1) = 1 :=
   ug83_adj_frame_mul_frame h (by simp [Pi.single_apply]) (by simp [Pi.single_apply])
-    (by simp [Pi.single_apply, hab, Ne.symm hab])
+    (by simp [Pi.single_apply, Ne.symm hab])
 
 theorem ug83_coord_proj {a b : Fin n} (hab : a ≠ b) :
     ug83_frame (Pi.single a 1 : Fin n → K) (Pi.single b 1) *
@@ -572,7 +572,7 @@ theorem ug83_diag_mem_su2 (h : UnitaryFieldData ℓ f K) {a : K} (ha : h.bar a *
       diagonal ![h.bar a, a] = 1 := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [ug83_adj_apply, Matrix.mul_apply, Fin.sum_univ_two, ha, ha', h.bar_bar,
+      simp [ug83_adj_apply, Matrix.mul_apply, ha, ha', h.bar_bar,
         Matrix.diagonal_apply]
   refine ⟨⟨diagonal ![h.bar a, a], ug83_adj h (diagonal ![h.bar a, a]),
     mul_eq_one_comm.2 hMu, hMu⟩, (mem_unitarySU_iff h).2 ⟨?_, hMu⟩, rfl⟩
@@ -613,11 +613,11 @@ theorem ug83_base (h82 : TwoHomologiesSU2 h) (hq : 4 ≤ ℓ ^ f)
     funext i
     by_cases hia : i = a
     · subst hia
-      simp [Pi.single_apply, hab]
+      simp [hab]
     · by_cases hib : i = b
       · subst hib
-        simp [Pi.single_apply, hia]
-      · simp [Pi.single_apply, hia, hib, hzero i hia hib]
+        simp [hia]
+      · simp [hia, hib, hzero i hia hib]
   exact ug83_plane h h82 hq he X (ug83_coord_gram h hab) hua hub hsum
     (fun σ hσ => ug83_Mem_hom_single h hD a hσ)
     (fun ρ hρ => by rw [hvec]; exact hu.2 ρ hρ) y hy
@@ -675,7 +675,7 @@ theorem ug83_stepB (h82 : TwoHomologiesSU2 h) (hq : 4 ≤ ℓ ^ f)
     · subst hi
       simp [hvk]
     · rw [hvi i hi]
-      simp [Pi.single_apply, hi]
+      simp [hi]
       field_simp
   have hplane := ug83_plane h h82 hq he X hF hk hβ0 hαβ
     (fun σ hσ => ug83_Mem_hom_single h hD k hσ)
@@ -744,7 +744,7 @@ theorem ug83_stepA (hq : 4 ≤ ℓ ^ f) (hXU : X ≤ primeFormUnitary h 1)
     · have : h.bar (u' k) * u' k = h.bar (ρ₀ - 1) * (ρ₀ - 1) *
           ((h.bar (u k) * u k) * (h.bar (u k₀) * u k₀)) := by
         rw [hcoord]
-        simp only [if_neg hkk.symm, zero_add, map_mul, h.bar_bar]
+        simp only [ite_eq_right hkk.symm, zero_add, map_mul, h.bar_bar]
         ring
       rw [this, hex k hk0', hex k₀ hk0]
       simpa using hρ2
@@ -783,7 +783,7 @@ end Main
 
 theorem exists_block_su_of_diag_of (h : UnitaryFieldData ℓ f K) (h82 : TwoHomologiesSU2 h)
     (hq : 4 ≤ ℓ ^ f) (he : 5 ≤ (ℓ ^ f + 1) / Nat.gcd 2 (ℓ ^ f + 1)) {n : ℕ}
-    (hn : 2 ≤ n) (X : Subgroup (GL (Fin n) K)) (hXU : X ≤ primeFormUnitary h 1)
+    (_hn : 2 ≤ n) (X : Subgroup (GL (Fin n) K)) (hXU : X ≤ primeFormUnitary h 1)
     (hD : ∀ g ∈ primeFormUnitary h (1 : Matrix (Fin n) (Fin n) K),
       (∃ t, (g : Matrix (Fin n) (Fin n) K) = diagonal t) → g ∈ X)
     (hx : ∃ x ∈ X, ¬ IsMonomialMat (x : Matrix (Fin n) (Fin n) K)) :

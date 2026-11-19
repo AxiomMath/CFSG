@@ -20,6 +20,7 @@ variable {Mh : Subgroup H} (hMh : IsZJMh y z v₁ v₂ Mh) include hMh
 
 variable {Mc : Subgroup H} (hMc : IsZJMc ρ Q Mh Mc) include hMc
 
+omit hMh hMc in
 theorem tau_comm_Y {u : H} (hu : u ∈ Y) : τ * u = u * τ := by
   have hτ : τ ∈ centralizer (Y : Set H) := by
     rw [h.E_eq]
@@ -28,7 +29,7 @@ theorem tau_comm_Y {u : H} (hu : u ∈ Y) : τ * u = u * τ := by
 
 theorem cent_Y_eq_V {α : H} (hα : α ∈ Mc) (hαQ : α ∉ Q) {u : H} (hu : u ∈ Y)
     (hc : u * α = α * u) : u ∈ V := by
-  have hαMh : α ∈ Mh := Mc_le_Mh h hMh hMc hα
+  have hαMh : α ∈ Mh := Mc_le_Mh hMc hα
   have hαE : α ∉ centralizer (Y : Set H) := fun hcY =>
     hαQ (mem_Q_of_mem_Mc_cent_Y h hMh hMc hα hcY)
   exact Mh_cent_Y h hMh hαMh hαE hu (by rw [← hc]; group)
@@ -36,7 +37,7 @@ theorem cent_Y_eq_V {α : H} (hα : α ∈ Mc) (hαQ : α ∉ Q) {u : H} (hu : u
 theorem no_inv_Mct (hb : ZJBound t)
     (hK : ∀ x ∈ Mc, x ∉ Q → x * x ∉ Q ⊓ centralizer ({t * τ} : Set H))
     {T : H → Prop} (hT : ZJClass T Q t τ l) {m₀ : H} (hm₀ : m₀ ∈ Mc)
-    (hβ : m₀ * τ * (m₀ * τ) = 1) (hTβ : T (m₀ * τ)) {m : H} (hm : m ∈ Mc)
+    (_hβ : m₀ * τ * (m₀ * τ) = 1) (hTβ : T (m₀ * τ)) {m : H} (hm : m ∈ Mc)
     (hd2 : m * t * (m * t) = 1) (hdβ : m₀ * τ * (m * t) = m * t * (m₀ * τ)) : False := by
   have hti : t⁻¹ = t := inv_eq_of_mul_eq_one_right h.t_sq
   have h2 : t * m * (t * m) = 1 := by

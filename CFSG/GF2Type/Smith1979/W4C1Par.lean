@@ -23,6 +23,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMo
 abbrev perp (Q : QuadraticForm (ZMod 2) V) (D : Submodule (ZMod 2) V) : Submodule (ZMod 2) V :=
   LinearMap.BilinForm.orthogonal Q.polarBilin D
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem mem_perp {D : Submodule (ZMod 2) V} {v : V} :
     v ∈ perp Q D ↔ ∀ d ∈ D, polar Q d v = 0 := by
   rw [LinearMap.BilinForm.mem_orthogonal_iff]
@@ -30,10 +31,12 @@ theorem mem_perp {D : Submodule (ZMod 2) V} {v : V} :
 
 variable (ρ : Γ →* (V ≃ₗ[ZMod 2] V)) {D : Submodule (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem apply_inv_apply' (g : Γ) (d : V) : ρ g (ρ g⁻¹ d) = d := by
   rw [← LinearEquiv.mul_apply, ← map_mul, mul_inv_cancel, map_one]
   rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem inv_apply_apply' (g : Γ) (d : V) : ρ g⁻¹ (ρ g d) = d := by
   rw [← LinearEquiv.mul_apply, ← map_mul, inv_mul_cancel, map_one]
   rfl
@@ -42,6 +45,7 @@ variable (hO : ∀ g, ρ g ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
   (hD : ∀ g, ∀ d ∈ D, ρ g d ∈ D)
 
 include hD in
+omit [FiniteDimensional (ZMod 2) V] in
 theorem map_D (g : Γ) : D.map (ρ g : V →ₗ[ZMod 2] V) = D := by
   refine le_antisymm ?_ ?_
   · rintro _ ⟨d, hd, rfl⟩
@@ -50,6 +54,7 @@ theorem map_D (g : Γ) : D.map (ρ g : V →ₗ[ZMod 2] V) = D := by
     exact ⟨ρ g⁻¹ d, hD g⁻¹ d hd, apply_inv_apply' ρ g d⟩
 
 include hO hD in
+omit [FiniteDimensional (ZMod 2) V] in
 theorem apply_mem_perp (g : Γ) {e : V} (he : e ∈ perp Q D) : ρ g e ∈ perp Q D := by
   rw [mem_perp] at he ⊢
   intro d hd
@@ -59,6 +64,7 @@ theorem apply_mem_perp (g : Γ) {e : V} (he : e ∈ perp Q D) : ρ g e ∈ perp 
   exact he _ (hD g⁻¹ d hd)
 
 include hO hD in
+omit [FiniteDimensional (ZMod 2) V] in
 theorem map_E (g : Γ) : (perp Q D).map (ρ g : V →ₗ[ZMod 2] V) = perp Q D := by
   refine le_antisymm ?_ ?_
   · rintro _ ⟨e, he, rfl⟩
@@ -71,6 +77,7 @@ theorem map_E (g : Γ) : (perp Q D).map (ρ g : V →ₗ[ZMod 2] V) = perp Q D :
     ext d
     simp only [LinearEquiv.ofSubmodules_apply, LinearEquiv.mul_apply, map_mul]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem resD_apply (g : Γ) (d : D) : ((resD ρ hD g d : D) : V) = ρ g d := rfl
 
 abbrev subE (Q : QuadraticForm (ZMod 2) V) (D : Submodule (ZMod 2) V) :
@@ -81,6 +88,7 @@ abbrev QW (Q : QuadraticForm (ZMod 2) V) (D : Submodule (ZMod 2) V) : Type :=
   (perp Q D) ⧸ subE Q D
 
 include hO hD in
+omit [FiniteDimensional (ZMod 2) V] in
 theorem map_subE (g : Γ) :
     (subE Q D).map (((ρ g).ofSubmodules (perp Q D) (perp Q D) (map_E ρ hO hD g) :
       perp Q D ≃ₗ[ZMod 2] perp Q D) : perp Q D →ₗ[ZMod 2] perp Q D) = subE Q D := by
@@ -98,13 +106,15 @@ theorem map_subE (g : Γ) :
       ext w
       obtain ⟨e, rfl⟩ := Submodule.Quotient.mk_surjective _ w
       simp only [LinearEquiv.mul_apply, Submodule.Quotient.equiv_apply, Submodule.mapQ_apply,
-        LinearEquiv.coe_coe, map_mul, LinearEquiv.ofSubmodules_apply]
+        LinearEquiv.coe_coe, map_mul]
       rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem resW_mk (g : Γ) (e : perp Q D) :
     resW ρ hO hD g (Submodule.Quotient.mk e) =
       Submodule.Quotient.mk ⟨ρ g e, apply_mem_perp ρ hO hD g e.2⟩ := rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem resD_eq_one_iff (g : Γ) : resD ρ hD g = 1 ↔ ∀ d ∈ D, ρ g d = d := by
   rw [LinearEquiv.ext_iff]
   constructor
@@ -114,6 +124,7 @@ theorem resD_eq_one_iff (g : Γ) : resD ρ hD g = 1 ↔ ∀ d ∈ D, ρ g d = d 
   · intro h d
     exact Subtype.ext (h d d.2)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem resW_eq_one_iff (g : Γ) : resW ρ hO hD g = 1 ↔ ∀ e ∈ perp Q D, ρ g e - e ∈ D := by
   rw [LinearEquiv.ext_iff]
   constructor
@@ -126,10 +137,12 @@ theorem resW_eq_one_iff (g : Γ) : resW ρ hO hD g = 1 ↔ ∀ e ∈ perp Q D, �
     rw [resW_mk, LinearEquiv.coe_one, id_eq, Submodule.Quotient.eq]
     exact h e e.2
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem add_self_zmod2 (v : V) : v + v = 0 := by
   rw [← two_smul (ZMod 2) v, show (2 : ZMod 2) = 0 from rfl, zero_smul]
 
 include hO in
+omit [FiniteDimensional (ZMod 2) V] in
 theorem pow_four_eq_one {g : Γ} (h1 : ∀ d ∈ D, ρ g d = d)
     (h2 : ∀ e ∈ perp Q D, ρ g e - e ∈ D) : ρ (g * g * g * g) = 1 := by
   have ha : ∀ v, ρ g v - v ∈ perp Q D := by
@@ -166,6 +179,7 @@ section Quad
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V} {D : Submodule (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem le_perp (hDs : ∀ d ∈ D, Q d = 0) : D ≤ perp Q D := by
   intro d hd
   rw [mem_perp]
@@ -173,6 +187,7 @@ theorem le_perp (hDs : ∀ d ∈ D, Q d = 0) : D ≤ perp Q D := by
   have h1 := hDs (d' + d) (D.add_mem hd' hd)
   simp only [polar, h1, hDs d hd, hDs d' hd', sub_zero]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem subE_le_radical (hDs : ∀ d ∈ D, Q d = 0) :
     subE Q D ≤ (Q.comp (perp Q D).subtype).radical := by
   intro x hx
@@ -187,10 +202,12 @@ theorem subE_le_radical (hDs : ∀ d ∈ D, Q d = 0) :
 @[expose] noncomputable def Qbar (hDs : ∀ d ∈ D, Q d = 0) : QuadraticForm (ZMod 2) (QW Q D) :=
   (Q.comp (perp Q D).subtype).lift (subE Q D) (subE_le_radical hDs)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Qbar_mk (hDs : ∀ d ∈ D, Q d = 0) (e : perp Q D) :
     Qbar hDs (Submodule.Quotient.mk e) = Q e :=
   rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem polar_Qbar_mk (hDs : ∀ d ∈ D, Q d = 0) (e u : perp Q D) :
     polar (Qbar hDs) (Submodule.Quotient.mk e) (Submodule.Quotient.mk u) = polar Q e u := by
   rw [polar, ← Submodule.Quotient.mk_add, Qbar_mk, Qbar_mk, Qbar_mk]
@@ -230,6 +247,7 @@ theorem finrank_QW (hQ : Q.polarBilin.Nondegenerate) (hDs : ∀ d ∈ D, Q d = 0
 variable {Γ : Type*} [Group Γ] (ρ : Γ →* (V ≃ₗ[ZMod 2] V))
   (hO : ∀ g, ρ g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hD : ∀ g, ∀ d ∈ D, ρ g d ∈ D)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem resW_mem_orthogonalGroup (hDs : ∀ d ∈ D, Q d = 0) (g : Γ) :
     resW ρ hO hD g ∈ TauCeti.QuadraticMap.orthogonalGroup (Qbar hDs) := by
   rw [TauCeti.QuadraticMap.mem_orthogonalGroup_iff]
@@ -248,12 +266,13 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMo
   (hO : ∀ g, ρ g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hD : ∀ g, ∀ d ∈ D, ρ g d ∈ D)
 
 include hO hD in
+omit [FiniteDimensional (ZMod 2) V] in
 theorem card_dvd_two_pow_mul (hρ : Function.Injective ρ) (hDs : ∀ d ∈ D, Q d = 0) {x : V}
     (hx : x ∈ D) (hxfix : ∀ g, ρ g x = x) :
     ∃ j : ℕ, Nat.card Γ ∣ 2 ^ j *
       (Nat.card (MulAction.stabilizer (D ≃ₗ[ZMod 2] D) (⟨x, hx⟩ : D)) *
         Nat.card (TauCeti.QuadraticMap.orthogonalGroup (Qbar hDs))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K₁ : Subgroup Γ := (resD ρ hD).ker with hK₁
   set φ₂ : K₁ →* (QW Q D ≃ₗ[ZMod 2] QW Q D) := (resW ρ hO hD).comp K₁.subtype with hφ₂
   set K₂ : Subgroup K₁ := φ₂.ker with hK₂
@@ -305,7 +324,7 @@ variable {U : Type*} [AddCommGroup U] [Module (ZMod 2) U] [FiniteDimensional (ZM
 theorem card_stabilizer_mul {k : ℕ} (hk : finrank (ZMod 2) U = k) {x : U} (hx : x ≠ 0) :
     Nat.card (MulAction.stabilizer (U ≃ₗ[ZMod 2] U) x) * (2 ^ k - 1) =
       ∏ i : Fin k, (2 ^ k - 2 ^ (i : ℕ)) := by
-  haveI : Finite U := Module.finite_of_finite (ZMod 2)
+  have : Finite U := Module.finite_of_finite (ZMod 2)
   have horb : (MulAction.orbit (U ≃ₗ[ZMod 2] U) x) = ({0} : Set U)ᶜ := by
     ext y
     constructor
@@ -477,6 +496,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMo
   (hO : ∀ g, ρ g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hD : ∀ g, ∀ d ∈ D, ρ g d ∈ D)
 
 include hO in
+omit [FiniteDimensional (ZMod 2) V] in
 theorem sub_mem_perp_of_resD (g : Γ) (hg : resD ρ hD g = 1) (v : V) : ρ g v - v ∈ perp Q D := by
   rw [mem_perp]
   intro d hd
@@ -486,6 +506,7 @@ theorem sub_mem_perp_of_resD (g : Γ) (hg : resD ρ hD g = 1) (v : V) : ρ g v -
   rw [polar_sub_right, h3, sub_self]
 
 include hρ hO in
+omit [FiniteDimensional (ZMod 2) V] in
 theorem ker_resD_comm (hDeq : perp Q D = D) {g h : Γ} (hg : resD ρ hD g = 1)
     (hh : resD ρ hD h = 1) : g * h = h * g := by
   apply hρ
@@ -507,6 +528,7 @@ theorem ker_resD_comm (hDeq : perp Q D = D) {g h : Γ} (hg : resD ρ hD g = 1)
   abel
 
 include hρ hO in
+omit [FiniteDimensional (ZMod 2) V] in
 theorem ker_resD_sq (hDeq : perp Q D = D) {g : Γ} (hg : resD ρ hD g = 1) : g * g = 1 := by
   apply hρ
   ext v
@@ -531,6 +553,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMo
   (ρ : Γ →* (V ≃ₗ[ZMod 2] V)) (hD : ∀ g, ∀ d ∈ D, ρ g d ∈ D)
 
 include hD in
+omit [Finite Γ] in
 theorem card_le_ker_mul_four {x : V} (hx : x ∈ D) (hx0 : x ≠ 0) (hxfix : ∀ g, ρ g x = x)
     (hk : finrank (ZMod 2) D = 4) : Nat.card Γ ≤ Nat.card (resD ρ hD).ker * 1344 := by
   have c1 := Subgroup.card_ker_mul_card_range (resD ρ hD)

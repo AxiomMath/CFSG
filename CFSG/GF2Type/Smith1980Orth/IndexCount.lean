@@ -96,6 +96,7 @@ private theorem four_dvd_index_of_ne (S : Setting G) (K : Subgroup S.Q) (h1 : K.
   · rw [hj]
     exact ⟨2 ^ j, by ring⟩
 
+omit [Finite G] in
 private theorem zQ_mem_of_index_eq_two (S : Setting G) {K : Subgroup S.Q} (hK : K.index = 2) :
     S.zQ ∈ K := by
   have hcomm : commutator S.Q ≤ K := by
@@ -173,7 +174,7 @@ theorem card_conj_mod_four (S : Setting G)
   have hsplit : Nat.card {x : G | IsConj S.z x} =
       Nat.card {x : G | IsConj S.z x ∧ x ∈ S.QG} + Nat.card (conjOutside S) := by
     rw [Nat.card_coe_set_eq, Nat.card_coe_set_eq, Nat.card_coe_set_eq]
-    exact (Set.ncard_inter_add_ncard_diff_eq_ncard {x : G | IsConj S.z x} (S.QG : Set G)).symm
+    exact (Set.ncard_inter_add_ncard_sdiff_eq_ncard {x : G | IsConj S.z x} (S.QG : Set G)).symm
   omega
 
 end Conj

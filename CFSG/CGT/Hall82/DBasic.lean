@@ -16,13 +16,14 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M L : Subgroup G} {R : Subgroup G}
   {rep : Fin 64 → G}
 
+omit [Finite G] in
 theorem pCoreOf_centralizer_eq_bot {L : Subgroup G}
     (hC1 : Subgroup.centralizer (L : Set G) = ⊥) :
     CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G)) = ⊥ := by
   rw [hC1]
   exact eq_bot_iff.mpr (CFSG.LieType.BorelTits.pCoreOf_le 2 ⊥)
 
-theorem hW2_of_eq_bot (S : Setting G M L)
+theorem hW2_of_eq_bot (_S : Setting G M L)
     (hC1 : Subgroup.centralizer (L : Set G) = ⊥) :
     ∀ Q : Subgroup G, IsPGroup 2 Q → Q ≤ Subgroup.centralizer (L : Set G) →
       Q ≤ CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G)) := by
@@ -31,7 +32,7 @@ theorem hW2_of_eq_bot (S : Setting G M L)
   rw [pCoreOf_centralizer_eq_bot hC1]
   exact hQ
 
-theorem hWab_of_eq_bot (S : Setting G M L)
+theorem hWab_of_eq_bot (_S : Setting G M L)
     (hC1 : Subgroup.centralizer (L : Set G) = ⊥) :
     ∀ a ∈ CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G)),
       ∀ b ∈ CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G)), a * b = b * a := by
@@ -71,7 +72,7 @@ theorem card_eq_card_inf_blockU_mul (S : Setting G M L)
 theorem psiSub_M_eq (S : Setting G M L)
     (hF : ModelFacts)
     (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep)
-    (hC1 : Subgroup.centralizer (L : Set G) = ⊥) :
+    (_hC1 : Subgroup.centralizer (L : Set G) = ⊥) :
     S.psiSub hc M = hexaL ∨ S.psiSub hc M = hexaM := by
   set K := S.psiSub hc M with hK
   have hLK : hexaL ≤ K := by
@@ -161,12 +162,14 @@ theorem card_centralizer_rep (S : Setting G M L)
   rw [hAV, hψ] at hcard
   simpa [hAdef, S.card_blockU] using hcard
 
+omit [Finite G] in
 theorem rep_mul_self (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep) (v : Fin 64) :
     rep v * rep v = 1 := by
   have h := hc.add v v
   rw [xorF_self, hc.rep_zero] at h
   exact h.symm
 
+omit [Finite G] in
 theorem rep_eq_one_iff (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep) {v : Fin 64} :
     rep v = 1 ↔ v = 0 := by
   constructor
@@ -176,6 +179,7 @@ theorem rep_eq_one_iff (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep) 
   · rintro rfl
     exact hc.rep_zero
 
+omit [Finite G] in
 theorem mem_blockU_iff (hc : HexaCoord (blockU L) R (hallPts (blockU L) L) rep) {x : G} :
     x ∈ blockU L ↔ ∃ v, rep v = x := by
   constructor

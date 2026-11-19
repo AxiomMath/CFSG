@@ -22,7 +22,7 @@ theorem nonempty_mulEquiv_mapSurjective (hπ : Function.Surjective π)
     Nonempty ((P : Subgroup G) ≃* ((P.mapSurjective hπ : Sylow 2 G') : Subgroup G')) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdisj : (P : Subgroup G) ⊓ π.ker = ⊥ := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     apply (Subgroup.disjoint_of_coprime_natCard _).eq_bot
     rw [hk]
     exact (Nat.coprime_two_left.mpr hker).pow_left k

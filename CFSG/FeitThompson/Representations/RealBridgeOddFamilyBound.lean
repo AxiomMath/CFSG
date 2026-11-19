@@ -42,6 +42,7 @@ section Family
 
 variable {ι : Type*} [Fintype ι] [DecidableEq ι] {θ Γ : G → ℂ} {r : ℝ} {v : ι → G → ℂ}
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem forall_exists_odd_int_cfInner (hodd : Odd (Nat.card G))
     (hθ : θ ∈ signedIrr G) (hθ1 : IsOrthogonal θ (1 : G → ℂ))
     (hΓ : Γ ∈ Submodule.span ℤ (Irr G)) (hΓreal : ∀ g, (Γ g).im = 0)

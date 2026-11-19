@@ -21,7 +21,7 @@ theorem ggTwE6Row_ggTorusWeylFrameW_twE6Plus
     GGTorusWeylFrameW p 5 (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) CoxeterMatrix.E₆ := by
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
-  haveI : CharP K 2 := charP_two_of_card (K := K) (m := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
+  have : CharP K 2 := charP_two_of_card (K := K) (m := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
   obtain ⟨e⟩ := TwE6Rank.exists_mulEquiv_graphFixedRootGroup hn hK (iterateFrobenius K 2 n)
     (fun c => iterateFrobenius_def 2 n c)
   exact ggTorusWeylFrameW_of_excPlusModelSCr (τ := Tag.E6) (M := CoxeterMatrix.E₆) hp hp2

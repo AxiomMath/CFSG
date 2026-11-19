@@ -24,6 +24,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
+omit [Finite V] in
 theorem conjSub_eq_of_mem (h : Assumption131 G Γ VA i) {A : Subgroup (LGL 2 V)} (hA : A ∈ Γ)
     {a : LGL 2 V} (ha : a ∈ A) : conjSub a (VA A) = VA A := by
   have hmem : a ∈ G ⊓ Subgroup.normalizer (A : Set (LGL 2 V)) :=
@@ -31,6 +32,7 @@ theorem conjSub_eq_of_mem (h : Assumption131 G Γ VA i) {A : Subgroup (LGL 2 V)}
   rw [h.normalizer_eq A hA] at hmem
   exact hmem.2
 
+omit [Finite V] in
 theorem VA_ne_bot (h : Assumption131 G Γ VA i) {A : Subgroup (LGL 2 V)} (hA : A ∈ Γ)
     (hrank : mRank A ≤ i) : VA A ≠ ⊥ := by
   intro hbot
@@ -38,6 +40,7 @@ theorem VA_ne_bot (h : Assumption131 G Γ VA i) {A : Subgroup (LGL 2 V)} (hA : A
   rw [hbot, le_bot_iff] at h1
   exact commSub_ne_bot_of_mem h hA h1
 
+omit [Finite V] in
 theorem conjSubgroup_UAOf_inr_inv (h : Assumption131 G Γ VA i) {A : Subgroup (LGL 2 V)}
     (hA : A ∈ Γ) (g : G) :
     conjSubgroup (UAOf G VA A) (SemidirectProduct.inr g⁻¹ : VG G) =
@@ -45,6 +48,7 @@ theorem conjSubgroup_UAOf_inr_inv (h : Assumption131 G Γ VA i) {A : Subgroup (L
   unfold UAOf
   rw [conjSubgroup_wHat_sup_aHat_inr_inv, ← h.equivariant A hA g g.2]
 
+omit [Finite V] in
 theorem thirteen_two_one_VG (h : Assumption131 G Γ VA i) (hrank : ∀ A ∈ Γ, mRank A ≤ i)
     {A B : Subgroup (LGL 2 V)} (hA : A ∈ Γ) (hB : B ∈ Γ) (hne : A ≠ B) :
     UAOf G VA A ⊓ UAOf G VA B = ⊥ := by
@@ -74,10 +78,12 @@ theorem thirteen_two_one_VG (h : Assumption131 G Γ VA i) (hrank : ∀ A ∈ Γ,
   rw [hxe, hg1', hv1]
   simp
 
+omit [Finite V] in
 theorem isElemAbelian_UAOf (h : Assumption131 G Γ VA i) {A : Subgroup (LGL 2 V)} (hA : A ∈ Γ)
     (hVAle : VA A ≤ fixSub A) : IsElemAbelian 2 (UAOf G VA A) := by
   exact isElemAbelian_wHat_sup_aHat (h.isElemAb A hA) hVAle
 
+omit [Finite V] in
 theorem isTI_UAOf (h : Assumption131 G Γ VA i) (hrank : ∀ A ∈ Γ, mRank A ≤ i)
     {A : Subgroup (LGL 2 V)} (hA : A ∈ Γ) :
     CFSG.CGT.Timmesfeld75.IsTI (UAOf G VA A) := by
@@ -158,6 +164,7 @@ theorem thirteen_two_two (h : Assumption131 G Γ VA i) (hrank : ∀ A ∈ Γ, mR
       unfold conjSubgroup cj
       simp
 
+omit [Finite V] in
 theorem inf_pCoreOf_UAOf (h : Assumption131 G Γ VA i) {A : Subgroup (LGL 2 V)} (hA : A ∈ Γ) :
     UAOf G VA A ⊓ pCoreOf 2 (⊤ : Subgroup (VG G)) = wHat G (VA A) := by
   refine le_antisymm ?_ (le_inf ?_ (wHat_le_pCoreOf _))
@@ -175,6 +182,7 @@ theorem inf_pCoreOf_UAOf (h : Assumption131 G Γ VA i) {A : Subgroup (LGL 2 V)} 
     exact mem_wHat.mpr ⟨v, hv, rfl⟩
   · exact le_sup_left
 
+omit [Finite V] in
 theorem thirteen_two_three (h : Assumption131 G Γ VA i) (hrank : ∀ A ∈ Γ, mRank A ≤ i)
     (htrans : ∀ A ∈ Γ, ∀ B ∈ Γ, ∃ g ∈ G, B = cj g A) {A₀ : Subgroup (LGL 2 V)} (hA₀ : A₀ ∈ Γ) :
     omegaSet (UAOf G VA A₀) (⊤ : Subgroup (VG G)) (vHat G) = UAOf G VA '' Γ ∧

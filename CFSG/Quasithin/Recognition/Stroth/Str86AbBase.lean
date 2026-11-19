@@ -121,7 +121,7 @@ theorem str86_conjClosure_frame {L1 L2 S : Subgroup G}
       rw [show c * (l * z * l⁻¹) * c⁻¹ =
         (c * l * c⁻¹) * (c * z * c⁻¹) * (c * l * c⁻¹)⁻¹ by group]
       exact mem_conjClosure hl' hz'
-    | one => simpa using (conjClosure (Z2 L1 L2 S) L1).one_mem
+    | one => simp
     | mul x y _ _ ihx ihy =>
       rw [show c * (x * y) * c⁻¹ = (c * x * c⁻¹) * (c * y * c⁻¹) by group]
       exact (conjClosure (Z2 L1 L2 S) L1).mul_mem ihx ihy

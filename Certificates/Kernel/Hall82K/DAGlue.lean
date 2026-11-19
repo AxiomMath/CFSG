@@ -173,7 +173,7 @@ theorem card_stabSub_mul_ncard_orbit {X : Subgroup (Equiv.Perm (Fin 64))}
     have hsub : (stabSub X v).subgroupOf X =
         (MulAction.stabilizer (Equiv.Perm (Fin 64)) v).subgroupOf X := by
       ext x
-      simp [stabSub, Subgroup.mem_subgroupOf]
+      simp [stabSub]
     calc Nat.card (stabSub X v)
         = Nat.card ((stabSub X v).subgroupOf X) :=
           (Nat.card_congr

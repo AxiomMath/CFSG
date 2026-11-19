@@ -142,15 +142,15 @@ theorem s16nt_h1_m22
   classical
   obtain ⟨Q₀, hQ₀add, hQ₀mod, hQ₀fin, ρ₀, a, b, hρ₀, hdim₀, hn₀, hgen, ha2, hb4, hra, hrb⟩ :=
     s16nt_m22_module
-  letI : AddCommGroup Q₀ := hQ₀add
-  letI : Module (ZMod 2) Q₀ := hQ₀mod
-  letI : Finite Q₀ := hQ₀fin
+  let : AddCommGroup Q₀ := hQ₀add
+  let : Module (ZMod 2) Q₀ := hQ₀mod
+  let : Finite Q₀ := hQ₀fin
   have hfix : ∀ q : Q, (∀ g : Γ, ρ g q = q) → q = 0 := w183_m22_fix_eq_zero ρ hρ hdim
   have hn : ∃ g : Γ, ρ g ≠ 1 := by
     by_contra hcon
     rw [not_exists] at hcon
     have htriv : ∀ g : Γ, ρ g = 1 := fun g => not_not.mp (hcon g)
-    haveI : Nontrivial Q :=
+    have : Nontrivial Q :=
       Module.nontrivial_of_finrank_pos (R := ZMod 2) (by rw [hdim]; norm_num)
     obtain ⟨q, hq⟩ := exists_ne (0 : Q)
     exact hq (w183_m22_fix_eq_zero ρ hρ hdim q fun g => by rw [htriv g]; rfl)

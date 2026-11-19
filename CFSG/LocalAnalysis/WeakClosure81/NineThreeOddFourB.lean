@@ -50,7 +50,7 @@ private lemma nine3_B_zmodRefl_ne_one (hp : p.Prime) (hp2 : p ≠ 2) (c : ZMod p
 
 private lemma nine3_B_zmodRefl_mul_ne_one (hp : p.Prime) (hp2 : p ≠ 2) {r s : ZMod p}
     (hrs : r ≠ s) : zmodRefl p r * zmodRefl p s ≠ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro h
   have h0 := congrArg (fun e : Equiv.Perm (ZMod p) => e 0) h
   simp only [zmodRefl, Equiv.Perm.mul_apply, Equiv.subLeft_apply, Equiv.Perm.one_apply] at h0
@@ -60,6 +60,7 @@ private lemma nine3_B_zmodRefl_mul_ne_one (hp : p.Prime) (hp2 : p ≠ 2) {r s : 
     exact h0
   exact mul_ne_zero (nine3_B_two_ne_zero hp hp2) (sub_ne_zero.mpr hrs) h2
 
+omit [Finite Γ] in
 private lemma nine3_B_conj_mem_fibre {m : ℕ} (h : Nine3OddFrame p m π D) {a c : ZMod p}
     {d e : Γ} (hd : d ∈ nine3FibreSet π D a) (he : e ∈ nine3FibreSet π D c) :
     e * d * e⁻¹ ∈ nine3FibreSet π D (2 * c - a) := by
@@ -67,6 +68,7 @@ private lemma nine3_B_conj_mem_fibre {m : ℕ} (h : Nine3OddFrame p m π D) {a c
   rw [map_mul, map_mul, map_inv, hd.2, he.2, nine3_B_zmodRefl_inv]
   exact nine3_B_zmodRefl_conj c a
 
+omit [Finite Γ] in
 private lemma nine3_B_image_conj_fibre {m : ℕ} (h : Nine3OddFrame p m π D) {a c : ZMod p}
     {e : Γ} (he : e ∈ nine3FibreSet π D c) :
     (MulAut.conj e).toMonoidHom '' (nine3FibreSet π D a) =
@@ -86,6 +88,7 @@ private lemma nine3_B_image_conj_fibre {m : ℕ} (h : Nine3OddFrame p m π D) {a
     show e * (e⁻¹ * x * (e⁻¹)⁻¹) * e⁻¹ = x
     group
 
+omit [Finite Γ] in
 private lemma nine3_B_map_conj_closure {m : ℕ} (h : Nine3OddFrame p m π D) {a c : ZMod p}
     {e : Γ} (he : e ∈ nine3FibreSet π D c) :
     Subgroup.map (MulAut.conj e).toMonoidHom (Subgroup.closure (nine3FibreSet π D a)) =
@@ -100,7 +103,7 @@ private lemma nine3_B_card_sup_mul_card_inf_of_le_normalizer {G : Type*} [Group 
   have hAG' : A ≤ G' := le_sup_left
   have hBG' : B ≤ G' := le_sup_right
   have hG'N : G' ≤ Subgroup.normalizer (A : Set G) := sup_le Subgroup.le_normalizer hB
-  haveI : (A.subgroupOf G').Normal :=
+  have : (A.subgroupOf G').Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAG').mpr hG'N
   have hsup : A.subgroupOf G' ⊔ B.subgroupOf G' = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hAG' hBG']
@@ -136,12 +139,14 @@ private def nine3_B_gen (π : Γ →* Equiv.Perm (ZMod p)) (D : Set Γ) : Set Γ
 private def nine3_B_Q0 (π : Γ →* Equiv.Perm (ZMod p)) (D : Set Γ) : Subgroup Γ :=
   Subgroup.closure (nine3_B_gen π D)
 
+omit [Finite Γ] in
 private lemma nine3_B_gen_conj {m : ℕ} (h : Nine3OddFrame p m π D) {a : Γ}
     (ha : a ∈ nine3_B_gen π D) (γ : Γ) : γ * a * γ⁻¹ ∈ nine3_B_gen π D := by
   obtain ⟨d, hd, e, he, hde, rfl⟩ := ha
   exact ⟨γ * d * γ⁻¹, h.conj d hd γ, γ * e * γ⁻¹, h.conj e he γ, by
     rw [map_mul, map_mul, map_inv, map_mul, map_mul, map_inv, hde], by group⟩
 
+omit [Finite Γ] in
 private lemma nine3_B_Q0_normal {m : ℕ} (h : Nine3OddFrame p m π D) :
     (nine3_B_Q0 π D).Normal := by
   rw [Subgroup.normal_iff_map_conj_eq]
@@ -160,7 +165,8 @@ private lemma nine3_B_Q0_normal {m : ℕ} (h : Nine3OddFrame p m π D) :
     show γ * (γ⁻¹ * x * (γ⁻¹)⁻¹) * γ⁻¹ = x
     group
 
-private lemma nine3_B_Q0_le_ker (hp : p.Prime) (hp2 : p ≠ 2) {m : ℕ}
+omit [Finite Γ] in
+private lemma nine3_B_Q0_le_ker (_hp : p.Prime) (_hp2 : p ≠ 2) {m : ℕ}
     (h : Nine3OddFrame p m π D) : nine3_B_Q0 π D ≤ π.ker := by
   rw [nine3_B_Q0, Subgroup.closure_le]
   rintro x ⟨d, hd, e, he, hde, rfl⟩
@@ -177,6 +183,7 @@ private noncomputable def nine3_B_repSub {m : ℕ} (h : Nine3OddFrame p m π D) 
     rw [h.card c]
     exact hm)).1)
 
+omit [Finite Γ] in
 private lemma nine3_B_mk_eq_of_mem_fibre {m : ℕ} (h : Nine3OddFrame p m π D) {hm : 0 < m}
     {N : Subgroup Γ} [N.Normal] (hN : nine3_B_Q0 π D ≤ N) {c : ZMod p} {d : Γ}
     (hd : d ∈ nine3FibreSet π D c) :
@@ -194,6 +201,7 @@ private lemma nine3_B_mk_eq_of_mem_fibre {m : ℕ} (h : Nine3OddFrame p m π D) 
       (nine3_B_repSub h hm c).2.1, rfl, rfl⟩)
   rw [eq_inv_of_mul_eq_one_left h1, inv_eq_of_mul_eq_one_right h2]
 
+omit [Finite Γ] in
 private lemma nine3_B_image_fibre {m : ℕ} (h : Nine3OddFrame p m π D) {hm : 0 < m}
     {N : Subgroup Γ} [N.Normal] (hN : nine3_B_Q0 π D ≤ N) {c : ZMod p} :
     (QuotientGroup.mk' N) '' (nine3FibreSet π D c) =
@@ -210,8 +218,8 @@ private lemma nine3_B_quotient_card (hp : p.Prime) (hp2 : p ≠ 2) {m : ℕ}
     (h : Nine3OddFrame p m π D) (hm : 0 < m) (N : Subgroup Γ) [N.Normal]
     (hN : nine3_B_Q0 π D ≤ N) (hNker : N ≤ π.ker) : Nat.card (Γ ⧸ N) = 2 * p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let r : ZMod p := 0
   let s : ZMod p := 1
   have hrs : r ≠ s := by
@@ -307,17 +315,17 @@ theorem nine3OddFrame_ker_eq (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddFrame p
     have hbot : Subgroup.closure D = (⊥ : Subgroup Γ) := by
       rw [hDempty]; exact Subgroup.closure_empty
     have htop : (⊥ : Subgroup Γ) = ⊤ := by rw [← hbot]; exact h.gen
-    haveI : Subsingleton Γ :=
+    have : Subsingleton Γ :=
       Subgroup.subsingleton_iff.mp (subsingleton_iff_bot_eq_top.mp htop)
     have hQ0bot : nine3_B_Q0 π D = ⊥ := by
       simp [nine3_B_Q0, nine3_B_gen, hDempty]
     rw [hQ0bot]
     exact Subsingleton.elim _ _
-  · haveI : (nine3_B_Q0 π D).Normal := nine3_B_Q0_normal h
+  · have : (nine3_B_Q0 π D).Normal := nine3_B_Q0_normal h
     have hQ0le : nine3_B_Q0 π D ≤ π.ker := nine3_B_Q0_le_ker hp hp2 h
     have hc0 := nine3_B_quotient_card hp hp2 h hm (nine3_B_Q0 π D) le_rfl hQ0le
     have hck := nine3_B_quotient_card hp hp2 h hm π.ker hQ0le le_rfl
-    haveI : (π.ker).FiniteIndex := ⟨Subgroup.index_ne_zero_of_finite⟩
+    have : (π.ker).FiniteIndex := ⟨Subgroup.index_ne_zero_of_finite⟩
     have hQ0idx : (nine3_B_Q0 π D).index = 2 * p := by
       rw [Subgroup.index_eq_card]; exact hc0
     have hQidx : (π.ker).index = 2 * p := by
@@ -326,18 +334,20 @@ theorem nine3OddFrame_ker_eq (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddFrame p
       Subgroup.eq_of_index_dvd_index hQ0le (by rw [hQ0idx, hQidx])
     exact heq.symm
 
+omit [Finite Γ] in
 private lemma nine3_B_closure_comm {m : ℕ} (h : Nine3OddFrame p m π D) {c : ZMod p}
     {x y : Γ} (hx : x ∈ Subgroup.closure (nine3FibreSet π D c))
     (hy : y ∈ Subgroup.closure (nine3FibreSet π D c)) : x * y = y * x := by
   have hcomm : (nine3FibreSet π D c).Pairwise Commute := fun a ha b hb _ =>
     h.comm a ha.1 b hb.1 (ha.2.trans hb.2.symm)
-  haveI : IsMulCommutative ↥(Subgroup.closure (nine3FibreSet π D c)) :=
+  have : IsMulCommutative ↥(Subgroup.closure (nine3FibreSet π D c)) :=
     Subgroup.isMulCommutative_closure hcomm
-  letI : CommGroup ↥(Subgroup.closure (nine3FibreSet π D c)) :=
+  let : CommGroup ↥(Subgroup.closure (nine3FibreSet π D c)) :=
     IsMulCommutative.instCommGroup
   have hxy := mul_comm (⟨x, hx⟩ : ↥(Subgroup.closure (nine3FibreSet π D c))) ⟨y, hy⟩
   simpa using congrArg Subtype.val hxy
 
+omit [Finite Γ] in
 private lemma nine3_B_E_sq {m : ℕ} (h : Nine3OddFrame p m π D) {c : ZMod p} {x : Γ}
     (hx : x ∈ Subgroup.closure (nine3FibreSet π D c)) : x * x = 1 := by
   induction hx using Subgroup.closure_induction with
@@ -358,10 +368,11 @@ private lemma nine3_B_prod_four {G : Type*} [CommGroup G] {u v d : G}
     d * (u * d) * (v * d) * (u * v * d) = 1 := by
   have hkey : d * (u * d) * (v * d) * (u * v * d) =
       (u * u) * (v * v) * (d * d) * (d * d) := by
-    simp only [mul_assoc, mul_comm, mul_left_comm]
+    simp only [mul_comm, mul_left_comm]
   rw [hkey, hu, hv, hd]
   simp
 
+omit [Finite Γ] in
 private lemma nine3_B_map_conj_Z_self {m : ℕ} (h : Nine3OddFrame p m π D) {r : ZMod p}
     {d : Γ} (hd : d ∈ nine3FibreSet π D r) :
     Subgroup.map (MulAut.conj d).toMonoidHom
@@ -381,6 +392,7 @@ private lemma nine3_B_map_conj_Z_self {m : ℕ} (h : Nine3OddFrame p m π D) {r 
     rw [(nine3_B_closure_comm h (Subgroup.subset_closure hd) hw.1), mul_assoc,
       mul_inv_cancel, mul_one]
 
+omit [Finite Γ] in
 private lemma nine3_B_map_conj_Z_le {m : ℕ} (h : Nine3OddFrame p m π D) {r s : ZMod p}
     {d : Γ} (hd : d ∈ nine3FibreSet π D r) :
     Subgroup.map (MulAut.conj d).toMonoidHom
@@ -405,6 +417,7 @@ private lemma nine3_B_map_conj_Z_le {m : ℕ} (h : Nine3OddFrame p m π D) {r s 
   rw [hkey]
   exact mul_mem (Subgroup.mem_sup_left h1) (Subgroup.mem_sup_right ⟨hyE, hyQ⟩)
 
+omit [Finite Γ] in
 private lemma nine3_B_ker_conj_mem_fibre {m : ℕ} (h : Nine3OddFrame p m π D) {c : ZMod p}
     {z : Γ} (hz : z ∈ π.ker) {d : Γ} (hd : d ∈ nine3FibreSet π D c) :
     z * d * z⁻¹ ∈ nine3FibreSet π D c := by
@@ -412,6 +425,7 @@ private lemma nine3_B_ker_conj_mem_fibre {m : ℕ} (h : Nine3OddFrame p m π D) 
   rw [map_mul, map_mul, map_inv, hd.2, MonoidHom.mem_ker.mp hz]
   simp
 
+omit [Finite Γ] in
 private lemma nine3_B_ker_map_conj_E {m : ℕ} (h : Nine3OddFrame p m π D) {c : ZMod p}
     {z : Γ} (hz : z ∈ π.ker) :
     Subgroup.map (MulAut.conj z).toMonoidHom (Subgroup.closure (nine3FibreSet π D c)) =
@@ -428,6 +442,7 @@ private lemma nine3_B_ker_map_conj_E {m : ℕ} (h : Nine3OddFrame p m π D) {c :
     show z * (z⁻¹ * x * (z⁻¹)⁻¹) * z⁻¹ = x
     group
 
+omit [Finite Γ] in
 private lemma nine3_B_ker_map_conj_Z {m : ℕ} (h : Nine3OddFrame p m π D) {c : ZMod p}
     {z : Γ} (hz : z ∈ π.ker) :
     Subgroup.map (MulAut.conj z).toMonoidHom
@@ -454,6 +469,7 @@ private lemma nine3_B_ker_map_conj_Z {m : ℕ} (h : Nine3OddFrame p m π D) {c :
   show z * (z⁻¹ * w * (z⁻¹)⁻¹) * z⁻¹ = w
   group
 
+omit [Finite Γ] in
 private lemma nine3_B_Q_le_normalizer_Z {m : ℕ} (h : Nine3OddFrame p m π D) {c : ZMod p} :
     π.ker ≤ Subgroup.normalizer
       ((Subgroup.closure (nine3FibreSet π D c) ⊓ π.ker : Subgroup Γ) : Set Γ) := by
@@ -481,6 +497,7 @@ private lemma nine3_B_Q_le_normalizer_Z {m : ℕ} (h : Nine3OddFrame p m π D) {
       group
     rwa [hw'] at hmem
 
+omit [Finite Γ] in
 private lemma nine3_B_map_conj_Z_inf {m : ℕ} (h : Nine3OddFrame p m π D) {a c : ZMod p}
     {e : Γ} (he : e ∈ nine3FibreSet π D c) :
     Subgroup.map (MulAut.conj e).toMonoidHom
@@ -502,12 +519,13 @@ private lemma nine3_B_map_conj_Z_inf {m : ℕ} (h : Nine3OddFrame p m π D) {a c
       rwa [heq] at hmem
     exact ⟨u, ⟨huE, huQ⟩, rfl⟩
 
+omit [Finite Γ] in
 private lemma nine3_B_exists_conj_Z {m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : Nine3OddFrame p m π D) (hm : 0 < m) (c : ZMod p) :
     ∃ e : Γ, Subgroup.map (MulAut.conj e).toMonoidHom
         (Subgroup.closure (nine3FibreSet π D 0) ⊓ π.ker) =
       Subgroup.closure (nine3FibreSet π D c) ⊓ π.ker := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : (2 : ZMod p) ≠ 0 := nine3_B_two_ne_zero hp hp2
   let t : ZMod p := c * (2 : ZMod p)⁻¹
   have ht : 2 * t - 0 = c := by
@@ -526,6 +544,7 @@ private lemma nine3_B_mem_normalizer_conj {G : Type*} [Group G] {H : Subgroup G}
     exact ⟨x, hx, rfl⟩
   simpa using this
 
+omit [Finite Γ] in
 private lemma nine3_B_map_conj_Y_le {m : ℕ} (h : Nine3OddFrame p m π D) {r s : ZMod p}
     {d : Γ} (hd : d ∈ nine3FibreSet π D r ∪ nine3FibreSet π D s) :
     Subgroup.map (MulAut.conj d).toMonoidHom
@@ -569,8 +588,8 @@ theorem nine3OddFrame_ker_eq_sup (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddFra
     {r s : ZMod p} (hrs : r ≠ s) :
     π.ker = (Subgroup.closure (nine3FibreSet π D r) ⊓ π.ker) ⊔
       (Subgroup.closure (nine3FibreSet π D s) ⊓ π.ker) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hYnorm : ((Subgroup.closure (nine3FibreSet π D r) ⊓ π.ker) ⊔
+  have : Fact p.Prime := ⟨hp⟩
+  have hYnorm : ((Subgroup.closure (nine3FibreSet π D r) ⊓ π.ker) ⊔
       (Subgroup.closure (nine3FibreSet π D s) ⊓ π.ker)).Normal :=
     nine3_B_Y_normal hp hp2 h hrs
   apply le_antisymm
@@ -632,12 +651,12 @@ theorem nine3OddFrame_ker_eq_sup (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddFra
     exact hZle hde_mem
   · exact sup_le inf_le_right inf_le_right
 
-theorem nine3OddFrame_ker_not_comm (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddFrame p 4 π D)
+theorem nine3OddFrame_ker_not_comm (hp : p.Prime) (_hp2 : p ≠ 2) (h : Nine3OddFrame p 4 π D)
     (hi : Nine3FibreIndep p π D) : ¬ ∀ a ∈ π.ker, ∀ b ∈ π.ker, a * b = b * a := by
   classical
   intro hab
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have h01 : (0 : ZMod p) ≠ 1 := (one_ne_zero : (1 : ZMod p) ≠ 0).symm
   let F : ZMod p → Set Γ := nine3FibreSet π D
   let d : Γ := (nine3_B_repSub h (by norm_num : 0 < 4) 0 : Γ)
@@ -675,8 +694,8 @@ theorem nine3OddFrame_ker_not_comm (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddF
   have hcommF0 : (F 0).Pairwise Commute := fun a ha b hb _ =>
     h.comm a ha.1 b hb.1 (ha.2.trans hb.2.symm)
   let E0 : Subgroup Γ := Subgroup.closure (F 0)
-  haveI : IsMulCommutative ↥E0 := Subgroup.isMulCommutative_closure hcommF0
-  letI : CommGroup ↥E0 := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥E0 := Subgroup.isMulCommutative_closure hcommF0
+  let : CommGroup ↥E0 := IsMulCommutative.instCommGroup
   have hM_le : κ.range ≤ E0 ⊓ π.ker := by
     rintro w ⟨z, rfl⟩
     have hzF : (z : Γ) * d * (z : Γ)⁻¹ ∈ F 0 :=
@@ -716,7 +735,7 @@ theorem nine3OddFrame_ker_not_comm (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddF
       apply Subtype.ext
       show ((e : Γ) * d) * d = (e : Γ)
       rw [mul_assoc, h.sq d hdF.1, mul_one]
-  haveI : Fintype ↥(κ.range) := Fintype.ofFinite _
+  have : Fintype ↥(κ.range) := Fintype.ofFinite _
   have hcard4 : Fintype.card ↥(κ.range) = 4 := by
     rw [← Nat.card_eq_fintype_card]; exact hMcard
   obtain ⟨u, hu_ne⟩ := Fintype.exists_ne_of_one_lt_card (α := ↥(κ.range))
@@ -771,7 +790,7 @@ theorem nine3OddFrame_ker_not_comm (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddF
       simpa [mul_assoc] using h3.symm
     exact hu_ne (Subtype.ext h2)
   have hl_nodup : [d, (u : Γ) * d, (v : Γ) * d, ((u : Γ) * (v : Γ)) * d].Nodup := by
-    simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil,
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
       List.nodup_nil, not_false_eq_true, and_true, not_or]
     exact ⟨⟨hdu, hdv, hduv⟩, ⟨hbdu, hbduv⟩, hcduv⟩
   have huE : (u : Γ) ∈ E0 := (hM_le u.2).1
@@ -803,8 +822,8 @@ theorem nine3OddFrame_ker_not_comm (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddF
 theorem nine3OddFrame_card_ker (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddFrame p 4 π D)
     (hi : Nine3FibreIndep p π D) : Nat.card ↥π.ker = 32 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have h01 : (0 : ZMod p) ≠ 1 := (one_ne_zero : (1 : ZMod p) ≠ 0).symm
   let Z : ZMod p → Subgroup Γ := fun c => Subgroup.closure (nine3FibreSet π D c) ⊓ π.ker
   have hZr : Nat.card ↥(Z 0) = 8 := nine3OddFrame_card_inf_ker hp hp2 h hi 0
@@ -857,9 +876,9 @@ theorem nine3OddFrame_card_ker (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddFrame
         rw [hCbot, Subgroup.mem_bot] at hmem
         exact hmem
       · exact nine3_B_closure_comm h hx.1 hy.1
-    haveI : IsMulCommutative ↥(Subgroup.closure ((Z 0 ∪ Z 1 : Set Γ))) :=
+    have : IsMulCommutative ↥(Subgroup.closure ((Z 0 ∪ Z 1 : Set Γ))) :=
       Subgroup.isMulCommutative_closure hcomm
-    letI : CommGroup ↥(Subgroup.closure ((Z 0 ∪ Z 1 : Set Γ))) :=
+    let : CommGroup ↥(Subgroup.closure ((Z 0 ∪ Z 1 : Set Γ))) :=
       IsMulCommutative.instCommGroup
     have hQeq : Subgroup.closure ((Z 0 ∪ Z 1 : Set Γ)) = π.ker := by
       rw [Subgroup.closure_union, Subgroup.closure_eq, Subgroup.closure_eq, hsup]
@@ -869,8 +888,8 @@ theorem nine3OddFrame_card_ker (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddFrame
     simpa using congrArg Subtype.val hh
   have hCcard : Nat.card ↥(Z 0 ⊓ Z 1) = 2 := by
     obtain ⟨a, ha1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hCne
-    haveI : Nontrivial ↥(Z 0 ⊓ Z 1) := ⟨a, 1, ha1⟩
-    haveI : Fintype ↥(Z 0 ⊓ Z 1) := Fintype.ofFinite _
+    have : Nontrivial ↥(Z 0 ⊓ Z 1) := ⟨a, 1, ha1⟩
+    have : Fintype ↥(Z 0 ⊓ Z 1) := Fintype.ofFinite _
     have h2 : 2 ≤ Nat.card ↥(Z 0 ⊓ Z 1) := by
       rw [Nat.card_eq_fintype_card]
       have := Fintype.one_lt_card (α := ↥(Z 0 ⊓ Z 1))
@@ -883,8 +902,8 @@ theorem nine3OddFrame_card_ker (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddFrame
 theorem nine3OddFrame_prime_le_five (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3OddFrame p 4 π D)
     (hi : Nine3FibreIndep p π D) : p ≤ 5 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have h01 : (0 : ZMod p) ≠ 1 := (one_ne_zero : (1 : ZMod p) ≠ 0).symm
   let Z : ZMod p → Subgroup Γ := fun c => Subgroup.closure (nine3FibreSet π D c) ⊓ π.ker
   have hZcard : ∀ c, Nat.card ↥(Z c) = 8 := fun c => nine3OddFrame_card_inf_ker hp hp2 h hi c
@@ -923,9 +942,9 @@ theorem nine3OddFrame_prime_le_five (hp : p.Prime) (hp2 : p ≠ 2) (h : Nine3Odd
       exact nine3OddFrame_card_inf_le_two hp hp2 h hi hcc
     exact (Subgroup.eq_of_le_of_card_ge (le_inf (hCle c) (hCle c'))
       (by rw [hCcard]; exact hKcard)).symm
-  haveI : Fintype ↥(π.ker) := Fintype.ofFinite _
-  haveI : Fintype ↥(Z 0 ⊓ Z 1) := Fintype.ofFinite _
-  haveI : ∀ c : ZMod p, Fintype ↥(Z c) := fun c => Fintype.ofFinite _
+  have : Fintype ↥(π.ker) := Fintype.ofFinite _
+  have : Fintype ↥(Z 0 ⊓ Z 1) := Fintype.ofFinite _
+  have : ∀ c : ZMod p, Fintype ↥(Z c) := fun c => Fintype.ofFinite _
   let α := Σ c : ZMod p, {y : ↥(Z c) // (y : Γ) ∉ (Z 0 ⊓ Z 1 : Subgroup Γ)}
   have hαcard : Fintype.card α = p * 6 := by
     change Fintype.card (Σ c : ZMod p,

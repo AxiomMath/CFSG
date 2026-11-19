@@ -55,15 +55,15 @@ theorem tree : buildTab 315 (rGenArrs 315 #[autStrong[0]!, autStrong[1]!, outerA
       (List.range (tabR.length + 1)).map (fun j => unpack 315 9 (NE j)) ∧
     ∀ j ≤ tabR.length, cK 315 9 (NE j) :=
   have h := (bAnd_iff (Nat.beq (NE 0) one) (treeK 315 9 8 NG NE tabR 0)).1 kTree
-  buildTab_eq hG (fun l hl => (gen hl).2.1) hid cid (Nat.eq_of_beq_eq_true h.1) h.2
+  buildTab_eq hG (fun _l hl => (gen hl).2.1) hid cid (Nat.eq_of_beq_eq_true h.1) h.2
 
 theorem lenR : tabR.length + 1 = 3840 := by decide
 
 theorem facts :
     (relCheck 315 (rGenArrs 315 #[autStrong[0]!, autStrong[1]!, outerArr]) (vRels true) = true)
     ∧ (tabLower 315 (rGenArrs 315 #[autStrong[0]!, autStrong[1]!, outerArr]) tabR 3840 = true) :=
-  ⟨relCheck_of hG (fun l hl => (gen hl).2.1) (fun l hl => (gen hl).2.2)
-      (CFSG.KS.Raw.Orb.allN_iff.2 fun i hi => (gen hi).1) hid cid kRel,
+  ⟨relCheck_of hG (fun _l hl => (gen hl).2.1) (fun _l hl => (gen hl).2.2)
+      (CFSG.KS.Raw.Orb.allN_iff.2 fun _i hi => (gen hi).1) hid cid kRel,
     tabLower_of tree.1 tree.2 lenR kSort⟩
 
 end CertificateChecks.KernelJ2Vert.Nonsplit

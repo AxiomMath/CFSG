@@ -151,7 +151,7 @@ theorem bender1970_5_3
       (t := ⟨t, htA⟩) (fun h => ht1 (congrArg Subtype.val h))
     have hRT : B.map A.subtype ≤ T := (Subgroup.map_subtype_le B).trans hAT
     obtain ⟨n, hn, hnR⟩ := bender1970_1_3 hG.nonabelian T hTab hRT
-      (rank_hyperplane T.isPGroup' hcommT B hB) htT ht
+      (rank_hyperplane T.isPGroup hcommT B hB) htT ht
     have hnH := bender1970_5_2 hG ht hH T htT hn
     have ht2 : t ^ 2 = 1 := by rw [← ht, pow_orderOf_eq_one]
     have hnt : n * t * n⁻¹ = t := by

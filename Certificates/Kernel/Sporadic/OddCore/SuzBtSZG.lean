@@ -90,8 +90,8 @@ theorem m1_le_s1 : genSub 1782 8 mgp ≤ genSub 1782 4 sgp := by
   exact mem_of_btKey s1_le hgS hbS hpS (Nat.blt_eq.mp h.1) (m1_le (gp_mem hj))
     (mov_base hbS (hgM j hj) h.2)
 
-theorem hfixS : ∀ h ∈ genSub 1782 4 sgp, (∀ t, h (c1Base t) = c1Base t) → h = 1 :=
-  fun h hh hfix => invE1_eq_one (s1_le hh) hfix
+theorem hfixS : ∀ _h ∈ genSub 1782 4 sgp, (∀ t, _h (c1Base t) = c1Base t) → _h = 1 :=
+  fun _h hh hfix => invE1_eq_one (s1_le hh) hfix
 
 theorem t1_sq : suzInv 1 * suzInv 1 = 1 := suzInv_sq (by norm_num)
 

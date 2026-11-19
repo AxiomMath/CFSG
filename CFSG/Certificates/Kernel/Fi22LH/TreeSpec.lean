@@ -22,13 +22,13 @@ theorem get!_push_eq {α : Type} [Inhabited α] (xs : Array α) (x : α) :
     (xs.push x)[xs.size]! = x := by
   rw [getElem!_pos _ _ (by rw [Array.size_push]; omega), Array.getElem_push_eq]
 
-theorem get!_set! {α : Type} [Inhabited α] (xs : Array α) {i j : Nat} (hi : i < xs.size)
+theorem get!_set! {α : Type} [Inhabited α] (xs : Array α) {i j : Nat} (_hi : i < xs.size)
     (hj : j < xs.size) (v : α) : (xs.set! i v)[j]! = if i = j then v else xs[j]! := by
   rw [Array.set!_eq_setIfInBounds, getElem!_pos _ j (by rw [Array.size_setIfInBounds]; exact hj)]
   by_cases e : i = j
   · subst e
-    rw [if_pos rfl, Array.getElem_setIfInBounds_self]
-  · rw [if_neg e, Array.getElem_setIfInBounds_ne hj e, getElem!_pos xs j hj]
+    rw [ite_eq_left rfl, Array.getElem_setIfInBounds_self]
+  · rw [ite_eq_right e, Array.getElem_setIfInBounds_ne hj e, getElem!_pos xs j hj]
 
 theorem size_set! {α : Type} (xs : Array α) (i : Nat) (v : α) : (xs.set! i v).size = xs.size := by
   rw [Array.set!_eq_setIfInBounds, Array.size_setIfInBounds]
@@ -82,7 +82,7 @@ theorem tStep_inv {n N none : Nat} {letters : Array Table} {pts pos par lab : Na
   rcases hitT_spec hne with ⟨hlt, he⟩ | ⟨heq, hpar, hlab, he⟩
   · rw [he]
     have hc : (s.1[q]! == none32) = false := by
-      rw [h2 q hq, if_pos hlt, beq_eq_false_iff_ne]
+      rw [h2 q hq, ite_eq_left hlt, beq_eq_false_iff_ne]
       exact ofNat_ne_none32 (by omega)
     unfold tStep
     rw [← hqd, hc]
@@ -94,10 +94,10 @@ theorem tStep_inv {n N none : Nat} {letters : Array Table} {pts pos par lab : Na
       · omega
       · rw [← heq]; exact h0
     have hc : (s.1[q]! == none32) = true := by
-      rw [h2 q hq, if_neg (by omega)]
+      rw [h2 q hq, ite_eq_right (by omega)]
       exact beq_self_eq_true _
     unfold tStep
-    rw [← hqd, hc, if_pos rfl]
+    rw [← hqd, hc, ite_eq_left rfl]
     refine ⟨by rw [size_set!, h1], fun x hx => ?_, by rw [Array.size_push, h3], fun k hk => ?_,
       by rw [Array.size_push, h5], fun k hk => ?_, by rw [Array.size_push, h7], fun k hk => ?_,
       fun k hk => ?_⟩
@@ -105,11 +105,11 @@ theorem tStep_inv {n N none : Nat} {letters : Array Table} {pts pos par lab : Na
       rw [get!_set! _ (by rw [h1]; exact hq) (by rw [h1]; exact hx), h3]
       by_cases e : q = x
       · subst e
-        rw [if_pos rfl, if_pos (by omega), heq]
-      · rw [if_neg e, h2 x hx]
+        rw [ite_eq_left rfl, ite_eq_left (by omega), heq]
+      · rw [ite_eq_right e, h2 x hx]
         by_cases e2 : pos x < m
-        · rw [if_pos e2, if_pos (by omega)]
-        · rw [if_neg e2, if_neg]
+        · rw [ite_eq_left e2, ite_eq_left (by omega)]
+        · rw [ite_eq_right e2, ite_eq_right]
           intro e3
           have hxm : pos x = m := by omega
           rcases hP2 x hx with h0 | ⟨_, h0⟩
@@ -168,7 +168,7 @@ theorem treeBFS_eq_of {n root nl N none : Nat} {letters : Array Table}
     rw [strictB_eq, bIf_eq] at this
     by_cases e : pos x = none
     · exact Or.inl e
-    · rw [beq_false e, if_neg (by simp), bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at this
+    · rw [beq_false e, ite_eq_right (by simp), bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at this
       exact Or.inr this
   unfold bfsT at hbfs
   rw [bAnd_eq, bAnd_eq, Bool.and_eq_true, Bool.and_eq_true, Nat.beq_eq, Nat.beq_eq, Nat.beq_eq,
@@ -204,7 +204,7 @@ theorem treeBFS_eq_of {n root nl N none : Nat} {letters : Array Table}
   have hSm : ∀ h m, S h m ≠ 0 → m ≤ S h m := fun h m hne => by
     simp only [S] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       exact (fold_nonzero (fun l m => H h l m) (fun l => hH0 h l) (fun l m => hHm h l m) _ _ hne).2
     · exact absurd rfl hne
   have hC : ∀ h ≤ N, C h ≠ 0 ∧ C h ≤ N := by
@@ -237,7 +237,7 @@ theorem treeBFS_eq_of {n root nl N none : Nat} {letters : Array Table}
     intro h hh s hs
     have hfin : C (h + 1) = (List.range nl).foldl (fun m l => H h l m) (C h) := by
       rw [hC_succ]
-      simp only [S, if_pos (hCh h hh)]
+      simp only [S, ite_eq_left (hCh h hh)]
     have hgen : ∀ j ≤ nl, TInv n pts pos par lab ((List.range j).foldl (fun m l => H h l m) (C h))
         ((List.range j).foldl (fun s l => tStep letters h (pts h) l s) s) := by
       intro j
@@ -319,10 +319,10 @@ theorem treeBFS_eq_of {n root nl N none : Nat} {letters : Array Table}
           (by rw [Array.size_replicate]; exact hx)]
         by_cases e : root = x
         · subst e
-          rw [if_pos rfl, ← hroot, hP1 0 hN, if_pos (by omega)]
+          rw [ite_eq_left rfl, ← hroot, hP1 0 hN, ite_eq_left (by omega)]
           rfl
-        · rw [if_neg e, getElem!_pos _ x (by rw [Array.size_replicate]; exact hx),
-            Array.getElem_replicate, if_neg]
+        · rw [ite_eq_right e, getElem!_pos _ x (by rw [Array.size_replicate]; exact hx),
+            Array.getElem_replicate, ite_eq_right]
           intro h0
           rcases hP2 x hx with h1 | ⟨_, h1⟩
           · omega
@@ -360,8 +360,8 @@ theorem treeBFS_eq_of {n root nl N none : Nat} {letters : Array Table}
       fun x hx => ?_
     rw [h2 x hx]
     rcases hP2 x hx with e | ⟨hlt, _⟩
-    · rw [if_neg (by omega), if_pos e]
-    · rw [if_pos hlt, if_neg (by omega)]
+    · rw [ite_eq_right (by omega), ite_eq_left e]
+    · rw [ite_eq_left hlt, ite_eq_right (by omega)]
   · exact hof _ _ _ h5 h6
   · exact hof _ _ _ h7 h8
 
@@ -380,7 +380,7 @@ theorem bfsT_facts {n nl N none : Nat} {img : Nat → Nat → Nat} {pts pos par 
     rw [strictB_eq, bIf_eq] at this
     by_cases e : pos x = none
     · exact Or.inl e
-    · rw [beq_false e, if_neg (by simp), bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at this
+    · rw [beq_false e, ite_eq_right (by simp), bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at this
       exact Or.inr this
   unfold bfsT at hbfs
   rw [bAnd_eq, bAnd_eq, Bool.and_eq_true, Bool.and_eq_true, Nat.beq_eq, Nat.beq_eq, Nat.beq_eq,
@@ -410,7 +410,7 @@ theorem bfsT_facts {n nl N none : Nat} {img : Nat → Nat → Nat} {pts pos par 
   have hSm : ∀ h m, S h m ≠ 0 → m ≤ S h m := fun h m hne => by
     simp only [S] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       exact (fold_nonzero (fun l m => H h l m) (fun l => hH0 h l) (fun l m => hHm h l m) _ _ hne).2
     · exact absurd rfl hne
   have hC : ∀ h ≤ N, C h ≠ 0 ∧ C h ≤ N := by
@@ -448,7 +448,7 @@ theorem bfsT_facts {n nl N none : Nat} {img : Nat → Nat → Nat} {pts pos par 
     intro h hh j hj
     have hfin : C (h + 1) = (List.range nl).foldl (fun m l => H h l m) (C h) := by
       rw [hC_succ]
-      simp only [S, if_pos (hCh h hh)]
+      simp only [S, ite_eq_left (hCh h hh)]
     have e : (List.range nl).foldl (fun m l => H h l m) (C h) =
         ((List.range (nl - (j + 1))).map ((j + 1) + ·)).foldl (fun m l => H h l m)
           (H h j (M h j)) := by
@@ -531,7 +531,7 @@ theorem bfsT_facts {n nl N none : Nat} {img : Nat → Nat → Nat} {pts pos par 
                 exact ⟨by rw [hpar]; omega, by rw [hlab]; omega, by rw [hpar, hlab, hpq]⟩
         have hfin : C (h + 1) = M h nl := by
           rw [hC_succ]
-          simp only [S, M, if_pos (hCh h (by omega))]
+          simp only [S, M, ite_eq_left (hCh h (by omega))]
         rw [hfin] at hk
         exact hQ nl (Nat.le_refl _) k hk0 hk
     intro k hk0 hk
@@ -568,7 +568,7 @@ theorem treeOK_of {n root nl N none : Nat} {letters : Array Table}
       if pos x.val = none then none32 else UInt32.ofNat (pos x.val)) x = pos x := by
     intro x hx hlt
     rw [ap_ofFn (g := fun x => if pos x = none then none32 else UInt32.ofNat (pos x)) hx,
-      if_neg (by omega), toNat_ofNat32 (by omega)]
+      ite_eq_right (by omega), toNat_ofNat32 (by omega)]
   have hapPts : ∀ k < N, ap (Array.ofFn (n := N) fun k => UInt32.ofNat (pts k.val)) k = pts k :=
     fun k hk => by
       rw [ap_ofFn (g := fun k => UInt32.ofNat (pts k)) hk, toNat_ofNat32 (by have := hpts k hk; omega)]

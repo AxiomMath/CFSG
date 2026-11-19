@@ -81,7 +81,7 @@ theorem clause8_std :
     have hu5 : u ∉ octV5 := hw0V5
     have hu1 : u ≠ 1 := by
       intro h
-      exact hu5 (by simpa [h] using octV5.one_mem)
+      exact hu5 (by simp [h])
     have hfixvz : ∀ w ∈ octVz, rhoC11 AutPerm le_rfl γ w = w := by
       intro w hw
       have hcK : rhoC11 AutPerm le_rfl γ w * w⁻¹ ∈ K := hcomm_mem w (octVz_le_octWz hw)

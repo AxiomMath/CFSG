@@ -207,6 +207,7 @@ lemma exists_decomp_modelP2 (g : SpecialLinearGroup k (VJ × V₀))
   calc w + ψ (modelBOfP2 g hg v) = w + ψ0 v := by rw [hpsi]
     _ = ψ0 v + w := add_comm _ _
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 private lemma snd_fixed_fst_apply {g : SpecialLinearGroup k (VJ × V₀)}
     (hg : ∀ w, g (0, w) = (0, w)) (p : VJ × V₀) :
     (g p).1 = (g (p.1, 0)).1 := by

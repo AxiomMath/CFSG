@@ -14,7 +14,7 @@ abbrev uEnt {N : ℕ} (g : uU xunH N) (j : Fin N) : xunK :=
   ((g : GL (Fin N) xunK) : Matrix (Fin N) (Fin N) xunK) j j
 
 theorem uEnt_mul {N : ℕ} {g h : uU xunH N} (hg : IsDiagU N (g : GL (Fin N) xunK))
-    (hh : IsDiagU N (h : GL (Fin N) xunK)) (j : Fin N) :
+    (_hh : IsDiagU N (h : GL (Fin N) xunK)) (j : Fin N) :
     uEnt (g * h) j = uEnt g j * uEnt h j := by
   change (((g : GL (Fin N) xunK) * (h : GL (Fin N) xunK) : GL (Fin N) xunK) :
     Matrix (Fin N) (Fin N) xunK) j j = _

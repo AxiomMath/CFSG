@@ -53,7 +53,7 @@ theorem ggLieSU3Fixed_of_datum
   have hcenterSU : Subgroup.center ↥(LargeEvenSUGroup (Fin 4) K (2 ^ n)) = ⊥ :=
     CFSG.SeitzReduction.SymplecticPilot.center_statedSU_eq_bot_of_coprime hK hn (by norm_num) hcop4
   let SU := ↥(LargeEvenSUGroup (Fin 4) K (2 ^ n))
-  letI : Group SU := inferInstance
+  let : Group SU := inferInstance
   have hcenter : Subgroup.center SU = ⊥ := hcenterSU
   let e : SU ≃* LargeEvenProj (LargeEvenSUGroup (Fin 4) K (2 ^ n)) :=
     MulEquiv.ofBijective (LargeEvenProjMk (LargeEvenSUGroup (Fin 4) K (2 ^ n)))
@@ -233,7 +233,7 @@ theorem ggLieSU3Fixed_of_datum
               show (2 : ℕ) = 1 + 1 by norm_num, pow_add, pow_one, MulAut.mul_apply]
           rw [h2, hd (δ x), hfixδ, hconj]
       have hF : IsPGroup 3 (Subgroup.zpowers δ) := by
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         refine IsPGroup.of_card (n := 1) ?_
         rw [Nat.card_zpowers]
         have hdvd : orderOf δ ∣ 3 := orderOf_dvd_iff_pow_eq_one.mpr (hl.1.2 δ hl.2.1)
@@ -333,7 +333,7 @@ theorem ggLieSU3Fixed_of_datum
     have h1 : s * t = t * s := (htE s hsE).symm
     rw [hs x, hxψ, h1, mul_assoc, mul_inv_cancel, mul_one]
   have hApg : IsPGroup 3 A := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [IsPGroup.iff_orderOf]
     intro φ
     have hdvd : orderOf φ ∣ 3 := orderOf_dvd_iff_pow_eq_one.mpr (by
@@ -388,7 +388,7 @@ theorem ggLieSU3FixedInputOn_suFour :
     have hrank' : rank' = 2 := hA2.1
     subst htag'
     subst hrank'
-    simp only [LargeEvenRawDatum] at hraw'
+    simp only at hraw'
     obtain ⟨K', _instK', _instFinK', hK', hQK'⟩ := hraw'
     obtain ⟨-, -, θ', _hP'⟩ := hQK'
     exact gffa2_card_center_dvd_unitary hJperf hA2.2.1 hK' θ'
@@ -396,13 +396,13 @@ theorem ggLieSU3FixedInputOn_suFour :
   rcases hSfour with ⟨htag, hrank⟩ | ⟨htag, hrank⟩
   · subst htag
     subst hrank
-    simp only [LargeEvenRawDatum] at hraw
+    simp only at hraw
     obtain ⟨K, _instK, _instFinK, hK, hQK⟩ := hraw
     obtain ⟨-, -, θ, hP⟩ := hQK
     exact ggLieSU3Fixed_of_datum (K := K) (n := nn) hX hl hZ hJ3 hK hlab.1 θ hP.2.2
   · subst htag
     subst hrank
-    simp only [LargeEvenRawDatum] at hraw
+    simp only at hraw
     obtain ⟨K, _instK, _instFinK, hK, hQK⟩ := hraw
     obtain ⟨-, -, θ, hP⟩ := hQK
     exact ggLieSU3Fixed_of_datum (K := K) (n := nn) hX hl hZ hJ3 hK hlab.1 θ hP.2.2

@@ -12,6 +12,7 @@ section Five
 
 variable {L : Type*} [Group L] [Finite L]
 
+omit [Finite L] in
 theorem conj_pow_two_pow {ξ r : L} (hr : r * ξ * r⁻¹ = ξ ^ 2) :
     ∀ k : ℕ, r ^ k * ξ * (r ^ k)⁻¹ = ξ ^ (2 ^ k)
   | 0 => by simp

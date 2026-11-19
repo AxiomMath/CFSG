@@ -50,11 +50,11 @@ private theorem σ_normHom (hσ : ∀ c, σ (σ c) = c) (y : Fin 3 → Lˣ) :
   rw [h, map_prod, ← Finset.prod_mul_distrib]
   refine Finset.prod_eq_one fun i _ => ?_
   have h0 : (y i : L) ≠ 0 := Units.ne_zero _
-  have h1 : σ (y i : L) ≠ 0 := by simpa using h0
+  have h1 : σ (y i : L) ≠ 0 := by simp
   rw [map_mul, map_inv₀, hσ]
   field_simp
 
-private def dvec (hn : n = 6 ∨ n = 7) (σ : L ≃+* L) (y : Fin 3 → Lˣ) (a : Fin n) : Lˣ :=
+private def dvec (_hn : n = 6 ∨ n = 7) (σ : L ≃+* L) (y : Fin 3 → Lˣ) (a : Fin n) : Lˣ :=
   if h : a.val < 3 then y ⟨a.val, h⟩
   else if h' : n ≤ a.val + 3 then conjInv σ (y ⟨n - 1 - a.val, by have := a.isLt; omega⟩)
   else (normHom σ y)⁻¹
@@ -79,7 +79,7 @@ private def dvecHom (hn : n = 6 ∨ n = 7) (σ : L ≃+* L) : (Fin 3 → Lˣ) �
 private theorem dvec_pos (hn : n = 6 ∨ n = 7) (y : Fin 3 → Lˣ) (i : Fin 3) :
     dvec hn σ y (pos hn i) = y i := by
   have h : (pos hn i).val < 3 := i.isLt
-  simp [dvec, h, pos]
+  simp [dvec, pos]
 
 private theorem dvec_rev_pos (hn : n = 6 ∨ n = 7) (y : Fin 3 → Lˣ) (i : Fin 3) :
     dvec hn σ y (Fin.rev (pos hn i)) = conjInv σ (y i) := by
@@ -90,19 +90,19 @@ private theorem dvec_rev_pos (hn : n = 6 ∨ n = 7) (y : Fin 3 → Lˣ) (i : Fin
   have h2 : n ≤ (Fin.rev (pos hn i)).val + 3 := by
     simp only [pos, Fin.val_rev]
     omega
-  rw [dvec, dif_neg h1, dif_pos h2]
+  rw [dvec, dite_eq_right h1, dite_eq_left h2]
   exact congrArg (fun k => conjInv σ (y k)) (Fin.ext (by simp only [pos, Fin.val_rev]; omega))
 
 private theorem dvec_mid (hn : n = 6 ∨ n = 7) (y : Fin 3 → Lˣ) {a : Fin n} (h1 : 3 ≤ a.val)
     (h2 : a.val + 3 < n) : dvec hn σ y a = (normHom σ y)⁻¹ := by
   unfold dvec
-  rw [dif_neg (by omega), dif_neg (by omega)]
+  rw [dite_eq_right (by omega), dite_eq_right (by omega)]
 
 private theorem dvec_unitary (hσ : ∀ c, σ (σ c) = c) (hn : n = 6 ∨ n = 7) (y : Fin 3 → Lˣ)
     (a : Fin n) : σ (dvec hn σ y a : L) * (dvec hn σ y (Fin.rev a) : L) = 1 := by
   rcases pos_cases hn a with ⟨i, rfl⟩ | ⟨i, rfl⟩ | ⟨h1, h2⟩
   · rw [dvec_pos, dvec_rev_pos, coe_conjInv]
-    exact mul_inv_cancel₀ (by simpa using Units.ne_zero (y i))
+    exact mul_inv_cancel₀ (by simp)
   · rw [dvec_rev_pos, Fin.rev_rev, dvec_pos, coe_conjInv, map_inv₀, hσ]
     exact inv_mul_cancel₀ (Units.ne_zero (y i))
   · have h1' : 3 ≤ (Fin.rev a).val := by simp only [Fin.val_rev]; omega
@@ -187,7 +187,7 @@ private def parHom (t : Lˣ) : (Fin 2 → Subgroup.zpowers t) →* (Fin 3 → L�
     fin_cases i
     · simp
     · simp
-    · simp [mul_inv, mul_mul_mul_comm]
+    · simp [mul_mul_mul_comm]
       exact mul_comm _ _
 
 private theorem parHom_injective (t : Lˣ) : Function.Injective (parHom t) := by

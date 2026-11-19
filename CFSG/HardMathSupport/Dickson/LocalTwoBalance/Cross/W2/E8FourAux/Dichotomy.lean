@@ -14,6 +14,7 @@ section Dichotomy
 
 variable {C : Type*} [Group C] [Finite C] {p : ℕ}
 
+omit [Finite C] in
 theorem conj_pow_mem_of_normalizes {T : Subgroup C} {v : C} (hvT : ∀ t ∈ T, v * t * v⁻¹ ∈ T) :
     ∀ k : ℕ, ∀ t ∈ T, v ^ k * t * (v ^ k)⁻¹ ∈ T := by
   intro k
@@ -78,7 +79,7 @@ theorem card_semiProdSub (hp : p.Prime) (T : Subgroup C) (v : C)
     Nat.card (semiProdSub T v hvT) = Nat.card T * p := by
   classical
   set N := semiProdSub T v hvT with hN
-  haveI hnorm : (T.subgroupOf N).Normal := normal_subgroupOf_semiProdSub T v hvT
+  have hnorm : (T.subgroupOf N).Normal := normal_subgroupOf_semiProdSub T v hvT
   have hTN : T ≤ N := le_semiProdSub T v hvT
   have hvN : v ∈ N := v_mem_semiProdSub T v hvT
   set vN : N := ⟨v, hvN⟩ with hvNdef
@@ -125,9 +126,9 @@ theorem exists_conj_dichotomy (hp : p.Prime) (T : Subgroup C)
       ∃ u ∈ A, c * u * c⁻¹ ∈ T ∧ c * u * c⁻¹ ≠ 1 ∧ ∃ k : ℕ, ¬ p ∣ k ∧
         v ^ k * (c * u * c⁻¹) = (c * u * c⁻¹) * v ^ k := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N := semiProdSub T v hvT with hN
-  haveI hnorm : (T.subgroupOf N).Normal := normal_subgroupOf_semiProdSub T v hvT
+  have hnorm : (T.subgroupOf N).Normal := normal_subgroupOf_semiProdSub T v hvT
   have hTN : T ≤ N := le_semiProdSub T v hvT
   have hcard : Nat.card N = Nat.card T * p := card_semiProdSub hp T v hvT hvp hvn
   have hTpos : 0 < Nat.card T := Nat.card_pos

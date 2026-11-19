@@ -22,6 +22,7 @@ private theorem exists_model (hq : IsQuasisimple Y) (h : Sec4.IsSLThreePi Y) :
     (LocalCores.isQuasisimple_of_mulEquiv Subgroup.topEquiv.symm hq)
   exact ⟨π, p, f, K, inferInstance, hK, hq3, h2, ⟨Subgroup.topEquiv.symm.trans e⟩⟩
 
+omit [Finite Y] in
 private theorem card_of_isTripleCover {S : Type*} [Group S] (h : Sec4.IsTripleCover Y S) :
     Nat.card Y = 3 * Nat.card S := by
   obtain ⟨h3, ⟨e⟩⟩ := h
@@ -100,11 +101,11 @@ theorem IsType198.le_card (hq : IsQuasisimple Y) (ht : IsType198 Y) : 7560 ≤ N
 theorem IsType198.not_isMulCommutative_sylow (hq : IsQuasisimple Y) (ht : IsType198 Y)
     (P : Sylow 3 Y) : ¬ IsMulCommutative (P : Subgroup Y) := by
   intro hcomm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect Y := hq.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect Y := hq.1
   have hZ : Nat.card (Subgroup.center Y) = 3 := ht.card_center hq
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center Y) 3 (by rw [hZ])
-  letI : CommGroup (P : Subgroup Y) := IsMulCommutative.instCommGroup
+  let : CommGroup (P : Subgroup Y) := IsMulCommutative.instCommGroup
   have key : ∀ (k : ℕ) (g₀ : Y), g₀⁻¹ * (z : Y) ^ k * g₀ ∈ (P : Subgroup Y) →
       g₀⁻¹ * (z : Y) ^ k * g₀ = (z : Y) ^ k := by
     intro k g₀ _
@@ -130,7 +131,7 @@ theorem IsType198.not_isMulCommutative_sylow (hq : IsQuasisimple Y) (ht : IsType
 
 theorem IsType198.twentySeven_dvd (hq : IsQuasisimple Y) (ht : IsType198 Y) :
     27 ∣ Nat.card Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 Y) := inferInstance
   have hnc := ht.not_isMulCommutative_sylow hq P
   have hcard : Nat.card (P : Subgroup Y) = 3 ^ (Nat.card Y).factorization 3 :=
@@ -142,9 +143,9 @@ theorem IsType198.twentySeven_dvd (hq : IsQuasisimple Y) (ht : IsType198 Y) :
     generalize (Nat.card Y).factorization 3 = n at hcard hlt
     interval_cases n
     · have h1 : Nat.card (P : Subgroup Y) = 1 := by simpa using hcard
-      haveI : Subsingleton (P : Subgroup Y) := (Nat.card_eq_one_iff_unique.mp h1).1
+      have : Subsingleton (P : Subgroup Y) := (Nat.card_eq_one_iff_unique.mp h1).1
       exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
-    · haveI : IsCyclic (P : Subgroup Y) := isCyclic_of_prime_card (p := 3) (by simpa using hcard)
+    · have : IsCyclic (P : Subgroup Y) := isCyclic_of_prime_card (p := 3) (by simpa using hcard)
       infer_instance
     · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard
   calc 27 = 3 ^ 3 := by norm_num
@@ -153,13 +154,13 @@ theorem IsType198.twentySeven_dvd (hq : IsQuasisimple Y) (ht : IsType198 Y) :
 
 theorem IsType198.exists_elemAbelian (hq : IsQuasisimple Y) (ht : IsType198 Y) :
     ∃ B : Subgroup Y, CFSG.Open.IsElemAbelian 3 B ∧ Nat.card B = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 Y) := inferInstance
   have hnc : ¬ IsCyclic (P : Subgroup Y) := fun hc =>
     ht.not_isMulCommutative_sylow hq P inferInstance
-  haveI : Fact (IsPGroup 3 (P : Subgroup Y)) := ⟨P.isPGroup'⟩
+  have : Fact (IsPGroup 3 (P : Subgroup Y)) := ⟨P.isPGroup⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
-  haveI := hSel
+  have := hSel
   refine ⟨S.map (P : Subgroup Y).subtype, ⟨inferInstance, ?_⟩, ?_⟩
   · rintro x ⟨s, hs, rfl⟩
     have h3 : s ^ 3 = 1 := elemPow_eq_one_of_isElementaryAbelian (A := S) s hs

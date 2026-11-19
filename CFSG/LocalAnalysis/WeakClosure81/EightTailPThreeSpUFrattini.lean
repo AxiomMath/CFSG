@@ -38,7 +38,7 @@ private theorem wc85fr_rho_eq_conj_psi (D : RootData V H T S ψ ρ R Sy e)
   rw [hmul, map_mul, map_mul, map_inv, MulAut.conj_apply]
 
 private theorem wc85fr_map_rho_barSub (D : RootData V H T S ψ ρ R Sy e) {a : G} (ha : a ∈ H)
-    {A : Subgroup G} (hA : A ≤ kGenIn V H) :
+    {A : Subgroup G} (_hA : A ≤ kGenIn V H) :
     Subgroup.map (ρ ⟨a, ha⟩).toMonoidHom (barSub (kGenIn V H) ψ A) =
       barSub (kGenIn V H) ψ (conjSubgroup A a⁻¹) := by
   classical
@@ -66,9 +66,10 @@ private theorem wc85fr_map_rho_barSub (D : RootData V H T S ψ ρ R Sy e) {a : G
     refine mem_map.mpr ⟨ψ ⟨a⁻¹ * (k : G) * a, hk'K⟩,
       mem_barSub.mpr ⟨_, hk', rfl⟩, ?_⟩
     exact D.act ⟨a, ha⟩ ⟨a⁻¹ * (k : G) * a, hk'K⟩ k
-      (by simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group)
+      (by simp only [Subgroup.coe_inv]; group)
 
-private theorem wc85fr_barSub_inf_T (D : RootData V H T S ψ ρ R Sy e) :
+omit [Finite G] in
+private theorem wc85fr_barSub_inf_T (_D : RootData V H T S ψ ρ R Sy e) :
     barSub (kGenIn V H) ψ T = barSub (kGenIn V H) ψ (T ⊓ kGenIn V H) := by
   rw [barSub, barSub]
   congr 1
@@ -107,7 +108,7 @@ private theorem wc85fr_map_rho_Nα_le {X₂ Pα : Subgroup S} (D : RootData V H 
     (hP : RootParabolic R Sy X₂ Pα e) {b : G} (hb : b ∈ H) (hbT : b ∈ T) :
     Subgroup.map (ρ ⟨b, hb⟩).toMonoidHom (Sy ⊓ Subgroup.normalizer (X₂ : Set S)) ≤
       Sy ⊓ Subgroup.normalizer (X₂ : Set S) := by
-  haveI : Finite S := Finite.of_surjective ψ D.surj
+  have : Finite S := Finite.of_surjective ψ D.surj
   set Nα : Subgroup S := Sy ⊓ Subgroup.normalizer (X₂ : Set S) with hNα
   have hPα := wc85fr_map_rho_Pα D hP hb hbT
   have hle : Nα ≤ Pα := inf_le_left.trans hP.le
@@ -135,7 +136,7 @@ private theorem wc85fr_map_rho_Nα {X₂ Pα : Subgroup S} (D : RootData V H T S
     (hP : RootParabolic R Sy X₂ Pα e) {a : G} (ha : a ∈ H) (haT : a ∈ T) :
     Subgroup.map (ρ ⟨a, ha⟩).toMonoidHom (Sy ⊓ Subgroup.normalizer (X₂ : Set S)) =
       Sy ⊓ Subgroup.normalizer (X₂ : Set S) := by
-  haveI : Finite S := Finite.of_surjective ψ D.surj
+  have : Finite S := Finite.of_surjective ψ D.surj
   refine Subgroup.eq_of_le_of_card_ge (wc85fr_map_rho_Nα_le D hP ha haT) ?_
   rw [Subgroup.card_map_of_injective (ρ ⟨a, ha⟩).injective]
 
@@ -145,7 +146,7 @@ private theorem wc85fr_mul_conj_mul_inv (φ : MulAut S) (g : S) :
   simp only [MulAut.mul_apply, MulAut.conj_apply, MulAut.inv_apply, map_mul, map_inv,
     MulEquiv.apply_symm_apply]
 
-private theorem wc85fr_mem_normalizer_InnNα {X₂ Pα : Subgroup S} {φ : MulAut S}
+private theorem wc85fr_mem_normalizer_InnNα {X₂ _Pα : Subgroup S} {φ : MulAut S}
     (hφ : Subgroup.map φ.toMonoidHom (Sy ⊓ Subgroup.normalizer (X₂ : Set S)) =
       Sy ⊓ Subgroup.normalizer (X₂ : Set S)) :
     φ ∈ Subgroup.normalizer
@@ -218,6 +219,7 @@ theorem wc85fr_mem_normalizer_of_psi (D : RootData V H T S ψ ρ R Sy e) {k : �
   simpa [inv_inv] using (Subgroup.normalizer (V : Set G)).inv_mem
     (conjSubgroup_eq_iff_mem_normalizer.mp heq)
 
+omit [Finite G] in
 private theorem wc85fr_exists_mul_eq_of_mem_sup_of_le_normalizer {S N : Subgroup G}
     (hN : S ≤ Subgroup.normalizer (N : Set G)) {x : G} (hx : x ∈ S ⊔ N) :
     ∃ s ∈ S, ∃ n ∈ N, s * n = x := by
@@ -269,11 +271,12 @@ private theorem wc85fr_T_le_normalizer_P (D : RootData V H T S ψ ρ R Sy e) {X�
     have hρinv : Subgroup.map (ρ ⟨t⁻¹, htinvH⟩).toMonoidHom Pα = Pα :=
       wc85fr_map_rho_Pα D hP htinvH (T.inv_mem ht)
     have hact := D.act ⟨t⁻¹, htinvH⟩ ⟨t * x * t⁻¹, hyK⟩ ⟨x, hxK⟩ (by
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, inv_inv]
+      simp only [Subgroup.coe_inv, inv_inv]
       group)
     rw [← hact]
     exact hρinv ▸ Subgroup.mem_map.mpr ⟨ψ ⟨t * x * t⁻¹, hyK⟩, hψy, rfl⟩
 
+omit [Finite G] in
 private theorem wc85fr_isSylowIn_of_le_of_le {p : ℕ} {P K K' : Subgroup G} (hP : IsSylowIn p P K)
     (hPK' : P ≤ K') (hK'K : K' ≤ K) : IsSylowIn p P K' := by
   refine ⟨hPK', hP.isPGroup, fun h => hP.not_dvd_relIndex ?_⟩
@@ -316,9 +319,9 @@ theorem wc85fr_factor (D : RootData V H T S ψ ρ R Sy e) {X₂ Pα : Subgroup S
       have hφ : Subgroup.map (MulAut.conj (ψ ⟨p, hPK hpP⟩)).toMonoidHom Nα = Nα :=
         Subgroup.mem_normalizer_iff_map_conj_eq.mp (hPN hψp)
       rw [wc85fr_rho_eq_conj_psi D ⟨p, hPK hpP⟩]
-      exact wc85fr_mem_normalizer_InnNα (Pα := Pα) hφ
+      exact wc85fr_mem_normalizer_InnNα (_Pα := Pα) hφ
     have hρt : ρ ⟨t, hTH htT⟩ ∈ Subgroup.normalizer (Inn : Set (MulAut S)) :=
-      wc85fr_mem_normalizer_InnNα (Pα := Pα) (wc85fr_map_rho_Nα D hP (hTH htT) htT)
+      wc85fr_mem_normalizer_InnNα (_Pα := Pα) (wc85fr_map_rho_Nα D hP (hTH htT) htT)
     have huH : u ∈ H := hPTH hu
     have hu_eq : (⟨u, huH⟩ : ↥H) = ⟨t, hTH htT⟩ * ⟨p, hPH hpP⟩ :=
       Subtype.ext (by simpa only [Subgroup.coe_mul] using htp.symm)

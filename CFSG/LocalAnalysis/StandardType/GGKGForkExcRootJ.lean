@@ -37,7 +37,7 @@ private theorem ggKGEj_uSL_sq {K : Type} [Field K] [CharP K 2] (c : K) :
   rw [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [uSL, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply, CharTwo.add_self_eq_zero]
+    simp [uSL, Matrix.mul_apply, Fin.sum_univ_two, CharTwo.add_self_eq_zero]
 
 private theorem ggKGEj_vSL_sq {K : Type} [Field K] [CharP K 2] (c : K) :
     vSL c * vSL c = 1 := by
@@ -45,7 +45,7 @@ private theorem ggKGEj_vSL_sq {K : Type} [Field K] [CharP K 2] (c : K) :
   rw [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [vSL, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply, CharTwo.add_self_eq_zero]
+    simp [vSL, Matrix.mul_apply, Fin.sum_univ_two, CharTwo.add_self_eq_zero]
 
 private theorem ggKGEj_rootSL2_range_eq_closure
     {τ : Tag} {K : Type} [Field K] (γ : Fin τ.rank → ℤ) :
@@ -75,7 +75,7 @@ private theorem ggKGEj_mem_range_of_sq_one
     baseChangeGL (algebraMap K (AlgebraicClosure K)) (rootSL2 τ K γ A) ∈
       (ggKGExcY F).range := by
   obtain ⟨Fr, hFr, hΦ⟩ := F.frob
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_ringHom (algebraMap K (AlgebraicClosure K)).injective 2
   have hmem : rootSL2 τ K γ A ∈ adjointGroup τ K :=
     (exceptional_Lang_root_rank_one_data τ K γ).2.2.2.2.1 A
@@ -116,7 +116,7 @@ private theorem ggKGEj_mem_range_of_sq_one
       map_one]
     group
   have hoddK : ¬ 2 ∣ Nat.card K - 1 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     rw [Nat.card_eq_fintype_card, hn]
     obtain ⟨j, hj⟩ : ∃ j, (n : ℕ) = j + 1 := ⟨(n : ℕ) - 1, by have := n.pos; omega⟩

@@ -62,9 +62,9 @@ private def l48nU_PAll (n : ℕ) (lab : LargeEvenLabel) : LargeEvenRawCont :=
 private theorem l48nU_P2_labelAll (n : ℕ) (hKD5b : GGSU6DiagInvertedKnown)
     (hKD5c : ∀ f : ℕ, 3 ∣ 2 ^ f + 1 →
       LargeEvenLabelAll (⟨.twA, 5, f⟩ : LargeEvenLabel)
-        fun R _ I _ => GGSU6NoParabolicAtN n I)
+        fun _R _ I _ => GGSU6NoParabolicAtN n I)
     (lab : LargeEvenLabel)
-    (hlab2 : LargeEvenInLambda2 lab) : LargeEvenLabelAll lab (l48nU_P2 n lab) := by
+    (_hlab2 : LargeEvenInLambda2 lab) : LargeEvenLabelAll lab (l48nU_P2 n lab) := by
   by_cases hf : ∃ f : ℕ, lab = ⟨.twA, 5, f⟩ ∧ 3 ∣ 2 ^ f + 1
   · obtain ⟨f, heq, h3⟩ := hf
     have hb := hKD5b f h3
@@ -74,9 +74,9 @@ private theorem l48nU_P2_labelAll (n : ℕ) (hKD5b : GGSU6DiagInvertedKnown)
         (fun _ _ I _ => GGSU6DiagInvertedAt I ∧ GGSU6NoParabolicAtN n I) :=
       largeEvenLabelAll_and hb hc
     exact fun Q hQ => largeEvenRawDatum_mono
-      (fun R _ I F hq => ⟨hq.1, fun _ => hq.2⟩) (hAall Q hQ)
+      (fun _R _ I F hq => ⟨hq.1, fun _ => hq.2⟩) (hAall Q hQ)
   · exact fun Q hQ => largeEvenRawDatum_mono
-      (fun R _ I F hq => ⟨hq, fun hex => absurd hex hf⟩) hQ
+      (fun _R _ I F hq => ⟨hq, fun hex => absurd hex hf⟩) hQ
 
 private theorem l48nU_KD2_labelAll (n : ℕ)
     (hKD2 : ∀ lab, LargeEvenInLambda2 lab →
@@ -87,11 +87,11 @@ private theorem l48nU_KD2_labelAll (n : ℕ)
 
 private theorem l48nU_pAll (n : ℕ)
     (hKD2 : ∀ lab, LargeEvenInLambda2 lab →
-      LargeEvenLabelAll lab (fun R _ I _ => GGRankOneShapeAt n lab R I))
+      LargeEvenLabelAll lab (fun _R _ I _ => GGRankOneShapeAt n lab _R I))
     (hKD5b : GGSU6DiagInvertedKnown)
     (hKD5c : ∀ f : ℕ, 3 ∣ 2 ^ f + 1 →
       LargeEvenLabelAll (⟨.twA, 5, f⟩ : LargeEvenLabel)
-        fun R _ I _ => GGSU6NoParabolicAtN n I) :
+        fun _R _ I _ => GGSU6NoParabolicAtN n I) :
     ∀ lab, LargeEvenInLambda2 lab → LargeEvenLabelAll lab (l48nU_PAll n lab) := by
   intro lab hlab
   exact largeEvenLabelAll_and (l48nU_KD2_labelAll n hKD2 lab hlab)
@@ -99,10 +99,10 @@ private theorem l48nU_pAll (n : ℕ)
 
 theorem ggRankOne_su6_at {n : ℕ} (hn : 2 ≤ n)
     (hKD2 : ∀ lab, LargeEvenInLambda2 lab →
-      LargeEvenLabelAll lab (fun R _ I _ => GGRankOneShapeAt n lab R I))
+      LargeEvenLabelAll lab (fun _R _ I _ => GGRankOneShapeAt n lab _R I))
     (hKD5b : GGSU6DiagInvertedKnown)
     (hKD5c : ∀ f : ℕ, 3 ∣ 2 ^ f + 1 →
-      LargeEvenLabelAll (⟨.twA, 5, f⟩ : LargeEvenLabel) fun R _ I _ => GGSU6NoParabolicAtN n I)
+      LargeEvenLabelAll (⟨.twA, 5, f⟩ : LargeEvenLabel) fun _R _ I _ => GGSU6NoParabolicAtN n I)
     {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
     (hcfg : GGConfig 3 B Bs x L D J)
     (hJ : GGHasLabel (⟨.A, 1, n⟩ : LargeEvenLabel) (↥J ⧸ Subgroup.center ↥J)) : False := by
@@ -113,11 +113,11 @@ theorem ggRankOne_su6_at {n : ℕ} (hn : 2 ≤ n)
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hS.2.2.2.1.1
   have hB : IsElemAbelian 3 B := hS.1.1
   have hall := l48nU_pAll n hKD2 hKD5b hKD5c
-  obtain ⟨lab, R, _, I, F, θ, e, a, J', A, hlam, hlabel, hP, hcommL, hsetup, hAab, hAcardmul,
+  obtain ⟨lab, _R, _, I, F, θ, e, a, J', A, hlam, hlabel, hP, hcommL, hsetup, hAab, hAcardmul,
     heA, haA, hAb, hAI0, hAJ⟩ := ggRankOne_marking hcfg hn hJ hall
-  have hKD2body : l48nU_KD2 n lab R I F := hP.1
-  have hP2 : l48nU_P2 n lab R I F := hP.2
-  let ψ : ↥L →* R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥L))
+  have hKD2body : l48nU_KD2 n lab _R I F := hP.1
+  have hP2 : l48nU_P2 n lab _R I F := hP.2
+  let ψ : ↥L →* _R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥L))
   have hψsurj : Function.Surjective ψ :=
     θ.surjective.comp (QuotientGroup.mk'_surjective (Subgroup.center ↥L))
   have hψker : ψ.ker ≤ Subgroup.center ↥L := by
@@ -168,9 +168,9 @@ theorem ggRankOne_su6_at {n : ℕ} (hn : 2 ≤ n)
       mem_normalizer_of_sstar hS hnc (hTx ht)
     let ac : MulAut ↥L →* MulAut (↥L ⧸ Subgroup.center ↥L) :=
       CFSG.HardMathSupport.Timmesfeld.Coordinator.autCenterQuot ↥L
-    let ρ : ↥T →* MulAut R := (MulAut.congr θ).toMonoidHom.comp
+    let ρ : ↥T →* MulAut _R := (MulAut.congr θ).toMonoidHom.comp
       (ac.comp ((Subgroup.normalizerMonoidHom (H := L)).comp (Subgroup.inclusion hTL)))
-    let U : Subgroup (MulAut R) := ρ.range
+    let U : Subgroup (MulAut _R) := ρ.range
     have hU2 : IsPGroup 2 U :=
       show IsPGroup 2 (ρ.range) from
         hT2.of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective
@@ -216,7 +216,7 @@ theorem ggRankOne_su6_at {n : ℕ} (hn : 2 ≤ n)
         intro c hcA
         obtain ⟨φ, hφI, hφ⟩ := hAI0 c hcA
         exact ⟨φ, hφI, fun l => by simpa [ψ, MonoidHom.comp_apply] using hφ l⟩
-      have hAU : ∀ c ∈ A, ∀ φ : MulAut R, (∀ l : ↥L, φ (ψ l) = ψ (c l)) →
+      have hAU : ∀ c ∈ A, ∀ φ : MulAut _R, (∀ l : ↥L, φ (ψ l) = ψ (c l)) →
           ∀ u ∈ U, φ * u * φ⁻¹ ∈ U := by
         intro c hcA φ hφ u hu
         obtain ⟨t, ht⟩ := MonoidHom.mem_range.mp hu

@@ -39,7 +39,7 @@ private lemma ltrv4c2_finite_cyclic_quotient
   have hNq : N • (Submodule.mkQ p g) = 0 := by
     rw [← map_zsmul, ← LinearMap.mem_ker, Submodule.ker_mkQ]
     exact hNmem
-  haveI hfin : Finite (AddSubgroup.zmultiples (Submodule.mkQ p g)) := by
+  have hfin : Finite (AddSubgroup.zmultiples (Submodule.mkQ p g)) := by
     rw [finite_zmultiples]
     exact isOfFinAddOrder_iff_zsmul_eq_zero.mpr ⟨N, hN, hNq⟩
   refine ⟨?_, IsAddCyclic.mk ⟨_, hsurj⟩⟩

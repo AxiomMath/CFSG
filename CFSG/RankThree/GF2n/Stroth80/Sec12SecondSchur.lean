@@ -14,11 +14,11 @@ theorem schur_commute {K E : Type} [Field K] [Finite K] [AddCommGroup E] [Module
   classical
   rcases subsingleton_or_nontrivial E with hE | hE
   · exact LinearMap.ext fun e => Subsingleton.elim _ _
-  haveI : Finite E := Module.finite_of_finite K
-  haveI : Finite (E →ₗ[K] E) := Finite.of_injective (fun f : E →ₗ[K] E => (f : E → E))
+  have : Finite E := Module.finite_of_finite K
+  have : Finite (E →ₗ[K] E) := Finite.of_injective (fun f : E →ₗ[K] E => (f : E → E))
     DFunLike.coe_injective
   let D : Subalgebra K (Module.End K E) := Subalgebra.centralizer K (Set.range Φ)
-  haveI : Finite ↥D :=
+  have : Finite ↥D :=
     Finite.of_injective (fun x : ↥D => (x : Module.End K E)) Subtype.val_injective
   have hmemD : ∀ x : Module.End K E, x ∈ D ↔ ∀ i, Φ i * x = x * Φ i := by
     intro x
@@ -39,8 +39,8 @@ theorem schur_commute {K E : Type} [Field K] [Finite K] [AddCommGroup E] [Module
     rcases hirr _ hker with h | h
     · exact LinearMap.ker_eq_bot.mp h
     · exact absurd (LinearMap.ker_eq_top.mp h) hx0
-  haveI : IsDomain ↥D := by
-    haveI : NoZeroDivisors ↥D := ⟨fun {a b} hab => by
+  have : IsDomain ↥D := by
+    have : NoZeroDivisors ↥D := ⟨fun {a b} hab => by
       by_contra hcon
       push Not at hcon
       have ha : (a : Module.End K E) ≠ 0 := fun h => hcon.1 (Subtype.ext h)

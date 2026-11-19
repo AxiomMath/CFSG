@@ -63,13 +63,14 @@ private theorem nat_gcd_three_four_pow_add_one (k : ℕ) : Nat.gcd 3 (4 ^ k + 1)
     omega
   exact (Nat.prime_three.coprime_iff_not_dvd.mpr hnot).gcd_eq_one
 
+omit [Finite G] in
 private theorem le_fStarMod {N H : Subgroup G} (hNH : N ≤ H) (hN : (N.subgroupOf H).Normal) :
     N ≤ fStarMod N H := by
   intro n hn
   rw [fStarMod]
   refine Subgroup.mem_map.mpr ⟨⟨n, hNH hn⟩, ?_, rfl⟩
   rw [Subgroup.mem_comap]
-  haveI := hN
+  have := hN
   have h1 : (QuotientGroup.mk' (N.subgroupOf H).normalCore) ⟨n, hNH hn⟩ = 1 :=
     (QuotientGroup.eq_one_iff (N := (N.subgroupOf H).normalCore) ⟨n, hNH hn⟩).mpr (by
       rw [Subgroup.normalCore_eq_self]
@@ -77,6 +78,7 @@ private theorem le_fStarMod {N H : Subgroup G} (hNH : N ≤ H) (hN : (N.subgroup
   rw [h1]
   exact (genFittingFStar _).one_mem
 
+omit [Finite G] in
 private theorem fStarMod_normal (N H : Subgroup G) : ((fStarMod N H).subgroupOf H).Normal := by
   let K : Subgroup ↥H := (genFittingFStar (↥H ⧸ (N.subgroupOf H).normalCore)).comap
     (QuotientGroup.mk' (N.subgroupOf H).normalCore)
@@ -100,9 +102,9 @@ private theorem false_of_borel_lift_of_calNIn
     {φ : ↥L →* X} (hφ : Function.Surjective φ)
     (hkerK : ∀ l : ↥L, φ l = 1 ↔ (l : G) ∈ K) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hXsimple : IsSimpleGroup X :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hXsimple : IsSimpleGroup X :=
     CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hBender
   obtain ⟨hpr, hsp, hno⟩ := not_concl881_iff.mp h1
   let M : Subgroup G := normalizer (V : Set G)
@@ -134,7 +136,7 @@ private theorem false_of_borel_lift_of_calNIn
     intro htop
     obtain ⟨e3, he3⟩ := exists_prime_orderOf_dvd_card' (G := X) 3 h3X
     have he3T : e3 ∈ (T₀ : Subgroup X) := by rw [htop]; trivial
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp T₀.isPGroup' ⟨e3, he3T⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp T₀.isPGroup ⟨e3, he3T⟩
     have hk' : orderOf (e3 : X) = 2 ^ k := by simpa using hk
     rw [he3] at hk'
     have hne : (2 : ℕ) ^ k ≠ 3 := by
@@ -153,7 +155,6 @@ private theorem false_of_borel_lift_of_calNIn
   have hTnormSK : T ≤ Subgroup.normalizer (SK : Set G) := by
     intro t ht
     refine mem_normalizer_iff_map_conj.mpr ?_
-    change SK.map (MulAut.conj t).toMonoidHom = SK
     rw [hSKdef, Subgroup.map_sup, (mem_normalizer_iff_map_conj.mp (hTnormS ht)),
       (mem_normalizer_iff_map_conj.mp (hTnormK ht))]
   have normS_false : H ≤ Subgroup.normalizer (S : Set G) → False := by
@@ -161,7 +162,7 @@ private theorem false_of_borel_lift_of_calNIn
     have hSLn : (S.subgroupOf L).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hSL).mpr (hLH.trans hHnormS)
     have hN : ((S.subgroupOf L).map φ).Normal := hSLn.map φ hφ
-    haveI : (T₀ : Subgroup X).Normal := by rw [hT0coe]; exact hN
+    have : (T₀ : Subgroup X).Normal := by rw [hT0coe]; exact hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T₀ : Subgroup X) with hbot | htop
     · exact hT0ne_bot hbot
     · exact hT0ne_top htop
@@ -178,7 +179,7 @@ private theorem false_of_borel_lift_of_calNIn
         intro k hk
         exact Subgroup.mem_sup_right (by rw [MonoidHom.mem_ker, hkerK]; exact hk)
       · exact Subgroup.map_mono (Subgroup.subgroupOf_mono L le_sup_left)
-    haveI : (T₀ : Subgroup X).Normal := by
+    have : (T₀ : Subgroup X).Normal := by
       rw [hT0coe, ← heq]
       exact hSKLn.map φ hφ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T₀ : Subgroup X) with hbot | htop
@@ -421,23 +422,23 @@ theorem MinCex88.not_fStar_shape_AS {V H T : Subgroup G} {i : ℕ}
         HasQuotShape (fStarMod (relPPrimeCore 3 H) H) (relPPrimeCore 3 H : Set G)
           (fun X _ => IsU3 X (2 * n))) := by
   rintro (⟨X, hXgrp, φ, hφ, hker, hL2⟩ | ⟨X, hXgrp, φ, hφ, hker, hU3⟩)
-  · letI : Group X := hXgrp
+  · let : Group X := hXgrp
     have hBender : fusionIsBenderGroup X :=
       CFSG.LargeExtraspecial.S8.fusionIsBenderGroup_of_lieModel_psl_two hL2
-    haveI : Finite X := by
+    have : Finite X := by
       rcases hBender with ⟨f, hf, ⟨e⟩⟩ | ⟨f, hf, ⟨e⟩⟩ | ⟨a, ha, ⟨e⟩⟩
       · exact Finite.of_equiv _ e.symm.toEquiv
       · exact Finite.of_equiv _ e.symm.toEquiv
       · exact Finite.of_equiv _ e.symm.toEquiv
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2n : 2 ≤ 2 * n := by omega
     have h3D : ∀ (P : Sylow 2 X) (D : Subgroup X),
         CFSG.Goldschmidt.G3a.BorelSetup P D → 3 ∣ Nat.card D := by
       intro P D hD
       have hcl := CFSG.LieType.Steinberg.statedClassicalModel_of_lieModel (by decide) hL2
       obtain ⟨-, Kf, hKf_field, hKf_fin, hKf_card, ⟨e⟩⟩ := hcl
-      letI : Field Kf := hKf_field
-      letI : Finite Kf := hKf_fin
+      let : Field Kf := hKf_field
+      let : Finite Kf := hKf_fin
       have e' : X ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 (2 * n)) :=
         e.trans (CFSG.ClassicalModels.statedLinearModelEquivGaloisPSL Kf 2 2 (2 * n)
           (by omega) hKf_card)
@@ -451,23 +452,23 @@ theorem MinCex88.not_fStar_shape_AS {V H T : Subgroup G} {i : ℕ}
       (le_fStarMod (relPPrimeCore_le H) (relPPrimeCore_normal (p := 3) (by norm_num) H))
       (relPPrimeCore_normal (p := 3) (by norm_num) H)
       hφ hker
-  · letI : Group X := hXgrp
+  · let : Group X := hXgrp
     have hBender : fusionIsBenderGroup X :=
       CFSG.LargeExtraspecial.S8.fusionIsBenderGroup_of_lieModel_psu_three hU3
-    haveI : Finite X := by
+    have : Finite X := by
       rcases hBender with ⟨f, hf, ⟨e⟩⟩ | ⟨f, hf, ⟨e⟩⟩ | ⟨a, ha, ⟨e⟩⟩
       · exact Finite.of_equiv _ e.symm.toEquiv
       · exact Finite.of_equiv _ e.symm.toEquiv
       · exact Finite.of_equiv _ e.symm.toEquiv
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2n : 2 ≤ 2 * n := by omega
     have h3D : ∀ (P : Sylow 2 X) (D : Subgroup X),
         CFSG.Goldschmidt.G3a.BorelSetup P D → 3 ∣ Nat.card D := by
       intro P D hD
       have hcl := CFSG.LieType.Steinberg.statedClassicalModel_of_lieModel (by decide) hU3
       obtain ⟨-, Kf, hKf_field, hKf_fin, hKf_card, ⟨e⟩⟩ := hcl
-      letI : Field Kf := hKf_field
-      letI : Finite Kf := hKf_fin
+      let : Field Kf := hKf_field
+      let : Finite Kf := hKf_fin
       have hcard : Nat.card Kf = 2 ^ (2 * (2 * n)) := by
         rw [hKf_card, ← pow_mul]
         congr 1

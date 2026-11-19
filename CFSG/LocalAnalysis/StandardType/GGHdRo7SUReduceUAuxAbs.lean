@@ -27,7 +27,7 @@ theorem hdRo7SUReduceUAux_sum_perm {p : ℕ} {V : Type} [AddCommGroup V]
         Module.Basis.repr_self_apply]
       by_cases hij : σ j = i
       · have hji : j = σ.symm i := by rw [← hij, Equiv.symm_apply_apply]
-        simp [hij, hji]
+        simp [hji]
       · have hji : j ≠ σ.symm i := by
           intro h'; exact hij (by rw [h', Equiv.apply_symm_apply])
         simp [hij, hji]
@@ -47,7 +47,7 @@ theorem hdRo7SUReduceUAux_perm_ones {p : ℕ} {V : Type} [AddCommGroup V]
 
 @[expose] noncomputable def hdRo7SUReduceUAux_proj {p : ℕ} [Fact p.Prime] {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {m : ℕ} [NeZero m]
-    (b : Module.Basis (Fin m) (ZMod p) V) (hm : (m : ZMod p) ≠ 0) : V →ₗ[ZMod p] V :=
+    (b : Module.Basis (Fin m) (ZMod p) V) (_hm : (m : ZMod p) ≠ 0) : V →ₗ[ZMod p] V :=
   LinearMap.id - (m : ZMod p)⁻¹ • (∑ i, b.coord i).smulRight (SUOnes p b)
 
 theorem hdRo7SUReduceUAux_proj_apply {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
@@ -372,17 +372,17 @@ theorem hdRo7SUReduceUAux_card_le {p : ℕ} [Fact p.Prime] {V : Type}
     {H A : Subgroup (V ≃ₗ[ZMod p] V)} (hD : SULinData p m V b H A)
     (hHK : H ≤ hdRo7SUReduceUAux_kerAug p (SUAug p b)) :
     Nat.card ↥H ≤ 2 * 3 ^ (m - 1) * ((m - 1 + 1).factorial) := by
-  haveI hfinV : Fintype V := Fintype.ofEquiv (Fin m →₀ ZMod p) b.repr.toEquiv.symm
-  haveI hfinFun : Fintype (V → V) := Fintype.ofFinite (V → V)
-  haveI hfinEnd : Fintype (V ≃ₗ[ZMod p] V) :=
+  have hfinV : Fintype V := Fintype.ofEquiv (Fin m →₀ ZMod p) b.repr.toEquiv.symm
+  have hfinFun : Fintype (V → V) := Fintype.ofFinite (V → V)
+  have hfinEnd : Fintype (V ≃ₗ[ZMod p] V) :=
     Fintype.ofInjective (fun e : V ≃ₗ[ZMod p] V => (e : V → V))
       (fun a b h => LinearEquiv.ext (fun v => congrArg (fun f : V → V => f v) h))
   have hm7 : 7 ≤ m := hD.hm
-  haveI hfinH : Fintype ↥H := Fintype.ofFinite ↥H
-  haveI hfinU : Fintype ↥(SUAug p b) := Fintype.ofFinite ↥(SUAug p b)
+  have hfinH : Fintype ↥H := Fintype.ofFinite ↥H
+  have hfinU : Fintype ↥(SUAug p b) := Fintype.ofFinite ↥(SUAug p b)
   let x : V := SUOnes p b
-  haveI hfinOrb : Fintype (MulAction.orbit ↥H x) := Fintype.ofFinite _
-  haveI hfinStab : Fintype (MulAction.stabilizer ↥H x) := Fintype.ofFinite _
+  have hfinOrb : Fintype (MulAction.orbit ↥H x) := Fintype.ofFinite _
+  have hfinStab : Fintype (MulAction.stabilizer ↥H x) := Fintype.ofFinite _
   have hcard := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (↥H) x
   have hcardNat :
       Nat.card (MulAction.orbit ↥H x) * Nat.card (MulAction.stabilizer ↥H x) = Nat.card ↥H := by

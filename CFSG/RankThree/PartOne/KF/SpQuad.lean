@@ -450,7 +450,7 @@ theorem pow_card_succ_eq_one_of_mem_sylow (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card K + 1) (S : Sylow p (Qext K)ˣ) {u : (Qext K)ˣ}
     (hu : u ∈ (S : Subgroup (Qext K)ˣ)) : u ^ (Nat.card K + 1) = 1 := by
   have : Fact p.Prime := ⟨hp⟩
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') (⟨u, hu⟩ : ↥(S : Subgroup (Qext K)ˣ))
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) (⟨u, hu⟩ : ↥(S : Subgroup (Qext K)ˣ))
   have hk' : orderOf u = p ^ k := by rwa [← Subgroup.orderOf_coe] at hk
   have h1 : orderOf u ∣ Nat.card K ^ 2 - 1 := by
     have := orderOf_dvd_natCard u

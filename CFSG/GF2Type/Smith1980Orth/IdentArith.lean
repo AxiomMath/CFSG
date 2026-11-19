@@ -1,7 +1,7 @@
 module
 
 public import CFSG.Timmesfeld.Orders.Bang
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 
@@ -98,7 +98,7 @@ theorem omegaOdd_true_mod_four {m : ℕ} (hm : 2 ≤ m) :
   obtain ⟨hs0, hs1⟩ := sqProd_mod_four (m - 1)
   have hx : (2 ^ m - 1) % 4 = 3 := by rw [h4]; omega
   unfold omegaOdd
-  simp only [if_true]
+  simp only [ite_true]
   refine ⟨fun h => ?_, fun h => ?_⟩
   · rw [mul_mod_four hx (hs0 h)]
   · rw [mul_mod_four hx (hs1 h)]
@@ -110,7 +110,7 @@ theorem omegaOdd_false_mod_four {m : ℕ} (hm : 2 ≤ m) :
   obtain ⟨hs0, hs1⟩ := sqProd_mod_four (m - 1)
   have hx : (2 ^ m + 1) % 4 = 1 := by rw [h4]; omega
   unfold omegaOdd
-  simp only [Bool.false_eq_true, if_false]
+  simp only [Bool.false_eq_true, ite_false]
   refine ⟨fun h => ?_, fun h => ?_⟩
   · rw [mul_mod_four hx (hs0 h)]
   · rw [mul_mod_four hx (hs1 h)]
@@ -131,10 +131,10 @@ theorem cast_omegaOdd (b : Bool) (m : ℕ) {ε : ℤ}
   rw [Nat.cast_mul, cast_sqProd]
   congr 1
   rcases hε with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
-  · rw [if_pos rfl, Nat.cast_sub Nat.one_le_two_pow]
+  · rw [ite_eq_left rfl, Nat.cast_sub Nat.one_le_two_pow]
     push_cast
     rfl
-  · rw [if_neg (by simp)]
+  · rw [ite_eq_right (by simp)]
     push_cast
     ring
 
@@ -212,7 +212,7 @@ private theorem two_mul_le_of_dvd {n m i : ℕ} {b : Bool} (hm : 3 ≤ m) (hm4 :
     rw [hprod]
     refine Dvd.dvd.mul_right (Dvd.dvd.mul_left ?_ _) _
     exact Dvd.dvd.mul_left h1 _
-  obtain ⟨j, hj, hpj⟩ := (Nat.Prime.prime hp.prime).dvd_finset_prod_iff _ |>.1 h2
+  obtain ⟨j, hj, hpj⟩ := (Nat.Prime.prime hp.prime).dvd_finsetProd_iff _ |>.1 h2
   have hj' := mem_Icc.1 hj
   have := Nat.le_of_dvd (by omega) ((hp.dvd_sub_one_iff hk j).1 hpj)
   omega

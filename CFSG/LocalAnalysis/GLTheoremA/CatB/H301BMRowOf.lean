@@ -52,7 +52,7 @@ theorem i301BRow_of_M {row : Row} {p r k : ℕ} [Fact p.Prime] (hM : row.name = 
   intro S _ _ hS B I K R0 R1 y _ hBe hBc _ _ _ _ _ _ hR0 hR0c _ _ hKB hR1 hKB1 h01
   rw [hM] at hS
   obtain ⟨Φ⟩ := nonempty_mulAut_equiv_MGriess S hS
-  haveI : Finite MGriess := MGriess_finite_nonabelian_simple.1
+  have : Finite MGriess := MGriess_finite_nonabelian_simple.1
   have hB : IsElemAbelian p B := hp ▸ hBe
   have hBc' : Nat.card B = p ^ r := by rw [hBc, hp, hrow, Nat.add_sub_cancel]
   have hR0e : timmesfeldIsExtraspecial ↥R0 := hR0.resolve_right fun h2 =>

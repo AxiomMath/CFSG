@@ -100,6 +100,7 @@ public theorem pg_low8 {X i : Nat} (hi : i < 240) :
     simp [hk, h1]
   · simp [hk]
 
+set_option exponentiation.threshold 1920 in
 public theorem low_shr (Y : ℕ) : Nat.land Y (mask (nat_lit 1920)) >>> (240 * 8) = 0 := by
   have e : Nat.land Y (mask (nat_lit 1920)) = Y &&& (2 ^ 1920 - 1) := by
     rw [← PF.mask_eq]

@@ -23,7 +23,7 @@ theorem str86_oTwoUpper_sup_q1 {L1 L2 S : Subgroup G} {k : ℕ}
     oTwoUpper (L1 ⊔ S) ⊔ Q1 L1 L2 S = L1 ⊔ S := by
   have hVU3 : VU3Big L1 := ⟨k, hk, F, inferInstance, inferInstance, hFc, hU3⟩
   have hQ1 : pCoreOf 2 (L1 ⊔ S) = Q1 L1 L2 S := by
-    simpa [u3LS] using u3LS_pCoreOf (k := k) (F := F) hF hSB hVU3
+    simpa [u3LS] using u3LS_pCoreOf (_k := k) (F := F) hF hSB hVU3
   have hperf : Group.IsPerfect (oTwoQuot ↥(L1 ⊔ S)) :=
     (isQuasisimple_oTwoQuot_of_u3 (L := ↥(L1 ⊔ S)) hk hFc
       (u3HQU3 hF hSB hU3 hVU3)).1

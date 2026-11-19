@@ -117,7 +117,7 @@ theorem exists_four_of_comm_invol {A : Type*} [Group A] {s w : A} (hs : s * s = 
     · rcases (hmem a).1 ha with rfl | rfl | rfl | rfl <;> simp [hs, hw, h5]
     · rcases (hmem a).1 ha with rfl | rfl | rfl | rfl <;>
         rcases (hmem b).1 hb with rfl | rfl | rfl | rfl <;>
-        first | rfl | simp | exact hsw | exact hsw.symm | rw [h1, h3] | rw [h3, h1] | rw [h2, h4]
+        first | rfl | simp | exact hsw | exact hsw.symm | rw [h1, h3] | rw [h2, h4]
   · have hset : (V : Set A) = {1, s, w, s * w} := by
       ext g; simp [hmem]
     have hc : Nat.card V = (V : Set A).ncard := Nat.card_coe_set_eq _

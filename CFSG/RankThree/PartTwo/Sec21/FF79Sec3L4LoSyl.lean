@@ -11,7 +11,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21
 theorem sylow3_cyclic_of_order9 {L : Type} [Group L] [Finite L] (g : L) (hg : orderOf g = 9)
     (h27 : ¬ 27 ∣ Nat.card L) (S : Subgroup L) (hS : IsSylowOf 3 S ⊤) :
     IsCyclic S ∧ Nat.card S = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hle, hp, hcop⟩ := hS
   rw [Subgroup.relIndex_top_right] at hcop
   have hndvd : ¬ 3 ∣ S.index := fun hd => by

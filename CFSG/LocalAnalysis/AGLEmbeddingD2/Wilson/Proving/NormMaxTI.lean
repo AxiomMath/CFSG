@@ -30,9 +30,10 @@ theorem coe_mem_normalizer_map {Y : Subgroup G} (H : Subgroup Y) {τ : Y}
       rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, hz']
       group
 
+omit [Fact (Nat.Prime p)] in
 theorem isPGroup_subgroupOf_sylow (R : Sylow p G) (Y : Subgroup G) :
     IsPGroup p ((R : Subgroup G).subgroupOf Y) :=
-  R.isPGroup'.comap_of_injective Y.subtype Subtype.val_injective
+  R.isPGroup.comap_of_injective Y.subtype Subtype.val_injective
 
 theorem not_dvd_index_subgroupOf_sylow [Finite G] (R : Sylow p G) (Y : Subgroup G)
     (hRY : (R : Subgroup G) ≤ Y) :

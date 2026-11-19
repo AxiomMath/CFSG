@@ -27,7 +27,7 @@ theorem bParam_le_of_isComponentOf {W : Type} [CommGroup W] [Finite W]
     (hm : ∀ K ∈ 𝒦, ∀ n, Nonempty (Inputs1719.ACandidate ↥K n) → n ≤ m) :
     bParam X Y ≤ m := by
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun φ : MulAut W => (φ : W → W)) DFunLike.coe_injective
   change sSup {k : ℕ | 0 < k ∧ ∃ A ∈ E3.aSet k Y, ⁅X, A⁆ ≠ ⊥} ≤ m
   refine csSup_le' fun k hk => ?_
@@ -75,15 +75,15 @@ theorem aCandidate_bounds_of_inGq (h106 : Inputs1719.W4Lem10_6Q)
     {n : ℕ} (c : Inputs1719.ACandidate H n) :
     (9 < q → n = 1) ∧ (3 < q → n ≤ 2) := by
   classical
-  letI := c.commGroup
-  letI := c.finiteW
-  haveI : Finite (MulAut c.W) :=
+  let := c.commGroup
+  let := c.finiteW
+  have : Finite (MulAut c.W) :=
     Finite.of_injective (fun φ : MulAut c.W => (φ : c.W → c.W)) DFunLike.coe_injective
   have hHtop : CFSG.Open.IsQuasisimple ↥(⊤ : Subgroup H) :=
     CFSG.Open.IsQuasisimple.of_mulEquiv Subgroup.topEquiv hH
   have hft : fstarTop H = ⊤ := fstar_eq_self_of_isQuasisimple hHtop
   obtain ⟨Z₀, hZ₀, hZ₀le, ⟨e⟩⟩ := c.central_factor
-  letI : Z₀.Normal := hZ₀
+  let : Z₀.Normal := hZ₀
   have hFle : Fstar c.Y ≤ c.Y := Subgroup.map_subtype_le _
   let eY : ↥(fstarSubOf c.Y) ≃* ↥(Fstar c.Y) :=
     Subgroup.subgroupOfEquivOfLe hFle

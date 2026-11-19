@@ -24,12 +24,11 @@ theorem u42GU_cast (q k : ℕ) (hq : 1 ≤ q) :
   congr 1
   refine Finset.prod_congr rfl fun i _ => ?_
   by_cases hi : i % 2 = 1
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     have : Odd i := Nat.odd_iff.mpr hi
     rw [this.neg_one_pow]
-    push_cast
     ring
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     have : Even i := Nat.even_iff.mpr (by omega)
     rw [this.neg_one_pow, Nat.cast_sub (Nat.one_le_pow _ _ (by omega))]
     push_cast
@@ -91,8 +90,8 @@ theorem u42_psu_inner {f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 3 f
     (hA : orderOf (primeFormConjHom h (idGram K n) A) = 2)
     {J : Subgroup ↥(fixedSubgroup (primeFormConjHom h (idGram K n) A))}
     (hJ : U42Hyp (primeFormConjHom h (idGram K n) A) J) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := h.finite
   have hf := h.one_le
   obtain ⟨T, hT, hT2⟩ := CFSG.ComponentClassification.CatFC.psu_exists_involution_lift h hn A hA
   have hA1 : primeFormConjHom h (idGram K n) A ≠ 1 := fun h1 => by

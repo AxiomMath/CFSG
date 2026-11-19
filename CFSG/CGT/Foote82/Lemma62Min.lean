@@ -12,6 +12,7 @@ open CFSG.Open CFSG.Quasithin.G11
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private theorem le_normalizer_of_le_centralizer {S L : Subgroup (GLV V)}
     (h : L ≤ Subgroup.centralizer (S : Set (GLV V))) :
     S ≤ Subgroup.normalizer (L : Set (GLV V)) := by
@@ -20,6 +21,7 @@ private theorem le_normalizer_of_le_centralizer {S L : Subgroup (GLV V)}
   rw [Subgroup.mem_centralizer_iff]
   exact fun l hl => ((Subgroup.mem_centralizer_iff.mp (h hl)) s hs).symm
 
+omit [Finite V] in
 private theorem mem_normalizer_commutator {X Y : Subgroup (GLV V)} {g : GLV V}
     (hX : g ∈ Subgroup.normalizer (X : Set (GLV V)))
     (hY : g ∈ Subgroup.normalizer (Y : Set (GLV V))) :
@@ -27,6 +29,7 @@ private theorem mem_normalizer_commutator {X Y : Subgroup (GLV V)} {g : GLV V}
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hX hY ⊢
   rw [Subgroup.map_commutator, hX, hY]
 
+omit [Finite V] in
 private theorem normalizer_le_normalizer_map {K : Subgroup (GLV V)} (N : Subgroup ↥K)
     [N.Characteristic] :
     Subgroup.normalizer (K : Set (GLV V)) ≤
@@ -41,6 +44,7 @@ private theorem normalizer_le_normalizer_map {K : Subgroup (GLV V)} (N : Subgrou
     Subgroup.characteristic_iff_map_eq.mp inferInstance _
   rw [Subgroup.map_map, hcomp, ← Subgroup.map_map, hN]
 
+omit [Finite V] in
 private theorem le_centralizer_of_commutator_eq {K L N : Subgroup (GLV V)} (hKL : ⁅K, L⁆ = K)
     (hNK : K ≤ Subgroup.normalizer (N : Set (GLV V))) (hNL : ⁅N, L⁆ = ⊥) :
     N ≤ Subgroup.centralizer (K : Set (GLV V)) := by
@@ -54,6 +58,7 @@ private theorem le_centralizer_of_commutator_eq {K L N : Subgroup (GLV V)} (hKL 
   rw [hKL] at h3
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp ((Subgroup.commutator_comm N K).trans h3)
 
+omit [Finite V] in
 private theorem Conf62.commutator_eq {G S L K : Subgroup (GLV V)} (hc : Conf62 G S L K)
     (hmin : Min62 S L K) (hne : ⁅K, L⁆ ≠ ⊥) : ⁅K, L⁆ = K := by
   have hL := hc.setup.component
@@ -124,7 +129,7 @@ theorem Conf62.min_structure {G S L K : Subgroup (GLV V)} (hc : Conf62 G S L K)
       frat K ≤ Subgroup.centralizer (K : Set (GLV V)) := by
   have hKL := hc.commutator_eq hmin hne
   obtain ⟨p, hp, hp2, hpK⟩ := hc.exists_pGroup hmin hKL hne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKbot : K ≠ ⊥ := fun h => hne (by rw [h]; exact Subgroup.commutator_bot_left L)
   have hnorm := normalizer_le_normalizer_frat K
   have hfrat : ⁅frat K, L⁆ = ⊥ :=

@@ -129,6 +129,7 @@ variable {G : Type} [Group G] {Q Z : Subgroup G} {K : Type} [Field K] {γ : G �
   {M₀ : Tim79.QuadModel Q Z K γ} {ι : Type} [Fintype ι] [DecidableEq ι]
   {qU : QuadraticForm K (ι → K)} {φ : M₀.E ≃ₗ[K] (ι → K) × (ι → K)} {S : Subgroup G}
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem exists_lgen_actsAs_elementary (hAct : OrthAct Q Z M₀ qU φ S)
     (hS : ∀ s ∈ S, ∀ x ∈ Q, s * x * s⁻¹ ∈ Q) {h : (ι → K) ≃ₗ[K] (ι → K)}
     (hh : h ∈ elementaryGroup qU) : ∃ s ∈ S, ActsAsTensor Q Z M₀ φ s 1 h := by
@@ -155,6 +156,7 @@ theorem exists_lgen_actsAs_elementary (hAct : OrthAct Q Z M₀ qU φ S)
       rwa [inv_inv] at this
     exact ActsAsTensor.inv hs' hs (mul_one 1)
 
+omit [DecidableEq ι] in
 theorem exists_lgen_map_pure [Finite K] [CharP K 2] (hAct : OrthAct Q Z M₀ qU φ S)
     (hS : ∀ s ∈ S, ∀ x ∈ Q, s * x * s⁻¹ ∈ Q)
     (hnd : ∀ v : ι → K, (∀ w, QuadraticMap.polar qU v w = 0) → v = 0)
@@ -255,7 +257,7 @@ theorem isConj_of_pairTypeA (hcB : Ctx M Q Z B) {K : Type} [Field K] [Finite K] 
     hxZ ((M₀.π_ker x hxQ).mp (hπb' ▸ (M₀.π_ker _ hb'Q).mpr h))
   have hb1 : b ≠ 1 := by
     rintro rfl
-    exact hb'Z (by simpa using Z.one_mem)
+    exact hb'Z (by simp)
   obtain ⟨q, hqQ, hq⟩ := exists_conj_of_pi_eq hD hb'Q hb'Z hxQ hπb'.symm
   obtain ⟨g₀, hg₀⟩ := hcB.conj
   have hz₂ : g₀⁻¹ * b * g₀ ∈ Z := by

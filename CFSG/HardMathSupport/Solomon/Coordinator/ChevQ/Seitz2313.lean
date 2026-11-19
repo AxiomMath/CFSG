@@ -34,12 +34,12 @@ theorem hyperplane_generation_of_invariant [Finite S] {p r : ℕ} (hp : p.Prime)
     Q ≤ ⨆ (F : Subgroup (MulAut S)) (_ : F ≤ E ∧ F.relIndex E = p),
       CFSG.GH74.GLS.oPrimeResidualOf r (fixedPoints F) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Finite E := inferInstance
-  haveI : IsElementaryAbelian p E := (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p E).2 hE
-  haveI : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hE0
-  letI : MulDistribMulAction E Q := MulDistribMulAction.compHom Q (actOn E Q hinv)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Finite E := inferInstance
+  have : IsElementaryAbelian p E := (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p E).2 hE
+  have : Nontrivial E := (Subgroup.nontrivial_iff_ne_bot E).2 hE0
+  let : MulDistribMulAction E Q := MulDistribMulAction.compHom Q (actOn E Q hinv)
   have hnd : ¬ p ∣ Nat.card Q := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hQ
     rw [hk]

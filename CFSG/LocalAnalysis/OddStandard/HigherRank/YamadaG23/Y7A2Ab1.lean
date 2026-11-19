@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem y7a_comm_range {V W : Subgroup G} {t : G}
     (hWab : ∀ w ∈ W, ∀ w' ∈ W, w * w' = w' * w) (hW : ∀ w ∈ W, ∀ v ∈ V, v * w = w * v)
     (hVW : ∀ v ∈ V, ⁅v, t⁆ ∈ W) :
@@ -71,20 +72,22 @@ theorem y7a_comm_range {V W : Subgroup G} {t : G}
       · exact hvr
   · rw [hVcard, hker_card, hrange_card]
 
+omit [Finite G] in
 theorem y7a_sup_elems {E V : Subgroup G} (hc : ∀ e ∈ E, ∀ v ∈ V, e * v = v * e) :
     ∀ x ∈ E ⊔ V, ∃ e ∈ E, ∃ v ∈ V, x = e * v :=
   fun _ hx => CFSG.GH74.GLS.Stage1.Thm3.Sec7.A.mem_sup_of_commute hc hx
 
+omit [Finite G] in
 theorem y7a_isElemAbelian_sup {E V : Subgroup G} (hE : IsElemAbelian 2 E)
     (hV : IsElemAbelian 2 V) (hc : ∀ e ∈ E, ∀ v ∈ V, e * v = v * e) :
     IsElemAbelian 2 (E ⊔ V) := by
   have commE : ∀ e ∈ E, ∀ e' ∈ E, e * e' = e' * e := by
     intro e he e' he'
-    haveI := hE.1
+    have := hE.1
     exact congrArg Subtype.val (mul_comm' (⟨e, he⟩ : E) ⟨e', he'⟩)
   have commV : ∀ v ∈ V, ∀ v' ∈ V, v * v' = v' * v := by
     intro v hv v' hv'
-    haveI := hV.1
+    have := hV.1
     exact congrArg Subtype.val (mul_comm' (⟨v, hv⟩ : V) ⟨v', hv'⟩)
   refine ⟨IsMulCommutative.of_comm ?_, ?_⟩
   · intro x y
@@ -103,6 +106,7 @@ theorem y7a_isElemAbelian_sup {E V : Subgroup G} (hE : IsElemAbelian 2 E)
     have hcomm : Commute e v := hc e he v hv
     rw [hcomm.mul_pow 2, hE.2 e he, hV.2 v hv, one_mul]
 
+omit [Finite G] in
 theorem y7a_card_sup_mul_inf {E V : Subgroup G} (hc : ∀ e ∈ E, ∀ v ∈ V, e * v = v * e) :
     Nat.card ↥(E ⊔ V) * Nat.card ↥(E ⊓ V) = Nat.card ↥E * Nat.card ↥V :=
   CFSG.GH74.GLS.Stage1.Thm3.Sec7.A.card_sup_mul_card_inf_of_commute hc

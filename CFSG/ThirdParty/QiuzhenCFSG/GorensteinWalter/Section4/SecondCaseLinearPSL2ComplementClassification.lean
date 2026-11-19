@@ -73,7 +73,7 @@ public theorem secondCase_linear_psl2_normalComplement_or_kleinFour
   have hSylowCyc : ∀ S : Sylow p H, IsCyclic S := by
     intro S
     obtain ⟨S', hSS'⟩ :=
-      (S.isPGroup').map H.subtype |>.exists_le_sylow
+      (S.isPGroup).map H.subtype |>.exists_le_sylow
     have hScyc : IsCyclic S' := by
       exact psl2_sylow_isCyclic_of_coprime_field_card K hKcard hKseven
         p (by
@@ -86,7 +86,7 @@ public theorem secondCase_linear_psl2_normalComplement_or_kleinFour
     let eS : (S : Subgroup H) ≃* ((S : Subgroup H).map H.subtype) :=
       Subgroup.equivMapOfInjective (S : Subgroup H) H.subtype H.subtype_injective
     exact (MulEquiv.isCyclic eS).mpr hmapcyc
-  have hPp : IsPGroup p (P : Subgroup H) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup H) := P.isPGroup
   have hPne : (P : Subgroup H) ≠ ⊥ := by
     rw [← Subgroup.one_lt_card_iff_ne_bot]
     have hpone : 1 < p := (Fact.out : Nat.Prime p).one_lt
@@ -100,7 +100,7 @@ public theorem secondCase_linear_psl2_normalComplement_or_kleinFour
       SecondCaseLinearNormalComplementData H P (Nat.card K) := by
     intro hNtop
     refine ⟨⊥, Subgroup.normal_bot, ?_, by simp⟩
-    simpa [N, hNtop] using hbotComp
+    simp [N, hNtop]
   rcases Glauberman.Dickson.huppert_II_8_27_dickson_psl2_subgroup_classification
       hKcard H with hElem | hCyc | hDih | hA4 | hS4 | hA5 |
       hSemi | hPSL | hPGL
@@ -212,7 +212,6 @@ public theorem secondCase_linear_psl2_normalComplement_or_kleinFour
         (P : Subgroup H) := by
       dsimp [P']
       rw [Subgroup.map_map]
-      congr 1
       ext z
       simp [MulAut.conj_apply, mul_assoc]
     have hback := normalComplement_conj P' N₀ g⁻¹ hbaseN hcomp'
@@ -344,14 +343,14 @@ public theorem secondCase_linear_psl2_normalComplement_or_kleinFour
             rw [Nat.div_mul_cancel hAeven]
       have hPleJ : (P : Subgroup H) ≤ J := by
         exact odd_pgroup_le_normal_index_two hpodd J (P : Subgroup H)
-          hJnormal hJindex P.isPGroup'
+          hJnormal hJindex P.isPGroup
       have hNcycJ : IsCyclic
           (Subgroup.normalizer (P.subgroupOf J : Set J)) :=
         isCyclic_normalizer_subgroupOf J (P : Subgroup H) hPleJ hNcyc
       have hSylowCycJ : ∀ S : Sylow p J, IsCyclic S := by
         intro S
         let f : J →* PSL2MatrixGroup K := H.subtype.comp J.subtype
-        obtain ⟨S', hSS'⟩ := (S.isPGroup').map f |>.exists_le_sylow
+        obtain ⟨S', hSS'⟩ := (S.isPGroup).map f |>.exists_le_sylow
         have hScyc : IsCyclic S' := by
           exact psl2_sylow_isCyclic_of_coprime_field_card K hKcard hKseven
             p (by

@@ -14,6 +14,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec8_gen_points_card (hc : Ctx M Q Z B) (m : G) :
     Nat.card (conjSubgroup m B) = Nat.card Z := by
   obtain ⟨g, hg⟩ := hc.conj
@@ -23,7 +24,7 @@ theorem sec8_gen_points_exists_out (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) :
     ∃ c ∈ conjSubgroup m B, c ∉ Z := by
   have hnle : ¬ conjSubgroup m B ≤ Z := fun hle =>
     (hc.conj_of_mem hm).ne (Subgroup.eq_of_le_of_card_ge hle (sec8_gen_points_card hc m).ge)
-  exact SetLike.not_le_iff_exists.mp hnle
+  exact IsConcreteLE.not_le_iff_exists.mp hnle
 
 theorem sec8_gen_points (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement)
     (h51 : Stroth51Statement) {hc : Ctx M Q Z B} {n : ℕ} {t : G} (hs : Sec8Hyp hc n t)
@@ -101,6 +102,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec8_exists_pair_conj_le {h : G} {X Y : Subgroup G} :
     conjSubgroup h X ≤ conjSubgroup h Y ↔ X ≤ Y := by
   constructor
@@ -116,6 +118,7 @@ theorem sec8_exists_pair_conj_le {h : G} {X Y : Subgroup G} :
     rw [mem_conjSubgroup] at hy ⊢
     exact hXY hy
 
+omit [Finite G] in
 theorem sec8_exists_pair_conj_sup (g : G) (A C : Subgroup G) :
     conjSubgroup g (A ⊔ C) = conjSubgroup g A ⊔ conjSubgroup g C :=
   Subgroup.map_sup _ _ _
@@ -230,9 +233,9 @@ theorem sec8_exists_pair (h34 : Stroth34Statement) (hRoot : Stroth310RootStateme
       D ≤ Vt M (LB M Q B) B Z t ⊓ conjSubgroup g⁻¹ (Vt M (LB M Q B) B Z t) ∧ ¬ D ≤ QB C := by
   obtain ⟨K, fK, finK, hchar, φ, hn, ψ, u, _u', hpts, hhyp, hBiff, hψ, _nn, _γ, _M₀,
     _hglob, _θ, _hθ⟩ := sec8_natdata h34 hRoot hs hr hmSp
-  haveI := hn
-  haveI := hchar
-  letI := hpts.vecAct
+  have := hn
+  have := hchar
+  let := hpts.vecAct
   have hκ := sec8_isSecMod_psi hpts ψ hψ
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   have hSV : Vt M (LB M Q B) B Z t ⊓ conjSubgroup g⁻¹ (Vt M (LB M Q B) B Z t) ≤
@@ -343,6 +346,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec8_subspace_dichotomy {hc : Ctx M Q Z B} {t r : G} {m : ℕ} {K : Type} [Field K]
     [Finite K] [CharP K 2] {φ : ↥(Rt M (LB M Q B) t) →* GL (Fin m ⊕ Fin m) K}
     {u u' : Fin m ⊕ Fin m → K} (hpts : Sec8Pts hc t r m K φ u u')
@@ -354,14 +358,14 @@ theorem sec8_subspace_dichotomy {hc : Ctx M Q Z B} {t r : G} {m : ℕ} {K : Type
       Multiplicative.toAdd (ψ (QuotientGroup.mk w)) =
         (φ s : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ
           Multiplicative.toAdd (ψ (QuotientGroup.mk v)))
-    {D : Subgroup G} (hZD : Z ≤ D) (hDV : D ≤ Vt M (LB M Q B) B Z t)
+    {D : Subgroup G} (hZD : Z ≤ D) (_hDV : D ≤ Vt M (LB M Q B) B Z t)
     (hDK : ∀ (c : K) (d : ↥(Vt M (LB M Q B) B Z t)), (d : G) ∈ D →
       ∃ d' : ↥(Vt M (LB M Q B) B Z t), (d' : G) ∈ D ∧ secVec ψ d' = c • secVec ψ d)
     (huD : ∃ d : ↥(Vt M (LB M Q B) B Z t), (d : G) ∈ D ∧ secVec ψ d = u)
     (hDinv : ∀ l ∈ LB M Q B, ∀ d ∈ D, l * d * l⁻¹ ∈ D) :
     (∀ d : ↥(Vt M (LB M Q B) B Z t), (d : G) ∈ D → spForm m K u (secVec ψ d) = 0) ∨
       Vt M (LB M Q B) B Z t ≤ D := by
-  letI := hpts.vecAct
+  let := hpts.vecAct
   obtain ⟨hRnorm, -⟩ := hpts.act
   obtain ⟨κ, hκdef⟩ : ∃ κ : ↥(Vt M (LB M Q B) B Z t) →* Multiplicative (Fin m ⊕ Fin m → K),
       κ = ψ.toMonoidHom.comp (QuotientGroup.mk' (Z.subgroupOf (Vt M (LB M Q B) B Z t))) :=
@@ -444,6 +448,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem card_inf_conjSubgroup_inv (g : G) (U : Subgroup G) :
     Nat.card ↥(U ⊓ conjSubgroup g⁻¹ U) = Nat.card ↥(U ⊓ conjSubgroup g U) := by
   have e1 : conjSubgroup g (U ⊓ conjSubgroup g⁻¹ U) = conjSubgroup g U ⊓ U := by

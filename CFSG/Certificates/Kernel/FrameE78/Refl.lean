@@ -27,7 +27,7 @@ theorem rf_mulVec (c w : Fin n → ZMod 3) : rf C c *ᵥ w = w - (c ⬝ᵥ w) �
   generalize C *ᵥ c = u
   funext p
   simp only [mulVec, dotProduct, of_apply, sub_mul, Finset.sum_sub_distrib, ite_mul, one_mul,
-    zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true, Pi.sub_apply, Pi.smul_apply,
+    zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true, Pi.sub_apply, Pi.smul_apply,
     smul_eq_mul]
   congr 1
   rw [Finset.sum_mul]
@@ -201,7 +201,7 @@ inductive ConjDer (S : Fin n → Matrix (Fin n) (Fin n) (ZMod 3)) :
   | conj (i : Fin n) {r : Matrix (Fin n) (Fin n) (ZMod 3)} (h : ConjDer S r) :
       ConjDer S (S i * r * S i)
 
-theorem conjDer_conj {S : Fin n → Matrix (Fin n) (Fin n) (ZMod 3)} (hS : ∀ i, S i * S i = 1)
+theorem conjDer_conj {S : Fin n → Matrix (Fin n) (Fin n) (ZMod 3)} (_hS : ∀ i, S i * S i = 1)
     {t : Matrix (Fin n) (Fin n) (ZMod 3)} (ht : ConjDer S t) :
     ∀ {r}, ConjDer S r → ConjDer S (t * r * t) := by
   induction ht with

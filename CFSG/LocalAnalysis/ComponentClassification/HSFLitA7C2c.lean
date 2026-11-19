@@ -68,7 +68,7 @@ theorem exists_V : ∃ V : Subgroup X, IsPGroup 2 V ∧ C.T₁ ≤ V ∧
   have hT₁' : IsPGroup 2 (C.T₁.subgroupOf N) := C.T₁_p.comap_of_injective _ (subtype_injective _)
   obtain ⟨Q, hQ⟩ := hT₁'.exists_le_sylow
   set V : Subgroup X := (Q : Subgroup N).map N.subtype with hV
-  have hVp : IsPGroup 2 V := Q.isPGroup'.map _
+  have hVp : IsPGroup 2 V := Q.isPGroup.map _
   have hVN : V ≤ N := map_subtype_le _
   have hT₁V : C.T₁ ≤ V := fun g hg => ⟨⟨g, hT₁N hg⟩, hQ hg, rfl⟩
   have hcardV : Nat.card V = 2 ^ (Nat.card N).factorization 2 := by

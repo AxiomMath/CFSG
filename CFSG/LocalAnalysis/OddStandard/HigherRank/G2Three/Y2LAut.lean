@@ -54,7 +54,7 @@ theorem y2l_card_inn_fix_ge [Finite X] (eM : M ≃* (Fin 3 → Multiplicative (Z
     (hx : ∀ l, MulAut.conjNormal (x l) = y2l_psiAut eM (![T01, pGL] l)) :
     8 ≤ Nat.card
       ↥((MulAut.conj : X →* MulAut X).range ⊓ fixingSubgroup (MulAut X) (M : Set X)) := by
-  haveI : Finite (MulAut X) := y2l_finite_mulAut
+  have : Finite (MulAut X) := y2l_finite_mulAut
   have hinj : Function.Injective ((MulAut.conj : X →* MulAut X).comp M.subtype) := by
     rw [injective_iff_map_eq_one]
     intro m hm
@@ -116,8 +116,8 @@ theorem y2l_index_inn_le [Finite X] (eM : M ≃* (Fin 3 → Multiplicative (ZMod
     fin_cases l
     · exact ha
     · exact hb
-  haveI : Finite (MulAut X) := y2l_finite_mulAut
-  haveI := y2l_inn_normal (X := X)
+  have : Finite (MulAut X) := y2l_finite_mulAut
+  have := y2l_inn_normal (X := X)
   have h16 := y2l_card_fix_le eM hC hx
   have h8 := y2l_card_inn_fix_ge eM hC hx
   have hI : (MulAut.conj : X →* MulAut X).range.index =
@@ -144,7 +144,7 @@ theorem aut29Idx_holds : YamadaG23.Aut29Idx := by
   obtain ⟨⟨eM⟩, ⟨hN, ⟨eQ⟩⟩, hC⟩ := hX
   have hchar : ∀ α : MulAut X, ∀ m ∈ pCoreOf 2 (⊤ : Subgroup X),
       α m ∈ pCoreOf 2 (⊤ : Subgroup X) := fun α _ hm => y2l_pCoreOf_char α hm
-  haveI : (pCoreOf 2 (⊤ : Subgroup X)).Normal :=
+  have : (pCoreOf 2 (⊤ : Subgroup X)).Normal :=
     ⟨fun m hm g => by
       have := hchar (MulAut.conj g) m hm
       rwa [MulAut.conj_apply] at this⟩

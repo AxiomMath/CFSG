@@ -101,7 +101,7 @@ theorem center_eq_bot_of_isQuasisimple_of_isSimpleGroup {X : Type*} [Group X]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h | h
   · exact h
   · exfalso
-    haveI : Group.IsPerfect X := hq.1
+    have : Group.IsPerfect X := hq.1
     have hcomm : ∀ x y : X, x * y = y * x := fun x y => by
       have hx : x ∈ Subgroup.center X := by rw [h]; exact Subgroup.mem_top x
       exact (Subgroup.mem_center_iff.mp hx y).symm
@@ -175,7 +175,7 @@ theorem imageModTheta_ne_bot [Finite G] {L K : Subgroup G} (hKL : K ≤ L)
       ⟨k, rfl⟩
     rw [hr, Subgroup.mem_bot] at this
     exact this
-  haveI : Subsingleton (K ⧸ aschbacherSolvableCore 3 K) := by
+  have : Subsingleton (K ⧸ aschbacherSolvableCore 3 K) := by
     rw [htop]
     exact QuotientGroup.subsingleton_quotient_top
   obtain ⟨x, y, hxy⟩ := hq.2.2

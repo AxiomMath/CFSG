@@ -34,7 +34,7 @@ theorem sec47_quotient_data {K V : Type} [Group K] [Finite K] [Group V] [Finite 
     (hp : Group.IsPerfect (K ⧸ Subgroup.center K)) :
     ∃ (X : Type) (_ : Group X) (_ : Finite X) (ψ : X →* MulAut V)
       (θ : X →* K ⧸ Subgroup.center K), Function.Injective ψ ∧ Function.Surjective θ := by
-  haveI : (commutator K).Normal := by
+  have : (commutator K).Normal := by
     unfold commutator
     infer_instance
   rcases sec47_dichotomy (ρ.ker ⊓ commutator K) hs with hNZ | hsup
@@ -62,7 +62,7 @@ theorem sec47_quotient_data {K V : Type} [Group K] [Finite K] [Group V] [Finite 
     obtain ⟨k, hk, hkl⟩ := Subgroup.mem_map.mp hl
     exact ⟨QuotientGroup.mk ⟨k, hk⟩, by rw [QuotientGroup.lift_mk]; exact hkl⟩
   · exfalso
-    haveI : IsMulCommutative ↥(Subgroup.center K) := Subgroup.center.isMulCommutative K
+    have : IsMulCommutative ↥(Subgroup.center K) := Subgroup.center.isMulCommutative K
     have hcomm : commutator K ≤ ρ.ker ⊓ commutator K :=
       Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
         (N := ρ.ker ⊓ commutator K) (H := Subgroup.center K) hsup
@@ -70,8 +70,8 @@ theorem sec47_quotient_data {K V : Type} [Group K] [Finite K] [Group V] [Finite 
     exact hne (MonoidHom.mem_ker.mp (Subgroup.mem_inf.mp (hcomm hy)).1)
 
 theorem sec47_module_bound {K V : Type} [Group K] [Finite K] [Group V] [Finite V]
-    (hV : IsElemAbelian 2 (⊤ : Subgroup V)) (ρ : K →* MulAut V)
-    (hrad : CFSG.solvableRadical K = Subgroup.center K) {f : ℕ} (hf : 2 ≤ f)
+    (_hV : IsElemAbelian 2 (⊤ : Subgroup V)) (ρ : K →* MulAut V)
+    (_hrad : CFSG.solvableRadical K = Subgroup.center K) {f : ℕ} (hf : 2 ≤ f)
     (hL : IsPSL2Model (K ⧸ Subgroup.center K) f) (hnt : ∃ y ∈ commutator K, ρ y ≠ 1)
     {d : ℕ} (hd : Nat.card V = 2 ^ d) : 2 * f ≤ d := by
   obtain ⟨e⟩ := hL
@@ -80,12 +80,12 @@ theorem sec47_module_bound {K V : Type} [Group K] [Finite K] [Group V] [Finite V
     rw [GaloisField.card 2 f hf0]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hq4
-  haveI : Group.IsPerfect (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
+  have : Group.IsPerfect (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
     CFSG.GorensteinWalter.psl2_isPerfect_of_card_gt_three _ (by omega)
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := e.isSimpleGroup
-  haveI : Group.IsPerfect (K ⧸ Subgroup.center K) :=
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := e.isSimpleGroup
+  have : Group.IsPerfect (K ⧸ Subgroup.center K) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   obtain ⟨X, hX, hXf, ψ, θ, hψ, hθ⟩ := sec47_quotient_data ρ hnt inferInstance inferInstance
   have hLcard : Nat.card (K ⧸ Subgroup.center K) = 2 ^ f * ((2 ^ f) ^ 2 - 1) := by
@@ -102,7 +102,7 @@ theorem sec47_module_bound {K V : Type} [Group K] [Finite K] [Group V] [Finite V
   · exact CFSG.CGT.Timmesfeld75.lemma27_psl2 hf h3 hdvd ψ hψ hd
 
 theorem sec47_module_bound_sz {K V : Type} [Group K] [Finite K]
-    [Group V] [Finite V] (hV : IsElemAbelian 2 (⊤ : Subgroup V)) (ρ : K →* MulAut V)
+    [Group V] [Finite V] (_hV : IsElemAbelian 2 (⊤ : Subgroup V)) (ρ : K →* MulAut V)
     (hrad : CFSG.solvableRadical K = Subgroup.center K) {k : ℕ}
     (hL : IsSzModel (K ⧸ Subgroup.center K) k) (hnt : ∃ y ∈ commutator K, ρ y ≠ 1)
     {d : ℕ} (hd : Nat.card V = 2 ^ d) : 4 * (2 * k + 1) ≤ d := by
@@ -110,10 +110,10 @@ theorem sec47_module_bound_sz {K V : Type} [Group K] [Finite K]
   rcases Nat.eq_zero_or_pos k with hk0 | hk
   · subst hk0
     exfalso
-    haveI : Group.IsSolvable (Sz 0) := CFSG.SignalizerFunctorTheorem.NearModels.isSolvable_sz_zero
+    have : Group.IsSolvable (Sz 0) := CFSG.SignalizerFunctorTheorem.NearModels.isSolvable_sz_zero
     have hsolvL : Group.IsSolvable (K ⧸ Subgroup.center K) :=
       Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
-    haveI : Group.IsSolvable (Subgroup.center K) := by
+    have : Group.IsSolvable (Subgroup.center K) := by
       apply Group.isSolvable_of_comm
       intro a b
       exact Subtype.ext (Subgroup.mem_center_iff.mp b.2 a)
@@ -129,15 +129,15 @@ theorem sec47_module_bound_sz {K V : Type} [Group K] [Finite K]
     obtain ⟨y, hy, hne⟩ := hnt
     apply hne
     rw [Subgroup.mem_bot.mp (hbot hy), map_one]
-  · haveI : IsSimpleGroup (Sz k) :=
+  · have : IsSimpleGroup (Sz k) :=
       CFSG.SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup (n := k) (by omega)
-    haveI hpS := CFSG.SectionRank.suzukiMatrixGroup_isPerfect k (by omega)
-    haveI : Group.IsPerfect (Sz k) :=
+    have hpS := CFSG.SectionRank.suzukiMatrixGroup_isPerfect k (by omega)
+    have : Group.IsPerfect (Sz k) :=
       Group.IsPerfect.ofSurjective
         (f := (CFSG.SignalizerFunctorTheorem.McBride.SzModel.szEquiv k).symm.toMonoidHom)
         (CFSG.SignalizerFunctorTheorem.McBride.SzModel.szEquiv k).symm.surjective
-    haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := e.isSimpleGroup
-    haveI : Group.IsPerfect (K ⧸ Subgroup.center K) :=
+    have : IsSimpleGroup (K ⧸ Subgroup.center K) := e.isSimpleGroup
+    have : Group.IsPerfect (K ⧸ Subgroup.center K) :=
       Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
     obtain ⟨X, hX, hXf, ψ, θ, hψ, hθ⟩ := sec47_quotient_data ρ hnt inferInstance inferInstance
     have hcard : Nat.card (Sz k) = Nat.card (K ⧸ Subgroup.center K) :=

@@ -45,13 +45,14 @@ private theorem plh_insert_comm {α : Type} (a b : α) :
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
   tauto
 
+omit [Finite Fld] [CharP Fld 2] in
 private theorem plh_charts_single (charts : HasCharts M) (x : Fin D.rank) :
     ∃ L : SLPath M 1, L.e = fun _ : Fin 1 => x := by
   refine charts 1 (fun _ : Fin 1 => x) (by norm_num) (by norm_num) ?_ ?_
   · intro a b _
     exact Subsingleton.elim a b
   · intro k l
-    rw [if_pos (Subsingleton.elim k l)]
+    rw [ite_eq_left (Subsingleton.elim k l)]
     exact D.isFiniteType.apply_self x
 
 include hext hw₀ hsq hpanel in
@@ -62,7 +63,7 @@ theorem residueModel_exchA1A1 (hK : Nat.card Fld = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ 
     {a : K ⧸ borel D H} {g : K} {v : W} {t₀ l₀ : K} (hfr : IsFrame hct F J a g v I t₀ l₀)
     (hπ : ∀ i ∈ I, weylAction D.isFiniteType v (Pi.single (F.op i) 1) = Pi.single (π i) 1) :
     PhanEResidueModel (cs) (stdδ hct) Fld f (stdFlip F (nrep hct w₀)) J a PhanCode.exchA1A1 := by
-  haveI : NeZero PhanCode.exchA1A1.rank := ⟨by decide⟩
+  have : NeZero PhanCode.exchA1A1.rank := ⟨by decide⟩
   obtain ⟨hinj, hrange, hadj, hcore, hperm⟩ := hm
   have h01 : (0 : Fin 2) ≠ 1 := by decide
   have hcart01 : D.cartan (σ 0) (σ 1) = 0 := by
@@ -124,7 +125,7 @@ theorem residueModel_exchA2A1 (hK : Nat.card Fld = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ 
     {a : K ⧸ borel D H} {g : K} {v : W} {t₀ l₀ : K} (hfr : IsFrame hct F J a g v I t₀ l₀)
     (hπ : ∀ i ∈ I, weylAction D.isFiniteType v (Pi.single (F.op i) 1) = Pi.single (π i) 1) :
     PhanEResidueModel (cs) (stdδ hct) Fld f (stdFlip F (nrep hct w₀)) J a PhanCode.exchA2A1 := by
-  haveI : NeZero PhanCode.exchA2A1.rank := ⟨by decide⟩
+  have : NeZero PhanCode.exchA2A1.rank := ⟨by decide⟩
   obtain ⟨hinj, hrange, hadj, hcore, hperm⟩ := hm
   have h01 : (0 : Fin 3) ≠ 1 := by decide
   have h10 : (1 : Fin 3) ≠ 0 := by decide
@@ -146,16 +147,16 @@ theorem residueModel_exchA2A1 (hK : Nat.card Fld = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ 
         have hk : k = 0 ∨ k = 1 := by fin_cases k <;> simp
         have hl : l = 0 ∨ l = 1 := by fin_cases l <;> simp
         rcases hk with rfl | rfl <;> rcases hl with rfl | rfl
-        · rw [if_pos rfl]; exact D.isFiniteType.apply_self _
+        · rw [ite_eq_left rfl]; exact D.isFiniteType.apply_self _
         · rw [show Fin.castAdd 1 (0 : Fin 2) = (0 : Fin 3) from Fin.ext rfl,
               show Fin.castAdd 1 (1 : Fin 2) = (1 : Fin 3) from Fin.ext rfl,
-              if_neg (by decide), if_pos (by decide)]
+              ite_eq_right (by decide), ite_eq_left (by decide)]
           exact hcart01
         · rw [show Fin.castAdd 1 (1 : Fin 2) = (1 : Fin 3) from Fin.ext rfl,
               show Fin.castAdd 1 (0 : Fin 2) = (0 : Fin 3) from Fin.ext rfl,
-              if_neg (by decide), if_pos (by decide)]
+              ite_eq_right (by decide), ite_eq_left (by decide)]
           exact hcart10
-        · rw [if_pos rfl]; exact D.isFiniteType.apply_self _)
+        · rw [ite_eq_left rfl]; exact D.isFiniteType.apply_self _)
   obtain ⟨L₂, hL₂⟩ := plh_charts_single charts (σ 2)
   have hL₂0 : L₂.e 0 = σ 2 := congrFun hL₂ 0
   have hL₁range : Set.range L₁.e = ({σ 0, σ 1} : Set (Fin D.rank)) := by
@@ -248,7 +249,7 @@ theorem residueModel_prod3 (hK : Nat.card Fld = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
   have hrank : (PhanCode.prod (PhanCode.prod c₁ c₂) c₃).rank = 3 := by
     show (c₁.rank + c₂.rank) + c₃.rank = 3
     rw [PhanCode.IsNode.rank hc₁, PhanCode.IsNode.rank hc₂, PhanCode.IsNode.rank hc₃]
-  haveI : NeZero (PhanCode.prod (PhanCode.prod c₁ c₂) c₃).rank :=
+  have : NeZero (PhanCode.prod (PhanCode.prod c₁ c₂) c₃).rank :=
     ⟨by rw [hrank]; norm_num⟩
   let z0 : Fin (PhanCode.prod (PhanCode.prod c₁ c₂) c₃).rank := ⟨0, by rw [hrank]; norm_num⟩
   let z1 : Fin (PhanCode.prod (PhanCode.prod c₁ c₂) c₃).rank := ⟨1, by rw [hrank]; norm_num⟩
@@ -349,7 +350,7 @@ theorem residueModel_exch3 (hK : Nat.card Fld = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
     show PhanCode.exchA1A1.rank + c₃.rank = 3
     rw [PhanCode.IsNode.rank hc₃]
     rfl
-  haveI : NeZero (PhanCode.prod PhanCode.exchA1A1 c₃).rank :=
+  have : NeZero (PhanCode.prod PhanCode.exchA1A1 c₃).rank :=
     ⟨by rw [hrank]; norm_num⟩
   let z0 : Fin (PhanCode.prod PhanCode.exchA1A1 c₃).rank := ⟨0, by rw [hrank]; norm_num⟩
   let z1 : Fin (PhanCode.prod PhanCode.exchA1A1 c₃).rank := ⟨1, by rw [hrank]; norm_num⟩

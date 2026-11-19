@@ -40,7 +40,7 @@ theorem s7_ne_one : s7σ0 * (s7ρ0 * s7σ0 * s7ρ0⁻¹) ≠ 1 := fun h => by
 
 theorem cycleType_of_involution {σ : Perm (Fin 7)} (hσ : σ ∈ alternatingGroup (Fin 7))
     (h2 : σ * σ = 1) (h1 : σ ≠ 1) : σ.cycleType = {2, 2} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf σ = 2 := orderOf_eq_prime (by rw [pow_two]; exact h2) h1
   have hall : ∀ n ∈ σ.cycleType, n = 2 := fun n hn => by
     have h1 := Perm.dvd_of_mem_cycleType hn
@@ -72,7 +72,7 @@ theorem cycleType_of_involution {σ : Perm (Fin 7)} (hσ : σ ∈ alternatingGro
 theorem exists_conj_orderOf_five {σ : Perm (Fin 7)} (hσ : σ ∈ alternatingGroup (Fin 7))
     (h2 : σ * σ = 1) (h1 : σ ≠ 1) :
     ∃ c ∈ alternatingGroup (Fin 7), orderOf (σ * (c * σ * c⁻¹)) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hconj : IsConj s7σ0 σ := by
     rw [Perm.isConj_iff_cycleType_eq, s7σ0_cycleType, cycleType_of_involution hσ h2 h1]
   obtain ⟨d, hd⟩ := isConj_iff.mp hconj
@@ -91,9 +91,11 @@ section Linear
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem add_self_eq_zero (v : V) : v + v = 0 := by
   rw [← two_smul (ZMod 2) v, show (2 : ZMod 2) = 0 from rfl, zero_smul]
 
+omit [Finite V] in
 theorem map_sub_le {I : Submodule (ZMod 2) V} {t : V ≃ₗ[ZMod 2] V} (htI : ∀ v ∈ I, t v ∈ I) :
     I.map (t.toLinearMap - LinearMap.id) ≤ I := by
   rintro _ ⟨v, hv, rfl⟩
@@ -102,7 +104,7 @@ theorem map_sub_le {I : Submodule (ZMod 2) V} {t : V ≃ₗ[ZMod 2] V} (htI : �
 theorem natCard_eq_two_pow (W : Type*) [AddCommGroup W] [Module (ZMod 2) W] [Finite W] :
     Nat.card W = 2 ^ finrank (ZMod 2) W := by
   classical
-  letI : Fintype W := Fintype.ofFinite _
+  let : Fintype W := Fintype.ofFinite _
   rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 2), ZMod.card]
 
 theorem eq_zero_or_eq_of_finrank_one {R : Submodule (ZMod 2) V} (hR : finrank (ZMod 2) R = 1)
@@ -126,6 +128,7 @@ theorem eq_zero_or_eq_of_finrank_one {R : Submodule (ZMod 2) V} (hR : finrank (Z
   simp at this
   omega
 
+omit [Finite V] in
 @[simp] theorem sub_apply_eq (t : V ≃ₗ[ZMod 2] V) (v : V) :
     ((t.toLinearMap - LinearMap.id : V →ₗ[ZMod 2] V) v) = t v - v := rfl
 
@@ -173,7 +176,7 @@ theorem fix_of_order_five {I : Submodule (ZMod 2) V} (hI : finrank (ZMod 2) I = 
     (hb : finrank (ZMod 2) (I.map (b.toLinearMap - LinearMap.id)) = 1)
     (h5 : (a * b) ^ 5 = 1) : ∀ v ∈ I, (a * b) v = v := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set g := a * b with hg
   have hgI : ∀ v ∈ I, g v ∈ I := fun v hv => haI _ (hbI v hv)
   have hKa := finrank_ker_domRestrict hI ha
@@ -193,7 +196,7 @@ theorem fix_of_order_five {I : Submodule (ZMod 2) V} (hI : finrank (ZMod 2) I = 
     rw [hg, LinearEquiv.mul_apply, hwb, hwa]
   have hFr : 2 ≤ finrank (ZMod 2) F := hC.trans (Submodule.finrank_mono hCF)
   have hFle : finrank (ZMod 2) F ≤ 4 := hI ▸ Submodule.finrank_le _
-  letI : Fintype ↥I := Fintype.ofFinite _
+  let : Fintype ↥I := Fintype.ofFinite _
   let f : Function.End ↥I := fun w => ⟨g w, hgI w w.2⟩
   have hpow : ∀ (n : ℕ) (w : ↥I), ((f ^ n) w : V) = (g ^ n) w := by
     intro n
@@ -297,8 +300,8 @@ theorem finrank_ne_two_of_concl8 {B : LinearMap.BilinForm (ZMod 2) V}
     Subgroup.map_comap_eq_self_of_surjective φ.surjective _
   let eA : ↥Aγ ≃* ↥(alternatingGroup (Fin 7)) :=
     (Aγ.equivMapOfInjective φ.toMonoidHom φ.injective).trans (MulEquiv.subgroupCongr hAeq)
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥Aγ := eA.isSimpleGroup
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥Aγ := eA.isSimpleGroup
   have hnab : ∃ a b : ↥Aγ, a * b ≠ b * a := by
     refine ⟨eA.symm ⟨s7τ0, s7τ0_mem⟩, eA.symm ⟨s7σ0, s7σ0_mem⟩, fun h => s7_noncomm ?_⟩
     have := congrArg (fun g => ((eA g : ↥(alternatingGroup (Fin 7))) : Perm (Fin 7))) h
@@ -350,7 +353,7 @@ theorem finrank_ne_two_of_concl8 {B : LinearMap.BilinForm (ZMod 2) V}
           hAI ((c : ↥Γ)⁻¹) (Aγ.inv_mem c.2) v hv
         rw [ha _ hcv, hinv']
       intro g hg hgI
-      haveI := hKn
+      have := hKn
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with hK | hK
       · have : (⟨g, hg⟩ : ↥Aγ) ∈ K := hgI
         rw [hK, Subgroup.mem_bot] at this

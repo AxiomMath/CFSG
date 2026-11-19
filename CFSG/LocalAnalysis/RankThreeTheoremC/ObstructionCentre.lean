@@ -77,7 +77,7 @@ theorem ExtremalObstruction.center_le_centralizer {p : ℕ} {P : Sylow p G} {M D
     (center D).map D.subtype ≤ centralizer ((P : Subgroup G) : Set G) := by
   classical
   have hfact : Fact p.Prime := ⟨hp⟩
-  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup
   have hDP : D ≤ P := hext.obstruction.2.1
   have hZc : Nat.card ((center D).map D.subtype) = p := hext.card_center_eq hp hp2 hD
   have hPnt : Nontrivial (P : Subgroup G) := by

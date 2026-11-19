@@ -71,7 +71,7 @@ theorem orthThreeCommuting_odd {n : ℕ} (hn : 4 ≤ n) : OrthThreeCommuting .PO
 theorem cartanD_zero_two {n : ℕ} (hn : 4 ≤ n) :
     cartanD n ⟨0, by omega⟩ ⟨2, by omega⟩ = 0 := by
   simp only [cartanD, Matrix.of_apply, Fin.ext_iff]
-  split_ifs <;> simp_all <;> omega
+  split_ifs <;> simp_all; omega
 
 theorem orthThreeCommuting_plus {n : ℕ} (hn : 4 ≤ n) : OrthThreeCommuting .POmegaPlus n := by
   have hn3 : 3 ≤ n := by omega

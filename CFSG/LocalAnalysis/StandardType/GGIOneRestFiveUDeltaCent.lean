@@ -94,8 +94,8 @@ theorem exists_block_of_diag [Finite K] (h : UnitaryFieldData 2 n K) (S : Finset
       rcases hij with hi | hi
       · exact hi
       · exact hi
-    rw [if_pos rfl, hS i hi, Units.val_one, Matrix.one_apply_eq]
-  · rw [if_neg hij', Matrix.one_apply_ne hij']
+    rw [ite_eq_left rfl, hS i hi, Units.val_one, Matrix.one_apply_eq]
+  · rw [ite_eq_right hij', Matrix.one_apply_ne hij']
 
 end Helpers
 
@@ -156,7 +156,7 @@ theorem sum_three_point [CharP K 2] {d : ℕ} (i j k0 : Fin d) (hij : i ≠ j) (
           simp [hi, hj]
         · simp [hi, hj, hk]
   rw [Finset.sum_congr rfl (fun k _ => h k)]
-  simp only [Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true,
+  simp only [Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true,
     Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul, mul_one]
   ring
 
@@ -204,7 +204,7 @@ theorem trace_glAut (φ : K ≃+* K) (X : GL (Fin d) K) :
   simp [Matrix.trace, map_sum]
 
 theorem mul_center_of_hom {G : Type} [Group G] (X : G → G) (hX : ∀ a b, X (a * b) = X a * X b)
-    (a b s t : G) (hsa : X a = s * a) (hsb : X b = t * b) (hs : s ∈ Subgroup.center G)
+    (a b s t : G) (hsa : X a = s * a) (hsb : X b = t * b) (_hs : s ∈ Subgroup.center G)
     (ht : t ∈ Subgroup.center G) : X (a * b) * (a * b)⁻¹ = s * t := by
   have hat : a * t = t * a := Subgroup.mem_center_iff.mp ht a
   rw [hX, hsa, hsb]
@@ -215,7 +215,7 @@ theorem mul_center_of_hom {G : Type} [Group G] (X : G → G) (hX : ∀ a b, X (a
 theorem exists_mem_ne_of_one_lt_card {d : ℕ} (S : Finset (Fin d)) (hS : 1 < S.card) (a : Fin d) :
     ∃ z ∈ S, z ≠ a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsub : S ⊆ {a} := fun z hz => Finset.mem_singleton.mpr (hcon z hz)
   have := Finset.card_le_card hsub
   rw [Finset.card_singleton] at this
@@ -239,7 +239,7 @@ theorem isBlockOn_swap {K : Type} [Field K] {d : ℕ} (S : Finset (Fin d)) {a z 
     simp only [Equiv.swap_apply_eq_iff, hj', Matrix.one_apply]
 
 theorem centR_of_fix [Finite K] (h : UnitaryFieldData 2 n K) (hK : Nat.card K = (2 ^ n) ^ 2)
-    (hn : 1 ≤ n) (hd : 5 ≤ d) (c : Fin d) {p : ℕ} (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
+    (hn : 1 ≤ n) (hd : 5 ≤ d) (c : Fin d) {p : ℕ} (_hp : p.Prime) (_hpq : p ∣ 2 ^ n + 1)
     (α : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))))
     (hαp : α ^ p = 1)
     (hfix : ∀ u ∈ blockSU (n := n) (K := K) (Finset.univ.erase c),
@@ -369,7 +369,7 @@ theorem centR_of_fix [Finite K] (h : UnitaryFieldData 2 n K) (hK : Nat.card K = 
       have h3 : k ≠ k0 := fun e => hk (by rw [e]; exact hk0)
       rw [hσ]
       dsimp only
-      rw [if_neg h1, if_neg h2, if_neg h3]
+      rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
     obtain ⟨u, hu⟩ := exists_block_of_diag h S σ hnorm hprod hSσ
     have hT := hτtr u
     rw [hu, trace_diagHom'] at hT
@@ -439,14 +439,14 @@ theorem centR_of_fix [Finite K] (h : UnitaryFieldData 2 n K) (hK : Nat.card K = 
       have h2' : k ≠ z := fun e => hk (by rw [e]; exact hz)
       rw [hσ]
       dsimp only
-      rw [if_neg h1, if_neg h2']
+      rw [ite_eq_right h1, ite_eq_right h2']
     obtain ⟨u, hu⟩ := exists_block_of_diag h S σ hnorm hprod hSσ
     have hc := hcommB u
     rw [hu] at hc
     have hσa : σ a = ω := by
       rw [hσ]
       dsimp only
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
     have hσy : σ y ≠ ω := by
       rw [hσ]
       dsimp only
@@ -495,7 +495,7 @@ theorem centR_of_fix [Finite K] (h : UnitaryFieldData 2 n K) (hK : Nat.card K = 
       isBlockOn_swap S ha hz
     have hc : B * Pg = Pg * B := hcommB ⟨⟨Pg, hPmem⟩, hPblock⟩
     have hPaz : (Pg : Matrix (Fin d) (Fin d) K) a z = 1 := by
-      rw [hPg, permGL_swap_apply, Equiv.swap_apply_left, if_pos rfl]
+      rw [hPg, permGL_swap_apply, Equiv.swap_apply_left, ite_eq_left rfl]
     have e := congrArg (fun X : GL (Fin d) K => (X : Matrix (Fin d) (Fin d) K) a z) hc
     simp only [Units.val_mul] at e
     have hL : ∑ k, ((B : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) a k *
@@ -544,7 +544,7 @@ theorem centR_of_fix [Finite K] (h : UnitaryFieldData 2 n K) (hK : Nat.card K = 
         simp [nodeDiag, hρu, hg0, hγdef, hβdef]
       · have hiS : i ∈ S := (hSmem i).mpr hic
         simp [nodeDiag, hic, hγ i hiS, hg0, hγne]
-    · rw [if_neg hij, hoffall i j hij, mul_zero]
+    · rw [ite_eq_right hij, hoffall i j hij, mul_zero]
   have hscN : Matrix.GeneralLinearGroup.scalar (Fin d) g0⁻¹ ∈
       Subgroup.normalizer (unitarySU 2 n K d : Set (GL (Fin d) K)) := by
     rw [Subgroup.mem_normalizer_iff]
@@ -625,17 +625,17 @@ theorem centR_of_fix [Finite K] (h : UnitaryFieldData 2 n K) (hK : Nat.card K = 
         CFSG.RankThree.Classical.permGL (Equiv.swap s0 c) := rfl
     have hW1 : ((CFSG.RankThree.Classical.permGL (Equiv.swap s0 c) : GL (Fin d) K) :
         Matrix (Fin d) (Fin d) K) s0 c = 1 := by
-      rw [permGL_swap_apply, Equiv.swap_apply_left, if_pos rfl]
+      rw [permGL_swap_apply, Equiv.swap_apply_left, ite_eq_left rfl]
     have hW2 : ((CFSG.RankThree.Classical.permGL (Equiv.swap s0 c) : GL (Fin d) K) :
         Matrix (Fin d) (Fin d) K) c s0 = 1 := by
-      rw [permGL_swap_apply, Equiv.swap_apply_right, if_pos rfl]
+      rw [permGL_swap_apply, Equiv.swap_apply_right, ite_eq_left rfl]
     have h1 := congrFun (congrFun hcoe s0) c
     have h2 := congrFun (congrFun hcoe c) s0
     rw [hWsc] at h1 h2
     have hn0 : nodeDiag c (ρu ^ p) s0 = 1 := by simp [nodeDiag, hs0c]
     have hc0 : nodeDiag c (ρu ^ p) c = ρu ^ p := by simp [nodeDiag]
     simp only [Matrix.diagonal_mul, Matrix.mul_diagonal, hW1, hW2, hn0, hc0, Units.val_one,
-      Units.val_pow_eq_pow_val, mul_one, one_mul] at h1 h2
+      Units.val_pow_eq_pow_val, mul_one] at h1 h2
     have hx : ((ρu : K)) ^ p * ((ρu : K)) ^ p = 1 := by
       linear_combination (((ρu : K)) ^ p) * h2 - h1
     have h2' : (2 : K) = 0 := CharTwo.two_eq_zero

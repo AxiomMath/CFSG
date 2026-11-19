@@ -39,7 +39,7 @@ theorem exists_conj_toral_of_le_weylX {K₂ L : Type} [Field K₂] [Finite K₂]
     ∃ h ∈ adjointGroup τ L, ∀ e ∈ E,
       h * baseChangeGL ψ₂ ((e : adjointGroup τ K₂) : ModGL τ K₂) * h⁻¹ ∈ torusGroup τ L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := K₂) (p := 3) h3
   have hζ : ζ ^ 3 = 1 := by rw [← hζo]; exact pow_orderOf_eq_one ζ
   have hrange : (chevTorus τ ζ hζ).range = torusPow τ K₂ 3 :=

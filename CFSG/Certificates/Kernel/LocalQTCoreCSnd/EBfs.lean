@@ -33,7 +33,7 @@ theorem es_mem {B : List (Perm (Fin n))} (h : EFacts B) (r : RN n) :
 theorem es_closed {B : List (Perm (Fin n))} (h : EFacts B) :
     closedH (B.map RN.enc) (bfsSet (B.map RN.enc) 16) = true :=
   CFSG.KC.LQT.CM.closedH_of_grp B 16 (· ∈ lst B) (es_mem h) (one_mem_lst B)
-    (fun σ hσ g hg => lst_mul h hσ (mem_lst_of_mem h hg))
+    (fun _σ hσ _g hg => lst_mul h hσ (mem_lst_of_mem h hg))
 
 theorem es_size {B : List (Perm (Fin n))} (h : EFacts B) :
     (bfsSet (B.map RN.enc) 16).size = 16 := by

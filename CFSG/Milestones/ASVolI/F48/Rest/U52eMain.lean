@@ -76,8 +76,8 @@ theorem burnsideF48t_u52e_S0_le_pCore {E : Type} [Group E] {Gp M₁ M₂ : Subgr
 theorem burnsideF48t_small_U5_two_ext (h45 : F_4_5) (h46 : F_4_6) {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 .U5 2 1 Gp M₁ M₂) (hGp : Gp ≠ ⊤) :
     F48Concl .U5 2 1 Gp M₁ M₂ := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hext := burnsideF48s_isLieExtGroup_E ChF.nativeChartCompatibility hyp
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨θ, hBθ, hor, hXθ⟩ := burnsideF48t_u52e_chart hyp hGp

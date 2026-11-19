@@ -91,7 +91,7 @@ theorem false_of_mulEquiv_hsR
     rw [Nat.card_congr e.toEquiv]
     obtain ⟨-, -, -, -, -, -, -, -, hRcard, -⟩ := hs_normalizing_model
     exact hRcard
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hPpow : Nat.card P = 3 ^ 2 := by rw [hP]; norm_num
   have hk : ¬ 3 ^ (2 + 1) ∣ Nat.card Y := by rw [hcardY]; norm_num
   obtain ⟨g, hg⟩ := exists_conj_mem_of_card_eq_pow (p := 3) (k := 2) hPpow hk (x := y₀) hy3
@@ -112,7 +112,7 @@ theorem false_of_mulEquiv_hsR
 theorem inspectionArm_hs :
     InspectionArm fun N _ => IsSporadic N .HS := by
   intro Y _ _ N hN hC hQ P hPab hP3 hP9 hPc hw
-  haveI := hN
+  have := hN
   have hZ : center ↥N = ⊥ := center_eq_bot_of_isSporadic_hs hQ
   have hidx0 : N.index ≤ 2 := index_le_of_card_mulAut_le hC hZ (card_mulAut_le_of_isSporadic_hs hQ)
   have hidxne : N.index ≠ 0 := by

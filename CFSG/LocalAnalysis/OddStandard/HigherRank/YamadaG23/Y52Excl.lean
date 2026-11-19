@@ -32,7 +32,7 @@ theorem y52_excl {c : Ctx5 G L} (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
   let N0 : Subgroup G := y52N0 c.s
   have hN0leX : N0 ≤ X :=
     (y52_N0_le_P hH).trans ((f3_P_le_C₂ hH).trans (f3_C₂_le_X hH))
-  haveI hN0normal : (N0.subgroupOf X).Normal :=
+  have hN0normal : (N0.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff hN0leX).mpr
       (fun h k hh hk => y52_N0_normal hH k hk h hh)
   let π : ↥X →* (↥X ⧸ N0.subgroupOf X) := QuotientGroup.mk' (N0.subgroupOf X)

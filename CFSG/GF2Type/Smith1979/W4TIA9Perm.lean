@@ -46,7 +46,7 @@ theorem eq_one_of_uniform {T : Subgroup (Perm (Fin 9))} (hcard : Nat.card T = 8)
     (hsq : ∀ t ∈ T, t * t = 1) {f : ℕ}
     (hf : ∀ t ∈ T, t ≠ 1 → Fintype.card (fixedBy (Fin 9) t) = f) : f = 1 := by
   classical
-  haveI : Fintype T := Fintype.ofFinite T
+  have : Fintype T := Fintype.ofFinite T
   have hT : Fintype.card T = 8 := by rw [← Nat.card_eq_fintype_card, hcard]
   obtain ⟨t₀, ht₀T, ht₀⟩ : ∃ t ∈ T, t ≠ 1 := by
     by_contra h
@@ -145,7 +145,7 @@ theorem le_index_normalizer {T : Subgroup (Perm (Fin 9))} (hcard : Nat.card T = 
         exact (b : Perm (Fin 9)).symm_apply_apply ω₀
       have h3 := hreg _ (T.mul_mem (T.inv_mem b.2) a.2) h2
       exact Subtype.ext (inv_mul_eq_one.mp h3).symm
-    haveI : Fintype T := Fintype.ofFinite T
+    have : Fintype T := Fintype.ofFinite T
     have hc : Fintype.card T = Fintype.card {x : Fin 9 // x ≠ p} := by
       rw [← Nat.card_eq_fintype_card, hcard, Fintype.card_subtype_compl, Fintype.card_fin,
         Fintype.card_unique]
@@ -192,7 +192,7 @@ theorem le_index_normalizer {T : Subgroup (Perm (Fin 9))} (hcard : Nat.card T = 
           Nat.card_mono (Set.toFinite _) hsub
       _ = 8 := by
           rw [Nat.card_eq_fintype_card]
-          simp [Set.coe_setOf, Fintype.card_subtype_compl]
+          simp [Set.coe_ofPred, Fintype.card_subtype_compl]
   have hN : Nat.card N ≤ 1344 := by
     have h1 := Subgroup.card_mul_index St
     rw [MulAction.index_stabilizer] at h1

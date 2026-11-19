@@ -24,11 +24,11 @@ theorem card_le_pow_statedProj_statedSU_of_dvd_sub_one {n r p : ℕ} {F : Type} 
     (hpq : p ∣ 2 ^ n - 1) (E : Subgroup (StatedProj (StatedSU (2 * r) (2 ^ n) F)))
     (hE : IsElemAbelian p E) : Nat.card E ≤ p ^ r := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite F := h.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite F := h.finite
   let N : Subgroup (StatedSU (2 * r) (2 ^ n) F) :=
     (StatedScalars (Fin (2 * r)) F).subgroupOf (StatedSU (2 * r) (2 ^ n) F)
-  haveI hNn : N.Normal :=
+  have hNn : N.Normal :=
     Subgroup.Normal.subgroupOf (inferInstance : (StatedScalars (Fin (2 * r)) F).Normal)
       (StatedSU (2 * r) (2 ^ n) F)
   have hNcard : Nat.card N ∣ 2 ^ n + 1 :=
@@ -80,8 +80,8 @@ theorem card_le_sq_of_subset_matConj_GU_four {K : Type} [Field K] [Finite K] {n 
         (LargeEvenGUSet (Fin 4) K (2 ^ n))) :
     Nat.card E ≤ p ^ 2 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
   have hInn : E ≤ LargeEvenInnSet (LargeEvenProj (LargeEvenSUGroup (Fin 4) K (2 ^ n))) := by
     intro a ha
     exact CFSG.LocalAnalysis.GLTheoremA.K155XOr.orth_matConj_SU_sub_inn (E := K) (q := 2 ^ n)

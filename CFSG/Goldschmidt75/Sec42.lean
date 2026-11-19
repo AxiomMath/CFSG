@@ -100,7 +100,7 @@ theorem MinCE.exists_isKleinFour
   push Not at hno
   apply h.omega1_not_comm
   obtain ⟨z, hzS, hz2, hzc⟩ :=
-    exists_central_involution_of_isPGroup (T.isPGroup'.to_le h.le₁) h.ne_bot
+    exists_central_involution_of_isPGroup (T.isPGroup.to_le h.le₁) h.ne_bot
   have hall : ∀ t ∈ S₁, t ^ 2 = 1 → t ∈ zpowers z := by
     intro t ht ht2
     by_cases ht1 : t = 1

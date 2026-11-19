@@ -88,6 +88,7 @@ section LangTw
 
 variable {L : Type} [Field L] [IsAlgClosed L] (p : ℕ) [Fact p.Prime] [CharP L p]
 
+omit [IsAlgClosed L] in
 theorem familyGroup_unit_eq_toralRootGroup (a : Fin Tag.E6.rank → Lˣ) :
     familyGroup (K := L) (fun _ : Unit => a) = toralRootGroup Tag.E6 L a := by
   have h : familyKernel (fun _ : Unit => a) = rootCharKernel a := by

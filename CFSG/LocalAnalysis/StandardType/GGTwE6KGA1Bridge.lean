@@ -52,7 +52,7 @@ theorem e6FixedF4EquivAll_symm_mem_torusGroup {K : Type} [Field K]
   classical
   let Ω := AlgebraicClosure K
   let ι : K →+* Ω := algebraMap K Ω
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   let gΩ : twistedFixedGroup TwistTag.E6 Ω (RingHom.id Ω) :=
     ⟨baseChangeGL ι (g : ModGL TwistTag.E6.tag K),
       baseChangeGL_mem_twistedFixedGroup ι g.2⟩

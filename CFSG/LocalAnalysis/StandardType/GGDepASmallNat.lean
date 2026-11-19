@@ -43,7 +43,7 @@ private lemma l05nNA_dot_single {p N : ℕ} (a : GGDepAE p N) (i : Fin N) :
   rw [← Finset.sum_subset (Finset.subset_univ ({i} : Finset (Fin N))) (by
     intro x _ hx
     simp only [Finset.mem_singleton] at hx
-    rw [Pi.single_apply, if_neg hx, mul_zero])]
+    rw [Pi.single_apply, ite_eq_right hx, mul_zero])]
   rw [Finset.sum_singleton, Pi.single_eq_same, mul_one]
 
 private lemma l05nNA_dot_x {p N : ℕ} (hN : 1 ≤ N) (a : GGDepAE p N) :
@@ -52,9 +52,9 @@ private lemma l05nNA_dot_x {p N : ℕ} (hN : 1 ≤ N) (a : GGDepAE p N) :
   rw [← Finset.sum_subset (Finset.subset_univ ({⟨N-1, by omega⟩} : Finset (Fin N))) (by
     intro x _ hx
     simp only [Finset.mem_singleton] at hx
-    rw [ggDepAx, if_neg (by intro hh; exact hx (Fin.ext (by simp only [Fin.val_mk]; omega))),
+    rw [ggDepAx, ite_eq_right (by intro hh; exact hx (Fin.ext (by simp only; omega))),
       mul_zero])]
-  rw [Finset.sum_singleton, ggDepAx, if_pos (by omega : N - 1 + 1 = N), mul_one]
+  rw [Finset.sum_singleton, ggDepAx, ite_eq_left (by omega : N - 1 + 1 = N), mul_one]
 
 private lemma l05nNA_sum_univ_last {p N : ℕ} (hN : 1 ≤ N) (f : Fin N → ZMod p) :
     (∑ j : Fin N, f j) = (∑ j : Fin (N-1), f ⟨j.val, by omega⟩) + f ⟨N-1, by omega⟩ := by
@@ -64,7 +64,7 @@ private lemma l05nNA_sum_univ_last {p N : ℕ} (hN : 1 ≤ N) (f : Fin N → ZMo
         = ∑ j : Fin N, (if h : j.val < N then f ⟨j.val, h⟩ else 0) := by
           apply Finset.sum_congr rfl
           intro j _
-          rw [dif_pos j.isLt]
+          rw [dite_eq_left j.isLt]
       _ = ∑ i ∈ Finset.range N, (if h : i < N then f ⟨i, h⟩ else 0) :=
           Fin.sum_univ_eq_sum_range (fun i => if h : i < N then f ⟨i, h⟩ else 0) N
   have keyN1 : (∑ j : Fin (N-1), f ⟨j.val, by omega⟩) =
@@ -73,7 +73,7 @@ private lemma l05nNA_sum_univ_last {p N : ℕ} (hN : 1 ≤ N) (f : Fin N → ZMo
         = ∑ j : Fin (N-1), (if h : j.val < N then f ⟨j.val, h⟩ else 0) := by
           apply Finset.sum_congr rfl
           intro j _
-          rw [dif_pos (by omega : j.val < N)]
+          rw [dite_eq_left (by omega : j.val < N)]
       _ = ∑ i ∈ Finset.range (N-1), (if h : i < N then f ⟨i, h⟩ else 0) :=
           Fin.sum_univ_eq_sum_range (fun i => if h : i < N then f ⟨i, h⟩ else 0) (N-1)
   have hfin : (∑ j : Fin N, f j) = ∑ j : Fin N, f ⟨j.val, by omega⟩ := by
@@ -84,26 +84,26 @@ private lemma l05nNA_sum_univ_last {p N : ℕ} (hN : 1 ≤ N) (f : Fin N → ZMo
   have hr : Finset.range N = Finset.range (N - 1 + 1) := by rw [Nat.sub_add_cancel hN]
   rw [hr, Finset.sum_range_succ]
   congr 1
-  rw [dif_pos (by omega : N - 1 < N)]
+  rw [dite_eq_left (by omega : N - 1 < N)]
 
 private lemma l05nNA_h_last_eq {p N : ℕ} (c : Fin (N-1)) (hc : c.val + 2 = N) :
     ggDepAh p N c = (1 : GGDepAE p N) - ggDepAx p N + Pi.single ⟨N-2, by omega⟩ 1 := by
   funext j
   simp only [ggDepAh, ggDepAx, Pi.sub_apply, Pi.add_apply, Pi.one_apply, Pi.single_apply]
   by_cases h : j.val + 1 = N
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     have h3 : ¬ (j = ⟨N-2, by omega⟩) := by
-      intro hh; rw [Fin.ext_iff] at hh; simp only [Fin.val_mk] at hh; omega
-    rw [if_neg h3]
+      intro hh; rw [Fin.ext_iff] at hh; simp only at hh; omega
+    rw [ite_eq_right h3]
     ring
-  · rw [if_neg h, if_neg h, if_pos hc]
+  · rw [ite_eq_right h, ite_eq_right h, ite_eq_left hc]
     by_cases hjv : j.val = c.val
     · have hje : j = ⟨N-2, by omega⟩ := by
-        apply Fin.ext; simp only [Fin.val_mk]; omega
-      rw [if_pos hjv, if_neg (by omega : ¬ (j.val = c.val + 1)), if_pos hje]
+        apply Fin.ext; simp only; omega
+      rw [ite_eq_left hjv, ite_eq_right (by omega : ¬ (j.val = c.val + 1)), ite_eq_left hje]
     · have hje : ¬ (j = ⟨N-2, by omega⟩) := by
-        intro hh; rw [Fin.ext_iff] at hh; simp only [Fin.val_mk] at hh; omega
-      rw [if_neg hjv, if_neg (by omega : ¬ (j.val = c.val + 1)), if_neg hje]
+        intro hh; rw [Fin.ext_iff] at hh; simp only at hh; omega
+      rw [ite_eq_right hjv, ite_eq_right (by omega : ¬ (j.val = c.val + 1)), ite_eq_right hje]
       ring
 
 private lemma l05nNA_dot_h_last {p N : ℕ} (hN : 1 ≤ N) (aa : GGDepAE p N) (c : Fin (N-1))
@@ -119,22 +119,22 @@ private lemma l05nNA_alpha_apply {p N : ℕ} (c : Fin (N - 1)) (hc : c.val + 2 <
     ggDepAα p N c j = (if j.val = c.val then 1 else 0) - (if j.val = c.val + 1 then 1 else 0) := by
   simp only [ggDepAα]
   by_cases h : j.val + 1 = N
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have h1 : j.val ≠ c.val := by omega
     have h2 : j.val ≠ c.val + 1 := by omega
-    rw [if_neg h1, if_neg h2, sub_zero]
-  · rw [if_neg h]
+    rw [ite_eq_right h1, ite_eq_right h2, sub_zero]
+  · rw [ite_eq_right h]
 
 private lemma l05nNA_h_apply_short {p N : ℕ} (c : Fin (N - 1)) (hc : c.val + 2 < N) (j : Fin N) :
     ggDepAh p N c j = (if j.val = c.val then 1 else 0) - (if j.val = c.val + 1 then 1 else 0) := by
   simp only [ggDepAh]
   by_cases h : j.val + 1 = N
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have h1 : j.val ≠ c.val := by omega
     have h2 : j.val ≠ c.val + 1 := by omega
-    rw [if_neg h1, if_neg h2]
+    rw [ite_eq_right h1, ite_eq_right h2]
     ring
-  · rw [if_neg h, if_neg (by omega : ¬ (c.val + 2 = N)), add_zero]
+  · rw [ite_eq_right h, ite_eq_right (by omega : ¬ (c.val + 2 = N)), add_zero]
 
 private lemma l05nNA_dot_eq_two {p N : ℕ} (a v : GGDepAE p N) (i k : Fin N) (hik : i ≠ k)
     (hzero : ∀ j : Fin N, j ≠ i → j ≠ k → a j = 0) :
@@ -164,18 +164,18 @@ private lemma l05nNA_dot_alpha_short {p N : ℕ} (ha : GGDepAE p N) (c : Fin (N-
   have hzero : ∀ j : Fin N, j ≠ ⟨c.val, by omega⟩ → j ≠ ⟨c.val+1, by omega⟩ →
       ggDepAα p N c j = 0 := by
     intro j hj1 hj2
-    rw [l05nNA_alpha_apply c hc j, if_neg (fun hh => hj1 (Fin.ext hh)),
-      if_neg (fun hh => hj2 (Fin.ext hh))]
+    rw [l05nNA_alpha_apply c hc j, ite_eq_right (fun hh => hj1 (Fin.ext hh)),
+      ite_eq_right (fun hh => hj2 (Fin.ext hh))]
     ring
   rw [l05nNA_dot_eq_two (ggDepAα p N c) ha ⟨c.val, by omega⟩ ⟨c.val+1, by omega⟩
-    (by intro hh; rw [Fin.ext_iff] at hh; simp only [Fin.val_mk] at hh; omega) hzero]
+    (by intro hh; rw [Fin.ext_iff] at hh; simp only at hh; omega) hzero]
   have h1 : ggDepAα p N c ⟨c.val, by omega⟩ = 1 := by
     rw [l05nNA_alpha_apply c hc]
-    rw [if_pos rfl, if_neg (by omega : ¬ (c.val = c.val + 1))]
+    rw [ite_eq_left rfl, ite_eq_right (by omega : ¬ (c.val = c.val + 1))]
     ring
   have h2 : ggDepAα p N c ⟨c.val+1, by omega⟩ = -1 := by
     rw [l05nNA_alpha_apply c hc]
-    rw [if_neg (by omega : ¬ (c.val + 1 = c.val)), if_pos rfl]
+    rw [ite_eq_right (by omega : ¬ (c.val + 1 = c.val)), ite_eq_left rfl]
     ring
   rw [h1, h2]
   ring
@@ -187,18 +187,18 @@ private lemma l05nNA_dot_alpha_last {p N : ℕ} (ha : GGDepAE p N) (c : Fin (N-1
     intro j hj
     simp only [ggDepAα]
     by_cases h : j.val + 1 = N
-    · rw [if_pos h]
-    · rw [if_neg h]
+    · rw [ite_eq_left h]
+    · rw [ite_eq_right h]
       have h1 : j.val ≠ c.val := by
-        intro hh; exact hj (Fin.ext (by simp only [Fin.val_mk]; omega))
+        intro hh; exact hj (Fin.ext (by simp only; omega))
       have h2 : j.val ≠ c.val + 1 := by omega
-      rw [if_neg h1, if_neg h2, sub_zero]
+      rw [ite_eq_right h1, ite_eq_right h2, sub_zero]
   rw [l05nNA_dot_eq_one (ggDepAα p N c) ha ⟨N-2, by omega⟩ hzero]
   have hone : ggDepAα p N c ⟨N-2, by omega⟩ = 1 := by
     simp only [ggDepAα]
-    rw [if_neg (by omega : ¬ (N - 2 + 1 = N)),
-      if_pos (by omega : (N - 2 : ℕ) = c.val),
-      if_neg (by omega : ¬ ((N - 2 : ℕ) = c.val + 1))]
+    rw [ite_eq_right (by omega : ¬ (N - 2 + 1 = N)),
+      ite_eq_left (by omega : (N - 2 : ℕ) = c.val),
+      ite_eq_right (by omega : ¬ ((N - 2 : ℕ) = c.val + 1))]
     ring
   rw [hone, one_mul]
 
@@ -206,18 +206,18 @@ private lemma l05nNA_dot_h_short {p N : ℕ} (aa : GGDepAE p N) (c : Fin (N-1))
     (hc : c.val + 2 < N) :
     ggDepAdot aa (ggDepAh p N c) = aa ⟨c.val, by omega⟩ - aa ⟨c.val+1, by omega⟩ := by
   rw [l05nNA_dot_eq_two' aa (ggDepAh p N c) ⟨c.val, by omega⟩ ⟨c.val+1, by omega⟩
-    (by intro hh; rw [Fin.ext_iff] at hh; simp only [Fin.val_mk] at hh; omega) (by
+    (by intro hh; rw [Fin.ext_iff] at hh; simp only at hh; omega) (by
       intro j hj1 hj2
-      rw [l05nNA_h_apply_short c hc j, if_neg (fun hh => hj1 (Fin.ext hh)),
-        if_neg (fun hh => hj2 (Fin.ext hh))]
+      rw [l05nNA_h_apply_short c hc j, ite_eq_right (fun hh => hj1 (Fin.ext hh)),
+        ite_eq_right (fun hh => hj2 (Fin.ext hh))]
       ring)]
   have h1 : ggDepAh p N c ⟨c.val, by omega⟩ = 1 := by
     rw [l05nNA_h_apply_short c hc]
-    rw [if_pos rfl, if_neg (by omega : ¬ (c.val = c.val + 1))]
+    rw [ite_eq_left rfl, ite_eq_right (by omega : ¬ (c.val = c.val + 1))]
     ring
   have h2 : ggDepAh p N c ⟨c.val+1, by omega⟩ = -1 := by
     rw [l05nNA_h_apply_short c hc]
-    rw [if_neg (by omega : ¬ (c.val + 1 = c.val)), if_pos rfl]
+    rw [ite_eq_right (by omega : ¬ (c.val + 1 = c.val)), ite_eq_left rfl]
     ring
   rw [h1, h2]
   ring
@@ -229,12 +229,12 @@ private lemma l05nNA_sum_fin_lt {p : ℕ} (m : ZMod p) {M c : ℕ} (hc : c ≤ M
   conv_lhs => rw [← hM]
   rw [Finset.sum_range_add]
   have h1 : (∑ x ∈ Finset.range c, (if x < c then m else 0)) = c • m := by
-    rw [Finset.sum_congr rfl (fun x hx => by rw [if_pos (Finset.mem_range.mp hx)])]
+    rw [Finset.sum_congr rfl (fun x hx => by rw [ite_eq_left (Finset.mem_range.mp hx)])]
     rw [Finset.sum_const, Finset.card_range]
   have h2 : (∑ x ∈ Finset.range (M - c), (if c + x < c then m else 0)) = 0 := by
     apply Finset.sum_eq_zero
     intro x _
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   rw [h1, h2, add_zero, nsmul_eq_mul]
 
 private lemma l05nNA_tail_eq {p : ℕ} (f : ℕ → ZMod p) (n0 : ZMod p) (c M : ℕ)
@@ -251,42 +251,42 @@ private lemma l05nNA_tail_eq {p : ℕ} (f : ℕ → ZMod p) (n0 : ZMod p) (c M :
     have hkM' : k = M := by omega
     rw [hkM', hM]
     by_cases h : c = M
-    · rw [if_pos h, if_pos (by omega : M ≤ c)]
-    · rw [if_neg h, if_neg (by omega : ¬ (M ≤ c))]
+    · rw [ite_eq_left h, ite_eq_left (by omega : M ≤ c)]
+    · rw [ite_eq_right h, ite_eq_right (by omega : ¬ (M ≤ c))]
   | succ d ih =>
     intro k hd hk1 hkM
     have hklt : k < M := by omega
     have ih' := ih (k+1) (by omega) (by omega) (by omega)
     rw [hstep k hk1 hklt, ih']
     by_cases h1 : k = c
-    · rw [if_neg (by omega : ¬ (k + 1 ≤ c)), if_pos h1, if_pos (by omega : k ≤ c)]
+    · rw [ite_eq_right (by omega : ¬ (k + 1 ≤ c)), ite_eq_left h1, ite_eq_left (by omega : k ≤ c)]
       ring
     · by_cases h2 : k < c
-      · rw [if_pos (by omega : k + 1 ≤ c), if_neg h1, if_pos (by omega : k ≤ c)]
+      · rw [ite_eq_left (by omega : k + 1 ≤ c), ite_eq_right h1, ite_eq_left (by omega : k ≤ c)]
         ring
-      · rw [if_neg (by omega : ¬ (k + 1 ≤ c)), if_neg h1, if_neg (by omega : ¬ (k ≤ c))]
+      · rw [ite_eq_right (by omega : ¬ (k + 1 ≤ c)), ite_eq_right h1, ite_eq_right (by omega : ¬ (k ≤ c))]
         ring
 
 private lemma l05nNA_prefix_eq {p : ℕ} (f : ℕ → ZMod p) (n0 : ZMod p) (c M : ℕ)
-    (hcM : c ≤ M) (h0 : f 0 = 0)
+    (_hcM : c ≤ M) (h0 : f 0 = 0)
     (hstep : ∀ k, k < M → f (k + 1) = f k - (if k = c then n0 else 0)) :
     ∀ k, k ≤ M → f k = if k ≤ c then 0 else -n0 := by
   suffices h : ∀ k, k ≤ M → f k = if k ≤ c then 0 else -n0 by
     intro k hk; exact h k hk
   intro k
   induction k with
-  | zero => intro _; rw [h0, if_pos (by omega : 0 ≤ c)]
+  | zero => intro _; rw [h0, ite_eq_left (by omega : 0 ≤ c)]
   | succ k ih =>
     intro hk1
     have hklt : k < M := by omega
     rw [hstep k hklt, ih (by omega)]
     by_cases h1 : k = c
-    · rw [if_pos (by omega : k ≤ c), if_pos h1, if_neg (by omega : ¬ (k + 1 ≤ c))]
+    · rw [ite_eq_left (by omega : k ≤ c), ite_eq_left h1, ite_eq_right (by omega : ¬ (k + 1 ≤ c))]
       ring
     · by_cases h2 : k < c
-      · rw [if_pos (by omega : k ≤ c), if_neg h1, if_pos (by omega : k + 1 ≤ c)]
+      · rw [ite_eq_left (by omega : k ≤ c), ite_eq_right h1, ite_eq_left (by omega : k + 1 ≤ c)]
         ring
-      · rw [if_neg (by omega : ¬ (k ≤ c)), if_neg h1, if_neg (by omega : ¬ (k + 1 ≤ c))]
+      · rw [ite_eq_right (by omega : ¬ (k ≤ c)), ite_eq_right h1, ite_eq_right (by omega : ¬ (k + 1 ≤ c))]
         ring
 
 @[simp] private lemma l05nNA_getD_map_range {N : ℕ} (F : ℕ → ℕ) (j : ℕ) (hj : j < N) :
@@ -323,18 +323,18 @@ private lemma l05nNA_sum_fin_pred {p N : ℕ} (hN : 2 ≤ N) (f : Fin (N-1) → 
       ∑ j ∈ Finset.range (N-1), (if h : j < N-1 then f ⟨j,h⟩ else 0) := by
     calc (∑ j : Fin (N-1), f j) =
         ∑ j : Fin (N-1), (if h : j.val < N-1 then f ⟨j.val,h⟩ else 0) := by
-          apply Finset.sum_congr rfl; intro j _; rw [dif_pos j.isLt]
+          apply Finset.sum_congr rfl; intro j _; rw [dite_eq_left j.isLt]
       _ = ∑ j ∈ Finset.range (N-1), (if h : j < N-1 then f ⟨j,h⟩ else 0) :=
           Fin.sum_univ_eq_sum_range (fun j => if h : j < N-1 then f ⟨j,h⟩ else 0) (N-1)
   have keyN1 : (∑ i : Fin (N-2), f ⟨i.val + 1, by omega⟩) =
       ∑ i ∈ Finset.range (N-2), (if h : i + 1 < N-1 then f ⟨i+1, h⟩ else 0) := by
     calc (∑ i : Fin (N-2), f ⟨i.val + 1, by omega⟩)
         = ∑ i : Fin (N-2), (if h : i.val + 1 < N-1 then f ⟨i.val+1, h⟩ else 0) := by
-          apply Finset.sum_congr rfl; intro i _; rw [dif_pos (by omega : i.val+1 < N-1)]
+          apply Finset.sum_congr rfl; intro i _; rw [dite_eq_left (by omega : i.val+1 < N-1)]
       _ = ∑ i ∈ Finset.range (N-2), (if h : i + 1 < N-1 then f ⟨i+1, h⟩ else 0) :=
           Fin.sum_univ_eq_sum_range (fun i => if h : i + 1 < N-1 then f ⟨i+1, h⟩ else 0) (N-2)
   have hr : Finset.range (N-1) = Finset.range (N - 2 + 1) := by congr 1; omega
-  rw [keyN, keyN1, hr, Finset.sum_range_succ', dif_pos (by omega : 0 < N-1)]
+  rw [keyN, keyN1, hr, Finset.sum_range_succ', dite_eq_left (by omega : 0 < N-1)]
 
 private lemma l05nNA_natCast_psub {p k : ℕ} (hk : k ≤ p) :
     ((p - k : ℕ) : ZMod p) = -((k : ℕ) : ZMod p) := by
@@ -346,19 +346,19 @@ private lemma l05nNA_fin_if_eq {p N : ℕ} (k : ℕ) (hk : k < N - 1) (c0 : Fin 
     (a b : ZMod p) :
     (if (⟨k, hk⟩ : Fin (N - 1)) = c0 then a else b) = (if k = c0.val then a else b) := by
   by_cases hh : k = c0.val
-  · rw [if_pos (by apply Fin.ext; simp only [Fin.val_mk]; exact hh), if_pos hh]
+  · rw [ite_eq_left (by apply Fin.ext; simp only; exact hh), ite_eq_left hh]
   · have hne : (⟨k, hk⟩ : Fin (N - 1)) ≠ c0 := by
-      intro hh'; rw [Fin.ext_iff] at hh'; simp only [Fin.val_mk] at hh'; exact hh hh'
-    rw [if_neg hne, if_neg hh]
+      intro hh'; rw [Fin.ext_iff] at hh'; simp only at hh'; exact hh hh'
+    rw [ite_eq_right hne, ite_eq_right hh]
 
 private lemma l05nNA_fin_if_eq' {p N : ℕ} (k : ℕ) (hk : k < N - 1) (c0 : Fin (N - 1))
     (a b : ZMod p) :
     (if (⟨k, hk⟩ : Fin (N - 1)) = c0 then a else b) = (if c0.val = k then a else b) := by
   by_cases hh : c0.val = k
-  · rw [if_pos (by apply Fin.ext; simp only [Fin.val_mk]; omega), if_pos hh]
+  · rw [ite_eq_left (by apply Fin.ext; simp only; omega), ite_eq_left hh]
   · have hne : (⟨k, hk⟩ : Fin (N - 1)) ≠ c0 := by
-      intro hh'; rw [Fin.ext_iff] at hh'; simp only [Fin.val_mk] at hh'; exact hh hh'.symm
-    rw [if_neg hne, if_neg hh]
+      intro hh'; rw [Fin.ext_iff] at hh'; simp only at hh'; exact hh hh'.symm
+    rw [ite_eq_right hne, ite_eq_right hh]
 
 private lemma l05nNA_hc_lt {N k : ℕ} (hk : k < N - 1) (h : k + 2 < N) :
     ((⟨k, hk⟩ : Fin (N - 1)).val + 2 < N) := by simpa [Fin.val_mk] using h
@@ -381,24 +381,24 @@ private lemma l05nNA_fin_eq_last {N : ℕ} (j : Fin N) (h : j.val + 1 = N) :
   apply Fin.ext; show j.val = N - 1; omega
 
 theorem ggDepANHa_complete {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) (b c0 : Fin (N - 1))
-    (hb : b.val = 0 ∨ b.val + 2 = N) (hbc : c0 ≠ b) (n : ℕ) (ha : GGDepAE p N)
+    (hb : b.val = 0 ∨ b.val + 2 = N) (_hbc : c0 ≠ b) (n : ℕ) (ha : GGDepAE p N)
     (h : ∀ c : Fin (N - 1), c ≠ b →
       ggDepAdot (ggDepAα p N c) ha = if c = c0 then (n : ZMod p) else 0) :
     ∃ s t : ℕ, ha = ggDepANToZ p N (ggDepANHaParam p N b.val c0.val n s t) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   rcases hb with hb0 | hbN
   · refine ⟨(ha ⟨0, by omega⟩).val, (ha ⟨N-1, by omega⟩).val, ?_⟩
     have htail : ∀ k, 1 ≤ k → k ≤ N - 2 →
         (if h : k < N then ha ⟨k, h⟩ else 0) = if k ≤ c0.val then (n : ZMod p) else 0 := by
       apply l05nNA_tail_eq (fun k => if h : k < N then ha ⟨k, h⟩ else 0) (n : ZMod p) c0.val (N - 2)
       · have := c0.isLt; omega
-      · rw [dif_pos (by omega : N - 2 < N)]
+      · rw [dite_eq_left (by omega : N - 2 < N)]
         have hc' := l05nNA_fin_ne (N-2) (by omega) b (by omega)
         have hcon := h ⟨N - 2, by omega⟩ hc'
         rw [l05nNA_dot_alpha_last ha ⟨N - 2, by omega⟩ (l05nNA_hc_eq (by omega) (by omega))] at hcon
         rw [hcon, l05nNA_fin_if_eq' (N - 2) (by omega) c0]
       · intro k hk1 hklt
-        rw [dif_pos (by omega : k < N), dif_pos (by omega : k + 1 < N)]
+        rw [dite_eq_left (by omega : k < N), dite_eq_left (by omega : k + 1 < N)]
         have hc' := l05nNA_fin_ne k (by omega) b (by omega)
         have hcon := h ⟨k, by omega⟩ hc'
         rw [l05nNA_dot_alpha_short ha ⟨k, by omega⟩ (l05nNA_hc_lt (by omega) (by omega)),
@@ -408,17 +408,17 @@ theorem ggDepANHa_complete {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) (b c0 : Fin
     funext j
     show ha j = (((ggDepANHaParam p N b.val c0.val n (ha ⟨0, by omega⟩).val
       (ha ⟨N - 1, by omega⟩).val).getD j.val 0 : ℕ) : ZMod p)
-    rw [l05nNA_getD_paramHa j.val j.isLt, if_pos hb0]
+    rw [l05nNA_getD_paramHa j.val j.isLt, ite_eq_left hb0]
     by_cases hj1 : j.val + 1 = N
-    · rw [if_pos hj1, l05nNA_fin_eq_last j hj1, ZMod.natCast_mod]
+    · rw [ite_eq_left hj1, l05nNA_fin_eq_last j hj1, ZMod.natCast_mod]
       exact (ZMod.natCast_zmod_val (ha ⟨N - 1, by omega⟩)).symm
-    · rw [if_neg hj1]
+    · rw [ite_eq_right hj1]
       by_cases hj0 : j.val = 0
-      · rw [if_pos hj0, l05nNA_fin_eq_of_val j 0 (by omega) (by omega), ZMod.natCast_mod]
+      · rw [ite_eq_left hj0, l05nNA_fin_eq_of_val j 0 (by omega) (by omega), ZMod.natCast_mod]
         exact (ZMod.natCast_zmod_val (ha ⟨0, by omega⟩)).symm
-      · rw [if_neg hj0]
+      · rw [ite_eq_right hj0]
         have hcoord := htail j.val (by omega) (by omega)
-        rw [dif_pos (by omega : j.val < N)] at hcoord
+        rw [dite_eq_left (by omega : j.val < N)] at hcoord
         have hcast : ((if j.val ≤ c0.val then n % p else 0 : ℕ) : ZMod p) =
             (if j.val ≤ c0.val then (n : ZMod p) else 0) := by
           by_cases hh : j.val ≤ c0.val <;> simp [hh, ZMod.natCast_mod]
@@ -431,9 +431,9 @@ theorem ggDepANHa_complete {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) (b c0 : Fin
       apply l05nNA_prefix_eq (fun k => (if h : k < N then ha ⟨k, h⟩ else 0) - ha ⟨0, by omega⟩)
         (n : ZMod p) c0.val (N - 2)
       · have := c0.isLt; omega
-      · rw [dif_pos (by omega : 0 < N)]; ring
+      · rw [dite_eq_left (by omega : 0 < N)]; ring
       · intro k hklt
-        rw [dif_pos (by omega : k < N), dif_pos (by omega : k + 1 < N)]
+        rw [dite_eq_left (by omega : k < N), dite_eq_left (by omega : k + 1 < N)]
         have hc' := l05nNA_fin_ne k (by omega) b (by omega)
         have hcon := h ⟨k, by omega⟩ hc'
         rw [l05nNA_dot_alpha_short ha ⟨k, by omega⟩ (l05nNA_hc_lt (by omega) (by omega)),
@@ -443,21 +443,21 @@ theorem ggDepANHa_complete {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) (b c0 : Fin
     funext j
     show ha j = (((ggDepANHaParam p N b.val c0.val n (ha ⟨0, by omega⟩ - (n : ZMod p)).val
       (ha ⟨N - 1, by omega⟩).val).getD j.val 0 : ℕ) : ZMod p)
-    rw [l05nNA_getD_paramHa j.val j.isLt, if_neg (by omega : ¬ (b.val = 0))]
+    rw [l05nNA_getD_paramHa j.val j.isLt, ite_eq_right (by omega : ¬ (b.val = 0))]
     by_cases hj1 : j.val + 1 = N
-    · rw [if_pos hj1, l05nNA_fin_eq_last j hj1, ZMod.natCast_mod]
+    · rw [ite_eq_left hj1, l05nNA_fin_eq_last j hj1, ZMod.natCast_mod]
       exact (ZMod.natCast_zmod_val (ha ⟨N - 1, by omega⟩)).symm
-    · rw [if_neg hj1]
+    · rw [ite_eq_right hj1]
       have hcoord : ha j = (ha ⟨0, by omega⟩ - (n : ZMod p)) +
           (if j.val ≤ c0.val then (n : ZMod p) else 0) := by
         have hk := hpref j.val (by omega)
-        rw [dif_pos (by omega : j.val < N), sub_eq_iff_eq_add] at hk
+        rw [dite_eq_left (by omega : j.val < N), sub_eq_iff_eq_add] at hk
         have hk' : ha j = (if j.val ≤ c0.val then 0 else -(n : ZMod p)) + ha ⟨0, by omega⟩ := by
           simpa using hk
         rw [hk']
         by_cases hh : j.val ≤ c0.val
-        · simp only [if_pos hh]; ring
-        · simp only [if_neg hh]; ring
+        · simp only [ite_eq_left hh]; ring
+        · simp only [ite_eq_right hh]; ring
       have hcast : ((if j.val ≤ c0.val then n else 0 : ℕ) : ZMod p) =
           (if j.val ≤ c0.val then (n : ZMod p) else 0) := by
         by_cases hh : j.val ≤ c0.val <;> simp [hh]
@@ -470,7 +470,7 @@ theorem ggDepANAa_complete {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 �
     (h : ∀ c : Fin (N - 1), c ≠ b →
       ggDepAdot aa (ggDepAh p N c) = if c = c0 then (m : ZMod p) else 0) :
     ∃ u v : ℕ, aa = ggDepANToZ p N (ggDepANAaParam p N b.val c0.val m u v) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hpN' : (N : ZMod p) = 0 := by
     obtain ⟨k, hk⟩ := hpN
     rw [hk, Nat.cast_mul, ZMod.natCast_self, zero_mul]
@@ -497,23 +497,23 @@ theorem ggDepANAa_complete {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 �
             (if h : k < N then aa ⟨k, h⟩ else 0) - aa ⟨N-2, by omega⟩)
           (0 : ZMod p) c0.val (N - 2)
           (by have := c0.isLt; omega)
-          (by rw [dif_pos (by omega : N-2 < N)]; split_ifs <;> ring)
+          (by rw [dite_eq_left (by omega : N-2 < N)]; split_ifs <;> ring)
           (by
             intro k hk1 hklt
-            rw [dif_pos (by omega : k < N), dif_pos (by omega : k + 1 < N)]
+            rw [dite_eq_left (by omega : k < N), dite_eq_left (by omega : k + 1 < N)]
             have hc' := l05nNA_fin_ne k (by omega) b (by omega)
             have hcon := h ⟨k, by omega⟩ hc'
             rw [l05nNA_dot_h_short aa ⟨k, by omega⟩ (l05nNA_hc_lt (by omega) (by omega)),
-              l05nNA_fin_if_eq k (by omega) c0, if_neg (by omega : ¬ (k = c0.val)),
+              l05nNA_fin_if_eq k (by omega) c0, ite_eq_right (by omega : ¬ (k = c0.val)),
               sub_eq_zero] at hcon
-            rw [if_neg (by omega : ¬ (k = c0.val)), hcon]
+            rw [ite_eq_right (by omega : ¬ (k = c0.val)), hcon]
             ring)
         intro k hk1 hk2
         have hk := hf k hk1 hk2
-        rw [dif_pos (by omega : k < N)] at hk
+        rw [dite_eq_left (by omega : k < N)] at hk
         have hk0 : (if k ≤ c0.val then (0 : ZMod p) else 0) = 0 := by split_ifs <;> rfl
         rw [hk0, sub_eq_zero] at hk
-        rw [dif_pos (by omega : k < N)]
+        rw [dite_eq_left (by omega : k < N)]
         exact hk
       have hlast : (∑ j : Fin (N-1), aa ⟨j.val, by omega⟩) + aa ⟨N-2, by omega⟩ = (m : ZMod p) := by
         have hc' := l05nNA_fin_ne (N-2) (by omega) b (by omega)
@@ -522,7 +522,7 @@ theorem ggDepANAa_complete {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 �
             (l05nNA_hc_eq (by omega) (by omega))] at hcon
         have hif : (⟨N-2, by omega⟩ : Fin (N-1)) = c0 :=
           l05nNA_fin_eq_of_val' (N-2) (by omega) c0 (by omega)
-        rwa [if_pos hif] at hcon
+        rwa [ite_eq_left hif] at hcon
       have hsum : (∑ j : Fin (N-1), aa ⟨j.val, by omega⟩) =
           (N - 2) • (aa ⟨N-2, by omega⟩ : ZMod p) + aa ⟨0, by omega⟩ := by
         rw [l05nNA_sum_fin_pred (by omega : 2 ≤ N) (fun j : Fin (N-1) => aa ⟨j.val, by omega⟩)]
@@ -532,7 +532,7 @@ theorem ggDepANAa_complete {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 �
           · apply Finset.sum_congr rfl
             intro i _
             have := hconst (i.val+1) (by omega) (by omega)
-            rwa [dif_pos (by omega : i.val+1 < N)] at this
+            rwa [dite_eq_left (by omega : i.val+1 < N)] at this
           · rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin]
         rw [h1]
       have haa0 : aa ⟨0, by omega⟩ = (aa ⟨N-2, by omega⟩ : ZMod p) + (m : ZMod p) := by
@@ -541,18 +541,18 @@ theorem ggDepANAa_complete {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 �
       funext j
       show aa j = (((ggDepANAaParam p N b.val c0.val m (aa ⟨N-2, by omega⟩).val
         (aa ⟨N-1, by omega⟩).val).getD j.val 0 : ℕ) : ZMod p)
-      simp only [l05nNA_getD_paramAa j.val j.isLt, if_pos hb0, if_pos hc0N]
+      simp only [l05nNA_getD_paramAa j.val j.isLt, ite_eq_left hb0, ite_eq_left hc0N]
       by_cases hj1 : j.val + 1 = N
-      · rw [if_pos hj1, l05nNA_fin_eq_last j hj1, ZMod.natCast_mod]
+      · rw [ite_eq_left hj1, l05nNA_fin_eq_last j hj1, ZMod.natCast_mod]
         exact (ZMod.natCast_zmod_val (aa ⟨N-1, by omega⟩)).symm
-      · rw [if_neg hj1]
+      · rw [ite_eq_right hj1]
         by_cases hj0 : j.val = 0
-        · rw [if_pos hj0, l05nNA_fin_eq_of_val j 0 (by omega) (by omega)]
+        · rw [ite_eq_left hj0, l05nNA_fin_eq_of_val j 0 (by omega) (by omega)]
           rw [ZMod.natCast_mod, Nat.cast_add, ZMod.natCast_zmod_val, haa0]
           ring
-        · rw [if_neg hj0, ZMod.natCast_mod, ZMod.natCast_zmod_val]
+        · rw [ite_eq_right hj0, ZMod.natCast_mod, ZMod.natCast_zmod_val]
           have := hconst j.val (by omega) (by omega)
-          rw [dif_pos (by omega : j.val < N)] at this
+          rw [dite_eq_left (by omega : j.val < N)] at this
           simpa using this
     · refine ⟨(aa ⟨1, by omega⟩ - (m : ZMod p)).val, (aa ⟨N-1, by omega⟩).val, ?_⟩
       have hg : ∀ k, k ≤ N - 3 →
@@ -562,9 +562,9 @@ theorem ggDepANAa_complete {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 �
             (if h : k+1 < N then aa ⟨k+1, h⟩ else 0) - aa ⟨1, by omega⟩)
           (m : ZMod p) (c0.val - 1) (N - 3)
         · have := c0.isLt; omega
-        · rw [dif_pos (by omega : 0 + 1 < N)]; ring
+        · rw [dite_eq_left (by omega : 0 + 1 < N)]; ring
         · intro k hklt
-          rw [dif_pos (by omega : k + 1 < N), dif_pos (by omega : k + 2 < N)]
+          rw [dite_eq_left (by omega : k + 1 < N), dite_eq_left (by omega : k + 2 < N)]
           have hc' := l05nNA_fin_ne (k+1) (by omega) b (by omega)
           have hcon := h ⟨k+1, by omega⟩ hc'
           rw [l05nNA_dot_h_short aa ⟨k+1, by omega⟩ (l05nNA_hc_lt (by omega) (by omega)),
@@ -573,8 +573,8 @@ theorem ggDepANAa_complete {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 �
           have hif2 : (if k + 1 = c0.val then (m : ZMod p) else 0) =
               if k = c0.val - 1 then (m : ZMod p) else 0 := by
             by_cases hh : k = c0.val - 1
-            · rw [if_pos (by omega), if_pos hh]
-            · rw [if_neg (by omega), if_neg hh]
+            · rw [ite_eq_left (by omega), ite_eq_left hh]
+            · rw [ite_eq_right (by omega), ite_eq_right hh]
           rw [hif2] at hcon
           have hb : aa ⟨k+2, by omega⟩ = aa ⟨k+1, by omega⟩ -
               (if k = c0.val - 1 then (m : ZMod p) else 0) := by rw [hcon]; ring
@@ -584,18 +584,18 @@ theorem ggDepANAa_complete {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 �
             (if k ≤ c0.val then (m : ZMod p) else 0) := by
         intro k hk1 hk2
         have hk := hg (k - 1) (by omega)
-        rw [Nat.sub_add_cancel hk1, dif_pos (by omega : k < N)] at hk
+        rw [Nat.sub_add_cancel hk1, dite_eq_left (by omega : k < N)] at hk
         have hcond : (if k - 1 ≤ c0.val - 1 then (0 : ZMod p) else -(m : ZMod p)) =
             (if k ≤ c0.val then 0 else -(m : ZMod p)) := by
           by_cases hh : k ≤ c0.val
-          · rw [if_pos hh, if_pos (by omega)]
-          · rw [if_neg hh, if_neg (by omega)]
+          · rw [ite_eq_left hh, ite_eq_left (by omega)]
+          · rw [ite_eq_right hh, ite_eq_right (by omega)]
         rw [hcond, sub_eq_iff_eq_add] at hk
-        rw [dif_pos (by omega : k < N)]
+        rw [dite_eq_left (by omega : k < N)]
         rw [hk]
         by_cases hh : k ≤ c0.val
-        · simp only [if_pos hh]; ring
-        · simp only [if_neg hh]; ring
+        · simp only [ite_eq_left hh]; ring
+        · simp only [ite_eq_right hh]; ring
       have hlast : (∑ j : Fin (N-1), aa ⟨j.val, by omega⟩) + aa ⟨N-2, by omega⟩ = 0 := by
         have hc' := l05nNA_fin_ne (N-2) (by omega) b (by omega)
         have hcon := h ⟨N-2, by omega⟩ hc'
@@ -605,10 +605,10 @@ theorem ggDepANAa_complete {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 �
           intro hh
           have h1 : N - 2 = c0.val := by simpa [Fin.val_mk] using congrArg Fin.val hh
           omega
-        rwa [if_neg hne] at hcon
+        rwa [ite_eq_right hne] at hcon
       have hN2 : aa ⟨N-2, by omega⟩ = (aa ⟨1, by omega⟩ - (m : ZMod p)) := by
         have hk := hcoord (N - 2) (by omega) (by omega)
-        rw [dif_pos (by omega : N - 2 < N), if_neg (by omega : ¬ (N - 2 ≤ c0.val))] at hk
+        rw [dite_eq_left (by omega : N - 2 < N), ite_eq_right (by omega : ¬ (N - 2 ≤ c0.val))] at hk
         rw [hk]; ring
       have hsum : (∑ j : Fin (N-1), aa ⟨j.val, by omega⟩) =
           (N - 2) • (aa ⟨1, by omega⟩ - (m : ZMod p)) +
@@ -621,11 +621,11 @@ theorem ggDepANAa_complete {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 �
           · apply Finset.sum_congr rfl
             intro i _
             have := hcoord (i.val+1) (by omega) (by omega)
-            rw [dif_pos (by omega : i.val+1 < N)] at this
+            rw [dite_eq_left (by omega : i.val+1 < N)] at this
             rw [this]
             by_cases hh : i.val < c0.val
-            · simp only [if_pos (by omega : i.val+1 ≤ c0.val), if_pos hh]
-            · simp only [if_neg (by omega : ¬ (i.val+1 ≤ c0.val)), if_neg hh]
+            · simp only [ite_eq_left (by omega : i.val+1 ≤ c0.val), ite_eq_left hh]
+            · simp only [ite_eq_right (by omega : ¬ (i.val+1 ≤ c0.val)), ite_eq_right hh]
           · rw [Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ, Fintype.card_fin,
               l05nNA_sum_fin_lt (m : ZMod p) (by omega : c0.val ≤ N-2)]
         rw [h1]
@@ -636,27 +636,26 @@ theorem ggDepANAa_complete {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 �
       funext j
       show aa j = (((ggDepANAaParam p N b.val c0.val m (aa ⟨1, by omega⟩ - (m : ZMod p)).val
         (aa ⟨N-1, by omega⟩).val).getD j.val 0 : ℕ) : ZMod p)
-      simp only [l05nNA_getD_paramAa j.val j.isLt, if_pos hb0, if_neg hc0N]
+      simp only [l05nNA_getD_paramAa j.val j.isLt, ite_eq_left hb0, ite_eq_right hc0N]
       by_cases hj1 : j.val + 1 = N
-      · rw [if_pos hj1, l05nNA_fin_eq_last j hj1, ZMod.natCast_mod]
+      · rw [ite_eq_left hj1, l05nNA_fin_eq_last j hj1, ZMod.natCast_mod]
         exact (ZMod.natCast_zmod_val (aa ⟨N-1, by omega⟩)).symm
-      · rw [if_neg hj1]
+      · rw [ite_eq_right hj1]
         by_cases hj0 : j.val = 0
-        · rw [if_pos hj0, l05nNA_fin_eq_of_val j 0 (by omega) (by omega)]
+        · rw [ite_eq_left hj0, l05nNA_fin_eq_of_val j 0 (by omega) (by omega)]
           rw [ZMod.natCast_mod, Nat.cast_add, ZMod.natCast_zmod_val, haa0,
             l05nNA_natCast_psub (le_of_lt (Nat.mod_lt _ (Fact.out : p.Prime).pos)),
                 ZMod.natCast_mod,
             Nat.cast_mul]
           ring
-        · rw [if_neg hj0]
+        · rw [ite_eq_right hj0]
           have hk := hcoord j.val (by omega) (by omega)
-          rw [dif_pos (by omega : j.val < N)] at hk
+          rw [dite_eq_left (by omega : j.val < N)] at hk
           by_cases hh : j.val ≤ c0.val
-          · rw [if_pos hh] at hk
-            rw [if_pos hh, ZMod.natCast_mod, Nat.cast_add, ZMod.natCast_zmod_val, hk]
-            try ring
-          · rw [if_neg hh] at hk
-            rw [if_neg hh, ZMod.natCast_mod, ZMod.natCast_zmod_val, hk]
+          · rw [ite_eq_left hh] at hk
+            rw [ite_eq_left hh, ZMod.natCast_mod, Nat.cast_add, ZMod.natCast_zmod_val, hk]
+          · rw [ite_eq_right hh] at hk
+            rw [ite_eq_right hh, ZMod.natCast_mod, ZMod.natCast_zmod_val, hk]
             try ring
   · refine ⟨(aa ⟨0, by omega⟩ - (m : ZMod p)).val, (aa ⟨N-1, by omega⟩).val, ?_⟩
     have hpref : ∀ k, k ≤ N - 2 →
@@ -665,9 +664,9 @@ theorem ggDepANAa_complete {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 �
       apply l05nNA_prefix_eq (fun k => (if h : k < N then aa ⟨k, h⟩ else 0) - aa ⟨0, by omega⟩)
         (m : ZMod p) c0.val (N - 2)
       · have := c0.isLt; omega
-      · rw [dif_pos (by omega : 0 < N)]; ring
+      · rw [dite_eq_left (by omega : 0 < N)]; ring
       · intro k hklt
-        rw [dif_pos (by omega : k < N), dif_pos (by omega : k + 1 < N)]
+        rw [dite_eq_left (by omega : k < N), dite_eq_left (by omega : k + 1 < N)]
         have hc' := l05nNA_fin_ne k (by omega) b (by omega)
         have hcon := h ⟨k, by omega⟩ hc'
         rw [l05nNA_dot_h_short aa ⟨k, by omega⟩ (l05nNA_hc_lt (by omega) (by omega)),
@@ -677,21 +676,21 @@ theorem ggDepANAa_complete {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 �
     funext j
     show aa j = (((ggDepANAaParam p N b.val c0.val m (aa ⟨0, by omega⟩ - (m : ZMod p)).val
       (aa ⟨N-1, by omega⟩).val).getD j.val 0 : ℕ) : ZMod p)
-    simp only [l05nNA_getD_paramAa j.val j.isLt, if_neg (by omega : ¬ (b.val = 0))]
+    simp only [l05nNA_getD_paramAa j.val j.isLt, ite_eq_right (by omega : ¬ (b.val = 0))]
     by_cases hj1 : j.val + 1 = N
-    · rw [if_pos hj1, l05nNA_fin_eq_last j hj1, ZMod.natCast_mod]
+    · rw [ite_eq_left hj1, l05nNA_fin_eq_last j hj1, ZMod.natCast_mod]
       exact (ZMod.natCast_zmod_val (aa ⟨N-1, by omega⟩)).symm
-    · rw [if_neg hj1]
+    · rw [ite_eq_right hj1]
       have hcoord : aa j = (aa ⟨0, by omega⟩ - (m : ZMod p)) +
           (if j.val ≤ c0.val then (m : ZMod p) else 0) := by
         have hk := hpref j.val (by omega)
-        rw [dif_pos (by omega : j.val < N), sub_eq_iff_eq_add] at hk
+        rw [dite_eq_left (by omega : j.val < N), sub_eq_iff_eq_add] at hk
         have hk' : aa j = (if j.val ≤ c0.val then 0 else -(m : ZMod p)) + aa ⟨0, by omega⟩ := by
           simpa using hk
         rw [hk']
         by_cases hh : j.val ≤ c0.val
-        · simp only [if_pos hh]; ring
-        · simp only [if_neg hh]; ring
+        · simp only [ite_eq_left hh]; ring
+        · simp only [ite_eq_right hh]; ring
       have hcast : ((if j.val ≤ c0.val then m else 0 : ℕ) : ZMod p) =
           (if j.val ≤ c0.val then (m : ZMod p) else 0) := by
         by_cases hh : j.val ≤ c0.val <;> simp [hh]
@@ -801,11 +800,11 @@ private lemma l05nNB_isTv_one_add {p N : ℕ} [Fact p.Prime] (d f : GGDepAE p N)
     have hg : ∀ x, (1 + (ggDepAform f).smulRight d) x = x + ggDepAdot f x • d := by
       intro x; simp [l05nNB_form_apply]
     rw [hg, hg]
-    simp only [l05nNB_dot_add, l05nNB_dot_sub, l05nNB_dot_smul, hfd, mul_zero, zero_smul,
+    simp only [l05nNB_dot_smul, hfd, mul_zero, zero_smul,
       add_zero, add_sub_cancel_left]
 
 private lemma l05nNB_refl_mul_same {p N : ℕ} (c f1 f2 : GGDepAE p N)
-    (h1 : ggDepAdot f1 c = 2) (h2 : ggDepAdot f2 c = 2) :
+    (h1 : ggDepAdot f1 c = 2) (_h2 : ggDepAdot f2 c = 2) :
     ggDepARefl c f1 * ggDepARefl c f2 =
       1 + (ggDepAform (f2 - f1)).smulRight c := by
   apply LinearMap.ext; intro v
@@ -813,12 +812,12 @@ private lemma l05nNB_refl_mul_same {p N : ℕ} (c f1 f2 : GGDepAE p N)
   have hone : (1 : Module.End (ZMod p) (GGDepAE p N)) v = v := rfl
   simp only [Module.End.mul_apply, l05nNB_refl_apply, LinearMap.add_apply,
     LinearMap.smulRight_apply, Pi.add_apply, Pi.sub_apply, Pi.smul_apply,
-    l05nNB_dot_sub, l05nNB_dot_smul, l05nNB_dot_sub_left, l05nNB_form_apply, h1, h2]
+    l05nNB_dot_sub, l05nNB_dot_smul, l05nNB_dot_sub_left, l05nNB_form_apply, h1]
   rw [hone]
   ring
 
 private lemma l05nNB_refl_mul_prop {p N : ℕ} [Fact p.Prime] (c1 c2 f1 f2 : GGDepAE p N)
-    (k : ZMod p) (h1 : ggDepAdot f1 c1 = 2) (hf : f2 = k • f1) (hk0 : k ≠ 0)
+    (k : ZMod p) (_h1 : ggDepAdot f1 c1 = 2) (hf : f2 = k • f1) (hk0 : k ≠ 0)
     (hk : ggDepAdot f1 c2 = k⁻¹ * 2) :
     ggDepARefl c1 f1 * ggDepARefl c2 f2 =
       1 + (ggDepAform f1).smulRight (c1 - k • c2) := by
@@ -828,8 +827,7 @@ private lemma l05nNB_refl_mul_prop {p N : ℕ} [Fact p.Prime] (c1 c2 f1 f2 : GGD
   have hone : (1 : Module.End (ZMod p) (GGDepAE p N)) v = v := rfl
   simp only [Module.End.mul_apply, l05nNB_refl_apply, LinearMap.add_apply,
     LinearMap.smulRight_apply, Pi.add_apply, Pi.sub_apply, Pi.smul_apply,
-    l05nNB_dot_sub, l05nNB_dot_smul, l05nNB_dot_smul_left, l05nNB_dot_sub_left,
-    l05nNB_form_apply, h1]
+    l05nNB_dot_sub, l05nNB_dot_smul, l05nNB_dot_smul_left, l05nNB_form_apply]
   rw [hone, hk]
   field_simp
   ring
@@ -868,7 +866,7 @@ private lemma l05nNB_firstNZ_spec {p : ℕ} {l : List ℕ} {i : ℕ}
   exact List.find?_some (p := fun j => l.getD j 0 % p != 0) (a := i) h
 
 private lemma l05nNB_par_smul {p N : ℕ} [Fact p.Prime] (a b : List ℕ) (ha : a.length = N)
-    (hb : b.length = N) (i : ℕ) (hfirst : ggDepANFirstNZ p a = some i)
+    (_hb : b.length = N) (i : ℕ) (hfirst : ggDepANFirstNZ p a = some i)
     (hpar : ggDepANPar p a b = true) :
     ∃ lam : ZMod p, lam ≠ 0 ∧ ggDepANToZ p N b = lam • ggDepANToZ p N a := by
   have hi_pred : (a.getD i 0 % p != 0) = true := (l05nNB_firstNZ_spec hfirst).2
@@ -898,7 +896,7 @@ private lemma l05nNB_par_smul {p N : ℕ} [Fact p.Prime] (a b : List ℕ) (ha : 
 
 private lemma l05nNB_eqScaled_false {p N : ℕ} (k₁ k₂ : ℕ) (u v : List ℕ)
     (hu : u.length = N) (hv : v.length = N) (lam : ZMod p)
-    (hk₂ : (k₂ : ZMod p) = lam * (k₁ : ZMod p)) (hk₁ : (k₁ : ZMod p) ≠ 0)
+    (hk₂ : (k₂ : ZMod p) = lam * (k₁ : ZMod p)) (_hk₁ : (k₁ : ZMod p) ≠ 0)
     (ht : (!ggDepANEqScaled p k₁ u k₂ v) = true) :
     ggDepANToZ p N u ≠ lam • ggDepANToZ p N v := by
   have hfalse : (List.zipWith (fun x y => (k₁ * x) % p == (k₂ * y) % p) u v).all id = false := by
@@ -1070,7 +1068,7 @@ lemma l05nNC_toZ_H {p N i : ℕ} [Fact p.Prime] (h : i + 1 < N) :
   rw [ggDepAh]
   by_cases hjN : j.val + 1 = N
   · simp [hjN]
-  · rw [if_neg hjN, if_neg hjN]
+  · rw [ite_eq_right hjN, ite_eq_right hjN]
     exact l05nNC_cast_hterm' p (j.val = i) (j.val = i + 1) (i + 2 = N)
 
 lemma l05nNC_toZ_A {p N i : ℕ} [Fact p.Prime] (h : i + 1 < N) :
@@ -1086,7 +1084,7 @@ lemma l05nNC_toZ_A {p N i : ℕ} [Fact p.Prime] (h : i + 1 < N) :
   rw [ggDepAα]
   by_cases hjN : j.val + 1 = N
   · simp [hjN]
-  · rw [if_neg hjN, if_neg hjN]
+  · rw [ite_eq_right hjN, ite_eq_right hjN]
     exact l05nNC_cast_aterm' p (j.val = i) (j.val = i + 1)
 
 lemma l05nNC_pair_i {p N : ℕ} (i : Fin (N - 1)) :
@@ -1118,33 +1116,33 @@ lemma l05nNC_pair_i {p N : ℕ} (i : Fin (N - 1)) :
     rw [← hsub, Finset.sum_pair hne]
   rw [hsum]
   have e1 : ggDepAα p N i iN = 1 := by
-    simp only [ggDepAα, iN, Fin.val_mk]
-    rw [if_neg hi1]
-    simp [hii]
+    simp only [ggDepAα, iN]
+    rw [ite_eq_right hi1]
+    simp
   have f1 : ggDepAh p N i iN = 1 + (if i.val + 2 = N then 1 else 0) := by
-    simp only [ggDepAh, iN, Fin.val_mk]
-    rw [if_neg hi1]
-    simp [hii]
+    simp only [ggDepAh, iN]
+    rw [ite_eq_right hi1]
+    simp
   by_cases h2 : i.val + 2 = N
   · have e2 : ggDepAα p N i i1N = 0 := by
-      simp only [ggDepAα, i1N, Fin.val_mk]
-      rw [if_pos (show i.val + 1 + 1 = N by omega)]
+      simp only [ggDepAα, i1N]
+      rw [ite_eq_left (show i.val + 1 + 1 = N by omega)]
     have f2 : ggDepAh p N i i1N = 0 := by
-      simp only [ggDepAh, i1N, Fin.val_mk]
-      rw [if_pos (show i.val + 1 + 1 = N by omega)]
-    rw [e1, f1, e2, f2, if_pos h2]
+      simp only [ggDepAh, i1N]
+      rw [ite_eq_left (show i.val + 1 + 1 = N by omega)]
+    rw [e1, f1, e2, f2, ite_eq_left h2]
     ring
   · have hA : ¬ (i.val + 1 + 1 = N) := by omega
     have hB : ¬ (i.val + 1 = i.val) := by omega
     have e2 : ggDepAα p N i i1N = -1 := by
-      simp only [ggDepAα, i1N, Fin.val_mk]
-      rw [if_neg hA, if_neg hB]
+      simp only [ggDepAα, i1N]
+      rw [ite_eq_right hA, ite_eq_right hB]
       simp
     have f2 : ggDepAh p N i i1N = -1 := by
-      simp only [ggDepAh, i1N, Fin.val_mk]
-      rw [if_neg hA, if_neg hB, if_neg h2]
+      simp only [ggDepAh, i1N]
+      rw [ite_eq_right hA, ite_eq_right hB, ite_eq_right h2]
       simp
-    rw [e1, f1, e2, f2, if_neg h2]
+    rw [e1, f1, e2, f2, ite_eq_right h2]
     ring
 
 lemma l05nNC_H_length (p N i : ℕ) : (ggDepANH p N i).length = N := by
@@ -1162,13 +1160,13 @@ lemma l05nNC_smul_length {p N k : ℕ} {a : List ℕ} (ha : a.length = N) :
   simp only [ggDepANSmul, List.length_map, ha]
 
 lemma l05nNC_gen_length1 {p N : ℕ} {ha aa : List ℕ} (hha : ha.length = N)
-    (haa : aa.length = N) (i : ℕ) : (ggDepANGen p N ha aa i).1.length = N := by
+    (_haa : aa.length = N) (i : ℕ) : (ggDepANGen p N ha aa i).1.length = N := by
   simp only [ggDepANGen]
   split
   · exact l05nNC_H_length p N i
   · exact hha
 
-lemma l05nNC_gen_length2 {p N : ℕ} {ha aa : List ℕ} (hha : ha.length = N)
+lemma l05nNC_gen_length2 {p N : ℕ} {ha aa : List ℕ} (_hha : ha.length = N)
     (haa : aa.length = N) (i : ℕ) : (ggDepANGen p N ha aa i).2.length = N := by
   simp only [ggDepANGen]
   split
@@ -1287,10 +1285,10 @@ lemma l05nNC_gen_dot {p N : ℕ} [Fact p.Prime] {ha aa : List ℕ} (hha : ha.len
     ggDepAdot (ggDepANToZ p N (ggDepANGen p N ha aa g).2)
       (ggDepANToZ p N (ggDepANGen p N ha aa g).1) = 2 := by
   by_cases h : g + 1 < N
-  · simp only [ggDepANGen, if_pos h]
+  · simp only [ggDepANGen, ite_eq_left h]
     rw [l05nNC_toZ_A h, l05nNC_toZ_H h]
     exact l05nNC_pair_i ⟨g, by omega⟩
-  · simp only [ggDepANGen, if_neg h]
+  · simp only [ggDepANGen, ite_eq_right h]
     rw [← ggDepANDot_cast aa ha haa hha, hdot, ZMod.natCast_mod]
     rfl
 
@@ -1302,10 +1300,10 @@ lemma l05nNC_gen_mem {p N : ℕ} [Fact p.Prime] {ha aa : List ℕ} (hha : ha.len
         ggDepARefl (ggDepAh p N j) (ggDepAα p N j)) ∪
         {ggDepARefl (ggDepANToZ p N ha) (ggDepANToZ p N aa)}) := by
   by_cases h : g + 1 < N
-  · simp only [ggDepANGen, if_pos h]
+  · simp only [ggDepANGen, ite_eq_left h]
     rw [l05nNC_toZ_H h, l05nNC_toZ_A h]
     exact Submonoid.subset_closure (Or.inl ⟨⟨g, by omega⟩, rfl⟩)
-  · simp only [ggDepANGen, if_neg h]
+  · simp only [ggDepANGen, ite_eq_right h]
     exact Submonoid.subset_closure (Or.inr rfl)
 
 private lemma l05nNC_word_cons (p N : ℕ) (q : GGDepANPair) (g : ℕ) (w : List ℕ) (ha aa : List ℕ) :
@@ -1347,8 +1345,8 @@ lemma l05nNC_word {p N : ℕ} [Fact p.Prime] (ha aa : List ℕ) (hha : ha.length
         (ggDepANToZ p N (ggDepANGen p N ha aa g).2) (hdg g)]
       exact Submonoid.mul_mem _ (Submonoid.mul_mem _ (hmem g) ihm) (hmem g)
 
-private theorem l05nNC_main {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hN : 5 ≤ N)
-    (w : GGDepANWit) (hw : ggDepANWitValid N w = true) (ha aa : List ℕ) (hha : ha.length = N)
+private theorem l05nNC_main {p N : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (_hN : 5 ≤ N)
+    (w : GGDepANWit) (_hw : ggDepANWitValid N w = true) (ha aa : List ℕ) (hha : ha.length = N)
     (haa : aa.length = N) (hdot : ggDepANDot p aa ha = 2 % p)
     (ht : ggDepANWitTest p N w ha aa = true) :
     ∃ g ∈ Submonoid.closure (Set.range (fun i : Fin (N - 1) =>
@@ -1426,9 +1424,7 @@ theorem ggDepANPatB_iff {N : ℕ} (b c0 : Fin (N - 1)) (mi ni : ℕ) (hmi : mi =
   rcases hmi with rfl | rfl <;> rcases hni with rfl | rfl <;>
   · unfold ggDepANPatB GGDepAPat
     rw [decide_eq_true b.isLt, decide_eq_true c0.isLt]
-    simp only [Bool.and_eq_true, Bool.or_eq_true, Bool.true_and, Bool.true_or, Bool.false_and,
-      Bool.false_or, Bool.and_false, Bool.or_false, Bool.and_true, Bool.or_true,
-      decide_eq_true_iff, beq_iff_eq]
+    simp only [Bool.and_eq_true, Bool.or_eq_true, Bool.true_and, Bool.and_true, decide_eq_true_iff, beq_iff_eq]
     simp [Fin.ext_iff]
     try tauto
 
@@ -1468,14 +1464,14 @@ lemma l05nND_HaParam_mod (p N b c0 n s t : ℕ) :
   rw [ggDepANHaParam, ggDepANHaParam, List.map_eq_map_iff]
   intro j hj
   simp only [List.mem_range] at hj
-  split_ifs <;> simp_all [Nat.mod_mod, Nat.add_mod]
+  split_ifs <;> simp_all [Nat.add_mod]
 
 lemma l05nND_AaParam_mod (p N b c0 m u v : ℕ) :
     ggDepANAaParam p N b c0 m (u % p) (v % p) = ggDepANAaParam p N b c0 m u v := by
   rw [ggDepANAaParam, ggDepANAaParam, List.map_eq_map_iff]
   intro j hj
   simp only [List.mem_range] at hj
-  split_ifs <;> simp_all [Nat.mod_mod, Nat.add_mod]
+  split_ifs <;> simp_all [Nat.add_mod]
 
 lemma l05nND_cast_neg (p mi : ℕ) (hmi : mi ≤ p) :
     (((p - mi) % p : ℕ) : ZMod p) = -((mi : ℕ) : ZMod p) := by
@@ -1498,12 +1494,12 @@ lemma l05nND_dot_ax {p N : ℕ} (f : GGDepAE p N) (hN : 1 ≤ N) :
         apply Fin.ext
         show j.val = N - 1
         omega
-      rw [if_pos hj, hji, Pi.single_eq_same]
+      rw [ite_eq_left hj, hji, Pi.single_eq_same]
     · have hji : j ≠ ⟨N - 1, by omega⟩ := by
         intro hh
         rw [hh] at hj
         exact hj (Nat.sub_add_cancel hN)
-      rw [if_neg hj, Pi.single_eq_of_ne hji]
+      rw [ite_eq_right hj, Pi.single_eq_of_ne hji]
   rw [hax, l05nND_dot_single]
 
 lemma l05nND_AaParam_getD (p N b c0 m u v : ℕ) (hN : 1 ≤ N) :
@@ -1538,7 +1534,7 @@ theorem ggDepANCheck_sound {p N : ℕ} [Fact p.Prime] (hp : 5 ≤ p) (hpN : p �
   have h2 := List.all_eq_true.mp h1 c0.val hc0_mem
   have h3 := List.all_eq_true.mp h2 mi hmi_mem
   have h4 := List.all_eq_true.mp h3 ni hni_mem
-  rw [if_pos hpatB] at h4
+  rw [ite_eq_left hpatB] at h4
   cases hlook : data.lookup (b.val, c0.val, mi, ni) with
   | none => rw [hlook] at h4; simp at h4
   | some wits =>
@@ -1600,7 +1596,7 @@ theorem ggDepANCheck_sound {p N : ℕ} [Fact p.Prime] (hp : 5 ≤ p) (hpN : p �
         (v % p) % p != 0) = true := by
       rw [Bool.and_eq_true]
       exact ⟨beq_iff_eq.mpr hdotN, bne_iff_ne.mpr hvv⟩
-    rw [if_pos hcond] at hcase
+    rw [ite_eq_left hcond] at hcase
     obtain ⟨w, hwmem, hwtest⟩ := List.any_eq_true.mp hcase
     have hwvalid : ggDepANWitValid N w = true :=
       List.all_eq_true.mp

@@ -169,7 +169,7 @@ theorem false_of_isElementaryAbelian_card_sixteen_perm_six (R : Subgroup (Equiv.
     rw [Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]
     rfl
   have hQcard : Nat.card Q = 16 := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp Q.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp Q.isPGroup
     have hdvd : Nat.card Q ∣ Nat.card (Equiv.Perm (Fin 6)) :=
       Subgroup.card_subgroup_dvd_card (Q : Subgroup (Equiv.Perm (Fin 6)))
     rw [hcardG] at hdvd

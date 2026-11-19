@@ -44,15 +44,15 @@ theorem autMAt_psl2GF {p n : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) (hn : 1 ≤ n)
   have hp2 : p ≠ 2 := by omega
   obtain ⟨hKs, -, hKn, hKC⟩ := spe_fstar Fact.out hO hN
   let K : Subgroup X := CFSG.generalizedFitting X
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hK1 : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
   obtain ⟨P, hPN, hPK, T, hT, -⟩ :=
     exists_sylow_glbCore_ne_top_of_isStronglyPEmbedded (K := K) hO hK1 hN
   have hle : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K := by
     rw [hT]
     exact normalizer_subgroupOf_le_of_isStronglyPEmbedded
-      hN hPK (P.isPGroup'.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
+      hN hPK (P.isPGroup.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
   have hne : N.subgroupOf K ≠ ⊤ := fun h =>
     not_le_of_isStronglyPEmbedded hN P hPN hPK T hT (Subgroup.subgroupOf_eq_top.mp h)
   have hmax : IsCoatom (Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K)) :=
@@ -67,7 +67,7 @@ theorem autMAt_psl2GF {p n : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) (hn : 1 ≤ n)
     exact hPK
   have hTp : IsPGroup p T' := by
     rw [hT'def]
-    exact T.isPGroup'.map K.subtype
+    exact T.isPGroup.map K.subtype
   have hT'le : T' ≤ N := by
     have hTN : (T : Subgroup ↥K) ≤ N.subgroupOf K := by
       rw [hNK]
@@ -90,7 +90,7 @@ theorem autMAt_psl2GF {p n : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) (hn : 1 ≤ n)
         ⟨1, Subtype.ext (by simpa using hexpφ y y.2)⟩
       have hVp : IsPGroup 3 ↥V := hR3.map (equivalence e).toMonoidHom
       have hVcyc : IsCyclic ↥V := by
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         exact outer_psl2_isCyclic_of_isPGroup (GaloisField p n) (ℓ := 3) (by norm_num) hVp
       exact (MulEquiv.isCyclic (Subgroup.equivMapOfInjective (R.map (outerHom K))
         (equivalence e).toMonoidHom (equivalence e).injective)).mpr hVcyc

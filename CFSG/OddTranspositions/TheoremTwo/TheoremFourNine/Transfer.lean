@@ -19,13 +19,16 @@ variable {D : Set G} {u w v z a : G} {K₁ S' : Subgroup G}
 
 namespace Config
 
+omit [Finite G] in
 theorem mul_self_of_mem_D (hQ : Config D u w v z a K₁ S') {d : G} (hd : d ∈ D) : d * d = 1 :=
   hQ.setup.oddT.mul_self_eq_one hd
 
+omit [Finite G] in
 theorem commute_z_of_mem_K₁ (hQ : Config D u w v z a K₁ S') {k : G} (hk : k ∈ K₁) :
     Commute k z :=
   Subgroup.mem_centralizer_singleton_iff.mp (hQ.K₁_comm hk)
 
+omit [Finite G] in
 theorem mul_ne_z (hQ : Config D u w v z a K₁ S') {x y : G} (hx : x ∈ D) (hy : y ∈ D)
     (hxy : Commute x y) : x * y ≠ z := by
   intro h
@@ -43,6 +46,7 @@ theorem mul_ne_z (hQ : Config D u w v z a K₁ S') {x y : G} (hx : x ∈ D) (hy 
   have := K₁.mul_mem hzy (K₁.inv_mem hyK)
   simpa using this
 
+omit [Finite G] in
 theorem z_mul_mem_D (hQ : Config D u w v z a K₁ S') {k : G} (hk : k ∈ K₁) (hk2 : k * k = 1)
     (hk1 : k ≠ 1) : z * k ∈ D := by
   obtain ⟨eK⟩ := hQ.K₁_A5
@@ -80,6 +84,7 @@ theorem z_mul_mem_D (hQ : Config D u w v z a K₁ S') {k : G} (hk : k ∈ K₁) 
   rw [this]
   exact hQ.setup.conj_mem _ hu.1
 
+omit [Finite G] in
 theorem not_isConj_z_of_mem_K₁ (hQ : Config D u w v z a K₁ S') {t : G} (ht : t ∈ K₁) :
     ¬ IsConj z t := by
   intro hzt
@@ -129,10 +134,12 @@ theorem not_isConj_z_of_mem_K₁ (hQ : Config D u w v z a K₁ S') {t : G} (ht :
           rw [show z * x₁ * z * x₂ = z * (x₁ * z) * x₂ by group, hzc₁.eq]; group
       _ = z := by rw [hz2, one_mul, hprod]; group
 
+omit [Finite G] in
 theorem a_mem_normalizer (hQ : Config D u w v z a K₁ S') :
     a ∈ Subgroup.normalizer (K₁ : Set G) :=
   hQ.mem_normalizer_K₁_of_commute (hQ.commute_z_of_mem hQ.a_mem)
 
+omit [Finite G] in
 theorem conj_a_of_mul_sq (hQ : Config D u w v z a K₁ S') {t : G} (ht : t ∈ K₁)
     (hta : (t * a) * (t * a) = 1) : ∃ h ∈ K₁, h * a * h⁻¹ = t * a := by
   obtain ⟨eK⟩ := hQ.K₁_A5
@@ -162,6 +169,7 @@ theorem conj_a_of_mul_sq (hQ : Config D u w v z a K₁ S') {t : G} (ht : t ∈ K
     · rw [map_mul, map_mul, map_inv, map_mul, hρh, hη]
   exact ⟨hK, hK.2, hkey⟩
 
+omit [Finite G] in
 theorem az_mem_normalizer_T₁ (hQ : Config D u w v z a K₁ S') :
     a * z ∈ Subgroup.normalizer ((S' ⊓ K₁ : Subgroup G) : Set G) := by
   have hc : ∀ s ∈ S', ∀ x ∈ S' ⊓ K₁, s * x * s⁻¹ ∈ S' ⊓ K₁ := fun s hs x hx =>
@@ -170,6 +178,7 @@ theorem az_mem_normalizer_T₁ (hQ : Config D u w v z a K₁ S') :
   have haz : a * z ∈ S' := S'.mul_mem hQ.a_mem hQ.z_central.1
   exact mem_normalizer_of_conj (hc _ haz) (hc _ (S'.inv_mem haz))
 
+omit [Finite G] in
 theorem transfer_hyp (hQ : Config D u w v z a K₁ S') (x : G) :
     x⁻¹ * z * x ∉ (S' ⊓ K₁) ⊔ Subgroup.zpowers (a * z) := by
   intro hq
@@ -228,6 +237,7 @@ theorem transfer_hyp (hQ : Config D u w v z a K₁ S') (x : G) :
         _ = t' * (a * z) := by rw [hha]; group
     exact hQ.az_not_conj ((hQ.a_conj.symm.trans hzq).trans hconj.symm)
 
+omit [Finite G] in
 theorem az_not_mem_K₁ (hQ : Config D u w v z a K₁ S') : a * z ∉ K₁ := by
   intro h
   apply hQ.a_outer
@@ -390,7 +400,7 @@ theorem exists_index_two (hQ : Config D u w v z a K₁ S')
         rw [Nat.card_zpowers]
         exact orderOf_le_of_pow_eq_one (by norm_num) (by rw [pow_two, hT2 _ x.2])
       rw [h, hQ.card_sylow_inf_K₁] at h1; omega
-    obtain ⟨y, hy, hyx⟩ := SetLike.exists_of_lt hzx
+    obtain ⟨y, hy, hyx⟩ := _root_.IsConcreteLE.exists_of_lt hzx
     have hy1 : y ≠ 1 := fun h => hyx (h ▸ one_mem _)
     have hyx' : y ≠ x := fun h => hyx (h ▸ Subgroup.mem_zpowers _)
     have hx1' : (x : G) ≠ 1 := fun h => hx1 (Subtype.ext h)

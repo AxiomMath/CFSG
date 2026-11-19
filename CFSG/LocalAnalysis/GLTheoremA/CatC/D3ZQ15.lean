@@ -22,7 +22,7 @@ theorem trivial_of_card_three (hL : Nat.card L = 3) (t₁ t₂ : L →ₗ[ZMod 3
     (h₁ : ∀ x, t₁ (t₁ x) = x) (h₂ : ∀ x, t₂ (t₂ x) = x) (B : L ≃ₗ[ZMod 3] L)
     (hB₁ : ∀ x, B (t₁ x) = t₂ (B x)) (hB₂ : ∀ x, B (t₂ x) = t₁ (t₂ (B x))) :
     (∀ x, t₁ x = x) ∧ ∀ x, t₂ x = x := by
-  haveI : Module.Finite (ZMod 3) L := Module.Finite.of_finite
+  have : Module.Finite (ZMod 3) L := Module.Finite.of_finite
   have hrank : Module.finrank (ZMod 3) L = 1 := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := L)
     rw [hL, Nat.card_zmod] at h
@@ -75,27 +75,27 @@ variable {G : Type*} [Group G] [Finite G] {H N : Subgroup G}
 
 theorem Lyr.relIndex_inf_eq (h : IsLayer H N) (A : Subgroup G) :
     (A ⊓ N).relIndex (A ⊓ H) =
-      Nat.card {z : Lyr h | ∃ a, ∃ ha : a ∈ A, ∃ haH : a ∈ H, Lyr.mk h ⟨a, haH⟩ = z} := by
-  letI := h.normal
+      Nat.card {z : Lyr h | ∃ a, ∃ _ha : a ∈ A, ∃ haH : a ∈ H, Lyr.mk h ⟨a, haH⟩ = z} := by
+  let := h.normal
   let f : ↥(A ⊓ H) →* H ⧸ N.subgroupOf H :=
     (QuotientGroup.mk' (N.subgroupOf H)).comp (Subgroup.inclusion inf_le_right)
   have hker : f.ker = (A ⊓ N).subgroupOf (A ⊓ H) := by
-    ext ⟨a, ha⟩
+    ext ⟨a, _ha⟩
     simp only [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
-    change (QuotientGroup.mk (⟨a, ha.2⟩ : H) : H ⧸ N.subgroupOf H) = 1 ↔ _
+    change (QuotientGroup.mk (⟨a, _ha.2⟩ : H) : H ⧸ N.subgroupOf H) = 1 ↔ _
     rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
-    exact ⟨fun hn => ⟨ha.1, hn⟩, fun hn => hn.2⟩
+    exact ⟨fun hn => ⟨_ha.1, hn⟩, fun hn => hn.2⟩
   have hidx : (A ⊓ N).relIndex (A ⊓ H) = Nat.card f.range := by
     rw [← Subgroup.index_ker, hker]; rfl
   rw [hidx]
   refine Nat.card_congr (Equiv.ofBijective
     (fun q : f.range => (⟨Additive.ofMul q.1, ?_⟩ :
-      {z : Lyr h | ∃ a, ∃ ha : a ∈ A, ∃ haH : a ∈ H, Lyr.mk h ⟨a, haH⟩ = z})) ⟨?_, ?_⟩)
-  · obtain ⟨⟨a, ha⟩, hq⟩ := q.2
-    exact ⟨a, ha.1, ha.2, by rw [← hq]; rfl⟩
+      {z : Lyr h | ∃ a, ∃ _ha : a ∈ A, ∃ haH : a ∈ H, Lyr.mk h ⟨a, haH⟩ = z})) ⟨?_, ?_⟩)
+  · obtain ⟨⟨a, _ha⟩, hq⟩ := q.2
+    exact ⟨a, _ha.1, _ha.2, by rw [← hq]; rfl⟩
   · intro q q' hqq
     have h1 : Additive.ofMul q.1 = Additive.ofMul q'.1 :=
-      congrArg (fun z : {z : Lyr h | ∃ a, ∃ ha : a ∈ A, ∃ haH : a ∈ H, Lyr.mk h ⟨a, haH⟩ = z} =>
+      congrArg (fun z : {z : Lyr h | ∃ a, ∃ _ha : a ∈ A, ∃ haH : a ∈ H, Lyr.mk h ⟨a, haH⟩ = z} =>
         (z : Lyr h)) hqq
     exact Subtype.ext (Additive.ofMul.injective h1)
   · rintro ⟨z, a, haA, haH, rfl⟩
@@ -120,7 +120,7 @@ theorem kappa_mul {M : Type*} [Group M] (x w₁ w₂ : M)
 theorem J013_trivial_H2 (hK : Nat.card K = 3) {φ : ModGL Tag.D4 K →* ModGL Tag.D4 K}
     {Γ₁ Γ₂ : ModGL Tag.D4 K} (G : A4Grp Jout φ Γ₁ Γ₂) {c : ModGL Tag.D4 K}
     (hc : c ∈ degSeries Tag.D4 K Jout 2) : Γ₁ * c * Γ₁⁻¹ = c ∧ Γ₂ * c * Γ₂⁻¹ = c := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   have hd2 : (1 : ℤ) ≤ 2 := by norm_num
   have hL2 := isLayer_degSeries (K := K) (J := Jout) hd2
   have hcard : Nat.card (Lyr hL2) = 3 := by
@@ -150,7 +150,7 @@ theorem J013_n1 (hK : Nat.card K = 3) (hK2 : ringChar K ≠ 2)
     (hA₁ : ∀ a ∈ A, Γ₁ * a * Γ₁⁻¹ = a) (hA₂ : ∀ a ∈ A, Γ₂ * a * Γ₂⁻¹ = a)
     (h27 : 27 ≤ Nat.card A) : False := by
   classical
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   have hd1 : (1 : ℤ) ≤ 1 := le_refl 1
   have hd2 : (1 : ℤ) ≤ 2 := by norm_num
   have hL1 := isLayer_degSeries (K := K) (J := Jout) hd1

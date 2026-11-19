@@ -17,7 +17,7 @@ variable {G : Type} [Group G]
 
 theorem fixSub_ne_bot_of_isPGroup [Nontrivial V] (P : Subgroup (LGL 2 V)) (hP : IsPGroup 2 P) :
     fixSub P ≠ ⊥ := by
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   have hfin : 0 < Module.finrank (ZMod 2) V := Module.finrank_pos
   have hcardV : Nat.card V = 2 ^ Module.finrank (ZMod 2) V := by
     rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 2), ZMod.card]
@@ -27,7 +27,7 @@ theorem fixSub_ne_bot_of_isPGroup [Nontrivial V] (P : Subgroup (LGL 2 V)) (hP : 
   have h0 : (0 : V) ∈ fixedPoints ↥P V := by
     rw [mem_fixedPoints]
     intro p
-    simpa using map_zero (p : LGL 2 V)
+    simp
   obtain ⟨b, hb, hbne⟩ :=
     hP.exists_fixed_point_of_prime_dvd_card_of_fixed_point V h2dvd h0
   intro hbot
@@ -37,6 +37,7 @@ theorem fixSub_ne_bot_of_isPGroup [Nontrivial V] (P : Subgroup (LGL 2 V)) (hP : 
   rw [hbot] at hb'
   exact hbne (show b = 0 from by simpa using hb').symm
 
+omit [Finite V] in
 theorem isElemAbelian_of_repQuad {ρ : G →* LGL 2 V} (hρ : Function.Injective ρ) {A : Subgroup G}
     (hq : RepQuad ρ A) : IsElemAbelian 2 A := by
   have hmap : IsElemAbelian 2 (A.map ρ) := isElemAbelian_of_quadratic hq
@@ -53,6 +54,7 @@ theorem isElemAbelian_of_repQuad {ρ : G →* LGL 2 V} (hρ : Function.Injective
     simp only [map_pow, map_one]
     exact hmap.2 (ρ x) (Subgroup.mem_map_of_mem ρ hx)
 
+omit [Finite V] in
 theorem commSub_range_eq_top (ρ : G →* LGL 2 V) (hirr : IsChiefFactor ρ ⊤ ⊥)
     (hnt : IsNoncentral ρ ⊤ ⊥) : commSub ρ.range = ⊤ := by
   have hinv : ∀ g : G, ∀ w ∈ commSub ρ.range, ρ g w ∈ commSub ρ.range :=
@@ -66,6 +68,7 @@ theorem commSub_range_eq_top (ρ : G →* LGL 2 V) (hirr : IsChiefFactor ρ ⊤ 
     exact hw hmem
   · exact h
 
+omit [Finite V] in
 theorem fixSub_range_eq_bot (ρ : G →* LGL 2 V) (hirr : IsChiefFactor ρ ⊤ ⊥)
     (hnt : IsNoncentral ρ ⊤ ⊥) : fixSub ρ.range = ⊥ := by
   have hinv : ∀ g : G, ∀ w ∈ fixSub ρ.range, ρ g w ∈ fixSub ρ.range := by
@@ -87,11 +90,11 @@ theorem fixSub_range_eq_bot (ρ : G →* LGL 2 V) (hirr : IsChiefFactor ρ ⊤ �
 theorem pCore_eq_bot_of_irreducible [Finite G] (ρ : G →* LGL 2 V) (hρ : Function.Injective ρ)
     (hirr : IsChiefFactor ρ ⊤ ⊥) : CFSG.pCore 2 G = ⊥ := by
   let P : Subgroup G := CFSG.pCore 2 G
-  haveI hPnorm : P.Normal := CFSG.pCore_normal
+  have hPnorm : P.Normal := CFSG.pCore_normal
   have hP2 : IsPGroup 2 P := CFSG.pCore_isPGroup
-  haveI hNtriv : Nontrivial V := by
+  have hNtriv : Nontrivial V := by
     by_contra h
-    haveI : Subsingleton V := not_nontrivial_iff_subsingleton.mp h
+    have : Subsingleton V := not_nontrivial_iff_subsingleton.mp h
     have htopbot : (⊤ : Submodule (ZMod 2) V) = ⊥ := by
       rw [Submodule.eq_bot_iff]
       intro x _
@@ -135,7 +138,7 @@ theorem Setting12Two.normalClosure_eq_top (h : Setting12Two A M n) :
   by_contra hne
   have hleM : Subgroup.normalClosure (A : Set G) ≤ M :=
     h.unique_max _ Subgroup.subset_normalClosure hne
-  haveI hnorm : (Subgroup.normalClosure (A : Set G)).Normal := Subgroup.normalClosure_normal
+  have hnorm : (Subgroup.normalClosure (A : Set G)).Normal := Subgroup.normalClosure_normal
   exact h.not_le_ker fun a ha => by
     rw [CFSG.Quasithin.mem_kerIn]
     intro b _
@@ -144,12 +147,12 @@ theorem Setting12Two.normalClosure_eq_top (h : Setting12Two A M n) :
 theorem Setting12Two.odd_card_ker (h : Setting12Two A M n) (hO : CFSG.pCore 2 G = ⊥) :
     Odd (Nat.card ↥(CFSG.Quasithin.kerIn M ⊤)) := by
   let K : Subgroup G := CFSG.Quasithin.kerIn M ⊤
-  haveI hKnormal : K.Normal := kerIn_top_normal12 M
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI hΩfin : Finite (Sylow 2 ↥K) :=
+  have hKnormal : K.Normal := kerIn_top_normal12 M
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have hΩfin : Finite (Sylow 2 ↥K) :=
     Sylow.finite_of_finiteIndex (default : Sylow 2 ↥K)
   let f : ↥A →* MulAut ↥K := MulAut.conjNormal.comp A.subtype
-  letI : MulAction ↥A (Sylow 2 ↥K) := MulAction.compHom (Sylow 2 ↥K) f
+  let : MulAction ↥A (Sylow 2 ↥K) := MulAction.compHom (Sylow 2 ↥K) f
   have hmod : Nat.card (Sylow 2 ↥K) ≡ 1 [MOD 2] := card_sylow_modEq_one 2 ↥K
   have hfixmod : Nat.card (fixedPoints ↥A (Sylow 2 ↥K)) ≡ 1 [MOD 2] :=
     (h.A_two.card_modEq_card_fixedPoints (Sylow 2 ↥K)).symm.trans hmod
@@ -157,7 +160,7 @@ theorem Setting12Two.odd_card_ker (h : Setting12Two A M n) (hO : CFSG.pCore 2 G 
     rw [Nat.odd_iff]
     have h : Nat.card (fixedPoints ↥A (Sylow 2 ↥K)) % 2 = 1 % 2 := hfixmod
     simpa using h
-  haveI : Finite (fixedPoints ↥A (Sylow 2 ↥K)) := inferInstance
+  have : Finite (fixedPoints ↥A (Sylow 2 ↥K)) := inferInstance
   obtain ⟨P, hPfix⟩ : ∃ P : Sylow 2 ↥K, P ∈ fixedPoints ↥A (Sylow 2 ↥K) :=
     Set.nonempty_coe_sort.mp (Finite.card_pos_iff.mp hodd.pos)
   have hAnorm : A ≤ Subgroup.normalizer ((P : Subgroup ↥K).map K.subtype : Set G) := by
@@ -187,7 +190,7 @@ theorem Setting12Two.odd_card_ker (h : Setting12Two A M n) (hO : CFSG.pCore 2 G 
       · intro hq
         refine ⟨c⁻¹ • q, (hmem_iff _).mp ?_, ?_⟩
         · rwa [smul_inv_smul]
-        · simpa using smul_inv_smul c q
+        · simp
     have hcomp : (MulAut.conj a).toMonoidHom.comp K.subtype =
         K.subtype.comp c.toMonoidHom := by
       ext p
@@ -207,9 +210,9 @@ theorem Setting12Two.odd_card_ker (h : Setting12Two A M n) (hO : CFSG.pCore 2 G 
       h.unique_max _ hAnorm hne
     have hKleM : K ≤ M := CFSG.Quasithin.kerIn_le
     exact h.M_ne (top_le_iff.mp (by rw [← hfratt]; exact sup_le hleM hKleM))
-  haveI hPaNorm : ((P : Subgroup ↥K).map K.subtype).Normal :=
+  have hPaNorm : ((P : Subgroup ↥K).map K.subtype).Normal :=
     Subgroup.normalizer_eq_top_iff.mp hnorm_top
-  have hPa2 : IsPGroup 2 ((P : Subgroup ↥K).map K.subtype) := P.isPGroup'.map K.subtype
+  have hPa2 : IsPGroup 2 ((P : Subgroup ↥K).map K.subtype) := P.isPGroup.map K.subtype
   have hPaBot : (P : Subgroup ↥K).map K.subtype = ⊥ := by
     have hle : (P : Subgroup ↥K).map K.subtype ≤ CFSG.pCore 2 G :=
       le_sSup (show (P : Subgroup ↥K).map K.subtype ∈
@@ -220,7 +223,6 @@ theorem Setting12Two.odd_card_ker (h : Setting12Two A M n) (hO : CFSG.pCore 2 G 
     (Subgroup.map_eq_bot_iff_of_injective (P : Subgroup ↥K) K.subtype_injective).mp hPaBot
   have hpow : 2 ^ (Nat.card ↥K).factorization 2 = 1 := by
     have hPcard : Nat.card P = 1 := by
-      change Nat.card ↥((P : Subgroup ↥K)) = 1
       rw [hPbot, Subgroup.card_bot]
     rw [← Sylow.card_eq_multiplicity P]
     exact hPcard
@@ -254,6 +256,7 @@ theorem Setting12Two.inf_ker_eq_bot (h : Setting12Two A M n)
 
 variable {ρ : G →* LGL 2 V}
 
+omit [Finite V] in
 theorem Setting12Two.fixSub_eq_commSub (h : Setting12Two A M n) (hq : RepQuad ρ A)
     (hirr : IsChiefFactor ρ ⊤ ⊥) (hnt : IsNoncentral ρ ⊤ ⊥) {a : G} (ha : a ∈ A)
     (haK : a ∉ CFSG.Quasithin.kerIn M ⊤) (v : V) :

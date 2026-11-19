@@ -23,9 +23,9 @@ variable {Y : Type} [Group Y] {X Q : Subgroup Y} {Γ : Subgroup (MulAut Y)} {x :
 
 theorem le_of_normal_ne_bot (h : ListData189 X Q Γ x) {N : Subgroup Y} (hN : N.Normal)
     (hN1 : N ≠ ⊥) : X ≤ N := by
-  haveI := h.normal
-  haveI := h.simple
-  haveI hn : ((X ⊓ N).subgroupOf X).Normal := Subgroup.Normal.subgroupOf inferInstance X
+  have := h.normal
+  have := h.simple
+  have hn : ((X ⊓ N).subgroupOf X).Normal := Subgroup.Normal.subgroupOf inferInstance X
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((X ⊓ N).subgroupOf X) with hb | ht
   · exfalso
     have hdisj : Disjoint (X ⊓ N) X := Subgroup.subgroupOf_eq_bot.mp hb
@@ -51,7 +51,7 @@ theorem le_of_normal_ne_bot (h : ListData189 X Q Γ x) {N : Subgroup Y} (hN : N.
     exact (le_inf_iff.mp ht).2
 
 theorem isPerfect (h : ListData189 X Q Γ x) : Group.IsPerfect ↥X := by
-  haveI := h.simple
+  have := h.simple
   rw [Group.isPerfect_def]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator ↥X) with hb | ht
   · exfalso
@@ -71,11 +71,11 @@ theorem isPerfect (h : ListData189 X Q Γ x) : Group.IsPerfect ↥X := by
 
 theorem apply_mem (h : ListData189 X Q Γ x) (α : MulAut Y) {t : Y} (ht : t ∈ X) :
     α t ∈ X := by
-  haveI := h.normal
+  have := h.normal
   have hX1 : X ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot X).mp h.simple.toNontrivial
   have key : ∀ β : MulAut Y, X ≤ X.map β.toMonoidHom := by
     intro β
-    haveI : (X.map β.toMonoidHom).Normal :=
+    have : (X.map β.toMonoidHom).Normal :=
       Subgroup.Normal.map h.normal β.toMonoidHom β.surjective
     refine h.le_of_normal_ne_bot inferInstance ?_
     rwa [Ne, Subgroup.map_eq_bot_iff_of_injective _ β.injective]
@@ -158,7 +158,7 @@ theorem absInnerFree_iff (h : ListData189 X Q Γ x) : AbsInnerFree189 X Q ↔ Q 
 
 theorem card_inf_mul_outOrder [Finite Y] (h : ListData189 X Q Γ x) :
     Nat.card ↥(Q ⊓ X) * absOutOrder189 X = Nat.card Q := by
-  haveI := h.normal
+  have := h.normal
   have h1 : X.relIndex Q * Nat.card ↥(X ⊓ Q) = Nat.card Q :=
     Subgroup.relIndex_mul_card X Q
   have h2 : X.relIndex (Q ⊔ X) = X.relIndex Q :=
@@ -217,7 +217,7 @@ theorem isSylowOf_top_of_inf_ne_bot [Finite Y] (h : ListData189 X Q Γ x)
     (hTI : UniqueSylowOver189 X) (hne : Q ⊓ X ≠ ⊥) :
     CFSG.ABGLocalTools.IsSylowOf 2 Q ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h.normal
+  have := h.normal
   have hRp : IsPGroup 2 (Q ⊓ X : Subgroup Y) := h.isPGroup.to_le inf_le_left
   obtain ⟨U₁, ⟨hU₁, hRU₁⟩, huniq⟩ := hTI (Q ⊓ X) inf_le_right hRp hne
   have hinv : ∀ α : MulAut Y, (∀ t ∈ (Q ⊓ X : Subgroup Y), α⁻¹ t ∈ (Q ⊓ X : Subgroup Y)) →

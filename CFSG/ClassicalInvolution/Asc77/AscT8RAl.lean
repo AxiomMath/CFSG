@@ -142,7 +142,7 @@ theorem eq_of_swap (hs : Std8 p f Ω K J S R T W z t)
     rw [hφ]
     exact S.mul_mem (hRS r.2)
       (S.mul_mem (S.mul_mem hb (hRS r.2)) (S.inv_mem hb))
-  have hQ2 : IsPGroup 2 ↥φ.range := S.isPGroup'.to_le hQS
+  have hQ2 : IsPGroup 2 ↥φ.range := S.isPGroup.to_le hQS
   have hQb : ∀ y ∈ φ.range, y * b = b * y := by
     rintro _ ⟨r, rfl⟩
     rw [hφ]
@@ -219,7 +219,7 @@ theorem eq_of_swap (hs : Std8 p f Ω K J S R T W z t)
   have hqK' : conjSub (φ ⟨r₁, hr₁R⟩) (conjSub n' K) = conjSub n' K :=
     T8.conjSub_eq_of_conjSub_eq hp hΩ hK'Ω (RSet.conj hcl hRΩ n') (conjSub_mono hRK) hqN
   have hq2 : IsPGroup 2 (Subgroup.zpowers (φ ⟨r₁, hr₁R⟩)) :=
-    (isPGroup_conjSub n' S.isPGroup').to_le (Subgroup.zpowers_le.mpr hqS')
+    (isPGroup_conjSub n' S.isPGroup).to_le (Subgroup.zpowers_le.mpr hqS')
   obtain ⟨x₂, hx₂K', hx₂o, hx₂c⟩ := T8.exists_orderFour_centralizes_sq hp hΩ hK'Ω hz' hq2 hqK'
   rw [hqsq] at hx₂c
   have hxK : n'⁻¹ * x₂ * n' ∈ K := mem_conjSub_iff.mp hx₂K'
@@ -237,7 +237,7 @@ theorem eq_of_swap (hs : Std8 p f Ω K J S R T W z t)
   have hwb : n'⁻¹ * ((z * t) * b⁻¹) * n' = n'⁻¹ * (z * t) * (n'⁻¹)⁻¹ * (z * t)⁻¹ := by
     rw [← hn'b]
     group
-  exact (eq_of_conj_mul_inv_mem_oddCoreOf S.isPGroup' haSm hb (omegaNbrGen Ω K) n'
+  exact (eq_of_conj_mul_inv_mem_oddCoreOf S.isPGroup haSm hb (omegaNbrGen Ω K) n'
     (hwb ▸ hw)).symm
 
 

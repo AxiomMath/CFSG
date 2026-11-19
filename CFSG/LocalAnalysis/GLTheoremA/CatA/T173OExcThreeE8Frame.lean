@@ -40,6 +40,7 @@ private theorem e7Embed_frameE7Root :
     ∀ i : Fin 7, e7Embed (frameE7Root i) = frameE8Root i.succ := by
   decide +kernel
 
+omit [Finite K] in
 private theorem coe_tGen_eq_pinnedX_mul {τ : Tag} {d : ℕ} (F : OrthFrame τ d) (i : Fin (d + 1)) :
     ((tGen K F i : adjointGroup τ K) : ModGL τ K) =
       pinnedX τ K (F.root i) 1 * pinnedX τ K (-(F.root i)) 1 := by
@@ -82,12 +83,12 @@ private theorem e7LeviEquiv_symm_tD (f : Fin 7 → Multiplicative (ZMod 3)) :
     rw [hc]
     funext j
     refine Fin.cases ?_ ?_ j
-    · simp [Fin.cons_zero, Pi.mulSingle_eq_of_ne (Ne.symm (Fin.succ_ne_zero i))]
+    · simp [Fin.cons_zero]
     · intro k
       by_cases h : k = i
       · subst h
         simp [Fin.cons_succ]
-      · simp [Fin.cons_succ, Pi.mulSingle_eq_of_ne h, Fin.succ_inj, h]
+      · simp [Fin.cons_succ, Fin.succ_inj, h]
   let φ : ↥(adjointGroup .E7 K) →* ↥(adjointGroup .E8 K) :=
     (e7Levi K).subtype.comp (e7LeviEquiv K).symm.toMonoidHom
   have hφ : ∀ (i : Fin 7) (a : Multiplicative (ZMod 3)),
@@ -158,6 +159,7 @@ theorem tGen_zero_notMem_e8FrameV : tGen K frameE8 0 ∉ e8FrameV K := by
   rw [Pi.single_eq_same, hv0] at h0
   exact one_ne_zero h0
 
+omit [Finite K] [CharP K 2] in
 theorem e7Levi_le_centralizer_tGen_zero :
     e7Levi K ≤ Subgroup.centralizer ({tGen K frameE8 0} : Set ↥(adjointGroup .E8 K)) := by
   intro g hg

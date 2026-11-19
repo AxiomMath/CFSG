@@ -196,13 +196,13 @@ theorem exists_four_centralizing_involution {n : ℕ} (hn : 4 ≤ n) {K : Type} 
       rw [← hs]
       simp only [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_mulVec_single]
       funext b
-      by_cases hb : b = f₁ 0 <;> simp [Pi.single_apply, hb]
+      by_cases hb : b = f₁ 0 <;> simp [hb]
     have e2 : ((u : GL (Fin n ⊕ Fin n) K) : Matrix _ _ K) *ᵥ Pi.single (f₂ 0) 1 =
         (s : K) • Pi.single (f₂ 0) 1 := by
       rw [← hs]
       simp only [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_mulVec_single]
       funext b
-      by_cases hb : b = f₂ 0 <;> simp [Pi.single_apply, hb]
+      by_cases hb : b = f₂ 0 <;> simp [hb]
     have e1' := congrFun e1 (f₁ 0)
     have e2' := congrFun e2 (f₂ 0)
     rw [hudef, coe_gen, blk4_mulVec_f] at e1'

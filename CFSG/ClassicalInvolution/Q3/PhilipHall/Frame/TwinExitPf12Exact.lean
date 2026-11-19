@@ -62,7 +62,7 @@ variable {X : Type} [Group X] [Finite X] {Φ : Set (Subgroup X)}
 
 theorem q8TwinSection_q8_of_exact (hS : Q8TwinSection X Φ) (h2 : ∀ J ∈ Φ, IsPGroup 2 J) :
     ∀ J ∈ Φ, Nonempty (↥J ≃* QuaternionGroup 2) := fun J hJ =>
-  hS.q8 J hJ J ⟨le_rfl, h2 J hJ, fun V' hV'K _ hKV' => le_antisymm hV'K hKV'⟩
+  hS.q8 J hJ J ⟨le_rfl, h2 J hJ, fun _V' hV'K _ hKV' => le_antisymm hV'K hKV'⟩
 
 theorem dstarConnected_of_o2_exact {n : ℕ} (hD : TC.Thin.ThmDAbsBelow 3 n) (hlt : Nat.card X < n)
     (hS : Q8TwinSection X Φ) (h2 : ∀ J ∈ Φ, IsPGroup 2 J) {K : Subgroup X} (hK : K ∈ Φ) {z : X}

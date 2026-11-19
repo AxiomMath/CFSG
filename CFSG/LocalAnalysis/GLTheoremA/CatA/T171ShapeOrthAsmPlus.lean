@@ -49,11 +49,11 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup)
           CFSG.ComponentClassification.OuterAutomorphisms.inner (PSimple p J)
 
 theorem orthCompMatrixAnalysisPlus_of (hD : ComponentDescentIndAut)
-    (hU : UnitaryBlockInnAutDerived) (hM : OrthComponentBlockAnalysisPlus) :
+    (_hU : UnitaryBlockInnAutDerived) (hM : OrthComponentBlockAnalysisPlus) :
     OrthCompMatrixAnalysisPlus := by
   intro G _ _ p L J A d b m n K _ _ x y θ hS hKcard hm4 hx hy hxp hyp hxy hbz hbJ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
   have hdN : d ∈ Subgroup.normalizer (L : Set G) :=
     CFSG.LocalAnalysis.GLTheoremA.S171.normalizer_of_innerDiagMarking hS.idiag hS.d_mem
   have hbN : b ∈ Subgroup.normalizer (L : Set G) :=
@@ -137,9 +137,9 @@ theorem orthComponentBlockAnalysisPlus_of_generic
       OrthComponentBlockAnalysis (quadPlus m K)) :
     OrthComponentBlockAnalysisPlus := by
   intro m n p K _ _ hKcard hm4 hp hp2 x y hxp hyp hxy hx1 J hcomp hN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
   have hm1 : 0 < m := by omega
   have hQ : (QuadraticMap.polarBilin (quadPlus m K)).Nondegenerate :=
     CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadPlus m K
@@ -149,7 +149,7 @@ theorem orthComponentBlockAnalysisPlus_of_generic
     have hv : (Pi.single (Sum.inl ⟨0, hm1⟩) (1 : K) : Fin m ⊕ Fin m → K) ≠ 0 := by
       intro h0
       have := congrFun h0 (Sum.inl ⟨0, hm1⟩)
-      simpa using this
+      simp at this
     refine hv (hQ.1 _ fun w => ?_)
     simp [QuadraticMap.polar, h]
   set sigma := CFSG.LocalAnalysis.GLTheoremA.K155XOr.orthProjEquiv hQne with hsigma

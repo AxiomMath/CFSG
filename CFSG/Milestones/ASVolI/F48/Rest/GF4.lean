@@ -20,11 +20,11 @@ variable {K : Type} [Field K]
 
 theorem burnsideF48t_gf4_exists_ω (hK : Nat.card K = 4) :
     (2 : K) = 0 ∧ ∃ ω : K, ω ^ 2 = ω + 1 := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : Fintype.card K = 2 ^ 2 := by rw [← Nat.card_eq_fintype_card, hK]; norm_num
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow hc
+  have : CharP K 2 := charP_of_card_eq_prime_pow hc
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   refine ⟨h2, ?_⟩
   obtain ⟨ω, hω0, hω1⟩ : ∃ ω : K, ω ≠ 0 ∧ ω ≠ 1 := by
@@ -94,9 +94,9 @@ theorem burnsideF48t_trans_map_transpose (bar : K →+* K) (hbar : ∀ c, bar (b
     vecMulVec_apply, map_add, map_mul, hbar]
   by_cases h : i = j
   · subst h
-    simp only [if_true]
+    simp only [ite_true]
     rw [map_one, mul_comm]
-  · rw [if_neg (Ne.symm h), if_neg h, map_zero, mul_comm]
+  · rw [ite_eq_right (Ne.symm h), ite_eq_right h, map_zero, mul_comm]
 
 theorem burnsideF48t_trans_sq (bar : K →+* K) (h2 : (2 : K) = 0) {u : Fin 5 → K}
     (hu : (fun j => bar (u j)) ⬝ᵥ u = 0) :
@@ -124,7 +124,7 @@ theorem burnsideF48t_coe_transU (bar : K →+* K) {u : Fin 5 → K}
     (h : burnsideF48t_trans bar u * burnsideF48t_trans bar u = 1) :
     ((burnsideF48t_transU bar u : GL (Fin 5) K) : Matrix (Fin 5) (Fin 5) K) =
       burnsideF48t_trans bar u := by
-  rw [burnsideF48t_transU, dif_pos h]
+  rw [burnsideF48t_transU, dite_eq_left h]
 
 theorem burnsideF48t_trans_mulVec (bar : K →+* K) (u v : Fin 5 → K) :
     burnsideF48t_trans bar u *ᵥ v = v + ((fun j => bar (u j)) ⬝ᵥ v) • u := by
@@ -137,7 +137,7 @@ theorem burnsideF48t_transU_mem (h : CFSG.LocalAnalysis.ComponentInitial.Unitary
     {u : Fin 5 → K} (hu : (fun j => h.bar (u j)) ⬝ᵥ u = 0) :
     burnsideF48t_transU h.bar u ∈ CFSG.Open.StatedSU 5 (2 ^ 1) K := by
   have h2 : (2 : K) = 0 := by
-    haveI := h.charP
+    have := h.charP
     exact CharTwo.two_eq_zero
   have hsq := burnsideF48t_trans_sq h.bar h2 hu
   rw [show CFSG.Open.StatedSU 5 (2 ^ 1) K = CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 K 5

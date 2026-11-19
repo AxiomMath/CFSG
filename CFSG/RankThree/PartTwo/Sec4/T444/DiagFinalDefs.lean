@@ -354,7 +354,7 @@ theorem ys03_I09_branch {Y : Type} [Group Y] {p e : ℕ} [Fact p.Prime] (he : 1 
 open CFSG.Assembly.LowTwoRank in
 theorem ys03_I09_cover {X : Type} [Group X] [Finite X] (hq : IsQuasisimple X)
     (hZ3 : IsPGroup 3 (Subgroup.center X)) (hZ : Subgroup.center X ≠ ⊥) {e : ℕ} (he : 1 ≤ e)
-    (h1 : 2 ^ e % 3 = 1) (f : X ⧸ Subgroup.center X ≃* projSL 3 (GaloisField 2 e)) :
+    (_h1 : 2 ^ e % 3 = 1) (f : X ⧸ Subgroup.center X ≃* projSL 3 (GaloisField 2 e)) :
     Nonempty (X ≃* Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 e)) := by
   have : Group.IsPerfect X := hq.1
   have hodd : Odd (Nat.card (Subgroup.center X)) := by
@@ -379,7 +379,7 @@ theorem ys03_I09_cover {X : Type} [Group X] [Finite X] (hq : IsQuasisimple X)
 
 theorem ys03_N08_isElemAbelian_of_card_three {X : Type} [Group X] {Z : Subgroup X}
     (h : Nat.card Z = 3) : CFSG.Assembly.IsElemAbelian 3 Z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcyc : IsCyclic Z := isCyclic_of_prime_card h
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun g hg => ?_⟩
   · exact (IsCyclic.commGroup (α := Z)).mul_comm a b
@@ -390,7 +390,7 @@ theorem ys03_N08_isElemAbelian_of_card_three {X : Type} [Group X] {Z : Subgroup 
 theorem ys03_isExtOf_of_center_card_three {X A : Type} [Group X] [Finite X] [Group A]
     (hZ : Nat.card (Subgroup.center X) = 3) (e : X ⧸ Subgroup.center X ≃* A) :
     IsExtOf X A (Multiplicative (ZMod 3)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcyc : IsCyclic (Subgroup.center X) := isCyclic_of_prime_card hZ
   have e3 : Multiplicative (ZMod (Nat.card (Subgroup.center X))) ≃* Subgroup.center X :=
     zmodCyclicMulEquiv hcyc
@@ -447,7 +447,7 @@ theorem ys03_C_not_alternating {Y : Type} [Group Y] {m : ℕ} (hm : m = 6 ∨ m 
     (he : Nonempty (Y ≃* alternatingGroup (Fin m)))
     (hsec : HasSection Y (projSL 3 (GaloisField 2 2))) : False := by
   obtain ⟨e⟩ := he
-  haveI : Finite Y := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite Y := Finite.of_equiv _ e.symm.toEquiv
   have hd := KFacts.L34.hasSection_card_dvd hsec
   rcases hm with rfl | rfl
   · rw [KFacts.L34.card_projSL, Nat.card_congr e.toEquiv, nat_card_alternatingGroup,
@@ -486,7 +486,7 @@ theorem ys03_C_core (hI : DiagInputs) {X : Type} [Group X] [Finite X]
     ⟨ys03_N08_isElemAbelian_of_card_three hc, hZne, by omega⟩
   rcases hI.item43 X hSFH hq h3Z with ⟨p, e, hp, he, hY⟩ | hA6 | hA7 | hG2 | hU43 | hM22 | hJ3 |
       hMcL | hON
-  · haveI := hp
+  · have := hp
     obtain ⟨hp2, hev, ⟨f⟩⟩ :=
       ys03_I09_branch he hY hsec hI.l34PSL3Odd hI.l34PSU3Odd hI.l34PSU3Even
     subst hp2
@@ -554,7 +554,7 @@ theorem ys03_D0a_solvable_quotient {G : Type} [Group G] [Finite G] {X : Subgroup
     ∃ (K : Subgroup X) (_ : K.Normal), Group.IsSolvable K ∧ ¬ 9 ∣ Nat.card K ∧
       Nonempty (↥X ⧸ K ≃* T) := by
   obtain ⟨η, hη⟩ := exists_thetaQuot_equiv_map_starQuot hX h3X
-  haveI : Group.IsSolvable (aschbacherSolvableCore 3 ↥X) :=
+  have : Group.IsSolvable (aschbacherSolvableCore 3 ↥X) :=
     (solvable_prime_complement_core_characterization Nat.prime_three).1
   let φ : ↥X →* ↥(X.map (starQuot G)) :=
     η.toMonoidHom.comp (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥X))
@@ -576,7 +576,7 @@ theorem ys03_D0a_solvable_quotient {G : Type} [Group G] [Finite G] {X : Subgroup
   have hgker : ∀ k : K, g k = 1 → (k : ↥X) ∈ aschbacherSolvableCore 3 ↥X := fun k hk =>
     (hφker k).mp (congrArg Subtype.val hk)
   refine ⟨K, hKn, ?_, ?_, ?_⟩
-  · refine solvable_of_ker_le_range (Subgroup.inclusion hθK) g ?_
+  · refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hθK) g ?_
     intro k hk
     exact ⟨⟨k, hgker k hk⟩, Subtype.ext rfl⟩
   · have hcard := Subgroup.card_eq_card_quotient_mul_card_subgroup g.ker
@@ -712,10 +712,10 @@ theorem ys03_D0_generic {G : Type} [Group G] [Finite G] (hG : SectionFourHyp G) 
     (hres : ResidualAt T) (hmult : CenterThreePrimeTwoAt T) :
     X ∈ oTwoComponents G ∧ Nonempty (X ⧸ CFSG.pCore 2 X ≃* ↥(X.map (starQuot G))) := by
   obtain ⟨K, hKn, hKs, h9, ⟨ψ⟩⟩ := ys03_D0a_solvable_quotient hX h3X hZ3 e
-  haveI := hKn
-  haveI : Group.IsPerfect ↥X := hX.1
+  have := hKn
+  have : Group.IsPerfect ↥X := hX.1
   obtain ⟨hTs, hTc⟩ := ys03_D0e_center_bot (isComponent_map_starQuot hX h3X).1 e
-  haveI := hTs
+  have := hTs
   have hq := ys03_D0b_quasisimple_of_residualAt hres (sectionFourHyp_subgroup hG X) hKs h9 ψ
   exact ⟨⟨hX.1, hX.2.1, hq⟩, ys03_D0d_iso hX h3X (ys03_D0c_isPGroup_two hmult hTc hq ψ)⟩
 
@@ -886,7 +886,7 @@ theorem ys03_I15_LJ_normal {G : Type} [Group G] [Finite G] {A M H : Subgroup G} 
     have hcomp : (starQuot G).comp (MulAut.conj g).toMonoidHom =
         (MulAut.conj (starQuot G g)).toMonoidHom.comp (starQuot G) := by
       ext x
-      simp [MulAut.conj_apply, map_mul, map_inv]
+      simp [MulAut.conj_apply]
     have hYimg : (X.map (MulAut.conj g).toMonoidHom).map (starQuot G) =
         (X.map (starQuot G)).map (MulAut.conj (starQuot G g)).toMonoidHom := by
       rw [Subgroup.map_map, Subgroup.map_map, hcomp]

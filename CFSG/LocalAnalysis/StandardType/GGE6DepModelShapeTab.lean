@@ -218,7 +218,7 @@ theorem idx_insert {r : Mat6} (hr : r ∈ refl36) (S : Finset Mat6) :
       exact ⟨hr'lt, Or.inl hr'⟩
     · exact ⟨hi, Or.inr hri⟩
 
-theorem conjClosed_idx {S : Finset Mat6} (hS : S ⊆ refl36) (h : ConjClosed S) :
+theorem conjClosed_idx {S : Finset Mat6} (_hS : S ⊆ refl36) (h : ConjClosed S) :
     CjClosed (idx S) := by
   intro a ha b hb
   simp only [idx, Finset.mem_filter, Finset.mem_range] at ha hb ⊢

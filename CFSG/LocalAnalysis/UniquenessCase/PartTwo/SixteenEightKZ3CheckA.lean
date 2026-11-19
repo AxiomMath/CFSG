@@ -132,7 +132,7 @@ theorem s16kScal_eq_zpowers : s16kScal = Subgroup.zpowers s16kOmega := by
   rw [s16kScal, s16kOmega, Subgroup.zpowers_eq_closure]
   congr 1
   ext u
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · intro h
     exact Units.ext (by simpa using h.trans s16kOmegaMat_eq_prod.symm)
@@ -144,7 +144,7 @@ theorem s16kDiag_eq_closure_range : s16kDiag = Subgroup.closure (Set.range s16kD
   rw [s16kDiag]
   congr 1
   ext u
-  simp only [Set.mem_setOf_eq, Set.mem_range]
+  simp only [Set.mem_ofPred_eq, Set.mem_range]
   constructor
   · rintro ⟨i, hi⟩
     exact ⟨i, Units.ext ((s16kDi_val i).trans hi.symm)⟩

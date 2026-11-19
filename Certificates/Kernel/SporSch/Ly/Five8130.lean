@@ -32,7 +32,6 @@ theorem chkV_eq (i : Fin 4) : lyFiveChkV i = LyFL.chkVL i := by
   obtain ⟨r, v⟩ := v_eq i
   unfold lyFiveChkV LyFL.chkVL
   rw [r, x_eq, powB v, mulE vXX v, mulE v vXX, beqE (mulV vXX v) (mulV v vXX)]
-  all_goals rfl
 
 theorem chkComm_eq (i j : Fin 4) : lyFiveChkComm i j = LyFL.chkCommL i j := by
   obtain ⟨ri, vi⟩ := v_eq i
@@ -51,7 +50,6 @@ theorem chkConj_eq (i : Fin 4) : lyFiveChkConj i = LyFL.chkConjL i := by
   unfold lyFiveChkConj LyFL.chkConjL
   rw [r, aa_eq, bb_eq, na, nb, mulE vAA v, mulE va vAA, mulE vBB v, mulE vb vBB,
     beqE (mulV vAA v) (mulV va vAA), beqE (mulV vBB v) (mulV vb vBB)]
-  all_goals rfl
 
 theorem small : lyFiveSmallCheck = true := by
   have eV : lyFiveChkV = LyFL.chkVL := funext chkV_eq
@@ -112,7 +110,7 @@ theorem tArr_get : ∀ k < 2880, lyFiveTArr[k]! = U (TT k) ∧ vld (TT k) = true
       · subst h0
         have e : TT 0 = ONE := Nat.eq_of_beq_eq_true h
         unfold lyFiveTStep
-        rw [if_pos rfl, e, idE]
+        rw [ite_eq_left rfl, e, idE]
         exact ⟨rfl, vOne⟩
       · have hb : Nat.beq k 0 = false := Bool.eq_false_iff.mpr fun e => h0 (Nat.eq_of_beq_eq_true e)
         rw [hb] at h
@@ -122,16 +120,16 @@ theorem tArr_get : ∀ k < 2880, lyFiveTArr[k]! = U (TT k) ∧ vld (TT k) = true
         have es : ∀ acc, lyFiveTStep k acc = mulM 5 111 (if lyFiveGenArr[k]! = 1 then lyFiveBArr
             else lyFiveAArr) acc[lyFiveParArr[k]!]! := fun acc => by
           unfold lyFiveTStep
-          rw [if_neg h0]
+          rw [ite_eq_right h0]
         obtain ⟨rp, vp⟩ := ih k hk (by omega) _ hpk
         rw [es, par_get hk', gen_get hk', rp, Nat.eq_of_beq_eq_true h3]
         by_cases hg : ix (LyFTG.F 0) k = 1
         · have hb1 : Nat.beq (ix (LyFTG.F 0) k) 1 = true := by rw [hg]; rfl
-          rw [if_pos hg, bb_eq, mulE vBB vp, hb1]
+          rw [ite_eq_left hg, bb_eq, mulE vBB vp, hb1]
           exact ⟨rfl, mulV vBB vp⟩
         · have hb1 : Nat.beq (ix (LyFTG.F 0) k) 1 = false :=
             Bool.eq_false_iff.mpr fun e => hg (Nat.eq_of_beq_eq_true e)
-          rw [if_neg hg, aa_eq, mulE vAA vp, hb1]
+          rw [ite_eq_right hg, aa_eq, mulE vAA vp, hb1]
           exact ⟨rfl, mulV vAA vp⟩
   exact key 2880 le_rfl
 
@@ -261,9 +259,9 @@ theorem rel_sound {k s : Nat} (hk : k < 2880) (hs : s < 2)
     have hG : (if s = 1 then lyFiveBArr else lyFiveAArr) =
         U (nIf(Nat.beq s 1, LyFL.D.BB, LyFL.D.AA)) ∧ vld (nIf(Nat.beq s 1, LyFL.D.BB, LyFL.D.AA)) = true := by
       by_cases h1 : s = 1
-      · subst h1; exact ⟨by rw [if_pos rfl, bb_eq]; rfl, vBB⟩
+      · subst h1; exact ⟨by rw [ite_eq_left rfl, bb_eq]; rfl, vBB⟩
       · have : Nat.beq s 1 = false := Bool.eq_false_iff.mpr fun e => h1 (Nat.eq_of_beq_eq_true e)
-        rw [if_neg h1, this]
+        rw [ite_eq_right h1, this]
         exact ⟨aa_eq, vAA⟩
     obtain ⟨rg, vg⟩ := hG
     rw [rk, rn, rq, rg, mulE vg vk, mulE vn vq, beqE (mulV vg vk) (mulV vn vq)]

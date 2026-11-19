@@ -21,7 +21,7 @@ theorem ggQ2s08_bigD_holds
     (hCav : 4 ∣ Nat.card ↥(ggAutomizer J Bs))
     (hnc : ∃ S : Subgroup G, S ≤ L ∧ IsPGroup 3 S ∧ ¬ IsCyclic S)
     (M : GGQ2LDatum 3 Bs L x) (hD : M.ShapeD)
-    (hRig : GGLabelRigidInput) {lab : LargeEvenLabel}
+    (_hRig : GGLabelRigidInput) {lab : LargeEvenLabel}
     (hlab : GGQ2S08BigLabel lab) (hmark : GGQ2TBMarked 3 L lab)
     (hInn : GGInnerDiagOnLab (fun p lab' => p = 3 ∧ GGQ2S08BigLabel lab') 3 Bs L)
     (hMW : GGQ2LabelWeyl lab M.coxeter) (htag : lab.tag = .twA) (h3 : 3 ∣ lab.rank + 1)
@@ -48,8 +48,8 @@ theorem ggQ2s08_bigD_holds
   have hfin : Module.finrank (ZMod 3) M.V = lab.rank := by
     rw [← finrank_top (ZMod 3) M.V, ← hD.2.2, ← hcardΛ]
     exact finrank_span_eq_card hD.2.1
-  haveI : Finite M.V := Finite.of_equiv _ M.model.toEquiv
-  haveI : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
+  have : Finite M.V := Finite.of_equiv _ M.model.toEquiv
+  have : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
   let κ : M.V ≃ₗ[ZMod 3] Vn lab.rank :=
     LinearEquiv.ofFinrankEq _ _ (by rw [hfin, Module.finrank_fin_fun])
   exact ggQ2s08_cell_of_test_Q (hLB := hLB) (hP := hP) (hΓi := hΓi) (hTBN := hTBN)

@@ -120,7 +120,7 @@ theorem map_mem_normalizer_iff (φ : S ≃* S') (E : Subgroup S) (g : S) :
 theorem isSylowOf_map [Finite S] [Finite S'] (φ : S ≃* S') {U : Subgroup S}
     (h : CFSG.ABGLocalTools.IsSylowOf 2 U ⊤) :
     CFSG.ABGLocalTools.IsSylowOf 2 (U.map φ.toMonoidHom) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at h ⊢
   obtain ⟨-, hp, hdvd⟩ := h
   refine ⟨le_top, hp.of_equiv (U.equivMapOfInjective φ.toMonoidHom φ.injective), ?_⟩
@@ -130,7 +130,7 @@ theorem isSylowOf_map [Finite S] [Finite S'] (φ : S ≃* S') {U : Subgroup S}
 theorem isSolvable_map (φ : S ≃* S') {D : Subgroup S} (h : Group.IsSolvable ↥D) :
     Group.IsSolvable ↥(D.map φ.toMonoidHom) :=
   haveI := h
-  solvable_of_surjective (f := (D.equivMapOfInjective φ.toMonoidHom φ.injective).toMonoidHom)
+  Group.isSolvable_of_surjective (f := (D.equivMapOfInjective φ.toMonoidHom φ.injective).toMonoidHom)
     (D.equivMapOfInjective φ.toMonoidHom φ.injective).surjective
 
 theorem isElemAbelian_map (φ : S ≃* S') {E : Subgroup S} (h : CFSG.Open.IsElemAbelian 3 E) :
@@ -182,7 +182,7 @@ theorem mg_eq_Xs : Mg = Xs := by
 theorem isSylowOf_three {G : Type*} [Group G] [Finite G] {D X : Subgroup G}
     (h576 : Nat.card D = 576) (hXD : X ≤ D) (hX9 : Nat.card X = 9) :
     CFSG.ABGLocalTools.IsSylowOf 3 X D := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨hXD, IsPGroup.of_card (n := 2) (by simpa using hX9), ?_⟩
   have h := Subgroup.relIndex_mul_card X D
@@ -210,7 +210,7 @@ theorem exists_noncomm_of_four_dvd {S : Type} [Group S] [IsSimpleGroup S]
     (h4 : 4 ∣ Nat.card S) : ∃ a b : S, a * b ≠ b * a := by
   by_contra h
   push Not at h
-  haveI : IsMulCommutative S := ⟨⟨h⟩⟩
+  have : IsMulCommutative S := ⟨⟨h⟩⟩
   have hp : (Nat.card S).Prime := Group.is_simple_iff_prime_card.1 inferInstance
   rcases hp.eq_one_or_self_of_dvd 4 h4 with h1 | h1
   · omega
@@ -280,13 +280,13 @@ theorem core_T0 (hns : ¬ Group.IsSolvable ↥Mg) {D E : Subgroup ↥Mg} (h : Hy
   rcases card_cases hTD with h25920 | ⟨h576, hPM, hD⟩ | hnd
   · have hDtop : D = ⊤ := (Subgroup.card_eq_iff_eq_top D).1 (by rw [h25920, card_Mg])
     subst hDtop
-    exact hns (solvable_of_solvable_injective (f := (Subgroup.topEquiv (G := ↥Mg)).symm.toMonoidHom)
+    exact hns (Group.isSolvable_of_isSolvable_injective (f := (Subgroup.topEquiv (G := ↥Mg)).symm.toMonoidHom)
       (Subgroup.topEquiv (G := ↥Mg)).symm.injective)
   · obtain ⟨hda, hdb, hE0card, ha3, hb3, hfree⟩ := d0_facts
     have hE0P : Subgroup.closure {g | g ∈ [ea, eb]} ≤ Subgroup.closure {g | g ∈ L3} := by
       rw [Subgroup.closure_le]
       intro g hg
-      simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hg
+      simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hg
       rcases hg with rfl | rfl
       exacts [hda, hdb]
     have hE0M : Subgroup.closure {g | g ∈ [ea, eb]} ≤ Mg := hE0P.trans hPM
@@ -297,7 +297,7 @@ theorem core_T0 (hns : ¬ Group.IsSolvable ↥Mg) {D E : Subgroup ↥Mg} (h : Hy
     have hE0card' : Nat.card ↥((Subgroup.closure {g | g ∈ [ea, eb]}).subgroupOf Mg) = 9 := by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hE0M).toEquiv]
       exact hE0card
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨k, hkD, hk⟩ := (isSylowOf_three h576 hE0D hE0card').exists_mem_conj
       (isSylowOf_three h576 hED hE9)
     have hu1 : u ∈ T0 := (Subgroup.mem_inf.1 hu).1
@@ -329,7 +329,7 @@ theorem core_T0 (hns : ¬ Group.IsSolvable ↥Mg) {D E : Subgroup ↥Mg} (h : Hy
   · exact hnd h9
 
 theorem no_hyp (hns : ¬ Group.IsSolvable ↥Mg) {U D E : Subgroup ↥Mg} (h : Hyp U D E) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT0 : CFSG.ABGLocalTools.IsSylowOf 2 T0 ⊤ :=
     CFSG.ABGLocalTools.isSylowOf_iff.2 isSylowTwo_T0
   obtain ⟨k, -, hk⟩ := hT0.exists_mem_conj h.1
@@ -353,7 +353,7 @@ theorem k21dGeomU42_holds : K21dGeomU42 := by
   obtain ⟨hp2, he1⟩ := primePower_card_two hq2
   rw [hp2, he1] at hm
   have hmod : CFSG.Blueprint.LieModel S .PSU 4 2 1 := Or.inl ⟨by decide, hm⟩
-  haveI : IsSimpleGroup S :=
+  have : IsSimpleGroup S :=
     CFSG.Quasithin.H13.F431.U42.isSimpleGroup_of_lieModel_PSU_four_two hmod
   obtain ⟨φ0⟩ := CFSG.Quasithin.H13.F431.U42.nonempty_mulEquiv_Y hmod
   let φ : S ≃* ↥Mg := φ0.trans (MulEquiv.subgroupCongr mg_eq_Xs.symm)
@@ -362,7 +362,7 @@ theorem k21dGeomU42_holds : K21dGeomU42 := by
   have hns : ¬ Group.IsSolvable ↥Mg := by
     intro hs
     have hsS : Group.IsSolvable S :=
-      solvable_of_solvable_injective (f := φ.toMonoidHom) φ.injective
+      Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective
     exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr hsS a b)
   intro U D E hU hUD hDs hED hE hE9 hinv
   exact (no_hyp hns (Hyp.map φ ⟨hU, hUD, hDs, hED, hE, hE9, hinv⟩)).elim

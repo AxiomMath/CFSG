@@ -32,7 +32,7 @@ theorem hasAbelianSylowTwo_of_odd {Y : Type*} [Group Y] [Finite Y] (hY : Odd (Na
   intro S
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : (S : Subgroup Y) = ⊥ := by
-    obtain ⟨n, hn⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := S.isPGroup.exists_card_eq
     have hdvd : 2 ^ n ∣ Nat.card Y := hn ▸ Subgroup.card_subgroup_dvd_card _
     rcases n with _ | n
     · rw [pow_zero] at hn

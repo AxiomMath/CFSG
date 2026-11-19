@@ -36,7 +36,7 @@ noncomputable def lt3 (c : ℕ) : GLHN :=
 theorem lt3_even (t : Fin 3) : lt3 (2 * t.val) = gU t := by
   have ht := t.isLt
   unfold lt3
-  rw [show decide (2 * t.val % 2 = 0) = true by simp, cond_true]
+  rw [show decide (2 * t.val % 2 = 0) = true by simp, _root_.Bool.cond_true]
   congr 1
   ext
   simp only
@@ -45,7 +45,7 @@ theorem lt3_even (t : Fin 3) : lt3 (2 * t.val) = gU t := by
 theorem lt3_odd (t : Fin 3) : lt3 (2 * t.val + 1) = (gU t)⁻¹ := by
   have ht := t.isLt
   unfold lt3
-  rw [show decide ((2 * t.val + 1) % 2 = 0) = false by simp, cond_false]
+  rw [show decide ((2 * t.val + 1) % 2 = 0) = false by simp, Bool.cond_false]
   congr 2
   ext
   simp only
@@ -147,9 +147,9 @@ theorem hn3_facts :
       intro c
       unfold lt3
       cases decide (c % 2 = 0)
-      · rw [cond_false]
+      · rw [Bool.cond_false]
         exact K.inv_mem (hgK _)
-      · rw [cond_true]
+      · rw [_root_.Bool.cond_true]
         exact hgK _
     have hk : ∀ gw : List (List ℕ), (∀ r ∈ gw, ∀ c ∈ r, c < 6) → ∀ j < gw.length,
         ((gw.getD j []).map lt3).prod ∈ K ∧

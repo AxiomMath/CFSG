@@ -180,7 +180,7 @@ variable {M T S P : Subgroup G} {t z w : G}
 
 theorem exists_valid (h : FooteSec4 G L) (d : P4Data L M T S P t z w) :
     ∃ g : G, Valid P t z w g := by
-  haveI : IsSimpleGroup G := h.simple
+  have : IsSimpleGroup G := h.simple
   obtain ⟨Q₀, hd⟩ := d.c.hd
   have hz1 : z ≠ 1 := by
     intro hz1

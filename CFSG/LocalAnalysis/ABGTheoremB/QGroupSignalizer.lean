@@ -63,9 +63,9 @@ theorem qGroupSignalizerInput_of (hσ : σ.IsValid) (hN : σ.NStructure)
   have hxD : σ.x ∈ σ.D := σ.T_le_D hσ σ.x_mem_T
   have hxH : σ.x ∈ H := hDH hxD
   set xH : H := ⟨σ.x, hxH⟩ with hxHdef
-  have hDp : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hDp : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   obtain ⟨SH, hSH⟩ := (hDp.comap_subtype (K := H)).exists_le_sylow
-  obtain ⟨S₁, hS₁⟩ := (SH.isPGroup'.map H.subtype).exists_le_sylow
+  obtain ⟨S₁, hS₁⟩ := (SH.isPGroup.map H.subtype).exists_le_sylow
   have hDS₁ : σ.D ≤ (S₁ : Subgroup G) := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hDH]
     exact (Subgroup.map_mono hSH).trans hS₁
@@ -183,7 +183,7 @@ theorem qGroupSignalizerInput_of (hσ : σ.IsValid) (hN : σ.NStructure)
               show ((u : G) * σ.x)⁻¹ = σ.x⁻¹ * (u : G)⁻¹ by group]
           _ = σ.x * σ.x₂ * u * (σ.x * σ.x₂)⁻¹ * (u : G)⁻¹ := by group] at h1
   have hT2 : IsPGroup 2 (σ.T.subgroupOf H) :=
-    (σ.S.isPGroup'.to_le (σ.T_le_S hσ)).comap_subtype
+    (σ.S.isPGroup.to_le (σ.T_le_S hσ)).comap_subtype
   have hCmap := CFSG.Semidihedral.Local.map_centralizer_eq_of_coprime 2 (CFSG.oddCore H)
     (odd_card_oddCore H).not_two_dvd_nat (σ.T.subgroupOf H) hT2
   have hU₁C : U₁.map π ≤

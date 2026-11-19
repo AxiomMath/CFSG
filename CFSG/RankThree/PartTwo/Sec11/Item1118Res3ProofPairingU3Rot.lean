@@ -29,7 +29,7 @@ theorem natCard_fixedField {Ω : Type} [Field Ω] [IsAlgClosed Ω] {ℓ f : ℕ}
 theorem mapMatrix_scalar {F Ω : Type} [Field F] [Field Ω] (ι : F →+* Ω) (μ : F) (n : ℕ) :
     ι.mapMatrix (Matrix.scalar (Fin n) μ) = Matrix.scalar (Fin n) (ι μ) := by
   ext i j
-  by_cases h : i = j <;> simp [Matrix.scalar_apply, Matrix.diagonal_apply, h]
+  by_cases h : i = j <;> simp [Matrix.scalar_apply, h]
 
 theorem sq_add_add_one_of_cube' {F : Type} [Field F] {ω : F} (h3 : ω ^ 3 = 1) (h1 : ω ≠ 1) :
     ω ^ 2 + ω + 1 = 0 := by
@@ -123,9 +123,9 @@ theorem exists_rot_unitarySet {ℓ f : ℕ} [hℓ : Fact ℓ.Prime] (hf : 1 ≤ 
     rw [hF]; exact mem_fixedField_iff c
   have hcard : Nat.card F = (ℓ ^ f) ^ 2 := by
     rw [hF]; exact natCard_fixedField hf
-  haveI : Finite F := Nat.finite_of_card_ne_zero
+  have : Finite F := Nat.finite_of_card_ne_zero
     (by rw [hcard]; exact pow_ne_zero _ (pow_ne_zero _ hℓ.out.ne_zero))
-  haveI : CharP F ℓ := charP_subfield F
+  have : CharP F ℓ := charP_subfield F
   have h3Ω : (3 : Ω) ≠ 0 := by
     intro h
     have h' : ((3 : ℕ) : Ω) = 0 := by exact_mod_cast h
@@ -184,7 +184,7 @@ theorem exists_rot_unitarySet {ℓ f : ℕ} [hℓ : Fact ℓ.Prime] (hf : 1 ≤ 
     rw [hdetG]; exact one_ne_zero
   refine ⟨Matrix.GeneralLinearGroup.mkOfDetNeZero _ hMdet, ?_, F.subtype l₀, hl3, hl1, ?_⟩
   · unfold unitarySet
-    rw [Set.mem_setOf_eq, Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
+    rw [Set.mem_ofPred_eq, Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
     exact ⟨fun i j => (hmem _).1 (G₀ i j).2, hdetG, hUG⟩
   · rw [Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
     exact hGX

@@ -48,7 +48,7 @@ theorem exists_eigenframe_of_comm (h : UnitaryFieldData ℓ f K) (hq3 : 3 ∣ �
     refine ⟨(((P : GL (Fin n) K)⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ v, ?_⟩
     have hcol : colMat (fun i => Pm *ᵥ (Pi.single i 1 : Fin n → K)) = Pm := by
       ext k j
-      simp [colMat, Matrix.mulVec_single_one]
+      simp [colMat]
     rw [← colMat_mulVec, hcol, mulVec_mulVec, hPinv, one_mulVec]
   · intro y hy
     have hdiag := hP y hy
@@ -72,6 +72,7 @@ theorem exists_eigenframe_of_comm (h : UnitaryFieldData ℓ f K) (hq3 : 3 ∣ �
       split_ifs <;> simp_all
     rw [mulVec_mulVec, hYP, ← mulVec_mulVec, hdi, mulVec_smul]
 
+omit [Finite K] in
 theorem mulVec_pow_eig {M : Matrix (Fin n) (Fin n) K} {v : Fin n → K} {d : K}
     (h : M *ᵥ v = d • v) (k : ℕ) : (M ^ k) *ᵥ v = d ^ k • v := by
   induction k with
@@ -151,7 +152,7 @@ theorem eq_top_toral_two (h : UnitaryFieldData ℓ f K) (hq : ℓ ^ f = 2) (hn :
   let S : Set (primeFormUnitary h (idGram K n)) := {x', y'}
   have hS : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a := by
     rintro a (rfl | rfl) b (rfl | rfl) <;> first | rfl | exact hxy' | exact hxy'.symm
-  letI : CommGroup (Subgroup.closure S) :=
+  let : CommGroup (Subgroup.closure S) :=
     @IsMulCommutative.instCommGroup (Subgroup.closure S) _
       (Subgroup.isMulCommutative_closure fun a ha b hb _ => hS a ha b hb)
   have hcommG : ∀ a ∈ Subgroup.closure S, ∀ b ∈ Subgroup.closure S, a * b = b * a :=
@@ -200,7 +201,7 @@ theorem eq_top_toral_two (h : UnitaryFieldData ℓ f K) (hq : ℓ ^ f = 2) (hn :
   have hKu : Nat.card Kˣ = 3 := by
     have := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hKcard]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Nat.card (Multiplicative (ZMod 3)) = 3 := by simp
   let e : Kˣ ≃* Multiplicative (ZMod 3) := mulEquivOfPrimeCardEq hKu hZ
   let px : Fin n → Kˣ := fun i => Units.mk0 (dx i) (hdx0 i)

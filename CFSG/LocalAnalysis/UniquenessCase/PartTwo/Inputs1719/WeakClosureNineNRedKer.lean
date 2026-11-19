@@ -53,7 +53,7 @@ theorem centralizer_le_of_isPGroup_quotient [Finite Z] {Lb Tb : Subgroup Z} [Lb.
   have : (P : Subgroup D).Characteristic := Sylow.characteristic_of_normal P inferInstance
   have hPZ : ((P : Subgroup D).map D.subtype).Normal :=
     ConjAct.normal_of_characteristic_of_normal
-  have hP1 := hO2 _ hPZ (P.isPGroup'.map D.subtype)
+  have hP1 := hO2 _ hPZ (P.isPGroup.map D.subtype)
   have hPbot : (P : Subgroup D) = ⊥ := by
     rwa [Subgroup.map_eq_bot_iff_of_injective _ D.subtype_injective] at hP1
   have hodd : ¬ 2 ∣ Nat.card D := fun h2 => Sylow.ne_bot_of_dvd_card P h2 hPbot

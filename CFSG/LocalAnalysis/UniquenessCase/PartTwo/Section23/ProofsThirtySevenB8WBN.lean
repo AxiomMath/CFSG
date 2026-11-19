@@ -49,7 +49,7 @@ private theorem false_of_wbn_inversion {D : Data G} {Ch : Choice2011 G} (c : Ctx
     {K : Subgroup G} (hK : K ∈ calC D.M) {f₁ : ℕ}
     (hKf : IsL2 (Bar2 K) f₁ ∨ IsSz (Bar2 K) f₁)
     {a b : G} (haK : a ∈ K) (hbB0 : b ∈ c.B0) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
-    (har : orderOf a = r) (hbr : orderOf b = r) (hb1 : b ≠ 1)
+    (har : orderOf a = r) (_hbr : orderOf b = r) (hb1 : b ≠ 1)
     {w : G} (hinv : ∀ e ∈ Subgroup.zpowers a ⊔ Subgroup.zpowers b, w * e * w⁻¹ = e⁻¹) :
     False := by
   have hnorm : w ∈ Subgroup.normalizer (Subgroup.zpowers a : Set G) :=
@@ -71,7 +71,7 @@ private theorem false_of_wbn_centralizer {D : Data G} {Ch : Choice2011 G} (c : C
     (hC : CFSG.Open.pCoreOf 2 (K ⊔ CFSG.Quasithin.bigB K c.L D.T) ⊓
       Subgroup.centralizer (K : Set G) = ⊥) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKM : K ≤ D.M := CFSG.Open.IsSubnormal.le hK.1
   have hMZ : D.M ≤ Subgroup.normalizer (D.Z : Set G) := by
     have h4c := h4 h1930 c
@@ -113,7 +113,7 @@ theorem Ctx23L.false_of_wbn {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
     {a b : G} (haK : a ∈ K) (haT : a ∈ Subgroup.normalizer (D.T : Set G)) (har : orderOf a = r)
     (hbB0 : b ∈ c.B0) (hbr : orderOf b = r) (hab : Commute a b) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hb1 : b ≠ 1 := by
     intro h1
     rw [h1, orderOf_one] at hbr
@@ -171,7 +171,7 @@ private theorem false_of_cartan_l2 {D : Data G} {Ch : Choice2011 G} (c : Ctx23L 
     (h3 : 3 ≤ CFSG.Open.pRank 2 D.Z) (hPush : Push2329 D Ch) (hSzAut : KSzTwoAut)
     (hD2337 : D2337 D Ch) (hWBN : CFSG.Quasithin.WBN.WBNInversionL2)
     {K : Subgroup G} (hK : K ∈ calC D.M) (hKn : (K.subgroupOf D.M).Normal)
-    {m : ℕ} (hm2 : 2 ≤ m) (hmdvd : m ∣ CFSG.Open.pRank 2 D.Z) {e : ℕ}
+    {m : ℕ} (hm2 : 2 ≤ m) (_hmdvd : m ∣ CFSG.Open.pRank 2 D.Z) {e : ℕ}
     (hL2 : IsL2 (Bar2 K) (2 ^ e * m))
     {A : Subgroup G} (hA : IsInnerCartanOnL A K c.L D.T m)
     {a b : G} (haK : a ∈ K) (haT : a ∈ Subgroup.normalizer (D.T : Set G))
@@ -204,7 +204,7 @@ theorem Ctx23L.false_of_cartan_wbn {D : Data G} {Ch : Choice2011 G} (c : Ctx23L 
     (hshape : IsSz (Bar2 K) m ∨ ∃ e : ℕ, IsL2 (Bar2 K) (2 ^ e * m))
     {A₀ : Subgroup G} (hA₀ : IsInnerCartanOnL A₀ K c.L D.T m) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKn : (K.subgroupOf D.M).Normal := (h8 h1930 c K hK).1
   have hKCZ : K ≤ Subgroup.centralizer (D.Z : Set G) :=
     le_centralizer_Z_of_perfect D Ch h4 h1930 c (CFSG.Open.IsSubnormal.le hK.1) hK.2.1
@@ -229,11 +229,11 @@ theorem Ctx23L.false_of_cartan_wbn {D : Data G} {Ch : Choice2011 G} (c : Ctx23L 
 theorem s23_37_of_wbn (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch) (h23 : S23_23 D Ch)
     (h54 : S23_5_4 D Ch) (h52 : S23_5_2 D Ch) (h8 : S23_8 D Ch) (h2112 : S21_12 D Ch)
     (h847 : R847ThinCZ D) (h208 : S20_8 D) (h29 : S23_29 D Ch) (hB2 : S23_37_B2 D Ch)
-    (h3 : H1930 D → ∀ c : Ctx23L D Ch, 3 ≤ CFSG.Open.pRank 2 D.Z) (hPush : Push2329 D Ch)
+    (h3 : H1930 D → ∀ _c : Ctx23L D Ch, 3 ≤ CFSG.Open.pRank 2 D.Z) (hPush : Push2329 D Ch)
     (hSzAut : KSzTwoAut) (hD2337 : D2337 D Ch) (hWBN : CFSG.Quasithin.WBN.WBNInversionL2) :
     S23_37 D Ch := by
-  intro h1930 c K hK
-  rcases h29 h1930 c K hK with ⟨m, hm1, hmdvd, hshape, A, hA⟩ |
+  intro h1930 _c K hK
+  rcases h29 h1930 _c K hK with ⟨m, hm1, hmdvd, hshape, A, hA⟩ |
     ⟨q, hq, hq2, hL2, hcomm⟩
   · rcases Nat.lt_or_ge m 2 with hm | hm
     ·
@@ -248,13 +248,13 @@ theorem s23_37_of_wbn (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch) (h23 : 
         · have h2 :=
             CFSG.LocalAnalysis.UniquenessCase.PartTwo.s13_two_le_of_isL2 (by simpa using hL2)
           exact absurd h2 (by omega)
-        · exact c.cartan_conclusion_of_isL2_four h2112 h1930 hK (by simpa using hL2)
+        · exact _c.cartan_conclusion_of_isL2_four h2112 h1930 hK (by simpa using hL2)
     ·
       have hshape' : IsSz (Bar2 K) m ∨ ∃ e : ℕ, IsL2 (Bar2 K) (2 ^ e * m) := by
         rcases hshape with hSz | ⟨e, -, hL2⟩
         · exact Or.inl hSz
         · exact Or.inr ⟨e, hL2⟩
-      exact (c.false_of_cartan_wbn h1930 h4 h23 h54 h8 h52 h847 h208 (h3 h1930 c)
+      exact (_c.false_of_cartan_wbn h1930 h4 h23 h54 h8 h52 h847 h208 (h3 h1930 _c)
         hPush hB2 hSzAut hD2337 hWBN hK hm hmdvd hshape' hA).elim
   · exact ⟨⟨q, hq, hq2, hL2⟩, hcomm⟩
 

@@ -230,7 +230,7 @@ private theorem r876_not_solvable {G : Type} [Group G] [Finite G] {D : Data G} (
     (h873 L X H hmin).1.elim (fun h => h.1) (fun h => h.1)
   have : Nontrivial (↥X ⧸ Subgroup.center ↥X) := hsimple.toNontrivial
   have : Nontrivial ↥X := (QuotientGroup.mk'_surjective (Subgroup.center ↥X)).nontrivial
-  exact (IsSolvable.commutator_lt_top_of_nontrivial ↥X).ne hperf
+  exact (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥X).ne hperf
 
 private theorem r876_ne_bot {G : Type} [Group G] [Finite G] {X P : Subgroup G}
     (hP : IsSylowOf 3 P X) (hX : 2 ≤ CFSG.Open.pRank 3 X) : P ≠ ⊥ := by
@@ -900,7 +900,7 @@ private theorem r876sym_isL3_map_conj {G : Type} [Group G] (a : G) {H : Subgroup
 private theorem r876sym_mem_uniqueSet_map_mulAut {G : Type} [Group G] [Finite G] (φ : MulAut G) {M X : Subgroup G} :
     X.map φ.toMonoidHom ∈ uniqueSet (M.map φ.toMonoidHom) ↔ X ∈ uniqueSet M := by
   unfold uniqueSet
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   refine and_congr (Subgroup.map_le_map_iff_of_injective φ.injective) ?_
   constructor
   · intro H k hk
@@ -1234,7 +1234,7 @@ theorem r876_a5 {G : Type} [Group G] [Finite G] {M L Z Y : Subgroup G} {g : G}
   have hKnormal : K.Normal := MonoidHom.normal_ker Φ
   have hπK_normal : (K.map π).Normal := Subgroup.Normal.map inferInstance π hπ_surj
   have : (K.map π).Normal := hπK_normal
-  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hπK_dich : K.map π = ⊥ ∨ K.map π = ⊤ :=
     IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.map π)
   rcases hπK_dich with hbot | htop
@@ -1318,7 +1318,7 @@ private theorem r876a_order21_unique_seven {F : Type} [Group F] [Finite F]
       ∀ B : Subgroup F, Nat.card B = 7 → B = A0 := by
   have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨P⟩ := Sylow.nonempty (p := 7) (G := F)
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have hk_le : k ≤ 1 := by
     have hdiv : 7 ^ k ∣ 21 := by
       rw [← hF, ← hk]
@@ -1471,7 +1471,7 @@ private theorem r876a_exists_order_seven_of_surjection
     · exact absurd (Nat.prime_three.dvd_of_dvd_pow h) (by norm_num)
   obtain ⟨P, hP⟩ := r876a_invariant_sylow_seven hZc3 hNcop hom
   have hPcard : Nat.card ↥(P : Subgroup ↥N) = 7 := by
-    obtain ⟨j, hj⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨j, hj⟩ := P.isPGroup.exists_card_eq
     have hj0 : j ≠ 0 := by
       intro hj0
       have hPbot : Nat.card ↥(P : Subgroup ↥N) = 1 := by rw [hj, hj0, pow_zero]

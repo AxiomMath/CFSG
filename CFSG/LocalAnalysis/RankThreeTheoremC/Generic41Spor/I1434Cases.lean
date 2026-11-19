@@ -16,7 +16,7 @@ theorem kFactI1434_of_cases (hBridge : TauCetiCatalogBridge)
     (hAlt : I1434AltCase) (hSpor : I1434SporCase) (hDef : I1434DefCase) (hExc : I1434ExcCase)
     (hCl : I1434ClassicalCase) : KFactI1434 := by
   intro K _ _ hs hnab hcat Q hrank hab x hxQ hx1 hx5 J₁ J₂ hne h₁ h₂ hlayer hA₁ hA₂ hd
-  haveI : IsSimpleGroup K := hs
+  have : IsSimpleGroup K := hs
   have hD : I1434.Data K Q x J₁ J₂ :=
     ⟨hrank, hab, hxQ, hx1, hx5, ⟨hne, h₁, h₂, hlayer, hA₁, hA₂⟩⟩
   rcases PlaneCases.catalog_cases (hBridge K hnab hcat) with

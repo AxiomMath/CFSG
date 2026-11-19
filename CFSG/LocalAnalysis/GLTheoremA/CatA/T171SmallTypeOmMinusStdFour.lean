@@ -35,7 +35,7 @@ theorem layer_eq_of_fixedSpace_eight (hQ : (polarBilin Q).Nondegenerate)
         (supportedFixedDerived Q (y : V ≃ₗ[ZMod 2] V)).subgroupOf (orthDerived Q) ∧
       IsComponentOf ((supportedFixedDerived Q (y : V ≃ₗ[ZMod 2] V)).subgroupOf (orthDerived Q))
         (Subgroup.centralizer ({y} : Set ↥(orthDerived Q))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy3' : (y : V ≃ₗ[ZMod 2] V) ^ 3 = 1 := by
     have h := pow_orderOf_eq_one y
     rw [hy3] at h
@@ -67,7 +67,7 @@ theorem not_smallOrd_layer_of_fixedSpace_eight (hQ : (polarBilin Q).Nondegenerat
     (hdim : finrank (ZMod 2) V = 2 * 5) {y : ↥(orthDerived Q)} (hy3 : orderOf y = 3)
     (hfix : finrank (ZMod 2) (fixedSpace (y : V ≃ₗ[ZMod 2] V)) = 2 * 4) :
     ¬ HStdExcl.SmallOrd (GLALayer (Subgroup.centralizer ({y} : Set ↥(orthDerived Q)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hlayer := (layer_eq_of_fixedSpace_eight hQ hdim hy3 hfix).1
   have hy3' : (y : V ≃ₗ[ZMod 2] V) ^ 3 = 1 := by
     have h := pow_orderOf_eq_one y
@@ -89,7 +89,7 @@ theorem not_smallOrd_layer_of_fixedSpace_eight (hQ : (polarBilin Q).Nondegenerat
     rw [hlayer]
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAΩ).toEquiv]
     exact hcardA
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
   have hT : ∃ U : Submodule (ZMod 2) W, finrank (ZMod 2) U = 3 ∧
       ∀ u ∈ U, (Q.comp W.subtype) u = 0 :=
     CFSG.StandardType.OrthRestOdd.exists_totallySingular_three (Q.comp W.subtype)
@@ -119,6 +119,7 @@ theorem not_smallOrd_layer_of_fixedSpace_eight (hQ : (polarBilin Q).Nondegenerat
 
 
 set_option maxHeartbeats 800000 in
+omit [FiniteDimensional (ZMod 2) V] in
 theorem isCompl_blockSpace_iSup_erase {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A]
     [DecidableEq (Hyperplane A 3)] (hp : Nat.Prime 3) (hpF : (3 : ZMod 2) ≠ 0)
     (hA : IsElemAbelian 3 A) {D0 : Hyperplane A 3} :
@@ -172,10 +173,10 @@ theorem four_blocks_impossible (hQ : (polarBilin Q).Nondegenerate)
     (h : SmallModel ↥(orthDerived Q) Bb)
     (h4 : (blockSet (orthImage Bb)).card = 4) : False := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := CFSG.LargeExtraspecial.O62.finite_linearEquiv
-  haveI : DecidableEq (Hyperplane (orthImage Bb) 3) := Classical.decEq _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V ≃ₗ[ZMod 2] V) := CFSG.LargeExtraspecial.O62.finite_linearEquiv
+  have : DecidableEq (Hyperplane (orthImage Bb) 3) := Classical.decEq _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let A : Subgroup (V ≃ₗ[ZMod 2] V) := orthImage Bb
   have hAe : IsElemAbelian 3 A := isElemAbelian_orthImage (Ã := Bb) h.elem
   have hAcard : Nat.card ↥A = 3 ^ 4 := by

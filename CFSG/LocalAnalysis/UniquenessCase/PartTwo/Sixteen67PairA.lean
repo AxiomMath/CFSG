@@ -17,6 +17,7 @@ namespace Cfg1667
 
 variable {M V W₁ W₂ : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem not_mem_of_inCalO (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V g) : g ∉ M := by
   intro hgM
   have hgn : g ∈ normalizer (V : Set G) := by rwa [h.normalizer_eq]
@@ -57,6 +58,7 @@ theorem card_B (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V g) :
   have h' := card_U (h.conj g) (inCalO_bot_swap hg)
   simpa only [conjSubgroup_conjSubgroup_inv] using h'
 
+omit [Finite G] in
 theorem le_normalizer_U (h : Cfg1667 M V W₁ W₂) :
     conjSubgroup V g ⊓ M ≤ normalizer ((V ⊓ conjSubgroup M g : Subgroup G) : Set G) := by
   refine (le_inf ?_ ?_).trans (inf_normalizer_le_normalizer_inf (H := V)
@@ -67,6 +69,7 @@ theorem le_normalizer_U (h : Cfg1667 M V W₁ W₂) :
   · intro b hb
     exact Subgroup.le_normalizer ((E3.conjSubgroup_mono_left g h.le_M) hb.1)
 
+omit [Finite G] in
 theorem le_normalizer_B (h : Cfg1667 M V W₁ W₂) :
     V ⊓ conjSubgroup M g ≤ normalizer ((conjSubgroup V g ⊓ M : Subgroup G) : Set G) := by
   have hnorm : normalizer (conjSubgroup V g : Set G) = conjSubgroup M g := by
@@ -109,7 +112,8 @@ theorem commutator_Vg_U_le (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V g)
   have h' := commutator_V_B_le (h.conj g) (inCalO_bot_swap hg)
   simpa only [conjSubgroup_conjSubgroup_inv] using h'
 
-theorem commutator_U_B_le (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V g) :
+omit [Finite G] in
+theorem commutator_U_B_le (h : Cfg1667 M V W₁ W₂) (_hg : InCalO 1 M ⊥ V g) :
     ⁅V ⊓ conjSubgroup M g, conjSubgroup V g ⊓ M⁆ ≤
       (V ⊓ conjSubgroup M g) ⊓ (conjSubgroup V g ⊓ M) := by
   rw [Subgroup.commutator_le]
@@ -129,6 +133,7 @@ theorem commutator_U_B_le (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V g) 
     rw [commutatorElement_def, show u * b * u⁻¹ * b⁻¹ = (u * b * u⁻¹) * b⁻¹ by group]
     exact (conjSubgroup V g ⊓ M).mul_mem hub ((conjSubgroup V g ⊓ M).inv_mem hb)
 
+omit [Finite G] in
 theorem U_inf_B_eq (h : Cfg1667 M V W₁ W₂) :
     (V ⊓ conjSubgroup M g) ⊓ (conjSubgroup V g ⊓ M) = V ⊓ conjSubgroup V g := by
   have hle : conjSubgroup V g ≤ conjSubgroup M g := E3.conjSubgroup_mono_left g h.le_M
@@ -141,6 +146,7 @@ theorem U_inf_B_eq (h : Cfg1667 M V W₁ W₂) :
     exact Subgroup.mem_inf.2
       ⟨Subgroup.mem_inf.2 ⟨hx.1, hle hx.2⟩, Subgroup.mem_inf.2 ⟨hx.2, h.le_M hx.1⟩⟩
 
+omit [Finite G] in
 theorem card_U_inf_B_le (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V g) :
     Nat.card ((V ⊓ conjSubgroup M g) ⊓ (conjSubgroup V g ⊓ M) : Subgroup G) ≤ 2 := by
   rw [U_inf_B_eq h]

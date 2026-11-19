@@ -29,7 +29,7 @@ theorem burnsideF4m_centralizer_mixed_le :
     have hxu : burnsideF4gSpInv_mv m u - u = w := by
       rw [hm, burnsideF4gSpInv_mixed_mv, hu]
       ext i
-      rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply, hw.1, hw.2]
+      rcases i with i | i <;> fin_cases i <;> simp [hw.1, hw.2]
     have h1 : burnsideF4gSpInv_mv g w = burnsideF4gSpInv_mv m
         (burnsideF4gSpInv_mv g u) - burnsideF4gSpInv_mv g u := by
       calc burnsideF4gSpInv_mv g w
@@ -39,7 +39,7 @@ theorem burnsideF4m_centralizer_mixed_le :
         _ = _ := by rw [← burnsideF4gSpInv_mv_mul, hg, burnsideF4gSpInv_mv_mul]
     rw [h1, hm, burnsideF4gSpInv_mixed_mv, add_assoc, add_sub_cancel_left,
       burnsideF4gSpInv_mem_flag_two]
-    simp [Pi.single_apply]
+    simp
   intro g hg
   have hg' := Subgroup.mem_centralizer_singleton_iff.1 hg
   have hginv := Subgroup.mem_centralizer_singleton_iff.1
@@ -113,7 +113,7 @@ theorem burnsideF4m_centralizer_le_of_ctr (hyp : HypF_4_4g κ 2 f Gp M₁ M₂)
     (hw : w ∈ ctr (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)))) {M : Subgroup E} (hM : M₁ ⊓ M₂ ≤ M)
     (hC : ∀ n ∈ Gp, n * w = w * n → n ∈ M) :
     Subgroup.centralizer ({w} : Set E) ≤ M := by
-  haveI := hyp.finite
+  have := hyp.finite
   intro c hc
   obtain ⟨n, hn, h, hh, rfl⟩ := hyp.split c
   have hhN : h ∈ Subgroup.normalizer ((pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) : Subgroup E) : Set E) :=
@@ -173,7 +173,7 @@ theorem burnsideF4m_sp4_model (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) :
   have hK : Nat.card marking.field = 2 ^ f := by
     have := marking.field_card
     simpa using this
-  haveI : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
   have hbasis : marking.basis = 1 := marking.basis_compatible
   have hinj : Function.Injective marking.transport := by
     refine (injective_iff_map_eq_one marking.transport).2 fun a ha => ?_

@@ -266,14 +266,14 @@ theorem classify_ge5
           inTab64 tabS (c1Conj cs.1 (T24s2.arr x)) = true := by
         intro x hx
         have h := hcarry x hx
-        rwa [if_pos hside] at h
+        rwa [ite_eq_left hside] at h
       exact key tabS tabS_ok hcarry'
     · right
       have hcarry' : ∀ x ∈ subprods l,
           inTab64 tabT (c1Conj cs.1 (T24s2.arr x)) = true := by
         intro x hx
         have h := hcarry x hx
-        rwa [if_neg hside] at h
+        rwa [ite_eq_right hside] at h
       exact key tabT tabT_ok hcarry'
 
 end CFSG.Quasithin.AppendixH.H14

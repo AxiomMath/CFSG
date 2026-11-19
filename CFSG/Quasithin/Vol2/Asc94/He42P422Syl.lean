@@ -13,22 +13,22 @@ namespace CFSG.Quasithin.A94.He42
 theorem card_two_sub_le_four_422 {Y : Type} [Group Y] [Finite Y] (V : Subgroup Y)
     (hV : Nat.card ↥V = 4) (hcent : ∀ v ∈ V, v ≠ 1 → ∀ c : Y, c * v = v * c → c ∈ V)
     (W : Subgroup Y) (hW : IsPGroup 2 W) : Nat.card ↥W ≤ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVp : IsPGroup 2 V := IsPGroup.of_card (p := 2) (n := 2) (by rw [hV]; norm_num)
   obtain ⟨P, hVP⟩ := hVp.exists_le_sylow
   have hVne1 : ∃ v ∈ V, v ≠ 1 := by
-    haveI : Nontrivial ↥V := Finite.one_lt_card_iff_nontrivial.mp (by rw [hV]; norm_num)
+    have : Nontrivial ↥V := Finite.one_lt_card_iff_nontrivial.mp (by rw [hV]; norm_num)
     obtain ⟨v, hv⟩ := exists_ne (1 : ↥V)
     exact ⟨v.1, v.2, fun h => hv (Subtype.ext h)⟩
   have hPV : P.toSubgroup = V := by
     by_contra hne
     have hlt : V < P.toSubgroup := lt_of_le_of_ne hVP (fun h => hne h.symm)
-    have hQ : IsPGroup 2 P.toSubgroup := P.isPGroup'
-    haveI : Group.IsNilpotent ↥P.toSubgroup := hQ.isNilpotent
+    have hQ : IsPGroup 2 P.toSubgroup := P.isPGroup
+    have : Group.IsNilpotent ↥P.toSubgroup := hQ.isNilpotent
     have hVtop : V.subgroupOf P.toSubgroup < ⊤ := by
       rw [lt_top_iff_ne_top, Ne, Subgroup.subgroupOf_eq_top]
       exact hlt.2
-    obtain ⟨q, hqn, hqV⟩ := SetLike.exists_of_lt
+    obtain ⟨q, hqn, hqV⟩ := IsConcreteLE.exists_of_lt
       (Group.normalizerCondition_of_isNilpotent (G := ↥P.toSubgroup) _ hVtop)
     have hqN : (q : Y) ∈ normalizer (V : Set Y) := by
       rw [← Subgroup.subgroupOf_normalizer_eq hVP] at hqn
@@ -40,8 +40,8 @@ theorem card_two_sub_le_four_422 {Y : Type} [Group Y] [Finite Y] (V : Subgroup Y
     have hqP₀ : (q : Y) ∈ P₀ := Subgroup.mem_inf.mpr ⟨hqN, hqQ⟩
     have hP₀N : P₀ ≤ normalizer (V : Set Y) := inf_le_left
     have hP₀Q : IsPGroup 2 P₀ := hQ.to_le inf_le_right
-    haveI : Group.IsNilpotent ↥P₀ := hP₀Q.isNilpotent
-    haveI hnormal : (V.subgroupOf P₀).Normal :=
+    have : Group.IsNilpotent ↥P₀ := hP₀Q.isNilpotent
+    have hnormal : (V.subgroupOf P₀).Normal :=
       (normal_subgroupOf_iff_le_normalizer hVP₀).mpr hP₀N
     have hVbot : V.subgroupOf P₀ ≠ ⊥ := by
       intro h

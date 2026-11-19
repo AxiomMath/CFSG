@@ -35,7 +35,7 @@ theorem fstdSymp_b2der_model {S : Type} [Group S] {labK : GLALabel} {α : MulAut
     if true = true then C else CFSG.Assembly.LargeEvenSpGroup K 2
   have hHdef : H = C := by
     change (if true = true then C else CFSG.Assembly.LargeEvenSpGroup K 2) = C
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   have hHle : Nat.card (CFSG.Assembly.LargeEvenProj H) ≤ 720 := by
     calc
       Nat.card (CFSG.Assembly.LargeEvenProj H) ≤ Nat.card ↥H :=
@@ -89,10 +89,10 @@ theorem fstdSymp_b2der_false {S : Type} [Group S] [Finite S] {labK : GLALabel} {
     have : 360 * 3 ≤ Nat.card ↥(fixSubgroup α) * (fixSubgroup α).index :=
       Nat.mul_le_mul (by omega) h3
     omega
-  haveI : (fixSubgroup α).Normal := Subgroup.normal_of_index_eq_two h2
+  have : (fixSubgroup α).Normal := Subgroup.normal_of_index_eq_two h2
   have hcyc : IsCyclic (S ⧸ fixSubgroup α) :=
     isCyclic_of_prime_card (p := 2) (by rw [← Subgroup.index_eq_card, h2])
-  letI : CommGroup (S ⧸ fixSubgroup α) := IsCyclic.commGroup
+  let : CommGroup (S ⧸ fixSubgroup α) := IsCyclic.commGroup
   have hcomm : commutator S ≤ fixSubgroup α := by
     have := Abelianization.commutator_subset_ker (QuotientGroup.mk' (fixSubgroup α))
     rwa [QuotientGroup.ker_mk'] at this

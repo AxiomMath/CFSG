@@ -106,7 +106,7 @@ theorem catalogIs_largeEvenProj_statedSU {a n : ℕ} {E : Type} [Field E] [Finit
     (hE : UnitaryFieldData 2 n E) (ha : 3 ≤ a) (hne : (a, 2 ^ n) ≠ (3, 2)) :
     catalogIs (LargeEvenProj (unitarySU 2 n E a)) (onLie isUnitaryCharTwoIdx) := by
   classical
-  haveI hFintype : Fintype E := Fintype.ofFinite E
+  have hFintype : Fintype E := Fintype.ofFinite E
   have hcardNat : Nat.card E = (2 ^ n) ^ 2 := by
     rw [hE.card, show 2 * n = n * 2 by omega, pow_mul]
   have hcard : Fintype.card E = (2 ^ n) ^ 2 := by
@@ -115,7 +115,7 @@ theorem catalogIs_largeEvenProj_statedSU {a n : ℕ} {E : Type} [Field E] [Finit
   obtain ⟨q', hv, hqp, hqc, ⟨e⟩⟩ :=
     CFSG.Adapters.CatalogueFieldBridges.exists_twistedA_mulEquiv_centerQuotient_statedSU
       (K := E) (m := a) (q := 2 ^ n) hcard ha hne
-  haveI : CharP E 2 := hE.charP
+  have : CharP E 2 := hE.charP
   have hrc : ringChar E = 2 :=
     CharP.ringChar_of_prime_eq_zero Nat.prime_two (CharP.cast_eq_zero E 2)
   have hcenter : Subgroup.center (StatedSU a (2 ^ n) E) =

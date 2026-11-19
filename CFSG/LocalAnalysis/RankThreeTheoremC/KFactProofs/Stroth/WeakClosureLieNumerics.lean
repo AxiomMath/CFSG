@@ -38,7 +38,7 @@ theorem one_le_crossA {p q : ℕ} [Fact p.Prime] (hpq : ¬ p ∣ q) (hq : 1 < q)
   have hlt : 1 < q ^ crossE p q := Nat.one_lt_pow (crossE_pos hpq).ne' hq
   exact one_le_padicValNat_of_dvd (Nat.sub_ne_zero_of_lt hlt) (dvd_pow_crossE_sub_one hpq)
 
-theorem pow_crossA_dvd {p q : ℕ} [Fact p.Prime] (hpq : ¬ p ∣ q) :
+theorem pow_crossA_dvd {p q : ℕ} [Fact p.Prime] (_hpq : ¬ p ∣ q) :
     p ^ crossA p q ∣ q ^ crossE p q - 1 :=
   pow_padicValNat_dvd
 

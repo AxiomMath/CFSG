@@ -64,7 +64,7 @@ theorem galleryIn_coeGallery {a : A} {γ : List (K × A)}
       · exact ⟨⟨p.1, rfl⟩, p.2.2⟩
       · exact ih'.2.2 q hq
 
-theorem exists_coeGallery (he : Function.Injective e) {a : A} {γ' : List (I × C)}
+theorem exists_coeGallery (_he : Function.Injective e) {a : A} {γ' : List (I × C)}
     (h : GalleryIn X (Set.range e) A a γ') :
     ∃ γ : List (K × A), coeGallery e A γ = γ' ∧ (restrictBy X e A).IsGallery a γ := by
   induction γ' generalizing a with
@@ -129,7 +129,7 @@ private theorem q2cDMr_coe_eq_append_iff {l : List (K × A)} {s₁ s₂ : List (
     subst hl
     rw [coeGallery_append, h1, h2]
 
-private theorem q2cDMr_elemMove_coe (he : Function.Injective e) {a : A}
+private theorem q2cDMr_elemMove_coe (_he : Function.Injective e) {a : A}
     {γ γ' : List (K × A)} (hγ : (restrictBy X e A).IsGallery a γ)
     (h : (restrictBy X e A).ElemMove a γ γ') :
     HomIn X (Set.range e) A 2 (a : C) (coeGallery e A γ) (coeGallery e A γ') := by

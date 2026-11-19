@@ -12,10 +12,12 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem vone_le_Q {C V : Subgroup G} (hV : V ≤ Q) : Vone Q B C V ≤ Q := by
   intro x hx
   exact sup_le inf_le_left hV hx.1
 
+omit [Finite G] in
 theorem Z_le_vone {C : Subgroup G} {t : G} :
     Z ≤ Vone Q B C (Vt M (LB M Q B) B Z t) :=
   le_inf (sec39_Z_le_Vt.trans le_sup_right) (sec39_Z_le_Vt.trans le_sup_right)
@@ -134,7 +136,8 @@ theorem Ctx.comm_LB_vone_le_vone (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec5
     ⁅LB M Q B, Sec8V1 M Q Z B t r⁆ ≤ Sec8V1 M Q Z B t r :=
   (Subgroup.commutator_mono le_rfl le_sup_right).trans (hc.comm_LB_A1_le_vone hs)
 
-theorem Ctx.hsupW_of_prod (hc : Ctx M Q Z B) {t r : G}
+omit [Finite G] in
+theorem Ctx.hsupW_of_prod (_hc : Ctx M Q Z B) {t r : G}
     (hprod : Sec8W1 M Q Z B t r ≤
       (QB B ⊓ Sec8W1 M Q Z B t r) ⊔ (QB (conjSubgroup r B) ⊓ Sec8W1 M Q Z B t r)) :
     Sec8W1 M Q Z B t r ≤

@@ -21,8 +21,8 @@ theorem isComponentOf_pairBlock_centralizer (hp2 : p ≠ 2) (hgd : g ∣ cycloto
       (Subgroup.centralizer (torusFix (torusSL ε hC hCp) (swapMap i j))) := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
-  haveI : Finite (AdjoinRoot g) := finite_adjoinRoot
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Finite (AdjoinRoot g) := finite_adjoinRoot
   have hpK' : (p : K) ≠ 0 := OrdPNS.natCast_ne_zero_of_charTwo hp hp2
   have hprim : IsPrimitiveRoot (AdjoinRoot.root g) p := root_isPrimitiveRoot hp hpK' hgd
   have hal : Aligned hprim.pow_eq_one (pairVec (p := p) i j) := aligned_pairVec i j
@@ -110,7 +110,7 @@ theorem isComponentOf_twistPairBlock_centralizer (hp2 : p ≠ 2) (hpK : p ∣ Na
       (Subgroup.centralizer (torusFix (torusSL ε hC hCp) (sswapMap i j))) := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   let N : SpecialLinearGroup (Fin n) K := negSL g hζ hpK ε j
   have hconj : ∀ t : Multiplicative (Fin s → ZMod p),
       (MulAut.conj N).toMonoidHom (torusSL ε hC hCp t) =
@@ -187,7 +187,7 @@ theorem isComponentOf_zeroBlock_centralizer (hp2 : p ≠ 2) (hpK : p ∣ Nat.car
       (Subgroup.centralizer (torusFix (torusSL ε hC hCp) (negMap i))) := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   have hpK' : (p : K) ≠ 0 := OrdPNS.natCast_ne_zero_of_charTwo hp hp2
   have hprim : IsPrimitiveRoot (AdjoinRoot.root g) p := root_isPrimitiveRoot hp hpK' hgd
   have hal : Aligned hprim.pow_eq_one (blockVec (p := p) i) := aligned_blockVec i
@@ -270,7 +270,7 @@ theorem dvd_natCard_pairBlock (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K + 1) (hgd 
     det_rootMat hp (SpNS.not_dvd_card_sub_one hp hp2 hpK) hpK' hgd
   have hCp : rootMat g ^ p = 1 := rootMat_pow_eq_one hp hpK' hgd
   let v : Fin s → ZMod p := Pi.single i 1 - Pi.single j 1
-  have hti : v i = 1 := by simp [v, Pi.sub_apply, hij, Ne.symm hij]
+  have hti : v i = 1 := by simp [v, Pi.sub_apply, hij]
   have ht0 : v ≠ 0 := by
     intro h
     exact one_ne_zero (by rw [← hti, h]; simp)

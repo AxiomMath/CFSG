@@ -351,7 +351,7 @@ theorem normal_solvable_subgroup_contains_normal_primeSubgroup
       (Subgroup.map_subtype_le _).trans hminimal.1.2.2⟩
       (Subgroup.map_subtype_le _))
   refine ⟨prime, hprime, subgroup, hminimal.1.1, hminimal.1.2.1, hminimal.1.2.2, ?_⟩
-  exact hmapEq ▸ (sylow.isPGroup'.map subgroup.subtype)
+  exact hmapEq ▸ (sylow.isPGroup.map subgroup.subtype)
 
 theorem solvable_has_nontrivial_normal_primeSubgroup
     (source : Type u) [Group source] [Finite source] [Nontrivial source]

@@ -45,7 +45,7 @@ theorem data148_of_not_le
       X ⊓ pPrimeCoreOf 3 M ≤ inSubgroup (aschbacherSolvableCore 3) X := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : (ker148 A M).Normal := ker148_normal hf.mem_m2.1.2
+  let : (ker148 A M).Normal := ker148_normal hf.mem_m2.1.2
   set W := w155 A M X with hWdef
   set D := img148 A M (deltaZero A (lB A) M) with hDdef
   have hWΔ : W ≤ deltaZero A (lB A) M := hf.w_le_i0.trans hf.i0_le_deltaZero
@@ -70,8 +70,8 @@ theorem data148_of_not_le
     (Subgroup.nontrivial_iff_ne_bot V).mp (CFSG.LocalCores.isQuasisimple_nontrivial hVq)
   have hEperf : Group.IsPerfect ↥E := by
     rw [hEdef]
-    haveI : Group.IsPerfect ↥(img148 A M W) := by
-      haveI : Group.IsPerfect W := Proof155Wx.isPerfect_w155 A M X
+    have : Group.IsPerfect ↥(img148 A M W) := by
+      have : Group.IsPerfect W := Proof155Wx.isPerfect_w155 A M X
       exact isPerfect_img148 (A := A) (Y := M) (J := W) hWMA
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hEimg).symm.toMonoidHom) (MulEquiv.surjective _)
@@ -108,7 +108,7 @@ theorem data148_of_not_le
   have hquasi : ∀ {S : Type} [Group S], CFSG.IsQuasisimple S → (↥D ≃* S) → False := by
     intro S _ hS e
     obtain ⟨-, hsimple, -⟩ := hS
-    letI : IsSimpleGroup (S ⧸ Subgroup.center S) := hsimple
+    let : IsSimpleGroup (S ⧸ Subgroup.center S) := hsimple
     exact hEne (eq_bot_of_cover (ψ := QuotientGroup.mk' (Subgroup.center S))
       (QuotientGroup.mk'_surjective _) (by rw [QuotientGroup.ker_mk'])
       (φ := e.symm.toMonoidHom) e.symm.surjective hVsub hVq hEperf hVE)
@@ -118,21 +118,21 @@ theorem data148_of_not_le
     obtain ⟨hψ, hk⟩ := Proof153Twin2.tripleCover_cover ε
     exact hEne (eq_bot_of_cover hψ hk (φ := MonoidHom.id ↥D) Function.surjective_id hVsub hVq
       hEperf hVE)
-  haveI hA5s : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have hA5s : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hA6s : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have hA6s : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hA7s : IsSimpleGroup (alternatingGroup (Fin 7)) :=
+  have hA7s : IsSimpleGroup (alternatingGroup (Fin 7)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hA10s : IsSimpleGroup (alternatingGroup (Fin 10)) :=
+  have hA10s : IsSimpleGroup (alternatingGroup (Fin 10)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hONs : IsSimpleGroup CFSG.Blueprint.NativeSporadic.ON :=
+  have hONs : IsSimpleGroup CFSG.Blueprint.NativeSporadic.ON :=
     CFSG.Sporadic.ON.isSimpleGroup_ON
   rcases (h148 M hf.mem_m2.1).2 with h1 | h2 | h3 | h4 | h5 | h6 | h7'
   ·
     exfalso
     have hD : img148 A M (deltaZero A (lB A) M) = ⊥ := img148_eq_bot_of_le h1
-    haveI hsub : Subsingleton ↥(img148 A M (deltaZero A (lB A) M)) := by
+    have hsub : Subsingleton ↥(img148 A M (deltaZero A (lB A) M)) := by
       rw [hD]
       exact inferInstance
     have hVbot : V = ⊥ := by
@@ -148,13 +148,13 @@ theorem data148_of_not_le
     rcases hcases with ⟨⟨φ⟩⟩ | ⟨-, ⟨φ⟩⟩ | ⟨p, f, e', hp, hf', -, -, hε⟩ | ⟨-, h6 | ⟨⟨φ⟩⟩⟩
     · exact hquasi (Sec6.isQuasisimple_of_mem_thetaComponentsAt hL'.1) φ
     · exact hsimp φ
-    · haveI : Fact p.Prime := hp
+    · have : Fact p.Prime := hp
       rcases hε with ⟨⟨φ⟩⟩ | ⟨h2q, ⟨φ⟩⟩
-      · haveI : IsSimpleGroup
+      · have : IsSimpleGroup
             (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField p f)) :=
           Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field _
         exact hsimp φ
-      · haveI : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 p f) :=
+      · have : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 p f) :=
           Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two p f hf' (by omega)
         exact hsimp φ
     · exact htriple h6
@@ -169,12 +169,12 @@ theorem data148_of_not_le
       · exact Or.inr (Or.inl hCTA)
       · exact Or.inr (Or.inr ⟨φ⟩)
       · exact (hsimp φ).elim
-      · haveI : Fact (Nat.Prime 7) := hp7
-        haveI : IsSimpleGroup
+      · have : Fact (Nat.Prime 7) := hp7
+        have : IsSimpleGroup
             (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 7 1)) :=
           Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field _
         exact (hsimp φ).elim
-    haveI : Group.IsPerfect ↥D := by
+    have : Group.IsPerfect ↥D := by
       rw [hDdef]
       exact Read148Perf.isPerfect_img148 h h148 hf.mem_m2.1
     have hrank : ∀ F : Subgroup ↥D, CFSG.Assembly.IsElemAbelian 3 F → Nat.card F ≤ 27 := by
@@ -235,7 +235,7 @@ theorem data148_of_not_le
     exfalso
     obtain ⟨-, -, -, n, -, -, -, hn, -, hiso, -⟩ := h5
     rcases hiso with ⟨-, ⟨φ⟩⟩ | ⟨-, ⟨φ⟩⟩
-    · haveI : IsSimpleGroup
+    · have : IsSimpleGroup
           (CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 (3 * n))) :=
         Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field _
       exact hsimp φ
@@ -243,7 +243,7 @@ theorem data148_of_not_le
         intro h22
         have := Nat.pow_right_injective (le_refl 2) (h22.trans (pow_one 2).symm)
         omega
-      haveI : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 2 (3 * n)) :=
+      have : IsSimpleGroup (CFSG.Assembly.RankThreeEven.projSU 3 2 (3 * n)) :=
         Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two 2 (3 * n) (by omega) h2
       exact hsimp φ
   ·

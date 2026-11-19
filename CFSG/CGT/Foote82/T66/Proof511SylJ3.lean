@@ -58,7 +58,7 @@ theorem sqOne_card_J3
     norm_num
   obtain ⟨φ⟩ := CFSG.GH74.KGroups.sylow_equiv_of_model P3 (e₀.trans nativeEquivP3)
     sChain.originalSubgroup sChain_le_P3 (by rw [card_sChain]; norm_num) hY (by decide)
-    (P : Subgroup Y) P.isPGroup' P.not_dvd_index
+    (P : Subgroup Y) P.isPGroup P.not_dvd_index
   rw [← card_sq_sChain]
   refine Nat.card_congr (φ.toEquiv.subtypeEquiv fun x => ?_)
   rw [MulEquiv.toEquiv_eq_coe, MulEquiv.coe_toEquiv, ← SubmonoidClass.coe_pow,

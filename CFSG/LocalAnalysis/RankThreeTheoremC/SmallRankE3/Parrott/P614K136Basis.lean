@@ -39,7 +39,7 @@ theorem exists_basis_plane (C : Submodule F (Fin 3 → F)) (hC : finrank F C = 2
   obtain ⟨u, hu⟩ := exists_not_mem_of_ne_top hCtop
   have hspan : Submodule.span F (Set.range v) = C := span_range_coe_basis C cB
   have hli : LinearIndependent F (Fin.cons u v : Fin 3 → (Fin 3 → F)) :=
-    linearIndependent_fin_cons.2 ⟨linearIndependent_coe_basis C cB, hspan ▸ hu⟩
+    linearIndependent_finCons.2 ⟨linearIndependent_coe_basis C cB, hspan ▸ hu⟩
   let b := basisOfLinearIndependentOfCardEqFinrank hli (by simp)
   have hb : ⇑b = Fin.cons u v := coe_basisOfLinearIndependentOfCardEqFinrank hli _
   have hbs : ∀ i : Fin 2, b i.succ = v i := fun i => by rw [hb]; rfl
@@ -48,7 +48,7 @@ theorem exists_basis_plane (C : Submodule F (Fin 3 → F)) (hC : finrank F C = 2
       rw [← hspan, Submodule.span_le]
       rintro _ ⟨i, rfl⟩
       rw [SetLike.mem_coe, LinearMap.mem_ker, Basis.coord_apply, ← hbs i, b.repr_self,
-        Finsupp.single_apply, if_neg (Fin.succ_ne_zero i)]
+        Finsupp.single_apply, ite_eq_right (Fin.succ_ne_zero i)]
     have := hle hw
     rwa [LinearMap.mem_ker, Basis.coord_apply] at this
   · rw [← b.sum_repr w, Fin.sum_univ_succ, hw, zero_smul, zero_add]
@@ -67,7 +67,7 @@ theorem exists_basis_line (C : Submodule F (Fin 3 → F)) (hC : finrank F C = 1)
   obtain ⟨u₁, hu₁⟩ := exists_not_mem_of_ne_top hCtop
   have hspan : Submodule.span F (Set.range v) = C := span_range_coe_basis C cB
   have hli₁ : LinearIndependent F (Fin.cons u₁ v : Fin 2 → (Fin 3 → F)) :=
-    linearIndependent_fin_cons.2 ⟨linearIndependent_coe_basis C cB, hspan ▸ hu₁⟩
+    linearIndependent_finCons.2 ⟨linearIndependent_coe_basis C cB, hspan ▸ hu₁⟩
   have hspan₂ : Submodule.span F (Set.range (Fin.cons u₁ v : Fin 2 → (Fin 3 → F))) ≠ ⊤ := by
     intro h
     have h1 := finrank_span_eq_card hli₁
@@ -75,7 +75,7 @@ theorem exists_basis_line (C : Submodule F (Fin 3 → F)) (hC : finrank F C = 1)
     simp at h1
   obtain ⟨u₂, hu₂⟩ := exists_not_mem_of_ne_top hspan₂
   have hli : LinearIndependent F (Fin.cons u₂ (Fin.cons u₁ v) : Fin 3 → (Fin 3 → F)) :=
-    linearIndependent_fin_cons.2 ⟨hli₁, hu₂⟩
+    linearIndependent_finCons.2 ⟨hli₁, hu₂⟩
   let b := basisOfLinearIndependentOfCardEqFinrank hli (by simp)
   have hb : ⇑b = Fin.cons u₂ (Fin.cons u₁ v) := coe_basisOfLinearIndependentOfCardEqFinrank hli _
   have hb2 : b 2 = v 0 := by rw [hb]; rfl
@@ -87,7 +87,7 @@ theorem exists_basis_line (C : Submodule F (Fin 3 → F)) (hC : finrank F C = 1)
       subst hi
       rw [SetLike.mem_coe, Submodule.mem_inf, LinearMap.mem_ker, LinearMap.mem_ker,
         Basis.coord_apply, Basis.coord_apply, ← hb2, b.repr_self, Finsupp.single_apply,
-        Finsupp.single_apply, if_neg (by decide), if_neg (by decide)]
+        Finsupp.single_apply, ite_eq_right (by decide), ite_eq_right (by decide)]
       exact ⟨rfl, rfl⟩
     have := hle hw
     rw [Submodule.mem_inf, LinearMap.mem_ker, LinearMap.mem_ker, Basis.coord_apply,
@@ -147,8 +147,8 @@ theorem entry_adaptedEquiv (x : K) (i j : Fin 3) :
 
 theorem maps_plane_iff {C : Submodule F (Fin 3 → F)} (hb : ∀ w, w ∈ C ↔ b.repr w 0 = 0)
     (x : K) : (∀ v ∈ C, rep σ x v ∈ C) ↔ adaptedEquiv σ b x ∈ parA F := by
-  have hb1 : b 1 ∈ C := (hb _).2 (by rw [b.repr_self, Finsupp.single_apply, if_neg (by decide)])
-  have hb2 : b 2 ∈ C := (hb _).2 (by rw [b.repr_self, Finsupp.single_apply, if_neg (by decide)])
+  have hb1 : b 1 ∈ C := (hb _).2 (by rw [b.repr_self, Finsupp.single_apply, ite_eq_right (by decide)])
+  have hb2 : b 2 ∈ C := (hb _).2 (by rw [b.repr_self, Finsupp.single_apply, ite_eq_right (by decide)])
   rw [mem_parA]
   constructor
   · intro h
@@ -162,8 +162,8 @@ theorem maps_line_iff {C : Submodule F (Fin 3 → F)}
     (hb : ∀ w, w ∈ C ↔ b.repr w 0 = 0 ∧ b.repr w 1 = 0) (x : K) :
     (∀ v ∈ C, rep σ x v ∈ C) ↔ adaptedEquiv σ b x ∈ parB F := by
   have hb2 : b 2 ∈ C := (hb _).2 (by
-    rw [b.repr_self, Finsupp.single_apply, Finsupp.single_apply, if_neg (by decide),
-      if_neg (by decide)]
+    rw [b.repr_self, Finsupp.single_apply, Finsupp.single_apply, ite_eq_right (by decide),
+      ite_eq_right (by decide)]
     exact ⟨rfl, rfl⟩)
   rw [mem_parB]
   constructor

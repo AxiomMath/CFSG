@@ -21,7 +21,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms
 
 theorem catalogueOver_of_spFactorOver {ℓ q : ℕ} {K : Type} [Field K] [Finite K] {X : Type}
     [Group X] (hX : SpFactorOver ℓ q K X) : ∃ j : ℕ, 1 ≤ j ∧ CatalogueOver ℓ (q ^ j) X := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   unfold SpFactorOver at hX
   rcases hX with ⟨m, j, E, hE, hEf, hm, hj, hch, hcard, h4, ⟨e⟩⟩
     | ⟨m, j, q', E, hE, hEf, hm, hj, hch, hq', hcard, hne, ⟨e⟩⟩
@@ -44,8 +44,8 @@ theorem catalogueOver_of_spFactorOver {ℓ q : ℕ} {K : Type} [Field K] [Finite
     exact h'
   · have hK2' : Fintype.card K = 2 := by simpa only [Nat.card_eq_fintype_card] using hK2
     have hℓ2 : ringChar K = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1) (by rw [hK2']; norm_num)
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1) (by rw [hK2']; norm_num)
       exact ringChar.eq K 2
     have h := CatalogueOver.of_mulEquiv (catalogueOver_sp_four_two K hK2') e.symm
     refine ⟨1, le_rfl, ?_⟩
@@ -57,7 +57,7 @@ theorem mem_inner_of_mem_innAutDerived_statedSp {p r ℓ f : ℕ} {K : Type} [Fi
     (hr : 2 ≤ r) (hne : ¬ (r = 2 ∧ ℓ ^ f = 2)) {β : MulAut (StatedProj (StatedSp r K))}
     (hβ : β ∈ innAutDerived (StatedProj (StatedSp r K))) (hβp : β ^ p = 1) :
     β ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner (StatedProj (StatedSp r K)) := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have hD : β ∈ spLinearAutGroup r K :=
     innAutDerived_statedSp_le_spLinearAutGroup (K := K) hr
       (fun hr2 => by
@@ -77,8 +77,8 @@ theorem compIdxAt_statedProj {p r ℓ f : ℕ} {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = ℓ ^ f) (hr : 2 ≤ r) (hne : ¬(r = 2 ∧ ℓ ^ f = 2))
     (hpℓ : p ≠ ℓ) (hchar : d.characteristic = ℓ) (hfs : fieldSize d = ℓ ^ f) :
     CompIdxAt p d (StatedProj (StatedSp r K)) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : NeZero r := ⟨by omega⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : NeZero r := ⟨by omega⟩
   intro β hβmem hβp hβ1 K' hK'
   have hinn : β ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner
       (StatedProj (StatedSp r K)) :=
@@ -87,7 +87,7 @@ theorem compIdxAt_statedProj {p r ℓ f : ℕ} {K : Type} [Field K] [Finite K]
   have ht_p : t ^ p = 1 := by
     obtain ⟨hsimple, hperf⟩ :=
       CFSG.RankThree.PartOne.KCSpComm.simple_perfect_statedProj (k := K) hr (by rwa [hK])
-    haveI := hsimple
+    have := hsimple
     have hnc : ∃ u v : StatedProj (StatedSp r K), u * v ≠ v * u := by
       by_contra h
       push Not at h
@@ -131,7 +131,7 @@ theorem exists_mulEquiv_statedProj_of_isSymplecticIdx {d : TauCeti.ValidLieTypeI
       · subst hr2
         let dd : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.B 2 q, hv⟩
         let K := ↥dd.fixedField
-        haveI : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField dd
+        have : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField dd
         have hK : Nat.card K = dd.characteristic ^ dd.fieldExponent := by
           rw [TauCeti.ValidLieTypeIndex.card_fixedField,
             TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow]
@@ -169,7 +169,7 @@ theorem exists_mulEquiv_statedProj_of_isSymplecticIdx {d : TauCeti.ValidLieTypeI
           omega
         let dd : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.B r q, hv⟩
         let K := ↥dd.fixedField
-        haveI : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField dd
+        have : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField dd
         have hK : Nat.card K = dd.characteristic ^ dd.fieldExponent := by
           rw [TauCeti.ValidLieTypeIndex.card_fixedField,
             TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow]
@@ -195,7 +195,7 @@ theorem exists_mulEquiv_statedProj_of_isSymplecticIdx {d : TauCeti.ValidLieTypeI
   | C r q =>
       let dd : TauCeti.ValidLieTypeIndex := ⟨TauCeti.LieTypeIndex.C r q, hv⟩
       let K := ↥dd.fixedField
-      haveI : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField dd
+      have : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField dd
       have hK : Nat.card K = dd.characteristic ^ dd.fieldExponent := by
         rw [TauCeti.ValidLieTypeIndex.card_fixedField,
           TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow]
@@ -220,13 +220,13 @@ theorem exists_mulEquiv_statedProj_of_isSymplecticIdx {d : TauCeti.ValidLieTypeI
                 TauCeti.LieTypeIndex.fieldExponent_C]
               exact (TauCeti.PrimePower.card_def q).symm)
         exact ⟨e⟩
-  | _ => exact absurd hd (by simp [isSymplecticIdx])
+  | _ => exact absurd hd (by simp)
 
 theorem compIdxAt_psp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {d : TauCeti.ValidLieTypeIndex} (hd : isSymplecticIdx d.1) (hpc : p ≠ d.1.characteristic) :
     CompIdxAt p d.1 (TauCeti.CFSGIndex.lie d).Group := by
   obtain ⟨r, hr, hne, hcard, ⟨e⟩⟩ := exists_mulEquiv_statedProj_of_isSymplecticIdx hd
-  haveI : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   have hℓ : d.characteristic.Prime := d.characteristic_prime
   have hf : 1 ≤ d.fieldExponent := d.fieldExponent_pos
   have hK : Nat.card ↥d.fixedField = d.characteristic ^ d.fieldExponent := by
@@ -249,7 +249,7 @@ theorem compAlgAt_psp (h : SymplecticCompAlgEight) {d : TauCeti.ValidLieTypeInde
     (hd : isSymplecticIdx d.1) (hfield : fieldSize d.1 = 8) :
     CompAlgAt (TauCeti.CFSGIndex.lie d).Group := by
   obtain ⟨r, hr, hne, hcard, ⟨e⟩⟩ := exists_mulEquiv_statedProj_of_isSymplecticIdx hd
-  haveI : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   have hK8 : Nat.card ↥d.fixedField = 8 := hcard.trans hfield
   have hne' : ¬ (r = 2 ∧ Nat.card ↥d.fixedField = 2) := by
     rintro ⟨h1, h2⟩

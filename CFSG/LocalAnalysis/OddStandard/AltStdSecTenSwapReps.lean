@@ -21,10 +21,10 @@ theorem isSwap_τ₀ : τ₀.IsSwap := by
   exact ⟨8, 9, by decide, rfl⟩
 
 theorem sign_τ₀ : sign τ₀ = -1 := by
-  simpa [τ₀] using Equiv.Perm.sign_swap (x := (8 : Fin 10)) (y := 9) (by decide)
+  simp [τ₀]
 
 theorem τ₀_apply_eight : τ₀ 8 = 9 := by
-  simpa [τ₀] using Equiv.swap_apply_left (8 : Fin 10) 9
+  simp [τ₀]
 
 theorem r₁'_mul_self : r₁' * r₁' = 1 := by
   decide

@@ -57,8 +57,8 @@ theorem rckTwoD_reference_pair
         ((rootSubgroup τ ↥(fixSubfield σ) (-γ)).map (baseChangeGL (fixSubfield σ).subtype)).map
           (MulAut.conj P.z).toMonoidHom := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : CharP GGL 2 := by change CharP (AlgebraicClosure (ZMod 2)) 2; infer_instance
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : CharP GGL 2 := by change CharP (AlgebraicClosure (ZMod 2)) 2; infer_instance
   let n := compRank (componentRoots (rootCharHom a) i)
   let k : Fin (n - 1) := ⟨0, by have := P.rank_four_le; omega⟩
   let j : Fin n := ⟨0, by have := P.rank_four_le; omega⟩
@@ -110,11 +110,11 @@ theorem rckTwoD_reference_pair
     calc S.D.step (P.z * rootSL2 τ GGL γ A * P.z⁻¹) = P.z * (P.D.F x : ModGL τ GGL) * P.z⁻¹ := P.frob_eq x
       _ = P.z * rootSL2 τ GGL γ (Matrix.SpecialLinearGroup.map σ.toRingHom A) * P.z⁻¹ := by rw [hDF, hring]
       _ = P.z * frobGL σ (rootSL2 τ GGL γ A) * P.z⁻¹ := by rw [frobGL_rootSL2 σ hγ]
-  · haveI := fact_shortField (minusCoeffs_irr 2 h)
+  · have := fact_shortField (minusCoeffs_irr 2 h)
     exact rckTwoD_root_image_of_param _ P.φ
       (fun c => rLong n _ _ hk (tv 0 1 c)) (rLong_upper (hirr := minusCoeffs_irr 2 h) hk)
       (rLong_param_upper (hirr := minusCoeffs_irr 2 h) hk) σ κ P.z γ hupper
-  · haveI := fact_shortField (minusCoeffs_irr 2 h)
+  · have := fact_shortField (minusCoeffs_irr 2 h)
     exact rckTwoD_root_image_of_param _ P.φ
       (fun c => rLong n _ _ hk (tv 1 0 c)) (rLong_lower (hirr := minusCoeffs_irr 2 h) hk)
       (rLong_param_lower (hirr := minusCoeffs_irr 2 h) hk) σ κ P.z (-γ) hlower

@@ -74,7 +74,7 @@ variable (p : ℕ) [hp : Fact p.Prime]
 
 theorem Cp_le_C : c.Cp p ≤ c.C := Subgroup.map_subtype_le _
 
-theorem isPGroup_Cp : IsPGroup p (c.Cp p) := (default : Sylow p c.C).isPGroup'.map _
+theorem isPGroup_Cp : IsPGroup p (c.Cp p) := (default : Sylow p c.C).isPGroup.map _
 
 theorem card_Cp : Nat.card (c.Cp p) = p ^ (Nat.card c.C).factorization p := by
   rw [Cp, Subgroup.card_map_of_injective c.C.subtype_injective,
@@ -188,9 +188,9 @@ theorem exists_sylow_eq_of_maximal {p : ℕ} [hp : Fact p.Prime] {P : Subgroup X
   refine ⟨S, ?_⟩
   by_contra hne
   obtain ⟨x, hxS, hxN, hxP⟩ := Walter.Transitivity.exists_mem_normalizer_not_mem
-    (q := ⟨p, hp.out⟩) (isPiSubgroup_singleton_of_isPGroup S.isPGroup') hPS (Ne.symm hne)
+    (q := ⟨p, hp.out⟩) (isPiSubgroup_singleton_of_isPGroup S.isPGroup) hPS (Ne.symm hne)
   have hQ : IsPGroup p (P ⊔ Subgroup.zpowers x : Subgroup X) :=
-    S.isPGroup'.to_le (sup_le hPS ((Subgroup.zpowers_le).mpr hxS))
+    S.isPGroup.to_le (sup_le hPS ((Subgroup.zpowers_le).mpr hxS))
   have hQN : P ⊔ Subgroup.zpowers x ≤ Subgroup.normalizer (P : Set X) :=
     sup_le Subgroup.le_normalizer ((Subgroup.zpowers_le).mpr hxN)
   have := hmax _ hQ le_sup_left hQN
@@ -329,7 +329,7 @@ theorem exists_sylow_invariant
   obtain ⟨S, hS⟩ := exists_sylow_eq_of_maximal hPp fun Q hQp hPQ hQN => by
     obtain ⟨SH⟩ : Nonempty (Sylow p HG) := inferInstance
     have hSH : (SH : Subgroup HG).map HG.subtype ≤ P :=
-      hOP ▸ le_map_pCore_of_centralize hHGs hcomm (SH.isPGroup'.map _)
+      hOP ▸ le_map_pCore_of_centralize hHGs hcomm (SH.isPGroup.map _)
         (Subgroup.map_subtype_le _)
     have hidx : ¬ p ∣ H.index := fun hd => (hH.p_in_pi_of_p_dvd_index ⟨p, hp.out⟩ hd)
       (Or.inr rfl)

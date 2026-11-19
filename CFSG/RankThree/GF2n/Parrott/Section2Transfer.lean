@@ -19,6 +19,8 @@ variable (D : QuotientData (z := z) hN)
 @[expose] noncomputable def Wsub (h : Tim79a.ParrottHyp z) (σ : ↥(H z)) : Subgroup (QuotientV.V z) :=
   commutatorV h σ
 
+omit hN in
+omit [Finite G] in
 theorem conjV_trivial_on_Fsub (h : Tim79a.ParrottHyp z) (σ : ↥(H z)) :
     ∀ v ∈ Fsub (z := z) σ, conjV h σ v = v := by
   rintro v ⟨j, hj, rfl⟩
@@ -30,6 +32,8 @@ theorem conjV_trivial_on_Fsub (h : Tim79a.ParrottHyp z) (σ : ↥(H z)) :
   calc (σ : G) * (j : G) * (σ : G)⁻¹ = (j : G) * (σ : G) * (σ : G)⁻¹ := by rw [hcomm]
     _ = (j : G) := by group
 
+omit hN in
+omit [Finite G] in
 theorem conjV_trivial_on_Fsub_of_le (h : Tim79a.ParrottHyp z) {σ₁ σ₂ : ↥(H z)}
     (hle : centralizerJ σ₁ ≤ centralizerJ σ₂) :
     ∀ v ∈ Fsub (z := z) σ₁, conjV h σ₂ v = v := by

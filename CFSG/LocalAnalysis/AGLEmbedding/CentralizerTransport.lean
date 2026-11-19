@@ -260,7 +260,7 @@ theorem D1Extremal.exists_reduced_centralizer_data {G : Type} [Group G] [Finite 
   obtain ⟨hzZ, hzbarp⟩ := hzbar zC rfl
   have hEP : E ≤ (P : Subgroup G) := hER.trans h.le_P
   have hEC := hEP.trans hPC
-  obtain ⟨φ, hφ⟩ := exists_mulEquiv_map_mk _ hp hO (P.isPGroup'.to_le hEP) hEC
+  obtain ⟨φ, hφ⟩ := exists_mulEquiv_map_mk _ hp hO (P.isPGroup.to_le hEP) hEC
   obtain ⟨v, hvD, hvp, hvle⟩ := exists_inf_centralizer_le hD hDcard hzD hzp hzc
   have hvP : v ∈ (P : Subgroup G) := h.le_P (hDR hvD)
   refine ⟨_, inferInstance, inferInstance, Pbar, _, QuotientGroup.mk' _ zC, hred, ?_, ?_, hzZ,
@@ -274,7 +274,7 @@ theorem D1Extremal.exists_reduced_centralizer_data {G : Type} [Group G] [Finite 
   · have hz1 : z ≠ 1 := fun hz1 => hp.one_lt.ne (by rw [← hzp, hz1, orderOf_one])
     exact (catalogSimpleSections_of_isKProper hglob.kProper _
       (centralizer_singleton_ne_top hglob.simple hglob.nonab hz1)).quotient _
-  · refine mem_zpowers_mk_of_mem_centralizer _ hp hO P.isPGroup' hPC huniq (hPbar ▸ hy) ?_ hyp
+  · refine mem_zpowers_mk_of_mem_centralizer _ hp hO P.isPGroup hPC huniq (hPbar ▸ hy) ?_ hyp
     rw [← hPbar]
     exact hyc
   · obtain ⟨K, hK⟩ := exists_isComponentOf_of_layer_ne_bot hlayer
@@ -283,7 +283,7 @@ theorem D1Extremal.exists_reduced_centralizer_data {G : Type} [Group G] [Finite 
     exact ⟨⟨v, hPC hvP⟩, hvP, rfl⟩
   · exact orderOf_mk_of_coprime hp _ hO ((Subgroup.orderOf_coe _).symm.trans hvp)
   · rw [hPbar]
-    exact (pRank_map_inf_centralizer_le _ hp hO P.isPGroup' hPC hvP).trans
+    exact (pRank_map_inf_centralizer_le _ hp hO P.isPGroup hPC hvP).trans
       ((PreuniquenessRankFour.Helpers.pRank_mono p hp hvle).trans hDrank)
   · rw [hPbar]
     exact Subgroup.map_mono (Subgroup.comap_mono hEP)

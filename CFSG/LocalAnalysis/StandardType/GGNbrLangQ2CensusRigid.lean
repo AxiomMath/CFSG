@@ -144,20 +144,20 @@ private theorem q2cRigid_nontrivial_centerQuot {J : Type} [Group J]
   obtain ⟨-, lab, hlab, hraw⟩ := hmark
   obtain ⟨R, instR, I, F, hconj⟩ := largeEvenRawDatum_exists hraw
   obtain ⟨hsimple, -, θ, -⟩ := hconj
-  haveI : IsSimpleGroup R := hsimple
+  have : IsSimpleGroup R := hsimple
   exact θ.toEquiv.nontrivial
 
 private theorem q2cRigid_three_le_d {J : Type} [Group J] {p d : ℕ} {K : Type} [Field K] [Finite K]
     (hp : p.Prime) (hp2 : p ≠ 2) (hmark : LargeEvenMarking J fun _ _ _ _ _ _ => True)
     (θ : J ⧸ Subgroup.center J ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) K))
     (hpd : p ∣ d) : 3 ≤ d := by
-  haveI : Nontrivial (J ⧸ Subgroup.center J) := q2cRigid_nontrivial_centerQuot hmark
+  have : Nontrivial (J ⧸ Subgroup.center J) := q2cRigid_nontrivial_centerQuot hmark
   by_contra h
   have hcases : d ≤ 1 ∨ d = 2 := by omega
   rcases hcases with hd1 | hd2
-  · haveI hsub1 : Subsingleton (LinearFlag.projectiveSL d K) :=
+  · have hsub1 : Subsingleton (LinearFlag.projectiveSL d K) :=
       CFSG.AGLEmbedding.ToralCensus.subsingleton_projectiveSL hd1 K
-    haveI hsub2 : Subsingleton (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) :=
+    have hsub2 : Subsingleton (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) :=
       (TypeA.recipeEquiv d K).toEquiv.subsingleton
     exact not_subsingleton _ θ.toEquiv.subsingleton
   · subst hd2
@@ -167,7 +167,7 @@ private theorem q2cRigid_not_odd {J : Type} [Group J] {p d : ℕ} {K : Type} [Fi
     (hp : p.Prime) (hp2 : p ≠ 2) (hmark : LargeEvenMarking J fun _ _ _ _ _ _ => True)
     (θ : J ⧸ Subgroup.center J ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) K))
     (hpd : p ∣ d) (hpq : p ∣ Nat.card K - 1) (hodd : Odd (Nat.card K)) : False := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hd : 3 ≤ d := q2cRigid_three_le_d hp hp2 hmark θ hpd
   have hK5 : 5 ≤ Nat.card K := by
     have h4 : 4 ≤ Nat.card K := TableBSymp.four_le_card_of_dvd hp hp2 hpq
@@ -253,7 +253,7 @@ theorem q2c_card_two_pow {J : Type} [Group J] {p d : ℕ} {K : Type} [Field K] [
     (hpd : p ∣ d) (hpq : p ∣ Nat.card K - 1) :
     3 ≤ d ∧ ∃ m : ℕ, 2 ≤ m ∧ Nat.card K = 2 ^ m := by
   refine ⟨q2c_three_le_d hp hp2 hmark θ hpd, ?_⟩
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hK4 : 4 ≤ Nat.card K := TableBSymp.four_le_card_of_dvd hp hp2 hpq
   have hEven : Even (Nat.card K) := by
     by_contra hodd
@@ -265,7 +265,7 @@ theorem q2c_card_two_pow {J : Type} [Group J] {p d : ℕ} {K : Type} [Field K] [
     have h2 : Fintype.card K = Nat.card K := (Nat.card_eq_fintype_card).symm
     omega
   have hchar : ringChar K = 2 := (FiniteField.even_card_iff_char_two).mpr hmod
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   obtain ⟨m, hmprime, hcard⟩ := FiniteField.card K 2
   refine ⟨(m : ℕ), ?_, ?_⟩
   · have hcard' : Nat.card K = 2 ^ (m : ℕ) := by

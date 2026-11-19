@@ -20,7 +20,7 @@ theorem spt_exists_not_mem_zpowers {p : ℕ} [Fact p.Prime] {K : Type} [Group K]
     {S : Subgroup K} (hS : IsElemAbelian p S) (hcard : Nat.card S = p ^ 2) {t : K} (ht : t ∈ S)
     (ht1 : t ≠ 1) : ∃ b ∈ S, b ∉ zpowers t := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : S ≤ zpowers t := fun b hb => hcon b hb
   have h1 : Nat.card S ≤ Nat.card (zpowers t) := Subgroup.card_le_of_le hle
   rw [Nat.card_zpowers, orderOf_eq_prime (hS.2 t ht) ht1, hcard] at h1
@@ -74,7 +74,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC (IsU3Pred)
 
 theorem secondPointFacts_u3 {p : ℕ} [Fact p.Prime] (h5 : 5 ≤ p) {Q : Type} [Group Q] [Finite Q]
     (hQ : ∃ q : TauCeti.PrimePower, q.p = p ∧ q.exponent = 1 ∧
-      CFSG.RankThree.PartOne.Census3.IsoLie Q (.twistedA 2 q)) (hz : Subgroup.center Q = ⊥) :
+      CFSG.RankThree.PartOne.Census3.IsoLie Q (.twistedA 2 q)) (_hz : Subgroup.center Q = ⊥) :
     SecondPointFacts p Q := by
   have hU : IsU3Pred p Q := hQ
   have hheis : SylowIsHeisenberg p Q := by
@@ -82,7 +82,7 @@ theorem secondPointFacts_u3 {p : ℕ} [Fact p.Prime] (h5 : 5 ≤ p) {Q : Type} [
     obtain ⟨hc, hexp, hnc, -⟩ := u3_sylow_data h5 hU S
     refine ⟨hc, ?_, hexp⟩
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hnc (isMulCommutative_iff.2 fun a b => Subtype.ext (hcon a a.2 b b.2))
   refine ⟨?_, Or.inr ⟨hheis, ?_⟩⟩
   · intro S A hA
@@ -106,14 +106,14 @@ theorem secondPointFacts_u3 {p : ℕ} [Fact p.Prime] (h5 : 5 ≤ p) {Q : Type} [
 
 theorem secondPointFacts_tits (hX : TitsFacts) {Q : Type} [Group Q] [Finite Q]
     (hQ : IsTitsType 5 Q) (hz : Subgroup.center Q = ⊥) : SecondPointFacts 5 Q := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hsyl := hX.sylow Q hQ
   exact ⟨spt_autBound_plane hsyl (hX.noOuter Q hQ) hz,
     Or.inl ⟨hsyl, spt_movesLines_of_transitive hsyl (hX.trans Q hQ)⟩⟩
 
 theorem secondPointFacts_a10 (hX : A10Facts) {Q : Type} [Group Q] [Finite Q]
     (hQ : IsA10Type 5 Q) (hz : Subgroup.center Q = ⊥) : SecondPointFacts 5 Q := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hsyl := hX.sylow Q hQ
   exact ⟨spt_autBound_plane hsyl (hX.noOuter Q hQ) hz, Or.inl ⟨hsyl, a10_movesLines Q hQ⟩⟩
 
@@ -130,13 +130,13 @@ theorem secondPointFacts_of_class {p : ℕ} (h5 : 5 ≤ p) {Q : Type} [Group Q] 
     SecondPointFacts p Q := by
   rcases hQ with ⟨hp, ⟨e⟩⟩ | ⟨q, hqp, hqe, hiso⟩ | ⟨rfl, hA | hT | hM⟩ | ⟨rfl, hJ⟩
   · exact secondPointFacts_psl2 h5 ⟨e⟩ hz
-  · haveI : Fact p.Prime := ⟨hqp ▸ q.prime_p⟩
+  · have : Fact p.Prime := ⟨hqp ▸ q.prime_p⟩
     exact secondPointFacts_u3 h5 ⟨q, hqp, hqe, hiso⟩ hz
   · exact secondPointFacts_a10 hA10 ⟨rfl, hA⟩ hz
   · exact secondPointFacts_tits hTits ⟨rfl, hT⟩ hz
-  · haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  · have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact secondPointFacts_extra hMcL ⟨rfl, hM⟩ hz
-  · haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
     exact secondPointFacts_extra hJ4 ⟨rfl, hJ⟩ hz
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor

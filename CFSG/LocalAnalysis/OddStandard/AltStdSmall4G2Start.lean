@@ -39,7 +39,7 @@ theorem exists_conj_eq_of_sylow [Finite G] {T O : Subgroup G}
     ∃ o ∈ O, (S : Subgroup ↥(T ⊔ O)).map (T ⊔ O).subtype = conjSub o T := by
   obtain ⟨a, ha⟩ := hT.exists_card_eq
   have hOT : O ⊓ T = ⊥ :=
-    inf_eq_bot_of_coprime (by rw [ha]; exact (Nat.Coprime.pow_left a hO).symm)
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [ha]; exact (Nat.Coprime.pow_left a hO).symm)))
   have hcard : Nat.card ↥(T ⊔ O) = Nat.card T * Nat.card O := by
     rw [sup_comm, card_sup_of_inf_eq_bot hTN hOT, mul_comm]
   have hTK : T ≤ T ⊔ O := le_sup_left
@@ -93,7 +93,7 @@ theorem exists_conj_eq_of_le [Finite G] {T O K : Subgroup G}
     ∃ o ∈ O, K = conjSub o T := by
   obtain ⟨a, ha⟩ := hT.exists_card_eq
   have hOT : O ⊓ T = ⊥ :=
-    inf_eq_bot_of_coprime (by rw [ha]; exact (Nat.Coprime.pow_left a hO).symm)
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [ha]; exact (Nat.Coprime.pow_left a hO).symm)))
   have hcard : Nat.card ↥(T ⊔ O) = Nat.card T * Nat.card O := by
     rw [sup_comm, card_sup_of_inf_eq_bot hTN hOT, mul_comm]
   have hK' : IsPGroup 2 (K.subgroupOf (T ⊔ O)) := hKp.of_equiv (subgroupOfEquivOfLe hK).symm
@@ -220,7 +220,7 @@ theorem cover_of_N0Data (c : Config G L Q n θ z) {T : Subgroup G} (hT : N0Data 
     refine ⟨fun hx => hOconj t (hTN ht) x hx, fun hx => ?_⟩
     have := hOconj t⁻¹ (inv_mem (hTN ht)) _ hx
     rwa [show t⁻¹ * (t * x * t⁻¹) * t⁻¹⁻¹ = x by group] at this
-  have hzN : z ∈ N := Subgroup.le_normalizer (N0.z_mem_B0 c.hn8 c)
+  have hzN : z ∈ N := Subgroup.le_normalizer (N0.z_mem_B0 c.hn8)
   have hEN : E θ c.hn8 ≤ N := le_sup_left.trans Subgroup.le_normalizer
   set κ := ModIso.kap θ c.hn8 M with hκ
   have hκL : κ ∈ L := ModIso.kap_mem_L θ c.hn8 M

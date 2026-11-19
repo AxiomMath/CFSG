@@ -72,10 +72,10 @@ theorem blockOf_act {lab : Array ℕ} (hlab : ∀ p : Fin 3510, lab[(p : ℕ)]! 
   rw [h1]
   by_cases hm : labelOf p < 45
   · have e2 : extGet Tarr (labelOf p) = (τ ⟨labelOf p, hm⟩ : ℕ) := by
-      rw [extGet, if_pos hm, hT.apply hm]
+      rw [extGet, ite_eq_left hm, hT.apply hm]
     rw [e2, blockOpt_val]
     simp [blockOpt, hm]
-  · have e2 : extGet Tarr (labelOf p) = 45 := by rw [extGet, if_neg hm]
+  · have e2 : extGet Tarr (labelOf p) = 45 := by rw [extGet, ite_eq_right hm]
     rw [e2]
     simp [blockOpt, hm]
 

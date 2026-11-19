@@ -27,9 +27,9 @@ theorem largeEvenLabelAll_centerPrime_exc
       exact hgen.2.2.2.2.2.1 ⟨Or.inl rfl, Or.inl h3⟩
     dsimp only [LargeEvenLabelAll, LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hField, hFinite, hK, hQ'⟩ := hQ
-    letI : Field K := hField
-    letI : Finite K := hFinite
-    haveI : CharP K 2 := charP_two_of_card hK
+    let : Field K := hField
+    let : Finite K := hFinite
+    have : CharP K 2 := charP_two_of_card hK
     exact ⟨K, hField, hFinite, hK, hQ', ExcSplitL.ggCenterPrime_recipe_E6 hp hp2 hp3⟩
   ·
     have hp3 : p ≠ 3 := by
@@ -37,31 +37,31 @@ theorem largeEvenLabelAll_centerPrime_exc
       exact hgen.2.2.2.2.2.1 ⟨Or.inr rfl, Or.inl h3⟩
     dsimp only [LargeEvenLabelAll, LargeEvenRawDatum, LargeEvenRecipeTwisted] at hQ ⊢
     obtain ⟨K, hField, hFinite, hK, hQ'⟩ := hQ
-    letI : Field K := hField
-    letI : Finite K := hFinite
+    let : Field K := hField
+    let : Finite K := hFinite
     exact ⟨K, hField, hFinite, hK, hQ',
       TwE6Delta.ggCenterPrime_twE6 hlab.1 hK hp hp2 hp3⟩
   ·
     dsimp only [LargeEvenLabelAll, LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hField, hFinite, hK, hQ'⟩ := hQ
-    letI : Field K := hField
-    letI : Finite K := hFinite
-    haveI : CharP K 2 := charP_two_of_card hK
+    let : Field K := hField
+    let : Finite K := hFinite
+    have : CharP K 2 := charP_two_of_card hK
     exact ⟨K, hField, hFinite, hK, hQ',
       ExcSplitL.ggCenterPrime_recipe_E7 hlab.1 hK hp hp2⟩
   ·
     dsimp only [LargeEvenLabelAll, LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hField, hFinite, hK, hQ'⟩ := hQ
-    letI : Field K := hField
-    letI : Finite K := hFinite
-    haveI : CharP K 2 := charP_two_of_card hK
+    let : Field K := hField
+    let : Finite K := hFinite
+    have : CharP K 2 := charP_two_of_card hK
     exact ⟨K, hField, hFinite, hK, hQ', ExcSplitL.ggCenterPrime_recipe_E8 hp hp2⟩
   ·
     dsimp only [LargeEvenLabelAll, LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hField, hFinite, hK, hQ'⟩ := hQ
-    letI : Field K := hField
-    letI : Finite K := hFinite
-    haveI : CharP K 2 := charP_two_of_card hK
+    let : Field K := hField
+    let : Finite K := hFinite
+    have : CharP K 2 := charP_two_of_card hK
     exact ⟨K, hField, hFinite, hK, hQ', ExcSplitL.ggCenterPrime_recipe_F4 hp hp2⟩
 
 end CFSG.StandardType

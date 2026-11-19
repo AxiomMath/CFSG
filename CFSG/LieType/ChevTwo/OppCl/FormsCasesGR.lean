@@ -20,6 +20,7 @@ variable {Φ : ReflForm F V} {Sing : V → Prop} {TS : Submodule F V → Prop}
   {ρ : H →* Module.End F V} {p : ℕ} [Fact p.Prime]
   {Rh : Subgroup (Equiv.Perm V)} {X : ℕ → Submodule F V} {m : ℕ} {M W' : Submodule F V}
 
+omit [Finite F] [CharP F 2] [Finite V] in
 theorem realize_levi_mul {W Z : Submodule F V} (hZW : Z ≤ W) {g₁ g₂ : V →ₗ[F] V} {u₁ u₂ : H}
     (h₁ : ∀ v, g₁ v ∈ Z) (h₂ : ∀ v, g₂ v ∈ Z) (hz₁ : ∀ z ∈ Z, g₁ z = 0)
     (hu₁ : LevProp Φ ρ W g₁ u₁) (hu₂ : LevProp Φ ρ W g₂ u₂) :
@@ -40,6 +41,7 @@ theorem realize_levi_mul {W Z : Submodule F V} (hZW : Z ≤ W) {g₁ g₂ : V �
     rw [e]
     exact W.add_mem (b₁ y hy) (W.add_mem hy₂ (hZW (h₁ e₂)))
 
+omit [Fact (Nat.Prime p)] [Finite F] [CharP F 2] in
 theorem realize_levi_core (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (g : V →ₗ[F] V)
     (hg2 : ∀ v, g (g v) = 0) (hgW : ∀ v, g v ∈ X m) (hgD : ∀ v ∈ M ⊔ W', g v = 0) :
     ∃ u : H, LevProp Φ ρ (X m) g u := by

@@ -74,7 +74,7 @@ theorem sylowTorus_F4_five_of_dvd_sub_one (F : Type) [Field F] [Finite F]
     (mul_comm_of_mem_diagonalGroup (torusGroup_le_diagonalGroup a.2)
       (torusGroup_le_diagonalGroup b.2)))⟩⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 H))
-  have hPp : IsPGroup 5 ((P : Subgroup H).map H.subtype) := P.isPGroup'.map _
+  have hPp : IsPGroup 5 ((P : Subgroup H).map H.subtype) := P.isPGroup.map _
   have hPidx : ¬ 5 ∣ ((P : Subgroup H).map H.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro hdvd

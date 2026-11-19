@@ -25,7 +25,7 @@ theorem card_generalLinearGroup [Fintype K] {M : Type*} [AddCommGroup M] [Module
 
 theorem finite_generalLinearGroup [Finite K] {M : Type*} [AddCommGroup M] [Module K M]
     [FiniteDimensional K M] : Finite (LinearMap.GeneralLinearGroup K M) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let b := Module.finBasis K M
   exact Finite.of_equiv _ ((Matrix.GeneralLinearGroup.toLin (n := Fin (finrank K M)) (R := K)).toEquiv.trans
     (LinearMap.GeneralLinearGroup.congrLinearEquiv b.equivFun).symm.toEquiv)
@@ -155,8 +155,8 @@ theorem card_dvd_prod_of_stabilizes [Fintype K] [FiniteDimensional K V] [CharP K
   have hQ : finrank K (↥(F.perp W) ⧸ W') = n - 2 * a := by
     have := Submodule.finrank_quotient_add_finrank W'
     omega
-  haveI : Finite (LinearMap.GeneralLinearGroup K W) := finite_generalLinearGroup
-  haveI : Finite (LinearMap.GeneralLinearGroup K (↥(F.perp W) ⧸ W')) := finite_generalLinearGroup
+  have : Finite (LinearMap.GeneralLinearGroup K W) := finite_generalLinearGroup
+  have : Finite (LinearMap.GeneralLinearGroup K (↥(F.perp W) ⧸ W')) := finite_generalLinearGroup
   have h := card_dvd_of_stabilizes hρ hinj (R := R) hodd hRW
   rwa [card_generalLinearGroup ha, card_generalLinearGroup hQ] at h
 

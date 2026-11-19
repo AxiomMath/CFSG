@@ -164,13 +164,13 @@ theorem lmap_eq {s : Int} (hs : s ≠ 0 ∧ s.natAbs ≤ 18) {y : Nat} (hy : y <
     have hk' : k ≤ 18 := by simpa using h18
     change nT (Nat.pred k) y = _
     unfold eLetterWord
-    rw [if_pos (by simp only [Int.ofNat_eq_coe]; omega),
+    rw [ite_eq_left (by simp only [Int.ofNat_eq_natCast]; omega),
       nT_eq (by rw [Nat.pred_eq_sub_one]; omega) hy]
     rfl
   · have hk' : k < 18 := by simp at h18; omega
     change nI k y = _
     unfold eLetterWord
-    rw [if_neg (by simp), nI_eq hk' hy]
+    rw [ite_eq_right (by simp), nI_eq hk' hy]
     rfl
 
 theorem eFold_TR {ss : List Int} (hss : ∀ s ∈ ss, s ≠ 0 ∧ s.natAbs ≤ 18) :

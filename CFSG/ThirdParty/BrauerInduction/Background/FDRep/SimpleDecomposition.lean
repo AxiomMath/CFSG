@@ -63,7 +63,7 @@ lemma exists_iso_biprod_of_splitMono
     {G : Type v} [Monoid G]
     {S V : FDRep k G} (f : S ⟶ V) (sf : SplitMono f) :
     Nonempty (V ≅ S ⊞ cokernel f) := by
-  haveI : IsSplitMono f := ⟨⟨sf⟩⟩
+  have : IsSplitMono f := ⟨⟨sf⟩⟩
   have i₀ :
       IsColimit
         (Cofork.ofπ (cokernel.π f)
@@ -153,7 +153,7 @@ theorem exists_simple_subobject
     intro m ih V' h_nz' hn'
     by_cases h_simp : Simple V'
     · exact ⟨V', 𝟙 V', h_simp, inferInstance⟩
-    · haveI : Nontrivial V' := h_nz'
+    · have : Nontrivial V' := h_nz'
       have h_not_simp :
           ¬ (∀ (W : FDRep k G) (f : W ⟶ V') [Mono f],
               IsIso f ∨ f = 0) := by
@@ -161,10 +161,10 @@ theorem exists_simple_subobject
         apply h_simp
         refine ⟨?_⟩
         intro W f hf_mono
-        haveI : Mono f := hf_mono
+        have : Mono f := hf_mono
         constructor
         · intro hf_iso
-          haveI : IsIso f := hf_iso
+          have : IsIso f := hf_iso
           exact isIso_hom_ne_zero_of_nontrivial
               (k := k) (G := G) (W := W) (V := V') f
         · intro hf_ne
@@ -173,9 +173,9 @@ theorem exists_simple_subobject
           · exact False.elim (hf_ne hf_zero)
       push Not at h_not_simp
       rcases h_not_simp with ⟨W, f, h_mono, h_not_iso, hf_ne_zero⟩
-      haveI : Mono f := h_mono
+      have : Mono f := h_mono
       -- 1. Split the monomorphism using Maschke's theorem
-      haveI sm : SplitMono f := splitMono_of_mono f
+      have sm : SplitMono f := splitMono_of_mono f
       let Q : FDRep k G := CategoryTheory.Limits.cokernel f
       have h_iso : Nonempty (V' ≅ W ⊞ Q) := by
         simpa [Q] using exists_iso_biprod_of_splitMono f sm
@@ -200,17 +200,17 @@ theorem exists_simple_subobject
         intro h_zero_dim
         have h_zero : IsZero Q :=
           (finrank_eq_zero_iff_IsZero Q).mp h_zero_dim
-        haveI : Epi f := by
+        have : Epi f := by
           dsimp [Q] at h_zero
           exact (Preadditive.epi_iff_isZero_cokernel f).mpr h_zero
-        haveI : IsIso f := by
+        have : IsIso f := by
           -- `FDRep k G` is only balanced through the underlying representation
           -- category, so we check monic and epic there and reflect the isomorphism.
-          haveI hm : Mono ((forget₂ (FDRep k G) (Rep k G)).map f) :=
+          have hm : Mono ((forget₂ (FDRep k G) (Rep k G)).map f) :=
             CategoryTheory.Functor.map_mono (forget₂ (FDRep k G) (Rep k G)) f
-          haveI he : Epi ((forget₂ (FDRep k G) (Rep k G)).map f) :=
+          have he : Epi ((forget₂ (FDRep k G) (Rep k G)).map f) :=
             CategoryTheory.Functor.map_epi (forget₂ (FDRep k G) (Rep k G)) f
-          haveI : IsIso ((forget₂ (FDRep k G) (Rep k G)).map f) :=
+          have : IsIso ((forget₂ (FDRep k G) (Rep k G)).map f) :=
             isIso_of_mono_of_epi _
           exact isIso_of_reflects_iso f (forget₂ (FDRep k G) (Rep k G))
         exact h_not_iso inferInstance
@@ -260,7 +260,7 @@ theorem exists_simple_decomposition
           exact (finrank_eq_zero_iff_IsZero V).mp h_dim
         let ι : Type := PEmpty
         let f : ι → FDRep k G := fun i => PEmpty.elim i
-        letI : Fintype ι := Fintype.ofFinite ι
+        let : Fintype ι := Fintype.ofFinite ι
         have hB0 : IsZero (⨁ f) :=
           IsZero_biproduct_empty f
         have h_simples : ∀ i : ι, Simple (f i) := by
@@ -279,7 +279,7 @@ theorem exists_simple_decomposition
           exact Nat.succ_ne_zero n hsucc
         obtain ⟨S, f, hS_simple, hf_mono⟩ :=
           exists_simple_subobject V hV_not_IsZero
-        haveI : Mono f := hf_mono
+        have : Mono f := hf_mono
         let sf : SplitMono f :=
           splitMono_of_mono f
         let K := cokernel f
@@ -308,7 +308,7 @@ theorem exists_simple_decomposition
           iso_split ≪≫ (biprod.mapIso (Iso.refl S) isoK)
         let ι' := Option ι
         let f' : ι' → FDRep k G := fun t => Option.rec S g t
-        haveI : Fintype ι' := inferInstance
+        have : Fintype ι' := inferInstance
         have hf'_simple : ∀ i', Simple (f' i') := by
           intro i'
           cases i' with

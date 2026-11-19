@@ -239,7 +239,7 @@ private theorem union_preimage_eq {J K : Set I} (hJK : J ⊆ K) :
       exact ⟨hy, y.2⟩
     · rintro ⟨hxK, hxJ⟩
       exact ⟨⟨x, hxJ⟩, hxK, rfl⟩
-  rw [himg, Set.union_diff_cancel hJK]
+  rw [himg, Set.union_sdiff_cancel hJK]
 
 private theorem preimage_union_eq {J : Set I} (K : Set {i : I // i ∉ J}) :
     Subtype.val ⁻¹' (J ∪ Subtype.val '' K) = K := by

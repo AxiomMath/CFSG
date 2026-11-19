@@ -56,7 +56,7 @@ private theorem ggKGTj_w0_smul
     · simp
     · intro i _ hi
       rw [Pi.smul_apply]
-      simp [Pi.single_apply, hi]
+      simp [hi]
     · intro hj
       simp at hj]
   rw [Finset.smul_sum]
@@ -69,7 +69,7 @@ private theorem ggKGTj_w0_smul
   · simp [Pi.smul_apply]
   · intro x _ hx
     have hpx : TwistTag.E6.perm x ≠ j := fun h => hx (by rw [← h, Equiv.symm_apply_apply])
-    simp [Pi.smul_apply, Pi.single_apply, hpx]
+    simp [Pi.smul_apply, hpx]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 private theorem ggKGTj_perm_symm : TwistTag.E6.perm.symm = TwistTag.E6.perm := by
@@ -138,11 +138,11 @@ private theorem ggKGTj_step_rootSL2
     ggKGTwStep F (rootSL2 TwistTag.E6.tag (AlgebraicClosure K) γ M) =
       rootSL2 TwistTag.E6.tag (AlgebraicClosure K) γ
         (WSL * Matrix.SpecialLinearGroup.map F.Fr M * WSL) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hv0 : F.v = ggKGTj_w0 :=
     (ggKGTj_reversesSigns_of_excIsLongest hv).eq ggKGTj_w0_reversesSigns
@@ -203,7 +203,7 @@ private theorem ggKGTj_mem_image_of_sq_one
     by_contra h
     have hn0 : n = 0 := by omega
     have hc : Nat.card K = 1 := by rw [hK, hn0]; norm_num
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have : 1 < Nat.card K := by
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
@@ -229,7 +229,7 @@ private theorem ggKGTj_mem_image_of_sq_one
       rw [← hder', h1]
       exact Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective _) _
     rw [e]; infer_instance
-  haveI : (C'.subgroupOf R).Normal := hnormal
+  have : (C'.subgroupOf R).Normal := hnormal
   have hrR : r ∈ R := (mem_twistedFixedGroup_iff_twistHom TwistTag.E6 (AlgebraicClosure K) Fr).2
     ⟨hr, hrF⟩
   let P : Subgroup (ModGL TwistTag.E6.tag (AlgebraicClosure K)) := Subgroup.zpowers r
@@ -238,7 +238,7 @@ private theorem ggKGTj_mem_image_of_sq_one
   have hPfin : Finite P := Nat.finite_of_card_ne_zero (by
     rw [Nat.card_zpowers]
     exact (Nat.pos_of_dvd_of_pos (orderOf_dvd_of_pow_eq_one hr2') Nat.prime_two.pos).ne')
-  haveI : Finite P := hPfin
+  have : Finite P := hPfin
   have hPp : IsPGroup 2 P := by
     rcases (Nat.dvd_prime Nat.prime_two).1 (orderOf_dvd_of_pow_eq_one hr2') with h | h
     · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h, pow_zero])
@@ -292,7 +292,7 @@ private theorem ggKGTj_pinnedData_of_not_isRoot
   have h2 : ¬ ∃ j, γ = -Pi.single j 1 := by
     rintro ⟨j, rfl⟩
     exact hγ (IsRoot.neg (isRoot_single Tag.E6 j))
-  simp only [pinnedData, dif_neg h1, dif_neg h2]
+  simp only [pinnedData, dite_eq_right h1, dite_eq_right h2]
   have hfind : (Tag.E6.witnesses.roots.findIdx
       (fun c => decide (decodeVec (τ := Tag.E6) c = γ))) =
       Tag.E6.witnesses.roots.length := by
@@ -310,7 +310,7 @@ private theorem ggKGTj_pinnedData_of_not_isRoot
   have hs : Tag.E6.witnesses.seeds.length = Tag.E6.witnesses.roots.length := rfl
   have hw : Tag.E6.witnesses.words.length = Tag.E6.witnesses.roots.length := rfl
   rw [List.getD_eq_default _ _ (by rw [hs]), List.getD_eq_default _ _ (by rw [hw])]
-  constructor <;> simp [Tag.idx, decodeWord]
+  constructor
 
 private theorem ggKGTj_rootSL2_of_not_isRoot
     {K : Type} [Field K] {γ : Fin Tag.E6.rank → ℤ} (hγ : ¬ IsRoot Tag.E6 γ) :
@@ -417,10 +417,10 @@ private theorem ggKGTj_Phi_range
     {P : SL2 (AlgebraicClosure K)} (hPq : Matrix.SpecialLinearGroup.map F.Fr P = WSL * P) :
     ((rootSL2 TwistTag.E6.tag (AlgebraicClosure K) γ).comp
       (ggKGTj_phi1 F.Fr F.fr_eq P)).range = ggKGTwLhat F γ := by
-  haveI : CharP (AlgebraicClosure K) 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : CharP (AlgebraicClosure K) 2 := by
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
       (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
     exact charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   refine le_antisymm ?_ ?_
@@ -481,11 +481,11 @@ private theorem ggKGTj_exists_P_and_pow
     (hK : Nat.card K = (2 ^ n) ^ 2) (hσ : ∀ c, σ c = c ^ (2 ^ n))
     (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (hFr : ∀ c, Fr c = c ^ (2 ^ n)) :
     ∃ P : SL2 (AlgebraicClosure K), Matrix.SpecialLinearGroup.map Fr P = WSL * P := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨ω₀, hω₀⟩ := ggKGTj_exists_omega hK hσ
   obtain ⟨s, hs, hss⟩ := ggKGTj_exists_s hK Fr hFr ω₀
@@ -527,13 +527,13 @@ theorem ggKGTwJ_quasisimple
     (hK : Nat.card K = (2 ^ n) ^ 2) (hσ : ∀ c, σ c = c ^ (2 ^ n)) (F : TwE6Frame K σ n p E)
     (hv : ExcIsLongest TwistTag.E6.tag F.v) {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ)
     (hq : 4 ≤ 2 ^ n) : IsQuasisimple (ggKGTwJ F γ) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Finite ↥(ggKGTj_F F.Fr F.fr_eq) :=
+  have : Finite ↥(ggKGTj_F F.Fr F.fr_eq) :=
     (Nat.card_ne_zero.mp (by
       rw [ggKGTj_card_F hK hσ F.Fr F.fr_eq]
       exact pow_ne_zero n (by norm_num))).2
@@ -552,11 +552,11 @@ theorem ggKGTwJ_weyl
     (hv : ExcIsLongest TwistTag.E6.tag F.v) {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ) :
     ∃ r ∈ ggKGTwJ F γ, ggKGTwY F r =
       canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) (rootReflection γ) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hmem : rootWeylSL2 TwistTag.E6.tag (AlgebraicClosure K) γ 1 ∈ ggKGTwLhat F γ := by
     rw [ggKGTwLhat]
@@ -586,13 +586,13 @@ theorem ggKGTwJ_dvd_card
     (hK : Nat.card K = (2 ^ n) ^ 2) (hσ : ∀ c, σ c = c ^ (2 ^ n)) (F : TwE6Frame K σ n p E)
     (hv : ExcIsLongest TwistTag.E6.tag F.v) {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ)
     (hpq : p ∣ 2 ^ n + 1) : p ∣ Nat.card (ggKGTwJ F γ) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Finite ↥(ggKGTj_F F.Fr F.fr_eq) :=
+  have : Finite ↥(ggKGTj_F F.Fr F.fr_eq) :=
     (Nat.card_ne_zero.mp (by
       rw [ggKGTj_card_F hK hσ F.Fr F.fr_eq]
       exact pow_ne_zero n (by norm_num))).2

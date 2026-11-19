@@ -95,7 +95,7 @@ theorem card_comap_conjAut_ne_zero (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hpF 
   intro h0
   set ℓ := ringChar F with hℓ
   have hℓp : ℓ.Prime := CharP.char_is_prime F ℓ
-  haveI : Fact ℓ.Prime := ⟨hℓp⟩
+  have : Fact ℓ.Prime := ⟨hℓp⟩
   have hdvd : ℓ ∣ Nat.card (E.comap (conjAut n F)) := (CharP.cast_eq_zero_iff F ℓ _).1 h0
   obtain ⟨⟨A, hA⟩, hord⟩ := exists_prime_orderOf_dvd_card' ℓ hdvd
   obtain ⟨c, hc⟩ := exists_scalarGL_pow hn hE (Subgroup.mem_comap.1 hA)
@@ -111,7 +111,7 @@ theorem card_comap_conjAut_ne_zero (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hpF 
     rw [← h4]
     exact ringChar.Nat.cast_ringChar
   · have h4 : ℓ ∣ Nat.card F := by
-      letI := Fintype.ofFinite F
+      let := Fintype.ofFinite F
       rw [Nat.card_eq_fintype_card]
       exact (CharP.cast_eq_zero_iff F ℓ _).1 (FiniteField.cast_card_eq_zero F)
     rw [Nat.card_eq_card_units_add_one F] at h4
@@ -163,7 +163,7 @@ theorem unip_mem_closure_liftFixSL (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime) (hpF 
     {g : SpecialLinearGroup (Fin n) F} (hg : (g : Matrix (Fin n) (Fin n) F) - 1 ∈ thetaSpace W) :
     g ∈ Subgroup.closure (liftFixSL E) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K := Subgroup.closure (liftFixSL E) with hK
   set φ : Matrix (Fin n) (Fin n) F := (g : Matrix (Fin n) (Fin n) F) - 1 with hφ
   obtain ⟨x, hxE, y, hyE, hy1, hxy⟩ := exists_independent_pair hp E hE1.2 hc

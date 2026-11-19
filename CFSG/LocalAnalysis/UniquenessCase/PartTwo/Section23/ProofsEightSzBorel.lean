@@ -36,7 +36,7 @@ private theorem exists_torus_normalizing (m : ℕ) (hm : 0 < m)
     ∃ D : Subgroup (SuzukiMatrixGroup m), Nat.card D = 2 ^ (2 * m + 1) - 1 ∧
       D ≤ Subgroup.normalizer ((S : Subgroup (SuzukiMatrixGroup m)) : Set _) := by
   obtain ⟨R, hR⟩ := exists_sylow_eq_rootSub m hm
-  haveI : MulAction.IsPretransitive (SuzukiMatrixGroup m)
+  have : MulAction.IsPretransitive (SuzukiMatrixGroup m)
       (Sylow 2 (SuzukiMatrixGroup m)) := Sylow.isPretransitive_of_finite
   obtain ⟨g, hg⟩ := MulAction.IsPretransitive.exists_smul_eq
     (M := SuzukiMatrixGroup m) R S

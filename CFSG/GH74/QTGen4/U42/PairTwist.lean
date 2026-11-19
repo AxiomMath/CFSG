@@ -42,7 +42,7 @@ def centralShear (c : K →* K) (hcentral : ∀ x : K, c x ∈ Subgroup.center K
   toFun x := c x * x
   invFun x := (c x)⁻¹ * x
   left_inv x := by
-    simp only [map_mul, hkill, one_mul, mul_inv_rev]
+    simp only [map_mul, hkill, one_mul]
     simp
   right_inv x := by
     simp only [map_mul, map_inv, hkill, inv_one, one_mul]

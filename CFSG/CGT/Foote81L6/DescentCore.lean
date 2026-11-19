@@ -27,6 +27,7 @@ variable {G : Type*} [Group G] [Finite G] {T : Subgroup G} {k n : ℕ}
 
 @[expose] def descM (O : Subgroup G) : Subgroup G := O ⊔ zpowers D.a
 
+omit [Finite G] in
 theorem descM_normal {O : Subgroup G} [O.Normal]
     (haO : ∀ g : G, g * D.a * g⁻¹ * D.a⁻¹ ∈ O) : (D.descM O).Normal := by
   refine ⟨fun x hx g => ?_⟩
@@ -41,12 +42,14 @@ theorem descM_normal {O : Subgroup G} [O.Normal]
   exact hle hx
 
 include D in
+omit [Finite G] in
 theorem T_inf_eq_bot_of_odd {O : Subgroup G} (hO : Odd (Nat.card O)) : T ⊓ O = ⊥ := by
   have hcop : Nat.Coprime (Nat.card T) (Nat.card O) := by
     rw [D.card_T]
     exact Nat.Coprime.pow_left _ (Nat.coprime_two_left.2 hO)
-  exact Subgroup.inf_eq_bot_of_coprime hcop
+  exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
 
+omit [Finite G] in
 theorem T_inf_descM {O : Subgroup G} [O.Normal] (hO : Odd (Nat.card O)) :
     T ⊓ D.descM O = zpowers D.a := by
   refine le_antisymm (fun x hx => ?_) (le_inf (zpowers_le.2 D.a_mem_T) le_sup_right)
@@ -63,6 +66,7 @@ theorem T_inf_descM {O : Subgroup G} [O.Normal] (hO : Odd (Nat.card O)) :
   rw [this, one_mul]
   exact hw
 
+omit [Finite G] in
 theorem mem_zpowers_a_iff {x : G} : x ∈ zpowers D.a ↔ x = 1 ∨ x = D.a := by
   constructor
   · intro hx
@@ -75,12 +79,14 @@ theorem mem_zpowers_a_iff {x : G} : x ∈ zpowers D.a ↔ x = 1 ∨ x = D.a := b
     · exact one_mem _
     · exact mem_zpowers _
 
+omit [Finite G] in
 theorem a_not_mem_B : D.a ∉ D.B := by
   intro h
   have : D.a ∈ D.A ⊓ D.B := mem_inf.2 ⟨D.a_mem, h⟩
   rw [D.A_inf_B, mem_bot] at this
   exact D.a_ne_one this
 
+omit [Finite G] in
 theorem B_inf_descM {O : Subgroup G} [O.Normal] (hO : Odd (Nat.card O)) :
     D.B ⊓ D.descM O = ⊥ := by
   rw [eq_bot_iff]
@@ -94,6 +100,7 @@ theorem B_inf_descM {O : Subgroup G} [O.Normal] (hO : Odd (Nat.card O)) :
 
 noncomputable def eA : ↥D.A ≃* DihedralGroup (2 ^ (k + 2)) := D.A_iso.some
 
+omit [Finite G] in
 theorem eA_a : D.eA ⟨D.a, D.a_mem⟩ = zc (k + 2) := by
   rcases eq_one_or_zc_of_comm (a := k + 2) (by omega) (c := D.eA ⟨D.a, D.a_mem⟩) (fun g => by
       obtain ⟨y, rfl⟩ := D.eA.surjective g
@@ -104,19 +111,24 @@ theorem eA_a : D.eA ⟨D.a, D.a_mem⟩ = zc (k + 2) := by
 
 @[expose] noncomputable def a₀ : G := (D.eA.symm (r ((2 ^ k : ℕ) : ZMod (2 ^ (k + 2)))) : G)
 
+omit [Finite G] in
 theorem a₀_eq : D.a₀ = (D.eA.symm (r ((2 ^ k : ℕ) : ZMod (2 ^ (k + 2)))) : G) := rfl
 
+omit [Finite G] in
 theorem a₀_mem : D.a₀ ∈ D.A := (D.eA.symm _).2
 
+omit [Finite G] in
 theorem a₀_mul_a₀ : D.a₀ * D.a₀ = D.a := by
   have h : D.eA.symm (r ((2 ^ k : ℕ) : ZMod (2 ^ (k + 2)))) *
       D.eA.symm (r ((2 ^ k : ℕ) : ZMod (2 ^ (k + 2)))) = ⟨D.a, D.a_mem⟩ := by
     rw [← map_mul, r_quarter_mul_self, ← D.eA_a, MulEquiv.symm_apply_apply]
   exact congrArg Subtype.val h
 
+omit [Finite G] in
 theorem orderOf_a₀ : orderOf D.a₀ = 4 := by
   rw [a₀, Subgroup.orderOf_coe, MulEquiv.orderOf_eq, orderOf_r_quarter]
 
+omit [Finite G] in
 theorem a₀_not_mem_zpowers_a : D.a₀ ∉ zpowers D.a := by
   intro h
   rcases D.mem_zpowers_a_iff.1 h with h1 | h1
@@ -127,6 +139,7 @@ theorem a₀_not_mem_zpowers_a : D.a₀ ∉ zpowers D.a := by
     rw [h1, D.a_order] at this
     omega
 
+omit [Finite G] in
 theorem a₀_inv : D.a₀⁻¹ = D.a₀ * D.a := by
   have h4 : D.a₀ * D.a₀ * (D.a₀ * D.a₀) = 1 := by rw [D.a₀_mul_a₀, D.a_mul_a]
   have : D.a₀ * (D.a₀ * D.a) = 1 := by
@@ -135,6 +148,7 @@ theorem a₀_inv : D.a₀⁻¹ = D.a₀ * D.a := by
       _ = 1 := h4
   exact (eq_inv_of_mul_eq_one_right this).symm
 
+omit [Finite G] in
 theorem conj_a₀ {g : G} (hg : g ∈ D.A ⊔ zpowers D.t) :
     g * D.a₀ * g⁻¹ = D.a₀ ∨ g * D.a₀ * g⁻¹ = D.a₀ * D.a := by
   obtain ⟨e⟩ := D.At_iso
@@ -174,10 +188,12 @@ noncomputable def mapQuotHom (X : Subgroup G) (N : Subgroup G) [N.Normal] :
     ↥X →* ↥(X.map (QuotientGroup.mk' N)) :=
   ((QuotientGroup.mk' N).comp X.subtype).codRestrict _ (fun x => ⟨x, x.2, rfl⟩)
 
+omit [Finite G] in
 theorem mapQuotHom_surjective : Function.Surjective (mapQuotHom X N) := by
   rintro ⟨y, x, hx, rfl⟩
   exact ⟨⟨x, hx⟩, rfl⟩
 
+omit [Finite G] in
 theorem mapQuotHom_ker : (mapQuotHom X N).ker = N.subgroupOf X := by
   ext x
   rw [MonoidHom.mem_ker, mem_subgroupOf]
@@ -198,16 +214,19 @@ end MapQuot
 
 variable {O : Subgroup G} [O.Normal]
 
+omit [Finite G] in
 theorem descM_subgroupOf_A (hO : Odd (Nat.card O)) {x : ↥D.A} :
     x ∈ (D.descM O).subgroupOf D.A ↔ (x : G) = 1 ∨ (x : G) = D.a := by
   rw [mem_subgroupOf, ← D.mem_zpowers_a_iff, ← D.T_inf_descM hO, mem_inf]
   exact ⟨fun h => ⟨D.A_le_T x.2, h⟩, fun h => h.2⟩
 
+omit [Finite G] in
 theorem descM_subgroupOf_At (hO : Odd (Nat.card O)) {x : ↥(D.A ⊔ zpowers D.t)} :
     x ∈ (D.descM O).subgroupOf (D.A ⊔ zpowers D.t) ↔ (x : G) = 1 ∨ (x : G) = D.a := by
   rw [mem_subgroupOf, ← D.mem_zpowers_a_iff, ← D.T_inf_descM hO, mem_inf]
   exact ⟨fun h => ⟨D.At_le_T x.2, h⟩, fun h => h.2⟩
 
+omit [Finite G] in
 theorem descM_subgroupOf_eq_bot (hO : Odd (Nat.card O)) {X : Subgroup G} (hX : X ≤ D.B) :
     (D.descM O).subgroupOf X = ⊥ := by
   rw [eq_bot_iff]
@@ -261,6 +280,7 @@ variable (hO : Odd (Nat.card O)) [(D.descM O).Normal]
 local notation "ρ" => QuotientGroup.mk' (D.descM O)
 
 include hO in
+omit [Finite G] in
 theorem mem_B_of_mk_eq {x y : G} (hx : x ∈ D.B) (hy : y ∈ D.B) (h : ρ x = ρ y) : x = y := by
   have h1 : x⁻¹ * y ∈ D.descM O := by
     rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq] at h
@@ -270,14 +290,17 @@ theorem mem_B_of_mk_eq {x y : G} (hx : x ∈ D.B) (hy : y ∈ D.B) (h : ρ x = �
   rw [← mul_inv_cancel_left x y, this, mul_one]
 
 include hO in
+omit [Finite G] in
 theorem mk_eq_one_of_mem_B {x : G} (hx : x ∈ D.B) (h : ρ x = 1) : x = 1 :=
   D.mem_B_of_mk_eq hO hx (one_mem _) (by rw [h, map_one])
 
+omit [Finite G] [O.Normal] in
 theorem map_sup_zpowers (X : Subgroup G) (g : G) :
     (X ⊔ zpowers g).map ρ = X.map ρ ⊔ zpowers (ρ g) := by
   rw [Subgroup.map_sup, MonoidHom.map_zpowers]
 
 include hO in
+omit [Finite G] in
 theorem map_B_inf_centralizer :
     D.B.map ρ ⊓ centralizer ({ρ D.t} : Set (G ⧸ D.descM O)) =
       (D.B ⊓ centralizer ({D.t} : Set G)).map ρ := by

@@ -16,6 +16,7 @@ variable {p : ℕ} [NeZero p] [Fact (1 < p)]
     Module.End K V :=
   (p : K)⁻¹ • ∑ k : ZMod p, ψ (-(j * k)) • a ^ k.val
 
+omit [Fact (1 < p)] in
 theorem sum_char_mul {ψ : AddChar (ZMod p) K} (hψ : ψ.IsPrimitive) (b : ZMod p) :
     ∑ x : ZMod p, ψ (x * b) = if b = 0 then (p : K) else 0 := by
   have := AddChar.sum_mulShift (R := ZMod p) (R' := K) (ψ := ψ) b hψ
@@ -80,8 +81,9 @@ theorem eigProj_mul_eigProj {ψ : AddChar (ZMod p) K} (hψ : ψ.IsPrimitive) {a 
   · have : j - i ≠ 0 := sub_ne_zero.2 (Ne.symm h)
     simp [h, this]
 
+omit [Fact (1 < p)] in
 theorem sum_eigProj {ψ : AddChar (ZMod p) K} (hψ : ψ.IsPrimitive) {a : Module.End K V}
-    (ha : a ^ p = 1) (hpK : (p : K) ≠ 0) : ∑ j : ZMod p, eigProj ψ a j = 1 := by
+    (_ha : a ^ p = 1) (hpK : (p : K) ≠ 0) : ∑ j : ZMod p, eigProj ψ a j = 1 := by
   unfold eigProj
   rw [← Finset.smul_sum, Finset.sum_comm]
   have h1 : ∀ k : ZMod p, ∑ j : ZMod p, ψ (-(j * k)) • a ^ k.val =
@@ -94,13 +96,14 @@ theorem sum_eigProj {ψ : AddChar (ZMod p) K} (hψ : ψ.IsPrimitive) {a : Module
     exact congrArg ψ (by ring)
   simp only [h1]
   rw [Finset.sum_eq_single (0 : ZMod p)]
-  · simp only [neg_zero, if_true, ZMod.val_zero, pow_zero]
+  · simp only [neg_zero, ite_true, ZMod.val_zero, pow_zero]
     rw [smul_smul, inv_mul_cancel₀ hpK, one_smul]
   · intro k _ hk
     have : -k ≠ 0 := neg_ne_zero.2 hk
     simp [this]
   · simp
 
+omit [NeZero p] [Fact (1 < p)] in
 theorem pow_mul_comm_of_mul_eq {ψ : AddChar (ZMod p) K} {a b : Module.End K V}
     (hab : a * b = ψ 1 • (b * a)) (m : ℕ) : a ^ m * b = ψ 1 ^ m • (b * a ^ m) := by
   induction m with
@@ -113,6 +116,7 @@ theorem pow_mul_comm_of_mul_eq {ψ : AddChar (ZMod p) K} {a b : Module.End K V}
       _ = ψ 1 ^ (m + 1) • (b * a ^ (m + 1)) := by
         rw [smul_mul_assoc, smul_smul, ← pow_succ, mul_assoc, ← pow_succ']
 
+omit [Fact (1 < p)] in
 theorem shift_eigProj {ψ : AddChar (ZMod p) K} {a b : Module.End K V}
     (hab : a * b = ψ 1 • (b * a)) (j : ZMod p) :
     b * eigProj ψ a j = eigProj ψ a (j + 1) * b := by
@@ -129,6 +133,7 @@ theorem shift_eigProj {ψ : AddChar (ZMod p) K} {a b : Module.End K V}
   refine Finset.sum_congr rfl fun k _ => ?_
   rw [hterm, mul_smul_comm]
 
+omit [Fact (1 < p)] in
 theorem eigProj_apply_eigen {ψ : AddChar (ZMod p) K} {a : Module.End K V} (hpK : (p : K) ≠ 0)
     {j : ZMod p} {v : V} (hv : a v = ψ j • v) : eigProj ψ a j v = v := by
   have h1 : ∀ m : ℕ, (a ^ m) v = ψ j ^ m • v := by
@@ -154,7 +159,7 @@ theorem heisData_of_split {ψ : AddChar (ZMod p) K} (hψ : ψ.IsPrimitive)
     (hab : a * b = ψ 1 • (b * a)) (hb : b * bi = 1) (hbi : bi * b = 1)
     (hbp : b ^ p = c₀ • (1 : Module.End K V)) : HeisData p (eigProj ψ a) b bi c₀ where
   idem j := by simpa using eigProj_mul_eigProj hψ ha hpK j j
-  orth i j hij := by rw [eigProj_mul_eigProj hψ ha hpK, if_neg hij]
+  orth i j hij := by rw [eigProj_mul_eigProj hψ ha hpK, ite_eq_right hij]
   sum := sum_eigProj hψ ha hpK
   t_ti := hb
   ti_t := hbi

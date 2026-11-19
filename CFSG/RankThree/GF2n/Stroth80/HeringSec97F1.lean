@@ -17,6 +17,7 @@ namespace HS9
 @[expose] def FourBase (M Q B Y : Subgroup G) : Prop :=
   ∀ F : Subgroup G, IsConjB M B F → F ≤ QB B → GoodPt M Q B Y F
 
+omit [Finite G] in
 theorem conj_inv_eq_of_conj_eq {g : G} {Y : Subgroup G} (h : conjSubgroup g Y = Y) :
     conjSubgroup g⁻¹ Y = Y := by
   calc conjSubgroup g⁻¹ Y = conjSubgroup g⁻¹ (conjSubgroup g Y) := by rw [h]
@@ -72,7 +73,7 @@ theorem goodPt_of_conj_mem_LB (h34 : Stroth34Statement) (h311a : Stroth311aState
     (hsplit : Split95 M Q Z B t X Y) (h4 : Sec4Concl M Q Z B X Y) (h1 : OneConcl hc X Y)
     {h : G} (hh : h ∈ M) {x : G} (hx : x ∈ LB M Q B ⊓ X) (hxQ : x ∉ Q)
     (hhx : h * x * h⁻¹ ∈ LB M Q B) : GoodPt M Q B Y (conjSubgroup h B) :=
-  goodPt_conj_of_mem M Q B Y (fun m hm => hc.conj_Q_eq hm) hh
+  goodPt_conj_of_mem M Q B Y (fun _m hm => hc.conj_Q_eq hm) hh
     (conj_Y_eq_of_conj_mem_LB h34 h311a hc hs hsplit h4 h1 hx hxQ hh hhx)
 
 theorem goodPt_of_mem_conj_LB (h34 : Stroth34Statement) (h311a : Stroth311aStatement)

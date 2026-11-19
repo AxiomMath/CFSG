@@ -150,7 +150,7 @@ theorem mem_lineGroup_iff (σ : Equiv.Perm (Fin 8)) : σ ∈ lineGroup ↔ σ �
     have h := mem_closure_of_mem_closureList _ _ σ hσ
     have hset : {x | x ∈ frameGens.map fun g => g.2.2} = {σ | ∃ x ∈ frameGens, σ = x.2.2} := by
       ext σ
-      simp only [Set.mem_setOf_eq, List.mem_map]
+      simp only [Set.mem_ofPred_eq, List.mem_map]
       constructor
       · rintro ⟨x, hx, rfl⟩
         exact ⟨x, hx, rfl⟩
@@ -193,7 +193,7 @@ theorem transGroup_normal : (transGroup.subgroupOf lineGroup).Normal := by
     ((mem_transGroup_iff _).1 hn))
 
 theorem sectionalTwoRankLE_lineGroup : SectionalTwoRankLE lineGroup 5 := by
-  haveI := transGroup_normal
+  have := transGroup_normal
   set N := transGroup.subgroupOf lineGroup
   have hN : Nat.card N = 8 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe transGroup_le_lineGroup).toEquiv,
@@ -227,7 +227,7 @@ theorem exists_finset_of_inf_transGroup {R : Subgroup (Equiv.Perm (Fin 8))}
     (hR : IsPGroup 2 R) (hRB : R ≤ lineGroup) (hRT : ∀ σ ∈ R, σ ∈ transGroup → σ = 1) :
     ∃ s : Finset (Equiv.Perm (Fin 8)), s.card ≤ 2 ∧ Subgroup.closure (s : Set _) = R := by
   classical
-  haveI := transGroup_normal
+  have := transGroup_normal
   set N := transGroup.subgroupOf lineGroup
   have hN : Nat.card N = 8 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe transGroup_le_lineGroup).toEquiv,
@@ -299,7 +299,7 @@ theorem signVec_swap (i : Fin 8) :
       have := i.isLt
       have := j.isLt
       omega
-    simp [signVec, Equiv.swap_apply_of_ne_of_ne h1 h2, Pi.single_apply, hij]
+    simp [signVec, Equiv.swap_apply_of_ne_of_ne h1 h2, hij]
 
 section Contract
 
@@ -503,7 +503,7 @@ theorem frameVec_lo (i : Fin 8) : frameVec (lo i) = frameRoot i := by
     show (lo i).val % 8 = i.val
     rw [lo_val]
     exact Nat.mod_eq_of_lt i.isLt
-  simp only [frameVec, hi, if_true, hmod]
+  simp only [frameVec, hi, ite_true, hmod]
 
 section Contract
 

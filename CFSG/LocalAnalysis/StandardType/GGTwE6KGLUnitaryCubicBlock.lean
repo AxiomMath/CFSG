@@ -28,7 +28,7 @@ theorem selfDual_natDegree_one_of_card_ordTwistedA
       CFSG.Open.ordTwistedA 2 (2 ^ k)) :
     dualPoly h.bar (a : K[X]) = a ∧ (a : K[X]).natDegree = 1 := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ 2 ^ f :=
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) h.one_le
@@ -66,23 +66,23 @@ theorem selfDual_natDegree_one_of_card_ordTwistedA
   have hfd : 1 ≤ f * (a : K[X]).natDegree := Nat.mul_pos h.one_le hd
   rcases exists_field_factor_of_selfDual hq H a hself ha with
     ⟨F', hF, hFt, -, hFcard, h4, ⟨eSL2⟩⟩ | ⟨E, hE, hEt, -, hEcard, hm3, hne, ⟨eSU⟩⟩
-  · letI : Field F' := hF
-    letI : Fintype F' := hFt
+  · let : Field F' := hF
+    let : Fintype F' := hFt
     exact (false_of_sl2_centralQuotient (f := f) (d := (a : K[X]).natDegree) (n := k)
       hFcard h4 eSL2 πSB hπSB hkerSB hr hk hord hcard).elim
-  letI : Field E := hE
-  letI : Fintype E := hEt
+  let : Field E := hE
+  let : Fintype E := hEt
   have hperf : commutator ↥(CFSG.Open.StatedSU
       (primaryMultiplicity (x : Module.End K (Fin N → K)) (a : K[X]))
       (2 ^ (f * (a : K[X]).natDegree)) E) = ⊤ :=
     (suFactorFacts_holds E (primaryMultiplicity (x : Module.End K (Fin N → K)) (a : K[X]))
       (2 ^ (f * (a : K[X]).natDegree)) hEcard hm3 hne).perfect
   obtain ⟨g, hg, hker⟩ := exists_central_surjection_of_mulEquiv eSU πSB hπSB hkerSB
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEnat : Nat.card E = (2 ^ (f * (a : K[X]).natDegree)) ^ 2 := by
     rw [Nat.card_eq_fintype_card]
     exact hEcard
-  haveI : CharP E 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2)
+  have : CharP E 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2)
     (f := f * (a : K[X]).natDegree) hEnat
   have hQ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
     (F := E) (p := 2) (f := f * (a : K[X]).natDegree)

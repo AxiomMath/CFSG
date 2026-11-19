@@ -100,7 +100,7 @@ private noncomputable def og2_S : Subgroup HY where
   one_mem' := Or.inl (by simp)
   mul_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     have e : x * y * t0Y * (x * y)⁻¹ = x * (y * t0Y * y⁻¹) * x⁻¹ := by group
     rw [e]
     rcases hy with hy | ⟨b, hb, hy⟩
@@ -125,7 +125,7 @@ private noncomputable def og2_S : Subgroup HY where
           exact Or.inr ⟨c, hc', rfl⟩
   inv_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [inv_inv]
     rcases hx with hx | ⟨a, ha, hx⟩
     · left
@@ -228,7 +228,7 @@ private theorem og2_rep_gens {w : List ℕ} (hw : wordYOK w = true) :
           (wY (lettersY (reflTab ())) w)) k hk,
         getElem!_pos ((wT.map (wY (lettersY (reflTab ())))).toArray) k hlt,
         Array.getElem_push_lt hlt]
-    rw [e, og2_gens, if_pos hlt]
+    rw [e, og2_gens, ite_eq_left hlt]
     exact rep_gensOfY (wordYOK_of_sub wT_sub) hlt
   · have hk' : k = (wT.map (wY (lettersY (reflTab ())))).toArray.size := by omega
     subst hk'
@@ -237,7 +237,7 @@ private theorem og2_rep_gens {w : List ℕ} (hw : wordYOK w = true) :
         wY (lettersY (reflTab ())) w := by
       rw [getElem!_pos ((wT.map (wY (lettersY (reflTab ())))).toArray.push
           (wY (lettersY (reflTab ())) w)) _ hk, Array.getElem_push_eq]
-    rw [e, og2_gens, if_neg hlt]
+    rw [e, og2_gens, ite_eq_right hlt]
     exact rep_wordE hw
 
 private theorem og2_gen {w : List ℕ} (hw : w ∈ wSub) {M : Subgroup HY}
@@ -254,9 +254,9 @@ private theorem og2_gen {w : List ℕ} (hw : w ∈ wSub) {M : Subgroup HY}
     rw [Subgroup.closure_le]
     rintro _ ⟨k, -, rfl⟩
     by_cases hlt : k < (wT.map (wY (lettersY (reflTab ())))).toArray.size
-    · rw [og2_gens, if_pos hlt]
+    · rw [og2_gens, ite_eq_left hlt]
       exact hTM (by rw [← closure_gensOfY]; exact Subgroup.subset_closure ⟨k, hlt, rfl⟩)
-    · rw [og2_gens, if_neg hlt]
+    · rw [og2_gens, ite_eq_right hlt]
       exact hg
   have hO := orbSizeY_spec (gens := og2_gens w) (og2_rep_gens hwok) hC
   rw [og2_decF_F0] at hO

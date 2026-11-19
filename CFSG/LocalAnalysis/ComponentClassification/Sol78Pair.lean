@@ -38,7 +38,7 @@ theorem exists_isSolomonPair (hmax : SolAltLit.MaximalAltComponentInput)
   obtain ⟨S₀, hS₀⟩ := hP.exists_le_sylow
   set S : Subgroup X := (S₀ : Subgroup N).map N.subtype with hS
   have hSN : S ≤ N := map_subtype_le _
-  have hSp : IsPGroup 2 S := S₀.isPGroup'.map N.subtype
+  have hSp : IsPGroup 2 S := S₀.isPGroup.map N.subtype
   have hScard : Nat.card S = 2 ^ v J₁ := by
     rw [hS, Subgroup.card_map_of_injective N.subtype_injective, Sylow.card_eq_multiplicity S₀]
   have ht₁S : t₁ ∈ S := ⟨⟨t₁, ht₁N⟩, hS₀ (mem_zpowers _), rfl⟩

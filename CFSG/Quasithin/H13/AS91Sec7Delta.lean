@@ -36,7 +36,7 @@ theorem smul_mem_delta {g : G} (hg : g ∈ c.G1 ⊓ c.G2) (i : Fin 5) {n : G ⧸
   have horb : MulAction.orbit ↥(c.G1 ⊓ c.G2) (g • n) = MulAction.orbit ↥(c.G1 ⊓ c.G2) n := by
     have := MulAction.orbit_smul (⟨g, hg⟩ : ↥(c.G1 ⊓ c.G2)) n
     rwa [Subgroup.mk_smul] at this
-  simp only [delta, Set.mem_setOf_eq, horb, lnsX, mem_objOf]
+  simp only [delta, Set.mem_ofPred_eq, horb, lnsX, mem_objOf]
   refine and_congr_left fun _ => ?_
   constructor
   · intro h
@@ -96,7 +96,7 @@ theorem orbit_eq_delta {t : Finset (Finset (Fin 24))} (ht : IsTrio t) {i : Fin 5
 
 theorem mem_delta_iff (i : Fin 5) {n : G ⧸ c.G2} :
     n ∈ c.delta i ↔ CInc c.G1 c.G2 c.x0 n ∧ M24G.Delta ρ.l₀ (ρ.trio n) i := by
-  simp only [Loc49.delta, Set.mem_setOf_eq, Loc49.lnsX, mem_objOf]
+  simp only [Loc49.delta, Set.mem_ofPred_eq, Loc49.lnsX, mem_objOf]
   constructor
   · rintro ⟨hn, hcard⟩
     have hn' : CInc c.G1 c.G2 c.x0 n := hn.symm'

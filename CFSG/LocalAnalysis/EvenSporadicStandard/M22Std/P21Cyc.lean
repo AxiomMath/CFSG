@@ -38,7 +38,7 @@ theorem exists_cyclic_subspace (f : V →ₗ[ZMod 2] V) {ℓ : ℕ} (hℓ : ℓ.
     rw [LinearMap.coe_restrict_apply] at this
     exact this
   refine ⟨hirr, hne', ?_⟩
-  letI : Field (K (f.restrict hSinv)) := fieldK hirr
+  let : Field (K (f.restrict hSinv)) := fieldK hirr
   have hfinEnd : Finite (Module.End (ZMod 2) S) :=
     Finite.of_injective (fun f : Module.End (ZMod 2) S => (f : S → S)) DFunLike.coe_injective
   have hfinK : Finite (K (f.restrict hSinv)) :=

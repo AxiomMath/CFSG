@@ -79,7 +79,7 @@ theorem le_suzukiU_of_isPGroup (hk : Nat.card k = 2 ^ (2 * m + 1))
   have hPN : P ≤ Subgroup.normalizer (suzukiU m k : Set (suzukiGroup m k)) :=
     hPB.trans ((suzuki_ovoid_stabilizer hk).2.symm.le.trans hSPA.stabilizer_le_normalizer)
   have hsup : IsPGroup 2 (P ⊔ suzukiU m k : Subgroup (suzukiGroup m k)) :=
-    IsPGroup.to_sup_of_normal_right' hP (hS ▸ S.isPGroup') hPN
+    IsPGroup.to_sup_of_normal_right' hP (hS ▸ S.isPGroup) hPN
   have heq := S.maximal_isPGroup.le_of_ge (hS ▸ hsup) (hS ▸ le_sup_right)
   rw [hS] at heq
   exact le_sup_left.trans heq

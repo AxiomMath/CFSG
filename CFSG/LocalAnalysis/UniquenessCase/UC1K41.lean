@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UCK (fixV)
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 variable {V : Type} [AddCommGroup V] [Module (ZMod p) V]
 
+omit [Finite G] in
 theorem fixV_eq_invariants (ρ : Representation (ZMod p) G V) (A : Subgroup G) :
     fixV ρ A = Representation.invariants (ρ.comp A.subtype) := by
   ext v

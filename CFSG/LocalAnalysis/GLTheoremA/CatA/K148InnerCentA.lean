@@ -30,7 +30,7 @@ theorem twoPart_two_pow (k : ℕ) : twoPart (2 ^ k) = 2 ^ k := by
 
 theorem natCard_le_twoPart_of_le_of_isPGroup {G : Type*} [Group G] [Finite G] {U R : Subgroup G}
     (hUR : U ≤ R) (hU : IsPGroup 2 U) : Nat.card U ≤ twoPart (Nat.card R) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hU.exists_card_eq
   have hdvd : 2 ^ k ∣ Nat.card R := hk ▸ Subgroup.card_dvd_of_le hUR
   have hle := (Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_two Nat.card_pos.ne').1 hdvd
@@ -114,7 +114,7 @@ theorem natCard_threeSixSingularR_unitary {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf :
   rw [Nat.card_congr eRF.toEquiv]
   obtain ⟨π, b, hb⟩ := threeSix_phi_unitary (Ω := Ω) Fr hFrs v hstab
   obtain ⟨hcl, h₀⟩ := setup_k₀ (Ω := Ω) hℓ hf hK hσ
-  haveI := hcl
+  have := hcl
   obtain ⟨-, ⟨H, hH⟩, -, -, -⟩ :=
     CFSG.RankThree.SL3RootPermuting.sl3_root_permuting_frobenius_fixed_unitary
       (k := RingHom.eqLocusField σ.toRingHom (RingHom.id K)) hℓ hf h₀ π _ b
@@ -177,7 +177,7 @@ theorem mem_threeSixSingularR_of_pow_two_pow {ℓ f : ℕ} (hℓ : ℓ.Prime) (h
   have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hq0)
   have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hchar : CharP Ω ℓ := charP_of_card_cube (K := K) hℓ hf hK
-  haveI : CharP Ω 2 := hℓ2 ▸ hchar
+  have : CharP Ω 2 := hℓ2 ▸ hchar
   have hrange := range_threeSixEmb hℓ hf hK hσ Fr hFr
   have hD := centralizer_eq_comap (K := K) (σ := σ) hrange hgG hFg hx
   have hR := threeSixSingularR_eq_comap (K := K) (σ := σ) hrange hgG hFg (v := v)
@@ -206,12 +206,12 @@ theorem twoPart_centralizer_threeA_le {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : 
   have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hq0)
   have hRtwo : twoPart (Nat.card (threeSixSingularR Ω K σ Fr (-1) v g)) = (ℓ ^ f) ^ 3 :=
     twoPart_natCard_threeSixSingularR hℓ hℓ2 hf hK hσ hFr ha hv hgG hFg
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C := Subgroup.centralizer ({x} : Set (graphFixedRootGroup TwistTag.D4 K σ.toRingHom))
     with hC
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥C) := Sylow.nonempty
   let S' : Subgroup ↥C := S
-  have hSyl : IsPGroup 2 S' := S.isPGroup'
+  have hSyl : IsPGroup 2 S' := S.isPGroup
   have hScard : Nat.card ↥S' = twoPart (Nat.card ↥C) := Sylow.card_eq_multiplicity S
   have hSR : S'.map C.subtype ≤ threeSixSingularR Ω K σ Fr (-1) v g := by
     rintro u hu
@@ -285,12 +285,12 @@ theorem exists_threeA_model_data {K : Type} [Field K] {ℓ f : ℕ} [Fact ℓ.Pr
 theorem k148RepA_of_odd {f : ℕ}
     (hf : 1 ≤ f) (hodd : f % 2 = 1) : K148RepA f := by
   intro K _ _ σ hK hσ z hzS hz3 hz1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK3 : Nat.card K = 2 ^ (f * 3) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hK3
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have h3L : (3 : AlgebraicClosure K) ≠ 0 := by
     intro h
@@ -333,7 +333,7 @@ theorem k148RepA_of_odd {f : ℕ}
 
 theorem k148InnerCentFact_holds :
     K148InnerCentFact :=
-  k148InnerCentFact_of_repA fun f hf hodd => k148RepA_of_odd hf hodd
+  k148InnerCentFact_of_repA fun _f hf hodd => k148RepA_of_odd hf hodd
 
 end Certs
 

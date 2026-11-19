@@ -15,6 +15,7 @@ section Lin
 
 variable {F : Type} [Field F] [Fintype F]
 
+omit [Fintype F] in
 theorem diagHom_mem_statedSL {m : ℕ} (t : Fin m → Fˣ) (h : ∏ i, t i = 1) :
     diagHom m t ∈ StatedSL m F := by
   rw [CFSG.Open.StatedAPI.mem_statedSL_iff, det_diagHom]
@@ -22,6 +23,7 @@ theorem diagHom_mem_statedSL {m : ℕ} (t : Fin m → Fˣ) (h : ∏ i, t i = 1) 
   rw [this, h]
   rfl
 
+omit [Fintype F] in
 theorem conj_mem_statedSL {m : ℕ} (g x : GL (Fin m) F) (hx : x ∈ StatedSL m F) :
     g * x * g⁻¹ ∈ StatedSL m F := by
   rw [CFSG.Open.StatedAPI.statedSL_eq_ker_det, MonoidHom.mem_ker] at hx ⊢
@@ -47,6 +49,7 @@ theorem padicValNat_eq_iff_not_dvd_div {r : ℕ} [hr : Fact r.Prime] {A B : ℕ}
       exact Or.inr (Or.inr hrn)
     omega
 
+omit [Fintype F] in
 theorem scalar_mem_statedSL_iff {m : ℕ} (u : Fˣ) :
     Matrix.GeneralLinearGroup.scalar (Fin m) u ∈ StatedSL m F ↔ u ^ m = 1 := by
   rw [CFSG.Open.StatedAPI.mem_statedSL_iff, scalar_eq_diagHom_const, det_diagHom,
@@ -77,12 +80,12 @@ theorem linMat_ge4 {r m : ℕ} [hr : Fact r.Prime] (hperm : PermBound r m) (hr2 
     have := Fintype.one_lt_card (α := F)
     omega
   have ha1 : 1 ≤ padicValNat r (Fintype.card F - 1) := one_le_padicValNat_of_dvd hF1.ne' hrF
-  haveI : Nontrivial (unitsPPart F r) := by
+  have : Nontrivial (unitsPPart F r) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hacard]
     exact Nat.one_lt_pow (by omega) hr.out.one_lt
   have hZsub : (Z₀.map (StatedSL m F).subtype).subgroupOf (StatedSL m F) = Z₀ :=
     Subgroup.comap_map_eq_self_of_injective (StatedSL m F).subtype_injective Z₀
-  haveI : ((Z₀.map (StatedSL m F).subtype).subgroupOf (StatedSL m F)).Normal := by
+  have : ((Z₀.map (StatedSL m F).subtype).subgroupOf (StatedSL m F)).Normal := by
     rw [hZsub]
     infer_instance
   have hZG : Z₀.map (StatedSL m F).subtype ≤ StatedSL m F := by

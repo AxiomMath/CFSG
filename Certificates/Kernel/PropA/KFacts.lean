@@ -158,7 +158,7 @@ theorem pa450010_G1 (b : Bool) : ∀ w ∈ K28 b, orderOf w = 2 →
   apply pa450010_G1_red b
   intro i hi hsq
   have hGG := pG_mul_self true
-  simp only [if_true] at hGG
+  simp only [ite_true] at hGG
   obtain ⟨-, -, r4, r5⟩ := pa450010_rep_eq true
   cases b
   · interval_cases i

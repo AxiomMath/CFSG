@@ -11,9 +11,9 @@ namespace CFSG.EvenSporadicStandard.HNRecog.Section3
 
 open CFSG.EvenSporadicStandard.HNRecog
 
-theorem tableIII_of_hyps (hI : TwoHSInterface) (hS : SuborbitFacts) {G : Type} [Group G]
+theorem tableIII_of_hyps (hI : TwoHSInterface) (_hS : SuborbitFacts) {G : Type} [Group G]
     [Finite G] {a z : G} (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z)
-    (hF2 : Vert Fusion2Facts a z) (hF3 : Vert Fusion3Facts a z) (hPic : Vert A8Pictures a z)
+    (hF2 : Vert Fusion2Facts a z) (_hF3 : Vert Fusion3Facts a z) (_hPic : Vert A8Pictures a z)
     (hOrb : Vert GzOrbitFacts a z) (hSGz : Vert StructGzFacts a z)
     (hSX : Vert StructXFacts a z) : TableIIIFacts a z := by
   have hOrb0 : GzOrbitFacts a z := hOrb.self

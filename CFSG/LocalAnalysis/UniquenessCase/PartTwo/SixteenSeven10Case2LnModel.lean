@@ -172,7 +172,7 @@ private lemma s16c1610_blockALM_cube {m : ℕ} {I : Type*} [Fintype I] [Decidabl
     simp
   have hAj : s16c1610_blockALM b i j (b j) = b i + b j := by
     rw [s16c1610_blockALM_apply]
-    simp [hij, Ne.symm hij]
+    simp [Ne.symm hij]
   have hAk : ∀ k, k ≠ i → k ≠ j → s16c1610_blockALM b i j (b k) = b k := by
     intro k h1 h2
     rw [s16c1610_blockALM_apply]
@@ -221,7 +221,7 @@ private lemma s16c1610_blockA_apply_j {m : ℕ} {I : Type*} [Fintype I] [Decidab
     (b : Module.Basis I (ZMod 2) (Fin m → ZMod 2)) {i j : I} (hij : i ≠ j) :
     (s16c1610_blockA b i j hij : (Fin m → ZMod 2) → (Fin m → ZMod 2)) (b j) = b i + b j := by
   rw [s16c1610_blockA_coe, s16c1610_blockALM_apply]
-  simp [hij, Ne.symm hij]
+  simp [Ne.symm hij]
 
 private lemma s16c1610_blockA_cube {m : ℕ} {I : Type*} [Fintype I] [DecidableEq I]
     (b : Module.Basis I (ZMod 2) (Fin m → ZMod 2)) {i j : I} (hij : i ≠ j) :
@@ -458,13 +458,13 @@ private lemma s16c1610_exists_rank2Equiv {m : ℕ} {c₁ c₂ : Fin m → ZMod 2
     have h1 : f₂' c₂ + (f₂' c₁) * lam = f₂' c₂' := by
       change f₂' c₂ + (f₂' c₁) * lam = f₂' (c₂ + lam • c₁)
       rw [map_add, map_smul, smul_eq_mul]
-      ring_nf <;> reduce_mod_char
+      ring_nf
     rw [h1, hf₂'c₂']
   let f₂ : (Fin m → ZMod 2) →ₗ[ZMod 2] ZMod 2 := f₂' + (f₂' c₁) • f₁'
   let f₁ : (Fin m → ZMod 2) →ₗ[ZMod 2] ZMod 2 := f₁' + lam • f₂
   have hf₂c₁ : f₂ c₁ = 0 := by
     simp only [f₂, LinearMap.add_apply, LinearMap.smul_apply, hf₁'c₁, smul_eq_mul, mul_one]
-    ring_nf <;> reduce_mod_char
+    ring_nf; reduce_mod_char
   have hf₂c₂ : f₂ c₂ = 1 := by
     simp only [f₂, LinearMap.add_apply, LinearMap.smul_apply]
     exact hf₂'c₂
@@ -475,7 +475,7 @@ private lemma s16c1610_exists_rank2Equiv {m : ℕ} {c₁ c₂ : Fin m → ZMod 2
     simp only [f₁, LinearMap.add_apply, LinearMap.smul_apply, hf₂c₂, smul_eq_mul, mul_one]
     change f₁' c₂ + lam = 0
     rw [show f₁' c₂ = lam from rfl]
-    ring_nf <;> reduce_mod_char
+    ring_nf; reduce_mod_char
   let g : (Fin m → ZMod 2) →ₗ[ZMod 2] (Fin m → ZMod 2) := s16c1610_pairMap c₁ c₂ f₁ f₂
   have hgc₁ : g c₁ = c₁ + c₂ := by
     change c₁ + (f₂ c₁) • c₁ + ((f₁ + f₂) c₁) • c₂ = c₁ + c₂
@@ -490,12 +490,12 @@ private lemma s16c1610_exists_rank2Equiv {m : ℕ} {c₁ c₂ : Fin m → ZMod 2
     intro v
     change f₁ (v + (f₂ v) • c₁ + ((f₁ + f₂) v) • c₂) = f₁ v + f₂ v
     simp only [map_add, map_smul, LinearMap.add_apply, hf₁c₁, hf₁c₂, smul_eq_mul]
-    ring_nf <;> reduce_mod_char
+    ring_nf
   have hgB : ∀ v, f₂ (g v) = f₁ v := by
     intro v
     change f₂ (v + (f₂ v) • c₁ + ((f₁ + f₂) v) • c₂) = f₁ v
     simp only [map_add, map_smul, LinearMap.add_apply, hf₂c₁, hf₂c₂, smul_eq_mul]
-    ring_nf <;> reduce_mod_char
+    ring_nf; reduce_mod_char
   have hg3 : g.comp (g.comp g) = LinearMap.id := by
     apply LinearMap.ext
     intro v
@@ -503,12 +503,12 @@ private lemma s16c1610_exists_rank2Equiv {m : ℕ} {c₁ c₂ : Fin m → ZMod 2
     have hA : f₂ (g (g v)) = f₁ v + f₂ v := by rw [hgB (g v), hgA v]
     have hB : (f₁ + f₂) (g (g v)) = f₁ v := by
       rw [LinearMap.add_apply, hgA (g v), hgB (g v), hgA v, hgB v]
-      ring_nf <;> reduce_mod_char
+      ring_nf; reduce_mod_char
     have hC : g (g v) = g v + (f₁ v) • c₁ + (f₂ v) • c₂ := by
       have e1 : f₂ (g v) = f₁ v := hgB v
       have e2 : (f₁ + f₂) (g v) = f₂ v := by
         rw [LinearMap.add_apply, hgA v, hgB v]
-        ring_nf <;> reduce_mod_char
+        ring_nf; reduce_mod_char
       change g v + (f₂ (g v)) • c₁ + ((f₁ + f₂) (g v)) • c₂ = _
       rw [e1, e2]
     change g (g v) + (f₂ (g (g v))) • c₁ + ((f₁ + f₂) (g (g v))) • c₂ = v
@@ -517,7 +517,7 @@ private lemma s16c1610_exists_rank2Equiv {m : ℕ} {c₁ c₂ : Fin m → ZMod 2
       (f₁ v + f₂ v) • c₁ + (f₁ v) • c₂ = v
     funext i
     simp only [Pi.add_apply, Pi.smul_apply, LinearMap.add_apply]
-    ring_nf <;> reduce_mod_char
+    ring_nf; reduce_mod_char
   refine ⟨LinearEquiv.ofLinearMap g (g.comp g) hg3 (by rw [LinearMap.comp_assoc]; exact hg3),
     ?_, ?_, ?_⟩
   · rw [LinearEquiv.coe_ofLinearMap]; exact hgc₁
@@ -562,24 +562,24 @@ private lemma s16c1610_exists_pureEquiv {m : ℕ} (hm : 3 ≤ m) {c : Fin m → 
     simp only [α, LinearMap.add_apply, LinearMap.smul_apply, s16c1610_proj_apply]
     change c j₂ + c j₃ + ((c j₂ + c j₃) * (c j₁)⁻¹) * c j₁ = 0
     rw [mul_assoc, inv_mul_cancel₀ hj₁, mul_one]
-    ring_nf <;> reduce_mod_char
+    ring_nf; reduce_mod_char
   have hβc : β c = 0 := by
     simp only [β, LinearMap.add_apply, LinearMap.smul_apply, s16c1610_proj_apply]
     change c j₂ + (c j₂ * (c j₁)⁻¹) * c j₁ = 0
     rw [mul_assoc, inv_mul_cancel₀ hj₁, mul_one]
-    ring_nf <;> reduce_mod_char
+    ring_nf; reduce_mod_char
   have hαu : α u = 1 := by
     change u j₂ + u j₃ + ((c j₂ + c j₃) * (c j₁)⁻¹) • u j₁ = 1
-    simp [u, hj₂, hj₃₂', Ne.symm hj₃₂', Ne.symm hj₂]
+    simp [u, hj₃₂', Ne.symm hj₂]
   have hαw : α w = 1 := by
     change w j₂ + w j₃ + ((c j₂ + c j₃) * (c j₁)⁻¹) • w j₁ = 1
-    simp [w, hj₃₂', hj₃₁, Ne.symm hj₃₂', Ne.symm hj₃₁]
+    simp [w, Ne.symm hj₃₂', Ne.symm hj₃₁]
   have hβu : β u = 1 := by
     change u j₂ + ((c j₂) * (c j₁)⁻¹) • u j₁ = 1
-    simp [u, hj₂, Ne.symm hj₂]
+    simp [u, Ne.symm hj₂]
   have hβw : β w = 0 := by
     change w j₂ + ((c j₂) * (c j₁)⁻¹) • w j₁ = 0
-    simp [w, hj₃₂', hj₃₁, Ne.symm hj₃₂', Ne.symm hj₃₁]
+    simp [w, Ne.symm hj₃₂', Ne.symm hj₃₁]
   let g : (Fin m → ZMod 2) →ₗ[ZMod 2] (Fin m → ZMod 2) := s16c1610_blockMap u w α β
   have hgc : g c = c := by
     change c + (α c) • u + (β c) • w = c
@@ -593,13 +593,13 @@ private lemma s16c1610_exists_pureEquiv {m : ℕ} (hm : 3 ≤ m) {c : Fin m → 
   have hgA : ∀ v, α (g v) = β v := by
     intro v
     change α (v + (α v) • u + (β v) • w) = β v
-    simp only [map_add, map_smul, hαu, hαw, smul_eq_mul, mul_one, mul_zero, add_zero]
-    ring_nf <;> reduce_mod_char
+    simp only [map_add, map_smul, hαu, hαw, smul_eq_mul, mul_one]
+    ring_nf; reduce_mod_char
   have hgB : ∀ v, β (g v) = α v + β v := by
     intro v
     change β (v + (α v) • u + (β v) • w) = α v + β v
     simp only [map_add, map_smul, hβu, hβw, smul_eq_mul, mul_one, mul_zero, add_zero]
-    ring_nf <;> reduce_mod_char
+    ring_nf
   have hg3 : g.comp (g.comp g) = LinearMap.id := by
     apply LinearMap.ext
     intro v
@@ -607,18 +607,17 @@ private lemma s16c1610_exists_pureEquiv {m : ℕ} (hm : 3 ≤ m) {c : Fin m → 
     have hA : α (g (g v)) = α v + β v := by rw [hgA (g v), hgB v]
     have hB : β (g (g v)) = α v := by
       rw [hgB (g v), hgA v, hgB v]
-      ring_nf <;> reduce_mod_char
+      ring_nf; reduce_mod_char
     have hC : g (g v) = g v + (β v) • u + (α v + β v) • w := by
       change g v + (α (g v)) • u + (β (g v)) • w = _
       rw [hgA v, hgB v]
     change g (g v) + (α (g (g v))) • u + (β (g (g v))) • w = v
     rw [hA, hB, hC]
-    change (g v + (β v) • u + (α v + β v) • w) + (α v + β v) • u + (α v) • w = v
     change (v + (α v) • u + (β v) • w + (β v) • u + (α v + β v) • w) +
       (α v + β v) • u + (α v) • w = v
     funext i
     simp only [Pi.add_apply, Pi.smul_apply]
-    ring_nf <;> reduce_mod_char
+    ring_nf; reduce_mod_char
   let e : (Fin m → ZMod 2) ≃ₗ[ZMod 2] (Fin m → ZMod 2) :=
     LinearEquiv.ofLinearMap g (g.comp g) hg3 (by rw [LinearMap.comp_assoc]; exact hg3)
   refine ⟨e, hgc, ?_, ?_⟩
@@ -636,7 +635,7 @@ private lemma s16c1610_exists_pureEquiv {m : ℕ} (hm : 3 ≤ m) {c : Fin m → 
       simpa using h2
     rw [hgu] at h1
     have h2 := congrFun h1 j₂
-    simp [u, w, hj₃₂', Ne.symm hj₃₂'] at h2
+    simp [u, w, Ne.symm hj₃₂'] at h2
 
 private lemma s16c1610_zmod2_eq_zero_or_one (a : ZMod 2) : a = 0 ∨ a = 1 := by
   revert a
@@ -713,7 +712,7 @@ theorem s16c1610_tensor_exists_order_three_fix {W : Type} [CommGroup W]
       · refine ⟨s16c1610_a1 + s16c1610_a2, c₁, ?_, ?_⟩
         · intro hc₁
           have hc₂ : c₂ = 0 := by rw [← h₁, hc₁]
-          exact ht (by simp [hdecomp, h₁, hc₁, hc₂])
+          exact ht (by simp [hdecomp, h₁, hc₂])
         · rw [hdecomp, h₁, ← TensorProduct.add_tmul]
     obtain ⟨e, hec, he3, hene⟩ := s16c1610_exists_pureEquiv hm hc
     let g := s16c1610_leEquivGL m e
@@ -869,7 +868,7 @@ private lemma s16c1610_disjoint_zpowers_of_prime {H : Type*} [Group H] {p : ℕ}
   rw [Subgroup.disjoint_def]
   intro x hxa hxb
   by_contra hx1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hoa : orderOf a = p := orderOf_eq_prime ha ha1
   have hdvd : orderOf x ∣ p := by
     rw [← hoa]
@@ -878,7 +877,7 @@ private lemma s16c1610_disjoint_zpowers_of_prime {H : Type*} [Group H] {p : ℕ}
     rcases hp.eq_one_or_self_of_dvd _ hdvd with h1 | h1
     · exact absurd (orderOf_eq_one_iff.mp h1) hx1
     · exact h1
-  haveI : Finite (Subgroup.zpowers a) :=
+  have : Finite (Subgroup.zpowers a) :=
     (isOfFinOrder_iff_pow_eq_one.mpr ⟨p, hp.pos, ha⟩).finite_zpowers
   have heq : Subgroup.zpowers x = Subgroup.zpowers a :=
     Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 hxa)
@@ -891,7 +890,7 @@ private lemma s16c1610_closure_pair_elemAbelian_nine {H : Type*} [Group H] {q₁
     (hcomm : q₁ * q₂ = q₂ * q₁) (hdisj : Disjoint (Subgroup.zpowers q₁) (Subgroup.zpowers q₂)) :
     IsElemAbelian 3 (Subgroup.closure ({q₁, q₂} : Set H)) ∧
       Nat.card (Subgroup.closure ({q₁, q₂} : Set H)) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcomm' : ∀ x ∈ ({q₁, q₂} : Set H), ∀ y ∈ ({q₁, q₂} : Set H), x * y = y * x := by
     intro x hx y hy
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
@@ -1144,7 +1143,7 @@ theorem s16c1610_tensor_exists_elemAbelian_nine_fix {W : Type} [CommGroup W]
       · refine ⟨s16c1610_a1 + s16c1610_a2, c₁, ?_, ?_⟩
         · intro hc₁
           have hc₂ : c₂ = 0 := by rw [← h₁, hc₁]
-          exact ht (by simp [hdecomp, h₁, hc₁, hc₂])
+          exact ht (by simp [hdecomp, h₁, hc₂])
         · rw [hdecomp, h₁, ← TensorProduct.add_tmul]
     have hwt' : ψ w = Multiplicative.ofAdd (a ⊗ₜ[ZMod 2] c) := by rw [hwt, hdecomp']
     have hli_c : LinearIndependent (ZMod 2) (fun _ : Fin 1 => c) := by

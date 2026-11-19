@@ -25,10 +25,10 @@ private theorem holds_of_binaryNaturalSL {W : Type} [CommGroup W] [Finite W]
     (h : BinaryNaturalSL H ⊤ ⊥ d n) (hS : IsSylowIn 2 S H) {v : W} (hv1 : v ≠ 1)
     (hvS : v ∉ fixV S) : ∃ h ∈ H, h v = v ∧ h ∉ stabSub (fixV S) := by
   obtain ⟨K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
-  haveI : NeZero d := ⟨by omega⟩
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : NeZero d := ⟨by omega⟩
   have he0 : (Pi.single 0 1 : Fin d → K) ≠ 0 := by
     intro h0
     have h1 : (1 : K) = 0 := by simpa using congr_fun h0 0
@@ -42,10 +42,10 @@ private theorem holds_of_natSpn {W : Type} [CommGroup W] [Finite W]
     (h : NatSpn H ⊤ ⊥ N n) (hS : IsSylowIn 2 S H) {v : W} (hv1 : v ≠ 1)
     (hvS : v ∉ fixV S) : ∃ h ∈ H, h v = v ∧ h ∉ stabSub (fixV S) := by
   obtain ⟨-, K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
-  haveI : NeZero (N / 2) := ⟨by omega⟩
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : NeZero (N / 2) := ⟨by omega⟩
   have he0 : (Pi.single (Sum.inl 0) 1 : Fin (N / 2) ⊕ Fin (N / 2) → K) ≠ 0 := by
     intro h0
     have h1 : (1 : K) = 0 := by simpa using congr_fun h0 (Sum.inl 0)
@@ -59,9 +59,9 @@ private theorem holds_of_natOmegaMinus {W : Type} [CommGroup W] [Finite W]
     (h : NatOmegaMinus H ⊤ ⊥ N n) (hS : IsSylowIn 2 S H) {v : W} (hv1 : v ≠ 1)
     (hvS : v ∉ fixV S) : ∃ h ∈ H, h v = v ∧ h ∉ stabSub (fixV S) := by
   obtain ⟨-, K, hField, hFinite, b, c, hK, hirr, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   obtain ⟨e, hline, he0, he⟩ :
       ∃ e : Fin (N / 2 - 1) ⊕ Fin (N / 2 - 1) ⊕ Fin 2 → K,
         KTabC.SylowFixedLine (StatedOmega (StatedQuadMinus (N / 2) K b c)) e ∧
@@ -72,7 +72,7 @@ private theorem holds_of_natOmegaMinus {W : Type} [CommGroup W] [Finite W]
       have h1 : (1 : K) = 0 := by
         simpa using congr_fun h0 (Sum.inl (⟨0, by omega⟩ : Fin (N / 2 - 1)))
       exact one_ne_zero h1
-    · simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore]
+    · simp [StatedQuadMinus]
   exact NatCentMove.exists_fix_notMem_stabSub (K := K) hR hline
     (NatCentMove.centMove_statedOmega_minus (K := K) hm hirr he he0) hS hv1 hvS
 
@@ -81,9 +81,9 @@ private theorem holds_of_natOmegaPlusFour {W : Type} [CommGroup W] [Finite W]
     (hperf : ⁅H, H⁆ = H) (hS : IsSylowIn 2 S H) {v : W} (hv1 : v ≠ 1)
     (hvS : v ∉ fixV S) : ∃ h ∈ H, h v = v ∧ h ∉ stabSub (fixV S) := by
   obtain ⟨-, K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   by_cases hK2 : 2 < Nat.card K
   · have hn2 : 2 ≤ n := by
       rcases n with _ | _ | k
@@ -103,7 +103,7 @@ private theorem holds_of_natOmegaPlusFour {W : Type} [CommGroup W] [Finite W]
             StatedQuadPlus 2 K e = 0 := by
       refine ⟨KTabC.e1P K, KTabC.sylowFixedLine_plus (K := K) hK4, ?_, ?_⟩
       · simp [KTabC.e1P]
-      · simp [KTabC.e1P, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two]
+      · simp [KTabC.e1P, StatedQuadPlus]
     exact NatCentMove.exists_fix_notMem_stabSub (K := K) hR hline
       (NatCentMove.centMove_statedOmega_plus (K := K) (m := 2) (by norm_num) he he0)
       hS hv1 hvS
@@ -121,9 +121,9 @@ private theorem holds_of_natOmegaPlusSix {W : Type} [CommGroup W] [Finite W]
     (hS : IsSylowIn 2 S H) {v : W} (hv1 : v ≠ 1) (hvS : v ∉ fixV S) :
     ∃ h ∈ H, h v = v ∧ h ∉ stabSub (fixV S) := by
   obtain ⟨-, K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   rw [show 6 / 2 = 3 by norm_num] at hR
   obtain ⟨e, hline, he0, he⟩ :
       ∃ e : Fin 3 ⊕ Fin 3 → K,
@@ -133,7 +133,7 @@ private theorem holds_of_natOmegaPlusSix {W : Type} [CommGroup W] [Finite W]
     · intro h0
       have h1 : (1 : K) = 0 := by simpa using congr_fun h0 (Sum.inl 0)
       exact one_ne_zero h1
-    · simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore]
+    · simp [StatedQuadPlus]
   exact NatCentMove.exists_fix_notMem_stabSub (K := K) hR hline
     (NatCentMove.centMove_statedOmega_plus (K := K) (m := 3) (by norm_num) he he0)
     hS hv1 hvS
@@ -143,10 +143,10 @@ private theorem holds_of_natSUn {W : Type} [CommGroup W] [Finite W]
     (hS : IsSylowIn 2 S H) {v : W} (hv1 : v ≠ 1) (hvS : v ∉ fixV S) :
     ∃ h ∈ H, h v = v ∧ h ∉ stabSub (fixV S) := by
   obtain ⟨K, hField, hFinite, hK, hR⟩ := h
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (hK.trans (pow_mul 2 a 2).symm)
   obtain ⟨e, hline, he0, he⟩ :
       ∃ e : Fin 4 → K,
@@ -158,10 +158,10 @@ private theorem holds_of_natSUn {W : Type} [CommGroup W] [Finite W]
     · intro h0
       have h1 : (1 : K) = 0 := by
         have := congr_fun h0 0
-        simpa using this
+        simp at this
       exact one_ne_zero h1
     · rw [CFSG.ClassicalGroups.Unitary.herm_def, Fin.sum_univ_four]
-      simp [Pi.single_apply, map_one, CharTwo.add_self_eq_zero]
+      simp [map_one, CharTwo.add_self_eq_zero]
   exact NatCentMove.exists_fix_notMem_stabSub (K := K) hR hline
     (NatCentMove.centMove_statedSU (K := K) (p := 2) (f := a) hK (by norm_num) he he0)
     hS hv1 hvS

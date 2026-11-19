@@ -15,7 +15,7 @@ theorem isElemTwo_map_of_injective {f : A →* G} (hf : Function.Injective f) {n
     (h : IsElemTwo n E) : IsElemTwo n (E.map f) := by
   obtain ⟨hEab, hcard⟩ := h
   obtain ⟨hcomm, hexp⟩ := hEab
-  haveI : IsMulCommutative ↥E := hcomm
+  have : IsMulCommutative ↥E := hcomm
   refine ⟨⟨?_, ?_⟩, ?_⟩
   · refine isMulCommutative_iff.mpr fun a b => ?_
     obtain ⟨xa, hxa, hax⟩ := Subgroup.mem_map.1 a.2
@@ -35,7 +35,7 @@ theorem isElemTwo_map_of_injective {f : A →* G} (hf : Function.Injective f) {n
 theorem QuotShape.map {f : A →* G} (hf : Function.Injective f) {M N : Subgroup A} {P : Type*}
     [Group P] (h : QuotShape M N P) : QuotShape (M.map f) (N.map f) P := by
   obtain ⟨hn, ⟨φ⟩⟩ := h
-  haveI := hn
+  have := hn
   let e : ↥M ≃* ↥(M.map f) := Subgroup.equivMapOfInjective M f hf
   have hclaim : (N.subgroupOf M).map e.toMonoidHom = (N.map f).subgroupOf (M.map f) := by
     ext y
@@ -58,7 +58,7 @@ theorem QuotShape.map {f : A →* G} (hf : Function.Injective f) {M N : Subgroup
       rwa [this]
   have hNnorm : ((N.map f).subgroupOf (M.map f)).Normal :=
     hclaim ▸ Subgroup.Normal.map hn e.toMonoidHom e.surjective
-  haveI := hNnorm
+  have := hNnorm
   exact ⟨hNnorm, ⟨(QuotientGroup.congr (N.subgroupOf M)
     ((N.map f).subgroupOf (M.map f)) e hclaim).symm.trans φ⟩⟩
 
@@ -69,7 +69,7 @@ private theorem isPlusExtraspecial_map_mulEquiv {m : ℕ} {Γ Γ' : Type*} [Grou
   refine ⟨TwoHSData.isExtraspecial_of_mulEquiv (e.subgroupMap D) hExt, ?_,
     E.map e.toMonoidHom, Subgroup.map_mono hED, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective e.injective, hcard]
-  · haveI : IsMulCommutative ↥E := hEel.1
+  · have : IsMulCommutative ↥E := hEel.1
     exact ⟨inferInstance, fun x hx => by
       obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
       rw [← map_pow, hEel.2 y hy, map_one]⟩

@@ -87,7 +87,7 @@ theorem isCyclic_inf_map_centralizer {p : ℕ} [Fact p.Prime] [Finite Y] (S : Sy
   set V := (S : Subgroup Y).map ρ ⊓ L.map ρ with hV
   have hinj := injective_restrict_centralizer L hZ
   set ρL : L →* Y ⧸ centralizer (L : Set Y) := ρ.comp L.subtype with hρL
-  have hVp : IsPGroup p V := (S.isPGroup'.map ρ).to_le inf_le_left
+  have hVp : IsPGroup p V := (S.isPGroup.map ρ).to_le inf_le_left
   have hrange : ρL.range = L.map ρ := by
     rw [hρL, MonoidHom.range_comp, Subgroup.range_subtype]
   have hVL : IsPGroup p (V.comap ρL) := hVp.comap_of_injective ρL hinj
@@ -108,7 +108,7 @@ theorem isCyclic_inf_centralizer (h : GenericShadow p S z Γ)
     {L : Subgroup Y} (hL : IsComponentOf L ⊤) :
     IsCyclic ↥((S : Subgroup Y) ⊓ centralizer (L : Set Y)) := by
   by_contra hnc
-  have h2 := two_le_pRank_of_not_isCyclic h.prime h.ne_two (S.isPGroup'.to_inf_left) hnc
+  have h2 := two_le_pRank_of_not_isCyclic h.prime h.ne_two (S.isPGroup.to_inf_left) hnc
   have hN := h.normalizer_le _ inf_le_left h2
   apply h.not_le_of_isComponentOf hL
   refine le_trans ?_ hN
@@ -379,7 +379,7 @@ theorem normalizer_map_le (h : GenericShadow p S z Γ) {L : Subgroup Y} [L.Norma
     rw [← h1]
     exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv).symm
   obtain ⟨b, hb⟩ : ∃ b, Nat.card V = p ^ b :=
-    IsPGroup.iff_card.mp ((S.isPGroup'.map ρ).to_le hVS)
+    IsPGroup.iff_card.mp ((S.isPGroup.map ρ).to_le hVS)
   have hsyl : CFSG.ABGLocalTools.IsSylowOf p Wh W := by
     refine CFSG.ABGLocalTools.isSylowOf_of_card inf_le_right ?_
     rw [hWhcard, hWcard, hSC, hb]
@@ -454,7 +454,7 @@ theorem isoLie_suzuki_of_isCyclic (h : GenericShadow p S z Γ) (hK4 : KF1On Y)
     rintro _ ⟨e, he, rfl⟩
     rw [← map_pow, hE.2 e he, map_one]
   have hKS : ∀ x ∈ (P : Subgroup (Y ⧸ C)), x ^ p = 1 → x ∈ E.map ρ := fun x hx hxp =>
-    mem_of_pow_eq_one_of_outer hp h.ne_two K hKC (P : Subgroup (Y ⧸ C)) P.isPGroup' hPK hout
+    mem_of_pow_eq_one_of_outer hp h.ne_two K hKC (P : Subgroup (Y ⧸ C)) P.isPGroup hPK hout
       (E.map ρ) hEP hEexp hEc hx hxp
   have hGamma : rankThreeGamma 1 p (P : Subgroup (Y ⧸ C)) ≠ ⊤ := by
     have hle : rankThreeGamma 1 p (P : Subgroup (Y ⧸ C)) ≤ Γ.map ρ := by

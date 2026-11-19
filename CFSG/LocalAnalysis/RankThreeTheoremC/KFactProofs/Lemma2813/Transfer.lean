@@ -20,23 +20,28 @@ variable {ψ : ↥X →* GL32} {N : Type} [AddCommGroup N] [Finite N] [DistribMu
   {ι : ↥(TT X) → N} {M : Type} [AddCommGroup M] [Finite M] [DistribMulAction GL32 M]
   {π : N →+ M} {D : Subgroup A} {d₀ : A}
 
+omit [Finite A] [Finite N] in
 theorem tr_iota_one (hι : IsTBridge X ψ ι) : ι 1 = 0 := by
   have h := hι.mul 1 1
   rw [mul_one] at h
   simpa using h
 
+omit [Finite A] [Finite N] in
 theorem tr_iota_inv (hι : IsTBridge X ψ ι) (t : ↥(TT X)) : ι t⁻¹ = - ι t := by
   have h := hι.mul t t⁻¹
   rw [mul_inv_cancel, tr_iota_one hι] at h
   exact eq_neg_of_add_eq_zero_right h.symm
 
+omit [Finite A] [Finite N] in
 theorem tr_iota_mul_inv (hι : IsTBridge X ψ ι) (a b : ↥(TT X)) : ι (a * b⁻¹) = ι a - ι b := by
   rw [hι.mul, tr_iota_inv hι, sub_eq_add_neg]
 
+omit [Finite A] in
 theorem tr_conj_mem_TT {g : A} (hg : g ∈ normalizer (X : Set A)) {w : A} (hw : w ∈ TT X) :
     g * w * g⁻¹ ∈ TT X :=
   (Subgroup.mem_normalizer_iff.1 (normalizer_le_normalizer_TT X hg) w).1 hw
 
+omit [Finite A] in
 theorem tr_conj_mem_T0 {g : A} (hg : g ∈ normalizer (X : Set A)) {w : A} (hw : w ∈ T0 X) :
     g * w * g⁻¹ ∈ T0 X := by
   obtain ⟨hwT, hwX⟩ := (mem_T0_iff X).1 hw
@@ -47,6 +52,7 @@ theorem tr_conj_mem_T0 {g : A} (hg : g ∈ normalizer (X : Set A)) {w : A} (hw :
     _ = g * (w * (g⁻¹ * x * g)) * g⁻¹ := by rw [h1]
     _ = g * w * g⁻¹ * x := by group
 
+omit [Finite A] [Finite N] in
 theorem tr_exists_sub (hι : IsTBridge X ψ ι) (B : AddSubgroup N) :
     ∃ W : Subgroup ↥(TT X), ∀ t, t ∈ W ↔ ι t ∈ B :=
   ⟨{ carrier := {t | ι t ∈ B}
@@ -69,6 +75,7 @@ theorem tr_exists_sub (hι : IsTBridge X ψ ι) (B : AddSubgroup N) :
          exact neg_mem ha'
        exact this }, fun _ => Iff.rfl⟩
 
+omit [Finite A] in
 theorem tr_psi_mem_zpowers (hD : D = zpowers d₀) (hDX : D ≤ X) (hd₀D : d₀ ∈ D) {x : ↥X}
     (hx : (x : A) ∈ D) : ψ x ∈ zpowers (ψ ⟨d₀, hDX hd₀D⟩) := by
   rw [hD] at hx
@@ -77,17 +84,20 @@ theorem tr_psi_mem_zpowers (hD : D = zpowers d₀) (hDX : D ≤ X) (hd₀D : d�
   rw [hxk, map_zpow]
   exact Subgroup.zpow_mem_zpowers _ _
 
+omit [Finite N] [Finite M] [DistribMulAction GL32 M] [Finite A] in
 theorem tr_pi_eq_zero_iff (hι : IsTBridge X ψ ι) (hψs : Function.Surjective ψ)
     (hπk : ∀ n, π n = 0 ↔ n ∈ fixSub N ⊤) {w : A} (hwT : w ∈ TT X) :
     π (ι ⟨w, hwT⟩) = 0 ↔ w ∈ T0 X :=
   (hπk _).trans (hι.mem_fixSub_top_iff hψs ⟨w, hwT⟩)
 
+omit [Finite N] [Finite M] in
 theorem tr_pi_mem_fixSub (hπe : ∀ (g : GL32) (n : N), π (g • n) = g • π n) {H : Subgroup GL32}
     {n : N} (hn : n ∈ fixSub N H) : π n ∈ fixSub M H := by
   rw [mem_fixSub] at hn ⊢
   intro g hg
   rw [← hπe, hn g hg]
 
+omit [Finite N] [Finite M] [Finite A] in
 theorem tr_pi_mem_F (h : Hyp2813 X K R P) (hι : IsTBridge X ψ ι)
     (hπe : ∀ (g : GL32) (n : N), π (g • n) = g • π n) (hDX : D ≤ X) (hd₀D : d₀ ∈ D) {w : A}
     (hw : w ∈ omegaCenter (pCoreOf 2 P)) (hwD : ∀ d ∈ D, w * d = d * w) (hwT : w ∈ TT X) :
@@ -115,7 +125,7 @@ theorem tr_eq_of_card_le_two {M : Type} [AddCommGroup M] (F : AddSubgroup M) [Fi
     (hF : Nat.card F ≤ 2) {a b : M} (ha : a ∈ F) (hb : b ∈ F) (ha0 : a ≠ 0) (hb0 : b ≠ 0) :
     a = b := by
   by_contra hab
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have h3 : 2 < Fintype.card F := by
     rw [Fintype.two_lt_card_iff]
     refine ⟨⟨0, F.zero_mem⟩, ⟨a, ha⟩, ⟨b, hb⟩, ?_, ?_, ?_⟩
@@ -128,7 +138,8 @@ theorem tr_eq_of_card_le_two {M : Type} [AddCommGroup M] (F : AddSubgroup M) [Fi
   rw [← Nat.card_eq_fintype_card] at h3
   omega
 
-theorem Hyp2813.card_comm_le (h : Hyp2813 X K R P) (hψs : Function.Surjective ψ)
+omit [Finite A] in
+theorem Hyp2813.card_comm_le (h : Hyp2813 X K R P) (_hψs : Function.Surjective ψ)
     (hψk : ψ.ker = (pCoreOf 2 X).subgroupOf X) (hι : IsTBridge X ψ ι) (hN2 : ∀ n : N, n + n = 0)
     (hπk : ∀ n, π n = 0 ↔ n ∈ fixSub N ⊤) (hπe : ∀ (g : GL32) (n : N), π (g • n) = g • π n)
     (hDX : D ≤ X) (hd₀D : d₀ ∈ D) (hD : D = zpowers d₀) (hd₀3 : orderOf d₀ = 3)
@@ -193,6 +204,7 @@ theorem Hyp2813.card_comm_le (h : Hyp2813 X K R P) (hψs : Function.Surjective �
         card_commSub_le_of_quot hπk hπe hN2 hdbar3
     _ ≤ 16 := hi
 
+omit [Finite A] in
 theorem Hyp2813.V1_le_T0 (h : Hyp2813 X K R P) (hψs : Function.Surjective ψ)
     (hψk : ψ.ker = (pCoreOf 2 X).subgroupOf X) (hι : IsTBridge X ψ ι) (hN2 : ∀ n : N, n + n = 0)
     (hπk : ∀ n, π n = 0 ↔ n ∈ fixSub N ⊤) (hπe : ∀ (g : GL32) (n : N), π (g • n) = g • π n)
@@ -236,10 +248,11 @@ theorem Hyp2813.V1_le_T0 (h : Hyp2813 X K R P) (hψs : Function.Surjective ψ)
   have hπv0 : π (ι ⟨v, hvT⟩) = 0 := (AddSubgroup.mem_bot).1 hπv
   exact (tr_pi_eq_zero_iff hι hψs hπk hvT).1 hπv0
 
+omit [Finite N] [Finite A] in
 theorem Hyp2813.comm_mem_T0 (h : Hyp2813 X K R P) (hψs : Function.Surjective ψ)
-    (hψk : ψ.ker = (pCoreOf 2 X).subgroupOf X) (hι : IsTBridge X ψ ι) (hN2 : ∀ n : N, n + n = 0)
+    (_hψk : ψ.ker = (pCoreOf 2 X).subgroupOf X) (hι : IsTBridge X ψ ι) (_hN2 : ∀ n : N, n + n = 0)
     (hπk : ∀ n, π n = 0 ↔ n ∈ fixSub N ⊤) (hπe : ∀ (g : GL32) (n : N), π (g • n) = g • π n)
-    (hDX : D ≤ X) (hd₀D : d₀ ∈ D) (hD : D = zpowers d₀) (hd₀3 : orderOf d₀ = 3)
+    (hDX : D ≤ X) (hd₀D : d₀ ∈ D) (_hD : D = zpowers d₀) (_hd₀3 : orderOf d₀ = 3)
     (hii : Nat.card (fixSub M (Hbar X ψ (pCoreOf 2 P) ⊔ zpowers (ψ ⟨d₀, hDX hd₀D⟩))) ≤ 2)
     {y : A} (hyX : y ∈ normalizer (X : Set A)) (hyS : y ∈ normalizer (pCoreOf 2 P : Set A))
     (hyD : ∀ d ∈ D, y * d = d * y)

@@ -14,7 +14,7 @@ open CFSG.KC.Th CFSG.KC.Th.Gen CFSG.KC.Th.Spec
 
 theorem dvd_card_units {M : Type*} [Monoid M] (S : Submonoid M) {g : M} (hg : g ∈ S) {p : ℕ}
     (hp : p.Prime) (h1 : g ^ p = 1) (h2 : g ≠ 1) : p ∣ Nat.card Sˣ := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   set x : S := ⟨g, hg⟩
   have hx : x ^ p = 1 := Subtype.ext (by rw [SubmonoidClass.coe_pow]; exact h1)
   have hu : IsUnit x := IsUnit.of_pow_eq_one hx hp.ne_zero

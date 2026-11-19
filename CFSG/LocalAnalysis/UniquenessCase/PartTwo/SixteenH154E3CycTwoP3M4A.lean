@@ -27,7 +27,7 @@ theorem s16h_e3_CycTwoP3M4_fstar
     (hW : ¬ ∀ w ∈ wSub V₀ V hV L, w ≠ 1 →
       UniqueMax D.M (D.M ⊓ centralizer ({w} : Set G))) :
     IsElemAbelianOfRank 3 3 ↥(fstarBar D.M V₀ V hV) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcent := s16h_e3_CycTwoP3M4A_pCoreOf_selfCentralizing D S hr3 hσ hV h hc hp hLp hχ
     hs2 hres hp3 hm hW
   have helem := s16h_e3_CycTwoP3M4A_pCoreOf_elemAbelian D S hr3 hσ hV h hc hp hLp hχ

@@ -68,7 +68,7 @@ theorem exists_normal_isPGroup_sup_eq_top {W : Type*} [Group W] [Finite W] {r : 
     have e : k * t * n * (k * t)⁻¹ = k * (t * n * t⁻¹) * k⁻¹ := by group
     rw [e, hconj]
     exact P0.1.mul_mem (P0.1.mul_mem ht hn) (P0.1.inv_mem ht)⟩
-  exact ⟨P0, hnormal, P0.isPGroup', hsup⟩
+  exact ⟨P0, hnormal, P0.isPGroup, hsup⟩
 
 theorem exists_mul_of_pow_mem_of_commute {X : Type*} [Group X] [Finite X] {D Z : Subgroup X}
     (hc : ∀ d ∈ D, ∀ z ∈ Z, d * z = z * d) (h2 : ∀ d ∈ D, ∃ k : ℕ, d ^ 2 ^ k ∈ Z)

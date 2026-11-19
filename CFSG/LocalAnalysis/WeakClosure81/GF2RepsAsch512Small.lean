@@ -22,7 +22,7 @@ theorem two_le_pRank_three_of_lieModel_psl_two_three {X : Type} [Group X] [Finit
   obtain ⟨φ, hφ⟩ := exists_injective_multiplicative_statedProj_statedSL (le_refl 2) F
   have hchar : CharP F 3 := by
     have := Fintype.ofFinite F
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact charP_of_card_eq_prime_pow (p := 3) (f := f) (by rwa [← Nat.card_eq_fintype_card])
   let ψ : Multiplicative F →* X := eF.symm.toMonoidHom.comp φ
   have hψ : Function.Injective ψ := eF.symm.injective.comp hφ

@@ -35,7 +35,7 @@ theorem card_le_six_of_primes {C : Type*} [Group C] [Finite C]
     Nat.card C ≤ 6 := by
   obtain ⟨P⟩ : Nonempty (Sylow 2 C) := Sylow.nonempty
   obtain ⟨H, hHp, hodd⟩ : ∃ H : Subgroup C, IsPGroup 2 H ∧ ¬ 2 ∣ H.index :=
-    ⟨(P : Subgroup C), P.isPGroup', Sylow.not_dvd_index P⟩
+    ⟨(P : Subgroup C), P.isPGroup, Sylow.not_dvd_index P⟩
   have hdvd : H.index ∣ Nat.card C := Dvd.intro_left _ (Subgroup.card_mul_index H)
   have hi3 : H.index ≤ 3 := index_le_three_aux hdvd Nat.card_pos.ne' hodd hp h9
   have hcore : H.normalCore = ⊥ :=

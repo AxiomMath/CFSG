@@ -116,15 +116,15 @@ theorem heis_nilpotent_pow_three_le {p : ℕ} (hp : p.Prime) [Finite S]
     (hrk : Nat.card {x : S // p • x = 0} ≤ p ^ 3)
     (N : AddMonoid.End S) (hnil : IsNilpotent N) :
     ∀ y : S, ∃ z : S, (N ^ 3) y = p • z := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set P : AddMonoid.End S := (p : AddMonoid.End S) with hPdef
   have hP : ∀ x, P x = p • x := fun x => AddMonoid.End.natCast_apply p x
   let Pm : S →+ S := P
   have hPm : ∀ x, Pm x = p • x := hP
   set pS : AddSubgroup S := AddMonoidHom.range Pm with hpS
   have hmem : ∀ x : S, p • x ∈ pS := fun x => ⟨x, hP x⟩
-  haveI : Module (ZMod p) (S ⧸ pS) := QuotientAddGroup.zmodModule hmem
+  have : Module (ZMod p) (S ⧸ pS) := QuotientAddGroup.zmodModule hmem
   have hcard : Nat.card (S ⧸ pS) = Nat.card {x : S // p • x = 0} := by
     have h1 := AddSubgroup.card_eq_card_quotient_mul_card_addSubgroup pS
     have h2 := AddSubgroup.card_eq_card_quotient_mul_card_addSubgroup (AddMonoidHom.ker Pm)
@@ -138,7 +138,7 @@ theorem heis_nilpotent_pow_three_le {p : ℕ} (hp : p.Prime) [Finite S]
     refine Nat.eq_of_mul_eq_mul_right hpos ?_
     rw [← h1, h2, mul_comm]
   have hfin : Module.finrank (ZMod p) (S ⧸ pS) ≤ 3 := by
-    haveI : Fintype (S ⧸ pS) := Fintype.ofFinite _
+    have : Fintype (S ⧸ pS) := Fintype.ofFinite _
     have h := Module.card_eq_pow_finrank (K := ZMod p) (V := S ⧸ pS)
     rw [ZMod.card, ← Nat.card_eq_fintype_card, hcard] at h
     have h' : p ^ Module.finrank (ZMod p) (S ⧸ pS) ≤ p ^ 3 := by
@@ -168,7 +168,7 @@ theorem heis_nilpotent_pow_three_le {p : ℕ} (hp : p.Prime) [Finite S]
     ext v
     induction v using QuotientAddGroup.induction_on with
     | H y => simp [hφpow, hk]
-  haveI : Module.Finite (ZMod p) (S ⧸ pS) := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) (S ⧸ pS) := Module.Finite.of_finite
   have hcp : φ.charpoly = Polynomial.X ^ Module.finrank (ZMod p) (S ⧸ pS) :=
     IsNilpotent.charpoly_eq_X_pow_finrank ⟨k, hφk⟩
   have hfr : φ ^ Module.finrank (ZMod p) (S ⧸ pS) = 0 := by
@@ -304,7 +304,7 @@ variable {Q : Type*} [Group Q]
   toFun s := ⟨σ * s * σ⁻¹, (hσ s).1 s.2⟩
   invFun s := ⟨σ⁻¹ * s * σ, by
     rw [hσ]
-    simpa [mul_assoc] using s.2⟩
+    simp [mul_assoc]⟩
   left_inv s := by
     apply Subtype.ext
     simp [mul_assoc]

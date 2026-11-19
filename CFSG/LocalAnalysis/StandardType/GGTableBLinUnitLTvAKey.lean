@@ -75,6 +75,7 @@ theorem matrix_rel_of_conjAut_eq [Finite K] (M D' Dσ : GL (Fin d) K) {t' v : Fi
 
 variable [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem exists_normal_form (hd : 3 ≤ d) (φt : MulAut (projectiveSL d K)) :
     ∃ (M : GL (Fin d) K) (u : K →* K), Function.Injective u ∧
       ∀ (D D' : GL (Fin d) K) (t t' : Fin d → K), (D : Matrix (Fin d) (Fin d) K) = diagonal t →
@@ -108,6 +109,7 @@ theorem exists_normal_form (hd : 3 ≤ d) (φt : MulAut (projectiveSL d K)) :
     · rw [← conjAut_semilinear_conj, ← htrans.2.2.2.2.1 D, h, hφt, pow_one, _root_.mul_inv_rev, hδ]
       group
 
+omit [Finite K] [CharP K 2] in
 theorem ratAct_of_key {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {ζ : K} (hζ : IsPrimitiveRoot ζ p)
     {A : Subgroup (MulAut L')} (hAp : ∀ a ∈ A, a ^ p = 1)
     (hdiag : ∀ a ∈ A, ∃ t : Fin d → K, ActsDiag φ' a t) (hsc : GGTorusSelfCent p A)
@@ -118,7 +120,7 @@ theorem ratAct_of_key {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {ζ : K} (hζ : I
       ∃ c : K, (M : Matrix (Fin d) (Fin d) K) * diagonal (fun k => u (t k)) =
         diagonal (fun k => t' k * c) * (M : Matrix (Fin d) (Fin d) K)) :
     ∃ (π : Equiv.Perm (Fin d)) (e : ℕ), RatAct φ' A α π e := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hζ0 : ζ ≠ 0 := hζ.ne_zero hp.ne_zero
   have hu1 : IsPrimitiveRoot (u ζ) p := hζ.map_of_injective hu
   have hζ' : u ζ ≠ (u ζ)⁻¹ := ne_inv_of_isPrimitiveRoot hu1 hp hp2

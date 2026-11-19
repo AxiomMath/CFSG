@@ -46,7 +46,7 @@ theorem burnsideF4m_center_mem_of_center_T [Finite K] {T I N : Subgroup K} {z : 
   · rw [hw1]; exact I.one_mem
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnil : Group.IsNilpotent ↥T := hT.2.1.isNilpotent
-  haveI hHn : (I.subgroupOf T).Normal := Subgroup.normal_subgroupOf
+  have hHn : (I.subgroupOf T).Normal := Subgroup.normal_subgroupOf
   have hHne : I.subgroupOf T ≠ ⊥ := by
     intro h
     apply hTI
@@ -157,7 +157,7 @@ theorem burnsideF4m_mem_of_odd [Gp.Normal] [Finite E] (hodd : Odd Gp.index) {Tb 
 theorem burnsideF4m_not_odd [Finite E] (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) {TD : Subgroup ↥Gp}
     (hyam : IsYAmalgamPair TD (M₁.subgroupOf Gp) (M₂.subgroupOf Gp)) (hodd : ¬ Odd Gp.index) :
     ¬ Odd (Nat.card ↥(burnsideF4d_lieExtE hyp.toHypF_4_4g hyam).K / Nat.card ↥Gp) := by
-  haveI := hyp.normal
+  have := hyp.normal
   have hinj : Function.Injective (burnsideF4d_rho Gp) :=
     burnsideF4d_rho_injective hyp.centralizer_trivial
   have hK : Nat.card ↥(burnsideF4d_lieExtE hyp.toHypF_4_4g hyam).K = Nat.card E := by
@@ -179,7 +179,7 @@ theorem burnsideF4m_ctr_le_of_lieExt [Finite E] (hyp : HypF_4_4 κ 2 f Gp M₁ M
     (hT2 : T ≤ (burnsideF4d_lieExtE hyp.toHypF_4_4g hyam).Mb2)
     (hcen : ∀ w ∈ T, (∀ y ∈ T, y * w = w * y) → w ≠ 1 → ∃ m ∈ N, m * z * m⁻¹ = w)
     {Tb : Subgroup E} (hTb : IsSylowTwoOf Tb (M₁ ⊓ M₂)) {x : E} (hx : x ∈ ctr Tb) : x ∈ Gp := by
-  haveI := hyp.normal
+  have := hyp.normal
   have hinj : Function.Injective (burnsideF4d_rho Gp) :=
     burnsideF4d_rho_injective hyp.centralizer_trivial
   have hK : (burnsideF4d_lieExtE hyp.toHypF_4_4g hyam).K = (burnsideF4d_rho Gp).range :=
@@ -192,7 +192,7 @@ theorem burnsideF4m_ctr_le_of_lieExt [Finite E] (hyp : HypF_4_4 κ 2 f Gp M₁ M
     burnsideF4d_N1_eq hyp.toHypF_4_4g hyam
   have hN2 : (burnsideF4d_lieExtE hyp.toHypF_4_4g hyam).N2 = M₂.map (burnsideF4d_rho Gp) :=
     burnsideF4d_N2_eq hyp.toHypF_4_4g hyam
-  haveI : Finite ↥(burnsideF4d_lieExtE hyp.toHypF_4_4g hyam).K := Finite.of_equiv E θ.toEquiv
+  have : Finite ↥(burnsideF4d_lieExtE hyp.toHypF_4_4g hyam).K := Finite.of_equiv E θ.toEquiv
   have hTM : T.comap θ.toMonoidHom ≤ M₁ ⊓ M₂ := by
     intro e he
     have h1 : θ e ∈ (burnsideF4d_lieExtE hyp.toHypF_4_4g hyam).Mb1 := hT1 he
@@ -215,14 +215,14 @@ theorem burnsideF4m_ctr_le_of_lieExt [Finite E] (hyp : HypF_4_4 κ 2 f Gp M₁ M
 
 theorem burnsideF4m_ctr_le_G2 (hyp : HypF_4_4 .G2 2 f Gp M₁ M₂) (hf : 2 ≤ f)
     {Tb : Subgroup E} (hTb : IsSylowTwoOf Tb (M₁ ⊓ M₂)) {x : E} (hx : x ∈ ctr Tb) : x ∈ Gp := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   by_cases hodd : Odd Gp.index
   · exact burnsideF4m_mem_of_odd hodd hTb hx.1
   obtain ⟨K, fK, finK, hcard, marking, h1, h2⟩ := burnsideF4g_chart_G2 hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
-  haveI : CharP K 2 := burnsideF4f_charP_of_card (by omega) hcard
+  let := fK
+  have := finK
+  have : CharP K 2 := burnsideF4f_charP_of_card (by omega) hcard
   have hK3 : 3 ≤ Nat.card K := by
     rw [hcard]
     have : 2 ^ 2 ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
@@ -237,13 +237,13 @@ theorem burnsideF4m_ctr_le_G2 (hyp : HypF_4_4 .G2 2 f Gp M₁ M₂) (hf : 2 ≤ 
 
 theorem burnsideF4m_ctr_le_D4tw (hyp : HypF_4_4 .D4tw 2 f Gp M₁ M₂)
     {Tb : Subgroup E} (hTb : IsSylowTwoOf Tb (M₁ ⊓ M₂)) {x : E} (hx : x ∈ ctr Tb) : x ∈ Gp := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   by_cases hodd : Odd Gp.index
   · exact burnsideF4m_mem_of_odd hodd hTb hx.1
   obtain ⟨K, fK, finK, sigma, hscope, marking, h1, h2⟩ := burnsideF4g_chart_D4tw hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   obtain ⟨TD, hTD⟩ := burnsideF4g_yamD4 sigma hscope marking
   rw [← h1, ← h2] at hTD
   have hmodel := burnsideF4g_lieModel_D4tw hyp.model
@@ -255,8 +255,8 @@ theorem burnsideF4m_ctr_le_D4tw (hyp : HypF_4_4 .D4tw 2 f Gp M₁ M₂)
 
 theorem burnsideF4m_ctr_le_U4 (hyp : HypF_4_4 .U4 2 f Gp M₁ M₂) (hf : 2 ≤ f)
     {Tb : Subgroup E} (hTb : IsSylowTwoOf Tb (M₁ ⊓ M₂)) {x : E} (hx : x ∈ ctr Tb) : x ∈ Gp := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   by_cases hodd : Odd Gp.index
   · exact burnsideF4m_mem_of_odd hodd hTb hx.1
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U4) hyp.toHypF_4_4g
@@ -270,8 +270,8 @@ theorem burnsideF4m_ctr_le_U4 (hyp : HypF_4_4 .U4 2 f Gp M₁ M₂) (hf : 2 ≤ 
 
 theorem burnsideF4m_ctr_le_U5 (hyp : HypF_4_4 .U5 2 2 Gp M₁ M₂)
     {Tb : Subgroup E} (hTb : IsSylowTwoOf Tb (M₁ ⊓ M₂)) {x : E} (hx : x ∈ ctr Tb) : x ∈ Gp := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   by_cases hodd : Odd Gp.index
   · exact burnsideF4m_mem_of_odd hodd hTb hx.1
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U5) hyp.toHypF_4_4g
@@ -317,8 +317,8 @@ theorem burnsideF4m_F_4_33_main {Y : Type} [Group Y] {β : Cpl M₁ M₂ Y} {M :
     {ε : Y →* M} {z : M} (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (hL3 : κ ≠ .L3) (hSp : κ ≠ .Sp4)
     (hZG : ∀ Tb : Subgroup E, IsSylowTwoOf Tb (M₁ ⊓ M₂) → ∀ x ∈ ctr Tb, x * x = 1 → x ∈ Gp)
     {T : Subgroup M} (hT : ChF.IsSylowOf 2 T (MiOne β ε ⊓ MiTwo β ε)) : ChF.IsSylowOf 2 T ⊤ := by
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
   set b := burnsideF4d_bOne β ε with hbdef
   have hb : Function.Injective b := burnsideF4j_bOne_injective hyp
   have hinter : MiOne β ε ⊓ MiTwo β ε = subImg b (M₁ ⊓ M₂) :=
@@ -385,8 +385,8 @@ theorem burnsideF4m_F_4_33_main {Y : Type} [Group Y] {β : Cpl M₁ M₂ Y} {M :
 
 theorem burnsideF4m_F_4_33_of (hin : burnsideF4m_CtrInputRest) : F_4_33 := by
   intro κ f E _ Gp M₁ M₂ Y _ β M _ ε z hyp T hT
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   have hodd_of : Odd Gp.index → ChF.IsSylowOf 2 T ⊤ := fun hodd =>
     burnsideF4j_F_4_33_odd hyp hodd hT
   have hf1 : 1 ≤ f := by

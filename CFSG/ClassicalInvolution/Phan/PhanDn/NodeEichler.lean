@@ -47,7 +47,7 @@ theorem sum_mul_sigma_nodeVec {m : ℕ} (k : Fin m) (x y : K) (v : Fin (m + 1) �
     simp [Fin.ext_iff]
   simp only [nodeVec, Pi.add_apply, map_add, mul_add, Finset.sum_add_distrib, Pi.single_apply,
     apply_ite (unitaryInvolution K 2 f), map_zero, mul_ite, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
 
 theorem algebraMap_polar_Qn_nodeVec {m : ℕ} (k : Fin m) (x y : K) (v : Fin (m + 1) → K) :
     algebraMap F K (polar (Qn E (m + 1)) v (nodeVec k x y)) =

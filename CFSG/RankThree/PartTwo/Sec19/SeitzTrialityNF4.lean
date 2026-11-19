@@ -23,7 +23,7 @@ theorem gsub_eq_range_g2Incl (hK : ringChar X = 2) :
   rw [KFacts.mem_range_trialityG2Incl_iff σ hK]
   rfl
 
-theorem gsub_three_conj (hAB : TrialityABFacts σ) (n : ℕ) (hn : 2 ≤ n)
+theorem gsub_three_conj (_hAB : TrialityABFacts σ) (n : ℕ) (hn : 2 ≤ n)
     (hX : Nat.card X = (2 ^ n) ^ 3) (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) {x : C0 σ}
     (hx : x ∈ Gsub σ) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) :
     ∃ g ∈ Gsub σ, g * x * g⁻¹ ∈ A0sub σ ∨ g * x * g⁻¹ ∈ Bsub σ := by
@@ -63,10 +63,10 @@ theorem gsub_three_conj (hAB : TrialityABFacts σ) (n : ℕ) (hn : 2 ≤ n)
     · right
       exact hwL ⟨_, ⟨_, hc, rfl⟩, rfl⟩
 
-theorem plane_through_tau (hAB : TrialityABFacts σ) (n : ℕ) (hn : 2 ≤ n)
+theorem plane_through_tau (_hAB : TrialityABFacts σ) (n : ℕ) (hn : 2 ≤ n)
     (hX : Nat.card X = (2 ^ n) ^ 3) (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) {x g : C0 σ} {e : ℕ}
-    (he : e = 1 ∨ e = 2) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1)
-    (hβ3 : (MulAut.conj g * tauAut σ ^ e) ^ 3 = 1)
+    (_he : e = 1 ∨ e = 2) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1)
+    (_hβ3 : (MulAut.conj g * tauAut σ ^ e) ^ 3 = 1)
     (hcomm : Commute (MulAut.conj x) (MulAut.conj g * tauAut σ ^ e)) (hG : HasGLine σ x g e) :
     ∃ (φ : MulAut (C0 σ)), φ x ∈ Gsub σ ∧ (φ x) ^ 3 = 1 ∧ φ x ≠ 1 ∧
       (Subgroup.closure ({MulAut.conj x, MulAut.conj g * tauAut σ ^ e} :

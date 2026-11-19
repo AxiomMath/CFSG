@@ -71,7 +71,6 @@ public theorem pgl2_inner_involutions_conjugate
   refine ⟨(eJ.symm g : PGL2 K), (eJ.symm g : J).2, ?_⟩
   have hg' : (eJ.symm g : J) * xJ * (eJ.symm g : J)⁻¹ = yJ := by
     apply eJ.injective
-    change eJ ((eJ.symm g : J) * xJ * (eJ.symm g : J)⁻¹) = eJ yJ
     simpa using hg
   exact congrArg Subtype.val hg'
 

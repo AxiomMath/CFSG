@@ -42,7 +42,7 @@ theorem omq_omMinus_nonbinary_rank (h1l : OmqMinusWeightVectorLong) (h2 : OmqRan
   obtain ⟨j, hj0, hjc, hjodd⟩ := omq_exists_odd_choose_lt hc1 hpow
   have hodd : Odd (Nat.card Kˣ) := by
     rw [Nat.card_units]
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨e, he⟩ := Nat.even_iff.mpr (FiniteField.even_card_of_char_two (ringChar.eq K 2))
     rw [Nat.card_eq_fintype_card]
     have h2 : 2 ≤ Fintype.card K := by
@@ -104,11 +104,11 @@ theorem omq_omMinus_nonbinary_rank (h1l : OmqMinusWeightVectorLong) (h2 : OmqRan
     · funext l
       by_cases hl0 : l = ⟨0, by omega⟩
       · subst hl0
-        simp [Pi.single_apply, sub_eq_add_neg]
+        simp [sub_eq_add_neg]
       · by_cases hl1 : l = ⟨1, by omega⟩
         · subst hl1
-          simp [Pi.single_apply]
-        · simp [Pi.single_apply, hl0, hl1]
+          simp
+        · simp [hl0, hl1]
     · simp
   obtain ⟨u, hinj, horb, hmove⟩ := omq_minus_exists_four_two_coord (by omega : 3 ≤ n - 1)
     (m := Nat.card Kˣ) (h := Nat.card K + 1) hodd hAc hBc hs hsh

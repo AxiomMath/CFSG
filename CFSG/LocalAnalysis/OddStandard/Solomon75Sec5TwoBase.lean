@@ -276,7 +276,7 @@ theorem sylow_center (h : Sec5Data X n z (zpowers z) S) {A : Subgroup X}
     exact Subgroup.mem_map_of_mem _ hy
   have two_pow : ∀ p ∈ (P : Subgroup ↥A), ∃ k : ℕ, (p : X) ^ (2 ^ (k + 1)) = 1 := by
     intro p hp
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup') ⟨p, hp⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) ⟨p, hp⟩
     refine ⟨k, ?_⟩
     have h1 : (⟨p, hp⟩ : ↥(P : Subgroup ↥A)) ^ (2 ^ k) = 1 := by
       rw [← hk]; exact pow_orderOf_eq_one _

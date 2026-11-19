@@ -22,6 +22,7 @@ private theorem invFourACount_card_shape_s4 {X : Type*} [Group X]
     Nat.card_fin]
   norm_num
 
+omit [Finite G] in
 private theorem invFourACount_fourA_setup (H : GammaHyps a z) {y zz b : G}
     (hy : y ∈ orb4A a z a) (hzz : zz = (a * y) ^ 2) (hb : b = zz * y) :
     IsConj a b ∧ b * y = zz ∧ y * b = zz ∧ IsConj a (y * zz) ∧ y * zz = zz * y ∧
@@ -45,6 +46,7 @@ private theorem invFourACount_fourA_setup (H : GammaHyps a z) {y zz b : G}
   · rw [hb, hzz]
     exact hyy
 
+omit [Finite G] in
 private lemma invFourACount_inf_leq (a b y t : G) :
     Gxy a y ⊓ Gxyz b y t ≤ Gxyz a y t := by
   intro g hg
@@ -52,6 +54,7 @@ private lemma invFourACount_inf_leq (a b y t : G) :
   rw [mem_Gxyz] at hg ⊢
   exact ⟨(mem_Gxy.mp hg.1).1, hg.2.2⟩
 
+omit [Finite G] in
 theorem gamma_card_fourB_five (H : GammaHyps a z) {b x y : G} (hb : IsConj a b)
     (hx : x ∈ orb4B a b) (hy : y ∈ orb2A a x ∩ orb2B a z b) : Nat.card ↥(Gxyz b y x) = 96 := by
   have F : FourBFacts b z := H.h4B b z hb (IsConj.refl z)

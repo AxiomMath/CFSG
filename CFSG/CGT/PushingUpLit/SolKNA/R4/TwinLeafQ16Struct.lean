@@ -9,7 +9,7 @@ namespace CFSG.CGT.PushingUpLit.SolKNA.R4
 variable {G : Type*} [Group G]
 
 theorem Q16Pair.orderOf_eq {x y : G} (h : Q16Pair x y) : orderOf x = 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨h4, h8, -, -⟩ := h
   have := orderOf_eq_prime_pow (p := 2) (n := 2) (x := x) (by simpa using h4) (by simpa using h8)
   simpa using this
@@ -273,7 +273,7 @@ theorem Q16Q16.mem_group_right {x y x' y' : G} {g : G}
 theorem card_le_two_of_cyclic_exponent_two {P : Type*} [Group P] [Finite P] [IsCyclic P]
     (h : ∀ p : P, p ^ 2 = 1) : Nat.card P ≤ 2 := by
   classical
-  haveI := Fintype.ofFinite P
+  have := Fintype.ofFinite P
   have h1 := IsCyclic.card_pow_eq_one_le (α := P) (n := 2) (by norm_num)
   have h2 : (Finset.univ.filter fun a : P => a ^ 2 = 1) = Finset.univ := by
     ext a
@@ -343,8 +343,8 @@ theorem Q16Q16.card_image_le_two [Finite G] {x y x' y' : G} (h : Q16Q16 x y x' y
     (N : Subgroup G) [N.Normal]
     (hcyc : IsCyclic ↥((Q16Q16.group x y x' y').map (QuotientGroup.mk' N))) :
     Nat.card ↥((Q16Q16.group x y x' y').map (QuotientGroup.mk' N)) ≤ 2 := by
-  haveI := hcyc
-  haveI : Finite ↥((Q16Q16.group x y x' y').map (QuotientGroup.mk' N)) := inferInstance
+  have := hcyc
+  have : Finite ↥((Q16Q16.group x y x' y').map (QuotientGroup.mk' N)) := inferInstance
   refine card_le_two_of_cyclic_exponent_two fun p => ?_
   obtain ⟨p, g, hg, rfl⟩ := p
   exact Subtype.ext (by simpa using h.image_sq_eq_one N hcyc g hg)
@@ -403,7 +403,7 @@ theorem Q16Q16.card_inf_ge [Finite G] {x y x' y' : G} (h : Q16Q16 x y x' y')
   omega
 
 theorem orderOf_eq_eight_of_pow {g : G} (h4 : g ^ 4 ≠ 1) (h8 : g ^ 8 = 1) : orderOf g = 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := orderOf_eq_prime_pow (p := 2) (n := 2) (x := g) (by simpa using h4) (by simpa using h8)
   simpa using this
 

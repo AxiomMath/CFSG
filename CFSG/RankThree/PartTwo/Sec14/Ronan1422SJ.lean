@@ -20,7 +20,7 @@ theorem aschbacherSolvableCore_eq_ker {X : Type*} [Group X] [Finite X]
   have hsimple : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
   have hnormal : ((aschbacherSolvableCore 3 X).map f).Normal := by
-    haveI : (aschbacherSolvableCore 3 X).Characteristic :=
+    have : (aschbacherSolvableCore 3 X).Characteristic :=
       (solvable_prime_complement_core_characterization (H := X) Nat.prime_three).2.1
     exact (inferInstance : (aschbacherSolvableCore 3 X).Normal).map f hf
   rcases hnormal.eq_bot_or_eq_top with h0 | htop
@@ -36,7 +36,7 @@ theorem aschbacherSolvableCore_eq_ker {X : Type*} [Group X] [Finite X]
       Group.isSolvable_of_surjective (f := (⊤ : Subgroup (alternatingGroup (Fin 6))).subtype)
         (fun x => ⟨⟨x, Subgroup.mem_top x⟩, rfl⟩)
     have : Nontrivial (alternatingGroup (Fin 6)) := hsimple.toNontrivial
-    haveI := isPerfect_alternatingGroup_six
+    have := isPerfect_alternatingGroup_six
     exact Group.IsPerfect.not_isSolvable _ hsolA
 
 variable {G : Type} [Group G] [Finite G]
@@ -46,7 +46,7 @@ theorem isQuasisimple_quot_of {X : Type*} [Group X] [Finite X]
     IsQuasisimple (X ⧸ aschbacherSolvableCore 3 X) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsol : Group.IsSolvable f.ker := by
-    haveI := h2.isNilpotent
+    have := h2.isNilpotent
     infer_instance
   have h3 : ¬ 3 ∣ Nat.card f.ker := by
     obtain ⟨k, hk⟩ := h2.exists_card_eq
@@ -77,7 +77,7 @@ theorem mem_thetaComponentsAt_of_quot {M K R : Subgroup G} {c : G} (hKM : K ≤ 
     (hKN : M ⊓ Subgroup.centralizer ({c} : Set G) ≤ Subgroup.normalizer (K : Set G))
     (hKp : Group.IsPerfect ↥K) (f : ↥K →* alternatingGroup (Fin 6))
     (hf : Function.Surjective f) (hker : f.ker = R.subgroupOf K) (hR2 : IsPGroup 2 R)
-    (hRK : R ≤ K) :
+    (_hRK : R ≤ K) :
     K.subgroupOf M ∈ thetaComponentsAt 3 (⟨c, hcM⟩ : ↥M) := by
   set c' : ↥M := ⟨c, hcM⟩ with hc'
   set C' : Subgroup ↥M := Subgroup.centralizer ({c'} : Set ↥M) with hC'

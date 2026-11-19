@@ -44,7 +44,7 @@ private theorem normalClosure_eq_top_of_eq_map {G : Type} [Group G] {H K : Subgr
     intro y hy
     simp only [Group.conjugatesOfSet, Set.mem_iUnion, Set.mem_singleton_iff] at hy
     obtain ⟨a, ha, hy⟩ := hy
-    rw [ha, conjugatesOf, Set.mem_setOf_eq] at hy
+    rw [ha, conjugatesOf, Set.mem_ofPred_eq] at hy
     obtain ⟨c, hc⟩ := isConj_iff.mp hy
     obtain ⟨h, hh, hh'⟩ := hconj (c : G) c.2
     refine Subgroup.mem_comap.mpr ?_

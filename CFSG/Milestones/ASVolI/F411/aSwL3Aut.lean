@@ -63,13 +63,13 @@ theorem burnsideF411a_single_zero_mem : (Pi.single 0 1 : Fin 3 → K) ∈ flagSp
   rw [mem_flagSpace]
   intro j hj
   have hj0 : j ≠ 0 := fun h => by subst h; simp at hj
-  simp [Pi.single_apply, hj0]
+  simp [hj0]
 
 theorem burnsideF411a_single_one_mem : (Pi.single 1 1 : Fin 3 → K) ∈ flagSpace 3 K 2 := by
   rw [mem_flagSpace]
   intro j hj
   have hj1 : j ≠ 1 := fun h => by subst h; simp at hj
-  simp [Pi.single_apply, hj1]
+  simp [hj1]
 
 theorem burnsideF411a_flagSpace_one_le : flagSpace 3 K 1 ≤ flagSpace 3 K 2 := fun v hv =>
   mem_flagSpace.2 fun j hj => mem_flagSpace.1 hv j (by omega)

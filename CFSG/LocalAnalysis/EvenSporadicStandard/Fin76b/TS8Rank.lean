@@ -16,7 +16,7 @@ open Subgroup
 theorem card_le_two_of_le_cent {G : Type} [Group G] [Finite G] {L : Subgroup G}
     (hC : ∀ S : Sylow 2 (centralizer (L : Set G)), Nat.card ↥S = 2) {P : Subgroup G}
     (hP : P ≤ centralizer (L : Set G)) (hP2 : ∀ x ∈ P, x * x = 1) : Nat.card ↥P ≤ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP' : IsPGroup 2 (P.subgroupOf (centralizer (L : Set G))) :=
     ea16_isPGroup_two (fun a ha => Subtype.ext (hP2 _ (mem_subgroupOf.1 ha)))
   obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow hP'
@@ -34,7 +34,7 @@ theorem orank {G : Type} [Group G] [Finite G] {L : Subgroup G} {z t : G} {T : Su
   intro u hu A hA hA2
   obtain ⟨g, rfl⟩ := hu
   have hconj : ∀ x : G, (MulAut.conj g⁻¹).toMonoidHom x = g⁻¹ * x * g := fun x => by
-    simp [MulAut.conj_apply]
+    simp
   have hA'sq : ∀ a ∈ A.map (MulAut.conj g⁻¹).toMonoidHom, a * a = 1 := by
     rintro _ ⟨x, hx, rfl⟩
     rw [hconj]

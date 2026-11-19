@@ -14,6 +14,7 @@ open Polynomial Matrix CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.Co
 
 variable {K : Type} [Field K] [Finite K] {n : ℕ}
 
+omit [Finite K] in
 theorem glA_mem_centralizer_of_comm {A B : GL (Fin n) K} (h : B * A = A * B) :
     glA B ∈ gl_centralizer (glA A) := by
   rw [mem_gl_centralizer]
@@ -33,7 +34,7 @@ theorem famSel_linear (h2 : (2 : K) = 0) (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime)
   intro u hinn hup hu1 𝔹 h𝔹 Y hYfix hY2 hYinv hcomm
   obtain ⟨A, rfl⟩ := hinn
   have hn0 : 0 < n := by omega
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   have hpk : (p : K) ≠ 0 := by
     intro h0
     have := (CharP.cast_eq_zero_iff K 2 p).1 h0
@@ -86,8 +87,8 @@ theorem famSel_linear (h2 : (2 : K) = 0) (hn : 3 ≤ n) {p : ℕ} (hp : p.Prime)
   refine ⟨(specialFactor A h).map (proj n K), isComponentOf_map_specialFactor hsq hh hgood, ?_, ?_, ?_⟩
   ·
     refine dvd_card_centerQuot_map_of_dvd hsq hh hgood hp ?_
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-    haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+    have : Finite (AdjoinRoot h) := Module.finite_of_finite K
     have hm : 2 ≤ primaryMultiplicity (glA A : Module.End K (Fin n → K)) h := by omega
     by_cases hpq : p ∣ Nat.card (AdjoinRoot h) - 1
     · exact dvd_card_specialFactor_of_dvd_units hsq hh hm hp hpq

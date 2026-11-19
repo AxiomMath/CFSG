@@ -12,13 +12,13 @@ namespace CFSG.KC.Fi23P
 
 open CFSG.KS.Raw.Orb CFSG.KS.Fi22LH CFSG.Sporadic.Th.Native CFSG.Monster.Existence.Fi23Sp8.Native
 
-theorem osGetSet {xs : Array Nat} {i j : Nat} (hi : i < xs.size) (hj : j < xs.size) (v : Nat) :
+theorem osGetSet {xs : Array Nat} {i j : Nat} (_hi : i < xs.size) (hj : j < xs.size) (v : Nat) :
     (xs.set! i v)[j]! = if i = j then v else xs[j]! := by
   rw [Array.set!_eq_setIfInBounds, getElem!_pos _ j (by rw [Array.size_setIfInBounds]; exact hj)]
   by_cases e : i = j
   · subst e
-    rw [if_pos rfl, Array.getElem_setIfInBounds_self]
-  · rw [if_neg e, Array.getElem_setIfInBounds_ne hj e, getElem!_pos xs j hj]
+    rw [ite_eq_left rfl, Array.getElem_setIfInBounds_self]
+  · rw [ite_eq_right e, Array.getElem_setIfInBounds_ne hj e, getElem!_pos xs j hj]
 
 theorem osSizeSet (xs : Array Nat) (i v : Nat) : (xs.set! i v).size = xs.size := by
   rw [Array.set!_eq_setIfInBounds, Array.size_setIfInBounds]
@@ -208,7 +208,7 @@ theorem orbSearch_eq {I : Array Table} {T : Nat → Nat → Nat}
     rw [hy]
     by_cases hin : pos (T k (pts (off c + h))) < off c + m
     · have hla := ((hA _ hyn).1 (Or.inr ⟨hly, hin⟩)).1
-      rw [if_neg (by rw [hla, hly, beq_iff_eq]; omega)]
+      rw [ite_eq_right (by rw [hla, hly, beq_iff_eq]; omega)]
       refine ⟨m, hlo, ⟨hs1, hs2, hs3, hA⟩, ⟨hq1, hq2⟩, hm1, hm2, fun P h1 h2 => ?_⟩
       rw [hKc P h1 h2]
       constructor
@@ -228,7 +228,7 @@ theorem orbSearch_eq {I : Array Table} {T : Nat → Nat → Nat}
           (lab (T k (pts (off c + h))) = c ∧ pos (T k (pts (off c + h))) < off c + m)) := by
         rintro (h1 | ⟨-, h1⟩) <;> omega
       have hla := ((hA _ hyn).2 hD).1
-      rw [if_pos (by rw [hla]; rfl)]
+      rw [ite_eq_left (by rw [hla]; rfl)]
       obtain ⟨g1, g2, -, -, g5, g6, g7⟩ := fy8 (by omega)
       have hle : 16 * pos (par (T k (pts (off c + h)))) + gen (T k (pts (off c + h))) ≤
           16 * (off c + h) + k := by
@@ -263,10 +263,10 @@ theorem orbSearch_eq {I : Array Table} {T : Nat → Nat → Nat}
           osGetSet (by rw [hs3]; exact hyn) (by rw [hs3]; exact hz)]
         by_cases ezy : T k (pts (off c + h)) = z
         · subst ezy
-          rw [if_pos rfl, if_pos rfl, if_pos rfl]
+          rw [ite_eq_left rfl, ite_eq_left rfl, ite_eq_left rfl]
           refine ⟨fun _ => ⟨hly.symm, hpar.symm, hgen.symm⟩, fun hd => absurd (Or.inr ⟨hly, ?_⟩) hd⟩
           omega
-        · rw [if_neg ezy, if_neg ezy, if_neg ezy]
+        · rw [ite_eq_right ezy, ite_eq_right ezy, ite_eq_right ezy]
           have hzz : (lab z < c ∨ (lab z = c ∧ pos z < off c + (m + 1))) ↔
               (lab z < c ∨ (lab z = c ∧ pos z < off c + m)) := by
             constructor
@@ -365,7 +365,7 @@ theorem orbSearch_eq {I : Array Table} {T : Nat → Nat → Nat}
       obtain ⟨-, hpar0, hgen0⟩ := fr7 hpr
       have hla : la[rt c']! = 3 := ((hA.2.2.2 (rt c') hrn).2 (by omega)).1
       dsimp only
-      rw [if_pos (by rw [hla]; rfl)]
+      rw [ite_eq_left (by rw [hla]; rfl)]
       refine ⟨_, rfl, ?_⟩
       dsimp only
       refine ⟨rfl, ?_⟩
@@ -381,7 +381,7 @@ theorem orbSearch_eq {I : Array Table} {T : Nat → Nat → Nat}
         dsimp only at hA' hq1 hq2
         dsimp only
         by_cases hlt : hq < q.size
-        · rw [if_pos hlt]
+        · rw [ite_eq_left hlt]
           have hp : q[hq]! = pts (off c' + hq) := hq2 hq (by omega)
           rw [hp, forIn_yield _ (fun k s => kStep I c' (pts (off c' + hq)) s k) (fun a b => by
             dsimp only [kStep]
@@ -413,7 +413,7 @@ theorem orbSearch_eq {I : Array Table} {T : Nat → Nat → Nat}
               omega)
           simp only [Prod.mk.eta, gIdx, List.foldl_cons, List.foldl_nil]
           exact j10
-        · rw [if_neg hlt]
+        · rw [ite_eq_right hlt]
           refine osLStepDone ?_
           dsimp only
           have e : hq = m := by omega
@@ -440,11 +440,11 @@ theorem orbSearch_eq {I : Array Table} {T : Nat → Nat → Nat}
           rw [osGetSet (by rw [hA.1]; exact hrn) (by rw [hA.1]; exact hz)]
           by_cases ezr : rt c' = z
           · subst ezr
-            rw [if_pos rfl]
+            rw [ite_eq_left rfl]
             have hz' := (hA.2.2.2 (rt c') hz).2 (by omega)
             refine ⟨fun _ => ⟨hlr.symm, by rw [hz'.2.1, hpar0], by rw [hz'.2.2, hgen0]⟩,
               fun hd => absurd (Or.inr ⟨hlr, by omega⟩) hd⟩
-          · rw [if_neg ezr]
+          · rw [ite_eq_right ezr]
             have hzz : (lab z < c' ∨ (lab z = c' ∧ pos z < off c' + 1)) ↔ lab z < c' := by
               constructor
               · rintro (h1 | ⟨h1, h2⟩)

@@ -20,7 +20,7 @@ theorem wt_smul_single {c : ZMod 3} (hc : c ≠ 0) (a : Fin k) : wt (c • Pi.si
   by_cases hi : i = a
   · subst hi
     simp
-  · simp [hi, Pi.single_eq_of_ne hi]
+  · simp [hi]
 
 theorem wt_smul_single_sub_smul {a b : Fin k} (hab : a ≠ b) {c δ : ZMod 3} (hc : c ≠ 0)
     (hδ : δ ≠ 0) : wt (c • (Pi.single a 1 - δ • Pi.single b 1)) = 2 := by
@@ -84,12 +84,12 @@ theorem exists_spMat_mulVec_eq {v w : Fin k → ZMod 3} (h : wt v = wt w) :
     have hwj : w (σ j) = 0 := by
       by_contra hne
       exact hσnot j hnotS (by simpa [T] using hne)
-    rw [if_pos h0, h0, mul_zero, ← hσj, hwj]
+    rw [ite_eq_left h0, h0, mul_zero, ← hσj, hwj]
   · have hmem : j ∈ S := by simp [S, h0]
     have hwj : w (σ j) ≠ 0 := by
       have := hσS j hmem
       simpa [T] using this
-    rw [if_neg h0, hσj, mul_assoc, mul_self_of_ne_zero h0, mul_one]
+    rw [ite_eq_right h0, hσj, mul_assoc, mul_self_of_ne_zero h0, mul_one]
 
 theorem exists_spMat_mulVec_eq_fix {v w : Fin k → ZMod 3} (h : wt v = wt w) {p : Fin k}
     (hv : v p = 0) (hw : w p = 0) : ∃ σ s, IsSign s ∧ σ p = p ∧ spMat σ s *ᵥ v = w := by
@@ -105,18 +105,18 @@ theorem exists_spMat_mulVec_eq_fix {v w : Fin k → ZMod 3} (h : wt v = wt w) {p
     exact hq.symm
   let τ : Equiv.Perm (Fin k) := Equiv.swap q p
   have hτsymm : τ.symm = τ := by
-    simp [τ, Equiv.swap_inv]
+    simp [τ]
   have hτw : ∀ i, w (τ i) = w i := by
     intro i
     rw [Equiv.swap_apply_def]
     by_cases hiq : i = q
     · subst hiq
-      rw [if_pos rfl, hwq, hw]
-    · rw [if_neg hiq]
+      rw [ite_eq_left rfl, hwq, hw]
+    · rw [ite_eq_right hiq]
       by_cases hip : i = p
       · subst hip
-        rw [if_pos rfl, hwq, hw]
-      · rw [if_neg hip]
+        rw [ite_eq_left rfl, hwq, hw]
+      · rw [ite_eq_right hip]
   have hτmul : spMat τ (fun _ => (1 : ZMod 3)) *ᵥ w = w := by
     rw [spMat_mulVec, hτsymm]
     funext i
@@ -180,7 +180,7 @@ theorem mem_spSet_of_wt_col {A : GL (Fin k) (ZMod 3)}
       have hcm' : c m' = 0 := by
         change (A : Matrix (Fin k) (Fin k) (ZMod 3)) (τ m') m' = 0
         have h := hm
-        simp [z, c, hne, Pi.single_eq_of_ne hne] at h
+        simp [z, c, hne] at h
         simpa using h
       exact hτ m' hcm'
     have hAz : (A : Matrix (Fin k) (Fin k) (ZMod 3)) *ᵥ z = 0 := by
@@ -215,8 +215,8 @@ theorem mem_spSet_of_wt_col {A : GL (Fin k) (ZMod 3)}
   rw [spMat_apply]
   have hσj : σ j = τ j := Equiv.ofBijective_apply τ _ j
   by_cases hij : i = σ j
-  · rw [if_pos hij, hij, hσj]
-  · rw [if_neg hij]
+  · rw [ite_eq_left hij, hij, hσj]
+  · rw [ite_eq_right hij]
     apply hzero j i
     rw [← hσj]
     exact hij

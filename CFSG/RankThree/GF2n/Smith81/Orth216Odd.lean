@@ -11,6 +11,7 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.RankThree.GF2n CFSG.RankThree.GF2
 
 variable {G : Type} [Group G] [Finite G] {M Q Z : Subgroup G}
 
+omit [Finite G] in
 theorem eq_one_of_sq_mem {P : Subgroup G} (hP : IsPGroup 2 P) {g : G} (hg : g * g ∈ P)
     (hodd : Odd (orderOf g)) : g = 1 := by
   obtain ⟨k, hk⟩ := hP ⟨g * g, hg⟩
@@ -31,6 +32,7 @@ theorem eq_one_of_sq_mem {P : Subgroup G} (hP : IsPGroup 2 P) {g : G} (hg : g * 
   rw [hj0, pow_zero] at hj
   exact orderOf_eq_one_iff.mp hj
 
+omit [Finite G] in
 theorem commute_conj {a b : G} (c : G) (h : Commute a b) :
     Commute (c * a * c⁻¹) (c * b * c⁻¹) := by
   have := h.map (MulAut.conj c).toMonoidHom

@@ -16,9 +16,9 @@ private theorem det_signedPath_g_sq {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ)
     (hnear : ∀ j k : Fin n, k.val = j.val + 1 → (G j k = 1 ∨ G j k = -1) ∧ G k j = G j k)
     (m : ℕ) : det_signedPath_g G m * det_signedPath_g G m = 1 := by
   by_cases hm : m + 1 < n
-  · simp only [det_signedPath_g, dif_pos hm]
+  · simp only [det_signedPath_g, dite_eq_left hm]
     rcases (hnear ⟨m, Nat.lt_of_succ_lt hm⟩ ⟨m + 1, hm⟩ rfl).1 with h | h <;> rw [h] <;> norm_num
-  · simp only [det_signedPath_g, dif_neg hm]
+  · simp only [det_signedPath_g, dite_eq_right hm]
     norm_num
 
 private theorem det_signedPath_d_sq {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ)
@@ -34,7 +34,7 @@ private theorem det_signedPath_d_sq {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ)
 private theorem det_signedPath_d_succ {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ) (m : ℕ)
     (hm : m + 1 < n) : det_signedPath_d G ⟨m + 1, hm⟩ =
       -det_signedPath_g G m * det_signedPath_d G ⟨m, Nat.lt_of_succ_lt hm⟩ := by
-  simp only [det_signedPath_d, Fin.val_mk, Finset.prod_range_succ]
+  simp only [det_signedPath_d, Finset.prod_range_succ]
   ring
 
 private theorem det_signedPath_d_succ' {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ) {j k : Fin n}
@@ -43,7 +43,7 @@ private theorem det_signedPath_d_succ' {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ
   have hk : k = ⟨j.val + 1, hj⟩ := Fin.ext h
   rw [hk, det_signedPath_d_succ G j.val hj]
   have hg : det_signedPath_g G j.val = G j ⟨j.val + 1, hj⟩ := by
-    simp only [det_signedPath_g, dif_pos hj]
+    simp only [det_signedPath_g, dite_eq_left hj]
   rw [hg, show (⟨j.val, Nat.lt_of_succ_lt hj⟩ : Fin n) = j from Fin.ext rfl]
 
 private theorem det_signedPath_conj {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ) (hdiag : ∀ j, G j j = 2)

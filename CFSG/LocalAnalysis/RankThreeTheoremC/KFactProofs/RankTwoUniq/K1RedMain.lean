@@ -15,7 +15,7 @@ open CFSG.LocalAnalysis.RankFourTheoremC.PEmpty
 theorem kFactRankTwoUniqueness_of_core (h : K1Core) : KFactRankTwoUniqueness := by
   intro A _ _ X Q B U hK hrk hQX hQp hQs hZc hBQ hBel hBc hUQ hUel hUc hBU hw
     ⟨Y, hYX, hYne, hΓU, hΓ2⟩ W hWX hBUW hcop
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hBX : B ≤ X := hBQ.trans hQX
   have hUX : U ≤ X := hUQ.trans hQX

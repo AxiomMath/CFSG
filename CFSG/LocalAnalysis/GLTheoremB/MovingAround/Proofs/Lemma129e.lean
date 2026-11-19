@@ -72,10 +72,10 @@ variable {K : Type*} [Group K] {n : ℕ}
 
 theorem orbitLen_pow {p : ℕ} (hp : p.Prime) [Finite K] (φ : K ≃* alternatingGroup (Fin n))
     {B : Subgroup K} (hB : IsPGroup p B) (i : Fin n) : ∃ j : ℕ, orbitLen φ B i = p ^ j := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let ρ : ↥B →* Equiv.Perm (Fin n) :=
     ((alternatingGroup (Fin n)).subtype.comp φ.toMonoidHom).comp B.subtype
-  letI : MulAction ↥B (Fin n) := MulAction.compHom (Fin n) ρ
+  let : MulAction ↥B (Fin n) := MulAction.compHom (Fin n) ρ
   have hset : {j : Fin n | ∃ b ∈ B, ((φ b : alternatingGroup (Fin n)) : Equiv.Perm (Fin n)) i = j} =
       MulAction.orbit ↥B i := by
     ext j

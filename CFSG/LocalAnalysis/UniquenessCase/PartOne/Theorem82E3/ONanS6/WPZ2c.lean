@@ -80,7 +80,7 @@ theorem thetaQuotMulAut_eq_one_of_conj_mem_theta {J : Subgroup G} {n : G}
     rw [show ((⟨n * (x : G) * n⁻¹,
       (Subgroup.mem_normalizer_iff.mp hnN x).mp x.2⟩ : ↥J))⁻¹ * x = y⁻¹ from Subtype.ext ?_]
     · exact (aschbacherSolvableCore 3 ↥J).inv_mem hy
-    · simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+    · simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       have hyval' : (y : G) = (x : G)⁻¹ * n * (x : G) * n⁻¹ := hyval
       rw [hyval']
       group
@@ -133,9 +133,9 @@ theorem j0_iso_and_inner_aux {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a)
   let π : ↥(G0 c P J) →* (↥(G0 c P J) ⧸ N) := QuotientGroup.mk' N
   let Jg : Subgroup ↥(G0 c P J) := J.subgroupOf (G0 c P J)
   let JN : Subgroup (↥(G0 c P J) ⧸ N) := Jg.map π
-  haveI hXbarN : (Xbar c P J).Normal := Subgroup.normalClosure_normal
+  have hXbarN : (Xbar c P J).Normal := Subgroup.normalClosure_normal
   have hJNnorm : JN.Normal := hJG0.map π (QuotientGroup.mk'_surjective N)
-  haveI : JN.Normal := hJNnorm
+  have : JN.Normal := hJNnorm
   obtain ⟨η, -⟩ := exists_thetaQuot_equiv_map_starQuot hJg_mem h3g
   have hJNquasi : CFSG.IsQuasisimple ↥JN := CFSG.LocalCores.isQuasisimple_of_mulEquiv η hJg_quasi
   have hzG0 : z ∈ G0 c P J := Subgroup.mem_sup_right hzZ
@@ -176,7 +176,7 @@ theorem j0_iso_and_inner_aux {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a)
   have hXbar_le : Xbar c P J ≤ JN := by
     by_contra hnot
     have hinf : Xbar c P J ⊓ JN = ⊥ := by
-      haveI : (Xbar c P J ⊓ JN).Normal := inferInstance
+      have : (Xbar c P J ⊓ JN).Normal := inferInstance
       have hnormal : ((Xbar c P J ⊓ JN).subgroupOf (Xbar c P J)).Normal := inferInstance
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         ((Xbar c P J ⊓ JN).subgroupOf (Xbar c P J)) with h | h
@@ -257,7 +257,7 @@ theorem j0_iso_and_inner_aux {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a)
       ⟨(j0 : G), hj0N⟩ *
         ⟨((j0⁻¹ * ⟨z, hzG0⟩ : ↥(G0 c P J)) : G), hnN⟩ := by
     ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     group
   have hn_triv : thetaQuotMulAut J (J.normalizerMonoidHom
       ⟨((j0⁻¹ * ⟨z, hzG0⟩ : ↥(G0 c P J)) : G), hnN⟩) = 1 := by
@@ -274,7 +274,7 @@ theorem j0_iso_and_inner_aux {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a)
       simpa only [mul_assoc] using h1
     have hcxN : (⟨x, hxG0⟩ : ↥(G0 c P J))⁻¹ * (j0⁻¹ * ⟨z, hzG0⟩) *
         ⟨x, hxG0⟩ * (j0⁻¹ * ⟨z, hzG0⟩)⁻¹ ∈ N := by
-      haveI : N.Normal := CFSG.pPrimeCore_normal
+      have : N.Normal := CFSG.pPrimeCore_normal
       have h1 : (⟨x, hxG0⟩ : ↥(G0 c P J))⁻¹ * (j0⁻¹ * ⟨z, hzG0⟩) * ⟨x, hxG0⟩ ∈ N := by
         simpa using (inferInstance : N.Normal).conj_mem (j0⁻¹ * ⟨z, hzG0⟩) hn0N ⟨x, hxG0⟩⁻¹
       exact N.mul_mem h1 (N.inv_mem hn0N)
@@ -288,8 +288,7 @@ theorem j0_iso_and_inner_aux {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a)
       rw [← htheta_map]
       refine ⟨(⟨x, hxG0⟩ : ↥(G0 c P J))⁻¹ * (j0⁻¹ * ⟨z, hzG0⟩) * ⟨x, hxG0⟩ *
         (j0⁻¹ * ⟨z, hzG0⟩)⁻¹, hc0θg, ?_⟩
-      simp only [map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk,
-        Subgroup.coe_subtype]
+      simp only [map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_subtype]
     exact hc0θ
   have hinner : thetaQuotMulAut J (J.normalizerMonoidHom ⟨z, hzN⟩) =
       MulAut.conj (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥J) ⟨(j0 : G), hj0J⟩) := by
@@ -307,9 +306,9 @@ theorem j0_iso_and_inner'
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
     (haL : a ∈ P ⊓ c.L) (ha3 : orderOf a = 3) (haZ : a ∉ zSub P c.L)
     {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : 3 ∣ Nat.card J)
-    {z : G} (hzZ : z ∈ zSub P c.L) (hz3 : orderOf z = 3)
+    {z : G} (hzZ : z ∈ zSub P c.L) (_hz3 : orderOf z = 3)
     (hzN : z ∈ Subgroup.normalizer (J : Set G))
-    (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier)
+    (_hSch : CFSG.AGLEmbedding.KFactCatalogSchreier)
     (hπ : thetaQuotMulAut J (J.normalizerMonoidHom ⟨z, hzN⟩) ≠ 1)
     (hroute : IsoGTwoPrime (Xbar c P J) ∨
       Nonempty (Xbar c P J ≃* CFSG.Blueprint.NativeSporadic.J2)) :

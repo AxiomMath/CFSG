@@ -27,17 +27,17 @@ theorem ggTwoNode_L_weyl {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime
   classical
   obtain ⟨Λ₀, i1₀, i2₀, M₀, C₀, V₀, i3₀, i4₀, ι₀, φ₀, h₀, α₀, e₀, hM₀, hW₀, hC₀,
     hlin₀, hrefl₀, hpair₀, hf₀ex, hclos₀⟩ := hXd
-  letI := i1₀
-  letI := i2₀
-  letI := i3₀
-  letI := i4₀
+  let := i1₀
+  let := i2₀
+  let := i3₀
+  let := i4₀
   obtain ⟨f₀, hf₀⟩ := hf₀ex
   obtain ⟨Λ, i1, i2, b₁, b₂, M, C, MJ, V, i3, i4, ι, φ, h, α, hb, hWM, hC, hWMJ, hMJ,
     hlin, hrefl, hpair, hfex, hclos, hfJex, hclosJ, hconj⟩ := hKs
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
+  let := i1
+  let := i2
+  let := i3
+  let := i4
   obtain ⟨f, hf⟩ := hfex
   obtain ⟨fJ, hfJ⟩ := hfJex
   obtain ⟨e, hM⟩ :=
@@ -46,10 +46,10 @@ theorem ggTwoNode_L_weyl {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime
   obtain ⟨eJ, hMJ'⟩ := ggTW_twoNode_J_typeA (N := N) (by omega) e hM hb hWMJ hMJ
   obtain ⟨ΛL, l1, l2, c₁, c₂, ML, CL, MJL, VL, l3, l4, ιL, φL, hL, αL, hc, hWML, hCL, hWMJL,
     hMJL, hlinL, hreflL, hpairL, hfLex, hclosL, hfJLex, hclosJL, hconjL⟩ := hLs
-  letI := l1
-  letI := l2
-  letI := l3
-  letI := l4
+  let := l1
+  let := l2
+  let := l3
+  let := l4
   obtain ⟨fL, hfL⟩ := hfLex
   obtain ⟨fJL, hfJL⟩ := hfJLex
   obtain ⟨eL, hMJL'⟩ :=

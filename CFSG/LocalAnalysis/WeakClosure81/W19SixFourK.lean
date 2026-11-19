@@ -14,6 +14,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_normalizer_inf {x : G} {P Q : Subgroup G} (hP : x ∈ normalizer (P : Set G))
     (hQ : x ∈ normalizer (Q : Set G)) : x ∈ normalizer ((P ⊓ Q : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -36,7 +37,7 @@ private theorem mem_normalizer_sup {x : G} {P Q : Subgroup G} (hP : x ∈ normal
 
 theorem pCoreOf_inf_le_pCoreOf {J K : Subgroup G} (hKJ : K ≤ J) :
     pCoreOf 2 J ⊓ K ≤ pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 inf_le_right ?_
     ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 J).to_le inf_le_left)
   intro k hk
@@ -60,7 +61,7 @@ theorem K0193_le_of_le (hAK : A ≤ K) (hOK : pCoreOf 2 (X ⊔ D.T) ≤ K) : K01
   rw [e]
   exact K.mul_mem (K.mul_mem (K.inv_mem hk) (hAK hx)) hk
 
-theorem le_J193 (hK : K ≤ X ⊔ D.T) : K ≤ J193 D X A K := fun k hk =>
+theorem le_J193 (hK : K ≤ X ⊔ D.T) : K ≤ J193 D X A K := fun _k hk =>
   Subgroup.mem_inf.2 ⟨hK hk, le_normalizer_K0193 hK hk⟩
 
 end K0
@@ -97,12 +98,12 @@ theorem not_A_le_pCoreOf_J193 (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g
 
 theorem inf_pCoreOf_J193_le (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) :
     conjSubgroup V g ⊓ pCoreOf 2 (J193 D X (conjSubgroup V g) K) ≤
-      conjSubgroup V g ⊓ pCoreOf 2 K := fun x hx =>
+      conjSubgroup V g ⊓ pCoreOf 2 K := fun _x hx =>
   Subgroup.mem_inf.2 ⟨hx.1, pCoreOf_inf_le_pCoreOf hc.K_le_J193 ⟨hx.2, hc.A_le_K c hx.1⟩⟩
 
 theorem pCoreOf_K0193_le (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) :
     pCoreOf 2 (K0193 D X (conjSubgroup V g) K) ≤ pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
     ((CFSG.LieType.BorelTits.pCoreOf_le 2 _).trans (hc.K0193_le_K c)) ?_
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _)
@@ -112,7 +113,7 @@ theorem pCoreOf_K0193_le (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) :
 theorem K0193_inf_pCoreOf_le (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) :
     K0193 D X (conjSubgroup V g) K ⊓ pCoreOf 2 K ≤
       pCoreOf 2 (K0193 D X (conjSubgroup V g) K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 inf_le_left ?_
     ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K).to_le inf_le_right)
   intro k hk
@@ -122,7 +123,7 @@ theorem K0193_inf_pCoreOf_le (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g 
 
 theorem inf_pCoreOf_le_pCoreOf_K0193 (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) :
     conjSubgroup V g ⊓ pCoreOf 2 K ≤ pCoreOf 2 (K0193 D X (conjSubgroup V g) K) :=
-  fun x hx => hc.K0193_inf_pCoreOf_le c ⟨le_K0193 hx.1, hx.2⟩
+  fun _x hx => hc.K0193_inf_pCoreOf_le c ⟨le_K0193 hx.1, hx.2⟩
 
 theorem A_le_normalizer_sup (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) :
     conjSubgroup V g ≤ normalizer
@@ -163,7 +164,7 @@ theorem A_le_normalizer_sup (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K
 
 theorem p_le_card_inf_J193 (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) :
     p ≤ Nat.card ↥(X ⊓ J193 D X (conjSubgroup V g) K) := by
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   have hKne := c.inf_K_ne_bot hc
   have hle : X ⊓ K ≤ X ⊓ J193 D X (conjSubgroup V g) K := inf_le_inf_left X hc.K_le_J193
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1

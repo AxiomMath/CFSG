@@ -125,37 +125,37 @@ open scoped BigOperators
 lemma ggNSLiePI2_sum_band {K : Type*} [AddCommMonoid K] {n : ℕ} (g : Fin n → K) (i : Fin n)
     (h : ∀ j : Fin n, j ≠ i → (j : ℕ) ≠ (i : ℕ) + 1 → (i : ℕ) ≠ (j : ℕ) + 1 → g j = 0) :
     (Finset.univ : Finset (Fin n)).sum g = g i
-      + (if hh : (i : ℕ) + 1 < n then g ⟨(i : ℕ) + 1, hh⟩ else 0)
-      + (if hh : 0 < (i : ℕ) then g ⟨(i : ℕ) - 1, Nat.lt_of_le_of_lt (Nat.sub_le _ _) i.isLt⟩
+      + (if _hh : (i : ℕ) + 1 < n then g ⟨(i : ℕ) + 1, _hh⟩ else 0)
+      + (if _hh : 0 < (i : ℕ) then g ⟨(i : ℕ) - 1, Nat.lt_of_le_of_lt (Nat.sub_le _ _) i.isLt⟩
           else 0) := by
   have hmem : ∀ a : Fin n, a ∈ (Finset.univ : Finset (Fin n)) := fun a => Finset.mem_univ a
   have hpred_ne_i : ∀ (hh0 : 0 < (i : ℕ)),
       (⟨(i : ℕ) - 1, Nat.lt_of_le_of_lt (Nat.sub_le _ _) i.isLt⟩ : Fin n) ≠ i := by
-    intro hh0 hh
-    have h2 := congrArg (fun x : Fin n => (x : ℕ)) hh
-    simp only [Fin.val_mk, Fin.eta] at h2
+    intro hh0 _hh
+    have h2 := congrArg (fun x : Fin n => (x : ℕ)) _hh
+    simp only at h2
     omega
   have hpred_ne_succ : ∀ (hh0 : 0 < (i : ℕ)) (hh1 : (i : ℕ) + 1 < n),
       (⟨(i : ℕ) - 1, Nat.lt_of_le_of_lt (Nat.sub_le _ _) i.isLt⟩ : Fin n)
         ≠ (⟨(i : ℕ) + 1, hh1⟩ : Fin n) := by
-    intro hh0 hh1 hh
-    have h2 := congrArg (fun x : Fin n => (x : ℕ)) hh
-    simp only [Fin.val_mk] at h2
+    intro hh0 hh1 _hh
+    have h2 := congrArg (fun x : Fin n => (x : ℕ)) _hh
+    simp only at h2
     omega
   have hsucc_ne_i : ∀ (hh1 : (i : ℕ) + 1 < n),
       (⟨(i : ℕ) + 1, hh1⟩ : Fin n) ≠ i := by
-    intro hh1 hh
-    have h2 := congrArg (fun x : Fin n => (x : ℕ)) hh
-    simp only [Fin.val_mk, Fin.eta] at h2
+    intro hh1 _hh
+    have h2 := congrArg (fun x : Fin n => (x : ℕ)) _hh
+    simp only at h2
     omega
   rw [← Finset.sum_erase_add (Finset.univ : Finset (Fin n)) g (hmem i)]
   by_cases hh1 : (i : ℕ) + 1 < n
   · have hmem1 : (⟨(i : ℕ) + 1, hh1⟩ : Fin n) ∈ Finset.univ.erase i := by
       rw [Finset.mem_erase]; exact ⟨hsucc_ne_i hh1, hmem _⟩
     rw [← Finset.sum_erase_add (Finset.univ.erase i) g hmem1]
-    rw [dif_pos hh1]
+    rw [dite_eq_left hh1]
     by_cases hh0 : 0 < (i : ℕ)
-    · rw [dif_pos hh0]
+    · rw [dite_eq_left hh0]
       have hmem2 : (⟨(i : ℕ) - 1, Nat.lt_of_le_of_lt (Nat.sub_le _ _) i.isLt⟩ : Fin n) ∈
           (Finset.univ.erase i).erase (⟨(i : ℕ) + 1, hh1⟩ : Fin n) := by
         rw [Finset.mem_erase, Finset.mem_erase]
@@ -169,9 +169,9 @@ lemma ggNSLiePI2_sum_band {K : Type*} [AddCommMonoid K] {n : ℕ} (g : Fin n →
         · intro hv
           exact hb.1 (Fin.ext hv)
         · intro hv
-          exact hbne (Fin.ext (by simp only [Fin.val_mk]; omega))
+          exact hbne (Fin.ext (by simp only; omega))
       · intro hbnot; exact absurd hmem2 hbnot
-    · rw [dif_neg hh0]
+    · rw [dite_eq_right hh0]
       have hzero : ((Finset.univ.erase i).erase (⟨(i : ℕ) + 1, hh1⟩ : Fin n)).sum g = 0 := by
         apply Finset.sum_eq_zero
         intro b hb
@@ -181,9 +181,9 @@ lemma ggNSLiePI2_sum_band {K : Type*} [AddCommMonoid K] {n : ℕ} (g : Fin n →
           exact hb.1 (Fin.ext hv)
         · intro hv; omega
       rw [hzero]; abel
-  · rw [dif_neg hh1]
+  · rw [dite_eq_right hh1]
     by_cases hh0 : 0 < (i : ℕ)
-    · rw [dif_pos hh0]
+    · rw [dite_eq_left hh0]
       have hmem2 : (⟨(i : ℕ) - 1, Nat.lt_of_le_of_lt (Nat.sub_le _ _) i.isLt⟩ : Fin n) ∈
           Finset.univ.erase i := by
         rw [Finset.mem_erase]; exact ⟨hpred_ne_i hh0, hmem _⟩
@@ -195,9 +195,9 @@ lemma ggNSLiePI2_sum_band {K : Type*} [AddCommMonoid K] {n : ℕ} (g : Fin n →
         refine h b hb.1 ?_ ?_
         · intro hv; omega
         · intro hv
-          exact hbne (Fin.ext (by simp only [Fin.val_mk]; omega))
+          exact hbne (Fin.ext (by simp only; omega))
       · intro hbnot; exact absurd hmem2 hbnot
-    · rw [dif_neg hh0]
+    · rw [dite_eq_right hh0]
       have hzero : (Finset.univ.erase i).sum g = 0 := by
         apply Finset.sum_eq_zero
         intro b hb

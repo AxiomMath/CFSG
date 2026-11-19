@@ -13,7 +13,7 @@ set_option linter.unusedSectionVars false
 theorem isSolvable_pi_of_finite {ι : Type*} [Finite ι] {H : ι → Type*} [∀ i, Group (H i)]
     [∀ i, Group.IsSolvable (H i)] : Group.IsSolvable (∀ i, H i) := by
   classical
-  haveI := Fintype.ofFinite ι
+  have := Fintype.ofFinite ι
   choose n hn using fun i => (inferInstance : Group.IsSolvable (H i)).solvable
   refine ⟨⟨Finset.univ.sup n, ?_⟩⟩
   rw [eq_bot_iff]
@@ -40,26 +40,26 @@ theorem hasCompOrSolv_toralCentralizer (τ : Tag) {K : Type} [Field K] [Finite K
     odd_toral_involution_centralizer_p_component_root_reduction τ K hK b hb
   obtain ⟨hfin, hfinc, -, hnormS, ⟨μ, -, hμs, -⟩, -⟩ :=
     root_character_kernel_orthogonal_central_product τ K χ
-  haveI := hfinc
-  haveI := Fintype.ofFinite (KernelComponent χ)
+  have := hfinc
+  have := Fintype.ofFinite (KernelComponent χ)
   by_cases hall : ∀ i : KernelComponent χ, Group.IsSolvable (componentRootSpan K χ i)
   ·
     left
-    haveI : ∀ i, Group.IsSolvable (componentRootSpan K χ i) := hall
-    haveI : Group.IsSolvable (∀ i : KernelComponent χ, componentRootSpan K χ i) :=
+    have : ∀ i, Group.IsSolvable (componentRootSpan K χ i) := hall
+    have : Group.IsSolvable (∀ i : KernelComponent χ, componentRootSpan K χ i) :=
       isSolvable_pi_of_finite
-    haveI hS' : Group.IsSolvable (rootSpan τ K (kernelRoots χ)) := solvable_of_surjective hμs
+    have hS' : Group.IsSolvable (rootSpan τ K (kernelRoots χ)) := Group.isSolvable_of_surjective hμs
     have hS : Group.IsSolvable (rootSpan τ K (rootCharKernel b)) := by
       rw [hker]; exact hS'
-    haveI : Group.IsSolvable ((rootSpan τ K (rootCharKernel b)).subgroupOf (toralCentralizer τ K b)) :=
-      solvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hSle).symm.toMonoidHom)
+    have : Group.IsSolvable ((rootSpan τ K (rootCharKernel b)).subgroupOf (toralCentralizer τ K b)) :=
+      Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hSle).symm.toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hSle).symm.surjective
-    haveI := hquot
-    exact solvable_of_ker_le_range
+    have := hquot
+    exact Group.isSolvable_of_ker_le_range
       (((rootSpan τ K (rootCharKernel b)).subgroupOf (toralCentralizer τ K b)).subtype)
       (QuotientGroup.mk' ((rootSpan τ K (rootCharKernel b)).subgroupOf (toralCentralizer τ K b)))
       (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨i, hi⟩ := hall
     right
     have hq : IsQuasisimple (componentRootSpan K χ i) :=

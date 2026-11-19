@@ -140,13 +140,11 @@ theorem basePointsRepresentation_tmul (g : WithConv (H →ₐ[k] k)) (w : W) (f 
     basePointsRepresentation_apply]
   generalize endOfPoint W g.ofConv (1 ⊗ₜ[k] w) = x
   generalize endOfPoint F g.ofConv (1 ⊗ₜ[k] f) = y
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | add x₁ x₂ h₁ h₂ => rw [TensorProduct.add_tmul, map_add, map_add, h₁, h₂, map_add,
       TensorProduct.add_tmul]
   | tmul a w' =>
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | add y₁ y₂ h₁ h₂ => rw [TensorProduct.tmul_add, map_add, map_add, h₁, h₂, map_add,
         TensorProduct.tmul_add]
     | tmul b f' =>
@@ -468,7 +466,7 @@ theorem ringKrullDim_orbitComap_tmul_le {m n : ℕ} (bM : Module.Basis (Fin m) k
   refine ((finite_orbitCone_tmul_contract_eq hw₀ hfin φ g₁ hc₁).preimage
     hinj.injOn).subset ?_
   intro s' hs'
-  rw [Set.mem_setOf_eq] at hs'
+  rw [Set.mem_ofPred_eq] at hs'
   have hy' := hvec s'
   refine ⟨?_, ?_⟩
   · obtain ⟨z₂, hz₂⟩ := hlift (aeval (bM.equivFun (vec s'))) (fun p hp => by
@@ -661,8 +659,7 @@ theorem basePointsRepresentation_comm_hom {V V' : Type u} [AddCommGroup V] [Modu
   simp only [LinearMap.comp_apply, LinearMap.baseChange_tmul] at h
   rw [basePointsRepresentation_apply, basePointsRepresentation_apply, ← h]
   generalize endOfPoint V g.ofConv (1 ⊗ₜ[k] v) = x
-  induction x using TensorProduct.induction_on with
-  | zero => simp only [map_zero]
+  induction x using TensorProduct.inductionOn with
   | tmul a w => simp only [TensorProduct.lid_tmul, LinearMap.baseChange_tmul, map_smul]
   | add x y hx hy => simp only [map_add, hx, hy]
 
@@ -799,7 +796,7 @@ theorem basePointsRepresentation_eq_of_finite {W E : Type u} [AddCommGroup W] [M
     apply hane
     apply Polynomial.eq_zero_of_infinite_isRoot
     refine Set.Infinite.mono (fun t ht => ?_)
-      (Set.infinite_univ.diff (Set.finite_singleton (0 : k)))
+      (Set.infinite_univ.sdiff (Set.finite_singleton (0 : k)))
     exact hall t ht.2 a haJ
   · obtain ⟨a, haJ, ha0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hJ
     have hroot : ∀ h : WithConv (H →ₐ[k] k),

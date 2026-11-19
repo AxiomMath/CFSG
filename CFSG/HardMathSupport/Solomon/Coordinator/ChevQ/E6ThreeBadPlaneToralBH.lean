@@ -25,7 +25,7 @@ theorem conj_transvection_cyc1 (d : Fin 3 → K) (h2 : d 2 ≠ 0) (t : K) :
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [signedCycMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.single_apply,
-      Matrix.add_apply, Matrix.mul_add, Matrix.add_mul, Matrix.diagonal_apply] <;> field_simp
+      Matrix.add_apply, Matrix.diagonal_apply]; field_simp
 
 theorem conj_transvection_cyc2 (d : Fin 3 → K) (h1 : d 1 ≠ 0) (t : K) :
     (diagonal d * signedCycMat ^ 2 : Matrix (Fin 3) (Fin 3) K) * (1 + Matrix.single 1 2 t) =
@@ -34,7 +34,7 @@ theorem conj_transvection_cyc2 (d : Fin 3 → K) (h1 : d 1 ≠ 0) (t : K) :
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.single_apply,
-      Matrix.add_apply, Matrix.mul_add, Matrix.add_mul, Matrix.diagonal_apply] <;> field_simp
+      Matrix.add_apply, Matrix.diagonal_apply]; field_simp
 
 theorem conjSL_transvection_cyc1 {Γ : GL (Fin 3) K} {d : Fin 3 → K} (h2 : d 2 ≠ 0)
     (hΓ : (Γ : Matrix (Fin 3) (Fin 3) K) = diagonal d * signedCycMat) (t : K) :

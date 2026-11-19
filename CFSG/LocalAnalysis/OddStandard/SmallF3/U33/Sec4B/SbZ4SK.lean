@@ -53,7 +53,7 @@ theorem cent_M_Y :
     obtain ⟨q, hq, c, hc, rfl⟩ := mem_sup_of_normalizes
       (fun c hc a ha => hg.normal_Q.2 c (hcl hc) a ha) hkO
     have hqY : ∀ a ∈ ctxYq t tau x₁ x₂ rho, a * q = q * a := fun a ha =>
-      hg.Q_comm a (hg.Y_le_Q ha) q hq
+      hg.Q_comm a (CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q ha) q hq
     rcases (S4B.mem_closure_pair_of_invol hg.t_mul_self hg.tau_mul_self hg.t_comm_tau).mp hc with
       h | h | h | h
     · rw [h, mul_one]
@@ -93,7 +93,7 @@ theorem cent_M_Y :
           _ = t * a * tau := by rw [mul_assoc]
       exact (mul_right_cancel h5).symm
   · refine sup_le (fun q hq => ⟨hg.Q_le_M hq, ?_⟩) (Subgroup.zpowers_le.mpr ⟨hg.tau_mem_M, ?_⟩)
-    · exact mem_centralizer_iff.mpr fun a ha => hg.Q_comm a (hg.Y_le_Q ha) q hq
+    · exact mem_centralizer_iff.mpr fun a ha => hg.Q_comm a (CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q ha) q hq
     · exact mem_centralizer_iff.mpr fun a ha => (hg.tau_cent a ha).symm
 
 end Z4Good

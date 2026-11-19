@@ -34,8 +34,8 @@ theorem burnsideF4m_F_4_36_U4 :
       ∀ fb : ↥(M₁ ⊓ M₂), (fb : E) ∈ Tb → chart.IsGraphInv (fb : E) →
         ¬ IsConj z (bM β ε fb) := by
   intro f E _ Gp M₁ M₂ Y _ β M _ ε z hyp hf1 chart Tb hTb fb hfbT hgraph hconj
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hclosed, hloc⟩ := burnsideF4m_f436Input_U4 hyp.amalgam hf1
   obtain ⟨r, hrT, ⟨g, hg⟩, hcases⟩ := hloc Tb hTb (fb : E) hfbT hgraph

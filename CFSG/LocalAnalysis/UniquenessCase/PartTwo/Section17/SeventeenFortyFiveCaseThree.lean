@@ -97,7 +97,7 @@ theorem s17_45_ne_bot_branch (D : Data G) (h147 : Inputs1719.UC2_14_7Three D)
   have hmu : UniqueMax D.M (A ⊔ B ⊔ D.T) :=
     s17_45_uniqueMax_ABT D h147 hg5 ctx hV₀ h8100 hc hAsyl hAT hBM hBcard hAB hBT
   have hm3 : mBar D.M V₀ V ctx.hyp125.isElemAbelian ≤ 3 :=
-    s17_45_mBar_le_three (A₀ := A₀) D hx h61 h66 h127 h1114 h162 hTor h1482 h183 h1214 h869 hW4a
+    s17_45_mBar_le_three (_A₀ := A₀) D hx h61 h66 h127 h1114 h162 hTor h1482 h183 h1214 h869 hW4a
       ctx hV₀ hxM hXsup hXne hc hAsyl hBM hBcard hsp hInF hmu
   have hbig : 2 < mSub V₀ := by
     by_contra hle

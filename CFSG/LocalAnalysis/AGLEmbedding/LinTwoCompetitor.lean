@@ -47,7 +47,7 @@ theorem card_dvd_of_isPGroup (h : D1L2Config p n P M H R X) {H' : Subgroup G}
   have hp : p.Prime := Fact.out
   have hdvd : Nat.card (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ∣ p ^ n * n :=
     card_dvd_of_isPGroup_of_psl2GF kFactL2AutPCard h.ext.ne_two (by have := h.three_le; omega)
-      hKn hKe hC _ Rbar.isPGroup'
+      hKn hKe hC _ Rbar.isPGroup
   obtain ⟨T, hST⟩ := hS.exists_le_sylow
   have h1 : Nat.card (T : Subgroup (H' ⧸ primeComplementCore (G := H') p)) =
       Nat.card (Rb : Subgroup (H' ⧸ primeComplementCore (G := H') p)) := by

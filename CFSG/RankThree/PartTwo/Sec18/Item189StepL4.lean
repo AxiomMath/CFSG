@@ -42,6 +42,7 @@ theorem relIndex_inf_eq_mul189 {M K N : Subgroup G} (hKM : K ≤ M)
     exact ⟨fun ⟨⟨_, hN⟩, hK⟩ => ⟨hK, hN⟩, fun ⟨hK, hN⟩ => ⟨⟨hKM hK, hN⟩, hK⟩⟩
   rw [← h1, h2, h3, mul_comm]
 
+omit [Finite G] in
 theorem relIndex_inf_n189_eq_index189 {M H : Subgroup G} {c : G}
     (hθ : theta189 M H c ≤ n189 H) :
     (normalClosureIn M c ⊓ n189 H).relIndex (normalClosureIn M c) =
@@ -99,7 +100,7 @@ theorem exists_orderOf_two_mem_kAlpha_normalizer189 {M H : Subgroup G} {c : G}
   obtain ⟨P, hSP⟩ := (isPGroup_sAlpha189 M H c).exists_le_sylow
   have hPsyl : CFSG.ABGLocalTools.IsSylowOf 2 (P : Subgroup (SKAlpha189 M H c)) ⊤ :=
     CFSG.ABGLocalTools.isSylowOf_iff.mpr
-      ⟨le_top, P.isPGroup', by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
+      ⟨le_top, P.isPGroup, by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
   have hTsyl := hPsyl.inf_of_le_normalizer le_top
     (Subgroup.normalizer_eq_top_iff.mpr (kAlpha189_normal M H c)).ge
   have hTne : (P : Subgroup (SKAlpha189 M H c)) ⊓ kAlpha189 M H c ≠ ⊥ := by
@@ -121,9 +122,9 @@ theorem exists_orderOf_two_mem_kAlpha_normalizer189 {M H : Subgroup G} {c : G}
     have : (⟨y, hyP⟩ : P) ∈ T' := hyK
     rw [hbot, Subgroup.mem_bot] at this
     exact Subgroup.mem_bot.mpr (congrArg Subtype.val this)
-  have hnil : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent P := P.isPGroup.isNilpotent
   have hZ := Group.IsNilpotent.inf_center_ne_bot_of_normal hT'ne
-  have hZ2 : IsPGroup 2 ↥(T' ⊓ Subgroup.center P) := P.isPGroup'.to_subgroup _
+  have hZ2 : IsPGroup 2 ↥(T' ⊓ Subgroup.center P) := P.isPGroup.to_subgroup _
   have : Nontrivial ↥(T' ⊓ Subgroup.center P) := (Subgroup.nontrivial_iff_ne_bot _).mpr hZ
   obtain ⟨k, hk⟩ := hZ2.exists_card_eq
   have hk0 : k ≠ 0 := by
@@ -139,6 +140,7 @@ theorem exists_orderOf_two_mem_kAlpha_normalizer189 {M H : Subgroup G} {c : G}
     exact congrArg Subtype.val (Subgroup.mem_center_iff.mp z.2.2 ⟨y, hy⟩)
   · rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe, hz]
 
+omit [Finite G] in
 theorem card_kAlpha_of_l4_189 {M H : Subgroup G} {c : G}
     (e : ↥(kAlpha189 M H c) ≃* projSL 2 (GaloisField 2 2)) :
     Nat.card (kAlpha189 M H c) = 60 := by

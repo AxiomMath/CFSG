@@ -137,6 +137,7 @@ section Aut
 variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω} [S.Normal]
 variable {n : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite Ω] in
 theorem ker_barCover_statedSL (hn : 3 ≤ n) {φ : ↥(StatedSL n K) →* Ω} (hφS : φ.range = S)
     (hφk : φ.ker ≤ (StatedScalars (Fin n) K).subgroupOf (StatedSL n K)) :
     ((barMk S).comp φ).ker = (StatedScalars (Fin n) K).subgroupOf (StatedSL n K) :=
@@ -155,11 +156,13 @@ private noncomputable def gammaSL (hn : 3 ≤ n) {φ : ↥(StatedSL n K) →* Ω
   (MulAut.congr (barModelSL hn hφS hφk).symm).toMonoidHom.comp
     (MulAut.conjNormal.comp (barMk S))
 
+omit [Finite Ω] in
 private theorem gammaSL_apply (hn : 3 ≤ n) {φ : ↥(StatedSL n K) →* Ω} (hφS : φ.range = S)
     (hφk : φ.ker ≤ (StatedScalars (Fin n) K).subgroupOf (StatedSL n K)) (x : Ω) :
     gammaSL hn hφS hφk x = transAut (barModelSL hn hφS hφk) (barMk S x) :=
   rfl
 
+omit [Finite Ω] in
 private theorem barModelSL_proj (hn : 3 ≤ n) {φ : ↥(StatedSL n K) →* Ω} (hφS : φ.range = S)
     (hφk : φ.ker ≤ (StatedScalars (Fin n) K).subgroupOf (StatedSL n K))
     (g : SpecialLinearGroup (Fin n) K) :
@@ -167,6 +170,7 @@ private theorem barModelSL_proj (hn : 3 ≤ n) {φ : ↥(StatedSL n K) →* Ω} 
       barMk S (φ (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL n K g)) :=
   rfl
 
+omit [Finite K] in
 private theorem coe_equivSL_slConjugation (A : GL (Fin n) K) (g : SpecialLinearGroup (Fin n) K) :
     ((CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL n K
         (CatalogueBHigherLinearAction.slConjugation n K A g) : GL (Fin n) K)) =
@@ -176,6 +180,7 @@ private theorem coe_equivSL_slConjugation (A : GL (Fin n) K) (g : SpecialLinearG
   rw [coe_equivSL, coe_equivSL, SpecialLinearGroup.coe_GL_coe_matrix, coe_slConjugation,
     Units.val_mul, Units.val_mul, SpecialLinearGroup.coe_GL_coe_matrix]
 
+omit [Finite Ω] in
 private theorem gammaSL_eq_conjAut_iff (hn : 3 ≤ n) {φ : ↥(StatedSL n K) →* Ω}
     (hφS : φ.range = S) (hφk : φ.ker ≤ (StatedScalars (Fin n) K).subgroupOf (StatedSL n K))
     (x : Ω) (A : GL (Fin n) K) : gammaSL hn hφS hφk x = conjAut n K A ↔ ActsAs φ x A := by
@@ -203,6 +208,7 @@ private theorem gammaSL_eq_conjAut_iff (hn : 3 ≤ n) {φ : ↥(StatedSL n K) �
       Subtype.ext (by rw [hk', coe_equivSL_slConjugation])
     rw [← hkk, hφ, map_mul, map_mul, map_inv]
 
+omit [Finite Ω] in
 private theorem mem_innerDiag_iff_lin (hn : 3 ≤ n) {φ : ↥(StatedSL n K) →* Ω}
     (hφS : φ.range = S) (hφk : φ.ker ≤ (StatedScalars (Fin n) K).subgroupOf (StatedSL n K))
     {B : Subgroup Ω} {x : Ω} :
@@ -222,11 +228,11 @@ private theorem isCyclic_semilinear_quot {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 
       (linearAutGroup n K).subgroupOf (semilinearAutGroup n K)) := by
   obtain ⟨-, -, -, -, hsup, hDn, -, -⟩ :=
     CFSG.RankThree.LinearDescent.higher_linear_prime_semilinear_field_descent hℓ hf hn hK
-  haveI := hDn
-  haveI := isCyclic_ringEquiv' (K := K)
+  have := hDn
+  have := isCyclic_ringEquiv' (K := K)
   set R := (fieldAut n K).range
   have hRE : R ≤ semilinearAutGroup n K := hsup ▸ le_sup_right
-  haveI : IsCyclic ↥R := isCyclic_of_surjective (fieldAut n K).rangeRestrict
+  have : IsCyclic ↥R := isCyclic_of_surjective (fieldAut n K).rangeRestrict
     (fieldAut n K).rangeRestrict_surjective
   refine isCyclic_of_surjective ((QuotientGroup.mk' _).comp (Subgroup.inclusion hRE)) ?_
   intro q
@@ -250,11 +256,11 @@ private theorem innerDiag_split_lin (hp : p.Prime) (hp2 : p ≠ 2) (hn : 3 ≤ n
       ∃ b ∈ B, b ∉ innerDiag φ ⊤ (fun A _ => normalizer_statedSL A) B ∧
         B = innerDiag φ ⊤ (fun A _ => normalizer_statedSL A) B ⊔ Subgroup.zpowers b ∧
         Subgroup.zpowers b ⊓ innerDiag φ ⊤ (fun A _ => normalizer_statedSL A) B = ⊥ := by
-  haveI : CharP K ℓ :=
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
   obtain ⟨-, -, hDnE, -, -, -, -, -⟩ :=
     CFSG.RankThree.LinearDescent.higher_linear_prime_semilinear_field_descent hℓ hf hn hK
-  haveI := hDnE
+  have := hDnE
   set γ := gammaSL hn hφS hφk with hγ
   have hγE : ∀ x : ↥B, γ x ∈ semilinearAutGroup n K := fun x =>
     mem_semilinearAutGroup_of_pow_eq_one hn (hp.odd_of_ne_two hp2)
@@ -262,22 +268,23 @@ private theorem innerDiag_split_lin (hp : p.Prime) (hp2 : p ≠ 2) (hn : 3 ≤ n
   let κ : ↥B →* ↥(semilinearAutGroup n K) ⧸
       (linearAutGroup n K).subgroupOf (semilinearAutGroup n K) :=
     (QuotientGroup.mk' _).comp ((γ.comp B.subtype).codRestrict _ hγE)
-  haveI := isCyclic_semilinear_quot hℓ hf hn hK (n := n) (K := K)
+  have := isCyclic_semilinear_quot hℓ hf hn hK (n := n) (K := K)
   refine eq_or_exists_zpowers_of_isCyclic hp hB innerDiag_le κ fun x => ?_
   rw [mem_innerDiag_iff_lin hn hφS hφk]
   simp only [κ, MonoidHom.comp_apply, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff,
-    Subgroup.mem_subgroupOf, MonoidHom.codRestrict_apply, Subgroup.coe_subtype]
+    Subgroup.mem_subgroupOf]
   exact ⟨fun h => ⟨x.2, h⟩, fun h => h.2⟩
 
+omit [Finite Ω] in
 private theorem exists_fieldAct_caseL_lin (hp : p.Prime) (hp2 : p ≠ 2) (hn : 3 ≤ n) {ℓ f : ℕ}
     (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f) (hpℓ : p ≠ ℓ)
     {φ : ↥(StatedSL n K) →* Ω} (hφS : φ.range = S)
     (hφk : φ.ker ≤ (StatedScalars (Fin n) K).subgroupOf (StatedSL n K)) {b : Ω}
     (hbp : b ^ p = 1) (hbD : gammaSL hn hφS hφk b ∉ linearAutGroup n K) :
     ∃ (A : GL (Fin n) K) (σ : K ≃+* K), FieldAct p φ b A σ := by
-  haveI : CharP K ℓ :=
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set e := barModelSL hn hφS hφk with he
   set γ := transAut e (barMk S b) with hγ
   have hγp : γ ^ p = 1 := by
@@ -356,6 +363,7 @@ private theorem isElemAbelian_mono' {G : Type*} [Group G] {E F : Subgroup G}
     (hE : IsElemAbelian p E) (hFE : F ≤ E) : IsElemAbelian p F :=
   ⟨⟨⟨fun a b => Subtype.ext (hE.comm (hFE a.2) (hFE b.2))⟩⟩, fun x hx => hE.2 x (hFE hx)⟩
 
+omit [S.Normal] in
 private theorem caseL_setup_lin (hp : p.Prime) (hp2 : p ≠ 2) (hperf : ⁅S, S⁆ = S)
     (hcore : GLAPPrimeCore p ↥S = ⊥) (hn : 3 ≤ n) {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2)
     (hK : Nat.card K = ℓ ^ f) (hdiag : p ∣ Nat.gcd n (Nat.card K - 1))
@@ -397,7 +405,7 @@ theorem card_le_of_caseL_lin (hp : p.Prime) (hp2 : p ≠ 2) (hperf : ⁅S, S⁆ 
     exact hB₁c.trans (Nat.pow_le_pow_right hp.pos (Nat.le_succ n))
   · have hcomm : ∀ x ∈ B₁, ∀ y ∈ Subgroup.zpowers b, x * y = y * x := fun x hx y hy =>
       hB.comm (innerDiag_le hx) (Subgroup.zpowers_le.2 hbB hy)
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hb1 : b ≠ 1 := fun h => hbB₁ (h ▸ one_mem _)
     have hzc : Nat.card (Subgroup.zpowers b) = p := by
       rw [Nat.card_zpowers, orderOf_eq_prime (hB.2 b hbB) hb1]
@@ -495,7 +503,7 @@ theorem exists_caseLData_lin (hp : p.Prime) (hp2 : p ≠ 2) (hperf : ⁅S, S⁆ 
             FormRel (0 : (Fin n → K) →ₗ[K] (Fin n → K) →ₗ[K] K) A σ ∧
             ∀ x : ↥B₁, semiConj A σ (θ x) * (θ x)⁻¹ ∈ StatedScalars (Fin n) K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn3 : 3 ≤ n := by omega
   have hn5 : 5 ≤ n := by
     by_contra h
@@ -514,7 +522,7 @@ theorem exists_caseLData_lin (hp : p.Prime) (hp2 : p ≠ 2) (hperf : ⁅S, S⁆ 
     rw [Nat.card_units]
     exact hdiag.trans (Nat.gcd_dvd_right _ _)
   have h2K : (2 : K) ≠ 0 := by
-    haveI : CharP K ℓ :=
+    have : CharP K ℓ :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
     intro h
     have := (CharP.cast_eq_zero_iff K ℓ 2).1 (by exact_mod_cast h)

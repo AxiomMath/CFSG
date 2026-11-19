@@ -16,7 +16,7 @@ theorem rankFourCover_hardU4Nine :
   rcases i with ⟨p, hp⟩ | ⟨n, hn⟩ | ⟨⟨li, hv⟩⟩ | ⟨s⟩
   · exact (hi : False).elim
   · exact (hi : False).elim
-  · cases li <;> first | exact (hi : False).elim | skip
+  · cases li <;> try exact (hi : False).elim
     obtain ⟨hr, hq⟩ := hi
     subst hr
     rename_i q

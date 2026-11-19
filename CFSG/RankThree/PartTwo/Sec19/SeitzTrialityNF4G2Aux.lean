@@ -55,12 +55,14 @@ theorem long_conj_mem (K : Type) [Field K] (g : adjointGroup Tag.G2 K)
   obtain ⟨x, hx⟩ := MonoidHom.mem_range.1 hmem
   exact ⟨x, Subtype.ext hx.symm⟩
 
+omit [Finite X] in
 theorem coe_trialityFixIncl_g2Upper (c : fixSubfield σ) :
     ((trialityFixIncl σ ⟨g2OrbitXUnit (fixSubfield σ) g2s c, g2OrbitXUnit_mem g2s c⟩ : C0 σ) :
         ModGL TwistTag.D4.tag X) = g2OrbitXUnit X g2s (c : X) := by
   rw [coe_trialityFixIncl]
   exact baseChangeGL_g2OrbitXUnit (fixSubfield σ).subtype g2s c
 
+omit [Finite X] in
 theorem coe_trialityFixIncl_g2Lower (c : fixSubfield σ) :
     ((trialityFixIncl σ ⟨g2OrbitYUnit (fixSubfield σ) g2s c, g2OrbitYUnit_mem g2s c⟩ : C0 σ) :
         ModGL TwistTag.D4.tag X) = g2OrbitYUnit X g2s (c : X) := by
@@ -167,18 +169,21 @@ theorem g2RootSL2_short_le_A0 (P : D4Par n X σ) (hK : ringChar X = 2)
   exact ⟨x, DFunLike.congr_fun (g2RootSL2_short_hom_eq σ P hK) x⟩
 
 
+omit [Finite X] in
 theorem bridge_coe_fixIncl_X (j : Fin Tag.G2.rank) (c : fixSubfield σ) :
     ((trialityFixIncl σ ⟨g2OrbitXUnit (fixSubfield σ) j c, g2OrbitXUnit_mem j c⟩ : C0 σ) :
         ModGL TwistTag.D4.tag X) = g2OrbitXUnit X j (c : X) := by
   rw [coe_trialityFixIncl]
   exact baseChangeGL_g2OrbitXUnit (fixSubfield σ).subtype j c
 
+omit [Finite X] in
 theorem bridge_coe_fixIncl_Y (j : Fin Tag.G2.rank) (c : fixSubfield σ) :
     ((trialityFixIncl σ ⟨g2OrbitYUnit (fixSubfield σ) j c, g2OrbitYUnit_mem j c⟩ : C0 σ) :
         ModGL TwistTag.D4.tag X) = g2OrbitYUnit X j (c : X) := by
   rw [coe_trialityFixIncl]
   exact baseChangeGL_g2OrbitYUnit (fixSubfield σ).subtype j c
 
+omit [Finite X] in
 theorem bridge_coe_incl_upper (hK : ringChar X = 2) (j : Fin Tag.G2.rank) (c : fixSubfield σ) :
     ((KFacts.trialityG2Incl σ hK (g2RootSL2 j (fixSubfield σ)
         (CFSG.LieType.Steinberg.sl2Upper c)) : C0 σ) : ModGL TwistTag.D4.tag X) =
@@ -200,6 +205,7 @@ theorem bridge_coe_incl_upper (hK : ringChar X = 2) (j : Fin Tag.G2.rank) (c : f
   rw [hz, hI]
   exact bridge_coe_fixIncl_X σ j c
 
+omit [Finite X] in
 theorem bridge_coe_incl_lower (hK : ringChar X = 2) (j : Fin Tag.G2.rank) (c : fixSubfield σ) :
     ((KFacts.trialityG2Incl σ hK (g2RootSL2 j (fixSubfield σ)
         (CFSG.LieType.Steinberg.sl2Lower c)) : C0 σ) : ModGL TwistTag.D4.tag X) =
@@ -221,6 +227,7 @@ theorem bridge_coe_incl_lower (hK : ringChar X = 2) (j : Fin Tag.G2.rank) (c : f
   rw [hz, hI]
   exact bridge_coe_fixIncl_Y σ j c
 
+omit [Finite X] in
 theorem bridge_g2OrbitXUnit_long (c : X) :
     g2OrbitXUnit X g2l c = xUnit TwistTag.D4.tag X (CFSG.LieType.Steinberg.TwistedD4.nd 2) c := by
   have h : TwistTag.D4.orbitWord (KFacts.g2FoldedIndex g2l) =
@@ -228,6 +235,7 @@ theorem bridge_g2OrbitXUnit_long (c : X) :
   rw [g2OrbitXUnit, h]
   simp
 
+omit [Finite X] in
 theorem bridge_g2OrbitYUnit_long (c : X) :
     g2OrbitYUnit X g2l c = yUnit TwistTag.D4.tag X (CFSG.LieType.Steinberg.TwistedD4.nd 2) c := by
   have h : TwistTag.D4.orbitWord (KFacts.g2FoldedIndex g2l) =
@@ -334,7 +342,7 @@ theorem bridge_WSL_mul_self {F : Type} [Field F] (h2 : (2 : F) = 0) :
     (WSL : Matrix.SpecialLinearGroup (Fin 2) F) * WSL = 1 := by
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
     simp [coe_WSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two] <;>
-    first | linear_combination -h2 | linear_combination h2
+    first | linear_combination -h2
 
 theorem bridge_WSL_eq {F : Type} [Field F] :
     (WSL : Matrix.SpecialLinearGroup (Fin 2) F) =
@@ -350,6 +358,7 @@ theorem bridge_g2WeylRep_inv (K : Type) [Field K] (h2 : (2 : K) = 0) :
     inv_eq_of_mul_eq_one_right (bridge_WSL_mul_self h2)
   rw [bridge_g2WeylRep_eq, mul_inv_rev, ← map_inv, ← map_inv, hW]
 
+omit [Finite X] in
 theorem bridge_slLong_WSL (σ' : X →+* X) (hσ : ∀ c, σ' (σ' (σ' c)) = c) :
     CFSG.LieType.Steinberg.TwistedD4.slLong σ' hσ
         (WSL : Matrix.SpecialLinearGroup (Fin 2) (CFSG.LieType.Steinberg.TwistedD4.fixedField σ')) =
@@ -363,6 +372,7 @@ theorem bridge_slLong_WSL (σ' : X →+* X) (hσ : ∀ c, σ' (σ' (σ' c)) = c)
     CFSG.LieType.Steinberg.TwistedD4.nHatE_zero_eq]
   simp
 
+omit [Finite X] in
 theorem bridge_slShort_WSL (σ' : X →+* X) (hσ : ∀ c, σ' (σ' (σ' c)) = c) :
     CFSG.LieType.Steinberg.TwistedD4.slShort σ' hσ (WSL : Matrix.SpecialLinearGroup (Fin 2) X) =
       CFSG.LieType.Steinberg.TwistedD4.nHat σ' (CFSG.LieType.Steinberg.TwistedD4.ng 1) := by

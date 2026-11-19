@@ -49,6 +49,7 @@ theorem sec78_two_pow_gt_minus (m : ℕ) (hm : 5 ≤ m) : 8 * m - 16 < 2 ^ m := 
     rw [pow_succ]
     omega
 
+omit [Finite G] in
 theorem card_N_of_order (hc : Ctx M Q Z B) {n m k : ℕ} {N : Subgroup G}
     (hw : Nat.card Q = Nat.card Z ^ (2 * n + 1))
     (hN : Nat.card N * Nat.card Z ^ (4 * m) = Nat.card Q ^ 2) (hk : 2 * n + 1 = 4 * m + k) :

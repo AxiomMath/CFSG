@@ -308,7 +308,7 @@ theorem cube_eq_one_F2 : ∀ y : ZMod 2, y ^ 3 = 1 → y = 1 := by decide
 theorem eq_of_cube {u c : ZMod (2 ^ k)} (hu : u ^ 2 = 1) (hc : c ^ 3 = 1 ∨ c ^ 3 = u) :
     c = 1 ∨ c = u := by
   rcases Nat.eq_zero_or_pos k with rfl | hk0
-  · haveI : Subsingleton (ZMod (2 ^ 0)) := ZMod.subsingleton_iff.2 (pow_zero 2)
+  · have : Subsingleton (ZMod (2 ^ 0)) := ZMod.subsingleton_iff.2 (pow_zero 2)
     exact Or.inl (Subsingleton.elim _ _)
   have hk : 1 ≤ k := hk0
   obtain ⟨v, hv, hv2, hcv⟩ : ∃ v : ZMod (2 ^ k), (v = 1 ∨ v = u) ∧ v * v = 1 ∧ c ^ 3 = v ^ 3 := by

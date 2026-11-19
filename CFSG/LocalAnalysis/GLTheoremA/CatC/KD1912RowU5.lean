@@ -20,7 +20,7 @@ open CFSG.HardMathSupport.Solomon.LocalBalance
 open scoped commutatorElement
 
 theorem outTwoNilpConcl_su52 : CFSG.LieType.ChevTwo.OutTwoNilpConcl SU52 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcyc : IsCyclic (F4 ≃+* F4) := isCyclic_of_prime_card (p := 2) card_ringEquiv_F4
   have hker : fieldFactor.ker = CFSG.ComponentClassification.OuterAutomorphisms.inner SU52 := by
     ext α

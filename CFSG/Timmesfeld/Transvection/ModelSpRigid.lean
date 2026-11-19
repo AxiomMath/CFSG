@@ -58,6 +58,7 @@ theorem mulVec_spTrans_conj (p l : Fin n ⊕ Fin n → F) (c e : F) :
   rw [h1, h2, spTrans_mulVec, spForm_add_right, spForm_smul_right', spForm_self]
   module
 
+omit [CharP F 2] in
 theorem ne_zero_of_spForm_eq_one {a d : Fin n ⊕ Fin n → F} (had : spForm a d = 1) : a ≠ 0 := by
   rintro rfl
   simp [spForm] at had

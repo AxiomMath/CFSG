@@ -35,7 +35,7 @@ theorem q13e_kap_mem_P (h : Q13Om t L S x₁ x₂ lam rho tau om) (hD : Q13D t x
   rw [← hpe]
   exact hp
 
-theorem q13e_kap_P (h : Q13Om t L S x₁ x₂ lam rho tau om) (hD : Q13D t x₁ x₂ lam rho tau om) :
+theorem q13e_kap_P (_h : Q13Om t L S x₁ x₂ lam rho tau om) (hD : Q13D t x₁ x₂ lam rho tau om) :
     ∀ p ∈ q13P t tau x₁ x₂ rho om, ⁅t, p⁆ = (p ^ 2)⁻¹ := by
   intro p hp
   rw [commutatorElement_def, hD.t_inv_P p hp, pow_two, mul_inv_rev]

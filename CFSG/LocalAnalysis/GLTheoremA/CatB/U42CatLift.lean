@@ -21,7 +21,7 @@ theorem exists_normal_threeComplement (W : Sylow 3 H)
     (hW : Subgroup.normalizer (W : Set H) ≤ Subgroup.centralizer (W : Set H)) :
     ∃ M : Subgroup H, M.Normal ∧ Subgroup.IsComplement' M (W : Subgroup H) ∧ ¬ 3 ∣ Nat.card M ∧
       ∀ h : H, h ∈ M ↔ ¬ 3 ∣ orderOf h := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc := MonoidHom.ker_transferSylow_isComplement' W hW
   set M := (MonoidHom.transferSylow W hW).ker with hM
   have hMcop : ¬ 3 ∣ Nat.card M := by
@@ -31,7 +31,7 @@ theorem exists_normal_threeComplement (W : Sylow 3 H)
   refine ⟨M, inferInstance, hc, hMcop, fun h => ⟨fun hh => ?_, fun hh => ?_⟩⟩
   · intro hd
     exact hMcop (hd.trans (Subgroup.orderOf_dvd_natCard M hh))
-  · obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp W.isPGroup' (MonoidHom.transferSylow W hW h)
+  · obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp W.isPGroup (MonoidHom.transferSylow W hW h)
     have hdvd : orderOf (MonoidHom.transferSylow W hW h) ∣ orderOf h := orderOf_map_dvd _ h
     have hk0 : k = 0 := by
       by_contra hne
@@ -49,15 +49,15 @@ theorem exists_two_lift {S : Type*} [Group S] (P B : Subgroup G)
     (hcen : ∀ y ∈ P, IsPGroup 3 ↥(Subgroup.zpowers y) → ∀ q ∈ P, y * q = q * y) :
     ∃ T : Subgroup G, T ≤ P ∧ IsPGroup 2 ↥T ∧ B ≤ Subgroup.normalizer (T : Set G) ∧
       (T.subgroupOf P).map θ = θ.range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨W⟩ : Nonempty (Sylow 3 ↥P) := inferInstance
   have hWc : ∀ w : ↥P, w ∈ (W : Subgroup ↥P) → ∀ q : ↥P, w * q = q * w := by
     intro w hw q
     apply Subtype.ext
     refine hcen (w : G) w.2 ?_ q q.2
     have h1 : IsPGroup 3 ↥(Subgroup.zpowers w) :=
-      W.isPGroup'.to_le (Subgroup.zpowers_le.2 hw)
+      W.isPGroup.to_le (Subgroup.zpowers_le.2 hw)
     have h2 := h1.map P.subtype
     rwa [MonoidHom.map_zpowers] at h2
   have hN : Subgroup.normalizer (W : Set ↥P) ≤ Subgroup.centralizer (W : Set ↥P) := by
@@ -68,7 +68,7 @@ theorem exists_two_lift {S : Type*} [Group S] (P B : Subgroup G)
   obtain ⟨M, hMn, hMc, hMcop, hMmem⟩ := exists_normal_threeComplement W hN
   have hθW : ∀ w : ↥P, w ∈ (W : Subgroup ↥P) → θ w = 1 := by
     intro w hw
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp W.isPGroup' ⟨w, hw⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp W.isPGroup ⟨w, hw⟩
     have hk' : orderOf w = 3 ^ k := by simpa using hk
     have h1 : orderOf (⟨θ w, (MonoidHom.mem_range.2 ⟨w, rfl⟩)⟩ : ↥θ.range) ∣ orderOf w :=
       orderOf_map_dvd (θ.rangeRestrict) w
@@ -98,7 +98,7 @@ theorem exists_two_lift {S : Type*} [Group S] (P B : Subgroup G)
     exact ⟨_, hmem, rfl⟩
   obtain ⟨T₂, hT₂⟩ := CFSG.LocalAnalysis.GLTheoremA.CatB.exists_normalizing_sylow (p := 2) (q := 3)
     B M' hB3 Nat.prime_three hBM' hM'cop
-  refine ⟨T₂.map M'.subtype, (Subgroup.map_subtype_le _).trans hM'P, T₂.isPGroup'.map _, hT₂, ?_⟩
+  refine ⟨T₂.map M'.subtype, (Subgroup.map_subtype_le _).trans hM'P, T₂.isPGroup.map _, hT₂, ?_⟩
   have hθM : ∀ q : ↥P, ∃ m : ↥M', θ q = θ ⟨m, hM'P m.2⟩ := by
     intro q
     obtain ⟨m, hm, w, hw, hq⟩ := Set.mem_mul.1
@@ -130,11 +130,13 @@ section KTransfer
 
 variable {L B K : Subgroup G}
 
+omit [Finite G] in
 theorem mem_chevTransfer_iff {s : PSimple 3 L} :
     s ∈ chevTransfer 3 L K ↔ ∃ k : ↥L, (k : G) ∈ K ∧ chevQuotHom 3 L k = s := by
   unfold chevTransfer
   simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem chevQuotHom_normalizerMonoidHom (hBN : B ≤ Subgroup.normalizer (L : Set G))
     {ρ : ↥B →* PSimple 3 L}
     (hρ : ∀ b : ↥B, chevAut 3 L ⟨b, hBN b.2⟩ = MulAut.conj (ρ b)) (b : ↥B) (l : ↥L) :
@@ -143,6 +145,7 @@ theorem chevQuotHom_normalizerMonoidHom (hBN : B ≤ Subgroup.normalizer (L : Se
   rw [← chevAut_chevQuotHom, hρ b]
   rfl
 
+omit [Finite G] in
 theorem chevTransfer_le_centralizer (hBN : B ≤ Subgroup.normalizer (L : Set G))
     {ρ : ↥B →* PSimple 3 L}
     (hρ : ∀ b : ↥B, chevAut 3 L ⟨b, hBN b.2⟩ = MulAut.conj (ρ b)) {d : ↥B}
@@ -165,14 +168,16 @@ theorem chevTransfer_le_centralizer (hBN : B ≤ Subgroup.normalizer (L : Set G)
       _ = chevQuotHom 3 L k * ρ d := by rw [← h1]
   exact h3.symm
 
+omit [Finite G] in
 theorem isPerfect_chevTransfer (hKL : K ≤ L) (hKq : CFSG.Open.IsQuasisimple ↥K) :
     Group.IsPerfect ↥(chevTransfer 3 L K) := by
-  haveI : Group.IsPerfect ↥K := ⟨hKq.1⟩
-  haveI : Group.IsPerfect ↥(K.subgroupOf L) :=
+  have : Group.IsPerfect ↥K := ⟨hKq.1⟩
+  have : Group.IsPerfect ↥(K.subgroupOf L) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hKL).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hKL).symm.surjective
   exact Group.IsPerfect.map (f := chevQuotHom 3 L)
 
+omit [Finite G] in
 theorem chevQuotHom_eq_one_of_central (K : Subgroup G) {k : ↥K}
     (hk : ∀ k' : ↥K, k * k' = k' * k) : chevQuotHom 3 K k = 1 := by
   show (QuotientGroup.mk' (Subgroup.center (PQuot 3 K))) (pQuotHom 3 K k) = 1
@@ -181,6 +186,7 @@ theorem chevQuotHom_eq_one_of_central (K : Subgroup G) {k : ↥K}
   obtain ⟨k', rfl⟩ := pQuotHom_surjective 3 K y
   rw [← map_mul, ← map_mul, hk k']
 
+omit [Finite G] in
 theorem chevQuotHom_eq_one_of_coprime (K : Subgroup G) (hcop : Nat.Coprime 3 (Nat.card K))
     (k : ↥K) : chevQuotHom 3 K k = 1 := by
   have htop : (⊤ : Subgroup ↥K) ≤ GLAPPrimeCore 3 ↥K :=
@@ -259,6 +265,7 @@ theorem exists_surj_chevTransfer (hKL : K ≤ L) (hKq : CFSG.Open.IsQuasisimple 
 noncomputable def preimageK (L K : Subgroup G) (T' : Subgroup (PSimple 3 L)) : Subgroup G :=
   ((T'.comap (chevQuotHom 3 L)) ⊓ K.subgroupOf L).map L.subtype
 
+omit [Finite G] in
 theorem mem_preimageK {T' : Subgroup (PSimple 3 L)} {g : G} :
     g ∈ preimageK L K T' ↔ ∃ hg : g ∈ L, g ∈ K ∧ chevQuotHom 3 L ⟨g, hg⟩ ∈ T' := by
   unfold preimageK
@@ -284,7 +291,7 @@ theorem exists_T_of_T' (hBN : B ≤ Subgroup.normalizer (L : Set G)) {ρ : ↥B 
     (hT'z : ∃ t ∈ T', ∃ k ∈ chevTransfer 3 L K, t * k ≠ k * t) :
     ∃ T : Subgroup G, T ≤ K ∧ IsPGroup 2 ↥T ∧ B ≤ Subgroup.normalizer (T : Set G) ∧
       (⁅T, B⁆ : Subgroup G) ≠ ⊥ ∧ Nat.card ↥T' ≤ Nat.card ↥T ∧ ¬ T ≤ GLAPPrimeCoreOf 3 K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := chevQuotHom 3 L with hπ
   set P := preimageK L K T' with hP
   have hPK : P ≤ K := fun g hg => ((mem_preimageK).1 hg).2.1

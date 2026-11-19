@@ -16,6 +16,7 @@ open scoped MatrixGroups commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {M V : Subgroup G}
 
+omit [Finite G] in
 private theorem xOf_le_centralizer_kOf {H : Subgroup G} {c : G}
     (hS : Sec45Shape M V H c) :
     kOf V H ≤ Subgroup.centralizer (Tim79a.xOf V H : Set G) := by
@@ -46,9 +47,9 @@ private theorem Sec45Shape.exists_mem_conjSubgroup_Pc_not_mem_kOf {H : Subgroup 
     ∃ y ∈ conjSubgroup h₀ (Pc M V), y ∉ kOf V H := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   obtain ⟨-, -, a, b, ha, hb, hne'⟩ :=
     RootHyp.imgK_map_sl2 h hS.Pc_le hS.le_pCore hS.hH hS.not_le ψ
   have hcard : Nat.card (imgK V H (conjSubgroup h₀ (Pc M V))) = 2 ^ (2 * l) := by
@@ -124,6 +125,7 @@ private theorem mem_commSub_zpowers_of_repSec_apply {H : Subgroup G} {c x y : G}
     exact hdfix
   exact hdmem
 
+omit [Finite G] in
 private theorem exists_mem_kOf_commutator_congr_of_mem_commSub {H : Subgroup G} {x y : G}
     (hs : CFSG.Timmesfeld.Bridge.QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H))
     [((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal]
@@ -164,12 +166,12 @@ private theorem Sec45Shape.exists_mem_kOf_commutator_congr {H : Subgroup G} {c x
     ∃ a ∈ kOf V H, ⁅y, a⁆⁻¹ * ⁅y, x⁆ ∈ Tim79a.xOf V H := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hK := hS.quotModHyp h
-  haveI hKnorm : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hK.normal
-  haveI hmod : Module (ZMod 2) (SecMod hK) := SecMod.module hK hw.sq_mem
+  have hKnorm : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hK.normal
+  have hmod : Module (ZMod 2) (SecMod hK) := SecMod.module hK hw.sq_mem
   have hσ : Sec2.IsNatSumModule (repSec hK hK.comm SL(2, F) ψ) :=
     hw.natSum hK (inferInstance : Module (ZMod 2) (SecMod hK))
   have hyH : y ∈ H := conjSubgroup_le_of_le_of_mem hS.Pc_le hcH hy
@@ -208,12 +210,12 @@ private theorem Sec45Shape.exists_mem_inf_Pc_mul_inv_mem_xOf {H : Subgroup G} {c
       (a₁ * a₂)⁻¹ * a ∈ Tim79a.xOf V H := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hK := hS.quotModHyp h
-  haveI hKnorm : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hK.normal
-  haveI hmod : Module (ZMod 2) (SecMod hK) := SecMod.module hK hw.sq_mem
+  have hKnorm : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hK.normal
+  have hmod : Module (ZMod 2) (SecMod hK) := SecMod.module hK hw.sq_mem
   have hsplit : subSec hK (Pc M V ⊓ kOf V H) ⊔
       subSec hK (conjSubgroup c (Pc M V) ⊓ kOf V H) = ⊤ := by
     rw [← subSec_sup hK (inf_le_right : Pc M V ⊓ kOf V H ≤ kOf V H)
@@ -353,9 +355,9 @@ private theorem Sec45Shape.sup_kOf_commMemSubgroup_eq {H : Subgroup G} {c g x y 
     kOf V H ⊔ commMemSubgroup H (Tim79a.xOf V H) (Tim79a.H_le_normalizer_xOf V H) (n * x) = H := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   set H₁ : Subgroup G :=
     commMemSubgroup H (Tim79a.xOf V H) (Tim79a.H_le_normalizer_xOf V H) (n * x) with hH₁
   have hH₁H : H₁ ≤ H := commMemSubgroup_le _ _ _ _
@@ -464,9 +466,9 @@ private theorem commutatorElementHom_range_eq_bot_or_eq_xOf {H : Subgroup G} {c 
       χ.range.map (Tim79a.xOf V H).subtype = Tim79a.xOf V H := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   let W : Subgroup G := Tim79a.xOf V H
   let K : Subgroup G := kOf V H
   let H₁ : Subgroup G := commMemSubgroup H W (Tim79a.H_le_normalizer_xOf V H) (n * x)
@@ -519,6 +521,7 @@ private theorem commutatorElementHom_range_eq_bot_or_eq_xOf {H : Subgroup G} {c 
     exact Sec45Shape.eq_xOf_of_le h hS hW₁W hbot hN
 
 
+omit [Finite G] in
 private theorem mem_subSec_secCent_of_mem_inf_Pc_commutator {H : Subgroup G} {c x n c' : G}
     (hS : Sec45Shape M V H c)
     (hs : CFSG.Timmesfeld.Bridge.QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H))
@@ -727,7 +730,7 @@ private theorem commutatorElement_mem_V_of_mem_inf_Pc {H : Subgroup G} {c g x n 
     calc ⁅c', w⁆ = c' * (Tim79a.xOf V H).subtype (χ a) * c'⁻¹ *
           (Tim79a.xOf V H).subtype (χ a)⁻¹ := by
             rw [commutatorElement_def, ← haw]
-            simp only [map_inv, Subgroup.coe_inv]
+            simp only [map_inv]
       _ = (Tim79a.xOf V H).subtype (χ ⟨c' * (a : G) * c'⁻¹, hc'ac'K⟩) *
           (Tim79a.xOf V H).subtype (χ a)⁻¹ := by rw [hconj]
       _ = (Tim79a.xOf V H).subtype
@@ -750,15 +753,15 @@ private theorem false_of_commutatorElementHom_range_eq_xOf {H : Subgroup G} {c g
     (htop : χ.range.map (Tim79a.xOf V H).subtype = Tim79a.xOf V H) : False := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   let W : Subgroup G := Tim79a.xOf V H
   let K : Subgroup G := kOf V H
   let H₁ : Subgroup G := commMemSubgroup H W (Tim79a.H_le_normalizer_xOf V H) (n * x)
   have hKq := hS.quotModHyp h
-  haveI hKnorm : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hKq.normal
-  haveI hmod : Module (ZMod 2) (SecMod hKq) := SecMod.module hKq hw.sq_mem
+  have hKnorm : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hKq.normal
+  have hmod : Module (ZMod 2) (SecMod hKq) := SecMod.module hKq hw.sq_mem
   have hσ : Sec2.IsNatSumModule (repSec hKq hKq.comm SL(2, F) ψ) :=
     hw.natSum hKq (inferInstance : Module (ZMod 2) (SecMod hKq))
   have hKcent : K ≤ Subgroup.centralizer (W : Set G) := xOf_le_centralizer_kOf hS
@@ -828,9 +831,9 @@ private theorem commutator_eq_one_of_mem_inf {H : Subgroup G} {c g x n y : G}
         kOf V H, k * (n * x) = (n * x) * k := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   let W : Subgroup G := Tim79a.xOf V H
   let K : Subgroup G := kOf V H
   let H₁ : Subgroup G := commMemSubgroup H W (Tim79a.H_le_normalizer_xOf V H) (n * x)
@@ -874,6 +877,7 @@ private theorem commutator_eq_one_of_mem_inf {H : Subgroup G} {c g x n y : G}
 
 
 
+omit [Finite G] in
 private theorem Sec45Shape.of_conjSubgroup_Pc_eq {H : Subgroup G} {h₀ y₀ : G}
     (hSh : Sec45Shape M V H h₀)
     (h : conjSubgroup y₀ (Pc M V) = conjSubgroup h₀ (Pc M V)) :
@@ -947,6 +951,7 @@ private theorem le_PcModuloV_of_le_centralizer {H : Subgroup G} {h₀ g x n w : 
     group
   exact ⟨hc'P, by rw [hw_eq]; exact hx₁⟩
 
+omit [Finite G] in
 private theorem le_PcModuloV_of_le_kOf {H : Subgroup G} {w : G}
     (h : RootHyp M V) (hwW : w ∈ Tim79a.xOf V H)
     (hZW : Tim79a.xOf V H ≤ Subgroup.centralizer (kOf V H : Set G)) :
@@ -1006,7 +1011,7 @@ private theorem mem_Pc_of_mem_xOf_centralizer {H : Subgroup G} {h₀ g x n w : G
     exact hab hwW
   exact (Subgroup.mem_centralizer_iff.mp h1 v (le_xOf_self V H hv))
 
-private theorem exists_mem_Pc_inf_kOf_mul_mem_centralizer {H : Subgroup G} {h₀ g x n y : G}
+private theorem exists_mem_Pc_inf_kOf_mul_mem_centralizer {H : Subgroup G} {h₀ g x n _y : G}
     (h : RootHyp M V) (hS : Sec45Shape M V H h₀)
     (hPC : Pc M V = (Pc M V ⊓ Subgroup.centralizer (conjSubgroup g V : Set G)) ⊔
       (Pc M V ⊓ Subgroup.centralizer (conjSubgroup h₀ V : Set G)))
@@ -1104,7 +1109,7 @@ theorem Sec5Hyp.s512_split (hS : Sec5Hyp M V) {g h : G}
       hy_mem
   obtain ⟨p₀, hp₀, x₂, hx₂, hcent⟩ :=
     exists_mem_Pc_inf_kOf_mul_mem_centralizer (H := hOf M V h) (h₀ := y₀) (g := g)
-      (x := x) (n := n) (y := y) hR hSh' hPC' hCcK hnP hnK hx hH₁le hsup hcomm
+      (x := x) (n := n) (_y := y) hR hSh' hPC' hCcK hnP hnK hx hH₁le hsup hcomm
   exact ⟨_, commMemSubgroup_le (hOf M V h) (Tim79a.xOf V (hOf M V h))
     (Tim79a.H_le_normalizer_xOf V (hOf M V h)) (n * x), hsup, p₀, hp₀, x₂, hx₂, hcent⟩
 

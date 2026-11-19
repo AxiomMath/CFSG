@@ -40,7 +40,7 @@ theorem simpleBlk_invariant {ρ : A5 → Fin 4 → Fin 4 → ZMod 2} (h : Simple
   push Not at hcon
   obtain ⟨hb, ht⟩ := hcon
   obtain ⟨x, hxK, hx0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hb
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, hf0, hfK⟩ := exists_dot_zero_of_lt_top_field K (lt_top_iff_ne_top.mpr ht)
   obtain ⟨g, hg⟩ := h x f hx0 hf0
   have := hfK _ (hK g x hxK)
@@ -50,7 +50,7 @@ theorem simpleBlk_invariant {ρ : A5 → Fin 4 → Fin 4 → ZMod 2} (h : Simple
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [DistribMulAction A5 W]
   [SMulCommClass A5 (ZMod 2) W]
 
-theorem block4_equiv (hs : IsSimpleMod W) [Nontrivial W] (o : ℕ) (ho : o + 4 ≤ 15) (b : Fin 6)
+theorem block4_equiv (_hs : IsSimpleMod W) [Nontrivial W] (o : ℕ) (ho : o + 4 ≤ 15) (b : Fin 6)
     (hb : ∀ k : Fin 15, blk k = b ↔ o ≤ (k : ℕ) ∧ (k : ℕ) < o + 4)
     (hsb : SimpleBlk (bm o)) (y : Fin 15 → W)
     (hR1 : ∀ g k, g • y k = ∑ l, Mt g l k • y l) (hy0 : ∀ k, blk k < b → y k = 0)

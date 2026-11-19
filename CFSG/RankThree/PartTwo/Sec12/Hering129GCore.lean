@@ -38,7 +38,7 @@ theorem commutator_eq_self_of_not_mem_thetaQuotCentralizer {x c : G} {Y : Subgro
         group
       rw [e]
       exact M.mul_mem (hgen _ (Y.mul_mem hy hu) k hk) (M.inv_mem (hgen _ hy k hk))
-    | one => simpa using M.one_mem
+    | one => simp
     | mul a b _ _ iha ihb =>
       have e : y * (a * b) * y⁻¹ = (y * a * y⁻¹) * (y * b * y⁻¹) := by group
       rw [e]
@@ -64,7 +64,7 @@ theorem commutator_eq_self_of_not_mem_thetaQuotCentralizer {x c : G} {Y : Subgro
       refine ⟨r, hr, r⁻¹ * y, ?_, by group⟩
       rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq] at hry
       simpa using hry
-    haveI : Group.IsPerfect (Y ⧸ R) := inferInstance
+    have : Group.IsPerfect (Y ⧸ R) := inferInstance
     have hsolv : Group.IsSolvable (Y ⧸ R) := by
       have hθs : Group.IsSolvable θ :=
         (solvable_prime_complement_core_characterization (H := Y) Nat.prime_three).1
@@ -78,7 +78,7 @@ theorem commutator_eq_self_of_not_mem_thetaQuotCentralizer {x c : G} {Y : Subgro
       rw [h1, one_mul]
     have hsub : Subsingleton (Y ⧸ R) := by
       by_contra hns
-      haveI : Nontrivial (Y ⧸ R) := not_subsingleton_iff_nontrivial.mp hns
+      have : Nontrivial (Y ⧸ R) := not_subsingleton_iff_nontrivial.mp hns
       exact Group.IsPerfect.not_isSolvable (Y ⧸ R) hsolv
     have hRtop : R = ⊤ := by
       rw [eq_top_iff]
@@ -121,12 +121,12 @@ theorem commutator_eq_self_of_not_mem_thetaQuotCentralizer {x c : G} {Y : Subgro
           have e : (l * l')⁻¹ * σ (l * l') = l'⁻¹ * (l⁻¹ * σ l) * σ l' := by
             rw [map_mul]; group
           rw [e, map_mul, map_mul, hz (QuotientGroup.mk' θ l'⁻¹), mul_assoc, ← map_mul] }
-    haveI : Group.IsPerfect g.range := Group.IsPerfect.range g
-    haveI : IsMulCommutative g.range := ⟨⟨fun a b => Subtype.ext (Subtype.ext (by
+    have : Group.IsPerfect g.range := Group.IsPerfect.range g
+    have : IsMulCommutative g.range := ⟨⟨fun a b => Subtype.ext (Subtype.ext (by
       obtain ⟨_, l, rfl⟩ := a
       obtain ⟨_, l', rfl⟩ := b
       exact (Subgroup.mem_center_iff.mp (g l).2 (g l').1).symm))⟩⟩
-    haveI : Subsingleton g.range := inferInstance
+    have : Subsingleton g.range := inferInstance
     refine Sec6.mem_thetaQuotCentralizer_iff.mpr ⟨hcN, fun l hl => ?_⟩
     have h1 : g ⟨l, hl⟩ = 1 := by
       have := Subsingleton.elim (⟨g ⟨l, hl⟩, ⟨l, hl⟩, rfl⟩ : g.range) 1

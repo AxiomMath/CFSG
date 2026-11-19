@@ -48,7 +48,7 @@ theorem g28_inner_of_fix
   obtain ⟨-, hk, -, hloc, -⟩ :=
     even_G2_canonical_field_centralizer_all_orders (by norm_num : 2 ≤ 3) hF σ
   rw [hσp] at hk
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   set E := (entrywiseAdjointAut .G2 σ).toMonoidHom.eqLocus (MonoidHom.id _) with hEdef
   have hE : Nat.card E = ordG2 2 := by
     rw [← Subgroup.card_map_of_injective (adjointGroup .G2 F).subtype_injective, hloc,
@@ -81,7 +81,7 @@ theorem g28_hZ_hinnT
     (∀ (T : Sylow 3 K) (φ : MulAut K), φ ^ 3 = 1 →
       (∀ t ∈ (T : Subgroup K), φ t = t) → ∃ g : K, ∀ x : K, φ x = g * x * g⁻¹) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK8 : Nat.card K = ordG2 8 := G28Rank.card_of_isGTwoEightIndex d hd e
   obtain ⟨d1, hv⟩ := d
   obtain ⟨q, hqp, hqe, hd1⟩ := hd

@@ -254,7 +254,6 @@ theorem fix_mem (p : Fin 4060) (hp : ∀ w ∈ hBWords, kG w p = p) :
       interval_cases i <;> simp [hBWords]
     exact congrArg Fin.val (hp _ hm)
   refine ⟨List.mem_range.2 p.2, ?_⟩
-  beta_reduce
   rw [bAnd_iff, bAnd_iff, ef 0 (by norm_num), ef 1 (by norm_num), ef 2 (by norm_num)]
   exact ⟨Nat.beq_refl _, Nat.beq_refl _, Nat.beq_refl _⟩
 

@@ -84,7 +84,7 @@ theorem card_fixed_conj (g σ : Equiv.Perm (Fin 6)) :
   refine Fintype.card_congr (Equiv.subtypeEquiv g⁻¹ ?_)
   intro x
   rw [show (g * σ * g⁻¹) x = g (σ (g⁻¹ x)) by simp [Equiv.Perm.mul_apply],
-    Equiv.apply_eq_iff_eq_symm_apply]
+    ← _root_.Equiv.eq_symm_apply]
   simp
 
 theorem card_fixed_imageSubset_conj (g σ : Equiv.Perm (Fin 6)) :

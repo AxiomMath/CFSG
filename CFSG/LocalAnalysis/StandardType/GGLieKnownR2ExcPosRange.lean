@@ -53,8 +53,8 @@ theorem itemTwo_of_thmSRangeAt
   · rw [← hφ, hR]
     exact ⟨POmega.ggRootInnerAt_ggU_pomegaMinus hn φ hker hβ hl u,
       POmega.ggRootNoCentralAt_ggU_pomegaMinus hn φ hker hβ hl u⟩
-  · letI : Field F := hField
-    letI : Finite F := hFinite
+  · let : Field F := hField
+    let : Finite F := hFinite
     rw [← hφ, hR]
     exact ⟨TriD4.ggRootInnerAt_triD4 hF φ hker hl u,
       TriD4.ggRootNoCentralAt_triD4 hF φ hker hl u⟩

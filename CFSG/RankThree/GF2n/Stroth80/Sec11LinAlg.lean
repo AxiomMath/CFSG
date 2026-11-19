@@ -413,7 +413,7 @@ theorem odd_order_pow_card_sq_sub_one {K A : Type*} [Field K] [Finite K] [CharP 
       rw [h2K, map_zero]
     rwa [map_ofNat] at h2
   obtain ⟨f, hf⟩ : ∃ f : ℕ, Nat.card K = 2 ^ f := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     exact ⟨(n : ℕ), by rw [Nat.card_eq_fintype_card, hn]⟩
   have hm0 : 0 < m := by
@@ -441,7 +441,7 @@ theorem odd_order_pow_card_sq_sub_one {K A : Type*} [Field K] [Finite K] [CharP 
         exact hT
       rw [hT1, one_pow]
     · have hμq : μ ^ Nat.card K = μ := by
-        haveI := Fintype.ofFinite K
+        have := Fintype.ofFinite K
         rw [Nat.card_eq_fintype_card]
         exact FiniteField.pow_card μ
       have hμf : μ ^ 2 ^ f = μ := by

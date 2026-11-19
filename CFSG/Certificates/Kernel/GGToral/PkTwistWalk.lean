@@ -320,7 +320,7 @@ end Comp
 theorem rootsOf_append (τ : Tag) (H : Hd) (l1 l2 : List ℕ) :
     rootsOf τ H (l1 ++ l2) = rootsOf τ H l1 ∪ rootsOf τ H l2 := by
   ext β
-  simp only [rootsOf, Set.mem_setOf_eq, Set.mem_union, List.mem_append]
+  simp only [rootsOf, Set.mem_ofPred_eq, Set.mem_union, List.mem_append]
   constructor
   · rintro ⟨r, hr | hr, h⟩
     · exact Or.inl ⟨r, hr, h⟩
@@ -335,7 +335,7 @@ theorem mem_rootsOf_map_gam {p : ℕ} {H : Hd} (h : tagHdOK .E6 p 1 H = true) {m
   have key : ∀ r ∈ mem, ∀ s : Fin Tag.E6.rank → ℤ, (β = s ↔ latPerm e6Gamma β =
       latPerm e6Gamma s) := fun r _ s => ⟨fun h => by rw [h], fun h => by
     rw [← latPerm_e6Gamma_involutive β, h, latPerm_e6Gamma_involutive]⟩
-  simp only [rootsOf, Set.mem_setOf_eq, List.mem_map]
+  simp only [rootsOf, Set.mem_ofPred_eq, List.mem_map]
   constructor
   · rintro ⟨_, ⟨r, hr, rfl⟩, hβ⟩
     refine ⟨r, hr, ?_⟩
@@ -837,7 +837,7 @@ theorem pkTwist_caseFacts {p : ℕ} (hp : p.Prime) {D : List ℕ} (hc : pkCheck 
     rw [tcOrbit_eq_union latPerm_e6Gamma_involutive, rootsOf_append, ← hcomp]
     congr 1
     ext β
-    rw [Set.mem_setOf_eq, latLinked_e6Gamma_iff hb hR, mem_rootsOf_map_gam h hmem, ← hcomp]
+    rw [Set.mem_ofPred_eq, latLinked_e6Gamma_iff hb hR, mem_rootsOf_map_gam h hmem, ← hcomp]
     rfl
   rw [hO]
   rcases hkind with ⟨-, v1, q1, v2, q2, v3, q3, hk⟩ | ⟨-, R, hlen, hR'⟩ | ⟨mask, hmk, hwit⟩

@@ -41,8 +41,7 @@ theorem Z_facts :
     z0 ∈ T0L () ∧ z0 ^ 4 = 1 ∧ z0 ^ 2 ≠ 1 ∧ (∀ x ∈ T0L (), x * z0 = z0 * x) ∧
       (∀ x ∈ T0L (), (∀ y ∈ T0L (), x * y = y * x) → x ∈ zL) := by
   have h := checkZ_eq
-  simp only [checkZ, Bool.and_eq_true, beq_iff_eq, bne_iff_ne, ne_eq, decide_eq_true_eq,
-    List.all_eq_true, List.contains_iff_mem, Bool.or_eq_true, Bool.not_eq_true'] at h
+  simp only [checkZ, Bool.and_eq_true, beq_iff_eq, bne_iff_ne, ne_eq, List.all_eq_true, List.contains_iff_mem, Bool.or_eq_true, Bool.not_eq_true'] at h
   obtain ⟨⟨⟨⟨hz, h4⟩, h2⟩, hc⟩, hZ⟩ := h
   refine ⟨hz, h4, h2, hc, fun x hx hxc => ?_⟩
   rcases hZ x hx with h | h
@@ -235,8 +234,8 @@ variable {K : Type} [Group K]
 
 theorem radRigidInner_of_model (e : K ≃* QP.originalSubgroup) (hBT : HoldsTits K 2) :
     RadRigidInner 2 K := by
-  haveI : Finite K := Finite.of_equiv QP.originalSubgroup e.symm.toEquiv
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K := Finite.of_equiv QP.originalSubgroup e.symm.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKcard : Nat.card K = 6048 := by
     rw [Nat.card_congr e.toEquiv, card_group QP QP_ok]
     exact QP_valid.2

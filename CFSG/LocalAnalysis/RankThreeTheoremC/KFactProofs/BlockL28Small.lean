@@ -12,7 +12,7 @@ open CFSG.Open CFSG.AGLEmbedding
 theorem eq_top_of_card_lt_factorial_index {X : Type*} [Group X] [Finite X] [IsSimpleGroup X]
     {J : Subgroup X} (h : Nat.factorial J.index < Nat.card X) : J = ⊤ := by
   by_contra hJ
-  haveI : J.normalCore.Normal := J.normalCore_normal
+  have : J.normalCore.Normal := J.normalCore_normal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal J.normalCore with h0 | h1
   · have := J.index_normalCore_le_factorial_index
     change _ ≤ Nat.factorial J.index at this

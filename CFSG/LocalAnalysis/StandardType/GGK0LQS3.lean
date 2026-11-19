@@ -42,10 +42,10 @@ private theorem lk0xlqs3_rationalRoots_eq_of_image_eq {τ : Tag} {L : Type} [Fie
 
 theorem lq_span_s3
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
-    {p₀ p : ℕ} (S : LangSetup τ L p₀) {a : Fin τ.rank → Lˣ} (hp : p.Prime)
-    (hT : rootDiagUnit τ a ∈ S.D.torus) (hTp : rootDiagUnit τ a ^ p = 1)
-    (ha1 : rootDiagUnit τ a ≠ 1) (i : KernelComponent (rootCharHom a))
-    (hkind : twistKind S.ρ (rootCharHom a) i = .inner) (hp5 : τ = .G2 → 5 ≤ p)
+    {p₀ p : ℕ} (S : LangSetup τ L p₀) {a : Fin τ.rank → Lˣ} (_hp : p.Prime)
+    (hT : rootDiagUnit τ a ∈ S.D.torus) (_hTp : rootDiagUnit τ a ^ p = 1)
+    (_ha1 : rootDiagUnit τ a ≠ 1) (i : KernelComponent (rootCharHom a))
+    (hkind : twistKind S.ρ (rootCharHom a) i = .inner) (_hp5 : τ = .G2 → 5 ≤ p)
     (hQ : S.D.q ^ componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) = 2)
     (hrank : ∀ α ∈ componentRoots (rootCharHom a) i, ∀ δ ∈ componentRoots (rootCharHom a) i,
       δ = α ∨ δ = -α)
@@ -151,10 +151,10 @@ theorem lq_span_s3
     exact hσ2 c
   obtain ⟨hfinK, hKcard⟩ := exists_fixSubfield_fintype (S := S) (m := 1) one_pos hσq
   have hK2 : Nat.card (fixSubfield σ) = 2 := by rw [hKcard, hq2, pow_one]
-  haveI : Finite (fixSubfield σ) := hfinK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype (fixSubfield σ) := Fintype.ofFinite _
-  haveI : CharP (fixSubfield σ) 2 :=
+  have : Finite (fixSubfield σ) := hfinK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype (fixSubfield σ) := Fintype.ofFinite _
+  have : CharP (fixSubfield σ) 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := 1)
       (by rw [← Nat.card_eq_fintype_card, hK2, pow_one])
   have hCQmap : CQ σ i = (componentRootSpan (fixSubfield σ) (rootCharHom a) i).map

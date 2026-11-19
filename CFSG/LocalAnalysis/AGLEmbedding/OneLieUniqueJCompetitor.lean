@@ -43,7 +43,7 @@ theorem D1OneLieData.exists_extremal_of_le (hT : KFactOneLieTorus)
     rw [hR'def, ← Subgroup.map_subgroupOf_eq_of_le (le_inf hXH' hXM)]
     exact Subgroup.map_mono hS
   have hR'HM : R' ≤ H' ⊓ M := Subgroup.map_subtype_le _
-  have hR'p : IsPGroup p R' := S.isPGroup'.map _
+  have hR'p : IsPGroup p R' := S.isPGroup.map _
   obtain ⟨S', hS'⟩ := (hR'p.comap_subtype (K := H')).exists_le_sylow
   have hR'S' : R' ≤ (S' : Subgroup H').map H'.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le (hR'HM.trans inf_le_left)]
@@ -52,7 +52,7 @@ theorem D1OneLieData.exists_extremal_of_le (hT : KFactOneLieTorus)
     refine (Subgroup.eq_of_le_of_card_ge hR'S' ?_).symm
     rw [Subgroup.card_map_of_injective H'.subtype_injective, S'.card_eq_multiplicity,
       ← T.card_eq_multiplicity, ← Subgroup.card_map_of_injective H'.subtype_injective]
-    exact card_le_card_map_sylow S (T.isPGroup'.map _) (le_inf (Subgroup.map_subtype_le _) hTM)
+    exact card_le_card_map_sylow S (T.isPGroup.map _) (le_inf (Subgroup.map_subtype_le _) hTM)
   have hcard : Nat.card R' = Nat.card R := by
     refine le_antisymm (hext.extremal H' hH'.1 hH'M hrank R' hR'HM hR'p) (hRY.trans ?_)
     rw [← hS'eq]

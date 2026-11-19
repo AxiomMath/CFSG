@@ -61,7 +61,7 @@ theorem ggQ2s08_lab_twA (r : ℕ) {G : Type} [Group G] {Bs L : Subgroup G} {x : 
 theorem ggQ2s08_lab_twE6 {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     (M : GGQ2LDatum 3 Bs L x) (labL : LargeEvenLabel) (htag : labL.tag = .twE6)
     (hWeyl : GGQ2LabelWeyl labL M.coxeter) :
-    ∃ e : Fin 6 ≃ M.Λ, ∀ i j, M.cartan (e i) (e j) = CartanMatrix.E₆ i j := by
+    ∃ e : Fin 6 ≃ M.Λ, ∀ i j, M.cartan (e i) (e j) = (CartanMatrix.E 6) i j := by
   have hW : ∃ e : Fin 6 ≃ M.Λ, M.coxeter = CoxeterMatrix.E₆.reindex e := by
     simpa only [GGQ2LabelWeyl, htag] using hWeyl
   obtain ⟨e, he⟩ := hW

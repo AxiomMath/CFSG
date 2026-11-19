@@ -182,7 +182,7 @@ theorem leviOb_sl [Finite F] [CharP F 2] {Y : Type} [Group Y]
     exact range_coordHom_le_centralizer (hdisj B.1 (hmemSO B).1 B'.1 (hmemSO B').1
       (fun h => hne (Subtype.ext h)))
   have hT : Group.IsSolvable ↥T :=
-    isSolvable_of_comm (fun a b => (isMulCommutative_torus hext).is_comm.comm a b)
+    _root_.Group.isSolvable_of_comm (fun a b => (isMulCommutative_torus hext).is_comm.comm a b)
   have hTn : T ≤ Subgroup.normalizer (((⨆ B : κ, Kb B.1 : Subgroup _)) : Set _) :=
     le_normalizer_iSup fun B => hTnorm B.1
   have hEsolv : Group.IsSolvable ↥E := by

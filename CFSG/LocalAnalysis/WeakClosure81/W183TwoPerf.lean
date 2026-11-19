@@ -7,7 +7,7 @@ public section
 namespace CFSG.LocalAnalysis.WeakClosure81
 
 theorem exists_simple_subnormal_of_section (hM : OddMultiplier186Triv) {Y : Type} [Group Y]
-    [Finite Y] {Kk P Lc : Subgroup Y} (hKP : Kk ≤ P)
+    [Finite Y] {Kk P Lc : Subgroup Y} (_hKP : Kk ≤ P)
     (hKc : Kk ≤ Subgroup.centralizer (P : Set Y)) (hodd : Odd (Nat.card ↥Kk)) (hLP : Lc ≤ P)
     (hLsub : Lc.IsSubnormal) {S : Type} [Group S] [IsSimpleGroup S]
     (hSnc : ∃ u v : S, u * v ≠ v * u) (hS : Shape186OddTriv S) (φ : ↥Lc →* S)
@@ -39,7 +39,7 @@ theorem exists_simple_subnormal_of_section (hM : OddMultiplier186Triv) {Y : Type
         rw [← _root_.commutator_def]
         exact hSperf.commutator_eq_top
   have hmap : Λ₀.map φ = ⊤ := hmapderiv n
-  haveI hΛ₀perf : Group.IsPerfect ↥Λ₀ := Subgroup.isPerfect_iff.mpr hΛ₀comm
+  have hΛ₀perf : Group.IsPerfect ↥Λ₀ := Subgroup.isPerfect_iff.mpr hΛ₀comm
   let eΛ : ↥Λ₀ ≃* ↥Λ := Subgroup.equivMapOfInjective Λ₀ Lc.subtype Lc.subtype_injective
   have hΛperf : Group.IsPerfect ↥Λ :=
     Group.IsPerfect.ofSurjective (f := eΛ.toMonoidHom) eΛ.surjective
@@ -71,7 +71,7 @@ theorem exists_simple_subnormal_of_section (hM : OddMultiplier186Triv) {Y : Type
     change ((w : ↥Λ) : Y) * ((z : ↥Λ) : Y) = ((z : ↥Λ) : Y) * ((w : ↥Λ) : Y)
     exact Subgroup.mem_centralizer_iff.mp (hKc (Subgroup.mem_subgroupOf.mp hz))
       ((w : ↥Λ) : Y) (hLP (hΛL w.2))
-  haveI hZnormal : Z.Normal := Subgroup.normal_of_le_center hZcent
+  have hZnormal : Z.Normal := Subgroup.normal_of_le_center hZcent
   have hZodd : Odd (Nat.card ↥Z) := by
     have hZmap : Z.map Λ.subtype = Kk ⊓ Λ := Subgroup.subgroupOf_map_subtype Kk Λ
     have hcard : Nat.card ↥Z = Nat.card ↥(Kk ⊓ Λ) := by

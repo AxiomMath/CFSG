@@ -54,13 +54,13 @@ private lemma triD4Line_ggFix_eq_of_zpowers_eq {G : Type*} [Group G] {a b : MulA
 private lemma triD4Line_zpowers_eq_of_mem_zpowers_of_prime {G : Type*} [Group G] {y z : G}
     {p : ℕ} (hp : p.Prime) (hpow : y ^ p = 1) (hz : z ≠ 1)
     (hzy : z ∈ Subgroup.zpowers y) : Subgroup.zpowers z = Subgroup.zpowers y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hy1 : y ≠ 1 := by
     intro h1
     rw [h1, Subgroup.zpowers_one_eq_bot] at hzy
     exact hz (Subgroup.mem_bot.mp hzy)
   have hyfin : IsOfFinOrder y := isOfFinOrder_iff_pow_eq_one.mpr ⟨p, hp.pos, hpow⟩
-  haveI := hyfin.finite_zpowers
+  have := hyfin.finite_zpowers
   have hle : Subgroup.zpowers z ≤ Subgroup.zpowers y := Subgroup.zpowers_le.mpr hzy
   have hzp : z ^ p = 1 := by
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hzy
@@ -102,7 +102,7 @@ theorem ggTriD4LineWeylStrong_holds
     (hs : IsSimpleGroup (GGTriD4R n K)) : GGTriD4LineWeylStrong n K := by
   rw [ggTriD4LineWeylStrong_iff]
   intro A hA h27 a₀ ha₀ ha₀ne ha₀I
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have hn1 : 1 ≤ n := by omega
   have hZ : Subgroup.center (GGTriD4R n K) = ⊥ := triD4Line_center_bot hn1 K hK
   have hID : GGTriD4ID n K = Set.range (MulAut.conj : GGTriD4R n K →* MulAut (GGTriD4R n K)) :=
@@ -113,8 +113,8 @@ theorem ggTriD4LineWeylStrong_holds
   have he₀ne : e₀ ≠ 1 := by
     intro h1; exact ha₀ne (by rw [h1, map_one])
   obtain ⟨k, hk_field, hk_alg, hk⟩ := triD4Line_exists_subfield K hK
-  letI : Field k := hk_field
-  letI : Algebra k K := hk_alg
+  let : Field k := hk_field
+  let : Algebra k K := hk_alg
   obtain ⟨D⟩ := triD4Line_kgXData K hev hK k hk
   have hEAelab : IsElemAbelian 3 (triD4LineE n K A) := triD4Line_E_isElemAbelian K hZ A hA
   have hEApg : IsPGroup 3 (triD4LineE n K A) := CFSG.Open.IsElemAbelian.isPGroup hEAelab
@@ -177,7 +177,7 @@ theorem ggTriD4LineWeylStrong_holds
       have he₁ne : e₁ ≠ 1 := by
         intro h1; exact he₁not (by rw [h1]; exact Subgroup.one_mem _)
       have he₁order : orderOf e₁ = 3 := by
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         exact orderOf_eq_prime he₁pow he₁ne
       obtain ⟨g₂, hg₂⟩ := triD4Line_conj_z0_of_torus K hn hK D.z₀ e₁ D.orderOf_z₀ he₁order
         (triD4Line_not_dvd_commutator hn K hK k hk D) T hT hTiso

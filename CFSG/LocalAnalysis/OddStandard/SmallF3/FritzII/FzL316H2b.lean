@@ -36,6 +36,7 @@ theorem fzl_card_comap {G H : Type} [Group G] [Group H] (f : G →* H)
   rw [hker_card] at hcard
   exact hcard.symm
 
+omit [Finite G] in
 theorem fzl_W_mem_iff {f : ↥(fzN2 t x₁ x₂) →* FzZ2xSigma4} (hF : FzF t x₁ x₂ f) :
     ∀ g : G, g ∈ ctxW t x₁ x₂ ↔ ∃ hg : g ∈ fzN2 t x₁ x₂, f ⟨g, hg⟩ = 1 := by
   intro g

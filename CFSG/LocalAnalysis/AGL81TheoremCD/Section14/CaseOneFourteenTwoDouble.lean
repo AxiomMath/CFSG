@@ -39,7 +39,7 @@ private theorem exists_elemAbelian_card_nine_of_sylow
     (hJ : IsKComp M N J) (htype : IsSL34Star J ∨ Is3A6Star J)
     (hT : CFSG.ABGLocalTools.IsSylowOf 3 T J) :
     ∃ A : Subgroup G, A ≤ T ∧ IsElemAbelian 3 A ∧ Nat.card ↥A = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Z : Subgroup G := (Subgroup.center ↥T).map T.subtype
   have hZcard : Nat.card ↥Z = 3 := (hJ.sylow_three_structure htype hT).2.2.2
   have hZT : Z ≤ T := Subgroup.map_subtype_le _
@@ -74,6 +74,7 @@ private theorem exists_elemAbelian_card_nine_of_sylow
   simpa using (CFSG.GroupTheory.isElemAbelian_sup_zpowers_of_commute
     hZcard hvord hvZ hcomm).2
 
+omit [Finite G] in
 private theorem mem_starCentralizer_of_commutator_le {J : Subgroup G} {x : G}
     (hxN : x ∈ Subgroup.normalizer (J : Set G))
     (hx : ∀ g ∈ J, x * g * x⁻¹ * g⁻¹ ∈
@@ -85,7 +86,7 @@ private theorem commute_of_mem_starCentralizer {J T : Subgroup G} {x : G}
     (hT : CFSG.ABGLocalTools.IsSylowOf 3 T J)
     (hxT : x ∈ Subgroup.normalizer (T : Set G)) (hx : x ∈ starCentralizer J) :
     ∀ t ∈ T, x * t = t * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup G := (CFSG.pPrimeCore 3 ↥J).map J.subtype
   have hO : ¬ 3 ∣ Nat.card ↥O := by
     rw [show Nat.card ↥O = Nat.card ↥(CFSG.pPrimeCore 3 ↥J) from
@@ -95,7 +96,7 @@ private theorem commute_of_mem_starCentralizer {J T : Subgroup G} {x : G}
   have hcop : Nat.Coprime (Nat.card ↥T) (Nat.card ↥O) := by
     rw [hk]
     exact (Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hO))
-  have hinf : T ⊓ O = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hinf : T ⊓ O = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   intro t ht
   have hmemO : x * t * x⁻¹ * t⁻¹ ∈ O :=
     commutator_mem_map_of_mem_quotientCentralizer (CFSG.pPrimeCore 3 ↥J)
@@ -111,6 +112,7 @@ private theorem commute_of_mem_starCentralizer {J T : Subgroup G} {x : G}
   calc x * t = (x * t * x⁻¹) * x := by group
     _ = t * x := by rw [h2]
 
+omit [Finite G] in
 private theorem pow_three_eq_one_of_decomp {x₁ x₂ e : G}
     (hx : x₁ * x₂ = x₂ * x₁) (hx₁ : x₁ ^ 3 = 1) (hx₂ : x₂ ^ 3 = 1)
     (he : e ^ 3 = 1) (he₁ : e * x₁ = x₁ * e) (he₂ : e * x₂ = x₂ * e) :
@@ -134,7 +136,7 @@ private theorem commutator_eq_bot_of_two_kComp {J₁ J₂ T₁ T₂ R : Subgroup
     (hT₁ : CFSG.ABGLocalTools.IsSylowOf 3 T₁ J₁)
     (hT₂ : CFSG.ABGLocalTools.IsSylowOf 3 T₂ J₂)
     (hR : IsPGroup 3 R) (hT₁R : T₁ ≤ R) (hT₂R : T₂ ≤ R) : ⁅T₁, T₂⁆ = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR' : IsPGroup 3 ↥⁅T₁, T₂⁆ := hR.to_le (Subgroup.commutator_le_of_le hT₁R hT₂R)
   have hJ₂J₁ : ⁅J₂, J₁⁆ ≤ (CFSG.pPrimeCore 3 ↥J₁).map J₁.subtype :=
     commutator_le_pPrimeCore_of_distinct h₁ h₂ hne.symm
@@ -155,7 +157,7 @@ private theorem inf_eq_center_of_two_kComp
     (hT₁R : T₁ ≤ R) (hT₂R : T₂ ≤ R) (hRN : R ≤ N')
     (hcomm : ⁅T₁, T₂⁆ = ⊥) (hrank : CFSG.Open.pRank 3 N' ≤ 3) :
     T₁ ⊓ T₂ = (Subgroup.center ↥T₁).map T₁.subtype := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hs₁ := h₁.sylow_three_structure (Or.inl ht₁) hT₁
   have hs₂ := h₂.sylow_three_structure ht₂ hT₂
   have hcent₂ : T₂ ≤ Subgroup.centralizer (T₁ : Set G) := by
@@ -367,7 +369,7 @@ private theorem false_of_factor_not_mem_sup
     (hAea : IsElemAbelian 3 A) (hAcard : Nat.card ↥A = 9) {f : G} (hf3 : f ^ 3 = 1)
     (hfcent : ∀ t ∈ T₁ ⊔ T₂, f * t = t * f) (hfV : f ∉ T₁ ⊔ T₂)
     (hfR : f ∈ R) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨v, hvT, hvZ, hvpow⟩ :=
     exists_mem_pow_three_not_mem_center_of_sylow h₂ ht₂ hT₂
   have hcent₂ : T₂ ≤ Subgroup.centralizer (T₁ : Set G) := by
@@ -434,7 +436,7 @@ private theorem mem_sup_of_two_kComp
     (hRT₂ : R ≤ Subgroup.normalizer (T₂ : Set G))
     (hcomm : ⁅T₁, T₂⁆ = ⊥) (hinf : T₁ ⊓ T₂ = (Subgroup.center ↥T₁).map T₁.subtype)
     (hrank : CFSG.Open.pRank 3 N' ≤ 3) {e : G} (he : e ∈ E) : e ∈ T₁ ⊔ T₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x₁, hx₁T, x₂, hx₂T, f, heq, hf₁, hf₂, hfT₁, hfT₂, hf3⟩ :=
     exists_factor_of_mem_two_kComp h hLN hne h₁ h₂ ht₁ ht₂ hT₁ hT₂ hER hT₁R hT₂R
       hRJ₁ hRJ₂ hRT₁ hRT₂ hcomm he
@@ -473,7 +475,7 @@ theorem HypCGen.le_sup_of_two_kComp
     (hRT₂ : R ≤ Subgroup.normalizer (T₂ : Set G)) :
     E ≤ T₁ ⊔ T₂ ∧ Nat.card ↥(T₁ ⊔ T₂) = 3 ^ 5 ∧ ⁅T₁, T₂⁆ = ⊥ ∧
       T₁ ⊓ T₂ = (Subgroup.center ↥T₁).map T₁.subtype ∧ ∀ x ∈ T₁ ⊔ T₂, x ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrank : CFSG.Open.pRank 3 N ≤ 3 :=
     h.cstar.pRank_le_three_of_isTwoLocal Nat.prime_three (by norm_num) h.not_mem_sigmaA
       h.isTwoLocal

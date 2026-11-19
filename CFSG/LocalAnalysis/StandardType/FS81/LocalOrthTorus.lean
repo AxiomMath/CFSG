@@ -97,7 +97,7 @@ private theorem orderOf_torusHom {n : ℕ} {K : Subgroup G} (φ : ↥K ≃* L)
     {τ : (Fin n → Multiplicative (ZMod 3)) →* L} (hτ : Function.Injective τ) (i : Fin n) :
     orderOf (torusHom φ τ (Pi.mulSingle i (ofAdd 1))) = 3 := by
   rw [orderOf_injective (torusHom φ τ) (torusHom_injective φ hτ)]
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   refine orderOf_eq_prime ?_ ?_
   · rw [mulSingle_ofAdd_pow, ZMod.natCast_self, zero_mul, ofAdd_zero, Pi.mulSingle_one]
   · intro h
@@ -135,7 +135,7 @@ private theorem prod_torusBasis_eq {n : ℕ} {b₀ : G} {K : Subgroup G} (φ : �
   apply congrArg List.prod
   rw [List.ofFn_inj]
   funext i
-  simp only [torusB, Fin.cons_succ, Function.comp_apply, map_pow, torusHom_apply, torusCoord]
+  simp only [torusB, Fin.cons_succ, map_pow, torusHom_apply, torusCoord]
 
 private theorem torus_pow_and_hom_eq_one {n : ℕ} {b₀ : G} {K : Subgroup G} (φ : ↥K ≃* L)
     {τ : (Fin n → Multiplicative (ZMod 3)) →* L} (hdisj : Disjoint (Subgroup.zpowers b₀) K)
@@ -356,25 +356,25 @@ private def dinvTail {n : ℕ} (i j : Fin n) : Fin n → ZMod 3 := sgnVec i * sg
 
 private theorem dinvTail_self_left {n : ℕ} {i j : Fin n} (hij : i ≠ j) :
     dinvTail i j i = -1 := by
-  simp only [dinvTail, sgnVec, Pi.mul_apply, if_pos rfl, if_neg hij]
+  simp only [dinvTail, sgnVec, Pi.mul_apply, ite_eq_right hij]
   decide
 
 private theorem dinvTail_self_right {n : ℕ} {i j : Fin n} (hij : i ≠ j) :
     dinvTail i j j = -1 := by
-  simp only [dinvTail, sgnVec, Pi.mul_apply, if_neg (Ne.symm hij), if_pos rfl]
+  simp only [dinvTail, sgnVec, Pi.mul_apply, ite_eq_right (Ne.symm hij)]
   decide
 
 private theorem dinvTail_of_ne {n : ℕ} {i j k : Fin n} (hki : k ≠ i) (hkj : k ≠ j) :
     dinvTail i j k = 1 := by
-  simp only [dinvTail, sgnVec, Pi.mul_apply, if_neg hki, if_neg hkj]
+  simp only [dinvTail, sgnVec, Pi.mul_apply, ite_eq_right hki, ite_eq_right hkj]
   decide
 
 private theorem sgnVec_mul_self {n : ℕ} (i : Fin n) : sgnVec i * sgnVec i = 1 := by
   funext k
   by_cases h : k = i
-  · simp only [sgnVec, Pi.mul_apply, if_pos h, Pi.one_apply]
+  · simp only [sgnVec, Pi.mul_apply, ite_eq_left h, Pi.one_apply]
     decide
-  · simp only [sgnVec, Pi.mul_apply, if_neg h, Pi.one_apply]
+  · simp only [sgnVec, Pi.mul_apply, ite_eq_right h, Pi.one_apply]
     decide
 
 private theorem dinvTail_mul_self {n : ℕ} (i j : Fin n) :
@@ -394,9 +394,9 @@ private theorem even_card_negSet {n : ℕ} {t : Fin n → ZMod 3}
     calc ∏ i, t i = ∏ i, (if t i = -1 then t i else 1) := by
           refine Finset.prod_congr rfl fun i _ => ?_
           by_cases h : t i = -1
-          · rw [if_pos h]
+          · rw [ite_eq_left h]
           · rcases ht i with h1 | h1
-            · rw [if_neg h, h1]
+            · rw [ite_eq_right h, h1]
             · exact absurd h1 h
       _ = ∏ i ∈ Finset.univ.filter (fun i => t i = -1), t i :=
           (Finset.prod_filter (s := Finset.univ) (p := fun i => t i = -1) (f := t)).symm
@@ -406,7 +406,7 @@ private theorem even_card_negSet {n : ℕ} {t : Fin n → ZMod 3}
   rw [hprodt, Finset.prod_const] at hprod
   have h2 : 2 ∣ T.card := by
     have ho : orderOf (-1 : ZMod 3) = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+      have : Fact (Nat.Prime 2) := ⟨by decide⟩
       exact orderOf_eq_prime (by decide) (by decide)
     rw [← ho]
     exact orderOf_dvd_iff_pow_eq_one.mpr hprod
@@ -473,7 +473,7 @@ private theorem card_erase_two {n : ℕ} {T : Finset (Fin n)} {i j : Fin n}
   omega
 
 private theorem ssubset_erase_two {n : ℕ} {T : Finset (Fin n)} {i j : Fin n}
-    (hi : i ∈ T) (hj : j ∈ T.erase i) : (T.erase i).erase j ⊂ T := by
+    (hi : i ∈ T) (_hj : j ∈ T.erase i) : (T.erase i).erase j ⊂ T := by
   have hsub : (T.erase i).erase j ⊆ T := by
     intro x hx
     simp only [Finset.mem_erase] at hx

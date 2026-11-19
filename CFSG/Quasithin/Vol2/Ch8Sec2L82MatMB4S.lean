@@ -118,7 +118,7 @@ theorem card_imgCd_KS_mb4
 
 def commModK {G : Type*} [Group G] (K : Subgroup G) (z : G) : Subgroup G where
   carrier := {g | g ∈ Subgroup.normalizer (K : Set G) ∧ ⁅z, g⁆ ∈ K}
-  one_mem' := ⟨Subgroup.one_mem _, by simpa [commutatorElement_def] using K.one_mem⟩
+  one_mem' := ⟨Subgroup.one_mem _, by simp [commutatorElement_def]⟩
   mul_mem' := by
     rintro a b ⟨ha, hza⟩ ⟨hb, hzb⟩
     refine ⟨Subgroup.mul_mem _ ha hb, ?_⟩
@@ -177,7 +177,7 @@ theorem rhoCd_conj_mb4 {g t : Equiv.Perm (Fin 24)} (hg : g ∈ AutPerm) (ht : t 
   rfl
 
 theorem mb4_std_c_of
-    (hD : ∃ (t0 g0 : Equiv.Perm (Fin 24)) (ht0 : t0 ∈ AutPerm) (hg0 : g0 ∈ AutPerm),
+    (hD : ∃ (t0 g0 : Equiv.Perm (Fin 24)) (ht0 : t0 ∈ AutPerm) (_hg0 : g0 ∈ AutPerm),
       t0 * t0 = 1 ∧ rhoCd ht0 ∈ stabSub US ∧ t0 * sxZ * t0⁻¹ * sxZ ∈ sxKS ∧
         g0 * t0 * g0⁻¹ ∈ sxKS)
     (hcentP : (rhoC11 AutPerm le_rfl).range ⊓ centSub US ≤ imgCd sxP0)
@@ -190,7 +190,7 @@ theorem mb4_std_c_of
           t * z * t⁻¹ * z ∈ pCoreOf 2 (imgCd sxP0) := by
   have hS0 := card_stab_US_le
   obtain ⟨hPS, hρ, -, hKP, hKn, hK2, hKC, hCK⟩ := lu_code_std hS0
-  obtain ⟨t0, g0, ht0, hg0, ht0sq, ht0stab, ht0inv, hconj⟩ := hD
+  obtain ⟨t0, g0, ht0, _hg0, ht0sq, ht0stab, ht0inv, hconj⟩ := hD
   have : Finite (MulAut W11) := finite_mulAut_z (V := W11)
   have hOs : pCoreOf 2 (imgCd sxP0) = imgCd sxKS :=
     le_antisymm (pCoreOf_sxP0_le hS0) (le_pCoreOf_mb4 hKP hK2 hKn)
@@ -266,14 +266,14 @@ theorem mb4_std_c_of
   · have h : (n * rhoCd ht0 * n⁻¹) ^ 2 = n * (rhoCd ht0 * rhoCd ht0) * n⁻¹ := by
       rw [pow_two]; group
     rw [h, ht0sq']; group
-  · refine ⟨rhoCd hg0 * n⁻¹, Subgroup.mul_mem _ ⟨⟨g0, hg0⟩, rfl⟩ (Subgroup.inv_mem _ hn.1), ?_⟩
+  · refine ⟨rhoCd _hg0 * n⁻¹, Subgroup.mul_mem _ ⟨⟨g0, _hg0⟩, rfl⟩ (Subgroup.inv_mem _ hn.1), ?_⟩
     rw [hXK]
-    have heq : (rhoCd hg0 * n⁻¹) * (n * rhoCd ht0 * n⁻¹) * (rhoCd hg0 * n⁻¹)⁻¹ =
-        rhoCd hg0 * rhoCd ht0 * (rhoCd hg0)⁻¹ := by group
+    have heq : (rhoCd _hg0 * n⁻¹) * (n * rhoCd ht0 * n⁻¹) * (rhoCd _hg0 * n⁻¹)⁻¹ =
+        rhoCd _hg0 * rhoCd ht0 * (rhoCd _hg0)⁻¹ := by group
     rw [heq]
     have hm : g0 * t0 * g0⁻¹ ∈ AutPerm := sxP0_le (sxKS_le_P0 hconj)
     have h1 := rhoCd_mem_imgCd hm hconj
-    rwa [rhoCd_conj_mb4 hg0 ht0 hm] at h1
+    rwa [rhoCd_conj_mb4 _hg0 ht0 hm] at h1
   · intro z hz hzc
     rw [hOs]
     rw [hOs] at hzc

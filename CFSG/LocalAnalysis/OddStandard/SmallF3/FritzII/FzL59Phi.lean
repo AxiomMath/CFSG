@@ -118,7 +118,7 @@ private theorem fz59phi_conj_Z {b : Fin 3 → Fin 2 → G} (hb : Fz59Rows b) {n 
     rw [e]
     exact fz59_comm_mem_Z hb _ (hn' _ (fz59phi_mem_R b i 0)) _ (hn' _ (fz59phi_mem_R b i 1))
   rcases (fz59_mem_Z hb z).mp hz with rfl | rfl | rfl | rfl
-  · simpa using (fz59Z b).one_mem
+  · simp
   · exact key 0
   · exact key 1
   · exact key 2

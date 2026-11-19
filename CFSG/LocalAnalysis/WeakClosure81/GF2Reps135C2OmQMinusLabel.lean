@@ -62,7 +62,7 @@ include hn hirr in
 theorem omq_omMinus_dScalar_eq_one (χ : spinGroup (quadMinus n K b c) → k) (i : Fin (n - 1))
     (hi : ∀ h ∈ minusTorus n hirr i, χ h = 1) :
     (SmallO8mCurtis.curtisDatum n hn hirr).dScalar χ i = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := CFSG.LieType.Steinberg.curtisDatumOf_dScalar_eq_neg_one
     (minusDatum_isCTGroupDatum n hirr hn)
     (minusDatum_steinbergExtras n hirr)
@@ -77,7 +77,7 @@ theorem omq_omMinus_dScalar_eq_zero (χ : spinGroup (quadMinus n K b c) → k)
       ∀ a' ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H, χ (a * a') = χ a * χ a')
     (i : Fin (n - 1)) (hi : ∃ h ∈ minusTorus n hirr i, χ h ≠ 1) :
     (SmallO8mCurtis.curtisDatum n hn hirr).dScalar χ i = 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨h₀, hh₀, hχh₀⟩ := hi
   have hmem : h₀ ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H := by
     change h₀ ∈ ⨆ j, minusTorus n hirr j
@@ -97,6 +97,7 @@ theorem omq_omMinus_dScalar_eq_zero (χ : spinGroup (quadMinus n K b c) → k)
     (fun _ hγ => CFSG.LieType.Steinberg.isPGroup_minusRootGroup hirr hγ) χ hχ i hmem hcond
 
 include hn hirr in
+omit [CharP k 2] in
 theorem omq_omMinus_chi_eq_one_of_coroots (χ : spinGroup (quadMinus n K b c) → k)
     (hχ : ∀ a ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H,
       ∀ a' ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H, χ (a * a') = χ a * χ a')
@@ -123,7 +124,7 @@ theorem omq_omMinus_exists_separating {V : Type*} [AddCommGroup V] [Module k V]
     (ht : (SmallO8mCurtis.curtisDatum n hn hirr).IsCurtisType σ y χ μ)
     {g : spinGroup (quadMinus n K b c)} (hg : σ g ≠ 1) :
     ∃ i : Fin (n - 1), μ i = (SmallO8mCurtis.curtisDatum n hn hirr).dScalar χ i := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra h
   have hne : ∀ i, μ i ≠ (SmallO8mCurtis.curtisDatum n hn hirr).dScalar χ i :=
     fun i hi => h ⟨i, hi⟩

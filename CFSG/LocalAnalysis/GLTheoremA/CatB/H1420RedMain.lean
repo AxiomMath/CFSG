@@ -64,7 +64,7 @@ theorem exists_core_of_modelA {p z : ℕ} {s : TauCeti.SporadicName} (hp : p.Pri
   have hap : IsPGroup p (Subgroup.zpowers y) := isPGroup_zpowers_of_pow_eq_one hyp
   have hJne : chevTransfer p K I₀ ≠ ⊤ := chevTransfer_ne_top p hq.1 hnot
   have hJc := glaPComponent_chevTransfer hp hy hap hI'
-  haveI : IsSimpleGroup (PSimple p K) := hq.2
+  have : IsSimpleGroup (PSimple p K) := hq.2
   refine ⟨chevAut p K ⟨y, hy⟩, chevTransfer p K I₀, ?_⟩
   unfold I1420Core
   refine ⟨hq.2, CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq,
@@ -75,7 +75,7 @@ theorem exists_core_of_modelA {p z : ℕ} {s : TauCeti.SporadicName} (hp : p.Pri
     obtain ⟨g⟩ := nonempty_pSimple_equiv_chevTransfer hp hy hap hI'
     obtain rfl : i = .sporadic s := hi
     exact ⟨g.symm.trans e⟩
-  · haveI : Nontrivial (PSimple p (chevTransfer p K I₀)) :=
+  · have : Nontrivial (PSimple p (chevTransfer p K I₀)) :=
       (isQuasisimple_pQuot_of_glaPComponent hp hJc).2.toNontrivial
     have hB : Nontrivial (PQuot p (chevTransfer p K I₀)) :=
       (QuotientGroup.mk'_surjective (Subgroup.center (PQuot p (chevTransfer p K I₀)))).nontrivial

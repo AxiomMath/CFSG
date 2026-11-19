@@ -112,7 +112,7 @@ theorem eq_bot_of_coprime_of_psl2GF {p n : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (
   have hp : p.Prime := Fact.out
   have hn1 : 1 ≤ n := by omega
   set T : Subgroup Y := (Rb : Subgroup Y) ⊓ K with hT
-  have hTp : IsPGroup p T := Rb.isPGroup'.to_inf_left
+  have hTp : IsPGroup p T := Rb.isPGroup.to_inf_left
   set D : Subgroup Y := Subgroup.centralizer (K : Set Y) with hDdef
   have : K.Normal := hKn
   have hB : IsPGroup p ↥(T ⊔ D) := by

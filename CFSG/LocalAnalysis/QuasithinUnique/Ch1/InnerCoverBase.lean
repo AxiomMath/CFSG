@@ -84,7 +84,7 @@ theorem exists_noncentral_sylow_centralizer (h : InvDatum L α) (hi : IsInnerAut
       _ = 1 := hk'
   have hz : IsPGroup 2 ↥(Subgroup.zpowers l) := isPGroup_zpowers_of_pow hl'
   have hsup : IsPGroup 2 ↥((P : Subgroup L) ⊔ Subgroup.zpowers l) := by
-    refine P.isPGroup'.to_sup_of_normal_right' hz fun a ha => ?_
+    refine P.isPGroup.to_sup_of_normal_right' hz fun a ha => ?_
     refine Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun b hb => ?_)
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp hb
     exact ((show Commute a l from hcomm a ha).zpow_right i).eq.symm

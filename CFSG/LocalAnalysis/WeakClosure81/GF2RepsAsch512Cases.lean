@@ -47,6 +47,7 @@ section Generic
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem calL1OverCF_of_forall {T : Subgroup Y}
     (h : ∀ X : Subgroup Y, ¬ HasCompFactor X IsCalL1) : CalL1OverCF T :=
   fun X _ L _ hcf hL => absurd ⟨L, inferInstance, hcf, hL⟩ (h X)
@@ -64,17 +65,18 @@ theorem not_hasCompFactor_of_forall_subgroup_normal {E : Subgroup Y} [E.Normal]
     (hq : Group.IsSolvable (Y ⧸ E)) (hE : ∀ X : Subgroup ↥E, ¬ HasCompFactor X IsCalL1)
     (X : Subgroup Y) : ¬ HasCompFactor X IsCalL1 := by
   rintro ⟨L, _, hcf, hL⟩
-  haveI : Finite L := isCompositionFactor_finite hcf
+  have : Finite L := isCompositionFactor_finite hcf
   have h1 :=
     isCompositionFactor_subgroupOf_of_isSolvable_quot hq hcf (exists_mul_ne_of_isCalL1 hL)
   exact hE (X.subgroupOf E) ⟨L, inferInstance,
     (CFSG.Quasithin.H13.L829N.isCompositionFactor_congr (subgroupOfSwap E X)).1 h1, hL⟩
 
+omit [Finite Y] in
 theorem not_isSolvable_of_simple_normal (E : Subgroup Y) (hEs : IsSimpleGroup ↥E)
     (hEnab : ∃ a b : ↥E, a * b ≠ b * a) : ¬ Group.IsSolvable Y := by
   intro hY
-  haveI : IsSimpleGroup ↥E := hEs
-  haveI : Group.IsSolvable ↥E := inferInstance
+  have : IsSimpleGroup ↥E := hEs
+  have : Group.IsSolvable ↥E := inferInstance
   obtain ⟨a, b, hab⟩ := hEnab
   exact hab (IsSimpleGroup.comm_iff_isSolvable.2 inferInstance a b)
 

@@ -42,16 +42,16 @@ theorem exists_comm_mem_of_lt [Finite G] {P U W : Subgroup G} (hP : IsPGroup 2 P
     (Subgroup.normal_subgroupOf_iff hUP).mpr (fun h k hh hk => hUn k hk h hh)
   have hW'normal : W'.Normal :=
     (Subgroup.normal_subgroupOf_iff hWP).mpr (fun h k hh hk => hWn k hk h hh)
-  haveI := hU'normal
-  haveI := hW'normal
+  have := hU'normal
+  have := hW'normal
   let Q := P ⧸ U'
-  haveI : Group.IsNilpotent Q := (hP.to_quotient U').isNilpotent
+  have : Group.IsNilpotent Q := (hP.to_quotient U').isNilpotent
   let N : Subgroup Q := W'.map (QuotientGroup.mk' U')
   have hNnormal : N.Normal := hW'normal.map _ (QuotientGroup.mk'_surjective U')
-  haveI := hNnormal
+  have := hNnormal
   have hNne : N ≠ ⊥ := by
     intro hbot
-    obtain ⟨w, hwW, hwU⟩ := SetLike.exists_of_lt hUW
+    obtain ⟨w, hwW, hwU⟩ := _root_.IsConcreteLE.exists_of_lt hUW
     have hmem : QuotientGroup.mk' U' ⟨w, hWP hwW⟩ ∈ N :=
       ⟨⟨w, hWP hwW⟩, Subgroup.mem_subgroupOf.mpr hwW, rfl⟩
     rw [hbot] at hmem
@@ -81,7 +81,7 @@ theorem exists_comm_mem_of_lt [Finite G] {P U W : Subgroup G} (hP : IsPGroup 2 P
     simpa using Subgroup.mem_subgroupOf.mp hmem
 
 theorem comm_mem_of_fpf_section [Finite G] {P U W : Subgroup G} {ρ : G} (hP : IsPGroup 2 P)
-    (hρ3 : ρ ^ 3 = 1) (hWP : W ≤ P) (hUW : U ≤ W) (hcard : Nat.card W = 4 * Nat.card U)
+    (_hρ3 : ρ ^ 3 = 1) (hWP : W ≤ P) (hUW : U ≤ W) (hcard : Nat.card W = 4 * Nat.card U)
     (hWn : ∀ n ∈ P, ∀ w ∈ W, n * w * n⁻¹ ∈ W) (hUn : ∀ n ∈ P, ∀ u ∈ U, n * u * n⁻¹ ∈ U)
     (hρP : ∀ n ∈ P, ρ * n * ρ⁻¹ ∈ P) (hρW : ∀ w ∈ W, ρ * w * ρ⁻¹ ∈ W)
     (hρU : ∀ u ∈ U, ρ * u * ρ⁻¹ ∈ U)
@@ -113,7 +113,7 @@ theorem comm_mem_of_fpf_section [Finite G] {P U W : Subgroup G} {ρ : G} (hP : I
       one_mem' := by
         refine ⟨W.one_mem, ?_⟩
         intro n hn
-        simpa using U.one_mem
+        simp
       inv_mem' := by
         intro a ha
         obtain ⟨haW, ha⟩ := ha
@@ -163,7 +163,7 @@ theorem comm_mem_of_fpf_section [Finite G] {P U W : Subgroup G} {ρ : G} (hP : I
   have hU'normal : U'.Normal :=
     (Subgroup.normal_subgroupOf_iff hUF).mpr
       (fun h k hh hk => hUn k (hWP (hFW hk)) h hh)
-  haveI := hU'normal
+  have := hU'normal
   let Q := F ⧸ U'
   let y' : F := ⟨w₀, hw₀F⟩
   let z' : F := ⟨w₁, hw₁F⟩

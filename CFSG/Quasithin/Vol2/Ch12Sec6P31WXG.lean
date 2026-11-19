@@ -19,7 +19,7 @@ structure StarProps {Q : Type*} [Group Q] (X : Subgroup Q) : Prop where
 
 theorem StarProps.of_equiv {Q : Type*} [Group Q] {X X' : Subgroup Q} (e : ↥X ≃* ↥X')
     (h : StarProps X') : StarProps X := by
-  haveI := h.simple
+  have := h.simple
   refine ⟨e.isSimpleGroup, fun hc => h.nonab fun a b => ?_, ?_⟩
   · have := hc (e.symm a) (e.symm b)
     have h2 := congrArg e this
@@ -29,7 +29,7 @@ theorem StarProps.of_equiv {Q : Type*} [Group Q] {X X' : Subgroup Q} (e : ↥X �
 
 theorem exists_card_three_of_dvd {Q : Type*} [Group Q] [Finite Q] {X : Subgroup Q}
     (h : 3 ∣ Nat.card ↥X) : ∃ A : Subgroup Q, A ≤ X ∧ Nat.card A = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 3 h
   refine ⟨(Subgroup.zpowers c).map X.subtype, ?_, ?_⟩
   · rintro _ ⟨y, -, rfl⟩
@@ -40,7 +40,7 @@ theorem starProps_of_isPSL {Y : Type} [Group Y] [Finite Y] (hL : L2BorelFacts) {
     {X : Subgroup Y} (h : IsPSL 2 2 m ↥X) : StarProps X := by
   obtain ⟨U, hU⟩ := exists_isSylowTwoOf X
   obtain ⟨hcX, -⟩ := hL m hm Y X U h hU
-  haveI hs : IsSimpleGroup ↥X := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 2 2 m h).2
+  have hs : IsSimpleGroup ↥X := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 2 2 m h).2
   have h4 : 16 ≤ 4 ^ m := calc 16 = 4 ^ 2 := by norm_num
     _ ≤ 4 ^ m := Nat.pow_le_pow_right (by norm_num) hm
   have h2 : 4 ≤ 2 ^ m := calc 4 = 2 ^ 2 := by norm_num
@@ -61,6 +61,7 @@ noncomputable def starConjEquiv {g : G} (hg : g ∈ H) :
   (MulEquiv.subgroupCongr (L1233.star_conjSub hg)).trans
     (((star H K).equivMapOfInjective _ (MulAut.conj _).injective).symm)
 
+omit [Finite G] in
 theorem starProps_conjSub (hP : StarProps (star H K)) {g : G} (hg : g ∈ H) :
     StarProps (star H (conjSub g K)) :=
   hP.of_equiv (starConjEquiv hg)

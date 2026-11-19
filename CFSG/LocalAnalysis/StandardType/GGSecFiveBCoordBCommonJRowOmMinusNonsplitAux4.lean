@@ -78,10 +78,10 @@ private theorem signedNormalizer_frameTorus_rMinus
     (e : OrthRest.RMinus K k b c ≃* ↥(orthDerived Q)) :
     GGOmMinusNonsplitSignedNormalizer (e.symm.toMonoidHom.comp τ) := by
   intro g hg
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun x : V ≃ₗ[K] V => (x : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun x : V ≃ₗ[K] V => (x : V → V))
     fun x y hxy => LinearEquiv.ext (congrFun hxy)
-  haveI : Finite ↥E := Subtype.finite
+  have : Finite ↥E := Subtype.finite
   have hgE : ∀ x ∈ E, e g * x * (e g)⁻¹ ∈ E := by
     intro x hx
     rw [← hτE] at hx ⊢
@@ -155,7 +155,7 @@ private theorem ggHasLabel_of_plus_fixedBlock {K : Type} [Field K] [Finite K] [C
     (hC : CFSG.StandardType.OmNsRootGen.IsCoherentFrame Q p U ef' E u cc t)
     {x : ↥(orthDerived Q)}
     (hxO : CFSG.RankThree.PartOne.KCOrthogonal.OddOrderIsometry Q p (x : V ≃ₗ[K] V))
-    (i : Fin m) (z : ZMod p) (hz : z ≠ 0) (hx_eq : x = (ef' i) ^ z.val)
+    (i : Fin m) (z : ZMod p) (_hz : z ≠ 0) (hx_eq : x = (ef' i) ^ z.val)
     (hx_fix : CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace (x : V ≃ₗ[K] V) =
       CFSG.LocalAnalysis.GLTheoremA.S172C.Cent.polarPerp Q (U i))
     (hfixdim : Module.finrank K (CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace
@@ -265,7 +265,7 @@ private theorem ggHasLabel_of_plus_fixedBlock {K : Type} [Field K] [Finite K] [C
     intro h hh hhX
     have hle := le_trans
       (CFSG.StandardType.OrthRestOdd.primaryComponent_le_commSpace hxO hh hhX) hcomm_le
-    haveI : Fact (Irreducible h) :=
+    have : Fact (Irreducible h) :=
       ⟨CFSG.RankThree.PartOne.KCPrimary.irreducible_of_mem_primaryFactors hh⟩
     have hdeg := CFSG.RankThree.PartOne.K159.natDegree_eq_two_of_dvd_card_add_one
       hxO hp hp2 hpq' hh hhX
@@ -275,7 +275,7 @@ private theorem ggHasLabel_of_plus_fixedBlock {K : Type} [Field K] [Finite K] [C
     have hne : CFSG.RankThree.PartOne.KCPrimary.primaryComponent
         (x : V ≃ₗ[K] V).toLinearMap h ≠ ⊥ :=
       CFSG.RankThree.PartOne.KCPrimary.primaryComponent_ne_bot hsq hh
-    haveI : Nontrivial (CFSG.RankThree.PartOne.KCPrimary.primaryComponent
+    have : Nontrivial (CFSG.RankThree.PartOne.KCPrimary.primaryComponent
         (x : V ≃ₗ[K] V).toLinearMap h) :=
       Submodule.nontrivial_iff_ne_bot.mpr hne
     have hpos : 0 < Module.finrank K (CFSG.RankThree.PartOne.KCPrimary.primaryComponent
@@ -306,7 +306,7 @@ private theorem ggHasLabel_of_plus_fixedBlock {K : Type} [Field K] [Finite K] [C
     obtain ⟨h, hh, hhX, hJspec⟩ | ⟨F, hFq, hFle, hFnorm, hFdim, hJfix⟩ :=
       OrthTorus.component_cases hQ hp hp2 hxO hJ'
     · exfalso
-      haveI : Fact (Irreducible h) :=
+      have : Fact (Irreducible h) :=
         ⟨CFSG.RankThree.PartOne.KCPrimary.irreducible_of_mem_primaryFactors hh⟩
       have hbot : CFSG.RankThree.PartOne.KCOrthogonal.specialBlock Q (x : V ≃ₗ[K]
           V) h = ⊥ :=
@@ -315,7 +315,7 @@ private theorem ggHasLabel_of_plus_fixedBlock {K : Type} [Field K] [Finite K] [C
         rw [hJspec, hbot]
         simp
       rw [hJbot] at hJ'
-      haveI : Subsingleton ↥(⊥ : Subgroup ↥(orthDerived Q)) := by
+      have : Subsingleton ↥(⊥ : Subgroup ↥(orthDerived Q)) := by
         constructor
         intro a b
         exact Subtype.ext ((Subgroup.mem_bot.mp a.2).trans (Subgroup.mem_bot.mp b.2).symm)
@@ -353,7 +353,7 @@ private theorem ggHasLabel_of_plus_fixedBlock {K : Type} [Field K] [Finite K] [C
           (x : V ≃ₗ[K] V)) ≃* ↥(orthDerived R) :=
         CFSG.HardMathSupport.Dickson.Bal207.OrthFix.fixRestr hxO
       let eFull : ↥J ≃* ↥(orthDerived R) := eJ0.trans (eJ'.trans eFix)
-      haveI : Nontrivial ↥(CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace
+      have : Nontrivial ↥(CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace
           (x : V ≃ₗ[K] V)) :=
         Module.nontrivial_of_finrank_pos (by rw [hfixdim]; omega)
       have hcenterR : Subgroup.center ↥(orthDerived R) = ⊥ := by
@@ -369,10 +369,10 @@ private theorem ggHasLabel_of_plus_fixedBlock {K : Type} [Field K] [Finite K] [C
           exact (eiso.symm.map_app w).trans (hQ0 w hw)
       have hcenterJ : Subgroup.center ↥J = ⊥ := by
         rw [eq_bot_iff]
-        intro z hz
+        intro z _hz
         have hz' : eFull z ∈ Subgroup.center ↥(orthDerived R) := by
           rw [← Subgroup.map_center_eq eFull]
-          exact Subgroup.mem_map_of_mem _ hz
+          exact Subgroup.mem_map_of_mem _ _hz
         rw [hcenterR] at hz'
         exact Subgroup.mem_bot.mpr (eFull.injective (by simpa using Subgroup.mem_bot.mp hz'))
       let eQ : (↥J ⧸ Subgroup.center ↥J) ≃* ↥(orthDerived R) :=
@@ -388,11 +388,11 @@ private theorem ggHasLabel_of_plus_fixedBlock {K : Type} [Field K] [Finite K] [C
       ((CFSG.GroupTheory.WeirSylow.isPlusType_congr eiso).mp hplusFix)
 
 private theorem exists_coherentFrame_sparse {K : Type} [Field K] [Finite K] [CharP K 2]
-    {p m f : ℕ} (hK : Nat.card K = 2 ^ f) (hp : p.Prime) (hp2 : p ≠ 2)
-    (hpq' : p ∣ Nat.card K + 1) (hm : 3 ≤ m) (hmo : Odd m) {b c : K}
-    (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
+    {p m f : ℕ} (_hK : Nat.card K = 2 ^ f) (hp : p.Prime) (hp2 : p ≠ 2)
+    (hpq' : p ∣ Nat.card K + 1) (hm : 3 ≤ m) (_hmo : Odd m) {b c : K}
+    (_hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {τ : (Fin m → Multiplicative (ZMod p)) →* OrthRest.RMinus K m b c}
-    (hτ : Function.Injective τ) (hsign : GGOmMinusNonsplitSignedNormalizer τ)
+    (hτ : Function.Injective τ) (_hsign : GGOmMinusNonsplitSignedNormalizer τ)
     (hsgn : ∀ i : Fin m, ∃ w : OrthRest.RMinus K m b c,
       ∀ f, w * τ f * w⁻¹ = τ (SpCoord.sgnAut i f))
     (hperm : ∀ σ : Equiv.Perm (Fin m), ∃ w : OrthRest.RMinus K m b c,
@@ -412,7 +412,7 @@ private theorem exists_coherentFrame_sparse {K : Type} [Field K] [Finite K] [Cha
       (cc t : K), CFSG.StandardType.OmNsRootGen.IsCoherentFrame Q p U ef' E u cc t ∧
       ∃ (i : Fin m) (z : ZMod p), z ≠ 0 ∧ e (τ g) = (ef' i) ^ z.val := by
   let x : ↥(orthDerived Q) := e (τ g)
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨k, U, ef, hF, hcase⟩ :=
     CFSG.StandardType.OmNsRootGen.exists_planeFrame_of_selfCentralizing hQ hp hp2 hpq'
       (ℓ := m + 1) hdim (by omega) (E := E) hE_ea hscE
@@ -511,17 +511,17 @@ private theorem fixedSpace_facts {K : Type} [Field K] [Finite K] [CharP K 2] {p 
     {x : ↥(orthDerived Q)} {i : Fin m} {z : ZMod p} (hz : z ≠ 0)
     (hx_eq : x = (ef' i) ^ z.val)
     (hdim : Module.finrank K V = 2 * (m + 1)) :
-    ∃ (hxO : CFSG.RankThree.PartOne.KCOrthogonal.OddOrderIsometry Q p (x : V ≃ₗ[K] V)),
+    ∃ (_hxO : CFSG.RankThree.PartOne.KCOrthogonal.OddOrderIsometry Q p (x : V ≃ₗ[K] V)),
       CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace (x : V ≃ₗ[K] V) =
         CFSG.LocalAnalysis.GLTheoremA.S172C.Cent.polarPerp Q (U i) ∧
       Module.finrank K (CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace (x : V ≃ₗ[K] V)) =
         2 * m := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpow_ef : (ef' i) ^ p = 1 := hC.isElemAbelian.2 (ef' i) (hC.toIsPlaneFrame.mem i)
   have hxpow : x ^ p = 1 := by
     rw [hx_eq]
     rw [← pow_mul, mul_comm, pow_mul, hpow_ef, one_pow]
-  have hxO : CFSG.RankThree.PartOne.KCOrthogonal.OddOrderIsometry Q p
+  have _hxO : CFSG.RankThree.PartOne.KCOrthogonal.OddOrderIsometry Q p
       (x : V ≃ₗ[K] V) :=
     CFSG.StandardType.OmPlusFrame.oddOrderIsometry_of_orthDerived hQ hp hp2 (t := x) hxpow
   have hx_eq' : ((x : ↥(orthDerived Q)) : V ≃ₗ[K]
@@ -532,9 +532,6 @@ private theorem fixedSpace_facts {K : Type} [Field K] [Finite K] [CharP K 2] {p 
     simp only [Subgroup.coe_pow]
   have hx_fix : CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace (x : V ≃ₗ[K] V) =
       CFSG.LocalAnalysis.GLTheoremA.S172C.Cent.polarPerp Q (U i) := by
-    change CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace ((x : ↥(orthDerived Q)) :
-      V ≃ₗ[K] V) =
-      CFSG.LocalAnalysis.GLTheoremA.S172C.Cent.polarPerp Q (U i)
     rw [hx_eq']
     have hord : orderOf (((ef' i : ↥(orthDerived Q)) : V ≃ₗ[K]
         V)) = p := by simpa using hC.orderOf_eq i
@@ -556,7 +553,7 @@ private theorem fixedSpace_facts {K : Type} [Field K] [Finite K] [CharP K 2] {p 
     rw [hx_fix, CFSG.LocalAnalysis.GLTheoremA.S172C.Cent.finrank_polarPerp hQ, hdim,
       hC.toIsPlaneFrame.finrank_eq i]
     omega
-  exact ⟨hxO, hx_fix, hfixdim⟩
+  exact ⟨_hxO, hx_fix, hfixdim⟩
 
 
 theorem ggCommonJRowOmMinusNonsplit_sparse {K : Type} [Field K] [Finite K] {p m f : ℕ}
@@ -570,14 +567,14 @@ theorem ggCommonJRowOmMinusNonsplit_sparse {K : Type} [Field K] [Finite K] {p m 
     {g : Fin m → Multiplicative (ZMod p)} (hS : GGCoordSparse g) (hg : g ≠ 1)
     (J : Subgroup (OrthRest.RMinus K m b c))
     (hJ : IsComponentOf J (Subgroup.centralizer ({τ g} : Set (OrthRest.RMinus K m b c))))
-    (hcard : Nat.card ↥(τ.range ⊓ Subgroup.centralizer (J : Set (OrthRest.RMinus K m b c))) = p) :
+    (_hcard : Nat.card ↥(τ.range ⊓ Subgroup.centralizer (J : Set (OrthRest.RMinus K m b c))) = p) :
     GGHasLabel ⟨.D, m, f⟩ (↥J ⧸ Subgroup.center ↥J) := by
   classical
-  haveI : CharP K 2 := by
-    haveI := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpq' : p ∣ Nat.card K + 1 := by rw [hK]; exact hpq
   have hf1 : 1 ≤ f := by
     by_contra h
@@ -585,7 +582,7 @@ theorem ggCommonJRowOmMinusNonsplit_sparse {K : Type} [Field K] [Finite K] {p m 
     subst f
     rw [pow_zero] at hK
     have h2 : 1 < Nat.card K := by
-      haveI : Nontrivial K := inferInstance
+      have : Nontrivial K := inferInstance
       simpa [Nat.card_eq_fintype_card] using Fintype.one_lt_card
     omega
   let Q : QuadraticForm K (LargeEvenMinusIdx m → K) := TableBOrth.qMinusForm K m b c

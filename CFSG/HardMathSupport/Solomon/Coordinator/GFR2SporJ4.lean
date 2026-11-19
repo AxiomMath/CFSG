@@ -136,7 +136,7 @@ theorem sporNoPumpup_J4
   have h1080 := gfr2spor_card_ge hOG hty
   have hproj : Function.Injective (projOf e) :=
     (MonoidHom.ker_eq_bot_iff _).1 (by rw [ker_projOf e, hcen])
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .J4).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.sporadic .J4).Group := Finite.of_equiv _ e.toEquiv
   let φ : (TauCeti.CFSGIndex.sporadic .J4).Group ≃* ↥CFSG.Sporadic.J4.J :=
     ((hbr .J4).some).symm.trans (CFSG.Sporadic.J4.seedEquiv CFSG.Sporadic.J4.j4Facts.mat)
   obtain ⟨hqC, hzC, hcC⟩ := j4_centralizer_facts φ hs3

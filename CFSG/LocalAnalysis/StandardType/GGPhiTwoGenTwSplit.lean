@@ -60,7 +60,7 @@ private def frameSplitAux_kerSubmodule {p n : ℕ} [Fact p.Prime] {G : Type*} [G
     rw [ofAdd_add, map_mul, hv, hw, one_mul]
   smul_mem' := by
     intro c v hv
-    haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+    have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
     change g (Multiplicative.ofAdd (c • v)) = 1
     rw [← ZMod.natCast_zmod_val c, Nat.cast_smul_eq_nsmul, ofAdd_nsmul, map_pow,
       hv, one_pow]
@@ -228,7 +228,7 @@ theorem exists_frame_split_twE6
   let σ' : K →+* K := σ.toRingHom
   have hσ' : ∀ c, σ' c = c ^ 2 ^ n := hσ
   let k : Type := RingHom.eqLocusField σ' (RingHom.id K)
-  haveI hkFinite : Finite k := inferInstance
+  have hkFinite : Finite k := inferInstance
   have hn1 : 1 ≤ n := by omega
   have hkcard : Nat.card k = 2 ^ n := by
     dsimp [k]
@@ -263,7 +263,7 @@ theorem exists_frame_split_twE6
     · exact exists_conj_le_frame_torusG (ℓ := 2) (f := n) Nat.prime_two hn1 K hK σ hσ
         hp7 hpq T.range hTexp
   let H := (Fin 4 → SL(2, k)) × (↥(normOne σ') × ↥(normOne σ'))
-  haveI hHfin : Finite H := inferInstance
+  have hHfin : Finite H := inferInstance
   let ψ : H →* ↥(twistedE6RootGroup K σ) := TwFive.frameTorusMap σ'
   let T' : Multiplicative (Fin TwistTag.E6.tag.rank → ZMod p) →*
       ↥(twistedE6RootGroup K σ) := (MulAut.conj c).toMonoidHom.comp T
@@ -384,8 +384,8 @@ theorem exists_frame_split_twE6
     card_le_of_isElemAbelian_specialLinear_two (K := k) hpk0
       (frameSplitAux_isElemAbelian_range g3)
   have hTr : Nat.card (MonoidHom.range gT) ≤ p ^ 2 := by
-    haveI : IsCyclic Kˣ := inferInstance
-    haveI : IsCyclic ↥(normOne σ') := Subgroup.isCyclic (normOne σ')
+    have : IsCyclic Kˣ := inferInstance
+    have : IsCyclic ↥(normOne σ') := Subgroup.isCyclic (normOne σ')
     exact frameSplitAux_card_range_prod_cyclic gT
   have hd0 : 5 ≤ Module.finrank (ZMod p) K0 := by
     have h := frameSplitAux_finrank_ker_ge g0 (r := 1) hdim (by rw [pow_one]; exact h0r)

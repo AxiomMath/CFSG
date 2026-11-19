@@ -103,7 +103,7 @@ theorem not_map_le_pGammaL2PSLRange [IsSimpleGroup G] {S : Sylow 2 G} {W L : Sub
   have hKN : K ≤ N := Subgroup.le_normalizer
   have hVN : V ≤ N := le_normalizer_of_sec19DataT hDT
   have hRK : R ≤ K := inf_le_right
-  have hR2 : IsPGroup 2 R := S.isPGroup'.to_le inf_le_left
+  have hR2 : IsPGroup 2 R := S.isPGroup.to_le inf_le_left
   have hRsyl : IsSylow2In R K := isSylow2In_inf_of_le_normalizer S (hd.hSz.trans hNC.ge)
   have hncomm := exists_ne_comm_of_mem_rSet hd.tight.branch.odd hd.tight.branch.five
     hd.tight.branch.member (inf_mem_rSet hd)
@@ -150,7 +150,7 @@ theorem not_map_le_pGammaL2PSLRange [IsSimpleGroup G] {S : Sylow 2 G} {W L : Sub
   have hRV : Nat.card R = 2 * Nat.card V := by
     rw [S1911.card_inf_eq hd, S1911.card_inf_eq_card hDT]
   have hV2 : IsPGroup 2 ↥((V.subgroupOf N).map Ψ) :=
-    ((S.isPGroup'.to_le (hDT.leW.trans hd.hWS)).comap_subtype (K := N)).map Ψ
+    ((S.isPGroup.to_le (hDT.leW.trans hd.hWS)).comap_subtype (K := N)).map Ψ
   have hVsyl : IsSylow2In ((V.subgroupOf N).map Ψ) (pGammaL2PSLRange F) :=
     IsSylow2In.of_natCard_le hQsyl hV2 hle (by omega)
   obtain ⟨x, -, hx⟩ := exists_conjSub_eq_of_isSylow2In hQsyl hVsyl

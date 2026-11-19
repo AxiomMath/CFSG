@@ -33,7 +33,7 @@ theorem onLine_eq {t v : Nat} (ht : t < 1120) : onLine lineArr[t]! v = onK LT t 
   apply Bool.eq_iff_iff.2
   simp only [Bool.or_eq_true, beq_iff_eq, Nat.beq_eq, or_assoc]
 
-theorem pairIn_key {a b c x y : Nat} (hy : y < 120) (ha : a < 120) (hb : b < 120) (hc : c < 120)
+theorem pairIn_key {a b c x y : Nat} (_hy : y < 120) (ha : a < 120) (hb : b < 120) (hc : c < 120)
     (h : pairIn a b c x y = true) : 120 * x + y ∈ keys (a, b, c) := by
   unfold pairIn at h
   unfold keys
@@ -125,7 +125,6 @@ theorem line_check : lineCheck = true := by
         cases e : Nat.beq a b
         · rfl
         · exact absurd (Nat.eq_of_beq_eq_true e) hab
-      unfold pairK at h
       rw [hab'] at h
       dsimp only at h
       cases hB : Nat.beq (CFSG.KC.O8.b8K false (nsK NSP a) (nsK NSP b)) 1

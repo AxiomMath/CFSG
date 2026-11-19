@@ -59,7 +59,7 @@ attribute [instance] O6NatData.instField O6NatData.instFinite
 
 @[expose] def cjIso (g : G) (L : Subgroup G) : ↥(cj g L) ≃* ↥L where
   toFun x := ⟨g⁻¹ * (x : G) * g, mem_cj_iff.mp x.2⟩
-  invFun l := ⟨g * (l : G) * g⁻¹, mem_cj_iff.mpr (by simpa [mul_assoc] using l.2)⟩
+  invFun l := ⟨g * (l : G) * g⁻¹, mem_cj_iff.mpr (by simp [mul_assoc])⟩
   left_inv x := by
     apply Subtype.ext
     simp [mul_assoc]
@@ -224,14 +224,14 @@ attribute [instance] O6ChiefData.instField O6ChiefData.instFinite
     M ≤ normalizer (V : Set G) → O6LocalFacts p n M L V d.sing
 
 @[expose] def U4ChiefFacts : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (p n : ℕ) (L U : Subgroup G) (d : U4ChiefData G n L U),
+  ∀ (G : Type) [Group G] [Finite G] (p n : ℕ) (L U : Subgroup G) (_d : U4ChiefData G n L U),
     p.Prime → p ∣ 2 ^ n + 1 → 1 ≤ n → L ≤ normalizer (U : Set G) →
     ∀ S : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 2 S L →
       ∃ Q : Subgroup G, Q ≤ S ∧ ∃ x ∈ L ⊓ normalizer (Q : Set G), x ≠ 1 ∧ x ^ p = 1 ∧
         ∀ u ∈ U, (∀ s ∈ Q, ⁅s, u⁆ ∈ centralizer (L : Set G)) → ⁅x, u⁆ ∈ centralizer (L : Set G)
 
 @[expose] def O6ChiefFacts : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (p n : ℕ) (L U : Subgroup G) (d : O6ChiefData G n L U),
+  ∀ (G : Type) [Group G] [Finite G] (p n : ℕ) (L U : Subgroup G) (_d : O6ChiefData G n L U),
     p.Prime → p ∣ 2 ^ n + 1 → 1 ≤ n → L ≤ normalizer (U : Set G) →
     ∀ S : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 2 S L →
       ∃ Q : Subgroup G, Q ≤ S ∧ ∃ x ∈ L ⊓ normalizer (Q : Set G), x ≠ 1 ∧ x ^ p = 1 ∧

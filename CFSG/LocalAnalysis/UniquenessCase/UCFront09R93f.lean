@@ -25,12 +25,12 @@ theorem le_inf_sup_of_not_commutator_le (hSch : CFSG.AGLEmbedding.KFactCatalogSc
       K ≤ normalizer (X : Set G) → X ≠ U → X = W)
     (hcomm : ¬ ⁅U, U⁆ ≤ W) : U ≤ (U ⊓ M) ⊔ W := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup G := U ⊔ K
   have hUS : U ≤ S := le_sup_left
   have hKS : K ≤ S := le_sup_right
   have hKGS : CFSG.Open.IsKGroup ↥S := hKG
-  letI : (W.subgroupOf S).Normal :=
+  let : (W.subgroupOf S).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (hWle.trans hUS)).mpr (sup_le hWU hWK)
   let πS : ↥S →* ↥S ⧸ W.subgroupOf S := QuotientGroup.mk' (W.subgroupOf S)
   let A : Subgroup (↥S ⧸ W.subgroupOf S) := (K.subgroupOf S).map πS

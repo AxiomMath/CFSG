@@ -26,10 +26,12 @@ variable {F : Type} [Field F] [Fintype F] [CharP F 2]
 private def conjAut (g : SL(2, F)) (θ : MulAut SL(2, F)) : MulAut SL(2, F) :=
   MulAut.conj g⁻¹ * θ * MulAut.conj g
 
+omit [Fintype F] [CharP F 2] in
 private theorem conjAut_apply (g : SL(2, F)) (θ : MulAut SL(2, F)) (x : SL(2, F)) :
     conjAut g θ x = g⁻¹ * θ (g * x * g⁻¹) * g := by
   simp [conjAut, MulAut.conj_apply, mul_assoc]
 
+omit [Fintype F] [CharP F 2] in
 private theorem conjAut_map_of_map (θ : MulAut SL(2, F)) (g : SL(2, F))
     {A U : Subgroup SL(2, F)} (hA : A = conjSubgroup g U) (hθ : A.map θ.toMonoidHom = A) :
     U.map (conjAut g θ).toMonoidHom = U := by
@@ -64,6 +66,7 @@ private theorem conjAut_map_of_map (θ : MulAut SL(2, F)) (g : SL(2, F))
       _ = g⁻¹ * (g * z * g⁻¹) * g := by rw [haθ']
       _ = z := by group
 
+omit [Fintype F] [CharP F 2] in
 private theorem conjAut_fixes_of_fixes (θ : MulAut SL(2, F)) (g : SL(2, F))
     {A U : Subgroup SL(2, F)} (hA : A = conjSubgroup g U)
     (hfix : ∀ a ∈ A, θ a = a) : ∀ u ∈ U, conjAut g θ u = u := by
@@ -75,6 +78,7 @@ private theorem conjAut_fixes_of_fixes (θ : MulAut SL(2, F)) (g : SL(2, F))
   rw [hfix _ hgu]
   group
 
+omit [Fintype F] [CharP F 2] in
 private theorem conjAut_eq_one_iff (g : SL(2, F)) (θ : MulAut SL(2, F)) :
     conjAut g θ = 1 ↔ θ = 1 := by
   constructor
@@ -87,6 +91,7 @@ private theorem conjAut_eq_one_iff (g : SL(2, F)) (θ : MulAut SL(2, F)) :
   · rintro rfl
     simp [conjAut]
 
+omit [Fintype F] [CharP F 2] in
 private theorem conjAut_injective (g : SL(2, F)) :
     Function.Injective (conjAut g) := by
   intro θ₁ θ₂ h
@@ -98,6 +103,7 @@ private theorem conjAut_injective (g : SL(2, F)) :
     rw [h, mul_inv_cancel]
   exact mul_inv_eq_one.1 ((conjAut_eq_one_iff g (θ₁ * θ₂⁻¹)).1 h')
 
+omit [Fintype F] [CharP F 2] in
 private theorem conjAut_mul_self (g : SL(2, F)) (θ : MulAut SL(2, F))
     (hθ : θ * θ = 1) : conjAut g θ * conjAut g θ = 1 := by
   have hginv : MulAut.conj g⁻¹ = (MulAut.conj g)⁻¹ := map_inv _ g
@@ -106,6 +112,7 @@ private theorem conjAut_mul_self (g : SL(2, F)) (θ : MulAut SL(2, F))
       = (MulAut.conj g)⁻¹ * (θ * θ) * MulAut.conj g := by group
     _ = 1 := by rw [hθ]; group
 
+omit [Fintype F] [CharP F 2] in
 private theorem conjAut_comm (g : SL(2, F)) (θ₁ θ₂ : MulAut SL(2, F))
     (hc : θ₁ * θ₂ = θ₂ * θ₁) : conjAut g θ₁ * conjAut g θ₂ = conjAut g θ₂ * conjAut g θ₁ := by
   have hginv : MulAut.conj g⁻¹ = (MulAut.conj g)⁻¹ := map_inv _ g
@@ -116,8 +123,10 @@ private theorem conjAut_comm (g : SL(2, F)) (θ₁ θ₂ : MulAut SL(2, F))
     _ = (MulAut.conj g)⁻¹ * θ₂ * MulAut.conj g * ((MulAut.conj g)⁻¹ * θ₁ * MulAut.conj g) := by
           group
 
+omit [Fintype F] [CharP F 2] in
 private theorem uElt_eq_utriElt (t : F) : uElt t = utriElt t := rfl
 
+omit [Fintype F] [CharP F 2] in
 private theorem upperRootGroup_eq_utri : upperRootGroup F = utri F := by
   ext g
   change g ∈ (CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.upperUnipotent
@@ -247,6 +256,7 @@ private noncomputable def addEquivToLinear {k : ℕ} (φ : N ≃+ (Fin k → Fin
     N ≃ₗ[ZMod 2] (Fin k → Fin 2 → F) :=
   LinearEquiv.ofBijective (AddMonoidHom.toZModLinearMap 2 φ.toAddMonoidHom) φ.bijective
 
+omit [Fintype F] [CharP F 2] in
 theorem map_fixedSub_eq_of_intertwines {V : Type} [AddCommGroup V]
     [Module (ZMod 2) V] {σ : Representation (ZMod 2) SL(2, F) N}
     {τ : Representation (ZMod 2) SL(2, F) V} (e : N ≃ₗ[ZMod 2] V)
@@ -267,6 +277,7 @@ theorem map_fixedSub_eq_of_intertwines {V : Type} [AddCommGroup V]
     rw [he, e.apply_symm_apply]
     exact hv g hg
 
+omit [Fintype F] [CharP F 2] in
 private theorem map_commSub_eq_of_intertwines {V : Type} [AddCommGroup V]
     [Module (ZMod 2) V] {σ : Representation (ZMod 2) SL(2, F) N}
     {τ : Representation (ZMod 2) SL(2, F) V} (e : N ≃ₗ[ZMod 2] V)
@@ -301,6 +312,7 @@ private theorem map_commSub_eq_of_intertwines {V : Type} [AddCommGroup V]
         exact (commSub σ S).add_mem hx hy
     exact Submodule.mem_map.mpr ⟨e.symm v, hv', by simp⟩
 
+omit [Fintype F] in
 theorem mem_fixedSub_utri_natSumRep_iff (k : ℕ) {v : Fin k → Fin 2 → F} :
     v ∈ fixedSub (natSumRep F k) (utri F) ↔ ∀ i, v i 1 = 0 := by
   rw [CFSG.RankThree.GF2n.Tim77.utri_eq_upperUnipotent, mem_fixedSub]
@@ -325,6 +337,7 @@ theorem ltri_eq_lowerUnipotent (F : Type) [Field F] : ltri F = lowerUnipotent F 
   · rintro ⟨t, rfl⟩
     exact ⟨t, Subtype.ext (by simp [ltriElt, CFSG.Timmesfeld.RankOne.lowerElt])⟩
 
+omit [Fintype F] in
 private theorem mem_fixedSub_ltri_natSumRep_iff (k : ℕ) {v : Fin k → Fin 2 → F} :
     v ∈ fixedSub (natSumRep F k) (ltri F) ↔ ∀ i, v i 0 = 0 := by
   rw [ltri_eq_lowerUnipotent, mem_fixedSub]
@@ -342,8 +355,10 @@ private theorem mem_fixedSub_ltri_natSumRep_iff (k : ℕ) {v : Fin k → Fin 2 �
 
 end NatSum
 
+omit [Fintype F] [CharP F 2] in
 private theorem upperElt_eq_utriElt (t : F) : upperElt F t = utriElt t := rfl
 
+omit [Fintype F] in
 private theorem fixedSub_zpowers_upperElt_eq (k : ℕ) {t : F} (ht : t ≠ 0) :
     fixedSub (natSumRep F k) (Subgroup.zpowers (upperElt F t)) =
       fixedSub (natSumRep F k) (utri F) := by
@@ -357,7 +372,7 @@ private theorem fixedSub_zpowers_upperElt_eq (k : ℕ) {t : F} (ht : t ≠ 0) :
       simpa [natSumRep_apply, Pi.smul_apply, smul_eq_mulVec'] using h2
     rw [upperElt_mulVec] at h'
     have h0 := congrFun h' 0
-    simp only [Matrix.cons_val_zero, Matrix.head_cons] at h0
+    simp only [Matrix.cons_val_zero] at h0
     exact (mul_eq_zero.mp (by linear_combination h0)).resolve_left ht
   · intro v hv
     rw [mem_fixedSub]
@@ -366,6 +381,7 @@ private theorem fixedSub_zpowers_upperElt_eq (k : ℕ) {t : F} (ht : t ≠ 0) :
       rw [CFSG.RankThree.GF2n.Tim77.utri_eq_upperUnipotent]
       exact (mem_upperUnipotent_iff F).2 ⟨t, rfl⟩) hg)
 
+omit [Fintype F] in
 private theorem commSub_zpowers_upperElt_eq (k : ℕ) {t : F} (ht : t ≠ 0) :
     commSub (natSumRep F k) (Subgroup.zpowers (upperElt F t)) =
       fixedSub (natSumRep F k) (utri F) := by
@@ -398,6 +414,7 @@ private theorem commSub_zpowers_upperElt_eq (k : ℕ) {t : F} (ht : t ≠ 0) :
     rw [h]
     fin_cases j <;> simp [w, hv' i, mul_div_cancel₀ (v i 0) ht]
 
+omit [Fintype F] in
 private theorem fixedSub_utri_inf_fixedSub_ltri_eq_bot (k : ℕ) :
     fixedSub (natSumRep F k) (utri F) ⊓ fixedSub (natSumRep F k) (ltri F) = ⊥ := by
   rw [Submodule.eq_bot_iff]
@@ -408,6 +425,7 @@ private theorem fixedSub_utri_inf_fixedSub_ltri_eq_bot (k : ℕ) :
   funext i j
   fin_cases j <;> simp [h1 i, h2 i]
 
+omit [Fintype F] in
 private theorem fixedSub_utri_sup_fixedSub_ltri_eq_top (k : ℕ) :
     fixedSub (natSumRep F k) (utri F) ⊔ fixedSub (natSumRep F k) (ltri F) = ⊤ := by
   rw [eq_top_iff]
@@ -515,6 +533,7 @@ theorem IsNatSumModule.fixedSub_inf_sup {N : Type} [AddCommGroup N] [Module (ZMo
       map_fixedSub_eq_of_intertwines φl hφ' A', hsup,
       Submodule.map_top, LinearMap.range_eq_top.mpr φl.surjective]
 
+omit [Fintype F] in
 private theorem hquad_natSumRep (k : ℕ) :
     ∀ (s t : F) (v : Fin k → Fin 2 → F),
       natSumRep F k (upperElt F s) (natSumRep F k (upperElt F t) v - v) =
@@ -524,6 +543,7 @@ private theorem hquad_natSumRep (k : ℕ) :
   simp only [natSumRep_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mulVec', upperElt_mulVec]
   fin_cases j <;> simp
 
+omit [Fintype F] [CharP F 2] in
 private theorem hfix_natSumRep (k : ℕ) :
     ∀ v : Fin k → Fin 2 → F, (∀ x : SL(2, F), x • v = v) → v = 0 := by
   intro v hv
@@ -538,6 +558,7 @@ private theorem hfix_natSumRep (k : ℕ) :
       simpa [Pi.smul_apply, smul_eq_mulVec'] using h
   fin_cases j <;> simp [h0, h1]
 
+omit [Fintype F] in
 private theorem hquad_of_isNatSumModule {N : Type} [AddCommGroup N] [Module (ZMod 2) N]
     {σ : Representation (ZMod 2) SL(2, F) N} (hσ : IsNatSumModule σ) :
     ∀ (s t : F) (v : N),
@@ -561,6 +582,7 @@ private theorem hquad_of_isNatSumModule {N : Type} [AddCommGroup N] [Module (ZMo
     rw [map_sub, hφ']
   rw [h2]
 
+omit [Fintype F] in
 private theorem hfix_of_isNatSumModule {N : Type} [AddCommGroup N] [Module (ZMod 2) N]
     {σ : Representation (ZMod 2) SL(2, F) N} (hσ : IsNatSumModule σ) :
     ∀ v : N, (∀ x : SL(2, F), σ x v = v) → v = 0 := by
@@ -580,6 +602,7 @@ private theorem hfix_of_isNatSumModule {N : Type} [AddCommGroup N] [Module (ZMod
   rw [← hφ' x v]
   exact congrArg φl (hv x)
 
+omit [Fintype F] [CharP F 2] in
 private theorem mem_fixedUpper_iff_mem_fixedSub_utri {N : Type} [AddCommGroup N]
     [Module (ZMod 2) N] [DistribMulAction SL(2, F) N]
     (σ : Representation (ZMod 2) SL(2, F) N) (hσ : ∀ g v, σ g v = g • v) :
@@ -595,11 +618,12 @@ private theorem mem_fixedUpper_iff_mem_fixedSub_utri {N : Type} [AddCommGroup N]
     rw [← hσ]
     exact hv (upperElt F t) ((mem_upperUnipotent_iff F).2 ⟨t, rfl⟩)
 
+omit [Fintype F] [CharP F 2] in
 private theorem natCard_eq_pow_mul_natCard_ker {T : Type} [AddCommGroup T] [Module F T]
     [Finite T] (ψ : T →ₗ[F] T) :
     Nat.card T = Nat.card F ^ Module.finrank F (LinearMap.range (ψ - 1)) *
       Nat.card (LinearMap.ker (ψ - 1)) := by
-  haveI : Module.Finite F T := Module.Finite.of_finite
+  have : Module.Finite F T := Module.Finite.of_finite
   have hT : Nat.card T = Nat.card F ^ Module.finrank F T :=
     Module.natCard_eq_pow_finrank (K := F) (V := T)
   have hK : Nat.card (LinearMap.ker (ψ - 1)) =
@@ -613,6 +637,7 @@ section FixedUpperKer
 variable {N : Type} [AddCommGroup N] [Module (ZMod 2) N] [DistribMulAction SL(2, F) N]
 variable [Module F (fixedUpper F N)]
 
+omit [Fintype F] [CharP F 2] in
 private theorem natCard_ker_eq_inter (φT : fixedUpper F N →ₗ[F] fixedUpper F N)
     (φ : N →ₗ[ZMod 2] N) (hφT : ∀ u, (φT u : N) = φ u) :
     Nat.card (LinearMap.ker (φT - 1)) =
@@ -651,15 +676,15 @@ private theorem exists_card_fixedSub_utri_eq {N : Type} [AddCommGroup N] [Module
       Fintype.card F ^ r * Nat.card ↥(fixedSub σ (utri F) ⊓
         LinearMap.ker (φ - LinearMap.id)) := by
   classical
-  letI : DistribMulAction SL(2, F) N := DistribMulAction.compHom N σ
+  let : DistribMulAction SL(2, F) N := DistribMulAction.compHom N σ
   have hquad : ∀ (s t : F) (v : N),
       upperElt F s • (upperElt F t • v - v) = upperElt F t • v - v :=
     hquad_of_isNatSumModule hSum
   have hfix : ∀ v : N, (∀ x : SL(2, F), x • v = v) → v = 0 :=
     hfix_of_isNatSumModule hSum
   obtain ⟨k, φc, hφc⟩ := hSum
-  haveI : Finite N := Finite.of_injective φc φc.injective
-  letI : Module F (fixedUpper F N) := moduleFixedUpper hquad hfix
+  have : Finite N := Finite.of_injective φc φc.injective
+  let : Module F (fixedUpper F N) := moduleFixedUpper hquad hfix
   let T := fixedUpper F N
   have hφT_mem : ∀ u : T, φ u ∈ T := by
     intro u
@@ -703,6 +728,7 @@ private theorem exists_card_fixedSub_utri_eq {N : Type} [AddCommGroup N] [Module
     exact natCard_ker_eq_inter φT φ (fun u => rfl)
   rw [hT_eq, ← hK_eq, natCard_eq_pow_mul_natCard_ker φT, Nat.card_eq_fintype_card]
 
+omit [Fintype F] [CharP F 2] in
 private theorem conjEnd_commutes {N : Type} [AddCommGroup N] [Module (ZMod 2) N]
     {σ : Representation (ZMod 2) SL(2, F) N} (φ : N →ₗ[ZMod 2] N)
     (hφ : ∀ g n, φ (σ g n) = σ g (φ n)) (x : SL(2, F)) :

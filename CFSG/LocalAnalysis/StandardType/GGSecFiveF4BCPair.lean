@@ -78,11 +78,11 @@ theorem ggSecFiveF4OriginalBCPairInput_of_core
       MulEquiv.orderOf_eq eB]
     simpa using (CoxeterMatrix.B 3).toCoxeterSystem.orderOf_simple_mul_simple i j
   have o01 : orderOf (a 0 * a 1) = 3 := by
-    rw [hord 0 1]; first | decide | rfl | simp [CoxeterMatrix.B]
+    rw [hord 0 1]; first | decide
   have o12 : orderOf (a 1 * a 2) = 4 := by
-    rw [hord 1 2]; first | decide | rfl | simp [CoxeterMatrix.B]
+    rw [hord 1 2]; first | decide
   have o02 : orderOf (a 0 * a 2) = 2 := by
-    rw [hord 0 2]; first | decide | rfl | simp [CoxeterMatrix.B]
+    rw [hord 0 2]; first | decide
   have haAL : ∀ i, ((a i : ↥(ggAutomizerJoin L Bs 𝒦)) : MulAut ↥Bs) ∈ ggAutomizer L Bs := by
     intro i
     rw [ha_def i]

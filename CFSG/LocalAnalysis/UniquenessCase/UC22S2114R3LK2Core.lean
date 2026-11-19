@@ -1222,7 +1222,7 @@ theorem pRank_inf_centralizer_nine_eq_two_of_dvd_add_one
   have he : eP (2 ^ f) p ≠ 1 := fun he =>
     hpq' ((eP_eq_one_iff Nat.one_le_two_pow).mp he)
   have htab := uc22s2114r3l_pRank_eq_rkLin hGA hL (by omega) hmodel hp hp2
-  simp only [rkLin, ↓reduceIte, if_neg he] at htab
+  simp only [rkLin, ↓reduceIte, ite_eq_right he] at htab
   have hle := uc22s218_u4_div_le_two he
   have hmono := CFSG.SectionRank.pRank_mono hp.one_lt
     (inf_le_left : L ⊓ centralizer (E : Set G) ≤ L)
@@ -1247,7 +1247,7 @@ theorem s21_14R3LK2_of_rank_four_sigma
   have hRank3 : CFSG.Open.pRank 3 L = 2 := by
     rw [uc22s2114r3l_pRank_eq_rkLin hGA hL (by omega) hmodel Nat.prime_three (by norm_num)]
     have he : eP (2 ^ f) 3 = 2 := by
-      rw [eP_two_pow_three, if_neg (Nat.not_even_iff_odd.mpr hf)]
+      rw [eP_two_pow_three, ite_eq_right (Nat.not_even_iff_odd.mpr hf)]
     simp [rkLin, he]
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R, hR⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 D.M

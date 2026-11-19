@@ -278,7 +278,7 @@ theorem exists_pData152
     conv_rhs => rw [hR, ← hS ⟨a, ha⟩]
     rw [hR, Subgroup.map_map, Subgroup.map_map]
     rfl
-  have hRp : IsPGroup p R := S.isPGroup'.map _
+  have hRp : IsPGroup p R := S.isPGroup.map _
   set ψ₀ : R →* Q := πt.comp (Subgroup.inclusion hRX) with hψ₀
   have hψmem : ∀ r : R, ψ₀ r ∈ CFSG.pCore p Q := by
     intro r

@@ -103,8 +103,8 @@ theorem Ctx.card_vone_of_finrank (hc : Ctx M Q Z B) {n m : ℕ} {t : G} (hs : Se
     (hspan : T ≤ imgQInfQB M₀ B ⊔ imgQInfQB M₀ C) :
     Nat.card ↥(Vone Q B C (Vt M (LB M Q B) B Z t)) =
       Nat.card ↥(Vt M (LB M Q B) B Z t) * Nat.card Z := by
-  haveI : FiniteDimensional K M₀.E := M₀.fin
-  haveI hTfin : FiniteDimensional K ↥T := FiniteDimensional.finiteDimensional_submodule T
+  have : FiniteDimensional K M₀.E := M₀.fin
+  have hTfin : FiniteDimensional K ↥T := FiniteDimensional.finiteDimensional_submodule T
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   have hq2 : 2 ≤ Nat.card Z := by have := hc.hyp.q4; omega
@@ -159,23 +159,23 @@ end CardVone
 
 section SpQB
 
-theorem card_Vt_inf_QB_sp (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement)
+theorem card_Vt_inf_QB_sp (h34 : Stroth34Statement) (_hRoot : Stroth310RootStatement)
     (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec5Hyp hc n t) {m : ℕ} (hm : 2 ≤ m)
     (hV : SpMNat hc t m) :
     Nat.card ↥(Vt M (LB M Q B) B Z t ⊓ QB B) = Nat.card Z ^ (2 * m) := by
   obtain ⟨K, iF, iFin, hK, hrep⟩ := hV
-  letI := iF
-  letI := iFin
-  haveI : CharP K 2 := by
+  let := iF
+  let := iFin
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hnat : SpNat hc t := ⟨K, iF, iFin, hK, m, hm, hrep⟩
   obtain ⟨φ, hφ, hker, hact⟩ := hrep
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hnotQB : ¬ Vt M (LB M Q B) B Z t ≤ QB B :=
     stroth310NotQB_of_34 h34 G M Q Z B hc n t hs (Or.inl hnat)
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨nn, γ₂, M₀₂, hD₂, θ, hθ, u, hu0, hBiff, hW⟩ :=
     Ctx.sp_perp_data h34 hc hs hnotQB hK hm φ hφ hker ψ hψ
   set V := Vt M (LB M Q B) B Z t with hVdef
@@ -191,7 +191,7 @@ theorem card_Vt_inf_QB_sp (h34 : Stroth34Statement) (hRoot : Stroth310RootStatem
     have hsetEq : {x : Fin m ⊕ Fin m → K | spForm m K x u = 0} =
         {x : Fin m ⊕ Fin m → K | CFSG.Timmesfeld.ARS.CaseM.spForm x u = 0} := by
       ext x
-      rw [Set.mem_setOf_eq, Set.mem_setOf_eq, hform x u]
+      rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq, hform x u]
     rw [hsetEq]
     refine Nat.card_congr (Equiv.subtypeEquivRight fun x => ?_)
     rw [LinearMap.mem_ker]
@@ -226,6 +226,7 @@ section SpConjW
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem Ctx.sp_perp_conj_W (hc : Ctx M Q Z B) {n m : ℕ} {t : G} (hs : Sec5Hyp hc n t)
     (φ : ↥(Rt M (LB M Q B) t) →* GL (Fin m ⊕ Fin m) K)
     (hφ : φ.range = StatedSp m K)
@@ -300,8 +301,7 @@ theorem Ctx.sp_perp_conj_W (hc : Ctx M Q Z B) {n m : ℕ} {t : G} (hs : Sec5Hyp 
         CFSG.LieType.Universal.Symplectic.SpExtras.mat m K A⁻¹ = 1 := by
       rw [CFSG.LieType.Universal.Symplectic.SpExtras.mat_apply,
         CFSG.LieType.Universal.Symplectic.SpExtras.mat_apply]
-      simpa using congrArg (fun u : GL (Fin m ⊕ Fin m) K =>
-        (u : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K)) (mul_inv_cancel A)
+      simp
     have hAy : (CFSG.LieType.Universal.Symplectic.SpExtras.mat m K A) *ᵥ y = x := by
       simp only [y]
       rw [Matrix.mulVec_mulVec, hmul, Matrix.one_mulVec]
@@ -388,6 +388,7 @@ section SpSpan
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 variable {K₂ : Type} [Field K₂] {γ : G → K₂} {M₀ : Tim79.QuadModel Q Z K₂ γ}
 
+omit [CharP K 2] [Finite K] in
 theorem Ctx.le_sup_imgQInfQB_sp (hc : Ctx M Q Z B) {n m : ℕ} {t : G} (hs : Sec5Hyp hc n t)
     (φ : ↥(Rt M (LB M Q B) t) →* GL (Fin m ⊕ Fin m) K)
     (hφ : φ.range = StatedSp m K)
@@ -476,8 +477,8 @@ theorem Ctx.finrank_inf_imgQInfQB_of_card
     (T : Submodule K M₀.E) (hTmem : ∀ e : M₀.E, e ∈ T ↔ e ∈ M₀.img (Vt M (LB M Q B) B Z t))
     (hcard : Nat.card ↥(Vt M (LB M Q B) B Z t ⊓ QB X) = Nat.card Z ^ (2 * m)) :
     Module.finrank K ↥(imgQInfQB M₀ X ⊓ T) + 1 = 2 * m := by
-  haveI : FiniteDimensional K M₀.E := M₀.fin
-  haveI hTfin : FiniteDimensional K ↥T := FiniteDimensional.finiteDimensional_submodule T
+  have : FiniteDimensional K M₀.E := M₀.fin
+  have hTfin : FiniteDimensional K ↥T := FiniteDimensional.finiteDimensional_submodule T
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   have hZQB : Z ≤ QB X := hcX.Z_le_QB.1
@@ -603,19 +604,19 @@ theorem Ctx.card_vone_sp (h34 : Stroth34Statement) (hRoot : Stroth310RootStateme
       Nat.card ↥(Vt M (LB M Q B) B Z t) * Nat.card Z := by
   have hV' : SpMNat hc t m := hV
   obtain ⟨K₁, iF, iFin, hK, hrep⟩ := hV'
-  letI := iF
-  letI := iFin
-  haveI : CharP K₁ 2 := by
+  let := iF
+  let := iFin
+  have : CharP K₁ 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hnat : SpNat hc t := ⟨K₁, iF, iFin, hK, m, hm, hrep⟩
   have hVnat : SpMNat hc t m := ⟨K₁, iF, iFin, hK, hrep⟩
   obtain ⟨φ, hφ, hker, hact⟩ := hrep
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hnotQB : ¬ Vt M (LB M Q B) B Z t ≤ QB B :=
     stroth310NotQB_of_34 h34 G M Q Z B hc n t hs (Or.inl hnat)
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨nn, γ₂, M₀₂, hD₂, θ, hθ, u₀, hu₀, hBiff₀, hW₀⟩ :=
     Ctx.sp_perp_data h34 hc hs hnotQB hK hm φ hφ hker ψ hψ
   obtain ⟨u₁, hu₁, hBiff₁, hL₁, hplane₁⟩ :=
@@ -679,14 +680,14 @@ theorem stroth53a_of_sp_model_count
   intro G _ _ M Q Z B hc n t hs hsp r hr hplane C V V₁ hC hV hV₁
   subst hC hV hV₁
   obtain ⟨K, iF, iFin, hK, m, hm, hrep⟩ := hsp
-  letI := iF
-  letI := iFin
+  let := iF
+  let := iFin
   have hVnat : SpMNat hc t m := ⟨K, iF, iFin, hK, hrep⟩
   have hsp' : SpNat hc t := ⟨K, iF, iFin, hK, m, hm, hrep⟩
   obtain ⟨K₂, iF₂, iFin₂, iCh₂, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  letI := iF₂
-  letI := iFin₂
-  letI := iCh₂
+  let := iF₂
+  let := iFin₂
+  let := iCh₂
   obtain ⟨T, hTmem, hBC'⟩ :=
     hBC G M Q Z B hc n t hs hsp' r hr hplane m hVnat K₂ γ M₀ hD
   exact Ctx.card_vone_sp h34 hRoot hc hs hm hVnat hr hplane hD T hTmem hBC'

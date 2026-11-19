@@ -73,7 +73,7 @@ theorem mem_Q0Z_of_forall_mul_comm {x : Q0} (hx : ∀ y : Q0, x * y = y * x) : x
     rw [← polar_qPlus_eq_beta0_add, hb, CharTwo.add_self_eq_zero]
   exact hw hp
 
-theorem center_le_Q0Z : Subgroup.center Q0 ≤ Q0Z := fun x hx =>
+theorem center_le_Q0Z : Subgroup.center Q0 ≤ Q0Z := fun _x hx =>
   mem_Q0Z_of_forall_mul_comm fun y => (Subgroup.mem_center_iff.mp hx y).symm
 
 theorem Q0Z_le_center : Q0Z ≤ Subgroup.center Q0 := by
@@ -141,7 +141,7 @@ noncomputable instance : Module (ZMod 2) (Additive (Abelianization Q0)) :=
 @[expose] def q0Hom : Q0 →* Multiplicative V₀ where
   toFun x := Multiplicative.ofAdd x.v
   map_one' := rfl
-  map_mul' x y := rfl
+  map_mul' _x _y := rfl
 
 @[simp] theorem q0Hom_apply (x : Q0) : q0Hom x = Multiplicative.ofAdd x.v := rfl
 
@@ -174,12 +174,12 @@ theorem qPlus_q0Equiv (u : Additive (Abelianization Q0)) :
   have hsq : x ^ 2 = (⟨beta0 x.v x.v, (0 : V₀)⟩ : Q0) := by
     rw [pow_two, q0_mul_self]
   by_cases h : x ^ 2 = 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hb : beta0 x.v x.v = 0 := by
       have h' := congrArg Q0.a (hsq.symm.trans h)
       simpa using h'
     rw [← beta0_self, hb]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hb : beta0 x.v x.v ≠ 0 := by
       intro hb0
       apply h

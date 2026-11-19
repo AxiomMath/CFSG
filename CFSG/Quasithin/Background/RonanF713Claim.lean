@@ -42,9 +42,9 @@ theorem isE_subgroupOf_loc {i : ℕ} {H T A K : Subgroup G} [Finite ↥H] (hT : 
   have hTK : (T ⊓ K).subgroupOf H = T.subgroupOf H ⊓ K.subgroupOf H := rfl
   have hTKH : T ⊓ K ≤ H := inf_le_left.trans hT
   have htau := E1.tauOf_top_subgroupOf hT hA
-  haveI : Finite ↥K :=
+  have : Finite ↥K :=
     Finite.of_injective (Subgroup.inclusion hK) (Subgroup.inclusion_injective hK)
-  haveI : Finite ↥(K.subgroupOf H) := inferInstance
+  have : Finite ↥(K.subgroupOf H) := inferInstance
   unfold E1.IsE
   rw [← hTK, htau, subgroupOf_le_subgroupOf_iff' ((E1.tauOf_le H T A).trans hT) hTKH,
     E1.isSylowIn_subgroupOf_iff hTKH hK,
@@ -54,7 +54,7 @@ theorem isE_subgroupOf_loc {i : ℕ} {H T A K : Subgroup G} [Finite ↥H] (hT : 
 
 theorem isSQTKCat_conjSub_loc {G : Type} [Group G] {X : Subgroup G} [Finite ↥X] (g : G)
     (h : CFSG.SectionRank.IsSQTKCat ↥X) : CFSG.SectionRank.IsSQTKCat ↥(conjSub g X) := by
-  haveI : Finite ↥(conjSub g X) := finite_conjSub g X
+  have : Finite ↥(conjSub g X) := finite_conjSub g X
   let e : ↥(conjSub g X) ≃* ↥X := ((MulAut.conj g).subgroupMap X).symm
   exact CFSG.SectionRank.IsSQTKCat.of_mulEquiv h e
 

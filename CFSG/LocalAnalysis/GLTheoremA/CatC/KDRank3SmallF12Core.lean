@@ -74,7 +74,7 @@ theorem blk_mul {X Y : Matrix (Fin 3) (Fin 3) K} (hX : IsBlk X) (hY : IsBlk Y) :
   obtain ⟨y1, y2, y3, y4⟩ := hY
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [blk, Matrix.mul_apply, Fin.sum_univ_three, x1, x2, x3, x4, y1, y2, y3, y4]
+    simp [blk, Matrix.mul_apply, Fin.sum_univ_three, x3, x4, y1, y2]
 
 theorem isBlk_mul {X Y : Matrix (Fin 3) (Fin 3) K} (hX : IsBlk X) (hY : IsBlk Y) :
     IsBlk (X * Y) := by
@@ -84,19 +84,19 @@ theorem isBlk_mul {X Y : Matrix (Fin 3) (Fin 3) K} (hX : IsBlk X) (hY : IsBlk Y)
     simp [Matrix.mul_apply, Fin.sum_univ_three, x1, x2, x3, x4, y1, y2, y3, y4]
 
 theorem isBlk_one : IsBlk (1 : Matrix (Fin 3) (Fin 3) K) := by
-  refine ⟨?_, ?_, ?_, ?_⟩ <;> simp [Matrix.one_apply]
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> simp
 
 theorem blk_one : blk (1 : Matrix (Fin 3) (Fin 3) K) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [blk, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [blk]
 
 theorem isBlk_sub_one {X : Matrix (Fin 3) (Fin 3) K} (hX : IsBlk X) : IsBlk (X - 1) := by
   obtain ⟨x1, x2, x3, x4⟩ := hX
-  refine ⟨?_, ?_, ?_, ?_⟩ <;> simp [Matrix.one_apply, x1, x2, x3, x4]
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> simp [x1, x2, x3, x4]
 
 theorem blk_sub_one (N : Matrix (Fin 3) (Fin 3) K) : blk (N - 1) = blk N - 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [blk, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [blk]
 
 theorem eq_of_isBlk {X Y : Matrix (Fin 3) (Fin 3) K} (hX : IsBlk X) (hY : IsBlk Y)
     (h00 : X 0 0 = Y 0 0) (hb : blk X = blk Y) : X = Y := by
@@ -106,7 +106,7 @@ theorem eq_of_isBlk {X Y : Matrix (Fin 3) (Fin 3) K} (hX : IsBlk X) (hY : IsBlk 
   have hb01 := congrFun (congrFun hb 0) 1
   have hb10 := congrFun (congrFun hb 1) 0
   have hb11 := congrFun (congrFun hb 1) 1
-  simp only [blk, of_apply, cons_val', cons_val_zero, cons_val_one, head_cons, empty_val',
+  simp only [blk, of_apply, cons_val', cons_val_zero, cons_val_one, empty_val',
     cons_val_fin_one] at hb00 hb01 hb10 hb11
   ext i j
   fin_cases i <;> fin_cases j
@@ -126,8 +126,8 @@ theorem three_matrix_eq_zero {n : Type} [Fintype n] [DecidableEq n] (h3 : (3 : K
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.one_apply, Matrix.ofNat_apply]
-    · simp [Matrix.one_apply, hij, Matrix.ofNat_apply]
+      simp [Matrix.ofNat_apply]
+    · simp [hij, Matrix.ofNat_apply]
   rw [this, h3, zero_smul]
 
 
@@ -159,7 +159,7 @@ theorem comm_block_scalar {M G : Matrix (Fin 2) (Fin 2) K} (h2 : (2 : K) ≠ 0) 
       exact (mul_eq_zero.1 this).resolve_left h2
     rw [hG, hp0, hq, hr, ← hp]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [hp0, hq, hr]
+    fin_cases i <;> fin_cases j <;> simp [hp0]
   have hMG' : M * !![G 0 0, G 0 1; G 1 0, G 1 1] = !![G 0 0, G 0 1; G 1 0, G 1 1] * M := by
     rw [← hG]; exact hMG
   obtain ⟨α, β, hab⟩ := comm2_mem_span hnon hMG'
@@ -358,7 +358,7 @@ theorem f2_core (hK : ringChar K ≠ 2) (h3 : (3 : K) = 0) (F₀ : Subfield K)
       · rw [blk_smul]; exact hβ
     calc x - 1 = Q * (Qi * x * Q - 1) * Qi := (hconj_sub x).symm
       _ = Q * (β • (Qi * h₁ * Q - 1)) * Qi := by rw [hNx]
-      _ = β • (Q * (Qi * h₁ * Q - 1) * Qi) := by simp [Matrix.mul_smul, Matrix.smul_mul]
+      _ = β • (Q * (Qi * h₁ * Q - 1) * Qi) := by simp
       _ = β • (h₁ - 1) := by rw [hconj_sub h₁]
   obtain ⟨i₀, j₀, hij⟩ : ∃ i j, (h₁ - 1) i j ≠ 0 := by
     by_contra hcon
@@ -388,8 +388,8 @@ theorem f2_core (hK : ringChar K ≠ 2) (h3 : (3 : K) = 0) (F₀ : Subfield K)
       exact mul_right_cancel₀ hij this
     have hxy' : x - 1 = y - 1 := by rw [hβx, hβy, hβ]
     exact sub_left_injective hxy'
-  haveI : Finite F₀ := Nat.finite_of_card_ne_zero (by rw [hF₀]; norm_num)
-  haveI : Fintype F₀ := Fintype.ofFinite F₀
+  have : Finite F₀ := Nat.finite_of_card_ne_zero (by rw [hF₀]; norm_num)
+  have : Fintype F₀ := Fintype.ofFinite F₀
   have hT : (Finset.univ.image (fun a : F₀ => (a : K))).card = 3 := by
     rw [Finset.card_image_of_injective _ Subtype.val_injective, Finset.card_univ,
       Fintype.card_eq_nat_card, hF₀]

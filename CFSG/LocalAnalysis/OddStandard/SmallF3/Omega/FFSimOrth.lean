@@ -15,6 +15,7 @@ open QuadraticMap
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ff_aux_radical_restrict_polar {W : Submodule (ZMod 3) V} {x : W}
     (hx : x ∈ (Q.restrict W).radical) (y : W) : polar Q (x : V) (y : V) = 0 := by
   have hx1 : Q (x : V) = 0 := (QuadraticMap.mem_radical_iff'.mp hx).1
@@ -25,6 +26,7 @@ private theorem ff_aux_radical_restrict_polar {W : Submodule (ZMod 3) V} {x : W}
   have h : Q (y : V) + polar Q (x : V) (y : V) = Q (y : V) + 0 := by rw [hkey, add_zero]
   exact add_left_cancel h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_restrict_nondegenerate_single {u : V} (hu : Q u ≠ 0) :
     (Q.restrict (Submodule.span (ZMod 3) {u})).Nondegenerate := by
   let W : Submodule (ZMod 3) V := Submodule.span (ZMod 3) {u}
@@ -39,6 +41,7 @@ theorem ff_restrict_nondegenerate_single {u : V} (hu : Q u ≠ 0) :
     simpa only [QuadraticMap.restrict_apply, v] using hu
   exact TauCeti.nondegenerate_of_span_singleton_eq_top hspan hv
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_restrict_nondegenerate_pair {u v : V} (hu : Q u ≠ 0) (hv : Q v ≠ 0)
     (huv : polar Q u v = 0) : (Q.restrict (Submodule.span (ZMod 3) {u, v})).Nondegenerate := by
   rw [QuadraticMap.nondegenerate_iff_radical_eq_bot]
@@ -64,6 +67,7 @@ theorem ff_restrict_nondegenerate_pair {u v : V} (hu : Q u ≠ 0) (hv : Q v ≠ 
   apply Subtype.ext
   simp [← hab, ha, hb]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_finrank_span_pair {u v : V} (hu : Q u ≠ 0) (hv : Q v ≠ 0) (huv : polar Q u v = 0) :
     Module.finrank (ZMod 3) (Submodule.span (ZMod 3) {u, v}) = 2 := by
   have hli : LinearIndependent (ZMod 3) ![u, v] := by
@@ -92,6 +96,7 @@ theorem ff_finrank_span_pair {u v : V} (hu : Q u ≠ 0) (hv : Q v ≠ 0) (huv : 
   rw [hrange] at h
   simpa using h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_mem_orth_pair_iff {u v w : V} :
     w ∈ LinearMap.BilinForm.orthogonal Q.polarBilin (Submodule.span (ZMod 3) {u, v}) ↔
       polar Q u w = 0 ∧ polar Q v w = 0 := by

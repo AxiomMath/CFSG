@@ -21,6 +21,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22.F08
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_uniqueSet_of_conjSetOf_eq_of_normalizer_le {M X : Subgroup G}
     (hM : Subgroup.normalizer (M : Set G) = M) (hXM : X ≤ M)
     (hNX : Subgroup.normalizer (X : Set G) ≤ M)
@@ -76,12 +77,13 @@ theorem mem_of_map_eq_top_of_odd {H Q : Type} [Group H] [Group Q] (φ : H →* Q
     simp
   exact (QuotientGroup.eq_one_iff g).mp (orderOf_eq_one_iff.mp hone)
 
+omit [Finite G] in
 theorem isPerfect_bar2_of_isL2 {L : Subgroup G} {n : ℕ} (h : IsL2 (Bar2 L) n) :
     Group.IsPerfect (Bar2 L) := by
   obtain ⟨hadm, K, hfield, hfin, hKcard, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hn1 : 1 ≤ n := hadm.2.1
   have hnne1 : n ≠ 1 := by
     intro hn
@@ -100,6 +102,7 @@ theorem isPerfect_bar2_of_isL2 {L : Subgroup G} {n : ℕ} (h : IsL2 (Bar2 L) n) 
       (QuotientGroup.mk'_surjective _)
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
+omit [Finite G] in
 theorem isPerfect_bar2_of_isSz {L : Subgroup G} {n : ℕ} (h : IsSz (Bar2 L) n) :
     Group.IsPerfect (Bar2 L) := by
   have hsz : CFSG.Blueprint.SuzukiModel (Bar2 L) 2 n :=
@@ -111,12 +114,14 @@ theorem isPerfect_bar2_of_isSz {L : Subgroup G} {n : ℕ} (h : IsSz (Bar2 L) n) 
       (CFSG.ShultStronglyClosedTI.OddPrimeInverters.suzuki_commutator_eq_top a ha)
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
+omit [Finite G] in
 theorem isPerfect_bar2_of_isL2_or_isSz {L : Subgroup G} {n : ℕ}
     (h : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) : Group.IsPerfect (Bar2 L) := by
   rcases h with h | h
   · exact isPerfect_bar2_of_isL2 h
   · exact isPerfect_bar2_of_isSz h
 
+omit [Finite G] in
 theorem isSimpleGroup_bar2_of_isL2_or_isSz {L : Subgroup G} {n : ℕ}
     (h : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) : IsSimpleGroup (Bar2 L) := by
   rcases h with h | h
@@ -195,6 +200,7 @@ theorem perfectCore_of_isL2_or_isSz_1755 {D : Data G} {L : Subgroup G} {n : ℕ}
     exact hKmap
   exact ⟨hPcalC, hPN, hshapeP, hPmap⟩
 
+omit [Finite G] in
 theorem le_perfectCore_of_map_eq_top {L K X : Subgroup G} {r : ℕ}
     (hKmap : (K.subgroupOf L).map (QuotientGroup.mk' (pCore 2 ↥L)) = ⊤)
     (hKeq : K = CFSG.Quasithin.perfectCore L) (hrodd : Odd r)
@@ -215,7 +221,7 @@ theorem le_perfectCore_of_map_eq_top {L K X : Subgroup G} {r : ℕ}
       have h := Subgroup.orderOf_dvd_natCard X hx
       rwa [hXcard] at h
     exact hrodd.of_dvd_nat hdvd
-  haveI : ((CFSG.Quasithin.perfectCore L).subgroupOf L).Normal :=
+  have : ((CFSG.Quasithin.perfectCore L).subgroupOf L).Normal :=
     CFSG.Quasithin.perfectCore_normal L
   have hmem := mem_of_map_eq_top_of_odd (QuotientGroup.mk' (pCore 2 ↥L))
     ((CFSG.Quasithin.perfectCore L).subgroupOf L) hKmap' hker hxord

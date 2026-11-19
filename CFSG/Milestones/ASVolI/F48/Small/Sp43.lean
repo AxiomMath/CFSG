@@ -18,8 +18,8 @@ open CFSG.ASVolI.ChF CFSG.Quasithin.H13.F431.U42
 theorem burnsideF48s_small_Sp4_three_top (h45 : F_4_5) (h46 : F_4_6) {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 .Sp4 3 1 Gp M₁ M₂) (hGp : Gp = ⊤) :
     F48Concl .Sp4 3 1 Gp M₁ M₂ := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hext := burnsideF48s_isLieExtGroup_E ChF.nativeChartCompatibility hyp
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨θ, hBθ, hor⟩ := burnsideF48s_sp43c_chart hyp hGp

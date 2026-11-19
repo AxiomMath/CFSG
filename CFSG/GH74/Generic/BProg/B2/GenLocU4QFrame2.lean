@@ -429,7 +429,7 @@ theorem frame11 (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = (p ^ f) ^ 2) (
     refine conj_of_comm ?_
     ext i j
     fin_cases i <;> fin_cases j <;> simp [Qmat, Matrix.mul_apply, Fin.sum_univ_four]
-    all_goals first | exact Z1 | exact Z2 | exact Z3 | exact Z4' | linear_combination Z1 | linear_combination Z2 | linear_combination Z3 | linear_combination Z4'
+    all_goals first | exact Z1 | exact Z3 | linear_combination Z1 | linear_combination Z2 | linear_combination Z3 | linear_combination Z4'
 
 end GenLocU4QFrame2
 

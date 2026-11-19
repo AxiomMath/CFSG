@@ -116,7 +116,7 @@ private abbrev l154es (p : Fin Tag.E6.rank) : Fin Tag.E6.rank → ℤ := Pi.sing
 
 private theorem l154td4_leaf_mem {p : Fin Tag.E6.rank} (hp : p.val ∈ ({1, 2, 4} : Set ℕ)) :
     p ∈ d4Nodes Tag.E6 := by
-  simp only [d4Nodes, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at hp ⊢
+  simp only [d4Nodes, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at hp ⊢
   omega
 
 private theorem l154td4_leaf_cases {p : Fin Tag.E6.rank} (hp : p.val ∈ ({1, 2, 4} : Set ℕ)) :

@@ -27,6 +27,7 @@ private def w1369_perp (B : W →* W →* Multiplicative (ZMod 2)) (Y : Subgroup
     intro u hu a ha
     rw [map_inv, hu a ha, inv_one]
 
+omit [Finite W] in
 private theorem w1369_mem_perp {B : W →* W →* Multiplicative (ZMod 2)} {Y : Subgroup W}
     {w : W} : w ∈ w1369_perp B Y ↔ ∀ a ∈ Y, B a w = 1 := Iff.rfl
 
@@ -69,8 +70,8 @@ private theorem w1369_perp_card (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s
     (hBnd : ∀ x, (∀ y, B x y = 1) → x = 1) (hBalt : ∀ x, B x x = 1) :
     Nat.card (w1369_perp B Y) = 4 := by
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.Quasithin.H13.Mult.zmodModuleW hw2
-  haveI : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive W) := CFSG.Quasithin.H13.Mult.zmodModuleW hw2
+  have : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
   let β : W → W → ZMod 2 := fun x y => (B x y).toAdd
   have hl : ∀ x x' y, β (x * x') y = β x y + β x' y := by
     intro x x' y
@@ -102,8 +103,8 @@ private theorem w1369_perp_card (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s
     exact Additive.toMul.injective (by simpa using hBnd u.toMul h)
   have hB'nd : B'.Nondegenerate := hB'refl.nondegenerate_iff_separatingLeft.mpr hB'sep
   let Y' : Submodule (ZMod 2) (Additive W) := CFSG.Quasithin.H13.Mult.toSub Y
-  haveI : Module.Finite (ZMod 2) Y' := Module.Finite.of_finite
-  haveI : Module.Finite (ZMod 2) (B'.orthogonal Y') := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) Y' := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) (B'.orthogonal Y') := Module.Finite.of_finite
   have hle : Module.finrank (ZMod 2) Y' ≤ Module.finrank (ZMod 2) (Additive W) :=
     Submodule.finrank_le Y'
   have hfin : Module.finrank (ZMod 2) (B'.orthogonal Y') + Module.finrank (ZMod 2) Y' =
@@ -263,12 +264,12 @@ private theorem w1369_e_preserves (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D
     (hBnd : ∀ x, (∀ y, B x y = 1) → x = 1) (hBalt : ∀ x, B x x = 1)
     (hBinv : ∀ k ∈ K, ∀ x y, B (k x) (k y) = B x y)
     {x₀ : MulAut W} (hxX : X = Subgroup.zpowers x₀) (hx3 : x₀ ^ 3 = 1) (hxne : x₀ ≠ 1)
-    (hfix : fixV X = ⊥) {e : MulAut W} (he : e ∈ D) (he1 : e ≠ 1) :
+    (hfix : fixV X = ⊥) {e : MulAut W} (he : e ∈ D) (_he1 : e ≠ 1) :
     ∀ a b, B (e a) (e b) = B a b := by
   classical
   have hn3 : 3 ≤ n := by omega
-  letI : Module (ZMod 2) (Additive W) := CFSG.Quasithin.H13.Mult.zmodModuleW hw2
-  haveI : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive W) := CFSG.Quasithin.H13.Mult.zmodModuleW hw2
+  have : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
   let β : W → W → ZMod 2 := fun x y => (B x y).toAdd
   have hl : ∀ x x' y, β (x * x') y = β x y + β x' y := by
     intro x x' y

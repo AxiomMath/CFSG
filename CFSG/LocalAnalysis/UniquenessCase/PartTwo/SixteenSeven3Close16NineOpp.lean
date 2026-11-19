@@ -29,13 +29,14 @@ variable {G : Type} [Group G] [Finite G]
       (∃ k : ℕ, ((Opp 3 Y).subgroupOf Y).index = 2 ^ k) →
         UniqueMax D.M Y ∨ Y ∈ F09.calY2_9 D
 
+omit [Finite G] in
 private theorem c16n9o_not_le {N M : Subgroup G} (hN : rankThreeIsMaxTwoLocal N)
     (hM : rankThreeIsMaxTwoLocal M) (hNM : N ≠ M) : ¬ N ≤ M :=
   fun h => hNM (hN.2 M hM.1 h).symm
 
 private theorem c16n9o_exists_order_three {Y : Subgroup G} (h : Opp 3 Y ≠ ⊥) :
     ∃ u ∈ Opp 3 Y, orderOf u = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hxY, ⟨k, hk⟩, hx1⟩ :
       ∃ x : G, x ∈ Y ∧ (∃ k : ℕ, orderOf x = 3 ^ k) ∧ x ≠ 1 := by
     by_contra hcon
@@ -67,7 +68,7 @@ private theorem c16n9o_pRank_le_one {D : Data G} (h63 : UC6.R6_3 D)
     (hSP : IsStronglyPEmbedded 3 D.M) {N U : Subgroup G} (hN : rankThreeIsMaxTwoLocal N)
     (hNM : N ≠ D.M) (hUN : U ≤ N) (hUM : U ≤ D.M) (hU3 : IsPGroup 3 U) (hU1 : U ≠ ⊥) :
     CFSG.Open.pRank 3 N ≤ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hgt
   have h2 : 2 ≤ CFSG.Open.pRank 3 N := by omega
   obtain ⟨E, hEN, hE, hEcard⟩ := CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank h2
@@ -94,7 +95,7 @@ private theorem c16n9o_pRank_le_one {D : Data G} (h63 : UC6.R6_3 D)
 private theorem c16n9o_mem_calH9 {D : Data G} (h63 : UC6.R6_3 D)
     (hSP : IsStronglyPEmbedded 3 D.M) {Y : Subgroup G} (hX : Opp 3 Y ≠ ⊥) (hYM : Y ≤ D.M)
     {N : Subgroup G} (hN : N ∈ calMOf Y) (hNM : N ≠ D.M) : N ∈ F09.calH9 D Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨u, huX, hu3⟩ := c16n9o_exists_order_three hX
   have hu : u ^ 3 = 1 := by rw [← hu3]; exact pow_orderOf_eq_one u
   have hu1 : u ≠ 1 := fun h => by rw [h, orderOf_one] at hu3; norm_num at hu3
@@ -116,11 +117,11 @@ private theorem c16n9o_mem_calH9 {D : Data G} (h63 : UC6.R6_3 D)
       (by rw [hUcard, pow_one])
     intro x hx
     refine le_iSup (fun h : ↥N => (Opp 3 Y).map (MulAut.conj (h : G)).toMonoidHom) 1 ?_
-    exact ⟨x, hUX hx, by simp [MulAut.conj_apply]⟩
+    exact ⟨x, hUX hx, by simp⟩
 
 theorem r9_21Opp_of_r6_3 (D : Data G) (h63 : UC6.R6_3 D) : R9_21Opp D := by
   intro hSP Y hX hYM _ hA hidx
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hU : UniqueMax D.M Y
   · exact Or.inl hU
   refine Or.inr ?_
@@ -129,7 +130,7 @@ theorem r9_21Opp_of_r6_3 (D : Data G) (h63 : UC6.R6_3 D) : R9_21Opp D := by
     push Not at hcon
     refine hU (Set.eq_singleton_iff_unique_mem.2 ⟨⟨D.maxLocal, hYM⟩, fun N hN => hcon N hN⟩)
   have hNtop : N ≠ ⊤ := by
-    haveI := D.standing.simple
+    have := D.standing.simple
     exact CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab hNmem.1.1
   obtain ⟨C, hC, hNC⟩ : ∃ C : Subgroup G, IsCoatom C ∧ N ≤ C := by
     rcases IsCoatomic.eq_top_or_exists_le_coatom N with h | h

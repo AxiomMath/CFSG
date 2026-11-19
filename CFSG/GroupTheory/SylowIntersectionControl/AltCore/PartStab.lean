@@ -14,12 +14,12 @@ open Equiv Equiv.Perm Subgroup
   carrier := {g | ∀ x y, s.r (g x) (g y) ↔ s.r x y}
   mul_mem' := by
     intro a b ha hb x y
-    simp only [Set.mem_setOf_eq, Perm.mul_apply] at *
+    simp only [Set.mem_ofPred_eq, Perm.mul_apply] at *
     rw [ha, hb]
   one_mem' := by intro x y; simp
   inv_mem' := by
     intro a ha x y
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     have := ha (a⁻¹ x) (a⁻¹ y)
     rw [show a (a⁻¹ x) = x from a.apply_symm_apply x,
       show a (a⁻¹ y) = y from a.apply_symm_apply y] at this

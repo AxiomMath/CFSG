@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] def O3 (X : Subgroup G) : Subgroup G := Subgroup.closure {x : G | x ∈ X ∧ ¬ 3 ∣ orderOf x}
 
+omit [Finite G] in
 theorem mem_of_zpow_mem_of_orderOf_three {S : Subgroup G} {x : G} (hx : orderOf x = 3) {k : ℤ}
     (hk : ¬ (3 : ℤ) ∣ k) (hmem : x ^ k ∈ S) : x ∈ S := by
   have h3 : x ^ (3 : ℤ) = 1 := by
@@ -31,6 +32,7 @@ theorem mem_of_zpow_mem_of_orderOf_three {S : Subgroup G} {x : G} (hx : orderOf 
   rw [hx']
   exact S.zpow_mem hmem k
 
+omit [Finite G] in
 theorem three_dvd_of_zpow_eq_one {x : G} (hx : orderOf x = 3) {m : ℤ} (h1 : x ^ m = 1) :
     (3 : ℤ) ∣ m := by
   have := orderOf_dvd_iff_zpow_eq_one.2 h1
@@ -41,7 +43,7 @@ private theorem mem_zpowers_of_cyclic_sylow_S3 {H : Type} [Group H] [Finite H]
     (hS : ∀ P : Sylow 3 H, IsCyclic ↥(P : Subgroup H)) {u v : H} (hu3 : u ^ 3 = 1)
     (hu1 : u ≠ 1) (hv3 : v ^ 3 = 1) (hv1 : v ≠ 1) (huv : Commute u v) :
     u ∈ Subgroup.zpowers v := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hou : orderOf u = 3 := orderOf_eq_prime hu3 hu1
   have hov : orderOf v = 3 := orderOf_eq_prime hv3 hv1
   have hzu : IsPGroup 3 (Subgroup.zpowers u) :=
@@ -57,7 +59,7 @@ private theorem mem_zpowers_of_cyclic_sylow_S3 {H : Type} [Group H] [Finite H]
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hh
     exact huv.symm.zpow_left k
   obtain ⟨P, hP⟩ := (IsPGroup.to_sup_of_normal_right' hzu hzv hle).exists_le_sylow
-  haveI := hS P
+  have := hS P
   have hmu : u ∈ (P : Subgroup H) := hP (Subgroup.mem_sup_left (Subgroup.mem_zpowers u))
   have hmv : v ∈ (P : Subgroup H) := hP (Subgroup.mem_sup_right (Subgroup.mem_zpowers v))
   have hu' : orderOf (⟨u, hmu⟩ : (P : Subgroup H)) = 3 := by
@@ -104,7 +106,7 @@ theorem P_card_E (h : FF84Sec3 b L B b₁ b₂) : Nat.card ↥(B ⊓ L) = 9 := b
     have hcard3 : Nat.card ↥(Subgroup.zpowers b₁) = 3 := by
       rw [Nat.card_zpowers, orderOf_eq_prime h13 hne1]
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have heq : Subgroup.zpowers b₁ = B ⊓ L :=
       Subgroup.eq_of_le_of_card_ge hle (by rw [hcard3]; exact hcon)
     have hb2mem : b₂ ∈ Subgroup.zpowers b₁ := by rw [heq]; exact h.hb₂
@@ -148,7 +150,7 @@ theorem P_zpowers_inf_E (h : FF84Sec3 b L B b₁ b₂) :
       (P_b_notin_L h)
 
 theorem P_b_mem_CenS (h : FF84Sec3 b L B b₁ b₂) : b ∈ CenS L :=
-  Subgroup.mem_centralizer_iff.2 fun l hl =>
+  Subgroup.mem_centralizer_iff.2 fun _l hl =>
     Subgroup.mem_centralizer_singleton_iff.1 (h.hyp.hLC hl)
 
 theorem P_E (h : FF84Sec3 b L B b₁ b₂) :
@@ -245,7 +247,7 @@ private theorem quasi_normal_le_center_or_eq_top {K : Type*} [Group K] (hq : CFS
       exact this.symm
     have hle : commutator K ≤ M :=
       (by
-        haveI : IsMulCommutative (Subgroup.center K) := Subgroup.center.isMulCommutative K
+        have : IsMulCommutative (Subgroup.center K) := Subgroup.center.isMulCommutative K
         exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup)
     rw [Group.isPerfect_def.mp hperf] at hle
     exact top_le_iff.mp hle
@@ -254,7 +256,7 @@ theorem quasi_commute_of_normal_proper {G : Type*} [Group G] {L : Subgroup G}
     (hq : CFSG.IsQuasisimple L) {I : Subgroup G} (hIL : I ≤ L)
     (hI : ∀ x ∈ L, ∀ y ∈ I, x * y * x⁻¹ ∈ I) (hne : ¬ L ≤ I) :
     ∀ y ∈ I, ∀ x ∈ L, x * y = y * x := by
-  haveI : (I.subgroupOf L).Normal := ⟨fun n hn g => by
+  have : (I.subgroupOf L).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := hI (g : G) g.2 (n : G) hn
     simpa using this⟩
@@ -428,6 +430,7 @@ theorem opp3_not_dvd {H : Subgroup G} {x : G} (hx : x ∈ inSubgroup (pPrimeCore
   have := Nat.Coprime.eq_one_of_dvd pPrimeCore_coprime_card h1
   exact absurd this (by norm_num)
 
+omit [Finite G] in
 theorem opp3_conj {H : Subgroup G} {g x : G} (hg : g ∈ H) (hx : x ∈ inSubgroup (pPrimeCore 3) H) :
     g * x * g⁻¹ ∈ inSubgroup (pPrimeCore 3) H := by
   unfold inSubgroup at hx ⊢
@@ -436,6 +439,7 @@ theorem opp3_conj {H : Subgroup G} {g x : G} (hg : g ∈ H) (hx : x ∈ inSubgro
   · exact (pPrimeCore_normal (p := 3) (G := H)).conj_mem y hy _
   · simp
 
+omit [Finite G] in
 theorem opp3_of_normal_coprime {H : Subgroup G} {N : Subgroup H} (hN : N.Normal)
     (hcop : Nat.Coprime 3 (Nat.card N)) : N.map H.subtype ≤ inSubgroup (pPrimeCore 3) H := by
   have hmem : N ≤ pPrimeCore 3 H := by
@@ -480,7 +484,7 @@ theorem zpowers_inf_opp {b : G} {L B : Subgroup G} {b₁ b₂ : G} (h : FF84Sec3
 theorem P_C_structure (h : FF84Sec3 b L B b₁ b₂) :
     Opp 3 (Cen b) ≤ CenS L ∧ Subgroup.zpowers b ⊔ Opp 3 (Cen b) = CenS L ⊓ Cen b ∧
       Subgroup.zpowers b ⊓ Opp 3 (Cen b) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Cb, hCb⟩ : ∃ C : Subgroup G, C = CenS L ⊓ Cen b := ⟨_, rfl⟩
   have hmemCb : ∀ x, x ∈ Cb ↔ x ∈ CenS L ∧ x ∈ Cen b := fun x => by
     rw [hCb, Subgroup.mem_inf]
@@ -640,6 +644,7 @@ def RealSP (b b₁ b₂ : G) (B : Subgroup G) (π : Equiv.Perm (Fin 3)) (ε : Fi
   ∃ n ∈ Nor B, ∀ i : Fin 3,
     n * (![b, b₁, b₂] i) * n⁻¹ = (![b, b₁, b₂] (π i)) ^ ((ε i : ℤˣ) : ℤ)
 
+omit [Finite G] in
 theorem realSP_mul {b b₁ b₂ : G} {B : Subgroup G} {π π' π'' : Equiv.Perm (Fin 3)}
     {ε ε' ε'' : Fin 3 → ℤˣ}
     (h : RealSP b b₁ b₂ B π ε) (h' : RealSP b b₁ b₂ B π' ε') (hπ : π'' = π * π')
@@ -653,18 +658,22 @@ theorem realSP_mul {b b₁ b₂ : G} {B : Subgroup G} {π π' π'' : Equiv.Perm 
   rw [e1, hnv' i, ← conj_zpow, hnv (π' i), ← zpow_mul, Equiv.Perm.mul_apply, hε i,
     Units.val_mul]
 
+omit [Finite G] in
 theorem realSP_congr_perm {b b₁ b₂ : G} {B : Subgroup G} {π π' : Equiv.Perm (Fin 3)}
     {ε : Fin 3 → ℤˣ} (h : RealSP b b₁ b₂ B π ε) (hπ : π = π') : RealSP b b₁ b₂ B π' ε := by
   subst hπ; exact h
 
+omit [Finite G] in
 theorem realSP_congr_sign {b b₁ b₂ : G} {B : Subgroup G} {π : Equiv.Perm (Fin 3)}
     {ε ε' : Fin 3 → ℤˣ} (h : RealSP b b₁ b₂ B π ε) (hε : ε = ε') :
     RealSP b b₁ b₂ B π ε' := by
   subst hε; exact h
 
+omit [Finite G] in
 theorem realSP_one {b b₁ b₂ : G} {B : Subgroup G} : RealSP b b₁ b₂ B 1 1 :=
   ⟨1, one_mem _, fun i => by simp⟩
 
+omit [Finite G] in
 theorem realSP_all {b b₁ b₂ : G} {B : Subgroup G}
     (hflip : ∃ n ∈ Nor B, n * b * n⁻¹ = b⁻¹ ∧ n * b₁ * n⁻¹ = b₁ ∧ n * b₂ * n⁻¹ = b₂)
     (hswap : ∃ n ∈ Nor B, n * b * n⁻¹ = b₁ ∧ n * b₁ * n⁻¹ = b ∧ n * b₂ * n⁻¹ = b₂)

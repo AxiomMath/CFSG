@@ -137,7 +137,7 @@ private theorem false_of_noncentral_commutator {S B T : Subgroup Ω} {x : Ω} {D
   have h4 : 4 ≤ Nat.card (T.map ψ) := four_le_card_of_noncomm hT2 hnorm hnc2
   obtain ⟨s, hs1, hsT⟩ := exists_conj_mem_two_subgroup hS6 (T.map ψ) hT2 h4
   obtain ⟨hsimple, hnonab⟩ := chev_pSimple_simple_nonabelian Nat.prime_three cfg.comp
-  haveI := hsimple
+  have := hsimple
   have hZ : Subgroup.center (PSimple 3 S) = ⊥ := chev_center_eq_bot_of_simple_nonabelian hnonab
   set T₀ : Subgroup (PSimple 3 S) :=
     (T.map ψ).comap (MulAut.conj : PSimple 3 S →* MulAut (PSimple 3 S)) with hT₀

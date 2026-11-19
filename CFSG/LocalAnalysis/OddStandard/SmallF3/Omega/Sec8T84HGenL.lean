@@ -27,7 +27,7 @@ theorem sec8t84h_cover_le_closure {G H : Type} [Group G] [Group H] {L : Subgroup
         obtain ⟨l, hlS, hlx⟩ := mem_ffImg_iff.mp hxS
         have hllS : ((l * l : ↥L) : G) ∈ S₀ := by
           simpa using S₀.mul_mem hlS hlS
-        have h1S : ((1 : ↥L) : G) ∈ S₀ := by simpa using S₀.one_mem
+        have h1S : ((1 : ↥L) : G) ∈ S₀ := by simp
         have hφll : φ (l * l) = φ 1 := by
           rw [map_mul, map_one, hlx, ← pow_two, hx2]
         have hll : l * l = 1 :=

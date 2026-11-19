@@ -49,7 +49,7 @@ theorem exists_lieModel_forall_sylow_mulEquiv_sModel {p f : ℕ} (hp : p.Prime) 
     ∃ (H : Type) (_ : Group H) (_ : Finite H), CFSG.Blueprint.LieModel H .PSL 6 p f ∧
       ∀ Q : Sylow 2 H,
         Nonempty (↥(Q : Subgroup H) ≃* SModel (((p ^ f) ^ 2 - 1).factorization 2)) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hK : Nat.card (GaloisField p f) = p ^ f := GaloisField.card p f hf.ne'
   refine ⟨StatedProj (StatedSL 6 (GaloisField p f)), inferInstance, inferInstance,
     Or.inl ⟨by decide, ⟨hp, hf, by norm_num, by simp, by simp⟩, GaloisField p f, inferInstance,

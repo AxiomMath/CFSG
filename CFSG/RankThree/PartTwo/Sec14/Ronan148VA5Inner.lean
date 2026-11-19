@@ -57,7 +57,7 @@ theorem inner_a5_cyc031_ne_cyc012 : inner_a5_cyc031 ≠ inner_a5_cyc012 := by de
 theorem inner_a5_cyc031_ne_cyc012_inv : inner_a5_cyc031 ≠ inner_a5_cyc012⁻¹ := by decide
 
 theorem mem_of_inner_a5 {Q : Type} [Group Q] [Finite Q] {Aq Jq Zq : Subgroup Q} {e : Q}
-    (hAab : ∀ x ∈ Aq, ∀ y ∈ Aq, x * y = y * x) (hA3 : ∀ a ∈ Aq, a ^ 3 = 1)
+    (_hAab : ∀ x ∈ Aq, ∀ y ∈ Aq, x * y = y * x) (hA3 : ∀ a ∈ Aq, a ^ 3 = 1)
     (hF3 : ∀ w : Q, w ∈ Subgroup.centralizer (Aq : Set Q) → w ^ 3 = 1 → w ∈ Aq)
     (hC : Aq ⊓ Subgroup.centralizer (Jq : Set Q) = Subgroup.zpowers e)
     (hCD : Aq ⊓ Subgroup.centralizer (Jq : Set Q) ⊔ Aq ⊓ Jq = Aq)

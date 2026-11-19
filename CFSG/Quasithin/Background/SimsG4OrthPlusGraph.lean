@@ -23,9 +23,10 @@ theorem trace_conj_map (σ : K ≃+* K) (h x : Matrix.SpecialLinearGroup (Fin 2)
 
 variable [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem isSimpleGroup_SL2 (h4 : 4 ≤ Nat.card K) :
     IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) := by
-  haveI := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
+  have := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
   exact (CFSG.Timmesfeld.RankOne.psl2EquivSL2 K).symm.isSimpleGroup
 
 theorem eq_top_or_graph (h4 : 4 ≤ Nat.card K)
@@ -33,11 +34,11 @@ theorem eq_top_or_graph (h4 : 4 ≤ Nat.card K)
     (hswap : ∀ x y, (x, y) ∈ Hh → (y, x) ∈ Hh) (hfst : ∀ x, ∃ y, (x, y) ∈ Hh) :
     Hh = ⊤ ∨ ∃ (σ : K ≃+* K) (h : Matrix.SpecialLinearGroup (Fin 2) K),
       ∀ x y, (x, y) ∈ Hh → y = h * Matrix.SpecialLinearGroup.map σ.toRingHom x * h⁻¹ := by
-  haveI := isSimpleGroup_SL2 h4
+  have := isSimpleGroup_SL2 h4
   set N : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K) := Hh.comap (MonoidHom.inl _ _)
     with hNdef
   have hmemN : ∀ x, x ∈ N ↔ (x, 1) ∈ Hh := fun x => Iff.rfl
-  haveI hN : N.Normal := ⟨fun x hx g => by
+  have hN : N.Normal := ⟨fun x hx g => by
     obtain ⟨y, hy⟩ := hfst g
     rw [hmemN] at hx ⊢
     have h := Hh.mul_mem (Hh.mul_mem hy hx) (Hh.inv_mem hy)

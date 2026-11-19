@@ -59,7 +59,7 @@ variable {Y Y' : Type} [Group Y] [Group Y'] [Finite Y] [Finite Y'] {E E' : Type}
 theorem lift_preserved_le (hom5 : CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.CX.Om5StabDiag)
     (hcent5 : CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.C25W.Cent5)
     (T : TwinLift e e' zb P) (T' : TwinLift f f' zb' P') {β : MulAut Y} {β' : MulAut Y'}
-    (hA : T.A ≤ Goldschmidt75.perfRes (fixSubgroup β)) (hA' : T.A' ≤ Goldschmidt75.perfRes (fixSubgroup β))
+    (_hA : T.A ≤ Goldschmidt75.perfRes (fixSubgroup β)) (hA' : T.A' ≤ Goldschmidt75.perfRes (fixSubgroup β))
     (hB : T'.A ≤ Goldschmidt75.perfRes (fixSubgroup β')) (hB' : T'.A' ≤ Goldschmidt75.perfRes (fixSubgroup β'))
     (h5' : CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.CX.IsOm5 (centTG T'.A T'.A' β' hB hB'))
     (ψ : ↥(Goldschmidt75.perfRes (fixSubgroup β)) ≃* ↥(Goldschmidt75.perfRes (fixSubgroup β')))
@@ -94,7 +94,7 @@ theorem lift_preserved_le (hom5 : CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.CX.Om5S
 theorem lift_preserved_le' (hom5 : CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.CX.Om5StabDiag)
     (hcent5 : CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.C25W.Cent5)
     (T : TwinLift e e' zb P) (T' : TwinLift f f' zb' P') {β : MulAut Y} {β' : MulAut Y'}
-    (hA : T.A ≤ Goldschmidt75.perfRes (fixSubgroup β)) (hA' : T.A' ≤ Goldschmidt75.perfRes (fixSubgroup β))
+    (hA : T.A ≤ Goldschmidt75.perfRes (fixSubgroup β)) (_hA' : T.A' ≤ Goldschmidt75.perfRes (fixSubgroup β))
     (hB : T'.A ≤ Goldschmidt75.perfRes (fixSubgroup β')) (hB' : T'.A' ≤ Goldschmidt75.perfRes (fixSubgroup β'))
     (h5' : CFSG.ClassicalInvolution.Q3.Q3T8.Asc77.CX.IsOm5 (centTG T'.A T'.A' β' hB hB'))
     (ψ : ↥(Goldschmidt75.perfRes (fixSubgroup β)) ≃* ↥(Goldschmidt75.perfRes (fixSubgroup β')))

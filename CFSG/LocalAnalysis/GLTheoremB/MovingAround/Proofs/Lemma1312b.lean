@@ -15,30 +15,33 @@ section General
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_gLBConj (g : G) (H : Subgroup G) : Nat.card (GLBConj g H) = Nat.card H := by
   unfold GLBConj
   exact Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective
 
+omit [Finite G] in
 theorem gLBConj_inf (g : G) (A B : Subgroup G) :
     GLBConj g (A ⊓ B) = GLBConj g A ⊓ GLBConj g B := by
   ext z
   simp [mem_gLBConj, Subgroup.mem_inf]
 
+omit [Finite G] in
 theorem isElemAbelian_of_le {p : ℕ} {E B : Subgroup G} (hEB : E ≤ B) (hB : IsElemAbelian p B) :
     IsElemAbelian p E :=
-  isElemAbelian_of_comm_pow (fun x hx y hy => elemAbelian_comm hB (hEB hx) (hEB hy))
-    (fun x hx => hB.2 x (hEB hx))
+  isElemAbelian_of_comm_pow (fun _x hx _y hy => elemAbelian_comm hB (hEB hx) (hEB hy))
+    (fun _x hx => hB.2 _x (hEB hx))
 
 theorem exists_fixed_of_normalizes {p : ℕ} (hp : p.Prime) {E : Subgroup G} {d : G}
     (hX : IsPGroup p ↥(E ⊔ Subgroup.zpowers d)) (hdE : d ∈ Subgroup.normalizer (E : Set G))
     (hE : E ≠ ⊥) : ∃ c ∈ E, c ≠ 1 ∧ d * c = c * d := by
   set X := E ⊔ Subgroup.zpowers d with hXdef
   have hEX : E ≤ X := le_sup_left
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsNilpotent ↥X := hX.isNilpotent
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsNilpotent ↥X := hX.isNilpotent
   have hXN : X ≤ Subgroup.normalizer (E : Set G) :=
     sup_le Subgroup.le_normalizer ((Subgroup.zpowers_le).2 hdE)
-  haveI hn : (E.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hEX).2 hXN
+  have hn : (E.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hEX).2 hXN
   have hne : E.subgroupOf X ≠ ⊥ := by
     intro h0
     apply hE
@@ -74,14 +77,14 @@ theorem zpowers_eq_of_card_prime {p : ℕ} (hp : p.Prime) {W : Subgroup G} (hW :
 theorem eq_of_card_prime_of_rank {p : ℕ} (hp : p.Prime) {P W₁ W₂ : Subgroup G} (hP : IsPGroup p ↥P)
     (hrk : ∀ E : Subgroup G, E ≤ P → IsElemAbelian p E → Nat.card E ≤ p)
     (h₁ : W₁ ≤ P) (h₂ : W₂ ≤ P) (hc₁ : Nat.card W₁ = p) (hc₂ : Nat.card W₂ = p) : W₁ = W₂ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hPcard : 1 < Nat.card P := by
     have := Subgroup.card_le_card_group (G := ↥P) (⊥ : Subgroup ↥P)
     have h2 : Nat.card W₁ ≤ Nat.card P := Subgroup.card_le_of_le h₁
     omega
-  haveI : Nontrivial ↥P := Finite.one_lt_card_iff_nontrivial.1 hPcard
-  haveI : Group.IsNilpotent ↥P := hP.isNilpotent
+  have : Nontrivial ↥P := Finite.one_lt_card_iff_nontrivial.1 hPcard
+  have : Group.IsNilpotent ↥P := hP.isNilpotent
   have hZne : Subgroup.center ↥P ≠ ⊥ := Group.IsNilpotent.center_ne_bot ↥P
   have hZp : IsPGroup p ↥(Subgroup.center ↥P) := hP.to_subgroup _
   obtain ⟨k, hk⟩ := hZp.exists_card_eq
@@ -139,9 +142,9 @@ theorem eq_of_card_prime_of_rank {p : ℕ} (hp : p.Prime) {P W₁ W₂ : Subgrou
 theorem le_centerOf_of_normal {p : ℕ} (hp : p.Prime) {R W : Subgroup G} (hR : IsPGroup p ↥R)
     (hWR : W ≤ R) (hWc : Nat.card W = p) (hN : ∀ r ∈ R, ∀ w ∈ W, r * w * r⁻¹ ∈ W) :
     W ≤ centerOf R := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsNilpotent ↥R := hR.isNilpotent
-  haveI hn : (W.subgroupOf R).Normal := by
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsNilpotent ↥R := hR.isNilpotent
+  have hn : (W.subgroupOf R).Normal := by
     constructor
     intro n hn g
     exact Subgroup.mem_subgroupOf.2 (hN (g : G) g.2 (n : G) (Subgroup.mem_subgroupOf.1 hn))
@@ -178,7 +181,7 @@ theorem le_centerOf_of_normal {p : ℕ} (hp : p.Prime) {R W : Subgroup G} (hR : 
 theorem mem_of_pPower_of_normal_preim {p : ℕ} (hp : p.Prime) {X K : Subgroup G}
     (hKX : K ≤ X) (hn : (K.subgroupOf (preimBarX p X K)).Normal) {y : G}
     (hy : y ∈ preimBarX p X K) {k : ℕ} (hyk : y ^ (p ^ k) = 1) : y ∈ K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set P1 := preimBarX p X K with hP1
   have hKP : K ≤ P1 := le_preimBarX p hKX
   obtain ⟨k0, hk0, hn0⟩ := exists_mul_of_mem_preimBarX p hy
@@ -357,7 +360,8 @@ theorem istar_comp_M (hp : p.Prime) {L : Subgroup G} (hL : GLAPComponent p (Ista
     GLAPComponent p M L :=
   Lemma1311.glaPComponent_of_normal hp (istar_le_M p M D) (Sec13g.le_normalizer_of_istar_eq rfl) hL
 
-theorem istar_comp_conj (hp : p.Prime) {L : Subgroup G} (hL : GLAPComponent p (Istar p M D) L)
+omit [Finite G] in
+theorem istar_comp_conj (_hp : p.Prime) {L : Subgroup G} (hL : GLAPComponent p (Istar p M D) L)
     {g : G} (hg : g ∈ M) : GLAPComponent p (Istar p M D) (GLBConj g L) := by
   have := glaPComponent_gLBConj hL g
   rwa [istar_conj_eq p hg] at this
@@ -371,7 +375,7 @@ theorem block_data (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A D T R L
 
 theorem card_eq_pow_of_elemAbelian {p : ℕ} (hp : p.Prime) {E : Subgroup G} (hE : IsElemAbelian p E) :
     ∃ k : ℕ, Nat.card E = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPg : IsPGroup p ↥E := fun g => ⟨1, Subtype.ext (by simpa using hE.2 g g.2)⟩
   exact hPg.exists_card_eq
 
@@ -387,7 +391,7 @@ theorem elemAbelian_card_le {p : ℕ} (hp : p.Prime) {P L : Subgroup G} (hPL : P
     _ = p := pow_one p
 
 theorem pRank_alt5 : CFSG.Open.pRank 3 (⊤ : Subgroup (alternatingGroup (Fin 5))) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card (alternatingGroup (Fin 5)) = 60 := by
     have h2 := two_mul_nat_card_alternatingGroup (α := Fin 5)
     have h3 : Nat.card (Equiv.Perm (Fin 5)) = 120 := by
@@ -432,7 +436,7 @@ theorem pRank_top_barOf (p : ℕ) [Fact p.Prime] (L : Subgroup G) :
 theorem pRank_eq_one (h : Cex1310 G m p B M E A D T R L0 d) {L : Subgroup G}
     (hL : GLAPComponent p (Istar p M D) L) : CFSG.Open.pRank p L = 1 := by
   have hp : p.Prime := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases h.h139 with ⟨hp3, hIoS, L1, hL1, hIL1, hr1, htyp⟩ | ⟨hp3, hall⟩
   · have hIL : Istar p M D = L1 := hIoS.symm.trans hIL1
     have hL1' : GLAPComponent p (Istar p M D) L1 := hIoS ▸ hL1
@@ -448,7 +452,7 @@ theorem pRank_eq_one (h : Cex1310 G m p B M E A D T R L0 d) {L : Subgroup G}
 theorem card_B_inf (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A D T R L0 d) {L : Subgroup G}
     (hL : GLAPComponent p (Istar p M D) L) : Nat.card ↥(B ⊓ L) = p := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, -, -, hrk⟩ := block_data h133 h hL
   have hr1 : CFSG.Open.pRank p L = 1 := pRank_eq_one h hL
   have hel : IsElemAbelian p (B ⊓ L) := isElemAbelian_of_le inf_le_left (B_elem h)
@@ -501,7 +505,7 @@ theorem comm_of_comp {Q : Type} [Group Q] [Finite Q] {K K' : Subgroup Q} (hK : I
 theorem commute_of_not_le {Q : Type} [Group Q] {K V : Subgroup Q} (hK : IsSimpleGroup ↥K)
     (hKV : K ≤ Subgroup.normalizer (V : Set Q)) (hVK : V ≤ Subgroup.normalizer (K : Set Q))
     (hnot : ¬ K ≤ V) : ∀ k ∈ K, ∀ v ∈ V, k * v = v * k := by
-  haveI hn : (V.subgroupOf K).Normal := by
+  have hn : (V.subgroupOf K).Normal := by
     constructor
     intro n hn g
     exact Subgroup.mem_subgroupOf.2
@@ -559,7 +563,7 @@ theorem L0_comp_H (h : Cex1310 G m p B M E A D T R L0 d) :
   rw [hEq]
   exact hS
 
-theorem H_le_M (h : Cex1310 G m p B M E A D T R L0 d) : Istar p M D ⊓ Cg d ≤ M :=
+theorem H_le_M (_h : Cex1310 G m p B M E A D T R L0 d) : Istar p M D ⊓ Cg d ≤ M :=
   inf_le_left.trans (istar_le_M p M D)
 
 theorem d_mem_normalizer_L0 (h : Cex1310 G m p B M E A D T R L0 d) :
@@ -573,6 +577,7 @@ theorem d_mem_normalizer_istar (h : Cex1310 G m p B M E A D T R L0 d) :
     d ∈ Subgroup.normalizer ((Istar p M D : Subgroup G) : Set G) :=
   mem_normalizer_iff_gLBConj_eq.2 (istar_conj_eq p (d_mem_M h))
 
+omit [Finite G] in
 theorem L1_conj_eq {g : G} (hg : g ∈ Istar p M D) :
     GLBConj g (L1of p M D L0) = L1of p M D L0 := by
   have h1 : ∀ {g : G}, g ∈ Istar p M D → GLBConj g (L1of p M D L0) ≤ L1of p M D L0 :=
@@ -587,6 +592,7 @@ theorem L1_le_istar (h : Cex1310 G m p B M E A D T R L0 d) : L1of p M D L0 ≤ I
   calc GLBConj g L0 ≤ GLBConj g (Istar p M D) := gLBConj_mono g (L0_le_istar h)
     _ = Istar p M D := istar_conj_eq p (istar_le_M p M D hg)
 
+omit [Finite G] in
 theorem istar_le_normalizer_L1 :
     Istar p M D ≤ Subgroup.normalizer ((L1of p M D L0 : Subgroup G) : Set G) :=
   fun _ hg => mem_normalizer_iff_gLBConj_eq.2 (L1_conj_eq hg)
@@ -598,6 +604,7 @@ theorem L1_isSubnormal (h : Cex1310 G m p B M E A D T R L0 d) :
   exact isSubnormal_trans' (IsSubnormal.step (L1_le_istar h) hn (IsSubnormal.refl _))
     (istar_isSubnormal p M D)
 
+omit [Finite G] in
 theorem conj_L1_eq {c : G} (hcI : c ∈ Subgroup.normalizer ((Istar p M D : Subgroup G) : Set G))
     (hcL : c ∈ Subgroup.normalizer ((L0 : Subgroup G) : Set G)) :
     GLBConj c (L1of p M D L0) = L1of p M D L0 := by
@@ -633,6 +640,7 @@ theorem barX_conj_pow (h : Cex1310 G m p B M E A D T R L0 d) (L : Subgroup G) (i
   rw [barX_gLBConj_eq p (M.pow_mem (d_mem_M h) i) L]
   congr 1
 
+omit [Finite G] in
 theorem mem_preimBarX_of_mul {X K : Subgroup G} {j y : G} (hjK : j ∈ K) (hjX : j ∈ X) (hyX : y ∈ X)
     (hn : j⁻¹ * y ∈ GLAPPrimeCoreOf p X) : y ∈ preimBarX p X K := by
   obtain ⟨z, hz, hzeq⟩ := hn
@@ -740,6 +748,7 @@ theorem pElem_mem_L0 (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A D T R
   exact mem_of_pPower_of_normal_preim hp (L0_comp_H h).1 (glaPComponent_normal_preimBarX (L0_comp_H h))
     hpre hyk
 
+omit [Finite G] in
 theorem comm_bar_of_mem_core {X : Subgroup G} {b x : G} (hbX : b ∈ X) (hxX : x ∈ X)
     (h : (b * x * b⁻¹)⁻¹ * x ∈ GLAPPrimeCoreOf p X) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨b, hbX⟩ * QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨x, hxX⟩ =
@@ -794,6 +803,7 @@ theorem hint_holds (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A D T R L
 abbrev joinB (p : ℕ) (B M D : Subgroup G) (P : Subgroup G → Prop) : Subgroup G :=
   ⨆ (L' : Subgroup G) (_ : GLAPComponent p (Istar p M D) L' ∧ P L'), B ⊓ L'
 
+omit [Finite G] in
 theorem joinB_le_B (P : Subgroup G → Prop) : joinB p B M D P ≤ B :=
   iSup₂_le fun _ _ => inf_le_left
 
@@ -835,6 +845,7 @@ theorem exists_fixed_point (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A
       ((Subgroup.zpowers_le).2 (d_mem_R h)))
   exact exists_fixed_of_normalizes hp hX (d_normalizes_joinB h133 h P hcl) hE
 
+omit [Finite G] in
 theorem joinB_le_KGof (P : Subgroup G → Prop) {V : Subgroup (↥M ⧸ GLAPPrimeCore p ↥M)}
     (hV : ∀ L', GLAPComponent p (Istar p M D) L' → P L' → barX p M L' ≤ V) :
     joinB p B M D P ≤ Istar p M D ⊓ Lemma1311.KGof p M V := by
@@ -920,6 +931,7 @@ theorem hx_holds (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A D T R L0 
   exact le_centerOf_of_normal hp (R_pgroup h) hWR hWc hN ⟨hcB, L0_le_istar h hcL0⟩
 
 
+omit [Finite G] in
 theorem comm_of_mem_centerOf {R : Subgroup G} {c : G} (hc : c ∈ centerOf R) :
     c ∈ R ∧ ∀ g ∈ R, g * c = c * g := by
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 hc
@@ -927,10 +939,10 @@ theorem comm_of_mem_centerOf {R : Subgroup G} {c : G} (hc : c ∈ centerOf R) :
   have := Subgroup.mem_center_iff.1 hy ⟨g, hg⟩
   exact congrArg Subtype.val this
 
-theorem mem_B_of_central (h : Cex1310 G m p B M E A D T R L0 d) {c : G} (hcR : c ∈ R)
+theorem mem_B_of_central (h : Cex1310 G m p B M E A D T R L0 d) {c : G} (_hcR : c ∈ R)
     (hccent : ∀ g ∈ R, g * c = c * g) (hcp : c ^ p = 1) : c ∈ B := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS : GLStanding G m p := h.standing
   have hBel : IsElemAbelian p B := B_elem h
   have hBR : B ≤ R := B_le_R h
@@ -998,11 +1010,11 @@ theorem mem_B_of_central (h : Cex1310 G m p B M E A D T R L0 d) {c : G} (hcR : c
 theorem exists_central_order_p {p : ℕ} (hp : p.Prime) {M R N : Subgroup G} (hRM : IsSylowIn p M R)
     (hNM : N ≤ M) (hNn : ∀ g ∈ M, ∀ n ∈ N, g * n * g⁻¹ ∈ N) (hpN : p ∣ Nat.card ↥N) :
     ∃ c ∈ N ⊓ centerOf R, orderOf c = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hRp : IsPGroup p ↥R := hRM.2.1
   have hRM' : R ≤ M := hRM.1
   have hRC : R ⊓ N ≠ ⊥ := Sec13g.inf_ne_bot_of_sylow_normal hRM hNM hNn hpN
-  haveI : Group.IsNilpotent ↥R := hRp.isNilpotent
+  have : Group.IsNilpotent ↥R := hRp.isNilpotent
   have hHn : ((R ⊓ N).subgroupOf R).Normal := by
     constructor
     intro n hn g
@@ -1052,6 +1064,7 @@ abbrev CN (p : ℕ) (M D L0 : Subgroup G) : Subgroup G :=
     ((barX p M (Sec13g.L2of p M D L0) : Subgroup (↥M ⧸ GLAPPrimeCore p ↥M)) :
       Set (↥M ⧸ GLAPPrimeCore p ↥M)))
 
+omit [Finite G] in
 theorem CN_le_M : CN p M D L0 ≤ M := fun _ hn => ((Lemma1311.mem_KGof p).1 hn).1
 
 theorem L2_le_istar (h : Cex1310 G m p B M E A D T R L0 d) : Sec13g.L2of p M D L0 ≤ Istar p M D := by
@@ -1059,6 +1072,7 @@ theorem L2_le_istar (h : Cex1310 G m p B M E A D T R L0 d) : Sec13g.L2of p M D L
   calc GLBConj g (L1of p M D L0) ≤ GLBConj g (Istar p M D) := gLBConj_mono g (L1_le_istar h)
     _ = Istar p M D := istar_conj_eq p hg
 
+omit [Finite G] in
 theorem M_le_normalizer_L2 :
     M ≤ Subgroup.normalizer ((Sec13g.L2of p M D L0 : Subgroup G) : Set G) := by
   intro g hg
@@ -1071,6 +1085,7 @@ theorem M_le_normalizer_L2 :
     have := Sec13g.normal_L2of g⁻¹ (M.inv_mem hg) _ hx
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem CN_normal {g n : G} (hg : g ∈ M) (hn : n ∈ CN p M D L0) : g * n * g⁻¹ ∈ CN p M D L0 := by
   obtain ⟨hnM, hnc⟩ := (Lemma1311.mem_KGof p).1 hn
   have hgnM : g * n * g⁻¹ ∈ M := M.mul_mem (M.mul_mem hg hnM) (M.inv_mem hg)
@@ -1099,6 +1114,7 @@ theorem CN_normal {g n : G} (hg : g ∈ M) (hn : n ∈ CN p M D L0) : g * n * g�
     _ = (gb * QuotientGroup.mk' (GLAPPrimeCore p ↥M) ⟨n, hnM⟩ * gb⁻¹) * v := by group
 
 
+omit [Finite G] in
 theorem mem_core_of_comm_bar {X : Subgroup G} {b x : G} (hbX : b ∈ X) (hxX : x ∈ X)
     (h : QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨b, hbX⟩ * QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨x, hxX⟩ =
       QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨x, hxX⟩ * QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨b, hbX⟩) :
@@ -1154,7 +1170,7 @@ theorem relIndex_le_of_dec {B S C T : Subgroup G}
 theorem caseA' (h : Cex1310 G m p B M E A D T R L0 d) (hN : ¬ CN p M D L0 ≤ GLAPPrimeCoreOf p M) :
     ∃ c ∈ centBar p B (L1of p M D L0) ⊓ Cg d, c ≠ 1 ∧ c ∈ centerOf R := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpN : p ∣ Nat.card ↥(CN p M D L0) := by
     by_contra hpC
     apply hN
@@ -1210,7 +1226,7 @@ theorem caseA' (h : Cex1310 G m p B M E A D T R L0 d) (hN : ¬ CN p M D L0 ≤ G
   · exact Subgroup.mem_centralizer_singleton_iff.2 hdc.symm
 
 
-theorem barX_comp_le_normalizer_V1 (h : Cex1310 G m p B M E A D T R L0 d) {L' : Subgroup G}
+theorem barX_comp_le_normalizer_V1 (_h : Cex1310 G m p B M E A D T R L0 d) {L' : Subgroup G}
     (hL' : GLAPComponent p (Istar p M D) L') :
     barX p M L' ≤ Subgroup.normalizer ((barX p M (L1of p M D L0) :
       Subgroup (↥M ⧸ GLAPPrimeCore p ↥M)) : Set (↥M ⧸ GLAPPrimeCore p ↥M)) := by
@@ -1449,7 +1465,7 @@ theorem V_center (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A D T R L0 
     ∀ z ∈ barX p M (Istar p M D), (∀ y ∈ barX p M (Istar p M D), z * y = y * z) → z = 1 := by
   have hp := prime_of h
   have hp2 := ne_two_of h
-  haveI : Fintype {L : Subgroup G // GLAPComponent p (Istar p M D) L} := Fintype.ofFinite _
+  have : Fintype {L : Subgroup G // GLAPComponent p (Istar p M D) L} := Fintype.ofFinite _
   rw [V_eq_iSup h]
   refine center_iSup_eq_one
     (fun y : {L : Subgroup G // GLAPComponent p (Istar p M D) L} => barX p M y.1) ?_ ?_
@@ -1543,7 +1559,7 @@ theorem exists_comp_le_V1 (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A 
   exact hcentral x (Lemma1311.barX_mono' p Sec13g.le_L1of hx)
 
 
-noncomputable abbrev Worb (p : ℕ) (M D : Subgroup G) (d : G) (L : Subgroup G) :
+noncomputable abbrev Worb (p : ℕ) (M _D : Subgroup G) (d : G) (L : Subgroup G) :
     Subgroup (↥M ⧸ GLAPPrimeCore p ↥M) :=
   ⨆ i : Fin p, barX p M (GLBConj (d ^ (i : ℕ)) L)
 
@@ -1636,8 +1652,8 @@ theorem Worb_inf_Yorb (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A D T 
   refine Worb_center h133 h hL z hz.1 (fun y hy => ?_)
   exact (Subgroup.mem_centralizer_iff.1 hz.2.2 y hy).symm
 
-theorem Worb_comm_Yorb (h : Cex1310 G m p B M E A D T R L0 d) {L : Subgroup G} :
-    ∀ w ∈ Worb p M D d L, ∀ y ∈ Yorb p M D L0 d L, w * y = y * w := fun w hw y hy =>
+theorem Worb_comm_Yorb (_h : Cex1310 G m p B M E A D T R L0 d) {L : Subgroup G} :
+    ∀ w ∈ Worb p M D d L, ∀ _y ∈ Yorb p M D L0 d L, w * _y = _y * w := fun w hw _y hy =>
   Subgroup.mem_centralizer_iff.1 hy.2 w hw
 
 theorem V1_le_Worb_mul_Yorb (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A D T R L0 d)
@@ -1693,7 +1709,7 @@ theorem bar_eq_of_bar_eq (hp : p.Prime) {H : Subgroup G} (hHM : H ≤ M) {x y : 
 
 theorem exists_pElem_L0 (h : Cex1310 G m p B M E A D T R L0 d) : ∃ s ∈ L0, s ≠ 1 ∧ s ^ p = 1 := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hno
   push Not at hno
   have hndvd : ¬ p ∣ Nat.card ↥L0 := by
@@ -1734,11 +1750,11 @@ theorem simple_barX_L0 (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A D T
 
 theorem L0_le_of_pElems (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A D T R L0 d)
     {L : Subgroup G} (hL : GLAPComponent p (Istar p M D) L) {T₀ : Subgroup G}
-    (hTH : T₀ ≤ Istar p M D ⊓ Cg d)
+    (_hTH : T₀ ≤ Istar p M D ⊓ Cg d)
     (hTn : ∀ g ∈ Istar p M D ⊓ Cg d, ∀ t ∈ T₀, g * t * g⁻¹ ∈ T₀)
     (hpel : ∀ s ∈ L0, ∀ k : ℕ, s ^ (p ^ k) = 1 → s ∈ T₀) : L0 ≤ T₀ := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H := Istar p M D ⊓ Cg d with hH
   have hL0H : GLAPComponent p H L0 := L0_comp_H h
   have hL0le : L0 ≤ H := hL0H.1
@@ -1766,9 +1782,9 @@ theorem L0_le_of_pElems (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A D 
     simpa using Subgroup.mem_subgroupOf.1 this
   have hbar : barX p H (L0 ⊓ T₀) = barX p H L0 := by
     refine le_antisymm (Lemma1311.barX_mono' p inf_le_left) ?_
-    haveI : IsSimpleGroup ↥(barX p H L0) := hsimple
+    have : IsSimpleGroup ↥(barX p H L0) := hsimple
     set N : Subgroup ↥(barX p H L0) := (barX p H (L0 ⊓ T₀)).subgroupOf (barX p H L0) with hN
-    haveI : N.Normal := by
+    have : N.Normal := by
       constructor
       intro n hn g
       obtain ⟨x, hxJ, hx⟩ := (Lemma1311.mem_barX' p).1 (Subgroup.mem_subgroupOf.1 hn)
@@ -1830,6 +1846,7 @@ theorem Tsub_normal (h : Cex1310 G m p B M E A D T R L0 d) {Z : Subgroup (↥M �
   rw [e]
   exact this
 
+omit [Finite G] in
 theorem normalizer_of_conj_closed {H T₀ : Subgroup G} (hTn : ∀ g ∈ H, ∀ t ∈ T₀, g * t * g⁻¹ ∈ T₀) :
     ∀ g ∈ H, g ∈ Subgroup.normalizer (T₀ : Set G) := by
   intro g hg
@@ -1853,6 +1870,7 @@ theorem L0_le_of_bar_le (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A D 
       (fun x hx => normalizer_of_conj_closed hTn x (preimBarX_le p _ _ hx))
   exact mem_of_pPower_of_normal_preim hp hTH hnormal hpre hsk
 
+omit [Finite G] in
 theorem bar_L0_le_of_le {Z : Subgroup (↥M ⧸ GLAPPrimeCore p ↥M)}
     (hLT : L0 ≤ (Istar p M D ⊓ Cg d) ⊓ Lemma1311.KGof p M Z) : barX p M L0 ≤ Z := by
   rintro _ ⟨x, hx, rfl⟩
@@ -1930,7 +1948,7 @@ theorem L0_support (h133 : Lemma133Statement) (h : Cex1310 G m p B M E A D T R L
     (hL : GLAPComponent p (Istar p M D) L) (hLV : barX p M L ≤ barX p M (L1of p M D L0)) :
     barX p M L0 ≤ Worb p M D d L ∨ barX p M L0 ≤ Yorb p M D L0 d L := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hHM := H_le_M h
   have hL0H : GLAPComponent p (Istar p M D ⊓ Cg d) L0 := L0_comp_H h
   set H : Subgroup G := Istar p M D ⊓ Cg d with hH

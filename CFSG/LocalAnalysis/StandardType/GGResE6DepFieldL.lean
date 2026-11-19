@@ -18,16 +18,14 @@ private theorem l05nL4m_eq_of_ggLabel_eq {a b : LargeEvenLabel} (h : GGLabelIso 
     (hb : GGE6DepLabel b) : a = b := by
   obtain ⟨ta, la, na⟩ := a
   obtain ⟨tb, lb, nb⟩ := b
-  simp only [GGE6DepLabel, LargeEvenLabel.mk.injEq, reduceCtorEq, false_and, and_false, or_false,
-    false_or] at hb h
+  simp only [GGE6DepLabel] at hb h
   rcases hb with hb | hb <;> rcases h with h | h | h | h | h | h | h | h <;> simp_all
 
 private theorem l05nL4m_eq_of_ggLabel_A5 {a b : LargeEvenLabel} (h : GGLabelIso a b)
     (hb : GGA5Label b) : a = b := by
   obtain ⟨ta, la, na⟩ := a
   obtain ⟨tb, lb, nb⟩ := b
-  simp only [GGA5Label, LargeEvenLabel.mk.injEq, reduceCtorEq, false_and, and_false, or_false,
-    false_or] at hb h
+  simp only [GGA5Label] at hb h
   obtain ⟨hlb, hb | hb⟩ := hb
   all_goals rcases h with h | h | h | h | h | h | h | h <;> simp_all
 

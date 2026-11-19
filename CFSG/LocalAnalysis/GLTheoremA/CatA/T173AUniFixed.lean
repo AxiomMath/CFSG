@@ -16,7 +16,7 @@ variable {p n d : ℕ} {F : Type} [Field F] [Finite F]
 private def uniForm (n : ℕ) (u v : Fin d → F) : F := ∑ i, u i ^ (2 ^ n) * v i
 
 private theorem charP_two_of_uniArith (h : UniArith p n d F) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hn : 1 ≤ n := h.2.2.2.2.1
   have hcard : Nat.card F = (2 ^ n) ^ 2 := h.2.2.2.1
   have hring : ringChar F = 2 := by
@@ -63,15 +63,18 @@ private def unitaryPreservers (n d : ℕ) (F : Type) [Field F] : Subgroup (GL (F
           Matrix.one_mulVec]] at h
     exact h.symm
 
+omit [Finite F] in
 private lemma vecMul_eq_transpose_mulVec (M : Matrix (Fin d) (Fin d) F) (y : Fin d → F) :
     y ᵥ* M = Mᵀ *ᵥ y := by
   conv_lhs => rw [← Matrix.transpose_transpose M]
   rw [Matrix.vecMul_transpose]
 
+omit [Finite F] in
 private theorem uniForm_eq_dotProduct [ExpChar F 2] (u v : Fin d → F) :
     uniForm n u v = ((iterateFrobenius F 2 n) ∘ u) ⬝ᵥ v := by
   simp only [uniForm, dotProduct, Function.comp_apply, iterateFrobenius_def]
 
+omit [Finite F] in
 private theorem unitary_mem_preservers [ExpChar F 2] {A : GL (Fin d) F}
     (hA : ((A : Matrix (Fin d) (Fin d) F).map (· ^ (2 ^ n)))ᵀ *
       (A : Matrix (Fin d) (Fin d) F) = 1) :
@@ -95,6 +98,7 @@ private theorem unitary_mem_preservers [ExpChar F 2] {A : GL (Fin d) F}
   rw [dotProduct_comm, dotProduct_mulVec, vecMul_eq_transpose_mulVec, dotProduct_comm]
   rw [Matrix.mulVec_mulVec, hA', Matrix.one_mulVec]
 
+omit [Finite F] in
 private theorem uniSU_le_unitaryPreservers [ExpChar F 2] :
     UniSU n d F ≤ unitaryPreservers n d F := by
   rw [show UniSU n d F = StatedSU d (2 ^ n) F from rfl,
@@ -106,10 +110,12 @@ private theorem uniSU_le_unitaryPreservers [ExpChar F 2] :
 private noncomputable def vecSupport (v : Fin d → F) : Finset (Fin d) := by
   classical exact Finset.univ.filter (fun i => v i ≠ 0)
 
+omit [Finite F] in
 private lemma mem_vecSupport {v : Fin d → F} {i : Fin d} :
     i ∈ vecSupport v ↔ v i ≠ 0 := by
   classical simp [vecSupport]
 
+omit [Finite F] in
 private lemma mulVec_apply_of_diag {a : Matrix (Fin d) (Fin d) F}
     (ha : ∀ i j : Fin d, i ≠ j → a i j = 0) (w : Fin d → F) (i : Fin d) :
     (a *ᵥ w) i = a i i * w i := by
@@ -118,6 +124,7 @@ private lemma mulVec_apply_of_diag {a : Matrix (Fin d) (Fin d) F}
   · intro j _ hj; rw [ha i j (Ne.symm hj), zero_mul]
   · intro hi; exact absurd (Finset.mem_univ i) hi
 
+omit [Finite F] in
 private theorem exists_single_mem_of_invariant
     {A : Subgroup (GL (Fin d) F)}
     (hdiag : ∀ a ∈ A, ∀ i j : Fin d, i ≠ j → (a : Matrix (Fin d) (Fin d) F) i j = 0)
@@ -202,6 +209,7 @@ private theorem exists_single_mem_of_invariant
       exact hvk (by rw [hvx k, hwk, mul_zero])
 
 
+omit [Finite F] in
 private theorem mem_span_single_of_invariant
     {A : Subgroup (GL (Fin d) F)}
     (hdiag : ∀ a ∈ A, ∀ i j : Fin d, i ≠ j → (a : Matrix (Fin d) (Fin d) F) i j = 0)
@@ -253,6 +261,7 @@ private theorem mem_span_single_of_invariant
       exact Submodule.add_mem _ hmem (Submodule.smul_mem _ _
         (Submodule.subset_span ⟨k, hkW, rfl⟩))
 
+omit [Finite F] in
 private theorem invariant_eq_span_single
     {A : Subgroup (GL (Fin d) F)}
     (hdiag : ∀ a ∈ A, ∀ i j : Fin d, i ≠ j → (a : Matrix (Fin d) (Fin d) F) i j = 0)
@@ -274,6 +283,7 @@ private def evalZeroSubmodule (i : Fin d) : Submodule F (Fin d → F) :=
     zero_mem' := rfl
     smul_mem' := by intro c a ha; show (c • a) i = 0; rw [Pi.smul_apply, ha, smul_zero] }
 
+omit [Finite F] in
 private lemma uniForm_single (n : ℕ) (i : Fin d) (u : Fin d → F) :
     uniForm n (Pi.single i (1 : F) : Fin d → F) u = u i := by
   rw [uniForm]
@@ -286,6 +296,7 @@ private lemma uniForm_single (n : ℕ) (i : Fin d) (u : Fin d → F) :
         zero_pow (pow_ne_zero n (by norm_num : (2:ℕ) ≠ 0)), zero_mul]
   · intro hi; exact absurd (Finset.mem_univ i) hi
 
+omit [Finite F] in
 private lemma sum_single_eq_self (v : Fin d → F) :
     (∑ i, v i • (Pi.single i (1 : F) : Fin d → F)) = v := by
   funext j
@@ -295,6 +306,7 @@ private lemma sum_single_eq_self (v : Fin d → F) :
     rw [Pi.smul_apply, Pi.single_eq_of_ne (Ne.symm hij), smul_eq_mul, mul_zero]
   · intro hj; exact absurd (Finset.mem_univ j) hj
 
+omit [Finite F] in
 private lemma span_single_univ_eq_top :
     Submodule.span F ((fun i : Fin d => (Pi.single i (1 : F) : Fin d → F)) '' Set.univ) = ⊤ := by
   rw [Submodule.eq_top_iff']
@@ -312,7 +324,7 @@ theorem uni_repeated_weight {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : U
       (a : Matrix (Fin d) (Fin d) F) i i = (a : Matrix (Fin d) (Fin d) F) j j := by
   by_contra hcon
   push Not at hcon
-  haveI : CharP F 2 := charP_two_of_uniArith h
+  have : CharP F 2 := charP_two_of_uniArith h
   obtain ⟨hASU, _hAb, hdiag, hframe⟩ := hfr
   obtain ⟨T, hT2, hTN, hTc⟩ := hhb
   let Tψ : Subgroup (UniPSU n d F) := T.map ψ.toMonoidHom
@@ -364,9 +376,9 @@ theorem uni_repeated_weight {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : U
     have hxc : R.subtype x ∈ Subgroup.center ↥(UniSU n d F) := hscalar hxZ
     exact Subgroup.mem_center_iff.mp hxc (R.subtype y)
   have hnil : Group.IsNilpotent R := by
-    haveI : Group.IsNilpotent Tψ := IsPGroup.isNilpotent hTψ2
+    have : Group.IsNilpotent Tψ := IsPGroup.isNilpotent hTψ2
     exact Subgroup.isNilpotent_of_ker_le_center f hker
-  haveI : Nonempty (Sylow 2 R) := by infer_instance
+  have : Nonempty (Sylow 2 R) := by infer_instance
   let P : Sylow 2 R := Classical.arbitrary _
   have hPnormal : (P : Subgroup R).Normal := inferInstance
   have hPchar : (P : Subgroup R).Characteristic := Sylow.characteristic_of_normal P hPnormal
@@ -410,7 +422,7 @@ theorem uni_repeated_weight {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : U
     have hmul := Subgroup.card_mul_index (H := (P : Subgroup R))
     rw [hcardP, one_mul] at hmul
     exact Sylow.not_dvd_index P (by rw [hmul]; exact h2R)
-  have hPsub2 : IsPGroup 2 Psub := P.isPGroup'.map R.subtype
+  have hPsub2 : IsPGroup 2 Psub := P.isPGroup.map R.subtype
   have hPsub_ne : Psub ≠ ⊥ := by
     intro hPsub
     apply hP_ne
@@ -433,8 +445,7 @@ theorem uni_repeated_weight {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : U
       intro c v hv p
       rw [← smul_comm c, hv p] }
   have hAW : ∀ a ∈ A, ∀ w ∈ W, (a : Matrix (Fin d) (Fin d) F) *ᵥ w ∈ W := by
-    intro a ha w hw
-    intro p
+    intro a ha w hw p
     have haSU : (⟨a, hASU ha⟩ : ↥(UniSU n d F)) ∈ A.subgroupOf (UniSU n d F) :=
       Subgroup.mem_subgroupOf.mpr ha
     have hMP : (⟨a, hASU ha⟩ : ↥(UniSU n d F)) ∈ Subgroup.normalizer Psub := hAP haSU
@@ -520,7 +531,7 @@ theorem uni_repeated_weight {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : U
       _ = uniForm n (Pi.single i (1 : F) : Fin d → F) v := by rw [hfix]
       _ = v i := uniForm_single n i v
       _ = 0 := hv i hi
-  letI : MulAction Psub W' :=
+  let : MulAction Psub W' :=
   { smul := fun p v => ⟨(p : ↥(UniSU n d F)) • (v : Fin d → F), hW'P p v v.2⟩
     one_smul v := by
       apply Subtype.ext
@@ -567,13 +578,13 @@ theorem uni_repeated_weight {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : U
         by_cases h : i = j
         · subst h; simp
         · rw [Pi.single_eq_of_ne (M := fun _ => F) (i := j) (i' := i) h (1 : F),
-            Matrix.one_apply, if_neg h]
+            Matrix.one_apply, ite_eq_right h]
       · intro k _ hk
         rw [Pi.single_eq_of_ne (M := fun _ => F) (i := j) (i' := k) hk (1 : F), mul_zero]
       · intro hj; exact absurd (Finset.mem_univ j) hj
     exact hPsub_ne hPsub_bot
-  · haveI : FiniteDimensional F (Fin d → F) := inferInstance
-    haveI : Module.Finite F W' := FiniteDimensional.finiteDimensional_submodule W'
+  · have : FiniteDimensional F (Fin d → F) := inferInstance
+    have : Module.Finite F W' := FiniteDimensional.finiteDimensional_submodule W'
     have hcardW' : 2 ∣ Nat.card W' := by
       rw [Module.natCard_eq_pow_finrank (K := F), h.2.2.2.1]
       have hbase : 2 ∣ (2 ^ n) ^ 2 := by
@@ -583,7 +594,7 @@ theorem uni_repeated_weight {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : U
             (show (2:ℕ) ≠ 0 by norm_num))
         exact ⟨2 ^ m, by rw [hm, pow_succ, mul_comm]⟩
       have hk : Module.finrank F W' ≠ 0 := by
-        haveI : Nontrivial W' := (Submodule.nontrivial_iff_ne_bot (p := W')).mpr hW'ne
+        have : Nontrivial W' := (Submodule.nontrivial_iff_ne_bot (p := W')).mpr hW'ne
         exact (Module.finrank_pos (R := F) (M := W')).ne'
       exact hbase.trans (dvd_pow_self ((2 ^ n) ^ 2) hk)
     have hfix := IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point

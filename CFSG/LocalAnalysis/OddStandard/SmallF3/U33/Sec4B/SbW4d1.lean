@@ -18,6 +18,7 @@ theorem w4_X_comm
     (ha : a ∈ ctxX t tau x₁ x₂) (hb : b ∈ ctxX t tau x₁ x₂) : a * b = b * a :=
   CFSG.Open.IsElemAbelian.comm (S4A.ctxX_elemAbelian_of hc.toCtx hc.l44.1).1 ha hb
 
+omit [Finite G] in
 theorem w4_V_le_X (t tau x₁ x₂ : G) : fourGrp x₁ x₂ ≤ ctxX t tau x₁ x₂ :=
   (p0_V_le_N_le_X t tau x₁ x₂).1.trans (p0_V_le_N_le_X t tau x₁ x₂).2
 
@@ -30,6 +31,7 @@ theorem w4_t_comm_tau
     (hc : Ctx4 t L S x₁ x₂ lam rho tau) : t * tau = tau * t :=
   w4_X_comm hc (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp))
 
+omit [Finite G] in
 theorem w4_mem_normalizer_V {M : Subgroup G} (hV : NormalIn (fourGrp x₁ x₂) M) {g : G}
     (hg : g ∈ M) : g ∈ Subgroup.normalizer ((fourGrp x₁ x₂ : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -38,6 +40,7 @@ theorem w4_mem_normalizer_V {M : Subgroup G} (hV : NormalIn (fourGrp x₁ x₂) 
   have h := hV.2 g⁻¹ (inv_mem hg) _ hv
   simpa [mul_assoc] using h
 
+omit [Finite G] in
 theorem w4_mul_mem_smul {v : G} (hv : v ∈ fourGrp x₁ x₂) :
     tau * v ∈ tau • (fourGrp x₁ x₂ : Set G) :=
   Set.mem_smul_set.mpr ⟨v, hv, rfl⟩
@@ -76,6 +79,7 @@ theorem w4_mul_mem_smul {v : G} (hv : v ∈ fourGrp x₁ x₂) :
     simp only [inv_inv]
     exact h2.symm
 
+omit [Finite G] in
 theorem w4_mem_Ktau_of_comm {g : G}
     (hgN : g ∈ Subgroup.normalizer ((fourGrp x₁ x₂ : Subgroup G) : Set G))
     (hg : g * tau = tau * g) : g ∈ w4Ktau tau x₁ x₂ := by
@@ -83,6 +87,7 @@ theorem w4_mem_Ktau_of_comm {g : G}
   simp only [smul_eq_mul, mul_one]
   rw [hg, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite G] in
 theorem w4_conj_tau_eq_sq_mul_tau {a : G} (hinv : tau * a * tau⁻¹ = a⁻¹) :
     a * tau * a⁻¹ = a ^ 2 * tau := by
   calc a * tau * a⁻¹ = a * (tau * a⁻¹ * tau⁻¹) * tau := by group

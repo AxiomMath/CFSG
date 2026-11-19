@@ -144,6 +144,7 @@ private noncomputable def ggShB_quotCenterCongr {G G' : Type} [Group G] [Group G
     (e : G ≃* G') : (G ⧸ Subgroup.center G) ≃* (G' ⧸ Subgroup.center G') :=
   QuotientGroup.congr (Subgroup.center G) (Subgroup.center G') e (Subgroup.map_center_eq e)
 
+omit [Finite W] in
 theorem ggShadow_exists_component_of_simple
     (hs : IsSimpleGroup ↥(commutator ↥(H.subgroupOf (CFSG.generalizedFitting W))))
     (hns : ¬ Group.IsSolvable ↥(H.subgroupOf (CFSG.generalizedFitting W))) :
@@ -171,6 +172,7 @@ theorem ggShadow_exists_component_of_simple
   exact ⟨M.subgroupOf (H ⊓ K), hCtop,
     ⟨(ggShB_quotCenterCongr (Subgroup.subgroupOfEquivOfLe hMA)).trans e⟩⟩
 
+omit [Finite W] in
 theorem ggShadow_component_map_eq
     (hs : IsSimpleGroup ↥(commutator ↥(H.subgroupOf (CFSG.generalizedFitting W))))
     {C : Subgroup ↥(H ⊓ CFSG.generalizedFitting W)} (hC : CFSG.Open.IsComponentOf C ⊤) :
@@ -179,6 +181,7 @@ theorem ggShadow_component_map_eq
   exact ggSeitzExc_component_eq hs
     ((CFSG.Assembly.isComponentOf_iff_open).2 (ggRCS_isComponentOf_map_subtype hC))
 
+omit [Finite W] in
 theorem ggShadow_open_of_isComponentOf {C : Subgroup W}
     (hC : CFSG.Assembly.IsComponentOf C (H ⊓ CFSG.generalizedFitting W)) :
     CFSG.Open.IsComponentOf (C.subgroupOf (H ⊓ CFSG.generalizedFitting W)) ⊤ ∧

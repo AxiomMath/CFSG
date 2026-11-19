@@ -81,7 +81,7 @@ section Char2
 
 variable {K : Type} [Field K] [Finite K]
 
-private theorem degree_data_two {e p : ℕ} (k : Subfield K) (he : 2 ≤ e) (hp : p.Prime)
+private theorem degree_data_two {e p : ℕ} (k : Subfield K) (he : 2 ≤ e) (_hp : p.Prime)
     (hk : Nat.card k = 2 ^ e) (hK : Nat.card K = 2 ^ (e * p)) :
     Module.finrank k K = p ∧ Nat.card K = Nat.card k ^ p ∧ 3 ≤ Nat.card k := by
   refine ⟨finrank_subfield_eq k Nat.prime_two (by omega) hk hK, by rw [hK, hk, ← pow_mul], ?_⟩
@@ -130,7 +130,7 @@ theorem orthPairShape_plus_F2_of_ne_two
     (k : Subfield K) {n p : ℕ} (hn : 4 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2)
     (hk : Nat.card k = 2) (hK : Nat.card K = 2 ^ p) :
     OrthPairShape k (coordinateQuadPlus n k) (coordinateQuadPlus n K) := by
-  haveI : CharP K 2 := OmegaF2.charP_two_of_subfield_card_two hk
+  have : CharP K 2 := OmegaF2.charP_two_of_subfield_card_two hk
   have hk1 : Nat.card k = 2 ^ 1 := by simpa using hk
   have hK1 : Nat.card K = 2 ^ (1 * p) := by simpa using hK
   have hdeg : Module.finrank k K = p := finrank_subfield_eq k Nat.prime_two (by omega) hk1 hK1
@@ -149,7 +149,7 @@ theorem orthPairShape_minus_F2_of_ne_two
     (hirr : ∀ s : k, s ^ 2 + b * s + c ≠ 0) :
     OrthPairShape k (coordinateQuadMinus n k (by omega) b c)
       (coordinateQuadMinus n K (by omega) (b : K) (c : K)) := by
-  haveI : CharP K 2 := OmegaF2.charP_two_of_subfield_card_two hk
+  have : CharP K 2 := OmegaF2.charP_two_of_subfield_card_two hk
   have hk1 : Nat.card k = 2 ^ 1 := by simpa using hk
   have hK1 : Nat.card K = 2 ^ (1 * p) := by simpa using hK
   have hdeg : Module.finrank k K = p := finrank_subfield_eq k Nat.prime_two (by omega) hk1 hK1

@@ -141,11 +141,11 @@ theorem noncomp_card_oPrimeResidual (h : Hyp326 G n P) (hn1 : n = 1)
     have hXnormal : X.Normal := by
       change (CFSG.GH74.GLS.oPrimeResidual 3 G).Normal
       exact CFSG.GH74.GLS.Stage1.Thm6.Prod.oPrimeResidual_normal 3 G
-    haveI : X.Normal := hXnormal
+    have : X.Normal := hXnormal
     obtain ⟨Px, hPx⟩ :=
       (CFSG.ABGLocalTools.IsSylowOf.of_le h.sylow hPleX le_top).exists_sylow_eq_subgroupOf
     have hPxnorm : (Px : Subgroup ↥X).Normal := by rw [hPx]; exact hKnormal
-    haveI : (Px : Subgroup ↥X).Characteristic := Sylow.characteristic_of_normal Px hPxnorm
+    have : (Px : Subgroup ↥X).Characteristic := Sylow.characteristic_of_normal Px hPxnorm
     have hmapN : ((Px : Subgroup ↥X).map X.subtype).Normal :=
       ConjAct.normal_of_characteristic_of_normal (H := X) (K := (Px : Subgroup ↥X))
     rw [hPx, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hPleX] at hmapN

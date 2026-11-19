@@ -291,7 +291,7 @@ theorem rel_go (hn : n ≤ 16) {G : List (Array Nat)} (hG : ∀ g ∈ G, Ent g) 
     have hsz : accK.length = acc.size := by rw [h.1, List.length_map, Array.length_toList]
     simp only [goA, goK, hsz]
     by_cases hi : i < acc.size
-    · rw [dif_pos hi, if_pos hi]
+    · rw [dite_eq_left hi, ite_eq_left hi]
       have hget : accK.getD i (0, []) = (enc acc[i].1, acc[i].2) := by
         rw [h.1, List.getD_eq_getElem?_getD, List.getElem?_map, Array.getElem?_toList,
           getElem?_pos acc i hi]
@@ -299,7 +299,7 @@ theorem rel_go (hn : n ≤ 16) {G : List (Array Nat)} (hG : ∀ g ∈ G, Ent g) 
       rw [hget, List.length_map]
       apply rel_go hn hG fuel (i + 1)
       exact rel_fold hG (h.2 acc[i] (Array.getElem_mem_toList hi)).2 acc[i].2 _ h
-    · rw [dif_neg hi, if_neg hi]
+    · rw [dite_eq_right hi, ite_eq_right hi]
       exact h
 
 theorem wordsOf_eq (hn : n ≤ 16) {G : List (Array Nat)} (hG : ∀ g ∈ G, Ent g) :

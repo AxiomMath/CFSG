@@ -54,7 +54,7 @@ theorem tightLinkZ2L2InnerR_of (hg : Z2GapFacts) (hP : TightBelowRPlus 3 n) (h4 
     exact hs.t_ne_u (hbt'.symm.trans hbt)
   have hbb := hs.mul_self_mem_edgeCent hbP
   have hin : InnerModOdd (linkLayer R t) (b * b) :=
-    (hinner (b * b) (P.isPGroup'.to_le
+    (hinner (b * b) (P.isPGroup.to_le
       (Subgroup.zpowers_le.mpr ((P : Subgroup Y).mul_mem hbP hbP)))
       (Subgroup.mem_centralizer_singleton_iff.mp hbb.1.2)
       (Subgroup.mem_centralizer_singleton_iff.mp hbb.2)).1

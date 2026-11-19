@@ -57,7 +57,7 @@ theorem ggA8Nbr_omLift
     ∃ φ : ↥omΩ →* G, Function.Injective φ ∧ φ.range = L := by
   have hqs : CFSG.Assembly.IsQuasisimple L := isQuasisimple_of_largeEvenMarking hInnL
   have hY : CFSG.IsQuasisimple ↥L := (TableBSymp.isQuasisimple_iff ↥L).mp hqs
-  haveI : Group.IsPerfect ↥L := hY.1
+  have : Group.IsPerfect ↥L := hY.1
   have hZ : Subgroup.center ↥L = ⊥ := HalfRowData.center_eq_bot_of_pomegaMinus_two hmod
   obtain ⟨φs, hinj, hrange⟩ := om1_spinLift hZ hmod
   let S := spinGroup (Spin.quadMinus 4 (GaloisField 2 3) (minusCoeffs 2 3).1 (minusCoeffs 2 3).2)
@@ -85,7 +85,7 @@ theorem ggA8Nbr_omInner
     ∀ b ∈ Bs, ∃ g ∈ L, ∀ k ∈ L, b * k * b⁻¹ = g * k * g⁻¹ := by
   have hqs : CFSG.Assembly.IsQuasisimple L := isQuasisimple_of_largeEvenMarking hInnL
   have hY : CFSG.IsQuasisimple ↥L := (TableBSymp.isQuasisimple_iff ↥L).mp hqs
-  haveI : Group.IsPerfect ↥L := hY.1
+  have : Group.IsPerfect ↥L := hY.1
   have hZ : Subgroup.center ↥L = ⊥ := HalfRowData.center_eq_bot_of_pomegaMinus_two hmod
   obtain ⟨φ, hinj, hrange⟩ := om1_spinLift hZ hmod
   exact ggSpinMinusInnerAction_of_mp (n := 4) (f := 3) hMp le_rfl (by norm_num) hInnL φ hinj

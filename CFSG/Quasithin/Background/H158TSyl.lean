@@ -58,7 +58,7 @@ theorem gen_mem_qPerms {g : Array ℕ} (hg : g ∈ genList) :
 theorem exists_conj_sylow
     {T : Subgroup (Equiv.Perm (Fin 24))} (hT : CFSG.Quasithin.IsSylowIn 2 T AutPerm) :
     ∃ h : Equiv.Perm (Fin 24), h ∈ AutPerm ∧ ∀ σ ∈ qPerms, h⁻¹ * σ * h ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsyl := card_sylow_two hT
   have hH : IsPGroup 2 ↥(qSub : Subgroup ↥AutPerm) := IsPGroup.of_card (n := 10) card_qSub
   obtain ⟨g, hg⟩ :=

@@ -64,7 +64,7 @@ theorem not_dvd_card_of_isCyclic_of_mem_normalizer [Finite G] {p : ℕ} [hp : Fa
       fun ha => ?_⟩
     have := hconj (-1) _ ha
     simpa [mul_assoc] using this
-  have hS'p : IsPGroup p S' := S.isPGroup'.map N.subtype
+  have hS'p : IsPGroup p S' := S.isPGroup.map N.subtype
   have hxp : IsPGroup p (Subgroup.zpowers x) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx, pow_one])
   have hCp : IsPGroup p (S' ⊔ Subgroup.zpowers x : Subgroup G) :=
@@ -87,7 +87,7 @@ theorem not_dvd_card_of_isCyclic_of_mem_normalizer [Finite G] {p : ℕ} [hp : Fa
       hle (Subgroup.mem_subgroupOf.mpr (Subgroup.mem_zpowers x))
     exact hxN (hS'N (Subgroup.mem_subgroupOf.mp this))
   have hScard : Nat.card (S : Subgroup N) = 1 := by
-    rcases S.isPGroup'.card_eq_or_dvd with h | h
+    rcases S.isPGroup.card_eq_or_dvd with h | h
     · exact h
     · exact absurd (by rwa [hS', Subgroup.card_map_of_injective Subtype.coe_injective]) hS'dvd
   rw [← Subgroup.card_mul_index (S : Subgroup N), hScard, one_mul]
@@ -172,7 +172,7 @@ theorem centralizer_ggG0_eq_bot (hctx : GGSixCtx p B Bs x L D J)
     have := T.not_dvd_index
     rw [hT1, Subgroup.index_bot] at this
     exact this hJ
-  have hT'p : IsPGroup 2 T' := T.isPGroup'.map J.subtype
+  have hT'p : IsPGroup 2 T' := T.isPGroup.map J.subtype
   set Nn := Subgroup.normalizer (T' : Set G) with hNn
   have hcharN := hchar Nn ⟨T', hT'ne, hT'p, rfl⟩
   set Q := pCoreOf 2 Nn with hQ

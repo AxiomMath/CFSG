@@ -14,6 +14,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem card_closure_pair_le {x y : G} (hx : x ^ 3 = 1) (hy : y ^ 3 = 1)
     (hxy : x * y = y * x) : Nat.card (Subgroup.closure ({x, y} : Set G)) ≤ 9 := by
   have hx' : x⁻¹ = x ^ 2 := by
@@ -82,7 +83,7 @@ private theorem B_orders {b : G} {J B : Subgroup G} {b₁ b₂ : G}
     (h4 : FF79Sec4 b J B b₁ b₂) :
     orderOf b₁ = 3 ∧ orderOf b₂ = 3 ∧ orderOf (b₁ * b₂) = 3 ∧ orderOf (b₁ ^ 2 * b₂) = 3 ∧
       b₂ ∉ Subgroup.zpowers b₁ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨hbB, hpow, hcomm⟩ := B_basic h4
   obtain ⟨hb₁B, hb₂B⟩ := b₁_b₂_mem h4
   have hBeq := h4.mono.2.1
@@ -115,6 +116,7 @@ private theorem B_orders {b : G} {J B : Subgroup G} {b₁ b₂ : G}
     rw [eq_inv_of_mul_eq_one_right h1]
     exact Subgroup.inv_mem _ (Subgroup.npow_mem_zpowers _ 2)
 
+omit [Finite G] in
 private theorem exists_zpow_of_comm_A5 (hA5 : FF79KCentA5) {K : Subgroup G}
     (e : K ≃* alternatingGroup (Fin 5)) {w k : G} (hw : w ∈ K) (hk : k ∈ K)
     (ho : orderOf w = 3) (hc : k * w = w * k) : ∃ n : ℤ, k = w ^ n := by
@@ -127,6 +129,7 @@ private theorem exists_zpow_of_comm_A5 (hA5 : FF79KCentA5) {K : Subgroup G}
   have : (⟨k, hk⟩ : K) = (⟨w, hw⟩ : K) ^ n := e.injective (by rw [map_zpow]; exact hn.symm)
   simpa using congrArg Subtype.val this
 
+omit [Finite G] in
 private theorem sq_of_comm_L3 (hL3 : FF79KCentL3) {L : Subgroup G}
     (e : L ≃* GL (Fin 3) (ZMod 2)) {s y : G} (hs : s ∈ L) (hy : y ∈ L)
     (hso : orderOf s = 2) (hc : y * s = s * y) : y ^ 2 = 1 ∨ y ^ 2 = s := by
@@ -160,14 +163,17 @@ private structure A5L3Dec (x b w : G) (X K L : Subgroup G) : Prop where
   hwK : w ∈ K
   hbL : b ∈ L
 
+omit [Finite G] in
 private theorem exists_dec {x b w : G} (hs : FF79CentA5L3 x b w) :
     ∃ X K L, A5L3Dec x b w X K L := by
   obtain ⟨X, K, L, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12⟩ := hs.exists_decomp
   exact ⟨X, K, L, ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12⟩⟩
 
+omit [Finite G] in
 private theorem cen_comm {x g : G} (hg : g ∈ Cen x) : x * g = g * x :=
   Subgroup.mem_centralizer_iff.mp hg x rfl
 
+omit [Finite G] in
 private theorem mem_cen_of {x g : G} (h : x * g = g * x) : g ∈ Cen x := by
   rw [Subgroup.mem_centralizer_iff]
   intro h' hh
@@ -175,6 +181,7 @@ private theorem mem_cen_of {x g : G} (h : x * g = g * x) : g ∈ Cen x := by
   subst hh
   exact h
 
+omit [Finite G] in
 private theorem mem_of_pow_mem {a : G} {H : Subgroup G} {N m : ℕ} (hN : a ^ N = 1)
     (hcop : Nat.Coprime m N) (h : a ^ m ∈ H) : a ∈ H := by
   have hd : orderOf a ∣ N := orderOf_dvd_of_pow_eq_one hN
@@ -182,15 +189,18 @@ private theorem mem_of_pow_mem {a : G} {H : Subgroup G} {N m : ℕ} (hN : a ^ N 
   rw [← hs]
   exact H.pow_mem h s
 
+omit [Finite G] in
 private theorem pow_eq_one_of_dvd {a : G} {n N : ℕ} (ha : a ^ n = 1) (h : n ∣ N) : a ^ N = 1 := by
   obtain ⟨c, rfl⟩ := h
   rw [pow_mul, ha, one_pow]
 
+omit [Finite G] in
 private theorem zpow_pow_eq_one {a : G} {n N : ℕ} (i : ℤ) (ha : a ^ n = 1) (h : n ∣ N) :
     (a ^ i) ^ N = 1 := by
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, pow_eq_one_of_dvd ha h,
     one_zpow]
 
+omit [Finite G] in
 private theorem prod_pow_eq_one {x u k : G} {m : ℕ} (i : ℤ) (hx : x ^ 3 = 1) (hu : u ^ m = 1)
     (hk : k ^ 3 = 1) (hxu : x * u = u * x) (hxk : x * k = k * x) (huk : u * k = k * u) :
     (x ^ i * u * k) ^ (3 * m) = 1 := by
@@ -201,6 +211,7 @@ private theorem prod_pow_eq_one {x u k : G} {m : ℕ} (i : ℤ) (hx : x ^ 3 = 1)
     zpow_pow_eq_one i hx (dvd_mul_right 3 m), one_mul,
     pow_eq_one_of_dvd hu (dvd_mul_left m 3), pow_eq_one_of_dvd hk (dvd_mul_right 3 m), mul_one]
 
+omit [Finite G] in
 private theorem t_mem_L (hA5 : FF79KCentA5) {x b w t : G} {X K L : Subgroup G}
     (d : A5L3Dec x b w X K L) (hx3 : orderOf x = 3) (hw3 : orderOf w = 3)
     (ht2 : orderOf t = 2) (htx : t * x = x * t) (htw : t * w = w * t) : t ∈ L := by
@@ -249,25 +260,29 @@ private theorem t_mem_L (hA5 : FF79KCentA5) {x b w t : G} {X K L : Subgroup G}
     mem_of_pow_mem hN (Nat.coprime_two_left.2 hodd) hmem
   exact L.mul_mem ha hl
 
+omit [Finite G] in
 private theorem Op_isPGroup (H : Subgroup G) : IsPGroup 2 (Op 2 H) :=
   (CFSG.pCore_isPGroup (p := 2) (G := H)).map H.subtype
 
+omit [Finite G] in
 private theorem Op_le_cen {t : G} {y : G} (hy : y ∈ Op 2 (Cen t)) : t * y = y * t := by
   obtain ⟨y', -, rfl⟩ := Subgroup.mem_map.mp hy
   exact cen_comm y'.2
 
+omit [Finite G] in
 private theorem Op_conj_mem {p : ℕ} {H : Subgroup G} {g z : G} (hg : g ∈ H)
     (hz : z ∈ Op p H) : g * z * g⁻¹ ∈ Op p H := by
   obtain ⟨z', hz', rfl⟩ := Subgroup.mem_map.mp hz
   refine Subgroup.mem_map.mpr ⟨⟨g, hg⟩ * z' * ⟨g, hg⟩⁻¹, ?_, by simp⟩
   exact (CFSG.pCore_normal (p := p) (G := H)).conj_mem z' hz' ⟨g, hg⟩
 
+omit [Finite G] in
 private theorem T_inf_K_trivial {T K : Subgroup G} (hT : IsPGroup 2 T)
     (hnorm : ∀ k ∈ K, ∀ z ∈ T, k * z * k⁻¹ ∈ T) (eK : K ≃* alternatingGroup (Fin 5))
     {w : G} (hw : w ∈ K) (hw3 : orderOf w = 3) : ∀ c ∈ T ⊓ K, c = 1 := by
-  haveI : IsSimpleGroup K := eK.isSimpleGroup
+  have : IsSimpleGroup K := eK.isSimpleGroup
   let N : Subgroup K := (T ⊓ K).subgroupOf K
-  haveI : N.Normal := ⟨fun n hn g => by
+  have : N.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact ⟨hnorm g g.2 n hn.1, K.mul_mem (K.mul_mem g.2 n.2) (K.inv_mem g.2)⟩⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
@@ -284,6 +299,7 @@ private theorem T_inf_K_trivial {T K : Subgroup G} (hT : IsPGroup 2 T)
     have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h2
     omega
 
+omit [Finite G] in
 private theorem beta_aux (hA5 : FF79KCentA5) (hL3 : FF79KCentL3) {x b w t b₁ b₂ : G}
     (cs : FF79CentA5L3 x b w) (hx3 : orderOf x = 3) (hw3 : orderOf w = 3)
     (ht2 : orderOf t = 2) (htx : t * x = x * t) (htw : t * w = w * t)
@@ -370,6 +386,7 @@ private theorem beta_aux (hA5 : FF79KCentA5) (hL3 : FF79KCentL3) {x b w t b₁ b
   · rw [h]; exact Subgroup.one_mem _
   · rw [h]; exact Subgroup.mem_zpowers t
 
+omit [Finite G] in
 private theorem gen_βγ {z b₁ b₂ : G} (h1 : Commute z (b₁ * b₂))
     (h2 : Commute z (b₁ ^ 2 * b₂)) : z * b₁ = b₁ * z ∧ z * b₂ = b₂ * z := by
   have e1 : b₁ = (b₁ ^ 2 * b₂) * (b₁ * b₂)⁻¹ := by group
@@ -379,10 +396,12 @@ private theorem gen_βγ {z b₁ b₂ : G} (h1 : Commute z (b₁ * b₂))
   have c2 : Commute z b₂ := by rw [e2]; exact c1.inv_right.mul_right h1
   exact c2.eq
 
+omit [Finite G] in
 private theorem gen_γβ {z b₁ b₂ : G} (h1 : Commute z (b₁ ^ 2 * b₂))
     (h2 : Commute z (b₁ * b₂)) : z * b₁ = b₁ * z ∧ z * b₂ = b₂ * z :=
   gen_βγ h2 h1
 
+omit [Finite G] in
 private theorem t_comm_words {b₁ b₂ t : G} (h1 : t * b₁ = b₁ * t) (h2 : t * b₂ = b₂ * t) :
     t * (b₁ * b₂) = (b₁ * b₂) * t ∧ t * (b₁ ^ 2 * b₂) = (b₁ ^ 2 * b₂) * t := by
   have c1 : Commute t b₁ := h1
@@ -407,7 +426,7 @@ theorem ff79_4_4Beta_of (hstr : FF79_4_3Str) (hA5 : FF79KCentA5) (hL3 : FF79KCen
       Nonempty (K ≃* alternatingGroup (Fin 5)) → K ≤ J
 
 private theorem a5_order5 : ∃ g : alternatingGroup (Fin 5), orderOf g = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hs : Equiv.Perm.sign (finRotate 5) = 1 := by decide +kernel
   have h5 : (finRotate 5) ^ 5 = 1 := by decide +kernel
   have h1 : (finRotate 5 : Equiv.Perm (Fin 5)) ≠ 1 := by decide +kernel
@@ -416,6 +435,7 @@ private theorem a5_order5 : ∃ g : alternatingGroup (Fin 5), orderOf g = 5 := b
   · intro h
     exact h1 (by simpa using congrArg Subtype.val h)
 
+omit [Finite G] in
 private theorem conj_mem_J {b t : G} {J : Subgroup G} (hstd : FFStandardJ b J) {b₁ : G}
     (hb₁J : b₁ ∈ J) (hb₁o : orderOf b₁ = 3) (htt : t * t = 1) (htb : t * b * t⁻¹ = b⁻¹) :
     ∀ j ∈ J, t * j * t ∈ J := by

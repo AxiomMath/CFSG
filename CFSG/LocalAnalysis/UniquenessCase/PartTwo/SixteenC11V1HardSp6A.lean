@@ -40,7 +40,7 @@ theorem s16c11_v1_cover_sp_six (h : H1SpSixNatural) {K : Type} [Field K] [Finite
 theorem s16c11_v1_rf3_sp_six (h : H1SpSixNatural) (D : Data G) (hin : In10 D) (h1217 : R1217 D)
     {V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D ⊥ V L hV)
-    (hs : s15 D.M ⊥ V hV L = 1) (hsig : D.sig = {3})
+    (hs : s15 D.M ⊥ V hV L = 1) (_hsig : D.sig = {3})
     (hK : IsSym ↥(kBar D.M ⊥ V hV L) 3)
     {L₀ : Subgroup (MulAut (Vtil ⊥ V hV))}
     (hdir : IsInternalDirect (kBar D.M ⊥ V hV L) L₀ (Mbar D.M ⊥ V hV))
@@ -65,8 +65,8 @@ theorem s16c11_v1_rf3_sp_six (h : H1SpSixNatural) (D : Data G) (hin : In10 D) (h
           Nat.card K = 2 ∧ D' = FFModel.nat (StatedSp 3 K)) ∧ D'.Realizes H U Z := by
     intro H U Z hN
     obtain ⟨-, K, hFld, hFin, hK1, hR⟩ := hN
-    letI : Field K := hFld
-    letI : Finite K := hFin
+    let : Field K := hFld
+    let : Finite K := hFin
     have hK2 : Nat.card K = 2 := by rw [pow_one] at hK1; exact hK1
     refine ⟨FFModel.nat (StatedSp 3 K), ⟨K, hFld, hFin, hK2, rfl⟩, ?_⟩
     rw [← (show (6 : ℕ) / 2 = 3 by norm_num)]
@@ -76,8 +76,8 @@ theorem s16c11_v1_rf3_sp_six (h : H1SpSixNatural) (D : Data G) (hin : In10 D) (h
       (Q := fun D' => ∃ (K : Type) (_ : Field K) (_ : Finite K),
         Nat.card K = 2 ∧ D' = FFModel.nat (StatedSp 3 K)) hF hP hV1 hM
   obtain ⟨K, hFld, hFin, hK2, hD'eq⟩ := hQD'
-  letI : Field K := hFld
-  letI : Finite K := hFin
+  let : Field K := hFld
+  let : Finite K := hFin
   rw [hD'eq] at hRD'
   have hJ2 : ∀ w : ↥J₀, w ^ 2 = 1 := fun w => Subtype.ext (by
     rw [SubgroupClass.coe_pow, OneMemClass.coe_one]

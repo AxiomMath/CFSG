@@ -131,7 +131,7 @@ theorem ggSL9DiagHom_apply (t : Fin 3 → (GaloisField 2 3)ˣ) : ggSL9DiagHom t 
   ggSL9DiagHom.range
 
 theorem card_units_ggSL9 : Nat.card (GaloisField 2 3)ˣ = 7 := by
-  rw [Nat.card_units, GaloisField.card 2 3 (by norm_num)] <;> norm_num
+  rw [Nat.card_units, GaloisField.card 2 3 (by norm_num)]; norm_num
 
 theorem ggSL9_units_pow_seven (u : (GaloisField 2 3)ˣ) : u ^ 7 = 1 := by
   rw [← card_units_ggSL9]
@@ -244,7 +244,7 @@ theorem ggSL9Diag_conj_root (t : Fin 3 → (GaloisField 2 3)ˣ) {i j : Fin 3} (h
   intro v
   funext l
   simp only [LinearEquiv.mul_apply, ggSL9Root_apply, ggSL9Fun, ggSL9Diag_apply, ggSL9Diag_inv,
-    ggSL9DiagFun, Pi.add_apply, Pi.inv_apply]
+    Pi.add_apply, Pi.inv_apply]
   by_cases hl : l = j
   · subst hl
     rw [Pi.single_eq_same, Pi.single_eq_same, mul_add, ggSL9_unit_mul_inv_mul, mul_pow]
@@ -304,9 +304,9 @@ end Torus
 section Shift
 
 theorem ggSL9_pow_eight (x : GaloisField 2 3) : x ^ 8 = x := by
-  letI := Fintype.ofFinite (GaloisField 2 3)
+  let := Fintype.ofFinite (GaloisField 2 3)
   have h : Fintype.card (GaloisField 2 3) = 8 := by
-    rw [← Nat.card_eq_fintype_card, GaloisField.card 2 3 (by norm_num)] <;> norm_num
+    rw [← Nat.card_eq_fintype_card, GaloisField.card 2 3 (by norm_num)]; norm_num
   rw [← h]
   exact FiniteField.pow_card x
 
@@ -367,7 +367,7 @@ private theorem ggSL9_shiftCoord_pow_seven (f : Multiplicative (Fin 3 → ZMod 7
 
 private theorem ggSL9ShiftCoord_pow_three_ofAdd (g : Fin 3 → ZMod 7) :
     (ggSL9ShiftCoord ^ 3) (ofAdd g) = (ofAdd g) ^ 2 := by
-  simp only [pow_succ, pow_zero, one_mul, MulAut.mul_apply, ggSL9ShiftCoord_apply, toAdd_ofAdd]
+  simp only [pow_succ, pow_zero, one_mul, MulAut.mul_apply, ggSL9ShiftCoord_apply]
   apply toAdd.injective
   funext i
   fin_cases i <;> simp
@@ -381,7 +381,7 @@ private theorem ggSL9ShiftCoord_pow_three (f : Multiplicative (Fin 3 → ZMod 7)
   exact ggSL9ShiftCoord_pow_three_ofAdd (toAdd f)
 
 theorem orderOf_ggSL9ShiftCoord : orderOf ggSL9ShiftCoord = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hnot : ¬ ggSL9ShiftCoord ^ 3 ^ 1 = 1 := by
     rw [show (3 : ℕ) ^ 1 = 3 by norm_num]
     intro h
@@ -481,8 +481,8 @@ theorem not_seven_pow_four_dvd_card_ggSL9 :
 theorem exists_conj_eq_ggSL9Torus {E : Subgroup (GGSL9V ≃ₗ[ZMod 2] GGSL9V)}
     (hE : IsElemAbelian 7 E) (h3 : 7 ^ 3 ≤ Nat.card E) :
     ∃ g : GGSL9V ≃ₗ[ZMod 2] GGSL9V, E = ggSL9Torus.map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite (GGSL9V ≃ₗ[ZMod 2] GGSL9V) :=
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite (GGSL9V ≃ₗ[ZMod 2] GGSL9V) :=
     Finite.of_equiv (GL (Fin 9) (ZMod 2)) ggSL9GLEquiv.toEquiv
   have hEp : IsPGroup 7 ↥E := by
     rw [isPGroup_iff_orderOf_dvd_pow]
@@ -507,7 +507,7 @@ theorem exists_conj_eq_ggSL9Torus {E : Subgroup (GGSL9V ≃ₗ[ZMod 2] GGSL9V)}
     exact Nat.pow_le_pow_right (by norm_num) hn_le
   obtain ⟨P, hEP⟩ := IsPGroup.exists_le_sylow hEp
   let Psub : Subgroup (GGSL9V ≃ₗ[ZMod 2] GGSL9V) := P
-  have hPp : IsPGroup 7 ↥Psub := Sylow.isPGroup' P
+  have hPp : IsPGroup 7 ↥Psub := Sylow.isPGroup P
   obtain ⟨m, hPm⟩ := (IsPGroup.iff_card (p := 7) (G := ↥Psub)).mp hPp
   have hm_le : m ≤ 3 := by
     by_contra h
@@ -531,7 +531,7 @@ theorem exists_conj_eq_ggSL9Torus {E : Subgroup (GGSL9V ≃ₗ[ZMod 2] GGSL9V)}
     exact orderOf_dvd_of_pow_eq_one hx
   obtain ⟨Q, hTQ⟩ := IsPGroup.exists_le_sylow hTp
   let Qsub : Subgroup (GGSL9V ≃ₗ[ZMod 2] GGSL9V) := Q
-  have hQp : IsPGroup 7 ↥Qsub := Sylow.isPGroup' Q
+  have hQp : IsPGroup 7 ↥Qsub := Sylow.isPGroup Q
   obtain ⟨k, hQk⟩ := (IsPGroup.iff_card (p := 7) (G := ↥Qsub)).mp hQp
   have hk_le : k ≤ 3 := by
     by_contra h
@@ -544,7 +544,7 @@ theorem exists_conj_eq_ggSL9Torus {E : Subgroup (GGSL9V ≃ₗ[ZMod 2] GGSL9V)}
     exact Nat.pow_le_pow_right (by norm_num) hk_le
   have hQeq : ggSL9Torus = ↑Q :=
     Subgroup.eq_of_le_of_card_ge hTQ (by rw [card_ggSL9Torus]; exact hQcard)
-  haveI : MulAction.IsPretransitive (GGSL9V ≃ₗ[ZMod 2] GGSL9V)
+  have : MulAction.IsPretransitive (GGSL9V ≃ₗ[ZMod 2] GGSL9V)
       (Sylow 7 (GGSL9V ≃ₗ[ZMod 2] GGSL9V)) := Sylow.isPretransitive_of_finite
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (GGSL9V ≃ₗ[ZMod 2] GGSL9V) Q P
   have hmap : (↑Q : Subgroup (GGSL9V ≃ₗ[ZMod 2] GGSL9V)).map (MulAut.conj g).toMonoidHom =

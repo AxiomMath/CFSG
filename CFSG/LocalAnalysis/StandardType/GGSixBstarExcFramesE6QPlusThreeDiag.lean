@@ -108,9 +108,9 @@ private theorem adAct_e6W0
   rw [inv_eq_of_mul_eq_one_right e6W0_mul_self, e6W0_smul, permLattice_single]
   have he : CFSG.RankThree.E6.e6Rho i = e6Perm i := rfl
   rw [he, Fintype.sum_eq_single (e6Perm i) (fun b hb => by
-    simp only [Pi.neg_apply, Pi.single_apply, if_neg hb, neg_zero, Int.cast_zero,
+    simp only [Pi.neg_apply, Pi.single_apply, ite_eq_right hb, neg_zero, Int.cast_zero,
       zero_mul])]
-  rw [Pi.neg_apply, Pi.single_apply, if_pos rfl, Int.cast_neg, Int.cast_one]
+  rw [Pi.neg_apply, Pi.single_apply, ite_eq_left rfl, Int.cast_neg, Int.cast_one]
   exact neg_one_mul _
 
 theorem negPhi_eqpN_rootDiagUnit_zetaVec

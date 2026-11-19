@@ -211,7 +211,7 @@ private theorem nbor_odd_prod {f : ℕ} (hf : 1 ≤ f) (a : ℕ) :
     have := Nat.one_le_two_pow (n := f)
     exact_mod_cast this
   have h2 : ((-1 : ℤ) ^ i) ≤ 1 := by
-    rcases neg_one_pow_eq_or ℤ i with h | h <;> rw [h] <;> norm_num
+    rcases neg_one_pow_eq_or ℤ i with h | h <;> rw [h]; norm_num
   have hnn : (0 : ℤ) ≤ ((2 ^ f : ℕ) : ℤ) ^ i - (-1) ^ i := by linarith
   refine (Int.odd_coe_nat _).1 ?_
   rw [Int.toNat_of_nonneg hnn]
@@ -220,7 +220,7 @@ private theorem nbor_odd_prod {f : ℕ} (hf : 1 ≤ f) (a : ℕ) :
 private theorem nbor_card_su {K : Type} [Field K] [Finite K] [CharP K 2] {f a : ℕ}
     (hK : Nat.card K = (2 ^ f) ^ 2) (hf : 1 ≤ f) (ha : 1 ≤ a) :
     ∃ m : ℕ, Odd m ∧ Nat.card (Su K 2 f a) = (2 ^ f) ^ (a * (a - 1) / 2) * m := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUF : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hf, by rw [hK, ← pow_mul, Nat.mul_comm]⟩
   refine ⟨_, nbor_odd_prod hf a, ?_⟩
   exact (Nat.card_congr (MulEquiv.subgroupCongr (SUid_eq_statedSU hK a)).toEquiv).trans
@@ -229,7 +229,7 @@ private theorem nbor_card_su {K : Type} [Field K] [Finite K] [CharP K 2] {f a : 
 private theorem nbor_odd_center {K : Type} [Field K] [Finite K] [CharP K 2] {f a : ℕ}
     (hK : Nat.card K = (2 ^ f) ^ 2) (hf : 1 ≤ f) (ha : 1 ≤ a) :
     Odd (Nat.card (Subgroup.center (Su K 2 f a))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUF : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hf, by rw [hK, ← pow_mul, Nat.mul_comm]⟩
   by_contra hev
   have h2 : 2 ∣ Nat.card (Subgroup.center (Su K 2 f a)) := by
@@ -256,7 +256,7 @@ private theorem nbor_odd_center {K : Type} [Field K] [Finite K] [CharP K 2] {f a
   obtain ⟨l, hl⟩ : ∃ l : Kˣ, Matrix.GeneralLinearGroup.scalar (Fin a) l = (zz : GL (Fin a) K) := by
     have := TableBUE.mem_scalars_of_commute hUF hp (Nat.minFac_dvd _) hcen
     rwa [largeEvenScalars_def, MonoidHom.mem_range] at this
-  haveI : Nonempty (Fin a) := ⟨⟨0, ha⟩⟩
+  have : Nonempty (Fin a) := ⟨⟨0, ha⟩⟩
   have hl2 : l ^ 2 = 1 := by
     have h1 : (zz : GL (Fin a) K) ^ 2 = 1 := by
       have := congrArg (fun w : ↥(Subgroup.center (Su K 2 f a)) =>
@@ -283,7 +283,7 @@ private theorem nbor_padic_su_quot {K : Type} [Field K] [Finite K] [CharP K 2] {
     (hK : Nat.card K = (2 ^ f) ^ 2) (hf : 1 ≤ f) (ha : 1 ≤ a) :
     padicValNat 2 (Nat.card (Su K 2 f a ⧸ Subgroup.center (Su K 2 f a))) =
       f * (a * (a - 1) / 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm, hcard⟩ := nbor_card_su hK hf ha
   have hZ := nbor_odd_center hK hf ha
   have hmul := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center (Su K 2 f a))

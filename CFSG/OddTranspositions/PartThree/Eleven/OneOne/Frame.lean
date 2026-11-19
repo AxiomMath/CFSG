@@ -121,7 +121,7 @@ theorem exists_frame (h : ElevenOneHyp hC) (S : Sylow 2 G) (T : Sylow 2 (Halpha 
     exact hwinj (Subtype.ext hij)
   · intro i
     exact (mem_DstarH_iff hC).mp (hwDstar i)
-  · exact h.inter_D_eq_of_frameLift hw S.isPGroup' hTS hdS
+  · exact h.inter_D_eq_of_frameLift hw S.isPGroup hTS hdS
   · have hp : w 0 * w 1 * w 2 * w 3 ≠ 1 :=
       h.prod_frameLift_ne_one hr hwr hw hTS hdS
     have hp_mem : (w 0 * w 1 * w 2 * w 3 : Halpha D hC.alpha) ∈

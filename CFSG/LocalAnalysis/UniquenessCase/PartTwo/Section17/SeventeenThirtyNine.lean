@@ -373,6 +373,7 @@ theorem exists_conj_not_le_cTilde (D : Data G) (hx : DataExt D)
     omega
   exact s17_exists_conj_not_le_cTilde_of_add_lt D hx h61 h127 h1114 h162 c.hyp125 h0 hm2 hV0 hN
 
+omit [Finite G] in
 theorem mkTil_commutator_eq {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     (αs : stabTil V₀ V) (x : IntMod V hV) :
     mkTil V₀ V hV (actStab V₀ V hV αs x * x⁻¹) =

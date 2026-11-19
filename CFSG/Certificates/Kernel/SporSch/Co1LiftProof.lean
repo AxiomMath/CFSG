@@ -41,9 +41,9 @@ theorem clsValS_eq {PR z m : Nat} (hm : m < 4600) :
   unfold clsValS valK
   rw [blt_dec_l, nIf_dec_l]
   by_cases h : m < 2300
-  · rw [if_pos h, if_pos h, unpack_get_l h]
+  · rw [ite_eq_left h, ite_eq_left h, unpack_get_l h]
     rfl
-  · rw [if_neg h, if_neg h, unpack_get_l (by omega)]
+  · rw [ite_eq_right h, ite_eq_right h, unpack_get_l (by omega)]
     rfl
 
 theorem valK_lt {PR z : Nat} (hz : z < 2 ^ 24) (m : Nat) : valK PR z m < 2 ^ 24 := by

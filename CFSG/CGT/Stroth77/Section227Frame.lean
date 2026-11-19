@@ -117,7 +117,7 @@ theorem commute_xy_sq (h : F.IsD D dD) {s : G} (hs : s ∈ (F.S : Subgroup G)) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K := F.dA.toConfig with hK
   set S : Subgroup G := (F.S : Subgroup G) with hSdef
-  have hSp : IsPGroup 2 S := F.S.isPGroup'
+  have hSp : IsPGroup 2 S := F.S.isPGroup
   have hwS : K.w ∈ S := F.A_le_S K.w_mem
   have hw1 : K.w ≠ 1 := by
     rw [← K.ev_w, Ne, K.ev_eq_one_iff]; decide
@@ -260,7 +260,7 @@ theorem not_isSylowOf_centralizer
     calc c⁻¹ * x * c * (c⁻¹ * z * c) = c⁻¹ * (x * z) * c := by group
       _ = c⁻¹ * (z * x) * c := by rw [hz x hx]
       _ = c⁻¹ * z * c * (c⁻¹ * x * c) := by group
-  have hS'p : IsPGroup 2 S' := F.S.isPGroup'.map _
+  have hS'p : IsPGroup 2 S' := F.S.isPGroup.map _
   obtain ⟨R, hR⟩ := (hS'p.comap_subtype (K := C)).exists_le_sylow
   set T : Subgroup G := (R : Subgroup C).map C.subtype with hT
   have hTsyl : IsSylowOf 2 T C := ⟨R, rfl⟩

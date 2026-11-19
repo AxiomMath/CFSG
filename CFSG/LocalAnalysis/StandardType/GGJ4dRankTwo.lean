@@ -116,9 +116,9 @@ theorem j4d_rank_two_ncard
       simpa using h
     rcases hδ' with rfl | rfl
     · rcases hx with rfl | rfl | rfl | rfl | rfl | rfl <;>
-        simp [hραα, hραβ, hραadd, hραnegα, hραnegβ, hραnegadd]
+        simp [hραα, hραβ, hραadd, hραnegα, hραnegβ]
     · rcases hx with rfl | rfl | rfl | rfl | rfl | rfl <;>
-        simp [hρβα, hρββ, hρβαdd, hρβnegα, hρβnegβ, hρβnegadd]
+        simp [hρβα, hρββ, hρβαdd, hρβnegα, hρβnegβ]
   have hΨS : Ψ ⊆ (a2Roots α β : Set (Fin τ.rank → ℤ)) := by
     intro x hx
     obtain ⟨w, hw, δ, hδ, rfl⟩ := exists_smul_simpleRoot hΨ hx

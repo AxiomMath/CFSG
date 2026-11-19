@@ -41,7 +41,7 @@ theorem eq_top_l2odd189 (hp2 : p ≠ 2) (hp3 : p ≠ 3)
     · exact hp3 rfl
     · exact Nat.not_prime_mul (by norm_num) (by norm_num) (show Nat.Prime (2 * 2) from hp)
   have hq5 : 5 ≤ p ^ f := le_trans hp5 (Nat.le_self_pow (by omega) p)
-  letI : Fintype (GaloisField p f) := Fintype.ofFinite _
+  let : Fintype (GaloisField p f) := Fintype.ofFinite _
   classical
   have hFc : Fintype.card (GaloisField p f) = p ^ f := by rw [← Nat.card_eq_fintype_card, hK]
   have hchar : ringChar (GaloisField p f) ≠ 2 := by

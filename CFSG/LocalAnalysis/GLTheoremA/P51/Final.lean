@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem not_isPGroup_of_glaPComponent {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hqp : q ≠ p)
     {X K : Subgroup G} (hK : GLAPComponent p X K) : ¬ IsPGroup q K := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   intro hKq
   obtain ⟨n, hn⟩ := hKq.exists_card_eq
   have hcop : Nat.Coprime p (Nat.card (⊤ : Subgroup ↥K)) := by
@@ -28,6 +28,7 @@ theorem not_isPGroup_of_glaPComponent {p q : ℕ} (hp : p.Prime) (hq : q.Prime) 
   exact (not_nontrivial_iff_subsingleton.2 hsub)
     (isQuasisimple_nontrivial (isQuasisimple_pQuot_of_glaPComponent hp hK))
 
+omit [Finite G] in
 private theorem le_of_commutator_aux {K X : Subgroup G} (hK : IsSubnormal K X) :
     ∀ {A H : Subgroup G}, A ≤ X → H ≤ K → (⁅A, H⁆ : Subgroup G) = A → A ≤ K := by
   induction hK with
@@ -48,19 +49,20 @@ private theorem le_of_commutator_aux {K X : Subgroup G} (hK : IsSubnormal K X) :
       _ ≤ ⁅M, K₁⁆ := Subgroup.commutator_mono hAM hHK
       _ ≤ K₁ := hcomm
 
+omit [Finite G] in
 theorem le_of_commutator_eq_of_isSubnormal {K X A H : Subgroup G} (hK : IsSubnormal K X)
     (hAX : A ≤ X) (hHK : H ≤ K) (hA : (⁅A, H⁆ : Subgroup G) = A) : A ≤ K :=
   le_of_commutator_aux hK hAX hHK hA
 
-theorem eq_bot_of_le_sup_glaPPrimeCoreOf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem eq_bot_of_le_sup_glaPPrimeCoreOf {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     {X K H W : Subgroup G} (hK : GLAPComponent p X K) (hHK : H ≤ K)
     (hKH : K ≤ H ⊔ GLAPPrimeCoreOf p K) (hWK : W ≤ K) (hW2 : IsPGroup 2 W)
     (hHW : H ≤ Subgroup.normalizer (W : Set G)) (hW : (⁅W, H⁆ : Subgroup G) = W)
     (hodd : Odd (Nat.card (⁅K, GLAPPrimeCoreOf p X⁆ : Subgroup G))) : W = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : CFSG.Open.IsQuasisimple (PQuot p K) := isQuasisimple_pQuot_of_glaPComponent hp hK
-  haveI : Nontrivial (PQuot p K) := isQuasisimple_nontrivial hQ
+  have : Nontrivial (PQuot p K) := isQuasisimple_nontrivial hQ
   have hOX : GLAPPrimeCoreOf p K ≤ GLAPPrimeCoreOf p X := by
     rw [← glaPPrimeCoreOf_inf_eq_of_isSubnormal hp hK.2.1]
     exact inf_le_right
@@ -106,7 +108,7 @@ theorem eq_bot_of_le_sup_glaPPrimeCoreOf {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     have h2 : IsPGroup 2 ↥((W.subgroupOf K).map π) := hW₀2.map π
     rw [htop] at h2
     have h2Q : IsPGroup 2 (PQuot p K) := h2.of_equiv Subgroup.topEquiv
-    haveI : Group.IsPerfect (PQuot p K) := ⟨hQ.1⟩
+    have : Group.IsPerfect (PQuot p K) := ⟨hQ.1⟩
     exact Group.IsPerfect.not_isNilpotent (PQuot p K) h2Q.isNilpotent
   have hW'cent : (W.subgroupOf K).map π ≤ Subgroup.center (PQuot p K) :=
     le_center_of_normal_of_isQuasisimple hQ hW'norm hW'top

@@ -103,12 +103,14 @@ section ImplFin
 
 variable {Ω : Type} [Group Ω] [Finite Ω] {S B₀ : Subgroup Ω}
 
+omit [Finite Ω] in
 private theorem exists_impl (hSp : GLAPPrimeCore p ↥S = ⊥)
     (hin : ∀ b ∈ B₀, InducesInnerMod p S b) {b : Ω} (hb : b ∈ B₀) : ∃ l : ↥S, Impl S b l := by
   obtain ⟨l, hl, h⟩ := exists_conj_of_inducesInner hSp (hin b hb)
   exact ⟨⟨l, hl⟩, h⟩
 
 open scoped commutatorElement in
+omit [Finite Ω] in
 private theorem commutator_implSub_eq {T' : Subgroup Ω} {x : Ω}
     (hSp : GLAPPrimeCore p ↥S = ⊥) (hin : ∀ b ∈ B₀, InducesInnerMod p S b) (hT'S : T' ≤ S) :
     (⁅implSub S B₀, (T' ⊓ Subgroup.centralizer ({x} : Set Ω)).subgroupOf S⁆ : Subgroup ↥S) =

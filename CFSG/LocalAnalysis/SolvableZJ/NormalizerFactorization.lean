@@ -19,7 +19,7 @@ private theorem subgroupProduct_normalizer_eq_univ (p : ℕ) [Fact p.Prime]
     (K : Subgroup G) (hKS : K ≤ (S : Subgroup G))
     (himage : (K.map (QuotientGroup.mk' N)).Normal) :
     subgroupProduct N (Subgroup.normalizer (K : Set G)) = Set.univ := by
-  have hKP : IsPGroup p K := S.isPGroup'.to_le hKS
+  have hKP : IsPGroup p K := S.isPGroup.to_le hKS
   have : (N ⊔ K).Normal := by
     rw [← QuotientGroup.comap_map_mk' (N := N) (H := K)]
     exact himage.comap (QuotientGroup.mk' N)
@@ -87,7 +87,7 @@ theorem solvable_zj_normalizer_factorization (p : ℕ) [Fact p.Prime] (hp : 5 �
   have : N.Normal := pPrimeCore_normal
   have hcop : p.Coprime (Nat.card N) := pPrimeCore_coprime_card
   have hker : (QuotientGroup.mk' N).ker ⊓ (S : Subgroup G) = ⊥ := by
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     have hdisj : Disjoint (S : Subgroup G) N :=
       Subgroup.disjoint_of_coprime_natCard (by rw [hk]; exact hcop.pow_left k)
     rw [QuotientGroup.ker_mk', inf_comm]

@@ -27,7 +27,7 @@ theorem sym1119_normalizer_sup {Y Θ : Subgroup G} {t : G}
   · exact Subgroup.subset_closure (Or.inl ((Subgroup.mem_normalizer_iff.mp hY u).mp hu))
   · exact Subgroup.subset_closure (Or.inr ((Subgroup.mem_normalizer_iff.mp hΘ u).mp hu))
 
-theorem sym1119_Q_le_closure (h45 : Sec4.Item4_5) (h113 : Item113) (h117 : Item117)
+theorem sym1119_Q_le_closure (h45 : Sec4.Item4_5) (_h113 : Item113) (_h117 : Item117)
     (h : Sec11Data G A c L a R Y d x s r g) (hra : r * a = a * r)
     (hs : Subgroup.zpowers s = Subgroup.zpowers c) :
     sym1119Q R g a ≤ Subgroup.closure ({r, x ^ 3, c, g} : Set G) := by

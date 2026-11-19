@@ -126,7 +126,7 @@ theorem stage_z {B K R1 : Subgroup (Equiv.Perm (Fin 2300))} {y : Equiv.Perm (Fin
   have hcat : catalogIs i.Group S8.isA6 := ⟨i, hi, ⟨MulEquiv.refl _⟩⟩
   have h5K : 5 ∣ Nat.card K :=
     (I2016Sp.a6_data hcat).2.1.trans (Subgroup.card_dvd_of_surjective hf)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x, hx5⟩ := exists_prime_orderOf_dvd_card' 5 h5K
   obtain ⟨hdC, -, -, -, hk1C, hk2C⟩ := gens_mem_locC
   obtain ⟨hc5, hsix⟩ := Co2Six.six_x0_facts ⟨k1P, hk1C⟩ ⟨k2P, hk2C⟩ ⟨dP, hdC⟩ rfl rfl rfl

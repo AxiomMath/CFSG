@@ -21,7 +21,7 @@ theorem ggD4FieldAutMaximalInput_holds :
   have hd' : d = TauCeti.LieTypeIndex.D 4 q := hd
   subst hd'
   obtain ⟨K, _, _, hK, hKchar, ⟨φ⟩⟩ := exists_catEquiv_D4 q hv
-  haveI : CharP K 3 := hq3 ▸ hKchar
+  have : CharP K 3 := hq3 ▸ hKchar
   have hK3 : Nat.card K = 3 ^ q.exponent := by
     rw [hK, TauCeti.PrimePower.card_def, hq3]
   exact ggD4FieldAutMaximal_transport φ

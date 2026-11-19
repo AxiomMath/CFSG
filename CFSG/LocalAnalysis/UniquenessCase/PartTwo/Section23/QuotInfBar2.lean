@@ -17,7 +17,7 @@ theorem center_barInf_eq_bot {K : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (Bar2 K)) :
     Subgroup.center (BarInf K) = ⊥ := by
   obtain ⟨e⟩ := uc22p21k_barInf_equiv hq
-  haveI : IsSimpleGroup (Bar2 K ⧸ Subgroup.center (Bar2 K)) := hq.2
+  have : IsSimpleGroup (Bar2 K ⧸ Subgroup.center (Bar2 K)) := hq.2
   have hq' : CFSG.Open.IsQuasisimple (Bar2 K ⧸ Subgroup.center (Bar2 K)) :=
     uc22br4_isQuasisimple_of_surjective hq (QuotientGroup.mk' _)
       (QuotientGroup.mk'_surjective _)
@@ -48,7 +48,7 @@ theorem quotInfEquivBar2_piBarInf {K : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (Bar2 K)) (l : ↥K) :
     quotInfEquivBar2 hq (piBarInf K l) =
       QuotientGroup.mk (QuotientGroup.mk l) := by
-  haveI : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
   unfold quotInfEquivBar2
   rw [MulEquiv.trans_apply, MulEquiv.trans_apply, MulEquiv.trans_apply]
   have hA : (QuotientGroup.quotientMulEquivOfEq (center_barInf_eq_bot hq))
@@ -87,6 +87,7 @@ theorem quotInfEquivBar2_inducedQuotInfAut_piBarInf {K : Subgroup G}
         (⟨b * (l : G) * b⁻¹, (Subgroup.mem_normalizer_iff.mp hb l).mp l.2⟩ : ↥K)) := by
   rw [inducedQuotInfAut_piBarInf, quotInfEquivBar2_piBarInf]
 
+omit [Finite G] in
 theorem piBarInf_surjective (K : Subgroup G) : Function.Surjective (piBarInf K) := by
   simpa [piBarInf] using
     (QuotientGroup.mk'_surjective (Subgroup.center (BarInf K))).comp
@@ -118,7 +119,7 @@ theorem solvableRadical_eq_pCore_of_center_bar2_eq_bot {K : Subgroup G}
     rwa [QuotientGroup.ker_mk'] at h
   refine le_antisymm hle ?_
   refine le_sSup ⟨CFSG.pCore_normal, ?_⟩
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥K) :=
+  have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥K) :=
     (CFSG.pCore_isPGroup (p := 2)).isNilpotent
   infer_instance
 
@@ -134,30 +135,34 @@ theorem quotCenterEquivBar2_inducedQuotInfAut_piBarInf {K : Subgroup G}
   rw [quotInfEquivBar2_inducedQuotInfAut_piBarInf, QuotientGroup.quotientMulEquivOfEq_mk]
   rw [← QuotientGroup.quotientBot_symm_apply (QuotientGroup.mk _), MulEquiv.apply_symm_apply]
 
+omit [Finite G] in
 theorem center_eq_bot_of_isL2 {K : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (Bar2 K)) {a : ℕ} (h : IsL2 (Bar2 K) a) :
     Subgroup.center (Bar2 K) = ⊥ := by
-  haveI : IsSimpleGroup (Bar2 K) :=
+  have : IsSimpleGroup (Bar2 K) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
   exact uc22p21k_center_eq_bot hq
 
+omit [Finite G] in
 theorem center_eq_bot_of_isSz {K : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (Bar2 K)) {a : ℕ} (h : IsSz (Bar2 K) a) :
     Subgroup.center (Bar2 K) = ⊥ := by
-  haveI : IsSimpleGroup (Bar2 K) := uc22p22r_lieModel_isSimple_twistedB2 h
+  have : IsSimpleGroup (Bar2 K) := uc22p22r_lieModel_isSimple_twistedB2 h
   exact uc22p21k_center_eq_bot hq
 
+omit [Finite G] in
 theorem center_eq_bot_of_isSp4 {K : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (Bar2 K)) {a : ℕ} (h : IsSp4 (Bar2 K) a) :
     Subgroup.center (Bar2 K) = ⊥ := by
-  haveI : IsSimpleGroup (Bar2 K) :=
+  have : IsSimpleGroup (Bar2 K) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
   exact uc22p21k_center_eq_bot hq
 
+omit [Finite G] in
 theorem center_eq_bot_of_isL2Odd {K : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (Bar2 K)) {p : ℕ} (h : IsL2Odd (Bar2 K) p) :
     Subgroup.center (Bar2 K) = ⊥ := by
-  haveI : IsSimpleGroup (Bar2 K) :=
+  have : IsSimpleGroup (Bar2 K) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
   exact uc22p21k_center_eq_bot hq
 

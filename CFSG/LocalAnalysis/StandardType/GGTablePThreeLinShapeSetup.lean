@@ -158,7 +158,7 @@ private theorem three_dvd_card_sub_one_of_natDegree_eq_three {K : Type} [Field K
     (hdeg : h.natDegree = 3) : 3 ∣ Nat.card K - 1 := by
   classical
   by_contra h3
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨ν, hν⟩ :=
     CFSG.RankThree.PartTwo.Sec6.BThreeCensus.exists_pow_three_eq_of_not_three_dvd h3 c
   have hcν : (ν : K) ^ 3 = (c : K) := by
@@ -221,7 +221,7 @@ theorem linShape_setup
     {K : Type} [Field K] [Finite K]
     {N : ℕ}
     {δ' : MulAut (PSLg N K)}
-    {J' : Subgroup (PSLg N K)} (hchar : CharP K 2) (hN : 2 ≤ N)
+    {J' : Subgroup (PSLg N K)} (hchar : CharP K 2) (_hN : 2 ≤ N)
     (hspl : 3 ∣ Nat.card K - 1 ∨ Nat.card K = 2)
     (hcomp : IsComponentOf J' (ggAutFixedSubgroup δ'))
     {d : GL (Fin N) K}
@@ -238,8 +238,8 @@ theorem linShape_setup
         Nat.card E = Nat.card K ^ j ∧ j * m ≤ N ∧
         (j = 3 → 3 ∣ Nat.card K - 1 ∧ N = 3 * m) ∧ (j = 2 → Nat.card K = 2) ∧
         Function.Surjective f ∧ f.ker ≤ Subgroup.center _ := by
-  haveI hcharI : CharP K 2 := hchar
-  haveI : Fintype K := Fintype.ofFinite K
+  have hcharI : CharP K 2 := hchar
+  have : Fintype K := Fintype.ofFinite K
   have hk3 : (3 : K) ≠ 0 := by
     have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
     rw [show (3 : K) = 2 + 1 by norm_num, h2, zero_add]
@@ -268,7 +268,7 @@ theorem linShape_setup
   have hh_mem : h ∈ primaryFactors (glA d : Module.End K (Fin N → K)) := hh.1.2
   have hh_good : IsGoodFactor d h := hh.2
   have hK' : J'.map e.toMonoidHom = (specialFactor d h).map (LinearFlag.proj N K) := hK
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh_mem⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh_mem⟩
   have hmon : h.Monic := monic_of_mem_primaryFactors hh_mem
   have hdvd : h ∣ X ^ 3 - C (c : K) :=
     ((mem_primaryFactors.mp hh_mem).2.2).trans
@@ -293,8 +293,8 @@ theorem linShape_setup
     rw [MonoidHom.mem_ker] at hx ⊢
     have hx' : eJ.symm (f₀ x) = 1 := hx
     exact eJ.symm.injective (by rw [hx', map_one])
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
-  haveI : CharP (AdjoinRoot h) 2 :=
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : CharP (AdjoinRoot h) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot h)).injective 2
   have hm2 : 2 ≤ m := by
     rcases hh_good with h3 | ⟨h2, _⟩ <;> omega

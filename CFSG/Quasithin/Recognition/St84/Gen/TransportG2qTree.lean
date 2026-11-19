@@ -107,9 +107,9 @@ theorem f112ll_g2qLocalData_of_vertexData {L1 L2 S : Subgroup H} {m n f : ℕ}
   obtain ⟨K, hField, hFinite, hCharP, hK, ψ₂, hψ₂S, hψ₂Q⟩ :=
     hd.toG2qLocalData.exists_mulEquiv_vertexTwo hf3 hH h1' h2'
       (hd.toG2qLocalData.commutator_pCoreOf_right hf3 hH h1' h2')
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  letI : CharP K 2 := hCharP
+  let : Field K := hField
+  let : Finite K := hFinite
+  let : CharP K 2 := hCharP
   obtain ⟨J, hJ⟩ := hd.toG2qLocalData.exists_torus_left_of_vertexTwo (by omega) hH
     h1' h2' hK ψ₂ hψ₂S hψ₂Q
   exact f112ll_g2qLocalData_of_edgeData hF hm hn h1 h2

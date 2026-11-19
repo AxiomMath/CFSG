@@ -39,7 +39,7 @@ theorem GGResHyp.false_of_D5_E6_original_data
     (hdepK : ¬ LinearIndependent (ZMod 3) hK)
     (hcardBs : Nat.card Bs = 3 ^ 6) : False := by
   classical
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hSstar : LargeEvenSStar 3 B x L := hH.1.1.2.2.2.2.2.2.1
   have hSHat : LargeEvenSHat 3 B y K := hH.2.2.2.2.1.1
   have hx : x ∈ Bs := hH.1.2.1.1 hSstar.2.1

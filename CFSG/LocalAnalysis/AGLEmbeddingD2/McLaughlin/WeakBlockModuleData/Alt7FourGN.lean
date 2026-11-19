@@ -25,7 +25,7 @@ theorem exists_nine_le_normalizer_baum_of_four (hX : GNSetting X T) {C₁ : Subg
     (eL : ↥L ≃* alternatingGroup (Fin 7)) (HA : Alt7Hyp (alternatingGroup (Fin 7)))
     (hT : gnImg T T ≤ Subgroup.normalizer (L : Set (X ⧸ gnC T)))
     {W U : Subgroup X} (hWV : W ≤ gnV T) (hZW : omegaOneCenterOf T ≤ W)
-    (hWK : ∀ k ∈ L.comap (QuotientGroup.mk' (gnC T)), ∀ w ∈ W, k * w * k⁻¹ ∈ W)
+    (_hWK : ∀ k ∈ L.comap (QuotientGroup.mk' (gnC T)), ∀ w ∈ W, k * w * k⁻¹ ∈ W)
     (hWU : ⁅W, L.comap (QuotientGroup.mk' (gnC T))⁆ ≤ U) (hUV : U ≤ gnV T)
     (hUK : ∀ k ∈ L.comap (QuotientGroup.mk' (gnC T)), ∀ u ∈ U, k * u * k⁻¹ ∈ U)
     (hU16 : Nat.card U = 2 ^ 4) :

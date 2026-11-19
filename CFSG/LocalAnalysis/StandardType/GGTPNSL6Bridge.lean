@@ -114,7 +114,7 @@ theorem sl6b_centralizer_blocks_equiv {n : ℕ}
     rw [card_zeroCoords ε k' hbin, ← hsupp]
   have hΛcard : (classSet (fun i => (k' i : ZMod 3)) 1).card = supp t / 2 := by
     rw [card_classSet k' hbin, hsupp2]
-  haveI : Finite (AdjoinRoot phi3) := finite_adjoinRoot
+  have : Finite (AdjoinRoot phi3) := finite_adjoinRoot
   refine ⟨(zeroBlk ε k').map (MulAut.conj A).toMonoidHom,
     (classBlk ε k').map (MulAut.conj A).toMonoidHom, ?_, ?_, ?_, ?_, ?_, ?_⟩
   ·
@@ -236,8 +236,8 @@ theorem sl6b_supp_six
     exact Matrix.rank_le_height _
   have hcardJ : Nat.card (J ⧸ Subgroup.center J) = 20160 := by
     obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hJ
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have hK4 : Nat.card K = 4 := by simpa using hKcard
     have h1 : Nat.card (J ⧸ Subgroup.center J) =
         Nat.card (CFSG.Open.StatedProj (CFSG.Open.StatedSL 3 K)) := by
@@ -301,7 +301,7 @@ private theorem sl6b_nsSL_one_mem_classBlk
     (ε : Fin (5 + 1) ≃ (Fin (rootPB phi3).dim × Fin 3) ⊕ Fin 0) :
     SLNS.nsSL ε (C := rootMat phi3) det_rootMat_phi3 (fun _ : Fin 3 => 1) ∈
       classBlk (n := 5) (s := 3) (r := 0) ε (fun _ : Fin 3 => 1) := by
-  haveI : NeZero (3 : ℕ) := ⟨by decide⟩
+  have : NeZero (3 : ℕ) := ⟨by decide⟩
   obtain ⟨D, hDmem, hDeq⟩ := CoordSL.diag_mem_classBlock (g := phi3) (hζ := root_phi3_pow_three)
     (ε := ε) (hC := det_rootMat_phi3) (β := fun _ : Fin 3 => (1 : ZMod 3))
     (c := 1) (t := fun _ : Fin 3 => (1 : ZMod 3))
@@ -316,7 +316,7 @@ private theorem sl6b_classBlk_commutant
     (hN : ∀ x ∈ classBlk (n := 5) (s := 3) (r := 0) ε (fun _ : Fin 3 => 1), N * x = x * N) :
     N ∈ Subgroup.zpowers (SLNS.nsSL ε (C := rootMat phi3) det_rootMat_phi3
       (fun _ : Fin 3 => 1)) := by
-  haveI : NeZero (3 : ℕ) := ⟨by decide⟩
+  have : NeZero (3 : ℕ) := ⟨by decide⟩
   have hprim : IsPrimitiveRoot (AdjoinRoot.root phi3) 3 :=
     CoordSL.root_isPrimitiveRoot (g := phi3) Nat.prime_three natCast_three_ne_zero
       phi3_dvd_cyclotomic
@@ -336,7 +336,7 @@ private theorem sl6b_classBlk_commutant
     intro i j hij _ _ c
     apply hN
     exact Subgroup.mem_map.mpr ⟨_, SLRep.transvection_mem_coordBlockSL
-      (mem_classSet.mpr (by simp [β])) (mem_classSet.mpr (by simp [β])) hij c, rfl⟩
+      (mem_classSet.mpr (by simp)) (mem_classSet.mpr (by simp)) hij c, rfl⟩
   let U : ((Fin 3 → AdjoinRoot phi3) × (Fin 0 → F2)) →ₗ[F2]
       ((Fin 3 → AdjoinRoot phi3) × (Fin 0 → F2)) :=
     CoordSL.frameForm phi3 ε (N : Matrix (Fin (5 + 1)) (Fin (5 + 1)) F2)
@@ -353,7 +353,7 @@ private theorem sl6b_classBlk_commutant
           (Matrix.SpecialLinearGroup.transvection hij (1 : AdjoinRoot phi3)) ∈
           classBlk (n := 5) (s := 3) (r := 0) ε (fun _ : Fin 3 => 1) :=
         Subgroup.mem_map.mpr ⟨_, SLRep.transvection_mem_coordBlockSL
-          (mem_classSet.mpr (by simp [β])) (mem_classSet.mpr (by simp [β])) hij 1, rfl⟩
+          (mem_classSet.mpr (by simp)) (mem_classSet.mpr (by simp)) hij 1, rfl⟩
       have hNT := hN _ hTmem
       have hcomm : U.comp (CoordSL.blockAct phi3
             (Matrix.SpecialLinearGroup.transvection hij (1 : AdjoinRoot phi3))) =
@@ -394,7 +394,7 @@ private theorem sl6b_classBlk_commutant
       simp only [LinearMap.comp_apply] at h2
       rw [h1, hR] at h2
       have h3 := congrFun (congrArg Prod.fst h2) i
-      simp [Pi.single_eq_same, hij, Ne.symm hij] at h3
+      simp [Pi.single_eq_same, hij] at h3
       exact h3
   let U' : ((Fin 3 → AdjoinRoot phi3) × (Fin 0 → F2)) →ₗ[F2]
       ((Fin 3 → AdjoinRoot phi3) × (Fin 0 → F2)) :=
@@ -407,7 +407,7 @@ private theorem sl6b_classBlk_commutant
   have hUinj : Function.Injective U := by
     intro a b hab
     have h := congrArg (fun φ => φ (a - b)) hU'U
-    simp only [LinearMap.comp_apply, LinearMap.id_apply, map_sub, hab, sub_self, map_zero] at h
+    simp only [LinearMap.comp_apply, LinearMap.id_apply, map_sub, hab, sub_self] at h
     exact sub_eq_zero.mp h.symm
   have hμ0 : μ 0 ≠ 0 := by
     intro h0
@@ -421,8 +421,8 @@ private theorem sl6b_classBlk_commutant
     exact one_ne_zero h1
   have hm_exists : ∃ m : ℕ, μ 0 = AdjoinRoot.root phi3 ^ m := by
     have hμpow : μ 0 ^ 3 = 1 := by
-      haveI : Finite (AdjoinRoot phi3) := CoordSL.finite_adjoinRoot
-      letI : Fintype (AdjoinRoot phi3) := Fintype.ofFinite _
+      have : Finite (AdjoinRoot phi3) := CoordSL.finite_adjoinRoot
+      let : Fintype (AdjoinRoot phi3) := Fintype.ofFinite _
       have hcard : Fintype.card (AdjoinRoot phi3) = 4 := by
         rw [← Nat.card_eq_fintype_card, natCard_adjoinRoot_phi3]
       have h := FiniteField.pow_card_sub_one_eq_one (μ 0) hμ0
@@ -469,8 +469,8 @@ theorem sl6b_component_commutant
   have hsupp : supp t = 6 := sl6b_supp_six ht3 hcomp hJ
   have hcardJ : Nat.card (J ⧸ Subgroup.center J) = 20160 := by
     obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hJ
-    letI : Field K := hKfield
-    letI : Finite K := hKfin
+    let : Field K := hKfield
+    let : Finite K := hKfin
     have hK4 : Nat.card K = 4 := by simpa using hKcard
     have h1 : Nat.card (J ⧸ Subgroup.center J) =
         Nat.card (CFSG.Open.StatedProj (CFSG.Open.StatedSL 3 K)) := by

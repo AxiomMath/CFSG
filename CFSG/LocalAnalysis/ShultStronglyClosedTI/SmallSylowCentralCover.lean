@@ -31,7 +31,7 @@ theorem central_kernel_sylow_restriction {E J : Type*} [Group E] [Finite E] [Gro
   let : IsMulCommutative f.ker := hKcenter
   let : (C : Subgroup f.ker).Normal := Subgroup.normal_of_isMulCommutative _
   have hPC : ((P : Subgroup E).comap f.ker.subtype) ≤ (C : Subgroup f.ker) := by
-    exact (P.isPGroup'.comap_of_injective f.ker.subtype Subtype.coe_injective).le_sylow_of_normal C
+    exact (P.isPGroup.comap_of_injective f.ker.subtype Subtype.coe_injective).le_sylow_of_normal C
   ext a
   constructor
   · intro ha
@@ -214,7 +214,7 @@ theorem central_cover_cyclic_sylow_kernel_eq_bot {E J : Type*}
   let A : Subgroup E := (C : Subgroup f.ker).map f.ker.subtype
   have hAP : A ≤ (P : Subgroup E) := central_pSubgroup_le_sylow P A
     ((Subgroup.map_subtype_le (C : Subgroup f.ker)).trans hcentral)
-    (C.isPGroup'.map f.ker.subtype)
+    (C.isPGroup.map f.ker.subtype)
   apply le_antisymm _ bot_le
   intro c hc
   have ha : c.val ∈ (P : Subgroup E) := hAP (Subgroup.mem_map.mpr ⟨c, hc, rfl⟩)
@@ -262,7 +262,7 @@ theorem central_cover_elementary_rank_two_sylow_kernel_bound {E J : Type*}
   let A : Subgroup E := (C : Subgroup f.ker).map f.ker.subtype
   have hAP : A ≤ (P : Subgroup E) := central_pSubgroup_le_sylow P A
     ((Subgroup.map_subtype_le (C : Subgroup f.ker)).trans hcentral)
-    (C.isPGroup'.map f.ker.subtype)
+    (C.isPGroup.map f.ker.subtype)
   have hlocal : A.subgroupOf (P : Subgroup E) = commutator (P : Subgroup E) :=
     (central_kernel_sylow_restriction f hcentral C P).symm.trans hrderived
   let e : (C : Subgroup f.ker) ≃* commutator (P : Subgroup E) :=

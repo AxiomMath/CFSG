@@ -92,7 +92,7 @@ theorem hdRo7CLOKnownAux_assembly
   obtain ⟨hcomm, labM, hlabM, hrawM⟩ := hmark
   have hrawKG := hKG p hp hp2 labM hlabM _ hrawM
   obtain ⟨R, hRgrp, I, F, hQ⟩ := largeEvenRawDatum_exists hrawKG
-  letI : Group R := hRgrp
+  let : Group R := hRgrp
   obtain ⟨hsimple, hnonab, θ, hBsN, hinner⟩ := hQ.1
   have hKGinst := hQ.2
   let ψ : ↥L →* R := (θ : (↥L ⧸ Subgroup.center ↥L) →* R).comp

@@ -104,7 +104,7 @@ theorem cartan3_smul (w : WeylGroup TwistTag.E6.tag) (γ : Fin TwistTag.E6.tag.r
   have h := iform_smul w⁻¹ (Pi.single i 1) (w • γ)
   rw [inv_smul_smul, iform_eq_sum_cartan, iform_eq_sum_cartan] at h
   simp only [Pi.single_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ,
-    if_true] at h
+    ite_true] at h
   simp only [cartan3, weylCart3, Matrix.mulVecLin_apply, Matrix.mulVec, dotProduct,
     Matrix.of_apply]
   rw [← h, Int.cast_sum]
@@ -113,7 +113,7 @@ theorem cartan3_smul (w : WeylGroup TwistTag.E6.tag) (γ : Fin TwistTag.E6.tag.r
 theorem smul_mem_starSet_iff (w : WeylGroup TwistTag.E6.tag)
     {y : Fin TwistTag.E6.tag.rank → ZMod 3} {g δ : Fin TwistTag.E6.tag.rank → ℤ} :
     w • δ ∈ starSet y (w • g) ↔ δ ∈ starSet (weylDual w y) g := by
-  simp only [starSet, Set.mem_setOf_eq, isRoot_smul_iff, dot3_smul, iform_smul]
+  simp only [starSet, Set.mem_ofPred_eq, isRoot_smul_iff, dot3_smul, iform_smul]
 
 theorem starGood_smul (w : WeylGroup TwistTag.E6.tag) {y : Fin TwistTag.E6.tag.rank → ZMod 3}
     {g : Fin TwistTag.E6.tag.rank → ℤ} (h : StarGood (weylDual w y) g) : StarGood y (w • g) := by

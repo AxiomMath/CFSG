@@ -45,7 +45,7 @@ theorem uc22p22wj_nbar_compShape (hK148 : K148)
     ∀ L : Subgroup ↥(mbarImage D.M D.U (proofN D)), IsComponentOf L ⊤ → CompShape148 L := by
   intro L hL
   have hMU : D.M ≤ normalizer (D.U : Set G) := (uc22p22e_inCalV_U D).2.2.1
-  haveI hNn : (mbarImage D.M D.U (proofN D)).Normal := uc22p22ya_nbar_normal D
+  have hNn : (mbarImage D.M D.U (proofN D)).Normal := uc22p22ya_nbar_normal D
   have hW := uc22p22o_inCalW_U_of_not_isTI D hx h61 c.hU
   have hpc : CFSG.pCore 2 (MBar D.M D.U) = ⊥ := (uc22br4_pCore_bot_iff D.M D.U hMU).2 hW.2.2
   have hNne : mbarImage D.M D.U (proofN D) ≠ ⊥ := (h31 hH c).1
@@ -82,12 +82,12 @@ theorem uc22p22wj_decomp (hK148 : K148) (D : Data G)
     ∃ (m : ℕ) (Nb : Fin m → Subgroup (MBar D.M D.U)), NbarSplit D Nb ∧
       IsDirectSumMod (modI D ρ) (modCI D ρ) (fun i => commOn ρ (Nb i) (modI D ρ)) ∧
       ∀ i, Shape148 ρ (Nb i) (commOn ρ (Nb i) (modI D ρ)) (modCI D ρ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMU : D.M ≤ normalizer (D.U : Set G) := (uc22p22e_inCalV_U D).2.2.1
   have hW := uc22p22o_inCalW_U_of_not_isTI D hx h61 c.hU
   have hpc : CFSG.pCore 2 (MBar D.M D.U) = ⊥ := (uc22br4_pCore_bot_iff D.M D.U hMU).2 hW.2.2
   have hNne : mbarImage D.M D.U (proofN D) ≠ ⊥ := (h31 hH c).1
-  haveI hNn : (mbarImage D.M D.U (proofN D)).Normal := uc22p22ya_nbar_normal D
+  have hNn : (mbarImage D.M D.U (proofN D)).Normal := uc22p22ya_nbar_normal D
   set N := mbarImage D.M D.U (proofN D) with hN
   set ρ' : Representation (ZMod 2) ↥N Umod := ρ.comp N.subtype with hρ'
   have hρinj : Function.Injective ρ := uc22br4_injective D.M D.U hMU e ρ hρ
@@ -98,7 +98,7 @@ theorem uc22p22wj_decomp (hK148 : K148) (D : Data G)
   have hP' : hP ρ' = ⊤ := uc22p22w_hP_restrict D e ρ hρ
   have hPne : hP ρ' ≠ ⊥ := by
     rw [hP']
-    haveI : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).2 hNne
+    have : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).2 hNne
     exact top_ne_bot
   obtain ⟨m, Hs, hHs, hdsum, hsh⟩ := hK148 ↥N Umod ρ'
     ((uc22br4_isKGroup_mbar_data_catalog D D.U).subgroup N) hpcN (hρinj.comp N.subtype_injective)

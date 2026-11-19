@@ -35,7 +35,7 @@ open CFSG.ASVolI.ChF CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam in
 theorem burnsideF4b_thick (hP : burnsideF4b_Parabolics) {κ : GLKind} {p f : ℕ} {E : Type}
     [Group E] {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 κ p f Gp M₁ M₂) :
     2 ≤ (RankTwoAmalgam.ofSubgroups M₁ M₂).qOne ∧ 2 ≤ (RankTwoAmalgam.ofSubgroups M₁ M₂).qTwo := by
-  haveI := hyp.finite
+  have := hyp.finite
   exact burnsideF4a_thick (burnsideF4a_prime_of_isGenLie hyp.model) (hP κ p f E Gp M₁ M₂ hyp)
 
 open CFSG.ASVolI.ChF CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam
@@ -55,7 +55,7 @@ def burnsideF4b_Facts46All : Prop :=
 open CFSG.ASVolI.ChF in
 theorem burnsideF4b_Facts46All_of_F46 (hF : F_4_6) (hP : burnsideF4b_Parabolics) :
     burnsideF4b_Facts46All :=
-  fun κ p f E _ Gp M₁ M₂ hyp Y _ β hβ => burnsideF4b_facts46 hF hP hyp β hβ
+  fun _κ _p _f _E _ _Gp _M₁ _M₂ hyp _Y _ β hβ => burnsideF4b_facts46 hF hP hyp β hβ
 
 open CFSG.ASVolI.ChF CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam
   CFSG.Quasithin.RankTwoAmalgam.Completion in
@@ -278,11 +278,11 @@ open CFSG.ASVolI.ChF CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam
 theorem burnsideF4b_F413 (hF : burnsideF4b_Facts46All)
     (hι : burnsideF4b_IotaSmall) : F_4_13 := by
   intro κ p f E _ Gp M₁ M₂ hyp Y _ β hβ hs
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
   have F := hF κ p f E Gp M₁ M₂ hyp Y β hβ
-  haveI : Finite Y := burnsideF4b_finite_of_small F hs
+  have : Finite Y := burnsideF4b_finite_of_small F hs
   refine ⟨F.isGenPolygon hs, ?_⟩
   have Fι := hF κ p f E Gp M₁ M₂ hyp _ (incl M₁ M₂) (incl_faithful M₁ M₂)
   have h1 : Nat.card Y = Nat.card ↥(M₁ ⊔ M₂) :=
@@ -297,11 +297,11 @@ open CFSG.ASVolI.ChF CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam
   CFSG.Quasithin.RankTwoAmalgam.Completion in
 theorem burnsideF4b_F414 (hF : burnsideF4b_Facts46All) : F_4_14 := by
   intro κ p f E _ Gp M₁ M₂ hyp Y _ β hβ hs
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
   have F := hF κ p f E Gp M₁ M₂ hyp Y β hβ
-  haveI : Finite Y := burnsideF4b_finite_of_small F hs
+  have : Finite Y := burnsideF4b_finite_of_small F hs
   refine ⟨fun a b hb => ?_, fun s t hs' ht' => F.lemma_F414_4 hs hs' ht'⟩
   have hab : β.graph.dist a b = κ.m := hb
   refine ⟨fun S => ?_, fun c hc => F.lemma_F414_2 hs hab hc, ?_⟩
@@ -321,7 +321,7 @@ theorem burnsideF4b_F414 (hF : burnsideF4b_Facts46All) : F_4_14 := by
     have hset : {S : Set β.Γ | a ∈ S ∧ b ∈ S ∧ β.IsApartment κ.m S} =
         {S | β.IsApartment κ.m S ∧ a ∈ S ∧ b ∈ S} := by
       ext S
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       tauto
     rw [hset, Nat.card_coe_set_eq, h]
     rfl
@@ -353,9 +353,9 @@ open CFSG.ASVolI.ChF CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam
 theorem burnsideF4b_F426 (hF : burnsideF4b_Facts46All) (h8 : F_4_8) :
     F_4_26 := by
   intro κ p f E _ Gp M₁ M₂ hyp Y _ β hβ s₁ s₂ hs₁ hs₂ hs₁x hs₁xl hs₂l hs₂xl
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
   have F := hF κ p f E Gp M₁ M₂ hyp Y β hβ
   have hm := F.hm
   have h1 : (s₁ : Y) ∈ β.φ1.range := (burnsideF4b_mem_stv_xv β s₁).mp hs₁x
@@ -377,7 +377,7 @@ theorem burnsideF4b_F426 (hF : burnsideF4b_Facts46All) (h8 : F_4_8) :
     omega
   · have hpow : (s₁ * s₂) ^ κ.m = 1 := by rw [← hord]; exact pow_orderOf_eq_one _
     have hs := (key κ.m (by omega) le_rfl hpow).2
-    haveI : Finite Y := burnsideF4b_finite_of_small F hs
+    have : Finite Y := burnsideF4b_finite_of_small F hs
     obtain ⟨Ġ, hĠ, β', -, hext, hiso⟩ := (h8 κ p f E Gp M₁ M₂ hyp).1 Y β hβ hs
     exact ⟨β'.G0, inferInstance, hext, hiso⟩
 
@@ -433,10 +433,10 @@ open CFSG.ASVolI.ChF CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam
 theorem burnsideF4b_F424 (hF : burnsideF4b_Facts46All) (hT : burnsideF4b_TransExt)
     (hι : burnsideF4b_IotaSmall) (h8 : F_4_8) : F_4_24 := by
   intro κ p f E _ Gp M₁ M₂ hyp Y _ β hβ hfin hle
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
-  haveI : Finite Y := by
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite Y := by
     refine Finite.of_surjective (fun g : β.G0 => (g : Y)) fun y => ?_
     have hy : y ∈ β.φ1.range ⊔ β.φ2.range := by rw [β.gen]; exact Subgroup.mem_top y
     exact ⟨⟨y, hy⟩, rfl⟩
@@ -749,7 +749,7 @@ theorem burnsideF4b_Qbar_normal {E : Type} [Group E] (p : ℕ) {Gp : Subgroup E}
 theorem burnsideF4b_pCoreOf_le_sylow {E : Type} [Group E] [Finite E] {p : ℕ} (hp : p.Prime)
     {H P S : Subgroup E} (hS : IsSylowOf p S H) (hSP : S ≤ P) (hPH : P ≤ H) :
     pCoreOf p P ≤ S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hSH, hSp, hSidx⟩ := hS
   have h1 : IsPGroup p (S.subgroupOf P) := hSp.comap_subtype
   have hdvd : S.relIndex P ∣ S.relIndex H :=
@@ -757,7 +757,7 @@ theorem burnsideF4b_pCoreOf_le_sylow {E : Type} [Group E] [Finite E] {p : ℕ} (
   have h2 : ¬ p ∣ (S.subgroupOf P).index := fun h => hSidx (h.trans hdvd)
   let T : Sylow p ↥P := h1.toSylow h2
   have hcore : CFSG.pCore p ↥P ≤ (T : Subgroup ↥P) := by
-    haveI : (CFSG.pCore p ↥P).Normal := CFSG.LieType.BorelTits.pCore_normal p
+    have : (CFSG.pCore p ↥P).Normal := CFSG.LieType.BorelTits.pCore_normal p
     exact (CFSG.LieType.BorelTits.pCore_isPGroup p).le_sylow_of_normal T
   have h3 : (T : Subgroup ↥P) = S.subgroupOf P := rfl
   rw [h3] at hcore
@@ -1068,7 +1068,7 @@ theorem burnsideF4b_card_extSet [Finite α.G1] [Finite α.G2] (hc : c.IsFaithful
     rw [Nat.card_coe_set_eq, h1, ← Nat.card_coe_set_eq, h2]
     simp
 
-theorem burnsideF4b_relIndex_succ [Finite α.G1] [Finite α.G2] (hc : c.IsFaithful)
+theorem burnsideF4b_relIndex_succ [Finite α.G1] [Finite α.G2] (_hc : c.IsFaithful)
     (hval : ∀ v a b : c.Γ, ∃ w, c.graph.Adj v w ∧ w ≠ a ∧ w ≠ b) {m : ℕ} {a : c.Γ}
     (htrans : ∀ q q' : GPath c.graph (m + 1), q ∈ GPath.nbPaths c.graph a (m + 1) →
       q' ∈ GPath.nbPaths c.graph a (m + 1) → ∃ g : c.G0, g • a = a ∧ g • q = q')
@@ -1402,9 +1402,9 @@ theorem burnsideF4b_F46Body_ext (hL : burnsideF4b_LieFacts) (hP : burnsideF4b_Pa
     (ι : Cpl M₁ M₂ ↥(M₁ ⊔ M₂)) (hι : ι = incl M₁ M₂) :
     burnsideF4b_F46Body κ p Gp M₁ M₂ β ι := by
   subst hι
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
   have hext : IsLieExtAmalgam M₁ M₂ := ⟨κ, p, f, Gp, not_or.mp hκ, hyp⟩
   have hthick := burnsideF4b_thick hP hyp
   have hm : 2 ≤ κ.m := by cases κ <;> simp [GLKind.m]
@@ -1497,7 +1497,7 @@ open CFSG.ASVolI.ChF CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam
 theorem burnsideF4b_IotaSmall_of (hF : burnsideF4b_Facts46All) (h5 : F_4_5) :
     burnsideF4b_IotaSmall := by
   intro κ p f E _ Gp M₁ M₂ hyp
-  haveI := hyp.finite
+  have := hyp.finite
   have Fι := hF κ p f E Gp M₁ M₂ hyp _ (incl M₁ M₂) (incl_faithful M₁ M₂)
   obtain ⟨S, hS⟩ := (h5 κ p f E Gp M₁ M₂ hyp (incl M₁ M₂) rfl).1.polygon
   exact Fι.isSmall_of_polygon hS

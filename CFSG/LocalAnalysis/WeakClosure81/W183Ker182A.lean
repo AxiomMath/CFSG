@@ -18,7 +18,7 @@ theorem not_hasCompFactor_sup_of_normal_zero (hB : ListBNonabelian) {H N T : Sub
     (hNH : N ≤ H) (hNn : ∀ h ∈ H, ∀ n ∈ N, h * n * h⁻¹ ∈ N) (hTH : T ≤ H) (hT : IsPGroup 2 ↥T)
     (hH : ¬ HasCompFactor H IsCalL0) : ¬ HasCompFactor (N ⊔ T) IsCalL0 := by
   rintro ⟨L, hLgrp, hLc, hcal⟩
-  letI := hLgrp
+  let := hLgrp
   have hNX : N ≤ N ⊔ T := le_sup_left
   have hTX : T ≤ N ⊔ T := le_sup_right
   have hXH : N ⊔ T ≤ H := sup_le hNH hTH
@@ -27,7 +27,7 @@ theorem not_hasCompFactor_sup_of_normal_zero (hB : ListBNonabelian) {H N T : Sub
     refine ⟨fun a ha x => ?_⟩
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     exact hNn (x : G) (hXH x.2) a ha
-  haveI := hAn
+  have := hAn
   rcases isCompositionFactor_of_normal A hLc with hA | hQ
   ·
     have hLN : E1.IsCompositionFactor ↥N L :=
@@ -37,13 +37,13 @@ theorem not_hasCompFactor_sup_of_normal_zero (hB : ListBNonabelian) {H N T : Sub
       refine ⟨fun a ha x => ?_⟩
       rw [Subgroup.mem_subgroupOf] at ha ⊢
       exact hNn (x : G) x.2 a ha
-    haveI := hNnorm
+    have := hNnorm
     have hLN' : E1.IsCompositionFactor ↥(N.subgroupOf H) L :=
       (CFSG.Quasithin.H13.L829N.isCompositionFactor_congr
         (Subgroup.subgroupOfEquivOfLe hNH)).mpr hLN
     exact hH ⟨L, hLgrp, kbr_isCompositionFactor_of_normal_subgroup (N.subgroupOf H) hLN', hcal⟩
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hPq : IsPGroup 2 (↥(N ⊔ T) ⧸ A) := by
       let g : ↥T →* ↥(N ⊔ T) ⧸ A :=
         (QuotientGroup.mk' A).comp (Subgroup.inclusion hTX)
@@ -69,7 +69,7 @@ theorem not_hasCompFactor_sup_of_normal_zero (hB : ListBNonabelian) {H N T : Sub
           _ = QuotientGroup.mk' A (n * t) := by rw [map_mul, hn1, one_mul]
           _ = QuotientGroup.mk' A x := by rw [hnt]
       exact hT.of_surjective g hg
-    haveI : Group.IsNilpotent (↥(N ⊔ T) ⧸ A) := hPq.isNilpotent
+    have : Group.IsNilpotent (↥(N ⊔ T) ⧸ A) := hPq.isNilpotent
     obtain ⟨a, b, hab⟩ := hB L ((isCalL0_iff_asc1930ListB L).mp hcal)
     exact hab (uc22p20a_abelian_of_compositionFactor inferInstance hQ a b)
 
@@ -115,7 +115,7 @@ theorem two_quotient_img_zero (hB : ListBNonabelian) (c : MinCex183 D V₀ V H i
     exact hN.conj_mem (π j) (Subgroup.mem_comap.mp hj) (π ⟨h, hh⟩)
   have hN'K : ¬ N' ≤ kerMV V H := by
     intro hle
-    obtain ⟨r, hrN, hrK⟩ := SetLike.not_le_iff_exists.mp hNK
+    obtain ⟨r, hrN, hrK⟩ := IsConcreteLE.not_le_iff_exists.mp hNK
     obtain ⟨j, -, hj⟩ := M.mem_img.1 r.2
     have hjr : π j = r := Subtype.ext ((hπval j).trans hj)
     have hjN' : (j : G) ∈ N' := by
@@ -139,7 +139,7 @@ theorem two_quotient_img_zero (hB : ListBNonabelian) (c : MinCex183 D V₀ V H i
   obtain ⟨j, rfl⟩ := hπs y
   have hjmem : j ∈ (N'.subgroupOf H) ⊔ (D.T.subgroupOf H) := by
     rw [hsupH]; exact Subgroup.mem_top j
-  haveI := hN'norm
+  have := hN'norm
   obtain ⟨n, hn, t, ht, hnt⟩ :=
     (Subgroup.mem_sup_of_normal_left (s := N'.subgroupOf H)
       (t := D.T.subgroupOf H)).mp hjmem

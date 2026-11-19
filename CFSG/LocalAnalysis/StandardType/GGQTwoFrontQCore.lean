@@ -15,6 +15,7 @@ open CFSG.StandardType CFSG.Assembly CFSG.Blueprint CFSG.Open CFSG.ClassicalInvo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem qTwoFrontQ_core_centralizes {K : Type} [Field K] [Finite K] [CharP K 2] {f n : ℕ}
     (hK : Nat.card K = (2 ^ f) ^ 2) (hf : 2 ≤ f) (h4 : 4 ≤ n) {ψ : Su K 2 f n →* G}
     (hker : ψ.ker ≤ Subgroup.center (Su K 2 f n))

@@ -194,13 +194,11 @@ theorem card_duad {π : Equiv.Perm (Fin 24)} {x g X o a b : ℕ} {rels : List (�
         exact List.getElem_mem hi
       have e2 := Rep.unique hre (rep_permB (hEm _ hcE).1)
       refine List.mem_map.2 ⟨_, hcE, ?_⟩
-      beta_reduce
       rw [← e2]
       group
     · intro hσ
       obtain ⟨c, hc, hcσ⟩ := List.mem_map.1 hσ
       rw [← hcσ]
-      beta_reduce
       obtain ⟨hcp, hcX, hcM⟩ := hEm c hc
       have rc := rep_permB hcp
       have hcomm : permOfArr 24 (unpack 24 5 c) * Xh = Xh * permOfArr 24 (unpack 24 5 c) :=

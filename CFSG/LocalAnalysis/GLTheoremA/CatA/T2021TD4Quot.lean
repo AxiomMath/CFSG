@@ -88,7 +88,7 @@ theorem t2021TD4_quot {𝔅 : Type} {p : ℕ} (hp : p.Prime) (ψQ : 𝔅 → Mul
       Odd (Nat.card ↥(Subgroup.center ↥K)) ∧ p ∣ Nat.card ↥K ∧ U ≤ K ∧ IsPGroup 2 U ∧ U ≠ ⊥ ∧
       ∀ g : 𝔅, ∀ u ∈ U, ψQ g u ∈ U := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Z := Subgroup.center Q with hZdef
   set ρ : Q →* Q ⧸ Z := QuotientGroup.mk' Z with hρ
   have hρs : Function.Surjective ρ := QuotientGroup.mk'_surjective Z
@@ -97,7 +97,7 @@ theorem t2021TD4_quot {𝔅 : Type} {p : ℕ} (hp : p.Prime) (ψQ : 𝔅 → Mul
     rw [hρ, QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, MulAut.mapQuotient_mk]
   set P := Kb.comap ρ with hP
   set KQ := ⁅P, P⁆ with hKQ
-  haveI := hKs
+  have := hKs
   have hPmap : P.map ρ = Kb := Subgroup.map_comap_eq_self_of_surjective hρs Kb
   have hKperf : ⁅Kb, Kb⁆ = Kb := by
     have htop := (TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hKnab).commutator_eq_top
@@ -251,7 +251,7 @@ theorem t2021TD4_quot {𝔅 : Type} {p : ℕ} (hp : p.Prime) (ψQ : 𝔅 → Mul
     have h2 := QuotientGroup.eq.1 h1
     simpa using h2
   obtain ⟨P₂⟩ : Nonempty (Sylow 2 ↥V) := inferInstance
-  haveI := hsub
+  have := hsub
   have hchar : (P₂ : Subgroup ↥V).Characteristic := Sylow.characteristic_of_subsingleton P₂
   set U := (P₂ : Subgroup ↥V).map V.subtype with hU
   refine ⟨KQ, U, hcompK, hQs, hoddK, h3K, ?_, ?_, ?_, ?_⟩

@@ -20,12 +20,12 @@ theorem e1Natural_minus_two (h34 : Stroth34Statement) (h310 : Stroth310Statement
     OmegaMinusNat hc t 2 := by
   classical
   obtain ⟨-, hNt, ⟨hNn, KE, hFE, hFinE, hKE, bE, cE, hirrE, ⟨e⟩⟩⟩ := hE
-  haveI := hNn
+  have := hNn
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP KE 2 := charP_two_of_card_eq_two_pow (hKE.trans hZ2)
+  have : CharP KE 2 := charP_two_of_card_eq_two_pow (hKE.trans hZ2)
   have hq4 : 4 ≤ Nat.card KE := by rw [hKE]; exact hc.hyp.q4
   obtain ⟨hsimple, -, hodd⟩ := endg_omegaMinus_facts hq4 (le_refl 2) hirrE
-  haveI := hsimple
+  have := hsimple
   have hqe : Even (Nat.card KE) := orth_even_card KE
   have hY2 : ¬ IsPGroup 2 ↥(StatedOmega (StatedQuadMinus 2 KE bE cE)) :=
     orth_not_pgroup_of_dvd hqe (by omega) hodd
@@ -39,7 +39,7 @@ theorem e1Natural_minus_two (h34 : Stroth34Statement) (h310 : Stroth310Statement
     ⟨K, fK, finK, k, hKq, hk, hcard⟩ |
     ⟨K, fK, finK, k, hKq, hk, hnat, hcard⟩ | ⟨K, fK, finK, k, b, c, hKq, hk, hirr, hnat, hcard⟩
   · exfalso
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
     refine orth_sl_exp_false_of_two_le (q := Nat.card Z) ?_ (by have := hc.hyp.q4; omega)
       (le_refl 2) hdim (Y := Nat.card ↥(StatedOmega (StatedQuadMinus 2 KE bE cE))) hXE ?_ ?_
     · rw [← hKE]; exact orth_even_card KE
@@ -47,7 +47,7 @@ theorem e1Natural_minus_two (h34 : Stroth34Statement) (h310 : Stroth310Statement
     · rw [← hcard, ← hKq]
       exact orth_dvd_card_statedSL (by omega)
   · exfalso
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
     obtain ⟨X', hX', hY'⟩ := orth_card_sp_form (K := K) k
     rw [hKq] at hY'
     have h1 : (Nat.card ↥(StatedSp k K) : ℤ) =
@@ -55,7 +55,7 @@ theorem e1Natural_minus_two (h34 : Stroth34Statement) (h310 : Stroth310Statement
     rw [hY', hYE] at h1
     exact orth_sp_exp_ne hqZ hq0 (le_refl 2) hX' hXE h1
   · exfalso
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
     have hq4K : 4 ≤ Nat.card K := by rw [hKq]; exact hc.hyp.q4
     obtain ⟨X', hX', hY'⟩ := orth_card_omegaPlus_form hq4K hk
     rw [hKq] at hY'
@@ -66,7 +66,7 @@ theorem e1Natural_minus_two (h34 : Stroth34Statement) (h310 : Stroth310Statement
     subst hkm
     exact orth_card_plus_ne_minus_of_two_le (K := K) (K' := KE) (hKE.trans hKq.symm) hq4K
       (le_refl 2) hirrE hcard
-  · haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
+  · have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hZ2)
     obtain ⟨X', hX', hY'⟩ := orth_card_omegaMinus_form (K := K) hk hirr
     rw [hKq] at hY'
     have h1 : (Nat.card ↥(StatedOmega (StatedQuadMinus k K b c)) : ℤ) =
@@ -82,10 +82,10 @@ theorem e1Natural_plus_of_nt (h34 : Stroth34Statement) (h310 : Stroth310Statemen
   classical
   obtain ⟨-, -, hY⟩ := hE
   obtain ⟨hNn, KE, hFE, hFinE, hKE, ⟨e⟩⟩ := hY
-  haveI := hNn
+  have := hNn
   have hc : Ctx M Q Z B := hH.ctx
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP KE 2 := charP_two_of_card_eq_two_pow (hKE.trans hZ2)
+  have : CharP KE 2 := charP_two_of_card_eq_two_pow (hKE.trans hZ2)
   have hs : Sec5Hyp hc 4 t := hH.sec
   have hNtCN : hc.CN t = Nt M (LB M Q B) t :=
     (hNt G M Q Z B hc 4 hH.case.width (by norm_num) hH.noA2 hH.gen t hH.mem

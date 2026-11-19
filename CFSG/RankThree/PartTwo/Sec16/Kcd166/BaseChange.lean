@@ -26,15 +26,15 @@ private lemma endFieldRep_injective {p : ℕ} [Fact p.Prime] {Γ : Type} [Group 
 
 private lemma finrank_ker_endFieldRep_eq {p : ℕ} [Fact p.Prime] {Γ : Type} [Group Γ]
     {F : Type} [AddCommGroup F] [Module (ZMod p) F] [Module.Finite (ZMod p) F]
-    (ρ : Representation (ZMod p) Γ F) (hirr : ρ.IsIrreducible) (g : Γ) :
+    (ρ : Representation (ZMod p) Γ F) (_hirr : ρ.IsIrreducible) (g : Γ) :
     Module.finrank (ZMod p)
         ((LinearMap.ker ((CFSG.endFieldRep ρ) g - 1)).restrictScalars (ZMod p)) =
       Module.finrank (ZMod p) (LinearMap.ker (ρ g - 1)) := by
   classical
-  letI : Representation.IsIrreducible ρ := hirr
+  let : Representation.IsIrreducible ρ := _hirr
   let 𝔽 := Module.End (MonoidAlgebra (ZMod p) Γ) ρ.asModule
-  letI : Field 𝔽 := CFSG.endField_field ρ
-  letI : Module 𝔽 ρ.asModule := CFSG.endFieldModule ρ
+  let : Field 𝔽 := CFSG.endField_field ρ
+  let : Module 𝔽 ρ.asModule := CFSG.endFieldModule ρ
   let T : ρ.asModule →ₗ[𝔽] ρ.asModule := (CFSG.endFieldRep ρ) g - 1
   let W : Submodule 𝔽 ρ.asModule := LinearMap.ker T
   let K : Submodule (ZMod p) F := LinearMap.ker (ρ g - 1)
@@ -81,17 +81,17 @@ private lemma finrank_ker_le_restrictScalars {p : ℕ} [Fact p.Prime] {Γ : Type
       Module.finrank (ZMod p)
         ((LinearMap.ker ((CFSG.endFieldRep ρ) g - 1)).restrictScalars (ZMod p)) := by
   classical
-  letI : Representation.IsIrreducible ρ := hirr
+  let : Representation.IsIrreducible ρ := hirr
   let 𝔽 := Module.End (MonoidAlgebra (ZMod p) Γ) ρ.asModule
-  letI : Field 𝔽 := CFSG.endField_field ρ
-  letI : Module 𝔽 ρ.asModule := CFSG.endFieldModule ρ
-  letI : Algebra (ZMod p) 𝔽 :=
+  let : Field 𝔽 := CFSG.endField_field ρ
+  let : Module 𝔽 ρ.asModule := CFSG.endFieldModule ρ
+  let : Algebra (ZMod p) 𝔽 :=
     Module.End.instAlgebra (ZMod p) (MonoidAlgebra (ZMod p) Γ) ρ.asModule
-  letI : Module (ZMod p) 𝔽 := Algebra.toModule
+  let : Module (ZMod p) 𝔽 := Algebra.toModule
   let W : Submodule 𝔽 ρ.asModule := LinearMap.ker ((CFSG.endFieldRep ρ) g - 1)
-  letI : Module 𝔽 ↥W := Submodule.module W
-  letI : Module (ZMod p) ↥W := Submodule.module (W.restrictScalars (ZMod p))
-  letI : IsScalarTower (ZMod p) 𝔽 ↥W :=
+  let : Module 𝔽 ↥W := Submodule.module W
+  let : Module (ZMod p) ↥W := Submodule.module (W.restrictScalars (ZMod p))
+  let : IsScalarTower (ZMod p) 𝔽 ↥W :=
     ⟨fun a b w => Subtype.ext (smul_assoc a b (w : ρ.asModule))⟩
   have hpos : 0 < Module.finrank (ZMod p) 𝔽 := Module.finrank_pos
   change Module.finrank 𝔽 W ≤ Module.finrank (ZMod p) W
@@ -162,15 +162,15 @@ theorem exists_isAlgClosed_extension {p : ℕ} [Fact p.Prime] {Γ : Type} [Group
       ∀ (H : Subgroup Γ) (g : Γ), (∀ v : V, (∀ h ∈ H, σ h v = v) → σ g v = v) →
         ∀ f : F, (∀ h ∈ H, ρ h f = f) → ρ g f = f := by
   classical
-  letI : Representation.IsIrreducible ρ := hirr
+  let : Representation.IsIrreducible ρ := hirr
   let 𝔽 := Module.End (MonoidAlgebra (ZMod p) Γ) ρ.asModule
-  letI : Field 𝔽 := CFSG.endField_field ρ
-  letI : Finite 𝔽 := CFSG.endField_finite ρ
-  letI : Module 𝔽 ρ.asModule := CFSG.endFieldModule ρ
-  letI : Algebra (ZMod p) 𝔽 :=
+  let : Field 𝔽 := CFSG.endField_field ρ
+  let : Finite 𝔽 := CFSG.endField_finite ρ
+  let : Module 𝔽 ρ.asModule := CFSG.endFieldModule ρ
+  let : Algebra (ZMod p) 𝔽 :=
     Module.End.instAlgebra (ZMod p) (MonoidAlgebra (ZMod p) Γ) ρ.asModule
-  letI : Module.Finite (ZMod p) ρ.asModule := Representation.instFiniteAsModule ρ
-  letI : FiniteDimensional 𝔽 ρ.asModule :=
+  let : Module.Finite (ZMod p) ρ.asModule := Representation.instFiniteAsModule ρ
+  let : FiniteDimensional 𝔽 ρ.asModule :=
     Module.Finite.of_restrictScalars_finite (ZMod p) 𝔽 ρ.asModule
   have hchar𝔽 : CharP 𝔽 p := by
     have hring : ringChar 𝔽 = ringChar (ZMod p) :=
@@ -178,12 +178,12 @@ theorem exists_isAlgClosed_extension {p : ℕ} [Fact p.Prime] {Γ : Type} [Group
         inferInstance).symm
     exact ringChar.of_eq (by simpa [ZMod.ringChar_zmod_n] using hring)
   let 𝕜 := AlgebraicClosure 𝔽
-  letI : Field 𝕜 := inferInstance
-  letI : IsAlgClosed 𝕜 := inferInstance
-  letI : CharP 𝕜 p := AlgebraicClosure.instCharP 𝔽
+  let : Field 𝕜 := inferInstance
+  let : IsAlgClosed 𝕜 := inferInstance
+  let : CharP 𝕜 p := AlgebraicClosure.instCharP 𝔽
   let V := 𝕜 ⊗[𝔽] ρ.asModule
   let σ : Representation 𝕜 Γ V := CFSG.Theory.Representation.extendScalars 𝕜 (CFSG.endFieldRep ρ)
-  letI : FiniteDimensional 𝕜 V :=
+  let : FiniteDimensional 𝕜 V :=
     CFSG.Theory.Representation.extendScalars_finite_dimensional (F' := 𝕜) (ρ := CFSG.endFieldRep ρ)
   have hσirr : σ.IsIrreducible :=
     CFSG.Theory.Representation.IsAbsolutelyIrreducible.irreducible_of_closure

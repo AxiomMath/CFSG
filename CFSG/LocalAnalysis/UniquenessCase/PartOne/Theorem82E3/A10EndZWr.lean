@@ -100,7 +100,7 @@ private theorem le_or_le_of_le_omegaBase_of_normal {U V : Subgroup (ZWr 1)}
 private theorem le_of_le_omegaBase_of_not_le_omegaBase {M N : Subgroup (ZWr 1)}
     (hNn : N.Normal) (hc : M ≤ Subgroup.centralizer (N : Set (ZWr 1)))
     (hM : M ≤ omegaBase 1) (hN : ¬ N ≤ omegaBase 1) : M ≤ N := by
-  rw [SetLike.le_def] at hN
+  rw [_root_.IsConcreteLE.le_iff] at hN
   push Not at hN
   obtain ⟨y, hyN, hyA⟩ := hN
   have hybase : y ∉ base 1 := by rwa [← base_one_eq_omegaBase] at hyA
@@ -131,7 +131,7 @@ private theorem le_of_le_omegaBase_of_not_le_omegaBase {M N : Subgroup (ZWr 1)}
 private theorem false_of_not_le_omegaBase_of_both {M N : Subgroup (ZWr 1)}
     (hMn : M.Normal) (hc : M ≤ Subgroup.centralizer (N : Set (ZWr 1)))
     (hM : ¬ M ≤ omegaBase 1) (hN : ¬ N ≤ omegaBase 1) : False := by
-  rw [SetLike.le_def] at hM hN
+  rw [_root_.IsConcreteLE.le_iff] at hM hN
   push Not at hM hN
   obtain ⟨y, hyM, hyA⟩ := hM
   obtain ⟨y', hy'N, hy'A⟩ := hN
@@ -180,12 +180,12 @@ private theorem le_center_of_normal_of_isCyclic_inf_ZWr_one {N : Subgroup (ZWr 1
     (hN : N.Normal) (hcyc : IsCyclic ↥(N ⊓ omegaBase 1)) :
     N ≤ Subgroup.center (ZWr 1) := by
   have hAn : (omegaBase 1).Normal := omegaBase_one_normal
-  haveI : N.Normal := hN
-  haveI : (omegaBase 1).Normal := hAn
+  have : N.Normal := hN
+  have : (omegaBase 1).Normal := hAn
   by_cases hNA : N ≤ omegaBase 1
   · have hcyc' : IsCyclic ↥N := by rwa [inf_eq_left.mpr hNA] at hcyc
     exact le_center_of_le_omegaBase_of_isCyclic hNA hN hcyc'
-  rw [SetLike.le_def] at hNA
+  rw [_root_.IsConcreteLE.le_iff] at hNA
   push Not at hNA
   obtain ⟨y, hyN, hyA⟩ := hNA
   have hybase : y ∉ base 1 := by rwa [← base_one_eq_omegaBase] at hyA
@@ -238,7 +238,7 @@ private theorem le_center_of_normal_of_isCyclic_inf_mulEquiv {P : Type*} [Group 
   have hMn : (N.map e.toMonoidHom).Normal := hN.map e.toMonoidHom e.surjective
   have hcyc' : IsCyclic ↥(N.map e.toMonoidHom ⊓ omegaBase 1) := by
     rw [← hB, ← Subgroup.map_inf N A e.toMonoidHom e.injective]
-    haveI : IsCyclic ↥(N ⊓ A) := hcyc
+    have : IsCyclic ↥(N ⊓ A) := hcyc
     let φ := Subgroup.equivMapOfInjective (N ⊓ A) e.toMonoidHom e.injective
     exact isCyclic_of_injective φ.symm.toMonoidHom φ.symm.injective
   have hMZ : N.map e.toMonoidHom ≤ Subgroup.center (ZWr 1) :=
@@ -297,7 +297,7 @@ theorem le_centralizer_of_isCyclic_inf_of_zwr {P A N : Subgroup X}
       ext x
       simp [N', A', Subgroup.mem_inf, Subgroup.mem_subgroupOf]
     rw [hinf]
-    haveI : IsCyclic ↥(N ⊓ A) := hcyc
+    have : IsCyclic ↥(N ⊓ A) := hcyc
     exact isCyclic_of_injective
       (Subgroup.subgroupOfEquivOfLe (inf_le_right.trans hAP)).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe (inf_le_right.trans hAP)).injective

@@ -59,7 +59,7 @@ theorem noR_of_pow_mem {Y : Type} [Group Y] [Finite Y] {r e : ℕ} (hr : r.Prime
     ∀ b ∈ Subgroup.normalizer ((S : Subgroup Y) : Set Y), b ^ r = 1 → b = 1 := by
   intro b hb hbr
   have hcr : (b ^ e) ^ r = 1 := by rw [← pow_mul, mul_comm, pow_mul, hbr, one_pow]
-  obtain ⟨k, hk⟩ := S.isPGroup' (⟨b ^ e, h b hb⟩ : (S : Subgroup Y))
+  obtain ⟨k, hk⟩ := S.isPGroup (⟨b ^ e, h b hb⟩ : (S : Subgroup Y))
   have hk' : (b ^ e) ^ (2 ^ k) = 1 := congrArg Subtype.val hk
   have hcop : Nat.Coprime r (2 ^ k) :=
     Nat.Coprime.pow_right _ ((Nat.coprime_primes hr Nat.prime_two).2 hr2)
@@ -72,7 +72,7 @@ theorem noR_of_pow_mem {Y : Type} [Group Y] [Finite Y] {r e : ℕ} (hr : r.Prime
 theorem center_quotient_eq_bot {X : Type} [Group X] (hX : CFSG.Open.IsQuasisimple X) :
     Subgroup.center (X ⧸ Subgroup.center X) = ⊥ := by
   obtain ⟨hcomm, hs⟩ := hX
-  haveI : Group.IsPerfect X := (Group.isPerfect_def).2 hcomm
+  have : Group.IsPerfect X := (Group.isPerfect_def).2 hcomm
   have hp : Group.IsPerfect (X ⧸ Subgroup.center X) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center X))
       (QuotientGroup.mk'_surjective _)
@@ -98,7 +98,7 @@ theorem eq_one_of_bar {X : Type} [Group X] [Finite X] (hX : CFSG.Open.IsQuasisim
         σ y ∈ (T : Subgroup (X ⧸ Subgroup.center X))) → σ = 1)
     (S : Sylow 2 X) {θ : MulAut X} (hθ : θ ^ r = 1)
     (hS : ∀ x ∈ (S : Subgroup X), θ x ∈ (S : Subgroup X)) : θ = 1 := by
-  haveI : Group.IsPerfect X := (Group.isPerfect_def).2 hX.1
+  have : Group.IsPerfect X := (Group.isPerfect_def).2 hX.1
   refine CFSG.ComponentClassification.PerfectAutomorphisms.onCenterQuotient_eq_one_imp θ
     (hbar (CFSG.ComponentClassification.PerfectAutomorphisms.onCenterQuotient θ)
       (Sylow.mapSurjective (f := QuotientGroup.mk' (Subgroup.center X))

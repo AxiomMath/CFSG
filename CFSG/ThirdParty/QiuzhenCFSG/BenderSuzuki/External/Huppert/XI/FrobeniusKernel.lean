@@ -28,7 +28,7 @@ public theorem huppert_blackburn_XI_regular_of_isComplement_stabilizer
     (hcomp : K.IsComplement' (MulAction.stabilizer G a))
     (htrans : MulAction.IsPretransitive G Omega) :
     ∀ x y : Omega, ∃! k : K, (k : G) • x = y := by
-  letI : MulAction.IsPretransitive G Omega := htrans
+  let : MulAction.IsPretransitive G Omega := htrans
   have hbase : ∀ x : Omega, ∃! k : K, (k : G) • a = x := by
     intro x
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G a x
@@ -74,8 +74,8 @@ private theorem huppert_blackburn_XI_twoPointStabilizer_ne_bot
     (a b : Omega) (hab : a ≠ b) :
     let b' : SubMulAction.ofStabilizer G a := ⟨b, hab.symm⟩
     MulAction.stabilizer (MulAction.stabilizer G a) b' ≠ ⊥ := by
-  letI : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
-  letI : MulAction.IsPretransitive G Omega :=
+  let : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
+  let : MulAction.IsPretransitive G Omega :=
     MulAction.isPretransitive_of_is_two_pretransitive
   let R := MulAction.stabilizer G a
   let b' : SubMulAction.ofStabilizer G a := ⟨b, hab.symm⟩
@@ -169,8 +169,8 @@ public theorem huppert_blackburn_XI_pointStabilizer_frobeniusKernel_exists
     ∃ F : Subgroup (MulAction.stabilizer G a),
       IsFrobeniusGroupWithKernelComplement F
         (MulAction.stabilizer (MulAction.stabilizer G a) b') := by
-  letI : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
-  letI : MulAction.IsPretransitive G Omega :=
+  let : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
+  let : MulAction.IsPretransitive G Omega :=
     MulAction.isPretransitive_of_is_two_pretransitive
   let H := MulAction.stabilizer G a
   let X := SubMulAction.ofStabilizer G a
@@ -183,11 +183,11 @@ public theorem huppert_blackburn_XI_pointStabilizer_frobeniusKernel_exists
   have hstab_multi : MulAction.IsMultiplyPretransitive H X 1 :=
     (SubMulAction.ofStabilizer.isMultiplyPretransitive
       (G := G) (a := a)).mp htwo
-  letI : MulAction.IsPretransitive H X :=
+  let : MulAction.IsPretransitive H X :=
     (MulAction.is_one_pretransitive_iff (G := H) (α := X)).mp hstab_multi
   have hDproper : D ≠ ⊤ := by
     intro hDtop
-    letI : Nontrivial D := (Subgroup.nontrivial_iff_ne_bot D).2 hDne
+    let : Nontrivial D := (Subgroup.nontrivial_iff_ne_bot D).2 hDne
     obtain ⟨d, hdne⟩ := exists_ne (1 : D)
     have hdfix_all (c : Omega) : ((d : H) : G) • c = c := by
       by_cases hca : c = a
@@ -248,12 +248,12 @@ public theorem huppert_blackburn_XI_frobeniusKernel_nilpotent
     (F D : Subgroup H)
     (hFrob : IsFrobeniusGroupWithKernelComplement F D) :
     Group.IsNilpotent F := by
-  letI : F.Normal := hFrob.normal
+  let : F.Normal := hFrob.normal
   apply
     huppert_V_8_14_thompson_fixedPointFree_conjugation_nilpotent_subgroup
       (G := H) F D
   · exact Subgroup.le_normalizer_of_normal
-  · letI : Nontrivial D :=
+  · let : Nontrivial D :=
       (Subgroup.nontrivial_iff_ne_bot D).mpr hFrob.complement_ne_bot
     obtain ⟨d, hd⟩ := exists_ne (1 : D)
     exact ⟨d, d.property, fun h => hd (Subtype.ext h)⟩
@@ -283,8 +283,8 @@ public theorem huppert_blackburn_XI_pointStabilizer_exists_kernelPointEquiv
         e f =
           (f : MulAction.stabilizer G a) •
             (⟨b, hab.symm⟩ : SubMulAction.ofStabilizer G a) := by
-  letI : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
-  letI : MulAction.IsPretransitive G Omega :=
+  let : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
+  let : MulAction.IsPretransitive G Omega :=
     MulAction.isPretransitive_of_is_two_pretransitive
   let H := MulAction.stabilizer G a
   let X := SubMulAction.ofStabilizer G a
@@ -294,7 +294,7 @@ public theorem huppert_blackburn_XI_pointStabilizer_exists_kernelPointEquiv
   have hstab_multi : MulAction.IsMultiplyPretransitive H X 1 :=
     (SubMulAction.ofStabilizer.isMultiplyPretransitive
       (G := G) (a := a)).mp htwo
-  letI : MulAction.IsPretransitive H X :=
+  let : MulAction.IsPretransitive H X :=
     (MulAction.is_one_pretransitive_iff (G := H) (α := X)).mp hstab_multi
   have hregular : ∀ x y : X, ∃! f : F, (f : H) • x = y :=
     huppert_blackburn_XI_regular_of_isComplement_stabilizer
@@ -483,7 +483,7 @@ public theorem huppert_blackburn_XI_twoPointStabilizer_exists_conjEquiv
   let b' : X := ⟨b, hab.symm⟩
   let D := MulAction.stabilizer H b'
   change IsFrobeniusGroupWithKernelComplement F D at hFrob
-  letI : Nontrivial F :=
+  let : Nontrivial F :=
     (Subgroup.nontrivial_iff_ne_bot F).2 hFrob.kernel_ne_bot
   obtain ⟨z, hz⟩ := exists_ne (1 : F)
   let image (d : D) : F :=
@@ -574,11 +574,11 @@ public theorem huppert_blackburn_XI_sharpTriple_kernel_elementaryAbelian
         htwo hsharp a b hab F hFrob x y hx hy).exists
   have hFnontrivial : Nontrivial F :=
     (Subgroup.nontrivial_iff_ne_bot F).2 hFrob.kernel_ne_bot
-  letI : Nontrivial F := hFnontrivial
+  let : Nontrivial F := hFnontrivial
   have hFcard_ne_one : Nat.card F ≠ 1 := by
     exact ne_of_gt (Finite.one_lt_card_iff_nontrivial.mpr hFnontrivial)
   obtain ⟨p, hp, hp_dvd⟩ := Nat.exists_prime_and_dvd hFcard_ne_one
-  letI : Fact (Nat.Prime p) := ⟨hp⟩
+  let : Fact (Nat.Prime p) := ⟨hp⟩
   obtain ⟨z, hzorder⟩ := exists_prime_orderOf_dvd_card' p hp_dvd
   have hzne : z ≠ 1 := by
     intro hz
@@ -604,7 +604,7 @@ public theorem huppert_blackburn_XI_sharpTriple_kernel_elementaryAbelian
     · exact ⟨0, by simp [hx]⟩
     · exact ⟨1, by simp [hprime_order x hx]⟩)
   have hFcomm : IsMulCommutative F := by
-    letI : Nontrivial (Subgroup.center F) := hFp.center_nontrivial
+    let : Nontrivial (Subgroup.center F) := hFp.center_nontrivial
     obtain ⟨zc, hzc⟩ := exists_ne (1 : Subgroup.center F)
     let zF : F := zc
     have hzF_ne : zF ≠ 1 := by

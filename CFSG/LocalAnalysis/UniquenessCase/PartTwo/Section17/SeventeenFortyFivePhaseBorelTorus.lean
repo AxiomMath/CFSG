@@ -126,7 +126,7 @@ theorem isPGroup_upperUnitriangularGroup {K : Type*} [Field K] [Finite K] [CharP
     exact IsPGroup.of_subsingleton 2 _
   · obtain ⟨P, hP_eq⟩ :=
       CFSG.LocalAnalysis.ComponentInitial.LinearFlag.exists_sylow_unitriangular (K := K) 2 hn
-    have hP2 : IsPGroup 2 (P : Subgroup (Matrix.SpecialLinearGroup (Fin n) K)) := P.isPGroup'
+    have hP2 : IsPGroup 2 (P : Subgroup (Matrix.SpecialLinearGroup (Fin n) K)) := P.isPGroup
     rw [hP_eq] at hP2
     have hU_eq : TauCeti.upperUnitriangularGroup (Fin n) K =
         (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.unitriangular n K).map
@@ -173,7 +173,7 @@ theorem natCard_map_sup_eq_mul {K : Type*} [Field K] [Finite K] [CharP K 2] (n :
       (Subgroup.card_map_dvd (H := TauCeti.diagonalTorus K n) (conjAut n K))
   have hinf : (TauCeti.upperUnitriangularGroup (Fin n) K).map (conjAut n K) ⊓
       (TauCeti.diagonalTorus K n).map (conjAut n K) = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨k, hk⟩ := hU2.exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_left k

@@ -24,7 +24,7 @@ theorem caseHolds_six
     : CaseHolds Alt42Six := by
   intro X _ _ hX c L 𝒟 hD h
   obtain ⟨s, hs, ⟨e⟩⟩ := h
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.quasisimple.2.1
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.quasisimple.2.1
   rcases sporadics42_split hs with hs | hs | hs
   · exact absurd hD (noAutDatum_spor_small hs e c L 𝒟)
   · exact absurd hD ((noLocalDatum_spor_cent hs e).noAutDatum c L 𝒟)

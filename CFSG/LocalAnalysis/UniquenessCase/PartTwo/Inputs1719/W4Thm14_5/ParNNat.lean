@@ -26,7 +26,7 @@ theorem eq_or_natOmegaMinus_of_parN {W : Type} [CommGroup W] [Finite W]
   obtain ⟨hL2, hO4m, -, hSp4, hSL3, hSU4, hO6m, hSL4, hO6p, hSp6, hO8m⟩ :=
     kTab23b_holds W H k hnat hperf hS.toSylow ((hS.toSylow : Subgroup ↥H).map H.subtype)
       ((Subgroup.map_subtype_le _).trans Subgroup.le_normalizer)
-      ((hS.toSylow.isPGroup').map H.subtype) le_rfl
+      ((hS.toSylow.isPGroup).map H.subtype) le_rfl
   rcases hnat with h | h | h | h | h | h | h | h | h | h | h
   · exact Or.inl (eq_of_forall_minimal_eq_top hS hRH hRS hBP hPH hcomm hmin hN (hL2 h))
   · exact Or.inr ⟨h.1, h.2,

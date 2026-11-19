@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     Set ((C.ι → C.K) × (C.ι → C.K)) :=
   {p | ∃ y ∈ S, C.φ (C.M₀.π y) = p}
 
+omit [Finite G] in
 theorem card_root_outside (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) {z : G} (hz : z ∈ Z)
     (hz1 : z ≠ 1) {S : Subgroup G} (hSQ : S ≤ Q) (hZS : Z ≤ S) :
     Nat.card {y : G // y ∈ S ∧ y ∉ Z ∧ IsConj z y} =

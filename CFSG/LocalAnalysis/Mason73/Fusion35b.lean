@@ -18,6 +18,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {n : ℕ}
 
+omit [Finite G] in
 theorem exists_conj_of_isConj {ι : L4Model n →* G} {a b c : L4Model n} (hab : IsConj a b)
     {g : G} (hg : g * ι b * g⁻¹ = ι c) : ∃ g' : G, g' * ι a * g'⁻¹ = ι c := by
   obtain ⟨x, rfl⟩ := isConj_iff.1 hab
@@ -147,6 +148,7 @@ theorem conj_x1T_of_conj_piT_zP (hn : 3 ≤ n) {ι : L4Model n →* G} (hι : Fu
     rw [hl']
     exact mul_mem (inv_mem (zT_mem_A _)) (x1T_mem_A _)
 
+omit [Finite G] in
 theorem conj_x1T_eq_of_mem_commutator (hn : 3 ≤ n) {ι : L4Model n →* G}
     (hι : Function.Injective ι) {l : L4Model n}
     (hx1 : x1T (by omega) ∈ ⁅centralizer {l}, centralizer {l}⁆) {k : G}

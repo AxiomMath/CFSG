@@ -10,6 +10,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 TLn Hering214
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem lift_conj {J P : Subgroup G} {S : Type} [Group S] {R : Subgroup S}
     (L : LiftData J P S R) {j : ↥J} (hj : L.ϕ j ∈ Subgroup.normalizer (R : Set S)) {x y : G}
     (hx : x ∈ P) (hy : y ∈ P)
@@ -20,6 +21,7 @@ private theorem lift_conj {J P : Subgroup G} {S : Type} [Group S] {R : Subgroup 
   rw [← h, ← map_inv, ← map_mul, ← map_mul]
   rfl
 
+omit [Finite G] in
 private theorem conj_to_mul {r x y : G} (h : r * x * r⁻¹ = y) : r * x = y * r := by
   rw [← h]; group
 
@@ -35,7 +37,7 @@ theorem exists_normData5
   obtain ⟨e'⟩ : Nonempty ((↥J ⧸ Subgroup.center ↥J) ≃*
       Matrix.SpecialLinearGroup (Fin 5) (ZMod 2)) := by
     obtain ⟨K, _, _, hK, ⟨e⟩⟩ := Hering214.exists_mulEquiv_projectiveSL_of_psl_two_one hm
-    haveI := Hering214.charP_two_of_natCard_eq_two hK
+    have := Hering214.charP_two_of_natCard_eq_two hK
     exact ⟨e.trans (MulEquiv.ofBijective (Hering214.embedTwo K 5)
       (embedTwo_bijective hK (Or.inr rfl))).symm⟩
   obtain ⟨⟨L⟩, hc⟩ := liftData_of_equiv hq hP hcop e' card_R_sylow5

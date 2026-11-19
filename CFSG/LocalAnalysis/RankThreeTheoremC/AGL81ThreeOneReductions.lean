@@ -71,7 +71,7 @@ theorem kFactThreeOne_of_hyp
       OnThreeOneList p K ∧ Subgroup.center K = ⊥) :
     KFactThreeOne := by
   intro p Y _ _ X K P E hp hp2 hKX hXN hq hK hcore _ hP hEP hE hEc hnot
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set M : Subgroup Y := K ⊔ P with hM
   have hKM : K ≤ M := le_sup_left
   have hPM : P ≤ M := le_sup_right
@@ -112,7 +112,7 @@ theorem kFactThreeOne_of_hyp
     intro hle
     apply hnot
     by_cases h3 : 3 ≤ Open.pRank p P
-    · rw [if_pos h3] at hle ⊢
+    · rw [ite_eq_left h3] at hle ⊢
       have htr := CFSG.AGLEmbedding.P1Lie.weakCore_le_comap_map hp M.subtype
         (P := (P' : Subgroup M)) (fun x _ hx => M.subtype_injective (by simpa using hx))
       have hmap : (P' : Subgroup M).map M.subtype = P := by
@@ -120,7 +120,7 @@ theorem kFactThreeOne_of_hyp
       rw [hmap] at htr
       intro k hk
       exact htr (hle (show (⟨k, hKM hk⟩ : M) ∈ K' from hk))
-    · rw [if_neg h3] at hle ⊢
+    · rw [ite_eq_right h3] at hle ⊢
       intro k hk
       exact glbCore_one_subgroupOf_le_comap p (hle (show (⟨k, hKM hk⟩ : M) ∈ K' from hk))
   obtain ⟨hlist, hZ⟩ := h p M K' P' E' hyp hnot'
@@ -149,14 +149,14 @@ theorem Hyp.isPGroup_center (H : Hyp p K P E) : IsPGroup p (Subgroup.center K) :
     inferInstance
 
 theorem Hyp.isComponentOf (H : Hyp p K P E) : IsComponentOf K ⊤ := by
-  haveI := H.normal
+  have := H.normal
   exact ⟨le_top, CFSG.Open.IsSubnormal.step le_top inferInstance (CFSG.Open.IsSubnormal.refl ⊤),
     H.quasi⟩
 
 theorem Hyp.centralizer_le (H : Hyp p K P E) :
     Subgroup.centralizer (K : Set G) ≤ (P : Subgroup G) := by
-  haveI := H.normal
-  haveI : Fact p.Prime := ⟨H.prime⟩
+  have := H.normal
+  have : Fact p.Prime := ⟨H.prime⟩
   refine IsPGroup.le_sylow_of_normal ?_ P
   have hmap : (P : Subgroup G).map (QuotientGroup.mk' K) = ⊤ := by
     have h1 := congrArg (Subgroup.map (QuotientGroup.mk' K)) H.sup_eq_top
@@ -166,7 +166,7 @@ theorem Hyp.centralizer_le (H : Hyp p K P E) :
   have hc : ((c : G) : G ⧸ K) ∈ (P : Subgroup G).map (QuotientGroup.mk' K) :=
     hmap ▸ Subgroup.mem_top _
   obtain ⟨x, hx, hxc⟩ := hc
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
   have hxk : x ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hck : (c : G) ^ p ^ k ∈ K := by
     rw [← QuotientGroup.eq_one_iff, QuotientGroup.mk_pow]
@@ -187,7 +187,7 @@ theorem Hyp.isCatalogGroup (H : Hyp p K P E) (hZ : Subgroup.center K = ⊥) :
     IsSimpleGroup K ∧ (∃ a b : K, a * b ≠ b * a) ∧ IsCatalogGroup K := by
   have e₀ : K ⧸ Subgroup.center K ≃* K :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := H.quasi.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := H.quasi.2
   obtain ⟨a, b, hab⟩ :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K H.quasi
   refine ⟨e₀.symm.isSimpleGroup, ⟨e₀ a, e₀ b, fun h => hab (e₀.injective ?_)⟩, ?_⟩
@@ -211,7 +211,7 @@ theorem Hyp.false_of_cyclic (H : Hyp p K P E) {q : ℕ} {hq : q.Prime}
   intro z
   exact hcomm z _
 
-theorem Hyp.center_eq_bot_of_centralizer_eq_bot (H : Hyp p K P E)
+theorem Hyp.center_eq_bot_of_centralizer_eq_bot (_H : Hyp p K P E)
     (hC : Subgroup.centralizer (K : Set G) = ⊥) : Subgroup.center K = ⊥ := by
   rw [eq_bot_iff]
   intro z hz
@@ -225,16 +225,16 @@ theorem Hyp.center_eq_bot_of_centralizer_eq_bot (H : Hyp p K P E)
 theorem Hyp.centralizer_eq_bot_of_two (H : Hyp p K P E)
     (h3 : ¬ 3 ≤ Open.pRank p (P : Subgroup G)) (hnot : ¬ K ≤ GLBCore p 1 E) :
     Subgroup.centralizer (K : Set G) = ⊥ := by
-  haveI := H.normal
-  haveI : Fact p.Prime := ⟨H.prime⟩
+  have := H.normal
+  have : Fact p.Prime := ⟨H.prime⟩
   by_contra hC
   have hCP : Subgroup.centralizer (K : Set G) ≤ (P : Subgroup G) := H.centralizer_le
   obtain ⟨z₀, hz₀C, hz₀1, hz₀c⟩ := CFSG.GH74.Uniqueness.SU.SU1.exists_central_of_normal H.prime
-    P.isPGroup' hCP
+    P.isPGroup hCP
     (fun g _ u hu => (inferInstance : (Subgroup.centralizer (K : Set G)).Normal).conj_mem u hu g)
     hC
   have hzp : IsPGroup p (Subgroup.zpowers z₀) :=
-    P.isPGroup'.to_le (Subgroup.zpowers_le.2 (hCP hz₀C))
+    P.isPGroup.to_le (Subgroup.zpowers_le.2 (hCP hz₀C))
   obtain ⟨k, hk⟩ := hzp.exists_card_eq
   have hk0 : k ≠ 0 := by
     rintro rfl
@@ -257,7 +257,7 @@ theorem Hyp.centralizer_eq_bot_of_two (H : Hyp p K P E)
         exact (Commute.zpow_right (show Commute a z from hzc a (H.E_le ha)) n).eq)
     have hAP : E ⊔ Subgroup.zpowers z ≤ (P : Subgroup G) :=
       sup_le H.E_le (Subgroup.zpowers_le.2 (hCP hzC))
-    obtain ⟨m, hm⟩ := (P.isPGroup'.to_le hAP).exists_card_eq
+    obtain ⟨m, hm⟩ := (P.isPGroup.to_le hAP).exists_card_eq
     have hEA : p ^ 2 ∣ Nat.card (E ⊔ Subgroup.zpowers z : Subgroup G) :=
       H.card_E ▸ Subgroup.card_dvd_of_le le_sup_left
     rw [hm] at hEA
@@ -284,9 +284,9 @@ theorem Hyp.centralizer_eq_bot_of_two (H : Hyp p K P E)
 theorem Hyp.le_of_not_dvd_card_outer (H : Hyp p K P E)
     (hC : Subgroup.centralizer (K : Set G) = ⊥) (hout : ¬ p ∣ Nat.card (Outer K)) :
     (P : Subgroup G) ≤ K := by
-  haveI := H.normal
+  have := H.normal
   intro x hx
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
   have hxk : x ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hxN : x ∈ Subgroup.normalizer (K : Set G) := by
     rw [Subgroup.normalizer_eq_top]
@@ -297,8 +297,8 @@ theorem Hyp.le_of_not_dvd_card_outer (H : Hyp p K P E)
 theorem Hyp.le_weakCore_of_sylow (H : Hyp p K P E)
     (hT : ∀ T : Sylow p K, GLBWeakCore p (T : Subgroup K) = ⊤) :
     K ≤ GLBWeakCore p (P : Subgroup G) := by
-  haveI := H.normal
-  haveI : Fact p.Prime := ⟨H.prime⟩
+  have := H.normal
+  have : Fact p.Prime := ⟨H.prime⟩
   set T := CFSG.QuasiDihedralFusion.sylowInfNormal P K
   have h1 := P1Lie.weakCore_le_comap_map H.prime K.subtype (P := (T : Subgroup K))
     (fun x _ hx => K.subtype_injective (by simpa using hx))
@@ -312,8 +312,8 @@ theorem Hyp.le_weakCore_of_sylow (H : Hyp p K P E)
 
 theorem Hyp.pRank_top_le (H : Hyp p K P E) :
     Open.pRank p (⊤ : Subgroup K) ≤ Open.pRank p (P : Subgroup G) := by
-  haveI := H.normal
-  haveI : Fact p.Prime := ⟨H.prime⟩
+  have := H.normal
+  have : Fact p.Prime := ⟨H.prime⟩
   set T := CFSG.QuasiDihedralFusion.sylowInfNormal P K
   rw [← CFSG.PreuniquenessRankFour.Helpers.pRank_sylow_eq_globalRank p H.prime T,
     ← CFSG.HardMathSupport.Malle.OvergroupTransport.pRank_map_of_injective p K.subtype_injective]
@@ -333,8 +333,8 @@ theorem Hyp.elem_subgroupOf (H : Hyp p K P E) (hEK : E ≤ K) :
 
 theorem Hyp.card_eq_sq_of_not_dvd (H : Hyp p K P E) (hPK : (P : Subgroup G) ≤ K)
     (h3 : ¬ p ^ 3 ∣ Nat.card K) : Nat.card (P : Subgroup G) = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨H.prime⟩
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  have : Fact p.Prime := ⟨H.prime⟩
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have hE : p ^ 2 ∣ Nat.card (P : Subgroup G) := H.card_E ▸ Subgroup.card_dvd_of_le H.E_le
   have hK : Nat.card (P : Subgroup G) ∣ Nat.card K := Subgroup.card_dvd_of_le hPK
   rw [hk] at hE hK ⊢
@@ -348,7 +348,7 @@ theorem Hyp.card_eq_sq_of_not_dvd (H : Hyp p K P E) (hPK : (P : Subgroup G) ≤ 
 end Hyp
 
 theorem le_glbCore_one_of_subgroupOf {G : Type} [Group G] [Finite G] {p : ℕ} {K E : Subgroup G}
-    (hEK : E ≤ K) (h : GLBCore p 1 (E.subgroupOf K) = ⊤) : K ≤ GLBCore p 1 E := by
+    (_hEK : E ≤ K) (h : GLBCore p 1 (E.subgroupOf K) = ⊤) : K ≤ GLBCore p 1 E := by
   have key : GLBCore p 1 (E.subgroupOf K) ≤ (GLBCore p 1 E).comap K.subtype := by
     refine sSup_le ?_
     rintro N ⟨Q, hQ, hQ1, rfl⟩ x hx

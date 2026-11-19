@@ -157,7 +157,7 @@ theorem twE6ThreeA2Line_component_eq {K : Type} [Field K] [Finite K] {σ : K ≃
     (hJ : CFSG.Open.IsComponentOf J
       (CFSG.LieType.Seitz.fixedPoints (Subgroup.zpowers (MulAut.conj s)))) :
     ∃ i, J.map τ.toMonoidHom = (L i).subgroupOf (twistedE6RootGroup K σ) := by
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   rw [fixedPoints_zpowers_conj_k1] at hJ
   have hJ' := isComponentOf_map_mulAut_k1 τ hJ
   rw [centralizer_map_mulAut_k1] at hJ'

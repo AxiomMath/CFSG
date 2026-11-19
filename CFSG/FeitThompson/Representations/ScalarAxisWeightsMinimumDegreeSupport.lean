@@ -101,7 +101,7 @@ theorem offLine_induction {i : Fin q} {motive : V → Prop}
     (hadd : ∀ v w, motive v → motive w → motive (v + w)) {v : V} (hv : v ∈ S.offLine i) :
     motive v :=
   Submodule.iSup_induction _ (motive := motive) hv
-    (fun j x hx => Submodule.iSup_induction _ (motive := motive) hx
+    (fun j _x hx => Submodule.iSup_induction _ (motive := motive) hx
       (fun hj y hy => hline j hj y hy) h0 hadd) h0 hadd
 
 noncomputable def lineProj (i : Fin q) : V →ₗ[ZMod p] S.line i :=

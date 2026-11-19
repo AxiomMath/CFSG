@@ -77,7 +77,7 @@ theorem rankLE_E7 {K : Type} [Field K] [Finite K] [CharP K 2] {p e : ℕ}
     (he : orderOf ((Nat.card K : ℕ) : ZMod p) = e) :
     GGElemAbelianRankLE (adjointGroup .E7 K) p (degCount .E7 e) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hncard⟩ := FiniteField.card (K := K) 2
   have hKpow : Nat.card K = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -134,7 +134,7 @@ theorem rankLE_E7 {K : Type} [Field K] [Finite K] [CharP K 2] {p e : ℕ}
         ·
           have hpq1 : p ∣ Nat.card K - 1 := by
             have h := (dvd_pow_sub_one_iff_orderOf (d := 1) hq he).2 (by
-              simpa [he1] using dvd_refl 1)
+              simp [he1])
             simpa using h
           have hT := excToralRankInput_E7_of_dvd (K := K) hp hp2 hpq1
           have hcard := hT.card_le (TableBExc.card_torusPow_E7 hp hpq1) hE
@@ -145,15 +145,15 @@ theorem rankLE_E7 {K : Type} [Field K] [Finite K] [CharP K 2] {p e : ℕ}
         ·
           have hpq2 : p ∣ Nat.card K ^ 2 - 1 := by
             have h := (dvd_pow_sub_one_iff_orderOf (d := 2) hq he).2 (by
-              simpa [he2] using dvd_refl 2)
+              simp [he2])
             simpa using h
           let L := GaloisField 2 (2 * (n : ℕ))
-          haveI : Fintype L := Fintype.ofFinite L
+          have : Fintype L := Fintype.ofFinite L
           have hLne : 2 * (n : ℕ) ≠ 0 := by
             have := PNat.ne_zero n
             omega
           have hLcard : Nat.card L = 2 ^ (2 * (n : ℕ)) := GaloisField.card 2 _ hLne
-          haveI : CharP L 2 :=
+          have : CharP L 2 :=
             charP_of_card_eq_prime_pow (f := 2 * (n : ℕ)) (by
               rw [← Nat.card_eq_fintype_card, hLcard])
           have hLsq : Nat.card L = (Nat.card K) ^ 2 := by
@@ -163,7 +163,7 @@ theorem rankLE_E7 {K : Type} [Field K] [Finite K] [CharP K 2] {p e : ℕ}
           have hpqL : p ∣ Nat.card L - 1 := by
             rw [hLsq]
             exact hpq2
-          haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+          have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
           obtain ⟨ι⟩ :=
             CFSG.HardMathSupport.Lang.AnisoE6.nonempty_ringHom_of_card_sq
               (ℓ := 2) (f := (n : ℕ)) (k := K) (K := L) hKpow (by rw [hLsq, hKpow])
@@ -252,7 +252,7 @@ theorem exists_E7 {K : Type} [Field K] [Finite K] [CharP K 2] {p e : ℕ}
     (he : orderOf ((Nat.card K : ℕ) : ZMod p) = e) :
     GGExcElemAbelianExists (adjointGroup .E7 K) p (degCount .E7 e - 1) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hncard⟩ := FiniteField.card (K := K) 2
   have hKpow : Nat.card K = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]

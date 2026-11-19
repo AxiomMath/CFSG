@@ -15,6 +15,7 @@ section LocalRank
 
 variable {k : Type} [Field k] [Finite k] [CharP k 2]
 
+omit [Finite k] in
 theorem locR_mul_self (a b c : Bool) {g : SL(4, k)} (hg : g * g = 1) :
     locR a b c k g * locR a b c k g = 1 := by
   rw [← map_mul, hg, map_one]
@@ -46,6 +47,7 @@ section TmodRank
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} {k : Type} [Field k] [Finite k]
   [CharP k 2] [Algebra K k]
 
+omit [Finite k] [CharP k 2] [Algebra K k] in
 theorem twistHom_ne_one (φ : K →+* k) {t : SU4 K n} (ht1 : t ≠ 1) : twistHom n φ t ≠ 1 := by
   intro h
   apply ht1
@@ -80,7 +82,7 @@ theorem rank_Tmod_invol_ge (l : Lbl n) {t : SU4 K n} (ht : t * t = 1) (ht1 : t �
     have h4 : (locData (l.a i) (l.b i) (l.c i)).rk1.r ≤ (z i - 1).rank := h1
     omega
   have hprod : ∏ i, (Fintype.card (κ i) - 2 * (z i - 1).rank) ≤ l.fix1 :=
-    Finset.prod_le_prod' fun i _ => hloc i
+    Finset.prod_le_prod fun i _ => hloc i
   have hdim : ∏ i, Fintype.card (κ i) = l.dim := by
     simp only [hκ, Fintype.card_fin]
     rfl

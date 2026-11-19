@@ -23,9 +23,9 @@ theorem exists_concl166S_twE6_of_center_ne_bot
   classical
   obtain ⟨F, hField, hFin, hCharF, σ, hcard, hσ, ⟨eC⟩⟩ :=
     exists_mulEquiv_twE6C_quot_of_isLabel hX ht hn
-  letI : Field F := hField
-  letI : Finite F := hFin
-  letI : CharP F 2 := hCharF
+  let : Field F := hField
+  let : Finite F := hFin
+  let : CharP F 2 := hCharF
   obtain ⟨hZcard, -, hoddn, hn3⟩ := twE6_caseB_arith hX ht hn hZ
   obtain ⟨z, hzcenter, hz3, hzZ⟩ := exists_center_eq_zpowers_of_card_three hZcard
   let C : Subgroup (ModGL Tag.E6 (AlgebraicClosure F)) :=

@@ -32,7 +32,7 @@ theorem yop_apply (j : Fin TwistTag.E6.tag.rank) (c : K) (v : Rv K) :
 theorem eop_apply_of_eq (j : Fin TwistTag.E6.tag.rank) (v : Rv K) {γ γ' : Dr}
     (h : γ.1 - Pi.single j 1 = γ'.1) : eop K j v γ = v γ' := by
   have hm : γ.1 - Pi.single j 1 ∈ degOneRoots := h ▸ γ'.2
-  rw [eop_apply, dif_pos hm]
+  rw [eop_apply, dite_eq_left hm]
   exact congrArg v (Subtype.ext h)
 
 theorem fop_single (j : Fin TwistTag.E6.tag.rank) {γ δ : Dr} (h : δ.1 + Pi.single j 1 = γ.1)
@@ -42,7 +42,7 @@ theorem fop_single (j : Fin TwistTag.E6.tag.rank) {γ δ : Dr} (h : δ.1 + Pi.si
   by_cases hx : x = δ
   · subst hx
     have hm : x.1 + Pi.single j 1 ∈ degOneRoots := h ▸ γ.2
-    rw [dif_pos hm]
+    rw [dite_eq_left hm]
     have : (⟨x.1 + Pi.single j 1, hm⟩ : Dr) = γ := Subtype.ext h
     rw [this]
     simp

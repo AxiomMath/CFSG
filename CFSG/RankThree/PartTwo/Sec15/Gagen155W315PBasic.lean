@@ -25,7 +25,7 @@ theorem pRank_five_le_two {A L : Subgroup G} {c : G} (h : Sec14Std G A c L) {S M
     hM.1.1
   omega
 
-theorem commutator_w155_le {A X Y M P : Subgroup G} (hf : Proof155Wx.Facts155W A X Y M P)
+theorem commutator_w155_le {A X Y M P : Subgroup G} (_hf : Proof155Wx.Facts155W A X Y M P)
     (hX : X ∈ thetaComponentsIn M) : ⁅w155 A M X, X⁆ ≤ CFSG.Open.pCoreOf 2 M := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXM : X ≤ M := (mem_thetaComponentsIn_iff.mp hX).1
@@ -46,12 +46,12 @@ theorem commutator_w155_le {A X Y M P : Subgroup G} (hf : Proof155Wx.Facts155W A
 theorem pRank_five_w155_le_one {A L : Subgroup G} {c : G} (h : Sec14Std G A c L)
     {X Y M P : Subgroup G} (hf : Proof155Wx.Facts155W A X Y M P) (hX : X ∈ thetaComponentsIn M)
     (h5 : 5 ∣ Nat.card X) : CFSG.Open.pRank 5 (w155 A M X) ≤ 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hXM : X ≤ M := (mem_thetaComponentsIn_iff.mp hX).1
   have hWM : w155 A M X ≤ M :=
     (hf.w_le_i0.trans (Sec14.oPrimeResidualOf_le_self 3 _)).trans (Sec14.delta_le M)
   have hperfX : Group.IsPerfect ↥X := by
-    haveI : Group.IsPerfect ↥(X.subgroupOf M) := (mem_thetaComponentsIn_iff.mp hX).2.1
+    have : Group.IsPerfect ↥(X.subgroupOf M) := (mem_thetaComponentsIn_iff.mp hX).2.1
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hXM).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hXM).surjective
@@ -63,7 +63,7 @@ theorem pRank_five_w155_le_one {A L : Subgroup G} {c : G} (h : Sec14Std G A c L)
 theorem pRank_five_x_le_one {A L : Subgroup G} {c : G} (h : Sec14Std G A c L)
     {X Y M P : Subgroup G} (hf : Proof155Wx.Facts155W A X Y M P) (hX : X ∈ thetaComponentsIn M)
     (h5 : 5 ∣ Nat.card (w155 A M X)) : CFSG.Open.pRank 5 X ≤ 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hXM : X ≤ M := (mem_thetaComponentsIn_iff.mp hX).1
   have hWM : w155 A M X ≤ M :=
     (hf.w_le_i0.trans (Sec14.oPrimeResidualOf_le_self 3 _)).trans (Sec14.delta_le M)
@@ -77,7 +77,7 @@ theorem pRank_five_x_le_one {A L : Subgroup G} {c : G} (h : Sec14Std G A c L)
 
 theorem inSubgroup_theta_le_pPrimeCoreOf {W M : Subgroup G} (hW : CFSG.Open.IsSubnormal W M) :
     inSubgroup (aschbacherSolvableCore 3) W ≤ pPrimeCoreOf 3 M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   induction hW with
   | refl H =>
     have hfacts := map_aschbacherSolvableCore_facts H
@@ -95,7 +95,7 @@ theorem inSubgroup_theta_le_pPrimeCoreOf {W M : Subgroup G} (hW : CFSG.Open.IsSu
 theorem inf_pPrimeCoreOf_facts {W M : Subgroup G} (hWM : W ≤ M) :
     ((W ⊓ pPrimeCoreOf 3 M).subgroupOf W).Normal ∧ ¬ 3 ∣ Nat.card ↥(W ⊓ pPrimeCoreOf 3 M) ∧
       (W ⊓ pPrimeCoreOf 3 M).subgroupOf W = (pPrimeCoreOf 3 M).subgroupOf W := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨?_, ?_, Subgroup.inf_subgroupOf_left (pPrimeCoreOf 3 M) W⟩
   · refine (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr ?_
     exact Subgroup.le_normalizer_inf (A := W) (H := W) (K := pPrimeCoreOf 3 M)

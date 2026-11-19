@@ -35,7 +35,7 @@ theorem WStore.get_set (b : WStore) (i v j : Nat) :
     generalize hS : b.t % 2 ^ 64 ^^^ WStore.mix (b.t % 2 ^ 64) i v = S
     have hs : b.set i v = { n := b.n, t := b.t ^^^ (D <<< (64 + 32 * i)) ^^^ S } := by
       unfold WStore.set
-      rw [if_pos hi, hD, hS]
+      rw [ite_eq_left hi, hD, hS]
     have hDlt : D < 2 ^ 32 :=
       hD ▸ Nat.xor_lt_two_pow (Nat.mod_lt _ (by decide)) (Nat.mod_lt _ (by decide))
     have hSlt : S < 2 ^ 64 :=
@@ -543,13 +543,13 @@ theorem eq_of_lenFilter : ∀ (M₁ M₂ : List (List Nat)), LenSorted M₁ → 
     | nil => rfl
     | cons b r =>
       have := h b.length
-      simp [lenFilter_cons, lenFilter] at this
+      simp [lenFilter] at this
   | cons a r₁ ih =>
     intro M₂ h₁ h₂ h
     cases M₂ with
     | nil =>
       have := h a.length
-      simp [lenFilter_cons, lenFilter] at this
+      simp [lenFilter] at this
     | cons b r₂ =>
       simp only [LenSorted, List.pairwise_cons] at h₁ h₂
       have mem : ∀ (x : List Nat) (M : List (List Nat)) (k : Nat),
@@ -558,10 +558,10 @@ theorem eq_of_lenFilter : ∀ (M₁ M₂ : List (List Nat)), LenSorted M₁ → 
         simpa [lenFilter] using hx
       have hab : a.length = b.length := by
         have ha : a ∈ lenFilter a.length (b :: r₂) := by
-          rw [← h a.length, lenFilter_cons, if_pos rfl]
+          rw [← h a.length, lenFilter_cons, ite_eq_left rfl]
           exact List.mem_cons_self
         have hb : b ∈ lenFilter b.length (a :: r₁) := by
-          rw [h b.length, lenFilter_cons, if_pos rfl]
+          rw [h b.length, lenFilter_cons, ite_eq_left rfl]
           exact List.mem_cons_self
         obtain ⟨ha1, -⟩ := mem _ _ _ ha
         obtain ⟨hb1, -⟩ := mem _ _ _ hb
@@ -575,7 +575,7 @@ theorem eq_of_lenFilter : ∀ (M₁ M₂ : List (List Nat)), LenSorted M₁ → 
           · exact h₁.1 b e
         omega
       have hk := h a.length
-      rw [lenFilter_cons, lenFilter_cons, if_pos rfl, if_pos hab.symm] at hk
+      rw [lenFilter_cons, lenFilter_cons, ite_eq_left rfl, ite_eq_left hab.symm] at hk
       obtain ⟨rfl, -⟩ := List.cons.inj hk
       congr 1
       apply ih r₂ h₁.2 h₂.2
@@ -583,9 +583,9 @@ theorem eq_of_lenFilter : ∀ (M₁ M₂ : List (List Nat)), LenSorted M₁ → 
       have hk' := h k
       rw [lenFilter_cons, lenFilter_cons] at hk'
       by_cases e : a.length = k
-      · rw [if_pos e, if_pos e] at hk'
+      · rw [ite_eq_left e, ite_eq_left e] at hk'
         exact (List.cons.inj hk').2
-      · rw [if_neg e, if_neg e] at hk'
+      · rw [ite_eq_right e, ite_eq_right e] at hk'
         exact hk'
 
 theorem lenSorted_mergeSort (l : List (List Nat)) :
@@ -645,7 +645,7 @@ theorem lenFilter_insW (k : Nat) (a : List Nat) :
     · rfl
     · rename_i hlt
       simp only [lenFilter_cons, ih]
-      by_cases ha : a.length = k <;> by_cases hb : b.length = k <;> simp [ha, hb] <;> omega
+      by_cases ha : a.length = k <;> by_cases hb : b.length = k <;> simp [ha, hb]; omega
 
 theorem lenSorted_insW (a : List Nat) : ∀ M, LenSorted M → LenSorted (insW a M) := by
   intro M

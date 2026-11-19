@@ -105,7 +105,7 @@ theorem uc22s2114r3l_strongly_of_a8 (hGA : GriessAllModelsStatement) {D : Data G
     decide
   have hab : ∀ P : Sylow 3 (Bar2 L), IsMulCommutative (P : Subgroup (Bar2 L)) := by
     intro P
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     have h9 : 3 ^ 2 ∣ 3 ^ k := hk ▸ P.pow_dvd_card_of_pow_dvd_card (by rw [hcard]; norm_num)
     have hdvd : 3 ^ k ∣ 20160 := hk ▸ hcard ▸ Subgroup.card_subgroup_dvd_card _
     have hk2 : k = 2 := by

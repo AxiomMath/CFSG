@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P T B : Subgroup G} {e : ℕ
 theorem abelian (hc : BinaryActionRankCounterexample G p P T B e ρ) (hr : IsPrimePow (2 ^ e - 1))
     (hXbot : CentralBinaryBlocks.X hc = ⊥) :
     IsMulCommutative (T.map (conjOnP P hc.faithfulBinaryIrreducibleAction.normal)) := by
-  haveI : Fact p.Prime := ⟨prime hc⟩
+  have : Fact p.Prime := ⟨prime hc⟩
   set H : Subgroup (MulAut ↥P) := T.map (conjOnP P hc.faithfulBinaryIrreducibleAction.normal) with hH
   have hH2 : IsPGroup 2 H := hc.oddPrimeClassTwoAction.setting.twoGroup.map _
   have hodd := PDimensionOdd.odd hc hr
@@ -65,8 +65,8 @@ theorem abelian (hc : BinaryActionRankCounterexample G p P T B e ρ) (hr : IsPri
     show (sigma hc (y0 : MulAut ↥P) v).val = (-v).val
     rw [sigma_apply, hinv _ y0.2 hy0n]
     rfl
-  haveI : Finite (Space hc) := inferInstanceAs (Finite (Additive ↥P))
-  haveI : FiniteDimensional (ZMod p) (Space hc) := Module.Finite.of_finite
+  have : Finite (Space hc) := inferInstanceAs (Finite (Additive ↥P))
+  have : FiniteDimensional (ZMod p) (Space hc) := Module.Finite.of_finite
   exact CFSG.LocalAnalysis.RankThreeUC.ProofSupport.OddDimCentralInvolutionForcesAbelian.abelian hH2 h2 σ z hzc hz2 hz1 huniq hzneg hodd
 
 end CFSG.LocalAnalysis.RankThreeUC.Section5.BottomAbelianImageByDeterminant

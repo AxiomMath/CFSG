@@ -268,7 +268,6 @@ theorem coverC {x : Equiv.Perm (Fin 4060)} (hx : x ∈ ruC) (hx2 : x ^ 2 = 1) (h
     have := Subgroup.mem_centralizer_singleton_iff.mp hm
     first
     | exact this
-    | exact this.symm
   have h2 : (c⁻¹ * x * c) ^ 2 = 1 := by
     have e : (c⁻¹ * x * c) ^ 2 = c⁻¹ * (x * x) * c := by
       rw [pow_two]

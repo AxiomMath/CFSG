@@ -14,7 +14,7 @@ open CFSG.LieType.BorelTits
 theorem omegaPlus_card_mul_eq_zero (F : Type*) [Field F] [Finite F] :
     Nat.card {p : F × F // p.1 * p.2 = 0} = 2 * Nat.card F - 1 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_subtype]
   have hset : (Finset.univ.filter fun p : F × F => p.1 * p.2 = 0) =
       (Finset.univ.filter fun p : F × F => p.1 = 0) ∪
@@ -46,14 +46,17 @@ theorem omegaPlus_card_mul_eq_zero (F : Type*) [Field F] [Finite F] :
 variable {F V : Type*} [Field F] [Finite F] [CharP F 2] [AddCommGroup V] [Module F V]
   [Module.Finite F V] (Φ : QuadForm F V)
 
+omit [Finite F] [CharP F 2] [Module.Finite F V] in
 theorem omegaPlus_polar_smul_smul (a b : F) (u v : V) :
     Φ.polar.β (a • u) (b • v) = a * b * Φ.polar.β u v := by
   rw [Φ.polar.smul_left, Φ.polar_σ, RingEquiv.refl_apply, Φ.polar.smul_right]
   ring
 
+omit [Finite F] [CharP F 2] [Module.Finite F V] in
 theorem omegaPlus_polar_self_eq_zero {z : V} (hz : Φ.Q z = 0) : Φ.polar.β z z = 0 := by
   rw [Φ.polar_self, hz, mul_zero]
 
+omit [CharP F 2] in
 theorem omegaPlus_exists_fixed_polar_ne_zero {r e : ℕ} (hr : r.Prime) (g : V →ₗ[F] V)
     (hg : g ^ r = 1) (he : 3 ≤ e) (hord : ∀ m : ℕ, r ∣ Nat.card F ^ m - 1 ↔ e ∣ m)
     (hdim : Module.finrank F V = e + 2) (hg1 : g ≠ 1) (hQ : ∀ v, Φ.Q (g v) = Φ.Q v)
@@ -80,6 +83,7 @@ theorem omegaPlus_exists_fixed_polar_ne_zero {r e : ℕ} (hr : r.Prime) (g : V �
   have := Nat.le_of_dvd (by omega) hd
   omega
 
+omit [CharP F 2] in
 theorem omegaPlus_card_fixed_singular_eq {r e : ℕ} (hr : r.Prime) (g : V →ₗ[F] V) (hg : g ^ r = 1)
     (he : 3 ≤ e) (hord : ∀ m : ℕ, r ∣ Nat.card F ^ m - 1 ↔ e ∣ m)
     (hdim : Module.finrank F V = e + 2) (hg1 : g ≠ 1) {z w : V} (hz : Φ.Q z = 0)
@@ -149,7 +153,7 @@ theorem omegaPlus_not_exists_fixed_singular {r e : ℕ} (hr : r.Prime) (hr2 : r 
     (hS : Nat.card {v : V // Φ.Q v = 0} ≡ 1 [MOD r]) {z : V} (hz0 : z ≠ 0) (hz : Φ.Q z = 0)
     (hgz : g z = z) : False := by
   classical
-  haveI : Finite V := Module.finite_of_finite F
+  have : Finite V := Module.finite_of_finite F
   obtain ⟨y, hyC, hβ⟩ := omegaPlus_exists_fixed_polar_ne_zero Φ hr g hg he hord hdim hg1 hQ hz0 hgz
   have hgy : g y = y := by
     rw [LinearMap.mem_ker, LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero] at hyC

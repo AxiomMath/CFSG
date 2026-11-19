@@ -19,6 +19,7 @@ theorem exists_moved {g : Perm X} (hg : g ≠ 1) : ∃ z, g z ≠ z := by
   by_contra hcon
   exact hg (Equiv.ext fun z => by_contra fun hz => hcon ⟨z, hz⟩)
 
+omit [Fintype X] [DecidableEq X] in
 theorem mem_orbit' {E : Subgroup (Perm X)} {x z : X} : z ∈ orbit E x ↔ ∃ e ∈ E, e x = z := by
   constructor
   · intro h
@@ -27,6 +28,7 @@ theorem mem_orbit' {E : Subgroup (Perm X)} {x z : X} : z ∈ orbit E x ↔ ∃ e
   · rintro ⟨e, he, hez⟩
     exact mem_orbit_iff.2 ⟨⟨e, he⟩, hez⟩
 
+omit [Fintype X] [DecidableEq X] in
 theorem disjoint_orbit_of_notMem {E : Subgroup (Perm X)} {x z : X} (hz : z ∉ orbit E x) :
     Disjoint (orbit E x : Set X) (orbit E z) := by
   rw [Set.disjoint_left]
@@ -37,6 +39,7 @@ theorem disjoint_orbit_of_notMem {E : Subgroup (Perm X)} {x z : X} (hz : z ∉ o
   have : z ∈ orbit E z := mem_orbit_self z
   rwa [← h2, h1] at this
 
+omit [DecidableEq X] in
 theorem ncard_le_eleven (hX : Fintype.card X = 11) (S : Set X) : S.ncard ≤ 11 := by
   have := Set.ncard_le_ncard (Set.subset_univ S) (Set.toFinite _)
   rwa [Set.ncard_univ, Nat.card_eq_fintype_card, hX] at this
@@ -45,6 +48,7 @@ namespace Elem27
 
 variable {E : Subgroup (Perm X)}
 
+omit [Fintype X] [DecidableEq X] in
 theorem fix_orbit (h : Elem27 E) {g : Perm X} (hg : g ∈ E) {x : X} (hgx : g x = x) {z : X}
     (hz : z ∈ orbit E x) : g z = z := by
   obtain ⟨e, he, rfl⟩ := mem_orbit'.1 hz
@@ -53,10 +57,12 @@ theorem fix_orbit (h : Elem27 E) {g : Perm X} (hg : g ∈ E) {x : X} (hgx : g x 
     _ = e (g x) := rfl
     _ = e x := by rw [hgx]
 
+omit [Fintype X] [DecidableEq X] in
 theorem orbit_ncard_dvd (h : Elem27 E) (x : X) : (orbit E x).ncard ∣ 27 := by
   rw [← MulAction.index_stabilizer E x, ← h.card]
   exact Subgroup.index_dvd_card _
 
+omit [Fintype X] [DecidableEq X] in
 theorem ncard_cases (h : Elem27 E) (x : X) :
     (orbit E x).ncard = 1 ∨ (orbit E x).ncard = 3 ∨ (orbit E x).ncard = 9 ∨
       (orbit E x).ncard = 27 := by
@@ -68,11 +74,13 @@ theorem ncard_cases (h : Elem27 E) (x : X) :
   · exact Or.inr (Or.inr (Or.inl (by simpa using hm')))
   · exact Or.inr (Or.inr (Or.inr (by simpa using hm')))
 
+omit [DecidableEq X] in
 theorem two_le_ncard {x : X} (hx : ∃ e ∈ E, e x ≠ x) : 2 ≤ (orbit E x).ncard := by
   obtain ⟨e, he, hne⟩ := hx
   exact (Set.one_lt_ncard_iff (Set.toFinite _)).2
     ⟨x, e x, mem_orbit_self x, mem_orbit'.2 ⟨e, he, rfl⟩, hne.symm⟩
 
+omit [DecidableEq X] in
 theorem three_le_ncard (h : Elem27 E) {x : X} (hx : ∃ e ∈ E, e x ≠ x) :
     3 ≤ (orbit E x).ncard := by
   have h2 := two_le_ncard hx

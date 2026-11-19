@@ -150,7 +150,7 @@ theorem exists_sylow_stronglyClosed_of_commutator_bound {S E : Subgroup D} (hES 
     have hzE : z ∈ normalizer (E : Set D) := (rightConjugate_eq_self_iff E z).mp (hwc z hconj)
     have hle : S ⊔ zpowers z ≤ normalizer (E : Set D) := sup_le hSN (zpowers_le.mpr hzE)
     have hp : IsPGroup 2 (S ⊔ zpowers z : Subgroup D) :=
-      P.isPGroup'.to_le (sup_le hSP (zpowers_le.mpr hzP))
+      P.isPGroup.to_le (sup_le hSP (zpowers_le.mpr hzP))
     have heq := hsyl.eq_of_le le_sup_left hle hp
     exact hzS (heq ▸ mem_sup_right (mem_zpowers z))
   obtain ⟨-, hp, hidx⟩ := isSylowOf_iff.mp hSyl

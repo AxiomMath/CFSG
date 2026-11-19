@@ -45,7 +45,7 @@ theorem pCoreOf_autCentralizer_eq_bot_of_oppInner {K : Type} [Group K] [Finite K
 theorem inner_of_odd_orderOf_of_outer {G : Type} [Group G]
     (hO : IsPGroup 2 (CFSG.ComponentClassification.OuterAutomorphisms.Outer G)) (α : MulAut G)
     (hα : Odd (orderOf α)) : α ∈ (MulAut.conj : G →* MulAut G).range := by
-  haveI := CFSG.ComponentClassification.OuterAutomorphisms.innerNormal G
+  have := CFSG.ComponentClassification.OuterAutomorphisms.innerNormal G
   set q : CFSG.ComponentClassification.OuterAutomorphisms.Outer G :=
     (QuotientGroup.mk α : MulAut G ⧸ CFSG.ComponentClassification.OuterAutomorphisms.inner G)
     with hq

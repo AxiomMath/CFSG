@@ -159,7 +159,7 @@ theorem semE_semE_invE {E : El} (h : Valid E) (v : Vm) : semE E (semE (invE E) v
   rw [← semE_mul, semE_congr (rel_mulE_invE h), semE_idE]
 
 @[expose] def decE (E : El) (h : Valid E) : Vm ≃ₗ[ZMod 2] Vm :=
-  LinearEquiv.ofLinear (semLin E) (semLin (invE E))
+  LinearEquiv.ofLinearMap (semLin E) (semLin (invE E))
     (LinearMap.ext fun v => by
       rw [LinearMap.comp_apply, semLin_apply, semLin_apply, semE_semE_invE h]; rfl)
     (LinearMap.ext fun v => by

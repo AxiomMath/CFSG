@@ -16,7 +16,7 @@ variable {b t b₁ b₂ : H} {J : Subgroup H}
 theorem FS79Hyp.odd_K (h : FS79Hyp b t b₁ b₂ J) :
     Odd (Nat.card (Opp 3 (Nor (Subgroup.zpowers b)))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O : Subgroup H := Opp 3 (Nor (Subgroup.zpowers b)) with hO
   set B : Subgroup H := Subgroup.closure ({b, b₁, b₂} : Set H) with hB
   by_contra hodd
@@ -38,7 +38,7 @@ theorem FS79Hyp.odd_K (h : FS79Hyp b t b₁ b₂ J) :
   have hB3 : IsPGroup 3 B := by
     have hE := h.isElemAb_B
     rw [← hB] at hE
-    haveI : IsElementaryAbelian 3 ↥B := hE.1
+    have : IsElementaryAbelian 3 ↥B := hE.1
     exact IsElementaryAbelian.isPGroup 3 ↥B
   obtain ⟨R, hRsyl, -, hBR⟩ :=
     CFSG.ABGLocalTools.exists_invariant_isSylowOf_ge_of_coprime
@@ -47,7 +47,7 @@ theorem FS79Hyp.odd_K (h : FS79Hyp b t b₁ b₂ J) :
       Subgroup.le_normalizer_of_normal
   have hR2 : IsPGroup 2 R := CFSG.ABGLocalTools.IsSylowOf.isPGroup hRsyl
   have hRbot : R = ⊥ := h.no_two R hR2 (by simpa [hB, Nor] using hBR)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hndvd : ¬ 2 ∣ R.relIndex O := (CFSG.ABGLocalTools.isSylowOf_iff.mp hRsyl).2.2
   exact hndvd (by rw [hRbot, Subgroup.relIndex_bot_left]; exact h2dvd)
 

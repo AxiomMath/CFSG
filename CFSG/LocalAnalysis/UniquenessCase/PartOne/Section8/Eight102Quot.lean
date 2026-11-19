@@ -36,7 +36,7 @@ theorem sec7Hyp_centralizer_of_notationA8103 {D : Data G} (hSg : SigmaStd D)
     omega
   have hCne : centralizer (A : Set G) ≠ ⊤ := by
     intro htop
-    haveI : IsSimpleGroup G := D.standing.simple
+    have : IsSimpleGroup G := D.standing.simple
     have hAle : A ≤ Subgroup.center G := by
       intro a ha
       rw [Subgroup.mem_center_iff]
@@ -73,7 +73,7 @@ theorem solvable_or_altTen_of_sec7Hyp {D : Data G} (h72 : F07.R72 D)
   have hrank : 2 ≤ Open.pRank p (H ⊓ D.M) := by
     have := hS.2.2.2.2.2
     omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hFstar, hshape⟩ := r72Shape_of_r72 h72 hS
   have hLHnorm : (F07.ImageModK p H (Opp p H)).Normal := by
     have hOppH : ((Opp p H).subgroupOf H).Normal := by
@@ -96,12 +96,13 @@ theorem solvable_or_altTen_of_sec7Hyp {D : Data G} (h72 : F07.R72 D)
   · exact Or.inl hsol
   · exact Or.inr ⟨hp5, hLHnorm, hFstar, hAlt, hquot⟩
 
+omit [Finite G] in
 theorem le_pPrimeCoreIn_of_isSolvable {p : ℕ} {H N J : Subgroup G} (hNH : N ≤ H)
     (hJN : J ≤ N) (hJ : ⁅J, J⁆ = J) (hsol : Group.IsSolvable ↥(F07.ImageModK p H N)) :
     J ≤ F07.PPrimeCoreIn p H := by
   classical
   have hJH : J ≤ H := hJN.trans hNH
-  haveI : (CFSG.pPrimeCore p ↥H).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore p ↥H).Normal := CFSG.pPrimeCore_normal
   let π : ↥H →* F07.QuotK7 p H := QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)
   have hYle : (J.subgroupOf H).map π ≤ F07.ImageModK p H N :=
     Subgroup.map_mono (Subgroup.subgroupOf_mono H hJN)
@@ -113,7 +114,7 @@ theorem le_pPrimeCoreIn_of_isSolvable {p : ℕ} {H N J : Subgroup G} (hNH : N �
     rw [← Subgroup.map_commutator, hJJ]
   have hYbot : (J.subgroupOf H).map π = ⊥ := by
     by_contra hne
-    haveI : Group.IsSolvable ↥(F07.ImageModK p H N) := hsol
+    have : Group.IsSolvable ↥(F07.ImageModK p H N) := hsol
     have hYne : ((J.subgroupOf H).map π).subgroupOf (F07.ImageModK p H N) ≠ ⊥ := by
       intro h0
       apply hne
@@ -137,6 +138,7 @@ theorem le_pPrimeCoreIn_of_isSolvable {p : ℕ} {H N J : Subgroup G} (hNH : N �
   rw [show π.ker = CFSG.pPrimeCore p ↥H from QuotientGroup.ker_mk' _] at hxker
   exact Subgroup.mem_map_of_mem H.subtype hxker
 
+omit [Finite G] in
 private theorem ker_mk'_comp_inclusion {p : ℕ} {H J : Subgroup G} (hJH : J ≤ H) :
     ((QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)).comp (Subgroup.inclusion hJH)).ker =
       (F07.PPrimeCoreIn p H).subgroupOf J := by
@@ -153,10 +155,10 @@ private theorem ker_mk'_comp_inclusion {p : ℕ} {H J : Subgroup G} (hJH : J ≤
 private theorem pPrimeCoreIn_subgroupOf_le_pCore {p : ℕ} (hp : p.Prime) {H J : Subgroup G}
     (hJH : J ≤ H) (hsimp : IsSimpleGroup (Bar2 J)) (hpJ : p ∣ Nat.card (Bar2 J)) :
     (F07.PPrimeCoreIn p H).subgroupOf J ≤ CFSG.pCore 2 ↥J := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup (Bar2 J) := hsimp
-  haveI : (CFSG.pCore 2 ↥J).Normal := CFSG.pCore_normal
-  haveI hKbarNorm : ((F07.PPrimeCoreIn p H).subgroupOf J).Normal := by
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup (Bar2 J) := hsimp
+  have : (CFSG.pCore 2 ↥J).Normal := CFSG.pCore_normal
+  have hKbarNorm : ((F07.PPrimeCoreIn p H).subgroupOf J).Normal := by
     refine ⟨fun x hx g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.mp hx
@@ -200,12 +202,13 @@ private theorem pPrimeCoreIn_subgroupOf_le_pCore {p : ℕ} (hp : p.Prime) {H J :
       rwa [htop, Subgroup.card_top] at h
     exact (hp.coprime_iff_not_dvd.mp hpbar) hpJ
 
+omit [Finite G] in
 private theorem exists_surjective_imageModK_bar2 {p : ℕ} {H J : Subgroup G} (hJH : J ≤ H)
     (hK : (F07.PPrimeCoreIn p H).subgroupOf J ≤ CFSG.pCore 2 ↥J) :
     ∃ f : ↥(F07.ImageModK p H J) →* Bar2 J, Function.Surjective f := by
   classical
-  haveI : (CFSG.pPrimeCore p ↥H).Normal := CFSG.pPrimeCore_normal
-  haveI : (CFSG.pCore 2 ↥J).Normal := CFSG.pCore_normal
+  have : (CFSG.pPrimeCore p ↥H).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pCore 2 ↥J).Normal := CFSG.pCore_normal
   let Y : Subgroup (F07.QuotK7 p H) := F07.ImageModK p H J
   let πH : ↥H →* F07.QuotK7 p H := QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)
   let φ : ↥J →* F07.QuotK7 p H := πH.comp (Subgroup.inclusion hJH)
@@ -274,8 +277,8 @@ private theorem centralizer_imageModK {p : ℕ} (hp : p.Prime) {H U : Subgroup G
         Subgroup (F07.QuotK7 p H)) : Set (F07.QuotK7 p H)) =
       ((H ⊓ centralizer (U : Set G)).subgroupOf H).map
         (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (CFSG.pPrimeCore p ↥H).Normal := CFSG.pPrimeCore_normal
+  have : Fact p.Prime := ⟨hp⟩
+  have : (CFSG.pPrimeCore p ↥H).Normal := CFSG.pPrimeCore_normal
   have hU' : IsPGroup p ↥(U.subgroupOf H) :=
     hU.of_equiv (Subgroup.subgroupOfEquivOfLe hUH).symm
   have h := CFSG.GroupTheory.SteinbergBS.centralizer_map_mk'_eq (p := p)
@@ -292,14 +295,15 @@ private theorem centralizer_imageModK {p : ℕ} (hp : p.Prime) {H U : Subgroup G
   · rintro ⟨-, hx⟩ y hy
     exact Subtype.ext (hx (y : G) (Subgroup.mem_subgroupOf.mp hy))
 
+omit [Finite G] in
 private theorem exists_lift_imageModK {p : ℕ} (hp : p.Prime) {H E : Subgroup G} (hEH : E ≤ H)
     (hE : IsPGroup p E) (hcop : ¬ p ∣ Nat.card ↥(CFSG.pPrimeCore p ↥H))
     {Ũ : Subgroup (F07.QuotK7 p H)} (hŨ : Ũ ≤ F07.ImageModK p H E) :
     ∃ U : Subgroup G, U ≤ E ∧ Nat.card U = Nat.card Ũ ∧
       (U.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)) = Ũ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (CFSG.pPrimeCore p ↥H).Normal := CFSG.pPrimeCore_normal
+  have : Fact p.Prime := ⟨hp⟩
+  have : (CFSG.pPrimeCore p ↥H).Normal := CFSG.pPrimeCore_normal
   have hE' : IsPGroup p ↥(E.subgroupOf H) :=
     hE.of_equiv (Subgroup.subgroupOfEquivOfLe hEH).symm
   let f : ↥(E.subgroupOf H) →* F07.QuotK7 p H :=
@@ -362,8 +366,8 @@ theorem exists_two_centralizers_of_isAlt_ten (hK8 : KAltTen) {H E : Subgroup G} 
       5 ∣ Nat.card (F08.DerInf8 (H ⊓ centralizer (U₁ : Set G))) ∧
       5 ∣ Nat.card (F08.DerInf8 (H ⊓ centralizer (U₂ : Set G))) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : (CFSG.pPrimeCore 5 ↥H).Normal := CFSG.pPrimeCore_normal
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : (CFSG.pPrimeCore 5 ↥H).Normal := CFSG.pPrimeCore_normal
   let πH : ↥H →* F07.QuotK7 5 H := QuotientGroup.mk' (CFSG.pPrimeCore 5 ↥H)
   have hcop : ¬ 5 ∣ Nat.card ↥(CFSG.pPrimeCore 5 ↥H) :=
     (Nat.prime_five.coprime_iff_not_dvd).mp CFSG.pPrimeCore_coprime_card

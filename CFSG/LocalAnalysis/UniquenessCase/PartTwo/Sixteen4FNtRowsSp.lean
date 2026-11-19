@@ -46,8 +46,8 @@ theorem s16nt_sum_sp (hX2 : ∀ x : X, x ^ 2 = 1) {L : Subgroup (MulAut X)}
     inf_le_right (c := 1) (d := n) ?_ (by omega) hsum
   intro I hI
   obtain ⟨-, K, hKf, hKfin, hKcard, hreal⟩ := hI
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   refine ⟨FFModel.nat (StatedSp (n / 2) K), s16nt_cover_sp (n / 2) hKcard, hreal, ?_⟩
   rw [s16nt_card_natMod (StatedSp (n / 2) K), hKcard]
   simp only [Fintype.card_sum, Fintype.card_fin, pow_one]
@@ -63,8 +63,8 @@ theorem s16nt_irr_sp (hX2 : ∀ x : X, x ^ 2 = 1) {L : Subgroup (MulAut X)}
     3 * rk ↥(commSub ⊤ L ⊓ fixV L) ≤ rk ↥(commSub ⊤ L) := by
   obtain ⟨hshape, hnat⟩ := h
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hnat.2
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hr := s16nt_range_sp hqs (s16nt_pRank_nt_top hnt) hshape
   have hD : S16BoundCover (FFModel.nat (StatedSp (n / 2) K)) m :=
     s16nt_cover_sp (K := K) (n / 2) hKcard

@@ -24,7 +24,7 @@ theorem centralizer_eq_of_cover_MGriess (hB3 : TabBThreeACard) (hG : Gmat = AutO
     (htA : tGriess * refT hG 3 ∈ D)
     {t : MGriess} (htD : t ∈ D) (htc : t * tGriess = tGriess * t) (htB : IsConj xGriess t) :
     Subgroup.centralizer ({ζ} : Set MGriess) = D := by
-  haveI : Finite ↥CFSG.Sporadic.Fi24.J :=
+  have : Finite ↥CFSG.Sporadic.Fi24.J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   obtain ⟨hJ, hc₀, hc₁⟩ := fi24J_involutions
   have hord : ∀ {a b : MGriess}, IsConj a b → orderOf a = orderOf b := by

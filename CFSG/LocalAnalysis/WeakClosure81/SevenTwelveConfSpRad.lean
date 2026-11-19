@@ -266,11 +266,11 @@ theorem spConf_transCenter_all [CharP F 2] (hef : spForm k F e f = 1)
   have hve : spForm k F v e = 0 := by
     dsimp only [v, α, β]
     simp only [map_sub, LinearMap.sub_apply, map_smul, LinearMap.smul_apply, hee, hfe,
-      smul_zero, smul_eq_mul, mul_one, mul_zero, sub_zero, sub_self]
+      smul_eq_mul, mul_one, mul_zero, sub_zero, sub_self]
   have hvf : spForm k F v f = 0 := by
     dsimp only [v, α, β]
     simp only [map_sub, LinearMap.sub_apply, map_smul, LinearMap.smul_apply, hef, hff,
-      smul_zero, smul_eq_mul, mul_one, mul_zero, sub_zero, sub_self]
+      smul_eq_mul, mul_one, mul_zero, sub_self]
   have hw : w = α • e + β • f + v := by
     dsimp only [v]
     abel
@@ -289,15 +289,15 @@ theorem spConf_transCenter_all [CharP F 2] (hef : spForm k F e f = 1)
       have hx₀e : spForm k F x₀ e = 0 := by
         dsimp only [x₀]
         simp only [map_sub, LinearMap.sub_apply, map_smul, LinearMap.smul_apply, hee, hfe,
-          smul_zero, smul_eq_mul, mul_one, mul_zero, sub_zero, sub_self]
+          smul_eq_mul, mul_one, mul_zero, sub_zero, sub_self]
       have hx₀f : spForm k F x₀ f = 0 := by
         dsimp only [x₀]
         simp only [map_sub, LinearMap.sub_apply, map_smul, LinearMap.smul_apply, hef, hff,
-          smul_zero, smul_eq_mul, mul_one, mul_zero, sub_zero, sub_self]
+          smul_eq_mul, mul_one, mul_zero, sub_self]
       have hvx₀ : spForm k F v x₀ = spForm k F v x := by
         dsimp only [x₀]
-        simp only [map_sub, LinearMap.sub_apply, map_smul, LinearMap.smul_apply, hve, hvf,
-          smul_zero, sub_zero, sub_self]
+        simp only [map_sub, map_smul, hve, hvf,
+          smul_zero, sub_zero]
       let b₀ : Fin k ⊕ Fin k → F := ((α + 1) / spForm k F v x) • x₀
       have hb₀e : spForm k F b₀ e = 0 := by
         dsimp only [b₀]

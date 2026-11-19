@@ -90,7 +90,7 @@ theorem print148FourK_of_steps (h134 : Item134) (h48 : Sec4.Item4_8) (h415 : Sec
   obtain ⟨ψ⟩ := h10
   have hY : Y ∈ scriptY A := hY0.1.1
   have hAY : A ≤ Subgroup.normalizer (Y : Set G) := hY.2
-  letI := ker148_normal hAY
+  let := ker148_normal hAY
   have h5 : 5 ≤ Nat.card (Fin 10) := by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num
   have : IsSimpleGroup (alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup h5
   have hcard10 : Nat.card (alternatingGroup (Fin 10)) = 1814400 :=

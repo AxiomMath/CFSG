@@ -27,7 +27,7 @@ private lemma isRat_smul_of_mem {c : K} (hc : c ∈ k) {v : Fin d → K} (hv : I
 
 private lemma polar_single_single_eq_zero {a : Fin d} (ha : a ∈ S.hyp) {c : Fin d}
     (hc : c ≠ S.star a) : polar Q (Pi.single a 1 : Fin d → K) (Pi.single c 1) = 0 := by
-  rw [S.polar_single a ha, Pi.single_apply, if_neg (fun h => hc h.symm)]
+  rw [S.polar_single a ha, Pi.single_apply, ite_eq_right (fun h => hc h.symm)]
 
 private lemma ne_star_of_ne_star {a b : Fin d} (hb : b ∈ S.hyp) (h : b ≠ S.star a) :
     a ≠ S.star b :=
@@ -38,7 +38,7 @@ theorem exists_move_vec (hk : Nat.card k = 2) (hext : IsExtension k Q₀ Q)
     ∃ h ∈ ratEichlerGroup Q k, ∃ a ∈ S.hyp, h x = Pi.single a 1 := by
   obtain ⟨a, ha, hxa0⟩ : ∃ a ∈ S.hyp, x a ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hx0 (htail x (fun c hc => hcon c hc) hQx)
   have hxa1 : x a = 1 := by
     rcases eq_zero_or_eq_one_of_card_two' hk (hx a) with h0 | h1
@@ -76,7 +76,7 @@ theorem exists_move_perp (hk : Nat.card k = 2) (hext : IsExtension k Q₀ Q)
     rw [hy'def]
     exact IsRat.sub hy (isRat_smul_of_mem (hy a) (isRat_single k a))
   have hsa0 : (Pi.single a 1 : Fin d → K) (S.star a) = 0 := by
-    rw [Pi.single_apply, if_neg (S.star_ne a ha)]
+    rw [Pi.single_apply, ite_eq_right (S.star_ne a ha)]
   have hpy : polar Q y (Pi.single a 1 : Fin d → K) = 0 := by
     rw [QuadraticMap.polar_comm, S.polar_single a ha, hperp]
   have hQy' : Q y' = 0 := by
@@ -90,7 +90,7 @@ theorem exists_move_perp (hk : Nat.card k = 2) (hext : IsExtension k Q₀ Q)
     simp [hperp, hsa0]
   have hex : ∃ b ∈ S.hyp, b ≠ a ∧ b ≠ S.star a ∧ y' b ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hy'tail : ∀ c ∈ S.hyp, y' c = 0 := by
       intro c hc
       by_cases hca : c = a

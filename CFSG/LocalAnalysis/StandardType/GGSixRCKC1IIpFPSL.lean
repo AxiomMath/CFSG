@@ -37,7 +37,7 @@ theorem rckIIp_PSL_of_classicalModelID
     (hp : p.Prime) (hp2 : p ≠ 2) (hBab : IsElemAbelian p B) (hdB : d ∈ B)
     (hBK : B ≤ Subgroup.normalizer (K : Set X))
     (hmodel : RCKClassicalModelIDAt .PSL K B)
-    (hodd : Odd (Nat.card (Subgroup.center ↥K)))
+    (_hodd : Odd (Nat.card (Subgroup.center ↥K)))
     (hcomp : IsComponentOf J (K ⊓ Subgroup.centralizer {d}))
     (hoddJ : Odd (Nat.card (Subgroup.center ↥J)))
     (hrow : GGSixRCKJRow .IIp J) :

@@ -80,7 +80,7 @@ theorem bar_component_data (h : IvSetting m p M D L)
       Nonempty ((↥(tl M L) ⧸ Subgroup.center ↥(tl M L)) ≃* alternatingGroup (Fin n))) :
     IsComponentOf (barX p M L) ⊤ ∧ GLAPPrimeCore p ↥(barX p M L) = ⊥ ∧ InAlt ↥(barX p M L) := by
   have hcomp : IsComponentOf (barX p M L) ⊤ := h.hL.2.2.1
-  haveI : Fact p.Prime := ⟨prime_of_standing h.standing⟩
+  have : Fact p.Prime := ⟨prime_of_standing h.standing⟩
   refine ⟨hcomp, ?_, ivAlt_isQuasisimple_of_open hcomp.2.2, ?_⟩
   · have hsn : (barX p M L).IsSubnormal := CFSG.Open.IsSubnormal.top_iff.1 hcomp.2.1
     have hle := CFSG.GH74.GLS.pPrimeCoreOf_le_of_subnormal p hsn

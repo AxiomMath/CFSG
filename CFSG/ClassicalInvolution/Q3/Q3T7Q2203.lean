@@ -593,12 +593,12 @@ section Linear
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
 theorem ih8_dstarConnected_psl4
-    (hΩ : Q3T8.Asc77.HypOmegaMod Ω) (hq4 : 3 % 4 = 1) {t :
-    StatedLieTag} {k e : ℕ} (M : Q3T8.Asc77.Ih8Model Ω t k e)
-    (ht : t = .PSL) (hk : k = 4) : T3.DStarConnected Ω := absurd hq4 (by norm_num)
+    (_hΩ : Q3T8.Asc77.HypOmegaMod Ω) (hq4 : 3 % 4 = 1) {t :
+    StatedLieTag} {k e : ℕ} (_M : Q3T8.Asc77.Ih8Model Ω t k e)
+    (_ht : t = .PSL) (_hk : k = 4) : T3.DStarConnected Ω := absurd hq4 (by norm_num)
 
 theorem ih8_dstarConnected_psu4
-    (hΩ : Q3T7M.HM Ω) (hq3 : 3 % 4 = 3) {t : StatedLieTag} {k e : ℕ} (M
+    (hΩ : Q3T7M.HM Ω) (_hq3 : 3 % 4 = 3) {t : StatedLieTag} {k e : ℕ} (M
     : Q3T8.Asc77.Ih8Model Ω t k e)
     (ht : t = .PSU) (hk : k = 4) : T3.DStarConnected Ω := by
   subst ht hk

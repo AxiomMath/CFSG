@@ -35,7 +35,7 @@ theorem center_map_eq_inf_of_ne_bot (h1 : Sec4.Item4_1LargePrime)
         (B.subgroupOf (Subgroup.centralizer (B : Set G))).map
           (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Subgroup.centralizer (B : Set G)))) ⊓ Yc := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := Subgroup.centralizer (B : Set G)
   have hT : TheoremFourHyp G := hR.toTheoremFourHyp
   have hA27 : Nat.card A = 27 := hR.mem_partTwoE.2.1

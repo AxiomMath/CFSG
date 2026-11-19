@@ -28,16 +28,16 @@ private theorem blockExt_diagonal (S : Finset (Fin d)) (t : Fin S.card → Kˣ) 
   by_cases hij : i = j
   · subst hij
     by_cases hi : i ∈ S
-    · simp only [dif_pos hi, diagonal_apply_eq]
-    · simp only [dif_neg hi, one_apply_eq, diagonal_apply_eq, Units.val_one]
+    · simp only [dite_eq_left hi, diagonal_apply_eq]
+    · simp only [dite_eq_right hi, one_apply_eq, diagonal_apply_eq, Units.val_one]
   · rw [diagonal_apply_ne _ hij]
     by_cases hi : i ∈ S
-    · rw [dif_pos hi]
+    · rw [dite_eq_left hi]
       by_cases hj : j ∈ S
-      · rw [dif_pos hj, diagonal_apply_ne _ fun h =>
+      · rw [dite_eq_left hj, diagonal_apply_ne _ fun h =>
           hij (congrArg Subtype.val (S.equivFin.injective h))]
-      · rw [dif_neg hj]
-    · rw [dif_neg hi, one_apply_ne hij]
+      · rw [dite_eq_right hj]
+    · rw [dite_eq_right hi, one_apply_ne hij]
 
 theorem TableBUE.map_blockSU_le_commutator_diagGLHom_range (h : UnitaryFieldData 2 f K)
     (S : Finset (Fin d))

@@ -353,7 +353,7 @@ private theorem mem_pb_iff' (K : Subgroup σ.Nb) (n : σ.N) : (n : G) ∈ σ.pb 
 private theorem eq_one_of_mem_S (hσ : σ.IsValid) {s : σ.N} (hs : (s : G) ∈ (σ.S : Subgroup G))
     (h1 : σ.πN s = 1) : s = 1 := by
   rw [σ.mk'_eq_one_iff'] at h1
-  obtain ⟨k, hk⟩ := σ.S.isPGroup' ⟨s, hs⟩
+  obtain ⟨k, hk⟩ := σ.S.isPGroup ⟨s, hs⟩
   have hk' : (s : G) ^ (2 ^ k) = 1 := by simpa using congrArg Subtype.val hk
   exact Subtype.ext (eq_one_of_mem_of_pow_two_pow (σ.odd_card_pCoreIn hσ) h1 hk')
 
@@ -558,7 +558,7 @@ private theorem pCore_barON_dichotomy (hσ : σ.IsValid)
       ∀ y ∈ (CFSG.pCore q (σ.bar σ.ON)).map (σ.bar σ.ON).subtype,
         σ.x₂b hσ * y * (σ.x₂b hσ)⁻¹ = y⁻¹ := by
   have : Fact q.Prime := ⟨hq⟩
-  have hT2 : IsPGroup 2 σ.T := σ.S.isPGroup'.to_le (σ.T_le_S hσ)
+  have hT2 : IsPGroup 2 σ.T := σ.S.isPGroup.to_le (σ.T_le_S hσ)
   obtain ⟨R, hR, hTR⟩ := exists_isSylowOf_normalized_of_odd hq hT2
     ((σ.T_le_N hσ).trans σ.N_le_normalizer_ON) σ.odd_card_ON
   have hRd := σ.sylow_centralized_or_inverted_of_prime hσ hq (hci q hq hqp) hR hTR
@@ -591,7 +591,7 @@ private theorem dichotomy_bar (hσ : σ.IsValid)
   · subst hrp
     exact Or.inl (σ.le_centralizer_x₂b hσ hci hR.le hR.isPGroup (hSR hx₂S))
   · have : Fact r.Prime := ⟨hr⟩
-    obtain ⟨R₀, hR₀, hSR₀⟩ := exists_isSylowOf_normalized_of_odd hr σ.S.isPGroup'
+    obtain ⟨R₀, hR₀, hSR₀⟩ := exists_isSylowOf_normalized_of_odd hr σ.S.isPGroup
       ((σ.S_le_N hσ).trans σ.N_le_normalizer_ON) σ.odd_card_ON
     have hd := σ.sylow_centralized_or_inverted_of_prime hσ hr (hci r hr hrp) hR₀
       ((σ.T_le_S hσ).trans hSR₀)
@@ -605,7 +605,7 @@ private theorem dichotomy_bar (hσ : σ.IsValid)
     have hSO : ((σ.Sb hσ : Sylow 2 σ.Nb) : Subgroup σ.Nb) ≤
         Subgroup.normalizer ((σ.bar σ.ON : Subgroup σ.Nb) : Set σ.Nb) :=
       (Subgroup.normalizer_eq_top_iff.mpr σ.barON_normal).ge.trans' le_top
-    obtain ⟨c, hc, hcR⟩ := exists_conj_eq_of_isSylowOf_normalized_of_odd hr (σ.Sb hσ).isPGroup'
+    obtain ⟨c, hc, hcR⟩ := exists_conj_eq_of_isSylowOf_normalized_of_odd hr (σ.Sb hσ).isPGroup
       hSO σ.odd_card_barON hR₀b hR hSR₀b hSR
     have hxc : σ.x₂b hσ * c = c * σ.x₂b hσ :=
       Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hc).2 _ hx₂S

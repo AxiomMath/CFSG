@@ -123,7 +123,7 @@ private lemma exists_blockMat_vanish_plane (h3 : (3 : K) ≠ 0) {m : Matrix Idx 
     have hji : j = i := by
       by_contra hne
       have h0 : (Pi.single i (1 : ZMod 3) : Fin 3 → ZMod 3) j = 0 := by
-        simp [Pi.single_apply, hne]
+        simp [hne]
       exact hj h0
     subst hji
     exact hw
@@ -141,15 +141,15 @@ private lemma exists_blockMat_single_add_rot (j : Fin 3) {w : Idx → K}
   · rw [Pi.add_apply, Pi.add_apply, rotMat_mulVec_inl, rotMat_mulVec_inl]
     by_cases hij : i = j
     · subst hij
-      simp [Pi.single_apply, planeRot_one, planeRot_two] <;> ring
+      simp [planeRot_one, planeRot_two]; ring
     · obtain ⟨hx, hy⟩ := hoff i hij
-      simp [Pi.single_apply, hij, hx, hy, planeRot_zero]
+      simp [hij, hx, hy, planeRot_zero]
   · rw [Pi.add_apply, Pi.add_apply, rotMat_mulVec_inr_inl, rotMat_mulVec_inr_inl]
     by_cases hij : i = j
     · subst hij
-      simp [Pi.single_apply, planeRot_one, planeRot_two] <;> ring
+      simp [planeRot_one, planeRot_two]
     · obtain ⟨hx, hy⟩ := hoff i hij
-      simp [Pi.single_apply, hij, hx, hy, planeRot_zero]
+      simp [hij, hx, hy, planeRot_zero]
   · rw [Pi.add_apply, Pi.add_apply, rotMat_mulVec_inr_inr, rotMat_mulVec_inr_inr]
     simp [hd]
 
@@ -160,7 +160,7 @@ private lemma exists_blockMat_entry_plane_off (h3 : (3 : K) ≠ 0) {m : Matrix I
     m (.inl i) b = 0 ∧ m (.inr (.inl i)) b = 0 := by
   have hw : (Pi.single b (1 : K) : Idx → K) (.inl i) = 0 ∧
       (Pi.single b (1 : K) : Idx → K) (.inr (.inl i)) = 0 := by
-    rcases hb with rfl | rfl <;> constructor <;> simp [Pi.single_apply, hik]
+    rcases hb with rfl | rfl <;> constructor <;> simp [hik]
   have h := exists_blockMat_vanish_plane h3 hm i hw
   simpa [Matrix.mulVec_single_one] using h
 
@@ -169,7 +169,7 @@ private lemma exists_blockMat_entry_d'_col (h3 : (3 : K) ≠ 0) {m : Matrix Idx 
     m (.inl i) (.inr (.inr ())) = 0 ∧ m (.inr (.inl i)) (.inr (.inr ())) = 0 := by
   have hw : (Pi.single (.inr (.inr ())) (1 : K) : Idx → K) (.inl i) = 0 ∧
       (Pi.single (.inr (.inr ())) (1 : K) : Idx → K) (.inr (.inl i)) = 0 := by
-    constructor <;> simp [Pi.single_apply]
+    constructor <;> simp
   have h := exists_blockMat_vanish_plane h3 hm i hw
   simpa [Matrix.mulVec_single_one] using h
 
@@ -199,12 +199,12 @@ private lemma exists_blockMat_entry_d'_row (h3 : (3 : K) ≠ 0) {m : Matrix Idx 
     {j : Fin 3} {b : Idx} (hb : b = .inl j ∨ b = .inr (.inl j)) :
     m (.inr (.inr ())) b = 0 := by
   have hz : (Pi.single b (1 : K) : Idx → K) (.inr (.inr ())) = 0 := by
-    rcases hb with rfl | rfl <;> simp [Pi.single_apply]
+    rcases hb with rfl | rfl <;> simp
   have hoff : ∀ i, i ≠ j →
       (Pi.single b (1 : K) : Idx → K) (.inl i) = 0 ∧
         (Pi.single b (1 : K) : Idx → K) (.inr (.inl i)) = 0 := by
     intro i hij
-    rcases hb with rfl | rfl <;> constructor <;> simp [Pi.single_apply, hij]
+    rcases hb with rfl | rfl <;> constructor <;> simp [hij]
   have hsum := exists_blockMat_single_add_rot j hz hoff
   let u : Idx → K := m *ᵥ (Pi.single b (1 : K))
   have hcomm1 : m *ᵥ (rotMat K (Pi.single j 1) *ᵥ (Pi.single b (1 : K))) =

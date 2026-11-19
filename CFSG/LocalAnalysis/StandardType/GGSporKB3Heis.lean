@@ -234,7 +234,7 @@ private theorem gkb3_F1F4_of_heis {G : Type} [Group G] [Finite G] {n : ℕ} {x y
     (hg1 : LargeEvenPPrimeCore 3 ↥(Subgroup.centralizer ({z} : Set G)) = ⊥)
     (hno : ∀ C : Subgroup G, ¬ LargeEvenPComponent 3 (Subgroup.centralizer ({z} : Set G)) C) :
     BMPCentralF1At 3 z ∧ BMPCentralF4At 3 z := by
-  haveI hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz3 := h.zp
   have hz1 := h.z1
   have hzo : orderOf z = 3 := orderOf_eq_prime hz3 hz1
@@ -245,7 +245,7 @@ private theorem gkb3_F1F4_of_heis {G : Type} [Group G] [Finite G] {n : ℕ} {x y
     IsPGroup.of_card (n := 2 * n + 1) (card_heisSub h hy3 hn)
   have hQS : heisSub x y ≤ S := by
     obtain ⟨P, rfl⟩ := hS
-    haveI : ((heisSub x y).subgroupOf L).Normal :=
+    have : ((heisSub x y).subgroupOf L).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hQL).mpr hLN
     have hp' : IsPGroup 3 ((heisSub x y).subgroupOf L) :=
       hQp.of_equiv (Subgroup.subgroupOfEquivOfLe hQL).symm
@@ -311,7 +311,7 @@ theorem ggSporK_bThree_F1F4_z
           ¬ LargeEvenPComponent 3 (Subgroup.centralizer ({z} : Set NativeSporadic.B)) C) →
         BMPCentralF1At 3 z ∧ BMPCentralF4At 3 z) := by
   obtain ⟨x, y, z, g, hH, hy3, hgx, hgy, hgz, hrk⟩ := bNF_holds
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have hn : 0 < 4 := by norm_num
   have hz3 : z ^ 3 = 1 := hH.zp
   have hzo : orderOf z = 3 := orderOf_z hH

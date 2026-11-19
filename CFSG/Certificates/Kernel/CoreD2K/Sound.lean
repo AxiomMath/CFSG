@@ -110,7 +110,7 @@ theorem pr_word {k r : Nat} {PS PSI : Nat → Nat} {L : List (Equiv.Perm (Fin n)
       rw [e, List.getD_eq_default _ _ (by omega), inv_one]
       exact TabRep.idTab
 
-theorem cosK_sound (hn : szOK n w = true) {z x : Nat} {zz xx : Equiv.Perm (Fin n)}
+theorem cosK_sound (_hn : szOK n w = true) {z x : Nat} {zz xx : Equiv.Perm (Fin n)}
     (hz : PR n w z zz) (hx : PR n w x xx) :
     ∀ k t (tt : Equiv.Perm (Fin n)), PR n w t tt → cosK n w z x k t = true →
       ∀ a < k, xx ≠ zz ^ a * tt := by

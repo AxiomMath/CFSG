@@ -68,8 +68,8 @@ theorem orbCnt_sound {S : List (List ℕ)}
         Nat.beq (wPt w L (S.getD j []) p) q)
     · rw [hck] at hne
       simp at hne
-    · rw [hck, cond_true, letN_eq] at hne
-      rw [cond_true, letN_eq]
+    · rw [hck, _root_.Bool.cond_true, letN_eq] at hne
+      rw [_root_.Bool.cond_true, letN_eq]
       simp only [Bool.and_eq_true, Bool.not_eq_true'] at hck
       obtain ⟨⟨hp, hq⟩, he⟩ := hck
       have he' := Nat.eq_of_beq_eq_true he
@@ -92,7 +92,7 @@ theorem orbCnt_sound {S : List (List ℕ)}
         rw [hwq]
         exact Fin.isLt _
       have hgood : Good Γ b i q := by
-        refine ⟨hqn, wordPerm ℓ x * g, Γ.mul_mem (wordPerm_mem H hℓ hx.1) hg, fun k hk => ?_, ?_⟩
+        refine ⟨hqn, wordPerm ℓ x * g, Γ.mul_mem (wordPerm_mem hℓ hx.1) hg, fun k hk => ?_, ?_⟩
         · rw [Equiv.Perm.mul_apply, hgfix k hk, hx.2 k hk]
         · rw [Equiv.Perm.mul_apply, hgp]
           exact Fin.ext hwq.symm
@@ -197,7 +197,7 @@ theorem le_card_of_chainOK {ws : List (List ℕ)} {bs : List ℕ} {fuel B : ℕ}
     intro k hk
     have hkn : bs.getD k 0 < n :=
       hbs _ (by rw [List.getD_eq_getElem _ _ hk]; exact List.getElem_mem hk)
-    simp only [b, dif_pos hkn]
+    simp only [b, dite_eq_left hkn]
   have hws' : ∀ x ∈ ws, WordOK h x := hws
   have hex : ∀ i, ∃ P : Finset (Fin n), i < bs.length →
       lvlCnt w L ws bs fuel i ≤ P.card ∧ ∀ x ∈ P, Good Γ b i x := by

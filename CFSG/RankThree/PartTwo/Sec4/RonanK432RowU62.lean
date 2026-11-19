@@ -15,7 +15,7 @@ open CFSG.Assembly.RankThreeEven (projSU)
 theorem exists_conj_le_of_not_three_dvd_index {G : Type} [Group G] [Finite G] (H : Subgroup G)
     (hH : ¬ 3 ∣ H.index) {R : Subgroup G} (hR : IsPGroup 3 R) :
     ∃ x : G, ∀ r ∈ R, x * r * x⁻¹ ∈ H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, -⟩ := (IsPGroup.of_bot : IsPGroup 3 (⊥ : Subgroup H)).exists_le_sylow
   have hfac : (Nat.card H).factorization 3 = (Nat.card G).factorization 3 := by
     have hHne : Nat.card H ≠ 0 := Nat.card_pos.ne'

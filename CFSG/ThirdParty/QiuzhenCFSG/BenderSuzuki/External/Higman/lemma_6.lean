@@ -2151,8 +2151,7 @@ public theorem lemma6_scalarExtendedBilinear_span
   change S = ⊤
   have hall : ∀ z : K ⊗[ZMod 2] W, z ∈ S := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact S.zero_mem
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => exact S.add_mem hx hy
     | tmul a w =>
         have hw : w ∈ Submodule.span (ZMod 2)
@@ -2208,8 +2207,7 @@ public theorem lemma6_scalarExtendedBilinear_span₂
   change S = ⊤
   have hall : ∀ z : K ⊗[ZMod 2] W, z ∈ S := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => exact S.zero_mem
+    induction z using TensorProduct.inductionOn with
     | add x y hx hy => exact S.add_mem hx hy
     | tmul a w =>
         have hw : w ∈ Submodule.span (ZMod 2)
@@ -2519,11 +2517,9 @@ public theorem lemma6_scalarExtendBilinear_self
   have hBK_symm (x y : K ⊗[ZMod 2] V) :
       lemma6_scalarExtendBilinear B x y =
         lemma6_scalarExtendBilinear B y x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
-        induction y using TensorProduct.induction_on with
-        | zero => simp
+        induction y using TensorProduct.inductionOn with
         | tmul b w =>
             have ha : a ⊗ₜ[ZMod 2] v =
                 a • ((1 : K) ⊗ₜ[ZMod 2] v) := by
@@ -2545,8 +2541,7 @@ public theorem lemma6_scalarExtendBilinear_self
         simp only [map_add, LinearMap.add_apply]
         rw [hx, hy]
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a v =>
       have ha : a ⊗ₜ[ZMod 2] v =
           a • ((1 : K) ⊗ₜ[ZMod 2] v) := by
@@ -2580,12 +2575,10 @@ public theorem lemma6_scalarExtendBilinear_equivariant
         R.baseChange (ZMod 2) K U U
           (lemma6_scalarExtendBilinear C x y) := by
   intro x
-  induction x using TensorProduct.induction_on with
-  | zero => simp
+  induction x using TensorProduct.inductionOn with
   | tmul a v =>
       intro y
-      induction y using TensorProduct.induction_on with
-      | zero => simp
+      induction y using TensorProduct.inductionOn with
       | tmul b w =>
           have ha : a ⊗ₜ[ZMod 2] v =
               a • ((1 : K) ⊗ₜ[ZMod 2] v) := by
@@ -2642,8 +2635,7 @@ private theorem lemma6_scalarExtendBilinear_eigen
   have heK :
       ∀ z : TensorProduct (ZMod 2) K U, eK (RK z) = SK (eK z) := by
     intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp [eK, RK, SK]
+    induction z using TensorProduct.inductionOn with
     | tmul a z =>
         simp [eK, RK, SK, LinearEquiv.baseChange_tmul, he]
     | add z t hz ht =>
@@ -3040,8 +3032,7 @@ private theorem lemma6_odd_basis_triples_vanish_core
           (Additive (LowerCentralFactor H 0)) := by
     apply LinearEquiv.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
         have ha :
             a ⊗ₜ[ZMod 2] v =
@@ -3487,20 +3478,20 @@ private theorem lemma6_odd_basis_triples_vanish_core
                 2 ^ r.val + 2 ^ x.val + 2 ^ y.val := by
             by_cases hrx : r = x
             · subst r
-              simp only [pt, if_pos rfl]
+              simp only [pt, ite_eq_left rfl]
               omega
             · have hry : r = y := hr.resolve_left hrx
               subst r
-              simp only [pt, if_neg hrx]
+              simp only [pt, ite_eq_right hrx]
               omega
           have hpt_support : lemma6_finPairSupported gap pt.1 pt.2 := by
             by_cases hrx : r = x
             · subst r
-              simpa only [pt, if_pos rfl] using
+              simpa only [pt, ite_eq_left rfl] using
                 lemma6_finPairSupported_symm (hsupport x y hinner_ne)
             · have hry : r = y := hr.resolve_left hrx
               subst r
-              simpa only [pt, if_neg hrx] using hsupport x y hinner_ne
+              simpa only [pt, ite_eq_right hrx] using hsupport x y hinner_ne
           have hpt_mem : pt ∈ collisions := by
             simp only [collisions,
               lemma6_finSupportedRepeatedExponentCollisions,
@@ -3561,14 +3552,14 @@ private theorem lemma6_odd_basis_triples_vanish_core
                 left
                 by_cases hrx : r = x
                 · subst r
-                  simp only [pc, pt, if_pos rfl, Prod.mk.injEq] at hpceq
+                  simp only [pc, pt, ite_eq_left rfl, Prod.mk.injEq] at hpceq
                   rcases hpceq with ⟨hjy, hix⟩
                   subst j
                   subst i
                   rfl
                 · have hry : r = y := hr.resolve_left hrx
                   subst r
-                  simp only [pc, pt, if_neg hrx, Prod.mk.injEq] at hpceq
+                  simp only [pc, pt, ite_eq_right hrx, Prod.mk.injEq] at hpceq
                   rcases hpceq with ⟨hjx, hiy⟩
                   exfalso
                   omega
@@ -3596,13 +3587,13 @@ private theorem lemma6_odd_basis_triples_vanish_core
                   left
                   by_cases hrx : r = x
                   · subst r
-                    simp only [pc, pt, if_pos rfl, Prod.mk.injEq] at hpceq
+                    simp only [pc, pt, ite_eq_left rfl, Prod.mk.injEq] at hpceq
                     rcases hpceq with ⟨hiy, hjx⟩
                     exfalso
                     omega
                   · have hry : r = y := hr.resolve_left hrx
                     subst r
-                    simp only [pc, pt, if_neg hrx, Prod.mk.injEq] at hpceq
+                    simp only [pc, pt, ite_eq_right hrx, Prod.mk.injEq] at hpceq
                     rcases hpceq with ⟨hix, hjy⟩
                     subst i
                     subst j

@@ -56,9 +56,9 @@ private theorem set!_get {α : Type} [Inhabited α] {a : Array α} {y z : Nat} {
     (hy : y < a.size) : (a.set! y v)[z]! = if y = z then v else a[z]! := by
   by_cases h : y = z
   · subst h
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact Array.getElem!_set!_self a y v hy
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact Array.getElem!_set!_ne a y z v h
 
 private theorem push_get_lt {a : Array Nat} {y i : Nat} (h : i < a.size) :
@@ -138,9 +138,9 @@ private theorem adjInner_step {n : Nat} {gens : Array (Array Nat)} {Row : Nat �
       rw [set!_get hyn]
       by_cases hyz : y = z
       · subst hyz
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         exact himgk
-      · rw [if_neg hyz] at hzs ⊢
+      · rw [ite_eq_right hyz] at hzs ⊢
         exact I.core.nbr_row z hz hzs
     · intro z hz
       dsimp only at hz
@@ -163,20 +163,20 @@ private theorem adjInner_step {n : Nat} {gens : Array (Array Nat)} {Row : Nat �
       by_cases hyz : y = z
       · subst hyz
         simp
-      · rw [if_neg hyz, I.core.q_mem z hz]
+      · rw [ite_eq_right hyz, I.core.q_mem z hz]
         simp [Ne.symm hyz]
     · dsimp only
       rw [set!_get hys]
       by_cases h0 : y = 0
-      · rw [if_pos h0]
-      · rw [if_neg h0]
+      · rw [ite_eq_left h0]
+      · rw [ite_eq_right h0]
         exact I.core.seen_zero
     · intro z hz
       dsimp only
       rw [set!_get hys]
       by_cases hyz : y = z
-      · rw [if_pos hyz]
-      · rw [if_neg hyz]
+      · rw [ite_eq_left hyz]
+      · rw [ite_eq_right hyz]
         exact I.mono z hz
     · dsimp only
       rw [Array.size_push]
@@ -191,12 +191,12 @@ private theorem adjInner_step {n : Nat} {gens : Array (Array Nat)} {Row : Nat �
       rw [set!_get hys]
       by_cases hlk : l < k
       · by_cases hyz : y = (gens[l]!)[x]!
-        · rw [if_pos hyz]
-        · rw [if_neg hyz]
+        · rw [ite_eq_left hyz]
+        · rw [ite_eq_right hyz]
           exact I.done l hlk
       · have : l = k := by omega
         subst this
-        rw [hyd, if_pos rfl]
+        rw [hyd, ite_eq_left rfl]
 
 private theorem adjOuter_step {n : Nat} {gens : Array (Array Nat)} {Row : Nat → List Nat}
     (hlt : ∀ k < gens.size, ∀ x < n, (gens[k]!)[x]! < n)
@@ -224,7 +224,7 @@ private theorem adjOuter_step {n : Nat} {gens : Array (Array Nat)} {Row : Nat �
     rw [← hs1] at hF
     refine ⟨(s1.1, s1.2.1, s1.2.2, head + 1), ?_, ?_⟩
     · unfold adjOuter
-      rw [if_pos hh]
+      rw [ite_eq_left hh]
       dsimp only
       rw [← hs1]
     · dsimp only
@@ -245,7 +245,7 @@ private theorem adjOuter_step {n : Nat} {gens : Array (Array Nat)} {Row : Nat �
           omega
   · refine ⟨(nbr, seen, queue, head), ?_, ?_⟩
     · unfold adjOuter
-      rw [if_neg hh]
+      rw [ite_eq_right hh]
     · dsimp only
       exact ⟨I.core, I.head_le, I.proc, Or.inl (by have := I.head_le; omega)⟩
 
@@ -261,7 +261,7 @@ private theorem adjInit_inv {n : Nat} (gens : Array (Array Nat)) (Row : Nat → 
     by_cases h : 0 = z
     · subst h
       simp
-    · rw [if_neg h, getElem!_pos _ z (by simpa using hz), Array.getElem_replicate]
+    · rw [ite_eq_right h, getElem!_pos _ z (by simpa using hz), Array.getElem_replicate]
       simp
       omega
   refine ⟨⟨by simp, by simp, ?_, ?_, by decide, ?_, (hseen 0 hn).2 rfl⟩, Nat.zero_le _,
@@ -269,7 +269,7 @@ private theorem adjInit_inv {n : Nat} (gens : Array (Array Nat)) (Row : Nat → 
   · intro y hy hys
     have h0 := (hseen y hy).1 hys
     subst h0
-    rw [set!_get hnb, if_pos rfl]
+    rw [set!_get hnb, ite_eq_left rfl]
   · intro z hz
     simp at hz
     subst hz

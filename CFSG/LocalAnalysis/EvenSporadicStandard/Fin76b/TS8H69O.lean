@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {z t : G} {T E : Subgr
 
 include h
 
+omit [Finite G] h in
 theorem X_inv {m : G} (hm : m ∈ normalizer ((S ⊔ E : Subgroup G) : Set G)) {u : G}
     (hu : u ∈ XSet S E z) : m * u * m⁻¹ ∈ XSet S E z := by
   obtain ⟨huU, g, rfl⟩ := hu
@@ -33,8 +34,8 @@ theorem X_orb {u : G} (hu : u ∈ XSet S E z) :
 theorem X_reg {u : G} (hu : u ∈ XSet S E z) : cnt (XSet S E z) u = cnt (XSet S E z) z := by
   obtain ⟨m, hm, rfl⟩ := h.X_orb hu
   unfold cnt
-  refine ncard_commuting_conj (XSet S E z) m (fun v hv => h.X_inv hm hv) (fun v hv => ?_) z
-  exact h.X_inv (inv_mem hm) hv |> fun h' => by simpa using h'
+  refine ncard_commuting_conj (XSet S E z) m (fun v hv => CFSG.EvenSporadicStandard.Fin76b.OHyp69.X_inv hm hv) (fun v hv => ?_) z
+  exact CFSG.EvenSporadicStandard.Fin76b.OHyp69.X_inv (inv_mem hm) hv |> fun h' => by simpa using h'
 
 theorem X_props {u : G} (hu : u ∈ XSet S E z) : u ∈ S ⊔ E ∧ u * u = 1 ∧ u ≠ 1 ∧ u ≠ t := by
   obtain ⟨huU, g, rfl⟩ := hu
@@ -97,7 +98,7 @@ theorem ZE_sub_X : blk z (E2 E t) ⊆ XSet S E z := by
 
 
 theorem disj_Zb_ZE : Disjoint (blk z {1, t}) (blk z (E2 E t)) := by
-  rw [Set.disjoint_iff_inter_eq_empty, h.blk_inter]
+  rw [Set.disjoint_iff_inter_eq_empty, CFSG.EvenSporadicStandard.Fin76b.OHyp69.blk_inter]
   have : ({1, t} : Set G) ∩ E2 E t = ∅ := by
     ext e
     simp only [Set.mem_inter_iff, Set.mem_empty_iff_false, iff_false, not_and]
@@ -190,7 +191,7 @@ theorem X_decomp {α : G} (hα : AlphaSpec S z t α) :
 theorem X_eq {α : G} (hα : AlphaSpec S z t α) :
     XSet S E z = (blk z {1, t} ∪ blk z (E2 E t)) ∪ blk (α * z) (E4 E t) := by
   have hinv : ∀ m ∈ normalizer ((S ⊔ E : Subgroup G) : Set G), ∀ u ∈ XSet S E z,
-      m * u * m⁻¹ ∈ XSet S E z := fun m hm u hu => h.X_inv hm hu
+      m * u * m⁻¹ ∈ XSet S E z := fun m hm u hu => CFSG.EvenSporadicStandard.Fin76b.OHyp69.X_inv hm hu
   have hdAE := h.dich_blk hα.mem (C := E2 E t) (Or.inl rfl) hinv
   have hdAZ := h.dich_blk (h.alpha_z_mem hα) (C := E4 E t) (Or.inr rfl) hinv
   have hdec := h.X_decomp hα
@@ -205,11 +206,11 @@ theorem X_eq {α : G} (hα : AlphaSpec S z t α) :
     · exact Or.inl (Set.inter_eq_right.2 hs)
     · exact Or.inr (Set.disjoint_iff_inter_eq_empty.1 hd.symm)
   have hd1 := h.disj_Zb_ZE
-  have hZbAE := h.disj_z_a hα h.E0_sub h.E2_sub
-  have hZEAE := h.disj_z_a hα h.E2_sub h.E2_sub
-  have hZbAZ := h.disj_z_r hα h.E0_sub h.E4_sub
-  have hZEAZ := h.disj_z_r hα h.E2_sub h.E4_sub
-  have hAEAZ := h.disj_a_r hα h.E2_sub h.E4_sub
+  have hZbAE := h.disj_z_a hα h.E0_sub (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E2_sub (t := t) (E := E))
+  have hZEAE := h.disj_z_a hα (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E2_sub (t := t) (E := E)) (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E2_sub (t := t) (E := E))
+  have hZbAZ := h.disj_z_r hα h.E0_sub (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E4_sub (t := t) (E := E))
+  have hZEAZ := h.disj_z_r hα (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E2_sub (t := t) (E := E)) (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E4_sub (t := t) (E := E))
+  have hAEAZ := h.disj_a_r hα (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E2_sub (t := t) (E := E)) (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E4_sub (t := t) (E := E))
   have hd2 : Disjoint (blk z {1, t} ∪ blk z (E2 E t)) (XSet S E z ∩ blk α (E2 E t)) :=
     Disjoint.union_left (hZbAE.mono_right Set.inter_subset_right)
       (hZEAE.mono_right Set.inter_subset_right)
@@ -222,23 +223,23 @@ theorem X_eq {α : G} (hα : AlphaSpec S z t α) :
       cnt (XSet S E z ∩ blk α (E2 E t)) u + cnt (XSet S E z ∩ blk (α * z) (E4 E t)) u := by
     intro u
     conv_lhs => rw [hdec]
-    rw [h.cnt_union hd3, h.cnt_union hd2, h.cnt_union hd1]
+    rw [CFSG.EvenSporadicStandard.Fin76b.OHyp69.cnt_union hd3, CFSG.EvenSporadicStandard.Fin76b.OHyp69.cnt_union hd2, CFSG.EvenSporadicStandard.Fin76b.OHyp69.cnt_union hd1]
   obtain ⟨e, heE, he2, he1, het, -⟩ := h.fus
   have he : e ∈ E2 E t := ⟨heE, he2, he1, het⟩
   have hzeX : z * e ∈ XSet S E z := h.ZE_sub_X ⟨e, he, rfl⟩
   have h12 : cnt (XSet S E z) z = 12 := by
-    rw [hcntX z, h.T1 hα, h.T2 hα]
+    rw [hcntX z, h.T1, h.T2]
     have h3 : cnt (XSet S E z ∩ blk α (E2 E t)) z = 0 := by
       rcases hP with hP | hP <;> rw [hP]
       · exact h.T3 hα
-      · exact h.cnt_empty z
+      · exact CFSG.EvenSporadicStandard.Fin76b.OHyp69.cnt_empty z
     have h4 : cnt (XSet S E z ∩ blk (α * z) (E4 E t)) z = 0 := by
       rcases hR with hR | hR <;> rw [hR]
       · exact h.T4 hα
-      · exact h.cnt_empty z
+      · exact CFSG.EvenSporadicStandard.Fin76b.OHyp69.cnt_empty z
     omega
   have hze : cnt (XSet S E z) (z * e) = 12 := (h.X_reg hzeX).trans h12
-  rw [hcntX (z * e), h.T5 hα he, h.T6 hα he] at hze
+  rw [hcntX (z * e), h.T5 he, h.T6 he] at hze
   rcases hP with hP | hP <;> rcases hR with hR | hR
   · exfalso
     rw [hP, hR, h.T7 hα he, h.T8 hα he] at hze
@@ -249,51 +250,55 @@ theorem X_eq {α : G} (hα : AlphaSpec S z t α) :
         rw [hP]; exact ⟨e, he, rfl⟩
       exact this.1
     have h12' : cnt (XSet S E z) (α * e) = 12 := (h.X_reg hαeX).trans h12
-    rw [hcntX (α * e), h.T9 hα he, h.T10 hα he, hP, hR, h.T11 hα he, h.cnt_empty] at h12'
+    rw [hcntX (α * e), h.T9 hα he, h.T10 hα he, hP, hR, h.T11 hα he, CFSG.EvenSporadicStandard.Fin76b.OHyp69.cnt_empty] at h12'
     omega
   · rw [hdec, hP, hR]
     simp
   · exfalso
-    rw [hP, hR, h.cnt_empty] at hze
+    rw [hP, hR, CFSG.EvenSporadicStandard.Fin76b.OHyp69.cnt_empty] at hze
     omega
 
 
 @[expose] def XiSet {G : Type*} [Group G] (S E : Subgroup G) (α : G) : Set G :=
   {u | ∃ m ∈ normalizer ((S ⊔ E : Subgroup G) : Set G), u = m * α * m⁻¹}
 
+omit [Finite G] h in
 theorem Xi_inv {α m : G} (hm : m ∈ normalizer ((S ⊔ E : Subgroup G) : Set G)) {u : G}
     (hu : u ∈ XiSet S E α) : m * u * m⁻¹ ∈ XiSet S E α := by
   obtain ⟨m', hm', rfl⟩ := hu
   exact ⟨m * m', mul_mem hm hm', by group⟩
 
+omit [Finite G] h in
 theorem Xi_reg {α : G} {u : G} (hu : u ∈ XiSet S E α) :
     cnt (XiSet S E α) u = cnt (XiSet S E α) α := by
   obtain ⟨m, hm, rfl⟩ := hu
   unfold cnt
-  refine ncard_commuting_conj (XiSet S E α) m (fun v hv => h.Xi_inv hm hv) (fun v hv => ?_) α
-  exact h.Xi_inv (inv_mem hm) hv |> fun h' => by simpa using h'
+  refine ncard_commuting_conj (XiSet S E α) m (fun v hv => OHyp69.Xi_inv hm hv) (fun v hv => ?_) α
+  exact OHyp69.Xi_inv (inv_mem hm) hv |> fun h' => by simpa using h'
 
 theorem Xi_disj_X {α : G} (hα : AlphaSpec S z t α) {u : G} (hu : u ∈ XiSet S E α) :
     u ∉ XSet S E z := by
   intro hX
   obtain ⟨m, hm, rfl⟩ := hu
-  have := h.X_inv (inv_mem hm) hX
+  have := CFSG.EvenSporadicStandard.Fin76b.OHyp69.X_inv (inv_mem hm) hX
   apply h.alpha_not_X hα
   have e : m⁻¹ * (m * α * m⁻¹) * m⁻¹⁻¹ = α := by group
   rwa [e] at this
 
-theorem alpha_mem_Xi {α : G} (hα : AlphaSpec S z t α) : α ∈ XiSet S E α :=
+omit [Finite G] h in
+theorem alpha_mem_Xi {α : G} (_hα : AlphaSpec S z t α) : α ∈ XiSet S E α :=
   ⟨1, one_mem _, by group⟩
 
 theorem Ab_sub_Xi {α : G} (hα : AlphaSpec S z t α) : blk α {1, t} ⊆ XiSet S E α := by
   rintro u ⟨e, he, rfl⟩
   rcases he with he | he
-  · rw [he]; simpa using h.alpha_mem_Xi hα
+  · rw [he]; simpa using OHyp69.alpha_mem_Xi hα
   · rw [he]
     exact ⟨z, h.z_mem_M, (h.z_conj_alpha hα).symm⟩
 
+omit [Finite G] h in
 theorem disj_same {s : G} {C₁ C₂ : Set G} (hC : C₁ ∩ C₂ = ∅) : Disjoint (blk s C₁) (blk s C₂) := by
-  rw [Set.disjoint_iff_inter_eq_empty, h.blk_inter, hC]
+  rw [Set.disjoint_iff_inter_eq_empty, CFSG.EvenSporadicStandard.Fin76b.OHyp69.blk_inter, hC]
   ext u
   simp [blk]
 
@@ -307,7 +312,7 @@ theorem disj_a_one {α : G} (hα : AlphaSpec S z t α) {C₁ C₂ : Set G} (h1 :
 theorem X_card {α : G} (hα : AlphaSpec S z t α) : Set.ncard (XSet S E z) = 32 := by
   rw [h.X_eq hα]
   have hd : Disjoint (blk z {1, t} ∪ blk z (E2 E t)) (blk (α * z) (E4 E t)) :=
-    Disjoint.union_left (h.disj_z_r hα h.E0_sub h.E4_sub) (h.disj_z_r hα h.E2_sub h.E4_sub)
+    Disjoint.union_left (h.disj_z_r hα h.E0_sub (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E4_sub (t := t) (E := E))) (h.disj_z_r hα (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E2_sub (t := t) (E := E)) (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E4_sub (t := t) (E := E)))
   rw [Set.ncard_union_eq hd (Set.toFinite _) (Set.toFinite _),
     Set.ncard_union_eq h.disj_Zb_ZE (Set.toFinite _) (Set.toFinite _)]
   have h1 : Set.ncard (blk z ({1, t} : Set G)) = 2 := by
@@ -387,7 +392,7 @@ theorem Xi_decomp {α : G} (hα : AlphaSpec S z t α) :
     · exact absurd (Or.inl (Or.inr h1)) hnX
     · exact Or.inl (Or.inl h1)
     · exact Or.inr ⟨hu, h1⟩
-    · exact Or.inl (Or.inr ⟨hu, by rw [h.blk_one]; exact h1⟩)
+    · exact Or.inl (Or.inr ⟨hu, by rw [CFSG.EvenSporadicStandard.Fin76b.OHyp69.blk_one]; exact h1⟩)
     · exact absurd (Or.inr h1) hnX
   · rintro ((h1 | ⟨h1, -⟩) | ⟨h1, -⟩)
     · exact h.Ab_sub_Xi hα h1
@@ -398,7 +403,7 @@ theorem alpha_orbit {α : G} (hα : AlphaSpec S z t α) {m : G}
     (hm : m ∈ normalizer ((S ⊔ E : Subgroup G) : Set G)) :
     m * α * m⁻¹ = α ∨ m * α * m⁻¹ = α * t := by
   have hinv : ∀ m ∈ normalizer ((S ⊔ E : Subgroup G) : Set G), ∀ u ∈ XiSet S E α,
-      m * u * m⁻¹ ∈ XiSet S E α := fun m hm u hu => h.Xi_inv hm hu
+      m * u * m⁻¹ ∈ XiSet S E α := fun m hm u hu => OHyp69.Xi_inv hm hu
   have hdEE := h.dich_blk (one_mem S) (C := E2 E t) (Or.inl rfl) hinv
   have hdAE := h.dich_blk hα.mem (C := E2 E t) (Or.inl rfl) hinv
   have hdec := h.Xi_decomp hα
@@ -419,10 +424,10 @@ theorem alpha_orbit {α : G} (hα : AlphaSpec S z t α) {m : G}
     rcases he with rfl | rfl
     · exact he'.2.2.1 rfl
     · exact he'.2.2.2 rfl
-  have hAbEE := h.disj_a_one hα h.E0_sub h.E2_sub
-  have hAbAE : Disjoint (blk α {1, t}) (blk α (E2 E t)) := h.disj_same hE0E2
+  have hAbEE := h.disj_a_one hα h.E0_sub (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E2_sub (t := t) (E := E))
+  have hAbAE : Disjoint (blk α {1, t}) (blk α (E2 E t)) := CFSG.EvenSporadicStandard.Fin76b.OHyp69.disj_same hE0E2
   have hEEAE : Disjoint (blk 1 (E2 E t)) (blk α (E2 E t)) :=
-    (h.disj_a_one hα h.E2_sub h.E2_sub).symm
+    (h.disj_a_one hα (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E2_sub (t := t) (E := E)) (CFSG.EvenSporadicStandard.Fin76b.OHyp69.E2_sub (t := t) (E := E))).symm
   have hd2 : Disjoint (blk α {1, t}) (XiSet S E α ∩ blk 1 (E2 E t)) :=
     hAbEE.mono_right Set.inter_subset_right
   have hd3 : Disjoint ((blk α {1, t}) ∪ (XiSet S E α ∩ blk 1 (E2 E t)))
@@ -433,7 +438,7 @@ theorem alpha_orbit {α : G} (hα : AlphaSpec S z t α) {m : G}
       cnt (XiSet S E α ∩ blk 1 (E2 E t)) u + cnt (XiSet S E α ∩ blk α (E2 E t)) u := by
     intro u
     conv_lhs => rw [hdec]
-    rw [h.cnt_union hd3, h.cnt_union hd2]
+    rw [CFSG.EvenSporadicStandard.Fin76b.OHyp69.cnt_union hd3, CFSG.EvenSporadicStandard.Fin76b.OHyp69.cnt_union hd2]
   obtain ⟨e, heE, he2, he1, het, -⟩ := h.fus
   have he : e ∈ E2 E t := ⟨heE, he2, he1, het⟩
   have heEE : e ∈ blk 1 (E2 E t) := ⟨e, he, one_mul e⟩
@@ -443,25 +448,25 @@ theorem alpha_orbit {α : G} (hα : AlphaSpec S z t α) {m : G}
     have heΞ : e ∈ XiSet S E α := by
       have : e ∈ XiSet S E α ∩ blk 1 (E2 E t) := by rw [hR]; exact heEE
       exact this.1
-    have h1 := h.Xi_reg heΞ
-    rw [hcntX e, hcntX α, hP, hR, h.T13 hα, h.T14 hα, h.T15 hα, h.T16 hα he, h.T17 hα he,
+    have h1 := CFSG.EvenSporadicStandard.Fin76b.OHyp69.Xi_reg heΞ
+    rw [hcntX e, hcntX α, hP, hR, h.T13 hα, h.T14 hα, h.T15 hα, h.T16 hα he, h.T17 he,
       h.T18 hα he] at h1
     omega
   · exfalso
     have heΞ : α * e ∈ XiSet S E α := by
       have : α * e ∈ XiSet S E α ∩ blk α (E2 E t) := by rw [hP]; exact haeAE
       exact this.1
-    have h1 := h.Xi_reg heΞ
+    have h1 := CFSG.EvenSporadicStandard.Fin76b.OHyp69.Xi_reg heΞ
     rw [hcntX (α * e), hcntX α, hP, hR, h.T13 hα, h.T15 hα, h.T19 hα he, h.T11 hα he,
-      h.cnt_empty] at h1
+      CFSG.EvenSporadicStandard.Fin76b.OHyp69.cnt_empty] at h1
     omega
   · exfalso
     have heΞ : e ∈ XiSet S E α := by
       have : e ∈ XiSet S E α ∩ blk 1 (E2 E t) := by rw [hR]; exact heEE
       exact this.1
-    have h1 := h.Xi_reg heΞ
-    rw [hcntX e, hcntX α, hP, hR, h.T13 hα, h.T14 hα, h.T16 hα he, h.T17 hα he,
-      h.cnt_empty] at h1
+    have h1 := CFSG.EvenSporadicStandard.Fin76b.OHyp69.Xi_reg heΞ
+    rw [hcntX e, hcntX α, hP, hR, h.T13 hα, h.T14 hα, h.T16 hα he, h.T17 he,
+      CFSG.EvenSporadicStandard.Fin76b.OHyp69.cnt_empty] at h1
     omega
   · have hmΞ : m * α * m⁻¹ ∈ XiSet S E α := ⟨m, hm, rfl⟩
     rw [hdec, hP, hR] at hmΞ

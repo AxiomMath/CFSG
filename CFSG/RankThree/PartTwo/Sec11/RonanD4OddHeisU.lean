@@ -47,7 +47,7 @@ theorem stdUnitary_heisY (σ : F →+* F) : stdUnitary σ (heisY : SL(3, F)) = h
       (!![0, 0, 1; 1, 0, 0; 0, 1, 0] : Matrix (Fin 3) (Fin 3) F).transpose := by
     refine Matrix.inv_eq_left_inv ?_
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply]
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three]
   apply Subtype.ext
   rw [coe_stdUnitary, hY, hmap, hinv, Matrix.transpose_transpose]
 

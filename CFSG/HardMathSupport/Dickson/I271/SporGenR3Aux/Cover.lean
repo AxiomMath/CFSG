@@ -113,7 +113,7 @@ theorem eq_of_map_eq_of_perfect (π : K →* Q) (hker : π.ker ≤ Subgroup.cent
           (Commute.symm (Subgroup.mem_center_iff.1 hza b'))
           (Commute.symm (Subgroup.mem_center_iff.1 hza (b'⁻¹ * b)))
           (Commute.symm (Subgroup.mem_center_iff.1 hzb a'))
-      convert e using 2 <;> group
+      convert e using 2
     rw [hcomm]
     exact hB.le (Subgroup.commutator_mem_commutator ha' hb')
   exact le_antisymm (key h1 h2 h) (key h2 h1 h.symm)
@@ -158,7 +158,7 @@ theorem glaPPrimeCoreOf_fixSubgroup_eq_bot {K Q : Type} [Group K] [Group Q] [Fin
     (hαβ : ∀ k, π (α k) = β (π k)) (hπ : Function.Surjective π) {p : ℕ} (hp : p.Prime)
     (hZp : IsPGroup p (Subgroup.center K)) (hO : GLAPPrimeCoreOf p (fixSubgroup β) = ⊥) :
     GLAPPrimeCoreOf p (fixSubgroup α) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 := map_glaPPrimeCoreOf_fixSubgroup_le π hker α β hαβ hπ hp
   rw [hO, le_bot_iff] at h1
   set O := GLAPPrimeCoreOf p (fixSubgroup α) with hOdef
@@ -214,7 +214,7 @@ theorem comp_dichotomy_cover {p : ℕ} (hp : p.Prime) {Good : ∀ (T : Type) [Gr
       ∃ J₀ : Subgroup X, J₀ ≤ K ∧
         (∀ J : Subgroup X, GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) J →
           J = J₀) ∧ Good (PSimple p (J₀.subgroupOf K)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set k' : ↥K := ⟨k, hk⟩ with hk'
   set π : ↥K →* ↥K ⧸ Subgroup.center ↥K := QuotientGroup.mk' (Subgroup.center ↥K) with hπdef
   have hker : π.ker ≤ Subgroup.center ↥K := (QuotientGroup.ker_mk' _).le

@@ -39,6 +39,7 @@ theorem uc22p2014e_opp_le {p : ℕ} [Fact p.Prime] {P H L : Subgroup G}
   have hSL := uc22p2014e_le_of_card_dvd hS hLH hHL (by rw [hS.card_eq, ← hP.card_eq]; exact hdvd)
   exact hSL ⟨⟨y, hyH⟩, hQ (Subgroup.mem_subgroupOf.2 (mem_zpowers y)), rfl⟩
 
+omit [Finite G] in
 theorem uc22p2014e_opp_eq_of_le {p : ℕ} {A B : Subgroup G} (hAB : A ≤ B) (hBA : Opp p B ≤ A) :
     Opp p B = Opp p A := by
   refine le_antisymm ((Subgroup.closure_le _).2 ?_)
@@ -66,7 +67,7 @@ theorem uc22p2014e_nonempty_mulEquiv {p : ℕ} (hp : p.Prime) {A B L : Subgroup 
     (hBA : B ≤ normalizer (A : Set G)) (hAL : A ≤ L) (hopp : Opp p B ≤ A) :
     Nonempty (↥(Opp p (⊤ : Subgroup (Bar2 B))) ≃*
       ↥(Opp p (⊤ : Subgroup (Bar2 (barImage L A))))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKB : Opp p B ≤ B := hopp.trans hAB
   set ψ : ↥A →* ↥(barImage L A) :=
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥L)).comp (Subgroup.inclusion hAL)).codRestrict
@@ -113,6 +114,7 @@ theorem uc22p2014e_nonempty_mulEquiv {p : ℕ} (hp : p.Prime) {A B L : Subgroup 
       ((QuotientGroup.quotientMulEquivOfEq hker).trans
         ((QuotientGroup.quotientKerEquivRange f₂).trans (MulEquiv.subgroupCongr h2))))⟩
 
+omit [Finite G] in
 theorem uc22p2014e_inf_le_normalizer {H M L : Subgroup G} (hHL : H ≤ normalizer (L : Set G)) :
     H ⊓ M ≤ normalizer ((M ⊓ L : Subgroup G) : Set G) := fun h hh => by
   rw [Subgroup.mem_normalizer_iff]

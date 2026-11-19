@@ -61,7 +61,7 @@ theorem exists_frame_torus_E
         ∃ u : WeylGroup Tag.E6, ∀ a b : A,
           (b : MulAut L') = MulAut.conj m * (a : MulAut L') * (MulAut.conj m)⁻¹ →
             Multiplicative.toAdd (κ b) = adAct Tag.E6 3 u (Multiplicative.toAdd (κ a))) := by
-  haveI : Finite ↥(adjointGroup Tag.E6 K) := Finite.of_surjective ψ₀ hψ₀
+  have : Finite ↥(adjointGroup Tag.E6 K) := Finite.of_surjective ψ₀ hψ₀
   let D : FrameData ↥(adjointGroup Tag.E6 K) := eFrame K ζ hζ
   have hDH : D.H = (hatAut Tag.E6 K).range := rfl
   have hgood : D.Good := eFrame_good hζo hζ

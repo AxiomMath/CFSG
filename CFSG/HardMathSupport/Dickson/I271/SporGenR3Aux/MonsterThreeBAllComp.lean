@@ -108,8 +108,8 @@ theorem dvd_card_of_isComponentOf {G : Type*} [Group G] [Finite G] {p : ℕ} (hp
   have hbot : K ≤ ⊥ := by
     have := hKcore.trans (glaPPrimeCoreOf_le_of_isSubnormal p hK.2.1)
     rwa [hX] at this
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
-  haveI : Nontrivial K := (QuotientGroup.mk_surjective (s := Subgroup.center K)).nontrivial
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
+  have : Nontrivial K := (QuotientGroup.mk_surjective (s := Subgroup.center K)).nontrivial
   obtain ⟨x, hx⟩ := exists_ne (1 : K)
   exact hx (Subtype.ext (Subgroup.mem_bot.1 (hbot x.2)))
 
@@ -155,7 +155,7 @@ section Setup
 
 theorem tbL_le_normalizer_zpowers' :
     tbL ≤ Subgroup.normalizer ((Subgroup.zpowers tbw : Subgroup Gmat) : Set Gmat) := by
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Finite Gmat := ThreeBNF.finite_Gmat
   intro b hb
   refine mem_normalizer_of_conj ?_
   refine conj_mem_of_mem_closure (S := {tbb₁, tbb₂} ∪ Set.range tbq) ?_ hb
@@ -176,7 +176,7 @@ theorem tbL_le_normalizer_zpowers' :
 
 theorem m3Setup (hsyl : SylFact) (hirr : irrCheck () = true) :
     Setup Gmat 3 tbw QQ tbL M3X 12 20 9 (10 : ℕ).factorial := by
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Finite Gmat := ThreeBNF.finite_Gmat
   have hcardG : Nat.card Gmat = CFSG.Open.monsterOrder :=
     CFSG.YGroups.Y443.natCard_Gmat_eq_monsterOrder
   have hLQ : tbL ≤ Subgroup.normalizer (QQ : Set Gmat) := fun b hb =>
@@ -215,7 +215,7 @@ theorem m3Setup (hsyl : SylFact) (hirr : irrCheck () = true) :
     exact Subgroup.mem_centralizer_iff.1 ThreeBNF.tbw_mem_centralizer q hq
 
 theorem pow_twenty_dvd_card_M3X (hsyl : SylFact) : 3 ^ 20 ∣ Nat.card M3X := by
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Finite Gmat := ThreeBNF.finite_Gmat
   have h1 : 3 ^ 20 ∣ Nat.card tbL := by
     have := Nat.ordProj_dvd (Nat.card tbL) 3
     rwa [factorization_tbL hsyl] at this
@@ -225,7 +225,7 @@ theorem pow_twenty_dvd_card_M3X (hsyl : SylFact) : 3 ^ 20 ∣ Nat.card M3X := by
 theorem m3_component_cases (hsyl : SylFact) (hirr : irrCheck () = true)
     (hM3 : OPrimeCoreTrivialAt 3 Gmat) {J : Subgroup Gmat} (hJ : IsComponentOf J M3X) :
     M3Beta1 J ∨ M3Beta2a J := by
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Finite Gmat := ThreeBNF.finite_Gmat
   have S := m3Setup hsyl hirr
   have hX : GLAPPrimeCoreOf 3 M3X = ⊥ := hM3 tbw ThreeBNF.orderOf_tbw
   have hpd : ∀ K : Subgroup Gmat, IsComponentOf K M3X → 3 ∣ Nat.card K := fun K hK =>

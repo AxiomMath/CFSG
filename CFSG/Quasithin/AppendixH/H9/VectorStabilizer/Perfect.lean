@@ -20,7 +20,7 @@ private theorem blockGL_eq_levi_mul_tr (r : Fin m → ZMod 2) (B : GL (Fin m) (Z
 
 private theorem leviHom_mem_commutator (hm : 3 ≤ m) (B : GL (Fin m) (ZMod 2)) :
     leviHom m B ∈ ⁅stabGL m, stabGL m⁆ := by
-  haveI := isPerfect_GL_two hm
+  have := isPerfect_GL_two hm
   let T : Subgroup (GL (Fin m) (ZMod 2)) := ⊤
   have h1 : B ∈ ⁅T, T⁆ := by
     have h := (Group.isPerfect_def.mp inferInstance :
@@ -55,7 +55,7 @@ private theorem exists_ne_zero_ne (hm : 2 ≤ m) (s : Fin m → ZMod 2) :
   have he01 : (Pi.single i0 (1 : ZMod 2) : Fin m → ZMod 2) ≠ Pi.single i1 1 := by
     intro h
     have := congrFun h i0
-    simp [Pi.single_apply, h01] at this
+    simp [h01] at this
   by_cases hs : s = Pi.single i0 1
   · exact ⟨Pi.single i1 1, he1, fun h => he01 (hs ▸ h.symm)⟩
   · exact ⟨Pi.single i0 1, he0, fun h => hs h.symm⟩
@@ -108,7 +108,7 @@ theorem isPerfect_Cv (hm : 3 ≤ m) :
       Group.IsPerfect ↥K := by
     intro K hK
     subst hK
-    haveI := isPerfect_stabGL hm
+    have := isPerfect_stabGL hm
     exact Group.IsPerfect.ofSurjective (f := (pairActN (m + 1)).subgroupMap (stabGL m))
       ((pairActN (m + 1)).subgroupMap_surjective (stabGL m))
   exact key _ (Lg_inf_centSub_eq_map m)

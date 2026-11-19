@@ -27,7 +27,7 @@ section Arith
 theorem orderOf_eq_of_dvd_phiF4 {p q d : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : 1 ≤ q)
     (hd : d = 1 ∨ d = 2 ∨ d = 4) (h : p ∣ phiF4 d q) (hne1 : orderOf ((q : ℕ) : ZMod p) ≠ 1) :
     orderOf ((q : ℕ) : ZMod p) = d := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x : ZMod p := (q : ZMod p) with hxdef
   have h2 : (2 : ZMod p) ≠ 0 := by
     intro h0

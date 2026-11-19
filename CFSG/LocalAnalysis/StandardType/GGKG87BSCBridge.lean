@@ -304,11 +304,11 @@ theorem exists_surjective_fixedGroup_oddKernel
       (∀ u, ψ (α u) = ε (twistedIsogenyC hn hK σ.toRingHom hσ u)) ∧
       α.ker ≤ Subgroup.center ↥(fixedGroup K σ.toRingHom) := by
   classical
-  haveI : Finite ↥(fixedGroup K σ.toRingHom) := by
+  have : Finite ↥(fixedGroup K σ.toRingHom) := by
     have : Finite (Module.End K (Fin e6Data.d →₀ K)) := Module.finite_of_finite K
     infer_instance
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hθ : ∀ c, σ.toRingHom (σ.toRingHom c) = c := fun c =>
     CFSG.SeitzReduction.F4Pilot.involutive_of_natCard_eq (f := n) hK hσ c
   set q : ↥(fixedGroup K σ.toRingHom) →* TwE6Delta.RecipeR K n :=
@@ -337,11 +337,11 @@ theorem exists_lift_fixedGroup
     (w : MulAut (TwE6Delta.RecipeR K n)) :
     ∃ φ : MulAut ↥(fixedGroup K σ.toRingHom), ∀ u, q (φ u) = w (q u) := by
   classical
-  haveI : Finite ↥(fixedGroup K σ.toRingHom) := by
+  have : Finite ↥(fixedGroup K σ.toRingHom) := by
     have : Finite (Module.End K (Fin e6Data.d →₀ K)) := Module.finite_of_finite K
     infer_instance
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hθ : ∀ c, σ.toRingHom (σ.toRingHom c) = c := fun c =>
     CFSG.SeitzReduction.F4Pilot.involutive_of_natCard_eq (f := n) hK hσ c
   have hk4 : 4 ≤ Nat.card K := CFSG.SeitzReduction.F4Pilot.four_le_natCard_of_eq hn hK

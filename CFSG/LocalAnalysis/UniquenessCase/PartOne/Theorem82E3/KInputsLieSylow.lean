@@ -25,10 +25,10 @@ theorem sp6SylowWreath_holds :
   obtain ⟨Q⟩ : Nonempty (Sylow 3 (StatedSp 3 K)) := inferInstance
   let P₁ : Sylow 3 (Y ⧸ center Y) := P.mapSurjective (QuotientGroup.mk'_surjective _)
   let Q₁ : Sylow 3 (StatedProj (StatedSp 3 K)) := Q.mapSurjective (QuotientGroup.mk'_surjective _)
-  obtain ⟨φ₁⟩ := nonempty_mulEquiv_map_mk_of_isPGroup hZ P.isPGroup'
+  obtain ⟨φ₁⟩ := nonempty_mulEquiv_map_mk_of_isPGroup hZ P.isPGroup
   obtain ⟨φ₂⟩ := nonempty_mulEquiv_map_mk_of_isPGroup
     (Theorem82.ModelUnpack.not_dvd_card_scalars_statedSp (by norm_num) Nat.prime_three
-      (by norm_num)) Q.isPGroup'
+      (by norm_num)) Q.isPGroup
   obtain ⟨φ₃⟩ := WeirSylow.nonempty_sylow_mulEquiv_sylow_of_mulEquiv e.symm P₁ Q₁
   obtain ⟨ψ⟩ := WeirSylow.sylow_Sp (by decide : Odd 3) K hK 3 Q
   obtain ⟨ω⟩ := WeirSylow.sigmaModelEquivWreath

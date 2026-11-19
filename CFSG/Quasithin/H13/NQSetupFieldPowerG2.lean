@@ -75,7 +75,7 @@ theorem even_G2_field_power_of_posUnipotent
   obtain ⟨⟨P, hP⟩, -⟩ := exceptional_ordinary_Sylow_opposition .G2 k 2 w₀ hw₀
   have hU'2 : IsPGroup 2 U' := by
     rw [hU', ← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   obtain ⟨m, hm⟩ := hU'2.exists_card_eq
   have hcop : Nat.Coprime (Nat.card A) (Nat.card U') := by
     rw [hm]

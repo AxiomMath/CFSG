@@ -50,19 +50,19 @@ theorem tAf_treeAct {D bi : Table} (hD : ∀ m < 31671, ap D m = tb G 43 m)
     have el : ap orbLit.lab k = tb G 92 k := ap_tabOf 92 hk
     by_cases h0 : k = 0
     · subst h0
-      rw [dif_neg (fun h => absurd h.1 (Nat.lt_irrefl 0)), if_pos rfl, hD m hm]
+      rw [dite_eq_right (fun h => absurd h.1 (Nat.lt_irrefl 0)), ite_eq_left rfl, hD m hm]
     · obtain ⟨hp, -, -⟩ := tr_pt hk h0
       have hpN : tb G 91 k < 31671 := by omega
       have hdp : tb G 93 (tb G 91 k) < f := by
         have := (dep_pt hk).2 h0
         omega
-      rw [dif_pos ⟨Nat.pos_of_ne_zero h0, by rw [ep]; exact hp⟩, if_neg h0, ep, el]
+      rw [dite_eq_left ⟨Nat.pos_of_ne_zero h0, by rw [ep]; exact hp⟩, ite_eq_right h0, ep, el]
       by_cases hl : tb G 92 k = 1
-      · rw [if_pos (beq_iff_eq.2 hl), if_pos hl]
+      · rw [ite_eq_left (beq_iff_eq.2 hl), ite_eq_left hl]
         have e1 : ap orbLit.alpha m = tb G 39 m := ap_tabOf 39 hm
         rw [e1, tAf_treeAct hD hbi f _ hpN hdp _ (rng 39 (by norm_num) m hm)]
         exact ap_tabOf 39 (tAf_lt f _ _ (rng 39 (by norm_num) m hm))
-      · rw [if_neg (fun h => hl (beq_iff_eq.1 h)), if_neg hl]
+      · rw [ite_eq_right (fun h => hl (beq_iff_eq.1 h)), ite_eq_right hl]
         rw [hbi m hm, tAf_treeAct hD hbi f _ hpN hdp _ (rng 41 (by norm_num) m hm)]
         exact ap_tabOf 40 (tAf_lt f _ _ (rng 41 (by norm_num) m hm))
 
@@ -90,7 +90,7 @@ theorem foldr_count (q : Nat → Bool) (lo : Nat) : ∀ (L : List Nat) (s : Nat)
   | a :: L, s => by
     rw [List.foldr_cons, foldr_count q lo L s, nIf_eq, List.map_cons, List.countP_cons]
     change (if q (lo + a) = true then _ else _) = _
-    split_ifs with h <;> simp [h] <;> omega
+    split_ifs with h <;> simp; omega
 
 theorem cntS_eq (q : Nat → Bool) (lo len : Nat) :
     cntS q lo len = ((List.range len).map (lo + ·)).countP q := by
@@ -141,8 +141,8 @@ theorem orbSl_spec {wY : List Nat} {ex : Nat → Bool} {Wr : Nat → Nat} {gens 
   intro l hl hex hfix
   have h1 := allN_iff.1 h l hl
   unfold orbAt at h1
-  rw [bIf_eq, if_neg (by rw [show Nat.add lo l = lo + l from rfl, hex]; exact Bool.false_ne_true),
-    bIf_eq, if_pos (by rw [show Nat.add lo l = lo + l from rfl, Nat.beq_eq]; exact hfix),
+  rw [bIf_eq, ite_eq_right (by rw [show Nat.add lo l = lo + l from rfl, hex]; exact Bool.false_ne_true),
+    bIf_eq, ite_eq_left (by rw [show Nat.add lo l = lo + l from rfl, Nat.beq_eq]; exact hfix),
     strictB_eq, bAnd_eq, Bool.and_eq_true] at h1
   obtain ⟨-, h2⟩ := h1
   rw [nIf_eq] at h2
@@ -153,14 +153,14 @@ theorem orbSl_spec {wY : List Nat} {ex : Nat → Bool} {Wr : Nat → Nat} {gens 
 
 theorem exU_false {k : Nat} (h0 : k ≠ 0) (h1 : k ≠ 1) : exU k = false := by
   unfold exU
-  rw [bIf_eq, if_neg (by rw [Nat.beq_eq]; exact h0)]
+  rw [bIf_eq, ite_eq_right (by rw [Nat.beq_eq]; exact h0)]
   cases e : Nat.beq k 1
   · rfl
   · exact absurd (Nat.eq_of_beq_eq_true e) h1
 
 theorem exT_false {k : Nat} (h0 : k ≠ 0) (h1 : k ≠ 1) (h39 : k ≠ 39) : exT k = false := by
   unfold exT
-  rw [bIf_eq, exU_false h0 h1, if_neg Bool.false_ne_true]
+  rw [bIf_eq, exU_false h0 h1, ite_eq_right Bool.false_ne_true]
   cases e : Nat.beq k 39
   · rfl
   · exact absurd (Nat.eq_of_beq_eq_true e) h39

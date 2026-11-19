@@ -78,7 +78,7 @@ theorem false_of_le_R_of_card_le (h : F.IsD D dD) (hD : Nat.card D ≤ 32) {B : 
   have hBC : ∀ x ∈ B, x ∈ Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G) :=
     fun x hx => (Subgroup.mem_inf.mp (hBR hx)).2
   have hBD : ¬ B ≤ D := fun hle => hne (Subgroup.eq_of_le_of_card_ge hle hcard.ge)
-  obtain ⟨x, hxB, hxD⟩ := SetLike.not_le_iff_exists.mp hBD
+  obtain ⟨x, hxB, hxD⟩ := IsConcreteLE.not_le_iff_exists.mp hBD
   have hT := F.sup_closure_le_normalizer_E
   rcases F.arch76Lemma2 hCA with hS | ⟨s, hsS, hSeq, hs2, hsc, hsa, hsb, hrel⟩
   ·

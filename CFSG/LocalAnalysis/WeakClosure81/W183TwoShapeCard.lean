@@ -20,7 +20,7 @@ private theorem w183b5_card_PSL_2_2_2 {T : Type} [Group T] (hO : LieOrderFormula
   have hd : lieOrderDivisor .PSL 2 (2 ^ 2) = 1 := by decide
   rw [hd, mul_one] at hM
   rw [hM]
-  simp [lieOrderNumerator, show Finset.Icc 2 2 = {2} by decide]
+  simp [lieOrderNumerator]
 
 private theorem w183b5_card_PSU_3_2_2 {T : Type} [Group T] (hO : LieOrderFormulasInput)
     (h : LieModel T .PSU 3 2 2) : Nat.card T = 62400 := by
@@ -30,7 +30,7 @@ private theorem w183b5_card_PSU_3_2_2 {T : Type} [Group T] (hO : LieOrderFormula
   rw [hM]
   have h2 : Even (2 : ℕ) := by decide
   have h3 : ¬ Even (3 : ℕ) := by decide
-  simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, Finset.prod_pair, h2, h3]
+  simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, h2, h3]
 
 private theorem w183b5_card_PSL_3_2_1 {T : Type} [Group T] (hO : LieOrderFormulasInput)
     (h : LieModel T .PSL 3 2 1) : Nat.card T = 168 := by
@@ -38,7 +38,7 @@ private theorem w183b5_card_PSL_3_2_1 {T : Type} [Group T] (hO : LieOrderFormula
   have hd : lieOrderDivisor .PSL 3 (2 ^ 1) = 1 := by decide
   rw [hd, mul_one] at hM
   rw [hM]
-  simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, Finset.prod_pair]
+  simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide]
 
 private theorem w183b5_card_PSL_3_2_2 {T : Type} [Group T] (hO : LieOrderFormulasInput)
     (h : LieModel T .PSL 3 2 2) : Nat.card T = 20160 := by
@@ -46,7 +46,7 @@ private theorem w183b5_card_PSL_3_2_2 {T : Type} [Group T] (hO : LieOrderFormula
   have hd : lieOrderDivisor .PSL 3 (2 ^ 2) = 3 := by decide
   rw [hd] at hM
   have hnum : lieOrderNumerator .PSL 3 (2 ^ 2) = 60480 := by
-    simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide, Finset.prod_pair]
+    simp [lieOrderNumerator, show Finset.Icc 2 3 = {2, 3} by decide]
   rw [hnum] at hM
   omega
 
@@ -56,14 +56,14 @@ private theorem w183b5_card_PSp_2_2_2 {T : Type} [Group T] (hO : LieOrderFormula
   have hd : lieOrderDivisor .PSp 2 (2 ^ 2) = 1 := by decide
   rw [hd, mul_one] at hM
   rw [hM]
-  simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide, Finset.prod_pair]
+  simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide]
 
 private theorem w183b5_card_PSL_2_5_2 {T : Type} [Group T] (hO : LieOrderFormulasInput)
     (h : LieModel T .PSL 2 5 2) : Nat.card T = 7800 := by
   obtain ⟨-, hM, -⟩ := hO T .PSL 2 5 2 h.admissible h
   have hd : lieOrderDivisor .PSL 2 (5 ^ 2) = 2 := by decide
   have hn : lieOrderNumerator .PSL 2 (5 ^ 2) = 15600 := by
-    simp [lieOrderNumerator, show Finset.Icc 2 2 = {2} by decide]
+    simp [lieOrderNumerator]
   rw [hd, hn] at hM
   omega
 
@@ -72,7 +72,7 @@ private theorem w183b5_card_PSp_2_5_1 {T : Type} [Group T] (hO : LieOrderFormula
   obtain ⟨-, hM, -⟩ := hO T .PSp 2 5 1 h.admissible h
   have hd : lieOrderDivisor .PSp 2 (5 ^ 1) = 2 := by decide
   have hn : lieOrderNumerator .PSp 2 (5 ^ 1) = 9360000 := by
-    simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide, Finset.prod_pair]
+    simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide]
   rw [hd, hn] at hM
   omega
 
@@ -81,7 +81,7 @@ private theorem w183b5_card_PSp_2_3_1 {T : Type} [Group T] (hO : LieOrderFormula
   obtain ⟨-, hM, -⟩ := hO T .PSp 2 3 1 h.admissible h
   have hd : lieOrderDivisor .PSp 2 (3 ^ 1) = 2 := by decide
   have hn : lieOrderNumerator .PSp 2 (3 ^ 1) = 51840 := by
-    simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide, Finset.prod_pair]
+    simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide]
   rw [hd, hn] at hM
   omega
 
@@ -97,8 +97,8 @@ private theorem w183b5_nonab_of_simple_of_not_prime {X : Type} [Group X] (hs : I
   have hcomm : ∀ a b : X, a * b = b * a := fun a b => by
     by_contra hab
     exact hnab ⟨a, b, hab⟩
-  letI : CommGroup X := { ‹Group X› with mul_comm := hcomm }
-  haveI : IsSimpleGroup X := hs
+  let : CommGroup X := { ‹Group X› with mul_comm := hcomm }
+  have : IsSimpleGroup X := hs
   exact hn (IsSimpleGroup.prime_card (α := X))
 
 private theorem w183b5_nonab_of_card {X : Type} [Group X] (hs : IsSimpleGroup X) {m : ℕ}
@@ -116,7 +116,7 @@ private theorem w183b5_triple_of_L2_odd {X : Type} [Group X] {p e : ℕ} (hp : p
     (hp2 : p ≠ 2) (h3 : 3 < p ^ e) (h : CFSG.Quasithin.F6.IsL2 p e X) :
     Finite X ∧ IsSimpleGroup X ∧ ∃ a b : X, a * b ≠ b * a := by
   have hfin : Finite X := CFSG.LieType.Simplicity.finite_of_statedClassicalModel h
-  haveI : Finite X := hfin
+  have : Finite X := hfin
   obtain ⟨hs, hnab, -⟩ := asch5_simpOutSolv_holds X (Or.inl ⟨p, e, hp, hp2, h3, h⟩)
   exact ⟨hfin, hs, hnab⟩
 
@@ -129,19 +129,19 @@ private theorem w183b5_triple_of_L3_odd {X : Type} [Group X] {p : ℕ} (hp : p.P
         (h.statedClassicalModel (by decide))
     · exact CFSG.LieType.Simplicity.finite_of_statedClassicalModel
         (h.statedClassicalModel (by decide))
-  haveI : Finite X := hfin
+  have : Finite X := hfin
   obtain ⟨hs, hnab, -⟩ := asch5_simpOutSolv_holds X (Or.inr ⟨p, 1, hp, hp2, h⟩)
   exact ⟨hfin, hs, hnab⟩
 
 private theorem w183b5_not_prime_card_PSp_two {X : Type} [Group X] (hO : LieOrderFormulasInput)
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : LieModel X .PSp 2 p 1) :
+    {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (h : LieModel X .PSp 2 p 1) :
     ¬ (Nat.card X).Prime := by
   obtain ⟨hfin, -, hfac⟩ := hO X .PSp 2 p 1 h.admissible h
   have hfac' : (Nat.card X).factorization p = 4 := by
     rw [hfac]
     decide
-  haveI : Finite X := hfin
-  haveI : Nonempty X := ⟨1⟩
+  have : Finite X := hfin
+  have : Nonempty X := ⟨1⟩
   have hne : Nat.card X ≠ 0 := Nat.card_ne_zero.mpr ⟨inferInstance, hfin⟩
   have hdvd : p ^ 4 ∣ Nat.card X :=
     (hp.pow_dvd_iff_le_factorization hne).2 (le_of_eq hfac'.symm)

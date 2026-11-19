@@ -91,7 +91,7 @@ theorem conjugatesIn_eq_of_le_normalizer_zpowers (h1812 : Item181_2) (h184 : Ite
   have hexp : ∀ a ∈ A, (a * d) ^ 3 = 1 := fun a ha => hXexp _ (X.mul_mem (hAX ha) hdΩ)
   have hnc : ∃ a ∈ A, a * d ≠ d * a := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hdA (hself d hd3 h)
   have hE9 := Item1810Proof.card_inf_centralizer_eq_nine hA.1 hA.2 (hPW hdP) hd3 hexp hnc
   set E := A ⊓ Subgroup.centralizer ({d} : Set G) with hEdef

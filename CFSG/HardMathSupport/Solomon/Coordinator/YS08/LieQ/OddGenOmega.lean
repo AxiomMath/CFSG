@@ -19,6 +19,7 @@ section Omega
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type} [Field F] [Finite F] {q : ℕ} [Fact q.Prime]
   [CharP F q]
 
+omit [Finite F] in
 theorem subspStab_natRep_eq_derived (Q0 : (ι → F) → F) (W : Submodule F (ι → F)) :
     subspStab (natRep (StatedOmega Q0)) W = statedDerivedSubspaceStabilizer Q0 W := by
   ext g
@@ -87,7 +88,7 @@ theorem stabilizer_line_ne_top (Φ : QuadForm F (ι → F)) (hι : 6 ≤ Fintype
 
 theorem twoParabolics_Omega_of_borel (Φ : QuadForm F (ι → F)) (hι : 6 ≤ Fintype.card ι) {r : ℕ}
     (Fl : Fin r → Submodule F (ι → F))
-    (hBI : CFSG.LocalAnalysis.ComponentInitial.OrthogonalTail.BorelInterface q Φ.Q Fl) (i₀ i₁ : Fin r) (hi₀ : (i₀ : ℕ) = 0) (hi₁ : (i₁ : ℕ) = 1)
+    (hBI : CFSG.LocalAnalysis.ComponentInitial.OrthogonalTail.BorelInterface q Φ.Q Fl) (i₀ i₁ : Fin r) (hi₀ : (i₀ : ℕ) = 0) (_hi₁ : (i₁ : ℕ) = 1)
     {x₁ x₂ : ι → F} (hx₁0 : x₁ ≠ 0) (hind : x₂ ∉ Submodule.span F {x₁})
     (h₀ : Fl i₀ = Submodule.span F {x₁})
     (h₁ : Fl i₁ = Submodule.span F {x₁} ⊔ Submodule.span F {x₂}) :

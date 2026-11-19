@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pCore_le_relPPrimeCore_of_ne {r s : ℕ} (hr : r.Prime) (hs : s.Prime) (hrs : r ≠ s) :
     CFSG.pCore r G ≤ relPPrimeCore s (⊤ : Subgroup G) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   refine le_sSup (s := {N : Subgroup G | N ≤ ⊤ ∧ (N.subgroupOf ⊤).Normal ∧
       Nat.Coprime s (Nat.card N)}) ⟨le_top, Subgroup.normal_subgroupOf, ?_⟩
   obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := r) (G := G)).exists_card_eq
@@ -56,14 +56,16 @@ namespace Hyp36
 variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ} (h : Hyp36 G M p E)
 include h
 
+omit h in
 theorem comm_pCoreOf_two_eq_bot_of_component_le {L : Subgroup G} (hL : CFSG.IsComponent L)
     (hLM : L ≤ M) : ⁅L, pCoreOf 2 M⁆ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact commutator_pCoreOf_eq_bot_of_component_le hL hLM
 
+omit h in
 theorem false_of_component_le {L : Subgroup G} (hL : CFSG.IsComponent L)
     (hne : ⁅L, pCoreOf 2 M⁆ ≠ ⊥) (hLM : L ≤ M) : False :=
-  hne (h.comm_pCoreOf_two_eq_bot_of_component_le hL hLM)
+  hne (Hyp36.comm_pCoreOf_two_eq_bot_of_component_le hL hLM)
 
 theorem exists_component : ∃ L : Subgroup G, CFSG.IsComponent L ∧ ⁅L, pCoreOf 2 M⁆ ≠ ⊥ := by
   by_contra hall

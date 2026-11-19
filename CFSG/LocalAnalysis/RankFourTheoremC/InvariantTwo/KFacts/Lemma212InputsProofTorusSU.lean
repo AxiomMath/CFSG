@@ -169,7 +169,7 @@ private theorem exists_orthonormal_eigenbasis (hσ : IsUnitaryInvolution σ)
       have hu0 : ∀ i, σ (u i) ≠ 0 := by
         intro i h0
         have h1 := hS (b i) (b i)
-        rw [hu i, herm_smul_left, herm_smul_right, hb i i, if_pos rfl, h0, zero_mul] at h1
+        rw [hu i, herm_smul_left, herm_smul_right, hb i i, ite_eq_left rfl, h0, zero_mul] at h1
         exact zero_ne_one h1
       have hWst : ∀ x ∈ perp σ b, S x ∈ perp σ b := by
         intro x hx j
@@ -221,7 +221,7 @@ private theorem conjTr_conjTr (hσ : ∀ c, σ (σ c) = c) (A : Matrix (Fin n) (
 private theorem conjTr_diagonal (d : Fin n → K) :
     conjTr σ (diagonal d) = diagonal fun j => σ (d j) := by
   ext i j
-  by_cases h : i = j <;> simp [conjTr, diagonal_apply, h, eq_comm]
+  by_cases h : i = j <;> simp [conjTr, h, eq_comm]
 
 private theorem mul_conjTr_self (hP : conjTr σ P * P = 1) : P * conjTr σ P = 1 :=
   mul_eq_one_comm.mp hP
@@ -383,7 +383,7 @@ private theorem exists_torusHom_SUid (hσ : IsUnitaryInvolution σ) (hp : p.Prim
     ∃ F : (Fin 3 → Multiplicative (ZMod p)) →* SUid σ n,
       Function.Injective F ∧ (∀ x, Commute (F x) s) ∧
       ∀ x, ((F x : SUid σ n) : GL (Fin n) K) ∈ CFSG.Open.StatedScalars (Fin n) K → F x = 1 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp0 : (p : K) ≠ 0 := (hζ.neZero').out
   set sM : Matrix (Fin n) (Fin n) K := ((s : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hsM
   have hsiso : conjTr σ sM * sM = 1 := s.2.2
@@ -435,11 +435,11 @@ private theorem exists_torusHom_SUid (hσ : IsUnitaryInvolution σ) (hp : p.Prim
       (hms _ _ _ (norm_charHom hζ hσζ _))
   have hdet : ∀ x, ∏ j, T x j = 1 := by
     intro x
-    simp only [hTx, Finset.prod_mul_distrib, Finset.prod_pi_mulSingle', Finset.mem_univ, if_true]
+    simp only [hTx, Finset.prod_mul_distrib, Finset.prod_pi_mulSingle', Finset.mem_univ, ite_true]
     rw [← map_mul, ← map_mul, ← map_mul, mul_inv_cancel, map_one]
   obtain ⟨F, hF⟩ := exists_hom_conjDiag hσ.invol hP T hT hdet
   have hone : ∀ (i j : Fin n) (a : K), j ≠ i → (Pi.mulSingle i a : Fin n → K) j = 1 :=
-    fun i j a h => by simp [Pi.mulSingle_apply, h]
+    fun i j a h => by simp [h]
   have hT0 : ∀ x, T x i0 = charHom hζ (x 0) := by
     intro x
     rw [hTx, Pi.mulSingle_eq_same, hone i1 i0 _ h01, hone i2 i0 _ h02, hone i3 i0 _ h03]
@@ -505,7 +505,7 @@ theorem l212in_torusHom_su {p n r f : ℕ} [Fact r.Prime] (hp : p.Prime) (hn : 5
       Function.Injective F ∧ (∀ x, Commute (F x) s) ∧
       ∀ x, ((F x : CFSG.Open.StatedSU n (r ^ f) K) : GL (Fin n) K) ∈
         CFSG.Open.StatedScalars (Fin n) K → F x = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hσ := isUnitaryInvolution_unitaryInvolution hK
   have hq : 1 < r ^ f := one_lt_pow_of_card hK
   have hcard : p ∣ Nat.card Kˣ := by

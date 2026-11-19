@@ -30,14 +30,14 @@ theorem exists_decomposition {F : Type u} [Field F] [IsAlgClosed F]
   have htop := hss.iSup_eigenspace_eq_top
   have hind := T.eigenspaces_iSupIndep
   let I := {μ : F // μ ^ n = 1}
-  haveI : Finite I := by
+  have : Finite I := by
     have : Set.Finite {μ : F | μ ^ n = 1} := by
       have := (Polynomial.nthRootsFinset n (1 : F)).finite_toSet
       convert this using 1
       ext μ
       simp [Polynomial.mem_nthRootsFinset hn]
     exact this.to_subtype
-  haveI : Fintype I := Fintype.ofFinite I
+  have : Fintype I := Fintype.ofFinite I
   refine ⟨I, inferInstance, inferInstance, fun i => i.1, fun i => T.eigenspace i.1,
     Subtype.val_injective, ?_, fun i => i.2, fun i u hu => ?_⟩
   · rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top]

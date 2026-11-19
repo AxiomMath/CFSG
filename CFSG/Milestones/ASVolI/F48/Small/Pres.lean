@@ -109,7 +109,7 @@ theorem burnsideF48s_equiv_of_pres {Y D : Type*} [Group Y] [Group D] [Finite D] 
   have hbD := burnsideF48s_presHom_bijective hd hdg hcard
   have hsY := burnsideF48s_presHom_surjective hy hyg
   have hPfin : Finite (PG m ws) := inferInstance
-  haveI : Finite Y := by
+  have : Finite Y := by
     exact Finite.of_surjective _ hsY
   have hbY : Function.Bijective (burnsideF48s_presHom ws y hy) :=
     hsY.bijective_of_nat_card_le (hcard.trans hYD)

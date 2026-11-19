@@ -164,7 +164,7 @@ private theorem exists_eigenvector_of_alpha_eq (hu : UnitaryFieldData 2 n K) (hn
     (hodd : Odd (orderOf (psuConj hu A))) :
     ∃ u : Fin 3 → K, u ≠ 0 ∧ stdHermForm hu 3 u u ≠ 0 ∧
       stdHermForm hu 3 u a = 0 ∧ ∃ β : K, (A : GL (Fin 3) K) • u = β • u := by
-  haveI : CharP K 2 := hu.charP
+  have : CharP K 2 := hu.charP
   obtain ⟨N, hNodd, hAN⟩ := exists_odd_pow_eq_one hu hn A hodd
   have hNpos : 0 < N := Nat.pos_of_ne_zero fun h0 => by
     rw [h0] at hNodd
@@ -195,7 +195,7 @@ private theorem exists_eigenvector_of_alpha_eq (hu : UnitaryFieldData 2 n K) (hn
 private theorem exists_translation_coeff (hu : UnitaryFieldData 2 n K) {al r p : K}
     (hαr : al ≠ r) :
     ∃ t : K, (al + r) * t = p ∧ p + t * al = r * t := by
-  haveI : CharP K 2 := hu.charP
+  have : CharP K 2 := hu.charP
   have hden : al + r ≠ 0 := by
     intro h0
     have h1 : al = -r := by
@@ -215,7 +215,7 @@ private theorem translate_ne_zero (hu : UnitaryFieldData 2 n K) {a w : Fin 3 →
     {H W : Submodule K (Fin 3 → K)} {t : K} {b : Fin 3 → K}
     (hH : H = Submodule.span K {a, b}) (hcompl : IsCompl H W)
     (hwW : w ∈ W) (hw0 : w ≠ 0) : w + t • a ≠ 0 := by
-  haveI : CharP K 2 := hu.charP
+  have : CharP K 2 := hu.charP
   intro h0
   have hw_eq : w = t • a := by
     have h := eq_neg_of_add_eq_zero_left h0
@@ -237,19 +237,19 @@ private theorem translate_anisotropic (hu : UnitaryFieldData 2 n K) {a w : Fin 3
     have hcross' : stdHermForm hu 3 (t • a) w = 0 := by
       rw [map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul, haw, mul_zero]
     have hself : stdHermForm hu 3 (t • a) (t • a) = 0 := by
-      simp only [map_smulₛₗ, LinearMap.smul_apply, map_smul, RingHom.id_apply,
+      simp only [map_smulₛₗ, LinearMap.smul_apply, RingHom.id_apply,
         smul_eq_mul, ha_iso, mul_zero, mul_zero]
     have hsum : stdHermForm hu 3 (w + t • a) (w + t • a) =
         stdHermForm hu 3 w w := by
-      simp [map_add, LinearMap.add_apply, hcross, hcross', hself, haw, hwa, ha_iso]
+      simp [map_add, LinearMap.add_apply, haw, hwa, ha_iso]
     rw [hsum]
     exact hww
   · simp only [map_add, LinearMap.add_apply, map_smulₛₗ, LinearMap.smul_apply,
-      map_smul, smul_eq_mul, hwa, ha_iso, mul_zero, add_zero, RingHom.id_apply]
+      smul_eq_mul, hwa, ha_iso, mul_zero, add_zero]
 
 private theorem exists_eigenvector_of_alpha_ne (hu : UnitaryFieldData 2 n K)
     (A : unitaryIsom3 hu) {a w : Fin 3 → K} {H W : Submodule K (Fin 3 → K)}
-    {al p r : K} (b : Fin 3 → K) (ha0 : a ≠ 0)
+    {al p r : K} (b : Fin 3 → K) (_ha0 : a ≠ 0)
     (hα : (A : GL (Fin 3) K) • a = al • a) (hH : H = Submodule.span K {a, b})
     (hcompl : IsCompl H W) (hwW : w ∈ W) (hw0 : w ≠ 0)
     (ha_iso : stdHermForm hu 3 a a = 0) (haw : stdHermForm hu 3 a w = 0)
@@ -314,7 +314,7 @@ private theorem zLin_apply (hu : UnitaryFieldData 2 n K) (u v : Fin 3 → K) (la
     zLin hu u lam v = lam • v +
       (((lam⁻¹ ^ 2 - lam) * stdHermForm hu 3 u v / stdHermForm hu 3 u u) • u) := by
   simp only [zLin, LinearMap.add_apply, LinearMap.smul_apply, LinearMap.id_apply,
-    LinearMap.smulRight_apply, smul_eq_mul]
+    LinearMap.smulRight_apply]
   rw [smul_smul]
   congr 1
   ring
@@ -367,7 +367,7 @@ private theorem zLin_isometry (hu : UnitaryFieldData 2 n K) {u : Fin 3 → K}
   have hx0u : stdHermForm hu 3 x0 u = 0 := ((stdHermForm_isSymm hu 3).eq_iff).mpr hx0
   have hy0u : stdHermForm hu 3 y0 u = 0 := ((stdHermForm_isSymm hu 3).eq_iff).mpr hy0
   simp only [map_add, map_mul, map_pow, map_inv₀, map_smulₛₗ, LinearMap.add_apply,
-    LinearMap.smul_apply, map_smul, smul_eq_mul, hx0, hy0, hx0u, hy0u, hbar, hbar2,
+    LinearMap.smul_apply, smul_eq_mul, hy0, hx0u, hbar, hbar2,
     RingHom.id_apply]
   field_simp [hd, hlam0]
   ring
@@ -381,11 +381,10 @@ private theorem toMatrix'_zLin (hu : UnitaryFieldData 2 n K) (u : Fin 3 → K) (
   rw [LinearMap.toMatrix'_apply, zLin_apply, Matrix.add_apply, Matrix.smul_apply,
     Matrix.smul_apply, Matrix.one_apply, Matrix.vecMulVec_apply, stdHermForm_apply]
   simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, _root_.ite_true]
   simp only [Pi.smul_apply, Pi.add_apply, Pi.single_apply, smul_eq_mul, mul_ite, mul_one,
     mul_zero]
   field_simp
-  try ring
 
 private theorem det_zLin (hu : UnitaryFieldData 2 n K) {u : Fin 3 → K}
     (hd : stdHermForm hu 3 u u ≠ 0) {lam : K} (hlam : hu.norm lam = 1) :
@@ -436,11 +435,11 @@ private theorem zLin_mul (hu : UnitaryFieldData 2 n K) {u : Fin 3 → K}
   have hlam0 : lam ≠ 0 := by
     intro h0
     rw [h0] at hlam
-    simpa [UnitaryFieldData.norm] using hlam
+    simp [UnitaryFieldData.norm] at hlam
   have hmu0 : mu ≠ 0 := by
     intro h0
     rw [h0] at hmu
-    simpa [UnitaryFieldData.norm] using hmu
+    simp [UnitaryFieldData.norm] at hmu
   have hMn : ∀ m ∈ Submodule.span K {u},
       (∀ n ∈ Submodule.span K {u}, stdHermForm hu 3 n m = 0) → m = 0 := by
     intro m hm h
@@ -525,7 +524,7 @@ private theorem zSU_cube_of_mem_scalars (hu : UnitaryFieldData 2 n K) {u a : Fin
   have hlam0 : lam ≠ 0 := by
     intro h0
     rw [h0] at hlam
-    simpa [UnitaryFieldData.norm] using hlam
+    simp [UnitaryFieldData.norm] at hlam
   have hu0 : u ≠ 0 := by
     intro h0
     rw [h0] at hd
@@ -551,7 +550,7 @@ private theorem zSU_cube_of_mem_scalars (hu : UnitaryFieldData 2 n K) {u a : Fin
   simpa [eq_comm] using h
 
 private theorem zLin_conj_apply (hu : UnitaryFieldData 2 n K) {u : Fin 3 → K}
-    (hd : stdHermForm hu 3 u u ≠ 0) (A : unitaryIsom3 hu) {β : K}
+    (_hd : stdHermForm hu 3 u u ≠ 0) (A : unitaryIsom3 hu) {β : K}
     (huβ : (A : GL (Fin 3) K) • u = β • u) (hβ : hu.norm β = 1) (lam : K)
     (v : Fin 3 → K) :
     (A : GL (Fin 3) K) • zLin hu u lam ((A : GL (Fin 3) K)⁻¹ • v) =
@@ -575,7 +574,7 @@ private theorem zLin_conj_apply (hu : UnitaryFieldData 2 n K) {u : Fin 3 → K}
       stdHermForm hu 3 u u)) u, huβ, smul_smul, ← hiso]
   congr 1
   rw [hbarβ]
-  field_simp [hd, hβ0]
+  field_simp [_hd, hβ0]
 
 private theorem zSU_conj (hu : UnitaryFieldData 2 n K) {u : Fin 3 → K}
     (hd : stdHermForm hu 3 u u ≠ 0) (A : unitaryIsom3 hu) {β : K}
@@ -624,8 +623,8 @@ private theorem exists_lambda_order_norm (hu : UnitaryFieldData 2 n K) {r : ℕ}
     (hr : r.Prime) (hrd : r ∣ 2 ^ n + 1) :
     ∃ lam : Kˣ, orderOf lam = r ∧ hu.norm (lam : K) = 1 := by
   classical
-  haveI : Finite K := hu.finite
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Finite K := hu.finite
+  have : Fact r.Prime := ⟨hr⟩
   have hcard : Nat.card Kˣ = (2 ^ n + 1) * (2 ^ n - 1) := by
     rw [Nat.card_units, hu.card_eq_sq]
     simpa using Nat.sq_sub_sq (2 ^ n) 1
@@ -648,7 +647,7 @@ private theorem orderOf_proj_zSU (hu : UnitaryFieldData 2 n K) {r : ℕ}
     (hlam_ord : orderOf lam = r) (hnorm : hu.norm (lam : K) = 1) :
     orderOf (unitaryProj hu 3 (zSU hu hd hnorm)) = r := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hlamr : (lam : K) ^ r = 1 := by
     have h : lam ^ r = 1 := by rw [← hlam_ord]; exact pow_orderOf_eq_one lam
     exact congrArg (fun x : Kˣ => (x : K)) h

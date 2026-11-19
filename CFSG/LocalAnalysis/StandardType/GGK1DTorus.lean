@@ -18,7 +18,7 @@ private theorem ggK1Dt2_card_omegaGroup {K V : Type} [Field K] [Finite K] [CharP
     (hQ : Q.polarBilin.Nondegenerate) (hdim : Module.finrank K V = 2) {ε : ℤ}
     (hε : (ε = 1 ∧ IsPlusType Q) ∨ (ε = -1 ∧ ¬ IsPlusType Q)) :
     (Nat.card (omegaGroup Q hQ) : ℤ) = (Nat.card K : ℤ) - ε := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have hidx := relIndex_omegaGroup Q hQ
   have hle := omegaGroup_le Q hQ
   have h1 := Subgroup.card_mul_index
@@ -43,9 +43,9 @@ theorem ggK1D_torus_exists {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCom
     (hQ : Q.polarBilin.Nondegenerate) (hdim : Module.finrank K V = 2) {p : ℕ} (hp : p.Prime)
     (h : (IsPlusType Q ∧ p ∣ Nat.card K - 1) ∨ (¬ IsPlusType Q ∧ p ∣ Nat.card K + 1)) :
     ∃ e ∈ omegaGroup Q hQ, orderOf e = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun _ _ h => LinearEquiv.ext (congrFun h)
   have hcard : p ∣ Nat.card (omegaGroup Q hQ) := by
     rcases h with ⟨hplus, hdvd⟩ | ⟨hminus, hdvd⟩

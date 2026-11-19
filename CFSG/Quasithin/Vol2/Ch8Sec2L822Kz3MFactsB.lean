@@ -27,7 +27,7 @@ theorem pow_index_mem_commutator_of_central_kz3b {Q : Type*} [Group Q] [Finite Q
   let T : Q →* Abelianization ↥W := MonoidHom.transfer (Abelianization.of : ↥W →* Abelianization ↥W)
   have hT := MonoidHom.transfer_eq_pow (Abelianization.of : ↥W →* Abelianization ↥W) z hkey
   have hTone : T z = 1 := by
-    haveI := hQ
+    have := hQ
     have hle : commutator Q ≤ T.ker := Abelianization.commutator_subset_ker T
     exact MonoidHom.mem_ker.mp (hle Group.IsPerfect.mem_commutator)
   have hmem : (⟨z ^ W.index, MonoidHom.transfer_eq_pow_aux z hkey⟩ : ↥W) ∈
@@ -39,7 +39,7 @@ theorem pow_index_mem_commutator_of_central_kz3b {Q : Type*} [Group Q] [Finite Q
   exact Subgroup.mem_map_of_mem W.subtype hmem
 
 theorem commutator_eq_self_of_central_cover_kz3b {Q : Type*} [Group Q] [Finite Q]
-    (hQ : Group.IsPerfect Q) {Z W : Subgroup Q} [Z.Normal] (hZc : Z ≤ Subgroup.center Q) (hZW : Z ≤ W)
+    (hQ : Group.IsPerfect Q) {Z W : Subgroup Q} [Z.Normal] (hZc : Z ≤ Subgroup.center Q) (_hZW : Z ≤ W)
     (hZ3 : Nat.card Z = 3) (hindex : ¬ 3 ∣ W.index)
     (hbar : ⁅W.map (QuotientGroup.mk' Z), W.map (QuotientGroup.mk' Z)⁆ = W.map (QuotientGroup.mk' Z)) :
     ⁅W, W⁆ = W := by
@@ -78,8 +78,8 @@ theorem exists_two_complement_of_central_kz3b {M : Type*} [Group M] [Finite M] {
     (hZ : Z ≤ Subgroup.center M) (hZ3 : Nat.card Z = 3) (h2 : ∀ x : M, ∃ n : ℕ, x ^ 2 ^ n ∈ Z) :
     ∃ K : Subgroup M, IsPGroup 2 K ∧ K ⊔ Z = ⊤ ∧
       ∀ x : M, (∃ n : ℕ, x ^ 2 ^ n = 1) → x ∈ K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   have hquot : IsPGroup 2 (M ⧸ Z) := by
     intro g
     induction g using QuotientGroup.induction_on with
@@ -93,7 +93,7 @@ theorem exists_two_complement_of_central_kz3b {M : Type*} [Group M] [Finite M] {
     exact Nat.Coprime.pow_right _ (by norm_num)
   obtain ⟨K, hK⟩ := Subgroup.exists_right_complement'_of_coprime hcop
   have hK2 : IsPGroup 2 K := by
-    have hc := hK.card_mul
+    have hc := hK.card_mul_card
     have h3 := Subgroup.card_mul_index Z
     refine IsPGroup.of_card (n := i) ?_
     rw [← hindex]
@@ -120,7 +120,7 @@ theorem exists_two_complement_of_central_kz3b {M : Type*} [Group M] [Finite M] {
 theorem comap_pCore_eq_sup_ker_kz3b {X B : Type} [Group X] [Finite X] [Group B] (ρ : X →* B)
     (hρ : Function.Surjective ρ) (hZ : ρ.ker ≤ Subgroup.center X) (hZ3 : Nat.card ρ.ker = 3) :
     (CFSG.pCore 2 B).comap ρ = CFSG.pCore 2 X ⊔ ρ.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply le_antisymm
   · set M : Subgroup X := (CFSG.pCore 2 B).comap ρ
     have hMnormal : M.Normal := Subgroup.Normal.comap CFSG.pCore_normal ρ
@@ -176,7 +176,7 @@ theorem comap_pCore_eq_sup_ker_kz3b {X B : Type} [Group X] [Finite X] [Group B] 
 
 private theorem alternatingGroup_six_not_comm_kz3b :
     ¬ ∀ a b : alternatingGroup (Fin 6), a * b = b * a := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hcard : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     have h := two_mul_nat_card_alternatingGroup (α := Fin 6)
     have hperm : Nat.card (Equiv.Perm (Fin 6)) = 720 := by
@@ -190,10 +190,10 @@ theorem isHat_quot_pCore_of_central_cover_kz3b {X B : Type} [Group X] [Finite X]
     (hZ3 : Nat.card ρ.ker = 3) (hperf : Group.IsPerfect X)
     (hA : IsAlt 6 (B ⧸ CFSG.pCore 2 B)) :
     IsHat (X ⧸ CFSG.pCore 2 X) (alternatingGroup (Fin 6)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨eA⟩ := hA
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (B ⧸ CFSG.pCore 2 B) := MulEquiv.isSimpleGroup eA
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (B ⧸ CFSG.pCore 2 B) := MulEquiv.isSimpleGroup eA
   have hSnab : ¬ ∀ a b : B ⧸ CFSG.pCore 2 B, a * b = b * a := by
     intro hc
     apply alternatingGroup_six_not_comm_kz3b
@@ -258,7 +258,7 @@ theorem isHat_quot_pCore_of_central_cover_kz3b {X B : Type} [Group X] [Finite X]
   have e : ((X ⧸ N) ⧸ Subgroup.center (X ⧸ N)) ≃* alternatingGroup (Fin 6) :=
     ((QuotientGroup.quotientMulEquivOfEq hctr).trans
       (QuotientGroup.quotientKerEquivOfSurjective σ' hσ')).trans eA
-  haveI : Group.IsPerfect X := hperf
+  have : Group.IsPerfect X := hperf
   obtain ⟨a0, b0, hab⟩ : ∃ a b : alternatingGroup (Fin 6), a * b ≠ b * a := by
     have h := alternatingGroup_six_not_comm_kz3b
     push Not at h

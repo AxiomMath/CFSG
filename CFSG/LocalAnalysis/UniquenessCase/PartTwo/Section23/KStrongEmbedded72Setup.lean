@@ -17,9 +17,9 @@ open CFSG.RankThree.PartOne.Sec1511
 open CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7
 open CFSG.LocalAnalysis.UniquenessCase.UCK
 
-theorem kf7_setup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem kf7_setup {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     {X : Type} [Group X] [Finite X] (hO : CFSG.pPrimeCore p X = ⊥)
-    {L N : Subgroup X} (hLN : L.Normal) (hKL : genFittingFStar X ≤ L)
+    {L N : Subgroup X} (_hLN : L.Normal) (_hKL : genFittingFStar X ≤ L)
     (hN : IsStronglyPEmbedded p N) :
     IsSimpleGroup ↥(genFittingFStar X) ∧
       (∃ a b : ↥(genFittingFStar X), a * b ≠ b * a) ∧
@@ -32,13 +32,13 @@ theorem kf7_setup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         Subgroup.normalizer (T : Set ↥(genFittingFStar X)) ≤ N.subgroupOf (genFittingFStar X) ∧
         N.subgroupOf (genFittingFStar X) ≠ ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K : Subgroup X := genFittingFStar X with hKdef
   have hKeq : K = CFSG.generalizedFitting X :=
     CFSG.Adapters.genFittingFStar_eq_foundations (G := X)
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := spe_fstar (H := X) hp hO hN
   rw [← hKeq] at hKs hKnab hKn hKC
-  haveI : IsSimpleGroup ↥K := hKs
+  have : IsSimpleGroup ↥K := hKs
   have hKne : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
   refine ⟨hKs, hKnab, hKn, hKC, ?_⟩
   obtain ⟨P, hPN, hPK, T, hT, -⟩ :=
@@ -46,7 +46,7 @@ theorem kf7_setup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   refine ⟨P, T, hPN, hPK, hT, ?_, ?_⟩
   ·
     have h := normalizer_subgroupOf_le_of_isStronglyPEmbedded hN hPK
-      (P.isPGroup'.to_inf_left) (inf_le_left.trans hPN) inf_le_right
+      (P.isPGroup.to_inf_left) (inf_le_left.trans hPN) inf_le_right
     rwa [← hT] at h
   ·
     intro htop

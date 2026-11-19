@@ -35,8 +35,8 @@ private theorem two_pow_dvd_card_centerQuotient_su {E : Type} [Field E] [Finite 
     (hperf : commutator ↥(StatedSU m (2 ^ f) E) = ⊤) :
     2 ^ (f * (m * (m - 1) / 2)) ∣ Nat.card (T ⧸ Subgroup.center T) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP E 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := f) hE
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := f) hE
   have hUF : UnitaryFieldData 2 f E := CFSG.RankThree.PartOne.KFU.unitaryFieldData_two hE hf
   have hQ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (F := E) (p := 2)
     (f := f) hE hm hne
@@ -70,7 +70,7 @@ private theorem false_of_sl_alt_eight {E : Type} [Field E] [Fintype E] {m e : �
       _ ≤ 2 ^ e := Nat.pow_le_pow_right (by norm_num) he
   have hperf := (CFSG.HardMathSupport.Solomon.Coordinator.LieComp.slFactorFacts_holds E m hm
     (fun _ => h4)).perfect
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin m) E) := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin m) E) := Group.isPerfect_def.mpr hperf
   have hE' : Nat.card E = 2 ^ e := by rw [Nat.card_eq_fintype_card, hE]
   have hcardQ : Nat.card (X ⧸ Subgroup.center X) = 20160 := by
     rw [Nat.card_congr eX.toEquiv, card_alt_eight_uni]
@@ -122,8 +122,8 @@ private theorem false_of_su_alt_eight {E : Type} [Field E] [Fintype E] {m Q f : 
   have h2 := two_pow_dvd_card_centerQuotient_su hm hf hne hE' g hg hker hperf
   rw [hcardQ] at h2
   have hb := le_six_of_two_pow_dvd_alt h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP E 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := f) hE'
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP E 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := f) hE'
   have hUF : UnitaryFieldData 2 f E := CFSG.RankThree.PartOne.KFU.unitaryFieldData_two hE' hf
   have hsplit := KD264Lie.card_eq_card_centerQuotient_mul_card_center_of_surjective hperf g hg hker
   rw [hcardQ] at hsplit
@@ -202,8 +202,8 @@ theorem uniTwoNoA8_holds : UniTwoNoA8 := by
       ⟨F, hF, hFt, -, hcardF, h4, g, hg, hk⟩ |
       ⟨E, hE, hEt, m, -, hcardE, hm, hne', g, hg, hk⟩ |
       ⟨E, hE, hEt, m, -, hcardE, hm2, -, g, hg, hk⟩
-  · letI : Field F := hF
-    letI : Fintype F := hFt
+  · let : Field F := hF
+    let : Fintype F := hFt
     rw [hp2, hexp, one_mul] at hcardF
     have hdd2 : 2 ≤ dd := by
       by_contra hlt
@@ -213,12 +213,12 @@ theorem uniTwoNoA8_holds : UniTwoNoA8 := by
       rw [hcardF] at h4
       omega
     exact false_of_sl_alt_eight le_rfl hdd2 hcardF g hg hk eK
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     exact false_of_su_alt_eight (f := dd) (by rw [hp2, hexp, one_mul]) hm hdd hne' hcardE g hg hk
       eK
-  · letI : Field E := hE
-    letI : Fintype E := hEt
+  · let : Field E := hE
+    let : Fintype E := hEt
     rw [hp2, hexp, one_mul] at hcardE
     exact false_of_sl_alt_eight hm2 (e := 2 * dd) (by omega) hcardE g hg hk eK
 

@@ -17,8 +17,8 @@ theorem rank_PSL (n : ℕ) (hn : n = 4 ∨ n = 5) {J : Type} [Group J] [Finite J
     2 ≤ CFSG.Open.pRank 7 (⊤ : Subgroup J) := by
   obtain ⟨hp, hf, hn2, -, -⟩ := e.admissible
   obtain ⟨-, K, hfield, hfinite, hK, ⟨eJ⟩⟩ := e.statedClassicalModel_of_ne_zero (by omega)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (show 1 < 7 by norm_num) eJ]
   by_cases hp7 : p = 7
   · subst hp7

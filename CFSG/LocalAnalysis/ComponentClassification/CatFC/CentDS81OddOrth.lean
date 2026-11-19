@@ -68,7 +68,7 @@ theorem isSolvable_sup_of_commute {G : Type*} [Group G] (A B : Subgroup G)
     have := MonoidHom.noncommCoprod_range A.subtype B.subtype (fun a b => hcomm a a.2 b b.2)
     rwa [Subgroup.range_subtype, Subgroup.range_subtype] at this
   have : Group.IsSolvable (A × B) := inferInstance
-  have h1 : Group.IsSolvable ↥f.range := solvable_of_surjective f.rangeRestrict_surjective
+  have h1 : Group.IsSolvable ↥f.range := Group.isSolvable_of_surjective f.rangeRestrict_surjective
   rw [hrange] at h1
   exact h1
 
@@ -76,11 +76,11 @@ theorem isSolvable_of_perfect_le {G : Type*} [Group G] [Finite G] (S : Subgroup 
     [Group.IsSolvable S] (h : ∀ Q : Subgroup G, ⁅Q, Q⁆ = Q → Q ≤ S) : Group.IsSolvable G := by
   refine CFSG.GH74.Generic.S1.isSolvable_of_forall_perfect fun Q hQ => ?_
   have hle : Q ≤ S := h Q hQ
-  haveI : Group.IsSolvable ↥Q :=
-    solvable_of_solvable_injective (f := Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
-  haveI : Group.IsPerfect ↥Q := Subgroup.isPerfect_iff.2 hQ
+  have : Group.IsSolvable ↥Q :=
+    Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
+  have : Group.IsPerfect ↥Q := Subgroup.isPerfect_iff.2 hQ
   by_contra hne
-  haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hne
+  have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hne
   exact Group.IsPerfect.not_isSolvable (G := ↥Q) ‹_›
 
 variable {K : Type} [Field K] [Finite K]
@@ -116,21 +116,21 @@ theorem sign_dichotomy (hK : ringChar K ≠ 2) {d : ℕ} {w : Fin d → K} (hw :
   rcases hblock Jᶜ (Or.inr rfl) with h | hJcs
   · exact Or.inr h
   left
-  haveI := hJs
-  haveI := hJcs
+  have := hJs
+  have := hJcs
   have hcomm : ∀ a ∈ blockP K hw J, ∀ b ∈ blockP K hw Jᶜ, a * b = b * a := by
     rintro _ ⟨g, hg, rfl⟩ _ ⟨h, hh, rfl⟩
     rw [← map_mul, ← map_mul]
     congr 1
     apply Subtype.ext
     exact commute_of_mem_oIsoBlock hw (oBlock_le_oIsoBlock hw J hg) (oBlock_le_oIsoBlock hw Jᶜ hh)
-  haveI hB : Group.IsSolvable ↥(blockP K hw J ⊔ blockP K hw Jᶜ) :=
+  have hB : Group.IsSolvable ↥(blockP K hw J ⊔ blockP K hw Jᶜ) :=
     isSolvable_sup_of_commute _ _ hcomm
   have hBC : blockP K hw J ⊔ blockP K hw Jᶜ ≤ C :=
     sup_le (blockP_le_centralizer hw J J (Or.inl rfl) hJ)
       (blockP_le_centralizer hw J Jᶜ (Or.inr rfl) hJ)
-  haveI : Group.IsSolvable ↥((blockP K hw J ⊔ blockP K hw Jᶜ).subgroupOf C) :=
-    solvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hBC).symm.toMonoidHom)
+  have : Group.IsSolvable ↥((blockP K hw J ⊔ blockP K hw Jᶜ).subgroupOf C) :=
+    Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hBC).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hBC).symm.surjective
   refine isSolvable_of_perfect_le ((blockP K hw J ⊔ blockP K hw Jᶜ).subgroupOf C) ?_
   intro Q hQ

@@ -123,7 +123,7 @@ theorem isKleinFour_sylow
       d.coe_sylow hp hRQ, Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv,
       d.card_S_inf hp hRQ]
   refine ⟨hcard, ?_⟩
-  obtain ⟨S'', hS''⟩ := (P.isPGroup'.map d.M.subtype).exists_le_sylow
+  obtain ⟨S'', hS''⟩ := (P.isPGroup.map d.M.subtype).exists_le_sylow
   have hE := ((lemma_2_1 h hp).2.1 S'').1
   have hpow : ∀ y : (P : Subgroup d.M), y ^ 2 = 1 := fun y => by
     have hy : ((y : d.M) : G) ∈ (S'' : Subgroup G) := hS'' ⟨y, y.2, rfl⟩

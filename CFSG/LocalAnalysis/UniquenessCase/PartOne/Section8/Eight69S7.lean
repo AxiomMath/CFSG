@@ -482,7 +482,7 @@ private theorem s7noc_frattini {G : Type} [Group G] [Finite G] {N C M : Subgroup
     fun h => hP1 ((Subgroup.map_eq_bot_iff_of_injective _ (C.subgroupOf N).subtype_injective).mp
       ((Subgroup.map_eq_bot_iff_of_injective _ N.subtype_injective).mp h))
   have hN := hM _ (hP₀C.trans hCM) hP₀1
-    ((P.isPGroup'.map (C.subgroupOf N).subtype).map N.subtype)
+    ((P.isPGroup.map (C.subgroupOf N).subtype).map N.subtype)
   intro g hg
   have hmem : (⟨g, hg⟩ : ↥N) ∈ (↑(Subgroup.normalizer
       ((P : Subgroup ↥(C.subgroupOf N)).map (C.subgroupOf N).subtype : Set ↥N) ⊔ C.subgroupOf N)

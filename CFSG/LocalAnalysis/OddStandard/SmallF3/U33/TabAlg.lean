@@ -40,7 +40,7 @@ theorem permTab_inv {n : ℕ} (σ : Equiv.Perm (Fin n)) : permTab σ⁻¹ = invT
     List.Nodup.map (f := fun x => (σ x).val)
       (fun a b h => σ.injective (Fin.ext h)) (List.nodup_finRange n)
   have hlen : (σ⁻¹ i).val < ((List.finRange n).map fun x => (σ x).val).length := by
-    simpa using (σ⁻¹ i).isLt
+    simp
   have hval : ((List.finRange n).map fun x => (σ x).val)[(σ⁻¹ i).val] =
       (σ (σ⁻¹ i)).val := by
     rw [List.getElem_map, List.getElem_finRange]

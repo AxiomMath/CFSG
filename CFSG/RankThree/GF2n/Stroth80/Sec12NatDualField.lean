@@ -86,7 +86,7 @@ theorem exists_ne_zero_sq_ne_one_of_two_lt_card (K : Type) [Field K] [Finite K] 
     have := pow_eq_zero_iff (two_ne_zero) |>.mp h2
     exact sub_eq_zero.mp this
   have : Nat.card K ≤ 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     classical
     have hsub : (Finset.univ : Finset K) ⊆ {0, 1} := by
       intro c _

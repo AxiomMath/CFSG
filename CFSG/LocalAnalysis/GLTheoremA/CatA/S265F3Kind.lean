@@ -40,7 +40,7 @@ theorem fieldKind_of_fieldOn {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgr
     ∃ labK : GLALabel, HasLabel (PSimple p L) (· = labK) ∧ ¬ (labK.tag = .triD4 ∧ p = 3) ∧
       FieldKind (PSimple p L) labK (indAut p L g hF.1) := by
   have hcen : Subgroup.center (PSimple p L) = ⊥ := center_centerQuot_eq_bot hq
-  haveI : Group.IsPerfect (PQuot p L) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p L) := ⟨hq.1⟩
   have hS : commutator (PSimple p L) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center (PQuot p L)))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top

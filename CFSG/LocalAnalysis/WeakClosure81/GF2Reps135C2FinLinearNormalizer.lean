@@ -39,7 +39,7 @@ theorem exists_conj_mem_range_or_borelStd_one {K : Type} [Field K] [Fintype K] [
     change (↑(π.range ⊔ E) : Set H).Finite
     rw [Subgroup.coe_mul_of_right_le_normalizer_left (π.range) E hE]
     exact hNfin.mul hEfin
-  haveI : Fintype P := hPfin.fintype
+  have : Fintype P := hPfin.fintype
   have hgP : g ∈ P := Subgroup.mem_sup_right (Subgroup.mem_zpowers g)
   let gP : P := ⟨g, hgP⟩
   let πP : Matrix.SpecialLinearGroup (Fin n) K →* P :=
@@ -140,7 +140,7 @@ theorem exists_conj_mem_range_or_borelStd_one {K : Type} [Field K] [Fintype K] [
   obtain ⟨B, hB, τ, ε, hε, hlift⟩ :=
     CFSG.LocalAnalysis.RankThreeUC.S15.GN15.FFO.PSL.liftAut_eq_borelStd_of_normalizes
       (π := π) hker hn ⟨g'', hg''N⟩ hg''U
-  haveI : Subsingleton (K ≃+* K) := by
+  have : Subsingleton (K ≃+* K) := by
     constructor
     intro f f' 
     ext x

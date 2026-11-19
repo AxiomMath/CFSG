@@ -66,9 +66,9 @@ open scoped commutatorElement Matrix
     Sec7Hyp hc n t → Wt Q (Vt M (LB M Q B) B Z t) ≠ Vt M (LB M Q B) B Z t
 
 theorem n12Q_holds :
-    ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G), Ctx M Q Z B →
-      Z ≤ Q ∧ (∀ z ∈ Z, ∀ a ∈ Q, Commute z a) ∧ (∀ a ∈ Q, ∀ b ∈ Q, ⁅a, b⁆ ∈ Z) ∧
-        ∀ a ∈ Q, a ^ 2 ∈ Z := fun _ _ _ M Q Z _ hc =>
+    ∀ (G : Type) [Group G] [Finite G] (_M _Q _Z B : Subgroup G), Ctx _M _Q _Z B →
+      _Z ≤ _Q ∧ (∀ z ∈ _Z, ∀ a ∈ _Q, Commute z a) ∧ (∀ a ∈ _Q, ∀ b ∈ _Q, ⁅a, b⁆ ∈ _Z) ∧
+        ∀ a ∈ _Q, a ^ 2 ∈ _Z := fun _ _ _ _M _Q _Z _ hc =>
   ⟨hc.Z_le_Q, fun _ hz _ ha => hc.hyp.toHyp79.V_central hz ha,
     fun _ ha _ hb => hc.hyp.toHyp79.comm_mem_V ha hb, fun _ ha => hc.hyp.toHyp79.sq_mem_V ha⟩
 
@@ -83,13 +83,13 @@ theorem n12Lemma1_holds :
 theorem exists_char_zmod_two {G : Type} [Group G] {Z : Subgroup G}
     (hc : ∀ x ∈ Z, ∀ y ∈ Z, ⁅x, y⁆ = 1) (hsq : ∀ x ∈ Z, x ^ 2 = 1) {x : G} (hx : x ∈ Z)
     (hx1 : x ≠ 1) : ∃ θ : ↥Z →* Multiplicative (ZMod 2), θ ⟨x, hx⟩ ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsec : SecHyp (⊥ : Subgroup G) Z ⊥ :=
     ⟨bot_le, fun a ha b hb => by simpa using hc a ha b hb, fun a ha => by simpa using hsq a ha,
       fun r hr a ha => by rw [Subgroup.mem_bot] at hr; simpa [hr] using ha,
       fun r hr a ha => by rw [Subgroup.mem_bot] at hr; simpa [hr] using ha⟩
   obtain ⟨M, iM, iA, κ, hκ⟩ := exists_sectionModule hsec
-  letI : Module (ZMod 2) M := AddCommGroup.zmodModule (fun a => by
+  let : Module (ZMod 2) M := AddCommGroup.zmodModule (fun a => by
     rw [two_nsmul]; exact hκ.two a)
   obtain ⟨φ, hφ⟩ : ∃ φ : Module.Dual (ZMod 2) M,
       φ (Multiplicative.toAdd (κ ⟨x, hx⟩)) ≠ 0 := by

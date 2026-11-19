@@ -12,15 +12,15 @@ theorem exists_fixed_vector_of_isPGroup {K V : Type*} [Field K] [Finite K] [Char
     [AddCommGroup V] [Module K V] [Finite V] (Λ : Subgroup (V ≃ₗ[K] V)) (hΛ : IsPGroup 2 Λ)
     (S : Submodule K V) (hS : ∀ T ∈ Λ, ∀ v ∈ S, T v ∈ S) (hS0 : S ≠ ⊥) :
     ∃ v ∈ S, v ≠ 0 ∧ ∀ T ∈ Λ, T v = v := by
-  letI : MulAction Λ S :=
+  let : MulAction Λ S :=
     { smul := fun T v => ⟨T.1 v.1, hS T.1 T.2 v.1 v.2⟩
       one_smul := fun v => Subtype.ext rfl
       mul_smul := fun a b v => Subtype.ext rfl }
   have h2S : 2 ∣ Nat.card S := by
-    haveI : Module.Finite K S := Module.Finite.of_finite
+    have : Module.Finite K S := Module.Finite.of_finite
     rw [Module.natCard_eq_pow_finrank (K := K) (V := S)]
     have hK : 2 ∣ Nat.card K := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card]
       exact (CharP.cast_eq_zero_iff K 2 _).mp (FiniteField.cast_card_eq_zero K)
     exact dvd_pow hK (by rwa [Ne, Submodule.finrank_eq_zero])
@@ -57,7 +57,7 @@ end Mod37
 theorem module37 : Module37Statement := by
   intro hSL2 k n hk hn E _ _ _ hdim L hLiso b hb0 hspan Λ hΛL hΛcard hΛb hfix
   obtain ⟨φ⟩ := hLiso
-  haveI : Finite E := Module.finite_of_finite (GaloisField 2 k)
+  have : Finite E := Module.finite_of_finite (GaloisField 2 k)
   obtain ⟨ρ, hρ⟩ : ∃ ρ : Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 (k * (n - 1))) →*
       (E ≃ₗ[GaloisField 2 k] E), ∀ ℓ (hℓ : ℓ ∈ L), ρ (φ ⟨ℓ, hℓ⟩) = ℓ :=
     ⟨L.subtype.comp φ.symm.toMonoidHom, fun ℓ hℓ => by simp⟩

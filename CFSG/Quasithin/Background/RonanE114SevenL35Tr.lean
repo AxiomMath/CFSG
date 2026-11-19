@@ -16,8 +16,8 @@ theorem isSolvable_normalizer_map_of_range_normal {Γ G : Type*} [Group Γ] [Gro
     (hK : Group.IsSolvable ↥(Subgroup.normalizer (K : Set Γ))) :
     Group.IsSolvable ↥(Subgroup.normalizer ((K.map f : Subgroup G) : Set G)) := by
   set N := Subgroup.normalizer ((K.map f : Subgroup G) : Set G) with hN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent (G ⧸ L) := hq.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent (G ⧸ L) := hq.isNilpotent
   have hmemN : ∀ g : Γ, g ∈ Subgroup.normalizer (K : Set Γ) → f g ∈ N := fun g hg =>
     Subgroup.le_normalizer_map f (Subgroup.mem_map_of_mem _ hg)
   let φ : ↥(Subgroup.normalizer (K : Set Γ)) →* ↥N :=
@@ -52,7 +52,7 @@ theorem mem_normalizer_inf_of_mem {G : Type*} [Group G] {T L : Subgroup G} (hLn 
 theorem exists_equiv_conj35 {G : Type} [Group G] [Finite G] {L T : Subgroup G}
     (hSyl : IsSylowIn 2 (T ⊓ L) L) (hP : IsPSL 3 5 1 ↥L) :
     ∃ E : ↥L ≃* SL(3, ZMod 5), ((T ⊓ L).subgroupOf L).map E.toMonoidHom = S35 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := E2P.Asc80.exists_equiv_psl3 (p := 5) hP
   let φ₀ : ↥L ≃* SL(3, ZMod 5) :=
     e.trans ((QuotientGroup.quotientMulEquivOfEq center_SL35).trans QuotientGroup.quotientBot)

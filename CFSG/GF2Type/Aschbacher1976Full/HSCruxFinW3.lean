@@ -113,6 +113,7 @@ variable (β : LinearMap.BilinForm (ZMod 2) V)
 
 include h1 h2 h3 halt
 
+omit h1 h2 in
 theorem gram_rl (i j : Fin 2) :
     β (bs (.inr i)) (bs (.inl j)) = if j = i then 1 else 0 := by
   rw [← halt.neg_eq, h3]
@@ -121,7 +122,7 @@ theorem gram_rl (i j : Fin 2) :
 theorem form_expand (x y : V) :
     β x y = bs.repr x (.inl 0) * bs.repr y (.inr 0) + bs.repr x (.inr 0) * bs.repr y (.inl 0) +
       bs.repr x (.inl 1) * bs.repr y (.inr 1) + bs.repr x (.inr 1) * bs.repr y (.inl 1) := by
-  have h4 := gram_rl bs β h1 h2 h3 halt
+  have h4 := gram_rl bs β h3 halt
   conv_lhs => rw [eq_sum bs x, eq_sum bs y]
   simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, h1, h2, h3,
     h4]
@@ -134,7 +135,7 @@ theorem bf_cc (x y : V) : bf (cc bs x) (cc bs y) = (β x y).val := by
 
 theorem tupOf_mem_L (g : V ≃ₗ[ZMod 2] V) (hg : ∀ x y, β (g x) (g y) = β x y) :
     tupOf bs g ∈ L := by
-  have h4 := gram_rl bs β h1 h2 h3 halt
+  have h4 := gram_rl bs β h3 halt
   have hb : ∀ p q : Fin 2 ⊕ Fin 2,
       bf (cc bs (g (bs p))) (cc bs (g (bs q))) = (β (bs p) (bs q)).val := by
     intro p q
@@ -222,7 +223,7 @@ theorem pairHyp_tupOf (a c : V ≃ₗ[ZMod 2] V) (hca : c ≠ a) (hca2 : c ≠ a
 
 theorem finite_aut (bs : Module.Basis (Fin 2 ⊕ Fin 2) (ZMod 2) V) :
     Finite (V ≃ₗ[ZMod 2] V) := by
-  haveI : Finite V := Finite.of_equiv _ bs.equivFun.symm.toEquiv
+  have : Finite V := Finite.of_equiv _ bs.equivFun.symm.toEquiv
   exact Finite.of_injective (fun e : V ≃ₗ[ZMod 2] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
 

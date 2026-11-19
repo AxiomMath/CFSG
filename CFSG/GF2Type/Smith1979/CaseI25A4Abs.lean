@@ -95,8 +95,9 @@ theorem exists_ind (s : ι → ZMod 2) : ∃ S : Finset ι, s = ind S := by
   refine ⟨Finset.univ.filter fun i => s i = 1, funext fun i => ?_⟩
   by_cases h : s i = 1
   · simp [ind, h]
-  · simp [ind, h, zmod2_eq_zero_of_ne_one _ h]
+  · simp [ind, zmod2_eq_zero_of_ne_one _ h]
 
+omit [Fintype ι] in
 theorem ind_eq_zero_iff (S : Finset ι) : ind S = 0 ↔ S = ∅ := by
   constructor
   · intro h
@@ -118,13 +119,16 @@ theorem ind_eq_one_iff (S : Finset ι) : ind S = (fun _ => 1) ↔ S = Finset.uni
     funext i
     simp [ind]
 
+omit [Finite L] in
 theorem ev_single (i : ι) : ev d (Pi.single i 1) = Additive.ofMul (d i) := by
   simp [ev]
 
+omit [Finite L] in
 theorem ev_ind (S : Finset ι) : ev d (ind S) = Additive.ofMul (∏ i ∈ S, d i) := by
   simp only [ev, ind, Fintype.linearCombination_apply, ite_smul, one_smul, zero_smul,
     Finset.sum_ite_mem, Finset.univ_inter, ofMul_prod]
 
+omit [Finite L] [DecidableEq ι] in
 theorem ev_surjective (hgen : Subgroup.closure (Set.range d) = ⊤) :
     Function.Surjective (ev d) := by
   rw [← LinearMap.range_eq_top, ev, Fintype.range_linearCombination]
@@ -143,6 +147,7 @@ theorem ev_surjective (hgen : Subgroup.closure (Set.range d) = ⊤) :
     | inv y _ hy => exact Submodule.neg_mem _ hy
   exact key _ hx
 
+omit [Finite L] in
 theorem exists_finset_prod (hgen : Subgroup.closure (Set.range d) = ⊤) (l : L) :
     ∃ S : Finset ι, l = ∏ i ∈ S, d i := by
   obtain ⟨s, hs⟩ := ev_surjective d hgen (Additive.ofMul l)
@@ -157,6 +162,7 @@ theorem finrank_additive (hcard : Nat.card L = 2 ^ 5) :
   rw [Nat.card_zmod, Nat.card_congr (Additive.toMul : Additive L ≃ L), hcard] at h
   exact (Nat.pow_right_injective le_rfl h).symm
 
+omit [DecidableEq ι] in
 theorem finrank_ker_ev (hι : Fintype.card ι = 6) (hcard : Nat.card L = 2 ^ 5)
     (hgen : Subgroup.closure (Set.range d) = ⊤) :
     Module.finrank (ZMod 2) (LinearMap.ker (ev d)) = 1 := by
@@ -165,6 +171,7 @@ theorem finrank_ker_ev (hι : Fintype.card ι = 6) (hcard : Nat.card L = 2 ^ 5)
     Module.finrank_fintype_fun_eq_card, hι] at h
   omega
 
+omit [Finite L] [DecidableEq ι] in
 theorem ev_comp_perm (φ : L ≃* L) (σ : Equiv.Perm ι) (hφ : ∀ i, φ (d i) = d (σ i))
     (s : ι → ZMod 2) :
     ev d (s ∘ σ.symm) = Additive.ofMul (φ (Additive.toMul (ev d s))) := by
@@ -236,6 +243,7 @@ theorem prod_eq_one_iff (hι : Fintype.card ι = 6) (hcard : Nat.card L = 2 ^ 5)
   rw [ev_ind, ofMul_eq_zero, ind_eq_zero_iff, ind_eq_one_iff] at h
   exact h
 
+omit [Finite L] [DecidableEq ι] in
 theorem exists_functional (hsurj : Function.Surjective (ev d))
     (hker : ∀ s, ev d s = 0 → ∑ i, s i = 0) :
     ∃ f : L →* Multiplicative (ZMod 2),
@@ -482,7 +490,7 @@ theorem sixGenerators_comm {L : Type*} [CommGroup L] [Finite L] (hsq : ∀ a : L
       (∀ z ∈ f.ker, z ≠ 1 → ∃ i j, i ≠ j ∧ z = d i * d j) ∧
       (∀ a ∈ f.ker, a ≠ 1 → ∀ b ∈ f.ker, b ≠ 1 → ∃ φ ∈ Γ, φ a = b) ∧
       (∀ M : Subgroup L, (∀ φ ∈ Γ, ∀ m ∈ M, φ m ∈ M) → M ≠ ⊥ → M ≠ ⊤ → M = f.ker) := by
-  letI : Module (ZMod 2) (Additive L) := AddCommGroup.zmodModule (n := 2) fun x => by
+  let : Module (ZMod 2) (Additive L) := AddCommGroup.zmodModule (n := 2) fun x => by
     rw [two_nsmul]
     exact hsq (Additive.toMul x)
   have hinv : ∀ σ ∈ alternatingGroup ι, ∀ s, ev d s = 0 → ev d (s ∘ σ.symm) = 0 := by
@@ -528,7 +536,7 @@ theorem sixGenerators {L : Type*} [Group L] [Finite L]
       (∀ z ∈ f.ker, z ≠ 1 → ∃ i j, i ≠ j ∧ z = d i * d j) ∧
       (∀ a ∈ f.ker, a ≠ 1 → ∀ b ∈ f.ker, b ≠ 1 → ∃ φ ∈ Γ, φ a = b) ∧
       (∀ M : Subgroup L, (∀ φ ∈ Γ, ∀ m ∈ M, φ m ∈ M) → M ≠ ⊥ → M ≠ ⊤ → M = f.ker) := by
-  letI : CommGroup L := { (inferInstance : Group L) with mul_comm := hcomm }
+  let : CommGroup L := { (inferInstance : Group L) with mul_comm := hcomm }
   exact SixGen.sixGenerators_comm hsq hcard hι d hgen Γ hΓ hΓalt
 
 end CFSG.GF2Type.Smith1979.Case25

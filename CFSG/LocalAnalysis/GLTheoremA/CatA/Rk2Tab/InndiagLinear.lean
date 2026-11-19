@@ -207,9 +207,9 @@ theorem rk2_inndiag_card_le_linear {lab : GLALabel} (hlab : GLAInLambda2 lab) (h
   obtain ⟨K, hfield, hfinite, hK, hQ'⟩ := hQ
   refine ⟨K, hfield, hfinite, hK, hQ', ?_⟩
   intro _ E hE habel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  let : Field K := hfield
+  let : Finite K := hfinite
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have hpK : p ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hK]
     exact hpq
@@ -237,8 +237,8 @@ theorem rk2_inndiag_card_le_unitary {lab : GLALabel} (hlab : GLAInLambda2 lab)
   obtain ⟨K, hfield, hfinite, hK, hQ'⟩ := hQ
   refine ⟨K, hfield, hfinite, hK, hQ', ?_⟩
   intro _ E hE habel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hn : 1 ≤ n := by simpa using hlab.1
   have hl2 : 2 ≤ l := hlab.2.1
   have hd : 3 ≤ l + 1 := by omega
@@ -259,7 +259,7 @@ theorem rk2_inndiag_card_le_unitary {lab : GLALabel} (hlab : GLAInLambda2 lab)
     _ = p ^ rk2Mult ⟨.twA, l, n⟩ (rk2Ord p n) := by rw [hmul]; simp
 
 theorem rk2_pSubgroup_le_inn_linear {lab : GLALabel} (hlab : GLAInLambda2 lab)
-    (htag : lab.tag = .A) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    (htag : lab.tag = .A) {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hpd : ¬ p ∣ rk2DiagIndex lab) :
     Rk2LabelAll lab fun R _ I _ => ∀ E : Subgroup (MulAut R),
       E ≤ Subgroup.closure (I ∪ Set.range (MulAut.conj : R →* MulAut R)) → IsPGroup p E →
@@ -272,9 +272,9 @@ theorem rk2_pSubgroup_le_inn_linear {lab : GLALabel} (hlab : GLAInLambda2 lab)
   obtain ⟨K, hfield, hfinite, hK, hQ'⟩ := hQ
   refine ⟨K, hfield, hfinite, hK, hQ', ?_⟩
   intro E hE hEp
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  haveI : Fact p.Prime := ⟨hp⟩
+  let : Field K := hfield
+  let : Finite K := hfinite
+  have : Fact p.Prime := ⟨hp⟩
   have hl1 : 1 ≤ l := hlab.2.1
   have hcl : Subgroup.closure
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin (l + 1)) K)) Set.univ ∪
@@ -327,7 +327,7 @@ theorem rk2_pSubgroup_le_inn_linear {lab : GLALabel} (hlab : GLAInLambda2 lab)
   rwa [hyx'] at hy
 
 theorem rk2_pSubgroup_le_inn_unitary {lab : GLALabel} (hlab : GLAInLambda2 lab)
-    (htag : lab.tag = .twA) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    (htag : lab.tag = .twA) {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hpd : ¬ p ∣ rk2DiagIndex lab) :
     Rk2LabelAll lab fun R _ I _ => ∀ E : Subgroup (MulAut R),
       E ≤ Subgroup.closure (I ∪ Set.range (MulAut.conj : R →* MulAut R)) → IsPGroup p E →
@@ -340,9 +340,9 @@ theorem rk2_pSubgroup_le_inn_unitary {lab : GLALabel} (hlab : GLAInLambda2 lab)
   obtain ⟨K, hfield, hfinite, hK, hQ'⟩ := hQ
   refine ⟨K, hfield, hfinite, hK, hQ', ?_⟩
   intro E hE hEp
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  haveI : Fact p.Prime := ⟨hp⟩
+  let : Field K := hfield
+  let : Finite K := hfinite
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 1 ≤ n := by simpa using hlab.1
   have hl2 : 2 ≤ l := hlab.2.1
   have hd : 3 ≤ l + 1 := by omega

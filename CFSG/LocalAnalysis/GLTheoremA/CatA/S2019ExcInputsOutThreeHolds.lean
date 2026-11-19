@@ -38,14 +38,14 @@ private theorem false_of_exceptional_three {Y : Type} [Group Y] {t : StatedLieTa
 
 private theorem exists_field_three :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ⟨GaloisField 3 1, inferInstance, inferInstance, by
     rw [GaloisField.card 3 1 one_ne_zero, pow_one]⟩
 
 private theorem exists_field_three_pow (m : ℕ) (hm : m ≠ 0) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = 3 ^ m ∧
       ∃ σ : K →+* K, ∀ c, σ c = c ^ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ⟨GaloisField 3 m, inferInstance, inferInstance, GaloisField.card 3 m hm,
     frobenius _ 3, fun c => frobenius_def 3 c⟩
 

@@ -27,7 +27,7 @@ theorem shapeRkAt_of_subgroup_data_quasi {G : Type} [Group G] {p : ℕ} (hp : p.
       c ^ p = 1)
     (hG : Good (↥L ⧸ Subgroup.center ↥L)) (hR : Rk ↥L) : ShapeRkAt p Good Rk x := by
   have hLP : L ≤ P := fun l hl => (hLC hl).2
-  haveI : Finite ↥L :=
+  have : Finite ↥L :=
     Finite.of_injective (Subgroup.inclusion hLP) (Subgroup.inclusion_injective hLP)
   let C' : Subgroup ↥P := Subgroup.centralizer ({x} : Set ↥P)
   let L' : Subgroup ↥P := L.comap P.subtype
@@ -47,7 +47,7 @@ theorem shapeRkAt_of_subgroup_data_quasi {G : Type} [Group G] {p : ℕ} (hp : p.
       exact ⟨g, g.2, rfl⟩
     have := hLn _ hgC _ he
     exact this
-  haveI := hEn
+  have := hEn
   have hEmap : E.map C'.subtype = L' := Subgroup.map_subgroupOf_eq_of_le hL'C
   have eL : ↥L' ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLP
   have eE : ↥(E.map C'.subtype) ≃* ↥L := (MulEquiv.subgroupCongr hEmap).trans eL
@@ -155,7 +155,7 @@ theorem card_alt9 : Nat.card ↥(alternatingGroup (Fin 9)) = 181440 := by
 theorem alt9_subgroup_data {G : Type} [Group G] {L : Subgroup G}
     (e : ↥(alternatingGroup (Fin 9)) ≃* ↥L) :
     IsSimpleGroup ↥L ∧ (∃ a b : ↥L, a * b ≠ b * a) ∧ Nat.card ↥L = 181440 := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
   refine ⟨e.symm.isSimpleGroup, ?_, ?_⟩
   · obtain ⟨a, c, hac⟩ := alt9_noncomm
     exact ⟨e a, e c, fun h => hac (e.injective (by rw [map_mul, map_mul]; exact h))⟩
@@ -164,7 +164,7 @@ theorem alt9_subgroup_data {G : Type} [Group G] {L : Subgroup G}
 theorem rkSpor_Suz_alt9
     (b : Nonempty (CFSG.Blueprint.NativeSporadic.Suz ≃* (TauCeti.CFSGIndex.sporadic .Suz).Group)) :
     RkSpor 3 [.Suz] ↥(alternatingGroup (Fin 9)) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
   have hZ : Subgroup.center ↥(alternatingGroup (Fin 9)) = ⊥ :=
     center_eq_bot_of_simple_nonab alt9_noncomm
   have hcard : Nat.card (↥(alternatingGroup (Fin 9)) ⧸

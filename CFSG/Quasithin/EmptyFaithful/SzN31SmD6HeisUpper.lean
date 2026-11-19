@@ -51,8 +51,8 @@ theorem card_dvd_sixteen_of_normalizing_two_group [Nontrivial V] {Pb : Subgroup 
   have hdisj : Disjoint T Pb := IsPGroup.disjoint_of_ne 2 3 (by norm_num) T Pb hT2 hP3
   set H : Subgroup (GLV V) := T ⊔ Pb
   have hPH : Pb ≤ H := le_sup_right
-  haveI hn1 : (Pb.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hTN
-  haveI hn2 : (Pb.subgroupOf H).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hTN
+  have hn1 : (Pb.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hTN
+  have hn2 : (Pb.subgroupOf H).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hTN
   have e := QuotientGroup.quotientInfEquivProdNormalizerQuotient T Pb hTN
   have hbot : Pb.subgroupOf T = ⊥ := by
     rw [eq_bot_iff]

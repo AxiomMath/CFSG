@@ -85,7 +85,7 @@ theorem D1SPLPairData.le_czCore_of_normal (D : D1SPLPairData p P M H R Rbar K z)
     have hT : π ⟨x, hxC⟩ * π y * (π ⟨x, hxC⟩)⁻¹ * (π y)⁻¹ ∈
         (Pbar : Subgroup (D1CzQuot p z)) ⊓ KC :=
       Subgroup.mul_mem _ (hCt.norm _ hxX _ ht) (Subgroup.inv_mem _ ht)
-    obtain ⟨k, hk⟩ := (Pbar.isPGroup'.to_le inf_le_left) ⟨_, hT⟩
+    obtain ⟨k, hk⟩ := (Pbar.isPGroup.to_le inf_le_left) ⟨_, hT⟩
     have e : π ⟨x, hxC⟩ * π y * (π ⟨x, hxC⟩)⁻¹ * (π y)⁻¹ =
         π ⟨x * ((y : G) * x⁻¹ * (y : G)⁻¹), C.mul_mem hxC (C.mul_mem (C.mul_mem y.2
           (C.inv_mem hxC)) (C.inv_mem y.2))⟩ := by

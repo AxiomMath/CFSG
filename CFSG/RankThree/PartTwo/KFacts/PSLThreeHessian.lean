@@ -120,7 +120,7 @@ theorem hessP_conj_hessD (hω : ω ^ 2 + ω + 1 = 0) :
   simp only [Units.val_pow_eq_pow_val, coe_omegaUnit]
   rw [cyc_mul_diagonal_mul_inv, Matrix.diagonal_mul_diagonal]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [coe_omegaUnit, omega_pow_three hω]
+  fin_cases i <;> fin_cases j <;> simp
   · rw [← pow_succ, omega_pow_three hω]
   · rw [show ω ^ 2 * ω ^ 2 = ω ^ 4 by ring, show (4 : ℕ) = 3 + 1 by norm_num, pow_add,
       omega_pow_three hω, one_mul]
@@ -360,12 +360,12 @@ theorem injective_hessDiag (hω : ω ^ 2 + ω + 1 = 0) (hω1 : ω ≠ 1) : Funct
       _ = ω ^ 2 * ω := by rw [← h]
       _ = 1 := by rw [← pow_succ, hω3]
   have h1_ne_sq : (1 : K) ≠ ω ^ 2 := fun h => hω2 h.symm
-  fin_cases i <;> fin_cases j <;> simp_all [hω1, hω2, hω_ne_sq, h1_ne_sq]
+  fin_cases i <;> fin_cases j <;> simp_all
 
 theorem det_hessDGL : (hessDGL hω : Matrix (Fin 3) (Fin 3) K).det = 1 := by
   rw [coe_hessDGL, Matrix.det_diagonal, Fin.prod_univ_three]
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
-    Matrix.tail_cons, one_mul, coe_omegaUnit]
+    Matrix.tail_cons, one_mul]
   rw [mul_comm, ← pow_succ, omega_pow_three hω]
 
 theorem det_hessDGL_unit : GeneralLinearGroup.det (hessDGL hω) = 1 := by
@@ -621,20 +621,17 @@ theorem exists_scalar_pow_of_diag_conj_cycle {v : Fin 3 → Kˣ} {ζ : Kˣ}
   have haζ : a = ζ * c := by
     have h00 := congrFun (congrFun (congrArg
       (fun x : GL (Fin 3) K => (x : Matrix (Fin 3) (Fin 3) K)) hD) 0) 0
-    simp [diagUnits, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
-      Matrix.diagonal_apply] at h00
+    simp [diagUnits, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at h00
     exact Units.ext h00
   have hbζ : b = ζ * a := by
     have h11 := congrFun (congrFun (congrArg
       (fun x : GL (Fin 3) K => (x : Matrix (Fin 3) (Fin 3) K)) hD) 1) 1
-    simp [diagUnits, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
-      Matrix.diagonal_apply] at h11
+    simp [diagUnits, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at h11
     exact Units.ext h11
   have hcζ : c = ζ * b := by
     have h22 := congrFun (congrFun (congrArg
       (fun x : GL (Fin 3) K => (x : Matrix (Fin 3) (Fin 3) K)) hD) 2) 2
-    simp [diagUnits, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
-      Matrix.diagonal_apply] at h22
+    simp [diagUnits, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at h22
     exact Units.ext h22
   have hζ3 : ζ ^ 3 = 1 := by
     have h3 : a = ζ ^ 3 * a := by
@@ -768,7 +765,7 @@ theorem dualAut_proj_hessD :
   rw [Matrix.SpecialLinearGroup.coe_transpose, Matrix.SpecialLinearGroup.coe_inv, coe_hessD]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.diagonal_apply, Matrix.transpose_apply]
+    simp [Matrix.transpose_apply]
 
 theorem dualAut_proj_hessP :
     dualAut 3 K (proj 3 K (hessP (K := K))) = proj 3 K (hessP (K := K)) := by
@@ -796,7 +793,7 @@ theorem fieldAut_proj_hessD_of_sq (σ : K ≃+* K) (hσω : σ ω = ω ^ 2) :
   rw [Matrix.SpecialLinearGroup.map_apply_coe, Matrix.SpecialLinearGroup.coe_pow]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [diagSL148, diagOmega148, hσω, omega_pow_three hω, Matrix.diagonal_pow]
+    simp [diagSL148, diagOmega148, hσω, Matrix.diagonal_pow]
 
 theorem hessD_commutator_hessP_SL :
     ((hessD hω * hessP (K := K) * (hessD hω)⁻¹ * (hessP (K := K))⁻¹ :
@@ -989,7 +986,7 @@ theorem exists_conjAut_map_eq_hessE9 [CharP K 2] (hω : ω ^ 2 + ω + 1 = 0) (h�
     {B : Subgroup (projectiveSL 3 K)} (hB : CFSG.Assembly.IsElemAbelian 3 B)
     (hB9 : Nat.card B = 9) :
     ∃ g : GL (Fin 3) K, B.map (conjAut 3 K g).toMonoidHom = hessE9 hω := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero _ (by norm_num))
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero _ (by norm_num))
   have hn1 : 1 ≤ n := by
     by_contra hn
     have hle : 2 ^ n = 1 := by

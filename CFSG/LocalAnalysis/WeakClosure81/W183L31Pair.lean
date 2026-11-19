@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem w183l31_normalizes_of_sylow {Y : Type} [Group Y] {T L A : Subgroup Y} (hT : IsPGroup 2 T)
     (hL : ∀ t ∈ T, ∀ l ∈ L, t * l * t⁻¹ ∈ L) (hAT : A ≤ T) (hA : IsSylowIn 2 A L) :
     ∀ t ∈ T, t ∈ Subgroup.normalizer (A : Set Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTLp : IsPGroup 2 ↥(T ⊓ L) := hT.to_le inf_le_left
   have hATL : A ≤ T ⊓ L := le_inf hAT hA.le
   have hTL : T ⊓ L ≤ L := inf_le_right
@@ -28,7 +28,7 @@ theorem w183l31_normalizes_of_sylow {Y : Type} [Group Y] {T L A : Subgroup Y} (h
     rw [← Subgroup.relIndex_mul_relIndex A (T ⊓ L) L hATL hTL]
     exact dvd_mul_of_dvd_left hd _
   have hne : A.relIndex (T ⊓ L) ≠ 0 := fun h0 => hnotdvd (by rw [h0]; exact dvd_zero 2)
-  haveI : (A.subgroupOf (T ⊓ L)).FiniteIndex := Subgroup.finiteIndex_iff.mpr hne
+  have : (A.subgroupOf (T ⊓ L)).FiniteIndex := Subgroup.finiteIndex_iff.mpr hne
   obtain ⟨n, hn⟩ := hTLp.index (A.subgroupOf (T ⊓ L))
   have hn' : A.relIndex (T ⊓ L) = 2 ^ n := hn
   have hn0 : n = 0 := by
@@ -86,7 +86,7 @@ theorem w183l31_centralizer_le_conj (x : Ctx188 D V₀ V H i j) {g : G}
     Subgroup.centralizer (eOmegaZ H D.T : Set G) ≤ conjSubgroup D.M g := by
   have hlt : (⊥ : Subgroup G) < eOmegaZ H D.T ⊓ conjSubgroup V₀ g :=
     bot_lt_iff_ne_bot.mpr (x.inf_ne_bot_of_gam183 hg)
-  obtain ⟨w, hw, hwbot⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨w, hw, hwbot⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hw1 : w ≠ 1 := fun h => hwbot (Subgroup.mem_bot.mpr h)
   exact (Subgroup.centralizer_le (Set.singleton_subset_iff.mpr hw.1)).trans
     (centralizer_le_conj_M x.hyp.setting x.hyp.ne_bot g hw.2 hw1)
@@ -262,6 +262,7 @@ theorem w183l31_U_eq (x : Ctx188 D V₀ V H i 3) (M : ModDataE H (eOmegaZ H D.T)
         rw [hrelC]
         exact h4
 
+omit [Finite G] in
 private theorem w183l31_normalizer_le_normalizer_centralizer (X : Subgroup G) :
     Subgroup.normalizer (X : Set G) ≤
       Subgroup.normalizer (Subgroup.centralizer (X : Set G) : Set G) :=
@@ -269,6 +270,7 @@ private theorem w183l31_normalizer_le_normalizer_centralizer (X : Subgroup G) :
     (K := Subgroup.normalizer (X : Set G))
     (Subgroup.centralizer_le_normalizer (X : Set G))
 
+omit [Finite G] in
 private theorem w183l31_mem_sup_of_le_normalizer {A C : Subgroup G}
     (hAC : A ≤ Subgroup.normalizer (C : Set G)) {x : G} :
     x ∈ A ⊔ C ↔ ∃ a ∈ A, ∃ c ∈ C, a * c = x := by
@@ -354,7 +356,7 @@ theorem w183l31_exists_member_le_T (x : Ctx188 D V₀ V H i j) (M : ModDataE H (
     exact h1.trans h2
   exact ⟨g, hg, hgT, hAeqg⟩
 
-theorem w183l31_img_normal (M : ModDataE H (eOmegaZ H D.T)) {L : Subgroup G} (hLH : L ≤ H)
+theorem w183l31_img_normal (M : ModDataE H (eOmegaZ H D.T)) {L : Subgroup G} (_hLH : L ≤ H)
     (hLn : H ≤ Subgroup.normalizer (L : Set G)) :
     ∀ y ∈ M.img H, ∀ l ∈ M.img L, y * l * y⁻¹ ∈ M.img L := by
   intro y hy l hl

@@ -30,7 +30,8 @@ theorem conj_comm614 {Q : Type} [Group Q] (α : MulAut Q) (q : Q) :
   ext z
   simp [MulAut.conj_apply, MulAut.mul_apply]
 
-theorem conj_map_mem614 {K A : Subgroup G} (hA : A ≤ Subgroup.normalizer (K : Set G))
+omit [Finite G] in
+theorem conj_map_mem614 {K A : Subgroup G} (_hA : A ≤ Subgroup.normalizer (K : Set G))
     {e : ↥(Subgroup.normalizer (K : Set G))} (he : (e : G) ∈ Subgroup.normalizer (A : Set G))
     {a : MulAut (ModO2 K)}
     (ha : a ∈ (A.subgroupOf (Subgroup.normalizer (K : Set G))).map (actModO2_614 K)) :
@@ -44,6 +45,7 @@ theorem conj_map_mem614 {K A : Subgroup G} (hA : A ≤ Subgroup.normalizer (K : 
   have := (Subgroup.mem_normalizer_iff.mp he (x : G)).mp hxA
   simpa [Subgroup.coe_mul, Subgroup.coe_inv] using this
 
+omit [Finite G] in
 theorem map_normalizes614 {K A : Subgroup G} (hA : A ≤ Subgroup.normalizer (K : Set G))
     {e : ↥(Subgroup.normalizer (K : Set G))} (he : (e : G) ∈ Subgroup.normalizer (A : Set G)) :
     actModO2_614 K e ∈ Subgroup.normalizer
@@ -101,11 +103,13 @@ theorem card_hImg614 {K T X : Subgroup G} (hT0 : TitsOrderFact) (htits : IsTits 
 @[expose] noncomputable def phiImg614 (K A : Subgroup G) : Subgroup (MulAut (ModO2 K)) :=
   (A.subgroupOf (Subgroup.normalizer (K : Set G))).map (actModO2_614 K)
 
+omit [Finite G] in
 theorem phiImg614_mono {K A B : Subgroup G} (h : A ≤ B) : phiImg614 K A ≤ phiImg614 K B :=
   Subgroup.map_mono (Subgroup.subgroupOf_mono _ h)
 
+omit [Finite G] in
 theorem phiImg614_isPGroup {K A : Subgroup G} (hA : IsPGroup 2 A)
-    (hAK : A ≤ Subgroup.normalizer (K : Set G)) :
+    (_hAK : A ≤ Subgroup.normalizer (K : Set G)) :
     IsPGroup 2 ↥(phiImg614 K A) := by
   have hY2 : IsPGroup 2 ↥(A.subgroupOf (Subgroup.normalizer (K : Set G))) := by
     rintro ⟨x, hx⟩
@@ -116,8 +120,9 @@ theorem phiImg614_isPGroup {K A : Subgroup G} (hA : IsPGroup 2 A)
     simpa using congrArg Subtype.val hk
   exact hY2.map (actModO2_614 K)
 
+omit [Finite G] in
 theorem phiImg614_normalizes {K X O : Subgroup G} (hXK : X ≤ K) (hON : O ≤ Subgroup.normalizer (X : Set G))
-    (hOK : O ≤ Subgroup.normalizer (K : Set G)) :
+    (_hOK : O ≤ Subgroup.normalizer (K : Set G)) :
     phiImg614 K O ≤ Subgroup.normalizer ((phiImg614 K X : Subgroup (MulAut (ModO2 K))) :
       Set (MulAut (ModO2 K))) := by
   have hXΓ : X ≤ Subgroup.normalizer (K : Set G) := fun x hx => Subgroup.le_normalizer (hXK hx)
@@ -156,6 +161,7 @@ theorem oTwoUpper_phiSup614 {K X O : Subgroup G} (hXK : X ≤ K) (hO2 : IsPGroup
       (phiImg614_isPGroup hO2 hOK) (phiImg614_normalizes hXK hON hOK) hsup
   · exact (le_of_eq hXh_O2.symm).trans (oTwoUpper_mono (phiImg614_mono le_sup_left))
 
+omit [Finite G] in
 theorem xbar_invariant614 {K X : Subgroup G} (hXK : X ≤ K) (htits : IsTits (ModO2 K))
     (hB : TitsBasicFact) (α : MulAut (ModO2 K))
     (hα : ∀ y ∈ phiImg614 K X, α * y * α⁻¹ ∈ phiImg614 K X) :
@@ -181,6 +187,7 @@ theorem xbar_invariant614 {K X : Subgroup G} (hXK : X ≤ K) (htits : IsTits (Mo
     exact hyeq
   exact Subgroup.mem_map.mpr ⟨⟨(y : G), hyK⟩, Subgroup.mem_subgroupOf.mpr hyX, hmk⟩
 
+omit [Finite G] in
 theorem phi_normalizes_phiSup614 {K X O : Subgroup G} (hXK : X ≤ K)
     (hOKn : O ≤ Subgroup.normalizer (K : Set G)) {d : G} (hdK : d ∈ Subgroup.normalizer (K : Set G))
     (hdX : d ∈ Subgroup.normalizer ((X ⊔ O : Subgroup G) : Set G)) :

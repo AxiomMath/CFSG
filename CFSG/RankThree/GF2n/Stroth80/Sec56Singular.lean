@@ -97,7 +97,7 @@ theorem Ctx.natSingularConj_of (h34 : Stroth34Statement) (hRoot : Stroth310RootS
   classical
   intro φ hφ hker _ ψ hψ g hg hgV b₁ hb₁
   by_contra hQb₁
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have ht : t ∈ LB M Q B := hs.mem
@@ -502,7 +502,7 @@ theorem Ctx.natSingularConj_of (h34 : Stroth34Statement) (hRoot : Stroth310RootS
       hyL r₂ x₂ hx₂U (by rw [hr₂, hA₂u])]
   obtain ⟨lam, hlam0, hlam1⟩ : ∃ lam : K, lam ≠ 0 ∧ lam ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hinj : Function.Injective (fun a : K => decide (a = 0)) := by
       intro a b hab
       by_cases ha : a = 0
@@ -593,10 +593,10 @@ theorem sec56SingularConj_of (h34 : Stroth34Statement) (hRoot : Stroth310RootSta
     Sec56SingularConjStatement := by
   refine ⟨?_, ?_⟩
   · intro G _ _ M Q Z B hc n t hs K _ _ hK m hm3 φ hφ hker _ ψ hψ
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
-    haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+    have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
     have hnat : SpNat hc t ∨ OmegaNat hc t :=
       Or.inr ⟨K, inferInstance, inferInstance, hK, Or.inl ⟨m, hm3, φ, hφ, hker,
         hc.Rt_normalizes_Vt hs.mem, inferInstance, ψ, hψ⟩⟩
@@ -611,10 +611,10 @@ theorem sec56SingularConj_of (h34 : Stroth34Statement) (hRoot : Stroth310RootSta
           (fun h => Nat.zero_ne_one (congrArg Fin.val h))) hx hy hxy) φ hφ hker ψ hψ
   · intro G _ _ M Q Z B hc n t hs K _ _ hK m b c hm3 hirr φ hφ hker _ ψ hψ
     have hmm : 2 ≤ m := by omega
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
-    haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+    have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     have hnat : SpNat hc t ∨ OmegaNat hc t :=
       Or.inr ⟨K, inferInstance, inferInstance, hK, Or.inr ⟨m, b, c, hmm, hirr, φ, hφ, hker,
         hc.Rt_normalizes_Vt hs.mem, inferInstance, ψ, hψ⟩⟩

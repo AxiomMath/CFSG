@@ -21,6 +21,7 @@ variable {D : StdData G T L I K m k (m + 1) j} {hj : 0 < j}
     ((D.α l' : GL (Fin (m + 1)) (ZMod 2)) : Matrix (Fin (m + 1)) (Fin (m + 1)) (ZMod 2)).mulVec a
       (Fin.last m) = 0
 
+omit [Finite G] in
 theorem pure_conj (F : RForm D) {g : G} (h1 : ∀ u ∈ uZero I K, g⁻¹ * u * g ∈ pCoreOf 2 I)
     (h2 : ∀ u ∈ uZero I K, g * u * g⁻¹ ∈ pCoreOf 2 I) (E : FlipEq D hj g)
     (hKU : ∀ x : ↥K, ∀ z ∈ uZero I K, (x : G) * z * (x : G)⁻¹ ∈ uZero I K)
@@ -63,6 +64,7 @@ private theorem add_add_cancel_nsbkfc {n : ℕ} (x y : Fin j → Fin n → ZMod 
   {c | c ∈ uZero I K ∧ ∃ (a₀ : Fin (m + 1) → ZMod 2) (x : Fin j → ZMod 2),
     a₀ (Fin.last m) = 0 ∧ coG D c = tens a₀ x}
 
+omit [Finite G] in
 theorem mem_closure_pure {t : G} (ht : t ∈ uZero I K) (hw : wZ D t = 0) :
     t ∈ Subgroup.closure (pureSet D) := by
   classical
@@ -95,7 +97,7 @@ theorem mem_closure_pure {t : G} (ht : t ∈ uZero I K) (hw : wZ D t = 0) :
         have hpc : coG D p = tens (Pi.single b (1 : ZMod 2) : Fin (m + 1) → ZMod 2)
             (fun i => coG D t i b) := coG_zE D _
         have hpP : p ∈ pureSet D :=
-          ⟨hpZ, _, _, by simp [Pi.single_apply, Ne.symm hbl], hpc⟩
+          ⟨hpZ, _, _, by simp [Ne.symm hbl], hpc⟩
         have hz' : p⁻¹ * z ∈ uZero I K :=
           Subgroup.mul_mem _ (Subgroup.inv_mem _ hpZ) hz
         have h' : coG D (p⁻¹ * z) = ∑ b ∈ s, tens (Pi.single b (1 : ZMod 2) : Fin (m + 1) → ZMod 2)
@@ -119,6 +121,7 @@ theorem mem_closure_pure {t : G} (ht : t ∈ uZero I K) (hw : wZ D t = 0) :
     rintro x ⟨hx, hwx⟩
     exact ⟨Subgroup.inv_mem _ hx, by rw [wZ_inv D hx, hwx]⟩
 
+omit [Finite G] in
 theorem flip_maps_V (F : RForm D) {g : G} (h1 : ∀ u ∈ uZero I K, g⁻¹ * u * g ∈ pCoreOf 2 I)
     (h2 : ∀ u ∈ uZero I K, g * u * g⁻¹ ∈ pCoreOf 2 I) (E : FlipEq D hj g) {t : G}
     (ht : t ∈ wSub D) : g * t * g⁻¹ ∈ wSub D := by
@@ -139,6 +142,7 @@ theorem flip_maps_V (F : RForm D) {g : G} (h1 : ∀ u ∈ uZero I K, g⁻¹ * u 
     rfl
   exact hP (mem_closure_pure ht.1 ht.2)
 
+omit [Finite G] in
 theorem flip_commutes (F : RForm D) {g : G} (h1 : ∀ u ∈ uZero I K, g⁻¹ * u * g ∈ pCoreOf 2 I)
     (h2 : ∀ u ∈ uZero I K, g * u * g⁻¹ ∈ pCoreOf 2 I) (E : FlipEq D hj g)
     (hKU : ∀ x : ↥K, ∀ z ∈ uZero I K, (x : G) * z * (x : G)⁻¹ ∈ uZero I K)

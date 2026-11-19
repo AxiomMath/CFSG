@@ -94,9 +94,10 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff9
-    (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i) (hE : EmbConclusion φ t i)
-    (hK : SixKConclusion φ t i) (f5 : FF5Concl n φ t) (f6 : FF6Concl n φ t i)
+    (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i) (_hE : EmbConclusion φ t i)
+    (_hK : SixKConclusion φ t i) (f5 : FF5Concl n φ t) (f6 : FF6Concl n φ t i)
     (f7 : FF7Concl φ t i) (f8 : FF8Concl n φ t i) : ∀ g : G, g⁻¹ * t * g ∈ normalizer (Tplus φ t i : Set G) → g⁻¹ * t * g ∈ Tplus φ t i := by
   intro g hg
   by_contra hcon
@@ -180,10 +181,10 @@ theorem sixFF_ff9
     · exact hu'ne
   have hmem : d⁻¹ * u * d ∈
       {x : G | (∃ w ∈ S φ t i, x = d⁻¹ * v * d * w) ∧ orderOf x = 2} := by
-    rw [Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq]
     exact ⟨⟨((d⁻¹ * u * d)⁻¹ * (d⁻¹ * v * d))⁻¹, (S φ t i).inv_mem hw, by group⟩, hu'ord⟩
   have hmem' := (Set.ext_iff.mp hcoset (d⁻¹ * u * d)).mp hmem
-  rw [Set.mem_setOf_eq] at hmem'
+  rw [Set.mem_ofPred_eq] at hmem'
   obtain ⟨m, hmS, hm⟩ := hmem'
   have hv0' : d⁻¹ * v * d = m * (d⁻¹ * u * d) * m⁻¹ := by
     rw [hm]

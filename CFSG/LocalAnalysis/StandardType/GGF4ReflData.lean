@@ -99,7 +99,7 @@ theorem endpoint_exists :
   have h2 := List.all_eq_true.1 h1 x2 (List.mem_range.2 hx2)
   have h12' : (ord3b (Rm x1) (Rm x2) || ord4b (Rm x1) (Rm x2)) = true := by
     rcases h12 with h | h <;> simp [h]
-  simp only [h02, h12', Bool.and_self, if_true] at h2
+  simp only [h02, h12', Bool.and_self, ite_true] at h2
   obtain ⟨y, hy, hok⟩ := List.any_eq_true.1 h2
   exact ⟨y, List.mem_range.1 hy, hok⟩
 
@@ -120,11 +120,11 @@ theorem frame_closed :
         u = b ∨ commb (Rm u) (Rm b) = true := by
   intro a ha b hb hba hab u hu hua hu'
   have h1 := List.all_eq_true.1 (chkF1_all a ha) b (List.mem_range.2 hb)
-  simp only [hba, beq_self_eq_true, hab, Bool.and_self, if_true] at h1
+  simp only [hba, beq_self_eq_true, hab, Bool.and_self, ite_true] at h1
   have h2 := List.all_eq_true.1 h1 u (List.mem_range.2 hu)
   have hu'' : (u == a || commb (Rm u) (Rm a)) = true := by
     rcases hu' with rfl | h <;> simp [*]
-  simp only [hua, beq_self_eq_true, hu'', Bool.and_self, if_true, Bool.or_eq_true,
+  simp only [hua, beq_self_eq_true, hu'', Bool.and_self, ite_true, Bool.or_eq_true,
     beq_iff_eq] at h2
   exact h2
 
@@ -203,10 +203,10 @@ theorem plane_exists :
           commb (Rm s) (Rm c) = false := by
   intro a ha b hb hba hab c hc hca
   have h1 := List.all_eq_true.1 (chkP1_all a ha) b (List.mem_range.2 hb)
-  simp only [hba, beq_self_eq_true, hab, Bool.not_false, Bool.and_self, if_true] at h1
+  simp only [hba, beq_self_eq_true, hab, Bool.not_false, Bool.and_self, ite_true] at h1
   have h2 := List.all_eq_true.1 h1 c (List.mem_range.2 hc)
   have hca' : (T1 c != T1 a) = true := by simpa using hca
-  simp only [hca', if_true] at h2
+  simp only [hca', ite_true] at h2
   obtain ⟨s, hs, hok⟩ := List.any_eq_true.1 h2
   simp only [Bool.and_eq_true, Bool.not_eq_true'] at hok
   exact ⟨s, List.mem_range.1 hs, hok.1.1, hok.1.2, hok.2⟩

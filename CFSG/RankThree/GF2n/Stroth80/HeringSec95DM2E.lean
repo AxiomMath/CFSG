@@ -14,7 +14,8 @@ namespace HS9
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
-theorem exists_mul_XB (hc : Ctx M Q Z B) {t : G} {z : G}
+omit [Finite G] in
+theorem exists_mul_XB (_hc : Ctx M Q Z B) {t : G} {z : G}
     (hz : z ∈ (QB B ⊓ Wt Q (Vt M (LB M Q B) B Z t)) ⊔ Vt M (LB M Q B) B Z t) :
     ∃ a ∈ QB B ⊓ Wt Q (Vt M (LB M Q B) B Z t), ∃ v ∈ Vt M (LB M Q B) B Z t, z = a * v := by
   have hnorm : Vt M (LB M Q B) B Z t ≤
@@ -38,6 +39,7 @@ section Setup
 variable {hc : Ctx M Q Z B} {t : G} {K : Type} [Field K] [Finite K] {γ : G → K}
   {M₀ : Tim79.QuadModel Q Z K γ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
 
+omit [Finite K] [Finite G] in
 theorem qf_phi_inv (hc : Ctx M Q Z B) (M₀ : Tim79.QuadModel Q Z K γ)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
@@ -147,7 +149,7 @@ theorem eq_zero_of_Theta_eq_zero [CharP K 2] (h34 : Stroth34Statement) {n : ℕ}
       rw [S.pi_comm hyH hQav]
       rw [← hzw] at hfix
       exact hfix
-    have h2 : ⁅y, a * v⁆ ∈ Z := (M₀.π_ker _ (S.comm_mem_Q hyH.1 hQav)).mp h1
+    have h2 : ⁅y, a * v⁆ ∈ Z := (M₀.π_ker _ ((CFSG.RankThree.GF2n.Stroth80.HS9.SetupW.comm_mem_Q hc) hyH.1 hQav)).mp h1
     have h3 : ⁅y, v⁆ ∈ Z := (Ctx.mem_CN.mp hy.2).2 v hv
     have hZn : ∀ g ∈ M, ∀ z ∈ Z, g * z * g⁻¹ ∈ Z := fun g hg z hz =>
       (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 hg) z).mp hz

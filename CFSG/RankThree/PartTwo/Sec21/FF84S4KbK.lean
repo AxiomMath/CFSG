@@ -14,13 +14,13 @@ open Equiv Equiv.Perm CFSG.Permutation.FinPack
 theorem enc_swap8 (p q : Fin 8) : enc (swap p q) = swK p q := by
   unfold enc swK
   refine encF_congr fun i hi => ?_
-  rw [dif_pos hi, swap_apply_def]
+  rw [dite_eq_left hi, swap_apply_def]
   by_cases h1 : (⟨i, hi⟩ : Fin 8) = p
-  · rw [if_pos h1, if_pos (congrArg Fin.val h1)]
-  · rw [if_neg h1, if_neg fun h => h1 (Fin.ext h)]
+  · rw [ite_eq_left h1, ite_eq_left (congrArg Fin.val h1)]
+  · rw [ite_eq_right h1, ite_eq_right fun h => h1 (Fin.ext h)]
     by_cases h2 : (⟨i, hi⟩ : Fin 8) = q
-    · rw [if_pos h2, if_pos (congrArg Fin.val h2)]
-    · rw [if_neg h2, if_neg fun h => h2 (Fin.ext h)]
+    · rw [ite_eq_left h2, ite_eq_left (congrArg Fin.val h2)]
+    · rw [ite_eq_right h2, ite_eq_right fun h => h2 (Fin.ext h)]
 
 @[expose] noncomputable def condK (KI p q r s : ℕ) : Bool :=
   Nat.beq (powK 8 1985229328 (mulK 8 (mulK 8 (swK p q) (swK r s)) KI) 8) 1985229328

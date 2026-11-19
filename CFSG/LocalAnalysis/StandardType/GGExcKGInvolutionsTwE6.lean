@@ -45,7 +45,7 @@ private theorem ggInvTwE6_exists_model_frobQ {G : Type} [Group G] {f : ℕ} (hf 
   obtain ⟨π, hπ, hπker, -, hπval⟩ := LayerSixE.exists_model_twistedE6 hf
   have hπker' : π.ker = ψ.ker :=
     hπker.trans (AutSt.ker_eq_center hker hC).symm
-  haveI : ψ.ker.Normal := MonoidHom.normal_ker ψ
+  have : ψ.ker.Normal := MonoidHom.normal_ker ψ
   let eC : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)) ≃*
       twistedE6Group 2 f ⧸ ψ.ker :=
     (QuotientGroup.quotientKerEquivOfSurjective π hπ).symm.trans
@@ -71,7 +71,7 @@ private theorem ggInvTwE6_exists_model_frobQ {G : Type} [Group G] {f : ℕ} (hf 
   · rintro ⟨a, rfl⟩
     exact ⟨π a, hcomp a⟩
 
-private theorem ggInvTwE6_pi_xFixed {f : ℕ} (hf : 1 ≤ f)
+private theorem ggInvTwE6_pi_xFixed {f : ℕ} (_hf : 1 ≤ f)
     {π : twistedE6Group 2 f →*
       ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))}
     (hπval : ∀ z, ((π z : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
@@ -85,11 +85,11 @@ private theorem ggInvTwE6_pi_xFixed {f : ℕ} (hf : 1 ≤ f)
       ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))) :
         ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) =
       pinnedX TwistTag.E6.tag (GaloisField 2 (2 * f)) γ 1 := by
-  haveI : NeZero (2 * f) := ⟨by omega⟩
+  have : NeZero (2 * f) := ⟨by omega⟩
   rw [hπval]
   exact E6Pilot.coe_e6Isogeny_xm hγ 1
 
-private theorem ggInvTwE6_pi_xPair {f : ℕ} (hf : 1 ≤ f)
+private theorem ggInvTwE6_pi_xPair {f : ℕ} (_hf : 1 ≤ f)
     {π : twistedE6Group 2 f →*
       ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))}
     (hπval : ∀ z, ((π z : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
@@ -105,7 +105,7 @@ private theorem ggInvTwE6_pi_xPair {f : ℕ} (hf : 1 ≤ f)
         ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))) =
       pinnedX TwistTag.E6.tag (GaloisField 2 (2 * f)) γ 1 *
         pinnedX TwistTag.E6.tag (GaloisField 2 (2 * f)) (rho γ) 1 := by
-  haveI : NeZero (2 * f) := ⟨by omega⟩
+  have : NeZero (2 * f) := ⟨by omega⟩
   have hs : ((twistSign γ : ℤ) : GaloisField 2 (2 * f)) = 1 := by
     rcases twistSign_eq_one_or γ with h | h
     · rw [h, Int.cast_one]

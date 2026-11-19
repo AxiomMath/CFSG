@@ -34,8 +34,7 @@ public theorem normalPSL2ToPGammaL2_apply_subtype
   apply (pGammaL2EquivMulAutPSL2 K hK hcard hsurj).injective
   simp only [normalPSL2ToPGammaL2, MonoidHom.comp_apply,
     MulEquiv.coe_toMonoidHom, MulEquiv.apply_symm_apply]
-  simp only [pGammaL2EquivMulAutPSL2, MulEquiv.ofBijective_apply,
-    normalPSL2ConjAction, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
+  simp only [pGammaL2EquivMulAutPSL2, normalPSL2ConjAction, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
   change MulAut.congr e (MulAut.conjNormal (n : R)) =
     pGammaL2ToMulAutPSL2 K hK hcard
       (SemidirectProduct.inl

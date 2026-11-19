@@ -125,7 +125,7 @@ private theorem smul_sub_one_of_mem_centralizer {d : ℕ} {W : ClosedGoodPath H 
       simpa using congrArg (fun v => c⁻¹ • v) h2
     exact hne heq
 
-private theorem smul_range_of_mem_centralizer {d : ℕ} (hd2 : 2 ≤ d) {W : ClosedGoodPath H Γ}
+private theorem smul_range_of_mem_centralizer {d : ℕ} (_hd2 : 2 ≤ d) {W : ClosedGoodPath H Γ}
     (hd : ∀ i : ℤ, W.HasThirdFix (W.kernelAt 0) i ↔ (d : ℤ) ∣ i) {c : H}
     (hc : c ∈ Subgroup.centralizer (W.kernelAt 0 : Set H))
     (hfixd : c • W.x (d : ℤ) = W.x (d : ℤ))

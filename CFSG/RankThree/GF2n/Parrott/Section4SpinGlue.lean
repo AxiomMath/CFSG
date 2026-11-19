@@ -80,6 +80,7 @@ theorem conjV_vecToV (h : Tim79a.ParrottHyp z) (P : GL8)
   have key : (P * rhoA (qH D y) * P⁻¹ * P : GL8) = P * rhoA (qH D y) := by group
   rw [Matrix.mulVec_mulVec, ← Units.val_mul, key, Units.val_mul, ← Matrix.mulVec_mulVec]
 
+omit hN in
 private theorem qVZMod_seven (h : Tim79a.ParrottHyp z) (a b c : QuotientV.V z) :
     qVZMod h (a * b * c) + qVZMod h (a * b) + qVZMod h (a * c) + qVZMod h (b * c) +
       qVZMod h a + qVZMod h b + qVZMod h c = 0 := by

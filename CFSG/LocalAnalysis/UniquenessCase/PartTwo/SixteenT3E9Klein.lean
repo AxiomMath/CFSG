@@ -18,7 +18,7 @@ private def s16t_klein_conjAut {H : Type} [Group H] {A B : Subgroup H}
   right_inv a := by apply Subtype.ext; group
   map_mul' a c := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul]
     group
 
 private theorem s16t_klein_conjAut_coe {H : Type} [Group H] {A B : Subgroup H}
@@ -39,7 +39,7 @@ private def s16t_klein_conjHom {H : Type} [Group H] {A B : Subgroup H}
     intro a
     rw [MulAut.mul_apply]
     apply Subtype.ext
-    simp only [s16t_klein_conjAut_coe, Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+    simp only [s16t_klein_conjAut_coe, Subgroup.coe_mul]
     group
 
 private theorem s16t_klein_conjHom_apply {H : Type} [Group H] {A B : Subgroup H}
@@ -73,7 +73,7 @@ theorem s16t_klein_of_selfCentralizing {H : Type} [Group H] [Finite H] {A B : Su
     (hc : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x) (h2 : ∀ x ∈ B, x ^ 2 = 1) :
     Nat.card B ≤ 4 ∧ (2 < Nat.card B → ∃ z ∈ B, ∀ a ∈ A, z * a * z⁻¹ = a⁻¹) := by
   classical
-  haveI : Finite ↥B := Subtype.finite
+  have : Finite ↥B := Subtype.finite
   obtain ⟨e⟩ := hA
   let ψ : ↥B →* MulAut ↥A := s16t_klein_conjHom hnorm
   have hψ : Function.Injective ψ := s16t_klein_conjHom_injective hnorm hcent

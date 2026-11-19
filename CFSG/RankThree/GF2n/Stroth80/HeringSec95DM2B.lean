@@ -35,7 +35,7 @@ open _root_.Classical in
   if hg : g ∈ Rt M (LB M Q B) t then D.ρ ⟨g, hg⟩ else 1
 
 theorem rhoV_of_mem (D : VDesc95 hc t M₀ φ) {g : G} (hg : g ∈ Rt M (LB M Q B) t) :
-    rhoV D g = D.ρ ⟨g, hg⟩ := dif_pos hg
+    rhoV D g = D.ρ ⟨g, hg⟩ := dite_eq_left hg
 
 theorem rhoV_one (D : VDesc95 hc t M₀ φ) : rhoV D (1 : G) = 1 := by
   rw [rhoV_of_mem D (Rt M (LB M Q B) t).one_mem]
@@ -66,6 +66,7 @@ theorem actM_eq_one_of_mem_Q {q : G} (hq : q ∈ Q) : actM φ q = 1 := by
   rw [actM_of_mem (hc.Q_le_H0 hq)]
   exact (S.hφQ _).mpr hq
 
+omit [Finite G] [Finite K] S in
 theorem pi_eq_zero_iff {x : G} (hx : x ∈ Q) : M₀.π x = 0 ↔ x ∈ Z := M₀.π_ker x hx
 
 theorem actM_fix_V {n : G} (hn : n ∈ hc.CN t) {e : M₀.E}
@@ -75,7 +76,7 @@ theorem actM_fix_V {n : G} (hn : n ∈ hc.CN t) {e : M₀.E}
   have hcomm : ⁅n, v⁆ ∈ Z := (Ctx.mem_CN.mp hn).2 v hvV
   have hcommQ : ⁅n, v⁆ ∈ Q := hc.Z_le_Q hcomm
   have e1 : n * v * n⁻¹ = ⁅n, v⁆ * v := by simp only [commutatorElement_def]; group
-  rw [← S.pi_conj hnH hvQ, e1, M₀.π_mul _ hcommQ _ hvQ, (S.pi_eq_zero_iff hcommQ).mpr hcomm,
+  rw [← S.pi_conj hnH hvQ, e1, M₀.π_mul _ hcommQ _ hvQ, (SetupV.pi_eq_zero_iff hcommQ).mpr hcomm,
     zero_add]
 
 theorem actM_sub_mem_V {n : G} (hn : n ∈ hc.CN t) {e : M₀.E}

@@ -86,7 +86,7 @@ structure S10Cat3Inputs (G : Type) [Group G] [Finite G] (p : ℕ) : Prop where
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
 theorem S10Cat3Inputs.toS10Cat2Inputs
-    {m : ℕ} (hctx : ThmACtx G m) (h : S10Cat3Inputs G p) :
+    {m : ℕ} (_hctx : ThmACtx G m) (h : S10Cat3Inputs G p) :
     S10Cat2Inputs G p where
   chev2 := h.chev2
   dich := h.dich

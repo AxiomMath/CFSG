@@ -107,7 +107,6 @@ theorem invProd_ok :
     exact pgInv_ok hl
   · rw [hRec_size, CertificateChecks.KernelSpor.MNd.sizes.1]
   · refine all_hRec fun i hi => ?_
-    beta_reduce
     have hc := penumPt_canon (CertificateChecks.KernelSpor.MNd.r1_pe i hi)
     obtain ⟨c, -, hcr⟩ := conjTreeOK_spec mclP hgP hrep0' hR.2.1 i (by rw [hRec_size]; exact hi)
     rw [hRec_get hi] at hcr
@@ -229,8 +228,8 @@ theorem fiveOuter_ok : fiveOuterCheck = true := by
 theorem fivePower_ok : fivePowerCheck = true := by
   have hpG : CFSG.KC.Misc.ArrEnum.permB 275 9 (FP.F 0) = true := by quickRfl
   have hpL : CFSG.KC.Misc.ArrEnum.permB 275 9 (FV.F 3) = true := by quickRfl
-  have pG := CFSG.KC.Item434.pk_unpack hn hpG
-  have pL := CFSG.KC.Item434.pk_unpack hn hpL
+  have pG := CFSG.KC.Item434.pk_unpack hpG
+  have pL := CFSG.KC.Item434.pk_unpack hpL
   have hG : canonK 275 9 (mask 9) (275 * 9) (FP.F 0) = true := by quickRfl
   have hL : CFSG.RankThree.Native.mcl275FiveLines[1]! = unpack 275 9 (FV.F 3) := by
     rw [← fv_eq (k := 3) (by norm_num)]

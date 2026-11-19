@@ -36,7 +36,7 @@ theorem triD4_graph (hRig : GGLabelRigidInput) {n : ℕ} (hn : 2 ≤ n) {K : Typ
     {X : Type} [Group X] [Finite X] {C J : Subgroup X} (e : ↥C ≃* ↥(fixSubgroup α'))
     (hJ : GLAPComponent 3 C J) {labJ : GLALabel}
     (hlabJ : HasLabel ↥J (fun l : GLALabel => l = labJ)) : (canonLabel labJ).n = n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K₃, _, _, Fr, hK₃, hFr, φ, hφ3, hφout, ⟨eD⟩⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.D4Dual.exists_dual_fixEquiv (ℓ := 2) (f := n) (by omega) K hK α' hα3 g a hε hα'
   exact triOuter_canon_n hRig hn hK₃ Fr hFr φ hφ3 hφout (e.trans eD) hJ hlabJ
@@ -50,7 +50,7 @@ theorem triD4_graphField (hRig : GGLabelRigidInput) {n : ℕ} {K : Type} [Field 
     (hJ : GLAPComponent 3 C J) {labJ : GLALabel}
     (hlabJ : HasLabel ↥J (fun l : GLALabel => l = labJ)) :
     ∃ m : ℕ, 1 ≤ m ∧ n = m * 3 ∧ canonLabel labJ = ⟨.triD4, 0, m⟩ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar2 : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
   obtain ⟨ℓ, m, T, hℓ, hcharℓ, hm, hKℓ, hT, hσT⟩ := exists_frobenius_data_D4 σ hσ1 hσ3
   obtain rfl : ℓ = 2 := CharP.eq K hcharℓ hchar2

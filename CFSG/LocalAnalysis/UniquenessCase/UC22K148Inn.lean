@@ -127,7 +127,7 @@ theorem exists_minimal_invariant [Finite V] {H : Subgroup G} {Z W : Submodule (Z
     (hW : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H W) (hZW : Z < W) :
     ∃ Y₁ : Submodule (ZMod 2) V, Z < Y₁ ∧ Y₁ ≤ W ∧ CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H Y₁ ∧
       ∀ X : Submodule (ZMod 2) V, CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H X → Z ≤ X → X ≤ Y₁ → X = Z ∨ X = Y₁ := by
-  haveI : IsArtinian (ZMod 2) V := isArtinian_of_finite
+  have : IsArtinian (ZMod 2) V := isArtinian_of_finite
   let S : Set (Submodule (ZMod 2) V) := {X | CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H X ∧ Z < X ∧ X ≤ W}
   obtain ⟨Y₁, ⟨hY₁, hZY₁, hY₁W⟩, hmin⟩ := IsArtinian.set_has_minimal S ⟨W, hW, hZW, le_rfl⟩
   refine ⟨Y₁, hZY₁, hY₁W, hY₁, fun X hX hZX hXY₁ => ?_⟩

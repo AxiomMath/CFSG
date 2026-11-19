@@ -11,8 +11,9 @@ open CFSG.Assembly
 
 variable {G : Type*} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem le_of_largeEvenPComponent_of_isSolvable_quotient {Y E C : Subgroup G}
-    (hEn : (E.subgroupOf Y).Normal) (hsolv : IsSolvable (Y ⧸ E.subgroupOf Y))
+    (hEn : (E.subgroupOf Y).Normal) (hsolv : Group.IsSolvable (Y ⧸ E.subgroupOf Y))
     (hC : LargeEvenPComponent p Y C) : C ≤ E := by
   obtain ⟨hCY, hCl⟩ := (CFSG.StandardType.largeEvenPComponent_iff_lBalance p Y C).1 hC
   have hCcomm : ⁅C, C⁆ = C :=
@@ -20,8 +21,8 @@ theorem le_of_largeEvenPComponent_of_isSolvable_quotient {Y E C : Subgroup G}
   have hCsub : ⁅C.subgroupOf Y, C.subgroupOf Y⁆ = C.subgroupOf Y := by
     apply Subgroup.map_injective Y.subtype_injective
     rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hCY, hCcomm]
-  haveI : (E.subgroupOf Y).Normal := hEn
-  haveI : Group.IsSolvable (Y ⧸ E.subgroupOf Y) := hsolv
+  have : (E.subgroupOf Y).Normal := hEn
+  have : Group.IsSolvable (Y ⧸ E.subgroupOf Y) := hsolv
   have hle := Subgroup.le_of_commutator_eq_self_of_isSolvable_quotient
     (M := E.subgroupOf Y) (H := C.subgroupOf Y) hCsub
   intro c hc
@@ -32,10 +33,10 @@ theorem le_of_largeEvenPComponent_of_isSolvable_quotient {Y E C : Subgroup G}
 theorem exists_quasisimple_factor_of_commuting_product {Y E : Subgroup G} {ι : Type*} [Finite ι]
     (L : ι → Subgroup G)
     (hEY : E ≤ Y) (hEn : (E.subgroupOf Y).Normal)
-    (hsolv : IsSolvable (Y ⧸ E.subgroupOf Y))
+    (hsolv : Group.IsSolvable (Y ⧸ E.subgroupOf Y))
     (hE : E = ⨆ i, L i)
     (hcomm : ∀ i j, i ≠ j → ∀ x ∈ L i, ∀ y ∈ L j, Commute x y)
-    (hL : ∀ i, CFSG.Assembly.IsQuasisimple ↥(L i) ∨ IsSolvable ↥(L i))
+    (hL : ∀ i, CFSG.Assembly.IsQuasisimple ↥(L i) ∨ Group.IsSolvable ↥(L i))
     {C : Subgroup G} (hC : LargeEvenPComponent p Y C) :
     ∃ i, CFSG.Assembly.IsQuasisimple ↥(L i) ∧
       CFSG.Assembly.IsSubnormal (L i) Y ∧
@@ -47,7 +48,7 @@ theorem exists_quasisimple_factor_of_commuting_product {Y E : Subgroup G} {ι : 
   let M : Subgroup Q := CFSG.ComponentClassification.LBalance.quotientImage p Y C
   let Mi : ι → Subgroup Q := fun i =>
     CFSG.ComponentClassification.LBalance.quotientImage p Y (L i)
-  haveI : Finite Q := by dsimp only [Q]; infer_instance
+  have : Finite Q := by dsimp only [Q]; infer_instance
   obtain ⟨hCY, hCl⟩ := (CFSG.StandardType.largeEvenPComponent_iff_lBalance p Y C).1 hC
   obtain ⟨-, hCimgO, -⟩ :=
     (CFSG.ComponentClassification.LBalance.pComponent_iff_minimal_image p Y C hCY).1 hCl
@@ -59,8 +60,8 @@ theorem exists_quasisimple_factor_of_commuting_product {Y E : Subgroup G} {ι : 
     refine CFSG.StandardType.commutator_self_eq_of_isQuasisimple ?_
     exact hMqO
   have hMnsolv : ¬ Group.IsSolvable ↥M := by
-    letI : Nontrivial ↥M := hMnt
-    letI : Group.IsPerfect ↥M := ⟨hMqO.1⟩
+    let : Nontrivial ↥M := hMnt
+    let : Group.IsPerfect ↥M := ⟨hMqO.1⟩
     exact Group.IsPerfect.not_isSolvable ↥M
   have hMcompA : CFSG.Assembly.IsComponentOf M ⊤ :=
     (CFSG.Assembly.isComponentOf_iff_open (L := M) (K := ⊤)).mpr hCimgO
@@ -105,7 +106,7 @@ theorem exists_quasisimple_factor_of_commuting_product {Y E : Subgroup G} {ι : 
     exact CFSG.Assembly.IsSubnormal.top_iff.mpr hmap
   have hMiSolv : ∀ i, Group.IsSolvable ↥(L i) → Group.IsSolvable ↥(Mi i) := by
     intro i hsolvLi
-    letI : Group.IsSolvable ↥(L i) := hsolvLi
+    let : Group.IsSolvable ↥(L i) := hsolvLi
     exact Group.isSolvable_of_surjective (f := f i) (hf i)
   have hMiq_of_ne_bot : ∀ i, CFSG.Assembly.IsQuasisimple ↥(L i) → Mi i ≠ ⊥ →
       CFSG.Assembly.IsQuasisimple ↥(Mi i) := by
@@ -151,7 +152,7 @@ theorem exists_quasisimple_factor_of_commuting_product {Y E : Subgroup G} {ι : 
         exact Or.inl ⟨CFSG.ComponentClassification.LocalComponents.eq_of_le M (Mi i)
           hMcompO hMicompO hle, hq⟩
       · exfalso
-        letI : Group.IsSolvable ↥(Mi i) := hMiSolv i hsolvLi
+        let : Group.IsSolvable ↥(Mi i) := hMiSolv i hsolvLi
         exact hMnsolv (Group.isSolvable_of_isSolvable_injective
           (Subgroup.inclusion_injective hle))
     · exact Or.inr hcommM
@@ -254,10 +255,10 @@ theorem eq_of_largeEvenPComponent_of_quotientImage_eq {Y J C : Subgroup G}
 theorem largeEvenPComponent_eq_of_commuting_product {Y E : Subgroup G} {ι : Type*} [Finite ι]
     (L : ι → Subgroup G)
     (hEY : E ≤ Y) (hEn : (E.subgroupOf Y).Normal)
-    (hsolv : IsSolvable (Y ⧸ E.subgroupOf Y))
+    (hsolv : Group.IsSolvable (Y ⧸ E.subgroupOf Y))
     (hE : E = ⨆ i, L i)
     (hcomm : ∀ i j, i ≠ j → ∀ x ∈ L i, ∀ y ∈ L j, Commute x y)
-    (hL : ∀ i, CFSG.Assembly.IsQuasisimple ↥(L i) ∨ IsSolvable ↥(L i))
+    (hL : ∀ i, CFSG.Assembly.IsQuasisimple ↥(L i) ∨ Group.IsSolvable ↥(L i))
     {C : Subgroup G} (hC : LargeEvenPComponent p Y C) :
     ∃ i, C = L i ∧ CFSG.Assembly.IsQuasisimple ↥(L i) := by
   obtain ⟨i, hq, hsn, himg⟩ :=

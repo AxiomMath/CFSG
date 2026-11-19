@@ -18,12 +18,12 @@ abbrev OrthPairedBlockModel {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCo
   ∀ {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) (x y : ↥(orthDerived Q))
     (_hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V))
     (_hyc : (y : V ≃ₗ[K] V) ∈ isometryCentralizer Q (x : V ≃ₗ[K] V))
-    (hyp : y ^ p = 1) {h : K[X]}
-    (hh : h ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap) (hne1 : h ≠ X - 1)
-    (hne : h ≠ reciprocalPolynomial h)
-    (hq : CFSG.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h))
+    (_hyp : y ^ p = 1) {h : K[X]}
+    (_hh : h ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap) (_hne1 : h ≠ X - 1)
+    (_hne : h ≠ reciprocalPolynomial h)
+    (_hq : CFSG.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h))
     (J : Subgroup (ProjOrthDerived Q))
-    (hJeq : J = componentImage Q (x : V ≃ₗ[K] V) h)
+    (_hJeq : J = componentImage Q (x : V ≃ₗ[K] V) h)
     (hN : piOrth Q y ∈ Subgroup.normalizer (J : Set (ProjOrthDerived Q))),
     Nonempty (LinBlockModel p J (piOrth Q y) hN) ∨
       MI.indAut p J (piOrth Q y) hN ∈ inner (PSimple p J)

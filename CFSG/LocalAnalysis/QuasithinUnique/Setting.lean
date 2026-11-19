@@ -16,7 +16,7 @@ theorem index_subgroupOf_top (H : Subgroup G) : (H.subgroupOf ⊤).index = H.ind
 
 theorem isSylowTwoOf_top_of_sylow (T : Sylow 2 G) : IsSylowTwoOf (T : Subgroup G) ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨le_top, T.isPGroup', ?_⟩
+  refine ⟨le_top, T.isPGroup, ?_⟩
   rw [index_subgroupOf_top]
   exact T.not_dvd_index
 

@@ -16,26 +16,32 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 theorem Gv_zero : t.Gv 0 = P1 L1 L2 S := by
   ext y
   simp [mem_qv_iff, trackElt, trackPar]
 
+omit [Finite G] in
 theorem Gv_one : t.Gv 1 = P2 L1 L2 S := by
   ext y
   simp [mem_qv_iff, trackElt, trackPar]
 
+omit [Finite G] in
 theorem Qv_zero : t.Qv 0 = Q1 L1 L2 S := by
   ext y
   simp [mem_qv_iff, trackElt, trackPar]
 
+omit [Finite G] in
 theorem Qv_one : t.Qv 1 = Q2 L1 L2 S := by
   ext y
   simp [mem_qv_iff, trackElt, trackPar]
 
+omit [Finite G] in
 theorem Zv_zero : t.Zv 0 = Z1 L1 L2 S := by
   ext y
   simp [mem_qv_iff, trackElt, trackPar]
 
+omit [Finite G] in
 theorem Zv_one : t.Zv 1 = Z2 L1 L2 S := by
   ext y
   simp [mem_qv_iff, trackElt, trackPar]
@@ -50,7 +56,7 @@ theorem Gw_zero_one (hF : F112HypW L1 L2 S) :
 
 theorem pCoreOf_Gw_zero_one {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     pCoreOf 2 (t.Gw 0 1) = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [t.Gw_zero_one hfr.hF]
   have hSyl := F1.isSylowTwoOf_bigB_of_normal (Hyp111R.of_hyp111 rankOneListedFacts hfr.hF.1)
     hfr.hN
@@ -58,14 +64,16 @@ theorem pCoreOf_Gw_zero_one {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     (le_pCoreOf_of_le_normalizer 2 hSyl.1 hfr.hN hSyl.2.1)
 
 theorem isPGroup_Qv (i : ℤ) : IsPGroup 2 (t.Qv i) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [t.Qv_eq i]
   exact pCoreOf_isPGroup 2 _
 
+omit [Finite G] in
 theorem Zv_le_Qv (i : ℤ) : t.Zv i ≤ t.Qv i := by
   rw [t.Zv_eq i]
   exact A4.omegaOneCenterOf_le _
 
+omit [Finite G] in
 theorem Zv_le_centralizer (i : ℤ) : t.Zv i ≤ centralizer (t.Qv i : Set G) := by
   rw [t.Zv_eq i]
   exact (A4.omegaOneCenterOf_le_centerOf _).trans inf_le_right
@@ -73,18 +81,22 @@ theorem Zv_le_centralizer (i : ℤ) : t.Zv i ≤ centralizer (t.Qv i : Set G) :=
 theorem isPGroup_Zv (i : ℤ) : IsPGroup 2 (t.Zv i) :=
   (t.isPGroup_Qv i).to_le (t.Zv_le_Qv i)
 
+omit [Finite G] in
 theorem Qv_le_Gv_self (i : ℤ) : t.Qv i ≤ t.Gv i := by
   rw [t.Qv_eq i]
   exact pCoreOf_le 2 _
 
+omit [Finite G] in
 theorem Gv_le_normalizer_Qv (i : ℤ) : t.Gv i ≤ normalizer (t.Qv i : Set G) := by
   rw [t.Qv_eq i]
   exact le_normalizer_pCoreOf 2 _
 
+omit [Finite G] in
 theorem Gv_le_normalizer_Zv (i : ℤ) : t.Gv i ≤ normalizer (t.Zv i : Set G) := by
   rw [t.Zv_eq i]
   exact (t.Gv_le_normalizer_Qv i).trans (A4.normalizer_le_normalizer_omegaOneCenterOf _)
 
+omit [Finite G] in
 theorem K_le_Gv (i : ℤ) : t.K ≤ t.Gv i := by
   have h := t.K_le_Gw i i
   rwa [show t.Gw i i = t.Gv i from win_self _] at h

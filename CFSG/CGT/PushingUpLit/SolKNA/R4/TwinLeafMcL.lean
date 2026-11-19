@@ -46,7 +46,7 @@ theorem not_twinPair_mcl {F : Type} [Group F] (h : NativeSporadic.IsSporadic F .
 theorem twinLeafR_mcl {r n : ℕ} (hr : 4 ≤ r) :
     TwinLeafR r n fun F _ => NativeSporadic.IsSporadic F .McL := by
   intro Y _ _ R S t hP _ hF
-  haveI := hP.core.simple
+  have := hP.core.simple
   obtain ⟨e⟩ := hF
   have hcomm : SocleComm2 ↥(genFittingFStar Y) :=
     socleComm2_of_outTwoCyclic (Nobq.OutTwoCyclic.of_mulEquiv e outTwoCyclic_mcl)

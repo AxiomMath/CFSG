@@ -72,7 +72,7 @@ private theorem exists_fieldPart_adjointGroup_E78
     have := congrArg Θ₁ h
     simpa [hΘE] using this
   have hcycAut : IsCyclic (RingAut K) := (card_ringAut_and_isCyclic hp₀ K hK).2
-  haveI : IsCyclic (RingAut K) := hcycAut
+  have : IsCyclic (RingAut K) := hcycAut
   have hcardAut : Nat.card (RingAut K) = f := (card_ringAut_and_isCyclic hp₀ K hK).1
   let F : Subgroup (MulAut (adjointGroup τ K)) :=
     (⊤ : Subgroup (RingAut K)).map E
@@ -163,7 +163,7 @@ private theorem exists_fieldPart_adjointGroup_E78
       (∃ k : ℕ, x ^ (p ^ k) = 1) → x ∈ H := by
     intro x hx
     obtain ⟨k, hk⟩ := hx
-    haveI : H.Normal := hHnormal
+    have : H.Normal := hHnormal
     have hπx : QuotientGroup.mk' H x = 1 := by
       have hpow : (QuotientGroup.mk' H x) ^ (p ^ k) = 1 := by
         rw [← map_pow, hk, map_one]
@@ -212,8 +212,8 @@ theorem i713ClauseFor_lie_E7
     (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E7 q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩).Group :=
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩).Group :=
     Finite.of_equiv K eK.toEquiv
   have hcard : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
     GaloisField.card q.p q.exponent q.exponent_pos.ne'
@@ -231,9 +231,9 @@ theorem i713ClauseFor_lie_E7
       exact ⟨GaloisField q.p q.exponent, inferInstance, inferInstance, hcard, ⟨e.symm⟩⟩
   obtain ⟨L, hLfield, hLfin, hLcard, ⟨eL⟩⟩ :=
     nonempty_mulEquiv_adjointGroup .E7 hm.2
-  letI := hLfield
-  letI := hLfin
-  haveI : Finite (adjointGroup Tag.E7 L) := Subtype.finite
+  let := hLfield
+  let := hLfin
+  have : Finite (adjointGroup Tag.E7 L) := Subtype.finite
   exact Or.inr (Or.inl (exists_fieldPart_of_mulEquiv (eK.trans eL)
     (exists_fieldPart_adjointGroup_E7 q.prime_p q.exponent_pos L hLcard hp hp2)))
 
@@ -241,8 +241,8 @@ theorem i713ClauseFor_lie_E8
     (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.E8 q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩).Group :=
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩).Group :=
     Finite.of_equiv K eK.toEquiv
   have hcard : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
     GaloisField.card q.p q.exponent q.exponent_pos.ne'
@@ -260,9 +260,9 @@ theorem i713ClauseFor_lie_E8
       exact ⟨GaloisField q.p q.exponent, inferInstance, inferInstance, hcard, ⟨e.symm⟩⟩
   obtain ⟨L, hLfield, hLfin, hLcard, ⟨eL⟩⟩ :=
     nonempty_mulEquiv_adjointGroup .E8 hm.2
-  letI := hLfield
-  letI := hLfin
-  haveI : Finite (adjointGroup Tag.E8 L) := Subtype.finite
+  let := hLfield
+  let := hLfin
+  have : Finite (adjointGroup Tag.E8 L) := Subtype.finite
   exact Or.inr (Or.inl (exists_fieldPart_of_mulEquiv (eK.trans eL)
     (exists_fieldPart_adjointGroup_E8 q.prime_p q.exponent_pos L hLcard hp hp2)))
 

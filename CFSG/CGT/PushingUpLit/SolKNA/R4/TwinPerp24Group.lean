@@ -48,6 +48,7 @@ section Abstract
 
 variable {Γ : Type*} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem eq_one_of_mem_odd {O : Subgroup Γ} (hO : Odd (Nat.card O)) {o : Γ} (ho : o ∈ O) {k : ℕ}
     (hk : o ^ 2 ^ k = 1) : o = 1 := by
   have h1 : orderOf o ∣ Nat.card O := Subgroup.orderOf_dvd_natCard O ho
@@ -59,14 +60,13 @@ theorem eq_one_of_mem_odd {O : Subgroup Γ} (hO : Odd (Nat.card O)) {o : Γ} (ho
 theorem exists_mul_normalizer {E O : Subgroup Γ} [O.Normal] [(E ⊔ O).Normal]
     (hO : Odd (Nat.card O)) (hE : IsPGroup 2 E) (c : Γ) :
     ∃ o ∈ O, ∃ n ∈ Subgroup.normalizer (E : Set Γ), c = o * n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup Γ := E ⊔ O with hN
   have hEN : E ≤ N := le_sup_left
   let P : Sylow 2 ↥N :=
     { toSubgroup := E.subgroupOf N
       maximal_isPGroup := ⟨hE.comap_subtype, by
-        intro Q hQ hEQ
-        intro x hx
+        intro Q hQ hEQ x hx
         have hxN : (x : Γ) ∈ O ⊔ E := by rw [sup_comm]; exact x.2
         obtain ⟨o, ho, e, he, hoe⟩ := Subgroup.mem_sup_of_normal_left.mp hxN
         have heQ : (⟨e, hEN he⟩ : ↥N) ∈ Q := hEQ (Subgroup.mem_subgroupOf.mpr he)
@@ -117,10 +117,10 @@ theorem exists_mul_normalizer_of_le {C E O : Subgroup Y} (hEC : E ≤ C) (hOC : 
     simpa using this hx
   set O₁ : Subgroup ↥C := O.subgroupOf C with hO₁
   set E₁ : Subgroup ↥C := E.subgroupOf C with hE₁
-  haveI : O₁.Normal := ⟨fun x hx g => by
+  have : O₁.Normal := ⟨fun x hx g => by
     rw [hO₁, Subgroup.mem_subgroupOf] at hx ⊢
     exact hOn g g.2 x hx⟩
-  haveI : (E₁ ⊔ O₁).Normal := by
+  have : (E₁ ⊔ O₁).Normal := by
     rw [hE₁, hO₁, ← Subgroup.subgroupOf_sup hEC hOC]
     exact ⟨fun x hx g => by
       rw [Subgroup.mem_subgroupOf] at hx ⊢

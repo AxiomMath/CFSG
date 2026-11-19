@@ -60,7 +60,6 @@ public theorem secondCase_a7_omega_normalizer_F_eq
           ((Subgroup.mem_normalizer_iff.mp hx yQ).mpr hconjFQ)
     have hxM : (x : G) ∈ w.M := od.F_normalizer ▸ hxNormF
     apply Subgroup.mem_subgroupOf.mpr
-    change (x : G) ∈ od.K ⊔ od.F
     rw [od.FU_inter_M_eq]
     exact ⟨hQGleFU x.2, hxM⟩
   · intro hx

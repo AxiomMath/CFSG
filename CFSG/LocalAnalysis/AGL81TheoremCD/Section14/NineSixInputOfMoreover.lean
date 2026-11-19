@@ -46,7 +46,7 @@ theorem nineSixInputGen_of_nineSixMoreoverGen (h96 : NineSixMoreoverGen) :
     CFSG.LocalAnalysis.RankThreeUC.AGL81C.NineSixInputGen := by
   intro G _ _ M Q H E hT hH2 h3 hex
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Set (Subgroup (StarGroup 3 H)) :=
     {C | CFSG.IsComponent C ∧ ¬ C ≤ barInf 3 M H}
   obtain ⟨L, hL, hLM, htype⟩ := hex

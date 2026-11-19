@@ -85,8 +85,8 @@ theorem e6_tw_four_components_dvd (K : Type) [Field K] [Finite K] {ℓ f : ℕ} 
   have hℓ : ℓ.Prime := Fact.out
   have : Fact p.Prime := ⟨hp⟩
   have : Fintype K := Fintype.ofFinite K
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   obtain ⟨-, hordq, hΦ, -⟩ := e6Four_data hp hp3 hpq
   obtain ⟨g0, hg0C, hg0, hperf, hT, hconj⟩ :=
@@ -168,7 +168,7 @@ theorem e6_tw_four_components_dvd (K : Type) [Field K] [Finite K] {ℓ f : ℕ} 
       obtain ⟨u, hu⟩ := exists_rootDiagUnit_eq_of_mem_torusGroup (hmem a)
       obtain ⟨v, hv⟩ := exists_rootDiagUnit_eq_of_mem_torusGroup (hmem a')
       rw [hu, hv, ← rootDiagUnit_mul, ← rootDiagUnit_mul, mul_comm]
-    haveI : Group.IsSolvable ↥A := Group.isSolvable_of_comm hcomm
+    have : Group.IsSolvable ↥A := Group.isSolvable_of_comm hcomm
     exact (CFSG.StandardType.ExcNonsplit.not_isComponentOf_of_isSolvable hXA).elim
   ·
     obtain ⟨hq, hnc⟩ := e6_tw_four_derived K hf hK σ hσ hp hp3 hordq hΦ L n hnm hnW g0 hg0C
@@ -185,10 +185,10 @@ theorem dvd_card_of_isComponentOf_twE6_of_phiFour {K : Type} [Field K] [Finite K
     (hX : IsComponentOf X (Subgroup.centralizer ({a} : Set (twistedE6RootGroup K σ)))) :
     p ∣ Nat.card X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hpq : (p : ℤ) ∣ (((2 ^ f : ℕ) : ℤ) ^ 2 + 1) := by
     simpa [exhaustionPhi] using hpf
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   have hcm := canonicalRep_mem_monomialSubgroup (AlgebraicClosure K) (e6F4U * e6NegRho)

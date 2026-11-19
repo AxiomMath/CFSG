@@ -16,7 +16,7 @@ variable {G : Type} [Group G] {S M : Subgroup G} {r s : ℕ}
     (∀ x ∈ alternatingGroup (OmegaE r s), ∃ m : ↥(L ⊔ S), θ m = x) ∧
     ((thompsonJ S).subgroupOf (L ⊔ S)).map θ = Wr r s
 
-theorem normalizer_theta_S_le [Finite G] (hA : Asc81bHyp M S) (hSM : S ≤ M) {Ω : Type*}
+theorem normalizer_theta_S_le [Finite G] (_hA : Asc81bHyp M S) (hSM : S ≤ M) {Ω : Type*}
     (θ : ↥M →* Perm Ω) (hker : ∀ m : ↥M, θ m = 1 → (m : G) ∈ S) (hrange : θ.range = ⊤) :
     ∀ g ∈ Subgroup.normalizer (((S.subgroupOf M).map θ : Subgroup (Perm Ω)) : Set (Perm Ω)),
       g ∈ Subgroup.normalizer

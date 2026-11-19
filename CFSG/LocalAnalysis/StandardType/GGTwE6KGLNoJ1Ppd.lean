@@ -134,7 +134,7 @@ theorem ordD_four_two_pow_le {g n : ℕ} (hn : 1 ≤ n) (hgn : g ∣ n) :
   rw [gcd_four_noJ1 hg, gcd_four_noJ1 hn, Nat.div_one, Nat.div_one]
   exact Nat.mul_le_mul (Nat.mul_le_mul (Nat.pow_le_pow_left h _)
     (Nat.sub_le_sub_right (Nat.pow_le_pow_left h _) _))
-    (Finset.prod_le_prod' fun i _ => Nat.sub_le_sub_right (Nat.pow_le_pow_left h _) _)
+    (Finset.prod_le_prod fun i _ => Nat.sub_le_sub_right (Nat.pow_le_pow_left h _) _)
 
 private theorem two_pow_mod_three_noJ1 {g : ℕ} (hg : Odd g) : 2 ^ g % 3 = 2 := by
   obtain ⟨k, rfl⟩ := hg
@@ -164,7 +164,7 @@ theorem ordA_two_two_pow_le {g m : ℕ} (hg : Odd g) (hm : Odd m) (hgm : g ∣ m
   unfold ordA
   rw [gcd_three_sub_noJ1 hg, gcd_three_sub_noJ1 hm, Nat.div_one, Nat.div_one]
   exact Nat.mul_le_mul (Nat.pow_le_pow_left h _)
-    (Finset.prod_le_prod' fun i _ => Nat.sub_le_sub_right (Nat.pow_le_pow_left h _) _)
+    (Finset.prod_le_prod fun i _ => Nat.sub_le_sub_right (Nat.pow_le_pow_left h _) _)
 
 theorem ordTwistedA_two_two_pow_le {g m : ℕ} (hg : Odd g) (hm : Odd m) (hgm : g ∣ m) :
     ordTwistedA 2 (2 ^ g) ≤ ordTwistedA 2 (2 ^ m) := by
@@ -172,7 +172,7 @@ theorem ordTwistedA_two_two_pow_le {g m : ℕ} (hg : Odd g) (hm : Odd m) (hgm : 
   unfold ordTwistedA
   rw [gcd_three_add_noJ1 hg, gcd_three_add_noJ1 hm]
   exact Nat.div_le_div_right (Nat.mul_le_mul (Nat.pow_le_pow_left h _)
-    (Finset.prod_le_prod' fun i _ => toNat_factor_le_noJ1 h i))
+    (Finset.prod_le_prod fun i _ => toNat_factor_le_noJ1 h i))
 
 end CFSG.StandardType.SCFourCover
 

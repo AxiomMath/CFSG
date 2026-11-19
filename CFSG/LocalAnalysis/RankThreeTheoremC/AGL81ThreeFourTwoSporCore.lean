@@ -65,12 +65,12 @@ theorem threeFourTwoNoneAt_of_glbCore_eq_top {p : ℕ} {X : Type*} [Group X]
   intro Y _ _ K Y₀ E R hp _ hKn hKX _ _ _ hER hE hEc hcore _ hKY₀
   exfalso
   refine hKY₀ ?_
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hKn
+  have : Fact p.Prime := ⟨hp⟩
+  have := hKn
   obtain ⟨hpK, hTK⟩ := hT K hKX
   obtain ⟨e⟩ := hKX
   have hZK : K ⊓ centralizer (K : Set Y) = ⊥ := by
-    haveI : IsSimpleGroup K := MulEquiv.isSimpleGroup e
+    have : IsSimpleGroup K := MulEquiv.isSimpleGroup e
     obtain ⟨a, b, hab⟩ := hnab
     have hZ := CFSG.ComponentClassification.Helpers.center_eq_bot K
       ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
@@ -130,10 +130,10 @@ theorem threeFourTwoNoneAt_of_glbCore_eq_top {p : ℕ} {X : Type*} [Group X]
     have hR3 : 3 ≤ pRank p (R : Subgroup Y) := by
       rw [CFSG.SectionRank.pRank_coe_eq_openPRank]
       exact h3.trans (CFSG.SectionRank.pRank_mono hp.one_lt (sup_le hQ'R inf_le_left))
-    rw [if_pos hR3] at hcore
+    rw [ite_eq_left hR3] at hcore
     exact (CFSG.PreuniquenessRankFour.Helpers.normalizer_le_weakCore p hQ'R hQ'2 h3).trans hcore
   ·
-    push_neg at hw
+    push Not at hw
     have hmem : ∀ x ∈ (R : Subgroup Y), x ^ p = 1 → x ∈ T₀ := fun x hx hxp =>
       mem_of_pow_eq_one_of_le_sup hRT hT₀exp hw hx hxp
     have hR2 : ¬ 3 ≤ pRank p (R : Subgroup Y) := by
@@ -143,7 +143,7 @@ theorem threeFourTwoNoneAt_of_glbCore_eq_top {p : ℕ} {X : Type*} [Group X]
       have hAT : A ≤ T₀ := fun a ha => hmem a (hAR ha) (hA.2 a ha)
       have := CFSG.SectionRank.le_pRank hp.one_lt hAT hA hAc
       omega
-    rw [if_neg hR2] at hcore
+    rw [ite_eq_right hR2] at hcore
     have hET : E ≤ T₀ := fun x hx => hmem x (hER hx) (hE.2 x hx)
     set E' : Subgroup K := E.subgroupOf K with hE'def
     have hE'map : E'.map K.subtype = E := by

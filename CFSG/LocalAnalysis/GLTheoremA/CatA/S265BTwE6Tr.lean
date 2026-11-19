@@ -16,7 +16,7 @@ variable {X : Type} [Group X] [Finite X] {S : Subgroup X}
 theorem ker_chevQuotHom_le_center_of_core (hS : CFSG.Open.IsQuasisimple ↥S)
     (hcore : GLAPPrimeCore 3 ↥S = ⊥) : (chevQuotHom 3 S).ker ≤ Subgroup.center ↥S := by
   refine le_center_of_normal_of_isQuasisimple hS (chevQuotHom 3 S).normal_ker fun htop => ?_
-  haveI := (chev_pSimple_simple_nonabelian Nat.prime_three
+  have := (chev_pSimple_simple_nonabelian Nat.prime_three
     (CFSG.HardMathSupport.Timmesfeld.Proving.glaPComponent_self hS hcore)).1
   obtain ⟨y, hy⟩ := exists_ne (1 : PSimple 3 S)
   obtain ⟨s, rfl⟩ := chevQuotHom_surjective 3 S y

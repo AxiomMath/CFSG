@@ -242,10 +242,10 @@ theorem pPowInner_of_isPiTypeGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Y :
       have key : ∀ σ : Equiv.Perm (Fin (0 * p + 2)), Equiv.Perm.sign σ = 1 → σ = 1 := by
         rw [zero_mul, zero_add]
         decide
-      haveI : Subsingleton ↥(alternatingGroup (Fin (0 * p + 2))) :=
+      have : Subsingleton ↥(alternatingGroup (Fin (0 * p + 2))) :=
         ⟨fun a b => Subtype.ext ((key _ (Equiv.Perm.mem_alternatingGroup.1 a.2)).trans
           (key _ (Equiv.Perm.mem_alternatingGroup.1 b.2)).symm)⟩
-      haveI : Subsingleton Y := e.toEquiv.subsingleton
+      have : Subsingleton Y := e.toEquiv.subsingleton
       exact pPowInner_of_subsingleton
     · have h5 : 5 ≤ k * p + 2 := by nlinarith
       exact PPowInner.of_mulEquiv e (pPowInner_alt _ h5 (mul_add_two_ne_six hp hp2) hodd)
@@ -308,7 +308,7 @@ theorem card_mulAut_alt {n : ℕ} (hn : 5 ≤ n) (hn6 : n ≠ 6) :
 
 theorem input7_1Aut_holds : Sec13e.Input7_1Aut := by
   intro p hp hp3 K _ _ _ hZ hT E hE
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEp : IsPGroup p E := fun x => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 x x.2)⟩
   obtain ⟨j, hj⟩ := hEp.exists_card_eq
   rw [hj]
@@ -368,7 +368,7 @@ theorem idxTwoPow_of_subsingleton {X : Type*} [Group X] [Subsingleton X] : IdxTw
 
 theorem idxTwoPow_of_closure {X : Type*} [Group X] [Finite X] {S : Set X}
     (hS : Subgroup.closure S = ⊤) (h2 : ∀ s ∈ S, s ^ 2 = 1) : IdxTwoPow X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have key : ∀ x : X, (Abelianization.of x) ^ 2 = 1 := by
     intro x
     have hx : x ∈ Subgroup.closure S := hS ▸ Subgroup.mem_top x
@@ -398,7 +398,7 @@ theorem subsingleton_alternatingGroup_of_le_two {m : ℕ} (hm : m ≤ 2) :
 
 theorem commutator_statedSp_eq_top {n : ℕ} (hn : 3 ≤ n) :
     commutator ↥(StatedSp n (ZMod 2)) = ⊤ := by
-  haveI : IsSimpleGroup ↥(StatedSp n (ZMod 2)) := OmegaFacts.isSimpleGroup_statedSp_zmod_two hn
+  have : IsSimpleGroup ↥(StatedSp n (ZMod 2)) := OmegaFacts.isSimpleGroup_statedSp_zmod_two hn
   have h4 : 4 ∣ Nat.card ↥(StatedSp n (ZMod 2)) := by
     rw [OmegaFacts.card_statedSp_zmod_two]
     refine Dvd.dvd.mul_right ?_ _
@@ -492,15 +492,15 @@ theorem inputAbIdx2_holds : InputAbIdx2 := by
     exact ⟨j, by rw [← commutator_def]; exact hj⟩
   rcases hX with ⟨m, hm, ⟨e⟩⟩ | ⟨m, ⟨e⟩⟩ | ⟨n, ⟨e⟩⟩ | ⟨ε, n, hn, hO⟩
   · rcases hm with hm | hm
-    · haveI := subsingleton_alternatingGroup_of_le_two hm
-      haveI : Subsingleton X := e.toEquiv.subsingleton
+    · have := subsingleton_alternatingGroup_of_le_two hm
+      have : Subsingleton X := e.toEquiv.subsingleton
       exact idxTwoPow_of_subsingleton
     · exact IdxTwoPow.of_mulEquiv e
         (idxTwoPow_of_perfect (commutator_alternatingGroup_eq_top (by simpa using hm)))
   · exact IdxTwoPow.of_mulEquiv e (idxTwoPow_perm m)
   · rcases (show n = 0 ∨ n = 1 ∨ n = 2 ∨ 3 ≤ n by omega) with rfl | rfl | rfl | h3
-    · haveI := OmegaFacts.subsingleton_statedSp_zero
-      haveI : Subsingleton X := e.toEquiv.subsingleton
+    · have := OmegaFacts.subsingleton_statedSp_zero
+      have : Subsingleton X := e.toEquiv.subsingleton
       exact idxTwoPow_of_subsingleton
     · obtain ⟨f⟩ :=
         CFSG.HardMathSupport.RichardWeiss.Proving.PLType.nonempty_statedSp_one_mulEquiv_perm_three

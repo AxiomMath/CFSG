@@ -135,7 +135,7 @@ private noncomputable def conjNontriv (W : Subgroup A6) {g : A6}
       · rintro rfl
         simp
     show a ∈ (W : Set A6) \ {1} ↔ g * a * g⁻¹ ∈ (W : Set A6) \ {1}
-    rw [Set.mem_diff, Set.mem_diff, Set.mem_singleton_iff, Set.mem_singleton_iff]
+    rw [Set.mem_sdiff, Set.mem_sdiff, Set.mem_singleton_iff, Set.mem_singleton_iff]
     exact and_congr (Subgroup.mem_set_normalizer_iff.1 hg a) (not_congr h1.symm)
 
 private theorem conjNontriv_apply (W : Subgroup A6) {g : A6}
@@ -165,7 +165,7 @@ private theorem card_nontriv (W : Subgroup A6) :
   have h1 : Nat.card ↥((W : Set A6) \ {1}) = ((W : Set A6) \ {1}).ncard :=
     Nat.card_coe_set_eq _
   have h2 : Nat.card W = (W : Set A6).ncard := Nat.card_coe_set_eq _
-  rw [h1, h2, Set.ncard_diff_singleton_of_mem (SetLike.mem_coe.2 W.one_mem)]
+  rw [h1, h2, Set.ncard_sdiff_singleton_of_mem (SetLike.mem_coe.2 W.one_mem)]
 
 private theorem prime_dvd_card_sub_one {W : Subgroup A6} {g : A6}
     (hg : g ∈ Subgroup.normalizer (W : Set A6)) {p : ℕ} [Fact p.Prime] (hgp : g ^ p = 1)
@@ -180,7 +180,7 @@ private theorem prime_dvd_card_sub_one {W : Subgroup A6} {g : A6}
     rw [Finset.mem_compl, Equiv.Perm.mem_support, not_not] at ha
     have h1 : g * (a : A6) * g⁻¹ = a := by
       rw [← conjNontriv_apply W hg a, ha]
-    have ha' := (Set.mem_diff _).1 a.2
+    have ha' := (Set.mem_sdiff _).1 a.2
     exact hfix (a : A6) ha'.1 ha'.2 h1
   rw [hsupp, Finset.card_empty] at hmod
   have hdvd : p ∣ Fintype.card ↥((W : Set A6) \ {1}) := Nat.modEq_zero_iff_dvd.1 hmod.symm
@@ -264,7 +264,7 @@ theorem card_eq_four_of_le_normalizer {R : Subgroup (alternatingGroup (Fin 6))}
 theorem eq_of_card_twelve {K K₀ W : Subgroup (alternatingGroup (Fin 6))} (hK₀ : K₀ ≤ K)
     (h12 : Nat.card K₀ = 12) (h9 : ¬ 9 ∣ Nat.card K)
     (hgen : K ≤ Subgroup.closure {k | k ∈ K ∧ orderOf k = 3})
-    (hW : IsPGroup 2 W) (hW1 : W ≠ ⊥) (hWK : W ≤ K)
+    (hW : IsPGroup 2 W) (hW1 : W ≠ ⊥) (_hWK : W ≤ K)
     (hKW : K ≤ Subgroup.normalizer (W : Set (alternatingGroup (Fin 6)))) : K = K₀ := by
   have hWcard := card_two_group hW hW1
   have h5 : ¬ 5 ∣ Nat.card K := by

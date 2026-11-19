@@ -104,7 +104,7 @@ theorem dvd_card_normalizer_of_elem [Finite F]
     (hH : H ≤ normalizer (E₀ : Set F)) (h5 : 5 ∣ Nat.card H) (E : Subgroup F)
     (hEsq : ∀ x ∈ E, x * x = 1) (hEc : Nat.card E = 2 ^ 6) :
     5 ∣ Nat.card (normalizer (E : Set F)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hE₀2 : IsPGroup 2 E₀ := by
     intro g
     exact ⟨1, by
@@ -124,7 +124,7 @@ theorem dvd_card_normalizer_of_elem [Finite F]
   obtain ⟨-, -, E₂, hE₂S₁, hE₂sq, hE₂card, hE₂max⟩ := hS S₁
   have hEE₂ : E ≤ E₂ := hE₂max E hES₁ hEsq (by rw [hEc])
   have hEeqE₂ : E = E₂ := Subgroup.eq_of_le_of_card_ge hEE₂ (by rw [hE₂card, hEc])
-  haveI : Finite (Sylow 2 F) := Sylow.finite_of_finiteIndex S₀
+  have : Finite (Sylow 2 F) := Sylow.finite_of_finiteIndex S₀
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (M := F) S₀ S₁
   let f : F →* F := MulDistribMulAction.toMonoidEnd (MulAut F) F (MulAut.conj g)
   have hSmap : (S₁ : Subgroup F) = S₀.map f := by

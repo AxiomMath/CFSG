@@ -14,9 +14,9 @@ open CFSG.LieType.Multipliers CFSG.LieType.Multipliers.U43
 
 private theorem zetaBPres_bijective {X : Type*} [Group X] {g : Fin 2 → X}
     (hP : IsPresentation g (wordSet rels)) :
-    Function.Bijective (PresentedGroup.toGroup fun r hr => hP.lift_eq_one hr) := by
+    Function.Bijective (PresentedGroup.toGroup fun _r hr => hP.lift_eq_one hr) := by
   set φ : PresentedGroup (wordSet rels) →* X :=
-    PresentedGroup.toGroup fun r hr => hP.lift_eq_one hr with hφ
+    PresentedGroup.toGroup fun _r hr => hP.lift_eq_one hr with hφ
   have hφmk : ∀ f : FreeGroup (Fin 2), φ (PresentedGroup.mk _ f) = FreeGroup.lift g f := by
     intro f
     have hc : φ.comp (PresentedGroup.mk (wordSet rels)) = FreeGroup.lift g := by
@@ -43,13 +43,13 @@ private theorem zetaBPres_bijective {X : Type*} [Group X] {g : Fin 2 → X}
 private theorem zetaBPres_mulEquiv :
     Nonempty (PresentedGroup (wordSet rels) ≃* X₀) :=
   ⟨MulEquiv.ofBijective
-    (PresentedGroup.toGroup fun r hr => isPresentation_X₀.lift_eq_one hr)
+    (PresentedGroup.toGroup fun _r hr => isPresentation_X₀.lift_eq_one hr)
     (zetaBPres_bijective isPresentation_X₀)⟩
 
 private theorem zetaBPres_isSimpleGroup :
     IsSimpleGroup (PresentedGroup (wordSet rels)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup X₀ := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup X₀ := by
     have h := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F9 3 1
       (by rw [Nat.card_eq_fintype_card, F9.card_eq]; norm_num) 4 (by norm_num) (by norm_num)
     simpa using h
@@ -58,11 +58,11 @@ private theorem zetaBPres_isSimpleGroup :
 
 theorem zetaPresentation_holds : ZetaPresentation := by
   intro S _grp s hLie hrel hs0
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨eS⟩ := nonempty_mulEquiv_X₀ hLie
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by
+  have : Finite S := Nat.finite_of_card_ne_zero (by
     rw [Nat.card_congr eS.toEquiv, card_X₀]; norm_num)
-  haveI : IsSimpleGroup (PresentedGroup (wordSet rels)) := zetaBPres_isSimpleGroup
+  have : IsSimpleGroup (PresentedGroup (wordSet rels)) := zetaBPres_isSimpleGroup
   set φ : PresentedGroup (wordSet rels) →* S :=
     PresentedGroup.toGroup fun r hr => hrel r hr with hφ
   have hφ0 : φ (PresentedGroup.of (0 : Fin 2)) = s 0 := by

@@ -554,7 +554,7 @@ private theorem source_apply_no_two_rank
     by_contra hodd
     have heven : Even (Nat.card CH) := Nat.not_odd_iff_even.mp hodd
     have htwo : 2 ∣ Nat.card CH := even_iff_two_dvd.mp heven
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨u, huOrder⟩ := exists_prime_orderOf_dvd_card' (G := CH) 2 htwo
     have huNe : (u : H) ≠ 1 := by
       intro huOne
@@ -731,8 +731,8 @@ public theorem theorem4b_lemma311_output_of_source
       (Subgroup.mem_zpowers d.data.z)
   let zH : H := ⟨d.data.z, hzHmem⟩
   let YH : Subgroup H := M.comap H.subtype
-  letI : MulAction H OmegaH := inferInstance
-  letI : MulAction.IsPretransitive H OmegaH := inferInstance
+  let : MulAction H OmegaH := inferInstance
+  let : MulAction.IsPretransitive H OmegaH := inferInstance
   have hYstab : MulAction.stabilizer H alphaH = YH := by
     ext h
     constructor
@@ -966,7 +966,7 @@ public theorem IsStronglyEmbedded.theorem4bProposition74_of_centralizer_not_le
       k • beta = k • ((q : X) • theorem4bSection7Base) := by rw [hqX]
       _ = (k * (q : X)) • theorem4bSection7Base := by rw [smul_smul]
       _ = ((q : X) * ((q : X)⁻¹ * k * (q : X))) •
-          theorem4bSection7Base := by congr 1 <;> group
+          theorem4bSection7Base := by congr 1; group
       _ = (q : X) • (((q : X)⁻¹ * k * (q : X)) •
           theorem4bSection7Base) := by rw [smul_smul]
       _ = (q : X) • theorem4bSection7Base := by rw [hKbase hkq]
@@ -1139,7 +1139,7 @@ public theorem exists_minimal_nonbase_theta
   have hnonbase : ∃ beta : conjugateCosetSpace M,
       beta ∈ Gamma ∧ beta ≠ theorem4bSection7Base := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hcardOne : Nat.card Gamma = 1 := by
       apply Nat.card_eq_one_iff_exists.mpr
       refine ⟨⟨theorem4bSection7Base, hbase⟩, ?_⟩
@@ -1149,7 +1149,7 @@ public theorem exists_minimal_nonbase_theta
     omega
   let S : Set (conjugateCosetSpace M) :=
     {beta | beta ∈ Gamma ∧ beta ≠ theorem4bSection7Base}
-  letI : Fintype S := Fintype.ofFinite S
+  let : Fintype S := Fintype.ofFinite S
   have hSuniv : (Finset.univ : Finset S).Nonempty := by
     rcases hnonbase with ⟨beta, hbeta, hne⟩
     exact ⟨⟨beta, hbeta, hne⟩, by simp⟩

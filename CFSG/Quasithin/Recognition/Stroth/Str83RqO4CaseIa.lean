@@ -20,6 +20,7 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 theorem caseI_Zv_le_Qv_zero {E : Subgroup G} (hZ₀E : t.Zv 1 ≤ E) (hEQ₁ : E ≤ t.Qv 0) :
     t.Zv 1 ≤ t.Qv 0 ∧ t.Zv (-1) ≤ t.Qv 0 := by
   have h1 : t.Zv 1 ≤ t.Qv 0 := hZ₀E.trans hEQ₁
@@ -52,6 +53,7 @@ theorem caseI_not_Zv_le_Qv_one {a f : ℕ}
   have heq : t.Zv 1 = t.Zv 0 := le_antisymm hZ1Z0 hZ₁Z₀
   exact Z1_ne_Z2 hfr (by rw [← t.Zv_zero, ← t.Zv_one]; exact heq.symm)
 
+omit [Finite G] in
 theorem caseI_commutator_Zv
     (hQ₁Z₀ : ∀ x ∈ t.Qv 0, ∀ z ∈ t.Zv 1, x * z * x⁻¹ * z⁻¹ ∈ t.Zv 0) :
     (∀ x ∈ t.Qv 0, ∀ z ∈ t.Zv (-1), x * z * x⁻¹ * z⁻¹ ∈ t.Zv 0) ∧
@@ -130,6 +132,7 @@ theorem caseI_S_le {a f : ℕ} (hfr : Frame L1 L2 S a f)
   rw [Subgroup.map_sup, t.map_Zv_x₂ (-1), t.map_Qv_x₂ 1] at h
   simpa only [show (2 : ℤ) - -1 = 3 by norm_num, show (2 : ℤ) - 1 = 1 by norm_num] using h
 
+omit [Finite G] in
 private theorem mem_normalizer_W_of_forall {Z C : Subgroup G} {z : G} (hCW : C ≤ t.W)
     (h : ∀ u ∈ Z, ∀ w ∈ t.W, w * u * w⁻¹ * u⁻¹ ∈ C) (hz : z ∈ Z) (hz' : z⁻¹ ∈ Z) :
     z ∈ normalizer (t.W : Set G) := by

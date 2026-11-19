@@ -84,7 +84,7 @@ theorem pPrimeCore_eq_bot_of_det_eq_one {ι : Type} [Fintype ι] [DecidableEq ι
     exact (Subgroup.card_subgroup_dvd_card _).trans (by rw [Nat.card_units, hF4card]; norm_num)
   have h3 : U.relIndex K ∣ 3 ^ 1 := by simpa using hdvd
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_three (m := 1)).1 h3
-  haveI : Finite (GL ι F4) := inferInstance
+  have : Finite (GL ι F4) := inferInstance
   have hUcore : GLAPPrimeCoreOf 3 U = ⊥ := gLAPPrimeCoreOf_eq_bot_iff_pPrimeCore.mpr hcore
   have hKcore : GLAPPrimeCoreOf 3 K = ⊥ :=
     gLAPPrimeCoreOf_eq_bot_of_relIndex_eq_pow Nat.prime_three hU hnorm hk hUcore
@@ -102,12 +102,12 @@ private theorem pPrimeCore_three_statedSU_two_eq_bot_of_gramSU {m : ℕ}
 
 theorem pPrimeCore_three_statedSU_two_eq_bot_of_le_three {m : ℕ} (hm : m ≤ 3) :
     pPrimeCore 3 ↥(StatedSU m (2 ^ 1) F4) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   interval_cases m
-  · haveI := CFSG.ComponentClassification.Burgoyne.C.subsingleton_statedSU_of_le_one
+  · have := CFSG.ComponentClassification.Burgoyne.C.subsingleton_statedSU_of_le_one
       (p := 2) (f := 1) (K := F4) hF4 (m := 0) (by norm_num)
     exact Subgroup.eq_bot_of_subsingleton _
-  · haveI := CFSG.ComponentClassification.Burgoyne.C.subsingleton_statedSU_of_le_one
+  · have := CFSG.ComponentClassification.Burgoyne.C.subsingleton_statedSU_of_le_one
       (p := 2) (f := 1) (K := F4) hF4 (m := 1) (by norm_num)
     exact Subgroup.eq_bot_of_subsingleton _
   · exact pPrimeCore_three_statedSU_two_eq_bot_of_gramSU
@@ -117,8 +117,8 @@ theorem pPrimeCore_three_statedSU_two_eq_bot_of_le_three {m : ℕ} (hm : m ≤ 3
 
 private theorem pPrimeCore_three_statedSU_two_eq_bot_of_four_six {m : ℕ} (hm4 : 4 ≤ m)
     (hm6 : m ≤ 6) : pPrimeCore 3 ↥(StatedSU m (2 ^ 1) F4) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Z : Subgroup (StatedSU m (2 ^ 1) F4) :=
     (StatedScalars (Fin m) F4).subgroupOf (StatedSU m (2 ^ 1) F4)
   have hZcard : Nat.card ↥Z ∣ 3 := by
@@ -134,7 +134,7 @@ private theorem pPrimeCore_three_statedSU_two_eq_bot_of_four_six {m : ℕ} (hm4 
     · exfalso
       rw [h3] at hcop
       exact (by norm_num : ¬ Nat.Coprime 3 3) hcop
-  haveI : Z.Normal := by dsimp [Z]; infer_instance
+  have : Z.Normal := by dsimp [Z]; infer_instance
   have hsimple : IsSimpleGroup (StatedSU m (2 ^ 1) F4 ⧸ Z) := by
     change IsSimpleGroup (StatedProj (StatedSU m (2 ^ 1) F4))
     exact CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F4 2 1 hF4card m

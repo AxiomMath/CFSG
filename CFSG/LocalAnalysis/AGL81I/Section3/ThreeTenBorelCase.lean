@@ -20,7 +20,7 @@ theorem normalizer_inter_le_Y_of_nontrivial_le {I D P Y A : Subgroup H} {p d : �
     (hhyp : ThreeTenHyp I D P Y p d) (hAD : A ≤ D) (hAne : A ≠ ⊥) :
     Subgroup.normalizer (A : Set H) ⊓ (I ⊔ D) ≤ Y := by
   obtain ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩ := hhyp
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hApg : IsPGroup d A := hD.isPGroup.to_le hAD
   have hdvd : d ∣ Nat.card A := by
     rcases hApg.card_eq_or_dvd with h1 | h1
@@ -54,7 +54,7 @@ theorem not_normalizer_le_borel_PSL {d : ℕ} (hd : d.Prime) (hd2 : d ≠ 2)
     (hA : IsPGroup d A) :
     ¬ Subgroup.normalizer (A : Set (PSL(2, F))) ≤ CFSG.PSL2Table.borel F := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   intro hN
   have hcardker : Nat.card (CFSG.PSL2Table.mk (F := F)).ker ≤ 2 := by
     rw [show (CFSG.PSL2Table.mk (F := F)).ker = Subgroup.center (SL(2, F)) by
@@ -94,13 +94,14 @@ section Transport
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem not_normalizer_le_map_borelSL {d p : ℕ} [Fact p.Prime]
     (hd : d.Prime) (hd2 : d ≠ 2) (hdp : d ≠ p)
     (e : X ≃* SL(2, ZMod p)) (A : Subgroup X) (hAne : A ≠ ⊥) (hA : IsPGroup d A) :
     ¬ Subgroup.normalizer (A : Set X) ≤
       (CFSG.PSL2Table.borelSL (ZMod p)).map e.symm.toMonoidHom := by
   intro hN
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   let A' : Subgroup (SL(2, ZMod p)) := A.map e.toMonoidHom
   have hA'ne : A' ≠ ⊥ := by
     intro hbot
@@ -127,13 +128,14 @@ theorem not_normalizer_le_map_borelSL {d p : ℕ} [Fact p.Prime]
             Subgroup.map_id]
   exact hwb (hmapN hwN)
 
+omit [Finite X] in
 theorem not_normalizer_le_map_borel {d p : ℕ} [Fact p.Prime]
     (hd : d.Prime) (hd2 : d ≠ 2) (hdp : d ≠ p)
     (e : X ≃* PSL(2, ZMod p)) (A : Subgroup X) (hAne : A ≠ ⊥) (hA : IsPGroup d A) :
     ¬ Subgroup.normalizer (A : Set X) ≤
       (CFSG.PSL2Table.borel (ZMod p)).map e.symm.toMonoidHom := by
   intro hN
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   let A' : Subgroup (PSL(2, ZMod p)) := A.map e.toMonoidHom
   have hA'ne : A' ≠ ⊥ := by
     intro hbot
@@ -158,8 +160,9 @@ theorem not_normalizer_le_map_borel {d p : ℕ} [Fact p.Prime]
 
 end Transport
 
+omit [Finite H] in
 theorem normalizer_subgroupOf_le_of_normalizer_inf_le {I E Y B : Subgroup H}
-    {B' : Subgroup ↥I} (hEI : E ≤ I) (hB : Y ⊓ I = B) (hBorel : B = B'.map I.subtype)
+    {B' : Subgroup ↥I} (hEI : E ≤ I) (_hB : Y ⊓ I = B) (hBorel : B = B'.map I.subtype)
     (hN : Subgroup.normalizer (E : Set H) ⊓ I ≤ B) :
     Subgroup.normalizer ((E.subgroupOf I) : Set ↥I) ≤ B' := by
   intro x hx

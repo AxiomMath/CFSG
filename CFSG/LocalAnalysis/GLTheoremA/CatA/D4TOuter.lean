@@ -37,7 +37,7 @@ theorem outer_card_dvd
     (hout : ∀ h : adjointGroup Tag.D4 F, MulAut.conj h ≠ α) :
     Nat.card ↥(fixSubgroup α) ∣ CFSG.Open.ordTrialityD4 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : ringChar F ≠ 3 := by
     have : Fintype F := Fintype.ofFinite F
     have hF2 : CharP F 2 := charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)

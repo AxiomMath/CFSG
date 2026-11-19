@@ -20,7 +20,7 @@ theorem tau_ttau_not_conj : (∀ g : G, g * t * g⁻¹ ≠ tau) ∧ ∀ g : G, g
   constructor
   · intro g h
     have hmem : g * t * g⁻¹ ∈ t • (fourGrp x₁ x₂ : Set G) :=
-      hp.tG_X g (by rw [h]; exact hp.tau_mem_X)
+      hp.tG_X g (by rw [h]; exact CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X)
     rw [h, Set.mem_smul_set] at hmem
     obtain ⟨v, hv, htv⟩ := hmem
     have htv' : t * v = tau := by simpa using htv
@@ -33,7 +33,7 @@ theorem tau_ttau_not_conj : (∀ g : G, g * t * g⁻¹ ≠ tau) ∧ ∀ g : G, g
     exact hp.ttau_not_mem_Q (hp.V_le_Q hv)
   · intro g h
     have hmem : g * t * g⁻¹ ∈ t • (fourGrp x₁ x₂ : Set G) :=
-      hp.tG_X g (by rw [h]; exact hp.ttau_mem_X)
+      hp.tG_X g (by rw [h]; exact CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.ttau_mem_X)
     rw [h, Set.mem_smul_set] at hmem
     obtain ⟨v, hv, htv⟩ := hmem
     have htv' : t * v = t * tau := by simpa using htv

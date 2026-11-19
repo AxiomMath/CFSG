@@ -61,8 +61,8 @@ theorem setup_z (hM : Nat.card S.Mbar ∣ 1512) (hw : S.width = 4) (hno : S11.No
       rw [huτ, S.z_comm_QG hτQ]
     rwa [hzτ] at hconj
 
-theorem exists_orderOf_mul_eq_four (hw : S.width = 4) (H : Hyp4 S g) (C : Cons311 S g)
-    (hirr : ¬ S.IsReducible) (h8 : StatedClassicalModel (M0 S g) .PSL 2 2 3) :
+theorem exists_orderOf_mul_eq_four (_hw : S.width = 4) (H : Hyp4 S g) (_C : Cons311 S g)
+    (hirr : ¬ S.IsReducible) (_h8 : StatedClassicalModel (M0 S g) .PSL 2 2 3) :
     ∃ d e : G, IsConj S.z d ∧ IsConj S.z e ∧ orderOf (d * e) = 4 := by
   obtain ⟨m, hm⟩ := exists_polar_ne_zero H hirr
   let d : G := g * S.z * g⁻¹

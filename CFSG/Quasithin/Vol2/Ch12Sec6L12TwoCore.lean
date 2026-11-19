@@ -40,7 +40,7 @@ theorem pCoreOf_le_self (H : Subgroup X) : pCoreOf 2 H ≤ H :=
 theorem le_ker_of_central {H : Type} [Group H] (θ : H →* alternatingGroup (Fin 6))
     (hθ : Function.Surjective θ) (N : Subgroup H) [hN : N.Normal]
     (hcomm : ∀ x ∈ N, ∀ y ∈ N, x * y = y * x) : N ≤ θ.ker := by
-  haveI : (N.map θ).Normal := hN.map θ hθ
+  have : (N.map θ).Normal := hN.map θ hθ
   have hbot : N.map θ = ⊥ := by
     apply eq_bot_of_normal_comm_alt6 (N.map θ)
     rintro _ ⟨x, hx, rfl⟩ _ ⟨y, hy, rfl⟩
@@ -96,7 +96,7 @@ theorem o2_quotient_of_surj {H X : Type} [Group H] [Finite H] [Group X] (ψ : H 
       (CFSG.pCore_normal (p := 2) (G := ↥ψ.range)).map φ hsurj
     have hP : IsPGroup 2 ((CFSG.pCore 2 ↥ψ.range).map φ) :=
       (CFSG.pCore_isPGroup (p := 2) (G := ↥ψ.range)).map φ
-    haveI := hN
+    have := hN
     have hbot := eq_bot_of_normal_isPGroup_alt6 ((CFSG.pCore 2 ↥ψ.range).map φ) hP
     have hmem : φ x ∈ (CFSG.pCore 2 ↥ψ.range).map φ := Subgroup.mem_map_of_mem φ hx
     rw [hbot, Subgroup.mem_bot] at hmem
@@ -165,6 +165,7 @@ namespace Setup
 
 variable {G : Type} [Group G] [Finite G] {K L E : Subgroup G}
 
+omit [Finite G] in
 theorem le_K (S : Setup K L E) : E ≤ K := (S.hE.trans (pCoreOf_le_self L)).trans S.hLK
 
 theorem config (S : Setup K L E) :
@@ -273,6 +274,7 @@ theorem config (S : Setup K L E) :
       simpa [map_inv, mul_assoc] using h
   · rw [← Subgroup.map_commutator, commutator_subgroupOf_eq S.le_K S.hLK S.hEcomm]
 
+omit [Finite G] in
 theorem map_inf_center_le (S : Setup K L E) :
     ((E.subgroupOf K) ⊓ Subgroup.center ↥K).map K.subtype ≤ E ⊓ Subgroup.centralizer (L : Set G) := by
   rintro _ ⟨x, hx, rfl⟩

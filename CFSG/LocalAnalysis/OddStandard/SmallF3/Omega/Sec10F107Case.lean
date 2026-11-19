@@ -26,6 +26,7 @@ variable
   (hQL : secQ K1 K2 ≤ L) (hQ : F.img (secQ K1 K2) = Q32)
 
 include h hFP hQL hQ in
+omit [Finite G] in
 theorem exists_r {X : Subgroup G} (hXS : X ≤ S) (hX : IsElemAb2 X 5) (hXA : X ≠ secA t S L) :
     ∃ (B2 : Subgroup P45) (y2 : P45), Mo107.Model107 (F.imgS S S) B2 y2 ∧
       ∃ r ∈ S, F.phiG r = y2 ∧ r * r = 1 := by
@@ -37,7 +38,7 @@ theorem exists_r {X : Subgroup G} (hXS : X ≤ S) (hX : IsElemAb2 X 5) (hXA : X 
     calc X = F.preS S (F.imgS S X) := hpre.symm
       _ = F.preS S B0 := by rw [hB]
       _ = secA t S L := (h.secA_eq hFP).symm
-  obtain ⟨w, hwX, hwT0⟩ := SetLike.not_le_iff_exists.1 hnle
+  obtain ⟨w, hwX, hwT0⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
   obtain ⟨B2, y2, hM⟩ := Mo107.model107 (h.T0_le_imgS hFP) (h.imgS_le_A (F := F) S)
     (h.isPGroup_imgS (F := F) (le_refl S)) (h.imgS_mono (F := F) hXS hwX) hwT0
   obtain ⟨y, hyX, hyB, hyT0⟩ :=
@@ -47,8 +48,8 @@ theorem exists_r {X : Subgroup G} (hXS : X ≤ S) (hX : IsElemAb2 X 5) (hXA : X 
   have hx2 : x * x = 1 := hX.1.mul_self_eq_one hxX
   rcases (hM.mem_B2 y).1 hyB with ⟨hyQ, -⟩ | ⟨c, hc, hcy, hcx⟩
   · exact absurd (Mo107.Q32_le_T0 hyQ) hyT0
-  · obtain ⟨l, hlQ, hl⟩ := h.exists_psi hQ hc
-    have hqS : (l : G) ∈ S := h.secQ_le_S hFP hQL hQ hlQ
+  · obtain ⟨l, hlQ, hl⟩ := CFSG.OddStandard.SmallF3.Omega.PspFrame.Setup107.exists_psi hQ hc
+    have hqS : (l : G) ∈ S := CFSG.OddStandard.SmallF3.Omega.PspFrame.Setup107.secQ_le_S hFP hQL hQ hlQ
     have hcB2 : c ∈ B2 := (hM.mem_B2 c).2 (Or.inl ⟨hc, hcy⟩)
     have hcc : c * c = 1 := hM.sq c hcB2
     have hl2 : l * l = 1 := by
@@ -71,6 +72,7 @@ theorem exists_r {X : Subgroup G} (hXS : X ≤ S) (hX : IsElemAb2 X 5) (hXA : X 
         _ = 1 := by rw [hq2, hx2, one_mul]
 
 include h hFP hQL hQ in
+omit [Finite G] in
 theorem case107 (hLg : IsPSp43 L) :
     secA t S L = JElem S ∨ ∃ r ∈ S, orderOf r = 2 ∧ InducesTypeSome L r 5 1 4 (-1) ∧
       secA2 t r K1 K2 ≠ secA t S L ∧
@@ -78,11 +80,11 @@ theorem case107 (hLg : IsPSp43 L) :
   by_cases hD : ∀ X : Subgroup G, X ≤ S → IsElemAb2 X 5 → X = secA t S L
   · exact Or.inl (h.jElem_eq_secA hFP hD)
   · right
-    push_neg at hD
+    push Not at hD
     obtain ⟨X0, hX0S, hX0, hX0A⟩ := hD
     obtain ⟨B2, y2, hM, r, hrS, hrφ, hr2⟩ := h.exists_r hFP hQL hQ hX0S hX0 hX0A
     refine ⟨r, hrS, ?_, ?_, h.secA2_ne hFP hQL hQ hM hrS hrφ, ?_⟩
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       refine orderOf_eq_prime (by rw [pow_two]; exact hr2) fun hr1 => hM.y2_out ?_
       rw [← hrφ, hr1, F.phiG_one]
       exact QT0.originalSubgroup.one_mem

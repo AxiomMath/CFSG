@@ -145,12 +145,12 @@ theorem ggLangPkg_twE6_adjoint {f : ℕ} (hf : 1 ≤ f) (D : LangDatum Tag.E6 GG
   classical
   let F := GaloisField 2 (2 * f)
   let σ : F →+* F := frobQ 2 f
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra F GGL := (ggRatEmb (2 * f)).toAlgebra
-  haveI : IsScalarTower (ZMod 2) F GGL := IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : Algebra.IsAlgebraic F GGL :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra F GGL := (ggRatEmb (2 * f)).toAlgebra
+  have : IsScalarTower (ZMod 2) F GGL := IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
+  have : Algebra.IsAlgebraic F GGL :=
     Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := F) (A := GGL)
-  haveI : IsAlgClosure F GGL := ⟨IsAlgClosure.isAlgClosed (ZMod 2), inferInstance⟩
+  have : IsAlgClosure F GGL := ⟨IsAlgClosure.isAlgClosed (ZMod 2), inferInstance⟩
   have hσsurj : Function.Surjective σ :=
     Finite.surjective_of_injective (frobQ 2 f).injective
   let σE : F ≃+* F := RingEquiv.ofBijective σ ⟨σ.injective, hσsurj⟩

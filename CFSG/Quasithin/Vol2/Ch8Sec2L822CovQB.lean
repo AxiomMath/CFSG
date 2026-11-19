@@ -141,7 +141,7 @@ theorem covQBTheta_surjective {G : Type} [Group G] {Kz Lz : Subgroup G} (hLK : L
 theorem covQB_comm_mem {G : Type} [Group G] [Finite G] {Lz : Subgroup G} {y : G} (hyL : y ∈ Lz)
     (hcomm : ∀ l ∈ Lz, y⁻¹ * l⁻¹ * y * l ∈ CFSG.Open.pCoreOf 2 Lz) (l : ↥Lz) :
     l * ⟨y, hyL⟩ * l⁻¹ * ⟨y, hyL⟩⁻¹ ∈ CFSG.pCore 2 ↥Lz := by
-  haveI : (CFSG.pCore 2 ↥Lz).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥Lz).Normal := CFSG.pCore_normal
   have hx : (⟨y, hyL⟩ : ↥Lz)⁻¹ * l⁻¹ * ⟨y, hyL⟩ * l ∈ CFSG.pCore 2 ↥Lz := by
     rw [mem_pCore_iff_kz2]
     simpa using hcomm (l : G) l.2
@@ -170,7 +170,7 @@ theorem covQB_central {G : Type} [Group G] [Finite G] {Kz Lz : Subgroup G} (hLK 
         ↥(modO2Image Kz Lz)) :
         ↥(modO2Image Kz Lz) ⧸ CFSG.pCore 2 ↥(modO2Image Kz Lz)) ∈
       Subgroup.center (↥(modO2Image Kz Lz) ⧸ CFSG.pCore 2 ↥(modO2Image Kz Lz)) := by
-  haveI : (CFSG.pCore 2 ↥(modO2Image Kz Lz)).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥(modO2Image Kz Lz)).Normal := CFSG.pCore_normal
   have hY : (⟨QuotientGroup.mk' (CFSG.pCore 2 ↥Kz) ⟨y, hLK hyL⟩, h⟩ : ↥(modO2Image Kz Lz)) =
       covQBTheta hLK ⟨y, hyL⟩ := rfl
   rw [hY, Subgroup.mem_center_iff]
@@ -185,7 +185,7 @@ theorem covQB_central {G : Type} [Group G] [Finite G] {Kz Lz : Subgroup G} (hLK 
   exact covQB_pCore_le hLK (Subgroup.mem_map_of_mem _ (covQB_comm_mem hyL hcomm L'))
 
 theorem covQB_S_le_normalizer {G : Type} [Group G] [Finite G] {T Kz Lz : Subgroup G}
-    (hTLz : T ≤ Subgroup.normalizer (Lz : Set G)) (hLK : Lz ≤ Kz) :
+    (hTLz : T ≤ Subgroup.normalizer (Lz : Set G)) (_hLK : Lz ≤ Kz) :
     modO2Image Kz (T ⊓ Kz) ≤
       Subgroup.normalizer (modO2Image Kz Lz : Set (↥Kz ⧸ CFSG.pCore 2 ↥Kz)) := by
   have hkey : ∀ s ∈ modO2Image Kz (T ⊓ Kz), ∀ x ∈ modO2Image Kz Lz,
@@ -214,7 +214,7 @@ theorem covQB_S_le_normalizer {G : Type} [Group G] [Finite G] {T Kz Lz : Subgrou
 theorem cov_Q_B {G : Type} [Group G] [Finite G] {T Kz Lz : Subgroup G} {y : G}
     (hTLz : T ≤ Subgroup.normalizer (Lz : Set G)) (hLK : Lz ≤ Kz) (hLzperf : ⁅Lz, Lz⁆ = Lz)
     (hLzq : CFSG.Quasithin.IsHat (↥Lz ⧸ CFSG.pCore 2 ↥Lz) (alternatingGroup (Fin 6)))
-    (hyL : y ∈ Lz) (hy3 : y ^ 3 = 1)
+    (hyL : y ∈ Lz) (_hy3 : y ^ 3 = 1)
     (hcomm : ∀ l ∈ Lz, y⁻¹ * l⁻¹ * y * l ∈ CFSG.Open.pCoreOf 2 Lz) :
     ⁅CFSG.Quasithin.modO2Image Kz Lz, CFSG.Quasithin.modO2Image Kz Lz⁆ =
         CFSG.Quasithin.modO2Image Kz Lz ∧

@@ -15,7 +15,7 @@ open CFSG.Blueprint CFSG.HardMathSupport.Timmesfeld.Tables.Census
 
 theorem sporL3DownInner_McL
     (hbr : SporadicBridges) : SporL3DownInner .McL := by
-  haveI : Finite NativeSporadic.McL := Nat.finite_of_card_ne_zero (by
+  have : Finite NativeSporadic.McL := Nat.finite_of_card_ne_zero (by
     rw [CFSG.Sporadic.McL.card_McL]; norm_num)
   refine sporL3DownInner_of_comp NativeSporadic.McL (hbr .McL)
     (by rw [CFSG.Sporadic.McL.card_McL]; exact noL3Eq_898128000) ?_
@@ -27,7 +27,7 @@ theorem sporL3DownInner_McL
 
 theorem sporL3DownInner_ONan
     (hbr : SporadicBridges) : SporL3DownInner .ONan := by
-  haveI : Finite NativeSporadic.ON := Nat.finite_of_card_ne_zero (by
+  have : Finite NativeSporadic.ON := Nat.finite_of_card_ne_zero (by
     rw [CFSG.Sporadic.ON.card_ON]; norm_num)
   refine sporL3DownInner_of_comp NativeSporadic.ON (hbr .ONan)
     (by rw [CFSG.Sporadic.ON.card_ON]; exact noL3Eq_460815505920) ?_

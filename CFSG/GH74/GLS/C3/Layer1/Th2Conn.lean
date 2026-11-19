@@ -468,6 +468,7 @@ theorem exists_isFourSub_of_two_le_pRank {H : Subgroup G}
   · rw [Subgroup.card_map_of_injective H.subtype_injective, hAcard]
     norm_num
 
+omit [Finite G] in
 theorem eq_of_isS_of_le_elem {Q E E' : Subgroup G} (hE : IsS Q E) (hE'Q : E' ≤ Q)
     (hE'el : CFSG.IsElementaryAbelian 2 ↥E') (hEE' : E ≤ E') : E' = E := by
   obtain ⟨-, -, hEeq⟩ := hE
@@ -586,6 +587,7 @@ theorem isS_pRank_three_of_isConn2 {Q E : Subgroup G} (hQp : IsPGroup 2 ↥Q)
     omega
 
 
+omit [Finite G] in
 theorem connected_two_group_rank_three_centralizer [Finite G] {Q : Subgroup G}
     (hQp : IsPGroup 2 ↥Q) (hQconn : IsConn2 Q)
     (hQrk : 3 ≤ CFSG.pRank 2 ↥Q) :
@@ -600,7 +602,7 @@ theorem connected_two_group_rank_three_centralizer [Finite G] {Q : Subgroup G}
   have hE3 : 3 ≤ CFSG.pRank 2 ↥E :=
     isS_pRank_three_of_isConn2 hQp hQconn hQrk hE
   have heE : u ∈ E := huE (mem_zpowers u)
-  haveI : CFSG.IsElementaryAbelian 2 ↥E := hE.2.1
+  have : CFSG.IsElementaryAbelian 2 ↥E := hE.2.1
   have hEcent : E ≤ Subgroup.centralizer ({u} : Set G) := by
     intro x hx
     rw [Subgroup.mem_centralizer_singleton_iff]

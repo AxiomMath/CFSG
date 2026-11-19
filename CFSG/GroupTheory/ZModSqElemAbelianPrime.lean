@@ -13,7 +13,7 @@ open scoped IsMulCommutative
 variable {G : Type*} [Group G] [Finite G]
 
 theorem card_powTorsionIn_of_mulEquiv {A : Subgroup G} [IsMulCommutative ↥A] {m r : ℕ}
-    (e : ↥A ≃* Multiplicative (ZMod m × ZMod m)) (hr : r.Prime) (hdvd : r ∣ m) :
+    (e : ↥A ≃* Multiplicative (ZMod m × ZMod m)) (_hr : r.Prime) (hdvd : r ∣ m) :
     Nat.card ↥((powMonoidHom r : ↥A →* ↥A).ker) = r ^ 2 := by
   classical
   have hcardA : Nat.card ↥A = m * m := by
@@ -24,7 +24,7 @@ theorem card_powTorsionIn_of_mulEquiv {A : Subgroup G} [IsMulCommutative ↥A] {
     rintro rfl
     rw [mul_zero] at hcardA
     exact (Nat.card_pos (α := ↥A)).ne' hcardA
-  haveI : NeZero m := ⟨hm0⟩
+  have : NeZero m := ⟨hm0⟩
   let e' : ↥A ≃* (Multiplicative (ZMod m) × Multiplicative (ZMod m)) :=
     e.trans (MulEquiv.prodMultiplicative (G := ZMod m) (H := ZMod m))
   rw [Nat.card_congr

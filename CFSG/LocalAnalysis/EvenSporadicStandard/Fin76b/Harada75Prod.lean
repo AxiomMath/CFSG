@@ -12,6 +12,7 @@ section Prod
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem card_sup_mul_card_inf (H K : Subgroup S) (hHK : H ≤ Subgroup.normalizer (K : Set S)) :
     Nat.card (H ⊔ K : Subgroup S) * Nat.card (H ⊓ K : Subgroup S) = Nat.card H * Nat.card K := by
   set G : Subgroup S := H ⊔ K with hG

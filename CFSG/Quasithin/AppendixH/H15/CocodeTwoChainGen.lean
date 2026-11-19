@@ -37,7 +37,7 @@ theorem eq_rImg_octFix_of_fixing {Γ : Subgroup S24} (hΓ : Γ ≤ M24g)
       Nat.card ↥((octFix O').subgroupOf Γ) := by
     rw [rImg]
     exact Subgroup.card_map_of_injective hρ
-  haveI : Finite ↥((octFix O').subgroupOf Γ) := inferInstance
+  have : Finite ↥((octFix O').subgroupOf Γ) := inferInstance
   let f : ↥A → ↥((octFix O').subgroupOf Γ) := fun a =>
     let γ := Classical.choose (hfix (a : MulAut V) a.2)
     ⟨γ, Subgroup.mem_subgroupOf.2
@@ -61,9 +61,9 @@ theorem eq_rImg_octFix_of_fixing {Γ : Subgroup S24} (hΓ : Γ ≤ M24g)
       _ = Nat.card ↥A := hA.symm
       _ ≤ Nat.card ↥((octFix O').subgroupOf Γ) := hcardA_le_sub
   have hF_le : octFix O' ≤ Γ := by
-    haveI : Finite ↥((octFix O').subgroupOf Γ) :=
+    have : Finite ↥((octFix O').subgroupOf Γ) :=
       Nat.finite_of_card_ne_zero (by rw [hsub_eq, hcardF]; norm_num)
-    haveI : Finite ↥(octFix O') :=
+    have : Finite ↥(octFix O') :=
       Nat.finite_of_card_ne_zero (by rw [hcardF]; norm_num)
     have hbij := hιinj.bijective_of_nat_card_le (le_of_eq hsub_eq.symm)
     intro x hx
@@ -75,7 +75,7 @@ theorem eq_rImg_octFix_of_fixing {Γ : Subgroup S24} (hΓ : Γ ≤ M24g)
     exact (y : ↥Γ).2
   have hcard_rImg : Nat.card ↥(rImg ρ (octFix O')) = 16 := by
     rw [hcard_map, hsub_eq, hcardF]
-  haveI : Finite ↥(rImg ρ (octFix O')) :=
+  have : Finite ↥(rImg ρ (octFix O')) :=
     Nat.finite_of_card_ne_zero (by rw [hcard_rImg]; norm_num)
   have hA_eq : A = rImg ρ (octFix O') :=
     Subgroup.eq_of_le_of_card_ge hA_le (by rw [hcard_rImg, hA])

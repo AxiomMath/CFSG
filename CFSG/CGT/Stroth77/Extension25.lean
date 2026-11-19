@@ -182,7 +182,7 @@ theorem no_cocycle_index_two_t101
     omega
   have heven : 2 ∣ x0 := by
     rw [hzuv, hzt] at h4
-    simp only [map_add, map_zsmul, hVc, hVa, hVb, hWc, hWa, hWb, hVt, hWt] at h4
+    simp only [map_add, map_zsmul, hVa, hWc, hWa, hWb, hVt, hWt] at h4
     have key : tor300 s (4 + y0 + x0) (y1 + (x0 + x1)) (y2 + x2) =
         tor300 s (x0 + y0) (x1 + (y0 + y1)) (x2 + (y0 + y2)) := by
       simp only [tor300] at h4 ⊢
@@ -205,7 +205,7 @@ theorem no_cocycle_index_four_t101 (hs : 1 ≤ s)
   have hz : z = (𝔤 s 0) + (1 + 2 ^ s : ℤ) • (𝔤 s 2) + tor300 s x0 x1 x2 := by
     rw [← hx]; abel
   rw [hz] at h2
-  simp only [map_add, map_zsmul, hVc, hVa, hVb, hVt] at h2
+  simp only [map_add, map_zsmul, hVc, hVb, hVt] at h2
   have key : tor300 s (2 + x0 + x0) (2 * (2 ^ s) ^ 2 + 5 * (2 ^ s) + 4 + x1 + (x0 + x1))
       (1 + x2 + (x0 + x2)) = tor300 s 0 0 0 := by
     simp only [tor300] at h2 ⊢

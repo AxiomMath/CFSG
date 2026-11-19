@@ -107,9 +107,9 @@ theorem map_conj_eq_of_alt5_comp {G : Type} [Group G] [Finite G] {x t : G} {J J�
       have h2 := congrArg (fun y => y * t) hfix
       simpa [mul_assoc] using h2.symm
   have hRR : ⁅R, R⁆ = R := by
-    haveI : Group.IsPerfect ↥J₁ := hJ₁c.isQuasisimple.1
+    have : Group.IsPerfect ↥J₁ := hJ₁c.isQuasisimple.1
     have hperf : Group.IsPerfect ↥R := Group.IsPerfect.range f
-    letI : Group.IsPerfect ↥R := hperf
+    let : Group.IsPerfect ↥R := hperf
     exact Subgroup.commutator_eq_self
   have hRJ : R ≤ J := hG0 R hRle hRR
   have hRcent : R ≤ centralizer (J : Set G) := by

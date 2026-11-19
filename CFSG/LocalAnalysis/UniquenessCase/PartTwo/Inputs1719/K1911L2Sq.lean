@@ -66,9 +66,9 @@ theorem l2_prod_factor_data {Y₁ Y₂ : Type} [Group Y₁] [Group Y₂] [Finite
   have hB₂ : CFSG.BenderSuzuki.IsBenderGroup Y₂ :=
     CFSG.Timmesfeld.Bridge.isBenderGroup_of_fusionIsBenderGroup
       (uc22p2214_bor_bender_L2 h₂)
-  haveI : IsSimpleGroup Y₁ :=
+  have : IsSimpleGroup Y₁ :=
     CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hB₁
-  haveI : IsSimpleGroup Y₂ :=
+  have : IsSimpleGroup Y₂ :=
     CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hB₂
   have hZ₁ : center Y₁ = ⊥ := by
     obtain ⟨a, b, hab⟩ :=
@@ -102,8 +102,8 @@ theorem l2_prod_Q_eq_bot {Y₁ Y₂ : Type} [Group Y₁] [Group Y₂] [Finite Y�
     Q = ⊥ := by
   obtain ⟨hm, hoddm, hcard₁, hcard₂, hcop⟩ := l2_prod_arith h₁ h₂ hn
   obtain ⟨hs₁, hs₂, hZ₁, hZ₂, hN₁, hN₂⟩ := l2_prod_factor_data h₁ h₂
-  haveI := hs₁
-  haveI := hs₂
+  have := hs₁
+  have := hs₂
   have hmain := CFSG.GroupTheory.prod_aut_fix_of_forall_eq_bot
     (m := 2 ^ n - 1) (c₁ := 2 ^ n * (2 ^ n + 1)) (c₂ := 2 ^ n * (2 ^ n + 1))
     hZ₁ hZ₂ hm hoddm hcard₁ hcard₂ hcop hcop hN₁ hN₂
@@ -111,7 +111,7 @@ theorem l2_prod_Q_eq_bot {Y₁ Y₂ : Type} [Group Y₁] [Group Y₂] [Finite Y�
   rw [eq_bot_iff]
   intro α hα
   obtain ⟨β₁, β₂, hαeq, hβ₁, hβ₂, hfix₁, hfix₂⟩ := hmain.2.2.2 α hα
-  haveI : IsMulCommutative ↥A :=
+  have : IsMulCommutative ↥A :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.S19.isMulCommutative_of_isZModSq hA
   have hβ₁one : β₁ = 1 :=
     eq_one_of_isL2_of_fix_of_two_pow h₁ hn inferInstance hmain.1 β₁ hβ₁ hfix₁
@@ -126,7 +126,7 @@ theorem torusFixedConcl_l2_prod {Y₁ Y₂ : Type} [Group Y₁] [Group Y₂] [Fi
     {n p : ℕ} (h₁ : IsL2 Y₁ n) (h₂ : IsL2 Y₂ n) (hn : 3 ≤ n) (hp : p.Prime)
     (hpd : p ∣ 2 ^ n + 1) : TorusFixedConcl (Y₁ × Y₂) n p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, hcard₁, hcard₂, -⟩ := l2_prod_arith h₁ h₂ hn
   have hpY₁ : p ∣ Nat.card Y₁ := by
     rw [hcard₁]

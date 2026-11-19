@@ -110,9 +110,7 @@ theorem perfHom_surjective (hf : 2 ≤ f) : Function.Surjective (perfHom h hf) :
 theorem perfEquiv_apply (hf : 2 ≤ f) (g : ↥(Ssub h ⊔ N₁sub h)) :
     ((perfEquiv h hf g : ↥(perfectCore (u5LnP h))) : hypPSU h 2 1) =
       hypProj h 2 1 (g : hypSU h 2 1) := by
-  simpa [perfEquiv, perfHom] using
-    MulEquiv.ofBijective_apply (perfHom h hf)
-      ⟨perfHom_injective h hf, perfHom_surjective h hf⟩ g
+  simp [perfEquiv, perfHom]
 
 private noncomputable def alpha (hf : 2 ≤ f) :
     ↥(perfectCore (u5LnP h)) →* Matrix.SpecialLinearGroup (Fin 2) K :=
@@ -169,8 +167,8 @@ private theorem alpha_ker (hf : 2 ≤ f) :
 
 theorem isPSL_modO2_perfectCore_u5LnP (hf : 2 ≤ f) :
     CFSG.Quasithin.IsPSL 2 2 (2 * f) (CFSG.Quasithin.ModO2 (perfectCore (u5LnP h))) := by
-  haveI : Finite K := h.finite
-  haveI : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : CharP K 2 := h.charP
   let e : CFSG.Quasithin.ModO2 (perfectCore (u5LnP h)) ≃*
       Matrix.SpecialLinearGroup (Fin 2) K :=
     (QuotientGroup.quotientMulEquivOfEq (alpha_ker h hf).symm).trans

@@ -62,8 +62,8 @@ theorem exists_twA5_zeta (h : UnitaryFieldData 2 n F) {q : ℕ} (hq : q.Prime)
     (hqdvd : q ∣ 2 ^ n + 1) :
     ∃ ζu : Fˣ, h.norm (ζu : F) = 1 ∧ orderOf ζu = q := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact q.Prime := ⟨hq⟩
   have hcard : Fintype.card (Units.map h.normHom).ker = 2 ^ n + 1 := by
     rw [← Nat.card_eq_fintype_card, h.card_ker_normUnits_and_surjective.1]
   obtain ⟨ζu, hζo⟩ :=
@@ -71,7 +71,8 @@ theorem exists_twA5_zeta (h : UnitaryFieldData 2 n F) {q : ℕ} (hq : q.Prime)
   refine ⟨ζu, h.mem_ker_normUnits.1 ζu.2, ?_⟩
   rw [← hζo, Subgroup.orderOf_mk]
 
-theorem diagFiveLast_not_scalar (h : UnitaryFieldData 2 n F) {q : ℕ} (hq : q.Prime)
+omit [Finite F] in
+theorem diagFiveLast_not_scalar (h : UnitaryFieldData 2 n F) {q : ℕ} (_hq : q.Prime)
     (hq6 : ¬ q ∣ 6) {ζu : Fˣ} (hζ : h.norm (ζu : F) = 1) (hζo : orderOf ζu = q) :
     diagFiveLast h (ζu : F) hζ ∉ unitaryScalars h 6 := by
   intro hmem
@@ -83,8 +84,7 @@ theorem diagFiveLast_not_scalar (h : UnitaryFieldData 2 n F) {q : ℕ} (hq : q.P
     ((g : Matrix (Fin 6) (Fin 6) F))) hmat) 0) 0
   have h55 := congrFun (congrFun (congrArg (fun g : GL (Fin 6) F =>
     ((g : Matrix (Fin 6) (Fin 6) F))) hmat) 5) 5
-  simp only [coe_diagFiveLast, Matrix.diagonal_apply_eq, Fin.isValue, Fin.reduceEq,
-    Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at h00 h55
+  simp only [coe_diagFiveLast, Matrix.diagonal_apply_eq, Fin.isValue, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at h00 h55
   have h1 : (ζu : F) = (c : F) := h00
   have h2 : ((ζu : F) ^ 5)⁻¹ = (c : F) := h55
   have h3 : ((ζu : F) ^ 5)⁻¹ = (ζu : F) := by rw [h2, h1]
@@ -114,6 +114,7 @@ theorem blockSU_suFiveIndex_clauses (h : UnitaryFieldData 2 n F) (hn : 2 ≤ n) 
     (hasLabel_blockSU_suFiveIndex h (by omega))
     CFSG.ComponentClassification.TBLit.griessMultipliersAllModels_holds
 
+omit [Finite F] in
 theorem centralizes_of_unitaryProj_centralizes (h : UnitaryFieldData 2 n F)
     {S : Subgroup (unitarySU 2 n F 6)} (hS : IsPGroup 2 S) {A : unitarySU 2 n F 6}
     (hA : ∀ s ∈ S, unitaryProj h 6 A * unitaryProj h 6 s =

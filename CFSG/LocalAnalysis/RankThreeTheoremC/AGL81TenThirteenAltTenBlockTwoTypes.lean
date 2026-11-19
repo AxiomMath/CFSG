@@ -61,7 +61,7 @@ theorem center_eq_bot_of_alt {Y : Type} [Group Y] [Finite Y]
     (CFSG.Foundations.SteinbergCA.quasisimple_iff Y).2.2.1.mpr hq
   have hdvd := CFSG.GH74.Generic.card_center_dvd_hopfMultiplier hq' e
   rw [(CFSG.Alternating.Multipliers.schurAlternatingMultiplierInput m (by omega)).2,
-    if_neg (by omega)] at hdvd
+    ite_eq_right (by omega)] at hdvd
   have hodd := odd_card_center_of_pCore_eq_bot hO
   have h1 : Nat.card (Subgroup.center Y) = 1 := by
     rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h | h
@@ -70,6 +70,7 @@ theorem center_eq_bot_of_alt {Y : Type} [Group Y] [Finite Y]
       exact absurd hodd (by decide)
   exact Subgroup.eq_bot_of_card_eq _ h1
 
+omit [Finite G] in
 theorem pCore_barM_eq_bot {X L : Subgroup G} (hL : IsTwoPrimeComponent X L) :
     CFSG.pCore 2 ↥(barM X L) = ⊥ := by
   have h1 := CFSG.HardMathSupport.Cooperstein.Proving.pCoreOf_le_pCoreOf_of_isSubnormal 2
@@ -102,10 +103,10 @@ theorem false_of_alt_two_blocks {X L : Subgroup G}
 private theorem false_of_alt_surj {n : ℕ} (hn : 6 ≤ n)
     (g : ↥(alternatingGroup (Fin n)) →* alternatingGroup (Fin 5)) (hg : Function.Surjective g) :
     False := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; omega)
   have h := card_eq_sixty_of_isSimpleGroup g hg
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   rw [nat_card_alternatingGroup, Nat.card_fin] at h
   have h6 : (6 : ℕ).factorial ≤ n.factorial := Nat.factorial_le hn
   have : (720 : ℕ) ≤ n.factorial := by simpa [Nat.factorial] using h6
@@ -121,14 +122,14 @@ theorem nineThree_cases_of_alt5 (h93 : Asc81bNineThree) (h85 : Asc81bEightFive)
       (∃ n : ℕ, 5 ≤ n ∧ Nonempty (↥(barM X L) ⧸ Subgroup.center ↥(barM X L) ≃*
         alternatingGroup (Fin (2 * n)))) ∨
       ∃ N : ℕ, 6 ≤ N ∧ Nonempty (↥(barM X L) ≃* alternatingGroup (Fin N)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLX : L ≤ X := hL.le
   have hNX : normalizer (S : Set G) ⊓ L ≤ X := inf_le_right.trans hLX
   have hI₀X : I₀ ≤ X := hI₀.le.trans hNX
   have hSy2 : ¬ IsSylowTwoOf (S ⊓ L) L := fun h =>
     hX (h85 G X S L hK hA hL.toIsTwoPrimeComponent h)
   have hI1 : I₀ ≠ ⊥ := by
-    haveI : Nontrivial ↥I₀ := hf.nontrivial
+    have : Nontrivial ↥I₀ := hf.nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot I₀).mp inferInstance
   obtain ⟨hCP, hCne, hCp, hCsn, -⟩ :=
     CZeroThreePerfect.barM_facts hLX hI₀.le hI₀.subnormal hI₀c.perfect hI1
@@ -254,8 +255,8 @@ theorem nineThree_cases_of_alt5 (h93 : Asc81bNineThree) (h85 : Asc81bEightFive)
       rw [Subgroup.mem_subgroupOf] at hy ⊢
       exact hy.2
     set eP := (Subgroup.subgroupOfEquivOfLe hPL').symm
-    haveI : Group.IsSolvable ↥Pb :=
-      solvable_of_solvable_injective (f := eP.toMonoidHom) eP.injective
+    have : Group.IsSolvable ↥Pb :=
+      Group.isSolvable_of_isSolvable_injective (f := eP.toMonoidHom) eP.injective
     exact hC'ne (CZeroThreePerfect.eq_bot_of_perfect_of_isSolvable hC'p)
   ·
     exfalso

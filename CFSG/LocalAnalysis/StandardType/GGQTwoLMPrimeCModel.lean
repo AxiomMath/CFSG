@@ -19,8 +19,8 @@ theorem qTwoLMPrimeC_model {B L : Subgroup G} {x : G} {m : ℕ} (hG : GGThmIHyp 
   have hm4 := qTwoLMFrameC_four_le hL
   have hZ := qTwoLMFrameC_center_bot hG hL hMul
   obtain ⟨-, K, hKf, hKfin, hK, ⟨θ⟩⟩ := hL.statedClassicalModel_of_ne_zero (by omega)
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   refine ⟨StatedProj (StatedSU m (2 ^ 1) K), inferInstance,
     ((QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)).trans θ),
     ?_⟩
@@ -32,6 +32,7 @@ theorem qTwoLMPrimeC_model {B L : Subgroup G} {x : G} {m : ℕ} (hG : GGThmIHyp 
     Subgroup R :=
   ((Bs ⊓ L).subgroupOf L).map eL.toMonoidHom
 
+omit [Finite G] in
 theorem qTwoLMPrimeC_imgT_props {Bs L : Subgroup G} {R : Type} [Group R] (eL : ↥L ≃* R)
     (hab : IsElemAbelian 3 (Bs ⊓ L)) (hcard : 3 ^ 3 ≤ Nat.card ↥(Bs ⊓ L))
     (hsc : ∀ n ∈ L, (∀ t ∈ Bs ⊓ L, n * t = t * n) → n ^ 3 = 1 → n ∈ Bs ⊓ L) :
@@ -53,7 +54,7 @@ theorem qTwoLMPrimeC_imgT_props {Bs L : Subgroup G} {R : Type} [Group R] (eL : �
   · intro g hgcomm hg3
     set n : ↥L := eL.symm g with hn_def
     have hen : eL n = g := by
-      simpa [hn_def] using eL.apply_symm_apply g
+      simp [hn_def]
     have hn3 : n ^ 3 = 1 := by
       apply eL.injective
       rw [map_pow, map_one, hen, hg3]

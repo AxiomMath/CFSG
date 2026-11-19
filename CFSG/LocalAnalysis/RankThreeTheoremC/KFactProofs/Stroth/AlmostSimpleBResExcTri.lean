@@ -20,9 +20,9 @@ open CFSG.ComponentClassification.OuterAutomorphisms (inner)
 
 theorem hasIndepPair_of_sylowShape {p e : ℕ} (hp : p.Prime) (he : 1 ≤ e) {G : Type*} [Group G]
     [Finite G] (h : SylowShape p 2 e G) : HasIndepPair p G := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let P : Sylow p G := Classical.arbitrary _
-  obtain ⟨Φ⟩ := h (P : Subgroup G) P.isPGroup' P.not_dvd_index
+  obtain ⟨Φ⟩ := h (P : Subgroup G) P.isPGroup P.not_dvd_index
   exact hasIndepPair_of_injective_pi hp he ((P : Subgroup G).subtype.comp Φ.symm.toMonoidHom)
     (Subtype.val_injective.comp Φ.symm.injective)
 
@@ -44,8 +44,8 @@ theorem fixesPair_trialityD4 {L : Type} [Group L] [Finite L] {f p : ℕ} (hf : 1
     (hrk1 : ¬ RankLE1 p L) {α : MulAut L} (hαp : α ^ p = 1) (hα : α ∉ inner L) :
     FixesIndepPair p α := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : p ≠ 2 := by omega
   have hpT : p ∣ Nat.card L := by
     by_contra hnd
@@ -53,7 +53,7 @@ theorem fixesPair_trialityD4 {L : Type} [Group L] [Finite L] {f p : ℕ} (hf : 1
   obtain ⟨K, hKf, hKfin, σ, hKcard, hσ, ⟨e⟩⟩ :=
     exists_mulEquiv_graphFixedRootGroup_card .D4 Nat.prime_two hf hCEM.2
   have hK : Nat.card K = (2 ^ f) ^ 3 := hKcard
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Finite.of_equiv L e.toEquiv
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Finite.of_equiv L e.toEquiv
   obtain ⟨hα'inn, hα'ord⟩ := congr_noninner_prime hp e hαp hα
   set α' : MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := MulAut.congr e α with hα'
   obtain ⟨-, -, ⟨Θ, hΘ, -⟩, hcyc, -⟩ :=
@@ -100,8 +100,8 @@ theorem fixesPair_trialityD4 {L : Type} [Group L] [Finite L] {f p : ℕ} (hf : 1
   obtain ⟨-, -, hk, hres, -, hJC, hfixJ, -⟩ :=
     triality_canonical_field_full_centralizer_and_pointwise_kernel Nat.prime_two hf₀ hp.two_le hm3
       K hK' σ hσ' δc hδc
-  haveI : Finite (fixSubfield δc) := Subtype.finite
-  haveI : Fintype (fixSubfield δc) := Fintype.ofFinite _
+  have : Finite (fixSubfield δc) := Subtype.finite
+  have : Fintype (fixSubfield δc) := Fintype.ofFinite _
   set J := trialityFieldImage σ δc
   have hK0 : Nat.card (fixSubfield δc) = (2 ^ f₀) ^ 3 := by rw [hk, ← pow_mul, mul_comm]
   have hcardK0 : Fintype.card (fixSubfield δc) = 2 ^ (3 * f₀) := by
@@ -188,7 +188,7 @@ theorem fixesPair_trialityD4 {L : Type} [Group L] [Finite L] {f p : ℕ} (hf : 1
     rcases hm' with rfl | rfl | rfl | rfl <;> simp only [phiNat] <;> omega
   have hone : 1 ≤ (phiNat m (2 ^ f₀)).factorization p :=
     (hp.dvd_iff_one_le_factorization hne).1 hpdq
-  haveI : Finite ↥J :=
+  have : Finite ↥J :=
     Finite.of_injective (Subgroup.inclusion hJC) (Subgroup.inclusion_injective hJC)
   have hpairJ : HasIndepPair p ↥J :=
     hasIndepPair_of_sylowShape hp hone (SylowShape.of_mulEquiv e₁ hshN)

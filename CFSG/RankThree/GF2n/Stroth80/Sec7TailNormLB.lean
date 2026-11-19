@@ -43,7 +43,7 @@ theorem exists_normalizer_LB_not_normalizer_Z0 (h710 : Stroth710Statement)
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0
   have hex : ∃ z ∈ Z0, g * z * g⁻¹ ∉ Z0 := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     apply hgne
     refine Subgroup.eq_of_le_of_card_ge (fun x hx => ?_) (by rw [card_conjSubgroup])
     rw [mem_conjSubgroup] at hx
@@ -84,7 +84,7 @@ theorem sec7NormLB'_of_710 (h34 : Stroth34Statement) (h311a : Stroth311aStatemen
   have hQH : Q ≤ H0 M Z := hc.Q_le_H0'
   obtain ⟨ν, hνM, hνL, hνZ⟩ := exists_normalizer_LB_not_normalizer_Z0 h710 hNC hNC4 hc hs hZ0
   have hconf := hc.tiConfig hs hZ0 hZt hZcard (sec7_CN_pgroup_bar h34 h311a hc hs) hMA hTI hF
-  haveI hnormH := hc.normal_bar_H0
+  have hnormH := hc.normal_bar_H0
   have hHn : ∀ x : Mbar M Q, x ∈ Subgroup.normalizer
       ((bar M Q (H0 M Z) : Subgroup (Mbar M Q)) : Set (Mbar M Q)) := fun x => by
     rw [Subgroup.normalizer_eq_top]

@@ -34,16 +34,16 @@ public theorem hkt_nonsolvable_of_minimal_branch
       ∀ N : Subgroup Q, [N.Normal] → N ≠ ⊥ → N ≠ ⊤ →
         (∀ q : Q, q ∈ N ↔ φ q ∈ N) → Group.IsNilpotent (Q ⧸ N))
     (hcenter_bot : Subgroup.center Q = ⊥) :
-    ¬ IsSolvable Q := by
+    ¬ Group.IsSolvable Q := by
   intro hsolv
   obtain ⟨N, hNnorm, hNinv, hN_ne_top, hNmax⟩ :=
     hkt_exists_maximal_proper_invariant_normal φ hnon_nil
-  haveI : N.Normal := hNnorm
+  have : N.Normal := hNnorm
   have hN_ne_bot : N ≠ ⊥ := by
     intro hNbot
     obtain ⟨M, hMnorm, hMinv, hM_ne_bot, hMmin⟩ :=
       hkt_exists_minimal_invariant_normal φ hnon_nil
-    haveI : M.Normal := hMnorm
+    have : M.Normal := hMnorm
     have hM_ne_top : M ≠ ⊤ :=
       hkt_minimal_invariant_normal_ne_top_of_solvable_branch
         φ hnon_nil hsolv M hMmin
@@ -198,7 +198,7 @@ public theorem hkt_thompsonSubgroup_invariant_of_invariant_sylow
     ∀ x : Q,
       x ∈ thompsonSubgroup (G := Q) (S : Subgroup Q) ↔
         φ x ∈ thompsonSubgroup (G := Q) (S : Subgroup Q) := by
-  haveI : ((thompsonSubgroup (G := Q) (S : Subgroup Q)).subgroupOf
+  have : ((thompsonSubgroup (G := Q) (S : Subgroup Q)).subgroupOf
       (S : Subgroup Q)).Characteristic :=
     section8_thompsonSubgroup_subgroupOf_characteristic (S : Subgroup Q)
   exact hkt_ambient_invariant_of_subgroupOf_characteristic φ (S : Subgroup Q)
@@ -222,7 +222,7 @@ public theorem hkt_centerIn_sylow_invariant_of_invariant_sylow
     exact Subgroup.comap_map_eq_self_of_injective
       (H := Subgroup.center (S : Subgroup Q)) (f := (S : Subgroup Q).subtype)
       (S : Subgroup Q).subtype_injective
-  haveI : ((centerIn (G := Q) (S : Subgroup Q)).subgroupOf
+  have : ((centerIn (G := Q) (S : Subgroup Q)).subgroupOf
       (S : Subgroup Q)).Characteristic := by
     rw [hcenter_subgroupOf]
     exact Subgroup.centerCharacteristic
@@ -236,7 +236,7 @@ nonsolvable counterexample has no proper nontrivial characteristic subgroup.
 -/
 public theorem hkt_characteristically_simple_of_minimal_branch
     {Q : Type u} [Group Q] (φ : MulAut Q)
-    (hnot_solvable : ¬ IsSolvable Q)
+    (hnot_solvable : ¬ Group.IsSolvable Q)
     (hproper_invariant_subgroup_nil :
       ∀ N : Subgroup Q, N ≠ ⊥ → N ≠ ⊤ →
         (∀ q : Q, q ∈ N ↔ φ q ∈ N) → Group.IsNilpotent N)
@@ -250,7 +250,7 @@ public theorem hkt_characteristically_simple_of_minimal_branch
   by_cases hNtop : N = ⊤
   · exact Or.inr hNtop
   exfalso
-  haveI : N.Characteristic := hNchar
+  have : N.Characteristic := hNchar
   have hNinv : ∀ q : Q, q ∈ N ↔ φ q ∈ N :=
     hkt_characteristic_subgroup_invariant φ N
   have hN_nil : Group.IsNilpotent N :=
@@ -267,7 +267,7 @@ Thompson IV.6.2 supplies the normal complement.
 -/
 public theorem hkt_no_normal_p_complement_of_characteristic_simple
     {Q : Type u} [Group Q] [Finite Q] {q : ℕ} [Fact q.Prime]
-    (hnot_solvable : ¬ IsSolvable Q)
+    (hnot_solvable : ¬ Group.IsSolvable Q)
     (hq_dvd : q ∣ Nat.card Q)
     (hchar_simple : ∀ N : Subgroup Q, N.Characteristic → N = ⊥ ∨ N = ⊤)
     (hcomp : HasNormalPComplement q Q) : False := by
@@ -281,7 +281,7 @@ public theorem hkt_no_normal_p_complement_of_characteristic_simple
     have hQ_p : IsPGroup q Q :=
       hquot_bot.of_equiv (QuotientGroup.quotientBot (G := Q))
     have hQ_nil : Group.IsNilpotent Q := hQ_p.isNilpotent
-    haveI : Group.IsNilpotent Q := hQ_nil
+    have : Group.IsNilpotent Q := hQ_nil
     exact hnot_solvable IsNilpotent.to_isSolvable
   · have hcop : Nat.Coprime q (Nat.card Q) := by
       simpa [hcore_top] using pPrimeCore_coprime_card (G := Q) (p := q)
@@ -294,7 +294,7 @@ nonsolvable and characteristic-simple HKT branches.
 -/
 public theorem hkt_false_of_normal_p_complement_in_minimal_branch
     {Q : Type u} [Group Q] [Finite Q] (φ : MulAut Q) {q : ℕ} [Fact q.Prime]
-    (hnot_solvable : ¬ IsSolvable Q)
+    (hnot_solvable : ¬ Group.IsSolvable Q)
     (hproper_invariant_subgroup_nil :
       ∀ N : Subgroup Q, N ≠ ⊥ → N ≠ ⊤ →
         (∀ q : Q, q ∈ N ↔ φ q ∈ N) → Group.IsNilpotent N)
@@ -322,7 +322,7 @@ public theorem hkt_exists_invariant_sylow_of_prime_period_not_dvd_sylow_card
     (hp_not_dvd_sylow : ¬ p ∣ Nat.card (Sylow q Q)) :
     ∃ S : Sylow q Q, ∀ x : Q, x ∈ (S : Subgroup Q) ↔ φ x ∈ (S : Subgroup Q) := by
   classical
-  letI : Fact p.Prime := ⟨hprime⟩
+  let : Fact p.Prime := ⟨hprime⟩
   let A : Subgroup (MulAut Q) := Subgroup.zpowers φ
   have hA_p : IsPGroup p A := by
     rw [IsPGroup.iff_card]
@@ -331,7 +331,7 @@ public theorem hkt_exists_invariant_sylow_of_prime_period_not_dvd_sylow_card
     rcases hprime.eq_one_or_self_of_dvd (orderOf φ) horder_dvd with horder | horder
     · exact ⟨0, by simp [horder]⟩
     · exact ⟨1, by simp [horder]⟩
-  letI : Fact (IsPGroup p A) := ⟨hA_p⟩
+  let : Fact (IsPGroup p A) := ⟨hA_p⟩
   rcases (Fact.out : IsPGroup p A).nonempty_fixed_point_of_prime_not_dvd_card
       (Sylow q Q) hp_not_dvd_sylow with
     ⟨S, hSfix⟩
@@ -392,7 +392,7 @@ public theorem hkt_exists_invariant_sylow_of_same_prime_period
     (hφpow : φ ^ p = 1) :
     ∃ S : Sylow p Q, ∀ x : Q, x ∈ (S : Subgroup Q) ↔ φ x ∈ (S : Subgroup Q) := by
   classical
-  letI : Fact p.Prime := ⟨hprime⟩
+  let : Fact p.Prime := ⟨hprime⟩
   exact hkt_exists_invariant_sylow_of_prime_period_not_dvd_sylow_card
     φ hprime hφpow (not_dvd_card_sylow (p := p) (G := Q))
 
@@ -421,7 +421,7 @@ public theorem hkt_exists_invariant_odd_sylow_of_not_two_group
   classical
   have hφpow : φ ^ p = 1 := hkt_mulAut_pow_eq_one_of_function_period φ hperiod
   by_cases hp_dvd : p ∣ Nat.card Q
-  · letI : Fact p.Prime := ⟨hprime⟩
+  · let : Fact p.Prime := ⟨hprime⟩
     refine ⟨p, hprime, hp2, hp_dvd, ?_⟩
     exact hkt_exists_invariant_sylow_of_same_prime_period φ hprime hφpow
   · have hcard_ne_zero : Nat.card Q ≠ 0 := Nat.card_pos.ne'
@@ -430,7 +430,7 @@ public theorem hkt_exists_invariant_odd_sylow_of_not_two_group
       exact hnot_two (IsPGroup.of_card (p := 2) hcard)
     rcases hkt_exists_prime_dvd_ne_of_not_prime_power hcard_ne_zero hnot_pow with
       ⟨q, hqprime, hq_dvd, hq_ne_two⟩
-    letI : Fact q.Prime := ⟨hqprime⟩
+    let : Fact q.Prime := ⟨hqprime⟩
     have hcop : Nat.Coprime p (Nat.card Q) :=
       (hprime.coprime_iff_not_dvd).mpr hp_dvd
     refine ⟨q, hqprime, hq_ne_two, hq_dvd, ?_⟩
@@ -520,7 +520,7 @@ public theorem hkt_centralizer_center_sylow_ne_top_of_center_eq_bot
   have hS_ne_bot : (S : Subgroup Q) ≠ ⊥ :=
     Sylow.ne_bot_of_dvd_card (G := Q) (p := q) S hq_dvd
   have hZ_ne_bot : centerIn (G := Q) (S : Subgroup Q) ≠ ⊥ :=
-    section8_centerIn_ne_bot_of_isPGroup S.isPGroup' hS_ne_bot
+    section8_centerIn_ne_bot_of_isPGroup S.isPGroup hS_ne_bot
   have hZ_le_center :
       centerIn (G := Q) (S : Subgroup Q) ≤ Subgroup.center Q := by
     intro z hz
@@ -546,7 +546,7 @@ public theorem hkt_normalizer_thompsonSubgroup_ne_top_of_characteristically_simp
     {Q : Type u} [Group Q] [Finite Q] {q : ℕ} [Fact q.Prime]
     (S : Sylow q Q)
     (hq_dvd : q ∣ Nat.card Q)
-    (hnot_solvable : ¬ IsSolvable Q)
+    (hnot_solvable : ¬ Group.IsSolvable Q)
     (hchar_simple : ∀ N : Subgroup Q, N.Characteristic → N = ⊥ ∨ N = ⊤) :
     Subgroup.normalizer
         (thompsonSubgroup (G := Q) (S : Subgroup Q) : Set Q) ≠ ⊤ := by
@@ -561,7 +561,7 @@ public theorem hkt_normalizer_thompsonSubgroup_ne_top_of_characteristically_simp
   have hJ_p : IsPGroup q (thompsonSubgroup (G := Q) (S : Subgroup Q)) :=
     IsPGroup.to_le
       (K := (S : Subgroup Q))
-      S.isPGroup'
+      S.isPGroup
       (section8_thompsonSubgroup_le (S : Subgroup Q))
   have hJ_le_pCore :
       thompsonSubgroup (G := Q) (S : Subgroup Q) ≤ pCore q Q :=
@@ -581,7 +581,7 @@ public theorem hkt_normalizer_thompsonSubgroup_ne_top_of_characteristically_simp
       rwa [hcore_top] at hpcore_q
     have hQ_q : IsPGroup q Q :=
       htop_q.of_equiv (Subgroup.topEquiv : (⊤ : Subgroup Q) ≃* Q)
-    haveI : Group.IsNilpotent Q := hQ_q.isNilpotent
+    have : Group.IsNilpotent Q := hQ_q.isNilpotent
     exact hnot_solvable IsNilpotent.to_isSolvable
 end External
 end CFSG.BenderSuzuki

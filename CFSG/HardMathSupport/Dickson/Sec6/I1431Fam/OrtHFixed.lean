@@ -26,6 +26,7 @@ section Small
 variable {K : Type} [Field K] [Finite K] {W : Type*} [AddCommGroup W] [Module K W]
   [FiniteDimensional K W]
 
+omit [Finite K] in
 theorem t6orth_commute_orthDerived_of_finrank_le_two {R : QuadraticForm K W}
     (hR : R.polarBilin.Nondegenerate) (hW : finrank K W ≤ 2) {g g' : W ≃ₗ[K] W}
     (hg : g ∈ orthDerived R) (hg' : g' ∈ orthDerived R) : g * g' = g' * g := by
@@ -38,6 +39,7 @@ theorem t6orth_commute_orthDerived_of_finrank_le_two {R : QuadraticForm K W}
     have e1 : g = 1 := eq_one_of_dicksonHom_eq_one_of_finrank_le_one hR hle h1
     rw [e1, one_mul, mul_one]
 
+omit [Finite K] in
 theorem t6orth_isSolvable_orthogonalGroup_of_finrank_le_two {R : QuadraticForm K W}
     (hR : R.polarBilin.Nondegenerate) (hW : finrank K W ≤ 2) :
     Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup R) := by
@@ -89,7 +91,7 @@ theorem t6orth_odd_mem_orthDerived (R : QuadraticForm K W) (hR : R.polarBilin.No
     exact hodd g hg ho
   by_cases h2 : ringChar K = 2
   ·
-    haveI : CharP K 2 := ringChar.of_eq h2
+    have : CharP K 2 := ringChar.of_eq h2
     obtain ⟨⟨n, hn⟩, -, hnf, -⟩ :=
       CFSG.ComponentClassification.UnbalancedCatalog.finite_even_regular_quadratic_normal_forms R hR
     by_cases hS : ∃ U : Submodule K W, finrank K U = n ∧ ∀ u ∈ U, R u = 0
@@ -195,13 +197,13 @@ theorem t6orth_factorOK_fixed (hx : OddOrderIsometry Q p x) (q : ℕ) :
   have e := fixedBlockEquiv hx
   by_cases hd : finrank K (fixedSpace x) ≤ 2
   · refine t6orth_factorOK_of_solvable q ?_
-    haveI := t6orth_isSolvable_orthogonalGroup_of_finrank_le_two hRn hd
+    have := t6orth_isSolvable_orthogonalGroup_of_finrank_le_two hRn hd
     exact Group.isSolvable_of_isSolvable_injective (f := (fixedBlockEquiv hx).toMonoidHom)
       (fixedBlockEquiv hx).injective
   have hd3 : 3 ≤ finrank K (fixedSpace x) := by omega
   by_cases hS : SmallFixedException R
   · refine t6orth_factorOK_of_solvable q ?_
-    haveI := isSolvable_orthogonalGroup_of_smallFixedException R hRn hd3 hS
+    have := isSolvable_orthogonalGroup_of_smallFixedException R hRn hd3 hS
     exact Group.isSolvable_of_isSolvable_injective (f := (fixedBlockEquiv hx).toMonoidHom)
       (fixedBlockEquiv hx).injective
   · have hcov := (orthogonal_regular_space_coverage R hRn hd3).2 hS

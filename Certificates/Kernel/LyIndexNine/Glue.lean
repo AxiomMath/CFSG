@@ -135,11 +135,11 @@ def lyColor (x : Fin 11) : Fin 4 :=
   if x ∈ lyA then 0 else if x ∈ lyB then 1 else if x ∈ lyBlockC then 2 else 3
 
 theorem fiber_zero : {x : Fin 11 | lyColor x = 0} = (lyA : Set (Fin 11)) := by
-  ext x; fin_cases x <;> simp [lyColor, lyA, lyB, lyBlockC, lyD]
+  ext x; fin_cases x <;> simp [lyColor, lyA, lyB, lyBlockC]
 theorem fiber_one : {x : Fin 11 | lyColor x = 1} = (lyB : Set (Fin 11)) := by
-  ext x; fin_cases x <;> simp [lyColor, lyA, lyB, lyBlockC, lyD]
+  ext x; fin_cases x <;> simp [lyColor, lyA, lyB, lyBlockC]
 theorem fiber_two : {x : Fin 11 | lyColor x = 2} = (lyBlockC : Set (Fin 11)) := by
-  ext x; fin_cases x <;> simp [lyColor, lyA, lyB, lyBlockC, lyD]
+  ext x; fin_cases x <;> simp [lyColor, lyA, lyB, lyBlockC]
 theorem fiber_three : {x : Fin 11 | lyColor x = 3} = (lyD : Set (Fin 11)) := by
   ext x; fin_cases x <;> simp [lyColor, lyA, lyB, lyBlockC, lyD]
 
@@ -757,7 +757,7 @@ public theorem packageLy744104 :
     have hEq : lyA11H.subgroupOf (alternatingGroup (Fin 11)) =
         (lyA11H ⊓ alternatingGroup (Fin 11)).subgroupOf (alternatingGroup (Fin 11)) := by
       ext x
-      simp [Subgroup.mem_subgroupOf, Subgroup.mem_inf, and_comm]
+      simp [Subgroup.mem_subgroupOf]
     rw [hEq, Nat.card_congr
       (Subgroup.subgroupOfEquivOfLe (inf_le_right : lyA11H ⊓ alternatingGroup (Fin 11) ≤
         alternatingGroup (Fin 11))).toEquiv, lyH_even_card, lyU_card]

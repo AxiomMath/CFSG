@@ -56,12 +56,12 @@ theorem fld_fix_X₃zsub : ∀ g ∈ X₃zsub, fld g = g := by
   obtain ⟨a, ha, hg⟩ := mem_x₃Sub.1 hg
   exact ext_mat (by rw [mat_fld, hg, x₃Mat_map_bar, ha])
 
-theorem ZX₁sub_le_Fsub : ZX₁sub ≤ Fsub := fun g hg => mem_sup_left (mem_sup_left hg)
+theorem ZX₁sub_le_Fsub : ZX₁sub ≤ Fsub := fun _g hg => mem_sup_left (mem_sup_left hg)
 
 theorem X₃zsub_le_Fsub : X₃zsub ≤ Fsub :=
-  fun g hg => mem_sup_left (mem_sup_right (X₃zsub_le_X₃sub hg))
+  fun _g hg => mem_sup_left (mem_sup_right (X₃zsub_le_X₃sub hg))
 
-theorem ZX₄sub_le_Fsub : ZX₄sub ≤ Fsub := fun g hg => mem_sup_right hg
+theorem ZX₄sub_le_Fsub : ZX₄sub ≤ Fsub := fun _g hg => mem_sup_right hg
 
 theorem exists_elemAb_fixed_fld :
     ∃ E : Subgroup SU52, (∀ x ∈ E, x * x = 1) ∧ (∀ x ∈ E, ∀ y ∈ E, x * y = y * x) ∧
@@ -99,7 +99,7 @@ theorem exists_elemAb_fixed_fld :
     fun x hx y hy => Fsub_comm (hle hx) (hle hy), le_of_eq hcard.symm,
     fun x hx => mem_CfldSub.1 (hfix hx)⟩
 
-theorem Fsub_le_Ssub : Fsub ≤ Ssub := fun g hg => (mem_Fsub.1 hg).1
+theorem Fsub_le_Ssub : Fsub ≤ Ssub := fun _g hg => (mem_Fsub.1 hg).1
 
 theorem conj_Fsub_eq {s : SU52} (hsS : s ∈ Ssub) :
     Fsub.map (MulAut.conj s).toMonoidHom = Fsub := by

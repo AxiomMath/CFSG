@@ -70,7 +70,7 @@ theorem arr_of_oddOK {T : PT 24} (hT : T = PT.ofGens 24 (gens.map unpk) fuel)
     rw [← (packed_of_oddOK hT h).elems]
     rfl
   rw [e]
-  simp [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hs, hs]
+  simp [List.getD_eq_getElem?_getD, hs]
 
 theorem tail_of {T : PT 24} (hT : T = PT.ofGens 24 (gens.map unpk) fuel)
     (h : oddOK cc lift n r fuel gens E Js = true) {ok : Array Nat → Bool}

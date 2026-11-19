@@ -47,10 +47,10 @@ theorem normalizesRGroup_E7_of_mod_three {K : Type} [Field K] [Finite K]
     (hK : Nat.card K % 3 = 1) {E₀ : Subgroup (adjointGroup .E7 K)} (hE₀ : IsPGroup 3 E₀) :
     NormalizesRGroup (ringChar K) E₀ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype (WeylGroup .E7) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype (WeylGroup .E7) := Fintype.ofFinite _
   have hr : ∃ n, Nat.card K = ringChar K ^ n := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K (ringChar K)
     exact ⟨n, by rw [Nat.card_eq_fintype_card, hn]⟩
   have hidx : ¬ 3 ∣ (parabolicSubgroup .E7 K
@@ -165,7 +165,7 @@ namespace Aux
 theorem charVal_single' {τ : Tag} {R : Type*} [CommRing R] (z : Fin τ.rank → R) (k : Fin τ.rank) :
     charVal z (Pi.single k 1 : Fin τ.rank → ℤ) = z k := by
   unfold charVal
-  rw [Finset.sum_eq_single k (fun i _ hi => by simp [Pi.single_apply, hi])
+  rw [Finset.sum_eq_single k (fun i _ hi => by simp [hi])
     (fun h => absurd (Finset.mem_univ k) h)]
   simp
 
@@ -187,7 +187,7 @@ theorem pow_mod_three_of_cube {G : Type*} [Monoid G] {g : G} (h : g ^ 3 = 1) (n 
 
 theorem exists_pow_eq_of_pow_three {L : Type} [Field L] {ζ : Lˣ} (hζ : orderOf ζ = 3) {b : Lˣ}
     (hb : b ^ 3 = 1) : ∃ n : ℕ, b = ζ ^ n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hprim : IsPrimitiveRoot ((ζ : Lˣ) : L) 3 :=
     IsPrimitiveRoot.coe_units_iff.2 (IsPrimitiveRoot.iff_orderOf.2 hζ)
   have hi : ((b : Lˣ) : L) ^ 3 = 1 := by
@@ -234,8 +234,8 @@ theorem f4_cube_stab_eq_one {L : Type} [Field L] (A : Subgroup (Fin Tag.F4.rank 
     (hreg : ∀ α, IsRoot Tag.F4 α → ∃ a ∈ A, rootChar a α ≠ 1)
     {y : WeylGroup Tag.F4} (hy : ∀ a ∈ A, ∀ v, rootChar a (y • v) = rootChar a v) : y = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
   obtain ⟨a₀, ha₀A, ha₀1⟩ : ∃ a ∈ A, a ≠ 1 := by
     by_contra h
     push Not at h
@@ -342,7 +342,7 @@ theorem f4_cube_stab_eq_one {L : Type} [Field L] (A : Subgroup (Fin Tag.F4.rank 
       have hempty : {s | ∃ α ∈ rootKernel (col a1) ∩ rootKernel (col a2) ∩ rootKernel (col a3),
           s = rootReflection α} = (∅ : Set (WeylGroup Tag.F4)) := by
         ext s
-        simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+        simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
         rintro ⟨α, ⟨⟨⟨hα, h1⟩, ⟨-, h2⟩⟩, ⟨-, h3'⟩⟩, -⟩
         obtain ⟨a, haA, hane⟩ := hreg α hα
         apply hane

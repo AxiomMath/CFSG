@@ -65,7 +65,7 @@ theorem genW_spec {RD RW EL EW : ℕ → ℕ} {j l G nG k : ℕ} (h : 0 < genW R
         exact absurd h (lt_irrefl 0)
       · rw [andB_iff] at h3
         refine ⟨fun _ => ⟨h3.1, Nat.eq_of_beq_eq_true h3.2, ?_⟩, fun h => absurd rfl h⟩
-        simp only [h1]
+        simp only
         rfl
     · have h2 : Nat.beq l 0 = false := by
         cases e : Nat.beq l 0
@@ -79,7 +79,7 @@ theorem genW_spec {RD RW EL EW : ℕ → ℕ} {j l G nG k : ℕ} (h : 0 < genW R
       · rw [andB_iff] at h3
         refine ⟨fun h => absurd h hl, fun _ =>
           ⟨Nat.eq_of_beq_eq_true h3.1, Nat.eq_of_beq_eq_true h3.2, ?_⟩⟩
-        simp only [h1]
+        simp only
         rfl
 
 @[expose] noncomputable def nodeSub (j : ℕ) : Subgroup (YGroup 4 3 2) :=
@@ -124,14 +124,14 @@ theorem lvlOK_spec {j l : ℕ} (h : lvlOK j l = true) :
   · by_cases hz : LK (16 * j + l) = 0
     · have : Nat.beq (LK (16 * j + l)) 0 = true := by rw [hz]; rfl
       rw [this] at h8
-      rw [if_pos hz]
+      rw [ite_eq_left hz]
       exact Nat.eq_of_beq_eq_true h8
     · have : Nat.beq (LK (16 * j + l)) 0 = false := by
         cases e : Nat.beq (LK (16 * j + l)) 0
         · rfl
         · exact absurd (Nat.eq_of_beq_eq_true e) hz
       rw [this] at h8
-      rw [if_neg hz]
+      rw [ite_eq_right hz]
       exact Nat.eq_of_beq_eq_true h8
 
 section
@@ -179,7 +179,7 @@ theorem node_card {j : ℕ} (hj : j < 64) (hlive : liveB j = true) :
   have hLF' : LF j < 16 := Nat.blt_eq.mp hLF
   have hbs : ∀ m < LF j, LB (16 * j + m) < 31671 := fun m hm => (lvlOK_spec (hlv m hm)).1
   have hβ : ∀ m (hm : m < LF j), βn j m = ⟨LB (16 * j + m), hbs m hm⟩ := fun m hm => by
-    rw [βn, dif_pos (hbs m hm)]
+    rw [βn, dite_eq_left (hbs m hm)]
   refine CFSG.YGroups.card_ge_of_chain _ (LF j) (βn j)
     (fun l => (fun k => rho432F (wVal (yGen 4 3 2)
       (genWord CFSG.KD.B4A.RD CFSG.KD.B4A.RW EL EW j l (LG (16 * j + l)) (LN (16 * j + l)) k))) ''

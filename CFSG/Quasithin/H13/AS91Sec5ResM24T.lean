@@ -202,7 +202,7 @@ theorem resM24T_nonempty : Nonempty (ResM24T c) := by
       ((((c.G1 ⊓ c.G2).subgroupOf c.G1).map D.φA : Subgroup ↥AutPerm) : Set ↥AutPerm) := by
     ext σ
     obtain ⟨h, rfl⟩ := D.φA_surjective σ
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe, Subgroup.mem_map]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe, Subgroup.mem_map]
     constructor
     · intro hh
       have hh' : V.map (rho11 AutPerm le_rfl ⟨D.φ h, D.φ_mem h⟩).toMonoidHom = V := hh

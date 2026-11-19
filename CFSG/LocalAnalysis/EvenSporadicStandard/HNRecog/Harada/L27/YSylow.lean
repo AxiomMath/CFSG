@@ -40,7 +40,7 @@ theorem exists_two_a5 {Y : Type} [Group Y] [Finite Y] {P F : Subgroup Y} {v : Y}
         · exact (not_three_components hfree hsec h.card_le hA hB hC hAB hAC hBC).elim
   have hcardF : Nat.card F = 60 :=
     (Nat.card_congr h.F_iso.some.toEquiv).trans card_alternatingGroup_five
-  haveI : Nontrivial Y :=
+  have : Nontrivial Y :=
     Finite.one_lt_card_iff_nontrivial.mp (by
       have hleF : Nat.card F ≤ Nat.card Y := Subgroup.card_le_card_group F
       omega)
@@ -79,7 +79,7 @@ theorem exists_two_a5 {Y : Type} [Group Y] [Finite Y] {P F : Subgroup Y} {v : Y}
     exfalso
     have hset : {C : Subgroup Y | IsComponentOf C ⊤} = {T₀} := by
       ext C
-      simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
       exact ⟨fun hC => hall C hC, fun hC => by rw [hC]; exact hT₀⟩
     have hEeq : Layer.subgroup Y = T₀ := by
       rw [Layer.subgroup.eq_sSup Y, hset, sSup_singleton]

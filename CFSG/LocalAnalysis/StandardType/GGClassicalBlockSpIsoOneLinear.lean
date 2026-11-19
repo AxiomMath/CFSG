@@ -83,8 +83,8 @@ private lemma ggJS1_J_mul_self (n : ℕ) (K : Type) [Field K] :
     ggJS1_J n K * ggJS1_J n K = -1 := by
   unfold ggJS1_J
   rw [Matrix.fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.mul_one, Matrix.zero_mul, zero_add, add_zero,
-    Matrix.mul_neg, Matrix.neg_mul, neg_zero]
+  simp only [Matrix.mul_zero, Matrix.mul_one, zero_add, add_zero,
+    Matrix.mul_neg, neg_zero]
   rw [show (-1 : ggJS1_M n K) = Matrix.fromBlocks (-1) 0 0 (-1) by
     rw [← Matrix.fromBlocks_one, Matrix.fromBlocks_neg]
     simp]
@@ -131,7 +131,7 @@ private lemma ggJS1_toBilin_adj (n : ℕ) (K : Type) [Field K]
     (Matrix.dotProduct_transpose_mulVec a x ((ggJS1_J n K) *ᵥ y)).symm
 
 lemma ggJS1_B_range_ker (n : ℕ) (K : Type) [Field K]
-    (ε : ggJS1_M n K) (hεid : IsIdempotentElem ε)
+    (ε : ggJS1_M n K) (_hεid : IsIdempotentElem ε)
     (hεadj : formAdj (RingHom.id K) (ggJS1_J n K) ε = ε) :
     ∀ x ∈ (Matrix.toLin' ε).range, ∀ y ∈ (Matrix.toLin' ε).ker,
       (Matrix.toBilin' (ggJS1_J n K)) x y = 0 := by
@@ -614,7 +614,7 @@ lemma ggJS1_prim_idem_eq_primaryProjection {K : Type} [Field K] [CharP K 2] {n :
       spEnd b := rfl
   have hA' : A.map φ = A' := by
     rw [AlgHom.map_adjoin]
-    simp only [A, A', Set.image_singleton, AlgEquiv.coe_toAlgHom, hφb]
+    simp only [A', Set.image_singleton, AlgEquiv.coe_toAlgHom, hφb]
   have heA : φ e ∈ A' := by
     rw [← hA']
     exact ⟨e, he.1, rfl⟩
@@ -942,7 +942,7 @@ private lemma ggJS1_blockDegree_eq_natDegree {K : Type} [Field K] [CharP K 2] {n
     blockDegree (Algebra.adjoin K (Units.val '' ({(β : GL (Fin n ⊕ Fin n) K)} :
       Set (GL (Fin n ⊕ Fin n) K)))) e = a.natDegree := by
   classical
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   have hsq : Squarefree (minpoly K (spEnd β)) := ggJS1_squarefree_minpoly_spEnd β hodd
   let bm : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K := (β : GL (Fin n ⊕ Fin n) K)
   let A : Subalgebra K (Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) :=
@@ -1071,12 +1071,12 @@ private lemma ggJS1_linear_strong {K : Type} [Field K] [Fintype K] [CharP K 2] {
   have hεadj : formAdj (RingHom.id K) (ggJS1_J n K) ε = ε := hε.2.2.2.1
   obtain ⟨hrec, hane⟩ := ggJS1_reciprocal_of_prim_pair β hoddβ ha ha' hae ha'e hεe hne
     he.2.2.1 he'.2.2.1 he.1 he.2.1 hε.2.2.2.2 hεadj
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   let E : Type := AdjoinRoot a
   let d : ℕ := a.natDegree
   let m : ℕ := Module.finrank E (primaryComponent (spEnd β) a)
-  haveI : Finite E := Module.finite_of_finite K
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Module.finite_of_finite K
+  have : Fintype E := Fintype.ofFinite E
   have hsub : glBlockCentralizer (StatedSp n K).subtype ({b} : Set (GL (Fin n ⊕ Fin n) K)) ε =
       spSupported β {a, reciprocalPolynomial a} :=
     ggJS1_glBlockCentralizer_eq_spSupported β hoddβ ha hane hae

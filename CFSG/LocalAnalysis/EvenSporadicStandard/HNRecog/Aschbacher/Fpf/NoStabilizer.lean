@@ -40,11 +40,11 @@ theorem isEmpty_mulEquiv_stabilizer (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V))
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card]
     decide
   have hcardVA : Nat.card VA = 16 := by
-    haveI : Fintype VA := Fintype.ofFinite VA
+    have : Fintype VA := Fintype.ofFinite VA
     rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 2), h4A, ZMod.card]
     norm_num
   have hcardW : Nat.card W = 16 := by
-    haveI : Fintype W := Fintype.ofFinite W
+    have : Fintype W := Fintype.ofFinite W
     rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 2), h4W, ZMod.card]
     norm_num
   let fA : A5 → VA := fun x => ⟨σ (x, 1) vA, hVA (x, 1) vA hvA⟩
@@ -94,7 +94,7 @@ theorem isEmpty_mulEquiv_stabilizer (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V))
       _ = w := by simp
   have hy0S : (1, y₀) ∈ S := (hmemB y₀).mpr hfixB
   refine ⟨fun e => ?_⟩
-  haveI : IsSimpleGroup S := e.isSimpleGroup
+  have : IsSimpleGroup S := e.isSimpleGroup
   let K₁ : Subgroup S := MonoidHom.ker ((MonoidHom.snd A5 A5).comp S.subtype)
   let K₂ : Subgroup S := MonoidHom.ker ((MonoidHom.fst A5 A5).comp S.subtype)
   have hx0K1 : (⟨(x₀, 1), hx0S⟩ : S) ∈ K₁ := by

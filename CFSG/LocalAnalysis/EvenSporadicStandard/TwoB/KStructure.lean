@@ -237,7 +237,7 @@ theorem Setting.exists_kStructure (h : Setting G L t) (hc : CentralPair G L t z)
   have hS0L : S0 ≤ centralizer (L : Set G) := by
     rintro _ ⟨y, -, rfl⟩
     exact y.2
-  have hS02 : IsPGroup 2 S0 := (S.isPGroup').of_equiv f
+  have hS02 : IsPGroup 2 S0 := (S.isPGroup).of_equiv f
   have hS0cyc : IsCyclic ↥S0 := isCyclic_of_surjective f.toMonoidHom f.surjective
   have hS0c : ∀ a ∈ S0, ∀ b ∈ S0, a * b = b * a := by
     intro a ha b hb

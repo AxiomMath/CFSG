@@ -74,7 +74,7 @@ theorem kf1422_exists_embedding {S : Type*} [Group S] (φ : S ≃* ↥CFSG.Spora
       (∀ s : S, ι s ∈ CFSG.Sporadic.Schreier.j3P) ∧
       ∀ x ∈ CFSG.Sporadic.Schreier.j3P, ∃ s : S, ι s = x :=
   ⟨CFSG.Sporadic.Schreier.j3P.subtype.comp φ.toMonoidHom,
-    fun a b hab => φ.injective (Subtype.ext hab),
+    fun _a _b hab => φ.injective (Subtype.ext hab),
     fun s => (φ s).2,
     fun x hx => ⟨φ.symm ⟨x, hx⟩, congrArg Subtype.val (φ.apply_symm_apply ⟨x, hx⟩)⟩⟩
 

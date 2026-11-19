@@ -16,11 +16,11 @@ theorem ggE6TwoTwoLocalFour_holds :
         F ≤ Subgroup.normalizer (U : Set H) := by
   intro H _ _ hperf hlab
   obtain ⟨K, hKfield, hKfinite, hKcard, hiso⟩ := hlab
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   obtain ⟨iso⟩ := hiso
   have hchar : CharP K 2 := charP_two_of_card hKcard
-  haveI : CharP K 2 := hchar
+  have : CharP K 2 := hchar
   have hperf' : commutator H = ⊤ := Group.IsPerfect.commutator_eq_top
   let ψ := iso.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center H))
   have hsurj : Function.Surjective ψ :=

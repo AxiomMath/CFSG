@@ -189,10 +189,10 @@ theorem aor_l12_main [Finite S] (hS : IsPGroup 2 S) {t u : S} (h : L12Coord S t 
     by_cases hvu : v = u
     · left
       change (if v = u then u else u * t) = u
-      rw [if_pos hvu]
+      rw [ite_eq_left hvu]
     · right
       change (if v = u then u else u * t) = u * t
-      rw [if_neg hvu]
+      rw [ite_eq_right hvu]
   have h₀ : L12Coord S t u₀ := by
     rcases hu₀_cases with hu | hu
     · rw [hu]; exact h
@@ -205,7 +205,7 @@ theorem aor_l12_main [Finite S] (hS : IsPGroup 2 S) {t u : S} (h : L12Coord S t 
     by_cases hvu : v = u
     · have hu0 : u₀ = u := by
         change (if v = u then u else u * t) = u
-        rw [if_pos hvu]
+        rw [ite_eq_left hvu]
       rw [hu0]
       have hconj : n * u * n⁻¹ = u := by rw [← hv_def]; exact hvu
       have := congrArg (· * n) hconj
@@ -216,7 +216,7 @@ theorem aor_l12_main [Finite S] (hS : IsPGroup 2 S) {t u : S} (h : L12Coord S t 
         · exact hh
       have hu0 : u₀ = u * t := by
         change (if v = u then u else u * t) = u * t
-        rw [if_neg hvu]
+        rw [ite_eq_right hvu]
       rw [hu0]
       have hconj : n * (u * t) * n⁻¹ = u * t := by
         calc n * (u * t) * n⁻¹

@@ -13,22 +13,26 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nineThree_conj_sup (P Q : Subgroup G) (g : G) :
     conjSubgroup (P ⊔ Q) g = conjSubgroup P g ⊔ conjSubgroup Q g := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.map_sup _ _ _
 
+omit [Finite G] in
 private theorem nineThree_conj_iSup' {ι : Sort*} (B : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, B i) g = ⨆ i, conjSubgroup (B i) g := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.map_iSup _ _
 
+omit [Finite G] in
 private theorem nineThree_mem_normalizer_of_le {P : Subgroup G} {n : G}
     (h1 : conjSubgroup P n ≤ P) (h2 : conjSubgroup P n⁻¹ ≤ P) : n ∈ normalizer (P : Set G) := by
   have h3 := E3.conjSubgroup_mono_left n h2
   rw [E3.conjSubgroup_inv_conj] at h3
   exact conjSubgroup_eq_iff_mem_normalizer.mp (le_antisymm h1 h3)
 
+omit [Finite G] in
 theorem nineDeltaStab_le_normalizer_nineW (V S : Subgroup G) :
     nineDeltaStab V S ≤ normalizer (nineW V S : Set G) := by
   have hle : ∀ n ∈ nineDeltaStab V S, conjSubgroup (nineW V S) n ≤ nineW V S := by
@@ -140,7 +144,7 @@ theorem conjSubgroup_nineW0_le_of_mem_conj (hc : Nine3Choice V T A K S X p g x)
     exact hgen B (hc.core.mem_nineDelta_iff.mpr (Or.inr hBΩ)) hBA
 
 theorem nineD_le_normalizer_nineW0 (hc : Nine3Choice V T A K S X p g x) :
-    nineD K A x ≤ normalizer (nineW0 V K S g : Set G) := fun d hd =>
+    nineD K A x ≤ normalizer (nineW0 V K S g : Set G) := fun _d hd =>
   nineThree_mem_normalizer_of_le (hc.conjSubgroup_nineW0_le_of_mem_nineD hd)
     (hc.conjSubgroup_nineW0_le_of_mem_nineD ((nineD K A x).inv_mem hd))
 

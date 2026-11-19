@@ -74,8 +74,8 @@ theorem t2021TD4_catalog_facts {S : Type} [Group S] {q : TauCeti.PrimePower} (hq
         exact Nat.pow_right_injective (le_refl 2) hcardq
       obtain ⟨hfin, hsimp⟩ :=
         CFSG.LieType.SeitzGeneration.finite_isSimpleGroup_cat_trialityD4 hv
-      haveI : Finite S := Finite.of_equiv _ e.symm.toEquiv
-      haveI : IsSimpleGroup S := MulEquiv.isSimpleGroup e
+      have : Finite S := Finite.of_equiv _ e.symm.toEquiv
+      have : IsSimpleGroup S := MulEquiv.isSimpleGroup e
       obtain ⟨-, hfac⟩ := CFSG.LocalAnalysis.GLTheoremA.td4g2_order hv e
       rw [hp'.1, hp'.2] at hfac
       have h2 : twoPart (Nat.card S) = (2 ^ q.exponent) ^ 12 := by
@@ -113,12 +113,12 @@ theorem t2021TD4_aut {q : TauCeti.PrimePower} (hq2 : q.p = 2) {K : Type} [Field 
       ∃ U : Subgroup (td4g2C K σ), U ≤ ⁅autFix (Ψ b), autFix (Ψ b)⁆ ∧ IsPGroup 2 U ∧ U ≠ ⊥ ∧
         ∀ g : 𝔅, ∀ u ∈ U, Ψ g u ∈ U := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ q.exponent := q.exponent_pos
   obtain ⟨hfin, hsimp, hnab, -⟩ := t2021TD4_catalog_facts hq2 hcat
-  haveI := hfin
-  haveI := hsimp
+  have := hfin
+  have := hsimp
   have hZ0 : ∀ z : td4g2C K σ, (∀ x, z * x = x * z) → z = 1 := by
     intro z hz
     have hc : z ∈ Subgroup.center (td4g2C K σ) := Subgroup.mem_center_iff.2 fun g => (hz g).symm
@@ -182,7 +182,7 @@ theorem t2021TD4_aut {q : TauCeti.PrimePower} (hq2 : q.p = 2) {K : Type} [Field 
       (MulEquiv.subgroupCongr (t2021TD4_map_commutator_subtype (autFix (Ψ b))))
   let eK : ↥⁅autFix (Ψ b), autFix (Ψ b)⁆ ≃*
       ↥(commutator ↥(autFix (fieldActor (t := TwistTag.D4) σ σ))) := eD.symm.trans eC1
-  haveI := hDs
+  have := hDs
   have hKs : IsSimpleGroup ↥⁅autFix (Ψ b), autFix (Ψ b)⁆ := MulEquiv.isSimpleGroup eK
   have hK3 : 3 ∣ Nat.card ↥⁅autFix (Ψ b), autFix (Ψ b)⁆ := by
     rw [Nat.card_congr eK.toEquiv]
@@ -360,7 +360,7 @@ theorem t2021TD4_aut {q : TauCeti.PrimePower} (hq2 : q.p = 2) {K : Type} [Field 
     rfl
   have hnabK : ¬ IsMulCommutative ↥⁅autFix (Ψ b), autFix (Ψ b)⁆ := by
     intro hc
-    haveI := hc
+    have := hc
     have hpr : (Nat.card ↥⁅autFix (Ψ b), autFix (Ψ b)⁆).Prime :=
       Group.is_simple_iff_prime_card.mp hKs
     have h2U : 2 ∣ Nat.card U := by

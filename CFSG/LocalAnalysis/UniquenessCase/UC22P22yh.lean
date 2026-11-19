@@ -78,12 +78,12 @@ theorem uc22p22yh_s22_6hat_of (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D C
   obtain ⟨n, hn, -⟩ := hcl i
   obtain ⟨p, hp⟩ := hX.sig_nonempty
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨P₀, hP₀M, hP₀el, hP₀card⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := p) (hX.three_le p hp)
   set ρ : ↥P₀ →* MulAut (MBar D.M D.U) :=
     (MulAut.conj : MBar D.M D.U →* MulAut (MBar D.M D.U)).comp (toMbarOf D hP₀M) with hρ
-  letI : MulAction ↥P₀ (Subgroup (MBar D.M D.U)) := MulAction.compHom _ ρ
+  let : MulAction ↥P₀ (Subgroup (MBar D.M D.U)) := MulAction.compHom _ ρ
   have hsmul : ∀ (x : ↥P₀) (H : Subgroup (MBar D.M D.U)),
       x • H = H.map (MulAut.conj (toMbarOf D hP₀M x)).toMonoidHom := fun x H => by
     rw [MulAction.compHom_smul_def, mulAut_smul_eq_map]

@@ -61,7 +61,7 @@ theorem normalizer {G : Type*} [Group G] [Finite G]
     have himage : image ≤ normalizer := Subgroup.map_subtype_le _
     obtain ⟨homomorphism, hinjective⟩ := BlockLargeProductAction.embedding component heven huniversal hquasisimple
       hcard first second third hfirst hsecond hthird hdistinct actor hactor image
-        (sylow.isPGroup'.map normalizer.subtype) (himage.trans inf_le_left) (himage.trans inf_le_right) hstrict prescribed
+        (sylow.isPGroup.map normalizer.subtype) (himage.trans inf_le_left) (himage.trans inf_le_right) hstrict prescribed
     have hab := TwoActionDisplacementEmbedding.abelian_of_embedding homomorphism hinjective
     have hprescribed : (prescribed : Subgroup overlap).map overlap.subtype ≤ overlap := Subgroup.map_subtype_le _
     let inclusion := (Subgroup.inclusion hprescribed).comp

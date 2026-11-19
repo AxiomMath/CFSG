@@ -68,8 +68,8 @@ theorem exists_mul_mem_normalizer {X : Type} [Group X] [Finite X] {V Ob : Subgro
     (hy : ∀ v ∈ V, y * v * y⁻¹ ∈ V ⊔ Ob) :
     ∃ o ∈ Ob, o⁻¹ * y ∈ normalizer (V : Set X) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nonempty V := ⟨1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nonempty V := ⟨1⟩
   have hdisj : V ⊓ Ob = ⊥ := inf_eq_bot_of_isPGroup_two_of_odd hV hodd
   have hcardK : Nat.card (V ⊔ Ob : Subgroup X) = Nat.card V * Nat.card Ob :=
     card_sup_eq_mul_of_inf_eq_bot hdisj
@@ -106,7 +106,7 @@ theorem exists_mul_mem_normalizer {X : Type} [Group X] [Finite X] {V Ob : Subgro
     ⟨(hV'pg.comap_subtype (K := V ⊔ Ob)).toSylow hV'ndvd, rfl⟩
   obtain ⟨Q, hQcoe⟩ := hQ
   obtain ⟨Q', hQ'coe⟩ := hQ'
-  haveI : Finite (Sylow 2 ↥(V ⊔ Ob)) := Sylow.finite_of_finiteIndex Q
+  have : Finite (Sylow 2 ↥(V ⊔ Ob)) := Sylow.finite_of_finiteIndex Q
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq (↥(V ⊔ Ob)) Q Q'
   have hQmap : (Q : Subgroup ↥(V ⊔ Ob)).map (V ⊔ Ob).subtype = V := by
     rw [hQcoe, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr le_sup_left]

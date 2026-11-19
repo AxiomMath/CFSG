@@ -13,7 +13,7 @@ private lemma t3_card_le_sq_fixed' {V : Type*} [Group V] [Finite V]
     (hmul : ∀ a b : V, a * b = b * a)
     (hV : ∀ v : V, v ^ 2 = 1) (β : V →* V) (hβ : ∀ v, β (β v) = v) :
     Nat.card V ≤ Nat.card {v : V // β v = v} ^ 2 := by
-  letI : CommGroup V := { mul_comm := hmul }
+  let : CommGroup V := { mul_comm := hmul }
   let g : V →* V := β / MonoidHom.id V
   have hinv : ∀ v : V, v⁻¹ = v := fun v =>
     inv_eq_of_mul_eq_one_right (by simpa [pow_two] using hV v)
@@ -53,7 +53,7 @@ theorem tableIII_two_mul_card_le_sq {G : Type*} [Group G] {W : Subgroup G} [Fini
     (hz1 : z ≠ 1) (hz2 : z ^ 2 = 1) (hzW : z ∈ W) (hzc : ∀ w ∈ W, w * z = z * w)
     (hsq : ∀ w ∈ W, w ^ 2 ∈ Subgroup.zpowers z)
     (hcomm : ∀ w ∈ W, ∀ w' ∈ W, ⁅w, w'⁆ ∈ Subgroup.zpowers z)
-    (htW : ∀ w ∈ W, t * w * t⁻¹ ∈ W) (htW' : ∀ w ∈ W, t⁻¹ * w * t ∈ W)
+    (htW : ∀ w ∈ W, t * w * t⁻¹ ∈ W) (_htW' : ∀ w ∈ W, t⁻¹ * w * t ∈ W)
     (htz : t * z = z * t) (ht2 : t ^ 2 ∈ W) :
     2 * Nat.card W ≤ Nat.card {w : G // w ∈ W ∧ ⁅w, t⁆ ∈ Subgroup.zpowers z} ^ 2 := by
   have hZle : Subgroup.zpowers z ≤ W := Subgroup.zpowers_le.mpr hzW
@@ -68,14 +68,14 @@ theorem tableIII_two_mul_card_le_sq {G : Type*} [Group G] {W : Subgroup G} [Fini
     obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp hxZ
     rw [← hn]
     exact (Commute.zpow_right (show Commute (w : G) z from hzc w w.2) n).eq
-  haveI : Zs.Normal := Subgroup.normal_of_le_center hZs_center
+  have : Zs.Normal := Subgroup.normal_of_le_center hZs_center
   let ct : ↥W →* ↥W :=
     { toFun := fun w => ⟨t * (w : G) * t⁻¹, htW w w.2⟩
       map_one' := by ext; simp
       map_mul' := by
         intro a b
         ext
-        simp only [Subgroup.coe_mul, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul]
         group }
   have hct_apply : ∀ x : ↥W, ((ct x : ↥W) : G) = t * (x : G) * t⁻¹ := fun _ => rfl
   have hconj_z : t * z * t⁻¹ = z := by
@@ -157,11 +157,11 @@ theorem tableIII_two_mul_card_le_sq {G : Type*} [Group G] {W : Subgroup G} [Fini
     have e : {w : G // w ∈ W ∧ ⁅w, t⁆ ∈ Subgroup.zpowers z} ≃
         ↥(QuotientGroup.mk ⁻¹' ({v : V | β v = v})) :=
     { toFun := fun a => ⟨⟨a.1, a.2.1⟩, by
-        rw [Set.mem_preimage, Set.mem_setOf_eq]
+        rw [Set.mem_preimage, Set.mem_ofPred_eq]
         exact (hker_iff ⟨a.1, a.2.1⟩).mpr a.2.2⟩
       invFun := fun b => ⟨(b.1 : G), b.1.2, by
         have hb := b.2
-        rw [Set.mem_preimage, Set.mem_setOf_eq] at hb
+        rw [Set.mem_preimage, Set.mem_ofPred_eq] at hb
         exact (hker_iff b.1).mp hb⟩
       left_inv := fun a => Subtype.ext rfl
       right_inv := fun b => Subtype.ext (Subtype.ext rfl) }

@@ -21,6 +21,7 @@ private theorem w1369_mem_stabSub_of_invariant {U : Subgroup W} {g : MulAut W}
     (h : ∀ u ∈ U, g u ∈ U) : g ∈ stabSub U :=
   mem_stabSub_of_invariant h (inv_mem_of_forall_mem g h)
 
+omit [Finite W] in
 private theorem w1369_mul_inv_mem_iSup {g : MulAut W} {C : Subgroup W} {ι : Type*}
     {A : ι → Subgroup W} (h : ∀ i, ∀ a ∈ A i, g a * a⁻¹ ∈ C) :
     ∀ w ∈ ⨆ i, A i, g w * w⁻¹ ∈ C := by
@@ -46,6 +47,7 @@ private theorem w1369_mul_inv_mem_iSup {g : MulAut W} {C : Subgroup W} {ι : Typ
   intro w hw
   exact hS hw
 
+omit [Finite W] in
 private theorem w1369_mul_inv_mem_sup {g : MulAut W} {A B C : Subgroup W}
     (hA : ∀ a ∈ A, g a * a⁻¹ ∈ C) (hB : ∀ b ∈ B, g b * b⁻¹ ∈ C) :
     ∀ w ∈ A ⊔ B, g w * w⁻¹ ∈ C := by
@@ -61,6 +63,7 @@ private theorem w1369_mul_inv_mem_sup {g : MulAut W} {A B C : Subgroup W}
     simp [f]
   rwa [hsup] at h
 
+omit [Finite W] in
 private theorem w1369_perfect_of_component {Y : Subgroup (MulAut W)} {t : MulAut W}
     {L : Subgroup (MulAut W)} (c : Ctx136 Y t L) : ⁅L, L⁆ = L :=
   Subgroup.isPerfect_iff.mp (Group.isPerfect_def.mpr c.comp.2.2.1)

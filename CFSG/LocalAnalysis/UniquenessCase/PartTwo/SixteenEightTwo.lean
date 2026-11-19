@@ -25,13 +25,13 @@ private theorem s16e_not_cube_dvd_20160 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     push Not at hc
     have : 28 ^ 3 ≤ p ^ 3 := Nat.pow_le_pow_left hc 3
     omega
-  interval_cases p <;> first | exact hp2 rfl | (norm_num at h; done) | (norm_num at hp; done)
+  interval_cases p <;> first | exact hp2 rfl | (norm_num at h; done) | (norm_num at hp)
 
 private theorem s16e_not_sq_dvd_168 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : ¬ p ^ 2 ∣ 168 := by
   intro h
   have hle : p ^ 2 ≤ 168 := Nat.le_of_dvd (by norm_num) h
   have hp13 : p ≤ 13 := by nlinarith
-  interval_cases p <;> first | exact hp2 rfl | (norm_num at h; done) | (norm_num at hp; done)
+  interval_cases p <;> first | exact hp2 rfl | (norm_num at h; done) | (norm_num at hp)
 
 end Arith
 

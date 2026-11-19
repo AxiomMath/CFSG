@@ -51,7 +51,7 @@ theorem lemma27 {i183 : CFSG.HardMathSupport.Solomon.UniquenessMaximal.Input18_3
 theorem lemma28 {i183 : CFSG.HardMathSupport.Solomon.UniquenessMaximal.Input18_3_4} {i112F : Input11_2Full} (I : Sec2Inputs i183 i112F) : Lemma28 :=
   lemma28_of_inputs I.lemma24 I.l28a I.l28b I.l28c
 
-theorem lemma29 {i183 : CFSG.HardMathSupport.Solomon.UniquenessMaximal.Input18_3_4} {i112F : Input11_2Full} (I : Sec2Inputs i183 i112F) : Lemma29 :=
+theorem lemma29 {i183 : CFSG.HardMathSupport.Solomon.UniquenessMaximal.Input18_3_4} {i112F : Input11_2Full} (_I : Sec2Inputs i183 i112F) : Lemma29 :=
   lemma29_of_input11_2 (input11_2_of_full i112F)
 
 end Sec2Inputs

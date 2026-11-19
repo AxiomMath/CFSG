@@ -165,7 +165,7 @@ theorem dihedral8_of_rel {G : Type} [Group G] {a b : G} (ha8 : a ^ 8 = 1) (ha4 :
     (hb2 : b * b = 1) (hba : b * a * b⁻¹ = a⁻¹) (hb : ∀ i : ℕ, b ≠ a ^ i) :
     Nat.card ↥(Subgroup.closure ({a, b} : Set G)) = 16 := by
   have hord : orderOf a = 8 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h4 : ¬ a ^ 2 ^ 2 = 1 := ha4
     have h8 : a ^ 2 ^ (2 + 1) = 1 := ha8
     simpa using orderOf_eq_prime_pow h4 h8

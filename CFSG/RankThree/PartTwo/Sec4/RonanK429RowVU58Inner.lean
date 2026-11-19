@@ -45,7 +45,7 @@ theorem dvd_of_dvd_mul_of_forall_pow {G : Type} [Group G] [Finite G] {p N : ℕ}
     (hd : Nat.card G ∣ p * N) (hno : ∀ g : G, g ^ p = 1 → g = 1) : Nat.card G ∣ N := by
   have hnd : ¬ p ∣ Nat.card G := by
     intro h
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p h
     have h1 := hno g (by rw [← hg]; exact pow_orderOf_eq_one g)
     rw [h1, orderOf_one] at hg
@@ -68,10 +68,10 @@ theorem false_of_u38 {S : Type} [Group S] [Finite S] {C H Q : Subgroup S} (hHC :
   obtain ⟨φ⟩ := hX
   have hXcard : Nat.card (Q ⧸ CFSG.pCore 2 Q) = 5515776 :=
     (Nat.card_congr φ.toEquiv).trans CFSG.PGLModel.card_projSU_three_eight
-  haveI : Nontrivial (Q ⧸ CFSG.pCore 2 Q) := Finite.one_lt_card_iff_nontrivial.mp (by omega)
-  haveI : IsSimpleGroup (projSU 3 2 3) :=
+  have : Nontrivial (Q ⧸ CFSG.pCore 2 Q) := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : IsSimpleGroup (projSU 3 2 3) :=
     CFSG.PGLModel.isSimpleGroup_projSU_of_admissible ⟨Nat.prime_two, by norm_num, le_rfl, by decide⟩
-  haveI hsimp : IsSimpleGroup (Q ⧸ CFSG.pCore 2 Q) := φ.isSimpleGroup
+  have hsimp : IsSimpleGroup (Q ⧸ CFSG.pCore 2 Q) := φ.isSimpleGroup
   have hZX : Subgroup.center (Q ⧸ CFSG.pCore 2 Q) = ⊥ :=
     center_eq_bot_of_isoLThreePi (p := 2) (e := 3) (by norm_num) (Or.inr ⟨by norm_num, ⟨φ⟩⟩)
   rcases Res429.eq_top_or_le_center_of_isSubnormal hq (isSubnormal_subgroupOf_of_le hHC hsn) with
@@ -123,7 +123,7 @@ theorem false_of_u38 {S : Type} [Group S] [Finite S] {C H Q : Subgroup S} (hHC :
       exact h2.symm
     set Nb := N.map (QuotientGroup.mk' (CFSG.pCore 2 Q)) with hNb
     have hNbn : Nb.Normal := Subgroup.Normal.map hNn _ (QuotientGroup.mk'_surjective _)
-    haveI := hNbn
+    have := hNbn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Nb with hbot | htop'
     ·
       have htN : t ∈ N := htH
@@ -282,7 +282,7 @@ theorem false_of_bs3 {Q : Subgroup SUI} (hQ : Q ≤ Subgroup.centralizer ({bs 3}
     rw [← Subgroup.commutator_eq_self (H := Q)]
     exact Subgroup.commutator_le.mpr fun a ha b hb =>
       commutator_mem_idOutsideSU (u := us 3) fib3_single fib3_const (hQ ha) (hQ hb)
-  haveI := nontrivial_of_isType429 hT
+  have := nontrivial_of_isType429 hT
   have hQ1 : Nontrivial Q := by
     obtain ⟨x, hx⟩ := exists_ne (1 : Q ⧸ CFSG.pCore 2 Q)
     obtain ⟨q, rfl⟩ := QuotientGroup.mk_surjective x

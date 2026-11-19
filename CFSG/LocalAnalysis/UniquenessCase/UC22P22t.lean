@@ -17,7 +17,7 @@ theorem uc22p22t_frattini_sup {q : ℕ} [Fact q.Prime] {H K S : Subgroup G} (hKH
     (hHK : H ≤ normalizer (K : Set G)) (hS : CFSG.ABGLocalTools.IsSylowOf q S K) :
     H ≤ K ⊔ (H ⊓ normalizer (S : Set G)) := by
   classical
-  haveI : (K.subgroupOf H).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHK
+  have : (K.subgroupOf H).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHK
   obtain ⟨hSK, hSp, hSidx⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hS
   have hSH : S ≤ H := hSK.trans hKH
   have hS' : CFSG.ABGLocalTools.IsSylowOf q (S.subgroupOf H) (K.subgroupOf H) := by
@@ -68,8 +68,8 @@ theorem uc22p22t_exists_sylow_normalizing_jOf (D : Data G) {p : ℕ} (hp : p.Pri
     (hpN : ¬ p ∣ Nat.card (proofN D)) :
     ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P D.M ∧
       ∀ y ∈ P, ∀ x ∈ jOf D.T, y * x * y⁻¹ ∈ jOf D.T := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNM : proofN D ≤ D.M := uc22p22e_jOf_le_self D.M
   have hMN := uc22p22t_M_le_normalizer_jOf D
   have hTN : CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ proofN D) (proofN D) :=
@@ -105,7 +105,7 @@ theorem uc22p22t_faithful_bar (D : Data G) {p : ℕ} (hp : p.Prime) (hp2 : p ≠
     (hcM : c ∈ D.M) (hcp : IsPGroup p (Subgroup.zpowers c))
     (hcomm : ∀ x ∈ jOf D.T, x * c * x⁻¹ * c⁻¹ ∈ centralizer (D.U : Set G))
     (hfixE : ∀ z ∈ proofE D, z ∈ D.U → c * z = z * c) : c ∈ centralizer (D.U : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV : D.M ≤ normalizer (D.U : Set G) := le_normalizer_uCore D.M D.T
   obtain ⟨hU1, hUel⟩ := uCore_le_and_isElemAbelian D.standing.charTwo D.maxLocal.1 D.sylowM
   have hUO : D.U ≤ pCoreOf 2 D.M := hU1.trans inf_le_left
@@ -214,7 +214,7 @@ theorem uc22p22t_frattini_core {H : Type*} [Group H] [Finite H] {p q : ℕ} [Fac
     rw [Sylow.coe_mapSurjective] at h1
     obtain ⟨x, hx, hxq⟩ := h1
     exact ⟨(x : H), ⟨x, hx, rfl⟩, congrArg Subtype.val hxq⟩
-  refine ⟨X, X₀.isPGroup'.map W.subtype, fun x hx => (hXW hx).1, ?_⟩
+  refine ⟨X, X₀.isPGroup.map W.subtype, fun x hx => (hXW hx).1, ?_⟩
   intro hXc
   let g : ↥X →* ↥Q := (π.comp X.subtype).codRestrict Q (fun x => (hXW x.2).2)
   have hg : Function.Surjective g := by
@@ -225,7 +225,7 @@ theorem uc22p22t_frattini_core {H : Type*} [Group H] [Finite H] {p q : ℕ} [Fac
 
 theorem uc22p22t_frattini_core_sub {p q : ℕ} [Fact p.Prime] [Fact q.Prime]
     {H₀ K S P : Subgroup G} [(K.subgroupOf H₀).Normal] (hKH : K ≤ H₀)
-    (hS : CFSG.ABGLocalTools.IsSylowOf q S K) (hP : IsPGroup p P) (hPH : P ≤ H₀) :
+    (hS : CFSG.ABGLocalTools.IsSylowOf q S K) (hP : IsPGroup p P) (_hPH : P ≤ H₀) :
     ∃ X : Subgroup G, X ≤ H₀ ∧ IsPGroup p X ∧ X ≤ normalizer (S : Set G) ∧
       (IsCyclic ↥X →
         IsCyclic ↥((P.subgroupOf H₀).map (QuotientGroup.mk' (K.subgroupOf H₀)))) := by
@@ -264,7 +264,7 @@ theorem uc22p22t_frattini_bar (D : Data G) {p q : ℕ} [Fact p.Prime] [Fact q.Pr
     ∃ X : Subgroup G, X ≤ H₀ ∧ IsPGroup p X ∧ ¬ IsCyclic X ∧ X ≤ normalizer (S : Set G) := by
   classical
   have hV : D.M ≤ normalizer (D.U : Set G) := le_normalizer_uCore D.M D.T
-  haveI : (K.subgroupOf H₀).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHK
+  have : (K.subgroupOf H₀).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHK
   obtain ⟨X, hXH, hXp, hXN, hXc⟩ := uc22p22t_frattini_core_sub hKH hS hP hPH
   refine ⟨X, hXH, hXp, fun hc => hnc ?_, hXN⟩
   have hQ := hXc hc
@@ -295,7 +295,7 @@ theorem uc22p22t_frattini_bar (D : Data G) {p q : ℕ} [Fact p.Prime] [Fact q.Pr
   have hrange : ψ.range = mbarImage D.M D.U P := by
     rw [← uc22br4_range_phi D.M D.U P hPM, ← hψ, MonoidHom.range_comp,
       MonoidHom.range_eq_top_of_surjective h hsurj, Subgroup.map_top]
-  haveI : IsCyclic ↥Q := hQ
+  have : IsCyclic ↥Q := hQ
   have hcyc : IsCyclic ↥ψ.range := isCyclic_of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   rwa [hrange] at hcyc
 
@@ -324,8 +324,8 @@ theorem uc22p22t_s22_5_2_of (D : Data G) (Ch : Choice2011 G) (hx : DataExt D) (h
   intro h1930 c p hp
   by_contra hpN
   obtain ⟨hpP, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpP⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hpP⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpN' : ¬ p ∣ Nat.card (proofN D) := fun hd => hpN ⟨hpP, hd⟩
   obtain ⟨P, hPsyl, hnJ⟩ := uc22p22t_exists_sylow_normalizing_jOf D hpP hpN'
   have hPM : P ≤ D.M := hPsyl.le

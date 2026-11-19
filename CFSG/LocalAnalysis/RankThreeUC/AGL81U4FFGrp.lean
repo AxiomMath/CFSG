@@ -73,10 +73,11 @@ theorem pCoreOf_le_centralizer_uCore {M T : Subgroup G}
     (h1 : M ⊓ centralizer (pCoreOf 2 M : Set G) ≤ pCoreOf 2 M)
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T M) :
     pCoreOf 2 M ≤ centralizer (uCore M T : Set G) := fun x hx =>
-  mem_centralizer_iff.mpr fun v hv =>
+  mem_centralizer_iff.mpr fun _v hv =>
     ((uCore_le_pCoreOf_inf_centralizer_of_h1 h1 hT hv).2 x hx).symm
 
 
+omit [Finite G] in
 theorem inf_centralizer_subgroupOf_eq_pCore {M V L : Subgroup G} (hLM : L ≤ M)
     (hMV : M ≤ normalizer (V : Set G)) (hML : M ≤ normalizer (L : Set G))
     (hO2 : pCoreOf 2 M ≤ centralizer (V : Set G))
@@ -95,8 +96,8 @@ theorem inf_centralizer_subgroupOf_eq_pCore {M V L : Subgroup G} (hLM : L ≤ M)
     rw [hK, Subgroup.mem_subgroupOf, Subgroup.mem_inf] at hk ⊢
     refine ⟨L.mul_mem (L.mul_mem g.2 hk.1) (L.inv_mem g.2), ?_⟩
     exact conj_mem_centralizer' (hMV (hLM g.2)) hk.2⟩
-  haveI := hnorm
-  haveI : (K.map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))).Normal :=
+  have := hnorm
+  have : (K.map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))).Normal :=
     hnorm.map _ (QuotientGroup.mk'_surjective _)
   rcases hsimple.eq_bot_or_eq_top_of_normal (K.map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) with
     h | h
@@ -119,7 +120,7 @@ theorem inf_centralizer_subgroupOf_eq_pCore {M V L : Subgroup G} (hLM : L ≤ M)
 
 theorem exists_mem_orderOf_eq_of_one_le_pRank {p : ℕ} (hp : p.Prime) {H : Subgroup G}
     (h : 1 ≤ CFSG.Open.pRank p H) : ∃ x ∈ H, orderOf x = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hne
   push Not at hne
   have hS : sSup {k | ∃ E : Subgroup G, E ≤ H ∧ IsElemAbelian p E ∧ Nat.card E = p ^ k} = 0 := by
@@ -141,7 +142,7 @@ theorem exists_mem_orderOf_eq_of_one_le_pRank {p : ℕ} (hp : p.Prime) {H : Subg
   omega
 
 theorem exists_maxElemAbelian_noncomm {M V L : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (hLM : L ≤ M) (hMV : M ≤ normalizer (V : Set G)) (hML : M ≤ normalizer (L : Set G))
+    (_hLM : L ≤ M) (hMV : M ≤ normalizer (V : Set G)) (_hML : M ≤ normalizer (L : Set G))
     (hLdef : ∀ x ∈ M, (∃ k : ℕ, orderOf x = p ^ k) → x ∈ L)
     (hker : (L ⊓ centralizer (V : Set G)).subgroupOf L = CFSG.pCore 2 ↥L)
     (hsimple : IsSimpleGroup (↥L ⧸ CFSG.pCore 2 ↥L))
@@ -212,15 +213,18 @@ open scoped IsMulCommutative
     ↥L →* MulAut ↥V :=
   (conjAct V).comp (Subgroup.inclusion hL)
 
+omit [Finite G] in
 theorem coe_actAut_apply {L V : Subgroup G} (hL : L ≤ normalizer (V : Set G)) (l : ↥L) (v : ↥V) :
     ((actAut L V hL l v : ↥V) : G) = (l : G) * (v : G) * (l : G)⁻¹ :=
   AutOn.coe_conjAct_apply V (Subgroup.inclusion hL l) v
 
+omit [Finite G] in
 theorem range_actAut (L V : Subgroup G) (hL : L ≤ normalizer (V : Set G)) :
     (actAut L V hL).range = autOn L V := by
   unfold actAut autOn
   rw [MonoidHom.range_comp, Subgroup.inclusion_range]
 
+omit [Finite G] in
 theorem ker_actAut (L V : Subgroup G) (hL : L ≤ normalizer (V : Set G)) :
     (actAut L V hL).ker = (L ⊓ centralizer (V : Set G)).subgroupOf L := by
   ext a
@@ -229,6 +233,7 @@ theorem ker_actAut (L V : Subgroup G) (hL : L ≤ normalizer (V : Set G)) :
   change conjAct V (Subgroup.inclusion hL a) = 1 ↔ _ at h
   exact ⟨fun h1 => ⟨a.2, (h.mp h1)⟩, fun h1 => h.mpr h1.2⟩
 
+omit [Finite G] in
 theorem mem_autOn_of_mem {L V : Subgroup G} (hL : L ≤ normalizer (V : Set G)) (l : ↥L) :
     actAut L V hL l ∈ autOn L V := by
   rw [← range_actAut L V hL]; exact ⟨l, rfl⟩
@@ -237,6 +242,7 @@ theorem mem_autOn_of_mem {L V : Subgroup G} (hL : L ≤ normalizer (V : Set G)) 
     ↥L →* ↥(autOn L V) :=
   (actAut L V hL).codRestrict (autOn L V) (mem_autOn_of_mem hL)
 
+omit [Finite G] in
 theorem actOn_surjective (L V : Subgroup G) (hL : L ≤ normalizer (V : Set G)) :
     Function.Surjective (actOn L V hL) := by
   rintro ⟨x, hx⟩
@@ -244,16 +250,19 @@ theorem actOn_surjective (L V : Subgroup G) (hL : L ≤ normalizer (V : Set G)) 
   obtain ⟨l, rfl⟩ := hx
   exact ⟨l, rfl⟩
 
+omit [Finite G] in
 theorem ker_actOn (L V : Subgroup G) (hL : L ≤ normalizer (V : Set G)) :
     (actOn L V hL).ker = (L ⊓ centralizer (V : Set G)).subgroupOf L := by
   rw [← ker_actAut L V hL]
   ext a
-  simp [actOn, MonoidHom.mem_ker, Subtype.ext_iff]
+  simp [actOn, MonoidHom.mem_ker]
 
+omit [Finite G] in
 theorem coe_actOn_apply {L V : Subgroup G} (hL : L ≤ normalizer (V : Set G)) (l : ↥L) (v : ↥V) :
     (((actOn L V hL l : ↥(autOn L V)) : MulAut ↥V) v : G) = (l : G) * (v : G) * (l : G)⁻¹ :=
   coe_actAut_apply hL l v
 
+omit [Finite G] in
 theorem relIndex_autOn_inf_centSub {A V : Subgroup G} [IsMulCommutative ↥V]
     (hAN : A ≤ normalizer (V : Set G)) (Y : Subgroup ↥V) :
     (autOn A V ⊓ centSub Y).relIndex (autOn A V) =
@@ -334,6 +343,7 @@ theorem offender_autOn {M V A : Subgroup G} [IsMulCommutative ↥V] (hV2 : ∀ v
   rw [hc, hidx, hfix]
   exact h1
 
+omit [Finite G] in
 theorem isU4Group_autOn {n : ℕ} {L V : Subgroup G} [IsMulCommutative ↥V] (hLN : L ≤ normalizer (V : Set G))
     (hker : (L ⊓ centralizer (V : Set G)).subgroupOf L = CFSG.pCore 2 ↥L)
     (hshape : ∃ d : TauCeti.ValidLieTypeIndex,
@@ -363,7 +373,7 @@ theorem exists_u4OffenderData_of_setting {p n : ℕ} (hp : p.Prime) (hp2 : p ≠
   obtain ⟨d, ⟨q, hq2, hqn, hd, hpq⟩, ⟨e⟩⟩ := hU
   have hLM : L ≤ M := pElementSubgroup_le p M
   have hML : M ≤ normalizer (L : Set G) := le_normalizer_pElementSubgroup p M
-  haveI := u4Group_isSimple hq2 hd
+  have := u4Group_isSimple hd
   have hsimple : IsSimpleGroup (↥L ⧸ CFSG.pCore 2 ↥L) := e.isSimpleGroup
   have hna : ∃ a b : ↥L ⧸ CFSG.pCore 2 ↥L, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := u4Group_nonabelian hq2 hd
@@ -395,9 +405,11 @@ theorem exists_u4OffenderData_of_setting {p n : ℕ} (hp : p.Prime) (hp2 : p ≠
   (MulEquiv.subgroupCongr (AutOn.commV_autOn_eq hLN)).trans
     (Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer_iff_commutator_le_left.mp hLN))
 
+omit [Finite G] in
 theorem coe_commEquiv {V L : Subgroup G} [IsMulCommutative ↥V] (hLN : L ≤ normalizer (V : Set G))
     (u : ↥(commV (autOn L V))) : ((commEquiv hLN u : ↥⁅V, L⁆) : G) = ((u : ↥V) : G) := rfl
 
+omit [Finite G] in
 theorem coe_commEquiv_symm {V L : Subgroup G} [IsMulCommutative ↥V]
     (hLN : L ≤ normalizer (V : Set G)) (x : ↥⁅V, L⁆) :
     ((((commEquiv hLN).symm x : ↥(commV (autOn L V))) : ↥V) : G) = (x : G) := by
@@ -405,6 +417,7 @@ theorem coe_commEquiv_symm {V L : Subgroup G} [IsMulCommutative ↥V]
   rw [MulEquiv.apply_symm_apply] at h
   exact h.symm
 
+omit [Finite G] in
 theorem transfer_conclusion {V L : Subgroup G} [IsMulCommutative ↥V]
     (hLN : L ≤ normalizer (V : Set G)) {H : Type} [Group H] {X : Type} [AddCommGroup X]
     (act : H → X → X) (ε₀ : ↥(autOn L V) ≃* H)
@@ -437,6 +450,7 @@ theorem transfer_conclusion {V L : Subgroup G} [IsMulCommutative ↥V]
     exact heq (actOn L V hLN l) (θ.symm u) (θ.symm u') hu
 
 
+omit [Finite G] in
 theorem naturalU4ModuleConclusion_of_abstract {n : ℕ} {V L : Subgroup G} [IsMulCommutative ↥V]
     (hLN : L ≤ normalizer (V : Set G))
     (hker : (L ⊓ centralizer (V : Set G)).subgroupOf L = CFSG.pCore 2 ↥L)
@@ -462,7 +476,7 @@ open scoped IsMulCommutative in
 theorem kFactAGL81I54U4_of_abstract (habs : PartAAbstract) : KFactAGL81I54U4 := by
   intro G _ _ p n M T hp hp2 h1 hT hU hnc hJ
   have hV := isElemAbelian_uCore_of_h1 h1 hT
-  haveI : IsMulCommutative ↥(uCore M T) := hV.1
+  have : IsMulCommutative ↥(uCore M T) := hV.1
   have hVM := uCore_le_M_of_h1 h1 hT
   have hMV := le_normalizer_uCore M T
   have hO2 := pCoreOf_le_centralizer_uCore h1 hT

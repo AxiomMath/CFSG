@@ -12,11 +12,11 @@ open CFSG.BenderSuzuki CFSG.BenderSuzuki.External CFSG.Open
 variable {G : Type} [Group G] [Finite G]
 
 theorem odd_orderOf_mul_of_centralizer_inf_bot {a b : G}
-    (ha : a * a = 1) (hb : b * b = 1) (han : a ≠ 1) (hbn : b ≠ 1)
+    (ha : a * a = 1) (hb : b * b = 1) (_han : a ≠ 1) (_hbn : b ≠ 1)
     {Q Q' : Subgroup G}
     (hca : Subgroup.centralizer ({a} : Set G) = Q)
     (hcb : Subgroup.centralizer ({b} : Set G) = Q')
-    (hinf : Q ⊓ Q' = ⊥) (hnc : ¬ Commute a b) :
+    (hinf : Q ⊓ Q' = ⊥) (_hnc : ¬ Commute a b) :
     Odd (orderOf (a * b)) := by
   by_contra hodd
   rw [Nat.not_odd_iff_even] at hodd
@@ -101,7 +101,7 @@ theorem exists_involution_triple_psl2 {m : ℕ} (hm : 2 ≤ m) :
       Odd (orderOf (s₂ * s₃)) ∧ 1 < orderOf (s₂ * s₃) ∧
       Odd (orderOf (s₁ * s₂ * s₃)) ∧ 1 < orderOf (s₁ * s₂ * s₃) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 m) = 2 ^ m := GaloisField.card 2 m (by omega)
   have hev : Even (2 ^ m) := (Nat.even_pow' (by omega)).mpr even_two
   have hq4 : 4 ≤ 2 ^ m := by
@@ -114,7 +114,7 @@ theorem exists_involution_triple_psl2 {m : ℕ} (hm : 2 ≤ m) :
   obtain ⟨T, w, hTcyc, hTcard, hwN, hwT, hw2, hwinv, -, -⟩ :=
     huppert_II_8_4_nonsplit_torus_reflection_data (F := GaloisField 2 m) hF
   rw [hF, hgcd, Nat.div_one] at hTcard
-  haveI : IsCyclic T := hTcyc
+  have : IsCyclic T := hTcyc
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := T)
   have hgo : orderOf (g : PSL2Model m) = 2 ^ m + 1 := by
     rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers hg, hTcard]
@@ -207,7 +207,7 @@ theorem exists_involution_triple_psl2 {m : ℕ} (hm : 2 ≤ m) :
     rwa [hc] at h
   have hex : ∃ s₂ ∈ (P : Subgroup (PSL2Model m)), s₂ ≠ 1 ∧ s₂ ≠ w := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsurj : Function.Surjective
         (fun b : Bool => (if b then (⟨w, hwP⟩ : (P : Subgroup (PSL2Model m))) else 1)) := by
       intro x

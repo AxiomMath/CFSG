@@ -13,6 +13,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {U : Type} [AddCommGroup U] [Module (ZMod 3) U] [FiniteDimensional (ZMod 3) U]
   {R : QuadraticForm (ZMod 3) U}
 
+omit [FiniteDimensional (ZMod 3) U] in
 private lemma fkCoord_equiv (b : Module.Basis (Fin 3) (ZMod 3) U) (e : Equiv.Perm (Fin 3))
     (f : Fin 3 →₀ ZMod 3) (i : Fin 3) :
     b.repr ((b.reindex e).repr.symm f) i = f (e i) := by
@@ -20,6 +21,7 @@ private lemma fkCoord_equiv (b : Module.Basis (Fin 3) (ZMod 3) U) (e : Equiv.Per
   have h2 := congrArg (fun g : Fin 3 →₀ ZMod 3 => g (e i)) h
   simpa [Module.Basis.repr_reindex_apply] using h2
 
+omit [FiniteDimensional (ZMod 3) U] in
 private lemma fkPerm_exists {ε : ZMod 3} (fr : PFrame R (Fin 3) (fun _ => ε))
     (σ : Equiv.Perm (Fin 3)) :
     ∃ g : OGroup R, ∀ i, (g : U ≃ₗ[ZMod 3] U) (fr.b i) = fr.b (σ i) := by
@@ -43,11 +45,13 @@ noncomputable def fkPerm {ε : ZMod 3} (fr : PFrame R (Fin 3) (fun _ => ε))
     (σ : Equiv.Perm (Fin 3)) : OGroup R :=
   Classical.choose (fkPerm_exists fr σ)
 
+omit [FiniteDimensional (ZMod 3) U] in
 theorem fkPerm_basis {ε : ZMod 3} (fr : PFrame R (Fin 3) (fun _ => ε))
     (σ : Equiv.Perm (Fin 3)) (i : Fin 3) :
     ((fkPerm fr σ : OGroup R) : U ≃ₗ[ZMod 3] U) (fr.b i) = fr.b (σ i) :=
   Classical.choose_spec (fkPerm_exists fr σ) i
 
+omit [FiniteDimensional (ZMod 3) U] in
 theorem fkPerm_mul {ε : ZMod 3} (fr : PFrame R (Fin 3) (fun _ => ε))
     (σ τ : Equiv.Perm (Fin 3)) :
     fkPerm fr (σ * τ) = fkPerm fr σ * fkPerm fr τ := by
@@ -55,11 +59,13 @@ theorem fkPerm_mul {ε : ZMod 3} (fr : PFrame R (Fin 3) (fun _ => ε))
   rw [Subgroup.coe_mul, LinearEquiv.mul_apply, fkPerm_basis, fkPerm_basis, fkPerm_basis]
   rfl
 
+omit [FiniteDimensional (ZMod 3) U] in
 theorem fkPerm_one {ε : ZMod 3} (fr : PFrame R (Fin 3) (fun _ => ε)) :
     fkPerm fr 1 = 1 := by
   apply Subtype.ext; apply fr.b.ext'; intro i
   rw [fkPerm_basis]; simp
 
+omit [FiniteDimensional (ZMod 3) U] in
 theorem fkPerm_mul_signChange {ε : ZMod 3} (fr : PFrame R (Fin 3) (fun _ => ε))
     (σ : Equiv.Perm (Fin 3)) (J : Finset (Fin 3)) :
     fkPerm fr σ * fr.signChange J =
@@ -69,11 +75,12 @@ theorem fkPerm_mul_signChange {ε : ZMod 3} (fr : PFrame R (Fin 3) (fun _ => ε)
     fr.signChange_basis J i]
   by_cases hi : i ∈ J
   · have hmem : σ i ∈ J.map σ.toEmbedding := by rw [Finset.mem_map]; exact ⟨i, hi, rfl⟩
-    rw [if_pos hi, map_neg, fkPerm_basis, fr.signChange_basis _ (σ i), if_pos hmem]
+    rw [ite_eq_left hi, map_neg, fkPerm_basis, fr.signChange_basis _ (σ i), ite_eq_left hmem]
   · have hmem : σ i ∉ J.map σ.toEmbedding := by
       rw [Finset.mem_map]; rintro ⟨j, hj, hji⟩; exact hi (σ.injective hji ▸ hj)
-    rw [if_neg hi, fkPerm_basis, fr.signChange_basis _ (σ i), if_neg hmem]
+    rw [ite_eq_right hi, fkPerm_basis, fr.signChange_basis _ (σ i), ite_eq_right hmem]
 
+omit [FiniteDimensional (ZMod 3) U] in
 theorem fkConj_signChange {ε : ZMod 3} (fr : PFrame R (Fin 3) (fun _ => ε))
     (σ : Equiv.Perm (Fin 3)) (J K : Finset (Fin 3)) :
     (fkPerm fr σ * fr.signChange J) * fr.signChange K *

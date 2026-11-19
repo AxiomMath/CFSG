@@ -18,11 +18,13 @@ abbrev SecMod (W₁ W₂ : Submodule (ZMod 2) V) : Type := ↥W₁ ⧸ W₂.coma
     SecMod W₁ W₂ →ₗ[ZMod 2] SecMod W₁ W₂ :=
   Submodule.mapQ _ _ (f.restrict h₁) (fun w hw => by simpa using h₂ _ hw)
 
+omit [Finite V] in
 theorem secMap_mk (W₁ W₂ : Submodule (ZMod 2) V) (f : V →ₗ[ZMod 2] V)
     (h₁ : ∀ w ∈ W₁, f w ∈ W₁) (h₂ : ∀ w ∈ W₂, f w ∈ W₂) (w : V) (hw : w ∈ W₁) :
     secMap W₁ W₂ f h₁ h₂ (Submodule.Quotient.mk ⟨w, hw⟩) = Submodule.Quotient.mk ⟨f w, h₁ w hw⟩ :=
   rfl
 
+omit [Finite V] in
 private theorem b12_TwelveSection_mk_eq_zero_iff {W₁ W₂ : Submodule (ZMod 2) V} {w : V}
     (hw : w ∈ W₁) :
     (Submodule.Quotient.mk (⟨w, hw⟩ : ↥W₁) : SecMod W₁ W₂) = 0 ↔ w ∈ W₂ := by
@@ -35,7 +37,7 @@ variable {G : Type} [Group G]
 @[expose] noncomputable def sectionRep (ρ : G →* LGL 2 V) (W₁ W₂ : Submodule (ZMod 2) V)
     (h₁ : ∀ g : G, ∀ w ∈ W₁, ρ g w ∈ W₁) (h₂ : ∀ g : G, ∀ w ∈ W₂, ρ g w ∈ W₂) :
     G →* LGL 2 (SecMod W₁ W₂) where
-  toFun g := LinearEquiv.ofLinear
+  toFun g := LinearEquiv.ofLinearMap
     (secMap W₁ W₂ (ρ g : V →ₗ[ZMod 2] V) (h₁ g) (h₂ g))
     (secMap W₁ W₂ (ρ g⁻¹ : V →ₗ[ZMod 2] V) (h₁ g⁻¹) (h₂ g⁻¹))
     (by
@@ -92,6 +94,7 @@ variable {G : Type} [Group G]
       rw [map_mul]
       rfl
 
+omit [Finite V] in
 theorem sectionRep_mk (ρ : G →* LGL 2 V) (W₁ W₂ : Submodule (ZMod 2) V)
     (h₁ : ∀ g : G, ∀ w ∈ W₁, ρ g w ∈ W₁) (h₂ : ∀ g : G, ∀ w ∈ W₂, ρ g w ∈ W₂) (g : G) (w : V)
     (hw : w ∈ W₁) :
@@ -99,6 +102,7 @@ theorem sectionRep_mk (ρ : G →* LGL 2 V) (W₁ W₂ : Submodule (ZMod 2) V)
       Submodule.Quotient.mk ⟨ρ g w, h₁ g w hw⟩ :=
   rfl
 
+omit [Finite V] in
 theorem mem_ker_sectionRep (ρ : G →* LGL 2 V) (W₁ W₂ : Submodule (ZMod 2) V)
     (h₁ : ∀ g : G, ∀ w ∈ W₁, ρ g w ∈ W₁) (h₂ : ∀ g : G, ∀ w ∈ W₂, ρ g w ∈ W₂) (g : G) :
     g ∈ (sectionRep ρ W₁ W₂ h₁ h₂).ker ↔ ∀ w ∈ W₁, ρ g w - w ∈ W₂ := by
@@ -129,6 +133,7 @@ theorem mem_ker_sectionRep (ρ : G →* LGL 2 V) (W₁ W₂ : Submodule (ZMod 2)
       exact (Submodule.Quotient.eq (W₂.comap W₁.subtype)).mpr
         (Submodule.mem_comap.mpr (by simpa using hall w hw))
 
+omit [Finite V] in
 theorem repQuad_sectionRep (ρ : G →* LGL 2 V) (A : Subgroup G) (hq : RepQuad ρ A)
     (W₁ W₂ : Submodule (ZMod 2) V) (h₁ : ∀ g : G, ∀ w ∈ W₁, ρ g w ∈ W₁)
     (h₂ : ∀ g : G, ∀ w ∈ W₂, ρ g w ∈ W₂) :
@@ -167,11 +172,12 @@ theorem repQuad_sectionRep (ρ : G →* LGL 2 V) (A : Subgroup G) (hq : RepQuad 
   · intro c y hy ih
     simp [map_smul, ih]
 
+omit [Finite V] in
 theorem isChiefFactor_sectionRep (ρ : G →* LGL 2 V) (W₁ W₂ : Submodule (ZMod 2) V)
     (hcf : IsChiefFactor ρ W₁ W₂) :
     IsChiefFactor (sectionRep ρ W₁ W₂ hcf.2.1 hcf.2.2.1) ⊤ ⊥ := by
   obtain ⟨hw₂w₁, hW₁, hW₂, hmin⟩ := hcf
-  obtain ⟨hw₂le, w, hw, hwnot⟩ := SetLike.lt_iff_le_and_exists.mp hw₂w₁
+  obtain ⟨hw₂le, w, hw, hwnot⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hw₂w₁
   have hne : (⊤ : Submodule (ZMod 2) (SecMod W₁ W₂)) ≠ ⊥ := by
     intro h
     have hxU : (Submodule.Quotient.mk (⟨w, hw⟩ : ↥W₁) : SecMod W₁ W₂) ∈
@@ -232,6 +238,7 @@ theorem isChiefFactor_sectionRep (ρ : G →* LGL 2 V) (W₁ W₂ : Submodule (Z
         rw [← hyeq]
         exact Submodule.mem_comap.mp hy
 
+omit [Finite V] in
 theorem isNoncentral_sectionRep (ρ : G →* LGL 2 V) (W₁ W₂ : Submodule (ZMod 2) V)
     (hcf : IsChiefFactor ρ W₁ W₂) (hnc : IsNoncentral ρ W₁ W₂) :
     IsNoncentral (sectionRep ρ W₁ W₂ hcf.2.1 hcf.2.2.1) ⊤ ⊥ := by
@@ -253,7 +260,7 @@ theorem invariant_induction (ρ : G →* LGL 2 V) (P : Submodule (ZMod 2) V → 
     (hstep : ∀ W₁ W₂ : Submodule (ZMod 2) V, IsChiefFactor ρ W₁ W₂ → P W₂ → P W₁)
     (W : Submodule (ZMod 2) V) (hW : ∀ g : G, ∀ w ∈ W, ρ g w ∈ W) : P W := by
   classical
-  haveI : Finite (Submodule (ZMod 2) V) :=
+  have : Finite (Submodule (ZMod 2) V) :=
     Finite.of_injective (fun U : Submodule (ZMod 2) V => (U : Set V)) SetLike.coe_injective
   have key : ∀ n, ∀ W : Submodule (ZMod 2) V,
       (∀ g : G, ∀ w ∈ W, ρ g w ∈ W) → Module.finrank (ZMod 2) W = n → P W := by

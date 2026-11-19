@@ -15,7 +15,7 @@ theorem exists_sylow_eq_of_card_three {Y : Type*} [Group Y] [Finite Y] (hY : Nat
   have hp : IsPGroup 3 H := IsPGroup.of_card (n := 1) (by rw [hH, pow_one])
   obtain ⟨Q, hHQ⟩ := hp.exists_le_sylow
   refine ⟨Q, (Subgroup.eq_of_le_of_card_ge hHQ ?_).symm⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup
   have hdvd : 3 ^ k ∣ 60 := hk ▸ (Subgroup.card_subgroup_dvd_card (Q : Subgroup Y)).trans hY
   have hk1 : k ≤ 1 := by
     by_contra h

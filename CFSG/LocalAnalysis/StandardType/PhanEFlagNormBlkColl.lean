@@ -42,11 +42,13 @@ private theorem q2cFNC_sg_ne_one (hK : Nat.card K = (2 ^ f) ^ 2) :
   intro h
   exact ha (by simpa using congrArg (fun φ : K ≃+* K => φ a) h)
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNC_glLin_inv_apply (e : GL (Fin n) K) (v : Fin n → K) :
     glLin e⁻¹ (glLin e v) = v := by
   rw [glLin_apply, glLin_apply, Matrix.mulVec_mulVec, ← Matrix.GeneralLinearGroup.coe_mul,
     inv_mul_cancel e, Matrix.GeneralLinearGroup.coe_one, Matrix.one_mulVec]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNC_map_blkIn_map_of {b : ℕ} {e : GL (Fin n) K}
     {F : (Fin (blockSize d b) → K) →ₗ[K] (Fin (blockSize d b) → K)}
     (he : ∀ w, glLin e (blkIn n d b w) = blkIn n d b (F w))
@@ -61,6 +63,7 @@ private theorem q2cFNC_map_blkIn_map_of {b : ℕ} {e : GL (Fin n) K}
   · rintro ⟨y, ⟨w, hw, rfl⟩, rfl⟩
     exact ⟨blkIn n d b w, Submodule.mem_map_of_mem hw, he w⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNC_map_symm_map {b : ℕ}
     (E : (Fin (blockSize d b) → K) ≃ₗ[K] (Fin (blockSize d b) → K))
     (U : Submodule K (Fin (blockSize d b) → K)) :
@@ -106,7 +109,7 @@ private theorem q2cFNC_block_invol (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n
     omega
   have hy_mem : flagPsi hK hd pol x ∈ refSet K n d := flagPsi_mem hK hd pol hx
   have hyE : (flagPsi hK hd pol x).E (d.getD b 0 + s') = sgS K f n X := by
-    rw [flagPsi_E hK hd pol hx hb hs'_le, psiSub, if_neg (by rw [hpol]; simp),
+    rw [flagPsi_E hK hd pol hx hb hs'_le, psiSub, ite_eq_right (by rw [hpol]; simp),
       ← hj, hxE]
   have hw_mem : flagAct M (flagPsi hK hd pol x) ∈ refSet K n d :=
     StabV.flagAct_mem_refSet hM hy_mem
@@ -117,7 +120,7 @@ private theorem q2cFNC_block_invol (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n
   have hzE : (flagPsi hK hd pol (flagAct M (flagPsi hK hd pol x))).E
       (d.getD b 0 + s') =
       sgS K f n ((sgS K f n X).map (glLin M).toLinearMap) := by
-    rw [flagPsi_E hK hd pol hw_mem hb hs'_le, psiSub, if_neg (by rw [hpol]; simp), hwE]
+    rw [flagPsi_E hK hd pol hw_mem hb hs'_le, psiSub, ite_eq_right (by rw [hpol]; simp), hwE]
   have hfin : (sgS K f n ((sgS K f n X).map (glLin M).toLinearMap)).map
       (glLin M).toLinearMap = X := by
     have h : (flagAct M (flagPsi hK hd pol (flagAct M (flagPsi hK hd pol x)))).E

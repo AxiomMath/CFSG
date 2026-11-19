@@ -87,16 +87,16 @@ theorem en_csOf {vp ir rm : ℕ} (htab : tabCheckWith vp ir rm = true) {p v : �
 theorem dl_eq (i j : ℕ) : dl i j = if i = j then 1 else 0 := by
   unfold dl
   cases h : Nat.beq i j
-  · rw [if_neg (Nat.ne_of_beq_eq_false h)]
-  · rw [if_pos (Nat.eq_of_beq_eq_true h)]
+  · rw [ite_eq_right (Nat.ne_of_beq_eq_false h)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true h)]
 
 theorem dl_cast {r s : ℕ} (hr : r < 6) (hs : s < 6) :
     ((dl r s : ℕ) : ℤ) =
       (1 : Matrix (Fin Tag.E6.rank) (Fin Tag.E6.rank) ℤ) ⟨r, hr⟩ ⟨s, hs⟩ := by
   rw [dl_eq, Matrix.one_apply]
   by_cases h : r = s
-  · rw [if_pos h, if_pos (Fin.ext h), Nat.cast_one]
-  · rw [if_neg h, if_neg (fun h' => h (congrArg Fin.val h')), Nat.cast_zero]
+  · rw [ite_eq_left h, ite_eq_left (Fin.ext h), Nat.cast_one]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (congrArg Fin.val h')), Nat.cast_zero]
 
 theorem okN_spec {P N : ℕ} (h : okN P N = true) :
     (P : ℤ) - N ∈ ({1, -1, 2, -2} : Finset ℤ) := by
@@ -272,9 +272,9 @@ theorem rho_entry (i j : Fin Tag.E6.rank) :
     rhoMatrix i j = if (i : ℕ) = wkRho.getD j 0 then 1 else 0 := by
   rw [wkRho_getD', rhoMatrix, Matrix.of_apply]
   by_cases h : i = TwistTag.E6.perm j
-  · rw [if_pos (congrArg Fin.val h), if_pos ((Equiv.eq_symm_apply e6Rho).2 h.symm)]
-  · rw [if_neg (fun h' => h (Fin.ext h')),
-      if_neg (fun h' => h ((Equiv.eq_symm_apply e6Rho).1 h').symm)]
+  · rw [ite_eq_left (congrArg Fin.val h), ite_eq_left ((Equiv.eq_symm_apply e6Rho).2 h.symm)]
+  · rw [ite_eq_right (fun h' => h (Fin.ext h')),
+      ite_eq_right (fun h' => h ((Equiv.eq_symm_apply e6Rho).1 h').symm)]
 
 theorem exists_negRho {vp ir rm : ℕ}
     (htab : tabCheckWith vp ir rm = true) {ω : List ℕ} (h : w0Check vp ir ω = true) :

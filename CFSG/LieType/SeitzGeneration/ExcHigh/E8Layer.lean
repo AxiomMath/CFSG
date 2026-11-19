@@ -82,7 +82,7 @@ variable {G : Type*} [Group G]
 
 theorem isElemAbelian_zpowers' {p : ℕ} [Fact p.Prime] {x : G} (hx : orderOf x = p) :
     IsElemAbelian p (Subgroup.zpowers x) :=
-  ⟨inferInstance, fun y hy => orderOf_dvd_iff_pow_eq_one.1 (hx ▸ orderOf_dvd_of_mem_zpowers hy)⟩
+  ⟨inferInstance, fun _y hy => orderOf_dvd_iff_pow_eq_one.1 (hx ▸ orderOf_dvd_of_mem_zpowers hy)⟩
 
 theorem disjoint_zpowers_of_not_mem {p : ℕ} [hp : Fact p.Prime] {x : G}
     (hx : orderOf x = p)
@@ -96,7 +96,7 @@ theorem disjoint_zpowers_of_not_mem {p : ℕ} [hp : Fact p.Prime] {x : G}
     · exact absurd (orderOf_eq_one_iff.1 h) hg1
     · exact h
   have heq : Subgroup.zpowers g = Subgroup.zpowers x := by
-    haveI : Finite (Subgroup.zpowers x) :=
+    have : Finite (Subgroup.zpowers x) :=
       Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hx]; exact hp.out.ne_zero)
     refine Subgroup.eq_of_le_of_card_ge ?_ ?_
     · exact Subgroup.zpowers_le.2 hg
@@ -112,7 +112,7 @@ theorem commute_zpowers_of {x : G} {P : Subgroup G} (hc : ∀ l ∈ P, x * l = l
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 ha
   exact ((Commute.zpow_left (show Commute x l from hc l hl) n).symm).eq
 
-theorem not_mem_of_card_center {p : ℕ} [hp : Fact p.Prime] {x : G} (hx : orderOf x = p)
+theorem not_mem_of_card_center {p : ℕ} [_hp : Fact p.Prime] {x : G} (hx : orderOf x = p)
     {P : Subgroup G} (hc : ∀ l ∈ P, x * l = l * x) (hcard : ¬ p ∣ Nat.card (Subgroup.center ↥P)) :
     x ∉ P := by
   intro hxP
@@ -216,7 +216,7 @@ theorem exists_orderOf_SL3 (K : Type) [Field K] [Finite K] {p : ℕ} [Fact p.Pri
     (hdvd : p ∣ Nat.card K ^ 3 - 1) :
     ∃ a : Matrix.SpecialLinearGroup (Fin 3) K, orderOf a = p := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hK : 2 ≤ Fintype.card K := by
     have h := Finite.one_lt_card (α := K)
     rw [Nat.card_eq_fintype_card] at h
@@ -370,7 +370,7 @@ theorem e8sup_range : Set.range e8Sup = e8support13 := by
     · exact Or.inl rfl
     · exact Or.inr rfl
   · intro hi
-    simp only [e8support13, e8Index, Set.mem_insert_iff, Set.mem_singleton_iff] at hi
+    simp only [e8support13, e8Index] at hi
     rcases hi with rfl | rfl
     · exact ⟨0, rfl⟩
     · exact ⟨1, rfl⟩
@@ -397,7 +397,7 @@ theorem e8E6_layer_adjoint (q : PrimePower) (p : ℕ) [hp : Fact p.Prime] (h7 : 
       ∃ π : ↥P →* Cat ⟨.E6 q, LieTypeIndex.valid_E6 q⟩, Function.Surjective π ∧
         Nat.card π.ker ∣ 3 ∧ (∀ z : ↥P, π z = 1 → z ∈ Subgroup.center ↥P) := by
   classical
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hadm : StatedLieAdmissible .E6 0 q.p q.exponent := ⟨q.prime_p, q.exponent_pos, rfl⟩
   obtain ⟨Ψ, hker, hrange, hqs, hLM⟩ := e8E6_frame q.p q.exponent hadm hK
   have hMq := Group.isPerfect_def.1
@@ -510,13 +510,13 @@ theorem mem_center_of_equiv_symm' {A B : Type*} [Group A] [Group B] (e : A ≃* 
 
 theorem e8E6LayerInput_proved : CFSG.LieType.SeitzGeneration.ExcHigh.E8E6LayerInput := by
   intro q hv p hp h7 _hpq hord
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hqpos : 0 < q.card := by
     rw [PrimePower.card_def]
     exact pow_pos q.prime_p.pos _
   have hdvd : p ∣ q.card ^ 3 - 1 := by
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     have h3 : ((q.card ^ 3 - 1 : ℕ) : ZMod p) = 0 := by
       rw [Nat.cast_sub (Nat.one_le_pow _ _ hqpos), Nat.cast_pow, Nat.cast_one, sub_eq_zero]
       have h := pow_orderOf_eq_one ((q.card : ℕ) : ZMod p)

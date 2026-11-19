@@ -93,7 +93,7 @@ private theorem core_aux {K : Type} [Group K] [Finite K] {q : ℕ} (hq : q.Prime
     4 ≤ CFSG.Open.pRank q (⊤ : Subgroup K) ∧ ∃ P0 : Subgroup K,
       Nat.card P0 = q ^ (Nat.card K).factorization q ∧ coreIn q 3 P0 ⊤ = ⊤ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let _ : Fintype O := Fintype.ofFinite O
   choose x hxL hxo hxn using fun L : O => hx L.1 L.2
   have hcx : ∀ i j : O, i ≠ j → Commute (x i) (x j) := fun i j hij =>
@@ -143,7 +143,7 @@ private theorem core_aux {K : Type} [Group K] [Finite K] {q : ℕ} (hq : q.Prime
   have hEr : (Finset.univ : Finset O).card ≤ CFSG.Open.pRank q (⊤ : Subgroup K) :=
     CFSG.SectionRank.le_pRank hq.one_lt le_top hEel hEc
   refine ⟨hcardO.trans hEr, ?_⟩
-  haveI : M.Normal := hMn
+  have : M.Normal := hMn
   obtain ⟨S0, hS0⟩ := (hEel.isPGroup.of_equiv
     (Subgroup.subgroupOfEquivOfLe hEM).symm).exists_le_sylow
   set Q0 : Subgroup K := (S0 : Subgroup ↥M).map M.subtype
@@ -151,7 +151,7 @@ private theorem core_aux {K : Type} [Group K] [Finite K] {q : ℕ} (hq : q.Prime
     ⟨⟨e, hEM he⟩, hS0 (Subgroup.mem_subgroupOf.2 he), rfl⟩
   have hfr : (⊤ : Subgroup K) ≤ M ⊔ Subgroup.normalizer (Q0 : Set K) := by
     rw [sup_comm, Sylow.normalizer_sup_eq_top S0]
-  obtain ⟨P0, hQ0P0⟩ := (S0.isPGroup'.map M.subtype).exists_le_sylow
+  obtain ⟨P0, hQ0P0⟩ := (S0.isPGroup.map M.subtype).exists_le_sylow
   refine ⟨P0, Sylow.card_eq_multiplicity P0, top_le_iff.1 ?_⟩
   have hr0 : 3 ≤ CFSG.Open.pRank q Q0 :=
     (by omega : 3 ≤ (Finset.univ : Finset O).card).trans
@@ -188,9 +188,9 @@ theorem core_comps {K : Type} [Group K] [Finite K] {q : ℕ} (hq : q.Prime) (O :
     (hconj : ∀ k : K, ∀ L ∈ O, GLBConj k L ∈ O) (hcard : 4 ≤ Nat.card O)
     (hx : ∀ L ∈ O, ∃ x ∈ L, orderOf x = q ∧ ∃ y ∈ L, x * y ≠ y * x)
     (hcomm : ∀ L ∈ O, ∀ L' ∈ O, L ≠ L' → ∀ a ∈ L, ∀ b ∈ L', a * b = b * a)
-    (P : Subgroup K) (hP : IsPGroup q P) (hPc : Nat.card P = q ^ (Nat.card K).factorization q) :
+    (P : Subgroup K) (_hP : IsPGroup q P) (hPc : Nat.card P = q ^ (Nat.card K).factorization q) :
     CFSG.HardMathSupport.Solomon.Coordinator.coreIn q 3 P ⊤ = ⊤ ∧ 4 ≤ CFSG.Open.pRank q P := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨hr4, P0, hP0c, h0⟩ := core_aux hq O hconj hcard hx hcomm
   let S0 : Sylow q K := Sylow.ofCard P0 hP0c
   let S1 : Sylow q K := Sylow.ofCard P hPc

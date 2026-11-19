@@ -170,7 +170,7 @@ theorem commutator_lBarA_le (hA : CFSG.Assembly.IsElemAbelian 3 A)
       rw [← hx, ← hy, ← map_mul, ← map_mul]
       congr 1
       exact hA.1.is_comm.comm x y
-  haveI := hcomm
+  have := hcomm
   exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
     (lBar_sup_range_aBar hK hAN hAH)
 

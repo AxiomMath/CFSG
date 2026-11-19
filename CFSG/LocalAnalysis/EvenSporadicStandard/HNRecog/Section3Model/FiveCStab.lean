@@ -15,16 +15,16 @@ theorem isNonsplitDoubleCoverOfS5_inf_Gx {G : Type} [Group G] {y c : G} (hy : y 
     (hS : Nat.card ↥(Gx y ⊓ Gx c) = 240) : IsNonsplitDoubleCoverOfS5 ↥(Gx y ⊓ Gx c) := by
   have hXcard : Nat.card ↥(Gx (y * c)) = 1200 := IsShapeCentralizerFiveC.card_eq hX
   obtain ⟨Y, hYgrp, hYns, ⟨e⟩⟩ := hX
-  letI : Group Y := hYgrp
+  let : Group Y := hYgrp
   set S : Subgroup G := Gx y ⊓ Gx c with hSdef
   have hScard : Nat.card ↥S = 240 := by rw [hSdef]; exact hS
-  haveI : Finite ↥(Gx (y * c)) := Nat.finite_of_card_ne_zero (by rw [hXcard]; norm_num)
+  have : Finite ↥(Gx (y * c)) := Nat.finite_of_card_ne_zero (by rw [hXcard]; norm_num)
   have hYcard : Nat.card Y = 240 := by
     have he : Nat.card ↥(Gx (y * c)) = Nat.card (Multiplicative (ZMod 5) × Y) :=
       Nat.card_congr e.toEquiv
     rw [Nat.card_prod, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod] at he
     omega
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by rw [hYcard]; norm_num)
+  have : Finite Y := Nat.finite_of_card_ne_zero (by rw [hYcard]; norm_num)
   have hSX : S ≤ Gx (y * c) := by
     intro s hs
     rw [hSdef, Subgroup.mem_inf] at hs
@@ -55,7 +55,7 @@ theorem isNonsplitDoubleCoverOfS5_inf_Gx {G : Type} [Group G] {y c : G} (hy : y 
     simpa [Prod.snd_mul] using h3
   have hYnsKeep : IsNonsplitDoubleCoverOfS5 Y := hYns
   obtain ⟨Z, hZn, hZcard, ⟨isoQ⟩, hnsplit⟩ := hYns
-  haveI : Z.Normal := hZn
+  have : Z.Normal := hZn
   let q : Y →* Y ⧸ Z := QuotientGroup.mk' Z
   let φ : Y →* Equiv.Perm (Fin 5) := isoQ.toMonoidHom.comp q
   have hφcen : ∀ g : Y, φ γ * φ g = φ g * φ γ := by
@@ -76,7 +76,7 @@ theorem isNonsplitDoubleCoverOfS5_inf_Gx {G : Type} [Group G] {y c : G} (hy : y 
   have hx5 : (y * c) ^ 5 = 1 := by rw [← hx]; exact pow_orderOf_eq_one (y * c)
   have hx'5 : x' ^ 5 = 1 := by
     apply Subtype.ext
-    simpa [x', GxSelf, hx5]
+    simp [x', GxSelf, hx5]
   have hγ5 : γ ^ 5 = 1 := by
     change (π x') ^ 5 = 1
     rw [← map_pow, hx'5, map_one]

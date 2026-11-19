@@ -54,7 +54,7 @@ private theorem isSylowOf_top_of_isSylowOf_normalizer [Finite X] {p : ℕ} [Fact
   have hPS' : P = (S : Subgroup X) := by
     by_contra hne
     have hlt : P < (S : Subgroup X) := lt_of_le_of_ne hPS hne
-    have : Group.IsNilpotent (S : Subgroup X) := S.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (S : Subgroup X) := S.isPGroup.isNilpotent
     have hlt' : P.subgroupOf S < ⊤ := by
       rw [lt_top_iff_ne_top, Ne, Subgroup.subgroupOf_eq_top]
       exact fun h => hne (le_antisymm hPS h)
@@ -65,7 +65,7 @@ private theorem isSylowOf_top_of_isSylowOf_normalizer [Finite X] {p : ℕ} [Fact
     have hsP : (s : X) ∉ P := hs2
     have heq : (S : Subgroup X) ⊓ Subgroup.normalizer (P : Set X) = P :=
       hP.eq_of_le (le_inf hPS Subgroup.le_normalizer) inf_le_right
-        (S.isPGroup'.to_le inf_le_left)
+        (S.isPGroup.to_le inf_le_left)
     exact hsP (by rw [← heq]; exact ⟨s.2, hsN⟩)
   rw [isSylowOf_iff]
   refine ⟨le_top, hP.isPGroup, ?_⟩

@@ -15,11 +15,11 @@ open scoped commutatorElement
 theorem card_dvd_or_eq_of_normal_prod {A B Ω : Type} [Group A] [Group B] [Group Ω] [Finite A]
     [Finite B] [IsSimpleGroup Ω] [IsSimpleGroup B] {P : Subgroup (A × B)} (hP : P.Normal)
     (e : ↥P ≃* Ω) : Nat.card Ω ∣ Nat.card A ∨ Nat.card Ω = Nat.card B := by
-  haveI : IsSimpleGroup ↥P := e.isSimpleGroup
+  have : IsSimpleGroup ↥P := e.isSimpleGroup
   let π₂ : ↥P →* B := (MonoidHom.snd A B).comp P.subtype
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal π₂.ker with h | h
   · have hinj : Function.Injective π₂ := (MonoidHom.ker_eq_bot_iff π₂).mp h
-    haveI hn : π₂.range.Normal := by
+    have hn : π₂.range.Normal := by
       rw [MonoidHom.range_comp, Subgroup.range_subtype]
       exact hP.map _ fun b => ⟨(1, b), rfl⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal π₂.range with h' | h'
@@ -59,7 +59,7 @@ theorem dichotomy {X R : Type} [Group X] [Group R] (N₀ : Subgroup R) [N₀.Nor
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     exact (Subgroup.mem_normalizer_iff.mp (hNS (hPM (s r).2)) _).mp hx
   have hNT : N₀ ≤ T := fun x hx => hQS ((hsQ x).mpr hx)
-  haveI : (T.map (QuotientGroup.mk' N₀)).Normal := hT.map _ (QuotientGroup.mk'_surjective N₀)
+  have : (T.map (QuotientGroup.mk' N₀)).Normal := hT.map _ (QuotientGroup.mk'_surjective N₀)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T.map (QuotientGroup.mk' N₀)) with h | h
   · left
     have hTN : T ≤ N₀ := by

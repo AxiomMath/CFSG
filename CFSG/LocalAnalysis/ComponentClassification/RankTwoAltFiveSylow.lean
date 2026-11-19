@@ -97,7 +97,7 @@ theorem sylow_of_eps_one (hGold : Asc76X.GoldschmidtTheoremA) (hGs : IsSimpleGro
       normalizer ((S : Subgroup G) : Set G) ≤ normalizer (P : Set G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hε' : IsSylowOf 2 P (normalizer ((R ⊔ T : Subgroup G) : Set G)) := hε
-  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hPS' : P < S := lt_of_le_of_ne hPS (h.P_not_sylow hP hPC hGold hGs hIIa hP64 hVP S).symm
   obtain ⟨S₂, hS₂⟩ : ∃ S₂ : Subgroup G, (S : Subgroup G) ⊓ normalizer (P : Set G) = S₂ :=
     ⟨_, rfl⟩

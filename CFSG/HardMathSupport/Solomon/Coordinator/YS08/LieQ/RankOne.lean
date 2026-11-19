@@ -20,13 +20,13 @@ theorem radRigid_of_stronglyEmbedded (hs : IsSimpleGroup X)
       fusionStronglyEmbedded (Subgroup.normalizer ((T : Subgroup X) : Set X)) ∧
         Nat.card (Sylow 2 X) = Nat.card (T : Subgroup X) + 1)
     (hBT : HoldsTits X 2) : RadRigid 2 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro R hR α hfix hord
   obtain ⟨h0, hp, hc, hnt⟩ := hR
   obtain ⟨-, -, -, -, -, U, hUN⟩ := canonical_parabolic_tits hBT h0 hp
   rw [radInf_eq_of_pCoreOf hc] at hUN
   have hRU : R ≤ (U : Subgroup X) := by
-    have hsup : IsPGroup 2 ↥(R ⊔ (U : Subgroup X)) := hp.to_sup_of_normal_left' U.isPGroup' hUN
+    have hsup : IsPGroup 2 ↥(R ⊔ (U : Subgroup X)) := hp.to_sup_of_normal_left' U.isPGroup hUN
     have h1 : R ⊔ (U : Subgroup X) = (U : Subgroup X) := U.maximal_isPGroup.eq_of_ge hsup le_sup_right
     exact h1 ▸ le_sup_left
   obtain ⟨r0, hr0, hr01⟩ : ∃ r ∈ R, r ≠ 1 := (Subgroup.bot_or_exists_ne_one R).resolve_left h0
@@ -44,7 +44,7 @@ theorem radRigid_of_stronglyEmbedded (hs : IsSimpleGroup X)
   have hRUeq : R = (U : Subgroup X) := by
     refine le_antisymm hRU ?_
     have hUle : (U : Subgroup X) ≤ pCoreOf 2 (Subgroup.normalizer (R : Set X)) := by
-      refine le_pCoreOf 2 hUN ?_ U.isPGroup'
+      refine le_pCoreOf 2 hUN ?_ U.isPGroup
       rw [Subgroup.normal_subgroupOf_iff_le_normalizer hUN]
       exact hNR
     rw [hc] at hUle
@@ -84,14 +84,14 @@ theorem radRigid_of_stronglyEmbedded (hs : IsSimpleGroup X)
         eq_one_of_mem_normalizer (hX U).1 hPU (U.1.pow_mem hu₀ _)
           (Sylow.smul_eq_iff_mem_normalizer.mp hm)
       have hu₀1 : u₀ = 1 := by
-        refine eq_one_of_mem_pGroup_of_coprime U.isPGroup' hu₀ ?_
+        refine eq_one_of_mem_pGroup_of_coprime U.isPGroup hu₀ ?_
         exact Nat.Coprime.coprime_dvd_left (orderOf_dvd_of_pow_eq_one hm1) hord
       rw [← hu₀P, hu₀1, one_smul]
   obtain ⟨K, hK⟩ : ∃ K : Subgroup X, K = (MulAction.toPermHom X (Sylow 2 X)).ker := ⟨_, rfl⟩
   have hKmem : ∀ g, g ∈ K ↔ ∀ P : Sylow 2 X, g • P = P := fun g => by
     rw [hK, MonoidHom.mem_ker, Equiv.ext_iff]
     simp [MulAction.toPermHom_apply, MulAction.toPerm_apply]
-  haveI hKn : K.Normal := by rw [hK]; infer_instance
+  have hKn : K.Normal := by rw [hK]; infer_instance
   have hKtop : K ≠ ⊤ := by
     intro htop
     apply (hX U).1.1

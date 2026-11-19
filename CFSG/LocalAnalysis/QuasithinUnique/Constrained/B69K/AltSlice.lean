@@ -28,7 +28,7 @@ theorem center_eq_bot_of_alt {L : Type} [Group L] [Finite L] (hL : CFSG.Open.IsQ
     Subgroup.center L = ⊥ := by
   obtain ⟨m', rfl⟩ : ∃ m', m = m' + 2 := ⟨m - 2, by omega⟩
   obtain ⟨e⟩ := hAlt
-  haveI : Group.IsPerfect L := ⟨hL.1⟩
+  have : Group.IsPerfect L := ⟨hL.1⟩
   let η : L →* alternatingGroup (Fin (m' + 2)) :=
     e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center L))
   have hηs : Function.Surjective η := e.surjective.comp (QuotientGroup.mk'_surjective _)
@@ -97,6 +97,7 @@ theorem realizesVia_of_mulEquiv {E : FFModel} (hE : E.ker = ⊥) {V : Type*} [Co
     apply Subtype.ext
     rw [hΦ, h1]
 
+omit [Finite S] in
 theorem realizesVia_symDn_of_data (D : AltNatData G Lt hLG m) (hodd : Odd m)
     (hsurj : Function.Surjective D.θ) :
     ∃ πG : Equiv.Perm (Fin m) →* ↥G, Function.Injective πG ∧ (∀ σ, D.θ (πG σ) = σ) ∧

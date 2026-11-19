@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   ∀ g ∈ M, ∀ u ∈ Z0, u ∉ Q → g * u * g⁻¹ ∈ Z0 →
     g ∈ Subgroup.normalizer (Z0 : Set G)
 
+omit [Finite G] in
 theorem isTI_bar_Z0_mbar [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ} {t : G}
     (hs : Sec7Hyp hc n t) {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
@@ -78,6 +79,7 @@ theorem isTI_bar_Z0_mbar [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ} 
       rw [CFSG.GroupTheory.map_conjSubgroup, hsub]
     rw [hmbar, inf_idem]
 
+omit [Finite G] in
 theorem isTI_bar_Z0 [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ} {t : G}
     (hs : Sec7Hyp hc n t) {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)

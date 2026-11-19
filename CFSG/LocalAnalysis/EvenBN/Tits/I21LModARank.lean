@@ -20,7 +20,7 @@ variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
 theorem modA_rk_involution_two (B : A6Base J a) {M : Submodule (ZMod 2) V}
     (hM : finrank (ZMod 2) M = 4) (sM : ∀ g ∈ J, Stable g M) (g : J) (hg2 : g * g = 1)
     (hg1 : g ≠ 1) : rk (modA_resJ J M sM g) = 2 := by
-  haveI := modA_finite B
+  have := modA_finite B
   obtain ⟨e⟩ := B.iso
   have hinj := modA_resJ_injective B hM sM
   set r := modA_resJ J M sM
@@ -48,7 +48,7 @@ theorem modA_rk_involution_two (B : A6Base J a) {M : Submodule (ZMod 2) V}
   have hu5 : (u₁ * u₂) ^ 5 = 1 :=
     e.injective (by rw [map_pow, map_mul, hu₁, hu₂, h5, map_one])
   have hu51 : u₁ * u₂ ≠ 1 := fun h => h51 (by rw [← hu₁, ← hu₂, ← map_mul, h, map_one])
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hord : orderOf (r u₁ * r u₂) = 5 := by
     rw [← map_mul]
     apply orderOf_eq_prime

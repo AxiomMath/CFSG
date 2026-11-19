@@ -71,7 +71,7 @@ public theorem free_apply_freeBasis_pair
   (K G alpha : Type*) [Field K] [Group G] (g h : G) (a : alpha) :
     free K G alpha g (freeBasis K G alpha (a, h)) =
       freeBasis K G alpha (a, g * h) := by
-  convert free_apply_freeBasis K G alpha g (a, h) using 1 <;> rfl
+  convert free_apply_freeBasis K G alpha g (a, h) using 1
 
 
 /-- A representation equivalent to a finite-rank free representation has a

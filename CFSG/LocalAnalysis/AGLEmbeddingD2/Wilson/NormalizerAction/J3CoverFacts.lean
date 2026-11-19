@@ -39,6 +39,7 @@ include h
     (Subgroup.closure (Set.range (xB k))) :=
   basisEquiv h.x_pow h.x_comm h.basisProd_injective
 
+omit [Finite X] in
 theorem conjMat_gen (i : Fin 6) (hi : k i ∈ normalizer (Subgroup.closure (Set.range (xB k)) : Set X)) :
     conjMat h.bEq ⟨k i, hi⟩ = actMat i := by
   have := rho_basis_eq (x := xB k) (hx := h.x_pow) (hc := h.x_comm) (hinj := h.basisProd_injective)

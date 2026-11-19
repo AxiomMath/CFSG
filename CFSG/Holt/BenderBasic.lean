@@ -273,7 +273,7 @@ theorem exists_sylow_le_stabilizer [Finite K] [Finite Ω] (h : IsBenderNormal Ω
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := h.isPretransitive
   obtain ⟨Q₀⟩ : Nonempty (Sylow 2 N) := inferInstance
-  obtain ⟨ω₀, hω₀⟩ := fixSet_nonempty_of_odd h.odd_card Q₀.isPGroup'
+  obtain ⟨ω₀, hω₀⟩ := fixSet_nonempty_of_odd h.odd_card Q₀.isPGroup
   obtain ⟨n, rfl⟩ := exists_smul_eq N ω₀ ω
   refine ⟨n • Q₀, fun x hx => ?_⟩
   have hx' := hω₀ _ (mem_smul_sylow_iff.mp hx)
@@ -302,13 +302,13 @@ theorem le_of_isPGroup [Finite K] (h : IsBenderNormal Ω N q i) {P : Subgroup K}
 
 theorem card_sylow [Finite K] (h : IsBenderNormal Ω N q i) (S : Sylow 2 K) :
     Nat.card (S : Subgroup K) = q ^ i := by
-  have hSN := h.le_of_isPGroup S.isPGroup'
+  have hSN := h.le_of_isPGroup S.isPGroup
   rw [← (h.benderBorel (S.subtype hSN)).2.2.2.2, Sylow.coe_subtype]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSN).toEquiv.symm
 
 theorem card_center_sylow [Finite K] (h : IsBenderNormal Ω N q i) (S : Sylow 2 K) :
     Nat.card (Subgroup.center (S : Subgroup K)) = q := by
-  have hSN := h.le_of_isPGroup S.isPGroup'
+  have hSN := h.le_of_isPGroup S.isPGroup
   rw [← (h.benderBorel (S.subtype hSN)).2.2.2.1, Sylow.coe_subtype]
   exact Nat.card_congr (Subgroup.centerCongr (Subgroup.subgroupOfEquivOfLe hSN)).toEquiv.symm
 

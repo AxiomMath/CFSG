@@ -53,7 +53,7 @@ theorem map_conj_star (A : Subgroup G) {h : G} (hh : h ∈ H) :
     refine (mem_star_iff (A := A.map (MulAut.conj h).toMonoidHom) (y := y)).mpr
       ⟨hH * a' * hH⁻¹, ?_, ?_⟩
     · rw [Subgroup.mem_map]
-      exact ⟨(a' : G), ha'A, by simp [MulAut.conj_apply, MulEquiv.coe_toMonoidHom, hH]⟩
+      exact ⟨(a' : G), ha'A, by simp [MulAut.conj_apply, hH]⟩
     · rw [map_mul, map_mul, map_inv]
       simpa only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] using hay
   · intro hy
@@ -90,8 +90,8 @@ theorem star_le_centralizer {A B : Subgroup G} (h : A ≤ centralizer (B : Set G
   rw [← map_mul, ← map_mul, hcomm']
 
 theorem isCyclic_star {A : Subgroup G} (hA : IsCyclic ↥A) : IsCyclic ↥(star H A) := by
-  haveI : IsCyclic ↥A := hA
-  haveI hcyc : IsCyclic ↥(A.subgroupOf H) :=
+  have : IsCyclic ↥A := hA
+  have hcyc : IsCyclic ↥(A.subgroupOf H) :=
     isCyclic_of_injective
       { toFun := fun x => (⟨(x.1 : G), Subgroup.mem_subgroupOf.mp x.2⟩ : A)
         map_one' := rfl

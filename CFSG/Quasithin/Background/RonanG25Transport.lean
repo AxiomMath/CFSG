@@ -116,7 +116,7 @@ theorem ModStep.chiefStep {N : AddSubgroup E}
 
 theorem ModNatural.factorNatural {N : AddSubgroup E}
     (hN : ∀ e, e ∈ N ↔ ∃ y, φ y = Multiplicative.ofAdd e) (hE : Equivariant X B φ act)
-    {M₁ M₂ : AddSubgroup E} (hs : ModStep act M₁ M₂) (hn : ModNatural F act M₁ M₂)
+    {M₁ M₂ : AddSubgroup E} (_hs : ModStep act M₁ M₂) (hn : ModNatural F act M₁ M₂)
     (hM₂ : M₂ ≤ N) : FactorNatural F X (pre B φ M₁) (pre B φ M₂) := by
   obtain ⟨c, β, hsurj, hker, hequiv, h4, h5⟩ := hn
   let φ' : ↥(pre B φ M₂) →* Multiplicative (Fin 2 → F) :=

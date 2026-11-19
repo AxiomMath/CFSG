@@ -13,16 +13,19 @@ variable {W : Type} [CommGroup W] [Finite W]
 
 variable {A Q O : Subgroup (MulAut W)} {t : MulAut W}
 
+omit [Finite W] in
 private theorem w16n_map_mul (U : Subgroup W) (g h : MulAut W) :
     (U.map g.toMonoidHom).map h.toMonoidHom = U.map (h * g).toMonoidHom := by
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite W] in
 private theorem w16n_map_one (U : Subgroup W) :
     U.map (1 : MulAut W).toMonoidHom = U := by
   have hone : (1 : MulAut W).toMonoidHom = MonoidHom.id W := by ext x; rfl
   rw [hone, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w16n_map_conj_inv (U : Subgroup (MulAut W)) (g : MulAut W) :
     (U.map (MulAut.conj g⁻¹).toMonoidHom).map (MulAut.conj g).toMonoidHom = U := by
   rw [Subgroup.map_map]
@@ -32,6 +35,7 @@ private theorem w16n_map_conj_inv (U : Subgroup (MulAut W)) (g : MulAut W) :
     simp [MulAut.conj_apply]
   rw [h, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w16n_conj_mem_centSub_map_iff (U : Subgroup W) (g : MulAut W) (y : MulAut W) :
     g * y * g⁻¹ ∈ centSub (U.map g.toMonoidHom) ↔ y ∈ centSub U := by
   rw [mem_centSub, mem_centSub]
@@ -47,8 +51,9 @@ private theorem w16n_conj_mem_centSub_map_iff (U : Subgroup W) (g : MulAut W) (y
     have hv' : y v = v := hh v hv
     simp [MulAut.mul_apply, hv']
 
+omit [Finite W] in
 private theorem w16n_kerOn_map_eq (h : HNon A Q O t) {x : MulAut W} (hxO : x ∈ O)
-    {U : Subgroup W} (hU : U ∈ s13IsoComps Q) :
+    {U : Subgroup W} (_hU : U ∈ s13IsoComps Q) :
     s13KerOn Q (U.map x.toMonoidHom) = (s13KerOn Q U).map (MulAut.conj x).toMonoidHom := by
   ext z
   constructor
@@ -164,6 +169,7 @@ private theorem w16n_map_fix_all (h : HNon A Q O t) {y : MulAut W} (hy3 : y ^ 3 
   · exact hall.2.1
   · exact hall.2.2
 
+omit [Finite W] in
 private theorem w16n_commutator_le_left (h : HNon A Q O t) {g : MulAut W} (hg : g ∈ A) :
     ⁅Q, Q.map (MulAut.conj g).toMonoidHom⁆ ≤ Q := by
   rw [Subgroup.commutator_le]
@@ -174,6 +180,7 @@ private theorem w16n_commutator_le_left (h : HNon A Q O t) {g : MulAut W} (hg : 
   rw [show a * b * a⁻¹ * b⁻¹ = a * (b * a⁻¹ * b⁻¹) by group]
   exact Q.mul_mem ha hb'
 
+omit [Finite W] in
 private theorem w16n_commutator_le_right (h : HNon A Q O t) {g : MulAut W} (hg : g ∈ A) :
     ⁅Q, Q.map (MulAut.conj g).toMonoidHom⁆ ≤ Q.map (MulAut.conj g).toMonoidHom := by
   rw [Subgroup.commutator_le]
@@ -185,7 +192,8 @@ private theorem w16n_commutator_le_right (h : HNon A Q O t) {g : MulAut W} (hg :
   exact (Q.map (MulAut.conj g).toMonoidHom).mul_mem hab
     ((Q.map (MulAut.conj g).toMonoidHom).inv_mem hb)
 
-private theorem w16n_exists_zpowers_comm_ne_bot (h : HNon A Q O t) {g : MulAut W} (hg : g ∈ A)
+omit [Finite W] in
+private theorem w16n_exists_zpowers_comm_ne_bot (_h : HNon A Q O t) {g : MulAut W} (_hg : g ∈ A)
     (hcomm : ⁅Q, Q.map (MulAut.conj g).toMonoidHom⁆ ≠ ⊥) :
     ∃ y ∈ Q.map (MulAut.conj g).toMonoidHom, ⁅Q, Subgroup.zpowers y⁆ ≠ ⊥ := by
   by_contra hcon
@@ -394,9 +402,9 @@ theorem w16n_rk_commSub_top_Q (h : HNon A Q O t) : rk ↥(commSub ⊤ Q) = 6 := 
       exact le_bot_iff.mp hle
   rw [rk_commSub_top_eq_sum h.hW hp3 hp32 h.hQe le_rfl, hsupp]
   classical
-  haveI : Finite (Subgroup W) :=
+  have : Finite (Subgroup W) :=
     Finite.of_injective (fun S : Subgroup W => (S : Set W)) SetLike.coe_injective
-  haveI : Fintype {U : Subgroup W // U ∈ s13IsoComps Q} := Fintype.ofFinite _
+  have : Fintype {U : Subgroup W // U ∈ s13IsoComps Q} := Fintype.ofFinite _
   rw [← finsum_subtype_eq_finsum_cond, finsum_eq_sum_of_fintype]
   have hrk : ∀ U ∈ s13IsoComps Q, rk ↥U = 2 := (w16n_shape_aux h).2.2.1
   have hcardN : Nat.card {U : Subgroup W // U ∈ s13IsoComps Q} = 3 := by

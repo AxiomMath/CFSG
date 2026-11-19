@@ -54,6 +54,7 @@ section Theta
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
 
+omit [Finite G] in
 theorem caseATheta_injOn_stab (L1 L2 S : Subgroup G) (v : f112Gamma L1 L2 S) :
     Set.InjOn (caseATheta L1 L2 S) (CosetGeom.stab v : Set (f112Amalgam L1 L2 S).Ghat) := by
   cases hv : CosetGeom.vtype v with
@@ -80,6 +81,7 @@ theorem caseA_finite_stab (L1 L2 S : Subgroup G) (v : f112Gamma L1 L2 S) :
   intro x y hxy
   exact Subtype.ext (caseATheta_injOn_stab L1 L2 S v x.2 y.2 hxy)
 
+omit [Finite G] in
 theorem caseATheta_map_stab_γ₀ (L1 L2 S : Subgroup G) :
     (CosetGeom.stab (f112Gamma0 L1 L2 S)).map (caseATheta L1 L2 S) = P1 L1 L2 S := by
   apply le_antisymm
@@ -99,6 +101,7 @@ theorem caseATheta_map_stab_γ₀ (L1 L2 S : Subgroup G) :
     · rw [← coe_f112StabEquiv0_caseATheta]
       exact congrArg Subtype.val ((f112StabEquiv0 L1 L2 S).apply_symm_apply ⟨p, hp⟩)
 
+omit [Finite G] in
 theorem caseATheta_map_stab_γ₁ (L1 L2 S : Subgroup G) :
     (CosetGeom.stab (f112Gamma1 L1 L2 S)).map (caseATheta L1 L2 S) = P2 L1 L2 S := by
   apply le_antisymm
@@ -139,6 +142,7 @@ theorem caseATheta_map_stab_inf {a : ℕ}
   · rintro ⟨hz1, hz2⟩
     exact ⟨_, ⟨⟨z, hz1, hz2⟩, rfl⟩, rfl⟩
 
+omit [Finite G] in
 theorem caseATheta_map_Qy_γ₀ (L1 L2 S : Subgroup G) :
     (CosetGeom.Qy (f112Gamma0 L1 L2 S)).map (caseATheta L1 L2 S) = Q1 L1 L2 S := by
   apply le_antisymm
@@ -163,6 +167,7 @@ theorem caseATheta_map_Qy_γ₀ (L1 L2 S : Subgroup G) :
     · rw [← coe_f112StabEquiv0_caseATheta]
       exact hh
 
+omit [Finite G] in
 theorem caseATheta_map_Qy_γ₁ (L1 L2 S : Subgroup G) :
     (CosetGeom.Qy (f112Gamma1 L1 L2 S)).map (caseATheta L1 L2 S) = Q2 L1 L2 S := by
   apply le_antisymm
@@ -187,6 +192,7 @@ theorem caseATheta_map_Qy_γ₁ (L1 L2 S : Subgroup G) :
     · rw [← coe_f112StabEquiv1_caseATheta]
       exact hh
 
+omit [Finite G] in
 theorem caseATheta_map_Z_γ₀ (L1 L2 S : Subgroup G) :
     (caseAZ (f112Gamma0 L1 L2 S)).map (caseATheta L1 L2 S) = Z1 L1 L2 S := by
   apply le_antisymm
@@ -263,6 +269,7 @@ theorem caseATheta_map_S {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) :
   change (pCoreOf 2 P).map (caseATheta L1 L2 S) = S
   exact hpc.symm
 
+omit [Finite G] in
 private theorem thetac_caseALhat_γ₀_eq_conjClosure :
     caseALhat (f112Gamma0 L1 L2 S) =
       conjClosure (caseAS (f112Gamma0 L1 L2 S) (f112Gamma1 L1 L2 S))
@@ -318,6 +325,7 @@ private theorem thetac_caseALhat_γ₀_eq_conjClosure :
     rw [← hS] at h1
     exact hle h1
 
+omit [Finite G] in
 private theorem thetac_conjClosure_P1_eq {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) :
     conjClosure S (P1 L1 L2 S) = conjClosure S (L1 ⊔ S) := by
   apply le_antisymm
@@ -373,6 +381,7 @@ theorem caseATheta_map_Lhat_γ₀ {a : ℕ}
     thetac_conjClosure_P1_eq hfr]
   exact thetac_conjClosure_S_sup_left hfr
 
+omit [Finite G] in
 private theorem thetac_conjClosure_P2_eq {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) :
     conjClosure S (P2 L1 L2 S) = conjClosure S (L2 ⊔ S) := by
   apply le_antisymm
@@ -418,6 +427,7 @@ private theorem thetac_conjClosure_S_sup_right {a : ℕ}
   rw [sup_eq_left.mpr hQK] at hsup
   exact hsup
 
+omit [Finite G] in
 private theorem thetac_caseALhat_γ₁_eq_conjClosure :
     caseALhat (f112Gamma1 L1 L2 S) =
       conjClosure (caseAS (f112Gamma1 L1 L2 S) (f112Gamma0 L1 L2 S))
@@ -488,6 +498,7 @@ private noncomputable def thetad_conj (g : f112Acting L1 L2 S) :
   (caseATheta L1 L2 S).comp
     (MulAut.conj (((g : (f112Amalgam L1 L2 S).Ghat))⁻¹)).toMonoidHom
 
+omit [Finite G] in
 private theorem thetad_map_conjSub (g : f112Acting L1 L2 S)
     (H : Subgroup (f112Amalgam L1 L2 S).Ghat) :
     (conjSub (g : (f112Amalgam L1 L2 S).Ghat) H).map (thetad_conj g) =
@@ -502,6 +513,7 @@ private theorem thetad_map_conjSub (g : f112Acting L1 L2 S)
     group
   rw [conjSub, Subgroup.map_map, hcomp]
 
+omit [Finite G] in
 private theorem thetad_injOn_conjSub (g : f112Acting L1 L2 S)
     {H : Subgroup (f112Amalgam L1 L2 S).Ghat}
     (h : Set.InjOn (caseATheta L1 L2 S)
@@ -612,6 +624,7 @@ theorem caseA_exists_chart_edge
     rw [hb] at hbtrue
     exact absurd hbtrue Bool.false_ne_true
 
+omit [Finite G] in
 theorem caseA_stab_sup_stab_eq_top {α β : f112Gamma L1 L2 S} (hβ : β ∈ CosetGeom.nbrs α) :
     CosetGeom.stab α ⊔ CosetGeom.stab β = ⊤ := by
   have hβadj : (f112Amalgam L1 L2 S).graphHat.Adj α β := by simpa [CosetGeom.nbrs] using hβ
@@ -627,7 +640,7 @@ theorem caseA_stab_sup_stab_eq_top {α β : f112Gamma L1 L2 S} (hβ : β ∈ Cos
     rw [e1, e2, ← conjSub_sup]
     generalize hgc : (g : (f112Amalgam L1 L2 S).Ghat) = gc
     rw [caseA_stab_γ₀ L1 L2 S, caseA_stab_γ₁ L1 L2 S, htop]
-    exact (by simpa [conjSub] using Subgroup.map_equiv_top (MulAut.conj gc))
+    exact (by simp [conjSub])
   · have e1 : CosetGeom.stab β =
         conjSub (g : (f112Amalgam L1 L2 S).Ghat) (CosetGeom.stab (f112Gamma0 L1 L2 S)) := by
       rw [← hg.1, CosetGeom.stab_smul]
@@ -637,8 +650,9 @@ theorem caseA_stab_sup_stab_eq_top {α β : f112Gamma L1 L2 S} (hβ : β ∈ Cos
     rw [sup_comm, e1, e2, ← conjSub_sup]
     generalize hgc : (g : (f112Amalgam L1 L2 S).Ghat) = gc
     rw [caseA_stab_γ₀ L1 L2 S, caseA_stab_γ₁ L1 L2 S, htop]
-    exact (by simpa [conjSub] using Subgroup.map_equiv_top (MulAut.conj gc))
+    exact (by simp [conjSub])
 
+omit [Finite G] in
 private theorem thetac_exists_smul_eq_of_vtype_eq {u v : f112Gamma L1 L2 S}
     (h : CosetGeom.vtype u = CosetGeom.vtype v) :
     ∃ g : f112Acting L1 L2 S, g • u = v := by

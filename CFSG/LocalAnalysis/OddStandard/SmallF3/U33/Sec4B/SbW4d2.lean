@@ -17,7 +17,7 @@ theorem w4_V_comm (hc : Ctx0 t L S x₁ x₂ lam rho) {u v : G} (hu : u ∈ four
   have hVA : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
     rw [(hc.wreath.fourGrp_eq_omega).1]
     exact (Subgroup.closure_le (K := baseGrp x₁ x₂)).mpr (fun a ha => ha.1)
-  haveI : IsMulCommutative (baseGrp x₁ x₂) := hc.wreath.baseGrp_eq.1
+  have : IsMulCommutative (baseGrp x₁ x₂) := hc.wreath.baseGrp_eq.1
   exact congrArg Subtype.val (mul_comm' (⟨u, hVA hu⟩ : baseGrp x₁ x₂) ⟨v, hVA hv⟩)
 
 theorem w4_rho_t (hc : Ctx4 t L S x₁ x₂ lam rho tau) : rho * t = t * rho :=
@@ -31,6 +31,7 @@ theorem w4_conj_t_mem (hc : W4Ctx0 t L S x₁ x₂ lam rho tau) {g : G}
   rw [← hc.tM]
   exact ⟨g, hg, rfl⟩
 
+omit [Finite G] in
 private lemma w4_mul_inv_eq {t u v : G} (h : v = t * u) : v * u⁻¹ = t := by
   rw [h]; group
 

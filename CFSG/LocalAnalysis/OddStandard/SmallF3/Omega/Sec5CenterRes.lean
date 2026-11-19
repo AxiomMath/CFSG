@@ -45,11 +45,11 @@ theorem sec5_twoPrimeRes_eq_self [Finite G] {X : Subgroup G} (hX : IsQuasisimple
     (h2 : 2 ∣ Nat.card (X ⧸ center X)) : twoPrimeRes X = X := by
   have hOpen : CFSG.Open.IsQuasisimple ↥X := ⟨Group.isPerfect_def.mp hX.1, hX.2.1⟩
   refine le_antisymm (sec5_twoPrimeRes_le X) ?_
-  haveI : ((twoPrimeRes X).subgroupOf X).Normal := sec5_twoPrimeRes_subgroupOf_normal X
+  have : ((twoPrimeRes X).subgroupOf X).Normal := sec5_twoPrimeRes_subgroupOf_normal X
   rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hOpen
     ((twoPrimeRes X).subgroupOf X) with hle | htop
   · exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨xbar, hxbar⟩ := exists_prime_orderOf_dvd_card'
       (G := ↥X ⧸ Subgroup.center ↥X) 2 h2
     let q : ↥X →* (↥X ⧸ Subgroup.center ↥X) := QuotientGroup.mk' (Subgroup.center ↥X)

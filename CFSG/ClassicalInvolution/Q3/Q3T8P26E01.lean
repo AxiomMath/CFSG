@@ -53,7 +53,7 @@ theorem omegaNbr_linkFam_iff (hΨ : HypOmegaMod Ψ) {J K : Subgroup X}
         hJ.1 hR hRJ
     exact ⟨hJ, hne, R, mem_RSet_of_isSylow2In hJ hsyl, hRJ, hRN⟩
 
-theorem link_path (hΨ : HypOmegaMod Ψ) (hk : ∀ g : X, conjSub g k = k)
+theorem link_path (hΨ : HypOmegaMod Ψ) (_hk : ∀ g : X, conjSub g k = k)
     (hconn : DConnected (restrictFamily (linkFam Ψ k) (linkGen Ψ k))) {B₀ B : Subgroup X}
     (hB₀ : B₀ ∈ linkFam Ψ k) (hB : B ∈ linkFam Ψ k) :
     Relation.ReflTransGen

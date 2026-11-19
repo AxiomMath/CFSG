@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {Q : Type*} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 private theorem seven_eight_core_grp_map_subtype_top (X : Subgroup Q) :
     (⊤ : Subgroup ↥X).map X.subtype = X := by
   ext x
@@ -66,6 +67,7 @@ private theorem seven_eight_core_grp_mul_pow_of_commutator_central {G : Type*} [
       _ = x ^ (n + 1) * y ^ n * (y * z ^ (n + t)) := by rw [hzyt.eq]
       _ = x ^ (n + 1) * y ^ (n + 1) * z ^ (t + n) := by rw [pow_succ, add_comm n t]; group
 
+omit [Finite Q] in
 private theorem seven_eight_core_grp_conj_commutator_inv {v y : Q} (hv2 : v * v = 1) :
     v * ⁅y, v⁆ * v⁻¹ = (⁅y, v⁆)⁻¹ := by
   have hvinv : v⁻¹ = v := inv_eq_of_mul_eq_one_right hv2
@@ -75,12 +77,14 @@ private theorem seven_eight_core_grp_conj_commutator_inv {v y : Q} (hv2 : v * v 
       _ = v * y * v * y⁻¹ := by rw [hv2, mul_one]
   rw [commutatorElement_inv, commutatorElement_def, hvinv, hmain, commutatorElement_def, hvinv]
 
+omit [Finite Q] in
 private theorem seven_eight_core_grp_map_conj_eq_self {Z : Subgroup Q} {l : Q}
     (hl : l ∈ Subgroup.normalizer (Z : Set Q)) :
     Z.map (MulAut.conj l) = Z := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hl
   exact hl
 
+omit [Finite Q] in
 private theorem seven_eight_core_grp_normalizer_le_normalizer_map {M : Subgroup Q}
     (K : Subgroup M) [K.Characteristic] :
     Subgroup.normalizer (M : Set Q) ≤ Subgroup.normalizer (K.map M.subtype : Set Q) := by
@@ -100,6 +104,7 @@ private theorem seven_eight_core_grp_normalizer_le_normalizer_map {M : Subgroup 
   have := key g⁻¹ (inv_mem hg) _ hx
   simpa [mul_assoc] using this
 
+omit [Finite Q] in
 private theorem seven_eight_core_grp_commutator_conj (Z : Subgroup Q) (v l : Q)
     (hl : l ∈ Subgroup.normalizer (Z : Set Q)) :
     ⁅Z, Subgroup.zpowers (l * v * l⁻¹)⁆ =
@@ -112,6 +117,7 @@ private theorem seven_eight_core_grp_commutator_conj (Z : Subgroup Q) (v l : Q)
 private def seven_eight_core_grp_fam (Lb Xb : Subgroup Q) (v : Q) : Lb → Subgroup Q :=
   fun l => ⁅Xb, Subgroup.zpowers (((l : Lb) : Q) * v * (((l : Lb) : Q))⁻¹)⁆
 
+omit [Finite Q] in
 private theorem seven_eight_core_grp_commutator_conj_Lb {Lb X : Subgroup Q} {v : Q}
     (hn : Lb ≤ Subgroup.normalizer (X : Set Q)) {l' : Q} (hl' : l' ∈ Lb) (l : Lb) :
     (seven_eight_core_grp_fam Lb X v l).map (MulAut.conj l') =
@@ -124,9 +130,10 @@ private theorem seven_eight_core_grp_commutator_conj_Lb {Lb X : Subgroup Q} {v :
     (v := ((l : Lb) : Q) * v * (((l : Lb) : Q))⁻¹) (l := l') (hn hl')]
   rw [show (((⟨l', hl'⟩ * l : Lb) : Q) * v * (((⟨l', hl'⟩ * l : Lb) : Q))⁻¹) =
       l' * (((l : Lb) : Q) * v * (((l : Lb) : Q))⁻¹) * l'⁻¹ from by
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_mul]
     group]
 
+omit [Finite Q] in
 private theorem seven_eight_core_grp_le_normalizer_commutator (H : Subgroup Q) :
     H ≤ Subgroup.normalizer (⁅H, H⁆ : Subgroup Q) := by
   intro x hx
@@ -134,11 +141,13 @@ private theorem seven_eight_core_grp_le_normalizer_commutator (H : Subgroup Q) :
   rw [Subgroup.map_commutator,
     seven_eight_core_grp_map_conj_eq_self (Z := H) (Subgroup.le_normalizer hx)]
 
+omit [Finite Q] in
 private theorem seven_eight_core_grp_commutator_commutator_le (H : Subgroup Q) :
     ⁅⁅H, H⁆, H⁆ ≤ ⁅H, H⁆ :=
   (Subgroup.le_normalizer_iff_commutator_le_left (H := H) (K := ⁅H, H⁆)).mp
     (seven_eight_core_grp_le_normalizer_commutator H)
 
+omit [Finite Q] in
 private theorem seven_eight_core_grp_commutator_zpowers_eq_bot_iff (Z : Subgroup Q) (v : Q) :
     ⁅Z, Subgroup.zpowers v⁆ = ⊥ ↔ ∀ z ∈ Z, v * z = z * v := by
   constructor
@@ -176,6 +185,7 @@ theorem exists_isMinCommInvariant_le {Lb Nb : Subgroup Q} {v : Q}
     exact Subgroup.card_lt_of_lt hZ
   exact Nat.find_min hex hlt ⟨Zb, hZ.le.trans hXb_le, hZn, hZne, rfl⟩
 
+omit [Finite Q] in
 theorem IsMinCommInvariant.commutator_conj_eq_bot {Lb Xb : Subgroup Q} {v : Q}
     (h : IsMinCommInvariant Lb Xb v) {Zb : Subgroup Q} (hZ : Zb < Xb)
     (hZn : Lb ≤ Subgroup.normalizer (Zb : Set Q)) {l : Q} (hl : l ∈ Lb) :
@@ -183,6 +193,7 @@ theorem IsMinCommInvariant.commutator_conj_eq_bot {Lb Xb : Subgroup Q} {v : Q}
   rw [seven_eight_core_grp_commutator_conj Zb v l (hZn hl), h.minimal Zb hZ hZn,
     Subgroup.map_bot]
 
+omit [Finite Q] in
 theorem IsMinCommInvariant.commutator_conj_ne_bot {Lb Xb : Subgroup Q} {v : Q}
     (h : IsMinCommInvariant Lb Xb v) {l : Q} (hl : l ∈ Lb) :
     ⁅Xb, Subgroup.zpowers (l * v * l⁻¹)⁆ ≠ ⊥ := by
@@ -254,7 +265,7 @@ theorem IsMinCommInvariant.exists_prime_isPGroup {Lb Xb : Subgroup Q} {v : Q}
     refine ⟨p.1.1, Nat.prime_of_mem_primeFactors p.1.2, ?_, ?_⟩
     · intro h2
       exact hodd.not_two_dvd_nat (h2 ▸ Nat.dvd_of_mem_primeFactors p.1.2)
-    · haveI : Fact p.1.1.Prime := ⟨Nat.prime_of_mem_primeFactors p.1.2⟩
+    · have : Fact p.1.1.Prime := ⟨Nat.prime_of_mem_primeFactors p.1.2⟩
       have h1 : IsPGroup p.1.1 (⊤ : Subgroup ↥Xb) :=
         hp_top ▸ (CFSG.pCore_isPGroup : IsPGroup p.1.1 (CFSG.pCore p.1.1 ↥Xb))
       exact h1.of_equiv Subgroup.topEquiv
@@ -284,9 +295,9 @@ theorem IsMinCommInvariant.conj_mem_centralizer_commutator {Lb Xb : Subgroup Q} 
   have hXb_ne : Xb ≠ ⊥ := by
     intro hbot
     exact h.ne_bot (by rw [hbot]; simp)
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Nontrivial ↥Xb := (Subgroup.nontrivial_iff_ne_bot Xb).mpr hXb_ne
-  haveI : Group.IsNilpotent ↥Xb := hX.isNilpotent
+  have : Fact p.Prime := ⟨hp⟩
+  have : Nontrivial ↥Xb := (Subgroup.nontrivial_iff_ne_bot Xb).mpr hXb_ne
+  have : Group.IsNilpotent ↥Xb := hX.isNilpotent
   have hcomm : _root_.commutator ↥Xb < ⊤ :=
     Group.IsSolvable.commutator_lt_top_of_nontrivial ↥Xb
   have hDlt : ⁅Xb, Xb⁆ < Xb := by
@@ -307,6 +318,7 @@ theorem IsMinCommInvariant.conj_mem_centralizer_commutator {Lb Xb : Subgroup Q} 
   exact ((Subgroup.mem_centralizer_iff.mp (hDw hd)) (l * v * l⁻¹)
     (Subgroup.mem_zpowers _)).symm
 
+omit [Finite Q] in
 private theorem seven_eight_core_grp_T_le {Lb Xb : Subgroup Q} {v : Q}
     (h : IsMinCommInvariant Lb Xb v) (hv : v ∈ Lb) :
     (⨆ l : Lb, seven_eight_core_grp_fam Lb Xb v l) ≤ Xb := by
@@ -326,8 +338,9 @@ private theorem seven_eight_core_grp_T_le {Lb Xb : Subgroup Q} {v : Q}
   rw [this]
   exact Xb.mul_mem ha hmem
 
+omit [Finite Q] in
 private theorem seven_eight_core_grp_T_normalizer {Lb Xb : Subgroup Q} {v : Q}
-    (h : IsMinCommInvariant Lb Xb v) (hv : v ∈ Lb) :
+    (h : IsMinCommInvariant Lb Xb v) (_hv : v ∈ Lb) :
     Lb ≤ Subgroup.normalizer
       (((⨆ l : Lb, seven_eight_core_grp_fam Lb Xb v l) : Subgroup Q) : Set Q) := by
   intro l' hl'
@@ -350,7 +363,7 @@ private theorem seven_eight_core_grp_T_eq {Lb Xb : Subgroup Q} {v : Q}
     (hp : p.Prime) (hp2 : p ≠ 2) (hX : IsPGroup p Xb) :
     (⨆ l : Lb, seven_eight_core_grp_fam Lb Xb v l) = Xb := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hoddX : Odd (Nat.card Xb) := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hX
     rw [hn]
@@ -388,14 +401,14 @@ private theorem seven_eight_core_grp_commutator_central {Lb Xb : Subgroup Q} {v 
     (hp : p.Prime) (hp2 : p ≠ 2) (hX : IsPGroup p Xb) :
     Xb ≤ Subgroup.centralizer ((⁅Xb, Xb⁆ : Subgroup Q) : Set Q) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hXb_ne : Xb ≠ ⊥ := by
     intro hbot
     exact h.ne_bot (by rw [hbot]; simp)
   have hTeq := seven_eight_core_grp_T_eq h hv hv2 hp hp2 hX
   have hDlt : ⁅Xb, Xb⁆ < Xb := by
-    haveI : Nontrivial ↥Xb := (Subgroup.nontrivial_iff_ne_bot Xb).mpr hXb_ne
-    haveI : Group.IsNilpotent ↥Xb := hX.isNilpotent
+    have : Nontrivial ↥Xb := (Subgroup.nontrivial_iff_ne_bot Xb).mpr hXb_ne
+    have : Group.IsNilpotent ↥Xb := hX.isNilpotent
     have hcomm : _root_.commutator ↥Xb < ⊤ :=
       Group.IsSolvable.commutator_lt_top_of_nontrivial ↥Xb
     have hh := (Subgroup.map_subtype_lt_map_subtype (G' := Xb)
@@ -449,12 +462,13 @@ theorem IsMinCommInvariant.commutator_commutator_eq_one {Lb Xb : Subgroup Q} {v 
   exact commutatorElement_eq_one_iff_mul_comm.mpr
     ((Subgroup.mem_centralizer_iff.mp hzD) ⁅x, y⁆ hmem)
 
+omit [Finite Q] in
 theorem IsMinCommInvariant.pow_eq_one {Lb Xb : Subgroup Q} {v : Q}
     (h : IsMinCommInvariant Lb Xb v) (hv : v ∈ Lb) (hv2 : v * v = 1) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hX : IsPGroup p Xb) (hcl : ∀ x ∈ Xb, ∀ y ∈ Xb, ∀ z ∈ Xb, ⁅⁅x, y⁆, z⁆ = 1) :
     ∀ x ∈ Xb, x ^ p = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Ω : Subgroup Q :=
     { carrier := {x | x ∈ Xb ∧ x ^ p = 1},
       mul_mem' := fun {x y} hx hy => by

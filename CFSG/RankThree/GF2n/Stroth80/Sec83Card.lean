@@ -43,7 +43,6 @@ theorem card_mul_card_of_isChiIso {G : Type} [Group G] [Finite G] {Q R K₀ U T�
       ∀ x : Q, χ x = QuotientGroup.mk (ch x) := by
     refine ⟨MonoidHom.mk' (fun x : Q => QuotientGroup.mk (ch x)) ?_, fun x => rfl⟩
     intro x y
-    try dsimp only
     rw [← QuotientGroup.mk_mul]
     refine QuotientGroup.eq.2 (hnorm (ch x * ch y) (ch (x * y)) ?_)
     simp only [hch, Subgroup.coe_mul]
@@ -84,7 +83,7 @@ theorem card_of_naturalRep {G : Type} [Group G] [Finite G] {ι : Type} [Fintype 
     (h : NaturalRep K X R V Z N) (hZV : Z ≤ V) (hK : Nat.card K = Nat.card Z) :
     Nat.card V = Nat.card Z * Nat.card Z ^ Fintype.card ι := by
   obtain ⟨φ, -, -, -, hN, ψ, -⟩ := h
-  haveI := hN
+  have := hN
   have hcardQ : Nat.card (↥V ⧸ Z.subgroupOf V) = Nat.card Z ^ Fintype.card ι := by
     rw [Nat.card_congr ψ.toEquiv,
       show Nat.card (Multiplicative (ι → K)) = Nat.card (ι → K) from rfl,
@@ -107,7 +106,7 @@ theorem card_inf_mul_card_map {G H : Type*} [Group G] [Group H] [Finite G] {R N 
         Subgroup.mem_subgroupOf.mp (x : ↥(L.subgroupOf R)).2
       have h2 : ((x : ↥(L.subgroupOf R)) : ↥R) ∈ φ.ker := by
         have := x.2
-        rwa [MonoidHom.mem_ker] at this ⊢
+        rw [MonoidHom.mem_ker] at this ⊢; assumption
       rw [hker] at h2
       exact ⟨h1, Subgroup.mem_subgroupOf.mp h2⟩
     · intro x y hxy

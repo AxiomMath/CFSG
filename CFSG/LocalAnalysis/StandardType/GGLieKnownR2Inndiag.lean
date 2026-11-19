@@ -40,7 +40,7 @@ theorem twInndiagAut_two_mem_inner
     (ha : a ∈ LayerSixE.twInndiagAut f) {n : ℕ} (h2 : a ^ (2 ^ n) = 1) :
     a ∈ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)) →*
       MulAut ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))).range := by
-  haveI : (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))
+  have : (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))
       →* MulAut ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
         (frobQ 2 f))).range.Normal := by
     refine ⟨fun x ⟨g, hg⟩ y => ⟨y g, ?_⟩⟩

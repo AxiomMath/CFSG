@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem burnsideB610_Jj_zero (H : Subgroup G) :
     CFSG.ASVolI.ChB.Jj H 0 = thompsonJ H := by
   unfold CFSG.ASVolI.ChB.Jj
-  rw [if_pos (Nat.zero_le _), CFSG.higherElemThompson_zero,
+  rw [ite_eq_left (Nat.zero_le _), CFSG.higherElemThompson_zero,
     CFSG.Quasithin.elemThompson_map_subtype_eq_thompsonJ]
 
 theorem burnsideB610_baumOf_eq (H : Subgroup G) :

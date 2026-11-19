@@ -17,6 +17,7 @@ variable {K Y : Type} [Group K] [Finite K] [Group Y] [Finite Y] {D : UniversalRo
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* Y}
   {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite Y] in
 theorem iSup_torus_le_rankOne {M : ℕ} (h : BorelQuotient D n H π M) {s : Fin D.rank}
     (hall : ∀ k, k ≠ s → Nat.card (rankOne D.rootGroup k) = 6 ∧
       ∃ a ∈ rankOne D.rootGroup k, ∃ b ∈ rankOne D.rootGroup k, a * b ≠ b * a) :

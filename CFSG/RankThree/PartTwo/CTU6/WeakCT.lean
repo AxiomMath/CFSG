@@ -175,7 +175,7 @@ theorem weakCT_unitary_six_even (hf : 2 ≤ f) {X : Type} [Group X] (U : Fin 3 �
         ∀ g : D.rootGroup (-Pi.single k 1), φ (E.preimage g) = (nd k).ψm g := by
     intro i j hij
     fin_cases i <;> fin_cases j <;>
-      first | (exfalso; revert hij; simp [Fin.le_def]; done) | skip
+      try (exfalso; revert hij; simp [Fin.le_def]; done)
     · exact exists_levi_node hdiv hCTG nd P0 (rS0_injective hσ)
     ·
       obtain ⟨ψ, hψ0, hψ1⟩ := hρSψ 0 1 rfl

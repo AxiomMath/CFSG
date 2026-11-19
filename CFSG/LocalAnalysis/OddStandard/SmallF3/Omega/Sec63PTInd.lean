@@ -90,10 +90,10 @@ theorem sec63PT_oddCore_le_center {A P : Type} [Group A] [Finite A] [Group P] [N
     (hq : IsQuasisimple A) (e : A ⧸ oddCore A ≃* P) : oddCore A ≤ center A := by
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hq (oddCore_normal (G := A)) with h | h
   · exfalso
-    haveI : Subsingleton (A ⧸ oddCore A) := by
+    have : Subsingleton (A ⧸ oddCore A) := by
       rw [h]
       exact QuotientGroup.subsingleton_quotient_top
-    haveI : Subsingleton P := e.toEquiv.symm.subsingleton
+    have : Subsingleton P := e.toEquiv.symm.subsingleton
     exact absurd (inferInstance : Nontrivial P)
       (not_nontrivial_iff_subsingleton.mpr (inferInstance : Subsingleton P))
   · exact h

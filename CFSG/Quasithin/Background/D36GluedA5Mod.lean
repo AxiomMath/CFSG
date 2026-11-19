@@ -12,10 +12,10 @@ variable {M : Type} [CommGroup M]
   carrier := {x | φ x = x}
   one_mem' := map_one φ
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 theorem mem_fixSub {φ : MulAut M} {x : M} : x ∈ fixSub φ ↔ φ x = x := Iff.rfl
@@ -71,7 +71,7 @@ theorem card_fixedPoints_modEq' {α : Type} [Finite α] (p : ℕ) [Fact p.Prime]
     (σ : Equiv.Perm α) (hσ : σ ^ p = 1) :
     Nat.card α ≡ Nat.card {x // σ x = x} [MOD p] := by
   classical
-  haveI := Fintype.ofFinite α
+  have := Fintype.ofFinite α
   have h := Equiv.Perm.card_compl_support_modEq (p := p) (n := 1) (σ := σ) (by rwa [pow_one])
   have e : (σ.supportᶜ : Finset α).card = Nat.card {x // σ x = x} := by
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
@@ -128,10 +128,10 @@ theorem exists_ne_one_of_two_le_card {S : Subgroup M} (h : 2 ≤ Nat.card S) : �
   omega
 
 theorem card_fixSub_inf_le_two [Finite M] (hM : ∀ x : M, x ^ 2 = 1) (hcard : Nat.card M = 16)
-    {b l g : MulAut M} (hb2 : b * b = 1) (hb1 : b ≠ 1) (hl2 : l * l = 1) (hg3 : g ^ 3 = 1)
+    {b l g : MulAut M} (hb2 : b * b = 1) (hb1 : b ≠ 1) (_hl2 : l * l = 1) (hg3 : g ^ 3 = 1)
     (hgfix : ∀ x : M, g x = x → x = 1) (hbg : b * g = g * b) (hbl : b * l = l * b)
     (hlg : l * g * l = g⁻¹) : Nat.card ↥(fixSub b ⊓ fixSub l) ≤ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hbg' : ∀ x : M, b (g x) = g (b x) := fun x => by
     have := congrArg (fun ψ : MulAut M => ψ x) hbg
     simpa [MulAut.mul_apply] using this
@@ -206,7 +206,7 @@ theorem card_fixSub_inf_le_two [Finite M] (hM : ∀ x : M, x ^ 2 = 1) (hcard : N
 theorem exists_fixed_of_two [Finite M] (hM : ∀ x : M, x ^ 2 = 1) {l g : MulAut M}
     (hl2 : l * l = 1) (hlg : l * g * l = g⁻¹) (hne : ∃ x : M, g x = x ∧ x ≠ 1) :
     ∃ p : M, p ≠ 1 ∧ g p = p ∧ l p = p := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hl2' : l ^ 2 = 1 := by rw [pow_two]; exact hl2
   have hll : ∀ x : M, l (l x) = x := fun x => by
     have := congrArg (fun ψ : MulAut M => ψ x) hl2

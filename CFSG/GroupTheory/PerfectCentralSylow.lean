@@ -45,10 +45,10 @@ theorem commutatorElement_central_mul_right {y a b : E} (hy : y ∈ Subgroup.cen
 theorem eq_bot_of_sylow_complement [Finite E] (hE : Group.IsPerfect E) {Y A : Subgroup E}
     (hY : Y ≤ Subgroup.center E) (hY2 : IsPGroup 2 Y) (hAY : A ⊓ Y = ⊥)
     (hsyl : IsPGroup 2 ↥(A ⊔ Y)) (hidx : ¬ 2 ∣ (A ⊔ Y).index) : Y = ⊥ := by
-  haveI : Y.Normal := Subgroup.normal_of_le_center hY
-  haveI : IsMulCommutative Y := ⟨⟨fun a b => Subtype.ext
+  have : Y.Normal := Subgroup.normal_of_le_center hY
+  have : IsMulCommutative Y := ⟨⟨fun a b => Subtype.ext
     ((Subgroup.mem_center_iff.mp (hY a.2)) b).symm⟩⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 E := hsyl.toSylow hidx
   have hP : (P : Subgroup E) = A ⊔ Y := rfl
   obtain ⟨K, hYK, hsup⟩ := (CFSG.Quasithin.gaschutz hY2 P).mpr
@@ -81,7 +81,7 @@ theorem eq_bot_or_lt_of_exponent_two [Finite E] (hE : Group.IsPerfect E) {Y : Su
   refine Or.inr fun A hAY hAel _ => ?_
   by_contra hge
   push Not at hge
-  haveI : Y.Normal := Subgroup.normal_of_le_center hY
+  have : Y.Normal := Subgroup.normal_of_le_center hY
   have hA2 : IsPGroup 2 A := isPGroup_two_of_sq_eq_one fun x hx => by
     simpa using hAel.2 x hx
   have hY2' : IsPGroup 2 Y := isPGroup_two_of_sq_eq_one hY2

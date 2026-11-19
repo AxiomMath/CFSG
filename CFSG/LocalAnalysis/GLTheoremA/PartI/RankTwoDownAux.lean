@@ -27,7 +27,7 @@ private theorem rtd_isSubnormal_top {T : Type} [Group T] [IsSimpleGroup T] {H K 
     rcases ih hK with hM | hM
     · exact Or.inl (le_bot_iff.1 (hM ▸ hle))
     · subst hM
-      haveI : H.Normal :=
+      have : H.Normal :=
         ⟨fun n hn' g => (Subgroup.normal_subgroupOf_iff le_top).1 hn n g hn' (Subgroup.mem_top g)⟩
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal H
 
@@ -53,13 +53,13 @@ theorem rtd_nonempty_pSimple_equiv_top {p : ℕ} (hp : p.Prime) {T : Type} [Grou
   have hq : CFSG.Open.IsQuasisimple (PQuot p (⊤ : Subgroup T)) :=
     isQuasisimple_pQuot_of_glaPComponent hp hI
   have hnt : Nontrivial (↥(⊤ : Subgroup T) ⧸ GLAPPrimeCore p ↥(⊤ : Subgroup T)) := by
-    haveI : Nontrivial (PQuot p (⊤ : Subgroup T) ⧸ Subgroup.center (PQuot p (⊤ : Subgroup T))) :=
+    have : Nontrivial (PQuot p (⊤ : Subgroup T) ⧸ Subgroup.center (PQuot p (⊤ : Subgroup T))) :=
       hq.2.toNontrivial
     exact (QuotientGroup.mk'_surjective
       (Subgroup.center (PQuot p (⊤ : Subgroup T)))).nontrivial
   have hOb : GLAPPrimeCore p ↥(⊤ : Subgroup T) = ⊥ := by
     let ψ : ↥(⊤ : Subgroup T) ≃* T := Subgroup.topEquiv
-    haveI : ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom).Normal :=
+    have : ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom).Normal :=
       Subgroup.Normal.map (GLAPPrimeCore.normal p _) ψ.toMonoidHom ψ.surjective
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom) with h | h
@@ -151,7 +151,7 @@ theorem rtd_nonempty_pSimple_equiv_quasisimple {Y : Type} [Group Y] [Finite Y] {
   have hnt : GLAPPrimeCore 3 ↥J ≠ ⊤ := by
     intro htop
     have e := QuotientGroup.quotientMulEquivOfEq htop
-    haveI : Subsingleton (↥J ⧸ (⊤ : Subgroup ↥J)) := QuotientGroup.subsingleton_quotient_top
+    have : Subsingleton (↥J ⧸ (⊤ : Subgroup ↥J)) := QuotientGroup.subsingleton_quotient_top
     have hsub : Subsingleton (PQuot 3 J) := e.toEquiv.subsingleton
     have hntriv : Nontrivial (PQuot 3 J) := by
       have := hQ.2.toNontrivial
@@ -179,7 +179,7 @@ theorem rtd_exists_pSimple_equiv_map {S S' : Type} [Group S] [Group S'] [Finite 
     (hI : GLAPComponent p (fixSubgroup α) I) :
     GLAPComponent p (fixSubgroup (MulAut.congr e α)) (I.map e.toMonoidHom) ∧
       Nonempty (PSimple p I ≃* PSimple p (I.map e.toMonoidHom)) := by
-  haveI : Finite S' := Finite.of_equiv S e.toEquiv
+  have : Finite S' := Finite.of_equiv S e.toEquiv
   have hfix : fixSubgroup (MulAut.congr e α) = (fixSubgroup α).map e.toMonoidHom := by
     ext y'
     rw [Subgroup.mem_map]
@@ -207,10 +207,10 @@ theorem rtd_exists_pSimple_equiv_map {S S' : Type} [Group S] [Group S'] [Finite 
 
 theorem rtd_kLevel_le_two {S : Type} [Group S] (h : catalogIs S (k2 3)) : kLevel 3 S ≤ 2 := by
   unfold kLevel
-  split_ifs <;> first | omega | exact absurd h ‹_›
+  split_ifs <;> first | omega
 
 theorem rtd_kLevel_le_three {S : Type} [Group S] (h : catalogIs S (k3 3)) : kLevel 3 S ≤ 3 := by
   unfold kLevel
-  split_ifs <;> first | omega | exact absurd h ‹_›
+  split_ifs <;> first | omega
 
 end CFSG.LocalAnalysis.GLTheoremA

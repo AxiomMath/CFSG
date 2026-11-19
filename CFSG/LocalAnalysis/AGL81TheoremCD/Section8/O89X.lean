@@ -27,6 +27,7 @@ section WeakClosure
 
 variable {H : Type*} [Group H] [Finite H]
 
+omit [Finite H] in
 private theorem card_sup_prime_of_coprime {A I : Subgroup H} (hI : I.Normal)
     (hA3 : Nat.card A = 3) (hAI : A ⊓ I = ⊥) :
     Nat.card ↥(A ⊔ I) = 3 * Nat.card I := by
@@ -50,13 +51,13 @@ private theorem factorization_three_card_sup {A I : Subgroup H} (hI : I.Normal)
       ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hI3), add_zero]
 
 private theorem sup_eq_of_le_sup_of_weaklyClosed {A N I : Subgroup H} (hI : I.Normal)
-    (hI3 : Nat.Coprime 3 (Nat.card I)) (hA3 : Nat.card A = 3) (hAI : A ⊓ I = ⊥)
+    (hI3 : Nat.Coprime 3 (Nat.card I)) (hA3 : Nat.card A = 3) (_hAI : A ⊓ I = ⊥)
     (hweak : ∀ g : H, A.map (MulAut.conj g).toMonoidHom ≤ N →
       A.map (MulAut.conj g).toMonoidHom = A)
     {g : H} (hg : A.map (MulAut.conj g).toMonoidHom ≤ I ⊔ N) :
     A.map (MulAut.conj g).toMonoidHom ⊔ I = A ⊔ I := by
   classical
-  haveI : I.Normal := hI
+  have : I.Normal := hI
   set B : Subgroup H := A.map (MulAut.conj g).toMonoidHom with hBdef
   have hB3 : Nat.card B = 3 := by
     rw [Subgroup.card_map_of_injective (MulAut.conj g).injective, hA3]
@@ -135,6 +136,7 @@ private theorem sup_eq_of_le_sup_of_weaklyClosed {A N I : Subgroup H} (hI : I.No
 
 end WeakClosure
 
+omit [Finite G] in
 private theorem normalClosureIn_subgroupOf_normal (L A : Subgroup G) :
     ((CFSG.Goldschmidt.normalClosureIn L A).subgroupOf L).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer
@@ -146,7 +148,7 @@ private theorem sup_pPrimeCore_eq_top_of_normalClosure {M H L A : Subgroup G}
     (CFSG.Goldschmidt.normalClosureIn L A).subgroupOf L ⊔
       CFSG.pPrimeCore 3 ↥L = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let J : Subgroup ↥L := (CFSG.Goldschmidt.normalClosureIn L A).subgroupOf L
   let O : Subgroup ↥L := CFSG.pPrimeCore 3 ↥L
   let θ : ↥L →* (↥L ⧸ O) := QuotientGroup.mk' O
@@ -177,7 +179,7 @@ private theorem sup_pPrimeCore_eq_top_of_normalClosure {M H L A : Subgroup G}
     rw [hbot] at hle
     exact hAq_ne (le_bot_iff.mp hle)
   have hJq_top : J.map θ = ⊤ := by
-    haveI : IsSimpleGroup (↥L ⧸ O) :=
+    have : IsSimpleGroup (↥L ⧸ O) :=
       CFSG.LocalAnalysis.RankThreeUC.S15.R1511C.isSimpleGroup_of_isLThreeTwoPow hL
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (J.map θ) with hbot | htop
     · exact absurd hbot hJq_ne
@@ -191,16 +193,16 @@ private theorem sup_pPrimeCore_eq_top_of_normalClosure {M H L A : Subgroup G}
   rw [hJKmap] at h
   simpa using h.symm
 
-private theorem coprime_index_normalClosure {M H L A : Subgroup G} (h : Hyp83 M H L A)
+private theorem coprime_index_normalClosure {M H L A : Subgroup G} (_h : Hyp83 M H L A)
     (hJO : (CFSG.Goldschmidt.normalClosureIn L A).subgroupOf L ⊔
       CFSG.pPrimeCore 3 ↥L = ⊤) :
     Nat.Coprime 3 ((CFSG.Goldschmidt.normalClosureIn L A).subgroupOf L).index := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let J : Subgroup ↥L := (CFSG.Goldschmidt.normalClosureIn L A).subgroupOf L
   let O : Subgroup ↥L := CFSG.pPrimeCore 3 ↥L
   have hJnorm : J.Normal := normalClosureIn_subgroupOf_normal L A
-  haveI : J.Normal := hJnorm
+  have : J.Normal := hJnorm
   let ψ : ↥O →* (↥L ⧸ J) := (QuotientGroup.mk' J).comp O.subtype
   have hψ : Function.Surjective ψ := by
     intro y
@@ -221,7 +223,7 @@ private theorem normalClosureIn_eq_of_isLThreeTwoPow {M H L A : Subgroup G}
     (h : Hyp83 M H L A) (hL : IsLThreeTwoPow (↥L ⧸ CFSG.pPrimeCore 3 ↥L)) :
     CFSG.Goldschmidt.normalClosureIn L A = L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let J : Subgroup ↥L := (CFSG.Goldschmidt.normalClosureIn L A).subgroupOf L
   have hJnorm : J.Normal := normalClosureIn_subgroupOf_normal L A
   have hJO : J ⊔ CFSG.pPrimeCore 3 ↥L = ⊤ := sup_pPrimeCore_eq_top_of_normalClosure h hL
@@ -232,7 +234,7 @@ private theorem normalClosureIn_eq_of_isLThreeTwoPow {M H L A : Subgroup G}
       (CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual_eq_top_of_pComponent 3
         (L.subgroupOf (H ⊓ M)) h.comp)
   have htop : J = ⊤ := by
-    haveI : J.Normal := hJnorm
+    have : J.Normal := hJnorm
     have hle :=
       CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual_le_normal_of_coprime_index
         (p := 3) J hcop
@@ -303,7 +305,7 @@ theorem weaklyClosed_quotient_pPrimeCore {M H L A : Subgroup G}
       (quotientImagePPrimeCore H A).map (MulAut.conj g).toMonoidHom =
         quotientImagePPrimeCore H A) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let I : Subgroup ↥H := CFSG.pPrimeCore 3 ↥H
   let A_H : Subgroup ↥H := A.subgroupOf H
   let N_H : Subgroup ↥H := (Subgroup.normalizer (A : Set G)).subgroupOf H
@@ -421,7 +423,7 @@ private theorem forall_conj_le_sup_pPrimeCore_of_le_normalizer {M H L A : Subgro
     ∀ l : ↥L, (A.subgroupOf L).map (MulAut.conj l).toMonoidHom ≤
       A.subgroupOf L ⊔ CFSG.pPrimeCore 3 ↥L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let I : Subgroup ↥H := CFSG.pPrimeCore 3 ↥H
   let π : ↥H →* (↥H ⧸ I) := QuotientGroup.mk' I
   let A_L : Subgroup ↥L := A.subgroupOf L
@@ -474,11 +476,11 @@ private theorem sup_pPrimeCore_eq_top_of_forall_conj_le {M H L A : Subgroup G}
       A.subgroupOf L ⊔ CFSG.pPrimeCore 3 ↥L) :
     A.subgroupOf L ⊔ CFSG.pPrimeCore 3 ↥L = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let A_L : Subgroup ↥L := A.subgroupOf L
   let O : Subgroup ↥L := CFSG.pPrimeCore 3 ↥L
   have hOmap : ∀ l : ↥L, O.map (MulAut.conj l).toMonoidHom = O := by
-    haveI : O.Normal := CFSG.pPrimeCore_normal
+    have : O.Normal := CFSG.pPrimeCore_normal
     intro l
     exact Subgroup.mem_normalizer_iff_map_conj_eq.mp (by
       rw [Subgroup.normalizer_eq_top]
@@ -515,7 +517,7 @@ private theorem sup_pPrimeCore_eq_top_of_forall_conj_le {M H L A : Subgroup G}
     have hcard : Nat.card A_L = 1 := by
       rw [← inf_eq_left.mpr hleO, hdisj, Subgroup.card_bot]
     omega
-  haveI : IsSimpleGroup (↥L ⧸ O) :=
+  have : IsSimpleGroup (↥L ⧸ O) :=
     CFSG.LocalAnalysis.RankThreeUC.S15.R1511C.isSimpleGroup_of_isLThreeTwoPow hL
   have hAtop : A_L.map θ = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (A_L.map θ) with hbot | htop
@@ -533,7 +535,7 @@ private theorem false_of_sup_pPrimeCore_eq_top {M H L A : Subgroup G}
     (h : Hyp83 M H L A)
     (htop : A.subgroupOf L ⊔ CFSG.pPrimeCore 3 ↥L = ⊤) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let A_L : Subgroup ↥L := A.subgroupOf L
   let O : Subgroup ↥L := CFSG.pPrimeCore 3 ↥L
   have hnot3 : Nat.card (↥L ⧸ O) ≠ 3 := by
@@ -578,11 +580,11 @@ theorem pRank_three_normalClosure_eq_one {M H L A : Subgroup G}
     (hH3 : CFSG.Open.pRank 3 H ≤ 3) :
     CFSG.Open.pRank 3 (CFSG.Goldschmidt.normalClosureIn H A) = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let I : Subgroup ↥H := CFSG.pPrimeCore 3 ↥H
   let π : ↥H →* (↥H ⧸ I) := QuotientGroup.mk' I
   let X : Subgroup G := CFSG.Goldschmidt.normalClosureIn H A
-  haveI : IsSimpleGroup G := hC.simple
+  have : IsSimpleGroup G := hC.simple
   have hHne : H ≠ ⊤ :=
     CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top hC.nonab H h.twoLocal
   have hKH : CFSG.Open.IsKGroup ↥H :=
@@ -742,7 +744,7 @@ private theorem exists_normalizer_of_mem_normalClosure {M H L A : Subgroup G}
     ∀ g ∈ H, ∃ x ∈ CFSG.Goldschmidt.normalClosureIn H A,
       x⁻¹ * g ∈ Subgroup.normalizer (A : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X : Subgroup G := CFSG.Goldschmidt.normalClosureIn H A
   have hXH : X ≤ H := CFSG.Goldschmidt.Sec8.normalClosureIn_le_self H A
   have hAX : A ≤ X :=

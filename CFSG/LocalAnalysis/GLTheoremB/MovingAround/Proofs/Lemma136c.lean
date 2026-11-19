@@ -55,6 +55,7 @@ open CFSG.LocalAnalysis.GLTheoremB.MovingAround
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem l136c_centralizer_ne_top [IsSimpleGroup G] (hnab : ∃ a b : G, a * b ≠ b * a) {d : G}
     (hd : d ≠ 1) : Subgroup.centralizer ({d} : Set G) ≠ ⊤ := by
   intro htop
@@ -73,6 +74,7 @@ theorem l136c_centralizer_ne_top [IsSimpleGroup G] (hnab : ∃ a b : G, a * b �
   have ha : a ∈ Subgroup.center G := by rw [hZ]; exact Subgroup.mem_top a
   exact (Subgroup.mem_center_iff.1 ha b).symm
 
+omit [Finite G] in
 theorem l136c_isEkIn_autBar {p k : ℕ} {X B K : Subgroup G} (hB : IsEkIn p k X B)
     (hBK : B ≤ Subgroup.normalizer (K : Set G)) (hcent : centBar p B K = ⊥) :
     IsEkIn p k ⊤ (autBar p B K) := by
@@ -152,21 +154,21 @@ end Transport
 @[expose] noncomputable def s1Of {G : Type} [Group G] [Finite G] (B L D : Subgroup G) (d b : G) (B1 : Subgroup G) : Subgroup G :=
   ⁅B1, Subgroup.centralizer (bStarOf B L D b : Set G) ⊓ pCoreOf 2 (L ⊓ Cg d)⁆
 
-@[expose] def IIHardSetupData {G : Type} [Group G] [Finite G] (B L D : Subgroup G) (d : G) (Bs S1 : Subgroup G) :
+@[expose] def IIHardSetupData {G : Type} [Group G] [Finite G] (B L _D : Subgroup G) (d : G) (Bs S1 : Subgroup G) :
     Prop :=
   Bs ≤ B ⊓ Cg d ∧ (∃ r : ℕ, 2 ≤ r ∧ IsEkIn 3 r (Cg d) Bs) ∧ S1 ≤ localDeltaTwoIn (Cg d) Bs ∧
     IsPGroup 2 ↥S1 ∧ S1 ≤ Cg d ∧ pCoreOf 2 (L ⊓ Cg d) ≤ S1 ⊔ GLAPPrimeCoreOf 3 (Cg d)
 
 @[expose] def IIHardReduction : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G} (h : Cex134 G m 3 B M E A D T L)
-    (hN : D ≤ Subgroup.normalizer (L : Set G)) {d : G} (hd : d ∈ D) (hd1 : d ≠ 1),
+  ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G} (_h : Cex134 G m 3 B M E A D T L)
+    (hN : D ≤ Subgroup.normalizer (L : Set G)) {d : G} (hd : d ∈ D) (_hd1 : d ≠ 1),
     pCoreOf 2 (fixSub (barAut 3 L ⟨d, hN hd⟩)) ≠ ⊥ →
       ∃ (b : G) (B1 : Subgroup G), IIHardPrinted B L D hN hd b B1 ∧
         IIHardSetupData B L D d (bStarOf B L D b) (s1Of B L D d b B1)
 
 @[expose] def IIHardCases : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G} (h : Cex134 G m 3 B M E A D T L)
-    (hN : D ≤ Subgroup.normalizer (L : Set G)) {d : G} (hd : d ∈ D) (hd1 : d ≠ 1),
+  ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G} (_h : Cex134 G m 3 B M E A D T L)
+    (hN : D ≤ Subgroup.normalizer (L : Set G)) {d : G} (hd : d ∈ D) (_hd1 : d ≠ 1),
     pCoreOf 2 (fixSub (barAut 3 L ⟨d, hN hd⟩)) ≠ ⊥ →
     ∀ (b : G) (B1 : Subgroup G), IIHardPrinted B L D hN hd b B1 →
     IIHardSetupData B L D d (bStarOf B L D b) (s1Of B L D d b B1) →

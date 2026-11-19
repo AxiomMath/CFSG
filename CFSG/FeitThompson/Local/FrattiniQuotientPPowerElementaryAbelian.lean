@@ -95,7 +95,7 @@ theorem frattini_eq_commutatorSupPowClosure (hp : p.Prime) (hP : Nat.card P = p 
   apply le_antisymm
   ·
     by_contra hc
-    rw [SetLike.not_le_iff_exists] at hc
+    rw [IsConcreteLE.not_le_iff_exists] at hc
     obtain ⟨x, hxΦ, hxD⟩ := hc
     have hne : (QuotientGroup.mk' (commutatorSupPowClosure p P) x) ≠ 1 := by
       rw [Ne, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]; exact hxD

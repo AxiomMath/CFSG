@@ -15,7 +15,7 @@ namespace Setup8
 
 variable {G : Type} [Group G] [Finite G] {z : G} {S K₁ K₂ W₁ W₂ U : Subgroup G} {u h : G}
 
-theorem W_cent_U (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) {w : G} (hw : w ∈ Wsub S U) {c : G}
+theorem W_cent_U (_hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) {w : G} (hw : w ∈ Wsub S U) {c : G}
     (hc : c ∈ U) : w * c * w⁻¹ = c := by
   have := (Subgroup.mem_centralizer_iff.1 hw.2) c hc
   rw [← this]; group

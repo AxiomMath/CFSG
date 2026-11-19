@@ -23,8 +23,8 @@ theorem fourGroupInnerOn_of_facts (Sh : ShapePred)
   obtain ⟨β, hβimp⟩ := not_forall.mp hnot'
   obtain ⟨hβA, hβnot⟩ := not_imp.mp hβimp
   obtain ⟨hq, hodd, _⟩ := hSh Y L hLsh
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
-  haveI : Finite ↥L := Subtype.finite
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Finite ↥L := Subtype.finite
   have hNoTwo : OuterFixedNoNormalTwo (↥L ⧸ Subgroup.center ↥L) := hB Y L hLsh
   have hRigid : OuterFixedRigid (↥L ⧸ Subgroup.center ↥L) := hC Y L hLsh
   have hmem : ∀ a ∈ A, a = 1 ∨ a = β := by
@@ -32,7 +32,7 @@ theorem fourGroupInnerOn_of_facts (Sh : ShapePred)
     have ha2 : a * a = 1 := by simpa [pow_two] using hAe.2 a haA
     have hβ2 : β * β = 1 := by simpa [pow_two] using hAe.2 β hβA
     have haβ : a * β = β * a := by
-      haveI : IsMulCommutative A := hAe.1
+      have : IsMulCommutative A := hAe.1
       exact congrArg Subtype.val (mul_comm' (⟨a, haA⟩ : A) ⟨β, hβA⟩)
     have hαβNotInner : ¬ ∃ g : ↥L, ∀ z : ↥L,
         wccg_conjAut L β (hAN hβA) z = g * z * g⁻¹ :=
@@ -147,18 +147,18 @@ theorem fourGroupInnerOn_of_facts (Sh : ShapePred)
         have hu := hmem u u.2
         have hv := hmem v v.2
         by_cases hu1 : (u : Y) = 1
-        · have hfu : (if (u : Y) = 1 then (0 : Fin 2) else 1) = 0 := if_pos hu1
+        · have hfu : (if (u : Y) = 1 then (0 : Fin 2) else 1) = 0 := ite_eq_left hu1
           rw [hfu] at huv
           have hv1 : (v : Y) = 1 := by
             by_contra hvne
-            rw [if_neg hvne] at huv
+            rw [ite_eq_right hvne] at huv
             exact Fin.zero_ne_one huv
           exact Subtype.ext (hu1.trans hv1.symm)
-        · have hfu : (if (u : Y) = 1 then (0 : Fin 2) else 1) = 1 := if_neg hu1
+        · have hfu : (if (u : Y) = 1 then (0 : Fin 2) else 1) = 1 := ite_eq_right hu1
           rw [hfu] at huv
           have hv1 : (v : Y) ≠ 1 := by
             intro hv1
-            rw [if_pos hv1] at huv
+            rw [ite_eq_left hv1] at huv
             exact Fin.zero_ne_one huv.symm
           rcases hu with hu | hu
           · exact absurd hu hu1

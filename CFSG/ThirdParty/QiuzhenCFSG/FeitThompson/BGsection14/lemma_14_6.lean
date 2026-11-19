@@ -142,7 +142,7 @@ private theorem CFSG.section14_eq_left_or_right_of_alt1_alt2_product
       rcases hXzp with ⟨hXle_zpow, hXcard⟩
       have hy'M : y' ∈ M := hy'cent.1
       have hXM : X ≤ M := hXle_zpow.trans (Subgroup.zpowers_le.2 hy'M)
-      letI : MulDistribMulAction Unit M := {
+      let : MulDistribMulAction Unit M := {
         smul := fun _ y => y
         one_smul := fun _ => rfl
         mul_smul := fun _ _ _ => rfl
@@ -162,7 +162,7 @@ private theorem CFSG.section14_eq_left_or_right_of_alt1_alt2_product
         refine ⟨?_⟩
         intro _ y
         simp [Xsub]
-      have hsolvM : IsSolvable M :=
+      have hsolvM : Group.IsSolvable M :=
         IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.mpr hM.1.1)
       have hcop : Nat.Coprime (Nat.card Unit) (Nat.card M) := by simp
       obtain ⟨Ksub, hKsubHall, _hKsubInv, hXsubK⟩ :=
@@ -190,7 +190,7 @@ private theorem CFSG.section14_eq_left_or_right_of_alt1_alt2_product
       have hNXne_top : Subgroup.normalizer (X : Set G) ≠ ⊤ := by
         intro hNtop
         have hXnormal : X.Normal := Subgroup.normalizer_eq_top_iff.mp hNtop
-        letI : IsSimpleGroup G := IsMinCE.simple
+        let : IsSimpleGroup G := IsMinCE.simple
         rcases hXnormal.eq_bot_or_eq_top with hXbot | hXtop
         · exact hXne hXbot
         · exact hXne_top hXtop
@@ -382,7 +382,7 @@ public theorem CFSG.section14_exists_sigma_support_witness
   have hNXne_top : Subgroup.normalizer (X : Set G) ≠ ⊤ := by
     intro hNtop
     have hXnormal : X.Normal := Subgroup.normalizer_eq_top_iff.mp hNtop
-    letI : IsSimpleGroup G := IsMinCE.simple
+    let : IsSimpleGroup G := IsMinCE.simple
     rcases hXnormal.eq_bot_or_eq_top with hXbot | hXtop
     · exact hXne hXbot
     · exact hXne_top hXtop
@@ -396,12 +396,12 @@ public theorem CFSG.section14_exists_sigma_support_witness
     simpa [section14ElementPrimeSupport, X] using
       section8_subgroupPrimeSet_mono hXle_zpowg hqz
   have hXsub_char : (X.subgroupOf (Subgroup.zpowers g)).Characteristic := by
-    letI : IsCyclic (Subgroup.zpowers g) := inferInstance
+    let : IsCyclic (Subgroup.zpowers g) := inferInstance
     exact section12_subgroup_characteristic_of_cyclic (X.subgroupOf (Subgroup.zpowers g))
   have hNormZpow_le_NormX :
       Subgroup.normalizer (Subgroup.zpowers g : Set G) ≤
         Subgroup.normalizer (X : Set G) := by
-    letI : (X.subgroupOf (Subgroup.zpowers g)).Characteristic := hXsub_char
+    let : (X.subgroupOf (Subgroup.zpowers g)).Characteristic := hXsub_char
     simpa [Subgroup.map_subgroupOf_eq_of_le hXle_zpowg] using
       section8_normalizer_map_subtype_le_of_characteristic
         (G := G) (H := Subgroup.zpowers g) (K := X.subgroupOf (Subgroup.zpowers g))
@@ -433,7 +433,7 @@ public theorem CFSG.section14_exists_sigma_support_witness
     have hNormA_proper : Subgroup.normalizer (A : Set G) ≠ ⊤ := by
       intro hnorm_top
       have hA_normal : A.Normal := Subgroup.normalizer_eq_top_iff.mp hnorm_top
-      letI : IsSimpleGroup G := IsMinCE.simple
+      let : IsSimpleGroup G := IsMinCE.simple
       rcases (haveI := hA_normal; IsSimpleGroup.eq_bot_or_eq_top_of_normal A) with hAbot | hAtop
       · exact (section12_rankTwo_ne_bot hA) hAbot
       · have htop_le_M0 : (⊤ : Subgroup G) ≤ M0 := by
@@ -472,8 +472,8 @@ private theorem CFSG.section14_exists_block_factor
   rcases hL with ⟨hLleH, hLHall⟩
   let Ksub : Subgroup H := K.subgroupOf H
   let Lsub : Subgroup H := L.subgroupOf H
-  letI : Ksub.Characteristic := by
-    letI : IsCyclic H := inferInstance
+  let : Ksub.Characteristic := by
+    let : IsCyclic H := inferInstance
     exact section12_subgroup_characteristic_of_cyclic Ksub
   have hcomp : Ksub.IsComplement' Lsub :=
     section11_isComplement_of_isHall_compl hKHall hLHall
@@ -629,7 +629,7 @@ private theorem CFSG.section14_exists_msigmaElement_of_tau2_centralizer
   have hNormA_proper : Subgroup.normalizer (A : Set G) ≠ ⊤ := by
     intro hnorm_top
     have hA_normal : A.Normal := Subgroup.normalizer_eq_top_iff.mp hnorm_top
-    letI : IsSimpleGroup G := IsMinCE.simple
+    let : IsSimpleGroup G := IsMinCE.simple
     rcases (haveI := hA_normal; IsSimpleGroup.eq_bot_or_eq_top_of_normal A) with hAbot | hAtop
     · exact (section12_rankTwo_ne_bot hA) hAbot
     · have htop_le_M : (⊤ : Subgroup G) ≤ M := by
@@ -720,7 +720,7 @@ private theorem CFSG.section14_mem_R_of_tau2_centralizer
     have hne : L₁ ≠ L₂ := by
       intro hEq
       exact hMstar_conj_ne (congrArg Subtype.val hEq).symm
-    haveI : Nontrivial Ωx' := ⟨L₁, L₂, hne⟩
+    have : Nontrivial Ωx' := ⟨L₁, L₂, hne⟩
     change 1 < Nat.card Ωx'
     exact Finite.one_lt_card
   have hNx' :
@@ -868,7 +868,7 @@ public theorem CFSG.lemma_14_6
           have hne : L₁ ≠ L₂ := by
             intro hEq
             exact hMconjg_ne (congrArg Subtype.val hEq).symm
-          haveI : Nontrivial Ωx := ⟨L₁, L₂, hne⟩
+          have : Nontrivial Ωx := ⟨L₁, L₂, hne⟩
           change 1 < Nat.card Ωx
           exact Finite.one_lt_card
         let N : Subgroup G := section14N x
@@ -910,7 +910,7 @@ public theorem CFSG.lemma_14_6
         have hCxne_top : Cx ≠ ⊤ := by
           intro htop
           exact hNx.1.1 (top_le_iff.mp (by simpa [Cx, htop] using hCxleN))
-        have hCxsolv : IsSolvable Cx :=
+        have hCxsolv : Group.IsSolvable Cx :=
           IsMinCE.proper_subgroups_solvable Cx (lt_top_iff_ne_top.mpr hCxne_top)
         have hRdefx : R = elementCentralizerIn (section10Msigma N) x := by
           simpa [R, N] using
@@ -1036,7 +1036,7 @@ public theorem CFSG.lemma_14_6
               section12_card_subgroupOf_eq hYle_Cx
             simpa [Ysub, subgroupPrimeSet, hcardY] using hpYsub
           exact hgsigmaN' hpY
-        letI : MulDistribMulAction Unit Cx := {
+        let : MulDistribMulAction Unit Cx := {
           smul := fun _ y => y
           one_smul := fun _ => rfl
           mul_smul := fun _ _ _ => rfl

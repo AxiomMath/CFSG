@@ -161,7 +161,7 @@ theorem exists_involution_of_ree {Tb : Sylow 3 X} {X₀ : Subgroup X}
   have hUJ : 3 ^ d.1.fieldExponent ≤ Nat.card (U ⊓ Subgroup.centralizer ({J'} : Set X) :
       Subgroup X) := hVcard' ▸ Subgroup.card_le_of_le (le_inf hVU hVJ)
   refine ⟨J', hNU hJ'N, hJ'2, hJ'1, (A ⊔ U) ⊓ Subgroup.centralizer ({J'} : Set X),
-    Tb.isPGroup'.to_le (inf_le_left.trans hYP), inf_le_left.trans (hYP.trans hTbX), inf_le_right,
+    Tb.isPGroup.to_le (inf_le_left.trans hYP), inf_le_left.trans (hYP.trans hTbX), inf_le_right,
     hcount ▸ Nat.mul_le_mul_left 9 hUJ, ?_, ?_⟩
   ·
     have hztV : z ∉ V := fun hzV => hzK (Subgroup.mem_inf.mp (hVU hzV)).2

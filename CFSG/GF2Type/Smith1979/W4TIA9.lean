@@ -240,7 +240,7 @@ theorem eq_top_of_A9 {X : Type*} [Group X] {K : Subgroup X} [K.Normal]
   have hA9card : Nat.card (alternatingGroup (Fin 9)) = 181440 := by
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
     decide
-  haveI : Finite K := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite K := Finite.of_equiv _ e.symm.toEquiv
   refine Subgroup.eq_top_of_card_eq _ ?_
   rw [hcard, Nat.card_congr e.toEquiv, hA9card]
 

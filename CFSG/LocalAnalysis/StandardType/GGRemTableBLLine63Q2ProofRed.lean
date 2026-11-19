@@ -33,6 +33,7 @@ variable {G : Type} [Group G] [Finite G] (L : Subgroup G)
       _ = x⁻¹ * (x * l) * x⁻¹ := by rw [h]
       _ = l * x⁻¹ := by group
 
+omit [Finite G] in
 theorem isPGroup_twoCenter : IsPGroup 2 (twoCenter L) :=
   fun z => ⟨Nat.card G, Subtype.ext z.2.2.2⟩
 
@@ -63,10 +64,12 @@ abbrev RedGrp : Type :=
 
 @[expose] def redMk : ↥(Subgroup.normalizer (L : Set G)) →* RedGrp L := QuotientGroup.mk' _
 
+omit [Finite G] in
 theorem redMk_eq_one_iff (n : ↥(Subgroup.normalizer (L : Set G))) :
     redMk L n = 1 ↔ (n : G) ∈ twoCenter L :=
   (QuotientGroup.eq_one_iff n).trans Subgroup.mem_subgroupOf
 
+omit [Finite G] in
 theorem isPGroup_ker_redMk : IsPGroup 2 (redMk L).ker := fun y =>
   ⟨Nat.card G, Subtype.ext (Subtype.ext
     (by simpa using ((redMk_eq_one_iff L y.1).mp y.2).2.2))⟩
@@ -74,6 +77,7 @@ theorem isPGroup_ker_redMk : IsPGroup 2 (redMk L).ker := fun y =>
 @[expose] def redMkL : ↥L →* RedGrp L :=
   (redMk L).comp (Subgroup.inclusion Subgroup.le_normalizer)
 
+omit [Finite G] in
 theorem redMkL_eq_one_iff (l : ↥L) : redMkL L l = 1 ↔ (l : G) ∈ twoCenter L :=
   redMk_eq_one_iff L _
 
@@ -94,6 +98,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Field K] [Finite K] {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite K] in
 theorem exists_redCover (hcov : Line63.UnitaryCoverOddAt 1 6 K) (hL : commutator L = ⊤)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (unitarySU 2 1 K 6)) :
     ∃ φ : ↥(unitarySU 2 1 K 6) →* RedGrp L,
@@ -139,7 +144,7 @@ theorem exists_redCover (hcov : Line63.UnitaryCoverOddAt 1 6 K) (hL : commutator
   have hodd : Odd (Nat.card ψ₁.ker) := by
     by_contra hne
     rw [Nat.not_odd_iff_even] at hne
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.mp hne)
     obtain ⟨l, hl⟩ := hσs y.1
     have hy2 : (y : ↥(redMkL L).range) ^ 2 = 1 := by

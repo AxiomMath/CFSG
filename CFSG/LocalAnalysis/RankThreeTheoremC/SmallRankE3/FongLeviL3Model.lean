@@ -93,8 +93,8 @@ theorem projSL3_dvd_card_succ {F : Type} [Field F] [Finite F] [CharP F 2] {p : �
     (hzP : z ∈ (stabilizer (flagSpace 3 F d)).map (proj 3 F)) :
     p ∣ Nat.card F + 1 ∧ 4 ≤ Nat.card F := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hev : Even (Nat.card F) := by
     have := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card]
@@ -146,8 +146,8 @@ theorem projSL3_levi {F : Type} [Field F] [Finite F] [CharP F 2] {p : ℕ} (hp :
       LeviHom ((stabilizer (flagSpace 3 F d)).map (proj 3 F))
         (Matrix.SpecialLinearGroup (Fin 2) F) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hev : Even (Nat.card F) := by
     have := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card]
@@ -179,7 +179,7 @@ theorem projSL3_levi {F : Type} [Field F] [Finite F] [CharP F 2] {p : ℕ} (hp :
   rw [hm] at e1 e2
   have hsl2 : IsSimpleGroup SL(2, F) := Parrott.P614.P614K136.isSimpleGroup_SL2 F (by omega)
   have hnc : ∃ a b : SL(2, F), a * b ≠ b * a := Parrott.P614.P614K136.SL2_nonabelian F
-  haveI hDn : (Nr.subgroupOf B).Normal := by rw [← hrad]; infer_instance
+  have hDn : (Nr.subgroupOf B).Normal := by rw [← hrad]; infer_instance
   let e : ↥B ⧸ Nr.subgroupOf B ≃* SL(2, F) :=
     (QuotientGroup.quotientMulEquivOfEq hrad).symm.trans (e1.trans e2)
   have hsec : S622IsSimpleSection B Nr := isSimpleSection_of_quotient_equiv hNB e hsl2 hnc

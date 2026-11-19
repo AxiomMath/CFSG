@@ -112,7 +112,7 @@ private theorem k148Hold_g2_ne_sl3 {π : Bool} {f g : ℕ} (hf : 1 ≤ f) (hg : 
       calc 2 = 2 ^ 1 := by norm_num
         _ ≤ 2 ^ g := Nat.pow_le_pow_right (by norm_num) hg
     have hqr : 2 ^ f = r ^ 2 := by rw [hf2, pow_mul', ← hr]
-    simp only [cond_true] at hodd
+    simp only [_root_.Bool.cond_true] at hodd
     have hodd' : 3 * ((r ^ 6 - 1) * (r ^ 2 - 1)) = (r ^ 4 - 1) * (r ^ 6 - 1) := by
       calc 3 * ((r ^ 6 - 1) * (r ^ 2 - 1)) = 3 * (((2 ^ g) ^ 6 - 1) * ((2 ^ g) ^ 2 - 1)) := by rw [hr]
         _ = ((2 ^ f) ^ 2 - 1) * ((2 ^ f) ^ 3 - 1) := hodd
@@ -145,13 +145,13 @@ private theorem k148Hold_num_three (Q : ℕ) :
   · simp only [CFSG.ComponentClassification.CatLeaf.lieOrderNumerator, hI, h3]
     rw [Finset.prod_insert (by decide), Finset.prod_singleton]
   · simp only [CFSG.ComponentClassification.CatLeaf.lieOrderNumerator, hI, h3]
-    rw [Finset.prod_insert (by decide), Finset.prod_singleton, if_pos (by decide), if_neg (by decide)]
+    rw [Finset.prod_insert (by decide), Finset.prod_singleton, ite_eq_left (by decide), ite_eq_right (by decide)]
 
 private theorem k148Hold_sl3_not_g2 {π : Bool} {f : ℕ} (hf2 : 2 ≤ f) {F : Type} [Field F]
     (hF : PiField π 2 f F) (hq : ModThree π (2 ^ f)) {i : TauCeti.CFSGIndex} (hi : isG2Quot i)
     (e : ↥(projImage (slPi π 3 (2 ^ f) F)) ≃* i.Group) : False := by
   have := hF.finite
-  haveI : Finite ↥(projImage (slPi π 3 (2 ^ f) F)) := inferInstance
+  have : Finite ↥(projImage (slPi π 3 (2 ^ f) F)) := inferInstance
   have hcard := CFSG.RankThree.PartTwo.Sec13.card_projImage_slPi_mul_three hF hq
   have hf1 : 1 ≤ f := by omega
   have hadm : CFSG.Open.StatedLieAdmissible (cond π .PSL .PSU) 3 2 f := by
@@ -170,20 +170,20 @@ private theorem k148Hold_sl3_not_g2 {π : Bool} {f : ℕ} (hf2 : 2 ≤ f) {F : T
         apply Nat.gcd_eq_left
         have : (2 ^ f) % 3 = 2 := hq
         omega
-      simp only [cond_false, CFSG.ComponentClassification.CatLeaf.lieOrderDivisor, hg,
+      simp only [Bool.cond_false, CFSG.ComponentClassification.CatLeaf.lieOrderDivisor, hg,
         (k148Hold_num_three _).2]
       rw [hcard]
-      simp only [cond_false]
+      simp only [Bool.cond_false]
       ring
     · have hg : Nat.gcd 3 (2 ^ f - 1) = 3 := by
         apply Nat.gcd_eq_left
         have : (2 ^ f) % 3 = 1 := hq
         have : 1 ≤ 2 ^ f := Nat.one_le_two_pow
         omega
-      simp only [cond_true, CFSG.ComponentClassification.CatLeaf.lieOrderDivisor, hg,
+      simp only [_root_.Bool.cond_true, CFSG.ComponentClassification.CatLeaf.lieOrderDivisor, hg,
         (k148Hold_num_three _).1]
       rw [hcard]
-      simp only [cond_true]
+      simp only [_root_.Bool.cond_true]
       ring
   have hb := CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds
   rcases hi with hiG | hiU
@@ -253,10 +253,10 @@ private theorem k148Hold_pgl_no_g2 {π : Bool} {f : ℕ} (hf2 : 2 ≤ f) {F : Ty
   let eD : ↥(commutator ↥X) ≃* ↥(projImage (slPi π 3 (2 ^ f) F)) :=
     ((commutator ↥X).equivMapOfInjective e.toMonoidHom e.injective).trans
       ((MulEquiv.subgroupCongr hcomm).trans (Subgroup.subgroupOfEquivOfLe hSP))
-  haveI hsimpleQ := CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.isSimpleGroup_projImage_slPi hF hq2
+  have hsimpleQ := CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.isSimpleGroup_projImage_slPi hF hq2
   have hR : IsSimpleGroup ↥(commutator ↥X) := eD.isSimpleGroup
   have hSeq := CFSG.LocalAnalysis.GLTheoremA.K148FTwo.pComp_eq_derived hO hR hS
-  haveI hSs : IsSimpleGroup ↥S := by
+  have hSs : IsSimpleGroup ↥S := by
     rw [hSeq]
     exact CFSG.LocalAnalysis.GLTheoremA.K148FTwo.simple_derivedIn hR
   have hQS := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hS
@@ -264,8 +264,8 @@ private theorem k148Hold_pgl_no_g2 {π : Bool} {f : ℕ} (hf2 : 2 ≤ f) {F : Ty
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore 3 ↥S) with h | h
     · exact h
     · exfalso
-      haveI := hQS.2.toNontrivial
-      haveI : Nontrivial (PQuot 3 S) :=
+      have := hQS.2.toNontrivial
+      have : Nontrivial (PQuot 3 S) :=
         CFSG.LocalAnalysis.GLTheoremA.K148FTwo.nontrivial_of_quotient (Subgroup.center (PQuot 3 S))
       obtain ⟨x, hx⟩ := exists_ne (1 : PQuot 3 S)
       obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective x
@@ -373,9 +373,9 @@ theorem k148FLangFact_holds : K148FLangFact := by
       by_cases hn1' : n = 1
       ·
         have h2 : (2 : ℕ) ^ n = 2 := by rw [hn1']; norm_num
-        haveI hsolv := CFSG.RankThree.PartTwo.Sec13.isSolvable_projImage_glPi_two hPi h2
-        haveI : Group.IsSolvable ↥(CFSG.RankThree.PartTwo.Sec4.autFix τ) :=
-          solvable_of_solvable_injective (f := ((eF.trans e2).trans e3).toMonoidHom)
+        have hsolv := CFSG.RankThree.PartTwo.Sec13.isSolvable_projImage_glPi_two hPi h2
+        have : Group.IsSolvable ↥(CFSG.RankThree.PartTwo.Sec4.autFix τ) :=
+          Group.isSolvable_of_isSolvable_injective (f := ((eF.trans e2).trans e3).toMonoidHom)
             ((eF.trans e2).trans e3).injective
         exact CFSG.LocalAnalysis.GLTheoremA.K148FTwo.not_pComp_of_solvable hS
       · have hqm : ModThree false (2 ^ n) :=
@@ -386,8 +386,8 @@ theorem k148FLangFact_holds : K148FLangFact := by
 private theorem k148Hold_pquot_not_comm {G : Type} [Group G] [Finite G] {X M : Subgroup G}
     (hM : GLAPComponent 3 X M) (hc : ∀ a b : PQuot 3 M, a * b = b * a) : False := by
   obtain ⟨hcQ, hsQ⟩ := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hM
-  haveI := hsQ.toNontrivial
-  haveI : Nontrivial (PQuot 3 M) :=
+  have := hsQ.toNontrivial
+  have : Nontrivial (PQuot 3 M) :=
     CFSG.LocalAnalysis.GLTheoremA.K148FTwo.nontrivial_of_quotient (Subgroup.center (PQuot 3 M))
   have h : commutator (PQuot 3 M) = ⊥ := by
     rw [commutator_def, Subgroup.commutator_eq_bot_iff_le_centralizer]
@@ -407,7 +407,7 @@ private theorem k148Hold_card_psimple_of_simple {G : Type} [Group G] [Finite G] 
   have hNM : N ≤ M := by
     have hsub := CFSG.LocalAnalysis.GLTheoremA.K148FTwo.isSubnormal_inf N hIS
     rw [inf_eq_right.2 hNX] at hsub
-    haveI := hN
+    have := hN
     rcases CFSG.LocalAnalysis.GLTheoremA.K148FTwo.subnormal_eq_bot_or_top_of_simple N hsub rfl with h0 | h1
     · exfalso
       refine k148Hold_pquot_not_comm hM fun x y => ?_
@@ -442,7 +442,7 @@ private theorem k148Hold_card_psimple_of_simple {G : Type} [Group G] [Finite G] 
     exact MonoidHom.range_eq_top.1 (top_le_iff.1 hle)
   have hinj : Function.Injective φ := by
     rw [← MonoidHom.ker_eq_bot_iff]
-    haveI := hN
+    have := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal φ.ker with h | h
     · exact h
     · exfalso
@@ -456,7 +456,7 @@ private theorem k148Hold_card_psimple_of_simple {G : Type} [Group G] [Finite G] 
       have hcop : Nat.Coprime 3 (Nat.card ↥(GLAPPrimeCore 3 ↥M)) := CFSG.pPrimeCore_coprime_card
       exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 hcop (h3.trans hcard)
   let e₁ : ↥N ≃* PQuot 3 M := MulEquiv.ofBijective φ ⟨hinj, hsurj⟩
-  haveI : IsSimpleGroup (PQuot 3 M) := e₁.symm.isSimpleGroup
+  have : IsSimpleGroup (PQuot 3 M) := e₁.symm.isSimpleGroup
   have hZ : Subgroup.center (PQuot 3 M) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (PQuot 3 M)) with h | h
     · exact h
@@ -483,8 +483,8 @@ private theorem k148Hold_card_psimple_of_quasisimple {G : Type} [Group G] [Finit
         exact this
     · exfalso
       obtain ⟨hcM, hsM⟩ := hMq
-      haveI := hsM.toNontrivial
-      haveI : Nontrivial ↥M :=
+      have := hsM.toNontrivial
+      have : Nontrivial ↥M :=
         CFSG.LocalAnalysis.GLTheoremA.K148FTwo.nontrivial_of_quotient (Subgroup.center ↥M)
       have hc : commutator ↥M = ⊥ := by
         rw [commutator_def, Subgroup.commutator_eq_bot_iff_le_centralizer]
@@ -588,14 +588,13 @@ private theorem k148Hold_sl3_card_ne {f : ℕ} (hf : 2 ≤ f) {X z P : ℕ} (ε 
     have hz1 : 1 ≤ z := hz.pos
     have hle : ((q ^ 2 - 1) * cond ε (q ^ 3 - 1) (q ^ 3 + 1)) ≤ (q ^ 2 - 1) * (q ^ 3 + 1) := by
       apply Nat.mul_le_mul_left
-      cases ε <;> simp <;> omega
+      cases ε <;> simp; omega
     have hlt : (q ^ 2 - 1) * (q ^ 3 + 1) < q ^ 6 - 1 := by
       have h2 : 16 ≤ q ^ 2 := by nlinarith
       have h3 : 64 ≤ q ^ 3 := by nlinarith
       have e : q ^ 6 = q ^ 3 * q ^ 3 := by ring
       have e2 : q ^ 3 = q * q ^ 2 := by ring
       zify [show 1 ≤ q ^ 2 by omega, show 1 ≤ q ^ 6 by nlinarith]
-      push_cast
       nlinarith
     have hge : q ^ 6 - 1 ≤ (q ^ 6 - 1) * z := Nat.le_mul_of_pos_right _ hz1
     omega
@@ -637,8 +636,8 @@ private theorem k148Hold_g2_model {F : Type} [Field F] [Finite F] {f : ℕ} (hF 
     (hX : ∀ x, x ∈ X ↔ β x = x) (hM : GLAPComponent 3 X M) {n : ℕ}
     (hL : catalogIs (PSimple 3 M) (isL2n n)) : n = f := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two (by omega) hF
   have hchar : ringChar F = 2 := ringChar.eq F 2
   have hchar3 : ringChar F ≠ 3 := by rw [hchar]; norm_num
@@ -657,7 +656,7 @@ private theorem k148Hold_g2_model {F : Type} [Field F] [Finite F] {f : ℕ} (hF 
     subst hβ1
     have hXtop : X = ⊤ := Subgroup.ext fun z => by simp [hX]
     subst hXtop
-    haveI : IsSimpleGroup (CFSG.Blueprint.Chevalley.adjointGroup .G2 F) := CFSG.QuasithinUnique.Id2519.isSimpleGroup_adjointGroup_g2 (by omega)
+    have : IsSimpleGroup (CFSG.Blueprint.Chevalley.adjointGroup .G2 F) := CFSG.QuasithinUnique.Id2519.isSimpleGroup_adjointGroup_g2 (by omega)
     have hN : IsSimpleGroup ↥(⊤ : Subgroup (CFSG.Blueprint.Chevalley.adjointGroup .G2 F)) := Subgroup.topEquiv.isSimpleGroup
     have hcardG : Nat.card ↥(⊤ : Subgroup (CFSG.Blueprint.Chevalley.adjointGroup .G2 F)) = CFSG.Open.ordG2 (2 ^ f) := by
       rw [Subgroup.card_top, CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_G2, hF]
@@ -724,13 +723,13 @@ private theorem k148Hold_g2_model {F : Type} [Field F] [Finite F] {f : ℕ} (hF 
         rcases hK' with ⟨hK'c, hq1, ⟨e⟩⟩ | ⟨hK'c, hq2, ⟨e⟩⟩
         · refine ⟨true, ?_, ?_⟩
           · rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_three, hK'c, hF]
-            simp only [cond_true, mul_assoc]
+            simp only [_root_.Bool.cond_true, mul_assoc]
           · rw [Nat.card_congr (Subgroup.centerCongr e).toEquiv]
             exact CFSG.Open.StatedCenterThree.card_center_statedSL_three (by rw [hK'c]; omega)
         · refine ⟨false, ?_, ?_⟩
           · rw [Nat.card_congr e.toEquiv,
               CFSG.SectionRank.OddCover.card_statedSU_three_of_card_eq_sq hK'c, hF]
-            simp only [cond_false]
+            simp only [Bool.cond_false]
           · rw [Nat.card_congr (Subgroup.centerCongr e).toEquiv]
             exact CFSG.Open.StatedCenterThree.card_center_statedSU_three hK'c (by omega)
       have hZ3 : IsPGroup 3 (Subgroup.center ↥(Subgroup.centralizer ({g * z * g⁻¹} : Set (CFSG.Blueprint.Chevalley.adjointGroup .G2 F)))) :=
@@ -752,7 +751,7 @@ private theorem k148Hold_g2_model {F : Type} [Field F] [Finite F] {f : ℕ} (hF 
           Subgroup.centralizer ({g * z * g⁻¹} : Set (CFSG.Blueprint.Chevalley.adjointGroup .G2 F)) :=
         fun s hs => Subgroup.mem_centralizer_singleton_iff.2
           (CFSG.RankThree.PartTwo.Sec11.KS11Lie4Proof.g2Short_commute_g2Long hs hLg)
-      haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
+      have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
         CFSG.SeitzReduction.LinearPilot.isSimpleGroup_specialLinearGroup_two h4
       have hN : IsSimpleGroup ↥(CFSG.RankThree.PartTwo.Sec11.KS11Lie4Proof.g2ShortSL2 F) :=
         e.symm.isSimpleGroup
@@ -815,7 +814,7 @@ private theorem k148Hold_g2_model {F : Type} [Field F] [Finite F] {f : ℕ} (hF 
           ↥(commutator ↥(CFSG.Blueprint.Chevalley.adjointGroup .G2 (CFSG.LieType.Chevalley.fixSubfield φ))) :=
         ((commutator _).equivMapOfInjective eα.toMonoidHom eα.injective).trans
           (MulEquiv.subgroupCongr hcommeq)
-      haveI := hsimple
+      have := hsimple
       have hR : IsSimpleGroup ↥(commutator ↥(CFSG.RankThree.PartTwo.Sec4.autFix β)) := eD.isSimpleGroup
       have hN := CFSG.LocalAnalysis.GLTheoremA.K148FTwo.simple_derivedIn hR
       have hcardN : Nat.card ↥(CFSG.LocalAnalysis.GLTheoremA.K148FTwo.derivedIn
@@ -840,7 +839,7 @@ private theorem k148Hold_g2_model {F : Type} [Field F] [Finite F] {f : ℕ} (hF 
       · exact h60 (hPS.symm.trans h)
       · exact hL2 n hn (hPS.symm.trans h)
     ·
-      haveI : IsSimpleGroup
+      have : IsSimpleGroup
           (CFSG.Blueprint.Chevalley.adjointGroup .G2 (CFSG.LieType.Chevalley.fixSubfield φ)) :=
         CFSG.QuasithinUnique.Id2519.isSimpleGroup_adjointGroup_g2 (by
           rw [hcard]
@@ -862,7 +861,7 @@ theorem k148FG2CompFact_holds : K148FG2CompFact := by
   intro C _ _ H f y hH hyN hy3 M hM n hL
   obtain ⟨hf, ⟨e⟩⟩ := CFSG.LocalAnalysis.GLTheoremA.T266.G2Holds.g2_adjoint_equiv hH
   refine ⟨hf, ?_⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   let β' : MulAut ↥H := H.normalizerMonoidHom ⟨y, hyN⟩
   have hβ'3 : β' ^ 3 = 1 := by

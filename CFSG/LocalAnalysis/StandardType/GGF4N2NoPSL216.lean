@@ -118,7 +118,7 @@ theorem ggN2_exists_five_normalizer_psl216 {I : Subgroup G}
   have hι : Function.Injective ι := I.subtype_injective.comp eI.symm.injective
   have hιI : ∀ w, ι w ∈ I := fun w => (eI.symm w).2
   refine ⟨ι (b ^ 3), hιI _, by rw [orderOf_injective ι hι, hc5], (T : Subgroup _).map ι, ?_, ?_,
-    T.isPGroup'.map ι, Subgroup.le_normalizer_map ι ⟨b ^ 3, Subgroup.pow_mem _ hbN 3, rfl⟩⟩
+    T.isPGroup.map ι, Subgroup.le_normalizer_map ι ⟨b ^ 3, Subgroup.pow_mem _ hbN 3, rfl⟩⟩
   · rintro _ ⟨w, -, rfl⟩
     exact hιI w
   · intro hU

@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma y7b_comm_bot_iff_centralizer (B : Subgroup G) {x : G} :
     (∀ u ∈ B, ⁅x, u⁆ ∈ (⊥ : Subgroup G)) ↔ x ∈ centralizer (B : Set G) := by
   rw [Subgroup.mem_centralizer_iff]

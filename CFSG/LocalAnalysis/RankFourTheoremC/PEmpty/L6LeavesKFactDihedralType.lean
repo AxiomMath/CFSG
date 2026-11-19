@@ -38,13 +38,13 @@ theorem kFactDihedralTypeAut_of_sylow (h : KDDihedralTypeSylow) : KFactDihedralT
       (Subgroup.subgroupOfEquivOfLe hRL).injective
   obtain ⟨Q, hQR⟩ := hR'.exists_le_sylow
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 ((Q : Subgroup ↥L).map L.subtype) L := ⟨Q, rfl⟩
-  have hS2 : IsPGroup 2 ↥((Q : Subgroup ↥L).map L.subtype) := Q.isPGroup'.map L.subtype
+  have hS2 : IsPGroup 2 ↥((Q : Subgroup ↥L).map L.subtype) := Q.isPGroup.map L.subtype
   have hRS : R ≤ (Q : Subgroup ↥L).map L.subtype := by
     intro x hx
     exact Subgroup.mem_map.mpr ⟨⟨x, hRL hx⟩, hQR (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   rcases h A L _ hL hSyl with ⟨n, hn, ⟨e⟩⟩ | ⟨n, hn, ⟨e⟩⟩ | ⟨n, hn, ⟨e⟩⟩
   ·
-    haveI : NeZero n := ⟨by omega⟩
+    have : NeZero n := ⟨by omega⟩
     have hTG := CFSG.GF2Type.Aschbacher1976Common.twoGen_of_mulEquiv e
       (CFSG.GF2Type.Aschbacher1976Common.twoGen_dihedral n)
     have h4 := card_frattini_le_four_of_twoGen hTG hRS hR2

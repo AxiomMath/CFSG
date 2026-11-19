@@ -68,6 +68,7 @@ theorem exists_index_two_of_isConj (h : Tim79a.ParrottHyp z) {x : G} (hxH : x �
     have := Nat.pow_lt_pow_right (by norm_num : 1 < 2) (Nat.lt_succ_self k)
     omega
 
+omit [Finite G] in
 theorem conjMeetJBot_of_not_mem_H (h : Tim79a.ParrottHyp z)
     (hJ : ∀ j : G, j ∈ J z → orderOf j = 2 → j ≠ z → ∀ g : G, g * z * g⁻¹ ≠ j)
     {K : Subgroup (J z)} (hKiso : Nonempty (↥K ≃* CFSG.Quasithin.Z4StarQ8Model))

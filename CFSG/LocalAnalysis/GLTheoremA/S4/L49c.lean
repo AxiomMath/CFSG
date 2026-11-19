@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem l49c_mem_normalizer_inf {H K : Subgroup G} {g : G}
     (hH : g ∈ Subgroup.normalizer (H : Set G)) (hK : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer ((H ⊓ K : Subgroup G) : Set G) := by
@@ -20,6 +21,7 @@ private theorem l49c_mem_normalizer_inf {H K : Subgroup G} {g : G}
   intro h
   rw [Subgroup.mem_inf, Subgroup.mem_inf, hH h, hK h]
 
+omit [Finite G] in
 private theorem l49c_le_sup_inf {A C N : Subgroup G} (hAC : A ≤ C) (hCAN : C ≤ A ⊔ N)
     (hAN : A ≤ Subgroup.normalizer (N : Set G)) : C ≤ A ⊔ (C ⊓ N) := by
   intro c hc
@@ -31,16 +33,18 @@ private theorem l49c_le_sup_inf {A C N : Subgroup G} (hAC : A ≤ C) (hCAN : C �
     simpa using this
   exact Subgroup.mul_mem_sup hx ⟨hnC, hn⟩
 
+omit [Finite G] in
 private theorem l49c_le_glaPPrimeCoreOf {p : ℕ} {N K : Subgroup G} (hNK : N ≤ K)
     (hKN : K ≤ Subgroup.normalizer (N : Set G)) (hcop : Nat.Coprime p (Nat.card N)) :
     N ≤ GLAPPrimeCoreOf p K := by
-  haveI hn : (N.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 hKN
+  have hn : (N.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 hKN
   have hcard : Nat.card (N.subgroupOf K) = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNK).toEquiv
   have hle : N.subgroupOf K ≤ GLAPPrimeCore p ↥K := le_sSup ⟨hn, hcard ▸ hcop⟩
   intro n hn'
   exact ⟨⟨n, hNK hn'⟩, hle hn', rfl⟩
 
+omit [Finite G] in
 private theorem l49c_closureIn_le {I A D : Subgroup G} (hID : I ≤ D)
     (hAD : A ≤ Subgroup.normalizer (D : Set G)) : closureIn I A ≤ D := by
   rw [closureIn_eq_iSup_gLBConj]
@@ -48,11 +52,13 @@ private theorem l49c_closureIn_le {I A D : Subgroup G} (hID : I ≤ D)
   rw [← mem_normalizer_iff_gLBConj_eq.1 (hAD ha)]
   exact gLBConj_mono (g := a) hID
 
+omit [Finite G] in
 private theorem l49c_gLBConj_le_closureIn (I A : Subgroup G) {a : G} (ha : a ∈ A) :
     GLBConj a I ≤ closureIn I A := by
   rw [closureIn_eq_iSup_gLBConj]
   exact le_biSup (fun g => GLBConj g I) ha
 
+omit [Finite G] in
 private theorem l49c_le_layer {p : ℕ} {X K : Subgroup G} (h : GLAPComponent p X K) :
     K ≤ GLAPLayer p X :=
   le_sSup h
@@ -64,7 +70,7 @@ theorem glaPLayer_inf_centralizer_ne_bot_of_pumpRel {p : ℕ} (hp : p.Prime) (h1
     (hne : GLAPLayer p (closureIn t.2.2 (t.1 ⊓ t'.1) ⊓ Subgroup.centralizer (E : Set G)) ≠ ⊥) :
     GLAPLayer p (closureIn t'.2.2 t'.1 ⊓ Subgroup.centralizer (E : Set G)) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hIDC, hIK'x, -⟩ := pumpRel_facts hp h183 hKP hsimple hnonab hrel
   obtain ⟨⟨hB, hx, hL⟩, ⟨hB', hx', hL'c⟩, hxB', hdec, hx'B', hx'L, -⟩ := hrel
   set B := t.1 with hBdef
@@ -113,7 +119,7 @@ theorem glaPLayer_inf_centralizer_ne_bot_of_pumpRel {p : ℕ} (hp : p.Prime) (h1
     exact l49c_mem_normalizer_inf (hB'H (hEB' he)) (Subgroup.le_normalizer (hEC' he))
   obtain ⟨D₁, hD₁Y, hD₁⟩ : ∃ D₁ : Subgroup G, GLAPComponent p (H ⊓ Ce) D₁ ∧ D₁ ≠ ⊥ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hne
     refine le_antisymm (sSup_le fun K hK => ?_) bot_le
     exact (hcon K hK).le

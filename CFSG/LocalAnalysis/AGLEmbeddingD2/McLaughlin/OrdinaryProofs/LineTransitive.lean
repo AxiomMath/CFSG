@@ -9,9 +9,9 @@ namespace CFSG.AGLEmbeddingD2.McLaughlin
 open CFSG.LocalAnalysis.RankThreeTheoremC CFSG.Open CFSG.AGLEmbedding
 
 theorem false_of_transitive_of_pair {G : Type*} [Group G] [Finite G] {N R A B : Subgroup G}
-    (hR : IsElemAbelian 3 R) (h9 : Nat.card R = 9) (hNR : N ≤ Subgroup.normalizer (R : Set G))
+    (_hR : IsElemAbelian 3 R) (h9 : Nat.card R = 9) (_hNR : N ≤ Subgroup.normalizer (R : Set G))
     (htr : TransitiveOnNonidentity N R)
-    (hA : A ≤ R) (hA3 : Nat.card A = 3) (hB : B ≤ R) (hB3 : Nat.card B = 3)
+    (hA : A ≤ R) (hA3 : Nat.card A = 3) (_hB : B ≤ R) (hB3 : Nat.card B = 3)
     (hinv : ∀ n ∈ N, A.map (MulAut.conj n).toMonoidHom = A ∨
       A.map (MulAut.conj n).toMonoidHom = B) : False := by
   have hAncard : (A : Set G).ncard = 3 := by

@@ -34,9 +34,9 @@ theorem isSolvable_sup_of_isPGroup {N T : Subgroup G} (hT : IsPGroup 2 ↥T)
   have hqs : Group.IsSolvable (↥(N ⊔ T) ⧸ N.subgroupOf (N ⊔ T)) := by
     have := hq.isNilpotent
     infer_instance
-  haveI := hN'
-  haveI := hqs
-  exact solvable_of_ker_le_range (N.subgroupOf (N ⊔ T)).subtype
+  have := hN'
+  have := hqs
+  exact Group.isSolvable_of_ker_le_range (N.subgroupOf (N ⊔ T)).subtype
     (QuotientGroup.mk' (N.subgroupOf (N ⊔ T)))
     (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
 
@@ -45,7 +45,7 @@ theorem nParam_le_of_levi_sup {J T : Subgroup G} (hT : IsPGroup 2 ↥T)
     (hF : Nat.card F = 2 ^ m) (hm : 2 ≤ m) (π : ↥J →* SL(2, F)) (hπ : Function.Surjective π)
     (hker : IsPGroup 2 ↥π.ker) : E1.nParam (J ⊔ T) ≤ (m : ℕ∞) := by
   have hDJ : J ⊔ T ≤ Subgroup.normalizer (J : Set G) := sup_le Subgroup.le_normalizer hTJ
-  haveI hnorm : (J.subgroupOf (J ⊔ T)).Normal :=
+  have hnorm : (J.subgroupOf (J ⊔ T)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr hDJ
   let e : ↥(J.subgroupOf (J ⊔ T)) ≃* ↥J := Subgroup.subgroupOfEquivOfLe le_sup_left
   have hQN : ∀ x : ↥(J ⊔ T), ∃ k : ℕ, x ^ 2 ^ k ∈ J.subgroupOf (J ⊔ T) := by

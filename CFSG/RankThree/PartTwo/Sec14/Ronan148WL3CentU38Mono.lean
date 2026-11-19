@@ -359,7 +359,7 @@ theorem CentConfig.false_of_field_mono (hK : PiField false 2 3 K)
       ((mem_rootsOfUnity _ _).mpr hx9) ((mem_rootsOfUnity _ _).mpr hy9) (one_mem _)) hcH), ?_⟩
     have hdc : ((cycThree : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).det = 1 := by
       rw [coe_cycThree, det_fin_three]
-      simp [Matrix.vecHead, Matrix.vecTail]
+      simp
     have hdt : ((diagUnits x y 1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).det =
         (x : K) * (y : K) := by
       rw [coe_diagUnits, det_diagonal, Fin.prod_univ_three]

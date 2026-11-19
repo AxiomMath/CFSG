@@ -43,13 +43,13 @@ theorem facts_of_isSz {X : Type} [Group X] [Finite X] {n : ℕ}
   have hsimple : IsSimpleGroup X := by
     obtain ⟨-, a, ha, K, _, _, hn, hK, ⟨e'⟩⟩ := hQ
     rw [hn] at hK
-    haveI := (CFSG.LieType.Ree.suzuki_simple ha hK).2.2
+    have := (CFSG.LieType.Ree.suzuki_simple ha hK).2.2
     exact e'.isSimpleGroup
   obtain ⟨m, hm, rfl, ⟨e⟩⟩ := CFSG.Quasithin.opq4d_exists_mulEquiv_suzukiMatrixGroup hQ
   obtain ⟨ℓ, hppd⟩ := exists_isPrimitivePrimeDivisor (k := 4 * (2 * m + 1)) (by omega) (by omega)
   have hℓ := hppd.prime
   have hℓ2 := hppd.ne_two (by omega)
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hdvd : ℓ ∣ (2 ^ (2 * m + 1)) ^ 2 + 1 := by
     rw [← pow_mul]
     refine (hppd.dvd_add_one_iff (by omega) _).2 ⟨⟨1, by ring⟩, ?_⟩
@@ -57,7 +57,7 @@ theorem facts_of_isSz {X : Type} [Group X] [Finite X] {n : ℕ}
   have hcard : ℓ ∣ Nat.card (CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup m) := by
     rw [CFSG.Quasithin.opq4d_card_suzukiMatrixGroup (by omega)]
     exact Dvd.dvd.mul_right (Dvd.dvd.mul_right hdvd _) _
-  haveI : Finite (CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup m) := Finite.of_equiv X e.toEquiv
+  have : Finite (CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup m) := Finite.of_equiv X e.toEquiv
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' ℓ hcard
   have hP : IsPGroup ℓ (zpowers x) := IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx, pow_one])
   obtain ⟨S, hS⟩ := hP.exists_le_sylow

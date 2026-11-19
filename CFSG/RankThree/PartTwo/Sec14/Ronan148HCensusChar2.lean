@@ -31,7 +31,7 @@ theorem olRow_L2_inner (p k : ℕ) [Fact p.Prime] (hk : k = 1 ∨ k = 2) (h4 : 4
     OLRow (fun T _ => Nonempty (T ≃* projSL 2 (GaloisField p k))) := by
   have hp : p.Prime := Fact.out
   have hK : Nat.card (GaloisField p k) = p ^ k := GaloisField.card p k (by omega)
-  haveI : IsSimpleGroup (projSL 2 (GaloisField p k)) :=
+  have : IsSimpleGroup (projSL 2 (GaloisField p k)) :=
     CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField p k) le_rfl
       (Or.inr (by rw [hK]; omega)) (Or.inr (by rw [hK]; omega))
   have hinn : InnerThree (projSL 2 (GaloisField p k)) := by
@@ -64,7 +64,7 @@ theorem olRow_six_L2 (n : ℕ) (hn : 1 ≤ n) :
   interval_cases n
   · exact Sec13.Res5Proof.false_of_projSL_two_small (Or.inl (by rw [hK]; norm_num)) hqL φ
   · exact olRow_L2_inner 2 2 (Or.inr rfl) (by norm_num) (by rw [hc]; norm_num) X P L Q hcfg ⟨φ⟩
-  · haveI : IsSimpleGroup (projSL 2 (GaloisField 2 3)) :=
+  · have : IsSimpleGroup (projSL 2 (GaloisField 2 3)) :=
       CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField 2 3) le_rfl
         (Or.inr (by rw [hK]; norm_num)) (Or.inr (by rw [hK]; norm_num))
     have hZL := Sec4.center_eq_bot_of_mulEquiv_isSimpleGroup hqL φ
@@ -92,7 +92,7 @@ theorem olRow_six_L3 (n : ℕ) (hn : 1 ≤ n) :
   have hn3 := two_pow_dvd_N ((by rw [← pow_mul] at h3; exact h3 : 2 ^ (n * 3) ∣ _).trans hLN)
   have hn3' : n ≤ 3 := by omega
   interval_cases n
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨ψ⟩ := CFSG.AGLEmbeddingD2.Wilson.Census424Rest.nonempty_projSL_two_seven_equiv_three_two
     exact olRow_one 7 1 (by norm_num) le_rfl X P L Q hcfg ⟨φ.trans ψ.symm⟩
   · exact olRow_of_E16 _ exists_E16_projSL_three_four X P L Q hcfg ⟨φ⟩

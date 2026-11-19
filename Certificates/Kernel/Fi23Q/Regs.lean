@@ -123,7 +123,7 @@ noncomputable def τ : PG →* CFSG.Sporadic.Fi23.J :=
 theorem τ_gen {k : ℕ}
     (hk : k < 10) : τ (gen k) = CFSG.Sporadic.Bridge.Fi23.img k := by
   unfold gen
-  rw [dif_pos (by rw [generatorCount_P23]; exact hk)]
+  rw [dite_eq_left (by rw [generatorCount_P23]; exact hk)]
   exact presHom_of P23 _ rels_img _
 
 theorem X9_img : ∀ k < 10, X9 k =
@@ -139,7 +139,7 @@ theorem mat_τ (p : PG) :
     have hi : i.val < 10 := lt_of_lt_of_eq i.isLt generatorCount_P23
     have e1 : (PresentedGroup.of i : PG) = gen i.val := by
       unfold gen
-      rw [dif_pos i.isLt]
+      rw [dite_eq_left i.isLt]
     rw [e1, MonoidHom.comp_apply, τ_gen hi, σ_gen hi]
     apply Units.ext
     rw [u_val hi]
@@ -264,8 +264,8 @@ theorem regE_acts
   intro x hx
   unfold regE
   rcases hr with hr | ⟨h1, h2⟩
-  · rw [if_pos hr, img_acts hr x hx]
-  · rw [if_neg (by omega), letter_acts (by omega) x hx]
+  · rw [ite_eq_left hr, img_acts hr x hx]
+  · rw [ite_eq_right (by omega), letter_acts (by omega) x hx]
     congr 1
     omega
 
@@ -276,7 +276,7 @@ theorem wvG_eq
 
 theorem regE_letter (l : ℕ) : regE (Nat.add 52 l) = pairG gs l := by
   unfold regE
-  rw [if_neg (by change ¬ 52 + l < 10; omega)]
+  rw [ite_eq_right (by change ¬ 52 + l < 10; omega)]
   congr 1
   change 52 + l - 52 = l
   omega

@@ -66,7 +66,7 @@ theorem centralizer_radFix_le {J : Set (Fin t.foldedTag.rank)} (hJ : J ≠ Set.u
 
 theorem isPGroup_radFix [Finite K] [CharP K 2] (J : Set (Fin t.foldedTag.rank)) :
     IsPGroup 2 (radFix t K σ J) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : IsPGroup 2 (graphFixedParabolicRadical t K σ.toRingHom J) :=
     (isPGroup_posUnipotent 2 t.tag).to_le fun x hx =>
       parabolicRadical_le_posUnipotent _ (Subgroup.mem_inf.1 hx).1
@@ -78,7 +78,7 @@ theorem exists_std_position_fixed [Finite K] [CharP K 2] (hσ : σ ^ t.order = 1
     ∃ (g : ↥(graphFixedRootGroup t K σ.toRingHom)) (J : Set (Fin t.foldedTag.rank)),
       J ≠ Set.univ ∧ R.map (MulAut.conj g⁻¹).toMonoidHom = radFix t K σ J := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨h0, hp, hc, hnt⟩ := hR
   have hfinM : Finite (ModGL t.tag K) := finite_modGL
   have hQ₀ne : R.map (graphFixedRootGroup t K σ.toRingHom).subtype ≠ ⊥ := fun h =>
@@ -121,7 +121,7 @@ theorem exists_std_position_fixed [Finite K] [CharP K 2] (hσ : σ ^ t.order = 1
 theorem closure_parFix_eq_top (hrank : 2 ≤ t.foldedTag.rank) :
     Subgroup.closure (⋃ i : Fin t.foldedTag.rank,
       (parFix t K σ {i}ᶜ : Set ↥(graphFixedRootGroup t K σ.toRingHom))) = ⊤ := by
-  haveI : Nontrivial (Fin t.foldedTag.rank) := Fin.nontrivial_iff_two_le.2 hrank
+  have : Nontrivial (Fin t.foldedTag.rank) := Fin.nontrivial_iff_two_le.2 hrank
   obtain ⟨Y, hY⟩ : ∃ Y : Subgroup ↥(graphFixedRootGroup t K σ.toRingHom),
       Y = Subgroup.closure (⋃ i : Fin t.foldedTag.rank,
         (parFix t K σ {i}ᶜ : Set ↥(graphFixedRootGroup t K σ.toRingHom))) := ⟨_, rfl⟩
@@ -175,7 +175,7 @@ noncomputable def stdDatumFixed [Finite K] [CharP K 2] (hσ : σ ^ t.order = 1)
   P := parFix t K σ
   U := (graphFixedPosUnipotent t K σ.toRingHom).subgroupOf (graphFixedRootGroup t K σ.toRingHom)
   U_sylow := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨P, hP⟩ := (RootWeightDatum.fixed t σ hσ).exists_sylow_eq_unipotent 2
     exact ⟨P, hP⟩
   Q_pGroup := isPGroup_radFix

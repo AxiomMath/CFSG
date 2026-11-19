@@ -47,7 +47,7 @@ private theorem ggLieGH_zeta_ne_one : ggLieGH_zeta ≠ 1 := by
   omega
 
 private theorem ggLieGH_char_two : (2 : GGL) = 0 := by
-  haveI : CharP GGL 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
   exact_mod_cast CharP.cast_eq_zero GGL 2
 
 private theorem ggLieGH_neg_eq_self (z : GGL) : -z = z := by
@@ -109,8 +109,7 @@ private theorem ggLieGH_zeta_inv' : (ggLieGH_zeta : GGL)⁻¹ = (ggLieGH_zeta : 
 private noncomputable def ggLieGH_h2 : SL2 GGL :=
   ⟨!![1, 1; (ggLieGH_zeta : GGL), (ggLieGH_zeta : GGL) ^ 2], by
     rw [Matrix.det_fin_two_of]
-    simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.cons_val_fin_one, Matrix.empty_val', one_mul]
+    simp only [one_mul]
     rw [sub_eq_add_neg, ggLieGH_neg_eq_self]
     exact ggLieGH_zeta_sq_add⟩
 
@@ -131,8 +130,7 @@ private theorem ggLieGH_h2_frob :
   rw [Matrix.SpecialLinearGroup.coe_mul, ggLieGH_h2_coe, ggLieGH_nSL_one_coe]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.map_apply, Matrix.mul_apply, Fin.sum_univ_two, iterateFrobenius_def,
-      frobenius_def, ggLieGH_zeta_coe_pow_three, ggLieGH_zeta_sq_sq]
+    simp [Matrix.map_apply, Matrix.mul_apply, Fin.sum_univ_two, frobenius_def, ggLieGH_zeta_sq_sq]
 
 private theorem ggLieGH_h2_conj_diag :
     ggLieGH_h2 * HSL ggLieGH_zeta * ggLieGH_h2⁻¹ = uSL 1 * vSL 1 := by
@@ -142,8 +140,7 @@ private theorem ggLieGH_h2_conj_diag :
     Matrix.SpecialLinearGroup.coe_mul, ggLieGH_h2_coe, coe_HSL, coe_uSL, coe_vSL]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, ggLieGH_zeta_inv', ggLieGH_neg_eq_self,
-      ggLieGH_neg_one, ggLieGH_one_add_one]
+    simp [Matrix.mul_apply, Fin.sum_univ_two, ggLieGH_zeta_inv', ggLieGH_one_add_one]
   · rw [← pow_two]; exact ggLieGH_zeta_sq
   · rw [← pow_two, ggLieGH_zeta_sq_sq]
     exact ggLieGH_zeta_eq

@@ -16,7 +16,7 @@ theorem scalar_mul_eq_smul (u : K) (M : Matrix (Fin 3) (Fin 3) K) :
   rw [Matrix.scalar_apply, ← Matrix.smul_eq_diagonal_mul]
 
 theorem commute_transvection_of_conj (h3 : (3 : K) ≠ 0) {G Gi : Matrix (Fin 3) (Fin 3) K}
-    (h1 : G * Gi = 1) (h2 : Gi * G = 1) {i j : Fin 3} (hij : i ≠ j) (c : K) {u : K}
+    (_h1 : G * Gi = 1) (h2 : Gi * G = 1) {i j : Fin 3} (hij : i ≠ j) (c : K) {u : K}
     (h : G * transvection i j c * Gi = u • transvection i j c) :
     Commute (transvection i j c) G := by
   have htr : trace (transvection i j c) = 3 := by
@@ -122,7 +122,7 @@ theorem isCyclic_of_three_subgroup_gl [Finite K] (hK : Nat.card K % 3 = 1) (g : 
   let f : R →* (Module.End K (Fin 3 → K))ˣ := ρ.toMonoidHom.comp ι
   have hf : Function.Injective f := ρ.injective.comp hι
   have hfS : IsPGroup 3 f.range := hR3.of_surjective f.rangeRestrict f.rangeRestrict_surjective
-  haveI : Finite f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+  have : Finite f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
   have hSD : f.range ≤ D.map ρ.toMonoidHom := by
     rintro _ ⟨r, rfl⟩
     exact ⟨ι r, hR r, rfl⟩

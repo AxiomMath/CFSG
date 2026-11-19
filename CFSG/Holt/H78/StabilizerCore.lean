@@ -17,7 +17,7 @@ private theorem pCore_pointStabilizer_ne_bot_of_isNaturalSE
     pCore 2 ↥(MulAction.stabilizer M b) ≠ ⊥ := by
   classical
   obtain ⟨q, e, hB⟩ := hM
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hB.exists_sylow_le_stabilizer b
   let eTop : ↥(⊤ : Subgroup M) ≃* M := Subgroup.topEquiv
   let Q' : Subgroup M := (Q : Subgroup ↥(⊤ : Subgroup M)).map eTop.toMonoidHom
@@ -33,7 +33,7 @@ private theorem pCore_pointStabilizer_ne_bot_of_isNaturalSE
     intro hbot
     rw [hbot, Subgroup.card_bot] at hQ'card
     omega
-  have hQ'p : IsPGroup 2 Q' := (Q.isPGroup').map eTop.toMonoidHom
+  have hQ'p : IsPGroup 2 Q' := (Q.isPGroup).map eTop.toMonoidHom
   have hQ'le : Q' ≤ MulAction.stabilizer M b := by
     intro x hx
     obtain ⟨y, hy, rfl⟩ := hx
@@ -179,7 +179,7 @@ private theorem le_socPre_of_odd_of_le_jHull {G : Type*} [Group G] [Finite G]
   classical
   let H : Subgroup G := jHull G Ω
   let R : Subgroup ↥H := D.socPre.subgroupOf H
-  haveI : R.Normal := D.normal_socPre_subgroupOf
+  have : R.Normal := D.normal_socPre_subgroupOf
   let q : ↥H →* ↥H ⧸ R := QuotientGroup.mk' R
   let P : Subgroup ↥H := B.subgroupOf H
   have hPcard : Nat.card P = Nat.card B :=
@@ -226,7 +226,7 @@ private theorem eq_bot_of_odd_normal_of_alternating_stabilizer {Δ : Type*} [Fin
     [DecidableEq Δ] (h7 : 7 ≤ Fintype.card Δ) (b : Δ)
     {N : Subgroup ↥(alternatingGroup Δ ⊓ MulAction.stabilizer (Equiv.Perm Δ) b)}
     (hNodd : Odd (Nat.card N)) (hNnorm : N.Normal) : N = ⊥ := by
-  haveI : IsSimpleGroup ↥(alternatingGroup Δ ⊓ MulAction.stabilizer (Equiv.Perm Δ) b) :=
+  have : IsSimpleGroup ↥(alternatingGroup Δ ⊓ MulAction.stabilizer (Equiv.Perm Δ) b) :=
     isSimpleGroup_alternatingGroup_inf_stabilizer (by omega) b
   have heven : ¬ Odd (Nat.card ↥(alternatingGroup Δ ⊓
       MulAction.stabilizer (Equiv.Perm Δ) b)) := by

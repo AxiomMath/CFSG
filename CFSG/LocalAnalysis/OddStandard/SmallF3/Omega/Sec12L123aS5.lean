@@ -82,7 +82,7 @@ theorem sec123_normal_odd {X : Type*} [Group X] (e : X ≃* Equiv.Perm (Fin 5)) 
     rcases hg35 with h3 | h5
     · rw [orderOf_eq_prime h3 hg1]
       exact ⟨1, rfl⟩
-    · haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    · have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
       rw [orderOf_eq_prime h5 hg1]
       exact ⟨2, rfl⟩
 
@@ -96,7 +96,7 @@ theorem sec123_swap_of_involution {σ : Equiv.Perm (Fin 5)} (h2 : σ * σ = 1)
 theorem sec123_bijective {X : Type*} [Group X] (e : X ≃* Equiv.Perm (Fin 5))
     {ρ : X →* Equiv.Perm (Fin 5)} (h : Function.Injective ρ ∨ Function.Surjective ρ) :
     Function.Bijective ρ := by
-  haveI : Finite X := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite X := Finite.of_equiv _ e.symm.toEquiv
   have hiff : Function.Injective ρ ↔ Function.Surjective ρ :=
     Finite.injective_iff_surjective_of_equiv e.toEquiv
   rcases h with h | h

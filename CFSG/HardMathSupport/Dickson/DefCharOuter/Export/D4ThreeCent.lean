@@ -44,8 +44,8 @@ theorem outerCentData_d4_graphOne {K : Type} [Field K] [Finite K] [CharP K 3]
     (α : MulAut (adjointGroup Tag.D4 K))
     (hαdef : α = MulAut.conj g * (exactNormalAut Tag.D4 K a 1 0 * d4Graph K 1))
     (hα3 : α ^ 3 = 1) : OuterCentData 3 α := by
-  haveI : Finite (adjointGroup Tag.D4 K) := by
-    haveI : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (adjointGroup Tag.D4 K) := by
+    have : Finite (ModGL Tag.D4 K) := finite_modGL
     infer_instance
   exact OuterCentData.ofFixedData (d4_fixedData_graphOne g a α hαdef hα3)
     (d4_cent_graphOne g a α hαdef hα3)

@@ -54,8 +54,8 @@ theorem bSevenSpread_native
     BSevenSpread NativeSporadic.B := by
   intro E hE h49 hex
   obtain ⟨t, ht1, hall⟩ := hex
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : IsMulCommutative ↥E := hE.1
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : IsMulCommutative ↥E := hE.1
   have h7 : ∀ e ∈ E, e ≠ 1 → orderOf e = 7 :=
     fun e he he1 => orderOf_eq_prime (hE.2 e he) he1
   have hexists : ∃ e ∈ E, e ≠ 1 := by
@@ -81,7 +81,7 @@ theorem bSevenSpread_native
   have hE_Ct : E ≤ Subgroup.centralizer ({t} : Set NativeSporadic.B) := hE_Ce0.trans hle0
   obtain ⟨ψ⟩ := CFSG.Monster.GMS.nonempty_centralizer_mulEquiv_Eam
     CFSG.Monster.Existence.babyTableIII hα
-  haveI : Finite ↥CFSG.Monster.B.TwoA.Amalgam.Eam := Finite.of_equiv _ ψ.toEquiv
+  have : Finite ↥CFSG.Monster.B.TwoA.Amalgam.Eam := Finite.of_equiv _ ψ.toEquiv
   obtain ⟨hidx, -, -, hcen', hZ2, ⟨φ⟩, -⟩ :=
     CFSG.Monster.B.TwoA.Amalgam.short_F4_derived_standard_perfect_cover
   have hZY : Subgroup.zpowers CFSG.Monster.B.TwoA.Amalgam.cE' ≤
@@ -137,7 +137,7 @@ theorem ggSporK_bSevenSpread_B
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.B.nonempty_mulEquiv
   let e' : NativeSporadic.B ≃* (TauCeti.CFSGIndex.sporadic .B).Group :=
     e.trans (MulEquiv.refl _)
-  haveI : Finite NativeSporadic.B := Finite.of_equiv _ e'.symm.toEquiv
+  have : Finite NativeSporadic.B := Finite.of_equiv _ e'.symm.toEquiv
   have hB7a' : BSevenComp NativeSporadic.B :=
     @bSevenComp_of_mulEquiv (TauCeti.CFSGIndex.sporadic .B).Group NativeSporadic.B
       _ _ _ _ e'.symm hB7a

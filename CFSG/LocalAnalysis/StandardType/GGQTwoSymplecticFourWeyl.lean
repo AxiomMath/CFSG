@@ -141,7 +141,7 @@ theorem twoPlaneRotation_eq_weyl {K : Type} [Field K] [CharP K 2] :
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [CFSG.LieType.Steinberg.Sp.blockMat, spIncl, inclMat, Matrix.mul_apply,
-      Fintype.sum_sum_type, Fin.sum_univ_two, finSumFinEquiv]
+      Fintype.sum_sum_type, finSumFinEquiv]
   all_goals exact (CharTwo.neg_eq (1 : K)).symm
 
 theorem twoPlaneRotation_pow_four {K : Type} [Field K] [CharP K 2] :
@@ -154,7 +154,7 @@ theorem shortBlock_WSL_eq_permSp_swap {K : Type} [Field K] [CharP K 2]
   have hW : (WSL : CFSG.LieType.Chevalley.SL2 K) * WSL = 1 := by
     apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one, coe_WSL]
-    ext a b <;> fin_cases a <;> fin_cases b <;>
+    ext a b; fin_cases a <;> fin_cases b <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, CharTwo.neg_eq]
   have hi : (WSL : CFSG.LieType.Chevalley.SL2 K)⁻¹ = WSL :=
     inv_eq_of_mul_eq_one_right hW

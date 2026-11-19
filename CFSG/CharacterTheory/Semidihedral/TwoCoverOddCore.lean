@@ -159,9 +159,9 @@ theorem original_two_involution_quotient_center_obstruction [Finite H]
   have htS : t ∈ S := hVS (Subgroup.subset_closure (by simp))
   have hsS : s ∈ S := hVS (Subgroup.subset_closure (by simp))
   have htZ := quotient_centrality_in_original_two_subgroup R hR
-    (S : Subgroup H) S.isPGroup' t htS htcentral
+    (S : Subgroup H) S.isPGroup t htS htcentral
   have hsZ := quotient_centrality_in_original_two_subgroup R hR
-    (S : Subgroup H) S.isPGroup' s hsS hscentral
+    (S : Subgroup H) S.isPGroup s hsS hscentral
   have hVZ : V.subgroupOf (S : Subgroup H) ≤ Subgroup.center S := by
     intro x hx
     apply Subgroup.mem_center_iff.mpr

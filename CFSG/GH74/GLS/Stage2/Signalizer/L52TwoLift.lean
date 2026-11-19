@@ -104,7 +104,7 @@ theorem exists_two_lift [Finite K] {N : Subgroup K} [N.Normal] (hN : Odd (Nat.ca
   obtain ⟨S, hAS⟩ := (hA2.comap_subtype (K := Y)).exists_le_sylow
   have hS_top : (⊤ : Subgroup ↥B) ≤ (S.mapSurjective hf : Subgroup ↥B) :=
     IsPGroup.le_sylow_of_normal (hB2.of_equiv Subgroup.topEquiv.symm) (S.mapSurjective hf)
-  refine ⟨(S : Subgroup ↥Y).map Y.subtype, ?_, S.isPGroup'.map Y.subtype, ?_, ?_⟩
+  refine ⟨(S : Subgroup ↥Y).map Y.subtype, ?_, S.isPGroup.map Y.subtype, ?_, ?_⟩
   · rintro _ ⟨s, -, rfl⟩
     exact s.2.1
   · intro a ha

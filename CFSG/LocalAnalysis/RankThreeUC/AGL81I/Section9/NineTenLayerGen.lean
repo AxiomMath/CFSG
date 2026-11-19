@@ -15,7 +15,7 @@ namespace NineSettingGen
 
 theorem le_iff_starImg_le (h : NineSettingGen G M p Q H E k) {A : Subgroup G} (hAH : A ≤ H) :
     A ≤ M ↔ starImg p H A ≤ starImg p H M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   constructor
   · intro hAM
     exact Subgroup.map_mono (Subgroup.comap_mono hAM)

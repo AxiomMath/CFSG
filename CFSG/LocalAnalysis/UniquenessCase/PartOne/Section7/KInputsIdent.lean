@@ -45,12 +45,12 @@ theorem identification_of_isStronglyPEmbedded (hId : CFSG.AGLEmbedding.KFactSmal
         Nonempty (↥(CFSG.generalizedFitting X) ≃* CFSG.AGLEmbedding.CatGroup d)) ∨
       (p = 5 ∧ CFSG.RankThree.PartOne.Census3.IsoLie ↥(CFSG.generalizedFitting X) (.suzuki 2)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar hp hO hN
   set K := CFSG.generalizedFitting X with hKdef
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hcat : CFSG.Open.IsCatalogGroup ↥K :=
     hX.isCatalogGroup_of_surjective K hKnab (MonoidHom.id _) Function.surjective_id
   have hK1 : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
@@ -61,7 +61,7 @@ theorem identification_of_isStronglyPEmbedded (hId : CFSG.AGLEmbedding.KFactSmal
     exact h2
   have hΓ : CFSG.Open.rankThreeGamma 1 p (P : Subgroup X) ≠ ⊤ :=
     ne_top_of_le_ne_top hN.1
-      (CFSG.LocalAnalysis.UniquenessCase.UCK.glbCore_le_of_isStronglyPEmbedded hN P.isPGroup' hPN)
+      (CFSG.LocalAnalysis.UniquenessCase.UCK.glbCore_le_of_isStronglyPEmbedded hN P.isPGroup hPN)
   by_cases hcyc : IsCyclic (T : Subgroup ↥K)
   ·
     have hcycP : IsCyclic ↥((P : Subgroup X) ⊓ K) := by

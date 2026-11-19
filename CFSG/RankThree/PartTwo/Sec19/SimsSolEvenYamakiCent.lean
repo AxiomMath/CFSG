@@ -46,7 +46,7 @@ theorem classes_c2 : ∀ x : SC, x ≠ 0 → x ∈ scOrb 0 ∪ scOrb 6 ∨ x ∈
 theorem pCoreOf_le_of_maximal {G : Type} [Group G] [Finite G] {L R : Subgroup G} (hRL : R ≤ L)
     (hR : IsPGroup 2 R) (hmax : ∀ Q : Subgroup G, IsPGroup 2 Q → R ≤ Q → Q ≤ L → Q = R) :
     pCoreOf 2 L ≤ R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ2 : IsPGroup 2 (pCoreOf 2 L) := CFSG.CGT.PushingUpLit.SolK.isPGroup_pCoreOf' L
   have hRN : R ≤ Subgroup.normalizer (pCoreOf 2 L : Set G) :=
     hRL.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L)
@@ -58,13 +58,13 @@ theorem pCoreOf_le_of_maximal {G : Type} [Group G] [Finite G] {L R : Subgroup G}
 theorem exists_mem_normalizer_not_mem {G : Type} [Group G] [Finite G] {P Q : Subgroup G}
     (hP : IsPGroup 2 P) (hQP : Q ≤ P) (hne : Q ≠ P) :
     ∃ g ∈ P, g ∉ Q ∧ g ∈ Subgroup.normalizer (Q : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥P := hP.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥P := hP.isNilpotent
   have hlt : Q.subgroupOf P < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hne (le_antisymm hQP fun x hx => ?_)
     have : (⟨x, hx⟩ : ↥P) ∈ Q.subgroupOf P := h ▸ Subgroup.mem_top _
     exact this
-  obtain ⟨g, hgN, hgQ⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
+  obtain ⟨g, hgN, hgQ⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   refine ⟨g, g.2, fun h => hgQ h, ?_⟩
   rw [Subgroup.mem_normalizer_iff]
   intro x
@@ -87,6 +87,7 @@ variable {G : Type} [Group G] [Finite G] {z : G} (Y : YData z)
 
 noncomputable abbrev KK : Subgroup G := Y.NA ⊔ Subgroup.centralizer ({z} : Set G)
 
+omit [Finite G] in
 theorem exists_conj_mem_A {t : G} (ht : t ∈ Y.T) (h2 : t * t = 1) :
     ∃ c ∈ Subgroup.centralizer ({z} : Set G), c * t * c⁻¹ ∈ Y.A := by
   obtain ⟨htC, htD⟩ := Y.mem_lift.mp ht
@@ -111,7 +112,7 @@ theorem exists_conj_mem_A {t : G} (ht : t ∈ Y.T) (h2 : t * t = 1) :
 theorem exists_conj_le_T (P : Sylow 2 G) (hP : (P : Subgroup G) = Y.T) {Q : Subgroup G}
     (hQ2 : IsPGroup 2 Q) (hQC : Q ≤ Subgroup.centralizer ({z} : Set G)) :
     ∃ c ∈ Subgroup.centralizer ({z} : Set G), ∀ x ∈ Q, c * x * c⁻¹ ∈ Y.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C := Subgroup.centralizer ({z} : Set G) with hCdef
   have hTC : (P : Subgroup G) ≤ C := hP ▸ Y.T_le_C
   have hQ2' : IsPGroup 2 (Q.subgroupOf C) := hQ2.comap_subtype
@@ -129,7 +130,7 @@ theorem exists_conj_le_T (P : Sylow 2 G) (hP : (P : Subgroup G) = Y.T) {Q : Subg
 theorem exists_conj_mem_A_of_mem_C (P : Sylow 2 G) (hP : (P : Subgroup G) = Y.T) {x : G}
     (hx : x ∈ Subgroup.centralizer ({z} : Set G)) (h2 : x * x = 1) :
     ∃ c ∈ Subgroup.centralizer ({z} : Set G), c * x * c⁻¹ ∈ Y.A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases h1 : x = 1
   · exact ⟨1, Subgroup.one_mem _, by rw [h1, mul_one, one_mul, inv_one]; exact Y.A.one_mem⟩
   have hord : orderOf x = 2 := orderOf_eq_prime (by rw [sq]; exact h2) h1
@@ -173,6 +174,7 @@ theorem mem_K_of_conj_mem_C (P : Sylow 2 G) (hP : (P : Subgroup G) = Y.T)
   have hNK : Y.NA ≤ Y.KK := le_sup_left
   exact Y.KK.mul_mem (Y.KK.mul_mem (hCK (Subgroup.inv_mem _ hc)) (hNK hm)) (hCK hk)
 
+omit [Finite G] in
 theorem mul_self_of_mem_A {y : G} (hy : y ∈ Y.A) : y * y = 1 := Y.isE64_A.2.1 y hy
 
 theorem centralizer_le_K_of_maximal (hchar : IsCharTwoType G) (P : Sylow 2 G)
@@ -197,6 +199,7 @@ theorem centralizer_le_K_of_maximal (hchar : IsCharTwoType G) (P : Sylow 2 G)
   exact Y.mem_K_of_conj_mem_C P hP hE hz
     (hRz (hOR (CFSG.CGT.PushingUpLit.SolK.pCoreOf_normalized L hg hzO)))
 
+omit [Finite G] in
 theorem centralizer_conj_le {b m : G} (hm : m ∈ Y.KK)
     (hb : Subgroup.centralizer ({b} : Set G) ≤ Y.KK) :
     Subgroup.centralizer ({m * b * m⁻¹} : Set G) ≤ Y.KK := by
@@ -215,19 +218,20 @@ section Classes
 variable (hstd : Y.coord (conjSet Y.NA z) = scOrb 0 ∪ scOrb 6)
 include hstd
 
+omit [Finite G] in
 theorem cc_mem_Omega {n : G} (hn : n ∈ Y.NA) {e : SC} (he : e ∈ scOrb 0 ∪ scOrb 6) :
     Y.cc n e ∈ scOrb 0 ∪ scOrb 6 := by
   rw [← Y.mem_conj_z_iff hstd, Y.σA_cc hn]
   exact conj_mem_conjSet ((Y.mem_conj_z_iff hstd e).mpr he) hn
 
-omit hstd in
+omit hstd [Finite G] in
 theorem cc_injective {n : G} (hn : n ∈ Y.NA) : Function.Injective (Y.cc n) := by
   intro x x' h
   have h1 := congrArg Y.σA h
   rw [Y.σA_cc hn, Y.σA_cc hn] at h1
   exact Y.σA_injective (mul_left_cancel (mul_right_cancel h1))
 
-omit hstd in
+omit hstd [Finite G] in
 theorem cc_sum {n : G} (hn : n ∈ Y.NA) {ι : Type*} (s : Finset ι) (f : ι → SC) :
     Y.cc n (∑ i ∈ s, f i) = ∑ i ∈ s, Y.cc n (f i) := by
   classical
@@ -235,7 +239,7 @@ theorem cc_sum {n : G} (hn : n ∈ Y.NA) {ι : Type*} (s : Finset ι) (f : ι �
   | empty => simp only [Finset.sum_empty]; exact Y.cc_zero hn
   | insert a s ha ih => rw [Finset.sum_insert ha, Finset.sum_insert ha, Y.cc_add hn, ih]
 
-omit hstd in
+omit hstd [Finite G] in
 theorem cc_conj_of_mem {n : G} (hn : n ∈ Y.NA) {a : G} (ha : a ∈ Y.A) :
     Y.cc n (Y.coordOf a) = Y.coordOf (n * a * n⁻¹) := by
   apply Y.σA_injective
@@ -272,7 +276,7 @@ theorem LS_facts' : sc [0, 1] ∈ LS c ∧ (LS c).card = 7 ∧
   · exact ⟨sc01_mem_LS.1, card_LS.1, classes_c1⟩
   · exact ⟨sc01_mem_LS.2, card_LS.2, classes_c2⟩
 
-omit hc in
+omit hc [Finite G] in
 theorem cc_mem_LS (n : ↥Y.NA) {x : SC} (hx : x ∈ LS c) : Y.cc n x ∈ LS c := by
   obtain ⟨ℓ, hℓ, rfl⟩ := mem_LS.mp hx
   have hlam : InL32 (c * Y.permHom hstd n * c⁻¹) := hL n
@@ -283,7 +287,7 @@ theorem cc_mem_LS (n : ↥Y.NA) {x : SC} (hx : x ∈ LS c) : Y.cc n x ∈ LS c :
   congr 1
   simp [Perm.mul_apply]
 
-omit hstd hc hL in
+omit hstd hc hL [Finite G] in
 theorem π12_mul_z (hz : orderOf z = 2) : Y.π12 * z = Y.π3 := by
   have h1 : Y.π3 * z = z * Y.π3 := Subgroup.mem_centralizer_singleton_iff.mp Y.π3_mem_C
   rw [← Y.z_mul_π3, mul_assoc, h1, ← mul_assoc, zz_one hz, one_mul]
@@ -346,7 +350,7 @@ theorem coord_conj_pi12 (hchar : IsCharTwoType G) (P : Sylow 2 G) (hP : (P : Sub
     Nat.mul_le_mul (by omega) hN
   omega
 
-omit hc in
+omit hc [Finite G] in
 theorem centralizer_N_le_C {y : G} (hyA : y ∈ Y.A)
     (hU : ∀ e ∈ scOrb 0 ∪ scOrb 6, Y.coordOf y + e ∈ LS c → e = sc [0, 1, 2])
     (hU0 : Y.coordOf y + sc [0, 1, 2] ∈ LS c) {n : G} (hn : n ∈ Y.NA) (hny : n * y = y * n) :
@@ -395,7 +399,7 @@ theorem centralizer_le_K_of_point (hchar : IsCharTwoType G) (P : Sylow 2 G)
     (hU : ∀ e ∈ scOrb 0 ∪ scOrb 6, Y.coordOf y + e ∈ LS c → e = sc [0, 1, 2])
     (hU0 : Y.coordOf y + sc [0, 1, 2] ∈ LS c) :
     Subgroup.centralizer ({y} : Set G) ≤ Y.KK := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Cy := Subgroup.centralizer ({y} : Set G) with hCy
   set C := Subgroup.centralizer ({z} : Set G) with hC
   have hA : Y.A ≤ C ⊓ Cy := fun a ha =>
@@ -404,7 +408,7 @@ theorem centralizer_le_K_of_point (hchar : IsCharTwoType G) (P : Sylow 2 G)
   obtain ⟨S, hS⟩ := (hA2.comap_subtype (K := C ⊓ Cy)).exists_le_sylow
   set Q : Subgroup G := (S : Subgroup ↥(C ⊓ Cy)).map (C ⊓ Cy).subtype with hQdef
   have hQle : Q ≤ C ⊓ Cy := Subgroup.map_subtype_le _
-  have hQ2 : IsPGroup 2 Q := S.isPGroup'.map _
+  have hQ2 : IsPGroup 2 Q := S.isPGroup.map _
   have hAQ : Y.A ≤ Q := fun a ha => ⟨⟨a, hA ha⟩, hS ha, rfl⟩
   have hQmax : ∀ Q' : Subgroup G, IsPGroup 2 Q' → Q ≤ Q' → Q' ≤ C ⊓ Cy → Q' = Q := by
     intro Q' hQ'2 hQQ' hQ'le
@@ -453,7 +457,7 @@ theorem centralizer_pi12_le_K (hchar : IsCharTwoType G) (P : Sylow 2 G)
     (hz : orderOf z = 2) : Subgroup.centralizer ({Y.π12} : Set G) ≤ Y.KK := by
   refine Y.centralizer_le_K_of_maximal hchar P hP hE hz Y.π12_mem_A Y.π12_ne_one (R := Y.T)
     (fun t ht => Subgroup.mem_centralizer_singleton_iff.mpr (Y.commute_of_mem_T ht).2.1)
-    Y.T_le_C (hP ▸ P.isPGroup') fun Q hQ2 hTQ _ => ?_
+    Y.T_le_C (hP ▸ P.isPGroup) fun Q hQ2 hTQ _ => ?_
   rw [← hP] at hTQ ⊢
   exact P.maximal_isPGroup.eq_of_ge hQ2 hTQ
 

@@ -38,6 +38,7 @@ private def lineForm (δ : K) : QuadraticForm K (Fin 1 → K) :=
 private def coordForm (δ : K) : QuadraticForm K (Fin 3 → K) :=
   (planeForm (K := K).prod (lineForm (K := K) δ)).comp splitCoord.toLinearMap
 
+omit [Finite K] in
 private theorem splitCoord_single_zero :
     splitCoord (K := K) (Pi.single (0 : Fin 3) 1) =
       (Pi.single (0 : Fin 2) 1, 0) := by
@@ -48,6 +49,7 @@ private theorem splitCoord_single_zero :
     simp [splitCoord, LinearEquiv.funCongrLeft_apply, LinearMap.funLeft_apply, Pi.single,
       h0, h1, h2]
 
+omit [Finite K] in
 private theorem splitCoord_single_one :
     splitCoord (K := K) (Pi.single (1 : Fin 3) 1) =
       (Pi.single (1 : Fin 2) 1, 0) := by
@@ -58,6 +60,7 @@ private theorem splitCoord_single_one :
     simp [splitCoord, LinearEquiv.funCongrLeft_apply, LinearMap.funLeft_apply, Pi.single,
       h0, h1, h2]
 
+omit [Finite K] in
 private theorem coordForm_apply {δ : K} (x : Fin 3 → K) :
     coordForm (K := K) δ x =
       x 0 ^ 2 + x 1 ^ 2 + δ * x 2 ^ 2 := by
@@ -66,7 +69,7 @@ private theorem coordForm_apply {δ : K} (x : Fin 3 → K) :
   have h2 : finSumFinEquiv (m := 2) (n := 1) (Sum.inr (0 : Fin 1)) = (2 : Fin 3) := by decide
   simp [coordForm, planeForm, lineForm, splitCoord, LinearEquiv.funCongrLeft_apply,
     LinearMap.funLeft_apply, QuadraticMap.weightedSumSquares, QuadraticMap.prod,
-    Fin.sum_univ_three, Fin.sum_univ_two, TauCeti.toQuadraticForm'_one_apply, dotProduct,
+    Fin.sum_univ_two, TauCeti.toQuadraticForm'_one_apply, dotProduct,
     h0, h1, h2]
   ring_nf
 
@@ -76,6 +79,7 @@ private def coordForm_isometry (δ : K) :
   { toLinearEquiv := splitCoord
     map_app' := fun _ => rfl }
 
+omit [Finite K] in
 private theorem coordForm_polar_apply {δ : K} (x y : Fin 3 → K) :
     (coordForm (K := K) δ).polarBilin x y =
       2 * (x 0 * y 0 + x 1 * y 1 + δ * x 2 * y 2) := by
@@ -85,6 +89,7 @@ private theorem coordForm_polar_apply {δ : K} (x y : Fin 3 → K) :
   simp only [Pi.add_apply] at h
   linear_combination -h
 
+omit [Finite K] in
 private theorem planeBridge (h2 : (2 : K) ≠ 0) (m : O2 K) :
     glToLinEquiv (K := K) (Fin 2) (m : GL (Fin 2) K) ∈
       TauCeti.QuadraticMap.orthogonalGroup (planeForm (K := K)) := by
@@ -111,6 +116,7 @@ private def planeToQuadratic (h2 : (2 : K) ≠ 0) :
     (TauCeti.QuadraticMap.orthogonalGroup (planeForm (K := K)))
     (fun m => planeBridge (K := K) h2 m)
 
+omit [Finite K] in
 private theorem planeToQuadratic_injective (h2 : (2 : K) ≠ 0) :
     Function.Injective (planeToQuadratic (K := K) h2) := by
   intro a b hab
@@ -132,6 +138,7 @@ private def negOneSub (c : GL (Fin 2) K) {r : ℕ}
     rw [Subgroup.mem_subgroupOf]
     simpa [negOneO2] using neg_one_mem_planeSylow (K := K) hneg⟩
 
+omit [Finite K] in
 private theorem negOneO2_mem_center (c : GL (Fin 2) K) {r : ℕ}
     (hneg : c ^ (2 ^ (r - 1)) = -1) :
     negOneSub (K := K) c hneg ∈
@@ -144,6 +151,7 @@ private theorem negOneO2_mem_center (c : GL (Fin 2) K) {r : ℕ}
     (-1 : GL (Fin 2) K) * ((x : O2 K) : GL (Fin 2) K)
   rw [mul_neg_one, neg_one_mul]
 
+omit [Finite K] in
 private theorem planeToQuadratic_negOne (h2 : (2 : K) ≠ 0) :
     planeToQuadratic (K := K) h2 (negOneO2 (K := K)) =
       QuadraticMap.negOrthogonal (planeForm (K := K)) := by
@@ -158,6 +166,7 @@ private theorem planeToQuadratic_negOne (h2 : (2 : K) ≠ 0) :
     intro x
     simp [glToLinEquiv]]
 
+omit [Finite K] in
 private theorem lineForm_ne_zero {δ : K} (hδ : δ ≠ 0) :
     lineForm (K := K) δ ≠ 0 := by
   intro h
@@ -170,6 +179,7 @@ variable {K : Type} [Field K] [Finite K]
 private def coordWeight (δ : K) : Fin 3 → K :=
   fun i => if (i : ℕ) < 2 then 1 else δ
 
+omit [Finite K] in
 private theorem coordForm_eq_weighted {δ : K} :
     coordForm (K := K) δ = QuadraticMap.weightedSumSquares K (coordWeight (K := K) δ) := by
   ext x
@@ -177,13 +187,14 @@ private theorem coordForm_eq_weighted {δ : K} :
   simp [QuadraticMap.weightedSumSquares, coordWeight, Fin.sum_univ_three]
   ring
 
+omit [Finite K] in
 private theorem coordWeight_ne_zero {δ : K} (hδ : δ ≠ 0) :
     ∀ i : Fin 3, coordWeight (K := K) δ i ≠ 0 := by
   intro i
   fin_cases i <;> simp [coordWeight, hδ, one_ne_zero]
 
 private theorem two_ne_zero_of_odd (hodd : Odd (Nat.card K)) : (2 : K) ≠ 0 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   exact CFSG.RankThree.Classical.two_ne_zero_of_card_odd (K := K) (by
     rw [← Nat.card_eq_fintype_card]
     exact Nat.odd_iff.mp hodd)
@@ -194,9 +205,9 @@ private theorem natCard_coordOrthogonal (hodd : Odd (Nat.card K)) {δ : K} (hδ 
   have h2 : (2 : K) ≠ 0 := two_ne_zero_of_odd (K := K) hodd
   have hchar : ringChar K ≠ 2 := by
     intro h
-    haveI : CharP K 2 := by simpa [h] using ringChar.charP K
+    have : CharP K 2 := by simpa [h] using ringChar.charP K
     exact h2 (by simpa using CharP.cast_eq_zero K 2)
-  letI : Invertible (2 : K) := invertibleOfNonzero h2
+  let : Invertible (2 : K) := invertibleOfNonzero h2
   have hB : (QuadraticMap.polarBilin (coordForm (K := K) δ)).Nondegenerate := by
     rw [coordForm_eq_weighted]
     exact QuadraticMap.nondegenerate_polar_iff.mpr
@@ -204,7 +215,7 @@ private theorem natCard_coordOrthogonal (hodd : Odd (Nat.card K)) {δ : K} (hδ 
         (fun i => isRegular_iff_ne_zero.mpr (coordWeight_ne_zero (K := K) hδ i)))
   have hdim : Module.finrank K (Fin 3 → K) = 3 := by simp
   have hraw := CFSG.GroupTheory.WeirSylow.natCard_orthogonalGroup_odd (K := K)
-    (V := Fin 3 → K) hchar (Q := coordForm (K := K) δ) hB (n := 1) (by simpa using hdim)
+    (V := Fin 3 → K) hchar (Q := coordForm (K := K) δ) hB (n := 1) (by simp)
   have hprod : (∏ i ∈ Finset.Icc 1 1, (((Nat.card K : ℤ) ^ 2) ^ i - 1)) =
       ((Nat.card K : ℤ) ^ 2 - 1) := by
     simp
@@ -213,6 +224,7 @@ private theorem natCard_coordOrthogonal (hodd : Odd (Nat.card K)) {δ : K} (hδ 
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem splitCoord_zero_of_coord_zero {x : Fin 3 → K} (h0 : x 0 = 0) (h1 : x 1 = 0) :
     splitCoord (K := K) x = (0, fun _ : Fin 1 => x 2) := by
   have hsum0 : finSumFinEquiv (m := 2) (n := 1) (Sum.inl (0 : Fin 2)) = (0 : Fin 3) := by decide
@@ -222,23 +234,27 @@ private theorem splitCoord_zero_of_coord_zero {x : Fin 3 → K} (h0 : x 0 = 0) (
     simp [splitCoord, LinearEquiv.funCongrLeft_apply, LinearMap.funLeft_apply, h0, h1,
       hsum0, hsum1, hsum2]
 
-private theorem coordForm_polar_single_left {δ : K} (h2 : (2 : K) ≠ 0) (i : Fin 3)
+omit [Finite K] in
+private theorem coordForm_polar_single_left {δ : K} (_h2 : (2 : K) ≠ 0) (i : Fin 3)
     (x : Fin 3 → K) :
     (coordForm (K := K) δ).polarBilin (Pi.single i 1) x =
       2 * coordWeight (K := K) δ i * x i := by
   rw [coordForm_polar_apply]
-  fin_cases i <;> simp [Pi.single, coordWeight] <;> ring
+  fin_cases i <;> simp [Pi.single, coordWeight]; ring
 
+omit [Finite K] in
 private theorem coordForm_single_zero {δ : K} :
     coordForm (K := K) δ (Pi.single (0 : Fin 3) 1) = 1 := by
   rw [coordForm_apply]
   simp [Pi.single]
 
+omit [Finite K] in
 private theorem coordForm_single_one {δ : K} :
     coordForm (K := K) δ (Pi.single (1 : Fin 3) 1) = 1 := by
   rw [coordForm_apply]
   simp [Pi.single]
 
+omit [Finite K] in
 private theorem coordForm_polar_single_zero_one {δ : K} :
     (coordForm (K := K) δ).polarBilin
       (Pi.single (0 : Fin 3) 1) (Pi.single (1 : Fin 3) 1) = 0 := by
@@ -307,7 +323,7 @@ private theorem coordSylow_exists (hodd : Odd (Nat.card K)) {δ : K} (hδ : δ �
   let QL : QuadraticForm K (Fin 1 → K) := lineForm (K := K) δ
   have hdimL : Module.finrank K (Fin 1 → K) = 1 := by simp
   have hQLne : QL ≠ 0 := lineForm_ne_zero (K := K) hδ
-  haveI : NeZero (2 : K) := ⟨h2⟩
+  have : NeZero (2 : K) := ⟨h2⟩
   have hnegL : QuadraticMap.negOrthogonal QL ≠ 1 :=
     QL.negOrthogonal_ne_one
   let Lsub : Subgroup (TauCeti.QuadraticMap.orthogonalGroup QL) :=
@@ -418,7 +434,6 @@ private theorem coordSylow_exists (hodd : Odd (Nat.card K)) {δ : K} (hδ : δ �
       ((2 ^ (r + 2) * u : ℕ) : ℤ) := by
     rw [hOZ, hdiff, hqminus, hn, hmZ]
     dsimp [u]
-    push_cast
     ring
   have hOcard : Nat.card (TauCeti.QuadraticMap.orthogonalGroup (coordForm (K := K) δ)) =
       2 ^ (r + 2) * u := Nat.cast_injective htargetZ
@@ -462,8 +477,8 @@ private theorem coordSylow_exists (hodd : Odd (Nat.card K)) {δ : K} (hδ : δ �
         (Fin 2 → K) × (Fin 1 → K)) (eW x) =
         eW (((QuadraticMap.IsometryEquiv.orthogonalGroupCongr eW).symm g :
           (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) x) := by
-      simpa using h
-    simpa using (congrArg eW.symm h').symm
+      simp
+    simp
   have hbCoord_single0 :
       (bCoord : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) (Pi.single (0 : Fin 3) 1) =
         -Pi.single (0 : Fin 3) 1 := by
@@ -567,21 +582,21 @@ private theorem coord_prescribed (hodd : Odd (Nat.card K)) {δ : K} (hδ : δ �
           (b : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) x = x) := by
   classical
   let G := TauCeti.QuadraticMap.orthogonalGroup (coordForm (K := K) δ)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (↥G) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite (Set (↥G)) := inferInstance
-  haveI : Finite (Subgroup (↥G)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (↥G) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (Set (↥G)) := inferInstance
+  have : Finite (Subgroup (↥G)) :=
     Finite.of_injective (fun H : Subgroup (↥G) => (H : Set (↥G))) (by
       intro H K h
       exact Subgroup.ext (fun x =>
         Iff.of_eq (congrArg (fun S : Set (↥G) => x ∈ S) h)))
-  haveI : Finite (Sylow 2 (↥G)) :=
+  have : Finite (Sylow 2 (↥G)) :=
     Finite.of_injective (fun P : Sylow 2 (↥G) => (P : Subgroup (↥G))) (by
       intro P Q h
       exact Sylow.ext h)
   obtain ⟨S, b₀, hb₀S, hb₀central, hb₀sq, hb₀ne, hb₀0, hb₀1, hb₀fix⟩ :=
     coordSylow_exists (K := K) hodd hδ
-  letI : MulAction.IsPretransitive (↥G) (Sylow 2 (↥G)) :=
+  let : MulAction.IsPretransitive (↥G) (Sylow 2 (↥G)) :=
     Sylow.isPretransitive_of_finite
   obtain ⟨g, hg⟩ := MulAction.IsPretransitive.exists_smul_eq
     (M := ↥G) (α := Sylow 2 (↥G)) S R
@@ -632,11 +647,6 @@ private theorem coord_prescribed (hodd : Odd (Nat.card K)) {δ : K} (hδ : δ �
       ← QuadraticMap.polarBilin_apply_apply]
     exact coordForm_polar_single_zero_one (K := K)
   · rw [← hgu, hbconj]
-    change ((g : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) *
-        (b₀ : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) *
-        ((g : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K))⁻¹))
-      ((g : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) (Pi.single (0 : Fin 3) 1)) =
-      -((g : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) (Pi.single (0 : Fin 3) 1))
     rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply]
     change (g : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K))
       ((b₀ : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K))
@@ -645,11 +655,6 @@ private theorem coord_prescribed (hodd : Odd (Nat.card K)) {δ : K} (hδ : δ �
       -((g : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) (Pi.single (0 : Fin 3) 1))
     rw [LinearEquiv.symm_apply_apply, hb₀0, map_neg]
   · rw [← hgv, hbconj]
-    change ((g : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) *
-        (b₀ : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) *
-        ((g : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K))⁻¹))
-      ((g : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) (Pi.single (1 : Fin 3) 1)) =
-      -((g : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) (Pi.single (1 : Fin 3) 1))
     rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply]
     change (g : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K))
       ((b₀ : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K))
@@ -692,7 +697,7 @@ variable {W : Type*} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
 
 private theorem exists_coord_isometry (Q : QuadraticForm K W) (hodd : Odd (Nat.card K))
     (hQ : Q.polarBilin.Nondegenerate) (hdim : Module.finrank K W = 3) :
-    ∃ (δ : K) (hδ : δ ≠ 0) (eQ : Q.IsometryEquiv (coordForm (K := K) δ)),
+    ∃ (δ : K) (_hδ : δ ≠ 0) (eQ : Q.IsometryEquiv (coordForm (K := K) δ)),
       Q (eQ.symm (Pi.single (0 : Fin 3) 1)) = 1 ∧
       Q (eQ.symm (Pi.single (1 : Fin 3) 1)) = 1 := by
   classical
@@ -700,11 +705,11 @@ private theorem exists_coord_isometry (Q : QuadraticForm K W) (hodd : Odd (Nat.c
     CFSG.RankThree.Classical.exists_orthogonal_basis_quad_eq (K := K) hodd
       (V := W) (d := 3) hdim (by norm_num) Q hQ one_ne_zero
   let δ : K := Q (e 2)
-  have hδ : δ ≠ 0 := by
+  have _hδ : δ ≠ 0 := by
     dsimp [δ]
     simpa using hlast
   have h2 : (2 : K) ≠ 0 := two_ne_zero_of_odd (K := K) hodd
-  letI : Invertible (2 : K) := invertibleOfNonzero h2
+  let : Invertible (2 : K) := invertibleOfNonzero h2
   have hO : LinearMap.IsOrthoᵢ (QuadraticMap.associated Q) ⇑e := by
     intro i j hij
     change (QuadraticMap.associated Q) (e i) (e j) = 0
@@ -721,7 +726,7 @@ private theorem exists_coord_isometry (Q : QuadraticForm K W) (hodd : Odd (Nat.c
       · simp [coordWeight, δ]]
     exact (coordForm_eq_weighted (K := K) (δ := δ)).symm
   rw [hrepr] at eRepr
-  refine ⟨δ, hδ, eRepr, ?_, ?_⟩
+  refine ⟨δ, _hδ, eRepr, ?_, ?_⟩
   · simpa using coordForm_single_zero (K := K) (δ := δ)
   · simpa using coordForm_single_one (K := K) (δ := δ)
 
@@ -742,8 +747,8 @@ theorem exists_central_plane_negation_of_sylow
         (∀ x : W, Q.polarBilin u x = 0 → Q.polarBilin v x = 0 →
           (b : W ≃ₗ[K] W) x = x) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (TauCeti.QuadraticMap.orthogonalGroup Q) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (TauCeti.QuadraticMap.orthogonalGroup Q) :=
     CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   obtain ⟨δ, hδ, eQ, hu₀, hv₀⟩ := exists_coord_isometry (K := K) Q hodd hQ hdim
   let eG := QuadraticMap.IsometryEquiv.orthogonalGroupCongr eQ
@@ -770,7 +775,7 @@ theorem exists_central_plane_negation_of_sylow
     simpa only [map_mul, hbb2] using hb'central (eG x) hx'
   have hbsq : b * b = 1 := by
     apply eG.injective
-    simpa only [map_mul, hbb2, hb'sq, map_one]
+    simp only [map_mul, hbb2, hb'sq, map_one]
   have hbne : b ≠ 1 := by
     intro h
     apply hb'ne
@@ -793,7 +798,7 @@ theorem exists_central_plane_negation_of_sylow
     apply eQ.injective
     have h := QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply eQ b (eQ (eQ.symm u'))
     rw [hbb2] at h
-    simp only [eQ.symm_apply_apply, eQ.apply_symm_apply] at h
+    simp only [eQ.apply_symm_apply] at h
     calc eQ.toLinearEquiv ((b : W ≃ₗ[K] W) (eQ.symm u')) =
         (b' : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) u' := h.symm
       _ = -u' := hbu'
@@ -805,7 +810,7 @@ theorem exists_central_plane_negation_of_sylow
     apply eQ.injective
     have h := QuadraticMap.IsometryEquiv.coe_orthogonalGroupCongr_apply eQ b (eQ (eQ.symm v'))
     rw [hbb2] at h
-    simp only [eQ.symm_apply_apply, eQ.apply_symm_apply] at h
+    simp only [eQ.apply_symm_apply] at h
     calc eQ.toLinearEquiv ((b : W ≃ₗ[K] W) (eQ.symm v')) =
         (b' : (Fin 3 → K) ≃ₗ[K] (Fin 3 → K)) v' := h.symm
       _ = -v' := hbv'

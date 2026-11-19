@@ -65,7 +65,7 @@ theorem s16sp_module_data_of_cover {W : Type} [CommGroup W] [Finite W]
     apply Additive.toMul.injective
     rw [two_nsmul, toMul_add, toMul_zero]
     simpa [pow_two] using hexp (Additive.toMul x)
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule h2
   let θ : W ≃* Multiplicative (Additive W) :=
     { toFun := fun w => Multiplicative.ofAdd (Additive.ofMul w)
       invFun := fun m => Additive.toMul (Multiplicative.toAdd m)

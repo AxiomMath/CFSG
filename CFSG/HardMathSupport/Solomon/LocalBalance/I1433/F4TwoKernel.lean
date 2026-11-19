@@ -35,8 +35,7 @@ theorem exists_primitive_cube_root :
     rw [Polynomial.degree_quadratic one_ne_zero]
     norm_num
   obtain ⟨z, hz⟩ := IsAlgClosed.exists_root _ hdeg
-  simp only [Polynomial.IsRoot.def, map_one, one_mul, Polynomial.eval_add, Polynomial.eval_mul,
-    Polynomial.eval_C, Polynomial.eval_pow, Polynomial.eval_X, Polynomial.eval_one] at hz
+  simp only [Polynomial.IsRoot.def, map_one, one_mul, Polynomial.eval_add, Polynomial.eval_pow, Polynomial.eval_X, Polynomial.eval_one] at hz
   have hz0 : z ≠ 0 := by
     rintro rfl
     simp at hz
@@ -86,7 +85,7 @@ theorem rootChar_eq_pow_kdot {a : Fin Tag.F4.rank → Lˣ} {ω : Lˣ} {k : Fin T
 theorem rootChar_eq_one_iff {a : Fin Tag.F4.rank → Lˣ} {ω : Lˣ} {k : Fin Tag.F4.rank → ℕ}
     (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) (hak : ∀ i, a i = ω ^ k i) (γ : V4) :
     rootChar a γ = 1 ↔ kdot k γ % 3 = 0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf ω = 3 := orderOf_eq_prime hω3 hω1
   rw [rootChar_eq_pow_kdot hak, ← orderOf_dvd_iff_zpow_eq_one, hord]
   omega

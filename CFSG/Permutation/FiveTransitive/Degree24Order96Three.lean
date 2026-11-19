@@ -280,7 +280,7 @@ theorem degree24_order_three_support_incidence
             X P s 3 d) =
         Nat.card {u : H // orderOf u = 3} := by
     exact (Nat.card_congr localEquiv).symm
-  letI : Fintype s := Fintype.ofFinite s
+  let : Fintype s := Fintype.ofFinite s
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, hs]
@@ -356,7 +356,7 @@ theorem order_three_mem_five_stabilizer_support_eq_eighteen_of_card_eq_ninety_si
     ((((v : fixingSubgroup P s) : P) :
         Equiv.Perm X).support.card = 18) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   have hP5 :
       MulAction.IsMultiplyPretransitive P X 5 := by
@@ -410,7 +410,7 @@ theorem order_three_mem_five_stabilizer_support_eq_eighteen_of_card_eq_ninety_si
         n * (3 - 1) at hcount
     norm_num at hcount ⊢
     exact hcount
-  letI : Nontrivial S :=
+  let : Nontrivial S :=
     Finite.one_lt_card_iff_nontrivial.mp (by
       rw [hScard]
       norm_num)

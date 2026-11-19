@@ -469,7 +469,7 @@ private theorem f4Eta_equivFun_basis {p : ℕ} {V : Type} [AddCommGroup V] [Modu
   by_cases h : i = j
   · subst h
     simp
-  · rw [if_neg h, Pi.single_eq_of_ne (Ne.symm h)]
+  · rw [ite_eq_right h, Pi.single_eq_of_ne (Ne.symm h)]
 
 private theorem f4Eta_apply_eq_one_of_smul_basis {p : ℕ} [Fact p.Prime] {G : Type} [Group G]
     {Bs : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod p) V]

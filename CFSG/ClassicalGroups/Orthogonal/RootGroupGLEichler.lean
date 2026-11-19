@@ -69,7 +69,7 @@ theorem eichlerC_add_smul_self {u w : Fin d → K} (hu : Q u = 0)
   module
 
 theorem eichlerC_smul_right_eq {e u : Fin d → K} (hu : Q u = 0) (he : Q e = 0)
-    (hue : polar Q u e = 0) (c : K) (y : Fin d → K) :
+    (_hue : polar Q u e = 0) (c : K) (y : Fin d → K) :
     eichlerC Q u (c • e) y = eichlerC Q e ((-c) • u) y := by
   have hQe : Q (c • e) = 0 := by rw [QuadraticMap.map_smul, he, smul_zero]
   have hQu : Q ((-c) • u) = 0 := by rw [QuadraticMap.map_smul, hu, smul_zero]
@@ -95,7 +95,7 @@ theorem mem_rootGroupGL_of_eichlerC_smul_right {e u : Fin d → K} (c : K) {g : 
   · rw [polar_smul_right, polar_comm Q e u, hue, smul_zero]
   · rw [hg y, eichlerC_smul_right_eq Q hu he hue c y]
 
-theorem exists_eichlerC_of_mem_rootGroupGL {e f : Fin d → K} (he : Q e = 0) (hf : Q f = 0)
+theorem exists_eichlerC_of_mem_rootGroupGL {e f : Fin d → K} (_he : Q e = 0) (hf : Q f = 0)
     (hef : polar Q e f = 1) {g : GL (Fin d) K} (hg : g ∈ rootGroupGL Q f) :
     ∃ w, polar Q w e = 0 ∧ polar Q w f = 0 ∧
       ∀ y, (g : Matrix (Fin d) (Fin d) K) *ᵥ y = eichlerC Q f w y := by

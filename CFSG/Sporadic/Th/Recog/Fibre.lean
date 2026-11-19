@@ -395,8 +395,8 @@ private theorem fibreHqf : ∀ u : Additive (Abelianization ↥(Max3.Q.subgroupO
         exact eQM.injective (by rw [map_one]; exact h)
     rw [hx1, hsq, hfin]
   rcases CFSG.Certificates.ExtraspecialNF.zmod_two_cases (qf v) with h0 | h1
-  · rw [if_pos (hiff.mpr h0), h0]
-  · rw [if_neg (fun hx => by rw [hiff.mp hx] at h1; exact absurd h1 (by decide)), h1]
+  · rw [ite_eq_left (hiff.mpr h0), h0]
+  · rw [ite_eq_right (fun hx => by rw [hiff.mp hx] at h1; exact absurd h1 (by decide)), h1]
 
 private theorem fibreHL_conj : ∀ (m : Max3.M) (y : ↥(Max3.Q.subgroupOf Max3.M)),
     fibreL (Additive.ofMul (Abelianization.of (conjAut instNormalQSubgroupOfM m y))) =

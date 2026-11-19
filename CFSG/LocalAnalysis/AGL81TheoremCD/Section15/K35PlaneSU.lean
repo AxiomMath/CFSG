@@ -41,7 +41,7 @@ theorem exists_inner_or_conj_fieldAut_psu (h : UnitaryFieldData ℓ f K) (hn : 3
     exact hinn ⟨x, hxA, hx1, hxI⟩
   have hFker := ker_primeFormFieldFactor h isPrimeFormGram_one hn hq
   set Φ := primeFormFieldFactor h isPrimeFormGram_one hn hq
-  obtain ⟨α, hαA, hαD⟩ := SetLike.not_le_iff_exists.1 hAD
+  obtain ⟨α, hαA, hαD⟩ := IsConcreteLE.not_le_iff_exists.1 hAD
   have hΦ : Φ α ≠ 1 := fun h1 => hαD (hFker ▸ h1)
   have hα1 : α ≠ 1 := fun h1 => hΦ (by rw [h1, map_one])
   have hσ : orderOf (Φ α) = 3 := orderOf_eq_prime (by rw [← map_pow, hA α hαA, map_one]) hΦ

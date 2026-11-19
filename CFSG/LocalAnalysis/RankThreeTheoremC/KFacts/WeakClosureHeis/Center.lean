@@ -12,7 +12,7 @@ theorem exists_central_order_p_not_mem {p : ℕ} (hp : p.Prime) {X : Type*} [Gro
     {Q Q₀ Q₁ : Subgroup X} (h : HeisShape p Q Q₀ Q₁) {S : Subgroup X} (hSQ : S ≤ Q)
     (hS : Nat.card (S ⊓ centralizer (S : Set X) : Subgroup X) ≤ p) :
     ∃ u ∈ Q, u ^ p = 1 ∧ (∀ q ∈ Q, u * q = q * u) ∧ u ∉ S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQ0ne : Nat.card Q₀ ≠ 1 := fun h1 => h.ne_bot (Subgroup.card_eq_one.mp h1)
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp h.left_pgrp
   have hk0 : k ≠ 0 := by

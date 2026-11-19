@@ -95,6 +95,7 @@ theorem isElemAbelianMod_U (h : Hyp6116 G T M L V n) :
   fun u hu w hw => h.isElemAbelianMod h.isInHS_sup u (conjClosure_mono le_rfl le_sup_left hu) w
     (conjClosure_mono le_rfl le_sup_left hw)
 
+omit [Finite G] in
 theorem mem_normalizer_of_conjSub_eq {b : G} (e : conjSub b V = V) :
     b ∈ Subgroup.normalizer (V : Set G) := by
   have e' : conjSubgroup V b⁻¹ = V := by

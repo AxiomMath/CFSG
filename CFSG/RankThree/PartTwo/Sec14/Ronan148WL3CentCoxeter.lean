@@ -58,7 +58,7 @@ theorem eq_of_commute_irreducible {Y : Matrix (Fin 3) (Fin 3) K}
     by_cases hj : j = i
     · subst hj
       simp
-    · simp [Pi.single_apply, hj]
+    · simp [hj]
   have he0 : Pi.single (0 : Fin 3) (1 : K) ∈ W := by
     rw [hmem, hDe]
     rfl
@@ -79,9 +79,9 @@ theorem trace_monomial_eq_zero (a b c : Kˣ) {k : ℕ} (hk1 : 1 ≤ k) (hk3 : k 
     ((diagUnits a b c * cycThree ^ k : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).trace = 0 := by
   rcases (by omega : k = 1 ∨ k = 2) with rfl | rfl
   · rw [pow_one, Units.val_mul, coe_diagUnits_eq, coe_cycThree]
-    simp [Matrix.trace, Fin.sum_univ_three, Matrix.mul_apply]
+    simp [Matrix.trace, Fin.sum_univ_three]
   · rw [pow_two, Units.val_mul, Units.val_mul, coe_diagUnits_eq, coe_cycThree]
-    simp [Matrix.trace, Fin.sum_univ_three, Matrix.mul_apply]
+    simp [Matrix.trace, Fin.sum_univ_three]
 
 variable {ι : Type*} {α : ι → MulAut (projImage (slPi π 3 (p ^ f) K))}
   {e₀ : projImage (slPi π 3 (p ^ f) K)}

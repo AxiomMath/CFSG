@@ -22,10 +22,10 @@ theorem subsingleton_of_noAbel_of_layer_eq_bot {C : Type} [Group C] [Finite C]
   have hF : CFSG.fittingSubgroup C = ⊥ := by
     by_contra hne
     set F := CFSG.fittingSubgroup C with hFdef
-    haveI hFnil : Group.IsNilpotent ↥F := inferInstance
-    haveI : Nontrivial ↥F := (Subgroup.nontrivial_iff_ne_bot F).2 hne
+    have hFnil : Group.IsNilpotent ↥F := inferInstance
+    have : Nontrivial ↥F := (Subgroup.nontrivial_iff_ne_bot F).2 hne
     have hcen : Subgroup.center ↥F ≠ ⊥ := Group.IsNilpotent.center_ne_bot ↥F
-    haveI : Nontrivial ↥(Subgroup.center ↥F) := (Subgroup.nontrivial_iff_ne_bot _).2 hcen
+    have : Nontrivial ↥(Subgroup.center ↥F) := (Subgroup.nontrivial_iff_ne_bot _).2 hcen
     obtain ⟨z, hz⟩ := exists_ne (1 : ↥(Subgroup.center ↥F))
     have hFn : F.Normal := inferInstance
     have hZ : F ⊓ Subgroup.centralizer (F : Set C) = ⊥ := by
@@ -53,7 +53,7 @@ theorem subsingleton_of_noAbel_of_layer_eq_bot {C : Type} [Group C] [Finite C]
     rw [CFSG.Open.genFittingFStar.eq_sup, genFittingLayer_eq_layer', hL]
     show CFSG.fittingSubgroup C ⊔ ⊥ = ⊥
     rw [hF, sup_bot_eq]
-  have hc := CFSG.Open.Open.generalized_fitting_self_centralizing C
+  have hc := CFSG.Open.Thm.generalized_fitting_self_centralizing C
   rw [hstar] at hc
   rw [eq_bot_iff]
   intro x _
@@ -74,13 +74,13 @@ theorem perfectInLayer_of_noAbel_of_solvable_quotient {S : Type} [Group S] (β :
   apply perfectInLayer_of_isSolvable_layer_quotient
   rcases hT (CFSG.layer ↥(fixSubgroup β)) with hL | hs
   · have htop := subsingleton_of_noAbel_of_layer_eq_bot hA hL
-    haveI : Subsingleton ↥(fixSubgroup β) :=
+    have : Subsingleton ↥(fixSubgroup β) :=
       ⟨fun a b => by
         have ha : a ∈ (⊥ : Subgroup ↥(fixSubgroup β)) := htop ▸ Subgroup.mem_top a
         have hb : b ∈ (⊥ : Subgroup ↥(fixSubgroup β)) := htop ▸ Subgroup.mem_top b
         rw [Subgroup.mem_bot] at ha hb
         rw [ha, hb]⟩
-    haveI : Subsingleton (↥(fixSubgroup β) ⧸ CFSG.layer ↥(fixSubgroup β)) :=
+    have : Subsingleton (↥(fixSubgroup β) ⧸ CFSG.layer ↥(fixSubgroup β)) :=
       ⟨fun a b => by
         obtain ⟨a', rfl⟩ := QuotientGroup.mk_surjective a
         obtain ⟨b', rfl⟩ := QuotientGroup.mk_surjective b

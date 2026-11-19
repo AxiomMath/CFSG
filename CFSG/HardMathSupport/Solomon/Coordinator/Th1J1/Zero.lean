@@ -227,6 +227,7 @@ theorem Hyp0.mono {R S R' : Subgroup G} (h : Hyp0 R S) (hSR' : S ≤ R') (hR'R :
   · have h1 := Subgroup.relIndex_mul_relIndex S R' R hSR' hR'R
     exact fun h2 => h.syl (h2.trans ⟨_, h1.symm⟩)
 
+omit [Finite G] in
 private theorem le_normalizer_sup {R A B : Subgroup G} (hA : R ≤ Subgroup.normalizer (A : Set G))
     (hB : R ≤ Subgroup.normalizer (B : Set G)) :
     R ≤ Subgroup.normalizer ((A ⊔ B : Subgroup G) : Set G) := by
@@ -240,6 +241,7 @@ private theorem le_normalizer_sup {R A B : Subgroup G} (hA : R ≤ Subgroup.norm
   exact mem_normalizer_of_conj_mem' (key g hg)
     (fun x hx => by simpa using key g⁻¹ (inv_mem hg) x hx)
 
+omit [Finite G] in
 private theorem le_normalizer_inf {A X Y : Subgroup G} (hX : A ≤ Subgroup.normalizer (X : Set G))
     (hY : A ≤ Subgroup.normalizer (Y : Set G)) :
     A ≤ Subgroup.normalizer ((X ⊓ Y : Subgroup G) : Set G) := by
@@ -250,6 +252,7 @@ private theorem le_normalizer_inf {A X Y : Subgroup G} (hX : A ≤ Subgroup.norm
   exact and_congr (Subgroup.mem_normalizer_iff.1 (hX hg) h)
     (Subgroup.mem_normalizer_iff.1 (hY hg) h)
 
+omit [Finite G] in
 private theorem inf_sup_eq_of_le {S L K : Subgroup G} (hKS : K ≤ S)
     (hKL : K ≤ Subgroup.normalizer (L : Set G)) : S ⊓ (L ⊔ K) = (S ⊓ L) ⊔ K := by
   apply le_antisymm
@@ -301,7 +304,7 @@ private theorem exists_chief_aux {X : Type} [Group X] [Finite X] [Group.IsSolvab
     by_contra hall
     exact hfit (iSup_eq_bot.2 fun q => by_contra fun h => hall ⟨q, h⟩)
   have hqp : (q.1.1).Prime := Nat.prime_of_mem_primeFactors q.1.2
-  haveI : Fact (q.1.1).Prime := ⟨hqp⟩
+  have : Fact (q.1.1).Prime := ⟨hqp⟩
   set A := CFSG.pCore q.1.1 (X ⧸ L) with hA
   have hAn : A.Normal := CFSG.pCore_normal
   have hAp : IsPGroup (q.1.1) A := CFSG.pCore_isPGroup
@@ -337,12 +340,12 @@ private theorem exists_chief {R L : Subgroup G} (hR : Group.IsSolvable ↥R) (hL
     (hLn : R ≤ Subgroup.normalizer (L : Set G)) :
     ∃ M : Subgroup G, L < M ∧ M ≤ R ∧ R ≤ Subgroup.normalizer (M : Set G) ∧
       ∃ p : ℕ, p.Prime ∧ ∃ k : ℕ, L.relIndex M = p ^ k := by
-  haveI := hR
-  haveI hLnormal : (L.subgroupOf R).Normal :=
+  have := hR
+  have hLnormal : (L.subgroupOf R).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLR.le).2 hLn
   have hLtop : L.subgroupOf R ≠ ⊤ := by
     intro h
-    obtain ⟨x, hxR, hxL⟩ := SetLike.exists_of_lt hLR
+    obtain ⟨x, hxR, hxL⟩ := _root_.IsConcreteLE.exists_of_lt hLR
     apply hxL
     have : (⟨x, hxR⟩ : ↥R) ∈ L.subgroupOf R := h ▸ Subgroup.mem_top _
     exact this

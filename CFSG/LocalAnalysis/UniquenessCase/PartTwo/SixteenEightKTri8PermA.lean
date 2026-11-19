@@ -26,7 +26,7 @@ private theorem s16k_tri8_two_eq_zero_or_one {K : Type} [Field K] [Finite K]
     have hsub : Subsingleton Kˣ := by
       have hunits : Nat.card Kˣ = 1 := by rw [Nat.card_units, hK]
       exact (Nat.card_eq_one_iff_unique.mp hunits).1
-    haveI := hsub
+    have := hsub
     exact congrArg Units.val (Subsingleton.elim (Units.mk0 c hc) (1 : Kˣ))
 
 theorem s16k_tri8_statedOmega_stable_eq_bot_or_top {K : Type} [Field K] [Finite K]
@@ -35,9 +35,9 @@ theorem s16k_tri8_statedOmega_stable_eq_bot_or_top {K : Type} [Field K] [Finite 
     (hS : ∀ γ : ↥(StatedOmega (StatedQuadPlus 4 K)), ∀ s ∈ S,
       natAct (StatedOmega (StatedQuadPlus 4 K)) γ s ∈ S) :
     S = ⊥ ∨ S = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1)
     (by rw [Fintype.card_eq_nat_card, hK, pow_one])
   let W : Submodule K (Fin 4 ⊕ Fin 4 → K) :=
     { carrier := {w | Multiplicative.ofAdd w ∈ S}

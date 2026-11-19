@@ -17,11 +17,11 @@ variable {K : Type*} [Field K]
 theorem eq_one_of_commute_of_pow_seven (hK : Nat.card K = 4) {g u : Matrix (Fin 4) (Fin 4) K}
     (hg7 : g ^ 7 = 1) (hg1 : g ≠ 1) (hu : u * u = 1) (hgu : g * u = u * g) : u = 1 := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Fintype K := Fintype.ofFinite K
   have hKcard : Fintype.card K = 2 ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hK]; norm_num
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hKcard
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hKcard
   have hchar : (2 : K) = 0 := CharTwo.two_eq_zero
   set W : Submodule K (Fin 4 → K) := LinearMap.ker (Matrix.mulVecLin g - 1) with hWdef
   set U : Submodule K (Fin 4 → K) := LinearMap.ker (Matrix.mulVecLin (u - 1)) with hUdef
@@ -174,7 +174,7 @@ theorem eq_one_of_commute_of_pow_seven (hK : Nat.card K = 4) {g u : Matrix (Fin 
     rw [he, hWcard]
   rw [hfix] at hmod
   have hcardU : Nat.card U = 4 ^ Module.finrank K U := by
-    haveI : Fintype U := Fintype.ofFinite U
+    have : Fintype U := Fintype.ofFinite U
     have h1 : Nat.card U = Fintype.card U := Nat.card_eq_fintype_card
     have h2 : Fintype.card U = Fintype.card K ^ Module.finrank K U :=
       Module.card_eq_pow_finrank

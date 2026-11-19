@@ -18,7 +18,7 @@ theorem exists_orthCoord_Y (h : F5Base a z) {w x : G} (hw : IsConj z w) (hx : Is
     (hwx : IsConj z (w * x)) :
     ∃ (ρ : ↥(derivedOf (Gxy x w)) →* Equiv.Perm (Fin 5)) (θ : G → Fv5),
       OrthCoord (derivedOf (Gxy x w)) (CFSG.Open.pCoreOf 2 (derivedOf (Gxy x w))) ρ θ := by
-  haveI : Finite G := h.finite
+  have : Finite G := h.finite
   have hcomm : w * x = x * w := h.mul_comm (Or.inr hw) (Or.inl hx) (Or.inr hwx)
   have hxmem : x ∈ Gx w := mem_Gx.2 hcomm
   have hwx' : IsConj w (x * w) := by

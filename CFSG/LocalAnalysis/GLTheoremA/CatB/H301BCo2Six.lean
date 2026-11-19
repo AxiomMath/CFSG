@@ -87,7 +87,7 @@ theorem six_x0_facts (c₁ c₂ c₃ : locC) (h₁ : (c₁ : Equiv.Perm (Fin 230
     hcn
   have hset : {π | ∃ i < 2, sixPi i = π} = ({sixPi 0, sixPi 1} : Set (Equiv.Perm (Fin 63))) := by
     ext π
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨i, hi, rfl⟩
       interval_cases i

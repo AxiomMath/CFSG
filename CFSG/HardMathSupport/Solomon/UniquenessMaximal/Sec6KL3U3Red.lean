@@ -14,14 +14,14 @@ theorem relIndex_le_twentySeven {A : Type*} [Group A] [Finite A] (D P : Subgroup
     (hcyc : ∀ H ≤ P, ∃ x ∈ H, ∀ h ∈ H, ∃ k : ℤ, x ^ k * h⁻¹ ∈ D)
     (hD : ∀ H0 N0 : Subgroup A, H0 ≤ P → H0 ≤ D → N0 ≤ H0 →
       (∀ x ∈ H0, ∀ y ∈ H0, ⁅x, y⁆ ∈ N0) → (∀ x ∈ H0, x ^ 3 ∈ N0) → N0.relIndex H0 ≤ 9)
-    {H N : Subgroup A} (hHP : H ≤ P) (hNH : N ≤ H)
+    {H N : Subgroup A} (hHP : H ≤ P) (_hNH : N ≤ H)
     (hnorm : ∀ h ∈ H, ∀ n ∈ N, h * n * h⁻¹ ∈ N)
     (hcomm : ∀ x ∈ H, ∀ y ∈ H, ⁅x, y⁆ ∈ N) (hcube : ∀ x ∈ H, x ^ 3 ∈ N) :
     N.relIndex H ≤ 27 := by
   classical
   obtain ⟨x, hxH, hx⟩ := hcyc H hHP
   set N' : Subgroup H := N.subgroupOf H with hN'
-  haveI : N'.Normal := ⟨fun n hn g => hnorm g g.2 n hn⟩
+  have : N'.Normal := ⟨fun n hn g => hnorm g g.2 n hn⟩
   let π : H →* H ⧸ N' := QuotientGroup.mk' N'
   set H0 : Subgroup A := H ⊓ D with hH0
   let ρ0 : H0 →* H ⧸ N' := π.comp (Subgroup.inclusion inf_le_left)

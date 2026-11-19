@@ -22,6 +22,7 @@ variable (τ : Tag) (K : Type) [Field K] [Finite K]
     rw [← borelSub_inf_monomialSub] at h1
     exact h1.2)
 
+omit [Finite K] in
 theorem monoι_torusN (t : Fin τ.rank → Kˣ) :
     monoι τ K (torusN τ K t) = (torusCoordHom τ K t : ModGL τ K) := rfl
 
@@ -37,10 +38,12 @@ theorem prod_zpow_sum_aux {G : Type*} [CommGroup G] {ι : Type*} (s : Finset ι)
 
 variable {K}
 
+omit [Finite K] in
 theorem mact_one {r : ℕ} (t : Fin r → Kˣ) : mact K (1 : Matrix (Fin r) (Fin r) ℤ) t = t := by
   ext1 k
   simp [mact, Matrix.one_apply, Finset.prod_ite_eq]
 
+omit [Finite K] in
 theorem mact_mul {r : ℕ} (M N : Matrix (Fin r) (Fin r) ℤ) (t : Fin r → Kˣ) :
     mact K (M * N) t = mact K M (mact K N t) := by
   ext1 k
@@ -51,11 +54,13 @@ theorem mact_mul {r : ℕ} (M N : Matrix (Fin r) (Fin r) ℤ) (t : Fin r → Kˣ
   refine Finset.prod_congr rfl fun j _ => ?_
   rw [mul_comm]
 
+omit [Finite K] in
 theorem mact_add {r : ℕ} (M N : Matrix (Fin r) (Fin r) ℤ) (t : Fin r → Kˣ) :
     mact K (M + N) t = mact K M t * mact K N t := by
   ext1 k
   simp [mact, zpow_add, Finset.prod_mul_distrib]
 
+omit [Finite K] in
 theorem mact_mul_apply {r : ℕ} (M : Matrix (Fin r) (Fin r) ℤ) (s t : Fin r → Kˣ) :
     mact K M (s * t) = mact K M s * mact K M t := by
   ext1 k
@@ -64,12 +69,13 @@ theorem mact_mul_apply {r : ℕ} (M : Matrix (Fin r) (Fin r) ℤ) (s t : Fin r �
 @[expose] def Rmat (τ : Tag) (i : Fin τ.rank) : Matrix (Fin τ.rank) (Fin τ.rank) ℤ :=
   1 - Matrix.of fun k j => if k = i then τ.cartan j i else 0
 
+omit [Finite K] in
 theorem mact_Rmat (i : Fin τ.rank) (t : Fin τ.rank → Kˣ) :
     mact K (Rmat τ i) t = t * Pi.mulSingle i (∏ j, t j ^ (-τ.cartan j i)) := by
   ext1 k
   by_cases hk : k = i
   · subst hk
-    simp only [mact, Rmat, Matrix.sub_apply, Matrix.one_apply, Matrix.of_apply, if_true,
+    simp only [mact, Rmat, Matrix.sub_apply, Matrix.one_apply, Matrix.of_apply, ite_true,
       zpow_sub, Pi.mul_apply, Pi.mulSingle_eq_same, zpow_neg]
     have h : ∀ x, (t x ^ (if k = x then (1 : ℤ) else 0)) * (t x ^ τ.cartan x k)⁻¹ =
         (if k = x then t x else 1) * (t x ^ τ.cartan x k)⁻¹ := by
@@ -77,8 +83,9 @@ theorem mact_Rmat (i : Fin τ.rank) (t : Fin τ.rank → Kˣ) :
       split_ifs <;> simp
     rw [Finset.prod_congr rfl (fun x _ => h x), Finset.prod_mul_distrib, Finset.prod_ite_eq]
     simp [Finset.prod_inv_distrib]
-  · simp [mact, Rmat, Matrix.one_apply, hk, Finset.prod_ite_eq, Pi.mulSingle_eq_of_ne hk]
+  · simp [mact, Rmat, Matrix.one_apply, hk, Finset.prod_ite_eq]
 
+omit [Finite K] in
 theorem conj_torusN (i : Fin τ.rank) (t : Fin τ.rank → Kˣ) :
     weylRep τ K i * torusN τ K t * (weylRep τ K i)⁻¹ = torusN τ K (mact K (Rmat τ i) t) := by
   apply monoι_injective
@@ -87,19 +94,23 @@ theorem conj_torusN (i : Fin τ.rank) (t : Fin τ.rank → Kˣ) :
   have e := coe_torusCoordHom_mulSingle (τ := τ) (R := K) i (∏ j, t j ^ (-τ.cartan j i))
   rw [Subgroup.coe_mul, coe_torusCoordHom, e]
 
+omit [Finite K] in
 theorem torusN_comm (u v : Fin τ.rank → Kˣ) : torusN τ K u * torusN τ K v = torusN τ K v * torusN τ K u := by
   rw [← map_mul, ← map_mul, mul_comm]
 
+omit [Finite K] in
 theorem weylRep_sq_eq_torusN (i : Fin τ.rank) :
     weylRep τ K i ^ 2 = torusN τ K (Pi.mulSingle i (-1)) := by
   apply monoι_injective
   rw [weylRep_sq, monoι_torusN, coe_torusCoordHom_mulSingle]
 
+omit [Finite K] in
 theorem Z0_le_range_torusN : Z0 τ K ≤ (torusN τ K).range := by
   refine (Subgroup.closure_le _).2 ?_
   rintro _ ⟨i, rfl⟩
   exact ⟨_, (weylRep_sq_eq_torusN τ i).symm⟩
 
+omit [Finite K] in
 theorem conj_word (l : List (Fin τ.rank)) (t : Fin τ.rank → Kˣ) :
     (l.map (weylRep τ K)).prod * torusN τ K t * ((l.map (weylRep τ K)).prod)⁻¹ =
       torusN τ K (mact K (l.map (Rmat τ)).prod t) := by

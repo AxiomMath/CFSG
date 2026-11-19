@@ -42,7 +42,7 @@ private lemma w183_toMatrix_reindex {R M ι ι' : Type*} [CommSemiring R] [AddCo
   rw [LinearMap.toMatrix_apply, Matrix.reindex_apply, Matrix.submatrix_apply,
     LinearMap.toMatrix_apply, Module.Basis.repr_reindex_apply, Module.Basis.reindex_apply]
 
-private lemma w183_u4_numerics {d : ℕ} (hd1 : 1 ≤ d) (l : Lbl 1) (hl0 : ¬ l.IsZero)
+private lemma w183_u4_numerics {d : ℕ} (_hd1 : 1 ≤ d) (l : Lbl 1) (hl0 : ¬ l.IsZero)
     (hdim : d * l.dim = 14) : d = 1 ∧ l = finU4Label := by
   have hldim : l.dim = locM (l.a 0) (l.b 0) (l.c 0) := by
     simp [Lbl.dim]
@@ -112,7 +112,7 @@ theorem finU4_rank_map_zmod_two {ι : Type} [Fintype ι] [DecidableEq ι]
     (M.map (ZMod.castHom (dvd_refl 2) E)).rank = M.rank := by
   classical
   let f : ZMod 2 →+* E := ZMod.castHom (dvd_refl 2) E
-  letI : Algebra (ZMod 2) E := f.toAlgebra
+  let : Algebra (ZMod 2) E := f.toAlgebra
   let n := Fintype.card ι
   let e : ι ≃ Fin n := Fintype.equivFin ι
   let M' : Matrix (Fin n) (Fin n) (ZMod 2) := M.reindex e e
@@ -168,9 +168,9 @@ theorem finU4_fourteen_normalizer_matrix
   classical
   obtain ⟨hSnt, xne, hxne⟩ :=
     CFSG.HardMathSupport.U4FF.ClassFinal.nontrivial_of_isU4Group hL
-  haveI : Nontrivial S := hSnt
+  have : Nontrivial S := hSnt
   let ρ := CFSG.HardMathSupport.U4FF.ClassFinal.binRep L η
-  haveI : Fact ρ.IsIrreducible :=
+  have : Fact ρ.IsIrreducible :=
     ⟨CFSG.HardMathSupport.U4FF.ClassFinal.binRep_isIrreducible η hirr⟩
   have hnt : ∃ g, ρ g ≠ 1 :=
     ⟨η xne, CFSG.HardMathSupport.U4FF.ClassFinal.binRep_ne_one L η xne hxne⟩
@@ -180,14 +180,14 @@ theorem finU4_fourteen_normalizer_matrix
   obtain ⟨d, hd1, hDcard, hdesc⟩ :=
     CFSG.HardMathSupport.U4FF.u4_descent (CFSG.HardMathSupport.U4FF.classif_holds hK) hK hnt
   let D := CFSG.QuasithinUnique.Setup.SL2Modules.EndRing ρ
-  haveI : Finite D := CFSG.QuasithinUnique.Setup.SL2Modules.finite_endRing ρ
-  letI : Field D := CFSG.QuasithinUnique.Setup.SL2Modules.endRingField ρ
-  haveI : Module.Finite D (Additive S) := Module.Finite.of_finite
-  haveI : Module.Free D (Additive S) := Module.Free.of_divisionRing D (Additive S)
+  have : Finite D := CFSG.QuasithinUnique.Setup.SL2Modules.finite_endRing ρ
+  let : Field D := CFSG.QuasithinUnique.Setup.SL2Modules.endRingField ρ
+  have : Module.Finite D (Additive S) := Module.Finite.of_finite
+  have : Module.Free D (Additive S) := Module.Free.of_divisionRing D (Additive S)
   let m := Module.finrank D (Additive S)
   let b₀ : Module.Basis (Fin m) D (Additive S) := Module.finBasis D (Additive S)
   obtain ⟨E, hEfield, hEfin, hEchar, ιK, ιD, l, hl0, ⟨Φ⟩, hm1, hm2, hdimW⟩ := hdesc b₀
-  letI : Algebra K E := ιK.toAlgebra
+  let : Algebra K E := ιK.toAlgebra
   have hWcard : Nat.card (Additive S) = 2 ^ 14 :=
     (Nat.card_congr Additive.toMul).trans hS
   have hfin14 : Module.finrank (ZMod 2) (Additive S) = 14 := by
@@ -211,9 +211,9 @@ theorem finU4_fourteen_normalizer_matrix
     by_cases hd : d = 0
     · exact Or.inl hd
     · exact Or.inr (by rw [hyuniq d hd, hy1])
-  haveI : Fintype D := Fintype.ofFinite D
+  have : Fintype D := Fintype.ofFinite D
   have hDftwo : Fintype.card D = 2 := by rw [← Nat.card_eq_fintype_card]; exact hDcard2
-  haveI : CharP D 2 :=
+  have : CharP D 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) D).injective 2
   let eD : D ≃+* ZMod 2 := (ZMod.ringEquiv D hDftwo).symm
   have hcoeff : ∀ c : D, ∀ x : Additive S, eD c • x = c • x := by
@@ -395,7 +395,7 @@ theorem finU4_fourteen_normalizer_matrix
       rw [← hrankMB]
       congr 1
       ext i j
-      simp [Matrix.map_apply, Matrix.sub_apply, Matrix.one_apply, map_sub, map_one]
+      simp [Matrix.map_apply, Matrix.sub_apply, Matrix.one_apply, map_sub]
     have hNrank : (N - 1).rank = (B σ - 1).rank := by
       have hNsub : N - 1 = LinearMap.toMatrix' (Nlin - 1) := by
         show LinearMap.toMatrix' Nlin - 1 = _

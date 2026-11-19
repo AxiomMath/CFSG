@@ -20,8 +20,7 @@ private theorem map_conj_map_conj (K : Subgroup G) (a b : G) :
   rw [Subgroup.map_map]
   congr 1
   ext x
-  simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, mul_inv_rev,
-    inv_inv]
+  simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, mul_inv_rev]
   group
 
 private theorem map_list_conj_mul (l : List (Subgroup G)) (a b : G) :
@@ -33,6 +32,7 @@ private theorem map_list_conj_mul (l : List (Subgroup G)) (a b : G) :
 
 variable [Finite G] (c : Conf G n)
 
+omit [Finite G] in
 private theorem series_map_conj_x₁_inv {C D : Subgroup G} {l : List (Subgroup G)}
     {μ : Multiset (Coord n)}
     (hl : IsYSeries c.H C l D) (hμ : facMultiset (chiLab c.ζ c.d₁ c.d₂) l D = clsSets μ) :
@@ -60,8 +60,9 @@ private theorem series_map_conj_x₁_inv {C D : Subgroup G} {l : List (Subgroup 
     hl c.d₁_mem_H c.d₂_mem_H hn c.orderOf_ζ h1 h2 hμ]
   congr 1
   refine Multiset.map_congr rfl fun φ _ => ?_
-  ext <;> simp [sigma1] <;> ring
+  ext <;> simp [sigma1]; ring
 
+omit [Finite G] in
 private theorem series_map_conj_x₂_inv {C D : Subgroup G} {l : List (Subgroup G)}
     {μ : Multiset (Coord n)}
     (hl : IsYSeries c.H C l D) (hμ : facMultiset (chiLab c.ζ c.d₁ c.d₂) l D = clsSets μ) :
@@ -90,8 +91,9 @@ private theorem series_map_conj_x₂_inv {C D : Subgroup G} {l : List (Subgroup 
     hl c.d₁_mem_H c.d₂_mem_H hn c.orderOf_ζ h1 h2 hμ]
   congr 1
   refine Multiset.map_congr rfl fun φ _ => ?_
-  ext <;> simp [sigma2] <;> ring
+  ext <;> simp [sigma2]; ring
 
+omit [Finite G] in
 private theorem series_map_conj_tau_one {C D : Subgroup G} {l : List (Subgroup G)}
     {μ : Multiset (Coord n)}
     (hl : IsYSeries c.H C l D) (hμ : facMultiset (chiLab c.ζ c.d₁ c.d₂) l D = clsSets μ) :
@@ -113,6 +115,7 @@ private theorem series_map_conj_tau_one {C D : Subgroup G} {l : List (Subgroup G
     rw [hμ2, Multiset.map_map]
     congr 1
 
+omit [Finite G] in
 private theorem series_map_conj_tau_neg_one {C D : Subgroup G} {l : List (Subgroup G)}
     {μ : Multiset (Coord n)}
     (hl : IsYSeries c.H C l D) (hμ : facMultiset (chiLab c.ζ c.d₁ c.d₂) l D = clsSets μ) :
@@ -137,6 +140,7 @@ private theorem series_map_conj_tau_neg_one {C D : Subgroup G} {l : List (Subgro
     rw [hμ2, Multiset.map_map]
     congr 1
 
+omit [Finite G] in
 private theorem series_map_conj_tau (t : ℤ) {C D : Subgroup G} {l : List (Subgroup G)}
     {μ : Multiset (Coord n)}
     (hl : IsYSeries c.H C l D) (hμ : facMultiset (chiLab c.ζ c.d₁ c.d₂) l D = clsSets μ) :
@@ -190,6 +194,7 @@ private theorem series_map_conj_tau (t : ℤ) {C D : Subgroup G} {l : List (Subg
       rw [hD, map_list_conj_mul] at hμ2
       simpa [Multiset.map_map, mPow_add] using hμ2
 
+omit [Finite G] in
 private theorem contrib_map_mPow_even (s : ZMod (2 ^ n - 1)) (t : ℤ) (d : ℕ) :
     (Pattern.contrib c.k₀ c.m₀ s 0 d).map (mPow c.k₀ c.m₀ t) =
       Pattern.contrib c.k₀ c.m₀ s (2 * t) d := by
@@ -200,8 +205,9 @@ private theorem contrib_map_mPow_even (s : ZMod (2 ^ n - 1)) (t : ℤ) (d : ℕ)
   · simp [Pattern.contrib, h0, h2, hdiv, mPow_smul]
   rcases eq_or_ne d 1 with rfl | hd1
   · simp [Pattern.contrib, h0, h2, hdiv, hd2, mPow_smul]
-  · simp [Pattern.contrib, h0, h2, hdiv, hd2, hd1]
+  · simp [Pattern.contrib, h0, h2, hd2, hd1]
 
+omit [Finite G] in
 private theorem contrib_map_mPow_odd (s : ZMod (2 ^ n - 1)) (t : ℤ) (d : ℕ) :
     (Pattern.contrib c.k₀ c.m₀ s 1 d).map (mPow c.k₀ c.m₀ t) =
       Pattern.contrib c.k₀ c.m₀ s (2 * t + 1) d := by
@@ -214,9 +220,10 @@ private theorem contrib_map_mPow_odd (s : ZMod (2 ^ n - 1)) (t : ℤ) (d : ℕ) 
     rw [show (2 * t + 1 - 1 : ℤ) = 2 * t by ring]
     exact Int.mul_ediv_cancel_left t (by norm_num)
   rcases eq_or_ne d 1 with rfl | hd1
-  · simp [Pattern.contrib, h1, h2, hdiv, mPow_smul]
-  · simp [Pattern.contrib, h1, h2, hdiv, hd1]
+  · simp [Pattern.contrib, h1, h2, mPow_smul]
+  · simp [Pattern.contrib, h1, h2, hd1]
 
+omit [Finite G] in
 private theorem contrib_map_sigma1_mPow (t : ℤ) (d : ℕ) :
     (Pattern.contrib c.k₀ c.m₀ (-1) 0 d).map ((mPow c.k₀ c.m₀ t) ∘ sigma1 c.m₀) =
       Pattern.contrib c.k₀ c.m₀ 1 (2 * t) d := by
@@ -225,12 +232,13 @@ private theorem contrib_map_sigma1_mPow (t : ℤ) (d : ℕ) :
   have hdiv : (2 * t : ℤ) / 2 = t := Int.mul_ediv_cancel_left t (by norm_num)
   rcases eq_or_ne d 2 with rfl | hd2
   · simp [Pattern.contrib, h0, h2, hdiv, sigma1_smul, sigma1_neg, sigma1_psi,
-      mPow_smul, mPow_neg_vec]
+      mPow_smul]
   rcases eq_or_ne d 1 with rfl | hd1
   · simp [Pattern.contrib, h0, h2, hdiv, hd2, sigma1_smul, sigma1_neg, sigma1_psi,
-      mPow_smul, mPow_neg_vec]
-  · simp [Pattern.contrib, h0, h2, hdiv, hd2, hd1]
+      mPow_smul]
+  · simp [Pattern.contrib, h0, h2, hd2, hd1]
 
+omit [Finite G] in
 private theorem contrib_map_sigma2_mPow (t : ℤ) (d : ℕ) :
     (Pattern.contrib c.k₀ c.m₀ 1 1 d).map ((mPow c.k₀ c.m₀ t) ∘ sigma2 c.k₀) =
       Pattern.contrib c.k₀ c.m₀ (-1) (2 * t + 1) d := by
@@ -243,9 +251,8 @@ private theorem contrib_map_sigma2_mPow (t : ℤ) (d : ℕ) :
     rw [show (2 * t + 1 - 1 : ℤ) = 2 * t by ring]
     exact Int.mul_ediv_cancel_left t (by norm_num)
   rcases eq_or_ne d 1 with rfl | hd1
-  · simp [Pattern.contrib, h1, h2, hdiv, sigma2_smul, sigma2_neg, sigma2_chi, mPow_smul,
-      mPow_neg_vec]
-  · simp [Pattern.contrib, h1, h2, hdiv, hd1]
+  · simp [Pattern.contrib, h1, h2, sigma2_chi, mPow_neg_vec]
+  · simp [Pattern.contrib, h1, h2, hd1]
 
 theorem exists_ySeries_right {i j : ℤ} (hij : i ≤ j) :
     ∃ l, IsYSeries c.H (win c.Q₁ c.Q₂ c.x₁ c.x₂ i (j + 1)) l
@@ -281,7 +288,7 @@ theorem exists_ySeries_right {i j : ℤ} (hij : i ≤ j) :
       rw [Multiset.map_map, contrib_map_sigma1_mPow, ← ht] at hfac2
       have hdrop : c.pattern.dropAt (j + 1) (j + 1 - i).toNat =
           c.pattern.dS (j + 1 - i).toNat := by
-        rw [Pattern.dropAt, if_pos (show Even (j + 1 : ℤ) from ht ▸ ⟨t, by ring⟩)]
+        rw [Pattern.dropAt, ite_eq_left (show Even (j + 1 : ℤ) from ht ▸ ⟨t, by ring⟩)]
       rw [hdrop]
       exact hfac2
   ·
@@ -304,7 +311,7 @@ theorem exists_ySeries_right {i j : ℤ} (hij : i ≤ j) :
       rw [contrib_map_mPow_odd, ← ht] at hfac1
       have hdrop : c.pattern.dropAt (j + 1) (j + 1 - i).toNat =
           c.pattern.dL (j + 1 - i).toNat := by
-        rw [Pattern.dropAt, if_neg (by
+        rw [Pattern.dropAt, ite_eq_right (by
           rw [ht]
           intro h
           obtain ⟨k, hk⟩ := h
@@ -342,7 +349,7 @@ theorem exists_ySeries_left {i j : ℤ} (hij : i ≤ j) :
       rw [contrib_map_mPow_even, ← ht] at hfac1
       have hdrop : c.pattern.dropAt (i - 1) (j - (i - 1)).toNat =
           c.pattern.dS (j - (i - 1)).toNat := by
-        rw [Pattern.dropAt, if_pos (show Even (i - 1 : ℤ) from ht ▸ ⟨t, by ring⟩)]
+        rw [Pattern.dropAt, ite_eq_left (show Even (i - 1 : ℤ) from ht ▸ ⟨t, by ring⟩)]
       rw [hdrop]
       exact hfac1
   ·
@@ -369,7 +376,7 @@ theorem exists_ySeries_left {i j : ℤ} (hij : i ≤ j) :
       rw [Multiset.map_map, contrib_map_sigma2_mPow, ← ht] at hfac2
       have hdrop : c.pattern.dropAt (i - 1) (j - (i - 1)).toNat =
           c.pattern.dL (j - (i - 1)).toNat := by
-        rw [Pattern.dropAt, if_neg (by
+        rw [Pattern.dropAt, ite_eq_right (by
           rw [ht]
           intro h
           obtain ⟨k, hk⟩ := h
@@ -377,6 +384,7 @@ theorem exists_ySeries_left {i j : ℤ} (hij : i ≤ j) :
       rw [hdrop]
       exact hfac2
 
+omit [Finite G] in
 private theorem chainR_succ (i : ℤ) {j : ℤ} (hj : j ≤ i + (c.pattern.J : ℤ)) :
     c.pattern.chainR c.k₀ c.m₀ i (j - 1) =
       Pattern.contrib c.k₀ c.m₀ 1 j (c.pattern.dropAt j (j - i).toNat) +
@@ -389,6 +397,7 @@ private theorem chainR_succ (i : ℤ) {j : ℤ} (hj : j ≤ i + (c.pattern.J : �
     omega
   rw [hIoc, Finset.sum_insert (by simp [Finset.mem_Ioc])]
 
+omit [Finite G] in
 private theorem chainL_succ {j : ℤ} (i : ℤ) (hi : j - (c.pattern.J : ℤ) ≤ i) :
     c.pattern.chainL c.k₀ c.m₀ (i + 1) j =
       Pattern.contrib c.k₀ c.m₀ (-1) i (c.pattern.dropAt i (j - i).toNat) +

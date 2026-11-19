@@ -13,14 +13,17 @@ variable {G : Type} [Group G] [Finite G] {z : G} {W : Subgroup G}
 @[expose] def imgW (z : G) (W : Subgroup G) (hW : W ≤ Hz z) : Subgroup (Qbar z) :=
   ((qmk z).comp (Subgroup.inclusion hW)).range
 
+omit [Finite G] in
 theorem mem_imgW_iff (hW : W ≤ Hz z) {y : Qbar z} :
     y ∈ imgW z W hW ↔ ∃ h : ↥(Hz z), (h : G) ∈ W ∧ qmk z h = y :=
   ⟨fun ⟨w, hw⟩ => ⟨Subgroup.inclusion hW w, w.2, hw⟩, fun ⟨h, hh, e⟩ => ⟨⟨h, hh⟩, e⟩⟩
 
+omit [Finite G] in
 theorem qmk_mem_imgW (hW : W ≤ Hz z) {h : ↥(Hz z)} (hh : (h : G) ∈ W) :
     qmk z h ∈ imgW z W hW :=
   ⟨⟨h, hh⟩, rfl⟩
 
+omit [Finite G] in
 theorem imgW_comm (hW : W ≤ Hz z) (hab : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a) :
     ∀ x ∈ imgW z W hW, ∀ x' ∈ imgW z W hW, x * x' = x' * x := by
   intro x hx x' hx'
@@ -29,6 +32,7 @@ theorem imgW_comm (hW : W ≤ Hz z) (hab : ∀ a ∈ W, ∀ b ∈ W, a * b = b *
   rw [← map_mul, ← map_mul]
   exact congrArg (qmk z) (Subtype.ext (hab _ hh _ hh'))
 
+omit [Finite G] in
 theorem imgW_sq (hW : W ≤ Hz z) (hsq : ∀ a ∈ W, a * a ∈ Fz z) :
     ∀ x ∈ imgW z W hW, x * x = 1 := by
   intro x hx
@@ -51,6 +55,7 @@ theorem card_le_imgW_mul (hW : W ≤ Hz z) :
     _ ≤ Nat.card ↥(W ⊓ Fz z) * Nat.card ψ.range := Nat.mul_le_mul_right _ h2
     _ = Nat.card (imgW z W hW) * Nat.card ↥(W ⊓ Fz z) := mul_comm _ _
 
+omit [Finite G] in
 theorem qmk_mem_normalizer_imgW (hW : W ≤ Hz z) {n : G} (hn : n ∈ Hz z)
     (hf : ∀ x ∈ W, n * x * n⁻¹ ∈ W) (hb : ∀ x ∈ W, n⁻¹ * x * n ∈ W) :
     qmk z ⟨n, hn⟩ ∈ Subgroup.normalizer (imgW z W hW : Set (Qbar z)) := by

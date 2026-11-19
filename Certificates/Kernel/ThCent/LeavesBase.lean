@@ -42,7 +42,7 @@ theorem hpt : ∀ i < 9, ptChunk SV QI thcDceData.ThB_OB thcDceData.ThB_osh thcD
   rw [thcDce_OB, thcDce_osh, thcDce_owd, thcDce_om, thcDce_NO]
   exact Chk.pt.all
 
-@[expose] noncomputable def nOf (OR1 OR2 OR3 OR4 OR5 OR6 OR7 OR8 OR9 OR10 : List ℕ) : Fin 11 → ℕ :=
+noncomputable def nOf (OR1 OR2 OR3 OR4 OR5 OR6 OR7 OR8 OR9 OR10 : List ℕ) : Fin 11 → ℕ :=
   ![0, sumN OR5, sumN OR7, sumN OR6, sumN OR9, sumN OR8, sumN OR3, sumN OR2, sumN OR4,
     sumN OR10, sumN OR1]
 

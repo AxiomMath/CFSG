@@ -21,7 +21,7 @@ theorem odd_natCard_sup (h : IsPrimeCyclicTIHyp K W₁ W₂) : Odd (Nat.card ↥
 
 variable [Finite ↥W₂]
 
-theorem starIrr_ne_principalIrr_right (h : IsPrimeCyclicTIHyp K W₁ W₂) {j : Irr ↥W₂}
+theorem starIrr_ne_principalIrr_right (_h : IsPrimeCyclicTIHyp K W₁ W₂) {j : Irr ↥W₂}
     (hj : j ≠ principalIrr ↥W₂) : starIrr j ≠ principalIrr ↥W₂ :=
   starIrr_ne_principalIrr hj
 
@@ -33,6 +33,7 @@ section Fintype
 
 variable [Fintype L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↑(Irr ↥W₁)]
 
+omit [Finite ↥W₂] in
 theorem cfInner_primeTIrow_primeTIrow_of_ne (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) {j k : Irr ↥W₂} (hjk : j ≠ k) :
     cfInner (h.primeTIrow σ j) (h.primeTIrow σ k) = 0 := by
@@ -41,13 +42,15 @@ theorem cfInner_primeTIrow_primeTIrow_of_ne (h : IsPrimeCyclicTIHyp K W₁ W₂)
   refine Finset.sum_eq_zero fun i _ => ?_
   rw [cfInner_sum_right]
   refine Finset.sum_eq_zero fun i' _ => ?_
-  rw [h.cfInner_primeTIirr hσ, if_neg (by simp [hjk])]
+  rw [h.cfInner_primeTIirr hσ, ite_eq_right (by simp [hjk])]
 
+omit [Finite ↥W₂] in
 theorem cfInner_self_primeTIrow_eq (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) (j : Irr ↥W₂) :
     cfInner (h.primeTIrow σ j) (h.primeTIrow σ j) = (Nat.card ↥W₁ : ℂ) :=
   h.cfInner_self_primeTIrow hσ j
 
+omit [Finite ↥W₂] in
 theorem cfInner_self_four_family (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) (j k : Irr ↥W₂) {ξ : L → ℂ} (hξ : ξ ∈ Irr L) :
     cfInner ξ ξ = 1 ∧ cfInner (star ξ) (star ξ) = 1 ∧

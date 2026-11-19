@@ -83,11 +83,11 @@ structure Om8Irr8 (σ : Representation K (CFSG.StandardType.Triality.Om8 K) X) :
 theorem Om8Irr8.exists_ne_one {σ : Representation K (CFSG.StandardType.Triality.Om8 K) X}
     (h : Om8Irr8 σ) : ∃ g, σ g ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hpos : 0 < Module.finrank K X := by
     rw [h.finrank_eq]
     norm_num
-  haveI : Module.Finite K X := Module.finite_of_finrank_pos hpos
+  have : Module.Finite K X := Module.finite_of_finrank_pos hpos
   obtain ⟨x, hx⟩ := Module.finrank_pos_iff_exists_ne_zero.mp hpos
   rcases h.irreducible (Submodule.span K {x}) (fun g y hy => by rwa [hcon g]) with hbot | htop
   · exact hx (Submodule.span_singleton_eq_bot.mp hbot)

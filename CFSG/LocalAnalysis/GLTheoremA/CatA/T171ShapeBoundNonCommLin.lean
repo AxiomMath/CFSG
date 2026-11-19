@@ -29,8 +29,7 @@ theorem glA_scalar_smul {N : ℕ} {K : Type} [Field K] (u : Kˣ) :
     ((glA (Matrix.GeneralLinearGroup.scalar (Fin N) u)) : Module.End K (Fin N → K)) =
       (u : K) • 1 := by
   ext v i
-  simp [glA, Matrix.GeneralLinearGroup.toLin, Matrix.toLin'_apply,
-    Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.mulVec_diagonal]
+  simp [glA, Matrix.GeneralLinearGroup.toLin, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.mulVec_diagonal]
 
 theorem linTypeOneNonComm_holds : LinTypeOneNonComm := by
   intro G _ _ p N n L J A d b K _ _ hcard hN θ hact hS hsetup M hc hnc
@@ -128,21 +127,21 @@ theorem linTypeOneNonComm_holds : LinTypeOneNonComm := by
       rw [show Mb * D * Mb⁻¹ = (MulAut.conj Mb) D from (MulAut.conj_apply Mb D).symm,
         ← map_pow, hDpow, map_one]
     rw [hconj, Commute.mul_pow hcommζD p, hDpow, mul_one] at h1
-    haveI : Nonempty (Fin N) := ⟨⟨0, by omega⟩⟩
+    have : Nonempty (Fin N) := ⟨⟨0, by omega⟩⟩
     have hinj := Matrix.GeneralLinearGroup.scalar_injective (n := Fin N) (R := K)
     have h2 : (ζ : Kˣ) ^ p = 1 := by
       apply hinj
       rw [map_pow, h1, map_one]
     simpa [Units.val_pow_eq_pow_val] using congrArg (fun u : Kˣ => (u : K)) h2
-  haveI : Fact p.Prime := ⟨hsetup.prime⟩
+  have : Fact p.Prime := ⟨hsetup.prime⟩
   have hζroot : IsPrimitiveRoot (ζ : K) p := by
     have h := IsPrimitiveRoot.orderOf (ζ : K)
     rwa [orderOf_eq_prime hζp (fun h => hζ1 (Units.ext h))] at h
   have hodd : p ≠ 2 := hsetup.odd
   have hp0 : 0 < p := hsetup.prime.pos
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
     rw [← Nat.card_eq_fintype_card]; exact hcard)
   have hpk : (p : K) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff K 2]
@@ -173,7 +172,7 @@ theorem linTypeOneNonComm_holds : LinTypeOneNonComm := by
   have hfmin : f ∣ minpoly K (glA D : Module.End K (Fin N → K)) := (mem_primaryFactors.mp hf).2.2
   have hfdvd : f ∣ X ^ p - 1 := hfmin.trans hdvd
   rw [hprod] at hfdvd
-  obtain ⟨μ, hμmem, hμdvd⟩ := (Prime.dvd_finset_prod_iff hirr.prime (fun μ => X - C μ)).1 hfdvd
+  obtain ⟨μ, hμmem, hμdvd⟩ := (Prime.dvd_finsetProd_iff hirr.prime (fun μ => X - C μ)).1 hfdvd
   have hdeg1 : f.natDegree = 1 := by
     have hle := natDegree_le_of_dvd hμdvd (monic_X_sub_C μ).ne_zero
     have hge : 1 ≤ f.natDegree := hirr.natDegree_pos

@@ -57,7 +57,7 @@ theorem chief_hcl_of_prime [Finite G] {A B : Subgroup G} {p : ℕ} (hp : p.Prime
     (hcard : Nat.card B = p * Nat.card A) :
     ∀ M : Subgroup G, A ≤ M → M ≤ B → M = A ∨ M = B := by
   intro M hAM hMB
-  haveI : Nonempty A := ⟨1⟩
+  have : Nonempty A := ⟨1⟩
   have hApos : 0 < Nat.card A := Nat.card_pos
   have hidx : A.relIndex B = p := by
     have h := Subgroup.relIndex_mul_card (H := A) (K := B)
@@ -143,9 +143,9 @@ theorem chiefStep_inf_of {Q A B : Subgroup G} (hQ : Inv X Q) (hs : ChiefStep X A
 theorem card_eq_mul_of_sup [Finite G] {K A B : Subgroup G} (hKB : K ≤ B) (hAB : A ≤ B)
     (hA : ∀ y ∈ B, ∀ z ∈ A, y * z * y⁻¹ ∈ A) (hsup : K ⊔ A = B) {m : ℕ}
     (hcard : Nat.card B = m * Nat.card A) : Nat.card ↥K = m * Nat.card ↥(A ⊓ K) := by
-  haveI : Nonempty A := ⟨1⟩
+  have : Nonempty A := ⟨1⟩
   have hApos : 0 < Nat.card A := Nat.card_pos
-  haveI hN : (A.subgroupOf B).Normal :=
+  have hN : (A.subgroupOf B).Normal :=
     ⟨fun n hn g => Subgroup.mem_subgroupOf.2 (by
       have := hA (g : G) g.2 (n : G) (Subgroup.mem_subgroupOf.1 hn)
       simpa using this)⟩
@@ -185,6 +185,7 @@ theorem card_restrict_eq [Finite G] {Q A B : Subgroup G} (hAB : A ≤ B)
   rw [hAK] at h
   exact h
 
+omit [Finite F] in
 theorem abelian_of_factorNatural {A B : Subgroup G} (hn : FactorNatural F X A B) :
     ∀ y ∈ B, ∀ z ∈ B, y * z * y⁻¹ * z⁻¹ ∈ A := by
   obtain ⟨φ, β, -, hφk, -, -, -⟩ := hn
@@ -202,6 +203,7 @@ theorem abelian_of_factorNatural {A B : Subgroup G} (hn : FactorNatural F X A B)
     exact hc _ _
   exact (hφk _).1 key
 
+omit [Finite F] in
 theorem factorNatural_inf {A B Q : Subgroup G} (hAB : A ≤ B)
     (hA : ∀ y ∈ B, ∀ z ∈ A, y * z * y⁻¹ ∈ A) (hsup : (Q ⊓ B) ⊔ A = B)
     (hn : FactorNatural F X A B) : FactorNatural F X (Q ⊓ A) (Q ⊓ B) := by
@@ -232,7 +234,7 @@ theorem factorNatural_inf {A B Q : Subgroup G} (hAB : A ≤ B)
     exact hφe x (Subgroup.inclusion (inf_le_right : Q ⊓ B ≤ B) y)
       (Subgroup.inclusion (inf_le_right : Q ⊓ B ≤ B) y') hxy
 
-theorem ChainCounts.restrict [Finite G] {Q P : Subgroup G} (hQ : Inv X Q) (hP : Inv X P)
+theorem ChainCounts.restrict [Finite G] {Q P : Subgroup G} (hQ : Inv X Q) (_hP : Inv X P)
     (hcomm : ∀ x ∈ X, ∀ y ∈ P, x * y * x⁻¹ * y⁻¹ ∈ Q) {A C : Subgroup G} {a b : ℕ}
     (h : ChainCounts F X false A C a b) (hCP : C ≤ P) :
     ChainCounts F X false (Q ⊓ A) (Q ⊓ C) a b := by

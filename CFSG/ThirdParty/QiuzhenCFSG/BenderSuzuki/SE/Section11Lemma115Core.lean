@@ -60,7 +60,7 @@ public theorem lemma115_small_prime_not_dvd_mersenne
     rcases h2dvd with ⟨l, hl⟩
     omega
   · intro hdiv
-    letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     have hmod : 1 ≡ 2 ^ p [MOD 5] := by
       apply (Nat.modEq_iff_dvd' (Nat.one_le_pow p 2 (by omega))).2
       exact hdiv
@@ -157,7 +157,7 @@ public theorem lemma115_exists_prime_order_mem_peterfalviKSet_of_dvd_card
   have hphi_order : orderOf phi ∣ 2 :=
     orderOf_dvd_of_pow_eq_one hphi_sq
   let A : Subgroup (MulAut D) := Subgroup.zpowers phi
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA_pgroup : IsPGroup 2 A := by
     have hcard_dvd : Nat.card A ∣ 2 := by
       simpa [A, Nat.card_zpowers] using hphi_order
@@ -167,8 +167,8 @@ public theorem lemma115_exists_prime_order_mem_peterfalviKSet_of_dvd_card
         (by simp [hcard_one])
     · exact IsPGroup.of_card (p := 2) (G := A) (n := 1)
         (by simp [hcard_two])
-  letI : Fact (IsPGroup 2 A) := ⟨hA_pgroup⟩
-  letI : Fact (Nat.Prime r) := ⟨hr⟩
+  let : Fact (IsPGroup 2 A) := ⟨hA_pgroup⟩
+  let : Fact (Nat.Prime r) := ⟨hr⟩
   have hcoprime : Nat.Coprime 2 (Nat.card D) :=
     hDodd.coprime_two_left
   obtain ⟨P, hPinv⟩ :=
@@ -238,9 +238,9 @@ public theorem lemma115_exists_prime_order_mem_peterfalviKSet_of_dvd_card
           t * (t * x * t) * t = (t * t) * x * (t * t) := by group
           _ = x := by rw [htt]; simp
       rwa [hconj_twice] at hback
-  obtain ⟨z, hzPX, hznotC⟩ := SetLike.not_le_iff_exists.mp hPX_not_le_Ct
+  obtain ⟨z, hzPX, hznotC⟩ := IsConcreteLE.not_le_iff_exists.mp hPX_not_le_Ct
   have hPXp : IsPGroup r PX :=
-    IsPGroup.map (p := r) (H := (P : Subgroup D)) P.isPGroup' D.subtype
+    IsPGroup.map (p := r) (H := (P : Subgroup D)) P.isPGroup D.subtype
   have hPXodd : Odd (Nat.card PX) := by
     rcases (IsPGroup.iff_card.mp hPXp) with ⟨n, hn⟩
     rw [hn]

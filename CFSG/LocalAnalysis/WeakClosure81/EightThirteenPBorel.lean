@@ -14,7 +14,7 @@ variable {Q : Type} [Group Q] [Finite Q] {T A B R L₀ : Subgroup Q}
 
 private theorem wc813pbor_eq_of_isSylowIn_ge {H P K : Subgroup Q} (hP : IsSylowIn 2 P H)
     (hKH : K ≤ H) (hK : IsPGroup 2 K) (hPK : P ≤ K) : K = P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine (Subgroup.eq_of_le_of_card_ge hPK ?_).symm
   rw [hP.card_eq]
   obtain ⟨j, hj⟩ := hK.exists_card_eq
@@ -29,7 +29,7 @@ private theorem wc813pbor_isSylowIn_sup_of_commute {L L' P R : Subgroup Q}
     (hcomm : ∀ a ∈ L, ∀ b ∈ L', a * b = b * a) (hodd : Odd (Nat.card (L ⊓ L' : Subgroup Q)))
     (hP : IsSylowIn 2 P L) (hR : IsSylowIn 2 R L') :
     IsSylowIn 2 (P ⊔ R) (L ⊔ L') := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPRcomm : ∀ a ∈ P, ∀ b ∈ R, a * b = b * a :=
     fun a ha b hb => hcomm a (hP.le ha) b (hR.le hb)
   have hPRbot : P ⊓ R = ⊥ := by
@@ -133,7 +133,7 @@ theorem Cfg813.inf_layer_le_iSup (h : Cfg813 T A B R L₀) :
     T ⊓ genFittingLayer Q ≤ ⨆ (J : Subgroup Q) (_ : IsComponentOf J ⊤), T ⊓ J := by
   classical
   let idx := {J : Subgroup Q // IsComponentOf J ⊤}
-  haveI : Fintype idx := Fintype.ofFinite idx
+  have : Fintype idx := Fintype.ofFinite idx
   have hmain := (wc813pbor_sylow_sup_components h (Finset.univ : Finset idx)).2
   have hE : (Finset.univ : Finset idx).sup (fun J => J.1) = genFittingLayer Q := by
     have hrange : Set.range (fun J : idx => J.1) = {L : Subgroup Q | IsComponentOf L ⊤} := by
@@ -149,6 +149,7 @@ theorem Cfg813.inf_layer_le_iSup (h : Cfg813 T A B R L₀) :
   exact le_of_eq (iSup_subtype (p := fun J : Subgroup Q => IsComponentOf J ⊤)
     (f := fun J : idx => T ⊓ J.1))
 
+omit [Finite Q] in
 private theorem wc813pbor_mem_normalizer_iSup {ι : Sort*} {U : ι → Subgroup Q} {g : Q}
     (h : ∀ i, g ∈ Subgroup.normalizer (U i : Set Q)) :
     g ∈ Subgroup.normalizer ((⨆ i, U i : Subgroup Q) : Set Q) := by
@@ -169,7 +170,7 @@ theorem Cfg813.normalizer_component_le (h : Cfg813 T A B R L₀) {J : Subgroup Q
     (hJ : IsComponentOf J ⊤) (hS : T ⊓ J ≠ ⊥) :
     J ⊓ normalizer ((T ⊓ J : Subgroup Q) : Set Q) ≤ B := by
   classical
-  haveI hEnorm : (genFittingLayer Q).Normal := CFSG.ComponentClassification.Layer.normal Q
+  have hEnorm : (genFittingLayer Q).Normal := CFSG.ComponentClassification.Layer.normal Q
   set T₀ : Subgroup Q := T ⊓ genFittingLayer Q with hT₀
   have hSle : T ⊓ J ≤ T₀ := by
     rw [hT₀]
@@ -257,20 +258,24 @@ theorem Cfg813.inf_component_ne_top (h : Cfg813 T A B R L₀) {J : Subgroup Q}
     exact sup_le hL₀B hTB
   exact hBlt.ne' (le_antisymm hQle le_top)
 
+omit [Finite Q] in
 private theorem wc813pbor_normalizer_conjSubgroup (X : Subgroup Q) (g : Q) :
     Subgroup.normalizer ((conjSubgroup X g : Subgroup Q) : Set Q) =
       conjSubgroup (Subgroup.normalizer (X : Set Q)) g := by
   rw [conjSubgroup, conjSubgroup]
   exact (Subgroup.map_equiv_normalizer_eq X (MulAut.conj g⁻¹)).symm
 
+omit [Finite Q] in
 private theorem wc813pbor_conjSubgroup_lt_conjSubgroup {A B : Subgroup Q} {g : Q} :
     conjSubgroup A g < conjSubgroup B g ↔ A < B :=
   Subgroup.map_lt_map_iff_of_injective (MulAut.conj g⁻¹).injective
 
+omit [Finite Q] in
 private theorem wc813pbor_conjSubgroup_le_conjSubgroup {A B : Subgroup Q} {g : Q} :
     conjSubgroup A g ≤ conjSubgroup B g ↔ A ≤ B :=
   Subgroup.map_le_map_iff_of_injective (MulAut.conj g⁻¹).injective
 
+omit [Finite Q] in
 private theorem wc813pbor_conjSubgroup_max {L P : Subgroup Q} {g : Q}
     (hg : g ∈ Subgroup.normalizer (L : Set Q))
     (hmax : ∀ Y, P < Y → Y ≤ L → Y = L)
@@ -299,7 +304,7 @@ private theorem wc813pbor_dynkin_contra (hF0 : OddSchurMultiplierFact)
     (hPiPj : Pi ≠ Pj)
     (hcover : ∀ P', J ⊓ normalizer ((T ⊓ J : Subgroup Q) : Set Q) ≤ P' → P' ≤ J →
       P' = J ⊓ normalizer ((T ⊓ J : Subgroup Q) : Set Q) ∨ P' = Pi ∨ P' = Pj ∨ P' = J)
-    (hP : P = B ⊓ J) (hPle : P ≤ J) (hPbad : P = Pi) : False := by
+    (hP : P = B ⊓ J) (_hPle : P ≤ J) (hPbad : P = Pi) : False := by
   classical
   set N : Subgroup Q := J ⊓ normalizer ((T ⊓ J : Subgroup Q) : Set Q) with hN
   have hNPi' : N ≤ Pi := by rw [hN]; exact hNPi
@@ -503,9 +508,10 @@ private theorem wc813pbor_mem_of_mem_normalizer_of_isSylowIn {S' H T : Subgroup 
     (sup_le hS'.le (Subgroup.zpowers_le.mpr hℓH)) h2 le_sup_left
   exact heq ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers ℓ)
 
+omit [Finite Q] in
 private theorem wc813pbor_eq_one_of_odd_of_two {O T : Subgroup Q} (hO : Odd (Nat.card O))
     {ℓ : Q} (hℓO : ℓ ∈ O) (hT2 : IsPGroup 2 T) (hℓT : ℓ ∈ T) : ℓ = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hT2 ⟨ℓ, hℓT⟩
   have hk2 : ℓ ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hk2)

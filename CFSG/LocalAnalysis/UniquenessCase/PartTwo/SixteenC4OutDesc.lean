@@ -17,6 +17,7 @@ namespace UFrame
 variable {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {L : Subgroup G}
   (F : UFrame V₀ V hV L)
 
+omit [Finite G] in
 theorem s16_C4OutDesc_card_addSub (S : Subgroup (Vtil V₀ V hV)) :
     Nat.card (F.addSub S) = Nat.card S := by
   refine (Nat.card_congr ?_).symm
@@ -26,6 +27,7 @@ theorem s16_C4OutDesc_card_addSub (S : Subgroup (Vtil V₀ V hV)) :
       left_inv := fun w => Subtype.ext (F.ofVec_vec (w : Vtil V₀ V hV))
       right_inv := fun x => Subtype.ext (F.vec_ofVec (x : Fin 4 → F.K)) }
 
+omit [Finite G] in
 theorem mem_addSub_fixV (E : Subgroup (MulAut (Vtil V₀ V hV))) (x : Fin 4 → F.K) :
     x ∈ F.addSub (fixV E) ↔ ∀ φ ∈ E, F.rho φ x = x := by
   rw [F.mem_addSub, mem_fixV]
@@ -37,6 +39,7 @@ theorem mem_addSub_fixV (E : Subgroup (MulAut (Vtil V₀ V hV))) (x : Fin 4 → 
     rw [← F.rho_vec, F.vec_ofVec]
     exact h φ hφ
 
+omit [Finite G] in
 theorem descent_decomp {τ : MulAut (Vtil V₀ V hV)} (hτ : F.IsSemi τ) (hτ2 : τ * τ = 1)
     {ω : F.K} (hω : ω ^ 2 + ω + 1 = 0) (x : Fin 4 → F.K) :
     ∃ r₁ r₂ : Fin 4 → F.K, F.rho τ r₁ = r₁ ∧ F.rho τ r₂ = r₂ ∧ x = ω ^ 2 • r₁ + r₂ := by
@@ -67,6 +70,7 @@ theorem descent_decomp {τ : MulAut (Vtil V₀ V hV)} (hτ : F.IsSemi τ) (hτ2 
         _ = x := by rw [hω2ω, hω2ω2, one_smul, zero_smul, add_zero]
     exact hsum.symm
 
+omit [Finite G] in
 theorem descent_inter {τ : MulAut (Vtil V₀ V hV)} (hτ : F.IsSemi τ) {ω : F.K}
     (hω : ω ^ 2 + ω + 1 = 0) {r : Fin 4 → F.K} (hr : F.rho τ r = r)
     (hωr : F.rho τ (ω • r) = ω • r) : r = 0 := by
@@ -88,6 +92,7 @@ theorem descent_inter {τ : MulAut (Vtil V₀ V hV)} (hτ : F.IsSemi τ) {ω : F
     _ = (ω ^ 2 - ω) • r := by rw [hcoef]
     _ = 0 := hsub
 
+omit [Finite G] in
 theorem card_fixV_zpowers_of_isSemi {τ : MulAut (Vtil V₀ V hV)} (hτ : F.IsSemi τ)
     (hτ2 : τ * τ = 1) : Nat.card (fixV (Subgroup.zpowers τ)) = 2 ^ 4 := by
   obtain ⟨ω, hω, -⟩ := F.exists_omega
@@ -152,6 +157,7 @@ theorem card_fixV_zpowers_of_isSemi {τ : MulAut (Vtil V₀ V hV)} (hτ : F.IsSe
   rw [← hcardR]
   exact hRcard
 
+omit [Finite G] in
 theorem card_preimage_of_isSemi {τ : MulAut (Vtil V₀ V hV)} (hτ : F.IsSemi τ)
     (hτ2 : τ * τ = 1) {C : Subgroup (Vtil V₀ V hV)} (hC : C ≤ fixV (Subgroup.zpowers τ))
     {Ut : Subgroup (Vtil V₀ V hV)} (hUt : ∀ w : Vtil V₀ V hV, w ∈ Ut ↔ τ w * w⁻¹ ∈ C) :

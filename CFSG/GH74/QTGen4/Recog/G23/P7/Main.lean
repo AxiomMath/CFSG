@@ -32,28 +32,28 @@ theorem g23AtInv_of_leaves
     (hconj : ∀ a b : Ghat, orderOf a = 2 → orderOf b = 2 → ∃ g, b = g * a * g⁻¹)
     (hlie : ∀ {Y : Type} [Group Y], (Y ≃* Ghat) → LieModel Y .G2 0 3 1)
     (hSL : ¬ Group.IsSolvable SL(3, ZMod 2)) : G23AtInvStmt := by
-  haveI : G23Leaf LeafLettersH := ⟨hLet⟩
-  haveI : G23Leaf LeafHFacts := ⟨hHF⟩
-  haveI : G23Leaf LeafHCharTable := ⟨hChar⟩
-  haveI : G23Leaf LeafZFitting := ⟨hZ⟩
-  haveI : G23Leaf LeafOneClass := ⟨hOne⟩
-  haveI : G23Leaf LeafVertexCores := ⟨hVC⟩
-  haveI : G23Leaf LeafPbarMixed := ⟨hPM⟩
-  haveI : G23Leaf LeafFourClasses := ⟨hFour⟩
-  haveI : G23Leaf LeafCor37 := ⟨hCor⟩
-  haveI : G23Leaf LeafStepALocal := ⟨hAL⟩
-  haveI : G23Leaf LeafSuzukiCoherence := ⟨hCoh⟩
-  haveI : G23Leaf LeafSuzukiIntegers := ⟨hInt⟩
-  haveI : G23Leaf LeafStepAArith := ⟨hAr⟩
-  haveI : G23Leaf LeafB27Abelian := ⟨hB1⟩
-  haveI : G23Leaf LeafB27Normalizer := ⟨hB2⟩
-  haveI : G23Leaf LeafB27Contradiction := ⟨hB3⟩
-  haveI : G23Leaf LeafMStruct := ⟨hMS⟩
-  haveI : G23Leaf LeafLoc5 := ⟨hL5⟩
-  haveI : G23Leaf LeafTriLetters := ⟨hTri⟩
-  haveI : G23Leaf LeafTriCosetBound := ⟨hCB⟩
-  haveI : G23Leaf LeafTriNative := ⟨hTN⟩
-  haveI : G23Leaf LeafGhatInvolCent := ⟨hGI⟩
+  have : G23Leaf LeafLettersH := ⟨hLet⟩
+  have : G23Leaf LeafHFacts := ⟨hHF⟩
+  have : G23Leaf LeafHCharTable := ⟨hChar⟩
+  have : G23Leaf LeafZFitting := ⟨hZ⟩
+  have : G23Leaf LeafOneClass := ⟨hOne⟩
+  have : G23Leaf LeafVertexCores := ⟨hVC⟩
+  have : G23Leaf LeafPbarMixed := ⟨hPM⟩
+  have : G23Leaf LeafFourClasses := ⟨hFour⟩
+  have : G23Leaf LeafCor37 := ⟨hCor⟩
+  have : G23Leaf LeafStepALocal := ⟨hAL⟩
+  have : G23Leaf LeafSuzukiCoherence := ⟨hCoh⟩
+  have : G23Leaf LeafSuzukiIntegers := ⟨hInt⟩
+  have : G23Leaf LeafStepAArith := ⟨hAr⟩
+  have : G23Leaf LeafB27Abelian := ⟨hB1⟩
+  have : G23Leaf LeafB27Normalizer := ⟨hB2⟩
+  have : G23Leaf LeafB27Contradiction := ⟨hB3⟩
+  have : G23Leaf LeafMStruct := ⟨hMS⟩
+  have : G23Leaf LeafLoc5 := ⟨hL5⟩
+  have : G23Leaf LeafTriLetters := ⟨hTri⟩
+  have : G23Leaf LeafTriCosetBound := ⟨hCB⟩
+  have : G23Leaf LeafTriNative := ⟨hTN⟩
+  have : G23Leaf LeafGhatInvolCent := ⟨hGI⟩
   intro G _ _ T H H₁ H₂ M hctx
   obtain ⟨e, hL⟩ := exists_lettersH hctx
   have hS : Setup G T H H₁ H₂ M e := ⟨hctx, hL⟩
@@ -67,7 +67,7 @@ theorem g23AtInv_of_leaves
   have hPb9 : Nat.card Pb ≠ 9 := by
     intro h9
     obtain ⟨hD, hsyl⟩ := hS.stepALocal hF hO hL3 h9
-    haveI : Fintype G := Fintype.ofFinite G
+    have : Fintype G := Fintype.ofFinite G
     obtain ⟨χ, hχ⟩ := exists_hCharTable hctx.one hL
     obtain ⟨X₁, X₂, ε₁, ε₂, hcoh⟩ := exists_suzukiCoherent hD hχ
     obtain ⟨x₁, x₂, har⟩ := exists_stepAArith hS hF hO hD hχ hcoh

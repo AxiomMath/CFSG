@@ -15,13 +15,13 @@ open CFSG.ComponentClassification.FixedCommutingProduct (fixedSubgroup)
 
 theorem isSylowTwoOf_of_isSylowOf {J : Type*} [Group J] [Finite J] {T : Subgroup J}
     (h : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤) : IsSylowTwoOf T ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hle, hP, hidx⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp h
   exact ⟨hle, hP, hidx⟩
 
 theorem padicValNat_le_of_dvd' {r a b : ℕ} (hr : r.Prime) (hb : b ≠ 0) (h : a ∣ b) :
     padicValNat r a ≤ padicValNat r b := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have ha : a ≠ 0 := fun h0 => hb (Nat.eq_zero_of_zero_dvd (h0 ▸ h))
   exact (padicValNat_dvd_iff_le hb).mp ((pow_padicValNat_dvd (n := a)).trans h)
 
@@ -58,7 +58,7 @@ theorem closure_eq_top_of_overgroupPrime {J : Type} [Group J] [Finite J] (α : M
 theorem exists_sylow_fixed_of_factorization_le {J : Type} [Group J] [Finite J] (α : MulAut J)
     (h : (Nat.card J).factorization 2 ≤ (Nat.card (fixedSubgroup α)).factorization 2) :
     ∃ U : Subgroup J, CFSG.ABGLocalTools.IsSylowOf 2 U ⊤ ∧ ∀ g ∈ U, α g = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 2 (fixedSubgroup α)))
   set U : Subgroup J := (S : Subgroup (fixedSubgroup α)).map (fixedSubgroup α).subtype with hU
   have hUC : U ≤ fixedSubgroup α := Subgroup.map_subtype_le _
@@ -77,7 +77,7 @@ theorem exists_sylow_fixed_of_factorization_le {J : Type} [Group J] [Finite J] (
 
 theorem ne_bot_of_isSylowOf_of_even {J : Type*} [Group J] [Finite J] {T : Subgroup J}
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤) (hev : Even (Nat.card J)) : T ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro h0
   obtain ⟨-, -, hidx⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp hT
   apply hidx

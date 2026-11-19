@@ -124,7 +124,7 @@ theorem ggTorusRootSL2_psu_dvd
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) K (2 ^ n)))
         (LargeEvenGUSet (Fin d) K (2 ^ n))) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have hd3 : 3 ≤ d := by omega
   have hd4 : 4 ≤ d := by omega
   have h1n : 1 ≤ n := by omega
@@ -186,7 +186,7 @@ theorem ggTorusRootSL2_psu_dvd
       exact hfix
     by_cases ha1 : a = 1
     · subst ha1
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hSUq : CFSG.IsQuasisimple ↥(unitarySU 2 n K d) :=
         (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (F := K) (p := 2)
           (f := n) hK (by omega) hdq).1

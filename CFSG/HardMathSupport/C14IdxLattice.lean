@@ -17,7 +17,7 @@ private theorem toRatQ_apply {ι : Type*} (v : ι → ℤ) (i : ι) : toRatQ v i
 private theorem toRatQ_single {ι : Type*} [DecidableEq ι] (i : ι) :
     toRatQ (Pi.single i 1) = (Pi.single i (1 : ℚ) : ι → ℚ) := by
   ext j
-  by_cases h : j = i <;> simp [toRatQ, Pi.single_apply, h]
+  by_cases h : j = i <;> simp [toRatQ, h]
 
 private noncomputable def formQ (τ : Tag) : LinearMap.BilinForm ℚ (Fin τ.rank → ℚ) :=
   Matrix.toBilin' (τ.symmetrizedCartan.map (Int.cast : ℤ → ℚ))
@@ -45,7 +45,7 @@ private theorem sharp_apply (τ : Tag) (x : Fin τ.rank → ℚ) (i : Fin τ.ran
 private theorem formQ_toRat (τ : Tag) (u v : Fin τ.rank → ℤ) :
     formQ τ (toRatQ u) (toRatQ v) = (iform u v : ℚ) := by
   rw [formQ, Matrix.toBilin'_apply]
-  simp only [toRatQ, Function.comp_apply, Matrix.map_apply, iform, Finset.mul_sum]
+  simp only [toRatQ, Function.comp_apply, Matrix.map_apply, iform]
   push_cast
   refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
   ring
@@ -55,7 +55,7 @@ private theorem formQ_single (τ : Tag) (x : Fin τ.rank → ℚ) (i : Fin τ.ra
   rw [formQ, Matrix.toBilin'_apply, sharp_apply, Finset.sum_comm]
   simp only [Matrix.map_apply]
   rw [Finset.sum_eq_single i (fun k _ hk => by simp [Pi.single_eq_of_ne hk]) (by simp)]
-  simp only [Pi.single_eq_same, Int.cast_one, mul_one]
+  simp only [Pi.single_eq_same, mul_one]
   refine Finset.sum_congr rfl fun j _ => ?_
   ring
 
@@ -287,10 +287,9 @@ theorem exists_pos_nsmul_single_mem_closure_perp_coroot {τ : Tag}
   obtain ⟨k, hk⟩ := hdvd
   have hsingle : ((∏ j, Ni j : ℕ) • Pi.single i 1 : Fin τ.rank → ℤ) = k • pi i := by
     ext j
-    simp only [Pi.smul_apply, smul_eq_mul]
+    simp only [Pi.smul_apply]
     rw [hk, congrFun (hpi_eq i) j]
     simp only [Pi.smul_apply, smul_eq_mul]
-    push_cast
     ring
   rw [hsingle]
   exact AddSubgroup.nsmul_mem _ (hpi i) k

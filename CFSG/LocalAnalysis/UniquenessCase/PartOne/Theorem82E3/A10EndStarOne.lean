@@ -43,8 +43,8 @@ theorem exists_mem_inf_not_mem_centralizer_of_isComponent {P L : Subgroup X}
   have hLlay : L ≤ CFSG.layer X := CFSG.LocalCores.component_le_layer hL
   have hLnorm : CFSG.layer X ≤ Subgroup.normalizer (L : Set X) :=
     CFSG.LocalCores.layer_le_normalizer hL
-  haveI hchar : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI : (CFSG.layer X).Normal := Subgroup.normal_of_characteristic _
+  have hchar : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : (CFSG.layer X).Normal := Subgroup.normal_of_characteristic _
   have hsylL : CFSG.ABGLocalTools.IsSylowOf 3 (P ⊓ CFSG.layer X) (CFSG.layer X) :=
     hP.inf_of_le_normalizer le_top (by
       rw [Subgroup.normalizer_eq_top (CFSG.layer X)])
@@ -70,6 +70,7 @@ private lemma le_centralizer_of_isComponent_of_ne {K L : Subgroup X}
   · exact absurd h hne
   · exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp h
 
+omit [Finite X] in
 private lemma mulEquiv_mem_centralizer_map {L : Subgroup X} (e : X ≃* X) {y : X}
     (hy : y ∈ Subgroup.centralizer (L : Set X)) :
     e y ∈ Subgroup.centralizer ((L.map e.toMonoidHom : Subgroup X) : Set X) := by
@@ -80,6 +81,7 @@ private lemma mulEquiv_mem_centralizer_map {L : Subgroup X} (e : X ≃* X) {y : 
     _ = e (y * l) := by rw [hy l hl]
     _ = e y * e l := map_mul e y l
 
+omit [Finite X] in
 private lemma mem_centralizer_map_mulEquiv_iff {L : Subgroup X} (e : X ≃* X) (y : X) :
     y ∈ Subgroup.centralizer ((L.map e.toMonoidHom : Subgroup X) : Set X) ↔
       e.symm y ∈ Subgroup.centralizer (L : Set X) := by
@@ -97,9 +99,9 @@ private lemma mem_centralizer_map_mulEquiv_iff {L : Subgroup X} (e : X ≃* X) (
 
 private lemma exists_conj_setup_of_not_mem_normalizer {P A L : Subgroup X}
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤) (h3' : CFSG.pPrimeCore 3 X = ⊥)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hAP : A ≤ P)
-    (hAn : P ≤ Subgroup.normalizer (A : Set X)) (hL : CFSG.IsComponent L)
-    {a : X} (haA : a ∈ A) (haN : a ∉ Subgroup.normalizer (L : Set X)) :
+    (_hA : CFSG.Open.IsElemAbelian 3 A) (_hAP : A ≤ P)
+    (_hAn : P ≤ Subgroup.normalizer (A : Set X)) (hL : CFSG.IsComponent L)
+    {a : X} (_haA : a ∈ A) (haN : a ∉ Subgroup.normalizer (L : Set X)) :
     ∃ (x : X) (L' : Subgroup X) (x1 x2 : X),
       CFSG.IsComponent L' ∧ L' = L.map (MulAut.conj a⁻¹).toMonoidHom ∧ L' ≠ L ∧
       x ∈ P ⊓ L ∧ x ∉ Subgroup.centralizer (L : Set X) ∧
@@ -140,6 +142,7 @@ private lemma exists_conj_setup_of_not_mem_normalizer {P A L : Subgroup X}
   · simp [L', c]
   · exact (Subgroup.mem_centralizer_iff.mp hxcentL') (c x) hx1mem
 
+omit [Finite X] in
 private lemma key_eq_of_conj_setup {P A : Subgroup X} {a x x1 x2 : X}
     (hA : CFSG.Open.IsElemAbelian 3 A)
     (hAn : P ≤ Subgroup.normalizer (A : Set X)) (haA : a ∈ A) (hxP : x ∈ P)
@@ -174,10 +177,11 @@ private lemma key_eq_of_conj_setup {P A : Subgroup X} {a x x1 x2 : X}
     _ = y := hcommA
     _ = x⁻¹ * x1 := rfl
 
+omit [Finite X] in
 private lemma sq_mem_centralizer_of_key_eq {L L' : Subgroup X} {a x x1 x2 : X}
     (hL'def : L' = L.map (MulAut.conj a⁻¹).toMonoidHom)
     (hx1eq : x1 = (MulAut.conj a⁻¹) x)
-    (hx1cent : x1 ∈ Subgroup.centralizer (L : Set X))
+    (_hx1cent : x1 ∈ Subgroup.centralizer (L : Set X))
     (hx2cent : x2 ∈ Subgroup.centralizer (L' : Set X))
     (hxcent : x ∈ Subgroup.centralizer (L' : Set X)) (hxcomm : x1 * x = x * x1)
     (hkey : x1⁻¹ * x2 = x⁻¹ * x1) :
@@ -233,6 +237,7 @@ theorem le_normalizer_of_isComponent {P A L : Subgroup X}
     exact Subgroup.mem_zpowers_iff.mpr ⟨(m : ℤ), by rw [zpow_natCast]; exact hm⟩
   exact hxC (Subgroup.zpowers_le.mpr hx2centL hxp)
 
+omit [Finite X] in
 private lemma mulAut_conj_mem_of_le_normalizer {R Q : Subgroup X}
     (hQR : Q ≤ Subgroup.normalizer (R : Set X)) {g : X} (hg : g ∈ Q) {x : X}
     (hx : x ∈ R) : (MulAut.conj g) x ∈ R := by
@@ -240,6 +245,7 @@ private lemma mulAut_conj_mem_of_le_normalizer {R Q : Subgroup X}
     (Subgroup.mem_normalizer_iff_map_conj_eq).mp (hQR hg)
   exact hmap ▸ Subgroup.mem_map_of_mem _ hx
 
+omit [Finite X] in
 private lemma map_conj_map_conj_inv (M : Subgroup X) (g : X) :
     Subgroup.map (MulAut.conj g).toMonoidHom
       (Subgroup.map (MulAut.conj g⁻¹).toMonoidHom M) = M := by
@@ -249,6 +255,7 @@ private lemma map_conj_map_conj_inv (M : Subgroup X) (g : X) :
   have h1 : ((1 : X ≃* X).toMonoidHom : X →* X) = MonoidHom.id X := by ext x; simp
   rw [h1, Subgroup.map_id]
 
+omit [Finite X] in
 private lemma sup_zpowers_eq_of_relIndex_three {A B : Subgroup X} (hAB : A ≤ B)
     (hidx : A.relIndex B = 3) {x : X} (hxB : x ∈ B) (hxA : x ∉ A) :
     A ⊔ Subgroup.zpowers x = B := by
@@ -273,7 +280,7 @@ private lemma sup_zpowers_eq_of_relIndex_three {A B : Subgroup X} (hAB : A ≤ B
 
 private lemma mem_zpowers_of_pow_three_of_isCyclic {B : Subgroup X}
     (hB : ∀ x ∈ B, x ^ 3 = 1) (hcyc : IsCyclic ↥B)
-    {u v : X} (hu : u ∈ B) (hu1 : u ≠ 1) (hv : v ∈ B) (hv1 : v ≠ 1) :
+    {u v : X} (hu : u ∈ B) (hu1 : u ≠ 1) (hv : v ∈ B) (_hv1 : v ≠ 1) :
     v ∈ Subgroup.zpowers u := by
   classical
   obtain ⟨g, hg⟩ := hcyc.exists_generator
@@ -375,7 +382,7 @@ private lemma exists_t_of_not_le_normalizer {P A L : Subgroup X}
     rw [hcard, hcardP] at h
     omega
   have ht2A : t ^ 2 ∉ A := by
-    haveI := hAN
+    have := hAN
     intro h2A
     have hq2 : (QuotientGroup.mk (⟨t, htP⟩ : ↥P) : ↥P ⧸ A.subgroupOf P) ^ 2 = 1 := by
       rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
@@ -411,8 +418,9 @@ private lemma inf_component_le_of_not_le_normalizer {P A L : Subgroup X}
     sup_le hAL (Subgroup.zpowers_le.mpr (Subgroup.le_normalizer hx.2))
   exact hPL (hmax ▸ hle)
 
+omit [Finite X] in
 private lemma inf_map_conj_le_of_inf_le {P A : Subgroup X} {M : Subgroup X} {t : X}
-    (hAP : A ≤ P) (hAn : P ≤ Subgroup.normalizer (A : Set X)) (htP : t ∈ P)
+    (_hAP : A ≤ P) (hAn : P ≤ Subgroup.normalizer (A : Set X)) (htP : t ∈ P)
     (hM : P ⊓ M ≤ A) :
     P ⊓ M.map (MulAut.conj t⁻¹).toMonoidHom ≤ A := by
   intro y hy
@@ -426,6 +434,7 @@ private lemma inf_map_conj_le_of_inf_le {P A : Subgroup X} {M : Subgroup X} {t :
   exact mulAut_conj_mem_of_le_normalizer hAn (P.inv_mem htP)
     (hM (Subgroup.mem_inf.mpr ⟨hzP, hzM⟩))
 
+omit [Finite X] in
 private lemma components_three_ne {P A L : Subgroup X} {t : X}
     (hPeq : P ⊓ Subgroup.normalizer (L : Set X) = A)
     (htP : t ∈ P) (ht2P : t ^ 2 ∈ P) (htA : t ∉ A) (ht2A : t ^ 2 ∉ A) :
@@ -514,6 +523,7 @@ private lemma exists_x2_data {P A L L1 : Subgroup X} {t : X}
     rwa [hx1eq] at hh
   exact ⟨x1, x2, hx1PL, hx1C, hx1A, hx1ne, hx2L1, hx2P, hx2A, hx2ne, hx2C⟩
 
+omit [Finite X] in
 private lemma exists_x3_data {P A L1 L2 : Subgroup X} {t x2 : X}
     (hAn : P ≤ Subgroup.normalizer (A : Set X)) (htP : t ∈ P)
     (hL2def : L2 = L1.map (MulAut.conj t⁻¹).toMonoidHom)
@@ -565,7 +575,7 @@ private lemma exists_xi_data {P A L L1 L2 : Subgroup X} {t : X}
   exact ⟨x1, x2, x3, hx1PL, hx1C, hx1A, hx1ne, hx2L1, hx2P, hx2A, hx2ne, hx2C,
     hx3L2, hx3P, hx3A, hx3ne, hx3C⟩
 
-private lemma false_of_isCyclic_inf_centralizer_self {P A L L1 L2 : Subgroup X}
+private lemma false_of_isCyclic_inf_centralizer_self {_P A L L1 L2 : Subgroup X}
     {x2 x3 : X}
     (helem : CFSG.Open.IsElemAbelian 3 A)
     (hL : CFSG.IsComponent L) (hL1 : CFSG.IsComponent L1)
@@ -664,7 +674,7 @@ theorem not_isCyclic_inf_centralizer_of_not_le_normalizer {P A L K : Subgroup X}
     exists_xi_data hX h3' hL htP hL1def hL2def hAn hPLA
   rcases hKL with hcase | hcase
   · rw [hcase] at hcyc
-    exact false_of_isCyclic_inf_centralizer_self (P := P) hX.elem hL hL1 hL2 hL1ne hL2ne hL12
+    exact false_of_isCyclic_inf_centralizer_self (_P := P) hX.elem hL hL1 hL2 hL1ne hL2ne hL12
       hx2L1 hx2A hx2ne hx3L2 hx3A hx3ne hx3C hcyc
   · exact false_of_isCyclic_inf_centralizer_of_le_normalizer (P := P) hX.elem hPL hcase hL hK
       hL1 htP hL1def hL2def hL1ne hL12 hx1PL.2 hx1A hx1ne hx2L1 hx2A hx2ne hx2C hcyc

@@ -112,6 +112,7 @@ theorem ff6m_model_classify (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 
       · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨y, hyx, hy1, hy2, t, htt, hyt⟩)))))
   · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr hG)))))
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff6m_KN2_ne_one {x : ProjSim Q} (h : KN2 x) : x ≠ 1 := by
   obtain ⟨y, hyx, hy1, -⟩ := h
   intro hx

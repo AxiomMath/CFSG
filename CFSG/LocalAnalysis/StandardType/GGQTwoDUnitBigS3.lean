@@ -79,7 +79,7 @@ theorem qtwoDB44_generic_fixed {m : ℕ} (hm : 6 ≤ m) {c : Fin m}
         intro hzero
         have h1 : φ j v = 0 := by rw [hzero]; rfl
         rw [hφ_apply, hv] at h1
-        simpa using h1
+        simp at h1
       have hfin := Module.Dual.finrank_ker_add_one_of_ne_zero hφj
       rw [show Module.finrank (ZMod 3) (DVec m) = m from
         Module.finrank_fin_fun (ZMod 3)] at hfin

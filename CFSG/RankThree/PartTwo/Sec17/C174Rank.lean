@@ -68,7 +68,7 @@ theorem a1_core {G : Type*} [Group G] [Finite G] {r : ℕ} [Fact r.Prime]
     (hEP : E ≤ P) (hFP : F ≤ P) (hQP : Q ≤ P) (hPN : P ≤ Subgroup.normalizer (Q : Set G))
     (hcomm : ∀ e ∈ E, ∀ f ∈ F, e * f * e⁻¹ * f⁻¹ ∈ Q) :
     ∃ R : Subgroup G, R ≤ P ∧ IsElemAbelian r R ∧ Nat.card E * Nat.card F = Nat.card R := by
-  haveI hQ'N : (Q.subgroupOf P).Normal :=
+  have hQ'N : (Q.subgroupOf P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQP).mpr hPN
   have hEQ : E ⊓ Q = ⊥ := a1_inf_eq_bot hQr (fun x hx => hE.2 x hx)
   have hFQ : F ⊓ Q = ⊥ := a1_inf_eq_bot hQr (fun x hx => hF.2 x hx)
@@ -249,7 +249,7 @@ theorem pow_dvd_sub_one_of_pow_dvd_pow_sub_one {p : ℕ} [hp : Fact p.Prime] {a 
   exact hcop.dvd_of_dvd_mul_left hpow
 
 theorem normalizer_le_centralizer_of_cyclic_sylow
-    {D : Type*} [Group D] [Finite D] {p : ℕ} [Fact p.Prime] (hp : p ≠ 2)
+    {D : Type*} [Group D] [Finite D] {p : ℕ} [Fact p.Prime] (_hp : p ≠ 2)
     (P : Sylow p D) (hP : IsCyclic (P : Subgroup D)) {z : D} (hzP : z ∈ (P : Subgroup D))
     (hzp : orderOf z = p) (hzc : ∀ g : D, g * z = z * g) :
     Subgroup.normalizer ((P : Subgroup D) : Set D) ≤ Subgroup.centralizer ((P : Subgroup D) : Set D) := by
@@ -261,7 +261,7 @@ theorem normalizer_le_centralizer_of_cyclic_sylow
     obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp (hg ⟨y, hy⟩)
     exact ⟨i, congrArg Subtype.val hi⟩
   obtain ⟨j, hj⟩ : ∃ j : ℕ, orderOf x = p ^ j := by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hxP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hxP⟩
     have hk' : x ^ (p ^ k) = 1 := congrArg Subtype.val hk
     obtain ⟨j, -, hj⟩ :=
       (Nat.dvd_prime_pow (Fact.out : p.Prime)).mp (orderOf_dvd_of_pow_eq_one hk')
@@ -355,7 +355,7 @@ theorem isSolvable_core_central_order_three
       _ ≤ 1 := hrk
   have hPcyc : IsCyclic (P : Subgroup D₀) :=
     CFSG.LocalAnalysis.UniquenessCase.UCK.K31.isCyclic_of_pRank_le_one Nat.prime_three
-      (by norm_num) P.isPGroup' hPrk
+      (by norm_num) P.isPGroup hPrk
   have hnorm := normalizer_le_centralizer_of_cyclic_sylow (D := ↥D₀) (p := 3) (by norm_num) P
     hPcyc hz'P hz'o hz'c
   have hcomp := MonoidHom.ker_transferSylow_isComplement' P hnorm
@@ -367,7 +367,7 @@ theorem isSolvable_core_central_order_three
     intro x hx
     have h1 : orderOf (φ x) ∣ orderOf x := orderOf_map_dvd φ x
     have h2 : Nat.Coprime (orderOf (φ x)) 3 := Nat.Coprime.coprime_dvd_left h1 hx.symm
-    obtain ⟨k, hk⟩ := P.isPGroup' (φ x)
+    obtain ⟨k, hk⟩ := P.isPGroup (φ x)
     have h3 : orderOf (φ x) ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one hk
     have h4 : orderOf (φ x) = 1 := Nat.Coprime.eq_one_of_dvd (Nat.Coprime.pow_right k h2) h3
     exact MonoidHom.mem_ker.mpr (orderOf_eq_one_iff.mp h4)
@@ -400,9 +400,9 @@ theorem isSolvable_core_central_order_three
     have h := hcomp.card_mul_card
     rw [hKone, one_mul] at h
     exact h.symm
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hT3 : IsPGroup 3 D₀ := IsPGroup.of_card (n := n) (hTcard.trans hn)
-  haveI := hT3.isNilpotent
+  have := hT3.isNilpotent
   infer_instance
 
 theorem isSolvable_of_normal_pRank_le_one
@@ -425,9 +425,9 @@ theorem isSolvable_of_normal_pRank_le_one
     (((hmem g).mp hg).2 z (Subgroup.mem_zpowers z)).symm
   have hrk₀ : CFSG.Open.pRank 3 D₀ ≤ 1 :=
     le_trans (CFSG.SectionRank.pRank_mono (by norm_num) hD₀D) hrk
-  haveI : Group.IsSolvable D₀ :=
+  have : Group.IsSolvable D₀ :=
     isSolvable_core_central_order_three hO hD₀N hz3 hz1 hzD₀ hzc hrk₀
-  haveI : Group.IsSolvable (MulAut ↥(Subgroup.zpowers z)) :=
+  have : Group.IsSolvable (MulAut ↥(Subgroup.zpowers z)) :=
     CFSG.ComponentClassification.CatalogueBHeldSmallCore.cyclic_automorphism_solvable
       (H := ↥(Subgroup.zpowers z))
   refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hD₀D)

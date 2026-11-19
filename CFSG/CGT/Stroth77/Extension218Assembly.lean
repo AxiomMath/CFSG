@@ -127,12 +127,14 @@ noncomputable def cubicBasisEquiv218 (D : StrothTypeData B τ) (hBC : B ≤ C)
     exact AddEquiv.symm_apply_apply _ _
   exact ⟨e, ed, ea, eb⟩
 
+omit [Finite S] in
 theorem eq_c_zpow_mul_a_b218 (D : StrothTypeData B τ) {β : B} {i j l : ℤ}
     (h : D.ec β = i • gen τ.k 0 + j • gen τ.k 1 + l • gen τ.k 2) :
     β = D.c ^ i * D.a ^ j * D.b ^ l := by
   apply D.ec_injective
   rw [h, D.ec_mul, D.ec_mul, D.ec_zpow, D.ec_zpow, D.ec_zpow, D.ec_c, D.ec_a, D.ec_b]
 
+omit [Finite S] in
 theorem E_inclusion218 (D : StrothTypeData B τ) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C) (hd2 : d * d = (D.c : S))
     {k : Fin 3 → ℕ} (E : CubicBasisEquiv218 D hBC d hdC k) (β : B) {i j l : ℤ}
@@ -172,6 +174,7 @@ theorem E_inclusion218 (D : StrothTypeData B τ) (hBC : B ≤ C)
   rw [map_add, map_add, hci, hai, hbi, smul_smul]
   module
 
+omit [Finite S] in
 theorem E_conj_d218 (D : StrothTypeData B τ) (hBC : B ≤ C) {d : S} (hdC : d ∈ C)
     (hd2 : d * d = (D.c : S)) {k : Fin 3 → ℕ} (E : CubicBasisEquiv218 D hBC d hdC k) {g : S}
     (hgC : g ∈ Subgroup.normalizer C)
@@ -185,6 +188,7 @@ theorem E_conj_d218 (D : StrothTypeData B τ) (hBC : B ≤ C) {d : S} (hdC : d �
   rw [hsub, E_inclusion218 D hBC hdC hd2 E b h]
   module
 
+omit [Finite S] in
 theorem E_conj_inclusion218 (D : StrothTypeData B τ) (hBC : B ≤ C) {d : S} (hdC : d ∈ C)
     (hd2 : d * d = (D.c : S)) {k : Fin 3 → ℕ} (E : CubicBasisEquiv218 D hBC d hdC k) {g : S}
     (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B) (x : B)
@@ -196,6 +200,7 @@ theorem E_conj_inclusion218 (D : StrothTypeData B τ) (hBC : B ≤ C) {d : S} (h
   rw [hsub]
   exact E_inclusion218 D hBC hdC hd2 E _ h
 
+omit [Finite S] in
 theorem hasStrothTypeOver_of_images218 (D : StrothTypeData B τ) (hBC : B ≤ C)
     (hL : D.L ≤ Subgroup.normalizer C) {d : S} (hdC : d ∈ C) (τ' : StrothTypeIndex)
     (E : CubicBasisEquiv218 D hBC d hdC τ'.k)
@@ -220,6 +225,7 @@ theorem hasStrothTypeOver_of_images218 (D : StrothTypeData B τ) (hBC : B ≤ C)
     conj_eq_of_generator_images (hL D.ρ_mem_L) E.e τ'.action.φρ E.e_d E.e_a E.e_b
       (hρ 0) (hρ 1) (hρ 2)⟩, rfl, rfl, rfl, rfl⟩
 
+omit [Finite S] in
 theorem hasStrothType_of_images218 (D : StrothTypeData B τ) (hBC : B ≤ C)
     (hL : D.L ≤ Subgroup.normalizer C) {d : S} (hdC : d ∈ C) (τ' : StrothTypeIndex)
     (E : CubicBasisEquiv218 D hBC d hdC τ'.k)

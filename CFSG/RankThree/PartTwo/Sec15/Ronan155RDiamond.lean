@@ -247,6 +247,7 @@ section Orders
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_section_of_le {X J : Subgroup G} (hXJ : X ≤ J) (Ker : Subgroup ↥X) [Ker.Normal]
     (hKer : (X ⊓ CFSG.Open.pCoreOf 2 J).subgroupOf X ≤ Ker) :
     ∃ (H : Subgroup (↥J ⧸ CFSG.pCore 2 ↥J)) (N : Subgroup H) (_ : N.Normal),
@@ -268,7 +269,7 @@ theorem exists_section_of_le {X J : Subgroup G} (hXJ : X ≤ J) (Ker : Subgroup 
     apply hKer
     rw [Subgroup.mem_subgroupOf]
     exact ⟨x.2, h3⟩
-  haveI hNorm : (Ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hsurj
+  have hNorm : (Ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hsurj
   refine ⟨φ.range, Ker.map ψ, hNorm, ⟨?_⟩⟩
   set χ : ↥X →* ↥φ.range ⧸ Ker.map ψ := (QuotientGroup.mk' (Ker.map ψ)).comp ψ with hχ
   have hχs : Function.Surjective χ :=

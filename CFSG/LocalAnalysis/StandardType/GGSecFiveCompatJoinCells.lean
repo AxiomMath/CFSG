@@ -184,7 +184,7 @@ theorem ggSecFiveCompatRestWResNJoinInput_of_cells (hT : GGTBFixInput)
   · exact (hQc hQc').elim
   ·
     have hG0 : ggG0 p B x L D J = L ⊔ ⨆ K ∈ 𝒦, K :=
-      (eq_of_le_of_card_centralQuotient_le (ggJoin_le_ggG0 (Bs := Bs) hcfg.2.2.2.1) hpres.2.2.1
+      (eq_of_le_of_card_centralQuotient_le (ggJoin_le_ggG0 (_Bs := Bs) hcfg.2.2.2.1) hpres.2.2.1
         hHC.ge).symm
     obtain ⟨ι, M, hMw, e, hrefl⟩ := hcfg.2.2.2.2.1
     have hpres' : GGCoxeterPres p (ggAutomizerJoin L Bs 𝒦) M e := ⟨hMw, hrefl⟩

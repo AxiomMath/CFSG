@@ -51,7 +51,7 @@ theorem f4_perfect_le_familyKernel
 theorem pair_familyKernel_eq_kernelRoots_jointChar (a₁ a₂ : Fin Tag.F4.rank → Kˣ) :
     familyKernel ![a₁, a₂] = kernelRoots (jointChar a₁ a₂) := by
   ext α
-  simp only [familyKernel, kernelRoots, Set.mem_setOf_eq]
+  simp only [familyKernel, kernelRoots, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hroot, hα⟩
     have h0 := hα 0

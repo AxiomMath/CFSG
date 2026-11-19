@@ -345,6 +345,7 @@ theorem s828BPrime_map (e : V ≃* W) (H X : Subgroup (MulAut V)) :
   rw [Subgroup.map_sup, Subgroup.map_sup, ← commV_map_congrHom e X, ← fixV_map_congrHom e X,
     ← commV_map_congrHom e (perfectCore (H ⊓ stabSub (fixV X))), perfectCore_inf_stab_map e H X]
 
+omit [Finite V] [Finite W] in
 theorem s828CommSub_map (e : V ≃* W) (Y : Subgroup (MulAut V)) (B : Subgroup V) :
     (s828CommSub Y B).map e.toMonoidHom =
       s828CommSub (Y.map (congrHom e)) (B.map e.toMonoidHom) := by
@@ -360,6 +361,7 @@ theorem s828CommSub_map (e : V ≃* W) (Y : Subgroup (MulAut V)) (B : Subgroup V
     refine ⟨y w * w⁻¹, ⟨y, hy, w, hw, rfl⟩, ?_⟩
     simp [congrHom]
 
+omit [Finite V] [Finite W] in
 theorem mQuot_top_map (e : V ≃* W) (B : Subgroup V) :
     mQuot ⊤ (B.map e.toMonoidHom) = mQuot ⊤ B := by
   unfold mQuot

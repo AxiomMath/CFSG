@@ -70,7 +70,7 @@ theorem primeFormConjHom_scalar_eq_one (h : UnitaryFieldData ℓ f K) {m : ℕ}
   exact congrArg (fun x : CFSG.ClassicalGroups.UnitaryFlag.gramSU h C => (x : primeFormP h C))
     (Subtype.ext (scalar_central m μ g))
 
-theorem primeFormConjHom_mem_inner_of_det (h : UnitaryFieldData ℓ f K) {n : ℕ} (hn : 3 ≤ n)
+theorem primeFormConjHom_mem_inner_of_det (h : UnitaryFieldData ℓ f K) {n : ℕ} (_hn : 3 ≤ n)
     (hdiv : ¬ 3 ∣ Nat.gcd n (ℓ ^ f + 1))
     (A : primeFormUnitary h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) (c : Kˣ)
     (hc : h.norm (c : K) = 1)

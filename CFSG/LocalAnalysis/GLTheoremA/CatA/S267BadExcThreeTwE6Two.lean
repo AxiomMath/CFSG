@@ -24,8 +24,8 @@ theorem card_le_three_mul_card_inf_twInndiag (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = (ℓ ^ f) ^ 2) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     {A : Subgroup (MulAut ↥(twistedE6RootGroup K σ))} (hA : IsElemAbelian 3 A) :
     Nat.card A ≤ 3 * Nat.card ↥(A ⊓ (twistedE6Inn K σ ⊔ twistedE6Diag K σ)) := by
-  haveI := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
-  haveI : Finite (RingAut K) :=
+  have := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
+  have : Finite (RingAut K) :=
     Finite.of_injective (fun δ : RingAut K => (δ : K → K)) fun _ _ h => RingEquiv.ext (congrFun h)
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, -, -, hker, -⟩, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form hℓ hf K hK σ hσ
@@ -70,9 +70,9 @@ theorem concA_twistedE6_three_of_pSimple (hK : Nat.card K = (ℓ ^ f) ^ 2) (hf :
     S267ConcA 3 S B := by
   classical
   have hℓ : ℓ.Prime := Fact.out
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
-  haveI : Finite (MulAut ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f))) :=
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
+  have : Finite (MulAut ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f))) :=
     Finite.of_injective (fun α : MulAut ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) =>
       (α : ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) →
         ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)))) fun _ _ h => MulEquiv.ext (congrFun h)
@@ -212,13 +212,13 @@ theorem concA_badExcCore_twistedE6_three_of_mod_two_of_inputs (hVtw : TwE6VtwInp
   subst hp3
   rw [TauCeti.LieTypeIndex.characteristic_twistedE6] at hchar
   subst hchar
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   obtain ⟨K, _, σ, hKc, hσ, ⟨ec⟩⟩ := exists_catEquiv_twistedE6 Q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hKc]
     exact pow_ne_zero 2 (pow_ne_zero _ Q.prime_p.ne_zero))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K Q.p := charP_of_card_eq_prime_pow (f := Q.exponent * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K Q.p := charP_of_card_eq_prime_pow (f := Q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hKc, ← pow_mul])
   have hσ' : σ = unitaryInvolution K Q.p Q.exponent :=
     RingEquiv.ext fun c => (hσ c).trans (unitaryInvolution_apply K Q.p Q.exponent c).symm

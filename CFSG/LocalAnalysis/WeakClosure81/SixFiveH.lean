@@ -20,7 +20,7 @@ variable {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
 theorem exists_conj (h : Hyp65 n M V₀ V g) :
     ∃ l ∈ LOf V g, conjSubgroup V g = conjSubgroup V l := by
-  haveI := h.K_normal
+  have := h.K_normal
   obtain ⟨z, hz⟩ := h.quotPair.exists_conj_eq
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective ((KOf M V g).subgroupOf (LOf V g)) z
   rw [imgK_conj M V g x V] at hz
@@ -28,6 +28,7 @@ theorem exists_conj (h : Hyp65 n M V₀ V g) :
   exact eq_of_imgK_eq h (conjV_mem_pairConjOf V g)
     ⟨(x : G)⁻¹, (LOf V g).inv_mem x.2, Or.inl rfl⟩ hz
 
+omit [Finite G] in
 private theorem s65_SixFiveH_comm_of_mem_K (M V : Subgroup G) (g : G)
     [((KOf M V g).subgroupOf (LOf V g)).Normal] {a b : ↥(LOf V g)}
     (hab : (a : G) * (b : G) * (a : G)⁻¹ * (b : G)⁻¹ ∈ KOf M V g) :
@@ -46,7 +47,7 @@ section Certified
 
 
 theorem C_le_K (h : Hyp65 n M V₀ V g) : COf M V₀ V g ≤ KOf M V g := by
-  haveI := h.K_normal
+  have := h.K_normal
   intro c hc
   have hcL : c ∈ LOf V g := (Subgroup.mem_inf.1 hc).1
   let c' : ↥(LOf V g) := ⟨c, hcL⟩
@@ -112,14 +113,14 @@ theorem quotShape (h : Hyp65 n M V₀ V g) [((KOf M V g).subgroupOf (LOf V g)).N
   refine ⟨hshape, ?_⟩
   change twoRank (↥(LOf V g) ⧸ (KOf M V g).subgroupOf (LOf V g)) =
     padicValNat 2 ((conjSubgroup M g).relIndex V)
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have hrel : (conjSubgroup M g).relIndex V =
       2 ^ twoRank (↥(LOf V g) ⧸ (KOf M V g).subgroupOf (LOf V g)) := by
     rw [← card_imgK h, hcard]
   rw [hrel, padicValNat.prime_pow]
 
 theorem genHyp (h : Hyp65 n M V₀ V g) : GenHyp M V g := by
-  haveI := h.K_normal
+  have := h.K_normal
   intro x hx hxK
   have hxL : x ∈ LOf V g := (le_sup_right : conjSubgroup V g ≤ LOf V g) hx
   let x' : ↥(LOf V g) := ⟨x, hxL⟩
@@ -173,7 +174,7 @@ theorem genHyp (h : Hyp65 n M V₀ V g) : GenHyp M V g := by
   exact Subgroup.mem_subgroupOf.1 hl'
 
 theorem swapHyp (h : Hyp65 n M V₀ V g) : SwapHyp V g := by
-  haveI := h.K_normal
+  have := h.K_normal
   obtain ⟨z, hz1, hz2⟩ := h.quotPair.exists_swap
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective ((KOf M V g).subgroupOf (LOf V g)) z
   rw [imgK_conj M V g x V] at hz1
@@ -190,7 +191,7 @@ theorem six_five_one (h : Hyp65 n M V₀ V g) :
       QuotShape (LOf V g) (KOf M V g) (E3.mQuot V (conjSubgroup M g)) ∧
       (∃ l ∈ LOf V g, conjSubgroup V g = conjSubgroup V l) ∧
       COf M V₀ V g = KOf M V g := by
-  haveI := h.K_normal
+  have := h.K_normal
   exact ⟨h.K_normal, K_coe_eq_mul h, quotShape h, exists_conj h, C_eq_K h⟩
 
 end Certified

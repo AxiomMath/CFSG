@@ -206,8 +206,8 @@ theorem x_conj_to_d_pow {G : Type*} [Group G] (x a c d e : G) (m : ℤ)
     (hxa : x * a * x⁻¹ = d ^ m * a) (hm : ¬ (3 : ℤ) ∣ m)
     (hxc : x * c = c * x) (hxd : x * d = d * x)
     (hac : a * c = c * a) (had : a * d = d * a) (hcd : c * d = d * c)
-    (ha3 : a ^ 3 = 1) (hc3 : c ^ 3 = 1) (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1)
-    (hindep : a ∉ Subgroup.closure ({c, d} : Set G))
+    (ha3 : a ^ 3 = 1) (_hc3 : c ^ 3 = 1) (hd3 : d ^ 3 = 1) (_hd1 : d ≠ 1)
+    (_hindep : a ∉ Subgroup.closure ({c, d} : Set G))
     (he : e ∈ Subgroup.closure ({c, a, d} : Set G))
     (hec : e ∉ Subgroup.closure ({c, d} : Set G)) :
     ∀ t : ℤ, ∃ n : ℤ, x ^ n * e * (x ^ n)⁻¹ = d ^ t * e := by
@@ -233,7 +233,7 @@ theorem x_conj_to_d_pow {G : Type*} [Group G] (x a c d e : G) (m : ℤ)
   rw [hel, aux_LinesH_conj_e x a c d m i j l (k : ℤ) hxc hxd had hP, hdexp]
 
 theorem mem_line_cases {G : Type*} [Group G] {e d z : G} (hed : e * d = d * e)
-    (he3 : e ^ 3 = 1) (hd3 : d ^ 3 = 1)
+    (he3 : e ^ 3 = 1) (_hd3 : d ^ 3 = 1)
     (hz : z ∈ Subgroup.closure ({e, d} : Set G)) (hzd : z ∉ Subgroup.zpowers d) :
     ∃ j : ℤ, z = d ^ j * e ∨ z = (d ^ j * e)⁻¹ := by
   obtain ⟨i, j, hij⟩ := aux_LinesH_closure_form2 e d hed z hz

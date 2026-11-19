@@ -76,7 +76,7 @@ open CFSG.Adapters.RankTwoModelTransports (glCongr statedProjCongr glCongr_state
 theorem bigElem_minus_two (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) {n : ℕ} (hn : 5 ≤ n)
     (b c : K) (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     BigElem (StatedProj (StatedOmega (StatedQuadMinus n K b c))) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK
@@ -107,7 +107,7 @@ theorem bigElem_minus_two (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) 
 
 theorem bigElem_plus_two (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) {n : ℕ}
     (hn : 5 ≤ n) : BigElem (StatedProj (StatedOmega (StatedQuadPlus n K))) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK

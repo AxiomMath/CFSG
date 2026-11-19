@@ -12,19 +12,20 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L : Subgroup G}
 
+omit [Finite G] in
 theorem tau_eq_of_conj_commute_fix_b
     {B : Subgroup G} {b b₁ b₂ b₃ : G}
     (hbB : b ∈ B) (hb₁B : b₁ ∈ B) (hb₂B : b₂ ∈ B) (hb₃B : b₃ ∈ B)
     (hB : B = Subgroup.closure ({b, b₁, b₂, b₃} : Set G))
     (hE4 : IsElemAb 3 4 B) (hb3 : orderOf b = 3)
     {X : Subgroup (MulAut ↥B)} {τX : MulAut ↥B}
-    (hτXmem : τX ∈ X) (hτX2 : τX * τX = 1)
+    (_hτXmem : τX ∈ X) (hτX2 : τX * τX = 1)
     (hτXb : τX ⟨b, hbB⟩ = ⟨b, hbB⟩)
     (hτX₁ : τX ⟨b₁, hb₁B⟩ = (⟨b₁, hb₁B⟩)⁻¹)
     (hτX₂ : τX ⟨b₂, hb₂B⟩ = (⟨b₂, hb₂B⟩)⁻¹)
     (hτX₃ : τX ⟨b₃, hb₃B⟩ = (⟨b₃, hb₃B⟩)⁻¹)
     (hτXfix : ∀ x : ↥B, τX x = x ↔ x ∈ Subgroup.zpowers (⟨b, hbB⟩ : ↥B))
-    {σ : MulAut ↥B} (hσX : σ ∈ X)
+    {σ : MulAut ↥B} (_hσX : σ ∈ X)
     (hcomm : (σ * τX * σ⁻¹) * τX = τX * (σ * τX * σ⁻¹))
     (hσb : (σ * τX * σ⁻¹) ⟨b, hbB⟩ = ⟨b, hbB⟩) :
     σ * τX * σ⁻¹ = τX := by

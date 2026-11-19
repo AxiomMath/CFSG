@@ -13,6 +13,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 theorem w4_conj_conj {x y u r : G} (hr : r * x = x * r) (h : u * x * u⁻¹ = y) :
     (r * u * r⁻¹) * x * (r * u * r⁻¹)⁻¹ = r * y * r⁻¹ := by
   have hr' : r⁻¹ * x * r = x := by
@@ -23,16 +24,19 @@ theorem w4_conj_conj {x y u r : G} (hr : r * x = x * r) (h : u * x * u⁻¹ = y)
     _ = r * (u * x * u⁻¹) * r⁻¹ := by rw [hr']
     _ = r * y * r⁻¹ := by rw [h]
 
+omit [Finite G] in
 theorem w4_conj_mul {p b r : G} (hr : r * p = p * r) : r * (p * b) * r⁻¹ = p * (r * b * r⁻¹) := by
   calc r * (p * b) * r⁻¹ = (r * p) * b * r⁻¹ := by group
     _ = (p * r) * b * r⁻¹ := by rw [hr]
     _ = p * (r * b * r⁻¹) := by group
 
+omit [Finite G] in
 theorem w4_inv_comm {r x : G} (h : r * x = x * r) : r⁻¹ * x = x * r⁻¹ := by
   calc r⁻¹ * x = r⁻¹ * (x * r) * r⁻¹ := by group
     _ = r⁻¹ * (r * x) * r⁻¹ := by rw [h]
     _ = x * r⁻¹ := by group
 
+omit [Finite G] in
 theorem w4_step {g a b r : G} (hrt : r * t = t * r) (hrτ : r * tau = tau * r)
     (hgt : g * t * g⁻¹ = t * a) (hgτ : g * tau * g⁻¹ = t * tau * b) :
     (r * g * r⁻¹) * t * (r * g * r⁻¹)⁻¹ = t * (r * a * r⁻¹) ∧
@@ -47,6 +51,7 @@ theorem w4_step {g a b r : G} (hrt : r * t = t * r) (hrτ : r * tau = tau * r)
   · rw [w4_conj_conj hrt hgt, w4_conj_mul hrt]
   · rw [w4_conj_conj hrτ hgτ, w4_conj_mul hrtτ]
 
+omit [Finite G] in
 theorem w4_triple_t {g g₁ g₂ a a₁ a₂ : G} (hgt : g * t * g⁻¹ = t * a)
     (hg₁t : g₁ * t * g₁⁻¹ = t * a₁) (hg₂t : g₂ * t * g₂⁻¹ = t * a₂)
     (hg₁a₂ : g₁ * a₂ * g₁⁻¹ = a₂) (hga₁ : g * a₁ * g⁻¹ = a₁) (hga₂ : g * a₂ * g⁻¹ = a₂) :
@@ -60,6 +65,7 @@ theorem w4_triple_t {g g₁ g₂ a a₁ a₂ : G} (hgt : g * t * g⁻¹ = t * a)
     _ = (t * a) * a₁ * a₂ := by rw [hgt, hga₁, hga₂]
     _ = t * (a * a₁ * a₂) := by group
 
+omit [Finite G] in
 theorem w4_triple_tau {g g₁ g₂ a₁ b b₁ b₂ : G} (hgτ : g * tau * g⁻¹ = t * tau * b)
     (hg₁t : g₁ * t * g₁⁻¹ = t * a₁) (hg₁τ : g₁ * tau * g₁⁻¹ = t * tau * b₁)
     (hg₂τ : g₂ * tau * g₂⁻¹ = t * tau * b₂) (hg₁b₂ : g₁ * b₂ * g₁⁻¹ = b₂)
@@ -153,7 +159,7 @@ theorem w4_O_conj_tau
 
 theorem w4_O_le_Ktau
     (hc : W4Ctxb t L S x₁ x₂ lam rho tau) :
-    ctxO t tau x₁ x₂ ≤ w4Ktau tau x₁ x₂ := fun g hg =>
+    ctxO t tau x₁ x₂ ≤ w4Ktau tau x₁ x₂ := fun _g hg =>
   ⟨w4_mem_normalizer_V hc.normal_V (p0_O_le_M t tau x₁ x₂ hg), w4_O_conj_tau hc hg⟩
 
 theorem w4_M_le_Ktau

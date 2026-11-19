@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c11_case5_barSub_wClos {V₀ V X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hX : X ≤ stabTil V₀ V) :
     barSub V₀ V hV (E3.wClos V 0 X) = ⨆ A ∈ E3.gammaSet V 0 X, barSub V₀ V hV A := by
@@ -23,8 +24,8 @@ private theorem s16c11_case5_barSub_wClos {V₀ V X : Subgroup G} (hV : IsElemAb
     barSub_iSup_of_le hV (K := fun _ : A ∈ E3.gammaSet V 0 X => A)
       (fun hA => hA.1.trans hX)
 
-theorem s16c11_normalizer_le_of_case5 (D : Data G) (hin : In10 D) (h1217 : R1217 D)
-    (h1610 : R16_10_2 D) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
+theorem s16c11_normalizer_le_of_case5 (D : Data G) (hin : In10 D) (_h1217 : R1217 D)
+    (_h1610 : R16_10_2 D) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
     (hc : Counterex16 D V₀ V L hV) (hout : Out10 D V₀ V hV) (h5 : Case168_5 D V₀ V hV L) :
     normalizer (E3.wClos V 0 D.T : Set G) ≤ D.M := by
   classical

@@ -212,7 +212,7 @@ private theorem eq_bot_of_transvection {W X : Subgroup G} (hWX : W ≤ X) (hX : 
     (hfix : ∀ w ∈ W, y * w = w * y → w = 1)
     (h4 : Nat.card X ≤ 4 * Nat.card (X ⊓ Subgroup.centralizer ({e} : Set G) : Subgroup G)) :
     W = ⊥ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hW : IsElemAbelian 2 W := hX.mono hWX
   have hqodd : Odd q := hq.odd_of_ne_two (by omega)
   have hyodd : Odd (orderOf y) := by
@@ -238,6 +238,7 @@ private theorem mem_normalizer_of_conj_mem_fin {V : Subgroup G} {b : G}
   exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr (Subgroup.eq_of_le_of_card_ge hle
     (Subgroup.card_map_of_injective (MulAut.conj b).injective).ge)
 
+omit [Finite G] in
 private theorem conj_eq_of_mul_inv_mem {U : Subgroup G} {g g' : G}
     (hg' : g' ∈ Subgroup.normalizer (U : Set G))
     (h : g * g'⁻¹ ∈ Subgroup.centralizer (U : Set G)) {u : G} (hu : u ∈ U) :
@@ -248,6 +249,7 @@ private theorem conj_eq_of_mul_inv_mem {U : Subgroup G} {g g' : G}
     _ = (g' * u * g'⁻¹) * (g * g'⁻¹) * (g * g'⁻¹)⁻¹ := by rw [← hc]
     _ = g' * u * g'⁻¹ := by group
 
+omit [Finite G] in
 private theorem pow_conj_eq {U : Subgroup G} {g y' : G}
     (hy'U : y' ∈ Subgroup.normalizer (U : Set G))
     (h : ∀ u ∈ U, g * u * g⁻¹ = y' * u * y'⁻¹) :
@@ -310,10 +312,10 @@ private theorem core_contradiction {S U E₀ : Subgroup G} {e y : G} {q m : ℕ}
     (hyU : ¬ ∀ u ∈ U, y * u = u * y)
     (hm : ∀ A : Subgroup G, A ≤ S → IsElemAbelian 2 A → Nat.card A ≤ 2 ^ m)
     (hE₀card : 2 ^ m ≤ 4 * Nat.card E₀) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hqodd : Odd q := hq.odd_of_ne_two (by omega)
   have hyodd : Odd (orderOf y) := by
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨n, hn⟩ := hyq.exists_card_eq
     rw [Nat.card_zpowers] at hn
     rw [hn]
@@ -483,6 +485,7 @@ private theorem exists_transvection_data {Q : Type} [Group Q] [Finite Q] {X Eb :
   · exact (Commute.pow_right (show Commute f c from hcF f hf) _).eq
   · rw [← conj_pow, hec, inv_pow]
 
+omit [Finite G] in
 private theorem normal_centralizer_subgroupOf {R U : Subgroup G}
     (hUn : R ≤ Subgroup.normalizer (U : Set G)) :
     ((Subgroup.centralizer (U : Set G)).subgroupOf R).Normal := by
@@ -501,6 +504,7 @@ private theorem normal_centralizer_subgroupOf {R U : Subgroup G}
     _ = (g : G) * (n * ((g : G)⁻¹ * u * g)) * (g : G)⁻¹ := by rw [key]
     _ = (g : G) * n * (g : G)⁻¹ * u := by group
 
+omit [Finite G] in
 private theorem card_bar_eq' {R K X : Subgroup G} [(K.subgroupOf R).Normal] (hXR : X ≤ R) :
     Nat.card (bar R K X) = K.relIndex X := by
   let f : ↥X →* ↥(bar R K X) :=
@@ -527,10 +531,12 @@ private theorem card_bar_eq' {R K X : Subgroup G} [(K.subgroupOf R).Normal] (hXR
     exact h5.trans Subgroup.index_bot
   exact h4.symm
 
+omit [Finite G] in
 private theorem barPre_le_aux {R K : Subgroup G} [(K.subgroupOf R).Normal] (A : Subgroup G)
     (E : Subgroup (↥R ⧸ K.subgroupOf R)) : barPre R K A E ≤ A :=
   fun _ ha => (mem_barPre_iff.1 ha).1
 
+omit [Finite G] in
 private theorem exists_two_pow_eq_one_of_mem_bar {R K S : Subgroup G} [(K.subgroupOf R).Normal]
     (hS : IsPGroup 2 S) {g : ↥R ⧸ K.subgroupOf R} (hg : g ∈ bar R K S) :
     ∃ n : ℕ, g ^ (2 ^ n) = 1 := by
@@ -540,6 +546,7 @@ private theorem exists_two_pow_eq_one_of_mem_bar {R K S : Subgroup G} [(K.subgro
   have hs1 : s ^ 2 ^ n = 1 := Subtype.ext (by simpa using congrArg Subtype.val hn)
   rw [← map_pow, hs1, map_one]
 
+omit [Finite G] in
 private theorem exists_comm_not_mem {R S L C E : Subgroup G} [(C.subgroupOf R).Normal]
     (hSR : S ≤ R) (hS : IsPGroup 2 S) (hLR : L ≤ R) (hLn : R ≤ Subgroup.normalizer (L : Set G))
     (hRLS : (L : Set G) * (S : Set G) = (R : Set G))
@@ -627,15 +634,15 @@ theorem jOneOf_le_centralizer_of_reduced {R S L H U : Subgroup G}
     (h3 : ¬ 3 ∣ Nat.card R) (h5 : ¬ 5 ∣ Nat.card R) (hSR : S ≤ R) (hS : IsPGroup 2 S)
     (hLR : L ≤ R) (hLn : R ≤ Subgroup.normalizer (L : Set G)) (hH : H = S ⊓ L)
     (hLodd : ¬ 2 ∣ H.relIndex L) (hRLS : (L : Set G) * (S : Set G) = (R : Set G))
-    (hUR : U ≤ R) (hUn : R ≤ Subgroup.normalizer (U : Set G)) (hU : IsElemAbelian 2 U)
+    (_hUR : U ≤ R) (hUn : R ≤ Subgroup.normalizer (U : Set G)) (hU : IsElemAbelian 2 U)
     (hUH : U ≤ H) (hHU : H ≤ Subgroup.centralizer (U : Set G))
     (hUred : ∀ K : Subgroup G, K ≤ R → R ≤ Subgroup.normalizer (K : Set G) →
       (∀ k ∈ K, ∃ n : ℕ, k ^ (2 ^ n) ∈ Subgroup.centralizer (U : Set G)) →
       K ≤ Subgroup.centralizer (U : Set G)) :
     jOneOf S ≤ Subgroup.centralizer (U : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hCN := normal_centralizer_subgroupOf hUn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hCN := normal_centralizer_subgroupOf hUn
   refine iSup₂_le fun E hE => ?_
   obtain ⟨hES, hEab, hEcard⟩ := hE
   have hmax : ∀ A : Subgroup G, A ≤ S → IsElemAbelian 2 A →

@@ -23,8 +23,8 @@ theorem crossExc_not_dvd_card_weylGroup_G2 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤
 theorem crossSylowAbelianAt_G2 {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.G2 q).Valid) : CrossSylowAbelianAt ⟨.G2 q, hv⟩ := by
   intro p hp hp5 hdp L _ _ hs ⟨e⟩ P
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hdp' : q.p ≠ p := by simpa using hdp
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
@@ -45,7 +45,7 @@ theorem crossSylowAbelianAt_G2 {q : TauCeti.PrimePower}
 theorem crossSylowAbelianAt_reeG2 {m : ℕ} (hv : (TauCeti.LieTypeIndex.reeG2 m).Valid) :
     CrossSylowAbelianAt ⟨.reeG2 m, hv⟩ := by
   intro p hp hp5 hdp L _ _ hs ⟨e⟩ P
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdp' : 3 ≠ p := by simpa using hdp
   obtain ⟨-, a, -, K, _, _, hK, ⟨e'⟩⟩ :=
     CFSG.RankThree.PartOne.CTP.reeTitsModel_reeG2 m ⟨hv, ⟨e⟩⟩

@@ -77,7 +77,7 @@ theorem clsSympBC {S : Type} [Group S] (p : ℕ) (α : MulAut S) (labK : GLALabe
   obtain ⟨m, n, hm, hn, hiff⟩ := famSympBC_recipe hΛ hfam'
   obtain ⟨K, instF, instFin, hK, hQ⟩ := (hiff _).1 hraw
   obtain ⟨hsimple, hnonab, θ, -⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card_pow hK
+  have : CharP K 2 := charP_two_of_card_pow hK
   set φ : MulAut (LargeEvenProj (LargeEvenSpGroup K m)) :=
     MulAut.congr θ (centerQuotAut S α) with hφdef
   have hφp : φ ^ p = 1 := by

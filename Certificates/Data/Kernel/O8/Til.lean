@@ -33,7 +33,7 @@ open CFSG.KLie.CT CFSG.KC.Loop CFSG.KC.F4M
 @[expose] noncomputable def red2Tab (TL : Nat) : Nat :=
   orN (nat_lit 128) fun i => Nat.shiftLeft (red2K (tilAt TL i)) (Nat.mul (nat_lit 36) i)
 
-@[expose] noncomputable def tabOK (G C U X : Nat) (UW : List (List Nat)) (TL MT XI UI : Nat) : Bool :=
+@[expose] noncomputable def tabOK (G C U X : Nat) (UW : List (List Nat)) (TL _MT XI UI : Nat) : Bool :=
   andB (Nat.beq (tilAt TL (nat_lit 0)) ONE)
     (andB (andB (Nat.blt XI (nat_lit 128)) (Nat.beq (tilAt TL XI) X))
       (andB (allN (nat_lit 6) fun k => (fun w u => andB (lettersOK w)

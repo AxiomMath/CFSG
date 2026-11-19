@@ -13,20 +13,24 @@ section OmegaOne
 
 variable {X : Type} [Group X] [Finite X] {A : Subgroup X}
 
+omit [Finite X] in
 private theorem endgC_conj_one (T : Subgroup X) : conjSubgroup (1 : X) T = T := by
   ext x
   simp [mem_conjSubgroup]
 
+omit [Finite X] in
 private theorem endgC_conj_mul (g h : X) (T : Subgroup X) :
     conjSubgroup (g * h) T = conjSubgroup g (conjSubgroup h T) := by
   ext x
   simp only [mem_conjSubgroup]
   rw [show (g * h)⁻¹ * x * (g * h) = h⁻¹ * (g⁻¹ * x * g) * h by group]
 
+omit [Finite X] in
 private theorem endgC_card (g : X) (T : Subgroup X) :
     Nat.card (conjSubgroup g T) = Nat.card T :=
   Subgroup.card_map_of_injective (MulAut.conj g).injective
 
+omit [Finite X] in
 private theorem endgC_sq_conj (hO : EndOmegaHyp A) {g y : X} (hy : y ∈ conjSubgroup g A) :
     y * y = 1 := by
   have h1 : g⁻¹ * y * g ∈ A := mem_conjSubgroup.1 hy
@@ -34,6 +38,7 @@ private theorem endgC_sq_conj (hO : EndOmegaHyp A) {g y : X} (hy : y ∈ conjSub
   calc y * y = g * ((g⁻¹ * y * g) * (g⁻¹ * y * g)) * g⁻¹ := by group
     _ = 1 := by rw [h2]; group
 
+omit [Finite X] in
 private theorem endgC_cond (A : Subgroup X) (g h : X) :
     (∀ z ∈ conjSubgroup g A, ∀ y ∈ conjSubgroup (g * h) A, z * y = y * z) ↔
       (∀ z ∈ A, ∀ y ∈ conjSubgroup h A, z * y = y * z) := by
@@ -59,6 +64,7 @@ private theorem endgC_cond (A : Subgroup X) (g h : X) :
       _ = g * ((g⁻¹ * y * g) * (g⁻¹ * z * g)) * g⁻¹ := by rw [key]
       _ = y * z := by group
 
+omit [Finite X] in
 theorem endg_A_le_EgenX (hO : EndOmegaHyp A) : A ≤ EgenX A := by
   have h1 : ∀ z ∈ A, ∀ y ∈ conjSubgroup (1 : X) A, z * y = y * z := by
     intro z hz y hy
@@ -66,6 +72,7 @@ theorem endg_A_le_EgenX (hO : EndOmegaHyp A) : A ≤ EgenX A := by
     exact hO.comm z hz y hy
   exact le_iSup₂_of_le (1 : X) h1 (le_of_eq (endgC_conj_one A).symm)
 
+omit [Finite X] in
 theorem endg_EgenX_comm_A (A : Subgroup X) : ∀ x ∈ EgenX A, ∀ a ∈ A, x * a = a * x := by
   have hle : EgenX A ≤ Subgroup.centralizer (A : Set X) := by
     unfold EgenX
@@ -77,6 +84,7 @@ theorem endg_EgenX_comm_A (A : Subgroup X) : ∀ x ∈ EgenX A, ∀ a ∈ A, x *
   intro x hx a ha
   exact ((Subgroup.mem_centralizer_iff.1 (hle hx)) a ha).symm
 
+omit [Finite X] in
 private theorem endgC_comm_key (A : Subgroup X) {x a b : X} (ha : a ∈ EgenX A)
     (hc : ⁅b, x⁆ ∈ A) : ⁅a * b, x⁆ = ⁅b, x⁆ * ⁅a, x⁆ := by
   have hac : a * ⁅b, x⁆ = ⁅b, x⁆ * a := endg_EgenX_comm_A A a ha _ hc
@@ -88,6 +96,7 @@ private theorem endgC_comm_key (A : Subgroup X) {x a b : X} (ha : a ∈ EgenX A)
         simp only [commutatorElement_def]
         group
 
+omit [Finite X] in
 theorem endg_EgenX_sq_mem (hO : EndOmegaHyp A) : ∀ x ∈ EgenX A, x * x ∈ A := by
   intro x hx
   refine Subgroup.iSup_induction' (fun g : X => ⨆ (_ : InOmegaA A g), conjSubgroup g A)
@@ -118,6 +127,7 @@ theorem endg_EgenX_sq_mem (hO : EndOmegaHyp A) : ∀ x ∈ EgenX A, x * x ∈ A 
     rw [hid]
     exact mul_mem (mul_mem hcu' hc) hcv'
 
+omit [Finite X] in
 theorem endg_EgenX_pgroup (hO : EndOmegaHyp A) : IsPGroup 2 (EgenX A) := by
   intro g
   refine ⟨2, Subtype.ext ?_⟩
@@ -127,6 +137,7 @@ theorem endg_EgenX_pgroup (hO : EndOmegaHyp A) : IsPGroup 2 (EgenX A) := by
     rw [show (2 : ℕ) ^ 2 = 2 + 2 from rfl, pow_add, pow_two]
   rw [Subgroup.coe_pow, Subgroup.coe_one, e, h4]
 
+omit [Finite X] in
 theorem endg_EgenX_class_two (hO : EndOmegaHyp A) :
     ∀ x ∈ EgenX A, ∀ y ∈ EgenX A, ∀ z ∈ EgenX A, ⁅⁅x, y⁆, z⁆ = 1 := by
   intro x hx y hy z hz
@@ -134,6 +145,7 @@ theorem endg_EgenX_class_two (hO : EndOmegaHyp A) :
   rw [commutatorElement_eq_one_iff_mul_comm]
   exact (endg_EgenX_comm_A A z hz _ hw).symm
 
+omit [Finite X] in
 private theorem endgC_commute_EgenX (A : Subgroup X)
     (hgen : ∀ g h : X, InOmegaA A g → InOmegaA A h →
       ∀ x ∈ conjSubgroup g A, ∀ y ∈ conjSubgroup h A, x * y = y * x) :
@@ -224,6 +236,7 @@ theorem endg_six_three (hO : EndOmegaHyp A) (hne : ⁅EgenX A, EgenX A⁆ ≠ �
   rw [← hwa]
   exact Subgroup.commutator_mem_commutator (hhE w.2) hxE
 
+omit [Finite X] in
 theorem endg_EgenX_conj (A : Subgroup X) (g : X) :
     conjSubgroup g (EgenX A) = ⨆ (h : X)
       (_ : ∀ z ∈ conjSubgroup g A, ∀ y ∈ conjSubgroup h A, z * y = y * z), conjSubgroup h A := by
@@ -249,10 +262,12 @@ section OmegaTwo
 
 variable {X : Type} [Group X] [Finite X] {A : Subgroup X}
 
+omit [Finite X] in
 private theorem endgD_gen_le {g : X} (hg : InOmegaA A g) : conjSubgroup g A ≤ EgenX A := by
   unfold EgenX
   exact le_iSup₂_of_le g hg le_rfl
 
+omit [Finite X] in
 private theorem endgD_egen_comm {u : X} (hu : u ∈ EgenX A) {a : X} (ha : a ∈ A) :
     u * a = a * u := by
   have hc : EgenX A ≤ Subgroup.centralizer (A : Set X) := by
@@ -264,6 +279,7 @@ private theorem endgD_egen_comm {u : X} (hu : u ∈ EgenX A) {a : X} (ha : a ∈
     exact hg b hb y hy
   exact (Subgroup.mem_centralizer_iff.1 (hc hu) a ha).symm
 
+omit [Finite X] in
 private theorem endgD_comm_mul (hO : EndOmegaHyp A) {u v x : X} (hu : u ∈ EgenX A)
     (hv : v ∈ EgenX A) (hx : x ∈ EgenX A) : ⁅u * v, x⁆ = ⁅u, x⁆ * ⁅v, x⁆ := by
   have hvx : ⁅v, x⁆ ∈ A := hO.e (Subgroup.commutator_mem_commutator hv hx)
@@ -274,6 +290,7 @@ private theorem endgD_comm_mul (hO : EndOmegaHyp A) {u v x : X} (hu : u ∈ Egen
     _ = ⁅v, x⁆ * ⁅u, x⁆ := by rw [hcomm, mul_inv_cancel_right]
     _ = ⁅u, x⁆ * ⁅v, x⁆ := hO.comm _ hvx _ hux
 
+omit [Finite X] in
 private theorem endgD_exists_ne_one (hA : A ≠ ⊥) (h : X) :
     ∃ y ∈ conjSubgroup h A, y ≠ 1 := by
   by_contra hall
@@ -290,6 +307,7 @@ private theorem endgD_exists_ne_one (hA : A ≠ ⊥) (h : X) :
   calc a = h⁻¹ * (h * a * h⁻¹) * h := by group
     _ = 1 := by rw [h1]; group
 
+omit [Finite X] in
 private theorem endgD_conj_commutator (g : X) (K L : Subgroup X) :
     conjSubgroup g ⁅K, L⁆ = ⁅conjSubgroup g K, conjSubgroup g L⁆ := by
   unfold conjSubgroup
@@ -328,7 +346,7 @@ theorem endg_six_two (hO : EndOmegaHyp A) {g h : X} (hg : InOmegaA A g) (hh : In
     _ = a * x := by rw [hya]
 
 theorem endg_exists_noncomm (hO : EndOmegaHyp A) (F : OmegaPart1 A)
-    (hne : ⁅EgenX A, EgenX A⁆ ≠ ⊥) {g : X} (hg : InOmegaA A g) (hgA : conjSubgroup g A ≠ A)
+    (hne : ⁅EgenX A, EgenX A⁆ ≠ ⊥) {g : X} (_hg : InOmegaA A g) (hgA : conjSubgroup g A ≠ A)
     {x : X} (hx : x ∈ conjSubgroup g A) (hx1 : x ≠ 1) :
     ∃ h : X, InOmegaA A h ∧ ∃ y ∈ conjSubgroup h A, x * y ≠ y * x := by
   by_contra hcon
@@ -416,15 +434,15 @@ theorem endg_omegaPart1 (hO : EndOmegaHyp A) : OmegaPart1 A where
   comm_A := endg_EgenX_comm_A A
   pgroup := endg_EgenX_pgroup hO
   class_two := endg_EgenX_class_two hO
-  six_two := fun {g h} hg hh {x} hx hx1 => endg_six_two hO hg hh hx hx1
+  six_two := fun {_g _h} hg hh {_x} hx hx1 => endg_six_two hO hg hh hx hx1
   six_three := endg_six_three hO
   conj := endg_EgenX_conj A
 
 theorem endg_omegaPart2 (hO : EndOmegaHyp A) : OmegaPart2 A :=
   have F := endg_omegaPart1 hO
-  { exists_noncomm := fun hne {g} hg hgA {x} hx hx1 => endg_exists_noncomm hO F hne hg hgA hx hx1
-    six_four := fun hne {g} hg hgA {x} hx hx1 => endg_six_four hO F hne hg hgA hx hx1
-    six_four_gen := fun hne {g h} hgh hc {y} hy hy1 => endg_six_four_gen hO F hne hgh hc hy hy1 }
+  { exists_noncomm := fun hne {_g} hg hgA {_x} hx hx1 => endg_exists_noncomm hO F hne hg hgA hx hx1
+    six_four := fun hne {_g} hg hgA {_x} hx hx1 => endg_six_four hO F hne hg hgA hx hx1
+    six_four_gen := fun hne {_g _h} hgh hc {_y} hy hy1 => endg_six_four_gen hO F hne hgh hc hy hy1 }
 
 end OmegaAssembly
 

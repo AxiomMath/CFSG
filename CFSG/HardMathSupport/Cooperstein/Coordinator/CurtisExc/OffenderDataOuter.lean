@@ -294,7 +294,7 @@ theorem offender_periodic_data_outer
     have : Finite (MulAut W) :=
       Finite.of_injective (fun f : MulAut W => (f : W → W)) (fun f g h => MulEquiv.ext (congrFun h))
     have : Finite T := Finite.of_injective (fun a : T => a.1) Subtype.val_injective
-    letI : Algebra (EndRing (repOfSubgroup L')) k := ιD.toAlgebra
+    let : Algebra (EndRing (repOfSubgroup L')) k := ιD.toAlgebra
     have : FaithfulSMul (EndRing (repOfSubgroup L')) k := ⟨fun {r₁ r₂} h => by
       have h1 := h 1
       simp only [Algebra.smul_def, mul_one] at h1

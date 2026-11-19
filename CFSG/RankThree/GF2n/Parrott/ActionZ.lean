@@ -12,10 +12,12 @@ open CFSG.ComponentClassification.CatFactsSmall.PSp43
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem centerIn_le_H (z : G) : centerIn (J z) ≤ H z :=
   (le_of_eq (centerIn_eq_map_center (J z))).trans
     ((Subgroup.map_subtype_le (Subgroup.center (J z))).trans (J_le_H (z := z)))
 
+omit [Finite G] in
 theorem centerIn_subgroupOf_eq_inf_centralizer (z : G) :
     (centerIn (J z)).subgroupOf (H z) =
       ((J z).subgroupOf (H z)) ⊓
@@ -37,6 +39,7 @@ theorem centerIn_subgroupOf_eq_inf_centralizer (z : G) :
     exact congrArg Subtype.val
       (Subgroup.mem_centralizer_iff.mp hxC ⟨y, hyH⟩ hy)
 
+omit [Finite G] in
 theorem centerIn_subgroupOf_eq_center_map (z : G) :
     (centerIn (J z)).subgroupOf (H z) =
       (Subgroup.center ((J z).subgroupOf (H z))).map
@@ -53,11 +56,13 @@ instance centerIn_subgroupOf_normal (z : G) :
   (MulAut.congr (Subgroup.subgroupOfEquivOfLe (centerIn_le_H (z := z)))).toMonoidHom.comp
     (MulAut.conjNormal (H := (centerIn (J z)).subgroupOf (H z)))
 
+omit [Finite G] in
 theorem conjZ_apply_coe (g : H z) (x : centerIn (J z)) :
     ((conjZ z g x : centerIn (J z)) : G) = (g : G) * (x : G) * (g : G)⁻¹ := by
   simp [conjZ, MulAut.congr, MulEquiv.trans_apply, MulAut.conjNormal_apply,
     Subgroup.subgroupOfEquivOfLe]
 
+omit [Finite G] in
 theorem J_le_ker_conjZ (z : G) :
     (J z).subgroupOf (H z) ≤ (conjZ z).ker := by
   intro g hg
@@ -76,6 +81,7 @@ theorem J_le_ker_conjZ (z : G) :
     (↥(H z) ⧸ (J z).subgroupOf (H z)) →* MulAut (centerIn (J z)) :=
   QuotientGroup.lift _ (conjZ z) (J_le_ker_conjZ z)
 
+omit [Finite G] in
 @[simp] theorem actionZ_mk (z : G) (g : H z) :
     actionZ z (QuotientGroup.mk' ((J z).subgroupOf (H z)) g) = conjZ z g :=
   QuotientGroup.lift_mk' _ _ g
@@ -85,6 +91,7 @@ theorem J_le_ker_conjZ (z : G) :
     QA45.originalSubgroup →* MulAut (centerIn (J z)) :=
   (actionZ z).comp D.toQA45.symm.toMonoidHom
 
+omit [Finite G] in
 theorem actionZQA45_apply
     {hN : ((J z).subgroupOf (H z)).Normal} (D : QuotientData (z := z) hN)
     (a : QA45.originalSubgroup) :

@@ -94,7 +94,7 @@ theorem gl_card_factor (p k : ℕ) [hp : Fact p.Prime] :
     have hi : (i : ℕ) ≤ k := by have := i.2; omega
     rw [Nat.mul_sub_one, ← pow_add, Nat.add_sub_of_le hi]
   · intro h
-    obtain ⟨i, _, hi⟩ := (Prime.dvd_finset_prod_iff hp.out.prime _).1 h
+    obtain ⟨i, _, hi⟩ := (Prime.dvd_finsetProd_iff hp.out.prime _).1 h
     have hik : (i : ℕ) < k := i.2
     have h1 : p ∣ p ^ (k - (i : ℕ)) := dvd_pow_self p (by omega)
     have h2 : p ∣ p ^ (k - (i : ℕ)) - (p ^ (k - (i : ℕ)) - 1) := Nat.dvd_sub h1 hi
@@ -146,7 +146,7 @@ theorem isUT_mul {p k : ℕ} {M N : Matrix (Fin k) (Fin k) (ZMod p)} (hM : IsUT 
 
 theorem isUT_isUnit_det {p k : ℕ} {M : Matrix (Fin k) (Fin k) (ZMod p)} (hM : IsUT M) :
     IsUnit M.det := by
-  rw [Matrix.det_of_upperTriangular (by intro i j h; exact hM.1 i j h)]
+  rw [Matrix.det_of_isUpperTriangular (by intro i j h; exact hM.1 i j h)]
   simp [hM.2]
 
 def unitriSub (p k : ℕ) [Fact p.Prime] :
@@ -219,23 +219,23 @@ theorem card_unitriSub (p k : ℕ) [hp : Fact p.Prime] :
       have hM : IsUT M := by
         refine ⟨fun i j hji => ?_, fun i => ?_⟩
         · simp only [M]
-          rw [dif_neg (not_lt.2 hji.le), if_neg hji.ne']
+          rw [dite_eq_right (not_lt.2 hji.le), ite_eq_right hji.ne']
         · simp [M]
       refine ⟨⟨Matrix.GeneralLinearGroup.mk'' M (isUT_isUnit_det hM), hM⟩, ?_⟩
       funext t
       show M t.1.1 t.1.2 = φ t
-      simp only [M, dif_pos t.2]
+      simp only [M, dite_eq_left t.2]
   rw [Nat.card_congr (Equiv.ofBijective f hf), Nat.card_fun, Nat.card_zmod, card_pairsLT]
 
 
 theorem elem_isUT {p k : ℕ} {i j : Fin k} (hij : i < j) :
     IsUT (1 + Matrix.single i j (1 : ZMod p)) := by
   refine ⟨fun a b hba => ?_, fun a => ?_⟩
-  · rw [Matrix.add_apply, Matrix.one_apply_ne hba.ne', zero_add, Matrix.single_apply, if_neg]
+  · rw [Matrix.add_apply, Matrix.one_apply_ne hba.ne', zero_add, Matrix.single_apply, ite_eq_right]
     rintro ⟨h1, h2⟩
     rw [← h1, ← h2] at hba
     exact lt_asymm hij hba
-  · rw [Matrix.add_apply, Matrix.one_apply_eq, Matrix.single_apply, if_neg, add_zero]
+  · rw [Matrix.add_apply, Matrix.one_apply_eq, Matrix.single_apply, ite_eq_right, add_zero]
     rintro ⟨h1, h2⟩
     rw [← h1] at h2
     exact hij.ne h2.symm
@@ -261,8 +261,7 @@ theorem unitriSub_nonabelian (p k : ℕ) [hp : Fact p.Prime] (hk : 3 ≤ k) :
   have e1 : (1 + Matrix.single i0 i1 (1 : ZMod p)) * (1 + Matrix.single i1 i2 (1 : ZMod p)) =
       1 + Matrix.single i1 i2 (1 : ZMod p) + Matrix.single i0 i1 (1 : ZMod p) +
         Matrix.single i0 i2 (1 : ZMod p) := by
-    simp only [Matrix.mul_add, Matrix.add_mul, Matrix.one_mul, Matrix.mul_one,
-      Matrix.single_mul_single_same, mul_one]
+    simp only [Matrix.mul_add, Matrix.add_mul, Matrix.one_mul, Matrix.single_mul_single_same, mul_one]
     abel
   have e2 : (1 + Matrix.single i1 i2 (1 : ZMod p)) * (1 + Matrix.single i0 i1 (1 : ZMod p)) =
       1 + Matrix.single i1 i2 (1 : ZMod p) + Matrix.single i0 i1 (1 : ZMod p) := by
@@ -279,13 +278,13 @@ theorem unitriSub_nonabelian (p k : ℕ) [hp : Fact p.Prime] (hk : 3 ≤ k) :
     intro h
     have := congrArg Fin.val h
     simp [i0, i2] at this
-  simp [Matrix.add_apply, Matrix.single_apply, hne, hne.symm] at hent
+  simp [Matrix.add_apply, Matrix.single_apply, hne] at hent
 
 theorem gl_elemAb_card_le (p k : ℕ) [hp : Fact p.Prime] (hk : 3 ≤ k)
     {Q : Subgroup (Matrix.GeneralLinearGroup (Fin k) (ZMod p))} (hQ : IsElemAbelian p Q) :
     Nat.card Q ≤ p ^ (Nexp k - 1) := by
   classical
-  haveI : Finite (Sylow p (Matrix.GeneralLinearGroup (Fin k) (ZMod p))) :=
+  have : Finite (Sylow p (Matrix.GeneralLinearGroup (Fin k) (ZMod p))) :=
     Finite.of_injective (fun P : Sylow p (Matrix.GeneralLinearGroup (Fin k) (ZMod p)) =>
       (P : Set (Matrix.GeneralLinearGroup (Fin k) (ZMod p))))
       (fun _ _ h => SetLike.coe_injective h)
@@ -335,7 +334,7 @@ theorem gl_elemAb_card_le (p k : ℕ) [hp : Fact p.Prime] (hk : 3 ≤ k)
     obtain ⟨y, hy, rfl⟩ := hsub b hb
     apply hab
     have hxy : x * y = y * x := by
-      haveI : IsMulCommutative Q := hQ.1
+      have : IsMulCommutative Q := hQ.1
       have := congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : Q) ⟨y, hy⟩)
       simpa using this
     calc g * x * g⁻¹ * (g * y * g⁻¹) = g * (x * y) * g⁻¹ := by group
@@ -369,7 +368,7 @@ theorem transport {p k : ℕ} [hp : Fact p.Prime] {A E : Subgroup G}
       IsElemAbelian p ψ.range ∧
       Nat.card A = Nat.card ψ.ker * Nat.card ψ.range := by
   classical
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   have hcomm : ∀ a b : E, a * b = b * a := fun a b => mul_comm' a b
   have hpow : ∀ a : E, a ^ p = 1 := fun a => Subtype.ext (by simpa using hE.2 a a.2)
   obtain ⟨φ⟩ :=
@@ -400,7 +399,7 @@ theorem transport {p k : ℕ} [hp : Fact p.Prime] {A E : Subgroup G}
         ((MulAut.congr φ) (conjAct A E hnorm a)) = 1 ↔ _
     rw [MulEquiv.map_eq_one_iff, MulEquiv.map_eq_one_iff]
   refine ⟨c, hc, ?_, ?_⟩
-  · haveI : IsMulCommutative A := hA.1
+  · have : IsMulCommutative A := hA.1
     refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
     · obtain ⟨a, ha⟩ := x.2
       obtain ⟨b, hb⟩ := y.2
@@ -442,7 +441,7 @@ theorem star_of_maxNormal {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) (R : Sub
     ∀ a ∈ R, a ^ p = 1 → (∀ e ∈ E0, a * e = e * a) → a ∈ E0 := by
   classical
   let E' : Subgroup R := E0.subgroupOf R
-  haveI hEn : E'.Normal := ⟨fun x hx g => by
+  have hEn : E'.Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     simpa using hnorm g.1 g.2 x.1 hx⟩
   have hE'el : CFSG.IsElementaryAbelian p E' :=
@@ -488,9 +487,9 @@ theorem exists_normal_rank {p : ℕ} [hp : Fact p.Prime] (R : Subgroup G) (hR : 
     {n k : ℕ} (hn : Nat.card E0 = p ^ n) (hk : k ≤ n) :
     ∃ E : Subgroup G, E ≤ R ∧ NormIn R E ∧ IsElemAbelian p E ∧ Nat.card E = p ^ k := by
   classical
-  haveI : Fact (IsPGroup p R) := ⟨hR⟩
+  have : Fact (IsPGroup p R) := ⟨hR⟩
   let N : Subgroup R := E0.subgroupOf R
-  haveI hN : N.Normal := ⟨fun x hx g => by
+  have hN : N.Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     simpa using hnorm g.1 g.2 x.1 hx⟩
   have hNc : Nat.card N = p ^ n := by
@@ -597,7 +596,7 @@ end Input319
 open Input319 in
 theorem input31_9_holds : Input31_9 := by
   intro G _ _ p r hp hp2 hr hnot R hR A B hA hB
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E0, hE0R, hE0n, hE0a, hE0max⟩ := exists_max_normal_ea R p
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 (CFSG.Open.IsElemAbelian.isPGroup hE0a)
   have hkn := rank_ge_of_normal hp2 R hR hr hnot hA E0 hE0R hE0n hE0a hE0max hn
@@ -617,7 +616,7 @@ theorem input31_9_holds : Input31_9 := by
     intro a ha
     rw [Subgroup.mem_centralizer_iff]
     intro u hu
-    haveI : IsMulCommutative A := hA.2.1.1
+    have : IsMulCommutative A := hA.2.1.1
     have := mul_comm' (⟨u, hUA hu⟩ : A) ⟨a, ha⟩
     exact congrArg Subtype.val this
   have hUC : U ≤ Subgroup.centralizer (E : Set G) := by
@@ -634,7 +633,7 @@ theorem input31_9_holds : Input31_9 := by
     intro v hv
     rw [Subgroup.mem_centralizer_iff]
     intro b hb
-    haveI : IsMulCommutative B := hB.2.1.1
+    have : IsMulCommutative B := hB.2.1.1
     have := mul_comm' (⟨b, hb⟩ : B) ⟨v, hVB hv⟩
     exact congrArg Subtype.val this
   refine ⟨hA.1, hA.2.1, hsize A hA, hB.1, hB.2.1, hsize B hB, Or.inr ⟨U, V, hU, hV, hAU, ?_, hVC⟩⟩

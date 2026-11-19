@@ -12,7 +12,8 @@ open CFSG.LieType.Chevalley Matrix
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
-theorem exists_orderOf_eq_prime_sl2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+omit [CharP K 2] in
+theorem exists_orderOf_eq_prime_sl2 {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card K + 1) : ∃ s : SL2 K, orderOf s = p := by
   have : Fact p.Prime := ⟨hp⟩
   refine exists_prime_orderOf_dvd_card' p ?_

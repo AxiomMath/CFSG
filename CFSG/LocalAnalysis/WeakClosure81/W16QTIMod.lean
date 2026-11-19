@@ -31,7 +31,7 @@ private lemma w16q_fixSet_mem_conj {B W : Type*} [Group B] [AddCommGroup W]
       rw [map_mul, map_mul] at h
       exact h
     have h2 : ρ g (ρ g⁻¹ v) = v := by
-      simpa [map_inv] using (ρ g).apply_symm_apply v
+      simp [map_inv]
     exact (ρ g).injective (h1.trans h2.symm)
   · intro hv a ha
     rw [conjSubgroup, Subgroup.mem_map] at ha
@@ -40,7 +40,7 @@ private lemma w16q_fixSet_mem_conj {B W : Type*} [Group B] [AddCommGroup W]
     rw [MulAut.conj_apply, map_mul, map_mul]
     change ρ g (ρ c (ρ g⁻¹ v)) = v
     rw [hv c hc]
-    simpa [map_inv] using (ρ g).apply_symm_apply v
+    simp [map_inv]
 
 private lemma w16q_fixSet_conj {B W : Type*} [Group B] [AddCommGroup W]
     [Module (ZMod 2) W] (ρ : B →* LGL 2 W) (g : B) (T : Subgroup B) :
@@ -49,10 +49,10 @@ private lemma w16q_fixSet_conj {B W : Type*} [Group B] [AddCommGroup W]
   rw [w16q_fixSet_mem_conj, Set.mem_image]
   constructor
   · intro hv
-    exact ⟨ρ g⁻¹ v, hv, by simpa [map_inv] using (ρ g).apply_symm_apply v⟩
+    exact ⟨ρ g⁻¹ v, hv, by simp [map_inv]⟩
   · rintro ⟨u, hu, rfl⟩
     have hgu : ρ g⁻¹ (ρ g u) = u := by
-      simpa [map_inv] using (ρ g).symm_apply_apply u
+      simp [map_inv]
     simpa [hgu] using hu
 
 private lemma w16q_sup_le_fixSet {B W : Type*} [Group B] [AddCommGroup W]
@@ -75,7 +75,7 @@ private lemma w16q_sup_le_fixSet {B W : Type*} [Group B] [AddCommGroup W]
         rintro a (ha : ρ a v = v)
         show ρ a⁻¹ v = v
         have h2 : ρ a⁻¹ (ρ a v) = v := by
-          simpa [map_inv] using (ρ a).symm_apply_apply v
+          simp [map_inv]
         exact (congrArg (fun w => ρ a⁻¹ w) ha).symm.trans h2 }
   have hK : s ⊔ t ≤ K := sup_le (fun b hb => hs b hb) (fun b hb => ht b hb)
   intro b hb
@@ -87,7 +87,7 @@ private lemma w16q_ncard_iUnion_of_pairwise_disjoint {ι α : Type*} [Finite ι]
     (c : ℕ) (hc : ∀ i, (s i).ncard = c) :
     (⋃ i, s i).ncard = Nat.card ι * c := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   rw [Set.ncard_iUnion_of_finite hfin hdisj]
   rw [finsum_congr hc, finsum_eq_sum_of_fintype, Finset.sum_const, Finset.card_univ,
     Nat.card_eq_fintype_card]
@@ -107,7 +107,7 @@ private lemma w16q_index_arith (q : ℕ) (hq : 2 ≤ q) :
 theorem exists_dvd_two_pow_sub_one {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hdvd : r ∣ Nat.card (LGL 2 W)) :
     ∃ i : ℕ, 1 ≤ i ∧ i ≤ Module.finrank (ZMod 2) W ∧ r ∣ 2 ^ i - 1 := by
-  haveI : FiniteDimensional (ZMod 2) W :=
+  have : FiniteDimensional (ZMod 2) W :=
     (Module.finite_iff_finite (R := ZMod 2) (M := W)).2 inferInstance
   have hcard : Nat.card (LGL 2 W) =
       ∏ i : Fin (Module.finrank (ZMod 2) W),
@@ -299,7 +299,7 @@ theorem exists_fixing_conj_of_card_eq {n : ℕ} (hn : 1 < n) {B : Type} [Group B
     rw [map_mul, map_mul] at h1
     exact h1
   have h3 : ρ g (ρ g⁻¹ w) = w := by
-    simpa [map_inv] using (ρ g).apply_symm_apply w
+    simp [map_inv]
   exact (ρ g).injective (h2.trans h3.symm)
 
 end CFSG.LocalAnalysis.WeakClosure81

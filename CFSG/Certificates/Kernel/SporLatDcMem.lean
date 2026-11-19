@@ -35,7 +35,7 @@ private def wordOfE (E : List (List ℕ)) (u : List ℕ) : List ℕ :=
   u.flatMap fun i => E.getD i []
 
 private theorem wordOfE_letters {E : List (List ℕ)} (hE : ∀ w ∈ E, ∀ l ∈ w, l < 2 + P.C.ns)
-    {u : List ℕ} (hu : ∀ i ∈ u, i < E.length) :
+    {u : List ℕ} (_hu : ∀ i ∈ u, i < E.length) :
     ∀ l ∈ wordOfE E u, l < 2 + P.C.ns := by
   intro l hl
   rw [wordOfE, List.mem_flatMap] at hl

@@ -155,6 +155,7 @@ private theorem ThCyc.vConj_mul_self_eq_one_of_sq_fixes (H : ThCyc G L R t)
   rw [val_vConj_apply hD hnV, val_vConj_apply hD hnV]
   exact hn2 x.val hx
 
+omit [Finite G] in
 private theorem ThCyc.add_one_mul_add_one_eq_zero (hD : DHyp A Aa t D)
     {d : AddMonoid.End (VSub hD)} (hd : d * d = 1) :
     (d + 1) * (d + 1) = 0 := by
@@ -165,6 +166,7 @@ private theorem ThCyc.add_one_mul_add_one_eq_zero (hD : DHyp A Aa t D)
         calc (1 : AddMonoid.End (VSub hD)) + d + d + 1 = (1 + 1) + (d + d) := by abel
           _ = 0 := by rw [h1, VSub.add_self hD d]; abel
 
+omit [Finite G] in
 private theorem ThCyc.one_add_mul_mul_self (hD : DHyp A Aa t D)
     {w e : AddMonoid.End (VSub hD)} (hee : e * e = 0) (hew : e * w = w * e) :
     (1 + w * e) * (1 + w * e) = 1 := by
@@ -178,6 +180,7 @@ private theorem ThCyc.one_add_mul_mul_self (hD : DHyp A Aa t D)
     _ = 1 + ((w * e) + (w * e)) + (w * e) * (w * e) := by abel
     _ = 1 := by rw [VSub.add_self hD (w * e), hwe]; abel
 
+omit [Finite G] in
 private theorem ThCyc.one_add_w_mul_comm (hD : DHyp A Aa t D)
     {w e : AddMonoid.End (VSub hD)} (hew : e * w = w * e) :
     (1 + w * e) * w = w * (1 + w * e) := by
@@ -186,6 +189,7 @@ private theorem ThCyc.one_add_w_mul_comm (hD : DHyp A Aa t D)
     _ = w + w * (w * e) := by rw [hew]
     _ = w * (1 + w * e) := by rw [mul_add, mul_one]
 
+omit [Finite G] in
 private theorem ThCyc.delta_mul_one_add_w_eq (hD : DHyp A Aa t D)
     {τ d w : AddMonoid.End (VSub hD)} (hτ : τ * τ = 1) (hdτ : d * τ = τ * d)
     (hdw : d * w = w * d) (hτw' : τ * w = (w + 1) * τ) (hdd : d * d = 1) :
@@ -342,7 +346,7 @@ theorem ThCyc.exists_mem_vConj_eq_one_add_w (H : ThCyc G L R t) (W : ThLocalIn L
       f a = (Z (AbelianSub.mk a (hAV ha))).val := by
     intro a ha
     dsimp only [f]
-    rw [dif_pos ha]
+    rw [dite_eq_left ha]
   have hfA : ∀ a ∈ A, f a ∈ A := by
     intro a ha
     rw [hfdef a ha]

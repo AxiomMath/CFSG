@@ -80,7 +80,7 @@ theorem kAdjAt_of_realizes_sl {W : Type} [CommGroup W] [Finite W] (H : Subgroup 
     {k : ℕ} (hk : 3 ≤ k) {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
     (hK : Nat.card K = 2 ^ n) (hn : 2 ≤ n)
     (hreal : (FFModel.nat (StatedSL k K)).Realizes H ⊤ ⊥) : KAdjAt W H n := by
-  haveI : NeZero k := ⟨by omega⟩
+  have : NeZero k := ⟨by omega⟩
   refine kAdjAt_of_model H n n (Or.inl rfl) (slU k K) (slQAlpha k K) (slQZero k K) ?_
     (isParabolicTwo_slQAlpha (by omega)) (slU_le_slQAlpha k K) (not_slQAlpha_le_slQZero (by omega))
     (fun P hP hU hnot => slQAlpha_le_of_parabolic (by omega) hP hU hnot)
@@ -95,9 +95,9 @@ theorem kAdjAt_sl {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W)) 
     (hk : k = 3 ∨ k = 4) (h : IsSLn ↥H k n ∧ CFSG.Quasithin.BinaryNaturalSL H ⊤ ⊥ k n)
     (hn : 3 ≤ n) : KAdjAt W H n := by
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := h.2
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
   exact kAdjAt_of_realizes_sl H (by omega) hKcard (by omega) hreal
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KAdjE

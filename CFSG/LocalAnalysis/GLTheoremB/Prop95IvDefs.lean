@@ -307,6 +307,7 @@ structure IvSetting (m p : ℕ) (M D L : Subgroup G) : Prop where
 
 variable {m p : ℕ} {M D L : Subgroup G}
 
+omit [Finite G] in
 theorem tl_eq_bar (M Y : Subgroup G) : tl M Y = bar (CFSG.pCore 2 ↥M) (Y.subgroupOf M) := rfl
 
 @[expose] def toTl (M L : Subgroup G) (hLM : L ≤ M) : ↥L →* ↥(tl M L) :=

@@ -38,7 +38,7 @@ theorem card_elemAbelian_le_of_le_centralizer (h : QSNL 5 S B T x D K)
     (hEC : E ≤ Subgroup.centralizer (K : Set Ω)) : Nat.card E ≤ 5 ^ 2 := by
   obtain ⟨-, -, -, -, -, hKcomp, -⟩ := h.cfg.std
   obtain ⟨m, F, _, hFd, hpm, hp3, hq, ⟨θ⟩⟩ := SF.exists_psu_model hKcomp.2.2 hF
-  haveI := hFd.finite
+  have := hFd.finite
   have hT := CFSG.StandardType.ggTorusLift_unitary (K := F)
     (by rw [hFd.card, ← pow_mul, mul_comm]) hFd.one_le hp3 hq h.cfg.prime hpm
   have h1 := SF.pow_mul_card_le_of_torusLift h.cfg.prime hKcomp.2.2.1

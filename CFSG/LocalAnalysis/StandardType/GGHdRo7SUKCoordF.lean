@@ -22,7 +22,7 @@ theorem hdRo7SUKCoordAux_centralizer
   have hspec := hdRo7SUKCoordAux_rowRank_spec hrow
   have hp3 : p = 3 := hspec.1
   have hp : p.Prime := by rw [hp3]; exact Nat.prime_three
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSHat : LargeEvenSHat p B y K := hH.2.2.2.2.1.1
   have hyBs : y ∈ Bs := hH.1.2.1.1 hSHat.2.1
   have hy1 : y ≠ 1 := hSHat.2.2.1
@@ -127,7 +127,7 @@ theorem hdRo7SUKCoordAux_centralizer
   have hfa : ∀ a : Multiplicative (ZMod p), f a = g ^ (Multiplicative.toAdd a).val := fun _ => rfl
   have hf1 : f (Multiplicative.ofAdd (1 : ZMod p)) = g := by
     rw [hfa]
-    haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+    have : Fact (1 < p) := ⟨hp.one_lt⟩
     have : (Multiplicative.toAdd (Multiplicative.ofAdd (1 : ZMod p))).val = 1 := by
       simp [ZMod.val_one p]
     rw [this, pow_one]
@@ -168,7 +168,7 @@ theorem hdRo7SUKCoordAux_axisEquiv_apply_one
   unfold hdRo7SUKCoordAux_axisEquiv
   simp only [MulEquiv.ofBijective_apply, MonoidHom.mk'_apply]
   rw [show (Multiplicative.toAdd (Multiplicative.ofAdd (1 : ZMod p))).val = 1 by
-    haveI : Fact (1 < p) := ⟨by rw [hp3]; norm_num⟩
+    have : Fact (1 < p) := ⟨by rw [hp3]; norm_num⟩
     simp [ZMod.val_one p]]
   rw [pow_one]
 

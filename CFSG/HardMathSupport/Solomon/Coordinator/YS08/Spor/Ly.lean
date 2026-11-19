@@ -68,7 +68,7 @@ theorem ly_noL3Comp {S : Type} [Group S] [Finite S] (eT : S ≃* NativeSporadic.
     · rw [hk]; exact noL3Dvd_174960
 
 theorem sporL3DownInner_Ly (hbr : SporadicBridges) : SporL3DownInner .Ly := by
-  haveI : Finite (NativeSporadic.Carrier .Ly) :=
+  have : Finite (NativeSporadic.Carrier .Ly) :=
     Nat.finite_of_card_ne_zero (by
       show Nat.card NativeSporadic.Ly ≠ 0
       rw [CFSG.Sporadic.Ly.card_Ly]

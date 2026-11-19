@@ -17,6 +17,7 @@ private theorem sec8t84g3a_ac_odd_card_oddCoreIn (X : Subgroup G) :
   rw [oddCoreIn, CFSG.inSubgroup, Subgroup.card_map_of_injective X.subtype_injective]
   exact CFSG.ComponentClassification.OddCore.odd_card X
 
+omit [Finite G] in
 private theorem sec8t84g3a_ac_conj_mem_oddCoreIn {X : Subgroup G} {g : G} (hg : g ∈ X)
     {y : G} (hy : y ∈ oddCoreIn X) : g * y * g⁻¹ ∈ oddCoreIn X := by
   rw [oddCoreIn, CFSG.inSubgroup, Subgroup.mem_map] at hy ⊢
@@ -24,6 +25,7 @@ private theorem sec8t84g3a_ac_conj_mem_oddCoreIn {X : Subgroup G} {g : G} (hg : 
   refine ⟨⟨g, hg⟩ * y' * ⟨g, hg⟩⁻¹, ?_, rfl⟩
   exact (CFSG.oddCore_normal ↥X).conj_mem y' hy' ⟨g, hg⟩
 
+omit [Finite G] in
 private theorem sec8t84g3a_ac_le_normalizer_oddCoreIn (X : Subgroup G) :
     X ≤ Subgroup.normalizer (oddCoreIn X : Set G) := by
   rw [Subgroup.le_normalizer_iff]
@@ -38,6 +40,7 @@ private theorem sec8t84g3a_ac_inf_oddCore_bot (hE : IsElemAb2 E 8) :
   exact (Nat.coprime_pow_left_iff (n := 8) (by norm_num) 2 _).mpr
     (Nat.coprime_two_left.mpr (sec8t84g3a_ac_odd_card_oddCoreIn (normalizer (E : Set G))))
 
+omit [Finite G] in
 private theorem sec8t84g3a_ac_pow_decomp {e n : G} (he : e ∈ E)
     (hn : n ∈ oddCoreIn (normalizer (E : Set G))) (k : ℕ) :
     ∃ nk ∈ oddCoreIn (normalizer (E : Set G)), (e * n) ^ k = e ^ k * nk := by
@@ -73,6 +76,7 @@ private theorem sec8t84g3a_ac_Y2_le_normalizer (h : Sec8XO G t E Y1 Y2) :
   have h4 := sec8t84g3a_ac_conj_Y1 h b⁻¹ (Y2.inv_mem hb) (b * a * b⁻¹) ha
   rwa [h3] at h4
 
+omit [Finite G] in
 private theorem sec8t84g3a_ac_mem_sup_of_left {A K : Subgroup G}
     (hle : A ≤ Subgroup.normalizer (K : Set G)) {x : G} (hx : x ∈ A ⊔ K) :
     ∃ a ∈ A, ∃ k ∈ K, x = a * k := by
@@ -82,6 +86,7 @@ private theorem sec8t84g3a_ac_mem_sup_of_left {A K : Subgroup G}
   rcases hx' with ⟨a, ha, k, hk, hak⟩
   exact ⟨a, ha, k, hk, hak.symm⟩
 
+omit [Finite G] in
 private theorem sec8t84g3a_ac_mem_sup_of_right {A K : Subgroup G}
     (hle : K ≤ Subgroup.normalizer (A : Set G)) {x : G} (hx : x ∈ A ⊔ K) :
     ∃ a ∈ A, ∃ k ∈ K, x = a * k := by

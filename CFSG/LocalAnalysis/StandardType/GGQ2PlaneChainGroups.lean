@@ -40,9 +40,9 @@ theorem negEquiv_apply (t : ℕ) (i : Fin t) (v : V t) (k : Fin t) :
     negEquiv t i v k = if k = i then - v k else v k := by
   simp only [negEquiv, LinearEquiv.piCongrRight_apply]
   by_cases hk : k = i
-  · rw [if_pos hk, if_pos hk]
+  · rw [ite_eq_left hk, ite_eq_left hk]
     rfl
-  · rw [if_neg hk, if_neg hk]
+  · rw [ite_eq_right hk, ite_eq_right hk]
     rfl
 
 private theorem pcg_orientEquiv_apply (t : ℕ) (e : V t) (v : V t) (k : Fin t) :
@@ -81,18 +81,18 @@ theorem swapTwist_apply {t : ℕ} {e : V t} {i j : Fin t} (hi : e i ≠ 0) (hj :
   rw [pcg_orientEquiv_symm_apply, swapEquiv_apply, pcg_orientEquiv_apply]
   by_cases hki : k = i
   · subst k
-    rw [Equiv.swap_apply_left, pcg_orientCoeff hi, pcg_orientCoeff hj, if_pos rfl]
+    rw [Equiv.swap_apply_left, pcg_orientCoeff hi, pcg_orientCoeff hj, ite_eq_left rfl]
     ring
   · by_cases hkj : k = j
     · subst k
-      rw [Equiv.swap_apply_right, pcg_orientCoeff hi, pcg_orientCoeff hj, if_neg hki,
-        if_pos rfl]
+      rw [Equiv.swap_apply_right, pcg_orientCoeff hi, pcg_orientCoeff hj, ite_eq_right hki,
+        ite_eq_left rfl]
       ring
-    · rw [Equiv.swap_apply_of_ne_of_ne hki hkj, if_neg hki, if_neg hkj]
+    · rw [Equiv.swap_apply_of_ne_of_ne hki hkj, ite_eq_right hki, ite_eq_right hkj]
       by_cases hek : e k = 0
       · rw [hek]
         have h0 : (0 : ZMod 3) ≠ -1 := by decide
-        rw [if_neg h0]
+        rw [ite_eq_right h0]
         ring
       · rw [pcg_orientCoeff hek, ← mul_assoc, pcg_sq hek, one_mul]
 
@@ -114,17 +114,17 @@ private theorem pcg_swapTwist_eq {t : ℕ} {e : V t} {i j : Fin t} (hi : e i ≠
     swapTwist t e i j =
       if e i = e j then swapEquiv t i j else negEquiv t i * negEquiv t j * swapEquiv t i j := by
   by_cases h : e i = e j
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     ext v r
     simp only [swapTwist_apply hi hj, swapEquiv_apply]
     by_cases hri : r = i
     · subst r
-      rw [if_pos rfl, Equiv.swap_apply_left, ← h, pcg_sq hi, one_mul]
+      rw [ite_eq_left rfl, Equiv.swap_apply_left, ← h, pcg_sq hi, one_mul]
     · by_cases hrj : r = j
       · subst r
-        rw [if_neg hri, if_pos rfl, Equiv.swap_apply_right, h, pcg_sq hj, one_mul]
-      · rw [if_neg hri, if_neg hrj, Equiv.swap_apply_of_ne_of_ne hri hrj]
-  · rw [if_neg h]
+        rw [ite_eq_right hri, ite_eq_left rfl, Equiv.swap_apply_right, h, pcg_sq hj, one_mul]
+      · rw [ite_eq_right hri, ite_eq_right hrj, Equiv.swap_apply_of_ne_of_ne hri hrj]
+  · rw [ite_eq_right h]
     ext v r
     simp only [LinearEquiv.mul_apply, negEquiv_apply, swapTwist_apply hi hj,
       swapEquiv_apply]
@@ -146,7 +146,7 @@ theorem swapTwist_one (t : ℕ) (i j : Fin t) : swapTwist t 1 i j = swapEquiv t 
     rw [pcg_orientEquiv_apply]
     have h1 : ¬ ((1 : V t) k = -1) := by
       rw [Pi.one_apply]; decide
-    rw [if_neg h1, one_mul]
+    rw [ite_eq_right h1, one_mul]
     rfl
   simp [swapTwist, h]
 
@@ -174,7 +174,7 @@ theorem forkTwist_eq_swapTwist_update {t : ℕ} {e : V t} {i j : Fin t} (hi : e 
   have hi' : Function.update e j (-e j) i ≠ 0 := by
     rw [Function.update_of_ne hij (-e j) e]; exact hi
   have hj' : Function.update e j (-e j) j ≠ 0 := by
-    rw [Function.update_apply, if_pos rfl]
+    rw [Function.update_apply, ite_eq_left rfl]
     exact neg_ne_zero.mpr hj
   ext v r
   rw [forkTwist_apply hi hj hij, swapTwist_apply hi' hj']
@@ -350,10 +350,10 @@ theorem closure_chainTwist_neg {t m : ℕ} {e : V t} (c : Fin (m + 1) → Fin t)
     have hij : c κ.castSucc ≠ c κ.succ := hc.ne (pcg_castSucc_ne_succ κ)
     have heq := pcg_swapTwist_eq (e := e) (he κ.castSucc) (he κ.succ) hij
     by_cases h : e (c κ.castSucc) = e (c κ.succ)
-    · rw [if_pos h] at heq
+    · rw [ite_eq_left h] at heq
       rw [heq]
       exact Subgroup.subset_closure (Or.inl ⟨_, hS _, _, hS _, rfl⟩)
-    · rw [if_neg h] at heq
+    · rw [ite_eq_right h] at heq
       rw [heq]
       exact Subgroup.mul_mem _
         (Subgroup.mul_mem _
@@ -402,10 +402,10 @@ theorem closure_chainTwist_neg {t m : ℕ} {e : V t} (c : Fin (m + 1) → Fin t)
           exact Subgroup.closure_mono (Set.subset_union_left) h'
         have heq := pcg_swapTwist_eq (e := e) (he a) (he b) (hc.ne hab)
         by_cases h : e (c a) = e (c b)
-        · rw [if_pos h] at heq
+        · rw [ite_eq_left h] at heq
           rw [← heq]
           exact hT
-        · rw [if_neg h] at heq
+        · rw [ite_eq_right h] at heq
           have hS' : swapEquiv t (c a) (c b) =
               (negEquiv t (c a) * negEquiv t (c b))⁻¹ * swapTwist t e (c a) (c b) := by
             rw [heq]; group
@@ -444,10 +444,10 @@ theorem closure_chainTwist_fork {t m : ℕ} {e : V t} (c : Fin (m + 2) → Fin t
     have hij : c κ.castSucc ≠ c κ.succ := hc.ne (pcg_castSucc_ne_succ κ)
     have heq := pcg_swapTwist_eq (e := e) (he κ.castSucc) (he κ.succ) hij
     by_cases h : e (c κ.castSucc) = e (c κ.succ)
-    · rw [if_pos h] at heq
+    · rw [ite_eq_left h] at heq
       rw [heq]
       exact Subgroup.subset_closure (Or.inl ⟨_, hS _, _, hS _, rfl⟩)
-    · rw [if_neg h] at heq
+    · rw [ite_eq_right h] at heq
       rw [heq]
       exact Subgroup.mul_mem _
         (Subgroup.subset_closure (Or.inr ⟨_, hS _, _, hS _, hij, rfl⟩))
@@ -543,10 +543,10 @@ theorem closure_chainTwist_fork {t m : ℕ} {e : V t} (c : Fin (m + 2) → Fin t
           exact Subgroup.closure_mono (Set.subset_union_left) h'
         have heq := pcg_swapTwist_eq (e := e) (he a) (he b) (hc.ne hab)
         by_cases h : e (c a) = e (c b)
-        · rw [if_pos h] at heq
+        · rw [ite_eq_left h] at heq
           rw [← heq]
           exact hTab
-        · rw [if_neg h] at heq
+        · rw [ite_eq_right h] at heq
           have hS' : swapEquiv t (c a) (c b) =
               (negEquiv t (c a) * negEquiv t (c b))⁻¹ * swapTwist t e (c a) (c b) := by
             rw [heq]; group

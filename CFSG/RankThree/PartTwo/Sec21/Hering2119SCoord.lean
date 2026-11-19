@@ -26,13 +26,13 @@ structure QRel (I J : V →ₗ[F3] V) : Prop where
 theorem QRel.sub_P {I J : V →ₗ[F3] V} (h : QRel I J) (v : V) :
     v - (-v - I v - J v) = I (J (-(J (I v)) - I (J (I v)) - J (J (I v)))) := by
   refine eq_of_smul_one ?_
-  simp only [map_neg, map_add, map_sub, h.II, h.JJ, h.IJ]
+  simp only [map_neg, map_sub, h.II, h.JJ, h.IJ]
   match_scalars <;> decide
 
 theorem QRel.J_P {I J : V →ₗ[F3] V} (h : QRel I J) (w : V) :
     J (-w - I w - J w) = (-w - I w - J w) - I (-w - I w - J w) := by
   refine eq_of_smul_one ?_
-  simp only [map_neg, map_add, map_sub, h.II, h.JJ, h.IJ]
+  simp only [map_neg, map_sub, h.II, h.JJ, h.IJ]
   match_scalars <;> decide
 
 structure CoordHyp (I J ε : V →ₗ[F3] V) : Prop extends QRel I J where
@@ -93,7 +93,7 @@ theorem CoordHyp.E1 {I J ε : V →ₗ[F3] V} (h : CoordHyp I J ε) {u : V}
         (a - b) • u + (c - d) • ε u := by
   obtain ⟨hJIu, hJεu, hJεIu, hIIu, hIεu, hIεIu⟩ := h.relations hJu
   refine eq_of_smul_one ?_
-  simp only [map_neg, map_add, map_smul, map_sub, hJu, hJIu, hJεu, hJεIu, hIIu, hIεu, hIεIu]
+  simp only [map_add, map_smul, hJu, hJIu, hJεu, hJεIu, hIIu, hIεu, hIεIu]
   match_scalars <;> (revert a b c d; decide)
 
 theorem CoordHyp.E2 {I J ε : V →ₗ[F3] V} (h : CoordHyp I J ε) {u : V}
@@ -104,8 +104,7 @@ theorem CoordHyp.E2 {I J ε : V →ₗ[F3] V} (h : CoordHyp I J ε) {u : V}
         (-(a + b)) • u + (-(c + d)) • ε u := by
   obtain ⟨hJIu, hJεu, hJεIu, hIIu, hIεu, hIεIu⟩ := h.relations hJu
   refine eq_of_smul_one ?_
-  simp only [map_neg, map_add, map_smul, map_sub, hJu, hJIu, hJεu, hJεIu, hIIu, hIεu, hIεIu,
-    h.II, h.JJ, h.IJ]
+  simp only [map_neg, map_add, map_smul, hJu, hJIu, hJεu, hJεIu, hIIu, hIεu, hIεIu]
   match_scalars <;> (revert a b c d; decide)
 
 theorem CoordHyp.linIndep {I J ε : V →ₗ[F3] V} (h : CoordHyp I J ε) {u : V}
@@ -136,7 +135,7 @@ theorem CoordHyp.exists_coord [Finite V] (hV : Nat.card V = 81) {I J ε : V →�
       LinearMap.toMatrix b b J = kr 1 J2m0 ∧ LinearMap.toMatrix b b ε = kr nU 1 := by
   obtain ⟨u, hJu, hεu⟩ := h.exists_good hε0
   have hli := h.linIndep hJu hεu
-  haveI : Module.Finite F3 V := Module.Finite.of_finite
+  have : Module.Finite F3 V := Module.Finite.of_finite
   have hfr : Module.finrank F3 V = 4 := by
     have h1 := Module.natCard_eq_pow_finrank (K := F3) (V := V)
     rw [hV, Nat.card_zmod] at h1
@@ -179,12 +178,11 @@ theorem CoordHyp.exists_coord [Finite V] (hV : Nat.card V = 81) {I J ε : V →�
   · rintro ⟨c, j⟩
     fin_cases c <;> fin_cases j <;>
       simp [Fintype.sum_prod_type, Fin.sum_univ_two, kr_apply, I2m0, Matrix.one_apply,
-        I00, I01, I10, I11, neg_smul, neg_one_smul F3]
-    all_goals exact (neg_one_smul F3 _).symm
+        I00, I01, I10, I11]
   · rintro ⟨c, j⟩
     fin_cases c <;> fin_cases j <;>
       simp [Fintype.sum_prod_type, Fin.sum_univ_two, kr_apply, J2m0, Matrix.one_apply,
-        J00, J01, J10, J11, neg_smul, neg_one_smul F3]
+        J00, J01, J10, J11]
     all_goals (match_scalars <;> decide)
   · rintro ⟨c, j⟩
     fin_cases c <;> fin_cases j <;>

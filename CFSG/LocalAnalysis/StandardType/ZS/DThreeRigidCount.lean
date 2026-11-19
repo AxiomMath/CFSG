@@ -28,7 +28,7 @@ private theorem zct_reflBarOf_mem {U : Type} [AddCommGroup U] [Module (ZMod 3) U
     {m : ℕ} {f : LinearMap.BilinForm (ZMod 3) (Fin m → ZMod 3)}
     {L : (Fin m → ZMod 3) ≃ₗ[ZMod 3] U} {t : U ≃ₗ[ZMod 3] U}
     (ht : t ∈ zct_RL f L) : zct_reflBarOf f L t ∈ D3 f := by
-  rw [zct_reflBarOf, dif_pos ht]
+  rw [zct_reflBarOf, dite_eq_left ht]
   exact reflBar_mem_D3 (Classical.choose_spec ht).1
 
 private theorem zct_reflBarOf_injOn {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
@@ -41,9 +41,9 @@ private theorem zct_reflBarOf_injOn {U : Type} [AddCommGroup U] [Module (ZMod 3)
   have hs₂ := Classical.choose_spec ht₂
   have hd : reflBar f (Classical.choose ht₁) = reflBar f (Classical.choose ht₂) := by
     have h₁ : zct_reflBarOf f L t₁ = reflBar f (Classical.choose ht₁) := by
-      rw [zct_reflBarOf, dif_pos ht₁]
+      rw [zct_reflBarOf, dite_eq_left ht₁]
     have h₂ : zct_reflBarOf f L t₂ = reflBar f (Classical.choose ht₂) := by
-      rw [zct_reflBarOf, dif_pos ht₂]
+      rw [zct_reflBarOf, dite_eq_left ht₂]
     rw [← h₁, ← h₂]
     exact hbar
   have hgl : F3.refl f (Classical.choose ht₁) = F3.refl f (Classical.choose ht₂) := by
@@ -97,14 +97,14 @@ theorem isRefl_iff_of_isometry (hn : 3 ≤ Module.finrank (ZMod 3) U) (hirr : Ab
     ext x
     constructor
     · rintro ⟨t, ht, rfl⟩
-      exact ⟨⟨t, ht.1⟩, ht.2, by simp [G, dif_pos ht.1]⟩
+      exact ⟨⟨t, ht.1⟩, ht.2, by simp [G, dite_eq_left ht.1]⟩
     · rintro ⟨t, htR, rfl⟩
-      exact ⟨(t : U ≃ₗ[ZMod 3] U), ⟨t.2, htR⟩, by simp [G, dif_pos t.2]⟩
+      exact ⟨(t : U ≃ₗ[ZMod 3] U), ⟨t.2, htR⟩, by simp [G, dite_eq_left t.2]⟩
   have hGinj : Set.InjOn G RA := by
     intro t₁ ht₁ t₂ ht₂ h
     have h' : QuotientGroup.mk (s := Subgroup.center ↥A) (⟨t₁, ht₁.1⟩ : ↥A) =
         QuotientGroup.mk (s := Subgroup.center ↥A) (⟨t₂, ht₂.1⟩ : ↥A) := by
-      simpa [G, dif_pos ht₁.1, dif_pos ht₂.1] using h
+      simpa [G, dite_eq_left ht₁.1, dite_eq_left ht₂.1] using h
     exact congrArg Subtype.val (AbsIrred.mk_injOn_refl hirr hn ht₁.2 ht₂.2 h')
   have h2 : (reflImage 3 A).ncard = RA.ncard := by
     rw [← hGimg]

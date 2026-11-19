@@ -290,7 +290,7 @@ theorem original_coverage_quaternion_centralizes
   exact coverage_two_subgroup_centralizes (centralizerOddCore n S e)
     (centralizerOddCore_card_odd n S e) (CFSG.layer (centralizerOddCoreQuotient n S e))
     _ (centralizerQuaternion n hn S e)
-    ((centralizerSylow n hn S e).isPGroup'.to_le (centralizerQuaternion_le_sylow n hn S e))
+    ((centralizerSylow n hn S e).isPGroup.to_le (centralizerQuaternion_le_sylow n hn S e))
     ((centralizerQuaternion_le_sylow n hn S e).trans hinvariant)
     (original_quaternion_image_le_layer hnonab n hn S e hfour) hcoverage
 

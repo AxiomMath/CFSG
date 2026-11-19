@@ -19,6 +19,7 @@ variable {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 variable {U : Fin 4 → Submodule K V} {e : Fin 4 → ↥(orthDerived Q)}
   {E : Subgroup ↥(orthDerived Q)}
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem tau_mulSingle_apply
     {τ : (Fin 4 → Multiplicative (ZMod 3)) →* ↥(orthDerived Q)}
     (hτ : ∀ c, τ (Pi.mulSingle c (Multiplicative.ofAdd 1)) = e c)
@@ -28,6 +29,7 @@ private theorem tau_mulSingle_apply
     (e c) ^ (Multiplicative.toAdd a).val
   rw [SpCoord.mulSingle_ofAdd_eq_pow, map_pow, hτ c]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem pow_maps_to (hF : IsPlaneFrame Q 3 U e E) (c : Fin 4) (k : ℕ) :
     ∀ x ∈ U c, (((e c : ↥(orthDerived Q)) : V ≃ₗ[K] V) ^ k) x ∈ U c := by
   induction k with
@@ -37,6 +39,7 @@ private theorem pow_maps_to (hF : IsPlaneFrame Q 3 U e E) (c : Fin 4) (k : ℕ) 
       rw [pow_succ, LinearEquiv.mul_apply]
       exact ih _ (hF.maps_to c x hx)
 
+omit [CharP K 2] in
 public theorem fixedSpace_tau_eq_polarPerp (hF : IsPlaneFrame Q 3 U e E) (hp : Nat.Prime 3)
     {τ : (Fin 4 → Multiplicative (ZMod 3)) →* ↥(orthDerived Q)}
     (hτ : ∀ c, τ (Pi.mulSingle c (Multiplicative.ofAdd 1)) = e c)
@@ -178,19 +181,20 @@ public theorem fixedSpace_tau_eq_polarPerp (hF : IsPlaneFrame Q 3 U e E) (hp : N
       rw [Finset.prod_apply]
       by_cases hj : j ∈ S
       · rw [Finset.prod_eq_single j]
-        · rw [Pi.mulSingle_apply, if_pos rfl]
+        · rw [Pi.mulSingle_apply, ite_eq_left rfl]
         · intro c _ hcj
-          rw [Pi.mulSingle_apply, if_neg (fun h => hcj h.symm)]
+          rw [Pi.mulSingle_apply, ite_eq_right (fun h => hcj h.symm)]
         · intro hj'
           exact absurd hj hj'
       · have hfj : f j = 1 := by simpa [hS] using hj
         rw [hfj]
         refine (Finset.prod_eq_one fun c hc => ?_).symm
-        rw [Pi.mulSingle_apply, if_neg]
+        rw [Pi.mulSingle_apply, ite_eq_right]
         exact fun h => hj (h ▸ hc)
     rw [hfprod]
     exact hprod S fun c hc => hfac c
 
+omit [CharP K 2] in
 public theorem finrank_fixedSpace_tau (hF : IsPlaneFrame Q 3 U e E) (hp : Nat.Prime 3)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hdim : Module.finrank K V = 2 * 4)
     {τ : (Fin 4 → Multiplicative (ZMod 3)) →* ↥(orthDerived Q)}

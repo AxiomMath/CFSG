@@ -22,12 +22,14 @@ open scoped Matrix
 
 variable {n : ℕ} (hn : 3 ≤ n) {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 private lemma c2slomqpw_spinMatrix_apply (g : spinGroup (quadPlus n F))
     (x y : Fin n ⊕ Fin n) :
     (spinMatrix (quadPlus n F) g : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) x y =
       spinAction (quadPlus n F) g (Pi.single y 1) x := by
   rw [coe_spinMatrix, LinearMap.toMatrix'_apply, LinearEquiv.coe_coe]
 
+omit [Finite F] [CharP F 2] in
 private lemma c2slomqpw_spinMatrix_mul (g g' : spinGroup (quadPlus n F)) :
     (spinMatrix (quadPlus n F) (g * g') : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
       (spinMatrix (quadPlus n F) g : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) *
@@ -35,6 +37,7 @@ private lemma c2slomqpw_spinMatrix_mul (g g' : spinGroup (quadPlus n F)) :
   rw [map_mul]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private lemma c2slomqpw_torusD_entry_inl {k : Fin n} (τ : Fˣ) (b : Fin n) :
     (spinMatrix (quadPlus n F) (torusD F hn k τ) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
         (Sum.inl b) (Sum.inl b) =
@@ -42,6 +45,7 @@ private lemma c2slomqpw_torusD_entry_inl {k : Fin n} (τ : Fˣ) (b : Fin n) :
   rw [c2slomqpw_spinMatrix_apply, ← plusVec_true n F b, spinAction_torusD]
   simp only [Pi.smul_apply, smul_eq_mul, plusVec_true, Pi.single_eq_same, mul_one]
 
+omit [Finite F] [CharP F 2] in
 private lemma c2slomqpw_torusD_entry_inr {k : Fin n} (τ : Fˣ) (b : Fin n) :
     (spinMatrix (quadPlus n F) (torusD F hn k τ) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
         (Sum.inr b) (Sum.inr b) =
@@ -61,6 +65,7 @@ private def c2slomqpw_diagP (g : spinGroup (quadPlus n F)) : Prop :=
     (spinMatrix (quadPlus n F) g : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
       (Sum.inr b) (Sum.inr b) = (omqPlusEntry n g b)⁻¹)
 
+omit [Finite F] [CharP F 2] in
 private lemma c2slomqpw_diagP_torusD {k : Fin n} (τ : Fˣ) :
     c2slomqpw_diagP (n := n) (F := F) (torusD F hn k τ) := by
   constructor
@@ -69,10 +74,10 @@ private lemma c2slomqpw_diagP_torusD {k : Fin n} (τ : Fˣ) :
     rcases y with b | b
     · rw [← plusVec_true n F b, spinAction_torusD]
       simp only [Pi.smul_apply, smul_eq_mul, plusVec_true, Pi.single_apply]
-      rw [if_neg hxy, mul_zero]
+      rw [ite_eq_right hxy, mul_zero]
     · rw [← plusVec_false n F b, spinAction_torusD]
       simp only [Pi.smul_apply, smul_eq_mul, plusVec_false, Pi.single_apply]
-      rw [if_neg hxy, mul_zero]
+      rw [ite_eq_right hxy, mul_zero]
   · intro b
     constructor
     · change (spinMatrix (quadPlus n F) (torusD F hn k τ) :
@@ -87,6 +92,7 @@ private lemma c2slomqpw_diagP_torusD {k : Fin n} (τ : Fˣ) :
         zpow_neg]
       simp
 
+omit [Finite F] [CharP F 2] in
 private lemma c2slomqpw_diagP_one :
     c2slomqpw_diagP (n := n) (F := F) (1 : spinGroup (quadPlus n F)) := by
   have hM : (spinMatrix (quadPlus n F) (1 : spinGroup (quadPlus n F)) :
@@ -95,19 +101,20 @@ private lemma c2slomqpw_diagP_one :
     rfl
   constructor
   · intro x y hxy
-    rw [hM, Matrix.one_apply, if_neg hxy]
+    rw [hM, Matrix.one_apply, ite_eq_right hxy]
   · intro b
     constructor
     · change (spinMatrix (quadPlus n F) (1 : spinGroup (quadPlus n F)) :
         Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (Sum.inl b) (Sum.inl b) ≠ 0
-      rw [hM, Matrix.one_apply, if_pos rfl]
+      rw [hM, Matrix.one_apply, ite_eq_left rfl]
       exact one_ne_zero
     · change (spinMatrix (quadPlus n F) (1 : spinGroup (quadPlus n F)) :
         Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (Sum.inr b) (Sum.inr b) =
           ((spinMatrix (quadPlus n F) (1 : spinGroup (quadPlus n F)) :
             Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (Sum.inl b) (Sum.inl b))⁻¹
-      rw [hM, Matrix.one_apply, if_pos rfl, Matrix.one_apply, if_pos rfl, inv_one]
+      rw [hM, Matrix.one_apply, ite_eq_left rfl, Matrix.one_apply, ite_eq_left rfl, inv_one]
 
+omit [Finite F] [CharP F 2] in
 private lemma c2slomqpw_diagP_mul {g g' : spinGroup (quadPlus n F)}
     (hg : c2slomqpw_diagP (n := n) (F := F) g)
     (hg' : c2slomqpw_diagP (n := n) (F := F) g') :
@@ -142,10 +149,7 @@ private lemma c2slomqpw_diagP_mul {g g' : spinGroup (quadPlus n F)}
     constructor
     · rw [hentry]
       exact mul_ne_zero (hgd b).1 (hg'd b).1
-    · change (spinMatrix (quadPlus n F) (g * g') :
-        Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (Sum.inr b) (Sum.inr b) =
-          (omqPlusEntry n (g * g') b)⁻¹
-      rw [hdiag (Sum.inr b), (hgd b).2, (hg'd b).2, hentry, mul_inv_rev]
+    · rw [hdiag (Sum.inr b), (hgd b).2, (hg'd b).2, hentry, mul_inv_rev]
       exact mul_comm _ _
 
 include hn in
@@ -194,7 +198,7 @@ private lemma c2slomqpw_longCoroot_eq_toStdD (hn2 : 2 ≤ n) (k : Fin n) (b : Fi
       toStdD n (Pi.single k 1) b := by
   rw [toStdD_single_eq hn2 k]
   cases h : rootSignD n k <;>
-    simp [longCoroot, h, Pi.add_apply, Pi.single_apply, boolSign_true, boolSign_false]
+    simp [longCoroot, Pi.add_apply, Pi.single_apply, boolSign_true, boolSign_false]
 
 private lemma c2slomqpw_prod_zpow_val {ι : Type*} [Fintype ι] {k : Type} [Field k]
     (u : kˣ) (e : ι → ℤ) (n' : ι → ℕ) :
@@ -211,10 +215,11 @@ private lemma c2slomqpw_prod_zpow_val {ι : Type*} [Fintype ι] {k : Type} [Fiel
     (Finset.prod_zpow_eq_zpow_sum Finset.univ u (fun b => e b * (n' b : ℤ)))
 
 include hn in
+omit [CharP F 2] in
 theorem omq_omPlus_wt_torusD {m : ℕ} (hm : m = Nat.card Fˣ) {k : Type} [Field k] (ι : F →+* k)
     (ν : Fin n → ZMod m) (i : Fin n) (a : Fˣ) :
     omqPlusWt ι ν (torusD F hn i a) = ι (a : F) ^ (omqEpsLabels n m ν i).val := by
-  haveI : NeZero m := ⟨by rw [hm]; exact (Nat.card_pos (α := Fˣ)).ne'⟩
+  have : NeZero m := ⟨by rw [hm]; exact (Nat.card_pos (α := Fˣ)).ne'⟩
   have hpow : ∀ b : Fin n, omqPlusEntry n (torusD F hn i a) b =
       ((a ^ toStdD n (Pi.single i 1) b : Fˣ) : F) := by
     intro b
@@ -262,17 +267,20 @@ theorem omq_omPlus_wt_torusD {m : ℕ} (hm : m = Nat.card Fˣ) {k : Type} [Field
     _ = ι (a : F) ^ (omqEpsLabels n m ν i).val := by
         rw [Units.val_pow_eq_pow_val, hu]
 
+omit [Finite F] [CharP F 2] in
 private lemma c2slomqpw_spinMatrix_inv (g : spinGroup (quadPlus n F)) :
     (spinMatrix (quadPlus n F) g⁻¹ : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
       (spinMatrix (quadPlus n F) g : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)⁻¹ := by
   rw [map_inv]
   exact Matrix.GeneralLinearGroup.coe_inv _
 
+omit [Finite F] [CharP F 2] in
 private lemma c2slomqpw_mulVec_single (A : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
     (x y : Fin n ⊕ Fin n) :
     (A *ᵥ Pi.single y 1) x = A x y := by
   rw [Matrix.mulVec_single_one, Matrix.col_apply]
 
+omit [Finite F] [CharP F 2] in
 private lemma c2slomqpw_permMatrix_mulVec_single (ρ : Equiv.Perm (Fin n ⊕ Fin n))
     (x : Fin n ⊕ Fin n) :
     Equiv.Perm.permMatrix F ρ *ᵥ Pi.single x 1 = Pi.single (ρ.symm x) 1 := by
@@ -280,12 +288,14 @@ private lemma c2slomqpw_permMatrix_mulVec_single (ρ : Equiv.Perm (Fin n ⊕ Fin
   simp only [Matrix.permMatrix_mulVec, Function.comp_apply, Pi.single_apply,
     Equiv.eq_symm_apply]
 
+omit [Finite F] [CharP F 2] in
 private lemma c2slomqpw_permMatrix_inv (ρ : Equiv.Perm (Fin n ⊕ Fin n)) :
     (Equiv.Perm.permMatrix F ρ)⁻¹ = Equiv.Perm.permMatrix F ρ.symm := by
   have hmem : ρ.symm * ρ = 1 := by ext x; simp
   refine Matrix.inv_eq_right_inv ?_
   rw [← Matrix.permMatrix_mul (σ := ρ.symm) (τ := ρ), hmem, Matrix.permMatrix_one]
 
+omit [Finite F] [CharP F 2] in
 private lemma c2slomqpw_diag_mulVec {D : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F}
     (hD : ∀ x y : Fin n ⊕ Fin n, x ≠ y → D x y = 0) (j : Fin n ⊕ Fin n) :
     D *ᵥ Pi.single j 1 = D j j • Pi.single j 1 := by
@@ -293,13 +303,13 @@ private lemma c2slomqpw_diag_mulVec {D : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin
   rw [Matrix.mulVec_apply_eq_sum]
   refine (Finset.sum_eq_single j ?_ ?_).trans ?_
   · intro z _ hz
-    rw [Pi.single_apply, if_neg hz, mul_zero]
+    rw [Pi.single_apply, ite_eq_right hz, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ j) h
   · rw [Pi.single_eq_same, mul_one, Pi.smul_apply, smul_eq_mul]
     by_cases hij : i = j
     · rw [hij, Pi.single_eq_same, mul_one]
-    · rw [Pi.single_apply, if_neg hij, mul_zero, hD i j hij]
+    · rw [Pi.single_apply, ite_eq_right hij, mul_zero, hD i j hij]
 
 private lemma c2slomqpw_zpow_eq_pow_of_modEq {k : Type} [Field k] (u : kˣ) {a : ℤ} {b : ℕ}
     (h : a ≡ (b : ℤ) [ZMOD (orderOf u : ℤ)]) :
@@ -307,6 +317,7 @@ private lemma c2slomqpw_zpow_eq_pow_of_modEq {k : Type} [Field k] (u : kˣ) {a :
   have h1 : u ^ a = u ^ b := (zpow_eq_zpow_iff_modEq.mpr h).trans (zpow_natCast u b)
   rw [h1]
 
+omit [Finite F] [CharP F 2] in
 private lemma c2slomqpw_conj_entry {g h : spinGroup (quadPlus n F)}
     {ρ : Equiv.Perm (Fin n ⊕ Fin n)}
     (hMg : (spinMatrix (quadPlus n F) g : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
@@ -371,15 +382,13 @@ theorem omq_omPlus_wt_conj {m : ℕ} (hm : m = Nat.card Fˣ) {k : Type} [Field k
       (omqPlusEntry n h (π a)) ^ (s a)
     rw [spMonoPerm_inl]
     rcases hs a with hs1 | hs1
-    · rw [if_pos hs1, hs1]
+    · rw [ite_eq_left hs1, hs1]
       change omqPlusEntry n h (π a) = omqPlusEntry n h (π a) ^ (1 : ℤ)
       rw [zpow_one]
-    · rw [if_neg (by rw [hs1]; norm_num), hs1]
-      change (spinMatrix (quadPlus n F) h : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
-          (Sum.inr (π a)) (Sum.inr (π a)) = (omqPlusEntry n h (π a)) ^ (-1 : ℤ)
+    · rw [ite_eq_right (by rw [hs1]; norm_num), hs1]
       rw [(hgd (π a)).2, zpow_neg_one]
   have hwt : omqPlusWt ι ν (g⁻¹ * h * g) = omqPlusWt ι (omqSignedAct π s ν) h := by
-    haveI : NeZero m := ⟨by rw [hm]; exact (Nat.card_pos (α := Fˣ)).ne'⟩
+    have : NeZero m := ⟨by rw [hm]; exact (Nat.card_pos (α := Fˣ)).ne'⟩
     have hιentry : ∀ a : Fin n, ι (omqPlusEntry n (g⁻¹ * h * g) a) =
         (ι (omqPlusEntry n h (π a))) ^ (s a) := by
       intro a
@@ -425,7 +434,7 @@ include hn in
 theorem omq_omPlus_wt_injective {m : ℕ} (hm : m = Nat.card Fˣ) (hodd : Odd m) {k : Type}
     [Field k] (ι : F →+* k) {ν ν' : Fin n → ZMod m}
     (h : ∀ g ∈ (omPlusCurtisDatum n F hn).H, omqPlusWt ι ν g = omqPlusWt ι ν' g) : ν = ν' := by
-  haveI : NeZero m := ⟨by rw [hm]; exact (Nat.card_pos (α := Fˣ)).ne'⟩
+  have : NeZero m := ⟨by rw [hm]; exact (Nat.card_pos (α := Fˣ)).ne'⟩
   obtain ⟨a₀, ha₀⟩ := IsCyclic.exists_generator (α := Fˣ)
   have hord : orderOf a₀ = m :=
     (orderOf_eq_card_of_forall_mem_zpowers ha₀).trans hm.symm

@@ -43,13 +43,13 @@ theorem candL_mem (hcg : ∀ c < 32, ∀ g ∈ five CG c, ∃ U, IsP U g) (hi : 
   intro l hl11
   unfold candL confR candR
   by_cases h5 : l < 5
-  · rw [blt_t h5, cond_true]
+  · rw [blt_t h5, _root_.Bool.cond_true]
     obtain ⟨U, hU⟩ := hcg i hi _ (mem_five.2 ⟨l, h5, rfl⟩)
     exact ⟨U, Subgroup.subset_closure (Or.inl (Or.inl
       (Subgroup.subset_closure ⟨_, mem_five.2 ⟨l, h5, rfl⟩, hU⟩))), hU⟩
-  · rw [blt_f h5, cond_false]
+  · rw [blt_f h5, Bool.cond_false]
     by_cases h10 : l < 10
-    · rw [blt_t h10, cond_true]
+    · rw [blt_t h10, _root_.Bool.cond_true]
       have hm : look CG (Nat.add (Nat.mul 5 (fld FC X)) (Nat.sub l 5)) ∈ five CG (fld FC X) :=
         mem_five.2 ⟨l - 5, by omega, rfl⟩
       obtain ⟨U, hU⟩ := hcg _ hX _ hm
@@ -57,7 +57,7 @@ theorem candL_mem (hcg : ∀ c < 32, ∀ g ∈ five CG c, ∃ U, IsP U g) (hi : 
         ⟨U, Subgroup.subset_closure ⟨_, hm, hU⟩, rfl⟩)), ?_⟩
       rw [mul_assoc]
       exact hT.mul (hU.mul hTi)
-    · rw [blt_f h10, cond_false]
+    · rw [blt_f h10, Bool.cond_false]
       exact ⟨θ, Subgroup.subset_closure (Or.inr rfl), hθ⟩
 
 theorem confR_le (hT : IsP (T X) (look FT X)) (hTi : IsP (T X)⁻¹ (look FTi X)) (hθ : IsP θ TH)
@@ -72,7 +72,7 @@ theorem confR_le (hT : IsP (T X) (look FT X)) (hTi : IsP (T X)⁻¹ (look FTi X)
       obtain ⟨l, hl, rfl⟩ := mem_five.1 hg
       refine hM l (by omega) U ?_
       unfold candL
-      rw [blt_t hl, cond_true]
+      rw [blt_t hl, _root_.Bool.cond_true]
       exact hU
     exact hle hx
   · obtain ⟨y, hy, rfl⟩ := hx
@@ -82,7 +82,7 @@ theorem confR_le (hT : IsP (T X) (look FT X)) (hTi : IsP (T X)⁻¹ (look FTi X)
       obtain ⟨l, hl, rfl⟩ := mem_five.1 hg
       refine hM (5 + l) (by omega) _ ?_
       unfold candL
-      rw [blt_f (by omega : ¬ 5 + l < 5), cond_false, blt_t (by omega : 5 + l < 10), cond_true,
+      rw [blt_f (by omega : ¬ 5 + l < 5), Bool.cond_false, blt_t (by omega : 5 + l < 10), _root_.Bool.cond_true,
         Nat.sub_eq, Nat.add_sub_cancel_left]
       change IsP (T X * U * (T X)⁻¹) _
       rw [mul_assoc]
@@ -92,7 +92,7 @@ theorem confR_le (hT : IsP (T X) (look FT X)) (hTi : IsP (T X)⁻¹ (look FTi X)
     subst hx
     refine hM 10 (by norm_num) _ ?_
     unfold candL
-    rw [blt_f (by norm_num : ¬ 10 < 5), cond_false, blt_f (by norm_num : ¬ 10 < 10), cond_false]
+    rw [blt_f (by norm_num : ¬ 10 < 5), Bool.cond_false, blt_f (by norm_num : ¬ 10 < 10), Bool.cond_false]
     exact hθ
 
 end Cand
@@ -130,12 +130,12 @@ variable {g₁ g₂ : Nat → Nat} {c₁ c₁i c₂ c₂i TH : Nat} {R₁ R₂ :
 theorem letP_lo {e : Nat} (he : e < 11) :
     letP g₁ g₂ c₁ c₁i c₂ c₂i TH e = mulP c₁ (mulP (g₁ e) c₁i) := by
   unfold letP
-  rw [blt_t he, cond_true]
+  rw [blt_t he, _root_.Bool.cond_true]
 
 theorem letP_hi {l : Nat} (hl : l < 11) :
     letP g₁ g₂ c₁ c₁i c₂ c₂i TH (l + 11) = mulP c₂ (mulP (g₂ l) c₂i) := by
   unfold letP
-  rw [blt_f (by omega : ¬ l + 11 < 11), cond_false, blt_t (by omega : l + 11 < 22), cond_true,
+  rw [blt_f (by omega : ¬ l + 11 < 11), Bool.cond_false, blt_t (by omega : l + 11 < 22), _root_.Bool.cond_true,
     Nat.sub_eq, Nat.add_sub_cancel]
 
 theorem letP_22 : letP g₁ g₂ c₁ c₁i c₂ c₂i TH 22 = mulP c₁ (mulP (mulP TH TH) c₁i) := rfl
@@ -279,14 +279,14 @@ theorem pairW_spec {L : List Nat} {TH : Nat} {N2 : List Nat} {NN : Nat} {g₁ g�
   have hK := letP_mem h₁ h₂ hθ₁ hθ₂ hC₁ hC₁i hC₂ hC₂i
   unfold pairW at h
   cases h0 : Nat.beq tg 0
-  · rw [h0, cond_false] at h
+  · rw [h0, Bool.cond_false] at h
     cases h1 : Nat.beq tg 1
-    · rw [h1, cond_false, Bool.and_eq_true] at h
+    · rw [h1, Bool.cond_false, Bool.and_eq_true] at h
       exact Or.inr (resOK_spec h.2 hK (fun M hM => letP_le h₁le h₂le hC₁ hC₁i hC₂ hC₂i hM) hN
         hNle)
-    · rw [h1, cond_true] at h
+    · rw [h1, _root_.Bool.cond_true] at h
       exact Or.inl (d1OK_spec h hK hL hL')
-  · rw [h0, cond_true] at h
+  · rw [h0, _root_.Bool.cond_true] at h
     exact Or.inl (d2aOK_spec h hK hTH hL)
 
 end CFSG.KC.GUV

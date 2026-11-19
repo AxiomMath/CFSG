@@ -16,6 +16,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isSzNaturalSection_of_isSzNatural {H L N : Subgroup G} {a : ℕ}
     (hHL : H ≤ Subgroup.normalizer (L : Set G)) (hHN : H ≤ Subgroup.normalizer (N : Set G))
     (hNL : N ≤ Subgroup.normalizer (L : Set G)) (hE : IsElemAbelian 2 (Ch3z.chiefMod L N))
@@ -25,8 +26,8 @@ theorem isSzNaturalSection_of_isSzNatural {H L N : Subgroup G} {a : ℕ}
       letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
       IsSzNatural (sectionRep hHL hHN hNL hE hO e)) :
     IsSzNaturalSection H N L a := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   obtain ⟨c, φ, hφ⟩ := hnat
   let K := GaloisField 2 (2 * a + 1)
   let J : Matrix (Fin 4) (Fin 4) K := CFSG.LinearAlgebra.exteriorSquareJ K
@@ -73,7 +74,7 @@ theorem isSzNaturalSection_of_isSzNatural {H L N : Subgroup G} {a : ℕ}
       have h3 : ι n = 1 := (Ch3z.chiefIota_eq_one_iff hNL n).mpr h
       have h2 : φ (Additive.ofMul (ι n)) = 0 := by
         rw [h3]
-        simpa using map_zero φ
+        simp
       show ψ n = 1
       show Multiplicative.ofAdd (J *ᵥ φ (Additive.ofMul (ι n))) = 1
       rw [h2, Matrix.mulVec_zero]
@@ -83,8 +84,8 @@ theorem isSzNaturalSection_of_isSzNatural {H L N : Subgroup G} {a : ℕ}
     dsimp only [J]
     rw [Matrix.map_apply, CFSG.LinearAlgebra.exteriorSquareJ_apply]
     split_ifs with h
-    · simp [h]
-    · simp [h, zero_pow (pow_ne_zero c two_ne_zero)]
+    · simp
+    · simp [zero_pow (pow_ne_zero c two_ne_zero)]
   have heq : ∀ (h : ↥H) (x y : ↥N),
       (y : G) = (h : G) * (x : G) * (h : G)⁻¹ →
       Multiplicative.toAdd (ψ y) =
@@ -224,12 +225,12 @@ theorem str83G4_exists_sectionSetup
     exact str83G4_commutator_x_q1_le hfr h1
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨e, he⟩ := str83G4_exists_equiv_sylow hK hfr
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   have hnt : ∃ g, sectionRep hHL hHN hNL hE hO e g ≠ 1 := by
-    obtain ⟨y, hyR, hyC⟩ := SetLike.not_le_iff_exists.mp hnc
+    obtain ⟨y, hyR, hyC⟩ := IsConcreteLE.not_le_iff_exists.mp hnc
     have hyH : y ∈ L1 ⊔ S := twoResidual_le _ hyR
     obtain ⟨n, hnN, hn⟩ : ∃ n ∈ N, y * n * y⁻¹ * n⁻¹ ∉ L := by
       by_contra hall
@@ -264,15 +265,15 @@ theorem sectionRep_isSzNatural_of_quadratic_chiefStep
     letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
     letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
     IsSzNatural (sectionRep hHL hHN hNL hE hO e) := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have ha : 1 ≤ a := hfr.2.2.1
   let ρ : Representation (ZMod 2) (suzukiGroup a K) (Additive (Ch3z.chiefMod L N)) :=
     sectionRep hHL hHN hNL hE hO e
-  haveI : Fact ρ.IsIrreducible :=
+  have : Fact ρ.IsIrreducible :=
     ⟨sectionRep_isIrreducible hstep hUH hHL hHN hNL hE hO e⟩
   have hZ0lift := str83G4_exists_mem_of_mem_suzukiZ0 hfr hC hK e he
   have hZ0quad : ∀ z' ∈ suzukiZ0 a K, ∀ z ∈ suzukiZ0 a K,

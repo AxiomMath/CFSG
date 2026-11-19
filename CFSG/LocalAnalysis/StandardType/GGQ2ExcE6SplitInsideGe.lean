@@ -39,9 +39,9 @@ private theorem e6SplitWeyl_mem_rootSpan_of_mem {c : Finset (ExcRaw.Root 1)}
     · exact ⟨i, hi, Or.inr (Or.inr (Or.inl rfl))⟩
     · exact ⟨i, hi, Or.inr (Or.inr (Or.inr rfl))⟩
   by_cases hfix : ExcRaw.tabFix1.getD i.val false = true
-  · rw [e6SplitWeyl, if_pos hfix]
+  · rw [e6SplitWeyl, ite_eq_left hfix]
     exact rootSpan_mono hsub (rootSL2_mem_rootSpan_pair (isRoot_e6SplitRoot i) WSL)
-  · rw [e6SplitWeyl, if_neg hfix]
+  · rw [e6SplitWeyl, ite_eq_right hfix]
     exact mul_mem (rootSpan_mono hsub
         (rootSL2_mem_rootSpan_pair (isRoot_e6SplitRoot i) WSL))
       (rootSpan_mono hsubσ
@@ -72,7 +72,7 @@ private theorem rootDiagUnit_e6RelCoroot_mem_rootSpan (ζ : Lˣ)
     have hrel : ∀ j, e6RelCorootPair (e6SplitRoot i) (Pi.single j 1) =
         corootPair (e6SplitRoot i) (Pi.single j 1) := by
       intro j
-      rw [e6RelCorootPair, if_pos hσ]
+      rw [e6RelCorootPair, ite_eq_left hσ]
     have heq : rootDiagUnit .E6
         (fun j => ζ ^ e6RelCorootPair (e6SplitRoot i) (Pi.single j 1)) =
         rootSL2 .E6 L (e6SplitRoot i) (HSL ζ) := by
@@ -92,7 +92,7 @@ private theorem rootDiagUnit_e6RelCoroot_mem_rootSpan (ζ : Lˣ)
           corootPair (permLattice (τ := .E6) TwistTag.E6.perm (e6SplitRoot i))
             (Pi.single j 1) := by
       intro j
-      rw [e6RelCorootPair, if_neg hσne]
+      rw [e6RelCorootPair, ite_eq_right hσne]
       rfl
     have heq : rootDiagUnit .E6
         (fun j => ζ ^ e6RelCorootPair (e6SplitRoot i) (Pi.single j 1)) =

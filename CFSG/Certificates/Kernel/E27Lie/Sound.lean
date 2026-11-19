@@ -38,7 +38,7 @@ theorem blk_all {b n : ℕ} (hb : 0 < b) {f : ℕ → Bool} {m : ℕ} (hm : n �
     omega
   have hk := CFSG.KS.allN_spec (h (i / b) hq) (i % b) (Nat.mod_lt _ hb)
   have e : Nat.add (Nat.mul b (i / b)) (i % b) = i := Nat.div_add_mod i b
-  rw [e, sB_eq, bRec_eq, if_pos (Eq.mpr Nat.blt_eq hi)] at hk
+  rw [e, sB_eq, bRec_eq, ite_eq_left (Eq.mpr Nat.blt_eq hi)] at hk
   exact hk
 
 abbrev parOf (n : ℕ) (pp pj : ℕ → ℕ) : Array (ℕ × ℕ) := Array.ofFn (n := n) fun i => (pp i.val, pj i.val)
@@ -65,7 +65,7 @@ theorem tree_spec (hc : constsOK p w S d T L H CM RM ONE LV HV = true) (hnb : nb
     by_cases h0 : i = 0
     · subst h0
       have e0 : Nat.beq 0 0 = true := rfl
-      rw [if_pos e0] at h
+      rw [ite_eq_left e0] at h
       have e := beq_of h
       obtain ⟨h1, h2⟩ := one_sound hc hnb
       refine ⟨fun h => absurd h (Nat.lt_irrefl 0), ?_, ?_⟩
@@ -73,7 +73,7 @@ theorem tree_spec (hc : constsOK p w S d T L H CM RM ONE LV HV = true) (hnb : nb
       · rw [e, h2, tabElt_zero, map_one]
     · have hb : (Nat.beq i 0 = true) = False := by
         simp only [Nat.beq_eq, h0]
-      rw [if_neg (by rw [hb]; exact id), sB_eq, sB_eq, bRec_eq] at h
+      rw [ite_eq_right (by rw [hb]; exact id), sB_eq, sB_eq, bRec_eq] at h
       split_ifs at h with h1
       · rw [bRec_eq] at h
         split_ifs at h with h2
@@ -105,7 +105,7 @@ theorem tabData_of (hc : constsOK p w S d T L H CM RM ONE LV HV = true) (hnb : n
     split_ifs at h with h1
     · rw [bRec_eq] at h
       refine ⟨blt_of h1, fun hq1 => ?_⟩
-      rw [if_pos (Eq.mpr Nat.blt_eq hq1), sB_eq] at h
+      rw [ite_eq_left (Eq.mpr Nat.blt_eq hq1), sB_eq] at h
       exact blt_of h
   have mono : ∀ q q', q < q' → q' < n → key (sg q) < key (sg q') := by
     intro q q' hqq hq'
@@ -227,7 +227,7 @@ theorem sylow_of [Finite G] (hc : constsOK p w S d T L H CM RM ONE LV HV = true)
   have h := hk a ha
   unfold killC at h
   have hb0 : (Nat.beq a 0 = true) = False := by simp only [Nat.beq_eq, ha0]
-  rw [bRec_eq, if_neg (by rw [hb0]; exact id), sB_eq, sB_eq, bRec_eq] at h
+  rw [bRec_eq, ite_eq_right (by rw [hb0]; exact id), sB_eq, sB_eq, bRec_eq] at h
   split_ifs at h with h1
   rw [bRec_eq] at h
   split_ifs at h with h2
@@ -256,7 +256,7 @@ theorem sylow_of [Finite G] (hc : constsOK p w S d T L H CM RM ONE LV HV = true)
     rw [this] at hord
     simp at hord
   have hb0' : (Nat.beq (REP (CI a)) 0 = true) = False := by simp only [Nat.beq_eq, hr0]
-  rw [bRec_eq, if_neg (by rw [hb0']; exact id), sB_eq, bRec_eq] at hrc
+  rw [bRec_eq, ite_eq_right (by rw [hb0']; exact id), sB_eq, bRec_eq] at hrc
   have h81 : 81 ≤ Nat.card ↥(S₀ ⊓ centralizer ({E (REP (CI a))} : Set G)) := by
     split_ifs at hrc with h4
     ·
@@ -285,7 +285,7 @@ theorem sylow_of [Finite G] (hc : constsOK p w S d T L H CM RM ONE LV HV = true)
         have hcw := blt_of h6
         refine ⟨hcw, fun ht0 => ?_, prodEq _ hcw _ hx _ hx _ hcw (beq_of h5)⟩
         have hb : (Nat.beq t 0 = true) = False := by simp only [Nat.beq_eq, ht0]
-        rw [bRec_eq, if_neg (by rw [hb]; exact id)] at h7
+        rw [bRec_eq, ite_eq_right (by rw [hb]; exact id)] at h7
         exact blt_of h7
       have mono : ∀ t t', t < t' → t' < 81 → cw (CI a) t < cw (CI a) t' := by
         intro t t' htt ht'

@@ -67,7 +67,7 @@ theorem commutator_eq_bot_of_odd_of_fixed_eq {E : Type*} [Group E] [Finite E]
   let Γ := E ⋊[φ] MulAut E
   let ι : E →* Γ := SemidirectProduct.inl (φ := φ)
   let κ : MulAut E →* Γ := SemidirectProduct.inr (φ := φ)
-  haveI : Finite Γ :=
+  have : Finite Γ :=
     Finite.of_equiv (E × MulAut E) (SemidirectProduct.equivProd (φ := φ)).symm
   have hιinj : Function.Injective ι := SemidirectProduct.inl_injective
   have hκinj : Function.Injective κ := SemidirectProduct.inr_injective
@@ -85,7 +85,7 @@ theorem commutator_eq_bot_of_odd_of_fixed_eq {E : Type*} [Group E] [Finite E]
   have hAnc' : ¬ IsCyclic A' := by
     rw [hA'def]
     intro hcyc
-    haveI := hcyc
+    have := hcyc
     exact hAnc (isCyclic_of_surjective
       ((Subgroup.equivMapOfInjective A κ hκinj).symm : A.map κ →* A)
       (Subgroup.equivMapOfInjective A κ hκinj).symm.surjective)
@@ -162,6 +162,7 @@ theorem commutator_eq_bot_of_odd_of_fixed_eq {E : Type*} [Group E] [Finite E]
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma normalizerMonoidHom_apply_eq_iff {E : Subgroup G}
     (x : Subgroup.normalizer (E : Set G)) (e : E) :
     E.normalizerMonoidHom x e = e ↔ (x : G) * (e : G) = (e : G) * (x : G) := by
@@ -265,7 +266,7 @@ theorem commutator_le_centralizer_of_odd_relIndex {E A Q : Subgroup G}
       exact Subgroup.inclusion_injective hAE (Subgroup.mem_bot.mp hxbot)
     have hAnc' : ¬ IsCyclic Ahat := by
       intro hcyc
-      haveI := hcyc
+      have := hcyc
       rw [← hψA_range] at hcyc
       exact hAnc ((ψA.ofInjective hψA_inj).isCyclic.mpr hcyc)
     have hAfix' : ∀ a ∈ Ahat, a ≠ 1 → ∀ e : ↥E,

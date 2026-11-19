@@ -48,7 +48,7 @@ open TauCeti
 theorem lieCase_A_one (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) (q : PrimePower)
     (hv : (LieTypeIndex.A 1 q).Valid) : ListedMultiplierBoundAt p (.lie ⟨.A 1 q, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   rcases hi with ⟨rfl, -⟩ | ⟨-, h⟩
   swap
@@ -69,7 +69,7 @@ theorem lieCase_A_one (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) (q : 
   have hg : genericOrders .PSL (1 + 1) q.p q.exponent =
       (Nat.gcd (1 + 1) (q.p ^ q.exponent - 1), 1) := rfl
   have hdvd := card_center_dvd_of_table hGA hQ hm hg he
-    (by simpa using Nat.gcd_pos_of_pos_left _ (by norm_num : 0 < 1 + 1))
+    (by simp)
   exact (false_of_pGroup_dvd Nat.prime_three hZ
     (hdvd.trans (by simpa using Nat.gcd_dvd_left (1 + 1) _)) (by norm_num)).elim
 
@@ -77,7 +77,7 @@ theorem lieCase_A_one (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) (q : 
 theorem lieCase_A_two (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) (q : PrimePower)
     (hv : (LieTypeIndex.A 2 q).Valid) : ListedMultiplierBoundAt p (.lie ⟨.A 2 q, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   have hm := CFSG.Models.lieModel_A 2 q hv e
   have hdup := ((LieTypeIndex.valid_iff _).1 hv).2
@@ -95,13 +95,13 @@ theorem lieCase_A_two (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) (q : 
     · obtain ⟨h1, h2⟩ := h
       have he : exceptionalOrders .PSL (2 + 1) q.p q.exponent = (4, 4) := by
         rw [h1, h2]; rfl
-      have := card_center_dvd_of_table hGA hQ hm hg he (by simpa using hgpos.ne')
+      have := card_center_dvd_of_table hGA hQ hm hg he (by simp)
       refine this.trans ?_
       simpa using (Nat.mul_dvd_mul_right hgd 16).trans (by norm_num : 3 * 16 ∣ 48)
     · have he : exceptionalOrders .PSL (2 + 1) q.p q.exponent = (1, 1) := by
         unfold exceptionalOrders
         split <;> simp_all
-      have := card_center_dvd_of_table hGA hQ hm hg he (by simpa using hgpos.ne')
+      have := card_center_dvd_of_table hGA hQ hm hg he (by simp)
       refine this.trans ?_
       simpa using hgd.trans (by norm_num : 3 ∣ 48)
   rcases hi with (⟨rfl, -⟩ | ⟨rfl, -⟩) | ⟨rfl, -⟩
@@ -126,7 +126,7 @@ theorem lieCase_twistedA_two (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ
     (hv : (LieTypeIndex.twistedA 2 q).Valid) :
     ListedMultiplierBoundAt p (.lie ⟨.twistedA 2 q, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   have hm := lieModel_twistedA' 2 q hv e
   have hg : genericOrders .PSU (2 + 1) q.p q.exponent =
@@ -135,7 +135,7 @@ theorem lieCase_twistedA_two (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ
     unfold exceptionalOrders
     split <;> simp_all
   have hdvd := card_center_dvd_of_table hGA hQ hm hg he
-    (by simpa using Nat.gcd_pos_of_pos_left _ (by norm_num : 0 < 2 + 1))
+    (by simp)
   have hdvd3 : Nat.card (Subgroup.center Q) ∣ 3 :=
     hdvd.trans (by simpa using Nat.gcd_dvd_left (2 + 1) (q.p ^ q.exponent + 1))
   rcases hi with ⟨rfl, -⟩ | ⟨rfl, -⟩
@@ -149,7 +149,7 @@ theorem lieCase_twistedA_three (hGA : CFSG.Open.GriessAllModelsStatement) (p : �
     (hv : (LieTypeIndex.twistedA 3 q).Valid) :
     ListedMultiplierBoundAt p (.lie ⟨.twistedA 3 q, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   rcases hi with ⟨rfl, hq8⟩ | ⟨-, h⟩
   swap
@@ -166,7 +166,7 @@ theorem lieCase_twistedA_four (hGA : CFSG.Open.GriessAllModelsStatement) (p : �
     (hv : (LieTypeIndex.twistedA 4 q).Valid) :
     ListedMultiplierBoundAt p (.lie ⟨.twistedA 4 q, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   rcases hi with ⟨rfl, hq2⟩ | ⟨-, h⟩
   swap
@@ -183,7 +183,7 @@ theorem lieCase_twistedA_five (hGA : CFSG.Open.GriessAllModelsStatement) (p : �
     (hv : (LieTypeIndex.twistedA 5 q).Valid) :
     ListedMultiplierBoundAt p (.lie ⟨.twistedA 5 q, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   rcases hi with ⟨rfl, hq2⟩ | ⟨-, h⟩
   swap
@@ -200,7 +200,7 @@ theorem lieCase_twistedA_five (hGA : CFSG.Open.GriessAllModelsStatement) (p : �
 theorem lieCase_B_two (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) (q : PrimePower)
     (hv : (LieTypeIndex.B 2 q).Valid) : ListedMultiplierBoundAt p (.lie ⟨.B 2 q, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   rcases hi with ⟨rfl, hq8⟩ | ⟨-, h⟩
   swap
@@ -220,7 +220,7 @@ theorem lieCase_B_two (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) (q : 
 theorem lieCase_B_three (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) (q : PrimePower)
     (hv : (LieTypeIndex.B 3 q).Valid) : ListedMultiplierBoundAt p (.lie ⟨.B 3 q, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   rcases hi with ⟨rfl, hq2⟩ | ⟨-, h⟩
   swap
@@ -240,7 +240,7 @@ theorem lieCase_B_three (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) (q 
 theorem lieCase_D_four (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) (q : PrimePower)
     (hv : (LieTypeIndex.D 4 q).Valid) : ListedMultiplierBoundAt p (.lie ⟨.D 4 q, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   rcases hi with ⟨rfl, hq2⟩ | ⟨-, h⟩
   swap
@@ -256,7 +256,7 @@ theorem lieCase_D_four (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) (q :
 theorem lieCase_G2 (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) (q : PrimePower)
     (hv : (LieTypeIndex.G2 q).Valid) : ListedMultiplierBoundAt p (.lie ⟨.G2 q, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   rcases hi with ⟨rfl, hq8⟩ | ⟨-, h⟩
   swap
@@ -277,7 +277,7 @@ theorem lieCase_trialityD4 (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) 
     (hv : (LieTypeIndex.trialityD4 q).Valid) :
     ListedMultiplierBoundAt p (.lie ⟨.trialityD4 q, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   rcases hi with ⟨rfl, -⟩ | ⟨-, h⟩
   swap
@@ -292,7 +292,7 @@ theorem lieCase_trialityD4 (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ) 
 theorem lieCase_suzuki (hGA : CFSG.Open.GriessAllModelsStatement) (p m : ℕ)
     (hv : (LieTypeIndex.suzuki m).Valid) : ListedMultiplierBoundAt p (.lie ⟨.suzuki m, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   rcases hi with ⟨rfl, rfl⟩ | ⟨-, h⟩
   swap
@@ -307,7 +307,7 @@ theorem lieCase_suzuki (hGA : CFSG.Open.GriessAllModelsStatement) (p m : ℕ)
 theorem lieCase_reeF4 (hGA : CFSG.Open.GriessAllModelsStatement) (p m : ℕ)
     (hv : (LieTypeIndex.reeF4 m).Valid) : ListedMultiplierBoundAt p (.lie ⟨.reeF4 m, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   have hr := (LieTypeIndex.inStandardRange_iff _).mp ((LieTypeIndex.valid_iff _).mp hv).1
   have hm : CFSG.Models.LieModel (Q ⧸ Subgroup.center Q) .twistedF4 0 2 (2 * m + 1) :=
@@ -323,7 +323,7 @@ theorem lieCase_reeF4 (hGA : CFSG.Open.GriessAllModelsStatement) (p m : ℕ)
 theorem lieCase_tits (hGA : CFSG.Open.GriessAllModelsStatement) (p : ℕ)
     (hv : LieTypeIndex.tits.Valid) : ListedMultiplierBoundAt p (.lie ⟨.tits, hv⟩) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   have e := centralIso π hπ hker
   have hm : CFSG.Models.LieModel (Q ⧸ Subgroup.center Q) .Tits 0 2 1 :=
     CFSG.Models.lieModel_of_namesTag (t := .Tits) (p := 2) (f := 1)

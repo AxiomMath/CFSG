@@ -35,7 +35,7 @@ theorem l5lo_mul (a b z a' b' z' : K) :
   ext i j
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_l5lo]
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_three]; ring
 
 theorem l5lo_zero : l5lo (0 : K) 0 0 = 1 := by
   ext i j
@@ -51,7 +51,7 @@ theorem l5up_mul (t t' : K) : l5up t * l5up t' = l5up (t + t') := by
   ext i j
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_l5up]
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_three]; ring
 
 theorem l5up_zero : l5up (0 : K) = 1 := by
   ext i j
@@ -76,25 +76,25 @@ theorem l5_transvection_10 (t : K) :
     Matrix.SpecialLinearGroup.transvection (show (1 : Fin 3) ≠ 0 by decide) t = l5lo t 0 0 := by
   ext i j
   simp only [Matrix.SpecialLinearGroup.transvection_coe, coe_l5lo]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem l5_transvection_21 (t : K) :
     Matrix.SpecialLinearGroup.transvection (show (2 : Fin 3) ≠ 1 by decide) t = l5lo 0 t 0 := by
   ext i j
   simp only [Matrix.SpecialLinearGroup.transvection_coe, coe_l5lo]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem l5_transvection_20 (t : K) :
     Matrix.SpecialLinearGroup.transvection (show (2 : Fin 3) ≠ 0 by decide) t = l5lo 0 0 t := by
   ext i j
   simp only [Matrix.SpecialLinearGroup.transvection_coe, coe_l5lo]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem l5_transvection_02 (t : K) :
     Matrix.SpecialLinearGroup.transvection (show (0 : Fin 3) ≠ 2 by decide) t = l5up t := by
   ext i j
   simp only [Matrix.SpecialLinearGroup.transvection_coe, coe_l5up]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 end Matrices
 
@@ -481,7 +481,7 @@ theorem l5_key {D : Subgroup (ModGL Tag.F4 K)} (hD : IsLongRootSubgroup Tag.F4 K
   have hd' : ψ (l5lo a b z) ∈ conjSub g (Uθ Tag.F4 K) := by rw [← hDg]; exact hd
   by_cases h2 : ringChar K = 2
   · have hp := pow_char_eq_one_of_mem_conjSub K hd'
-    haveI : CharP K 2 := ringChar.of_eq h2
+    have : CharP K 2 := ringChar.of_eq h2
     have h20 : (2 : K) = 0 := by simpa using CharP.cast_eq_zero K 2
     rw [h2, ← map_pow, ← map_one ψ] at hp
     have hp' := hψ hp
@@ -527,8 +527,8 @@ theorem lemma5_neg (K : Type) [Field K] [Finite K] {D : Subgroup (ModGL Tag.F4 K
   by_contra hcon
   rw [not_or] at hcon
   obtain ⟨hn1, hn2⟩ := hcon
-  obtain ⟨d1, hd1, hd1n⟩ := SetLike.not_le_iff_exists.1 hn1
-  obtain ⟨d2, hd2, hd2n⟩ := SetLike.not_le_iff_exists.1 hn2
+  obtain ⟨d1, hd1, hd1n⟩ := IsConcreteLE.not_le_iff_exists.1 hn1
+  obtain ⟨d2, hd2, hd2n⟩ := IsConcreteLE.not_le_iff_exists.1 hn2
   have hDr : D ≤ ψ.range := by
     intro d hd
     obtain ⟨a, b, z, hz⟩ := l5_mem_R1neg K ψ h21 h32 h31 (hle hd)

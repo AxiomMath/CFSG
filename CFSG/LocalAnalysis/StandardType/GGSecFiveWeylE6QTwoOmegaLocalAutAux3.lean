@@ -12,6 +12,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite G] [Finite K] in
 theorem qMap_surjective {L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4) :
     Function.Surjective (qMap (K := K) θ) := by
@@ -19,6 +20,7 @@ theorem qMap_surjective {L : Subgroup G}
   obtain ⟨a, ha⟩ := QuotientGroup.mk'_surjective (Subgroup.center L) (θ.symm x)
   exact ⟨a, by rw [qMap_apply, ha, θ.apply_symm_apply]⟩
 
+omit [Finite G] in
 theorem bstar_basic {Bs L : Subgroup G} {x : G}
     (hZ2 : IsPGroup 2 (Subgroup.center L))
     (hBs : IsElemAbelian 3 Bs) (hx1 : x ≠ 1)
@@ -83,6 +85,7 @@ theorem bstar_basic {Bs L : Subgroup G} {x : G}
     exact Subgroup.mem_bot.mp hbot
   exact ⟨hxBs, hxL, hord, hEbot, hExbot⟩
 
+omit [Finite K] in
 theorem Ebar_selfCent {Bs L : Subgroup G} {x : G}
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs)
     (hcard : Nat.card Bs = 3 ^ 5) (hcardE : Nat.card ↥(Bs ⊓ L) = 3 ^ 4)

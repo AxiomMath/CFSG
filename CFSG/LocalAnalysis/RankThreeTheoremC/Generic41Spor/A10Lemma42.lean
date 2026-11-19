@@ -63,18 +63,18 @@ theorem a10_lemma42 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
     (hMcL : ExtraFacts IsMcLType 5 McLShape) (hJ4 : ExtraFacts IsJ4Type 11 J4Shape)
     (hSz : Sz32Facts) (hSz' : Sz32OpenFacts) (hdata : Sz32DataFacts) (hXe : A10Ext)
     (hc : PointConfig IsA10Type G 5 P M x J) {Q : Type} [Group Q] [Finite Q] (ψ : ↥J →* Q)
-    (hψ : Function.Surjective ψ) (hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J)
-    (hQ : IsA10Type 5 Q) (hB : A10StageB P x J ψ) {U : Subgroup G} (hU : IIPlane 5 P x J U)
+    (_hψ : Function.Surjective ψ) (_hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J)
+    (_hQ : IsA10Type 5 Q) (hB : A10StageB P x J ψ) {U : Subgroup G} (hU : IIPlane 5 P x J U)
     (hγ : A10PlaneShape J (u3T P x J) ψ U) :
     ∀ a ∈ U, a ∉ Subgroup.zpowers x → Subgroup.centralizer ({a} : Set G) ≤ M := by
   intro a ha hax
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hTcard, hTel, hxJ⟩ := plane_T_structure hX.sylow hc
   obtain ⟨Z, hZcyc, hxZ, hZS, hZT, hTZ, hsup⟩ := plane_S_decomp hX.sylow hX.noOuter hc
   have hxC : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) := hB.1
   have hSP : u3S P x = (P : Subgroup G) := inf_eq_left.2 hxC
-  haveI : IsMulCommutative (u3T P x J) := hTel.1
-  haveI : IsCyclic Z := hZcyc
+  have : IsMulCommutative (u3T P x J) := hTel.1
+  have : IsCyclic Z := hZcyc
   have hPab : IsMulCommutative (P : Subgroup G) := by
     rw [← hSP, ← hsup]
     exact plane_sup_comm (fun a ha b hb => (hZT b hb a ha).symm)
@@ -84,8 +84,8 @@ theorem a10_lemma42 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
     hc.generic.1 hc.generic.2.1.2.1 hc.generic.2.1.2.2.1 hxC hD₁ hD₂ (fun _ => hPab)
     (plane_x_not_mem_commutator hX.sylow hX.noOuter hc hxC)
     (fun y hy _ => plane_three_le_pRank_centralizer hX.sylow hX.noOuter hc hxC hy)
-    (fun Q _ _ hQ hz => secondPointFacts_of_class (by norm_num) hQ hz hTits hX hMcL hJ4)
-    (fun Q _ _ hQ _ => spw_normalizerPowers_of_class (by norm_num) hQ hTits hX hXe hMcL hJ4)
+    (fun Q _ _ _hQ hz => secondPointFacts_of_class (by norm_num) _hQ hz hTits hX hMcL hJ4)
+    (fun Q _ _ _hQ _ => spw_normalizerPowers_of_class (by norm_num) _hQ hTits hX hXe hMcL hJ4)
     (fun _ => sz32_second_point_false hS hU0 hD1 hSz hSz' hdata hc.core hc.sigma
       hc.generic.2.1.2.2.1 hc.generic.2.1.2.1 hxC (hsup.trans hSP) hZT hTZ hTel.2 hZcyc hxZ)
     a ((hU.le ha).1) ha1 (hU.elem.2 a ha) ?_

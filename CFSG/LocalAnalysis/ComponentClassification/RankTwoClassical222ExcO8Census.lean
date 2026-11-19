@@ -186,7 +186,7 @@ theorem exists_conj_le_of_card_le {G : Type*} [Group G] [Finite G] {S : Subgroup
   obtain ⟨R, hXR⟩ := hX.exists_le_sylow
   obtain ⟨R₂, hSR⟩ := hS.exists_le_sylow
   have hR₂ : (R₂ : Subgroup G) = S :=
-    (Subgroup.eq_of_le_of_card_ge hSR (hmax R₂ R₂.isPGroup')).symm
+    (Subgroup.eq_of_le_of_card_ge hSR (hmax R₂ R₂.isPGroup)).symm
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq G R R₂
   refine ⟨c, fun x hx => ?_⟩
   have h2 : c * x * c⁻¹ ∈ ((c • R : Sylow 2 G) : Subgroup G) := by

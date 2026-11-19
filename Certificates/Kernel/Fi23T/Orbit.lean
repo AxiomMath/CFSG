@@ -184,7 +184,7 @@ theorem hST0 : ptSet xiL ⊆ (T0 : Set (Fin 31671)) :=
   reg_T0 xi_eq fun l hl => (memS_iff.1 (allN_iff.1 xi_in l hl))
 
 theorem hK0 : ptSet kL ⊆ (T0 : Set (Fin 31671)) :=
-  reg_T0 k_eq fun l hl => (genK_spec k_gens hl).1
+  reg_T0 k_eq fun _l hl => (genK_spec k_gens hl).1
 
 theorem hKf0 : ∀ k ∈ ptSet kL, tau k (fp 2) = fp 2 := by
   intro k hk

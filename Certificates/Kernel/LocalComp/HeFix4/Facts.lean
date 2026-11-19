@@ -307,7 +307,7 @@ theorem fxTT : ∀ g < 5, hfTTabs[g]! = unpack 8330 14 (TP g) := by
   dsimp only
   by_cases h0 : g = 0
   · subst h0
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact fxT1
   rw [ite_eq_right h0]
   obtain ⟨h1, -⟩ := (bAnd_iff _ _).1 (kT g hg)

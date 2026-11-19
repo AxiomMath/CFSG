@@ -18,15 +18,15 @@ variable {K V : Type} [Field K] [Fintype K] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p q f : ℕ} {x : V ≃ₗ[K] V}
 
 theorem card_centerQuotient_fixedFactor_of_finrank_four (hq : q.Prime) (hq2 : q ≠ 2)
-    (hring : ringChar K = q) (hcardK : Nat.card K = q ^ f)
-    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
+    (_hring : ringChar K = q) (hcardK : Nat.card K = q ^ f)
+    (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hx : OddOrderIsometry Q p x) (hdim0 : Module.finrank K (fixedSpace x) = 4)
     {F : Subgroup (V ≃ₗ[K] V)} (hFq : CFSG.IsQuasisimple ↥F)
     (hFle : F ≤ supportedFixedDerived Q x)
     (hFn : (F.subgroupOf (supportedFixedDerived Q x)).Normal) :
     ∃ f' : ℕ, 1 ≤ f' ∧
       Nat.card (↥F ⧸ Subgroup.center ↥F) * 2 = (q ^ f') * ((q ^ f') ^ 2 - 1) := by
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   have hqodd : Odd q := hq.odd_of_ne_two hq2
   have hodd : Odd (Nat.card K) := by
     rw [hcardK]
@@ -84,8 +84,8 @@ theorem card_pSimple_fixedFactor_of_finrank_four (hp : p.Prime) (hq : q.Prime) (
     ∃ f' : ℕ, 1 ≤ f' ∧ Nat.card (PSimple p ((F.subgroupOf (orthDerived Q)).map
       (QuotientGroup.mk' ((scalars K V).subgroupOf (orthDerived Q))))) * 2 =
       (q ^ f') * ((q ^ f') ^ 2 - 1) := by
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   obtain ⟨f', hf'1, hf'⟩ :=
     card_centerQuotient_fixedFactor_of_finrank_four hq hq2 hring hcardK hQ hx hdim0 hFq hFle hFn

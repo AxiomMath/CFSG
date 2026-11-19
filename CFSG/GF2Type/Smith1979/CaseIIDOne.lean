@@ -86,7 +86,7 @@ theorem not_layer_le_subgroupOf_Rder (hCE : S4.CentralExtInput.{0})
     fun x hx => mem_subgroupOf.mpr (mem_subgroupOf.mp hx).1
   have hS₀E : (Rder S g t ⊓ Nbar S g t).subgroupOf S.Mbar ≤ timmesfeldLayer S.Mbar :=
     hS₀R.trans hRE
-  haveI hS₁ : (((Rder S g t ⊓ Nbar S g t).subgroupOf S.Mbar).subgroupOf
+  have hS₁ : (((Rder S g t ⊓ Nbar S g t).subgroupOf S.Mbar).subgroupOf
       (timmesfeldLayer S.Mbar)).Normal := ⟨fun n hn g' => by
     rw [mem_subgroupOf, mem_subgroupOf] at hn ⊢
     exact D.conj_mem_Rder_inf_Nbar hCE (mem_subgroupOf.mp (hER g'.2)) hn⟩
@@ -122,7 +122,7 @@ theorem critII_X_strong (D : Data S g t) (hCE : S4.CentralExtInput.{0})
         Function.Injective j ∧ (∀ x, σ x = x ↔ x ∈ j.range) ∧
         ∀ (r : Rder S g t) (e : timmesfeldLayer S.Mbar),
           ((e : S.Mbar) : S.O) = (r : S.O) → j r = QuotientGroup.mk e := by
-  haveI hEN : (timmesfeldLayer S.Mbar).Normal := Layer.normal S.Mbar
+  have hEN : (timmesfeldLayer S.Mbar).Normal := Layer.normal S.Mbar
   have hRM : Rder S g t ≤ S.Mbar := (Rbar_structure_II D hCE).2.2.2.1.trans Rbar_le_Mbar
   have hRE := D.subgroupOf_Rder_le_layer hS hK hM hq hodd hCE
   have htt := D.tM_mul_self

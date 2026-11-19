@@ -120,7 +120,7 @@ theorem D2Escape.exists_of_maxTwoLocal (h : D2Escape p P M A H R) (hD1p : D1At G
   have hAR' : A ≤ R' := by
     rw [hR', ← Subgroup.map_subgroupOf_eq_of_le hAH']
     exact Subgroup.map_mono hT
-  have hR'p : IsPGroup p R' := T.isPGroup'.map H'.subtype
+  have hR'p : IsPGroup p R' := T.isPGroup.map H'.subtype
   have hAM : A ≤ M := h.A_le.trans h.le_M
   have hR'M : R' ≤ M := by
     refine le_of_normalizer_inf_le hR'p fun x hx => ?_

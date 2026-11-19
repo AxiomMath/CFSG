@@ -43,7 +43,7 @@ private theorem i1912_map_innerAut_le {K : Type} [Group K] :
   exact MonoidHom.mem_range.2 ⟨(g : K ⧸ Subgroup.center K), (i1912_cqHom_conj g).symm⟩
 
 private theorem i1912_isElemAbelian_map {M M' : Type*} [Group M] [Group M'] {p : ℕ}
-    (ψ : M →* M') (hψ : Function.Injective ψ) {E : Subgroup M} (hE : IsElemAbelian p E) :
+    (ψ : M →* M') (_hψ : Function.Injective ψ) {E : Subgroup M} (hE : IsElemAbelian p E) :
     IsElemAbelian p (E.map ψ) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩
   · obtain ⟨_, ⟨x, hx, rfl⟩⟩ := a
@@ -57,7 +57,7 @@ private theorem i1912_isElemAbelian_map {M M' : Type*} [Group M] [Group M'] {p :
     rw [← map_pow, hE.2 x hx, map_one]
 
 private theorem i1912_twoPrimary_of_map {K : Type} [Group K] [Finite K] [Group.IsPerfect K]
-    (p : ℕ) (A : Subgroup (MulAut K)) (hA : IsElemAbelian p A)
+    (p : ℕ) (A : Subgroup (MulAut K)) (_hA : IsElemAbelian p A)
     (h : IsTwoPrimaryWeaklyLocallyBalanced p 1 (A.map (i1912CQ K))) :
     IsTwoPrimaryWeaklyLocallyBalanced p 1 A := by
   have hΨi : Function.Injective (i1912CQ K) :=
@@ -168,9 +168,9 @@ private theorem i1912_catalog_SL (n : ℕ) (hn : 2 ≤ n) (heven : Even n)
     (K : Type) [Group K] (F : Type) [Field F] [Finite F] (hcard : Nat.card F = 2 ^ n)
     (e : K ≃* StatedSL 3 F) :
     catalogIs (K ⧸ Subgroup.center K) (k2 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : PrimePower := ⟨2, n, Nat.prime_two, by omega⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hqc : q.card = 2 ^ n := by rw [PrimePower.card_def]
   have hv : (LieTypeIndex.A 2 q).Valid := by
     refine (LieTypeIndex.valid_iff _).2 ⟨(LieTypeIndex.inStandardRange_iff _).2 ⟨by norm_num, ?_⟩, ?_⟩
@@ -197,9 +197,9 @@ private theorem i1912_catalog_SU3 (n : ℕ) (hn : 2 ≤ n) (hodd : Odd n)
     (K : Type) [Group K] (F : Type) [Field F] [Finite F] (hcard : Nat.card F = (2 ^ n) ^ 2)
     (e : K ≃* StatedSU 3 (2 ^ n) F) :
     catalogIs (K ⧸ Subgroup.center K) (k2 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : PrimePower := ⟨2, n, Nat.prime_two, by omega⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hv : (LieTypeIndex.twistedA 2 q).Valid := by
     refine (LieTypeIndex.valid_iff _).2 ⟨(LieTypeIndex.inStandardRange_iff _).2 ⟨le_rfl, fun _ => ?_⟩,
       fun h => (LieTypeIndex.isDuplicateRepresentative_iff _).1 h⟩
@@ -226,16 +226,16 @@ private theorem i1912_catalog_SU3 (n : ℕ) (hn : 2 ≤ n) (hodd : Odd n)
 private theorem i1912_catalog_SU6 (K : Type) [Group K] (F : Type) [Field F] [Finite F]
     (hcard : Nat.card F = 2 ^ 2) (e : K ≃* StatedSU 6 2 F) :
     catalogIs (K ⧸ Subgroup.center K) (k2 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : PrimePower := ⟨2, 1, Nat.prime_two, by norm_num⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hv : (LieTypeIndex.twistedA 5 q).Valid :=
     (LieTypeIndex.valid_iff _).2 ⟨(LieTypeIndex.inStandardRange_iff _).2 ⟨by norm_num,
       fun h => absurd h (by norm_num)⟩, fun h => (LieTypeIndex.isDuplicateRepresentative_iff _).1 h⟩
-  have hF1 : Nat.card F = (2 ^ 1) ^ 2 := by rw [hcard] <;> norm_num
+  have hF1 : Nat.card F = (2 ^ 1) ^ 2 := by rw [hcard]; norm_num
   have hdq : ((6 : ℕ), 2 ^ 1) ≠ (3, 2) := by decide
-  have hF' : Nat.card F = 2 ^ (2 * 1) := by rw [hcard] <;> norm_num
-  have hcq : q.card = 2 := by rw [PrimePower.card_def] <;> norm_num
+  have hF' : Nat.card F = 2 ^ (2 * 1) := by rw [hcard]
+  have hcq : q.card = 2 := by rw [PrimePower.card_def]; norm_num
   refine ⟨.lie ⟨LieTypeIndex.twistedA 5 q, hv⟩, ⟨rfl, hcq⟩, ?_⟩
   exact ⟨((i1912_quotCenter_SU hF1 (by norm_num) hdq e).trans
     (CFSG.Open.StatedSUFieldChange.statedProjSUEquiv
@@ -278,12 +278,12 @@ end Catalogue
 theorem i1912At_of (h1 : ∀ p : ℕ, p.Prime → p ≠ 2 → KD1912Chev p)
     (h2 : ∀ p : ℕ, p.Prime → p ≠ 2 → KD1912Two p) : I1912At := by
   intro p hp hp2 K _ hfin hK _ hcov A hA
-  haveI : Group.IsPerfect K := Group.isPerfect_def.2 hK.1
+  have : Group.IsPerfect K := Group.isPerfect_def.2 hK.1
   have hS : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2
   have hnon : ∃ a b : K ⧸ Subgroup.center K, a * b ≠ b * a := by
     by_contra hc
     simp only [ne_eq, not_exists, not_not] at hc
-    haveI : Nontrivial (K ⧸ Subgroup.center K) := hS.toNontrivial
+    have : Nontrivial (K ⧸ Subgroup.center K) := hS.toNontrivial
     exact Group.IsPerfect.not_isMulCommutative (G := K ⧸ Subgroup.center K)
       ⟨⟨fun a b => hc a b⟩⟩
   have hA' : IsElemAbelian p (A.map (i1912CQ K)) :=

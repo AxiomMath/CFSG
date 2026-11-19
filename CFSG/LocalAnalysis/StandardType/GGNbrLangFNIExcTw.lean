@@ -90,9 +90,9 @@ theorem kgFieldRestrictionOn_of_excTw_model {t : TwistTag} {p : ℕ} {lab : Larg
   rw [largeEvenRawDatum_kgfniTwTag] at hraw ⊢
   dsimp only [LargeEvenRecipeTwisted] at hraw ⊢
   obtain ⟨K, hF, hfin, hK, hQ⟩ := hraw
-  letI := hF
-  haveI := hfin
-  haveI : CharP K 2 :=
+  let := hF
+  have := hfin
+  have : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := n * t.order) (by rw [hK, ← pow_mul])
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by

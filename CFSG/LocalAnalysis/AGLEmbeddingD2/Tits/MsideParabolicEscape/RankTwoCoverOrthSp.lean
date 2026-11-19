@@ -38,22 +38,20 @@ theorem mat_x_neg_long {k : Fin n} (hk : ¬k.val + 1 < n) (c : F) :
     mat n F (x n F (-Pi.single k 1) c) = Matrix.transvection (.inr k) (.inl k) c := by
   rw [x_eq (stdVec_negativeLong_eq hk), mat_elt_negativeLong]
 
-theorem blk1 {ι : Type*} [Fintype ι] [DecidableEq ι] {p q : ι} (hpq : p ≠ q) :
+theorem blk1 {ι : Type*} [Fintype ι] [DecidableEq ι] {p q : ι} (_hpq : p ≠ q) :
     Matrix.transvection p q (1 : F) * Matrix.transvection q p 1 - 1 =
       Matrix.single p p (1 : F) + Matrix.single p q 1 + Matrix.single q p 1 := by
-  simp only [Matrix.transvection, add_mul, mul_add, Matrix.one_mul, Matrix.mul_one,
-    Matrix.single_mul_single_same, mul_one]
+  simp only [Matrix.transvection, add_mul, mul_add, Matrix.one_mul, Matrix.single_mul_single_same, mul_one]
   abel
 
 theorem blk2 {ι : Type*} [Fintype ι] [DecidableEq ι] {p q : ι} (hpq : p ≠ q) :
     (Matrix.transvection p q (-1 : F))ᵀ * (Matrix.transvection q p (-1 : F))ᵀ - 1 =
       Matrix.single q q (1 : F) - Matrix.single p q 1 - Matrix.single q p 1 := by
   simp only [Matrix.transvection, Matrix.transpose_add, Matrix.transpose_one,
-    Matrix.transpose_single, add_mul, mul_add, Matrix.one_mul, Matrix.mul_one,
-    Matrix.single_mul_single_same, mul_one, neg_mul_neg]
+    Matrix.transpose_single, add_mul, mul_add, Matrix.one_mul, Matrix.single_mul_single_same, mul_one, neg_mul_neg]
   ext a b
   simp only [Matrix.sub_apply, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
-  split_ifs <;> simp_all <;> ring
+  split_ifs <;> simp_all
 
 theorem fromBlocks_sub_one {a b : Type*} [Fintype a] [Fintype b] [DecidableEq a] [DecidableEq b]
     (A : Matrix a a F) (B : Matrix a b F) (C : Matrix b a F) (D : Matrix b b F) :
@@ -97,13 +95,13 @@ theorem mem_supp {k : Fin n} {a : Fin n ⊕ Fin n} (h : a ∈ supp n k) :
 
 theorem card_supp_short {k : Fin n} (hk : k.val + 1 < n) : (supp n k).card = 4 := by
   unfold supp
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
   have : k ≠ ⟨k.val + 1, hk⟩ := Fin.ne_of_val_ne (by simp)
   simp [Finset.card_insert_of_notMem, this]
 
 theorem card_supp_long {k : Fin n} (hk : ¬ k.val + 1 < n) : (supp n k).card = 2 := by
   unfold supp
-  rw [dif_neg hk]
+  rw [dite_eq_right hk]
   simp
 
 theorem disjoint_supp {i j : Fin n} (hij : i ≠ j) (h1 : ¬ i.val + 1 = j.val)
@@ -121,7 +119,7 @@ theorem N_supp (k : Fin n) : ∀ a b, (mat n F (ubar n F k) - 1) a b ≠ 0 →
   by_cases hk : k.val + 1 < n
   · rw [mat_ubar_short hk]
     unfold supp
-    rw [dif_pos hk]
+    rw [dite_eq_left hk]
     rintro (a | a) (b | b) h <;>
       simp only [Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁,
         Matrix.fromBlocks_apply₂₂, Matrix.zero_apply, Matrix.add_apply, Matrix.sub_apply,
@@ -131,7 +129,7 @@ theorem N_supp (k : Fin n) : ∀ a b, (mat n F (ubar n F k) - 1) a b ≠ 0 →
       | (split_ifs at h <;> aesop)
   · rw [mat_ubar_long hk]
     unfold supp
-    rw [dif_neg hk]
+    rw [dite_eq_right hk]
     intro a b h
     simp only [Matrix.add_apply, Matrix.single_apply] at h
     split_ifs at h <;> aesop
@@ -144,7 +142,7 @@ theorem Nv_short_inl_k {k : Fin n} (hk : k.val + 1 < n) (v : Fin n ⊕ Fin n →
   simp only [Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Matrix.fromBlocks_apply₁₁,
     Matrix.fromBlocks_apply₁₂, Matrix.zero_apply, zero_mul, Finset.sum_const_zero, add_zero,
     Matrix.add_apply, Matrix.single_apply, add_mul, Finset.sum_add_distrib, ite_mul, one_mul]
-  simp [hne, hne.symm]
+  simp [hne.symm]
 
 theorem Nv_short_inl_k' {k : Fin n} (hk : k.val + 1 < n) (v : Fin n ⊕ Fin n → F) :
     ((mat n F (ubar n F k) - 1) *ᵥ v) (.inl ⟨k.val + 1, hk⟩) = v (.inl k) := by
@@ -154,7 +152,7 @@ theorem Nv_short_inl_k' {k : Fin n} (hk : k.val + 1 < n) (v : Fin n ⊕ Fin n �
   simp only [Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Matrix.fromBlocks_apply₁₁,
     Matrix.fromBlocks_apply₁₂, Matrix.zero_apply, zero_mul, Finset.sum_const_zero, add_zero,
     Matrix.add_apply, Matrix.single_apply, add_mul, Finset.sum_add_distrib, ite_mul, one_mul]
-  simp [hne, hne.symm]
+  simp [hne]
 
 theorem Nv_short_inr_k {k : Fin n} (hk : k.val + 1 < n) (v : Fin n ⊕ Fin n → F) :
     ((mat n F (ubar n F k) - 1) *ᵥ v) (.inr k) = - v (.inr ⟨k.val + 1, hk⟩) := by
@@ -163,9 +161,8 @@ theorem Nv_short_inr_k {k : Fin n} (hk : k.val + 1 < n) (v : Fin n ⊕ Fin n →
   rw [mat_ubar_short hk]
   simp only [Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Matrix.fromBlocks_apply₂₁,
     Matrix.fromBlocks_apply₂₂, Matrix.zero_apply, zero_mul, Finset.sum_const_zero, zero_add,
-    Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply, sub_mul, add_mul,
-    Finset.sum_sub_distrib, Finset.sum_add_distrib, ite_mul, one_mul]
-  simp [hne, hne.symm]
+    Matrix.sub_apply, Matrix.single_apply, sub_mul, Finset.sum_sub_distrib, ite_mul, one_mul]
+  simp [hne.symm]
 
 theorem Nv_short_inr_k' {k : Fin n} (hk : k.val + 1 < n) (v : Fin n ⊕ Fin n → F) :
     ((mat n F (ubar n F k) - 1) *ᵥ v) (.inr ⟨k.val + 1, hk⟩) =
@@ -175,9 +172,8 @@ theorem Nv_short_inr_k' {k : Fin n} (hk : k.val + 1 < n) (v : Fin n ⊕ Fin n �
   rw [mat_ubar_short hk]
   simp only [Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Matrix.fromBlocks_apply₂₁,
     Matrix.fromBlocks_apply₂₂, Matrix.zero_apply, zero_mul, Finset.sum_const_zero, zero_add,
-    Matrix.add_apply, Matrix.sub_apply, Matrix.single_apply, sub_mul, add_mul,
-    Finset.sum_sub_distrib, Finset.sum_add_distrib, ite_mul, one_mul]
-  simp [hne, hne.symm]
+    Matrix.sub_apply, Matrix.single_apply, sub_mul, Finset.sum_sub_distrib, ite_mul, one_mul]
+  simp [hne]
 
 theorem Nv_long_inl {k : Fin n} (hk : ¬ k.val + 1 < n) (v : Fin n ⊕ Fin n → F) :
     ((mat n F (ubar n F k) - 1) *ᵥ v) (.inl k) = v (.inl k) + v (.inr k) := by
@@ -212,7 +208,7 @@ theorem N_inj (k : Fin n) : ∀ v : Fin n ⊕ Fin n → F, (∀ a ∉ supp n k, 
     have a3 : v (.inr ⟨k.val + 1, hk⟩) = 0 := neg_eq_zero.1 e3
     have a4 : v (.inr k) = 0 := by rw [a3, zero_sub, neg_eq_zero] at e4; exact e4
     by_cases ha : a ∈ supp n k
-    · simp only [supp, dif_pos hk, Finset.mem_insert, Finset.mem_singleton] at ha
+    · simp only [supp, dite_eq_left hk, Finset.mem_insert, Finset.mem_singleton] at ha
       rcases ha with rfl | rfl | rfl | rfl <;> assumption
     · exact hv a ha
   · have e1 := h (.inl k) (by simp [supp, hk])
@@ -222,7 +218,7 @@ theorem N_inj (k : Fin n) : ∀ v : Fin n ⊕ Fin n → F, (∀ a ∉ supp n k, 
     have a1 : v (.inl k) = 0 := e2
     have a2 : v (.inr k) = 0 := by rw [a1, zero_add] at e1; exact e1
     by_cases ha : a ∈ supp n k
-    · simp only [supp, dif_neg hk, Finset.mem_insert, Finset.mem_singleton] at ha
+    · simp only [supp, dite_eq_right hk, Finset.mem_insert, Finset.mem_singleton] at ha
       rcases ha with rfl | rfl <;> assumption
     · exact hv a ha
 
@@ -264,8 +260,8 @@ theorem rk1_pair_ge {i j : Fin n} (hij : i ≠ j) (h1 : ¬ i.val + 1 = j.val)
     (N_inj i) (N_inj j))
   have hs : ∀ k : Fin n, (supp n k).card = if k.val + 1 < n then 4 else 2 := fun k => by
     by_cases hk : k.val + 1 < n
-    · rw [card_supp_short hk, if_pos hk]
-    · rw [card_supp_long hk, if_neg hk]
+    · rw [card_supp_short hk, ite_eq_left hk]
+    · rw [card_supp_long hk, ite_eq_right hk]
   rw [hs i, hs j]
   have : i.val ≠ j.val := fun h => hij (Fin.ext h)
   split_ifs <;> omega

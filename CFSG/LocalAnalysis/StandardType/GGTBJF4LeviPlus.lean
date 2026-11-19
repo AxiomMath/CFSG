@@ -30,8 +30,8 @@ theorem langDescent_F4
   have hrange : ((baseChangeGL (algebraMap K L)).comp (adjointGroup .F4 K).subtype).range =
       (adjointGroup .F4 K).map (baseChangeGL (algebraMap K L)) := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
-  haveI : Finite (ModGL .F4 K) := finite_modGL
-  haveI : Group.IsPerfect ↥(adjointGroup .F4 K) := CFSG.LieType.Steinberg.Adjoint.isPerfect_f4 K
+  have : Finite (ModGL .F4 K) := finite_modGL
+  have : Group.IsPerfect ↥(adjointGroup .F4 K) := CFSG.LieType.Steinberg.Adjoint.isPerfect_f4 K
   refine ⟨?_, by rw [hrange, hfix], fun P hP _ => by rw [hrange, ← hfix]; exact hP, ?_⟩
   · rw [hfix]
     exact Finite.of_surjective

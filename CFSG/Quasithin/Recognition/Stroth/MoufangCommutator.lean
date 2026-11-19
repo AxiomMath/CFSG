@@ -13,6 +13,7 @@ open scoped Pointwise
 variable {V : Type} [Fintype V] {Γ : SimpleGraph V} [DecidableRel Γ.Adj]
   {n : ℕ} {D : Type} [Group D] [MulAction D V] [FaithfulSMul D V] [GraphAction D Γ]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem aptRoot_le_fixingSubgroup {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) {s r : ℤ} (h1 : s ≤ r) (h2 : r ≤ s + (n : ℤ)) :
     aptRoot D Γ n t s ≤ fixingSubgroup D ({apt t r} : Set V) := by
@@ -23,7 +24,8 @@ theorem aptRoot_le_fixingSubgroup {t : ZMod (2 * n) → V} (ht : IsPolygonApartm
   have h := aptRoot_fix ht hg hn (r := r - s) (by omega) (by omega)
   rwa [show s + (r - s) = r by ring] at h
 
-theorem aptRoot_le_star {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) {s r : ℤ}
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
+theorem aptRoot_le_star {t : ZMod (2 * n) → V} (_ht : IsPolygonApartment Γ n t) {s r : ℤ}
     (h1 : s + 1 ≤ r) (h2 : r ≤ s + (n : ℤ) - 1) :
     aptRoot D Γ n t s ≤ fixingSubgroup D (Γ.neighborSet (apt t r)) := by
   intro g hg
@@ -31,19 +33,22 @@ theorem aptRoot_le_star {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t
   exact aptRoot_smul_of_adj hg (i := r - s) (by omega) (by omega) (w := y)
     (by rwa [show s + (r - s) = r by ring])
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem iSup_aptRoot_le_fixing {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
-    (hn : 3 ≤ n) {a b : ℤ} (hab : a < b) {r : ℤ}
+    (hn : 3 ≤ n) {a b : ℤ} (_hab : a < b) {r : ℤ}
     (h1 : ∀ s : ℤ, a < s → s ≤ b → s ≤ r) (h2 : ∀ s : ℤ, a < s → s ≤ b → r ≤ s + (n : ℤ)) :
     (⨆ s ∈ Set.Ioc a b, aptRoot D Γ n t s) ≤ fixingSubgroup D ({apt t r} : Set V) :=
   iSup_le fun s => iSup_le fun hs =>
     aptRoot_le_fixingSubgroup ht hn (h1 s hs.1 hs.2) (h2 s hs.1 hs.2)
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem iSup_aptRoot_le_star {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) {a b : ℤ}
     {r : ℤ} (h1 : ∀ s : ℤ, a < s → s ≤ b → s + 1 ≤ r)
     (h2 : ∀ s : ℤ, a < s → s ≤ b → r ≤ s + (n : ℤ) - 1) :
     (⨆ s ∈ Set.Ioc a b, aptRoot D Γ n t s) ≤ fixingSubgroup D (Γ.neighborSet (apt t r)) :=
   iSup_le fun s => iSup_le fun hs => aptRoot_le_star ht (h1 s hs.1 hs.2) (h2 s hs.1 hs.2)
 
+omit [FaithfulSMul D V] in
 theorem smul_apt_eq_of_window_right {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hP : CFSG.Geometry.GeneralizedPolygons.IsGeneralizedPolygon Γ n)
     (hT : CFSG.Geometry.GeneralizedPolygons.IsThick Γ) {g : D} {a : ℤ}
@@ -67,7 +72,8 @@ theorem smul_apt_eq_of_window_right {t : ZMod (2 * n) → V} (ht : IsPolygonApar
   rwa [show a + (n : ℤ) + 1 + ((r - (a + (n : ℤ) + 1)).toNat : ℤ) = r by
     rw [Int.toNat_of_nonneg hk0]; ring] at hfix
 
-theorem smul_apt_eq_of_window {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 1 ≤ n)
+omit [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] [Fintype V] in
+theorem smul_apt_eq_of_window {t : ZMod (2 * n) → V} (_ht : IsPolygonApartment Γ n t) (hn : 1 ≤ n)
     {g : D} {a : ℤ} (h : ∀ r : ℤ, a ≤ r → r ≤ a + 2 * (n : ℤ) → g • apt t r = apt t r) (r : ℤ) :
     g • apt t r = apt t r := by
   have hpos : (0 : ℤ) < 2 * (n : ℤ) := by
@@ -95,8 +101,8 @@ theorem smul_apt_eq_of_window {t : ZMod (2 * n) → V} (ht : IsPolygonApartment 
 
 theorem eq_one_of_fix_window {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hP : CFSG.Geometry.GeneralizedPolygons.IsGeneralizedPolygon Γ n)
-    (hT : CFSG.Geometry.GeneralizedPolygons.IsThick Γ) {g : D} {i j : ℤ} (hij : i < j)
-    (hjn : j < i + (n : ℤ))
+    (hT : CFSG.Geometry.GeneralizedPolygons.IsThick Γ) {g : D} {i j : ℤ} (_hij : i < j)
+    (_hjn : j < i + (n : ℤ))
     (hwin : ∀ r : ℤ, i ≤ r → r ≤ i + (n : ℤ) + 1 → g • apt t r = apt t r)
     (h0 : ∀ y : V, Γ.Adj (apt t j) y → g • y = y)
     (h1 : ∀ y : V, Γ.Adj (apt t (j + 1)) y → g • y = y) : g = 1 := by

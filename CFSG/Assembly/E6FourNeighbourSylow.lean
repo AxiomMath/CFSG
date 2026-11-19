@@ -30,7 +30,7 @@ theorem e6FourTwoLocalFive_holds : E6FourTwoLocalFive := by
     show e (ι i A) * e (ι j B) = e (ι j B) * e (ι i A)
     rw [← map_mul, ← map_mul, hc i j hij A B]
   obtain ⟨w, -, hw⟩ := TwE6FourRankAux.exists_sq_add_add_one (F := K) (by rw [hK]; norm_num)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨E, hEel, hEcard, hEN⟩ := exists_elemAbelian_pow_of_commuting_sl2 (p := 5) (c5Mat w)
     (c5Mat_pow_five hw) (c5Mat_ne_one w) ψ hψ hψc
   have hU0' : U.map e.toMonoidHom ≠ ⊥ := fun h =>
@@ -56,7 +56,7 @@ theorem e6FourSylowFive_holds : E6FourSylowFive := by
     have hlt : ¬ 5 ≤ (Nat.card J).factorization 5 := fun h5 =>
       hnotdvd ((Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_five hJ0).mpr h5)
     omega
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rw [Sylow.card_eq_multiplicity, hfac]
 
 end Holds

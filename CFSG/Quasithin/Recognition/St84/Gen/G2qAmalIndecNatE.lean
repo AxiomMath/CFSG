@@ -48,6 +48,7 @@ variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f : ℕ}
 
 attribute [local instance] G2qCoord.field G2qCoord.fintype
 
+omit [Finite G] in
 private theorem natE_exists_splitData (hD : G2qLocalData L1 L2 S f) (c : G2qCoordRight L2 S f) :
     ∃ nv zv : G → Fin 2 → c.F,
       G2qSplitData L2 (pCoreOf 2 L2) (centerOf (pCoreOf 2 L2)) c.W c.α nv zv := by
@@ -61,10 +62,12 @@ private theorem natE_exists_splitData (hD : G2qLocalData L1 L2 S f) (c : G2qCoor
       (Subgroup.commutator_mem_commutator ha hb),
     fun w hw ℓ hℓ => c.commutator_le (Subgroup.commutator_mem_commutator hw hℓ), hnv, hzv⟩
 
+omit [Finite G] in
 private theorem natE_card_centerOf_left (hD : G2qLocalData L1 L2 S f) :
     Nat.card (centerOf (pCoreOf 2 L1)) = 2 ^ f := by
   rw [card_centerOf_eq_card_center, hD.special_left.2.2]
 
+omit [Finite G] in
 private theorem natE_card_E (hD : G2qLocalData L1 L2 S f) {F : Type} [Field F]
     (hF : Nat.card F = 2 ^ f) {E : Subgroup G} (hZE : centerOf (pCoreOf 2 L1) ≤ E)
     {β : ↥E →* Multiplicative (Fin 2 → F)} (hβs : Function.Surjective β)
@@ -77,6 +80,7 @@ private theorem natE_card_E (hD : G2qLocalData L1 L2 S f) {F : Type} [Field F]
   rw [Nat.card_fun, hF, Nat.card_eq_fintype_card (α := Fin 2), Fintype.card_fin]
   ring
 
+omit [Finite G] in
 private theorem natE_exists_E (hD : G2qLocalData L1 L2 S f) (c₁ : G2qCoord L1 S f)
     [CharP c₁.F 2]
     (hquad : ∀ s ∈ S, ∀ s' ∈ S, ∀ x ∈ pCoreOf 2 L1,
@@ -168,9 +172,9 @@ theorem G2qCoordRight.false_of_split_of_fix (hf : 3 ≤ f) (hH : Hyp111 L1 L2 S)
     False := by
   classical
   obtain ⟨c₁⟩ := hD.exists_coordLeft hH h1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP c.F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c.card])
-  haveI : CharP c₁.F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP c.F 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c.card])
+  have : CharP c₁.F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c₁.card])
   have hS1 : S ≤ L1 := hD.le_left hH (by omega) h1
   have hS2 : S ≤ L2 := hD.le_right hH (by omega) h2

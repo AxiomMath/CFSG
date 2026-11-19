@@ -288,8 +288,8 @@ theorem ggTorusNoRefl_of_sylow {R : Type} [Group R] (I : Set (MulAut R)) (r : �
     intro h0
     rw [h0] at hR
     simp at hR
-  haveI : Finite R := Nat.finite_of_card_ne_zero hRne
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite R := Nat.finite_of_card_ne_zero hRne
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hAbarP : IsPGroup 7 ↥(kg3_abar ψ A) := by
     intro x
     obtain ⟨k, hkK, hkx⟩ := Subgroup.mem_map.mp x.2

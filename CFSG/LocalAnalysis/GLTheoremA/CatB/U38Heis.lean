@@ -25,6 +25,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
   map_zero' := by simp
   map_add' x y := by rw [map_add]; ring
 
+omit [Finite K] in
 theorem add_conj_eq_zero_iff (σ : K ≃+* K) (b : K) : b + σ b = 0 ↔ σ b = b := by
   constructor
   · intro h
@@ -62,6 +63,7 @@ theorem exists_trace_preimage (σ : K ≃+* K) (hσ : Function.Involutive σ)
   obtain ⟨b, hb⟩ := hmem
   exact ⟨b, hb⟩
 
+omit [Finite K] [CharP K 2] in
 theorem exists_nonfixed (σ : K ≃+* K) (hF : Nat.card {x : K // σ x = x} = 8)
     (hK : Nat.card K = 64) : ∃ s, σ s ≠ s := by
   by_contra h
@@ -77,18 +79,24 @@ section Heis
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] (J : HermitianForm 3 K)
 
+omit [Finite K] [CharP K 2] in
 theorem mul_fst (z w : hermitianUnipotentCoord J) : (z * w).1.1 = z.1.1 + w.1.1 := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem mul_snd (z w : hermitianUnipotentCoord J) :
     (z * w).1.2 = z.1.2 + w.1.2 - z.1.1 * J.conj w.1.1 := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem one_fst : (1 : hermitianUnipotentCoord J).1.1 = 0 := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem one_snd : (1 : hermitianUnipotentCoord J).1.2 = 0 := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem ext_coord {z w : hermitianUnipotentCoord J} (h1 : z.1.1 = w.1.1) (h2 : z.1.2 = w.1.2) :
     z = w := Subtype.ext (Prod.ext h1 h2)
 
+omit [Finite K] [CharP K 2] in
 theorem comm_coord (z w : hermitianUnipotentCoord J) :
     (⁅z, w⁆ : hermitianUnipotentCoord J).1 =
       (0, w.1.1 * J.conj z.1.1 - z.1.1 * J.conj w.1.1) := by
@@ -113,6 +121,7 @@ theorem exists_with_fst (a : K) : ∃ w : hermitianUnipotentCoord J, w.1.1 = a :
   rw [hb]
   ring
 
+omit [Finite K] [CharP K 2] in
 theorem fst_eq_zero_mem_center {z : hermitianUnipotentCoord J} (hz : z.1.1 = 0) :
     z ∈ Subgroup.center (hermitianUnipotentCoord J) := by
   rw [Subgroup.mem_center_iff]
@@ -165,6 +174,7 @@ theorem card_center : Nat.card (Subgroup.center (hermitianUnipotentCoord J)) = 8
     rw [hx, zero_mul, add_zero]
     exact CharTwo.add_self_eq_zero x
 
+omit [Finite K] in
 theorem sq_of_fst_zero {z : hermitianUnipotentCoord J} (hz : z.1.1 = 0) : z ^ 2 = 1 := by
   rw [pow_two]
   apply ext_coord
@@ -173,12 +183,14 @@ theorem sq_of_fst_zero {z : hermitianUnipotentCoord J} (hz : z.1.1 = 0) : z ^ 2 
   · rw [mul_snd, hz, one_snd]
     simp [CharTwo.add_self_eq_zero]
 
+omit [Finite K] in
 theorem sq_mem_center (z : hermitianUnipotentCoord J) :
     z ^ 2 ∈ Subgroup.center (hermitianUnipotentCoord J) := by
   apply fst_eq_zero_mem_center
   rw [pow_two, mul_fst]
   exact CharTwo.add_self_eq_zero _
 
+omit [Finite K] [CharP K 2] in
 theorem comm_mem_center (z w : hermitianUnipotentCoord J) :
     ⁅z, w⁆ ∈ Subgroup.center (hermitianUnipotentCoord J) := by
   apply fst_eq_zero_mem_center
@@ -186,6 +198,7 @@ theorem comm_mem_center (z w : hermitianUnipotentCoord J) :
   simpa using this
 
 include hF hK in
+omit [CharP K 2] in
 theorem card_heis (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) :
     Nat.card (hermitianUnipotentCoord J) = 2 ^ 9 := by
   have hKcard : Nat.card K = 8 ^ 2 := by rw [hK]; norm_num
@@ -313,7 +326,7 @@ theorem sylowStr_heis (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) :
   refine ⟨hP, hcard, by rw [hZcard]; norm_num,
     fun z hz => sq_of_fst_zero J (center_fst_eq_zero J hF hK hz), ?_⟩
   intro V hVZ hV4
-  haveI hVn : V.Normal := ⟨fun n hn g => by
+  have hVn : V.Normal := ⟨fun n hn g => by
     have := Subgroup.mem_center_iff.1 (hVZ hn) g
     rw [this, mul_inv_cancel_right]
     exact hn⟩

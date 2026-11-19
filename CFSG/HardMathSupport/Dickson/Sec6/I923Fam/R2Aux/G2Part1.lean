@@ -64,7 +64,7 @@ theorem comb_eq_c {α β γ : Fin Tag.G2.rank → ℤ} (hα : InPsi α) (hβ : I
   have cc1 : g2c g2ir = 3 := rfl
   simp only [g2RootPairs, List.mem_cons, List.not_mem_nil, or_false, Prod.mk.injEq] at hp
   rcases hα with rfl | rfl | rfl | rfl | rfl <;> rcases hβ with rfl | rfl | rfl | rfl | rfl <;>
-    first | exact absurd rfl hne | skip
+    try exact absurd rfl hne
   all_goals
     simp only [ca0, ca1, cu0, cu1, cv0, cv1, cb0, cb1, cc0, cc1] at h0 h1
     simp only [Prod.mk.injEq]
@@ -255,7 +255,7 @@ variable {K : Type} [Field K]
 local notation "X" => pinnedX Tag.G2 K
 
 theorem g2Q_le_posUnipotent : g2Q K ≤ posUnipotent .G2 K :=
-  rootSpan_le_posUnipotent fun γ hγ =>
+  rootSpan_le_posUnipotent fun _γ hγ =>
     ⟨G2Part1.isRoot_of_inPsi hγ, G2Part1.height_pos_of_inPsi hγ⟩
 
 theorem g2Q_le_adjointGroup : g2Q K ≤ adjointGroup .G2 K :=

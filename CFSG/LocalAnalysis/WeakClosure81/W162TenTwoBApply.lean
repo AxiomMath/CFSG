@@ -39,7 +39,7 @@ theorem w162_pow_mem_sup (hQJ : Q ≤ normalizer (J : Set X)) {p : ℕ}
   let N : Subgroup X := normalizer (J : Set X)
   have hQN : Q ≤ N := hQJ
   have hJN : J ≤ N := Subgroup.le_normalizer
-  haveI : (J.subgroupOf N).Normal :=
+  have : (J.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJN).2 le_rfl
   let π : ↥N →* ↥N ⧸ J.subgroupOf N := QuotientGroup.mk' (J.subgroupOf N)
   have hπmem : ∀ z : ↥N, π z = 1 ↔ (z : X) ∈ J := by
@@ -66,7 +66,7 @@ theorem w162_comm_mem_sup (hQJ : Q ≤ normalizer (J : Set X))
   let N : Subgroup X := normalizer (J : Set X)
   have hQN : Q ≤ N := hQJ
   have hJN : J ≤ N := Subgroup.le_normalizer
-  haveI : (J.subgroupOf N).Normal :=
+  have : (J.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJN).2 le_rfl
   let π : ↥N →* ↥N ⧸ J.subgroupOf N := QuotientGroup.mk' (J.subgroupOf N)
   have hπmem : ∀ z : ↥N, π z = 1 ↔ (z : X) ∈ J := by
@@ -109,7 +109,7 @@ theorem w162_comm_comm_mem_sup (hQJ : Q ≤ normalizer (J : Set X))
   let N : Subgroup X := normalizer (J : Set X)
   have hQN : Q ≤ N := hQJ
   have hJN : J ≤ N := Subgroup.le_normalizer
-  haveI : (J.subgroupOf N).Normal :=
+  have : (J.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJN).2 le_rfl
   let π : ↥N →* ↥N ⧸ J.subgroupOf N := QuotientGroup.mk' (J.subgroupOf N)
   have hπmem : ∀ w : ↥N, π w = 1 ↔ (w : X) ∈ J := by
@@ -179,7 +179,7 @@ theorem w162_Q₀_inf_eq (hP : Hyp1510 V₀ V U S H P) (hQ : OddCore15 V₀ U H 
     (hIJ : iHull15 V₀ U H ≤ J) (hJ : J ≤ pCoreOf 2 H) : Q₀ ⊓ J = iHull15 V₀ U H := by
   refine le_antisymm ?_ (le_inf hQ.iHull_le hIJ)
   rintro x ⟨hxQ, hxJ⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : IsPGroup 2 (pCoreOf 2 H) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hp2) ⟨x, hJ hxJ⟩
   exact CFSG.RankThree.PartOne.mem_of_two_power_of_odd_index (hQ.normal_subgroupOf hP) hQ.odd hxQ
@@ -263,7 +263,7 @@ theorem w162_relIndex_shape (hI : NamedInputs15 G) (hW : W15Eight1 G) (hS : Std1
     (hcl : ∀ x ∈ Q₀, ∀ y ∈ Q₀, ∀ z ∈ Q₀, ⁅⁅x, y⁆, z⁆ ∈ iHull15 V₀ U H) :
     (iHull15 V₀ U H).relIndex Q₀ = p ∨
       ((iHull15 V₀ U H).relIndex Q₀ = p ^ 3 ∧ ∃ y ∈ Q₀, ∃ z ∈ Q₀, ⁅y, z⁆ ∉ iHull15 V₀ U H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨J, hJdef⟩ : ∃ J : Subgroup G,
       J = iHull15 V₀ U H ⊔ iSub V₀ H (iHull15 V₀ U H) := ⟨_, rfl⟩
   have hhyp7 : Hyp7 V₀ := h.w162_hyp7

@@ -41,7 +41,7 @@ theorem nodup_of_incK : ∀ l : List (Nat × Nat), incK l = true → (l.map Prod
 private theorem getD_set (arr : Array Nat) {k : Nat} (hk : k < arr.size) (v i : Nat) :
     (arr.set! k v).getD i 0 = if k = i then v else arr.getD i 0 := by
   simp only [Array.set!_eq_setIfInBounds, Array.getD_eq_getD_getElem?,
-    Array.getElem?_setIfInBounds, hk, if_true]
+    Array.getElem?_setIfInBounds, hk, ite_true]
   split <;> rfl
 
 private theorem getD_foldl (sp : List (Nat × Nat)) : ∀ (arr : Array Nat),
@@ -63,7 +63,7 @@ private theorem getD_foldl (sp : List (Nat × Nat)) : ∀ (arr : Array Nat),
     · subst hx
       simp [hnd.1]
     · have : ¬ i = k := fun h => hx h.symm
-      simp only [hx, this, if_false, false_or, mul_zero, zero_add]
+      simp only [hx, this, ite_false, false_or, mul_zero, zero_add]
 
 theorem getD_table {sp : List (Nat × Nat)} {N : Nat} (hinc : incK sp = true)
     (hlt : ∀ e ∈ sp, e.1 < N) (i : Nat) :
@@ -81,14 +81,14 @@ private theorem sum_ind0 (J B x : Nat) (G : Nat → Int) :
   split
   · rename_i h
     rw [Finset.sum_eq_single ⟨x - B, by omega⟩]
-    · simp only [if_pos (show B + (x - B) = x by omega)]
+    · simp only [ite_eq_left (show B + (x - B) = x by omega)]
     · intro j _ hj
-      rw [if_neg]
+      rw [ite_eq_right]
       intro e
       exact hj (Fin.ext (by simp; omega))
     · simp
   · rename_i h
-    refine Finset.sum_eq_zero fun j _ => if_neg fun e => h ⟨by omega, by omega⟩
+    refine Finset.sum_eq_zero fun j _ => ite_eq_right fun e => h ⟨by omega, by omega⟩
 
 private theorem eq_mul_add {n q s k : Nat} (hs : s < n) :
     q * n + s = k ↔ q = k / n ∧ s = k % n := by
@@ -111,12 +111,12 @@ private theorem sum_ind1 {n : Nat} (hn : 0 < n) (q k : Nat) (G : Nat → Int) :
     rw [Finset.sum_eq_single ⟨k % n, Nat.mod_lt _ hn⟩]
     · simp [h]
     · intro j _ hj
-      rw [if_neg]
+      rw [ite_eq_right]
       intro e
       exact hj (Fin.ext e.2)
     · simp
   · rename_i h
-    exact Finset.sum_eq_zero fun j _ => if_neg fun e => h e.1
+    exact Finset.sum_eq_zero fun j _ => ite_eq_right fun e => h e.1
 
 private theorem ind_mul (k i : Nat) (F : Int) :
     (if k = i then (1 : Int) else 0) * F = if i = k then F else 0 := by
@@ -172,8 +172,8 @@ private theorem wSum_filter (P : Nat → Prop) [DecidablePred P] (f : Nat → In
     beta_reduce at ih ⊢
     rw [List.filter_cons]
     by_cases h : P e.1
-    · simp only [h, if_true, decide_true, List.map_cons, List.sum_cons, ih]
-    · simp only [h, if_false, decide_false, Bool.false_eq_true, List.map_cons, List.sum_cons,
+    · simp only [h, ite_true, decide_true, List.map_cons, List.sum_cons, ih]
+    · simp only [h, ite_false, decide_false, Bool.false_eq_true, List.map_cons, List.sum_cons,
         mul_zero, zero_add, ih]
 
 theorem sum_wSum3 {n : Nat} (hn : 0 < n) (J B : Nat) (F : Nat → Nat → Nat → Int)
@@ -219,7 +219,7 @@ theorem altOK_of_altW {p n J N N' : Nat} {m : NMod} {sp spt : List (Nat × Nat)}
   subst hn hJ
   have hget : ∀ j : Fin m.acts.length, m.acts.get j = m.acts.getD j default := fun j => by
     rw [List.get_eq_getElem, List.getElem_eq_getD default]
-  simp only [NMod.altOK, List.all_eq_true, List.mem_finRange, true_implies, forall_const,
+  simp only [NMod.altOK, List.all_eq_true, List.mem_finRange, forall_const,
     beq_iff_eq]
   intro a₀ b₀ a b
   have hn : 0 < m.basis.length := Nat.lt_of_le_of_lt (Nat.zero_le _) a₀.isLt

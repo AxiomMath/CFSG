@@ -33,7 +33,7 @@ private theorem eq_zE_or_inv_of_mem_sTheta {s : EC} (hs : s ∈ sTheta) (h3 : s 
   have hKindex : (Subgroup.zpowers z).index = 2 := by
     rw [hKcard, card_sTheta] at hmul
     omega
-  haveI : (Subgroup.zpowers z).Normal := Subgroup.normal_of_index_eq_two hKindex
+  have : (Subgroup.zpowers z).Normal := Subgroup.normal_of_index_eq_two hKindex
   have hquot : Nat.card (sTheta ⧸ Subgroup.zpowers z) = 2 := by
     rw [← Subgroup.index_eq_card]
     exact hKindex
@@ -121,8 +121,8 @@ private theorem mem_sTheta_of_mem_centralizer {t x' : EC} (h : E6TwoCentT31) (ht
 
 theorem e6Two_order3Conj (h : E6TwoCentT31) : E6TwoOrder3Conj := by
   intro x hxord hx31
-  haveI : Finite EC := finite_EC
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Finite EC := finite_EC
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 31 hx31
   let t₁ : EC := y
   have ht₁ord : orderOf t₁ = 31 := by
@@ -166,7 +166,7 @@ theorem e6Two_order3Conj (h : E6TwoCentT31) : E6TwoOrder3Conj := by
   let Q : Sylow 31 EC := hQ1.toSylow hQ2
   have hQcoe : (Q : Subgroup EC) = Subgroup.zpowers t :=
     Subgroup.ext fun _ => IsPGroup.mem_toSylow hQ1 hQ2
-  haveI : MulAction.IsPretransitive EC (Sylow 31 EC) := Sylow.isPretransitive_of_finite
+  have : MulAction.IsPretransitive EC (Sylow 31 EC) := Sylow.isPretransitive_of_finite
   obtain ⟨g, hg⟩ := MulAction.IsPretransitive.exists_smul_eq (M := EC) P Q
   have hconj_mem : MulAut.conj g t₁ ∈ Subgroup.zpowers t := by
     have hmem := Subgroup.smul_mem_pointwise_smul t₁ (MulAut.conj g) (P : Subgroup EC)

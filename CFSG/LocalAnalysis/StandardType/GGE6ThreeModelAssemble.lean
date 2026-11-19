@@ -12,6 +12,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley TableBEx
 
 variable {R : Type} [Group R] [Finite R] {L' : Type} [Group L'] [Finite L'] (D : FrameData R)
 
+omit [Finite R] [Finite L'] in
 theorem range_clause {ρ : MulAut L' →* MulAut R} {A : Subgroup (MulAut L')}
     {Φ : A →* Multiplicative (Fin Tag.E6.rank → ZMod 3)} (hD : D.Faithful)
     (hΦ : ∀ a : A, D.diag (Φ a) = ρ a)
@@ -47,6 +48,7 @@ theorem range_clause {ρ : MulAut L' →* MulAut R} {A : Subgroup (MulAut L')}
     have h3 := Subgroup.mul_mem _ h1 h2
     rwa [← ofAdd_add, sub_add_cancel] at h3
 
+omit [Finite R] in
 theorem model_odd_of_good (hAL : GGAbelianLift) (hD : D.Good)
     {ψ : L' →* R} (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
     (hcard : Nat.card ψ.ker = 1 ∨ Nat.card ψ.ker = 3)

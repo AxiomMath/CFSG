@@ -17,12 +17,14 @@ theorem natCard_subgroupOf_of_le {X : Type*} [Group X] {H K : Subgroup X} (h : H
 
 variable {X : Type} [Group X] [Finite X] {ζ : X}
 
+omit [Finite X] in
 theorem normal_map_inf_centralizer {E : Subgroup X} [E.Normal]
     (φ : ↥(centralizer ({ζ} : Set X)) ≃* Multiplicative (ZMod 2) × Equiv.Perm (Fin 6)) :
     (((E ⊓ centralizer ({ζ} : Set X)).subgroupOf (centralizer ({ζ} : Set X))).map
         φ.toMonoidHom).Normal :=
   (inf_centralizer_subgroupOf_normal inferInstance ζ).map φ.toMonoidHom φ.surjective
 
+omit [Finite X] in
 theorem card_map_inf_centralizer {E : Subgroup X} [E.Normal]
     (φ : ↥(centralizer ({ζ} : Set X)) ≃* Multiplicative (ZMod 2) × Equiv.Perm (Fin 6)) :
     Nat.card (((E ⊓ centralizer ({ζ} : Set X)).subgroupOf (centralizer ({ζ} : Set X))).map
@@ -44,6 +46,7 @@ theorem le_centralizer_of_layer_alt6 (hA6 : AutA6Table) (hζ : ζ * ζ = 1)
   rw [← hEN]
   exact inf_le_right
 
+omit [Finite X] in
 theorem card_le_two_of_layer_alt6
     (φ : ↥(centralizer ({ζ} : Set X)) ≃* Multiplicative (ZMod 2) × Equiv.Perm (Fin 6))
     (E : Subgroup X) [E.Normal] (hEc : E ≤ centralizer ({ζ} : Set X)) (hE : Nat.card E = 360)

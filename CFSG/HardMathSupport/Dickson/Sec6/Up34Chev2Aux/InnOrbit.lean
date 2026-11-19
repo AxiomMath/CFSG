@@ -82,6 +82,7 @@ section Assembly
 
 variable {X T : Type} [Group X] [Group T] [Finite X] [Finite T]
 
+omit [Finite X] in
 theorem fixSubgroup_conj_eq_centralizer_orb (x : X) :
     fixSubgroup (MulAut.conj x) = Subgroup.centralizer ({x} : Set X) := by
   ext g
@@ -89,6 +90,7 @@ theorem fixSubgroup_conj_eq_centralizer_orb (x : X) :
     Subgroup.mem_centralizer_singleton_iff]
   exact ⟨fun h => h.symm, fun h => h.symm⟩
 
+omit [Finite X] in
 theorem noL34Layer_conj_of_orbit_family (π : X →* T) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center X) (x : X) {ι : Type*} [Finite ι] (A : ι → Subgroup X)
     (hc : ∀ i j, i ≠ j → ∀ a ∈ A i, ∀ b ∈ A j, Commute a b)
@@ -129,11 +131,11 @@ theorem noL34Layer_conj_of_orbit_family (π : X →* T) (hπ : Function.Surjecti
   have hFn : ∀ i, ∀ c ∈ fixSubgroup (MulAut.conj x), ∀ g ∈ F i, c * g * c⁻¹ ∈ F i :=
     fun i c hc' g hg => hnormD i.1 c (hfix ▸ hc') g hg
   have hNn := conj_mem_iSup_c2 (A := fixSubgroup (MulAut.conj x)) F hFn
-  haveI : ((⨆ i, F i).subgroupOf (fixSubgroup (MulAut.conj x))).Normal := by
+  have : ((⨆ i, F i).subgroupOf (fixSubgroup (MulAut.conj x))).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hNn g g.2 n hn
-  haveI hsol : Group.IsSolvable (↥(fixSubgroup (MulAut.conj x)) ⧸
+  have hsol : Group.IsSolvable (↥(fixSubgroup (MulAut.conj x)) ⧸
       (⨆ i, F i).subgroupOf (fixSubgroup (MulAut.conj x))) := by
     refine isSolvable_quotient_of_orbit_family_orb A hc (fun i => CFSG.IsQuasisimple ↥⁅A i, A i⁆)
       (fun i hi => (htame i).resolve_left hi) hfix fun i hi => ?_

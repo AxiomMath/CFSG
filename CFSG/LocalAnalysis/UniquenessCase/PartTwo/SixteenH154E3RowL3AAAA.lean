@@ -20,20 +20,20 @@ def s16h_sameSizeOrbits {α : Type*} [Group α] (G : Subgroup (MulAut α)) (a : 
 private theorem s16h_card_dvd_of_free {G X : Type*} [Group G] [Finite G] [MulAction G X] [Finite X]
     (hfree : ∀ g : G, g ≠ 1 → ∀ x : X, g • x ≠ x) : Nat.card G ∣ Nat.card X := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype G := Fintype.ofFinite G
+  have : Fintype X := Fintype.ofFinite X
   have hsum := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group G X
   have hfixed : ∀ g : G, Fintype.card (MulAction.fixedBy X g) =
       if g = 1 then Fintype.card X else 0 := by
     intro g
     by_cases hg : g = 1
     · subst hg
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have hone : MulAction.fixedBy X (1 : G) = Set.univ := by
         ext x
-        simp [MulAction.mem_fixedBy]
+        simp
       exact Fintype.card_congr ((Set.equivOfEq hone).trans (Equiv.Set.univ X))
-    · rw [if_neg hg]
+    · rw [ite_eq_right hg]
       have hempty : MulAction.fixedBy X g = ∅ := by
         ext x
         constructor
@@ -41,15 +41,15 @@ private theorem s16h_card_dvd_of_free {G X : Type*} [Group G] [Finite G] [MulAct
           exact (hfree g hg x ((MulAction.mem_fixedBy).mp hx)).elim
         · intro hx
           simp at hx
-      haveI : IsEmpty ↥(MulAction.fixedBy X g) := by
+      have : IsEmpty ↥(MulAction.fixedBy X g) := by
         refine ⟨fun x => ?_⟩
         have hx : (x : X) ∈ (∅ : Set X) := hempty ▸ x.2
-        simpa using hx
+        simp at hx
       exact Fintype.card_eq_zero_iff.mpr inferInstance
   rw [Finset.sum_congr rfl (fun g _ => hfixed g)] at hsum
   rw [Finset.sum_ite_eq' Finset.univ (1 : G) (fun _ => Fintype.card X)] at hsum
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
-  simp only [Finset.mem_univ, if_true] at hsum
+  simp only [Finset.mem_univ, ite_true] at hsum
   exact ⟨_, by rw [hsum, mul_comm]⟩
 
 private def s16h_secIncl (Z I U : Subgroup W) (hIU : I ≤ U) : Sec I Z →* Sec U Z :=
@@ -105,7 +105,7 @@ private theorem s16h_mem_autSec_range {L : Subgroup (MulAut W)} {Z U : Subgroup 
     Subgroup.subgroupOf_self, ← MonoidHom.range_eq_map, MonoidHom.mem_range]
 
 private theorem s16h_secIncl_image_stable {L : Subgroup (MulAut W)} (Z I U : Subgroup W)
-    (hIU : I ≤ U) (hLI : L ≤ stabSub I) (hLZ : L ≤ stabSub Z) (hLU : L ≤ stabSub U) :
+    (_hIU : I ≤ U) (hLI : L ≤ stabSub I) (hLZ : L ≤ stabSub Z) (hLU : L ≤ stabSub U) :
     ∀ g ∈ autSec L U Z, ∀ x ∈ (I.subgroupOf U).map (QuotientGroup.mk' (Z.subgroupOf U)),
       g x ∈ (I.subgroupOf U).map (QuotientGroup.mk' (Z.subgroupOf U)) := by
   intro g hg x hx
@@ -144,7 +144,7 @@ private theorem s16h_card_sec_of_l3Data [Finite W] {L : Subgroup (MulAut W)} {I 
   exact Nat.eq_of_mul_eq_mul_right hpos hmain
 
 private noncomputable def s16h_secEquivOfL3Data [Finite W] {L : Subgroup (MulAut W)}
-    {I Z : Subgroup W} (D : CFSG.Quasithin.L3Data L I Z) (hZI : Z ≤ I) :
+    {I Z : Subgroup W} (D : CFSG.Quasithin.L3Data L I Z) (_hZI : Z ≤ I) :
     Sec I Z ≃* Multiplicative CFSG.Quasithin.L3.Vec := by
   classical
   have hker : Z.subgroupOf I ≤ D.β.ker := by
@@ -210,7 +210,7 @@ private theorem s16h_iSup_ne_zero {α : Type*} [CompleteLattice α] (f : Fin 2 �
   · exact le_iSup_of_le 1 (le_iSup_of_le (by norm_num) le_rfl)
 
 private theorem s16h_img_inf_eq_bot [Finite W] {Z I J U : Subgroup W}
-    (hZI : Z ≤ I) (hZJ : Z ≤ J) (hIU : I ≤ U) (hJU : J ≤ U) (hinf : I ⊓ J ≤ Z) :
+    (_hZI : Z ≤ I) (hZJ : Z ≤ J) (_hIU : I ≤ U) (_hJU : J ≤ U) (hinf : I ⊓ J ≤ Z) :
     s16h_img Z I U ⊓ s16h_img Z J U = ⊥ := by
   classical
   rw [eq_bot_iff]
@@ -268,8 +268,8 @@ private structure s16h_Proj {Q : Type} [CommGroup Q] {k : ℕ} (I : Fin k → Su
     (Λ : Subgroup (MulAut Q)) where
   e : Fin k → Q →* Q
   e_mem : ∀ i x, e i x ∈ I i
-  e_self : ∀ i x (hx : x ∈ I i), e i x = x
-  e_other : ∀ i j, j ≠ i → ∀ x (hx : x ∈ I j), e i x = 1
+  e_self : ∀ i x (_hx : x ∈ I i), e i x = x
+  e_other : ∀ i j, j ≠ i → ∀ x (_hx : x ∈ I j), e i x = 1
   e_prod : ∀ x, ∏ i, e i x = x
   e_equiv : ∀ i, ∀ g ∈ Λ, ∀ x, e i (g x) = g (e i x)
 
@@ -468,7 +468,7 @@ private theorem s16h_e3_Phi_card {Q : Type} [CommGroup Q] [Finite Q] {G : Subgro
     {A B : Subgroup Q} (hinf : A ⊓ B = ⊥)
     (hGA : ∀ g ∈ G, ∀ x ∈ A, g x ∈ A) (hGB : ∀ g ∈ G, ∀ x ∈ B, g x ∈ B)
     (a : Q) (ha : a ∈ A) (hGod : Nat.card (MulAction.orbit G a) = 7)
-    (hHcard : Nat.card ↥(MulAction.stabilizer G a) = 24) (b : Q) (hb : b ∈ B) :
+    (_hHcard : Nat.card ↥(MulAction.stabilizer G a) = 24) (b : Q) (hb : b ∈ B) :
     Nat.card (MulAction.orbit G (a * b)) =
       7 * Nat.card (MulAction.orbit (MulAction.stabilizer G a) b) := by
   have hstab : MulAction.stabilizer G (a * b) =
@@ -536,7 +536,7 @@ private theorem s16h_e3_fix_single_le_two {Q : Type*} [CommGroup Q] [Finite Q]
     {h : MulAut Q} (hhG : h ∈ G) (hh3 : orderOf h = 3) :
     Nat.card {x : Q // x ∈ B ∧ h x = x} ≤ 2 := by
   classical
-  haveI : Fintype ↥B := Fintype.ofFinite ↥B
+  have : Fintype ↥B := Fintype.ofFinite ↥B
   let F : Subgroup Q :=
     B ⊓ { carrier := {x | h x = x}
           one_mem' := by simp
@@ -629,7 +629,7 @@ private theorem s16h_mul_card_le_of_pairwiseDisjoint {ι α : Type*} [Finite ι]
     (hsub : ∀ i, f i ⊆ T) (hcard : ∀ i, e ≤ (f i).ncard) :
     e * Nat.card ι ≤ T.ncard := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   have hfin : ∀ i, (f i).Finite := fun i => Set.toFinite _
   have hsum : (⋃ i, f i).ncard = ∑ i : ι, (f i).ncard := by
     rw [Set.ncard_iUnion_of_finite hfin hdisj, finsum_eq_sum_of_fintype]
@@ -662,7 +662,7 @@ private theorem s16h_nat_card_subtype_le_sdiff_add_one {α : Type*} [Finite α]
       · simp [ψ, hx, hy] at hxy
     · by_cases hy : y.1 = a
       · simp [ψ, hx, hy] at hxy
-      · simp only [ψ, dif_neg hx, dif_neg hy, Sum.inl.injEq] at hxy
+      · simp only [ψ, dite_eq_right hx, dite_eq_right hy, Sum.inl.injEq] at hxy
         exact Subtype.ext (by
           have := congrArg (Subtype.val : {x // P x ∧ x ≠ a} → α) hxy
           simpa using this)
@@ -675,7 +675,7 @@ private theorem s16h_e3_orbit_meets {Q : Type} [CommGroup Q] [Finite Q]
     {G : Subgroup (MulAut Q)} {A B : Subgroup Q}
     (hinf : A ⊓ B = ⊥) (hsup : A ⊔ B = ⊤)
     (hGA : ∀ g ∈ G, ∀ x ∈ A, g x ∈ A) (hGB : ∀ g ∈ G, ∀ x ∈ B, g x ∈ B)
-    (a : Q) (ha : a ∈ A) (ha1 : a ≠ 1)
+    (a : Q) (ha : a ∈ A) (_ha1 : a ≠ 1)
     (htransA : ∀ x ∈ A, x ≠ 1 → ∃ g : MulAut Q, g ∈ G ∧ g a = x)
     (hGod : Nat.card (MulAction.orbit G a) = 7)
     (hHcard : Nat.card ↥(MulAction.stabilizer G a) = 24)
@@ -744,7 +744,7 @@ private theorem s16h_e3_orbit_bounds {Q : Type} [CommGroup Q] [Finite Q]
   set e : ℕ := Nat.card (MulAction.orbit H b) with he
   have hsize : Nat.card (MulAction.orbit G (a * b)) = 7 * e := by
     rw [he]; exact s16h_e3_Phi_card hinf hGA hGB a ha hGod hHcard b hb
-  haveI : Nonempty (MulAction.orbit H b) := ⟨⟨b, MulAction.mem_orbit_self b⟩⟩
+  have : Nonempty (MulAction.orbit H b) := ⟨⟨b, MulAction.mem_orbit_self b⟩⟩
   have hepos : 0 < e := by rw [he]; exact Nat.card_pos
   let Bsharp : Set Q := {x : Q | x ∈ B ∧ x ≠ 1}
   let φ : Set Q → Set Q := fun O => {x : Q | x ∈ B ∧ a * x ∈ O}
@@ -905,7 +905,7 @@ private theorem s16h_e3_orbit_bounds {Q : Type} [CommGroup Q] [Finite Q]
         have hmem : (h : MulAut Q) x ∈ MulAction.orbit H x :=
           MulAction.mem_orbit_iff.mpr
             ⟨h, by rw [Subgroup.smul_def, Submonoid.smul_def, MulAut.smul_def]⟩
-        haveI : Subsingleton (MulAction.orbit H x) :=
+        have : Subsingleton (MulAction.orbit H x) :=
           Finite.card_le_one_iff_subsingleton.mp (le_of_eq hHx)
         exact congrArg Subtype.val
           (Subsingleton.elim ⟨(h : MulAut Q) x, hmem⟩ ⟨x, MulAction.mem_orbit_self x⟩)
@@ -1186,7 +1186,7 @@ public theorem s16h_orbit_fix_count {α : Type*} [Group α] [Finite α]
     rw [← hK] at h1
     rw [h1, hE9] at h2
     simpa [Nat.card_coe_set_eq] using h2
-  haveI : Nonempty (MulAction.orbit ↥E O) := ⟨O, MulAction.mem_orbit_self O⟩
+  have : Nonempty (MulAction.orbit ↥E O) := ⟨O, MulAction.mem_orbit_self O⟩
   have hKge3 : 3 ≤ Nat.card ↥K := by
     have hpos : 0 < Nat.card (MulAction.orbit ↥E O) := Nat.card_pos
     nlinarith [hKcard, hOrbBound, hpos]
@@ -1198,7 +1198,7 @@ public theorem s16h_orbit_fix_count {α : Type*} [Group α] [Finite α]
       rw [show (k.1 : ↥E) • O = (k.1 : MulAut α) '' O from rfl]
       exact ⟨x.1, x.2, rfl⟩
     rwa [hsm] at this
-  letI : MulAction ↥K ↥O :=
+  let : MulAction ↥K ↥O :=
     { smul := fun k x => ⟨(k.1 : MulAut α) x, hKO k x⟩
       one_smul := fun x => Subtype.ext rfl
       mul_smul := fun k l x => Subtype.ext (by rfl) }
@@ -1245,7 +1245,7 @@ public theorem s16h_orbit_fix_count {α : Type*} [Group α] [Finite α]
 
 public theorem s16h_twoNat_autSec_E_card [Finite W] {L : Subgroup (MulAut W)}
     {U Z : Subgroup W}
-    (hLU : L ≤ stabSub U) (hLZ : L ≤ stabSub Z)
+    (_hLU : L ≤ stabSub U) (_hLZ : L ≤ stabSub Z)
     (E : Subgroup (MulAut W)) (hEU : E ≤ stabSub U) (hEZ : E ≤ stabSub Z)
     (hEab : IsElemAbelian 3 E)
     (hEcard : 9 * Nat.card ↥(E ⊓ centSub U) ≤ Nat.card ↥E)

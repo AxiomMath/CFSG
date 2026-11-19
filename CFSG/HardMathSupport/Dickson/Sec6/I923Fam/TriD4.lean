@@ -47,7 +47,7 @@ theorem noL2OuterAt_triD4 (hA2 : TriD4Aux.TriD4A2NoL2) (hC3 : TriD4Aux.TriD4C3No
     · exact absurd h (by decide)
   obtain ⟨K, _, _, σ, hK, hσ, ⟨e⟩⟩ := exists_graphFixed_of_chevalleyExceptional hexc
   obtain ⟨hp, hf, -⟩ := hadm
-  haveI := TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := TriD4Aux.finite_graphFixedRootGroup_D4 σ
   refine OrthAux.noL2Layer_of_congr e ?_
   have hφ3 : (MulAut.congr e ψ) ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hφ : MulAut.congr e ψ ∉ (MulAut.conj : graphFixedRootGroup TwistTag.D4 K σ.toRingHom →*
@@ -62,7 +62,7 @@ theorem noL2OuterAt_triD4 (hA2 : TriD4Aux.TriD4A2NoL2) (hC3 : TriD4Aux.TriD4C3No
     exact TriD4Aux.noL2Layer_three_D4_outer_two hf hK σ hσ _ hφ3 hφ
   · by_cases h3 : p = 3
     · subst h3
-      haveI : CharP K 3 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+      have : CharP K 3 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         Nat.prime_three (by omega) (by rw [hK, ← pow_mul, mul_comm] : Nat.card K = 3 ^ (3 * f))
       exact TriD4Aux.noL2Layer_three_D4_outer_three hC3 hf hK σ hσ _ hφ3 hφ
     · exact TriD4Aux.noL2Layer_three_D4_outer_odd hA2 hp h2 h3 hf hK σ hσ _ hφ3 hφ

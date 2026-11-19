@@ -448,7 +448,7 @@ theorem fourExhausts_of_centExt (hExt : P25_CentExt)
     cA_normal hyp hs
   have hFn := conjSub_closure_pair (S := S) ha2 hz2 haz' hconj hzS
   have hFc := conj_mem_closure_pair (S := S) ha2 hz2 haz' hconj hzS
-  obtain ⟨y, hyA, hyF, hy2, hyc⟩ := exists_sq_mem_mod S.isPGroup' inf_le_left hAn hFA hFn hFne
+  obtain ⟨y, hyA, hyF, hy2, hyc⟩ := exists_sq_mem_mod S.isPGroup inf_le_left hAn hFA hFn hFne
   have hyS : y ∈ (S : Subgroup G) := hyA.1
   have hyaF : y * a * y⁻¹ ∈ F := hFc y hyS a (Subgroup.subset_closure (by simp))
   rcases mem_closure_pair ha2 hz2 haz' hyaF with h | h | h | h

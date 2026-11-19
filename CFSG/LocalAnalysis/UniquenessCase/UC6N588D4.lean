@@ -26,7 +26,7 @@ theorem card_of_psl_two {p f : ℕ} (h : LieModel X .PSL 2 p f) : Nat.card X = o
 
 theorem card_of_isAlt {n : ℕ} (hn : 2 ≤ n) (h : IsAlt X n) : Nat.card X = n.factorial / 2 := by
   obtain ⟨e⟩ := h
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
   rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
     Fintype.card_fin]
 

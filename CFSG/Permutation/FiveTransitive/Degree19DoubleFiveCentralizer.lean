@@ -206,9 +206,9 @@ theorem double_five_centralizer_card_le_four_thousand_fifty
     rw [Nat.card_eq_fintype_card,
       Equiv.Perm.card_fixedPoints, hcycleType, hcard]
     norm_num
-  letI : MulAction K F :=
+  let : MulAction K F :=
     MulAction.compHom F fixedMap
-  letI : Nontrivial F :=
+  let : Nontrivial F :=
     Fintype.one_lt_card_iff_nontrivial.mp (by
       rw [← Nat.card_eq_fintype_card, hFcard]
       norm_num)
@@ -324,7 +324,7 @@ theorem double_five_centralizer_card_le_four_thousand_fifty
       ∀ q : ℕ, q.Prime → (q = 2 ∨ q = 3 ∨ q = 7) →
         ¬q ∣ Nat.card M := by
     intro q hq hqCases hqdvd
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     obtain ⟨v, hvorder⟩ :=
       exists_prime_orderOf_dvd_card' (G := M) q hqdvd
     let vPerm : Equiv.Perm X := mBaseMap v

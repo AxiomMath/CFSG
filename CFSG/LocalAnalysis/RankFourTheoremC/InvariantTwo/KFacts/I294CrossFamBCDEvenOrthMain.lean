@@ -18,7 +18,7 @@ theorem even_large_data {q : TauCeti.PrimePower} {K : Type} [Field K] [Finite K]
     (hnamb : ¬ AmbSmallAt N (q.p ^ q.exponent) p) :
     ¬ p ∣ Nat.card K ∧ ∃ e : ℕ, 0 < e ∧ Even e ∧
       (∀ j : ℕ, p ∣ Nat.card K ^ j - 1 ↔ e ∣ j) ∧ p * e ≤ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : ¬ p ∣ Nat.card K := by
     rw [hK]
     intro h
@@ -43,7 +43,7 @@ theorem crossFamDEvenLarge : CrossFamDEvenLarge := by
     ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
   have hr1 : 1 ≤ r := by omega
   refine crossAtOn_of_core fun L _ _ p hp hp5 hS hdp ⟨eL⟩ => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdp' : q.p ≠ p := by simpa [TauCeti.LieTypeIndex.characteristic_D] using hdp
   have hmod : StatedClassicalModel L .POmegaPlus r q.p q.exponent :=
     statedClassicalModel_of_lieModel_of_ne_zero (by omega) (CFSG.Models.lieModel_D r q hv eL)
@@ -64,7 +64,7 @@ theorem crossFamTwistedDEvenLarge : CrossFamTwistedDEvenLarge := by
     ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
   have hr1 : 1 ≤ r := by omega
   refine crossAtOn_of_core fun L _ _ p hp hp5 hS hdp ⟨eL⟩ => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdp' : q.p ≠ p := by simpa [TauCeti.LieTypeIndex.characteristic_twistedD] using hdp
   have hmod : StatedClassicalModel L .POmegaMinus r q.p q.exponent :=
     statedClassicalModel_of_lieModel_of_ne_zero (by omega)
@@ -86,7 +86,7 @@ theorem crossFamTwistedDEvenLarge : CrossFamTwistedDEvenLarge := by
 theorem crossFamBOrthEvenLarge : CrossFamBOrthEvenLarge := by
   intro r q hv hq2 hr3
   refine crossAtOn_of_core fun L _ _ p hp hp5 hS hdp ⟨eL⟩ => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdp' : q.p ≠ p := by simpa [TauCeti.LieTypeIndex.characteristic_B] using hdp
   obtain ⟨hnodd, hnamb, -⟩ := hS
   rcases CFSG.Models.lieModel_B r q hv eL with h | h
@@ -105,9 +105,9 @@ theorem crossFamBOrthEvenLarge : CrossFamBOrthEvenLarge := by
     have hab := (hW K hK (quadOdd r K) (coe_quadOdd r K) e').1
     obtain ⟨hpK, e, he, hee, hpe, hlarge⟩ := even_large_data hK hp hdp' hnodd hnamb
     obtain ⟨w₀, hw₀⟩ := quadOdd_exists_one (s := r) (K := K)
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K q.p := charP_of_card_eq_prime_pow (p := q.p) (f := q.exponent)
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K q.p := charP_of_card_eq_prime_pow (p := q.p) (f := q.exponent)
       (by rw [← Nat.card_eq_fintype_card]; exact hK)
     have h2 : ringChar K ≠ 2 := by rw [ringChar.eq K q.p]; exact hq2
     have hcard : Fintype.card (Fin r ⊕ Fin r ⊕ Unit) = 2 * r + 1 := by

@@ -11,9 +11,11 @@ open Subgroup CFSG.CGT.M24S CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {z : G} (e : ↥(Cz z) ≃* L52.Hc)
 
+omit [Finite G] in
 theorem J_eq_tr : (tr e L52.A1 ⊔ tr e L52.A2 : Subgroup G) = tr e L52.Jm :=
   (tr_sup e _ _).symm
 
+omit [Finite G] in
 theorem card_J : Nat.card ↥(tr e L52.A1 ⊔ tr e L52.A2 : Subgroup G) = 256 := by
   rw [J_eq_tr, card_tr, L52.card_Jm]; norm_num
 

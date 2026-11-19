@@ -103,6 +103,7 @@ section Split
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} [hLn : L.Normal]
   {K : Type} [Field K] {p f : ℕ} {π : Bool}
 
+omit [Finite G] in
 theorem exists_cube_scalar_of_fixed (hK : PiField π p f K) (hq : ModThree π (p ^ f))
     [Group.IsPerfect (projImage (slPi π 3 (p ^ f) K))] {f₀ : ℕ} (hf : f = 3 * f₀)
     {φ : K ≃+* K} (hφ : ∀ c, φ c = c ^ piCard π (p ^ f₀)) (hφ3 : orderOf φ = 3)
@@ -149,8 +150,8 @@ theorem exists_split_lift (hK : PiField π p f K) (hq : ModThree π (p ^ f))
     exact dvd_mul_right _ _
   have hN0 : qSubPi π (p ^ f) ≠ 0 := qSubPi_ne_zero hK hq
   have hN₀0 : qSubPi π (p ^ f₀) ≠ 0 := fun h0 => hN0 (Nat.eq_zero_of_zero_dvd (h0 ▸ hdvd))
-  haveI : NeZero (qSubPi π (p ^ f₀)) := ⟨hN₀0⟩
-  haveI : IsCyclic (rootsOfUnity (qSubPi π (p ^ f₀)) K) := rootsOfUnity.isCyclic K _
+  have : NeZero (qSubPi π (p ^ f₀)) := ⟨hN₀0⟩
+  have : IsCyclic (rootsOfUnity (qSubPi π (p ^ f₀)) K) := rootsOfUnity.isCyclic K _
   have hHcard : Nat.card (rootsOfUnity (qSubPi π (p ^ f₀)) K) = qSubPi π (p ^ f₀) :=
     CFSG.LinearGroups.card_rootsOfUnity_of_dvd (dvd_trans hdvd (qSubPi_dvd hK))
   have h3H : 3 ∣ Nat.card (rootsOfUnity (qSubPi π (p ^ f₀)) K) := by

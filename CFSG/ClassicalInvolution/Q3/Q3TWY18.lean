@@ -120,7 +120,6 @@ theorem class_spin_b4_3
     · exfalso
       have ht' : FJ.La (-1) = FM.La (-1) := by
         first
-        | exact ht.symm
         | exact ht
       rcases Frame.La_range_eq_or_eq_swap h2 ht' with h | h
       · exact hRJM (cq.map_inj hRJ hRM (by rw [hFJ, h, hFM]))

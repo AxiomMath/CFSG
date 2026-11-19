@@ -25,7 +25,7 @@ theorem exists_common_involution_norm (h : Setting G L n) (d : Cyc L Q z) (hQ2 :
   obtain ⟨S, hRS⟩ := hR.exists_le_sylow
   have hne : R ≠ (S : Subgroup G) := fun hRS' =>
     not_le_centralizer_of_sylow h d hQ2 hE S (hRS' ▸ hRC)
-  have hnil : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   have hlt : R.subgroupOf (S : Subgroup G) < ⊤ := by
     refine lt_top_iff_ne_top.2 fun htop => hne ?_
     refine le_antisymm hRS fun s hs => ?_
@@ -67,7 +67,7 @@ theorem exists_common_involution_norm (h : Setting G L n) (d : Cyc L Q z) (hQ2 :
         _ = z * x := by rw [← hw, hwz]
     have hle : R ⊔ Subgroup.zpowers x ≤ (S : Subgroup G) :=
       sup_le hRS (Subgroup.zpowers_le.2 hxS)
-    have hp : IsPGroup 2 ↥(R ⊔ Subgroup.zpowers x) := S.isPGroup'.to_le hle
+    have hp : IsPGroup 2 ↥(R ⊔ Subgroup.zpowers x) := S.isPGroup.to_le hle
     have hC : R ⊔ Subgroup.zpowers x ≤ centralizer ({z} : Set G) :=
       sup_le hRC (Subgroup.zpowers_le.2 hxC)
     have := hRmax _ hC hp le_sup_left

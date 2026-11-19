@@ -39,7 +39,6 @@ theorem uMat_mem (a b c d : K) : (uMat a b c d)ᵀ * minorJ K * uMat a b c d = m
   ext i j
   fin_cases i <;> fin_cases j <;> simp [uMat, mul_apply, Fin.sum_univ_four, minorJ_apply]
   all_goals first
-    | ring1
     | linear_combination (d) * h2
     | linear_combination (a) * h2
     | linear_combination (-a) * h2

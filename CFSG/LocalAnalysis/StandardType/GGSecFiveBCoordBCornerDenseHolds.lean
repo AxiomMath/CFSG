@@ -47,7 +47,7 @@ theorem ggSecFiveBCoordBCornerDenseInput_holds : GGSecFiveBCoordBCornerDenseInpu
   have h01 : π (0 : Fin (r + 2)) ≠ π 1 := by
     intro he
     have hv := congrArg Fin.val (π.injective he)
-    simp only [Fin.val_zero, Fin.val_one, Nat.mod_eq_of_lt (by omega : 1 < r + 2)] at hv
+    simp only [Fin.val_zero, Fin.val_one] at hv
     omega
   exact hKF.le_sup_map_conj_of_original_swap hF Nat.prime_three (by omega)
     eta d hd h01 hg hτ (fun S hS h0 => hR.ggBlockComm_le_of_corner hframe hr S hS h0)

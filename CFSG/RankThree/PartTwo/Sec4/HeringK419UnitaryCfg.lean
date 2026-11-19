@@ -86,7 +86,7 @@ theorem UCfg.false_of_two_pow_fifteen (c : UCfg L a haN m) {M : ℕ}
 
 theorem UCfg.false_of_not_three_dvd (c : UCfg L a haN m)
     (h : ¬ 3 ∣ Nat.card (L ⧸ aschbacherSolvableCore 3 L)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm0 : m ≠ 0 := by
     have := c.three_le
     omega
@@ -100,7 +100,7 @@ theorem UCfg.false_of_inner (c : UCfg L a haN m)
     {S : Type} [Group S] [Finite S]
     (e : (L ⧸ aschbacherSolvableCore 3 L) ⧸ Subgroup.center (L ⧸ aschbacherSolvableCore 3 L) ≃* S)
     (hS : CFSG.pRank 3 S ≤ 2) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine c.false_of_hom (MonoidHom.id _) Function.injective_id
     (MulAut.conj : L ⧸ aschbacherSolvableCore 3 L →*
       MulAut (L ⧸ aschbacherSolvableCore 3 L)).range (fun x => ⟨x, rfl⟩) hα ?_

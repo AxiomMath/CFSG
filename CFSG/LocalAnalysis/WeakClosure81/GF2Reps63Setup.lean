@@ -32,7 +32,7 @@ theorem le_closure_commutator_of_mem_normalizer {L : Subgroup Q} (hL : IsQuasisi
         rw [show x * (y * g * y⁻¹ * g⁻¹) * x⁻¹ =
           (x * y * g * (x * y)⁻¹ * g⁻¹) * (x * g * x⁻¹ * g⁻¹)⁻¹ by group]
         exact M.mul_mem (hgen (x * y) (L.mul_mem hx hy)) (M.inv_mem (hgen x hx))
-    | one => simpa using M.one_mem
+    | one => simp
     | mul a b _ _ ha hb =>
         rw [show x * (a * b) * x⁻¹ = (x * a * x⁻¹) * (x * b * x⁻¹) by group]
         exact M.mul_mem ha hb
@@ -43,7 +43,7 @@ theorem le_closure_commutator_of_mem_normalizer {L : Subgroup Q} (hL : IsQuasisi
     refine ⟨fun n hn x => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hconj (x : Q) x.2 (n : Q) hn
-  haveI : (M.subgroupOf L).Normal := hnormal
+  have : (M.subgroupOf L).Normal := hnormal
   rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hL (M.subgroupOf L)
     with hcent | htop
   · exfalso
@@ -83,8 +83,8 @@ theorem le_closure_commutator_of_mem_normalizer {L : Subgroup Q} (hL : IsQuasisi
     have hrange : φ.range ≤ Subgroup.center ↥L := by
       rintro _ ⟨y, rfl⟩
       exact hcent' y
-    haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hL.1
-    haveI : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
+    have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hL.1
+    have : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
     have hbot : φ.range = ⊥ :=
       CFSG.ComponentClassification.Quasisimple.perfect_le_center_eq_bot φ.range hrange
     have hone : φ = 1 := by
@@ -121,11 +121,11 @@ theorem exists_pow_commute_iff_dvd {L : Subgroup Q} (x : ↥L ⧸ center ↥L) :
     simpa only [Subgroup.coe_mul, Subgroup.coe_pow] using (h (g : Q) g.2).symm
   · intro h z hz
     have h1 := congrArg Subtype.val (h ⟨z, hz⟩)
-    simp only [Subgroup.coe_mul, Subtype.coe_mk, Subgroup.coe_pow] at h1
+    simp only [Subgroup.coe_mul, Subgroup.coe_pow] at h1
     exact h1.symm
 
 theorem commute_of_mul_mem {L K : Subgroup Q} (hL : IsQuasisimple ↥L)
-    (hLK : ∀ z ∈ L, ∀ k ∈ K, z * k * z⁻¹ ∈ K) (hK : ¬ L ≤ K) {a : Q} (ha : a * a = 1)
+    (hLK : ∀ z ∈ L, ∀ k ∈ K, z * k * z⁻¹ ∈ K) (hK : ¬ L ≤ K) {a : Q} (_ha : a * a = 1)
     (hLa : ∀ x ∈ L, ∀ y ∈ L, x * (a * y * a) = (a * y * a) * x) {y : Q} (hy : y ∈ L)
     (hyK : a * y⁻¹ * a * y ∈ K) : ∀ z ∈ L, y * z = z * y := by
   have hcommK : ∀ z ∈ L, y * z * y⁻¹ * z⁻¹ ∈ K := by
@@ -152,7 +152,7 @@ theorem commute_of_mul_mem {L K : Subgroup Q} (hL : IsQuasisimple ↥L)
     refine ⟨fun k hk l => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hk ⊢
     simpa using hLK (l : Q) l.2 (k : Q) hk
-  haveI : (K.subgroupOf L).Normal := hKLnormal
+  have : (K.subgroupOf L).Normal := hKLnormal
   have hKLne : K.subgroupOf L ≠ ⊤ := fun h => hK (Subgroup.subgroupOf_eq_top.mp h)
   have hKLle : K.subgroupOf L ≤ Subgroup.center ↥L :=
     CFSG.ComponentClassification.Quasisimple.normal_le_center_of_ne_top hL (K.subgroupOf L) hKLne
@@ -168,12 +168,11 @@ theorem commute_of_mul_mem {L K : Subgroup Q} (hL : IsQuasisimple ↥L)
             Subgroup.center ↥L :=
           hKLle (Subgroup.mem_subgroupOf.mpr (hcommK (z₂ : Q) z₂.2))
         have hc := congrArg Subtype.val (Subgroup.mem_center_iff.mp hcent z₁)
-        simp only [Subgroup.coe_mul, Subtype.coe_mk] at hc
+        simp only [Subgroup.coe_mul] at hc
         apply Subtype.ext
         calc y * ((z₁ : Q) * (z₂ : Q)) * y⁻¹ * ((z₁ : Q) * (z₂ : Q))⁻¹
             = (y * (z₁ : Q) * y⁻¹ * (z₁ : Q)⁻¹) *
                 ((z₁ : Q) * (y * (z₂ : Q) * y⁻¹ * (z₂ : Q)⁻¹) * (z₁ : Q)⁻¹) := by
-              push_cast
               group
           _ = (y * (z₁ : Q) * y⁻¹ * (z₁ : Q)⁻¹) *
                 (y * (z₂ : Q) * y⁻¹ * (z₂ : Q)⁻¹) := by
@@ -182,8 +181,8 @@ theorem commute_of_mul_mem {L K : Subgroup Q} (hL : IsQuasisimple ↥L)
   have hrange : ψ.range ≤ Subgroup.center ↥L := by
     rintro _ ⟨z, rfl⟩
     exact hKLle (Subgroup.mem_subgroupOf.mpr (hcommK (z : Q) z.2))
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hL.1
-  haveI : Group.IsPerfect ↥ψ.range := Group.IsPerfect.range ψ
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hL.1
+  have : Group.IsPerfect ↥ψ.range := Group.IsPerfect.range ψ
   have hbot : ψ.range = ⊥ :=
     CFSG.ComponentClassification.Quasisimple.perfect_le_center_eq_bot ψ.range hrange
   have hone : ψ = 1 := by
@@ -231,7 +230,7 @@ theorem exists_orbit_data [Finite Q] {a : Q} {L A : Subgroup Q} (ha : orderOf a 
     rw [show g * y * g = (MulAut.conj g) y by rw [MulAut.conj_apply, hginv]]
     exact h.symm
   classical
-  haveI : Fintype ↥A := Fintype.ofFinite _
+  have : Fintype ↥A := Fintype.ofFinite _
   have hcardA : Fintype.card ↥A = 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact hA

@@ -20,8 +20,10 @@ variable {ι : Type*} [Fintype ι] [DecidableEq ι] (b : Module.Basis ι E W)
 @[expose] noncomputable def semMat (T : W → W) : Matrix ι ι E :=
   Matrix.of fun i j => b.repr (T (b j)) i
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem semMat_apply (T : W → W) (i j : ι) : semMat b T i j = b.repr (T (b j)) i := rfl
 
+omit [DecidableEq ι] in
 theorem repr_semilin {τ : E →+* E} {T : W →+ W} (hT : ∀ (c : E) (v : W), T (c • v) = τ c • T v)
     (v : W) : b.equivFun (T v) = semMat b T *ᵥ (τ ∘ b.equivFun v) := by
   conv_lhs => rw [← b.sum_equivFun v]
@@ -32,6 +34,7 @@ theorem repr_semilin {τ : E →+* E} {T : W →+ W} (hT : ∀ (c : E) (v : W), 
     Function.comp_apply, Module.Basis.equivFun_apply]
   exact Finset.sum_congr rfl fun j _ => mul_comm _ _
 
+omit [DecidableEq ι] in
 theorem semMat_comp {τ : E →+* E} {T : W →+ W} (hT : ∀ (c : E) (v : W), T (c • v) = τ c • T v)
     (T' : W → W) : semMat b (fun v => T (T' v)) = semMat b T * (semMat b T').map τ := by
   ext i j
@@ -49,6 +52,7 @@ theorem semMat_toLin' (M : GL ι E) :
     CFSG.RankThree.CentralLift.equivFun_toLin'_basis_apply]
   simp [mulVec, dotProduct, Module.Basis.equivFun_self]
 
+omit [Fintype ι] in
 theorem semMat_id : semMat b (id : W → W) = 1 := by
   ext i j
   rw [semMat_apply, id_eq, Module.Basis.repr_self_apply, Matrix.one_apply]
@@ -95,6 +99,7 @@ theorem semMat_symm_mul (S : W ≃+ W) {τ : E ≃+* E}
     (((semMatUnit b S hS)⁻¹ : GL ι E) : Matrix ι ι E) =
       (semMat b S.symm).map (τ : E →+* E) := rfl
 
+omit [DecidableEq ι] in
 theorem semMat_conj_semilin (S : W ≃+ W) {τ : E ≃+* E}
     (hS : ∀ (c : E) (v : W), S (c • v) = τ c • S v)
     {u u' : W →ₗ[E] W} (hu' : ∀ v, u' v = S (u (S.symm v))) :

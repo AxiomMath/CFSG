@@ -236,9 +236,9 @@ theorem commutator_eq_bot_of_simple_sub_one_pow_lift {k : ℕ} (hk : k + 2 ≤ q
         = (j : S) * (((j : S)⁻¹ * t * (j : S)) * n) * (j : S)⁻¹ := by group
       _ = (j : S) * (n * ((j : S)⁻¹ * t * (j : S))) * (j : S)⁻¹ := by rw [h1]
       _ = (j : S) * n * (j : S)⁻¹ * t := by group
-  haveI := hJs
+  have := hJs
   have hNtop : N = ⊤ := by
-    haveI := hNn
+    have := hNn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · exfalso
       have hmem : (⟨π u, huJ⟩ : ↥J) ∈ N := Subgroup.mem_subgroupOf.2 huC
@@ -359,7 +359,7 @@ theorem sq_eq_one_of_theta_eq_one {w : elementaryGroup (quadPlus 4 K)} (hw : the
   set a : V K := Pi.single (Sum.inl 0) 1 + Pi.single (Sum.inr 0) 1 with ha
   have hQa : quadPlus 4 K a = 1 := by
     rw [quadPlus_apply]
-    simp [ha, Fin.sum_univ_four, Pi.single_apply]
+    simp [ha, Pi.single_apply]
   have hO : (w : V K ≃ₗ[K] V K) ∈ TauCeti.QuadraticMap.orthogonalGroup (quadPlus 4 K) :=
     elementaryGroup_le_orthogonalGroup _ w.2
   have hQ := TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp hO a
@@ -370,6 +370,7 @@ theorem sq_eq_one_of_theta_eq_one {w : elementaryGroup (quadPlus 4 K)} (hw : the
   rw [Subgroup.coe_pow, pow_two, LinearEquiv.mul_apply, hwv, hc, hc, smul_smul, hQ, one_smul]
   rfl
 
+omit [Finite K] in
 theorem blockRepE_pow_eq_one {q : ℕ} [Fact q.Prime] [CharP K q] (hq5 : 5 ≤ q)
     (g : d4tData_valid.minGroup K)
     (hg3 : (((blockRep K g : V K ≃ₗ[K] V K) : V K →ₗ[K] V K) - 1) ^ 3 = 0) :
@@ -386,6 +387,7 @@ theorem blockRepE_pow_eq_one {q : ℕ} [Fact q.Prime] [CharP K q] (hq5 : 5 ≤ q
   exact CFSG.SignalizerFunctorTheorem.CatalogBridge.pow_eq_one_of_sub_one_pow_eq_zero (K := K)
     (by rw [show q - 1 = 3 + (q - 4) by omega, pow_add, hg3, zero_mul])
 
+omit [Finite K] in
 theorem adjRep_pow_eq_one {q : ℕ} [Fact q.Prime] [CharP K q] (hq5 : 5 ≤ q)
     (g : d4tData_valid.minGroup K)
     (hg3 : (((blockRep K g : V K ≃ₗ[K] V K) : V K →ₗ[K] V K) - 1) ^ 3 = 0) :
@@ -460,7 +462,7 @@ private theorem isSimpleGroup_commutator_of_isPGLPiThree {X : Type} [Group X] {q
     rw [← Sec13.commutator_projImage_glPi hF hq2, commutator_def, commutator_def,
       Subgroup.map_commutator, ← MonoidHom.range_eq_map, MonoidHom.range_eq_top.2 e.surjective]
   refine ⟨?_, fun z hz => ?_⟩
-  · haveI := Sec4.RonanK429Lie.isSimpleGroup_projImage_slPi hF (Or.inr hq2)
+  · have := Sec4.RonanK429Lie.isSimpleGroup_projImage_slPi hF (Or.inr hq2)
     exact (((commutator X).equivMapOfInjective e.toMonoidHom e.injective).trans
       ((MulEquiv.subgroupCongr hcomm).trans (Subgroup.subgroupOfEquivOfLe hSP))).isSimpleGroup
   · obtain ⟨m, hm⟩ := exists_pow_eq_self_of_coprime hz
@@ -589,7 +591,7 @@ theorem eichler_single_ne_one {u w : Coord} (h : cIdx u ≠ cIdx w) {s : K} (hs 
   have hdw : dualC w ≠ dualC u := fun e => h (by rw [← cIdx_dualC u, ← e, cIdx_dualC])
   have key := congrArg (fun E : V K ≃ₗ[K] V K => E (Pi.single (dualC u) 1) w) hE
   simp only [LinearEquiv.coe_one, id, eichler_single_apply h] at key
-  simp [Pi.single_apply, hwu, huw, hdw] at key
+  simp [hwu, hdw] at key
   exact hs key
 
 private theorem frame_eichler_ne_one {s₁ s₂ s₃ : K} (hs₁ : s₁ ≠ 0) :
@@ -602,7 +604,7 @@ private theorem frame_eichler_ne_one {s₁ s₂ s₃ : K} (hs₁ : s₁ ≠ 0) :
     eichler_single_apply (by decide : cIdx (Sum.inl 0 : Coord) ≠ cIdx (Sum.inr 3)),
     eichler_single_apply (by decide : cIdx (Sum.inl 1 : Coord) ≠ cIdx (Sum.inl 2)),
     eichler_single_apply (by decide : cIdx (Sum.inl 0 : Coord) ≠ cIdx (Sum.inl 3))] at key
-  simp [Pi.single_apply, dualC] at key
+  simp [dualC] at key
   exact hs₁ key
 
 theorem s2019FixCentralizes_d4Graph_one [Finite K] (hK2 : ringChar K ≠ 2) (hK3 : ringChar K ≠ 3) :
@@ -610,7 +612,7 @@ theorem s2019FixCentralizes_d4Graph_one [Finite K] (hK2 : ringChar K ≠ 2) (hK3
   classical
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hpr, hn⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hpr⟩
+  have : Fact (ringChar K).Prime := ⟨hpr⟩
   have hq5 : 5 ≤ ringChar K := hpr.five_le_of_ne_two_of_ne_three hK2 hK3
   have hK3' : 3 ≤ Nat.card K := by
     rw [Nat.card_eq_fintype_card, hn]
@@ -633,7 +635,7 @@ theorem s2019FixCentralizes_d4Graph_one [Finite K] (hK2 : ringChar K ≠ 2) (hK3
       rw [center_adjointGroup_eq_bot, Subgroup.mem_bot] at hz'
       rw [Subgroup.mem_bot]
       exact e.injective (by rw [hz', map_one])
-    haveI : IsSimpleGroup (↥(fixSubgroup (d4Graph K 1)) ⧸
+    have : IsSimpleGroup (↥(fixSubgroup (d4Graph K 1)) ⧸
         Subgroup.center ↥(fixSubgroup (d4Graph K 1))) := hqs.2.1
     exact ((QuotientGroup.quotientMulEquivOfEq hZ).trans
       QuotientGroup.quotientBot).symm.isSimpleGroup
@@ -668,7 +670,7 @@ theorem s2019FixCentralizes_gammaP [Finite K] (hK2 : ringChar K ≠ 2) (hK3 : ri
   classical
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hpr, hn⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hpr⟩
+  have : Fact (ringChar K).Prime := ⟨hpr⟩
   have hq5 : 5 ≤ ringChar K := hpr.five_le_of_ne_two_of_ne_three hK2 hK3
   have hK5 : 5 ≤ Nat.card K := by
     rw [Nat.card_eq_fintype_card, hn]
@@ -686,7 +688,7 @@ theorem s2019FixCentralizes_gammaP [Finite K] (hK2 : ringChar K ≠ 2) (hK3 : ri
   obtain ⟨hJs', hJmem⟩ := isSimpleGroup_commutator_of_isPGLPiThree hK5 hC
   set J := (commutator ↥X).map X.subtype with hJ
   have hJs : IsSimpleGroup ↥J := by
-    haveI := hJs'
+    have := hJs'
     exact (Subgroup.equivMapOfInjective (commutator ↥X) X.subtype
       X.subtype_injective).symm.isSimpleGroup
   have hXX : ⁅X, X⁆ = J := by

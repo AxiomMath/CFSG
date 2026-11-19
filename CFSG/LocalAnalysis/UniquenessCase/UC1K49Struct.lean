@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjugate_conjugate (L : Subgroup G) (y x : G) :
     CFSG.conjugate (CFSG.conjugate L y) x = CFSG.conjugate L (y * x) := by
   have h : (MulAut.conj x⁻¹).toMonoidHom.comp (MulAut.conj y⁻¹).toMonoidHom =
@@ -25,6 +26,7 @@ theorem conjugate_conjugate (L : Subgroup G) (y x : G) :
     group
   rw [CFSG.conjugate, CFSG.conjugate, CFSG.conjugate, Subgroup.map_map, h]
 
+omit [Finite G] in
 theorem conjugate_le_of_mem_normalizer {H L : Subgroup G} (hLH : L ≤ H) {x : G}
     (hx : x ∈ Subgroup.normalizer (H : Set G)) : CFSG.conjugate L x ≤ H := by
   have hx' : x⁻¹ ∈ Subgroup.normalizer (H : Set G) := (Subgroup.normalizer _).inv_mem hx
@@ -32,6 +34,7 @@ theorem conjugate_le_of_mem_normalizer {H L : Subgroup G} (hLH : L ≤ H) {x : G
     Subgroup.mem_normalizer_iff_map_conj_eq.mp hx'
   exact (Subgroup.map_mono hLH).trans hmap.le
 
+omit [Finite G] in
 theorem le_normalizer_iSup {ι : Type*} {S : Subgroup G} {K : ι → Subgroup G}
     (h : ∀ i, S ≤ Subgroup.normalizer (K i : Set G)) :
     S ≤ Subgroup.normalizer (⨆ i, K i : Subgroup G) := by
@@ -43,10 +46,12 @@ theorem le_normalizer_iSup {ι : Type*} {S : Subgroup G} {K : ι → Subgroup G}
 @[expose] noncomputable def I49 (L X : Subgroup G) : Subgroup G :=
   ⨆ x : X, CFSG.conjugate L (x : G)
 
+omit [Finite G] in
 theorem I49_eq (L X : Subgroup G) :
     I49 L X = ⨆ x ∈ X, CFSG.conjugate L x := by
   rw [I49, iSup_subtype]
 
+omit [Finite G] in
 theorem conjugate_mem_oTwoComponentsIn {H L : Subgroup G}
     (hL : L ∈ CFSG.RankThree.PartTwo.oTwoComponentsIn H) {x : G} (hx : x ∈ H) :
     CFSG.conjugate L x ∈ CFSG.RankThree.PartTwo.oTwoComponentsIn H := by
@@ -102,6 +107,7 @@ theorem conjugate_inf_pCoreOf_eq {H X L Q I : Subgroup G} (h : Setup49 H X L Q I
   · exact le_inf (CFSG.LieType.BorelTits.pCoreOf_le 2 _)
       (CFSG.RankThree.PartTwo.Sec18.pCoreOf_le_pCoreOf_of_mem_oTwoComponentsIn hmem)
 
+omit [Finite G] in
 theorem I_le_H {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) : I ≤ H := by
   rw [h.I_eq]
   refine iSup_le fun x => iSup_le fun hx => ?_
@@ -109,16 +115,18 @@ theorem I_le_H {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) : I ≤ H := by
     (CFSG.RankThree.PartTwo.le_of_mem_oTwoComponentsIn h.L_mem)
     (Subgroup.le_normalizer (h.X_le hx))
 
+omit [Finite G] in
 theorem le_I {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) : L ≤ I := by
   have h1 : CFSG.conjugate L (1 : G) = L := by
     rw [CFSG.conjugate]
     have : (MulAut.conj (1 : G)⁻¹).toMonoidHom = MonoidHom.id G := by
-      ext z; simp [MulAut.conj_apply]
+      ext z; simp
     rw [this, Subgroup.map_id]
   have hI : I = I49 L X := h.I_eq.trans (I49_eq L X).symm
   rw [hI, I49]
   exact h1.ge.trans (le_iSup (fun x : X => CFSG.conjugate L (x : G)) ⟨1, X.one_mem⟩)
 
+omit [Finite G] in
 theorem eq_sup_I {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
     H = I ⊔ X ⊔ Q := by
   refine le_antisymm ?_ ?_
@@ -130,6 +138,7 @@ theorem eq_sup_I {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
     · exact I_le_H h
     · exact h.Q_eq.le.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 H)
 
+omit [Finite G] in
 theorem le_normalizer_I_of_le {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
     {S : Subgroup G} (hS : ∀ x : X, S ≤ Subgroup.normalizer (CFSG.conjugate L (x : G) : Set G)) :
     S ≤ Subgroup.normalizer (I : Set G) := by
@@ -168,16 +177,18 @@ theorem le_normalizer_I {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
   rw [h.H_eq]
   exact sup_le (sup_le hX hL) hQ
 
+omit [Finite G] in
 theorem commutator_I_eq {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) : ⁅I, I⁆ = I := by
   rw [show I = I49 L X from h.I_eq.trans (I49_eq L X).symm, I49]
   exact CFSG.Quasithin.A3.commutator_iSup_eq_of_perfect _
     fun x => CFSG.RankThree.PartTwo.Sec18.commutator_eq_of_mem_oTwoComponentsIn
       (conjugate_mem_oTwoComponentsIn h.L_mem (h.X_le x.2))
 
+omit [Finite G] in
 theorem conjugate_one (L : Subgroup G) : CFSG.conjugate L (1 : G) = L := by
   rw [CFSG.conjugate]
   have : (MulAut.conj (1 : G)⁻¹).toMonoidHom = MonoidHom.id G := by
-    ext z; simp [MulAut.conj_apply]
+    ext z; simp
   rw [this, Subgroup.map_id]
 
 theorem commutator_conjugate_le {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
@@ -204,6 +215,7 @@ theorem conjugate_normalize_of_ne {H X L Q I : Subgroup G} (h : Setup49 H X L Q 
     (conjugate_mem_oTwoComponentsIn h.L_mem (h.X_le hx))
     (conjugate_mem_oTwoComponentsIn h.L_mem (h.X_le hy)) hne hg hz
 
+omit [Finite G] in
 private theorem conjugate_sq_ne_conjugate_of_ne {L : Subgroup G} {x : G}
     (hneL : CFSG.conjugate L x ≠ L) :
     CFSG.conjugate L (x ^ 2) ≠ CFSG.conjugate L x := by
@@ -220,7 +232,7 @@ theorem exists_generator49 {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
       CFSG.conjugate L (x ^ 2) ≠ L ∧
       CFSG.conjugate L (x ^ 2) ≠ CFSG.conjugate L x := by
   obtain ⟨x, hxX, hxN⟩ := by
-    simpa only [SetLike.le_def, not_forall, not_imp] using h.X_nle
+    simpa only [_root_.IsConcreteLE.le_iff, not_forall, not_imp] using h.X_nle
   have hx1 : x ≠ 1 := by rintro rfl; exact hxN (Subgroup.one_mem _)
   have hord : orderOf x ∣ 3 := by
     have := Subgroup.orderOf_dvd_natCard X hxX
@@ -255,6 +267,7 @@ theorem exists_generator49 {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
   have hne2 := conjugate_sq_ne_conjugate_of_ne hneL
   exact ⟨x, hxX, hgen, hneL, hneL2, hne2⟩
 
+omit [Finite G] in
 theorem mem_sup_of_le_normalizer {s t : Subgroup G}
     (h : s ≤ Subgroup.normalizer (t : Set G)) {x : G} :
     x ∈ s ⊔ t ↔ ∃ y ∈ s, ∃ z ∈ t, y * z = x := by
@@ -280,6 +293,7 @@ theorem mem_sup_of_le_normalizer {s t : Subgroup G}
   · rintro ⟨y, hy, z, hz, rfl⟩
     exact Subgroup.mul_mem_sup hy hz
 
+omit [Finite G] in
 theorem center_bar2_eq_bot {L : Subgroup G} (halt : IsAlt (Bar2 L) 5) :
     Subgroup.center (Bar2 L) = ⊥ := by
   obtain ⟨e⟩ := halt
@@ -298,6 +312,7 @@ theorem center_bar2_eq_bot {L : Subgroup G} (halt : IsAlt (Bar2 L) 5) :
   rw [Subgroup.mem_bot] at this
   exact e.injective (by simpa using this)
 
+omit [Finite G] in
 theorem mem_pCoreOf_iff {L : Subgroup G} {x : G} (hx : x ∈ L) :
     x ∈ CFSG.Open.pCoreOf 2 L ↔ (⟨x, hx⟩ : L) ∈ CFSG.pCore 2 L := by
   constructor
@@ -307,17 +322,18 @@ theorem mem_pCoreOf_iff {L : Subgroup G} {x : G} (hx : x ∈ L) :
   · intro h
     exact ⟨⟨x, hx⟩, h, rfl⟩
 
+omit [Finite G] in
 theorem map_quotient_eq_bot_of_odd_of_isAlt {L M : Subgroup G}
     (hML : M ≤ L) (hMn : (M.subgroupOf L).Normal) (hModd : Odd (Nat.card M))
     (halt : IsAlt (Bar2 L) 5) :
     (M.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 L)) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π := QuotientGroup.mk' (CFSG.pCore 2 L) with hπ
   obtain ⟨e⟩ := halt
-  haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+  have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
   have hnormal : ((M.subgroupOf L).map π).Normal :=
     hMn.map π (QuotientGroup.mk'_surjective _)
-  haveI := hnormal
+  have := hnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((M.subgroupOf L).map π) with h | h
   · exact h
   · exfalso
@@ -330,6 +346,7 @@ theorem map_quotient_eq_bot_of_odd_of_isAlt {L M : Subgroup G}
     rw [hcard, nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin] at hodd
     norm_num at hodd
 
+omit [Finite G] in
 theorem le_pCoreOf_of_odd_of_isAlt {L M : Subgroup G}
     (hML : M ≤ L) (hMn : (M.subgroupOf L).Normal) (hModd : Odd (Nat.card M))
     (halt : IsAlt (Bar2 L) 5) : M ≤ CFSG.Open.pCoreOf 2 L := by
@@ -343,7 +360,7 @@ theorem le_pCoreOf_of_odd_of_isAlt {L M : Subgroup G}
 
 theorem inf_eq_bot_of_odd_of_isPGroup {A B : Subgroup G} (hAodd : Odd (Nat.card ↥A))
     (hB : IsPGroup 2 ↥B) : A ⊓ B = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (Nat.card ↥(A ⊓ B)) :=
     Odd.of_dvd_nat hAodd (Subgroup.card_dvd_of_le inf_le_left)
   have hAB : IsPGroup 2 ↥(A ⊓ B) := hB.to_le inf_le_right
@@ -363,7 +380,7 @@ theorem commutator_eq_bot_of_odd_of_isAlt {K H N : Subgroup G}
     (hKH : K ≤ H) (hKsub : (K.subgroupOf H).IsSubnormal) (hKperf : ⁅K, K⁆ = K)
     (halt : IsAlt (Bar2 K) 5) (hNH : N ≤ H) (hNn : (N.subgroupOf H).Normal)
     (hNodd : Odd (Nat.card N)) : ⁅K, N⁆ = ⊥ := by
-  haveI : Group.IsSolvable ↥N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hNodd
+  have : Group.IsSolvable ↥N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hNodd
   have hNK : N ≤ Subgroup.normalizer (K : Set G) :=
     CFSG.ClassicalInvolution.le_normalizer_of_isSubnormal_of_perfect_of_normal
       ((CFSG.Open.IsSubnormal.iff_subgroupOf hKH).mpr hKsub) hKperf hNH hNn
@@ -419,6 +436,7 @@ theorem odd_normal_le_centralizer_I {H X L Q I : Subgroup G} (h : Setup49 H X L 
       (CFSG.RankThree.PartTwo.Sec18.commutator_eq_of_mem_oTwoComponentsIn hmem)
       (isAlt_bar2_conjugate h.L_alt (x : G)) hNH hNn hNodd)
 
+omit [Finite G] in
 theorem commutator_first_mem {H Q : Subgroup G} (hQn : H ≤ Subgroup.normalizer (Q : Set G))
     {a b c m : G} (ha : a ∈ H) (hb : b ∈ H)
     (hbQ : ⁅b, m⁆ ∈ Q) (hcQ : ⁅c, m⁆ ∈ Q) (habcQ : ⁅(a * b) * c, m⁆ ∈ Q) :
@@ -439,6 +457,7 @@ theorem commutator_first_mem {H Q : Subgroup G} (hQn : H ≤ Subgroup.normalizer
   convert this using 1
   group
 
+omit [Finite G] in
 theorem commutator_middle_mem {H Q : Subgroup G} (hQn : H ≤ Subgroup.normalizer (Q : Set G))
     {a b c m : G} (ha : a ∈ H) (hb : b ∈ H)
     (haQ : ⁅a, m⁆ ∈ Q) (hcQ : ⁅c, m⁆ ∈ Q) (habcQ : ⁅(a * b) * c, m⁆ ∈ Q) :
@@ -461,6 +480,7 @@ theorem commutator_middle_mem {H Q : Subgroup G} (hQn : H ≤ Subgroup.normalize
   convert hconj using 1
   group
 
+omit [Finite G] in
 theorem commutator_third_mem {H Q : Subgroup G} (hQn : H ≤ Subgroup.normalizer (Q : Set G))
     {a b c m : G} (ha : a ∈ H) (hb : b ∈ H)
     (haQ : ⁅a, m⁆ ∈ Q) (hbQ : ⁅b, m⁆ ∈ Q) (habcQ : ⁅(a * b) * c, m⁆ ∈ Q) :
@@ -483,8 +503,9 @@ theorem commutator_third_mem {H Q : Subgroup G} (hQn : H ≤ Subgroup.normalizer
   convert hconj using 1
   group
 
+omit [Finite G] in
 theorem mem_pCoreOf_of_centralizer_mod {K H Q : Subgroup G} (halt : IsAlt (Bar2 K) 5)
-    (hKQ : K ⊓ Q = CFSG.Open.pCoreOf 2 K) (hKH : K ≤ H) {k : G} (hk : k ∈ K)
+    (hKQ : K ⊓ Q = CFSG.Open.pCoreOf 2 K) (_hKH : K ≤ H) {k : G} (hk : k ∈ K)
     (hcentral : ∀ m ∈ K, ⁅k, m⁆ ∈ Q) : k ∈ Q := by
   have hcore : (⟨k, hk⟩ : K) ∈ CFSG.pCore 2 K := by
     have hz : QuotientGroup.mk' (CFSG.pCore 2 K) ⟨k, hk⟩ ∈ Subgroup.center (Bar2 K) := by
@@ -511,6 +532,7 @@ theorem mem_pCoreOf_of_centralizer_mod {K H Q : Subgroup G} (halt : IsAlt (Bar2 
   have hmem : k ∈ CFSG.Open.pCoreOf 2 K := (mem_pCoreOf_iff hk).mpr hcore
   exact (Subgroup.mem_inf.mp (by rwa [← hKQ] at hmem)).2
 
+omit [Finite G] in
 private theorem conjugate_le_I {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
     {x : G} (hx : x ∈ X) : CFSG.conjugate L x ≤ I := by
   rw [show I = I49 L X from h.I_eq.trans (I49_eq L X).symm, I49]
@@ -554,7 +576,7 @@ private theorem exists_factor_mem_conjugates {H X L Q I : Subgroup G} (h : Setup
   exact ⟨l0, hl0, l1, hl1, l2, hl2, by rw [← hy_eq, ← hl_eq]⟩
 
 private theorem commutator_left_mem_pCoreOf {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
-    {x l0 l1 l2 : G} (hxX : x ∈ X) (hl0 : l0 ∈ L)
+    {x l0 l1 l2 : G} (hxX : x ∈ X) (_hl0 : l0 ∈ L)
     (hl1 : l1 ∈ CFSG.conjugate L x) (hl2 : l2 ∈ CFSG.conjugate L (x ^ 2))
     (hneL : CFSG.conjugate L x ≠ L) (hneL2 : CFSG.conjugate L (x ^ 2) ≠ L)
     (hl0H : l0 ∈ H) (hl1H : l1 ∈ H)
@@ -578,7 +600,7 @@ private theorem commutator_left_mem_pCoreOf {H X L Q I : Subgroup G} (h : Setup4
 
 private theorem commutator_middle_mem_pCoreOf {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
     {x l0 l1 l2 : G} (hxX : x ∈ X) (hl0 : l0 ∈ L)
-    (hl1 : l1 ∈ CFSG.conjugate L x) (hl2 : l2 ∈ CFSG.conjugate L (x ^ 2))
+    (_hl1 : l1 ∈ CFSG.conjugate L x) (hl2 : l2 ∈ CFSG.conjugate L (x ^ 2))
     (hneL : CFSG.conjugate L x ≠ L) (hne2 : CFSG.conjugate L (x ^ 2) ≠ CFSG.conjugate L x)
     (hl0H : l0 ∈ H) (hl1H : l1 ∈ H)
     (hkey : ∀ m ∈ I, ⁅(l0 * l1) * l2, m⁆ ∈ Q) :
@@ -600,7 +622,7 @@ private theorem commutator_middle_mem_pCoreOf {H X L Q I : Subgroup G} (h : Setu
 
 private theorem commutator_right_mem_pCoreOf {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
     {x l0 l1 l2 : G} (hxX : x ∈ X) (hl0 : l0 ∈ L)
-    (hl1 : l1 ∈ CFSG.conjugate L x) (hl2 : l2 ∈ CFSG.conjugate L (x ^ 2))
+    (hl1 : l1 ∈ CFSG.conjugate L x) (_hl2 : l2 ∈ CFSG.conjugate L (x ^ 2))
     (hneL2 : CFSG.conjugate L (x ^ 2) ≠ L) (hne2 : CFSG.conjugate L (x ^ 2) ≠ CFSG.conjugate L x)
     (hl0H : l0 ∈ H) (hl1H : l1 ∈ H)
     (hkey : ∀ m ∈ I, ⁅(l0 * l1) * l2, m⁆ ∈ Q) :
@@ -664,12 +686,14 @@ theorem I_le_normalizer_L {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
   · simpa only [conjugate_one] using
       conjugate_normalize_of_ne h y.2 X.one_mem (by rw [conjugate_one]; exact hy)
 
+omit [Finite G] in
 theorem conjugate_pow_eq_of_conjugate_eq {K : Subgroup G} {a : G}
     (ha : CFSG.conjugate K a = K) (j : ℕ) : CFSG.conjugate K (a ^ j) = K := by
   induction j with
   | zero => rw [pow_zero, conjugate_one]
   | succ j ih => rw [pow_succ, ← conjugate_conjugate, ih, ha]
 
+omit [Finite G] in
 private theorem commutator_mem_of_factor_sup {I Q : Subgroup G} {N : Subgroup G}
     (hIcent : I ≤ Subgroup.centralizer (N : Set G))
     (hINQ : I ≤ Subgroup.normalizer (Q : Set G))
@@ -771,16 +795,17 @@ private theorem odd_normal_card_le_three {H X L Q I : Subgroup G} (h : Setup49 H
   have hQH : Q ≤ H := h.Q_eq.le.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 H)
   have hIQs : I ⊔ Q ≤ H := sup_le (I_le_H h) hQH
   let Q' : Subgroup ↥H := (I ⊔ Q).subgroupOf H
-  haveI hQ'n : Q'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hIQs).mpr hIQnorm
+  have hQ'n : Q'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hIQs).mpr hIQnorm
   have hcardQ : Nat.card (↥H ⧸ Q') ≤ Nat.card X := card_quotient_le_card_X h Q' rfl hIQnorm
   exact (card_le_card_quotient_of_inf_eq_bot hNH Q' rfl hdisj).trans
     (hcardQ.trans (le_of_eq h.card_X))
 
+omit [Finite G] in
 private theorem exists_order_three_of_card_three {N : Subgroup G} (hNcard : Nat.card N = 3) :
     ∃ n : N, orderOf (n : G) = 3 ∧ (n : G) ^ 3 = 1 ∧ (n : G) ≠ 1 := by
   have hNne : N ≠ ⊥ := by
     intro hbot; rw [hbot, Subgroup.card_bot] at hNcard; norm_num at hNcard
-  haveI : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).mpr hNne
+  have : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).mpr hNne
   obtain ⟨n, hn1⟩ := exists_ne (1 : N)
   have hnord : orderOf (n : G) = 3 := by
     have hdvd : orderOf (n : G) ∣ 3 := by
@@ -809,6 +834,7 @@ private theorem le_normalizer_L_of_odd_normal {H X L Q I : Subgroup G} (h : Setu
     rw [h.Q_eq]; exact pCoreOf_le_normalizer_of_mem_oTwoComponentsIn h.L_mem
   exact ⟨hNL, sup_le (I_le_normalizer_L h) hQNL⟩
 
+omit [Finite G] in
 private theorem conjugate_eq_of_mul_inv_pow_mem {L : Subgroup G} {N : Subgroup G}
     (hNL : N ≤ Subgroup.normalizer (L : Set G)) {I Q : Subgroup G}
     (hsupN : I ⊔ Q ≤ Subgroup.normalizer (L : Set G))
@@ -827,6 +853,7 @@ private theorem conjugate_eq_of_mul_inv_pow_mem {L : Subgroup G} {N : Subgroup G
   have hxeq : x = (x * (n ^ j)⁻¹) * n ^ j := by group
   rw [hxeq, ← conjugate_conjugate L (x * (n ^ j)⁻¹) (n ^ j), hq, hnj]
 
+omit [Finite G] in
 private theorem pi_image_ne_one_of_inf_eq_bot {H Q I : Subgroup G} {N : Subgroup G}
     (hNH : N ≤ H) (Q' : Subgroup ↥H) [Q'.Normal] (hQ' : Q' = (I ⊔ Q).subgroupOf H)
     (hdisj : N ⊓ (I ⊔ Q) = ⊥) {n : N} (hn : (n : G) ≠ 1) :
@@ -853,7 +880,7 @@ private theorem odd_normal_card_three_contra {H X L Q I : Subgroup G} (h : Setup
   have hQH : Q ≤ H := h.Q_eq.le.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 H)
   have hIQs : I ⊔ Q ≤ H := sup_le (I_le_H h) hQH
   let Q' : Subgroup ↥H := (I ⊔ Q).subgroupOf H
-  haveI hQ'n : Q'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hIQs).mpr hIQnorm
+  have hQ'n : Q'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hIQs).mpr hIQnorm
   let π : ↥H →* ↥H ⧸ Q' := QuotientGroup.mk' Q'
   have hcardQ : Nat.card (↥H ⧸ Q') ≤ Nat.card X := card_quotient_le_card_X h Q' rfl hIQnorm
   have hn'3 : n' ^ 3 = 1 := Subtype.ext (by simpa [n'] using hn3)
@@ -900,21 +927,21 @@ theorem odd_normal_eq_bot49 {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
 
 theorem struct49_main {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :
     I ≤ H ∧ H ≤ Subgroup.normalizer (I : Set G) ∧ H = I ⊔ X ⊔ Q ∧ ⁅I, I⁆ = I ∧
-    (∀ x ∈ X, CFSG.conjugate L x ∈ CFSG.RankThree.PartTwo.oTwoComponentsIn H ∧
-        IsAlt (Bar2 (CFSG.conjugate L x)) 5 ∧
-        Q ≤ Subgroup.normalizer (CFSG.conjugate L x : Set G) ∧
-        CFSG.conjugate L x ⊓ Q = CFSG.Open.pCoreOf 2 (CFSG.conjugate L x)) ∧
-    (∃ x ∈ X, X = Subgroup.zpowers x ∧ CFSG.conjugate L x ≠ L ∧
-        CFSG.conjugate L (x ^ 2) ≠ L ∧ CFSG.conjugate L (x ^ 2) ≠ CFSG.conjugate L x) ∧
-    (∀ x ∈ X, ∀ y ∈ X, CFSG.conjugate L x ≠ CFSG.conjugate L y →
-        CFSG.conjugate L x ≤ Subgroup.normalizer (CFSG.conjugate L y : Set G) ∧
-        ⁅CFSG.conjugate L x, CFSG.conjugate L y⁆ ≤ Q) :=
+    (∀ _x ∈ X, CFSG.conjugate L _x ∈ CFSG.RankThree.PartTwo.oTwoComponentsIn H ∧
+        IsAlt (Bar2 (CFSG.conjugate L _x)) 5 ∧
+        Q ≤ Subgroup.normalizer (CFSG.conjugate L _x : Set G) ∧
+        CFSG.conjugate L _x ⊓ Q = CFSG.Open.pCoreOf 2 (CFSG.conjugate L _x)) ∧
+    (∃ _x ∈ X, X = Subgroup.zpowers _x ∧ CFSG.conjugate L _x ≠ L ∧
+        CFSG.conjugate L (_x ^ 2) ≠ L ∧ CFSG.conjugate L (_x ^ 2) ≠ CFSG.conjugate L _x) ∧
+    (∀ _x ∈ X, ∀ _y ∈ X, CFSG.conjugate L _x ≠ CFSG.conjugate L _y →
+        CFSG.conjugate L _x ≤ Subgroup.normalizer (CFSG.conjugate L _y : Set G) ∧
+        ⁅CFSG.conjugate L _x, CFSG.conjugate L _y⁆ ≤ Q) :=
   ⟨I_le_H h, le_normalizer_I h, eq_sup_I h, commutator_I_eq h,
-    fun x hx => ⟨conjugate_mem_oTwoComponentsIn h.L_mem (h.X_le hx),
-      isAlt_bar2_conjugate h.L_alt x, pCoreOf_le_normalizer_conjugate h hx,
+    fun _x hx => ⟨conjugate_mem_oTwoComponentsIn h.L_mem (h.X_le hx),
+      isAlt_bar2_conjugate h.L_alt _x, pCoreOf_le_normalizer_conjugate h hx,
       conjugate_inf_pCoreOf_eq h hx⟩,
     exists_generator49 h,
-    fun x hx y hy hne => ⟨conjugate_normalize_of_ne h hx hy hne,
+    fun _x hx _y hy hne => ⟨conjugate_normalize_of_ne h hx hy hne,
       commutator_conjugate_le h hx hy hne⟩⟩
 
 theorem struct49 {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) :

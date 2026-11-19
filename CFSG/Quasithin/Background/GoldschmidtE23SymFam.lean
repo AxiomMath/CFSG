@@ -141,9 +141,9 @@ variable {I : Finset (Subgroup (MulAut V))} {ψ : Subgroup (MulAut V) → Perm (
 
 include hF
 
-omit [Finite V] in
+omit [Finite V] hF in
 theorem hstab : ∀ H ∈ I, ∀ y ∈ H, ∀ u ∈ commV H, y u ∈ commV H :=
-  fun H hH _ hy _ hu => (hF.spec H hH).stab hy hu
+  fun _H _hH _ hy _ hu => CFSG.Quasithin.GE23.SymSpec.stab hy hu
 
 omit [Finite V] in
 theorem d8_le {H : Subgroup (MulAut V)} (hH : H ∈ I) : d8.map (ψ H) ≤ H :=
@@ -170,7 +170,7 @@ theorem card_fixV_single {H₀ : Subgroup (MulAut V)} (hH₀ : H₀ ∈ I) {A : 
     Nat.card V * Nat.card ↥(commV H₀ ⊓ fixV A) = Nat.card ↥(fixV A) * 16 := by
   classical
   have hAI : A ≤ ⨆ H ∈ I, H := hA.trans (le_iSup₂_of_le (f := fun H (_ : H ∈ I) => H) H₀ hH₀ le_rfl)
-  have h := card_fixV_prod hF.hother hF.hstab hF.hind0 hF.hsplit hAI
+  have h := card_fixV_prod hF.hother CFSG.Quasithin.GE23.SymFam.hstab hF.hind0 hF.hsplit hAI
   have hothers : ∀ H ∈ I.erase H₀, commV H ⊓ fixV A = commV H := by
     intro H hH
     have hne : H ≠ H₀ := (Finset.mem_erase.1 hH).1
@@ -198,7 +198,7 @@ theorem key {B : Subgroup (MulAut V)} (hBD : B ≤ ⨆ H ∈ I, d8.map (ψ H)) (
   have hres : ∀ H ∈ I, ∀ b ∈ B, ∃ σ ∈ d8,
       ∀ u : ↥(coreMod 5), b (β H u) = β H (coreAct 5 σ u) := by
     intro H hH b hb
-    obtain ⟨a, ha, hba⟩ := exists_restr hF.hother hF.hstab (A := fun H => d8.map (ψ H))
+    obtain ⟨a, ha, hba⟩ := exists_restr hF.hother CFSG.Quasithin.GE23.SymFam.hstab (A := fun H => d8.map (ψ H))
       (fun H hH => hF.d8_le hH) (hBD hb) hH
     obtain ⟨σ, hσ, rfl⟩ := Subgroup.mem_map.1 ha
     refine ⟨σ, hσ, fun u => ?_⟩
@@ -220,7 +220,7 @@ theorem key {B : Subgroup (MulAut V)} (hBD : B ≤ ⨆ H ∈ I, d8.map (ψ H)) (
   have hAH : ∀ H ∈ I, A H ≤ H := fun H hH => hF.map_le hH _
   have hBA : B ≤ ⨆ H ∈ I, A H := by
     intro b hb
-    refine mem_iSup_of_restr hF.hcomm hF.hother hF.hstab hF.hsplit hAH (hBI hb) fun H hH => ?_
+    refine mem_iSup_of_restr hF.hcomm hF.hother CFSG.Quasithin.GE23.SymFam.hstab hF.hsplit hAH (hBI hb) fun H hH => ?_
     obtain ⟨σ, -, hσ⟩ := hres H hH b hb
     refine ⟨ψ H σ, Subgroup.mem_map_of_mem _ ⟨b, hb, hσ⟩, fun w hw => ?_⟩
     obtain ⟨u, rfl⟩ := (hF.spec H hH).exists_β hw
@@ -251,7 +251,7 @@ theorem key {B : Subgroup (MulAut V)} (hBD : B ≤ ⨆ H ∈ I, d8.map (ψ H)) (
         rw [hσ u, hu σ ⟨b, hb, hσ⟩]
     rw [this]
     exact Subgroup.card_map_of_injective hS.β_inj
-  have hprod := card_fixV_prod hF.hother hF.hstab hF.hind0 hF.hsplit hBI
+  have hprod := card_fixV_prod hF.hother CFSG.Quasithin.GE23.SymFam.hstab hF.hind0 hF.hsplit hBI
   have hP : Nat.card V * ∏ H ∈ I, Nat.card ↥(fixΔ (restrPerm (β H) B)) =
       Nat.card ↥(fixV B) * 16 ^ I.card := by
     have e1 : ∏ H ∈ I, Nat.card ↥(commV H ⊓ fixV B) =
@@ -297,7 +297,7 @@ theorem card_E :
   have hcardc : ∀ H ∈ I, Nat.card ↥(commV H ⊓ fixV (⨆ H' ∈ I, e4.map (ψ H'))) = 4 := by
     intro H hH
     rw [hfixE H hH, (hF.spec H hH).card_fix_map, card_fixΔ_e4]
-  have hprod := card_fixV_prod hF.hother hF.hstab hF.hind0 hF.hsplit hEI
+  have hprod := card_fixV_prod hF.hother CFSG.Quasithin.GE23.SymFam.hstab hF.hind0 hF.hsplit hEI
   rw [Finset.prod_congr rfl hcardc,
     Finset.prod_congr rfl (fun H hH => (hF.spec H hH).card_commV)] at hprod
   simp only [Finset.prod_const] at hprod
@@ -316,7 +316,7 @@ omit [Finite V] in
 theorem inf_E_le {H : Subgroup (MulAut V)} (hH : H ∈ I) :
     (⨆ H' ∈ I, e4.map (ψ H')) ⊓ H ≤ e4.map (ψ H) := by
   rintro x ⟨hxE, hxH⟩
-  obtain ⟨a, ha, hxa⟩ := exists_restr hF.hother hF.hstab (A := fun H' => e4.map (ψ H'))
+  obtain ⟨a, ha, hxa⟩ := exists_restr hF.hother CFSG.Quasithin.GE23.SymFam.hstab (A := fun H' => e4.map (ψ H'))
     (fun H' hH' => hF.map_le hH' _) hxE hH
   have : x = a := (hF.spec H hH).eq_of_act hxH (hF.map_le hH _ ha) hxa
   rw [this]

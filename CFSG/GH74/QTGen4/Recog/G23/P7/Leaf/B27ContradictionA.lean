@@ -147,7 +147,7 @@ theorem card_ker_ge_nine {V : Type*} [AddCommGroup V] [Finite V] (T : V →+ V)
     exact h4
   have hd : Nat.card T.ker ∣ 81 := ⟨Nat.card T.range, h1.symm⟩
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hpos : 0 < Nat.card T.ker := by
     rcases Nat.eq_zero_or_pos (Nat.card T.ker) with h0 | h0
     · rw [h0] at hd; norm_num at hd

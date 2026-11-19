@@ -31,7 +31,7 @@ private theorem perfectInLayer_graphFixed_outer {p f : ℕ} (hp : p.Prime) (hp5 
       (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) :
     PerfectInLayer β := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hβ1 : β ≠ 1 := fun h =>
     hβin (h ▸ (CFSG.ComponentClassification.OuterAutomorphisms.inner _).one_mem)
   have hβord : orderOf β = p := orderOf_eq_prime hβ hβ1
@@ -84,14 +84,14 @@ private theorem perfectInLayer_graphFixed_outer {p f : ℕ} (hp : p.Prime) (hp5 
   obtain ⟨-, -, -, -, -, -, hfixJ, hsimpJ, hncJ, -⟩ :=
     CFSG.RankThree.Chevalley.triality_canonical_field_full_centralizer_and_pointwise_kernel hp hd
       hp.two_le hm3 K hK' σ hσ' δc hδc
-  haveI := hsimpJ
+  have := hsimpJ
   have e3 : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)) ≃* ↥(trialityFieldImage σ δc) :=
     (Subgroup.equivMapOfInjective _ (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype
       (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype_injective).trans
       (MulEquiv.subgroupCongr hfixJ)
   have hsimE : IsSimpleGroup ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)) := e3.isSimpleGroup
   have hncE : ∃ a b : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)), a * b ≠ b * a := by
-    simp only [not_forall, ne_eq] at hncJ
+    simp only [not_forall] at hncJ
     obtain ⟨a, b, hab⟩ := hncJ
     refine ⟨e3.symm a, e3.symm b, fun h => hab ?_⟩
     have h' := congrArg e3 h
@@ -111,7 +111,7 @@ end Core
 theorem perfectInLayer_trialityD4_outer
     (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.trialityD4 q, hv⟩)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
     (hp3 : p ≠ 3)
@@ -132,7 +132,7 @@ theorem perfectInLayer_trialityD4_outer
   have hp2' : q.p ≠ 2 := by
     rw [← hpc]
     exact hp2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK₀ : Nat.card (GaloisField p (3 * f)) = (p ^ f) ^ 3 := by
     rw [GaloisField.card p (3 * f) (by omega), ← pow_mul, mul_comm]
   have hσ₀ : ∀ c : GaloisField p (3 * f),

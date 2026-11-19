@@ -168,7 +168,7 @@ theorem exists_mem_normalizer (hG : Goldschmidt1974) (h : FourData R U S t v f) 
     map_mono fun x hx => mem_subgroupOf.mpr (h.le_S (mem_subgroupOf.mp hx))
   have hAbn : (Ab.subgroupOf Sb).Normal :=
     (normal_subgroupOf_iff_le_normalizer hAbSb).mpr hSbN
-  have hS2 : IsPGroup 2 S := by rw [← hS₀]; exact S₀.isPGroup'
+  have hS2 : IsPGroup 2 S := by rw [← hS₀]; exact S₀.isPGroup
   have hSb2 : IsPGroup 2 Sb := (hS2.of_equiv (subgroupOfEquivOfLe hSX).symm).map π
   have hS₀X : (S₀ : Subgroup G) ≤ X := by rw [hS₀]; exact hSX
   set P : Sylow 2 (X ⧸ N) := (S₀.subtype hS₀X).mapSurjective hπs with hPdef

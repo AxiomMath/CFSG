@@ -107,7 +107,7 @@ private theorem tzTorus_prod_zpow_eq_zpow_sum {L : Type} [Field L] (ζ : Lˣ)
 private theorem tzTorus_iform_eq_sum_single (β v : Fin Tag.E6.rank → ℤ) :
     iform β v = ∑ j, v j * iform β (Pi.single j 1) := by
   simp only [iform, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   rw [Finset.sum_comm]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [Finset.mul_sum]
@@ -231,11 +231,11 @@ open CFSG.LieType.Steinberg.Adjoint
 open CFSG.HardMathSupport.Timmesfeld.CrossChar in
 theorem tableZ_norm_torus
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p₀ : ℕ} (S : LangSetup Tag.E6 L p₀)
-    {n : ℕ} (hn : 1 ≤ n) (hq : S.D.q = 2 ^ n) (h3 : 3 ∣ 2 ^ n + 1)
+    {n : ℕ} (_hn : 1 ≤ n) (hq : S.D.q = 2 ^ n) (h3 : 3 ∣ 2 ^ n + 1)
     (hΦ : ∃ Fr : L →+* L, (∀ c, Fr c = c ^ (2 ^ n)) ∧ S.D.Φ = twistHom TwistTag.E6 L Fr)
     {a : Fin Tag.E6.rank → Lˣ} (hT : rootDiagUnit Tag.E6 a ∈ S.D.torus) (hap : ∀ j, a j ^ 3 = 1)
     (i : KernelComponent (rootCharHom a))
-    (hs : componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) = 3)
+    (_hs : componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) = 3)
     (h6 : (componentRoots (rootCharHom a) i).ncard = 6)
     {ψ : SL(3, L) →* ModGL Tag.E6 L} {σ' : Fin 3 → Fin 3 → Fin Tag.E6.rank → ℤ}
     (hψ : IsSLFrame ψ σ') (hΨ : componentRoots (rootCharHom a) i = frameRoots σ')
@@ -296,7 +296,7 @@ theorem tableZ_norm_torus
     rw [tableZ_frame_diag hψ c ![ζ, (ζ ^ 2)⁻¹, ζ] ht]
     congr 1
     funext j
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [tzTorus_hPar, hκdef, iform_sub_right]
     rw [show ((ζ ^ 2)⁻¹ : Lˣ) = ζ ^ (-2 : ℤ) by rw [zpow_neg, zpow_ofNat],
       ← zpow_mul, ← zpow_add]
@@ -357,7 +357,7 @@ theorem tableZ_norm_torus
           rw [rootChar_add, hxinv, inv_mul_cancel]
         rw [hchar (S.ρ.symm (Pi.single j 1) + Pi.single j 1)] at hsum1
         have hdvdω : (3 : ℤ) ∣ iform (S.ρ.symm (Pi.single j 1) + Pi.single j 1) (ε • m) := by
-          haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+          have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
           have hord : orderOf ω = 3 := orderOf_eq_prime hω3 hω1
           have h : (orderOf ω : ℤ) ∣ iform (S.ρ.symm (Pi.single j 1) + Pi.single j 1) (ε • m) :=
             (orderOf_dvd_iff_zpow_eq_one (x := ω)).2 hsum1

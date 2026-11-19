@@ -10,11 +10,11 @@ namespace CertificateChecks.KernelFi24Orb
 open CertificateChecks.KernelFi24Fix CFSG.KC.Fi24FixC CFSG.KC.Fi24Orb CFSG.KD.Fi24Orb
 
 noncomputable def ptL (k : ℕ) : Submodule (ZMod 3) (Fin 781 → ZMod 3) :=
-  if h : k = 0 then (CFSG.Sporadic.Fi24.pt 0).sp else
-    if hp : oPar (OL k) < k then (ptL (oPar (OL k))).map (Matrix.mulVecLin
+  if _h : k = 0 then (CFSG.Sporadic.Fi24.pt 0).sp else
+    if _hp : oPar (OL k) < k then (ptL (oPar (OL k))).map (Matrix.mulVecLin
       (if oLab (OL k) = 1 then CFSG.Sporadic.Fi24.mA else CFSG.Sporadic.Fi24.mB)) else ⊥
 termination_by k
-decreasing_by exact hp
+decreasing_by exact _hp
 
 theorem act_uA (W : Submodule (ZMod 3) (Fin 781 → ZMod 3)) :
     act uA W = W.map (Matrix.mulVecLin CFSG.Sporadic.Fi24.mA) := by
@@ -32,18 +32,18 @@ theorem ptL_eq : ∀ k < N, ptL k = f k := by
   | _ k ih =>
     intro hk
     rcases Nat.eq_zero_or_pos k with rfl | hpos
-    · rw [ptL, dif_pos rfl, f_zero]
+    · rw [ptL, dite_eq_left rfl, f_zero]
     · obtain ⟨hp, hl⟩ := tree hk (Nat.pos_iff_ne_zero.1 hpos)
       have hpN : oPar (OL k) < N := by omega
-      rw [ptL, dif_neg (Nat.pos_iff_ne_zero.1 hpos), dif_pos hp, ih _ hp hpN]
+      rw [ptL, dite_eq_right (Nat.pos_iff_ne_zero.1 hpos), dite_eq_left hp, ih _ hp hpN]
       rcases hl with ⟨h1, he⟩ | ⟨h2, he⟩
-      · rw [if_pos h1, ← act_uA, ← f_α hpN]
+      · rw [ite_eq_left h1, ← act_uA, ← f_α hpN]
         exact congrArg f he
-      · rw [if_neg (by omega), ← act_uB, ← f_β hpN]
+      · rw [ite_eq_right (by omega), ← act_uB, ← f_β hpN]
         exact congrArg f he
 
 theorem ptL_zero : ptL 0 = (CFSG.Sporadic.Fi24.pt 0).sp := by
-  rw [ptL, dif_pos rfl]
+  rw [ptL, dite_eq_left rfl]
 
 noncomputable abbrev lvl1 : Subgroup Jc := MulAction.stabilizer Jc (0 : Fin N)
 

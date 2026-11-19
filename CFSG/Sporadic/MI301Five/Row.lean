@@ -22,7 +22,7 @@ open CFSG.Blueprint CFSG.Open CFSG.Monster.Existence CFSG.Monster.GMS
 theorem i301ARow_m5_of_centFiveA (hC : CentFiveA MGriess) : I301ARow .m5 := by
   have hE : MonsterExistenceStatement MGriess :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite MGriess := hE.1.1
+  have : Finite MGriess := hE.1.1
   obtain ⟨d, hd, hinv⟩ := exists_invertedByTwoA_five hE card_nativeB
   obtain ⟨α, z, F⟩ := exists_fiveFrame hE (TabMFive.h2B_MGriess
     (TabMFive.co1FiveBound_of_inputs TabMFive.co1FiveInputs) hE card_nativeB)

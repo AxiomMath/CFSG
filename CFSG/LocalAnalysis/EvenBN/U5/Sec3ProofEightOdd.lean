@@ -213,7 +213,7 @@ theorem s38d_TOmega [Finite F] {O K : Subgroup F} [O.Normal] (hO : Odd (Nat.card
     rw [h2] at h3
     exact (Nat.not_even_iff_odd.2 hO) (even_iff_two_dvd.2 h3)
   have hKO : ∀ z ∈ K ⊓ O, ∀ k ∈ K, z * k = k * z := by
-    haveI : ((K ⊓ O).subgroupOf K).Normal := ⟨fun n hn g => by
+    have : ((K ⊓ O).subgroupOf K).Normal := ⟨fun n hn g => by
       rw [mem_subgroupOf] at hn ⊢
       refine Subgroup.mem_inf.2 ⟨mul_mem (mul_mem g.2 (Subgroup.mem_inf.1 hn).1) (inv_mem g.2), ?_⟩
       have := (inferInstance : O.Normal).conj_mem _ (Subgroup.mem_inf.1 hn).2 (g : F)
@@ -317,11 +317,11 @@ section Generic2
 theorem s38o_exists_involution {Q : Type*} [Group Q] [Finite Q]
     (hQ : CFSG.Open.IsQuasisimple Q) : ∃ x : Q, x ≠ 1 ∧ x * x = 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hodd : Odd (Nat.card Q) := by
     by_contra hev
     have h2 : 2 ∣ Nat.card Q := even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hev)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Q) 2 h2
     have hx1 : x ≠ 1 := by
       intro h
@@ -332,9 +332,9 @@ theorem s38o_exists_involution {Q : Type*} [Group Q] [Finite Q]
       exact pow_orderOf_eq_one x
     exact hcon x hx1 hxx
   have hsolv : Group.IsSolvable Q := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
-  haveI hperf : Group.IsPerfect Q := (Group.isPerfect_def (G := Q)).2 hQ.1
-  haveI : Nontrivial Q := by
-    haveI := hQ.2.toNontrivial
+  have hperf : Group.IsPerfect Q := (Group.isPerfect_def (G := Q)).2 hQ.1
+  have : Nontrivial Q := by
+    have := hQ.2.toNontrivial
     exact (QuotientGroup.mk'_surjective (center Q)).nontrivial
   exact Group.IsPerfect.not_isSolvable Q hsolv
 
@@ -472,7 +472,7 @@ theorem s38o_prod_dihedral {H : Type*} [Group H] {J : Subgroup H} {a : H}
       rw [map_mul, hψu, map_one]
       ext <;> simp [hx'x']
     exact congrArg Subtype.val h1
-  · haveI : (normalClosure (J : Set H)).Normal := normalClosure_normal
+  · have : (normalClosure (J : Set H)).Normal := normalClosure_normal
     have hda : a⁻¹ * (u : H) * a ∈ normalClosure (J : Set H) := by
       have := (inferInstance : (normalClosure (J : Set H)).Normal).conj_mem _ u.2 a⁻¹
       simpa using this
@@ -499,7 +499,7 @@ theorem s38o_prod_odd_trivial {H : Type*} [Group H] [Finite H] {J : Subgroup H} 
     (hP : ProdLayer J a) [IsSimpleGroup J] {i : H} (hiJ : ∀ j ∈ J, i * j = j * i) {n : ℕ}
     (hn : Odd n) (hin : i ^ n = 1) : i = 1 := by
   obtain ⟨ψ, hψ1, -⟩ := hP.psi
-  haveI : (normalClosure (J : Set H)).Normal := normalClosure_normal
+  have : (normalClosure (J : Set H)).Normal := normalClosure_normal
   set σ₀ : MulAut (normalClosure (J : Set H)) := MulAut.conjNormal i with hσ₀
   set σ : MulAut (J × J) := MulAut.congr ψ σ₀ with hσ
   have hσ' : ∀ j : J, σ (j, j) = (j, j) := by
@@ -589,7 +589,7 @@ theorem s38o_simple_generic {H : Type} [Group H] [Finite H]
     ∃ u : H, u * u = 1 ∧ u * a * u * a ≠ 1 ∧ (u * a * u * a) * (u * a * u * a) = 1 ∧
       u * a * u * a ∈ J := by
   classical
-  haveI hchar : (CFSG.layer H).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hchar : (CFSG.layer H).Characteristic := CFSG.LocalCores.layer_characteristic
   obtain ⟨hX, hτout⟩ := hout.2 hs
   have hJL : J ≤ CFSG.layer H := hout.1.2.2.1
   have hainv : a⁻¹ = a := inv_eq_of_mul_eq_one_right haa
@@ -718,7 +718,7 @@ theorem s38o_centralizes_L₂ (d : Data G h)
     rw [mem_centralizer_iff]
     intro o ho
     exact hc o ho k hk
-  haveI : (centralizer (OE d : Set (Bar d.E))).Normal := Subgroup.normal_centralizer
+  have : (centralizer (OE d : Set (Bar d.E))).Normal := Subgroup.normal_centralizer
   have h2 : normalClosure ((bar d.E d.N₂ : Subgroup (Bar d.E)) : Set (Bar d.E)) ≤
       centralizer (OE d : Set (Bar d.E)) := normalClosure_le_normal h1
   intro o ho y hy
@@ -786,7 +786,7 @@ theorem s38o_prod_alt (hp : d.CaseHyp) (hi : d.Sec38Input)
   have hKev : ¬ Odd (Nat.card (bar d.E d.N₂)) := s38o_not_odd_of_involution hy1 hyy
   have hθ : Odd (Nat.card (QuotientGroup.mk' (OE d)).ker) := by
     rw [QuotientGroup.ker_mk']; exact hO
-  haveI hJs : IsSimpleGroup ((bar d.E d.N₂).map (QuotientGroup.mk' (OE d))) :=
+  have hJs : IsSimpleGroup ((bar d.E d.N₂).map (QuotientGroup.mk' (OE d))) :=
     s38d_simple_image (QuotientGroup.mk' (OE d)) hθ hi.quasisimple hKev hP.center_eq_bot
   have hord := hi.order_two
   have haa : QuotientGroup.mk' (OE d) (proj d.E ⟨d.t, hi.t_mem⟩) *
@@ -855,7 +855,7 @@ theorem s38o_simple_alt (hL3 : CaseBParts.L3AutOddStatement)
   exact (QuotientGroup.eq_one_iff _).1 (hI1 _ (s38d_odd_I₂ d) hpow hcomm)
 
 theorem sec38_odd (hL3 : CaseBParts.L3AutOddStatement) (hL3d : CaseBParts.L3DihedralStatement)
-    (hp : d.CaseHyp) (ha : d.Sec38a) (hi : d.Sec38Input) (hnn : d.Sec38NotNormal)
+    (hp : d.CaseHyp) (_ha : d.Sec38a) (hi : d.Sec38Input) (_hnn : d.Sec38NotNormal)
     (ho : d.Sec38Outcome) : d.Sec38Odd := by
   obtain ⟨ht, hout⟩ := ho
   have hdata : (∀ (i : G) (hI : i ∈ d.I₂),

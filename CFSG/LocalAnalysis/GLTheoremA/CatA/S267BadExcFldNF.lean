@@ -19,7 +19,7 @@ theorem exists_conj_entrywise_excE_of_not_innerDiag {τ : Tag} (hτ : τ = .E6 �
   classical
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
   have hK : Nat.card K = ringChar K ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   obtain ⟨-, T, r, j, ψ, -, -, -, -, hTj, hαβ, hψ⟩ :=
     CFSG.HardMathSupport.Lang.E6Descent.exists_conj_entrywise_of_not_innerDiag τ hτ n.pos K hK
@@ -54,7 +54,7 @@ theorem exists_conj_entrywise_excF4 {K : Type} [Field K] [Finite K] (hK2 : ringC
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hβo : orderOf β = p := orderOf_eq_prime hβp fun h => hβ ⟨1, by rw [h, map_one]⟩
   obtain ⟨-, σ, δ, hσ, -, hδ, -⟩ := odd_F4_prime_field_coset_descent hℓ hK2 n.pos K hK hp β hβo hβ
   exact ⟨σ, δ, hσ, hδ⟩

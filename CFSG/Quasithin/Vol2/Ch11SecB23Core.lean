@@ -103,7 +103,7 @@ theorem le_sup_normalizer_of_regular [Finite W] (h112 : ASInputs.AS_A_1_12)
   have hYeq : Y = N.map Y.subtype ⊔ P := by
     rw [← hSmap, ← Subgroup.map_sup, hNc.sup_eq_top, ← MonoidHom.range_eq_map,
       Subgroup.range_subtype]
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 (B6.toSylow2 hP).isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 (B6.toSylow2 hP).isPGroup
   have hNidx : N.index = 2 ^ k := by rw [hNc.symm.index_eq_card, hk]
   have hXN : X ≤ N.map Y.subtype := by
     intro x hx

@@ -102,7 +102,7 @@ theorem exists_rep_map
   have hfapply : ∀ g : ↥(centralizer ({t} : Set G)),
       f g = c⁻¹ * ((ρ (g : G) : ↥autModel) : Equiv.Perm (Fin 24)) * c := by
     intro g
-    simp [f, MulAut.conj_apply]
+    simp [f]
   have hf : ∀ g : ↥(centralizer ({t} : Set G)), f g ∈ centralizerIn autModel r := by
     intro g
     rw [mem_centralizerIn, hfapply]
@@ -157,7 +157,7 @@ theorem exists_rep_map
 theorem haradaM12_holds :
     HaradaM12 := by
   intro G _ _ S hSn ⟨ψ₀⟩ hcent t ht ⟨ζ⟩
-  haveI := hSn
+  have := hSn
   by_contra hne
   let ψ : ↥S ≃* ↥CFSG.Blueprint.NativeSporadic.M12 := ψ₀
   have hbij := m12Rho_bijective_of_ne_top S ψ hcent hne
@@ -185,7 +185,7 @@ theorem haradaM12_holds :
 theorem noTwoCfgM12_holds :
     NoTwoCfgM12 := by
   intro G _ _ S hSn ⟨ψ₀⟩ hcent t v J h _
-  haveI := hSn
+  have := hSn
   let ψ : ↥S ≃* ↥CFSG.Blueprint.NativeSporadic.M12 := ψ₀
   have htop : centralizer ({t} : Set G) ≠ ⊤ := centralizer_singleton_ne_top hcent h.t_ne_one
   have h480 := h.card_centralizer htop

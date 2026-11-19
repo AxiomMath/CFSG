@@ -17,6 +17,7 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X] {K : Subgroup X}
 
+omit [Finite X] in
 theorem mem_normalizer_of_map_conj_eq_self {t : X}
     (h : K.map (MulAut.conj t).toMonoidHom = K) : t ∈ Subgroup.normalizer (K : Set X) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -37,7 +38,7 @@ theorem exists_pow_central_of_not_mem_normalizer (hK : IsComponentOf K ⊤) {d t
     (ht : t ∈ pCoreOf 2 (Subgroup.centralizer ({d} : Set X)))
     (htK : t ∉ Subgroup.normalizer (K : Set X)) {y : X} (hy : y ∈ K) (hyd : y * d = d * y) :
     ∃ e : ℕ, ∀ k ∈ K, y ^ (2 ^ e) * k = k * y ^ (2 ^ e) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T₀ := pCoreOf 2 (Subgroup.centralizer ({d} : Set X)) with hT₀
   have hyC : y ∈ Subgroup.centralizer ({d} : Set X) :=
     Subgroup.mem_centralizer_singleton_iff.2 hyd
@@ -73,7 +74,7 @@ theorem exists_mem_CKE_pow_eq {E : Subgroup ↥(Subgroup.normalizer (K : Set X))
     (hk : (QuotientGroup.mk k : Kbar K) ∈ autCentralizer (E.map (rhoK K))) :
     ∃ y ∈ CKE K E, (QuotientGroup.mk y : Kbar K) = (QuotientGroup.mk k) ^ Nat.card ↥E := by
   classical
-  haveI : Fintype ↥E := Fintype.ofFinite _
+  have : Fintype ↥E := Fintype.ofFinite _
   have hz : ∀ e : ↥E, k⁻¹ * K.normalizerMonoidHom (e : ↥(Subgroup.normalizer (K : Set X))) k ∈
       Subgroup.center ↥K := by
     intro e
@@ -91,7 +92,7 @@ theorem isPGroup_two_autCentralizer {p : ℕ} (hp : p.Prime) (hndvd : ¬ p ∣ N
     (hT : ∀ y ∈ K, y * d = d * y → ∃ e : ℕ, ∀ k ∈ K, y ^ (2 ^ e) * k = k * y ^ (2 ^ e)) :
     IsPGroup 2 ↥(autCentralizer ((Subgroup.zpowers
       (⟨d, hdN⟩ : ↥(Subgroup.normalizer (K : Set X)))).map (rhoK K))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set E : Subgroup ↥(Subgroup.normalizer (K : Set X)) :=
     Subgroup.zpowers (⟨d, hdN⟩ : ↥(Subgroup.normalizer (K : Set X))) with hE
   have hdE : (⟨d, hdN⟩ : ↥(Subgroup.normalizer (K : Set X))) ∈ E := Subgroup.mem_zpowers _
@@ -136,18 +137,18 @@ theorem pCoreOf_le_normalizer_of_coprime (hCore : Chev2CoreCent) {p : ℕ} (hp :
     (hndvd : ¬ p ∣ Nat.card ↥K) {d : X} (hd : d ^ p = 1)
     (hdN : d ∈ Subgroup.normalizer (K : Set X)) :
     pCoreOf 2 (Subgroup.centralizer ({d} : Set X)) ≤ Subgroup.normalizer (K : Set X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro t ht
   by_contra htK
   have hT : ∀ y ∈ K, y * d = d * y → ∃ e : ℕ, ∀ k ∈ K, y ^ (2 ^ e) * k = k * y ^ (2 ^ e) :=
     fun y hy hyd => exists_pow_central_of_not_mem_normalizer hK ht htK hy hyd
   have h2 := isPGroup_two_autCentralizer hp hndvd hd hdN hT
-  haveI : IsSimpleGroup (Kbar K) := hK.2.2.2
+  have : IsSimpleGroup (Kbar K) := hK.2.2.2
   have hnab := (isQuasisimple_of_comp hK).2.2
   set dN : ↥(Subgroup.normalizer (K : Set X)) := ⟨d, hdN⟩ with hdNdef
   set R : Subgroup (MulAut (Kbar K)) := (Subgroup.zpowers dN).map (rhoK K) with hR
   have hRp : IsPGroup p R := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     refine IsPGroup.map (IsPGroup.of_card_dvd_pow (n := 1) ?_) _
     rw [Nat.card_zpowers, pow_one]
     exact orderOf_dvd_of_pow_eq_one (Subtype.ext (by simpa using hd))
@@ -171,7 +172,7 @@ theorem pCoreOf_le_normalizer_of_coprime (hCore : Chev2CoreCent) {p : ℕ} (hp :
     exact hx'
   have ha1 : a ≠ 1 := by
     intro h
-    haveI : Nontrivial (Kbar K) := IsSimpleGroup.toNontrivial
+    have : Nontrivial (Kbar K) := IsSimpleGroup.toNontrivial
     obtain ⟨x, hx⟩ := exists_ne (1 : Kbar K)
     exact hx (hfix x (by rw [h]; rfl))
   have hap : a ^ p = 1 := by

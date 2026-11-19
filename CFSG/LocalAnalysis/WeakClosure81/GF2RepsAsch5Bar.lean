@@ -28,7 +28,7 @@ private theorem gf2_Bar_isSylowIn_subgroupOf_top {Q : Type} [Group Q] {H T : Sub
 
 theorem pCore_le_subgroupOf_of_isSylowIn {Q : Type} [Group Q] {H T : Subgroup Q}
     (hT : IsSylowIn 2 T H) : CFSG.pCore 2 ↥H ≤ T.subgroupOf H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact IsSylowIn.le_of_normal (gf2_Bar_isSylowIn_subgroupOf_top hT) le_top inferInstance
     CFSG.pCore_isPGroup
 

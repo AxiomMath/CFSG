@@ -256,7 +256,7 @@ private theorem nonempty_center_quot_equiv_pSimple {G : Type} [Group G] [Finite 
   have hcore : GLAPPrimeCore 3 ↥J ≤ Subgroup.center ↥J := by
     rcases normal_eq_top_or_le_center hq (inferInstance : (GLAPPrimeCore 3 ↥J).Normal) with h | h
     · exfalso
-      haveI := hQ.2.toNontrivial
+      have := hQ.2.toNontrivial
       have hsub : Subsingleton (PQuot 3 J) := ⟨fun a b => by
         induction a using QuotientGroup.induction_on with | H a => ?_
         induction b using QuotientGroup.induction_on with | H b => ?_
@@ -416,7 +416,7 @@ theorem field_bound {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S) (hna 
       lab.n = (specOf d.1).2.2 ∧
       ((specOf d.1).2.2 ∣ 3 ∨
         ((specOf d.1).1 = .PSU ∧ (specOf d.1).2.1 = 3 ∧ (specOf d.1).2.2 = 9)) := by
-  haveI := hS
+  have := hS
   have hZ : Subgroup.center S = ⊥ := CFSG.StandardType.center_eq_bot_of_isSimpleGroup_of_nonabelian hna
   have hperf : commutator S = ⊤ :=
     (CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_isQuasisimple_of_simple hna).1
@@ -454,7 +454,7 @@ theorem field_bound {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S) (hna 
       obtain ⟨t, r, n⟩ := labK
       simp only at htw hr2
       subst htw hr2
-      simp only [markDeg, if_true] at hfK
+      simp only [markDeg, ite_true] at hfK
       have : (2 * n) ∣ 3 := hfK ▸ h3
       have h2 : 2 ∣ 3 := (Dvd.intro n rfl).trans this
       omega

@@ -52,9 +52,9 @@ theorem frameReflCoord_ofAdd {p N : ℕ} (i : Fin N) (v : Fin N → ZMod p) :
   rw [frameReflCoord_apply]
   by_cases hji : j = i
   · subst hji
-    rw [if_pos rfl, Function.update_self]
+    rw [ite_eq_left rfl, Function.update_self]
     exact (ofAdd_neg (v j)).symm
-  · rw [if_neg hji, Function.update_of_ne hji]
+  · rw [ite_eq_right hji, Function.update_of_ne hji]
 
 end FrameReflection
 
@@ -145,7 +145,7 @@ theorem exists_frameTorus_of_commutingSL2 {K : Type} [Field K] [Finite K] [CharP
         m i * e (Multiplicative.ofAdd v) * (m i)⁻¹ =
           e (Multiplicative.ofAdd (Function.update v i (-v i))) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨s, n, hsorder, hconj⟩ := GGPlusLiftSL2.exists_order_p_inverting_sl2 hp hp2 hpq
   have hs_pow : s ^ p = 1 := by rw [← hsorder]; exact pow_orderOf_eq_one s
   have hpow : ∀ i : Fin N, (ρ i s) ^ p = 1 := fun i => by
@@ -265,7 +265,7 @@ theorem ggSCNoLine_of_sylowTorus_frame {K : Type} [Field K] [Finite K] [CharP K 
     (hmove : ∀ i : Fin N, ∃ j : Fin N, j ≠ i ∧ ∃ g : R, ∀ A : SL2 K, g * ρ i A * g⁻¹ = ρ j A)
     (r : ℕ) : GGSCNoLine p r R := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨s, e, m, hsorder, he_inj, he_single, hm_conj⟩ :=
     exists_frameTorus_of_commutingSL2 hp hp2 hpq ρ hρ hc
   let E : Subgroup R := e.range

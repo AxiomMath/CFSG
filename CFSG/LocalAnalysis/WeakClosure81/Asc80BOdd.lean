@@ -41,6 +41,7 @@ theorem SeitzFourExc.of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizer_subgroupOf_fstar_eq_bot {H A M : Subgroup G} (h : Asc80BSetup H A M) :
     Subgroup.centralizer (((Fstar H).subgroupOf H : Subgroup ↥H) : Set ↥H) = ⊥ := by
   have heq : Subgroup.centralizer (((Fstar H).subgroupOf H : Subgroup ↥H) : Set ↥H) =
@@ -182,7 +183,7 @@ theorem four_le_card_of_maximal {L A : Subgroup X} (hLs : IsSimpleGroup ↥L)
     have haZ : ∀ y ∈ (P : Subgroup X), y * a = a * y := by
       have : Nontrivial ↥(P : Subgroup X) := by
         exact ⟨⟨⟨a, hAP haA⟩, 1, fun h => ha1 (by simpa using congrArg Subtype.val h)⟩⟩
-      have hPg : IsPGroup 2 ↥(P : Subgroup X) := P.isPGroup'
+      have hPg : IsPGroup 2 ↥(P : Subgroup X) := P.isPGroup
       have := hPg.center_nontrivial
       obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center ↥(P : Subgroup X))) 2
         (by

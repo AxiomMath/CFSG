@@ -50,6 +50,7 @@ variable {K E X : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensio
   {B : LinearMap.BilinForm K E} {Qf : E → K} {φ : X →* (E ≃ₗ[K] E)}
   {V L Nb Rb : Subgroup X} {T : Submodule K E}
 
+omit [FiniteDimensional K E] in
 theorem eq_of_opm_eq (I : Sec717RepInputs B Qf φ V L Nb Rb T) {a b : X}
     (h : opm (φ a) = opm (φ b)) : a = b := by
   apply I.layer.inj
@@ -58,12 +59,14 @@ theorem eq_of_opm_eq (I : Sec717RepInputs B Qf φ V L Nb Rb T) {a b : X}
   rw [opm_apply, opm_apply] at hx
   exact sub_left_injective hx
 
+omit [FiniteDimensional K E] in
 theorem opm_conj_eq (g a : X) :
     opm (φ (g * a * g⁻¹)) = (φ g : E →ₗ[K] E) ∘ₗ opm (φ a) ∘ₗ (φ g⁻¹ : E →ₗ[K] E) := by
   ext x
   exact opm_conj φ g a x
 
-theorem opm_ne_zero (I : Sec717RepInputs B Qf φ V L Nb Rb T) {a : X} (ha : a ∈ V)
+omit [FiniteDimensional K E] in
+theorem opm_ne_zero (I : Sec717RepInputs B Qf φ V L Nb Rb T) {a : X} (_ha : a ∈ V)
     (ha1 : a ≠ 1) : opm (φ a) ≠ 0 := by
   intro h
   apply ha1
@@ -72,6 +75,7 @@ theorem opm_ne_zero (I : Sec717RepInputs B Qf φ V L Nb Rb T) {a : X} (ha : a �
   ext x
   simp [opm_apply]
 
+omit [FiniteDimensional K E] in
 theorem root_conj (I : Sec717RepInputs B Qf φ V L Nb Rb T) (g : X) {a₀ : X} (ha₀ : a₀ ∈ V)
     (ha₀1 : a₀ ≠ 1) :
     (∀ a ∈ V, ∃ c : K, opm (φ (g * a * g⁻¹)) = c • opm (φ (g * a₀ * g⁻¹))) ∧
@@ -89,15 +93,18 @@ theorem root_conj (I : Sec717RepInputs B Qf φ V L Nb Rb T) (g : X) {a₀ : X} (
     ext x
     simp
 
+omit [FiniteDimensional K E] in
 theorem opm_V_sq (I : Sec717RepInputs B Qf φ V L Nb Rb T) {a : X} (ha : a ∈ V) (x : E) :
     opm (φ a) (opm (φ a) x) = 0 :=
   (I.layer.V_corner a ha).apply_lowering
     ((I.layer.V_corner a ha).isLayerLowering I.layer.T_le) x
 
+omit [FiniteDimensional K E] in
 theorem opm_conj_sq (I : Sec717RepInputs B Qf φ V L Nb Rb T) (g : X) {a : X} (ha : a ∈ V)
     (x : E) : opm (φ (g * a * g⁻¹)) (opm (φ (g * a * g⁻¹)) x) = 0 := by
   rw [opm_conj φ, opm_conj φ, phi_inv_apply_phi, I.opm_V_sq ha, map_zero]
 
+omit [FiniteDimensional K E] in
 theorem Tt_eq_map (I : Sec717RepInputs B Qf φ V L Nb Rb T) {Tt : X → Submodule K E}
     (hTt : ∀ g a : X, a ∈ V → a ≠ 1 → LinearMap.range (opm (φ (g * a * g⁻¹))) = Tt g)
     (g : X) : Tt g = T.map ((φ g : E ≃ₗ[K] E) : E →ₗ[K] E) := by
@@ -105,6 +112,7 @@ theorem Tt_eq_map (I : Sec717RepInputs B Qf φ V L Nb Rb T) {Tt : X → Submodul
   rw [← hTt g a₀ ha₀ ha₀1, ← I.layer.range_V a₀ ha₀ ha₀1, opm_conj_eq, LinearMap.range_comp,
     LinearMap.range_comp, LinearEquiv.range, Submodule.map_top]
 
+omit [FiniteDimensional K E] in
 theorem conj_not_mem_Nb (I : Sec717RepInputs B Qf φ V L Nb Rb T) {g : X}
     (hR : ∀ a ∈ V, g * a * g⁻¹ ∈ Rb) (hN : ¬ ∀ a ∈ V, g * a * g⁻¹ ∈ Nb) {a : X} (ha : a ∈ V)
     (ha1 : a ≠ 1) : g * a * g⁻¹ ∉ Nb := by
@@ -119,6 +127,7 @@ theorem conj_not_mem_Nb (I : Sec717RepInputs B Qf φ V L Nb Rb T) {g : X}
   rw [opm_apply, sub_eq_zero] at h1
   exact h1
 
+omit [FiniteDimensional K E] in
 theorem conj_moves_T (I : Sec717RepInputs B Qf φ V L Nb Rb T) {g : X}
     (hR : ∀ a ∈ V, g * a * g⁻¹ ∈ Rb) (hN : ¬ ∀ a ∈ V, g * a * g⁻¹ ∈ Nb) {a : X} (ha : a ∈ V)
     (ha1 : a ≠ 1) : T.map (opm (φ (g * a * g⁻¹))) ≠ ⊥ := by
@@ -130,10 +139,12 @@ theorem conj_moves_T (I : Sec717RepInputs B Qf φ V L Nb Rb T) {g : X}
   rw [h, Submodule.mem_bot, opm_apply, sub_eq_zero] at hmem
   exact hmem
 
+omit [FiniteDimensional K E] in
 theorem Rb_P_inv (I : Sec717RepInputs B Qf φ V L Nb Rb T) {r : X} (hr : r ∈ Rb) :
     ∀ w ∈ B.orthogonal T, φ r⁻¹ w ∈ B.orthogonal T :=
   I.layer.Rb_P r⁻¹ (Rb.inv_mem hr)
 
+omit [FiniteDimensional K E] in
 theorem exists_normal_of_mapsTo (I : Sec717RepInputs B Qf φ V L Nb Rb T) (U : Submodule K E)
     (hTU : T ≤ U) (hU : ∀ r ∈ Rb, ∀ w ∈ U, φ r w ∈ U) :
     ∃ S : Subgroup X, (∀ z, z ∈ S ↔ z ∈ Rb ∧ ∀ p ∈ B.orthogonal T, opm (φ z) p ∈ U) ∧

@@ -27,10 +27,10 @@ theorem cfInner_prodCharAlpha (h : IsCyclicTIPair W W1 W2) [Fintype ↥W]
       ((principalIrr ↥W2 : Irr ↥W2) : ↥W2 → ℂ) := by rw [e1, e2, h.prodChar_one_one]
   simp only [prodCharAlpha_eq, hone, ← e1, ← e2, cfInner_sub_left, cfInner_sub_right,
     cfInner_add_left, cfInner_add_right, h.cfInner_prodChar, Prod.mk.injEq]
-  simp only [hi, hj, Ne.symm hk, Ne.symm hl, and_false, false_and, if_false]
+  simp only [hi, hj, Ne.symm hk, Ne.symm hl, and_false, false_and, ite_false]
   by_cases h1 : i = k
   · by_cases h2 : j = l
-    · simp only [h1, h2, and_self, if_true]
+    · simp only [h1, h2, and_self, ite_true]
       norm_num
     · simp [h1, h2]
   · by_cases h2 : j = l

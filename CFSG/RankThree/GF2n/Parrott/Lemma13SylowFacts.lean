@@ -190,8 +190,8 @@ theorem commutator_le_J_of_le_centralizer_sigma1Nine_mul_inv [hN : ((J z).subgro
       intro a b
       exact Subsingleton.elim _ _
     · have hc : IsCyclic ↥φ.range := isCyclic_of_prime_card (p := 2) (by rw [hn]; norm_num)
-      exact fun a b => (IsCyclic.commutative.is_comm.comm a b)
-    · exact IsPGroup.commutative_of_card_eq_prime_sq (p := 2) hn
+      exact fun a b => (_root_.IsCyclic.isMulCommutative.is_comm.comm a b)
+    · exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) hn).is_comm.comm
   rw [Subgroup.commutator_le]
   intro a ha b hb
   have hc := hcomm ⟨φ ⟨a, ha⟩, ⟨⟨a, ha⟩, rfl⟩⟩ ⟨φ ⟨b, hb⟩, ⟨⟨b, hb⟩, rfl⟩⟩

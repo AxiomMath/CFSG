@@ -56,8 +56,8 @@ theorem e16_card_quotient_center {J : Type*} [Group J] (hs : IsSimpleGroup J)
 theorem e16_exists_component {K : Type} [Group K] [Finite K] (D : CatE16Data K) :
     ∃ C : Subgroup ↥(fixedSubgroup D.τ), IsComponent C ∧ Nat.card C = 60 ∧
       Nat.card (C ⧸ center C) = 60 := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := a5_isSimpleGroup
-  haveI hsimple : IsSimpleGroup ↥(autCentralizer D.τ) := D.e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := a5_isSimpleGroup
+  have hsimple : IsSimpleGroup ↥(autCentralizer D.τ) := D.e.isSimpleGroup
   have hnonab : ∃ a b : ↥(autCentralizer D.τ), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := a5_nonabelian
     refine ⟨D.e.symm a, D.e.symm b, fun h => hab ?_⟩
@@ -70,7 +70,7 @@ theorem e16_exists_component {K : Type} [Group K] [Finite K] (D : CatE16Data K) 
     exact Subgroup.Normal.isSubnormal inferInstance
   obtain ⟨C, hC, ⟨eC⟩⟩ := fixedComponent_of_pump (τ := D.τ) (N := autCentralizer D.τ) le_rfl hq hsub
   have hC60 : Nat.card C = 60 := by rw [Nat.card_congr eC.toEquiv]; exact D.card_fixed
-  haveI : IsSimpleGroup C := eC.isSimpleGroup
+  have : IsSimpleGroup C := eC.isSimpleGroup
   have hCna : ∃ a b : C, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnonab
     refine ⟨eC.symm a, eC.symm b, fun h => hab ?_⟩

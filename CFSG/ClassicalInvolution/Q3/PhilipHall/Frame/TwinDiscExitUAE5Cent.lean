@@ -192,10 +192,10 @@ theorem cent_pair (ι : Fin 4 ↪ Fin 5) {x : AEQ 5}
       by_cases hy : y ∈ Set.range ι
       · obtain ⟨i, rfl⟩ := hy
         have h0 : w.vec (ι i) = 0 := congrFun hV0 i
-        rw [h0, if_pos ⟨i, rfl⟩]
+        rw [h0, ite_eq_left ⟨i, rfl⟩]
         show (0 : ZMod 2) = 1 + 1
         decide
-      · rw [hvother y hy, hb, if_neg hy]
+      · rw [hvother y hy, hb, ite_eq_right hy]
         show (1 : ZMod 2) = 0 + 1
         decide
     rw [this, map_mul, mkQ_allOnes, mul_one]

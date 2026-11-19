@@ -13,11 +13,11 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
-abbrev u3LS (L1 L2 S : Subgroup G) : Subgroup G := L1 ⊔ S
+abbrev u3LS (L1 _L2 S : Subgroup G) : Subgroup G := L1 ⊔ S
 
 theorem u3LS_pCoreOf {L1 L2 S : Subgroup G}
     (hF : F112Hyp L1 L2 S) (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
-    {k : ℕ} {F : Type} [Field F] [Finite F] (hU3 : VU3Big L1) :
+    {_k : ℕ} {F : Type} [Field F] [Finite F] (hU3 : VU3Big L1) :
     pCoreOf 2 (u3LS L1 L2 S) = Q1 L1 L2 S := by
   have hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S :=
     eq_sup_pCoreOf_of_bender_left hF.1 hSB (Or.inr (Or.inl hU3))
@@ -50,7 +50,7 @@ theorem u3LS_pCore_subgroupOf {L1 L2 S : Subgroup G}
   ext x : 1
   rw [Subgroup.mem_subgroupOf (H := Q1 L1 L2 S) (K := u3LS L1 L2 S),
     CFSG.Quasithin.F1.mem_pCore_iff_coe (H := u3LS L1 L2 S) x,
-    u3LS_pCoreOf (k := k) (F := F) hF hSB hU3]
+    u3LS_pCoreOf (_k := k) (F := F) hF hSB hU3]
 
 theorem u3M_pCore_le_ker {L1 L2 S : Subgroup G}
     (hF : F112Hyp L1 L2 S)
@@ -91,7 +91,7 @@ theorem u3M_pCore_le_ker {L1 L2 S : Subgroup G}
 
 theorem u3LS_isSylowTwoOf {L1 L2 S : Subgroup G}
     (hF : F112Hyp L1 L2 S) (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
-    {k : ℕ} {F : Type} [Field F] [Finite F] (hU3 : VU3Big L1) :
+    {_k : ℕ} {F : Type} [Field F] [Finite F] (hU3 : VU3Big L1) :
     IsSylowTwoOf S (u3LS L1 L2 S) := by
   have hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S :=
     eq_sup_pCoreOf_of_bender_left hF.1 hSB (Or.inr (Or.inl hU3))
@@ -108,8 +108,8 @@ noncomputable def u3T0 {L1 L2 S : Subgroup G}
     (hF : F112Hyp L1 L2 S) (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
     {k : ℕ} {F : Type} [Field F] [Finite F] (hU3 : VU3Big L1) :
     Sylow 2 (oTwoQuot (u3LS L1 L2 S)) :=
-  (isPGroup_imageOTwoQuot_of_isSylow (u3LS_isSylowTwoOf (k := k) (F := F) hF hSB hU3)).toSylow
-    (not_two_dvd_index_imageOTwoQuot (u3LS_isSylowTwoOf (k := k) (F := F) hF hSB hU3))
+  (isPGroup_imageOTwoQuot_of_isSylow (u3LS_isSylowTwoOf (_k := k) (F := F) hF hSB hU3)).toSylow
+    (not_two_dvd_index_imageOTwoQuot (u3LS_isSylowTwoOf (_k := k) (F := F) hF hSB hU3))
 
 theorem u3T0_coe {L1 L2 S : Subgroup G}
     (hF : F112Hyp L1 L2 S) (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
@@ -132,7 +132,7 @@ theorem u3A0_eq_omegaOne {L1 L2 S : Subgroup G} {k : ℕ}
   obtain ⟨X0, hX0mem, hQ1X0, -, hX0eq, -⟩ :=
     str86_z2_sup_q1_eq_X0 (L1 := L1) (L2 := L2) (S := S) hF hSB hk hFc hU3 hZQ
   let H : Subgroup G := u3LS L1 L2 S
-  have hcoreOf : pCoreOf 2 H = Q1 L1 L2 S := u3LS_pCoreOf (k := k) (F := F) hF hSB h1
+  have hcoreOf : pCoreOf 2 H = Q1 L1 L2 S := u3LS_pCoreOf (_k := k) (F := F) hF hSB h1
   have hQ1core : CFSG.Open.pCore 2 ↥H = (Q1 L1 L2 S).subgroupOf H := by
     ext x : 1
     rw [Subgroup.mem_subgroupOf (H := Q1 L1 L2 S) (K := H),

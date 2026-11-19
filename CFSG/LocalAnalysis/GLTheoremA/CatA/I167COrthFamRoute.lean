@@ -90,7 +90,7 @@ open CFSG.SeitzReduction.OmegaPilot (orthDerivedProjEquiv)
       catalogIs S (isOmMA (n + 1) (2 ^ k))
 
 theorem i167COrth_fermat {p m : ℕ} (hp : p.Prime) (h : p ∣ m ^ p + 1) : p ∣ m + 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have h1 : ((m ^ p + 1 : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 h
   have h2 : (m : ZMod p) ^ p = m := ZMod.pow_card (m : ZMod p)
   have h3 : ((m + 1 : ℕ) : ZMod p) = 0 := by
@@ -253,7 +253,7 @@ theorem i167COrth_route_field (hD : COrthLabelDict) (hRig : GGLabelRigidInput)
   obtain ⟨a₀, rfl, hJcomp, eJ, hpq⟩ := i167COrth_prelude hD hRig hp hp2 hFam hZ hαp hInn hhalf hJc hJt
   obtain ⟨⟨K, _, _, k, Q₀, Q, σ, SS, ψ, hKa, hKk, hψ⟩, hcan⟩ :=
     i167COrth_field_fm hp hp2 hFam hZ hfld (hBb.2 β hβ)
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hKa
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hKa
   have hQex : ∃ v, Q v ≠ 0 := exists_ne_zero_of_nondeg (by omega) SS.hnd
   have hpK : p ∣ Nat.card K + 1 := by rw [hKa, ← hcan]; exact hpq
   have hdim : Module.finrank K (Fin (2 * labK.rank) → K) = 2 * labK.rank := by simp

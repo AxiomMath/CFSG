@@ -237,7 +237,7 @@ private theorem k328r3c_polar_sum {F V : Type} [Field F] [AddCommGroup V] [Modul
   rw [← polarBilin_apply_apply]
   simp only [map_sum, map_smul, LinearMap.sum_apply, LinearMap.smul_apply, polarBilin_apply_apply,
     hdual, smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   exact Finset.sum_congr rfl fun i _ => mul_comm _ _
 
 private theorem k328r3c_quadMinus_apply {F : Type} [Field F] (b c : F)

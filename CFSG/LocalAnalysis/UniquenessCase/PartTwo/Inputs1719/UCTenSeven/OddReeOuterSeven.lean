@@ -94,7 +94,7 @@ private lemma sylow_seven_commutative {X : Type} [Group X] [Finite X] {M : Subgr
   have h7cubed : ¬ 7 ^ 3 ∣ Nat.card X := by
     rw [hcardX]
     exact not_343_dvd_card_ree
-  obtain ⟨k, hk⟩ : ∃ k, Nat.card ↥Q = 7 ^ k := (Sylow.isPGroup' Q).exists_card_eq
+  obtain ⟨k, hk⟩ : ∃ k, Nat.card ↥Q = 7 ^ k := (Sylow.isPGroup Q).exists_card_eq
   have hQX : Nat.card ↥Q ∣ Nat.card X :=
     (Subgroup.card_subgroup_dvd_card (Q : Subgroup ↥M)).trans (Subgroup.card_subgroup_dvd_card M)
   have h2k : 2 ≤ k := by
@@ -115,8 +115,8 @@ private lemma sylow_seven_commutative {X : Type} [Group X] [Finite X] {M : Subgr
     rw [hk, hk2']
     norm_num
   refine ⟨hQcard, fun a b => ?_⟩
-  exact IsPGroup.commutative_of_card_eq_prime_sq (G := ↥Q) (p := 7)
-    (by rw [hQcard]; norm_num) a b
+  exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq (G := ↥Q) (p := 7)
+    (by rw [hQcard]; norm_num)).is_comm.comm a b
 
 theorem ree_seven_eq_top_of_sq_dvd
     {X : Type} [Group X] [Finite X] (hXs : IsSimpleGroup X)

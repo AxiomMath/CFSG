@@ -60,8 +60,8 @@ theorem s8d_splitNat_of (K : AddCoord V) {Z : Subgroup (MulAut ↥V)}
   let V2 := s8dFac K (fun w => (0, w)) hι2 rfl
   let φ1 : (Fin 5 → ZMod 2) → ↥V := fun v => if h : IsEvenVec v then K.Ψ (⟨v, h⟩, 0) else 1
   let φ2 : (Fin 5 → ZMod 2) → ↥V := fun v => if h : IsEvenVec v then K.Ψ (0, ⟨v, h⟩) else 1
-  have hφ1 : ∀ v (h : IsEvenVec v), φ1 v = K.Ψ (⟨v, h⟩, 0) := fun v h => dif_pos h
-  have hφ2 : ∀ v (h : IsEvenVec v), φ2 v = K.Ψ (0, ⟨v, h⟩) := fun v h => dif_pos h
+  have hφ1 : ∀ v (h : IsEvenVec v), φ1 v = K.Ψ (⟨v, h⟩, 0) := fun v h => dite_eq_left h
+  have hφ2 : ∀ v (h : IsEvenVec v), φ2 v = K.Ψ (0, ⟨v, h⟩) := fun v h => dite_eq_left h
   have hact : ∀ x p, ((ψ x : MulAut ↥V)) (K.Ψ p) = K.Ψ (s8dAp (s8dProdA x) p) := by
     intro x p
     rw [← hψ x, K.s8dKap_spec]

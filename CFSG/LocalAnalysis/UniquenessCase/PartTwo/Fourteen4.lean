@@ -77,7 +77,7 @@ theorem inf_eq_bot (h : Hyp141 D L₁ L₂ X) (h1422 : Thm1422 D) (hSg : UC6S846
   have hNW : normalizer ((Q ⊓ D.M : Subgroup G) : Set G) ≤ D.M := by
     by_cases hq7 : q = 7
     · subst hq7
-      haveI : Fact (Nat.Prime 7) := ⟨hq⟩
+      have : Fact (Nat.Prime 7) := ⟨hq⟩
       exact (h.isStronglyPEmbedded_seven hSg).normalizer_le hW1 hWp hWM
     · have hn : Q ⊓ D.M ≤ normalizer (L₁ : Set G) ⊓ normalizer (L₂ : Set G) :=
         h.le_normalizer_of_isPGroup hperm hq hq2 hWp hWM

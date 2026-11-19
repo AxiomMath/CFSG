@@ -82,7 +82,7 @@ theorem exists_inverting_of_catalog
     (fixedData_of_catalog hS hnab hcat hr α hα hout).2
   have hcyc : ∀ P : Sylow 3 S, IsCyclic P := fun P =>
     CFSG.LocalAnalysis.RankThreeUC.OddRankOneQuotient.isCyclic_of_pRank_le_one Nat.prime_three
-      (by norm_num) P.isPGroup' (by
+      (by norm_num) P.isPGroup (by
         rw [CFSG.SectionRank.pRank_coe_eq_openPRank]
         exact (CFSG.SectionRank.pRank_mono (by norm_num) le_top).trans hr.le)
   obtain ⟨y, hy, hyx⟩ := exists_conj_eq_inv_of_isCyclic_sylow

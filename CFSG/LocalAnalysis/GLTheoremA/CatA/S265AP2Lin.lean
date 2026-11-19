@@ -79,7 +79,7 @@ theorem fixedSpaceOf_eq_bot_of_card_nine (hpF : ((3 : ℕ) : F) ≠ 0)
     have hv : v ∈ fixedSpaceOf A := by rw [htop]; exact Submodule.mem_top
     rw [(mem_fixedSpaceOf A).mp hv a]
     rfl
-  haveI : Subsingleton ↥A := ⟨fun a b => (hA1 a).trans (hA1 b).symm⟩
+  have : Subsingleton ↥A := ⟨fun a b => (hA1 a).trans (hA1 b).symm⟩
   have h1 : Nat.card ↥A = 1 := Nat.card_unique
   omega
 
@@ -223,8 +223,8 @@ theorem eq_bot_of_normalized_two_subgroup [CharP F 2] (hF : ∀ x : F, x ^ 3 = 1
       _ = 0 := hm n hn
   have hperp : B.orthogonal U = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥(B.orthogonal U) := Submodule.nontrivial_iff_ne_bot.mpr hne
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Nontrivial ↥(B.orthogonal U) := Submodule.nontrivial_iff_ne_bot.mpr hne
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let ρ : Representation F ↥T ↥(B.orthogonal U) :=
       LinearEquiv.automorphismGroup.toLinearMapMonoidHom.comp
         (restrictAction T.subtype (B.orthogonal U) hUperpT)

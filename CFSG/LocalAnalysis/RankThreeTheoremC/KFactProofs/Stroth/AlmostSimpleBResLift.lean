@@ -87,7 +87,7 @@ theorem exists_involution_lift (hcent : Z ≤ Subgroup.center G) (hZ3 : ∀ z �
       _ = (T : G ⧸ Z) := by rw [← QuotientGroup.mk_pow, h1, one_mul]
   · rw [map_pow, hσT']
 
-theorem inverted_three_of_lifts (hcent : Z ≤ Subgroup.center G) (hZ3 : ∀ z ∈ Z, z ^ 3 = 1)
+theorem inverted_three_of_lifts (hcent : Z ≤ Subgroup.center G) (_hZ3 : ∀ z ∈ Z, z ^ 3 = 1)
     {T Y : G} (hT : T * T = 1) (hY : Y * Y = 1) (hbraid : T * Y * T = Y * T * Y)
     (hne : Y ≠ T) :
     ((T * Y : G) : G ⧸ Z) ^ 3 = 1 ∧ ((T * Y : G) : G ⧸ Z) ≠ 1 ∧

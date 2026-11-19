@@ -149,7 +149,7 @@ theorem eq_bot_of_isPerfect_le_mulAut {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠
       obtain ⟨x, hx⟩ := exists_ne (1 : E)
       have hxo : orderOf (x : Y') = r := orderOf_eq_prime (hEexp x x.2)
         (fun h => hx (Subtype.ext h))
-      obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hES x.2⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hES x.2⟩
       have hdvd : r ∣ 2 ^ k := by
         rw [← hxo]
         exact orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hk)
@@ -305,7 +305,7 @@ theorem bender1970_4_3
     have hSC : (S : Subgroup H) ≤ C := by
       intro s hs
       refine Subgroup.mem_subgroupOf.mpr ⟨s.2, ?_⟩
-      have hP : IsPGroup 2 ((S : Subgroup H).map H.subtype) := S.isPGroup'.map _
+      have hP : IsPGroup 2 ((S : Subgroup H).map H.subtype) := S.isPGroup.map _
       exact le_centralizer_twoCore_of_hasAbelianSylowTwo hHA.1 (Subgroup.map_subtype_le _) hP
         ⟨s, hs, rfl⟩
     have hodd : Odd (Nat.card (H ⧸ C)) := by

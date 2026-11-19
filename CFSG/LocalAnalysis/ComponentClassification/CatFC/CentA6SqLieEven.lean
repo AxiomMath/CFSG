@@ -25,7 +25,7 @@ theorem lieModel_two_card_ne_360 (hO : LieOrderFormulasInput) {X : Type} [Group 
   · rcases ht with rfl | rfl <;> simp only [lieSylowExponent] at hb <;>
       interval_cases n <;> interval_cases f <;> norm_num at hb <;> revert hord <;> decide
   · rcases ht with rfl | rfl <;> simp only [lieSylowExponent] at hb <;>
-      interval_cases n <;> interval_cases f <;> norm_num at hb <;> revert hord <;> decide
+      interval_cases n <;> interval_cases f <;> norm_num at hb
   · rcases ht with rfl | rfl <;> revert hord <;> decide
   · obtain ⟨h1, h2, h3, h4, h5, h6⟩ := ht
     cases t <;> simp only [ne_eq, not_true_eq_false] at h1 h2 h3 h4 h5 h6 <;>
@@ -162,8 +162,8 @@ theorem a6sq_close_simple (hO : LieOrderFormulasInput) {X : Type} [Group X] [Fin
     (hX : IsSimpleGroup X) {D : Subgroup X} (hDn : D.Normal) (hD360 : Nat.card D = 360)
     {t : StatedLieTag} {n f : ℕ} (hadm : StatedLieAdmissible t n 2 f)
     (hm : Blueprint.LieModel X t n 2 f) : False := by
-  haveI := hX
-  haveI := hDn
+  have := hX
+  have := hDn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal D with h | h
   · rw [h] at hD360
     simp at hD360

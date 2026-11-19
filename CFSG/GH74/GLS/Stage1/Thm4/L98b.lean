@@ -91,6 +91,7 @@ theorem phiK_surjective (hK : K ≤ Cz z) : Function.Surjective (phiK hK) := by
   rintro ⟨_, c, hc, rfl⟩
   exact ⟨⟨(c : G), hc⟩, rfl⟩
 
+omit [Finite G] in
 theorem mem_ker_phiK (hK : K ≤ Cz z) {x : ↥K} :
     x ∈ (phiK hK).ker ↔ ((x : G) ∈ Oz z) := by
   rw [MonoidHom.mem_ker, mem_Oz_iff (c := ⟨(x : G), hK x.2⟩), ← QuotientGroup.eq_one_iff]

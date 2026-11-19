@@ -65,7 +65,7 @@ theorem GCi_ge {c : ℕ} (hc : 3 ≤ c) (q : ℕ) : GCi c q = pg 10 (mask 10) (E
 
 theorem gC_ge {c : ℕ} (hc : 3 ≤ c) : gC c = EP (c - 3) := by
   unfold gC
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem pair_GA {i : ℕ} (hi : i < 7) : PairRep 820 (GA i) (GAi i) (CP i) := letRep_GA hi
 

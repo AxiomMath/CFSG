@@ -43,7 +43,7 @@ theorem mem_normalizer_stab_sd4 {V U : Subgroup G} [IsMulCommutative ↥V] {Uv :
 
 theorem autOn_inf_stab_sd4 {V L U : Subgroup G} [IsMulCommutative ↥V] {Uv : Subgroup ↥V}
     (hUv : ∀ u : ↥V, u ∈ Uv ↔ (u : G) ∈ U)
-    (hLV : L ≤ Subgroup.normalizer (V : Set G)) (hUV : U ≤ V) :
+    (_hLV : L ≤ Subgroup.normalizer (V : Set G)) (hUV : U ≤ V) :
     autOn (L ⊓ Subgroup.normalizer (U : Set G)) V = autOn L V ⊓ stabSub (V := ↥V) Uv := by
   ext φ
   rw [Subgroup.mem_inf, AutOn.mem_autOn_iff_exists, AutOn.mem_autOn_iff_exists]
@@ -58,7 +58,7 @@ theorem autOn_inf_stab_sd4 {V L U : Subgroup G} [IsMulCommutative ↥V] {Uv : Su
 theorem autOn_perfectCore_sd4 [Finite G] {V Y : Subgroup G} [IsMulCommutative ↥V]
     (hY : Y ≤ Subgroup.normalizer (V : Set G)) :
     autOn (CFSG.Quasithin.perfectCore Y) V = CFSG.Quasithin.perfectCore (autOn Y V) := by
-  haveI : Finite (MulAut ↥V) := CFSG.Quasithin.H.ZTrans.finite_mulAut_z (V := ↥V)
+  have : Finite (MulAut ↥V) := CFSG.Quasithin.H.ZTrans.finite_mulAut_z (V := ↥V)
   unfold autOn
   exact (CFSG.Quasithin.H.Mathieu.perfectCore_map_subgroupOf hY (conjAct V)).symm
 

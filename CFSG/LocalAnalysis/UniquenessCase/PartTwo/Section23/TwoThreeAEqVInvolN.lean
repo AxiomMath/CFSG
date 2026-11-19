@@ -16,6 +16,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem Vtil_sq_eq_one {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (w : Vtil V₀ V hV) :
     w ^ 2 = 1 := by
   induction w using QuotientGroup.induction_on with
@@ -110,6 +111,7 @@ theorem IsNaturalClassicalModule.of_map_congrHom {W W' : Type} [CommGroup W] [Co
       ⟨CFSG.Blueprint.LieModel.of_mulEquiv eH.symm h11.1,
         natOmegaMinus_of_map_congrHom e h h11.2⟩)))))))))
 
+omit [Finite G] in
 theorem barSub_le_stabSub_imgTil {V A L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hA : IsElemAbelian 2 A) (hAV : A ≤ V)
     (hLV : L ≤ Subgroup.normalizer (V : Set G))
@@ -120,6 +122,7 @@ theorem barSub_le_stabSub_imgTil {V A L : Subgroup G} (hV : IsElemAbelian 2 V)
   exact actTil_mem_stabSub_imgTil hV hA hAV (mem_stabTil_bot (hLV hgL))
     (mem_stabTil_bot (hLA hgL))
 
+omit [Finite G] in
 theorem actTil_mem_normalizer_barSub {V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (hL : L ≤ stabTil (⊥ : Subgroup G) V) {g : G} (hg : g ∈ stabTil (⊥ : Subgroup G) V)
     (hgL : L.map (MulAut.conj g).toMonoidHom = L) :
@@ -189,7 +192,7 @@ theorem orderOf_resHom_eq_two {V : Type} [CommGroup V] [Finite V]
     (hsA : s ∈ stabSub A') (hs2 : orderOf s = 2)
     (hnotcent : ∃ h ∈ H, s * h * s⁻¹ ≠ h) :
     orderOf (resHom A' ⟨s, hsA⟩) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hs2' : s ^ 2 = 1 := by rw [← hs2]; exact pow_orderOf_eq_one s
   have hsq : resHom A' ⟨s, hsA⟩ ^ 2 = 1 := by
     calc resHom A' ⟨s, hsA⟩ ^ 2
@@ -215,7 +218,7 @@ theorem orderOf_quotHom_eq_two {V : Type} [CommGroup V] [Finite V]
     (hsA : s ∈ stabSub A') (hs2 : orderOf s = 2)
     (hnotcent : ∃ h ∈ H, s * h * s⁻¹ ≠ h) :
     orderOf (quotHom A' ⟨s, hsA⟩) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hs2' : s ^ 2 = 1 := by rw [← hs2]; exact pow_orderOf_eq_one s
   have hsq : quotHom A' ⟨s, hsA⟩ ^ 2 = 1 := by
     calc quotHom A' ⟨s, hsA⟩ ^ 2
@@ -242,7 +245,7 @@ private theorem L_le_normalizers (c : Ctx23L D Ch) {A : Subgroup G}
     c.L ≤ stabTil (⊥ : Subgroup G) c.V ∧
       c.L ≤ Subgroup.normalizer (c.V : Set G) ∧
       c.L ≤ Subgroup.normalizer (A : Set G) :=
-  ⟨c.L_le_stabTil, fun l hl => (c.L_le_stabTil hl).1, fun l hl => hAN (c.L_le_N hl)⟩
+  ⟨c.L_le_stabTil, fun _l hl => (c.L_le_stabTil hl).1, fun _l hl => hAN (c.L_le_N hl)⟩
 
 private theorem actN_mem_normalizer_barSub (c : Ctx23L D Ch)
     (hLN : (c.L.subgroupOf c.N).Normal) {x : c.N} :

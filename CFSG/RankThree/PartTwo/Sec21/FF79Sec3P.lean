@@ -15,6 +15,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_pow {p : ℕ} [hp : Fact p.Prime] {x : G} {m : ℕ}
     (hx : x ^ (p ^ m) = 1) : IsPGroup p (Subgroup.zpowers x) := by
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow hp.out).mp (orderOf_dvd_of_pow_eq_one hx)
@@ -25,10 +26,11 @@ namespace Ctx
 variable {b : G} {J B : Subgroup G} {u v r₁ r₂ w : G} (C : Ctx b J B u v r₁ r₂ w)
 include C
 
+omit [Finite G] in
 theorem B_pgroup : IsPGroup 3 B := IsPGroup.of_card (n := 3) C.D.hE.2
 
 theorem exists_P : ∃ P : Subgroup G, IsSylowOf 3 P (Nor B) ∧ B ≤ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact exists_sylowOf_le Subgroup.le_normalizer C.B_pgroup
 
 variable {P : Subgroup G}
@@ -36,9 +38,10 @@ variable {P : Subgroup G}
 theorem P_le_T (hP : IsSylowOf 3 P (Nor B)) : P ≤ T b B (R u v) := C.pgroup_le_T hP.2.1 hP.1
 
 theorem P_syl_T (hP : IsSylowOf 3 P (Nor B)) : IsSylowOf 3 P (T b B (R u v)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  exact isSylowOf_mono hP (C.P_le_T hP) C.T_le_N
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  exact isSylowOf_mono hP (C.P_le_T hP) CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_le_N
 
+omit [Finite G] C in
 theorem pelt_of_P (hP : IsSylowOf 3 P (Nor B)) {x : G} (hx : x ∈ P) :
     ∃ m : ℕ, x ^ (3 ^ m) = 1 := by
   obtain ⟨m, hm⟩ := hP.2.1 ⟨x, hx⟩
@@ -46,13 +49,13 @@ theorem pelt_of_P (hP : IsSylowOf 3 P (Nor B)) {x : G} (hx : x ∈ P) :
 
 theorem mem_B_of_cen {x : G} (hxN : x ∈ Nor B) (hxb : x * b = b * x) {m : ℕ}
     (hm : x ^ (3 ^ m) = 1) : x ∈ B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact mem_of_pelt C.B_pgroup C.D.hB.1 C.D.hB.2.2
     (Subgroup.mem_centralizer_singleton_iff.mpr hxb) hxN hm
 
 theorem P_cen (hP : IsSylowOf 3 P (Nor B)) {x : G} (hx : x ∈ P) (hxb : x * b = b * x) :
     x ∈ B := by
-  obtain ⟨m, hm⟩ := C.pelt_of_P hP hx
+  obtain ⟨m, hm⟩ := Ctx.pelt_of_P hP hx
   exact C.mem_B_of_cen (hP.1 hx) hxb hm
 
 theorem θ_eq_one_mem_B (hP : IsSylowOf 3 P (Nor B)) {x : G} (hx : x ∈ P) (h : θ b x = 1) :
@@ -65,11 +68,12 @@ theorem θ_eq_one_mem_B (hP : IsSylowOf 3 P (Nor B)) {x : G} (hx : x ∈ P) (h :
 theorem bpow_T (k : ℕ) : b ^ k ∈ T b B (R u v) := (C.cenB_le_T) (Subgroup.pow_mem _ (by
   rw [Subgroup.mem_centralizer_iff]; intro y hy; exact C.comm_B hy C.bB) k)
 
+omit [Finite G] C in
 theorem θ_bpow (k : ℕ) : θ b (b ^ k) = 1 := by unfold θ; group
 
 theorem θ_surj_P (hP : IsSylowOf 3 P (Nor B)) {t : G} (ht : t ∈ R u v) :
     ∃ x ∈ P, θ b x = t := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨s, hs, hst⟩ := C.θ_surj ht
   obtain ⟨a, m', hm', hn⟩ := Nat.exists_eq_pow_mul_and_not_dvd (orderOf_pos s).ne' 3 (by norm_num)
   have hx₀T : s ^ (m' ^ 2) ∈ T b B (R u v) := Subgroup.pow_mem _ hs _
@@ -90,29 +94,29 @@ theorem realize (hP : IsSylowOf 3 P (Nor B)) {j : G} (hj : j ∈ Nor B) {n : ℕ
     (hjb : j * b * j⁻¹ = b ^ n) :
     ∃ m ∈ Nor P, m ∈ Nor B ∧ m * b * m⁻¹ = b ^ n ∧
       ∀ x ∈ R u v, m * x * m⁻¹ = j * x * j⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hjT : j ∈ Nor (T b B (R u v)) := L41.mem_nor_of_forall fun y hy => C.T_normal hj hy
   obtain ⟨k, hk, hkj⟩ := exists_frattini (C.P_syl_T hP) hjT
   have e1 : (k * j) * b * (k * j)⁻¹ = θ b k ^ n * b ^ n := by
     calc (k * j) * b * (k * j)⁻¹ = k * (j * b * j⁻¹) * k⁻¹ := by group
       _ = (k * b * k⁻¹) ^ n := by rw [hjb, conj_pow]
-      _ = (θ b k * b) ^ n := by rw [C.conj_b_T hk]
-      _ = θ b k ^ n * b ^ n := (Commute.mul_pow (C.comm_bR (C.θ_mem hk)).symm _)
-  obtain ⟨q, hq, hθq⟩ := C.θ_surj_P hP (Subgroup.inv_mem _ (C.θ_mem hk))
+      _ = (θ b k * b) ^ n := by rw [CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.conj_b_T hk]
+      _ = θ b k ^ n * b ^ n := (Commute.mul_pow (C.comm_bR (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem hk)).symm _)
+  obtain ⟨q, hq, hθq⟩ := C.θ_surj_P hP (Subgroup.inv_mem _ (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem hk))
   have hqT := C.P_le_T hP hq
   refine ⟨q * (k * j), Subgroup.mul_mem _ (Subgroup.le_normalizer hq) hkj,
-    Subgroup.mul_mem _ (C.T_le_N hqT) (Subgroup.mul_mem _ (C.T_le_N hk) hj), ?_, ?_⟩
+    Subgroup.mul_mem _ (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_le_N hqT) (Subgroup.mul_mem _ (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_le_N hk) hj), ?_, ?_⟩
   · calc q * (k * j) * b * (q * (k * j))⁻¹ = q * ((k * j) * b * (k * j)⁻¹) * q⁻¹ := by group
       _ = (q * θ b k ^ n * q⁻¹) * (q * b * q⁻¹) ^ n := by rw [e1, conj_pow]; group
       _ = θ b k ^ n * (θ b q * b) ^ n := by
-          rw [C.T_cen hqT (Subgroup.pow_mem _ (C.θ_mem hk) _), C.conj_b_T hqT]
+          rw [CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_cen hqT (Subgroup.pow_mem _ (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem hk) _), CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.conj_b_T hqT]
       _ = θ b k ^ n * (θ b q ^ n * b ^ n) := by
-          rw [(Commute.mul_pow (C.comm_bR (C.θ_mem hqT)).symm _)]
+          rw [(Commute.mul_pow (C.comm_bR (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem hqT)).symm _)]
       _ = b ^ n := by rw [hθq, inv_pow, ← mul_assoc, mul_inv_cancel, one_mul]
   · intro x hx
     have h1 := C.nor0 hj hx
     calc q * (k * j) * x * (q * (k * j))⁻¹ = q * (k * (j * x * j⁻¹) * k⁻¹) * q⁻¹ := by group
-      _ = j * x * j⁻¹ := by rw [C.T_cen hk h1, C.T_cen hqT h1]
+      _ = j * x * j⁻¹ := by rw [CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_cen hk h1, CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_cen hqT h1]
 
 theorem key_det (hP : IsSylowOf 3 P (Nor B)) {x₀ y₀ β₁ β₂ : G} (hx₀ : x₀ ∈ P) (hy₀ : y₀ ∈ P)
     (hβ₁ : β₁ ∈ B) (hβ₂ : β₂ ∈ B) (hc : x₀ * y₀ * x₀⁻¹ * y₀⁻¹ ∈ B) :
@@ -153,34 +157,35 @@ theorem key_det (hP : IsSylowOf 3 P (Nor B)) {x₀ y₀ β₁ β₂ : G} (hx₀ 
   rw [key]
   exact (R u v).mul_mem ((R u v).mul_mem h3 h1) h2
 
+omit [Finite G] in
 theorem bpow_comm_T {g : G} (hg : g ∈ T b B (R u v)) (l : ℕ) :
     b ^ l * g = g * (θ b g)⁻¹ ^ l * b ^ l := by
   have h1 : g⁻¹ * b * g = (θ b g)⁻¹ * b := by
-    have := C.conj_b_T hg
+    have := CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.conj_b_T hg
     calc g⁻¹ * b * g = g⁻¹ * (θ b g)⁻¹ * (g * b * g⁻¹) * g := by rw [this]; group
       _ = (g⁻¹ * (θ b g)⁻¹ * g) * b := by group
       _ = (θ b g)⁻¹ * b := by
           rw [show g⁻¹ * (θ b g)⁻¹ * g = (θ b g)⁻¹ by
-            have := C.T_cen (Subgroup.inv_mem _ hg) (Subgroup.inv_mem _ (C.θ_mem hg))
+            have := CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_cen (Subgroup.inv_mem _ hg) (Subgroup.inv_mem _ (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem hg))
             simpa using this]
   have h2 : g⁻¹ * b ^ l * g = (θ b g)⁻¹ ^ l * b ^ l := by
     have : g⁻¹ * b ^ l * g = (g⁻¹ * b * g) ^ l := by
       rw [show g⁻¹ * b * g = g⁻¹ * b * g⁻¹⁻¹ by rw [inv_inv], conj_pow, inv_inv]
     rw [this, h1]
-    exact Commute.mul_pow (C.comm_bR (Subgroup.inv_mem _ (C.θ_mem hg))).symm _
+    exact Commute.mul_pow (C.comm_bR (Subgroup.inv_mem _ (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem hg))).symm _
   calc b ^ l * g = g * (g⁻¹ * b ^ l * g) := by group
     _ = g * (θ b g)⁻¹ ^ l * b ^ l := by rw [h2]; group
 
 theorem exists_comm_pair (hP : IsSylowOf 3 P (Nor B)) (hBP : B ≤ P) :
     ∃ x' ∈ P, ∃ y' ∈ P, θ b x' = u ∧ θ b y' = v ∧ x' * y' = y' * x' := by
-  obtain ⟨x₀, hx₀, hθx⟩ := C.θ_surj_P hP C.uR
-  obtain ⟨y₀, hy₀, hθy⟩ := C.θ_surj_P hP C.vR
+  obtain ⟨x₀, hx₀, hθx⟩ := C.θ_surj_P hP CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR
+  obtain ⟨y₀, hy₀, hθy⟩ := C.θ_surj_P hP CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.vR
   have hx₀T := C.P_le_T hP hx₀
   have hy₀T := C.P_le_T hP hy₀
   set c := x₀ * y₀ * x₀⁻¹ * y₀⁻¹ with hcdef
   have hcP : c ∈ P := P.mul_mem (P.mul_mem (P.mul_mem hx₀ hy₀) (P.inv_mem hx₀)) (P.inv_mem hy₀)
   have hcT := C.P_le_T hP hcP
-  have huv : u * v = v * u := C.comm_R C.uR C.vR
+  have huv : u * v = v * u := C.comm_R CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.vR
   have hθc : θ b c = 1 := by
     have t1 := C.θ_mul ((T b B (R u v)).mul_mem ((T b B (R u v)).mul_mem hx₀T hy₀T)
       ((T b B (R u v)).inv_mem hx₀T)) ((T b B (R u v)).inv_mem hy₀T)
@@ -200,13 +205,13 @@ theorem exists_comm_pair (hP : IsSylowOf 3 P (Nor B)) (hBP : B ≤ P) :
   have hx₁P : x₁ ∈ P := hconjP hx₀
   have hy₁P : y₁ ∈ P := hconjP hy₀
   have hθx₁ : θ b x₁ = u ^ 2 := by
-    rw [hx₁, C.θ_conj_of_cen m x₀ hmb, hθx, hmR u C.uR, hr₁u]
+    rw [hx₁, CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_conj_of_cen m x₀ hmb, hθx, hmR u CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR, hr₁u]
   have hθy₁ : θ b y₁ = v := by
-    rw [hy₁, C.θ_conj_of_cen m y₀ hmb, hθy, hmR v C.vR, hr₁v]
+    rw [hy₁, CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_conj_of_cen m y₀ hmb, hθy, hmR v CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.vR, hr₁v]
   have hβ₁P : x₀ * x₁ ∈ P := P.mul_mem hx₀ hx₁P
   have hβ₁B : x₀ * x₁ ∈ B := by
     refine C.θ_eq_one_mem_B hP hβ₁P ?_
-    rw [C.θ_mul hx₀T (C.P_le_T hP hx₁P), hθx, hθx₁, ← pow_succ', C.pow3_R C.uR]
+    rw [C.θ_mul hx₀T (C.P_le_T hP hx₁P), hθx, hθx₁, ← pow_succ', C.pow3_R CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR]
   have hβ₂P : y₀⁻¹ * y₁ ∈ P := P.mul_mem (P.inv_mem hy₀) hy₁P
   have hβ₂B : y₀⁻¹ * y₁ ∈ B := by
     refine C.θ_eq_one_mem_B hP hβ₂P ?_
@@ -247,8 +252,8 @@ theorem exists_comm_pair (hP : IsSylowOf 3 P (Nor B)) (hBP : B ≤ P) :
   set k := (-q.1).val
   have hbP : ∀ n : ℕ, b ^ n ∈ P := fun n => P.pow_mem (hBP C.bB) n
   refine ⟨x₀ * b ^ l, P.mul_mem hx₀ (hbP l), y₀ * b ^ k, P.mul_mem hy₀ (hbP k), ?_, ?_, ?_⟩
-  · rw [C.θ_mul hx₀T (C.bpow_T l), C.θ_bpow, hθx, mul_one]
-  · rw [C.θ_mul hy₀T (C.bpow_T k), C.θ_bpow, hθy, mul_one]
+  · rw [C.θ_mul hx₀T (C.bpow_T l), CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_bpow, hθx, mul_one]
+  · rw [C.θ_mul hy₀T (C.bpow_T k), CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_bpow, hθy, mul_one]
   · have hc' : x₀ * y₀ = c * (y₀ * x₀) := by rw [hcdef]; group
     have hcy : c * (y₀ * x₀) = (y₀ * x₀) * c :=
       Subgroup.mem_centralizer_iff.mp ((T b B (R u v)).mul_mem hy₀T hx₀T).2.1 _ hcR

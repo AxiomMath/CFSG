@@ -73,7 +73,7 @@ theorem isExtraspecial_omega [Fact (IsPGroup p P)] (hp : 3 < p) (hrank : CFSG.gr
     (hΩ : ¬ Nat.card (CFSG.omega₁ (G := P) (p := p)) ≤ p ^ 2) :
     CFSG.IsExtraspecial p (CFSG.omega₁ (G := P) (p := p)) := by
   obtain ⟨hexp, hcard⟩ := omega_large hp hrank hΩ
-  haveI : Fact (IsPGroup p (CFSG.omega₁ (G := P) (p := p))) :=
+  have : Fact (IsPGroup p (CFSG.omega₁ (G := P) (p := p))) :=
     ⟨(Fact.out : IsPGroup p P).to_subgroup _⟩
   exact CFSG.isExtraspecial_of_noncommutative_card_p3_exponent_p hcard hexp
     (omega_not_isMulCommutative hrank hexp hcard)

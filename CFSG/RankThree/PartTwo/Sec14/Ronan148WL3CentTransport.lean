@@ -10,11 +10,13 @@ open CFSG.RankThree.PartTwo.Sec4
 
 variable {X : Type} [Group X] [Finite X] {D E : Subgroup X} {S : Type*} [Group S]
 
+omit [Finite X] in
 theorem coe_symm_slAct (φ : ↥D ≃* S) (x : Subgroup.normalizer (D : Set X)) (s : S) :
     ((φ.symm (slAct φ x s) : ↥D) : X) = (x : X) * (φ.symm s : X) * (x : X)⁻¹ := by
   rw [slAct_apply, MulEquiv.symm_apply_apply]
   rfl
 
+omit [Finite X] in
 theorem slAct_of_mem (φ : ↥D ≃* S) {e : X} (heD : e ∈ D)
     (heN : e ∈ Subgroup.normalizer (D : Set X)) :
     slAct φ ⟨e, heN⟩ = MulAut.conj (φ ⟨e, heD⟩) := by
@@ -24,6 +26,7 @@ theorem slAct_of_mem (φ : ↥D ≃* S) {e : X} (heD : e ∈ D)
     Subtype.ext (coe_symm_slAct φ _ m)
   rw [h, map_mul, map_mul, map_inv, MulEquiv.apply_symm_apply]
 
+omit [Finite X] in
 theorem slAct_apply_self_of_commute (φ : ↥D ≃* S) {e : X} (heD : e ∈ D)
     (x : Subgroup.normalizer (D : Set X)) (hxe : (x : X) * e = e * x) :
     slAct φ x (φ ⟨e, heD⟩) = φ ⟨e, heD⟩ := by
@@ -32,6 +35,7 @@ theorem slAct_apply_self_of_commute (φ : ↥D ≃* S) {e : X} (heD : e ∈ D)
   apply Subtype.ext
   rw [coe_symm_slAct, MulEquiv.symm_apply_apply, hxe, mul_inv_cancel_right]
 
+omit [Finite X] in
 theorem slAct_eq_self_of_hV (φ : ↥D ≃* S) (hED : E ≤ Subgroup.normalizer (D : Set X))
     (hV : ∀ V : Subgroup X, V ≤ D → ¬ 3 ∣ Nat.card V →
       E ≤ Subgroup.normalizer (V : Set X) → ⁅V, E⁆ = ⊥)
@@ -65,6 +69,7 @@ theorem slAct_eq_self_of_hV (φ : ↥D ≃* S) (hED : E ≤ Subgroup.normalizer 
   apply hψi
   rw [hkey x hx w, h1, mul_inv_cancel_right]
 
+omit [Finite X] in
 theorem mem_zpowers_of_slAct_fixed (φ : ↥D ≃* S) (hED : E ≤ Subgroup.normalizer (D : Set X))
     (hF3 : ∀ w ∈ Subgroup.centralizer (E : Set X), w ^ 3 = 1 → w ∈ E) {e : X} (heD : e ∈ D)
     (heE : E ⊓ D ≤ Subgroup.zpowers e) (u : S) (hu3 : u ^ 3 = 1)

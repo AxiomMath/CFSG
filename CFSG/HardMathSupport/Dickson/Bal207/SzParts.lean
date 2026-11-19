@@ -137,7 +137,7 @@ theorem szAux_card_outer_dvd {K : Type} [Group K]
     Nat.card (Outer K) ∣ 5 := by
   have hM : CFSG.Blueprint.SuzukiModel (TauCeti.CFSGIndex.lie ⟨.suzuki 2, hv⟩).Group 2 5 :=
     szAux_suzukiModel (MulEquiv.refl _)
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
   exact ((CFSG.LieType.Suzuki.Suzuki_model_and_perfect_cover_outer_cyclicity _ 2 _ hM).2 K ⟨e⟩).2.1
 
 theorem szAux_five_dvd_card {K : Type} [Group K] [Finite K]
@@ -191,7 +191,7 @@ theorem bal207SzAut_of_norm (hGA : GriessAllModelsStatement)
     exact h2
   have hk1 : k ≠ 1 := by
     rintro rfl
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 5 h5
     have h1 := hfix y (hy ▸ pow_orderOf_eq_one y) (by simp)
     rw [map_one, Subgroup.zpowers_one_eq_bot, Subgroup.mem_bot] at h1
@@ -211,7 +211,7 @@ theorem bal207SzAut_of_norm (hGA : GriessAllModelsStatement)
   have hkS : k ∈ Subgroup.normalizer (S : Set K) := by
     rw [Subgroup.mem_normalizer_iff]
     intro s
-    simp only [hS, SetLike.mem_coe, Subgroup.mem_comap, map_mul, map_inv]
+    simp only [hS, Subgroup.mem_comap, map_mul, map_inv]
     exact (Subgroup.mem_normalizer_iff.mp hαT) (MulAut.conj s)
   have hM : CFSG.Blueprint.SuzukiModel K 2 5 :=
     szAux_suzukiModel (((QuotientGroup.quotientBot (G := K)).symm.trans

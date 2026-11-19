@@ -237,7 +237,7 @@ private theorem isCyclic_map_subgroupOf_quotient
       exact ⟨⟨t.1, Subgroup.mem_subgroupOf.mp ht⟩, rfl⟩
   let ηbar : (A ⧸ C.subgroupOf A) →* Y :=
     QuotientGroup.lift (C.subgroupOf A) η (by rw [hηker])
-  haveI : IsCyclic (A ⧸ C.subgroupOf A) := hACcyc
+  have : IsCyclic (A ⧸ C.subgroupOf A) := hACcyc
   let ηNY : (A ⧸ C.subgroupOf A) →* NY :=
     ηbar.codRestrict NY (by
       intro q
@@ -305,7 +305,7 @@ private theorem isCyclic_quotient_inf_sup_centralizer_of_generator
         have hl1 : πLC l = 1 := (QuotientGroup.eq_one_iff _).mpr (Subgroup.mem_sup_left hl)
         rw [hl1, one_mul]
       exact Subgroup.mem_map.mpr ⟨w, hw, hφt.symm⟩
-    haveI : IsCyclic ↥(W.map πLC) := hWmap_cyc
+    have : IsCyclic ↥(W.map πLC) := hWmap_cyc
     exact Subgroup.isCyclic_of_le hle
   let e : (↥T ⧸ A.subgroupOf T) ≃* φ.range :=
     (QuotientGroup.quotientMulEquivOfEq hφker.symm).trans
@@ -331,8 +331,8 @@ private theorem isMetacyclic_quotient_centralizer
   let Y : Type := ↥T ⧸ K
   let A : Subgroup X := T ⊓ (L ⊔ C)
   let NY : Subgroup Y := (A.subgroupOf T).map (QuotientGroup.mk' K)
-  haveI hCn : C.Normal := Subgroup.normal_centralizer
-  haveI hLCn : (L ⊔ C).Normal := Subgroup.sup_normal L C
+  have hCn : C.Normal := Subgroup.normal_centralizer
+  have hLCn : (L ⊔ C).Normal := Subgroup.sup_normal L C
   have hAdef : A.subgroupOf T = (L ⊔ C).subgroupOf T := by
     ext x
     simp only [A, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
@@ -380,7 +380,7 @@ theorem image_isComponent_pRank
     (L.map (QuotientGroup.mk' Q)).Normal ∧
       CFSG.IsComponent (L.map (QuotientGroup.mk' Q)) ∧
       CFSG.Open.pRank 3 (L.map (QuotientGroup.mk' Q)) = CFSG.Open.pRank 3 L := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   have hQsub : Q.subgroupOf L = CFSG.pPrimeCore p ↥L := by
     rw [hQ]
     change Subgroup.comap L.subtype (Subgroup.map L.subtype (CFSG.pPrimeCore p ↥L)) =
@@ -401,7 +401,7 @@ theorem image_isComponent_pRank
   have hQ3' : ¬ 3 ∣ Nat.card (Q.subgroupOf L) := by
     rwa [hQsub]
   have hLqrank : CFSG.Open.pRank 3 Lq = CFSG.Open.pRank 3 L := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have e : (↥L ⧸ Q.subgroupOf L) ≃* Lq := CFSG.quotientSubgroupRangeEquiv L Q
     have htop : CFSG.Open.pRank 3 (⊤ : Subgroup (↥L ⧸ Q.subgroupOf L)) =
         CFSG.Open.pRank 3 L := by
@@ -427,7 +427,7 @@ theorem mem_sup_centralizerSection_of_mem_map_sup_centralizer
   let Lbar : Subgroup (X ⧸ Q) := L.map (QuotientGroup.mk' Q)
   have hLbar_n : Lbar.Normal :=
     Subgroup.Normal.map hLn (QuotientGroup.mk' Q) (QuotientGroup.mk'_surjective Q)
-  haveI : Lbar.Normal := hLbar_n
+  have : Lbar.Normal := hLbar_n
   have hQleL : Q ≤ L := by
     rw [hQ]
     exact Subgroup.map_subtype_le _
@@ -489,7 +489,7 @@ private theorem commute_quotient_centralizer
   let Y : Type := ↥T ⧸ C.subgroupOf T
   have hmeta : CFSG.IsMetacyclic Y :=
     isMetacyclic_quotient_centralizer hLn hCW hSW hSp hgen hLrank
-  haveI : C.Normal := Subgroup.normal_centralizer
+  have : C.Normal := Subgroup.normal_centralizer
   have hYp : IsPGroup 3 Y := CFSG.GroupTheory.isPGroup_quotient_sup_left hSp
   let uY : Y := QuotientGroup.mk' (C.subgroupOf T) ⟨u, Subgroup.mem_sup_left hu⟩
   let vY : Y := QuotientGroup.mk' (C.subgroupOf T) ⟨v, Subgroup.mem_sup_left hv⟩
@@ -592,12 +592,12 @@ private theorem commutator_mem_of_isPComponent
     ⁅Subgroup.zpowers (u * v * u⁻¹ * v⁻¹), L⁆ ≤
       (CFSG.pPrimeCore p ↥L).map L.subtype := by
   classical
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   let Q : Subgroup X := (CFSG.pPrimeCore p ↥L).map L.subtype
   have hQn : Q.Normal := by
     change (Subgroup.map L.subtype (CFSG.pPrimeCore p ↥L)).Normal
     exact ConjAct.normal_of_characteristic_of_normal
-  haveI : Q.Normal := hQn
+  have : Q.Normal := hQn
   let Xq : Type := X ⧸ Q
   let Lq : Subgroup Xq := L.map (QuotientGroup.mk' Q)
   have hQ3 : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore p ↥L) :=
@@ -610,7 +610,7 @@ private theorem commutator_mem_of_isPComponent
   have hSX3 : IsPGroup 3 SX := hS3.map _
   obtain ⟨W, hCW, hSXle, g, hgW, hgenw⟩ :=
     h714 Xq (hK.quotient Q) 3 Nat.prime_three (by norm_num) Lq hLqc hLqn hLqrank SX hSX3
-  haveI : (Subgroup.centralizer (Lq : Set Xq)).Normal := Subgroup.normal_centralizer
+  have : (Subgroup.centralizer (Lq : Set Xq)).Normal := Subgroup.normal_centralizer
   have huq3 : (QuotientGroup.mk' Q u) ^ 3 = 1 := by
     rw [← map_pow, hu3, map_one]
   have hvq3 : (QuotientGroup.mk' Q v) ^ 3 = 1 := by
@@ -681,7 +681,7 @@ theorem commutator_mem₂ (h : P812Hyp G M p L₁ L₂)
     {u v : G} (hu : u ∈ S) (hv : v ∈ S) (hu3 : u ^ 3 = 1) (hv3 : v ^ 3 = 1) :
     ⁅Subgroup.zpowers (u * v * u⁻¹ * v⁻¹), L₂⁆ ≤
       (CFSG.pPrimeCore p ↥L₂).map L₂.subtype := by
-  haveI : Fact (Nat.Prime p) := ⟨h.prime⟩
+  have : Fact (Nat.Prime p) := ⟨h.prime⟩
   let X : Subgroup G := S ⊔ L₂
   have hSX : S ≤ X := le_sup_left
   have hL₂X : L₂ ≤ X := le_sup_right
@@ -1005,7 +1005,7 @@ private theorem false_of_mem_centralizerSection_of_orderOf_eq_three
     exact hKrank
   have hquo : CFSG.IsQuasisimple (↥K ⧸ P) :=
     CFSG.LocalAnalysis.RankThreeUC.AGL81C.IsPComponentIn.isQuasisimple_quot hp hLK
-  haveI : Group.IsPerfect (↥K ⧸ P) := hquo.1
+  have : Group.IsPerfect (↥K ⧸ P) := hquo.1
   exact (CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82.not_dvd_card_center_of_pRank_eq_one
     (X := ↥K ⧸ P) (q := 3) (by norm_num) hcenterrank) h3center
 
@@ -1044,8 +1044,8 @@ private theorem mem_centralizerSection_of_normal (hp : p.Prime)
     ∃ a ∈ A, x * a⁻¹ ∈ CFSG.GH74.GLS.centralizerSection K
       ((CFSG.pPrimeCore p ↥K).map K.subtype) := by
   classical
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Q : Subgroup G := (CFSG.pPrimeCore p ↥K).map K.subtype
   let C : Subgroup G := CFSG.GH74.GLS.centralizerSection K Q
   let T : Subgroup G := K ⊔ C
@@ -1089,7 +1089,7 @@ private theorem mem_centralizerSection_of_normal (hp : p.Prime)
 
 theorem mem_centralizerSection_of_mem_sup₁ (h : P812Hyp G M p L₁ L₂)
     (hSch : CFSG.ComponentClassification.LBalance.SchreierSections ↥M)
-    {S A₁ : Subgroup G} (hSM : S ≤ M) (hS3 : IsPGroup 3 S)
+    {S A₁ : Subgroup G} (_hSM : S ≤ M) (hS3 : IsPGroup 3 S)
     (hA₁ : A₁ ≤ L₁) (hA₁S : A₁ ≤ S) (hA₁3 : Nat.card A₁ = 3) {x : G}
     (hxS : x ∈ S) (hx3 : x ^ 3 = 1)
     (hxL : x ∈ L₁ ⊔ CFSG.GH74.GLS.centralizerSection L₁
@@ -1101,7 +1101,7 @@ theorem mem_centralizerSection_of_mem_sup₁ (h : P812Hyp G M p L₁ L₂)
 
 theorem mem_centralizerSection_of_mem_sup₂ (h : P812Hyp G M p L₁ L₂)
     (hSch : CFSG.ComponentClassification.LBalance.SchreierSections ↥M)
-    {S A₂ : Subgroup G} (hSM : S ≤ M) (hS3 : IsPGroup 3 S)
+    {S A₂ : Subgroup G} (_hSM : S ≤ M) (hS3 : IsPGroup 3 S)
     (hA₂ : A₂ ≤ L₂) (hA₂S : A₂ ≤ S) (hA₂3 : Nat.card A₂ = 3) {x : G}
     (hxS : x ∈ S) (hx3 : x ^ 3 = 1)
     (hxL : x ∈ L₂ ⊔ CFSG.GH74.GLS.centralizerSection L₂

@@ -37,7 +37,7 @@ lemma qtwoDB33_supp_dTau (m : ℕ) (s : Bool) {a b : Fin m} (hab : a ≠ b) :
         Pi.single_eq_of_ne (Ne.symm hab), Pi.single_eq_same, mul_zero] at hb
       exact zero_ne_one hb
 
-lemma qtwoDB33_dPerm_dSign_comm (m : ℕ) {a b : Fin m} (hab : a ≠ b) :
+lemma qtwoDB33_dPerm_dSign_comm (m : ℕ) {a b : Fin m} (_hab : a ≠ b) :
     dPerm m (Equiv.swap a b) * dSign m a b = dSign m a b * dPerm m (Equiv.swap a b) := by
   refine (dBasis m).ext' fun k => ?_
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, dSign_apply, map_smul, dPerm_apply,
@@ -55,23 +55,23 @@ lemma qtwoDB33_dPerm_dSign_comm (m : ℕ) {a b : Fin m} (hab : a ≠ b) :
       · exact Or.inr (by rw [hk, Equiv.swap_apply_left])
       · exact Or.inl (by rw [hk, Equiv.swap_apply_right])
   by_cases hk : k = a ∨ k = b
-  · rw [if_pos hk, if_pos (h.mpr hk)]
-  · rw [if_neg hk, if_neg (fun hh => hk (h.mp hh))]
+  · rw [ite_eq_left hk, ite_eq_left (h.mpr hk)]
+  · rw [ite_eq_right hk, ite_eq_right (fun hh => hk (h.mp hh))]
 
 lemma qtwoDB33_commute_mul_pair {G : Type*} [Group G] {P D : G} (hPD : Commute P D)
     (s s' : Bool) : Commute (P * (if s then D else 1)) (P * (if s' then D else 1)) := by
   have hE : ∀ s : Bool, Commute P (if s then D else 1) := by
     intro s
     cases s
-    · simpa using Commute.one_right P
+    · simp
     · simpa using hPD
   have hEE : ∀ s s' : Bool, Commute (if s then D else 1) (if s' then D else 1) := by
     intro s s'
     cases s <;> cases s'
-    · simpa using Commute.one_left (1 : G)
-    · simpa using Commute.one_left D
-    · simpa using Commute.one_right D
-    · simpa using Commute.refl D
+    · simp
+    · simp
+    · simp
+    · simp
   exact ((Commute.refl P).mul_left (hE s).symm).mul_right ((hE s').mul_left (hEE s s'))
 
 lemma qtwoDB33_dTau_commute_same (m : ℕ) (s s' : Bool) {a b : Fin m} (hab : a ≠ b) :
@@ -143,10 +143,9 @@ lemma qtwoDB33_dTau_commute_disjoint {m : ℕ} (s s' : Bool) {a b a' b' : Fin m}
             dTau_apply_right m s' hab', map_smul,
             dTau_apply_of_ne m s (Ne.symm haa) (Ne.symm hba)]
         · simp only [LinearEquiv.mul_apply, dTau_apply_of_ne m s hka hkb,
-            dTau_apply_of_ne m s hka' hkb', dTau_apply_of_ne m s' hka hkb,
             dTau_apply_of_ne m s' hka' hkb']
 
-lemma qtwoDB33_dSign_mul_self (m : ℕ) {a b : Fin m} (hab : a ≠ b) :
+lemma qtwoDB33_dSign_mul_self (m : ℕ) {a b : Fin m} (_hab : a ≠ b) :
     dSign m a b * dSign m a b = 1 := by
   have hc : (fun k : Fin m => (if k = a ∨ k = b then (-1 : (ZMod 3)ˣ) else 1)) *
       (fun k : Fin m => (if k = a ∨ k = b then (-1 : (ZMod 3)ˣ) else 1)) = 1 := by
@@ -162,9 +161,9 @@ lemma qtwoDB33_dTau_mul_self (m : ℕ) (s : Bool) {a b : Fin m} (hab : a ≠ b) 
   have hPD : dPerm m (Equiv.swap a b) * dSign m a b
       = dSign m a b * dPerm m (Equiv.swap a b) := qtwoDB33_dPerm_dSign_comm m hab
   cases s
-  · simp only [dTau, Bool.false_eq_true, if_false, mul_one]
+  · simp only [dTau, Bool.false_eq_true, ite_false, mul_one]
     exact hPP
-  · simp only [dTau, if_true]
+  · simp only [dTau, ite_true]
     calc dPerm m (Equiv.swap a b) * dSign m a b *
           (dPerm m (Equiv.swap a b) * dSign m a b)
         = dPerm m (Equiv.swap a b) * (dSign m a b *
@@ -181,7 +180,7 @@ lemma qtwoDB33_dTau_mul_self (m : ℕ) (s : Bool) {a b : Fin m} (hab : a ≠ b) 
 
 lemma qtwoDB33_bad_ne' {m : ℕ} {R B A : DVec m ≃ₗ[ZMod 3] DVec m}
     {s s' s'' : Bool} {u a d b : Fin m}
-    (hua : u ≠ a) (hud : u ≠ d) (hub : u ≠ b) (had : a ≠ d)
+    (hua : u ≠ a) (_hud : u ≠ d) (hub : u ≠ b) (had : a ≠ d)
     (hR : R = dTau m s u a) (hB : B = dTau m s' u d) (hA : A = dTau m s'' u b) :
     R * B * R⁻¹ ≠ A := by
   subst hR; subst hB; subst hA
@@ -277,7 +276,7 @@ lemma qtwoDB33_triangle {α : Type*} [DecidableEq α] {A B C : Finset α}
 
 lemma qtwoDB33_three_common {α : Type*} [DecidableEq α] {A B C D : Finset α}
     (hA : A.card = 2) (hB : B.card = 2) (hC : C.card = 2) (hD : D.card = 2)
-    (hAB : (A ∩ B).card = 1) (hAC : (A ∩ C).card = 1) (hBC : (B ∩ C).card = 1)
+    (_hAB : (A ∩ B).card = 1) (hAC : (A ∩ C).card = 1) (hBC : (B ∩ C).card = 1)
     (hAD : (A ∩ D).card = 1) (hBD : (B ∩ D).card = 1) (hCD : (C ∩ D).card = 1)
     {x : α} (hx : A ∩ B = {x}) : x ∈ C := by
   have hxA : x ∈ A := by
@@ -337,7 +336,7 @@ lemma qtwoDB33_three_common {α : Type*} [DecidableEq α] {A B C D : Finset α}
       · exact hxC (hyD ▸ hy.1)
       · exact hwC (hyD ▸ hy.1)
     rw [hCDempty] at hCD
-    simpa using hCD
+    simp at hCD
   · have hDeq := qtwoDB33_triangle hA hB hD hAD hBD hx hxD
     rw [hDeq, ← hCeq, Finset.inter_self, hC] at hCD
     omega

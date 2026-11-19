@@ -17,6 +17,7 @@ section Generic
 
 variable {K : Type} [Field K] {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 theorem bilin_fix_sub_one (B : LinearMap.BilinForm K V) (g : Module.End K V)
     (hg : ∀ v w, B (g v) (g w) = B v w) {w : V} (hw : g w = w) (y : V) :
     B w ((g - 1) y) = 0 := by
@@ -25,6 +26,7 @@ theorem bilin_fix_sub_one (B : LinearMap.BilinForm K V) (g : Module.End K V)
     rwa [hw] at h
   rw [LinearMap.sub_apply, Module.End.one_apply, map_sub, h1, sub_self]
 
+omit [FiniteDimensional K V] in
 theorem ker_inf_range_sub_one [CharP K 2] (g : Module.End K V) (hg3 : g ^ 3 = 1) :
     LinearMap.ker (g - 1) ⊓ LinearMap.range (g - 1) = ⊥ := by
   rw [eq_bot_iff]
@@ -59,11 +61,13 @@ theorem ker_sup_range_sub_one [CharP K 2] (g : Module.End K V) (hg3 : g ^ 3 = 1)
   apply Submodule.eq_top_of_finrank_eq
   omega
 
+omit [FiniteDimensional K V] in
 theorem fix_of_mem_ker_sub_one (g : Module.End K V) {w : V} (hw : w ∈ LinearMap.ker (g - 1)) :
     g w = w := by
   have h := LinearMap.mem_ker.mp hw
   rwa [LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero] at h
 
+omit [FiniteDimensional K V] in
 theorem range_sub_one_le_orth (B : LinearMap.BilinForm K V) (g : Module.End K V)
     (hg : ∀ v w, B (g v) (g w) = B v w) :
     LinearMap.range (g - 1) ≤ B.orthogonal (LinearMap.ker (g - 1)) := by
@@ -87,12 +91,14 @@ theorem isElemAbelian_of_le {G : Type*} [Group G] {p : ℕ} {A X : Subgroup G}
   ⟨⟨⟨fun a b => Subtype.ext (TableB.IsElemAbelian.comm hA (h a.2) (h b.2))⟩⟩,
     fun x hx => hA.2 x (h hx)⟩
 
+omit [Finite K] in
 theorem spRep_inv_apply (a : LargeEvenProj (LargeEvenSpGroup K m)) (v : Fin m ⊕ Fin m → K) :
     (SmallRule.spRep a⁻¹ : Module.End K (Fin m ⊕ Fin m → K))
       ((SmallRule.spRep a : Module.End K (Fin m ⊕ Fin m → K)) v) = v := by
   rw [← Module.End.mul_apply, ← Units.val_mul, ← map_mul, inv_mul_cancel, map_one,
     Units.val_one, Module.End.one_apply]
 
+omit [Finite K] in
 theorem spRep_apply_inv (a : LargeEvenProj (LargeEvenSpGroup K m)) (v : Fin m ⊕ Fin m → K) :
     (SmallRule.spRep a : Module.End K (Fin m ⊕ Fin m → K))
       ((SmallRule.spRep a⁻¹ : Module.End K (Fin m ⊕ Fin m → K)) v) = v := by
@@ -100,7 +106,7 @@ theorem spRep_apply_inv (a : LargeEvenProj (LargeEvenSpGroup K m)) (v : Fin m �
     Units.val_one, Module.End.one_apply]
 
 theorem exists_ne_one_fix (hK : Nat.card K = 2)
-    {A : Subgroup (LargeEvenProj (LargeEvenSpGroup K m))} (hA : IsElemAbelian 3 A)
+    {A : Subgroup (LargeEvenProj (LargeEvenSpGroup K m))} (_hA : IsElemAbelian 3 A)
     (h27 : 27 ≤ Nat.card A) {T : Submodule K (Fin m ⊕ Fin m → K)}
     (hT2 : Module.finrank K T ≤ 2)
     (hTA : ∀ a ∈ A, ∀ t ∈ T, (SmallRule.spRep a : Module.End K (Fin m ⊕ Fin m → K)) t ∈ T) :
@@ -109,8 +115,8 @@ theorem exists_ne_one_fix (hK : Nat.card K = 2)
   classical
   by_contra hcon
   push Not at hcon
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype T := Fintype.ofFinite T
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype T := Fintype.ofFinite T
   let σ : A → Equiv.Perm T := fun a =>
     { toFun := fun v => ⟨(SmallRule.spRep (a : LargeEvenProj (LargeEvenSpGroup K m)) :
         Module.End K (Fin m ⊕ Fin m → K)) v.1, hTA a a.2 v.1 v.2⟩
@@ -320,8 +326,8 @@ theorem exists_two_dim_fix (hK : Nat.card K = 2)
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hzp
     refine Subgroup.mem_zpowers_iff.mpr ⟨k, ?_⟩
     rw [← hk, map_zpow]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Module.End K (Fin m ⊕ Fin m → K))ˣ := TwoThree.finite_units_end
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Module.End K (Fin m ⊕ Fin m → K))ˣ := TwoThree.finite_units_end
   have hfixcard : Nat.card ↥((A.map (SmallRule.spRep (K := K) (m := m))) ⊓
       TwoThree.fixG W) ≤ 3 := by
     calc Nat.card ↥((A.map (SmallRule.spRep (K := K) (m := m))) ⊓ TwoThree.fixG W)

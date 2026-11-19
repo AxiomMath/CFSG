@@ -49,7 +49,7 @@ theorem img_pt (a : Wr n) (j : Fin n) (c : ZMod 2) :
     rw [h4]
     exact ZMod.natCast_zmod_val c
   unfold img
-  rw [dif_pos h2, hj, h3]
+  rw [dite_eq_left h2, hj, h3]
 
 theorem exists_pt {p : Nat} (hp : p < 2 * n) : ∃ (j : Fin n) (c : ZMod 2), p = 2 * j.val + c.val :=
   ⟨⟨p / 2, by omega⟩, ((p % 2 : Nat) : ZMod 2), by simp only [ZMod.val_natCast, Nat.mod_mod]; omega⟩
@@ -73,7 +73,7 @@ theorem img_mul (a b : Wr n) {p : Nat} (hp : p < 2 * n) : img (a * b) p = img a 
 theorem nib_enc (hn : n ≤ 8) (a : Wr n) {p : Nat} (hp : p < 2 * n) : nib (enc a) p = img a p := by
   unfold enc
   rw [nib_packL]
-  · simp [List.getD_eq_getElem?_getD, List.getElem?_range, hp]
+  · simp [List.getD_eq_getElem?_getD, hp]
   · intro x hx
     simp only [List.mem_map, List.mem_range] at hx
     obtain ⟨q, hq, rfl⟩ := hx

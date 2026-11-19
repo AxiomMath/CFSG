@@ -61,7 +61,6 @@ theorem exists_comm_ss_K (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (hF : HeisFa
     show ⁅pinnedX τ K (heisα0 τ - β) (-c), pinnedX τ K β d⁆ = _
     rw [this]
     congr 1
-    push_cast
     ring
 
 end Pinned
@@ -150,7 +149,7 @@ theorem HSL_one_eq {F : Type} [Field F] : HSL (1 : Fˣ) = 1 := by
 theorem HSL_mul_eq {F : Type} [Field F] (a b : Fˣ) : HSL (a * b) = HSL a * HSL b := by
   ext i j
   rw [Matrix.SpecialLinearGroup.coe_mul]
-  fin_cases i <;> fin_cases j <;> simp [HSL, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [HSL, Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 @[expose] noncomputable def torusA (τ : Tag) (K : Type) [Field K] (β : Fin τ.rank → ℤ) :
     Kˣ →* ↥(adjointGroup τ K) :=

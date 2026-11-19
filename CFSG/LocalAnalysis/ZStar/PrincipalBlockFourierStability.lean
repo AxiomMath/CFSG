@@ -87,8 +87,7 @@ private theorem componentIntegral_asAlgebraHom_coe
           (algebraMap OddRootResidue.O2 TwoAdicComplex) a) x := by
   induction a using MonoidAlgebra.induction_on with
   | of g =>
-      simpa [Representation.asAlgebraHom_of] using
-        componentIntegralRepresentation_apply D i g x
+      simp
   | add a b ha hb =>
       simpa only [map_add, LinearMap.add_apply, Submodule.coe_add,
         Pi.add_apply] using congrArg₂ (· + ·) ha hb

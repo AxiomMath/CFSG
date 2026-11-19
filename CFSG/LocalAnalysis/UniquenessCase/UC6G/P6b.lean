@@ -38,7 +38,7 @@ theorem hL3_of_kProjRep620 (hK : UCK.KProjRep620) (hL : m.L620) (hq : CFSG.Open.
     (hr : 3 < m.r) : ∀ (q : ℕ), q.Prime → q ≠ m.r → ∀ (d : ℕ), d ≤ 6 →
       ∀ f : ↥m.L →* (Matrix.GeneralLinearGroup (Fin d) (ZMod q)) ⧸
         center (Matrix.GeneralLinearGroup (Fin d) (ZMod q)), f = 1 := by
-  haveI := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.L)
+  have := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.L)
   have h5 : 5 ≤ m.r := by
     by_contra h
     have h4 : m.r = 4 := by omega

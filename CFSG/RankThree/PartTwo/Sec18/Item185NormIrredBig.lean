@@ -135,7 +135,7 @@ private theorem dg_mem {u : Kˣ} (hu : u ^ 3 = 1) (e : Fin 4 → ZMod 3) (he : �
 
 private noncomputable def tauSU {u : Kˣ} (hu : u ^ 3 = 1) :
     Multiplicative (Fin 3 → ZMod 3) →* SU4 :=
-  (tauGL hu).codRestrict _ fun v => dg_mem hu _ (sum_lin4 _)
+  (tauGL hu).codRestrict _ fun _v => dg_mem hu _ (sum_lin4 _)
 
 private theorem coe_tauSU {u : Kˣ} (hu : u ^ 3 = 1) (v : Multiplicative (Fin 3 → ZMod 3)) :
     (((tauSU hu v : SU4) : GL (Fin 4) K)) = dg u (lin4 (Multiplicative.toAdd v)) :=
@@ -252,7 +252,7 @@ private theorem tauSU_ne_permT {u : Kˣ} (hu : u ^ 3 = 1) (v : Fin 3 → ZMod 3)
   have h1 := congrArg (fun g : SU4 => ((g : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) 1 3) h
   change (Matrix.diagonal _ : Matrix (Fin 4) (Fin 4) K) 1 3 = (permT.permMatrix K) 1 3 at h1
   rw [Matrix.diagonal_apply_ne _ (by decide), CFSG.RankThree.Classical.permMatrix_apply',
-    if_pos (by decide)] at h1
+    ite_eq_left (by decide)] at h1
   exact zero_ne_one h1
 
 private theorem baseA_tau_eq_Dstd {u : Kˣ} (hu : u ^ 3 = 1) {t : SU4}

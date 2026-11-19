@@ -97,7 +97,7 @@ theorem RootClass.false_of_transitive [Finite X] (hD : RootClass X D) (hA : A2Ac
       rwa [inv_inv] at this
     have hvc : v = (ρ c)⁻¹ p := by
       rw [← hcv]
-      simp [LinearEquiv.mul_apply]
+      simp
     have hvd' : v ∈ commSpace (ρ (c⁻¹ * d * c)) := by
       have h1 : ρ (c⁻¹ * d * c) = ρ c⁻¹ * ρ d * (ρ c⁻¹)⁻¹ := by
         rw [map_mul, map_mul, map_inv, inv_inv]
@@ -161,8 +161,8 @@ theorem A2Action.fix_of_isPGroup_three [Finite X] (hA : A2Action D Q ρ) {r : X}
   obtain ⟨-, -, -, hdim, -⟩ := hA.2.2.2 r hr
   push Not at hn
   obtain ⟨u₀, hu₀P, hu₀0, hu₀⟩ := hn
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  letI : MulAction ↥T V := MulAction.compHom V (ρ.comp T.subtype)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  let : MulAction ↥T V := MulAction.compHom V (ρ.comp T.subtype)
   have hsmul : ∀ t : ↥T, t • v = ρ (t : X) v := fun t => rfl
   have hPcard : ((commSpace (ρ r) : Submodule (ZMod 2) V) : Set V).ncard = 4 := by
     rw [← Nat.card_coe_set_eq]
@@ -193,7 +193,7 @@ theorem A2Action.fix_of_isPGroup_three [Finite X] (hA : A2Action D Q ρ) {r : X}
     · exact Submodule.zero_mem _
     · exact hu₀P
   have h2 : (((commSpace (ρ r) : Submodule (ZMod 2) V) : Set V) \ {0, u₀}).ncard = 2 := by
-    rw [Set.ncard_diff hsub2 (Set.toFinite _), hPcard, Set.ncard_pair (Ne.symm hu₀0)]
+    rw [Set.ncard_sdiff hsub2 (Set.toFinite _), hPcard, Set.ncard_pair (Ne.symm hu₀0)]
   have hle : (MulAction.orbit ↥T v).ncard ≤ 2 := by
     rw [← h2]
     exact Set.ncard_le_ncard hsub (Set.toFinite _)

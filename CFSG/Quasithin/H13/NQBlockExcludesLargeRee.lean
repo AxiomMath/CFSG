@@ -103,7 +103,7 @@ theorem original_characteristic_witness_excludes_normal_large_Ree_quotient
   have hAp : IsPGroup p A' := by
     have h1 : IsPGroup p (((P' : Subgroup X).map X.subtype : Subgroup G).subgroupOf K) := by
       rw [← comap_subtype]
-      exact (P'.isPGroup'.map _).comap_subtype
+      exact (P'.isPGroup.map _).comap_subtype
     exact (h1.map σ).map _
   have hAU' : (A' : Set (ReeTag.F4.reeGamma F a)) * (U'' : Set (ReeTag.F4.reeGamma F a)) =
       (U'' : Set (ReeTag.F4.reeGamma F a)) * (A' : Set (ReeTag.F4.reeGamma F a)) := by

@@ -133,7 +133,7 @@ theorem cp_central_inv (h : F5Std a z) {x : G} (hx : IsConj a x) {k : ℕ}
 
 theorem cp_orb6A_cube_mem (h : F5Std a z) {x : G} (hx : x ∈ orb6A a a) :
     (a * x) ^ 3 ∈ orb2A a a ∩ orb2A a x := by
-  simp only [orb6A, Set.mem_setOf_eq] at hx
+  simp only [orb6A, Set.mem_ofPred_eq] at hx
   obtain ⟨hax, ho, hb6⟩ := hx
   have ha2 : a * a = 1 := mul_self_eq_one_of_orderOf_eq_two h.typ.orderOf_a
   have hx2 : x * x = 1 :=
@@ -145,16 +145,16 @@ theorem cp_orb6A_cube_mem (h : F5Std a z) {x : G} (hx : x ∈ orb6A a a) :
   have hab := dihedral_au_cube a x ha2 hx2
   have hxb := dihedral_xu_cube a x ha2 hx2 hb
   refine ⟨?_, ?_⟩
-  · simp only [orb2A, Set.mem_setOf_eq]
+  · simp only [orb2A, Set.mem_ofPred_eq]
     refine ⟨hb6, hax.trans ?_⟩
     exact isConj_iff.2 ⟨(a * x)⁻¹, by rw [inv_inv]; exact hab.symm⟩
-  · simp only [orb2A, Set.mem_setOf_eq]
+  · simp only [orb2A, Set.mem_ofPred_eq]
     exact ⟨hb6, isConj_iff.2 ⟨a * x, hxb.symm⟩⟩
 
 theorem cp_orb6A_cube_mul_mem (h : F5Std a z) {x : G} (hx : x ∈ orb6A a a) :
     (a * x) ^ 3 * x ∈ orb3A a a := by
   have hbA := cp_orb6A_cube_mem h hx
-  simp only [orb6A, Set.mem_setOf_eq] at hx
+  simp only [orb6A, Set.mem_ofPred_eq] at hx
   obtain ⟨hax, ho, hb6⟩ := hx
   have ha2 : a * a = 1 := mul_self_eq_one_of_orderOf_eq_two h.typ.orderOf_a
   have hx2 : x * x = 1 :=
@@ -179,9 +179,9 @@ theorem cp_orb6A_cube_mul_mem (h : F5Std a z) {x : G} (hx : x ∈ orb6A a a) :
   have hord : orderOf (a * ((a * x) ^ 3 * x)) = 3 := by
     rw [hac, orderOf_pow' (x := a * x) (n := 4) (by norm_num), ho]
     norm_num
-  simp only [orb3A, Set.mem_setOf_eq]
+  simp only [orb3A, Set.mem_ofPred_eq]
   refine ⟨hconj, hord, (a * x) ^ 3, hbA.1, ?_⟩
-  simp only [orb2A, Set.mem_setOf_eq]
+  simp only [orb2A, Set.mem_ofPred_eq]
   refine ⟨hb6, ?_⟩
   have hcbb : ((a * x) ^ 3 * x) * (a * x) ^ 3 = x := by
     rw [mul_assoc, hbx, ← mul_assoc, hb2, one_mul]

@@ -164,7 +164,7 @@ private theorem reeTorusSub_one_map_le_octH {K : Type} [Field K] [Finite K]
 theorem octBorelResidualSplit :
     OctBorelResidualSplit := by
   intro K _ _ _ a hR _ ha hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let e := CFSG.Quasithin.A318P.reeFixedEquivGamma (K := K) a
   let P1 := (octSystemOf hR).P₁
   let P2 := (octSystemOf hR).P₂

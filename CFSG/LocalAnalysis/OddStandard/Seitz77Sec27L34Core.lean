@@ -64,7 +64,7 @@ theorem L34Conf.false_of_central_three (c : L34Conf G S) {z : G} (hz : z ∈ Sub
   have hzT' : z ∈ (T : Subgroup G) := hzT (Subgroup.mem_zpowers z)
   let φ : G →* Equiv.Perm V8 := glPermHom.comp c.ρ
   have h0 : ∀ g, φ g 0 = 0 := fun g => glPermHom_zero (c.ρ g)
-  obtain ⟨v, hv0, hvcard⟩ := exists_nonzero_orbit_le_three φ h0 (T : Subgroup G) T.isPGroup'
+  obtain ⟨v, hv0, hvcard⟩ := exists_nonzero_orbit_le_three φ h0 (T : Subgroup G) T.isPGroup
   have hzv : φ z v ≠ v := fun h => hv0 (hfpf v h)
   have hz2v : φ (z ^ 2) v ≠ v := by
     intro h

@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {T V : Subgroup G}
 
+omit [Finite G] in
 theorem conj_eq_of_sq_conj_eq {u x : G} (hodd : Odd (orderOf u))
     (h : u * (u * x * u⁻¹) * u⁻¹ = x) : u * x * u⁻¹ = x := by
   have hc : Commute (u ^ 2) x := by
@@ -64,7 +65,7 @@ theorem eq_one_of_odd_mem_centralizer (hset : HSSetting G z) (hV : HSV z T V) {u
         (mul_inv_eq_iff_eq_mul.mp (hfixZ c hc)).symm
     · exact Subgroup.mem_centralizer_singleton_iff.mpr
         (mul_inv_eq_iff_eq_mul.mp (hfixV v hv)).symm
-  haveI hnorm : ((Z ⊔ V).subgroupOf (Fz z)).Normal := by
+  have hnorm : ((Z ⊔ V).subgroupOf (Fz z)).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hzZV : z ∈ Z ⊔ V := Subgroup.mem_sup_left hD.mem_z
@@ -119,7 +120,7 @@ theorem centralizer_isPGroup (hset : HSSetting G z) (hV : HSV z T V) :
 
 theorem card_centralizer_eq (hset : HSSetting G z) (hs5 : HSS5 z) (hV : HSV z T V) :
     Nat.card ↥(Subgroup.centralizer (V : Set G)) = 64 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (centralizer_isPGroup hset hV)
   have h6 := factorization_card_C hset hs5 hV
   rw [hn, Nat.Prime.factorization_pow Nat.prime_two, Finsupp.single_eq_same] at h6

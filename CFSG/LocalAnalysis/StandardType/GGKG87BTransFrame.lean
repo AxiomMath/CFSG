@@ -224,7 +224,7 @@ private theorem toralCentralizer_xt
       ↑((rootFinset Tag.E6).filter fun α => α 1 = 0) := by
     rw [kernelRoots_rootCharHom]
     ext α
-    simp only [Set.mem_setOf_eq, Finset.coe_filter, mem_rootFinset, rootChar_mulSingle,
+    simp only [Set.mem_ofPred_eq, Finset.coe_filter, mem_rootFinset, rootChar_mulSingle,
       zpow_eq_one_iff_three hω]
     exact ⟨fun h => ⟨h.1, coeff_one_eq_zero h.1 h.2⟩, fun h => ⟨h.1, h.2 ▸ dvd_zero 3⟩⟩
   have hk : (kernelRoots (rootCharHom (Pi.mulSingle 1 ω : Fin Tag.E6.rank → Lˣ))).ncard ∈

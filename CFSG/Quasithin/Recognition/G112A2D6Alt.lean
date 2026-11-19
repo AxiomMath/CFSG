@@ -75,7 +75,7 @@ theorem g112ConclA2_concl4 (B : LinearMap.BilinForm (ZMod 2) V)
     have h1 : B' (f p) (c t (f p)) = 0 := by
       rw [hB', conjEquiv_apply, LinearEquiv.symm_apply_apply]
       exact ha2 _
-    rw [hπ, pAct_f, hB0, B0_f, if_neg (Ne.symm hp)] at h1
+    rw [hπ, pAct_f, hB0, B0_f, ite_eq_right (Ne.symm hp)] at h1
     exact one_ne_zero h1
   have ht1 : t = 1 := by
     have hπ' : π = 1 := Equiv.ext hπ1

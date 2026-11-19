@@ -382,8 +382,8 @@ theorem A2_exists_image_fixed_ne
               MulAut ↥(ggGamma J hN).range) a = a)) := by
   classical
   obtain ⟨V, instA, instM, ι, r, h, α, hform, hrefl, hpair, hind, hgen⟩ := hD
-  letI : AddCommGroup V := instA
-  letI : Module (ZMod 3) V := instM
+  let : AddCommGroup V := instA
+  let : Module (ZMod 3) V := instM
   have hmem : ∀ i : Fin 2, r i ∈ ggAutomizer J Bs := by
     intro i
     rw [hgen]
@@ -403,8 +403,8 @@ theorem A2_exists_cube_and_no_both_inverted
       ¬ ∃ b : ↥Bs, b ≠ 1 ∧ r 0 b = b⁻¹ ∧ r 1 b = b⁻¹ := by
   classical
   obtain ⟨V, instA, instM, ι, r, h, α, hform, _hrefl, hpair, hind, _hgen⟩ := hD
-  letI : AddCommGroup V := instA
-  letI : Module (ZMod 3) V := instM
+  let : AddCommGroup V := instA
+  let : Module (ZMod 3) V := instM
   have hpairA : ∀ i j, α i (h j) = (CartanMatrix.A 2 i j : ZMod 3) := by
     intro i j
     simpa [GGResLineJType.cartan] using hpair i j
@@ -423,8 +423,8 @@ theorem A2_exists_pair_obstructions
         (ggAutomizerGammaHom hN ⟨r 1, hmem 1⟩ : MulAut ↥(ggGamma J hN).range) a = a) := by
   classical
   obtain ⟨V, instA, instM, ι, r, h, α, hform, hrefl, hpair, hind, hgen⟩ := hD
-  letI : AddCommGroup V := instA
-  letI : Module (ZMod 3) V := instM
+  let : AddCommGroup V := instA
+  let : Module (ZMod 3) V := instM
   have hmem : ∀ i : Fin 2, r i ∈ ggAutomizer J Bs := by
     intro i
     rw [hgen]

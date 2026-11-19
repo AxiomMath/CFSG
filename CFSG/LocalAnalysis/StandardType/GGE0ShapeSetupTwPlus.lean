@@ -181,13 +181,13 @@ theorem twisted_setup_plus
       (∀ d ∈ S.D.model, (∀ x : S.Γ, d * (x : ModGL Tag.E6 (AlgebraicClosure K)) * d⁻¹ = x) →
         d = 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L := AlgebraicClosure K
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := f * 2) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := f * 2) (by
     rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   let Fr : L →+* L := iterateFrobenius L 2 f
   have hFr : ∀ c : L, Fr c = c ^ 2 ^ f := fun c => iterateFrobenius_def 2 f c
   let D : LangDatum TwistTag.E6.tag L := CFSG.LocalAnalysis.GLTheoremA.Y10F.twE6EnnolaDatum

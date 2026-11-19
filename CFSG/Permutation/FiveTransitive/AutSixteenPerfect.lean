@@ -13,7 +13,7 @@ namespace FiveTransitive.AutSixteenPerfect
 
 open scoped commutatorElement
 
-@[expose] abbrev GL4 := Matrix.GeneralLinearGroup (Fin 4) (ZMod 2)
+abbrev GL4 := Matrix.GeneralLinearGroup (Fin 4) (ZMod 2)
 
 private theorem transvection_commutator_matrix :
     ∀ (i j k : Fin 4) (c : ZMod 2), i ≠ j → i ≠ k → j ≠ k →

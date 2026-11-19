@@ -573,7 +573,7 @@ private theorem a7V_hinv :
     rw [hmul, map_mul, hfx]
     exact a7V.mul_mem a7V_mem_x hf2mem
   rcases a7V_cases y hy with rfl | rfl | rfl | rfl
-  · simpa using a7V.one_mem
+  · simp
   · simpa [hfx] using a7V_mem_x
   · exact hf2mem
   · exact hf3mem

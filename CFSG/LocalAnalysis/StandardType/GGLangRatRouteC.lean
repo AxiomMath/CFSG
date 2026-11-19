@@ -60,8 +60,8 @@ theorem langRatRouteC_localNorm_of_type
         rfl) hn5 hinner
     · have hkind : twistKind S.ρ (rootCharHom b) i = .twoD := by
         unfold twistKind
-        rw [if_neg hinner, if_neg (by rw [hrank]; rintro (⟨h, -⟩ | ⟨h, -⟩) <;> omega),
-          if_pos ⟨by omega, by rw [hN, hrank]⟩]
+        rw [ite_eq_right hinner, ite_eq_right (by rw [hrank]; rintro (⟨h, -⟩ | ⟨h, -⟩) <;> omega),
+          ite_eq_left ⟨by omega, by rw [hN, hrank]⟩]
       exact langRatRouteC_modelPerfect_twoD S hb i hkind h5
   have hperf : Group.IsPerfect
       ↥(rootSpan τ L (componentRoots (rootCharHom b) i) ⊓ S.D.model) := by

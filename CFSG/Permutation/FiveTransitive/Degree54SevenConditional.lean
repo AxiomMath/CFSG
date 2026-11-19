@@ -28,7 +28,7 @@ private theorem sylow_card_eq_one_of_five_fixed_four
   let _ : Fintype F := Fintype.ofFinite F
   obtain ⟨hF,himage⟩ := Degree54SevenFixed.fixed_card_and_image P hcard h5 hnotAlt s hs S hS
   change Nat.card F = 5 at hF
-  have hQ : IsPGroup 7 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 7 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   let rho : N →* Equiv.Perm F := toPermHom N F
   have hd : 5 ∣ Nat.card rho.range := by

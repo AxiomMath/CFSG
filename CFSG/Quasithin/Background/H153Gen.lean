@@ -155,7 +155,7 @@ theorem isDualOfConj_of {Γ : Subgroup S24} (ρ : ↥Γ →* MulAut V) (G K : Su
     if hk : k ∈ Γ then valOne (ρ ⟨k, hk⟩ x * x⁻¹) else 0
   have hpr : ∀ (x : V) (k : ↥Γ), pr x (k : S24) = valOne (ρ k x * x⁻¹) := by
     intro x k
-    simp only [pr, dif_pos k.2]
+    simp only [pr, dite_eq_left k.2]
   have hfixc : ∀ (g : ↥Γ), (g : S24) ∈ G → ∀ c ∈ Subgroup.zpowers z, ρ g c = c := by
     intro g hg c hc
     rcases eq_one_or_of_mem_zpowers hz hc with rfl | rfl

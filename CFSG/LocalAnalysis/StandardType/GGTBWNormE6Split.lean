@@ -17,7 +17,7 @@ theorem normalizes_inner_automizer {L : Type} [Group L]
     (hs : s ∈ ggInduced (⊤ : Subgroup (MulAut L)) A) :
     s ∈ Subgroup.normalizer
       (ggAutomizer (MulAut.conj : L →* MulAut L).range A : Set (MulAut ↥A)) := by
-  letI : (MulAut.conj : L →* MulAut L).range.Normal := by
+  let : (MulAut.conj : L →* MulAut L).range.Normal := by
     constructor
     rintro a ⟨x, rfl⟩ b
     refine ⟨b x, ?_⟩
@@ -101,8 +101,8 @@ theorem wNormConcl_of_full_frame {L : Type} [Group L] [Finite L]
       (MulEquiv.subgroupMap (MulAut.congr κ) _).trans (MulEquiv.subgroupCongr hW)
     have hz := center_weyl_range_eq_bot (p := p) (by omega)
     rw [← Subgroup.map_center_eq e, hz, Subgroup.map_bot]
-  letI : Nontrivial ↥A := κ.injective.nontrivial
-  letI : Nontrivial V := by
+  let : Nontrivial ↥A := κ.injective.nontrivial
+  let : Nontrivial V := by
     exact ι.injective.nontrivial
   exact ggWNormConcl_of_centerless ι φ h α hgen hZ hNI
     (commutant_scalar_of_coordinates hp5 ι κ W hW)
@@ -111,7 +111,7 @@ theorem wNormConcl_of_full_frame {L : Type} [Group L] [Finite L]
 theorem exists_coordinates_aligned_of_ge_five {K L : Type} [Field K] [Finite K] [Group L] [Finite L]
     {p : ℕ} [NeZero p] (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ Nat.card K - 1)
     (ψ : L →* adjointGroup .E6 K) (hψ : Function.Surjective ψ)
-    (hker : ψ.ker ≤ Subgroup.center L) (A : Subgroup (MulAut L))
+    (_hker : ψ.ker ≤ Subgroup.center L) (A : Subgroup (MulAut L))
     (Λ : adjointGroup .E6 K →* MulAut L) (hΛ : Function.Injective Λ)
     (hΛn : ∀ l, Λ (ψ l) = MulAut.conj l)
     (hA : (torusPow .E6 K p).map Λ = A) :

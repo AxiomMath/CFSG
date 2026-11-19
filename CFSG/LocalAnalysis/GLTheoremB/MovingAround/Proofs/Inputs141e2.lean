@@ -55,7 +55,7 @@ section Untw
 
 theorem not_dvd_card_of_charTwo {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) : ¬ p ∣ Nat.card K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   rw [Nat.card_eq_fintype_card, hn]
@@ -63,7 +63,7 @@ theorem not_dvd_card_of_charTwo {K : Type} [Field K] [Finite K] [CharP K 2] {p :
   exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h))
 
 theorem two_dvd_card_of_charTwo {K : Type} [Field K] [Finite K] [CharP K 2] : 2 ∣ Nat.card K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   rw [Nat.card_eq_fintype_card, hn]
@@ -144,7 +144,7 @@ theorem structAt_twE6 (hres : LangInnerTwo) {f : ℕ} (hf : 1 ≤ f) {K : Type} 
     (hJt : IsLThreeFour (barOf 3 J ⧸ Subgroup.center (barOf 3 J))) : StructAt β J := by
   classical
   have hJ20 := card_dvd_of_isLThreeFour hJt
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ two_ne_zero))
   have hK2 : ringChar K = 2 :=
@@ -287,18 +287,18 @@ theorem not_isLThreeFour_suN {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [Ch
   have hr2 : r = 2 := CharP.eq L hchar (by assumption)
   subst hr2
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ := two_suN_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq
-  haveI : Fact (Nat.Prime 2) := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨hr⟩
   have hes : 0 < e * s := Nat.mul_pos he hs0
   obtain ⟨hfin, hqsC, hc216⟩ := stdUnitary_fixSubgroup (ν := ν) hr hes σQ hσc hν
-  haveI := hfin
+  have := hfin
   have hR20160 : Nat.card (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) = 20160 :=
     card_eq_of_isLThreeFour hL34
   by_cases h32 : (ν, 2 ^ (e * s)) = (3, 2)
   ·
     have h216 := hc216 h32
-    haveI : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
-    haveI : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+    have : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+    have : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
       Finite.of_injective (Subgroup.inclusion hf1) (Subgroup.inclusion_injective hf1)
     have h1 : 20160 ≤ Nat.card ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
       rw [← hR20160]
@@ -332,10 +332,10 @@ theorem not_isLThreeFour_suN {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [Ch
       rw [Subgroup.card_eq_card_quotient_mul_card_subgroup
         (Subgroup.center ↥(CFSG.RankThree.Classical2.fixSubgroup (stdUnitaryEquiv (ν := ν) σQ))), hcardCL]
     obtain ⟨F, hFcard, ⟨eC⟩⟩ := two_suN_exists_equiv hr hes σQ hσc hν
-    haveI : Finite ↥F := Nat.finite_of_card_ne_zero (by
+    have : Finite ↥F := Nat.finite_of_card_ne_zero (by
       rw [hFcard]
       exact (pow_pos (pow_pos Nat.two_pos _) 2).ne')
-    haveI : CharP ↥F 2 := inferInstance
+    have : CharP ↥F 2 := inferInstance
     have hU : UnitaryFieldData 2 (e * s) ↥F := ⟨hr, hes, by rw [hFcard, ← pow_mul, mul_comm]⟩
     have hint := CFSG.GH74.GLS.Stage2.Final.ModelOrd.card_statedSU_int hU (n := ν) (by omega)
     have hZ := (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 2)
@@ -358,7 +358,7 @@ theorem not_isLThreeFour_outer {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [
     (hk : twistKind S.ρ (rootCharHom a) i ≠ .inner)
     (hL34 : IsLThreeFour (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))) : False := by
-  haveI := ssTw_finite_rationalComponent S i
+  have := ssTw_finite_rationalComponent S i
   have hTp : rootDiagUnit τ a ^ 3 = 1 := rootDiagUnit_pow_eq_one_of_forall hap
   cases hkind : twistKind S.ρ (rootCharHom a) i with
   | inner => exact hk hkind
@@ -388,8 +388,8 @@ theorem langOrbitTwo_holds : LangOrbitTwo := by
   intro τ K _ _ hK2 p₀ S a hT hap h1 i hq hRt g hg hgF hg2 _
   by_cases hk : twistKind S.ρ (rootCharHom a) i = .inner
   · exact langOrbitTwo_inner hK2 S hT i hk hq hRt hg hgF hg2
-  · haveI : CharP K 2 := ringChar.of_eq hK2
-    haveI : CharP (AlgebraicClosure K) 2 :=
+  · have : CharP K 2 := ringChar.of_eq hK2
+    have : CharP (AlgebraicClosure K) 2 :=
       charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
     exact (not_isLThreeFour_outer S hT hap h1 i hk (isLThreeFour_center_of_barOf hq hRt)).elim
 
@@ -416,35 +416,35 @@ theorem input14_1StructFor_exceptional (hres : LangInnerTwo) :
     have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_E6 q]; exact hchar
     obtain ⟨K, _, _, hK, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
-    haveI : CharP K 2 := hq2 ▸ hKchar
+    have : CharP K 2 := hq2 ▸ hKchar
     exact structAt_untw hres (τ := .E6) (by simp) (fun h => absurd h (by decide)) (e.trans eK) β hβ hβ1 hlay
       hJ hJt
   | E7 q =>
     have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_E7 q]; exact hchar
     obtain ⟨K, _, _, hK, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 q hv
-    haveI : CharP K 2 := hq2 ▸ hKchar
+    have : CharP K 2 := hq2 ▸ hKchar
     exact structAt_untw hres (τ := .E7) (by simp) (fun h => absurd h (by decide)) (e.trans eK) β hβ hβ1 hlay
       hJ hJt
   | E8 q =>
     have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_E8 q]; exact hchar
     obtain ⟨K, _, _, hK, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-    haveI : CharP K 2 := hq2 ▸ hKchar
+    have : CharP K 2 := hq2 ▸ hKchar
     exact structAt_untw hres (τ := .E8) (by simp) (fun h => absurd h (by decide)) (e.trans eK) β hβ hβ1 hlay
       hJ hJt
   | F4 q =>
     have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_F4 q]; exact hchar
     obtain ⟨K, _, _, hK, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
-    haveI : CharP K 2 := hq2 ▸ hKchar
+    have : CharP K 2 := hq2 ▸ hKchar
     exact structAt_untw hres (τ := .F4) (by simp) (fun h => absurd h (by decide)) (e.trans eK) β hβ hβ1 hlay
       hJ hJt
   | G2 q =>
     have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_G2 q]; exact hchar
     obtain ⟨K, _, _, hK, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv
-    haveI : CharP K 2 := hq2 ▸ hKchar
+    have : CharP K 2 := hq2 ▸ hKchar
     exact structAt_untw hres (τ := .G2) (by simp) (fun _ => hK ▸ hr) (e.trans eK) β hβ hβ1 hlay hJ hJt
   | twistedE6 q =>
     have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_twistedE6 q]; exact hchar

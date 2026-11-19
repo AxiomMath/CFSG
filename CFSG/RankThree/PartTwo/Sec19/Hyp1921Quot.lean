@@ -43,7 +43,7 @@ theorem Hyp1921.mem_pCoreOf_of_commutator_mem (h : Hyp1921 G A M N L) {x : G} (h
 
 theorem Hyp1921.isElemAbelian_of_card_eq_nine (h : Hyp1921 G A M N L) {B : Subgroup G}
     (hBL : B ≤ L) (hB : Nat.card B = 9) : CFSG.Open.IsElemAbelian 3 B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := h.quotient_iso
   have hB3 : IsPGroup 3 B := IsPGroup.of_card (n := 2) (by simp [hB])
   obtain ⟨Ψ, hΨ⟩ : ∃ Ψ : B →* projectiveSL 3 (GaloisField 2 2),
@@ -90,14 +90,14 @@ theorem Hyp1921.isElemAbelian_of_card_eq_nine (h : Hyp1921 G A M N L) {B : Subgr
 
 theorem Hyp1921.exists_elemAbelian_card_nine (h : Hyp1921 G A M N L) :
     ∃ F : Subgroup G, F ≤ L ∧ CFSG.Open.IsElemAbelian 3 F ∧ Nat.card F = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := h.quotient_iso
   obtain ⟨F, hF⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 L
   have hFL : F ≤ L := by
     obtain ⟨Q, rfl⟩ := hF
     exact Subgroup.map_subtype_le _
   have hcard : Nat.card F = 9 := by
-    rw [hF.card_eq, Sec20.factorization_three_of_nonempty_quotient e] <;> norm_num
+    rw [hF.card_eq, Sec20.factorization_three_of_nonempty_quotient e]; norm_num
   exact ⟨F, hFL, h.isElemAbelian_of_card_eq_nine hFL hcard, hcard⟩
 
 end CFSG.RankThree.PartTwo.Late

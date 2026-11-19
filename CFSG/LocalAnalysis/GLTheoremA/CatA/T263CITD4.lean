@@ -120,15 +120,15 @@ variable {π : Bool} {f : ℕ} {F : Type} [Field F]
 
 private theorem t263CI_core3_projImage (hK : PiField π 2 f F) (hmod : ModThree π (2 ^ f)) (hq2 : 2 < 2 ^ f) :
     T263Core3 ↥(CFSG.PGLModel.projImage (glPi π 3 (2 ^ f) F)) := by
-  haveI := hK.finite
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) F) :=
+  have := hK.finite
+  have : Finite (Matrix.ProjGenLinGroup (Fin 3) F) :=
     Finite.of_surjective (Matrix.ProjGenLinGroup.mk : GL (Fin 3) F →* _)
       (QuotientGroup.mk'_surjective _)
   have hπ : π = false → CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f F :=
     fun h => by subst h; exact hK.unitary
   have hSP : CFSG.PGLModel.projImage (slPi π 3 (2 ^ f) F) ≤
       CFSG.PGLModel.projImage (glPi π 3 (2 ^ f) F) := Subgroup.map_mono (Sec4.slPi_le_glPi hπ)
-  haveI : Finite ↥(CFSG.PGLModel.projImage (glPi π 3 (2 ^ f) F)) := Subtype.finite
+  have : Finite ↥(CFSG.PGLModel.projImage (glPi π 3 (2 ^ f) F)) := Subtype.finite
   have hcomm := Sec13.commutator_projImage_glPi hK hq2
   let eE : ↥((CFSG.PGLModel.projImage (slPi π 3 (2 ^ f) F)).subgroupOf
       (CFSG.PGLModel.projImage (glPi π 3 (2 ^ f) F))) ≃* ↥(CFSG.PGLModel.projImage (slPi π 3 (2 ^ f) F)) :=
@@ -137,7 +137,7 @@ private theorem t263CI_core3_projImage (hK : PiField π 2 f F) (hmod : ModThree 
     CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
   have hperf : Group.IsPerfect ↥(CFSG.PGLModel.projImage (slPi π 3 (2 ^ f) F)) :=
     Sec13.isPerfect_projImage_slPi hK hq2
-  haveI : Nontrivial ↥(CFSG.PGLModel.projImage (slPi π 3 (2 ^ f) F)) := hs.toNontrivial
+  have : Nontrivial ↥(CFSG.PGLModel.projImage (slPi π 3 (2 ^ f) F)) := hs.toNontrivial
   have hc3 := Sec13.card_projImage_slPi_mul_three hK hmod
   have h3 : 3 ∣ Nat.card ↥(CFSG.PGLModel.projImage (slPi π 3 (2 ^ f) F)) := by
     have hq2' := t263CI_three_dvd_sq_sub_one f
@@ -218,26 +218,26 @@ theorem t263CI_td4_core3 {G : Type} [Group G] [Finite G] {X L : Subgroup G} {b :
     have eA : ↥(Sec4.autFix φ) ≃* ↥(Sec4.autFix (fieldActor (t := TwistTag.D4) σ σ)) := by
       rw [hβ', ← CFSG.RankThree.PartTwo.Sec8.LangTwistedProof.mulAut_congr_eq]
       exact Sec4.autFixCongrEquiv β' _
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨eG⟩ :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_fixSubgroup_fieldActor_equiv_G2
         (ℓ := 2) (by norm_num) hf (Or.inl rfl) hK' σ hσ'
     have hkc : Nat.card (CFSG.LieType.Chevalley.fixSubfield σ) = 2 ^ q.exponent :=
       CFSG.RankThree.PartOne.KGD.card_fixSubfield_cube Nat.prime_two hf hK' σ hσ'
-    haveI : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
+    have : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
     exact ⟨_, inferInstance, ⟨eFix.trans (eA.trans ((MulEquiv.subgroupCongr rfl).trans eG))⟩,
       t263CI_core3_adjointG2 hf2 hkc⟩
   ·
     have eA : ↥(Sec4.autFix φ) ≃* ↥(Sec4.autFix (fieldActor (t := TwistTag.D4) σ σ)) := by
       rw [hβ', ← CFSG.RankThree.PartTwo.Sec8.LangTwistedProof.mulAut_congr_eq]
       exact (Sec4.autFixCongrEquiv β' _).trans (MulEquiv.subgroupCongr (autFix_inv'' _))
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨eG⟩ :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_fixSubgroup_fieldActor_equiv_G2
         (ℓ := 2) (by norm_num) hf (Or.inl rfl) hK' σ hσ'
     have hkc : Nat.card (CFSG.LieType.Chevalley.fixSubfield σ) = 2 ^ q.exponent :=
       CFSG.RankThree.PartOne.KGD.card_fixSubfield_cube Nat.prime_two hf hK' σ hσ'
-    haveI : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
+    have : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
     exact ⟨_, inferInstance, ⟨eFix.trans (eA.trans ((MulEquiv.subgroupCongr rfl).trans eG))⟩,
       t263CI_core3_adjointG2 hf2 hkc⟩
   ·

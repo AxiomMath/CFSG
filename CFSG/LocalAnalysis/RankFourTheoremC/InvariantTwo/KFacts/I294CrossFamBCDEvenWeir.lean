@@ -36,6 +36,7 @@ theorem isMinusType_quadMinus' {n : ℕ} (hn : 1 ≤ n) {b c : K}
     rw [CFSG.LieType.Universal.Spin.quadMinus_apply]
     simp [minusHalfMap]
 
+omit [Finite K] in
 theorem IsMinusType.of_isometryEquiv' {V V' : Type} [AddCommGroup V] [Module K V]
     [AddCommGroup V'] [Module K V'] {Q : QuadraticForm K V} {Q' : QuadraticForm K V'}
     (e : Q.IsometryEquiv Q') (h : IsMinusType Q) : IsMinusType Q' := by
@@ -91,7 +92,7 @@ theorem le_pRank_orthogonalGroup_even (hp2 : p ≠ 2) (hpK : ¬ p ∣ Nat.card K
     [FiniteDimensional K V] (Q : QuadraticForm K V) (hQ : (polarBilin Q).Nondegenerate)
     {n : ℕ} (hdim : finrank K V = 2 * n) {k : ℕ} (hk : k * e + 2 ≤ 2 * n) :
     k ≤ CFSG.Open.pRank p (⊤ : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q)) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hp1 : Odd p := hp.out.odd_of_ne_two hp2
   have hpK' : ¬ p ∣ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
   have hn : 1 ≤ n := by omega
@@ -118,7 +119,7 @@ theorem le_pRank_orthogonalGroup_odd (hp2 : p ≠ 2) (hpK : ¬ p ∣ Nat.card K)
     (hQ : (polarBilin Q).Nondegenerate) {n : ℕ} (hdim : finrank K V = 2 * n + 1) {k : ℕ}
     (hk : k * e ≤ 2 * n) :
     k ≤ CFSG.Open.pRank p (⊤ : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q)) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hp1 : Odd p := hp.out.odd_of_ne_two hp2
   have hpK' : ¬ p ∣ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
   have hK' : Odd (Fintype.card K) := by rwa [← Nat.card_eq_fintype_card]

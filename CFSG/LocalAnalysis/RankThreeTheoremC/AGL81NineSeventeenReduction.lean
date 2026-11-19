@@ -18,14 +18,14 @@ structure Hyp93At (p : ℕ) (M N : Subgroup G) : Prop where
 
 @[expose] def Hyp917At (p : ℕ) (M H N : Subgroup G)
     (K : Subgroup (H ⧸ primeComplementCore (G := H) p)) : Prop :=
-  ∃ W : Subgroup G, ∃ hW : W ≤ H ⊓ N,
+  ∃ W : Subgroup G, ∃ _hW : W ≤ H ⊓ N,
     (W.subgroupOf H).map (QuotientGroup.mk' (primeComplementCore (G := H) p)) = K ∧
     ((W.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) p)) ≤ d1KBar p M N ∨
       (∀ x ∈ N, ∃ m ∈ N ⊓ M, ∃ y ∈ H ⊓ N, x = m * y) ∨ d1Kappa p M H < d1Kappa p M N)
 
 @[expose] def Hyp917EqAt (p : ℕ) (M H N : Subgroup G)
     (K : Subgroup (H ⧸ primeComplementCore (G := H) p)) : Prop :=
-  ∃ W : Subgroup G, ∃ hW : W ≤ H ⊓ N,
+  ∃ W : Subgroup G, ∃ _hW : W ≤ H ⊓ N,
     (W.subgroupOf H).map (QuotientGroup.mk' (primeComplementCore (G := H) p)) = K ∧
     ((W.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) p)) = d1KBar p M N ∨
       (∀ x ∈ N, ∃ m ∈ N ⊓ M, ∃ y ∈ H ⊓ N, x = m * y))
@@ -107,6 +107,7 @@ theorem card_le_card_map_of_noPPrime {H N W : Subgroup G} (hW : W ≤ H ⊓ N)
     _ ≤ Nat.card fN.range := Nat.card_le_card_of_surjective φ hφs
     _ = Nat.card ((W.subgroupOf N).map πN) := by rw [hrN]
 
+omit [Finite G] in
 theorem factor_of_map_eq {M H N W : Subgroup G} (hN : Hyp93At p M N) (hW : W ≤ H ⊓ N)
     (heq : d1KBar p M N ≤
       (W.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) p))) :

@@ -20,6 +20,7 @@ private def negFun (χ : Multiplicative (Fin τ.rank → ℤ) →* M) (f : (Fin 
     (ρ : WeylGroup τ) : Finset (Fin τ.rank → ℤ) :=
   (rootFinset τ).filter fun γ => γ ∈ posRoots (kernelRoots χ) ∧ f (ρ • γ) < 0
 
+omit [IsOrderedAddMonoid G] in
 private theorem mem_negFun {f : (Fin τ.rank → ℤ) →+ G} {ρ : WeylGroup τ}
     {γ : Fin τ.rank → ℤ} :
     γ ∈ negFun χ f ρ ↔ γ ∈ posRoots (kernelRoots χ) ∧ f (ρ • γ) < 0 := by
@@ -154,7 +155,7 @@ theorem orbitFunctional_smul {u : WeylGroup τ} (hu3 : u ^ 3 = 1) (c : Fin τ.ra
 
 theorem exists_rat_dotProduct_ne_zero {n : ℕ} {S : Set (Fin n → ℤ)} (hS : S.Finite)
     (h0 : ∀ s ∈ S, s ≠ 0) : ∃ c : Fin n → ℚ, ∀ s ∈ S, ∑ i, c i * (s i : ℚ) ≠ 0 := by
-  haveI : Finite S := hS.to_subtype
+  have : Finite S := hS.to_subtype
   let f : S → Module.Dual ℚ (Fin n → ℚ) := fun s =>
     (dotProductEquiv ℚ (Fin n)) (fun i => (s.1 i : ℚ))
   have h : ∀ s : S, ∃ x, f s x ≠ 0 := by

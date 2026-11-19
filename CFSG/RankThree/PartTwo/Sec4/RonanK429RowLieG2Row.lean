@@ -19,7 +19,7 @@ theorem noCfgS429_of_adjointG2 {S : Type} [Group S] [Finite S] {F : Type} [Field
     {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn : 2 ≤ n) (τ : S ≃* adjointGroup Tag.G2 F) :
     NoCfgS429 S := by
   intro A σ K hc
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   have hσ3 := cfgS429_pow_three hc
   obtain ⟨E, hEK, hEc, hE3, hE9, hEZ⟩ := exists_e9_of_type429 hc.isType
   have hfix : ∀ k ∈ K, σ k = k := fun k hk => Sec4.mem_autFix.mp (hc.le_autFix hk)

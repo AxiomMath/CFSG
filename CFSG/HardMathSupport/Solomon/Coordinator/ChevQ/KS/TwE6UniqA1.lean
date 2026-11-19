@@ -42,14 +42,14 @@ theorem orbit_ne_of_rank_one_quasisimple {τ : Tag} {L : Type} [Field L] [IsAlgC
           ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
             (componentRoots (rootCharHom ta) i)])
       · unfold twistKind
-        rw [if_pos hin]
+        rw [ite_eq_left hin]
       · unfold twistKind
-        rw [if_neg hin, if_neg (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
-          if_neg (fun h => by omega), if_neg (fun h => by omega)]
+        rw [ite_eq_right hin, ite_eq_right (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
+          ite_eq_right (fun h => by omega), ite_eq_right (fun h => by omega)]
     exact twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hkind
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   obtain ⟨hfinK, hKcard⟩ := finite_card_fixSubfield (L := L) (r := r) (n := e * s)
     (Nat.mul_pos he hs0) σ hσ'
@@ -77,13 +77,13 @@ theorem orbit_ne_of_rank_one_quasisimple {τ : Tag} {L : Type} [Field L] [IsAlgC
   have hQ : r ^ (e * s) = 2 := by
     rw [hs1, mul_one, ← hq, hq2]
   have hKle : Nat.card (fixSubfield σ) ≤ 3 := by rw [hKcard, hQ]; omega
-  haveI : Group.IsSolvable SL(2, ↥(fixSubfield σ)) :=
+  have : Group.IsSolvable SL(2, ↥(fixSubfield σ)) :=
     isSolvable_specialLinear_two_of_card_le_three hKle
-  haveI : Group.IsSolvable ↥(componentRootSpan (fixSubfield σ) (rootCharHom ta) i) :=
+  have : Group.IsSolvable ↥(componentRootSpan (fixSubfield σ) (rootCharHom ta) i) :=
     Group.isSolvable_of_isSolvable_injective (f := eSL.symm.toMonoidHom) eSL.symm.injective
-  haveI : Group.IsSolvable ↥f.range :=
+  have : Group.IsSolvable ↥f.range :=
     Group.isSolvable_of_surjective (f := f.rangeRestrict) f.rangeRestrict_surjective
-  haveI : Group.IsSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom ta) i) :=
+  have : Group.IsSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom ta) i) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hf1)
   exact LieComp.not_isSolvable_of_isQuasisimple hQS inferInstance
 

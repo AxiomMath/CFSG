@@ -30,12 +30,12 @@ theorem quotient_center_injective {X : Type} [Group X] [Finite X] {S : Subgroup 
     · have : (g * x * g⁻¹) ^ 2 = g * x ^ 2 * g⁻¹ := conj_pow
       rw [this, hx.2]
       group
-  haveI hnormal : (Subgroup.closure
+  have hnormal : (Subgroup.closure
       {x : X | CFSG.BenderSuzuki.PFAppendixIII.IsInvolution x}).Normal := by
     refine ⟨fun n hn g => ?_⟩
     induction hn using Subgroup.closure_induction with
     | mem x hx => exact Subgroup.subset_closure (hconj g x hx)
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul x y _ _ hx hy =>
       have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
       rw [this]
@@ -86,9 +86,9 @@ theorem w3Lem85TwoGap2_holds : W3Lem85TwoGap2 := by
   obtain ⟨m, n, hm3, hLie, hTCG, T, hST, hwc⟩ := hlin
   obtain ⟨F, hField, hFin, hcardF, e, a, ha, hiff⟩ := hTCG
   classical
-  letI : Field F := hField
-  letI : Finite F := hFin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field F := hField
+  let : Finite F := hFin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : X →* X ⧸ Subgroup.center X := QuotientGroup.mk' (Subgroup.center X)
   let A' : Subgroup (MulAut (X ⧸ Subgroup.center X)) :=
     A.map (CFSG.FiveTransitive.CharacteristicAutomorphism.quotient (Subgroup.center X))

@@ -54,7 +54,7 @@ theorem y1431_noCfg_pslGoodHigh_three (hO : CFSG.ComponentClassification.CatLeaf
     have hC : StatedClassicalModel P .PSL n p f := (lieModel_classical_iff (by decide)).mp hm
     obtain ⟨-, K, _, _, hK, ⟨e0⟩⟩ := hC
     have hcopK : Nat.Coprime 3 (Nat.gcd n (Nat.card K - 1)) := by rw [hK]; exact hcop
-    haveI : Finite (projectiveSL n K) := inferInstance
+    have : Finite (projectiveSL n K) := inferInstance
     exact famOK_of_mulEquiv (e0.trans (statedProjEquiv n K))
       (famOK_psl hO hn3 hcopK hadm.1 hadm.2.1 hK)
 

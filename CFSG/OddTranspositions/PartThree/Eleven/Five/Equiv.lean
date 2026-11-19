@@ -20,7 +20,7 @@ theorem coe_fivePlusHom_apply (g : fiveReflectionGroup 4 true true) :
   rfl
 
 theorem fivePlusHom_surjective : Function.Surjective fivePlusHom := by
-  haveI : IsSimpleGroup FiveSquareFrameGeneration.derived :=
+  have : IsSimpleGroup FiveSquareFrameGeneration.derived :=
     FiveSquareFrameGeneration.derived_isSimpleGroup
   have hnormal : fivePlusHom.range.Normal := by
     refine ⟨fun n hn d => ?_⟩
@@ -70,7 +70,7 @@ theorem fivePlusHom_surjective : Function.Surjective fivePlusHom := by
       intro hh
       have h3 := congrFun hh 0
       simp only [Pi.neg_apply, FiveSquareFrameGeneration.Generic.e_apply,
-        Pi.single_eq_same, Pi.single_eq_of_ne] at h3
+        Pi.single_eq_same] at h3
       exact (by decide : ¬((-1 : ZMod 5) = 1)) h3
     exact h2 (by simpa using h0)
   have hne : fivePlusHom.range ≠ ⊥ := by
@@ -96,7 +96,7 @@ theorem ker_fivePlusHom :
     exact (commute_of_fivePlusMap_eq_one hmap1 (m : GL (Fin 5) (ZMod 5))).symm.eq
   · intro k hk
     rw [Subgroup.mem_center_iff] at hk
-    haveI : IsSimpleGroup FiveSquareFrameGeneration.derived :=
+    have : IsSimpleGroup FiveSquareFrameGeneration.derived :=
       FiveSquareFrameGeneration.derived_isSimpleGroup
     have hcenter : fivePlusHom k ∈ Subgroup.center FiveSquareFrameGeneration.derived := by
       rw [Subgroup.mem_center_iff]

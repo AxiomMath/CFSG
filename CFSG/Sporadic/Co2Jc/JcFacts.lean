@@ -163,8 +163,8 @@ theorem isPGroup_T0 : IsPGroup 2 T0 :=
   IsPGroup.of_card card_T0
 
 theorem eq_T0_of_le {R : Subgroup K} (hR : IsPGroup 2 R) (h : T0 ≤ R) : R = T0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite K :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Co2Cert.natCard_Co2]; norm_num)
   obtain ⟨Q, hRQ⟩ := hR.exists_le_sylow
   have hQ' : Nat.card ↥(Q : Subgroup K) = 2 ^ 18 := by

@@ -147,7 +147,7 @@ theorem exists_sylow_pi_projUnitriangular :
     norm_num
     exact h4
   have hidx : ¬ 2 ∣ (Subgroup.pi Set.univ fun _ : Fin k => projUnitriangular 3 F).index := by
-    rw [Subgroup.index_pi, Prime.dvd_finset_prod_iff Nat.prime_two.prime]
+    rw [Subgroup.index_pi, Prime.dvd_finsetProd_iff Nat.prime_two.prime]
     rintro ⟨i, -, hi⟩
     exact P.not_dvd_index (hP ▸ hi)
   exact ⟨h2.toSylow hidx, rfl⟩

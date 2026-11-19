@@ -18,7 +18,7 @@ theorem ggTwE6Row_card_le_of_recipe
       (X : Set (MulAut (TwE6Delta.RecipeR K n))) ⊆ TwE6Delta.RecipeI K n →
         IsElemAbelian p X → Nat.card X ≤ p ^ 6 := by
   intro X hXI hX
-  haveI := TwE6Delta.finite_recipeR (K := K) hK
+  have := TwE6Delta.finite_recipeR (K := K) hK
   have hXInn : (X : Set (MulAut (TwE6Delta.RecipeR K n))) ⊆
       Set.range (MulAut.conj :
         TwE6Delta.RecipeR K n →* MulAut (TwE6Delta.RecipeR K n)) := by
@@ -41,8 +41,7 @@ theorem ggTwE6Row_labelAll_card
   dsimp only at htag
   subst htag
   refine TwE6Delta.labelAll (lab := ⟨.twE6, l, n⟩) rfl ?_
-  intro K _ _ hK
-  intro _ _ X hXI hX
+  intro K _ _ hK _ _ X hXI hX
   exact ggTwE6Row_card_le_of_recipe hlab.1 hK hp hp3 hpn X hXI hX
 
 end CFSG.StandardType

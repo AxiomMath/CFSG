@@ -8,7 +8,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.K1419E
 
 theorem l3u3_suN_padicValNat_two {N n A B : ℕ} (hA : Odd A) (hB : Odd B)
     (hN : 3 * N = 2 ^ (3 * n) * (A * B)) : padicValNat 2 N = 3 * n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAB : A * B ≠ 0 := mul_ne_zero hA.pos.ne' hB.pos.ne'
   have hN0 : N ≠ 0 := by
     intro h0
@@ -216,7 +216,7 @@ theorem l3u3_suN_ge_five_arith {ν N z m : ℕ} (hν : 5 ≤ ν) (hN : L3U3Order
     exact Nat.odd_iff.2 (by omega)
   have hFnlt : Fn < 2 * (2 ^ m) ^ S := by exact_mod_cast hFlt
   have hFn0 : Fn ≠ 0 := hFnodd.pos.ne'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz0 : z ≠ 0 := hz.pos.ne'
   have hN0 : N ≠ 0 := by
     intro h0
@@ -269,8 +269,8 @@ theorem l3u3_suN_three_arith {N z m : ℕ} (hN : L3U3Order N) (hm : 1 ≤ m) (hz
   have e2 : (2 ^ m) ^ 2 = 4 ^ m := by rw [← pow_mul, mul_comm, pow_mul]; norm_num
   have e3 : (2 ^ m) ^ 3 = 8 ^ m := by rw [← pow_mul, mul_comm, pow_mul]; norm_num
   rw [e2, e3] at hnat
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn2, hn3, hv2, -⟩ := l3u3_suN_param hN
   have hne4 : 4 ^ m - 1 ≠ 0 := (odd_four_pow_sub_one hm0).pos.ne'
   have hne8 : 8 ^ m + 1 ≠ 0 := by positivity

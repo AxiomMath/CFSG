@@ -64,7 +64,7 @@ theorem nk_s9_replacement (hSch : NKLeafSchurL32) (hSL3 : NKLeafSL3Rep)
       IsConj a b)
     {E : Type} [Field E] [Finite E] [CharP E 2] (hE : Nat.card E = 2 ∨ Nat.card E = 4) {n : ℕ}
     (Kb Nb : Subgroup (GL (Fin n) E)) (hKN : Kb ≤ Nb)
-    (hnorm : ∀ g ∈ Nb, ∀ k ∈ Kb, g * k * g⁻¹ ∈ Kb) (hirr : CFSG.RankThree.SubgroupLists.IsIrreducibleOn Nb)
+    (_hnorm : ∀ g ∈ Nb, ∀ k ∈ Kb, g * k * g⁻¹ ∈ Kb) (hirr : CFSG.RankThree.SubgroupLists.IsIrreducibleOn Nb)
     (tb : GL (Fin n) E) (htb : IsTransvectionK tb) (htbN : tb ∈ Nb)
     (hgen : Nb = Subgroup.closure {x | ∃ k ∈ Kb, x = k * tb * k⁻¹})
     (hinner : ∃ kb ∈ Kb, ∀ x ∈ Kb, tb * x * tb⁻¹ = kb * x * kb⁻¹)
@@ -75,7 +75,7 @@ theorem nk_s9_replacement (hSch : NKLeafSchurL32) (hSL3 : NKLeafSL3Rep)
       ∃ M : Matrix (Fin 3) (Fin 3) (ZMod 2), M.det = 1 ∧
         ((P * g * P⁻¹ : GL (Fin n) E) : Matrix (Fin n) (Fin n) E) =
           (M.map (fun a : ZMod 2 => ((a.val : ℕ) : E))).submatrix (Fin.cast hn) (Fin.cast hn) := by
-  haveI : Finite (GL (Fin n) E) := inferInstance
+  have : Finite (GL (Fin n) E) := inferInstance
   obtain ⟨kb, hkb, hinn⟩ := hinner
   set c : GL (Fin n) E := kb⁻¹ * tb with hc
   have hcK : ∀ x ∈ Kb, c * x = x * c := by
@@ -149,7 +149,7 @@ theorem nk_s9_replacement (hSch : NKLeafSchurL32) (hSL3 : NKLeafSL3Rep)
   let e : ↥Kb ≃* Ks := MulEquiv.ofBijective πb ⟨hinj, hπ⟩
   let e' : ↥Nb ≃* Ks := (MulEquiv.subgroupCongr hNK).trans e
   have htbord : orderOf tb = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [pow_two]; exact hsq) htb.1
   have hinvol : ∀ g ∈ Nb, orderOf g = 2 → IsTransvectionK g := by
     intro g hg hgo

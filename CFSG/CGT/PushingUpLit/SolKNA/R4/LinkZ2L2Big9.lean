@@ -18,6 +18,7 @@ section PairInGamma
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem orderOf_gD_one (x : Fˣ) : orderOf (gD x (1 : F ≃+* F)) = orderOf x := by
   let φ : Fˣ →* PGammaL2 F :=
     { toFun := fun x => gD x 1
@@ -26,22 +27,26 @@ theorem orderOf_gD_one (x : Fˣ) : orderOf (gD x (1 : F ≃+* F)) = orderOf x :=
   have hφ : Function.Injective φ := fun x y h => (gD_eq_iff.mp h).1
   exact orderOf_injective φ hφ x
 
+omit [Finite F] in
 theorem gD_conj_gD_one (x y : Fˣ) (σ : F ≃+* F) :
     gD y σ * gD x 1 * (gD y σ)⁻¹ = gD (autU σ x) 1 := by
   rw [gD_inv, gD_mul_gD, gD_mul_gD, mul_one, autU_inv, autU_aut_inv, mul_inv_cancel, gD_eq_iff]
   refine ⟨?_, rfl⟩
   rw [mul_assoc, mul_comm (autU σ x) y⁻¹, ← mul_assoc, mul_inv_cancel, one_mul]
 
+omit [Finite F] in
 theorem gA_conj_gD_one (x y : Fˣ) (σ : F ≃+* F) :
     gA y σ * gD x 1 * (gA y σ)⁻¹ = gD (autU σ x)⁻¹ 1 := by
   rw [gA_inv, gA_mul_gD, gA_mul_gA, mul_one, autU_aut_inv, mul_inv_cancel, gD_eq_iff]
   refine ⟨?_, rfl⟩
   rw [mul_assoc, mul_comm (autU σ x)⁻¹ y⁻¹, ← mul_assoc, mul_inv_cancel, one_mul]
 
+omit [Finite F] in
 theorem gD_mul_self (x : Fˣ) (σ : F ≃+* F) (hσ : σ * σ = 1) :
     gD x σ * gD x σ = gD (x * autU σ x) 1 := by
   rw [gD_mul_gD, hσ]
 
+omit [Finite F] in
 theorem gA_mul_self (x : Fˣ) (σ : F ≃+* F) (hσ : σ * σ = 1) :
     gA x σ * gA x σ = gD (x * (autU σ x)⁻¹) 1 := by
   rw [gA_mul_gA, hσ]
@@ -154,15 +159,19 @@ variable {X : Type} [Group X] [Finite X] {F : Type} [Field F] [Finite F] {Q : Su
 @[expose] noncomputable def qEmb : QuaternionGroup (2 ^ (r - 2)) →* PGammaL2 F :=
   E.ρ.comp (MulAut.conj.comp (Q.subtype.comp e.symm.toMonoidHom))
 
+omit [Finite X] [Finite F] in
 theorem qEmb_apply (g : QuaternionGroup (2 ^ (r - 2))) :
     qEmb E e g = E.ρ (MulAut.conj ((e.symm g : ↥Q) : X)) := rfl
 
+omit [Finite X] [Finite F] in
 theorem qEmb_injective : Function.Injective (qEmb E e) :=
   E.inj.comp (E.conjInj.comp (Subtype.val_injective.comp e.symm.injective))
 
+omit [Finite X] [Finite F] in
 theorem orderOf_qEmb (g : QuaternionGroup (2 ^ (r - 2))) : orderOf (qEmb E e g) = orderOf g :=
   orderOf_injective (qEmb E e) (qEmb_injective E e) g
 
+omit [Finite X] in
 theorem qEmb_a_two_pow (hz : E.ρ (MulAut.conj (quatInvolution r e)) =
     SemidirectProduct.inl (pD (-1))) :
     qEmb E e (QuaternionGroup.a ((2 ^ (r - 2) : ℕ) : ZMod (2 * 2 ^ (r - 2)))) = ubar F := by
@@ -170,10 +179,11 @@ theorem qEmb_a_two_pow (hz : E.ρ (MulAut.conj (quatInvolution r e)) =
   change E.ρ (MulAut.conj (quatInvolution r e)) = ubar F
   rw [hz, inl_pD_eq, ubar_eq]
 
-theorem qEmb_comm_ubar (hr : 4 ≤ r) (hz : E.ρ (MulAut.conj (quatInvolution r e)) =
+omit [Finite X] in
+theorem qEmb_comm_ubar (_hr : 4 ≤ r) (hz : E.ρ (MulAut.conj (quatInvolution r e)) =
     SemidirectProduct.inl (pD (-1))) (g : QuaternionGroup (2 ^ (r - 2))) :
     qEmb E e g * ubar F = ubar F * qEmb E e g := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
   have hg : g * QuaternionGroup.a ((2 ^ (r - 2) : ℕ) : ZMod (2 * 2 ^ (r - 2))) =
       QuaternionGroup.a ((2 ^ (r - 2) : ℕ) : ZMod (2 * 2 ^ (r - 2))) * g :=
     quaternion_a_central (N := 2 ^ (r - 2)) g
@@ -181,11 +191,13 @@ theorem qEmb_comm_ubar (hr : 4 ≤ r) (hz : E.ρ (MulAut.conj (quatInvolution r 
   simp only [map_mul] at h
   rwa [qEmb_a_two_pow E e hz] at h
 
+omit [Finite X] in
 theorem qEmb_isMon (h2 : (2 : F) ≠ 0) (hr : 4 ≤ r) (hz : E.ρ (MulAut.conj (quatInvolution r e)) =
     SemidirectProduct.inl (pD (-1))) (g : QuaternionGroup (2 ^ (r - 2))) :
     IsMon (qEmb E e g) :=
   (isMon_iff_comm_ubar h2).mpr (qEmb_comm_ubar E e hr hz g)
 
+omit [Finite F] in
 theorem qEmb_right_sq (hidx : (genFittingFStar X).index ≤ 2) (g : QuaternionGroup (2 ^ (r - 2))) :
     (qEmb E e g).right * (qEmb E e g).right = 1 := by
   rw [qEmb_apply]
@@ -202,7 +214,7 @@ theorem quat_structure [Fact p.Prime] (hF : Nat.card F = p ^ f) (hp2 : p ≠ 2) 
           y * autU σ₀ y = -1) ∨
         (qEmb E e (QuaternionGroup.xa 0) = gA y σ₀ ∧ autU σ₀ x₀ = x₀ ∧
           y * (autU σ₀ y)⁻¹ = -1)) := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
   have h2 : (2 : F) ≠ 0 := (field_facts (Fact.out : p.Prime) hp2 hF h4).2
   have hσ : ∀ σ : F ≃+* F, σ * σ = 1 → σ = 1 ∨ σ = σ₀ :=
     fun σ hσ => ringAut_sq_eq_one hF hp2 h4 hσ₀1 hσ₀2 hσ

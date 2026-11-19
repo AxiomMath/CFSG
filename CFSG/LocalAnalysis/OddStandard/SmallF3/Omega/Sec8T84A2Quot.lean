@@ -22,7 +22,7 @@ theorem sec8t84a2_quot_split {K V X : Type*} [Group K] [Group V] [Finite V] {Bs 
     (hβσ : ∀ x k k', βK (σ x k) (σ x k') = ρ x (βK k k')) :
     ∃ L1 : Subgroup K, Bs ≤ L1 ∧ t ∉ L1 ∧ (∀ k, k ∈ L1 ∨ k * t ∈ L1) ∧
       ∀ x, ∀ k ∈ L1, σ x k ∈ L1 := by
-  haveI hBsn : Bs.Normal :=
+  have hBsn : Bs.Normal :=
     ⟨fun n hn g => by rw [← hBs n hn g, mul_assoc, mul_inv_cancel, mul_one]; exact hn⟩
   have hQc : ∀ x y : K ⧸ Bs, x * y = y * x := by
     intro x y

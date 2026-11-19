@@ -250,12 +250,12 @@ theorem bmPComponent_of_simple_small_index_five {Q : Type} [Group Q] [Finite Q] 
     (hnd : ∀ n ≤ 14, ¬ Nat.card ↥E ∣ n.factorial)
     (hC : Nat.card ↥(Subgroup.centralizer ({t} : Set Q)) < 15 * Nat.card ↥E) :
     ∃ J : Subgroup Q, GLAPComponent 5 (Subgroup.centralizer ({t} : Set Q)) J := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set C := Subgroup.centralizer ({t} : Set Q) with hCdef
   have hEZ : Subgroup.center ↥E = ⊥ := center_eq_bot_of_simple_nonab hnab
   set E' : Subgroup ↥C := E.subgroupOf C with hE'def
   have eE : ↥E' ≃* ↥E := Subgroup.subgroupOfEquivOfLe hEC
-  haveI : IsSimpleGroup ↥E' := eE.isSimpleGroup_congr.2 hs
+  have : IsSimpleGroup ↥E' := eE.isSimpleGroup_congr.2 hs
   have hcardE' : Nat.card E' = Nat.card E := Nat.card_congr eE.toEquiv
   have hEpos : 0 < Nat.card E := Nat.card_pos
   have hidx : E'.index ≤ 14 := by
@@ -284,14 +284,14 @@ theorem bmPComponent_of_simple_small_index_five {Q : Type} [Group Q] [Finite Q] 
       exact hab (commutatorElement_eq_one_iff_mul_comm.1 h1)
     · exact h
   have hcore : GLAPPrimeCore 5 ↥E = ⊥ := by
-    haveI := hs
+    have := hs
     exact glaPPrimeCore_eq_bot_of_simple Nat.prime_five h5
   have hcent : IsPGroup 5 ↥(C ⊓ Subgroup.centralizer (E : Set Q)) := by
     set Z : Subgroup Q := C ⊓ Subgroup.centralizer (E : Set Q) with hZdef
     have hZC : Z ≤ C := inf_le_left
     set Z0 : Subgroup ↥C := Z.subgroupOf C with hZ0def
     have eZ : ↥Z0 ≃* ↥Z := Subgroup.subgroupOfEquivOfLe hZC
-    haveI hZ0n : Z0.Normal := by
+    have hZ0n : Z0.Normal := by
       constructor
       intro x hx g
       rw [Subgroup.mem_subgroupOf] at hx ⊢

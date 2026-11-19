@@ -1015,7 +1015,7 @@ theorem hyp52_of_criticalAlternative (hS : SchreierFor Blueprint.Catalog)
   have hS2 : IsPGroup 2 S := by
     obtain ⟨P₀, hP₀⟩ := hSsyl
     have h1 : IsPGroup 2 (S.subgroupOf (centralizer ({a} : Set X) ⊓ normalizer (J : Set X))) :=
-      hP₀ ▸ P₀.isPGroup'
+      hP₀ ▸ P₀.isPGroup
     exact h1.of_equiv (subgroupOfEquivOfLe hSX)
   have hB2 : IsPGroup 2 B := hS2.to_le (hBP.trans inf_le_left)
   have hWne := normalizer_ne_top_of_simple hnonab hB hB2

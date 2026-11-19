@@ -33,7 +33,7 @@ private theorem rckPOmegaMinus_blockTransport {F : Type} [Field F] [Finite F] [C
           {Spin.spinMatrix (Spin.quadMinus n F bq cq) s} ε⁆) :
     ∃ (ι : ↥(spinGroup (Spin.quadMinus n F bq cq)) ≃*
         ↥(StatedOmega ⇑(Spin.quadMinus n F bq cq)))
-      (ΦB : ↥(glBlockCentralizer (Spin.spinMatrix (Spin.quadMinus n F bq cq))
+      (_ΦB : ↥(glBlockCentralizer (Spin.spinMatrix (Spin.quadMinus n F bq cq))
           {Spin.spinMatrix (Spin.quadMinus n F bq cq) s} ε) ≃*
         ↥(glBlockCentralizer (StatedOmega ⇑(Spin.quadMinus n F bq cq)).subtype
           {Spin.spinMatrix (Spin.quadMinus n F bq cq) s} ε)),
@@ -145,7 +145,7 @@ theorem rckClassicalModelID_POmegaMinus {X : Type} [Group X] [Finite X] {n f : �
           rw [map_mul, map_mul, map_inv]
           exact hconj
         rw [hyy']; exact hs₁conj y hy
-  · letI : Field E := hEf; letI : Finite E := hEfin; letI : CharP E 2 := hEch
+  · let : Field E := hEf; let : Finite E := hEfin; let : CharP E 2 := hEch
     exact absurd (rckEq_of_block_unitarySmall_POmegaMinus (E := E) (m := m) (Q := Q) hirr hn
       hp hp2 hB₁ hDcard hB₁J hp4 hJK hKq hdD hJ hker hslift hε hJ'G hJ'map
       (hrange ▸ hB₁N) (fun b hb => hID b hb) hB₁e hm (ΦB.trans ΦΩ)) hKJ

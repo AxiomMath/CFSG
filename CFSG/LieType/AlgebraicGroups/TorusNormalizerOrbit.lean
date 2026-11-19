@@ -117,8 +117,7 @@ theorem exists_eq_cocharacterOfAddHom [IsAlgClosed k] {M : Type u} [CommRing M]
     rw [AlgHom.comp_apply, AlgHom.comp_apply, Bialgebra.comulAlgHom_apply,
       Bialgebra.comulAlgHom_apply, hμa, ← CoalgHomClass.map_comp_comul_apply π h,
       ← CoalgHomClass.map_comp_comul_apply μ h]
-    induction Coalgebra.comul (R := k) h using TensorProduct.induction_on with
-    | zero => simp
+    induction Coalgebra.comul (R := k) h using TensorProduct.inductionOn with
     | tmul a b => simp [hμa]
     | add x y hx hy => simp only [map_add, hx, hy]
   let μb : MonoidAlgebra k X →ₐc[k] LaurentPolynomial k := BialgHom.ofAlgHom μa hcounit hcomul

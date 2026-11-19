@@ -94,8 +94,8 @@ theorem eq_or_eq_of_le_sup_of_q8 {A B X : Subgroup G} {z w : G} (hA : IsUniqueIn
     · exact absurd (h1.symm.trans hA.sq) hA.ne_one
   have hle : X ≤ A ∨ X ≤ B := by
     by_contra! hcon
-    obtain ⟨x, hx, hxA⟩ := SetLike.not_le_iff_exists.mp hcon.1
-    obtain ⟨y, hy, hyB⟩ := SetLike.not_le_iff_exists.mp hcon.2
+    obtain ⟨x, hx, hxA⟩ := IsConcreteLE.not_le_iff_exists.mp hcon.1
+    obtain ⟨y, hy, hyB⟩ := IsConcreteLE.not_le_iff_exists.mp hcon.2
     have hxB := (hmem x hx).resolve_left hxA
     have hyA := (hmem y hy).resolve_right hyB
     rcases hmem (x * y) (X.mul_mem hx hy) with h | h

@@ -14,7 +14,7 @@ open CFSG.Open CFSG.Adapters.RankTwoModelTransports CFSG.Assembly.LowTwoRank
 theorem s15k_omp6_isAlt8 {X : Type} [Group X] (h : IsOmegaPlus X 6 1) : UC22.IsAlt X 8 := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := h
   have hK2 : Nat.card K = 2 := by simpa using hK
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = Fintype.card (ZMod 2) := by
     rw [← Nat.card_eq_fintype_card, hK2, ZMod.card]
   let φ : K ≃+* ZMod 2 := FiniteField.ringEquivOfCardEq hc

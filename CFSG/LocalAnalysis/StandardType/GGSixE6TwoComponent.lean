@@ -30,11 +30,11 @@ theorem eq_lE_of_isComponentOf {L' : Subgroup EC}
   have hsup : (lE.subgroupOf Z) ⊔ (Subgroup.zpowers zE).subgroupOf Z = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hlE_le_Z hzp_le_Z, Subgroup.subgroupOf_eq_top]
     simpa [sup_comm] using (le_of_eq hZ)
-  haveI : (lE.subgroupOf Z).Normal := hNnormal
-  haveI : IsMulCommutative (Subgroup.zpowers zE) := Subgroup.zpowers_isMulCommutative zE
+  have : (lE.subgroupOf Z).Normal := hNnormal
+  have : IsMulCommutative (Subgroup.zpowers zE) := Subgroup.zpowers_isMulCommutative zE
   have hHcomm : IsMulCommutative ((Subgroup.zpowers zE).subgroupOf Z) :=
     Subgroup.subgroupOf_isMulCommutative Z (Subgroup.zpowers zE)
-  haveI : IsMulCommutative ((Subgroup.zpowers zE).subgroupOf Z) := hHcomm
+  have : IsMulCommutative ((Subgroup.zpowers zE).subgroupOf Z) := hHcomm
   have hcommZ : _root_.commutator ↥Z ≤ lE.subgroupOf Z :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   have hcommZ' : ⁅Z, Z⁆ ≤ lE := by
@@ -54,10 +54,10 @@ theorem eq_lE_of_isComponentOf {L' : Subgroup EC}
     rwa [inf_eq_left.2 hL'_le_lE] at h'
   have hne : L' ≠ ⊥ := by
     intro hbot
-    haveI : Subsingleton ↥L' := by rw [hbot]; infer_instance
-    haveI : IsSimpleGroup (↥L' ⧸ Subgroup.center ↥L') := h.2.2.2
-    haveI : Nontrivial (↥L' ⧸ Subgroup.center ↥L') := inferInstance
-    haveI : Subsingleton (↥L' ⧸ Subgroup.center ↥L') := inferInstance
+    have : Subsingleton ↥L' := by rw [hbot]; infer_instance
+    have : IsSimpleGroup (↥L' ⧸ Subgroup.center ↥L') := h.2.2.2
+    have : Nontrivial (↥L' ⧸ Subgroup.center ↥L') := inferInstance
+    have : Subsingleton (↥L' ⧸ Subgroup.center ↥L') := inferInstance
     obtain ⟨a, b, hab⟩ :=
       (inferInstance : Nontrivial (↥L' ⧸ Subgroup.center ↥L')).exists_pair_ne
     exact hab (Subsingleton.elim a b)

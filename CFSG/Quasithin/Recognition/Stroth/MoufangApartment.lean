@@ -16,6 +16,7 @@ variable {V : Type} [Fintype V] {Γ : SimpleGraph V} [DecidableRel Γ.Adj]
 
 @[expose] def apt (t : ZMod (2 * n) → V) (k : ℤ) : V := t k
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem apt_adj {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (k : ℤ) :
     Γ.Adj (apt t k) (apt t (k + 1)) := by
   have h := ht.2 (k : ZMod (2 * n))
@@ -26,6 +27,7 @@ theorem apt_adj {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (k : �
   rw [e]
   exact h
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem apt_injective {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     {a b : ZMod (2 * n)} (h : t a = t b) : a = b :=
   ht.1 h
@@ -36,6 +38,7 @@ private theorem two_ne_zero_zmod (hn : 2 ≤ n) : (2 : ZMod (2 * n)) ≠ 0 := by
   have := Nat.le_of_dvd (by norm_num) hd
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem apt_ne_two {t : ZMod (2 * n) → V} (hn : 2 ≤ n) (ht : IsPolygonApartment Γ n t)
     (k : ℤ) : apt t k ≠ apt t (k + 2) := by
   intro h
@@ -48,6 +51,7 @@ theorem apt_ne_two {t : ZMod (2 * n) → V} (hn : 2 ≤ n) (ht : IsPolygonApartm
     exact add_left_cancel h3
   exact two_ne_zero_zmod hn h2
 
+omit [Fintype V] in
 theorem apt_add_two_mul {t : ZMod (2 * n) → V} (k : ℤ) (c : ℤ) :
     apt t (k + 2 * (n : ℤ) * c) = apt t k := by
   have h : ((2 : ZMod (2 * n)) * ((n : ℤ) : ZMod (2 * n))) = 0 := by
@@ -104,11 +108,13 @@ variable {V : Type} [Fintype V] {Γ : SimpleGraph V} [DecidableRel Γ.Adj]
       rw [min_eq_right (show (n : ℤ) ≤ (i : ℤ) by omega)]
     rw [h1, min_self]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] theorem aptPath_apply (hadj : ∀ k : ZMod (2 * n), Γ.Adj (t k) (t (k + 1))) (k : ℤ)
     {i : ℕ} (hi : i ≤ n) : aptPath hadj k i = apt t (k + (i : ℤ)) := by
   show apt t (k + min (i : ℤ) (n : ℤ)) = apt t (k + (i : ℤ))
   rw [min_eq_left (by omega)]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] theorem aptPathRev_apply (hadj : ∀ k : ZMod (2 * n), Γ.Adj (t k) (t (k + 1))) (k : ℤ)
     {i : ℕ} (hi : i ≤ n) : aptPathRev hadj k i = apt t (k + (n : ℤ) - (i : ℤ)) := by
   show apt t (k + (n : ℤ) - min (i : ℤ) (n : ℤ)) = apt t (k + (n : ℤ) - (i : ℤ))
@@ -122,10 +128,12 @@ variable {V : Type} [Fintype V] {Γ : SimpleGraph V} [DecidableRel Γ.Adj]
     (hm : m ≤ n) : GPath Γ m :=
   (aptPathRev hadj (k - (n : ℤ))).take m hm
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] theorem aptSeg_apply (hadj : ∀ k : ZMod (2 * n), Γ.Adj (t k) (t (k + 1))) (k : ℤ)
     {m : ℕ} (hm : m ≤ n) {i : ℕ} (hi : i ≤ m) : aptSeg hadj k m hm i = apt t (k + (i : ℤ)) := by
   rw [aptSeg, GPath.take_apply_of_le _ _ _ hi, aptPath_apply hadj k (by omega)]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] theorem aptSegRev_apply (hadj : ∀ k : ZMod (2 * n), Γ.Adj (t k) (t (k + 1))) (k : ℤ)
     {m : ℕ} (hm : m ≤ n) {i : ℕ} (hi : i ≤ m) :
     aptSegRev hadj k m hm i = apt t (k - (i : ℤ)) := by
@@ -133,6 +141,7 @@ variable {V : Type} [Fintype V] {Γ : SimpleGraph V} [DecidableRel Γ.Adj]
   rw [aptPathRev_apply hadj (k - (n : ℤ)) (by omega)]
   rw [show k - (n : ℤ) + (n : ℤ) - (i : ℤ) = k - (i : ℤ) by ring]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem aptPath_noBack (hn : 2 ≤ n) (ht : IsPolygonApartment Γ n t) (k : ℤ) :
     (aptPath ht.2 k).NoBack := by
   intro i hi heq
@@ -140,6 +149,7 @@ theorem aptPath_noBack (hn : 2 ≤ n) (ht : IsPolygonApartment Γ n t) (k : ℤ)
   refine apt_ne_two hn ht (k + (i : ℤ)) ?_
   rwa [show k + ((i + 2 : ℕ) : ℤ) = (k + (i : ℤ)) + 2 by push_cast; ring] at heq
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem aptPathRev_noBack (hn : 2 ≤ n) (ht : IsPolygonApartment Γ n t) (k : ℤ) :
     (aptPathRev ht.2 k).NoBack := by
   intro i hi heq
@@ -151,10 +161,12 @@ theorem aptPathRev_noBack (hn : 2 ≤ n) (ht : IsPolygonApartment Γ n t) (k : �
   rw [← e] at heq
   exact heq.symm
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem aptSeg_noBack (hn : 2 ≤ n) (ht : IsPolygonApartment Γ n t) (k : ℤ) {m : ℕ}
     (hm : m ≤ n) : (aptSeg ht.2 k m hm).NoBack :=
   (aptPath_noBack hn ht k).take m hm
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem aptSegRev_noBack (hn : 2 ≤ n) (ht : IsPolygonApartment Γ n t) (k : ℤ) {m : ℕ}
     (hm : m ≤ n) : (aptSegRev ht.2 k m hm).NoBack :=
   (aptPathRev_noBack hn ht (k - (n : ℤ))).take m hm
@@ -166,6 +178,7 @@ section RootGroup
 variable {V : Type} [Fintype V] {Γ : SimpleGraph V} [DecidableRel Γ.Adj]
   {n : ℕ} {D : Type} [Group D] [MulAction D V] [FaithfulSMul D V] [GraphAction D Γ]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem mem_aptRoot {t : ZMod (2 * n) → V} {g : D} {k : ℤ} :
     g ∈ aptRoot D Γ n t k ↔
       ∀ i : ℤ, 1 ≤ i → i ≤ (n : ℤ) - 1 → ∀ w : V, Γ.Adj (apt t (k + i)) w → g • w = w := by
@@ -173,6 +186,7 @@ theorem mem_aptRoot {t : ZMod (2 * n) → V} {g : D} {k : ℤ} :
     SimpleGraph.mem_neighborSet]
   exact ⟨fun h i h1 h2 => h i ⟨h1, h2⟩, fun h i hi => h i hi.1 hi.2⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem aptRoot_eq_pathRootGroup {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (k : ℤ) :
     aptRoot D Γ n t k = pathRootGroup D Γ (aptPath ht.2 k) := by
   refine Subgroup.ext fun g => ?_
@@ -191,6 +205,7 @@ theorem aptRoot_eq_pathRootGroup {t : ZMod (2 * n) → V} (ht : IsPolygonApartme
     rw [hpath]
     exact hw
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem aptRoot_eq_pathRootGroupRev {t : ZMod (2 * n) → V} (hn : 2 ≤ n)
     (ht : IsPolygonApartment Γ n t) (k : ℤ) :
     aptRoot D Γ n t k = pathRootGroup D Γ (aptPathRev ht.2 k) := by
@@ -217,17 +232,20 @@ theorem aptRoot_eq_pathRootGroupRev {t : ZMod (2 * n) → V} (hn : 2 ≤ n)
     rw [aptPathRev_apply ht.2 k (by omega), hcast]
     rwa [show k + (n : ℤ) - ((n : ℤ) - j) = k + j by ring]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem aptRoot_smul_of_adj {t : ZMod (2 * n) → V} {g : D} {k : ℤ}
     (hg : g ∈ aptRoot D Γ n t k) {i : ℤ} (h1 : 1 ≤ i) (h2 : i ≤ (n : ℤ) - 1) {w : V}
     (hw : Γ.Adj (apt t (k + i)) w) : g • w = w :=
   (mem_aptRoot.mp hg) i h1 h2 w hw
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem aptRoot_fix_of_adj {t : ZMod (2 * n) → V} {g : D} {k : ℤ}
     (hg : g ∈ aptRoot D Γ n t k) {x y : ℤ} (hy1 : k + 1 ≤ y) (hy2 : y ≤ k + (n : ℤ) - 1)
     (hadj : Γ.Adj (apt t y) (apt t x)) : g • apt t x = apt t x := by
   refine aptRoot_smul_of_adj hg (i := y - k) (by omega) (by omega) ?_
   rwa [show k + (y - k) = y by ring]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] [GraphAction D Γ] in
 theorem aptRoot_fix {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) {g : D} {k : ℤ}
     (hg : g ∈ aptRoot D Γ n t k) (hn : 3 ≤ n) {r : ℤ} (h0 : 0 ≤ r) (hr : r ≤ (n : ℤ)) :
     g • apt t (k + r) = apt t (k + r) := by
@@ -270,6 +288,7 @@ theorem aptRoot_eq_one_of_fix_adj {t : ZMod (2 * n) → V} (ht : IsPolygonApartm
     (by rwa [hpn]) (by rwa [hpnm]) hgw
   rwa [← aptRoot_eq_pathRootGroup ht k]
 
+omit [FaithfulSMul D V] [Fintype V] [DecidableRel Γ.Adj] in
 theorem aptRoot_exists_smul_of_adj {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hM : MoufangCondition D Γ n) {k : ℤ} {y y' : V}
     (hy : Γ.Adj (apt t (k + (n : ℤ))) y) (hy' : Γ.Adj (apt t (k + (n : ℤ))) y')
@@ -294,6 +313,7 @@ theorem aptRoot_exists_smul_of_adj {t : ZMod (2 * n) → V} (ht : IsPolygonApart
   refine hfix i.toNat (by omega) hI2 w ?_
   rwa [hpath]
 
+omit [FaithfulSMul D V] [Fintype V] [DecidableRel Γ.Adj] in
 theorem aptRoot_exists_smul_of_adj_start {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 3 ≤ n) (hM : MoufangCondition D Γ n) {k : ℤ} {y y' : V}
     (hy : Γ.Adj (apt t k) y) (hy' : Γ.Adj (apt t k) y') (hne : y ≠ apt t (k + 1))
@@ -324,6 +344,7 @@ theorem aptRoot_exists_smul_of_adj_start {t : ZMod (2 * n) → V} (ht : IsPolygo
   refine hfix ((n : ℤ) - i).toNat (by omega) hI2 w ?_
   rwa [hpath]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem conj_mem_aptRoot_iff {t : ZMod (2 * n) → V} (g x : D) (k : ℤ) :
     g⁻¹ * x * g ∈ aptRoot D Γ n t k ↔ x ∈ aptRoot D Γ n (fun j => g • t j) k := by
   have hconv : ∀ w : V, (g⁻¹ * x * g) • w = g⁻¹ • (x • (g • w)) := by
@@ -348,6 +369,7 @@ theorem conj_mem_aptRoot_iff {t : ZMod (2 * n) → V} (g x : D) (k : ℤ) :
     have hfix := h i hi1 hi2 (g • w) hAdj
     rw [hconv, hfix, inv_smul_smul]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem aptRoot_map_conj {t : ZMod (2 * n) → V} (g : D) (k : ℤ) :
     (aptRoot D Γ n t k).map (MulAut.conj g).toMonoidHom =
       aptRoot D Γ n (fun j => g • t j) k := by
@@ -367,6 +389,7 @@ theorem aptRoot_map_conj {t : ZMod (2 * n) → V} (g : D) (k : ℤ) :
       rw [MulAut.conj_apply]
       group
 
+omit [FaithfulSMul D V] in
 theorem fix_of_smul_ends {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hP : CFSG.Geometry.GeneralizedPolygons.IsGeneralizedPolygon Γ n)
     (hT : CFSG.Geometry.GeneralizedPolygons.IsThick Γ) {g : D} {a : ℤ}
@@ -403,6 +426,7 @@ theorem fix_of_smul_ends {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n 
   rw [hpr] at h
   exact h
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem commutator_smul_eq {a b : D} {x : V} (ha : ∀ z : V, Γ.Adj x z → a • z = z)
     (hb : b • x = x) {y : V} (hy : Γ.Adj x y) : (a * b * a⁻¹ * b⁻¹) • y = y := by
   have ha' : ∀ z : V, Γ.Adj x z → a⁻¹ • z = z := by
@@ -420,6 +444,7 @@ theorem commutator_smul_eq {a b : D} {x : V} (ha : ∀ z : V, Γ.Adj x z → a �
   rw [e, ha' (b⁻¹ • y) hy', smul_inv_smul]
   exact ha y hy
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem commutator_smul_eq_right {a b : D} {x : V} (ha : a • x = x)
     (hb : ∀ z : V, Γ.Adj x z → b • z = z) {y : V} (hy : Γ.Adj x y) :
     (a * b * a⁻¹ * b⁻¹) • y = y := by
@@ -463,6 +488,7 @@ theorem eq_one_of_fix_apartment_stars {t : ZMod (2 * n) → V}
   exact hgp.smul_eq_of_fix_apartment hn hT'
     (fun k : ℕ => apt t (c + (k : ℤ))) hzadj hzb hzp hfix' h0' h1' v
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul D V] in
 theorem exists_smul_apt_path {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n)
     (hM : MoufangCondition D Γ n) {a b : ℤ} (hab : a < b) (hbn : b - a ≤ (n : ℤ))
     (z : ℤ → V) (hzb : z b = apt t b) (hzb1 : z (b + 1) = apt t (b + 1))

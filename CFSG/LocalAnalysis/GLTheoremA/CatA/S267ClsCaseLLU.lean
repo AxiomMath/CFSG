@@ -147,8 +147,8 @@ theorem concA_caseL_lu {n : ℕ} (hn : 5 ≤ n) {K : Type} [Field K] [Finite K] 
         ∀ x : ↥B₁, ModelGen.semiConj A σ (θ x) * (θ x)⁻¹ ∈ StatedScalars (Fin n) K) :
     S267ConcA p S B := by
   classical
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨c₀, hc₀1, hc₀p, hc₀β⟩ := hsc
   have hc₀1' : (c₀ : K) ≠ 1 := fun h => hc₀1 (Units.ext h)
   have hζc : ∀ g : GL (Fin n) K, Matrix.GeneralLinearGroup.scalar (Fin n) c₀ * g =
@@ -175,7 +175,7 @@ theorem concA_caseL_lu {n : ℕ} (hn : 5 ≤ n) {K : Type} [Field K] [Finite K] 
       intro s hs
       exact absurd hs (Set.notMem_empty s)
   obtain ⟨Aε, hAAε, hAε, hAεX, hmax⟩ := exists_maximal_elemAbelian hAel hAX
-  haveI : IsMulCommutative ↥Aε := hAε.1
+  have : IsMulCommutative ↥Aε := hAε.1
   have hA : ∀ a : ↥Aε, a ^ p = 1 := fun a => Subtype.ext (by simpa using hAε.2 a a.2)
   have hAεβ : Aε ≤ isomGL β := hAεX.trans inf_le_left
   have hmaxE : IsMaxElem β (glRep Aε) p ∅ :=
@@ -187,7 +187,7 @@ theorem concA_caseL_lu {n : ℕ} (hn : 5 ≤ n) {K : Type} [Field K] [Finite K] 
       ∀ v ∈ weightFamily (p := p) (glRep Aε) i, s v ∈ weightFamily (p := p) (glRep Aε) i :=
     fun s hs => absurd hs (Set.notMem_empty s)
   have hρ : IsIsomRep β (glRep Aε) := isIsomRep_glRep hAεβ
-  haveI : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
   have hζAε : Matrix.GeneralLinearGroup.scalar (Fin n) c₀ ∈ Aε :=
     hAAε (Subgroup.mem_sup_right (Subgroup.mem_zpowers _))
   set ζ : ↥Aε := ⟨_, hζAε⟩ with hζdef

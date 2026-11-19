@@ -31,12 +31,12 @@ theorem odd_centralizer_and_index_two_of_cyclic_three_mParam
       (Subgroup.centralizer (Lb : Set (MulAut W))).subgroupOf A
     C.Normal ∧ Odd (Nat.card C) ∧ C.index = 2 := by
   classical
-  haveI hfact2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hchar : CharP OmegaField 2 :=
+  have hfact2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hchar : CharP OmegaField 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) OmegaField).injective 2
-  haveI hfinField : Module.Finite (ZMod 2) OmegaField :=
+  have hfinField : Module.Finite (ZMod 2) OmegaField :=
     (AdjoinRoot.powerBasis' omegaPoly_monic).finite
-  haveI hfiniteField : Finite OmegaField := Module.finite_of_finite (ZMod 2)
+  have hfiniteField : Finite OmegaField := Module.finite_of_finite (ZMod 2)
   have hcardField : Nat.card OmegaField = 4 := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), finrank_omegaField, Nat.card_zmod]
     norm_num
@@ -108,7 +108,7 @@ theorem odd_centralizer_and_index_two_of_cyclic_three_mParam
       omega
     have hfin3 : Module.finrank OmegaField (Fin 3 → OmegaField) = 3 := by
       rw [Module.finrank_fin_fun]
-    haveI hfinFun : FiniteDimensional OmegaField (Fin 3 → OmegaField) :=
+    have hfinFun : FiniteDimensional OmegaField (Fin 3 → OmegaField) :=
       Module.Finite.of_finite
     have hfixcard : Nat.card {x : Fin 3 → OmegaField // s x = x} = 16 := by
       have h := CFSG.Quasithin.D35Core.card_fix_involution

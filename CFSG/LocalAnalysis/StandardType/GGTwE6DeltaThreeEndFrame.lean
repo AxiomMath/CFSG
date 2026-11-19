@@ -25,9 +25,9 @@ theorem exists_coroot_data (hCore : TwE6RootAs.TwE6CorootCore) {n : ℕ} (hn : 1
       CFSG.IsQuasisimple D ∧ 7 ∣ Nat.card D ∧ (2 ^ n) ^ 15 ∣ Nat.card D ∧
       ∀ y ∈ Y, (∀ x ∈ D, y x = x) → ∃ x ∈ X, y = MulAut.conj x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   set Fr : AlgebraicClosure K →+* AlgebraicClosure K := iterateFrobenius (AlgebraicClosure K) 2 n
     with hFrdef
@@ -51,7 +51,7 @@ theorem exists_coroot_data (hCore : TwE6RootAs.TwE6CorootCore) {n : ℕ} (hn : 1
       rw [Finset.sum_eq_single i0]
       · simp [hγdef, Tag.cartan_self]
       · intro l _ hl
-        simp [hγdef, Pi.single_apply, hl]
+        simp [hγdef, hl]
       · intro h
         exact absurd (Finset.mem_univ _) h
     have h2 : ζ ^ (2 : ℤ) = 1 := h0.symm.trans (congrFun h i0)

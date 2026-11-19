@@ -36,7 +36,7 @@ private theorem oPPrimeHull_top_le_of_normal_of_isSylowOf {A : Type} [Group A] [
     (hD : CFSG.ABGLocalTools.IsSylowOf d D ⊤) (hDI : D ≤ I) :
     oPPrimeHull d (⊤ : Subgroup A) ≤ I := by
   classical
-  haveI : I.Normal := hI
+  have : I.Normal := hI
   have hDindex : ¬ d ∣ D.index := by
     have h := (CFSG.ABGLocalTools.isSylowOf_iff.mp hD).2.2
     rwa [Subgroup.relIndex_top_right] at h
@@ -112,7 +112,7 @@ private theorem isMaxParabolicP_map_subgroupOf {A : Type} [Group A] [Finite A]
       ((P.subgroupOf I).map e.toMonoidHom) := by
     refine ⟨le_top, U₁, ?_, by simpa using hnorm⟩
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, U₁.isPGroup', by simpa using U₁.not_dvd_index⟩
+    exact ⟨le_top, U₁.isPGroup, by simpa using U₁.not_dvd_index⟩
   have hne : (P.subgroupOf I).map e.toMonoidHom ≠ ⊤ := by
     intro htop
     apply hP₀ne
@@ -186,7 +186,7 @@ theorem isPSLType_two_modPrimeComplement_oPPrimeHull_of_isMaxParabolicP {A : Typ
     (hP : CFSG.GH74.GLS.Stage2.Signalizer.IsMaxParabolicP p I P) :
     IsPSLType 2 (ZMod p) (modPrimeComplement d (oPPrimeHull d P)) := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hPI : P ≤ I := hP.1.1
   let P₁ : Subgroup (Matrix.SpecialLinearGroup (Fin 3) (ZMod p)) :=
     (P.subgroupOf I).map e.toMonoidHom
@@ -243,7 +243,7 @@ theorem twelveThreeYQuotient_of_isMaxParabolicP {M H : Subgroup G} {p d : ℕ} [
     (hD : CFSG.ABGLocalTools.IsSylowOf d D ⊤) (hDI : D ≤ I) :
     TwelveThreeYQuotient G M H p d := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   let X : Subgroup A := ((M ⊓ H).subgroupOf H).map π
   have hPeq' : P = X ⊓ I := hPeq
   have hHull_eq : oPPrimeHull d X = oPPrimeHull d P := by
@@ -290,7 +290,7 @@ private theorem factorization_card_starImg_eq {M H : Subgroup G} {p d : ℕ} (hd
     (Nat.card (starImg p H D)).factorization d =
       (Nat.card (starImg p H M)).factorization d := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' (primeComplementCore (G := ↥H) p)
   have hDle : D ≤ H ⊓ M := hD.le
   have hfact1 : (Nat.card (starImg p H D)).factorization d =
@@ -326,7 +326,7 @@ private theorem isSylowOf_starImg {M H : Subgroup G} {p d : ℕ} (hd : d.Prime)
     (hO : ¬ d ∣ Nat.card (primeComplementCore (G := ↥H) p))
     {D : Subgroup G} (hD : CFSG.ABGLocalTools.IsSylowOf d D (H ⊓ M)) :
     CFSG.ABGLocalTools.IsSylowOf d (starImg p H D) (starImg p H M) := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hle : starImg p H D ≤ starImg p H M := by
     dsimp only [starImg]
     exact Subgroup.map_mono (Subgroup.subgroupOf_mono H (hD.le.trans inf_le_right))
@@ -350,7 +350,7 @@ theorem oPPrimeHull_inf_eq_of_isSylowOf_starImg {M H : Subgroup G} {p d : ℕ}
     (hCn : starImg p H M ≤ Subgroup.normalizer (C : Set (StarGroup p H))) :
     oPPrimeHull d (starImg p H M ⊓ C) = oPPrimeHull d (starImg p H M) := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hDsyl : CFSG.ABGLocalTools.IsSylowOf d (starImg p H D) (starImg p H M) :=
     isSylowOf_starImg hd hO hD
   have hDS : CFSG.ABGLocalTools.IsSylowOf d ((starImg p H D).subgroupOf (starImg p H M)) ⊤ := by
@@ -393,7 +393,7 @@ theorem nonempty_oPrimeModPrimeComplement_starImg_mulEquiv {M H : Subgroup G} {p
     Nonempty (oPrimeModPrimeComplement d (starImg p H M ⊓ (C ⊔ starImg p H D)) ≃*
       modPrimeComplement d (oPPrimeHull d (H ⊓ M))) := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' (primeComplementCore (G := ↥H) p)
   let Y : Subgroup (StarGroup p H) := starImg p H M ⊓ (C ⊔ starImg p H D)
   have hHull := oPPrimeHull_inf_eq_of_isSylowOf_starImg hd hO hD hDC hCn

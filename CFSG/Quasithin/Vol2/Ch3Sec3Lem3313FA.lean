@@ -83,8 +83,7 @@ theorem not_le_centralizer : ¬ L ≤ Subgroup.centralizer (conjClosure V₀ T :
 theorem quasi : CFSG.IsQuasisimple ↥(autOn L (conjClosure V₀ T)) := by
   refine isQuasisimple_autOn (L_le_NV c) c.fsu.quasisimple
     (fun x hx => pCoreOf_L_le c ⟨x, ?_, rfl⟩) ?_
-  · try with_reducible rfl
-    exact hx
+  · exact hx
   · by_contra hcon
     push Not at hcon
     exact not_le_centralizer c fun l hl => hcon l hl

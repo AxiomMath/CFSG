@@ -23,7 +23,7 @@ section Central
 theorem false_of_central_scalar {K : Type} [Field K] [Finite K] (ωu : Kˣ) (hωu : orderOf ωu = 3)
     (M : Subgroup (GL (Fin 3) K)) (hdet : ∀ A ∈ M, ((A : GL (Fin 3) K) :
       Matrix (Fin 3) (Fin 3) K).det = 1)
-    (hz : Matrix.GeneralLinearGroup.scalar (Fin 3) ωu ∈ M) {X : Type} [Group X] [Finite X]
+    (_hz : Matrix.GeneralLinearGroup.scalar (Fin 3) ωu ∈ M) {X : Type} [Group X] [Finite X]
     (φ : X ≃* M) {P : Subgroup X} (hP : IsA6Sub P) : False := by
   have hω3 : ωu ^ 3 = 1 := by rw [← hωu]; exact pow_orderOf_eq_one ωu
   have hω1 : ωu ≠ 1 := by
@@ -71,8 +71,7 @@ theorem false_of_central_scalar {K : Type} [Field K] [Finite K] (ωu : Kˣ) (hω
       simp only [Matrix.GeneralLinearGroup.val_det_apply, Units.val_one]
       exact h
     · rw [Subgroup.zpowers_le, MonoidHom.mem_ker, Units.ext_iff, hg]
-      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.det_diagonal, ← pow_three',
-        ← Units.val_pow_eq_pow_val, hω3]
+      simp [hω3]
   have hdetF : ∀ A ∈ R.map ι ⊔ Subgroup.zpowers g,
       ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).det = 1 := by
     intro A hA
@@ -131,8 +130,7 @@ theorem false_of_statedSU_of_two {K : Type} [Field K] [Finite K] {q : ℕ} (hK :
       Matrix.one_apply]
     by_cases hij : i = j
     · subst hij
-      simp only [if_true, mul_ite, ite_mul, zero_mul, mul_zero, Finset.sum_ite_eq,
-        Finset.mem_univ]
+      simp only [ite_true, mul_ite, mul_zero]
       have := congrArg Units.val hωq
       simpa [pow_succ, mul_comm] using this
     · have hq0 : q ≠ 0 := by omega
@@ -153,7 +151,7 @@ theorem false_of_isSLThreePiAt {q : ℕ} (h : Sec4.IsSLThreePiAt X q) (hP : IsA6
     omega
   · exact false_of_statedSU_of_two hK hq φ hP
 
-theorem false_of_statedSU_even {m : ℕ} (hm : Even m) (hm1 : 1 ≤ m) {K : Type} [Field K] [Finite K]
+theorem false_of_statedSU_even {m : ℕ} (hm : Even m) (_hm1 : 1 ≤ m) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ m) ^ 2) (φ : X ≃* StatedSU 3 (2 ^ m) K) (hP : IsA6Sub P) :
     False := by
   have hq : 2 ^ m % 3 = 1 := by

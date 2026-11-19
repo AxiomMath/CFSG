@@ -70,8 +70,8 @@ theorem piImageStable_of_naturalRep (hn : 3 ≤ n)
     rw [← hspanX₄]
     obtain ⟨y, hyX₄, -, hye⟩ := M₀.mem_img.mp he
     exact hye ▸ Submodule.subset_span (Set.mem_image_of_mem M₀.π hyX₄)
-  haveI hEfin : Finite M₀.E := Module.finite_of_finite K
-  haveI : Finite ↥(cmComm M Q Z B K γ M₀ φ) := Subtype.finite
+  have hEfin : Finite M₀.E := Module.finite_of_finite K
+  have : Finite ↥(cmComm M Q Z B K γ M₀ φ) := Subtype.finite
   have hcardcmAdd : Nat.card ↥(cmComm M Q Z B K γ M₀ φ).toAddSubgroup =
       Nat.card K ^ (2 * n) := by
     rw [show Nat.card ↥(cmComm M Q Z B K γ M₀ φ).toAddSubgroup =

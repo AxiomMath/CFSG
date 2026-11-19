@@ -11,12 +11,14 @@ open scoped Pointwise
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem isPGroup_zpowers_two {a : X} (ha : a * a = 1) : IsPGroup 2 (zpowers a) := by
   have hdvd : orderOf a ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact ha)
   rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h | h
   · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h, pow_zero])
   · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h, pow_one])
 
+omit [Finite X] in
 private theorem isPGroup_sup_zpowers_two {P : Subgroup X} {x : X} (hP : IsPGroup 2 P)
     (hx : IsPGroup 2 (zpowers x)) (hPx : P ≤ centralizer ({x} : Set X)) :
     IsPGroup 2 (P ⊔ zpowers x : Subgroup X) := by
@@ -47,6 +49,7 @@ private theorem exists_conj_le_sylow {H Sc B : Subgroup X} (hSH : Sc ≤ H)
   rw [key] at h1
   simpa [MulAut.smul_def, MulAut.conj_apply, mem_subgroupOf] using h1
 
+omit [Finite X] in
 private theorem mem_sup_zpowers_iff {N : Subgroup X} {s : X} (hs2 : s * s = 1)
     (hsN : s ∈ normalizer (N : Set X)) (u : X) :
     u ∈ N ⊔ zpowers s ↔ u ∈ N ∨ u * s ∈ N := by
@@ -95,6 +98,7 @@ private theorem mem_sup_zpowers_iff {N : Subgroup X} {s : X} (hs2 : s * s = 1)
       rw [this]
       exact mul_mem (mem_sup_left h) (mem_sup_right (mem_zpowers s))
 
+omit [Finite X] in
 private theorem index_subgroupOf_sup_zpowers {N : Subgroup X} {s : X} (hs2 : s * s = 1)
     (hsN : s ∈ normalizer (N : Set X)) (hsn : s ∉ N) :
     (N.subgroupOf (N ⊔ zpowers s)).index = 2 := by
@@ -111,6 +115,7 @@ private theorem index_subgroupOf_sup_zpowers {N : Subgroup X} {s : X} (hs2 : s *
     have := N.mul_mem (N.inv_mem h) hb
     simpa using this
 
+omit [Finite X] in
 private theorem card_sup_zpowers {N : Subgroup X} {s : X} (hs2 : s * s = 1)
     (hsN : s ∈ normalizer (N : Set X)) (hsn : s ∉ N) :
     Nat.card (N ⊔ zpowers s : Subgroup X) = 2 * Nat.card N := by
@@ -128,7 +133,7 @@ private theorem card_eq_pow_of_max {Y Q : Subgroup X} (hQY : Q ≤ Y) (hQ2 : IsP
   have hP'le : P' ≤ Y := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map Y.subtype
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map Y.subtype
   have hP'card : Nat.card P' = 2 ^ (Nat.card Y).factorization 2 := by
     rw [hP', Subgroup.card_map_of_injective Y.subtype_injective, Sylow.card_eq_multiplicity]
   have h1 := hQmax P' hP'le hP'2
@@ -371,6 +376,7 @@ private theorem dihedral_aux {S : Type} [Group S] [Finite S] {r z : S}
     refine ⟨a ^ k, ?_⟩
     rw [conj_zpow_formula h.r_sq hε k, hk, ← hu_eq]
 
+omit [Finite X] in
 private theorem fourCentralizer_sup {Q : Subgroup X} {s t : X}
     (hQ2 : IsPGroup 2 Q) (hsQ : s ∉ Q) (hsN : s ∈ normalizer (Q : Set X)) (hs2 : s * s = 1)
     (htQ : t ∈ Q) (ht2 : t * t = 1) (ht1 : t ≠ 1)

@@ -154,7 +154,7 @@ public theorem section13_natCard_coprime_of_section12InternalDirectProduct_cycli
     hcent.trans (centralizer_le_normalizer W2)
   let W1J : Subgroup J := W1.subgroupOf J
   let W2J : Subgroup J := W2.subgroupOf J
-  haveI : W2J.Normal := by
+  have : W2J.Normal := by
     simpa [J, W2J] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := W1) (N := W2) hW1_norm_W2)
@@ -227,7 +227,7 @@ public theorem section13_natCard_coprime_of_section12InternalDirectProduct_cycli
     simpa [j] using congrArg Subtype.val hxy
   let e : W1 × W2 ≃* W := MulEquiv.ofBijective f ⟨hf_inj, hf_surj⟩
   have hprodcyc : IsCyclic (W1 × W2) := e.isCyclic.mpr hcyc
-  letI : IsCyclic (W1 × W2) := hprodcyc
+  let : IsCyclic (W1 × W2) := hprodcyc
   simpa [Nat.card_eq_fintype_card] using coprime_card_of_isCyclic_prod W1 W2
 
 public theorem section13_theorem_8_8_source_case_b_data_swap
@@ -327,10 +327,10 @@ public theorem section13_hypothesis52FullData_with_late_book_of_typePFourSix
       hNotation, hSigmaAgree, hCyclicSource⟩
   rcases hCyclicSource with
     ⟨H_cyclicA0, hCyclicHypothesis, hTauCyclic, _hBookSource⟩
-  letI : Fintype I := instI
-  letI : DecidableEq I := decI
-  letI : Fintype J := instJ
-  letI : DecidableEq J := decJ
+  let : Fintype I := instI
+  let : DecidableEq I := decI
+  let : Fintype J := instJ
+  let : DecidableEq J := decJ
   rcases hNotation with
     ⟨MFsrc, Ms, Abook, _A0book, _A1book, hSource, hW, _hA0,
       _h46, _h33, _hIso, _hVirt, _hPrin, _hSigmaCyclic, _h45, _h48,
@@ -533,7 +533,7 @@ public theorem section13_nonkernelInducedFamily_ne_conjugate
     (hS : nonkernelInducedFamily M H K S) :
     ∀ χ : Section1.ClassFunction M, χ ∈ S →
       χ ≠ Section1.conjugateCharacter χ := by
-  letI : (H.subgroupOf M).Normal := hHnormal
+  let : (H.subgroupOf M).Normal := hHnormal
   intro χ hχ hχreal
   rcases (hS.2.2 χ).mp hχ with ⟨θ, hθirr, hθnotker, hχeq⟩
   rcases hθirr with ⟨n, ρ, hρirr, hθeq⟩
@@ -688,10 +688,10 @@ public theorem section13_typeP_coherent_subseq_transport_eq_of_cyclicTI_agreemen
           ξ ⟨z, Section3.cyclicTISet_subset W1 W2 W hz⟩) :
     σ ξ = d52.sigma (Section6.theorem_6_8_transportClassFunction e ξ) := by
   classical
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   rcases Section3.pf35_data_of_theorem_3_2_map_statement hωFin σ hσ with
     ⟨χ, horth, hsigned, h00, hInd, hσω⟩
   have hσ_eq : σ = Section3.sigmaOfPF35 ωFin χ :=
@@ -911,10 +911,10 @@ public theorem section13_typeP_coherent_subseq_natural_table_transport_entries_s
               (ωFin x.1 x.2) =
             d52.omega y.1 y.2 := by
   classical
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   intro e x
   rcases d52.fullHypothesis with
     ⟨_h46, _hW2K, _h31local, _hIsoFull, _hVirtFull, _hClassFull, _hPrinFull,
@@ -971,10 +971,10 @@ public theorem section13_typeP_coherent_subseq_natural_table_transport_source
                 (ωFin x.1 x.2) =
               d52.omega y.1 y.2 := by
   classical
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   let e := section13_typeP_cyclicTI_carrier_equiv
     Smax W W1 W2 P U d52 _hTypeP _h31
   refine ⟨e, ?_⟩
@@ -1019,10 +1019,10 @@ public theorem section13_typeP_coherent_subseq_natural_table_entry_fin_source
           d52.sigma (d52.omega y.1 y.2) =
             σ (ωFin x.1 x.2) := by
   classical
-  letI : Fintype d52.I := d52.instFintypeI
-  letI : Fintype d52.J := d52.instFintypeJ
-  letI : DecidableEq d52.I := d52.instDecidableEqI
-  letI : DecidableEq d52.J := d52.instDecidableEqJ
+  let : Fintype d52.I := d52.instFintypeI
+  let : Fintype d52.J := d52.instFintypeJ
+  let : DecidableEq d52.I := d52.instDecidableEqI
+  let : DecidableEq d52.J := d52.instDecidableEqJ
   rcases section13_typeP_coherent_subseq_natural_table_transport_source
       Smax W W1 W2 P U τS p q ωFin σ hq hp d52
       _hd52tau _hSigmaAgree _hTypeP _hFourSix _h31 _hωFin _hσ with
@@ -1229,7 +1229,7 @@ public theorem
     (hj : j < p) :
     Section1.scalarProduct G (τ1 φ) (σ (ω i j)) = 0 := by
   classical
-  letI : Fintype Smax := Fintype.ofFinite Smax
+  let : Fintype Smax := Fintype.ofFinite Smax
   have hne : Sfam.Nonempty := section13_nonempty_of_coherentFamily hcohBase
   rcases section13_typeP_pf8_RFamily_of_typePFourSix
       hTypeP hFourSix hSfam hne with
@@ -1593,7 +1593,7 @@ public theorem section13_cfNormSq_eq_inv_card_mul_supportEnergy_univ
   congr 1
   refine Finset.sum_congr rfl ?_
   intro g _hg
-  simp only [Set.mem_univ, if_true]
+  simp only [Set.mem_univ, ite_true]
   calc
     Complex.re (χ g * star (χ g))
       = Complex.re (star (χ g) * χ g) := by rw [mul_comm]
@@ -1692,7 +1692,7 @@ public theorem section13_complementIn_of_normal_isComplement'
       _ = ⊤ := by
         rw [sup_comm, hHsup]
         simp
-  haveI : (K.subgroupOf H).Normal := hKnorm.2
+  have : (K.subgroupOf H).Normal := hKnorm.2
   refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ ?_ ?_
   · rw [Subgroup.disjoint_def]
     intro x hxL hxK
@@ -1711,7 +1711,7 @@ public theorem section13_complementIn_left_hallSubgroupOf_of_right_hallSubgroupO
     section16HallSubgroupOf K H := by
   classical
   refine ⟨hcomp.1, ?_⟩
-  letI : (K.subgroupOf H).Normal := hKnorm.2
+  let : (K.subgroupOf H).Normal := hKnorm.2
   have hcomp' : (L.subgroupOf H).IsComplement' (K.subgroupOf H) :=
     section13_complementIn_of_normal_isComplement' hcomp hKnorm
   rcases hcomp with ⟨hKH, _hLH, _hsup, _hdisj⟩
@@ -1745,7 +1745,7 @@ public theorem section13_complementIn_right_hallSubgroupOf_of_left_hallSubgroupO
     (hKHall : section16HallSubgroupOf K H) :
     section16HallSubgroupOf L H := by
   classical
-  letI : (K.subgroupOf H).Normal := hKnorm.2
+  let : (K.subgroupOf H).Normal := hKnorm.2
   rcases hcomp with ⟨hKH, hLH, hHsup, hdisj⟩
   have hcomp' : (L.subgroupOf H).IsComplement' (K.subgroupOf H) := by
     have hsup_local : L.subgroupOf H ⊔ K.subgroupOf H = ⊤ := by
@@ -1872,7 +1872,7 @@ public theorem section13_card_eq_mul_of_complementIn_normal
   rcases hKL with ⟨hKH, hLH, hHsup, hdisj⟩
   have hKL' : section12ComplementIn H K L := ⟨hKH, hLH, hHsup, hdisj⟩
   have hcomp := section13_complementIn_of_normal_isComplement' hKL' hKnorm
-  have hmul := hcomp.card_mul
+  have hmul := hcomp.card_mul_card
   rw [section12_card_subgroupOf_eq hLH, section12_card_subgroupOf_eq hKH] at hmul
   simpa [Nat.mul_comm] using hmul.symm
 

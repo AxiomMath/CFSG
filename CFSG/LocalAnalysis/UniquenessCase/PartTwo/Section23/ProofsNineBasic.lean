@@ -48,7 +48,7 @@ private theorem mem_normalizer_of_forall_mem_iff {Q : Subgroup G} {i c : G}
 private theorem le_sylow_of_isPGroup_le_normalizer {T P : Subgroup G}
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤) (hP : IsPGroup 2 P)
     (hTP : T ≤ Subgroup.normalizer (P : Set G)) : P ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : IsPGroup 2 (T ⊔ P : Subgroup G) :=
     IsPGroup.to_sup_of_normal_right' (H := T) (K := P) hT.isPGroup hP hTP
   have hEq : T ⊔ P = T := hT.eq_of_le le_sup_left le_top h2
@@ -76,11 +76,11 @@ theorem s23_9_O2L_of {D : Data G} {Ch : Choice2011 G} : S23_9_O2L D Ch := by
 
 theorem s23_9_NoInv_of {D : Data G} {Ch : Choice2011 G}
     (h4 : S23_4 D Ch) :
-    H1930 D → ∀ c : Ctx23L D Ch, ∀ e ∈ D.M,
+    H1930 D → ∀ _c : Ctx23L D Ch, ∀ e ∈ D.M,
       e ∉ Subgroup.centralizer (D.Z : Set G) →
         ¬ InvertedIn D.M (Subgroup.zpowers e) := by
-  intro h1930 c e heM heNC hinv
-  have h4c := h4 h1930 c
+  intro h1930 _c e heM heNC hinv
+  have h4c := h4 h1930 _c
   have hMZ : D.M ≤ Subgroup.normalizer (D.Z : Set G) := by
     simpa [h4c.1] using h4c.2.2
   let CM : Subgroup G := D.M ⊓ Subgroup.centralizer (D.Z : Set G)
@@ -103,7 +103,7 @@ theorem s23_9_NoInv_of {D : Data G} {Ch : Choice2011 G}
     exact S.not_dvd_index
   have hdvd : N.index ∣ (D.T.subgroupOf D.M).index := Subgroup.index_dvd_of_le hTleN
   have hodd : ¬ 2 ∣ N.index := fun h2 => hTnot (h2.trans hdvd)
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   obtain ⟨m, hmM, hm⟩ := hinv
   have hconj :
       (⟨m, hmM⟩ : ↥D.M) * ⟨e, heM⟩ * (⟨m, hmM⟩ : ↥D.M)⁻¹ = ⟨e, heM⟩⁻¹ := by
@@ -143,7 +143,6 @@ private theorem map_centralizer_conj_eq_of_inverts {A : Subgroup G} {i : G}
   have hle : (Subgroup.centralizer (A : Set G)).map (MulAut.conj i).toMonoidHom ≤
       Subgroup.centralizer (A : Set G) := by
     rintro _ ⟨h, hh, rfl⟩
-    change (MulAut.conj i).toMonoidHom h ∈ Subgroup.centralizer (A : Set G)
     have hh' : h ∈ Subgroup.centralizer (A : Set G) := hh
     rw [Subgroup.mem_centralizer_iff] at hh' ⊢
     intro a ha
@@ -169,7 +168,7 @@ theorem invertedInOfUnique_holds :
       X ∈ uniqueSet M →
       (∀ a ∈ A, i * a * i⁻¹ = a⁻¹) → InvertedIn M A := by
   intro G _ _ M A X q i hM hq hXne hXp hXA hXU hinv
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let H : Subgroup G := Subgroup.centralizer (A : Set G)
   have hXH : X ≤ H := hXA
   have hXsub : IsPGroup q (X.subgroupOf H) :=

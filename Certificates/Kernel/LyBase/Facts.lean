@@ -124,7 +124,7 @@ theorem card_B0_le (hbc : RB5Bound) : Nat.card Ly0.B0 ≤ 5388768000 := by
       r ∈ RB5.map FreeGroup.mk},
       FreeGroup.lift (fun j => gBs ((subsetOf 6 [0, 1, 2, 3, 4]).get j)) r = 1 := by
     intro r hr
-    simp only [Set.mem_setOf_eq, List.mem_map, restrictWords, List.mem_filterMap] at hr
+    simp only [Set.mem_ofPred_eq, List.mem_map, restrictWords, List.mem_filterMap] at hr
     obtain ⟨w', ⟨w, hw, hren⟩, rfl⟩ := hr
     rw [lift_comp_mk, map_renumber _ w w' hren]
     apply Subtype.ext

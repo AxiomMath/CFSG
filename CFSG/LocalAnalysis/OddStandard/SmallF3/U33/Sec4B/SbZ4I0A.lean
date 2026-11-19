@@ -98,7 +98,7 @@ private lemma z4iDelta_mul {A : Type*} [Group A] (E : Subgroup A) (σ : A)
   have hprod : σ * (b : A) * σ⁻¹ * (b : A)⁻¹ ∈ E := mul_mem hsb (inv_mem hb)
   have hL : z4iDelta E σ (a * b)
       = (σ * (a : A) * σ⁻¹) * (σ * (b : A) * σ⁻¹) * ((a : A) * (b : A))⁻¹ := by
-    simp only [z4iDelta, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [z4iDelta, Subgroup.coe_mul]
     group
   have hR : z4iDelta E σ a * z4iDelta E σ b
       = (σ * (a : A) * σ⁻¹) * (a : A)⁻¹ * (σ * (b : A) * σ⁻¹) * (b : A)⁻¹ := by
@@ -141,8 +141,7 @@ private lemma z4i_commutator_le_range {A : Type*} [Group A] (E : Subgroup A) (σ
     have hb : σ * e⁻¹ * σ⁻¹ ∈ E := hnorm _ (inv_mem he)
     calc (z4iDeltaHom E σ hnorm hcomm) ⟨e⁻¹, inv_mem he⟩
         = (σ * e⁻¹ * σ⁻¹) * e := by
-          simp only [z4iDeltaHom, z4iDelta, MonoidHom.mk'_apply, Subgroup.coe_mk,
-            Subgroup.coe_inv, inv_inv]
+          simp only [z4iDeltaHom, z4iDelta, MonoidHom.mk'_apply, inv_inv]
       _ = e * (σ * e⁻¹ * σ⁻¹) := hcomm _ hb _ he
       _ = e * σ * e⁻¹ * σ⁻¹ := by group
   · rw [h, zpow_two, ← pow_two]
@@ -160,8 +159,7 @@ private lemma z4i_commutator_le_range {A : Type*} [Group A] (E : Subgroup A) (σ
         _ = (σ ^ 2 * e⁻¹ * (σ ^ 2)⁻¹) * e := (hcomm _ hb _ he).symm
         _ = σ ^ 2 * e⁻¹ * (σ ^ 2)⁻¹ * e := rfl
     rw [map_mul, hcomm2]
-    simp only [z4iDeltaHom, z4iDelta, MonoidHom.mk'_apply, Subgroup.coe_mk, Subgroup.coe_inv,
-      inv_inv]
+    simp only [z4iDeltaHom, z4iDelta, MonoidHom.mk'_apply, inv_inv]
     rw [pow_two]
     group
 

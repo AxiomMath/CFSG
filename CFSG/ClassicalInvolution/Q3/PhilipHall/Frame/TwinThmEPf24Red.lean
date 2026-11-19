@@ -173,7 +173,7 @@ theorem e189_exists_minimal (hT : T4Supply) (c : MinCexQ8 Ω K S R W H) {z t k :
         exact hN₁odd.of_dvd_nat (by simpa using Subgroup.orderOf_dvd_natCard N₁ hmN)
       have h1 : (m : G) = 1 :=
         e189_eq_one_of_isPGroup_of_odd
-          (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (hm ▸ hcS))) hodd
+          (S.isPGroup.to_le (Subgroup.zpowers_le.mpr (hm ▸ hcS))) hodd
       rw [hm] at h1
       have hxt : x * t = t * x := by
         calc x * t = (x * t * x⁻¹ * t⁻¹) * (t * x) := by group

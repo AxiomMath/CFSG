@@ -31,7 +31,7 @@ theorem l52Col_getD (i : ℕ) : l52Col.getD i 0 = l52ColK i := by
   by_cases hi : i < 250
   · exact l52ColK_lt i hi
   · have hs : l52Col.size = 250 := by decide
-    rw [Array.getD, dif_neg (by omega), l52ColK, if_neg hi]
+    rw [Array.getD, dite_eq_right (by omega), l52ColK, ite_eq_right hi]
 
 @[expose] def actK (t c : ℕ) : ℕ :=
   (List.finRange 10).foldl

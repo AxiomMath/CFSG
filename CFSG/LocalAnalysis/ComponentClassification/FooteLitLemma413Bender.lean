@@ -66,7 +66,7 @@ theorem exists_mem_normalizer_conj_of_isBender_quotient {G : Type*}
   obtain ⟨Q, hQ⟩ := hRK
   set ρ := QuotientGroup.mk' (pPrimeCore 2 ↥K) with hρ
   have hQO : ∀ a ∈ (Q : Subgroup ↥K), ρ a = 1 → a = 1 := fun a ha h1 =>
-    eq_one_of_mk_eq_one Q.isPGroup' ha h1
+    eq_one_of_mk_eq_one Q.isPGroup ha h1
   rw [← hQ] at hxR hyR
   obtain ⟨x', hx'Q, rfl⟩ := mem_map.mp hxR
   obtain ⟨y', hy'Q, rfl⟩ := mem_map.mp hyR
@@ -86,7 +86,7 @@ theorem exists_mem_normalizer_conj_of_isBender_quotient {G : Type*}
   obtain ⟨n', hn', hn'x⟩ := exists_mem_normalizer_conj_of_isBender hX Q'
     (by rw [hQ'c]; exact mem_map_of_mem ρ hx'Q) (by rw [hQ'c]; exact mem_map_of_mem ρ hy'Q)
     (hord x' hx'Q hx) (hord y' hy'Q hy)
-  have : Fact (IsPGroup 2 ↥(Q : Subgroup ↥K)) := ⟨Q.isPGroup'⟩
+  have : Fact (IsPGroup 2 ↥(Q : Subgroup ↥K)) := ⟨Q.isPGroup⟩
   have hnorm := CFSG.normalizer_map_quotient_eq_map_normalizer 2 (Q : Subgroup ↥K)
     (pPrimeCore 2 ↥K) inferInstance (Nat.coprime_two_left.mpr (odd_card_pPrimeCore_two ↥K))
   have hn'' : n' ∈ (normalizer ((Q : Subgroup ↥K) : Set ↥K)).map ρ := by
@@ -156,7 +156,7 @@ theorem apply_eq_of_isCoverOverTwo_sz {Y : Type} [Group Y]
     rwa [h2] at h1
   have hyT : y ∈ (T : Subgroup Y) := by
     have hp : IsPGroup 2 ↥((T : Subgroup Y) ⊔ zpowers y) :=
-      T.isPGroup'.to_sup_of_normal_left' (isPGroup_two_zpowers_of_sq_eq_one hy2)
+      T.isPGroup.to_sup_of_normal_left' (isPGroup_two_zpowers_of_sq_eq_one hy2)
         (zpowers_le.mpr hyN)
     have h1 := T.maximal_isPGroup.eq_of_ge hp le_sup_left
     rw [← h1]
@@ -174,7 +174,7 @@ theorem conj_eq_of_isCoverOverTwo_sz {G : Type} [Group G]
   obtain ⟨Q, hQ⟩ := hRK
   set ρ := QuotientGroup.mk' (pPrimeCore 2 ↥K) with hρ
   have hQO : ∀ a ∈ (Q : Subgroup ↥K), ρ a = 1 → a = 1 := fun a ha h1 =>
-    eq_one_of_mk_eq_one Q.isPGroup' ha h1
+    eq_one_of_mk_eq_one Q.isPGroup ha h1
   set σ := GSThmB.oddBarConj K ⟨y, hyK⟩ with hσdef
   have hσ : σ * σ = 1 := by
     rw [hσdef, ← map_mul]

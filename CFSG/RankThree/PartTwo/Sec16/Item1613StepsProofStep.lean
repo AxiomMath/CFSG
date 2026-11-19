@@ -32,7 +32,7 @@ theorem mem_partTwoE_of_even {E : Subgroup G} {c : G} (hE : CFSG.Assembly.IsElem
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
       3 2 Nat.prime_three Nat.prime_two E X (isPGroup_three_of_isElemAbelian hE) hEN
       (coprime_card_pPrimeCoreOf 3 _) h2
-  exact ⟨hE, hE27, _, hT1, T.isPGroup'.map _, hET⟩
+  exact ⟨hE, hE27, _, hT1, T.isPGroup.map _, hET⟩
 
 end CFSG.RankThree.PartTwo.Sec16.Proof1613Type
 

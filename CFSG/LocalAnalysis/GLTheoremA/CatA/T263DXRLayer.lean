@@ -109,6 +109,7 @@ private theorem rootSpan_inf_model_eq_of_untw (S : LangSetup τ L p) {Fr : L →
     rw [hn, hΦ]
     exact hxF
 
+omit [IsAlgClosed L] in
 private theorem conj_mul_mem_rootSpan {Ψ₀ : Set (Fin τ.rank → ℤ)}
     (hΨ₀ : ∀ α ∈ Ψ₀, IsRoot τ α) {v : WeylGroup τ} {x : ModGL τ L}
     (hx : x ∈ rootSpan τ L ((fun α => v • α) '' Ψ₀)) :
@@ -126,6 +127,7 @@ private theorem conj_mul_mem_rootSpan {Ψ₀ : Set (Fin τ.rank → ℤ)}
   rw [e]
   exact hy
 
+omit [IsAlgClosed L] in
 private theorem commute_conj_mul {nv z u : ModGL τ L}
     (h : z * (nv * u * nv⁻¹) = (nv * u * nv⁻¹) * z) :
     (nv⁻¹ * z * nv) * u = u * (nv⁻¹ * z * nv) := by
@@ -133,6 +135,7 @@ private theorem commute_conj_mul {nv z u : ModGL τ L}
     _ = nv⁻¹ * ((nv * u * nv⁻¹) * z) * nv := by rw [h]
     _ = u * (nv⁻¹ * z * nv) := by group
 
+omit [IsAlgClosed L] in
 private theorem commute_of_conj_commute {nv z g : ModGL τ L}
     (h : (nv⁻¹ * g * nv) * (nv⁻¹ * z * nv) = (nv⁻¹ * z * nv) * (nv⁻¹ * g * nv)) :
     z * g = g * z := by
@@ -273,6 +276,7 @@ private theorem layerComm_of_swap (hf : 1 ≤ f) (hleaf : IsLeafSwapTable τ) {i
     transposition_layer_of_leafSwap hleaf hf hij hi hj n hn hact _ rfl
   exact ⟨hqs, fun y hy hc => (hcomm y (Subgroup.mem_sup_right hy) hc).2⟩
 
+omit [E6Sub τ] in
 private theorem layerComm_of_triality (hf : 1 ≤ f) (hL : D4TrialityLayer τ)
     {a b c : Fin τ.rank} (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c)
     (ha : a.val ∈ ({1, 2, 4} : Set ℕ)) (hb : b.val ∈ ({1, 2, 4} : Set ℕ))
@@ -314,6 +318,7 @@ private theorem layerComm_of_leafPerm (hf : 1 ≤ f) (hTri : D4TrialityLayer τ)
   · exact layerComm_of_triality hf hTri h12 h24 h14 hv1 hv2 hv4 hn hC ⟨u, hu, hact⟩
   · exact layerComm_of_triality hf hTri h14 h24.symm h12 hv1 hv4 hv2 hn hC ⟨u, hu, hact⟩
 
+omit [E6Sub τ] in
 private theorem d4_leafPerm_ne_one (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ}
     (i : KernelComponent (rootCharHom a)) {v w : WeylGroup τ} {u : WeylGroup τ}
     (hu : u ∈ parabolicWeylGroup τ (d4Nodes τ)) {π : Equiv.Perm (Fin τ.rank)}

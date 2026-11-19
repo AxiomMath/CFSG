@@ -94,7 +94,7 @@ theorem kd264Y1OutLin_holds : ∀ (d : TauCeti.ValidLieTypeIndex)
   rintro ⟨e, hv⟩ hfin ⟨r, q, hd⟩ hR hk2 hk3 hpR a ha ha3
   simp only at hd
   subst hd
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).mp
     ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
   rcases Nat.lt_or_ge r 2 with hr2 | hr2

@@ -121,10 +121,10 @@ private theorem co1BfsRun_unfold (stp : α → Nat → α) (mem : σ → α → 
   unfold co1BfsOuter
   dsimp only
   by_cases hc : h < s.1.size ∧ s.1.size < cap
-  · rw [if_pos (by simp [hc.1, hc.2]), if_pos hc]
+  · rw [ite_eq_left (by simp [hc.1, hc.2]), ite_eq_left hc]
     dsimp only [pure]
     rw [co1Bfs_inner_eq]
-  · rw [if_neg (by simpa using hc), if_neg hc]
+  · rw [ite_eq_right (by simpa using hc), ite_eq_right hc]
     rfl
 
 end Gen
@@ -158,13 +158,13 @@ private theorem co1Bfs_bfsRowK_mono (h : Nat) :
     intro l c hne
     rw [co1Bfs_bfsRowK_succ] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       split at hne
-      · rw [if_pos ‹_›]; exact ih _ _ hne
+      · rw [ite_eq_left ‹_›]; exact ih _ _ hne
       · exact absurd rfl hne
-    · rw [if_neg ‹_›]
+    · rw [ite_eq_right ‹_›]
       split at hne
-      · rw [if_pos ‹_›]; exact Nat.le_of_succ_le (ih _ _ hne)
+      · rw [ite_eq_left ‹_›]; exact Nat.le_of_succ_le (ih _ _ hne)
       · exact absurd rfl hne
 
 private theorem co1Bfs_bfsRunK_zero (cap h c : Nat) : bfsRunK F P PAR LAB W ng cap 0 h c = 0 := rfl
@@ -190,13 +190,13 @@ private theorem co1Bfs_bfsRunK_mono (cap : Nat) :
     intro h c hne
     rw [co1Bfs_bfsRunK_succ] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       split at hne
       · exact absurd rfl hne
-      · rw [if_neg ‹_›]
+      · rw [ite_eq_right ‹_›]
         exact Nat.le_trans (co1Bfs_bfsRowK_mono h ng 0 c ‹_›) (Nat.le_of_lt_succ
           (Nat.lt_succ_of_le (ih _ _ hne)))
-    · rw [if_neg ‹_›]
+    · rw [ite_eq_right ‹_›]
 
 private theorem co1Bfs_row_clos (h : Nat) :
     ∀ k l c, bfsRowK F P PAR LAB W ng h k l c ≠ 0 → ∀ j, l ≤ j → j < l + k →
@@ -210,24 +210,24 @@ private theorem co1Bfs_row_clos (h : Nat) :
       (ng := ng) h (k + 1) l c hne
     rw [co1Bfs_bfsRowK_succ] at hne hmono ⊢
     by_cases hw : W (h * ng + l) < c
-    · rw [if_pos hw] at hne hmono ⊢
+    · rw [ite_eq_left hw] at hne hmono ⊢
       by_cases hp : P (W (h * ng + l)) = F (P h) l
-      · rw [if_pos hp] at hne hmono ⊢
+      · rw [ite_eq_left hp] at hne hmono ⊢
         rcases Nat.eq_or_lt_of_le hlj with rfl | hlt
         · exact ⟨Nat.lt_of_lt_of_le hw hmono, hp⟩
         · exact ih (l + 1) c hne j hlt (by omega)
-      · rw [if_neg hp] at hne
+      · rw [ite_eq_right hp] at hne
         exact absurd rfl hne
-    · rw [if_neg hw] at hne hmono ⊢
+    · rw [ite_eq_right hw] at hne hmono ⊢
       by_cases hn : W (h * ng + l) = c ∧ P c = F (P h) l ∧ PAR c = h ∧ LAB c = l
-      · rw [if_pos hn] at hne hmono ⊢
+      · rw [ite_eq_left hn] at hne hmono ⊢
         rcases Nat.eq_or_lt_of_le hlj with rfl | hlt
         · refine ⟨?_, by rw [hn.1]; exact hn.2.1⟩
           rw [hn.1]
           exact Nat.lt_of_lt_of_le (Nat.lt_succ_self c)
             (co1Bfs_bfsRowK_mono h k _ (c + 1) hne)
         · exact ih (l + 1) (c + 1) hne j hlt (by omega)
-      · rw [if_neg hn] at hne
+      · rw [ite_eq_right hn] at hne
         exact absurd rfl hne
 
 private theorem co1Bfs_run_clos {cap N : Nat} (hN : 0 < N) (hcap : N < cap) :
@@ -241,17 +241,17 @@ private theorem co1Bfs_run_clos {cap N : Nat} (hN : 0 < N) (hcap : N < cap) :
     intro h c hr hhc hinv
     rw [co1Bfs_bfsRunK_succ] at hr
     by_cases hc : h < c ∧ c < cap
-    · rw [if_pos hc] at hr
+    · rw [ite_eq_left hc] at hr
       by_cases h0 : bfsRowK F P PAR LAB W ng h ng 0 c = 0
-      · rw [if_pos h0] at hr; omega
-      · rw [if_neg h0] at hr
+      · rw [ite_eq_left h0] at hr; omega
+      · rw [ite_eq_right h0] at hr
         have hm := co1Bfs_bfsRowK_mono (F := F) (P := P) (PAR := PAR) (LAB := LAB) (W := W) h ng 0 c h0
         refine ih (h + 1) _ hr (by omega) fun i hi l hl => ?_
         rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
         · obtain ⟨h1, h2⟩ := hinv i hi l hl
           exact ⟨Nat.lt_of_lt_of_le h1 hm, h2⟩
         · exact co1Bfs_row_clos i ng 0 c h0 l (Nat.zero_le _) (by omega)
-    · rw [if_neg hc] at hr
+    · rw [ite_eq_right hc] at hr
       subst hr
       have : h = c := by omega
       subst this
@@ -331,17 +331,17 @@ private theorem co1Bfs_row (hstp : ∀ x l, l < ng → stp (enc x) l = enc (F x 
     unfold co1BfsIStep
     rw [hy]
     by_cases hw : W (h * ng + l) < c
-    · rw [if_pos hw] at hne hle hmono ⊢
+    · rw [ite_eq_left hw] at hne hle hmono ⊢
       by_cases hp : P (W (h * ng + l)) = F (P h) l
-      · rw [if_pos hp] at hne hle hmono ⊢
+      · rw [ite_eq_left hp] at hne hle hmono ⊢
         have hcN : c ≤ N := Nat.le_trans hmono hle
         rw [← hp, hmem _ _ _ hs.seen hcN (by omega), decide_eq_true hw]
         exact ih (l + 1) c s (by omega) hhc hs ht hne hle
-      · rw [if_neg hp] at hne
+      · rw [ite_eq_right hp] at hne
         exact absurd rfl hne
-    · rw [if_neg hw] at hne hle hmono ⊢
+    · rw [ite_eq_right hw] at hne hle hmono ⊢
       by_cases hn : W (h * ng + l) = c ∧ P c = F (P h) l ∧ PAR c = h ∧ LAB c = l
-      · rw [if_pos hn] at hne hle hmono ⊢
+      · rw [ite_eq_left hn] at hne hle hmono ⊢
         obtain ⟨hwc, hpc, hpar, hlab⟩ := hn
         have hcN : c < N := Nat.lt_of_lt_of_le (Nat.lt_succ_self c)
           (Nat.le_trans (co1Bfs_bfsRowK_mono h k (l + 1) (c + 1) hne) hle)
@@ -352,7 +352,7 @@ private theorem co1Bfs_row (hstp : ∀ x l, l < ng → stp (enc x) l = enc (F x 
         rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
         · exact ht i h0 hi
         · exact ⟨by omega, by omega, by rw [hpar, hlab, hpc]⟩
-      · rw [if_neg hn] at hne
+      · rw [ite_eq_right hn] at hne
         exact absurd rfl hne
 
 private theorem co1Bfs_run (hstp : ∀ x l, l < ng → stp (enc x) l = enc (F x l))
@@ -379,18 +379,18 @@ private theorem co1Bfs_run (hstp : ∀ x l, l < ng → stp (enc x) l = enc (F x 
     rw [co1BfsRun_unfold, hs.size]
     rw [co1Bfs_bfsRunK_succ] at hr hmono
     by_cases hc : h < c ∧ c < cap
-    · rw [if_pos hc] at hr hmono
-      rw [if_pos hc]
+    · rw [ite_eq_left hc] at hr hmono
+      rw [ite_eq_left hc]
       by_cases h0 : bfsRowK F P PAR LAB W ng h ng 0 c = 0
-      · rw [if_pos h0] at hr; omega
-      · rw [if_neg h0] at hr hmono
+      · rw [ite_eq_left h0] at hr; omega
+      · rw [ite_eq_right h0] at hr hmono
         have hle : bfsRowK F P PAR LAB W ng h ng 0 c ≤ N :=
           hr ▸ co1Bfs_bfsRunK_mono cap fuel (h + 1) _ (by omega)
         obtain ⟨hs', ht'⟩ := co1Bfs_row (stp := stp) (mem := mem) (ins := ins) (W := W) hstp hmem
           hins ng 0 c s (by omega) hc.1 hs ht h0 hle
         exact ih (h + 1) _ _ hs' ht' hr
-    · rw [if_neg hc] at hr
-      rw [if_neg hc]
+    · rw [ite_eq_right hc] at hr
+      rw [ite_eq_right hc]
       subst hr
       exact ⟨hs, ht⟩
 
@@ -449,6 +449,7 @@ private theorem co1Bfs_unpack_toList (X : Nat) :
     rw [Array.getElem_toList, MatL.unpack_getElem, List.getElem_map, List.getElem_range']
     simp
 
+set_option exponentiation.threshold 576 in
 private theorem co1Bfs_rowsKey_unpack {X : Nat} (hX : X < 2 ^ 576) : rowsKey (unpack 24 24 X) = X := by
   unfold rowsKey
   rw [co1Bfs_unpack_toList, co1Bfs_foldr_rowV]
@@ -536,6 +537,7 @@ private theorem co1Bfs_strict {P S : Nat → Nat} {N : Nat}
     · exact Nat.lt_trans (ih hab (by omega)) (h b hb)
     · exact h a hb
 
+set_option exponentiation.threshold 576 in
 private theorem co1Bfs_bfsDistK_sound {P S : Nat → Nat} {N : Nat} (h : bfsDistK P S N = true) :
     (∀ i < N, P i < 2 ^ 576) ∧ ∀ a < N, ∀ b < N, P a = P b → a = b := by
   unfold bfsDistK at h
@@ -694,7 +696,7 @@ private theorem co1Bfs_gtBFS_core {GM : Nat → Nat} {ng cap N : Nat} {P PAR LAB
       simp
     · obtain ⟨h1, h2, h3⟩ := ht i (by omega) hi
       have hne : (i == 0) = false := by simpa using hi0
-      rw [hne, if_neg (by simp), co1Bfs_bfsTree_par hi, co1Bfs_bfsTree_lab hi,
+      rw [hne, ite_eq_right (by simp), co1Bfs_bfsTree_par hi, co1Bfs_bfsTree_lab hi,
         co1Bfs_bfsTree_pts (by omega), co1Bfs_gensArr_size, hstp _ _ h2, ← h3]
       simp [h1, h2]
   · exact co1Bfs_distinctKeys hP hinj

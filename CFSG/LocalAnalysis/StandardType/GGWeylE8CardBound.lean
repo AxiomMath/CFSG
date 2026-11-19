@@ -175,8 +175,7 @@ theorem e8Form_sub_sub_smul (i : Fin Tag.E8.rank) (u v : Fin Tag.E8.rank → ℤ
   simp only [e8Form]
   rw [Matrix.mulVec_sub, Matrix.mulVec_smul, Matrix.mulVec_single_one]
   simp only [sub_dotProduct, dotProduct_sub, smul_dotProduct,
-    dotProduct_smul, single_dotProduct, dotProduct_single,
-    Pi.sub_apply, Pi.smul_apply, Matrix.col_apply, one_mul, smul_eq_mul]
+    dotProduct_smul, single_dotProduct, Matrix.col_apply, one_mul, smul_eq_mul]
   rw [dot_col_eq_mulVec, e8Cartan_diag]
   ring
 
@@ -387,7 +386,7 @@ private theorem card_le_orthProd_mul :
       _ ≤ orthProd n * (orthCount ⟨n, h8⟩ * Nat.card (frameStab (n + 1))) :=
         Nat.mul_le_mul_left _ hstep
       _ = orthProd (n + 1) * Nat.card (frameStab (n + 1)) := by
-        rw [orthProd, dif_pos h8, mul_assoc]
+        rw [orthProd, dite_eq_left h8, mul_assoc]
 
 theorem card_weylGroup_E8_le :
     Nat.card (CFSG.LieType.Chevalley.WeylGroup .E8) ≤ 18114969600 := by

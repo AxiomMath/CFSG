@@ -29,6 +29,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {ρ : ↥(centralizer ({t} : Se
   (Subgroup.closure ({(x₁ : G), (x₂ : G), (x₃ : G)} : Set G)).subgroupOf
     (centralizer ({(x₁ : G)} : Set G))
 
+omit [Finite G] in
 theorem tabLy_closure_le (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
     Subgroup.closure ({(x₁ : G), (x₂ : G), (x₃ : G)} : Set G) ≤
       centralizer ({(x₁ : G)} : Set G) := by
@@ -38,6 +39,7 @@ theorem tabLy_closure_le (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
   · exact mem_centralizer_singleton_iff.2 (D.comm₂₁ S)
   · exact mem_centralizer_singleton_iff.2 (D.comm₃₁ S)
 
+omit [Finite G] in
 theorem tabLy_closure_comm (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) {a b : G}
     (ha : a ∈ Subgroup.closure ({(x₁ : G), (x₂ : G), (x₃ : G)} : Set G))
     (hb : b ∈ Subgroup.closure ({(x₁ : G), (x₂ : G), (x₃ : G)} : Set G)) : a * b = b * a := by
@@ -53,6 +55,7 @@ theorem tabLy_closure_comm (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) {a 
     (⟨a, ha⟩ : ↥(Subgroup.closure ({(x₁ : G), (x₂ : G), (x₃ : G)} : Set G))) ⟨b, hb⟩
   simpa only [Subgroup.coe_mul, Subgroup.coe_mk] using congrArg Subtype.val h
 
+omit [Finite G] in
 theorem tabLyA3_facts (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
     IsElemAbelian 3 (tabLyA3 x₁ x₂ x₃) ∧ Nat.card ↥(tabLyA3 x₁ x₂ x₃) = 27 := by
   refine ⟨⟨⟨⟨fun a b => ?_⟩⟩, fun a ha => ?_⟩, ?_⟩
@@ -70,6 +73,7 @@ theorem tabLyA3_facts (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (tabLy_closure_le D S)).toEquiv]
     exact D.card_closure_three S
 
+omit [Finite G] in
 theorem tabLyA3_comm (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃)
     {a b : ↥(centralizer ({(x₁ : G)} : Set G))}
     (ha : a ∈ tabLyA3 x₁ x₂ x₃) (hb : b ∈ tabLyA3 x₁ x₂ x₃) : a * b = b * a :=

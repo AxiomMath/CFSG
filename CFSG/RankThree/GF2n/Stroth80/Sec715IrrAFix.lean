@@ -78,6 +78,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     rw [← act_mul_apply, inv_mul_cancel]
     exact act_one_apply e
 
+omit [Finite G] [Finite K] in
 theorem mem_fixSub {S : Set M₀.E} {x : Mbar M Q} :
     x ∈ fixSub ρ S ↔ ∀ e ∈ S, (ρ x).toAdd e = e := Iff.rfl
 
@@ -91,6 +92,7 @@ theorem card_eq_of_conj {X : Type*} [Group X] {H H' : Subgroup X} (a : X)
       left_inv := fun x => Subtype.ext (by simp only; group)
       right_inv := fun y => Subtype.ext (by simp only; group) }
 
+omit [Finite G] in
 theorem mem_bar_conjSubgroup_iff {g : G} (hgM : g ∈ M) {S : Subgroup G} (hQS : Q ≤ S)
     (hQM : ∀ y ∈ M, ∀ x ∈ Q, y * x * y⁻¹ ∈ Q) (x : Mbar M Q) :
     x ∈ bar M Q (conjSubgroup g S) ↔
@@ -129,7 +131,7 @@ theorem ConfigAData.mem_fixSub_range_iff (h310chi : Stroth310ChiStatement)
     x ∈ fixSub ρ (LinearMap.range (dlin hS v (mem_bar_H0_of_CN hv)) : Set M₀.E) ↔
       contr (ψ *ᵥ f) (eN ⟨delta hS t x (mem_bar_H0_of_CN hxN), delta_mem_deltaSub hS hxN⟩) ∈
         K ∙ y := by
-  haveI : FiniteDimensional K L₃ := Module.finite_of_finrank_pos (by rw [D.finrank₃]; norm_num)
+  have : FiniteDimensional K L₃ := Module.finite_of_finrank_pos (by rw [D.finrank₃]; norm_num)
   have hvH := mem_bar_H0_of_CN hv
   obtain ⟨hxV, -, -⟩ := dmap_CN_facts h310chi h52a hS hs hr hxN
   obtain ⟨-, -, hvE⟩ := dmap_CN_facts h310chi h52a hS hs hr hv
@@ -266,7 +268,7 @@ theorem ConfigAData.card_fixSub_range (h310chi : Stroth310ChiStatement)
       fixSub ρ (LinearMap.range (dlin hS v (mem_bar_H0_of_CN hv)) : Set M₀.E)) =
         Nat.card (bar M Q Z0) * Nat.card K ^ 9 := by
   classical
-  haveI : FiniteDimensional K L₄ := Module.finite_of_finrank_pos (by rw [D.finrank₄]; norm_num)
+  have : FiniteDimensional K L₄ := Module.finite_of_finrank_pos (by rw [D.finrank₄]; norm_num)
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hZN : bar M Q Z0 ≤ bar M Q (hc.CN t) := bar_mono' (sec7ctr_Z0_le_CN hc hs hZ0)
   set S := bar M Q (hc.CN t) ⊓

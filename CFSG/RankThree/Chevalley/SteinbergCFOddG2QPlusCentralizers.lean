@@ -128,7 +128,7 @@ end RankOne
 
 variable {K K₂ : Type} [Field K] [Finite K] [Field K₂] [Algebra K K₂]
 
-theorem rootSL2_comap_fixed_eq (hK : Odd (Nat.card K)) (hdeg : Module.finrank K K₂ = 2)
+theorem rootSL2_comap_fixed_eq (_hK : Odd (Nat.card K)) (hdeg : Module.finrank K K₂ = 2)
     (σ : K₂ ≃+* K₂) (hσ : ∀ c, σ c = c ^ Nat.card K) {g z : ModGL .G2 K₂}
     (hg : g ∈ adjointGroup .G2 K₂)
     (hzdef : z = g * (Units.map (entrywiseHom (σ : K₂ →+* K₂)) g)⁻¹)

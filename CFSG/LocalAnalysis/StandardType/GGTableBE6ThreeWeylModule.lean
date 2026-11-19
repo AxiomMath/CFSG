@@ -59,7 +59,7 @@ private lemma row_mem_vInn (i : Fin Tag.E6.rank) : row i ∈ vInn := by
   rw [mem_vInn_iff, dotProduct]
   exact cartan_mulVec_radE6 i
 
-private lemma key5 : ∀ a b c d e f : ZMod 3, a + c * 2 + e + f * 2 = 0 →
+private lemma key5 : ∀ a _b c _d e f : ZMod 3, a + c * 2 + e + f * 2 = 0 →
     f = -(a * 2) - c - e * 2 := by decide
 
 private lemma vInn_eq_sum_fin6 (w : Fin 6 → ZMod 3) (hw : w ⬝ᵥ radE6 = 0) :
@@ -74,13 +74,13 @@ private lemma vInn_eq_sum_fin6 (w : Fin 6 → ZMod 3) (hw : w ⬝ᵥ radE6 = 0) 
   funext k
   rw [Finset.sum_apply]
   fin_cases k
-  · simp [coef6, row6, Fin.sum_univ_six, Tag.cartan, Tag.cartanE]; ring_nf; simp [h3, h4, h2']
-  · simp [coef6, row6, Fin.sum_univ_six, Tag.cartan, Tag.cartanE]; ring_nf; simp [h3, h4, h2']
-  · simp [coef6, row6, Fin.sum_univ_six, Tag.cartan, Tag.cartanE]; ring_nf; simp [h3, h4, h2']
+  · simp [coef6, row6, Fin.sum_univ_six, Tag.cartan, Tag.cartanE]; ring_nf; simp [h3]
+  · simp [coef6, row6, Fin.sum_univ_six, Tag.cartan, Tag.cartanE]; ring_nf; simp [h3, h4]
+  · simp [coef6, row6, Fin.sum_univ_six, Tag.cartan, Tag.cartanE]; ring_nf; simp [h3]
   · simp [coef6, row6, Fin.sum_univ_six, Tag.cartan, Tag.cartanE]
     ring_nf
     linear_combination (w 0 + w 1 + w 3 + w 4) * h3
-  · simp [coef6, row6, Fin.sum_univ_six, Tag.cartan, Tag.cartanE]; ring_nf; simp [h3, h4, h2']
+  · simp [coef6, row6, Fin.sum_univ_six, Tag.cartan, Tag.cartanE]; ring_nf; simp [h3, h4]
   · simp [coef6, row6, Fin.sum_univ_six, Tag.cartan, Tag.cartanE]
     ring_nf
     linear_combination key5 (w 0) (w 1) (w 2) (w 3) (w 4) (w 5) hw'
@@ -200,7 +200,7 @@ theorem adRefl_mem_vInn {i : Fin Tag.E6.rank} {v : Fin Tag.E6.rank → ZMod 3} (
 theorem adRefl_adRefl (i : Fin Tag.E6.rank) (v : Fin Tag.E6.rank → ZMod 3) :
     adRefl Tag.E6 3 i (adRefl Tag.E6 3 i v) = v := by
   funext k
-  simp only [adRefl, Pi.sub_apply, Pi.smul_apply, smul_eq_mul, row]
+  simp only [adRefl, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   rw [cartan_diag i]
   norm_num
   ring
@@ -251,7 +251,7 @@ theorem vInn_le_of_invariant (G : AddSubgroup (Fin Tag.E6.rank → ZMod 3))
   exact vInn_le_of_rows (row_mem_of_row_zero hG h0)
 
 theorem exists_smul_of_commute_adRefl (f : (Fin Tag.E6.rank → ZMod 3) →+ (Fin Tag.E6.rank → ZMod 3))
-    (hf : ∀ v ∈ vInn, f v ∈ vInn)
+    (_hf : ∀ v ∈ vInn, f v ∈ vInn)
     (hc : ∀ i, ∀ v ∈ vInn, f (adRefl Tag.E6 3 i v) = adRefl Tag.E6 3 i (f v)) :
     ∃ c : ZMod 3, ∀ v ∈ vInn, f v = c • v := by
   have hstepA : ∀ i, f (row i) = cfunOf f i • row i := by

@@ -334,11 +334,11 @@ lemma tLeftHom_surjective : Function.Surjective (tLeftHom r b hr) :=
 end Model
 
 theorem indClassFun_apply_mulEquiv {G : Type*} [Group G] {P : Subgroup G} [Fintype G]
-    (Φ : G ≃* G) (hΦ : ∀ x : G, Φ x ∈ P ↔ x ∈ P) (θ : P → ℂ) (y : G) :
-    indClassFun P θ (Φ y) = indClassFun P (fun x : P => θ ⟨Φ x, (hΦ x).2 x.2⟩) y :=
+    (Φ : G ≃* G) (hΦ : ∀ _x : G, Φ _x ∈ P ↔ _x ∈ P) (θ : P → ℂ) (_y : G) :
+    indClassFun P θ (Φ _y) = indClassFun P (fun _x : P => θ ⟨Φ _x, (hΦ _x).2 _x.2⟩) _y :=
   congrFun (indClassFun_comp_mulEquiv Φ (K := P) (K' := P) (fun z => (hΦ z).symm)
-    (θ := fun x : P => θ ⟨Φ x, (hΦ x).2 x.2⟩) (θ' := θ)
-    (fun x y hxy => congrArg θ (Subtype.ext hxy))) y
+    (θ := fun _x : P => θ ⟨Φ _x, (hΦ _x).2 _x.2⟩) (θ' := θ)
+    (fun _x _y hxy => congrArg θ (Subtype.ext hxy))) _y
 
 section Characters
 
@@ -378,11 +378,13 @@ lemma sum_dualChar_eq_zero [Fintype E] {ℓ : Module.Dual (ZMod p) E} (hℓ : �
     simpa using this
   exact hv ((FixedFreeImage.dualChar_eq_one_iff ℓ v).1 h1)
 
+omit [NeZero q] in
 lemma inl_mem_eSub {r : U →* D} {b : Cyc q →* (E ≃ₗ[ZMod p] E)}
     {hr : ∀ g : Cyc q, ((D.subtype).comp r).comp (σ g).toMonoidHom
       = (MulAut.conj (b g)).toMonoidHom.comp ((D.subtype).comp r)} (v : Multiplicative E) :
     (SemidirectProduct.inl v : Amb r b hr) ∈ eSub r b hr := mem_eSub_iff.2 rfl
 
+omit [NeZero q] in
 lemma dualChar_semidirectAut_inv {r : U →* D} {b : Cyc q →* (E ≃ₗ[ZMod p] E)}
     {hr : ∀ g : Cyc q, ((D.subtype).comp r).comp (σ g).toMonoidHom
       = (MulAut.conj (b g)).toMonoidHom.comp ((D.subtype).comp r)}
@@ -404,6 +406,7 @@ noncomputable def psiHom (ℓ : Module.Dual (ZMod p) E) :
     ((tSub r b hr).subgroupOf (coreSub r b hr)) →* ℂˣ :=
   (FixedFreeImage.dualChar ℓ).comp (tLeftHom r b hr)
 
+omit [NeZero q] in
 lemma psiHom_apply (ℓ : Module.Dual (ZMod p) E)
     (x : (tSub r b hr).subgroupOf (coreSub r b hr)) :
     psiHom r b hr ℓ x = FixedFreeImage.dualChar ℓ (tLeftHom r b hr x) := (rfl)
@@ -412,26 +415,31 @@ noncomputable def psiOf (ℓ : Module.Dual (ZMod p) E) :
     ((tSub r b hr).subgroupOf (coreSub r b hr)) → ℂ :=
   fun x => (psiHom r b hr ℓ x : ℂ)
 
+omit [NeZero q] in
 lemma psiOf_apply (ℓ : Module.Dual (ZMod p) E)
     (x : (tSub r b hr).subgroupOf (coreSub r b hr)) :
     psiOf r b hr ℓ x
       = (FixedFreeImage.dualChar ℓ (((x : coreSub r b hr) : Amb r b hr).left) : ℂ) := by
   rw [psiOf, psiHom_apply, tLeftHom_apply]
 
+omit [NeZero q] in
 lemma psiOf_mem_Irr (ℓ : Module.Dual (ZMod p) E) :
     psiOf r b hr ℓ ∈ Irr ((tSub r b hr).subgroupOf (coreSub r b hr)) :=
   monoidHom_mem_Irr ((Units.coeHom ℂ).comp (psiHom r b hr ℓ))
 
+omit [NeZero q] in
 @[simp] lemma psiOf_one (ℓ : Module.Dual (ZMod p) E) : psiOf r b hr ℓ 1 = 1 := by
   rw [psiOf, map_one]
   simp
 
+omit [NeZero q] in
 lemma psiOf_eq_one_of_left_eq_one (ℓ : Module.Dual (ZMod p) E)
     {x : (tSub r b hr).subgroupOf (coreSub r b hr)}
     (hx : ((x : coreSub r b hr) : Amb r b hr).left = 1) : psiOf r b hr ℓ x = 1 := by
   rw [psiOf_apply, hx]
   simp
 
+omit [NeZero q] in
 lemma psiOf_injective : Function.Injective (psiOf r b hr (E := E) (D := D) (σ := σ)) := by
   intro ℓ₁ ℓ₂ h
   refine FixedFreeImage.dualChar_injective (MonoidHom.ext fun v => ?_)
@@ -440,6 +448,7 @@ lemma psiOf_injective : Function.Injective (psiOf r b hr (E := E) (D := D) (σ :
   rw [psiOf, psiOf, psiHom_apply, psiHom_apply, hx] at h2
   exact Units.ext h2
 
+omit [NeZero q] in
 lemma conjClassFun_psiOf (ℓ : Module.Dual (ZMod p) E) (g : coreSub r b hr) :
     conjClassFun ((tSub r b hr).subgroupOf (coreSub r b hr)) g (psiOf r b hr ℓ)
       = psiOf r b hr (toGL r b hr (g : Amb r b hr).right • ℓ) := by
@@ -453,6 +462,7 @@ lemma conjClassFun_psiOf (ℓ : Module.Dual (ZMod p) E) (g : coreSub r b hr) :
     group
   rw [hcoe, left_conj_of_mem_tSub _ hmem, dualChar_semidirectAut_inv]
 
+omit [NeZero q] in
 lemma inertiaGroup_psiOf [Fintype E] [Fintype U] {ℓ : Module.Dual (ZMod p) E}
     (hfree : ∀ d : D, (d : E ≃ₗ[ZMod p] E) • ℓ = ℓ → d = 1) :
     inertiaGroup ((tSub r b hr).subgroupOf (coreSub r b hr)) (psiOf r b hr ℓ)
@@ -469,25 +479,31 @@ lemma inertiaGroup_psiOf [Fintype E] [Fintype U] {ℓ : Module.Dual (ZMod p) E}
 noncomputable def coreOfE (v : Multiplicative E) : coreSub r b hr :=
   ⟨SemidirectProduct.inl v, eSub_le_subOf ⊤ (inl_mem_eSub v)⟩
 
+omit [NeZero q] in
 @[simp] lemma coe_coreOfE (v : Multiplicative E) :
     ((coreOfE r b hr v : coreSub r b hr) : Amb r b hr) = SemidirectProduct.inl v := (rfl)
 
+omit [NeZero q] in
 @[simp] lemma coreOfE_one : coreOfE r b hr 1 = 1 := by
   refine Subtype.ext ?_
   rw [coe_coreOfE, map_one]
   rfl
 
+omit [NeZero q] in
 lemma coreOfE_mem_tSub_subgroupOf (v : Multiplicative E) :
     coreOfE r b hr v ∈ (tSub r b hr).subgroupOf (coreSub r b hr) :=
   (Subgroup.mem_subgroupOf).2 (eSub_le_subOf r.ker (inl_mem_eSub v))
 
+omit [NeZero q] in
 @[simp] lemma coe_tOfE (v : Multiplicative E) :
     ((tOfE r b hr v : (tSub r b hr).subgroupOf (coreSub r b hr)) : coreSub r b hr)
       = coreOfE r b hr v := (rfl)
 
+omit [NeZero q] in
 lemma coreOfE_mem_eSub (v : Multiplicative E) :
     ((coreOfE r b hr v : coreSub r b hr) : Amb r b hr) ∈ eSub r b hr := inl_mem_eSub v
 
+omit [NeZero q] in
 lemma psiOf_conj_coreOfE (ℓ : Module.Dual (ZMod p) E) (t : coreSub r b hr)
     (v : Multiplicative E) :
     psiOf r b hr ℓ ⟨t⁻¹ * coreOfE r b hr v * t,
@@ -505,6 +521,7 @@ lemma psiOf_conj_coreOfE (ℓ : Module.Dual (ZMod p) E) (t : coreSub r b hr)
   have hl : (SemidirectProduct.inl v : Amb r b hr).left = v := rfl
   rw [hl, dualChar_semidirectAut_inv]
 
+omit [NeZero q] in
 lemma conjNormal_mem_tSub_subgroupOf_iff (t : Amb r b hr) (x : coreSub r b hr) :
     (MulAut.conjNormal t⁻¹ x : coreSub r b hr) ∈ (tSub r b hr).subgroupOf (coreSub r b hr)
       ↔ x ∈ (tSub r b hr).subgroupOf (coreSub r b hr) := by
@@ -608,7 +625,7 @@ lemma alphaOf_coreOfE (ℓ : Module.Dual (ZMod p) E) (v : Multiplicative E) :
   rw [alphaOf_eq_indClassFun, indClassFun_apply]
   congr 1
   refine Finset.sum_congr rfl fun t _ => ?_
-  rw [dif_pos (Subgroup.Normal.conj_mem' inferInstance _ (coreOfE_mem_tSub_subgroupOf r b hr v) t)]
+  rw [dite_eq_left (Subgroup.Normal.conj_mem' inferInstance _ (coreOfE_mem_tSub_subgroupOf r b hr v) t)]
   exact psiOf_conj_coreOfE r b hr ℓ t v
 
 lemma sum_alphaOf_coreOfE {ℓ : Module.Dual (ZMod p) E} (hℓ : ℓ ≠ 0) :
@@ -730,6 +747,7 @@ lemma cfInner_self_indClassFun_of_invariant {χ : coreSub r b hr → ℂ}
     eq_top_iff.2 fun t _ => mem_inertiaGroup.2 (hinv t)
   rw [hI, Subgroup.relIndex_top_right, index_coreSub]
 
+omit [Fintype E] in
 lemma b_smul_eq_self (e : Module.Basis (ZMod q) (ZMod p) E)
     (hb : b (Multiplicative.ofAdd 1) = shift e) {ℓ : Module.Dual (ZMod p) E}
     (hfix : shift e • ℓ = ℓ) (z : Cyc q) : b z • ℓ = ℓ := by
@@ -788,7 +806,7 @@ theorem exists_equal_degree_invariant_and_moving_pair
     (hD : D ≤ diagAutSubgroup e) (hp : Odd p) (hq : q.Prime)
     (hDodd : Odd (Nat.card D)) (hqD : ¬ q ∣ Nat.card D)
     (hcent : ∀ d : D, (d : E ≃ₗ[ZMod p] E) * shift e = shift e * d → d = 1)
-    [Fintype E] [Fintype U] (hUodd : Odd (Nat.card U)) (hqU : ¬ q ∣ Nat.card U)
+    [Fintype E] [Fintype U] (_hUodd : Odd (Nat.card U)) (_hqU : ¬ q ∣ Nat.card U)
     {r : U →* D} (hrsurj : Function.Surjective r)
     {b : DiagonalCore.Cyc q →* (E ≃ₗ[ZMod p] E)} (hb : b (Multiplicative.ofAdd 1) = shift e)
     (hr : ∀ g : DiagonalCore.Cyc q, ((D.subtype).comp r).comp (σ g).toMonoidHom

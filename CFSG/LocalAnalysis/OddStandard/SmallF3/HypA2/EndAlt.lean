@@ -18,7 +18,7 @@ theorem false_of_alternating (hAlt : CFSG.OddStandard.AltStdCyclicBalancedFalse)
     (e : Nonempty (↥Y ⧸ center ↥Y ≃* alternatingGroup (Fin n)))
     (S : Sylow 2 ↥(Subgroup.centralizer (Y : Set G)))
     (hS : IsCyclic ↥(S : Subgroup ↥(Subgroup.centralizer (Y : Set G)))) : False := by
-  haveI := hY.setting.simple
+  have := hY.setting.simple
   obtain ⟨eA⟩ := e
   by_cases hZ : center ↥Y = ⊥
   ·
@@ -31,7 +31,7 @@ theorem false_of_alternating (hAlt : CFSG.OddStandard.AltStdCyclicBalancedFalse)
       have h1 := CFSG.GH74.Generic.BProg.B2.L2Cover.card_center_dvd_card_hopfMultiplier_qs
         hY.isQuasisimple eA
       have h2 := (hI.schur n (by omega)).2
-      rw [h2, if_neg (by omega : ¬ (n = 6 ∨ n = 7))] at h1
+      rw [h2, ite_eq_right (by omega : ¬ (n = 6 ∨ n = 7))] at h1
       exact h1
     have hne1 : Nat.card (center ↥Y) ≠ 1 := fun h =>
       hZ (Subgroup.eq_bot_of_card_eq (center ↥Y) h)
@@ -58,7 +58,7 @@ theorem false_of_alternating (hAlt : CFSG.OddStandard.AltStdCyclicBalancedFalse)
     have hbot : pPrimeCore 2 ↥Y = ⊥ := by
       rw [← oddCore_eq_pPrimeCore_two ↥Y]
       exact hY.oddCore_eq_bot
-    haveI : (pPrimeCore 2 ↥Y).Normal := CFSG.pPrimeCore_normal
+    have : (pPrimeCore 2 ↥Y).Normal := CFSG.pPrimeCore_normal
     have hTypU : TypU ↥Y := by
       refine Or.inr (Or.inr (Or.inr ⟨n, by omega, ?_⟩))
       exact isDoubleCoverOfAlt_of_mulEquiv

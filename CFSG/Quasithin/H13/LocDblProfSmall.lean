@@ -11,14 +11,16 @@ open scoped Pointwise
 
 variable {Γ : Type} [Group Γ] [Finite Γ] [MulAction Γ (Fin 24)]
 
+omit [Finite Γ] in
 private theorem subgroup_smul_finset_eq {Y : Subgroup Γ} (z : ↥Y) (C : Finset (Fin 24)) :
     z • C = (z : Γ) • C :=
   rfl
 
+omit [Finite Γ] in
 private theorem card_filter_fix_modEq_five {y : Γ} (hy5 : y ^ 5 = 1) (B : Finset (Fin 24))
     (hB : y • B = B) :
     (B.filter fun p => y • p = p).card ≡ B.card [MOD 5] := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨f, hf⟩ : ∃ f : Equiv.Perm (Fin 24), f = MulAction.toPermHom Γ (Fin 24) y := ⟨_, rfl⟩
   have hfx : ∀ x : Fin 24, f x = y • x := fun x => by
     subst hf
@@ -71,7 +73,7 @@ private theorem smul_block_eq_of_le_five {Y F : Subgroup Γ}
     (hnormal2 : ∀ K : Subgroup Y, K.Normal → K ≠ ⊤ → IsPGroup 2 K)
     {s : ℕ} (q0 : Fin 24) (hq0 : (orbitSet F q0).card = s) (h5 : ptsOfSize F s ≤ 5 * s)
     {y : Γ} (hy : y ∈ Y) : y • orbitSet F q0 = orbitSet F q0 := by
-  haveI : Fintype ↥Y := Fintype.ofFinite ↥Y
+  have : Fintype ↥Y := Fintype.ofFinite ↥Y
   obtain ⟨T, hT⟩ : ∃ T : Finset (Finset (Fin 24)),
       T = Finset.univ.image (fun z : ↥Y => z • orbitSet F q0) := ⟨_, rfl⟩
   have hmemT : ∀ C : Finset (Fin 24), C ∈ T ↔ ∃ z : ↥Y, z • orbitSet F q0 = C := by
@@ -126,7 +128,7 @@ private theorem smul_block_eq_of_le_five {Y F : Subgroup Γ}
     rcases orbit_card_eq_one_or_six_le h9 hnormal2 (orbitSet F q0) with h | h
     · exact h
     · omega
-  haveI := (Nat.card_eq_one_iff_unique.1 hone).1
+  have := (Nat.card_eq_one_iff_unique.1 hone).1
   have key := Subsingleton.elim (α := MulAction.orbit ↥Y (orbitSet F q0))
     ⟨(⟨y, hy⟩ : ↥Y) • orbitSet F q0, MulAction.mem_orbit _ _⟩
     ⟨orbitSet F q0, MulAction.mem_orbit_self _⟩
@@ -162,7 +164,7 @@ theorem false_of_small {Y F : Subgroup Γ} (hnorm : Y ≤ Subgroup.normalizer (F
     rcases orbit_card_eq_one_or_six_le h9 hnormal2 q0 with h | h
     · exact h
     · omega
-  haveI := (Nat.card_eq_one_iff_unique.1 hone).1
+  have := (Nat.card_eq_one_iff_unique.1 hone).1
   obtain ⟨y, hy, hne⟩ := hnofix q0
   apply hne
   have key := Subsingleton.elim (α := MulAction.orbit ↥Y q0)
@@ -197,7 +199,7 @@ theorem false_of_eight {Y F : Subgroup Γ} (hnorm : Y ≤ Subgroup.normalizer (F
     rw [h]
     exact self_mem_orbitSet F p2
   have hdisj : Disjoint (orbitSet F 0) (orbitSet F p2) := disjoint_orbitSet hne12
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x5, hx5⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y) 5 h5
   have hyorder : orderOf (x5 : Γ) = 5 := by
     rw [Subgroup.orderOf_coe]

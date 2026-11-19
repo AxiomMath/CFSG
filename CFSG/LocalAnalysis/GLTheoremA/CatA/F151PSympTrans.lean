@@ -18,7 +18,7 @@ private theorem sympTrans_indAut_zpow {G : Type} [Group G] {p : ℕ} {L : Subgro
   unfold MI.indAut
   rw [← map_zpow]
   congr 1
-  exact Subtype.ext (by simp [zpow_neg, inv_zpow])
+  exact Subtype.ext (by simp [zpow_neg])
 
 private theorem sympTrans_congr_indAut {G G' : Type} [Group G] [Group G']
     {p : ℕ} {J : Subgroup G} {J' : Subgroup G'} {b : G} {b' : G'}
@@ -56,8 +56,7 @@ private theorem sympTrans_markTransport : MarkTransport := by
   have hb'norm : b' ∈ Subgroup.normalizer (J' : Set G') := hb'N (Subgroup.mem_zpowers b')
   refine ⟨Subgroup.zpowers_le.2 hbN, ?_⟩
   refine lemma102_marking_transport hcomm e ?_ hmark'
-  intro lab R _ I F θ hP
-  intro a ha
+  intro lab R _ I F θ hP a ha
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 ha
   have hbk : b ^ k ∈ Subgroup.normalizer (J : Set G) := Subgroup.zpow_mem _ hbN k
   have hb'k : b' ^ k ∈ Subgroup.normalizer (J' : Set G') := Subgroup.zpow_mem _ hb'norm k
@@ -102,10 +101,10 @@ private theorem shapeModelAt_symp_of_catalog {S : Type} [Group S] [Finite S] {p 
               · exact h
               · exact absurd hnt (namesTag_psp_false dd.1 2 q.exponent)
             obtain ⟨hadm, K, hKfield, hKfin, hcard, ⟨e1⟩⟩ := hclass
-            letI : Field K := hKfield
-            letI : Finite K := hKfin
-            haveI : CharP K 2 := by
-              haveI : Fintype K := Fintype.ofFinite K
+            let : Field K := hKfield
+            let : Finite K := hKfin
+            have : CharP K 2 := by
+              have : Fintype K := Fintype.ofFinite K
               exact charP_of_card_eq_prime_pow (p := 2) (R := K)
                 (by rw [← Nat.card_eq_fintype_card]; exact hcard)
             have hbot : (StatedScalars (Fin r ⊕ Fin r) K).subgroupOf (StatedSp r K) = ⊥ :=

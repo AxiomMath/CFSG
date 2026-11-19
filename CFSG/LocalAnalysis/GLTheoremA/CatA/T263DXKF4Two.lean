@@ -31,7 +31,7 @@ theorem t263SelWP_excHard2_of (hF : T263SelWP t263GExcHard2F) (hE : T263SelWP t2
   | lie d =>
     obtain ⟨d, hv⟩ := d
     cases d <;> simp only [t263GExcHard2, t263GExcHard2F, t263GExcHard2E, onLie] at hi ⊢ <;>
-      first | exact hi.elim | exact Or.inl hi | exact Or.inr hi
+      first | exact Or.inl hi | exact Or.inr hi
   | cyclic r hr => exact hi.elim
   | alternating n hn => exact hi.elim
   | sporadic s => exact hi.elim
@@ -46,7 +46,7 @@ theorem t263SelWP_excHard2F :
     | lie d =>
       obtain ⟨d, hv⟩ := d
       cases d <;> simp only [t263GExcHard2F, t263GExcInner, onLie] at hi ⊢ <;>
-        first | exact hi.elim | exact (K144I.p_eq_two_of_card_eq_two hi.1).1
+        exact (K144I.p_eq_two_of_card_eq_two hi.1).1
     | cyclic r hr => exact hi.elim
     | alternating n hn => exact hi.elim
     | sporadic s => exact hi.elim
@@ -68,10 +68,10 @@ theorem t263SelWP_excHard2F :
           · exact h
         obtain ⟨K, _, _, hK, -, ⟨φ⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
-        haveI := finite_modGL (τ := .F4) (K := K)
+        have := finite_modGL (τ := .F4) (K := K)
         let ψ : X ≃* ↥(adjointGroup .F4 K) := e.trans φ
-        haveI : Finite X := Finite.of_equiv _ ψ.symm.toEquiv
-        haveI : Fact p.Prime := ⟨hp⟩
+        have : Finite X := Finite.of_equiv _ ψ.symm.toEquiv
+        have : Fact p.Prime := ⟨hp⟩
         by_contra hgt
         push Not at hgt
         have hEp : IsPGroup p ↥E := fun x => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 x x.2)⟩

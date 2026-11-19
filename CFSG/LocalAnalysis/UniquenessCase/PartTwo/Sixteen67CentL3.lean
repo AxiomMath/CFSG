@@ -22,7 +22,7 @@ theorem isCyclic_and_card_centralizer_sl_three {K : Type} [Field K] [Finite K] (
     IsCyclic (centralizer ({u} : Set (Matrix.SpecialLinearGroup (Fin 3) K))) ∧
       Nat.card (centralizer ({u} : Set (Matrix.SpecialLinearGroup (Fin 3) K))) =
         Nat.card K ^ 2 - 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hq' : ¬ 3 ∣ Fintype.card K - 1 := by
     rwa [← Nat.card_eq_fintype_card]
   have hus : u ∉ scalars 3 K := by
@@ -37,12 +37,12 @@ theorem isCyclic_and_card_centralizer_sl_three {K : Type} [Field K] [Finite K] (
   have hns : ∀ r : K, ¬ (centPoly u).IsRoot r := by
     intro r hr
     exact hq' ((hfl.exists_isRoot_iff_dvd Nat.prime_three).mp ⟨r, hr⟩)
-  haveI : Fact (Irreducible (centPoly u)) := ⟨IsFixedLine.irreducible_centPoly hns⟩
+  have : Fact (Irreducible (centPoly u)) := ⟨IsFixedLine.irreducible_centPoly hns⟩
   have hne : centPoly u ≠ 0 := (quadPoly_monic _).ne_zero
   have hdim : Module.finrank K (AdjoinRoot (centPoly u)) = 2 :=
     (finrank_quotient_span_eq_natDegree (K := K) (f := centPoly u)).trans
       (quadPoly_natDegree _)
-  haveI : Module.Finite K (AdjoinRoot (centPoly u)) := (AdjoinRoot.powerBasis hne).finite
+  have : Module.Finite K (AdjoinRoot (centPoly u)) := (AdjoinRoot.powerBasis hne).finite
   have hcard : Nat.card (centralizer ({u} : Set (Matrix.SpecialLinearGroup (Fin 3) K))) =
       Nat.card K ^ 2 - 1 := by
     rw [Nat.card_congr hfl.centralizerEquiv.toEquiv, Nat.card_units,
@@ -57,9 +57,9 @@ theorem isCyclic_and_card_centralizer_of_lieModel_psl {J : Type} [Group J] [Fini
   rcases hL with ⟨-, ⟨-, K, hKf, hKfin, hK, ⟨e⟩⟩⟩ | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩
   · have hp : p.Prime := hadm.1
     have hf : 1 ≤ f := hadm.2.1
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K p :=
+    have : Fact p.Prime := ⟨hp⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K p :=
       charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
     have hq' : Nat.card K % 3 = 2 := by rw [hK]; exact hq
     have hq'' : ¬ 3 ∣ Nat.card K - 1 := by

@@ -37,15 +37,15 @@ theorem exists_blockAction_dualPair_PSp {n f : ℕ} {F : Type} [Field F] [Finite
           Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) := by
   obtain ⟨K, hKf, hKa, hKfin, hcard, π, hπ, hker, hfin⟩ :=
     fePSp_dualPair_blockField hc hS hodd he
-  letI : Field K := hKf
-  letI : Algebra F K := hKa
-  haveI : Finite K := hKfin
+  let : Field K := hKf
+  let : Algebra F K := hKa
+  have : Finite K := hKfin
   obtain ⟨W, hWac, hWF, hWK, hTower, hWfd, -, eW, hact, -, -⟩ :=
     fePSp_dualPair_blockExists hS he K π hπ hker hfin
-  letI : AddCommGroup W := hWac
-  letI : Module F W := hWF
-  letI : Module K W := hWK
-  haveI : IsScalarTower F K W := hTower
+  let : AddCommGroup W := hWac
+  let : Module F W := hWF
+  let : Module K W := hWK
+  have : IsScalarTower F K W := hTower
   obtain ⟨ρ, hρ⟩ := fePSp_dualPair_blockRestrict_exists he K π hπ W eW hact
   exact ⟨K, hKf, hKa, hKfin, W, hWac, hWF, hWK, hTower, hWfd, eW,
     MulEquiv.ofBijective ρ ⟨fePSp_dualPair_blockRestrict_injective hSU he K W eW ρ hρ,

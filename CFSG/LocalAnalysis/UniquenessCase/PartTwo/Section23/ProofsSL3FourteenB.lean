@@ -315,7 +315,7 @@ end Ctx2311
 
 private theorem card_Z_lt_card_D {D : Data G} {Ch : Choice2011 G} (c : Ctx2311 D Ch)
     (h4 : S23_4 D Ch) (h1930 : H1930 D) (hn : 2 ≤ CFSG.Open.pRank 2 D.Z)
-    (hCard : Nat.card c.V = Nat.card D.Z ^ 3) {A : Subgroup G} (hAT : A ≤ D.T) {g : G}
+    (hCard : Nat.card c.V = Nat.card D.Z ^ 3) {A : Subgroup G} (_hAT : A ≤ D.T) {g : G}
     (hAg : A ≤ conjSubgroup c.V g) (hAm : E3.mQuot (conjSubgroup c.V g) A = 1)
     (hAcard : Nat.card A ≤
       Nat.card D.Z * Nat.card ↥(A ⊓ centralizer (c.W : Set G))) :
@@ -453,8 +453,8 @@ theorem s23_14_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch) (h12 : S23_
     S23_14 D Ch := by
   intro h1930 c hphi
   apply h14E h1930 c
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥c.E) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥c.E) :=
     ⟨Ctx2311.isPGroup_E c h1930 h4 h12 (hVK h1930 c)⟩
   have heal : IsElementaryAbelian 2 ↥c.E :=
     (CFSG.frattini_eq_bot_iff_isElementaryAbelian (R := ↥c.E) (p := 2)).mp hphi

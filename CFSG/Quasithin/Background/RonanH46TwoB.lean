@@ -24,12 +24,10 @@ private def twoBCol (hK : Nat.card K = (2 ^ 1) ^ 2) :
     ↥(commOnR ⊤ (LW hK)) →* Multiplicative (Fin 2 → K) where
   toFun u := Multiplicative.ofAdd (![mat (u : HMod 1 K) 0 2, mat (u : HMod 1 K) 1 2] : Fin 2 → K)
   map_one' := by
-    try dsimp only
     rw [ofAdd_eq_one]
     funext i
     fin_cases i <;> simp [mat_one]
   map_mul' u v := by
-    try dsimp only
     rw [← ofAdd_add]
     congr 1
     funext i
@@ -108,7 +106,7 @@ theorem part2b (hK : Nat.card K = (2 ^ 1) ^ 2) :
   · intro γ hγ
     have hγ' : γ ∈ (StatedSLR 2 K).map (natHomR 2 K) := hγ
     obtain ⟨B, hB, rfl⟩ := Subgroup.mem_map.1 hγ'
-    have h4 : 4 ≤ Nat.card K := by rw [hK] <;> norm_num
+    have h4 : 4 ≤ Nat.card K := by rw [hK]; norm_num
     let A : SL(2, K) := ⟨(B : Matrix (Fin 2) (Fin 2) K), mem_StatedSLR.1 hB⟩
     refine ⟨rho hK (embW A), rho_embW_mem_LW h4 A, fun u u' huu =>
       twoBCol_compat hK (embW_mem_perfW A) B (blkMat_embW A).symm u u' huu⟩

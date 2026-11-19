@@ -32,6 +32,7 @@ theorem mem_fixE {E : Subgroup (Perm Ω)} {x : Ω} : x ∈ fixE E ↔ ∀ e ∈ 
   rw [Finset.mem_filter]
   simp
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem mem_stb {E : Subgroup (Perm Ω)} {x : Ω} {e : Perm Ω} : e ∈ stb E x ↔ e ∈ E ∧ e x = x := by
   simp [stb, MulAction.mem_stabilizer_iff]
 
@@ -51,11 +52,13 @@ section Plane
 
 variable {p : ℕ} {E : Subgroup (Perm Ω)}
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem comm_of_elem (hE : CFSG.Open.IsElemAbelian p E) {a b : Perm Ω} (ha : a ∈ E) (hb : b ∈ E) :
     a * b = b * a := by
-  haveI := hE.1
+  have := hE.1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥E) ⟨b, hb⟩)
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem stb_apply (hE : CFSG.Open.IsElemAbelian p E) {g : Perm Ω} (hg : g ∈ E) (x : Ω) :
     stb E (g x) = stb E x := by
   ext k
@@ -74,6 +77,7 @@ theorem stb_apply (hE : CFSG.Open.IsElemAbelian p E) {g : Perm Ω} (hg : g ∈ E
     simp only [Perm.coe_mul, Function.comp_apply] at this
     rw [this, h]
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem card_stb (hp : p.Prime) (hEc : Nat.card E = p ^ 2) (x : Ω) :
     Nat.card (stb E x) = 1 ∨ Nat.card (stb E x) = p ∨ Nat.card (stb E x) = p ^ 2 := by
   have hd : Nat.card (stb E x) ∣ p ^ 2 := hEc ▸ Subgroup.card_dvd_of_le inf_le_left
@@ -93,7 +97,7 @@ theorem mem_fixE_iff_card (hEc : Nat.card E = p ^ 2) {x : Ω} :
     have he' : e ∈ stb E x := by rw [this]; exact he
     exact (mem_stb.1 he').2
 
-theorem fixE_subset_kfix (x : Ω) : fixE E ⊆ kfix E x := fun y hy =>
+theorem fixE_subset_kfix (x : Ω) : fixE E ⊆ kfix E x := fun _y hy =>
   mem_kfix.2 fun e he _ => mem_fixE.1 hy e he
 
 theorem orb_subset_kfix (hE : CFSG.Open.IsElemAbelian p E) (x : Ω) : orb E x ⊆ kfix E x := by
@@ -192,7 +196,7 @@ theorem exists_mem_fixE (hp : p.Prime) (hp2 : p ≠ 2) (hE : CFSG.Open.IsElemAbe
     (hEc : Nat.card E = p ^ 2) {σ₀ : Perm Ω} (hσ₀ : σ₀ ∈ E) (hσ₀1 : σ₀ ≠ 1)
     (hfix : σ₀.supportᶜ.card = 2 ∨ σ₀.supportᶜ.card = 4) : ∃ c ∈ σ₀.supportᶜ, c ∈ fixE E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf σ₀ = p := orderOf_eq_prime (hE.2 σ₀ hσ₀) hσ₀1
   have hZ : Nat.card (Subgroup.zpowers σ₀) = p := by rw [Nat.card_zpowers, hord]
   obtain ⟨τ, hτE, hτZ⟩ : ∃ τ ∈ E, τ ∉ Subgroup.zpowers σ₀ := by

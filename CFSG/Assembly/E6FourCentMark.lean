@@ -22,7 +22,7 @@ theorem e6FourSubcompMark_of_psl6 {X : Type} [Group X] (hX : commutator X = ⊤)
   obtain ⟨ht, hr, -, hd⟩ := hlab
   obtain ⟨t, r, n⟩ := lab
   cases t <;> simp [markTag, markRank, markDeg] at ht hr hd ⊢ <;>
-    (try split_ifs at ht hr hd) <;> first | omega | (exfalso; simp_all) | simp_all
+    (try split_ifs at ht hr hd) <;> first | omega | (exfalso; simp_all)
 
 theorem e6FourSubcompMark_of_pomegaMinus4 {X : Type} [Group X] (hX : commutator X = ⊤)
     (h : LieModel (X ⧸ Subgroup.center X) .POmegaMinus 4 2 2) : E6FourSubcompMark X := by
@@ -32,7 +32,7 @@ theorem e6FourSubcompMark_of_pomegaMinus4 {X : Type} [Group X] (hX : commutator 
   obtain ⟨ht, hr, -, hd⟩ := hlab
   obtain ⟨t, r, n⟩ := lab
   cases t <;> simp [markTag, markRank, markDeg] at ht hr hd ⊢ <;>
-    (try split_ifs at ht hr hd) <;> first | omega | (exfalso; simp_all) | simp_all
+    (try split_ifs at ht hr hd); first | omega
 
 end CFSG.Assembly
 

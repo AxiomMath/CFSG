@@ -14,7 +14,7 @@ open CFSG.Blueprint CFSG.RankThree.Native CFSG.Sporadic.Co2Cert Subgroup
 private theorem exists_line_mem_of_card {N : Subgroup (Equiv.Perm (Fin 2300))}
     (hNQ : N ≤ co2FiveQ) (hN : Nat.card N = 5 ^ 2) (r : Fin 2) :
     ∃ n ∈ N, ∃ j : Fin 31, co2FiveRecordOf j = r ∧ ∃ a : ℕ, ¬ 5 ∣ a ∧ co2FiveLine j ^ a = n := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hr : r = 0 ∨ r = 1 := by
     revert r
     decide
@@ -54,7 +54,7 @@ theorem exists_lineType_mem_of_card_co2 {M : Subgroup NativeSporadic.Co2}
     (hM : Nat.card M = 5 ^ 2) (r : Fin 2) :
     ∃ σ ∈ M, ∃ (a : ℕ) (k : NativeSporadic.Co2), ¬ 5 ∣ a ∧
       k * σ * k⁻¹ = co2LineElt (co2FiveRepLine r) ^ a := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let ψ : NativeSporadic.Co2 →* Equiv.Perm (Fin 2300) := co2P.subtype.comp co2PermHom'
   have hinj : Function.Injective co2PermHom' := co2PermEquiv.injective
   have hψ : Function.Injective ψ := co2P.subtype_injective.comp hinj
@@ -84,7 +84,7 @@ theorem exists_lineType_mem_of_card_co2 {M : Subgroup NativeSporadic.Co2}
     group
   have e1 : g⁻¹ * ψ σ * g = co2FiveLine j ^ a := by
     rw [hna]
-    simp [MulAut.conj_apply]
+    simp
   have hkey : (g * h)⁻¹ * ψ σ * (g * h) = co2FiveLine (co2FiveRepLine r) ^ a := by
     have e2 := conj_pow (a := h⁻¹) (b := co2FiveLine j) (i := a)
     rw [inv_inv] at e2

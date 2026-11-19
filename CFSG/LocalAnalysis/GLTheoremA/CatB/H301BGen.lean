@@ -48,7 +48,7 @@ theorem forall_of_normalizer_step {S T₀ : Subgroup G} [Finite S] (hS : IsPGrou
           refine lt_of_le_of_ne (le_inf Subgroup.le_normalizer hlt.le) fun h => hxT ?_
           rw [h]
           exact Subgroup.mem_inf.2 ⟨hxN, hxS⟩
-        haveI : Finite (Subgroup.normalizer (T : Set G) ⊓ S : Subgroup G) :=
+        have : Finite (Subgroup.normalizer (T : Set G) ⊓ S : Subgroup G) :=
           Finite.of_injective (Subgroup.inclusion inf_le_right) (Subgroup.inclusion_injective _)
         have hc1 := Subgroup.card_lt_of_lt hTT'
         have hc2 : Nat.card (Subgroup.normalizer (T : Set G) ⊓ S : Subgroup G) ≤ Nat.card S :=

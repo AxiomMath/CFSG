@@ -44,9 +44,9 @@ theorem false_of_odd_action {G : Type*} [Group G] [Finite G] {V Z W : Subgroup G
     (hOtriv : ∀ a ∈ Ot, ∀ v : ↥V, ((a v : ↥V) : G) * (v : G)⁻¹ ∈ Z)
     (hWZ : ∀ w ∈ W, ∀ z ∈ Z, w * z = z * w) (hVW : ⁅V, W⁆ = Z)
     (hnt : ∃ a ∈ Ot, ∃ v : ↥V, (v : G) ∈ Z ∧ a v ≠ v) : False := by
-  haveI : IsMulCommutative ↥V := hV.1
+  have : IsMulCommutative ↥V := hV.1
   classical
-  haveI : Fintype Ot := Fintype.ofFinite _
+  have : Fintype Ot := Fintype.ofFinite _
   have hexp : ∀ m : ↥V, m * m = 1 := fun m => Subtype.ext (by simpa [sq] using hV.2 m m.2)
   have hodd' : Odd (Fintype.card Ot) := by rwa [← Nat.card_eq_fintype_card]
   set Z' : Subgroup ↥V := Z.subgroupOf V with hZ'

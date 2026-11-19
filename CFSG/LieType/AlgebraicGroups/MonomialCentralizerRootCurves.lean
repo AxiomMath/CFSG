@@ -648,7 +648,7 @@ theorem exists_additive_curve_of_good_root (hτ : τ = .D4 ∨ τ = .E6 ∨ τ =
         have hcβ : c β = (μ : k) := by simp [c, hne.symm]
         have hcγ : c (α + β) = lam := by
           simp only [c]
-          rw [if_neg (Ne.symm hαγ), if_neg (Ne.symm hβγ)]
+          rw [ite_eq_right (Ne.symm hαγ), ite_eq_right (Ne.symm hβγ)]
           simp
         have hL : ∀ x ∈ [α, β, α + β], IsRoot τ x ∧ 0 < φ x := by
           intro x hx

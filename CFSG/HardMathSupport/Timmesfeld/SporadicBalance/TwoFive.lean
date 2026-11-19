@@ -145,7 +145,7 @@ theorem gLAPPrimeCoreOf_eq_bot_of_card_forty [Finite S] {C : Subgroup S} {a : �
     obtain ⟨Pc⟩ : Nonempty (Sylow 3 C) := inferInstance
     set P : Subgroup S := (Pc : Subgroup C).map C.subtype with hP
     have hPC : P ≤ C := Subgroup.map_subtype_le _
-    have hPp : IsPGroup 3 P := Pc.isPGroup'.map C.subtype
+    have hPp : IsPGroup 3 P := Pc.isPGroup.map C.subtype
     have hr0 : (40 : ℕ) ≠ 0 := by norm_num
     have hPcard : Nat.card P = 3 ^ a := by
       rw [hP, Subgroup.card_map_of_injective C.subtype_injective, Sylow.card_eq_multiplicity, hC,

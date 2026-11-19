@@ -77,7 +77,7 @@ theorem sign_of_fixCard {x : Equiv.Perm (Fin 8330)} (h2 : x ^ 2 = 1) {f : ℕ}
     (hf : fixCard x = f) : Equiv.Perm.sign x = (-1) ^ ((8330 - f) / 2) := by
   rw [Equiv.Perm.sign_of_pow_two_eq_one h2, card_fixedPoints_eq, hf, Fintype.card_fin]
 
-@[expose] def heOuterInvs : Set (Equiv.Perm (Fin 8330)) :=
+def heOuterInvs : Set (Equiv.Perm (Fin 8330)) :=
   {x | x ∈ heAutGroup ∧ x ∉ heP ∧ orderOf x = 2}
 
 theorem mem_heOuterInvs {x : Equiv.Perm (Fin 8330)} :

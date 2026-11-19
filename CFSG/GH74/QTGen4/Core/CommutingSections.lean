@@ -9,7 +9,7 @@ public section
 namespace CFSG.GH74.QTGen4
 
 theorem sq_dvd_card_of_commute {X : Type*} [Group X] [Finite X] {A B : Subgroup X}
-    (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (hZ : Subgroup.center A = ⊥) {p : ℕ} (hp : p.Prime)
+    (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (hZ : Subgroup.center A = ⊥) {p : ℕ} (_hp : p.Prime)
     (hA : p ∣ Nat.card A) (hB : p ∣ Nat.card B) : p ^ 2 ∣ Nat.card X := by
   have hinf : ∀ x : X, x ∈ A → x ∈ B → x = 1 := by
     intro x hxA hxB

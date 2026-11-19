@@ -37,8 +37,8 @@ theorem burnsideA315y_l3Case_of (hfit : burnsideA315y_FittingStatement)
     (hab : IsMulCommutative ↥B) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hL : CFSG.Quasithin.IsPSLEps3 true p 1 ↥L) :
     CFSG.Quasithin.A315Case2 L T B ∨ CFSG.Quasithin.A315Case3 L T B := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := burnsideA315x_normal h
+  have : Fact p.Prime := ⟨hp⟩
+  have := burnsideA315x_normal h
   have hL2 : CFSG.Open.StatedClassicalModel ↥L .PSL 3 p 1 := hL
   obtain ⟨-, F, hFf, hFfin, hcard, ⟨e₀⟩⟩ := hL2
   have hF : Nat.card F = p := by rw [hcard, pow_one]

@@ -24,8 +24,8 @@ open CFSG.CGT.PushingUpLit.SolKNA.R4 CFSG.CGT.PushingUpLit.SolKNA.R4.TwinSmall
 theorem twinLeafR_of_local' {r n : ℕ} (hr : 4 ≤ r) {P : ∀ (F : Type) [Group F], Prop}
     (h : LocalNoQ16Q16' P) : TwinLeafR r n P := by
   intro Y _ _ R S t hP _ hPF
-  haveI := genFittingFStar_normal Y
-  haveI := hP.core.simple
+  have := genFittingFStar_normal Y
+  have := hP.core.simple
   obtain ⟨K', x, y, x', y', -, ⟨g, hg⟩, -, hsub', hx, hy, hx', hy', hq⟩ :=
     exists_q16Q16_of_perp hr hP
   have hz : IsUniqueInvolution (tightCore R) t := Inner.isUniqueInvolution_core hP.core.datum

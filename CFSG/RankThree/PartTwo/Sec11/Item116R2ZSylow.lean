@@ -15,7 +15,7 @@ theorem zq_of_cyclic_sylow {Q : Type} [Group Q] [Finite Q] (α : MulAut Q) {x : 
     ∀ P : Subgroup Q,
       Nat.card P = 3 ^ (Nat.card (Subgroup.centralizer ({x} : Set Q))).factorization 3 →
         IsCyclic ↥P ∧ 9 ≤ Nat.card P ∧ ∃ y ∈ P, α y ≠ y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro P hPcard
   have hpg : IsPGroup 3 (Subgroup.zpowers x) := by
     intro g
@@ -27,7 +27,7 @@ theorem zq_of_cyclic_sylow {Q : Type} [Group Q] [Finite Q] (α : MulAut Q) {x : 
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hx3, one_zpow]
   obtain ⟨S, hxS⟩ := hpg.exists_le_sylow
   have hxS' : x ∈ (S : Subgroup Q) := hxS (Subgroup.mem_zpowers x)
-  haveI : IsCyclic ↥(S : Subgroup Q) := hcyc S
+  have : IsCyclic ↥(S : Subgroup Q) := hcyc S
   have hSC : (S : Subgroup Q) ≤ Subgroup.centralizer ({x} : Set Q) := by
     intro k hk
     rw [Subgroup.mem_centralizer_singleton_iff]
@@ -61,7 +61,7 @@ theorem zq_of_cyclic_sylow {Q : Type} [Group Q] [Finite Q] (α : MulAut Q) {x : 
       _ ≤ 3 ^ (Nat.card Q).factorization 3 := Nat.pow_le_pow_right (by norm_num) hv2
   refine ⟨hPcyc, h9P, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hPF : P ≤ MonoidHom.eqLocus (α : Q →* Q) (MonoidHom.id Q) := by
     intro y hy
     show (α : Q →* Q) y = MonoidHom.id Q y

@@ -15,7 +15,7 @@ variable {K : Type} [Group K] [Finite K]
 
 theorem inf_ne_bot_of_isCyclic {p : ℕ} [Fact p.Prime] {P A B : Subgroup K} (hPc : IsCyclic ↥P)
     (hP : IsPGroup p ↥P) (hA : A ≤ P) (hB : B ≤ P) (hA1 : A ≠ ⊥) (hB1 : B ≠ ⊥) : A ⊓ B ≠ ⊥ := by
-  haveI : IsCyclic ↥P := hPc
+  have : IsCyclic ↥P := hPc
   obtain ⟨a, ha⟩ := (hP.to_le hA).exists_card_eq
   obtain ⟨b, hb⟩ := (hP.to_le hB).exists_card_eq
   have key : ∀ (A' B' : Subgroup K) (x y : ℕ), A' ≤ P → B' ≤ P →
@@ -82,11 +82,12 @@ theorem exists_mem_normalizer_map_eq (c : Cfg145 M X₁ X₂ P) {J₁ J₂ : Sub
     · exact hZ.2 h
   · exact ⟨e, he, hm₁⟩
 
+omit [Finite K] in
 theorem le_normalizer_inf (c : Cfg145 M X₁ X₂ P) {J₁ J₂ : Subgroup K}
     (hJ₁ : IsComponentOf J₁ ⊤) (hJ₂ : IsComponentOf J₂ ⊤) (hne : J₁ ≠ J₂)
     (hJu : ∀ J' : Subgroup K, IsComponentOf J' ⊤ → J' = J₁ ∨ J' = J₂) :
     P ≤ normalizer (J₁ : Set K) ⊓ normalizer (J₂ : Set K) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   intro x hx
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp c.isSylowOf_seven.isPGroup) ⟨x, hx⟩
   have hodd : Odd (orderOf x) := by
@@ -98,7 +99,7 @@ theorem not_seven_dvd_card (c : Cfg145 M X₁ X₂ P) {J₁ J₂ : Subgroup K}
     (hJ₁ : IsComponentOf J₁ ⊤) (hJ₂ : IsComponentOf J₂ ⊤) (hne : J₁ ≠ J₂)
     (hJu : ∀ J' : Subgroup K, IsComponentOf J' ⊤ → J' = J₁ ∨ J' = J₂) {e : K}
     (he : J₁.map (MulAut.conj e).toMonoidHom = J₂) : ¬ 7 ∣ Nat.card J₁ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   intro h7
   have hcardJ₂ : Nat.card J₂ = Nat.card J₁ := by
     rw [← he, Subgroup.card_map_of_injective (MulAut.conj e).injective]
@@ -163,7 +164,7 @@ theorem not_le_centralizer (c : Cfg145 M X₁ X₂ P) {J₁ J₂ : Subgroup K}
 
 theorem not_nine_dvd_card (c : Cfg145 M X₁ X₂ P) {J : Subgroup K} (hJ : IsComponentOf J ⊤)
     (h3 : Nat.card ↥((X₁ ⊔ X₂) ⊓ J) = 3) : ¬ 9 ∣ Nat.card J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h9
   have hZ : ((X₁ ⊔ X₂) ⊓ J).relIndex J *
       Nat.card ↥(((X₁ ⊔ X₂) ⊓ J) ⊓ J) = Nat.card ↥J :=

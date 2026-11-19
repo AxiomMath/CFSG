@@ -49,8 +49,8 @@ private lemma wccrc_conj_reduce {G : Type*} [Group G] {β τ c γ : MulAut G}
 
 private lemma wccrc_rigid {k : Type} [Field k] (hk : Nat.card k = 4) :
     OuterFixedRigid (projectiveSL 3 k) := by
-  haveI := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hk
-  haveI := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.charP_two_of_card_eq_four hk
+  have := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hk
+  have := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.charP_two_of_card_eq_four hk
   intro β hβ2 hout γ hγ2 hγβ hγfix
   let σ : k ≃+* k := frobeniusEquiv k 2
   have hσ : ∀ a : k, σ a = a ^ 2 := fun a => frobeniusEquiv_apply k 2 a
@@ -71,8 +71,8 @@ theorem outerFixedRigid_isL3 {M : Type} [Group M] [Finite M] (h : IsL3 M 2) :
   obtain ⟨K, hK, hfin, hcard, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel
       (n := 3) (p := 2) (f := 2) h
-  letI : Field K := hK
-  haveI : Finite K := hfin
+  let : Field K := hK
+  have : Finite K := hfin
   have hk : Nat.card K = 4 := by rw [hcard]; norm_num
   exact outerFixedRigid_of_mulEquiv e.symm (wccrc_rigid hk)
 

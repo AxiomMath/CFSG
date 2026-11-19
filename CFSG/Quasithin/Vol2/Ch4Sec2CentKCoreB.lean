@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 variable {R Rp H K Q LH V : Subgroup G} {F : Type} [Field F] [Fintype F]
   {α : ↥K →* ↥(StatedSL 3 F)} {β : ↥Q →* Multiplicative (Fin 2 → Fin 3 → F)}
 
+omit [Finite G] in
 private theorem comm_claim_coreB {x s t v : G} (hxt : x * t = t * x) (hvs : v * s = s * v)
     (hvy : v * (t * s * t⁻¹) = t * s * t⁻¹ * v) (hv : v = x * s * x⁻¹ * s⁻¹) :
     ⁅x, t * s * t⁻¹ * s⁻¹⁆ = ⁅t, v⁆ := by
@@ -59,7 +60,7 @@ theorem exists_good (h : CoreHyp R Rp H K Q LH V F α β)
   obtain ⟨s, hs, hsR⟩ := exists_inR2_not_mem h hZC hRlt
   have hz : ∃ z ∈ omegaOneCenterOf R ⊓ Subgroup.centralizer (K : Set G), ⁅z, s⁆ ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsC : s ∈ Subgroup.centralizer
         ((omegaOneCenterOf R ⊓ Subgroup.centralizer (K : Set G) : Subgroup G) : Set G) :=
       Subgroup.mem_centralizer_iff.mpr fun z hzZ =>
@@ -70,7 +71,7 @@ theorem exists_good (h : CoreHyp R Rp H K Q LH V F α β)
   have hav : ⁅z, s⁆ ∈ V := hs.2.2 z (Subgroup.mem_inf.mp hzZ).1
   obtain ⟨t, htLH, htt, hta⟩ : ∃ t ∈ LH, t * t ∈ R ∧ t * ⁅z, s⁆ ≠ ⁅z, s⁆ * t := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hzs (h.CV _ hav hcon)
   have hs' : InR2 R Rp V (t * s * t⁻¹ * s⁻¹) :=
     inR2_mul h (inR2_conj h hs htLH) (inR2_inv h hs)

@@ -92,6 +92,7 @@ theorem Ctx.exists_unipotent_vector (hc : Ctx M Q Z B) (hw : Width Q Z 2)
     rw [← hT d₀ hd₀Q, h1, h2, add_sub_cancel_right, hs]
 
 
+omit [Finite K] in
 theorem pow_apply_eigen {E : Type} [AddCommGroup E] [Module K E] (T : E →ₗ[K] E) (ε : K) {v : E}
     (hv : T v = ε • v) (i : ℕ) : (T ^ i) v = ε ^ i • v := by
   induction i with
@@ -107,7 +108,7 @@ theorem stroth123Fpf_holds : Stroth123FixedPointFreeStatement := by
   classical
   intro G _ _ M Q Z B hc hw
   obtain ⟨K, _, _, hchar, γ, M₀, h⟩ := stroth_globalModelData hc.hyp
-  haveI := hchar
+  have := hchar
   obtain ⟨b, hb0, hbQ, hB, -, -⟩ := hc.dictB h
   obtain ⟨y, hyX, hyM, hyB, hyZ, hyord, hyreg⟩ := hc.exists_torusOrd
   obtain ⟨a, Tl, hTπ, hTγ, hTQ, hTb⟩ := hc.torus_model h hb0 hB hyX hyZ hyB

@@ -78,7 +78,7 @@ theorem ablock_decomp {Y : Type} [Group Y]
       have hF2 : Fintype.card F = 2 := by rw [← Nat.card_eq_fintype_card, hfcard]; norm_num
       have hsolv : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin (Fintype.card ι)) F) := by
         rw [h2]; exact CFSG.Quasithin.R3c21.S0.isSolvable_sl2_of_card_two hF2
-      haveI := hsolv
+      have := hsolv
       exact decomp_so π A _ hA (Group.isSolvable_of_isSolvable_injective
         (f := e1.symm.toMonoidHom) e1.symm.injective)
     · have h4 : 4 ≤ Nat.card F := by
@@ -104,6 +104,7 @@ open CFSG.ComponentClassification.CatLeafProof.KleinSix
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem spinMatrix_injective {n : ℕ} : Function.Injective (spinMatrix (quadPlus n F)) := by
   intro x y h
   have hk := ker_spinMatrix_quadPlus_eq_bot (n := n) (K := F) CharTwo.two_eq_zero
@@ -112,6 +113,7 @@ theorem spinMatrix_injective {n : ℕ} : Function.Injective (spinMatrix (quadPlu
   rw [hk, Subgroup.mem_bot] at this
   exact inv_mul_eq_one.mp this
 
+omit [Finite F] in
 theorem rhoGL_injective' : Function.Injective (rhoGL (K := F)) := by
   obtain ⟨hs, -⟩ := CFSG.RankThree.PartOne.K159.Klein.sl4_isSimpleGroup_and_perfect (K := F)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (rhoGL (K := F)).ker with h | h
@@ -126,6 +128,7 @@ theorem rhoGL_injective' : Function.Injective (rhoGL (K := F)) := by
       Matrix.mul_apply, Fin.sum_univ_four, Matrix.single_apply] at h2
 
 
+omit [Finite F] in
 theorem rhoGL_range_eq : (rhoGL (K := F)).range = CFSG.ClassicalGroups.Orthogonal.elementaryGroup (quadPlus 3 F) := by
   refine le_antisymm ?_ elementaryGroup_le_range
   obtain ⟨-, hperf⟩ := CFSG.RankThree.PartOne.K159.Klein.sl4_isSimpleGroup_and_perfect (K := F)
@@ -139,6 +142,7 @@ theorem rhoGL_range_eq : (rhoGL (K := F)).range = CFSG.ClassicalGroups.Orthogona
     _ = CFSG.ClassicalGroups.Orthogonal.elementaryGroup (quadPlus 3 F) :=
         CFSG.ClassicalGroups.Orthogonal.commutator_orthogonalGroup_quadPlus (by norm_num)
 
+omit [Finite F] in
 theorem spinAction_injective : Function.Injective (spinAction (quadPlus 3 F)) := by
   intro x y h
   apply spinMatrix_injective

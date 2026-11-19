@@ -79,7 +79,7 @@ private theorem certOK_gen_inv {D : GrpData} {gens elems : Array ℕ} {par : Arr
     (hD : GrpFacts minus D) (h : certOK D gens elems par = true) :
     ∀ g ∈ gens.toList.map (fun i => D.O[i]!),
       ∃ h' ∈ elems.toList.map (fun i => D.O[i]!), Code.mul g h' = Code.one := by
-  haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
+  have : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
   obtain ⟨-, -, -, -, hgens⟩ := certOK_basic h
   have hone_mem := certOK_one_mem hD.zero h
   intro g hg

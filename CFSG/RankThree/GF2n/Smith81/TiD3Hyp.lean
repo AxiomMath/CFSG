@@ -26,7 +26,7 @@ theorem act_mem_kForm (τ : F →ₐ[K] F) (hτ : ∀ a, τ (τ (τ a)) = a) (g 
     (hx : x ∈ kForm τ) : act (τ : F →+* F) g x ∈ kForm τ := by
   intro i j k
   have hx' : ∀ i j k, τ (x i j k) = x k i j := fun i j k => (hx i j k).symm
-  simp only [act, map_sum, map_add, map_mul, AlgHom.coe_toRingHom, hx', hτ, Fin.sum_univ_two]
+  simp only [act, map_add, map_mul, AlgHom.coe_toRingHom, hx', hτ, Fin.sum_univ_two]
   ring
 
 theorem uElt_eq_uSL (t : F) : uElt t = D2.uSL t := by

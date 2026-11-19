@@ -30,6 +30,7 @@ variable
   (hQL : secQ K1 K2 ≤ L) (hQ : F.img (secQ K1 K2) = Q32)
 
 include h hFP hQL hQ in
+omit [Finite G] h in
 theorem secQ_le_S : secQ K1 K2 ≤ S := by
   have h1 : F.img (secQ K1 K2) ≤ F.img (S ⊓ L) := by
     rw [hQ, hFP]
@@ -37,11 +38,13 @@ theorem secQ_le_S : secQ K1 K2 ≤ S := by
   exact ((PspFrame.img_le_img_iff (F := F) hQL inf_le_right).1 h1).trans inf_le_left
 
 include h hQ in
+omit [Finite G] h in
 theorem exists_psi {c : P45} (hc : c ∈ Q32) : ∃ l : ↥L, (l : G) ∈ secQ K1 K2 ∧ F.ψ l = c := by
   rw [← hQ] at hc
   exact PspFrame.mem_img.1 hc
 
 include h hQ in
+omit [Finite G] h in
 theorem psi_mem_Q32 {l : ↥L} (hl : (l : G) ∈ secQ K1 K2) : F.ψ l ∈ Q32 := by
   rw [← hQ]
   exact PspFrame.psi_mem_img.2 hl
@@ -49,6 +52,7 @@ theorem psi_mem_Q32 {l : ↥L} (hl : (l : G) ∈ secQ K1 K2) : F.ψ l ∈ Q32 :=
 variable {B2 : Subgroup P45} {y2 : P45}
 
 include h in
+omit [Finite G] in
 theorem comm_lift {r : G} (hrS : r ∈ S) (hr : F.phiG r = y2) (l : ↥L) :
     (l : G) * r = r * (l : G) ↔ F.ψ l * y2 = y2 * F.ψ l := by
   have hc := F.phiG_comm_psi (h.S_le_N hrS) l
@@ -56,16 +60,18 @@ theorem comm_lift {r : G} (hrS : r ∈ S) (hr : F.phiG r = y2) (l : ↥L) :
   exact ⟨fun e => (hc.2 e.symm).symm, fun e => (hc.1 e.symm).symm⟩
 
 include h hQ in
+omit [Finite G] in
 theorem psi_mem_B2 (hM : Mo107.Model107 (F.imgS S S) B2 y2) {r : G} (hrS : r ∈ S)
     (hr : F.phiG r = y2) {l : ↥L} (hlQ : (l : G) ∈ secQ K1 K2) (hlr : (l : G) * r = r * (l : G)) :
     F.ψ l ∈ B2 :=
-  (hM.mem_B2 _).2 (Or.inl ⟨h.psi_mem_Q32 hQ hlQ, (h.comm_lift hrS hr l).1 hlr⟩)
+  (hM.mem_B2 _).2 (Or.inl ⟨Setup107.psi_mem_Q32 hQ hlQ, (h.comm_lift hrS hr l).1 hlr⟩)
 
 include h hFP hQL hQ in
+omit [Finite G] in
 theorem secA2_eq (hM : Mo107.Model107 (F.imgS S S) B2 y2) {r : G} (hrS : r ∈ S)
     (hr : F.phiG r = y2) : secA2 t r K1 K2 = F.preS S B2 := by
   have hN := h.S_le_N
-  have hQS : secQ K1 K2 ≤ S := h.secQ_le_S hFP hQL hQ
+  have hQS : secQ K1 K2 ≤ S := CFSG.OddStandard.SmallF3.Omega.PspFrame.Setup107.secQ_le_S hFP hQL hQ
   apply le_antisymm
   · refine sup_le (sup_le ?_ ?_) ?_
     · intro q hq
@@ -88,7 +94,7 @@ theorem secA2_eq (hM : Mo107.Model107 (F.imgS S S) B2 y2) {r : G} (hrS : r ∈ S
       Subgroup.mem_sup_left (Subgroup.mem_sup_right (Subgroup.mem_zpowers r))
     have htmem : t ∈ secA2 t r K1 K2 := Subgroup.mem_sup_right (Subgroup.mem_zpowers t)
     rcases (hM.mem_B2 _).1 hxB with ⟨hcQ, hcomm⟩ | ⟨c, hcQ, hcy, hcx⟩
-    · obtain ⟨l, hlQ, hl⟩ := h.exists_psi hQ hcQ
+    · obtain ⟨l, hlQ, hl⟩ := CFSG.OddStandard.SmallF3.Omega.PspFrame.Setup107.exists_psi hQ hcQ
       have hlE : (l : G) ∈ secQ K1 K2 ⊓ centralizer ({r} : Set G) :=
         Subgroup.mem_inf.2 ⟨hlQ, Subgroup.mem_centralizer_singleton_iff.2
           ((h.comm_lift hrS hr l).2 (by rw [hl]; exact hcomm))⟩
@@ -98,7 +104,7 @@ theorem secA2_eq (hM : Mo107.Model107 (F.imgS S S) B2 y2) {r : G} (hrS : r ∈ S
         exact hEmem _ hlE
       · rw [e]
         exact (secA2 t r K1 K2).mul_mem (hEmem _ hlE) htmem
-    · obtain ⟨l, hlQ, hl⟩ := h.exists_psi hQ hcQ
+    · obtain ⟨l, hlQ, hl⟩ := CFSG.OddStandard.SmallF3.Omega.PspFrame.Setup107.exists_psi hQ hcQ
       have hlE : (l : G) ∈ secQ K1 K2 ⊓ centralizer ({r} : Set G) :=
         Subgroup.mem_inf.2 ⟨hlQ, Subgroup.mem_centralizer_singleton_iff.2
           ((h.comm_lift hrS hr l).2 (by rw [hl]; exact hcy))⟩
@@ -111,9 +117,10 @@ theorem secA2_eq (hM : Mo107.Model107 (F.imgS S S) B2 y2) {r : G} (hrS : r ∈ S
         exact (secA2 t r K1 K2).mul_mem ((secA2 t r K1 K2).mul_mem (hEmem _ hlE) hrmem) htmem
 
 include h hFP hQL hQ in
+omit [Finite G] in
 theorem isElemAbelian_secA2 (hM : Mo107.Model107 (F.imgS S S) B2 y2) {r : G} (hrS : r ∈ S)
     (hr : F.phiG r = y2) (hr2 : r * r = 1) : CFSG.Open.IsElemAbelian 2 (secA2 t r K1 K2) := by
-  have hQS : secQ K1 K2 ≤ S := h.secQ_le_S hFP hQL hQ
+  have hQS : secQ K1 K2 ≤ S := CFSG.OddStandard.SmallF3.Omega.PspFrame.Setup107.secQ_le_S hFP hQL hQ
   show CFSG.Open.IsElemAbelian 2 ((secQ K1 K2 ⊓ centralizer ({r} : Set G)) ⊔ zpowers r ⊔
     zpowers t)
   have hEL : secQ K1 K2 ⊓ centralizer ({r} : Set G) ≤ L := inf_le_left.trans hQL
@@ -147,6 +154,7 @@ theorem isElemAbelian_secA2 (hM : Mo107.Model107 (F.imgS S S) B2 y2) {r : G} (hr
     exact h.t_comm a haS
 
 include h hFP hQL hQ in
+omit [Finite G] in
 theorem isElemAb2_secA2 (hM : Mo107.Model107 (F.imgS S S) B2 y2) {r : G} (hrS : r ∈ S)
     (hr : F.phiG r = y2) (hr2 : r * r = 1) : IsElemAb2 (secA2 t r K1 K2) 5 := by
   refine ⟨h.isElemAbelian_secA2 hFP hQL hQ hM hrS hr hr2, ?_⟩
@@ -154,6 +162,7 @@ theorem isElemAb2_secA2 (hM : Mo107.Model107 (F.imgS S S) B2 y2) {r : G} (hrS : 
   norm_num
 
 include h hFP hQL hQ in
+omit [Finite G] in
 theorem secA2_ne (hM : Mo107.Model107 (F.imgS S S) B2 y2) {r : G} (hrS : r ∈ S)
     (hr : F.phiG r = y2) : secA2 t r K1 K2 ≠ secA t S L := by
   rw [h.secA2_eq hFP hQL hQ hM hrS hr, h.secA_eq hFP]
@@ -163,12 +172,14 @@ theorem secA2_ne (hM : Mo107.Model107 (F.imgS S S) B2 y2) {r : G} (hrS : r ∈ S
   exact hM.y2_out (B0_le_T0 (h1 ▸ hM.y2_mem))
 
 include h hFP in
+omit [Finite G] in
 theorem normal_secA (hM : Mo107.Model107 (F.imgS S S) B2 y2) :
     ((secA t S L).subgroupOf S).Normal := by
   rw [h.secA_eq hFP]
   exact h.normal_preS hM.normB0
 
 include h hFP hQL hQ in
+omit [Finite G] in
 theorem normal_secA2 (hM : Mo107.Model107 (F.imgS S S) B2 y2) {r : G} (hrS : r ∈ S)
     (hr : F.phiG r = y2) : ((secA2 t r K1 K2).subgroupOf S).Normal := by
   rw [h.secA2_eq hFP hQL hQ hM hrS hr]

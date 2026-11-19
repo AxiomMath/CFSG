@@ -32,7 +32,7 @@ private theorem exists_ne_one_ne {G : Type*} [Group G] (hnc : ¬ IsCyclic G) :
         exact hcon ⟨x, g, hx, hg, hne⟩
       rw [hxg]; exact Subgroup.mem_zpowers g
   · push Not at h
-    haveI : Subsingleton G := ⟨fun a b => (h a).trans (h b).symm⟩
+    have : Subsingleton G := ⟨fun a b => (h a).trans (h b).symm⟩
     exact isCyclic_of_subsingleton
 
 theorem conj_mem_octFix {m k : S24} (hm : m ∈ octStab O) (hk : k ∈ octFix O) :
@@ -49,8 +49,8 @@ theorem kLayer_offender (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) :
   refine ⟨⟨Subgroup.map_le_range ρ _, engine_ne_bot hD hActs, engine_isElemAbelian2 hD hActs⟩, ?_⟩
   rw [engine_rkIdx_fixV hD hActs, engine_rk hD hActs, hn, hdU]
   by_cases hd : d = 22
-  · norm_num [if_pos hd]
-  · norm_num [if_neg hd]
+  · norm_num [ite_eq_left hd]
+  · norm_num [ite_eq_right hd]
 
 theorem kLayer_rk_fixV (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) :
     rk ↥(fixV (rImg ρ (octFix O))) = (if d = 22 then 5 else 6) := by
@@ -60,7 +60,7 @@ theorem kLayer_rk_fixV (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) :
 theorem kLayer_card_fixV (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) :
     Nat.card ↥(fixV (rImg ρ (octFix O))) = 2 ^ (if d = 22 then 5 else 6) := by
   obtain ⟨D, c, hD, hn, hdU, hActs⟩ := exists_kFrame hM
-  haveI : Finite V := c.finite
+  have : Finite V := c.finite
   rw [card_eq_two_pow c.sq_eq_one (fixV (rImg ρ (octFix O))), kLayer_rk_fixV hM]
 
 theorem kLayer_rkIdx_xiSub (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) :

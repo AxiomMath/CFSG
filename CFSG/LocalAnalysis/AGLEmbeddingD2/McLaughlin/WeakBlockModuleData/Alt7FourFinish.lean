@@ -26,7 +26,7 @@ theorem orderOf_perm7_ne_nine (σ : Equiv.Perm (Fin 7)) : orderOf σ ≠ 9 := by
     have h3 : 2 ≤ n := Equiv.Perm.two_le_of_mem_cycleType hn
     rw [h] at h1
     have : n ≤ 7 := h2.trans h2'
-    interval_cases n <;> simp_all <;> omega
+    interval_cases n <;> simp_all
   have : orderOf σ ∣ 3 := by
     rw [← Equiv.Perm.lcm_cycleType]
     exact Multiset.lcm_dvd.mpr (fun n hn => (hmem n hn) ▸ dvd_refl _)

@@ -26,7 +26,7 @@ private theorem mrf_sup_zpowers {G : Type} [Group G] {p : ℕ} (hp : p.Prime) {E
     rw [Subgroup.zpowers_le]
     exact Subgroup.centralizer_le_normalizer (E : Set G) (Subgroup.mem_centralizer_iff.mpr hc)
   have hD : Disjoint E (Subgroup.zpowers z) := by
-    haveI : Fact (Nat.card (Subgroup.zpowers z)).Prime := ⟨by rw [hcz]; exact hp⟩
+    have : Fact (Nat.card (Subgroup.zpowers z)).Prime := ⟨by rw [hcz]; exact hp⟩
     refine Subgroup.subgroupOf_eq_bot.1
       ((E.subgroupOf _).eq_bot_or_eq_top_of_prime_card.resolve_right fun h => hzE ?_)
     have hz' : (⟨z, Subgroup.mem_zpowers z⟩ : Subgroup.zpowers z) ∈ E.subgroupOf _ := by
@@ -42,8 +42,8 @@ theorem exists_elemAbelian_five_four_of_monsterExistence
   obtain ⟨-, c, -, -, -, -, hord, -, hocc, hshape, -⟩ := hgraph
   obtain ⟨α, β, hα, hβ, h7⟩ := hocc 7
   obtain ⟨e⟩ : Nonempty (↥(cent2 α β) ≃* NativeSporadic.Carrier .HN) := hshape α β 7 hα hβ h7
-  haveI : Finite G := hfin
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite G := hfin
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hconj : ∀ u v : G, IsConj u v → orderOf u = orderOf v := by
     intro u v h
     obtain ⟨g, hg⟩ := isConj_iff.1 h
@@ -65,7 +65,7 @@ theorem exists_elemAbelian_five_four_of_monsterExistence
     have h5 := orderOf_dvd_of_pow_eq_one h2
     rw [hk] at h5
     norm_num at h5
-  haveI : Finite (NativeSporadic.Carrier .HN) := Finite.of_equiv _ e.toEquiv
+  have : Finite (NativeSporadic.Carrier .HN) := Finite.of_equiv _ e.toEquiv
   have h3 := CFSG.AGLEmbeddingD2.three_le_pRank_HN_five
   obtain ⟨E₀, -, hE₀, hc₀⟩ := CFSG.SectionRank.exists_pRank (p := 5) (by norm_num)
     (⊤ : Subgroup (NativeSporadic.Carrier .HN))

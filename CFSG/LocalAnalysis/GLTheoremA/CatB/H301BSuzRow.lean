@@ -60,7 +60,7 @@ theorem rowSuz_holds (hU : USuz) : I301BRow .suz := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Suz.nonempty_mulEquiv
   have θ : S ≃* suzM := (e₁.trans (by exact b.symm)).trans suzEquivM
   set Φ : MulAut S ≃* ↥suzT := suzAutIso θ with hΦ
-  haveI : Finite (MulAut S) := Finite.of_equiv _ Φ.symm.toEquiv
+  have : Finite (MulAut S) := Finite.of_equiv _ Φ.symm.toEquiv
   have hR0c' : Nat.card R0 = 2 ^ 5 := hR0c
   have hBe' : IsElemAbelian 3 B := hBe
   have hBc' : Nat.card B = 3 ^ 3 := hBc

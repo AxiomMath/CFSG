@@ -138,7 +138,7 @@ theorem card_le_three_mul_inf_of_mul_pow_mem {E S : Subgroup G} [Finite E] {x : 
     simp only at h1 h2
     rw [h1] at h2
     exact Subtype.ext (mul_right_cancel h2)
-  haveI : Finite ↥(E ⊓ S) :=
+  have : Finite ↥(E ⊓ S) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective _)
   have hle := Nat.card_le_card_of_injective _ hf
   rwa [Nat.card_prod, Nat.card_eq_fintype_card (α := Fin 3), Fintype.card_fin] at hle

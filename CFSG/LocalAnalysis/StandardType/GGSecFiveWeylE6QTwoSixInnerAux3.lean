@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K]
 variable {Bs L : Subgroup G} {x : G} {ω : K}
 
 open CFSG.RankThree.PartOne in
+omit [Finite G] in
 theorem b_data (hK : Nat.card K = 4)
     {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -132,8 +133,8 @@ theorem exists_pow_omega (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 =
     ∃ k : ℕ, (Units.mk0 ω (by
       intro h; rw [h] at hω; norm_num at hω)) ^ k = c := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  letI : IsCyclic Kˣ := inferInstance
+  have : Fintype K := Fintype.ofFinite K
+  let : IsCyclic Kˣ := inferInstance
   let ωu : Kˣ := Units.mk0 ω (by intro h; rw [h] at hω; norm_num at hω)
   have hcard : Nat.card Kˣ = 3 := by rw [Nat.card_units, hK]
   have hω3 : ωu ^ 3 = 1 := by
@@ -161,6 +162,7 @@ theorem exists_pow_omega (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 =
   obtain ⟨k, hk, hkc⟩ := Finset.mem_image.mp hmem
   exact ⟨k, hkc⟩
 
+omit [Finite G] in
 theorem pi_delta (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -174,7 +176,7 @@ theorem pi_delta (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     (b : ↥Bs) :
     ∃ k : ℕ, piOf (K := K) θ (deltaElem hNL n b) = (USixTwo.threeA hω) ^ k := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨β, A, a, hA_GU, hA_graph, hβ_ind, hβfix, hAdiag, hAeq⟩ :=
     b_data hK θ hmap hBs hI b
   let σ : Equiv.Perm (Fin 6) := Equiv.swap 0 1
@@ -217,7 +219,7 @@ theorem pi_delta (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     constructor
     · rw [KFU.det_diagU]
       have hval : ((∏ i, cvec i : Kˣ) : K) = ∏ i, ((cvec i : Kˣ) : K) := by
-        simpa using (map_prod (Units.coeHom K) (fun i => cvec i) Finset.univ)
+        simp
       rw [← hval, hprod, Units.val_one]
     · have hbar : ⇑(USixTwo.fieldDataFour hK).bar = fun y : K => y ^ 2 :=
         funext (USixTwo.fieldDataFour_bar hK)
@@ -276,7 +278,7 @@ theorem pi_delta (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     obtain ⟨h, rfl⟩ := QuotientGroup.mk'_surjective
       ((LargeEvenScalars (Fin 6) K).subgroupOf (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) u
     have hmemPinv : (P : GL (Fin 6) K)⁻¹ ∈ LargeEvenSUGroup (Fin 6) K (2 ^ 1) := by
-      simpa using (LargeEvenSUGroup (Fin 6) K (2 ^ 1)).inv_mem P.2
+      simp
     have hmem1 : (P : GL (Fin 6) K)⁻¹ * (h : GL (Fin 6) K) * (P : GL (Fin 6) K) ∈
         LargeEvenSUGroup (Fin 6) K (2 ^ 1) := by
       have hh := conj_mem_largeEvenSUGroup hK
@@ -327,12 +329,12 @@ theorem pi_delta (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
       congr 1
     have hβinv4 : β (M h4) = M h3 := by
       have hh : (h3 : GL (Fin 6) K) = A * (h4 : GL (Fin 6) K) * A⁻¹ := by
-        simp only [h4, h3, Subgroup.coe_mk]
+        simp only [h4, h3]
         group
       exact hA_graph h4 h3 hh
     have h4eq : (h4 : GL (Fin 6) K) = KFU.diagU cvec * (h : GL (Fin 6) K) *
         (KFU.diagU cvec)⁻¹ := by
-      simp only [h4, h3, h2, h1, Subgroup.coe_mk]
+      simp only [h4, h3, h2, h1]
       rw [show KFU.diagU cvec = A⁻¹ * ((P : GL (Fin 6) K) * A * (P : GL (Fin 6) K)⁻¹)
         from hzmat.symm]
       group

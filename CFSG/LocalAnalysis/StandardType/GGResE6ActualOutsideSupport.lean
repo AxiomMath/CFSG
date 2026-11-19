@@ -128,7 +128,7 @@ lemma e6_Bform_H_apply
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     {Bform : LinearMap.BilinForm (ZMod 3) V}
     {h : Fin 6 → V} {α : Fin 6 → Module.Dual (ZMod 3) V}
-    (hB : ∀ i, Bform (h i) = α i)
+    (_hB : ∀ i, Bform (h i) = α i)
     (u : Fin 6 → ZMod 3) (w : V) :
     Bform (Fintype.linearCombination (ZMod 3) h u) w =
       e6dot u (fun i => Bform (h i) w) := by
@@ -152,7 +152,7 @@ lemma e6_Bform_H_H
     simp [cartanE6ModThree]
   rw [e6_Bform_H_apply hB u (Fintype.linearCombination (ZMod 3) h v)]
   rw [Fintype.linearCombination_apply]
-  simp only [map_sum, map_smul, LinearMap.sum_apply, LinearMap.smul_apply, smul_eq_mul,
+  simp only [map_sum, map_smul, smul_eq_mul,
     e6dot, Cmul]
   apply Finset.sum_congr rfl
   intro i _
@@ -526,7 +526,7 @@ lemma e6_norm1_conj_coroot
     rw [haa, hBsymm w (ggLin (p := 3) ι g w), hBgww]
     decide
   rw [hA]
-  simpa [hha]
+  simp [hha]
 
 lemma e6_norm1_conj_restriction
     {G : Type} [Group G] [Finite G] {Bs : Subgroup G}
@@ -536,7 +536,7 @@ lemma e6_norm1_conj_restriction
     (h : Fin 6 → V) (α : Fin 6 → Module.Dual (ZMod 3) V)
     (hpair : ∀ i j, α i (h j) = cartanE6ModThree i j)
     (hB : ∀ i, Bform (h i) = α i)
-    (hBsymm : ∀ u v, Bform u v = Bform v u)
+    (_hBsymm : ∀ u v, Bform u v = Bform v u)
     (F : MulAut ↥Bs) (aa : Module.Dual (ZMod 3) V) (w : V)
     (g : MulAut ↥Bs) (s : Fin 6 → ZMod 3)
     (hFlin : ∀ v, ggLin (p := 3) ι F v = v - aa v • w)
@@ -555,7 +555,7 @@ lemma e6_norm1_conj_restriction
     change ((ggLin (p := 3) ι (F * g))⁻¹) v =
       ggLin (p := 3) ι g⁻¹ (ggLin (p := 3) ι F v)
     rw [← map_inv]
-    rw [show (F * g)⁻¹ = g⁻¹ * F by simp [hFinv, mul_assoc]]
+    rw [show (F * g)⁻¹ = g⁻¹ * F by simp [hFinv]]
     rw [map_mul, LinearEquiv.mul_apply]
   change aa ((ggLin (p := 3) ι (F * g)).symm v) = 2 * e6dot (Cmul s) u
   rw [hInvApply, hFlin v]
@@ -961,7 +961,7 @@ theorem c_dot_kernelVec_ne_zero_of_commonKernel_le_line
   have hexp : w - μ • wr =
       Fintype.linearCombination (ZMod 3) h (u - μ • r) + z := by
     simp [w, wr, Fintype.linearCombination_apply, Finset.sum_sub_distrib, Finset.smul_sum,
-      sub_smul, smul_sub, mul_smul]
+      sub_smul, mul_smul]
     abel
   have hz_eq : z = -Fintype.linearCombination (ZMod 3) h (u - μ • r) := by
     rw [hexp] at hzero
@@ -1161,7 +1161,7 @@ theorem outside_exists_form (c s : Fin 6 → ZMod 3) (k : ZMod 3)
   · rw [outside_B7_last]
     dsimp [b]
     field_simp
-    <;> ring
+    ring
 
 end CFSG.StandardType.E6Seven
 
@@ -1196,7 +1196,7 @@ theorem e6_outside_actual_form_sameWitness
     (chart : V ≃ₗ[ZMod 3] (Fin 7 → ZMod 3))
     (c : Fin 6 → ZMod 3)
     (hchart_h : ∀ i, chart (h i) = Pi.single i.castSucc 1)
-    (hform_h : ∀ i, Bform (h i) = α i)
+    (_hform_h : ∀ i, Bform (h i) = α i)
     (hBform : Bform = (B7 cartanE6ModThree c 0).comp chart.toLinearMap chart.toLinearMap)
     (s : Fin 6 → ZMod 3) (k : ZMod 3)
     (hchart_w : chart w = outsideCoords s k) (hk : k ≠ 0)
@@ -1493,10 +1493,10 @@ theorem e6_raw_outside_consumer_with_chart_independent_L
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (ι : Additive ↥Bs ≃+ V)
     (φ : Λ ⊕ Λa → MulAut ↥Bs) (h : Λ ⊕ Λa → V) (α : Λ ⊕ Λa → Module.Dual (ZMod 3) V)
-    (hS : S.card = 2)
-    (hΛa1 : 1 ≤ Nat.card Λa) (hΛa2 : Nat.card Λa ≤ 3)
+    (_hS : S.card = 2)
+    (_hΛa1 : 1 ≤ Nat.card Λa) (_hΛa2 : Nat.card Λa ≤ 3)
     (hML : GGIsWeylMatrix ML) (hCL : GGIntCartan ML CL)
-    (hMK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
+    (_hMK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
     (hlin : ∀ o w, ggLin (p := 3) ι (φ o) w = w - α o w • h o)
     (hrefl : ∀ o, GGIsReflection 3 (φ o))
     (hpair : ∀ i j : Λ, α (Sum.inl i) (h (Sum.inl j)) = (CL i j : ZMod 3))
@@ -1689,17 +1689,17 @@ theorem e6_raw_outside_unit_form_with_chart_basis_actual_inside_witnesslinks_ind
     (hpairK : ∀ o o' : {i : Λ // i ∉ S} ⊕ Λa,
       αV (o.map Subtype.val id) (hV (o'.map Subtype.val id)) = (CK o o' : ZMod 3))
     (hselII : LinearIndependent (ZMod 3) (fun i : Λ => hV (Sum.inl i)))
-    (hfL : ∃ fL : ML.Group ≃* ↥(ggAutomizer L Bs),
+    (_hfL : ∃ fL : ML.Group ≃* ↥(ggAutomizer L Bs),
       ∀ i, (fL (ML.simple i) : MulAut ↥Bs) = φ (Sum.inl i))
     (hfK : ∃ fK : MK.Group ≃* ↥(ggAutomizer K Bs),
       ∀ o, (fK (MK.simple o) : MulAut ↥Bs) = φ (o.map Subtype.val id))
     (hclosL : ggAutomizer L Bs =
       Subgroup.closure (Set.range fun i : Λ => φ (Sum.inl i)))
-    (hclosK : ggAutomizer K Bs = Subgroup.closure
+    (_hclosK : ggAutomizer K Bs = Subgroup.closure
       (Set.range (fun j : {j : Λ // j ∉ S} => φ (Sum.inl j)) ∪
         Set.range fun a : Λa => φ (Sum.inr a)))
-    (hconn : GGDeletedConnectedS ML S)
-    (hclosJ : ggAutomizer J Bs = Subgroup.closure
+    (_hconn : GGDeletedConnectedS ML S)
+    (_hclosJ : ggAutomizer J Bs = Subgroup.closure
       (Set.range fun j : {j : Λ // j ∉ S} => φ (Sum.inl j)))
     (a : Λa)
     (ha_out : hV (Sum.inr a) ∉ Submodule.span (ZMod 3)
@@ -1984,7 +1984,7 @@ theorem e6_conj_reflection_action
   rw [hHinv]
   rw [map_mul, map_mul, LinearEquiv.mul_apply, LinearEquiv.mul_apply]
   rw [hHlin, hFlin, hHlin]
-  simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul]
+  simp only [map_sub, map_smul, smul_eq_mul]
   rw [hHself]
   module
 
@@ -2042,7 +2042,7 @@ theorem e6_six_span_and_outside_decomposition
       have heq' := congrArg Fin.val heq
       change (6 : ℕ) = i.val at heq'
       omega
-    simp [Finset.sum_apply, Pi.single_apply, hne]
+    simp [Finset.sum_apply, hne]
   have hcast (i : Fin 6) :
       chart (Fintype.linearCombination (ZMod 3) h s) i.castSucc = s i := by
     rw [hHs]
@@ -2057,12 +2057,10 @@ theorem e6_six_span_and_outside_decomposition
     k * chart u j
   refine Fin.lastCases ?_ (fun i => ?_) j
   · rw [hlast]
-    change chart v (Fin.last 6) = 0 + k * chart u (Fin.last 6)
     rw [zero_add]
     dsimp [k]
     exact (div_mul_cancel₀ (chart v (Fin.last 6)) hu).symm
   · rw [hcast i]
-    change chart v i.castSucc = s i + k * chart u i.castSucc
     dsimp [s]
     ring
 
@@ -2113,7 +2111,7 @@ theorem e6_full_form_of_universal_actual_restriction
     e6_unit_restriction_cross_eq U Bform hunitF hunitH hunitConj hne
   intro v
   obtain ⟨s, k, rfl⟩ := hspan v
-  simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul]
+  simp only [map_add, map_smul, smul_eq_mul]
   rw [hRestr F w aa hF hFlin hFself s, hcross, hHfull w, hsymm u w]
 
 theorem e6_all_actual_reflections_share_first_outside_form

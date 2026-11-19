@@ -34,7 +34,7 @@ theorem outerCentData_fieldActor_triality {p f' : ℕ} (hp : p.Prime) (hp2 : p �
       hf' hp.two_le hm3 K hK σ hσ δ hδ
   set C := graphFixedRootGroup TwistTag.D4 K σ.toRingHom
   set δ₀ := fieldActor (t := TwistTag.D4) σ δ
-  haveI := hsimple
+  have := hsimple
   have e3 : ↥(fixSubgroup δ₀) ≃* ↥(trialityFieldImage σ δ) :=
     (Subgroup.equivMapOfInjective _ C.subtype C.subtype_injective).trans
       (MulEquiv.subgroupCongr hmap)
@@ -49,7 +49,7 @@ theorem outerCentData_fieldActor_triality {p f' : ℕ} (hp : p.Prime) (hp2 : p �
     rw [map_mul, map_mul]
     exact h
   have hk3 : Nat.card (fixSubfield δ) = (p ^ f') ^ 3 := by rw [hk, ← pow_mul, mul_comm]
-  haveI : Finite (fixSubfield δ) := Subtype.finite
+  have : Finite (fixSubfield δ) := Subtype.finite
   obtain ⟨r, hr, hσr⟩ := exists_cubic_exponent hp hp3 (fixSubfield δ) hk σ hσ
   have hG₀ := chevSimple_graphFixedRootGroup_cubic hp hp2 hf' (fixSubfield δ) hk3
     (fixSubfieldRestrict σ δ) hr fun c => Subtype.ext (hσr c)
@@ -93,7 +93,7 @@ theorem outerCentData_graphFixed_outer {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     (hβin : β ∉ innerAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) :
     OuterCentData p β := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp4 : 3 < p := by
     have := hp.two_le
     omega
@@ -164,13 +164,13 @@ theorem outerCentData_graphFixed_outer {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
   exact OuterCentData.of_conj_aut hp (MulAut.conj h₀) hconj
 
 theorem outerCentData_trialityD4_ne_three (S : Type) [Group S] [Finite S]
-    (hS : IsSimpleGroup S) (hnc : ∃ a b : S, a * b ≠ b * a)
+    (_hS : IsSimpleGroup S) (_hnc : ∃ a b : S, a * b ≠ b * a)
     (idx : TauCeti.ValidLieTypeIndex) (htag : IsExcTrialityD4 idx.1)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie idx).Group))
     (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (hpc : p = idx.1.characteristic)
     (β : MulAut S) (hβ : orderOf β = p) (hout : β ∉ innerAut S) : OuterCentData p β := by
   classical
-  clear hS hnc
+  clear _hS _hnc
   obtain ⟨e⟩ := he
   obtain ⟨d, hv⟩ := idx
   cases d with
@@ -184,7 +184,7 @@ theorem outerCentData_trialityD4_ne_three (S : Type) [Group S] [Finite S]
     have hp2' : q.p ≠ 2 := by
       rw [← hpq]
       exact hp2
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hK₀ : Nat.card (GaloisField p (3 * f)) = (p ^ f) ^ 3 := by
       rw [GaloisField.card p (3 * f) (by omega), ← pow_mul, mul_comm]
     have hσ₀ : ∀ c : GaloisField p (3 * f),

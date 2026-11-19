@@ -82,6 +82,7 @@ theorem exists_extremal (hsyl : ¬ 2 ∣ (Tm A z D).index) :
     calc y ^ expo L n z = g⁻¹ * (g * y ^ expo L n z * g⁻¹) * g := by group
       _ = 1 := by rw [h1]; group
 
+omit h c [Finite G] in
 theorem expo_dvd_of_lt (hlt : expo L n z < 2 ^ m) : expo L n z ∣ 2 ^ (m - 1) := by
   rcases expo_eq_four_or_eight L n z with he | he <;> rw [he] at hlt ⊢
   · have hm : 3 ≤ m := by
@@ -144,7 +145,7 @@ theorem false_of_lt (hsyl : ¬ 2 ∣ (Tm A z D).index) (hlt : expo L n z < 2 ^ m
     apply hde
     calc d * epsV θ c.hn8 v * d⁻¹ = (epsV θ c.hn8 v)⁻¹ := eq_inv_of_mul_eq_one_right h1
       _ = epsV θ c.hn8 v := epsV_inv θ c.hn8 v
-  obtain ⟨q, hq⟩ := h.expo_dvd_of_lt c hlt
+  obtain ⟨q, hq⟩ := TermData.expo_dvd_of_lt hlt
   exact hne (by rw [hq, pow_mul, hy, one_pow])
 
 end TermData

@@ -48,7 +48,7 @@ private theorem polyF_irr : Irreducible polyF := by
 private instance polyF_fact : Fact (Irreducible polyF) := ⟨polyF_irr⟩
 
 private theorem card_F4 : Nat.card (AdjoinRoot polyF) = 4 := by
-  haveI : Module.Finite (ZMod 2) (AdjoinRoot polyF) :=
+  have : Module.Finite (ZMod 2) (AdjoinRoot polyF) :=
     (AdjoinRoot.powerBasis (K := ZMod 2) polyF_ne_zero).finite
   have hfr : Module.finrank (ZMod 2) (AdjoinRoot polyF) = polyF.natDegree := by
     rw [PowerBasis.finrank (AdjoinRoot.powerBasis (K := ZMod 2) polyF_ne_zero),
@@ -104,7 +104,7 @@ private theorem core {U : Type} [AddCommGroup U] [Module (ZMod 2) U] [Finite U]
       obtain ⟨b, rfl⟩ := Ideal.mem_span_singleton.1 ha
       show Polynomial.aeval ω (polyF * b) = 0
       rw [map_mul, hpoly, zero_mul])
-  letI : Module (AdjoinRoot polyF) U := Module.compHom U φ
+  let : Module (AdjoinRoot polyF) U := Module.compHom U φ
   have hroot : φ (AdjoinRoot.root polyF) = ω := by
     show Polynomial.aeval ω Polynomial.X = ω
     rw [Polynomial.aeval_X]
@@ -146,7 +146,7 @@ private theorem core {U : Type} [AddCommGroup U] [Module (ZMod 2) U] [Finite U]
     obtain ⟨g, hg⟩ := hnt
     refine ⟨g, fun h => hg ?_⟩
     exact LinearMap.ext fun u => LinearMap.congr_fun h u
-  haveI : Module.Finite (AdjoinRoot polyF) U := Module.finite_iff_finite.2 inferInstance
+  have : Module.Finite (AdjoinRoot polyF) U := Module.finite_iff_finite.2 inferInstance
   have hmain := two_le_finrank_quot_fixed ρF v₀ hAF hgenF hntF
   set C' : Submodule (AdjoinRoot polyF) U := ⨅ e ∈ E₀, LinearMap.ker (ρF e - 1) with hC'
   have hCC : C ≤ C'.toAddSubgroup := by
@@ -188,7 +188,7 @@ theorem index_dvd_of_fixed {W : Type} [CommGroup W] [Finite W] (hsq : ∀ w : W,
     (C : Subgroup W) (hC : ∀ w ∈ C, ∀ e ∈ E₀, ρ e w = w) :
     16 * Nat.card C ∣ Nat.card W := by
   have h2 : ∀ u : Additive W, (2 : ℕ) • u = 0 := fun u => hsq (Additive.toMul u)
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule h2
   let ω : Module.End (ZMod 2) (Additive W) := (addOf c).toZModLinearMap 2
   have hωA : ∀ u : Additive W, u + ω u + ω (ω u) = 0 := fun u =>
     congrArg Additive.ofMul (hc (Additive.toMul u))

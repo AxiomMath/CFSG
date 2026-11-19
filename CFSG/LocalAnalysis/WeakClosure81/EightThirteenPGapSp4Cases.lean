@@ -166,8 +166,8 @@ theorem sp4_cases_of_axes {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4)
     (∃ b c : F, (b ≠ 0 ∨ c ≠ 0) ∧ ∀ g, g ∈ A ↔ ∃ t : F, g = sp4Z (t * b) (t * c)) ∨
     (∃ b : F, b ≠ 0 ∧ ∀ g, g ∈ A ↔ ∃ s : F, g = sp4Z s (b * s ^ 2)) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   set A' : AddSubgroup (F × F) := wcgapscA' A with hA'def
   have hcard : Nat.card A' = 4 := by

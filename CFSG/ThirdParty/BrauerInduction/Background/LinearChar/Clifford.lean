@@ -68,12 +68,12 @@ theorem exists_linearChar_of_restrict
     exact FDRep.nontrivial_of_simple ρ
   have h_notIsZero: ¬ Limits.IsZero (ρ.res A) :=
      (nontrivial_iff_not_IsZero (ρ.res A)).mp hres_nz
-  haveI : NeZero (Nat.card A : k) :=
+  have : NeZero (Nat.card A : k) :=
     ⟨One.natCast_natCard_ne_zero_of_finite A k⟩
   obtain ⟨σ, i, hσsimp, hi_mono⟩ :=
     FDRep.exists_simple_subobject (ρ.res A) h_notIsZero
-  haveI : Simple σ := hσsimp
-  haveI : Mono i := hi_mono
+  have : Simple σ := hσsimp
+  have : Mono i := hi_mono
   have hi_ne : i ≠ 0 := by
     intro hi
     have hinj : Function.Injective i.hom :=
@@ -121,7 +121,7 @@ lemma simple_ind_of_inertia_submodule
     [Mono ι] [Simple σ] :
     Simple (FDRep.ind (LinearChar.inertia ψ) σ) := by
 
-  haveI : NeZero (Nat.card G : k) := ⟨One.natCast_natCard_ne_zero_of_finite G k⟩
+  have : NeZero (Nat.card G : k) := ⟨One.natCast_natCard_ne_zero_of_finite G k⟩
   rw [FDRep.simple_iff_end_is_rank_one]
   exact finrank_end_ind_from_inertia_eq_one ρ A ψ σ ι
 
@@ -237,7 +237,7 @@ theorem exists_indLin_of_centralKernel_ne_bot
 
   let K : Subgroup G := FDRep.centralKernel ρ
 
-  haveI : K.Normal := by
+  have : K.Normal := by
     dsimp [K]
     infer_instance
 
@@ -252,16 +252,16 @@ theorem exists_indLin_of_centralKernel_ne_bot
   let ρbar : FDRep k (G ⧸ K) :=
     FDRep.lift ρ K htriv
 
-  haveI : Finite (G ⧸ K) := by
+  have : Finite (G ⧸ K) := by
     infer_instance
 
-  haveI : Group.IsNilpotent (G ⧸ K) := by
+  have : Group.IsNilpotent (G ⧸ K) := by
     infer_instance
 
   have hcard : Nat.card (G ⧸ K) < Nat.card G := by
     exact QuotientGroup.natCard_quotient_lt_natCard_of_ne_bot K hKne'
 
-  haveI : Simple ρbar := by
+  have : Simple ρbar := by
     dsimp [ρbar]
     exact FDRep.lift_simple_of_simple ρ K htriv
 
@@ -302,19 +302,19 @@ theorem exists_induced_from_inertia
   have hW_notIsZero:  ¬ Limits.IsZero W := by
     exact (FDRep.nontrivial_iff_not_IsZero W).mp hW_nontrivial
 
-  haveI : NeZero ↑(Nat.card ↥Iψ) :=
+  have : NeZero ↑(Nat.card ↥Iψ) :=
     neZero_iff.mpr (One.natCard_ne_zero_of_finite ↥Iψ)
 
   obtain ⟨σ, ι, hσsimp, hιmono⟩ :=
     FDRep.exists_simple_subobject W hW_notIsZero
 
-  haveI : Simple σ := hσsimp
-  haveI : Mono ι := hιmono
+  have : Simple σ := hσsimp
+  have : Mono ι := hιmono
 
   let incl : W ⟶ FDRep.res ρ Iψ :=
     psiEigenspaceIncl (ρ := ρ) (A := A) (ψ := ψ)
 
-  haveI : Mono incl := psiEigenspaceIncl_mono ρ A ψ
+  have : Mono incl := psiEigenspaceIncl_mono ρ A ψ
 
   let j : σ ⟶ FDRep.res ρ Iψ := ι ≫ incl
 
@@ -352,10 +352,10 @@ theorem exists_induced_from_inertia
       _ = e 0 := by rw [hf_zero]
       _ = 0 := by simp
 
-  haveI : Simple (FDRep.ind Iψ σ) :=
+  have : Simple (FDRep.ind Iψ σ) :=
     FDRep.simple_ind_of_inertia_submodule ρ A ψ σ ι
 
-  haveI : IsIso f :=
+  have : IsIso f :=
     CategoryTheory.isIso_of_hom_simple hf_ne
 
   refine ⟨σ, hσsimp, ?_⟩
@@ -556,14 +556,14 @@ theorem exists_indLin_of_nilpotent_simple
       Group.exists_normal_abelian_gt_center
         (G := Q) hcomm
 
-    haveI : A.Normal := hA_normal
-    haveI : IsMulCommutative A := hA_comm
+    have : A.Normal := hA_normal
+    have : IsMulCommutative A := hA_comm
 
     obtain ⟨ψ, hW, τ, hτ_simple, hσ_ind⟩ :=
       LinearChar.exists_induced_from_normal_abelian
         (ρ := σ) A
 
-    haveI : Simple τ := hτ_simple
+    have : Simple τ := hτ_simple
 
     have hI_ne_top :
         LinearChar.inertia ψ ≠ ⊤ := by

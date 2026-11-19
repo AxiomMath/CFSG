@@ -275,7 +275,7 @@ private theorem ggQ2x_count {G : Type} [Group G] [Finite G] {Bs : Subgroup G}
   have hUcard : Nat.card U = 3 := by
     rw [hUdef, Nat.card_zpowers]
     exact orderOf_eq_prime (hexp uD) hu1
-  have : U.Normal := Subgroup.normal_of_comm U
+  have : U.Normal := Subgroup.normal_of_isMulCommutative U
   have hQcard : Nat.card (↥Dsub ⧸ U) = 3 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup U
     rw [hDcard, hUcard] at h

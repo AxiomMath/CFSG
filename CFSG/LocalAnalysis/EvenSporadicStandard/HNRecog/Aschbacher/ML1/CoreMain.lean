@@ -17,9 +17,9 @@ theorem CoreHyp.nonempty_mulEquiv [N.Normal] (h : CoreHyp N N' θ θ' ψ φ z) :
     Nonempty (L ≃* L') := by
   classical
   let F : Subgroup (L × L') := fibre θ θ' ψ N φ
-  haveI hFin : Finite ↥F :=
+  have hFin : Finite ↥F :=
     Finite.of_injective (fun x : ↥F => (x : L × L')) Subtype.coe_injective
-  haveI hΔnorm : (h.graph.subgroupOf F).Normal := h.graph_normal
+  have hΔnorm : (h.graph.subgroupOf F).Normal := h.graph_normal
   have hΔP : IsPGroup 2 ↥(h.graph.subgroupOf F) := h.isPGroup_graph
   let T : Subgroup ↥F := (default : Sylow 2 ↥F).toSubgroup
   have hΔT : h.graph.subgroupOf F ≤ T :=
@@ -32,7 +32,7 @@ theorem CoreHyp.nonempty_mulEquiv [N.Normal] (h : CoreHyp N N' θ θ' ψ φ z) :
     refine IsPGroup.of_card_dvd_pow (n := 1) ?_
     rw [Nat.card_zpowers]
     simpa using orderOf_dvd_of_pow_eq_one hc_sq
-  haveI hcnorm : (Subgroup.zpowers c).Normal := by
+  have hcnorm : (Subgroup.zpowers c).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_zpowers_iff] at hn ⊢
     obtain ⟨k, hk⟩ := hn
@@ -54,7 +54,7 @@ theorem CoreHyp.nonempty_mulEquiv [N.Normal] (h : CoreHyp N N' θ θ' ψ φ z) :
     exact (default : Sylow 2 ↥F).not_dvd_index
   have hsq : ∀ t ∈ T, t ^ 2 ∈ h.graph.subgroupOf F := by
     intro t ht
-    obtain ⟨k, hk⟩ := (default : Sylow 2 ↥F).isPGroup' ⟨t, ht⟩
+    obtain ⟨k, hk⟩ := (default : Sylow 2 ↥F).isPGroup ⟨t, ht⟩
     have hk₁ : t ^ (2 ^ k) = 1 := by
       have := congrArg (fun x : ↥T => (x : ↥F)) hk
       simpa using this

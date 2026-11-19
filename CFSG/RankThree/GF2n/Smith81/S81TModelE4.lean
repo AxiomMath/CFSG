@@ -30,30 +30,36 @@ theorem closedL4 : ClosedL okD4 inL4 := by
 theorem mem_Perp_of_okD4 {β : Rt} (hβ : IsRoot .E7 β) (h : okD4 β) : β ∈ Perp :=
   perp_iff.2 ⟨hβ, h⟩
 
+omit [CharP K 2] in
 theorem grpR4_le : GrpR K okD4 ≤ Lam K := by
   rw [GrpR, Subgroup.closure_le]
   rintro g ⟨β, hβ, hok, c, rfl⟩
   exact xu_mem_Lam (mem_Perp_of_okD4 hβ hok) c
 
+omit [CharP K 2] in
 theorem emb_supported (w : W K) :
     emb K w ∈ Finsupp.supported K K {a : Fin e7Data.d | inL4 a} := by
   rw [Finsupp.mem_supported']
   intro x hx
   exact emb_apply_of_not_mem w hx
 
+omit [CharP K 2] in
 theorem exists_emb_of_supported {v : V K}
     (hv : v ∈ Finsupp.supported K K {a : Fin e7Data.d | inL4 a}) : ∃ w : W K, emb K w = v :=
   exists_emb_eq (mem_V0.2 fun b hb => (Finsupp.mem_supported' K v).1 hv b hb)
 
+omit [CharP K 2] in
 theorem NOp_emb {S : List Rt} {t : W K ≃ₗ[K] W K} (ht : ∀ w, emb K (t w) = tOp K S (emb K w))
     (w : W K) : NOp K S (emb K w) = emb K (t w - w) := by
   rw [NOp_eq, LinearMap.sub_apply, Module.End.one_apply, map_sub, ht]
 
+omit [CharP K 2] in
 theorem Cw_iff_E4 {S : List Rt} {t : W K ≃ₗ[K] W K} (ht : ∀ w, emb K (t w) = tOp K S (emb K w))
     {c : W K} : c ∈ CwE t ↔ NOp K S (emb K c) = 0 := by
   show t c = c ↔ _
   rw [NOp_emb ht, map_eq_zero_iff _ emb_injective, sub_eq_zero]
 
+omit [CharP K 2] in
 theorem RangeL_iff_Rw {S : List Rt} {t : W K ≃ₗ[K] W K}
     (ht : ∀ w, emb K (t w) = tOp K S (emb K w)) {r : W K} :
     emb K r ∈ RangeL K S inL4 ↔ r ∈ RwE t := by
@@ -65,6 +71,7 @@ theorem RangeL_iff_Rw {S : List Rt} {t : W K ≃ₗ[K] W K}
   · rintro ⟨w, rfl⟩
     exact ⟨emb K w, emb_supported w, NOp_emb ht w⟩
 
+omit [CharP K 2] in
 theorem mem_closure_of_emb {G : Set (W K)} {x : W K}
     (h : emb K x ∈ AddSubgroup.closure (emb K '' G)) : x ∈ AddSubgroup.closure G := by
   let f : W K →+ V K := (emb K).toAddMonoidHom
@@ -75,6 +82,7 @@ theorem mem_closure_of_emb {G : Set (W K)} {x : W K}
   subst this
   exact hy
 
+omit [CharP K 2] in
 theorem vAut0_mem_EAut0 {g : (Module.End K (W K))ˣ} (hg : g ∈ LamW K) : vAut0 K g ∈ EAut0 K :=
   Subgroup.mem_map_of_mem _ hg
 
@@ -256,6 +264,7 @@ theorem involK12_E4 (hK4 : 4 ≤ Nat.card K) {S : List Rt} (hS : K12Cond okD4 in
     apply emb_injective
     rw [map_smul, vAut0_apply, hlW (p0 K), ← map_smul (l : Module.End K (V K)), hly]
 
+omit [Finite K] in
 theorem involK3_E4 {S : List Rt} (hS : K3Cond okD4 inL4 S) {t : W K ≃ₗ[K] W K}
     (ht : ∀ w, emb K (t w) = tOp K S (emb K w)) : InvolK3 (EAut0 K) betaW t := by
   have hSo : SOrth S := sOrth_of_K3 hS

@@ -25,8 +25,8 @@ theorem ggKGTj_WSL_inv_eq {K : Type} [Field K] [CharP K 2] :
 theorem ggKGTj_exists_omega {K : Type} [Field K] [Finite K] {σ : K ≃+* K} {n : ℕ}
     (hK : Nat.card K = (2 ^ n) ^ 2) (hσ : ∀ c, σ c = c ^ (2 ^ n)) :
     ∃ ω : K, σ ω ≠ ω := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : IsCyclic Kˣ := inferInstance
+  have : Fintype K := Fintype.ofFinite K
+  have : IsCyclic Kˣ := inferInstance
   obtain ⟨g, hg⟩ : ∃ g : Kˣ, ∀ x : Kˣ, x ∈ Subgroup.zpowers g := IsCyclic.exists_generator
   have htop : Subgroup.zpowers g = ⊤ := (Subgroup.eq_top_iff' (Subgroup.zpowers g)).2 hg
   have horder : orderOf g = (2 ^ n) ^ 2 - 1 := by
@@ -71,7 +71,7 @@ noncomputable def ggKGTj_F {K : Type} [Field K] {n : ℕ}
 
 theorem ggKGTj_pow_card' {K : Type} [Field K] [Finite K] (ω : K) :
     ω ^ Nat.card K = ω := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card]
   exact FiniteField.pow_card ω
 
@@ -96,11 +96,11 @@ theorem ggKGTj_exists_s {K : Type} [Field K] [Finite K] {n : ℕ}
     ∃ s : AlgebraicClosure K, Fr s = s ∧
       s * s = (algebraMap K (AlgebraicClosure K) ω +
         algebraMap K (AlgebraicClosure K) ω ^ (2 ^ n))⁻¹ := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hmem := ggKGTj_omega_add_mem_fix hK Fr hFr ω
   have ht : Fr (algebraMap K (AlgebraicClosure K) ω +
@@ -132,8 +132,8 @@ theorem ggKGTj_card_F {K : Type} [Field K] [Finite K] {σ : K ≃+* K} {n : ℕ}
     (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (hFr : ∀ c, Fr c = c ^ (2 ^ n)) :
     Nat.card ↥(ggKGTj_F Fr hFr) = 2 ^ n := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn : 0 < n := by
     by_contra h
     have hn0 : n = 0 := by omega
@@ -222,18 +222,17 @@ theorem ggKGTj_Pmat_det {K : Type} [Field K] [Finite K] {n : ℕ}
     (hK : Nat.card K = (2 ^ n) ^ 2) (s ω : AlgebraicClosure K)
     (ht : ω + ω ^ (2 ^ n) ≠ 0) (hss : s * s = (ω + ω ^ (2 ^ n))⁻¹) :
     Matrix.det (ggKGTj_Pmat (n := n) s ω) = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have h2 : (2 : AlgebraicClosure K) = 0 := CharP.cast_eq_zero (AlgebraicClosure K) 2
   have hdet : Matrix.det (!![1, ω; 1, ω ^ (2 ^ n)] : Matrix (Fin 2) (Fin 2) (AlgebraicClosure K)) =
       ω ^ (2 ^ n) + ω := by
     rw [Matrix.det_fin_two]
-    simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons]
+    simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [mul_one, one_mul, sub_eq_add_neg, CharTwo.neg_eq]
   rw [ggKGTj_Pmat, Matrix.det_smul, Fintype.card_fin, hdet, pow_two]
   rw [hss, show ω ^ (2 ^ n) + ω = ω + ω ^ (2 ^ n) from add_comm _ _, inv_mul_cancel₀ ht]
@@ -244,15 +243,15 @@ theorem ggKGTj_Pmat_pow {K : Type} [Field K] [Finite K] {n : ℕ}
       (hω2 : Fr (ω ^ (2 ^ n)) = ω) :
     Matrix.map (ggKGTj_Pmat (n := n) s ω) Fr =
       (WSL : SL2 (AlgebraicClosure K)).1 * ggKGTj_Pmat (n := n) s ω := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [ggKGTj_Pmat, WSL, Matrix.map_apply, Matrix.smul_apply, Matrix.mul_apply,
+    simp [ggKGTj_Pmat, WSL, Matrix.map_apply, Matrix.mul_apply,
       Fin.sum_univ_two, hs, hω, hω2, CharTwo.neg_eq]
 
 theorem ggKGTj_mem_range_mapF {K : Type} [Field K] {n : ℕ}
@@ -367,11 +366,11 @@ theorem ggKGTj_D_gen {K : Type} [Field K] [Finite K] {σ : K ≃+* K} {n : ℕ}
     (hM : WSL * Matrix.SpecialLinearGroup.map Fr M * WSL = M) :
     M ∈ Subgroup.closure {X : SL2 (AlgebraicClosure K) | X * X = 1 ∧
       WSL * Matrix.SpecialLinearGroup.map Fr X * WSL = X} := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨ω₀, hω₀⟩ := ggKGTj_exists_omega hK hσ
   obtain ⟨s, hs, hss⟩ := ggKGTj_exists_s hK Fr hFr ω₀

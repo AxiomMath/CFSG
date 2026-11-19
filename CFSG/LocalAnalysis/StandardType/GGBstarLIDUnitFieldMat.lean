@@ -22,25 +22,31 @@ section Adj
 
 variable (b : K →+* K) {m n o : Type*} [Fintype m] [Fintype n] [Fintype o]
 
+omit [Fintype m] [Fintype o] in
 theorem adjM_mul (A : Matrix m n K) (B : Matrix n o K) :
     adjM b (A * B) = adjM b B * adjM b A := by
   simp [adjM, Matrix.map_mul, Matrix.transpose_mul]
 
+omit [Fintype m] [Fintype n] in
 theorem adjM_add (A B : Matrix m n K) : adjM b (A + B) = adjM b A + adjM b B := by
   simp [adjM, Matrix.map_add, Matrix.transpose_add]
 
+omit [Fintype m] in
 theorem adjM_one [DecidableEq m] : adjM b (1 : Matrix m m K) = 1 := by
   simp [adjM, Matrix.map_one, Matrix.transpose_one]
 
+omit [Fintype m] [Fintype n] in
 theorem adjM_adjM (hb : ∀ x, b (b x) = x) (A : Matrix m n K) : adjM b (adjM b A) = A := by
   ext i j
   simp [adjM, hb]
 
+omit [Fintype m] [Fintype n] in
 theorem adjM_map (φ : K →+* K) (hφb : ∀ x, φ (b x) = b (φ x)) (A : Matrix m n K) :
     (adjM b A).map φ = adjM b (A.map φ) := by
   ext i j
   simp [adjM, hφb]
 
+omit [Fintype m] [Fintype n] in
 theorem adjM_smul (c : K) (A : Matrix m n K) : adjM b (c • A) = b c • adjM b A := by
   ext i j
   simp [adjM]
@@ -76,6 +82,7 @@ theorem tv_mul_self {U : Matrix (Fin d) (Fin r) K} (hU : adjM b U * U = 0) :
         noncomm_ring
     _ = 1 := by rw [h2, hX]; simp
 
+omit [CharP K 2] in
 theorem det_tv {U : Matrix (Fin d) (Fin r) K} (hU : adjM b U * U = 0) : (tv b U).det = 1 := by
   rw [tv, Matrix.det_one_add_mul_comm, hU]
   simp
@@ -101,13 +108,15 @@ theorem tvGL_mem_unitarySU {n : ℕ} (h : CFSG.LocalAnalysis.ComponentInitial.Un
   rw [h2]
   exact tv_mul_self h.bar hU
 
+omit [CharP K 2] in
 theorem coe_inv_eq_adjM {g : GL (Fin d) K} (hg : adjM b (g : Matrix (Fin d) (Fin d) K) *
     (g : Matrix (Fin d) (Fin d) K) = 1) :
     ((g⁻¹ : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) = adjM b (g : Matrix (Fin d) (Fin d) K) := by
   rw [Matrix.coe_units_inv]
   exact Matrix.inv_eq_left_inv hg
 
-theorem tv_conj (hb : ∀ x, b (b x) = x) {g : GL (Fin d) K}
+omit [CharP K 2] in
+theorem tv_conj (_hb : ∀ x, b (b x) = x) {g : GL (Fin d) K}
     (hg : adjM b (g : Matrix (Fin d) (Fin d) K) * (g : Matrix (Fin d) (Fin d) K) = 1)
     (U : Matrix (Fin d) (Fin r) K) :
     (g : Matrix (Fin d) (Fin d) K) * tv b U * ((g⁻¹ : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) =
@@ -118,6 +127,7 @@ theorem tv_conj (hb : ∀ x, b (b x) = x) {g : GL (Fin d) K}
   rw [hinv, tv, tv, adjM_mul, Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, hgg]
   simp only [Matrix.mul_assoc]
 
+omit [CharP K 2] in
 theorem tv_mul_unitary {U : Matrix (Fin d) (Fin r) K} {P : Matrix (Fin r) (Fin r) K}
     (hP : P * adjM b P = 1) : tv b (U * P) = tv b U := by
   rw [tv, tv, adjM_mul]
@@ -125,6 +135,7 @@ theorem tv_mul_unitary {U : Matrix (Fin d) (Fin r) K} {P : Matrix (Fin r) (Fin r
     simp only [Matrix.mul_assoc]
   rw [this, hP, Matrix.mul_one]
 
+omit [CharP K 2] in
 theorem tv_map (φ : K →+* K) (hφb : ∀ x, φ (b x) = b (φ x)) (U : Matrix (Fin d) (Fin r) K) :
     (tv b U).map φ = tv b (U.map φ) := by
   rw [tv, tv, Matrix.map_add _ (fun a₁ a₂ => map_add φ a₁ a₂), Matrix.map_mul,

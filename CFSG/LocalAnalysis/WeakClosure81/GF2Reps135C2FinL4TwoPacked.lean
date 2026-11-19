@@ -60,9 +60,9 @@ theorem refMat_colSubOne (d : ℕ) (C : Array ℕ) : refMat d (colSubOne d C) = 
     Matrix.one_apply, Nat.testBit_xor, Nat.one_shiftLeft, Nat.testBit_two_pow]
   by_cases h : m = k
   · subst h
-    cases (C[m.val]!).testBit m.val <;> simp <;> decide
+    cases (C[m.val]!).testBit m.val <;> simp
   · have h' : k.val ≠ m.val := fun e => h (Fin.ext e.symm)
-    simp only [h, h', decide_false, Bool.xor_false, if_false, sub_zero]
+    simp only [h, h', decide_false, Bool.xor_false, ite_false, sub_zero]
 
 @[expose] def pivChk (d n : ℕ) (C xs ps : Array ℕ) : Bool :=
   (List.range n).all fun k =>

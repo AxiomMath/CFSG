@@ -31,7 +31,7 @@ private theorem shiftPerm_eq_prod (f : ZMod 3 → ZMod 3) :
   have hf : f = Pi.single 0 (f 0) + Pi.single 1 (f 1) + Pi.single 2 (f 2) := by
     funext i
     have hi : i = 0 ∨ i = 1 ∨ i = 2 := by revert i; decide
-    rcases hi with rfl | rfl | rfl <;> simp +decide [Pi.single_apply]
+    rcases hi with rfl | rfl | rfl <;> simp +decide
   rw [← shiftPerm_single_pow, ← shiftPerm_single_pow, ← shiftPerm_single_pow, ← shiftPerm_add,
     ← shiftPerm_add, ← hf]
 
@@ -147,7 +147,7 @@ private theorem eq_bot_of_baseGroup_le_normalizer {X : Subgroup (Perm Pt)} (hX :
     intro q hq t
     by_cases hr : ∃ r ∈ O, r.1 ≠ q.1
     · obtain ⟨r, hrO, hr1⟩ := hr
-      have h := hfix (Pi.single q.1 t) r hrO (by simp [Pi.single_apply, hr1]) q hq
+      have h := hfix (Pi.single q.1 t) r hrO (by simp [hr1]) q hq
       simpa using h
     · push Not at hr
       have hxO : x p ∈ O := ⟨x, hx, rfl⟩
@@ -184,8 +184,8 @@ private theorem eq_bot_of_baseGroup_le_normalizer {X : Subgroup (Perm Pt)} (hX :
   have horb : MulAction.orbit X p = O := by
     ext q
     simp only [MulAction.mem_orbit_iff, Subtype.exists, Subgroup.mk_smul, Perm.smul_def, hO,
-      Set.mem_setOf_eq, exists_prop]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      Set.mem_ofPred_eq, exists_prop]
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hX.card_orbit p
   rw [horb, Nat.card_coe_set_eq, hprod, Set.ncard_prod, Set.ncard_univ, Nat.card_zmod] at hn
   have h3 : 3 ∣ 2 ^ n := Dvd.intro_left _ hn

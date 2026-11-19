@@ -89,7 +89,7 @@ private theorem zpowers_mul_inf_K_eq_bot {G : Type} [Group G] [Finite G] {b₀ :
 open TwD7Q in
 theorem nonempty_mulEquiv_img_m0_twD7 {G : Type} [Group G] [Finite G] {b₀ : G}
     {K E : Subgroup G} (hstd : StdAssumptions b₀ K E Row.twD7)
-    {B : Basis3 G 8} (hB : Adapted B b₀ K E) (hrec : RecOutTwD7 B b₀) :
+    {B : Basis3 G 8} (hB : Adapted B b₀ K E) (_hrec : RecOutTwD7 B b₀) :
     Nonempty (↥(img (B.b 0 * B.b 1) ⁅Subgroup.centralizer ({B.b 1} : Set G) ⊓ K,
       Subgroup.centralizer ({B.b 1} : Set G) ⊓ K⁆) ≃*
       ↥⁅Subgroup.centralizer ({B.b 1} : Set G) ⊓ K,
@@ -194,7 +194,6 @@ theorem canonPosition_twD7Quot {G : Type} [Group G] [Finite G] {b₀ : G}
       le_inf (hB.1 ▸ B.dropFirst_span_le) hT7K
     have hcard7 : Nat.card ↥(B.dropFirst).span = 3 ^ 7 := Basis3.card_span B.dropFirst
     exact (Subgroup.eq_of_le_of_card_ge (H := (B.dropFirst).span) (K := E ⊓ K) hle (by
-      change Nat.card ↥(E ⊓ K) ≤ Nat.card ↥(B.dropFirst).span
       omega)).symm
   have hrange : Set.range (fun i : Fin 7 => B.b i.succ) =
       insert (B.b 1) (Set.range fun j : Fin 6 => B.b j.succ.succ) := by

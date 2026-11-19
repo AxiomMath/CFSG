@@ -15,7 +15,7 @@ open CFSG.Quasithin.SmithCurtis CFSG.Quasithin.SmithCurtis.Chev CFSG.Blueprint.C
 
 @[expose] def e6Theta0 : Fin Tag.E6.rank → ℤ := ![1, 2, 2, 3, 2, 1]
 
-@[expose] abbrev e6node20 : Fin Tag.E6.rank := ⟨1, by decide⟩
+abbrev e6node20 : Fin Tag.E6.rank := ⟨1, by decide⟩
 
 @[expose] def e6ThetaWords : List (List (Fin Tag.E6.rank)) :=
   ([[2, 3, 4, 5, 1, 3, 4, 2, 3, 1], [3, 4, 5, 2, 3, 4, 0, 2, 3, 1], [3, 4, 5, 1, 3, 4, 0, 2, 3, 1],
@@ -45,7 +45,7 @@ theorem e6_check_succ : ∀ k < Tag.E6.rootCount, (Tag.rootCertificate Tag.E6).r
 
 @[expose] def e6Theta : Fin TwistTag.E6.tag.rank → ℤ := e6Theta0
 
-@[expose] abbrev e6node2 : Fin TwistTag.E6.tag.rank := e6node20
+abbrev e6node2 : Fin TwistTag.E6.tag.rank := e6node20
 
 theorem adjHyp_E6 : AdjHyp TwistTag.E6.tag e6Theta :=
   AdjHyp.of_checks e6_check_two e6_check_string e6_check_succ
@@ -209,7 +209,7 @@ variable (K) in
 theorem adjChi78_dC (s : Fin TwistTag.E6.tag.rank) (t : Kˣ) :
     adjChi78 K (dC TwistTag.E6.tag K s t) = ((t ^ (if s = e6node2 then (1 : ℤ) else 0) : Kˣ) : K) := by
   unfold adjChi78
-  rw [adj78, adjRep_dC_theta adjTop_E6 s t, coordR_smul, coordR_rootVec adjTop_E6.root, if_pos rfl,
+  rw [adj78, adjRep_dC_theta adjTop_E6 s t, coordR_smul, coordR_rootVec adjTop_E6.root, ite_eq_left rfl,
     mul_one]
 
 theorem adj78_H (h : ↥(adjointGroup TwistTag.E6.tag K)) (hh : h ∈ (adjDatum78 (K := K)).H) :
@@ -218,7 +218,7 @@ theorem adj78_H (h : ↥(adjointGroup TwistTag.E6.tag K)) (hh : h ∈ (adjDatum7
     rootVec_theta_mem_fixU)
   have : adjChi78 K h = c := by
     unfold adjChi78
-    rw [hc, coordR_smul, coordR_rootVec adjTop_E6.root, if_pos rfl, mul_one]
+    rw [hc, coordR_smul, coordR_rootVec adjTop_E6.root, ite_eq_left rfl, mul_one]
   rw [this, hc]
 
 theorem adj78_heckeT_theta (s : Fin TwistTag.E6.tag.rank) [Fintype K] :
@@ -240,13 +240,13 @@ theorem adj78_isChevTypeLD :
     obtain ⟨h1, h2⟩ := h
     have h1' : ∀ u : Kˣ, (u : K) = 1 := fun u => by
       have := h1 u
-      rwa [adjChi78_dC, if_pos rfl, zpow_one] at this
+      rwa [adjChi78_dC, ite_eq_left rfl, zpow_one] at this
     have h3 := (adj78_heckeT_theta (K := K) e6node2).trans (adj_heckeSum_node adjTop_E6)
     have h4 : (∑ c : K, c) • rootVec TwistTag.E6.tag K e6Theta = 0 := h3.symm.trans h2
     rw [sum_eq_one_of_units_eq_one h1', one_smul] at h4
     exact rootVec_theta_ne_zero h4
   · refine ⟨fun _ => ⟨fun u => ?_, ?_⟩, fun _ => Finset.mem_erase.2 ⟨hs, Finset.mem_univ _⟩⟩
-    · rw [adjChi78_dC, if_neg hs, zpow_zero]
+    · rw [adjChi78_dC, ite_eq_right hs, zpow_zero]
       rfl
     · exact (adj78_heckeT_theta s).trans (adj_heckeSum_of_ne adjTop_E6 hs)
 

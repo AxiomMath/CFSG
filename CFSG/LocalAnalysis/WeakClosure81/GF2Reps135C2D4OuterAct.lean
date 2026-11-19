@@ -15,8 +15,9 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W] {Y L : Subgroup (MulAut W)} {t : MulAut W}
 
-theorem w135c2_modelAct_sq (hctx : Is135Context Y L) {M : Type*} [Group M]
-    (e : ↥L ⧸ Subgroup.center ↥L ≃* M) (htY : t ∈ Y) (ht2 : orderOf t = 2)
+omit [Finite W] in
+theorem w135c2_modelAct_sq (_hctx : Is135Context Y L) {M : Type*} [Group M]
+    (e : ↥L ⧸ Subgroup.center ↥L ≃* M) (_htY : t ∈ Y) (ht2 : orderOf t = 2)
     (hN : t ∈ Subgroup.normalizer (L : Set (MulAut W))) :
     modelAct L e ⟨t, hN⟩ * modelAct L e ⟨t, hN⟩ = 1 := by
   have htt : t * t = 1 := by
@@ -32,7 +33,7 @@ theorem w135c2_modelAct_sq (hctx : Is135Context Y L) {M : Type*} [Group M]
 
 theorem w135c2_modelAct_not_inner (hctx : Is135Context Y L) (hZL : Subgroup.center ↥L = ⊥)
     {M : Type*} [Group M] (e : ↥L ⧸ Subgroup.center ↥L ≃* M) (htY : t ∈ Y)
-    (ht2 : orderOf t = 2) (htL : t ∉ L) (hN : t ∈ Subgroup.normalizer (L : Set (MulAut W)))
+    (_ht2 : orderOf t = 2) (htL : t ∉ L) (hN : t ∈ Subgroup.normalizer (L : Set (MulAut W)))
     (c : M) : modelAct L e ⟨t, hN⟩ ≠ MulAut.conj c := by
   intro h
   obtain ⟨l, rfl⟩ := modelProj_surjective L e c

@@ -40,7 +40,7 @@ variable {D n H} (S : StdInput D n H)
 namespace StdInput
 
 theorem stdPanel : StdPanel S.hct S.F (nrep S.hct S.w₀) :=
-  stdPanel_of_rankOneField S.hct S.F _ S.hext S.hw₀ S.hsq S.R
+  stdPanel_of_rankOneField S.hct S.F _ S.hext S.hsq S.R
 
 @[expose] noncomputable def buildingData : PhanEBuildingData (coxeterMatrix D.isFiniteType) :=
   stdBuildingData S.hct S.F S.hext S.hw₀ S.hsq S.stdPanel
@@ -129,19 +129,19 @@ theorem map_parab_family (i : Fin D.rank) :
     map_torus_stdFamily S.L (S.rho_injective e) (S.range_rho e) κ hκ S.hext
   have hr : (((S.family e κ hκ).ι i).range).map (S.rho e) = (slSU S.L.θ 2).map (S.L.ε i) :=
     map_range_stdFamily_ι S.L (S.rho_injective e) (S.range_rho e) κ hκ S.hext i
-  rw [h1, Subgroup.map_sup, ht, hr, borel_inf_stdFix S.hct S.F S.hext S.hw₀ S.hsq S.hBU S.L]
+  rw [h1, Subgroup.map_sup, ht, hr, borel_inf_stdFix S.hct S.F S.hext S.hw₀ S.hBU S.L]
 
 @[expose] noncomputable def geom : (S.config e κ hκ).Geom where
   isom g x y := stdδ_smul S.hct S.hext (S.rho e g) (id x : K ⧸ borel D H) (id y : K ⧸ borel D H)
   comm_t g x := by
     show stdFlip S.F (nrep S.hct S.w₀) (S.rho e g • (id x : K ⧸ borel D H)) =
       S.rho e g • stdFlip S.F (nrep S.hct S.w₀) (id x : K ⧸ borel D H)
-    rw [stdFlip_smul S.F S.hext S.hw₀]
+    rw [stdFlip_smul S.F]
     have h : nrep S.hct S.w₀ * S.F.φ (S.rho e g) * (nrep S.hct S.w₀)⁻¹ = S.rho e g :=
       (mem_stdFix_iff S.F (nrep S.hct S.w₀) (S.rho e g)).1 (S.mem_stdFix_rho e g)
     rw [h]
   c₀ := ((1 : K) : K ⧸ borel D H)
-  c₀_op := stdδ_one_flip S.hct S.F S.hext S.hw₀
+  c₀_op := stdδ_one_flip S.hct S.F S.hext
   transitive x hx := by
     obtain ⟨g, hg, hgx⟩ := exists_stdFix_mk_eq S.hct S.F S.hext S.hw₀ S.hsq S.hBU S.L
       (id x : K ⧸ borel D H) hx
@@ -158,7 +158,7 @@ theorem map_parab_family (i : Fin D.rank) :
       map_torus_stdFamily S.L (S.rho_injective e) (S.range_rho e) κ hκ S.hext
     change _ ↔ g ∈ (S.family e κ hκ).torus
     rw [← Subgroup.mem_map_iff_mem (S.rho_injective e), ht,
-      ← borel_inf_stdFix S.hct S.F S.hext S.hw₀ S.hsq S.hBU S.L]
+      ← borel_inf_stdFix S.hct S.F S.hext S.hw₀ S.hBU S.L]
     exact ⟨fun h => Subgroup.mem_inf.2 ⟨h, S.mem_stdFix_rho e g⟩,
       fun h => (Subgroup.mem_inf.1 h).1⟩
   stab_panel i g := by

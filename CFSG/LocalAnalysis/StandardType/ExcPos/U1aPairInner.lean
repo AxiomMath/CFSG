@@ -178,7 +178,7 @@ theorem exists_stable_pair_inner {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ 
       (componentRootSpan (fixSubfield σ) (LieCore.jointChar a₁ a₂) iJ) := by
     by_cases hq4 : 4 ≤ Δ.q
     · have hq4' : 4 ≤ 2 ^ f := by rwa [hq] at hq4
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨t, ht⟩ := exists_unit_sq_ne_one (L := GGL) σ hσq (by omega) hq4'
       exact CFSG.HardMathSupport.Timmesfeld.CrossChar.isPerfect_componentRootSpan_of_sq_ne_one
         (K := fixSubfield σ) ht iJ
@@ -234,12 +234,12 @@ theorem exists_stable_pair_inner {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ 
           intro g hg
           have h := hstep g hg
           rwa [hSD] at h
-        have hI : IsSolvable
+        have hI : Group.IsSolvable
             ↥(LieCore.twoElemGp
               (rootSpan τ GGL (componentRoots (LieCore.jointChar a₁ a₂) iJ) ⊓ Δ.model)) :=
           LieCore.isSolvable_twoElemGp_of_rankOne Δ iJ hσ2
             (fun g => hnorm iJ g) hstep' h2
-        haveI : Group.IsSolvable ↥(LieCore.twoElemGp
+        have : Group.IsSolvable ↥(LieCore.twoElemGp
             (rootSpan τ GGL (componentRoots (LieCore.jointChar a₁ a₂) iJ) ⊓ Δ.model)) := hI
         have hcomm :=
           (LieCore.commutator_twoElemGp_eq_of_untwist Δ iJ hσ2
@@ -260,11 +260,11 @@ theorem exists_stable_pair_inner {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ 
             (f := Subgroup.inclusion
               (hratComp_le.trans (Subgroup.commutator_le_self _)))
             (Subgroup.inclusion_injective _)
-        haveI : Group.IsPerfect ↥(LieCore.ratComp ρ Δ.Γ
+        have : Group.IsPerfect ↥(LieCore.ratComp ρ Δ.Γ
             (componentRoots (LieCore.jointChar a₁ a₂) iJ)) := ⟨hqs.1⟩
-        haveI : Nontrivial ↥(LieCore.ratComp ρ Δ.Γ
+        have : Nontrivial ↥(LieCore.ratComp ρ Δ.Γ
             (componentRoots (LieCore.jointChar a₁ a₂) iJ)) := by
-          haveI : Nontrivial (↥(LieCore.ratComp ρ Δ.Γ
+          have : Nontrivial (↥(LieCore.ratComp ρ Δ.Γ
               (componentRoots (LieCore.jointChar a₁ a₂) iJ)) ⧸
               Subgroup.center ↥(LieCore.ratComp ρ Δ.Γ
                 (componentRoots (LieCore.jointChar a₁ a₂) iJ))) := hqs.2.toNontrivial

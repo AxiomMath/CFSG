@@ -11,7 +11,7 @@ open Subgroup CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Certificates.Nat
   CFSG.Monster.B.Fischer CFSG.RankThree.Native CFSG.RankThree.PartOne
 
 theorem isSolvable_centralizer_d4X_one :
-    IsSolvable ↥((centralizer {d4X 1} : Subgroup (Equiv.Perm (Fin 2457))) ⊓ d4P) := by
+    Group.IsSolvable ↥((centralizer {d4X 1} : Subgroup (Equiv.Perm (Fin 2457))) ⊓ d4P) := by
   classical
   obtain ⟨hcl, hcard⟩ := d4_caseB
   rw [hcl] at hcard
@@ -21,8 +21,8 @@ theorem isSolvable_centralizer_d4X_one :
     Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card]; exact h648)
 
 theorem isSolvable_centralizer_conj {G : Type*} [Group G] {P : Subgroup G} {y k : G}
-    (hk : ∀ x ∈ P, k⁻¹ * x * k ∈ P) (h : IsSolvable ↥(centralizer {y} ⊓ P)) :
-    IsSolvable ↥(centralizer {k * y * k⁻¹} ⊓ P) := by
+    (hk : ∀ x ∈ P, k⁻¹ * x * k ∈ P) (h : Group.IsSolvable ↥(centralizer {y} ⊓ P)) :
+    Group.IsSolvable ↥(centralizer {k * y * k⁻¹} ⊓ P) := by
   let f : ↥(centralizer {k * y * k⁻¹} ⊓ P) →* ↥(centralizer {y} ⊓ P) :=
     ((MulAut.conj k⁻¹).toMonoidHom.comp (centralizer {k * y * k⁻¹} ⊓ P).subtype).codRestrict _
       fun x => by
@@ -46,6 +46,6 @@ theorem isSolvable_centralizer_conj {G : Type*} [Group G] {P : Subgroup G} {y k 
       Function.comp_apply, Subgroup.coe_subtype] at this
     exact Subtype.ext ((MulAut.conj k⁻¹).injective this)
   have : Group.IsSolvable ↥(centralizer {y} ⊓ P) := h
-  exact solvable_of_solvable_injective hf
+  exact Group.isSolvable_of_isSolvable_injective hf
 
 end CFSG.RankThree.PartTwo.Sec4.Item434D42

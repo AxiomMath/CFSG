@@ -158,9 +158,9 @@ theorem dich_of_sl2_range {k : Type} [Field k] [CharP k 2] (hk : 4 ≤ Nat.card 
   set D := f.range with hD
   set N := (CFSG.solvableRadical ↥Y).map Y.subtype with hN
   let e : SL(2, k) ≃* ↥D := MonoidHom.ofInjective hf
-  haveI := hsimp
-  haveI : IsSimpleGroup ↥D := e.symm.isSimpleGroup
-  haveI hn : ((N ⊓ D).subgroupOf D).Normal := by
+  have := hsimp
+  have : IsSimpleGroup ↥D := e.symm.isSimpleGroup
+  have hn : ((N ⊓ D).subgroupOf D).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right]
     intro d hd
     exact mem_normalizer_inf_of_mem
@@ -180,11 +180,11 @@ theorem dich_of_sl2_range {k : Type} [Field k] [CharP k 2] (hk : 4 ≤ Nat.card 
       have h' : Group.IsSolvable ↥(CFSG.solvableRadical ↥Y) := A3.solvableRadical_isSolvable
       exact Group.isSolvable_of_surjective (f := (Subgroup.equivMapOfInjective _ _
         Y.subtype_injective).toMonoidHom) (MulEquiv.surjective _)
-    haveI : Group.IsSolvable ↥D := Group.isSolvable_of_isSolvable_injective
+    have : Group.IsSolvable ↥D := Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion hDN) (Subgroup.inclusion_injective _)
-    haveI hsol : Group.IsSolvable SL(2, k) :=
+    have hsol : Group.IsSolvable SL(2, k) :=
       Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) (MulEquiv.surjective _)
-    haveI : Nontrivial SL(2, k) := hsimp.toNontrivial
+    have : Nontrivial SL(2, k) := hsimp.toNontrivial
     exact Group.IsPerfect.not_isSolvable SL(2, k) inferInstance
 
 end Transfer

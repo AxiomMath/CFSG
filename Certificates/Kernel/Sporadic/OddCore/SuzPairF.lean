@@ -88,16 +88,16 @@ theorem iw_P {gs gis : Nat → Tab} {G GI : Nat → Nat} {k : Nat} (hg : ∀ j <
       rcases z with (_ | n) | m
       · exact hgi 0 hz
       · have e : (0 : Int) < Int.ofNat (n + 1) := Int.ofNat_lt.2 (Nat.succ_pos n)
-        rw [if_pos e]
+        rw [ite_eq_left e]
         exact hg n hz
       · have e : ¬ (0 : Int) < Int.negSucc m := fun h => absurd h (Int.not_lt.2 (Int.negSucc_lt_zero m).le)
-        rw [if_neg e]
+        rw [ite_eq_right e]
         exact hgi m hz
     unfold evalW iwK
     rw [List.foldr_cons]
     exact pc' hl (iw_P hg hgi w fun y hy => h y (List.mem_cons_of_mem _ hy))
 
-theorem pG : P (gTab ()) (SuzPairT 4) := p_eq (iw_P (fun j hj => pAB hj) (fun j hj => pABI hj)
+theorem pG : P (gTab ()) (SuzPairT 4) := p_eq (iw_P (fun _j hj => pAB hj) (fun _j hj => pABI hj)
   gWord letters.1) kG
 
 theorem pCG {j : Nat} (hj : j < 3) : P (cgG j) (cgK j) := by

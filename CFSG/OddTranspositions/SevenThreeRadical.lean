@@ -25,7 +25,7 @@ theorem Delta_inter_solvableRadical_eq_empty (hS : Setup G D) (hL : LocalSecond 
   have hthird := IsTriangle.third_kind hS.oddT hS.normal htri hn hord
   obtain ⟨-, -, hzu, -, -, -⟩ := hthird
   have huΔ : u ∈ Delta D z := mem_Delta_iff.mpr ⟨htri.1, hzu.symm⟩
-  haveI hRn : (CFSG.solvableRadical K).Normal := OddTransp.solvableRadical_normal K
+  have hRn : (CFSG.solvableRadical K).Normal := OddTransp.solvableRadical_normal K
   rw [Set.eq_empty_iff_forall_notMem]
   rintro x ⟨hxΔ, hxR⟩
   obtain ⟨r, hr, hre⟩ := Subgroup.mem_map.mp hxR
@@ -63,7 +63,7 @@ theorem Delta_inter_solvableRadical_eq_empty (hS : Setup G D) (hL : LocalSecond 
     have hk_eq : k = (r : K) := Subtype.ext (by simpa using hre.symm)
     rw [hk_eq]
     exact hr
-  haveI hRs : Group.IsSolvable ↥(CFSG.solvableRadical K) := OddTransp.isSolvable_solvableRadical
+  have hRs : Group.IsSolvable ↥(CFSG.solvableRadical K) := OddTransp.isSolvable_solvableRadical
   have hsurj : Function.Surjective (Subgroup.subtype (CFSG.solvableRadical K)) := by
     rw [← MonoidHom.range_eq_top, Subgroup.range_subtype, hRtop]
   exact hKns (Group.isSolvable_of_surjective (f := Subgroup.subtype (CFSG.solvableRadical K)) hsurj)

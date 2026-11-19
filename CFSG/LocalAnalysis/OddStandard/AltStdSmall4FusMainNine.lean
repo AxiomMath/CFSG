@@ -11,6 +11,7 @@ open Subgroup Equiv AltStdCycTwo
 variable {G : Type} [Group G] [Finite G] {L Q : Subgroup G} {θ : L ≃* alternatingGroup (Fin 9)}
   {z : G}
 
+omit [Finite G] in
 theorem mem_bSub_iff {g : G} : g ∈ bSub θ ↔
     ∃ hg : g ∈ L, ((θ ⟨g, hg⟩ : alternatingGroup (Fin 9)) : Perm (Fin 9)) ∈ bBar := by
   unfold bSub
@@ -23,8 +24,10 @@ theorem mem_bSub_iff {g : G} : g ∈ bSub θ ↔
   · rintro ⟨hg, hb⟩
     exact ⟨⟨g, hg⟩, ⟨θ ⟨g, hg⟩, hb, θ.symm_apply_apply _⟩, rfl⟩
 
+omit [Finite G] in
 theorem bSub_le_L : bSub θ ≤ L := fun _ hg => (mem_bSub_iff.1 hg).1
 
+omit [Finite G] in
 theorem coe_theta_eps {n : ℕ} {θ : L ≃* alternatingGroup (Fin n)} (hn : 8 ≤ n) (i : Fin 8)
     (h : N0.eps θ hn i ∈ L) :
     ((θ ⟨N0.eps θ hn i, h⟩ : alternatingGroup (Fin n)) : Perm (Fin n)) = tr hn i := by

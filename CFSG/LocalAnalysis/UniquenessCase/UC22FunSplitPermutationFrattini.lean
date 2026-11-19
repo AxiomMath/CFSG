@@ -66,7 +66,7 @@ theorem mapsTo_funSet_conj_of_normal_two_quotient {X : Type} [Group X] [Finite X
       Subgroup.map_subgroupOf_eq_of_le hPH]
   have hFun : FunSet 𝔉 X (S₀.map H.subtype) = FunSet 𝔉 X (P : Subgroup X) := by
     rw [hS₀]
-    exact funSet_inf_eq_of_intersections_le P.isPGroup' hPN
+    exact funSet_inf_eq_of_intersections_le P.isPGroup hPN
   obtain ⟨_, hfratt⟩ := CFSG.GroupTheory.ZJ.normal_p_quotient_frattini hON hN2 P₀
   intro g hg J hJ
   have hgf : (⟨g, hg⟩ : H) ∈ (O : Set H) * (normalizer (S₀ : Set H) : Set H) := by

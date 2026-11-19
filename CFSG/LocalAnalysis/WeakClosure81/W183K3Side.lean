@@ -15,9 +15,11 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Quasithin C
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {R Y T L L₁ L₂ N : Subgroup (LGL 2 V)}
 
+omit [Finite V] in
 theorem Br3TwoComp.toBase (h : Br3TwoComp Y T L₁ L₂) : TwoCompBase Y T L₁ L₂ :=
   ⟨h.le₁, h.le₂, h.comm, h.ne, h.perm, h.swap, h.gen⟩
 
+omit [Finite V] in
 private theorem w183K3Side_odd_card_sup_of_commute {A B : Subgroup (LGL 2 V)}
     (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) (hA : Odd (Nat.card ↥A))
     (hB : Odd (Nat.card ↥B)) : Odd (Nat.card ↥(A ⊔ B)) := by
@@ -26,8 +28,8 @@ private theorem w183K3Side_odd_card_sup_of_commute {A B : Subgroup (LGL 2 V)}
     apply le_antisymm
     · refine iSup_le fun i => ?_
       fin_cases i
-      · simpa [H] using le_sup_left
-      · simpa [H] using le_sup_right
+      · simp [H]
+      · simp [H]
     · refine sup_le ?_ ?_
       · simpa [H] using le_iSup H 0
       · simpa [H] using le_iSup H 1
@@ -51,6 +53,7 @@ private theorem w183K3Side_odd_card_sup_of_commute {A B : Subgroup (LGL 2 V)}
   have hmain := CFSG.RankThree.PartOne.F106.odd_card_iSup_of_commute H hc hodd
   rwa [hsup] at hmain
 
+omit [Finite V] in
 theorem Br3TwoComp.mem_kStar_of_cent (h : Br3TwoComp Y T L₁ L₂) {y : LGL 2 V} (hy : y ∈ Y)
     (h₁ : ∀ l ∈ L₁, y * l = l * y) (h₂ : ∀ l ∈ L₂, y * l = l * y) :
     y ∈ quasiCentre L₁ ⊔ quasiCentre L₂ := by
@@ -85,6 +88,7 @@ theorem Br3TwoComp.mem_kStar_of_cent (h : Br3TwoComp Y T L₁ L₂) {y : LGL 2 V
   rw [← hab]
   exact Subgroup.mul_mem_sup ha_cent hb_cent
 
+omit [Finite V] in
 theorem Br3TwoComp.odd_kStar (h : Br3TwoComp Y T L₁ L₂) :
     Odd (Nat.card ↥(quasiCentre L₁ ⊔ quasiCentre L₂)) := by
   have hcard₁ : Nat.card ↥(quasiCentre L₁) = Nat.card ↥(Subgroup.center ↥L₁) :=
@@ -99,30 +103,33 @@ theorem Br3TwoComp.odd_kStar (h : Br3TwoComp Y T L₁ L₂) :
     fun a ha b hb => h.comm a (quasiCentre_le L₁ ha) b (quasiCentre_le L₂ hb)
   exact w183K3Side_odd_card_sup_of_commute hcomm hodd₁ hodd₂
 
+omit [Finite V] in
 theorem Br3TwoComp.core₁ (h : Br3TwoComp Y T L₁ L₂) :
     QuasiCore (Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V))) L₁
       (quasiCentre L₁ ⊔ quasiCentre L₂) where
   le := le_inf h.le₁ fun a ha =>
     Subgroup.mem_centralizer_iff.mpr fun b hb => (h.comm a ha b hb).symm
-  normal y hy l hl :=
+  normal _y hy l hl :=
     (Subgroup.mem_normalizer_iff.mp (h.toBase.mem_normalizer_of_mem_centralizer₂ hy) l).mp hl
   quasi := h.quasi₁
   odd := h.odd_kStar
-  cent y hy hcl :=
+  cent _y hy hcl :=
     h.mem_kStar_of_cent hy.1 hcl fun l hl => (Subgroup.mem_centralizer_iff.mp hy.2 l hl).symm
 
+omit [Finite V] in
 theorem Br3TwoComp.core₂ (h : Br3TwoComp Y T L₁ L₂) :
     QuasiCore (Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V))) L₂
       (quasiCentre L₁ ⊔ quasiCentre L₂) where
   le := le_inf h.le₂ fun b hb =>
     Subgroup.mem_centralizer_iff.mpr fun a ha => h.comm a ha b hb
-  normal y hy l hl :=
+  normal _y hy l hl :=
     (Subgroup.mem_normalizer_iff.mp (h.toBase.mem_normalizer_of_mem_centralizer₁ hy) l).mp hl
   quasi := h.quasi₂
   odd := h.odd_kStar
-  cent y hy hcl :=
+  cent _y hy hcl :=
     h.mem_kStar_of_cent hy.1 (fun l hl => (Subgroup.mem_centralizer_iff.mp hy.2 l hl).symm) hcl
 
+omit [Finite V] in
 theorem Br3TwoComp.inf_X_le (h : Br3TwoComp Y T L₁ L₂) :
     (Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V))) ⊓
       (Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V))) ≤ quasiCentre L₁ ⊔ quasiCentre L₂ :=
@@ -130,12 +137,14 @@ theorem Br3TwoComp.inf_X_le (h : Br3TwoComp Y T L₁ L₂) :
     h.mem_kStar_of_cent hy.1.1 (fun l hl => (Subgroup.mem_centralizer_iff.mp hy.2.2 l hl).symm)
       fun l hl => (Subgroup.mem_centralizer_iff.mp hy.1.2 l hl).symm
 
+omit [Finite V] in
 theorem Br3TwoComp.cj_X (h : Br3TwoComp Y T L₁ L₂) (hT : T ≤ Y) {x : LGL 2 V} (hx : x ∈ T)
     (hxL : cj x L₁ = L₂) :
     cj x (Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V))) =
       Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V)) :=
   h.toBase.cj_X hT hx hxL
 
+omit [Finite V] in
 theorem Br3TwoComp.mem_normalizer_iff (h : Br3TwoComp Y T L₁ L₂) {y : LGL 2 V} (hy : y ∈ Y) :
     y ∈ Subgroup.normalizer (L₁ : Set (LGL 2 V)) ↔
       y ∈ Subgroup.normalizer (L₂ : Set (LGL 2 V)) :=

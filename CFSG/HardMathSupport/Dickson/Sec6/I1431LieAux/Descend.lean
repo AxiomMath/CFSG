@@ -31,10 +31,12 @@ variable {Y P : Type} [Group Y] [Finite Y] [Group P] [Finite P]
       exact (QuotientGroup.eq_one_iff _).2
         (map_gLAPPrimeCore_le' 3 (π.subgroupMap J) (π.subgroupMap_surjective J) ⟨x, hx, rfl⟩))
 
+omit [Finite P] in
 theorem barMap_mk (π : Y →* P) (J : Subgroup Y) (j : ↥J) :
     barMap π J (QuotientGroup.mk j) = QuotientGroup.mk (π.subgroupMap J j) :=
   rfl
 
+omit [Finite P] in
 theorem barMap_surjective (π : Y →* P) (J : Subgroup Y) : Function.Surjective (barMap π J) := by
   intro y
   obtain ⟨a, rfl⟩ := QuotientGroup.mk'_surjective (GLAPPrimeCore 3 ↥(J.map π)) y
@@ -125,6 +127,7 @@ variable {Y P : Type} [Group Y] [Finite Y] [Group P] [Finite P]
 @[expose] noncomputable def descendHom (e : (Y ⧸ Subgroup.center Y) ≃* P) : MulAut Y →* MulAut P :=
   (MulAut.congr e).toMonoidHom.comp (centerDescend Y)
 
+omit [Finite Y] [Finite P] in
 theorem descendHom_apply (e : (Y ⧸ Subgroup.center Y) ≃* P) (α : MulAut Y) (y : Y) :
     descendHom e α (e (QuotientGroup.mk y)) = e (QuotientGroup.mk (α y)) :=
   (descend_compat e α y).symm
@@ -132,16 +135,19 @@ theorem descendHom_apply (e : (Y ⧸ Subgroup.center Y) ≃* P) (α : MulAut Y) 
 @[expose] noncomputable def descendProj (e : (Y ⧸ Subgroup.center Y) ≃* P) : Y →* P :=
   (e : (Y ⧸ Subgroup.center Y) →* P).comp (QuotientGroup.mk' (Subgroup.center Y))
 
+omit [Finite Y] [Finite P] in
 theorem descendProj_apply (e : (Y ⧸ Subgroup.center Y) ≃* P) (y : Y) :
     descendProj e y = e (QuotientGroup.mk y) :=
   rfl
 
+omit [Finite Y] [Finite P] in
 theorem descendProj_surjective (e : (Y ⧸ Subgroup.center Y) ≃* P) :
     Function.Surjective (descendProj e) := fun p => by
   obtain ⟨q, rfl⟩ := e.surjective p
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective _ q
   exact ⟨y, rfl⟩
 
+omit [Finite Y] [Finite P] in
 theorem descendProj_ker_le (e : (Y ⧸ Subgroup.center Y) ≃* P) :
     (descendProj e).ker ≤ Subgroup.center Y := by
   intro y hy
@@ -149,11 +155,13 @@ theorem descendProj_ker_le (e : (Y ⧸ Subgroup.center Y) ≃* P) :
     e.injective (by simpa [descendProj_apply] using hy)
   exact (QuotientGroup.eq_one_iff y).1 h1
 
+omit [Finite Y] [Finite P] in
 theorem descendHom_compat (e : (Y ⧸ Subgroup.center Y) ≃* P) (α : MulAut Y) (y : Y) :
     descendProj e (α y) = descendHom e α (descendProj e y) := by
   rw [descendProj_apply, descendProj_apply]
   exact (descendHom_apply e α y).symm
 
+omit [Finite Y] [Finite P] in
 theorem descendHom_injective (e : (Y ⧸ Subgroup.center Y) ≃* P) (hY : CFSG.Open.IsQuasisimple Y) :
     Function.Injective (descendHom e) := by
   rw [injective_iff_map_eq_one]
@@ -163,6 +171,7 @@ theorem descendHom_injective (e : (Y ⧸ Subgroup.center Y) ≃* P) (hY : CFSG.O
   rw [map_one]
   exact ha
 
+omit [Finite Y] [Finite P] in
 theorem descendHom_mem_stabAut (e : (Y ⧸ Subgroup.center Y) ≃* P) {J : Subgroup Y}
     {γ : MulAut Y} (hγ : γ ∈ stabAut J) : descendHom e γ ∈ stabAut (J.map (descendProj e)) := by
   set π := descendProj e with hπ
@@ -190,6 +199,7 @@ theorem descendHom_mem_stabAut (e : (Y ⧸ Subgroup.center Y) ≃* P) {J : Subgr
     have : ψ p ∈ (J.map π).map ψ.toMonoidHom := Subgroup.mem_map_of_mem _ hp
     rwa [hmap] at this
 
+omit [Finite P] in
 theorem barMap_inducedBarHom (e : (Y ⧸ Subgroup.center Y) ≃* P) {J : Subgroup Y}
     {γ : MulAut Y} (hγ : γ ∈ stabAut J) (x : barOf 3 J) :
     barMap (descendProj e) J (inducedBarHom J ⟨γ, hγ⟩ x) =

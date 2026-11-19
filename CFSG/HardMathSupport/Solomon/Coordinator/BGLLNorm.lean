@@ -20,7 +20,7 @@ theorem bgll_hilbert90 {σ : F ≃+* F} (hσ : orderOf σ = 3) {l : F}
     rintro rfl
     simp at hl
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hall : ∀ θ : F, θ + l * σ θ + l * σ l * σ (σ θ) = 0 := by
     intro θ
     by_contra hθ
@@ -47,8 +47,10 @@ variable [Finite F]
 
 @[expose] noncomputable def bgllS (σ : F ≃+* F) : Fˣ →* Fˣ := Units.map σ.toRingHom.toMonoidHom
 
+omit [Finite F] in
 theorem bgllS_coe (σ : F ≃+* F) (u : Fˣ) : ((bgllS σ u : Fˣ) : F) = σ (u : F) := rfl
 
+omit [Finite F] in
 theorem bgllS_cube {σ : F ≃+* F} (hσ : orderOf σ = 3) (u : Fˣ) :
     bgllS σ (bgllS σ (bgllS σ u)) = u :=
   Units.ext (bgll_sigma_cube hσ _)

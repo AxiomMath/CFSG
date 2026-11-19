@@ -33,6 +33,7 @@ private theorem OM_pk {g : Nat → Nat} (hg : ∀ t < 133 * 133, g t < 2 ^ 13) (
     OM (pk 13 (133 * 133) g) i j = ((g (133 * i.val + j.val) : Nat) : ZMod 5) := by
   rw [OM_lane, lane_pk hg (idx_lt i.isLt j.isLt)]
 
+set_option exponentiation.threshold 229957 in
 private theorem lane_zero {X s : Nat} (hX : Canon 5 133 13 X) (hs : 133 * 133 ≤ s) :
     lane 13 X s = 0 := by
   have h : X < 2 ^ (13 * s) :=
@@ -61,6 +62,7 @@ private theorem dm (x a b c : Nat) (h : b + c ≤ a) : x % 2 ^ a / 2 ^ b % 2 ^ c
     simp [hi, this]
   · simp [hi]
 
+set_option exponentiation.threshold 1729 in
 private theorem row_val (W i j : Nat) (hj : j < 133) :
     Nat.land (Nat.shiftRight (Nat.land (Nat.shiftRight W (Nat.mul (nat_lit 1729) i))
         (Nat.sub (Nat.shiftLeft (nat_lit 1) (nat_lit 1729)) (nat_lit 1))) (Nat.mul (nat_lit 13) j))
@@ -90,7 +92,7 @@ private theorem pk_or_single {w n r0 v e : Nat} {h : Nat → Nat} (hw : 0 < w)
       rcases h1 with h1 | h1 <;> simp [ht, htr, h1]
   · have htr : t ≠ r0 := by omega
     have h1 : t - r0 ≠ 0 := by omega
-    simp [ht, htr, h1]
+    simp [ht, h1]
 
 private noncomputable def tl (W u : Nat) : Nat := lane 13 W (133 * (u % 133) + u / 133)
 
@@ -109,19 +111,18 @@ private theorem trM_inner (W i : Nat) (hi : i < 133) : ∀ j ≤ 133,
     (fun u => if u % 133 < i ∨ (u % 133 = i ∧ u / 133 < j) then tl W u else 0)) ?_ ?_
   · exact pk_congr fun u _ => if_congr (by omega) rfl rfl
   intro j hj
-  beta_reduce
   have hv : tl W (133 * j + i) = lane 13 W (133 * i + j) := by
     unfold tl
     rw [show (133 * j + i) % 133 = i by omega, show (133 * j + i) / 133 = j by omega]
   refine (pk_or_single (w := 13) (n := 133 * 133) (r0 := 133 * j + i) (by omega)
-    (fun r _ => by split; exact tl_lt W r; exact Nat.two_pow_pos _) (if_neg (by omega))
+    (fun r _ => by split; exact tl_lt W r; exact Nat.two_pow_pos _) (ite_eq_right (by omega))
     (by omega) (by rw [row_val W i j hj, ← hv]; exact tl_lt _ _)
     (by show 1729 * j + 13 * i = _; ring)).trans ?_
   refine pk_congr fun u _ => ?_
   by_cases hu : u = 133 * j + i
   · subst hu
-    rw [if_pos rfl, if_pos (by omega), row_val W i j hj, hv]
-  · rw [if_neg hu]
+    rw [ite_eq_left rfl, ite_eq_left (by omega), row_val W i j hj, hv]
+  · rw [ite_eq_right hu]
     exact if_congr (by omega) rfl rfl
 
 private theorem trM_outer (W : Nat) : ∀ n ≤ 133,
@@ -138,9 +139,8 @@ private theorem trM_outer (W : Nat) : ∀ n ≤ 133,
   · unfold pk
     exact (Finset.sum_eq_zero fun r _ => by
       show (if r % 133 < 0 then tl W r else 0) * 2 ^ (13 * r) = 0
-      rw [if_neg (Nat.not_lt_zero _), Nat.zero_mul]).symm
+      rw [ite_eq_right (Nat.not_lt_zero _), Nat.zero_mul]).symm
   intro n hn
-  beta_reduce
   rw [strictN_eq', strictN_eq']
   refine (trM_inner W n hn 133 le_rfl).trans (pk_congr fun u hu => ?_)
   have : u / 133 < 133 := by omega
@@ -148,7 +148,7 @@ private theorem trM_outer (W : Nat) : ∀ n ≤ 133,
 
 private theorem trM_closed (W : Nat) : trM W = pk 13 (133 * 133) (tl W) := by
   unfold trM
-  exact (trM_outer W 133 le_rfl).trans (pk_congr fun u _ => if_pos (Nat.mod_lt u (by omega)))
+  exact (trM_outer W 133 le_rfl).trans (pk_congr fun u _ => ite_eq_left (Nat.mod_lt u (by omega)))
 
 theorem trM_sound' {X : Nat} (hX : Canon 5 133 13 X) :
     Canon 5 133 13 (trM X) ∧ OM (trM X) = (OM X)ᵀ := by
@@ -171,7 +171,7 @@ private theorem trace_rec (X : Nat) : ∀ n, Nat.rec (motive := fun _ => Nat) (n
     rw [show 13 * (134 * n) = 1742 * n by ring, ← land_val]
     rfl
 
-theorem traceL_sound' {X : Nat} (hX : Canon 5 133 13 X) :
+theorem traceL_sound' {X : Nat} (_hX : Canon 5 133 13 X) :
     ((traceL X : Nat) : ZMod 5) = (OM X).trace := by
   have e : traceL X = (∑ k ∈ Finset.range 133, lane 13 X (134 * k)) % 5 := by
     unfold traceL
@@ -218,7 +218,7 @@ theorem subOne_sound' {L H CM RM ONE LV HV X : Nat}
   have h4 : (4 : ZMod 5) = -1 := by decide
   by_cases h : i = j
   · subst h
-    simp only [if_true]
+    simp only [ite_true]
     push_cast
     rw [h4]
     ring
@@ -237,17 +237,17 @@ private theorem rows_closed {X m n : Nat} (hX : Canon 5 133 13 X) :
     unfold rg
     by_cases ht : t < 133 * n
     · have h1 : 13 * t + k < 1729 * n := by omega
-      rw [if_pos ht, ← fld_lane 13 X (t + 133 * m) k hk,
+      rw [ite_eq_left ht, ← fld_lane 13 X (t + 133 * m) k hk,
         show 1729 * m + (13 * t + k) = 13 * (t + 133 * m) + k by ring]
       simp [h1]
     · have h1 : ¬ 13 * t + k < 1729 * n := by omega
-      rw [if_neg ht]
+      rw [ite_eq_right ht]
       simp [h1]
   refine pk_of_fld (by norm_num) (fld_congr hF fun t => ?_)
     (fun t _ => lt_trans (by unfold rg; split; exact lane_lt5 hX _; norm_num) (by norm_num))
   by_cases ht : t < 133 * 133
-  · rw [if_pos ht]
-  · rw [if_neg ht]
+  · rw [ite_eq_left ht]
+  · rw [ite_eq_right ht]
     unfold rg
     split
     · exact lane_zero hX (by omega)
@@ -267,14 +267,14 @@ theorem rows_sound' {X m n : Nat} (hX : Canon 5 133 13 X) :
   rw [OM_pk (fun t _ => lt_trans (hr t) (by norm_num))]
   unfold rg
   by_cases h : i.val < n ∧ m + i.val < 133
-  · rw [dif_pos h, OM_lane, if_pos (by omega)]
+  · rw [dite_eq_left h, OM_lane, ite_eq_left (by omega)]
     simp only
     rw [show 133 * i.val + j.val + 133 * m = 133 * (m + i.val) + j.val by ring]
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     by_cases h1 : 133 * i.val + j.val < 133 * n
-    · rw [if_pos h1, lane_zero hX (by omega)]
+    · rw [ite_eq_left h1, lane_zero hX (by omega)]
       simp
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
       simp
 
 end CFSG.KS.HNLocal.MatPf

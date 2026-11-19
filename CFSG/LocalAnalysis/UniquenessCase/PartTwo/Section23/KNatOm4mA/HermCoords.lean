@@ -26,7 +26,7 @@ theorem hm_rhoH_uu_zy (s y : F) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     rw [twist_apply] <;>
-    simp [coe_uu, Zy, E11, Matrix.add_apply, Matrix.smul_apply] <;>
+    simp [coe_uu, Zy, E11, Matrix.add_apply];
     ring
 
 include hσ in
@@ -46,7 +46,7 @@ private theorem sig_hm_of_mem_zyCoset_A01 {y : F} (w : zyCoset a y) :
   obtain ⟨t, ht, hw⟩ := w.2
   have h00 : hm w.1 0 0 = t := by
     rw [hw]
-    simp [Zy, E11, Matrix.add_apply, Matrix.smul_apply]
+    simp [Zy, E11, Matrix.add_apply]
   rw [h00, ht]
 
 private theorem hm_eq_of_zyCoset_A01 {y : F} {w w' : zyCoset a y}
@@ -55,10 +55,10 @@ private theorem hm_eq_of_zyCoset_A01 {y : F} {w w' : zyCoset a y}
   obtain ⟨t', _, hw'⟩ := w'.2
   have h00 : hm w.1 0 0 = t := by
     rw [hw]
-    simp [Zy, E11, Matrix.add_apply, Matrix.smul_apply]
+    simp [Zy, E11, Matrix.add_apply]
   have h00' : hm w'.1 0 0 = t' := by
     rw [hw']
-    simp [Zy, E11, Matrix.add_apply, Matrix.smul_apply]
+    simp [Zy, E11, Matrix.add_apply]
   have htt : t = t' := by rw [← h00, ← h00', h]
   exact Subtype.ext (hm_injective (by rw [hw, hw', htt]))
 

@@ -117,7 +117,7 @@ theorem linkExitData_of_linkS (hL : TightLargeHypR r n Y R S t) (hS : LinkSR R t
   obtain ⟨L₀, hL₀n, hL₀s, hL₀m, hzL, hdich, -⟩ := hE
   have hΦ : TypeRFam r (linkFam R t) := (typeRFam_coreLinkFam hL).restrict (linkGrp R t)
   have hcore : tightCore R' = R' := hΦ.closure_twoElts hR'
-  haveI := hL₀n
+  have := hL₀n
   refine ⟨L₀, ⟨hL₀n, hL₀s, hL₀m, ?_, ?_⟩⟩
   · exact member_inv_mem_of_normal' hfam hd.isUniqueInvolution_core hzL
   · exact exitLU_dich_all hd hcore (fun β hβ2 hβS => hdich β hβ2 hβS) hfam
@@ -292,7 +292,7 @@ theorem hyp51At_t_of_linkS
       with heL
     let eF : ↥L ≃* ↥L₀ := eL.trans (MulEquiv.subgroupCongr hCeq)
     obtain ⟨p, f, hp, hp2, hk'⟩ := hE.model
-    haveI := hE.simple
+    have := hE.simple
     have hLs : IsSimpleGroup ↥L := eF.isSimpleGroup
     have hLm : ∃ p f : ℕ, p.Prime ∧ p ≠ 2 ∧
         (LieModel ↥L .PSL 3 p f ∨ LieModel ↥L .PSU 3 p f) :=

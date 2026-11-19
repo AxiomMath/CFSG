@@ -38,7 +38,7 @@ theorem exists_conj_le_sylowT {P : Subgroup (Perm Pt)} (hP : IsPGroup 3 P) :
     ∃ g : Perm Pt, ∀ x ∈ P, g * x * g⁻¹ ∈ sylowT := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R, hR⟩ := isPGroup_sylowT.exists_le_sylow
-  have hRT : (R : Subgroup (Perm Pt)) = sylowT := eq_sylowT_of_le R.isPGroup' hR
+  have hRT : (R : Subgroup (Perm Pt)) = sylowT := eq_sylowT_of_le R.isPGroup hR
   obtain ⟨Q, hQ⟩ := hP.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (Perm Pt) Q R
   refine ⟨g, fun x hx => ?_⟩

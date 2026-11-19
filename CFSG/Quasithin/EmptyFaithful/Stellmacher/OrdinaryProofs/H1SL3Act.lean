@@ -111,7 +111,7 @@ theorem diagMk_comm_fst (x y z : F) (h : x * y * z = 1) (hxy : x = y) (a : F) :
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [diagMk, unitriMk, unitriMat, Matrix.mul_apply, Fin.sum_univ_three, hxy] <;> ring
+    simp [diagMk, unitriMk, unitriMat, Matrix.mul_apply, Fin.sum_univ_three, hxy]; ring
 
 theorem diagMk_comm_snd (x y z : F) (h : x * y * z = 1) (hyz : y = z) (b : F) :
     diagMk x y z h * unitriMk 0 b 0 = unitriMk 0 b 0 * diagMk x y z h := by
@@ -119,7 +119,7 @@ theorem diagMk_comm_snd (x y z : F) (h : x * y * z = 1) (hyz : y = z) (b : F) :
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [diagMk, unitriMk, unitriMat, Matrix.mul_apply, Fin.sum_univ_three, hyz] <;> ring
+    simp [diagMk, unitriMk, unitriMat, Matrix.mul_apply, Fin.sum_univ_three, hyz]; ring
 
 theorem diagMk_comm_thd (x y z : F) (h : x * y * z = 1) (hxz : x = z) (c : F) :
     diagMk x y z h * unitriMk 0 0 c = unitriMk 0 0 c * diagMk x y z h := by
@@ -127,7 +127,7 @@ theorem diagMk_comm_thd (x y z : F) (h : x * y * z = 1) (hxz : x = z) (c : F) :
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [diagMk, unitriMk, unitriMat, Matrix.mul_apply, Fin.sum_univ_three, hxz] <;> ring
+    simp [diagMk, unitriMk, unitriMat, Matrix.mul_apply, Fin.sum_univ_three, hxz]; ring
 
 theorem unitriMk_factor (a b c : F) :
     unitriMk a b c = unitriMk a 0 0 * unitriMk 0 b 0 * unitriMk 0 0 (c - a * b) := by

@@ -6,7 +6,7 @@ public section
 
 universe u v w
 
-namespace CFSG.Open.Open
+namespace CFSG.Open.Thm
 
 open CFSG.Open in
 open scoped MatrixGroups in
@@ -27,4 +27,4 @@ theorem quasithin_dickson_psl2_subgroups
     (∃ m : ℕ, 2 * m ∣ f ∧ Nonempty (H ≃* PGL(2, GaloisField p m))) :=
   _root_.CFSG.Milestones.cl_lit_as_vol_i_background_1 p f hf H
 
-end CFSG.Open.Open
+end CFSG.Open.Thm

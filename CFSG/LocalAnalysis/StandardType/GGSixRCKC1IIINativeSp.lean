@@ -25,7 +25,7 @@ theorem fixedSpBlockAt_of_native_PSp_two_of_jRow_III
     (hJ : IsComponentOf J (K ⊓ Subgroup.centralizer {d}))
     (hrow : GGSixRCKJRow .III J) : FixedSpBlockAt K J := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨s, hs, _, hsodd, ε, hε, ⟨e, he, heε, hcase⟩, J', hJ'comp, hJ'map⟩ :=
     RCKRP.rckF1_PSp hp hp2 hdp (by decide : 1 ≤ (1 : ℕ)) φ hφr hφk hdN hdID hJ
   let S : Set (GL (Fin n ⊕ Fin n) (GaloisField 2 1)) := {s}

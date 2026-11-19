@@ -74,6 +74,7 @@ private lemma comm_of_eq_one_or_t {k' c : X} (hk'T : k' ∈ ctx.A.T)
   · rw [one_mul, mul_one]
   · exact (ctx.A.commute_t hk'T).symm
 
+omit [Finite X] ctx in
 private lemma comm_of_mul {k' w c g : X} (hg : g = w * c) (hw : w * k' = k' * w)
     (hc : c * k' = k' * c) : g * k' = k' * g := by
   calc g * k' = w * c * k' := by rw [hg]
@@ -112,7 +113,7 @@ private lemma comm_of_mul_ker {k' g r e : X} (hk'T : k' ∈ ctx.A.T) (hgT : g �
       _ = (r * k') * e := by group
       _ = (k' * r) * e := by rw [hr_comm]
       _ = k' * (r * e) := by group
-  exact comm_of_mul ctx (by group) hw_comm hc_comm
+  exact comm_of_mul (by group) hw_comm hc_comm
 
 private lemma commutator_eq_one_or_t {k' x : X} (hk'T : k' ∈ ctx.A.T)
     (hx : x ∈ centralizer ({t} : Set X))
@@ -216,7 +217,7 @@ theorem comm_outer {k' : X} (hk' : k' = ctx.C.k ∨ k' = ctx.S.z * ctx.C.k) {g :
     rw [Subgroup.relIndex_dvd_two_iff]
     by_cases hHN : H ≤ N
     · exact ⟨1, H.one_mem, fun b hb => Or.inr (hHN hb)⟩
-    · rw [SetLike.le_def] at hHN
+    · rw [_root_.IsConcreteLE.le_iff] at hHN
       push Not at hHN
       obtain ⟨g₀, hg₀H, hg₀N⟩ := hHN
       refine ⟨g₀, hg₀H, fun b hb => ?_⟩

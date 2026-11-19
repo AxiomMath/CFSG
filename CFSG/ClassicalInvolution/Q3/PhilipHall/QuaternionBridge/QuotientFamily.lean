@@ -16,6 +16,7 @@ open scoped commutatorElement
 variable {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y} {S : Sylow 2 R} {t : Y}
   {N : Subgroup Y} [N.Normal]
 
+omit [N.Normal] in
 theorem core_inf_eq_bot (hd : TightDatum R S t) (hN2 : IsPGroup 2 ↥N) (htN : t ∉ N) :
     tightCore R ⊓ N = ⊥ :=
   eq_bot_iff.mpr ((inf_le_inf_right N (tightCore_le R)).trans (TwistQ.inf_eq_bot hd hN2 htN).le)
@@ -43,6 +44,7 @@ theorem odd_inf_conj (hd : TightDatum R S t) (hN2 : IsPGroup 2 ↥N) (htN : t �
   rw [inf_conj_eq_bot hd hN2 htN hK, Subgroup.card_bot]
   exact odd_one
 
+omit [Finite Y] in
 theorem image_conjClass (A : Subgroup Y) :
     Set.image (fun K : Subgroup Y => K.map (QuotientGroup.mk' N)) (CoreAssembly.conjClass A) =
       CoreAssembly.conjClass (A.map (QuotientGroup.mk' N)) := by

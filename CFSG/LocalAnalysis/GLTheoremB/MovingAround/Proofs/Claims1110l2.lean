@@ -36,7 +36,7 @@ theorem card_le_five_cube_of_D4_32 {K : Type} [Group K] [Finite K]
     (hA : IsElemAbelian 5 A) : Nat.card ↥A ≤ 5 ^ 3 := by
   classical
   have hp5 : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp5⟩
+  have : Fact (Nat.Prime 5) := ⟨hp5⟩
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := hK.2
   have hg := orthogonal_large_prime_semilinear_field_and_diagonal_gates K .POmegaPlus
     (Or.inr (Or.inl rfl)) 4 2 5 hK F hF e
@@ -59,7 +59,7 @@ theorem card_le_five_cube_of_D4_32 {K : Type} [Group K] [Finite K]
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA'E).toEquiv
   have hBea : IsElemAbelian 5 B := OmegaFacts2.isElemAbelian_comap Subtype.val_injective hA'ea
   have hψB : Nat.card ↥(B.map ψ) ≤ 5 := by
-    haveI := hψcyc
+    have := hψcyc
     have hle : B.map ψ ≤ ψ.range := Subgroup.map_le_range ψ B
     set C : Subgroup ↥ψ.range := (B.map ψ).subgroupOf ψ.range with hC
     have hCc : Nat.card ↥C = Nat.card ↥(B.map ψ) :=
@@ -113,7 +113,7 @@ theorem card_le_five_cube_of_D4_32 {K : Type} [Group K] [Finite K]
   have hS₀c : Nat.card ↥S₀ = Nat.card ↥S := by
     conv_rhs => rw [← Subgroup.map_comap_eq_self hSinn]
     exact (Subgroup.card_map_of_injective hinj).symm
-  haveI : CharP F 2 := ringChar.of_eq hchar
+  have : CharP F 2 := ringChar.of_eq hchar
   have hZ : matrixDerivedScalars Q = ⊥ :=
     CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.matrixDerivedScalars_eq_bot_of_charTwo Q
       (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.exists_ne_zero_of_polar_nondegenerate
@@ -299,7 +299,7 @@ theorem not_pumpup_lie_odd_of_lieModel_D4 (h1441 : Lemma1315b.Input14_4_1) {D : 
   have hSCM := statedClassicalModel_of_lieModel_D4 hD
   obtain ⟨F, _, _, hF, ⟨eD⟩⟩ := hSCM.2
   have hZ := center_eq_bot_of_lieModel_D4 hD
-  haveI : Finite D := by
+  have : Finite D := by
     have := card_of_lieModel_D4_two hD
     exact Nat.finite_of_card_ne_zero (by omega)
   have hX : CFSG.Blueprint.LieModel (D ⧸ Subgroup.center D) .POmegaPlus 4 2 1 :=

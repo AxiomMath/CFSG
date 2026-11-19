@@ -46,7 +46,7 @@ theorem twe6_exists_order_eightynine_commute [Finite K] [CharP K 2] {f : ℕ}
     (h89 : 89 ∣ 2 ^ f - 1) :
     ∀ y ∈ twReps σ.toRingHom hσσ, ∃ z : graphFixedRootGroup TwistTag.E6 K σ.toRingHom,
       orderOf z = 89 ∧ Commute z y := by
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   have hεq : ε ^ (2 ^ f - 1) = 1 := orderOf_dvd_iff_pow_eq_one.1 (hε ▸ h89)
   have ha : Units.map σ.toRingHom.toMonoidHom ε = ε := by
     refine Units.ext ?_
@@ -97,7 +97,7 @@ theorem lie23To89At_twistedE6 : Lie23To89At .twistedE6 := by
   have hK2 : ringChar K = 2 :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq Nat.prime_two (by have := hadm.2.1; omega)
       hcard2
-  haveI : CharP K 2 := ringChar.of_eq hK2
+  have : CharP K 2 := ringChar.of_eq hK2
   obtain ⟨σE, rfl⟩ : ∃ σE : K ≃+* K, σE.toRingHom = σ :=
     ⟨RingEquiv.ofBijective σ ⟨σ.injective, Finite.surjective_of_injective σ.injective⟩,
       RingHom.ext fun _ => rfl⟩
@@ -105,7 +105,7 @@ theorem lie23To89At_twistedE6 : Lie23To89At .twistedE6 := by
     σE.toRingHom hσ
   have hσσ : ∀ c, σE.toRingHom (σE.toRingHom c) = c := by
     intro c
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hc : Fintype.card K = 2 ^ f * 2 ^ f := by
       rw [← Nat.card_eq_fintype_card, hcard1, sq]
     rw [hσ, hσ, ← pow_mul, ← hc]
@@ -116,7 +116,7 @@ theorem lie23To89At_twistedE6 : Lie23To89At .twistedE6 := by
     have := Nat.sub_dvd_pow_sub_pow (2 ^ f) 1 2
     rw [one_pow] at this
     exact h89.trans this)
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   exact prime_dvd_card_centralizer_of_classesCover (e.trans E)
     (classesCover_twReps hadm.2.1 hcard1 hσ hσσ)
     (twe6_exists_order_eightynine_commute σE hσ hσσ hε h89) hτ

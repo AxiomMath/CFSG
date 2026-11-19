@@ -87,7 +87,7 @@ theorem reeG2_two_le_pRank (hB : ReeG2Bridge) (m : ℕ) (hv : (LieTypeIndex.reeG
 
 theorem kdRankOne_of_bridges (hB : ChevalleyBridges) (hR : ReeG2Bridge) : KDRankOne := by
   intro p hp hp2 S _ _ hS hnc ⟨idx, ⟨e⟩, hchar⟩ hrk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨d, hv⟩ := idx
   have hrange := (LieTypeIndex.inStandardRange_iff _).1 ((LieTypeIndex.valid_iff _).1 hv).1
   cases d with

@@ -79,10 +79,10 @@ theorem e9Move_adjointG2_of_three_dvd_add_one {K : Type} [Field K] [Finite K]
     (hodd : Odd (Nat.card K)) (h3 : 3 ∣ Nat.card K + 1) : E9Move ↥(adjointGroup .G2 K) := by
   intro E hE hE9
   obtain ⟨K₂, _, _, hdeg, σ, hσ⟩ := exists_quadratic_frobenius_all K
-  haveI : Module.Finite K K₂ := Module.finite_of_finrank_pos (by omega)
-  haveI : Finite K₂ := Module.finite_of_finite K
+  have : Module.Finite K K₂ := Module.finite_of_finrank_pos (by omega)
+  have : Finite K₂ := Module.finite_of_finite K
   obtain ⟨M⟩ := QPlusModel.nonempty_of_odd hodd hdeg hσ
-  haveI : CFSG.IsElementaryAbelian 3 E :=
+  have : CFSG.IsElementaryAbelian 3 E :=
     { toIsMulCommutative := hE.1
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
         Subtype.ext (by simpa using hE.2 g g.2) }
@@ -129,9 +129,9 @@ theorem inner_adjointG2 {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime)
     σ ∈ (MulAut.conj : ↥(adjointGroup .G2 K) →* MulAut ↥(adjointGroup .G2 K)).range := by
   let q : TauCeti.PrimePower := ⟨p, 1, hp, one_pos⟩
   have hq : q.card = p := by rw [TauCeti.PrimePower.card_def]; exact pow_one p
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime q.p) := ⟨hp⟩
-  haveI : CharP K q.p := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hK)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime q.p) := ⟨hp⟩
+  have : CharP K q.p := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hK)
   obtain ⟨Q, _, _, Θ, hQ, hker⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_hom_cyclic_G2 q (by rw [hq]; exact hp3) K
       (by rw [hq]; exact hK)

@@ -105,6 +105,7 @@ variable
 
 include hOut hTw hHat
 
+omit hOut hTw hHat in
 theorem tb_ne_one : D.tb ≠ 1 := fun h1 => by
   have h2 := D.kap_tb
   rw [h1, Subgroup.coe_one, D.kap_one] at h2
@@ -112,10 +113,11 @@ theorem tb_ne_one : D.tb ≠ 1 := fun h1 => by
 
 theorem orderOf_tb : orderOf D.tb = 2 :=
   orderOf_eq_prime (by rw [pow_two]; exact D.Bb_mul_self hOut hTw hHat (D.tb_mem_Bb hOut hTw hHat))
-    (D.tb_ne_one hOut hTw hHat)
+    (D.tb_ne_one)
 
 @[expose] noncomputable def tb' : ↥D.Mb := D.toMb ⟨D.rep 513, D.QG_le_N (D.rep_mem 513)⟩
 
+omit hOut hTw hHat in
 theorem tb'_mem_Mz : D.tb' ∈ D.Mz := by
   refine D.mem_Mz.mpr (Subtype.ext ?_)
   change D.rep 513 * z * (D.rep 513)⁻¹ = z
@@ -129,9 +131,10 @@ theorem tb'_mem_Bb : D.tb' ∈ D.Bb := by
   have hk : D.kap (D.tb' : MulAut ↥D.E) = Two.mk7 (Two.lamOf 513) Two.idA := by
     rw [tb', D.kap_toMb_QG (D.rep_mem 513), wc, D.ψV_cl_rep, codeOf_vecOf (by norm_num),
       Two.lamOf_513_spec]
-  rwa [D.eq_of_kap_eq hOut hTw hHat (D.tb'_mem_Mz hOut hTw hHat)
+  rwa [D.eq_of_kap_eq hOut hTw hHat (D.tb'_mem_Mz)
     (D.Bb_le_C3 hOut hTw hHat hβ).1 (hk.trans hβk.symm)]
 
+omit hOut hTw hHat in
 theorem tb'_ne_tb : D.tb' ≠ D.tb := by
   have hne : Two.mk7 (Two.lamOf 513) Two.idA ≠ Two.t7el := Two.orbOK48_spec.2.2.1
   intro he
@@ -181,8 +184,8 @@ variable
 include hOut hTw hHat
 
 theorem Bb_le_pCore : D.Bb ≤ CFSG.Open.pCoreOf 2 (CFSG.Quasithin.A94.Cz D.tb) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine CFSG.LieType.BorelTits.le_pCoreOf (r := 2) D.Bb_le_Cb (D.BC_normal hOut hTw hHat) ?_
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  refine CFSG.LieType.BorelTits.le_pCoreOf (r := 2) D.Bb_le_Cb (D.BC_normal) ?_
   exact IsPGroup.of_card (n := 4) (by rw [D.card_Bb hOut hTw hHat]; norm_num)
 
 theorem setting (e : ↥(CFSG.Quasithin.A94.Cz D.tb) ≃* CFSG.Quasithin.A94.L52.Hc) :
@@ -193,7 +196,7 @@ theorem setting (e : ↥(CFSG.Quasithin.A94.Cz D.tb) ≃* CFSG.Quasithin.A94.L52
   · rw [inv_inv, hg]
     exact D.Bb_le_pCore hOut hTw hHat (D.tb'_mem_Bb hOut hTw hHat)
   · rw [inv_inv, hg]
-    exact D.tb'_ne_tb hOut hTw hHat
+    exact D.tb'_ne_tb
 
 end Setting
 

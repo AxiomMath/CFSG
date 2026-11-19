@@ -111,9 +111,9 @@ theorem allInvertsByWeyl_sp4 {f : ℕ} (hf : 2 ≤ f) {m : ℕ} (hm : Odd m) :
   · omega
   · obtain ⟨-, F, hField, hFin, hChar, hcard, ⟨e⟩⟩ :=
       CFSG.Quasithin.H13.F431.exists_equiv_antiSp hD
-    letI : Field F := hField
-    letI : Finite F := hFin
-    letI : CharP F 2 := hChar
+    let : Field F := hField
+    let : Finite F := hFin
+    let : CharP F 2 := hChar
     exact InvertsByWeyl.of_isYAmalgamPair
       (CFSG.GH74.QTGen4.DSGen4.L34.isYAmalgamPair_of_borelData
         (CFSG.Quasithin.H13.F431.SpModel.borel_antiSp (F := F) hf hcard)

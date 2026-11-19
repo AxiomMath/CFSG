@@ -45,11 +45,11 @@ private noncomputable def resAut {G : Type} [Group G] {E B : Subgroup G}
         have hcancel : ((a⁻¹ : ↥A) : MulAut ↥E) * (a : MulAut ↥E) = 1 := by
           have h : (a⁻¹ * a : ↥A) = 1 := inv_mul_cancel a
           have := congrArg (fun x : ↥A => (x : MulAut ↥E)) h
-          simpa using this
+          simp
         have hcancel' : ((a⁻¹ : ↥A) : MulAut ↥E) ((a : MulAut ↥E) (emb hBE b)) =
             emb hBE b := by
           have := congrArg (fun f : MulAut ↥E => f (emb hBE b)) hcancel
-          simpa [MulAut.mul_apply] using this
+          simp
         change (((a⁻¹ : ↥A) : MulAut ↥E) ((a : MulAut ↥E) (emb hBE b)) : G) =
           (emb hBE b : G)
         rw [hcancel']
@@ -59,11 +59,11 @@ private noncomputable def resAut {G : Type} [Group G] {E B : Subgroup G}
         have hcancel : (a : MulAut ↥E) * ((a⁻¹ : ↥A) : MulAut ↥E) = 1 := by
           have h : (a * a⁻¹ : ↥A) = 1 := mul_inv_cancel a
           have := congrArg (fun x : ↥A => (x : MulAut ↥E)) h
-          simpa using this
+          simp
         have hcancel' : (a : MulAut ↥E) (((a⁻¹ : ↥A) : MulAut ↥E) (emb hBE b)) =
             emb hBE b := by
           have := congrArg (fun f : MulAut ↥E => f (emb hBE b)) hcancel
-          simpa [MulAut.mul_apply] using this
+          simp
         change (((a : ↥A) : MulAut ↥E) (((a⁻¹ : ↥A) : MulAut ↥E) (emb hBE b)) : G) =
           (emb hBE b : G)
         rw [hcancel'] }

@@ -26,7 +26,7 @@ theorem l154_realE6_of_form {τ : Tag} [M27Ok τ] [E6Sub τ] {L : Type} [Field L
   obtain ⟨f, n₁, g, π, hf, hstd, hX⟩ := l154_layer_data S haT i v hΨ
   rcases hstd.hπ with h1 | h1
   ·
-    haveI : Finite (frobeniusFixedField L 2 f) := finite_frobeniusFixedField hf
+    have : Finite (frobeniusFixedField L 2 f) := finite_frobeniusFixedField hf
     have hL := hstd.stdLayer_eq_map_of_one (f := f) h1
     rw [hL, Subgroup.map_map] at hX
     have hj : Function.Injective ((MulAut.conj g).toMonoidHom.comp
@@ -35,8 +35,8 @@ theorem l154_realE6_of_form {τ : Tag} [M27Ok τ] [E6Sub τ] {L : Type} [Field L
     rw [hX] at hqi ⊢
     exact l154_realizedMarking_inner hf (card_frobeniusFixedField_pow hf) hj hqi
   ·
-    haveI : Finite (K2 L 2 f) := finite_frobeniusFixedField (by omega)
-    haveI := certificate123_of_kernel
+    have : Finite (K2 L 2 f) := finite_frobeniusFixedField (by omega)
+    have := certificate123_of_kernel
     have hL := hstd.stdLayer_eq_range_of_rho (f := f) h1
     have hpsi : psi2 τ L 2 f = (baseChangeGL (frobeniusFixedField L 2 (2 * f)).subtype).comp
         (e6Iota τ L f) := rfl
@@ -68,7 +68,7 @@ theorem l154_form_E7 {L : Type} [Field L] [IsAlgClosed L] {p₀ p : ℕ} (S : La
     (by rw [e7_card c hc, hc6]) h72
   refine ⟨v, ?_⟩
   rw [hroots, hCeq, rootsOf_eq_parabolicRoots kacE7 facts_E7 (J := e6Nodes Tag.E7)
-    (by decide) (fun j => by simp only [e6Nodes, Set.mem_setOf_eq]; revert j; decide)]
+    (by decide) (fun j => by simp only [e6Nodes, Set.mem_ofPred_eq]; revert j; decide)]
 
 theorem l154_form_E8 {L : Type} [Field L] [IsAlgClosed L] {p₀ p : ℕ} (S : LangSetup Tag.E8 L p₀)
     (hp : p.Prime) (hpL : (p : L) ≠ 0) {a : Fin Tag.E8.rank → Lˣ}
@@ -86,7 +86,7 @@ theorem l154_form_E8 {L : Type} [Field L] [IsAlgClosed L] {p₀ p : ℕ} (S : La
     (by rw [e8_card c hc, hc6]) h72
   refine ⟨v, ?_⟩
   rw [hroots, hCeq, rootsOf_eq_parabolicRoots kacE8 facts_E8 (J := e6Nodes Tag.E8)
-    (by decide) (fun j => by simp only [e6Nodes, Set.mem_setOf_eq]; revert j; decide)]
+    (by decide) (fun j => by simp only [e6Nodes, Set.mem_ofPred_eq]; revert j; decide)]
 
 end Kac
 

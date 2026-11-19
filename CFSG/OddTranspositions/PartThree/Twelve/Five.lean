@@ -97,7 +97,7 @@ theorem ncard_blockLine_eq_ncard_rootBlock_add_one (hC : HypothesisC D)
     rw [h2]
     exact Set.ncard_image_of_injective _
       (fun c c' h => Subtype.ext (Set.singleton_eq_singleton_iff.mp h))
-  rw [← Set.ncard_diff_singleton_add_one hαL (Set.toFinite _), h3, ← h1,
+  rw [← Set.ncard_sdiff_singleton_add_one hαL (Set.toFinite _), h3, ← h1,
     lineImage_eq_rootBlock hC hMZ hs₀ hb1 hne hβ hb]
 
 theorem ncard_rootBlock_of_isSymplecticTransvection {X : Type} [Group X] {E : Set X}
@@ -192,7 +192,7 @@ theorem ncard_rootBlock_of_isSymplecticTransvection {X : Type} [Group X] {E : Se
     have : {c' : F | c' ≠ 0} = Set.univ \ {0} := by
       ext x
       simp
-    rw [this, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ,
+    rw [this, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ,
       hF]
   rw [← Set.ncard_image_of_injective _ hψinj, himg, Set.ncard_image_of_injective _ hTinj, hcard]
 
@@ -355,9 +355,9 @@ theorem ncard_rootBlock_of_isUnitaryTransvection {X : Type} [Group X] {E : Set X
     have h2 : {c' : F | c' + σ c' = 0 ∧ c' ≠ 0} =
         ((traceZero σ : AddSubgroup F) : Set F) \ {0} := by
       ext x
-      simp only [Set.mem_setOf_eq, Set.mem_diff, SetLike.mem_coe, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_sdiff, SetLike.mem_coe, Set.mem_singleton_iff]
       rfl
-    rw [h2, Set.ncard_diff_singleton_of_mem (by exact (traceZero σ).zero_mem),
+    rw [h2, Set.ncard_sdiff_singleton_of_mem (by exact (traceZero σ).zero_mem),
       ← Nat.card_coe_set_eq, SetLike.coe_sort_coe, hσdef,
       CFSG.LieType.Steinberg.card_traceZero hF]
   have hsub : {c' : F | c' + σ c' = 0 ∧ c' ≠ 0} ⊆ {c' : F | c' + σ c' = 0} :=

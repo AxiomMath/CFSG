@@ -165,9 +165,9 @@ theorem sq_eq_one_of_comm (S : Set (V ≃ₗ[F] V)) (hS : ∀ d ∈ S, d * d = 1
 theorem finite_even_card [Finite F] [CharP F 2] (hdim : Module.finrank F V = 4) :
     Finite V ∧ Even (Nat.card V) := by
   have hfinV : Module.Finite F V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
-  haveI : Finite V := Module.finite_of_finite (R := F) (M := V)
+  have : Finite V := Module.finite_of_finite (R := F) (M := V)
   refine ⟨inferInstance, ?_⟩
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   have hF : Even (Nat.card F) := by
     rw [Nat.card_eq_fintype_card, hn]

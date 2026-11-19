@@ -108,7 +108,7 @@ theorem card_center_of_isDihNonab {D : Subgroup G} (hD : IsDihNonab D) :
       Nat.card (Subgroup.center (DihedralGroup (2 ^ a))) :=
     Nat.card_congr (Subgroup.centerCongr e).toEquiv
   rw [hcard]
-  haveI : NeZero (2 ^ a) := ⟨by positivity⟩
+  have : NeZero (2 ^ a) := ⟨by positivity⟩
   have hne : 2 ^ a ≠ 2 := by
     intro h
     have ha1 : a = 1 := (Nat.pow_right_injective (by norm_num : 2 ≤ 2)) h

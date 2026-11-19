@@ -42,7 +42,7 @@ theorem false_of_twinE4 {K : Subgroup X} {t : X} (hΩ : HypOmegaGen (CoreAssembl
     (hoddQ : ∀ w : Q, orderOf w = 2 → Balance.oddCoreIn (Subgroup.centralizer ({w} : Set Q)) = ⊥)
     (hM2 : ∀ w : Q, orderOf w = 2 → ¬ IsPGroup 2 (Subgroup.centralizer ({w} : Set Q))) : False := by
   classical
-  haveI : Finite Q := Finite.of_surjective f hf
+  have : Finite Q := Finite.of_surjective f hf
   obtain ⟨P, hP, -⟩ := IsSylow2In.exists_ge (IsPGroup.of_bot (G := X)) (bot_le : (⊥ : Subgroup X) ≤ K)
   obtain ⟨e⟩ := hq P hP
   have hP8 : Nat.card P = 8 := by

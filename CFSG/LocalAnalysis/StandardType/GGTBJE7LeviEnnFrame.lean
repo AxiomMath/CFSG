@@ -39,7 +39,7 @@ theorem e7Enn_frame
       (∀ γ, IsRoot .E7 γ → S.ρ γ = -γ) ∧
       ∃ wt : GGTorusTorWit (Nat.card K + 1) 7 (adjointGroup .E7 K)
           (E.map (MulAut.conj : adjointGroup .E7 K →* MulAut (adjointGroup .E7 K))),
-        (∀ k, wt.n k = n k) ∧ wt.Holds CartanMatrix.E₇ CoxeterMatrix.E₇ := by
+        (∀ k, wt.n k = n k) ∧ wt.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇ := by
   classical
   have hp : p.Prime := Fact.out
   obtain ⟨F, Fr, ζ, hζ, ι₀, n, hFr, hΦ, hw, hζo, hι₀, hrange, hbase, hnb, hact, hnorm⟩ :=
@@ -114,7 +114,7 @@ theorem e7Enn_frame
       hnformula hcent
       (CFSG.LieType.RootSystem.coxeterMatrix
         (CFSG.LieType.Chevalley.isFiniteType_cartan .E7)) ρ hρ hρrange hρsimple
-  have hwh' : w.Holds CartanMatrix.E₇ CoxeterMatrix.E₇ := by
+  have hwh' : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇ := by
     rw [hM] at hwh
     simpa only [hC] using hwh
   exact ⟨ζ, hζ, ι₀, n, S, ι, hζo, hι₀, hrange, hact, hnorm, hSq, hι, hιrange,

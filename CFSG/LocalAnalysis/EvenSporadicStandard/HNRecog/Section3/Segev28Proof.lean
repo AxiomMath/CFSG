@@ -16,6 +16,7 @@ private lemma conj_comm {G : Type*} [Group G] {a b c : G} (h : b * c = c * b) :
     _ = a * (b * c) * a⁻¹ := by rw [h]
     _ = (a * b * a⁻¹) * (a * c * a⁻¹) := by group
 
+omit [Finite H] in
 private lemma subgroupOf_Gx_eq_bot {t : H}
     (hN : ∀ N : Subgroup ↥(Gx t), N.Normal → N ≠ ⊥ → GxSelf t ∈ N)
     {M : Subgroup H} (hM : M.Normal) (htM : t ∉ M) : M.subgroupOf (Gx t) = ⊥ := by
@@ -24,6 +25,7 @@ private lemma subgroupOf_Gx_eq_bot {t : H}
   rw [Subgroup.mem_subgroupOf] at hmem
   exact htM hmem
 
+omit [Finite H] in
 theorem segev28_normalizer_le (ht : orderOf t = 2) (S : Sylow 2 ↥(Gx t))
     (hS : ∀ x : ↥(Gx t),
       (x ∈ centerOf (S : Subgroup ↥(Gx t)) ∧ x ^ 2 = 1) ↔ x ∈ zpowers (GxSelf t)) :
@@ -122,14 +124,14 @@ theorem segev28_isSylow (ht : orderOf t = 2) (S : Sylow 2 ↥(Gx t))
   set S' : Subgroup H := (S : Subgroup ↥(Gx t)).map (Gx t).subtype with hS'def
   have hS'p : IsPGroup 2 S' := by
     rw [hS'def]
-    exact S.isPGroup'.map (Gx t).subtype
+    exact S.isPGroup.map (Gx t).subtype
   obtain ⟨Q, hS'Q⟩ := hS'p.exists_le_sylow
   refine ⟨Q, ?_⟩
   set K : Subgroup ↥(Gx t) := (((Q : Subgroup H) ⊓ Gx t).subgroupOf (Gx t)) with hKdef
   have hKp : IsPGroup 2 K := by
     let QI : Subgroup H := (Q : Subgroup H) ⊓ Gx t
     have hQinf : IsPGroup 2 QI :=
-      IsPGroup.to_le (p := 2) Q.isPGroup' (inf_le_left : QI ≤ (Q : Subgroup H))
+      IsPGroup.to_le (p := 2) Q.isPGroup (inf_le_left : QI ≤ (Q : Subgroup H))
     rw [hKdef]
     exact hQinf.comap_of_injective (Gx t).subtype Subtype.coe_injective
   have hSK : (S : Subgroup ↥(Gx t)) ≤ K := by
@@ -145,11 +147,11 @@ theorem segev28_isSylow (ht : orderOf t = 2) (S : Sylow 2 ↥(Gx t))
   have htop : S'.subgroupOf Q = ⊤ := by
     by_contra hne
     have hlt : S'.subgroupOf Q < (⊤ : Subgroup ↥Q) := lt_of_le_of_ne le_top hne
-    haveI : Group.IsNilpotent ↥Q := Q.isPGroup'.isNilpotent
+    have : Group.IsNilpotent ↥Q := Q.isPGroup.isNilpotent
     have hA : S'.subgroupOf Q <
         Subgroup.normalizer (((S'.subgroupOf Q : Subgroup ↥Q) : Set ↥Q)) :=
       Group.normalizerCondition_of_isNilpotent (G := ↥Q) (S'.subgroupOf Q) hlt
-    obtain ⟨q, hqN, hqA⟩ := SetLike.exists_of_lt hA
+    obtain ⟨q, hqN, hqA⟩ := _root_.IsConcreteLE.exists_of_lt hA
     have hqN' : q ∈ (normalizer (S' : Set H)).subgroupOf Q := by
       rw [Subgroup.subgroupOf_normalizer_eq hS'Q]
       exact hqN
@@ -190,8 +192,8 @@ theorem segev28_eq_top_of_mem (ht : orderOf t = 2)
   have hP_le_M : (P : Subgroup H) ≤ M := by
     rw [hP]
     exact hS'Gx.trans hGxM
-  haveI : M.Normal := hM
-  haveI : Finite (Sylow 2 ↥M) :=
+  have : M.Normal := hM
+  have : Finite (Sylow 2 ↥M) :=
     Finite.of_injective (fun P : Sylow 2 ↥M => (((P : Subgroup ↥M) : Set ↥M)))
       (fun P Q h => Sylow.ext (SetLike.ext' h))
   have hfr := Sylow.normalizer_sup_eq_top' (p := 2) P hP_le_M
@@ -208,7 +210,7 @@ theorem segev28_eq_top_of_mem (ht : orderOf t = 2)
 theorem segev28_inv_of_not_mem (ht : orderOf t = 2)
     (hN : ∀ N : Subgroup ↥(Gx t), N.Normal → N ≠ ⊥ → GxSelf t ∈ N)
     {M : Subgroup H} (hM : M.Normal) (htM : t ∉ M) : ∀ m ∈ M, t * m * t⁻¹ = m⁻¹ := by
-  haveI : M.Normal := hM
+  have : M.Normal := hM
   have hNbot : M.subgroupOf (Gx t) = ⊥ := subgroupOf_Gx_eq_bot hN hM htM
   have hfix : ∀ m : ↥M, MulAut.conjNormal (H := M) t m = m → m = 1 := by
     intro m hm
@@ -240,7 +242,7 @@ theorem segev28_eq_bot_of_not_mem (ht : orderOf t = 2)
     (hgen : Gx t = closure ((Gx t : Set H) ∩ {x | IsConj t x}))
     (hN : ∀ N : Subgroup ↥(Gx t), N.Normal → N ≠ ⊥ → GxSelf t ∈ N)
     {M : Subgroup H} (hM : M.Normal) (htM : t ∉ M) : M = ⊥ := by
-  haveI : M.Normal := hM
+  have : M.Normal := hM
   have hinv : ∀ m ∈ M, t * m * t⁻¹ = m⁻¹ := segev28_inv_of_not_mem ht hN hM htM
   have hNbot : M.subgroupOf (Gx t) = ⊥ := subgroupOf_Gx_eq_bot hN hM htM
   have huinv : ∀ u, IsConj t u → ∀ m ∈ M, u * m * u⁻¹ = m⁻¹ := by
@@ -317,7 +319,7 @@ theorem segev28_holds : Segev28 := by
     intro h
     rw [h, orderOf_one] at ht
     omega
-  haveI : Nontrivial H := nontrivial_of_ne t 1 ht_ne
+  have : Nontrivial H := nontrivial_of_ne t 1 ht_ne
   refine IsSimpleGroup.mk ?_
   intro N hNnormal
   by_cases htN : t ∈ N

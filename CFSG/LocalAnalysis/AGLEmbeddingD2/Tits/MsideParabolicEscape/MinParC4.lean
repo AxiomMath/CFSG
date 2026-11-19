@@ -45,7 +45,7 @@ theorem rootGroup_single_le_radJ {J : Set (Fin D.rank)} {k : Fin D.rank} (hk : k
 theorem parJ_le_normalizer_radJ (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
     (weylAction D.isFiniteType) D.roots D.rootGroup n H) (hext : SteinbergExtras D n H)
     (J : Set (Fin D.rank)) : parJ D H J ≤ Subgroup.normalizer (radJ D J : Set K) :=
-  le_normalizer_iSup fun k => le_normalizer_iSup fun hk => parJ_le_normalizer_radical hct hext hk
+  le_normalizer_iSup fun _k => le_normalizer_iSup fun hk => parJ_le_normalizer_radical hct hext hk
 
 end K
 
@@ -63,11 +63,14 @@ variable {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y} {K : Type} [Group K] [
     Subgroup Y :=
   ((A.map π).comap (QuotientGroup.mk' (Subgroup.center ↥L))).map L.subtype
 
+omit [Finite Y] [Finite K] in
 theorem liftSub_mono {A B : Subgroup K} (h : A ≤ B) : liftSub L π A ≤ liftSub L π B :=
   Subgroup.map_mono (Subgroup.comap_mono (Subgroup.map_mono h))
 
+omit [Finite Y] [Finite K] in
 theorem liftSub_le (A : Subgroup K) : liftSub L π A ≤ L := Subgroup.map_subtype_le _
 
+omit [Finite Y] [Finite K] in
 theorem mem_liftSub {A : Subgroup K} {x : Y} :
     x ∈ liftSub L π A ↔ ∃ a : ↥L, (a : Y) = x ∧ (qq) a ∈ A.map π := by
   constructor
@@ -78,7 +81,7 @@ theorem mem_liftSub {A : Subgroup K} {x : Y} :
 
 theorem pElementSubgroup_mono' {G : Type*} [Group G] {A B : Subgroup G} (h : A ≤ B) :
     pElementSubgroup 2 A ≤ pElementSubgroup 2 B :=
-  Subgroup.closure_mono fun x hx => ⟨h hx.1, hx.2⟩
+  Subgroup.closure_mono fun _x hx => ⟨h hx.1, hx.2⟩
 
 theorem odd_centralizes_of_hVD {Q : Subgroup Y} (hQL : Q ≤ L)
     {Nb : Subgroup (↥L ⧸ Subgroup.center ↥L)} (hNb2 : IsPGroup 2 ↥Nb)
@@ -96,7 +99,7 @@ theorem odd_centralizes_of_hVD {Q : Subgroup Y} (hQL : Q ≤ L)
   set W : Subgroup Y := pElementSubgroup 2 Q with hW
   obtain ⟨w₀, hw₀, rfl⟩ := hyb
   have hw₀W : (w₀ : Y) ∈ W := Subgroup.mem_subgroupOf.1 hw₀
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e, ⟨a', ha'⟩, hfe⟩ := CFSG.AGLEmbeddingD2.McLaughlin.TightPairAndPureRank.exists_pElement_lift
     (QuotientGroup.mk' (Subgroup.center ↥L)) (p := p) (x := w₀) ⟨a, ha⟩
   have hw₁W : ((w₀ ^ e : ↥L) : Y) ∈ W := by
@@ -106,7 +109,7 @@ theorem odd_centralizes_of_hVD {Q : Subgroup Y} (hQL : Q ≤ L)
     rw [Subgroup.orderOf_coe, ha']
     exact (hp.odd_of_ne_two hp2).pow
   obtain ⟨u, hu1, huW, s, hs⟩ := hlift cb hcb
-  haveI : Group.IsNilpotent ↥Nb := hNb2.isNilpotent
+  have : Group.IsNilpotent ↥Nb := hNb2.isNilpotent
   have hNilL : Group.IsNilpotent ↥(Nb.comap (QuotientGroup.mk' (Subgroup.center ↥L))) := by
     refine Subgroup.isNilpotent_of_ker_le_center
       (((QuotientGroup.mk' (Subgroup.center ↥L)).comp
@@ -151,6 +154,7 @@ theorem odd_centralizes_of_hVD {Q : Subgroup Y} (hQL : Q ≤ L)
   rw [map_mul, map_mul, map_inv, hfe, hu1] at h3
   exact h3
 
+omit [Finite K] in
 theorem clause_four_core (hπ : BorelQuotient D n H π M)
     (hSimple : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L))
     (hZ : Subgroup.center (↥L ⧸ Subgroup.center ↥L) = ⊥)
@@ -225,8 +229,8 @@ theorem clause_four_core (hπ : BorelQuotient D n H π M)
 
 theorem center_quotient_eq_bot {G : Type*} [Group G] (hG : Open.IsQuasisimple G) :
     Subgroup.center (G ⧸ Subgroup.center G) = ⊥ := by
-  haveI := hG.2
-  haveI : (Subgroup.center (G ⧸ Subgroup.center G)).Normal := inferInstance
+  have := hG.2
+  have : (Subgroup.center (G ⧸ Subgroup.center G)).Normal := inferInstance
   rcases hG.2.eq_bot_or_eq_top_of_normal (Subgroup.center (G ⧸ Subgroup.center G)) with h | h
   · exact h
   · exfalso
@@ -240,7 +244,7 @@ theorem center_quotient_eq_bot {G : Type*} [Group G] (hG : Open.IsQuasisimple G)
       exact mul_inv_eq_iff_eq_mul.2 (Subgroup.mem_center_iff.1 hc _)
     have htop : (QuotientGroup.mk' (Subgroup.center G)).ker = ⊤ := by
       rw [eq_top_iff, ← hG.1]; exact hker
-    haveI := hG.2.toNontrivial
+    have := hG.2.toNontrivial
     obtain ⟨a, b, hab⟩ := exists_pair_ne (G ⧸ Subgroup.center G)
     obtain ⟨a₀, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b₀, rfl⟩ := QuotientGroup.mk_surjective b
@@ -250,6 +254,7 @@ theorem center_quotient_eq_bot {G : Type*} [Group G] (hG : Open.IsQuasisimple G)
       MonoidHom.mem_ker.1 (htop ▸ Subgroup.mem_top _)
     exact hab (ha.trans hb.symm)
 
+omit [Finite Y] [Finite K] in
 theorem iSup_liftSub_eq (hπ : BorelQuotient D n H π M) [Nonempty (Fin D.rank)] :
     (⨆ j, liftSub L π (parJ D H {j})) = L := by
   have hK : (⊤ : Subgroup K) ≤ ⨆ i, parJ D H {i} := by
@@ -300,7 +305,7 @@ theorem clause_four_of_borelQuotient {R P : Subgroup Y} (hL : Open.IsQuasisimple
     by_contra hall
     push Not at hall
     apply hQL
-    haveI : Nonempty (Fin D.rank) := ⟨hJne.some⟩
+    have : Nonempty (Fin D.rank) := ⟨hJne.some⟩
     have hall' : (⨆ j ∈ J, liftSub L π' (parJ D H {j})) = ⨆ j, liftSub L π' (parJ D H {j}) :=
       le_antisymm (iSup₂_le fun j _ => le_iSup (fun j => liftSub L π' (parJ D H {j})) j)
         (iSup_le fun j => le_iSup₂_of_le (f := fun j (_ : j ∈ J) =>

@@ -64,8 +64,8 @@ theorem s16t3_exists_mulEquiv_of_quotientEquiv
     rw [two_nsmul]
     change Additive.ofMul x.toMul + Additive.ofMul x.toMul = 0
     rw [← ofMul_mul, hJ', ofMul_one]
-  letI : Module (ZMod 2) (Additive J) := AddCommGroup.zmodModule htwoJ
-  letI : Module (ZMod 2) (Additive J') := AddCommGroup.zmodModule htwoJ'
+  let : Module (ZMod 2) (Additive J) := AddCommGroup.zmodModule htwoJ
+  let : Module (ZMod 2) (Additive J') := AddCommGroup.zmodModule htwoJ'
   let Ys : Submodule (ZMod 2) (Additive J) :=
     AddSubgroup.toZModSubmodule 2 (Subgroup.toAddSubgroup Y)
   let Ys' : Submodule (ZMod 2) (Additive J') :=

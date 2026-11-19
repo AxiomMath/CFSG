@@ -54,7 +54,7 @@ theorem exists_mem_rootGroup_ne_one (hQ : (polarBilin Q).Nondegenerate) {v : V} 
   have hlt : 1 < Nat.card (rootGroup Q v) := by
     rw [hcard]
     exact Nat.one_lt_pow (by omega) (by norm_num)
-  haveI : Finite (rootGroup Q v) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite (rootGroup Q v) := Nat.finite_of_card_ne_zero (by omega)
   obtain ⟨g, hg⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp ((Subgroup.one_lt_card_iff_ne_bot _).mp hlt)
   exact ⟨g, g.2, fun h => hg (Subtype.ext h)⟩
 
@@ -76,6 +76,7 @@ theorem exists_mem_rootGroup_apply_ne (hQ : (polarBilin Q).Nondegenerate) {v : V
     rw [h, sub_self]
     exact Submodule.zero_mem _
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem app_eq_of_mem_pointStabilizer {v : V} (hv0 : v ≠ 0) {s : Gom Q}
     (hs : s ∈ pointStabilizer Q v) : s.app v = v := by
   obtain ⟨c, hc⟩ := mem_pointStabilizer.mp hs

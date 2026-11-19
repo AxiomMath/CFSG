@@ -115,8 +115,8 @@ theorem two_le_pRank_of_dvd_card_parabolic [Finite K] [CharP K 2] (σ : K ≃+* 
     (hdvd : p ∣ Nat.card (graphFixedParabolic TwistTag.D4 K σ.toRingHom {b})) :
     2 ≤ CFSG.pRank p ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hσs : Function.Surjective σ.toRingHom := σ.surjective
   have hcard : Nat.card (graphFixedParabolic TwistTag.D4 K σ.toRingHom {b}) =
       Nat.card (graphFixedRootTorus TwistTag.D4 K σ.toRingHom) *
@@ -170,9 +170,9 @@ theorem leviSubAt_graphFixedRootGroup [Finite K] (σ : K ≃+* K) {n : ℕ} (hn 
     (hK : Nat.card K = (2 ^ n) ^ 3) (hσ : ∀ c, σ c = c ^ 2 ^ n) :
     LeviSubAt ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by omega : 1 ≤ 3 * n) (by rw [hK, ← pow_mul, mul_comm])
   obtain ⟨w₀, hw₀, -⟩ := weyl_longest_element TwistTag.D4.tag
   obtain ⟨⟨T₀, hT₀⟩, -⟩ := exceptional_fixed_Sylow_opposition TwistTag.D4 K 2 σ w₀ hw₀

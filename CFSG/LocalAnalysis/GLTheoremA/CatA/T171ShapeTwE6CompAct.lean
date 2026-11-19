@@ -44,11 +44,11 @@ theorem twE6_langSetup_and_component {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i) ∧
       Kc.map ι = rationalComponent S.ρ S.Γ (rootCharHom a) i := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hcharK : CharP K 2 := charP_of_card_eq_prime_pow (f := q.exponent * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcharK : CharP K 2 := charP_of_card_eq_prime_pow (f := q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hKcard, hq2, ← pow_mul])
-  haveI hcharL : CharP (AlgebraicClosure K) 2 :=
+  have hcharL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hmon : MonomialToralAt Tag.E6 p :=
     monomialToralAt_exc monomialToralAt_E6_five monomialToralAt_E7_five
@@ -120,11 +120,11 @@ theorem twE6ComponentAction_aux
   classical
   obtain ⟨S, a, ι, i, hSq, huntw, hT, hap, hTp, h1, hinj, hrange, hconj, hqs, hKR⟩ :=
     twE6_langSetup_and_component hp hp2 hq2 σ hKcard hσ x hx1 hxp Kc hKc
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hcharK : CharP K 2 := charP_of_card_eq_prime_pow (f := q.exponent * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcharK : CharP K 2 := charP_of_card_eq_prime_pow (f := q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hKcard, hq2, ← pow_mul])
-  haveI hcharL : CharP (AlgebraicClosure K) 2 :=
+  have hcharL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   set y : ModGL Tag.E6 (AlgebraicClosure K) := ι w with hydef
   have hιconj : ∀ c : ↥(twistedE6RootGroup K σ),
@@ -174,7 +174,7 @@ theorem twE6ComponentAction_aux
     hK (τ := Tag.E6) (L := AlgebraicClosure K) S Nat.prime_five (by norm_num) hp hp2
       (Or.inr (Or.inr (Or.inr (Or.inl rfl)))) hT hap hTp h1 (fun h => by cases h) i hqs hNR
       hyZ hyF hyStab
-  haveI hperfK : Group.IsPerfect ↥Kc := ⟨hKc.2.2.1⟩
+  have hperfK : Group.IsPerfect ↥Kc := ⟨hKc.2.2.1⟩
   have hαγ : ∀ g : ↥Kc,
       subgroupStabRestrict R ⟨MulAut.conj y, hyStab⟩ (eG g) =
         eG (subgroupStabRestrict Kc ⟨MulAut.conj w, hstab⟩ g) := by
@@ -191,7 +191,7 @@ theorem twE6ComponentAction_aux
     hker hαγ).1 hmain
 
 theorem twE6ComponentAction_holds : TwE6ComponentAction :=
-  fun hK hC p hp hp2 q hq2 K _ _ σ hKcard hσ hnot3 x w hx1 hxp hxw Kc hKc hstab h360 =>
+  fun hK hC _p hp hp2 _q hq2 _K _ _ σ hKcard hσ hnot3 x w hx1 hxp hxw Kc hKc hstab h360 =>
     twE6ComponentAction_aux hK hC hp hp2 hq2 σ hKcard hσ hnot3 x w hx1 hxp hxw Kc hKc hstab
       h360
 

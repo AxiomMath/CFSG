@@ -13,9 +13,11 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {T H K : Subgroup G}
 
+omit [Finite G] in
 theorem self_mem_conjSubgroupsBy (K H : Subgroup G) : K ∈ conjSubgroupsBy H K :=
   ⟨1, H.one_mem, (A38.map_conj_eq_iff.mpr (Subgroup.one_mem _)).symm⟩
 
+omit [Finite G] in
 theorem exists_mem_not_mem_normalizer_of_ncard_two (hT : IsSylowTwoOf T H)
     (hncard : Set.ncard (conjSubgroupsBy H K) = 2) :
     ∃ t ∈ T, t ∉ Subgroup.normalizer (K : Set G) := by

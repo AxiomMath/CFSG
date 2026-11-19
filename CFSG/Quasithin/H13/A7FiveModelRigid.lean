@@ -68,7 +68,7 @@ theorem five_model_Sylow_normalized_perfect_subgroup_eq_top
   · obtain ⟨e⟩ := he
     have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
     exact hsimple e.isSimpleGroup
-  · exact eq_top_of_normal_sup_isPGroup S.isPGroup' hBS
+  · exact eq_top_of_normal_sup_isPGroup S.isPGroup hBS
   · exact hsimple (CFSG.Timmesfeld.isSimpleGroup_of_lieModel hU)
 
 theorem local_chain_eq_of_QT13Five
@@ -95,7 +95,7 @@ theorem local_chain_eq_of_QT13Five
     rw [← hB'map, h, Subgroup.map_bot]
   have hTsyl : CFSG.ABGLocalTools.IsSylowOf 2 (T : Subgroup G) (D ⊔ (T : Subgroup G)) := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_sup_right, T.isPGroup', fun h2 => T.not_dvd_index ?_⟩
+    refine ⟨le_sup_right, T.isPGroup, fun h2 => T.not_dvd_index ?_⟩
     rw [← relIndex_top_right, ← relIndex_mul_relIndex (T : Subgroup G) (D ⊔ (T : Subgroup G)) ⊤
       le_sup_right le_top]
     exact h2.mul_right _

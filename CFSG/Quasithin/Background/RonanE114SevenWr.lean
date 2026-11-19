@@ -14,6 +14,7 @@ section Base
 
 variable {L : Type} [Group L] [Finite L]
 
+omit [Finite L] in
 theorem modelBase_comm {n : ℕ} (S : Sylow 2 L) (e : ↥(S : Subgroup L) ≃* Wreath (2 ^ n))
     {x y : L} (hx : x ∈ modelBase S e) (hy : y ∈ modelBase S e) : x * y = y * x := by
   obtain ⟨w₁, hw₁, rfl⟩ := Subgroup.mem_map.mp hx
@@ -28,10 +29,10 @@ theorem isSolvable_centralizer_modelT (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 L)
     Group.IsSolvable ↥(Subgroup.centralizer (modelT n S e : Set L)) := by
   set C := Subgroup.centralizer (modelT n S e : Set L) with hC
   have hcomp := modelBaseFourCentralizer_oddCore_complement n hn S e
-  haveI : (CFSG.oddCore ↥C).Characteristic := oddCore_characteristic
-  haveI : Group.IsSolvable ↥(CFSG.oddCore ↥C) :=
+  have : (CFSG.oddCore ↥C).Characteristic := oddCore_characteristic
+  have : Group.IsSolvable ↥(CFSG.oddCore ↥C) :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ (weakClosure_oddCore_card C)
-  haveI : Group.IsSolvable (↥C ⧸ CFSG.oddCore ↥C) := by
+  have : Group.IsSolvable (↥C ⧸ CFSG.oddCore ↥C) := by
     refine Group.isSolvable_of_comm fun a b => ?_
     induction a using QuotientGroup.induction_on with
     | H a =>
@@ -56,25 +57,25 @@ theorem isSolvable_normalizer_modelBase (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 L)
   set B := modelBase S e with hB
   set N := Subgroup.normalizer (B : Set L) with hN
   have hCB : Group.IsSolvable ↥(Subgroup.centralizer (B : Set L)) := by
-    haveI := isSolvable_centralizer_modelT n hn S e
+    have := isSolvable_centralizer_modelT n hn S e
     have hle : Subgroup.centralizer (B : Set L) ≤ Subgroup.centralizer (modelT n S e : Set L) :=
       Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr (modelT_le_base n (by omega) S e))
     exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
-  haveI : Group.IsSolvable ↥((Subgroup.centralizer (B : Set L)).subgroupOf N) :=
+  have : Group.IsSolvable ↥((Subgroup.centralizer (B : Set L)).subgroupOf N) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe
         (Subgroup.centralizer_le_normalizer (s := (B : Set L)))).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe _).injective
-  haveI : Group.IsSolvable (↥N ⧸ (Subgroup.centralizer (B : Set L)).subgroupOf N) := by
+  have : Group.IsSolvable (↥N ⧸ (Subgroup.centralizer (B : Set L)).subgroupOf N) := by
     rcases modelBaseNormalizerQuotient_alternatives n (by omega) S e with h2 | h6
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hp : IsPGroup 2 (↥N ⧸ (Subgroup.centralizer (B : Set L)).subgroupOf N) :=
         IsPGroup.of_card (n := 1) (by rw [h2]; norm_num)
-      haveI : Group.IsNilpotent (↥N ⧸ (Subgroup.centralizer (B : Set L)).subgroupOf N) :=
+      have : Group.IsNilpotent (↥N ⧸ (Subgroup.centralizer (B : Set L)).subgroupOf N) :=
         hp.isNilpotent
       infer_instance
     · obtain ⟨f⟩ := h6
-      haveI : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
+      have : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
       exact Group.isSolvable_of_isSolvable_injective (f := f.toMonoidHom) f.injective
   exact Group.isSolvable_of_subgroup_quotient ((Subgroup.centralizer (B : Set L)).subgroupOf N)
 
@@ -106,6 +107,7 @@ theorem exists_normalizer_moves [IsSimpleGroup L] (hnab : ∃ a b : L, a * b ≠
       hz hxB hz2 hxo
     exact ⟨g, hg, by rw [hgz]; exact fun h => hzx h.symm⟩
 
+omit [Finite L] in
 theorem mem_modelBase_of_central (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 L)
     (e : ↥(S : Subgroup L) ≃* Wreath (2 ^ n)) {z : L} (hzS : z ∈ (S : Subgroup L))
     (hc : ∀ s ∈ (S : Subgroup L), s * z = z * s) : z ∈ modelBase S e := by

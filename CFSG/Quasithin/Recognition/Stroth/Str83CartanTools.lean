@@ -63,7 +63,7 @@ theorem card_isCyclic_of_hallTwoPrime {G : Type} [Group G]
     simpa [hπ, CFSG.Quasithin.modO2Image] using
       CFSG.Quasithin.Vol2.Ch11.SecS.card_modO2Image_of_odd (Y := L) (X := D) hDL hD.2.1
   have hcycSub : IsCyclic ↥(D.subgroupOf L) := by
-    haveI : IsCyclic ↥(π.comp (D.subgroupOf L).subtype).range := by
+    have : IsCyclic ↥(π.comp (D.subgroupOf L).subtype).range := by
       rw [hrange]
       exact hcycDbar
     let e := MonoidHom.ofInjective hinj

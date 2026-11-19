@@ -25,7 +25,7 @@ theorem false_of_tits {K : Type} [Group K] [Finite K] {hv : TauCeti.LieTypeIndex
     (e : K ≃* Cat ⟨.tits, hv⟩) {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) {E P : Subgroup K}
     (hE : Nat.card E = f ^ 2) (S : Sylow 2 K) (hP : P ≠ ⊤) (hEP : E ≤ P)
     (hSP : (S : Subgroup K) ≤ P) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨φ⟩ := titsModelEquiv K 2 1 (CFSG.RankThree.PartOne.CTP.reeTitsModel_tits ⟨hv, ⟨e⟩⟩)
   have hSp : IsPGroup 2 titsSD :=
     IsPGroup.of_card (n := 11) (by rw [CFSG.Quasithin.card_titsSD]; norm_num)
@@ -68,7 +68,7 @@ section U33
 theorem false_of_u33 {K : Type} [Group K] [Finite K] (h : CFSG.Quasithin.IsPSU 3 3 1 K) {f : ℕ}
     (hf : f.Prime) (hf2 : f ≠ 2) {E P : Subgroup K} (hE : Nat.card E = f ^ 2) (S : Sylow 2 K)
     (hP : P ≠ ⊤) (hEP : E ≤ P) (hSP : (S : Subgroup K) ≤ P) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨eK⟩ := CFSG.Quasithin.SBc17.nonempty_mulEquiv_PSU3_of_isPSU h
   obtain ⟨eU⟩ := CFSG.Quasithin.u33Pres_mulEquiv_PSU3
   have hmem := card_mem_of_overgroups (eK.trans eU.symm) CFSG.Quasithin.u33SylowT {32, 96}

@@ -110,7 +110,7 @@ private theorem exists_pow_eq_of_mem_isCyclic {C : Subgroup G} (hC : IsCyclic C)
     (haC : a ∈ C) (hcC : c ∈ C) (ha : orderOf a = 3) (hc : c ^ 3 = 1) : ∃ i : ℕ, c = a ^ i := by
   by_cases hc1 : c = 1
   · exact ⟨0, by rw [hc1, pow_zero]⟩
-  haveI := hC
+  have := hC
   have hz : zpowers (⟨c, hcC⟩ : C) = zpowers ⟨a, haC⟩ := by
     rw [IsCyclic.subgroup_eq_iff_card_eq, Nat.card_zpowers, Nat.card_zpowers, Subgroup.orderOf_mk,
       Subgroup.orderOf_mk, orderOf_eq_prime hc hc1, ha]

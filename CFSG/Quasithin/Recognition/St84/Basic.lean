@@ -54,8 +54,8 @@ theorem Hyp30.finite_neighborSet (h : Hyp30 Γ G) (v : V) :
     (Γ.neighborSet v).Finite := by
   obtain ⟨a, ha⟩ := h.exists_adj v
   obtain ⟨N, hN⟩ := h.locL2 v
-  haveI : Finite (MulAction.stabilizer G v) := h.finite_stab v
-  haveI : Finite N :=
+  have : Finite (MulAction.stabilizer G v) := h.finite_stab v
+  have : Finite N :=
     Finite.of_injective (Subgroup.inclusion hN.le) (Subgroup.inclusion_injective hN.le)
   refine Finite.of_surjective (fun g : N => (⟨(g : G) • a, ?_⟩ : Γ.neighborSet v)) ?_
   · have hgv : (g : G) • v = v := MulAction.mem_stabilizer_iff.mp (hN.le g.2)
@@ -269,7 +269,7 @@ theorem IsTree.dist_smul (hT : Γ.IsTree)
     have hlen : (p.map hf).length = p.length := Walk.length_map hf p
     have h1 : Γ.dist (hf u) (hf v) ≤ (p.map hf).length := dist_le (p.map hf)
     have h1' : Γ.dist (g • u) (g • v) ≤ (p.map hf).length := by
-      convert h1 using 2 <;> rfl
+      convert h1 using 2
     calc Γ.dist (g • u) (g • v) ≤ (p.map hf).length := h1'
       _ = p.length := hlen
       _ = Γ.dist u v := hp
@@ -362,7 +362,6 @@ theorem Hyp30.preservesParts (h : Hyp30 Γ G) : PreservesParts Γ G := by
     exact Subgroup.mem_inf.mpr ⟨by
       change Even (Γ.dist α (x • α))
       exact (IsTree.even_dist_smul_iff h.isTree h.adj_smul x α β).mpr (by
-        change Even (Γ.dist β (x • β))
         rw [MulAction.mem_stabilizer_iff.mp hx, dist_self]
         exact ⟨0, rfl⟩), hx⟩
   have htransα : ∀ a b : V, Γ.Adj α a → Γ.Adj α b →
@@ -424,7 +423,7 @@ theorem exists_isSylowTwoOf_ge_of_finite {G : Type*} [Group G] {J X : Subgroup G
   have hX' : IsPGroup 2 (X.subgroupOf J) :=
     hX.of_equiv (Subgroup.subgroupOfEquivOfLe hXJ).symm
   obtain ⟨P, hP⟩ := hX'.exists_le_sylow
-  refine ⟨P.map J.subtype, ⟨Subgroup.map_subtype_le _, P.isPGroup'.map J.subtype, ?_⟩, ?_⟩
+  refine ⟨P.map J.subtype, ⟨Subgroup.map_subtype_le _, P.isPGroup.map J.subtype, ?_⟩, ?_⟩
   · have h : (P.map J.subtype : Subgroup G).subgroupOf J = (P : Subgroup ↥J) :=
       Subgroup.comap_map_eq_self_of_injective J.subtype_injective _
     rw [h]
@@ -473,7 +472,6 @@ theorem zpow_smul_vert (m i : ℤ) :
     simp only [zpow_natCast]
     rw [← h, inv_smul_smul]
     congr 1
-    push_cast
     ring
 
 theorem Gi_add (m i : ℤ) :
@@ -628,13 +626,12 @@ theorem Z_normal (i : ℤ) : ∀ g ∈ X.Gi i, conjSub g (X.Z i) = X.Z i := by
   exact h.symm
 
 theorem Z_le_center (i : ℤ) : X.Z i ≤ centerOf (X.Q i) := by
-  haveI hfin : Finite (X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have hfin : Finite (X.Gi i) := X.hyp.finite_stab (X.vert i)
   unfold Setup.Z
   apply iSup_le
   intro P
   apply iSup_le
-  intro hP
-  intro x hx
+  intro hP x hx
   obtain ⟨hxP, hxQ⟩ := Subgroup.mem_inf.mp hx
   have hQP : X.Q i ≤ P := pCoreOf_le_of_isSylowTwoOf hP
   refine Subgroup.mem_inf.mpr ⟨hxQ, ?_⟩
@@ -647,7 +644,7 @@ theorem Z_commute (i : ℤ) : ∀ x ∈ X.Z i, ∀ y ∈ X.Z i, x * y = y * x :=
   exact ((Subgroup.mem_centralizer_iff.mp (X.Z_le_center i hx).2) y (X.Z_le_Q i hy)).symm
 
 theorem Z_ne_bot_of (i : ℤ) (hQ : X.Q i ≠ ⊥) : X.Z i ≠ ⊥ := by
-  haveI hfin : Finite (X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have hfin : Finite (X.Gi i) := X.hyp.finite_stab (X.vert i)
   have hQp : IsPGroup 2 (X.Q i) := by
     unfold Setup.Q
     exact (CFSG.pCore_isPGroup (p := 2) (G := X.Gi i)).map (X.Gi i).subtype
@@ -658,10 +655,10 @@ theorem Z_ne_bot_of (i : ℤ) (hQ : X.Q i ≠ ⊥) : X.Z i ≠ ⊥ := by
   have hQnP : P ≤ Subgroup.normalizer (X.Q i : Set G) := hP.1.trans hQnorm
   have hNnormal : ((X.Q i).subgroupOf P).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQnP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hPfin : Finite P :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hPfin : Finite P :=
     Finite.of_injective (Subgroup.inclusion hP.1) (Subgroup.inclusion_injective hP.1)
-  haveI hPnil : Group.IsNilpotent P := hP.2.1.isNilpotent
+  have hPnil : Group.IsNilpotent P := hP.2.1.isNilpotent
   have hNne : (X.Q i).subgroupOf P ≠ ⊥ := by
     intro hbot
     apply hQ
@@ -693,7 +690,7 @@ theorem arcStab_self (m : ℤ) : X.arcStab m m = X.Gi m := by
   unfold Setup.arcStab Setup.Gi
   have himage : X.vert '' Set.Icc m m = {X.vert m} := by
     ext x
-    simp [Set.mem_Icc]
+    simp
   rw [himage]
   ext g
   rw [Fan86.mem_fixSet, MulAction.mem_stabilizer_iff]

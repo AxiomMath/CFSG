@@ -15,6 +15,7 @@ section ParB
 
 variable {G : Type} [Group G] [Finite G] {n : ℕ} {M L V : Subgroup G} (d : O6NatData G n L V)
 
+omit [Finite G] in
 theorem O6NatData.one_le_n (d : O6NatData G n L V) : 1 ≤ n := by
   have h1 := d.card_F
   have h2 : 1 < Nat.card d.F := Finite.one_lt_card
@@ -26,12 +27,14 @@ theorem O6NatData.one_le_n (d : O6NatData G n L V) : 1 ≤ n := by
 
 instance O6NatData.instCharP : CharP d.F 2 := d.charP d.one_le_n
 
+omit [Finite G] in
 theorem O6NatData.act_mul (hMV : M ≤ normalizer (V : Set G)) {m m' : G} (hm : m ∈ M)
     (hm' : m' ∈ M) (x : OW d.F) :
     d.act (m * m') (hMV (M.mul_mem hm hm')) x = d.act m (hMV hm) (d.act m' (hMV hm') x) := by
   have h := congrArg (fun f => f x) ((d.rho M hMV).map_mul ⟨m, hm⟩ ⟨m', hm'⟩)
   exact h
 
+omit [Finite G] in
 theorem O6NatData.act_one (hMV : M ≤ normalizer (V : Set G)) (x : OW d.F) :
     d.act 1 (hMV M.one_mem) x = x := by
   have h := congrArg (fun f => f x) (d.rho M hMV).map_one
@@ -52,9 +55,11 @@ def O6NatData.Lam (hMV : M ≤ normalizer (V : Set G)) : Subgroup G where
     rw [hgx, gv_gv_inv] at h1
     exact h1
 
+omit [Finite G] in
 theorem O6NatData.Lam_le (hMV : M ≤ normalizer (V : Set G)) : d.Lam hMV ≤ M :=
   fun _ hm => hm.1
 
+omit [Finite G] in
 theorem O6NatData.L_le_Lam (hLM : L ≤ M) (hMV : M ≤ normalizer (V : Set G)) : L ≤ d.Lam hMV :=
   fun l hl => by
   refine ⟨hLM hl, ((d.ε ⟨l, hl⟩ : ↥(StatedOmega (StatedQuadMinus 3 d.F d.b d.c))) :
@@ -62,6 +67,7 @@ theorem O6NatData.L_le_Lam (hLM : L ≤ M) (hMV : M ≤ normalizer (V : Set G)) 
   obtain ⟨v, rfl⟩ := d.eqv.surjective x
   rw [d.act_eqv, ← d.eps_eqv hl (hMV (hLM hl)) v]
 
+omit [Finite G] in
 theorem O6NatData.C_le_Lam (hMV : M ≤ normalizer (V : Set G)) :
     M ⊓ centralizer (V : Set G) ≤ d.Lam hMV := fun c hc => by
   refine ⟨hc.1, 1, one_mem _, fun x => ?_⟩
@@ -73,6 +79,7 @@ theorem O6NatData.C_le_Lam (hMV : M ≤ normalizer (V : Set G)) :
   rw [← h1]
   group
 
+omit [Finite G] in
 theorem O6NatData.Lam_conj_mem (hLM : L ≤ M) (hML : M ≤ normalizer (L : Set G))
     (hMV : M ≤ normalizer (V : Set G)) {m : G} (hm : m ∈ M) {l : G} (hl : l ∈ d.Lam hMV) :
     m * l * m⁻¹ ∈ d.Lam hMV := by
@@ -84,6 +91,7 @@ theorem O6NatData.Lam_conj_mem (hLM : L ≤ M) (hML : M ≤ normalizer (L : Set 
   rw [d.act_act_inv hMV hm] at this
   exact this
 
+omit [Finite G] in
 theorem O6NatData.Lam_normal (hLM : L ≤ M) (hML : M ≤ normalizer (L : Set G))
     (hMV : M ≤ normalizer (V : Set G)) : M ≤ normalizer (d.Lam hMV : Set G) := by
   intro m hm
@@ -93,6 +101,7 @@ theorem O6NatData.Lam_normal (hLM : L ≤ M) (hML : M ≤ normalizer (L : Set G)
   have := d.Lam_conj_mem hLM hML hMV (M.inv_mem hm) hl
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem O6NatData.exists_mat (hMV : M ≤ normalizer (V : Set G)) {m : G} (hm : m ∈ d.Lam hMV) :
     ∃ g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) d.F,
       g ∈ StatedOmega (StatedQuadMinus 3 d.F d.b d.c) ∧
@@ -119,15 +128,18 @@ noncomputable def O6NatData.matHom (hMV : M ≤ normalizer (V : Set G)) :
     rw [gv_mul, ← h2, ← h3, ← d.act_mul hMV (d.Lam_le hMV m.2) (d.Lam_le hMV m'.2) x]
     exact h1.symm
 
+omit [Finite G] in
 theorem O6NatData.matHom_mem (hMV : M ≤ normalizer (V : Set G)) (m : ↥(d.Lam hMV)) :
     d.matHom hMV m ∈ StatedOmega (StatedQuadMinus 3 d.F d.b d.c) :=
   (Classical.choose_spec (d.exists_mat hMV m.2)).1
 
+omit [Finite G] in
 theorem O6NatData.act_eq_matHom (hMV : M ≤ normalizer (V : Set G)) {m : G} (hm : m ∈ d.Lam hMV)
     (hmM : m ∈ M) (x : OW d.F) : d.act m (hMV hmM) x = gv (d.matHom hMV ⟨m, hm⟩) x :=
   (Classical.choose_spec (d.exists_mat hMV hm)).2 hmM x
 
-theorem O6NatData.eps_conj (hLM : L ≤ M) (hML : M ≤ normalizer (L : Set G))
+omit [Finite G] in
+theorem O6NatData.eps_conj (hLM : L ≤ M) (_hML : M ≤ normalizer (L : Set G))
     (hMV : M ≤ normalizer (V : Set G)) {t : G} (ht : t ∈ d.Lam hMV) {l : G} (hl : l ∈ L)
     (htl : t * l * t⁻¹ ∈ L) :
     ((d.ε ⟨t * l * t⁻¹, htl⟩ : ↥(StatedOmega (StatedQuadMinus 3 d.F d.b d.c))) :
@@ -147,6 +159,7 @@ theorem O6NatData.eps_conj (hLM : L ≤ M) (hML : M ≤ normalizer (L : Set G))
   rw [gv_mul, gv_mul]
   exact h1.symm
 
+omit [Finite G] in
 theorem O6NatData.eps_comm (hLM : L ≤ M) (hML : M ≤ normalizer (L : Set G))
     (hMV : M ≤ normalizer (V : Set G)) {a : G} (ha : a ∈ d.Lam hMV) {x : G} (hx : x ∈ L)
     (hxa : ⁅x, a⁆ ∈ L) :

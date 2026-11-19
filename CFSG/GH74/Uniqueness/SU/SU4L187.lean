@@ -290,7 +290,7 @@ theorem lemma187_core {S : Sylow 2 G} {U M V : Subgroup G} {x z : G} (h : Hyp184
     (hCD : centralizer (D : Set G) ⊓ (S : Subgroup G) ≤ D)
     (hnot : ¬ IsFusionIsolated (normalizer (D : Set G)) (normalizer (D : Set G) ⊓ (S : Subgroup G))
       z) : normalizer (D : Set G) ≤ M := by
-  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hzS : z ∈ (S : Subgroup G) := hc.z_mem_S
   have hz2 : z * z = 1 := hc.z_mul_self
   have hz1 : z ≠ 1 := hc.z_ne_one

@@ -151,7 +151,7 @@ theorem FiveRel.conjH_pow (R : FiveRel x h) : ∀ (k : ℕ) (a : QV),
 theorem phiAt_red (k : ℕ) {a : QV} (ha : a.red) : (phiAt k a).red := by
   unfold phiAt
   cases k.beq 0 <;> cases k.beq 1 <;> cases k.beq 2 <;> cases k.beq 3 <;>
-    simp only [cond_true, cond_false] <;> first | exact ha | exact evalQF_red _ _
+    simp only [_root_.Bool.cond_true, Bool.cond_false] <;> first | exact ha | exact evalQF_red _ _
 
 theorem conjW_red : ∀ (w : List Lt) {a : QV}, a.red → (conjW w a).red
   | [], _, ha => ha

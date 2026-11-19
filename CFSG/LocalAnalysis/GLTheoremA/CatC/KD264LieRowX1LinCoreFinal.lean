@@ -83,7 +83,7 @@ theorem core_V {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensiona
     have := hmax E0 hE0
     rw [hpE0, hpE] at this
     exact this
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hge' : 3 ^ (Module.finrank (ZMod 2) V / 2) ≤ Fintype.card E := by
     rw [hV, ← Nat.card_eq_fintype_card]
     exact hge

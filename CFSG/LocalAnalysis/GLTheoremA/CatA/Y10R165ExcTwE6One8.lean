@@ -25,7 +25,7 @@ theorem isElemAbelian_thetaTorusP_sup_R3Levi {f p : ℕ} {k : Type} [Field k] [F
     {t : kˣ} (ht : orderOf t = p) (hσ : ∀ c, frobQ 2 f c = c ^ 2 ^ f) :
     IsElemAbelian p (thetaTorusP (f := f) t ⊔
       (R3Levi h p hp hp2 ζ hζ hζbar hσ).subgroupOf (C0 f)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK : Nat.card (GaloisField 2 (2 * f)) = (2 ^ f) ^ 2 := by
     rw [GaloisField.card 2 (2 * f) (by omega), ← pow_mul, mul_comm]
   have hdisj : W0 f k ⊓ DLevi f = ⊥ := by
@@ -47,7 +47,7 @@ theorem card_thetaTorusP_sup_R3Levi {f p : ℕ} {k : Type} [Field k] [Finite k]
     {t : kˣ} (ht : orderOf t = p) (hσ : ∀ c, frobQ 2 f c = c ^ 2 ^ f) :
     Nat.card ↥(thetaTorusP (f := f) t ⊔
       (R3Levi h p hp hp2 ζ hζ hζbar hσ).subgroupOf (C0 f)) = p ^ 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK : Nat.card (GaloisField 2 (2 * f)) = (2 ^ f) ^ 2 := by
     rw [GaloisField.card 2 (2 * f) (by omega), ← pow_mul, mul_comm]
   have hdisj : W0 f k ⊓ DLevi f = ⊥ := by
@@ -81,7 +81,7 @@ theorem card_thetaTorusP_sup_R3Levi {f p : ℕ} {k : Type} [Field k] [Finite k]
 theorem exists_orderOf_eq_prime_sl2 {n q : ℕ} (hn : 1 ≤ n) (hq : q.Prime)
     (hdvd : q ∣ 2 ^ n + 1) :
     ∃ g : Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n), orderOf g = q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n)) =
       2 ^ n * ((2 ^ n) ^ 2 - 1) := by
     have := Fintype.ofFinite (GaloisField 2 n)
@@ -108,7 +108,7 @@ theorem exists_orderOf_eq_prime_sl2 {n q : ℕ} (hn : 1 ≤ n) (hq : q.Prime)
       exact hsq
     rw [h2]
     exact Dvd.dvd.mul_left (Dvd.dvd.mul_left hdvd _) _
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   exact exists_prime_orderOf_dvd_card' q hdvd'
 
 end CFSG.LocalAnalysis.GLTheoremA.Y10F.ExcTwE6

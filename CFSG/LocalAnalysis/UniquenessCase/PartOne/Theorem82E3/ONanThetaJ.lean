@@ -47,7 +47,7 @@ private lemma iSup_inf_centralizer_eq_self {G : Type} [Group G] [Finite G] {E Q 
     (hQinv : SolvableSignalizer.IsInvariant ((MulAut.conj : G →* MulAut G).comp E.subtype) Q)
     (hcard3 : 3 ^ 2 ≤ Nat.card E) (hcop : ¬ 3 ∣ Nat.card ↥Q) :
     Q = ⨆ (a : E) (_ : a ≠ 1), Q ⊓ Subgroup.centralizer ({(a : G)} : Set G) := by
-  letI : CommGroup E := IsMulCommutative.instCommGroup
+  let : CommGroup E := IsMulCommutative.instCommGroup
   have hmain := iSup_fixedSubgroup_eq_top (A := E) (G := ↥Q) 3 Nat.prime_three
     (restrictAction ((MulAut.conj : G →* MulAut G).comp E.subtype) Q hQinv) hcard3 hcop
   have hmap := congrArg (Subgroup.map Q.subtype) hmain
@@ -82,7 +82,7 @@ theorem thetaJ_ne_bot_of_le_theta {G : Type} [Group G] [Finite G] {E Q : Subgrou
     (hnc : ¬ E ≤ Subgroup.centralizer (Q : Set G)) :
     thetaJ 3 E ≠ ⊥ := by
   intro hJ
-  letI : CommGroup E := IsMulCommutative.instCommGroup
+  let : CommGroup E := IsMulCommutative.instCommGroup
   let α : E →* MulAut G := (MulAut.conj : G →* MulAut G).comp E.subtype
   have hQinv : SolvableSignalizer.IsInvariant α Q := isInvariant_conj_of_le_normalizer hEN
   have hcard3 : 3 ^ 2 ≤ Nat.card E := by rw [hcard]; norm_num

@@ -88,22 +88,28 @@ end Series
 section Setting
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem K_sup_S_le_normalizer (h : Setup28 W K S) : K ⊔ S ≤ Subgroup.normalizer (K : Set X) :=
   sup_le Subgroup.le_normalizer h.hN
 
+omit [Finite X] in
 theorem w1_le_sup (hR : Red28 W K S) : kerAct W K S ≤ K ⊔ S := hR.w1_S.trans le_sup_right
 
+omit [Finite X] in
 theorem sup_le_normalizer_w1 (hR : Red28 W K S) :
     K ⊔ S ≤ Subgroup.normalizer (kerAct W K S : Set X) :=
   Subgroup.le_normalizer_iff.2 hR.w1_nrm
 
+omit [Finite X] in
 theorem K_le_normalizer_V (hR : Red28 W K S) : K ≤ Subgroup.normalizer (vOf W K S : Set X) :=
-  fun k hk => N_le_normalizer_V hR ((le_sup_left : K ≤ K ⊔ S) hk)
+  fun _k hk => N_le_normalizer_V hR ((le_sup_left : K ≤ K ⊔ S) hk)
 
+omit [Finite X] in
 theorem pCoreOf_le_w1 (hR : Red28 W K S) : pCoreOf 2 K ≤ kerAct W K S := by
   rw [hR.o2K]
   exact inf_le_right.trans hR.w1_le
 
+omit [Finite X] in
 theorem comm_w1_le (h : Setup28 W K S) (hR : Red28 W K S) {U₁ U₂ : Subgroup X}
     (sf : SingleFactor K (vOf W K S) U₁ U₂)
     (hE : ∀ k ∈ K, ∀ w ∈ kerAct W K S, ⁅k, w⁆ ∈ vOf W K S) : ⁅kerAct W K S, K⁆ ≤ U₁ := by
@@ -119,6 +125,7 @@ theorem comm_w1_le (h : Setup28 W K S) (hR : Red28 W K S) {U₁ U₂ : Subgroup 
   rw [Subgroup.commutator_comm K (kerAct W K S)] at h2
   exact h2.trans (h3.trans h4)
 
+omit [Finite X] in
 theorem comm_V_le_pCore (h : Setup28 W K S) (hR : Red28 W K S) :
     ⁅vOf W K S, K⁆ ≤ pCoreOf 2 K := by
   have hVK : ⁅vOf W K S, K⁆ ≤ K := by
@@ -129,10 +136,12 @@ theorem comm_V_le_pCore (h : Setup28 W K S) (hR : Red28 W K S) :
   have : ⁅vOf W K S, K⁆ ≤ K ⊓ kerAct W K S := le_inf hVK (hVV.trans hR.v_le)
   rwa [hR.k_w1, ← hR.o2K] at this
 
+omit [Finite X] in
 theorem toBar_surjective (W K : Subgroup X) [W.Normal] : Function.Surjective (toBar W K) := by
   rintro ⟨y, k, hk, rfl⟩
   exact ⟨⟨k, hk⟩, rfl⟩
 
+omit [Finite X] in
 theorem toBar_eq_one_iff {W K : Subgroup X} [W.Normal] (k : ↥K) :
     toBar W K k = 1 ↔ (k : X) ∈ W := by
   constructor
@@ -143,6 +152,7 @@ theorem toBar_eq_one_iff {W K : Subgroup X} [W.Normal] (k : ↥K) :
     apply Subtype.ext
     exact (QuotientGroup.eq_one_iff _).2 h
 
+omit [Finite X] in
 theorem zPre_of_center {k : ↥K} (hk : toBar W K k ∈ Subgroup.center ↥(bar W K)) :
     (k : X) ∈ zPre W K := by
   refine ⟨k.2, fun k' hk' => ?_⟩
@@ -154,6 +164,7 @@ theorem zPre_of_center {k : ↥K} (hk : toBar W K k ∈ Subgroup.center ↥(bar 
   have h3 := (toBar_eq_one_iff _).1 h2
   simpa [commutatorElement_def] using h3
 
+omit [Finite X] in
 theorem center_of_zPre {k : ↥K} (hk : (k : X) ∈ zPre W K) :
     toBar W K k ∈ Subgroup.center ↥(bar W K) := by
   rw [Subgroup.mem_center_iff]
@@ -164,10 +175,12 @@ theorem center_of_zPre {k : ↥K} (hk : (k : X) ∈ zPre W K) :
   rw [map_commutatorElement, commutatorElement_eq_one_iff_mul_comm] at h2
   exact h2.symm
 
+omit [Finite X] in
 theorem zPre_iff_center_aux (k : ↥K) :
     (k : X) ∈ zPre W K ↔ toBar W K k ∈ Subgroup.center ↥(bar W K) :=
   ⟨center_of_zPre, zPre_of_center⟩
 
+omit [Finite X] in
 theorem piOf_props_aux {n : ℕ}
     (e : (↥(bar W K) ⧸ Subgroup.center ↥(bar W K)) ≃* ↥(alternatingGroup (Fin n))) :
     Function.Surjective (piOf e) ∧ ∀ k : ↥K, piOf e k = 1 ↔ (k : X) ∈ zPre W K := by
@@ -181,7 +194,7 @@ theorem centre_odd_aux (h : Setup28 W K S) : Odd (Nat.card ↥(Subgroup.center �
   by_contra hne
   have h2 : 2 ∣ Nat.card ↥(Subgroup.center ↥(bar W K)) :=
     even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hne)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have hcc : (z : ↥(bar W K)) ∈ Subgroup.center ↥(bar W K) := z.2
   have hord : orderOf (z : ↥(bar W K)) = 2 := by rw [Subgroup.orderOf_coe, hz]
@@ -195,8 +208,10 @@ theorem centre_odd_aux (h : Setup28 W K S) : Odd (Nat.card ↥(Subgroup.center �
   rw [hc1, orderOf_one] at hord
   exact absurd hord (by norm_num)
 
+omit [Finite X] in
 theorem V_central {v : X} (hv : v ∈ vOf W K S) : ∀ w ∈ kerAct W K S, v * w = w * v := hv.2.1
 
+omit [Finite X] in
 theorem chief_core (h : Setup28 W K S) (hR : Red28 W K S) {U₁ U₂ : Subgroup X}
     (sf : SingleFactor K (vOf W K S) U₁ U₂)
     (hE : ∀ k ∈ K, ∀ w ∈ kerAct W K S, ⁅k, w⁆ ∈ vOf W K S) {V' U : Subgroup X}

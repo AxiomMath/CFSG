@@ -22,15 +22,18 @@ theorem relIndex_relPPrimeCore_eq {H V : Subgroup G} (hVH : V ≤ H) :
   conv_lhs => rw [← Subgroup.map_subgroupOf_eq_of_le hVH]
   exact Subgroup.relIndex_map_map_of_injective _ _ H.subtype_injective
 
+omit [Finite G] in
 theorem isElemAbelian_subgroupOf {A H : Subgroup G} (hA : IsElemAbelian 2 A) :
     IsElemAbelian 2 (A.subgroupOf H) :=
   ⟨⟨⟨fun x y => Subtype.ext (Subtype.ext (comm_of_isElemAbelian hA x.2 y.2))⟩⟩,
     fun x hx => Subtype.ext (by simpa using hA.2 (x : G) hx)⟩
 
+omit [Finite G] in
 theorem card_subgroupOf_of_le {A H : Subgroup G} (h : A ≤ H) :
     Nat.card (A.subgroupOf H) = Nat.card A :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe h).toEquiv
 
+omit [Finite G] in
 theorem subgroupOf_inf_le_normalizer {H M A : Subgroup G} (h : M ≤ normalizer (A : Set G)) :
     (H ⊓ M).subgroupOf H ≤ normalizer ((A.subgroupOf H : Subgroup ↥H) : Set ↥H) := by
   intro m hm
@@ -39,9 +42,10 @@ theorem subgroupOf_inf_le_normalizer {H M A : Subgroup G} (h : M ≤ normalizer 
   refine Subgroup.mem_normalizer_iff.2 fun x => ?_
   exact hn (x : G)
 
+omit [Finite G] in
 theorem pCore_le_subgroupOf {H M S : Subgroup G} (hS : CFSG.ABGLocalTools.IsSylowOf 2 S H)
     (hSM : S ≤ M) : CFSG.pCore 2 ↥H ≤ (H ⊓ M).subgroupOf H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hS.exists_sylow_eq_subgroupOf
   have h1 : CFSG.pCore 2 ↥H ≤ (Q : Subgroup ↥H) :=
     IsPGroup.le_sylow_of_normal (CFSG.pCore_isPGroup) Q
@@ -74,6 +78,7 @@ theorem not_sup_subgroupOf {H H₀ : Subgroup G} (hH₀ : H₀ ≤ H)
       Nat.prime_three H] at h1
   exact h1
 
+omit [Finite G] in
 theorem centralizer_ne_top {z : G} (hz2 : orderOf z = 2) (hs : IsSimpleGroup G)
     (hnab : ∃ a b : G, a * b ≠ b * a) : centralizer ({z} : Set G) ≠ ⊤ := by
   intro htop
@@ -89,6 +94,7 @@ theorem centralizer_ne_top {z : G} (hz2 : orderOf z = 2) (hs : IsSimpleGroup G)
     have ha : a ∈ Subgroup.center G := h ▸ Subgroup.mem_top a
     exact (Subgroup.mem_center_iff.1 ha b).symm
 
+omit [Finite G] in
 theorem centralizer_singleton_eq_normalizer_zpowers {z : G} (hz2 : orderOf z = 2) :
     centralizer ({z} : Set G) = normalizer ((Subgroup.zpowers z : Subgroup G) : Set G) := by
   have hz1 : z ≠ 1 := by
@@ -123,11 +129,12 @@ theorem centralizer_singleton_eq_normalizer_zpowers {z : G} (hz2 : orderOf z = 2
       rw [mul_inv_eq_iff_eq_mul] at h3
       exact h3
 
+omit [Finite G] in
 theorem centralizer_pCore_le (hC : CFSG.Open.IsCharTwoType G) {z : G} (hz2 : orderOf z = 2) :
     centralizer ((CFSG.pCore 2 ↥(centralizer ({z} : Set G)) :
       Subgroup ↥(centralizer ({z} : Set G))) : Set ↥(centralizer ({z} : Set G))) ≤
       CFSG.pCore 2 ↥(centralizer ({z} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz1 : z ≠ 1 := by
     intro h
     rw [h, orderOf_one] at hz2
@@ -151,6 +158,7 @@ theorem centralizer_pCore_le (hC : CFSG.Open.IsCharTwoType G) {z : G} (hz2 : ord
   have : y = x := Subtype.ext hyx
   exact this ▸ hy
 
+omit [Finite G] in
 theorem isKGroup_centralizer (hK : CFSG.Open.IsKProper G) (hs : IsSimpleGroup G)
     (hnab : ∃ a b : G, a * b ≠ b * a) {z : G} (hz2 : orderOf z = 2) :
     CFSG.Open.IsKGroup ↥(centralizer ({z} : Set G)) :=

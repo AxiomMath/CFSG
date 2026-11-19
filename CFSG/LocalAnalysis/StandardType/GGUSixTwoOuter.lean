@@ -23,21 +23,21 @@ private theorem index_le_two_and_surj_of_setting {G : Type} [Group G] [Finite G]
     (timmesfeldFStar S.Mbar).index ≤ 2 ∧
       ∀ y ∈ timmesfeldFStar S.Mbar, ∃ l : L, S.ρ ⟨(l : G), hLM l.2⟩ = (y : S.O) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKU : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
-  haveI hfinK : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI hsimpleU : IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
+  have hfinK : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have hsimpleU : IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 1 hKU 6 (by norm_num)
       (by norm_num)
-  haveI hsimpleL : IsSimpleGroup L := MulEquiv.isSimpleGroup φ
-  haveI hperfU : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) := by
-    haveI : Group.IsPerfect ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
+  have hsimpleL : IsSimpleGroup L := MulEquiv.isSimpleGroup φ
+  have hperfU : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) := by
+    have : Group.IsPerfect ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
       CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := 1) hKU (n := 6)
         (by norm_num) (by norm_num)
     exact Group.IsPerfect.ofSurjective
       (f := LargeEvenProjMk (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
       (QuotientGroup.mk'_surjective _)
-  haveI hperfL : Group.IsPerfect L :=
+  have hperfL : Group.IsPerfect L :=
     Group.IsPerfect.ofSurjective
       (f := (φ.symm : LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) →* L))
       φ.symm.surjective
@@ -48,7 +48,6 @@ private theorem index_le_two_and_surj_of_setting {G : Type} [Group G] [Finite G]
       Nat.prime_two le_rfl hKU (by norm_num)]
     decide
   have h11PSL : ¬ 11 ∣ Nat.card (PSL(6, ZMod 2)) := by
-    change ¬ 11 ∣ Nat.card (Matrix.ProjectiveSpecialLinearGroup (Fin 6) (ZMod 2))
     rw [CFSG.OrderReductions.LinearOrders.card_projectiveSpecialLinear (ZMod 2) 6 (by norm_num),
       Nat.card_eq_fintype_card, ZMod.card]
     decide
@@ -142,7 +141,7 @@ private theorem index_le_two_and_surj_of_setting {G : Type} [Group G] [Finite G]
   · exfalso; obtain ⟨h, -⟩ := h4; omega
   · obtain ⟨-, hidx, hF⟩ := h5
     refine ⟨hidx, ?_⟩
-    haveI hFnormal : (timmesfeldFStar S.Mbar).Normal := by
+    have hFnormal : (timmesfeldFStar S.Mbar).Normal := by
       rw [← CFSG.LargeExtraspecial.Bridge.generalizedFitting_eq_timmesfeldFStar]
       exact (CFSG.LocalCores.generalized_fitting_characteristic).2
     let q : S.Mbar →* (S.Mbar ⧸ timmesfeldFStar S.Mbar) := QuotientGroup.mk' _
@@ -174,8 +173,8 @@ private theorem index_le_two_and_surj_of_setting {G : Type} [Group G] [Finite G]
         exfalso
         exact h11PSL (by rwa [Nat.card_congr e.toEquiv] at h11F)
       · obtain ⟨e⟩ := h
-        haveI : Fintype K := Fintype.ofFinite K
-        haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+        have : Fintype K := Fintype.ofFinite K
+        have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
         have hc : Fintype.card K = Fintype.card (GaloisField 2 2) := by
           rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK,
             GaloisField.card 2 2 (by norm_num)]
@@ -269,7 +268,7 @@ theorem false_of_commute_outer {G : Type} [Group G] [Finite G] [IsSimpleGroup G]
     rw [hz, Subgroup.mem_centralizer_singleton_iff]
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp htg
     exact (Commute.zpow_left (show Commute g h from hgh) k).symm.eq
-  haveI hFnormal : (timmesfeldFStar S.Mbar).Normal := by
+  have hFnormal : (timmesfeldFStar S.Mbar).Normal := by
     rw [← CFSG.LargeExtraspecial.Bridge.generalizedFitting_eq_timmesfeldFStar]
     exact (CFSG.LocalCores.generalized_fitting_characteristic).2
   obtain ⟨hb, hbdef⟩ : ∃ y : S.Mbar, y = S.ρ.rangeRestrict ⟨h, hhM⟩ := ⟨_, rfl⟩

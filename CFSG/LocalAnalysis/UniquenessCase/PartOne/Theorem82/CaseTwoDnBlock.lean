@@ -28,13 +28,13 @@ private theorem not_isQuasisimple_of_mulEquiv_alternatingGroup_of_le_four
   intro hq
   have hperm : Group.IsSolvable (Equiv.Perm (Fin n)) :=
     Equiv.Perm.isSolvable (α := Fin n) (by simpa using hn)
-  haveI : Group.IsSolvable (alternatingGroup (Fin n)) :=
+  have : Group.IsSolvable (alternatingGroup (Fin n)) :=
     Group.isSolvable_of_isSolvable_injective (f := (alternatingGroup (Fin n)).subtype)
       (Subgroup.subtype_injective _)
-  haveI : Group.IsSolvable X :=
+  have : Group.IsSolvable X :=
     Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
-  haveI : Nontrivial (X ⧸ Subgroup.center X) := hq.2.toNontrivial
-  haveI : Nontrivial X := (QuotientGroup.mk'_surjective (Subgroup.center X)).nontrivial
+  have : Nontrivial (X ⧸ Subgroup.center X) := hq.2.toNontrivial
+  have : Nontrivial X := (QuotientGroup.mk'_surjective (Subgroup.center X)).nontrivial
   have hlt := Group.IsSolvable.commutator_lt_top_of_nontrivial (G := X)
   rw [hq.1] at hlt
   exact (lt_irrefl (⊤ : Subgroup X)) hlt
@@ -57,7 +57,7 @@ theorem false_of_L3 (hNT : CFSG.AGLEmbedding.Asc81bNineThree) (hKF1 : L3NotEvenC
     (hL3 : (∃ ℓ f : ℕ, ℓ ^ f % 3 = 2 ∧ CFSG.Blueprint.LieModel (t.Dhat N) .PSL 3 ℓ f) ∨
       (∃ ℓ f : ℕ, ℓ ^ f % 3 = 1 ∧ CFSG.Blueprint.LieModel (t.Dhat N) .PSU 3 ℓ f)) : False := by
   classical
-  haveI := c.standing.simple
+  have := c.standing.simple
   have hNtop : N ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top c.standing.nonab hNIso
   have hHtop : H ≠ ⊤ := fun h => hNtop (eq_top_iff.mpr (h ▸ hHN))
@@ -73,7 +73,7 @@ theorem false_of_L3 (hNT : CFSG.AGLEmbedding.Asc81bNineThree) (hKF1 : L3NotEvenC
   have hnot3 := t.not_three_dvd_card_center_barM_Dn hK32 hGA hSp hKN hDH hrank
   have hcycX : ∀ P : Subgroup X, IsPGroup 3 P → IsCyclic ↥P :=
     fun P hP => t.isCyclic_of_isPGroup_barM_Dn hDH hrank hP
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hXq.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hXq.2
   have hDsimple : IsSimpleGroup (t.Dhat N) := MulEquiv.isSimpleGroup e.symm
   have hDnonab : ∃ a b : t.Dhat N, a * b ≠ b * a :=
     t.exists_mul_ne_mul_Dhat hK32 hGA hSp hKN
@@ -120,7 +120,7 @@ theorem false_of_L3 (hNT : CFSG.AGLEmbedding.Asc81bNineThree) (hKF1 : L3NotEvenC
   · rcases h3 with ⟨-, horth, -⟩
     exact hnotOrth horth
   · rcases h4 with ⟨-, hcard, -⟩
-    exact hnot3 (by simpa [hcard] using (dvd_refl 3 : 3 ∣ 3))
+    exact hnot3 (by simp [hcard])
   · rcases h5 with ⟨-, h5e, -⟩
     obtain ⟨e5⟩ := h5e
     obtain ⟨P, hP, hPc⟩ :=

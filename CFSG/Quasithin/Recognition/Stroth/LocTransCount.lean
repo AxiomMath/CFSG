@@ -69,9 +69,9 @@ private theorem odd_card_stabPath {α : RankTwoAmalgam.{u}} {Y : Type w} [Group 
     {q : GPath c.graph (2 * j + 1)}
     (h2 : ∀ g : ↥(c.φ1.range ⊔ c.φ2.range),
       (∀ i, i ≤ 2 * j + 1 → g • q i = q i) → (∃ k : ℕ, orderOf g = 2 ^ k) → g = 1)
-    (hq : q.NoBack) :
+    (_hq : q.NoBack) :
     Odd (Nat.card ↥(q.stabPath : Subgroup c.G0)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← Nat.not_even_iff_odd, even_iff_two_dvd]
   intro hdvd
   obtain ⟨x, hx⟩ :=
@@ -130,7 +130,7 @@ private theorem exists_smul_of_relIndex_ge {α : RankTwoAmalgam.{u}} {Y : Type w
         rw [GPath.smul_apply, hq.1]
         exact MulAction.mem_stabilizer_iff.mp g.2, GPath.smul_noBack hq.2⟩⟩,
       PathSet.ext rfl fun i => rfl⟩
-  haveI : Finite (GPath c.graph n) := RankTwoAmalgam.Completion.finite_gpath (c := c) n
+  have : Finite (GPath c.graph n) := RankTwoAmalgam.Completion.finite_gpath (c := c) n
   set_option synthInstance.maxHeartbeats 800000 in
   have horbeq : MulAction.orbit A p0 = Set.range ι := by
     refine Set.eq_of_subset_of_ncard_le hsub ?_ (Set.finite_range ι)
@@ -148,7 +148,7 @@ private theorem exists_smul_of_relIndex_ge {α : RankTwoAmalgam.{u}} {Y : Type w
 
 theorem exists_smul_eq_of_stabPath_two {α : RankTwoAmalgam.{u}} {Y : Type w} [Group Y]
     [Finite Y] (c : α.Completion Y) (hc : c.IsFaithful) {j e₁ e₂ m : ℕ}
-    (hq1 : α.qOne = 2 ^ e₁) (hq2 : α.qTwo = 2 ^ e₂) (hm : Odd m)
+    (hq1 : α.qOne = 2 ^ e₁) (hq2 : α.qTwo = 2 ^ e₂) (_hm : Odd m)
     (hB : Nat.card ↥(c.φ1.range ⊓ c.φ2.range) = (α.qOne * α.qTwo) ^ j * m)
     {a : c.Γ} {q q' : GPath c.graph (2 * j + 1)}
     (hq : q ∈ GPath.nbPaths c.graph a (2 * j + 1))

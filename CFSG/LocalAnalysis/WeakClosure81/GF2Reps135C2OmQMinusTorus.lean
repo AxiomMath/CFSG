@@ -14,7 +14,7 @@ theorem omq_omMinus_H_toral {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [Finit
     {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) {g : spinGroup (quadMinus n K b c)}
     (hg : g ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H) :
     ∃ (t : Fin (n - 1) → Kˣ) (z : ShortField b c), OmqMinusToral n g t z := by
-  haveI := fact_shortField hirr
+  have := fact_shortField hirr
   change g ∈ ⨆ j, minusTorus n hirr j at hg
   refine Subgroup.iSup_induction (minusTorus n hirr)
     (C := fun g => ∃ (t : Fin (n - 1) → Kˣ) (z : ShortField b c), OmqMinusToral n g t z) hg
@@ -95,7 +95,7 @@ theorem omq_omMinus_torus_mem_H {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [F
         (SmallO8mCurtis.curtisDatum n hn hirr).H) ∧
     ∀ (i : Fin (n - 1)) (u : (ShortField b c)ˣ),
       shortTorusHom n hirr i u ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H := by
-  haveI := fact_shortField hirr
+  have := fact_shortField hirr
   have hlong : ∀ (i : Fin (n - 1)) (hi : i.val + 1 < n - 1) (a : Kˣ),
       (minusFrame n b c).longTorus (succ_ne_of_lt n hi) true false a ∈
         (SmallO8mCurtis.curtisDatum n hn hirr).H := by
@@ -129,7 +129,7 @@ theorem omq_omMinus_torus_mem_H {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [F
 private theorem c2slomqmw2_exists_toral_t {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [Finite K]
     [CharP K 2] {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (t : Fin (n - 1) → Kˣ) :
     ∃ g ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H, OmqMinusToral n g t (1 : ShortField b c) := by
-  haveI := fact_shortField hirr
+  have := fact_shortField hirr
   classical
   have hone : ∀ (i : Fin (n - 1)) (a : Kˣ), ∃ g ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H,
       OmqMinusToral n g (fun l => if l = i then a else 1) (1 : ShortField b c) := by
@@ -179,7 +179,7 @@ private theorem c2slomqmw2_exists_toral_z {n : ℕ} (hn : 4 ≤ n) {K : Type} [F
     {z : ShortField b c} (hz : QuadraticAlgebra.norm z = 1) :
     ∃ g ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H,
       OmqMinusToral n g (fun _ => 1) z := by
-  haveI := fact_shortField hirr
+  have := fact_shortField hirr
   classical
   have hzz : z * star z = 1 := by
     have h := QuadraticAlgebra.algebraMap_norm_eq_mul_star z

@@ -33,7 +33,7 @@ theorem a2l_trace_sum_smul (b : Module.Basis (Fin d) K F) (u v : Fin d → K) :
   rw [Finset.sum_mul, map_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [Finset.mul_sum, map_sum]
-  simp [smul_mul_smul_comm, Module.Basis.trace_mul_traceDual]
+  simp [Module.Basis.trace_mul_traceDual]
   exact mul_comm _ _
 
 theorem a2lWeilEquiv_form (b : Module.Basis (Fin d) K F) (x y : Fin d ⊕ Fin d → K) :
@@ -141,8 +141,8 @@ theorem a2l_exists_weil_sl2_27 (K : Type) [Field K] [Finite K] [CharP K 3]
         ∀ g : SL(2, F), (g : Matrix (Fin 2) (Fin 2) F) = -1 →
           ((φ g : StatedSp 3 K) : GL (Fin 3 ⊕ Fin 3) K) =
             Matrix.GeneralLinearGroup.scalar (Fin 3 ⊕ Fin 3) (-1 : Kˣ) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   have hd : Module.finrank K (FiniteField.Extension K 3 3) = 3 :=
     FiniteField.finrank_extension K 3 3
   let b : Module.Basis (Fin 3) K (FiniteField.Extension K 3 3) :=

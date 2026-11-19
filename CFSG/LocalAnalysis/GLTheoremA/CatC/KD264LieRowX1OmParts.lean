@@ -36,8 +36,8 @@ theorem kd264X1OmPlusPart_of_core (hcore : KD264OmPlusCore) : KD264X1OmPlusPart 
   have hK2 : Nat.card K = 2 := by
     rw [hKcard, hp2, hf1]
     norm_num
-  haveI : CharP K 2 := om_charP_two_of_card_two K hK2
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.D n q, hv⟩).Group := hsimp
+  have : CharP K 2 := om_charP_two_of_card_two K hK2
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.D n q, hv⟩).Group := hsimp
   have hrk2 : 2 ≤ CFSG.Open.pRank 3
       (⊤ : Subgroup (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.D n q, hv⟩).Group) := by
     have hTG : CFSG.Open.pRank 3
@@ -72,8 +72,8 @@ theorem kd264X1OmMinusPart_of_core (hcore : KD264OmMinusCore) : KD264X1OmMinusPa
   have hK2 : Nat.card K = 2 := by
     rw [hKcard, hp2, hf1]
     norm_num
-  haveI : CharP K 2 := om_charP_two_of_card_two K hK2
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.twistedD n q, hv⟩).Group :=
+  have : CharP K 2 := om_charP_two_of_card_two K hK2
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.twistedD n q, hv⟩).Group :=
     hsimp
   have hrk2 : 2 ≤ CFSG.Open.pRank 3
       (⊤ : Subgroup (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.twistedD n q, hv⟩).Group) := by

@@ -135,7 +135,7 @@ theorem card_fixV_le_pow_relIndex [Finite I] (hI : ∀ w : I, w ^ 2 = 1)
   by_cases hAB : A ≤ B
   · obtain rfl : B = A := le_antisymm hBA hAB
     simp only [Subgroup.relIndex_self, pow_one, le_refl]
-  · obtain ⟨a, haA, haB⟩ := SetLike.not_le_iff_exists.mp hAB
+  · obtain ⟨a, haA, haB⟩ := IsConcreteLE.not_le_iff_exists.mp hAB
     set B' := B ⊔ Subgroup.zpowers a with hB'
     have hBB' : B ≤ B' := le_sup_left
     have hB'A : B' ≤ A := sup_le hBA (Subgroup.zpowers_le.mpr haA)
@@ -366,7 +366,7 @@ theorem k14_5SmallFor_l2 :
   have hn3 : 3 ≤ n := hn
   have hirrρ : (B45L2.repOf θ φ).IsIrreducible :=
     B45L2.repOf_isIrreducible θ φ (isIrrSec_of_isIrrOn_top hirr)
-  haveI : Fact (B45L2.repOf θ φ).IsIrreducible := ⟨hirrρ⟩
+  have : Fact (B45L2.repOf θ φ).IsIrreducible := ⟨hirrρ⟩
   have hevX := exists_orderOf_eq_two_of_sl2 hLX φ
   have hev : Even (Nat.card ↥X) := by
     obtain ⟨u, hu⟩ := hevX

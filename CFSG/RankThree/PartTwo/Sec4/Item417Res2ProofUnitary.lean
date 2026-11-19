@@ -237,7 +237,7 @@ theorem mul_frameMat_eq {y : Matrix (Fin 3) (Fin 3) K} {b : Fin 3 → (Fin 3 →
 
 theorem isUnit_frameMat {b : Fin 3 → (Fin 3 → K)} (hb : LinearIndependent K b) :
     IsUnit (frameMat b) := by
-  rw [← Matrix.linearIndependent_cols_iff_isUnit]
+  rw [← Matrix.linearIndependent_col_iff_isUnit]
   convert hb using 1
   funext i r
   rfl

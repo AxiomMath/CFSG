@@ -33,10 +33,12 @@ private theorem conj_mem_sp4C {x : Q} {P : Subgroup Q}
   rw [← map_sp4C_of_map_eq hx0, ← MulAut.conj_apply]
   exact Subgroup.mem_map_of_mem _ hy
 
+omit [Finite F] in
 private theorem eq_zero_of_eq_mul_self {c y : F} (hc : c ≠ 1) (hy : y = c * y) : y = 0 := by
   have h : (c - 1) * y = 0 := by rw [sub_mul, one_mul, ← hy, sub_self]
   exact (mul_eq_zero.mp h).resolve_left (sub_ne_zero.mpr hc)
 
+omit [Finite Q] [Finite F] in
 private theorem card_eq_one_of_stab_sigma_one {B : Subgroup Q} {a₁ a₂ t₂ : F}
     {τ : F ≃+* F} {x : ↥B → F × F} (hxw : ∀ b : ↥B, w (x b) = b)
     (ha1 : ∀ b : ↥B, (x b).1 = a₁ * (x b).1)
@@ -62,8 +64,9 @@ private theorem card_eq_one_of_stab_sigma_one {B : Subgroup Q} {a₁ a₂ t₂ :
     rw [← hxw ⟨b, hb⟩, hzero ⟨b, hb⟩, hw0]
   rw [hBbot, Subgroup.card_bot]
 
+omit [Finite Q] in
 private theorem card_le_of_stab_sigma_ne {B : Subgroup Q} {a₁ t₂ : F}
-    {σ τ : F ≃+* F} {x : ↥B → F × F} (hw : Function.Injective w)
+    {σ τ : F ≃+* F} {x : ↥B → F × F} (_hw : Function.Injective w)
     (hxw : ∀ b : ↥B, w (x b) = b)
     (ha1 : ∀ b : ↥B, (x b).1 = a₁ * σ (x b).1)
     (ht2 : ∀ b : ↥B, (x b).2 = t₂ * τ (x b).1)
@@ -82,9 +85,9 @@ private theorem card_le_of_stab_sigma_ne {B : Subgroup Q} {a₁ t₂ : F}
         Nat.card_le_card_of_injective _ hinj
     _ ≤ 2 ^ (n / 2) := Sp4.card_twistedFixed_le_sp4 hn hcard hσ ha₁
 
-theorem eps_eq_false (h : Setting L T P₀ P₁ n w) {x : Q} (hx : x ∈ T)
+theorem eps_eq_false (h : Setting L T P₀ P₁ n w) {x : Q} (_hx : x ∈ T)
     (hx0 : P₀.map (MulAut.conj x).toMonoidHom = P₀) {l₁ l₂ : F} {σ : F ≃+* F} {ε : Bool}
-    (hl₁ : l₁ ≠ 0) (hl₂ : l₂ ≠ 0)
+    (_hl₁ : l₁ ≠ 0) (hl₂ : l₂ ≠ 0)
     (hact : ∀ v : F × F, x * w v * x⁻¹ = w (Sp4.vAct l₁ l₂ σ ε v)) : ε = false := by
   by_contra hε
   have hε' : ε = true := by cases ε <;> simp_all
@@ -100,9 +103,9 @@ theorem eps_eq_false (h : Setting L T P₀ P₁ n w) {x : Q} (hx : x ∈ T)
     (Subgroup.mem_bot.mp hbot).trans (w_zero h).symm
   exact hl₂ (by simpa using congrArg Prod.snd (h.w_injective h1))
 
-theorem eps_eq_true (h : Setting L T P₀ P₁ n w) {x : Q} (hx : x ∈ T)
+theorem eps_eq_true (h : Setting L T P₀ P₁ n w) {x : Q} (_hx : x ∈ T)
     (hx0 : P₀.map (MulAut.conj x).toMonoidHom = P₁) {l₁ l₂ : F} {σ : F ≃+* F} {ε : Bool}
-    (hl₁ : l₁ ≠ 0) (hl₂ : l₂ ≠ 0)
+    (hl₁ : l₁ ≠ 0) (_hl₂ : l₂ ≠ 0)
     (hact : ∀ v : F × F, x * w v * x⁻¹ = w (Sp4.vAct l₁ l₂ σ ε v)) : ε = true := by
   by_contra hε
   have hε' : ε = false := by cases ε <;> simp_all

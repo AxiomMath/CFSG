@@ -68,7 +68,7 @@ end Rigid
 
 private theorem dvd_card_of_glaPComponent {G : Type*} [Group G] [Finite G] {p : ℕ}
     (hp : p.Prime) {Y J : Subgroup G} (hJ : GLAPComponent p Y J) : p ∣ Nat.card J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQ : CFSG.Open.IsQuasisimple (↥J ⧸ GLAPPrimeCore p ↥J) := by
     have h1 := glaPComponent_of_le hp hJ le_rfl hJ.1
     have h2 := h1.2.2.1.2.2

@@ -152,6 +152,7 @@ private theorem sup_map_conj_eq_of_twelveSix
     exact hxA
   exact hxM hxKM.2
 
+omit [Finite G] in
 private theorem map_conj_eq_self_of_fixed_of_three {b : G} (hb3 : b ^ 3 = 1)
     {X Y Z : Subgroup G} (hXY : X ≠ Y) (hXZ : X ≠ Z) (hYZ : Y ≠ Z)
     (hX : X.map (MulAut.conj b).toMonoidHom = X)
@@ -205,6 +206,7 @@ private theorem false_of_fixed_all {Q A : Subgroup G} {b : G}
   have hle := hd.card_le_of_le_normalizers hn h3 hcard hQM hQ3 hQle
   omega
 
+omit [Finite G] in
 private theorem map_conj_eq_third_of_eq_second {b : G} (hb3 : b ^ 3 = 1)
     (hne : L₁ ≠ L₂ ∧ L₁ ≠ L₃ ∧ L₂ ≠ L₃)
     (h12 : L₁.map (MulAut.conj b).toMonoidHom = L₂)
@@ -232,7 +234,8 @@ private theorem map_conj_eq_third_of_eq_second {b : G} (hb3 : b ^ 3 = 1)
     exact hfix2 (h23.trans h)
   · exact absurd h33 hfix3
 
-private theorem map_conj_eq_second_of_eq_third {b : G} (hb3 : b ^ 3 = 1)
+omit [Finite G] in
+private theorem map_conj_eq_second_of_eq_third {b : G} (_hb3 : b ^ 3 = 1)
     (hne : L₁ ≠ L₂ ∧ L₁ ≠ L₃ ∧ L₂ ≠ L₃)
     (h13 : L₁.map (MulAut.conj b).toMonoidHom = L₃)
     (hfix2 : L₂.map (MulAut.conj b).toMonoidHom ≠ L₂)
@@ -258,6 +261,7 @@ private theorem map_conj_eq_second_of_eq_third {b : G} (hb3 : b ^ 3 = 1)
   · exact h32
   · exact absurd h33 hfix3
 
+omit [Finite G] in
 private theorem map_conj_cycle_or_inverse {b : G} (hb3 : b ^ 3 = 1)
     (hne : L₁ ≠ L₂ ∧ L₁ ≠ L₃ ∧ L₂ ≠ L₃)
     (hmem : ∀ L ∈ ({L₁, L₂, L₃} : Set (Subgroup G)),
@@ -285,6 +289,7 @@ private theorem map_conj_cycle_or_inverse {b : G} (hb3 : b ^ 3 = 1)
     · rw [← h32, CFSG.GroupTheory.map_conj_map_conj_inv]
     · rw [← h13, CFSG.GroupTheory.map_conj_map_conj_inv]
 
+omit [Finite G] in
 private theorem exists_generator_of_sup {Q E D : Subgroup G} {x : G}
     (hBcard : Nat.card ↥(E ⊓ D) = 3)
     (hsup : thompsonSubgroup Q ⊔ (E ⊓ D).map (MulAut.conj x).toMonoidHom = Q)
@@ -307,6 +312,7 @@ private theorem exists_generator_of_sup {Q E D : Subgroup G} {x : G}
     exact hsup
   exact ⟨b, hBx, hb3, hQM (hCQ hbC), hsup'⟩
 
+omit [Finite G] in
 private theorem map_conj_mem_swaps {b : G}
     (hmem : ∀ L ∈ ({L₁, L₂, L₃} : Set (Subgroup G)),
       L.map (MulAut.conj b).toMonoidHom ∈ ({L₁, L₂, L₃} : Set (Subgroup G))) :
@@ -384,7 +390,6 @@ private theorem exists_base_of_twelveSix (h : TwelveCtx G M p Q H)
   subst hp3
   obtain ⟨e, hAcomm_raw, hAcard_raw⟩ := hA
   have hJ : thompsonSubgroup Q = Q ⊓ jSub M H := by
-    change thompsonSubgroup Q = Q ⊓ jSub M H
     exact thompsonSubgroup_eq_inf_of_twelveSevenA ⟨e, hAcomm_raw, hAcard_raw⟩
   have hbase : baseIn e = Q ⊓ jSub M H := by
     have h1 : thompsonSubgroup Q = baseIn e := by
@@ -415,7 +420,7 @@ private theorem map_conj_cycle_of_twelveSix (hd : TwelveFiveData M H d L₁ L₂
       L₂.map (MulAut.conj b⁻¹).toMonoidHom = L₃ ∧
       L₃.map (MulAut.conj b⁻¹).toMonoidHom = L₁) :=
   map_conj_cycle_or_inverse hb3 (hd.pairwise_ne hcard)
-    (fun L hL => hd.map_conj_mem hbM hL) hfix1 hfix2 hfix3
+    (fun _L hL => hd.map_conj_mem hbM hL) hfix1 hfix2 hfix3
 
 theorem exists_threeCycle_of_twelveSix (h : TwelveCtx G M p Q H)
     (hd : TwelveFiveData M H d L₁ L₂ L₃ n₁ n₂ n₃) (h6 : TwelveSix M H p d L₁ L₂ L₃ n₁ n₂ n₃)

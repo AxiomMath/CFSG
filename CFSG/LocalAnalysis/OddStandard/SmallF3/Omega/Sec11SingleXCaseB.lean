@@ -14,6 +14,7 @@ namespace S11sCtx
 variable {G : Type} [Group G] [Finite G] {t z : G} {K1 K2 T R : Subgroup G}
   {ρ : ↥R →* MulAut ↥(K1 ⊔ K2)} {a x : G} (c : S11sCtx t z K1 K2 T R ρ a x)
 
+omit [Finite G] in
 private lemma s11s_rearrange_five {A1 A2 A4 A5 m : G} (hA2m : A2 * m = m * A2)
     (hA1m : A1 * m = m * A1) (hA1A2 : A1 * A2 = A2 * A1) (hA1A4 : A1 * A4 = A4 * A1) :
     A1 * A2 * m * (A4 * A5) = m * (A2 * A4 * (A1 * A5)) := by
@@ -33,6 +34,7 @@ private lemma s11s_rearrange_five {A1 A2 A4 A5 m : G} (hA2m : A2 * m = m * A2)
 
 include c
 
+omit [Finite G] in
 private lemma s11s_pair_comm : ∀ u ∈ K1, ∀ v ∈ K2, u * v = v * u := by
   intro u hu v hv
   have h := c.pair.comm ⟨u, Subgroup.mem_sup_left hu⟩
@@ -43,6 +45,7 @@ private lemma s11s_pair_comm : ∀ u ∈ K1, ∀ v ∈ K2, u * v = v * u := by
       K2.subgroupOf (K1 ⊔ K2) from hv)
   simpa [Subgroup.coe_mul] using congrArg Subtype.val h
 
+omit [Finite G] in
 theorem caseB_e {s b e : G} (hQ1 : ∀ q ∈ twoCoreIn K1, s * q * s⁻¹ ∈ twoCoreIn K1)
     (hb : b ∈ twoCoreIn K1) (hsb : s * b * s⁻¹ * b⁻¹ ∉ zpowers z)
     {q : SL23} (hq : q ^ 4 = 1) (hq1 : q ≠ 1) (hqm : q ≠ -1)
@@ -95,6 +98,7 @@ theorem caseB_e {s b e : G} (hQ1 : ∀ q ∈ twoCoreIn K1, s * q * s⁻¹ ∈ tw
     exact hsb (c.inf c1 hc1K1 hc1K2)
   exact ⟨heK, he2, hez⟩
 
+omit [Finite G] in
 theorem caseB_u {s b : G} (hsR : s ∈ R) (hs2 : s * s = 1)
     (hQ1 : ∀ q ∈ twoCoreIn K1, s * q * s⁻¹ ∈ twoCoreIn K1) (hb : b ∈ twoCoreIn K1) {q : SL23}
     (hψ : ∀ y ∈ K2.subgroupOf (K1 ⊔ K2),

@@ -84,17 +84,17 @@ theorem lt_eq (hA : PRep n w A (g 0)) (hB : PRep n w B (g 1)) (hAi : PRep n w Ai
   · subst h0
     exact hA x
   have e0 : Nat.beq c 0 = false := Bool.eq_false_iff.2 fun h => h0 (Nat.eq_of_beq_eq_true h)
-  rw [e0, if_neg h0]
+  rw [e0, ite_eq_right h0]
   by_cases h1 : c = 1
   · subst h1
     exact hB x
   have e1 : Nat.beq c 1 = false := Bool.eq_false_iff.2 fun h => h1 (Nat.eq_of_beq_eq_true h)
-  rw [e1, if_neg h1]
+  rw [e1, ite_eq_right h1]
   by_cases h2 : c = 2
   · subst h2
     exact hAi x
   have e2 : Nat.beq c 2 = false := Bool.eq_false_iff.2 fun h => h2 (Nat.eq_of_beq_eq_true h)
-  rw [e2, if_neg h2]
+  rw [e2, ite_eq_right h2]
   exact hBi x
 
 theorem wpt_eq (hA : PRep n w A (g 0)) (hB : PRep n w B (g 1)) (hAi : PRep n w Ai (g 0)⁻¹)
@@ -134,12 +134,12 @@ theorem eq_one_of_tree {w m A B tr : Nat} {gA gB y : Equiv.Perm (Fin n)} (hn : 0
       obtain ⟨hpl, hdep, hgen⟩ := hpar p hp hp0
       have hy : y ⟨trPar tr p, hpl⟩ = ⟨trPar tr p, hpl⟩ := ih _ (by omega) _ hpl rfl
       by_cases hl : trLab tr p = 0
-      · rw [if_pos hl] at hgen
+      · rw [ite_eq_left hl] at hgen
         have hq : gA ⟨trPar tr p, hpl⟩ = ⟨p, hp⟩ := Fin.ext (by rw [← hA]; exact hgen)
         calc y ⟨p, hp⟩ = y (gA ⟨trPar tr p, hpl⟩) := by rw [hq]
           _ = gA (y ⟨trPar tr p, hpl⟩) := perm_comm_apply hcA _
           _ = ⟨p, hp⟩ := by rw [hy, hq]
-      · rw [if_neg hl] at hgen
+      · rw [ite_eq_right hl] at hgen
         have hq : gB ⟨trPar tr p, hpl⟩ = ⟨p, hp⟩ := Fin.ext (by rw [← hB]; exact hgen)
         calc y ⟨p, hp⟩ = y (gB ⟨trPar tr p, hpl⟩) := by rw [hq]
           _ = gB (y ⟨trPar tr p, hpl⟩) := perm_comm_apply hcB _

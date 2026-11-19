@@ -19,7 +19,7 @@ theorem ggTwE6ThreeSCFourNotTwoLocalOddInput_of_kga1 (h82 : GGTwE6ThreeTwoLocalI
     (h84 : GGTwE6ThreeToralTypeMinusOneInput) (h5 : GGTwE6ThreeNoRankSixInput) :
     GGTwE6ThreeSCFourNotTwoLocalOddInput := by
   intro K _ _ n hn hK h3
-  haveI := TwE6Delta.finite_recipeR hK
+  have := TwE6Delta.finite_recipeR hK
   obtain ⟨σ, _, ε, hε⟩ := TwE6Transport.exists_recipeConj (K := K) hn hK
   have hI : TwE6Delta.RecipeI K n = ((TwE6Transport.recipeConj σ ε).range : Set _) :=
     Set.ext fun φ => (hε φ).symm

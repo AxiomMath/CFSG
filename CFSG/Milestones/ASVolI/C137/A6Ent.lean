@@ -156,7 +156,6 @@ theorem burnsideC137_centralizer_U_le [Finite G] {X T V L : Subgroup G}
     have h1 := congrArg (fun φ : MulAut (IntMod V hV) => (φ (IntMod.mk hV ⟨u, huV⟩)).val) hg
     simp only [convI_apply_val] at h1
     have h2 : (g : G) * u * (g : G)⁻¹ = u := by
-      change (g : G) * u * (g : G)⁻¹ = u
       rw [show (g : G) * u * (g : G)⁻¹ = x * u * x⁻¹ from h1]
       exact hxc u hu
     calc u * (g : G) = ((g : G) * u * (g : G)⁻¹) * g := by rw [h2]

@@ -30,6 +30,7 @@ theorem not_isCyclic_sup_of_ne {P₁ P₂ : Subgroup G} {p : ℕ}
   rw [Subgroup.subgroupOf_inj, inf_eq_left.2 e1, inf_eq_left.2 e2] at heq
   exact heq
 
+omit [Finite G] in
 private theorem card_conjSubgroup_aux (R : Subgroup G) (g : G) :
     Nat.card (conjSubgroup R g) = Nat.card R :=
   (Nat.card_congr (Subgroup.equivMapOfInjective R (MulAut.conj g⁻¹).toMonoidHom
@@ -71,7 +72,7 @@ theorem exists_conj_zpowers_eq {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) {P 
   have hcZ : Nat.card ((Subgroup.zpowers x).subgroupOf S) = p ^ (Nat.card S).factorization p := by
     rw [hfac, pow_one, ← hxo, ← Nat.card_zpowers]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZS).toEquiv
-  haveI : Fact p.Prime := hp
+  have : Fact p.Prime := hp
   let SP : Sylow p ↥S := Sylow.ofCard (P.subgroupOf S) hcP
   let SR : Sylow p ↥S := Sylow.ofCard ((Subgroup.zpowers x).subgroupOf S) hcZ
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥S SP SR

@@ -22,8 +22,8 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 CFSG.LocalAnalysis.RankThreeUC.S15
 private theorem rkLin_six_false_le_five {Q p z : ℕ} (hem : eM Q p = 1) :
     rkLin 6 false Q p z ≤ 5 := by
   unfold rkLin
-  simp only [Bool.false_eq_true, if_false]
-  rw [if_pos hem]
+  simp only [Bool.false_eq_true, ite_false]
+  rw [ite_eq_left hem]
   split_ifs <;> omega
 
 theorem card_le_pow_five_of_le_graphFixedParabolicLevi_A5 {F : Type} [Field F] [Finite F] {n : ℕ}
@@ -34,7 +34,7 @@ theorem card_le_pow_five_of_le_graphFixedParabolicLevi_A5 {F : Type} [Field F] [
     (hEel : CFSG.Open.IsElemAbelian p E) :
     Nat.card E ≤ p ^ 5 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with h | h
     · rw [h] at hF

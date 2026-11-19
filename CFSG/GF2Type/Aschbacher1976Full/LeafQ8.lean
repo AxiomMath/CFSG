@@ -35,7 +35,7 @@ theorem false_of_quaternion_sylow {G : Type} [Group G] [Finite G] [IsSimpleGroup
   have hmem := CFSG.Milestones.brauer_suzuki n hn S hq z hzS hz
   have hodd : oddCore G = ⊥ := by
     refine eq_bot_iff.mpr (sSup_le fun N ⟨hN, hNodd⟩ => ?_)
-    haveI := hN
+    have := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · exact h.le
     · subst h
@@ -72,7 +72,7 @@ theorem leafQ8_holds :
   intro G _ _ z hS he
   obtain ⟨e⟩ := he
   obtain ⟨hsimp, hnab, hz, hsymp⟩ := hS
-  haveI : IsSimpleGroup G := hsimp
+  have : IsSimpleGroup G := hsimp
   obtain ⟨S, hzS, ⟨n, hn, hsd⟩ | ⟨n, hn, hq⟩⟩ := LeafQ8.exists_sylow_shape hz hsymp.1 e
   · have hcard := LeafQ8.card_Hz_dvd hz e
     rcases CFSG.Milestones.lr_semidihedral_simple_recognition_1 G hnab ⟨S, n, hn, hsd⟩ with

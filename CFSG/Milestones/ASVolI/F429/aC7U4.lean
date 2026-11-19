@@ -34,7 +34,7 @@ theorem burnsideF429a_U4_comm_zRad {g z : hypSU h 2 0} (hg : g ∈ parP h) (hchi
   ext i j
   rw [mul_apply, mul_apply, sum_ix, sum_ix]
   rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-    simp [sMat_apply, one_apply, h11, hf11, c2, c3, c4, r2, r4] <;> ring
+    simp [sMat_apply, one_apply, h11, hf11, c2, c3, c4, r2, r4]; ring
 
 theorem burnsideF429a_U4_ctr_oPPrime : ctr (oPPrime 2 (parP h)) = zRad h := by
   refine le_antisymm (burnsideF4gU4Inv_ctr_oPPrime_le h) fun z hz => Subgroup.mem_inf.2 ⟨?_, ?_⟩

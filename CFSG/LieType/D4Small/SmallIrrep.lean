@@ -124,6 +124,7 @@ private theorem natCast_pow_two {N j : ℕ} :
   rw [Nat.cast_pow]
   norm_num
 
+omit [FiniteDimensional K X] [CharP K 2] in
 private theorem rootOp_two_pow_mem_wtSpace {α : Fin 4 → ℤ} (hα : IsD4Root α) (j : ℕ)
     {a : Fin 4 → ZMod (Nat.card Kˣ)} {x : X} (hx : x ∈ D.wtSpace ρ a) :
     rootOp D ρ α (2 ^ j) x ∈
@@ -152,7 +153,7 @@ theorem exists_rootForm (hK : 4 ≤ Nat.card K)
     (hnt : ∃ g : G, ρ g ≠ 1) (hdim : Module.finrank K X ≤ 16) :
     ∃ j : ℕ, 2 ^ j < Nat.card Kˣ ∧ IsWtClass (Nat.card Kˣ) j (wts D ρ) ∧
       IsRootForm D ρ (fun α => rootOp D ρ α (2 ^ j)) j := by
-  haveI : NeZero (Nat.card Kˣ) := neZero_natCard_units
+  have : NeZero (Nat.card Kˣ) := neZero_natCard_units
   have hN3 : 3 ≤ Nat.card Kˣ := three_le_natCard_units hK
   have hNodd : Odd (Nat.card Kˣ) := odd_natCard_units K
   have hCw : ∀ a, a ∈ wts D ρ ↔ D.wtSpace ρ a ≠ ⊥ := fun a => mem_wts D ρ (a := a)
@@ -194,7 +195,7 @@ theorem exists_isNormalForm (hK : 4 ≤ Nat.card K)
     ∃ (j : ℕ) (C : Finset (Fin 4 → ZMod (Nat.card Kˣ)))
       (b : (Fin 4 → ZMod (Nat.card Kˣ)) → X),
       2 ^ j < Nat.card Kˣ ∧ IsWtClass (Nat.card Kˣ) j C ∧ IsNormalForm D ρ C j b := by
-  haveI : NeZero (Nat.card Kˣ) := neZero_natCard_units
+  have : NeZero (Nat.card Kˣ) := neZero_natCard_units
   have hCw : ∀ a, a ∈ wts D ρ ↔ D.wtSpace ρ a ≠ ⊥ := fun a => mem_wts D ρ (a := a)
   obtain ⟨j, hl, hWt, hform⟩ := exists_rootForm D ρ hK hirr hnt hdim
   have hC : IsSmallClass (Nat.card Kˣ) ((2 : ZMod (Nat.card Kˣ)) ^ j) (wts D ρ) :=
@@ -217,7 +218,7 @@ theorem finrank_eq_eight_and_rootForm (hK : 4 ≤ Nat.card K)
     Module.finrank K X = 8 ∧ ∃ j : ℕ, 2 ^ j < Nat.card Kˣ ∧
       IsRootForm D ρ (fun α => rootOp D ρ α (2 ^ j)) j ∧
       ∀ α, IsD4Root α → Module.finrank K (LinearMap.range (rootOp D ρ α (2 ^ j))) = 2 := by
-  haveI : NeZero (Nat.card Kˣ) := neZero_natCard_units
+  have : NeZero (Nat.card Kˣ) := neZero_natCard_units
   have hCw : ∀ a, a ∈ wts D ρ ↔ D.wtSpace ρ a ≠ ⊥ := fun a => mem_wts D ρ (a := a)
   obtain ⟨j, hl, hWt, hform⟩ := exists_rootForm D ρ hK hirr hnt hdim
   have hC : IsSmallClass (Nat.card Kˣ) ((2 : ZMod (Nat.card Kˣ)) ^ j) (wts D ρ) :=
@@ -232,7 +233,7 @@ theorem exists_eq_smul_of_commute (hK : 4 ≤ Nat.card K)
     (hirr : ∀ S : Submodule K X, (∀ g, ∀ x ∈ S, ρ g x ∈ S) → S = ⊥ ∨ S = ⊤)
     (hnt : ∃ g : G, ρ g ≠ 1) (hdim : Module.finrank K X ≤ 16) {T : Module.End K X}
     (hT : ∀ g, T * ρ g = ρ g * T) : ∃ c : K, T = c • 1 := by
-  haveI : NeZero (Nat.card Kˣ) := neZero_natCard_units
+  have : NeZero (Nat.card Kˣ) := neZero_natCard_units
   obtain ⟨j, C, b, _, hWt, hnf⟩ := exists_isNormalForm D ρ hK hirr hnt hdim
   have hC : IsSmallClass (Nat.card Kˣ) ((2 : ZMod (Nat.card Kˣ)) ^ j) C :=
     IsWtClass.isSmallClass (three_le_natCard_units hK) (odd_natCard_units K) hWt

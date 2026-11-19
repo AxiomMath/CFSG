@@ -256,7 +256,7 @@ variable {q r : ℕ} {psi : H →* K} {U A T : Subgroup H}
 
 private theorem LiftSetup.isPGroup_T (h : LiftSetup q r psi U A T) : IsPGroup q T := by
   obtain ⟨P, rfl⟩ := h.sylow
-  exact P.isPGroup'.map U.subtype
+  exact P.isPGroup.map U.subtype
 
 private theorem LiftSetup.inj_T (h : LiftSetup q r psi U A T) :
     ∀ x ∈ T, ∀ y ∈ T, psi x = psi y → x = y :=

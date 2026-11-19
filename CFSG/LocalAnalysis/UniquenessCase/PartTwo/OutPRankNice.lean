@@ -125,12 +125,12 @@ theorem map_rhoL_le_inner_of_hasNormalPComplement {X M : Subgroup G}
     {A : Subgroup G} (hAM : A ≤ M) (hAp : IsPGroup p A) :
     (A.subgroupOf M).map ((rhoL X).comp (Subgroup.inclusion hMN)) ≤ inner (Bar2 X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let ρ : ↥M →* MulAut (Bar2 X) := (rhoL X).comp (Subgroup.inclusion hMN)
   let ψ : ↥M →* Outer (Bar2 X) := (QuotientGroup.mk' (inner (Bar2 X))).comp ρ
   let H : Subgroup (Outer (Bar2 X)) := (M.subgroupOf M).map ψ
   obtain ⟨K, hKN, hcK, hqK⟩ := hOut
-  haveI := hKN
+  have := hKN
   have hgen : Subgroup.closure {y | y ∈ H ∧ ¬ p ∣ orderOf y} = H := by
     simpa [H, ψ] using closure_pPrime_map ψ (M.subgroupOf M)
       (closure_pPrime_subgroupOf (le_refl M) (p := p) hOp)
@@ -158,7 +158,7 @@ theorem map_rhoL_le_inner_of_hasNormalPComplement {X M : Subgroup G}
   have hψa : ψ a = 1 := orderOf_eq_one_iff.mp hone
   exact (QuotientGroup.eq_one_iff (N := inner (Bar2 X)) (ρ a)).1 (by simpa [ψ] using hψa)
 
-theorem pRank_le_add_pRank_centOverO2 {X M : Subgroup G} (hXM : X ≤ M)
+theorem pRank_le_add_pRank_centOverO2 {X M : Subgroup G} (_hXM : X ≤ M)
     (hMN : M ≤ normalizer (X : Set G)) {p : ℕ} (hp : p.Prime)
     (hOut : CFSG.HasNormalPComplement p (Outer (Bar2 X))) (hOp : UC22.F10.OpRes p M = M) :
     pRank p M ≤ pRank p (⊤ : Subgroup (Bar2 X ⧸ center (Bar2 X))) +

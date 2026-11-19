@@ -29,7 +29,7 @@ theorem k34odd_hyps_of_isComponent {X : Type} [Group X] [Finite X] (hKX : CFSG.O
       Odd (Nat.card (Subgroup.center ↥L)) ∧ CFSG.Open.pRank 3 (⊤ : Subgroup ↥L) = 3 := by
   have hQ : CFSG.Open.IsQuasisimple ↥L :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff ↥L).2.2.1.mp hLcomp.1
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLcomp.1.2.1
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hLcomp.1.2.1
   have hcat : CFSG.Open.IsCatalogGroup (↥L ⧸ Subgroup.center ↥L) :=
     CFSG.Open.IsKGroup.isCatalogGroup_of_surjective hKX L hLcomp.1.2.2
       (QuotientGroup.mk' (Subgroup.center ↥L))
@@ -86,7 +86,7 @@ theorem exists_perfect_onto_a9_le_component {X : Type} [Group X] [Finite X]
   have hθker : IsPGroup 2 θ.ker := by
     have h : θ.ker = CFSG.pCore 2 ↥Hs := by
       ext x
-      simp [θ, MulEquiv.map_eq_one_iff, QuotientGroup.eq_one_iff]
+      simp [θ]
     rw [h]
     exact CFSG.pCore_isPGroup (p := 2) (G := ↥Hs)
   let R : Subgroup ↥Hs := CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual ↥Hs

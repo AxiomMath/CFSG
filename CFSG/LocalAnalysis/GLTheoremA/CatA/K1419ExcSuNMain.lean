@@ -63,12 +63,12 @@ theorem char2L3U3_suN (hF : L3U3Facts) {τ : Tag}
   subst hr2
   obtain ⟨σQ, hσc, z, hzd, f, hf1, hfker, hf2, hfs⟩ :=
     CubeCentre.exists_suN_hom_norm S hT i hν hψ hΨ π hπ hr hchar he hq
-  haveI : Fact (Nat.Prime 2) := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨hr⟩
   have hes : 0 < e * s := Nat.mul_pos he hs0
   obtain ⟨hfin, hqsC, hc216⟩ := stdUnitary_fixSubgroup (ν := ν) hr hes σQ hσc hν
-  haveI := hfin
-  haveI : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
-  haveI : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+  have := hfin
+  have : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+  have : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
     Finite.of_injective (Subgroup.inclusion hf1) (Subgroup.inclusion_injective hf1)
   have hN : L3U3Order (Nat.card (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))) := hF.order _ hL
@@ -111,10 +111,10 @@ theorem char2L3U3_suN (hF : L3U3Facts) {τ : Tag}
       rw [Subgroup.card_eq_card_quotient_mul_card_subgroup
         (Subgroup.center ↥(fixSubgroup (stdUnitaryEquiv (ν := ν) σQ))), Nat.card_congr eQ.toEquiv]
     obtain ⟨F, hFcard, ⟨eC⟩⟩ := two_suN_exists_equiv hr hes σQ hσc hν
-    haveI : Finite ↥F := Nat.finite_of_card_ne_zero (by
+    have : Finite ↥F := Nat.finite_of_card_ne_zero (by
       rw [hFcard]
       exact (pow_pos (pow_pos Nat.two_pos _) 2).ne')
-    haveI : CharP ↥F 2 := inferInstance
+    have : CharP ↥F 2 := inferInstance
     have hU : UnitaryFieldData 2 (e * s) ↥F :=
       ⟨hr, hes, by rw [hFcard, ← pow_mul, mul_comm]⟩
     have hint := CFSG.GH74.GLS.Stage2.Final.ModelOrd.card_statedSU_int hU (n := ν) (by omega)

@@ -202,14 +202,14 @@ theorem uc22s206d_e8 {Γ : Type*} [Group Γ] {P₀ : Subgroup Γ} [Finite P₀] 
     ∃ E : Subgroup Γ, E ≤ P₀ ∧ CFSG.Open.IsElemAbelian 2 E ∧ Nat.card E = 8 ∧
       c ∈ normalizer (E : Set Γ) ∧ ∀ e ∈ E, c * e * c⁻¹ = e → e = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, ⟨hSP, hcS, hSnc⟩, hSmin⟩ := (measure fun S : Subgroup Γ => Nat.card S).wf.has_min
     {S | S ≤ P₀ ∧ c ∈ normalizer (S : Set Γ) ∧ ∃ g ∈ S, c * g * c⁻¹ ≠ g}
     ⟨P₀, le_rfl, hcN, hnc⟩
-  haveI : Finite S := Finite.of_injective _ (inclusion_injective hSP)
+  have : Finite S := Finite.of_injective _ (inclusion_injective hSP)
   have hSp : IsPGroup 2 S := hP₀.to_le hSP
   have hcfin : IsOfFinOrder c := isOfFinOrder_iff_pow_eq_one.mpr ⟨7, by norm_num, hc7⟩
-  haveI : Finite (zpowers c) :=
+  have : Finite (zpowers c) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers]; exact hcfin.orderOf_pos.ne')
   have hA : ¬ 2 ∣ Nat.card (zpowers c) := by
     rw [Nat.card_zpowers]
@@ -220,7 +220,7 @@ theorem uc22s206d_e8 {Γ : Type*} [Group Γ] {P₀ : Subgroup Γ} [Finite P₀] 
     exact Nat.Coprime.pow_right k
       ((Nat.coprime_comm).mp ((Nat.prime_two.coprime_iff_not_dvd).mpr hA))
   have hAS : zpowers c ≤ normalizer (S : Set Γ) := zpowers_le.mpr hcS
-  letI : MulDistribMulAction (zpowers c) S := MulDistribMulAction.compHom S (inclusion hAS)
+  let : MulDistribMulAction (zpowers c) S := MulDistribMulAction.compHom S (inclusion hAS)
   set c' : zpowers c := ⟨c, mem_zpowers c⟩ with hc'
   have hc'7 : c' ^ 7 = 1 := Subtype.ext (by rw [SubgroupClass.coe_pow]; exact hc7)
   have hnt : ∃ (a : zpowers c) (q : S), a • q ≠ q := by
@@ -276,8 +276,8 @@ theorem uc22s206d_e8 {Γ : Type*} [Group Γ] {P₀ : Subgroup Γ} [Finite P₀] 
         intro r hr
         rw [mem_bot]
         exact hfixS r (hRfix c' r hr)
-    haveI : IsElementaryAbelian 2 S := hel
-    haveI : Nontrivial S := by
+    have : IsElementaryAbelian 2 S := hel
+    have : Nontrivial S := by
       obtain ⟨g, hg, hgc⟩ := hSnc
       refine ⟨⟨⟨g, hg⟩, 1, fun h => hgc ?_⟩⟩
       have hg1 : g = 1 := congrArg Subtype.val h
@@ -291,7 +291,7 @@ theorem uc22s206d_e8 {Γ : Type*} [Group Γ] {P₀ : Subgroup Γ} [Finite P₀] 
       refine ⟨1, Subtype.ext ?_⟩
       have h1 : (a : Γ) ^ 7 = 1 := by rw [← hn, ← pow_mul, mul_comm, pow_mul, hc7, one_pow]
       simpa using h1
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hmod := h7p.card_modEq_card_fixedPoints S
     have hfp : MulAction.fixedPoints (zpowers c) S = {1} := by
       ext s
@@ -312,9 +312,9 @@ theorem uc22s206d_e8 {Γ : Type*} [Group Γ] {P₀ : Subgroup Γ} [Finite P₀] 
   ·
     exfalso
     obtain ⟨hcF, hFZ, -, hcel, hZfix⟩ := hnab hab
-    letI := frattiniQuotientAction (zpowers c) S
-    haveI : Nontrivial (S ⧸ frattini S) := hWnt
-    haveI : IsElementaryAbelian 2 (S ⧸ frattini S) := hWel
+    let := frattiniQuotientAction (zpowers c) S
+    have : Nontrivial (S ⧸ frattini S) := hWnt
+    have : IsElementaryAbelian 2 (S ⧸ frattini S) := hWel
     have hFinv : CFSG.IsInvariant (zpowers c) S (frattini S) :=
       isInvariant_of_characteristic _
     have hWF := fixedPointSubgroup_quotient_eq_bot hcop htop (frattini S) hFinv
@@ -347,7 +347,7 @@ theorem uc22s206d_e8 {Γ : Type*} [Group Γ] {P₀ : Subgroup Γ} [Finite P₀] 
         rw [QuotientGroup.eq, hFZ] at h1
         exact ⟨_, h1, Or.inr (mul_inv_cancel_left _ _).symm⟩
     have hσZ : ∀ x y : S, c' • ⁅x, y⁆ = ⁅x, y⁆ := fun x y => hZfix c' _ (hZ x y)
-    haveI : IsElementaryAbelian 2 (commutator S) := hcel
+    have : IsElementaryAbelian 2 (commutator S) := hcel
     have h2Z : ∀ x y : S, ⁅x, y⁆ * ⁅x, y⁆ = 1 := fun x y => by
       rw [← pow_two]
       exact elemPow_eq_one_of_isElementaryAbelian (A := commutator S) _
@@ -367,7 +367,7 @@ theorem uc22s206d_e8 {Γ : Type*} [Group Γ] {P₀ : Subgroup Γ} [Finite P₀] 
       all_goals first
         | exact Commute.refl _
         | exact hc1 | exact hc1.symm | exact hc2 | exact hc2.symm | exact hc3 | exact hc3.symm
-    haveI := isMulCommutative_closure hpair
+    have := isMulCommutative_closure hpair
     have hmap : (closure ({a, c' • a, c' • c' • a} : Set S)).map
         (QuotientGroup.mk' (frattini S)) = ⊤ := by
       rw [MonoidHom.map_closure, Set.image_insert_eq, Set.image_insert_eq, Set.image_singleton]
@@ -443,7 +443,7 @@ theorem uc22s206d_lift {K Q Γ : Type*} [Group K] [Finite K] [Group Q] [Group Γ
       ∃ E : Subgroup Γ, E ≤ ρ.range ∧ CFSG.Open.IsElemAbelian 2 E ∧ Nat.card E = 8 ∧
         ρ y ∈ normalizer (E : Set Γ) ∧ ∀ e ∈ E, ρ y * e * (ρ y)⁻¹ = e → e = 1 := by
   classical
-  haveI : Finite Q := Finite.of_surjective β hβ
+  have : Finite Q := Finite.of_surjective β hβ
   have hxN : zpowers x₀ ≤ normalizer (zpowers y₀ : Set Q) := by
     rw [zpowers_le]
     apply mem_normalizer_fintype
@@ -486,7 +486,7 @@ theorem uc22s206d_lift {K Q Γ : Type*} [Group K] [Finite K] [Group Q] [Group Γ
     le_normalizer_comap β (show s qy ∈ (normalizer (E₀ : Set Q)).comap β by
       rw [mem_comap, hs qy]
       exact hyE₀)
-  haveI : Finite ↥((E₀.comap β).map ρ) :=
+  have : Finite ↥((E₀.comap β).map ρ) :=
     Finite.of_surjective _ (ρ.subgroupMap_surjective (E₀.comap β))
   obtain ⟨E, hEP, hEel, hE8, hyE, hfix⟩ := uc22s206d_e8 (hP₁.map ρ) (c := ρ (s qy))
     (by rw [← map_pow, hy7, map_one]) (le_normalizer_map ρ (mem_map_of_mem ρ hyP₁)) (by
@@ -550,11 +550,11 @@ theorem uc22s206d_lift {K Q Γ : Type*} [Group K] [Finite K] [Group Q] [Group Γ
   closure {uc22s206dT1, uc22s206dT2, uc22s206dT4}
 
 theorem uc22s206d_orderOf_Y0 : orderOf uc22s206dY0 = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 theorem uc22s206d_orderOf_X0 : orderOf uc22s206dX0 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 theorem uc22s206d_conj_X0_Y0 :
@@ -568,7 +568,7 @@ theorem uc22s206d_isPGroup_E0 : IsPGroup 2 uc22s206dE0 := by
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
     rw [commute_iff_eq]
     rcases ha with rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl <;> decide
-  haveI := isMulCommutative_closure hpair
+  have := isMulCommutative_closure hpair
   have h2 : ∀ g ∈ uc22s206dE0, g ^ 2 = 1 := by
     intro g hg
     induction hg using closure_induction with

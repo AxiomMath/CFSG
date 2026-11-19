@@ -61,7 +61,7 @@ theorem fourTenNine_holds : FourTenNine := by
         (CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv
           ((MulEquiv.subgroupCongr hL).trans Subgroup.topEquiv) h.isL2)))
     · exact h.not_small (Or.inr (Or.inr ⟨hQB.trans eB⟩))
-  · obtain ⟨σ, hσB, hσs⟩ := SetLike.not_le_iff_exists.mp hs
+  · obtain ⟨σ, hσB, hσs⟩ := IsConcreteLE.not_le_iff_exists.mp hs
     have hrange : (A6Models.autA6.subtype.comp ι).range = B :=
       MonoidHom.range_comp A6Models.autA6.subtype ι
     have hinj : Function.Injective (A6Models.autA6.subtype.comp ι) :=

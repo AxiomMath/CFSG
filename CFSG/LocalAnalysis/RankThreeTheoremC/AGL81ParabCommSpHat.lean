@@ -59,20 +59,20 @@ variable [Finite K] [CharP K 2]
 theorem ker_toHat (hI : ∀ i ∈ I, 1 ≤ i ∧ i ≤ r) {t : ℕ} (htI : t ∈ I) (hmax : ∀ c ∈ I, c ≤ t)
     (hPY : P ≤ Y) :
     C.toHat.ker = (spFlagLeviHom (fun i hi => (hI i hi).2) htI).ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hI₀ : ∀ i ∈ I, i ≤ r := fun i hi => (hI i hi).2
   have hI₁ : ∀ i ∈ I, 1 ≤ i := fun i hi => (hI i hi).1
   refine le_antisymm ?_ ?_
   ·
     rw [ker_toHat_eq]
-    haveI : ((CFSG.pCore 2 ↥P).comap C.toP).Normal := CFSG.pCore_normal.comap _
+    have : ((CFSG.pCore 2 ↥P).comap C.toP).Normal := CFSG.pCore_normal.comap _
     exact le_ker_spFlagLeviHom_of_normal_isPGroup hI₀ htI hI₁ hmax _
       ((CFSG.pCore_isPGroup (p := 2) (G := ↥P)).comap_of_injective C.toP C.toP_injective)
   ·
     intro x hx
     have hker : IsPGroup 2 (spFlagLeviHom (K := K) hI₀ htI).ker :=
       isPGroup_ker_spFlagLeviHom hI₀ htI hI₁
-    haveI : ((spFlagLeviHom (K := K) hI₀ htI).ker.map C.toP).Normal :=
+    have : ((spFlagLeviHom (K := K) hI₀ htI).ker.map C.toP).Normal :=
       (MonoidHom.normal_ker (spFlagLeviHom (K := K) hI₀ htI)).map C.toP (C.toP_surjective hPY)
     have hle : (spFlagLeviHom (K := K) hI₀ htI).ker.map C.toP ≤ CFSG.pCore 2 ↥P :=
       le_sSup ⟨inferInstance, hker.map _⟩

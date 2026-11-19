@@ -49,8 +49,8 @@ theorem d4Recipe_fieldAut_centralizer {K : Type} [Field K] [Finite K] {n : ℕ}
     exact (gdf_orderOf_congr (isoAdj K) f).trans hord
   obtain ⟨k, hk_field, hk_finite, n', hk_card, hn, ⟨ek⟩, hstab⟩ :=
     d4C_fixed_data (K := K) hK hordτ
-  letI : Field k := hk_field
-  letI : Finite k := hk_finite
+  let : Field k := hk_field
+  let : Finite k := hk_finite
   have heq : ggAutFixedSubgroup (entrywiseAdjointAut Tag.D4 τ) =
       (ggAutFixedSubgroup f).map (isoAdj K).toMonoidHom := by
     rw [← hτeq]

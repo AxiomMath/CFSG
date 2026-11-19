@@ -53,7 +53,7 @@ theorem mem_pCore_two_of_comm {R' : Type} [Group R'] {H : Subgroup R'} [H.Normal
 theorem exists_conj_of_sylow2 {R' : Type} [Group R'] [Finite R'] (A B : Subgroup R')
     (hA : IsPGroup 2 A) (hB : IsPGroup 2 B) (hiA : ¬ 2 ∣ A.index) (hiB : ¬ 2 ∣ B.index) :
     ∃ c : R', ∀ x ∈ A, c * x * c⁻¹ ∈ B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq R' (hA.toSylow hiA) (hB.toSylow hiB)
   refine ⟨c, fun x hx => ?_⟩
   have h3 : MulAut.conj c • (A : Subgroup R') = B := by
@@ -101,11 +101,12 @@ section Helpers
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t : G}
 
+omit [Finite G] in
 theorem smith23E1_Q_le_Nt (hc : Ctx M Q Z B) (ht : t ∈ LB M Q B) :
     Q ≤ Nt M (LB M Q B) t := by
   have hRM : Rt M (LB M Q B) t ≤ M := hc.Rt_le_M t
   have hQR : Q ≤ Rt M (LB M Q B) t := hc.Q_le_Rt ht
-  haveI : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal :=
+  have : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer fun x hx => hc.hyp.Q_normal.2 (hRM hx)
   have hp : IsPGroup 2 (Q.subgroupOf (Rt M (LB M Q B) t)) :=
     (isPGroup_Q' hc.hyp).comap_of_injective _ (Subgroup.subtype_injective _)
@@ -119,7 +120,7 @@ theorem tMemNt_aux (hH : E1Hyp M Q Z B t) : t ∈ Nt M (LB M Q B) t := by
   have hc := hH.ctx
   have htL : t ∈ LB M Q B := hH.mem
   have htR : t ∈ Rt M (LB M Q B) t := le_Rt (LB M Q B) htL htL
-  haveI : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal :=
+  have : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer fun x hx => hc.hyp.Q_normal.2 (hc.Rt_le_M t hx)
   have hp : IsPGroup 2 (Q.subgroupOf (Rt M (LB M Q B) t)) :=
     (isPGroup_Q' hc.hyp).comap_of_injective _ (Subgroup.subtype_injective _)
@@ -154,7 +155,7 @@ theorem ntTI_of (hLine : NtLineStatement) : NtTIStatement := by
   obtain ⟨x, hxN, hxNg, hxQ⟩ : ∃ x, x ∈ Nt M (LB M Q B) t ∧
       x ∈ conjSubgroup g (Nt M (LB M Q B) t) ∧ x ∉ Q := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     apply hdis
     refine le_antisymm (fun x hx => ?_) (le_inf hQN hQg)
     exact hno x (Subgroup.mem_inf.mp hx).1 (Subgroup.mem_inf.mp hx).2
@@ -230,7 +231,7 @@ theorem ntConjLB_of (hSplit : RtSplitStatement) : NtConjLBStatement := by
     norm_num at hq4
   have hpos : 0 < Nat.card Z := Nat.card_pos
   have htL : t ∈ LB M Q B := hH.mem
-  haveI : (Q.subgroupOf M).Normal :=
+  have : (Q.subgroupOf M).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer fun x hx => hc.hyp.Q_normal.2 hx
   have hgM : g ∈ M := Lgen_le_M hc hgL
   have hgM' : g⁻¹ ∈ M := inv_mem hgM
@@ -266,7 +267,7 @@ theorem ntConjLB_of (hSplit : RtSplitStatement) : NtConjLBStatement := by
       exact dvd_pow_self 2 hn0
     have hsq1 : 1 ≤ Nat.card Z ^ 2 := Nat.one_le_pow _ _ hpos
     rcases hQuot with ⟨hnorm, K, hKf, hKfin, hK, ⟨e⟩⟩ | ⟨hnorm, K, hKf, hKfin, hK, b, c, hirr, ⟨e⟩⟩
-    · haveI := hnorm
+    · have := hnorm
       have _hchar : CharP K 2 :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
           Nat.prime_two (Nat.pos_of_ne_zero hn0) (hK.trans hqn)
@@ -275,7 +276,7 @@ theorem ntConjLB_of (hSplit : RtSplitStatement) : NtConjLBStatement := by
         Odd.pow (odd_sub_one_of_two_dvd (dvd_pow h2 two_ne_zero) (pow_pos hpos 2)), ?_⟩
       zify [hsq1] at h ⊢
       exact h
-    · haveI := hnorm
+    · have := hnorm
       have _hchar : CharP K 2 :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
           Nat.prime_two (Nat.pos_of_ne_zero hn0) (hK.trans hqn)

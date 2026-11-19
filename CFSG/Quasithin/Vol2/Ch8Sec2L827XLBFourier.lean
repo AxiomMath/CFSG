@@ -81,7 +81,7 @@ theorem sum_chi_left [Fact p.Prime] [Fintype E] {ζ : F} (hζ : IsPrimitiveRoot 
   by_cases hx : x = 0
   · subst hx
     simp [chi_zero]
-  · rw [if_neg hx]
+  · rw [ite_eq_right hx]
     obtain ⟨f₀, hf₀⟩ := Module.Projective.exists_dual_eq_one (ZMod p) hx
     have hshift : ∑ f : Module.Dual (ZMod p) E, chi ζ (f + f₀) x
         = ∑ f : Module.Dual (ZMod p) E, chi ζ f x :=
@@ -106,7 +106,7 @@ theorem sum_chi_right [Fact p.Prime] [Fintype E] {ζ : F} (hζ : IsPrimitiveRoot
   by_cases hf : f = 0
   · subst hf
     simp [chi_dual_zero]
-  · rw [if_neg hf]
+  · rw [ite_eq_right hf]
     obtain ⟨x₀, hx₀⟩ : ∃ x₀ : E, f x₀ ≠ 0 := by
       by_contra h
       simp only [not_exists, ne_eq, not_not] at h
@@ -149,7 +149,7 @@ theorem rho_mul_idem [Fact p.Prime] [Fintype E] {ζ : F} (hζ : IsPrimitiveRoot 
 
 theorem card_eq_sq [Fact p.Prime] [Fintype E] (hE : Module.finrank (ZMod p) E = 2) :
     Fintype.card E = p ^ 2 := by
-  haveI : Module.Finite (ZMod p) E := Module.finite_of_finrank_pos (by rw [hE]; norm_num)
+  have : Module.Finite (ZMod p) E := Module.finite_of_finrank_pos (by rw [hE]; norm_num)
   have e : Fintype.card E = Fintype.card (ZMod p) ^ Module.finrank (ZMod p) E :=
     Module.card_eq_pow_finrank
   rw [e, hE, ZMod.card]
@@ -179,7 +179,7 @@ theorem idem_mul_idem [Fact p.Prime] [Fintype E] {ζ : F} (hζ : IsPrimitiveRoot
     · subst hfg
       simp
     · have hgf : ¬ (g - f = 0) := fun h => hfg (sub_eq_zero.mp h).symm
-      rw [if_neg hfg, if_neg hgf]
+      rw [ite_eq_right hfg, ite_eq_right hgf]
   calc idem ζ ρ f * idem ζ ρ g
       = ((Fintype.card E : F))⁻¹ • ((∑ x : E, (chi ζ f x)⁻¹ • ρ x) * idem ζ ρ g) := by
         rw [idem_eq_sum ζ ρ f, smul_mul_assoc]
@@ -190,7 +190,7 @@ theorem idem_mul_idem [Fact p.Prime] [Fintype E] {ζ : F} (hζ : IsPrimitiveRoot
     _ = if f = g then idem ζ ρ f else 0 := by
         by_cases hfg : f = g
         · subst hfg
-          rw [if_pos rfl, if_pos rfl, smul_smul, inv_mul_cancel₀ hcard, one_smul]
+          rw [ite_eq_left rfl, ite_eq_left rfl, smul_smul, inv_mul_cancel₀ hcard, one_smul]
         · simp [hfg]
 
 theorem sum_idem [Fact p.Prime] [Fintype E] {ζ : F} (hζ : IsPrimitiveRoot ζ p)
@@ -199,7 +199,7 @@ theorem sum_idem [Fact p.Prime] [Fintype E] {ζ : F} (hζ : IsPrimitiveRoot ζ p
     ∑ f : Module.Dual (ZMod p) E, idem ζ ρ f = 1 := by
   have hcard : (Fintype.card E : F) ≠ 0 := card_cast_ne_zero hpF hE
   have hdual : Fintype.card (Module.Dual (ZMod p) E) = Fintype.card E := by
-    haveI : Module.Finite (ZMod p) E := Module.finite_of_finrank_pos (by rw [hE]; norm_num)
+    have : Module.Finite (ZMod p) E := Module.finite_of_finrank_pos (by rw [hE]; norm_num)
     have e1 : Fintype.card (Module.Dual (ZMod p) E)
         = Fintype.card (ZMod p) ^ Module.finrank (ZMod p) (Module.Dual (ZMod p) E) :=
       Module.card_eq_pow_finrank

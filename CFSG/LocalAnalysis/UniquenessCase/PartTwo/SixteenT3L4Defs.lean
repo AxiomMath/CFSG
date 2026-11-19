@@ -24,6 +24,7 @@ structure S16tL4Pack (D : Data G) (V₀ V L : Subgroup G) (hV : IsElemAbelian 2 
   bar_eq : barSub V₀ V hV Y = lBar V₀ V hV L
   ker_eq : Y ⊓ F11.CTilde D.M V₀ V = pCoreOf 2 Y
 
+omit [Finite G] in
 private theorem s16t_l4_sumOfNat_congr_v1 {V : Subgroup G} (hV : IsElemAbelian 2 V)
     (L : Subgroup G) {m : ℕ} {V₀ V₁ : Subgroup G} (h : V₁ = V₀)
     (hsum : SumOfNat (fun H U Z => BinaryNaturalSL H U Z m 1) (barSub V₁ V hV L)

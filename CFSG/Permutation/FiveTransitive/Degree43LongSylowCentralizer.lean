@@ -189,7 +189,7 @@ theorem fortyone_fixed_card
     Nat.card_eq_fintype_card (α := Function.fixedPoints u.val.val),
     Equiv.Perm.card_fixedPoints,u.val.val.sum_cycleType,hcard,hsupport] at hle
   change Nat.card (MulAction.fixedPoints S X) ≤ 2 at hle
-  have hm := S.isPGroup'.card_modEq_card_fixedPoints X
+  have hm := S.isPGroup.card_modEq_card_fixedPoints X
   change Nat.card X % 41 = Nat.card (MulAction.fixedPoints S X) % 41 at hm
   rw [Nat.card_eq_fintype_card,hcard] at hm
   omega

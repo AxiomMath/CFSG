@@ -85,11 +85,11 @@ theorem e₂_mem_XC₀ (h : d.Hyp) : d.e₂ ∈ d.XC₀ := h.NHA₂_le_XC₀ h.e
 theorem Y_comm_e₂ (h : d.Hyp) {y : G} (hy : y ∈ d.Y) : y * d.e₂ = d.e₂ * y :=
   mem_centralizer_singleton_iff.1 (Subgroup.mem_inf.1 (h.E₂_le_U (h.Y_eq_E₂ ▸ hy))).2
 
-theorem Y_le_D₂ (h : d.Hyp) : d.Y ≤ d.D₂ := fun y hy =>
-  mem_D₂_iff.2 ⟨h.Y_le_UD₀ hy, fun y' hy' => h.Y_comm hy' hy⟩
+theorem Y_le_D₂ (h : d.Hyp) : d.Y ≤ d.D₂ := fun _y hy =>
+  mem_D₂_iff.2 ⟨h.Y_le_UD₀ hy, fun _y' hy' => h.Y_comm hy' hy⟩
 
-theorem D₀_le_D₂ (h : d.Hyp) : d.D₀ ≤ d.D₂ := fun x hx =>
-  mem_D₂_iff.2 ⟨h.C₀_le_UD₀ (h.D₀_le_C₀ hx), fun y hy => Y_comm_D₀ hy hx⟩
+theorem D₀_le_D₂ (h : d.Hyp) : d.D₀ ≤ d.D₂ := fun _x hx =>
+  mem_D₂_iff.2 ⟨h.C₀_le_UD₀ (h.D₀_le_C₀ hx), fun _y hy => Y_comm_D₀ hy hx⟩
 
 theorem conj_mem_D₂ (h : d.Hyp) {g u : G} (hg : g ∈ d.XC₀) (hu : u ∈ d.D₂) :
     g * u * g⁻¹ ∈ d.D₂ := by

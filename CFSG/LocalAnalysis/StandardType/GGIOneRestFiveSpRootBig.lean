@@ -58,8 +58,8 @@ theorem gram_char_two {K : Type} [Field K] [CharP K 2] :
   have hn : (-1 : Matrix (Fin 3) (Fin 3) K) = 1 := by
     ext i j
     by_cases h : i = j
-    · subst h; simp [Matrix.one_apply, CharTwo.neg_eq]
-    · simp [Matrix.one_apply, h]
+    · subst h; simp [CharTwo.neg_eq]
+    · simp [h]
   unfold CFSG.ClassicalInvolution.Models.SymplecticPairs.gram
   rw [hn]
 
@@ -73,7 +73,7 @@ theorem mat_sp7 (K : Type) [Field K] [CharP K 2] :
   mat_ofSymplecticMat _ _
 
 theorem orderOf_sp7 (K : Type) [Field K] [CharP K 2] : orderOf (sp7 K) = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have h7 : sp7 K ^ 7 = 1 := by
     apply mat_injective
     have hp : (blk7.map (ZMod.castHom (dvd_refl 2) K)) ^ 7 =
@@ -93,7 +93,7 @@ theorem orderOf_sp7 (K : Type) [Field K] [CharP K 2] : orderOf (sp7 K) = 7 := by
 
 theorem seven_dvd_card_statedSp (K : Type) [Field K] [Finite K] [CharP K 2] {k : ℕ}
     (hk : 3 ≤ k) : 7 ∣ Nat.card (StatedSp k K) := by
-  haveI : Finite (StatedSp k K) := Finite.of_injective (fun x => mat k K x) mat_injective
+  have : Finite (StatedSp k K) := Finite.of_injective (fun x => mat k K x) mat_injective
   have hσ : Function.Injective (Fin.castLE hk) := Fin.castLE_injective hk
   have h7 : orderOf (spEmbed (K := K) (Fin.castLE hk) hσ (sp7 K)) = 7 := by
     rw [orderOf_injective _ (spEmbed_injective hσ), orderOf_sp7]

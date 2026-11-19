@@ -67,7 +67,7 @@ theorem layer_eq_sup_of_two {Y : Type*} [Group Y] {T₁ T₂ : Subgroup Y}
     Layer.subgroup Y = T₁ ⊔ T₂ := by
   have hset : {C : Subgroup Y | IsComponentOf C ⊤} = {T₁, T₂} := by
     ext C
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · intro hC
       exact hall C hC

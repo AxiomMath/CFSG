@@ -41,7 +41,7 @@ theorem map_gammaOver_subgroupOf_le {Y : Type} [Group Y] [Finite Y] {p : ℕ} (h
 theorem pPrimeCore_eq_bot_of_isComponent_of_prime {Y : Type} [Group Y] [Finite Y] {p : ℕ}
     (hp : p.Prime) (hY : CFSG.pPrimeCore p Y = ⊥) {C : Subgroup Y} (hC : CFSG.IsComponent C) :
     CFSG.pPrimeCore p ↥C = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h := CFSG.LocalAnalysis.UniquenessCase.UCK.map_pPrimeCore_le_of_isSubnormal_of_prime
     (s := p) hC.2
   rw [hY, le_bot_iff] at h

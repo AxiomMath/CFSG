@@ -14,7 +14,7 @@ open Subgroup CFSG.Blueprint
 
 private lemma zpowers_inf_eq_bot_of_notMem {G : Type} [Group G] {t : G} {C : Subgroup G}
     (ht : t ∉ C) (hcard : Nat.card ↥(zpowers t) = 2) : zpowers t ⊓ C = ⊥ := by
-  haveI : Fact (Nat.card ↥(zpowers t)).Prime := ⟨by rw [hcard]; exact Nat.prime_two⟩
+  have : Fact (Nat.card ↥(zpowers t)).Prime := ⟨by rw [hcard]; exact Nat.prime_two⟩
   rcases Subgroup.eq_bot_or_eq_top_of_prime_card (C.subgroupOf (zpowers t)) with h | h
   · have hd : Disjoint C (zpowers t) := Subgroup.subgroupOf_eq_bot.mp h
     rw [Subgroup.disjoint_def] at hd
@@ -29,7 +29,7 @@ theorem sec8t84_card_sup_le {G : Type} [Group G] [Finite G] {t : G} {P : Subgrou
     Nat.card ↥(zpowers t ⊔ P) ≤ 2 * Nat.card ↥P := by
   by_cases htP : t ∈ P
   · rw [sup_eq_right.mpr (Subgroup.zpowers_le.mpr htP)]
-    haveI : Nonempty ↥P := ⟨⟨1, P.one_mem⟩⟩
+    have : Nonempty ↥P := ⟨⟨1, P.one_mem⟩⟩
     have := Nat.card_pos (α := ↥P)
     omega
   · have hcard2 : Nat.card ↥(zpowers t) = 2 := by rw [Nat.card_zpowers]; exact ht

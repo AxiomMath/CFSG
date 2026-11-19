@@ -18,7 +18,7 @@ private abbrev s168e3_e {m : ℕ} (i : Fin m) : Fin m → ZMod 2 := Pi.single i 
 private theorem s168e3_e_ne_zero {m : ℕ} (i : Fin m) : s168e3_e i ≠ 0 := by
   intro h
   have := congrFun h i
-  simpa [s168e3_e] using this
+  simp [s168e3_e] at this
 
 private theorem s168e3_e_one_dot_e_zero {m : ℕ} [NeZero m] (hm : 2 ≤ m) :
     s168e3_e (1 : Fin m) ⬝ᵥ s168e3_e (0 : Fin m) = 0 := by

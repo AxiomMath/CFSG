@@ -56,7 +56,7 @@ theorem oddCore_isComplement_of_normalizer_le_centralizer [Finite G]
     intro h
     exact S.not_dvd_index (by rw [hcomp.index_eq_card]; exact h)
   have hquot : IsPGroup 2 (G ⧸ N) :=
-    S.isPGroup'.of_equiv hcomp.symm.QuotientMulEquiv.symm
+    S.isPGroup.of_equiv hcomp.symm.QuotientMulEquiv.symm
   exact normal_odd_two_quotient_eq_oddCore N hodd hquot ▸ hcomp
 
 @[expose] def directMulEquiv (H K : Subgroup G) (hcomp : H.IsComplement' K)
@@ -98,14 +98,14 @@ theorem sylowCenter_le_centralizer (S : Sylow 2 G) :
   let C := Subgroup.centralizer (S : Set G)
   let Z := (sylowCenter S).subgroupOf C
   have hZp : IsPGroup 2 Z :=
-    (S.isPGroup'.to_le (sylowCenter_le_sylow S)).comap_subtype
+    (S.isPGroup.to_le (sylowCenter_le_sylow S)).comap_subtype
   refine { Z with maximal_isPGroup := ⟨hZp, ?_⟩ }
   intro Q hQ hZQ
   let P := Q.map C.subtype
   have hPp : IsPGroup 2 P := hQ.map C.subtype
   have hPN : P ≤ Subgroup.normalizer (S : Set G) :=
     (Subgroup.map_subtype_le Q).trans (Subgroup.centralizer_le_normalizer _)
-  have hjoin := S.isPGroup'.to_sup_of_normal_left' hPp hPN
+  have hjoin := S.isPGroup.to_sup_of_normal_left' hPp hPN
   have hPS : P ≤ (S : Subgroup G) := by
     have hmax := S.maximal_isPGroup.eq_of_ge hjoin le_sup_left
     exact le_sup_right.trans_eq hmax
@@ -257,7 +257,7 @@ theorem originalSylowNormalizer_complement [Finite G]
     exact ambientOddCore_odd C
   have hdis : Disjoint ((S : Subgroup G).subgroupOf N) (E.subgroupOf N) := by
     apply (Subgroup.disjoint_of_coprime_natCard ?_)
-    obtain ⟨k,hk⟩ := (S.isPGroup'.comap_subtype (K := N)).exists_card_eq
+    obtain ⟨k,hk⟩ := (S.isPGroup.comap_subtype (K := N)).exists_card_eq
     change (Nat.card ((S : Subgroup G).comap N.subtype)).Coprime
       (Nat.card (E.subgroupOf N))
     rw [hk]
@@ -467,7 +467,7 @@ theorem eq_or_top_of_contains_index_two {A : Type u} [Group A]
   have hn1 : 1 ≤ n := by omega
   have hUC : U ≤ C := modelBase_le_modelTCentralizer n hn1 S e
   have hUS : U ≤ (S : Subgroup G) := modelBase_le_sylow S e
-  have hUp : IsPGroup 2 (U.subgroupOf C) := (S.isPGroup'.to_le hUS).comap_subtype
+  have hUp : IsPGroup 2 (U.subgroupOf C) := (S.isPGroup.to_le hUS).comap_subtype
   refine { U.subgroupOf C with maximal_isPGroup := ⟨hUp, ?_⟩ }
   intro Q hQ hUQ
   let P := Q.map C.subtype
@@ -1216,7 +1216,7 @@ theorem modelBaseFourCentralizer_unique_normal_odd_complement [Finite G]
       (Subgroup.centralizer (modelT n S e : Set G)))) :
     J = CFSG.oddCore (Subgroup.centralizer (modelT n S e : Set G)) := by
   apply normal_odd_two_quotient_eq_oddCore J hodd
-  exact (modelBaseFourCentralizerSylow n hn S e).isPGroup'.of_equiv
+  exact (modelBaseFourCentralizerSylow n hn S e).isPGroup.of_equiv
     hcomp.symm.QuotientMulEquiv.symm
 
 end CFSG.Wreathed.BaseFourCentralizerStructure
@@ -1284,7 +1284,7 @@ theorem originalBaseFourCentralizer_quotient_isPGroup [Finite G]
     (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 G) (e : S ≃* Wreath (2 ^ n)) :
     IsPGroup 2 (Subgroup.centralizer (modelT n S e : Set G) ⧸
       CFSG.oddCore (Subgroup.centralizer (modelT n S e : Set G))) :=
-  ((modelBaseFourCentralizerSylow n hn S e).isPGroup').of_equiv
+  ((modelBaseFourCentralizerSylow n hn S e).isPGroup).of_equiv
     (modelBaseFourCentralizer_oddCore_complement n hn S e).symm.QuotientMulEquiv.symm
 
 end CFSG.Wreathed.BaseFourCentralizerStructure

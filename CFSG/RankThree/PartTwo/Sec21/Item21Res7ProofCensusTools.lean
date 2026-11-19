@@ -358,7 +358,7 @@ theorem isCentral_lBar {L : Subgroup G} {d : G} (hdL : d ∈ L) (hcen : IsCentra
     exact h2
   refine ⟨(S₁ : Subgroup (lBar L)), ?_, ?_⟩
   · rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, S₁.isPGroup', ?_⟩
+    refine ⟨le_top, S₁.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S₁.not_dvd_index
   · have hxS : ((⟨d, hdL⟩ : L) : lBar L) ∈ (S₁ : Subgroup (lBar L)) := by

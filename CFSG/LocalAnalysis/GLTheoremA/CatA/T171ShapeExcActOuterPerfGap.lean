@@ -21,6 +21,7 @@ section TorusCoords
 
 variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rootChar_coordTuple {Δ : Finset (Fin τ.rank → ℤ)}
     (hΔ : ∀ β ∈ Δ, IsRoot τ β) (c : (Fin τ.rank → ℤ) → Lˣ) (γ : Fin τ.rank → ℤ) :
     rootChar (coordTuple Δ c) γ = ∏ β ∈ Δ, c β ^ corootPair β γ := by
@@ -32,6 +33,7 @@ theorem rootChar_coordTuple {Δ : Finset (Fin τ.rank → ℤ)}
   congr 1
   exact Finset.sum_congr rfl fun i _ => mul_comm _ _
 
+omit [CharP L 2] in
 theorem exists_pow_tuple_of_det_eq_four {ι : Type*} [Fintype ι] [DecidableEq ι]
     {A : Matrix ι ι ℤ} (hdet : A.det = 4) (d : ι → Lˣ) :
     ∃ c : ι → Lˣ, ∀ j, ∏ i, c i ^ A i j = d j := by
@@ -67,13 +69,14 @@ theorem exists_pow_tuple_of_det_eq_four {ι : Type*} [Fintype ι] [DecidableEq �
     rw [h1]
   rw [Finset.prod_congr rfl fun k _ => by rw [hsum k]]
   rw [Finset.prod_eq_single j]
-  · rw [if_pos rfl, mul_one]
+  · rw [ite_eq_left rfl, mul_one]
     exact Units.ext (hf j)
   · intro k _ hk
-    rw [if_neg hk, mul_zero, zpow_zero]
+    rw [ite_eq_right hk, mul_zero, zpow_zero]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
+omit [IsAlgClosed L] in
 theorem eq_one_of_pow_tuple_eq_one {ι : Type*} [Fintype ι] [DecidableEq ι]
     {A : Matrix ι ι ℤ} (hdet : A.det = 4) {c : ι → Lˣ}
     (h : ∀ j, ∏ i, c i ^ A i j = 1) : c = 1 := by
@@ -118,6 +121,7 @@ section DatumCoords
 variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
   {M : Type} [CommGroup M]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rootSL2_mem_rootSpan_of_mem {S : Set (Fin τ.rank → ℤ)} {β : Fin τ.rank → ℤ}
     (hβ : IsRoot τ β) (h1 : β ∈ S) (h2 : -β ∈ S) (A : SL2 L) :
     rootSL2 τ L β A ∈ rootSpan τ L S := by
@@ -125,6 +129,7 @@ theorem rootSL2_mem_rootSpan_of_mem {S : Set (Fin τ.rank → ℤ)} {β : Fin τ
   rw [CFSG.RankThree.Chevalley.range_rootSL2_of_isRoot hβ] at h
   exact sup_le (rootSubgroup_le_rootSpan h1) (rootSubgroup_le_rootSpan h2) h
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rootDiagUnit_coordTuple_mem_rootSpan {Δ : Finset (Fin τ.rank → ℤ)}
     {S : Set (Fin τ.rank → ℤ)}
     (hΔ : ∀ β ∈ Δ, IsRoot τ β) (c : (Fin τ.rank → ℤ) → Lˣ)
@@ -153,6 +158,7 @@ theorem rootDiagUnit_coordTuple_mem_rootSpan {Δ : Finset (Fin τ.rank → ℤ)}
           (HSL (c β)))
         (ih (fun γ hγ => hΔ γ (Finset.mem_insert_of_mem hγ)) hsub' hneg')
 
+omit [CharP L 2] in
 theorem exists_rootDiagUnit_coordTuple_of_mem_rootSpan_torus
     {S : Set (Fin τ.rank → ℤ)} {Δ : Finset (Fin τ.rank → ℤ)}
     (hΔroot : ∀ β ∈ Δ, IsRoot τ β)
@@ -237,6 +243,7 @@ theorem exists_rootDiagUnit_coordTuple_of_mem_torusJ
   have hβΔ : β ∈ D.simpleRootsJ := by rw [← hΔ]; exact hβ
   exact hβΔ.2
 
+omit [IsAlgClosed L] in
 theorem coordTuple_injective_of_det_four
     (Δ : Finset (Fin τ.rank → ℤ))
     (hΔroot : ∀ β ∈ Δ, IsRoot τ β)

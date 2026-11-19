@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p2014b_cj_ne {p : ℕ} (hp : p.Prime) {C : Subgroup G} {x : G} (hx : orderOf x = p)
     (hxC : x ∉ normalizer (C : Set G)) {i : ℕ} (hi0 : 0 < i) (hip : i < p) :
     C ≠ uc22p20bCj (x ^ i) C := by
@@ -32,7 +33,7 @@ theorem uc22p2014b_mem_normalizer_cComp (D : Data G) (hB : ListBNonabelian) (h19
     (hH : H ∈ hSet D.T D.M) {C : Subgroup G} (hC : C ∈ CFSG.Quasithin.cComp H)
     (hCM : ¬ C ≤ D.M) {x : G} (hxH : x ∈ H) (hxM : x ∈ D.M) (hx : orderOf x = p) :
     x ∈ normalizer (C : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hxC
   set R := CFSG.Quasithin.solvRad H with hRdef
   have hRM : R ≤ D.M := uc22p2014a_solvRad_le D hB h1930 hH
@@ -63,7 +64,7 @@ theorem uc22p2014b_mem_normalizer_cComp (D : Data G) (hB : ListBNonabelian) (h19
     have hA : ∀ n, Dn (n + 1) = c * (x * Dn n * x⁻¹) := by
       intro n
       induction n with
-      | zero => simp [hDs, hDn, hf]
+      | zero => simp [hDn, hf]
       | succ n ih =>
         rw [hDs (n + 1)]
         conv_lhs => rw [ih]
@@ -73,7 +74,7 @@ theorem uc22p2014b_mem_normalizer_cComp (D : Data G) (hB : ListBNonabelian) (h19
     have hB' : ∀ n, n < p → x * Dn n * x⁻¹ ∈ uc22p20eCentMod H C := by
       intro n
       induction n with
-      | zero => intro _; simpa [hDn] using (uc22p20eCentMod H C).one_mem
+      | zero => intro _; simp [hDn]
       | succ n ih =>
         intro hn
         have e : x * Dn (n + 1) * x⁻¹ = (x * Dn n * x⁻¹) * f (n + 1) := by
@@ -111,7 +112,7 @@ theorem uc22p2014b_mem_normalizer_cComp (D : Data G) (hB : ListBNonabelian) (h19
     rw [e]
     exact D.M.mul_mem (D.M.mul_mem hzM hsE) (D.M.inv_mem hzM)
   have hT2 : CFSG.QuasithinUnique.IsSylowTwoOf (D.T ⊓ C) C := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hTH : CFSG.ABGLocalTools.IsSylowOf 2 D.T H := D.sylowG.of_le hH.1 le_top
     exact CFSG.ABGLocalTools.isSylowOf_iff.1
       (hTH.inf_of_isSubnormal (CFSG.Quasithin.subnormal_of_mem_cComp hC))
@@ -155,7 +156,7 @@ theorem uc22p2014b_cComp_le_opp (D : Data G) (hB : ListBNonabelian) (h1930 : H19
     (hH : H ∈ hSet D.T D.M) {C : Subgroup G} (hC : C ∈ CFSG.Quasithin.cComp H)
     (hCM : ¬ C ≤ D.M) {x : G} (hxH : x ∈ H) (hxM : x ∈ D.M) (hx : orderOf x = p) :
     C ≤ Opp p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxC := uc22p2014b_mem_normalizer_cComp D hB h1930 hp hsp hH hC hCM hxH hxM hx
   set R := CFSG.Quasithin.solvRad H with hRdef
   have hRM : R ≤ D.M := uc22p2014a_solvRad_le D hB h1930 hH

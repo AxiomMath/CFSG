@@ -402,7 +402,7 @@ theorem exists_conj_diag_of_odd (f : ℕ) (hf : 2 ≤ f) (hcard : Nat.card E = (
     rintro ⟨x, r, hr, rfl⟩
     have hrS : r ∈ (S : Subgroup (ProjectiveSpecialUnitaryMatrixGroup J)) := by
       rw [hS]; exact hr
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨r, hrS⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨r, hrS⟩
     refine ⟨k, Subtype.ext ?_⟩
     have hk' : r ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     rw [Subgroup.coe_pow, Subgroup.coe_one]

@@ -22,8 +22,8 @@ theorem tD4_leviSurj_of_equiv {A : Type} [Group A] [Finite A] {K K₀ B : Subgro
         Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) F)) ∨
       ∃ m : ℕ, (m = 1 ∨ m = 2) ∧ LeviSurj p K₀ z
         (↥(orthResDer F b c m) ⧸ Subgroup.center ↥(orthResDer F b c m)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm F b c))) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(orthElementaryGroup (quadTail 3 (minusTailForm F b c))) :=
     Finite.of_surjective (⇑e) e.surjective
   obtain ⟨⟨U, hU⟩, hNU, -⟩ :=
     orthogonal_geometry_tail_Sylow_flag_normalizer (p := 2) (le_refl 3)

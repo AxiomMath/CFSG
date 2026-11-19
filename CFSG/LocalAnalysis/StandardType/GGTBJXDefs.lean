@@ -102,7 +102,7 @@ theorem ggTBJXReflAut_apply (p : ℕ) [Fact p.Prime] (τ : Tag) {β : Fin τ.ran
     (i : Fin τ.rank) :
     Multiplicative.toAdd (ggTBJXReflAut p τ β f) i = Multiplicative.toAdd f i -
       ggTBJXFun p τ β (Multiplicative.toAdd f) * ggTBJXVec p τ β i := by
-  rw [ggTBJXReflAut, dif_pos h]
+  rw [ggTBJXReflAut, dite_eq_left h]
   rfl
 
 end CFSG.StandardType

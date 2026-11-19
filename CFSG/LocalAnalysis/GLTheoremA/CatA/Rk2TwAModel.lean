@@ -50,7 +50,7 @@ theorem rk2_card_center_dvd_twA {X : Type} [Group X] [Finite X] {ℓ n : ℕ}
   have hQ' : CFSG.IsQuasisimple X := (CFSG.Foundations.SteinbergCA.quasisimple_iff _).2.2.1.2 hQ
   have hcard := rk2_card_griess_twA hM' hex
   have hgpos : Nat.gcd (ℓ + 1) (2 ^ n + 1) ≠ 0 := (Nat.gcd_pos_of_pos_right _ (by positivity)).ne'
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (X ⧸ Subgroup.center X)) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier (X ⧸ Subgroup.center X)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact hgpos)
   have h1 := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQ' (MulEquiv.refl _)
   rwa [hcard] at h1
@@ -77,8 +77,8 @@ theorem rk2_twA_pRank_le {X : Type} [Group X] [Finite X] {ℓ n q : ℕ}
   have hn1 : 1 ≤ n := hl.1
   have hFD : UnitaryFieldData 2 n F :=
     ⟨Nat.prime_two, hn1, by rw [hcard, ← pow_mul, mul_comm]⟩
-  haveI : CharP F 2 := hFD.charP
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : CharP F 2 := hFD.charP
+  have : Fact q.Prime := ⟨hq⟩
   have hZ : ¬ q ∣ Nat.card (Subgroup.center X) := fun hd =>
     hqQ ((hd.trans (rk2_card_center_dvd_twA hX hex)).trans (Nat.gcd_dvd_right _ _))
   set H : Subgroup (GL (Fin (ℓ + 1)) F) := StatedSU (ℓ + 1) (2 ^ n) F with hH

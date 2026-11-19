@@ -34,6 +34,7 @@ section Reduction
 
 variable {p : ℕ} [hp : Fact p.Prime] {L : Type} [Group L] [Finite L]
 
+omit hp in
 theorem false_of_rankThreeCent (h : RankThreeCent p L) {y : L} (hyo : orderOf y = p)
     (hyc : CFSG.Open.pRank p (centralizer ({y} : Set L)) ≤ 2) : False := by
   have := h y hyo
@@ -83,6 +84,7 @@ theorem kd291DC_twistedA (hp5 : 5 ≤ p) (hUni : InUni) (r : ℕ) (q : PrimePowe
     omega
   · exact false_of_rankThreeCent (hUni q.p (r + 1) q.exponent q.prime_p hp5 (by omega) L hm) hyo hyc
 
+omit [Finite L] in
 theorem statedClassicalModel_B2 (q : PrimePower) (hv : (LieTypeIndex.B 2 q).Valid)
     (e : L ≃* ValidLieTypeIndex.Group ⟨.B 2 q, hv⟩) :
     StatedClassicalModel L .PSp 2 q.p q.exponent := by
@@ -98,6 +100,7 @@ theorem statedClassicalModel_B2 (q : PrimePower) (hv : (LieTypeIndex.B 2 q).Vali
   simp only [Prod.mk.injEq] at h
   exact hr.2 ⟨rfl, by omega⟩
 
+omit [Finite L] in
 theorem statedClassicalModel_Bodd (r : ℕ) (hr3 : 3 ≤ r) (q : PrimePower)
     (hv : (LieTypeIndex.B r q).Valid) (hq2 : q.p ≠ 2)
     (e : L ≃* ValidLieTypeIndex.Group ⟨.B r q, hv⟩) :

@@ -31,12 +31,12 @@ def Idx2.congr (e : A ≃* B) : Idx2 A ≃ Idx2 B where
     apply Subtype.ext
     apply Subgroup.ext
     intro x
-    simp [Subgroup.mem_map_equiv]
+    simp
   right_inv H := by
     apply Subtype.ext
     apply Subgroup.ext
     intro x
-    simp [Subgroup.mem_map_equiv]
+    simp
 
 theorem Idx2.congr_mem (e : A ≃* B) (H : Idx2 A) (x : B) :
     x ∈ (Idx2.congr e H).1 ↔ e.symm x ∈ H.1 :=

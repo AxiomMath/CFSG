@@ -32,7 +32,7 @@ theorem i2019At_of_full (hFull : S2019Full) (G : Type) [Group G] [Finite G] (p :
     I2019At G p := by
   classical
   intro hp hp2 q hq hq2 hqp B D K J hB hBK hQ hChev hC hDB hCD hrel hD hJ hBJ hcm T hTK hT2 hJT
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : IsElemAbelian p B := hB.1
   have hBcard : Nat.card B = p ^ GLATwoLocalRank p G := hB.2.1
   set H : Subgroup G := K ⊔ B with hH
@@ -57,7 +57,7 @@ theorem i2019At_of_full (hFull : S2019Full) (G : Type) [Group G] [Finite G] (p :
   have hDm : D'.map H.subtype = D := Subgroup.map_subgroupOf_eq_of_le hDH
   have hJm : J'.map H.subtype = J := Subgroup.map_subgroupOf_eq_of_le hJH
   have hTm : T'.map H.subtype = T := Subgroup.map_subgroupOf_eq_of_le hTH
-  haveI hK'n : K'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHN
+  have hK'n : K'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHN
   have hBK' : B' ≤ Subgroup.normalizer (K' : Set ↥H) := by
     intro g _
     rw [Subgroup.normalizer_eq_top_iff.2 hK'n]

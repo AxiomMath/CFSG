@@ -70,9 +70,7 @@ theorem klein_inv [Finite V] {U P : Subgroup V} (hU : Nat.card U = 4) (hPU : P â
       | exact absurd hij'.symm n0
       | exact absurd hij' n0
       | exact absurd hij'.symm n1
-      | exact absurd hij' n1
       | exact absurd hij'.symm n2
-      | exact absurd hij' n2
       | exact absurd hij' e1
       | exact absurd hij'.symm e1
       | exact absurd hij' e2

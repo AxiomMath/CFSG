@@ -116,7 +116,7 @@ theorem K58_holds : K58 := by
   have hQT : pCoreOf 2 (⊤ : Subgroup X) ≤ T :=
     CFSG.Quasithin.B6.pCoreOf_two_le_of_isSylowTwoOf hX.sylow
   have hV := isElemAbelian_gnV_of_le hC hQT
-  letI : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
+  let : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
     binModule (fun v : IntMod (gnV T) hV => IntMod.sq_eq_one v)
   obtain ⟨n, hW, hlat⟩ : ∃ n, Nat.card (K58Proof.SecW (gnRep hV) Ls) = n + 1 ∧
       K58Proof.SylLat ↥Ls n := by
@@ -128,7 +128,7 @@ theorem K58_holds : K58 := by
     · obtain ⟨hHI, hrel⟩ := agl81FiveThreeU33_proved X T hX.kGroup hC hT2 hQT Ls hL hJ hU
       exact ⟨63, by rw [K58Proof.card_secW_gnRep hV Ls hHI hrel]; norm_num,
         K58Proof.sylLat_of_isUThreeThree hU⟩
-  haveI : Group.IsPerfect ↥Ls := ⟨hL.2.2.1⟩
+  have : Group.IsPerfect ↥Ls := ⟨hL.2.2.1⟩
   obtain ⟨hS₀, P, hmin, hfix⟩ := K58Proof.exists_minOver_fixing hV hX.sylow hL.2.1 hW hlat
   have hcent := (pElementSubgroup_le (p := 2) _).trans (K58Proof.comap_le_centralizer hV hfix)
   exact ⟨_, P, hS₀, hmin, hcent,

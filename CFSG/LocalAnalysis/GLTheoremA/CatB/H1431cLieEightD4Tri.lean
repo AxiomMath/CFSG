@@ -63,8 +63,8 @@ theorem lieSEightD4_noSp_of_equiv (hLO : LieOrderBridge) {P : Type} [Group P] [F
   let J : Subgroup P := J₀.map D.subtype
   have hJD : J ≤ D := Subgroup.map_subtype_le J₀
   have hJ₀ : J.subgroupOf D = J₀ := Subgroup.comap_map_eq_self_of_injective D.subtype_injective J₀
-  haveI hJ₀n : J₀.Normal := Subgroup.Normal.map hM e.symm.toMonoidHom e.symm.surjective
-  haveI : (J.subgroupOf D).Normal := by rw [hJ₀]; exact hJ₀n
+  have hJ₀n : J₀.Normal := Subgroup.Normal.map hM e.symm.toMonoidHom e.symm.surjective
+  have : (J.subgroupOf D).Normal := by rw [hJ₀]; exact hJ₀n
   let eq : H ⧸ M ≃* ↥D ⧸ J.subgroupOf D := QuotientGroup.congr M (J.subgroupOf D) e.symm hJ₀.symm
   have hsol' : Group.IsSolvable (↥D ⧸ J.subgroupOf D) :=
     Group.isSolvable_of_surjective (f := eq.toMonoidHom) eq.surjective
@@ -94,7 +94,7 @@ theorem lieSEightD4Fix_of_simple {Γ H : Type} [Group Γ] [Group H] (e : Γ ≃*
     (hs : IsSimpleGroup H) (hnab : ∃ a b : H, a * b ≠ b * a) (hN : Nat.card H ≠ 1056706560) :
     LieSEightD4Fix Γ := by
   refine ⟨H, inferInstance, e, ⊤, inferInstance, ?_, ?_, ?_, ?_⟩
-  · haveI : Subsingleton (H ⧸ (⊤ : Subgroup H)) := QuotientGroup.subsingleton_quotient_top
+  · have : Subsingleton (H ⧸ (⊤ : Subgroup H)) := QuotientGroup.subsingleton_quotient_top
     exact Group.isSolvable_of_comm fun a b => Subsingleton.elim _ _
   · exact (MulEquiv.isSimpleGroup_congr (Subgroup.topEquiv (G := H))).2 hs
   · obtain ⟨a, b, hab⟩ := hnab
@@ -126,8 +126,8 @@ theorem lieSEightD4Fix_field {K : Type} [Field K] [Finite K] (hK : Nat.card K = 
     {σ : K ≃+* K} (hσ : σ ≠ 1) :
     LieSEightD4Fix ↥(fixedSubgroup (entrywiseAdjointAut Tag.D4 σ)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by norm_num) hK
   have hchar : ringChar K = 2 := ringChar.eq K 2
   obtain ⟨hdvd, hcardfix⟩ := CFSG.RankThree.Chevalley.SteinbergBT.card_fixSubfield
@@ -175,7 +175,7 @@ theorem lieSEightD4Fix_graphField {K : Type} [Field K] [Finite K] (hK : Nat.card
     (CFSG.LieType.Simplicity.fam_3d4_simplicity _ _ _ hmodel).2
   have hcardC : Nat.card (TauCeti.CFSGIndex.lie OuterFourSeitz.trialityTwoIndex).Group =
       ordTrialityD4 2 := CFSG.Timmesfeld.card_chevalleyExceptionalModel_two hmodel
-  haveI : Finite (TauCeti.CFSGIndex.lie OuterFourSeitz.trialityTwoIndex).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie OuterFourSeitz.trialityTwoIndex).Group :=
     Nat.finite_of_card_ne_zero (by rw [hcardC]; decide)
   obtain ⟨u, v, huv⟩ : ∃ u v : (TauCeti.CFSGIndex.lie OuterFourSeitz.trialityTwoIndex).Group,
       u * v ≠ v * u :=
@@ -192,15 +192,15 @@ theorem lieSEightD4Fix_graph {K : Type} [Field K] [Finite K] (hK : Nat.card K = 
   classical
   rcases OuterFourSeitz2.graphFix_cases hK hα3 hA with ⟨F', _, _, hF', ⟨Fg⟩⟩ | hPGU
   · obtain ⟨hs, -, -, hcard⟩ := OuterFourSeitz2.g2Props hF' Fg
-    haveI := hs
-    haveI : Finite ↥(fixedSubgroup α) :=
+    have := hs
+    have : Finite ↥(fixedSubgroup α) :=
       Nat.finite_of_card_ne_zero (by rw [hcard]; simp only [ordG2]; decide)
     exact lieSEightD4Fix_of_simple (MulEquiv.refl _) hs
       (OuterFourSeitz.exists_noncomm_of_four_dvd (by rw [hcard]; simp only [ordG2]; decide))
       (by rw [hcard]; simp only [ordG2]; decide)
   · obtain ⟨M, hM⟩ := OuterFourSeitz2.pguData_of_isoPGUThree hPGU
-    haveI := hM.normal
-    haveI := hM.simple
+    have := hM.normal
+    have := hM.simple
     have hsol : Group.IsSolvable (↥(fixedSubgroup α) ⧸ M) := by
       refine Group.isSolvable_of_comm fun a b => ?_
       induction a using QuotientGroup.induction_on with
@@ -209,13 +209,13 @@ theorem lieSEightD4Fix_graph {K : Type} [Field K] [Finite K] (hK : Nat.card K = 
         | H y =>
           rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, QuotientGroup.eq]
           simpa [mul_assoc] using hM.comm y⁻¹ x⁻¹
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hc := CFSG.RankThree.PartTwo.KFacts.KS14.card_projSU_three_mul_gcd 2 3 (by norm_num)
     have hMcard : Nat.card ↥M = 5515776 := by
       rw [Nat.card_congr hM.model.some.toEquiv]
       norm_num at hc
       omega
-    haveI : Finite ↥M := Nat.finite_of_card_ne_zero (by rw [hMcard]; norm_num)
+    have : Finite ↥M := Nat.finite_of_card_ne_zero (by rw [hMcard]; norm_num)
     exact ⟨↥(fixedSubgroup α), inferInstance, MulEquiv.refl _, M, hM.normal, hsol, hM.simple,
       OuterFourSeitz.exists_noncomm_of_four_dvd (by rw [hMcard]; norm_num),
       by rw [hMcard]; norm_num⟩

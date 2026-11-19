@@ -49,8 +49,8 @@ theorem endgame_Y [Finite Y] [Module.Finite (ZMod 2) V] (ρ : Representation (ZM
     (hz : z ∈ E) (hρz : ρ z ≠ 1)
     (hdim : Module.finrank (ZMod 2) (commSub ρ N₀) ≤ 36) : False := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   have hW0inv : ∀ n ∈ N₁, ∀ w ∈ commSub ρ E, ρ n w ∈ commSub ρ E :=
     fun n hn w hw => commSub_invariant ρ hEn hn hw
   have hW0ne : commSub ρ E ≠ ⊥ := by
@@ -69,7 +69,7 @@ theorem endgame_Y [Finite Y] [Module.Finite (ZMod 2) V] (ρ : Representation (ZM
       U = V₁ := by
     intro U hUV hUinv hUne
     exact Submodule.eq_of_le_of_finrank_le hUV (hmin U ⟨hUV.trans hV₁W, hUne, hUinv⟩)
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   have hodd : Odd (Fintype.card E) := by
     rw [Fintype.card_eq_nat_card, hEcard]
     decide
@@ -128,8 +128,8 @@ theorem endgame_Y [Finite Y] [Module.Finite (ZMod 2) V] (ρ : Representation (ZM
         refine LinearMap.ext fun u => Subtype.ext ?_
         simp }
   have hρ₁ : ∀ (n : ↥N₁) (u : ↥V₁), ((ρ₁ n u : ↥V₁) : V) = ρ (n : Y) (u : V) := fun n u => rfl
-  haveI : Nontrivial ↥V₁ := Submodule.nontrivial_iff_ne_bot.mpr hV₁ne
-  haveI : Finite ↥V₁ := inferInstance
+  have : Nontrivial ↥V₁ := Submodule.nontrivial_iff_ne_bot.mpr hV₁ne
+  have : Finite ↥V₁ := inferInstance
   have hJN : J ≤ N₁ := hJP.trans hPN
   have hEN : E ≤ N₁ := hEJ.trans hJN
   have hcardsub : ∀ {K : Subgroup Y}, K ≤ N₁ → Nat.card (K.subgroupOf N₁) = Nat.card K :=

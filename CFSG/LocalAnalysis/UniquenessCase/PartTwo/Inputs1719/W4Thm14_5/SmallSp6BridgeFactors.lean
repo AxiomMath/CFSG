@@ -118,7 +118,7 @@ theorem finrank_le_of_factorsFinrankLe [Module.Finite k V]
   by_contra hdim
   have hm := h V ρ (by omega)
   rw [repMultiplicity_of_isIrreducible hirr,
-    if_pos ⟨Representation.Equiv.refl ρ⟩] at hm
+    ite_eq_left ⟨Representation.Equiv.refl ρ⟩] at hm
   norm_num at hm
 
 theorem factorsFinrankLe_pi [Module.Finite k V] {ι : Type} [Fintype ι]

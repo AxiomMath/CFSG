@@ -16,7 +16,7 @@ theorem ggF4Untw_C {p f f' : ℕ} (hpf : p ∣ 2 ^ f - 1) {kk : LargeEvenLabel}
   simp [GGTablePRow, hpf] at hrow
   simp [GGLabelIso] at hiso
   simp only [LargeEvenLabel.mk.injEq]
-  rcases hiso with ⟨h1, h2, h3⟩ | ⟨h1 | h1, h2, h3⟩ <;> subst_vars <;> simp_all <;> omega
+  rcases hiso with ⟨h1, h2, h3⟩ | ⟨h1 | h1, h2, h3⟩ <;> subst_vars <;> simp_all
 
 theorem ggF4Untw_twD {p f f' : ℕ} (hpf : p ∣ 2 ^ f - 1) {kk : LargeEvenLabel}
     (hrow : GGTablePRow p ⟨.A, 2, f⟩ kk) (hiso : GGLabelIso kk ⟨.twD, 4, f'⟩) :
@@ -25,7 +25,7 @@ theorem ggF4Untw_twD {p f f' : ℕ} (hpf : p ∣ 2 ^ f - 1) {kk : LargeEvenLabel
   simp [GGTablePRow, hpf] at hrow
   simp [GGLabelIso] at hiso
   simp only [LargeEvenLabel.mk.injEq]
-  rcases hiso with ⟨h1, h2, h3⟩ <;> subst_vars <;> simp_all <;> omega
+  rcases hiso with ⟨h1, h2, h3⟩; subst_vars; simp_all
 
 theorem ggF4Untw_A {p f r₀ : ℕ} (hpf : p ∣ 2 ^ f - 1) (hr : r₀ = 5 ∨ r₀ = 6) (hp3 : p = 3)
     {kk : LargeEvenLabel} (hrow : GGTablePRow p ⟨.A, 2, f⟩ kk)
@@ -35,7 +35,7 @@ theorem ggF4Untw_A {p f r₀ : ℕ} (hpf : p ∣ 2 ^ f - 1) (hr : r₀ = 5 ∨ r
   simp [GGLabelIso] at hiso
   simp only [LargeEvenLabel.mk.injEq]
   rcases hr with hr | hr <;> subst hr <;> subst hp3 <;>
-  rcases hiso with ⟨h1, h2, h3⟩ <;> subst_vars <;> simp_all <;> omega
+  rcases hiso with ⟨h1, h2, h3⟩ <;> subst_vars <;> simp_all
 
 theorem ggF4Untw_U {p f f' : ℕ} (hpf : p ∣ 2 ^ f - 1) {kk : LargeEvenLabel}
     (hrow : GGTablePRow p ⟨.A, 2, f⟩ kk) (hiso : GGLabelIso kk ⟨.twA, 5, f'⟩) :
@@ -44,14 +44,14 @@ theorem ggF4Untw_U {p f f' : ℕ} (hpf : p ∣ 2 ^ f - 1) {kk : LargeEvenLabel}
   simp [GGTablePRow, hpf] at hrow
   simp [GGLabelIso] at hiso
   simp only [LargeEvenLabel.mk.injEq]
-  rcases hiso with ⟨h1, h2, h3⟩ <;> subst_vars <;> simp_all <;> omega
+  rcases hiso with ⟨h1, h2, h3⟩; subst_vars; simp_all
 
 theorem ggF4Untw_A2 {f : ℕ} {jj : LargeEvenLabel} (hiso : GGLabelIso jj ⟨.A, 2, f⟩) :
     jj = ⟨.A, 2, f⟩ := by
   obtain ⟨t, r, n⟩ := jj
   simp [GGLabelIso] at hiso
   simp only [LargeEvenLabel.mk.injEq]
-  rcases hiso with ⟨h1, h2, h3⟩ <;> subst_vars <;> simp_all
+  rcases hiso with ⟨h1, h2, h3⟩; subst_vars; simp_all
 
 theorem ggF4H4Untwisted_of_tableP
     (hTPn : GGNbrTablePNbrInputNarrow) (hRig : GGLabelRigidInput) (hpsl : GGF4H4Psl64) :

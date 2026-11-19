@@ -52,7 +52,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem isSylowTwoOf_map_subtype_sylow {K : Subgroup G} (P : Sylow 2 ↥K) :
     IsSylowTwoOf ((P : Subgroup ↥K).map K.subtype) K := by
-  refine ⟨Subgroup.map_subtype_le _, (P.isPGroup').map K.subtype, ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, (P.isPGroup).map K.subtype, ?_⟩
   have h : ((P : Subgroup ↥K).map K.subtype).subgroupOf K = (P : Subgroup ↥K) :=
     Subgroup.comap_map_eq_self_of_injective K.subtype_injective _
   rw [h]

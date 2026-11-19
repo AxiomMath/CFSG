@@ -26,7 +26,7 @@ namespace LieClAut
 theorem centralizer_inf_range_le_map {Y G : Type*} [Group Y] [Finite Y] [Group G] (ρ : Y →* G)
     (hk : ¬ 3 ∣ Nat.card ρ.ker) {E : Subgroup Y} (hE : IsPGroup 3 E) :
     ρ.range ⊓ centralizer (E.map ρ : Set G) ≤ (centralizer (E : Set Y)).map ρ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rintro _ ⟨⟨y, rfl⟩, hy⟩
   have hmem : QuotientGroup.mk' ρ.ker y ∈
       centralizer ((E.map (QuotientGroup.mk' ρ.ker) : Subgroup (Y ⧸ ρ.ker)) :
@@ -45,7 +45,7 @@ theorem centralizer_inf_range_le_map {Y G : Type*} [Group Y] [Finite Y] [Group G
 theorem injective_comp_subtype {Y G : Type*} [Group Y] [Finite Y] [Group G] (ρ : Y →* G)
     (hk : ¬ 3 ∣ Nat.card ρ.ker) {E : Subgroup Y} (hE : IsPGroup 3 E) :
     Function.Injective (ρ.comp E.subtype) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine (injective_iff_map_eq_one _).2 fun e he => ?_
   obtain ⟨k, hek⟩ := hE e
   have hker : (e : Y) ∈ ρ.ker := he
@@ -74,8 +74,8 @@ theorem conj_injective_of_center {X : Type*} [Group X] (hc : center X = ⊥) :
 theorem eq_or_eq_inv_of_isCyclic {G : Type*} [Group G] [Finite G] [IsCyclic G] {a b : G}
     (hb3 : b ^ 3 = 1) (hb1 : b ≠ 1) (ha3 : a ^ 3 = 1) (ha1 : a ≠ 1) : a = b ∨ a = b⁻¹ := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype G := Fintype.ofFinite G
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbo : orderOf b = 3 := orderOf_eq_prime hb3 hb1
   have hsub : (zpowers b : Set G).toFinset ⊆ Finset.univ.filter fun x : G => x ^ 3 = 1 :=
     fun x hx => by
@@ -115,7 +115,7 @@ theorem comm_of_sylow_comm {X G' : Type*} [Group X] [Group G'] [Finite G'] (e : 
     (h : ∀ S : Sylow 3 G', IsMulCommutative (S : Subgroup G')) :
     ∀ P : Subgroup X, IsPGroup 3 P → ∀ a ∈ P, ∀ b ∈ P, a * b = b * a := by
   intro P hP a ha b hb
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := (hP.map e.toMonoidHom).exists_le_sylow
   have hc := (h S).is_comm.comm ⟨e a, hS ⟨a, ha, rfl⟩⟩ ⟨e b, hS ⟨b, hb, rfl⟩⟩
   apply e.injective
@@ -134,7 +134,7 @@ theorem three_le_pRank_of_abelian {X : Type} [Group X] [Finite X] (hc : center X
     {E : Subgroup (MulAut X)} (hEH : E ≤ H) (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 9) :
     3 ≤ Open.pRank 3 (H ⊓ centralizer (E : Set (MulAut X))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set I := (MulAut.conj : X →* MulAut X).range with hI
   have hconj := conj_injective_of_center hc
   set F₀ := ((MulAut.conj : X →* MulAut X).comp f).range with hF₀
@@ -203,7 +203,7 @@ theorem three_le_pRank_of_abelian {X : Type} [Group X] [Finite X] (hc : center X
   have hSH : S ≤ H := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2
-  have hSp : IsPGroup 3 S := S₀.isPGroup'.map _
+  have hSp : IsPGroup 3 S := S₀.isPGroup.map _
   have hQS : Q ≤ S := fun x hx => ⟨⟨x, hQH hx⟩, hS₀ hx, rfl⟩
   set g : MulAut X := (h : MulAut X) with hg
   set E' := E.map (MulAut.conj g).toMonoidHom with hE'
@@ -275,9 +275,9 @@ end LieClAut
 theorem kFactTenElevenOneLieAutFieldTwo_of_rankTwo (h : KFactOuterThreeRankTwo) :
     KFactTenElevenOneLieAutFieldTwo := by
   intro Y _ _ L hLn hq hO2 d hd hl hA2 h3 hG he hu hJ hC3 hrk hE hN
-  haveI := hLn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hq.1
+  have := hLn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hq.1
   set ρ := LieClAut.conjQuot L with hρ
   have hker : ρ.ker ≤ centralizer (L : Set Y) := fun y hy =>
     LieClAut.mem_centralizer_of_conjQuot_eq_one inferInstance hy

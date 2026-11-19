@@ -33,7 +33,7 @@ theorem w135c2_psl_label_ext {m f : ℕ} (hm : 1 ≤ m) {K : Type} [Field K] [Fi
       (∀ r : Fin f, ε ⟨(r + s) % f, Nat.mod_lt _ r.pos⟩ = ε r) ∧
       (∀ p : ℕ, 0 < p → p < s → ∃ r : Fin f, ε ⟨(r + p) % f, Nat.mod_lt _ r.pos⟩ ≠ ε r) := by
   classical
-  haveI := hirr
+  have := hirr
   obtain ⟨ε, hε, hact⟩ := exists_hasTwistedLabel hK ρ hne
   obtain ⟨s, hs0, hE⟩ := exists_card_endField_eq_two_pow (ρ := ρ)
   have h0 : ∀ r, (⟨0, by omega⟩ : Fin (m + 1)) ∉ ε r := by

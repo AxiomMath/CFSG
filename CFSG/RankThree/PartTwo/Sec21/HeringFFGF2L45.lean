@@ -28,7 +28,7 @@ theorem item212XL45_of_papers_gf2 (hGF2 : GF2TypeStatementKP) (hb : Item310Bridg
     · exact Or.inl (CFSG.SectionRank.statedClassicalModel_of_mulEquiv eX.symm hL)
     · exact Or.inr (Or.inl (CFSG.SectionRank.statedClassicalModel_of_mulEquiv eX.symm hL))
   have hQ : CFSG.IsQuasisimple (lBar X) := Sec6.isQuasisimple_of_mem_thetaComponentsAt hXa
-  haveI := ff_isSimpleGroup_lBar hXmod
+  have := ff_isSimpleGroup_lBar hXmod
   have hXs : IsSimpleGroup X := eX.isSimpleGroup
   obtain ⟨p, q, hpq⟩ := ff_exists_noncomm_of_isQuasisimple hQ
   have hXq : CFSG.IsQuasisimple X := Tables.isQuasisimple_of_isSimpleGroup hXs

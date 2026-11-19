@@ -110,7 +110,7 @@ private theorem eight_le_card_image (h : Hyp G T M L B Tp VB K) :
       congr 1
     · rintro ⟨v, rfl⟩
       refine ⟨Subgroup.inclusion h.VB_le v, ?_, rfl⟩
-      exact Subgroup.mem_subgroupOf.mpr (by simpa [Subgroup.coe_inclusion] using v.2)
+      exact Subgroup.mem_subgroupOf.mpr (by simp [Subgroup.coe_inclusion])
   have hcard : Nat.card ↥VB =
       Nat.card ((VB.subgroupOf K).map (QuotientGroup.mk' (Subgroup.center ↥K))) := by
     rw [hrange]
@@ -139,7 +139,7 @@ theorem false_of_twoLocalsSolvable (h : Hyp G T M L B Tp VB K)
     rw [hbot, Subgroup.card_bot] at h8
     omega
   have hE2 : IsPGroup 2 E := hE.isPGroup
-  haveI : Group.IsSolvable ↥(Subgroup.normalizer (E : Set (↥K ⧸ Z))) :=
+  have : Group.IsSolvable ↥(Subgroup.normalizer (E : Set (↥K ⧸ Z))) :=
     hS E hEne hE2
   let LB : Subgroup G := perfectCore (conjClosure L T ⊓ Subgroup.centralizer (B : Set G))
   let ψ : ↥LB →* (↥K ⧸ Z) := π.comp (Subgroup.inclusion h.LB_le)
@@ -175,10 +175,10 @@ theorem false_of_twoLocalsSolvable (h : Hyp G T M L B Tp VB K)
       rw [hy]
       simp [ψ, map_mul]
   let N := Subgroup.normalizer (E : Set (↥K ⧸ Z))
-  haveI : Group.IsSolvable N := hS E hEne hE2
+  have : Group.IsSolvable N := hS E hEne hE2
   let ψ' : ↥LB →* N := ψ.codRestrict N (fun l => hFnorm ⟨l, rfl⟩)
   have hLBperf : ⁅LB, LB⁆ = LB := LB_perfect h
-  haveI : Group.IsPerfect ↥LB := Subgroup.isPerfect_iff.mpr hLBperf
+  have : Group.IsPerfect ↥LB := Subgroup.isPerfect_iff.mpr hLBperf
   have hψ' : ψ' = 1 := CFSG.ComponentClassification.SolvableKernelContainment.hom_eq_one ψ'
   have hψ1 : ∀ l : ↥LB, ψ l = 1 := by
     intro l
@@ -198,13 +198,13 @@ theorem false_of_twoLocalsSolvable (h : Hyp G T M L B Tp VB K)
   have hLBcomm : IsMulCommutative ↥LB := by
     have hincl : ∀ a : ↥LB, Subgroup.inclusion h.LB_le a ∈ LB.subgroupOf K := by
       intro a
-      exact Subgroup.mem_subgroupOf.mpr (by simpa [Subgroup.coe_inclusion] using a.2)
+      exact Subgroup.mem_subgroupOf.mpr (by simp [Subgroup.coe_inclusion])
     refine ⟨⟨fun a b => Subtype.ext ?_⟩⟩
     have hc := Subgroup.mem_center_iff.mp (hLBZ (hincl a)) (Subgroup.inclusion h.LB_le b)
     simpa [Subgroup.coe_inclusion] using (congrArg Subtype.val hc).symm
   have hLBbot : LB = ⊥ := by
-    haveI : IsMulCommutative ↥LB := hLBcomm
-    haveI : Subsingleton ↥LB := Group.IsPerfect.subsingleton_of_isMulCommutative
+    have : IsMulCommutative ↥LB := hLBcomm
+    have : Subsingleton ↥LB := Group.IsPerfect.subsingleton_of_isMulCommutative
     exact Subgroup.eq_bot_of_subsingleton LB
   have hVBbot : VB = ⊥ := by
     rw [VB_eq_commutator h]
@@ -235,7 +235,7 @@ theorem exists_images (h : Hyp G T M L B Tp VB K) :
     constructor
     · rintro ⟨l, rfl⟩
       refine ⟨Subgroup.inclusion h.LB_le l, ?_, rfl⟩
-      exact Subgroup.mem_subgroupOf.mpr (by simpa using l.2)
+      exact Subgroup.mem_subgroupOf.mpr (by simp)
     · rintro ⟨k, hk, rfl⟩
       refine ⟨⟨(k : G), Subgroup.mem_subgroupOf.mp hk⟩, ?_⟩
       exact congrArg π (Subtype.ext rfl)

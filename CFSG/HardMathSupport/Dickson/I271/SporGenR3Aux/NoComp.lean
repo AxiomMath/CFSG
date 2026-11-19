@@ -17,6 +17,7 @@ section Elements
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem lift_data_of_inner {p : ℕ} {K : Subgroup X} {a k : X} (hap : a ^ p = 1)
     (haC : a ∉ Subgroup.centralizer (K : Set X)) (hk : k ∈ K)
     (hc : k⁻¹ * a ∈ Subgroup.centralizer (K : Set X)) :
@@ -59,7 +60,7 @@ theorem strong_of_constrained {p : ℕ} {K B : Subgroup X} {name : TauCeti.Spora
     IsStronglyBalancedIn p B K := by
   have hp := hH.prime
   have hp2 := hH.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple ↥K := i116e_isQuasisimple hH.core hH.comp
   have hO : GLAPPrimeCore p ↥K = ⊥ := i271h_primeCore_eq_bot hH.core hH.comp
   have hdvd : p ∣ Nat.card K := i116e_dvd_card hp hH.core hH.comp
@@ -84,7 +85,7 @@ theorem strong_of_constrained {p : ℕ} {K B : Subgroup X} {name : TauCeti.Spora
     by_contra hcon'
     push Not at hcon'
     apply hAnc
-    haveI : Subsingleton ↥A :=
+    have : Subsingleton ↥A :=
       ⟨fun x y => Subtype.ext ((hcon' x x.2).trans (hcon' y y.2).symm)⟩
     exact isCyclic_of_subsingleton
   exact engine_full ⟨hp, hp2, hq, hdvd, hBN, hBel, hSC, hAB, hAnc, hloc',

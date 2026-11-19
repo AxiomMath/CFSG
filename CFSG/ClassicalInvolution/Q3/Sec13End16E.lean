@@ -18,6 +18,7 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem TwinSit.conj {Ω : Set (Subgroup G)} {K K' : Subgroup G} {z : G} (s : TwinSit Ω K K' z)
     (hΩ : ConjInvariant Ω) (n : G) :
     TwinSit Ω (conjSub n K) (conjSub n K') (n * z * n⁻¹) := by
@@ -49,12 +50,14 @@ namespace Sit16
 
 variable {Ω : Set (Subgroup G)} {K K' W : Subgroup G} {z u e g : G}
 
+omit [Finite G] in
 private theorem e16e1_mem_conj_sup {K K' : Subgroup G} (n : G) {x : G} (hx : x ∈ K ⊔ K') :
     n * x * n⁻¹ ∈ conjSub n K ⊔ conjSub n K' := by
   have h1 : conjSub n (K ⊔ K') = conjSub n K ⊔ conjSub n K' := Subgroup.map_sup _ _ _
   rw [← h1]
   exact conj_mem_conjSub hx
 
+omit [Finite G] in
 private theorem e16e1_comm_normalizer {W : Subgroup G} {e : G}
     (he : e ∈ W ⊓ Asc77.centerIn (Subgroup.normalizer (W : Set G))) {x : G}
     (hx : x ∈ Subgroup.normalizer (W : Set G)) : x * e = e * x := by
@@ -64,10 +67,12 @@ private theorem e16e1_comm_normalizer {W : Subgroup G} {e : G}
   rw [show (y : G) = e from hye] at h1
   exact h1
 
+omit [Finite G] in
 private theorem e16e1_MGrp_le_normalizer (h : EndHyp Ω) {W : Subgroup G} {n : G}
     (hn : n ∈ MGrp Ω W) : n ∈ Subgroup.normalizer (W : Set G) :=
-  (iSup₂_le fun R hR => (h.mem_dSet_iff.mp hR).2 : MGrp Ω W ≤ Subgroup.normalizer (W : Set G)) hn
+  (iSup₂_le fun _R hR => (h.mem_dSet_iff.mp hR).2 : MGrp Ω W ≤ Subgroup.normalizer (W : Set G)) hn
 
+omit [Finite G] in
 private theorem e16e1_dSet_conj (h : EndHyp Ω) {W : Subgroup G} {n : G}
     (hn : n ∈ Subgroup.normalizer (W : Set G)) {R : Subgroup G} (hR : R ∈ DSet Ω W) :
     conjSub n R ∈ DSet Ω W := by
@@ -78,6 +83,7 @@ private theorem e16e1_dSet_conj (h : EndHyp Ω) {W : Subgroup G} {n : G}
   rw [e]
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hn h1) (Subgroup.inv_mem _ hn)
 
+omit [Finite G] in
 private theorem e16e1_MGrp_conj (h : EndHyp Ω) {W : Subgroup G} {n : G}
     (hn : n ∈ Subgroup.normalizer (W : Set G)) {g : G} (hg : g ∈ MGrp Ω W) :
     n * g * n⁻¹ ∈ MGrp Ω W := by
@@ -90,6 +96,7 @@ private theorem e16e1_MGrp_conj (h : EndHyp Ω) {W : Subgroup G} {n : G}
       (e16e1_dSet_conj h hn hR)) (conj_mem_conjSub hx)
   exact key hg
 
+omit [Finite G] in
 private theorem e16e1_conj_e {n e : G} (hnc : n * e = e * n) : n * e * n⁻¹ = e := by
   rw [hnc]
   group
@@ -466,6 +473,7 @@ namespace EndHyp
 
 variable {Ω : Set (Subgroup G)} {K K' : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem zGroup_ne_eGroup_conj (h : EndHyp Ω) (hK : K ∈ Ω) (h13 : zGroup Ω ≠ eGroup Ω K)
     (n : G) : zGroup Ω ≠ eGroup Ω (conjSub n K) := by
   intro heq
@@ -497,7 +505,7 @@ private def e16e1_conjEquiv (Y : Subgroup G) (g : G) (h1 : ∀ y ∈ Y, g * y * 
   map_mul' x y := by ext; simp [mul_assoc]
 
 theorem oddCore_centMembers_eq_bot (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
-    (h13 : zGroup Ω ≠ eGroup Ω K) {a : G} (ha : a ∈ zGroup Ω) (ha1 : a ≠ 1) :
+    (h13 : zGroup Ω ≠ eGroup Ω K) {a : G} (ha : a ∈ zGroup Ω) (_ha1 : a ≠ 1) :
     classicalInvolutionOddCore ↥(pSpan (centMembers Ω a)) = ⊥ := by
   have hΩc := h.thmD.hyp.conjInvariant
   have hD : (zGroup Ω).Normal := zGroup_normal_of_conjInvariant hΩc
@@ -570,8 +578,8 @@ variable {Ω : Set (Subgroup G)} {K K' : Subgroup G} {z : G}
 theorem natCard_zGroup_eq_four_pow (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
     (h13 : zGroup Ω ≠ eGroup Ω K) : ∃ m : ℕ, Nat.card (zGroup Ω) = 4 ^ m := by
   obtain ⟨bf, hbf⟩ := h.exists_endForm h9 s h13
-  haveI : Fact (EndHyp Ω) := ⟨h⟩
-  haveI : Fact (Perp9 Ω) := ⟨h9⟩
+  have : Fact (EndHyp Ω) := ⟨h⟩
+  have : Fact (Perp9 Ω) := ⟨h9⟩
   exact Polar.SympForm.exists_natCard_eq_four_pow hbf.sympForm
 
 theorem sixtyFour_le_natCard_zGroup (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
@@ -590,7 +598,7 @@ theorem sixtyFour_le_natCard_zGroup (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit
       Subgroup.eq_of_le_of_card_ge hle (by omega)
     have hE' : eGroup Ω K ≤ zGroup Ω ⊓ (K ⊔ K') := by
       rw [heq]
-      exact le_inf (h.eGroup_le_zGroup s.mem) (h.eGroup_le_normalizer s.mem)
+      exact le_inf (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup s.mem) (h.eGroup_le_normalizer s.mem)
     exact hE (fun x hx => (hE' hx).2)
   obtain ⟨m, hm⟩ := h.natCard_zGroup_eq_four_pow h9 s h13
   have h8 : 8 ∣ Nat.card (zGroup Ω) := by
@@ -623,6 +631,7 @@ theorem involution_eq_of_le_centralizer (h : EndHyp Ω) (h9 : Perp9 Ω) {R M : S
   rw [e]
   exact hMz'
 
+omit [Finite G] in
 theorem closure_zPoints (Ω : Set (Subgroup G)) :
     Subgroup.closure (zPoints Ω : Set (zGroup Ω)) = ⊤ :=
   Subgroup.closure_closure_coe_preimage (k := zSet Ω)
@@ -671,7 +680,7 @@ private theorem e16e2_even_ncard {α : Type*} [Finite α] (f : α → α) (hff :
     (fun x hx => hfin.mem_toFinset.mpr (hmem x (hfin.mem_toFinset.mp hx)))
 
 theorem exists_pointSet [hh : Fact (EndHyp Ω)] [h9 : Fact (Perp9 Ω)] (s : TwinSit Ω K K' z)
-    (h13 : zGroup Ω ≠ eGroup Ω K) {bf : zGroup Ω → zGroup Ω → ZMod 2} (hbf : IsEndForm Ω bf) :
+    (_h13 : zGroup Ω ≠ eGroup Ω K) {bf : zGroup Ω → zGroup Ω → ZMod 2} (hbf : IsEndForm Ω bf) :
     ∃ a : ℕ, Polar.PointSet bf (zPoints Ω) a := by
   classical
   have h : EndHyp Ω := hh.out
@@ -787,6 +796,7 @@ private theorem e16e2_cent_twinSet (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit 
       exact Subgroup.mem_inf.mpr ⟨hd, hdI⟩
     exact (Subgroup.mem_inf.mp hmem).2
 
+omit [Finite G] in
 private theorem e16e2_eq_or_inv {v x : G} (hv4 : orderOf v = 4) (hx : x ∈ Subgroup.zpowers v)
     (hx2 : x * x ≠ 1) : x = v ∨ x = v⁻¹ := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -867,7 +877,7 @@ theorem centralizer_or_mul (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' 
     obtain ⟨u, huU, hu4, -⟩ := perpP_gen hcU hU4
     obtain ⟨r', hr'R, hr'N⟩ : ∃ r' ∈ R, r' ∉ Subgroup.normalizer (M : Set G) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hRle : R ⊓ Subgroup.normalizer (M : Set G) = R :=
         inf_eq_left.mpr (fun x hx => hcon x hx)
       rw [hRle, h.card_eq_eight hR] at hU4
@@ -963,7 +973,7 @@ theorem centralizer_or_mul (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' 
     have hdichr := hdich r hrD hrM
     have hrnc : ∃ x ∈ M, x * r ≠ r * x := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hMr : M ≤ Subgroup.centralizer ({r} : Set G) := fun x hx =>
         Subgroup.mem_centralizer_singleton_iff.mpr (hcon x hx)
       exact hT ⟨hR, r, h.involution_eq_of_le_centralizer h9 hR hM hr hMr, hr⟩
@@ -1055,13 +1065,16 @@ theorem e_mem_lambdaW (c : Sit16 Ω K K' W z u e g) (h : EndHyp Ω) (h9 : Perp9 
   intro y hy
   exact Subgroup.mem_centralizer_singleton_iff.mp (hM hy)
 
+omit [Finite G] in
 private theorem e16e2_mGrp_le_normalizer (h : EndHyp Ω) {W : Subgroup G} :
     MGrp Ω W ≤ Subgroup.normalizer (W : Set G) :=
-  iSup₂_le fun R hR => (h.mem_dSet_iff.mp hR).2
+  iSup₂_le fun _R hR => (h.mem_dSet_iff.mp hR).2
 
+omit [Finite G] in
 private theorem e16e2_le_mGrp {W A : Subgroup G} (hA : A ∈ DSet Ω W) : A ≤ MGrp Ω W :=
   le_iSup₂ (f := fun (R : Subgroup G) (_ : R ∈ DSet Ω W) => R) A hA
 
+omit [Finite G] in
 private theorem e16e2_conj_mem_dSet (h : EndHyp Ω) {W A : Subgroup G} {n : G}
     (hA : A ∈ DSet Ω W) (hn : n ∈ Subgroup.normalizer (W : Set G)) :
     conjSub n A ∈ DSet Ω W := by
@@ -1072,6 +1085,7 @@ private theorem e16e2_conj_mem_dSet (h : EndHyp Ω) {W A : Subgroup G} {n : G}
   convert this using 1
   group
 
+omit [Finite G] in
 private theorem e16e2_mem_normalizer_conjSub {n x : G} {X : Subgroup G} :
     x ∈ Subgroup.normalizer ((conjSub n X : Subgroup G) : Set G) ↔
       n⁻¹ * x * n ∈ Subgroup.normalizer (X : Set G) := by
@@ -1126,7 +1140,7 @@ private theorem e16e2_conj_S (c : Sit16 Ω K K' W z u e g) (h : EndHyp Ω) (h9 :
   exact c.zValues h h9 (conjSub n⁻¹ A) hconj (n⁻¹ * x * n) hinv
 
 private theorem e16e2_S_normalizes (c : Sit16 Ω K K' W z u e g) (h : EndHyp Ω) (h9 : Perp9 Ω)
-    (h13 : zGroup Ω ≠ eGroup Ω K) {A : Subgroup G} (hA : A ∈ DSet Ω W) {x : G}
+    (_h13 : zGroup Ω ≠ eGroup Ω K) {A : Subgroup G} (hA : A ∈ DSet Ω W) {x : G}
     (hx : x = z ∨ x = u * e ∨ x = z * (u * e)) : x ∈ Subgroup.normalizer (A : Set G) := by
   have hAΩ : A ∈ Ω := (h.mem_dSet_iff.mp hA).1
   obtain ⟨a, ha⟩ := Sec6Gen.exists_uniqueInvolution h.thmD.hyp hAΩ
@@ -1201,7 +1215,7 @@ private theorem e16e2_lambda_of_pair (c : Sit16 Ω K K' W z u e g) (h : EndHyp �
   obtain ⟨-, hcA, -, -, -, -⟩ := pair_structure h hAΩ hBst hBn
   obtain ⟨r, hrA, hrB⟩ : ∃ r ∈ A, r ∉ Subgroup.normalizer (B : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : A ⊓ Subgroup.normalizer (B : Set G) = A :=
       inf_eq_left.mpr (fun x hx => hcon x hx)
     rw [hle, h.card_eq_eight hAΩ] at hcA
@@ -1269,6 +1283,7 @@ private theorem e16e2_lambda_of_pair (c : Sit16 Ω K K' W z u e g) (h : EndHyp �
   refine Subgroup.mem_inf.mpr ⟨hd, Subgroup.mem_centralizer_iff.mpr fun y hy => ?_⟩
   exact Subgroup.mem_centralizer_singleton_iff.mp (hM hy)
 
+omit [Finite G] in
 private theorem e16e2_cent_of_lambda {d : G} {A : Subgroup G} {Ω' : Set (Subgroup G)}
     {W' : Subgroup G} (hd : d ∈ lambdaW Ω' W') (hA : A ∈ DSet Ω' W') :
     d ∈ Subgroup.centralizer (A : Set G) := by
@@ -1414,7 +1429,7 @@ theorem inf_normalizer_eq_lambdaW (c : Sit16 Ω K K' W z u e g) (h : EndHyp Ω) 
     exact hle hx
 
 theorem lambdaW_inf_zpowers (c : Sit16 Ω K K' W z u e g) (h : EndHyp Ω) (h9 : Perp9 Ω)
-    (h13 : zGroup Ω ≠ eGroup Ω K) : lambdaW Ω W ⊓ Subgroup.zpowers z = ⊥ := by
+    (_h13 : zGroup Ω ≠ eGroup Ω K) : lambdaW Ω W ⊓ Subgroup.zpowers z = ⊥ := by
   obtain ⟨hKD, hJD, hJu, -⟩ := e16e2_J_facts c h
   have hJΩ : conjSub g K ∈ Ω := (h.mem_dSet_iff.mp hJD).1
   have hzL : z ∉ lambdaW Ω W := by
@@ -1442,6 +1457,7 @@ theorem lambdaW_inf_zpowers (c : Sit16 Ω K K' W z u e g) (h : EndHyp Ω) (h9 : 
     rw [hk, h1, zpow_one] at hxL
     exact hxL
 
+omit [Finite G] in
 private theorem e16e2_betaPt_zero_iff (h : EndHyp Ω) (h9 : Perp9 Ω)
     (s : TwinSit Ω K K' z) {J : Subgroup G} (hJ : J ∈ Ω) {b : G}
     (hb : IsUniqueInvolution J b) (x : G) :
@@ -1510,7 +1526,7 @@ theorem natCard_zGroup_eq_sixteen_mul (c : Sit16 Ω K K' W z u e g) (h : EndHyp 
     refine ⟨2, by simp, ?_, ⟨fun _ => ⟨d, hdF, hdN⟩, fun _ => rfl⟩⟩
     rw [hD8, ← hrel, hidx]
     ring
-  · push_neg at hcase
+  · push Not at hcase
     have hidx : (Subgroup.normalizer ((conjSub g K : Subgroup G) : Set G)).relIndex
         (zGroup Ω ⊓ Subgroup.centralizer (K : Set G)) = 1 :=
       Subgroup.relIndex_eq_one.mpr (fun x hx => hcase x hx)

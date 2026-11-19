@@ -118,8 +118,8 @@ theorem lev2_get : ∀ k < 8, lev2Gens[k]! = unpack 2300 12 (G2 k) := by
   rw [lev2Gens, getElem!_toArray_map (d := 0) hk']
   exact strong_eq (by interval_cases k <;> decide)
 
-theorem stab_get : ∀ k < 3, CFSG.Sporadic.Co2Rank3.stabGens[k]! = unpack 2300 12 (G1 k) :=
-  fun k hk => stabGens_get hk
+theorem stab_get : ∀ _k < 3, CFSG.Sporadic.Co2Rank3.stabGens[_k]! = unpack 2300 12 (G1 _k) :=
+  fun _k hk => stabGens_get hk
 
 theorem allLt_eq_all (n : Nat) (p : Nat → Bool) : allLt n p = (List.range n).all p := by
   apply Bool.eq_iff_iff.2
@@ -206,7 +206,7 @@ theorem p01_eq : p01Rec = (unpack 2300 12 (PK 27), unpack 2300 12 (PK 28),
 
 theorem lab_get {L x v : Nat} (hx : x < 2300) (h : Nat.beq (at12 L x) v = true) :
     (unpack 2300 12 L)[x]! = v := by
-  rw [unpack_getElem!, if_pos hx]
+  rw [unpack_getElem!, ite_eq_left hx]
   exact Nat.eq_of_beq_eq_true h
 
 theorem l0_eq : p0Rec.1 = unpack 2300 12 (PK 15) := by rw [p0_eq]

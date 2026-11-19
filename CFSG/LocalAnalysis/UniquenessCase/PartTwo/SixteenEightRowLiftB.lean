@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16g_layer_top_of_O2E_eq {Y : Subgroup G} (hYE : F11.O2E Y = Y) :
     CFSG.Open.rankThreeLayer (⊤ : Subgroup (Bar2 Y)) = ⊤ := by
   have hπ : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) :=
@@ -59,7 +60,7 @@ theorem s16g_exists_lift (D : Data G) (hS : S16gStd D) {V₀ V L : Subgroup G}
       exact ⟨hgY, hYM hgY, hYs hgY, congrArg Subtype.val h1⟩
     · rintro ⟨-, -, h, h1⟩
       exact Subtype.ext h1
-  haveI : N.Normal := MonoidHom.normal_ker φ
+  have : N.Normal := MonoidHom.normal_ker φ
   have hNsolv : Group.IsSolvable ↥N := by
     rw [hNker]
     have hle : (Y ⊓ F11.CTilde D.M V₀ V).subgroupOf Y ≤ CFSG.solvableRadical ↥Y := by
@@ -67,7 +68,7 @@ theorem s16g_exists_lift (D : Data G) (hS : S16gStd D) {V₀ V L : Subgroup G}
       obtain ⟨z, hz, hzx⟩ := hsolv (Subgroup.mem_subgroupOf.mp hx)
       have hzx' : z = x := Subtype.ext hzx
       exact hzx' ▸ hz
-    haveI := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := ↥Y)
+    have := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := ↥Y)
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   have hperf' : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hperf

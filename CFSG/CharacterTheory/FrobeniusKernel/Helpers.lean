@@ -142,7 +142,7 @@ theorem groupAlgebra_centralIdempotentBasis
       rfl
     have := hd i
     exact (one_ne_zero : (1 : Matrix (Fin (d i)) (Fin (d i)) ℂ) ≠ 0)
-      (by simpa [p] using hcoord)
+      (by simp [p] at hcoord)
   have he_span (z : MonoidAlgebra ℂ G)
       (hz : z ∈ Set.center (MonoidAlgebra ℂ G)) :
       ∃ c : Fin n → ℂ, z = ∑ i, c i • e i := by
@@ -358,7 +358,7 @@ theorem CentralIdempotentBasis.elem_eq_uniform_of_sum_coeff_ne_zero
     have h := congrArg (groupAlgebraAugmentation G) huform
     rw [map_smul] at h
     have huaug : groupAlgebraAugmentation G u = 1 := by
-      simpa [u] using (sum_coeff_uniformCentralElement (G := G))
+      simp [u]
     have heaug : groupAlgebraAugmentation G e = 1 := by
       rw [groupAlgebraAugmentation_apply]
       simp [m, hm_one]
@@ -395,7 +395,7 @@ theorem CentralIdempotentBasis.adjoint_elem
       _ = e * f := by rw [he_idem, hf_idem]
   have he_coeff : ∃ g : G, e.coeff g ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply b.elem_ne_zero i
     ext g
     exact h g

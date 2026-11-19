@@ -21,12 +21,14 @@ variable {G : Type} [Group G] [Finite G]
 abbrev fiveClosure (u v : G) : Subgroup G :=
   Subgroup.closure {x : G | x * u = u * x ∧ x * v = v * x ∧ orderOf x = 5}
 
+omit [Finite G] in
 theorem fiveClosure_comm (u v : G) : fiveClosure u v = fiveClosure v u := by
   unfold fiveClosure
   congr 1
   ext x
   constructor <;> rintro ⟨h1, h2, h3⟩ <;> exact ⟨h2, h1, h3⟩
 
+omit [Finite G] in
 theorem fiveClosure_map_conj (u v y : G) :
     (fiveClosure u v).map (MulAut.conj y).toMonoidHom =
       fiveClosure (y * u * y⁻¹) (y * v * y⁻¹) := by
@@ -50,13 +52,9 @@ theorem fiveClosure_map_conj (u v y : G) :
     refine ⟨(MulAut.conj y).symm x, ?_, ?_⟩
     · refine ⟨?_, ?_, ?_⟩
       · apply (MulAut.conj y).injective
-        change (MulAut.conj y) ((MulAut.conj y).symm x * u) =
-          (MulAut.conj y) (u * (MulAut.conj y).symm x)
         rw [map_mul, map_mul, (MulAut.conj y).apply_symm_apply]
         exact hx'.1
       · apply (MulAut.conj y).injective
-        change (MulAut.conj y) ((MulAut.conj y).symm x * v) =
-          (MulAut.conj y) (v * (MulAut.conj y).symm x)
         rw [map_mul, map_mul, (MulAut.conj y).apply_symm_apply]
         exact hx'.2.1
       · have hsc : SemiconjBy y⁻¹ x ((MulAut.conj y).symm x) := by
@@ -140,7 +138,7 @@ theorem formB_exists_ne_zero (S : ThSetting G) (e : S.toSetting.Qt ≃ₗ[ZMod 2
     simpa [formB, LinearMap.BilinForm.comp_apply] using this
   have hcard : Nat.card S.toSetting.Qt = 2 ^ 8 := by
     rw [S.toSetting.card_Qt, S.finrank_Qt]
-  haveI : Nontrivial S.toSetting.Qt := by
+  have : Nontrivial S.toSetting.Qt := by
     have h256 : 1 < Nat.card S.toSetting.Qt := by rw [hcard]; norm_num
     rw [← not_subsingleton_iff_nontrivial]
     intro hs
@@ -159,8 +157,8 @@ theorem exists_alternating_triple_map {a b c a' b' c' : Fin 9}
     (hab' : a' ≠ b') (hbc' : b' ≠ c') (hac' : a' ≠ c') :
     ∃ σ : alternatingGroup (Fin 9), (σ : Equiv.Perm (Fin 9)) a = a' ∧
       (σ : Equiv.Perm (Fin 9)) b = b' ∧ (σ : Equiv.Perm (Fin 9)) c = c' := by
-  haveI h3 : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 9)) (Fin 9) 3 := by
-    haveI : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 9)) (Fin 9)
+  have h3 : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 9)) (Fin 9) 3 := by
+    have : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 9)) (Fin 9)
         (Nat.card (Fin 9) - 2) :=
       alternatingGroup.isMultiplyPretransitive (α := Fin 9)
     exact MulAction.isMultiplyPretransitive_of_le (G := alternatingGroup (Fin 9)) (α := Fin 9)
@@ -402,6 +400,7 @@ theorem thetaK_ker (S : ThSetting G) (w : G) :
       exact Subgroup.mem_subgroupOf.mpr hx
     exact MonoidHom.mem_ker.mp hx'
 
+omit [Finite G] in
 theorem conj_eq_self_of_orderOf_eq_five {x w z : G} (hx : orderOf x = 5)
     (hz2 : z * z = 1) (hz1 : z ≠ 1) (hxz : x * z = z * x)
     (h : x * w * x⁻¹ = w ∨ x * w * x⁻¹ = w * z) : x * w * x⁻¹ = w := by
@@ -446,7 +445,7 @@ theorem conj_eq_self_of_orderOf_eq_five {x w z : G} (hx : orderOf x = 5)
 theorem exists_lift_orderOf_eq_five (S : ThSetting G)
     (e : S.toSetting.Qt ≃ₗ[ZMod 2] V8)
     (he : ∀ g v, e (S.rho g v) = rho8p g (e v))
-    {w : G} (hw : w ∈ S.Q) (hwz : w ∉ Subgroup.zpowers S.z)
+    {w : G} (hw : w ∈ S.Q) (_hwz : w ∉ Subgroup.zpowers S.z)
     {σ : alternatingGroup (Fin 9)} (hσ : orderOf σ = 5)
     (hσT : ∀ j, (σ : Equiv.Perm (Fin 9)) j ∈ T S e w ↔ j ∈ T S e w) :
     ∃ (x : G) (hx : x ∈ fiveClosure S.z w), x * w = w * x ∧ orderOf x = 5 ∧
@@ -559,10 +558,10 @@ theorem exists_lift_orderOf_eq_five (S : ThSetting G)
           Subgroup.mem_centralizer_singleton_iff.mp hxH
         have hconj := conj_eq_self_of_orderOf_eq_five hxodd hz2 hz1 hxz (Or.inr h)
         rw [hconj] at h
-        have hwz : w * S.z = w := h.symm
+        have _hwz : w * S.z = w := h.symm
         have hz : S.z = 1 := by
           apply mul_left_cancel (a := w)
-          simpa using hwz
+          simpa using _hwz
         exact hz1 hz)
   have hxw_comm : (x : G) * w = w * (x : G) := by
     have := congrArg (fun t : G => t * (x : G)) hxw
@@ -605,7 +604,7 @@ noncomputable def fixingSubgroupEquiv (Ω : Finset (Fin 9)) :
 
 theorem fixingSubgroup_isSimple {Ω : Finset (Fin 9)} (h5 : 5 ≤ Ω.card) :
     IsSimpleGroup (fixingSubgroup Ω) := by
-  haveI : IsSimpleGroup (alternatingGroup Ω) :=
+  have : IsSimpleGroup (alternatingGroup Ω) :=
     alternatingGroup.isSimpleGroup (α := Ω) (by simpa using h5)
   exact MulEquiv.isSimpleGroup (fixingSubgroupEquiv Ω)
 
@@ -698,7 +697,7 @@ theorem twoCore_le_inf (S : ThSetting G) (e : S.toSetting.Qt ≃ₗ[ZMod 2] V8)
     exact CFSG.pCore_isPGroup.map (thetaK S w)
   have hMp' : IsPGroup 2 ↥(M.subgroupOf (fixingSubgroup (omegaOf (T S e w)))) :=
     IsPGroup.of_equiv hMp (Subgroup.subgroupOfEquivOfLe hMle).symm
-  haveI : IsSimpleGroup (fixingSubgroup (omegaOf (T S e w))) :=
+  have : IsSimpleGroup (fixingSubgroup (omegaOf (T S e w))) :=
     fixingSubgroup_isSimple hΩ5
   have hbot := CFSG.eq_bot_of_normal_isPGroup_of_isSimpleGroup
     (fixingSubgroup_nonabelian hΩ5) hMp'
@@ -871,7 +870,7 @@ theorem exists_orderOf_eq_five_fixingSubgroup (S : ThSetting G)
   let Ω := omegaOf (T S e w)
   have hΩ5 : 5 ≤ Ω.card := hΩ.1
   have hΩ8 : Ω.card ≤ 8 := hΩ.2
-  haveI : Nontrivial Ω := by
+  have : Nontrivial Ω := by
     have hlt : 1 < Fintype.card Ω := by
       rw [Fintype.card_coe]
       omega
@@ -881,13 +880,11 @@ theorem exists_orderOf_eq_five_fixingSubgroup (S : ThSetting G)
     rw [← Nat.card_eq_fintype_card, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
       Fintype.card_coe]
     interval_cases hc : Ω.card <;> norm_num [Nat.factorial]
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   obtain ⟨τ, hτ⟩ := exists_prime_orderOf_dvd_card 5 hdvd
   refine ⟨(fixingSubgroupEquiv Ω).symm τ, ?_⟩
   have h : orderOf τ = orderOf ((fixingSubgroupEquiv Ω).symm τ) := by
-    simpa using orderOf_injective
-      (fixingSubgroupEquiv Ω : fixingSubgroup Ω →* alternatingGroup Ω)
-      (fixingSubgroupEquiv Ω).injective ((fixingSubgroupEquiv Ω).symm τ)
+    simp
   exact h.symm.trans hτ
 
 theorem pairVec_eq_add_rho8p (σ : alternatingGroup (Fin 9)) {a b p : Fin 9}
@@ -903,7 +900,7 @@ theorem pairVec_eq_add_rho8p (σ : alternatingGroup (Fin 9)) {a b p : Fin 9}
   funext j
   by_cases hja : j = a <;> by_cases hjb : j = b <;> by_cases hjp : j = p <;>
     simp [Pi.add_apply, Pi.single_apply, Equiv.symm_apply_eq, ha, hp, hja, hjb, hjp,
-      hab, hab.symm, hpa, hpa.symm, hpb, hpb.symm] <;> decide
+      hab, hab.symm, hpa, hpa.symm, hpb, hpb.symm]; decide
 
 theorem five_cycle_data (σ : alternatingGroup (Fin 9)) (hσ : orderOf σ = 5) :
     ∃ a b c p : Fin 9, a ≠ b ∧ b ≠ c ∧ a ≠ c ∧
@@ -964,7 +961,7 @@ theorem five_cycle_data (σ : alternatingGroup (Fin 9)) (hσ : orderOf σ = 5) :
 theorem exists_noncommuting_commutators (S : ThSetting G)
     (e : S.toSetting.Qt ≃ₗ[ZMod 2] V8)
     (he : ∀ g v, e (S.rho g v) = rho8p g (e v))
-    {w : G} (hw : w ∈ S.Q) (hwz : w ∉ Subgroup.zpowers S.z)
+    {w : G} (hw : w ∈ S.Q) (_hwz : w ∉ Subgroup.zpowers S.z)
     {x : G} (hxK : x ∈ K S w) (hxw : x * w = w * x) (hxord : orderOf x = 5)
     (hxθ : S.θ ⟨x, K_le_H S w hxK⟩ ≠ 1) :
     ∃ q1 q2 : S.Q, ⁅(q1 : G), x⁆ * ⁅(q2 : G), x⁆ ≠
@@ -1141,6 +1138,7 @@ theorem commutator_inf_eq_zpowers (S : ThSetting G)
     omega
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [hcard])
 
+omit [Finite G] in
 theorem twoCore_map_conj (K : Subgroup G) (y : G) :
     (twoCore K).map (MulAut.conj y).toMonoidHom =
       twoCore (K.map (MulAut.conj y).toMonoidHom) := by
@@ -1232,7 +1230,7 @@ theorem not_rho8p (S : ThSetting G) (e : S.toSetting.Qt ≃ₗ[ZMod 2] V8)
       _ = Subgroup.zpowers S.z := hderk'
   have hmapz' : (Subgroup.zpowers S.z).map (MulAut.conj y).toMonoidHom =
       Subgroup.zpowers k := by
-    simpa [k] using MonoidHom.map_zpowers (MulAut.conj y).toMonoidHom S.z
+    simp [k]
   have hzp : Subgroup.zpowers k = Subgroup.zpowers S.z := hmapz'.symm.trans hmapz
   have hk_mem : k ∈ Subgroup.zpowers S.z := by
     rw [← hzp]

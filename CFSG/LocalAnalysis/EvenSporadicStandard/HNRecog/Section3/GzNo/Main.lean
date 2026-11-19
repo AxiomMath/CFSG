@@ -49,7 +49,7 @@ theorem gzNo_false (hC : CSideFacts) {G : Type} [Group G] [Finite G] {a z : G}
   exact gzNo_endgame hC h hOrb x.2 y.2 hxs hys hws hx2 hy2 hyx hxyQ hDy hz₁ hz₁y hz₁1
 
 theorem gzNo_of_hyps (hC : CSideFacts) {G : Type} [Group G] [Finite G] {a z : G}
-    (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z) (hF2 : Vert Fusion2Facts a z)
+    (h : IsF5Type a z) (_hF1 : Vert Fusion1Facts a z) (_hF2 : Vert Fusion2Facts a z)
     (hF3 : Vert Fusion3Facts a z) (hOrb : Vert GzOrbitFacts a z)
     (hCls : Vert GzClassFacts a z) : GzNoFacts a z :=
   ⟨fun ⟨x, hx2, hsh⟩ => gzNo_false hC h hF3 hOrb hCls x hx2 hsh⟩

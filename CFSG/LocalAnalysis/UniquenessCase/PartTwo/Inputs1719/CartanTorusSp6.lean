@@ -76,9 +76,9 @@ theorem exists_cover_sp6 {K : Type} [Group K] {f : ℕ}
   obtain ⟨F, hF, hFin, hChar, hFcard, ⟨e⟩⟩ :=
     CFSG.SeitzReduction.SymplecticPilot.exists_mulEquiv_statedSp_of_lieModel
       (L := K ⧸ Subgroup.center K) hK
-  letI := hF
-  letI := hFin
-  letI := hChar
+  let := hF
+  let := hFin
+  let := hChar
   let ψ : K →* K ⧸ Subgroup.center K := QuotientGroup.mk' (Subgroup.center K)
   let φ : K →* StatedSp 3 F := e.toMonoidHom.comp ψ
   have hφ : Function.Surjective φ := e.surjective.comp (QuotientGroup.mk'_surjective _)
@@ -143,7 +143,7 @@ private theorem exists_sylow_closure_sp6 {F : Type} [Field F] [Finite F] {r : �
   have hfac : (Nat.card (StatedSp 3 F)).factorization r =
       (Nat.card (Subgroup.closure S)).factorization r := by
     rw [factorization_card_statedSp_three hr hr2 hr5 hrd, hDfac]
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hidx : ¬ r ∣ (Subgroup.closure S).index :=
     CFSG.HardMathSupport.Timmesfeld.LinearRank.not_dvd_index_of_card_eq hr _ hfac
   let D : Sylow r (StatedSp 3 F) := hDpg.toSylow hidx
@@ -159,11 +159,11 @@ theorem k_CartanSylowAbelian_sp6 :
             ∀ P : Sylow r K, IsMulCommutative (P : Subgroup K) := by
   intro K _ _ f r hAdm hK hQ hOddC hr hr5 hrdvd P
   obtain ⟨F, hF, hFin, hChar, hFcard, φ, hφ, hker⟩ := exists_cover_sp6 hK
-  letI := hF
-  letI := hFin
+  let := hF
+  let := hFin
   have hq : Nat.card F = 2 ^ f := hFcard
   have hr2 : r ≠ 2 := by omega
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hrdvd' : r ∣ Nat.card F - 1 := by rw [hq]; exact hrdvd
   obtain ⟨S, D, hDcoe, hS_comm, hS_odd, hinv⟩ :=
     exists_sylow_closure_sp6 (F := F) hr hr2 hr5 hrdvd'
@@ -334,15 +334,15 @@ theorem k_RankThreeCentTorus_sp6 :
                 1 ≤ CFSG.Open.pRank p (⊤ : Subgroup (Subgroup.centralizer (E : Set K))) := by
   intro K _ _ f p r hAdm hK hQ hOddC hf hp hp2 hpdvd hr hr5 hrdvd
   obtain ⟨F, hF, hFin, hChar, hFcard, φ, hφ, hker⟩ := exists_cover_sp6 hK
-  letI := hF
-  letI := hFin
-  letI := hChar
+  let := hF
+  let := hFin
+  let := hChar
   have hq : Nat.card F = 2 ^ f := hFcard
   have hr2 : r ≠ 2 := by omega
   have hrdvd' : r ∣ Nat.card F - 1 := by rw [hq]; exact hrdvd
   have hpdvd' : p ∣ Nat.card F + 1 := by rw [hq]; exact hpdvd
   have hmod : Nat.card F % 3 = 2 := by rw [hq]; exact CFSG.two_pow_mod_three_of_odd hf
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) r (by rwa [Nat.card_units])
   obtain ⟨g, hgsym, hgord⟩ :=
     CFSG.LinearAlgebra.exists_symmetric_sl2_orderOf_eq hp hp2 hpdvd' hmod

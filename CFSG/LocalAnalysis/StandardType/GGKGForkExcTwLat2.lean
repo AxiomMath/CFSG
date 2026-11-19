@@ -59,7 +59,6 @@ theorem ggKGTl_normalizer_data
             k := by group
       _ = k⁻¹ * yhat e * k := by rw [h1]
       _ = yhat e := by
-          change k⁻¹ * yhat e * k = yhat e
           rw [mul_assoc, ← hcomm, ← mul_assoc, inv_mul_cancel, one_mul]
   · have he : ((Additive.toMul (ggKGTl_pi hK hσ hp hp5 hpq F hv ζ hζ y) : ↥E) :
         twistedE6RootGroup K σ) ∈ E :=
@@ -155,7 +154,7 @@ theorem ggKGTl_modAct_eq {p : ℕ} [NeZero p] (V : WeylGroup TwistTag.E6.tag)
       (((ggKGEl_mat V).mulVec (ggKGTl_liftZ x)) i : ZMod p) := by
   simp only [ggKGTl_modAct, ggKGTl_liftZ, Matrix.mulVec, Matrix.map_apply, dotProduct]
   push_cast
-  exact Finset.sum_congr (M := ZMod p) rfl fun j _ => by simp [ZMod.natCast_zmod_val]
+  exact Finset.sum_congr (M := ZMod p) rfl fun j _ => by simp
 
 noncomputable def ggKGTl_pibar
     {K : Type} [Field K] [Finite K] {σ : K ≃+* K} {n p : ℕ}
@@ -175,7 +174,7 @@ theorem ggKGTl_pibar_bijective
     (F : TwE6Frame K σ n p E) (hv : ExcIsLongest TwistTag.E6.tag F.v)
     (ζ : (AlgebraicClosure K)ˣ) (hζ : IsPrimitiveRoot ζ p) :
     Function.Bijective (ggKGTl_pibar hK hσ hp hp5 hpq F hv ζ hζ) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   constructor
   · intro x x' h
     have h' : ggKGTl_pi hK hσ hp hp5 hpq F hv ζ hζ (ggKGTl_liftZ x) =
@@ -221,7 +220,7 @@ theorem ggKGTl_pibar_modAct
           twistedE6RootGroup K σ) * w₀⁻¹,
         (Subgroup.mem_normalizer_iff.mp hN _).mp
           (ggKGTl_pibar hK hσ hp hp5 hpq F hv ζ hζ x).2⟩ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   apply Subtype.ext
   dsimp only [ggKGTl_pibar]
   have h1 : ggKGTl_pi hK hσ hp hp5 hpq F hv ζ hζ (ggKGTl_liftZ (ggKGTl_modAct V x)) =
@@ -252,14 +251,14 @@ theorem ggKGTl_fix_count
         p ^ (TwistTag.E6.tag.rank - 1) := by
   change Nat.card {x : Fin TwistTag.E6.tag.rank → ZMod p // ggKGTl_modAct V x = x} =
     p ^ (TwistTag.E6.tag.rank - 1)
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hm1 : 1 ≤ TwistTag.E6.tag.rank := by decide
   have hbij := ggKGTl_pibar_bijective hK hσ hp hp5 hpq F hv ζ hζ
   let eE : (Fin TwistTag.E6.tag.rank → ZMod p) ≃ ↥E := Equiv.ofBijective _ hbij
   have heE : ∀ x, eE x = ggKGTl_pibar hK hσ hp hp5 hpq F hv ζ hζ x := fun x => rfl
   have hcardE : Nat.card ↥E = p ^ TwistTag.E6.tag.rank := by
     rw [← Nat.card_congr eE]
-    simp [Nat.card_fun, Nat.card_zmod]
+    simp
   have hfixeq : Nat.card {x : Fin TwistTag.E6.tag.rank → ZMod p // ggKGTl_modAct V x = x} =
       Nat.card {e : ↥E // w₀ * ((e : ↥E) : twistedE6RootGroup K σ) * w₀⁻¹ =
         ((e : ↥E) : twistedE6RootGroup K σ)} := by

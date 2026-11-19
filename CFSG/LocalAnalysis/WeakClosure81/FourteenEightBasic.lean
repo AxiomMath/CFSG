@@ -34,7 +34,7 @@ theorem s148_W148Basic_conj_eq_of_mem_NOf_of_mem_L (h : Hyp64 n M V₀ V g) {x e
   have hcomm := Subgroup.mem_centralizer_iff.1 hc x hxL
   rw [hcomm]; group
 
-theorem s148_W148Basic_sup_le_L (h : Hyp64 n M V₀ V g) :
+theorem s148_W148Basic_sup_le_L (_h : Hyp64 n M V₀ V g) :
     UOf M V g ⊔ BOf M V g ≤ LOf V g :=
   sup_le (fun _ hu => Subgroup.mem_sup_left hu.1)
     (fun _ hb => Subgroup.mem_sup_right hb.1)
@@ -51,7 +51,7 @@ theorem s148_W148Basic_conj_mem_sup (h : Hyp64 n M V₀ V g) {x l : G}
   (Subgroup.mem_normalizer_iff.1 (s148_W148Basic_L_le_normalizer h hlL) x).1 hx
 
 theorem s148_W148Basic_S_mul (h : Hyp64 n M V₀ V g) {f x z : G}
-    (hxL : x ∈ LOf V g) (hzL : z ∈ LOf V g)
+    (hxL : x ∈ LOf V g) (_hzL : z ∈ LOf V g)
     (hx : ⁅x, f⁆ ∈ NOf M V g) (hz : ⁅z, f⁆ ∈ NOf M V g) :
     ⁅x * z, f⁆ ∈ NOf M V g := by
   rw [commutatorElement_mul_left_eq_conj_mul]
@@ -69,7 +69,7 @@ theorem s148_W148Basic_S_inv (h : Hyp64 n M V₀ V g) {f x : G} (hxL : x ∈ LOf
   rwa [h]
 
 theorem s148_W148Basic_F_mul (h : Hyp64 n M V₀ V g) {y f₁ f₂ : G}
-    (hf₁L : f₁ ∈ LOf V g) (hf₂L : f₂ ∈ LOf V g)
+    (hf₁L : f₁ ∈ LOf V g) (_hf₂L : f₂ ∈ LOf V g)
     (h₁ : ⁅y, f₁⁆ ∈ NOf M V g) (h₂ : ⁅y, f₂⁆ ∈ NOf M V g) :
     ⁅y, f₁ * f₂⁆ ∈ NOf M V g := by
   rw [commutatorElement_mul_right_eq_mul_conj]
@@ -366,6 +366,7 @@ theorem mem_NOf_of_conj_mul_inv_mem (h : Hyp64 n M V₀ V g) (hgen : GenHyp M V 
     exact absurd (s148_W148Basic_mem_NOf_of_commutator_mem h hgen ht₁ ht₁U ht₂ ht₂B hfK
       ht₁f ht₂f) hfE
 
+omit [Finite G] in
 theorem isFixedPointFreeTorus_bot (h2 : (UOf M V g).relIndex V = 2) :
     IsFixedPointFreeTorus M V g ⊥ := by
   constructor

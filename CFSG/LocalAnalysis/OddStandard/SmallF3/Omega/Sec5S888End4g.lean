@@ -13,7 +13,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 theorem normalizer_sup_eq_top_of_odd {X : Type} [Group X] [Finite X] {V : Subgroup X}
     (hV : IsPGroup 2 V) {Nn : Subgroup X} [Nn.Normal] (hodd : Odd (Nat.card Nn))
     (hVN : (V ⊔ Nn).Normal) : normalizer (V : Set X) ⊔ Nn = ⊤ := by
-  haveI : (V ⊔ Nn).Normal := hVN
+  have : (V ⊔ Nn).Normal := hVN
   have hcop : Nat.Coprime (Nat.card V) (Nat.card Nn) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hV
     rw [hk]

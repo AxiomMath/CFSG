@@ -151,7 +151,7 @@ theorem Std20G.late_SX (d : Std20G K K' J S R R' W V z t) (c3 : Concl20_3 K K' V
   rw [bot_sup_eq, ← hXeq] at hP₂
   have hle : R ⊔ R' ⊔ V ≤ (S : Subgroup G) ⊓ X :=
     le_inf (sup_le (sup_le d.hRS d.hR'S) d.hVS) hP₂.1
-  exact hP₂.2.2 _ inf_le_right (S.isPGroup'.to_le inf_le_left) hle
+  exact hP₂.2.2 _ inf_le_right (S.isPGroup.to_le inf_le_left) hle
 
 end Std
 

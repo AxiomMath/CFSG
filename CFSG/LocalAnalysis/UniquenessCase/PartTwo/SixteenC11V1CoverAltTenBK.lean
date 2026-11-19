@@ -91,7 +91,6 @@ theorem coreMod_of {σ τ υ ω : Perm (Fin 10)} {L1 L2 L3 L4 : List (PermMod 10
   obtain ⟨c, hc, hgc⟩ := pick h3 hx3
   obtain ⟨d, hd, hgd⟩ := pick h4 hx4
   refine ⟨a, ha, b, hb, c, hc, d, hd, ?_⟩
-  beta_reduce at hga hgb hgc hgd
   have hcv : toW 10 (x1 ^^^ x2 ^^^ x3 ^^^ x4) = permAct 10 σ a * a⁻¹ * (permAct 10 τ b * b⁻¹) *
       (permAct 10 υ c * c⁻¹) * (permAct 10 ω d * d⁻¹) := by
     rw [toW_xor, toW_xor, toW_xor, ← hga, ← hgb, ← hgc, ← hgd]

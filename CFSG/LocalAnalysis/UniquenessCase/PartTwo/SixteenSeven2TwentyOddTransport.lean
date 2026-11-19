@@ -15,7 +15,7 @@ theorem s16c167_isometryCore_quadMinus_equiv {K : Type} [Field K] [Finite K] {b 
     Nonempty (↥(CFSG.MatrixModel.isometryCore (StatedQuadMinus n K b c)) ≃*
       ↥(CFSG.MatrixModel.isometryCore (StatedQuadMinus n (ZMod 2) 1 1))) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rwa [← Nat.card_eq_fintype_card]
   let e : K ≃+* ZMod 2 := (ZMod.ringEquivOfPrime K Nat.prime_two hK').symm
   have hpoly' : ∀ t : ZMod 2, t ^ 2 + e b * t + e c ≠ 0 := by

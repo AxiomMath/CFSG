@@ -41,7 +41,7 @@ theorem sylow_or_fused : IsSylowOf p (R P U) (centralizer ({u} : Set G)) ∨
   have : Fact p.Prime := ⟨hprime⟩
   set C : Subgroup G := centralizer ({u} : Set G) with hCdef
   have hRC : R P U ≤ C := hc.R_le_centralizer
-  have hRp : IsPGroup p (R P U) := P.isPGroup'.to_le inf_le_left
+  have hRp : IsPGroup p (R P U) := P.isPGroup.to_le inf_le_left
   obtain ⟨T, hT⟩ := (hRp.comap_subtype (K := C)).exists_le_sylow
   set R' : Subgroup G := (T : Subgroup C).map C.subtype with hR'def
   have hR'syl : IsSylowOf p R' C := ⟨T, rfl⟩

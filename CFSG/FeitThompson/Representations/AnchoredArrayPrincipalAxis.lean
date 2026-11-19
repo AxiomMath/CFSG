@@ -22,8 +22,8 @@ open scoped ComplexOrder
 theorem sum_ite_eq_add {α : Type*} [Fintype α] [DecidableEq α] (a₀ : α) (c d : ℤ) :
     ∑ a : α, (if a = a₀ then c else d) = c + ((Fintype.card α : ℤ) - 1) * d := by
   have hc : 1 ≤ Fintype.card α := Fintype.card_pos_iff.mpr ⟨a₀⟩
-  rw [← Finset.sum_erase_add _ _ (Finset.mem_univ a₀), if_pos rfl,
-    Finset.sum_congr rfl (fun a ha => if_neg (Finset.ne_of_mem_erase ha)),
+  rw [← Finset.sum_erase_add _ _ (Finset.mem_univ a₀), ite_eq_left rfl,
+    Finset.sum_congr rfl (fun a ha => ite_eq_right (Finset.ne_of_mem_erase ha)),
     Finset.sum_const, Finset.card_erase_of_mem (Finset.mem_univ a₀), Finset.card_univ,
     nsmul_eq_mul, Nat.cast_sub hc]
   push_cast
@@ -42,9 +42,9 @@ theorem sum_pattern {ι κ : Type*} [Fintype ι] [Fintype κ] [DecidableEq ι] [
         else w + ((Fintype.card κ : ℤ) - 1) * z) from
     Finset.sum_congr rfl fun i _ => by
       by_cases hi : i = i₀
-      · simp only [hi, if_true]
+      · simp only [hi, ite_true]
         exact sum_ite_eq_add j₀ u v
-      · simp only [hi, if_false]
+      · simp only [hi, ite_false]
         exact sum_ite_eq_add j₀ w z]
   rw [sum_ite_eq_add i₀]
 
@@ -127,7 +127,7 @@ theorem sum_smul_eq_sum_col {η : ι × κ → G → ℂ} {ψ : G → ℂ} {a : 
   · rw [ha (i, j₀), h (i, j₀)]
     simp
   · intro j _ hj
-    rw [ha (i, j), h (i, j), if_neg hj]
+    rw [ha (i, j), h (i, j), ite_eq_right hj]
     simp
 
 omit [Group G] [DecidableEq κ] in
@@ -141,7 +141,7 @@ theorem sum_smul_eq_sum_row {η : ι × κ → G → ℂ} {ψ : G → ℂ} {a : 
   · rw [ha (i₀, j), h (i₀, j)]
     simp
   · intro i _ hi
-    rw [ha (i, j), h (i, j), if_neg hi]
+    rw [ha (i, j), h (i, j), ite_eq_right hi]
     simp
 
 theorem eq_col_sum_or_eq_row_sum {η : ι × κ → G → ℂ} {ψ : G → ℂ} {s t : ℂ} {i₀ : ι} {j₀ : κ}

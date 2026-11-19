@@ -21,7 +21,7 @@ private theorem gWSU_one_le_exp {F : Type} [Field F] [Finite F] {f : ℕ}
   have h1 := Finite.one_lt_card (α := F)
   omega
 
-private noncomputable def gWSU_fieldData {F : Type} [Field F] [Finite F] {f : ℕ}
+private theorem gWSU_fieldData {F : Type} [Field F] [Finite F] {f : ℕ}
     (hc : Nat.card F = (2 ^ f) ^ 2) : UnitaryFieldData 2 f F where
   prime := Nat.prime_two
   one_le := gWSU_one_le_exp hc
@@ -58,10 +58,10 @@ private theorem gWSU_antidiag_conjTranspose {F : Type} [Field F] [Finite F] {f :
   simp only [Matrix.transpose_apply, Matrix.map_apply, Unitary.antidiag, Matrix.of_apply]
   by_cases hij : i = Fin.rev j
   · have hji : j = Fin.rev i := by rw [hij, Fin.rev_rev]
-    rw [if_pos hij, if_pos hji]
+    rw [ite_eq_left hij, ite_eq_left hji]
     simp
   · have hji : ¬ j = Fin.rev i := fun h => hij (by rw [h, Fin.rev_rev])
-    rw [if_neg hij, if_neg hji]
+    rw [ite_eq_right hij, ite_eq_right hji]
     simp
 
 private theorem gWSU_B_isSymm {F : Type} [Field F] [Finite F] {f : ℕ}
@@ -122,7 +122,7 @@ private theorem gWSU_witt_twoPairs {K : Type} [Field K] {V : Type} [AddCommGroup
   classical
   have ha₁ : a₁ ≠ 0 := fun h0 => by
     rw [h0] at ha₁b₁
-    exact (zero_ne_one : (0 : K) ≠ 1) (by simpa using ha₁b₁)
+    exact (zero_ne_one : (0 : K) ≠ 1) (by simp at ha₁b₁)
   obtain ⟨-, hsplit⟩ := hermitian_hyperbolic_splitting h hB hBl ha₁ h11
   obtain ⟨-, -, -, hU₁sep, hU₁dim0⟩ := hsplit b₁ ha₁b₁ hb11
   set U₁ : Submodule K V := (Submodule.span K {a₁, b₁}).orthogonalBilin B with hU₁

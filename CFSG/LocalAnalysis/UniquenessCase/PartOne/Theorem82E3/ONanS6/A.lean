@@ -44,10 +44,10 @@ theorem frame_card_zSub (c : Ctx82E3 D)
 theorem frame_centralizer_card (c : Ctx82E3 D)
     (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) {e : G}
-    (heQ : e ∈ P ⊓ c.L) (heZ : e ∉ zSub P c.L) :
+    (heQ : e ∈ P ⊓ c.L) (_heZ : e ∉ zSub P c.L) :
     27 ≤ Nat.card ↥((P ⊓ c.L) ⊓ Subgroup.centralizer ({e} : Set G)) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Q : Subgroup G := P ⊓ c.L
   have hZleQ : zSub P c.L ≤ Q := inf_le_left
   have hcardQ : Nat.card ↥Q = 3 ^ 5 := card_inf_L_of_onan_wPH7 c hON hP
@@ -128,6 +128,7 @@ variable {G : Type} [Group G] [Finite G] {D : Data G}
 def Admissible (c : Ctx82E3 D) (P A : Subgroup G) : Prop :=
   IsElemAbelian 3 A ∧ Nat.card A = 27 ∧ zSub P c.L ≤ A ∧ A ≤ P ⊓ c.L
 
+omit [Finite G] in
 theorem hyperplane_of_card_nine {A E : Subgroup G} (hEA : E ≤ A)
     (hE : Nat.card E = 9) (hA : Nat.card A = 27) :
     E ∈ UC22.InS3.hyperplanes 3 A := by
@@ -137,8 +138,8 @@ theorem hyperplane_of_card_nine {A E : Subgroup G} (hEA : E ≤ A)
   omega
 
 theorem thetaAlpha_eq_of_inf_card_nine {c : Ctx82E3 D} {P : Subgroup G}
-    (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
-    (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
+    (_hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
+    (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hlocal : ∀ A : Subgroup G, IsElemAbelian 3 A → Nat.card A = 27 →
       zSub P c.L ≤ A → A ≤ P ⊓ c.L →
       ∀ E ∈ UC22.InS3.hyperplanes 3 A, ∀ E' ∈ UC22.InS3.hyperplanes 3 A,
@@ -186,7 +187,7 @@ theorem exists_connecting_admissible {c : Ctx82E3 D} {P : Subgroup G}
     ∃ A'' : Subgroup G, Admissible c P A'' ∧
       Nat.card ↥(A ⊓ A'') = 9 ∧ Nat.card ↥(B ⊓ A'') = 9 := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZcard : Nat.card ↥(zSub P c.L) = 3 := frame_card_zSub c hON hP
   have hZea : IsElemAbelian 3 (zSub P c.L) := isElemAbelian_zSub c hON hP
   have hAnZ : ¬ A ≤ zSub P c.L := by

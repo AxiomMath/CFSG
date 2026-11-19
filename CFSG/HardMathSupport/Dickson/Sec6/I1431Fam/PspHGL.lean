@@ -45,7 +45,7 @@ theorem t6psph_sqOK_generalLinear (hO : CFSG.ComponentClassification.CatLeaf.Lie
     {E W : Type} [Field E] [Finite E] [AddCommGroup W] [Module E W] [FiniteDimensional E W]
     (h4 : ∃ s : Finset E, s.card = 4) {q : ℕ} (hq : 10 ≤ q) :
     t6psph_SqOK q (LinearMap.GeneralLinearGroup E W) := by
-  haveI := t6psph_finite_generalLinearGroup (E := E) (W := W)
+  have := t6psph_finite_generalLinearGroup (E := E) (W := W)
   by_cases hm : 2 ≤ Module.finrank E W
   · intro hQ hT g
     set D : LinearMap.GeneralLinearGroup E W →* Eˣ :=

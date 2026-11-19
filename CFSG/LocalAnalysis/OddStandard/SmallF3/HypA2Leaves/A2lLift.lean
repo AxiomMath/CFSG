@@ -29,8 +29,8 @@ theorem a2l_isSLTwoOver_quotient {A : Type} [Group A] {q₀ : ℕ} (hodd : Odd q
     rintro rfl
     exact (Nat.not_even_iff_odd.2 hodd) (Even.pow_of_ne_zero even_two hk.ne')
   obtain ⟨F, i1, i2, hF, ⟨e⟩⟩ := h
-  haveI := Fintype.finite i2
-  haveI : Finite A := Finite.of_equiv _ e.toEquiv.symm
+  have := Fintype.finite i2
+  have : Finite A := Finite.of_equiv _ e.toEquiv.symm
   have hO : pPrimeCore 2 A = ⊥ :=
     (HarrisLit.Lemma47.sl2_facts hp hp2 hk h5 ⟨F, i1, i2, hF, ⟨e⟩⟩).2.2.2
   exact ⟨F, i1, i2, hF,
@@ -39,7 +39,7 @@ theorem a2l_isSLTwoOver_quotient {A : Type} [Group A] {q₀ : ℕ} (hodd : Odd q
 theorem a2l_noncentralDatum_of_quotient (hGA : TBLit.GriessMultipliersOdd)
     (hSchur : SolAltLit.SchurAlternatingMultiplierInput) {K : Type} [Group K] [Finite K]
     (h2 : IsPGroup 2 ↥(center K)) (hX : a2lDatum (K ⧸ center K)) : NoncentralDatum K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨q₀, T', N', z', hodd, h5, hz', hz'N, hNT, hTC, hTc, hN, hTU⟩ := hX
   let π : K →* K ⧸ center K := QuotientGroup.mk' (center K)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _

@@ -25,8 +25,8 @@ theorem I294Cross.nonabelian_sylow_three {L : Type} [Group L] [Finite L]
     (hS : ∃ S : Sylow 3 L, ¬ IsMulCommutative (S : Subgroup L)) :
     3 ^ 3 ∣ Nat.card L ∧ ∃ E : Subgroup L, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 2 := by
   obtain ⟨S, hS⟩ := hS
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have hSp : IsPGroup 3 (S : Subgroup L) := S.isPGroup'
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hSp : IsPGroup 3 (S : Subgroup L) := S.isPGroup
   have hSp' : IsPGroup 3 ↥(S : Subgroup L) := hSp
   refine ⟨?_, ?_⟩
   · have h27 : 3 ^ 3 ≤ Nat.card (S : Subgroup L) :=
@@ -158,7 +158,7 @@ theorem I294Cross.zmod3_neg_one : -(1 : ZMod 3) = 2 := by decide
 theorem I294Cross.orderOf_natCast_two {q : ℕ} (h : q % 3 = 2) : orderOf (q : ZMod 3) = 2 := by
   have hq : (q : ZMod 3) = 2 := by
     rw [← ZMod.natCast_mod, h]; rfl
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [hq]
   exact orderOf_eq_prime I294Cross.zmod3_two_sq I294Cross.zmod3_two_ne_one
 
@@ -167,7 +167,7 @@ theorem I294Cross.orderOf_neg_natCast_one {q : ℕ} (h : q % 3 = 1) :
   have hq : -(q : ZMod 3) = 2 := by
     rw [← ZMod.natCast_mod, h]
     exact I294Cross.zmod3_neg_one
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [hq]
   exact orderOf_eq_prime I294Cross.zmod3_two_sq I294Cross.zmod3_two_ne_one
 
@@ -176,12 +176,12 @@ theorem I294Cross.false_elemAbelian_psl_two {L : Type} [Group L] [Finite L] {p f
     {E : Subgroup L} (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 3 ^ 2) : False := by
   have hcard := ((I294Cross.card_of_scm hm).1 rfl)
   obtain ⟨⟨hp, hf, hn2, hne1, hne2⟩, K, _, _, hK, ⟨e⟩⟩ := hm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq3 : ¬ 3 ∣ p ^ f := I294Cross.not_three_dvd_pow hp hp3
   by_cases h7 : 7 ≤ p ^ f
   · let e' : L ≃* CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K :=
       e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcyc := CFSG.GorensteinWalter.psl2_sylow_isCyclic_of_coprime_field_card K hK
       (by rw [hK]; exact h7) 3 (by norm_num)
       ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 (by rw [hK]; exact hq3))
@@ -211,7 +211,7 @@ theorem I294Cross.false_elemAbelian_psl_two {L : Type} [Group L] [Finite L] {p f
     interval_cases q
     · exact absurd (by decide : ordA (2 - 1) 4 = 60) (fun h => by rw [h] at h27; omega)
     · exact absurd (by decide : ordA (2 - 1) 5 = 60) (fun h => by rw [h] at h27; omega)
-    · exact absurd (dvd_refl 3) (by simpa using hq3)
+    · exact absurd (dvd_refl 3) (by simp at hq3)
 
 theorem I294Cross.false_elemAbelian_psl_three {L : Type} [Group L] [Finite L] {p f : ℕ}
     (hm : StatedClassicalModel L .PSL 3 p f) (hp3 : p ≠ 3)

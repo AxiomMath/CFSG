@@ -23,12 +23,14 @@ variable {G : Type} [Group G] [Finite G]
   ∃ w : M.Group, ∀ t ∈ T,
     ((e (w * M.simple (e' t) * w⁻¹) : ↥A) : MulAut ↥Bs) ∈ ggAutomizer X Bs
 
+omit [Finite G] in
 theorem exists_lift_of_mem_ggAutomizerJoin {L Bs : Subgroup G} {𝒦 : Finset (Subgroup G)}
     {a : MulAut ↥Bs} (ha : a ∈ ggAutomizerJoin L Bs 𝒦) :
     ∃ g ∈ L ⊔ ⨆ K ∈ 𝒦, K, g ∈ Subgroup.normalizer (Bs : Set G) ∧
       ∀ b : ↥Bs, ((a b : ↥Bs) : G) = g * b * g⁻¹ :=
   mem_ggAutomizer_iff.mp (ggAutomizerJoin_le_ggAutomizer L Bs 𝒦 ha)
 
+omit [Finite G] in
 theorem ggRankOne_conj_of_mem_ggAutomizerJoin {L Bs : Subgroup G} {𝒦 : Finset (Subgroup G)}
     {a : MulAut ↥Bs} (ha : a ∈ ggAutomizerJoin L Bs 𝒦) (r : MulAut ↥Bs) :
     ∃ g ∈ L ⊔ ⨆ K ∈ 𝒦, K, g ∈ Subgroup.normalizer (Bs : Set G) ∧
@@ -38,6 +40,7 @@ theorem ggRankOne_conj_of_mem_ggAutomizerJoin {L Bs : Subgroup G} {𝒦 : Finset
   obtain ⟨g, hgY, hgN, hg⟩ := exists_lift_of_mem_ggAutomizerJoin ha
   exact ⟨g, hgY, hgN, ggRankOne_map_conj hg r, fun r' => ggRankTwo_map_conj hg r r'⟩
 
+omit [Finite G] in
 theorem coe_conj_simple {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
     {M : CoxeterMatrix ι} (e : M.Group ≃* ↥A) (w : M.Group) (t : ι) :
     ((e w : ↥A) : MulAut ↥Bs) * ((e (M.simple t) : ↥A) : MulAut ↥Bs) *
@@ -132,8 +135,8 @@ theorem qtwo_su_two_equiv_sl2 {F : Type} [Field F] [Finite F] (hF : Nat.card F =
   have hcard : Nat.card (CFSG.LieType.Steinberg.fixedSubfield (GaloisField 2 2) 2 1) = 2 := by
     rw [CFSG.LieType.Steinberg.card_fixedSubfield hK]
     norm_num
-  haveI : Fintype F := Fintype.ofFinite F
-  letI : Fintype (CFSG.LieType.Steinberg.fixedSubfield (GaloisField 2 2) 2 1) :=
+  have : Fintype F := Fintype.ofFinite F
+  let : Fintype (CFSG.LieType.Steinberg.fixedSubfield (GaloisField 2 2) 2 1) :=
     Fintype.ofFinite _
   let ε : CFSG.LieType.Steinberg.fixedSubfield (GaloisField 2 2) 2 1 ≃+* F :=
     FiniteField.ringEquivOfCardEq (by

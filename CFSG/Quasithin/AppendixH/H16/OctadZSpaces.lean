@@ -21,12 +21,12 @@ open CFSG.ASVolI.ChH CFSG.Quasithin CFSG.Quasithin.H.Mathieu CFSG.Quasithin.H.Ma
 @[expose] def octZ8 : Subgroup W11 := maskSub 11 z8Basis
 
 theorem rk_octVz : rk ↥octVz = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [rk, octVz, card_maskSub vz0Basis_lt vz0_nodup, padicValNat.prime_pow]
   rfl
 
 theorem rk_octZ8 : rk ↥octZ8 = 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [rk, octZ8, card_maskSub z8Basis_lt z8_nodup, padicValNat.prime_pow]
   rfl
 

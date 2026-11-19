@@ -111,7 +111,7 @@ theorem secondKind_mem_sup_Q (hD : IsOddTransp D) (hN : IsNormalSet D)
     exact Subgroup.closure_mono (by intro y hy; rcases hy with rfl | rfl <;> simp) hx
   have hQK : Q ≤ K := hS.le
   let QK : Subgroup ↥K := Q.subgroupOf K
-  haveI hQKnormal : QK.Normal :=
+  have hQKnormal : QK.Normal :=
     (Subgroup.normal_subgroupOf_iff hQK).mpr fun h k hh hk => hS.normal k hk h hh
   let π : ↥K →* ↥K ⧸ QK := QuotientGroup.mk' QK
   have huK : u ∈ K := Subgroup.subset_closure (by simp)
@@ -156,7 +156,7 @@ theorem secondKind_mem_sup_Q (hD : IsOddTransp D) (hN : IsNormalSet D)
       rw [hprod]
       exact orderOf_map_dvd π _
     have hord : orderOf ((⟨u, huK⟩ : ↥K) * ⟨w, hwK⟩) = orderOf (u * w) := by
-      simpa using Subgroup.orderOf_mk (G := G) (H := K) (u * w) (K.mul_mem huK hwK)
+      simp
     have huw : Odd (orderOf (u * w)) :=
       hD.odd_of_not_commute htri.1 htri.2.2.1 htri.2.2.2.2.2.1
     rw [hord] at hdvd
@@ -198,7 +198,7 @@ theorem secondKind_mem_sup_Q (hD : IsOddTransp D) (hN : IsNormalSet D)
     rw [MonoidHom.map_zpowers] at hxmap
     simpa using hxmap
   have hd_eq : d = ((x : ↥K) : G) * (((x⁻¹ * ⟨d, hdK⟩ : ↥K) : G)) := by
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     group
   rw [hd_eq]
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hxval) (Subgroup.mem_sup_right hmemQ)
@@ -226,7 +226,7 @@ theorem isPGroup_sup_zpowers_Q (hD : IsOddTransp D) (hN : IsNormalSet D)
   have huK : u ∈ K := Subgroup.subset_closure (by simp)
   have hQK : Q ≤ K := hS.le
   let QK : Subgroup ↥K := Q.subgroupOf K
-  haveI hQKnormal : QK.Normal :=
+  have hQKnormal : QK.Normal :=
     (Subgroup.normal_subgroupOf_iff hQK).mpr fun h k hh hk => hS.normal k hk h hh
   let UK : Subgroup ↥K := Subgroup.zpowers (⟨u, huK⟩ : K)
   have hUK2 : (⟨u, huK⟩ : K) * ⟨u, huK⟩ = 1 := by

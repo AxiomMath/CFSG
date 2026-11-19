@@ -14,6 +14,7 @@ open Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {ε : ZMod 3}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_pair_mem (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {k m : Fin 4}
     (hkm : k ≠ m) : fr.signChange (ffE8Hat {k, m}) ∈ ffE8Group fr :=
   ⟨{k, m}, by rw [Finset.card_pair hkm]; exact even_two, rfl⟩
@@ -27,6 +28,7 @@ private theorem pair_trace_ne {k m : Fin 4} (hkm : k ≠ m) :
   rw [h1, h2]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_centralizer_eq (hε : ε = 1 ∨ ε = -1)
     (fr : PFrame Q FFE8Idx (ffE8Norm ε)) :
     centralizer (((ffE8Group fr).map (ffSim Q) : Subgroup (ProjSim Q)) : Set (ProjSim Q)) =
@@ -60,21 +62,25 @@ theorem ffOutFFE8CentModel_centralizer_eq (hε : ε = 1 ∨ ε = -1)
       exact ⟨_, rfl⟩
     rw [← map_mul, ← map_mul, ffOutFFE8CentModel_grp_comm fr hts hs]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_grp_isMulCommutative {ι : Type} [Fintype ι] [DecidableEq ι]
     {c : ι → ZMod 3} (fr : PFrame Q ι c) : IsMulCommutative (ffOutFFE8CentModel_grp fr) :=
   IsMulCommutative.of_setLike_mul_comm fun _ ha _ hb => ffOutFFE8CentModel_grp_comm fr ha hb
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_map_elemAbelian {ι : Type} [Fintype ι] [DecidableEq ι]
     {c : ι → ZMod 3} (fr : PFrame Q ι c) :
     CFSG.Open.IsElemAbelian 2 ((ffOutFFE8CentModel_grp fr).map (ffSim Q)) := by
-  haveI := ffOutFFE8CentModel_grp_isMulCommutative fr
+  have := ffOutFFE8CentModel_grp_isMulCommutative fr
   refine ⟨inferInstance, ?_⟩
   rintro _ ⟨g, hg, rfl⟩
   rw [← map_pow, pow_two, ffOutFFE8CentModel_grp_mul_self fr hg, map_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_ffSim_piOrth : ffSim Q (piOrth Q) = 1 :=
   (QuotientGroup.eq_one_iff _).mpr (mem_piSim_iff.mpr (Or.inr rfl))
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_ffSim_compl {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZMod 3}
     (fr : PFrame Q ι c) (K : Finset ι) :
     ffSim Q (fr.signChange Kᶜ) = ffSim Q (fr.signChange K) := by
@@ -82,6 +88,7 @@ theorem ffOutFFE8CentModel_ffSim_compl {ι : Type} [Fintype ι] [DecidableEq ι]
     ← fr.signChange_mul, ← fr.piOrth_eq_signChange_univ, map_mul,
     ffOutFFE8CentModel_ffSim_piOrth, one_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8CentModel_card_le {c : FFE8Idx → ZMod 3} (fr : PFrame Q FFE8Idx c) :
     Nat.card ((ffOutFFE8CentModel_grp fr).map (ffSim Q)) ≤ 32 := by
   classical

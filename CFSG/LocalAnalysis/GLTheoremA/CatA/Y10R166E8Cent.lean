@@ -86,7 +86,7 @@ theorem rootCharKernel_e8NodeZeroToral_eq_parabolicRoots {K : Type} [Field K] {q
     exact ⟨hα, (rootChar_eq_one_iff_e8NodeZeroToral hq hq2 hζ hα).2 (h 0 (by simp))⟩
 
 theorem e8NodeZeroToral_ne_one {K : Type} [Field K] {q : ℕ} {ζ : Kˣ}
-    (hq : q.Prime) (hq2 : q ≠ 2) (hζ : orderOf ζ = q) : e8NodeZeroToral ζ ≠ 1 := by
+    (hq : q.Prime) (_hq2 : q ≠ 2) (hζ : orderOf ζ = q) : e8NodeZeroToral ζ ≠ 1 := by
   intro h
   have h0 : ζ = 1 := by
     have := congrArg (fun a : Fin Tag.E8.rank → Kˣ => a 0) h
@@ -111,7 +111,7 @@ private theorem toralCentralizer_eq_toralRootGroup_of_not_dvd {K : Type} [Field 
     (hord := hord) (a := a) (hap := hpow) (ha1 := ha1)
     (S := rootCharKernel (τ := Tag.E8) a) (hS := fun α hα => hα.1)
     (hSn := fun α hα => by
-      simp only [rootCharKernel, Set.mem_setOf_eq] at hα ⊢
+      simp only [rootCharKernel, Set.mem_ofPred_eq] at hα ⊢
       exact ⟨IsRoot.neg hα.1, by rw [hneg, hα.2, inv_one]⟩)
     (hker := fun _ h => h) hg
 
@@ -125,7 +125,7 @@ theorem toralCentralizer_e8NodeZeroToral_eq_toralRootGroup {K : Type} [Field K] 
       rw [zpow_natCast, ← hζ]; exact pow_orderOf_eq_one ζ
     by_cases hi : i = 0
     · subst hi
-      simp only [e8NodeZeroToral, if_pos rfl]
+      simp only [e8NodeZeroToral]
       simpa using hζq
     · simp [e8NodeZeroToral, hi]
   rcases eq_or_ne q 3 with h3 | h3
@@ -174,7 +174,7 @@ private theorem commutator_mem_of_eq_sup_of_normalizes {G : Type} [Group G] {H Q
   have hCN : C ≤ Subgroup.normalizer (Q : Set G) := by
     rw [hC]; exact sup_le hN Subgroup.le_normalizer
   let Qc := Q.subgroupOf C
-  haveI hQcN : Qc.Normal := ⟨fun x hx y => by
+  have hQcN : Qc.Normal := ⟨fun x hx y => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact (Subgroup.mem_normalizer_iff.1 (hCN y.2) (x : G)).1 hx⟩
   have htop : H.subgroupOf C ⊔ Qc = ⊤ := by
@@ -202,7 +202,7 @@ private theorem commutator_mem_of_eq_sup_of_normalizes {G : Type} [Group G] {H Q
     | H a =>
       induction b using QuotientGroup.induction_on with
       | H b => exact hcommq a b
-  haveI : IsMulCommutative (↥C ⧸ Qc) := ⟨⟨hcommAll⟩⟩
+  have : IsMulCommutative (↥C ⧸ Qc) := ⟨⟨hcommAll⟩⟩
   have hcomm : commutator ↥C ≤ Qc :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mp inferInstance
   have hmem : ⁅(⟨g, hg⟩ : ↥C), (⟨h, hh⟩ : ↥C)⁆ ∈ Qc :=

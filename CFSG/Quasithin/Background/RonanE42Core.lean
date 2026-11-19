@@ -33,11 +33,13 @@ variable {ρ : G →* MulAut V} {T : Subgroup G} {Δ : Finset (Subgroup G)} {c :
     Subgroup G :=
   Subgroup.normalizer (T : Set G) ⊔ (T ⊔ cenV ρ (Fx ρ (Wcl Ω c T)))
 
+omit [Finite G] in
 theorem Sig_mono {a b : ℕ} (hab : a ≤ b) : Sig ρ T Ω a ≤ Sig ρ T Ω b := by
   have h1 : Fx ρ (Wcl Ω b T) ≤ Fx ρ (Wcl Ω a T) := Fx_anti (Wcl_mono_level hab T)
   have h2 : cenV ρ (Fx ρ (Wcl Ω a T)) ≤ cenV ρ (Fx ρ (Wcl Ω b T)) := cenV_anti ρ h1
   exact sup_le_sup_left (sup_le_sup_left h2 _) _
 
+omit [Finite G] in
 theorem Sig_le_stabV (h : Setup ρ T Δ c Ω) (a : ℕ) :
     Sig ρ T Ω a ≤ stabV ρ (Fx ρ (Wcl Ω a T)) := by
   refine sup_le (fun g hg => ?_) (sup_le (fun g hg => ?_) (cenV_le_stabV ρ _))

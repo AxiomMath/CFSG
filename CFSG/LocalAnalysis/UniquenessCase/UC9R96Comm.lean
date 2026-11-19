@@ -18,7 +18,7 @@ private theorem uc9r96_comm_mem_pCoreOf_of_not_normalizes {K L A : Subgroup G} (
     (hAK : A ≤ K) (hA3 : ¬ 3 ∣ Nat.card A) {a d : G} (ha : a ∈ A)
     (hdA : d ∈ normalizer (A : Set G)) (hdL : d ∈ L) (haL : a ∉ normalizer (L : Set G))
     {k : ℕ} (hdk : orderOf d = 3 ^ k) : ⁅a, d⁆ ∈ pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLK : L ≤ K := hL.1.le
   have hL' : uniqueFourConj a⁻¹ L ∈ calC K :=
     uc22p22u_calC_conj (Subgroup.le_normalizer) hL (K.inv_mem (hAK ha))

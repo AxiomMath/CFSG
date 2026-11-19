@@ -14,6 +14,7 @@ namespace CFSG.AGLEmbedding
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem d1PlusCore_le {p : ℕ} (H : Subgroup G)
     (K : Subgroup (H ⧸ primeComplementCore (G := H) p)) :
     d1PlusCore p H K ≤ H := by
@@ -29,17 +30,19 @@ open CFSG.LocalAnalysis.RankThreeUC.AGL81C
 
 variable {G : Type} [Group G] [Finite G] {M Q H : Subgroup G} {p : ℕ}
 
+omit [Finite G] in
 theorem xSub_le_H (p : ℕ) (M H : Subgroup G) : xSub p M H ≤ H := by
   unfold xSub
   exact CFSG.AGLEmbedding.d1PlusCore_le (p := p) H (kStar p M H)
 
+omit [Finite G] in
 theorem xSub_subgroupOf_normal_of_kSub_normal
     (hK : ((kSub p M H).subgroupOf H).Normal) :
     ((xSub p M H).subgroupOf H).Normal := by
   have hKstar : (kStar p M H).Normal :=
     hK.map (QuotientGroup.mk' (primeComplementCore (G := H) p))
       (QuotientGroup.mk'_surjective _)
-  haveI : (kStar p M H).Normal := hKstar
+  have : (kStar p M H).Normal := hKstar
   have hsub : ((xSub p M H).subgroupOf H) =
       (Subgroup.centralizer (kStar p M H : Set (H ⧸ primeComplementCore (G := H) p))).comap
         (QuotientGroup.mk' (primeComplementCore (G := H) p)) := by
@@ -48,11 +51,13 @@ theorem xSub_subgroupOf_normal_of_kSub_normal
   rw [hsub]
   exact Subgroup.Normal.comap inferInstance _
 
+omit [Finite G] in
 theorem xSub_normal_of_kSub_normal (hK : ((kSub p M H).subgroupOf H).Normal) :
     H ≤ Subgroup.normalizer (xSub p M H : Set G) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (xSub_le_H p M H)).mp
     (xSub_subgroupOf_normal_of_kSub_normal hK)
 
+omit [Finite G] in
 theorem xSub_normal_of_pLayerIn_le (hL : pLayerIn p H ≤ M) :
     H ≤ Subgroup.normalizer (xSub p M H : Set G) :=
   xSub_normal_of_kSub_normal (kSub_normal_of_le hL)
@@ -69,7 +74,7 @@ theorem not_isSolvable_of_twelveCtx
 theorem relPPrimeCore_le_M_of_twelveCtx (h : TwelveCtx G M p Q H) :
     relPPrimeCore p H ≤ M := by
   obtain ⟨E, hEQ, hE, hEc, hΓ⟩ := h.exists_E_sq
-  exact relPPrimeCore_le_of_gamma (Q := Q) h.p_prime (hEQ.trans h.Q_le_H) hE hEc hΓ
+  exact relPPrimeCore_le_of_gamma (_Q := Q) h.p_prime (hEQ.trans h.Q_le_H) hE hEc hΓ
 
 theorem not_dvd_card_xSub_inf_of_twelveCtx
     (h1 : CFSG.CGT.PushingUpLit.AschbacherTheoremOneK)
@@ -78,8 +83,8 @@ theorem not_dvd_card_xSub_inf_of_twelveCtx
     (h84 : CFSG.AGLEmbedding.Asc81bEightFour) (h : TwelveCtx G M p Q H)
     (hI : NineNineOneInput) {d : ℕ} (hd : d ∈ sigmaSet G M) :
     ¬ d ∣ Nat.card (xSub p M H ⊓ M : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
-  haveI : Fact d.Prime :=
+  have : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact d.Prime :=
     ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime d hd.1⟩
   have hns : ¬ Group.IsSolvable M := not_isSolvable_of_twelveCtx h1 h2 h25 h84 h
   have hstr : CFSG.RankThree.PartOne.IsStronglyPEmbedded d M :=

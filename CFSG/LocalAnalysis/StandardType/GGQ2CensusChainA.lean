@@ -249,9 +249,9 @@ private theorem gcca_finCartan (n : ℕ) (i j : Fin (n + 1)) :
     have h2 : ¬ (i.succ = i.castSucc) := fun h => h1 h.symm
     simp [h1, h2]
     norm_num
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     by_cases hadj : (i : ℕ) + 1 = j.val ∨ (j : ℕ) + 1 = i.val
-    · rw [if_pos hadj]
+    · rw [ite_eq_left hadj]
       rcases hadj with h | h
       · have h2 : i.succ = j.castSucc := by ext; simp [Fin.val_succ]; omega
         have h1 : ¬ (i.castSucc = j.succ) := by
@@ -267,7 +267,7 @@ private theorem gcca_finCartan (n : ℕ) (i j : Fin (n + 1)) :
           simp [Fin.val_succ] at this
           omega
         simp [hij, h1, h2]
-    · rw [if_neg hadj]
+    · rw [ite_eq_right hadj]
       have h1 : ¬ (i.castSucc = j.succ) := by
         intro hh
         have := congrArg Fin.val hh
@@ -371,22 +371,22 @@ theorem chainA_model {N n : ℕ} (hn : 1 ≤ n) {V : Type} [AddCommGroup V] [Mod
         refine ⟨⟨1, by omega⟩, ⟨by simp, ?_⟩, ?_⟩
         · rw [gcca_cartanA_entry]
           have h0 : ¬ ((0 : Fin (n + 1)) = ⟨1, by omega⟩) := by simp
-          rw [if_neg h0]
+          rw [ite_eq_right h0]
           have hcond : ((0 : Fin (n + 1)) : ℕ) + 1 =
                 ((⟨1, by omega⟩ : Fin (n + 1)) : ℕ) ∨
               ((⟨1, by omega⟩ : Fin (n + 1)) : ℕ) + 1 = ((0 : Fin (n + 1)) : ℕ) := by
             left
             simp
-          rw [if_pos hcond]
+          rw [ite_eq_left hcond]
           norm_num
         · intro y hy
           rw [gcca_cartanA_entry] at hy
           have hy0 : y ≠ (0 : Fin (n + 1)) := fun hab => hy.1 hab
-          rw [if_neg (show ¬ ((0 : Fin (n + 1)) = y) from fun hab => hy0 hab.symm)] at hy
+          rw [ite_eq_right (show ¬ ((0 : Fin (n + 1)) = y) from fun hab => hy0 hab.symm)] at hy
           have hcond : ((0 : Fin (n + 1)) : ℕ) + 1 = (y : ℕ) ∨
               (y : ℕ) + 1 = ((0 : Fin (n + 1)) : ℕ) := by
             by_contra hc
-            rw [if_neg hc] at hy
+            rw [ite_eq_right hc] at hy
             exact hy.2 rfl
           have hy1 : (y : ℕ) = 1 := by
             rcases hcond with h | h
@@ -505,7 +505,7 @@ theorem chainA_model {N n : ℕ} (hn : 1 ≤ n) {V : Type} [AddCommGroup V] [Mod
         have := congrArg Fin.val hab
         simp only [Fin.val_last] at this
         omega
-      rw [if_neg h1]
+      rw [ite_eq_right h1]
       have hcond : ((Fin.last n : Fin (n + 1)) : ℕ) + 1 =
             ((⟨n - 1, by omega⟩ : Fin (n + 1)) : ℕ) ∨
           ((⟨n - 1, by omega⟩ : Fin (n + 1)) : ℕ) + 1 =
@@ -513,17 +513,17 @@ theorem chainA_model {N n : ℕ} (hn : 1 ≤ n) {V : Type} [AddCommGroup V] [Mod
         right
         simp only [Fin.val_last]
         omega
-      rw [if_pos hcond]
+      rw [ite_eq_left hcond]
       norm_num
     · intro y hy
       change y ≠ Fin.last n ∧ CartanMatrix.A (n + 1) (Fin.last n) y ≠ 0 at hy
       rw [gcca_cartanA_entry] at hy
       have h1 : ¬ ((Fin.last n : Fin (n + 1)) = y) := fun hab => hy.1 hab.symm
-      rw [if_neg h1] at hy
+      rw [ite_eq_right h1] at hy
       have hcond : ((Fin.last n : Fin (n + 1)) : ℕ) + 1 = (y : ℕ) ∨
           (y : ℕ) + 1 = ((Fin.last n : Fin (n + 1)) : ℕ) := by
         by_contra hc
-        rw [if_neg hc] at hy
+        rw [ite_eq_right hc] at hy
         exact hy.2 rfl
       have hy1 : (y : ℕ) + 1 = n := by
         rcases hcond with h | h

@@ -35,8 +35,8 @@ theorem i167COrth_numerics {p a k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hdiv : 
 private theorem i167COrth_hm4_aux1 {G : Type} [Group G] (hq : CFSG.IsQuasisimple G) :
     ¬ Group.IsSolvable G := by
   intro hs
-  haveI := hs
-  haveI : IsSimpleGroup (G ⧸ Subgroup.center G) := hq.2.1
+  have := hs
+  have : IsSimpleGroup (G ⧸ Subgroup.center G) := hq.2.1
   have hcomm := (IsSimpleGroup.comm_iff_isSolvable (G := G ⧸ Subgroup.center G)).2 inferInstance
   obtain ⟨a, b, hab⟩ := hq.2.2
   exact hab (hcomm a b)
@@ -74,18 +74,18 @@ theorem i167COrth_hm4 (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1
   rcases hm23 with hm | hm
   · obtain ⟨E, hEfield, hEfin, hEcard, ⟨e⟩⟩ :=
       CFSG.StandardType.SevOmSmall.exists_specialBlock_equiv_SL2 hx hp hp2 hpq hh hne hm
-    letI instE : Field E := hEfield
-    letI instFin : Finite E := hEfin
+    let instE : Field E := hEfield
+    let instFin : Finite E := hEfin
     have hE2 : Nat.card E = 2 := by rw [hEcard, hF2]
-    haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) E) :=
+    have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) E) :=
       CFSG.StandardType.SevOmSmall.isSolvable_SL_two hE2
     exact hns (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
   · have hself : h = reciprocalPolynomial h :=
       (hx.reciprocal_eq_of_dvd_card_succ hp hpq hh hne).symm
     have hdeg2 : h.natDegree = 2 :=
       CFSG.RankThree.PartOne.K159.natDegree_eq_two_of_dvd_card_add_one hx hp hp2 hpq hh hne
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-    haveI : Group.IsSolvable ↥(specialBlock Q (g : V ≃ₗ[F] V) h) :=
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+    have : Group.IsSolvable ↥(specialBlock Q (g : V ≃ₗ[F] V) h) :=
       hx.isSolvable_specialBlock_three_two (hp.odd_of_ne_two hp2) hh hne hself hdeg2 hm hF2
     exact hns inferInstance
 
@@ -139,7 +139,7 @@ private theorem i167COrth_catalogIs_minus_six_aux3 {f p : ℕ} {E : Type} [Field
       ↥(StatedSU 4 (2 ^ f) E) ⧸ Subgroup.center ↥(StatedSU 4 (2 ^ f) E) :=
     QuotientGroup.congr _ _ (Subgroup.topEquiv (G := ↥(StatedSU 4 (2 ^ f) E)))
       (Subgroup.map_center_eq (Subgroup.topEquiv (G := ↥(StatedSU 4 (2 ^ f) E))))
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hK : Fintype.card E = (2 ^ f) ^ 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hE
@@ -153,7 +153,7 @@ private theorem i167COrth_catalogIs_minus_six_aux3 {f p : ℕ} {E : Type} [Field
   exact ⟨i, hi, ⟨(hJ.symm.trans eTop).trans χ⟩⟩
 
 theorem i167COrth_catalogIs_minus_six (hR : (QuadraticMap.polarBilin Q).Nondegenerate)
-    (hdim : Module.finrank F V = 6) (hminus : ¬ IsPlusType Q) (hp : p.Prime) (hp2 : p ≠ 2)
+    (hdim : Module.finrank F V = 6) (hminus : ¬ IsPlusType Q) (hp : p.Prime) (_hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) :
     catalogIs (PSimple p (⊤ : Subgroup ↥(orthDerived Q))) (isUnA 4 (Nat.card F)) := by
   classical
@@ -166,8 +166,8 @@ theorem i167COrth_catalogIs_minus_six (hR : (QuadraticMap.polarBilin Q).Nondegen
     exact hminus ⟨U, by rw [hU, hdim], hcon⟩
   obtain ⟨E, hEfield, hEfin, hEcard, ⟨θ⟩⟩ :=
     CFSG.SeitzReduction.OmegaPilot.nonempty_orthDerived_mulEquiv_statedSU_of_six hf hR hdim hts
-  letI instE : Field E := hEfield
-  letI instFin : Finite E := hEfin
+  let instE : Field E := hEfield
+  let instFin : Finite E := hEfin
   have hcatSU : catalogIs (PSimple p (⊤ : Subgroup ↥(StatedSU 4 (2 ^ f) E)))
       (isUnA 4 (2 ^ f)) := i167COrth_catalogIs_minus_six_aux3 hEcard hp hpq'
   have hθ : ↥(orthDerived Q) ≃* ↥(StatedSU 4 (2 ^ f) E) := θ

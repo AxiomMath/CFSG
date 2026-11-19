@@ -33,7 +33,6 @@ theorem letter_Gs1 {j l : ℕ} (hj : j + 1 < 6) (hl : l ∈ lvK LL BB 24 (j + 1)
   have hl' := mem_lvK.1 hl
   rw [mem_Gs]
   refine ⟨Subgroup.subset_closure ⟨l, lv_one (by omega) hl, rfl⟩, fun k hk => Fin.ext ?_⟩
-  beta_reduce
   rw [sig_val chain_hyp hl'.1, bF_val chain_hyp hn (by omega), hl'.2 (k + 1) (by omega)]
 
 theorem tw_mem1 {j : ℕ} (hj : j + 1 < 6) : ∀ k < CNT (j + 1),
@@ -66,7 +65,7 @@ theorem prod_cnt1 : ∏ l ∈ Finset.range 5, CNT (l + 1) = 129123503308800 := b
 theorem card_H1 : 129123503308800 ≤ Nat.card H1 := by
   rw [card_chain H1 (fun i => bF hn BB (i + 1)) 5, ← prod_cnt1]
   refine le_trans ?_ (Nat.le_mul_of_pos_right _ Nat.card_pos)
-  refine Finset.prod_le_prod' fun l hl => ?_
+  refine Finset.prod_le_prod fun l hl => ?_
   have hl' := Finset.mem_range.1 hl
   rw [← dSet_card chain_hyp hn (l := l + 1) (by omega), ← Set.ncard_coe_finset]
   exact Set.ncard_le_ncard (dSet_sub1 (by omega)) (Set.toFinite _)

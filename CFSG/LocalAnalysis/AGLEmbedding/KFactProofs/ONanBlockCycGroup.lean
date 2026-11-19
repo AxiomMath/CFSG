@@ -69,7 +69,7 @@ theorem hasE9_of_surjective {Y : Type*} [Group Y] {φ : Q →* Y} (hφ : Functio
   obtain ⟨R, hER⟩ := hEp.exists_le_sylow
   obtain ⟨P, hP⟩ := Sylow.mapSurjective_surjective hφ 3 R
   have hPR : (P.mapSurjective hφ : Subgroup Y) = P.map φ := rfl
-  refine hasE9_of_not_isCyclic P.isPGroup' (fun hcyc => ?_)
+  refine hasE9_of_not_isCyclic P.isPGroup (fun hcyc => ?_)
   have hcycR : IsCyclic (P.map φ) :=
     isCyclic_of_surjective (φ.subgroupMap P) (φ.subgroupMap_surjective P)
   have hER' : E ≤ P.map φ := by

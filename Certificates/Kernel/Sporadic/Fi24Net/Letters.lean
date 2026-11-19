@@ -64,12 +64,12 @@ theorem letters (O : Enum)
     intro z x hx
     unfold genTables GN
     by_cases h1 : z = 1 ∨ z = -1
-    · rw [if_pos h1, if_pos h1, hA x hx, ← (hab x hx).1]
+    · rw [ite_eq_left h1, ite_eq_left h1, hA x hx, ← (hab x hx).1]
       exact ⟨rfl, (nets (by decide) hx).1⟩
     by_cases h2 : z = 2
-    · rw [if_neg h1, if_pos h2, if_neg h1, if_pos h2, hB.2 x hx, ← (hab x hx).2]
+    · rw [ite_eq_right h1, ite_eq_left h2, ite_eq_right h1, ite_eq_left h2, hB.2 x hx, ← (hab x hx).2]
       exact ⟨rfl, (nets (by decide) hx).1⟩
-    · rw [if_neg h1, if_neg h2, if_neg h1, if_neg h2]
+    · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h1, ite_eq_right h2]
       have hT : TR 306936 O.beta (pF (NW 1)) :=
         ⟨hB.1, fun i hi => ⟨by rw [hB.2 i hi, (hab i hi).2], (nets (by decide) hi).1⟩⟩
       have hI := invT_TR (by decide) hT fun i hi =>

@@ -40,10 +40,10 @@ theorem r925_centralizer_fstar_le_fitting {Γ : Type} [Group Γ] [Finite Γ] (J 
       exact Subgroup.mem_map_of_mem J.subtype hy
     exact Subgroup.mem_centralizer_iff.mp hxcent (y : Γ) hyF
   have hstar : (⟨x, hxJ⟩ : ↥J) ∈ genFittingFStar ↥J :=
-    CFSG.Open.Open.generalized_fitting_self_centralizing ↥J hcent
+    CFSG.Open.Thm.generalized_fitting_self_centralizing ↥J hcent
   have hlayer : genFittingLayer ↥J = CFSG.layer ↥J :=
     CFSG.WholeGroup.layerOf_congr (fun K => (CFSG.isComponent_iff_open K).symm)
-  haveI : (genFittingFitting ↥J).Normal := by
+  have : (genFittingFitting ↥J).Normal := by
     change (CFSG.fittingSubgroup ↥J).Normal
     infer_instance
   rw [genFittingFStar.eq_sup] at hstar
@@ -94,17 +94,17 @@ theorem r925_centralizer_fstar_le_fitting {Γ : Type} [Group Γ] [Finite Γ] (J 
 
 private theorem r925_pCore_map_subtype_le {Γ : Type} [Group Γ] {J : Subgroup Γ} (hJ : J.Normal)
     (p : ℕ) : (CFSG.pCore p ↥J).map J.subtype ≤ CFSG.pCore p Γ := by
-  haveI : J.Normal := hJ
+  have : J.Normal := hJ
   exact le_sSup ⟨inferInstance, IsPGroup.map (CFSG.pCore_isPGroup) J.subtype⟩
 
 theorem r925_fitting_le_pCoreGe5 {Γ : Type} [Group Γ] [Finite Γ] (h2 : CFSG.pCore 2 Γ = ⊥) :
     r925FittingIn (CFSG.pPrimeCore 3 Γ) ≤ r925PCoreGe5 Γ := by
   set J := CFSG.pPrimeCore 3 Γ with hJ
   have hJnorm : J.Normal := CFSG.pPrimeCore_normal
-  haveI hFn : (genFittingFitting ↥J).Normal := by
+  have hFn : (genFittingFitting ↥J).Normal := by
     change (CFSG.fittingSubgroup ↥J).Normal
     infer_instance
-  haveI hFnil : Group.IsNilpotent ↥(genFittingFitting ↥J) := by
+  have hFnil : Group.IsNilpotent ↥(genFittingFitting ↥J) := by
     change Group.IsNilpotent ↥(CFSG.fittingSubgroup ↥J)
     infer_instance
   have hsup : genFittingFitting ↥J ≤
@@ -118,14 +118,14 @@ theorem r925_fitting_le_pCoreGe5 {Γ : Type} [Group Γ] [Finite Γ] (h2 : CFSG.p
   rw [Subgroup.map_iSup]
   refine iSup_le ?_
   intro p
-  haveI : Fact p.1.1.Prime := ⟨Nat.prime_of_mem_primeFactors p.1.2⟩
+  have : Fact p.1.1.Prime := ⟨Nat.prime_of_mem_primeFactors p.1.2⟩
   refine (r925_pCore_map_subtype_le hJnorm p.1.1).trans ?_
   by_cases hp2 : p.1.1 = 2
   · rw [hp2, h2]
     exact bot_le
   by_cases hp3 : p.1.1 = 3
   · exfalso
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcop : Nat.Coprime 3 (Nat.card ↥J) :=
       CFSG.pPrimeCore_coprime_card (p := 3) (G := Γ)
     have h3dvd : 3 ∣ Nat.card ↥J := hp3 ▸ Nat.dvd_of_mem_primeFactors p.1.2
@@ -148,7 +148,7 @@ theorem r925_pCoreGe5_orderOf {Γ : Type} [Group Γ] [Finite Γ] :
   have hle : r925PCoreGe5 Γ ≤ CFSG.piCore π Γ := by
     refine iSup_le ?_
     rintro ⟨p, hp, hp5⟩
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     refine CFSG.LocalCores.le_piCore_of_normal CFSG.pCore_normal ?_
     intro q hq
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := p) (G := Γ))
@@ -302,11 +302,11 @@ private theorem r925_out_solvable_of_component {Γ : Type} [Group Γ] [Finite Γ
     (hKSch : UCK.KSch) (hΓ : CFSG.Open.IsKGroup Γ) {E : Subgroup Γ}
     (hE : CFSG.IsComponent E) :
     Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥E) := by
-  haveI hperf : Group.IsPerfect ↥E := hE.1.1
+  have hperf : Group.IsPerfect ↥E := hE.1.1
   have hOutQuot : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (↥E ⧸ Subgroup.center ↥E)) := by
-    haveI hsimple : IsSimpleGroup (↥E ⧸ Subgroup.center ↥E) := hE.1.2.1
-    haveI hK : CFSG.Open.IsKGroup (↥E ⧸ Subgroup.center ↥E) :=
+    have hsimple : IsSimpleGroup (↥E ⧸ Subgroup.center ↥E) := hE.1.2.1
+    have hK : CFSG.Open.IsKGroup (↥E ⧸ Subgroup.center ↥E) :=
       (hΓ.subgroup E).quotient (Subgroup.center ↥E)
     exact hKSch (↥E ⧸ Subgroup.center ↥E) hsimple hK
   exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient ↥E
@@ -318,8 +318,8 @@ private theorem r925_centralizes_of_component {Γ : Type} [Group Γ] [Finite Γ]
     (hE3 : ¬ 3 ∣ Nat.card ↥E)
     (hA : commutator ↥A = ⊤) (hA3 : IsThreeGen A) :
     A ≤ Subgroup.centralizer (E : Set Γ) := by
-  haveI hperfA : Group.IsPerfect ↥A := ⟨hA⟩
-  haveI hOutI : Group.IsSolvable
+  have hperfA : Group.IsPerfect ↥A := ⟨hA⟩
+  have hOutI : Group.IsSolvable
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥E) := hOut
   let ρ : ↥A →* MulAut ↥E := E.normalizerMonoidHom.comp (Subgroup.inclusion hEN)
   have hρ : ∀ (b : ↥A) (x : ↥E), ((ρ b) x : Γ) = (b : Γ) * x * (b : Γ)⁻¹ := fun b x =>
@@ -355,7 +355,7 @@ theorem r925_layer_centralized (hKSch : UCK.KSch) {Γ : Type} [Group Γ] [Finite
     (hr : ∀ q : ℕ, q.Prime → 5 ≤ q → CFSG.Open.pRank q (⊤ : Subgroup Γ) ≤ 2)
     {A : Subgroup Γ} (hA : commutator ↥A = ⊤) (hA3 : IsThreeGen A) :
     A ≤ centralizer (r925LayerIn (CFSG.pPrimeCore 3 Γ) : Set Γ) := by
-  haveI hFact3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hFact3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set J := CFSG.pPrimeCore 3 Γ with hJ
   have hJnorm : J.Normal := by rw [hJ]; exact CFSG.pPrimeCore_normal
   have hcopJ : Nat.Coprime 3 (Nat.card ↥J) := by
@@ -388,8 +388,8 @@ theorem r925_layer_centralized (hKSch : UCK.KSch) {Γ : Type} [Group Γ] [Finite
   have hle : genFittingLayer ↥J ≤ (Subgroup.centralizer (A : Set Γ)).comap J.subtype := by
     rw [genFittingLayer.eq_sSup]
     refine sSup_le ?_
-    rintro L hL
-    intro x hx
+    intro L hL
+      x hx
     change J.subtype x ∈ Subgroup.centralizer (A : Set Γ)
     refine Subgroup.mem_centralizer_iff.mpr ?_
     intro a ha
@@ -500,7 +500,7 @@ theorem r925_pcore_reps {Γ : Type} [Group Γ] [Finite Γ]
   have h : ∀ p : {p : ℕ // p.Prime ∧ 5 ≤ p}, ∃ ψ : Γ →* GL (Fin 2) (ZMod p.1),
       (∀ g : Γ, ψ g = 1 → ¬ p.1 ∣ orderOf g → ∀ x ∈ CFSG.pCore p.1 Γ, g * x = x * g) ∧
       (∀ g : Γ, (∀ x ∈ CFSG.pCore p.1 Γ, g * x = x * g) → ψ g = 1) := fun p => by
-    haveI : Fact p.1.Prime := ⟨p.2.1⟩
+    have : Fact p.1.Prime := ⟨p.2.1⟩
     exact r925_pcore_rep p.1 p.2.2 (hr p.1 p.2.1 (by have := p.2.2; omega))
   choose ψ hψ using h
   exact ⟨ψ, hψ⟩

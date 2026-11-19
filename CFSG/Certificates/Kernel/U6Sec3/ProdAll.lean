@@ -157,7 +157,7 @@ private theorem sift_sound : ∀ d l, l + d = base.size → ∀ (a : Array ℕ) 
     · rcases j with _ | j
       · simpa using hk
       · have := hκ j (by omega)
-        simp only [show l + (j + 1) ≠ l by omega, if_false]
+        simp only [show l + (j + 1) ≠ l by omega, ite_false]
         rwa [show l + (j + 1) = l + 1 + j by omega]
     · rw [List.range_succ_eq_map, List.map_cons, List.map_map, List.prod_cons]
       have e2 : (List.range d).map ((fun j => levT n S base (l + j)
@@ -165,7 +165,7 @@ private theorem sift_sound : ∀ d l, l + d = base.size → ∀ (a : Array ℕ) 
           (List.range d).map fun j => levT n S base (l + 1 + j) (κ (l + 1 + j)) :=
         List.map_congr_left fun j _ => by
           simp only [Function.comp_apply, Nat.succ_eq_add_one,
-            show l + (j + 1) = l + 1 + j by omega, show l + 1 + j ≠ l by omega, if_false]
+            show l + (j + 1) = l + 1 + j by omega, show l + 1 + j ≠ l by omega, ite_false]
       rw [e2, ← e]
       simp
 

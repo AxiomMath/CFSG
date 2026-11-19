@@ -20,7 +20,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 
 theorem row_Fi22_five (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) :
     I1416SporRow .Fi22 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, -, -, hQsyl⟩, ⟨hlinesSet, -⟩, -, hrec⟩ :=
     R3E_Fi22_full_five_centralizers_common_outer_involution
   have e : CFSG.Blueprint.NativeSporadic.Fi22 ≃* ↥fi22P := fi22PermEquiv
@@ -112,7 +112,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Timmesfeld.Co
 
 theorem row_Suz_five (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges)
     (hb : LieOrderBridge) : I1416SporRow .Suz 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨hQP, -, -, -, hQsyl⟩, ⟨hlinesSet, -⟩, hrec, hgood, hbad⟩ :=
     R3E_Suz_full_five_centralizer_structures
   have hR : ∀ r ∈ suzT, ∀ q ∈ suzM, r * q * r⁻¹ ∈ suzM := fun r hr q hq =>

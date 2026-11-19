@@ -67,15 +67,15 @@ theorem not_threeAutFour_lie_twistedA_two {d : TauCeti.ValidLieTypeIndex}
   obtain ⟨hp, hf, -, K, hField, hFinite, J, hJ, hK, hfix, ⟨e⟩⟩ :=
     CFSG.AGLEmbedding.UnitaryModel.exists_equiv_psu
       (CFSG.AGLEmbedding.UnitaryModel.statedClassicalModel hu ⟨MulEquiv.refl _⟩)
-  letI := hField
-  letI := hFinite
+  let := hField
+  let := hFinite
   have hPSU : ThreeAutFour (ProjectiveSpecialUnitaryMatrixGroup J) :=
     ThreeAutFour.of_injective (f := e.symm.toMonoidHom) e.symm.injective h
   obtain ⟨a, ha⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := Kˣ)
   obtain ⟨k, hk⟩ := hPSU (rootGroup J hJ)
     (CFSG.AGLEmbedding.UnitaryModel.isPGroup_rootGroup J hJ hK hfix) (torus J hJ a)
     (torusGroup_le_normalizer_rootGroup J hJ (torus_mem_torusGroup J hJ a))
-  letI := CFSG.AGLEmbedding.UnitaryModel.charP_of_card hp hK
+  let := CFSG.AGLEmbedding.UnitaryModel.charP_of_card hp hK
   have h2 : (2 : K) ≠ 0 := by
     intro h0
     exact absurd ((CharP.cast_eq_zero_iff K 3 2).mp h0) (by norm_num)

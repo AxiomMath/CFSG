@@ -16,6 +16,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem rkIdx_fixV_zpowers_eq_of_fix_sup {k : MulAut W} {U S : Subgroup W}
     (hsup : U ⊔ S = ⊤) (hU : ∀ u ∈ U, k u ∈ U) (hS : ∀ s ∈ S, k s = s)
     {Q : Type} [CommGroup Q] [Finite Q] (j : ↥U ≃* Q) (q : MulAut Q)
@@ -145,7 +146,7 @@ theorem altTwo_transport {Y K : Subgroup (MulAut W)} {n : ℕ}
     by_contra hodd
     have h1 : E3.mParam X = rk Wq := by
       unfold E3.mParam
-      rw [if_neg hodd]
+      rw [ite_eq_right hodd]
     have h2 : rk Wq = 6 * n := by
       unfold rk
       rw [← Subgroup.card_top (G := Wq), hcardWq, padicValNat.prime_pow]

@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16t3_commutator_le_of_subgroupOf {X C : Subgroup G} (hCX : C ≤ X)
     (h : ⁅(⊤ : Subgroup ↥X), ⊤⁆ ≤ C.subgroupOf X) : ⁅X, X⁆ ≤ C := by
   have hmap := Subgroup.map_mono (f := Subgroup.subtype X) h
@@ -95,11 +96,11 @@ theorem s16t3_normal_of_cover_of_isSolvable {M C X Y : Subgroup G}
         have hleY1 : ⁅Y, Y₁⁆ ≤ Y₁ :=
           (Subgroup.le_normalizer_iff_commutator_le_right).mp (hYX.trans hY1normX)
         exact (le_inf hleY hleY1).trans hN_le_C
-      haveI : (Y.subgroupOf X).Normal :=
+      have : (Y.subgroupOf X).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hYX).mpr hXY
-      haveI : (C.subgroupOf X).Normal :=
+      have : (C.subgroupOf X).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hCX).mpr hXnormC
-      haveI : (Y₁.subgroupOf X).Normal :=
+      have : (Y₁.subgroupOf X).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hY1X).mpr hY1normX
       have hconjX : conjSubgroup X m = X :=
         conjSubgroup_eq_iff_mem_normalizer.mpr (hXnormM hm)
@@ -133,8 +134,8 @@ theorem s16t3_normal_of_cover_of_isSolvable {M C X Y : Subgroup G}
         rw [hsupY1, hsupY] at hmain
         exact hmain
       exact hXab (s16t3_commutator_le_of_subgroupOf hCX htop)
-    · haveI : Group.IsPerfect ↥Y := (Subgroup.isPerfect_iff (H := Y)).mpr hYperf
-      haveI : ((Y ⊓ Y₁).subgroupOf Y).Normal :=
+    · have : Group.IsPerfect ↥Y := (Subgroup.isPerfect_iff (H := Y)).mpr hYperf
+      have : ((Y ⊓ Y₁).subgroupOf Y).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer (inf_le_left : Y ⊓ Y₁ ≤ Y)).mpr
           (hYX.trans hNnormX)
       have hdecomp : ∀ y : ↥Y,
@@ -144,7 +145,7 @@ theorem s16t3_normal_of_cover_of_isSolvable {M C X Y : Subgroup G}
         intro y
         have hsupNC : ((Y ⊓ Y₁).subgroupOf X) ⊔ C.subgroupOf X = ⊤ := by
           rw [← Subgroup.subgroupOf_sup hN_le_X hCX, hNC, Subgroup.subgroupOf_self]
-        haveI : (C.subgroupOf X).Normal :=
+        have : (C.subgroupOf X).Normal :=
           (Subgroup.normal_subgroupOf_iff_le_normalizer hCX).mpr hXnormC
         have hyx : (⟨(y : G), hYX y.2⟩ : ↥X)
             ∈ (Y ⊓ Y₁).subgroupOf X ⊔ C.subgroupOf X := by
@@ -182,11 +183,11 @@ theorem s16t3_normal_of_cover_of_isSolvable {M C X Y : Subgroup G}
         obtain ⟨c, hc, hcy⟩ := hdecomp y
         exact ⟨c, hc, hcy⟩
       have hsolC : Group.IsSolvable ↥((Y ⊓ C).subgroupOf Y) := by
-        haveI : Group.IsSolvable ↥(Y ⊓ C) := hYs
+        have : Group.IsSolvable ↥(Y ⊓ C) := hYs
         exact Group.isSolvable_of_isSolvable_injective
           (f := (Subgroup.subgroupOfEquivOfLe (inf_le_left : Y ⊓ C ≤ Y)).toMonoidHom)
           (Subgroup.subgroupOfEquivOfLe (inf_le_left : Y ⊓ C ≤ Y)).injective
-      haveI : Group.IsSolvable ↥((Y ⊓ C).subgroupOf Y) := hsolC
+      have : Group.IsSolvable ↥((Y ⊓ C).subgroupOf Y) := hsolC
       have hsolQ : Group.IsSolvable (↥Y ⧸ (Y ⊓ Y₁).subgroupOf Y) := by
         refine Group.isSolvable_of_surjective
           (f := (QuotientGroup.mk' ((Y ⊓ Y₁).subgroupOf Y)).comp
@@ -198,7 +199,7 @@ theorem s16t3_normal_of_cover_of_isSolvable {M C X Y : Subgroup G}
         exact ⟨⟨c, hc⟩, hcg⟩
       have hN'top : (Y ⊓ Y₁).subgroupOf Y = ⊤ := by
         by_contra hne
-        haveI : Nontrivial (↥Y ⧸ (Y ⊓ Y₁).subgroupOf Y) :=
+        have : Nontrivial (↥Y ⧸ (Y ⊓ Y₁).subgroupOf Y) :=
           QuotientGroup.nontrivial_iff.mpr hne
         exact Group.IsPerfect.not_isSolvable (↥Y ⧸ (Y ⊓ Y₁).subgroupOf Y) hsolQ
       have hYleN : Y ≤ Y ⊓ Y₁ := (Subgroup.subgroupOf_eq_top).mp hN'top

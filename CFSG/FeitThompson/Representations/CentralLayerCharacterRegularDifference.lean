@@ -137,7 +137,7 @@ theorem inflated_leftRegular_character_apply_of_mem (Z : Subgroup L) [Z.Normal] 
     (hx : x ∈ Z) :
     (Representation.leftRegular ℂ (L ⧸ Z)).character (QuotientGroup.mk x) = (Z.index : ℂ) := by
   classical
-  rw [leftRegular_character_apply, if_pos ((QuotientGroup.eq_one_iff x).2 hx),
+  rw [leftRegular_character_apply, ite_eq_left ((QuotientGroup.eq_one_iff x).2 hx),
     Subgroup.index_eq_card]
 
 theorem inflated_leftRegular_character_apply_of_notMem (Z : Subgroup L) [Z.Normal] {x : L}
@@ -320,6 +320,7 @@ theorem centralLayerWeightedChar_eq_regular_sub (x : ↥L) :
     (E := E.subgroupOf L) (fun _ hx => h.Z_le_P hx) h.Z_subgroupOf_le_centralizer
     h.sup_subgroupOf h.free_subgroupOf x
 
+omit [(P.subgroupOf L).Normal] [(Z.subgroupOf L).Normal] in
 theorem isCharacter_centralLayerWeightedChar :
     ∃ W : FDRep ℂ ↥L, FDRep.character W =
       centralLayerWeightedChar (P.subgroupOf L)

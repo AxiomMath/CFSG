@@ -20,7 +20,7 @@ theorem su4_exists_coroot (c : Kˣ) :
     have hc0 : (c : K) ≠ 0 := c.ne_zero
     simp only [torusRatio, Fin.prod_univ_two, Fin.prod_univ_zero, mul_one, Matrix.cons_val_zero,
       Matrix.cons_val_one, Units.val_inv_eq_inv_val, map_inv₀, div_eq_mul_inv]
-    field_simp <;> ring
+    field_simp
   obtain ⟨g, -, hg⟩ := torusMat_mem_hypSU h ![c, c⁻¹] (d := (![] : Fin 0 → Kˣ))
     (fun k => k.elim0) hp
   exact ⟨g, hg⟩
@@ -118,7 +118,7 @@ private noncomputable def su4Diag2Hom_D04 :
     apply Subtype.ext
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [su4Diag2, Matrix.SpecialLinearGroup.coe_one, Matrix.diagonal_apply, Matrix.one_apply]
+      simp [su4Diag2, Matrix.SpecialLinearGroup.coe_one]
   map_mul' c d := by
     apply Subtype.ext
     show (↑(su4Diag2 h (c * d)) : Matrix (Fin 2) (Fin 2) h.fixedField) =
@@ -144,8 +144,7 @@ private theorem su4Diag2Hom_D04_injective : Function.Injective (su4Diag2Hom_D04 
   intro c d hcd
   have hh := congrArg (fun A : Matrix.SpecialLinearGroup (Fin 2) h.fixedField =>
     (A : Matrix (Fin 2) (Fin 2) h.fixedField) 1 1) hcd
-  simp only [su4Diag2Hom_D04, su4Diag2, Matrix.diagonal_apply_eq, Matrix.cons_val_one,
-    Matrix.cons_val_zero] at hh
+  simp only [su4Diag2Hom_D04] at hh
   exact Units.ext hh
 
 private theorem slMat_su4Diag2_D04 (c' : h.fixedFieldˣ) :
@@ -156,7 +155,7 @@ private theorem slMat_su4Diag2_D04 (c' : h.fixedFieldˣ) :
     Matrix.diagonal ![((c'⁻¹ : h.fixedFieldˣ) : h.fixedField), (c' : h.fixedField)] from rfl]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.map_apply, Matrix.diagonal_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+    simp [Matrix.map_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
       Units.val_inv_eq_inv_val, Subfield.coe_inv]
 
 private theorem slMat_su4Diag2_inv_D04 (c' : h.fixedFieldˣ) :
@@ -177,7 +176,7 @@ private theorem levMat_diagonal_D04 {x y : K} :
   ext i j
   rcases ix_cases i with rfl | rfl | rfl | rfl <;>
     rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-    simp [levMat_apply, Matrix.diagonal_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
+    simp [levMat_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
       ie1, ie2, if1, if2]
 
 private theorem torusEntries_su4_D04 {c : Kˣ} (hbar : h.bar (c : K) = c) :
@@ -207,10 +206,7 @@ private theorem su4_mat_identity_D04 {c : Kˣ} {c' : h.fixedFieldˣ}
   ext i j
   rcases ix_cases i with rfl | rfl | rfl | rfl <;>
     rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-    simp [levMat_apply, Matrix.diagonal_mul, Matrix.mul_diagonal, Matrix.diagonal_apply,
-      Matrix.cons_val_zero, Matrix.cons_val_one, ie1, ie2, if1, if2, hc, hc0,
-      mul_inv_cancel₀, inv_mul_cancel₀] <;>
-    field_simp <;> ring
+    simp [levMat_apply, Matrix.diagonal_mul, Matrix.mul_diagonal, ie1, ie2, if1, if2, hc, hc0]
 
 theorem orderOf_levHom_su4Diag2 {c : Kˣ} {c' : h.fixedFieldˣ}
     (hc : ((c' : h.fixedField) : K) = (c : K)) :

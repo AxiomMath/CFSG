@@ -28,7 +28,7 @@ theorem le_of_inf_sylow_le {H N S Q X : Subgroup G} (hS : IsSylowTwoOf S H) (hNH
     refine (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mpr fun x hx => ?_
     rw [Subgroup.mem_normalizer_iff]
     intro y
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     rw [Subgroup.mem_normalizer_iff.mp (hHQ (hNH hx)) y,
       Subgroup.mem_normalizer_iff.mp (hHN (hNH hx)) y]
   exact (le_of_isSylowTwoOf_normal hQN hQNn hXN hX).trans inf_le_left
@@ -60,7 +60,7 @@ theorem str86_f2_linear {L1 L2 S : Subgroup G} {n : ℕ}
       refine F1.le_normalizer_sup (fun x hx => ?_) hHQ2
       rw [Subgroup.mem_normalizer_iff]
       intro y
-      simp only [SetLike.mem_coe, Subgroup.mem_inf]
+      simp only [Subgroup.mem_inf]
       rw [Subgroup.mem_normalizer_iff.mp (hNn (hHP2 hx)) y,
         Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hx) y]
     rcases eq_or_eq_sup_of_normal_of_isL2Quot hF.toW hn hL2 hK hKn le_sup_right with h | h
@@ -123,7 +123,7 @@ theorem str86_f2_unitary {L1 L2 S : Subgroup G} {k : ℕ}
     refine F1.le_normalizer_sup (fun x hx => ?_) hHQ1
     rw [Subgroup.mem_normalizer_iff]
     intro y
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     rw [Subgroup.mem_normalizer_iff.mp (hNn (hHP1 hx)) y,
       Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hx) y]
   have hQK : pCoreOf 2 (L1 ⊔ Q1 L1 L2 S) ≤ (N ⊓ (L1 ⊔ Q1 L1 L2 S)) ⊔ Q1 L1 L2 S :=

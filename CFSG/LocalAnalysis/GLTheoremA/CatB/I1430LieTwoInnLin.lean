@@ -26,7 +26,7 @@ private theorem componentsNoA6_projectiveSL {n : ℕ} (hn : 2 ≤ n) {k : Type} 
   refine ⟨fun ψ => ?_⟩
   obtain ⟨A, rfl⟩ := LinearFlag.mem_linearAutGroup_iff.1
     (innAutDerived_projectiveSL_le_linearAutGroup hn hβ)
-  haveI : CharP k 2 :=
+  have : CharP k 2 :=
     finite_field_prime_power_characteristic Nat.prime_two (le_refl 1) (by rw [hk]; norm_num)
   have hpk : ((3 : ℕ) : k) ≠ 0 := fun h0 => by
     have h23 := (CharP.cast_eq_zero_iff k 2 3).1 h0
@@ -81,7 +81,7 @@ private theorem componentsNoA6_primeFormP {q : TauCeti.PrimePower} {r : ℕ} {K 
 
 theorem i1430InnNoA_proved : I1430InnNoA := by
   rintro S _ _ hS hnc ⟨d, hv⟩ ⟨n, q, rfl⟩ hc hf ⟨e⟩ α hα hα3 hα1
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hk : Nat.card (GaloisField q.p q.exponent) = 2 := by
     rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', ← TauCeti.PrimePower.card_def]
     exact hf

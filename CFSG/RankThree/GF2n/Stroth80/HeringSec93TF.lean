@@ -23,6 +23,7 @@ abbrev Xhat (M Q B : Subgroup G) (h : G) : Subgroup G :=
 abbrev Fhat (M Q B : Subgroup G) (h : G) : Subgroup G :=
   inSubgroup (pCore 2) (Xhat M Q B h)
 
+omit [Finite G] in
 theorem card_Z_facts (hc : Ctx M Q Z B) : (∃ e : ℕ, Nat.card Z = 2 ^ e) ∧ 4 ≤ Nat.card Z := by
   obtain ⟨e, -, he, -⟩ := hc.hyp.cp
   exact ⟨⟨e, he⟩, hc.hyp.q4⟩
@@ -61,6 +62,7 @@ theorem pCoreIn_conj_LB_eq (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ
   have := conj_LB_eq_of_forall_comm_mem_Z hc' hfM (h2 f hf)
   rwa [hLconj] at this
 
+omit [Finite G] in
 theorem card_Xhat (hc : Ctx M Q Z B) {h : G}
     (hq : QuotSat (Xhat M Q B h) (Fhat M Q B h) (IsSLModel 2 (Nat.card Z))) :
     Nat.card ↥(Xhat M Q B h) =
@@ -68,6 +70,7 @@ theorem card_Xhat (hc : Ctx M Q Z B) {h : G}
   obtain ⟨⟨e, he⟩, h4⟩ := card_Z_facts hc
   exact Smith81.Smith23E1.b2_sl_card (pCoreIn_le _) hq he h4
 
+omit [Finite G] in
 theorem isPGroup_LB_sup_pCoreIn (hc : Ctx M Q Z B) {X : Subgroup G} (hLX : LB M Q B ≤ X) :
     IsPGroup 2 ↥(LB M Q B ⊔ inSubgroup (pCore 2) X) := by
   have hLn : LB M Q B ≤ Subgroup.normalizer (inSubgroup (pCore 2) X : Set G) :=

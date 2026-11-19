@@ -51,7 +51,7 @@ theorem ggNbrLSideRSExc_u2_nonA
     {i : KernelComponent (rootCharHom a)} {Q : ℕ}
     (hP : GGNbrLSideRSExcPSL3 S a i Q) (hA : ¬ L154TypeAClass a i) (hE : ¬ L154E6Class a i) :
     False := by
-  haveI : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by simpa using h2)
+  have : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by simpa using h2)
   obtain ⟨hT, hp3, hne, hqs, hQ4, h3Q, F, hFf, hFin, hFc, ⟨e⟩⟩ := hP
   have hcls : L154Cls S 3 a i := ⟨Nat.prime_three, by norm_num, hT, hp3, hne, hqs⟩
   have hmod : L154ClassModel S i :=

@@ -15,11 +15,12 @@ section TwoModule
 
 variable {G : Type} [Group G] [Finite G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite G] in
 theorem pCore_two_eq_bot (ρ : Representation (ZMod 2) G V) (hρ : Function.Injective ρ)
     [ρ.IsIrreducible] : CFSG.pCore 2 G = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra (ZMod 2) G) ρ.asModule
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra (ZMod 2) G) ρ.asModule
   have hfix : fixV ρ (CFSG.pCore 2 G) ≠ ⊥ := UC46.fixV_ne_bot_of_pGroup (ρ := ρ) (CFSG.pCore_isPGroup)
   let R : Subrepresentation ρ :=
     ⟨fixV ρ (CFSG.pCore 2 G), fun g v hv n hn => by
@@ -45,9 +46,10 @@ theorem pCore_two_eq_bot (ρ : Representation (ZMod 2) G V) (hρ : Function.Inje
     have hv : v ∈ fixV ρ (CFSG.pCore 2 G) := by rw [htop']; trivial
     exact hv n hn
 
+omit [Finite V] in
 theorem odd_card_center_of_irreducible_two (ρ : Representation (ZMod 2) G V)
     (hρ : Function.Injective ρ) [ρ.IsIrreducible] : Odd (Nat.card (Subgroup.center G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   have h2 : 2 ∣ Nat.card (Subgroup.center G) := by
     rw [Nat.not_odd_iff_even] at hodd
@@ -67,7 +69,7 @@ theorem commutator_eq_bot_of_normalizes_two (hK : CFSG.Open.IsKGroup G) (ρ : Re
     (hq : q.Prime) (hq2 : q ≠ 2) (hq3 : q ≠ 3) {Q : Subgroup G} (hQ : IsPGroup q Q)
     (hDQ : D ≤ normalizer (Q : Set G)) : ⁅D, Q⁆ = ⊥ := by
   by_contra hne
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set R : Subgroup G := ⁅D, Q⁆ with hR
   have hRQ : R ≤ Q := Subgroup.le_normalizer_iff_commutator_le_right.1 hDQ
   have hRp : IsPGroup q R := hQ.to_le hRQ

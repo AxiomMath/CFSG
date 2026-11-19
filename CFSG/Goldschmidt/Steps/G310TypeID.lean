@@ -166,7 +166,7 @@ theorem le_centralizer_typeI
   obtain ⟨P, D, hAP, hcl, h, hmap⟩ := typeI_data hO hS hL hI
   set T : Subgroup M := (P : Subgroup L).map L.subtype with hT
   have hTL : T ≤ L := Subgroup.map_subtype_le _
-  have hT2 : IsPGroup 2 T := P.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := P.isPGroup.map _
   have hTsyl : fusionIsSylowIn 2 T L := fusionIsSylowIn_map P
   have hAT : A ⊓ L ≤ T := fun x hx => ⟨⟨x, hx.2⟩, hAP hx, rfl⟩
   have hRN : R ≤ Subgroup.normalizer (L : Set M) := fun d hd =>

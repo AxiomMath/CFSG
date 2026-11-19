@@ -22,7 +22,7 @@ theorem torusElt_pow (i : Fin Tag.E8.rank) (u : Kˣ) (n : ℕ) :
 
 theorem torus_pow_card_sub_one [Finite K] {t : ModGL Tag.E8 K} (ht : t ∈ torusGroup Tag.E8 K) :
     t ^ (Nat.card K - 1) = 1 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hq : Nat.card K = Fintype.card K := Nat.card_eq_fintype_card
   have hgen : ∀ (i : Fin Tag.E8.rank) (u : Kˣ), (torusElt Tag.E8 K i u) ^ (Nat.card K - 1) = 1 := by
     intro i u
@@ -72,7 +72,7 @@ theorem pow_char_eq_one_of_mem_conjSub {g₀ b : ModGL Tag.E8 K} {α : Fin Tag.E
 
 theorem mem_X2_of_pow_eq_one [Finite K] {b : ModGL Tag.E8 K}
     (hb : b ∈ torusGroup Tag.E8 K ⊔ X2 K) (hbp : b ^ (ringChar K) = 1) : b ∈ X2 K := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hb' : b ∈ ((X2 K ⊔ torusGroup Tag.E8 K : Subgroup (ModGL Tag.E8 K)) :
       Set (ModGL Tag.E8 K)) := by
     rw [sup_comm]

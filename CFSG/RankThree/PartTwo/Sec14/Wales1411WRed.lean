@@ -18,6 +18,7 @@ namespace Wales1411W
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mul_pow_mul_inv_pow_mem {N : Subgroup G} {n s : G} (hn : n ∈ N)
     (hs : s ∈ Subgroup.normalizer (N : Set G)) (j : ℕ) : (n * s) ^ j * (s ^ j)⁻¹ ∈ N := by
   induction j with
@@ -83,6 +84,7 @@ theorem le_sup_of_maximal_two {N S M P : Subgroup G} (hS2 : IsPGroup 2 S)
   rw [hxe]
   exact mul_mem (Subgroup.mem_sup_right hpP) (Subgroup.mem_sup_left hqN)
 
+omit [Finite G] in
 theorem le_sup_inf_centralizer_of_commutator_le {A N R : Subgroup G} (hA3 : IsPGroup 3 A)
     {e : G} (heA : e ∈ A) (hAR : A ≤ Subgroup.normalizer (R : Set G)) (hR3 : ¬ 3 ∣ Nat.card R)
     (hcomm : ⁅R, Subgroup.zpowers e⁆ ≤ N) :
@@ -95,6 +97,7 @@ section Red
 
 variable {A Y : Subgroup G} {e : G}
 
+omit [Finite G] in
 theorem le_centralizer_zpowers (hAab : IsMulCommutative A) (heA : e ∈ A) :
     A ≤ Subgroup.centralizer (Subgroup.zpowers e : Set G) := by
   have hAC : A ≤ Subgroup.centralizer (A : Set G) :=

@@ -29,8 +29,8 @@ theorem twE6D5Core_of_lang
   intro K _ _ σ q hK hσ h2 h3q Fr hFr v _ g0 hg0C hg0 t ht a hap hk hta
   obtain ⟨S, ι, hSq, hSΦ, hT, hinj, hrange, hconj, -, -, -⟩ :=
     exists_langSetup_of_twE6Frame σ hK hσ h2 hFr hg0C hg0 ht hta
-  haveI : CharP K 2 := ringChar.of_eq h2
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := ringChar.of_eq h2
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨Z, R, hZR, hZ, hZc, hR⟩ := hF4 S (fun c => by rw [hSq]; exact hFr c) hSΦ
     (ringChar.eq (AlgebraicClosure K) 2) (by rw [hSq]; exact h3q) hT hap hk
@@ -53,7 +53,7 @@ theorem twE6D5Core_of_lang
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_singleton_iff, key, Subgroup.mem_comap,
       Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff, ← hrange]
     exact ⟨fun h => ⟨MonoidHom.mem_range.2 ⟨c, rfl⟩, h⟩, fun h => h.2⟩
-  · haveI := hZ
+  · have := hZ
     exact isCyclic_of_injective (ι.subgroupComap Z) (hcomap Z)
   · intro x hx
     rw [Subgroup.mem_centralizer_iff]

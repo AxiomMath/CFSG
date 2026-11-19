@@ -71,7 +71,7 @@ theorem kFactCenterFive_of_coverRankFive (hCov : KFactCoverRankFive) : KFactCent
     rw [hzsh, map_mul, hmk, mul_one]
   have hp5 : IsPGroup 5 (Subgroup.center (K ⧸ A)) := by
     rw [hcenter]
-    exact ((S.isPGroup'.map Z.subtype).map mk).to_le hSA
+    exact ((S.isPGroup.map Z.subtype).map mk).to_le hSA
   have hne : Subgroup.center (K ⧸ A) ≠ ⊥ := by
     rw [hcenter]
     intro hbot

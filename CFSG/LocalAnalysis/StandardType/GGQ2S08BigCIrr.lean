@@ -21,7 +21,7 @@ theorem ggQ2s08_bigC_irr (hKG : GGReflClassLargeThree) {V : Type} [AddCommGroup 
     (hdist : ∀ i j, i ≠ j → s i ≠ s j)
     (hncomm : ∀ i j, i ≠ j → (CoxeterMatrix.A ℓ) i j ≠ 2 → s i * s j ≠ s j * s i)
     (hWs : W = Subgroup.closure (Set.range s)) (e : ↥W ≃* Equiv.Perm (Fin (ℓ + 1)))
-    (xv : V) (hx : xv ≠ 0)
+    (xv : V) (_hx : xv ≠ 0)
     (hWfix : ∀ v, (∀ w ∈ W, w v = v) ↔ v ∈ Submodule.span (ZMod 3) {xv})
     (f : V →ₗ[ZMod 3] ZMod 3) (hf : f xv ≠ 0) (hWf : ∀ w ∈ W, ∀ v, f (w v) = f v)
     (r : V ≃ₗ[ZMod 3] V) (hrR : r ∈ R) (hr : GGLinRefl r)

@@ -15,7 +15,7 @@ open CFSG.AGLEmbeddingD2.McLaughlin.OddIndex
 theorem oddIdxRest_su3_isCyclic {F : Type} [Field F] [Finite F] {p f : ℕ} [Fact p.Prime]
     [CharP F p] (hF : Nat.card F = (p ^ f) ^ 2) (hq3 : p ^ f % 3 = 1) (hf : f ≠ 0)
     (X : Subgroup (SU (unitaryInvolution F p f) 3)) (hX : IsPGroup 3 X) : IsCyclic X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : 3 ≠ p := by
     rintro rfl
     rw [Nat.pow_mod, Nat.mod_self, zero_pow hf] at hq3
@@ -27,7 +27,7 @@ theorem oddIdxRest_su3_isCyclic {F : Type} [Field F] [Finite F] {p f : ℕ} [Fac
   have hcyc : IsCyclic (P : Subgroup (StatedSU 3 (p ^ f) F)) :=
     CFSG.ClassicalInvolution.ModelFacts.OddCover.statedSU_three_isCyclic_sylow hF
       (by norm_num) hp3 hre P
-  haveI : IsCyclic (P : Subgroup (StatedSU 3 (p ^ f) F)) := hcyc
+  have : IsCyclic (P : Subgroup (StatedSU 3 (p ^ f) F)) := hcyc
   have hcyc' : IsCyclic (X.map e.toMonoidHom) := Subgroup.isCyclic_of_le hP
   exact (Subgroup.equivMapOfInjective X e.toMonoidHom e.injective).isCyclic.mpr hcyc'
 
@@ -39,7 +39,7 @@ theorem oddIdxRest_su3_conj {F : Type} [Field F] [Finite F] {p f : ℕ} [Fact p.
       Subgroup.normalizer ((Subgroup.zpowers (tSU hF ω) :
         Subgroup (SU (unitaryInvolution F p f) 3)) : Set (SU (unitaryInvolution F p f) 3)) ≤
           N.map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ :=
     CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape.I811.U3.exists_orderOf_three hF hq3
   have hA₀ : Nat.card (Subgroup.zpowers (tSU hF ω)) = 3 := by

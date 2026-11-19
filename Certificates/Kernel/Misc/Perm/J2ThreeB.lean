@@ -80,7 +80,7 @@ theorem gen_eq (k : Nat) :
     C280.genA k = unpack 315 9 (gen (AB 0) (AB 1) k) ∧ CK (gen (AB 0) (AB 1) k) := by
   by_cases h : k = 0
   · subst h
-    exact ⟨by rw [C280.genA, if_pos rfl]; exact hab 0 (by norm_num), cA⟩
+    exact ⟨by rw [C280.genA, ite_eq_left rfl]; exact hab 0 (by norm_num), cA⟩
   · have hb : Nat.beq k 0 = false := by
       cases e : Nat.beq k 0
       · rfl
@@ -88,7 +88,7 @@ theorem gen_eq (k : Nat) :
     have e : gen (AB 0) (AB 1) k = AB 1 := by
       unfold gen
       rw [hb]
-    rw [e, C280.genA, if_neg h]
+    rw [e, C280.genA, ite_eq_right h]
     exact ⟨hab 1 (by norm_num), cB⟩
 
 theorem wd_eq : ∀ w : List Nat,
@@ -170,7 +170,6 @@ theorem parity_eq {J : Nat} (hJ : CK J) {T : List Nat} (hT : ∀ t ∈ T, CK t) 
         if eqA 315 t (unpack 315 9 J) then 1 else 0)
       (fun t => (T.countP fun u => Nat.beq u t) % 2 == if Nat.beq t J then 1 else 0)
       fun t ht => by
-        try simp only []
         rw [hc t ht, eq_eq (hT t ht) hJ]]
 
 theorem checkA_eq {J y : Nat} (hJ : CK J) (hy : CK y) {T : List Nat} (hT : ∀ t ∈ T, CK t) :
@@ -210,7 +209,6 @@ theorem pt_eq {J Zp y p : Nat} {C : List Nat} (hJ : CK J) (hZ : CK Zp) (hy : CK 
   refine any_map_congr C (unpack 315 9)
     (fun c => eqA 315 (compA 315 c (unpack 315 9 y)) (compA 315 (unpack 315 9 p) c))
     (fun c => Nat.beq (pc c y) (pc p c)) fun c hc => ?_
-  try simp only []
   rw [comp_eq (hC c hc) hy, comp_eq hp (hC c hc),
     eq_eq (pc_canon (hC c hc) hy) (pc_canon hp (hC c hc))]
 
@@ -233,7 +231,6 @@ theorem chkB : check89090B () = true := by
       eqA 315 (compA 315 c (unpack 315 9 Y)) (compA 315 cP3.pts[j]! c))
     (fun j => strictB (CertificateChecks.KernelMisc.J2C3.P3P.F j) fun p =>
       ptK I Z Y (conjW.map (wd (AB 0) (AB 1))) p) fun j hj => ?_) hk
-  try simp only []
   have hj' := List.mem_range.1 hj
   rw [strictB_app', p3.2.1 j hj']
   unfold inZ

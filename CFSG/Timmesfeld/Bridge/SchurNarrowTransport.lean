@@ -22,7 +22,7 @@ theorem eq_one_of_mem_odd_of_mem_two {M S : Subgroup X} (hM : Odd (Nat.card M))
 theorem sylow_le_of_odd_index {N : Subgroup X} [N.Normal] (hN : Odd N.index) (S : Sylow 2 X) :
     (S : Subgroup X) ≤ N := by
   intro s hs
-  obtain ⟨n, hn⟩ := S.isPGroup' ⟨s, hs⟩
+  obtain ⟨n, hn⟩ := S.isPGroup ⟨s, hs⟩
   have hsn : s ^ 2 ^ n = 1 := by simpa using congrArg Subtype.val hn
   have hodd : Odd (Nat.card (X ⧸ N)) := by rwa [Subgroup.index] at hN
   have h1 := eq_one_of_pow_two_pow_of_odd hodd (k := QuotientGroup.mk' N s) (n := n)
@@ -60,7 +60,7 @@ theorem sylowBorelData_of_section {M N : Subgroup X} [N.Normal] [(M.subgroupOf N
     have hk : a⁻¹ * b ∈ M.subgroupOf N := QuotientGroup.eq.mp hab
     have hkS : ((a⁻¹ * b : N) : X) ∈ (S : Subgroup X) := by
       simpa using (S : Subgroup X).mul_mem ((S : Subgroup X).inv_mem ha) hb
-    have h1 := eq_one_of_mem_odd_of_mem_two hM S.isPGroup' (Subgroup.mem_subgroupOf.mp hk) hkS
+    have h1 := eq_one_of_mem_odd_of_mem_two hM S.isPGroup (Subgroup.mem_subgroupOf.mp hk) hkS
     have h2 : a⁻¹ * b = 1 := Subtype.ext h1
     exact (inv_mul_eq_one.mp h2)
   have hcen : ∀ a : N, (a : X) ∈ (S : Subgroup X) →

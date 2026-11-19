@@ -139,7 +139,7 @@ theorem isCoatom_of_borel_lt_model {F : Type} [Field F] [Finite F] [CharP F 2]
     have : (MulAut.conj x⁻¹ : projectiveSL 3 F →* projectiveSL 3 F).comp
         (MulAut.conj x : projectiveSL 3 F →* projectiveSL 3 F) = MonoidHom.id _ := by
       ext g
-      simp [MulAut.conj_apply, mul_assoc]
+      simp
     rw [this, Subgroup.map_id]
   rw [← OrderIso.isCoatom_iff Φ P]
   refine isCoatom_of_projUpperTriangular_lt ?_ ?_ ?_
@@ -151,7 +151,7 @@ theorem isCoatom_of_borel_lt_model {F : Type} [Field F] [Finite F] [CharP F 2]
     exact fun h => hne (Φ.injective h)
 
 open CFSG.LocalAnalysis.ComponentInitial.LinearFlag in
-theorem isCoatom_of_borel_lt {Y : Type} [Group Y] [Finite Y] {n : ℕ} (hn : Odd n)
+theorem isCoatom_of_borel_lt {Y : Type} [Group Y] [Finite Y] {n : ℕ} (_hn : Odd n)
     (e : Y ≃* projSL 3 (GaloisField 2 n)) (S : Sylow 2 Y) {P : Subgroup Y} (hP : P ≠ ⊤)
     (hSP : Subgroup.normalizer ((S : Subgroup Y) : Set Y) ≤ P)
     (hne : Subgroup.normalizer ((S : Subgroup Y) : Set Y) ≠ P) : IsCoatom P := by
@@ -228,7 +228,7 @@ theorem ListData189.le_of_isMaxParabolic {Y : Type} [Group Y] [Finite Y] {X Q : 
     (e : ↥X ≃* projSL 3 (GaloisField 2 n))
     (hpar : IsMaxParabolicRankTwo
       ((Subgroup.normalizer ((Q ⊓ X : Subgroup Y) : Set Y) ⊓ X).subgroupOf X)) : Q ≤ X := by
-  haveI := h.normal
+  have := h.normal
   intro σ hσ
   set P : Subgroup ↥X :=
     (Subgroup.normalizer ((Q ⊓ X : Subgroup Y) : Set Y) ⊓ X).subgroupOf X with hP

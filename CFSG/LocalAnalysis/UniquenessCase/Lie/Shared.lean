@@ -22,7 +22,7 @@ variable {X Y : Type} [Group X] [Group Y]
 theorem uc22pwlie_map_map_symm (e : X ≃* Y) (U : Subgroup X) :
     (U.map e.toMonoidHom).map e.symm.toMonoidHom = U := by
   ext z
-  simp [Subgroup.mem_map_equiv]
+  simp
 
 theorem uc22pwlie_mem_map_iff (e : X ≃* Y) (U : Subgroup X) (y : Y) :
     y ∈ U.map e.toMonoidHom ↔ e.symm y ∈ U :=
@@ -60,7 +60,7 @@ end Concl
 theorem uc22pwlie_mem_of_mem_oPi {X : Type} [Group X] [Finite X] {α : Set ℕ} {E : Subgroup X}
     (hE : IsMulCommutative E) {x : X}
     (hx : x ∈ oPi α E) : x ∈ E ∧ ∀ p : ℕ, p.Prime → p ∣ orderOf x → p ∈ α := by
-  haveI := hE
+  have := hE
   let P : Subgroup X :=
     { carrier := {y | y ∈ E ∧ ∀ p : ℕ, p.Prime → p ∣ orderOf y → p ∈ α}
       mul_mem' := by
@@ -100,8 +100,8 @@ theorem uc22pwlie_dvd_two_pow_sub_one {p m' i k : ℕ} (hm' : Odd m') (h1 : p �
 
 theorem uc22pwlie_charP_two {K : Type} [Field K] [Finite K] {n : ℕ} (hK : Nat.card K = 2 ^ n) :
     CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [← Nat.card_eq_fintype_card]; exact hK)
 
 theorem uc22pwlie_ringEquiv_pow {K : Type} [Field K] [Finite K] [CharP K 2] (σ : K ≃+* K) :
@@ -171,7 +171,7 @@ theorem uc22pw_radical_subgroup {C : Type} [Group C] [Finite C] [IsCyclic C] (ho
     ∃ R : Subgroup C, IsCyclic R ∧ Squarefree (Nat.card R) ∧ Odd (Nat.card R) ∧
       (∀ p : ℕ, p.Prime → (p ∣ Nat.card R ↔ p ∣ Nat.card C)) ∧
       ∀ x : C, orderOf x ∣ Nat.card R → x ∈ R := by
-  haveI : IsCyclic (⊤ : Subgroup C) :=
+  have : IsCyclic (⊤ : Subgroup C) :=
     isCyclic_of_surjective (Subgroup.topEquiv : (⊤ : Subgroup C) ≃* C).symm.toMonoidHom
       (Subgroup.topEquiv : (⊤ : Subgroup C) ≃* C).symm.surjective
   have hS : ∀ p ∈ (Nat.card C).primeFactors, p.Prime ∧ p ∣ Nat.card (⊤ : Subgroup C) := fun p hp => by

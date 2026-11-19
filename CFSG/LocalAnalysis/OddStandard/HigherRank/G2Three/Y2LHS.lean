@@ -67,7 +67,7 @@ theorem y2l_hs_rels :
     (Rep.inv_of_invOK hA CFSG.Sporadic.Bridge.HS.baseFacts.invA) hB
     (Rep.inv_of_invOK hB CFSG.Sporadic.Bridge.HS.baseFacts.invB) y2l_hs_check.1
   intro x hx
-  rw [y2l_rels26_eq, Set.mem_setOf_eq] at hx
+  rw [y2l_rels26_eq, Set.mem_ofPred_eq] at hx
   obtain ⟨r, hr, rfl⟩ := List.mem_map.mp hx
   rw [y2l_lift_hsElt]
   exact h _ (List.mem_map_of_mem hr)
@@ -105,14 +105,14 @@ theorem y2l_sylow_of_elts {K Q : Type} [Group K] [Group Q]
     (h7 : ∀ y ∈ y2l_ws7 2, FreeGroup.lift x (FreeGroup.mk y) ≠ 1)
     {P : Type} [Group P] {u v w r s : P} (hP : IsPres26 2 false P u v w r s) (S : Sylow 2 Q) :
     Nonempty (P ≃* S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hx : (![x 0, x 1, x 2, x 3, x 4] : Fin 5 → K) = x := by
     funext i
     fin_cases i <;> rfl
   obtain ⟨hH, hcard⟩ := y2l_isPres26_two (e := false) (u := x 0) (v := x 1) (w := x 2)
     (r := x 3) (s := x 4) (by rw [hx]; exact hrel) (by rw [hx]; exact h7)
-  haveI : Finite Q := Finite.of_equiv _ e.toEquiv
-  haveI : Finite (Sylow 2 Q) :=
+  have : Finite Q := Finite.of_equiv _ e.toEquiv
+  have : Finite (Sylow 2 Q) :=
     Finite.of_injective (fun T : Sylow 2 Q => (T : Set Q)) SetLike.coe_injective
   set H := Subgroup.closure ({x 0, x 1, x 2, x 3, x 4} : Set K)
   have hQ : Nat.card (H.map (e : K →* Q)) = 2 ^ (Nat.card Q).factorization 2 := by

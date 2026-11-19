@@ -214,7 +214,7 @@ theorem eq_of_isElementaryAbelian_of_noOffenders [Finite G] {n : ℕ}
     (hn : 2 ≤ n) {W W₁ W₂ P : Subgroup G} (hW : IsElementaryAbelian 2 W)
     (hW₁₂ : W₁ ⊔ W₂ = W) (hdisj : W₁ ⊓ W₂ = ⊥)
     (hcard₁ : Nat.card W₁ = 2 ^ n) (hcard₂ : Nat.card W₂ = 2 ^ n)
-    (hWP : W ≤ P) (hCP : P ⊓ centralizer (W : Set G) ≤ W)
+    (_hWP : W ≤ P) (hCP : P ⊓ centralizer (W : Set G) ≤ W)
     (hperm : ∀ x ∈ P,
       ((∀ w ∈ W₁, x * w * x⁻¹ ∈ W₁) ∧ (∀ w ∈ W₂, x * w * x⁻¹ ∈ W₂)) ∨
       ((∀ w ∈ W₁, x * w * x⁻¹ ∈ W₂) ∧ (∀ w ∈ W₂, x * w * x⁻¹ ∈ W₁)))
@@ -231,8 +231,8 @@ theorem eq_of_isElementaryAbelian_of_noOffenders [Finite G] {n : ℕ}
     {Y : Subgroup G} (hYP : Y ≤ P) (hY : IsElementaryAbelian 2 Y)
     (hYcard : 2 ^ (2 * n) ≤ Nat.card Y) : Y = W := by
   classical
-  letI : IsElementaryAbelian 2 W := hW
-  letI : IsElementaryAbelian 2 Y := hY
+  let : IsElementaryAbelian 2 W := hW
+  let : IsElementaryAbelian 2 Y := hY
   let C : Subgroup G := Subgroup.centralizer (W : Set G)
   let C₁ : Subgroup G := Subgroup.centralizer (W₁ : Set G)
   let C₂ : Subgroup G := Subgroup.centralizer (W₂ : Set G)
@@ -242,8 +242,8 @@ theorem eq_of_isElementaryAbelian_of_noOffenders [Finite G] {n : ℕ}
   have hW₂_le : W₂ ≤ W := by rw [← hW₁₂]; exact le_sup_right
   have hW₁e : IsElementaryAbelian 2 W₁ := IsElementaryAbelian.of_le hW hW₁_le
   have hW₂e : IsElementaryAbelian 2 W₂ := IsElementaryAbelian.of_le hW hW₂_le
-  letI : IsElementaryAbelian 2 W₁ := hW₁e
-  letI : IsElementaryAbelian 2 W₂ := hW₂e
+  let : IsElementaryAbelian 2 W₁ := hW₁e
+  let : IsElementaryAbelian 2 W₂ := hW₂e
   have hcomm₁₂ : ∀ a ∈ W₁, ∀ b ∈ W₂, a * b = b * a := by
     intro a ha b hb
     exact congrArg Subtype.val (mul_comm' (⟨a, hW₁_le ha⟩ : W) (⟨b, hW₂_le hb⟩ : W))
@@ -325,7 +325,7 @@ theorem eq_of_isElementaryAbelian_of_noOffenders [Finite G] {n : ℕ}
       have hCY_eq : Y ⊓ C = (Y ⊓ C₁) ⊓ (Y ⊓ C₂) := by
         rw [hC_eq]
         ext z
-        simp [and_assoc, and_left_comm, and_comm]
+        simp [and_assoc, and_left_comm]
       have hidx_le : C.relIndex Y ≤ C₁.relIndex Y * C₂.relIndex Y := by
         calc C.relIndex Y = (Y ⊓ C).relIndex Y := by
               rw [inf_comm, Subgroup.inf_relIndex_right]

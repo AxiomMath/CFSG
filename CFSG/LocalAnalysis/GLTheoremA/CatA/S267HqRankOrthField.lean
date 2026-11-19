@@ -54,11 +54,11 @@ theorem six_le_twoLocalRank_of_projOrth_field [Finite K] [FiniteDimensional K V]
       rw [this]
       exact hlast
   have hupol : ∀ i j, i ≠ j → polar Q (u i) (u j) = 0 := fun i j hij =>
-    hvo _ _ (fun h => hij (Fin.ext (by have := congrArg Fin.val h; simp at this <;> omega)))
+    hvo _ _ (fun h => hij (Fin.ext (by have := congrArg Fin.val h; simp at this; omega)))
   have hu0 : ∀ j, polar Q v0 (u j) = 0 := fun j =>
     hvo _ _ (fun h => by have := congrArg Fin.val h; simp at this)
   have hu1 : ∀ j, polar Q v1 (u j) = 0 := fun j =>
-    hvo _ _ (fun h => by have := congrArg Fin.val h; simp at this <;> omega)
+    hvo _ _ (fun h => by have := congrArg Fin.val h; simp at this)
   have hUperp : ∀ x ∈ U, polar Q v0 x = 0 ∧ polar Q v1 x = 0 := by
     intro x hx
     have hle : U ≤ LinearMap.ker (polarBilin Q v0) ⊓ LinearMap.ker (polarBilin Q v1) := by
@@ -92,7 +92,7 @@ theorem six_le_twoLocalRank_of_projOrth_field [Finite K] [FiniteDimensional K V]
     rw [hUdef, finrank_span_eq_card]
     · simp
     · exact vb.linearIndependent.comp _ (fun i j h => Fin.ext (by
-        have := congrArg Fin.val h; simp at this <;> omega))
+        have := congrArg Fin.val h; simp at this; omega))
   have hrefl : LinearMap.BilinForm.IsRefl (polarBilin Q) := fun x y h => by
     rw [polarBilin_apply_apply] at h ⊢
     rw [polar_comm]
@@ -294,9 +294,9 @@ theorem six_le_twoLocalRank_B_field {n : ℕ} (hn : 3 ≤ n) (Q : TauCeti.PrimeP
     (hv : (TauCeti.LieTypeIndex.B n Q).Valid) (hq2 : Q.p ≠ 2) (hr : 3 ≤ Q.exponent) {X : Type}
     [Group X] [Finite X] (φ : X →* (TauCeti.CFSGIndex.lie ⟨.B n Q, hv⟩).Group)
     (hφ : Function.Surjective φ) : 6 ≤ GLATwoLocalRank Q.p X := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   set Fx := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.B n Q, hv⟩)
-  haveI : Finite Fx := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Finite Fx := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hcard : Nat.card Fx = Q.p ^ Q.exponent := by
     rw [CFSG.LieType.SeitzGeneration.card_fixedField_eq]
     simp [TauCeti.ValidLieTypeIndex.characteristic, TauCeti.ValidLieTypeIndex.fieldExponent]
@@ -321,9 +321,9 @@ theorem six_le_twoLocalRank_D_field {n : ℕ} (hn : 4 ≤ n) (Q : TauCeti.PrimeP
     (hv : (TauCeti.LieTypeIndex.D n Q).Valid) (hq2 : Q.p ≠ 2) (hr : 3 ≤ Q.exponent) {X : Type}
     [Group X] [Finite X] (φ : X →* (TauCeti.CFSGIndex.lie ⟨.D n Q, hv⟩).Group)
     (hφ : Function.Surjective φ) : 6 ≤ GLATwoLocalRank Q.p X := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   set Fx := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D n Q, hv⟩)
-  haveI : Finite Fx := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Finite Fx := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hcard : Nat.card Fx = Q.p ^ Q.exponent := by
     rw [CFSG.LieType.SeitzGeneration.card_fixedField_eq]
     simp [TauCeti.ValidLieTypeIndex.characteristic, TauCeti.ValidLieTypeIndex.fieldExponent]
@@ -342,9 +342,9 @@ theorem six_le_twoLocalRank_twistedD_field {n : ℕ} (hn : 4 ≤ n) (Q : TauCeti
     (hv : (TauCeti.LieTypeIndex.twistedD n Q).Valid) (hq2 : Q.p ≠ 2) (hr : 3 ≤ Q.exponent)
     {X : Type} [Group X] [Finite X] (φ : X →* (TauCeti.CFSGIndex.lie ⟨.twistedD n Q, hv⟩).Group)
     (hφ : Function.Surjective φ) : 6 ≤ GLATwoLocalRank Q.p X := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   set Fx := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD n Q, hv⟩)
-  haveI : Finite Fx := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Finite Fx := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hcard : Nat.card Fx = Q.p ^ Q.exponent := by
     rw [CFSG.LieType.SeitzGeneration.card_fixedField_eq]
     simp [TauCeti.ValidLieTypeIndex.characteristic, TauCeti.ValidLieTypeIndex.fieldExponent]

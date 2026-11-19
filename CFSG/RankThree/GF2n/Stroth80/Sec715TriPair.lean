@@ -101,6 +101,7 @@ theorem tri_no_nonzero_sq (hX : Om8Irr8 σX) (β' : X →ₗ[K] X →ₗ[K] (Fin
   have := tri_spin_parity_unique hb he (by omega) fun a => (hC1 a).symm.trans (hC2 a)
   omega
 
+omit [FiniteDimensional K Y] in
 theorem tri_no_equiv_pair (hX : Om8Irr8 σX) {β : X →ₗ[K] Y →ₗ[K] (Fin 4 ⊕ Fin 4 → K)}
     (hβ : IsEquivBil σX σY β) (hβ0 : β ≠ 0) :
     ¬ ∃ e : X ≃ₗ[K] Y, ∀ (g : Om8 K) (x : X), e (σX g x) = σY g (e x) := by
@@ -116,6 +117,7 @@ theorem tri_no_equiv_pair (hX : Om8Irr8 σX) {β : X →ₗ[K] Y →ₗ[K] (Fin 
   have h4 := LinearMap.congr_fun₂ h3 x x'
   simpa using h4
 
+omit [FiniteDimensional K X] in
 theorem tri_no_equiv_nat_left (hY : Om8Irr8 σY) {β : X →ₗ[K] Y →ₗ[K] (Fin 4 ⊕ Fin 4 → K)}
     (hβ : IsEquivBil σX σY β) (hβ0 : β ≠ 0) :
     ¬ ∃ e : X ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K),
@@ -134,6 +136,7 @@ theorem tri_no_equiv_nat_left (hY : Om8Irr8 σY) {β : X →ₗ[K] Y →ₗ[K] (
   exact tri_not_isSpinWt_single (bil_ne_zero_of_isUnit_two_mul h3
     (by rw [hb₀]; exact isUnit_one)) e' ((hC1 _).1 hmem)
 
+omit [FiniteDimensional K Y] in
 theorem tri_no_equiv_nat_right (hX : Om8Irr8 σX) {β : X →ₗ[K] Y →ₗ[K] (Fin 4 ⊕ Fin 4 → K)}
     (hβ : IsEquivBil σX σY β) (hβ0 : β ≠ 0) :
     ¬ ∃ e : Y ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K),
@@ -185,6 +188,7 @@ theorem tri_pair_data (hX : Om8Irr8 σX) (hY : Om8Irr8 σY)
     hjX hYNF hYt hjY (nf_natRep hK) (fun a => mem_natWts) β hβ hβ0
   exact ⟨CX, CY, bX, bY, b₀, e, l, hXNF, hYNF, hb₀, he, hCX, hCY, hl, hβl⟩
 
+omit [FiniteDimensional K X] [FiniteDimensional K Y] in
 theorem tri_pair_unique (hB : NFIsoStatement)
     {CX CY : Finset (Fin 4 → ZMod (Nat.card Kˣ))} {bX : (Fin 4 → ZMod (Nat.card Kˣ)) → X}
     {bY : (Fin 4 → ZMod (Nat.card Kˣ)) → Y} {b₀ : ZMod (Nat.card Kˣ)} {e : ℕ}

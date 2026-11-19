@@ -23,12 +23,12 @@ abbrev psimpleOf (p : ℕ) (H : Type) [Group H] : Type :=
   carrier := {x | δ x = x}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 @[expose] def relOfAut (p : ℕ) {H : Type} [Group H] (δ : MulAut H) :

@@ -74,7 +74,7 @@ lemma aux_planeLin_action {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
   simp only [Fintype.linearCombination_apply, Fin.sum_univ_two, Matrix.cons_val_zero,
     Matrix.cons_val_one, Matrix.cons_val_fin_one]
   rw [map_add, map_smul, map_smul, aux_p_apply_apply hp v]
-  simp only [aux_planeLin_apply, Fin.isValue, Fin.reduceEq, if_true, if_false, smul_neg]
+  simp only [aux_planeLin_apply, Fin.isValue, Fin.reduceEq, ite_true, ite_false, smul_neg]
   module
 
 lemma aux_plane_invariant {V : Type} [AddCommGroup V] [Module (ZMod 3) V]

@@ -22,10 +22,10 @@ theorem y7c_mulAut_fix_le_two {F : Type} [Group F] [Finite F] (hF : IsE 3 F)
     (Dh : Subgroup (MulAut F)) (hD : Nat.card Dh = 8) :
     Nat.card {w : F // ∀ φ ∈ Dh, φ w = w} ≤ 2 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   by_contra hleS
   have hS : 2 < Nat.card {w : F // ∀ φ ∈ Dh, φ w = w} := not_le.mp hleS
-  haveI : Fintype {w : F // ∀ φ ∈ Dh, φ w = w} := Fintype.ofFinite _
+  have : Fintype {w : F // ∀ φ ∈ Dh, φ w = w} := Fintype.ofFinite _
   let oneS : {w : F // ∀ φ ∈ Dh, φ w = w} := ⟨1, fun φ _ => map_one φ⟩
   let S1 := {x : {w : F // ∀ φ ∈ Dh, φ w = w} // x ≠ oneS}
   have hS1card : Nat.card S1 = Nat.card {w : F // ∀ φ ∈ Dh, φ w = w} - 1 := by
@@ -68,7 +68,7 @@ theorem y7c_mulAut_fix_le_two {F : Type} [Group F] [Finite F] (hF : IsE 3 F)
         = (t.offDiag : Set (F × F)) := by
       ext p
       rw [Finset.coe_offDiag, ht]
-      simp only [Set.mem_offDiag, Set.mem_setOf_eq]
+      simp only [Set.mem_offDiag, Set.mem_ofPred_eq]
     rw [hset, Set.ncard_coe_finset, Finset.offDiag_card]
     have htcard : t.card = 7 := by
       have hcard_ne1 : ({x : F | x ≠ 1} : Set F).ncard = 7 := by

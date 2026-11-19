@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W] {A : Subgroup (MulAut W)} {t : MulAut W}
 
+omit [Finite W] in
 private theorem w16g_commSub_sup_left (D M : Subgroup W) (X : Subgroup (MulAut W)) :
     commSub (D ⊔ M) X = commSub D X ⊔ commSub M X := by
   apply le_antisymm
@@ -54,6 +55,7 @@ private theorem w16g_commSub_stable_of_commute {M : Subgroup W} {X : Subgroup (M
   rw [h]
   exact ⟨u, hu, rfl⟩
 
+omit [Finite W] in
 private theorem w16g_fixV_stable_of_commute {X : Subgroup (MulAut W)} {c : MulAut W}
     (hc : ∀ x ∈ X, c * x = x * c) : ∀ u ∈ fixV X, c u ∈ fixV X := by
   intro u hu
@@ -289,7 +291,7 @@ theorem s13_2_three_rank8 (h : Cfg133 A t 3)
     rw [hP'card, hcardP] at h1
     omega
   have hNcomm : ∀ a b : ↥N, a * b = b * a := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcard : Nat.card ↥N = 3 ^ 2 := by rw [hNcard]; norm_num
     exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (G := ↥N) hcard).is_comm.comm
   have hNpow : ∀ a : ↥N, a ^ 3 = 1 := by
@@ -302,7 +304,7 @@ theorem s13_2_three_rank8 (h : Cfg133 A t 3)
     rw [h1] at h2
     simpa using h2.symm
   have hN9 : IsElemAbelianOfRank 3 2 ↥N := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact w16g_isElemAbelianOfRank_of_card (p := 3) (n := 2) hNcomm hNpow
       (by rw [hNcard]; norm_num)
   have hNP : N ≤ P := inf_le_left

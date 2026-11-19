@@ -72,18 +72,22 @@ def vU (ω : K) : Fin 3 → K := ![1, ω, ω ^ 2]
 def T (ω c : K) : Matrix (Fin 3) (Fin 3) K :=
   1 + c • Matrix.vecMulVec (vU ω) (vU ω)
 
+omit [CharP K 2] in
 theorem cube_eq_one_of_root {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : ω ^ 3 = 1 := by
   linear_combination (ω - 1) * hω
 
+omit [CharP K 2] in
 theorem vU_dot_vU {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : (vU ω) ⬝ᵥ (vU ω) = 0 := by
   have h3 := cube_eq_one_of_root (K := K) hω
   simp only [vU, dotProduct, Fin.sum_univ_three, Matrix.cons_val_zero, Matrix.cons_val_one,
     Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
   linear_combination hω + ω * h3
 
+omit [CharP K 2] in
 theorem T_zero (ω : K) : T ω 0 = 1 := by
   simp [T]
 
+omit [CharP K 2] in
 theorem T_mul {ω a b : K} (hω : ω ^ 2 + ω + 1 = 0) :
     T ω a * T ω b = T ω (a + b) := by
   set M : Matrix (Fin 3) (Fin 3) K := Matrix.vecMulVec (vU ω) (vU ω) with hM
@@ -98,7 +102,7 @@ theorem T_mul {ω a b : K} (hω : ω ^ 2 + ω + 1 = 0) :
   simp only [T, ← hM]
   rw [Matrix.add_mul, Matrix.mul_add, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one, hkey,
     hMM, smul_zero, add_zero, add_smul]
-  simp only [one_mul, Matrix.one_mul]
+  simp only [one_mul]
   abel
 
 theorem T_det {ω c : K} (hω : ω ^ 2 + ω + 1 = 0) : (T ω c).det = 1 := by
@@ -115,6 +119,7 @@ theorem T_det {ω c : K} (hω : ω ^ 2 + ω + 1 = 0) : (T ω c).det = 1 := by
   have h := CFSG.LieType.BorelTits.det_one_add_of_isNilpotent (F := K) 2 hnil
   simpa only [T, ← hM] using h
 
+omit [CharP K 2] in
 theorem T_conjTr (σ : K ≃+* K) {ω c : K} (hσω : σ ω = ω) :
     conjTr σ (T ω c) = T ω (σ c) := by
   have hσω2 : σ (ω ^ 2) = ω ^ 2 := by rw [map_pow, hσω]
@@ -123,6 +128,7 @@ theorem T_conjTr (σ : K ≃+* K) {ω c : K} (hσω : σ ω = ω) :
     simp [T, vU, conjTr, Matrix.map_apply, Matrix.vecMulVec, hσω, hσω2]
   all_goals exact Or.inl (mul_comm _ _)
 
+omit [CharP K 2] in
 theorem cycMat_mul_T {ω c : K} (hω : ω ^ 2 + ω + 1 = 0) :
     (cycMat (F := K)) * T ω c * (cycMat (F := K))ᵀ = T ω (ω * c) := by
   have h3 := cube_eq_one_of_root (K := K) hω
@@ -285,7 +291,7 @@ theorem cycSU_mul_xOddSU :
       !![-1, 0, 0; 0, -1, 0; 0, 0, 1]) * cycMat (F := K)
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [cycMat, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [cycMat, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem cycSU_mul_yOddSU :
     cycSU σ * yOddSU σ = xOddSU σ * cycSU σ := by
@@ -295,7 +301,7 @@ theorem cycSU_mul_yOddSU :
     (!![1, 0, 0; 0, -1, 0; 0, 0, -1] : Matrix (Fin 3) (Fin 3) K) * cycMat (F := K)
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [cycMat, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [cycMat, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem exists_inspPair_cycSUid_odd (h2 : (2 : K) ≠ 0) :
     ∃ S : Subgroup (SUid σ 3), InspPair 2 (Subgroup.zpowers (cycSU σ)) S := by
@@ -343,7 +349,7 @@ theorem xEvenSU_ne_one : xEvenSU σ ω hω hσω ≠ 1 := by
   have h00 := congrFun (congrFun (congrArg (fun z : SUid σ 3 =>
     ((z : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) h) 0) 0
   have h00' : (1 : K) + 1 = 1 := by
-    simpa [xEvenSU, T, vU, Matrix.vecMulVec] using h00
+    simp [xEvenSU, T, vU, Matrix.vecMulVec] at h00
   rw [CharTwo.add_self_eq_zero] at h00'
   exact zero_ne_one h00'
 
@@ -366,6 +372,7 @@ theorem xEvenSU_ne_yEvenSU : xEvenSU σ ω hω hσω ≠ yEvenSU σ ω hω hσω
   have hw : ω = 0 := by linear_combination hω - h00'.symm
   exact cube_root_ne_zero hω hw
 
+omit [CharP K 2] in
 theorem cycMat_transpose_mul : (cycMat (F := K))ᵀ * cycMat (F := K) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [cycMat, Matrix.mul_apply, Fin.sum_univ_three]
@@ -490,7 +497,7 @@ theorem exists_conj_SUid (σ : F ≃+* F) (hσσ : ∀ c : F, σ (σ c) = c) {ω
       (g : Matrix (Fin 3) (Fin 3) F) = 1 := by
     have hgval : (g : Matrix (Fin 3) (Fin 3) F) =
         B * ((Gg⁻¹ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) := by
-      simp [g, Bg, Matrix.GeneralLinearGroup.coe_mul, Matrix.GeneralLinearGroup.coe_inv]
+      simp [g, Bg]
     rw [hgval]
     exact conjTr_mul_right_inv σ hBanti hBcanti
       (by rw [← conjTr_mul, hBcBi, conjTr_one]) hBcBi
@@ -522,6 +529,7 @@ section CubeFacts
 
 variable {K : Type} [Field K] [Fintype K] {p f : ℕ} [Fact p.Prime] [CharP K p]
 
+omit [Fintype K] [Fact (Nat.Prime p)] [CharP K p] in
 theorem suid_cube_facts (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ p ^ f)
     (hq : p ^ f % 3 = 1) {d : SUid σ 3} (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1) :
     ((d : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *
@@ -562,7 +570,7 @@ theorem suid_cube_facts (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ p ^ f)
       ext i j
       by_cases hij : i = j
       · subst hij; simp [conjTr]
-      · simp [conjTr, Matrix.one_apply, hij, Ne.symm hij]
+      · simp [conjTr, hij, Ne.symm hij]
     have e2 : (σ c • (1 : Matrix (Fin 3) (Fin 3) K)) *
         (c • (1 : Matrix (Fin 3) (Fin 3) K)) =
         (σ c * c) • (1 : Matrix (Fin 3) (Fin 3) K) := by
@@ -620,8 +628,7 @@ theorem inspPair_suid_of_std (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ p ^ f
   have hφC : φ (cycSU σ) = d := by
     apply Subtype.ext
     dsimp only [φ]
-    simp only [MulEquiv.trans_apply, Subgroup.coe_equivMapOfInjective_apply,
-      MulEquiv.subgroupCongr_apply]
+    simp only [MulEquiv.trans_apply, MulEquiv.subgroupCongr_apply]
     change g * (cycSU σ : GL (Fin 3) K) * g⁻¹ = (d : GL (Fin 3) K)
     rw [hgconj]
     exact Units.ext rfl
@@ -641,8 +648,8 @@ theorem insp2L3_psu (G : Type) [Group G] [Finite G] (p f : ℕ) (hq : p ^ f % 3 
   rcases hL with ⟨-, ⟨-, K, hKf, hKfin, hK, ⟨e⟩⟩⟩ | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩
   · have hp : p.Prime := hadm.1
     have hf : 1 ≤ f := hadm.2.1
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fact p.Prime := ⟨hp⟩
+    have : Fintype K := Fintype.ofFinite K
     have hKc : CharP K p :=
       charP_of_card_eq_prime_pow (f := 2 * f)
         (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, mul_comm])

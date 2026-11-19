@@ -69,7 +69,7 @@ theorem expand_inv (P : ℕ → Prop) (moves : List (ℕ → ℕ)) (hm : ∀ f �
       (hm f (hms f (List.mem_cons_self)) x hx)
     exact ih (fun g hg => hms g (List.mem_cons_of_mem _ hg)) _ _ h1.1 h1.2
 
-theorem expand_mono (moves : List (ℕ → ℕ)) (x : ℕ) :
+theorem expand_mono (_moves : List (ℕ → ℕ)) (x : ℕ) :
     ∀ (ms : List (ℕ → ℕ)) (q : List ℕ) (seen : HashSet ℕ) (y : ℕ), y ∈ seen →
       y ∈ (ms.foldl (fun acc f => pushNew acc.2 acc.1 (f x)) (q, seen)).2 := by
   intro ms

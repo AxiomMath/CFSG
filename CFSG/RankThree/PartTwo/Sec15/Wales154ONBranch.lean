@@ -117,6 +117,7 @@ theorem eq_inf_sup_of_trivial_point (h134 : Item134) (h48 : Sec4.Item4_8) (h142 
     hZ.1.2 hZΔ heA htriv
   exact Proof1515.eq_inf_sup_pPrimeCoreOf_of_item142 hR' (h142 G A e Le hR') h3 hnot hZ hdec
 
+omit [Finite G] in
 theorem card_quot_dvd_of_eq_inf_sup {Z M : Subgroup G}
     (hdec : Z = (Z ⊓ M) ⊔ pPrimeCoreOf 3 Z) :
     Nat.card (↥Z ⧸ CFSG.pPrimeCore 3 ↥Z) ∣ Nat.card (Z ⊓ M : Subgroup G) := by

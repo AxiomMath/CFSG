@@ -256,9 +256,9 @@ theorem exists_noncomm [CharP F 2] (j : Fin 2) {l : Fˣ} (hl : l ≠ 1) :
         diagonal_injective.eq_iff]
       ext i
       fin_cases i
-      · simp [Pi.mul_apply]
+      · simp
         linear_combination (-(l : F)) * hli'
-      · simp [Pi.mul_apply]
+      · simp
     · intro h
       have := congrFun₂ (congrArg spMat h) (Sum.inl 0) (Sum.inr 1)
       rw [spMat_mul, spMat_mul, spMat_leviSp_one, spMat_upperUnipotentSp,

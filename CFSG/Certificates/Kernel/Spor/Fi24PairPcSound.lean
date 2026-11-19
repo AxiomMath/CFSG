@@ -284,7 +284,7 @@ theorem relOK_of_pcCk (h : ∀ g < n * n, pcCk NV net xs ps pw cj n g = true) :
   simp only [andB_eq, Bool.and_eq_true] at hhd ⊢
   exact ⟨hhd.1, ⟨hhd.2.1, hhd.2.2, hcj⟩⟩
 
-theorem prod_mem_pcSub (hrel : ∀ j < n, relOK NV net xs ps pw cj n j = true)
+theorem prod_mem_pcSub (_hrel : ∀ j < n, relOK NV net xs ps pw cj n j = true)
     {i : Nat} {r : List Nat} (hr : ∀ m ∈ r, i ≤ m ∧ m < n) :
     (r.map (xg L xs)).prod ∈ pcSub (xg L xs) n i := by
   refine Subgroup.list_prod_mem _ fun g hg => ?_

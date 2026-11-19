@@ -12,7 +12,7 @@ open Section3 CFSG.Monster.GMS
 variable {G G' : Type} [Group G] [Group G'] {a z : G} {a' z' : G'}
 
 theorem cp_card_orb2A (h : F5Std a z) : Nat.card ↥(orb2A a a) = 2200 := by
-  haveI : Finite G := h.finite
+  have : Finite G := h.finite
   have hpart : IsConjOrbit (Gx a) (orb2A a a) := by
     simpa [tab5Set] using h.loc.tableV.self.partition.orbit 0
   obtain ⟨c, hc⟩ := hpart.nonempty
@@ -24,8 +24,8 @@ theorem cp_card_orb2A (h : F5Std a z) : Nat.card ↥(orb2A a a) = 2200 := by
 
 theorem cp_card_conjVert_eq (h : F5Std a z) (h' : F5Std a' z') :
     Nat.card (ConjVert a) = Nat.card (ConjVert a') := by
-  haveI : Finite G := h.finite
-  haveI : Finite G' := h'.finite
+  have : Finite G := h.finite
+  have : Finite G' := h'.finite
   have h1 := card_isConj_mul_card_centralizer (G := G) a
   have h2 := card_isConj_mul_card_centralizer (G := G') a'
   rw [card_Gx_a h] at h1

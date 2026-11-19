@@ -283,10 +283,10 @@ theorem e9Move_projSU44 : E9Move (projSU 4 2 2) :=
   (e9Move_quotient ZU (by rw [card_ZU]; norm_num) e9Move_U).of_mulEquiv projEquiv
 
 theorem rankTwo_projSU44 : RankTwoData (projSU 4 2 2) := by
-  haveI : Finite (projSU 4 2 2) := Nat.finite_of_card_ne_zero (by rw [card_projSU]; norm_num)
+  have : Finite (projSU 4 2 2) := Nat.finite_of_card_ne_zero (by rw [card_projSU]; norm_num)
   refine ⟨cubeInner_of_not_three_dvd_card_outer
     Item434SmallTwoOther.U44.not_three_dvd_card_outer_U44, fun E hE => ?_, ?_⟩
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hp : IsPGroup 3 E := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 _ g.2)⟩
     obtain ⟨k, hk⟩ := hp.exists_card_eq
     have hd : 3 ^ k ∣ Nat.card (projSU 4 2 2) := hk ▸ Subgroup.card_subgroup_dvd_card E
@@ -321,7 +321,7 @@ section Row
 
 theorem rowOf427_su44
     : RowOf427 (projSU 4 2 2) := by
-  haveI : Finite (projSU 4 2 2) := Nat.finite_of_card_ne_zero (by rw [card_projSU]; norm_num)
+  have : Finite (projSU 4 2 2) := Nat.finite_of_card_ne_zero (by rw [card_projSU]; norm_num)
   refine rowOf427_of_e9Move ?_ rankTwo_projSU44
     (fun S _ _ ⟨e⟩ => e9Move_projSU44.of_mulEquiv e) (by rw [card_projSU]; norm_num)
   intro L _ _ hSL hL hZ3 ⟨e'⟩

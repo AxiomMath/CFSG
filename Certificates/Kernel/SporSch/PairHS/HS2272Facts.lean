@@ -66,29 +66,29 @@ theorem LP_rep (k : Nat) : RepF 3850 (LP k) (gP k) := by
   unfold lp gP
   simp only [nIf_eq, beq_dec, decide_eq_true_eq]
   by_cases h0 : k % 4 = 0
-  · simp only [h0, if_true]
+  · simp only [h0, ite_true]
     exact (a_rep 0 (by norm_num)).1
   by_cases h1 : k % 4 = 1
-  · simp only [h1, if_true, show (1 : Nat) ≠ 0 by norm_num, if_false]
+  · simp only [h1, ite_true, show (1 : Nat) ≠ 0 by norm_num, ite_false]
     exact (a_rep 0 (by norm_num)).2
   by_cases h2 : k % 4 = 2
-  · simp only [h2, if_true, show (2 : Nat) ≠ 0 by norm_num, show (2 : Nat) ≠ 1 by norm_num,
-      if_false]
+  · simp only [h2, ite_true, show (2 : Nat) ≠ 0 by norm_num, show (2 : Nat) ≠ 1 by norm_num,
+      ite_false]
     exact (a_rep 1 (by norm_num)).1
-  · simp only [h0, h1, h2, if_false]
+  · simp only [h0, h1, h2, ite_false]
     exact (a_rep 1 (by norm_num)).2
 
 theorem gP_inv (k : Nat) : gP (ivL k) = (gP k)⁻¹ := by
   rw [ivL_eq]
   have hk := Nat.mod_lt k (show 0 < 4 by norm_num)
   by_cases h2 : k % 2 = 0
-  · rw [if_pos h2]
+  · rw [ite_eq_left h2]
     have e : (k + 1) % 4 = k % 4 + 1 := by omega
     have h4 : k % 4 = 0 ∨ k % 4 = 2 := by omega
     unfold gP
     rw [e]
     rcases h4 with h | h <;> simp [h]
-  · rw [if_neg h2]
+  · rw [ite_eq_right h2]
     have e : (k - 1) % 4 = k % 4 - 1 := by omega
     have h4 : k % 4 = 1 ∨ k % 4 = 3 := by omega
     unfold gP
@@ -293,7 +293,7 @@ theorem tbl_inner {k j : Nat} (hj : j < 22) (hk : (bndAt j).1 = k) (ho : (bndAt 
     (hk43 : k < 43) : T k ∈ hsP := by
   have := bnd_eq hj (hk ▸ hk43)
   rw [ho, hk] at this
-  simp only [Bool.false_eq_true, if_false] at this
+  simp only [Bool.false_eq_true, ite_false] at this
   rw [this]
   exact E_mem' (valid_parts.1 j hj)
 
@@ -301,7 +301,7 @@ theorem tbl_outer {k j : Nat} (hj : j < 22) (hk : (bndAt j).1 = k) (ho : (bndAt 
     (hk43 : k < 43) : T k ∈ hsR ∧ T k ∉ hsP := by
   have := bnd_eq hj (hk ▸ hk43)
   rw [ho, hk] at this
-  simp only [if_true] at this
+  simp only [ite_true] at this
   rw [this]
   have hE := E_mem' (valid_parts.1 j hj)
   refine ⟨mul_mem (P_le_R hE) U_mem_R, fun h => U_notMem ?_⟩
@@ -334,9 +334,9 @@ theorem LC_rep (r k : Nat) (hr : r < 4) : RepF 3850 (LC r k) (gC r k) := by
   rw [e]
   unfold gC
   by_cases hk : k % 2 = 0
-  · simp only [hk, if_true]
+  · simp only [hk, ite_true]
     exact (T_rep (ct_lt r k hr)).1
-  · simp only [hk, if_false]
+  · simp only [hk, ite_false]
     exact (T_rep (ct_lt r k hr)).2
 
 theorem gC_inv (r k : Nat) : gC r (ivL k) = (gC r k)⁻¹ := by
@@ -491,7 +491,7 @@ theorem class_ge : clsz ri ≤ (conjClass hsP (T (rt ri))).ncard := by
   have h3 := (data_parts hri).2.1
   have h4 := fx_pos ri hri
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have : (conjClass hsP (T (rt ri))).ncard * HSD.fx.getD ri 0 < clsz ri * HSD.fx.getD ri 0 :=
     Nat.mul_lt_mul_of_pos_right hlt h4
   omega
@@ -509,7 +509,7 @@ theorem C_le : CFSG.Sporadic.SmallOddCore.hsC row ≤
   unfold CFSG.Sporadic.SmallOddCore.hsC
   rw [closure_le, Set.image_subset_iff]
   intro x hx
-  simp only [Set.mem_setOf_eq, List.mem_toArray] at hx
+  simp only [Set.mem_ofPred_eq, List.mem_toArray] at hx
   rw [hcg, List.mem_map] at hx
   obtain ⟨j, hj, hxj⟩ := hx
   rw [List.mem_range] at hj
@@ -520,7 +520,7 @@ theorem gC_memC (k : Nat) : gC ri k ∈ CFSG.Sporadic.SmallOddCore.hsC row := by
   obtain ⟨j, hj, e⟩ := ct_spec ri k hri
   have hT : T (cb ri + j) ∈ CFSG.Sporadic.SmallOddCore.hsC row := by
     refine subset_closure ⟨hsCentTbl (cb ri + j), ?_, rfl⟩
-    simp only [Set.mem_setOf_eq, List.mem_toArray]
+    simp only [Set.mem_ofPred_eq, List.mem_toArray]
     rw [hcg, List.mem_map]
     exact ⟨j, List.mem_range.2 hj, rfl⟩
   unfold gC
@@ -589,6 +589,7 @@ theorem witL_spec {y : List Nat} {hm : List Nat × Nat} (h : witL bsR L y hm = t
   refine ⟨wordVal g hm.1, hh, evenOrd_spec faithR bsR_lt (conjProd_rep hL hi y hm.1)
     (hKR (mul_mem hy (mul_mem (mul_mem hh hy) (inv_mem hh)))) h⟩
 
+omit hKR hi hg in
 theorem ne_of_neL {v w : List Nat} (h : neL bsR (wv L v) (wv L w) = true) :
     wordVal g v ≠ wordVal g w := fun e =>
   neL_spec h ((eqOnL_iff _ _ _).1 (eqOnL_of_eq bsR_lt (wv_rep hL v) (e ▸ wv_rep hL w)))
@@ -634,8 +635,8 @@ theorem oddE_nine {e : Nat × List (List Nat) × List (List Nat × Nat)} (h : od
     have := eqR (wv_rep hL (v ++ w)) (wv_rep hL (w ++ v)) (hKR (wordVal_mem hg _))
       (hKR (wordVal_mem hg _)) h6
     rwa [wordVal_append, wordVal_append] at this
-  have n1 := ne_of_neL hKR hL hi hg h7
-  have n2 := ne_of_neL hKR hL hi hg h8
+  have n1 := ne_of_neL hL h7
+  have n2 := ne_of_neL hL h8
   rw [wordVal_append] at n2
   have hnz : wordVal g w ∉ zpowers (wordVal g v) := by
     intro hm
@@ -677,9 +678,9 @@ theorem LS_rep (k : Nat) : RepF 3850 (LS k) (gS k) := by
   rw [e]
   unfold gS
   by_cases h : k % 2 = 0
-  · simp only [h, if_true]
+  · simp only [h, ite_true]
     exact (T_rep hk).1
-  · simp only [h, if_false]
+  · simp only [h, ite_false]
     exact (T_rep hk).2
 
 theorem gS_inv (k : Nat) : gS (ivL k) = (gS k)⁻¹ := by
@@ -696,7 +697,7 @@ theorem gS_inv (k : Nat) : gS (ivL k) = (gS k)⁻¹ := by
 
 theorem sgen_eq : (tp 3850 '' {x | x ∈ hsSylowGenTbls.toArray}) = {T 1, T 2, T 3, T 4} := by
   ext y
-  simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_toArray, hsSylowGenTbls, List.mem_map,
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_toArray, hsSylowGenTbls, List.mem_map,
     List.mem_range, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨x, ⟨i, hi, rfl⟩, rfl⟩
@@ -777,11 +778,11 @@ theorem s_at {i : Nat} (hi : i < 1024) :
   rw [hi0] at this
   have e1 : ((HSD.sw.drop (Nat.mul (Nat.add (Nat.mul (i / 64) 8) ((i / 8) % 8)) 8)).take 8).getD
       (i % 8) [] = HSD.sw.getD i [] := by
-    rw [List.getD_eq_getElem?_getD, List.getElem?_take, if_pos (Nat.mod_lt _ (by norm_num)),
+    rw [List.getD_eq_getElem?_getD, List.getElem?_take, ite_eq_left (Nat.mod_lt _ (by norm_num)),
       List.getElem?_drop, hi0, ← List.getD_eq_getElem?_getD]
   have e2 : ((HSD.sc.drop (Nat.mul (Nat.add (Nat.mul (i / 64) 8) ((i / 8) % 8)) 8)).take 8).getD
       (i % 8) (0, []) = HSD.sc.getD i (0, []) := by
-    rw [List.getD_eq_getElem?_getD, List.getElem?_take, if_pos (Nat.mod_lt _ (by norm_num)),
+    rw [List.getD_eq_getElem?_getD, List.getElem?_take, ite_eq_left (Nat.mod_lt _ (by norm_num)),
       List.getElem?_drop, hi0, ← List.getD_eq_getElem?_getD]
   rwa [e1, e2] at this
 
@@ -851,7 +852,7 @@ theorem eS_mul {i : Nat} (hi : i < 1024) {l : Nat} (hl : l < 4) :
   have hgl : gS (Nat.mul l 2) = T (l + 1) := by
     unfold gS st
     have : Nat.mul l 2 % 2 = 0 := by change l * 2 % 2 = 0; omega
-    rw [if_pos this]
+    rw [ite_eq_left this]
     congr 2
     change (l * 2 / 2) % 4 = l
     omega

@@ -18,11 +18,11 @@ variable {G : Type} [Group G] [Finite G]
 theorem s16c7_quot_isL3 {K : Subgroup G} {Y : Type} [Group Y] (hY : IsL3 Y 1)
     (π : ↥K →* Y) (hπ : Function.Surjective π) (hq : CFSG.Open.IsQuasisimple (Bar2 K)) :
     IsL3 (Bar2 K) 1 ∧ π.ker ≤ CFSG.pCore 2 ↥K := by
-  haveI : Finite Y := Finite.of_surjective π hπ
-  haveI hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 hY
+  have : Finite Y := Finite.of_surjective π hπ
+  have hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 hY
   have hcard : Nat.card Y = 168 := card_eq_of_isL3 hY
   have h1 : CFSG.pCore 2 ↥K ≤ π.ker := by
-    haveI : ((CFSG.pCore 2 ↥K).map π).Normal := Subgroup.Normal.map inferInstance π hπ
+    have : ((CFSG.pCore 2 ↥K).map π).Normal := Subgroup.Normal.map inferInstance π hπ
     have hNp : IsPGroup 2 ((CFSG.pCore 2 ↥K).map π) := IsPGroup.map CFSG.pCore_isPGroup π
     rcases hs.eq_bot_or_eq_top_of_normal ((CFSG.pCore 2 ↥K).map π) with h | h
     · exact (Subgroup.map_eq_bot_iff _).1 h
@@ -47,14 +47,14 @@ theorem s16c7_quot_isL3 {K : Subgroup G} {Y : Type} [Group Y] (hY : IsL3 Y 1)
       rw [← hq']
       exact MonoidHom.mem_ker.1 (htop ▸ Subgroup.mem_top q)
     have : Nat.card Y = 1 := by
-      haveI : Subsingleton Y := ⟨fun a b => (hone a).trans (hone b).symm⟩
+      have : Subsingleton Y := ⟨fun a b => (hone a).trans (hone b).symm⟩
       exact Nat.card_of_subsingleton 1
     omega
   have hcen : π'.ker ≤ Subgroup.center (Bar2 K) :=
     CFSG.ComponentClassification.Quasisimple.normal_le_center_of_ne_top hq π'.ker hne
   have hcyc : ∀ p : ℕ, p.Prime → p ≠ 2 → ∀ P : Subgroup Y, IsPGroup p P → IsCyclic P := by
     intro p hp hp2 P hP
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact isCyclic_of_card_dvd_prime (card_pGroup_dvd_of_isL3 hY hp hp2 hP)
   have h2 : IsPGroup 2 π'.ker := s16c7_isPGroup_two_ker hq.1 π' hcen hcyc
   have hker : π'.ker = ⊥ := by

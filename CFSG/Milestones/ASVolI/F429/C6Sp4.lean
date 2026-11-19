@@ -23,7 +23,7 @@ theorem burnsideF429_card_fiber_le {α : Type*} [Finite α] (σ : F ≃+* F) {l 
   have hc₀ : ∀ p ∈ S, (p.1, c₀ p.1) ∈ S := by
     intro p hp
     have h : ∃ c, (p.1, c) ∈ S := ⟨p.2, hp⟩
-    simp only [c₀, dif_pos h]
+    simp only [c₀, dite_eq_left h]
     exact h.choose_spec
   have hmem₂ : ∀ p ∈ S, l * σ (p.2 - c₀ p.1) = p.2 - c₀ p.1 := by
     intro p hp
@@ -105,6 +105,7 @@ theorem burnsideF429_Sp_conjU_center (A B C D b c : F) :
 
 variable [Finite F]
 
+omit [Finite F] in
 theorem burnsideF429_Sp_bor_decomp {g : antiSp F} (hg : g ∈ bor F) :
     ∃ (s t : Fˣ) (A B C D : F), g = dSp s t * uElt A B C D := by
   obtain ⟨h0, h1, -, -⟩ := upper_diag_ne_zero (upper_of_mem_normalizer hg)
@@ -130,6 +131,7 @@ theorem burnsideF429_Sp_bor_decomp {g : antiSp F} (hg : g ∈ bor F) :
   exact ⟨s, t, A, B, C, D, by rw [← hu]; group⟩
 
 omit [Finite F] in
+omit [CharP F 2] in
 theorem burnsideF429_zero_pow_two_pow (k : ℕ) : (0 : F) ^ 2 ^ k = 0 :=
   zero_pow (pow_ne_zero k two_ne_zero)
 
@@ -269,8 +271,8 @@ theorem burnsideF429_Sp4_model {f : ℕ} (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) 
       pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) = (antiUnipotent F).map (Gp.subtype.comp Ψ.toMonoidHom) ∧
       ∀ r ∈ M₁ ⊓ M₂, ∃ g ∈ bor F, ∃ k : ℕ, ∀ x : antiSp F,
         ((Ψ ((MulAut.conj g * frobAut F ^ k) x) : ↥Gp) : E) = r * ((Ψ x : ↥Gp) : E) * r⁻¹ := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨marking, e1, e2⟩ := burnsideF4g_marking (c := .Sp4) hyp.toHypF_4_4g
   obtain ⟨TD, hTD⟩ := burnsideF4gSp_yam_of_marking_ge marking
   rw [← e1, ← e2] at hTD
@@ -334,8 +336,8 @@ variable {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 
 theorem burnsideF429_c6_Sp4 {f : ℕ} (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) (hf : 2 ≤ f)
     {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : burnsideF429_C6 .Sp4 f Gp M₁ M₂ T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨F, hFf, hFfin, hFchar, Ψ, hFcard, hS, hform⟩ := burnsideF429_Sp4_model hyp hf
   set φ : antiSp F →* E := Gp.subtype.comp Ψ.toMonoidHom with hφdef
   have hφ : Function.Injective φ := Gp.subtype_injective.comp Ψ.injective
@@ -392,7 +394,7 @@ theorem burnsideF429_c6_Sp4 {f : ℕ} (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) (hf
     exact Subgroup.map_mono radA1_le_antiUnipotent
   ·
     intro A hAT hAe hAS
-    obtain ⟨t, htA, htS⟩ := SetLike.not_le_iff_exists.mp hAS
+    obtain ⟨t, htA, htS⟩ := IsConcreteLE.not_le_iff_exists.mp hAS
     have htT := hAT htA
     have htt : t * t = 1 := by rw [← pow_two]; exact hAe.2 t htA
     have htG : t ∉ Gp := fun h => htS (by rw [← hTG]; exact ⟨htT, h⟩)

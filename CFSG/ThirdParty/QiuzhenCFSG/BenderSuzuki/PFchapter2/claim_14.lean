@@ -202,7 +202,7 @@ private lemma claim14_s_mem_centralizer_P
   classical
   let C : Subgroup G := Subgroup.centralizer (P : Set G)
   let ΩP : Type _ := {ω : Ω // ω ∈ fixedPointsOfSubgroup G Ω P}
-  letI : MulAction C ΩP := fixedPointCentralizerAction G Ω P
+  let : MulAction C ΩP := fixedPointCentralizerAction G Ω P
   let HP : Subgroup C := H.comap C.subtype
   let DP : Subgroup C := D.comap C.subtype
   let QP : Subgroup C := Q.comap C.subtype
@@ -408,8 +408,8 @@ private lemma claim14_exists_a3_preimage
         pow_one]
     rw [Subgroup.zpowers_eq_closure] at hzpowers2
     exact hzpowers2
-  letI : Fact (Nat.Prime 2) := ⟨by decide⟩
-  letI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  let : Fact (Nat.Prime 2) := ⟨by decide⟩
+  let : Fact (Nat.Prime 3) := ⟨by decide⟩
   have hdisjoint : Disjoint R1 (Subgroup.closure ({s} : Set G)) :=
     IsPGroup.disjoint_of_ne 3 2 (by decide) R1
       (Subgroup.closure ({s} : Set G)) hR1p hclosure2
@@ -523,7 +523,7 @@ private lemma claim14_pgroup_le_centralizer_of_commutator_eq
   have hnorm_comm :
       Subgroup.normalizer (K : Set G) ≤
         Subgroup.normalizer ((⁅K, K⁆ : Subgroup G) : Set G) := by
-    haveI : (_root_.commutator K).Characteristic := by infer_instance
+    have : (_root_.commutator K).Characteristic := by infer_instance
     have hnorm :=
       claim14_normalizer_le_normalizer_map_subtype_of_characteristic
         K (_root_.commutator K)
@@ -539,13 +539,13 @@ private lemma claim14_pgroup_le_centralizer_of_commutator_eq
   have hAp : IsPGroup 3 A :=
     hR1p.of_surjective autHom.rangeRestrict autHom.rangeRestrict_surjective
   have hZcyclic : IsCyclic Z := by
-    letI : Fact (Nat.Prime 3) := ⟨by decide⟩
+    let : Fact (Nat.Prime 3) := ⟨by decide⟩
     exact isCyclic_of_prime_card hZcard
   have hAutCard : Nat.card (MulAut Z) = 2 := by
     rw [hZcyclic.card_mulAut, hZcard, Nat.totient_prime (by decide)]
   have hA_dvd_two : Nat.card A ∣ 2 := by
     simpa [hAutCard] using A.card_subgroup_dvd_card
-  letI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  let : Fact (Nat.Prime 3) := ⟨by decide⟩
   obtain ⟨k, hAcard⟩ := hAp.exists_card_eq
   have hAcard_one : Nat.card A = 1 := by
     cases k with
@@ -586,13 +586,13 @@ private lemma claim14_center_R_contains_Z1_sup_P
     (hT_le_CP : T ≤ Subgroup.centralizer (P : Set G))
     (hR : R = T ⊔ P) (hZ1_le_T : Z1 ≤ T) :
     Z1 ⊔ P ≤ R ⊓ Subgroup.centralizer (R : Set G) := by
-  letI : IsMulCommutative T :=
+  let : IsMulCommutative T :=
     ⟨⟨fun x y => by
       obtain ⟨a, rfl⟩ := addEquiv.surjective x
       obtain ⟨b, rfl⟩ := addEquiv.surjective y
       rw [← map_mul, ← map_mul, mul_comm]⟩⟩
-  letI : Fact (Nat.Prime 3) := ⟨by decide⟩
-  letI : IsMulCommutative P :=
+  let : Fact (Nat.Prime 3) := ⟨by decide⟩
+  let : IsMulCommutative P :=
     (isCyclic_of_prime_card hPcard).isMulCommutative
   have hT_le_CT : T ≤ Subgroup.centralizer (T : Set G) := by
     intro x hxT
@@ -691,10 +691,10 @@ private theorem claim14_center_eq_of_index_nine_of_noncomm
       have hbZ : b ∈ Z := by rw [hZtop]; exact Subgroup.mem_top b
       exact Subgroup.mem_center_iff.mp hbZ a
     · have hZthree : Z.index = 3 := by simpa using hZindex_pow
-      letI : Z.Normal := by dsimp [Z]; infer_instance
+      let : Z.Normal := by dsimp [Z]; infer_instance
       have hquot_card : Nat.card (X ⧸ Z) = 3 := by
         simpa only [Subgroup.index] using hZthree
-      letI : IsCyclic (X ⧸ Z) :=
+      let : IsCyclic (X ⧸ Z) :=
         isCyclic_of_prime_card hquot_card
       exfalso
       apply hnoncomm
@@ -742,7 +742,7 @@ private theorem claim14_commutator_eq_of_two_index_nine
     intro y
     apply Subtype.ext
     exact (Subgroup.mem_centralizer_iff.mp (hC0center hx).2) y y.property
-  letI : C0X.Normal := ⟨by
+  let : C0X.Normal := ⟨by
     intro n hn g
     have hnZ := hC0X_le_center hn
     have hcomm := Subgroup.mem_center_iff.mp hnZ g
@@ -753,7 +753,7 @@ private theorem claim14_commutator_eq_of_two_index_nine
         _ = n := by simp [mul_assoc]
     rw [hconj]
     exact hn⟩
-  letI : TX.Normal := ⟨by
+  let : TX.Normal := ⟨by
     intro n hn g
     exact (Subgroup.mem_normalizer_iff.mp (hT_norm g.property) n).1 hn⟩
   have hC0quot_card : Nat.card (X ⧸ C0X) = 3 ^ 2 := by
@@ -791,7 +791,7 @@ private theorem claim14_commutator_eq_of_two_index_nine
       Nat.card Z0X = Nat.card Z0 :=
         Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZ0_le_X).toEquiv
       _ = 3 := hZ0card
-  letI : Fact (Nat.card Z0X).Prime := ⟨by
+  let : Fact (Nat.card Z0X).Prime := ⟨by
     rw [hZ0Xcard]
     exact Nat.prime_three⟩
   let D0 : Subgroup Z0X := (_root_.commutator X).subgroupOf Z0X
@@ -829,7 +829,7 @@ private lemma claim14_prime_card_subgroup_eq_closure_of_mem_ne_one
     (hp : Nat.Prime p) (hAcard : Nat.card A = p)
     {x : G} (hxA : x ∈ A) (hxne : x ≠ 1) :
     A = Subgroup.closure ({x} : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAcard' : Nat.card A = p := by
     simpa [Nat.card, Nat.card_coe_set_eq] using hAcard
   apply le_antisymm
@@ -869,8 +869,8 @@ private lemma claim14_punctured_type_card
     {G : Type*} [Group G] [Finite G] :
     Nat.card {x : G // x ≠ 1} = Nat.card G - 1 := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fintype {x : G // x ≠ 1} := Fintype.ofFinite _
+  let : Fintype G := Fintype.ofFinite G
+  let : Fintype {x : G // x ≠ 1} := Fintype.ofFinite _
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
   simp
 
@@ -915,8 +915,8 @@ private lemma claim14_order_three_subgroups_card
       rfl
   let e : Piece ≃ Punctured := Equiv.ofBijective decode hdecode
   have hPieceCard : Nat.card Piece = Nat.card Lines * 2 := by
-    letI : Fintype Lines := Fintype.ofFinite Lines
-    letI (A : Lines) : Fintype {x : A.1 // (x : G) ≠ 1} := Fintype.ofFinite _
+    let : Fintype Lines := Fintype.ofFinite Lines
+    let (A : Lines) : Fintype {x : A.1 // (x : G) ≠ 1} := Fintype.ofFinite _
     have hFiberCard (A : Lines) :
         Nat.card {x : A.1 // (x : G) ≠ 1} = 2 := by
       let eA : {x : A.1 // (x : G) ≠ 1} ≃ {x : A.1 // x ≠ 1} :=
@@ -957,8 +957,8 @@ private lemma claim14_A2_card
   classical
   let Lines := {A : Subgroup G // Nat.card A = 3}
   let zLine : Lines := ⟨Z, hZcard⟩
-  letI : Fintype Lines := Fintype.ofFinite Lines
-  letI : Fintype {A : Lines // A ≠ zLine} := Fintype.ofFinite _
+  let : Fintype Lines := Fintype.ofFinite Lines
+  let : Fintype {A : Lines // A ≠ zLine} := Fintype.ofFinite _
   have hLines : Nat.card Lines = 4 :=
     claim14_order_three_subgroups_card hGcard hcube
   have hneCard : Nat.card {A : Lines // A ≠ zLine} = Nat.card Lines - 1 := by
@@ -1168,9 +1168,9 @@ private theorem chapter2_claim14_center_action_sylow_source_interface
     ⟨_N, F, hFnear, hFfinite, hFnontrivial, addEquiv, unitEquiv,
       _hN, _hRcentral, _hinverse, hT_inverted, hst_mem_T, _hconjugation,
       hchar_order, h11ExceptionalLocal, _h11CaseOneLocal⟩
-  letI : PFAppendixII.RightNearField F := hFnear
-  letI : Finite F := hFfinite
-  letI : Nontrivial F := hFnontrivial
+  let : PFAppendixII.RightNearField F := hFnear
+  let : Finite F := hFfinite
+  let : Nontrivial F := hFnontrivial
   have hunit_card : Nat.card Fˣ = 8 := by
     calc
       Nat.card Fˣ =
@@ -1421,13 +1421,13 @@ private theorem chapter2_claim14_center_action_sylow_source_interface
         apply Subtype.ext
         exact (Subgroup.mem_centralizer_iff.mp hg.2) y y.property
     have hN_norm_C0 : N ≤ Subgroup.normalizer (C0 : Set G) := by
-      haveI : (Subgroup.center X).Characteristic := by infer_instance
+      have : (Subgroup.center X).Characteristic := by infer_instance
       have hnorm :=
         claim14_normalizer_le_normalizer_map_subtype_of_characteristic
           X (Subgroup.center X)
       simpa [N, hcenterMap] using hnorm
     have hN_norm_Z1 : N ≤ Subgroup.normalizer (Z1 : Set G) := by
-      haveI : (_root_.commutator X).Characteristic := by infer_instance
+      have : (_root_.commutator X).Characteristic := by infer_instance
       have hnorm :=
         claim14_normalizer_le_normalizer_map_subtype_of_characteristic
           X (_root_.commutator X)
@@ -1491,7 +1491,7 @@ private theorem chapter2_claim14_center_action_sylow_source_interface
     let incl : N →* Subgroup.normalizer (C0 : Set G) :=
       Subgroup.inclusion hN_norm_C0
     let autHom : N →* MulAut C0 := C0.normalizerMonoidHom.comp incl
-    letI : MulAction N (Subgroup C0) := MulAction.compHom _ autHom
+    let : MulAction N (Subgroup C0) := MulAction.compHom _ autHom
     have hZ0fixed (n : N) : n • Z0 = Z0 := by
       apply Subgroup.eq_of_le_of_card_ge
       · intro z hz
@@ -1633,7 +1633,7 @@ private theorem chapter2_claim14_center_action_sylow_source_interface
             _ = autHom qN := by
               rw [hAut_of_mem_X rN hrX, hAut_of_mem_X wN hwX]
               simp
-        haveI : Nontrivial A2 :=
+        have : Nontrivial A2 :=
           Finite.one_lt_card_iff_nontrivial.mp (by rw [hA2card]; norm_num)
         obtain ⟨Aline, hAline_ne⟩ := exists_ne Pline
         let A : Subgroup G := Aline.1.map C0.subtype
@@ -1758,7 +1758,7 @@ private theorem chapter2_claim14_center_action_sylow_source_interface
         have h := (Equiv.permCongrHom eA2).map_eq_one_iff.mpr hn
         simpa [phi] using h
     have hphi : Function.Surjective phi := by
-      letI : Fact (Nat.Prime 3) := ⟨by decide⟩
+      let : Fact (Nat.Prime 3) := ⟨by decide⟩
       have hXcard : Nat.card X = 3 ^ 4 := by
         simpa [X] using h11Local.2.1
       have hthree_pow_five_dvd_G : 3 ^ (4 + 1) ∣ Nat.card G := by
@@ -1871,7 +1871,7 @@ private theorem chapter2_claim14_center_action_sylow_source_interface
                 (R2s : Subgroup G) ⊓ Subgroup.centralizer (P : Set G) =
                   R ⊔ Sigma := by
     classical
-    letI : Fact (Nat.Prime 3) := ⟨by decide⟩
+    let : Fact (Nat.Prime 3) := ⟨by decide⟩
     let X : Subgroup G := R ⊔ Sigma
     let CP : Subgroup G := Subgroup.centralizer (P : Set G)
     let C0 : Subgroup G := Z1 ⊔ P
@@ -1897,7 +1897,7 @@ private theorem chapter2_claim14_center_action_sylow_source_interface
     have hR1_le_R2g : R1 ≤ R2g := by
       simpa [R2g] using hR1_le_R2s
     have hR2p : IsPGroup 3 R2g := by
-      simpa [R2g] using R2s.isPGroup'
+      simpa [R2g] using R2s.isPGroup
     have hR1subR2card : Nat.card (R1.subgroupOf R2g) = 3 ^ 5 := by
       calc
         Nat.card (R1.subgroupOf R2g) = Nat.card R1 :=
@@ -2103,7 +2103,7 @@ private theorem chapter2_claim14_center_action_sylow_source_interface
         rw [hbot] at this
         exact this
       · exact bot_le
-    letI : Nontrivial R2g :=
+    let : Nontrivial R2g :=
       (Subgroup.nontrivial_iff_ne_bot R2g).mpr hR2_ne_bot
     have hcenter_internal_ne : Subgroup.center R2g ≠ ⊥ :=
       (Subgroup.nontrivial_iff_ne_bot (Subgroup.center R2g)).mp
@@ -2272,9 +2272,9 @@ public theorem claim_14
     ⟨_N, F, hFnear, hFfinite, hFnontrivial, addEquiv, unitEquiv,
       _hN, _hRcentral, _hinverse, hT_inverted, hst_mem_T, _hconjugation,
       hchar_order, h11ExceptionalLocal, _h11CaseOneLocal⟩
-  letI : PFAppendixII.RightNearField F := hFnear
-  letI : Finite F := hFfinite
-  letI : Nontrivial F := hFnontrivial
+  let : PFAppendixII.RightNearField F := hFnear
+  let : Finite F := hFfinite
+  let : Nontrivial F := hFnontrivial
   have hunit_card : Nat.card Fˣ = 8 := by
     calc
       Nat.card Fˣ = Nat.card ↥(Q ⊓ Subgroup.centralizer (P : Set G) : Subgroup G) :=

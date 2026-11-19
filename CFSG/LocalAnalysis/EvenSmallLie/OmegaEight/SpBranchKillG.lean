@@ -70,38 +70,39 @@ variable [Finite G] {t : G} {TH T : Subgroup G} (hTp : IsPGroup 2 T) (hTHT : TH 
 
 @[expose] noncomputable def chiSub {b : List Bool} {χ : Array Bool}
     (hchi : chiOK mul gens N b χ = true) : Subgroup G :=
-  (chiHom Φ h0 hinv hgens hG hchi).ker.map T.subtype
+  (chiHom Φ h0 hgens hG hchi).ker.map T.subtype
 
 omit [Finite G] in
 include hinv hgens hG in
+omit hinv in
 theorem chiSub_spec {b : List Bool} {χ : Array Bool} (hchi : chiOK mul gens N b χ = true)
     (htχ : χ[Φ.f ⟨t, ht⟩]! = true) :
-    chiSub Φ h0 hinv hgens hG hchi ≤ T ∧ (chiSub Φ h0 hinv hgens hG hchi).relIndex T = 2 ∧
-      (∀ h ∈ T, ∀ x ∈ chiSub Φ h0 hinv hgens hG hchi,
-        h * x * h⁻¹ ∈ chiSub Φ h0 hinv hgens hG hchi) ∧
-      t ∉ chiSub Φ h0 hinv hgens hG hchi ∧
-      ∀ (x : T), (x : G) ∈ chiSub Φ h0 hinv hgens hG hchi ↔ χ[Φ.f x]! = false := by
-  have hmem : ∀ (x : T), (x : G) ∈ chiSub Φ h0 hinv hgens hG hchi ↔ χ[Φ.f x]! = false := by
+    chiSub Φ h0 hgens hG hchi ≤ T ∧ (chiSub Φ h0 hgens hG hchi).relIndex T = 2 ∧
+      (∀ h ∈ T, ∀ x ∈ chiSub Φ h0 hgens hG hchi,
+        h * x * h⁻¹ ∈ chiSub Φ h0 hgens hG hchi) ∧
+      t ∉ chiSub Φ h0 hgens hG hchi ∧
+      ∀ (x : T), (x : G) ∈ chiSub Φ h0 hgens hG hchi ↔ χ[Φ.f x]! = false := by
+  have hmem : ∀ (x : T), (x : G) ∈ chiSub Φ h0 hgens hG hchi ↔ χ[Φ.f x]! = false := by
     intro x
     unfold chiSub
-    rw [← mem_ker_chiHom Φ h0 hinv hgens hG hchi]
+    rw [← mem_ker_chiHom Φ h0 hgens hG hchi]
     constructor
     · rintro ⟨y, hy, hyx⟩
       rwa [Subtype.ext hyx] at hy
     · intro hx
       exact ⟨x, hx, rfl⟩
   refine ⟨map_subtype_le _, ?_, fun h hh x hx => ?_, fun hh => ?_, hmem⟩
-  · have e : (chiSub Φ h0 hinv hgens hG hchi).subgroupOf T =
-        (chiHom Φ h0 hinv hgens hG hchi).ker := by
+  · have e : (chiSub Φ h0 hgens hG hchi).subgroupOf T =
+        (chiHom Φ h0 hgens hG hchi).ker := by
       ext x
       rw [mem_subgroupOf, hmem, mem_ker_chiHom]
     unfold relIndex
-    rw [e, index_ker_chiHom Φ h0 hinv hgens hG hchi htχ]
+    rw [e, index_ker_chiHom Φ h0 hgens hG hchi htχ]
   · have hxT : x ∈ T := map_subtype_le _ hx
     have hx' := (hmem ⟨x, hxT⟩).1 hx
-    have hk : (⟨x, hxT⟩ : T) ∈ (chiHom Φ h0 hinv hgens hG hchi).ker :=
-      (mem_ker_chiHom Φ h0 hinv hgens hG hchi _).2 hx'
-    have hk' := (chiHom Φ h0 hinv hgens hG hchi).normal_ker.conj_mem _ hk ⟨h, hh⟩
+    have hk : (⟨x, hxT⟩ : T) ∈ (chiHom Φ h0 hgens hG hchi).ker :=
+      (mem_ker_chiHom Φ h0 hgens hG hchi _).2 hx'
+    have hk' := (chiHom Φ h0 hgens hG hchi).normal_ker.conj_mem _ hk ⟨h, hh⟩
     exact ⟨_, hk', rfl⟩
   · have := (hmem ⟨t, ht⟩).1 hh
     rw [htχ] at this

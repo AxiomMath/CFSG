@@ -57,7 +57,7 @@ theorem seedZeroCheck_true : seedZeroCheck = true := by
   have hs : adSeed.toArray.size = 78 := by rw [List.size_toArray, kAdLen]
   unfold seedZeroCheck
   rw [hA, ← kLen]
-  simp only [vecMulN_eq hs, List.toList_toArray]
+  simp only [vecMulN_eq hs]
   exact (range_all_eq_allIdx (fun q c => decide (vecMulL adSeed c < 2 ^ 78) &&
     (vecMulL adSeed c == 0) == seedLabels.contains q) GramLit.rowCoords).trans kZero
 

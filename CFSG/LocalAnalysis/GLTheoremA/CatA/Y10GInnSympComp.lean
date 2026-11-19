@@ -46,7 +46,7 @@ theorem quotCenter_cases_of_glaPComponent_conj {m n p : ℕ} {K : Type} [Field K
   have hJcomp : CFSG.Open.IsComponentOf J (fixSubgroup (MulAut.conj (proj m K x))) :=
     (CFSG.HardMathSupport.Solomon.Coordinator.glaPComponent_isComponent_of_le_layer hJ hJle).1
   obtain ⟨X, inst, hXfin, ⟨hXLie, hA6⟩, hfac, f, hf, hker⟩ := hcomp J hJcomp
-  letI := inst
+  let := inst
   obtain ⟨eJ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.center_quot_equiv_of_surjective
     hXLie.perfect f hf hker
   unfold CFSG.HardMathSupport.Solomon.Coordinator.LieComp.SpFactorOver at hfac

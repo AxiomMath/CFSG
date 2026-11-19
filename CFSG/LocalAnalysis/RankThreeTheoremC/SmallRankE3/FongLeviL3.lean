@@ -83,7 +83,7 @@ theorem l3_levi_of_equiv {A : Type} [Group A] [Finite A] {K K₀ : Subgroup A} {
     4 ≤ Nat.card F ∧ p ∣ Nat.card F + 1 ∧ ¬ p ∣ Nat.card F - 1 ∧ LeviSec p K₀ z ∧
       LeviHom K₀ (Matrix.SpecialLinearGroup (Fin 2) F) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hK₀K : K₀ ≤ K := hpar.1
   have hzK : z ∈ K := hK₀K hzK₀
@@ -125,7 +125,7 @@ theorem l3_levi_of_equiv {A : Type} [Group A] [Finite A] {K K₀ : Subgroup A} {
     CFSG.AGLEmbedding.exists_comap_eq_flagStabilizer hodd (n := 3) (by norm_num) e hρs hρ
       (isParabolicTwo_bridge hpar)
   have hIne' : I.Nonempty := hIne (fun h => hne h)
-  haveI : Finite (projectiveSL 3 F) := Finite.of_equiv _ e0.toEquiv
+  have : Finite (projectiveSL 3 F) := Finite.of_equiv _ e0.toEquiv
   have hd : ∃ d : ℕ, 1 ≤ d ∧ d < 3 ∧ I = {d} := by
     by_cases hall : ∀ i, 1 ≤ i → i < 3 → i ∈ I
     · exfalso
@@ -143,7 +143,7 @@ theorem l3_levi_of_equiv {A : Type} [Group A] [Finite A] {K K₀ : Subgroup A} {
         orderOf_pow_orderOf_div (orderOf_pos g).ne' hpg
       exact orderOf_ne_prime_of_mem_upperTriangular hp hp2 ⟨k, hk⟩ hpq
         (Subgroup.pow_mem _ hgK₀ _) hord
-    · push_neg at hall
+    · push Not at hall
       obtain ⟨i, hi1, hi3, hiI⟩ := hall
       obtain ⟨j, hjI⟩ := hIne'
       have hj := hI j hjI
@@ -213,10 +213,10 @@ theorem l3_levi_pkg {A : Type} [Group A] [Finite A] {K K₀ : Subgroup A} {p : �
     (e : ↥K ≃* TauCeti.ValidLieTypeIndex.Group ⟨.A 2 q, hv⟩)
     (hv' : (TauCeti.LieTypeIndex.A 1 q).Valid) :
     LeviPkg p ⟨.A 1 q, hv'⟩ K₀ z := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hchar : ringChar (GaloisField q.p q.exponent) = 2 :=
     (ringChar.eq (GaloisField q.p q.exponent) q.p).trans hq2
-  haveI : CharP (GaloisField q.p q.exponent) 2 := ringChar.of_eq hchar
+  have : CharP (GaloisField q.p q.exponent) 2 := ringChar.of_eq hchar
   let e0 : ↥K ≃* projectiveSL 3 (GaloisField q.p q.exponent) :=
     e.trans ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 q hv).trans
       (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL 3 _))

@@ -261,7 +261,7 @@ private theorem actK_rec (t m : Nat) : ∀ n,
       (List.range n) = X
     cases m.testBit n
     · rfl
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       show Nat.xor X (fget PV (fget t n 5) 10) = _
       rw [PV_spec _ (fget5_lt t n)]
       rfl
@@ -358,8 +358,8 @@ private theorem fixMK_rec (t : Nat) : ∀ n, n ≤ 1024 →
       show 1024 - (n + 1) = 1023 - n by omega, List.range'_succ,
       show 1023 - n + 1 = 1024 - n by omega, List.filter_cons]
     cases h : Nat.beq (actK t (1023 - n)) (1023 - n)
-    · rw [if_neg (by simp)]
-    · rw [if_pos rfl]
+    · rw [ite_eq_right (by simp)]
+    · rw [ite_eq_left rfl]
 
 private theorem fixMK_eq (t : Nat) :
     fixMK t = (List.range 1024).filter fun m => actM (tab t) m == m := by

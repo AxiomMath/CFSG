@@ -74,6 +74,7 @@ theorem qttPrefixIdx_ne_tailIdx (m : ℕ) (hm : 3 ≤ m) (i : Fin (m - 1)) (t : 
   map_add' x y := by ext t; rfl
   map_smul' c x := by ext t; rfl
 
+omit [Finite K] [CharP K 2] in
 theorem qttTailCoords_tailLift (m : ℕ) (hm : 3 ≤ m) (x : Fin 2 → K) :
     qttTailCoords (F := F) (K := K) m hm (qttTailLift (F := F) (K := K) m hm x) = x := by
   ext t
@@ -89,6 +90,7 @@ theorem qttTailCoords_tailLift (m : ℕ) (hm : 3 ≤ m) (x : Fin 2 → K) :
   · intro h
     exact absurd (Finset.mem_univ t) h
 
+omit [Finite K] [CharP K 2] in
 theorem qttPrefixCoords_prefixLift (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 1) → K) :
     qttPrefixCoords (F := F) (K := K) m hm (qttPrefixLift (F := F) (K := K) m hm x) = x := by
   ext i
@@ -105,6 +107,7 @@ theorem qttPrefixCoords_prefixLift (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 1) →
   · intro h
     exact absurd (Finset.mem_univ i) h
 
+omit [Finite K] [CharP K 2] in
 theorem qttTailLift_apply_prefix (m : ℕ) (hm : 3 ≤ m) (x : Fin 2 → K)
     (i : Fin (m + 1)) (hi : i.val < m - 1) :
     qttTailLift (F := F) (K := K) m hm x i = 0 := by
@@ -118,6 +121,7 @@ theorem qttTailLift_apply_prefix (m : ℕ) (hm : 3 ≤ m) (x : Fin 2 → K)
     omega
   simp [hne]
 
+omit [Finite K] [CharP K 2] in
 theorem qttPrefixLift_apply_tail (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 1) → K)
     (i : Fin (m + 1)) (hi : m - 1 ≤ i.val) :
     qttPrefixLift (F := F) (K := K) m hm x i = 0 := by
@@ -131,6 +135,7 @@ theorem qttPrefixLift_apply_tail (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 1) → K
     omega
   simp [hne]
 
+omit [Finite K] [CharP K 2] in
 theorem qttPrefixLift_apply_prefix (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 1) → K)
     (i : Fin (m - 1)) :
     qttPrefixLift (F := F) (K := K) m hm x (qttPrefixIdx m hm i) = x i := by
@@ -146,6 +151,7 @@ theorem qttPrefixLift_apply_prefix (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 1) →
   · intro h
     exact absurd (Finset.mem_univ i) h
 
+omit [Finite K] [CharP K 2] in
 theorem qttTailLift_apply_tail (m : ℕ) (hm : 3 ≤ m) (x : Fin 2 → K) (t : Fin 2) :
     qttTailLift (F := F) (K := K) m hm x (qttTailIdx m hm t) = x t := by
   change (∑ b : Fin 2, x b • Pi.single (qttTailIdx m hm b) (1 : K))
@@ -160,6 +166,7 @@ theorem qttTailLift_apply_tail (m : ℕ) (hm : 3 ≤ m) (x : Fin 2 → K) (t : F
   · intro h
     exact absurd (Finset.mem_univ t) h
 
+omit [Finite K] [CharP K 2] in
 theorem qttTailLift_smul_K (m : ℕ) (hm : 3 ≤ m) (a : K) (v : Fin 2 → K) :
     qttTailLift (F := F) (K := K) m hm (a • v) =
       a • qttTailLift (F := F) (K := K) m hm v := by
@@ -179,6 +186,7 @@ theorem qttTailLift_smul_K (m : ℕ) (hm : 3 ≤ m) (a : K) (v : Fin 2 → K) :
       omega
     simp [qttTailLift_apply_prefix (F := F) (K := K) m hm _ j hlt, Pi.smul_apply]
 
+omit [Finite K] [CharP K 2] in
 theorem qtt_eq_prefix_add_tail (m : ℕ) (hm : 3 ≤ m) (v : Fin (m + 1) → K) :
     qttPrefixLift (F := F) (K := K) m hm
         (qttPrefixCoords (F := F) (K := K) m hm v) +
@@ -191,7 +199,7 @@ theorem qtt_eq_prefix_add_tail (m : ℕ) (hm : 3 ≤ m) (v : Fin (m + 1) → K) 
     have hij : qttPrefixIdx m hm j = i := Fin.ext (by simp [j, qttPrefixIdx])
     rw [← hij]
     rw [qttPrefixLift_apply_prefix,
-      qttTailLift_apply_prefix _ _ _ _ (by simpa [qttPrefixIdx] using hi), add_zero]
+      qttTailLift_apply_prefix _ _ _ _ (by simp [qttPrefixIdx]), add_zero]
     rfl
   · have hi' : m - 1 ≤ i.val := by omega
     let t : Fin 2 := ⟨i.val - (m - 1), by omega⟩
@@ -213,6 +221,7 @@ theorem qtt_eq_prefix_add_tail (m : ℕ) (hm : 3 ≤ m) (v : Fin (m + 1) → K) 
     Submodule F (Fin (m + 1) → K) :=
   LinearMap.ker (R := F) (R₂ := F) (τ₁₂ := RingHom.id F) (qttPrefixCoords (F := F) (K := K) m hm)
 
+omit [Finite K] [CharP K 2] in
 theorem qttPrefixLift_single (m : ℕ) (hm : 3 ≤ m) (i : Fin (m - 1)) (a : K) :
     qttPrefixLift (F := F) (K := K) m hm (Pi.single i a) =
       (Pi.single (qttPrefixIdx m hm i) a : Fin (m + 1) → K) := by
@@ -231,6 +240,7 @@ theorem qttPrefixLift_single (m : ℕ) (hm : 3 ≤ m) (i : Fin (m - 1)) (a : K) 
   · intro h
     exact absurd (Finset.mem_univ i) h
 
+omit [Finite K] [CharP K 2] in
 theorem qttTailLift_single (m : ℕ) (hm : 3 ≤ m) (t : Fin 2) (a : K) :
     qttTailLift (F := F) (K := K) m hm (Pi.single t a) =
       (Pi.single (qttTailIdx m hm t) a : Fin (m + 1) → K) := by
@@ -249,6 +259,7 @@ theorem qttTailLift_single (m : ℕ) (hm : 3 ≤ m) (t : Fin 2) (a : K) :
   · intro h
     exact absurd (Finset.mem_univ t) h
 
+omit [Finite K] [CharP K 2] in
 theorem qttPrefixLift_mem_qttP (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 1) → K) :
     qttPrefixLift (F := F) (K := K) m hm x ∈ qttP (F := F) (K := K) m hm := by
   change qttPrefixLift (F := F) (K := K) m hm x ∈
@@ -259,6 +270,7 @@ theorem qttPrefixLift_mem_qttP (m : ℕ) (hm : 3 ≤ m) (x : Fin (m - 1) → K) 
   change qttPrefixLift (F := F) (K := K) m hm x (qttTailIdx m hm t) = 0
   exact qttPrefixLift_apply_tail _ _ _ _ (by simp [qttTailIdx])
 
+omit [Finite K] [CharP K 2] in
 theorem qttTailLift_mem_qttT (m : ℕ) (hm : 3 ≤ m) (x : Fin 2 → K) :
     qttTailLift (F := F) (K := K) m hm x ∈ qttT (F := F) (K := K) m hm := by
   change qttTailLift (F := F) (K := K) m hm x ∈
@@ -269,6 +281,7 @@ theorem qttTailLift_mem_qttT (m : ℕ) (hm : 3 ≤ m) (x : Fin 2 → K) :
   change qttTailLift (F := F) (K := K) m hm x (qttPrefixIdx m hm i) = 0
   exact qttTailLift_apply_prefix _ _ _ _ (by simp [qttPrefixIdx])
 
+omit [Finite K] [CharP K 2] in
 theorem qttP_apply_tail {m : ℕ} (hm : 3 ≤ m) {v : Fin (m + 1) → K}
     (hv : v ∈ qttP (F := F) (K := K) m hm) {i : Fin (m + 1)} (hi : m - 1 ≤ i.val) :
     v i = 0 := by
@@ -281,6 +294,7 @@ theorem qttP_apply_tail {m : ℕ} (hm : 3 ≤ m) {v : Fin (m + 1) → K}
   change v (qttTailIdx m hm t) = 0 at h
   simpa [hit] using h
 
+omit [Finite K] [CharP K 2] in
 theorem qttP_smul_K {m : ℕ} (hm : 3 ≤ m) (a : K) {v : Fin (m + 1) → K}
     (hv : v ∈ qttP (F := F) (K := K) m hm) :
     a • v ∈ qttP (F := F) (K := K) m hm := by
@@ -291,6 +305,7 @@ theorem qttP_smul_K {m : ℕ} (hm : 3 ≤ m) (a : K) {v : Fin (m + 1) → K}
     simpa [qttTailCoords] using congrFun hv t
   rw [h0, mul_zero]
 
+omit [Finite K] [CharP K 2] in
 theorem qttT_apply_prefix {m : ℕ} (hm : 3 ≤ m) {v : Fin (m + 1) → K}
     (hv : v ∈ qttT (F := F) (K := K) m hm) {i : Fin (m + 1)} (hi : i.val < m - 1) :
     v i = 0 := by
@@ -302,6 +317,7 @@ theorem qttT_apply_prefix {m : ℕ} (hm : 3 ≤ m) {v : Fin (m + 1) → K}
   change v (qttPrefixIdx m hm t) = 0 at h
   simpa [hit] using h
 
+omit [Finite K] [CharP K 2] in
 theorem qttP_sup_qttT (m : ℕ) (hm : 3 ≤ m) :
     qttP (F := F) (K := K) m hm ⊔ qttT (F := F) (K := K) m hm = ⊤ := by
   rw [eq_top_iff]
@@ -311,6 +327,7 @@ theorem qttP_sup_qttT (m : ℕ) (hm : 3 ≤ m) :
     ⟨qttPrefixLift m hm (qttPrefixCoords m hm v), qttPrefixLift_mem_qttP m hm _,
       qttTailLift m hm (qttTailCoords m hm v), qttTailLift_mem_qttT m hm _, h⟩
 
+omit [Finite K] [CharP K 2] in
 theorem qttP_inf_qttT (m : ℕ) (hm : 3 ≤ m) :
     qttP (F := F) (K := K) m hm ⊓ qttT (F := F) (K := K) m hm = ⊥ := by
   rw [eq_bot_iff]
@@ -390,6 +407,7 @@ theorem qtt_orthogonal_qttP (m : ℕ) (hm : 3 ≤ m) :
     (qttT_le_orthogonal_qttP (E := E) m hm)
 
 
+omit [Finite K] [CharP K 2] in
 theorem qtt_elim_eq_sum_smul {n : ℕ} (v : Fin n → K) :
     (Sum.elim v 0 : Fin n ⊕ Fin n → K) = ∑ i, v i • stdE (K := K) (n := n) i := by
   ext p
@@ -400,12 +418,13 @@ theorem qtt_elim_eq_sum_smul {n : ℕ} (v : Fin n → K) :
     · simp
     · intro i _ hij
       have hji : j ≠ i := Ne.symm hij
-      rw [if_neg hji, mul_zero]
+      rw [ite_eq_right hji, mul_zero]
     · intro h
       exact absurd (Finset.mem_univ j) h
   | inr j =>
     simp [stdE]
 
+omit [Finite K] [CharP K 2] in
 theorem qtt_elim_mem_coordSpan {m : ℕ} {v : Fin (m + 1) → K}
     (hv : ∀ i : Fin (m + 1), m - 1 ≤ i.val → v i = 0) :
     (Sum.elim v 0 : Fin (m + 1) ⊕ Fin (m + 1) → K) ∈
@@ -417,6 +436,7 @@ theorem qtt_elim_mem_coordSpan {m : ℕ} {v : Fin (m + 1) → K}
   · rw [hv i (by omega), zero_smul]
     exact Submodule.zero_mem _
 
+omit [Finite K] [CharP K 2] in
 theorem qtt_coordSpan_le_stdLag (m : ℕ) :
     coordSpan (K := K) (m + 1) {i : Fin (m + 1) | i.val < m - 1} ∅ ≤
       stdLag (m + 1) K := by
@@ -428,6 +448,7 @@ theorem qtt_coordSpan_le_stdLag (m : ℕ) :
     simp [stdE]
   · simp at hj
 
+omit [Finite K] [CharP K 2] in
 theorem qtt_tail_coords_eq_zero {m : ℕ} (hm : 3 ≤ m) {v : Fin (m + 1) → K}
     (hv : qttTailCoords (F := F) (K := K) m hm v = 0) :
     ∀ i : Fin (m + 1), m - 1 ≤ i.val → v i = 0 := by
@@ -463,6 +484,7 @@ theorem qtt_bcLin_mem_coordSpan_of_mem_qttP (m : ℕ) (hm : 3 ≤ m)
     exact qtt_tail_coords_eq_zero (m := m) hm (LinearMap.mem_ker.mp hker)
   exact hle (Submodule.mem_map_of_mem (qtt_elim_mem_coordSpan hvzero))
 
+omit [Finite K] [CharP K 2] in
 theorem qtt_coordSpan_apply_inl_eq_zero_of_not_mem {n : ℕ} {I : Set (Fin n)}
     {z : Fin n ⊕ Fin n → K} (hz : z ∈ coordSpan (K := K) n I ∅)
     {i : Fin n} (hi : i ∉ I) : z (Sum.inl i) = 0 := by
@@ -472,7 +494,7 @@ theorem qtt_coordSpan_apply_inl_eq_zero_of_not_mem {n : ℕ} {I : Set (Fin n)}
     · by_cases hji : i = j
       · subst hji
         exact absurd hj hi
-      · simp [stdE, Pi.single_apply, hji]
+      · simp [stdE, hji]
     · simp [stdF]
   · simp
   · intro u v _ _ hu hv
@@ -575,6 +597,7 @@ theorem qtt_x_mem_qttT (m : ℕ) (hm : 3 ≤ m)
   rwa [QuadraticMap.polarBilin_apply_apply] at hvorth
 
 
+omit [Finite K] [CharP K 2] in
 theorem qttTailLift_tailCoords_of_mem_qttT {m : ℕ} (hm : 3 ≤ m) {v : Fin (m + 1) → K}
     (hv : v ∈ qttT (F := F) (K := K) m hm) :
     qttTailLift (F := F) (K := K) m hm
@@ -750,6 +773,7 @@ theorem qttXT_mem_orthogonalGroup (m : ℕ) (hm : 3 ≤ m)
     _ = Qn E 2 v := qtt_Qn_tailLift E m hm v
 
 
+omit [Finite K] [CharP K 2] in
 theorem qtt_isKLinear_of_prefix_tail (m : ℕ) (hm : 3 ≤ m)
     (G : (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K))
     (hP : ∀ (a : K) (p : Fin (m + 1) → K), p ∈ qttP (F := F) (K := K) m hm →
@@ -810,7 +834,7 @@ theorem qtt_tauAt_tail_tailLift (m : ℕ) (hm : 3 ≤ m) (k : Fin 2) (v : Fin 2 
       simp [t, qttTailIdx]
       omega
     have hjk : j ≠ qttTailIdx m hm k := fun h => hj ⟨k, h⟩
-    rw [tauAt_apply, if_neg hjk,
+    rw [tauAt_apply, ite_eq_right hjk,
       qttTailLift_apply_prefix (F := F) (K := K) m hm v j hlt,
       qttTailLift_apply_prefix (F := F) (K := K) m hm (tauAt E k v) j hlt]
 

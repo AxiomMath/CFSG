@@ -14,11 +14,11 @@ open CFSG.ASVolI.ChH CFSG.Quasithin CFSG.Quasithin.H CFSG.Open
 variable {V W : Type*} [CommGroup V] [CommGroup W]
 
 private theorem congrHom_apply_apply' (e : V ≃* W) (h : MulAut V) (c : V) :
-    congrHom e h (e c) = e (h c) := by simp [congrHom_apply]
+    congrHom e h (e c) = e (h c) := by simp
 
 private theorem congrHom_mul_inv' (e : V ≃* W) (g : MulAut V) (y : V) :
     congrHom e g (e y) * (e y)⁻¹ = e.toMonoidHom (g y * y⁻¹) := by
-  simp [congrHom_apply]
+  simp
 
 private theorem coe_toMonoidHom (e : V ≃* W) (v : V) : e.toMonoidHom v = e v := rfl
 
@@ -177,7 +177,7 @@ theorem inducesOnVia_top_map (e : V ≃* W) (G : Subgroup (MulAut V)) (Z : Subgr
     · intro g' hg' z' hz'
       obtain ⟨g, hg, rfl⟩ := Subgroup.mem_map.mp hg'
       obtain ⟨z, hz, rfl⟩ := Subgroup.mem_map.mp hz'
-      exact Subgroup.mem_map.mpr ⟨g z, hGZ g hg z hz, by simp [congrHom_apply]⟩
+      exact Subgroup.mem_map.mpr ⟨g z, hGZ g hg z hz, by simp⟩
     · intro a
       obtain ⟨u, hu⟩ := hsurj a
       refine ⟨⟨e (u : V), trivial⟩, ?_⟩

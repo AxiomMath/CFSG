@@ -59,7 +59,7 @@ theorem isSolvable_of_layer_quotient_eq_bot {X : Type*} [Group X] [Finite X] {p 
     infer_instance
   have htop : (⊤ : Subgroup X) ≤ O ⊔ normalizer ((S : Subgroup X) : Set X) := by
     have h := CFSG.AGLEmbedding.comap_normalizer_map_le_sup Fact.out O
-      (primeComplementCore_coprime p) S.isPGroup'
+      (primeComplementCore_coprime p) S.isPGroup
     rwa [← Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective O), ← hSbar,
       normalizer_eq_top, Subgroup.comap_top] at h
   have hsurj : Function.Surjective

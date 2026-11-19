@@ -30,7 +30,7 @@ theorem arrOfChars_eq {s : String} {L : List Char} {P len : ℕ} (hs : s = Strin
   have hm : 36 * i + e < L.length := by omega
   have h1 := hget (36 * i + e) (by rw [List.length_map]; omega)
   rw [Nat.zero_add, getElem!_pos _ _ (by rw [List.length_map]; exact hm), List.getElem_map] at h1
-  rw [syl3ArrOfChars, Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, dif_pos he,
+  rw [syl3ArrOfChars, Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, dite_eq_left he,
     Option.getD_some, getD_decM he, ln_slot he, hs, String.toList_ofList,
     Array.getD_eq_getD_getElem?, List.getElem?_toArray, List.getElem?_eq_getElem hm,
     Option.getD_some, syl3Digit, h1]
@@ -121,7 +121,7 @@ theorem mul_eq : ∀ (j i : Fin 81),
 
 theorem pow_eq (i : Fin 81) (a : Fin 3) :
     (syl3PowIdxW syl3TabArr syl3GenWordArr i a).val = powK MT i.val a.val := by
-  fin_cases a <;> simp [syl3PowIdxW, powK, nIf_eq, nb, mul_eq]
+  fin_cases a <;> simp [syl3PowIdxW, powK, nb, mul_eq]
 
 theorem deq {a b : Fin 81} {x y : ℕ} (h : a.val = x) (h' : b.val = y) :
     decide (a = b) = decide (x = y) :=
@@ -218,13 +218,13 @@ theorem p12_facts {i j : ℕ} (hi : i < 81) (hj : j < 81) (h1 : ord3K MT i = tru
         outK MT i j k = true →
           cntK (Nat.land (Nat.land (getL 0 FM i) (getL 0 FM j)) (getL 0 FM k)) 729 ≤ 3 := by
   have h := allN_true p12 hi
-  simp only [bIf_eq_true', h1, Bool.not_true, Bool.false_or, strictB_eq] at h
+  simp only [bIf_eq_true', h1, strictB_eq] at h
   have h' := allN_true h hj
-  simp only [bIf_eq_true', bAnd_eq, h2, h3, h4, Bool.and_true, Bool.not_true, Bool.false_or,
-    strictB_eq, Bool.and_eq_true, Nat.ble_eq] at h'
+  simp only [bAnd_eq, h2, h3, h4, Bool.not_true, Bool.false_or,
+    Bool.and_eq_true, Nat.ble_eq] at h'
   refine ⟨h'.1, fun k hk g1 g2 g3 g4 => ?_⟩
   have h'' := allN_true h'.2 hk
-  simp only [bIf_eq_true', bAnd_eq, g1, g2, g3, g4, Bool.and_true, Bool.not_true, Bool.false_or,
+  simp only [g1, g2, g3, g4, Bool.and_true, Bool.not_true, Bool.false_or,
     Nat.ble_eq] at h''
   exact h''
 
@@ -265,7 +265,7 @@ theorem elt_true :
   funext k M
   have hg : getL 0 ((List.range 4).map (slot GP)) k.val = slot GP k.val := by
     rw [getL_eq_getD]
-    simp [List.getD_eq_getElem?_getD, List.getElem?_range k.2]
+    simp [List.getD_eq_getElem?_getD]
   rw [hg, gens_eq]
 
 theorem tab_true : syl3CheckTab syl3GenArr syl3MatsArr syl3TabArr = true := by

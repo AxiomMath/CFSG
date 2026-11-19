@@ -29,8 +29,8 @@ private lemma factorization_three_sq_mul_of_not_dvd {m : ℕ} (hm : ¬ 3 ∣ m) 
 
 theorem factorization_three_card_ne_three_of_isAlt {L : Type} [Group L]
     (h : UC22.IsAlt L 7 ∨ UC22.IsAlt L 6) : (Nat.card L).factorization 3 ≠ 3 := by
-  haveI : Nontrivial (Fin 7) := Fin.nontrivial_iff_two_le.2 (by norm_num)
-  haveI : Nontrivial (Fin 6) := Fin.nontrivial_iff_two_le.2 (by norm_num)
+  have : Nontrivial (Fin 7) := Fin.nontrivial_iff_two_le.2 (by norm_num)
+  have : Nontrivial (Fin 6) := Fin.nontrivial_iff_two_le.2 (by norm_num)
   rcases h with h | h
   · obtain ⟨e⟩ := h
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin,
@@ -131,9 +131,9 @@ theorem exists_eq_conj_of_lieModel_psl_three_three {L : Type} [Group L] [Finite 
   have hOut : ¬ 3 ∣ Nat.card (Outer L) := by
     intro h3
     exact absurd (h3.trans hdvd) (by norm_num)
-  haveI : Finite (MulAut L) :=
+  have : Finite (MulAut L) :=
     Finite.of_injective (fun f : MulAut L => (f : L → L)) DFunLike.coe_injective
-  haveI : Finite (Outer L) := Quotient.finite _
+  have : Finite (Outer L) := Quotient.finite _
   obtain ⟨n, hn⟩ := hφ
   have hinner := CFSG.AGLEmbedding.mem_inner_of_pow_prime_pow_eq_one
     (K := L) Nat.prime_three hOut (f := φ) hn
@@ -148,9 +148,9 @@ theorem exists_eq_conj_of_lieModel_psu_three_three {L : Type} [Group L] [Finite 
   have hOut : ¬ 3 ∣ Nat.card (Outer L) := by
     rw [CFSG.AGLEmbedding.card_outer_eq_two_of_model_psu_three_three hclass]
     norm_num
-  haveI : Finite (MulAut L) :=
+  have : Finite (MulAut L) :=
     Finite.of_injective (fun f : MulAut L => (f : L → L)) DFunLike.coe_injective
-  haveI : Finite (Outer L) := Quotient.finite _
+  have : Finite (Outer L) := Quotient.finite _
   obtain ⟨n, hn⟩ := hφ
   have hinner := CFSG.AGLEmbedding.mem_inner_of_pow_prime_pow_eq_one
     (K := L) Nat.prime_three hOut (f := φ) hn

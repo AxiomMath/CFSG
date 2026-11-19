@@ -163,7 +163,7 @@ theorem isFieldAutPSL3_of_model {α : MulAut Y} {F : Type} [Field F] [Finite F]
     have h1 := descend_apply_mk e α y
     rw [h] at h1
     simp only [MulEquiv.trans_apply, MulAut.mul_apply, MulAut.inv_apply, MulAut.congr_apply,
-      MulEquiv.symm_symm, MulEquiv.apply_symm_apply, MulEquiv.symm_apply_apply]
+      MulEquiv.symm_symm, MulEquiv.apply_symm_apply]
     rw [← h1]
     simp [MulAut.mul_apply]
 

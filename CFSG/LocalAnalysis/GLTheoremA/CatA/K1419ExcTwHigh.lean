@@ -121,7 +121,7 @@ theorem not_l3u3_twoD_high (hF : L3U3Facts) {τ : Tag} {L : Type} [Field L] [IsA
     ¬ L3U3 (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   intro hL
-  haveI := ssTw_finite_rationalComponent S i
+  have := ssTw_finite_rationalComponent S i
   obtain ⟨m, e, -, hlie⟩ :=
     lieModel_rationalComponent_of_twoD_highG Nat.prime_three S hT hap h1 i h5 hn hout
       (fun _ _ => True)
@@ -141,7 +141,7 @@ theorem not_l3u3_exc_e6class (hF : L3U3Facts) {τ : Tag} (hτ : τ = .E6 ∨ τ 
     ¬ L3U3 (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   intro hL
-  haveI := ssTw_finite_rationalComponent S i
+  have := ssTw_finite_rationalComponent S i
   have hTp : rootDiagUnit τ a ^ 3 = 1 := rootDiagUnit_pow_eq_one_of_forall hap
   have h3L : ((3 : ℕ) : L) ≠ 0 := by
     have h2 : ((2 : ℕ) : L) = 0 := CharP.cast_eq_zero L 2

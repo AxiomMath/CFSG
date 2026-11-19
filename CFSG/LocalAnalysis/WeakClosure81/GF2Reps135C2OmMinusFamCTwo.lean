@@ -59,8 +59,8 @@ private theorem w135c2_omfMC2_sign_card (n : ℕ) (hn : 4 ≤ n) :
       · exfalso
         simp [h'] at h
     · rintro (rfl | rfl)
-      · rw [if_pos (show n ≤ (n : ℕ) - 3 + 3 by omega)]
-      · rw [if_pos (show n ≤ (n : ℕ) - 2 + 3 by omega)]
+      · rw [ite_eq_left (show n ≤ (n : ℕ) - 3 + 3 by omega)]
+      · rw [ite_eq_left (show n ≤ (n : ℕ) - 2 + 3 by omega)]
 
 private theorem w135c2_omfMC2_card_sum {m : ℕ} (p : Fin m → Prop) [DecidablePred p] :
     (Finset.univ.filter fun x : Fin m ⊕ Fin m => p (Sum.elim id id x)).card =
@@ -210,7 +210,7 @@ theorem suzukiLetter_nW_negLastTwo {n : ℕ} (hn : 4 ≤ n) (hirrQ : ∀ s : K, 
   have hTT : T * T = 1 := hacts.mul_self_eq_one hσ
   have ha0 : w135c2_omfMC2_sign n ⟨n - 3, by omega⟩ = -1 := by
     unfold w135c2_omfMC2_sign
-    rw [if_pos (by omega : n ≤ (n : ℕ) - 3 + 3)]
+    rw [ite_eq_left (by omega : n ≤ (n : ℕ) - 3 + 3)]
   have hrk : Module.finrank K (commSpace T) = 2 := by
     rw [omqnf_finrank_commSpace hirrQ hacts hσ, w135c2_omfMC2_support_card n hn,
       w135c2_omfMC2_sign_prod n hn]

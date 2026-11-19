@@ -134,6 +134,7 @@ section Gen
 
 variable {Γ : Type} [Group Γ] [DecidableEq Γ]
 
+omit [Group Γ] in
 theorem memK_map (κ : Γ → ℕ) (hinj : Function.Injective κ) (y : Γ) (Z : List Γ) :
     memK (κ y) (Z.map κ) = decide (y ∈ Z) := by
   rw [Bool.eq_iff_iff, memK_iff, decide_eq_true_iff, List.mem_map]
@@ -143,11 +144,13 @@ theorem memK_map (κ : Γ → ℕ) (hinj : Function.Injective κ) (y : Γ) (Z : 
   · intro h
     exact ⟨y, h, rfl⟩
 
+omit [Group Γ] in
 theorem beq_code (κ : Γ → ℕ) (hinj : Function.Injective κ) (a b : Γ) :
     Nat.beq (κ a) (κ b) = decide (a = b) := by
   rw [Bool.eq_iff_iff, Nat.beq_eq, decide_eq_true_iff]
   exact ⟨fun e => hinj e, fun e => by rw [e]⟩
 
+omit [DecidableEq Γ] in
 theorem mem_gspan_cons (b : Γ) (ys : List Γ) (y : Γ) :
     y ∈ gspan (b :: ys) ↔ y ∈ gspan ys ∨ ∃ z ∈ gspan ys, b * z = y := by
   rw [mem_gspan, mem_gspan]
@@ -159,12 +162,13 @@ theorem mem_gspan_cons (b : Γ) (ys : List Γ) (y : Γ) :
   · rintro (⟨S, hS, rfl⟩ | ⟨z, hz, rfl⟩)
     · exact ⟨S, hS.cons b, rfl⟩
     · obtain ⟨S, hS, rfl⟩ := (mem_gspan ys z).1 hz
-      exact ⟨b :: S, hS.cons₂ b, List.prod_cons⟩
+      exact ⟨b :: S, hS.cons_cons b, List.prod_cons⟩
 
 variable (κ : Γ → ℕ) (hone : κ 1 = idK) (hmul : ∀ g h : Γ, κ (g * h) = mmulK (κ g) (κ h))
   (hinj : Function.Injective κ)
 
 include hone hmul in
+omit [DecidableEq Γ] in
 theorem spanK_map : ∀ ys : List Γ, ∃ Z : List Γ, spanK (ys.map κ) = Z.map κ ∧
     ∀ y, y ∈ Z ↔ y ∈ gspan ys
   | [] => ⟨[1], by rw [List.map_nil, spanK_nil, List.map_singleton, hone], fun y => by
@@ -234,6 +238,7 @@ theorem tblEq_G {S T : Table} {a b : Γ} (hS : Rep 31 S (φ a)) (hT : Rep 31 T (
     tblEq 31 S T = decide (a = b) := by
   rw [Bool.eq_iff_iff, decide_eq_true_iff, tblEq_iff_eq hS hT, hφ.eq_iff]
 
+omit [DecidableEq Γ] in
 theorem rep_conjTab {X XI t : Table} {x h : Γ} (hX : Rep 31 X (φ x))
     (hXI : Rep 31 XI (φ x⁻¹)) (ht : Rep 31 t (φ h)) :
     Rep 31 (conjTab 31 X XI t) (φ (x * h * x⁻¹)) := by
@@ -241,6 +246,7 @@ theorem rep_conjTab {X XI t : Table} {x h : Γ} (hX : Rep 31 X (φ x))
   rw [map_mul, map_mul]
   exact Rep.compT (Rep.compT hX ht) hXI
 
+omit [DecidableEq Γ] in
 theorem rep_pows {X XI : Table} {x : Γ} (hX : Rep 31 X (φ x)) (hXI : Rep 31 XI (φ x⁻¹))
     (j : ℕ) : Rep 31 (powT 31 j X) (φ (x ^ j)) ∧ Rep 31 (powT 31 j XI) (φ (x ^ j)⁻¹) := by
   rw [map_pow, ← inv_pow, map_pow]
@@ -258,6 +264,7 @@ theorem badAct_eq {X XI t : Table} {x h : Γ} (hX : Rep 31 X (φ x))
   rw [Function.comp_apply, tblEq_G φ hφ (by rw [map_mul]; exact Rep.compT ht hc)
     (by rw [map_mul]; exact Rep.compT hc ht)]
 
+omit [DecidableEq Γ] in
 theorem f2_orbTabs {X XI t : Table} {x h : Γ} (hX : Rep 31 X (φ x))
     (hXI : Rep 31 XI (φ x⁻¹)) (ht : Rep 31 t (φ h)) (m : ℕ) :
     List.Forall₂ (fun T y => Rep 31 T (φ y)) (orbTabs 31 m X XI t) (gorb m x h) := by
@@ -278,6 +285,7 @@ theorem any_f2 {α β : Type} {R : α → β → Prop} {f : α → Bool} {g : β
   | _, _, .nil => rfl
   | _, _, .cons hab hl => by rw [List.any_cons, List.any_cons, h _ _ hab, any_f2 h hl]
 
+omit [DecidableEq Γ] in
 theorem rep_maskProdG : ∀ {Ts : List Table} {B : List Γ},
     List.Forall₂ (fun T y => Rep 31 T (φ y)) Ts B → ∀ m,
       Rep 31 (maskProd 31 Ts m) (φ (gmask B m))
@@ -289,11 +297,12 @@ theorem rep_maskProdG : ∀ {Ts : List Table} {B : List Γ},
     unfold maskProd
     refine Rep.compT ?_ (rep_maskProdG h (m / 2))
     by_cases hm : m % 2 = 1
-    · rw [if_pos hm, if_pos hm]
+    · rw [ite_eq_left hm, ite_eq_left hm]
       exact hT
-    · rw [if_neg hm, if_neg hm, map_one]
+    · rw [ite_eq_right hm, ite_eq_right hm, map_one]
       exact Rep.idT hn31
 
+omit [DecidableEq Γ] in
 theorem f2_spanTabs {Ts : List Table} {B : List Γ}
     (h : List.Forall₂ (fun T y => Rep 31 T (φ y)) Ts B) :
     List.Forall₂ (fun T y => Rep 31 T (φ y)) (spanTabs 31 Ts) (gspan B) := by

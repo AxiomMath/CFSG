@@ -30,7 +30,7 @@ theorem proj_spec (hTO : T ≤ normalizer (O : Set G)) {x : G} (hx : x ∈ T ⊔
       exact hx
     obtain ⟨t, ht, o, ho, rfl⟩ := Set.mem_mul.1 hx'
     exact ⟨t, ht, by rw [inv_mul_cancel_left]; exact ho⟩
-  rw [proj, dif_pos h]
+  rw [proj, dite_eq_left h]
   exact h.choose_spec
 
 theorem proj_eq (hTO : T ≤ normalizer (O : Set G)) (hinf : T ⊓ O = ⊥) {x t : G} (ht : t ∈ T)
@@ -134,12 +134,12 @@ variable (μ : T ≃* Multiplicative (Fin 6 → ZMod 2))
 theorem ofW_mem (w : Fin 6 → ZMod 2) : ofW μ w ∈ T := (μ.symm _).2
 
 theorem toW_ofW (w : Fin 6 → ZMod 2) : toW μ (ofW μ w) = w := by
-  rw [toW, dif_pos (ofW_mem μ w)]
+  rw [toW, dite_eq_left (ofW_mem μ w)]
   show Multiplicative.toAdd (μ (μ.symm (Multiplicative.ofAdd w))) = w
   rw [MulEquiv.apply_symm_apply, toAdd_ofAdd]
 
 theorem ofW_toW {x : G} (hx : x ∈ T) : ofW μ (toW μ x) = x := by
-  rw [toW, dif_pos hx, ofW, ofAdd_toAdd, MulEquiv.symm_apply_apply]
+  rw [toW, dite_eq_left hx, ofW, ofAdd_toAdd, MulEquiv.symm_apply_apply]
 
 theorem ofW_add (v w : Fin 6 → ZMod 2) : ofW μ (v + w) = ofW μ v * ofW μ w := by
   rw [ofW, ofW, ofW, ofAdd_add, map_mul, Subgroup.coe_mul]
@@ -147,7 +147,7 @@ theorem ofW_add (v w : Fin 6 → ZMod 2) : ofW μ (v + w) = ofW μ v * ofW μ w 
 theorem ofW_zero : ofW μ 0 = 1 := by
   rw [ofW, ofAdd_zero, map_one, OneMemClass.coe_one]
 
-theorem ofW_injective : Function.Injective (ofW μ) := fun v w h =>
+theorem ofW_injective : Function.Injective (ofW μ) := fun _v _w h =>
   Multiplicative.ofAdd.injective (μ.symm.injective (Subtype.ext h))
 
 theorem toW_mul {x y : G} (hx : x ∈ T) (hy : y ∈ T) : toW μ (x * y) = toW μ x + toW μ y := by
@@ -187,12 +187,14 @@ section Setting
 variable {G : Type} [Group G] [Finite G] {L Q : Subgroup G} {n : ℕ}
   {θ : L ≃* alternatingGroup (Fin n)} {z : G} {T : Subgroup G}
 
+omit [Finite G] in
 theorem conj_mem_oddCoreOf' {H : Subgroup G} {g : G} (hg : g ∈ H) {x : G}
     (hx : x ∈ AltStdSec.oddCoreOf H) : g * x * g⁻¹ ∈ AltStdSec.oddCoreOf H := by
   obtain ⟨y, hy, rfl⟩ := hx
   exact ⟨⟨g, hg⟩ * y * ⟨g, hg⟩⁻¹,
     (inferInstance : (CFSG.oddCore ↥H).Normal).conj_mem y hy ⟨g, hg⟩, rfl⟩
 
+omit [Finite G] in
 theorem exists_mu {hn : 8 ≤ n} (hH : HData θ hn z T) :
     Nonempty (T ≃* Multiplicative (Fin 6 → ZMod 2)) := by
   rcases hH.n0.homo with h | h
@@ -233,11 +235,11 @@ theorem ocore_conj {g o : G} (hg : g ∈ N0 θ c.hn8 z) (ho : o ∈ Ocore θ c.h
 
 include hH in
 theorem T_le_normalizer_ocore : T ≤ normalizer (Ocore θ c.hn8 z : Set G) :=
-  le_normalizer_of_conj' fun g hg o ho => ocore_conj c (hH.n0.le hg) ho
+  le_normalizer_of_conj' fun _g hg _o ho => ocore_conj c (hH.n0.le hg) ho
 
 include hH in
 theorem T_inf_ocore : T ⊓ Ocore θ c.hn8 z = ⊥ := by
-  apply inf_eq_bot_of_coprime
+  apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
   rw [hH.n0.card_eq]
   exact Nat.Coprime.pow_left 6 (coprime_card_oddCoreOf _)
 

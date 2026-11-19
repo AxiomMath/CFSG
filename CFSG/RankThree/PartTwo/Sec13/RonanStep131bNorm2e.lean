@@ -79,7 +79,7 @@ theorem norm2e_of_center_quotient {Y X : Type} [Group Y] [Finite Y] [Group X]
     rw [hVt, hVt, ← norm2_quotAutHom_mk σ x]
     exact norm2_mem_iff_of_map_eq (hV₁inv _ (Subgroup.mem_map_of_mem _ hσ)) _
   have hNil : Group.IsNilpotent Vt := by
-    haveI : Group.IsNilpotent V₁ := hV₁2.isNilpotent
+    have : Group.IsNilpotent V₁ := hV₁2.isNilpotent
     obtain ⟨f, hf⟩ : ∃ f : Vt →* V₁, ∀ x : Vt,
         ((f x : V₁) : Y ⧸ Subgroup.center Y) = ((x : Y) : Y ⧸ Subgroup.center Y) :=
       ⟨{ toFun := fun x => ⟨((x : Y) : Y ⧸ Subgroup.center Y), (hVt _).mp x.2⟩
@@ -97,7 +97,7 @@ theorem norm2e_of_center_quotient {Y X : Type} [Group Y] [Finite Y] [Group X]
     apply Subtype.ext
     rw [Subgroup.coe_mul, Subgroup.coe_mul]
     exact Subgroup.mem_center_iff.mp hxZ (g : Y)
-  haveI : Group.IsNilpotent Vt := hNil
+  have : Group.IsNilpotent Vt := hNil
   obtain ⟨Q, -⟩ := IsPGroup.exists_le_sylow (IsPGroup.of_bot : IsPGroup 2 (⊥ : Subgroup Vt))
   have hkey : ∀ q : Vt, (∃ k : ℕ, q ^ 2 ^ k = 1) → q ∈ (Q : Subgroup Vt) := by
     rintro q ⟨k, hk⟩
@@ -107,7 +107,7 @@ theorem norm2e_of_center_quotient {Y X : Type} [Group Y] [Finite Y] [Group X]
       exact orderOf_dvd_of_pow_eq_one hk
     have hmax : (Q : Subgroup Vt) ⊔ Subgroup.zpowers q = (Q : Subgroup Vt) :=
       le_antisymm
-        (Q.maximal_isPGroup.2 (IsPGroup.to_sup_of_normal_left Q.isPGroup' hR) le_sup_left)
+        (Q.maximal_isPGroup.2 (IsPGroup.to_sup_of_normal_left Q.isPGroup hR) le_sup_left)
         le_sup_left
     have hq : q ∈ (Q : Subgroup Vt) ⊔ Subgroup.zpowers q :=
       (le_sup_right : Subgroup.zpowers q ≤ (Q : Subgroup Vt) ⊔ Subgroup.zpowers q)
@@ -154,7 +154,7 @@ theorem norm2e_of_center_quotient {Y X : Type} [Group Y] [Finite Y] [Group X]
     · intro hx
       obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.mp hx
       refine ⟨q.2, ?_⟩
-      obtain ⟨k, hk⟩ := Q.isPGroup' ⟨q, hq⟩
+      obtain ⟨k, hk⟩ := Q.isPGroup ⟨q, hq⟩
       exact ⟨k, by simpa using congrArg (fun t : (Q : Subgroup Vt) => ((t : Vt) : Y)) hk⟩
     · rintro ⟨hxVt, k, hk⟩
       exact Subgroup.mem_map.mpr

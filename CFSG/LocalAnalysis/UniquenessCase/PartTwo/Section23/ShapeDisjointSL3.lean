@@ -22,8 +22,8 @@ theorem not_isL2_of_isSLn_three {X : Type} [Group X] {a b : ℕ}
     (hSL : IsSLn X 3 a) : ¬ IsL2 X b := by
   intro hL
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hSL
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have ha1 : 1 ≤ a := by
     by_contra h
     have ha0 : a = 0 := by omega
@@ -69,11 +69,11 @@ theorem not_isL2Square_of_isSLn_three {X : Type} [Group X] {a b : ℕ}
     (hSL : IsSLn X 3 a) : ¬ IsL2Square X b := by
   intro hSQ
   obtain ⟨A, B, hAg, hBg, ⟨e⟩, hA, hB⟩ := hSQ
-  letI : Group A := hAg
-  letI : Group B := hBg
+  let : Group A := hAg
+  let : Group B := hBg
   obtain ⟨K, hKf, hKfin, hKcard, ⟨eSL⟩⟩ := hSL
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have ha1 : 1 ≤ a := by
     by_contra h
     have ha0 : a = 0 := by omega

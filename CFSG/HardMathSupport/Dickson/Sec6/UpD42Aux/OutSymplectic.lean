@@ -28,7 +28,7 @@ theorem not_upD42Pumpup_fieldAut_psp {r f : ℕ} (hr : 2 ≤ r) (hf : 1 ≤ f)
     {σ : K ≃+* K} (hσ : orderOf σ = 3) :
     ¬ UpD42Pumpup (StatedProj (StatedSp r K)) (fieldAut r K σ) := by
   intro hx
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have hσ3 : σ ^ 3 = 1 := by rw [← hσ]; exact pow_orderOf_eq_one σ
   obtain ⟨h3f, hkcard⟩ := card_semilinearFixedSubfield Nat.prime_two hf hK hσ
   let k := descentField σ
@@ -76,7 +76,7 @@ theorem not_upD42Pumpup_fieldAut_psp {r f : ℕ} (hr : 2 ≤ r) (hf : 1 ≤ f)
     have hnab : ∃ a b : StatedProj (StatedSp r ↥k), a * b ≠ b * a := by
       by_contra hcon
       push Not at hcon
-      letI : CommGroup (StatedProj (StatedSp r ↥k)) :=
+      let : CommGroup (StatedProj (StatedSp r ↥k)) :=
         { (inferInstance : Group (StatedProj (StatedSp r ↥k))) with mul_comm := hcon }
       exact hx.not_solvable_fixed
         (Group.isSolvable_of_isSolvable_injective (f := eD.toMonoidHom) eD.injective)
@@ -87,11 +87,11 @@ theorem not_upD42Pumpup_fieldAut_psp {r f : ℕ} (hr : 2 ≤ r) (hf : 1 ≤ f)
 theorem upD42Chev2Out_symplectic_holds : UpD42Chev2Out isSymplecticIdx := by
   intro S _ _ _ _ d hd hc ⟨e⟩ α hout hx
   obtain ⟨r, hr, -, -, ⟨eP⟩⟩ := exists_mulEquiv_statedProj_of_isSymplecticIdx hd
-  haveI : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   let e' : S ≃* StatedProj (StatedSp r ↥d.fixedField) := e.trans eP.symm
   have hc' : d.1.characteristic = 2 := by
     rcases d with ⟨idx, hv⟩
-    cases idx <;> simpa [IsCharTwoLieIndex] using hc
+    cases idx <;> simp [IsCharTwoLieIndex] at hc ⊢ <;> exact hc
   have hK : Nat.card ↥d.fixedField = 2 ^ d.fieldExponent := by
     rw [TauCeti.ValidLieTypeIndex.card_fixedField,
       TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow]

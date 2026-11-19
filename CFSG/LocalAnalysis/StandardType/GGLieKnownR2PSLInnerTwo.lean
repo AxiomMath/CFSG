@@ -23,7 +23,7 @@ theorem no_additive_equivariant_dual_two {k X : Type} [Field k] [AddCommGroup X]
   have hψ : ψ ≠ 0 := by
     intro h0
     rw [h0] at hψu
-    simpa using hψu
+    simp at hψu
   have hrange : Module.finrank k (LinearMap.range ψ) = 1 := by
     have htop : LinearMap.range ψ = ⊤ := by
       rw [Submodule.eq_top_iff']
@@ -78,13 +78,13 @@ open CFSG.LinearAlgebra.RootGroupSL.NoOuterGraph in
 theorem exists_additive_equivariant_of_graph_form_two
     {k E X : Type} [Field k] [Field E] [Algebra k E] [AddCommGroup X] [Module k X]
     [Finite k] [Finite E] [Module.Finite k X] [CharP k 2]
-    (hk : Nat.card k = 2) (hE : Module.finrank k E = 1) (hX : 0 < Module.finrank k X)
+    (hk : Nat.card k = 2) (_hE : Module.finrank k E = 1) (_hX : 0 < Module.finrank k X)
     (α : MulAut (SpecialLinearGroup k (DSpace E X)))
     (hR : (rootSL k E X).map α.toMonoidHom = rootSL k E X)
     (hC : ∀ h ∈ Subgroup.normalizer (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X))),
       α h * h⁻¹ ∈ QK k E X ⊔ Subgroup.center (SpecialLinearGroup k (DSpace E X)))
     (σ : k ≃+* k) (T : Module.Dual k (DSpace E X) ≃+ DSpace E X)
-    (hT : ∀ (c : k) (f : Module.Dual k (DSpace E X)), T (c • f) = σ c • T f)
+    (_hT : ∀ (c : k) (f : Module.Dual k (DSpace E X)), T (c • f) = σ c • T f)
     (hα : ∀ (g : SpecialLinearGroup k (DSpace E X)) (f : Module.Dual k (DSpace E X)),
       α g (T f) = T (f ∘ₗ (SpecialLinearGroup.toLinearEquiv g⁻¹).toLinearMap)) :
     ∃ τ : Module.Dual k X →+ X, Function.Injective τ ∧
@@ -153,7 +153,7 @@ theorem exists_additive_equivariant_of_graph_form_two
     have hc1 : c = 1 := by
       have hcard : Nat.card kˣ = 1 := by
         rw [Nat.card_units, hk]
-      haveI : Subsingleton kˣ := (Nat.card_eq_one_iff_unique.mp hcard).1
+      have : Subsingleton kˣ := (Nat.card_eq_one_iff_unique.mp hcard).1
       exact Subsingleton.elim c 1
     have hvK : T (f phi) ∈ flagK k E X :=
       T_mem_flagK_of_mem_dualAnnW α hR T hα (hfW_all phi)
@@ -230,7 +230,7 @@ theorem exists_conj_of_two_element_mem_Y_two
     (h2 : ∃ m : ℕ, α ^ (2 ^ m) = 1) :
     ∃ g : SpecialLinearGroup k (DSpace E X), α = MulAut.conj g := by
   classical
-  haveI : Module.Finite k E := Module.Finite.of_finite
+  have : Module.Finite k E := Module.Finite.of_finite
   have hfin : Module.finrank k (DSpace E X) =
       Module.finrank k E + Module.finrank k X + Module.finrank k E := by
     rw [Module.finrank_prod, Module.finrank_prod, add_assoc]
@@ -241,7 +241,7 @@ theorem exists_conj_of_two_element_mem_Y_two
     exists_semilinear_form_of_mulAut_sl (F := k) (V := DSpace E X) hV α
   rcases hform with ⟨T, hT, hα⟩ | ⟨T, hT, hα⟩
   · have hσ : σ = RingEquiv.refl k := by
-      haveI : Fintype k := Fintype.ofFinite k
+      have : Fintype k := Fintype.ofFinite k
       have hcard : Fintype.card k = 2 := by
         rw [← Nat.card_eq_fintype_card]
         exact hk

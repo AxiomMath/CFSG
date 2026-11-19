@@ -12,6 +12,7 @@ variable {k E VJ V₀ : Type} [Field k] [Field E] [Algebra k E]
   [AddCommGroup V₀] [Module k V₀] [Finite k] [CharP k 2]
   [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀]
 
+omit [Finite k] [CharP k 2] in
 private lemma modelA1Elt_zero :
     modelA1Elt (0 : V₀ →ₗ[k] VJ) = (1 : SpecialLinearGroup k (VJ × V₀)) := by
   apply SpecialLinearGroup.ext
@@ -19,6 +20,7 @@ private lemma modelA1Elt_zero :
   obtain ⟨v, w⟩ := p
   simp [modelA1Elt_apply]
 
+omit [Finite k] [CharP k 2] in
 private lemma modelA2Elt_zero :
     modelA2Elt (0 : VJ →ₗ[k] V₀) = (1 : SpecialLinearGroup k (VJ × V₀)) := by
   apply SpecialLinearGroup.ext
@@ -26,6 +28,7 @@ private lemma modelA2Elt_zero :
   obtain ⟨v, w⟩ := p
   simp [modelA2Elt_apply]
 
+omit [Finite k] [CharP k 2] in
 private lemma exists_blockSLk (g : ↥(modelK1 k VJ V₀)) :
     ∃ B : SpecialLinearGroup k VJ,
       blockSLk k V₀ B = (g : SpecialLinearGroup k (VJ × V₀)) := by

@@ -70,6 +70,7 @@ theorem uc22p22n_isTI_of_noncyclic (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ} (hp
   change V ⊓ conjSubgroup g V = V
   rw [hVc, inf_idem]
 
+omit [Finite G] in
 theorem uc22p22n_isElemAbelian_of_le {p : ℕ} {E F : Subgroup G} (hFE : F ≤ E)
     (hE : IsElemAbelian p E) : IsElemAbelian p F :=
   ⟨⟨⟨fun a b => Subtype.ext (hE.comm (hFE a.2) (hFE b.2))⟩⟩, fun x hx => hE.2 x (hFE hx)⟩
@@ -77,7 +78,7 @@ theorem uc22p22n_isElemAbelian_of_le {p : ℕ} {E F : Subgroup G} (hFE : F ≤ E
 theorem uc22p22n_not_isCyclic_of_card {p : ℕ} (hp : p.Prime) {P : Subgroup G}
     (hP : IsElemAbelian p P) (h : p ^ 2 ≤ Nat.card P) : ¬ IsCyclic P := by
   intro hcyc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (uc22p22e_isPGroup_of_elem hP)
   have hk2 : 2 ≤ k := by
     rw [hk] at h
@@ -105,7 +106,7 @@ theorem uc22p22n_exists_good (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) {V
     ∃ P : Subgroup G, P ≤ D.M ∧ IsElemAbelian p P ∧ P ⊓ centralizer (V : Set G) = ⊥ ∧
       p ^ 2 ≤ Nat.card P := by
   have hpP : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   obtain ⟨E, hEM, hEel, hEcard⟩ := CFSG.SectionRank.exists_pRank hpP.one_lt D.M
   have hk3 : 3 ≤ CFSG.Open.pRank p D.M := hx.three_le p hp
   have hAel : IsElemAbelian p (E ⊓ centralizer (V : Set G)) :=
@@ -137,9 +138,9 @@ theorem uc22p22n_one_lt_pRank_mbar (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1
     ∀ p ∈ D.sig, 1 < CFSG.pRank p (MBar D.M V) := by
   intro p hp
   have hpP : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   obtain ⟨P, hPM, hPel, hPV, hP2⟩ := uc22p22n_exists_good D hx h61 hV hTI hp
-  haveI : (kerAct D.M V).Normal := kerAct_normal D.M V hV.2.2.1
+  have : (kerAct D.M V).Normal := kerAct_normal D.M V hV.2.2.1
   let φ : ↥P →* MBar D.M V :=
     (QuotientGroup.mk' (kerAct D.M V).normalCore).comp (Subgroup.inclusion hPM)
   have hinj : Function.Injective φ := by
@@ -167,13 +168,13 @@ theorem uc22p22n_eight_le_card (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) 
   by_contra hlt
   obtain ⟨p, hp⟩ := hx.sig_nonempty
   have hpP : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hp3 : 3 ≤ p := by
     have h2 := hpP.two_le
     have h3 := (D.sig_prime p hp).2
     omega
   obtain ⟨P, hPM, hPel, hPV, hP2⟩ := uc22p22n_exists_good D hx h61 hV hTI hp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp (uc22p22e_isPGroup_of_elem hV.2.2.2)
   have h4 : Nat.card V ≤ 4 := by
     rw [hm] at hlt ⊢
@@ -191,7 +192,7 @@ theorem uc22p22n_inCalV1_of_not_isTI (D : Data G) (hx : DataExt D) (h61 : UC6.R6
     {V : Subgroup G} (hV : InCalV D.M V) (hTI : ¬ IsTI V) : InCalV1 D.M D.T V := by
   obtain ⟨p, hp⟩ := hx.sig_nonempty
   have hpP : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   obtain ⟨P, hPM, hPel, hPV, hP2⟩ := uc22p22n_exists_good D hx h61 hV hTI hp
   exact uc22p22nc_inCalV1_of_good D h61 hp hV hPM (uc22p22e_isPGroup_of_elem hPel)
     (uc22p22n_not_isCyclic_of_card hpP hPel hP2) hPV

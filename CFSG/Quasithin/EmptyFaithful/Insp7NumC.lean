@@ -45,7 +45,7 @@ theorem bigDvd_of_cover {L : Type} [Group L] [Finite L] (hq : CFSG.IsQuasisimple
     rintro _ ⟨x, -, rfl⟩
     exact x.2
   have hTn : T.Normal := Subgroup.normal_of_le_center hTZ
-  have hTp : IsPGroup 2 T := P.isPGroup'.map _
+  have hTp : IsPGroup 2 T := P.isPGroup.map _
   have hTQ : T ≤ CFSG.pCore 2 L := le_sSup ⟨hTn, hTp⟩
   have hTsub : T.subgroupOf (Subgroup.center L) = (P : Subgroup ↥(Subgroup.center L)) :=
     Subgroup.comap_map_eq_self_of_injective (Subgroup.center L).subtype_injective _

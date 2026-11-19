@@ -45,7 +45,7 @@ theorem p34_inf_data (hS : Setting G) (hU0 : FullCoreLocal G)
   have hOcop : Nat.Coprime 3 (Nat.card O) := primeComplementCore_coprime 3
   set π : C →* C ⧸ O := QuotientGroup.mk' O with hπ
   set Q' : Subgroup C := ((P : Subgroup G) ⊓ C).subgroupOf C with hQ'
-  have hQ'p : IsPGroup 3 Q' := (P.isPGroup'.to_le inf_le_left).comap_subtype
+  have hQ'p : IsPGroup 3 Q' := (P.isPGroup.to_le inf_le_left).comap_subtype
   set L : Subgroup (C ⧸ O) := r1sBar x J with hL
   set SL : Subgroup (C ⧸ O) := (Sbar : Subgroup (C ⧸ O)) ⊓ L with hSL
   obtain ⟨hSLe, hSLc⟩ := hY.inf_elemAbelian hKM hKA Sbar

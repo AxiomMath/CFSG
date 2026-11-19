@@ -15,8 +15,8 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 @[expose] def Lemma4_3Stmt : Prop :=
   ∀ {G : Type} [Group G] [Finite G]
     {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
-    (hI : Sec4Inputs) (hG : Sec4Glob G) (hc : Ctx t L S x₁ x₂ lam rho tau)
-    (h2 : Lemma4_2Concl S), Lemma4_3Concl t
+    (_hI : Sec4Inputs) (_hG : Sec4Glob G) (_hc : Ctx t L S x₁ x₂ lam rho tau)
+    (_h2 : Lemma4_2Concl S), Lemma4_3Concl t
 
 theorem ctx4_of_ctx (h43 : Lemma4_3Stmt) (hI : Sec4Inputs) (hG : Sec4Glob G)
     (hc : Ctx t L S x₁ x₂ lam rho tau) : Ctx4 t L S x₁ x₂ lam rho tau :=

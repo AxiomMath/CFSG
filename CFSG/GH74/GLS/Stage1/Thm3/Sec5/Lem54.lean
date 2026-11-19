@@ -22,7 +22,7 @@ theorem eq_z_of_central (hII : II4_4_4_center) (h : Std4 G z S K₁ K₂) {w : G
   have hz1 : z ≠ 1 := ne_one_of_orderOf_eq_two h.orderOf_z
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS'top : M.Syl2In (S' : Subgroup G) ⊤ :=
-    ⟨le_top, S'.isPGroup', by simpa [Subgroup.relIndex_top_right] using Sylow.not_dvd_index S'⟩
+    ⟨le_top, S'.isPGroup, by simpa [Subgroup.relIndex_top_right] using Sylow.not_dvd_index S'⟩
   obtain ⟨c, -, hc⟩ := hS'top.exists_conj hM.S_top
   have hmemS : ∀ y : G, y ∈ S ↔ c * y * c⁻¹ ∈ (S' : Subgroup G) := by
     intro y

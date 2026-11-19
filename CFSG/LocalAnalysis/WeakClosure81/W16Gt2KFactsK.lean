@@ -116,7 +116,7 @@ theorem kFacts_su_config :
             (∀ x ∈ conjSubgroup A γ, ∀ y ∈ A ⊔ B, x * y = y * x) ∧
             τ ∈ Subgroup.normalizer (A : Set _) ∧ (∀ a ∈ A, τ * a = a * τ → a = 1) := by
   intro m n F _ _ hm hn hF A B hA hB hAt hBt hnc
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
   set σ := unitaryInvolution F 2 n with hσdef
   have hσ := isUnitaryInvolution_unitaryInvolution hF
   obtain ⟨e, f, he, hf, hef, hAe, hBf⟩ :=

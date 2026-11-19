@@ -53,6 +53,7 @@ theorem uc22s217v_centralizesBar_of_isJ1 {L : Subgroup G} {r : ℕ} (hJ1 : IsJ1 
     rw [h1, MulAut.one_apply]
   exact (UC6S846.rhoL_fix_iff L m ⟨l, hl⟩).1 h2
 
+omit [Finite G] in
 theorem uc22s217v_isJ1_of_mem {M L K : Subgroup G} (hJ1 : IsJ1 (Bar2 L))
     (hK : K ∈ conjSetOf M L) : IsJ1 (Bar2 K) := by
   obtain ⟨g, -, rfl⟩ := hK
@@ -60,11 +61,12 @@ theorem uc22s217v_isJ1_of_mem {M L K : Subgroup G} (hJ1 : IsJ1 (Bar2 L))
   obtain ⟨φ⟩ := hJ1
   exact ⟨e.symm.trans φ⟩
 
+omit [Finite G] in
 theorem uc22s217v_exists_ne {M L : Subgroup G} (hL : L ∈ calC M)
     (hnN : ¬ (L.subgroupOf M).Normal) : ∃ K ∈ conjSetOf M L, K ≠ L := by
   have hnN' : ¬ M ≤ normalizer (L : Set G) := fun h =>
     hnN ((Subgroup.normal_subgroupOf_iff_le_normalizer hL.1.le).2 h)
-  obtain ⟨m, hmM, hmN⟩ := SetLike.not_le_iff_exists.1 hnN'
+  obtain ⟨m, hmM, hmN⟩ := IsConcreteLE.not_le_iff_exists.1 hnN'
   exact ⟨L.map (MulAut.conj m).toMonoidHom, ⟨m, hmM, rfl⟩, fun he =>
     hmN (UC6S846.mem_normalizer_iff_map_conj.2 he)⟩
 

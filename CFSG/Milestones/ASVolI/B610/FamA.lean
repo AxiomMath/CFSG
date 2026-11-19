@@ -75,7 +75,7 @@ theorem iSup_le_normalizer (hFam : burnsideB610_Fam H T V hV F S X D) {i : ι} (
 theorem twoResidual_le_nLV (hFam : burnsideB610_Fam H T V hV F S X D)
     (hHV : H ≤ Subgroup.normalizer (V : Set G)) {i : ι} (hi : i ∈ S) :
     twoResidual H ≤ nLV (X i) V :=
-  fun k hk => ⟨hFam.iSup_le_normalizer hi (hFam.res hk), hHV (twoResidual_le H hk)⟩
+  fun _k hk => ⟨hFam.iSup_le_normalizer hi (hFam.res hk), hHV (twoResidual_le H hk)⟩
 
 theorem commutator_le (hFam : burnsideB610_Fam H T V hV F S X D)
     (hHV : H ≤ Subgroup.normalizer (V : Set G)) {i : ι} (hi : i ∈ S) : ⁅V, X i⁆ ≤ V :=
@@ -122,7 +122,7 @@ theorem iSup_le_stab (hFam : burnsideB610_Fam H T V hV F S X D)
     ⁅V, X i⁆ ≤ burnsideB610_famW S X V) (Subgroup.inv_mem _ h1)
 
 theorem _root_.CFSG.Quasithin.B610T.burnsideB610_pow_conj {b v w : G} (hw : b * v * b⁻¹ = w * v)
-    (hbw : b * w = w * b) (hvw : v * w = w * v) :
+    (hbw : b * w = w * b) (_hvw : v * w = w * v) :
     ∀ m : ℕ, b ^ m * v * (b ^ m)⁻¹ = w ^ m * v := by
   intro m
   induction m with

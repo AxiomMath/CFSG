@@ -75,9 +75,9 @@ theorem a2l_exists_spinMinus_sl2
       Fintype.card E = Nat.card F ^ 2 ∧ Function.Injective Θ ∧
         ((Θ (a2lNegOne E) : spinGroup (quadMinus n F b c)) :
           CliffordAlgebra (quadMinus n F b c)) = -1 := by
-  haveI := fact_shortField hirr
-  haveI := finite_shortField (b := b) (c := c)
-  haveI := Fintype.ofFinite (ShortField b c)
+  have := fact_shortField hirr
+  have := finite_shortField (b := b) (c := c)
+  have := Fintype.ofFinite (ShortField b c)
   refine ⟨ShortField b c, inferInstance, inferInstance, shortBlock hirr n k, ?_,
     shortBlock_injective hirr h2 n k, a2l_shortBlock_negOne hirr h2 n k⟩
   rw [← Nat.card_eq_fintype_card, Nat.card_congr (QuadraticAlgebra.equivProd (-c) b),

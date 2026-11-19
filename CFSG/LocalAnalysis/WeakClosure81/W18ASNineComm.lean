@@ -12,18 +12,21 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
+omit [Finite V] in
 theorem cj_zpowers (g a : LGL 2 V) :
     cj g (Subgroup.zpowers a) = Subgroup.zpowers (g * a * g⁻¹) := by
   unfold cj
   rw [MonoidHom.map_zpowers]
   rfl
 
+omit [Finite V] in
 theorem zpowers_conj_mem (h : Assumption131 G Γ VA i) {a : ↥G}
     (ha : Subgroup.zpowers (a : LGL 2 V) ∈ Γ) (y : ↥G) :
     Subgroup.zpowers ((y * a * y⁻¹ : ↥G) : LGL 2 V) ∈ Γ := by
   have := h.invariant _ ha (y : LGL 2 V) y.2
   rwa [cj_zpowers] at this
 
+omit [Finite V] in
 theorem Assumption131.orbit (h : Assumption131 G Γ VA i) {a : ↥G}
     (ha : Subgroup.zpowers (a : LGL 2 V) ∈ Γ) :
     Assumption131 G

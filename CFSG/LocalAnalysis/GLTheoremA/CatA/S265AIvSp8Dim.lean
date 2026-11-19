@@ -12,7 +12,7 @@ open CFSG.LocalAnalysis.GLTheoremA.CatB.U4Sp8 CFSG.LocalAnalysis.GLTheoremA.I201
 theorem finrank_ker_eq_six_of_card {g : StatedSp 4 (ZMod 2)} (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1)
     (hcard : 1451520 ≤ Nat.card ↥(Subgroup.centralizer ({g} : Set (StatedSp 4 (ZMod 2))))) :
     Module.finrank (ZMod 2) ↥(LinearMap.ker (spEnd g - 1)) = 6 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨s₀, hC⟩ := exists_class_spSupported hg3 hg1
   obtain ⟨s₁, hs₁, hs4⟩ := dimension_count hg3 hg1
   have blocks := sp8_blocks g (orderOf_eq_prime hg3 hg1)

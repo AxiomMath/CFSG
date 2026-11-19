@@ -69,9 +69,9 @@ theorem isSolvable_of_le_familyCentralizer (a : ι → Fin τ.rank → Kˣ)
     have e : (⟨m * canonicalRep (coxeterSystem τ) K w, hg⟩ : F) =
         ⟨m, hmF⟩ * ⟨canonicalRep (coxeterSystem τ) K w, hnF⟩ := rfl
     rw [e, QuotientGroup.mk_mul, hone ⟨m, hmF⟩ hm, one_mul]
-  have : Group.IsSolvable (F ⧸ M.subgroupOf F) := solvable_of_surjective hθ
+  have : Group.IsSolvable (F ⧸ M.subgroupOf F) := Group.isSolvable_of_surjective hθ
   let g : Q →* F ⧸ M.subgroupOf F := (QuotientGroup.mk' _).comp (Subgroup.inclusion hQ)
-  refine solvable_of_ker_le_range (Subgroup.inclusion (inf_le_left : Q ⊓ M ≤ Q)) g
+  refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion (inf_le_left : Q ⊓ M ≤ Q)) g
     fun x hx => ?_
   have hxM : (x : ModGL τ K) ∈ M := by
     have h := (QuotientGroup.eq_one_iff _).1 (MonoidHom.mem_ker.1 hx)

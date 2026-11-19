@@ -21,9 +21,9 @@ theorem card_ker_dvd_six_perm_six {Γ : Type} [Group Γ] [Finite Γ]
   have hL : ⁅(alternatingGroup (Fin 6) : Subgroup (Equiv.Perm (Fin 6))),
       alternatingGroup (Fin 6)⁆ = alternatingGroup (Fin 6) :=
     Subgroup.isPerfect_iff.mp hperfA
-  haveI hcyc : IsCyclic (Equiv.Perm (Fin 6) ⧸ alternatingGroup (Fin 6)) :=
+  have hcyc : IsCyclic (Equiv.Perm (Fin 6) ⧸ alternatingGroup (Fin 6)) :=
     isCyclic_of_prime_card (alternatingGroup.index_eq_two (α := Fin 6))
-  haveI : Group.IsPerfect ↥((alternatingGroup (Fin 6)).comap φ) :=
+  have : Group.IsPerfect ↥((alternatingGroup (Fin 6)).comap φ) :=
     CFSG.GroupTheory.isPerfect_comap_of_isCyclic_quotient φ hφ hcen hcom hL
   let Γ₀ : Subgroup Γ := (alternatingGroup (Fin 6)).comap φ
   let φ₀ : ↥Γ₀ →* ↥(alternatingGroup (Fin 6)) :=
@@ -70,7 +70,7 @@ theorem card_closure_threeCycles :
   have hb3 : (c[3, 4, 5] : Equiv.Perm (Fin 6)) ^ 3 = 1 := by decide
   have hab : (c[0, 1, 2] : Equiv.Perm (Fin 6)) * c[3, 4, 5] = c[3, 4, 5] * c[0, 1, 2] := by
     decide
-  haveI hCc : IsMulCommutative ↥(Subgroup.closure
+  have hCc : IsMulCommutative ↥(Subgroup.closure
       ({c[0, 1, 2], c[3, 4, 5]} : Set (Equiv.Perm (Fin 6)))) :=
     Subgroup.isMulCommutative_closure (by
       intro u hu v hv _
@@ -135,7 +135,7 @@ theorem not_three_dvd_card_ker_perm_six {Γ : Type} [Group Γ] [Finite Γ]
     (hcen : φ.ker ≤ Subgroup.center Γ) (hcom : φ.ker ≤ commutator Γ) :
     ¬ 3 ∣ Nat.card φ.ker := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   intro h3
   have ha3 : (c[0, 1, 2] : Equiv.Perm (Fin 6)) ^ 3 = 1 := by decide
   have hab : (c[0, 1, 2] : Equiv.Perm (Fin 6)) * c[3, 4, 5] = c[3, 4, 5] * c[0, 1, 2] := by
@@ -215,6 +215,6 @@ theorem card_ker_le_two_statedSp_two_one {Γ : Type} [Group Γ]
 theorem griessSpMultiplierExceptionStatement_holds :
     CFSG.RankThree.GF2n.Tim79a.GriessSpMultiplierExceptionStatement :=
   griessSpMultiplierExceptionStatement_of_s6_upper
-    (fun Γ _ _ φ hφ hcen hcom => card_ker_le_two_statedSp_two_one φ hφ hcen hcom)
+    (fun _Γ _ _ φ hφ hcen hcom => card_ker_le_two_statedSp_two_one φ hφ hcen hcom)
 
 end CFSG.RankThree.GF2n.Tim79a

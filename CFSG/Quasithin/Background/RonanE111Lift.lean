@@ -96,7 +96,7 @@ theorem lift_semisimple [Finite Q] {n : ℕ} (hn : 1 ≤ n)
     rw [eq_top_iff, ← hDT₀]
     exact sup_le_sup le_rfl hT₀T
   have hπ₁s : Function.Surjective (QuotientGroup.mk' Y) := QuotientGroup.mk'_surjective Y
-  haveI hDn' : (D.map (QuotientGroup.mk' Y)).Normal := Subgroup.Normal.map ‹D.Normal› _ hπ₁s
+  have hDn' : (D.map (QuotientGroup.mk' Y)).Normal := Subgroup.Normal.map ‹D.Normal› _ hπ₁s
   have hsf := hSM.semiFam_map
   have hDs := hSM.sSup_map
   have hTs : IsSylowIn 2 (T.map (QuotientGroup.mk' Y)) ⊤ := E1.isSylowIn_two_map_top hπ₁s hT

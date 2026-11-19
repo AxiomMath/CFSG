@@ -17,7 +17,7 @@ theorem card_centralizer_sylow_five_le [Finite G] [IsSimpleGroup G] (P : Sylow 5
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hPn : ¬ (P : Subgroup G).Normal := by
     intro hnormal
-    haveI : Unique (Sylow 5 G) := Sylow.unique_of_normal P hnormal
+    have : Unique (Sylow 5 G) := Sylow.unique_of_normal P hnormal
     have : Nat.card (Sylow 5 G) = 1 := Nat.card_unique
     omega
   let _ : Fintype (Sylow 5 G) := Fintype.ofFinite _

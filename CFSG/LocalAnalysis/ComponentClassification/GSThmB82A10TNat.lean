@@ -19,7 +19,7 @@ variable {X : Type} [Group X] [Finite X]
 @[expose] def IsRep {N : Subgroup X} {n : ℕ} (φ : ↥N →* Perm (Fin n)) (M : Subgroup X)
     (A : Subgroup (Perm (Fin n))) : Prop :=
   M ≤ N ∧ (M.subgroupOf N).map φ = A ∧
-    ∀ m (hm : m ∈ M) (hmN : m ∈ N), φ ⟨m, hmN⟩ = 1 ↔ m ∈ oddCoreIn M
+    ∀ m (_hm : m ∈ M) (hmN : m ∈ N), φ ⟨m, hmN⟩ = 1 ↔ m ∈ oddCoreIn M
 
 private theorem fix_of_commute_altOn_of_four {α : Type*} [DecidableEq α] [Fintype α]
     {Δ : Finset α} (hΔ : 4 ≤ Δ.card) {σ : Perm α} (h : ∀ g ∈ altOn Δ, σ * g = g * σ) :
@@ -33,7 +33,7 @@ private theorem fix_of_commute_altOn_of_four {α : Type*} [DecidableEq α] [Fint
   have key : ∀ x y, x ∈ Δ → y ∈ Δ → x ≠ i → y ≠ i → x ≠ y → σ i = i ∨ σ i = x ∨ σ i = y := by
     intro x y hx hy hxi hyi hxy
     have hnd : [i, x, y].Nodup := by
-      simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil,
+      simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil,
         or_false, not_or, List.nodup_nil, not_false_eq_true, and_true]
       exact ⟨⟨hxi.symm, hyi.symm⟩, hxy⟩
     have hsupp := support_swap_mul_swap hnd
@@ -67,6 +67,7 @@ namespace IsRep
 
 variable {N M : Subgroup X} {n : ℕ} {φ : ↥N →* Perm (Fin n)} {A : Subgroup (Perm (Fin n))}
 
+omit [Finite X] in
 theorem nonempty_equiv (h : IsRep φ M A) : Nonempty (↥M ⧸ pPrimeCore 2 ↥M ≃* ↥A) := by
   obtain ⟨hMN, hmap, hker⟩ := h
   let f : ↥M →* ↥A := (φ.comp (inclusion hMN)).codRestrict A fun m => by
@@ -86,6 +87,7 @@ theorem nonempty_equiv (h : IsRep φ M A) : Nonempty (↥M ⧸ pPrimeCore 2 ↥M
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hk.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective f hf)⟩
 
+omit [Finite X] in
 theorem mem_coreActionKernel_iff (h : IsRep φ M A) {g : X} (hgN : g ∈ N)
     (hgM : g ∈ normalizer (M : Set X)) :
     g ∈ coreActionKernel M ↔ ∀ α ∈ A, φ ⟨g, hgN⟩ * α = α * φ ⟨g, hgN⟩ := by
@@ -119,6 +121,7 @@ theorem mem_coreActionKernel_iff (h : IsRep φ M A) {g : X} (hgN : g ∈ N)
     rw [mul_assoc _ (φ ⟨j, hMN hj⟩), ← h1]
     group
 
+omit [Finite X] in
 theorem mem_coreActionKernel_iff_eq_one (h : IsRep φ M (alternatingGroup (Fin n))) (hn : 4 ≤ n)
     {g : X} (hgN : g ∈ N) (hgM : g ∈ normalizer (M : Set X)) :
     g ∈ coreActionKernel M ↔ φ ⟨g, hgN⟩ = 1 := by
@@ -133,6 +136,7 @@ theorem mem_coreActionKernel_iff_eq_one (h : IsRep φ M (alternatingGroup (Fin n
   · intro h1 α _
     rw [h1, one_mul, mul_one]
 
+omit [Finite X] in
 theorem fix_of_mem_coreActionKernel {Δ : Finset (Fin n)} (h : IsRep φ M (altOn Δ))
     (hΔ : 4 ≤ Δ.card) {g : X} (hgN : g ∈ N) (hgM : g ∈ normalizer (M : Set X))
     (hg : g ∈ coreActionKernel M) : ∀ i ∈ Δ, φ ⟨g, hgN⟩ i = i :=
@@ -140,6 +144,7 @@ theorem fix_of_mem_coreActionKernel {Δ : Finset (Fin n)} (h : IsRep φ M (altOn
 
 end IsRep
 
+omit [Finite X] in
 theorem isRep_of_equiv {M : Subgroup X} {n : ℕ} (hn : 5 ≤ n) (hn6 : n ≠ 6)
     (e : ↥M ⧸ pPrimeCore 2 ↥M ≃* alternatingGroup (Fin n)) :
     ∃ φ : ↥(normalizer (M : Set X)) →* Perm (Fin n),
@@ -182,6 +187,7 @@ theorem isRep_of_equiv {M : Subgroup X} {n : ℕ} (hn : 5 ≤ n) (hn6 : n ≠ 6)
     change cN.symm (MulAut.congr e (θ g)) = 1 ↔ θ g = 1
     rw [map_eq_one_iff _ cN.symm.injective, map_eq_one_iff _ (MulAut.congr e).injective]
 
+omit [Finite X] in
 private theorem inf_centralizer_subgroupOf {N E : Subgroup X} (hE : E ≤ N) (M : Subgroup X) :
     (M ⊓ centralizer (E : Set X)).subgroupOf N =
       M.subgroupOf N ⊓ centralizer ((E.subgroupOf N : Subgroup N) : Set N) := by
@@ -209,6 +215,7 @@ private theorem not_two_dvd_card_of_forall {K : Type*} [Group K] [Finite K]
   obtain ⟨k, hk⟩ := exists_prime_orderOf_dvd_card' 2 h2
   exact h k (hk ▸ dvd_rfl)
 
+omit [Finite X] in
 private theorem conj_mem_oddCoreIn {M : Subgroup X} {m x : X} (hm : m ∈ M)
     (hx : x ∈ oddCoreIn M) : m * x * m⁻¹ ∈ oddCoreIn M := by
   obtain ⟨o, ho, rfl⟩ := hx
@@ -504,7 +511,7 @@ private theorem natural_aux {N M E : Subgroup X} {n : ℕ} {φ : ↥N →* Perm 
     exact h
   refine ⟨fun Y hYC hY => ?_, fun h5 => ?_, fun Y₁ Y₂ hY₁ hY₂ hc₁ hc₂ h => ?_⟩
   · have h1 := hbij.mapsTo ((htr Y).mpr hY)
-    rw [Set.mem_setOf_eq, himg Y hYC] at h1
+    rw [Set.mem_ofPred_eq, himg Y hYC] at h1
     exact eq_altOn_of_isPComponent hP2 hTF hPΔ (hle Y hYC) h1
   · obtain ⟨hAT, hA⟩ := altOn_isPComponent hTF hPΔ h5
     obtain ⟨L, hL, hLA⟩ := hbij.surjOn hA

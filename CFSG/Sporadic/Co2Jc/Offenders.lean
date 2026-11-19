@@ -228,7 +228,7 @@ theorem actsBy_one : ActsBy (1 : MulAut ↥Jc) (Native.tabF Native.idTab) := by
 
 theorem actsBy_qWord {w : List ℕ} (hw : ∀ k ∈ w, k < 3) :
     ActsBy (qWord w) (fun i => wordAct w (2 ^ i)) :=
-  fun x hx => qWord_jcA_eq_colAct hw hx
+  fun _x hx => qWord_jcA_eq_colAct hw hx
 
 theorem actsBy_wCols {w : List ℕ} (hw : ∀ k ∈ w, k < 3) :
     ActsBy (qWord w) (Native.tabF (Native.wCols w)) := by
@@ -252,7 +252,7 @@ theorem tabLt_getD {i : ℕ} (hi : i < 256) : TabLt (Native.tabs.getD i []) :=
 
 theorem compL_getD {l₁ l₂ : List ℕ} {i : ℕ} (hi : i < 10) :
     (Native.compL l₁ l₂).getD i 0 = colAct (Native.tabF l₁) (l₂.getD i 0) := by
-  simp only [Native.tabF, Native.compL, List.getD_eq_getElem, List.length_map,
+  simp only [Native.compL, List.getD_eq_getElem, List.length_map,
     List.length_range, hi, List.getElem_map, List.getElem_range]
 
 theorem tabLt_compL {l₁ l₂ : List ℕ} (h : TabLt l₁) : TabLt (Native.compL l₁ l₂) := by
@@ -301,11 +301,11 @@ theorem qWord_flatMap_replicate (n k : ℕ) :
 private theorem exists_word_aux {g : MulAut ↥Jc} (hg : g ∈ sylS) :
     ∃ u : List ℕ, (∀ k ∈ u, k < 4) ∧
       qWord (u.flatMap fun j => Data.sylW.getD j []) = g := by
-  haveI : Finite ↥Jc :=
+  have : Finite ↥Jc :=
     Finite.of_surjective (fun m : Fin 1024 => jcA m) fun x => by
       obtain ⟨m, hm, hx⟩ := exists_jcA x
       exact ⟨⟨m, hm⟩, hx⟩
-  haveI : Finite (MulAut ↥Jc) := inferInstance
+  have : Finite (MulAut ↥Jc) := inferInstance
   rw [sylS] at hg
   refine Subgroup.closure_induction_left
     (s := Set.range fun k : Fin 4 => qWord (Data.sylW.getD (k : ℕ) []))
@@ -350,7 +350,7 @@ theorem exists_word {g : MulAut ↥Jc} (hg : g ∈ sylS) :
 theorem idTab_mem : Native.idTab ∈ Native.tabs := by
   rw [← tabs_zero]
   exact List.getD_eq_getElem (l := Native.tabs) (n := 0) (d := [])
-    (by simpa [tabs_length]) ▸ List.getElem_mem (by simpa [tabs_length] :
+    (by simp [tabs_length]) ▸ List.getElem_mem (by simp [tabs_length] :
       0 < Native.tabs.length)
 
 theorem actsBy_word : ∀ u : List ℕ, (∀ k ∈ u, k < 4) →
@@ -489,11 +489,11 @@ theorem sylG_surj : Function.Surjective sylG := by
   exact (actsBy_elem (idx_acts g) (sylG_acts (sylIdx g))).symm
 
 theorem card_sylS : Nat.card ↥sylS = 256 := by
-  haveI : Finite ↥Jc :=
+  have : Finite ↥Jc :=
     Finite.of_surjective (fun m : Fin 1024 => jcA m) fun x => by
       obtain ⟨m, hm, hx⟩ := exists_jcA x
       exact ⟨⟨m, hm⟩, hx⟩
-  haveI : Finite (MulAut ↥Jc) := inferInstance
+  have : Finite (MulAut ↥Jc) := inferInstance
   have h1 : 256 ≤ Nat.card ↥sylS := by
     have := Nat.card_le_card_of_injective sylG sylG_inj
     simpa using this
@@ -520,7 +520,7 @@ theorem sylE_zero : sylE (0 : Fin 256) = 1 := by
 
 noncomputable def elemOf (i : ℕ) : ↥sylS := if h : i < 256 then sylE ⟨i, h⟩ else 1
 
-theorem elemOf_apply {i : ℕ} (hi : i < 256) : elemOf i = sylE ⟨i, hi⟩ := dif_pos hi
+theorem elemOf_apply {i : ℕ} (hi : i < 256) : elemOf i = sylE ⟨i, hi⟩ := dite_eq_left hi
 
 theorem elemOf_acts {i : ℕ} (hi : i < 256) :
     ActsBy (elemOf i : MulAut ↥Jc) (Native.tabF (Native.tabs.getD i [])) := by
@@ -722,7 +722,7 @@ theorem compL_comm {s i : ℕ} (hs : s < 256) (hi : i < 256)
 theorem idxListOf_mul_fix_le {Z : Subgroup (MulAut ↥Jc)} (hZS : Z ≤ sylS)
     (hZ : IsElementaryAbelian 2 Z) (hZ1 : Z ≠ ⊥) :
     (idxListOf Z).length * Native.fixCount (idxListOf Z) ≤ 512 := by
-  haveI : IsElementaryAbelian 2 Z := hZ
+  have : IsElementaryAbelian 2 Z := hZ
   have hne : ∃ z : MulAut ↥Jc, z ∈ Z ∧ z ≠ 1 := by
     by_contra h
     apply hZ1
@@ -763,7 +763,7 @@ theorem idxListOf_mul_fix_le {Z : Subgroup (MulAut ↥Jc)} (hZS : Z ≤ sylS)
       · exact ⟨l, hl, hsub, hfull⟩
       · have hex : ∃ s', s' ∈ idxListOf Z ∧ s' ∉ l := by
           by_contra h
-          push_neg at h
+          push Not at h
           have hle : l.length = (idxListOf Z).length := by
             have hf1 : (idxListOf Z).toFinset ⊆ l.toFinset := by
               intro x hx
@@ -962,14 +962,14 @@ theorem map_conj_le_sylS {Y : Subgroup (MulAut ↥Jc)} (hYQ : Y ≤ Qj)
 theorem noOffenders_Qj (Y : Subgroup (MulAut ↥Jc)) (hYQ : Y ≤ Qj)
     (hY : IsElementaryAbelian 2 Y) (hY1 : Y ≠ ⊥) :
     Nat.card Y * Nat.card {a : ↥Jc // ∀ y ∈ Y, y a = a} < 2 ^ 10 := by
-  haveI : IsElementaryAbelian 2 Y := hY
-  haveI hY'elem : IsElementaryAbelian 2 (Y.subgroupOf Qj) := IsElementaryAbelian.subgroupOf hYQ
+  have : IsElementaryAbelian 2 Y := hY
+  have hY'elem : IsElementaryAbelian 2 (Y.subgroupOf Qj) := IsElementaryAbelian.subgroupOf hYQ
   have hY'p : IsPGroup 2 (Y.subgroupOf Qj) := IsElementaryAbelian.isPGroup 2 _
   obtain ⟨P, hY'P⟩ := IsPGroup.exists_le_sylow hY'p
   obtain ⟨g, hg⟩ := MulAction.IsPretransitive.exists_smul_eq (M := Qj) P sylSylow
   let Z : Subgroup (MulAut ↥Jc) := Y.map (MulAut.conj (g : MulAut ↥Jc)).toMonoidHom
   have hZS : Z ≤ sylS := map_conj_le_sylS hYQ hY'P hg
-  haveI hZ : IsElementaryAbelian 2 Z := IsElementaryAbelian.map _
+  have hZ : IsElementaryAbelian 2 Z := IsElementaryAbelian.map _
   have hZ1 : Z ≠ ⊥ := by
     intro hbot
     apply hY1

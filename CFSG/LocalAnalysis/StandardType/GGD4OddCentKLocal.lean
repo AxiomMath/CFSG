@@ -14,6 +14,7 @@ section KLocal
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_zpow_mul_of_mem_closure_pair_of_commute {x y z : G} (hxy : Commute x y)
     (hz : z ∈ Subgroup.closure ({x, y} : Set G)) : ∃ m n : ℤ, z = x ^ m * y ^ n := by
   induction hz using Subgroup.closure_induction with
@@ -49,6 +50,7 @@ private theorem tpkl_isElemAbelian_range_of_comm {X Y : Type*} [Group X] [Group 
   · rintro _ ⟨a, rfl⟩
     rw [← map_pow, hexp a, map_one]
 
+omit [Finite G] in
 private theorem tpkl_isElemAbelian_ggAutsOf {X S : Subgroup G} {p : ℕ}
     (h : S ≤ Subgroup.normalizer (X : Set G)) (hS : IsElemAbelian p S) :
     IsElemAbelian p (ggAutsOf X S h) := by
@@ -66,7 +68,7 @@ theorem ggKLocalCoreGen {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup 
   have hI : GGThmIHyp p B x L := hC.1
   have hβ : p ∈ LargeEvenBeta 4 G := hI.2.2.2.2.2.1
   have hp : p.Prime := hβ.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS : LargeEvenSStar p B x L := hI.2.2.2.2.2.2.1
   have hBs : GGBstar p B Bs := hC.2.1
   have hDJ : LargeEvenStdSub p B x L D J := hC.2.2
@@ -194,7 +196,7 @@ theorem ggKLocalGen {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
 theorem ggD4OddCent_kLocal {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
     (hC : GGConfig 3 B Bs x L D J) {y : G} {K : Subgroup G} (hK : GGNbr 3 B x D J y K)
     (hJK : J ≤ K) (hN : Bs ≤ Subgroup.normalizer (K : Set G))
-    (hcent : Bs ⊓ Subgroup.centralizer (K : Set G) ≤ Subgroup.zpowers y) (hBsB : Bs = B)
+    (_hcent : Bs ⊓ Subgroup.centralizer (K : Set G) ≤ Subgroup.zpowers y) (hBsB : Bs = B)
     (hx : x ∈ Subgroup.normalizer (K : Set G)) :
     GGKLocal (ggAutsOf K Bs hN) (K.normalizerMonoidHom ⟨x, hx⟩) (J.subgroupOf K) := by
   have hpre : LargeEvenStdSubPre 3 B x L D J := hC.2.2.1

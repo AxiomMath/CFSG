@@ -21,7 +21,7 @@ lemma three_dvd_sq_sub_one {a : ℕ} (h3 : ¬ 3 ∣ a) : 3 ∣ a ^ 2 - 1 := by
 
 lemma v3_pow6_sub_one {a : ℕ} (ha : 2 ≤ a) (h3 : ¬ 3 ∣ a) :
     padicValNat 3 (a ^ 6 - 1) = padicValNat 3 (a ^ 2 - 1) + 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx : 1 < a ^ 2 := Nat.one_lt_pow (by norm_num) (by omega)
   have h3' : ¬ 3 ∣ a ^ 2 := fun h => h3 (Nat.prime_three.dvd_of_dvd_pow h)
   have := padicValNat.pow_sub_pow (p := 3) (by decide) (x := a ^ 2) (y := 1) hx
@@ -32,7 +32,7 @@ lemma v3_pow6_sub_one {a : ℕ} (ha : 2 ≤ a) (h3 : ¬ 3 ∣ a) :
 
 lemma v3_quartic {a : ℕ} (ha : 2 ≤ a) (h3 : ¬ 3 ∣ a) :
     padicValNat 3 (a ^ 8 + a ^ 4 + 1) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx : 1 < a ^ 4 := Nat.one_lt_pow (by norm_num) (by omega)
   have h3' : ¬ 3 ∣ a ^ 4 := fun h => h3 (Nat.prime_three.dvd_of_dvd_pow h)
   have h3'' : ¬ 3 ∣ a ^ 2 := fun h => h3 (Nat.prime_three.dvd_of_dvd_pow h)
@@ -65,7 +65,7 @@ lemma three_dvd_cases {b : ℕ} (hb : 3 ∣ b) (hb2 : 2 ≤ b) :
 
 lemma v3_ordG2_of_not_dvd {a : ℕ} (ha : 3 ≤ a) (h3 : ¬ 3 ∣ a) :
     padicValNat 3 (ordG2 a) = 2 * padicValNat 3 (a ^ 2 - 1) + 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold ordG2
   have h6 : a ^ 6 ≠ 0 := by positivity
   have h6' : a ^ 6 - 1 ≠ 0 := by
@@ -79,7 +79,7 @@ lemma v3_ordG2_of_not_dvd {a : ℕ} (ha : 3 ≤ a) (h3 : ¬ 3 ∣ a) :
 
 lemma v3_ordTri_of_not_dvd {b : ℕ} (hb : 2 ≤ b) (h3 : ¬ 3 ∣ b) :
     padicValNat 3 (ordTrialityD4 b) = 2 * padicValNat 3 (b ^ 2 - 1) + 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold ordTrialityD4
   have h12 : b ^ 12 ≠ 0 := by positivity
   have hq : b ^ 8 + b ^ 4 + 1 ≠ 0 := by positivity
@@ -95,7 +95,7 @@ lemma v3_ordTri_of_not_dvd {b : ℕ} (hb : 2 ≤ b) (h3 : ¬ 3 ∣ b) :
 
 lemma v3_ordG2_of_dvd {a : ℕ} (ha : 3 ≤ a) (h3 : 3 ∣ a) :
     padicValNat 3 (ordG2 a) = 6 * padicValNat 3 a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨h6, h2, -⟩ := three_dvd_cases h3 (by omega)
   unfold ordG2
   have h6' : a ^ 6 - 1 ≠ 0 := by
@@ -110,7 +110,7 @@ lemma v3_ordG2_of_dvd {a : ℕ} (ha : 3 ≤ a) (h3 : 3 ∣ a) :
 
 lemma v3_ordTri_of_dvd {b : ℕ} (hb : 2 ≤ b) (h3 : 3 ∣ b) :
     padicValNat 3 (ordTrialityD4 b) = 12 * padicValNat 3 b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨h6, h2, h8⟩ := three_dvd_cases h3 hb
   unfold ordTrialityD4
   have h12 : b ^ 12 ≠ 0 := by positivity
@@ -183,7 +183,7 @@ lemma ordTri_lt_ordG2_sq {b : ℕ} (hb : 2 ≤ b) : ordTrialityD4 b < ordG2 (b ^
 theorem ordG2_ne_ordTrialityD4 (q q' : TauCeti.PrimePower) (hq : 3 ≤ q.card) :
     ordG2 q.card ≠ ordTrialityD4 q'.card := by
   intro h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb : 2 ≤ q'.card := by
     rw [TauCeti.PrimePower.card_def]
     exact q'.prime_p.two_le.trans (Nat.le_self_pow q'.exponent_pos.ne' _)

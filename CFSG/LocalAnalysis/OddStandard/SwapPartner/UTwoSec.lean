@@ -11,7 +11,7 @@ open Subgroup
 
 private lemma u_card_zpowers_selfC {G : Type} [Group G] {x : G} (hx : x * x = 1)
     (hx1 : x ≠ 1) : Nat.card (zpowers (selfC x)) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Nat.card_zpowers]
   apply orderOf_eq_prime
   · apply Subtype.ext
@@ -47,11 +47,11 @@ theorem card_le_four_of_card_le_eight_twoSec {G : Type} [Group G] [Finite G] {x 
       ((((A.subgroupOf (centralizer ({x} : Set G))).map
         (QuotientGroup.mk' (zpowers (selfC x)))) : Subgroup (TwoSec x)) : Set (TwoSec x))) :
     Nat.card U ≤ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ : zpowers (selfC x) ≤ Subgroup.center ↥(centralizer ({x} : Set G)) :=
     zpowers_le.2 (selfC_mem_center x)
   have hperf : Group.IsPerfect ↥(A.subgroupOf (centralizer ({x} : Set G))) := by
-    haveI : Group.IsPerfect ↥A := hA
+    have : Group.IsPerfect ↥A := hA
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hAx).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hAx).symm.surjective

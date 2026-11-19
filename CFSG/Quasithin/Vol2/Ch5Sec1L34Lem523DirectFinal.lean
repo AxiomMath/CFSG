@@ -19,8 +19,9 @@ open CFSG.Quasithin.H13.Abs523 CFSG.Quasithin.H13.Tr523
 
 variable {G : Type} [Group G] [Finite G] {T M L V H B D D₃ Z₁ : Subgroup G} {n : ℕ}
 
+omit [Finite G] in
 theorem sq_one_of_mem_N {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m)
-    (hm : Nat.card D.K = 2 ^ m) [CharP D.K 2] {x : G} (hx : x ∈ N) : x * x = 1 := by
+    (_hm : Nat.card D.K = 2 ^ m) [CharP D.K 2] {x : G} (hx : x ∈ N) : x * x = 1 := by
   have h2 : (2 : D.K) = 0 := by exact_mod_cast CharP.cast_eq_zero D.K 2
   have hc : coordN D (x * x) (N.mul_mem hx hx) = 0 := by
     rw [coordN_mul D hx hx (N.mul_mem hx hx)]
@@ -37,6 +38,7 @@ theorem sq_one_of_mem_N {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m)
 abbrev commGroupOfComm523 {A : Type} [Group A] (h : ∀ a b : A, a * b = b * a) : CommGroup A :=
   { ‹Group A› with mul_comm := h }
 
+omit [Finite G] in
 theorem conjUt_eq_one_of {X : Subgroup G} {a : ↥(Subgroup.normalizer (Z₁ : Set G))} (h : a = 1)
     {ha : (a : G) ∈ Subgroup.normalizer (X : Set G)} : conjUt a ha = 1 := by
   subst h
@@ -53,6 +55,7 @@ theorem conjUt_eq_one_of {X : Subgroup G} {a : ↥(Subgroup.normalizer (Z₁ : S
     (ha := (Subgroup.mem_inf.mp a.2).2) (hb := (Subgroup.mem_inf.mp b.2).2)
     (hab := (Subgroup.mem_inf.mp (mul_mem a.2 b.2)).2)
 
+omit [Finite G] in
 theorem conjHomU523_val {X : Subgroup G}
     (w : ↥(Subgroup.normalizer (Z₁ : Set G) ⊓ Subgroup.normalizer (X : Set G)))
     (x : ↥(tildeOf Z₁ X)) :
@@ -73,8 +76,8 @@ theorem E_contra (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 : Stmt5_1_14_
     {d z k₀ : G} (hcomm : u₁ * v * u₁⁻¹ * v⁻¹ = d * z * d⁻¹) (hk₀ : k₀ ∈ oTwoUpper H)
     (hk₀' : (d * z * d⁻¹)⁻¹ * (k₀ * (d * z * d⁻¹) * k₀⁻¹) ∉ Z₁) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP D'.K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP D'.K 2 :=
     CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.char_two_of_card D'.card
   have hcl := s.hyp.l34.statedClassicalModel (by decide)
   have hTH : T ≤ H := s.hyp.hyp.hStar.1.1
@@ -105,7 +108,7 @@ theorem E_contra (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 : Stmt5_1_14_
     Subgroup.mem_inf.mpr ⟨hvN1, hvN2⟩
   have hvv : v * v = 1 := sq_one_of_mem_N D' D'.card hvN
   have hab_U := s.isElemAbelian_tildeOf_U h5114 hF
-  letI : CommGroup ↥(tildeOf Z₁ (Ugrp Z₁ D₃)) :=
+  let : CommGroup ↥(tildeOf Z₁ (Ugrp Z₁ D₃)) :=
     commGroupOfComm523 (fun a b => hab_U.1.is_comm.comm a b)
   have hE2 : ∀ x : ↥(tildeOf Z₁ (Ugrp Z₁ D₃)), x ^ 2 = 1 :=
     fun x => Subtype.ext (hab_U.2 x.1 x.2)
@@ -165,7 +168,7 @@ theorem E_contra (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 : Stmt5_1_14_
     group
   have hpC_ker : CFSG.pCore 2 ↥(oTwoUpper H) ≤ φ.ker :=
     fun k hk => MonoidHom.mem_ker.mpr (hpC k hk)
-  haveI hN'N : ((φ.ker).map (QuotientGroup.mk' (CFSG.pCore 2 ↥(oTwoUpper H)))).Normal :=
+  have hN'N : ((φ.ker).map (QuotientGroup.mk' (CFSG.pCore 2 ↥(oTwoUpper H)))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have hsimpO : IsSimpleGroup (O2Q (oTwoUpper H)) :=
     CFSG.RankThree.PartTwo.Sec3.isSimpleGroup_of_statedClassicalModel_psl hcl
@@ -178,7 +181,7 @@ theorem E_contra (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 : Stmt5_1_14_
     ⟨fun g => if hg : g ∈ Ugrp Z₁ D₃ then
         ⟨secMk (Subgroup.normalizer (Z₁ : Set G)) Z₁ ⟨g, hNz hg⟩,
           secMk_mem_secImg (x := ⟨g, hNz hg⟩) hg⟩ else 1,
-      fun g hg => dif_pos hg⟩
+      fun g hg => dite_eq_left hg⟩
   have hXc : (hE '' (F : Set G)).ncard ≤ 4 :=
     (Set.ncard_image_le (Finset.finite_toSet F)).trans (by rw [Set.ncard_coe_finset]; exact hFc)
   have hcm : ∀ x : ↥(tildeOf Z₁ (Ugrp Z₁ D₃)), x * (Θ ⟨v, hvHs⟩ x)⁻¹ ∈ hE '' (F : Set G) := by
@@ -260,18 +263,18 @@ theorem E_contra (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 : Stmt5_1_14_
     have eK : O2Q (oTwoUpper H) ≃* ↥φ.range :=
       (QuotientGroup.quotientMulEquivOfEq hker).symm.trans (QuotientGroup.quotientKerEquivRange φ)
     have hsimpR : IsSimpleGroup ↥φ.range := MulEquiv.isSimpleGroup eK.symm
-    haveI : IsSimpleGroup ↥φ.range := hsimpR
+    have : IsSimpleGroup ↥φ.range := hsimpR
     have hcardR : Nat.card ↥φ.range = 20160 :=
       (Nat.card_congr eK.symm.toEquiv).trans
         (CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_three_four hcl)
     have hab : ¬ IsMulCommutative ↥φ.range := by
       intro hc
-      letI : CommGroup ↥φ.range := commGroupOfComm523 (fun a b => hc.is_comm.comm a b)
+      let : CommGroup ↥φ.range := commGroupOfComm523 (fun a b => hc.is_comm.comm a b)
       have hp := IsSimpleGroup.prime_card (α := ↥φ.range)
       rw [hcardR] at hp
       norm_num at hp
     obtain ⟨-, K', hK'field, hK'fin, hK'card, ⟨eO⟩⟩ := hcl
-    haveI : CharP K' 2 :=
+    have : CharP K' 2 :=
       CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.char_two_of_card hK'card
     have hK4 : Nat.card K' = 4 := by rw [hK'card]; norm_num
     have hisoR : Nonempty (↥φ.range ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 3) K') :=

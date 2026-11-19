@@ -224,7 +224,7 @@ theorem cls_disj {j j' : ℕ} (hj : j < 9) (hj' : j' < 9) {x : Equiv.Perm (Fin 1
   have heq := pr_inj hpi (rep_facts hj').1 ((cls_spec hj).2.2 i hi) hshr
   have h2 := Orb.allN_iff.1 disj_ok j hj
   have h3 := Orb.allN_iff.1 h2 j' hj'
-  simp only [Bool.or_eq_true, Nat.beq_eq_true_eq] at h3
+  simp only [Bool.or_eq_true] at h3
   rcases h3 with h3 | h3
   · exact hne (Nat.eq_of_beq_eq_true h3)
   · have h4 := Orb.allN_iff.1 h3 i hi

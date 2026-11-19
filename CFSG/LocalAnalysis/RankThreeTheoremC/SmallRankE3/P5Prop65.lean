@@ -151,9 +151,9 @@ theorem evasion_five {P : Sylow 5 G} {M : Subgroup G} {x z : G} {T : Subgroup G}
 
 theorem slotLemma630Five_evasion_of_prop65 (h : SlotProp65Five) :
     ∀ (G : Type) [Group G] [Finite G], Setting G → TheoremD1 G →
-      ∀ (P : Sylow 5 G) (M : Subgroup G) (x z : G) (T : Subgroup G) (f : ℕ),
-        Lemma630Hyp G 5 P M x z T f → ∀ E : Subgroup G, SmallRankSBSylow 5 f x z T E → E ⊓ M = ⊥ :=
-  fun G _ _ hS hD1 P M x z T f hyp =>
+      ∀ (P : Sylow 5 G) (M : Subgroup G) (x z : G) (T : Subgroup G) (_f : ℕ),
+        Lemma630Hyp G 5 P M x z T _f → ∀ E : Subgroup G, SmallRankSBSylow 5 _f x z T E → E ⊓ M = ⊥ :=
+  fun G _ _ hS hD1 P M x z T _f hyp =>
     evasion_five hS hyp (h G hS hD1 P M x z T hyp.failure hyp.cover (hyp.lemma628.2.2.1 rfl))
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3

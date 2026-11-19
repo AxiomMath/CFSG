@@ -58,6 +58,7 @@ theorem exists_cube_of_fixed {σ : K ≃+* K} {Q₀ : ℕ} (hK : Nat.card K = (Q
   refine ⟨((g ^ m' : Kˣ) : K), ?_⟩
   rw [← Units.val_pow_eq_pow_val, ← pow_mul, mul_comm, hm, Units.val_mk0]
 
+omit [Finite K] in
 theorem norm_one_of_pow_three_eq (h : UnitaryFieldData ℓ f K) (h3 : 3 ∣ ℓ ^ f + 1) {v δ : K}
     (hv : v ^ 3 = δ) (hδ : h.bar δ * δ = 1) : h.bar v * v = 1 := by
   set q := ℓ ^ f with hqdef
@@ -86,6 +87,7 @@ theorem norm_one_of_pow_three_eq (h : UnitaryFieldData ℓ f K) (h3 : 3 ∣ ℓ 
   have := (pow_gcd_eq_one (a := h.bar v * v)).2 ⟨hε3, hε1⟩
   rwa [hcop.gcd_eq_one, pow_one] at this
 
+omit [Finite K] in
 theorem fieldFactor_fieldAut (h : UnitaryFieldData ℓ f K) (hℓ : ℓ ≠ 2) (τ : K ≃+* K) :
     fieldFactor h hℓ (fieldAut h τ) = τ := by
   have := primeFormFieldFactor_apply h (isPrimeFormGram_one (n := 3)) (le_refl 3)
@@ -194,7 +196,7 @@ theorem mem_range_conj_of_quotU_mem {γ : MulAut (SG h)} (hγ : γ ∈ E)
 
 theorem exists_eq_zpow_mul_conj {γ : MulAut (SG h)} (hγ : γ ∈ E) :
     ∃ k : ℤ, ∃ s : SG h, MulAut.conj s ∈ E ∧ γ = fieldUHom h σ ^ k * MulAut.conj s := by
-  haveI : Finite (K ≃+* K) := finite_ringEquiv'
+  have : Finite (K ≃+* K) := finite_ringEquiv'
   have hinj := quotU_injective hℓ hperf
   have hE' : IsElemAbelian 3 (E.map (quotU h hℓ)) :=
     (CFSG.LocalAnalysis.GLTheoremA.T123C.isElemAbelian_map_iff hinj 3 E).2 hE

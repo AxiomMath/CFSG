@@ -43,11 +43,11 @@ private theorem teNThmA_linIndepPair_of_ne_neg {v w : Fin (Tag.rank .F4) → ℤ
     intro i j
     have hi : a * v i + b * w i = 0 := by
       have h := congrFun hab i
-      simp only [Pi.add_apply, Pi.smul_apply, zsmul_eq_mul] at h
+      simp only [Pi.add_apply, zsmul_eq_mul] at h
       simpa using h
     have hj : a * v j + b * w j = 0 := by
       have h := congrFun hab j
-      simp only [Pi.add_apply, Pi.smul_apply, zsmul_eq_mul] at h
+      simp only [Pi.add_apply, zsmul_eq_mul] at h
       simpa using h
     rcases eq_or_ne a 0 with ha | ha
     · have hb : b ≠ 0 := by rintro rfl; exact hne ha rfl

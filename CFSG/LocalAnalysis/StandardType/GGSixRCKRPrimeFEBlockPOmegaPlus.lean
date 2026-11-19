@@ -35,7 +35,7 @@ theorem dualPair_star_POmegaPlus (n : ℕ) {F : Type} [Field F] [Finite F] [Char
       ε = e + formAdj (RingHom.id F)
         (LinearMap.toMatrix₂' F (QuadraticMap.polarBilin (Spin.quadPlus n F))) e := by
   obtain ⟨h1, h2, -, -, -, h6, h7, h8⟩ :=
-    fepomep_dualPair_star n hn S hSU hS (J' := ⊥) hε he heε hne
+    fepomep_dualPair_star n hn S hSU hS (_J' := ⊥) hε he heε hne
   exact ⟨h1, h2, h6, h7, h8⟩
 
 theorem exists_blockAction_dualPair_POmegaPlus (n : ℕ) {F : Type} [Field F] [Finite F]

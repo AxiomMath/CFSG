@@ -78,7 +78,7 @@ theorem spEnd_eq_one_of_mul_self_of_commute {g t : SpecialLinearGroup (Fin 2) F}
   have hp : T 0 0 = 1 := by
     have h : (T 0 0 + 1) ^ 2 = 0 := by
       rw [CharTwo.add_sq]
-      simp only [pow_two, hp2, one_pow, one_mul]
+      simp only [pow_two, hp2, one_mul]
       exact CharTwo.add_self_eq_zero 1
     rw [pow_two] at h
     have h' : T 0 0 + 1 = 0 := mul_self_eq_zero.mp h
@@ -89,7 +89,7 @@ theorem spEnd_eq_one_of_mul_self_of_commute {g t : SpecialLinearGroup (Fin 2) F}
     fin_cases i <;> fin_cases j <;>
       simp [T, hp, hps, hq, hr, Matrix.SpecialLinearGroup.coe_one])
 
-theorem spEnd_exists_lam_zero_of_commute_levi {m : ℕ} (hm : 1 ≤ m) {u : StatedSp (m + 1) F}
+theorem spEnd_exists_lam_zero_of_commute_levi {m : ℕ} (_hm : 1 ≤ m) {u : StatedSp (m + 1) F}
     (hu : ∀ h : StatedSp m F, u * spLeviBlock m F h = spLeviBlock m F h * u) :
     ∃ g : SpecialLinearGroup (Fin 2) F, u = lam (0 : Fin (m + 1)) g := by
   have hmem : u ∈ Subgroup.normalizer (CFSG.StandardType.spLeviBlock m F).range := by
@@ -188,6 +188,7 @@ theorem spEnd_exists_lam_lam_of_commute {k : ℕ} (hk : 1 ≤ k) {g : SpecialLin
   rw [hB, ht, CFSG.StandardType.SpJoin.spLeviBlock_lam (m := k + 2) (i := (0 : Fin (k + 2))) t,
     Fin.succ_zero_eq_one]
 
+omit [CharP F 2] in
 private theorem spEnd_isSupp_iff_basic {n : ℕ} {A : Set (Fin n ⊕ Fin n)}
     {M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F} :
     CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl.IsSupp A M ↔
@@ -198,6 +199,7 @@ private theorem spEnd_isSupp_iff_basic {n : ℕ} {A : Set (Fin n ⊕ Fin n)}
   · intro h x y hxy
     exact h x y (not_and_or.mpr hxy)
 
+omit [CharP F 2] in
 private theorem spEnd_isSupp_mat_elt {n : ℕ} {P : Set (Fin n ⊕ Fin n)}
     (r : RootSubgroupIndex n)
     (h1 : (pos1 r).1 ∈ P ∧ (pos1 r).2 ∈ P) (h2 : (pos2 r).1 ∈ P ∧ (pos2 r).2 ∈ P) (c : F) :
@@ -217,6 +219,7 @@ private theorem spEnd_isSupp_mat_elt {n : ℕ} {P : Set (Fin n ⊕ Fin n)}
       exact h2
   rw [hE, smul_zero, add_zero]
 
+omit [CharP F 2] in
 private theorem spEnd_isSupp_spEmbedMat {m n : ℕ} {σ : Fin m → Fin n}
     (hσ : Function.Injective σ)
     {M : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) F} {B : Set (Fin m ⊕ Fin m)}
@@ -239,6 +242,7 @@ private theorem spEnd_isSupp_spEmbedMat {m n : ℕ} {σ : Fin m → Fin n}
       simp [h', hne]
   · exact CFSG.ClassicalInvolution.Models.SymplecticPairs.spEmbedMat_apply_of_not_mem M h
 
+omit [CharP F 2] in
 private theorem spEnd_isSupp_spLeviBlock_two {k : ℕ} (h : StatedSp (k + 1) F) :
     CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl.IsSupp
       (Set.range (Sum.map (fun i : Fin (k + 1) => i.succ.succ)
@@ -297,6 +301,7 @@ private theorem spEnd_disjoint_weyl_support (k : ℕ)
       simp only [Fin.val_succ, Fin.val_zero] at hv
       omega
 
+omit [CharP F 2] in
 theorem spEnd_commute_weylRep_zero_levi_two {k : ℕ} (h : StatedSp (k + 1) F) :
     weylRep (k + 2 + 1) F 0 * spLeviBlock (k + 2) F (spLeviBlock (k + 1) F h) =
       spLeviBlock (k + 2) F (spLeviBlock (k + 1) F h) * weylRep (k + 2 + 1) F 0 := by

@@ -36,7 +36,7 @@ private theorem fg_facts_six_plus (hQ : Q.Nondegenerate)
   have hLie := ff_lieModel_omegaProj_six_plus hQ hdim hs
   have hfs := CFSG.LieType.Simplicity.fam_classical_converse (omegaProj hQ)
     ⟨.PSL, 4, 3, 1, hLie.statedClassicalModel_of_ne_zero (by norm_num)⟩
-  haveI := hfs.1
+  have := hfs.1
   have hsimple : IsSimpleGroup ↥(omegaProj hQ) := hfs.2.2
   have hcard := ff_natCard_omegaProj_six_plus hQ hdim hs
   have hnc := ff_noncomm_of_simple_card hsimple (by rw [hcard]; norm_num)
@@ -51,7 +51,7 @@ private theorem fg_facts_six_minus (hQ : Q.Nondegenerate)
   have hLie := ff_lieModel_omegaProj_six_minus hQ hdim hs
   have hfs := CFSG.LieType.Simplicity.fam_classical_converse (omegaProj hQ)
     ⟨.PSU, 4, 3, 1, hLie.statedClassicalModel_of_ne_zero (by norm_num)⟩
-  haveI := hfs.1
+  have := hfs.1
   have hsimple : IsSimpleGroup ↥(omegaProj hQ) := hfs.2.2
   have hcard := ff_natCard_omegaProj_six_minus hQ hdim hs
   have hnc := ff_noncomm_of_simple_card hsimple (by rw [hcard]; norm_num)
@@ -64,7 +64,7 @@ theorem fg_closureFix_six_plus (hQ : Q.Nondegenerate)
     ClosureFix ↥(omegaProj hQ) := by
   have h2 : 2 ≤ Module.finrank (ZMod 3) V := by omega
   obtain ⟨hfin, hq, hF⟩ := fg_facts_six_plus hQ hdim hs
-  haveI := hfin
+  have := hfin
   have hbij := ffSimOmegaAct_bijective_six_plus hQ hdim hs
   refine closureFix_of_ne_one hq hF ?_
   intro α hα hα1 J hJ
@@ -86,7 +86,7 @@ theorem fg_closureFix_six_minus (hQ : Q.Nondegenerate)
     ClosureFix ↥(omegaProj hQ) := by
   have h2 : 2 ≤ Module.finrank (ZMod 3) V := by omega
   obtain ⟨hfin, hq, hF⟩ := fg_facts_six_minus hQ hdim hs
-  haveI := hfin
+  have := hfin
   have hbij := ffSimOmegaAct_bijective_six_minus hQ hdim hs
   refine closureFix_of_ne_one hq hF ?_
   intro α hα hα1 J hJ

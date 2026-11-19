@@ -25,10 +25,10 @@ theorem exists_mem_not_mem_conj_mem [Finite Y] {p : ℕ} [Fact p.Prime] {P V N :
         rwa [inv_inv, ← mul_assoc, ← mul_assoc, inv_mul_cancel, one_mul, mul_assoc,
           inv_mul_cancel, mul_one] at h⟩
   let ψ : P →* MulAut V := V.normalizerMonoidHom.comp (Subgroup.inclusion hnorm)
-  letI : MulAction P V := MulAction.compHom V ψ
+  let : MulAction P V := MulAction.compHom V ψ
   have hψ : ∀ (c : P) (v : V), ((c • v : V) : Y) = c * v * c⁻¹ := fun c v => rfl
   let N' : Subgroup V := N.subgroupOf V
-  haveI : MulAction.QuotientAction P N' :=
+  have : MulAction.QuotientAction P N' :=
     ⟨fun c a a' h => by
       rw [Subgroup.mem_subgroupOf] at h ⊢
       have h' := hPN c c.2 _ h
@@ -139,7 +139,7 @@ theorem mem_sylow_of_mem_of_commute_of_isSubnormal {X : Type*} [Group X] [Finite
     (hvc : ∀ k ∈ K, k * v = v * k) (hvp : v ^ p = 1) : v ∈ (R : Subgroup X) := by
   obtain ⟨P, hP⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal R hK
   let v' : K := ⟨v, hvK⟩
-  haveI : (Subgroup.zpowers v').Normal := ⟨fun n hn g => by
+  have : (Subgroup.zpowers v').Normal := ⟨fun n hn g => by
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hn
     have hg : Commute g v' := Subtype.ext (hvc g g.2)
     rw [(hg.zpow_right k).mul_inv_cancel]

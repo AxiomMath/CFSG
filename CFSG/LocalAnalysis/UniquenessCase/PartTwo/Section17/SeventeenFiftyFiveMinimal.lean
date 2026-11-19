@@ -118,7 +118,7 @@ theorem seventeen_fiftyfive_min_base {D : Data G} {K : Subgroup G}
       ∀ W : Subgroup G, W ≤ D.U → D.M ≤ Subgroup.normalizer (W : Set G) → W ≤ V' →
         ⁅K, W⁆ ≠ ⊥ → W = V' := by
   classical
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
   have hUmem : D.U ∈ {W : Subgroup G | W ≤ D.U ∧
       D.M ≤ Subgroup.normalizer (W : Set G) ∧ ⁅K, W⁆ ≠ ⊥} := by
     refine ⟨le_rfl, CFSG.LocalAnalysis.RankThreeUC.le_normalizer_uCore D.M D.T, ?_⟩
@@ -181,6 +181,7 @@ theorem seventeen_fiftyfive_min_pCore_le_centralizer {D : Data G} {K V' : Subgro
     exact (Subgroup.mem_centralizer_iff.1 (hU hu).2 x hx).symm
   exact hPK.trans (hPMU.trans (Subgroup.centralizer_le hV'U))
 
+omit [Finite G] in
 theorem seventeen_fiftyfive_min_centralizer_inf_eq_pCore {K V' : Subgroup G}
     (hsimple : IsSimpleGroup (Bar2 K))
     (hKVN : K ≤ Subgroup.normalizer (V' : Set G)) (hKV' : ⁅K, V'⁆ ≠ ⊥)
@@ -239,11 +240,11 @@ theorem seventeen_fiftyfive_min_inf_le_pCore {M K R V' : Subgroup G}
       ((Subgroup.centralizer (V' : Set G)).subgroupOf R).index = 2 ^ n) :
     K ⊓ R ≤ pCoreOf 2 K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C : Subgroup G := Subgroup.centralizer (V' : Set G)
   have hRNC : R ≤ Subgroup.normalizer (C : Set G) :=
     (hRM.trans hMV).trans (CFSG.BenderSuzuki.normalizer_le_normalizer_centralizer V')
-  haveI : (C.subgroupOf R).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hRNC
+  have : (C.subgroupOf R).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hRNC
   have hpR : pCoreOf 2 K ≤ R := by
     rw [← hCK]
     exact (inf_le_inf_right C hKM).trans hCR
@@ -390,7 +391,7 @@ theorem seventeen_fiftyfive_min_twoReduced {D : Data G} {K V' : Subgroup G}
     rw [card_autI_eq hV' hRleN]
     have hsub : (R ⊓ C).subgroupOf R = C.subgroupOf R := by
       ext x
-      simp [Subgroup.mem_subgroupOf, and_comm]
+      simp [Subgroup.mem_subgroupOf]
     rw [show (R ⊓ C).relIndex R = ((R ⊓ C).subgroupOf R).index from rfl, hsub, hn]
   have hkN : (k : G) ∈ Subgroup.normalizer (V' : Set G) := hKleN hkK
   let kN : Subgroup.normalizer (V' : Set G) := ⟨k, hkN⟩
@@ -461,7 +462,7 @@ theorem seventeen_fiftyfive_min_isIndivisible {D : Data G} {K V' : Subgroup G}
           (preTil_le (⊥ : Subgroup G) V' hV' U₁), Subgroup.map_subgroupOf_eq_of_le
           (preTil_le (⊥ : Subgroup G) V' hV' U₂), hsupPre, Subgroup.map_top,
         Subgroup.range_subtype]
-    letI : CommGroup ↥V' := CommGroup.mk (fun a b => hV'.1.is_comm.comm a b)
+    let : CommGroup ↥V' := CommGroup.mk (fun a b => hV'.1.is_comm.comm a b)
     have hvsup' : (⟨v, hv⟩ : ↥V') ∈ (preTil (⊥ : Subgroup G) V' hV' U₁).subgroupOf V' ⊔
         (preTil (⊥ : Subgroup G) V' hV' U₂).subgroupOf V' := by
       rw [hsupV]

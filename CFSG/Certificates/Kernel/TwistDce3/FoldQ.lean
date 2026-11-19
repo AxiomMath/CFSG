@@ -57,7 +57,7 @@ theorem ev3T_succ (k : ℕ → ℕ → ℕ → Bool) (n s x y z : ℕ) :
       (fieldAt PB (F (Nat.land s 15)) x) (fieldAt PB (F (Nat.land s 15)) y)
       (fieldAt PB (F (Nat.land s 15)) z) k := by
   unfold ev3T
-  simp only [Nat.rec_add_one, sB_eq]
+  simp only [sB_eq]
 
 theorem ev3T_eq (k : ℕ → ℕ → ℕ → Bool) : ∀ n s x y z,
     ev3T PB F n s x y z k = k (mv PB F (dg n s) x) (mv PB F (dg n s) y) (mv PB F (dg n s) z) := by
@@ -77,7 +77,7 @@ theorem ev3Q_succ (k : ℕ → ℕ → ℕ → ℕ → Bool) (q s x y z : ℕ) :
       (fieldAt PB (F (Nat.land (Nat.shiftRight s 12) 15)) (fieldAt PB (F (Nat.land (Nat.shiftRight s 8) 15))
         (fieldAt PB (F (Nat.land (Nat.shiftRight s 4) 15)) (fieldAt PB (F (Nat.land s 15)) z)))) k := by
   unfold ev3Q
-  simp only [Nat.rec_add_one, sB_eq]
+  simp only [sB_eq]
 
 theorem dg_four (n s : ℕ) : dg (n + 4) s =
     s % 16 :: s / 16 % 16 :: s / 16 / 16 % 16 :: s / 16 / 16 / 16 % 16 ::

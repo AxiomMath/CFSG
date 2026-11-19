@@ -31,7 +31,7 @@ private theorem exists_mul_mem_inf_centralizer_of_commutator_le {p : ℕ} [Fact 
   · group
 
 theorem inf_centralizer_sup_eq_of_commutator_le {p : ℕ} [Fact p.Prime] {X N R : Subgroup G}
-    (hNX : N ≤ X) (hRX : R ≤ Subgroup.normalizer (X : Set G))
+    (hNX : N ≤ X) (_hRX : R ≤ Subgroup.normalizer (X : Set G))
     (hRN : R ≤ Subgroup.normalizer (N : Set G))
     (hR : IsPGroup p R) (hN : ¬ p ∣ Nat.card N)
     (hcomm : ⁅X, R⁆ ≤ N) :
@@ -48,7 +48,7 @@ theorem inf_centralizer_sup_eq_of_commutator_le {p : ℕ} [Fact p.Prime] {X N R 
     simpa [sup_comm] using hmem
 
 theorem exists_isSylowOf_le_centralizer_of_commutator_le {p q : ℕ} [Fact p.Prime] [Fact q.Prime]
-    {X N R : Subgroup G} (hNX : N ≤ X) (hRX : R ≤ Subgroup.normalizer (X : Set G))
+    {X N R : Subgroup G} (hNX : N ≤ X) (_hRX : R ≤ Subgroup.normalizer (X : Set G))
     (hRN : R ≤ Subgroup.normalizer (N : Set G))
     (hR : IsPGroup p R) (hN : ¬ p ∣ Nat.card N)
     (hcomm : ⁅X, R⁆ ≤ N) (hqN : ¬ q ∣ Nat.card N) :

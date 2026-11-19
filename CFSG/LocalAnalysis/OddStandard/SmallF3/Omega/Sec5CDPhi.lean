@@ -38,17 +38,21 @@ variable {L B : Subgroup G} {r : G} {i : Fin 6} {fr : NFrame Q (Fin 6) 1}
 
 include h
 
+omit h in
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ev_mem (v : Fin 6 → ZMod 2) :
     fr.signChange (sec5c_supp (v + (∑ j, v j) • Pi.single i 1)) ∈ ffB0 fr :=
   signChange_mem_ffB0 fr
     ((sec5c_isEvenVec_iff _).mp (sec5c_sum_ev i v))
 
+omit h in
 theorem phi_even {v : Fin 6 → ZMod 2} (hv : IsEvenVec v) :
     sec5c_phi L B r i fr φc v = (sec5c_liftL L B φc (fr.signChange (sec5c_supp v)) : G) := by
   have hv' : ∑ j, v j = 0 := hv
   unfold sec5c_phi
-  rw [if_pos hv', hv', zero_smul, add_zero, one_mul]
+  rw [ite_eq_left hv', hv', zero_smul, add_zero, one_mul]
 
+omit h in
 theorem phi_odd {v : Fin 6 → ZMod 2} (hv : ¬ IsEvenVec v) :
     sec5c_phi L B r i fr φc v =
       r * (sec5c_liftL L B φc (fr.signChange (sec5c_supp (v + Pi.single i 1))) : G) := by
@@ -58,11 +62,11 @@ theorem phi_odd {v : Fin 6 → ZMod 2} (hv : ¬ IsEvenVec v) :
     revert a
     decide
   unfold sec5c_phi
-  rw [if_neg hv', h1, one_smul]
+  rw [ite_eq_right hv', h1, one_smul]
 
 theorem phi_zero : sec5c_phi L B r i fr φc 0 = 1 := by
   have h0 : IsEvenVec (0 : Fin 6 → ZMod 2) := by simp [IsEvenVec]
-  rw [h.phi_even h0, sec5c_supp_zero, fr.signChange_empty, h.liftL_one]
+  rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_even h0, sec5c_supp_zero, fr.signChange_empty, h.liftL_one]
   rfl
 
 private theorem ite_add (a b : ZMod 2) :
@@ -79,7 +83,7 @@ private theorem ite_comm (a : ZMod 2) {g : OGroup Q} (hg : g ∈ ffB0 fr) :
       (sec5c_liftL L B φc g : G) * (if a = 0 then (1 : G) else r) := by
   by_cases ha : a = 0
   · simp [ha]
-  · simp only [if_neg ha]
+  · simp only [ite_eq_right ha]
     exact h.r_comm_liftL hg
 
 theorem phi_add (v w : Fin 6 → ZMod 2) :
@@ -90,7 +94,7 @@ theorem phi_add (v w : Fin 6 → ZMod 2) :
     abel
   unfold sec5c_phi
   rw [hev, sec5c_supp_add, ← fr.signChange_mul,
-    h.liftL_mul (h.ev_mem v) (h.ev_mem w), sec5c_sum_add, ite_add h]
+    h.liftL_mul (Sec5CDAbs.ev_mem v) (Sec5CDAbs.ev_mem w), sec5c_sum_add, ite_add h]
   simp only [Subgroup.coe_mul]
   calc (if ∑ j, v j = 0 then (1 : G) else r) * (if ∑ j, w j = 0 then (1 : G) else r) *
         ((sec5c_liftL L B φc (fr.signChange (sec5c_supp (v + (∑ j, v j) • Pi.single i 1))) : G) *
@@ -107,7 +111,7 @@ theorem phi_add (v w : Fin 6 → ZMod 2) :
               (fr.signChange (sec5c_supp (v + (∑ j, v j) • Pi.single i 1))) : G) *
             (if ∑ j, w j = 0 then (1 : G) else r)) *
           (sec5c_liftL L B φc (fr.signChange (sec5c_supp (w + (∑ j, w j) • Pi.single i 1))) : G) :=
-        by rw [ite_comm h _ (h.ev_mem v)]
+        by rw [ite_comm h _ (Sec5CDAbs.ev_mem v)]
     _ = _ := by group
 
 theorem phi_sq (v : Fin 6 → ZMod 2) :
@@ -117,7 +121,7 @@ theorem phi_sq (v : Fin 6 → ZMod 2) :
 
 theorem phi_eq_one {u : Fin 6 → ZMod 2} (hu : sec5c_phi L B r i fr φc u = 1) : u = 0 := by
   by_cases he : IsEvenVec u
-  · rw [h.phi_even he] at hu
+  · rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_even he] at hu
     have h1 : sec5c_liftL L B φc (fr.signChange (sec5c_supp u)) = 1 := Subtype.ext hu
     have hg := h.map_liftL (signChange_mem_ffB0 fr ((sec5c_isEvenVec_iff u).mp he))
     rw [h1] at hg
@@ -125,7 +129,7 @@ theorem phi_eq_one {u : Fin 6 → ZMod 2} (hu : sec5c_phi L B r i fr φc u = 1) 
       rw [fr.signChange_empty, ← hg]
       simp
     exact sec5c_supp_injective ((fr.signChange_injective hg').trans sec5c_supp_zero.symm)
-  · rw [h.phi_odd he] at hu
+  · rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_odd he] at hu
     exfalso
     apply h.r_not_mem
     have hl : (sec5c_liftL L B φc (fr.signChange (sec5c_supp (u + Pi.single i 1))) : G) ∈ L :=
@@ -145,15 +149,15 @@ theorem phi_inj {v w : Fin 6 → ZMod 2}
 theorem phi_mem_L_iff (v : Fin 6 → ZMod 2) :
     sec5c_phi L B r i fr φc v ∈ L ↔ IsEvenVec v := by
   by_cases he : IsEvenVec v
-  · rw [h.phi_even he]
+  · rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_even he]
     exact iff_of_true (Subtype.mem _) he
-  · rw [h.phi_odd he]
+  · rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_odd he]
     refine iff_of_false (fun hm => h.r_not_mem ?_) he
     exact (Subgroup.mul_mem_cancel_right L (Subtype.mem _)).mp hm
 
 theorem phi_mem_A (v : Fin 6 → ZMod 2) : sec5c_phi L B r i fr φc v ∈ zpowers r ⊔ B := by
   unfold sec5c_phi
-  refine mul_mem ?_ (Subgroup.mem_sup_right (h.liftL_mem (h.ev_mem v)))
+  refine mul_mem ?_ (Subgroup.mem_sup_right (h.liftL_mem (Sec5CDAbs.ev_mem v)))
   split_ifs
   · exact one_mem _
   · exact Subgroup.mem_sup_left (Subgroup.mem_zpowers r)
@@ -161,24 +165,26 @@ theorem phi_mem_A (v : Fin 6 → ZMod 2) : sec5c_phi L B r i fr φc v ∈ zpower
 noncomputable def phiHom : Multiplicative (Fin 6 → ZMod 2) →* G where
   toFun v := sec5c_phi L B r i fr φc (Multiplicative.toAdd v)
   map_one' := h.phi_zero
-  map_mul' a b := h.phi_add _ _
+  map_mul' _a _b := h.phi_add _ _
 
+omit h in
 theorem phi_vec {J : Finset (Fin 6)} (hJ : Even J.card) :
     sec5c_phi L B r i fr φc (sec5c_vec J) = (sec5c_liftL L B φc (fr.signChange J) : G) := by
   have he : IsEvenVec (sec5c_vec J) := by
     rw [sec5c_isEvenVec_iff, sec5c_supp_vec]
     exact hJ
-  rw [h.phi_even he, sec5c_supp_vec]
+  rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_even he, sec5c_supp_vec]
 
 theorem phi_single : sec5c_phi L B r i fr φc (Pi.single i 1) = r := by
   have hodd : ¬ IsEvenVec (Pi.single i 1 : Fin 6 → ZMod 2) := by
     unfold IsEvenVec
     rw [Finset.sum_pi_single']
     simp
-  rw [h.phi_odd hodd, show (Pi.single i 1 : Fin 6 → ZMod 2) + Pi.single i 1 = 0 from
+  rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_odd hodd, show (Pi.single i 1 : Fin 6 → ZMod 2) + Pi.single i 1 = 0 from
     funext fun j => CharTwo.add_self_eq_zero _, sec5c_supp_zero, fr.signChange_empty, h.liftL_one]
   simp
 
+omit h in
 theorem phi_single' (j : Fin 6) :
     sec5c_phi L B r i fr φc (Pi.single j 1) =
       r * (sec5c_liftL L B φc (fr.signChange (symmDiff {j} {i})) : G) := by
@@ -186,7 +192,7 @@ theorem phi_single' (j : Fin 6) :
     unfold IsEvenVec
     rw [Finset.sum_pi_single']
     simp
-  rw [h.phi_odd hodd, sec5c_supp_add, sec5c_supp_single, sec5c_supp_single]
+  rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_odd hodd, sec5c_supp_add, sec5c_supp_single, sec5c_supp_single]
 
 theorem mem_A_iff {x : G} :
     x ∈ zpowers r ⊔ B ↔ ∃ v, sec5c_phi L B r i fr φc v = x := by
@@ -201,7 +207,7 @@ theorem mem_A_iff {x : G} :
         obtain ⟨J, hJ, hφ⟩ := (mem_ffB0_iff fr).mp (h.B_map ⟨b, hbL⟩ hb)
         refine ⟨Multiplicative.ofAdd (sec5c_vec J), ?_⟩
         change sec5c_phi L B r i fr φc (sec5c_vec J) = b
-        rw [h.phi_vec hJ, ← hφ]
+        rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_vec hJ, ← hφ]
         exact congrArg Subtype.val (h.liftL_unique (b := ⟨b, hbL⟩) hb)
     obtain ⟨v, hv⟩ := hle hx
     exact ⟨Multiplicative.toAdd v, hv⟩
@@ -220,7 +226,7 @@ theorem A_comm {x y : G} (hx : x ∈ zpowers r ⊔ B) (hy : y ∈ zpowers r ⊔ 
 theorem A_inf_L {x : G} (hx : x ∈ zpowers r ⊔ B) (hxL : x ∈ L) : x ∈ B := by
   obtain ⟨v, rfl⟩ := (h.mem_A_iff).mp hx
   have he := (h.phi_mem_L_iff v).mp hxL
-  rw [h.phi_even he]
+  rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_even he]
   exact h.liftL_mem (signChange_mem_ffB0 fr ((sec5c_isEvenVec_iff v).mp he))
 
 end Sec5CDAbs

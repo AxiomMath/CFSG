@@ -144,7 +144,7 @@ theorem eInvFour_of_elemAbelian_two {Ē : Subgroup (MulAut X)} (hE3 : IsElemAbel
   have hσ1 : σ ≠ 1 := fun h => hσr (by rw [h]; rfl)
   obtain ⟨τ, hτE, hτσ⟩ : ∃ τ ∈ Ē, τ ∉ Subgroup.zpowers σ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Ē ≤ Subgroup.zpowers σ := fun x hx => hcon x hx
     have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
     have hzcard : Nat.card (Subgroup.zpowers σ) = 3 := by rw [Nat.card_zpowers, hord]
@@ -157,7 +157,7 @@ theorem eInvFour_of_elemAbelian_two {Ē : Subgroup (MulAut X)} (hE3 : IsElemAbel
     exact congrArg Subtype.val this
   have hgen : Subgroup.closure ({σ, τ} : Set (MulAut X)) = Ē :=
     closure_pair_eq_of_card_nine hE3 hE9 hσE hτE hσ1 hτσ
-  letI : CommGroup R := { (inferInstance : Group R) with mul_comm := hR.1.is_comm.comm }
+  let : CommGroup R := { (inferInstance : Group R) with mul_comm := hR.1.is_comm.comm }
   have mk : ∀ ρ ∈ Ē, ∃ f : R →* R, ∀ x : R, (f x : X) = ρ x := fun ρ hρ =>
     ⟨(ρ.toMonoidHom.comp R.subtype).codRestrict R (fun x => hinv ρ hρ x x.2), fun x => rfl⟩
   obtain ⟨σR, hσR⟩ := mk σ hσE

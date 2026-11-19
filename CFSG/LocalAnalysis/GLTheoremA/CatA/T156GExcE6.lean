@@ -111,7 +111,7 @@ theorem geomBody_e6_odd (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} (hodd : Odd n) 
   have hn : 1 ≤ n := hodd.pos
   refine geomBody_of_field (by simp) fun hS hna f hf hord => ?_
   obtain ⟨hpn, k, hkF, hkfin, hk, ⟨E⟩⟩ := e6_fixGroup_odd hn hK hodd hp hf hord
-  haveI := hS
+  have := hS
   have hZ := center_eq_bot_of_simple_noncomm hna
   have hI : ∀ φ ∈ LargeEvenChevIDImage Tag.E6.cartan K (LargeEvenChevH Tag.E6.cartan K false),
       φ ^ p = 1 → φ ∈ Set.range (MulAut.conj : LargeEvenCenterQuot
@@ -121,7 +121,7 @@ theorem geomBody_e6_odd (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} (hodd : Odd n) 
     exact ⟨r, hr⟩
   have hdiv : 1 ≤ n / p := Nat.div_pos (Nat.le_of_dvd hn hpn) hp.pos
   have hq := CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 k
-  haveI : Group.IsPerfect ↥(adjointGroup Tag.E6 k) := hq.1
+  have : Group.IsPerfect ↥(adjointGroup Tag.E6 k) := hq.1
   have hZk : Subgroup.center (adjointGroup Tag.E6 k) = ⊥ := center_adjointGroup_eq_bot
   have hPC : Group.IsPerfect ↥(ggFixSub f) :=
     Group.IsPerfect.ofSurjective (f := E.toMonoidHom) E.surjective
@@ -205,7 +205,7 @@ theorem e6FixOn_isRoot_even {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 �
   subst hH₀
   have hq : CFSG.IsQuasisimple ↥(adjointGroup Tag.E6 ↥(fixSubfield σ)) :=
     CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 ↥(fixSubfield σ)
-  haveI : IsSimpleGroup (LargeEvenCenterQuot (adjointGroup Tag.E6 ↥(fixSubfield σ))) :=
+  have : IsSimpleGroup (LargeEvenCenterQuot (adjointGroup Tag.E6 ↥(fixSubfield σ))) :=
     hq.2.1
   refine ⟨hq.2.1, hq.2.2, ?_⟩
   refine ggFixGeom_of_transport hq.2.2 m m₀ hs (E6FieldFix.fixE6Equiv σ hσpow hcop) ?_ ?_

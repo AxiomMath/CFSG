@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G} {K : Type} [Field 
 
 theorem irrPlus_lineJ (h37 : Vol2Native.A37ForSQTKCat)
     (h38 : Vol2Native.A38ForSQTKCat) (hfsu : FSU G T L I) (hlt : L < fsuL0 T L)
-    (hA : Concl326A T L I) [IsMulCommutative ↥(fsuVM T L I)] [Nontrivial K]
+    (hA : Concl326A T L I) [IsMulCommutative ↥(fsuVM T L I)]
     (M : RModel T L I K) {w : Fin 2 → K} (hw0 : w ≠ 0)
     (hw : ∀ (γ : ↥(fsuML T L)) (p : UTilde K), p ∈ linePair K w → actML M γ p ∈ linePair K w)
     (hVR : fsuVM T L I ≤ reducedAggregate (L ⊔ T)) :

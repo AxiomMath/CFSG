@@ -65,7 +65,7 @@ theorem bal207RankSyl_holds : Bal207RankSyl := by
           omega
         · norm_num
       obtain ⟨-, K, _, _, -, ⟨e⟩⟩ := id hC
-      haveI := Finite.of_equiv _ e.symm.toEquiv
+      have := Finite.of_equiv _ e.symm.toEquiv
       exact rankSylAux_of_mulEquiv Nat.prime_three (MulEquiv.refl _)
         (CFSG.HardMathSupport.Timmesfeld.FieldBonus.two_le_pRank_three_psu_four hn4
           (by norm_num) hC)
@@ -100,9 +100,9 @@ theorem bal207RankSyl_holds : Bal207RankSyl := by
     obtain ⟨K, _, _, -, σ, -, ⟨e⟩⟩ := CFSG.TauCetiBridge.Even.twistedModel_of_bridgeEven
       CFSG.TauCetiBridge.Even.chevalleyBridgesEven.trialityD4 q hv hp2 (by decide)
       (MulEquiv.refl _)
-    haveI := CFSG.LieType.Chevalley.finite_modGL
+    have := CFSG.LieType.Chevalley.finite_modGL
       (τ := CFSG.Blueprint.Chevalley.TwistTag.D4.tag) (K := K)
-    haveI := Finite.of_equiv _ e.symm.toEquiv
+    have := Finite.of_equiv _ e.symm.toEquiv
     exact rankSylAux_of_mulEquiv Nat.prime_three (MulEquiv.refl _)
       (CFSG.HardMathSupport.Timmesfeld.FieldBonus.two_le_pRank_three_trialityD4
         (MulEquiv.refl _))
@@ -125,9 +125,9 @@ theorem bal207RankSyl_holds : Bal207RankSyl := by
       (hv := hv) (MulEquiv.refl _)
     obtain ⟨K, _, _, _, hK, ⟨e⟩⟩ := CFSG.SectionRank.exists_mulEquiv_titsGroup_of_model hT
     rcases hd with rfl | rfl
-    · haveI := CFSG.LieType.Chevalley.finite_modGL
+    · have := CFSG.LieType.Chevalley.finite_modGL
         (τ := CFSG.LieType.Ree.ReeTag.F4.tag) (K := K)
-      haveI := Finite.of_equiv _ e.symm.toEquiv
+      have := Finite.of_equiv _ e.symm.toEquiv
       exact rankSylAux_of_mulEquiv Nat.prime_three (MulEquiv.refl _)
         (CFSG.HardMathSupport.Timmesfeld.Tables.Census.two_le_pRank_three_of_titsModel hT)
     · obtain ⟨x, y, -, hx, hy, hxy, hcard, -⟩ :=

@@ -19,6 +19,7 @@ private lemma plh_sgS_le_Vtail {Y : Submodule K (Fin 4 → K)} (hY : Y ≤ Vtail
   have h1 : sg K f (v 0) = 0 := h0
   exact (sg K f).map_eq_zero_iff.mp h1
 
+omit [Finite K] [CharP K 2] in
 private lemma plh_inf_eq_bot_iff {A B : Submodule K (Fin 4 → K)} (hA : finrank K A = 1) :
     A ⊓ B = ⊥ ↔ ¬ A ≤ B := by
   constructor
@@ -45,6 +46,7 @@ private lemma plh_inf_eq_bot_iff {A B : Submodule K (Fin 4 → K)} (hA : finrank
     have h0 : finrank K ↥(A ⊓ B) = 0 := by omega
     exact hne (Submodule.finrank_eq_zero.mp h0)
 
+omit [Finite K] [CharP K 2] in
 private lemma plh_line_of_pts {u v : Submodule K (Fin 4 → K)} (hu : BPt u) (hv : BPt v)
     (huv : u ≠ v) : u ⊔ v ≤ Vtail ∧ finrank K ↥(u ⊔ v) = 2 :=
   ⟨sup_le hu.1 hv.1, finrank_sup_of_ne_pts hu.2 hv.2 huv⟩
@@ -56,6 +58,7 @@ private lemma plh_line_sgS (hK : Nat.card K = (2 ^ f) ^ 2) {u : Submodule K (Fin
   exact finrank_sup_of_ne_pts hu.2
     (by rw [finrank_sgS (K := K) (f := f) (n := 4) hK u, hu.2]) (Ne.symm hnu)
 
+omit [Finite K] [CharP K 2] in
 private lemma plh_finrank_three {a b t : Submodule K (Fin 4 → K)} (ha : BPt a) (hb : BPt b)
     (ht : BPt t) (hab : a ≠ b) (htab : ¬ t ≤ a ⊔ b) :
     finrank K ↥(a ⊔ b ⊔ t) = 3 := by

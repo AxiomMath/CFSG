@@ -31,7 +31,7 @@ theorem stab_eq_of_le {G : Type} [Group G] [Finite G] {ι : Type} [Fintype ι]
     ncard_conjClass_mul_card K (c i)
   have hspos : ∀ i, 0 < Nat.card ↥(K ⊓ Gx (c i)) := by
     intro i
-    haveI : Nonempty ↥(K ⊓ Gx (c i)) := ⟨1⟩
+    have : Nonempty ↥(K ⊓ Gx (c i)) := ⟨1⟩
     exact Nat.card_pos
   have hKpos : 0 < Nat.card K := Nat.card_pos
   have hge : ∀ i, Nat.card K / n i ≤ (O i).ncard := by

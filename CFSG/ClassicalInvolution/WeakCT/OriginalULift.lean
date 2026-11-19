@@ -75,7 +75,7 @@ theorem algebraic_lift_unique_of_isogeny_eq
     (h : ∀ A, e6IsogenyAlgebraic (lam' A) = e6IsogenyAlgebraic (mu A)) :
     lam' = mu := by
   classical
-  letI : Group.IsPerfect (SL(3, actualQuadraticSubfield f)) :=
+  let : Group.IsPerfect (SL(3, actualQuadraticSubfield f)) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le (by norm_num)
   refine CFSG.ClassicalInvolution.ModelFacts.OrthAut.eq_of_inv_mul_mem_center mu lam' ?_
   intro A
@@ -216,23 +216,20 @@ private lemma transpose_transpose' {N : ℕ} {K : Type} [Field K]
       rw [transpose_inv', transpose_transpose', inv_inv]
     map_mul' := by
       intro M M'
-      change Matrix.SpecialLinearGroup.transpose (M * M')⁻¹ =
-        Matrix.SpecialLinearGroup.transpose M⁻¹ *
-          Matrix.SpecialLinearGroup.transpose M'⁻¹
       rw [_root_.mul_inv_rev, transpose_mul'] }
 
 theorem inverseTransposeSL_apply (N : ℕ) (K : Type) [Field K]
     (A : Matrix.SpecialLinearGroup (Fin N) K) :
     inverseTransposeSL N K A = Matrix.SpecialLinearGroup.transpose A⁻¹ := rfl
 
-private lemma transpose_transvection {N : ℕ} {i j : Fin N} (hij : i ≠ j) (c : F) :
+private lemma transpose_transvection {N : ℕ} {i j : Fin N} (_hij : i ≠ j) (c : F) :
     (Matrix.transvection i j c)ᵀ = Matrix.transvection j i c := by
   ext a b
   simp only [Matrix.transpose_apply, Matrix.transvection, Matrix.single, Matrix.add_apply,
     Matrix.one_apply]
   by_cases h1 : j = a ∧ i = b
   · have h2 : i = b ∧ j = a := ⟨h1.2, h1.1⟩
-    simp [h1, h2, eq_comm]
+    simp [h1, eq_comm]
   · have h2 : ¬ (i = b ∧ j = a) := fun h => h1 ⟨h.2, h.1⟩
     simp [h1, h2, eq_comm]
 

@@ -145,7 +145,7 @@ theorem rootSpan_signedSimpleRoots_pair {L : Type} [Field L] (i j : Fin Tag.E6.r
       ({Pi.single i 1, -Pi.single i 1, Pi.single j 1, -Pi.single j 1} :
         Set (Fin Tag.E6.rank → ℤ)) := by
     ext α
-    simp only [signedSimpleRoots, Set.mem_setOf_eq, Set.mem_insert_iff,
+    simp only [signedSimpleRoots, Set.mem_ofPred_eq, Set.mem_insert_iff,
       Set.mem_singleton_iff, exists_eq_or_imp, exists_eq_left]
     tauto
   rw [hset, rootSpan, iSup_insert, iSup_insert, iSup_insert, iSup_singleton,

@@ -109,12 +109,12 @@ theorem isQuasisimple_comap_liftConj_nD4 {K : Type} [Field K] [Finite K] [CharP 
     have h1 : (1 : FiniteField.Extension K 2 2) = 0 := by
       rw [← hx, h', CharTwo.add_self_eq_zero, zero_add]
     exact one_ne_zero h1
-  haveI : IsSimpleGroup ↥(TwistedE6Pilot.d4Levi (FiniteField.Extension K 2 2) ⊓
+  have : IsSimpleGroup ↥(TwistedE6Pilot.d4Levi (FiniteField.Extension K 2 2) ⊓
       TwistedE6Pilot.d4Gamma (TableBExcTwoFusion.frobHom K)) := by
     have hs := TwistedE6Pilot.isSimpleGroup_omegaMinusLevi le_rfl hK4 hσ
     rw [TwistedE6Pilot.omegaMinusLevi_eq_of_card le_rfl hK4 hσ] at hs
     exact hs
-  haveI : Group.IsPerfect ↥(TwistedE6Pilot.d4Levi (FiniteField.Extension K 2 2) ⊓
+  have : Group.IsPerfect ↥(TwistedE6Pilot.d4Levi (FiniteField.Extension K 2 2) ⊓
       TwistedE6Pilot.d4Gamma (TableBExcTwoFusion.frobHom K)) :=
     TwistedE6Pilot.isPerfect_d4Fixed (σ := (FiniteField.Extension.frob K 2 2).toRingEquiv) hσσ hω
   exact CFSG.Assembly.IsQuasisimple.of_mulEquiv

@@ -28,7 +28,7 @@ theorem uset_data {Ω : Set (Subgroup G)}
     have h1 := Subgroup.relIndex_mul_card U (Subgroup.map J'.subtype (P : Subgroup ↥J'))
     rw [inf_eq_left.mpr hUR, hidx, hcardR] at h1
     omega
-  exact ⟨J', hJ', hUR.trans (Subgroup.map_subtype_le _), (P.isPGroup'.map J'.subtype).to_le hUR,
+  exact ⟨J', hJ', hUR.trans (Subgroup.map_subtype_le _), (P.isPGroup.map J'.subtype).to_le hUR,
     hcardU⟩
 
 theorem involution_mem_of_card {J U : Subgroup G} {j : G} (hj : IsUniqueInvolution J j)

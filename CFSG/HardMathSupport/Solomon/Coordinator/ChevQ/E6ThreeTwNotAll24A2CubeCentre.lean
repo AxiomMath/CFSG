@@ -40,8 +40,8 @@ theorem norm_eq_pow_of_fixed {G : Type*} [Group G] {F : G →* G} {s : ℕ} [NeZ
 
 theorem exists_cube_root_ne_one {L : Type} [Field L] [IsAlgClosed L] (h3 : ((3 : ℕ) : L) ≠ 0) :
     ∃ ω : Lˣ, ω ^ 3 = 1 ∧ ω ≠ 1 := by
-  haveI : NeZero ((3 : ℕ) : L) := ⟨h3⟩
-  obtain ⟨x, hx⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  have : NeZero ((3 : ℕ) : L) := ⟨h3⟩
+  obtain ⟨x, hx⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   refine ⟨Units.mk0 x (hx.ne_zero (by norm_num)), Units.ext ?_, fun h => ?_⟩
   · rw [Units.val_pow_eq_pow_val, Units.val_mk0, Units.val_one]
     exact hx.pow_eq_one
@@ -167,7 +167,7 @@ theorem exists_suN_hom_norm (hT : rootDiagUnit τ ta ∈ S.D.torus)
     (hΨ : componentRoots (rootCharHom ta) i = frameRoots σ) (π : Equiv.Perm (Fin ν))
     (hπ : ∀ a b, a ≠ b → (S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
       (componentRoots (rootCharHom ta) i)] (σ a b) = σ (π b) (π a))
-    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (he : 0 < e) (hq : S.D.q = r ^ e) :
+    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (_he : 0 < e) (hq : S.D.q = r ^ e) :
     ∃ σQ : L ≃+* L,
       (∀ c, σQ c = c ^ (r ^ (e * componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i)))) ∧
       ∃ z : ModGL τ L, rootDiagUnit τ ta * z = z * rootDiagUnit τ ta ∧
@@ -416,7 +416,7 @@ theorem card_center_fixSubgroup_three {r f : ℕ} (hr : r.Prime) [CharP L r] (hf
       ↥(CFSG.RankThree.Classical2.fixSubgroup (stdUnitaryEquiv (ν := 3) σQ))) = 3 := by
   obtain ⟨F, hFcard, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.two_suN_exists_equiv (ν := 3) hr hf σQ hσc le_rfl
-  haveI : Finite ↥F := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥F := Nat.finite_of_card_ne_zero (by
     rw [hFcard]
     exact (pow_pos (pow_pos hr.pos _) 2).ne')
   rw [← Nat.card_congr (Subgroup.centerCongr eC).toEquiv]
@@ -448,8 +448,8 @@ theorem center_rationalComponent_eq_bot_of_orbit_three
     rintro rfl
     rw [hq] at h3q
     exact absurd ((Nat.dvd_add_right (dvd_pow_self 3 he.ne')).1 h3q) (by norm_num)
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have h3L : ((3 : ℕ) : L) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff L r]
     exact fun h => hr3 ((Nat.prime_dvd_prime_iff_eq hr Nat.prime_three).1 h)
@@ -516,7 +516,7 @@ theorem center_rationalComponent_eq_bot_of_orbit_three
     rw [hfX, hzX, ← hk, ← zpow_natCast, ← zpow_mul, mul_comm k, zpow_mul, zpow_natCast,
       CubeCentre.rootDiagUnit_pow_three_eq_one hap, one_zpow]
   have hZ3 := CubeCentre.card_center_fixSubgroup_three hr hes σQ hσc hQ3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [← CFSG.HardMathSupport.Solomon.Coordinator.LieComp.map_center_of_surjective
     (Group.isPerfect_def.1 hCperf) g hgsurj hgker, Subgroup.map_eq_bot_iff]
   intro c hc
@@ -548,8 +548,8 @@ theorem rootDiagUnit_mem_rationalComponent_of_stable
     (h3q : 3 ∣ S.D.q + 1) (hq2 : S.D.q ≠ 2) :
     rootDiagUnit Tag.E6 ta ∈ rationalComponent S.ρ S.Γ (rootCharHom ta) i := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨σQ, hσc, z, hzd, f, -, -, hf2, hfs⟩ :=
     CubeCentre.exists_suN_hom_norm S hT i le_rfl hψ hΨ π hπ hr hchar he hq
   rw [hs1] at hσc hfs

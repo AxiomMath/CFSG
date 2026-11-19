@@ -40,12 +40,12 @@ theorem ivL_eq (k : Nat) : ivL k = if k % 2 = 0 then k + 1 else k - 1 := by
   unfold ivL
   by_cases h : k % 2 = 0
   · have e : Nat.beq (Nat.mod k 2) 0 = true := Nat.beq_eq.mpr h
-    rw [e, if_pos h]
+    rw [e, ite_eq_left h]
   · have e : Nat.beq (Nat.mod k 2) 0 = false := by
       cases e' : Nat.beq (Nat.mod k 2) 0
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true e') h
-    rw [e, if_neg h]
+    rw [e, ite_eq_right h]
     rfl
 
 theorem wv_rep (hL : ∀ k, RepF n (L k) (g k)) : ∀ w, RepF n (wv L w) (wordVal g w)
@@ -116,12 +116,12 @@ theorem cntFix_eq (f : Nat → Nat) :
   intro i s
   by_cases h : f i = i
   · have : Nat.beq (f i) i = true := Nat.beq_eq.mpr h
-    rw [this, if_pos h]
+    rw [this, ite_eq_left h]
   · have : Nat.beq (f i) i = false := by
       cases e : Nat.beq (f i) i
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true e) h
-    rw [this, if_neg h]
+    rw [this, ite_eq_right h]
     rfl
 
 theorem cntFix_card {f : Nat → Nat} {t : Equiv.Perm (Fin n)} (hf : RepF n f t) :
@@ -347,7 +347,7 @@ theorem chainL_card (hL : ∀ k, RepF n (L k) (g k)) (h0 : 0 < n) {G : Subgroup 
     ⟨(levs.getD l (0, [], [])).1, hl⟩ else ⟨0, h0⟩
   have hB : ∀ l < levs.length, (B l : Nat) = (levs.getD l (0, [], [])).1 := by
     intro l hl
-    simp only [B, dif_pos (hc l hl).2.1]
+    simp only [B, dite_eq_left (hc l hl).2.1]
   rw [PCC.card_chain G B levs.length]
   have hmem : ∀ l < levs.length, ∀ j,
       wordVal g (((levs.getD l (0, [], [])).2.1).getD j []) ∈ PCC.Gs G B l := by
@@ -377,7 +377,7 @@ theorem chainL_card (hL : ∀ k, RepF n (L k) (g k)) (h0 : 0 < n) {G : Subgroup 
       = ∏ l ∈ Finset.range levs.length, ((levs.getD l (0, [], [])).2.2.length + 1) :=
         prod_map_eq_range _ _ levs
     _ ≤ ∏ l ∈ Finset.range levs.length, (MulAction.orbit (PCC.Gs G B l) (B l)).ncard :=
-        Finset.prod_le_prod' fun l hl => hle l (Finset.mem_range.1 hl)
+        Finset.prod_le_prod fun l hl => hle l (Finset.mem_range.1 hl)
     _ ≤ _ := Nat.le_mul_of_pos_right _ hpos
 
 section Order

@@ -20,7 +20,7 @@ theorem exists_comm_eq_of_card [Finite Γ] {A : Subgroup Γ} {τ : Γ} (hA : IsE
     (hcard : Nat.card A =
       Nat.card ↥(A ⊓ centralizer ({τ} : Set Γ)) * Nat.card ↥(A ⊓ centralizer ({τ} : Set Γ)))
     {w : Γ} (hwA : w ∈ A) (hwτ : τ * w = w * τ) : ∃ u ∈ A, w = u * τ * u⁻¹ * τ⁻¹ := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   have hτi : τ⁻¹ = τ := inv_eq_of_mul_eq_one_right hτ2
   set C : Subgroup Γ := A ⊓ centralizer ({τ} : Set Γ) with hC
   have hCA : C ≤ A := inf_le_left

@@ -156,7 +156,7 @@ private theorem core_comm_mem_siegelGroup {K V : Type} [Field K] [AddCommGroup V
     (hg : g ∈ axisRadical Q P.e P'.e) (hh : h' ∈ axisRadical Q P.e P'.e)
     [CharP K 2] (hQ : (polarBilin Q).Nondegenerate) (hV : 6 ≤ Module.finrank K V) :
     ⁅g, h'⁆ ∈ siegelGroup Q P.e P'.e := by
-  haveI : FiniteDimensional K V := FiniteDimensional.of_finrank_pos (by omega)
+  have : FiniteDimensional K V := FiniteDimensional.of_finrank_pos (by omega)
   have hk_mem : ⁅g, h'⁆ ∈ axisRadical Q P.e P'.e := by
     rw [commutatorElement_def]
     exact mul_mem (mul_mem (mul_mem hg hh) (inv_mem hg)) (inv_mem hh)

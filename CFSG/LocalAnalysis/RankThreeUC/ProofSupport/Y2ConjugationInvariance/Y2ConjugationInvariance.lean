@@ -11,6 +11,7 @@ open CFSG.LocalAnalysis.RankThreeUC CFSG.LocalAnalysis.RankThreeUC.Section9 CFSG
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_conj_eq_self {M : Subgroup G} {g : G} (hg : g ∈ M) :
     M.map (MulAut.conj g).toMonoidHom = M := by
   ext x
@@ -21,19 +22,23 @@ theorem map_conj_eq_self {M : Subgroup G} {g : G} (hg : g ∈ M) :
   · intro hx
     exact ⟨g⁻¹ * x * g, M.mul_mem (M.mul_mem (M.inv_mem hg) hx) hg, by simp [mul_assoc]⟩
 
+omit [Finite G] in
 theorem map_le_map_iff (g : G) {X Z : Subgroup G} :
     X.map (MulAut.conj g).toMonoidHom ≤ Z.map (MulAut.conj g).toMonoidHom ↔ X ≤ Z :=
   Subgroup.map_le_map_iff_of_injective (MulAut.conj g).injective
 
+omit [Finite G] in
 theorem map_inj (g : G) {X Z : Subgroup G} :
     X.map (MulAut.conj g).toMonoidHom = Z.map (MulAut.conj g).toMonoidHom ↔ X = Z :=
   (Subgroup.map_injective (MulAut.conj g).injective).eq_iff
 
+omit [Finite G] in
 theorem exists_eq_map (g : G) (N : Subgroup G) :
     ∃ N' : Subgroup G, N = N'.map (MulAut.conj g).toMonoidHom :=
   ⟨N.comap (MulAut.conj g).toMonoidHom,
     (Subgroup.map_comap_eq_self_of_surjective (MulAut.conj g).surjective N).symm⟩
 
+omit [Finite G] in
 theorem map_oPrimeResidual (g : G) (p : ℕ) (Y : Subgroup G) :
     (oPrimeResidual p Y).map (MulAut.conj g).toMonoidHom =
       oPrimeResidual p (Y.map (MulAut.conj g).toMonoidHom) := by
@@ -41,13 +46,14 @@ theorem map_oPrimeResidual (g : G) (p : ℕ) (Y : Subgroup G) :
   rw [MonoidHom.map_closure]
   congr 1
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq, Subgroup.mem_map]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Subgroup.mem_map]
   constructor
   · rintro ⟨y, ⟨hy, k, hk⟩, rfl⟩
     exact ⟨⟨y, hy, rfl⟩, k, by rw [MulEquiv.coe_toMonoidHom, MulEquiv.orderOf_eq]; exact hk⟩
   · rintro ⟨⟨y, hy, rfl⟩, k, hk⟩
     exact ⟨y, ⟨hy, k, by rw [← hk, MulEquiv.coe_toMonoidHom, MulEquiv.orderOf_eq]⟩, rfl⟩
 
+omit [Finite G] in
 theorem map_map_conj (a b : G) (X : Subgroup G) :
     (X.map (MulAut.conj a).toMonoidHom).map (MulAut.conj b).toMonoidHom =
       X.map (MulAut.conj (b * a)).toMonoidHom := by
@@ -56,6 +62,7 @@ theorem map_map_conj (a b : G) (X : Subgroup G) :
   ext x
   simp [mul_assoc]
 
+omit [Finite G] in
 theorem map_map_conj_conj (g h : G) (X : Subgroup G) :
     (X.map (MulAut.conj h).toMonoidHom).map (MulAut.conj g).toMonoidHom =
       (X.map (MulAut.conj g).toMonoidHom).map (MulAut.conj (g * h * g⁻¹)).toMonoidHom := by
@@ -63,6 +70,7 @@ theorem map_map_conj_conj (g h : G) (X : Subgroup G) :
   congr 2
   simp [mul_assoc]
 
+omit [Finite G] in
 theorem map_normalClosureUnder (g : G) (X H : Subgroup G) :
     (normalClosureUnder X H).map (MulAut.conj g).toMonoidHom =
       normalClosureUnder (X.map (MulAut.conj g).toMonoidHom) (H.map (MulAut.conj g).toMonoidHom) := by
@@ -81,11 +89,13 @@ theorem map_normalClosureUnder (g : G) (X H : Subgroup G) :
     exact le_iSup (fun h : H => (X.map (MulAut.conj (h : G)).toMonoidHom).map
       (MulAut.conj g).toMonoidHom) ⟨k, hk⟩
 
+omit [Finite G] in
 theorem map_pCoreOf (g : G) (p : ℕ) (H : Subgroup G) :
     (pCoreOf p H).map (MulAut.conj g).toMonoidHom =
       pCoreOf p (H.map (MulAut.conj g).toMonoidHom) :=
   (CFSG.LieType.BorelTits.pCoreOf_map_mulEquiv p (MulAut.conj g) H).symm
 
+omit [Finite G] in
 theorem map_normalizer (g : G) (A : Subgroup G) :
     (Subgroup.normalizer (A : Set G)).map (MulAut.conj g).toMonoidHom =
       Subgroup.normalizer ((A.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G) :=
@@ -95,17 +105,20 @@ theorem map_pRank (g : G) (p : ℕ) (hp : 1 < p) (H : Subgroup G) :
     CFSG.Open.pRank p (H.map (MulAut.conj g).toMonoidHom) = CFSG.Open.pRank p H :=
   CFSG.RankThreeCoreUniqueness.Helpers.pRank_map_automorphism p hp H (MulAut.conj g)
 
+omit [Finite G] in
 theorem card_map (g : G) (X : Subgroup G) :
     Nat.card (X.map (MulAut.conj g).toMonoidHom) = Nat.card X :=
   Subgroup.card_map_of_injective (MulAut.conj g).injective
 
+omit [Finite G] in
 theorem mem_maxSubgroupsContaining_map_iff (g : G) (N Y : Subgroup G) :
     N.map (MulAut.conj g).toMonoidHom ∈ maxSubgroupsContaining (Y.map (MulAut.conj g).toMonoidHom) ↔
       N ∈ maxSubgroupsContaining Y := by
   unfold maxSubgroupsContaining
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   exact and_congr (OrderIso.isCoatom_iff (MulEquiv.mapSubgroup (MulAut.conj g)) N) (map_le_map_iff g)
 
+omit [Finite G] in
 theorem maxSubgroupsContaining_map_eq_singleton_iff {M : Subgroup G} {g : G} (hg : g ∈ M)
     (Y : Subgroup G) :
     maxSubgroupsContaining (Y.map (MulAut.conj g).toMonoidHom) = {M} ↔
@@ -124,16 +137,18 @@ theorem maxSubgroupsContaining_map_eq_singleton_iff {M : Subgroup G} {g : G} (hg
     obtain ⟨N', rfl⟩ := exists_eq_map g N
     rw [mem_maxSubgroupsContaining_map_iff, h, Set.mem_singleton_iff, Set.mem_singleton_iff, e]
 
+omit [Finite G] in
 theorem map_le_map_conj_mul_iff (g h : G) (A B : Subgroup G) :
     A.map (MulAut.conj g).toMonoidHom ≤ B.map (MulAut.conj (g * h)).toMonoidHom ↔
       A ≤ B.map (MulAut.conj h).toMonoidHom := by
   rw [← map_map_conj, map_le_map_iff]
 
+omit [Finite G] in
 theorem mem_uniqueSet_map_iff {M : Subgroup G} {g : G} (hg : g ∈ M) (D : Subgroup G) :
     D.map (MulAut.conj g).toMonoidHom ∈ uniqueSet M ↔ D ∈ uniqueSet M := by
   have hM := map_conj_eq_self hg
   unfold uniqueSet
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   refine and_congr ?_ ⟨fun H h hh => ?_, fun H h hh => ?_⟩
   · conv_lhs => rw [← hM]
     exact map_le_map_iff g
@@ -148,6 +163,7 @@ theorem mem_uniqueSet_map_iff {M : Subgroup G} {g : G} (hg : g ∈ M) (D : Subgr
     rw [mul_inv_cancel_left, h1, hM] at h2
     exact h2.symm
 
+omit [Finite G] in
 theorem le_M_map_iff {M : Subgroup G} {g : G} (hg : g ∈ M) (X : Subgroup G) :
     X.map (MulAut.conj g).toMonoidHom ≤ M ↔ X ≤ M := by
   conv_lhs => rw [← map_conj_eq_self hg]
@@ -157,7 +173,7 @@ theorem mem_YSet_map_conj_iff {G : Type} [Group G] [Finite G] {M : Subgroup G} {
     (hg : g ∈ M) {Y : Subgroup G} :
     Y ∈ Section9.YSet M ↔ Y.map (MulAut.conj g).toMonoidHom ∈ Section9.YSet M := by
   unfold Section9.YSet
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [le_M_map_iff hg, ne_eq, ne_eq, maxSubgroupsContaining_map_eq_singleton_iff hg]
   refine and_congr Iff.rfl (and_congr Iff.rfl ⟨fun H D hD hc => ?_, fun H D hD hc => ?_⟩)
   · obtain ⟨D', rfl⟩ := exists_eq_map g D
@@ -171,18 +187,20 @@ theorem mem_HSet_map_conj_iff {G : Type} [Group G] [Finite G] {M : Subgroup G} {
     (hg : g ∈ M) {Y H : Subgroup G} :
     H ∈ Section9.HSet M Y ↔ H.map (MulAut.conj g).toMonoidHom ∈ Section9.HSet M (Y.map (MulAut.conj g).toMonoidHom) := by
   unfold Section9.HSet
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [map_le_map_iff, le_M_map_iff hg, ← map_oPrimeResidual, ← map_normalClosureUnder,
     map_pRank g 3 (by norm_num)]
 
+omit [Finite G] in
 theorem mem_invariantPPrimeSubgroups_map_conj_iff {M : Subgroup G} {g : G} (hg : g ∈ M)
     (Y A : Subgroup G) (p : ℕ) :
     A.map (MulAut.conj g).toMonoidHom ∈ invariantPPrimeSubgroups M (Y.map (MulAut.conj g).toMonoidHom) p ↔
       A ∈ invariantPPrimeSubgroups M Y p := by
   unfold invariantPPrimeSubgroups
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [le_M_map_iff hg, ← map_normalizer, map_le_map_iff, card_map]
 
+omit [Finite G] in
 theorem quotientIsTwoGroup_map_iff (g : G) (p : ℕ) (Y : Subgroup G) :
     QuotientIsTwoGroup p (Y.map (MulAut.conj g).toMonoidHom) ↔ QuotientIsTwoGroup p Y := by
   unfold QuotientIsTwoGroup
@@ -202,7 +220,7 @@ theorem mem_Y2Set_map_conj_iff {G : Type} [Group G] [Finite G] {M : Subgroup G} 
     (hg : g ∈ M) {Y : Subgroup G} :
     Y ∈ Section9.Y2Set M ↔ Y.map (MulAut.conj g).toMonoidHom ∈ Section9.Y2Set M := by
   unfold Section9.Y2Set
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [← mem_YSet_map_conj_iff hg, ne_eq, ne_eq, maxSubgroupsContaining_map_eq_singleton_iff hg,
     quotientIsTwoGroup_map_iff]
   refine and_congr Iff.rfl (and_congr Iff.rfl (and_congr ⟨fun H N hN => ?_, fun H N hN => ?_⟩

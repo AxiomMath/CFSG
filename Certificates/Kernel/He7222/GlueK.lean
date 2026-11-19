@@ -44,7 +44,7 @@ theorem k_chain {τ : Equiv.Perm (Fin 8330)}
       invLK 8330 14 (mask 14) (pidn 8330 14) (Ts.getD t []) (TIs.getD t []) = true)
     {rs : List ℕ} {sP : ℕ} {s : Equiv.Perm (Fin 8330)}
     (hrs : ∀ p : Fin 8330, evK 14 (mask 14) rs p = s p) (hsP : PRep 8330 14 sP s)
-    (hs : s ∈ centralizerIn heP τ) {KC : List (List ℕ)} {keys : List ℕ}
+    (_hs : s ∈ centralizerIn heP τ) {KC : List (List ℕ)} {keys : List ℕ}
     (hcls : clsK 14 (mask 14) Ts TIs rs KC keys = true) (hinc : keys.Pairwise (· < ·))
     {G : List ℕ} {U : List (List ℕ)}
     (hkg : kgK 8330 14 (mask 14) (pidn 8330 14) Ts sP G U = true)

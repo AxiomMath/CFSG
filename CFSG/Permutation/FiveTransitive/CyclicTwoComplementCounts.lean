@@ -132,7 +132,7 @@ theorem counts
       omega
     · have hzero : (fixedBy D g).ncard = 0 := (Set.ncard_eq_zero (Set.toFinite _)).mpr (Set.not_nonempty_iff_eq_empty.mp hne)
       omega
-  cases b <;> cases c <;> cases d <;> simp only [Bool.false_eq_true, if_false, if_true, one_mul, mul_one] at hbits
+  cases b <;> cases c <;> cases d <;> simp only [Bool.false_eq_true, ite_false, ite_true, one_mul, mul_one] at hbits
   · have hgI : g.val ∈ Inside Q := hk.le ⟨g.property, hbits⟩
     have hnil : (fixedBy D g).ncard = 0 := by
       apply (Set.ncard_eq_zero (Set.toFinite _)).mpr

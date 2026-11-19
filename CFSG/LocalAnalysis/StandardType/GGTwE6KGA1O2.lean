@@ -12,12 +12,12 @@ open CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalle
   CFSG.SeitzReduction.TwistedE6Pilot
 
 
-theorem le_inner_of_commute_outer_involution {f : ℕ} (hf : 1 ≤ f) (h3 : 3 ∣ 2 ^ f + 1)
+theorem le_inner_of_commute_outer_involution {f : ℕ} (hf : 1 ≤ f) (_h3 : 3 ∣ 2 ^ f + 1)
     {t : MulAut ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))}
     (ht2 : t ^ 2 = 1) (htI : t ∉ LayerSixE.twInndiagAut f)
     {X : Subgroup (MulAut ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
       (frobQ 2 f)))}
-    (hXel : IsElemAbelian 3 X) (hXI : X ≤ LayerSixE.twInndiagAut f)
+    (_hXel : IsElemAbelian 3 X) (hXI : X ≤ LayerSixE.twInndiagAut f)
     (hXt : ∀ x ∈ X, t * x = x * t) :
     X ≤ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
         (frobQ 2 f)) →*

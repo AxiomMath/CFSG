@@ -23,7 +23,7 @@ theorem s16c7_isPGroup_two_ker {Q Y : Type*} [Group Q] [Finite Q] [Group Y]
       by_contra h
       exact hno d hd h hdvd⟩
   obtain ⟨p, hp, hp2, hpd⟩ := hodd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := π.ker) p hpd
   have hzQ : orderOf (z : Q) = p := by rw [Subgroup.orderOf_coe]; exact hz
   have hzp : IsPGroup p (zpowers (z : Q)) :=
@@ -34,8 +34,8 @@ theorem s16c7_isPGroup_two_ker {Q Y : Type*} [Group Q] [Finite Q] [Group Y]
   have hf : Function.Surjective f := by
     rintro ⟨_, x, hx, rfl⟩
     exact ⟨⟨x, hx⟩, rfl⟩
-  have hPmap : IsPGroup p ↥((P : Subgroup Q).map π) := IsPGroup.of_surjective P.isPGroup' f hf
-  haveI : IsCyclic ↥((P : Subgroup Q).map π) := hcyc p hp hp2 _ hPmap
+  have hPmap : IsPGroup p ↥((P : Subgroup Q).map π) := IsPGroup.of_surjective P.isPGroup f hf
+  have : IsCyclic ↥((P : Subgroup Q).map π) := hcyc p hp hp2 _ hPmap
   have hfker : f.ker ≤ center ↥(P : Subgroup Q) := by
     intro x hx
     rw [Subgroup.mem_center_iff]
@@ -43,7 +43,7 @@ theorem s16c7_isPGroup_two_ker {Q Y : Type*} [Group Q] [Finite Q] [Group Y]
     have hxπ : π x = 1 := congrArg Subtype.val (MonoidHom.mem_ker.1 hx)
     have hxc : (x : Q) ∈ center Q := hcen (MonoidHom.mem_ker.2 hxπ)
     exact Subtype.ext (Subgroup.mem_center_iff.1 hxc (y : Q))
-  haveI : IsMulCommutative (P : Subgroup Q) := f.isMulCommutative_of_isCyclic_of_ker_le_center hfker
+  have : IsMulCommutative (P : Subgroup Q) := f.isMulCommutative_of_isCyclic_of_ker_le_center hfker
   have hbot := UCK.M591D.sylow_inf_center_eq_bot hQ P
   have hmem : (z : Q) ∈ (P : Subgroup Q) ⊓ center Q :=
     ⟨hP (mem_zpowers _), hcen z.2⟩

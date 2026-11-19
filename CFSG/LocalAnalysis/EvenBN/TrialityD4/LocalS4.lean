@@ -223,36 +223,43 @@ section Inclusions
 variable (d : TrialityD4Data L (2 ^ f))
 
 private theorem R₄_le_N_M₄ (F : Facts d t) :
-    yamadaR₄ d t ≤ normalizer (yamadaM₄ d t : Set G) := fun g hg =>
+    yamadaR₄ d t ≤ normalizer (yamadaM₄ d t : Set G) := fun _g hg =>
   mem_normalizer_inf_D4 (le_normalizer hg) (mem_normalizer_centralizer_C8 (F.R₄_le_N_Y₂ hg))
 
 private theorem R₄_le_N_D₄ (F : Facts d t) :
-    yamadaR₄ d t ≤ normalizer (yamadaD₄ d t : Set G) := fun g hg =>
+    yamadaR₄ d t ≤ normalizer (yamadaD₄ d t : Set G) := fun _g hg =>
   mem_normalizer_inf_D4 (le_normalizer hg) (mem_normalizer_inf_D4 (F.R₄_le_N_C₅ hg)
     (mem_normalizer_centralizer_C8 (F.R₄_le_N_V₁ hg)))
 
 private theorem R₄_le_N_F₄ (F : Facts d t) :
-    yamadaR₄ d t ≤ normalizer (yamadaF₄ d t : Set G) := fun g hg =>
+    yamadaR₄ d t ≤ normalizer (yamadaF₄ d t : Set G) := fun _g hg =>
   mem_normalizer_inf_D4 (R₄_le_N_M₄ d F hg) (R₄_le_N_D₄ d F hg)
 
+omit [Finite G] in
 private theorem M_le_M₄ (F : Facts d t) : d.M.map L.subtype ≤ yamadaM₄ d t :=
   le_inf ((map_mono d.M_le_S).trans F.S_le_R₄) F.M_le_C_Y₂
 
+omit [Finite G] in
 private theorem D_le_D₅ (F : Facts d t) : d.D.map L.subtype ≤ yamadaD₅ d t :=
   le_inf F.D_le_C₅ ((map_mono d.D_le_S).trans F.S_le_C_V₁)
 
+omit [Finite G] in
 private theorem D_le_D₄ (F : Facts d t) : d.D.map L.subtype ≤ yamadaD₄ d t :=
   le_inf ((map_mono d.D_le_S).trans F.S_le_R₄) (D_le_D₅ d F)
 
+omit [Finite G] in
 private theorem F_le_F₄ (F : Facts d t) : d.F.map L.subtype ≤ yamadaF₄ d t :=
   le_inf ((map_mono d.F_le_M).trans (M_le_M₄ d F)) ((map_mono d.F_le_D).trans (D_le_D₄ d F))
 
+omit [Finite G] in
 private theorem S_le_S₄ (F : Facts d t) : d.S.map L.subtype ≤ yamadaS₄ d t :=
   le_inf F.S_le_R₄ F.S_le_C_V₁
 
+omit [Finite G] in
 private theorem D₄_le_S₄ : yamadaD₄ d t ≤ yamadaS₄ d t :=
   le_inf inf_le_left (inf_le_right.trans inf_le_right)
 
+omit [Finite G] in
 private theorem F₄_le_D₅ : yamadaF₄ d t ≤ yamadaD₅ d t :=
   (yamadaF₄_le_yamadaD₄ d t).trans inf_le_right
 
@@ -290,6 +297,7 @@ private theorem exists_mul_of_mem_S₄ (h : Setup G L f t) (d : TrialityD4Data L
       rwa [show m⁻¹ * (m * t * s) * s⁻¹ = t by group] at this
     exact F.t_not_mem_C_V₁ htC
 
+omit [Finite G] in
 private theorem exists_mul_of_mem_M₄ (d : TrialityD4Data L (2 ^ f)) (F : Facts d t) {x : G}
     (hx : x ∈ yamadaM₄ d t) :
     ∃ m ∈ d.M.map L.subtype, ∃ φ ∈ yamadaF₄ d t, x = m * φ := by
@@ -333,6 +341,7 @@ end Decomposition
 
 section Commutator
 
+omit [Finite G] in
 private theorem commutator_M_W_mem_Y (d : TrialityD4Data L (2 ^ f)) {m w : G}
     (hm : m ∈ d.M.map L.subtype) (hw : w ∈ d.W.map L.subtype) :
     m * w * m⁻¹ * w⁻¹ ∈ d.Y.map L.subtype := by
@@ -343,6 +352,7 @@ private theorem commutator_M_W_mem_Y (d : TrialityD4Data L (2 ^ f)) {m w : G}
     exact inv_mem ((d.mem_W_iff_forall_M.1 hw').2 m' hm')
   exact ⟨⁅m', w'⁆, h1, map_commutatorElement _ _ _⟩
 
+omit [Finite G] in
 private theorem commutator_mem_yamadaW₃_of_mem_F₄_M (d : TrialityD4Data L (2 ^ f))
     (F : Facts d t) {x m : G} (hx : x ∈ yamadaF₄ d t) (hm : m ∈ d.M.map L.subtype) :
     x * m * x⁻¹ * m⁻¹ ∈ yamadaW₃ d t := by
@@ -381,6 +391,7 @@ private theorem commutator_mem_yamadaW₃_of_mem_F₄_M (d : TrialityD4Data L (2
     exact mem_centralizer_singleton_iff.1 (hle hw)
   exact mem_inf.2 ⟨hcL₃, hcW₂⟩
 
+omit [Finite G] in
 private theorem commutator_mem_yamadaW₃_of_mem_F₄_S (d : TrialityD4Data L (2 ^ f))
     (F : Facts d t) {x s : G} (hx : x ∈ yamadaF₄ d t) (hs : s ∈ d.S.map L.subtype) :
     x * s * x⁻¹ * s⁻¹ ∈ yamadaW₃ d t := by
@@ -605,6 +616,7 @@ private theorem V₁_le_normalizer_S4 (d : TrialityD4Data L (2 ^ f)) (F : Facts 
     rw [SetLike.mem_coe, mem_centralizer_iff.1 (F.S_le_C_V₁ (hA ha)) v hv, mul_inv_cancel_right]
     exact ha
 
+omit [Finite G] in
 private theorem V_le_V₁_S4 (d : TrialityD4Data L (2 ^ f)) (F : Facts d t) :
     d.V.map L.subtype ≤ yamadaV₁ d t :=
   F.V₁_inf_D.symm.le.trans inf_le_left
@@ -644,7 +656,7 @@ private theorem card_F₁ (d : TrialityD4Data L (2 ^ f)) (F : Facts d t) :
 
 private theorem relIndex_R₃_R₄ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (F : Facts d t) : (yamadaR₃ d t).relIndex (yamadaR₄ d t) = (2 ^ f) ^ 3 := by
-  haveI hN : ((yamadaW₁ d t).subgroupOf (yamadaF₁ d t)).Normal :=
+  have hN : ((yamadaW₁ d t).subgroupOf (yamadaF₁ d t)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer F.W₁_le_F₁).2 F.F₁_le_N_W₁
   let κ : yamadaR₄ d t →* yamadaF₁ d t ⧸ (yamadaW₁ d t).subgroupOf (yamadaF₁ d t) :=
     { toFun := fun x => QuotientGroup.mk ⟨t * (x : G) * t * (x : G)⁻¹, F.crossed_F₁ x x.2⟩

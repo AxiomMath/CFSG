@@ -18,7 +18,7 @@ theorem p622_not_hasNormalPComplement {p : ℕ} (hp : p.Prime) {X L : Subgroup G
     ¬ CFSG.HasNormalPComplement p ↥X := by
   intro h
   obtain ⟨N, hN, hcop, hquot⟩ := h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsimple : IsSimpleGroup ↥L :=
     Subgroup.isSimpleGroup_iff.mpr ⟨hL.2.2.1.symm, fun H' hH' hn => hL.2.2.2.1 H' bot_le hH' hn⟩
   let φ : ↥L →* ↥X ⧸ N := (QuotientGroup.mk' N).comp (Subgroup.inclusion hLX)
@@ -56,7 +56,7 @@ variable {P : Sylow 3 G} {M : Subgroup G} {x z : G} {T S L : Subgroup G}
 
 theorem isPConstrained_three (hL62 : P622Lemma62Three) (c : P622KxCfg 3 P M x z T S L) :
     CFSG.ABGLocalTools.IsPConstrained 3 ↥M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases hL62 G c.setting c.d1 c.d2 c.u0 P M c.conf.failure.situation x z c.conf.failure.point
       c.conf.failure.central with h | h
   · exact isPConstrained_of_hasPrimeConstraint h
@@ -66,7 +66,7 @@ theorem isPConstrained_three (hL62 : P622Lemma62Three) (c : P622KxCfg 3 P M x z 
 theorem false_of_section_three (hL62 : P622Lemma62Three) (c : P622KxCfg 3 P M x z T S L)
     {H N : Subgroup G} (hHM : H ≤ M) (hs : S622IsSimpleSection H N) (hzH : z ∈ H)
     (hzN : z ∉ N) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz := c.conf.failure.central
   have hzc : ∀ g ∈ (P : Subgroup G), g * z = z * g := fun g hg =>
     mem_centralizer_iff.mp hz.centralizes g hg

@@ -300,7 +300,7 @@ theorem pkMat_inj' {A B : ℕ} (hA : A < 2 ^ (n * n)) (hB : B < 2 ^ (n * n))
   · have h2 : 2 ^ (n * n) ≤ 2 ^ p := Nat.pow_le_pow_right (by norm_num) (by omega)
     rw [Nat.testBit_lt_two_pow (by omega), Nat.testBit_lt_two_pow (by omega)]
 
-theorem stepF2_lt (hn : 0 < n) (A B k : ℕ) : stepF2 n A B k < 2 ^ (n * n) := by
+theorem stepF2_lt (_hn : 0 < n) (A B k : ℕ) : stepF2 n A B k < 2 ^ (n * n) := by
   have hm := repu_mul n n
   have hV : (B >>> (n * k)) &&& (2 ^ n - 1) ≤ 2 ^ n - 1 := Nat.and_le_right
   have hp : 0 < 2 ^ (n * n) := Nat.two_pow_pos _
@@ -564,7 +564,7 @@ theorem bitB_maskOf (f : ℕ → Bool) : ∀ m i, i < m → bitB (maskOf m f) i 
           rw [decide_eq_decide]
           omega
         rw [e]
-        cases f m <;> simp [Nat.one_shiftLeft, Nat.testBit_two_pow, Ne.symm hi]
+        cases f m <;> simp [Nat.one_shiftLeft, Ne.symm hi]
   intro m i hi
   unfold bitB
   rw [bitN_eq, key, decide_eq_true hi, Bool.true_and]
@@ -1173,12 +1173,12 @@ theorem testBit_xs_pow (c t : ℕ) : ∀ n,
     rw [xs_succ, Nat.testBit_xor, testBit_xs_pow c t n]
     by_cases ht : t < n
     · have : t ≠ n := by omega
-      split_ifs <;> simp [Nat.testBit_two_pow, ht, this, Ne.symm this, show t < n + 1 by omega]
+      split_ifs <;> simp [ht, Ne.symm this, show t < n + 1 by omega]
     · by_cases htn : t = n
       · subst htn
-        split_ifs with h <;> simp [Nat.testBit_two_pow, h]
+        split_ifs with h <;> simp [h]
       · have : ¬ t < n + 1 := by omega
-        split_ifs <;> simp [Nat.testBit_two_pow, ht, this, Ne.symm htn]
+        split_ifs <;> simp [ht, this, Ne.symm htn]
 
 theorem xs_pow {c n : ℕ} (hc : c < 2 ^ n) : xs (fun p => 2 ^ p) c n = c := by
   apply Nat.eq_of_testBit_eq
@@ -1225,7 +1225,7 @@ theorem decF_inj {a b : ℕ} (ha : a < 2 ^ 15) (hb : b < 2 ^ 15) (h : decF a = d
   · obtain ⟨hlt, hidx⟩ := pos_facts p hp
     have hj : posAll.getD p 0 % 6 < 6 := Nat.mod_lt _ (by norm_num)
     have e := congrFun (congrFun h ⟨posAll.getD p 0 / 6, by omega⟩) ⟨posAll.getD p 0 % 6, hj⟩
-    simp only [decF, Matrix.of_apply, if_pos hlt, hidx] at e
+    simp only [decF, Matrix.of_apply, ite_eq_left hlt, hidx] at e
     exact b2z_inj e
   · have h2 : 2 ^ 15 ≤ 2 ^ p := Nat.pow_le_pow_right (by norm_num) (by omega)
     rw [Nat.testBit_lt_two_pow (by omega), Nat.testBit_lt_two_pow (by omega)]
@@ -1257,7 +1257,7 @@ theorem alt_conj (G B : Mat6) (hs : Bᵀ = B) (hd : ∀ i, B i i = 0) :
     · have : ¬ (j : ℕ) < i := by omega
       simp [h1, this]
     · by_cases h2 : (j : ℕ) < i
-      · simp only [h1, h2, if_false, if_true, zero_add]
+      · simp only [h1, h2, ite_false, ite_true, zero_add]
         exact (congrFun (congrFun hs i) j).symm
       · have : i = j := Fin.ext (by omega)
         subst this
@@ -1590,16 +1590,16 @@ theorem WalkInv.ins {TAB ROOTS ST m : ℕ} {T : ℕ → List ℕ} {n S : ℕ} (h
       · exact hdj r r' x hx1 hx2
   · intro r hr
     dsimp only
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     exact hemp r hr
   · intro r hr
     dsimp only
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     exact hlen r hr
   · intro k' hk'
     obtain rfl : k' = k := by omega
     dsimp only
-    rw [if_pos rfl, List.length_cons]
+    rw [ite_eq_left rfl, List.length_cons]
     omega
   · intro r hr x hx
     rcases (hmem r x).1 hx with ⟨rfl, rfl⟩ | hx

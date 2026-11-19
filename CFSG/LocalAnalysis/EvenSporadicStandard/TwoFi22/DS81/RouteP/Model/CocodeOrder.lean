@@ -31,7 +31,7 @@ theorem conj_mem_E0_of_gen {g : Q3} (hg : g = aElt ∨ g = bElt ∨ ∃ j, g = e
 
 theorem inv_conj_mem_E0 {g : Q3} (hg : ∀ x ∈ E0, g * x * g⁻¹ ∈ E0) {x : Q3} (hx : x ∈ E0) :
     g⁻¹ * x * g⁻¹⁻¹ ∈ E0 := by
-  haveI : Finite E0 := finite_and_card_E0_le.1
+  have : Finite E0 := finite_and_card_E0_le.1
   let f : E0 → E0 := fun y => ⟨g * y * g⁻¹, hg y y.2⟩
   have hinj : Function.Injective f := by
     intro y z h
@@ -71,7 +71,7 @@ section Order
 
 
 theorem card_Zq_le : Nat.card Zq ≤ 2 ^ 11 * Nat.card (NativeSporadic.Carrier .M24) := by
-  haveI : E0q.Normal := E0q_normal
+  have : E0q.Normal := E0q_normal
   let a' : Zq := ⟨aElt, aElt_mem_Zq⟩
   let b' : Zq := ⟨bElt, bElt_mem_Zq⟩
   have hrel : ∀ r ∈ relWords, wordProd (img2 (QuotientGroup.mk a' : Zq ⧸ E0q)
@@ -125,7 +125,7 @@ theorem card_Zq : Nat.card Zq = 2 ^ 11 * Nat.card (NativeSporadic.Carrier .M24) 
   le_antisymm card_Zq_le card_Zq_ge
 
 theorem planeHom_ker_eq : planeHom.ker = E0q := by
-  haveI : Finite Q3 := Finite.of_injective rho rho_injective
+  have : Finite Q3 := Finite.of_injective rho rho_injective
   have hle : E0q ≤ planeHom.ker := fun g hg => planeHom_eq_one_of_mem_E0 hg
   have h24 : Nat.card (NativeSporadic.Carrier .M24) = 244823040 := card_M24
   have hrange : Nat.card (NativeSporadic.Carrier .M24) ≤ Nat.card planeHom.range := by

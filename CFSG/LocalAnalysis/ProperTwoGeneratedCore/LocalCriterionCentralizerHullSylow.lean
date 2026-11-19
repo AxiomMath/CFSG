@@ -19,7 +19,7 @@ variable {G : Type u} [Group G]
 
 @[expose] def sylowTwoOfOddIndex [Finite G] (H : Subgroup G) (hindex : Odd H.index)
     (T : Sylow 2 H) : Sylow 2 G :=
-  (T.isPGroup'.map H.subtype).toSylow (by
+  (T.isPGroup.map H.subtype).toSylow (by
     rw [Subgroup.index_map_subtype]
     exact Nat.Prime.not_dvd_mul Nat.prime_two T.not_dvd_index hindex.not_two_dvd_nat)
 

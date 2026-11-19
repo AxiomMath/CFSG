@@ -114,7 +114,7 @@ theorem card_eq_prime_of_torsion {Γ : Type} [Group Γ] (Q : Subgroup Γ) [Finit
 theorem eq_zpowers_of_card_eq_prime {Γ : Type} [Group Γ] (Q : Subgroup Γ) (q : ℕ)
     [Fact q.Prime] (hQ : Nat.card Q = q) {ζ : Γ} (hζ : ζ ∈ Q) (hζ1 : ζ ≠ 1) :
     Q = Subgroup.zpowers ζ := by
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQ]; exact (Fact.out : q.Prime).ne_zero)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQ]; exact (Fact.out : q.Prime).ne_zero)
   let Z : Subgroup Γ := Subgroup.zpowers ζ
   have hZle : Z ≤ Q := Subgroup.zpowers_le.mpr hζ
   have hZdvd : Nat.card Z ∣ q := hQ ▸ Subgroup.card_dvd_of_le hZle
@@ -131,8 +131,8 @@ theorem eq_zpowers_of_card_eq_prime {Γ : Type} [Group Γ] (Q : Subgroup Γ) (q 
 
 theorem card_mulAut_lt_of_card_prime {Γ : Type} [Group Γ] (Q : Subgroup Γ) (q : ℕ)
     [Fact q.Prime] (hQ : Nat.card Q = q) (hq : q ≤ 17) : Nat.card (MulAut ↥Q) < 360 := by
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQ]; exact (Fact.out : q.Prime).ne_zero)
-  haveI : IsCyclic ↥Q := isCyclic_of_prime_card hQ
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQ]; exact (Fact.out : q.Prime).ne_zero)
+  have : IsCyclic ↥Q := isCyclic_of_prime_card hQ
   rw [IsCyclic.card_mulAut, hQ, Nat.totient_prime (Fact.out : q.Prime)]
   have : 2 ≤ q := (Fact.out : q.Prime).two_le
   omega

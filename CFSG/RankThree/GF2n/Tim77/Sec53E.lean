@@ -366,7 +366,7 @@ theorem sec53_elem_contra
       rw [← hb'eq]
       exact Subgroup.mul_mem _ (Subgroup.mul_mem _ haN hβ) haN
     exact mem_normalizer_sup (hCN hb'C) hb'A
-  obtain ⟨α, hαA, hαA0⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hQ.L_le hQ.ne)
+  obtain ⟨α, hαA, hαA0⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hQ.L_le hQ.ne)
   obtain ⟨hb'Y, hαD, hβD, hb'D⟩ := sec53e_ab_D h haN haN0 ha2 hβĀ hβN hαA hαA0
   rw [hb'eq] at hb'Y hαD hβD hb'D
   have hAY : A ≤ Section3.Y Abar A b' := le_sup_right.trans le_sup_left
@@ -374,7 +374,7 @@ theorem sec53_elem_contra
   have hαY : α ∈ Section3.Y Abar A b' := hAY hαA
   have hβY : β ∈ Section3.Y Abar A b' := hĀY hβĀ
   obtain ⟨hNY, hYN, hNab⟩ := tim77Sec32a_holds G Abar A S' (conjSubgroup a Abar) b' h' hs
-  haveI hNn : ((Section3.N Abar A b').subgroupOf (Section3.Y Abar A b')).Normal :=
+  have hNn : ((Section3.N Abar A b').subgroupOf (Section3.Y Abar A b')).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNY).mpr fun y hy => hYN y hy
   obtain ⟨hdat, hB⟩ := sec51_bender_data h' hs hsolv
   have hN'le : Section3.N Abar A b' ≤ normalizer (A : Set G) := by

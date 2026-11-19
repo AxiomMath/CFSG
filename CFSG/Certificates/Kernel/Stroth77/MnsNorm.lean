@@ -40,7 +40,7 @@ theorem mem_Eg_iff (ht : tabOK D = true) (hc : clOK D = true) {g : Mns} :
   · intro hg
     have hle : Eg ≤ subS D (fun c => decide (c < 16)) ht (closed_facts hcl) := by
       refine (Subgroup.closure_le _).2 fun x hx => ?_
-      simp only [Set.mem_setOf_eq, gensE, List.mem_cons, List.not_mem_nil, or_false] at hx
+      simp only [Set.mem_ofPred_eq, gensE, List.mem_cons, List.not_mem_nil, or_false] at hx
       rcases hx with rfl | rfl | rfl | rfl
       · exact ⟨1, by norm_num, by decide, elS_1⟩
       · exact ⟨2, by norm_num, by decide, elS_2⟩
@@ -91,15 +91,15 @@ theorem vec_val_bt (z : Mns) (i : Fin 6) : (z.vec i).val = bt (encN z % 32) i.va
   by_cases h5 : k < 5
   · have hv : (z.vec ⟨k, hk⟩).val = encN z / 2 ^ k % 2 := by
       rw [← vb_encN]
-      simp only [vb, Fin.val_mk]
-      rw [if_pos h5]
+      simp only [vb]
+      rw [ite_eq_left h5]
     rw [hv]
-    simp only [bt, Fin.val_mk]
+    simp only [bt]
     interval_cases k <;> omega
   · obtain rfl : k = 5 := by omega
     have h0 : z.vec ⟨5, hk⟩ = 0 := z.vec_five
     rw [h0, ZMod.val_zero]
-    simp only [bt, Fin.val_mk]
+    simp only [bt]
     omega
 
 theorem pcB_conj {g a : Mns} (ha : a.perm = 1) (i : Fin 6) :
@@ -186,7 +186,7 @@ theorem na_facts (h : naOK D = true) :
   · exact absurd r (ne hi)
   · exact r
 
-theorem pc2_conj (ht : tabOK D = true) (hc : clOK D = true) (ha : aOK D = true) {g : Mns}
+theorem pc2_conj (_ht : tabOK D = true) (_hc : clOK D = true) (_ha : aOK D = true) {g : Mns}
     (hx : mnsX1.perm = 1) (hy : mnsY1.perm = 1) (i : Fin 6) :
     pc2 (encN (g * mnsX1 * g⁻¹) % 32) (encN (g * mnsY1 * g⁻¹) % 32) (g.perm 0).val i.val
       (g.perm i).val = true := by
@@ -197,9 +197,9 @@ theorem pc2_conj (ht : tabOK D = true) (hc : clOK D = true) (ha : aOK D = true) 
   rw [pc2, Bool.and_eq_true]
   exact ⟨h1, h2⟩
 
-theorem Eg_le_sup (hb : bfsOK D = true) : Eg ≤ Ag ⊔ Lg := by
+theorem Eg_le_sup (_hb : bfsOK D = true) : Eg ≤ Ag ⊔ Lg := by
   refine (Subgroup.closure_le _).2 fun x hx => ?_
-  simp only [Set.mem_setOf_eq, gensE, List.mem_cons, List.not_mem_nil, or_false] at hx
+  simp only [Set.mem_ofPred_eq, gensE, List.mem_cons, List.not_mem_nil, or_false] at hx
   have hA : ∀ g ∈ gensA, g ∈ Ag ⊔ Lg := fun g hg => Subgroup.mem_sup_left (gensA_mem hg)
   have hL : ∀ g ∈ gensL, g ∈ Ag ⊔ Lg := fun g hg =>
     Subgroup.mem_sup_right (Subgroup.subset_closure hg)

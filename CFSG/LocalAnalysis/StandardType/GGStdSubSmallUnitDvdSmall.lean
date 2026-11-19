@@ -112,18 +112,18 @@ theorem not_isComponentOf_of_small_classes [Finite K] [Finite L'] {φ : ↥(unit
       simp only [map_mul, map_inv]⟩
   by_cases hex : ∃ k, E ≤ B k
   · obtain ⟨k, hk⟩ := hex
-    haveI hsolU : Group.IsSolvable ↥(unitarySU 2 1 K (cls σ k).card) :=
+    have hsolU : Group.IsSolvable ↥(unitarySU 2 1 K (cls σ k).card) :=
       isSolvable_unitarySU_small hM.field (Finset.card_pos.mpr ⟨k, mem_cls.mpr rfl⟩) (hsmall k)
-    haveI hsolBlock : Group.IsSolvable ↥(blockSU (K := K) (n := 1) (cls σ k)) :=
-      solvable_of_surjective (f := (blockSUEquiv (cls σ k) hM.field).toMonoidHom)
+    have hsolBlock : Group.IsSolvable ↥(blockSU (K := K) (n := 1) (cls σ k)) :=
+      Group.isSolvable_of_surjective (f := (blockSUEquiv (cls σ k) hM.field).toMonoidHom)
         (blockSUEquiv (cls σ k) hM.field).surjective
-    haveI hsolB : Group.IsSolvable ↥(B k) := by
+    have hsolB : Group.IsSolvable ↥(B k) := by
       have h1 : Group.IsSolvable ↥(φ.comp (blockSU (cls σ k)).subtype).range :=
-        solvable_of_surjective (MonoidHom.rangeRestrict_surjective _)
+        Group.isSolvable_of_surjective (MonoidHom.rangeRestrict_surjective _)
       rw [SUTorus.range_comp_subtype_blockSU] at h1
       exact h1
     have hsolE : Group.IsSolvable ↥E :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective hk)
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hk)
     exact not_isComponentOf_of_solvable hE hsolE
   · push Not at hex
     have hcomm : ∀ k, ∀ e ∈ E, ∀ b ∈ B k, e * b = b * e := fun k =>

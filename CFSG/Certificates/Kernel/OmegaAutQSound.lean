@@ -21,9 +21,11 @@ structure Good (ι : G → S81) : Prop where
 variable {ι : G → S81} (h : Good ι)
 include h
 
+omit [DecidableEq G] in
 theorem mem_map' (a : G) (L : List G) : ι a ∈ L.map ι ↔ a ∈ L := by
   simp only [List.mem_map, h.inj.eq_iff, exists_eq_right]
 
+omit [DecidableEq G] in
 theorem span1_map (g : G) (T : List G) : span1 (ι g) (T.map ι) = (span1P g T).map ι := by
   simp only [span1, span1P, tabP_eq, List.map_append, List.map_map, Function.comp_def, h.mul]
 
@@ -65,18 +67,19 @@ theorem leafOf_map (Q B T : List G) (g1 g2 : G) :
 theorem leaf_map (Q B T : List G) : leaf (Q.map ι) (B.map ι) (T.map ι) = leafP Q B T := by
   simp only [leaf, leafP, firstOut_map h, span1_map h, leafOf_map h]
 
+omit [Mul G] [One G] [DecidableEq G] h in
 theorem snoc_map (B : List G) (c : G) : B.map ι ++ [ι c] = (B ++ [c]).map ι := by
   simp only [List.map_append, List.map_cons, List.map_nil]
 
 theorem level2_map (Q B T2 Iab : List G) :
     level2 (Q.map ι) (B.map ι) (T2.map ι) (Iab.map ι) = level2P Q B T2 Iab := by
   simp only [level2, level2P, List.all_map, Function.comp_def, mem_map' h, span1_map h,
-    snoc_map h, leaf_map h]
+    snoc_map, leaf_map h]
 
 theorem level1_map (Q B T1 Ia : List G) :
     level1 (Q.map ι) (B.map ι) (T1.map ι) (Ia.map ι) = level1P Q B T1 Ia := by
   simp only [level1, level1P, List.all_map, Function.comp_def, mem_map' h, span1_map h,
-    snoc_map h, commL_map h, level2_map h]
+    snoc_map, commL_map h, level2_map h]
 
 theorem chainChk_map (Q I : List G) : chainChk (Q.map ι) (I.map ι) = chainChkP Q I := by
   have h1 : ([1] : List S81) = ([1] : List G).map ι := by

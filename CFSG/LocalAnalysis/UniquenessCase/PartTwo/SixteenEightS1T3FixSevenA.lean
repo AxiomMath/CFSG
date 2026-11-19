@@ -33,7 +33,7 @@ private theorem s16t3_C_ne_one : s16t3_C ≠ 1 := by
   decide +kernel
 
 private theorem s16t3_C_order : orderOf s16t3_C = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   exact orderOf_eq_prime s16t3_C_pow_seven s16t3_C_ne_one
 
 private noncomputable def s16t3_c : (Fin 3 → ZMod 2) ≃ₗ[ZMod 2] (Fin 3 → ZMod 2) :=
@@ -154,8 +154,8 @@ theorem s16t3_model_exists_fix_seven {n : ℕ} (hn : n = 6 ∨ n = 7)
       orderOf s = 7 ∧ (∀ i, s (v i) = v i) ∧
         (∀ j u, (f j) ⬝ᵥ (s u) = (f j) ⬝ᵥ u) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
-  haveI : NeZero n := by
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : NeZero n := by
     rcases hn with rfl | rfl <;> exact ⟨by norm_num⟩
   let V := Fin n → ZMod 2
   let X : Submodule (ZMod 2) V := Submodule.span (ZMod 2) (Set.range v)
@@ -304,8 +304,7 @@ theorem s16t3_model_exists_fix_seven {n : ℕ} (hn : n = 6 ∨ n = 7)
     have h1 : b (Sum.inl a) =
         (Submodule.prodEquivOfIsCompl T C hTC) ((bT.prod bC) (Sum.inl a)) := rfl
     rw [h1, Basis.prod_apply]
-    simp only [Sum.elim_inl, Submodule.prodEquivOfIsCompl, LinearEquiv.coe_mk,
-      Submodule.coe_subtype, Submodule.coe_add, Submodule.coe_zero]
+    simp only [Sum.elim_inl, Submodule.prodEquivOfIsCompl]
     exact T.add_mem (bT a).2 T.zero_mem
   have hφ_mem_C : ∀ x ∈ C, ∀ a : Fin 3, φ x (Sum.inl a) = 0 := by
     intro x hx a
@@ -371,7 +370,7 @@ theorem s16t3_model_exists_fix_seven {n : ℕ} (hn : n = 6 ∨ n = 7)
       exact φ.symm.injective h1
     exact s16t3_M_ne_one n hM
   have hsorder : orderOf s = 7 := by
-    haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+    have : Fact (Nat.Prime 7) := ⟨by decide⟩
     exact orderOf_eq_prime hs7 hsne
   refine ⟨s, hsorder, ?_, ?_⟩
   · intro i

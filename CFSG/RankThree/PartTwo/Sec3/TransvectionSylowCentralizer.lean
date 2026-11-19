@@ -558,7 +558,7 @@ theorem rank3II_3_14 (hV : finrank (ZMod 3) V = 3) (G : Subgroup (V ≃ₗ[ZMod 
   obtain ⟨P₀, hP₀⟩ := IsPGroup.exists_le_sylow (p := 3)
     (hr3.comap_subtype (K := G) : IsPGroup 3 ((Subgroup.zpowers r).subgroupOf G))
   have hP₀eq : (P₀ : Subgroup G).map G.subtype = Subgroup.zpowers r := by
-    refine hmax _ (Subgroup.map_subtype_le _) (P₀.isPGroup'.map _) ?_
+    refine hmax _ (Subgroup.map_subtype_le _) (P₀.isPGroup.map _) ?_
     rw [← Subgroup.map_subgroupOf_eq_of_le (Subgroup.zpowers_le.mpr hrG)]
     exact Subgroup.map_mono hP₀
   have hcore : ∀ k : G, k ∈ CFSG.pCore 3 G → k = 1 := by

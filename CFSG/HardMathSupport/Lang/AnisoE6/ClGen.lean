@@ -72,7 +72,7 @@ theorem normRSub_map {ℓ : ℕ} (φ : G →* H) (hφ : Function.Injective φ) {
       have hr' : x⁻¹ * r * x ∈ R := by
         have := hRn x⁻¹ (inv_mem hx)
         rw [← this]
-        exact ⟨r, hr, by simp [MulAut.conj_apply]⟩
+        exact ⟨r, hr, by simp⟩
       refine ⟨φ (x⁻¹ * r * x), ⟨_, hr', rfl⟩, ?_⟩
       simp [MulAut.conj_apply, mul_assoc]
 
@@ -108,7 +108,7 @@ theorem normRSub_of_map_conj {ℓ : ℕ} (g : G) {E : Subgroup G}
         rw [← this]
         exact ⟨r, hr, by simp [MulAut.conj_apply, mul_assoc]⟩
       refine ⟨g⁻¹ * ((g * x * g⁻¹)⁻¹ * r * (g * x * g⁻¹)) * g, ⟨_, hr', ?_⟩, ?_⟩
-      · simp [MulAut.conj_apply]
+      · simp
       · simp [MulAut.conj_apply]
         group
 

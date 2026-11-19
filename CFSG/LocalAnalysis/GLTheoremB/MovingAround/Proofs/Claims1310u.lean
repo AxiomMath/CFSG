@@ -153,7 +153,7 @@ theorem finrank_eq_add_add (h3 : (3 : K) ≠ 0) (hω1 : ω ≠ 1) (hω3 : ω ^ 3
 
 theorem three_mul_add_le_coset (h3 : (3 : K) ≠ 0) (hω1 : ω ≠ 1) (hω3 : ω ^ 3 = 1)
     {h t : Module.End K V} (hh : h ^ 3 = 1) (hht : h * t = t * h) {W : Submodule K V}
-    (hWh : ∀ w ∈ W, h w ∈ W) (hWt : ∀ w ∈ W, t w ∈ W) :
+    (hWh : ∀ w ∈ W, h w ∈ W) (_hWt : ∀ w ∈ W, t w ∈ W) :
     3 * finrank K ↥(W ⊓ t.eigenspace 1 ⊓ h.eigenspace 1) + finrank K ↥(W ⊓ t.eigenspace ω) +
         finrank K ↥(W ⊓ t.eigenspace (ω ^ 2)) ≤
       finrank K ↥(W ⊓ h.eigenspace 1) + finrank K ↥(W ⊓ (h * t).eigenspace 1) +

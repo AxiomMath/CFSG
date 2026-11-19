@@ -209,7 +209,7 @@ theorem hasBQGraph_or_minParResidual
       obtain ⟨K, _, _, hK, ⟨φ⟩⟩ := CFSG.TauCetiBridge.Even.untwistedModel_of_bridgeEven
         CFSG.TauCetiBridge.Even.chevalleyBridgesEven.e6 q hv hq e
       have : CharP K 2 := charP_two_of_card_primePower hq hK
-      haveI : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup e6Data_valid K
+      have : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup e6Data_valid K
       exact Or.inl ⟨_, inferInstance, inferInstance, _, _, _, _, _,
         Exceptional.borelQuotient_e6 φ, fun i => nodeLevi_e6 i,
         fun hr u v hadj => Fam.edgeCond_e6 K _ hr u v hadj⟩
@@ -218,7 +218,7 @@ theorem hasBQGraph_or_minParResidual
       obtain ⟨K, _, _, hK, ⟨φ⟩⟩ := CFSG.TauCetiBridge.Even.untwistedModel_of_bridgeEven
         CFSG.TauCetiBridge.Even.chevalleyBridgesEven.e7 q hv hq e
       have : CharP K 2 := charP_two_of_card_primePower hq hK
-      haveI : Finite ↥(e7Data_valid.minGroup K) := finite_minGroup e7Data_valid K
+      have : Finite ↥(e7Data_valid.minGroup K) := finite_minGroup e7Data_valid K
       exact Or.inl ⟨_, inferInstance, inferInstance, _, _, _, _, _,
         Exceptional.borelQuotient_e7 φ, fun i => nodeLevi_e7 i,
         fun hr u v hadj => Fam.edgeCond_e7 K _ hr u v hadj⟩
@@ -227,7 +227,7 @@ theorem hasBQGraph_or_minParResidual
       obtain ⟨K, _, _, hK, ⟨φ⟩⟩ := CFSG.TauCetiBridge.Even.untwistedModel_of_bridgeEven
         CFSG.TauCetiBridge.Even.chevalleyBridgesEven.e8 q hv hq e
       have : CharP K 2 := charP_two_of_card_primePower hq hK
-      haveI : Finite ↥(adjointGroup .E8 K) := generated_group_finite .E8 K
+      have : Finite ↥(adjointGroup .E8 K) := generated_group_finite .E8 K
       exact Or.inl ⟨_, inferInstance, inferInstance, _, _, _, _, _,
         Exceptional.borelQuotient_e8 φ, fun i => nodeLevi_e8 i,
         fun hr u v hadj => Fam.edgeCond_e8 K _ hr u v hadj⟩
@@ -236,7 +236,7 @@ theorem hasBQGraph_or_minParResidual
       obtain ⟨K, _, _, hK, ⟨φ⟩⟩ := CFSG.TauCetiBridge.Even.untwistedModel_of_bridgeEven
         CFSG.TauCetiBridge.Even.chevalleyBridgesEven.f4 q hv hq e
       have : CharP K 2 := charP_two_of_card_primePower hq hK
-      haveI : Finite ↥(adjointGroup .F4 K) := generated_group_finite .F4 K
+      have : Finite ↥(adjointGroup .F4 K) := generated_group_finite .F4 K
       exact Or.inl ⟨_, inferInstance, inferInstance, _, _, _, _, _,
         Exceptional.borelQuotient_f4 φ, fun i => nodeLevi_f4 i,
         fun hr u v hadj => Fam.edgeCond_f4 _ hr u v hadj⟩
@@ -255,8 +255,8 @@ theorem hasBQGraph_or_minParResidual
         calc 2 = 2 ^ 1 := by norm_num
           _ ≤ 2 ^ q.exponent := Nat.pow_le_pow_right (by norm_num) q.exponent_pos
       have hθ := Exceptional.involutive_of_card hK' hσ
-      haveI : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup e6Data_valid K
-      haveI : Finite ↥(CFSG.LieType.Steinberg.TwistedE6.fixedGroup K σ) := Subtype.finite
+      have : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup e6Data_valid K
+      have : Finite ↥(CFSG.LieType.Steinberg.TwistedE6.fixedGroup K σ) := Subtype.finite
       have hK4 : 4 ≤ Nat.card K := by
         rw [hK']
         calc 4 ≤ 2 ^ 2 := by norm_num
@@ -279,8 +279,8 @@ theorem hasBQGraph_or_minParResidual
         rw [hq]
         calc 2 = 2 ^ 1 := by norm_num
           _ ≤ 2 ^ q.exponent := Nat.pow_le_pow_right (by norm_num) q.exponent_pos
-      haveI : Finite ↥(adjointGroup d4 K) := generated_group_finite d4 K
-      haveI : Finite ↥(twistedGroup σ) := Subtype.finite
+      have : Finite ↥(adjointGroup d4 K) := generated_group_finite d4 K
+      have : Finite ↥(twistedGroup σ) := Subtype.finite
       have hσ3 : ∀ c, σ (σ (σ c)) = c :=
         CFSG.LieType.Steinberg.TwistedD4.sigma_three_of_card hK' hσ
       exact Or.inl ⟨_, inferInstance, inferInstance, _, _, _, _, _,

@@ -18,7 +18,7 @@ section GroupTheory
 
 theorem uc22p20p_odd_center_bar2 (X : Type) [Group X] [Finite X] :
     Odd (Nat.card (Subgroup.center (X ⧸ CFSG.pCore 2 X))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   have hev : 2 ∣ Nat.card (Subgroup.center (X ⧸ CFSG.pCore 2 X)) := by
     rcases Nat.even_or_odd (Nat.card (Subgroup.center (X ⧸ CFSG.pCore 2 X))) with h | h
@@ -53,7 +53,7 @@ theorem uc22p20p_sylow_sup {Y : Type} [Group Y] [Finite Y] {A₁ A₂ P₁ P₂ 
     (hcomm : ∀ a ∈ A₁, ∀ b ∈ A₂, a * b = b * a) (hsup : A₁ ⊔ A₂ = ⊤)
     (h₁ : CFSG.ABGLocalTools.IsSylowOf 2 P₁ A₁) (h₂ : CFSG.ABGLocalTools.IsSylowOf 2 P₂ A₂) :
     CFSG.ABGLocalTools.IsSylowOf 2 (P₁ ⊔ P₂) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q₁, hQ₁⟩ := h₁.exists_sylow_eq_subgroupOf
   obtain ⟨Q₂, hQ₂⟩ := h₂.exists_sylow_eq_subgroupOf
   have hc : ∀ (a : ↥A₁) (b : ↥A₂), Commute (A₁.subtype a) (A₂.subtype b) := fun a b =>
@@ -68,8 +68,8 @@ theorem uc22p20p_sylow_sup {Y : Type} [Group Y] [Finite Y] {A₁ A₂ P₁ P₂ 
     exact MonoidHom.range_eq_top.1 hrange
   set R : Subgroup (↥A₁ × ↥A₂) := (Q₁ : Subgroup ↥A₁).prod (Q₂ : Subgroup ↥A₂) with hR
   have hR2 : IsPGroup 2 R := by
-    obtain ⟨a, ha⟩ := Q₁.isPGroup'.exists_card_eq
-    obtain ⟨b, hb⟩ := Q₂.isPGroup'.exists_card_eq
+    obtain ⟨a, ha⟩ := Q₁.isPGroup.exists_card_eq
+    obtain ⟨b, hb⟩ := Q₂.isPGroup.exists_card_eq
     refine IsPGroup.of_card (n := a + b) ?_
     rw [Nat.card_congr (Subgroup.prodEquiv _ _).toEquiv, Nat.card_prod, ha, hb, pow_add]
   have hRi : ¬ 2 ∣ R.index := by
@@ -104,14 +104,14 @@ theorem uc22p20p_sylow_sup {Y : Type} [Group Y] [Finite Y] {A₁ A₂ P₁ P₂ 
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hcoe]
-    exact (Q.mapSurjective hμ).isPGroup'
+    exact (Q.mapSurjective hμ).isPGroup
   · rw [Subgroup.relIndex_top_right, ← hcoe]
     exact (Q.mapSurjective hμ).not_dvd_index
 
 theorem uc22p20p_sylow_split {Y : Type} [Group Y] [Finite Y] {A₁ A₂ S : Subgroup Y}
     (hcomm : ∀ a ∈ A₁, ∀ b ∈ A₂, a * b = b * a) (hsup : A₁ ⊔ A₂ = ⊤)
     (hS : CFSG.ABGLocalTools.IsSylowOf 2 S ⊤) : S = (S ⊓ A₁) ⊔ (S ⊓ A₂) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn₁ : (⊤ : Subgroup Y) ≤ normalizer (A₁ : Set Y) := by
     rw [← hsup]
     refine sup_le Subgroup.le_normalizer (fun b hb => ?_)
@@ -146,8 +146,8 @@ theorem uc22p20p_sup_elemAbelian {Y : Type} [Group Y] [Finite Y] {A₁ A₂ E₁
   refine ⟨?_, ?_⟩
   · have hsup : E₁ ⊔ E₂ = Subgroup.closure ((E₁ : Set Y) ∪ (E₂ : Set Y)) := by
       rw [Subgroup.closure_union, Subgroup.closure_eq, Subgroup.closure_eq]
-    haveI h1 : IsMulCommutative E₁ := hE₁.1
-    haveI h2 : IsMulCommutative E₂ := hE₂.1
+    have h1 : IsMulCommutative E₁ := hE₁.1
+    have h2 : IsMulCommutative E₂ := hE₂.1
     have hpair : ((E₁ : Set Y) ∪ (E₂ : Set Y)).Pairwise Commute := by
       intro x hx y hy _
       rcases hx with hx | hx <;> rcases hy with hy | hy
@@ -155,7 +155,7 @@ theorem uc22p20p_sup_elemAbelian {Y : Type} [Group Y] [Finite Y] {A₁ A₂ E₁
       · exact hc x hx y hy
       · exact (hc y hy x hx).symm
       · exact setLike_mul_comm hx hy
-    haveI hcommE : IsMulCommutative (E₁ ⊔ E₂ : Subgroup Y) := by
+    have hcommE : IsMulCommutative (E₁ ⊔ E₂ : Subgroup Y) := by
       rw [hsup]
       exact Subgroup.isMulCommutative_closure hpair
     refine ⟨hcommE, fun y hy => ?_⟩
@@ -189,7 +189,7 @@ theorem uc22p20p_embed_borelWit {X Y : Type} [Group X] [Group Y] [Finite X] [Fin
     (hX : uc22p20oBorelWit X p k) :
     ∃ F : Subgroup Y, F ≤ A ∧ F ≤ normalizer (P : Set Y) ∧ IsElemAbelian p F ∧
       Nat.card F = p ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hP.exists_sylow_eq_subgroupOf
   let Q' : Sylow 2 X := Q.mapSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hmem : ∀ z : X, z ∈ (Q' : Subgroup X) ↔ ((e z : ↥A) : Y) ∈ P := by
@@ -240,7 +240,7 @@ theorem uc22p20p_inf_mem_center {X Y : Type} [Group X] [Group Y] {A₁ A₂ : Su
 theorem uc22p20p_inf_trivial {X Y : Type} [Group X] [Group Y] {A₁ A₂ : Subgroup Y} (e : X ≃* ↥A₁)
     (hcomm : ∀ a ∈ A₁, ∀ b ∈ A₂, a * b = b * a) {p : ℕ} (hp : p.Prime)
     (hZ : ¬ p ∣ Nat.card (Subgroup.center X)) : ∀ x ∈ A₁ ⊓ A₂, x ^ p = 1 → x = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro x hx hxp
   have hxc := uc22p20p_inf_mem_center e hcomm hx
   by_contra hx1
@@ -320,6 +320,7 @@ theorem uc22p20p_mem_calC (D : Data G) {L C : Subgroup G} (hL : L ∈ calL D.T D
   ⟨CFSG.Quasithin.subnormal_of_mem_cComp hC, CFSG.Quasithin.perfect_of_mem_cComp hC,
     uc22p20b_isQuasisimple_bar2 (uc22p20o_oTwoE_top D hL) hC⟩
 
+omit [Finite G] in
 theorem uc22p20p_orb_eq_of_fixed {T K : Subgroup G} (h : ∀ t ∈ T, uc22p20bCj t K = K) :
     uc22p20bOrb T K = K :=
   le_antisymm (iSup_le fun t => (h t t.2).le) (uc22p20b_le_orb T K)
@@ -329,7 +330,7 @@ theorem uc22p20p_orbit_cases (D : Data G) (hQ : QuasisimpleDichotomy) (hB : List
     (hK : K ∈ calC L) (hLK : L = uc22p20bOrb D.T K) :
     L = K ∨ ∃ K₂ : Subgroup G, K₂ ∈ calC L ∧ K₂ ≠ K ∧ L = K ⊔ K₂ ∧
       ∃ t ∈ D.T, K₂ = uc22p20bCj t K := by
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
   have hOT := uc22p20o_oTwoE_top D hL
   have hcC := uc22p20p_cComp_eq_range D hL hK hLK
   set O : Set (Subgroup G) := Set.range (fun t : D.T => uc22p20bCj (t : G) K) with hO
@@ -342,7 +343,7 @@ theorem uc22p20p_orbit_cases (D : Data G) (hQ : QuasisimpleDichotomy) (hB : List
       rw [hk]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk2'
-    haveI : Fintype O := Fintype.ofFinite O
+    have : Fintype O := Fintype.ofFinite O
     obtain ⟨e⟩ := Function.Embedding.nonempty_of_card_le (α := Fin 4) (β := O)
       (by rw [Fintype.card_fin, ← Nat.card_eq_fintype_card]; exact h4)
     choose t ht using fun i => (e i).2
@@ -406,7 +407,7 @@ theorem uc22p20p_two_setup (D : Data G) {L K K₂ : Subgroup G} (hL : L ∈ calL
     (ht : K₂ = uc22p20bCj t K) :
     ∃ A₁ A₂ : Subgroup (Bar2 L), (∀ a ∈ A₁, ∀ b ∈ A₂, a * b = b * a) ∧ A₁ ⊔ A₂ = ⊤ ∧
       Nonempty (Bar2 K ≃* ↥A₁) ∧ Nonempty (Bar2 K ≃* ↥A₂) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOT := uc22p20o_oTwoE_top D hL
   have hKc := uc22p20e_cComp_of_calC hK
   have hK₂c := uc22p20e_cComp_of_calC hK₂
@@ -429,8 +430,8 @@ theorem uc22p20p_two_setup (D : Data G) {L K K₂ : Subgroup G} (hL : L ∈ calL
 
 theorem uc22p20p_barInf_equiv {K : Subgroup G} (hq : CFSG.Open.IsQuasisimple (Bar2 K)) :
     Nonempty (BarInf K ≃* Bar2 K ⧸ Subgroup.center (Bar2 K)) := by
-  haveI : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
-  haveI hs : Group.IsSolvable ↥(CFSG.pCore 2 ↥K) := uc22p20d_pCore_solvable K
+  have : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
+  have hs : Group.IsSolvable ↥(CFSG.pCore 2 ↥K) := uc22p20d_pCore_solvable K
   exact CFSG.Quasithin.A314.solvableRadical_quotient_equiv hs
     (CFSG.Quasithin.A3.isQuasisimple_iff_open.2 hq)
 
@@ -481,7 +482,7 @@ theorem uc22p20p_isSU3_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* 
 
 theorem uc22p20p_sylowBar_isSylowOf (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.M) :
     CFSG.ABGLocalTools.IsSylowOf 2 (uc22p20iSylowBar D L) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   exact ⟨le_top, uc22p20i_sylowBar_isPGroup D, by
     rw [Subgroup.relIndex_top_right]
@@ -490,7 +491,7 @@ theorem uc22p20p_sylowBar_isSylowOf (D : Data G) {L : Subgroup G} (hL : L ∈ ca
 theorem uc22p20p_isSylowOf_inf_left {Y : Type} [Group Y] [Finite Y] {A₁ A₂ S : Subgroup Y}
     (hcomm : ∀ a ∈ A₁, ∀ b ∈ A₂, a * b = b * a) (hsup : A₁ ⊔ A₂ = ⊤)
     (hS : CFSG.ABGLocalTools.IsSylowOf 2 S ⊤) : CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ A₁) A₁ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn₁ : (⊤ : Subgroup Y) ≤ normalizer (A₁ : Set Y) := by
     rw [← hsup]
     refine sup_le Subgroup.le_normalizer (fun b hb => ?_)

@@ -63,7 +63,7 @@ theorem amalgam_iso_of_coords {G Y' : Type} [Group G] [Finite G] [Group Y'] [Fin
       exact Subtype.ext (by simpa using congrArg (fun z : ↥M => (z : G)) h3)
     · intro v
       refine ⟨⟨((e.symm ⟨(v : Mc), hU0R v.2⟩ : ↥M) : G), ?_⟩, Subtype.ext ?_⟩
-      · exact (hU _).2 (by simpa using v.2)
+      · exact (hU _).2 (by simp)
       · simp [fU]
   obtain ⟨θ, hθ⟩ := pair_extension hH hP hUB (MulEquiv.ofBijective fU fU_bij) lam hlamT hlamU
   refine ⟨{ φ1 := θ, φ12 := lam, φ2 := φ2, comm1 := ?_, comm2 := ?_ }⟩

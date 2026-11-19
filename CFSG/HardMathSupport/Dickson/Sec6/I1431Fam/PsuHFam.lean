@@ -21,10 +21,10 @@ theorem y1431_noCfg_psuGoodHighNe3 (hO : CFSG.ComponentClassification.CatLeaf.Li
   intro Y _ _ Â ξ J q c t n p f hadm ht hF hm q0 hq0 hqq
   obtain ⟨⟨rfl, hn3, hdiv, hn'⟩, hp3⟩ := hF
   obtain ⟨K, _, h, ⟨e0⟩⟩ := exists_psu_model hadm hm
-  haveI := h.finite
-  haveI : Finite (GL (Fin n) K) :=
+  have := h.finite
+  have : Finite (GL (Fin n) K) :=
     Finite.of_injective (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K)) Units.val_injective
-  haveI : Finite (primeFormP h (idGram K n)) := inferInstance
+  have : Finite (primeFormP h (idGram K n)) := inferInstance
   have hin := c.mem_innerAut_of_outDerived (MulEquiv.refl _)
     (fun _ => hOut (Y ⧸ Subgroup.center Y) .PSU n p f hadm ht ⟨⟨rfl, hn3, hdiv, hn'⟩, hp3⟩ hm)
   have cS := c.descend e0

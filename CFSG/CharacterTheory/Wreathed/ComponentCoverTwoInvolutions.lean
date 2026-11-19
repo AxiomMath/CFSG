@@ -273,7 +273,7 @@ theorem oddCore_eq_bot_of_two_commuting_covers
   have hdisj : (P : Subgroup K) ⊓ CFSG.oddCore K = ⊥ := by
     apply disjoint_iff.mp
     apply Subgroup.disjoint_of_coprime_natCard
-    obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp P.isPGroup
     rw [hm]
     exact Nat.Coprime.pow_left m
       (Nat.coprime_two_left.mpr (CFSG.ComponentClassification.OddCore.odd_card K))

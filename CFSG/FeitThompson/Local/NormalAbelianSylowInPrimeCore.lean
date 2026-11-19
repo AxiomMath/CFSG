@@ -28,7 +28,7 @@ theorem map_mk'_pComplCore_le_pCore_quotient_of_normal_abelian_sylow [Finite G]
   have hDnormal : (pComplCore p G).Normal := pComplCore_normal p G
   set f := QuotientGroup.mk' (pComplCore p G) with hf
   have hfsurj : Function.Surjective f := QuotientGroup.mk'_surjective _
-  have hA'p : IsPGroup p (A.map f) := (S.isPGroup'.to_le hAS).map f
+  have hA'p : IsPGroup p (A.map f) := (S.isPGroup.to_le hAS).map f
   have hA'comm : IsMulCommutative (A.map f) := Subgroup.map_isMulCommutative A f
   have hQnormal : (pCore p (G ⧸ pComplCore p G)).Normal := pCore_normal p _
   have hQp : IsPGroup p (pCore p (G ⧸ pComplCore p G)) := isPGroup_pCore hp _

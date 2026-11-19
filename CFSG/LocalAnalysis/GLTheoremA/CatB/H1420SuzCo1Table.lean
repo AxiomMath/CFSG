@@ -62,7 +62,7 @@ private theorem co1CentRk_of_equiv {T T' : Type} [Group T] [Group T'] (e : T ≃
 
 private theorem rkCo1_alt9 {G : Type} [Group G] {L : Subgroup G} (hs : IsSimpleGroup ↥L)
     (hnab : ∃ a b : ↥L, a * b ≠ b * a) (hcardL : Nat.card ↥L = 181440) : RkCo1 ↥L := by
-  haveI := hs
+  have := hs
   refine Or.inr ?_
   rw [center_eq_bot_of_simple_nonab hnab, Subgroup.card_bot, hcardL]
   norm_num
@@ -85,14 +85,14 @@ private theorem hRkCo1 : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' →
 
 private theorem shapeRkAt_threeB (x : ↥GA) (hx : MRep (rootRows3B ()) (x : GL24)) :
     ShapeRkAt 3 (fun _ _ => True) RkCo1 x := by
-  haveI : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
+  have : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
   obtain ⟨J, hJC, hJn, hq, hp3, hZ3, hcent, -, hc9⟩ := suzCo1_threeB_data hx
   exact shapeRkAt_of_subgroup_data_quasi Nat.prime_three hGoodTrue hRkCo1 GA x J hJC hJn hq hp3
     hZ3 hcent trivial (Or.inl hc9)
 
 private theorem shapeRkAt_threeD (x : ↥GA) (hx : MRep (rootRows3D ()) (x : GL24)) :
     ShapeRkAt 3 (fun _ _ => True) RkCo1 x := by
-  haveI : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
+  have : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
   obtain ⟨hx1, hx3, hxy, hM, hy1⟩ := moore_data (x := (x : GL24)) hx
   have hpres := (CFSG.Sporadic.SchreierLemmas.moore_alternating_presentation (n := 9)
     (by norm_num) mooreM hM).2.2.2.2.2 (by norm_num) ⟨1, ⟨le_rfl, by norm_num⟩, hy1⟩
@@ -114,7 +114,7 @@ private theorem shapeRkAt_threeA
     (hb : Nonempty (CFSG.Blueprint.NativeSporadic.Suz ≃* (TauCeti.CFSGIndex.sporadic .Suz).Group))
     (x : ↥GA) (hx : MRep (mul (mul (aRows 1) (aRows 4)) (aRows 5)) (x : GL24)) :
     ShapeRkAt 3 (fun _ _ => True) RkCo1 x := by
-  haveI : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
+  have : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
   obtain ⟨J, hJC, hJn, hq, hp3, hcard3, hcent, hqcard, -⟩ := threeA_data hb hx
   have hZp : IsPGroup 3 ↥(Subgroup.center ↥J) :=
     IsPGroup.of_card (n := 1) (by rw [hcard3]; norm_num)
@@ -124,8 +124,8 @@ private theorem shapeRkAt_threeA
 theorem suzCo1_centShapeRk_three
     (hb : Nonempty (CFSG.Blueprint.NativeSporadic.Suz ≃* (TauCeti.CFSGIndex.sporadic .Suz).Group)) :
     CentShapeRk 3 (fun _ _ => True) RkCo1 ↥GA := by
-  haveI : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro k hk1 hk3
   obtain ⟨g, x, hx, hcases⟩ := tabCo1_census_three k (orderOf_eq_prime hk3 hk1)
   have hshape : ShapeRkAt 3 (fun _ _ => True) RkCo1 x := by

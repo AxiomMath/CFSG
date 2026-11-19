@@ -23,18 +23,18 @@ noncomputable def ringAutConjEquiv :
   left_inv f := by
     apply RingEquiv.ext
     intro x
-    simp only [RingEquiv.trans_apply, RingEquiv.symm_apply_apply, RingEquiv.apply_symm_apply]
+    simp only [RingEquiv.trans_apply, RingEquiv.symm_apply_apply]
   right_inv g := by
     apply RingEquiv.ext
     intro x
-    simp only [RingEquiv.trans_apply, RingEquiv.symm_apply_apply, RingEquiv.apply_symm_apply]
+    simp only [RingEquiv.trans_apply, RingEquiv.apply_symm_apply]
 
 theorem card_ringAut_F25t : Nat.card (F25t ≃+* F25t) = 2 := by
   rw [Nat.card_congr ringAutConjEquiv, card_ringAut]
 
 instance : Finite (F25t ≃+* F25t) :=
-  Finite.of_injective (fun e : F25t ≃+* F25t => (e : F25t → F25t))
-    (fun e f h => RingEquiv.ext (congrFun h))
+  Finite.of_injective (fun _e : F25t ≃+* F25t => (_e : F25t → F25t))
+    (fun _e _f h => RingEquiv.ext (congrFun h))
 
 @[expose] def frob25t : F25t ≃+* F25t where
   toFun x := ⟨x.a, -x.b⟩
@@ -56,13 +56,13 @@ instance : Finite (F25t ≃+* F25t) :=
     | mk a b =>
       cases y with
       | mk c d =>
-        apply F25t.ext <;> simp [add25_def, neg25_def] <;> ring
+        apply F25t.ext <;> simp [add25_def]; ring
   map_mul' x y := by
     cases x with
     | mk a b =>
       cases y with
       | mk c d =>
-        apply F25t.ext <;> simp [mul25_def, neg25_def] <;> ring
+        apply F25t.ext <;> simp [mul25_def]; ring
 
 theorem frob25t_mul_self : frob25t * frob25t = 1 := by
   ext x <;> simp [frob25t]
@@ -141,9 +141,9 @@ theorem card_class65t_mul_card_stabilizer :
       (SemidirectProduct.inr frob25t : PSigmaL2t)) = 15600 := by
   classical
   let d : PSigmaL2t := SemidirectProduct.inr frob25t
-  haveI : Fintype PSigmaL2t := Fintype.ofFinite _
-  haveI : Fintype (ConjClasses.mk d).carrier := Fintype.ofFinite _
-  haveI : Fintype (MulAction.stabilizer (ConjAct (G := PSigmaL2t)) d) := Fintype.ofFinite _
+  have : Fintype PSigmaL2t := Fintype.ofFinite _
+  have : Fintype (ConjClasses.mk d).carrier := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer (ConjAct (G := PSigmaL2t)) d) := Fintype.ofFinite _
   have h := ConjClasses.card_carrier (G := PSigmaL2t) d
   have hG : Fintype.card PSigmaL2t = 15600 := by
     rw [← Nat.card_eq_fintype_card, card_PSigmaL2t]
@@ -173,7 +173,7 @@ theorem mem_centralizer_inr_frob25t_iff (q : PSL2 F25t) (σ : F25t ≃+* F25t) :
         1 * (CFSG.GorensteinWalter.psl2FieldAut F25t frob25t) q
       simpa using hq
     · have hσ : σ ∈ Subgroup.zpowers frob25t := by
-        simpa [zpowers_frob25t_eq_top] using (Subgroup.mem_top σ)
+        simp [zpowers_frob25t_eq_top]
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hσ
       change frob25t ^ k * frob25t = frob25t * frob25t ^ k
       rw [← zpow_add_one frob25t k, ← zpow_one_add frob25t k, add_comm]

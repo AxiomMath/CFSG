@@ -177,14 +177,14 @@ theorem subY_ge {j : ℕ} (h : 13 ≤ j) : subY j = 0 := by
   simp only [subY, hb 7 (by norm_num), hb 8 (by norm_num), hb 9 (by norm_num), hb 10 (by norm_num),
     hb 11 (by norm_num), hb 12 (by norm_num), hlt]
 
-theorem eAB_ev (k : ℕ) : bval tg (wWord (eAB (k + 1))) (wLen (eAB (k + 1))) = if h : k < 6 then ev k else 1 := by
+theorem eAB_ev (k : ℕ) : bval tg (wWord (eAB (k + 1))) (wLen (eAB (k + 1))) = if _h : k < 6 then ev k else 1 := by
   have e : eAB (k + 1) = subY (7 + k) := by
     unfold eAB
     congr 1
     simp only [Nat.add_eq]
     omega
   rw [e]
-  split_ifs with h
+  split_ifs with _h
   · rfl
   · rw [subY_ge (by omega)]
     rfl

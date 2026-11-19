@@ -55,11 +55,11 @@ theorem charP_two_of_card_four (hK : Nat.card K = 4) : CharP K 2 :=
   (fieldDataFour hK).charP
 
 theorem four_eq_zero (hK : Nat.card K = 4) : (4 : K) = 0 := by
-  haveI := charP_two_of_card_four hK
+  have := charP_two_of_card_four hK
   exact (CharP.cast_eq_zero_iff K 2 4).mpr (by norm_num)
 
 theorem two_eq_zero (hK : Nat.card K = 4) : (2 : K) = 0 := by
-  haveI := charP_two_of_card_four hK
+  have := charP_two_of_card_four hK
   exact (CharP.cast_eq_zero_iff K 2 2).mpr dvd_rfl
 
 theorem one_add_one_eq_zero (hK : Nat.card K = 4) : (1 : K) + 1 = 0 := by
@@ -77,7 +77,7 @@ theorem cube_unit_eq_one [Finite K] (hK : Nat.card K = 4) (t : Kˣ) : t ^ 3 = 1 
 theorem exists_unit_ne_one [Finite K] (hK : Nat.card K = 4) : ∃ t : Kˣ, t ≠ 1 := by
   by_contra h
   push Not at h
-  haveI : Subsingleton Kˣ := ⟨fun a b => by rw [h a, h b]⟩
+  have : Subsingleton Kˣ := ⟨fun a b => by rw [h a, h b]⟩
   have h1 : Nat.card Kˣ = 1 := Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, inferInstance⟩
   rw [Nat.card_units, hK] at h1
   norm_num at h1
@@ -100,12 +100,15 @@ section Omega
 
 variable [Finite K] {ω : K}
 
+omit [Finite K] in
 theorem omega_ne_zero (hω : ω ^ 2 + ω + 1 = 0) : ω ≠ 0 := by
   intro h; rw [h] at hω; norm_num at hω
 
+omit [Finite K] in
 theorem omega_cube (hω : ω ^ 2 + ω + 1 = 0) : ω ^ 3 = 1 := by
   linear_combination (ω - 1) * hω
 
+omit [Finite K] in
 theorem omega_ne_one (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0) : ω ≠ 1 := by
   intro h
   rw [h] at hω
@@ -114,6 +117,7 @@ theorem omega_ne_one (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0) : ω ≠ 
     linear_combination hω - h2
   exact one_ne_zero hone
 
+omit [Finite K] in
 theorem omega_sq_ne_omega (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0) :
     ω ^ 2 ≠ ω := by
   intro h
@@ -122,6 +126,7 @@ theorem omega_sq_ne_omega (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0) :
     linear_combination hω - h - ω * h2
   exact one_ne_zero hone
 
+omit [Finite K] in
 theorem omega_sq_ne_one (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0) :
     ω ^ 2 ≠ 1 := by
   intro h
@@ -131,6 +136,7 @@ theorem omega_sq_ne_one (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0) :
     _ = ω ^ 3 := by ring
     _ = 1 := omega_cube hω
 
+omit [Finite K] in
 theorem omega_add_sq (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0) :
     ω + ω ^ 2 = 1 := by
   have hneg := neg_one_eq_one hK
@@ -138,7 +144,7 @@ theorem omega_add_sq (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0) :
 
 theorem eq_zero_or_one_or_omega_or_sq (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
     (x : K) : x = 0 ∨ x = 1 ∨ x = ω ∨ x = ω ^ 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hfour : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card, hK]
   have hpow : x ^ 4 = x := by
     have h := FiniteField.pow_card (K := K) x
@@ -167,7 +173,8 @@ theorem ringEquiv_fixes_all (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
   · exact hφ
   · rw [map_pow, hφ]; rfl
 
-theorem ringEquiv_fixes_one_or_swaps (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
+omit [Finite K] in
+theorem ringEquiv_fixes_one_or_swaps (_hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
     {φ : K ≃+* K} : φ ω = ω ∨ φ ω = ω ^ 2 := by
   set x := φ ω
   have hx : x ^ 2 + x + 1 = 0 := by simpa [x] using congrArg φ hω
@@ -186,16 +193,20 @@ variable [Finite K] {ω : K} {i j : Fin 6}
 @[expose] noncomputable def diagVec (ω : K) (i j : Fin 6) : Fin 6 → K :=
   Function.update (Function.update (1 : Fin 6 → K) i ω) j (ω ^ 2)
 
+omit [Finite K] in
 theorem diagVec_self (hij : i ≠ j) : diagVec ω i j i = ω := by
   simp [diagVec, Function.update, hij]
 
-theorem diagVec_other (hij : i ≠ j) : diagVec ω i j j = ω ^ 2 := by
+omit [Finite K] in
+theorem diagVec_other (_hij : i ≠ j) : diagVec ω i j j = ω ^ 2 := by
   simp [diagVec, Function.update]
 
+omit [Finite K] in
 theorem diagVec_of_ne {k : Fin 6} (hki : k ≠ i) (hkj : k ≠ j) :
     diagVec ω i j k = 1 := by
   simp [diagVec, Function.update, hki, hkj]
 
+omit [Finite K] in
 theorem diagVec_cube (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) (k : Fin 6) :
     diagVec ω i j k ^ 3 = 1 := by
   by_cases hki : k = i
@@ -205,11 +216,12 @@ theorem diagVec_cube (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) (k : Fin 6) :
       rw [show (ω ^ 2) ^ 3 = (ω ^ 3) ^ 2 by ring, omega_cube hω, one_pow]
     · rw [diagVec_of_ne hki hkj, one_pow]
 
+omit [Finite K] in
 theorem diagVec_prod (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
     ∏ k, diagVec ω i j k = 1 := by
   classical
-  rw [Finset.prod_eq_mul_prod_diff_singleton_of_mem (Finset.mem_univ j)]
-  rw [Finset.prod_eq_mul_prod_diff_singleton_of_mem (s := (Finset.univ : Finset (Fin 6)) \ {j})
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton_of_mem (Finset.mem_univ j)]
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton_of_mem (s := (Finset.univ : Finset (Fin 6)) \ {j})
     (i := i) (by simp [hij])]
   have hrest : ∀ k ∈ (((Finset.univ : Finset (Fin 6)) \ {j}) \ {i}),
       diagVec ω i j k = 1 := by
@@ -219,6 +231,7 @@ theorem diagVec_prod (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
   rw [Finset.prod_eq_one hrest, diagVec_other hij, diagVec_self hij, mul_one,
     ← pow_succ, omega_cube hω]
 
+omit [Finite K] in
 theorem diagVec_sum (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
     ∑ k, diagVec ω i j k = 1 := by
   classical
@@ -248,10 +261,12 @@ theorem diagVec_sum (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0) (hij : i �
 @[expose] noncomputable def diagTwo (ω : K) (i j : Fin 6) : Matrix (Fin 6) (Fin 6) K :=
   Matrix.diagonal (diagVec ω i j)
 
+omit [Finite K] in
 theorem diagTwo_det (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
     (diagTwo ω i j).det = 1 := by
   rw [diagTwo, Matrix.det_diagonal, diagVec_prod hω hij]
 
+omit [Finite K] in
 theorem diagTwo_unitary (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
     ((diagTwo ω i j).map (· ^ 2))ᵀ * diagTwo ω i j = 1 := by
   rw [diagTwo, Matrix.diagonal_map (by norm_num), Matrix.diagonal_transpose,
@@ -265,6 +280,7 @@ theorem diagTwo_unitary (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
   Matrix.GeneralLinearGroup.mkOfDetNeZero (diagTwo ω i j) (by
     rw [diagTwo_det hω hij]; exact one_ne_zero)
 
+omit [Finite K] in
 theorem diagTwoGL_mem_SU (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
     diagTwoGL hω hij ∈ LargeEvenSUGroup (Fin 6) K (2 ^ 1) := by
   apply Subgroup.subset_closure
@@ -278,15 +294,18 @@ theorem diagTwoGL_mem_SU (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
     ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
   ⟨diagTwoGL hω hij, diagTwoGL_mem_SU hω hij⟩
 
+omit [Finite K] in
 theorem coe_diagTwoSU (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
     ((diagTwoSU hω hij : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1))) : GL (Fin 6) K) =
       diagTwoGL hω hij := rfl
 
+omit [Finite K] in
 theorem coe_diagTwoSU_matrix (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
     (((diagTwoSU hω hij : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1))) : GL (Fin 6) K) :
       Matrix (Fin 6) (Fin 6) K) = diagTwo ω i j := by
   rw [coe_diagTwoSU, diagTwoGL, Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
 
+omit [Finite K] in
 theorem diagTwoSU_mem_torSU (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
     diagTwoSU hω hij ∈ torSU K := by
   rw [torSU, Subgroup.mem_comap, TauCeti.mem_diagonalTorus_iff]
@@ -298,15 +317,18 @@ theorem diagTwoSU_mem_torSU (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
 @[expose] noncomputable def diagTwoTor (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) : torSU K :=
   ⟨diagTwoSU hω hij, diagTwoSU_mem_torSU hω hij⟩
 
+omit [Finite K] in
 theorem coe_diagTwoTor (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
     ((diagTwoTor hω hij : torSU K) : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1))) =
       diagTwoSU hω hij := rfl
 
+omit [Finite K] in
 theorem diagTwoTor_matrix (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
     ((((diagTwoTor hω hij : torSU K) : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :
       GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) = diagTwo ω i j := by
   exact coe_diagTwoSU_matrix hω hij
 
+omit [Finite K] in
 theorem trace_diagTwo (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0) (hij : i ≠ j) :
     (diagTwo ω i j).trace = 1 := by
   rw [diagTwo, Matrix.trace_diagonal, diagVec_sum hK hω hij]
@@ -317,6 +339,7 @@ section SU
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem mem_SU_iff (h : UnitaryFieldData 2 1 K) {A : GL (Fin 6) K} :
     A ∈ LargeEvenSUGroup (Fin 6) K (2 ^ 1) ↔
       (A : Matrix (Fin 6) (Fin 6) K).det = 1 ∧
@@ -334,6 +357,7 @@ section Scalar
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem diagonal_map_transpose_mul_eq_one (v : Fin 6 → K) (hv : ∀ i, v i ^ 3 = 1) :
     ((Matrix.diagonal v).map (· ^ 2))ᵀ * Matrix.diagonal v = 1 := by
   rw [Matrix.diagonal_map (by norm_num), Matrix.diagonal_transpose, Matrix.diagonal_mul_diagonal,
@@ -372,7 +396,8 @@ theorem scalars_le_SU (hK : Nat.card K = 4) :
   rintro x ⟨c, rfl⟩
   exact scalar_mem_SU hK c
 
-theorem scalars_subgroupOf_le_torSU (hK : Nat.card K = 4) :
+omit [Finite K] in
+theorem scalars_subgroupOf_le_torSU (_hK : Nat.card K = 4) :
     (LargeEvenScalars (Fin 6) K).subgroupOf (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) ≤
       torSU K := by
   intro x hx
@@ -383,6 +408,7 @@ theorem scalars_subgroupOf_le_torSU (hK : Nat.card K = 4) :
   rw [← hc, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
   exact Matrix.isDiag_diagonal _
 
+omit [Finite K] in
 theorem card_scalars (hK : Nat.card K = 4) :
     Nat.card (LargeEvenScalars (Fin 6) K) = 3 := by
   have hinj : Function.Injective
@@ -415,10 +441,11 @@ variable [Finite K]
     ↥(TauCeti.diagonalTorus K 6) →* Kˣ :=
   Matrix.GeneralLinearGroup.det.comp (TauCeti.diagonalTorus K 6).subtype
 
+omit [Finite K] in
 theorem prod_update_one (i : Fin 6) (u : Kˣ) :
     ∏ k, Function.update (1 : Fin 6 → Kˣ) i u k = u := by
   classical
-  rw [Finset.prod_eq_mul_prod_diff_singleton_of_mem (Finset.mem_univ i)]
+  rw [Finset.prod_eq_mul_prod_sdiff_singleton_of_mem (Finset.mem_univ i)]
   have hrest : ∀ k ∈ (Finset.univ : Finset (Fin 6)) \ {i},
       Function.update (1 : Fin 6 → Kˣ) i u k = 1 := by
     intro k hk
@@ -427,6 +454,7 @@ theorem prod_update_one (i : Fin 6) (u : Kˣ) :
   rw [Finset.prod_eq_one hrest, mul_one]
   simp [Function.update]
 
+omit [Finite K] in
 theorem diagTorusDet_surjective :
     Function.Surjective (diagTorusDet K) := by
   intro u
@@ -517,8 +545,9 @@ theorem card_torProj_ker (hK : Nat.card K = 4) :
 
 section Centralizer
 
-variable [Finite K] {ω : K}
+variable {ω : K}
 
+omit [Finite K] in
 theorem trace_diagTwoGL (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
     {i j : Fin 6} (hij : i ≠ j) :
     (((diagTwoGL (ω := ω) hω hij : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K)).trace = 1 := by
@@ -533,8 +562,7 @@ theorem three_le_six : (3 : ℕ) ≤ 6 := by norm_num
 
 theorem six_not_exception : ¬ ((6 : ℕ) = 3 ∧ (2 : ℕ) ^ 1 = 2) := by norm_num
 
-variable [Finite K]
-
+omit [Finite K] in
 theorem trace_map_diagTwo (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
     {i j : Fin 6} (hij : i ≠ j) (φ : K ≃+* K) :
     (((diagTwo (ω := ω) i j).map φ)).trace = 1 := by
@@ -542,6 +570,7 @@ theorem trace_map_diagTwo (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
   rw [← map_sum φ (fun k => diagVec ω i j k) Finset.univ]
   rw [diagVec_sum hK hω hij, map_one]
 
+omit [Finite K] in
 theorem conj_eq_diagTwo_of_fixes (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
     {A : ↥(uU (fieldDataFour hK) 6)} {φ : K ≃+* K} {i j : Fin 6} (hij : i ≠ j)
     (hfix : ((uConjAut (fieldDataFour hK) one_le_six A) *
@@ -575,7 +604,7 @@ theorem conj_eq_diagTwo_of_fixes (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 
   have hcGL : (Matrix.GeneralLinearGroup.scalar (Fin 6) c : GL (Fin 6) K) =
       (L : GL (Fin 6) K)⁻¹ * (d : GL (Fin 6) K) := by
     rw [hc]
-    simp [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp [Subgroup.coe_mul]
   have hLcGL : (L : GL (Fin 6) K) * Matrix.GeneralLinearGroup.scalar (Fin 6) c =
       (d : GL (Fin 6) K) := by
     calc (L : GL (Fin 6) K) * Matrix.GeneralLinearGroup.scalar (Fin 6) c =
@@ -652,7 +681,8 @@ theorem conj_eq_diagTwo_of_fixes (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 
 
 open CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher
 
-theorem diagTwo_map_swaps (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
+omit [Finite K] in
+theorem diagTwo_map_swaps (_hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
     {i j : Fin 6} (hij : i ≠ j) {φ : K ≃+* K} (hφ : φ ω = ω ^ 2) :
     (diagTwo (ω := ω) i j).map φ = diagTwo (ω := ω) j i := by
   unfold diagTwo
@@ -670,7 +700,8 @@ theorem diagTwo_map_swaps (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
         _ = ω := one_mul ω
     · rw [diagVec_of_ne hki hkj, diagVec_of_ne hkj hki, map_one]
 
-theorem diagTwo_map_fixes (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
+omit [Finite K] in
+theorem diagTwo_map_fixes (_hK : Nat.card K = 4) (_hω : ω ^ 2 + ω + 1 = 0)
     {i j : Fin 6} (hij : i ≠ j) {φ : K ≃+* K} (hφ : φ ω = ω) :
     (diagTwo (ω := ω) i j).map φ = diagTwo (ω := ω) i j := by
   unfold diagTwo
@@ -685,6 +716,7 @@ theorem diagTwo_map_fixes (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
       rw [diagVec_other hij, map_pow, hφ]
     · rw [diagVec_of_ne hki hkj, map_one]
 
+omit [Finite K] in
 theorem glAut_diagTwo_of_swaps (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
     {i j : Fin 6} (hij : i ≠ j) {φ : K ≃+* K} (hφ : φ ω = ω ^ 2) :
     ((glAut φ (diagTwoGL (ω := ω) hω hij) : GL (Fin 6) K) :
@@ -692,6 +724,7 @@ theorem glAut_diagTwo_of_swaps (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
   rw [coe_glAut, diagTwoGL, Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
   exact diagTwo_map_swaps hK hω hij hφ
 
+omit [Finite K] in
 theorem glAut_diagTwo_of_fixes (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
     {i j : Fin 6} (hij : i ≠ j) {φ : K ≃+* K} (hφ : φ ω = ω) :
     ((glAut φ (diagTwoGL (ω := ω) hω hij) : GL (Fin 6) K) :
@@ -699,19 +732,21 @@ theorem glAut_diagTwo_of_fixes (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
   rw [coe_glAut, diagTwoGL, Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
   exact diagTwo_map_fixes hK hω hij hφ
 
+omit [Finite K] in
 theorem isDiag_of_commute_diagTwo (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
     {M : Matrix (Fin 6) (Fin 6) K}
-    (hcomm : ∀ i j (hij : i ≠ j), M * diagTwo (ω := ω) i j =
+    (hcomm : ∀ i j (_hij : i ≠ j), M * diagTwo (ω := ω) i j =
       diagTwo (ω := ω) i j * M) : M.IsDiag := by
-  intro i j hij
-  have h := congrArg (fun N : Matrix (Fin 6) (Fin 6) K => N i j) (hcomm i j hij)
+  intro i j _hij
+  have h := congrArg (fun N : Matrix (Fin 6) (Fin 6) K => N i j) (hcomm i j _hij)
   unfold diagTwo at h
-  rw [Matrix.mul_diagonal, Matrix.diagonal_mul, diagVec_self hij, diagVec_other hij] at h
+  rw [Matrix.mul_diagonal, Matrix.diagonal_mul, diagVec_self _hij, diagVec_other _hij] at h
   have hzero : M i j * (ω ^ 2 - ω) = 0 := by linear_combination h
   rcases mul_eq_zero.mp hzero with h0 | h0
   · exact h0
   · exact absurd h0 (sub_ne_zero.mpr (omega_sq_ne_omega hK hω))
 
+omit [Finite K] in
 theorem eq_zero_of_mul_diagTwo_swaps (hK : Nat.card K = 4) (hω : ω ^ 2 + ω + 1 = 0)
     {M : Matrix (Fin 6) (Fin 6) K}
     (h01 : M * diagTwo (ω := ω) 1 0 = diagTwo (ω := ω) 0 1 * M)
@@ -832,7 +867,7 @@ theorem centralizer_torU [Finite K] (hK : Nat.card K = 4) :
       have hcGL : (Matrix.GeneralLinearGroup.scalar (Fin 6) c : GL (Fin 6) K) =
           (B : GL (Fin 6) K)⁻¹ * (dSU : GL (Fin 6) K) := by
         rw [hc]
-        simp [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp [Subgroup.coe_mul]
       have hBcGL : (B : GL (Fin 6) K) * Matrix.GeneralLinearGroup.scalar (Fin 6) c =
           (dSU : GL (Fin 6) K) := by
         calc (B : GL (Fin 6) K) * Matrix.GeneralLinearGroup.scalar (Fin 6) c =
@@ -1019,8 +1054,7 @@ theorem pow_three_eq_one_of_forall_fix_torU [Finite K] (hK : Nat.card K = 4)
     have hmulGL := Units.mul_inv (A : GL (Fin 6) K)
     have hmul : ((A : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *
         (((A : GL (Fin 6) K)⁻¹ : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) = 1 := by
-      simpa using congrArg (fun g : GL (Fin 6) K =>
-        ((g : Matrix (Fin 6) (Fin 6) K))) hmulGL
+      simp
     have hentry := congrArg (fun M : Matrix (Fin 6) (Fin 6) K => M 0 0) hmul
     simp only [Matrix.mul_apply, hrow, zero_mul, Finset.sum_const_zero] at hentry
     simp at hentry
@@ -1088,8 +1122,8 @@ theorem index_range_conj_dvd_six [Finite K] (hK : Nat.card K = 4) :
       MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))).range.index ∣ 6 := by
   change (MulAut.conj : CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 1) K) →*
     MulAut (CFSG.Open.StatedProj (CFSG.Open.StatedSU 6 (2 ^ 1) K))).range.index ∣ 6
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hc : Fintype.card K = Fintype.card (GaloisField 2 2) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK,
       GaloisField.card 2 2 (by norm_num)]

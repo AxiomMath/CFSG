@@ -287,7 +287,7 @@ private theorem theorem_13_8_eta01_orthogonal_irreducible_generators_source
     ⟨_hWprod, _hWcyc, _hW1ne, hW2ne, _hWhat, _hSmax, _hTmax, _hSMF,
       _hTMF, _hSeq, _hTeq, _hSdisj, _hTdisj, _hST, _hII, _hStype,
       _hTtype, _hclass⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have h0q : 0 < q := by
     simpa [hq_card] using (Nat.card_pos (α := W1))
   have h1p : 1 < p := by
@@ -528,7 +528,7 @@ private theorem theorem_13_8_calS1_witness_of_row_index
     have hPCnormal : ((P ⊔ C).subgroupOf Smax).Normal := by
       simpa [hfit] using section8FittingSubgroup_normal_in Smax
     simpa [hH] using hPCnormal
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hoddSmax : Odd (Nat.card Smax) :=
     section13_odd_card_subgroup_of_odd_group Smax IsMinCE.odd_order
   have hμne : μsum j1 ≠ Section1.conjugateCharacter (μsum j1) :=
@@ -629,7 +629,7 @@ private theorem theorem_13_8_calS1_orthogonality_source
     · exact Section5.integerSpan_of_mem Sfam
         (houtput.1 j hj0 hjp).2.2.2
     · exact Section5.integerSpan_mono (Finset.filter_subset _ _) hspan
-  letI : IsMulCommutative (H.subgroupOf Smax) :=
+  let : IsMulCommutative (H.subgroupOf Smax) :=
     theorem_13_5_H_subgroupOf_isMulCommutative
       Smax Tmax W W1 W2 P Q U V C D H Sfam Tfam τS τT
         p q u v c d _hsource _hH hS1.1
@@ -814,7 +814,7 @@ private theorem theorem_13_8_p_ne_two_of_source
       _hnotation, _hDadeDiff, _hZeroBase, _hConjIndex, _hConjBeta,
       _hChoice, hMin, _hTauS, _hTauT⟩
   have hoddG : Odd (Nat.card G) := by
-    letI : IsMinCE G := hMin
+    let : IsMinCE G := hMin
     exact IsMinCE.odd_order
   have hW2_ne_two : Nat.card W2 ≠ 2 :=
     Odd.ne_two_of_dvd_nat hoddG (Subgroup.card_subgroup_dvd_card W2)

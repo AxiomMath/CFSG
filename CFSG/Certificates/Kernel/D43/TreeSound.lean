@@ -120,15 +120,15 @@ theorem gAp_spec {F : ℕ → ℕ} {γ : ℕ → G} (hγ : TabRep F γ) (d : ℕ
     rcases h8 : Nat.ble d (nat_lit 8) with _ | _
     · have hd8 : ¬ d ≤ 8 := fun e => Bool.noConfusion ((Nat.ble_eq_true_of_le e).symm.trans h8)
       dsimp only
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
       rcases h16 : Nat.ble d (nat_lit 16) with _ | _
       · have hd16 : ¬ d ≤ 16 := fun e => Bool.noConfusion ((Nat.ble_eq_true_of_le e).symm.trans h16)
         intro _
         dsimp only
-        rw [if_neg (by omega), one_smul]
+        rw [ite_eq_right (by omega), one_smul]
       · have hd16 : d ≤ 16 := Nat.le_of_ble_eq_true h16
         dsimp only
-        rw [if_pos ⟨by omega, hd16⟩]
+        rw [ite_eq_left ⟨by omega, hd16⟩]
         simp only [tree_strictN]
         have e9 : Nat.sub d (nat_lit 9) = d - 9 := rfl
         rw [e9]
@@ -147,7 +147,7 @@ theorem gAp_spec {F : ℕ → ℕ} {γ : ℕ → G} (hγ : TabRep F γ) (d : ℕ
     · have hd8 : d ≤ 8 := Nat.le_of_ble_eq_true h8
       intro _
       dsimp only
-      rw [if_pos ⟨by omega, hd8⟩]
+      rw [ite_eq_left ⟨by omega, hd8⟩]
       have e1 : Nat.sub d (nat_lit 1) = d - 1 := rfl
       rw [e1]
       exact hT _ (by omega) p
@@ -173,7 +173,7 @@ theorem wAp_spec {F : ℕ → ℕ} {γ : ℕ → G} (hγ : TabRep F γ) :
       intro h
       dsimp only at h ⊢
       rw [tree_strictN] at h ⊢
-      rw [if_neg hw0]
+      rw [ite_eq_right hw0]
       have h31 : Nat.land w 31 = w % 32 := Nat.and_two_pow_sub_one_eq_mod w 5
       have h5 : Nat.shiftRight w 5 = w / 32 := Nat.shiftRight_eq_div_pow w 5
       rw [h31, h5] at h ⊢
@@ -187,7 +187,7 @@ theorem wAp_spec {F : ℕ → ℕ} {γ : ℕ → G} (hγ : TabRep F γ) :
     · have hw0 : w = 0 := Nat.eq_of_beq_eq_true hw
       intro _
       dsimp only
-      rw [if_pos hw0, one_smul]
+      rw [ite_eq_left hw0, one_smul]
 
 theorem lAp_spec {F W : ℕ → ℕ} {γ : ℕ → G} (hγ : TabRep F γ) {j : ℕ} {p : Fin 26572}
     (h : lAp F W j p < 26572) : lAp F W j p = ((lG γ W j • p : Fin 26572) : ℕ) :=
@@ -202,17 +202,15 @@ theorem fixAll_spec {F W : ℕ → ℕ} {γ : ℕ → G} (hγ : TabRep F γ) {B 
   rw [Nat.zero_add] at hc
   unfold fixChk at hc
   rw [tree_strictB] at hc
-  beta_reduce at hc
   have h1 : Nat.land (Nat.shiftRight M j) (nat_lit 1) = 1 := tree_testBit.2 hM
   rw [h1] at hc
   revert hc
   rcases hl : Nat.ble lo j with _ | _ <;> rcases hf : fixesB F W B i j with _ | _ <;> intro hc <;>
-    first | exact absurd hc (by decide) | skip
+    try exact absurd hc (by decide)
   refine ⟨Nat.le_of_ble_eq_true hl, fun u hu hbu => ?_⟩
   have hfu := tree_allBlk hf u hu
   beta_reduce at hfu
   rw [tree_strictB] at hfu
-  beta_reduce at hfu
   rw [Nat.zero_add] at hfu
   have e := Nat.eq_of_beq_eq_true hfu
   have hl' : lAp F W j (⟨bAt B u, hbu⟩ : Fin 26572) < 26572 := by
@@ -230,9 +228,7 @@ theorem treeChk_facts {F W R Q : ℕ → ℕ} {ℓ o b M t : ℕ} (h : treeChk F
         lAp F W lab (ptAt R o par) = ptAt R o t) := by
   unfold treeChk at h
   rw [tree_strictB] at h
-  beta_reduce at h
   rw [tree_strictB] at h
-  beta_reduce at h
   obtain ⟨h1, h2⟩ := tree_bAnd h
   obtain ⟨h2, h3⟩ := tree_bAnd h2
   have hpt : ptAt R o t < 26572 := Nat.le_of_ble_eq_true h1
@@ -248,9 +244,7 @@ theorem treeChk_facts {F W R Q : ℕ → ℕ} {ℓ o b M t : ℕ} (h : treeChk F
     rw [hb0] at h3
     dsimp only at h3
     rw [tree_strictB] at h3
-    beta_reduce at h3
     rw [tree_strictB] at h3
-    beta_reduce at h3
     obtain ⟨h4, h5⟩ := tree_bAnd h3
     obtain ⟨h5, h6⟩ := tree_bAnd h5
     have h4' : Nat.land (Nat.shiftRight (recAt R o t) 15) 32767 < t := Nat.le_of_ble_eq_true h4

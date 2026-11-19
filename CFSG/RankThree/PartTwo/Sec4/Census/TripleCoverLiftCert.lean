@@ -86,7 +86,7 @@ theorem exists_normalized_two_subgroup [Finite G] (hφ : Function.Surjective φ)
       change φ (g * (s : G) * g⁻¹) ∈ P
       rw [map_mul, map_mul, map_inv]
       exact (Subgroup.mem_normalizer_iff.mp hg _).mp s.2
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     set q : Q := ⟨g * (s : G) * g⁻¹, hq⟩
     have hqk : q ^ 2 ^ k = 1 := by
       apply Subtype.ext
@@ -102,7 +102,7 @@ theorem exists_normalized_two_subgroup [Finite G] (hφ : Function.Surjective φ)
     have hTS : T = S := Subsingleton.elim T S
     subst hTS
     exact ⟨q, hT (Subgroup.mem_zpowers q), rfl⟩
-  refine ⟨(S : Subgroup Q).map Q.subtype, ?_, S.isPGroup'.map _, fun g hg => ?_⟩
+  refine ⟨(S : Subgroup Q).map Q.subtype, ?_, S.isPGroup.map _, fun g hg => ?_⟩
   · intro hbot
     apply Sylow.ne_bot_of_dvd_card S h2Q
     rw [eq_bot_iff]

@@ -15,7 +15,7 @@ open CFSG.Open Subgroup
 theorem isQuasisimple_of_isSimpleGroup_of_not_isSolvable {Q : Type*} [Group Q]
     (hs : IsSimpleGroup Q) (hn : ¬ Group.IsSolvable Q) : CFSG.IsQuasisimple Q := by
   have : IsSimpleGroup Q := hs
-  have hnc : ¬ ∀ a b : Q, a * b = b * a := fun h => hn (isSolvable_of_comm h)
+  have hnc : ¬ ∀ a b : Q, a * b = b * a := fun h => hn (_root_.Group.isSolvable_of_comm h)
   have hZ : center Q = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center Q) with h | h
     · exact h
@@ -91,7 +91,7 @@ theorem le_sup_and_le_centralizer {Q : Type*} [Group Q] [Finite Q] {Y J J₂ : S
   · exact h.ge
   · exfalso
     apply hYns
-    refine isSolvable_of_comm fun a b => ?_
+    refine _root_.Group.isSolvable_of_comm fun a b => ?_
     have hc : (a : Q) * b * (a : Q)⁻¹ * (b : Q)⁻¹ ∈ Y ⊓ J₂ :=
       ⟨Y.mul_mem (Y.mul_mem (Y.mul_mem a.2 b.2) (Y.inv_mem a.2)) (Y.inv_mem b.2),
         h a (hYJ a.2) b (mem_sup_left b.2)⟩
@@ -136,7 +136,7 @@ theorem center_eq_bot_of_isSimpleGroup_of_not_isSolvable {Q : Type*} [Group Q]
   have : IsSimpleGroup Q := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center Q) with h | h
   · exact h
-  · exact (hn (isSolvable_of_comm fun a b => (mem_center_iff.1 (h ▸ mem_top b) a))).elim
+  · exact (hn (_root_.Group.isSolvable_of_comm fun a b => (mem_center_iff.1 (h ▸ mem_top b) a))).elim
 
 variable {G : Type} [Group G] [Finite G]
 

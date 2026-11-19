@@ -16,10 +16,10 @@ theorem d_le_I_of_threeTenHyp_of_isSLType {H : Type} [Group H] [Finite H]
     (htor : ThreeTenTorusExclusion p d) : D ≤ I := by
   have hhyp' : ThreeTenHyp I D P Y p d := hhyp
   obtain ⟨-, -, hd, -, -, hI, hD, -, -, -, -, -⟩ := hhyp'
-  haveI hInormal : I.Normal := normal_of_oPPrimeHull_eq hI
-  haveI hFact : Fact d.Prime := ⟨hd⟩
+  have hInormal : I.Normal := normal_of_oPPrimeHull_eq hI
+  have hFact : Fact d.Prime := ⟨hd⟩
   let C : Subgroup H := Subgroup.centralizer (I : Set H)
-  haveI hCnormal : C.Normal := Subgroup.normal_centralizer
+  have hCnormal : C.Normal := Subgroup.normal_centralizer
   have hDle : D ≤ I ⊔ C := d_le_sup_centralizer_of_threeTenHyp hhyp e htor
   have hbot : D ⊓ C = ⊥ := centralizer_inf_eq_bot_of_threeTenHyp hhyp
   have hSyl : CFSG.ABGLocalTools.IsSylowOf d (D ⊓ C) C :=

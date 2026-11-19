@@ -156,6 +156,7 @@ theorem case4_normalizer_inf {G : Type} [Group G] {K B C : Subgroup G}
   rw [Subgroup.le_normalizer_iff] at hB hC ⊢
   exact fun k hk x hx => ⟨hB k hk x hx.1, hC k hk x hx.2⟩
 
+omit [Finite A] in
 theorem CampbellHyp.hasNatSection_of_case4 (h : CampbellHyp X K R P) {F : Type} [Field F]
     [Fintype F] (hF : Fintype.card F = 2) {α : ↥K →* ↥(StatedSL 3 F)}
     (hα : CFSG.Quasithin.IsModO2Surj K α)

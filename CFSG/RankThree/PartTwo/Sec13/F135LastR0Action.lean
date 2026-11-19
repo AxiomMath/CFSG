@@ -28,7 +28,7 @@ theorem r0_phi_eq_one_iff {G : Type} [Group G] [Finite G] {L M : Subgroup G}
 theorem r0_card_map_le_nine {P T : Type} [Group P] [Group T] [Finite T]
     (Q' : Subgroup P) (hQ' : IsPGroup 3 Q') (φ : P →* T) (hT : Nat.card T = 5040) :
     Nat.card (Q'.map φ) ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp (hQ'.map φ)
   have hdvd : Nat.card (Q'.map φ) ∣ 5040 := by
     have h := Subgroup.card_subgroup_dvd_card (Q'.map φ)
@@ -67,7 +67,7 @@ theorem r0_nine_le_card_map {G : Type} [Group G] [Finite G] {C A M : Subgroup G}
     rw [Subgroup.card_ker_mul_card_range, hcardA']
   rw [hrange] at key
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h8 : Nat.card (φ.comp (A.subgroupOf M).subtype).ker *
       Nat.card ((A.subgroupOf M).map φ) ≤ 3 * 8 :=
     Nat.mul_le_mul hker (by omega)
@@ -81,7 +81,7 @@ theorem exists_mul_mem_thetaQuotCentralizer {G : Type} [Group G] [Finite G] {L A
     (hAker : Nat.card (A ⊓ Sec4.thetaQuotCentralizer L : Subgroup G) ≤ 3) :
     ∀ q ∈ Q, ∃ a ∈ A, a⁻¹ * q ∈ Sec4.thetaQuotCentralizer L := by
   intro q hq
-  haveI : Finite (MulAut (L ⧸ aschbacherSolvableCore 3 L)) :=
+  have : Finite (MulAut (L ⧸ aschbacherSolvableCore 3 L)) :=
     Nat.finite_of_card_ne_zero (by rw [hcardAut]; norm_num)
   have hAM : A ≤ M := hAQ.trans hQM
   have hAQ' : A.subgroupOf M ≤ Q.subgroupOf M :=

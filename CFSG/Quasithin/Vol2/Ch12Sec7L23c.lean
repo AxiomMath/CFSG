@@ -50,6 +50,7 @@ theorem modules_g_of_1222 (h1222 : Stmt12_2_2) {T L V : Subgroup G} (h : Hyp1271
     all_goals exact absurd h0 (by norm_num)
   · exact hg
 
+omit [Finite G] in
 theorem XOf_le (L : Subgroup G) : XOf L ≤ L :=
   (oTwoUpper_le _).trans (Subgroup.map_subtype_le _)
 

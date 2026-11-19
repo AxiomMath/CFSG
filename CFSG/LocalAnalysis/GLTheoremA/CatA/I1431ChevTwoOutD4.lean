@@ -40,7 +40,7 @@ section D4
 theorem u42Layer_entrywiseAdjointAut_D4 {d : ℕ} (hd : 1 ≤ d) {K : Type} [Field K] [Finite K]
     (σ : K ≃+* K) (hk : Nat.card (fixSubfield σ) = 2 ^ d) :
     U42Layer (entrywiseAdjointAut Tag.D4 σ) False := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
   obtain ⟨hs, hnab⟩ := isSimple_adjointD4 (fixSubfield σ)
   exact u42Layer_entrywise σ hs hnab fun h =>
     absurd (eq_of_catalogIs_u4two_lieModel h
@@ -51,18 +51,18 @@ theorem u42Layer_twistedEntrywiseAut_D4_one {d : ℕ} (hd : 1 ≤ d) {K : Type} 
     (hσ : ∀ c, σ c = c ^ ((2 ^ d) ^ r)) :
     U42Layer (twistedEntrywiseAut TwistTag.D4 1 σ) False := by
   classical
-  haveI := finite_adjointD4 K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have := finite_adjointD4 K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := d * 3) (by omega) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨-, -, htw, hs, hnab⟩ := triality_both_field_orientations_simple_full_ambient_fixed_group
     2 d Nat.prime_two hd K hK (AlgebraicClosure K) r hr σ.toRingHom hσ
     (iterateFrobenius (AlgebraicClosure K) 2 d) (fun c => iterateFrobenius_def _ _ _)
   have hcard := (triality_both_orientations_exact_finite_order 2 d Nat.prime_two hd K hK r hr
     σ.toRingHom hσ).1
-  haveI := hs
+  have := hs
   let e : ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 1 σ)) ≃*
       graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
     (CFSG.HardMathSupport.Lang.E6Descent.fixedSubgroupTwistedEntrywiseAutOneEquiv
@@ -98,8 +98,8 @@ theorem u42Layer_adjointD4_of_fieldType {f : ℕ} (hf : 1 ≤ f)
     (a : Fin Tag.D4.rank → Kˣ) (σ : K ≃+* K) (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K 0)) :
     U42Layer α False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two hf hK
   obtain ⟨d, T, hd0, hdf, hT, hT3, hσT⟩ := exists_frobenius_of_cube Nat.prime_two hf K hK σ hσ3 hσ1
   rw [d4Graph_zero, mul_one] at hαeq
@@ -137,10 +137,10 @@ theorem u42Layer_adjointD4_of_graphFieldType {f : ℕ} (hf : 1 ≤ f)
     (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) :
     U42Layer α False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two hf hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
   obtain ⟨e, T, he, hef, hT, hσT⟩ := exists_frobenius_eq_or_inv_of_orderOf_three Nat.prime_two hf K
     hK σ hord
@@ -177,11 +177,11 @@ theorem u42Layer_adjointD4_of_graphType {f : ℕ} (hf : 1 ≤ f) (K : Type) [Fie
     (g : adjointGroup Tag.D4 K) (a : Fin Tag.D4.rank → Kˣ) {ε : ℕ} (hε : ε = 1 ∨ ε = 2)
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a 1 0 * d4Graph K ε)) :
     U42Layer α False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K₃, _, _, Fr, hK₃, hFr, φ, hφ3, hφout, ⟨e⟩⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.D4Dual.exists_dual_fixEquiv hf K hK α
       hα3 g a hε hαeq
-  haveI := finite_graphFixedRootGroup_D4 Fr
+  have := finite_graphFixedRootGroup_D4 Fr
   exact u42Layer_of_fixEquiv e (u42Layer_three_D4_outer_two hf hK₃ Fr hFr φ hφ3 hφout)
 
 theorem u42Layer_adjointD4_outer {f : ℕ} (hf : 1 ≤ f) (K : Type) [Field K] [Finite K]
@@ -217,7 +217,7 @@ theorem u42Out_d4 : U42OuterAt FamD4 := by
     obtain ⟨e'⟩ :=
       CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup K
     let E : S ≃* adjointGroup Tag.D4 K := e0.trans e'
-    haveI := finite_adjointD4 K
+    have := finite_adjointD4 K
     have hα3 : MulAut.congr E α ^ 3 = 1 := by rw [← map_pow, hp.1, map_one]
     have hαi : MulAut.congr E α ∉
         CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup Tag.D4 K) := by

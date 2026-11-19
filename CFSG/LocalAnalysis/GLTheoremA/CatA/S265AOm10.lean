@@ -101,7 +101,7 @@ theorem NLAct.false_of_om10minus {Ω : Type} [Group Ω] [Finite Ω] {X J B D : S
       change 5 = 5 ∧ q.card = 2 ^ 1
       exact ⟨rfl, by rw [hq]; norm_num⟩), ⟨e₀⟩⟩
   obtain ⟨ψ⟩ := hmod S hcat
-  haveI : Finite ↥(orthDerived Q) := Finite.of_equiv _ ψ.toEquiv
+  have : Finite ↥(orthDerived Q) := Finite.of_equiv _ ψ.toEquiv
   have hcent : ∀ s : S, (Subgroup.centralizer ({s} : Set S)).map ψ.toMonoidHom =
       Subgroup.centralizer ({ψ s} : Set ↥(orthDerived Q)) := fun s => by
     ext t

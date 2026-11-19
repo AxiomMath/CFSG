@@ -205,6 +205,7 @@ theorem map_eq_one_of_commutator_eq_top {Γ A : Type*} [Group Γ] [Group A]
   rw [hn, Subgroup.mem_bot] at h2
   exact h2
 
+omit [Finite G] in
 theorem not_le_d1X0_of_ne_bot {p : ℕ} {M C : Subgroup G} (hne : d1KBar p M C ≠ ⊥) :
     ¬ d1KBar p M C ≤ d1X0 p M C := by
   intro hle
@@ -221,8 +222,8 @@ theorem not_hasNormalPComplement_d1KBar {p : ℕ} [Fact p.Prime] {M C : Subgroup
     ¬ HasNormalPComplement p ↥(d1KBar p M C) := by
   have hp : p.Prime := Fact.out
   rintro ⟨N, hN, hNc, hNq⟩
-  haveI := hN
-  haveI : Group.IsNilpotent (↥(d1KBar p M C) ⧸ N) := hNq.isNilpotent
+  have := hN
+  have : Group.IsNilpotent (↥(d1KBar p M C) ⧸ N) := hNq.isNilpotent
   have hall : ∀ k : ↥(d1KBar p M C), k ∈ N := by
     have hle : d1KBar p M C ≤ N.map (d1KBar p M C).subtype := by
       conv_lhs => unfold d1KBar
@@ -340,8 +341,8 @@ theorem stepThreeAt_of
     ∃ B E : Subgroup G, StepThreeAt p P M H K B E b y := by
   obtain ⟨H₁, R₁, hesc⟩ := hd.escape
   have hp : p.Prime := hesc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup ↥K := RankOneSylow.isSimpleGroup_of_isCaseTwoGroup hKs
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup ↥K := RankOneSylow.isSimpleGroup_of_isCaseTwoGroup hKs
   have hp35 := RankOneSylow.eq_three_or_five_of_isCaseTwoGroup hKs
   have hp2 : p ≠ 2 := by omega
   have hWH' : W ≤ H := hWH.trans inf_le_left
@@ -419,7 +420,7 @@ theorem center_eq_bot_of_d1LiftX {p : ℕ} [Fact p.Prime] {H : Subgroup G}
     {W : Subgroup G} {y : G} (hyl : d1LiftX p H W K = Subgroup.zpowers y)
     (hyo : orderOf y = p ^ 2) : Subgroup.center ↥K = ⊥ := by
   have hp : p.Prime := Fact.out
-  haveI : IsSimpleGroup ↥K := RankOneSylow.isSimpleGroup_of_isCaseTwoGroup hKs
+  have : IsSimpleGroup ↥K := RankOneSylow.isSimpleGroup_of_isCaseTwoGroup hKs
   have hyK : y ∈ hyp111Pre p H K :=
     Subgroup.map_mono inf_le_right (hyl ▸ Subgroup.mem_zpowers y)
   obtain ⟨h, hhK, hhy⟩ := hyK
@@ -461,7 +462,7 @@ theorem yp_mem_of_le (hI5 : KFactStepThreeCentSylow) (hFld : KFactFieldAutInvert
     (hZL : ⁅Subgroup.zpowers (y ^ p), L⁆ ≤ pCoreOf 2 L) :
     y ^ p ∈ hyp111Pre p (Subgroup.centralizer ({b} : Set G))
       (d1KBar p M (Subgroup.centralizer ({b} : Set G))) := by
-  haveI := hT.normal
+  have := hT.normal
   have hp2 : p ≠ 2 := by rcases hT.p35 with h | h <;> omega
   set C := Subgroup.centralizer ({b} : Set G) with hCdef
   have hbC : ∀ x : G, b * x = x * b → x ∈ C := fun x hx =>
@@ -471,7 +472,7 @@ theorem yp_mem_of_le (hI5 : KFactStepThreeCentSylow) (hFld : KFactFieldAutInvert
   have hBp : IsPGroup p B := by
     obtain ⟨S, hS'⟩ := hT.sylow
     rw [← hS']
-    exact S.isPGroup'.map _
+    exact S.isPGroup.map _
   have hcp : (y ^ p) ^ p = 1 := by
     have h := pow_orderOf_eq_one (y ^ p)
     rwa [hT.yp_order] at h
@@ -516,11 +517,11 @@ theorem false_of_not_altTen
       alternatingGroup (Fin 10))) : False := by
   obtain ⟨B, E, hT⟩ := stepThreeAt_of hS h1014 h10143 hd hKs hKn hL hLn hpJ hWH hzW hzo hzc hyl
     hyo haW hao haout hnc hZL hb hbZ hC
-  haveI := hT.normal
+  have := hT.normal
   obtain ⟨H₁, R₁, hesc⟩ := hd.escape
   have hp : p.Prime := hesc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup ↥K := RankOneSylow.isSimpleGroup_of_isCaseTwoGroup hKs
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup ↥K := RankOneSylow.isSimpleGroup_of_isCaseTwoGroup hKs
   have hp2 : p ≠ 2 := by rcases hT.p35 with h | h <;> omega
   set C := Subgroup.centralizer ({b} : Set G) with hCdef
   have hbC : ∀ x : G, b * x = x * b → x ∈ C := fun x hx =>
@@ -531,7 +532,7 @@ theorem false_of_not_altTen
   have hBp : IsPGroup p B := by
     obtain ⟨S, hS'⟩ := hT.sylow
     rw [← hS']
-    exact S.isPGroup'.map _
+    exact S.isPGroup.map _
   have hKnp := not_hasNormalPComplement_d1KBar hT.one_le
   obtain ⟨hJnp, hJsolv⟩ := hJ0 hS p P M H Q K hd hKs hKn L hL hLn hJX hX1 hpJ
   have hLM : L ≤ M := hL.le

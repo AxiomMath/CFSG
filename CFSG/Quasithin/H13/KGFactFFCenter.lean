@@ -197,7 +197,7 @@ theorem centralizer_le_of_two_quotient [Finite G] {Γ L T₀ : Subgroup G} (hLΓ
       have hyφ : y = φ ⟨x, hxD⟩ := Subtype.ext hyx'
       exact (hmemφ ⟨x, hxD⟩).1 (hyφ ▸ hy)
   have hP'2 : IsPGroup 2 P' :=
-    (P.isPGroup').of_equiv ((P : Subgroup ↥D).equivMapOfInjective _ D.subtype_injective)
+    (P.isPGroup).of_equiv ((P : Subgroup ↥D).equivMapOfInjective _ D.subtype_injective)
   have hP'Γ : P' ≤ Γ := hP'D.trans hDΓ
   have hP'le : P' ≤ pCoreOf 2 Γ := le_pCoreOf_of_le_normalizer 2 hP'Γ hP'n hP'2
   rw [hO2, le_bot_iff] at hP'le

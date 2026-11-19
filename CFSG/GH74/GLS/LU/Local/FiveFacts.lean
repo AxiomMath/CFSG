@@ -38,7 +38,7 @@ theorem cjL_inf (g : G) (A B : Subgroup G) : cjL g (A ⊓ B) = cjL g A ⊓ cjL g
   Subgroup.map_inf_eq _ _ _ (MulAut.conj g).injective
 
 theorem cjL_one (A : Subgroup G) : cjL (1 : G) A = A := by
-  ext x; simp [mem_cjL]
+  ext x; simp
 
 theorem cjL_mono (g : G) {A B : Subgroup G} (h : A ≤ B) : cjL g A ≤ cjL g B :=
   Subgroup.map_mono h

@@ -42,8 +42,8 @@ theorem exists_fixSub_equiv_reeGamma {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field 
       CFSG.StandardType.reeTitsRelationModel_largeEven a hK⟩
   obtain ⟨-, -, -, -, -, -, hmain⟩ := large_Ree_model_field_outer_group_and_inner_involutions _ 2
     (2 * a + 1) hR
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a + 1) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * a + 1) (by
     rw [← Nat.card_eq_fintype_card, hK])
   obtain ⟨⟨e⟩, -⟩ := hmain a K rfl hK (CFSG.StandardType.centerQuot_twF4H_equiv K a)
   have : Fact p.Prime := ⟨hp⟩
@@ -82,8 +82,8 @@ theorem exists_fixSub_equiv_reeGamma {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field 
       ((F4.reeGamma (fixSubfield β) b).equivMapOfInjective _
         (baseChangeGL_injective (τ := F4.tag) (fixSubfield β).subtype)).symm
   have : Finite (fixSubfield β) := Subtype.finite
-  haveI : Fintype (fixSubfield β) := Fintype.ofFinite _
-  haveI : CharP (fixSubfield β) F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * b + 1) (by
+  have : Fintype (fixSubfield β) := Fintype.ofFinite _
+  have : CharP (fixSubfield β) F4.prime := charP_of_card_eq_prime_pow (p := 2) (f := 2 * b + 1) (by
     rw [← Nat.card_eq_fintype_card, hbcard])
   exact ⟨b, hbp, fixSubfield β, inferInstance, inferInstance, inferInstance, hbcard,
     ⟨((fixSubEquivCongr e f).trans e₂).trans e₃⟩⟩
@@ -100,8 +100,8 @@ theorem twF4Quot_simple {b : ℕ} (hb : 1 ≤ b) {k : Type} [Field k] [Finite k]
     IsSimpleGroup (LargeEvenCenterQuot (LargeEvenTwF4H b k)) ∧
       ∃ x y : LargeEvenCenterQuot (LargeEvenTwF4H b k), x * y ≠ y * x := by
   obtain ⟨eR⟩ := gff_nonempty_centerQuot_equiv_reeGamma hb hk
-  haveI := gff_isSimpleGroup_reeGamma hb hk
-  haveI : Group.IsPerfect ↥(ReeTag.F4.reeGamma k b) :=
+  have := gff_isSimpleGroup_reeGamma hb hk
+  have : Group.IsPerfect ↥(ReeTag.F4.reeGamma k b) :=
     ⟨ReeTag.commutator_reeGamma_eq_top (t := ReeTag.F4) hb hk⟩
   obtain ⟨x, y, hxy⟩ := exists_mul_ne_of_isPerfect ↥(ReeTag.F4.reeGamma k b)
   refine ⟨eR.isSimpleGroup, eR.symm x, eR.symm y, fun h => hxy ?_⟩
@@ -121,7 +121,7 @@ theorem nonempty_titsQuot_equiv {k : Type} [Field k] [Finite k] [CharP k ReeTag.
 
 theorem fixGapTwF4_holds : FixGapTwF4 := by
   intro a p K _ _ ha hK hp hp2 f hf hord
-  haveI : CharP K ReeTag.F4.prime := charP_two_of_card hK
+  have : CharP K ReeTag.F4.prime := charP_two_of_card hK
   obtain ⟨hs, hna⟩ := twF4Quot_simple ha hK
   have hF : FQ.InnFree p (LargeEvenChevFieldImage LargeEvenCartanF4 K (LargeEvenTwF4H a K)) :=
     innFree_of_ggRawInnField (RawAutReeF4.ggRawInnField_twF4_of_diag ha hK
@@ -139,8 +139,8 @@ theorem fixGapTwF4_holds : FixGapTwF4 := by
     subst hb0
     have hk2 : Nat.card k = 2 := by simpa using hk
     obtain ⟨eT⟩ := nonempty_titsQuot_equiv hk2
-    haveI : IsSimpleGroup ↥(commutator ↥(reeFixed ReeTag.F4 k 0)) := gff_isSimpleGroup_tits hk2
-    haveI : Group.IsPerfect ↥(commutator ↥(reeFixed ReeTag.F4 k 0)) :=
+    have : IsSimpleGroup ↥(commutator ↥(reeFixed ReeTag.F4 k 0)) := gff_isSimpleGroup_tits hk2
+    have : Group.IsPerfect ↥(commutator ↥(reeFixed ReeTag.F4 k 0)) :=
       (CFSG.LieType.Simplicity.titsData k hk2).isPerfect hk2
     obtain ⟨x, y, hxy⟩ := exists_mul_ne_of_isPerfect ↥(commutator ↥(reeFixed ReeTag.F4 k 0))
     refine ⟨LargeEvenCenterQuot (LargeEvenTwF4H 0 k), inferInstance, ⟨.twF4der, 0, 1⟩,

@@ -15,6 +15,7 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r8mb_exists_irreducible_SL2_rep {L Z : Subgroup G} {f : ℕ}
     (hL2 : IsL2Quot f (oTwoQuot ↥L)) (hsec : SecHyp L ⊥ Z) (hchief : IsChiefPair L ⊥ Z)
     {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W] [Nontrivial W]
@@ -37,11 +38,11 @@ private theorem r8mb_exists_irreducible_SL2_rep {L Z : Subgroup G} {f : ℕ}
       map_mul' := fun g h => by rw [map_mul]; rfl }
   have hΦ_mk : ∀ l : ↥L, Φ (eSL (e (q l))) = s.ρ l := by
     intro l
-    simp [Φ, bar, q, QuotientGroup.lift_mk']
+    simp [Φ, bar, q]
   have hρSL_mk : ∀ l : ↥L, ρSL (eSL (e (q l))) = (s.ρ l).toLinearMap := by
     intro l
     rw [show ρSL (eSL (e (q l))) = (Φ (eSL (e (q l)))).toLinearMap from rfl, hΦ_mk l]
-  haveI : Nontrivial (Subrepresentation ρSL) := by
+  have : Nontrivial (Subrepresentation ρSL) := by
     refine ⟨⊥, ⊤, ?_⟩
     intro h
     exact bot_ne_top (α := Submodule (ZMod 2) W)
@@ -94,9 +95,9 @@ theorem exists_odd_inf_centralizer_eq_bot_of_isL2Quot {L Z : Subgroup G} {f : �
       normal := fun x _ => Subgroup.mem_normalizer_iff.mpr (fun y => by simp)
       min := fun N _ hNZ hLN => hirr N hNZ hLN }
   obtain ⟨W, hWadd, hWmod, hWfin, ⟨s⟩⟩ := exists_secRep hsec
-  letI : AddCommGroup W := hWadd
-  letI : Module (ZMod 2) W := hWmod
-  letI : Finite W := hWfin
+  let : AddCommGroup W := hWadd
+  let : Module (ZMod 2) W := hWmod
+  let : Finite W := hWfin
   have hcl_inj : Function.Injective s.cls := fun a b hab => by
     have h1 : s.cls (a * b⁻¹) = 1 := by rw [map_mul, hab, map_inv, mul_inv_cancel]
     have h2 := (s.ker (a * b⁻¹)).mp h1
@@ -107,7 +108,7 @@ theorem exists_odd_inf_centralizer_eq_bot_of_isL2Quot {L Z : Subgroup G} {f : �
     rw [← h1, hcard, sq, ← pow_add]
     congr 1
     ring
-  haveI : Nontrivial W :=
+  have : Nontrivial W :=
     Finite.one_lt_card_iff_nontrivial.mp
       (by rw [hWcard]; exact Nat.one_lt_pow (by omega) (by norm_num))
   obtain ⟨ρ, hirrρ, ψ, hψsurj, hψeq⟩ :=
@@ -115,7 +116,7 @@ theorem exists_odd_inf_centralizer_eq_bot_of_isL2Quot {L Z : Subgroup G} {f : �
       (CFSG.Quasithin.St84.pCore_le_secRep_ker s hsec hchief)
   obtain ⟨g, hgord⟩ :=
     CFSG.SeitzReduction.F4Pilot.exists_orderOf_eq_natCard_add_one (K := GaloisField 2 f)
-  letI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   have hFintype : Fintype.card (GaloisField 2 f) = 2 ^ f := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 f (by omega)

@@ -211,7 +211,7 @@ theorem modelOnU_tilde_of_realizes_sec (h : HypF918 T V L V₁ Vp H K) (hIU : I 
     secImg_le_normalizer_secImg (hXH.trans (le_normalizer_conjClosure I H))
   refine ⟨hYA, hel, ?_⟩
   obtain ⟨π, hπ⟩ := hD
-  letI : CommGroup ↥(tildeOf V₁ J) := commGroupOfElemAbelian hel
+  let : CommGroup ↥(tildeOf V₁ J) := commGroupOfElemAbelian hel
   let V₀ : Subgroup ↥(tildeOf V₁ (conjClosure I H)) := subM V₁ (conjClosure I H) J
   let e : ↥V₀ ≃* ↥(tildeOf V₁ J) := Subgroup.subgroupOfEquivOfLe hle
   have hcoe : ∀ u : ↥V₀, ((e u : ↥(tildeOf V₁ J)) : GtOf V₁) =

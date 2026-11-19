@@ -130,13 +130,13 @@ theorem exists_rckE7Setup {τ : Tag} {p₀ : ℕ} (S : LangSetup τ GGL p₀)
     rw [hq, pow_zero] at h1
     exact not_isPrimePow_one h1
   let K := TauCeti.frobeniusFixedSubfield GGL 2 h
-  haveI : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
-  haveI : CharP (ZMod 2) 2 := inferInstance
-  haveI hcharGGL : CharP GGL 2 :=
+  have : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
+  have : CharP (ZMod 2) 2 := inferInstance
+  have hcharGGL : CharP GGL 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) GGL).injective 2
-  haveI hfinK : Finite K := TauCeti.finite_frobeniusFixedSubfield GGL 2 h hh
+  have hfinK : Finite K := TauCeti.finite_frobeniusFixedSubfield GGL 2 h hh
   have hKcard : Nat.card K = 2 ^ h := TauCeti.card_frobeniusFixedSubfield GGL 2 h hh
-  haveI hAlgClos : IsAlgClosure K GGL :=
+  have hAlgClos : IsAlgClosure K GGL :=
     CFSG.TauCetiBridge.BigCell.isAlgClosure_frobeniusFixedSubfield (p := 2) (L := GGL) h
   let Fr : GGL →+* GGL := iterateFrobenius GGL 2 h
   have hFr : ∀ c, Fr c = c ^ Nat.card K := fun c => by
@@ -262,7 +262,7 @@ theorem exists_rckE7Setup {τ : Tag} {p₀ : ℕ} (S : LangSetup τ GGL p₀)
         rw [hy, CFSG.StandardType.LangRat.step_pinnedX_of_charTwo S
             (F.isRoot _ (F.bijOn.mapsTo hroot')) c, hqq]
       exact hL.trans hR.symm
-  haveI hfixfin : Finite ↥SK.D.fix := hd.finite_fix
+  have hfixfin : Finite ↥SK.D.fix := hd.finite_fix
   have hrelidx := (CFSG.RankThree.PartOne.KE.finite_fixed_subgroup_rational_perfect
     (τ := Tag.E7) (K := K) (L := GGL) 2 (Or.inr (Or.inl ⟨rfl, rfl⟩)) Fr hFr SK.D.fix
     (fun x hx => ((LangDatum.mem_fix SK.D).1 hx).1)
@@ -285,7 +285,7 @@ theorem exists_rckE7Setup {τ : Tag} {p₀ : ℕ} (S : LangSetup τ GGL p₀)
     have h := congrArg (fun f => f y) hhom
     simpa [stepHom, MonoidHom.comp_apply] using h
   ·
-    haveI : Group.IsPerfect ↥(adjointGroup Tag.E7 K) := hperfK
+    have : Group.IsPerfect ↥(adjointGroup Tag.E7 K) := hperfK
     have e : ↥(adjointGroup Tag.E7 K) ≃* ↥SK.Γ := hd.mulEquiv hι_inj
     let f : ↥(adjointGroup Tag.E7 K) →* ↥SK.Γ :=
       { toFun := fun x => e x, map_one' := map_one e, map_mul' := map_mul e }

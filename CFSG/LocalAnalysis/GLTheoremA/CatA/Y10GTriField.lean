@@ -44,7 +44,7 @@ theorem triRecipe_equiv {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
       Nonempty (LargeEvenCenterQuot (LargeEvenTwistedH TwistTag.D4.tag.cartan K TwistTag.D4.perm n) ≃*
         ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) := by
   have hK3 : Nat.card K = 2 ^ (n * 3) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK3
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK3
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
     rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]

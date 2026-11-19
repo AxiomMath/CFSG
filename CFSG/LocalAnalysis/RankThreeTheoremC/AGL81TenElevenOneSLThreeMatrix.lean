@@ -94,7 +94,7 @@ theorem exists_slThree_frob_conj (hK : PiField true p f K) (hq : ModThree true (
   have hF3 : ((frobGL ψ y : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) ^ 3 = ψ ℓ • 1 := by
     rw [← Units.val_pow_eq_pow_val, ← map_pow, coe_frobGL, Units.val_pow_eq_pow_val, hy]
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
+    by_cases hij : i = j <;> simp [hij]
   have h₂ : (y₂ : Matrix (Fin 3) (Fin 3) K) ^ 3 = ℓ • 1 := by
     have hc : Commute (frobGL ψ y) s⁻¹ := (show Commute (frobGL ψ y) s from hcs _).inv_right
     rw [← Units.val_pow_eq_pow_val, hy₂, hc.mul_pow, Units.val_mul, Units.val_pow_eq_pow_val,

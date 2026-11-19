@@ -21,15 +21,15 @@ private noncomputable def flip3 (T : Finset (Fin 3)) :
   left_inv v := by
     funext t
     by_cases h : t ∈ T
-    · simp only [h, if_true]
+    · simp only [h, ite_true]
       exact inv_inv (v t)
-    · simp only [h, if_false]
+    · simp only [h, ite_false]
   right_inv v := by
     funext t
     by_cases h : t ∈ T
-    · simp only [h, if_true]
+    · simp only [h, ite_true]
       exact inv_inv (v t)
-    · simp only [h, if_false]
+    · simp only [h, ite_false]
 
 @[simp] private theorem flip3_apply (T : Finset (Fin 3))
     (v : Fin 3 → Multiplicative (ZMod 3)) (t : Fin 3) :
@@ -53,15 +53,15 @@ private theorem flip3_mem (T : Finset (Fin 3)) : flip3 T ∈ spSignedGroup 3 3 :
         rw [flip3_apply, Equiv.Perm.mul_apply, coordInv_apply]
         by_cases ht : t = a
         · rw [ht]
-          rw [if_pos (Finset.mem_insert_self a T), Function.update_self, flip3_apply,
-            if_neg ha]
-        · rw [Function.update_apply, if_neg ht, flip3_apply]
+          rw [ite_eq_left (Finset.mem_insert_self a T), Function.update_self, flip3_apply,
+            ite_eq_right ha]
+        · rw [Function.update_apply, ite_eq_right ht, flip3_apply]
           by_cases htT : t ∈ T
-          · rw [if_pos (Finset.mem_insert_of_mem htT), if_pos htT]
-          · rw [if_neg (fun h => by
+          · rw [ite_eq_left (Finset.mem_insert_of_mem htT), ite_eq_left htT]
+          · rw [ite_eq_right (fun h => by
               rcases Finset.mem_insert.mp h with h' | h'
               · exact ht h'
-              · exact htT h'), if_neg htT]
+              · exact htT h'), ite_eq_right htT]
       rw [hstep]
       exact Subgroup.mul_mem _ (coordInv_mem_spSignedGroup a) ih
 
@@ -77,16 +77,16 @@ private theorem flip3_inter_supp3 (v : Fin 3 → Multiplicative (ZMod 3)) (T : F
       simp only [supp3, Finset.mem_filter, Finset.mem_univ, true_and]; exact fun h => h hvt
     by_cases htT : t ∈ T
     · have hmem : t ∉ T ∩ supp3 v := fun h => ht (Finset.mem_inter.mp h).2
-      rw [if_pos htT, if_neg hmem, hvt, inv_one_three]
+      rw [ite_eq_left htT, ite_eq_right hmem, hvt, inv_one_three]
     · have hmem : t ∉ T ∩ supp3 v := fun h => htT (Finset.mem_inter.mp h).1
-      rw [if_neg htT, if_neg hmem]
+      rw [ite_eq_right htT, ite_eq_right hmem]
   · have ht : t ∈ supp3 v := by
       simp only [supp3, Finset.mem_filter, Finset.mem_univ, true_and]; exact hvt
     by_cases htT : t ∈ T
     · have hmem : t ∈ T ∩ supp3 v := Finset.mem_inter.mpr ⟨htT, ht⟩
-      rw [if_pos htT, if_pos hmem]
+      rw [ite_eq_left htT, ite_eq_left hmem]
     · have hmem : t ∉ T ∩ supp3 v := fun h => htT (Finset.mem_inter.mp h).1
-      rw [if_neg htT, if_neg hmem]
+      rw [ite_eq_right htT, ite_eq_right hmem]
 
 private theorem image_powerset_flip3_eq (v : Fin 3 → Multiplicative (ZMod 3)) :
     (Finset.univ.powerset.image (fun T => flip3 T v)) =
@@ -121,11 +121,11 @@ private theorem card_image_powerset_flip3 (v : Fin 3 → Multiplicative (ZMod 3)
       constructor
       · intro htT
         by_contra htT'
-        rw [if_pos htT, if_neg htT'] at hval
+        rw [ite_eq_left htT, ite_eq_right htT'] at hval
         exact absurd hval (inv_ne_self_three (v t) hvt)
       · intro htT'
         by_contra htT
-        rw [if_neg htT, if_pos htT'] at hval
+        rw [ite_eq_right htT, ite_eq_left htT'] at hval
         exact absurd hval.symm (inv_ne_self_three (v t) hvt)
     · have hvt : v t = 1 := by
         by_contra h; exact ht (Finset.mem_filter.mpr ⟨Finset.mem_univ _, h⟩)
@@ -204,14 +204,14 @@ private theorem eight_le_ncard_spSignedGroup_three {n : ℕ} (hn : n = 3)
       have h1 : flip3 T a l = 1 := by
         rw [flip3_apply]
         by_cases h : l ∈ T
-        · rw [if_pos h, hal, inv_one_three]
-        · rw [if_neg h, hal]
+        · rw [ite_eq_left h, hal, inv_one_three]
+        · rw [ite_eq_right h, hal]
       have h2 : flip3 T' (coordPerm 3 3 σ a) l ≠ 1 := by
         rw [flip3_apply]
         by_cases h : l ∈ T'
-        · rw [if_pos h]
+        · rw [ite_eq_left h]
           exact fun hh => hvl (inv_eq_one.mp hh)
-        · rw [if_neg h]; exact hvl
+        · rw [ite_eq_right h]; exact hvl
       exact h2 (hEq.trans h1)
     have hsub : (↑(Finset.univ.powerset.image (fun T => flip3 T a) ∪
         Finset.univ.powerset.image (fun T => flip3 T (coordPerm 3 3 σ a))) : Set _) ⊆
@@ -338,7 +338,7 @@ theorem single_block_of_orbit {G : Type} [Group G] [Finite G] {Bs X : Subgroup G
         funext i
         by_cases hij : i = j
         · subst hij; simp
-        · rw [Pi.mulSingle_apply, if_neg hij]
+        · rw [Pi.mulSingle_apply, ite_eq_right hij]
           rcases hatmost i j hij with h | h
           · exact h
           · exact absurd h hj
@@ -361,8 +361,8 @@ theorem single_block_of_orbit {G : Type} [Group G] [Finite G] {Bs X : Subgroup G
                   Fin ((n + 1) / 2) → Multiplicative (ZMod 3)))⁻¹ := by
             ext s
             by_cases hs : s = j
-            · rw [Pi.mulSingle_apply, if_pos hs, Pi.inv_apply, Pi.mulSingle_apply, if_pos hs]
-            · rw [Pi.mulSingle_apply, if_neg hs, Pi.inv_apply, Pi.mulSingle_apply, if_neg hs,
+            · rw [Pi.mulSingle_apply, ite_eq_left hs, Pi.inv_apply, Pi.mulSingle_apply, ite_eq_left hs]
+            · rw [Pi.mulSingle_apply, ite_eq_right hs, Pi.inv_apply, Pi.mulSingle_apply, ite_eq_right hs,
                 inv_one_three]
           have hm : Φ ((Pi.mulSingle j (Multiplicative.ofAdd (1 : ZMod 3)))⁻¹) =
               (Φ (Pi.mulSingle j (Multiplicative.ofAdd (1 : ZMod 3))))⁻¹ :=

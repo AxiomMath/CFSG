@@ -23,14 +23,14 @@ theorem two_eq_zero_of_charP : (2 : K) = 0 := CharP.cast_eq_zero K 2
 theorem l3MatA_mul_self : (l3MatA : Matrix (Fin 3) (Fin 3) K) * l3MatA = 1 := by
   have h2 := two_eq_zero_of_charP (K := K)
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [l3MatA, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | rfl | linear_combination h2
+  fin_cases i <;> fin_cases j <;> simp [l3MatA, Matrix.mul_apply, Fin.sum_univ_three];
+    linear_combination h2
 
 theorem l3MatB_mul_self : (l3MatB : Matrix (Fin 3) (Fin 3) K) * l3MatB = 1 := by
   have h2 := two_eq_zero_of_charP (K := K)
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [l3MatB, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | rfl | linear_combination h2
+  fin_cases i <;> fin_cases j <;> simp [l3MatB, Matrix.mul_apply, Fin.sum_univ_three];
+    linear_combination h2
 
 theorem l3MatAB_pow_four : ((l3MatA : Matrix (Fin 3) (Fin 3) K) * l3MatB) ^ 4 = 1 := by
   have h2 := two_eq_zero_of_charP (K := K)
@@ -40,7 +40,7 @@ theorem l3MatAB_pow_four : ((l3MatA : Matrix (Fin 3) (Fin 3) K) * l3MatB) ^ 4 = 
   rw [e]
   ext i j
   fin_cases i <;> fin_cases j <;> simp [l3MatA, l3MatB, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | rfl | linear_combination h2 | linear_combination 2 * h2 | linear_combination 5 * h2
+    first | linear_combination h2 | linear_combination 2 * h2 | linear_combination 5 * h2
 
 def l3GlA : Matrix.GeneralLinearGroup (Fin 3) K :=
   ⟨l3MatA, l3MatA, l3MatA_mul_self, l3MatA_mul_self⟩

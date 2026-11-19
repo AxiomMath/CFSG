@@ -27,7 +27,7 @@ private theorem card_sylow_two_eq_three_P31 {Y : Type*} [Group Y] [Finite Y]
     (C : Subgroup Y) [C.Normal] (hC : Nat.card C = 6)
     (hO2 : ∀ N : Subgroup Y, N.Normal → IsPGroup 2 N → N = ⊥) :
     Nat.card (Sylow 2 C) = 3 := by
-  haveI := finite_sylow_two_P31 C
+  have := finite_sylow_two_P31 C
   obtain ⟨P⟩ : Nonempty (Sylow 2 C) := inferInstance
   have hPcard : Nat.card (P : Subgroup C) = 2 := card_sylow_two_of_card_six_P31 hC P
   have hidx : (P : Subgroup C).index = 3 := by
@@ -41,8 +41,8 @@ private theorem card_sylow_two_eq_three_P31 {Y : Type*} [Group Y] [Finite Y]
   rcases (Nat.dvd_prime Nat.prime_three).mp hdvd with h | h
   · exfalso
     have hsub : Subsingleton (Sylow 2 C) := (Nat.card_eq_one_iff_unique.mp h).1
-    haveI : (P : Subgroup C).Characteristic := Sylow.characteristic_of_subsingleton P
-    haveI : ((P : Subgroup C).map C.subtype).Normal := inferInstance
+    have : (P : Subgroup C).Characteristic := Sylow.characteristic_of_subsingleton P
+    have : ((P : Subgroup C).map C.subtype).Normal := inferInstance
     have hmapcard : Nat.card ((P : Subgroup C).map C.subtype) = 2 := by
       rw [Subgroup.card_map_of_injective C.subtype_injective]
       exact hPcard
@@ -59,7 +59,7 @@ private theorem card_sylow_two_eq_three_P31 {Y : Type*} [Group Y] [Finite Y]
 private theorem mem_of_smul_eq_sylow_two_P31 {G : Type*} [Group G] [Finite G]
     (hG : Nat.card G = 6) (h3 : Nat.card (Sylow 2 G) = 3) (P : Sylow 2 G) {g : G}
     (hg : g • P = P) : g ∈ (P : Subgroup G) := by
-  haveI := finite_sylow_two_P31 G
+  have := finite_sylow_two_P31 G
   have hidx : (Subgroup.normalizer (P : Set G)).index = 3 := by
     rw [← Sylow.card_eq_index_normalizer P, h3]
   have hmi := Subgroup.card_mul_index (H := Subgroup.normalizer (P : Set G))
@@ -98,8 +98,8 @@ private theorem eq_one_of_mem_sylow_two_P31 {G : Type*} [Group G] [Finite G] {P 
 private theorem exists_perm_three_injective_on_P31 {Y : Type*} [Group Y] [Finite Y]
     (C : Subgroup Y) [C.Normal] (hC : Nat.card C = 6) (h3 : Nat.card (Sylow 2 C) = 3) :
     ∃ φ : Y →* Perm (Fin 3), ∀ g ∈ C, φ g = 1 → g = 1 := by
-  haveI := finite_sylow_two_P31 C
-  letI : Fintype (Sylow 2 C) := Fintype.ofFinite _
+  have := finite_sylow_two_P31 C
+  let : Fintype (Sylow 2 C) := Fintype.ofFinite _
   have hfin : Fintype.card (Sylow 2 C) = 3 := by
     rw [← Nat.card_eq_fintype_card]
     exact h3
@@ -125,7 +125,7 @@ private theorem exists_perm_three_injective_on_P31 {Y : Type*} [Group Y] [Finite
       exact h2
     exact mem_of_smul_eq_sylow_two_P31 hC h3 P h3'
   obtain ⟨P₁, P₂, hne⟩ : ∃ P₁ P₂ : Sylow 2 C, P₁ ≠ P₂ := by
-    haveI : Nontrivial (Sylow 2 C) := Finite.one_lt_card_iff_nontrivial.mp (by rw [h3]; norm_num)
+    have : Nontrivial (Sylow 2 C) := Finite.one_lt_card_iff_nontrivial.mp (by rw [h3]; norm_num)
     exact exists_pair_ne (Sylow 2 C)
   have hc1 : c = 1 :=
     eq_one_of_mem_sylow_two_P31 (card_sylow_two_of_card_six_P31 hC P₁)

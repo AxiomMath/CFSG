@@ -51,7 +51,7 @@ theorem thompson_transitivity_of_le
     ConjugationActionTransitiveOn (X ⊓ Subgroup.centralizer ((T : Subgroup G) : Set G))
       (section7HStarFamily X (T : Subgroup G) ({q} : Set Nat.Primes)) := by
   obtain ⟨V, hVT, hV, hVcard⟩ := CFSG.SectionRank.exists_pRank one_lt_two (T : Subgroup G)
-  rw [← rank_eq_pRank_of_isPGroup Nat.prime_two T.isPGroup'] at hVcard
+  rw [← rank_eq_pRank_of_isPGroup Nat.prime_two T.isPGroup] at hVcard
   have hV8 : 8 ≤ Nat.card V :=
     hVcard ▸ (Nat.pow_le_pow_right two_pos hrank : 2 ^ 3 ≤ 2 ^ rank (T : Subgroup G))
   exact transitivity_of_card_eq T hT hVT hV.1 hV.2 hV8 hsolv hq _ X rfl hTX

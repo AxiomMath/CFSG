@@ -94,8 +94,8 @@ public theorem CFSG.lemma_12_8_e
       (by simpa using section8FittingSubgroup_isNilpotent E)
   have hKleF : K ≤ section8FittingSubgroup E := by
     have hE2_le_F : E₂ ≤ section8FittingSubgroup E := by
-      letI : IsMulCommutative E₂ := h8a.1
-      letI : CommGroup E₂ := IsMulCommutative.instCommGroup
+      let : IsMulCommutative E₂ := h8a.1
+      let : CommGroup E₂ := IsMulCommutative.instCommGroup
       have hE2nil : Group.IsNilpotent E₂ := by infer_instance
       simpa [section8FittingSubgroup] using
         section12_le_fittingSubgroupOf_of_normalIn_nilpotent
@@ -216,7 +216,7 @@ public theorem CFSG.lemma_12_8_e
   have hK_le_centX : K ≤ Subgroup.centralizer (X : Set G) :=
     (Subgroup.commutator_eq_bot_iff_le_centralizer (H₁ := K) (H₂ := X)).mp hKXbot
   have hE1_centX : E₁ ≤ Subgroup.centralizer (X : Set G) := by
-    letI : IsCyclic E₁ := hE1cyc
+    let : IsCyclic E₁ := hE1cyc
     intro y hy
     rw [Subgroup.mem_centralizer_iff]
     intro x hx

@@ -31,7 +31,7 @@ theorem exists_mulEquiv_inf_centralizer {X : Type*} [Group X] {D₁ D₂ : Subgr
   have hu : ∀ d ∈ D₁, a⁻¹ * d * a ∈ D₂ := by
     intro d hd
     rw [← hconj]
-    exact Subgroup.mem_map.mpr ⟨d, hd, by simp [MulAut.conj_apply]⟩
+    exact Subgroup.mem_map.mpr ⟨d, hd, by simp⟩
   have hv : ∀ e ∈ D₂, a⁻¹ * e * a ∈ D₁ := by
     intro e he
     rw [← hconj] at he

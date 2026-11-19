@@ -95,7 +95,7 @@ theorem nonempty_pairSide_mulEquiv_catL33
     exact TabRep.idTab
   set φ := l33Hom f hfrel with hφ
   have hφinj : Function.Injective φ := by
-    haveI := isSimple_pg
+    have := isSimple_pg
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal φ.ker with h | h
     · exact (MonoidHom.ker_eq_bot_iff φ).mp h
     · exfalso
@@ -115,7 +115,7 @@ theorem nonempty_pairSide_mulEquiv_catL33
       CFSG.GH74.KGroups.card_group _ CFSG.GH74.KGroups.L33.QP13_ok,
       CFSG.GH74.KGroups.L33.QP13_valid.2]
   have hcardL : Nat.card ↥(pairSide pairData titsS k) = 5616 :=
-    (card_pairSide hS hSide (k := k) (by simp [pairData]; omega)).trans (sideOrder_getD hk).1
+    (card_pairSide hS hSide (k := k) (by simp; omega)).trans (sideOrder_getD hk).1
   have hcardR : Nat.card ↥φ.range = 5616 := by
     rw [← hcardPG]
     exact (Nat.card_congr (MonoidHom.ofInjective hφinj).toEquiv).symm

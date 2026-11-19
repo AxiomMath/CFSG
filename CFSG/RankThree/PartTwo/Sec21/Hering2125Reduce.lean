@@ -41,7 +41,7 @@ theorem theta_two_torsion_fixed {G : Type} [Group G] [Finite G] {A : Subgroup G}
   have htC : t ∈ inSubgroup (aschbacherSolvableCore 3) (Subgroup.centralizer ({e} : Set G)) :=
     htmem.2
   have hcN : c ∈ Subgroup.normalizer (Y : Set G) := hAY hcA
-  haveI := Sec4.aschbacherSolvableCore_characteristic ↥Y
+  have := Sec4.aschbacherSolvableCore_characteristic ↥Y
   have hcΘ : c ∈ Subgroup.normalizer (inSubgroup (aschbacherSolvableCore 3) Y : Set G) :=
     CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (aschbacherSolvableCore 3 ↥Y) hcN

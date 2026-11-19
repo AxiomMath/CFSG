@@ -118,8 +118,8 @@ theorem s39c_pgroup_normal_in_prod_eq_bot [Finite X] {D D₁ D₂ Y : Subgroup X
       exact Subgroup.mem_inf.2 ⟨(mem_normalizer_iff.1 (hYn g (hDiD hg)) y).1 hyY,
         (mem_normalizer_iff.1 (hDin (hDiD hg)) y).1 hyD⟩
     have hbot : Y ⊓ Di = ⊥ := by
-      haveI := hsi
-      haveI : ((Y ⊓ Di).subgroupOf Di).Normal :=
+      have := hsi
+      have : ((Y ⊓ Di).subgroupOf Di).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).2 hnorm
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((Y ⊓ Di).subgroupOf Di) with h0 | h0
       · rw [eq_bot_iff]
@@ -239,7 +239,7 @@ theorem s39c_not_normal_of_card {A : Subgroup X} {n : ℕ} (hn : 2 ≤ n) {k : T
     P.map (QuotientGroup.mk' (standardComponentOddCore X)) with hPt
   have hPtpg : IsPGroup 2 Pt := hP.map _
   have hcardPt : Nat.card Pt = Nat.card P := s39c_card_map_mk' _ hOodd hP
-  haveI : (A.map (QuotientGroup.mk' (standardComponentOddCore X))).Normal := hN
+  have : (A.map (QuotientGroup.mk' (standardComponentOddCore X))).Normal := hN
   have hdvd := GMSK.Sporadic.card_dvd_of_normal_sl2
     (A.map (QuotientGroup.mk' (standardComponentOddCore X))) (n := n) (by omega) hk e Pt hPtpg
   have hC2 := hC _ inf_le_right (hPtpg.to_inf_left)
@@ -259,6 +259,7 @@ variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
 theorem s39c_t_mem_B₆ (hp : d.CaseHyp) : d.t ∈ d.B₆ :=
   hp.hyp.F_sup_B₃_le_B₆ (mem_sup_right (mem_sup_left (mem_zpowers d.t)))
 
+omit [Finite G] in
 theorem s39c_t_not_mem_D (hi : d.Sec39Input) : d.t ∉ d.D := by
   intro ht
   have h1 : proj d.D ⟨d.t, hi.t_mem⟩ = 1 := proj_eq_one_iff.2 ht
@@ -266,6 +267,7 @@ theorem s39c_t_not_mem_D (hi : d.Sec39Input) : d.t ∉ d.D := by
   rw [h1, orderOf_one] at h2
   exact absurd h2 (by norm_num)
 
+omit [Finite G] in
 theorem s39c_D_le_B₆ (he : d.Sec39e) : d.D ≤ d.B₆ :=
   ((he.maximal d.D).2 (Or.inr rfl)).prop.2.1
 
@@ -304,6 +306,7 @@ section S3cC2
 variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
+omit [Finite G] in
 theorem s39c_pow_dvd_card_N₂ (d : Data G h) : (2 ^ f) ^ 3 ∣ Nat.card d.N₂ := by
   obtain ⟨hU, ⟨P, hP⟩, -⟩ := unitary_order_and_Sylow h (r := 1) (ε := 1) (by norm_num)
     (by norm_num)

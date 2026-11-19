@@ -206,7 +206,7 @@ theorem levTwoS3b_e8_refuteOK_sound {m : ℕ}
   · by_cases hlt : levTwoS3b_e8_maskPop m < 7
     · exact Or.inr (Or.inl hlt)
     · refine Or.inr (Or.inr ?_)
-      rw [levTwoS3b_e8_refuteOK, if_neg hmem, if_neg hlt] at h
+      rw [levTwoS3b_e8_refuteOK, ite_eq_right hmem, ite_eq_right hlt] at h
       exact levTwoS3b_e8_not_irred_of_sideOK (of_decide_eq_true h)
 
 end CFSG.StandardType.LevTwo

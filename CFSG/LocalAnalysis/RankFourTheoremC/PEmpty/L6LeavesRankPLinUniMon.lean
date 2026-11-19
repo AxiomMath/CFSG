@@ -89,7 +89,7 @@ theorem right_eq_one_of_scalar_comm (hn : 4 ≤ n) {ζ : C} (hζ2 : ζ ^ 2 ≠ 1
   let t : Fin n → C := Pi.mulSingle i ζ * Pi.mulSingle m ζ⁻¹
   have ht : ∏ k, t k = 1 := by
     simp only [t, Pi.mul_apply, Finset.prod_mul_distrib, Finset.prod_pi_mulSingle',
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
     exact mul_inv_cancel ζ
   obtain ⟨z, hz⟩ := hcomm (monT t) (hD t ht)
   have hz' : monT ((t ∘ σ.symm) * t⁻¹) = monT (fun _ => z) := by
@@ -242,7 +242,7 @@ theorem exists_diag_lift {f : ℕ} [hf : Fact f.Prime] (hf2 : f ≠ 2) [Finite C
         simpa using h9
       rw [torsionLog_prod, hsum, h0]
     have := congrArg Subtype.val h8
-    rwa [SubmonoidClass.coe_finset_prod, Subgroup.coe_one] at this
+    rwa [SubmonoidClass.coe_finsetProd, Subgroup.coe_one] at this
   refine ⟨fun k => d k * (d i₀)⁻¹, d i₀, ?_, fun k => ?_, hprod⟩
   · rw [monScalar_apply, ← monT_mul, hx₀T]
     congr 1

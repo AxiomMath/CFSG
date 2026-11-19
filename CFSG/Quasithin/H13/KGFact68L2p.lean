@@ -21,7 +21,7 @@ theorem not_e68Hyp_of_smallList {L A R : Subgroup Y} {z : Y} (h : E6.E68Hyp L A 
   set P := ((sylowIn h : Sylow 2 ↥L) : Subgroup ↥L) with hPdef
   have hPsyl : IsSylowTwoOf P ⊤ := isSylowTwoOf_top_of_sylow (sylowIn h)
   have hshape := hS.sylow_shape P hPsyl
-  have hP2 : IsPGroup 2 P := (sylowIn h).isPGroup'
+  have hP2 : IsPGroup 2 P := (sylowIn h).isPGroup
   have hcZ : Nat.card (Subgroup.center ↥P) = 2 := card_center_of_shape P hP2 hshape
   have hP8 : 8 ≤ Nat.card ↥P := by
     rcases hshape with ⟨n, hn, ⟨e⟩⟩ | he
@@ -152,7 +152,7 @@ theorem not_normalizer_le_centralizer (hperf : commutator X = ⊤) {p : ℕ} [Fa
   have h1 := MonoidHom.transferSylow_eq_pow P hP g hg
   rw [hf1] at h1
   have h2 : g ^ (P : Subgroup X).index = 1 := (congrArg Subtype.val h1).symm
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hg⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hg⟩
   have hk' : g ^ p ^ k = 1 := congrArg Subtype.val hk
   have hcop : Nat.Coprime (p ^ k) (P : Subgroup X).index :=
     Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd Fact.out).mpr P.not_dvd_index)

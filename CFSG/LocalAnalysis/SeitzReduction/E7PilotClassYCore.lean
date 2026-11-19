@@ -57,7 +57,7 @@ theorem yAct_spec (g : ModGL .E7 (ZMod 2))
       g * rootProd .E7 (ZMod 2) yPsi (yDecode v) * g⁻¹ := by
   rw [yChoice_spec, yAct]
   exact rootProd_congr fun β hβ => by
-    rw [yDecode, if_pos hβ, yRestrict, yVec_yIdx hβ]
+    rw [yDecode, ite_eq_left hβ, yRestrict, yVec_yIdx hβ]
 
 theorem yAct_eq_of_rootProd_eq {v w : Fin 10 → ZMod 2}
     (h : rootProd .E7 (ZMod 2) yPsi (yDecode v) =
@@ -109,13 +109,13 @@ theorem yAct_add (g : ModGL .E7 (ZMod 2))
         rootProd .E7 (ZMod 2) yPsi (yDecode w) := by
     rw [← rootProd_add yPsi_comm]
     exact rootProd_congr fun β hβ => by
-      simp only [yDecode, if_pos hβ, Pi.add_apply]
+      simp only [yDecode, ite_eq_left hβ, Pi.add_apply]
   have hy : rootProd .E7 (ZMod 2) yPsi (yDecode (yAct g hg v + yAct g hg w)) =
       rootProd .E7 (ZMod 2) yPsi (yDecode (yAct g hg v)) *
         rootProd .E7 (ZMod 2) yPsi (yDecode (yAct g hg w)) := by
     rw [← rootProd_add yPsi_comm]
     exact rootProd_congr fun β hβ => by
-      simp only [yDecode, if_pos hβ, Pi.add_apply]
+      simp only [yDecode, ite_eq_left hβ, Pi.add_apply]
   calc rootProd .E7 (ZMod 2) yPsi (yDecode (yAct g hg (v + w))) =
         g * rootProd .E7 (ZMod 2) yPsi (yDecode (v + w)) * g⁻¹ := yAct_spec g hg (v + w)
     _ = g * (rootProd .E7 (ZMod 2) yPsi (yDecode v) *
@@ -180,7 +180,7 @@ theorem yPinnedX_mem_yIsoSubgroup {α : Fin Tag.E7.rank → ℤ}
       _ = rootProd .E7 (ZMod 2) yPsi
             (yDecode (yRestrict (conjCoeff α t yPsi (yDecode v)))) :=
           (rootProd_congr fun β hβ => by
-            rw [yDecode, if_pos hβ, yRestrict, yVec_yIdx hβ]).symm
+            rw [yDecode, ite_eq_left hβ, yRestrict, yVec_yIdx hβ]).symm
   rw [hact, yRestrict_conjCoeff, yRestrict_yDecode]
   exact yLevelZeroRoots_qcheck α hα t v
 
@@ -211,7 +211,7 @@ theorem yPinnedX_mem_yIsoSubgroup_radical {α : Fin Tag.E7.rank → ℤ}
     funext β
     by_cases hβ : β ∈ yPsi
     · exact rootProd_injective yPsi_check.1 (fun β hβ => pos_of_mem_yPsi hβ) hact β hβ
-    · simp only [yDecode, if_neg hβ]
+    · simp only [yDecode, ite_eq_right hβ]
   have hactv : yAct (pinnedX .E7 (ZMod 2) α t) hlin v = v := by
     calc yAct (pinnedX .E7 (ZMod 2) α t) hlin v =
           yRestrict (yDecode (yAct (pinnedX .E7 (ZMod 2) α t) hlin v)) :=
@@ -396,7 +396,7 @@ theorem yN_exists_fixed :
     rw [MulAction.mem_fixedPoints]
     intro n
     exact ySmul_zero n
-  haveI : Fintype (MulAction.fixedPoints yN (Fin 8 → ZMod 2)) := Fintype.ofFinite _
+  have : Fintype (MulAction.fixedPoints yN (Fin 8 → ZMod 2)) := Fintype.ofFinite _
   have hmod2 : Nat.card (MulAction.fixedPoints yN (Fin 8 → ZMod 2)) % 2 = 0 := by
     have h : Nat.card (Fin 8 → ZMod 2) ≡
         Nat.card (MulAction.fixedPoints yN (Fin 8 → ZMod 2)) [MOD 2] := hmod
@@ -408,7 +408,7 @@ theorem yN_exists_fixed :
     omega
   have hdvd : 2 ∣ Nat.card (MulAction.fixedPoints yN (Fin 8 → ZMod 2)) :=
     Nat.dvd_iff_mod_eq_zero.2 hmod2
-  haveI hne : Nonempty (MulAction.fixedPoints yN (Fin 8 → ZMod 2)) := ⟨⟨0, h0⟩⟩
+  have hne : Nonempty (MulAction.fixedPoints yN (Fin 8 → ZMod 2)) := ⟨⟨0, h0⟩⟩
   have hpos : 0 < Nat.card (MulAction.fixedPoints yN (Fin 8 → ZMod 2)) := Nat.card_pos
   have hge : 2 ≤ Nat.card (MulAction.fixedPoints yN (Fin 8 → ZMod 2)) :=
     Nat.le_of_dvd hpos hdvd
@@ -485,7 +485,7 @@ theorem yAct_pinnedX_mem_yIso {α : Fin Tag.E7.rank → ℤ}
   have hco : yRestrict (conjCoeff α t yPsi (yDecode v)) = yRootStep α t v := by
     rw [yRestrict_conjCoeff, yRestrict_yDecode]
   have := congrFun hco (yIdx β)
-  simpa [yRestrict, yDecode, if_pos hβ, yVec_yIdx hβ] using this
+  simpa [yRestrict, yDecode, ite_eq_left hβ, yVec_yIdx hβ] using this
 
 theorem yIsoSubgroup_yQ {g : ModGL .E7 (ZMod 2)} (hg : g ∈ yIsoSubgroup)
     (hgl : g ∈ linConjSubgroup (ZMod 2) yPsi) (v : Fin 10 → ZMod 2) :
@@ -495,7 +495,7 @@ theorem yIsoSubgroup_yQ {g : ModGL .E7 (ZMod 2)} (hg : g ∈ yIsoSubgroup)
 
 theorem yIsoSubgroup_yB {g : ModGL .E7 (ZMod 2)} (hg : g ∈ yIsoSubgroup)
     (hgl : g ∈ linConjSubgroup (ZMod 2) yPsi)
-    (hgY : yAct g hgl yY = yY) (v w : Fin 10 → ZMod 2) :
+    (_hgY : yAct g hgl yY = yY) (v w : Fin 10 → ZMod 2) :
     yB (yAct g hgl v) (yAct g hgl w) = yB v w := by
   have hQ := yIsoSubgroup_yQ hg hgl
   simp only [yB]
@@ -711,8 +711,8 @@ theorem yDecode_add_smul_yY (v : Fin 10 → ZMod 2) (c : ZMod 2) :
     yDecode (v + c • yY) = yDecode v + c • yDecode yY := by
   funext β
   by_cases hβ : β ∈ yPsi
-  · simp only [yDecode, if_pos hβ, Pi.add_apply, Pi.smul_apply]
-  · simp only [yDecode, if_neg hβ, Pi.add_apply, Pi.smul_apply, smul_zero, add_zero]
+  · simp only [yDecode, ite_eq_left hβ, Pi.add_apply, Pi.smul_apply]
+  · simp only [yDecode, ite_eq_right hβ, Pi.add_apply, Pi.smul_apply, smul_zero, add_zero]
 
 theorem pCoreOf_centralizer_e7ASRep_one_conj_mem (g : adjointGroup .E7 (ZMod 2))
     (hg : g ∈ CFSG.Open.pCoreOf 2

@@ -17,7 +17,7 @@ theorem omegaOneCenterOf_eq_closure (K : Subgroup (Perm α)) :
   unfold omegaOneCenterOf CFSG.Quasithin.omegaOneOf CFSG.Quasithin.centerOf
   congr 1
   ext x
-  simp only [Set.mem_setOf_eq, mem_inf, mem_centralizer_iff, SetLike.mem_coe]
+  simp only [Set.mem_ofPred_eq, mem_inf, mem_centralizer_iff, SetLike.mem_coe]
   constructor
   · rintro ⟨⟨hx, hc⟩, h2⟩
     exact ⟨hx, fun k hk => (hc k hk).symm, h2⟩

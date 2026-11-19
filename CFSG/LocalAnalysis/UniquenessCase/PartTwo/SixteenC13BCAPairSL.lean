@@ -39,7 +39,7 @@ private theorem s16c13bcA_Am_eq :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [s16c13bcA_Am, Matrix.mul_apply, Matrix.transvection, Matrix.single_apply,
-      Matrix.one_apply, Fin.sum_univ_succ, Fin.succ_zero_eq_one] <;> ring
+      Matrix.one_apply, Fin.sum_univ_succ, Fin.succ_zero_eq_one]; ring
 
 private theorem s16c13bcA_Bm_eq :
     s16c13bcA_Bm = Matrix.transvection (3 : Fin 5) (4 : Fin 5) (-1 : K) *
@@ -48,7 +48,7 @@ private theorem s16c13bcA_Bm_eq :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [s16c13bcA_Bm, Matrix.mul_apply, Matrix.transvection, Matrix.single_apply,
-      Matrix.one_apply, Fin.sum_univ_succ, Fin.succ_zero_eq_one] <;> ring
+      Matrix.one_apply, Fin.sum_univ_succ, Fin.succ_zero_eq_one]; ring
 
 private theorem s16c13bcA_detA : (s16c13bcA_Am : Matrix (Fin 5) (Fin 5) K).det = 1 := by
   rw [s16c13bcA_Am_eq, Matrix.det_mul, Matrix.det_mul,
@@ -68,55 +68,48 @@ private theorem s16c13bcA_Am3 : (s16c13bcA_Am : Matrix (Fin 5) (Fin 5) K) ^ 3 = 
   rw [pow_succ, pow_two]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [s16c13bcA_Am, Matrix.mul_apply, Matrix.one_apply, Fin.sum_univ_succ,
-      Fin.succ_zero_eq_one] <;> ring
+    simp [s16c13bcA_Am, Matrix.mul_apply, Fin.sum_univ_succ]
 
 private theorem s16c13bcA_Bm3 : (s16c13bcA_Bm : Matrix (Fin 5) (Fin 5) K) ^ 3 = 1 := by
   rw [pow_succ, pow_two]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [s16c13bcA_Bm, Matrix.mul_apply, Matrix.one_apply, Fin.sum_univ_succ,
-      Fin.succ_zero_eq_one] <;> ring
+    simp [s16c13bcA_Bm, Matrix.mul_apply, Fin.sum_univ_succ]
 
 private theorem s16c13bcA_ABm :
     (s16c13bcA_Am : Matrix (Fin 5) (Fin 5) K) * s16c13bcA_Bm =
       s16c13bcA_Bm * s16c13bcA_Am := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [s16c13bcA_Am, s16c13bcA_Bm, Matrix.mul_apply, Matrix.one_apply, Fin.sum_univ_succ,
-      Fin.succ_zero_eq_one] <;> ring
+    simp [s16c13bcA_Am, s16c13bcA_Bm, Matrix.mul_apply, Fin.sum_univ_succ]
 
 private theorem s16c13bcA_Am_e0 :
     (s16c13bcA_Am : Matrix (Fin 5) (Fin 5) K) *ᵥ s16c13bcA_e K 0 =
       s16c13bcA_e K 0 := by
   funext i
   fin_cases i <;>
-    simp [s16c13bcA_Am, s16c13bcA_e, Matrix.mulVec_apply_eq_sum, Matrix.one_apply,
-      Fin.sum_univ_succ, Fin.succ_zero_eq_one]
+    simp [s16c13bcA_Am, s16c13bcA_e, Matrix.mulVec_apply_eq_sum, Fin.sum_univ_succ]
 
 private theorem s16c13bcA_Bm_e0 :
     (s16c13bcA_Bm : Matrix (Fin 5) (Fin 5) K) *ᵥ s16c13bcA_e K 0 =
       s16c13bcA_e K 0 := by
   funext i
   fin_cases i <;>
-    simp [s16c13bcA_Bm, s16c13bcA_e, Matrix.mulVec_apply_eq_sum, Matrix.one_apply,
-      Fin.sum_univ_succ, Fin.succ_zero_eq_one]
+    simp [s16c13bcA_Bm, s16c13bcA_e, Matrix.mulVec_apply_eq_sum, Fin.sum_univ_succ]
 
 private theorem s16c13bcA_Am_e3 :
     (s16c13bcA_Am : Matrix (Fin 5) (Fin 5) K) *ᵥ s16c13bcA_e K 3 =
       s16c13bcA_e K 3 := by
   funext i
   fin_cases i <;>
-    simp [s16c13bcA_Am, s16c13bcA_e, Matrix.mulVec_apply_eq_sum, Matrix.one_apply,
-      Fin.sum_univ_succ, Fin.succ_zero_eq_one]
+    simp [s16c13bcA_Am, s16c13bcA_e, Matrix.mulVec_apply_eq_sum, Fin.sum_univ_succ, Fin.succ_zero_eq_one]
 
 private theorem s16c13bcA_Bm_e3 :
     (s16c13bcA_Bm : Matrix (Fin 5) (Fin 5) K) *ᵥ s16c13bcA_e K 3 =
       s16c13bcA_e K 4 := by
   funext i
   fin_cases i <;>
-    simp [s16c13bcA_Bm, s16c13bcA_e, Matrix.mulVec_apply_eq_sum, Matrix.one_apply,
-      Fin.sum_univ_succ, Fin.succ_zero_eq_one]
+    simp [s16c13bcA_Bm, s16c13bcA_e, Matrix.mulVec_apply_eq_sum, Fin.sum_univ_succ, Fin.succ_zero_eq_one]
 
 private theorem s16c13bcA_e_ne :
     s16c13bcA_e K 4 ≠ s16c13bcA_e K 3 := by

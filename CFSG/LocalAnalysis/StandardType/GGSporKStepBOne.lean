@@ -14,7 +14,7 @@ theorem ggSporK_pPrimeCore_eq_bot_B {W : Type} [Group W] [Finite W] (ha : BSeven
     (hc : BSevenSpread W) {H E : Subgroup W} (hyp : GGHypThreeSixteenFlat 7 H E) :
     LargeEvenPPrimeCore 7 ↥H = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hEH : E ≤ H := hyp.1.2.2.2.2.1
   have hE7 : IsElemAbelian 7 E := hyp.1.2.2.1
   have hEcard : Nat.card E = 7 ^ 2 := hyp.1.2.2.2.1
@@ -134,7 +134,7 @@ private theorem gkb2_fittingSubgroup_le_pCore_sup_pPrimeCore {G : Type*} [Group 
           {K : Subgroup G | K.Normal ∧ IsPGroup p K} from
             ⟨CFSG.pCore_normal, hpgroup⟩)
       exact hle.trans le_sup_left
-    · haveI : Fact (Nat.Prime (q : ℕ)) := ⟨hqprime⟩
+    · have : Fact (Nat.Prime (q : ℕ)) := ⟨hqprime⟩
       have hcop : Nat.Coprime p (Nat.card (CFSG.pCore (q : ℕ) G)) := by
         obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (p := (q : ℕ)) (G := G)).exists_card_eq
         rw [hn]
@@ -150,7 +150,7 @@ theorem ggSporK_pCore_eq_bot_B {W : Type} [Group W] [Finite W] (ha : BSevenComp 
     (hyp : GGHypThreeSixteenFlat 7 H E) (hP' : LargeEvenPPrimeCore 7 ↥H = ⊥)
     (hJ : ∃ J : Subgroup W, IsComponentOf J H) : CFSG.pCore 7 ↥H = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   by_contra hP0bot
   set P0 : Subgroup ↥H := CFSG.pCore 7 ↥H with hP0def
   have hP0ne : P0 ≠ ⊥ := by rwa [hP0def]
@@ -172,7 +172,7 @@ theorem ggSporK_pCore_eq_bot_B {W : Type} [Group W] [Finite W] (ha : BSevenComp 
     omega
   have hcardEsub : Nat.card (E.subgroupOf H) = 7 ^ (Nat.card ↥H).factorization 7 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEH).toEquiv, hyp.1.2.2.2.1, hHfac]
-  haveI : P0.Normal := hP0normal
+  have : P0.Normal := hP0normal
   have hP0_le_Esub : P0 ≤ E.subgroupOf H := by
     simpa only [Sylow.coe_ofCard] using
       hP0p.le_sylow_of_normal (Sylow.ofCard (E.subgroupOf H) hcardEsub)
@@ -200,7 +200,7 @@ theorem ggSporK_pCore_eq_bot_B {W : Type} [Group W] [Finite W] (ha : BSevenComp 
   obtain ⟨J, hJcomp⟩ := hJ
   have hJH : J ≤ H := hJcomp.1
   have hP0solv : Group.IsSolvable P0 := by
-    haveI : Group.IsNilpotent P0 := hP0p.isNilpotent
+    have : Group.IsNilpotent P0 := hP0p.isNilpotent
     infer_instance
   have hJsubW : CFSG.Assembly.IsSubnormal (J.subgroupOf H) ⊤ :=
     CFSG.Assembly.IsSubnormal.of_mathlib

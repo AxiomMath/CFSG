@@ -23,10 +23,10 @@ theorem f2_one_add_one : (1 : F2) + 1 = 0 := by
   toFun p := ⟨2 * p.2.val + p.1.val, by omega⟩
   invFun i := (⟨i.val % 2, by omega⟩, ⟨i.val / 2, by omega⟩)
   left_inv p := by
-    ext <;> simp only [Fin.val_mk] <;> omega
+    ext <;> simp only <;> omega
   right_inv i := by
     ext
-    simp only [Fin.val_mk]
+    simp only
     omega
 
 private theorem omega2_sq : omega2 ^ 2 = omega2 + 1 := by
@@ -40,19 +40,19 @@ private theorem omega2_pow_three : omega2 ^ 3 = 1 := by
   rw [omega2_sq]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [omega2, Matrix.mul_apply, Fin.sum_univ_two, f2_one_add_one, gf2_two, Matrix.add_apply,
+    simp [omega2, Matrix.mul_apply, Fin.sum_univ_two, f2_one_add_one, Matrix.add_apply,
       Matrix.one_apply]
 
 private theorem omega2_ne_one : omega2 ≠ 1 := by
   intro h
   have := congrFun (congrFun h 0) 0
-  simp [omega2, Matrix.one_apply] at this
+  simp [omega2] at this
 
 private theorem omega2_sq_ne_one : omega2 ^ 2 ≠ 1 := by
   intro h
   rw [omega2_sq] at h
   have := congrFun (congrFun h 1) 1
-  simp [omega2, Matrix.add_apply, Matrix.one_apply, f2_one_add_one, gf2_two] at this
+  simp [omega2, Matrix.add_apply, f2_one_add_one] at this
 
 theorem omega2_pow_mod (e : ℕ) : omega2 ^ e = omega2 ^ (e % 3) := by
   conv_lhs => rw [← Nat.mod_add_div e 3, pow_add, pow_mul, omega2_pow_three, one_pow, mul_one]
@@ -78,12 +78,12 @@ private theorem neg_one_f2 : (-1 : F2) = 1 := by
 private theorem neg_one_mat : (-1 : Matrix (Fin 2) (Fin 2) F2) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.one_apply, f2_one_add_one, neg_one_f2]
+    simp [neg_one_f2]
 
 private theorem one_add_one_mat : (1 : Matrix (Fin 2) (Fin 2) F2) + 1 = 0 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.add_apply, Matrix.one_apply, f2_one_add_one]
+    simp [Matrix.add_apply, f2_one_add_one]
 
 private theorem omega2_sub_one_eq : omega2 - 1 = omega2 ^ 2 := by
   rw [sub_eq_add_neg, neg_one_mat]
@@ -160,7 +160,7 @@ theorem rank_blockDiagonal_fin2 {ι : Type*} [Fintype ι] [DecidableEq ι] [Deci
       by_cases hik : i = k
       · subst hik
         simp [hfi]
-      · rw [if_neg (fun h => hik h)]
+      · rw [ite_eq_right (fun h => hik h)]
         simp
     exact Finset.mem_coe.mpr (Finset.mem_image.mpr ⟨(a, ⟨i, hi⟩), Finset.mem_univ _, rfl⟩)
   have hle : (Matrix.blockDiagonal f).rank ≤ 2 * T.card := by

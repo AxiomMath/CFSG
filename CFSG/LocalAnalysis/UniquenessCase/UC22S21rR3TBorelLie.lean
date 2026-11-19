@@ -35,7 +35,7 @@ theorem uc22r3t_isMulCommutative_of_lie (D : Data G)
     {t : CFSG.Open.StatedLieTag} {m n : ℕ}
     (hLM : CFSG.Blueprint.LieModel (Bar2 K ⧸ Subgroup.center (Bar2 K)) t m 2 n) :
     IsMulCommutative (Subgroup.normalizerQuotient (uc22p20iSylowBar D K₁)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine uc22r3t_isMulCommutative_of_layer_lie (Y := Bar2 K₁) (t := t) (m := m) (n := n)
     hK3 (uc22r3t_layer_bar2_eq_top D hK₁) (fun C => ?_) (uc22p20iSylowBar D K₁)
     (CFSG.ABGLocalTools.isSylowOf_iff.1 (uc22p20p_sylowBar_isSylowOf D hK₁))

@@ -49,8 +49,8 @@ private theorem exists_conj_torus_of_mem_monomial_familyGroup_E6_three
     (hnN : n ∈ monomialSubgroup Tag.E6 L) (hn3 : n ^ 3 = 1) :
     ∃ r ∈ familyGroup (K := L) (fun _ : Unit => a),
       r * n * r⁻¹ ∈ torusGroup Tag.E6 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnM' : n ∈ toralRootGroup Tag.E6 L a := by
     rw [← familyGroup_unit_eq_toralRootGroup (L := L) a]
     exact hnM
@@ -78,8 +78,8 @@ theorem exists_conj_mem_torusGroup_of_mem_familyGroup_E6_three
     (hy : y ∈ familyGroup (fun _ : Unit => a)) (hy3 : y ^ 3 = 1) :
     ∃ m ∈ familyGroup (fun _ : Unit => a), m * y * m⁻¹ ∈ torusGroup Tag.E6 L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hMm : y ∈ familyCentralizer Tag.E6 L (fun _ : Unit => a) :=
     familyGroup_le_familyCentralizer (K := L) (fun _ : Unit => a) hy
   have hcomm_y : rootDiagUnit Tag.E6 a * y = y * rootDiagUnit Tag.E6 a := by
@@ -88,7 +88,7 @@ theorem exists_conj_mem_torusGroup_of_mem_familyGroup_E6_three
   have hBadj : Subgroup.zpowers y ≤ adjointGroup Tag.E6 L :=
     Subgroup.zpowers_le.mpr (mem_familyCentralizer.1 hMm).1
   have hBfin : (Subgroup.zpowers y : Set (ModGL Tag.E6 L)).Finite := by
-    haveI : Finite (Subgroup.zpowers y) :=
+    have : Finite (Subgroup.zpowers y) :=
       Nat.finite_of_card_ne_zero (by
         rw [Nat.card_zpowers]
         exact (Nat.pos_of_dvd_of_pos (orderOf_dvd_of_pow_eq_one hy3) (by norm_num)).ne')

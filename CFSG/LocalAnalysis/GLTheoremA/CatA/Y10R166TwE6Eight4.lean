@@ -181,6 +181,7 @@ theorem theta_twE6U {Fr : Ω →+* Ω} {n : ℕ} (hFr : ∀ c, Fr c = c ^ (2 ^ n
     _ = pinnedX Tag.E6 Ω (γ - twE6A6) 1 * pinnedX Tag.E6 Ω (-γ) 1 *
           pinnedX Tag.E6 Ω (-twE6A6) e := by rw [hZZ]
 
+omit [CharP Ω 2] in
 theorem twE6BZero_apply_six (ζ : Ωˣ) (hζ : ζ ^ q = 1) (c : Fin 4 → ZMod q) :
     zetaVec ζ hζ (twE6Cast (twE6B0Comb c)) twE6Six = 1 := by
   rw [zetaVec_apply]
@@ -189,6 +190,7 @@ theorem twE6BZero_apply_six (ζ : Ωˣ) (hζ : ζ ^ q = 1) (c : Fin 4 → ZMod q
   rw [h0]
   simp
 
+omit [CharP Ω 2] in
 theorem twE6BZero_le_thetaFixed [IsAlgClosed Ω] {Fr : Ω →+* Ω} {n : ℕ}
     (hFr : ∀ c, Fr c = c ^ (2 ^ n)) (hqQ : q ∣ 2 ^ n + 1) (ζ : Ωˣ) (hζ : ζ ^ q = 1) :
     twE6BZero ζ hζ ≤ TwistedDiag.thetaFixed Fr := by
@@ -206,6 +208,7 @@ theorem twE6BZero_le_thetaFixed [IsAlgClosed Ω] {Fr : Ω →+* Ω} {n : ℕ}
       q * ((twE6Cast (twE6B0Comb c) i).val * m) by ring]
   rw [pow_mul, hζ, one_pow]
 
+omit [CharP Ω 2] in
 theorem twE6BZero_commute_twE6G [IsAlgClosed Ω] (ζ : Ωˣ) (hζ : ζ ^ q = 1) {b : ModGL Tag.E6 Ω}
     (hb : b ∈ twE6BZero ζ hζ) : b * twE6G Ω = twE6G Ω * b := by
   obtain ⟨c, hc⟩ := MonoidHom.mem_range.1 hb
@@ -232,6 +235,7 @@ theorem twE6BZero_commute_twE6G [IsAlgClosed Ω] (ζ : Ωˣ) (hζ : ζ ^ q = 1) 
           (rootDiagUnit Tag.E6 a)⁻¹) * rootDiagUnit Tag.E6 a := by group
     _ = pinnedX Tag.E6 Ω (-twE6A6) 1 * rootDiagUnit Tag.E6 a := by rw [h]
 
+omit [CharP Ω 2] in
 theorem twE6BZero_le_normalizer [IsAlgClosed Ω] {Fr : Ω →+* Ω} {n : ℕ}
     (hFr : ∀ c, Fr c = c ^ (2 ^ n)) (hqQ : q ∣ 2 ^ n + 1) (ζ : Ωˣ) (hζ : ζ ^ q = 1) :
     twE6BZero ζ hζ ≤ Subgroup.normalizer (twE6SBar Fr : Set (ModGL Tag.E6 Ω)) := by
@@ -269,6 +273,7 @@ theorem twE6BZero_le_normalizer [IsAlgClosed Ω] {Fr : Ω →+* Ω} {n : ℕ}
   exact Subgroup.inf_normalizer_le_normalizer_inf
     (Subgroup.mem_inf.2 ⟨hbN, Subgroup.le_normalizer hbR⟩)
 
+omit [CharP Ω 2] in
 private theorem pinnedX_list_prod_injective_deg
     (L : List (Fin Tag.E6.rank → ℤ)) (hnd : L.Nodup)
     (hL : ∀ α ∈ L, IsRoot Tag.E6 α ∧ 0 < twE6Deg α)
@@ -287,6 +292,7 @@ private theorem pinnedX_list_prod_injective_deg
   simpa only [← mul_assoc, (rootOperatorFamily Tag.E6).pinnedFamilySign_mul_self, one_mul]
     using h1
 
+omit [CharP Ω 2] in
 theorem rootChar_eq_one_of_commute_twE6U {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ)
     (hdeg : twE6Deg γ = 1) (a : Fin Tag.E6.rank → Ωˣ) (e : Ω)
     (hcomm : rootDiagUnit Tag.E6 a * twE6U (γ := γ) e *
@@ -326,14 +332,14 @@ theorem rootChar_eq_one_of_commute_twE6U {γ : Fin Tag.E6.rank → ℤ} (hγ : I
     · exact ⟨hδ, by rw [hδdeg]; norm_num⟩
     · exact ⟨isRoot_single Tag.E6 twE6Six, by rw [twE6Deg_A6]; norm_num⟩
   have hc : (L.map fun β => pinnedX Tag.E6 Ω β (c β)).prod = twE6U (γ := γ) e := by
-    simp [L, c, twE6U, hγδ, hγδ.symm, hγα, hγα.symm, hδα, hδα.symm, mul_assoc]
+    simp [L, c, twE6U, hγδ.symm, hγα.symm, hδα.symm, mul_assoc]
   have hc' : (L.map fun β => pinnedX Tag.E6 Ω β (c' β)).prod =
       rootDiagUnit Tag.E6 a * twE6U (γ := γ) e * (rootDiagUnit Tag.E6 a)⁻¹ := by
     calc (L.map fun β => pinnedX Tag.E6 Ω β (c' β)).prod
         = pinnedX Tag.E6 Ω γ ((rootChar a γ : Ω) * 1) *
             pinnedX Tag.E6 Ω (twE6A6 - γ) ((rootChar a (twE6A6 - γ) : Ω) * 1) *
             pinnedX Tag.E6 Ω twE6A6 ((rootChar a twE6A6 : Ω) * e) := by
-          simp [L, c', hγδ, hγδ.symm, hγα, hγα.symm, hδα, hδα.symm, mul_assoc]
+          simp [L, c', hγδ.symm, hγα.symm, hδα.symm, mul_assoc]
       _ = (rootDiagUnit Tag.E6 a * pinnedX Tag.E6 Ω γ 1 * (rootDiagUnit Tag.E6 a)⁻¹) *
             (rootDiagUnit Tag.E6 a * pinnedX Tag.E6 Ω (twE6A6 - γ) 1 *
               (rootDiagUnit Tag.E6 a)⁻¹) *
@@ -357,6 +363,7 @@ theorem rootChar_eq_one_of_commute_twE6U {γ : Fin Tag.E6.rank → ℤ} (hγ : I
     simpa [c, c', mul_one] using h1.symm
   exact Units.ext h2
 
+omit [CharP Ω 2] in
 theorem eq_one_of_rootChar_twE6Five {a : Fin Tag.E6.rank → Ωˣ}
     (h6 : rootChar a twE6A6 = 1) (h : ∀ i, rootChar a (twE6Five i) = 1) : a = 1 := by
   have hsingle (i : Fin Tag.E6.rank) : rootChar a (Pi.single i 1) = a i := by

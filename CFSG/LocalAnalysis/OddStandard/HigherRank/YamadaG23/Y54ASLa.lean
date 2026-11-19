@@ -9,7 +9,7 @@ namespace CFSG.OddStandard.HigherRank.YamadaG23
 variable {W V N : Type} [Group W] [Finite W] [Group V] [Finite V] [Group N] [Finite N]
 
 theorem asl_section (act : N →* MulAut W) (vact : N →* MulAut V) (π : W →* V)
-    (hπ : Function.Surjective π) (hπact : ∀ (n : N) (w : W), π (act n w) = vact n (π w))
+    (_hπ : Function.Surjective π) (hπact : ∀ (n : N) (w : W), π (act n w) = vact n (π w))
     (hW : ∀ w : W, w ^ 2 = 1) (hV8 : Nat.card V = 8)
     (hU : ∀ n : N, ∀ u ∈ π.ker, act n u = u)
     (htrans : ∀ a b a' b' : V, a ≠ 1 → b ≠ 1 → a ≠ b → a' ≠ 1 → b' ≠ 1 → a' ≠ b' →
@@ -19,7 +19,7 @@ theorem asl_section (act : N →* MulAut W) (vact : N →* MulAut V) (π : W →
     ∃ s : V → W, s 1 = 1 ∧ (∀ v, π (s v) = v) ∧
       ∀ (n : N) (v : V), v ≠ 1 → s (vact n v) = act n (s v) := by
   classical
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   have hWcomm : ∀ a b : W, a * b = b * a := by
     intro a b
     have ha : a = a⁻¹ := eq_inv_of_mul_eq_one_left (by simpa [pow_two] using hW a)
@@ -27,8 +27,8 @@ theorem asl_section (act : N →* MulAut W) (vact : N →* MulAut V) (π : W →
     have hab : a * b = (a * b)⁻¹ :=
       eq_inv_of_mul_eq_one_left (by simpa [pow_two] using hW (a * b))
     rw [hab, mul_inv_rev, ← ha, ← hb]
-  letI : MulAction N W := MulAction.compHom W act
-  letI : MulAction N V := MulAction.compHom V vact
+  let : MulAction N W := MulAction.compHom W act
+  let : MulAction N V := MulAction.compHom V vact
   have hsurj_orbit : ∀ v : V, v ≠ 1 → ∃ n : N, vact n (π w₀) = v := by
     intro v hv
     have hcardV : Fintype.card V = 8 := by
@@ -104,7 +104,7 @@ theorem asl_section (act : N →* MulAut W) (vact : N →* MulAut V) (π : W →
     change ((MulAction.stabilizer N w₀).subgroupOf
       (MulAction.stabilizer N (π w₀))).index = Nat.card c.range
     rw [← hker, Subgroup.index_ker]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hW2 : IsPGroup 2 W := fun w => ⟨1, by simpa using hW w⟩
   obtain ⟨j, hj⟩ : ∃ j, Nat.card c.range = 2 ^ j :=
     (IsPGroup.iff_card (p := 2) (G := c.range)).mp (hW2.to_subgroup c.range)
@@ -172,7 +172,7 @@ theorem asl_section (act : N →* MulAut W) (vact : N →* MulAut V) (π : W →
     intro v hv n hn
     have hch := Classical.choose_spec (hsurj_orbit v hv)
     dsimp only [s]
-    rw [dif_neg hv]
+    rw [dite_eq_right hv]
     exact (hwell n (Classical.choose (hsurj_orbit v hv)) (by rw [hn, hch])).symm
   refine ⟨s, ?_, ?_, ?_⟩
   · dsimp only [s]; simp
@@ -181,7 +181,7 @@ theorem asl_section (act : N →* MulAut W) (vact : N →* MulAut V) (π : W →
     · subst hv
       dsimp only [s]; simp
     · dsimp only [s]
-      rw [dif_neg hv]
+      rw [dite_eq_right hv]
       exact (hπact (Classical.choose (hsurj_orbit v hv)) w₀).trans
         (Classical.choose_spec (hsurj_orbit v hv))
   · intro n v hv
@@ -198,7 +198,7 @@ theorem asl_section (act : N →* MulAut W) (vact : N →* MulAut V) (π : W →
       change vact n (vact (Classical.choose (hsurj_orbit v hv)) (π w₀)) = vact n v
       rw [Classical.choose_spec (hsurj_orbit v hv)]
     have hsv : s v = act (Classical.choose (hsurj_orbit v hv)) w₀ := by
-      dsimp only [s]; rw [dif_neg hv]
+      dsimp only [s]; rw [dite_eq_right hv]
     rw [sec_eq (vact n v) hne (n * Classical.choose (hsurj_orbit v hv)) hkey, hsv, map_mul]
     rfl
 

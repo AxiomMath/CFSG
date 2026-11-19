@@ -23,17 +23,18 @@ variable (o : Ops α) (o' : Ops β) (f : α → β) (ha : ∀ p q, f (o.a p q) =
   (hx : ∀ p q, f (o.x p q) = o'.x (f p) (f q)) (ht : f o.t = o'.t)
 include ha hx ht
 
+omit ha in
 theorem inA_map (h : ℕ → α) : (inA o h).map f = inA o' (fun j => f (h j)) := by
-  simp only [inA, Q4.map, pm, zr_map o o' f ha hx ht]
+  simp only [inA, Q4.map, pm, zr_map o o' f hx ht]
 
 theorem eqL_map (A B : Q4 α) : f (eqL o A B) = eqL o' (A.map f) (B.map f) := by
-  simp only [eqL, eqLE, Q4.map, pm, ha, hx, bnot_map' o o' f ha hx ht]
+  simp only [eqL, eqLE, Q4.map, pm, ha, hx, bnot_map' o o' f hx ht]
 
 theorem finA_map (N : List R4) (A : Q4 α) (P Q : List (Q4 α)) :
     f (finA o N A P Q) = finA o' N (A.map f) (P.map (Q4.map f)) (Q.map (Q4.map f)) := by
-  simp only [finA, bor_map' o o' f ha hx ht, bnot_map' o o' f ha hx ht, ha,
-    allA_map o o' f ha hx ht, anyA_map o o' f ha hx ht, List.map_map, Function.comp_def,
-    eqL_map o o' f ha hx ht, eqM_map o o' f ha hx ht, cQ_map o o' f ha hx ht]
+  simp only [finA, bor_map' o o' f ha hx, bnot_map' o o' f hx ht, ha,
+    allA_map o o' f ha ht, anyA_map o o' f ha hx ht, List.map_map, Function.comp_def,
+    eqL_map o o' f ha hx ht, eqM_map o o' f ha hx ht, cQ_map o o' f hx ht]
 
 end map
 
@@ -104,11 +105,11 @@ theorem fin_of_chkAG {L N : List R4} (h : chkAG L N = true) {n : ℕ} (hn : n < 
   rw [hTn, chkA_eq _ (fun y k => frcN_eq y k),
     finA_map (natOps T) boolOps (tbit n) ha hx hTn] at e
   have hA : (inA (natOps T) fun j => pln j 16).map (tbit n) = encQ (bitsOf n) := by
-    rw [inA_map (natOps T) boolOps (tbit n) ha hx hTn]
+    rw [inA_map (natOps T) boolOps (tbit n) hx hTn]
     simp only [tbit, pln_bit, hn, decide_true, Bool.true_and]
     exact inA_bits n
   simp only [List.map_map, Function.comp_def, mulM_map (natOps T) boolOps (tbit n) ha hx,
-    cQ_map (natOps T) boolOps (tbit n) ha hx hTn, hA, cQ_enc, mulM_enc] at e
+    cQ_map (natOps T) boolOps (tbit n) hx hTn, hA, cQ_enc, mulM_enc] at e
   exact e
 
 theorem mem_nvL_of_chkAN (h : chkAN = true) {b : R4} (hb : b.wf2) (hN : normB2S b = true) :

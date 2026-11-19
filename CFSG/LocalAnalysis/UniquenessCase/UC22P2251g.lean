@@ -48,8 +48,8 @@ theorem exists_noncyclic (D : Data G) {p : ℕ} (hp : p.Prime)
     ∃ P : Subgroup G, P ≤ D.M ∧ IsPGroup p P ∧ P ≤ normalizer (jOf D.T : Set G) ∧
       ¬ IsCyclic ↥(mbarImage D.M D.U P) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNM : proofN D ≤ D.M := uc22p22e_jOf_le_self D.M
   have hMN := uc22p22t_M_le_normalizer_jOf D
   set Hn : Subgroup G := D.M ⊓ normalizer ((D.T ⊓ proofN D : Subgroup G) : Set G) with hHn
@@ -64,7 +64,7 @@ theorem exists_noncyclic (D : Data G) {p : ℕ} (hp : p.Prime)
       (mem_inf.1 ((mem_normalizer_iff.1 (mem_inf.1 hy).2 x).1
         (mem_inf.2 ⟨uc22p22e_jOf_le_self D.T hx, uc22p22e_jOf_le D.sylowM hx⟩))).1)
   set Nb := mbarImage D.M D.U (proofN D) with hNb
-  haveI : Nb.Normal :=
+  have : Nb.Normal :=
     ((normal_subgroupOf_iff_le_normalizer hNM).2 hMN).map _ (QuotientGroup.mk'_surjective _)
   have hsup : mbarImage D.M D.U Hn ⊔ Nb = ⊤ := by
     rw [hNb, mbarImage, mbarImage, ← Subgroup.map_sup, ← subgroupOf_sup hHnM hNM, hMeq, subgroupOf_self]
@@ -102,7 +102,7 @@ theorem exists_noncyclic (D : Data G) {p : ℕ} (hp : p.Prime)
         exact hN ((pow_dvd_pow p (show 2 ≤ a by omega)).trans hdvd)
       exact (Nat.pow_le_pow_right hp.pos ha1).trans_eq (pow_one p)
     have hA'p : Nat.card ↥(A.map (QuotientGroup.mk' Nb)) ≤ p := by
-      haveI := hc
+      have := hc
       refine Nat.le_of_dvd hp.pos ?_
       rw [← IsCyclic.exponent_eq_card]
       refine Monoid.exponent_dvd_of_forall_pow_eq_one fun x => ?_
@@ -122,10 +122,10 @@ theorem exists_noncyclic (D : Data G) {p : ℕ} (hp : p.Prime)
     rintro _ ⟨s, hs, rfl⟩
     rw [hφapp]
     exact mem_map_of_mem _ (mem_map_of_mem _ (mem_map_of_mem Hn.subtype hs))
-  refine ⟨(S : Subgroup Hn).map Hn.subtype, (map_subtype_le _).trans hHnM, S.isPGroup'.map _,
+  refine ⟨(S : Subgroup Hn).map Hn.subtype, (map_subtype_le _).trans hHnM, S.isPGroup.map _,
     (map_subtype_le _).trans hHnJ, fun hc => hA'c ?_⟩
-  haveI := hc
-  haveI : IsCyclic ↥((mbarImage D.M D.U ((S : Subgroup Hn).map Hn.subtype)).map (QuotientGroup.mk' Nb)) :=
+  have := hc
+  have : IsCyclic ↥((mbarImage D.M D.U ((S : Subgroup Hn).map Hn.subtype)).map (QuotientGroup.mk' Nb)) :=
     isCyclic_of_surjective _ ((QuotientGroup.mk' Nb).subgroupMap_surjective _)
   exact Subgroup.isCyclic_of_le (hQ.trans hQle)
 
@@ -133,8 +133,8 @@ theorem calCGS_le (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ} (hp : p ∈ D.sig) {
     (hPM : P ≤ D.M) (hPp : IsPGroup p P) (hPJ : P ≤ normalizer (jOf D.T : Set G))
     (hPK : P ⊓ centralizer (proofE D : Set G) ≤ centralizer (D.U : Set G))
     (hnc : ¬ IsCyclic ↥(mbarImage D.M D.U P)) : UC6.calCGS (proofS D) ≤ D.M := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hJE : normalizer (jOf D.T : Set G) ≤ normalizer (proofE D : Set G) := fun y hy =>
     CFSG.RankThree.PartOne.mem_normalizer_of_forall_conj_mem (uc22p22e_conj_omegaZJ
       (fun x hx => (mem_normalizer_iff.1 hy x).1 hx)

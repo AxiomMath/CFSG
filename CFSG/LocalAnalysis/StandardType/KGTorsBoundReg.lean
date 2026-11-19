@@ -144,13 +144,13 @@ theorem torsBound_mark_eq_one_of_regLabel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     · exact not_dvd_of_mem_124 hp hp2 (exceptionalOrders_two _ _ _).2
   ·
     by_cases hl : l = 3
-    · simp only [markTag, markRank, markChar, markDeg, if_pos hl]
+    · simp only [markTag, markRank, markChar, markDeg, ite_eq_left hl]
       refine torsBound_eq_one ?_ ?_ ?_ ?_
       · exact not_dvd_of_dvd_four hp hp2 (genericOrders_PSL_fst_dvd 4 2 n)
       · exact not_dvd_of_mem_12 hp hp2 (genericOrders_snd_mem _ _ _ _)
       · exact not_dvd_of_mem_124 hp hp2 (exceptionalOrders_two _ _ _).1
       · exact not_dvd_of_mem_124 hp hp2 (exceptionalOrders_two _ _ _).2
-    · simp only [markTag, markRank, markChar, markDeg, if_neg hl]
+    · simp only [markTag, markRank, markChar, markDeg, ite_eq_right hl]
       refine torsBound_eq_one ?_ ?_ ?_ ?_
       · exact not_dvd_of_dvd_four hp hp2 (genericOrders_POmegaPlus_fst_dvd l 2 n)
       · exact not_dvd_of_mem_12 hp hp2 (genericOrders_snd_mem _ _ _ _)
@@ -158,20 +158,20 @@ theorem torsBound_mark_eq_one_of_regLabel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
       · exact not_dvd_of_mem_124 hp hp2 (exceptionalOrders_two _ _ _).2
   ·
     by_cases hl2 : l = 2
-    · simp only [markTag, markRank, markChar, markDeg, if_pos hl2]
+    · simp only [markTag, markRank, markChar, markDeg, ite_eq_left hl2]
       refine torsBound_eq_one ?_ ?_ ?_ ?_
       · exact not_dvd_of_dvd_two hp hp2 (genericOrders_PSL_fst_dvd 2 2 (2 * n))
       · exact not_dvd_of_mem_12 hp hp2 (genericOrders_snd_mem _ _ _ _)
       · exact not_dvd_of_mem_124 hp hp2 (exceptionalOrders_two _ _ _).1
       · exact not_dvd_of_mem_124 hp hp2 (exceptionalOrders_two _ _ _).2
     · by_cases hl3 : l = 3
-      · simp only [markTag, markRank, markChar, markDeg, if_neg hl2, if_pos hl3]
+      · simp only [markTag, markRank, markChar, markDeg, ite_eq_right hl2, ite_eq_left hl3]
         refine torsBound_eq_one ?_ ?_ ?_ ?_
         · exact not_dvd_of_dvd_four hp hp2 (genericOrders_PSU_fst_dvd 4 2 n)
         · exact not_dvd_of_mem_12 hp hp2 (genericOrders_snd_mem _ _ _ _)
         · exact not_dvd_of_mem_124 hp hp2 (exceptionalOrders_two _ _ _).1
         · exact not_dvd_of_mem_124 hp hp2 (exceptionalOrders_two _ _ _).2
-      · simp only [markTag, markRank, markChar, markDeg, if_neg hl2, if_neg hl3]
+      · simp only [markTag, markRank, markChar, markDeg, ite_eq_right hl2, ite_eq_right hl3]
         refine torsBound_eq_one ?_ ?_ ?_ ?_
         · exact not_dvd_of_dvd_four hp hp2 (genericOrders_POmegaMinus_fst_dvd l 2 n)
         · exact not_dvd_of_mem_12 hp hp2 (genericOrders_snd_mem _ _ _ _)

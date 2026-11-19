@@ -72,7 +72,7 @@ theorem not_fieldExtCase_of_selfDual_degree_one
     by_contra hn
     have hn0 : n = 0 := by omega
     subst hn0
-    haveI : Subsingleton ↥(StatedSp 0 (GaloisField 2 f)) :=
+    have : Subsingleton ↥(StatedSp 0 (GaloisField 2 f)) :=
       CFSG.ClassicalInvolution.ModelFacts.subsingleton_statedSp_zero
     exact (not_nontrivial_iff_subsingleton.mpr (inferInstance : Subsingleton ↥J'))
       (CFSG.ComponentClassification.Quasisimple.nontrivial hJe.2.2)
@@ -90,7 +90,7 @@ theorem not_fieldExtCase_of_selfDual_degree_one
       n f S hS he hadj hdeg hJe hA6
   have hθinj : Function.Injective (ψ.comp ι) := hψ.comp hinj
   have hθrange : (ψ.comp ι).range = J'.map ψ := by
-    simpa [MonoidHom.range_comp, hrange]
+    simp [MonoidHom.range_comp, hrange]
   by_cases hm2 : 2 ≤ m
   · let eJ : ↥(J'.map ψ) ≃* ↥(StatedSp m (GaloisField 2 f)) :=
       ((MonoidHom.ofInjective hθinj).trans (MulEquiv.subgroupCongr hθrange)).symm
@@ -284,7 +284,7 @@ theorem not_fieldExtCase_of_dualPair_degree_one
     by_contra hn
     have hn0 : n = 0 := by omega
     subst hn0
-    haveI : Subsingleton ↥(StatedSp 0 (GaloisField 2 f)) :=
+    have : Subsingleton ↥(StatedSp 0 (GaloisField 2 f)) :=
       CFSG.ClassicalInvolution.ModelFacts.subsingleton_statedSp_zero
     exact (not_nontrivial_iff_subsingleton.mpr (inferInstance : Subsingleton ↥J'))
       (CFSG.ComponentClassification.Quasisimple.nontrivial hJe.2.2)
@@ -301,7 +301,7 @@ theorem not_fieldExtCase_of_dualPair_degree_one
     CFSG.StandardType.ClassicalPosition.exists_blockModel_dualPair_PSp_explicit
       n f S hSU hS he hpair hdeg hJe
   have hθr : (ψ.comp ι).range = J'.map ψ := by
-    simpa [MonoidHom.range_comp, hιrange]
+    simp [MonoidHom.range_comp, hιrange]
   have hθker : (ψ.comp ι).ker ≤ Subgroup.center (ggU .PSL (k + 1) f).K := by
     intro y hy
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply] at hy
@@ -338,7 +338,7 @@ theorem not_fieldExtCase_of_dualPair_degree_one
       have hdvd : 2 ∣ 2 ^ f := dvd_pow_self 2 hf0
       rw [h2] at hdvd
       norm_num at hdvd
-  haveI : Group.IsPerfect (ggU .PSL (k + 1) f).K := ⟨hqSL.1⟩
+  have : Group.IsPerfect (ggU .PSL (k + 1) f).K := ⟨hqSL.1⟩
   obtain ⟨eJcent⟩ :=
     CFSG.StandardType.TableCRes.quotCenter_mulEquiv_of_perfect
       (ψ.comp ι) hθker (J'.map ψ) hθr

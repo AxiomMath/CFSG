@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22ine229_card_center_dvd (hG : GriessAllModelsStatement) {X : Type} [Group X]
     [Finite X] {n : ℕ} (hX : IsSU3 X n) : Nat.card (center X) ∣ Nat.gcd 3 (2 ^ n + 1) := by
   obtain ⟨hq, hU⟩ := hX
-  haveI : Group.IsPerfect X := Group.isPerfect_def.2 hq.1
+  have : Group.IsPerfect X := Group.isPerfect_def.2 hq.1
   let e : (X ⧸ center X) ≃* (X ⧸ center X) := MulEquiv.refl _
   let π := CFSG.RankThree.PerfectCover.centralQuotientMap e
   have hπs : Function.Surjective π :=
@@ -55,7 +55,7 @@ theorem uc22ine229_map_rhoL_le_inner {M Y : Subgroup G} (hN : M ≤ normalizer (
     (A.subgroupOf (normalizer (Y : Set G))).map (UC6S846.rhoL Y) ≤
       (MulAut.conj : Bar2 Y →* MulAut (Bar2 Y)).range := by
   obtain ⟨Nsub, hNn, -, hcyc, hcube, -⟩ := UCK.u3OutShape (Bar2 Y) n hX
-  haveI := hNn
+  have := hNn
   have hgen := UC6S846.closure_pPrime_map (UC6S846.rhoL Y) _
     (UC6S846.closure_pPrime_subgroupOf hN (p := p) hOp)
   rintro _ ⟨a, ha, rfl⟩
@@ -71,8 +71,8 @@ theorem uc22ine229_card_le_of_not_dvd {X : Type} [Group X] [Finite X] {n : ℕ} 
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (hpn : ¬ p ∣ 2 ^ n + 1)
     {R : Subgroup (MulAut X)} (hR : IsElemAbelian p R) : Nat.card R ≤ p ^ 2 := by
   obtain ⟨N, hNn, -, hcyc, hcube, -⟩ := UCK.u3OutShape X n hX
-  haveI := hNn
-  haveI : IsCyclic (MulAut X ⧸ N) := hcyc
+  have := hNn
+  have : IsCyclic (MulAut X ⧸ N) := hcyc
   let f : ↥R →* MulAut X ⧸ N := (QuotientGroup.mk' N).comp R.subtype
   have hpow : ∀ r : ↥R, r ^ p = 1 := fun r => Subtype.ext (by simpa using hR.2 r.1 r.2)
   have hrange : Nat.card f.range ≤ p := by

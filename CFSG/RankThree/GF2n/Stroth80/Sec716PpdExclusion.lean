@@ -19,7 +19,7 @@ theorem fixedPointSubgroup_eq_top_of_ppd
     (hppd : ∀ i, 0 < i → i ≤ j → ¬ r ∣ 2 ^ i - 1) :
     fixedPointSubgroup A U = ⊤ := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set F : Subgroup U := fixedPointSubgroup A U with hF
   have hFdvd : Nat.card F ∣ 2 ^ j := by
     rw [← hU]
@@ -50,7 +50,7 @@ theorem dvd_card_sub_one_of_fixedPointSubgroup_eq_bot
     {r j : ℕ} (hr : r.Prime) (hA : IsPGroup r A) (hU : Nat.card U = 2 ^ j)
     (hF : fixedPointSubgroup A U = ⊥) : r ∣ 2 ^ j - 1 := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hmod := hA.card_modEq_card_fixedPoints (α := U)
   have hset : (MulAction.fixedPoints A U : Set U) = (⊥ : Subgroup U) := by
     rw [← hF]
@@ -77,10 +77,10 @@ theorem card_quotient_subgroupOf {G : Type*} [Group G] [Finite G] {A B : Subgrou
 
 @[expose] noncomputable def quotientConjActionWithFixedIff {G : Type*} [Group G]
     {A B : Subgroup G} {y : G} [(B.subgroupOf A).Normal]
-    (hAB : A ≤ Subgroup.normalizer (B : Set G))
+    (_hAB : A ≤ Subgroup.normalizer (B : Set G))
     (hyA : y ∈ Subgroup.normalizer (A : Set G))
     (hyB : y ∈ Subgroup.normalizer (B : Set G)) :
-    { act : MulDistribMulAction (Subgroup.zpowers y) (↥A ⧸ B.subgroupOf A) //
+    { _act : MulDistribMulAction (Subgroup.zpowers y) (↥A ⧸ B.subgroupOf A) //
       ∀ (a : Subgroup.zpowers y) (x : ↥A),
         a • (QuotientGroup.mk x : ↥A ⧸ B.subgroupOf A) = QuotientGroup.mk x ↔
           (a : G) * (x : G) * (a : G)⁻¹ * (x : G)⁻¹ ∈ B } := by
@@ -98,14 +98,13 @@ theorem card_quotient_subgroupOf {G : Type*} [Group G] [Finite G] {A B : Subgrou
   have hBinv : IsInvariant Y ↥A (B.subgroupOf A) := by
     refine ⟨fun a x => ?_⟩
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
-    change (x : G) ∈ B ↔ ((a • x : ↥A) : G) ∈ B
     rw [hsmul]
     exact Subgroup.mem_normalizer_iff.mp (hYnormB a.2) x
   haveI hQA : MulAction.QuotientAction Y (B.subgroupOf A) :=
     quotientAction_of_isInvariant (B.subgroupOf A) hBinv
-  let act : MulDistribMulAction Y (↥A ⧸ B.subgroupOf A) :=
+  let _act : MulDistribMulAction Y (↥A ⧸ B.subgroupOf A) :=
     quotientMulDistribMulAction (B.subgroupOf A) hBinv
-  refine ⟨act, ?_⟩
+  refine ⟨_act, ?_⟩
   intro a x
   have hsmulQ : a • (QuotientGroup.mk x : ↥A ⧸ B.subgroupOf A) =
       QuotientGroup.mk (a • x) := rfl
@@ -131,12 +130,12 @@ theorem conj_mem_of_ppd {G : Type*} [Group G] [Finite G] {A B : Subgroup G} {y :
     (hppd : ∀ i, 0 < i → i ≤ j → ¬ r ∣ 2 ^ i - 1) :
     ∀ a ∈ A, y * a * y⁻¹ * a⁻¹ ∈ B := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hyAn : y ∈ Subgroup.normalizer (A : Set G) := conjSubgroup_eq_self_iff.mp hyA
   have hyBn : y ∈ Subgroup.normalizer (B : Set G) := conjSubgroup_eq_self_iff.mp hyB
-  haveI hBnorm : (B.subgroupOf A).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAB
+  have hBnorm : (B.subgroupOf A).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAB
   let data := quotientConjActionWithFixedIff hAB hyAn hyBn
-  letI : MulDistribMulAction (Subgroup.zpowers y) (↥A ⧸ B.subgroupOf A) := data.1
+  let : MulDistribMulAction (Subgroup.zpowers y) (↥A ⧸ B.subgroupOf A) := data.1
   have hcardq : Nat.card (↥A ⧸ B.subgroupOf A) = 2 ^ j := card_quotient_subgroupOf hBA hcard
   have htop : fixedPointSubgroup (Subgroup.zpowers y) (↥A ⧸ B.subgroupOf A) = ⊤ :=
     fixedPointSubgroup_eq_top_of_ppd hr hr2
@@ -193,18 +192,18 @@ theorem mem_commFixingSubgroup {G : Type*} [Group G] {y : G} {A B : Subgroup G}
 theorem commFixingSubgroup_ne_bot {G : Type*} [Group G] [Finite G] {A B : Subgroup G} {y : G}
     {r e : ℕ} (hBA : B ≤ A) (hAB : A ≤ Subgroup.normalizer (B : Set G))
     (hyA : conjSubgroup y A = A) (hyB : conjSubgroup y B = B)
-    (hAb : ∀ a ∈ A, ∀ b ∈ A, ⁅a, b⁆ ∈ B) (hr : r.Prime) (hr2 : r ≠ 2)
+    (hAb : ∀ a ∈ A, ∀ b ∈ A, ⁅a, b⁆ ∈ B) (hr : r.Prime) (_hr2 : r ≠ 2)
     (hy : orderOf y = r) (hcard : Nat.card A = Nat.card B * 2 ^ e)
     (hre : ¬ r ∣ 2 ^ e - 1) :
     commFixingSubgroup y A B hBA hAb ≠ B := by
   intro heq
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hyAn : y ∈ Subgroup.normalizer (A : Set G) := conjSubgroup_eq_self_iff.mp hyA
   have hyBn : y ∈ Subgroup.normalizer (B : Set G) := conjSubgroup_eq_self_iff.mp hyB
-  haveI hBnorm : (B.subgroupOf A).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAB
+  have hBnorm : (B.subgroupOf A).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hAB
   let data := quotientConjActionWithFixedIff hAB hyAn hyBn
-  letI : MulDistribMulAction (Subgroup.zpowers y) (↥A ⧸ B.subgroupOf A) := data.1
+  let : MulDistribMulAction (Subgroup.zpowers y) (↥A ⧸ B.subgroupOf A) := data.1
   have hcardq : Nat.card (↥A ⧸ B.subgroupOf A) = 2 ^ e := card_quotient_subgroupOf hBA hcard
   have hFbot : fixedPointSubgroup (Subgroup.zpowers y) (↥A ⧸ B.subgroupOf A) = ⊥ := by
     rw [eq_bot_iff]
@@ -229,6 +228,7 @@ theorem commFixingSubgroup_ne_bot {G : Type*} [Group G] [Finite G] {A B : Subgro
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem conj_Rt_Vt_of_centre_eq (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
     (hst : ∀ s ∈ Z0, s ∉ Q → Rt M (LB M Q B) s = Rt M (LB M Q B) t ∧
@@ -319,7 +319,8 @@ theorem commFixingSubgroup_conj (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B)
     exact Z0.mul_mem hc0bZ0 hcommZ0
   exact conjSubgroup_eq_self_iff.mpr hCnorm
 
-theorem pow_commutator_mem_Q [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {Z0 : Subgroup G}
+omit [Finite G] in
+theorem pow_commutator_mem_Q [(Q.subgroupOf M).Normal] (_hc : Ctx M Q Z B) {Z0 : Subgroup G}
     {y x : G} (hyM : y ∈ M) (hxM : x ∈ M) (hxZ0 : y * x * y⁻¹ * x⁻¹ ∈ Z0)
     (hyZ0 : ∀ z ∈ Z0, y * z * y⁻¹ * z⁻¹ ∈ Q) {r : ℕ} (hy : orderOf y = r) :
     (y * x * y⁻¹ * x⁻¹) ^ r ∈ Q := by
@@ -361,13 +362,14 @@ theorem pow_commutator_mem_Q [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {Z0 : 
   have h2 : cM ^ r ∈ Q.subgroupOf M := (QuotientGroup.eq_one_iff _).mp h1
   simpa using Subgroup.mem_subgroupOf.mp h2
 
+omit [Finite G] in
 theorem mem_Q_of_pow_mem_Q (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
-    (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) (hQZ0 : Q ≤ Z0)
+    (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) (_hQZ0 : Q ≤ Z0)
     (hZ0two : IsPGroup 2 ↥Z0) {c : G} {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hcZ0 : c ∈ Z0) (hcrQ : c ^ r ∈ Q) : c ∈ Q := by
   classical
   have hZ0M : Z0 ≤ M := hZ0.le.trans (hc.Rt_le_M t)
-  haveI hQZ0norm : (Q.subgroupOf Z0).Normal :=
+  have hQZ0norm : (Q.subgroupOf Z0).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer fun z hz => hc.hyp.Q_normal.2 (hZ0M hz)
   let πZ : ↥Z0 →* (↥Z0 ⧸ Q.subgroupOf Z0) := QuotientGroup.mk' (Q.subgroupOf Z0)
   have hZ0q2 : IsPGroup 2 (↥Z0 ⧸ Q.subgroupOf Z0) := hZ0two.to_quotient _
@@ -461,7 +463,7 @@ theorem false_of_mem_CN_of_odd_prime_order {N Z0 : Subgroup G} {e r : ℕ} {y : 
     obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hZ0two
     refine IsPGroup.of_card (n := a + e) ?_
     rw [hNZ, ha, pow_add]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hN2.exists_orderOf_eq_pow ⟨y, hyN⟩
   have hkr : r = 2 ^ k := by
     rw [← hy]
@@ -492,7 +494,7 @@ theorem false_of_ppd_centralizing_Z0 [(Q.subgroupOf M).Normal]
     (hyV : conjSubgroup y (Vt M (LB M Q B) B Z t) = Vt M (LB M Q B) B Z t)
     (hZ0two : IsPGroup 2 ↥Z0) : False := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hyM : y ∈ M := hyH.1
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0
   have hZ0N : Z0 ≤ hc.CN t := hirr.2.2.1.le

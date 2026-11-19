@@ -39,8 +39,8 @@ theorem okCl_flip_mem_spSignedGroup (n p : ℕ) (T : Finset (Fin n)) :
         rw [okCl_flip_apply, Equiv.Perm.mul_apply, coordInv_apply]
         by_cases ht : t = a
         · subst ht
-          simp [Function.update_apply, ha]
-        · rw [Function.update_apply, if_neg ht, okCl_flip_apply]
+          simp [ha]
+        · rw [Function.update_apply, ite_eq_right ht, okCl_flip_apply]
           simp [Finset.mem_insert, ht]
       rw [hstep]
       exact Subgroup.mul_mem _ (coordInv_mem_spSignedGroup a) ih
@@ -58,7 +58,7 @@ theorem okCl_coordPerm_one (n p : ℕ) :
   apply Equiv.ext
   intro v
   funext t
-  simp only [coordPerm_apply, Equiv.Perm.one_symm, Equiv.Perm.one_apply]
+  simp only [coordPerm_apply, ← Equiv.Perm.inv_def 1, inv_one, Equiv.Perm.one_apply]
 
 theorem okCl_coordPerm_inv (n p : ℕ) (σ : Equiv.Perm (Fin n)) :
     coordPerm n p σ⁻¹ = (coordPerm n p σ)⁻¹ := by
@@ -83,7 +83,7 @@ theorem okCl_coordPerm_injective (n : ℕ) : Function.Injective (coordPerm n 3) 
   · have := congrArg τ hτ
     rw [Equiv.apply_symm_apply] at this
     exact this
-  · rw [if_pos rfl, if_neg hτ] at key
+  · rw [ite_eq_left rfl, ite_eq_right hτ] at key
     exact absurd key h1
 
 theorem okCl_coordPerm_conj (n p : ℕ) (σ τ : Equiv.Perm (Fin n)) :

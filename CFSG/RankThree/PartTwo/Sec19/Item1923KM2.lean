@@ -32,10 +32,12 @@ private theorem kmTwo_isElemAbelian_map {H H' : Type} [Group H] [Group H'] {p : 
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
     rw [← map_pow, hE.2 y hy, map_one]
 
+omit [Finite G] in
 private theorem kmTwo_commute {H : Subgroup G} {p : ℕ} (hH : CFSG.Open.IsElemAbelian p H)
     {a b : G} (ha : a ∈ H) (hb : b ∈ H) : a * b = b * a :=
   congrArg Subtype.val (hH.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
 
+omit [Finite G] in
 private theorem kmTwo_comm_of_mem {H : Subgroup G} [IsMulCommutative H] {a b : G} (ha : a ∈ H)
     (hb : b ∈ H) : a * b = b * a :=
   congrArg Subtype.val ((inferInstance : IsMulCommutative H).is_comm.comm (⟨a, ha⟩ : H) ⟨b, hb⟩)
@@ -77,7 +79,7 @@ private theorem kmTwo_exists_pair {M K : Subgroup G} (hK : K ∈ oTwoComponentsI
     {E : Subgroup (K ⧸ CFSG.pCore 2 K)} (hE : CFSG.Open.IsElemAbelian p E) :
     ∃ V : Subgroup (M ⧸ CFSG.pCore 2 M), CFSG.Open.IsElemAbelian p V ∧
       Nat.card V = Nat.card E * Nat.card E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKM : K ≤ M := CFSG.RankThree.PartTwo.le_of_mem_oTwoComponentsIn hK
   have hJ : K.map (MulAut.conj m).toMonoidHom ∈ oTwoComponentsIn M :=
     CFSG.RankThree.PartTwo.Sec18.map_conj_mem_oTwoComponentsIn hK hm
@@ -165,7 +167,7 @@ private theorem kmTwo_exists_pair {M K : Subgroup G} (hK : K ∈ oTwoComponentsI
   · rw [hVcl]
     refine ⟨Subgroup.isMulCommutative_closure hpair, ?_⟩
     intro x hx
-    haveI := Subgroup.isMulCommutative_closure hpair
+    have := Subgroup.isMulCommutative_closure hpair
     induction hx using Subgroup.closure_induction with
     | mem a ha =>
       rcases ha with ha | ha
@@ -210,7 +212,7 @@ theorem step1923_KM2 (h : Hyp1921 G A M N L) (hK : K ∈ scriptJ M N)
       exact hz
     have hK1 : K ∈ ({x, y} : Set (Subgroup G)) := by
       rw [← hs]
-      exact ⟨1, M.one_mem, by ext x; simp [MulAut.conj_apply]⟩
+      exact ⟨1, M.one_mem, by ext x; simp⟩
     rcases Set.mem_insert_iff.mp hK1 with hKx | hKy
     · obtain ⟨g, hg, hyg⟩ := hmem y (Set.mem_insert_of_mem _ (Set.mem_singleton y))
       refine ⟨g, hg, fun h' => hxy ?_⟩

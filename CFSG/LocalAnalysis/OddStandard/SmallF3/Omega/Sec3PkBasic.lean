@@ -35,7 +35,7 @@ theorem exists_involution_lift_of_odd {A : Type*} [Group A] {N : Subgroup A} [N.
 
 theorem exists_involution_lift_oddCore {A : Type*} [Group A] [Finite A] {ā : A ⧸ oddCore A}
     (hā : orderOf ā = 2) : ∃ a : A, orderOf a = 2 ∧ (QuotientGroup.mk a : A ⧸ oddCore A) = ā := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (Nat.card (CFSG.oddCore A)) := by
     rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := A)]
     exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := A))

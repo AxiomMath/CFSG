@@ -16,7 +16,7 @@ theorem ggCommonJSpSplit_conj {K : Type} [Field K] [Finite K] {p r : ℕ} (hp : 
     ∃ P : StatedSp r K,
       E = (TableBSymp.spTorusSp (m := r) hζ).range.map (MulAut.conj P).toMonoidHom := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let S := StatedSp r K
   let τ : (Fin r → Multiplicative (ZMod p)) →* S := TableBSymp.spTorusSp (m := r) hζ
   let E' : Subgroup (GL (Fin r ⊕ Fin r) K) := E.map S.subtype

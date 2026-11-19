@@ -452,7 +452,7 @@ theorem class_bound (D : DceStructData) (h : dceStructChk D = true)
     | mem x hx =>
       obtain ⟨g, hg, rfl⟩ := hx
       intro k hk
-      obtain ⟨h1, h2⟩ := hcls k hk (2 * g) (by simp only [Set.mem_setOf_eq] at hg; omega)
+      obtain ⟨h1, h2⟩ := hcls k hk (2 * g) (by simp only [Set.mem_ofPred_eq] at hg; omega)
       refine ⟨_, h1, ?_⟩
       rw [h2, toMat_mul24, toMat_mul24, hgen1 g hg, hLgen g hg]
     | inv_mem x hx =>

@@ -52,15 +52,15 @@ private lemma c16_zu_mul_zu {K : Subgroup G} {z u : G} (hB : C16KBasis K z u) :
 
 theorem c16cK_one (z u : G) : c16cK z u 1 = 0 := by
   unfold c16cK
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem c16cK_z {K : Subgroup G} {z u : G} (hB : C16KBasis K z u) : c16cK z u z = (1, 0) := by
   unfold c16cK
-  rw [if_neg hB.z_ne_one, if_pos rfl]
+  rw [ite_eq_right hB.z_ne_one, ite_eq_left rfl]
 
 theorem c16cK_u {K : Subgroup G} {z u : G} (hB : C16KBasis K z u) : c16cK z u u = (0, 1) := by
   unfold c16cK
-  rw [if_neg hB.u_ne_one, if_neg (Ne.symm hB.z_ne_u), if_pos rfl]
+  rw [ite_eq_right hB.u_ne_one, ite_eq_right (Ne.symm hB.z_ne_u), ite_eq_left rfl]
 
 theorem c16cK_zu {K : Subgroup G} {z u : G} (hB : C16KBasis K z u) :
     c16cK z u (z * u) = (1, 1) := by
@@ -77,7 +77,7 @@ theorem c16cK_zu {K : Subgroup G} {z u : G} (hB : C16KBasis K z u) :
     have h' : z * u = 1 * u := by rw [h, one_mul]
     exact hB.z_ne_one (mul_right_cancel h')
   unfold c16cK
-  rw [if_neg h1, if_neg h2, if_neg h3]
+  rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
 
 theorem c16cK_eq_zero {K : Subgroup G} {z u : G} (hB : C16KBasis K z u) {k : G} (hk : k ∈ K) :
     c16cK z u k = 0 ↔ k = 1 := by

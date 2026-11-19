@@ -18,14 +18,17 @@ variable {k E VJ V₀ : Type} [Field k] [Field E] [Algebra k E]
 private noncomputable def a1ToA (φ : V₀ →ₗ[k] VJ) : ↥(modelA1 k VJ V₀) :=
   ⟨modelA1Elt φ, (mem_modelA1_iff (modelA1Elt φ)).mpr ⟨φ, rfl⟩⟩
 
+omit [Finite k] in
 private lemma a1ToA_coe (φ : V₀ →ₗ[k] VJ) :
     (a1ToA φ : SpecialLinearGroup k (VJ × V₀)) = modelA1Elt φ := rfl
 
+omit [Finite k] in
 private lemma a1ToA_add (φ φ' : V₀ →ₗ[k] VJ) :
     a1ToA (φ + φ') = a1ToA φ * a1ToA φ' := by
   apply Subtype.ext
   exact modelA1Elt_add φ φ'
 
+omit [Finite k] in
 private lemma a1ToA_injective : Function.Injective (a1ToA (k := k) (VJ := VJ) (V₀ := V₀)) := by
   intro φ φ' h
   exact modelA1Elt_injective (Subtype.ext_iff.mp h)
@@ -33,6 +36,7 @@ private lemma a1ToA_injective : Function.Injective (a1ToA (k := k) (VJ := VJ) (V
 private noncomputable def a1Preimage (a : ↥(modelA1 k VJ V₀)) : V₀ →ₗ[k] VJ :=
   Classical.choose ((mem_modelA1_iff (a : SpecialLinearGroup k (VJ × V₀))).mp a.2)
 
+omit [Finite k] in
 private lemma a1ToA_preimage (a : ↥(modelA1 k VJ V₀)) : a1ToA (a1Preimage a) = a := by
   unfold a1Preimage
   apply Subtype.ext
@@ -42,10 +46,12 @@ private noncomputable def a1Transport (γ : MulAut ↥(modelA1 k VJ V₀)) :
     (V₀ →ₗ[k] VJ) → (V₀ →ₗ[k] VJ) :=
   fun φ => a1Preimage (γ (a1ToA φ))
 
+omit [Finite k] in
 private lemma a1ToA_transport (γ : MulAut ↥(modelA1 k VJ V₀)) (φ : V₀ →ₗ[k] VJ) :
     a1ToA (a1Transport γ φ) = γ (a1ToA φ) :=
   a1ToA_preimage (γ (a1ToA φ))
 
+omit [Finite k] in
 private lemma a1Transport_add (γ : MulAut ↥(modelA1 k VJ V₀)) (φ φ' : V₀ →ₗ[k] VJ) :
     a1Transport γ (φ + φ') = a1Transport γ φ + a1Transport γ φ' := by
   apply a1ToA_injective
@@ -60,6 +66,7 @@ private noncomputable def a1TransportHom (γ : MulAut ↥(modelA1 k VJ V₀)) :
     (V₀ →ₗ[k] VJ) →+ (V₀ →ₗ[k] VJ) :=
   AddMonoidHom.mk' (a1Transport γ) (a1Transport_add γ)
 
+omit [Finite k] in
 private lemma a1Transport_surjective (γ : MulAut ↥(modelA1 k VJ V₀)) :
     Function.Surjective (a1Transport γ) := by
   intro ψ
@@ -70,6 +77,7 @@ private lemma a1Transport_surjective (γ : MulAut ↥(modelA1 k VJ V₀)) :
   apply a1ToA_injective
   rw [a1ToA_transport, h]
 
+omit [Finite k] in
 private lemma a1Transport_comp (γ : MulAut ↥(modelA1 k VJ V₀))
     (hγ : ∀ (g : ↥(modelK1 k VJ V₀)) (a : ↥(modelA1 k VJ V₀)),
       ((γ ⟨(g : SpecialLinearGroup k (VJ × V₀)) * (a : SpecialLinearGroup k (VJ × V₀)) *
@@ -117,11 +125,13 @@ private noncomputable def eFun {ι : Type*} (b : Basis ι k V₀) (x : VJ) (j : 
     V₀ →ₗ[k] VJ :=
   (b.coord j).smulRight x
 
+omit [Finite k] [Module.Finite k VJ] [Module.Finite k V₀] in
 private lemma eFun_add {ι : Type*} (b : Basis ι k V₀) (x x' : VJ) (j : ι) :
     eFun b (x + x') j = eFun b x j + eFun b x' j := by
   ext w
   simp [eFun, LinearMap.smulRight_apply, smul_add]
 
+omit [Finite k] [Module.Finite k VJ] [Module.Finite k V₀] in
 private lemma sum_eFun {ι : Type*} [Fintype ι] (b : Basis ι k V₀) (φ : V₀ →ₗ[k] VJ) :
     (∑ j, eFun b (φ (b j)) j) = φ := by
   ext w
@@ -144,6 +154,7 @@ private noncomputable def gammaMat {ι : Type*} (γ : MulAut ↥(modelA1 k VJ V�
     rw [eFun_add, a1Transport_add]
     rfl)
 
+omit [Finite k] in
 private lemma gammaMat_comm {ι : Type*} (γ : MulAut ↥(modelA1 k VJ V₀))
     (hγ : ∀ (g : ↥(modelK1 k VJ V₀)) (a : ↥(modelA1 k VJ V₀)),
       ((γ ⟨(g : SpecialLinearGroup k (VJ × V₀)) * (a : SpecialLinearGroup k (VJ × V₀)) *
@@ -172,6 +183,7 @@ private noncomputable def gammaScalar {ι : Type*} (γ : MulAut ↥(modelA1 k VJ
   Classical.choose (exists_smul_of_commute_specialLinear (F := k) (V := VJ) hV
     (gammaMat γ b i j) (fun g x => gammaMat_comm γ hγ b i j g x))
 
+omit [Finite k] in
 private lemma gammaScalar_spec {ι : Type*} (γ : MulAut ↥(modelA1 k VJ V₀))
     (hγ : ∀ (g : ↥(modelK1 k VJ V₀)) (a : ↥(modelA1 k VJ V₀)),
       ((γ ⟨(g : SpecialLinearGroup k (VJ × V₀)) * (a : SpecialLinearGroup k (VJ × V₀)) *
@@ -188,10 +200,12 @@ private noncomputable def mat1 {ι : Type*} [Fintype ι] (b : Basis ι k V₀)
     (m : ι → ι → k) : V₀ →ₗ[k] V₀ :=
   b.constr k (fun i => ∑ j, m i j • b j)
 
+omit [Finite k] [Module.Finite k V₀] in
 private lemma mat1_basis {ι : Type*} [Fintype ι] (b : Basis ι k V₀) (m : ι → ι → k) (i : ι) :
     mat1 b m (b i) = ∑ j, m i j • b j := by
   rw [mat1, b.constr_basis]
 
+omit [Finite k] in
 private lemma a1Transport_eq_comp {ι : Type*} [Fintype ι] (γ : MulAut ↥(modelA1 k VJ V₀))
     (hγ : ∀ (g : ↥(modelK1 k VJ V₀)) (a : ↥(modelA1 k VJ V₀)),
       ((γ ⟨(g : SpecialLinearGroup k (VJ × V₀)) * (a : SpecialLinearGroup k (VJ × V₀)) *
@@ -220,6 +234,7 @@ private lemma a1Transport_eq_comp {ι : Type*} [Fintype ι] (γ : MulAut ↥(mod
   intro j _
   rw [map_smul]
 
+omit [Finite k] in
 private lemma mat1_eq_zero {ι : Type*} [Fintype ι] (γ : MulAut ↥(modelA1 k VJ V₀))
     (hγ : ∀ (g : ↥(modelK1 k VJ V₀)) (a : ↥(modelA1 k VJ V₀)),
       ((γ ⟨(g : SpecialLinearGroup k (VJ × V₀)) * (a : SpecialLinearGroup k (VJ × V₀)) *
@@ -252,6 +267,7 @@ private lemma mat1_eq_zero {ι : Type*} [Fintype ι] (γ : MulAut ↥(modelA1 k 
   rw [hxv] at hψv
   exact hx hψv
 
+omit [Finite k] in
 private lemma mat1_injective {ι : Type*} [Fintype ι] (γ : MulAut ↥(modelA1 k VJ V₀))
     (hγ : ∀ (g : ↥(modelK1 k VJ V₀)) (a : ↥(modelA1 k VJ V₀)),
       ((γ ⟨(g : SpecialLinearGroup k (VJ × V₀)) * (a : SpecialLinearGroup k (VJ × V₀)) *
@@ -266,19 +282,23 @@ private lemma mat1_injective {ι : Type*} [Fintype ι] (γ : MulAut ↥(modelA1 
     rw [map_sub, h, sub_self]
   exact sub_eq_zero.mp (mat1_eq_zero γ hγ hV hVJ b hzero)
 
+omit [Finite k] [Module.Finite k VJ] [Module.Finite k V₀] in
 private lemma diagY_inv (y : V₀ ≃ₗ[k] V₀) :
     (diagY (VJ := VJ) y)⁻¹ = diagY (VJ := VJ) y.symm := by
   change (diagY (VJ := VJ) y).symm = diagY (VJ := VJ) y.symm
   rw [diagY, diagY, LinearEquiv.prodCongr_symm, LinearEquiv.refl_symm]
 
+omit [Finite k] [Module.Finite k VJ] [Module.Finite k V₀] in
 private lemma diagY_apply (y : V₀ ≃ₗ[k] V₀) (v : VJ) (w : V₀) :
     diagY (VJ := VJ) y (v, w) = (v, y w) := by
   rw [diagY, LinearEquiv.prodCongr_apply, LinearEquiv.refl_apply]
 
+omit [Finite k] [Module.Finite k VJ] [Module.Finite k V₀] in
 private lemma diagY_symm_apply (y : V₀ ≃ₗ[k] V₀) (v : VJ) (w : V₀) :
     (diagY (VJ := VJ) y)⁻¹ (v, w) = (v, y.symm w) := by
   rw [diagY_inv, diagY_apply]
 
+omit [Finite k] in
 private lemma diagY_conj_A1 (y : V₀ ≃ₗ[k] V₀) (φ : V₀ →ₗ[k] VJ) :
     diagY (VJ := VJ) y * SpecialLinearGroup.toLinearEquiv (modelA1Elt φ) *
         (diagY (VJ := VJ) y)⁻¹ =
@@ -290,6 +310,7 @@ private lemma diagY_conj_A1 (y : V₀ ≃ₗ[k] V₀) (φ : V₀ →ₗ[k] VJ) :
     SpecialLinearGroup.toLinearEquiv_apply, modelA1Elt_apply, LinearMap.comp_apply]
   simp
 
+omit [Finite k] in
 theorem modelA1_end (hVJ : 3 ≤ Module.finrank k VJ) (γ : MulAut ↥(modelA1 k VJ V₀))
     (hγ : ∀ (g : ↥(modelK1 k VJ V₀)) (a : ↥(modelA1 k VJ V₀)),
       ((γ ⟨(g : SpecialLinearGroup k (VJ × V₀)) * (a : SpecialLinearGroup k (VJ × V₀)) *

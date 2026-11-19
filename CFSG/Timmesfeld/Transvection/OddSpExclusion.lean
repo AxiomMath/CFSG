@@ -17,7 +17,7 @@ theorem IsMaxFrame.card_shortRootGroup_of_not_isSmallFrame (h : TransvectionHyp 
     (hML : MeetsLines Δ) (hq : ∀ A ∈ Δ, 4 ≤ Nat.card A) (hF : IsMaxFrame Δ P Q) {j k : Fin r}
     (hjk : j ≠ k) (hns : ¬ IsSmallFrame Δ P Q k) :
     Nat.card ↥(shortRootGroup Δ (Q j) (P j) (P k) (Q k)) = Nat.card (P k) ^ 2 := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   have hline := (hF.toPairFrame hjk).ncard_lineOf h.cls
     (h.cls.noIsolated h.points h.rank) h.points hML (hq (P j) (hF.memP j))
   have hspan := hF.ncard_lineOf_eq_of_mem_rankTwoResidue h hML hq hjk hns
@@ -30,7 +30,7 @@ theorem IsMaxFrame.card_shortRootGroup_flip_of_not_isSmallFrame (h : Transvectio
     (hML : MeetsLines Δ) (hq : ∀ A ∈ Δ, 4 ≤ Nat.card A) (hF : IsMaxFrame Δ P Q) {j k : Fin r}
     (hjk : j ≠ k) (hns : ¬ IsSmallFrame Δ P Q k) :
     Nat.card ↥(shortRootGroup Δ (P j) (Q j) (P k) (Q k)) = Nat.card (P k) ^ 2 := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   have hline := (hF.toPairFrame hjk).flip.ncard_lineOf h.cls
     (h.cls.noIsolated h.points h.rank) h.points hML (hq (Q j) (hF.memQ j))
   have hspan := hF.ncard_lineOf_eq_of_mem_rankTwoResidue h hML hq hjk hns
@@ -51,7 +51,7 @@ theorem IsMaxFrame.sq_card_le_of_spRelations (h : TransvectionHyp H Δ) (hML : M
         ↥(shortRootGroup Δ (Q j) (P j) (P k) (Q k)))) := by
     intro x
     obtain ⟨c, hc⟩ := (hR.short (Sum.inr j) (Sum.inl k) (by simpa using hjk) (x : H)).1
-      (by simpa [framePt] using x.2)
+      (by simp [framePt])
     exact ⟨c, Subtype.ext hc⟩
   calc Nat.card (P k) ^ 2
       = Nat.card ↥(shortRootGroup Δ (Q j) (P j) (P k) (Q k)) :=
@@ -66,7 +66,7 @@ theorem IsMaxFrame.exists_suRelations_of_not_isSmallFrame (h : TransvectionHyp H
         R.HasFrameImages Δ P Q := by
   obtain ⟨f, hf, hcard, hSp | hSU⟩ := hF.exists_cPart h hML hq hr
   · obtain ⟨R, hR⟩ := hSp
-    haveI : Nontrivial (Fin r) := Fin.nontrivial_iff_two_le.2 hr
+    have : Nontrivial (Fin r) := Fin.nontrivial_iff_two_le.2 hr
     obtain ⟨j, hjk⟩ := exists_ne k
     have hle := hF.sq_card_le_of_spRelations h hML hq hjk hns hR
     have hqk : Nat.card (P k) = 2 ^ f := hcard (P k) (hF.memP k)

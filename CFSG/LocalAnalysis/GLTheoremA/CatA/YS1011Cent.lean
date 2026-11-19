@@ -35,12 +35,12 @@ private theorem psl_of_involvedSL2 {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (H : Subgroup (Matrix.GeneralLinearGroup (Fin 2) (ZMod q))) (φ : H →* S)
     (hφ : Function.Surjective φ) :
     ∃ r : ℕ, r.Prime ∧ 5 ≤ r ∧ Nonempty (S ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod r)) := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin 2) (ZMod q)) := inferInstance
+  have : Fact q.Prime := ⟨hq⟩
+  have : Finite (Matrix.GeneralLinearGroup (Fin 2) (ZMod q)) := inferInstance
   obtain ⟨K, hKtop, hKperf, hK0⟩ := i7_exists_perfect_cover φ hφ
-  haveI := hKperf
+  have := hKperf
   have hεK := Subgroup.equivMapOfInjective K H.subtype H.subtype_injective
-  haveI : Group.IsPerfect ↥(K.map H.subtype) :=
+  have : Group.IsPerfect ↥(K.map H.subtype) :=
     Group.IsPerfect.ofSurjective (f := hεK.toMonoidHom) hεK.surjective
   have hJne : K.map H.subtype ≠ ⊥ := by
     intro h
@@ -58,7 +58,7 @@ private theorem psl_of_involvedSL2 {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
   · exact psl_of_sl2_surj q hq2 ((φ.comp K.subtype).comp (e.symm.trans hεK.symm).toMonoidHom)
       (hφK.comp (e.symm.trans hεK.symm).surjective)
-  · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact psl_of_sl2_surj 5 (by norm_num)
       ((φ.comp K.subtype).comp (e.symm.trans hεK.symm).toMonoidHom)
       (hφK.comp (e.symm.trans hεK.symm).surjective)
@@ -113,7 +113,7 @@ private theorem amb2_lie_cases (d : TauCeti.ValidLieTypeIndex)
     · exact (hi : False).elim
   | _ => exact (hi : False).elim
 
-private theorem prime_formula_lt {r N : ℕ} (h5 : 5 ≤ r) (h : r * (r ^ 2 - 1) = N) (hN : N ≤ 51840) :
+private theorem prime_formula_lt {r N : ℕ} (_h5 : 5 ≤ r) (h : r * (r ^ 2 - 1) = N) (hN : N ≤ 51840) :
     r < 41 := by
   by_contra hc
   push Not at hc
@@ -133,12 +133,12 @@ theorem i3013_holds (G : Type) [Group G] [Finite G] :
     I3013At G := by
   intro p q X K hp hq hq2 _hX hK hChev hinv
   have hQ := isQuasisimple_pQuot_of_glaPComponent hp hK
-  haveI : Group.IsPerfect (PQuot p K) := ⟨hQ.1⟩
-  haveI : IsSimpleGroup (PSimple p K) := hQ.2
-  haveI : Group.IsPerfect (PSimple p K) := inferInstance
+  have : Group.IsPerfect (PQuot p K) := ⟨hQ.1⟩
+  have : IsSimpleGroup (PSimple p K) := hQ.2
+  have : Group.IsPerfect (PSimple p K) := inferInstance
   obtain ⟨H, φ, hφ⟩ := hinv
   obtain ⟨r, hr, h5, ⟨eS⟩⟩ := psl_of_involvedSL2 hq hq2 H φ hφ
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hcardZ : Nat.card (ZMod r) = r ^ 1 := by rw [Nat.card_zmod, pow_one]
   let T : ZMod r ≃+* GaloisField r 1 :=
     CFSG.ClassicalModels.finiteFieldEquivGaloisField (ZMod r) r 1 Nat.one_pos hcardZ

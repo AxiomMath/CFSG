@@ -58,7 +58,7 @@ theorem commModSub_inf_le_sup {R R' : Subgroup (MulAut Y)}
           simp only [map_mul, map_inv]
           have : g⁻¹ (g u) = u := by
             have := congrArg (fun φ : MulAut Y => φ u) (inv_mul_cancel g)
-            simpa [MulAut.mul_apply] using this
+            simp
           rw [this]
           group
         rw [e, hgi]
@@ -117,6 +117,7 @@ variable {Y : Type} [CommGroup Y] [Finite Y] {X A L₀ : Subgroup (MulAut Y)} {U
 
 namespace GluedSwap
 
+omit [Finite Y] in
 theorem commModSub_diagSub (hdiag : ∀ b ∈ A ⊓ stabSub U, ∃ l ∈ L₀, ∀ u ∈ U, b u = l u) :
     commModSub U (glueDiagSub L₀ A U) (U ⊓ U') = commModSub U (A ⊓ stabSub U) (U ⊓ U') := by
   ext u

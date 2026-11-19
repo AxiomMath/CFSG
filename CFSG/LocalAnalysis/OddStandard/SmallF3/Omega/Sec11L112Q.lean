@@ -63,7 +63,7 @@ theorem lambda_data (h : Sec11Perm A M Alt φ) (Q : Subgroup G)
   let f : (Fin 6 → ZMod 2) → ZMod 2 := fun v => if φ v ∈ Q then 0 else 1
   have hone : φ (fun _ => 1) = 1 := (h.ker _).2 (Or.inr rfl)
   have hf0 : f 0 = 0 := by
-    simp only [f, h.map_zero, Q.one_mem, if_true]
+    simp only [f, h.map_zero, Q.one_mem, ite_true]
   have hadd : ∀ v w : Fin 6 → ZMod 2, ∑ i, v i = 0 → ∑ i, w i = 0 → f (v + w) = f v + f w := by
     intro v w hv hw
     simp only [f]
@@ -85,16 +85,16 @@ theorem lambda_data (h : Sec11Perm A M Alt φ) (Q : Subgroup G)
         exact Q.mul_mem hvw (Q.inv_mem hQw)
       simp [hQv, hQw, this]
     · have := hidx v w hv hw hQv hQw
-      simp only [hQv, hQw, this, if_true, if_false]
+      simp only [hQv, hQw, this, ite_true, ite_false]
       decide
   have hrepr := sec11_lam_repr f hf0 hadd
   refine ⟨fun i : Fin 5 => f (Pi.single 0 1 + Pi.single i.succ 1), ?_, ?_, fun v => ?_⟩
   · simp only [f]
     have h01 : (Pi.single (Fin.succ (0 : Fin 5)) (1 : ZMod 2) : Fin 6 → ZMod 2) =
         Pi.single 1 1 := rfl
-    rw [h01, if_pos hz]
+    rw [h01, ite_eq_left hz]
   · have h1 := hrepr (fun _ => 1) (by decide)
-    have h2 : f (fun _ => 1) = 0 := by simp only [f, hone, Q.one_mem, if_true]
+    have h2 : f (fun _ => 1) = 0 := by simp only [f, hone, Q.one_mem, ite_true]
     rw [h2] at h1
     rw [h1]
     unfold sec11Lam
@@ -104,12 +104,12 @@ theorem lambda_data (h : Sec11Perm A M Alt φ) (Q : Subgroup G)
       have hev := hAQ v hv
       refine ⟨hev, ?_⟩
       rw [← hrepr v hev]
-      simp only [f, hv, if_true]
+      simp only [f, hv, ite_true]
     · rintro ⟨hev, hl⟩
       by_contra hv
       have := hrepr v hev
       rw [hl] at this
-      simp only [f, hv, if_false] at this
+      simp only [f, hv, ite_false] at this
       exact one_ne_zero this
 
 end Sec11Perm

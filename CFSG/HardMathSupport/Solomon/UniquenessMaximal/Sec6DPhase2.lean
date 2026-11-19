@@ -73,7 +73,7 @@ theorem barCenterX_le_of_comps {X K₁ K₂ K₃ : Subgroup G} (h₁ : GLAPCompo
       (fun u hu => hbar h₃ h₂ h23.symm ζ hζ.1 u hu) hζ.2⟩
 
 
-theorem barX_Zc_le_barCenterX {X S : Subgroup G} (hS : S ≤ X) :
+theorem barX_Zc_le_barCenterX {X S : Subgroup G} (_hS : S ≤ X) :
     barX 3 X (Zc S) ≤ barCenterX 3 X S := by
   intro ζ hζ
   rw [mem_barCenterX_iff]
@@ -92,7 +92,7 @@ variable {X B K : Subgroup G} {y : G}
 theorem barX_W_le_center (hB : IsElemAbelian 3 B) (hBX : B ≤ X) (hK : GLAPComponent 3 X K)
     (hy : y ∈ B) (hyN : y ∉ Subgroup.normalizer (K : Set G))
     (h3 : (Subgroup.normalizer (K : Set G)).relIndex B = 3)
-    {R : Subgroup G} (hRle : R ≤ bClosure B K) (hRp : IsPGroup 3 ↥R)
+    {R : Subgroup G} (_hRle : R ≤ bClosure B K) (_hRp : IsPGroup 3 ↥R)
     (hc1 : barCenterX 3 X (R ⊓ K) = barCenterX 3 X K)
     (hc2 : barCenterX 3 X (R ⊓ GLBConj y K) = barCenterX 3 X (GLBConj y K))
     (hc3 : barCenterX 3 X (R ⊓ GLBConj y (GLBConj y K)) =

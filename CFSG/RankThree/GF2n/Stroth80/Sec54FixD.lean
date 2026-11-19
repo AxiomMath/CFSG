@@ -32,12 +32,14 @@ noncomputable def sec54D_conjAct (F Y : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) : ↥F →* MulAut ↥Y :=
   (Subgroup.normalizerMonoidHom Y).comp (Subgroup.inclusion hFN)
 
+omit [Finite G] in
 theorem sec54D_conjAct_apply (F Y : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) (f : ↥F) (y : ↥Y) :
     ((sec54D_conjAct F Y hFN f y : ↥Y) : G) = (f : G) * (y : G) * (f : G)⁻¹ := by
   rw [sec54D_conjAct, MonoidHom.comp_apply, Subgroup.normalizerMonoidHom_apply_apply_coe,
     Subgroup.coe_inclusion]
 
+omit [Finite G] in
 theorem sec54D_conjAct_map_subgroupOf (F Y Y₀ : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) [(Y₀.subgroupOf Y).Normal]
     (hInv : ∀ f ∈ F, ∀ y ∈ Y₀, f * y * f⁻¹ ∈ Y₀) :
@@ -75,6 +77,7 @@ noncomputable def sec54D_quotAct (F Y Y₀ : Subgroup G)
   CFSG.OrderReductions.InvariantQuotient.quotientHomomorphism (sec54D_conjAct F Y hFN)
     (Y₀.subgroupOf Y) (sec54D_conjAct_map_subgroupOf F Y Y₀ hFN hInv)
 
+omit [Finite G] in
 theorem sec54D_quotAct_apply (F Y Y₀ : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) [(Y₀.subgroupOf Y).Normal]
     (hInv : ∀ f ∈ F, ∀ y ∈ Y₀, f * y * f⁻¹ ∈ Y₀) (f : ↥F) (y : ↥Y) :
@@ -86,6 +89,7 @@ theorem sec54D_quotAct_apply (F Y Y₀ : Subgroup G)
     (QuotientGroup.mk' (Y₀.subgroupOf Y) y) = _
   rw [CFSG.OrderReductions.InvariantQuotient.quotientAutomorphism_apply]
 
+omit [Finite G] in
 theorem sec54D_quotAct_eq_one_iff (F Y Y₀ : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) [(Y₀.subgroupOf Y).Normal]
     (hInv : ∀ f ∈ F, ∀ y ∈ Y₀, f * y * f⁻¹ ∈ Y₀) (f : ↥F) :
@@ -166,6 +170,7 @@ theorem sec54D_Q_normalizes_Vone (hc : Ctx M Q Z B) {t r : G} :
       _ = y * x := inv_eq_of_mul_eq_one_right (hH (y * x))⟩⟩
   Group.commGroupOfCenterEqTop (Subgroup.center_eq_top (G := H))
 
+omit [Finite G] in
 theorem sec54D_conj_Wt_eq {Q V : Subgroup G} {q : G} (hQ : conjSubgroup q Q = Q)
     (hV : conjSubgroup q V = V) : conjSubgroup q (Wt Q V) = Wt Q V := by
   unfold Wt
@@ -180,7 +185,7 @@ theorem sec54D_comm_Vone_le_V (h34 : Stroth34Statement) (hRoot : Stroth310RootSt
   classical
   obtain ⟨K, iK, iFin, hKcard, φ, hrange, hker, hact⟩ := hV
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI hchar : CharP K 2 := charP_two_of_card_eq_two_pow (hKcard.trans hZ2)
+  have hchar : CharP K 2 := charP_two_of_card_eq_two_pow (hKcard.trans hZ2)
   have hsp : SpNat hc t := ⟨K, iK, iFin, hKcard, m, hm, φ, hrange, hker, hact⟩
   set V : Subgroup G := Vt M (LB M Q B) B Z t with hVdef
   set V1 : Subgroup G := Sec8V1 M Q Z B t r with hV1def
@@ -231,7 +236,7 @@ theorem sec54D_comm_Vone_le_V (h34 : Stroth34Statement) (hRoot : Stroth310RootSt
         exact V1.mul_mem (hV1V (hZV hc')) hx
       have e2 : q⁻¹ * (q * x * q⁻¹) * q = x := by group
       rwa [e2] at hmem
-  haveI hVn : (V.subgroupOf V1).Normal :=
+  have hVn : (V.subgroupOf V1).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun x hx => hQnormV (hV1Q hx))
   have hRnormV : Rt M (LB M Q B) t ≤ Subgroup.normalizer (V : Set G) := by
     rw [hVdef]
@@ -247,7 +252,7 @@ theorem sec54D_comm_Vone_le_V (h34 : Stroth34Statement) (hRoot : Stroth310RootSt
       exact sec53_sp_comm_CN_vone_le_Z h34 h51 hc hs hsp hr hplane s hsN x hx
     exact hZV h1
   let S : Type := ↥V1 ⧸ V.subgroupOf V1
-  haveI hSfin : Finite S := inferInstance
+  have hSfin : Finite S := inferInstance
   let ρact : ↥(Rt M (LB M Q B) t) →* MulAut S :=
     sec54D_quotAct (Rt M (LB M Q B) t) V1 V hRnormV1
       (fun f hf y hy => (Subgroup.mem_normalizer_iff.mp (hRnormV hf) y).mp hy)
@@ -307,7 +312,7 @@ theorem sec54D_comm_Vone_le_V (h34 : Stroth34Statement) (hRoot : Stroth310RootSt
           exact hmem
   have hS2pow : ∀ x : S, x ^ 2 = 1 := fun x => by
     rw [pow_two]; exact hS2 x
-  letI hScomm : CommGroup S := sec54D_commGroupOfSqOne hS2
+  let hScomm : CommGroup S := sec54D_commGroupOfSqOne hS2
   have hScard : Nat.card S ≤ Nat.card K := by
     rw [hScardZ, ← hKcard]
   have hptriv : π = 1 := spHomTriv_hom_trivial (W := S) hS2pow hScard π
@@ -328,7 +333,7 @@ theorem sec54D_comm_W_le_W1 (h34 : Stroth34Statement) (hRoot : Stroth310RootStat
   classical
   obtain ⟨K, iK, iFin, hKcard, φ, hrange, hker, hact⟩ := hV
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI hchar : CharP K 2 := charP_two_of_card_eq_two_pow (hKcard.trans hZ2)
+  have hchar : CharP K 2 := charP_two_of_card_eq_two_pow (hKcard.trans hZ2)
   have hsp : SpNat hc t := ⟨K, iK, iFin, hKcard, m, hm, φ, hrange, hker, hact⟩
   set V : Subgroup G := Vt M (LB M Q B) B Z t with hVdef
   set V1 : Subgroup G := Sec8V1 M Q Z B t r with hV1def
@@ -368,7 +373,7 @@ theorem sec54D_comm_W_le_W1 (h34 : Stroth34Statement) (hRoot : Stroth310RootStat
     rw [hW1def, ← conjSubgroup_eq_self_iff]
     exact sec54D_conj_Wt_eq (conjSubgroup_eq_self_iff.mpr (Subgroup.le_normalizer hq))
       (conjSubgroup_eq_self_iff.mpr ((sec54D_Q_normalizes_Vone hc) hq))
-  haveI hW1n : (W1.subgroupOf W).Normal :=
+  have hW1n : (W1.subgroupOf W).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun x hx => hQnormW1 (hWQ hx))
   have hRnormW : Rt M (LB M Q B) t ≤ Subgroup.normalizer (W : Set G) := by
     intro ρ hρ
@@ -389,7 +394,7 @@ theorem sec54D_comm_W_le_W1 (h34 : Stroth34Statement) (hRoot : Stroth310RootStat
     rw [hW1def]
     exact h1
   let S : Type := ↥W ⧸ W1.subgroupOf W
-  haveI hSfin : Finite S := inferInstance
+  have hSfin : Finite S := inferInstance
   let ρact : ↥(Rt M (LB M Q B) t) →* MulAut S :=
     sec54D_quotAct (Rt M (LB M Q B) t) W W1 hRnormW
       (fun f hf y hy => (Subgroup.mem_normalizer_iff.mp (hRnormW1 hf) y).mp hy)
@@ -449,7 +454,7 @@ theorem sec54D_comm_W_le_W1 (h34 : Stroth34Statement) (hRoot : Stroth310RootStat
           exact hmem
   have hS2pow : ∀ x : S, x ^ 2 = 1 := fun x => by
     rw [pow_two]; exact hS2 x
-  letI hScomm : CommGroup S := sec54D_commGroupOfSqOne hS2
+  let hScomm : CommGroup S := sec54D_commGroupOfSqOne hS2
   have hScard : Nat.card S ≤ Nat.card K := by
     rw [hScardZ, ← hKcard]
   have hptriv : π = 1 := spHomTriv_hom_trivial (W := S) hS2pow hScard π
@@ -484,14 +489,17 @@ theorem sec54D_comm_W_le_Vone_of_cardN (h34 : Stroth34Statement)
   rw [← hV1W1] at h
   exact h
 
+omit [Finite G] in
 private theorem sec54D_comm_mul_left_mul_inv (q x u : G) :
     ⁅q * x, u⁆ * ⁅x, u⁆⁻¹ = ⁅q, x * u * x⁻¹⁆ := by
   simp only [commutatorElement_def]; group
 
+omit [Finite G] in
 private theorem sec54D_comm_mul_right (x a b : G) :
     ⁅x, a * b⁆ = ⁅x, a⁆ * (a * ⁅x, b⁆ * a⁻¹) := by
   simp only [commutatorElement_def]; group
 
+omit [Finite G] in
 private theorem sec54D_conj_comm_eq (s x y : G) :
     ⁅s, ⁅x, y⁆⁆ = ⁅⁅s, x⁆ * x, ⁅s, y⁆ * y⁆ * ⁅x, y⁆⁻¹ := by
   simp only [commutatorElement_def]; group
@@ -615,7 +623,7 @@ theorem sec54FC_hcomm_of (h34 : Stroth34Statement) (hRoot : Stroth310RootStateme
         exact V.mul_mem (hZV hc') hx
       have e2 : q⁻¹ * (q * x * q⁻¹) * q = x := by group
       rwa [e2] at hmem
-  haveI hVn : (V.subgroupOf V1).Normal :=
+  have hVn : (V.subgroupOf V1).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun x hx => hQnormV (hV1Q hx))
   have hS2 : ∀ s : ↥V1 ⧸ V.subgroupOf V1, s * s = 1 := by
     intro s
@@ -648,20 +656,20 @@ theorem sec54FC_hcomm_of (h34 : Stroth34Statement) (hRoot : Stroth310RootStateme
       have h1 := key q⁻¹ (Q.inv_mem hq) (q * x * q⁻¹) hx
       have e : q⁻¹ * (q * x * q⁻¹) * q⁻¹⁻¹ = x := by group
       rwa [e] at h1⟩
-  haveI hV1n : (V1.subgroupOf W).Normal :=
+  have hV1n : (V1.subgroupOf W).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun x hx => hQnormV1 (hWQ hx))
   let Φs : ↥R → (↥W →* (↥V1 ⧸ V.subgroupOf V1)) := fun s =>
     { toFun := fun x => QuotientGroup.mk' (V.subgroupOf V1)
-        ⟨⁅(s:G), (x:G)⁆, hWR (s:G) s.2 (x:G) (by simpa [hWdef] using x.2)⟩
+        ⟨⁅(s:G), (x:G)⁆, hWR (s:G) s.2 (x:G) (by simp [hWdef])⟩
       map_one' := by
         refine (QuotientGroup.eq_one_iff (N := V.subgroupOf V1)
           (⟨⁅(s:G), (1:G)⁆, hWR (s:G) s.2 (1:G) W.one_mem⟩ : ↥V1)).mpr ?_
         rw [Subgroup.mem_subgroupOf]; simp
       map_mul' := fun x y => by
         have hmem_c : ⁅(x:G), ⁅(s:G), (y:G)⁆⁆ ∈ Z :=
-          hc.hyp.toHyp79.comm_mem_V (hWQ x.2) (hV1Q (hWR (s:G) s.2 (y:G) (by simpa using y.2)))
-        have hmem_x : ⁅(s:G), (x:G)⁆ ∈ V1 := hWR (s:G) s.2 (x:G) (by simpa using x.2)
-        have hmem_y : ⁅(s:G), (y:G)⁆ ∈ V1 := hWR (s:G) s.2 (y:G) (by simpa using y.2)
+          hc.hyp.toHyp79.comm_mem_V (hWQ x.2) (hV1Q (hWR (s:G) s.2 (y:G) (by simp)))
+        have hmem_x : ⁅(s:G), (x:G)⁆ ∈ V1 := hWR (s:G) s.2 (x:G) (by simp)
+        have hmem_y : ⁅(s:G), (y:G)⁆ ∈ V1 := hWR (s:G) s.2 (y:G) (by simp)
         have hconj : (x:G) * ⁅(s:G), (y:G)⁆ * (x:G)⁻¹ =
             ⁅(x:G), ⁅(s:G), (y:G)⁆⁆ * ⁅(s:G), (y:G)⁆ := by
           rw [commutatorElement_def]; group
@@ -786,7 +794,7 @@ theorem sec54FC_hcomm_of (h34 : Stroth34Statement) (hRoot : Stroth310RootStateme
         (⟨⁅(n:G), (z:G)⁆, hWR _ n.2 _ z.2⟩ : ↥V1)).mpr (by
           rw [Subgroup.mem_subgroupOf]
           exact hZV (sec54D_hNW h34 hRoot h51 hc hs hm hV hN (n:G)
-            (Subgroup.mem_subgroupOf.mp hn) (z:G) (by simpa [hVdef, hWdef] using z.2)))
+            (Subgroup.mem_subgroupOf.mp hn) (z:G) (by simp)))
   obtain ⟨K, iK, iFin, hKcard, φ, hrange, hker, hact⟩ := hV
   let fsp := (MulEquiv.subgroupCongr hrange).toMonoidHom.comp φ.rangeRestrict
   have hfs : Function.Surjective fsp :=
@@ -804,13 +812,13 @@ theorem sec54FC_hcomm_of (h34 : Stroth34Statement) (hRoot : Stroth310RootStateme
       (Function.rightInverse_surjInv hfs) ⟨Ψ, hfker ▸ hNle⟩).comp fsp = Ψ
     exact MonoidHom.liftOfRightInverse_comp fsp (Function.surjInv hfs)
       (Function.rightInverse_surjInv hfs) ⟨Ψ, hfker ▸ hNle⟩
-  letI := iK
-  letI := iFin
+  let := iK
+  let := iFin
   have hq4K : 4 ≤ Nat.card K := by rw [hKcard]; exact hc.hyp.q4
   have hperf : Group.IsPerfect (StatedSp m K) := by
     apply isPerfect_statedSp m K
     left
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     obtain ⟨u, -, hu⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset K)) (n := 4) (by simpa using hq4K)
     exact ⟨u, hu⟩
   have htriv : π = 1 := MonoidHom.ext (hom_eq_one_of_perfect_of_comm

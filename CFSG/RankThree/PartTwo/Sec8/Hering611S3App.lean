@@ -75,6 +75,7 @@ theorem conj_config {A L : Subgroup G} {c : G} (hL : L ∈ thetaComponentsAt 3 c
   simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
   group
 
+omit [Finite G] in
 theorem conj_dec {A L : Subgroup G} {c d g : G} (hgA : g ∈ Subgroup.normalizer (A : Set G))
     (hgd : g * d * g⁻¹ = d)
     (hdec : A ≤ Subgroup.zpowers c ⊔ Subgroup.zpowers d ⊔ (A ⊓ L)) :

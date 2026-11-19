@@ -42,7 +42,7 @@ theorem CartanAt.map {Y Y' : Type} [Group Y] [Group Y'] {U : Subgroup Y} {n : �
 theorem isSylowOf_map_equiv {Y Y' : Type} [Group Y] [Group Y'] [Finite Y] [Finite Y']
     {U : Subgroup Y} (hU : CFSG.ABGLocalTools.IsSylowOf 2 U ⊤) (e : Y ≃* Y') :
     CFSG.ABGLocalTools.IsSylowOf 2 (U.map e.toMonoidHom) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hp, hi⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp hU
   refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, hp.map _, ?_⟩
   rw [relIndex_top_right] at hi ⊢
@@ -51,14 +51,14 @@ theorem isSylowOf_map_equiv {Y Y' : Type} [Group Y] [Group Y'] [Finite Y] [Finit
 theorem CartanAt.of_isSylowOf {Y : Type} [Group Y] [Finite Y] {U₀ U : Subgroup Y} {n : ℕ}
     {T : Type} [Group T] (h : CartanAt U₀ n T) (hU₀ : CFSG.ABGLocalTools.IsSylowOf 2 U₀ ⊤)
     (hU : CFSG.ABGLocalTools.IsSylowOf 2 U ⊤) : CartanAt U n T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hp₀, hi₀⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp hU₀
   obtain ⟨-, hp, hi⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp hU
   rw [relIndex_top_right] at hi₀ hi
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Y (hp₀.toSylow hi₀) (hp.toSylow hi)
   have hUg : U = U₀.map (MulAut.conj g).toMonoidHom := by
     have h1 := congrArg (fun P : Sylow 2 Y => (P : Subgroup Y)) hg
-    simp only [Sylow.pointwise_smul_def, IsPGroup.toSylow_coe] at h1
+    simp only [IsPGroup.toSylow_coe] at h1
     rw [← h1]
     rfl
   rw [hUg]
@@ -126,7 +126,7 @@ theorem isSylowOf_prod {A B : Type} [Group A] [Group B] [Finite A] [Finite B] {U
     {V : Subgroup B} (hU : CFSG.ABGLocalTools.IsSylowOf 2 U ⊤)
     (hV : CFSG.ABGLocalTools.IsSylowOf 2 V ⊤) :
     CFSG.ABGLocalTools.IsSylowOf 2 (U.prod V) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hpU, hiU⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp hU
   obtain ⟨-, hpV, hiV⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp hV
   rw [relIndex_top_right] at hiU hiV
@@ -167,9 +167,9 @@ theorem k_19_glue4_torus_of_families
       ∃ U₀ : Subgroup X, CFSG.ABGLocalTools.IsSylowOf 2 U₀ ⊤ ∧
         CartanAt U₀ n (Multiplicative (ZMod (2 ^ n - 1) × ZMod (2 ^ n - 1))) := by
     intro A B _ _ ⟨e⟩ hA hB
-    haveI : Finite (A × B) := Finite.of_equiv X e.toEquiv
-    haveI : Finite A := Finite.prod_left B
-    haveI : Finite B := Finite.prod_right A
+    have : Finite (A × B) := Finite.of_equiv X e.toEquiv
+    have : Finite A := Finite.prod_left B
+    have : Finite B := Finite.prod_right A
     obtain ⟨UA, hUA, hCA⟩ := hA
     obtain ⟨UB, hUB, hCB⟩ := hB
     refine ⟨(UA.prod UB).map e.symm.toMonoidHom, isSylowOf_map_equiv (isSylowOf_prod hUA hUB) _,

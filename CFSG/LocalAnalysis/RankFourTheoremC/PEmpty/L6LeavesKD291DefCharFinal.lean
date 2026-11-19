@@ -11,7 +11,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PEmpty
 open KD291DC
 
 theorem inUni : InUni := fun p n f hp _ hn G _ _ hm => by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact rankThreeCent_psu hn hm
 
 theorem kd291DefCharL_of_g2Prime

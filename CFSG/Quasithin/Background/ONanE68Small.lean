@@ -51,7 +51,7 @@ theorem relIndex_le_two_of_smallList (hb : E6.E68BaseHyp L A R)
   set P := ((sylowInB hb : Sylow 2 ↥L) : Subgroup ↥L) with hPdef
   have hPsyl : IsSylowTwoOf P ⊤ := isSylowTwoOf_top_of_sylow (sylowInB hb)
   have hshape := hS.sylow_shape P hPsyl
-  have hP2 : IsPGroup 2 P := (sylowInB hb).isPGroup'
+  have hP2 : IsPGroup 2 P := (sylowInB hb).isPGroup
   have hcZ : Nat.card (Subgroup.center ↥P) = 2 := card_center_of_shape P hP2 hshape
   have hP8 : 8 ≤ Nat.card ↥P := by
     rcases hshape with ⟨n, hn, ⟨e⟩⟩ | he

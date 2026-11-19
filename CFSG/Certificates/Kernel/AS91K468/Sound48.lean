@@ -242,7 +242,7 @@ theorem foldl_img_testBit (m y : ℕ) (f : ℕ → ℕ) : ∀ (L : List ℕ) (a 
   | x :: L, a => by
     rw [List.foldl_cons, foldl_img_testBit m y f L]
     by_cases hx : m.testBit x = true
-    · rw [if_pos hx, testBit_or_one_shiftLeft, Bool.or_eq_true, decide_eq_true_iff]
+    · rw [ite_eq_left hx, testBit_or_one_shiftLeft, Bool.or_eq_true, decide_eq_true_iff]
       constructor
       · rintro ((h | h) | ⟨z, hz, h⟩)
         · exact Or.inl h
@@ -253,7 +253,7 @@ theorem foldl_img_testBit (m y : ℕ) (f : ℕ → ℕ) : ∀ (L : List ℕ) (a 
         · rcases List.mem_cons.1 hz with rfl | hz
           · exact Or.inl (Or.inr h.2)
           · exact Or.inr ⟨z, hz, h⟩
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       constructor
       · rintro (h | ⟨z, hz, h⟩)
         · exact Or.inl h
@@ -269,7 +269,7 @@ theorem imgS_zero (A : List ℕ) (m b acc : ℕ) :
   by_cases h : m = 0
   · subst h
     rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have e : Nat.beq m 0 = false := Bool.eq_false_iff.2 fun h' => h (Nat.eq_of_beq_eq_true h')
     change Bool.rec (motive := fun _ => ℕ) _ _ (Nat.beq m 0) = _
     rw [e]
@@ -281,7 +281,7 @@ theorem imgS_succ (A : List ℕ) (d m b acc : ℕ) :
   by_cases h : m = 0
   · subst h
     rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have e : Nat.beq m 0 = false := Bool.eq_false_iff.2 fun h' => h (Nat.eq_of_beq_eq_true h')
     change Bool.rec (motive := fun _ => ℕ) _ _ (Nat.beq m 0) = _
     rw [e]
@@ -297,7 +297,7 @@ theorem imgS_testBit (A : List ℕ) (y : ℕ) : ∀ (d m b acc : ℕ), m < 2 ^ 2
       simp
     · have h1 : m = 1 := by simp at hm; omega
       subst h1
-      rw [if_neg h, testBit_or_one_shiftLeft, Bool.or_eq_true, decide_eq_true_iff]
+      rw [ite_eq_right h, testBit_or_one_shiftLeft, Bool.or_eq_true, decide_eq_true_iff]
       constructor
       · rintro (h | h)
         · exact Or.inl h
@@ -312,7 +312,7 @@ theorem imgS_testBit (A : List ℕ) (y : ℕ) : ∀ (d m b acc : ℕ), m < 2 ^ 2
     by_cases h : m = 0
     · subst h
       simp
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have hp : (2 : ℕ) ^ 2 ^ (d + 1) = 2 ^ 2 ^ d * 2 ^ 2 ^ d := by
         rw [pow_succ, pow_mul, sq]
       have hhi : m >>> 2 ^ d < 2 ^ 2 ^ d := by

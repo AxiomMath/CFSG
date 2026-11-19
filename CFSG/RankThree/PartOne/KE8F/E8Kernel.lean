@@ -209,7 +209,7 @@ theorem exists_unit_orderOf {p : ℕ} (hp : p.Prime) (hpℓ : ¬ ℓ ∣ p) : �
   have hp' : (p : L) ≠ 0 := fun h => hpℓ ((CharP.cast_eq_zero_iff L ℓ p).1 h)
   have : NeZero p := ⟨hp.ne_zero⟩
   have : NeZero (p : L) := ⟨hp'⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   have hu : IsUnit ζ := hζ.isUnit hp.ne_zero
   refine ⟨hu.unit, ?_⟩
   have : IsPrimitiveRoot hu.unit p := IsPrimitiveRoot.coe_units_iff.1 (by simpa using hζ)

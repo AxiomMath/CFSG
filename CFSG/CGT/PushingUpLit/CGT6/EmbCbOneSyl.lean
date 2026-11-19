@@ -35,7 +35,7 @@ theorem exists_index_two : ∃ X₀ : Subgroup ↥G, X₀.Normal ∧ X₀.index 
   obtain ⟨S, hS⟩ := hP₀.exists_le_sylow
   set S' : Subgroup ↥G := (S : Subgroup ↥N).map N.subtype with hS'
   have htS : c.tG ∈ S' := ⟨tN, hS (Subgroup.mem_zpowers tN), rfl⟩
-  have hS'p : IsPGroup 2 ↥S' := S.isPGroup'.map N.subtype
+  have hS'p : IsPGroup 2 ↥S' := S.isPGroup.map N.subtype
   have hS'N : S' ≤ N := Subgroup.map_subtype_le _
   have hcardS' : Nat.card ↥S' = 2 ^ (Nat.card ↥G).factorization 2 := by
     have h1 : Nat.card ↥S' = Nat.card ↥(S : Subgroup ↥N) :=

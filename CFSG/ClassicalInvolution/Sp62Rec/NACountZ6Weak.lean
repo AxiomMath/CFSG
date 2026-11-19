@@ -26,7 +26,7 @@ theorem card_modEq_one_seven {B : Subgroup ↥N0} (hBA : B ≤ A0.subgroupOf N0)
     rw [hφ, ← map_pow]
     have : (⟨x, hxB⟩ : ↥(Subgroup.normalizer (B : Set ↥N0))) ^ 7 = 1 := Subtype.ext hx7
     rw [this, map_one]
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hp : IsPGroup 7 (Subgroup.zpowers φ) := by
     apply IsPGroup.of_card_dvd_pow (n := 1)
     rw [Nat.card_zpowers, pow_one]

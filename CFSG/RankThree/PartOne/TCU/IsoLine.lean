@@ -107,7 +107,7 @@ theorem exists_two_subgroup_normalized {A : SUn h 3} {S : Subgroup (PSUn h 3)} (
     have : 0 < (Nat.card ↥N).factorization 2 :=
       (Nat.Prime.factorization_pos_of_dvd Nat.prime_two hN0 h2N)
     omega
-  · exact P.isPGroup'.map N.subtype
+  · exact P.isPGroup.map N.subtype
   · rw [Subgroup.mem_normalizer_iff]
     intro r
     constructor

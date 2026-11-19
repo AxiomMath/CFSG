@@ -93,17 +93,17 @@ theorem canon_tri_inner_twA (F : TriFacts) {B : Subgroup G} {x y : G} {L D K J :
   have hBA : ¬ B ≤ A := fun hle => by
     have := Subgroup.card_le_of_le hle
     omega
-  obtain ⟨g₁, hg₁B, hg₁A⟩ := SetLike.not_le_iff_exists.mp hBA
+  obtain ⟨g₁, hg₁B, hg₁A⟩ := IsConcreteLE.not_le_iff_exists.mp hBA
   have hg₁D : g₁ ∉ B ⊓ Subgroup.centralizer (K : Set G) := fun hg => hg₁A (hDA hg)
-  have hg : ∃ g ∈ B, g ∉ A ∧ ¬ IsSolvable ↥(K ⊓ Subgroup.centralizer ({g} : Set G)) := by
-    by_cases hs : IsSolvable ↥(K ⊓ Subgroup.centralizer ({g₁} : Set G))
+  have hg : ∃ g ∈ B, g ∉ A ∧ ¬ Group.IsSolvable ↥(K ⊓ Subgroup.centralizer ({g} : Set G)) := by
+    by_cases hs : Group.IsSolvable ↥(K ⊓ Subgroup.centralizer ({g₁} : Set G))
     · set D' := B ⊓ Subgroup.centralizer (K : Set G) with hD'
       have hD'card : Nat.card D' = 9 := by rw [hD', ← h.D_eq, h.card_D]; norm_num
       have hD'B : D' ≤ B := inf_le_left
       have hg₁1 : g₁ ≠ 1 := fun h1 => hg₁A (h1 ▸ A.one_mem)
       have hg₁p : g₁ ^ 3 = 1 := h.elem.2 g₁ hg₁B
       have hzp : Nat.card (Subgroup.zpowers g₁) = 3 := by
-        haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+        have : Fact (Nat.Prime 3) := ⟨hp⟩
         rw [Nat.card_zpowers, orderOf_eq_prime hg₁p hg₁1]
       have hnorm : Subgroup.zpowers g₁ ≤ Subgroup.normalizer (D' : Set G) := by
         rw [Subgroup.zpowers_le]
@@ -133,7 +133,7 @@ theorem canon_tri_inner_twA (F : TriFacts) {B : Subgroup G} {x y : G} {L D K J :
     (h.elem.2 g hgB) hgout hgcomm
   rcases hJ with hc | hab
   · exact hgA (hDA ⟨hgB, hc⟩)
-  · exact hgns (isSolvable_of_comm fun u v => hab.is_comm.comm u v)
+  · exact hgns (_root_.Group.isSolvable_of_comm fun u v => hab.is_comm.comm u v)
 
 theorem canon_tri_of_facts (F : TriFacts) {m : ℕ} (hc : S12Ctx G m 3) (h171 : I171OneAt G)
     (B : Subgroup G) (x : G) (L D K : Subgroup G) (y : G) (J : Subgroup G)

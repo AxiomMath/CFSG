@@ -204,7 +204,7 @@ end ChainCodes
 theorem nonempty_mulEquiv_Sy (hP : syP.all pairCheck = true) (hSy : Nat.card (Sy hP) = 512)
     {Γ : Type*} [Group Γ] [Finite Γ] (ι : Γ →* H6) (hι : Function.Injective ι)
     (T : Subgroup Γ) (hT : Nat.card T = 512) : Nonempty (T ≃* Sy hP) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T' : Subgroup H6 := T.map ι with hT'def
   have hT' : Nat.card T' = 512 := (Subgroup.card_map_of_injective hι).trans hT
   have h512 : (512 : ℕ) = 2 ^ 9 := by norm_num

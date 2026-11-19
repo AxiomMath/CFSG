@@ -44,7 +44,7 @@ theorem mem_of_mem_normalizer_of_mul_self [Finite G] (U : Sylow 2 G) {g : G}
     (hgN : g ∈ normalizer ((U : Subgroup G) : Set G)) (hg : g * g = 1) : g ∈ (U : Subgroup G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 (zpowers g ⊔ (U : Subgroup G) : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_right' (isPGroup_zpowers_of_mul_self' hg) U.isPGroup'
+    IsPGroup.to_sup_of_normal_right' (isPGroup_zpowers_of_mul_self' hg) U.isPGroup
       (zpowers_le.mpr hgN)
   have heq := U.maximal_isPGroup.eq_of_ge hp le_sup_right
   exact heq ▸ (le_sup_left : zpowers g ≤ _) (mem_zpowers g)

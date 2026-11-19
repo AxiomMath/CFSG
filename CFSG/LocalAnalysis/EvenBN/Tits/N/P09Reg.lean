@@ -172,7 +172,7 @@ theorem node09_eq_F_of_invariant (h49 : d.Thm49Statement) (hd : d.Hyp) {S : Subg
   have h1632 : Nat.card S = 16 ∨ Nat.card S = 32 := by
     have hle : Nat.card S ≤ 32 := Nat.le_of_dvd (by norm_num) hd32
     generalize Nat.card S = n at hd32 hcard hle ⊢
-    interval_cases n <;> first | omega | (exfalso; revert hd32; decide)
+    interval_cases n <;> first | omega
   rcases h1632 with h16 | h32
   · exfalso
     obtain ⟨hyNC, -, -, -, -, -, -⟩ := hd.s56_Y_facts

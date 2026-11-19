@@ -32,7 +32,7 @@ theorem card_Y0 : Nat.card Y0 = 349920 := by
       rw [e2] at hc
       exact ⟨(⟨a, ha⟩, ⟨b, hb'⟩, ⟨c, hc⟩), Subtype.ext hx.symm⟩
   rw [Y0_eq, ← Nat.card_eq_of_bijective f hf]
-  simp [Nat.card_prod]
+  simp
 
 end CertificateChecks.KernelLyY
 

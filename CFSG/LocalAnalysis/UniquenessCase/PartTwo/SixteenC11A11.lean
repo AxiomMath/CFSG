@@ -139,7 +139,7 @@ theorem s16c11_altEleven_forcedPairs :
 theorem s16c11_altEleven_pairs :
     ∃ (T₁ : Subgroup (FFModel.altDn 11).Gam) (N : ℕ), IsPGroup 2 ↥T₁ ∧ ¬ 2 ∣ T₁.index ∧
       Odd (S16C11ModelPairs (FFModel.altDn_isActionModel 11) T₁ N).ncard := by
-  haveI : Finite (FFModel.altDn 11).Gam := inferInstanceAs (Finite ↥(alternatingGroup (Fin 11)))
+  have : Finite (FFModel.altDn 11).Gam := inferInstanceAs (Finite ↥(alternatingGroup (Fin 11)))
   refine ⟨s16c11A11T1, 11, s16c11_a11_T_isPGroup, s16c11_a11_T_index_odd, ?_⟩
   have hcard : (S16C11ModelPairs (FFModel.altDn_isActionModel 11) s16c11A11T1 11).ncard = 1 := by
     unfold S16C11ModelPairs

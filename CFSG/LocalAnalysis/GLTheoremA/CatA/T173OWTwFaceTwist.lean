@@ -40,7 +40,7 @@ theorem twistHom_comp_eq_slFieldAut {F : Type} [Field F] (σ : F ≃+* F)
   have hφψ : φ = ψ := by
     refine MonoidHom.eq_of_eqOn_dense (CFSG.Timmesfeld.closure_tv_three (F := F)) ?_
     intro g hg
-    simp only [Set.mem_union, Set.mem_setOf_eq] at hg
+    simp only [Set.mem_union, Set.mem_ofPred_eq] at hg
     rcases hg with ((⟨c, rfl⟩ | ⟨c, rfl⟩) | ⟨c, rfl⟩) | ⟨c, rfl⟩
     · dsimp only [φ, ψ]
       simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]

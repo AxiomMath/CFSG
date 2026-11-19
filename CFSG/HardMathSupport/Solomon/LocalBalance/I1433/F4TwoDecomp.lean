@@ -157,7 +157,7 @@ theorem exists_decomposition {κ κ' : ℤ} (hκ : κ = 1 ∨ κ = 2)
     · rw [ipF4_add_left, h3, k3]; ring
     · rw [ipF4_add_left, h4, k4]; ring
     · rw [smul_add, h5, k5]
-      simp only [add_smul, mul_add, smul_add]
+      simp only [add_smul, mul_add]
       abel
   have hsmul : ∀ (c : ℤ) u, P u → P (c • u) := by
     rintro c u ⟨a, b, a', b', h1, h2, h3, h4, h5⟩

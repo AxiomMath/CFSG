@@ -23,8 +23,8 @@ theorem sigmaFacts_psu3_outer
   classical
   obtain ⟨-, -, F, hFld, hFin, hFcard, ⟨e⟩⟩ :=
     CFSG.GH74.Generic.lieModel_psu_data hL
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hcard : Nat.card F = p ^ (2 * f) := by
     rw [hFcard, pow_two, ← pow_add]
     congr 1
@@ -67,7 +67,7 @@ theorem sigmaFacts_psu3_outer
       CFSG.GH74.Generic.BProg.B2.PumpupTableOutU3.graphData_of_typeII_psl2 hU h5 hodd hθ hφ hAu hAA hrel
     obtain ⟨D⟩ :=
       CFSG.GH74.GLS.Stage2.Signalizer.Odd87.outerData_of_typeII hU hp2 h3 hθ hφ hAu hAA hrel
-    haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) ↥hU.fixedField) :=
+    have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) ↥hU.fixedField) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by
         rw [hU.card_fixedField]
         omega)
@@ -79,11 +79,11 @@ theorem sigmaFacts_psu3_outer
         rwa [hU.card_fixedField]
       have hk5 : 5 ≤ Nat.card ↥hU.fixedField := by
         rwa [hU.card_fixedField]
-      haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) ↥hU.fixedField) :=
+      have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) ↥hU.fixedField) :=
         CFSG.GH74.GLS.Stage2.Signalizer.Odd87.sl2_perfect_of_five_le hkodd hk5
       exact Group.IsPerfect.range (f := D.Ψ)
     have hL0K_perf : Group.IsPerfect ↥L0K := by
-      haveI : Group.IsPerfect ↥(D.Ψ.range) := hΨperf
+      have : Group.IsPerfect ↥(D.Ψ.range) := hΨperf
       simpa [L0K] using (Group.IsPerfect.map (f := θ) : Group.IsPerfect ↥((D.Ψ.range).map θ))
     have hL0K_fixed : ∀ x ∈ L0K, σ x = x := by
       intro x hx

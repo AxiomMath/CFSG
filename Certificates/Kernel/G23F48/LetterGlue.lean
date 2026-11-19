@@ -128,8 +128,7 @@ theorem S0_moves {p : Fin 728} (h0 : p ≠ 0) (h364 : p ≠ 364) :
     ∃ s ∈ burnsideF48t_g23S0', s p ≠ p := by
   obtain ⟨-, -, -, -, -, -, -, -, -, h10, -⟩ := fix_ok
   have h := allN_spec h10 p p.2
-  simp only [List.any_cons, List.any_nil, Bool.or_false, Bool.or_eq_true, Bool.not_eq_true',
-    Nat.beq_eq_true_eq] at h
+  simp only [List.any_cons, List.any_nil, Bool.or_false, Bool.or_eq_true, Bool.not_eq_true'] at h
   have hp0 : (p : ℕ) ≠ 0 := fun e => h0 (Fin.ext e)
   have hp364 : (p : ℕ) ≠ 364 := fun e => h364 (Fin.ext e)
   have hj : ∃ j < 3, Nat.beq (pg 10 (mask 10) (S0C.S j) p) p = false := by

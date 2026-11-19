@@ -27,7 +27,7 @@ theorem thetaFree_conjOrbit_bot {X : Type} [Group X] (J : Subgroup X) :
       · rintro ⟨y, hy, rfl⟩
         simpa [MulAut.conj_apply] using hy
       · intro hx
-        exact ⟨x, hx, by simp [MulAut.conj_apply]⟩
+        exact ⟨x, hx, by simp⟩
     rw [Set.mem_singleton_iff]
     exact h1
   · intro hK

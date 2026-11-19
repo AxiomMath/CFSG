@@ -392,7 +392,7 @@ theorem oddCoreIn_centralizer_eq_bot_of_sec3Suz_of_co1TwoC (h17 : Step17G24Odd)
     rw [mem_centralizer_singleton_iff]
     exact congrArg Subtype.val (hFr.elemE.1.is_comm.comm ⟨r, hFr.R_le_E hr⟩ ⟨z, hzE⟩)
   have hS : IsSylowOf 2 (S : Subgroup G) ⊤ :=
-    isSylowOf_iff.mpr ⟨le_top, S.isPGroup', by rw [relIndex_top_right]; exact S.not_dvd_index⟩
+    isSylowOf_iff.mpr ⟨le_top, S.isPGroup, by rw [relIndex_top_right]; exact S.not_dvd_index⟩
   let eL : ↥(closureIn A N) ≃* ↥(rankTwoX (A.subgroupOf N)) :=
     ((rankTwoX _).equivMapOfInjective _ N.subtype_injective).symm
   have hperf : commutator ↥(closureIn A N) = ⊤ :=

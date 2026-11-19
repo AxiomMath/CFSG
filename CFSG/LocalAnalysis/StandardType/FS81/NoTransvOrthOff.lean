@@ -235,7 +235,7 @@ theorem orth_noOffenderA {n : ℕ} {B : Basis3 G (n + 1)} {b₀ : G} {K E : Subg
           exact (σf f).injective h1
         rw [hi0, hev0, hev0]
       · have h1 := congrFun h (Quotient.mk (orbitRel U (Fin (n + 1))) i)
-        simp only [Φ, if_neg hω] at h1
+        simp only [Φ, ite_eq_right hω] at h1
         rw [← hui, hevfix a f i, hevfix a' f i] at h1
         rcases (hσf f).2.1 i with hs | hs <;> rw [hs] at h1
         · simpa using h1

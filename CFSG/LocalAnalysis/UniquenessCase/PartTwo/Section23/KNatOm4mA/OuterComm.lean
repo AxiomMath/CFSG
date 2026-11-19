@@ -57,7 +57,7 @@ theorem formS_comm_collinear {f : MulAut (VH a F)} {M : SL₂ F} (hf : FormS f M
   have h01' := congrFun (congrFun hs 0) 1
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val',
     Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-    one_mul, mul_one, zero_mul, mul_zero, add_zero, zero_add] at h00 h01 h00' h01'
+    one_mul, mul_one, mul_zero, add_zero] at h00 h01 h00' h01'
   have hM10 : (M : Mat F) 1 0 = 0 := by
     have hz : s₀ * (M : Mat F) 1 0 = 0 := by linear_combination -h00
     exact (mul_eq_zero.mp hz).resolve_left hs₀

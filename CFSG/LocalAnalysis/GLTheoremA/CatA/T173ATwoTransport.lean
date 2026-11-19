@@ -18,7 +18,7 @@ private theorem card_ker_eq_three_of {Ω : Type} [Group Ω] [Finite Ω] {B : Sub
     {G : Type} [Group G] (φ : ↥B →* G)
     (hker : ∀ b : ↥B, φ b = 1 ↔ (b : Ω) ∈ Subgroup.zpowers x)
     (hBel : IsElemAbelian 3 B) (hxB : x ∈ B) (hx1 : x ≠ 1) : Nat.card φ.ker = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hordx : orderOf x = 3 := orderOf_eq_prime (hBel.2 x hxB) hx1
   have : φ.ker = (Subgroup.zpowers x).subgroupOf B := by
     ext b
@@ -32,7 +32,7 @@ theorem lin_two_B_le_sup {p : ℕ} {Ω : Type} [Group Ω] {S B : Subgroup Ω} (h
     {θ : ↥S ⧸ Subgroup.center ↥S ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) F)}
     (hM : LinMarking p S B 1 d F θ) :
     ∀ b ∈ B, b ∈ S ⊔ Subgroup.centralizer (S : Set Ω) := by
-  haveI := hSn
+  have := hSn
   intro b hb
   obtain ⟨-, -, -, -, -, -, hconj⟩ := hM
   obtain ⟨φ, hφmem, hφind⟩ := hconj b hb
@@ -74,7 +74,7 @@ theorem lin_two_center_bot
     (hF : Nat.card F = 2) (hd : 5 ≤ d)
     (θ : ↥S ⧸ Subgroup.center ↥S ≃* LargeEvenProj (LargeEvenSLGroup (Fin d) F)) :
     Subgroup.center ↥S = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKcard : Nat.card (GaloisField 2 1) = 2 := by
     rw [GaloisField.card 2 1 (by norm_num)]
     norm_num

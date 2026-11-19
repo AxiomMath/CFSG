@@ -45,11 +45,11 @@ theorem ggSecFive_outSolvable_of_member
       exact ggStepTwo_centralizer_ne_top hnonab hy1 (top_le_iff.mp (htop ▸ hXC))
   obtain ⟨hperf0, lab, -, hraw⟩ := hmark
   obtain ⟨R, _, I, F, hs, ⟨a, b, hab⟩, θ, -⟩ := largeEvenRawDatum_exists hraw
-  haveI : Group.IsPerfect ↥X := Group.IsPerfect.mk hperf0
-  haveI : IsSimpleGroup (↥X ⧸ Subgroup.center ↥X) := θ.isSimpleGroup
+  have : Group.IsPerfect ↥X := Group.IsPerfect.mk hperf0
+  have : IsSimpleGroup (↥X ⧸ Subgroup.center ↥X) := θ.isSimpleGroup
   have hnab : ∃ u v : ↥X ⧸ Subgroup.center ↥X, u * v ≠ v * u :=
     ⟨θ.symm a, θ.symm b, fun h => hab (by simpa using congrArg θ h)⟩
-  haveI : Group.IsSolvable (Outer (↥X ⧸ Subgroup.center ↥X)) :=
+  have : Group.IsSolvable (Outer (↥X ⧸ Subgroup.center ↥X)) :=
     CFSG.LocalAnalysis.ComponentInitial.outer_solvable_of_kProper_image
       (fun S _ _ _ hnab hS' => hS S hnab hS') hKP hne hnab
       (QuotientGroup.mk' (Subgroup.center ↥X)) (QuotientGroup.mk'_surjective _)

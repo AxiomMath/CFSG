@@ -52,6 +52,7 @@ theorem exists_two_complement : ∀ i j k : Fin 5, i ≠ j → i ≠ k → j ≠
 
 variable {E C : Type*} [Group E] [Finite E] [CommGroup C] [Finite C]
 
+omit [Finite E] in
 theorem three_le_card_eq (hE : Nat.card E = 9) (hC : Nat.card C = 3) (χ χ' : E →* C) :
     3 ≤ Nat.card {x : E // χ x = χ' x} := by
   have h := Subgroup.card_ker_mul_card_range (χ / χ')
@@ -61,7 +62,7 @@ theorem three_le_card_eq (hE : Nat.card E = 9) (hC : Nat.card C = 3) (χ χ' : E
     rw [MonoidHom.mem_ker, MonoidHom.div_apply, div_eq_one]
   rw [hk]
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   rw [hE] at h
   nlinarith
 
@@ -78,7 +79,7 @@ theorem exists_eq_triple (hE : Nat.card E = 9) (hC : Nat.card C = 3) (χ : Fin 5
       χ i x = χ k x := by
   classical
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have := Fintype.ofFinite E
   have hEc : Fintype.card E = 9 := by rw [← Nat.card_eq_fintype_card, hE]
   set P : Finset (Fin 5 × Fin 5) := Finset.univ.filter (fun p => p.1 < p.2) with hP
@@ -159,7 +160,7 @@ theorem exists_eigenframe (h : UnitaryFieldData ℓ f K) (hq3 : 3 ∣ ℓ ^ f + 
     refine ⟨(((P : GL (Fin n) K)⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ v, ?_⟩
     have hcol : colMat (fun i => Pm *ᵥ (Pi.single i 1 : Fin n → K)) = Pm := by
       ext k j
-      simp [colMat, Matrix.mulVec_single_one]
+      simp [colMat]
     rw [← colMat_mulVec, hcol, mulVec_mulVec, hPinv, one_mulVec]
   · intro y hy
     have hdiag := hP _ ⟨y, hy, rfl⟩

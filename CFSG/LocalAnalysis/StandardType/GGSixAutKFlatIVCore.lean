@@ -15,6 +15,7 @@ section Cores
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem ggCore_centralizer_closure_pair (b e : G) :
     Subgroup.centralizer ↑(Subgroup.closure ({b, e} : Set G)) =
       Subgroup.centralizer ({b} : Set G) ⊓ Subgroup.centralizer ({e} : Set G) := by
@@ -49,7 +50,7 @@ theorem ggItem2_core (hS1 : GGStructSOne) (hp : p.Prime) (hp2 : p ≠ 2) {G₀ K
     (hC₀ : CFSG.IsPComponent p (C₀.subgroupOf (K ⊓ Subgroup.centralizer {e}))) :
     CFSG.Assembly.IsQuasisimple ↥C₀ ∧
       LargeEvenMarking ↥C₀ (fun _ _ _ _ _ _ => True) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperfC : ⁅C₀, C₀⁆ = C₀ := ggPComponent_commutator_eq p hC₀le hC₀
   have hC₀G₀ : C₀ ≤ G₀ := hperf C₀ (hC₀le.trans inf_le_right) hperfC
   have hC₀W : C₀ ≤ Subgroup.centralizer ({b} : Set G) ⊓
@@ -93,7 +94,7 @@ theorem ggItem5_core (hS1' : GGStructSOnePrimeRoot) (hp : p.Prime) (hp2 : p ≠ 
     {D : Type*} [Group D] (hD : CFSG.Assembly.IsQuasisimple D)
     (Θ : ↥S₀ →* D) (hΘ : Function.Surjective Θ) :
     LargeEvenMarking D (fun _ _ _ _ _ _ => True) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hS₀perf : ⁅S₀, S₀⁆ = S₀ := ggPComponent_commutator_eq p hS₀ hS₀pc
   have hS₀G₀ : S₀ ≤ G₀ := hperf S₀ hS₀ hS₀perf
   let Y : Subgroup G := Subgroup.centralizer ({r, e} : Set G) ⊓ G₀
@@ -107,14 +108,14 @@ theorem ggItem5_core (hS1' : GGStructSOnePrimeRoot) (hp : p.Prime) (hp2 : p ≠ 
   have hκ : Function.Surjective κ :=
     (QuotientGroup.mk'_surjective (Subgroup.center D)).comp hΘ
   obtain ⟨hDs, hDnc⟩ := ggQuasisimple_centerQuot hD
-  haveI : IsSimpleGroup (D ⧸ Subgroup.center D) := hDs
+  have : IsSimpleGroup (D ⧸ Subgroup.center D) := hDs
   let ε : ↥S₀ ⧸ κ.ker ≃* D ⧸ Subgroup.center D :=
     QuotientGroup.quotientKerEquivOfSurjective κ hκ
   have hsimpleQ : IsSimpleGroup (↥S₀ ⧸ κ.ker) := ε.isSimpleGroup
   have hncQ : ∃ a b : ↥S₀ ⧸ κ.ker, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hDnc
     exact ⟨ε.symm a, ε.symm b, fun h => hab (by simpa using congrArg ε h)⟩
-  haveI : Finite (D ⧸ Subgroup.center D) := Finite.of_surjective κ hκ
+  have : Finite (D ⧸ Subgroup.center D) := Finite.of_surjective κ hκ
   have hY : (Subgroup.map Y.subtype (CFSG.pCore 2 ↥Y)).subgroupOf Y = CFSG.pCore 2 ↥Y :=
     Subgroup.comap_map_eq_self_of_injective Y.subtype_injective (CFSG.pCore 2 ↥Y)
   have hTeq : ((CFSG.pCore 2 ↥Y).map Y.subtype).subgroupOf S₀ =
@@ -128,7 +129,7 @@ theorem ggItem5_core (hS1' : GGStructSOnePrimeRoot) (hp : p.Prime) (hp2 : p ≠ 
     exact IsPGroup.comap_of_injective (CFSG.pCore_isPGroup (p := 2) (G := ↥Y))
       (Subgroup.inclusion hS₀Y) (Subgroup.inclusion_injective hS₀Y)
   have hT : ((CFSG.pCore 2 ↥Y).map Y.subtype).subgroupOf S₀ ≤ κ.ker := by
-    haveI := hTnormal
+    have := hTnormal
     exact ggNormalPGroup_le_ker κ hκ hDs hDnc _ hTp
   have hmarkQ : LargeEvenMarking (↥S₀ ⧸ κ.ker) (fun _ _ _ _ _ _ => True) :=
     hS1' G p G₀ r e hp hp2 hsimple heN hmark hr hr2 hep hcomm hroot S₀ hS₀Y hsub hperfS

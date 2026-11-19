@@ -167,6 +167,7 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalPointReindexCovariance
 
 variable {K₀ : Type} [Field K₀] [Finite K₀] [CharP K₀ 2]
 
+omit [Finite K₀] [CharP K₀ 2] in
 theorem inclHom_injective (k : Subfield K₀) :
     Function.Injective (inclHom k (coordinateQuadPlus_isExtension k 4)) := by
   intro x y hxy
@@ -178,6 +179,7 @@ theorem inclHom_injective (k : Subfield K₀) :
   simp only [inclHom_val, glIncl_val, Matrix.map_apply] at h
   exact h
 
+omit [Finite K₀] [CharP K₀ 2] in
 theorem conj_fixes_incl (σ : K₀ ≃+* K₀) (g : similarityPairs (coordinateQuadPlus 4 K₀))
     (hl : g.val.left = 1) (hr : g.val.right = σ) (k : Subfield K₀) (hk : ∀ x ∈ k, σ x = x)
     (x : matrixDerived (coordinateQuadPlus 4 ↥k)) :

@@ -131,7 +131,7 @@ theorem zstar_odd_structure (P : Subgroup G) [hPn : P.Normal] (hP : IsPGroup 2 P
     rw [hρker, (hπ1 p).mpr hp]; exact one_mem _
   have hρsq : ρ w * ρ w = 1 := by rw [← map_mul]; exact hρP _ hw2
   set N2 : Subgroup G := (Subgroup.zpowers (ρ w)).comap ρ with hN2
-  haveI hN2n : N2.Normal := by
+  have hN2n : N2.Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [hN2, Subgroup.mem_comap] at hn ⊢
     have hc := Subgroup.mem_center_iff.mp ((Subgroup.zpowers_le.mpr hρw) hn) (ρ g)
@@ -235,10 +235,10 @@ theorem wfW0_proved (n : ℕ) : WFW0 n := by
       (S₀ : Subgroup Y) := iSup₂_le fun U hU => hU.2
   have hηeq : η = η₀ := huniq η ⟨S₀, hη, hinv⟩ fun m hm U hU => hinv m (hMS₀ hm) U hU
   subst hηeq
-  have hW2 : IsPGroup 2 W := S₀.isPGroup'.to_le hWS₀
+  have hW2 : IsPGroup 2 W := S₀.isPGroup.to_le hWS₀
   have hW'2 : IsPGroup 2 (W.subgroupOf C) := hW2.comap_subtype
   obtain ⟨S_C, hS_C⟩ := hW'2.exists_le_sylow
-  have hQ2 : IsPGroup 2 ((S_C : Subgroup ↥C).map C.subtype) := S_C.isPGroup'.map C.subtype
+  have hQ2 : IsPGroup 2 ((S_C : Subgroup ↥C).map C.subtype) := S_C.isPGroup.map C.subtype
   obtain ⟨S₁, hS₁⟩ := hQ2.exists_le_sylow
   have hSC₁ : ∀ s ∈ (S_C : Subgroup ↥C), (s : Y) ∈ (S₁ : Subgroup Y) := fun s hs =>
     hS₁ ⟨s, hs, rfl⟩
@@ -276,7 +276,7 @@ theorem wfW0_proved (n : ℕ) : WFW0 n := by
       have := hSC₁ _ (hg ⟨b, hWC hb⟩ (Subgroup.mem_subgroupOf.mpr hb))
       simpa using this) a (Subgroup.mem_subgroupOf.mp ha)
     exact Subgroup.mem_subgroupOf.mpr (by simpa using this)
-  haveI hP'nor : (P.subgroupOf C).Normal := hP'n
+  have hP'nor : (P.subgroupOf C).Normal := hP'n
   obtain ⟨N', hN'n, hPN', hN'odd, hN'x⟩ := zstar_odd_structure (P.subgroupOf C) hP'2 S_C
     (W.subgroupOf C) (U.subgroupOf C) ⟨w, hwC⟩ (Subgroup.mem_subgroupOf.mpr hwW) hS_C hWn hWw' hw2'
     hweak (fun a ha => Subgroup.mem_subgroupOf.mpr (hUW (Subgroup.mem_subgroupOf.mp ha)))

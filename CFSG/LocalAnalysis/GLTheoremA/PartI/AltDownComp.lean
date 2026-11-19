@@ -17,7 +17,7 @@ theorem glaPComponent_commute_of_normal_isPGroup [Finite G] {p : ℕ} (hp : p.Pr
     {X J N : Subgroup G} (hJ : GLAPComponent p X J) (hNX : N ≤ X)
     (hNn : ∀ g ∈ X, ∀ n ∈ N, g * n * g⁻¹ ∈ N) (hNp : IsPGroup p N) :
     ∀ j ∈ J, ∀ n ∈ N, j * n = n * j := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hJX, hL⟩ :=
     (CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent hp).1 hJ
   have hPn : (N.subgroupOf X).Normal :=
@@ -36,7 +36,7 @@ theorem eq_of_isSubnormal_of_isSimpleGroup {F I : Subgroup G} [IsSimpleGroup ↥
     (hsn : IsSubnormal I F) (hI : I ≠ ⊥) : I = F := by
   by_contra hne
   obtain ⟨M, hIM, hMF, hMne, hMn, -⟩ := isSubnormal_exists_normal hsn hne
-  haveI := hMn
+  have := hMn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (M.subgroupOf F) with h | h
   · apply hI
     rw [eq_bot_iff]
@@ -73,7 +73,7 @@ theorem nontrivial_of_glaPComponent {p : ℕ} (hp : p.Prime) {X J : Subgroup G}
 theorem nonempty_pSimple_equiv {p : ℕ} (hp : p.Prime) {X J : Subgroup G}
     (hJ : GLAPComponent p X J) {S : Type*} [Group S] [IsSimpleGroup S]
     (hS : Subgroup.center S = ⊥) (e : ↥J ≃* S) : Nonempty (PSimple p J ≃* S) := by
-  haveI : IsSimpleGroup ↥J := e.isSimpleGroup
+  have : IsSimpleGroup ↥J := e.isSimpleGroup
   have hnt : Nontrivial (PQuot p J) :=
     isQuasisimple_nontrivial (isQuasisimple_pQuot_of_glaPComponent hp hJ)
   have hcore : GLAPPrimeCore p ↥J = ⊥ := by
@@ -94,7 +94,7 @@ theorem nonempty_pSimple_equiv {p : ℕ} (hp : p.Prime) {X J : Subgroup G}
 
 theorem false_of_isPerfect_of_card_dvd_twentyFour {H : Type*} [Group H] [Finite H] [Nontrivial H]
     [Group.IsPerfect H] (h : Nat.card H ∣ 24) : False := by
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   obtain ⟨y, z, hy, hz, hyz⟩ := Nat.dvd_mul.1 (show Nat.card H ∣ 2 ^ 3 * 3 ^ 1 by simpa using h)
   obtain ⟨i, -, rfl⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hy
   obtain ⟨j, -, rfl⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hz

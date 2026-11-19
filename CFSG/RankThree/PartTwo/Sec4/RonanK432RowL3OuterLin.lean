@@ -16,7 +16,7 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Lin
 open CFSG.RankThree.PartTwo.KFacts
 
 theorem no_field_aut_order_three {p n : ℕ} [Fact p.Prime] (hn : ¬ 3 ∣ n) (hn0 : n ≠ 0) :
-    ∀ σ : GaloisField p n ≃+* GaloisField p n, orderOf σ ≠ 3 := fun σ hσ =>
+    ∀ _σ : GaloisField p n ≃+* GaloisField p n, orderOf _σ ≠ 3 := fun _σ hσ =>
   hn (eq_frobenius_pow_of_orderOf_eq_three Fact.out (Nat.one_le_iff_ne_zero.mpr hn0)
     (GaloisField.card p n hn0) hσ).1
 
@@ -25,7 +25,7 @@ namespace L3Outer
 theorem exists_piField_true {K : Type} [Field K] [Finite K] (hK : Nat.card K % 3 = 1) :
     ∃ p f : ℕ, PiField true p f K ∧ ModThree true (p ^ f) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   have hcard' : Nat.card K = ringChar K ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card, hcard]
@@ -82,7 +82,7 @@ open L3Outer
 theorem outerRow_projSL_three_of_mod_one {K : Type} [Field K] [Finite K]
     (hK : Nat.card K % 3 = 1) (hnf : ∀ σ : K ≃+* K, orderOf σ ≠ 3) :
     OuterRow (projSL 3 K) := by
-  haveI : Finite (projectiveSL 3 K) :=
+  have : Finite (projectiveSL 3 K) :=
     Finite.of_equiv _ (KFacts.L34.projSLEquivProjectiveSL 3 K).toEquiv
   exact OuterRow.of_mulEquiv (KFacts.L34.projSLEquivProjectiveSL 3 K).symm
     (outerRow_projectiveSL_three hK hnf)

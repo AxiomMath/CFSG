@@ -164,8 +164,8 @@ theorem S_closed {k j : ℕ} (hk : k < 5) (hj : j < 2) {x : ℕ} (hx : x ∈ S k
     censusAct j x ∈ S k :=
   (mem_S hC hk).2 (.step j hj ((mem_S hC hk).1 hx))
 
-theorem S_inj {k j : ℕ} (hk : k < 5) (hj : j < 2) : ∀ x ∈ S k, ∀ y ∈ S k,
-    censusAct j x = censusAct j y → x = y := fun x hx y hy e =>
+theorem S_inj {k j : ℕ} (hk : k < 5) (hj : j < 2) : ∀ _x ∈ S k, ∀ _y ∈ S k,
+    censusAct j _x = censusAct j _y → _x = _y := fun _x hx _y hy e =>
   censusAct_inj hj (S_valid hC hk hx).2 (S_valid hC hk hy).2 e
 
 theorem S_surj {k j : ℕ} (hk : k < 5) (hj : j < 2) {y : ℕ} (hy : y ∈ S k) :
@@ -242,7 +242,7 @@ theorem card_filter_map (L : List ℕ) (f : ℕ → ℕ) (hnd : (L.map f).Nodup)
     ((L.map f).toFinset.filter P).card = (L.filter fun a => decide (P (f a))).length := by
   have e : (L.map f).toFinset.filter P = ((L.map f).filter fun x => decide (P x)).toFinset := by
     ext x
-    simp [List.mem_filter]
+    simp
   rw [e, List.toFinset_card_of_nodup (hnd.filter _), List.filter_map, List.length_map]
   rfl
 

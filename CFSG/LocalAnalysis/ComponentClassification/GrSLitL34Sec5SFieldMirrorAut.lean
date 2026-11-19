@@ -65,7 +65,7 @@ open CFSG.StandardType.AutPSL in
 private theorem commutator_le_inndiag {F : Type} [Field F] [Finite F] [CharP F 2] :
     commutator (MulAut (projectiveSL 3 F)) ≤ inndiag (n := 3) (K := F) := by
   let I : Subgroup (MulAut (projectiveSL 3 F)) := inndiag (n := 3) (K := F)
-  haveI : I.Normal := inndiag_normal (n := 3) (K := F) le_rfl
+  have : I.Normal := inndiag_normal (n := 3) (K := F) le_rfl
   have hquot : IsMulCommutative (MulAut (projectiveSL 3 F) ⧸ I) := by
     apply IsMulCommutative.of_comm
     intro x y
@@ -82,7 +82,7 @@ private theorem commutator_le_inndiag {F : Type} [Field F] [Finite F] [CharP F 2
   exact Subgroup.Normal.quotient_commutative_iff_commutator_le.mp hquot
 
 theorem exists_hom_ne_one_of_properFixedComponent {F : Type} [Field F] [Finite F] [CharP F 2]
-    {m : ℕ} (hm : 4 ≤ m) (hme : Even m) (hF : Nat.card F = 2 ^ (2 * m)) :
+    {m : ℕ} (_hm : 4 ≤ m) (_hme : Even m) (_hF : Nat.card F = 2 ^ (2 * m)) :
     ∃ (B : Type) (_ : CommGroup B) (φ : MulAut (projectiveSL 3 F) →* B),
       ∀ (σ : MulAut (projectiveSL 3 F)) (Q : Subgroup (projectiveSL 3 F)),
         CatLeaf.ProperFixedComponent σ Q →
@@ -93,8 +93,8 @@ theorem exists_hom_ne_one_of_properFixedComponent {F : Type} [Field F] [Finite F
   let Inn : Subgroup A := (MulAut.conj : P →* A).range
   refine ⟨Abelianization A, inferInstance, Abelianization.of, ?_⟩
   intro σ Q hσ _ hφ
-  haveI : Finite P := inferInstance
-  haveI : IsSimpleGroup P :=
+  have : Finite P := inferInstance
+  have : IsSimpleGroup P :=
     CFSG.RankThree.PartOne.KCLinearSubfield.isSimpleGroup_projectiveSL
       (n := 3) (K := F) le_rfl
   have hσ2 : σ ^ 2 = 1 := by
@@ -103,13 +103,13 @@ theorem exists_hom_ne_one_of_properFixedComponent {F : Type} [Field F] [Finite F
   have hσcomm : σ ∈ commutator A := by
     rw [← Abelianization.ker_of, MonoidHom.mem_ker]
     exact hφ
-  haveI : I.Normal :=
+  have : I.Normal :=
     CFSG.StandardType.AutPSL.inndiag_normal (n := 3) (K := F) le_rfl
   have hcomm_le : commutator A ≤ I := by
     dsimp [A, I, P]
     exact commutator_le_inndiag (F := F)
   have hσI : σ ∈ I := hcomm_le hσcomm
-  haveI : Inn.Normal :=
+  have : Inn.Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal P
   have hoddrel : Odd (Inn.relIndex I) := by
     dsimp [Inn, I, A, P]
@@ -154,7 +154,7 @@ theorem exists_hom_ne_one_of_properFixedComponent {F : Type} [Field F] [Finite F
     CatLeaf.ProperFixedComponent.inner (S := P) hnab hσ (t := b) hb.symm
   have hCsol : Group.IsSolvable ↥(Subgroup.centralizer ({b} : Set P)) :=
     centralizer_proj_involution_solvable F hinner.1
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer ({b} : Set P)) := hCsol
+  have : Group.IsSolvable ↥(Subgroup.centralizer ({b} : Set P)) := hCsol
   exact CFSG.ComponentClassification.GrSLit.not_isPComponent_of_isSolvable
     (Q.subgroupOf (Subgroup.centralizer ({b} : Set P))) hinner.2.2.1
 

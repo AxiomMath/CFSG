@@ -112,9 +112,9 @@ theorem antidiag_transpose {F : Type*} [Field F] (n : ℕ) :
   simp only [Matrix.transpose_apply, of_apply]
   by_cases h : j = Fin.rev i
   · have h' : i = Fin.rev j := by rw [h, Fin.rev_rev]
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : i ≠ Fin.rev j := fun hh => h (by rw [hh, Fin.rev_rev])
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 theorem transpose_mem_SU {K : Type*} [Field K] {σ : K ≃+* K} {n : ℕ}
     {A : GL (Fin n) K} (hA : A ∈ SU σ n) :

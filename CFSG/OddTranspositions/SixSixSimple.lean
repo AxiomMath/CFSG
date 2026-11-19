@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
 
 attribute [local instance] blockKernel_normal
 
+omit [Finite G] in
 theorem blockKernel_le_normalizer (hC : HypothesisC D) :
     blockKernel hC.alpha ≤ Subgroup.normalizer hC.alpha := by
   intro g hg

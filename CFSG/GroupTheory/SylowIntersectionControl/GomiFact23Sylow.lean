@@ -97,7 +97,7 @@ theorem odd_index_normalizer_of_isSylowTwoOf {N J : Subgroup G} [hN : N.Normal]
   obtain ⟨T, hJT⟩ := hJ.2.1.exists_le_sylow
   set T' : Subgroup G := (T : Subgroup G)
   have hTN : T' ⊓ N ≤ J := PermSylowTwo.le_of_isSylowTwoOf_of_isPGroup hJ
-    (le_inf hJT hJ.1) inf_le_right (T.isPGroup'.to_le inf_le_left)
+    (le_inf hJT hJ.1) inf_le_right (T.isPGroup.to_le inf_le_left)
   have hT : T' ≤ normalizer (J : Set G) := by
     intro t ht
     refine mem_normalizer_iff.mpr fun x =>

@@ -117,13 +117,15 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit hf [Finite K] [CharP K 3] hK hσ in
 private theorem la_coe_longElt {γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : γ = rootB ∨ γ = rootC ∨ γ = rootD) (c : K) (hc : σ c = c) :
-    ((longElt hf hK σ hσ hγ c hc : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :
+    ((longElt σ hγ c hc : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :
       ModGL TwistTag.D4.tag K) = pinnedX TwistTag.D4.tag K γ c :=
-  coe_longElt hf hK σ hσ hγ c hc
+  coe_longElt σ hγ c hc
 
-private theorem la_toAdd_layerPhi_zero_longElt (s : K) (hs : σ s = s)
+omit hf [CharP K 3] hK hσ in
+private theorem la_toAdd_layerPhi_zero_longElt (s : K) (_hs : σ s = s)
     (m : graphFixedRootGroup TwistTag.D4 K σ.toRingHom)
     (hmcoe : ((m : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) : ModGL TwistTag.D4.tag K) =
       pinnedX TwistTag.D4.tag K rootB s) (hm0 : m ∈ layerN σ 0)
@@ -142,7 +144,7 @@ private theorem la_toAdd_layerPhi_zero_longElt (s : K) (hs : σ s = s)
     ModGL TwistTag.D4.tag K) = _
   rw [hmcoe]
   by_cases h : O.1 = TwistTag.diagramOrbit TwistTag.D4 rootB
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hrepB : repOf TwistTag.D4 ((0 + 1 : ℕ) : ℤ) O = rootB := by
       have hmem : repOf TwistTag.D4 ((0 + 1 : ℕ) : ℤ) O ∈
           TwistTag.diagramOrbit TwistTag.D4 rootB := by
@@ -151,13 +153,14 @@ private theorem la_toAdd_layerPhi_zero_longElt (s : K) (hs : σ s = s)
       rw [la_diagramOrbit_of_fixed la_rootB_fixed, Finset.mem_singleton] at hmem
       exact hmem
     exact (rootCoord_congr TwistTag.D4 hrepB hα hβ).trans (rootCoord_self hβ s)
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hne : rootB ≠ repOf TwistTag.D4 ((0 + 1 : ℕ) : ℤ) O := by
       intro heq
       apply h
       rw [← hrep.2.2, ← heq]
     exact rootCoord_pinnedX_of_ne hα hβ (le_of_eq (by rw [hh1, la_rootB_height])) hne s
 
+omit [CharP K 3] in
 private theorem la_kill_step {k : ℕ} (hk : k < (maxHeight TwistTag.D4.tag).toNat)
     {m y : graphFixedRootGroup TwistTag.D4 K σ.toRingHom} (hm : m ∈ layerN σ 0)
     (hmc : cocycleProd (fieldActor (t := TwistTag.D4) σ σ) m = 1)
@@ -176,6 +179,7 @@ private theorem la_kill_step {k : ℕ} (hk : k < (maxHeight TwistTag.D4.tag).toN
   refine ⟨w, hw, ?_, hmem⟩
   rw [cocycleProd_twistedConj (la_fieldActor_pow_three hK σ hσ) y w, hyc, mul_one, inv_mul_cancel]
 
+omit [CharP K 3] in
 theorem exists_kill_layers_one_two {m y : graphFixedRootGroup TwistTag.D4 K σ.toRingHom}
     (hm : (m : ModGL TwistTag.D4.tag K) ∈ graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom)
     (hmc : cocycleProd (fieldActor (t := TwistTag.D4) σ σ) m = 1)
@@ -206,11 +210,11 @@ theorem exists_twistedConj_longForm {u : graphFixedRootGroup TwistTag.D4 K σ.to
     ∃ (w : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) (s r r' : K)
       (hs : σ s = s) (hr : σ r = r) (hr' : σ r' = r'),
       w⁻¹ * u * fieldActor (t := TwistTag.D4) σ σ w =
-        longElt hf hK σ hσ (Or.inl rfl) s hs *
-          longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r hr *
-          longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r' hr' := by
+        longElt σ (Or.inl rfl) s hs *
+          longElt σ (Or.inr (Or.inl rfl)) r hr *
+          longElt σ (Or.inr (Or.inr rfl)) r' hr' := by
   have hyc : cocycleProd (fieldActor (t := TwistTag.D4) σ σ) u = 1 :=
-    cocycleProd_eq_one_of_pow_three hf hK σ hσ u hu3
+    cocycleProd_eq_one_of_pow_three hK σ hσ u hu3
   have hu0 : u ∈ layerN σ 0 := (la_mem_layerN_zero_iff σ u).2 (Subgroup.mem_inf.1 hu).1
   have h3 := la_three_le_toNat_maxHeight
   have hk0 : 0 < (maxHeight TwistTag.D4.tag).toNat := by omega
@@ -223,17 +227,17 @@ theorem exists_twistedConj_longForm {u : graphFixedRootGroup TwistTag.D4 K σ.to
       ⟨TwistTag.diagramOrbit TwistTag.D4 rootB, hO2⟩ := ⟨_, rfl⟩
   have hs : σ s = s := by
     rw [hsdef]
-    exact layerPhi_apply_fixed hf hK σ hσ hk0 ⟨u, hu0⟩
+    exact layerPhi_apply_fixed σ hk0 ⟨u, hu0⟩
       ⟨TwistTag.diagramOrbit TwistTag.D4 rootB, hO2⟩ hcard2
-  obtain ⟨m, hmdef⟩ : ∃ m, m = longElt hf hK σ hσ (Or.inl rfl) s hs := ⟨_, rfl⟩
+  obtain ⟨m, hmdef⟩ : ∃ m, m = longElt σ (Or.inl rfl) s hs := ⟨_, rfl⟩
   have hmcoe : ((m : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) : ModGL TwistTag.D4.tag K) =
       pinnedX TwistTag.D4.tag K rootB s := by
     rw [hmdef]
-    exact la_coe_longElt hf hK σ hσ (Or.inl rfl) s hs
+    exact la_coe_longElt σ (Or.inl rfl) s hs
   have hmU : ((m : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) : ModGL TwistTag.D4.tag K) ∈
       graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom := by
     rw [hmcoe]
-    exact pinnedX_mem_graphFixedPosUnipotent hf hK σ hσ (Or.inl rfl) hs
+    exact pinnedX_mem_graphFixedPosUnipotent σ (Or.inl rfl) hs
   have hm0 : m ∈ layerN σ 0 := (la_mem_layerN_zero_iff σ m).2 (Subgroup.mem_inf.1 hmU).1
   have hδm : fieldActor (t := TwistTag.D4) σ σ m = m := by
     apply Subtype.ext
@@ -267,29 +271,29 @@ theorem exists_twistedConj_longForm {u : graphFixedRootGroup TwistTag.D4 K σ.to
         map_mul, map_inv]
       rfl
     have hOd : O.1 = TwistTag.diagramOrbit TwistTag.D4 rootB := by rw [hOe]
-    rw [key, la_toAdd_layerPhi_zero_longElt hf hK σ hσ s hs m hmcoe hm0 O, if_pos hOd,
+    rw [key, la_toAdd_layerPhi_zero_longElt σ s hs m hmcoe hm0 O, ite_eq_left hOd,
       hOe, ← hsdef]
     exact neg_add_cancel s
   obtain ⟨w₁, -, hyc₁, hm₁⟩ := la_kill_step hf hK σ hσ hk0 hm0 hmc hyc hmy0 hz0
   obtain ⟨w₂, -, hm₂⟩ := exists_kill_layers_one_two hf hK σ hσ hmU hmc hyc₁ hm₁
   obtain ⟨r, r', hr, hr', hxeq⟩ :=
-    exists_long_form_of_mem_layerN_three hf hK σ hσ ⟨_, hm₂⟩
+    exists_long_form_of_mem_layerN_three σ ⟨_, hm₂⟩
   refine ⟨w₁ * w₂, s, r, r', hs, hr, hr', ?_⟩
   have hW : (w₁ * w₂)⁻¹ * u * fieldActor (t := TwistTag.D4) σ σ (w₁ * w₂) =
       w₂⁻¹ * (w₁⁻¹ * u * fieldActor (t := TwistTag.D4) σ σ w₁) *
         fieldActor (t := TwistTag.D4) σ σ w₂ := by
     rw [map_mul]
     group
-  have hsub : longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r hr *
-      longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r' hr' =
+  have hsub : longElt σ (Or.inr (Or.inl rfl)) r hr *
+      longElt σ (Or.inr (Or.inr rfl)) r' hr' =
         m⁻¹ * (w₂⁻¹ * (w₁⁻¹ * u * fieldActor (t := TwistTag.D4) σ σ w₁) *
           fieldActor (t := TwistTag.D4) σ σ w₂) := by
     apply Subtype.ext
-    rw [Subgroup.coe_mul, la_coe_longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r hr,
-      la_coe_longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r' hr']
+    rw [Subgroup.coe_mul, la_coe_longElt σ (Or.inr (Or.inl rfl)) r hr,
+      la_coe_longElt σ (Or.inr (Or.inr rfl)) r' hr']
     exact hxeq.symm
-  rw [hW, mul_assoc (longElt hf hK σ hσ (Or.inl rfl) s hs)
-      (longElt hf hK σ hσ (Or.inr (Or.inl rfl)) r hr)
-      (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) r' hr'), hsub, ← hmdef, mul_inv_cancel_left]
+  rw [hW, mul_assoc (longElt σ (Or.inl rfl) s hs)
+      (longElt σ (Or.inr (Or.inl rfl)) r hr)
+      (longElt σ (Or.inr (Or.inr rfl)) r' hr'), hsub, ← hmdef, mul_inv_cancel_left]
 
 end CFSG.HardMathSupport.Dickson.DefCharOuter.TrialityChar3

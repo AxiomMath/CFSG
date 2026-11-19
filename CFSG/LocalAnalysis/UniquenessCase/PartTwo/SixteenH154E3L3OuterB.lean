@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s16h_e3_l3_iSup_erase_eq {k : ℕ} (f : Fin k → Subgroup W) (i₀ : Fin k) :
     (⨆ j ∈ Finset.univ.erase i₀, f j) = ⨆ (j : Fin k) (_ : j ≠ i₀), f j := by
   apply le_antisymm

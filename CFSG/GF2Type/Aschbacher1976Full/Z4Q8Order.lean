@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem generalizedFitting_Hz_eq_pCore {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) :
     generalizedFitting ↥(Hz z) = pCore 2 ↥(Hz z) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNmap : (generalizedFitting ↥(Hz z)).map (Hz z).subtype = Fz z := rfl
   have hNcard : Nat.card ↥(generalizedFitting ↥(Hz z)) = 16 := by
     rw [← card_Fz hZ hz, ← hNmap]
@@ -66,7 +66,7 @@ theorem card_center_Fz {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) :
 
 theorem card_Hz_eq_mul {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) :
     ∃ m : ℕ, m ∣ 6 ∧ Nat.card ↥(Hz z) = 16 * m := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : IsCharacteristicP 2 ↥(Hz z) :=
     (isCharacteristicP_iff_generalizedFitting_eq_pCore _ 2).mpr
       (generalizedFitting_Hz_eq_pCore hZ hz)
@@ -74,7 +74,7 @@ theorem card_Hz_eq_mul {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) :
     CFSG.LocalAnalysis.GorensteinLyons.SteinbergCH.core_symplectic_transport (B := ⊥) bot_le hchar
       (by simp) (Fz_eq_inSubgroup_pCore hZ hz) (isCyclic_center_Fz hZ hz)
       (isElementaryAbelian_quot_Fz hZ hz) (z_mem_Zc hZ hz) hz (commutator_Fz hZ hz)
-  haveI := hvel
+  have := hvel
   set P := pCore 2 ↥(Hz z) with hPdef
   have hmap : (pCore 2 ↥(Hz z)).map (Hz z).subtype = Fz z := by
     rw [Fz_eq_inSubgroup_pCore hZ hz]
@@ -96,7 +96,7 @@ theorem card_Hz_eq_mul {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) :
   have hVcard : Nat.card (Additive (↥(pCore 2 ↥(Hz z)) ⧸
       Subgroup.center ↥(pCore 2 ↥(Hz z)))) = 4 :=
     (Nat.card_congr Additive.ofMul).symm.trans hquot
-  haveI : Fintype (Additive (↥(pCore 2 ↥(Hz z)) ⧸
+  have : Fintype (Additive (↥(pCore 2 ↥(Hz z)) ⧸
       Subgroup.center ↥(pCore 2 ↥(Hz z)))) := Fintype.ofFinite _
   have hfin : Module.finrank (ZMod 2) (Additive (↥(pCore 2 ↥(Hz z)) ⧸
       Subgroup.center ↥(pCore 2 ↥(Hz z)))) = 2 := by

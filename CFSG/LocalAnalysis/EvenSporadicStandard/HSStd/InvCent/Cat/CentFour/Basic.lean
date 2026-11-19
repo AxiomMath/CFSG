@@ -13,16 +13,16 @@ open Subgroup
 theorem exists_sylow_eq {S : Type*} [Group S] [Finite S] {V : Subgroup S} (hV : Nat.card V = 4)
     (hC : ∀ w ∈ V, w ≠ 1 → centralizer ({w} : Set S) = V) :
     ∃ P : Sylow 2 S, (P : Subgroup S) = V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVp : IsPGroup 2 V := IsPGroup.of_card (n := 2) (by rw [hV]; norm_num)
   obtain ⟨P, hVP⟩ := hVp.exists_le_sylow
-  haveI : Nontrivial V := Finite.one_lt_card_iff_nontrivial.mp (by rw [hV]; norm_num)
+  have : Nontrivial V := Finite.one_lt_card_iff_nontrivial.mp (by rw [hV]; norm_num)
   obtain ⟨⟨w₀, hw₀⟩, hw₀1⟩ := exists_ne (1 : V)
   have hw₀1' : w₀ ≠ 1 := fun h => hw₀1 (Subtype.ext h)
   refine ⟨P, le_antisymm ?_ hVP⟩
-  haveI : Nontrivial (P : Subgroup S) :=
+  have : Nontrivial (P : Subgroup S) :=
     ⟨⟨⟨w₀, hVP hw₀⟩, 1, fun h => hw₀1' (congrArg Subtype.val h)⟩⟩
-  haveI : Nontrivial (center (P : Subgroup S)) := P.isPGroup'.center_nontrivial
+  have : Nontrivial (center (P : Subgroup S)) := P.isPGroup.center_nontrivial
   obtain ⟨⟨z, hzc⟩, hz1⟩ := exists_ne (1 : center (P : Subgroup S))
   have hz1' : (z : S) ≠ 1 := fun h => hz1 (Subtype.ext (Subtype.ext h))
   have hzcomm : ∀ g : (P : Subgroup S), g * z = z * g := fun g => Subgroup.mem_center_iff.mp hzc g
@@ -42,13 +42,13 @@ theorem not_isCyclic_sylow_of_card_four {S : Type*} [Group S] [Finite S] [IsSimp
   intro hcyc
   obtain ⟨N, hN, hcompl⟩ := CFSG.exists_normal_isComplement'_of_isCyclic_sylow_two P hcyc
   have hcard := hcompl.card_mul_card
-  haveI := hN
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   ·
     have h4 : Nat.card S = 2 ^ 2 := by
       rw [h, Subgroup.card_bot, hP] at hcard
       omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨a, b, hab⟩ := hna
     exact hab ((IsPGroup.isMulCommutative_of_card_eq_prime_sq h4).is_comm.comm a b)
   ·

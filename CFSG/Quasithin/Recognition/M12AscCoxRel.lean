@@ -347,7 +347,7 @@ theorem exists_coxeter [Finite G] [IsSimpleGroup G] (hyp : Asc03Hyp G z) (h27 : 
     · exact d3
     · exact d1
   · intro i j hij
-    fin_cases i <;> fin_cases j <;> first | (exfalso; revert hij; decide) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; revert hij; decide)
     · simpa [coxVec, coxExp] using R12
     · simpa [coxVec, coxExp] using R13
     · simpa [coxVec, coxExp] using R14

@@ -30,7 +30,7 @@ theorem IsFrame.exists_eq_mul_mul_of_mem_map_heis_sup (h : TransvectionHyp H Δ)
     ∃ y ∈ shortRootGroup Δ (P k) (Q k) (Q i) (P i),
       ∃ z ∈ shortRootGroup Δ (P k) (Q k) (P i) (Q i),
         ∃ b ∈ (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ, u = y * z * b := by
-  haveI := h.finite
+  have := h.finite
   obtain ⟨b, hb, w, hw, hbw⟩ :=
     mem_sup_of_commuting (IsFrame.commuting_map_heis_sup h hML hq hF hFn hcard hθr hθt hθb hik) hu
   have hw' : w ∈ shortRootGroup Δ (Q i) (P i) (P k) (Q k) ⊔
@@ -104,7 +104,7 @@ theorem IsFrame.mem_map_heis_of_mem_sup_of_conjSub_eq (h : TransvectionHyp H Δ)
         shortRootGroup Δ (P k) (Q k) (P i) (Q i) ⊔ P k))
     (huP : conjSub (P i) u = P i) (huQ : conjSub (Q i) u = Q i) :
     u ∈ (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ := by
-  haveI := h.finite
+  have := h.finite
   obtain ⟨b, hb, w, hw, hbw⟩ :=
     mem_sup_of_commuting (IsFrame.commuting_map_heis_sup h hML hq hF hFn hcard hθr hθt hθb hik) hu
   have hcomm : Commuting ((UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ)

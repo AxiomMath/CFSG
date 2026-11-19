@@ -264,6 +264,7 @@ theorem ggNSPosPF3C_c_mem_SUid (hD : ggNSPosPF3C_ShearData σ ω X Y c) : c ∈ 
   rw [mem_SUid]
   exact ⟨ggNSPosPF3C_c_det hD, hD.c_unitary⟩
 
+omit [CharP K 2] in
 theorem ggNSPosPF3C_shear_commute_c (hD : ggNSPosPF3C_ShearData σ ω X Y c) :
     ggNSPosPF3C_shear ω (X : Matrix (Fin n) (Fin n) K) (c : Matrix (Fin n) (Fin n) K) *
         (c : Matrix (Fin n) (Fin n) K) =

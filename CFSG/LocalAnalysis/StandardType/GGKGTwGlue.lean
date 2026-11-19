@@ -24,9 +24,9 @@ theorem kgLayers_TwE6_of_layers (hD4 : GGTwE6D4LayerInput) (hA3 : GGTwE6A3LayerI
       Nat.card K = (2 ^ n) ^ 2 →
         GGE6KGLayers (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) := by
   intro n hn h3 K _ _ hK L' _ _ ψ A hTB h5
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
     obtain ⟨m, hprime, hm⟩ := FiniteField.card K (ringChar K)
     have hcard : Fintype.card K = 2 ^ (2 * n) := by
       rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, Nat.mul_comm]
@@ -38,9 +38,9 @@ theorem kgLayers_TwE6_of_layers (hD4 : GGTwE6D4LayerInput) (hA3 : GGTwE6A3LayerI
       (Nat.prime_dvd_prime_iff_eq hprime Nat.prime_two).mp
         (Nat.Prime.dvd_of_dvd_pow hprime hdvd)
     exact hrc ▸ ringChar.charP K
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
   have hinj : Function.Injective (iterateFrobenius K 2 n) := (iterateFrobenius K 2 n).injective
   set σ : K ≃+* K := RingEquiv.ofBijective (iterateFrobenius K 2 n)
     ⟨hinj, Finite.surjective_of_injective hinj⟩ with hσdef
@@ -81,13 +81,12 @@ theorem largeEvenLabelAll_kgLayers_TwE6 (hD4 : KGL.GGTwE6D4LayerInput)
       GGE6KGLayers R I := by
   refine TwE6Delta.labelAll (lab := lab) htag
     (Q := fun R _ I => IsSimpleGroup R → (∃ a b : R, a * b ≠ b * a) → GGE6KGLayers R I) ?_
-  intro K _ _ hK
-  intro _ _
+  intro K _ _ hK _ _
   exact KGL.kgLayers_TwE6_of_layers hD4 hA3 lab.n hΛ.1 h3 K hK
 
 theorem ggE6KGLayerInputTw_of_layers (hD4 : KGL.GGTwE6D4LayerInput)
     (hA3 : KGL.GGTwE6A3LayerInput) : GGE6KGLayerInputTw :=
-  fun lab htag h3 hΛ => largeEvenLabelAll_kgLayers_TwE6 hD4 hA3 hΛ htag h3
+  fun _lab htag h3 hΛ => largeEvenLabelAll_kgLayers_TwE6 hD4 hA3 hΛ htag h3
 
 end CFSG.StandardType
 

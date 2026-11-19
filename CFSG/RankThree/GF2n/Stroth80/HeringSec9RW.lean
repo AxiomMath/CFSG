@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 namespace HS9
 
-@[expose] def WPointConcl (M Q Z B : Subgroup G) (t : G) : Prop :=
+@[expose] def WPointConcl (M Q _Z B : Subgroup G) (t : G) : Prop :=
   (∃ g : G, ∃ b ∈ B, g * t * g⁻¹ = b) → B ≤ QB (Subgroup.zpowers t) →
     ∃ C : Subgroup G, IsConjB M B C ∧ C ≠ B ∧ C ≤ Q ⊓ QB (Subgroup.zpowers t) ⊓ QB B
 

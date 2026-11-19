@@ -19,7 +19,7 @@ theorem int_dvd_of_plane {U : Type} [AddCommGroup U] [Module K U] [FiniteDimensi
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup QU) (hgp : g ^ p = 1) (hg1 : g ≠ 1) :
     (IsPlusType QU → (p : ℤ) ∣ (Nat.card K : ℤ) - 1) ∧
       (¬ IsPlusType QU → (p : ℤ) ∣ (Nat.card K : ℤ) + 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf (⟨g, hg⟩ : ↥(TauCeti.QuadraticMap.orthogonalGroup QU)) = p :=
     orderOf_eq_prime (Subtype.ext hgp) fun h => hg1 (congrArg Subtype.val h)
   have hdvd : (p : ℤ) ∣ (Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup QU) : ℤ) := by
@@ -33,15 +33,16 @@ theorem int_dvd_of_plane {U : Type} [AddCommGroup U] [Module K U] [FiniteDimensi
   constructor
   · intro hplus
     rw [natCard_orthogonalGroup_of_type hQU hd (Or.inl ⟨rfl, hplus⟩)] at hdvd
-    simp only [zero_mul, pow_zero, mul_one, zero_add, pow_one, Finset.Icc_eq_empty_of_lt
+    simp only [pow_zero, mul_one, zero_add, pow_one, Finset.Icc_eq_empty_of_lt
       zero_lt_one, Finset.prod_empty] at hdvd
     exact (hpZ.dvd_mul.mp hdvd).resolve_left hp2'
   · intro hnplus
     rw [natCard_orthogonalGroup_of_type hQU hd (Or.inr ⟨rfl, hnplus⟩)] at hdvd
-    simp only [zero_mul, pow_zero, mul_one, zero_add, pow_one, Finset.Icc_eq_empty_of_lt
+    simp only [pow_zero, mul_one, zero_add, pow_one, Finset.Icc_eq_empty_of_lt
       zero_lt_one, Finset.prod_empty, sub_neg_eq_add] at hdvd
     exact (hpZ.dvd_mul.mp hdvd).resolve_left hp2'
 
+omit [Finite K] in
 theorem exists_singular_of_isPlusType {U : Type} [AddCommGroup U] [Module K U]
     [FiniteDimensional K U] {QU : QuadraticForm K U} (hdim : finrank K U = 2)
     (h : IsPlusType QU) : ∃ u : U, u ≠ 0 ∧ QU u = 0 := by
@@ -51,6 +52,7 @@ theorem exists_singular_of_isPlusType {U : Type} [AddCommGroup U] [Module K U]
     (show W ≠ ⊥ from fun hb => by rw [hb, finrank_bot] at h1; exact absurd h1 (by norm_num))
   exact ⟨w, hw0, hWs w hwW⟩
 
+omit [Finite K] in
 theorem eq_zero_of_not_isPlusType {U : Type} [AddCommGroup U] [Module K U]
     [FiniteDimensional K U] {QU : QuadraticForm K U} (hdim : finrank K U = 2)
     (h : ¬ IsPlusType QU) {u : U} (hu : QU u = 0) : u = 0 := by
@@ -71,6 +73,7 @@ variable (hp : p.Prime) (hA : ∀ a : A, a ^ p = 1) (hpK : (p : K) ≠ 0)
 variable (Q : QuadraticForm K V) (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
 variable (h2 : (2 : K) ≠ 0) (hρQ : ∀ (a : A) (v : V), Q (ρ a v) = Q v) (hp2 : p ≠ 2)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem polar_comp_subtype' (U : Submodule K V) (u w : U) :
     polar (Q.comp U.subtype) u w = polar Q (u : V) (w : V) := by
   simp only [QuadraticMap.polar, QuadraticMap.comp_apply, map_add]
@@ -88,6 +91,7 @@ theorem polar_comp_subtype' (U : Submodule K V) (u w : U) :
       rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one]
       rfl))
 
+omit [Finite K] [Finite A] [FiniteDimensional K V] in
 theorem coe_restrictRep_apply (U : Submodule K V) (hU : ∀ (b : A), ∀ v ∈ U, ρ b v ∈ U) (a : A)
     (v : U) : (restrictRep ρ U hU a v : V) = ρ a v := rfl
 

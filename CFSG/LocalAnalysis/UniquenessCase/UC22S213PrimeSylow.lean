@@ -37,13 +37,13 @@ theorem uc22s213_isMulCommutative_sylow_bar2 {L : Subgroup G}
     (hZ : ¬ r ∣ Nat.card (center (Bar2 L)))
     (hab : ∀ P : Sylow r (BarInf L), IsMulCommutative (P : Subgroup (BarInf L)))
     (P : Sylow r (Bar2 L)) : IsMulCommutative (P : Subgroup (Bar2 L)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨e⟩ := uc22p21k_barInf_equiv hq
   let φ : Bar2 L →* BarInf L := e.symm.toMonoidHom.comp (QuotientGroup.mk' (center (Bar2 L)))
   have hφ : Function.Surjective φ := e.symm.surjective.comp (QuotientGroup.mk'_surjective _)
   have hQ := hab (P.mapSurjective hφ)
   rw [Sylow.coe_mapSurjective] at hQ
-  have hdisj := TauCeti.disjoint_of_not_dvd_natCard_of_isPGroup hZ P.isPGroup'
+  have hdisj := TauCeti.disjoint_of_not_dvd_natCard_of_isPGroup hZ P.isPGroup
   refine le_centralizer_iff_isMulCommutative.mp fun x hx => mem_centralizer_iff.mpr fun y hy => ?_
   have hc : φ y * φ x = φ x * φ y := mem_centralizer_iff.mp
     (le_centralizer_iff_isMulCommutative.mpr hQ (mem_map_of_mem φ hx)) (φ y) (mem_map_of_mem φ hy)
@@ -59,7 +59,7 @@ theorem uc22s213_isMulCommutative_sylow_bar2 {L : Subgroup G}
 theorem uc22s213_not_dvd_card_outer_bar2 {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple (Bar2 L))
     {r : ℕ} (hout : ¬ r ∣ Nat.card (Outer (BarInf L))) :
     ¬ r ∣ Nat.card (Outer (Bar2 L)) := by
-  haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hq.1
   obtain ⟨e⟩ := uc22p21k_barInf_equiv hq
   have h1 : Nat.card (Outer (Bar2 L)) ∣ Nat.card (Outer (Bar2 L ⧸ center (Bar2 L))) :=
     Subgroup.card_dvd_of_injective _ (centerQuotient_outer_injective (Bar2 L))

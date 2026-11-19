@@ -64,7 +64,7 @@ private theorem fixes_block_of_cube_one {B : Finset (Fin 10)} (hB : B.card = 5)
 private theorem card_le_three_of_cube_one_perm_five {α : Type} [Finite α]
     (hα : Nat.card α = 5) {A : Subgroup (Perm α)} (hexp : ∀ x ∈ A, x ^ 3 = 1) :
     Nat.card A ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA3 : IsPGroup 3 A := fun x => ⟨1, Subtype.ext (by simpa using hexp x x.2)⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hA3
   have hdiv : 3 ^ k ∣ 120 := by
@@ -139,7 +139,7 @@ private theorem exists_mem_sylow_fixing_block
     rw [hScard, hbot] at h
     have h1 : Nat.card ρ.range = 25 := by simpa using h
     omega
-  haveI : Nontrivial ↥(ρ.ker) := (Subgroup.nontrivial_iff_ne_bot ρ.ker).mpr hker_ne
+  have : Nontrivial ↥(ρ.ker) := (Subgroup.nontrivial_iff_ne_bot ρ.ker).mpr hker_ne
   obtain ⟨s, hs, hsne⟩ := Subgroup.exists_ne_one_of_nontrivial ρ.ker
   have hsfix : ∀ i ∈ B, (s : Perm (Fin 10)) i = i := by
     intro i hi
@@ -156,8 +156,8 @@ private abbrev blockImage (D : AltTenSetup X N) (R : Subgroup X) :
   (R.subgroupOf D.K).map D.e.toMonoidHom
 
 private theorem le_generalizedFitting (D : AltTenSetup X N) {R : Subgroup X}
-    (hRN : R ≤ N) (hexp : ∀ x ∈ R, x ^ 3 = 1) : R ≤ D.K := by
-  haveI : D.K.Normal := D.hKn
+    (_hRN : R ≤ N) (hexp : ∀ x ∈ R, x ^ 3 = 1) : R ≤ D.K := by
+  have : D.K.Normal := D.hKn
   have hQdvd : Nat.card (X ⧸ D.K) ∣ 2 :=
     card_quotient_dvd_two_of_equiv_alternating (K := D.K) D.hKC (n := 10)
       (by norm_num) D.e
@@ -195,7 +195,7 @@ private theorem card_blockImage (D : AltTenSetup X N) {R : Subgroup X} (hRK : R 
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRK).toEquiv
 
 private theorem blockImage_exp (D : AltTenSetup X N) {R : Subgroup X}
-    (hRK : R ≤ D.K) (hexp : ∀ x ∈ R, x ^ 3 = 1) :
+    (_hRK : R ≤ D.K) (hexp : ∀ x ∈ R, x ^ 3 = 1) :
     ∀ y ∈ blockImage D R, y ^ 3 = 1 := by
   intro y hy
   change y ∈ (R.subgroupOf D.K).map D.e.toMonoidHom at hy
@@ -308,7 +308,7 @@ private theorem exists_fixing_Bc (D : AltTenSetup X N) {R : Subgroup X}
     rw [hR₁9, hbot] at h
     have h1 : Nat.card ρBc.range = 9 := by simpa using h
     omega
-  haveI : Nontrivial ↥(ρBc.ker) := (Subgroup.nontrivial_iff_ne_bot ρBc.ker).mpr hker_ne
+  have : Nontrivial ↥(ρBc.ker) := (Subgroup.nontrivial_iff_ne_bot ρBc.ker).mpr hker_ne
   obtain ⟨r0, hr0, hr0ne⟩ := Subgroup.exists_ne_one_of_nontrivial ρBc.ker
   have hr0fix : ∀ i ∉ D.B, ((r0 : alternatingGroup (Fin 10)) : Perm (Fin 10)) i = i := by
     intro i hi
@@ -371,7 +371,7 @@ private theorem exists_five_commuting_three (D : AltTenSetup X N) {R : Subgroup 
     exact hsne h2
   have hxP : IsPGroup 5 (Subgroup.zpowers xX) := by
     have hzp : IsPGroup 5 (Subgroup.zpowers sK) :=
-      D.T.isPGroup'.to_le (Subgroup.zpowers_le.mpr hsK_T)
+      D.T.isPGroup.to_le (Subgroup.zpowers_le.mpr hsK_T)
     have h := hzp.map D.K.subtype
     rwa [MonoidHom.map_zpowers] at h
   have hdisj : Disjoint (s : Perm (Fin 10)) (D.e rK : Perm (Fin 10)) := by
@@ -402,7 +402,7 @@ private theorem exists_commuting_pelement (D : AltTenSetup X N) {R : Subgroup X}
       c * r = r * c ∧ IsPGroup 5 (Subgroup.zpowers c) ∧ c ∉ N := by
   obtain ⟨r, hrR, hrne, x, hxN, hxne, hxP, hcomm⟩ :=
     exists_five_commuting_three D hRK hRN hexp hR1_9
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hr3 : r ^ 3 = 1 := hexp r hrR
   have hr_order : orderOf r = 3 := orderOf_eq_prime hr3 hrne
   have horder : (orderOf r).Prime := by rw [hr_order]; exact Nat.prime_three

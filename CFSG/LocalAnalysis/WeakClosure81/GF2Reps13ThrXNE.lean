@@ -73,6 +73,7 @@ private theorem w16n_abelian_conj_eq_inv_of_commutator_eq_self {G : Type*} [Grou
   intro x hx
   exact (hPleJ hx).2
 
+omit [Finite W] in
 private theorem w16n_isElemAbelian_omegaOne_of_commute {p : ℕ} {P : Subgroup (MulAut W)}
     (hcomm : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x) : IsElemAbelian p (omegaOne p P) := by
   rw [omegaOne]
@@ -82,6 +83,7 @@ private theorem w16n_isElemAbelian_omegaOne_of_commute {p : ℕ} {P : Subgroup (
   · intro a ha
     exact ha.2
 
+omit [Finite W] in
 private theorem w16n_conj_generators_commute {A Q : Subgroup (MulAut W)}
     (hcomm : ∀ g ∈ A, ⁅Q, Q.map (MulAut.conj g).toMonoidHom⁆ = ⊥) :
     ∀ g ∈ A, ∀ y ∈ Q, ∀ g' ∈ A, ∀ y' ∈ Q,
@@ -103,6 +105,7 @@ private theorem w16n_conj_generators_commute {A Q : Subgroup (MulAut W)}
     _ = g' * (y' * (g'⁻¹ * (g * y * g⁻¹) * g')) * g'⁻¹ := by rw [hcy']
     _ = (g' * y' * g'⁻¹) * (g * y * g⁻¹) := by group
 
+omit [Finite W] in
 private theorem w16n_conjClosure_commute {A Q : Subgroup (MulAut W)}
     (hQe : IsElemAbelian 3 Q)
     (hcomm : ∀ g ∈ A, ⁅Q, Q.map (MulAut.conj g).toMonoidHom⁆ = ⊥) :

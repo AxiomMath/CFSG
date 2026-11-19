@@ -49,6 +49,7 @@ theorem Env.card_Vt (e : Env hc n t m X) :
     have := e.hm
     omega
 
+omit [Finite G] in
 theorem natSO_of_omega {hc : Ctx M Q Z B} {t : G} {m : ℕ} (hm : 3 ≤ m)
     (h : OmegaPlusNat hc t m ∨ OmegaMinusNat hc t m) : SpNat hc t ∨ OmegaNat hc t := by
   rcases h with ⟨K, fK, finK, hK, hnat⟩ | ⟨K, fK, finK, hK, b, c, hirr, hnat⟩
@@ -96,6 +97,8 @@ variable {R V : Subgroup G} {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type}
 variable {Q K₀ : Subgroup G} {t : G} (hχ : IsChiIso Q R K₀ V Z t)
   (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K))
 
+omit [Finite G] in
+omit [Fintype ι] [DecidableEq ι] in
 theorem chiVec_mul (x y : ↥Q) : chiVec hχ ψ (x * y) = chiVec hχ ψ x + chiVec hχ ψ y := by
   have h3 := hχ.2.2.1 (x : G) x.2 (y : G) y.2
   have h := (secVec_eq_iff ψ ⟨⁅((x * y : ↥Q) : G), t⁆, hχ.1 _ (x * y).2⟩
@@ -105,11 +108,13 @@ theorem chiVec_mul (x y : ↥Q) : chiVec hχ ψ (x * y) = chiVec hχ ψ x + chiV
   rw [e]
   exact secVec_mul ψ ⟨⁅(x : G), t⁆, hχ.1 _ x.2⟩ ⟨⁅(y : G), t⁆, hχ.1 _ y.2⟩
 
+omit [Finite G] [Fintype ι] [DecidableEq ι] in
 theorem chiVec_eq_zero_iff (x : ↥Q) : chiVec hχ ψ x = 0 ↔ (x : G) ∈ K₀ := by
   unfold chiVec
   rw [secVec_eq_zero_iff]
   exact hχ.2.2.2.1 x x.2
 
+omit [Finite G] in
 theorem chiVec_conj (φ : ↥R →* GL ι K)
     (hψ : ∀ (s : ↥R) (v w : ↥V), (w : G) = (s : G) * v * (s : G)⁻¹ →
       Multiplicative.toAdd (ψ (QuotientGroup.mk w)) =
@@ -128,6 +133,8 @@ theorem chiVec_conj (φ : ↥R →* GL ι K)
   rw [e]
   exact hψ r ⟨⁅(x : G), t⁆, hχ.1 _ x.2⟩ _ rfl
 
+omit [Finite G] in
+omit [Fintype ι] [DecidableEq ι] in
 theorem chiVec_inv (hK₀ : (1 : G) ∈ K₀) (x : ↥Q) :
     chiVec hχ ψ x⁻¹ = -chiVec hχ ψ x := by
   have h := chiVec_mul hχ ψ x x⁻¹
@@ -147,35 +154,44 @@ variable {V Z : Subgroup G} {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type}
   classical
   exact if h : g ∈ V then secVec ψ ⟨g, h⟩ else 0
 
+omit [Finite G] [Fintype ι] [DecidableEq ι] in
 theorem vecOf_of_mem {g : G} (hg : g ∈ V) : vecOf ψ g = secVec ψ ⟨g, hg⟩ := by
   unfold vecOf
-  exact dif_pos hg
+  exact dite_eq_left hg
 
+omit [Finite G] [Fintype ι] [DecidableEq ι] in
 theorem vecOf_mul {g h : G} (hg : g ∈ V) (hh : h ∈ V) :
     vecOf ψ (g * h) = vecOf ψ g + vecOf ψ h := by
   rw [vecOf_of_mem ψ (V.mul_mem hg hh), vecOf_of_mem ψ hg, vecOf_of_mem ψ hh]
   exact secVec_mul ψ ⟨g, hg⟩ ⟨h, hh⟩
 
+omit [Finite G] [Fintype ι] [DecidableEq ι] in
 theorem vecOf_inv {g : G} (hg : g ∈ V) : vecOf ψ g⁻¹ = -vecOf ψ g := by
   rw [vecOf_of_mem ψ (V.inv_mem hg), vecOf_of_mem ψ hg]
   exact secVec_inv ψ ⟨g, hg⟩
 
+omit [Finite G] [Fintype ι] [DecidableEq ι] in
 theorem vecOf_eq_zero_iff {g : G} (hg : g ∈ V) : vecOf ψ g = 0 ↔ g ∈ Z := by
   rw [vecOf_of_mem ψ hg]
   exact secVec_eq_zero_iff ψ ⟨g, hg⟩
 
+omit [Finite G] in
+omit [Fintype ι] [DecidableEq ι] in
 theorem vecOf_eq_iff {g h : G} (hg : g ∈ V) (hh : h ∈ V) :
     vecOf ψ g = vecOf ψ h ↔ g * h⁻¹ ∈ Z := by
   rw [vecOf_of_mem ψ hg, vecOf_of_mem ψ hh]
   exact secVec_eq_iff ψ ⟨g, hg⟩ ⟨h, hh⟩
 
+omit [Finite G] [Fintype ι] [DecidableEq ι] in
 theorem vecOf_of_mem_Z {g : G} (hg : g ∈ Z) (hZV : Z ≤ V) : vecOf ψ g = 0 :=
   (vecOf_eq_zero_iff ψ (hZV hg)).mpr hg
 
+omit [Finite G] [Fintype ι] [DecidableEq ι] in
 theorem vecOf_mul_Z {g z : G} (hg : g ∈ V) (hz : z ∈ Z) (hZV : Z ≤ V) :
     vecOf ψ (g * z) = vecOf ψ g := by
   rw [vecOf_mul ψ hg (hZV hz), vecOf_of_mem_Z ψ hz hZV, add_zero]
 
+omit [Finite G] in
 theorem vecOf_conj {R : Subgroup G} (φ : ↥R →* GL ι K)
     (hψ : ∀ (s : ↥R) (v w : ↥V), (w : G) = (s : G) * v * (s : G)⁻¹ →
       Multiplicative.toAdd (ψ (QuotientGroup.mk w)) =
@@ -190,6 +206,7 @@ end VecOf
 
 section Derived
 
+omit [Finite G] in
 theorem Env.exists_nat (e : Env hc n t m X) :
     ∃ (ι : Type) (_ : Fintype ι) (_ : DecidableEq ι) (K : Type) (_ : Field K) (_ : Finite K)
       (_ : CharP K 2) (Xm : Subgroup (GL ι K)), AddCommutantScalar Xm ∧
@@ -197,10 +214,10 @@ theorem Env.exists_nat (e : Env hc n t m X) :
       NaturalRep (ι := ι) K Xm (Rt M (LB M Q B) t) (Vt M (LB M Q B) B Z t) Z (hc.CN t) := by
   obtain ⟨e', -, he, -⟩ := hc.hyp.cp
   rcases e.hΩ with ⟨K, fK, finK, hK, hnat⟩ | ⟨K, fK, finK, hK, b, c, hirr, hnat⟩
-  · haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
+  · have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
     exact ⟨Fin m ⊕ Fin m, inferInstance, inferInstance, K, fK, finK, inferInstance, _,
       addCommutantScalar_statedOmegaPlus e.hm, hK, hnat⟩
-  · haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
+  · have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans he)
     exact ⟨Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2, inferInstance, inferInstance, K, fK, finK,
       inferInstance, _, addCommutantScalar_statedOmegaMinus (by have := e.hm; omega) hirr, hK,
       hnat⟩
@@ -208,7 +225,7 @@ theorem Env.exists_nat (e : Env hc n t m X) :
 theorem Env.comm_mem_V (h34 : Stroth34Statement) (e : Env hc n t m X) {a x : G}
     (ha : a ∈ hc.CN t) (hx : x ∈ Q) : ⁅a, x⁆ ∈ Vt M (LB M Q B) B Z t := by
   obtain ⟨ι, _, _, K, _, _, _, Xm, -, -, φ, -, hφk, hRV, hn, ψ, hψ⟩ := e.exists_nat
-  haveI := hn
+  have := hn
   have hχ := e.chi h34
   have hNR : a ∈ Rt M (LB M Q B) t := (Ctx.mem_CN.mp ha).1
   have haφ : φ ⟨a, hNR⟩ = 1 := by
@@ -233,7 +250,7 @@ theorem Env.comm_mem_V (h34 : Stroth34Statement) (e : Env hc n t m X) {a x : G}
 theorem Env.N_mod_Q (h34 : Stroth34Statement) (e : Env hc n t m X) :
     (∀ a ∈ hc.CN t, ∀ b ∈ hc.CN t, ⁅a, b⁆ ∈ Q) ∧ ∀ a ∈ hc.CN t, a ^ 2 ∈ Q := by
   obtain ⟨ι, _, _, K, _, _, hch, Xm, -, -, φ, -, hφk, hRV, hn, ψ, hψ⟩ := e.exists_nat
-  haveI := hn
+  have := hn
   have hNR : ∀ a ∈ hc.CN t, a ∈ Rt M (LB M Q B) t := fun a ha => (Ctx.mem_CN.mp ha).1
   have hφ1 : ∀ (a : G) (ha : a ∈ hc.CN t), φ ⟨a, hNR a ha⟩ = 1 := fun a ha => by
     have : (⟨a, hNR a ha⟩ : ↥(Rt M (LB M Q B) t)) ∈ φ.ker := by

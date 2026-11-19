@@ -25,7 +25,7 @@ theorem coe_sl2Trans : (sl2Trans K : Matrix (Fin 2) (Fin 2) K) = !![1, 1; 0, 1] 
 theorem sl2Three_pow_three : sl2Three K ^ 3 = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.SpecialLinearGroup.coe_pow, coe_sl2Three, pow_succ, Matrix.mul_apply,
+    simp [coe_sl2Three, pow_succ, Matrix.mul_apply,
       Fin.sum_univ_two]
 
 theorem sl2Three_ne_one : sl2Three K ≠ 1 := by
@@ -44,11 +44,11 @@ theorem sl2Three_mul_sl2Trans_ne : sl2Three K * sl2Trans K ≠ sl2Trans K * sl2T
 
 theorem exists_orderOf_eq_two_sl2 : ∃ s : SL2 K, orderOf s = 2 := by
   by_cases hK : ringChar K = 2
-  · haveI : CharP K 2 := ringChar.of_eq hK
+  · have : CharP K 2 := ringChar.of_eq hK
     refine ⟨sl2Trans K, orderOf_eq_prime ?_ ?_⟩
     · ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.SpecialLinearGroup.coe_pow, coe_sl2Trans, pow_succ, Matrix.mul_apply,
+        simp [coe_sl2Trans, pow_succ, Matrix.mul_apply,
           Fin.sum_univ_two, CharTwo.add_self_eq_zero]
     · intro h
       have := congrArg (fun A : SL2 K => (A : Matrix (Fin 2) (Fin 2) K) 0 1) h

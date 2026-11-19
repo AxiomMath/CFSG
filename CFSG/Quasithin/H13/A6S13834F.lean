@@ -246,7 +246,7 @@ theorem a4_normal_e0 : ∀ a ∈ a4List, ∀ x ∈ e0List, a * x * a⁻¹ ∈ e0
   simp only [← enc_inv hn6, ← enc_mul hn6] at h
   exact mem_of_memKL hn6 hE0 h
 
-theorem a4_exp : ∀ a ∈ a4List, a ^ 6 = 1 := fun a ha =>
+theorem a4_exp : ∀ _a ∈ a4List, _a ^ 6 = 1 := fun _a ha =>
   A6K.eq_of_beq_pow hn6 A6K.enc_one6 (allK_iff.1 A6K.exp_A4 _ (enc_mem_of_beq hA4 ha))
 
 theorem a4_two : ∀ a ∈ a4List, a ^ 2 = 1 → a ∈ e0List := by
@@ -270,7 +270,7 @@ theorem c3_mem_a4 : ∀ σ ∈ cList, σ ^ 3 = 1 → σ ∈ a4List := by
   rw [A6K.beq_pow_of_eq hn6 A6K.enc_one6 h3, Bool.not_true, Bool.false_or] at h
   exact mem_of_memKL hn6 hA4 h
 
-theorem cList_exp : ∀ σ ∈ cList, σ ^ 12 = 1 := fun σ hσ =>
+theorem cList_exp : ∀ _σ ∈ cList, _σ ^ 12 = 1 := fun _σ hσ =>
   A6K.eq_of_beq_pow hn6 A6K.enc_one6 (allK_iff.1 A6K.exp_CC _ (enc_mem_of_beq hC hσ))
 
 theorem card_normalizer_c3 : ∀ c ∈ a4List, c ^ 3 = 1 → c ≠ 1 →

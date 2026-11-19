@@ -34,6 +34,7 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit hf [CharP K 3] hK hσ in
 theorem exists_long_form_of_mem_layerN_three (x : layerN σ 3) :
     ∃ r r' : K, σ r = r ∧ σ r' = r' ∧
       (((x : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) : ModGL TwistTag.D4.tag K)) =
@@ -90,8 +91,8 @@ theorem exists_long_form_of_mem_layerN_three (x : layerN σ 3) :
       (x : graphFixedRootGroup TwistTag.D4 K σ.toRingHom).2)).2
   have hρC : permLattice TwistTag.D4.perm rootC = rootC := by decide
   have hρD : permLattice TwistTag.D4.perm rootD = rootD := by decide
-  rw [← hc', map_mul, twistHom_pinnedX_of_fixedRoot hf hK σ hσ isRoot_rootC hρC,
-    twistHom_pinnedX_of_fixedRoot hf hK σ hσ isRoot_rootD hρD] at hF
+  rw [← hc', map_mul, twistHom_pinnedX_of_fixedRoot σ isRoot_rootC hρC,
+    twistHom_pinnedX_of_fixedRoot σ isRoot_rootD hρD] at hF
   have hσc : (fun i => σ (c i)) = c := by
     refine hBij.2.1 (Set.mem_univ _) (Set.mem_univ _) ?_
     simpa [List.ofFn_succ] using hF

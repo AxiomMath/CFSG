@@ -14,6 +14,7 @@ namespace SixData
 
 variable {G : Subgroup (Perm Ω)} {ω₀ : Ω} {a b : Perm Ω}
 
+omit [DecidableEq Ω] in
 theorem card_le_of_forall_mem {E : Subgroup (Perm Ω)} {F : Finset (Perm Ω)} (hEF : ∀ e ∈ E, e ∈ F) :
     Nat.card E ≤ F.card := by
   classical
@@ -122,7 +123,7 @@ theorem card_elemAb_le (h : SixData G ω₀ a b) {E : Subgroup (Perm Ω)} (hE : 
       have := Nat.card_le_card_of_injective _ hinj
       rw [Nat.card_eq_fintype_card (α := Ω), h.card_Ω] at this
       exact this
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hp : IsPGroup 2 ↥E := fun g => ⟨1, Subtype.ext (by simpa [pow_two] using hsq g g.2)⟩
     obtain ⟨n, hn⟩ := hp.exists_card_eq
     have hn2 : n ≤ 2 := by
@@ -134,7 +135,7 @@ theorem card_elemAb_le (h : SixData G ω₀ a b) {E : Subgroup (Perm Ω)} (hE : 
       _ ≤ 2 ^ 2 := Nat.pow_le_pow_right (by norm_num) hn2
 
 theorem klein_even (h : SixData G ω₀ a b) {E : Subgroup (Perm Ω)} (hE : E ≤ G)
-    (hsq : ∀ g ∈ E, g * g = 1) (hcomm : ∀ g ∈ E, ∀ k ∈ E, g * k = k * g) (hcard : Nat.card E = 4) :
+    (hsq : ∀ g ∈ E, g * g = 1) (_hcomm : ∀ g ∈ E, ∀ k ∈ E, g * k = k * g) (hcard : Nat.card E = 4) :
     ∃ g ∈ E, g ≠ 1 ∧ fixCount g = 2 := by
   classical
   by_contra hcon

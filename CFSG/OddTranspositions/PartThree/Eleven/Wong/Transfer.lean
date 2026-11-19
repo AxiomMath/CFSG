@@ -43,7 +43,7 @@ theorem exists_normal_inf_sylow_eq_of_focal_le {X : Type*} [Group X] [Finite X] 
   have := normal_subgroupOf_of_focalSubgroupOf_le (P : Subgroup X) M hFN
   obtain ⟨ψ, hψ, hψpow⟩ := exists_pow_hom P (M.subgroupOf (P : Subgroup X)) hFN
   have hquot : IsPGroup p ((P : Subgroup X) ⧸ M.subgroupOf (P : Subgroup X)) :=
-    P.isPGroup'.to_quotient _
+    P.isPGroup.to_quotient _
   refine ⟨ψ.ker, ψ.normal_ker, ?_, ?_⟩
   · rw [Subgroup.index_ker, MonoidHom.range_eq_top.mpr hψ, Subgroup.card_top,
       ← Subgroup.index_eq_card]

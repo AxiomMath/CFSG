@@ -112,7 +112,7 @@ theorem fP2_eq (c : K) : fP2 σ hσ μ c =
     xa 5 ((μ : K) * c) * xa 7 (σ ((μ : K) * c)) * xa 9 (-σ (σ ((μ : K) * c))) := by
   unfold fP2 W0
   rw [fP1_eq, conj_triple, w4c_2_0, w4c_2_1, w4c_2_3]
-  simp only [Units.val_one, inv_one, one_mul]
+  simp only [Units.val_one, one_mul]
 
 theorem fM2_eq (c : K) : fM2 σ hσ μ c =
     xa 11 (((μ⁻¹ : Kˣ) : K) * c) * xa 14 (σ (((μ⁻¹ : Kˣ) : K) * c)) *

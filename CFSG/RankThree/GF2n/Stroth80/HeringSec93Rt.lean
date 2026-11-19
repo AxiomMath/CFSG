@@ -21,7 +21,7 @@ theorem conj_not_le_QB91 (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} 
     (hs : Sec9Hyp hc n t) (hr : Sec7A hc t r) : ¬ conjSubgroup r B ≤ QB B := by
   intro hle
   obtain ⟨K, fK, finK, hch, E, hn, φ, ψ, u, P⟩ := exists_pts91 h34 hs
-  haveI := hn
+  have := hn
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   let r' : ↥(Rt M (LB M Q B) t) := ⟨r, hr.mem⟩
   have hne := (hypPlane_iff_polar91 h34 hs P r').mp hr.plane
@@ -88,7 +88,7 @@ theorem Rt_eq_of_mem_Z091 (h34 : Stroth34Statement) (h311a : Stroth311aStatement
   rcases h312 with hq | hRs
   · exfalso
     obtain ⟨hnorm, hmod⟩ := hq
-    haveI := hnorm
+    have := hnorm
     have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
     have hq2 : ∃ e : ℕ, Nat.card Z = 2 ^ e := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
@@ -100,7 +100,7 @@ theorem Rt_eq_of_mem_Z091 (h34 : Stroth34Statement) (h311a : Stroth311aStatement
     have hNt : inSubgroup (pCore 2) (Rt M (LB M Q B) t) = hc.CN t :=
       le_antisymm (hc.Nt_le_CN h34 hs5) (hc.CN_le_Nt ht hN2)
     obtain ⟨K, fK, finK, hch, hK, ψ, hψs, hψk⟩ := exists_psi91 hs
-    haveI : CharP K 2 := hch
+    have : CharP K 2 := hch
     have hidx : Nat.card (↥(Rt M (LB M Q B) t) ⧸
         (inSubgroup (pCore 2) (Rt M (LB M Q B) t)).subgroupOf (Rt M (LB M Q B) t)) =
         Nat.card (↥(StatedSL 2 K) × ↥(StatedSL 2 K)) := by

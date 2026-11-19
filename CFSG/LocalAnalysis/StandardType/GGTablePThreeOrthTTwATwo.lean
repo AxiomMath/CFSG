@@ -37,14 +37,14 @@ private theorem orthTTwATwo_k {R : Type} [Group R] [IsSimpleGroup R]
   change LargeEvenRecipeUnitary 3 (2 ^ k) (fun R' _ _ _ => Nonempty (R ≃* R')) at hlab
   rcases hk01 with rfl | rfl
   · obtain ⟨K, hF, hFin, hcard, -⟩ := hlab
-    haveI : Field K := hF
-    haveI : Finite K := hFin
+    have : Field K := hF
+    have : Finite K := hFin
     have h2 : 1 < Nat.card K := Finite.one_lt_card
     rw [hcard] at h2
     norm_num at h2
   · obtain ⟨K, hF, hFin, hcard, ⟨e⟩⟩ := hlab
     have h4 : Nat.card K = 4 := by rw [hcard]; norm_num
-    letI : Group.IsSolvable
+    let : Group.IsSolvable
         (@LargeEvenProj (Fin 3) (Fin.fintype 3) (instDecidableEqFin 3) K hF
           (@LargeEvenSUGroup (Fin 3) (Fin.fintype 3) (instDecidableEqFin 3) K hF 2)) :=
       @largeEvenProj_su_three_two_isSolvable K hF hFin h4
@@ -135,13 +135,13 @@ private theorem orthTTwATwo_aux
   let ρ : ↥(orthDerived Q) →* ProjOrthDerived Q :=
     QuotientGroup.mk' ((CFSG.ClassicalGroups.Orthogonal.scalars K V).subgroupOf (orthDerived Q))
   have hq := hR.comp.2.2
-  haveI : IsSimpleGroup (J' ⧸ Subgroup.center J') := hq.2
-  haveI : Group.IsPerfect ↥J' := ⟨hq.1⟩
-  haveI : Group.IsPerfect (J' ⧸ Subgroup.center J') := inferInstance
+  have : IsSimpleGroup (J' ⧸ Subgroup.center J') := hq.2
+  have : Group.IsPerfect ↥J' := ⟨hq.1⟩
+  have : Group.IsPerfect (J' ⧸ Subgroup.center J') := inferInstance
   have hnab : ∃ a b : J' ⧸ Subgroup.center J', a * b ≠ b * a := by
     by_contra h
     push Not at h
-    haveI : IsMulCommutative (J' ⧸ Subgroup.center J') := ⟨⟨h⟩⟩
+    have : IsMulCommutative (J' ⧸ Subgroup.center J') := ⟨⟨h⟩⟩
     exact (Group.IsPerfect.not_isMulCommutative (J' ⧸ Subgroup.center J')) inferInstance
   have hk2 : 2 ≤ k := orthTTwATwo_k hnab hlab
   have hK2 : 1 < Nat.card K := Finite.one_lt_card
@@ -227,7 +227,7 @@ private theorem orthTTwATwo_aux
       (QuotientGroup.eq_one_iff x).mp (by simpa only [QuotientGroup.mk'_apply] using h1)
     have hxscal : (x : V ≃ₗ[K] V) ∈ CFSG.ClassicalGroups.Orthogonal.scalars K V :=
       Subgroup.mem_subgroupOf.mp hxN
-    haveI : Nontrivial V := by
+    have : Nontrivial V := by
       have hpos : 0 < Module.finrank K V := by
         obtain ⟨U, hU, -⟩ := hT
         have hle := Submodule.finrank_le U

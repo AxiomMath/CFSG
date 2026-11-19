@@ -15,11 +15,12 @@ open scoped IsMulCommutative
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [Module.Finite F V] {X : Type} [Group X]
 
+omit [Finite F] [CharP F 2] [Module.Finite F V] in
 private theorem hat_mem_repCentSL {P : Type} [CommGroup P] (η : P →* SpecialLinearGroup F V)
     {B₁ D : Subgroup X} (hat : B₁ →* SpecialLinearGroup F V) (hcomm : IsMulCommutative B₁)
     (hDη : η.range = (D.subgroupOf B₁).map hat) (b : B₁) :
     hat b ∈ repCentSL (groupRep η) := by
-  haveI : IsMulCommutative B₁ := hcomm
+  have : IsMulCommutative B₁ := hcomm
   rw [repCentSL, Subgroup.mem_comap, Subgroup.mem_centralizer_iff]
   intro y hy
   obtain ⟨q, rfl⟩ := hy
@@ -42,6 +43,7 @@ private noncomputable def rhoBlock {P : Type} [CommGroup P]
   map_one' := SemiFrame.blockEquiv_one fr i
   map_mul' h₁ h₂ := SemiFrame.blockEquiv_mul fr h₁ h₂ i
 
+omit [Finite F] [CharP F 2] [Module.Finite F V] in
 private theorem block_comm_of_scalar {P : Type} [CommGroup P]
     (η : P →* SpecialLinearGroup F V) (fr : SemiFrame F (groupRep η)) (i : Fin fr.r)
     (hb : SpecialLinearGroup F V) (hhb : hb ∈ repCentSL (groupRep η)) (a : (fr.E i)ˣ)
@@ -92,9 +94,10 @@ private theorem block_comm_of_scalar {P : Type} [CommGroup P]
       rw [hu_j, hb_apply v j]
     rw [hL, hR]
 
+omit [Finite F] [Module.Finite F V] in
 theorem three_le_of_shape {P : Type} [CommGroup P] (η : P →* SpecialLinearGroup F V)
     (fr : SemiFrame F (groupRep η)) (i : Fin fr.r) (hgood : fr.GoodAtBlock i)
-    (ψ : SpecialLinearGroup F V →* X) (hψ : Function.Injective ψ) (p : ℕ) (hp : p.Prime)
+    (ψ : SpecialLinearGroup F V →* X) (_hψ : Function.Injective ψ) (p : ℕ) (hp : p.Prime)
     (hp2 : p ≠ 2) (B₁ D J : Subgroup X) (hat : B₁ →* SpecialLinearGroup F V)
     (hhat : ∀ (b : B₁) (u : SpecialLinearGroup F V),
       (b : X) * ψ u * (b : X)⁻¹ = ψ (hat b * u * (hat b)⁻¹))
@@ -103,15 +106,15 @@ theorem three_le_of_shape {P : Type} [CommGroup P] (η : P →* SpecialLinearGro
     (hJ : J = (fr.slOnBlock i).map ψ) (hBJ : B₁ ⊓ Subgroup.centralizer (J : Set X) = D) :
     3 ≤ fr.m i := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcomm : IsMulCommutative B₁ := hB₁.1
-  haveI : IsMulCommutative B₁ := hcomm
-  letI : CommGroup B₁ := inferInstance
+  have : IsMulCommutative B₁ := hcomm
+  let : CommGroup B₁ := inferInstance
   by_contra hcon
   have hmi : fr.m i = 2 :=
     le_antisymm (Nat.lt_succ_iff.mp (Nat.lt_of_not_le hcon)) hgood.1
   have hpE : (p : fr.E i) ≠ 0 := by
-    haveI hchar : CharP (fr.E i) 2 :=
+    have hchar : CharP (fr.E i) 2 :=
       charP_of_injective_algebraMap (algebraMap F (fr.E i)).injective 2
     intro h0
     have h2dvd : 2 ∣ p := (CharP.cast_eq_zero_iff (fr.E i) 2 p).mp h0

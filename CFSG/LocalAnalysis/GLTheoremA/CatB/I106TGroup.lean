@@ -211,7 +211,7 @@ theorem exists_fixed_lift {K : Type} [Group K] [Finite K] {N : Subgroup K} [N.No
   have hTcard : ¬ 3 ∣ Nat.card T := by
     have e : T ≃ N :=
       { toFun := fun t => ⟨x0⁻¹ * t.1, QuotientGroup.eq.1 t.2.symm⟩
-        invFun := fun n => ⟨x0 * n.1, QuotientGroup.eq.2 (by simpa using N.inv_mem n.2)⟩
+        invFun := fun n => ⟨x0 * n.1, QuotientGroup.eq.2 (by simp)⟩
         left_inv := fun t => Subtype.ext (by simp)
         right_inv := fun n => Subtype.ext (by simp) }
     rw [Nat.card_congr e]

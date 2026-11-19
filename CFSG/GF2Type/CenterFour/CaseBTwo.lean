@@ -26,6 +26,7 @@ theorem CaseB.centralizes_center_of_odd (hC : Config z n) {y : G}
   rw [hy] at h3
   exact hK h3
 
+omit [Finite G] in
 theorem Config.eq_one_of_odd_mem_core (hC : Config z n) {y : G} (hy : y ∈ coreAt z)
     (hodd : Odd (orderOf y)) : y = 1 := by
   have hdvd : orderOf (⟨y, hy⟩ : coreAt z) ∣ Nat.card (coreAt z) := orderOf_dvd_natCard _
@@ -42,6 +43,7 @@ theorem Config.eq_one_of_odd_mem_core (hC : Config z n) {y : G} (hy : y ∈ core
       omega
   exact orderOf_eq_one_iff.mp hyone
 
+omit [Finite G] in
 theorem CaseB.d_commute (hC : Config z n) {y q r : G} (hyz : y * z = z * y)
     (hyr : r * y = y * r) (hq : q ∈ coreAt z) (hr : r ∈ coreAt z) :
     (q⁻¹ * (y * q * y⁻¹)) * r = r * (q⁻¹ * (y * q * y⁻¹)) := by
@@ -72,6 +74,7 @@ theorem CaseB.d_commute (hC : Config z n) {y q r : G} (hyz : y * z = z * y)
     _ = (r * q⁻¹) * (y * q * y⁻¹) := by rw [h4]
     _ = r * (q⁻¹ * (y * q * y⁻¹)) := by group
 
+omit [Finite G] in
 theorem CaseB.commute_pow_four {y q d : G} (hyz : y * z = z * y) (hyq : y * q = q * d * y)
     (hyd : y * d = d * y) (hw : d ^ 2 = 1 ∨ d ^ 2 = z) (hzsq : z ^ 2 = 1) :
     y ^ 4 * q = q * y ^ 4 := by
@@ -117,6 +120,7 @@ theorem CaseB.commute_pow_four {y q d : G} (hyz : y * z = z * y) (hyq : y * q = 
     _ = q * ((d * d) * (d * d)) * (y * y * y * y) := by simp only [mul_assoc]
     _ = q * (y * y * y * y) := by rw [hd4, mul_one]
 
+omit [Finite G] in
 theorem CaseB.commute_of_pow_four {y q : G} (hodd : Odd (orderOf y))
     (h : Commute (y ^ 4) q) : Commute y q := by
   obtain ⟨t, ht⟩ := hodd
@@ -133,6 +137,7 @@ theorem CaseB.commute_of_pow_four {y q : G} (hodd : Odd (orderOf y))
   rw [← h2]
   exact h3.pow_left (t + 1)
 
+omit [Finite G] in
 theorem CaseB.centralizer_sup_le {H K : Subgroup G} {y : G}
     (hH : y ∈ centralizer (H : Set G)) (hK : y ∈ centralizer (K : Set G)) :
     H ⊔ K ≤ centralizer ({y} : Set G) := by
@@ -192,6 +197,7 @@ theorem CaseB.eq_one_of_odd (hC : Config z n) {g : G}
       (fun q hq => CaseB.commute_core_of_odd hC hH hK hyz hy hyH hyZ hodd hq)
   exact hC.eq_one_of_odd_mem_core hyQ hodd
 
+omit [Finite G] in
 theorem CaseB.conj_mul_self_eq_one (hC : Config z n) (g : G) :
     (g⁻¹ * z * g) * (g⁻¹ * z * g) = 1 := by
   have hz2 : z * z = 1 := by
@@ -200,6 +206,7 @@ theorem CaseB.conj_mul_self_eq_one (hC : Config z n) (g : G) :
   calc (g⁻¹ * z * g) * (g⁻¹ * z * g) = g⁻¹ * (z * z) * g := by group
     _ = 1 := by rw [hz2]; group
 
+omit [Finite G] in
 theorem CaseB.mul_psi_eq (hC : Config z n) (g q : G) :
     (g⁻¹ * z * g) * psi (g⁻¹ * z * g) q = q * (g⁻¹ * z * g) * q⁻¹ := by
   unfold psi
@@ -219,6 +226,7 @@ theorem CaseB.fused_of_mem_R₁ (hC : Config z n) {g : G}
   rw [CaseB.mul_psi_eq hC g q]
   group
 
+omit [Finite G] in
 theorem CaseB.le_core_of_normal_two {N : Subgroup G}
     (hN : N ≤ centralizer ({z} : Set G))
     (hnorm : ∀ h ∈ centralizer ({z} : Set G), ∀ x ∈ N, h * x * h⁻¹ ∈ N)
@@ -254,7 +262,7 @@ theorem CaseB.isPGroup_centralizer_R1 (hC : Config z n) {g : G}
       d = 2 := by
     intro d hd hdvd
     by_contra hd2
-    haveI : Fact d.Prime := ⟨hd⟩
+    have : Fact d.Prime := ⟨hd⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' d hdvd
     have hodd : Odd (orderOf (y : G)) := by
       rw [Subgroup.orderOf_coe, hy]
@@ -311,7 +319,7 @@ theorem CaseB.exists_fused_outside (hC : Config z n) {g : G}
       psi (g⁻¹ * z * g) q ∈ coreAt z ⊓ centralizer ({g⁻¹ * z * g} : Set G)) :
     ∃ x ∈ coreAt z, Fused z x ∧ x ∉ coreAt z ⊓ centralizer ({g⁻¹ * z * g} : Set G) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply CaseB.not_normal_R1 hC hH hK
   intro h hh r hr
   by_cases hr1 : r = 1
@@ -327,6 +335,7 @@ theorem CaseB.exists_fused_outside (hC : Config z n) {g : G}
     rw [← hk]
     group
 
+omit [Finite G] in
 theorem CaseB.mem_core_iff_centerAt_le {u : G} (hu : Config u n) {w x : G}
     (hx : w⁻¹ * u * w = x) :
     x ∈ coreAt u ↔ centerAt x ≤ centralizer ({u} : Set G) := by
@@ -341,7 +350,7 @@ theorem CaseB.card_le_two_mul_inf (J K : Subgroup G)
   by_cases hJK : J ≤ K
   · rw [inf_eq_left.mpr hJK]
     omega
-  obtain ⟨x₀, hx₀J, hx₀K⟩ := SetLike.not_le_iff_exists.mp hJK
+  obtain ⟨x₀, hx₀J, hx₀K⟩ := IsConcreteLE.not_le_iff_exists.mp hJK
   have hinvJ : x₀⁻¹ ∈ J := J.inv_mem hx₀J
   have hinvK : x₀⁻¹ ∉ K := fun h => hx₀K (by simpa using K.inv_mem h)
   let F : J → Bool × (J ⊓ K : Subgroup G) := fun x =>
@@ -355,6 +364,7 @@ theorem CaseB.card_le_two_mul_inf (J K : Subgroup G)
   have h := Nat.card_le_card_of_injective F hF
   rwa [Nat.card_prod, Nat.card_eq_fintype_card (α := Bool), Fintype.card_bool] at h
 
+omit [Finite G] in
 theorem CaseB.mul_mem_centralizer_of_core (hC : Config z n) {t x y : G} (ht : t ∈ coreAt z)
     (hx : x ∈ coreAt z) (hy : y ∈ coreAt z) (hxt : x ∉ centralizer ({t} : Set G))
     (hyt : y ∉ centralizer ({t} : Set G)) : x * y ∈ centralizer ({t} : Set G) := by

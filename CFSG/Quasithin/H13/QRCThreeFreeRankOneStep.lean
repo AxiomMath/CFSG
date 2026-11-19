@@ -336,7 +336,7 @@ theorem three_free_solvable_rank_one_step_normalizes_near_maximal_Thompson_cente
   intro m Q W E D
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hS2 : IsPGroup 2 (S : Subgroup H) := S.isPGroup'
+  have hS2 : IsPGroup 2 (S : Subgroup H) := S.isPGroup
   have hQ2 : IsPGroup 2 Q := pCore_isPGroup
   have hQn : Q.Normal := pCore_normal
   have hQS : Q ≤ S := hQ2.le_sylow_of_normal S

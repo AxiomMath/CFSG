@@ -58,7 +58,7 @@ theorem exists_psi_M {Ω : Set (Subgroup G)} {W E : Subgroup G}
   have hB : ∀ m : ↥(MGrp Ω W), (m : G) ∈ oddCoreOf E → φ (ψ m) = 1 := by
     intro m hmO
     let B : Subgroup ↥(MGrp Ω W) := (oddCoreOf E).comap (MGrp Ω W).subtype
-    haveI hBn : B.Normal := ⟨fun x hx g => by
+    have hBn : B.Normal := ⟨fun x hx g => by
       have hx' : (x : G) ∈ oddCoreOf E := hx
       have := (Subgroup.mem_normalizer_iff.mp (hOEn (hME g.2)) (x : G)).mp hx'
       exact this⟩
@@ -71,7 +71,7 @@ theorem exists_psi_M {Ω : Set (Subgroup G)} {W E : Subgroup G}
       rw [h1]
       exact (odd_natCard_oddCoreOf _).of_dvd_nat (Subgroup.card_dvd_of_le h2)
     let Q4 : Subgroup (Equiv.Perm (Fin 4)) := B.map (φ.toMonoidHom.comp ψ)
-    haveI : Q4.Normal := Subgroup.Normal.map hBn _ (φ.surjective.comp hψs)
+    have : Q4.Normal := Subgroup.Normal.map hBn _ (φ.surjective.comp hψs)
     have hQodd : Odd (Nat.card Q4) := hBodd.of_dvd_nat (Subgroup.card_map_dvd _ _)
     have hQ : Q4 = ⊥ := perm4_oddNormal_trivial Q4 hQodd
     have hm : (φ.toMonoidHom.comp ψ) m ∈ Q4 := Subgroup.mem_map_of_mem _ hmO

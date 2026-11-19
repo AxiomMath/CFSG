@@ -68,7 +68,7 @@ theorem even_card_mbar_of_hyp16 (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
   set hV := h.hyp125.isElemAbelian with hVdef
   set hpf := h.hyp125.pairFacts with hpfdef
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hpf.le_normalizer hpf.le_normalizer₀
-  haveI := s15_Three_cTilde_normal (D := D) hV hMs
+  have := s15_Three_cTilde_normal (D := D) hV hMs
   by_contra hodd
   have hoddOdd : Odd (Nat.card ↥(Mbar D.M V₀ V hV)) := Nat.not_even_iff_odd.mp hodd
   have hmBar_le : mBar D.M V₀ V hV ≤ 3 := by
@@ -77,7 +77,7 @@ theorem even_card_mbar_of_hyp16 (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
     omega
   have hmp : E3.mParam (Mbar D.M V₀ V hV) = rk (Vtil V₀ V hV) := by
     unfold E3.mParam
-    rw [if_neg hodd]
+    rw [ite_eq_right hodd]
   have hrk3 : rk (Vtil V₀ V hV) ≤ 3 := by
     rw [← hmp]
     exact hmBar_le
@@ -115,8 +115,8 @@ theorem exists_involution_of_hyp16 (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1
       sInf {n : ℕ | ∃ t ∈ Mbar D.M V₀ V hV, orderOf t = 2 ∧
         n = rkIdx (fixV (Subgroup.zpowers t))} := by
     unfold E3.mParam
-    rw [if_pos hev]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    rw [ite_eq_left hev]
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hne : {n : ℕ | ∃ t ∈ Mbar D.M V₀ V hV, orderOf t = 2 ∧
       n = rkIdx (fixV (Subgroup.zpowers t))}.Nonempty := by
     obtain ⟨x, hx2⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Mbar D.M V₀ V hV)) 2

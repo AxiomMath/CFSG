@@ -47,6 +47,7 @@ theorem cgsIn_le_inf {H T M R X : Subgroup G} (hmp : MinParabolic H T M) (hXH : 
   exact le_inf ((inf_le_inf_right _ hXH).trans (hmp.le_of_lt (le_inf hmp.isSylow.1 hTC) hlt))
     inf_le_left
 
+omit [Finite G] in
 theorem le_normalizer_iSup_a3Blocks {H : Subgroup G}
     (hfin : {L : Subgroup G | IsBlock2 H L ∧ IsAltType L 3}.Finite) :
     H ≤ Subgroup.normalizer ((⨆ L ∈ hfin.toFinset, L : Subgroup G) : Set G) := by

@@ -31,7 +31,7 @@ theorem d4WitData_pOrd : d4WitData.pOrd = 3 ^ 4 := rfl
 
 theorem listRow_d4P :
     ListRow ↥d4P := by
-  haveI : Finite ↥d4P := Nat.finite_of_card_ne_zero (by rw [card_d4P]; norm_num)
+  have : Finite ↥d4P := Nat.finite_of_card_ne_zero (by rw [card_d4P]; norm_num)
   obtain ⟨P, hPG, hPcard, hP⟩ := Certificates.certificate428004.apply
     d4P d4P d4WitData_gens_mem d4WitData_gens_mem
   refine listRow_of_wit3_sub (le_refl d4P) ?_

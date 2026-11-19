@@ -87,7 +87,7 @@ theorem false_d7 (X : GGNineDepCtx h α r s x) (hO : GGOrthType (ggNineQ X))
     (hd : Module.finrank (ZMod 3) ↥(ggFixLineT r s) = 7) : False := by
   classical
   have C := X.case
-  haveI : Module.Finite (ZMod 3) V := l04nD2_finite C
+  have : Module.Finite (ZMod 3) V := l04nD2_finite C
   set TT := ggFixLineT r s with hTT
   let hT : Fin (9 - 1) → TT := fun i => ⟨h i, l04nD2_h_mem_T C i⟩
   have hli : LinearIndependent (ZMod 3) (fun j : Fin 7 => hT (ggNineSeven j)) :=
@@ -162,7 +162,7 @@ theorem false_d7 (X : GGNineDepCtx h α r s x) (hO : GGOrthType (ggNineQ X))
         (g : TT →ₗ[ZMod 3] TT) = Matrix.toLin b b M ∧
         (g.symm : TT →ₗ[ZMod 3] TT) = Matrix.toLin b b Mi := by
     intro M Mi hMiso h1 h2
-    refine ⟨LinearEquiv.ofLinear (Matrix.toLin b b M) (Matrix.toLin b b Mi) ?_ ?_, ?_, rfl, rfl⟩
+    refine ⟨LinearEquiv.ofLinearMap (Matrix.toLin b b M) (Matrix.toLin b b Mi) ?_ ?_, ?_, rfl, rfl⟩
     · rw [← Matrix.toLin_mul, h1, Matrix.toLin_one]
     · rw [← Matrix.toLin_mul, h2, Matrix.toLin_one]
     · apply isIsom_of_polar_eq
@@ -183,7 +183,7 @@ theorem false_d7 (X : GGNineDepCtx h α r s x) (hO : GGOrthType (ggNineQ X))
     change gr (ggNineSeven 0) (b k) = _
     rw [hgr, hb, hpair]
     simp only [refl7, Matrix.of_apply, sub_smul, Finset.sum_sub_distrib, ite_smul, one_smul,
-      zero_smul, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true, hb]
+      zero_smul, Finset.sum_ite_eq', Finset.mem_univ, ite_true, hb]
   have hmem : gr (ggNineSeven 0) * (gG * gH * gG⁻¹ * gH⁻¹) ∈ ggNineQ X :=
     (ggNineQ X).mul_mem (hgrQ _) (hcomm gG gH hGiso hHiso)
   have hneg : ∀ v, (gr (ggNineSeven 0) * (gG * gH * gG⁻¹ * gH⁻¹)) v = -v := by
@@ -213,7 +213,7 @@ theorem finrank_eq_nine_of_central (X : GGNineDepCtx h α r s x) {z : V ≃ₗ[Z
     (hcent : ∀ k, z * s k = s k * z) : Module.finrank (ZMod 3) ↥(ggFixLineT r s) = 9 := by
   classical
   have C := X.case
-  haveI : Module.Finite (ZMod 3) V := l04nD2_finite C
+  have : Module.Finite (ZMod 3) V := l04nD2_finite C
   have hz2 : ∀ v, z (z v) = v := by
     intro v
     have := congrArg (fun e : V ≃ₗ[ZMod 3] V => e v) hzz
@@ -526,9 +526,9 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
 theorem card_le (C : GGNineDepCase 3 9 h α r s x) :
     Nat.card ↥(ggLargeGrp r s) ≤ 12 * Nat.card ↥(Subgroup.closure (Set.range s)) * (3 ^ 9 - 1) := by
   classical
-  haveI : Module.Finite (ZMod 3) V := l04nD2_finite C
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Module.Finite (ZMod 3) V := l04nD2_finite C
+  have : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V)) DFunLike.coe_injective
   set A := ggLargeGrp r s
   have h1 := Subgroup.card_mul_index (MulAction.stabilizer ↥A x)

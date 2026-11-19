@@ -24,7 +24,7 @@ theorem false_of_le_centralizer_of_rank_two {J A B₀ E : Subgroup Γ} {e : Γ} 
     (hEC : E ≤ Subgroup.centralizer (J : Set Γ)) (hEcard : Nat.card E = 9)
     (hE3 : ∀ y ∈ E, y ^ 3 = 1) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup Γ := Subgroup.centralizer (J : Set Γ) with hCdef
   have K1 : ∀ w : Γ, w ∈ C → w ^ 3 = 1 → w * e = e * w → w ∈ Subgroup.zpowers e := by
     intro w hwC hw3 hwe
@@ -55,17 +55,17 @@ theorem false_of_le_centralizer_of_rank_two {J A B₀ E : Subgroup Γ} {e : Γ} 
   have he'3 : e' ^ 3 = 1 := Subtype.ext (by simpa [he'def] using he3)
   obtain ⟨P, hP⟩ := (Res2LBal.isPGroup_zpowers he'3).exists_le_sylow
   have he'P : e' ∈ (P : Subgroup C) := hP (Subgroup.mem_zpowers e')
-  haveI : Finite (Sylow 3 C) := Finite.of_injective
+  have : Finite (Sylow 3 C) := Finite.of_injective
     (fun Q : Sylow 3 C => ((Q : Subgroup C) : Set C)) (by
       intro Q R h
       exact Sylow.ext (SetLike.coe_injective h))
   have FA : ∀ w : C, w ∈ (P : Subgroup C) → (w : Γ) ^ 3 = 1 →
       (w : Γ) ∈ Subgroup.zpowers e := by
     intro w hwP hw3
-    have hP3 : IsPGroup 3 (P : Subgroup C) := P.isPGroup'
-    haveI hnt : Nontrivial (P : Subgroup C) := ⟨⟨⟨e', he'P⟩, 1, fun h =>
+    have hP3 : IsPGroup 3 (P : Subgroup C) := P.isPGroup
+    have hnt : Nontrivial (P : Subgroup C) := ⟨⟨⟨e', he'P⟩, 1, fun h =>
       he1 (congrArg (fun t : (P : Subgroup C) => ((t : C) : Γ)) h)⟩⟩
-    haveI hZ : Nontrivial (Subgroup.center (P : Subgroup C)) := IsPGroup.center_nontrivial hP3
+    have hZ : Nontrivial (Subgroup.center (P : Subgroup C)) := IsPGroup.center_nontrivial hP3
     have hZ3 : IsPGroup 3 (Subgroup.center (P : Subgroup C)) := hP3.to_subgroup _
     have h3Z : 3 ∣ Nat.card (Subgroup.center (P : Subgroup C)) := by
       obtain ⟨n, hn, hcard⟩ := hZ3.nontrivial_iff_card.mp inferInstance
@@ -187,6 +187,7 @@ end Group
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_normal_of_img148_eq {A Y X J : Subgroup G} [(ker148 A Y).Normal] (hXY : X ≤ Y)
     (hXJ : img148 A Y X = img148 A Y J)
     (hN : ∀ (y : G) (hy : y ∈ Y),

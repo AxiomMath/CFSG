@@ -44,7 +44,7 @@ theorem normalizes {x : G} (hx2 : x * x = 1) (hxK0 : x ∈ normalizer (K0 : Set 
     refine F.mem_sup_iff.mpr ⟨(Subgroup.mem_normalizer_iff.mp hxK0 k).mp hk0, fun q hq => ?_⟩
     have hq' : x⁻¹ * q * x ∈ Q2 := by
       have := hxQ2 q hq
-      rwa [hxinv] at this ⊢
+      rw [hxinv] at this ⊢; assumption
     have h1 := hxN _ (hkq _ hq')
     have h2 : x * (k * (x⁻¹ * q * x) * k⁻¹ * (x⁻¹ * q * x)⁻¹) * x⁻¹ =
         x * k * x⁻¹ * q * (x * k * x⁻¹)⁻¹ * q⁻¹ := by group

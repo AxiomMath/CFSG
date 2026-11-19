@@ -64,7 +64,7 @@ omit [Finite G] in
 theorem fusionIsSylowIn_normalizer (T : Sylow 2 G) {S : Subgroup G} (hST : S ≤ T)
     (hS : fusionStronglyClosed (S : Set G) T) :
     fusionIsSylowIn 2 (T : Subgroup G) (normalizer (S : Set G)) :=
-  ⟨sylow_le_normalizer T hST hS, T.isPGroup', fun _ _ hP hTP => T.maximal_isPGroup.eq_of_ge hP hTP⟩
+  ⟨sylow_le_normalizer T hST hS, T.isPGroup, fun _ _ hP hTP => T.maximal_isPGroup.eq_of_ge hP hTP⟩
 
 theorem normalizer_le_sup_centralizer (T : Sylow 2 G) {S : Subgroup G} (hST : S ≤ T)
     (hS : fusionStronglyClosed (S : Set G) T)

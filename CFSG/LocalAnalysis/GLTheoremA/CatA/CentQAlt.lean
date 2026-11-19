@@ -31,7 +31,7 @@ theorem false_of_perfect_card_dvd {P : Type*} [Group P] [Finite P] [Nontrivial P
     · have : IsZGroup P := IsZGroup.of_squarefree
         (Squarefree.squarefree_of_dvd h (by decide +kernel))
       infer_instance
-    · haveI : Fintype P := Fintype.ofFinite P
+    · have : Fintype P := Fintype.ofFinite P
       obtain ⟨y, z, hy, hz, hyz⟩ := Nat.dvd_mul.1 (show Nat.card P ∣ 2 ^ 1 * 3 ^ 2 by simpa using h)
       obtain ⟨i, -, rfl⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hy
       obtain ⟨j, -, rfl⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hz
@@ -40,7 +40,7 @@ theorem false_of_perfect_card_dvd {P : Type*} [Group P] [Finite P] [Nontrivial P
     · have : IsZGroup P := IsZGroup.of_squarefree
         (Squarefree.squarefree_of_dvd h (by decide +kernel))
       infer_instance
-    · haveI : Fintype P := Fintype.ofFinite P
+    · have : Fintype P := Fintype.ofFinite P
       obtain ⟨y, z, hy, hz, hyz⟩ := Nat.dvd_mul.1 (show Nat.card P ∣ 2 ^ 2 * 3 ^ 2 by simpa using h)
       obtain ⟨i, -, rfl⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hy
       obtain ⟨j, -, rfl⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hz
@@ -83,7 +83,7 @@ theorem cq_card_centralizer_replicate {n q k : ℕ} (σ : Equiv.Perm (Fin n)) (h
       (n - k * q).factorial * q ^ k * k.factorial := by
   have hne : k ≠ 0 := by omega
   rw [Equiv.Perm.nat_card_centralizer, hk, Fintype.card_fin, Multiset.sum_replicate,
-    Multiset.prod_replicate, smul_eq_mul, Multiset.toFinset_replicate, if_neg hne,
+    Multiset.prod_replicate, smul_eq_mul, Multiset.toFinset_replicate, ite_eq_right hne,
     Finset.prod_singleton, Multiset.count_replicate_self]
 
 theorem centCompQuasi_alt_eight_three_cycle {x : alternatingGroup (Fin 8)}
@@ -115,15 +115,15 @@ theorem centCompQuasi_alt_eight_three_cycle {x : alternatingGroup (Fin 8)}
     rw [Finset.card_compl, h1]
     simp
   obtain ⟨e⟩ := nonempty_range_ofSubtype_equiv σ.supportᶜ 5 hcard5
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI : IsSimpleGroup ↥(alternatingGroup.ofSubtype σ.supportᶜ).range := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have : IsSimpleGroup ↥(alternatingGroup.ofSubtype σ.supportᶜ).range := e.isSimpleGroup
   have hJeq : J = (alternatingGroup.ofSubtype σ.supportᶜ).range :=
     eq_of_isSubnormal_of_isSimpleGroup (glaPComponent_of_le hr hJ hJF hFC).2.1
       (cq_glaPComponent_ne_bot hJ)
   subst hJeq
-  haveI : Nontrivial ↥(alternatingGroup.ofSubtype σ.supportᶜ).range :=
+  have : Nontrivial ↥(alternatingGroup.ofSubtype σ.supportᶜ).range :=
     (Subgroup.nontrivial_iff_ne_bot _).2 (cq_glaPComponent_ne_bot hJ)
-  haveI : Group.IsPerfect ↥(alternatingGroup.ofSubtype σ.supportᶜ).range :=
+  have : Group.IsPerfect ↥(alternatingGroup.ofSubtype σ.supportᶜ).range :=
     Subgroup.isPerfect_iff.2 hJperf
   refine b3Lie_isQuasisimple_of_simple ?_
   by_contra hcomm'
@@ -136,7 +136,7 @@ theorem centCompQuasi_alt (n : ℕ) (hn : n = 5 ∨ n = 6 ∨ n = 8) {q : ℕ} (
   intro J hJ
   have hσq : (x : Equiv.Perm (Fin n)) ^ q = 1 := by simpa using congrArg Subtype.val hx
   have hσ1 : (x : Equiv.Perm (Fin n)) ≠ 1 := fun h => hx1 (Subtype.ext h)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hord : orderOf (x : Equiv.Perm (Fin n)) = q := orderOf_eq_prime hσq hσ1
   obtain ⟨k, hk, hkn⟩ := cq_cycleType_of_prime_order (x : Equiv.Perm (Fin n)) hq hord
   have hk1 : 1 ≤ k := by
@@ -154,8 +154,8 @@ theorem centCompQuasi_alt (n : ℕ) (hn : n = 5 ∨ n = 6 ∨ n = 8) {q : ℕ} (
     have hdiv : Nat.card J ∣ (n - k * q).factorial * q ^ k * k.factorial := by
       rw [← cq_card_centralizer_replicate (x : Equiv.Perm (Fin n)) hk1 hk]
       exact (Subgroup.card_dvd_of_le hJC).trans (cq_card_centralizer_dvd_alt x)
-    haveI : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).2 (cq_glaPComponent_ne_bot hJ)
-    haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ)
+    have : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).2 (cq_glaPComponent_ne_bot hJ)
+    have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ)
     have hq3 : 3 ≤ q := by
       have := hq.two_le
       omega

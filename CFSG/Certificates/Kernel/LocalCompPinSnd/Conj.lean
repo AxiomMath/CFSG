@@ -346,9 +346,9 @@ theorem rstK_mono {n w m ng : Nat} {G GI T E : Nat → Nat} {i c : Nat}
     (h : rstK n w m ng G GI T E i c ≠ 0) : c ≤ rstK n w m ng G GI T E i c := by
   unfold rstK at h ⊢
   by_cases hi : i < c
-  · simp only [hi, if_true] at h ⊢
+  · simp only [hi, ite_true] at h ⊢
     exact cPoint_mono h
-  · simp only [hi, if_false] at h
+  · simp only [hi, ite_false] at h
     exact absurd rfl h
 
 theorem pin_pointC (P : PinFC n w ng N G GI T gens ginv) {h c : Nat} (hh : h < c) {s : St}

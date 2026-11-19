@@ -31,8 +31,8 @@ theorem exists_fieldPart_of_isPGroup {X : Type} [Group X] [Finite X] {p : ℕ} (
       ¬ p ∣ (CFSG.ComponentClassification.OuterAutomorphisms.inner X ⊔ F).index ∧
       ∀ x : MulAut X, (∃ k : ℕ, x ^ (p ^ k) = 1) → x ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner X ⊔ F := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (Outer X) := finite_outer X
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (Outer X) := finite_outer X
   let mk : MulAut X →* Outer X := QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner X)
   have hker : mk.ker = CFSG.ComponentClassification.OuterAutomorphisms.inner X := QuotientGroup.ker_mk' _
   have hmap : (CFSG.ComponentClassification.OuterAutomorphisms.inner X ⊔ F).map mk = F.map mk := by
@@ -79,17 +79,17 @@ theorem exists_fieldPart_projectiveSL_three (K : Type) [Field K] [Finite K] {p :
       ∀ x : MulAut (projectiveSL 3 K), (∃ k : ℕ, x ^ (p ^ k) = 1) →
         x ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner (projectiveSL 3 K) ⊔ F := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨e, hp0, hKcard⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hp0⟩
+  have : Fact (ringChar K).Prime := ⟨hp0⟩
   have hKcard' : Nat.card K = ringChar K ^ (e : ℕ) := by
     rw [Nat.card_eq_fintype_card]
     exact hKcard
   have hfcard : Nat.card (K ≃+* K) = (e : ℕ) := fieldAut_card K hp0 hKcard'
-  haveI : Finite (K ≃+* K) :=
+  have : Finite (K ≃+* K) :=
     Nat.finite_of_card_ne_zero (by rw [hfcard]; exact e.pos.ne')
-  haveI : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
+  have : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
   let S : Sylow p (K ≃+* K) := default
   let F : Subgroup (MulAut (projectiveSL 3 K)) :=
     (S : Subgroup (K ≃+* K)).map (fieldAut 3 K)
@@ -119,13 +119,13 @@ theorem exists_fieldPart_projectiveSL_three (K : Type) [Field K] [Finite K] {p :
     have hScyc : IsCyclic ↥(S : Subgroup (K ≃+* K)) := Subgroup.isCyclic _
     exact (Subgroup.equivMapOfInjective (S : Subgroup (K ≃+* K)) (fieldAut 3 K)
       hfinj).isCyclic.mp hScyc
-  have hFp : IsPGroup p F := (S.isPGroup').map (fieldAut 3 K)
+  have hFp : IsPGroup p F := (S.isPGroup).map (fieldAut 3 K)
   have hSylow : ∀ S : Sylow p (Outer (projectiveSL 3 K)),
       (S : Subgroup (Outer (projectiveSL 3 K))).Normal := by
     obtain ⟨N, hN, -, hNcard, hab, -⟩ :=
       CFSG.LocalAnalysis.GorensteinLyons.LinearUnitaryOuter.linear_outer_filtration
         (K := K) (n := 3) (by norm_num)
-    haveI := hN
+    have := hN
     have hNle : Nat.card N ≤ p := by
       have h3 : Nat.card N ∣ 3 := hNcard.trans (Nat.gcd_dvd_left 3 _)
       have hle3 : Nat.card N ≤ 3 := Nat.le_of_dvd (by norm_num) h3
@@ -232,9 +232,9 @@ theorem exists_fieldPart_primeFormP_three {p₀ f : ℕ} {K : Type} [Field K] [F
         (∃ k : ℕ, x ^ (p ^ k) = 1) →
           x ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner (primeFormP h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) ⊔ F := by
   classical
-  haveI : Fact p₀.Prime := ⟨h.prime⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := h.finite
+  have : Fact p₀.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
   let C : GL (Fin 3) K := 1
   have hC : IsPrimeFormGram C := isPrimeFormGram_one
   let T := primeFormP h (C : Matrix (Fin 3) (Fin 3) K)
@@ -247,9 +247,9 @@ theorem exists_fieldPart_primeFormP_three {p₀ f : ℕ} {K : Type} [Field K] [F
     unitary_full_diagonal_outer_order h (n := 3) (by norm_num) hq'
   have hcardAut : Nat.card (K ≃+* K) = 2 * f := fieldAut_card K h.prime h.card
   have h2f : 0 < 2 * f := Nat.mul_pos (by norm_num) (Nat.lt_of_lt_of_le zero_lt_one h.one_le)
-  haveI : Finite (K ≃+* K) :=
+  have : Finite (K ≃+* K) :=
     Nat.finite_of_card_ne_zero (by rw [hcardAut]; exact h2f.ne')
-  haveI : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
+  have : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
   let S : Sylow p (K ≃+* K) := default
   let F : Subgroup (MulAut T) :=
     (S : Subgroup (K ≃+* K)).map (primeFormFieldHom h hC)
@@ -288,18 +288,18 @@ theorem exists_fieldPart_primeFormP_three {p₀ f : ℕ} {K : Type} [Field K] [F
     have hScyc : IsCyclic ↥(S : Subgroup (K ≃+* K)) := Subgroup.isCyclic _
     exact (Subgroup.equivMapOfInjective (S : Subgroup (K ≃+* K))
       (primeFormFieldHom h hC) hfinj).isCyclic.mp hScyc
-  have hFp : IsPGroup p F := (S.isPGroup').map (primeFormFieldHom h hC)
+  have hFp : IsPGroup p F := (S.isPGroup).map (primeFormFieldHom h hC)
   have hSylow : ∀ S : Sylow p (Outer T), (S : Subgroup (Outer T)).Normal := by
     obtain ⟨N, hN, -, hNcard, hQcyc⟩ :=
       CFSG.LocalAnalysis.GorensteinLyons.LinearUnitaryOuter.unitary_outer_filtration
         h (n := 3) (by norm_num) hq'
-    haveI := hN
+    have := hN
     have hNle : Nat.card N ≤ p := by
       have h3 : Nat.card N ∣ 3 := hNcard.trans (Nat.gcd_dvd_left 3 _)
       have hle3 : Nat.card N ≤ 3 := Nat.le_of_dvd (by norm_num) h3
       have hp3 : 3 ≤ p := by have := hp.two_le; omega
       omega
-    haveI : IsCyclic (Outer T ⧸ N) := hQcyc
+    have : IsCyclic (Outer T ⧸ N) := hQcyc
     exact sylow_normal_of_quotient N hNle fun S => sylow_normal_of_isCyclic S
   have hgcd : ¬ p ∣ Nat.gcd 3 (p₀ ^ f + 1) := by
     intro hdvd
@@ -389,7 +389,7 @@ theorem i713ClauseFor_lie_A2 (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A 2 q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.A 2 q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let Fq := GaloisField q.p q.exponent
   have hqcard : Nat.card Fq = q.p ^ q.exponent :=
     GaloisField.card q.p q.exponent q.exponent_pos.ne'
@@ -406,13 +406,13 @@ theorem i713ClauseFor_lie_twistedA2 (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.twistedA 2 q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨⟨hpq, hf, -, h32⟩, L, _, _, hL, ⟨eL⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 2 q hv
       (G := (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩).Group) (MulEquiv.refl _)
   let hU : UnitaryFieldData q.p q.exponent L :=
     ⟨hpq, hf, by rw [hL, ← pow_mul, mul_comm]⟩
-  haveI : Finite L := hU.finite
+  have : Finite L := hU.finite
   have hq2 : q.p ^ q.exponent ≠ 2 := by
     intro h2
     exact h32 (by rw [h2])

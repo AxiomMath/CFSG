@@ -34,12 +34,12 @@ theorem ggRCSKGPiece_of_summand_normal {G : Type} [Group G] [Finite G]
     (hNQ : N ≤ Subgroup.normalizer (Q : Set G)) (hMQ : M ≤ Subgroup.normalizer (Q : Set G))
     (hNM : N ≤ Subgroup.centralizer (M : Set G)) (hQN : Q ⊓ N = ⊥)
     (hperf : ⁅Q ⊔ L, Q ⊔ L⁆ = Q ⊔ L) (hLq : CFSG.Assembly.IsQuasisimple ↥L)
-    (hLm : LargeEvenMarking ↥L (fun lab R _ I _ θ => GGChevStTag lab ∧
+    (hLm : LargeEvenMarking ↥L (fun lab _R _ I _ θ => GGChevStTag lab ∧
       ∀ α ∈ {α : MulAut ↥L | ∃ t ∈ N, ∀ y : ↥L, ((α y : ↥L) : G) = t⁻¹ * (y : G) * t},
         ∃ φ ∈ I, ∀ y : ↥L, φ (θ (QuotientGroup.mk y)) = θ (QuotientGroup.mk (α y))))
     (hE : E ≤ C₀) : GGRCSKGPiece C₀ E (Q ⊔ L) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLQ : L ≤ Subgroup.normalizer (Q : Set G) := hLN.trans hNQ
   have hQL : Q ⊓ L = ⊥ :=
     le_bot_iff.mp ((inf_le_inf_left Q hLN).trans (le_of_eq hQN))
@@ -84,7 +84,7 @@ theorem ggRCSKGPiece_of_summand_normal {G : Type} [Group G] [Finite G]
     exact hπker
   let 𝒜 : Set (MulAut ↥L) :=
     {α : MulAut ↥L | ∃ t ∈ N, ∀ y : ↥L, ((α y : ↥L) : G) = t⁻¹ * (y : G) * t}
-  have hLm𝒜 : LargeEvenMarking ↥L (fun lab R _ I _ θ => GGChevStTag lab ∧
+  have hLm𝒜 : LargeEvenMarking ↥L (fun lab _R _ I _ θ => GGChevStTag lab ∧
       ∀ α ∈ 𝒜, ∃ φ ∈ I, ∀ y : ↥L,
         φ (θ (QuotientGroup.mk y)) = θ (QuotientGroup.mk (α y))) := hLm
   refine ggRCSKGPiece_of_marking hJC hC₀N hperf hQ1 hQ2 hEJ hLq 𝒜 hLm𝒜 π hπsurj hker ?_
@@ -99,9 +99,7 @@ theorem ggRCSKGPiece_of_summand_normal {G : Type} [Group G] [Finite G]
   let α : MulAut ↥L := Subgroup.normalizerMonoidHom L ⟨t⁻¹, Subgroup.inv_mem _ htL⟩
   have hαcoe : ∀ y : ↥L, ((α y : ↥L) : G) = t⁻¹ * (y : G) * t := by
     intro y
-    simpa [α] using
-      Subgroup.normalizerMonoidHom_apply_apply_coe L
-        ⟨t⁻¹, Subgroup.inv_mem _ htL⟩ y
+    simp [α]
   have hαA : α ∈ 𝒜 := ⟨t, ht, hαcoe⟩
   refine ⟨α, hαA, ?_⟩
   intro s s' hs
@@ -129,7 +127,7 @@ theorem ggRCSKGPiece_of_summand {G : Type} [Group G] [Finite G] {C₀ E Q L M : 
     apply MulEquiv.ext
     intro y
     apply Subtype.ext
-    simp [MulAut.conj_apply, hα y]
+    simp [hα y]
   have hLm' : LargeEvenMarking ↥L (fun lab R _ I _ θ => GGChevStTag lab ∧
       ∀ α ∈ {α : MulAut ↥L | ∃ t ∈ L, ∀ y : ↥L, ((α y : ↥L) : G) = t⁻¹ * (y : G) * t},
         ∃ φ ∈ I, ∀ y : ↥L,

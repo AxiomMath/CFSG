@@ -20,7 +20,7 @@ theorem good427_of_normal_quot_sq {C : Subgroup S} (E : Subgroup C) [E.Normal] [
     (hna : ∃ a b : E, a * b ≠ b * a) (h60 : Nat.card E ≠ 60) {p : ℕ} [Fact p.Prime]
     (hq : Nat.card (C ⧸ E) = p ^ 2) : Good427 C := by
   let eE : E ≃* E.map C.subtype := E.equivMapOfInjective C.subtype C.subtype_injective
-  haveI : IsSimpleGroup (E.map C.subtype) := eE.symm.isSimpleGroup
+  have : IsSimpleGroup (E.map C.subtype) := eE.symm.isSimpleGroup
   refine good427_of_derived_le_simple (Subgroup.map_subtype_le E) ?_ ?_ ?_
   · obtain ⟨a, b, hab⟩ := hna
     refine ⟨eE a, eE b, fun h => hab (eE.injective ?_)⟩
@@ -28,7 +28,7 @@ theorem good427_of_normal_quot_sq {C : Subgroup S} (E : Subgroup C) [E.Normal] [
   · rwa [← Nat.card_congr eE.toEquiv]
   · rw [Subgroup.commutator_le]
     intro g₁ h₁ g₂ h₂
-    have hc := IsPGroup.commutative_of_card_eq_prime_sq hq
+    have hc := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hq).is_comm.comm
       (QuotientGroup.mk (⟨g₁, h₁⟩ : C) : C ⧸ E) (QuotientGroup.mk (⟨g₂, h₂⟩ : C))
     have hmem : (⟨g₁, h₁⟩ : C) * ⟨g₂, h₂⟩ * (⟨g₁, h₁⟩ : C)⁻¹ * (⟨g₂, h₂⟩ : C)⁻¹ ∈ E := by
       rw [← QuotientGroup.eq_one_iff]
@@ -39,9 +39,9 @@ theorem good427_of_normal_quot_sq {C : Subgroup S} (E : Subgroup C) [E.Normal] [
 
 theorem good427_of_alt6_normal {C : Subgroup S} (E : Subgroup C) [E.Normal]
     (eE : E ≃* alternatingGroup (Fin 6)) (hq : Nat.card (C ⧸ E) = 9) : Good427 C := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num)
-  haveI : IsSimpleGroup E := eE.isSimpleGroup
+  have : IsSimpleGroup E := eE.isSimpleGroup
   have hna : ∃ a b : E, a * b ≠ b * a := by
     have ha : (Equiv.swap (0 : Fin 6) 1 * Equiv.swap 0 2) ∈ alternatingGroup (Fin 6) := by
       rw [Equiv.Perm.mem_alternatingGroup]; decide
@@ -55,7 +55,7 @@ theorem good427_of_alt6_normal {C : Subgroup S} (E : Subgroup C) [E.Normal]
   have hA6 : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
     rfl
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact good427_of_normal_quot_sq (p := 3) E hna
     (by rw [Nat.card_congr eE.toEquiv, hA6]; norm_num) (by rw [hq]; norm_num)
 
@@ -85,7 +85,7 @@ theorem noONS427_of_inner (hZ : Subgroup.center S = ⊥) (hout : ¬ 3 ∣ Nat.ca
   have hs1 : s ≠ 1 := by
     rintro rfl
     exact h1 (map_one _)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [RonanK429H.autFix_conj]
   exact h s (orderOf_eq_prime hs3 hs1)
 
@@ -96,14 +96,14 @@ section ON
 
 theorem good427_on (x : Blueprint.NativeSporadic.Carrier .ONan) (hx : orderOf x = 3) :
     Good427 (Subgroup.centralizer ({x} : Set (Blueprint.NativeSporadic.Carrier .ONan))) := by
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .ONan) :=
+  have : Finite (Blueprint.NativeSporadic.Carrier .ONan) :=
     Nat.finite_of_card_ne_zero (by
       show Nat.card Blueprint.NativeSporadic.ON ≠ 0
       rw [CFSG.Sporadic.ON.card_ON]; norm_num)
   obtain ⟨φ, hφ, hker, hconj, hcard⟩ := Census.Karpilovsky.ComponentPrimary.on_cover_data
   obtain ⟨E, hEn, ⟨eE⟩, hq⟩ :=
     Census.Karpilovsky.ComponentPrimary.alt6_normal_of_cover φ hφ hker hcard
-  haveI := hEn
+  have := hEn
   have hg := good427_of_alt6_normal E eE hq
   obtain ⟨g, rfl⟩ := hconj x hx
   exact Good427.of_isConj (isConj_iff.mpr ⟨g, rfl⟩) hg

@@ -27,12 +27,12 @@ theorem conjNormal_injective {Z : Type} [Group Z] {K : Subgroup Z} [K.Normal]
 
 theorem isMulCommutative_of_card_dvd_sq {Q : Type} [Group Q] {p : ℕ} (hp : p.Prime)
     (hQ : Nat.card Q ∣ p ^ 2) : IsMulCommutative Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk, hkQ⟩ := (Nat.dvd_prime_pow hp).mp hQ
   interval_cases k
-  · haveI : IsCyclic Q := isCyclic_of_card_dvd_prime (p := p) (by rw [hkQ]; simp)
+  · have : IsCyclic Q := isCyclic_of_card_dvd_prime (p := p) (by rw [hkQ]; simp)
     infer_instance
-  · haveI : IsCyclic Q := isCyclic_of_card_dvd_prime (p := p) (by rw [hkQ]; simp)
+  · have : IsCyclic Q := isCyclic_of_card_dvd_prime (p := p) (by rw [hkQ]; simp)
     infer_instance
   · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hkQ
 
@@ -45,10 +45,10 @@ theorem kdI278L2p2_holds : KDI278L2p2 := by
       (((MulAut.congr e).toMonoidHom.comp (MulAut.conjNormal (H := K))) :
         Z →* MulAut (PSL2GF p 2)) :=
     (MulAut.congr e).injective.comp (P64Asm.conjNormal_injective hcen)
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup
   have hA := kFactL2AutPCard p 2 (by omega) (by omega)
     ((Q : Subgroup Z).map ((MulAut.congr e).toMonoidHom.comp (MulAut.conjNormal (H := K))))
-    (Q.isPGroup'.map _)
+    (Q.isPGroup.map _)
   rw [Subgroup.card_map_of_injective hinj, hk] at hA
   have hcop : Nat.Coprime (p ^ k) 2 :=
     Nat.Coprime.pow_left k ((Nat.coprime_primes hp Nat.prime_two).2 (by omega))

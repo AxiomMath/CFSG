@@ -142,7 +142,7 @@ theorem SwapCfg.mem_centralizer_sup [Finite G] {B M : Subgroup G} {x y : G}
 
 theorem goodI_of_fourGroup [Finite G] {t : G} {L : Subgroup G} (hS : Sec3SettingLB G t L)
     {B : Subgroup G} (hB : Unp B) {u₁ u₂ : G} (h₁ : GoodI B u₁) (h₂ : GoodI B u₂)
-    (h₃ : GoodI B (u₁ * u₂)) (h12 : u₁ * u₂ = u₂ * u₁) {b : G} (hb : orderOf b = 2)
+    (h₃ : GoodI B (u₁ * u₂)) (_h12 : u₁ * u₂ = u₂ * u₁) {b : G} (hb : orderOf b = 2)
     (hbB : b ∈ centralizer (B : Set G)) (hb₁ : u₁ * b = b * u₁) (hb₂ : u₂ * b = b * u₂) :
     GoodI B b := by
   refine goodI_of_not_badI hb hbB ?_

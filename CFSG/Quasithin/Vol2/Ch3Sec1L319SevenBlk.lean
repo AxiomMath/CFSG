@@ -82,7 +82,7 @@ theorem false_of_block_five {H₁ M D : Subgroup (MulAut V)} (θ : ↥H₁ ≃* 
     {a : MulAut V} (haH : a ∈ H₁) (haM : a ∈ M) (haD : a ∈ D) (ha2 : a * a = 1)
     (hsg : Equiv.Perm.sign (θ ⟨a, haH⟩) = -1)
     (hDM : ∀ g ∈ M, ∀ d ∈ D, g * d * g⁻¹ ∈ D) (hD3 : ∀ d ∈ D, ¬ 3 ∣ orderOf d) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨p, hp⟩ := hstab
   set a₀ : ↥H₁ := ⟨a, haH⟩ with ha₀
   set τ : Equiv.Perm (Fin 5) := θ a₀ with hτ

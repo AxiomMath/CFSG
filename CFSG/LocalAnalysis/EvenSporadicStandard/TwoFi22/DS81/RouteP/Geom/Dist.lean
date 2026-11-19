@@ -79,7 +79,7 @@ theorem labOK_spec {gs : Array Table} {trees : Array CFSG.Perm.Native.Tree} {lab
       (∀ v < degree, ap lab v < 7 ∧ memTree trees[ap lab v]! v = true) ∧
       (∀ l ∈ zpLetters, ∀ v < degree, ap lab (ap gs[l]! v) = ap lab v) := by
   unfold labOK at h
-  simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at h
+  simp only [Bool.and_eq_true] at h
   obtain ⟨⟨h1, h2⟩, h3⟩ := h
   refine ⟨fun i hi => beq_iff_eq.1 (allIn_zero_iff.1 h1 i hi), fun v hv => ?_, fun l hl v hv => ?_⟩
   · have := allIn_zero_iff.1 h2 v hv
@@ -323,7 +323,7 @@ theorem Δ_reachable_x0 (v : Ω) : Δ.Reachable x0 v := reachable_and_dist_x0.1 
 theorem Δ_dist_x0 (v : Ω) : Δ.dist x0 v = distLevel v := reachable_and_dist_x0.2 v
 
 theorem Δ_connected : Δ.Connected := by
-  haveI : Nonempty Ω := ⟨x0⟩
+  have : Nonempty Ω := ⟨x0⟩
   exact ⟨fun u w => (Δ_reachable_x0 u).symm.trans (Δ_reachable_x0 w)⟩
 
 theorem distLevel_le_four (v : Ω) : distLevel v ≤ 4 := by

@@ -9,7 +9,7 @@ open CFSG.Quasithin CFSG.GorensteinWalter
 namespace CFSG.Quasithin.H13.NF314pt
 
 theorem yo2_mem_sylow_of_normalizes {X : Type} [Group X] [Finite X] {W : Subgroup X}
-    (hW2 : IsPGroup 2 W) (hWi : ¬ 2 ∣ W.index) {k : X}
+    (_hW2 : IsPGroup 2 W) (hWi : ¬ 2 ∣ W.index) {k : X}
     (hk : k ∈ Subgroup.normalizer (W : Set X)) (hk2 : ∃ m : ℕ, k ^ 2 ^ m = 1) : k ∈ W := by
   obtain ⟨m, hm⟩ := hk2
   set N := Subgroup.normalizer (W : Set X)
@@ -18,7 +18,7 @@ theorem yo2_mem_sylow_of_normalizes {X : Type} [Group X] [Finite X] {W : Subgrou
   have hnd : ¬ 2 ∣ (W.subgroupOf N).index := fun h2 => hWi (h2.trans hdvd)
   have hcop : Nat.Coprime (2 ^ m) (W.subgroupOf N).index :=
     Nat.Coprime.pow_left m (Nat.coprime_two_left.mpr (Nat.odd_iff.mpr (by omega)))
-  haveI : (W.subgroupOf N).Normal :=
+  have : (W.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWN).mpr le_rfl
   have hy : ((⟨k, hk⟩ : N) : N ⧸ W.subgroupOf N) ^ 2 ^ m = 1 := by
     rw [← QuotientGroup.mk_pow]
@@ -39,13 +39,13 @@ theorem yo2_psl2_two_sub {Q : Type} [Group Q] [Finite Q]
     {R : Subgroup Q} (hRA : R ≤ A) (hR : IsPGroup 2 R) :
     Nat.card R ∣ 4 ∧ (∀ a ∈ R, ∀ b ∈ R, a * b = b * a) ∧
       (Nat.card R = 4 → ¬ 2 ∣ (R.subgroupOf A).index) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR' : IsPGroup 2 ↥(R.subgroupOf A) := hR.of_equiv (Subgroup.subgroupOfEquivOfLe hRA).symm
   have hcard : Nat.card ↥(R.subgroupOf A) = Nat.card R :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRA).toEquiv
   obtain ⟨P, hP⟩ := IsPGroup.exists_le_sylow hR'
   have hP4 : Nat.card (P : Subgroup ↥A) = 4 :=
-    CFSG.Quasithin.H13.L2q.card_sylow_four eA hF hq hq5 h3 P.isPGroup' P.not_dvd_index
+    CFSG.Quasithin.H13.L2q.card_sylow_four eA hF hq hq5 h3 P.isPGroup P.not_dvd_index
   have hdvd : Nat.card R ∣ 4 := by
     have h := Subgroup.card_dvd_of_le hP
     rw [hP4, hcard] at h
@@ -60,7 +60,7 @@ theorem yo2_psl2_two_sub {Q : Type} [Group Q] [Finite Q]
         obtain ⟨hs, -⟩ := Nat.card_eq_one_iff_unique.mp hRm
         exact ⟨⟨fun a b => Subsingleton.elim (a * b) (b * a)⟩⟩
       · rw [pow_one] at hRm
-        haveI : IsCyclic ↥R := isCyclic_of_prime_card hRm
+        have : IsCyclic ↥R := isCyclic_of_prime_card hRm
         infer_instance
       · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hRm
     intro a ha b hb

@@ -56,7 +56,7 @@ theorem ggSCNoLine_recipeR_split {K : Type} [Field K] [Finite K] {n p : ℕ} (hn
     (hK : Nat.card K = (2 ^ n) ^ 2) (hp : p.Prime) (hp5 : 5 ≤ p) (hpn : p ∣ 2 ^ n - 1) (r : ℕ) :
     GGSCNoLine p r (TwE6Delta.RecipeR K n) := by
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, _, _, _, ι, hk, hι⟩ := exists_injective_f4_recipeR hn hK
   have hpk : p ∣ Nat.card k - 1 := by rw [hk]; exact hpn
   have := TwE6Delta.finite_recipeR (K := K) hK
@@ -70,7 +70,7 @@ theorem ggSCNoLine_recipeR_split {K : Type} [Field K] [Finite K] {n p : ℕ} (hn
     have := Nat.le_of_dvd (by norm_num) h3
     omega
   have hval : (-1 : ZMod p).val = p - 1 := by
-    rw [ZMod.neg_val, if_neg one_ne_zero, ZMod.val_one]
+    rw [ZMod.neg_val, ite_eq_right one_ne_zero, ZMod.val_one]
   have hn' : m * s * m⁻¹ = s ^ (-1 : ZMod p).val := by
     rw [hm, hval]
     refine inv_eq_of_mul_eq_one_right ?_

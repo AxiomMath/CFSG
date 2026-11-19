@@ -36,7 +36,7 @@ theorem exists_normal_index_pow_of_pGoodOut {p : ℕ} (hp : p.Prime) {X : Type*}
     (h : PGoodOut p ↥K) {q : X} (hq : ∃ k : ℕ, q ^ (p ^ k) = 1) (hqK : q ∉ K) :
     ∃ N : Subgroup X, N.Normal ∧ (∃ k : ℕ, N.index = p ^ k) ∧ N ≠ ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨NO, hNOn, hNOcard, k, hk⟩ := exists_normal_pComplement_of_pGoodOut hp h
   let θ : X →* Outer ↥K :=
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner ↥K)).comp

@@ -67,7 +67,7 @@ private theorem label_eq_of_psu {lab : GLALabel} {r : ℕ} (hr : 4 ≤ r)
     lab = ⟨.twA, r, 1⟩ := by
   obtain ⟨t, k, n⟩ := lab
   by_cases h3 : k = 3 <;> by_cases h2 : k = 2 <;> cases t <;>
-    simp_all [markTag, markRank, markDeg] <;> omega
+    simp_all [markTag, markRank, markDeg]
 
 private theorem label_eq_of_canon {labK : GLALabel} {r : ℕ} (hr : 4 ≤ r)
     (hn : (canonLabel labK).n = 3 * (canonLabel ⟨.twA, r, 1⟩).n)
@@ -75,7 +75,7 @@ private theorem label_eq_of_canon {labK : GLALabel} {r : ℕ} (hr : 4 ≤ r)
     (hrank : (canonLabel labK).rank = (canonLabel ⟨.twA, r, 1⟩).rank) :
     labK = ⟨.twA, r, 3⟩ := by
   obtain ⟨t, k, n⟩ := labK
-  by_cases h3 : k = 3 <;> by_cases h2 : k = 2 <;> cases t <;> simp_all [canonLabel] <;> omega
+  by_cases h3 : k = 3 <;> by_cases h2 : k = 2 <;> cases t <;> simp_all [canonLabel]; omega
 
 
 theorem exists_label_of_fieldOn_unTwo {G : Type} [Group G] [Finite G] {X S : Subgroup G} {b : G}
@@ -99,7 +99,7 @@ theorem exists_label_of_fieldOn_unTwo {G : Type} [Group G] [Finite G] {X S : Sub
   have hEc := glaPComponent_chevTransfer hp3 hF.1 hap hJ₀
   obtain ⟨e₁⟩ := nonempty_pSimple_equiv_chevTransfer hp3 hF.1 hap hJ₀
   obtain ⟨e₂⟩ := FR.nonempty_pSimple_equiv_of_simple hp3 hE hna hEc
-  haveI := hE
+  have := hE
   obtain ⟨u, v, huv⟩ := hna
   have hZE : Subgroup.center ↥(chevTransfer 3 S J₀) = ⊥ := FR.center_eq_bot_of_simple_nonab huv
   have hEtop : commutator ↥(chevTransfer 3 S J₀) = ⊤ := by

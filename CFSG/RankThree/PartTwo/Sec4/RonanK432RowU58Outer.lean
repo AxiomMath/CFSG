@@ -14,9 +14,9 @@ open CFSG.Assembly.RankThreeEven (projSU)
 
 theorem exists_conj_sylow_le {G : Type} [Group G] [Finite G] (P : Sylow 3 G) (H : Subgroup G)
     (h3 : ¬ 3 ∣ H.index) : ∃ g : G, ∀ y ∈ (P : Subgroup G), g * y * g⁻¹ ∈ H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 3 H) := inferInstance
-  have hQp : IsPGroup 3 ((Q : Subgroup H).map H.subtype) := Q.isPGroup'.map H.subtype
+  have hQp : IsPGroup 3 ((Q : Subgroup H).map H.subtype) := Q.isPGroup.map H.subtype
   obtain ⟨R, hQR⟩ := IsPGroup.exists_le_sylow hQp
   have hfac : (Nat.card H).factorization 3 = (Nat.card G).factorization 3 := by
     rw [← H.card_mul_index, Nat.factorization_mul Nat.card_pos.ne' Subgroup.index_ne_zero_of_finite,

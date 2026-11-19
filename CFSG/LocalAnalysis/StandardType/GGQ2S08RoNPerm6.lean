@@ -193,7 +193,7 @@ theorem e6QTwoNSylowIndex
   have hPle : (P : Subgroup ↥Z) ≤ (Bs ⊓ Z).subgroupOf Z := by
     intro z hz
     rw [Subgroup.mem_subgroupOf]
-    obtain ⟨k, hk⟩ := (P.isPGroup'.exists_orderOf_dvd_pow (⟨z, hz⟩ : ↥P))
+    obtain ⟨k, hk⟩ := (P.isPGroup.exists_orderOf_dvd_pow (⟨z, hz⟩ : ↥P))
     have hzk : (z : G) ^ 3 ^ k = 1 := by
       have h1 : orderOf (z : ↥Z) ∣ 3 ^ k := by
         rw [← Subgroup.orderOf_mk (H := (P : Subgroup ↥Z)) z hz]

@@ -160,7 +160,7 @@ theorem evalWord_eq_one_of_base
   have h1 : rho432F (evalWord (yGen 4 3 2) w.reverse) = 1 := by
     refine rho_eq_one_of_base ⟨_, rfl⟩ fun m hm => ?_
     rw [rho_evalWord_apply _ hrev]
-    simp only [Fin.val_mk]
+    simp only
     rw [Nat.mod_eq_of_lt (hPts_lt m hm), List.foldr_reverse]
     exact hb m hm
   rw [evalWord_reverse (yGen_mul_self 4 3 2), map_inv, inv_eq_one] at h1
@@ -199,7 +199,7 @@ theorem index_tL_le : (lsub tL).FiniteIndex ∧ (lsub tL).index ≤ 31671 := by
   have h := index_of_table t (by decide +kernel) (by decide +kernel) CFSG.KBRoute.YCh10.top
   have e : shiftAt 3 '' Set.Iio (ngen 3 3 2) = {c | c ∈ tL} := by
     ext c
-    simp only [Set.mem_image, Set.mem_Iio, ngen, Set.mem_setOf_eq, tL, List.mem_cons,
+    simp only [Set.mem_image, Set.mem_Iio, ngen, Set.mem_ofPred_eq, tL, List.mem_cons,
       List.not_mem_nil, or_false, shiftAt]
     constructor
     · rintro ⟨d, hd, rfl⟩
@@ -226,11 +226,11 @@ theorem testBit_fullPts {p : ℕ} (hp : p < 31671) : fullPts.testBit p = true :=
 
 theorem cover_of_orbs {L : List ℕ} (hL : ∀ c ∈ L, c < 10)
     (bs : List ℕ) (Ms : List ℕ)
-    (horb : ∀ i < bs.length, ∃ R, ∃ hb : bs.getD i 0 < 31671,
+    (horb : ∀ i < bs.length, ∃ R, ∃ _hb : bs.getD i 0 < 31671,
       orbitOK 15 (L.map CFSG.KD.YMY432F.Nf) (bs.getD i 0) R (Ms.getD i 0) = true)
     (hfull : Ms.foldr (· ||| ·) 0 = fullPts) (hlen : Ms.length = bs.length)
-    (p : Fin 31671) : ∃ i < bs.length, ∃ hb : bs.getD i 0 < 31671,
-      p ∈ MulAction.orbit (lgen rho432F (yGen 4 3 2) L) (⟨bs.getD i 0, hb⟩ : Fin 31671) := by
+    (p : Fin 31671) : ∃ i < bs.length, ∃ _hb : bs.getD i 0 < 31671,
+      p ∈ MulAction.orbit (lgen rho432F (yGen 4 3 2) L) (⟨bs.getD i 0, _hb⟩ : Fin 31671) := by
   have hbit : (Ms.foldr (· ||| ·) 0).testBit p = true := by rw [hfull]; exact testBit_fullPts p.2
   have key : ∀ (l : List ℕ), (l.foldr (· ||| ·) 0).testBit p = true →
       ∃ i < l.length, (l.getD i 0).testBit p = true := by
@@ -246,9 +246,9 @@ theorem cover_of_orbs {L : List ℕ} (hL : ∀ c ∈ L, c < 10)
         exact ⟨i + 1, by simp; omega, by simpa using h'⟩
   obtain ⟨i, hi, hti⟩ := key Ms hbit
   rw [hlen] at hi
-  obtain ⟨R, hb, h⟩ := horb i hi
-  obtain ⟨hp, hmem⟩ := orb_mem hL hb h p hti
-  exact ⟨i, hi, hb, hmem⟩
+  obtain ⟨R, _hb, h⟩ := horb i hi
+  obtain ⟨hp, hmem⟩ := orb_mem hL _hb h p hti
+  exact ⟨i, hi, _hb, hmem⟩
 
 theorem transitive_zero (p : Fin 31671) :
     ∃ y : YGroup 4 3 2, rho432F y 0 = p := by
@@ -346,7 +346,7 @@ theorem cp_eq : ∀ t < 3, (cw t).length = (cp t).length ∧ ∀ i < (cw t).leng
     ((cw t).getD i []).foldr (fun c p => fieldAt 32 (CFSG.KD.YM432P.F c) p) 0 = (cp t).getD i 0 := by
   decide +kernel
 
-theorem cover_orbs : ∀ t < 3, ∃ Ms : List ℕ, (∀ i < (cp t).length, ∃ R, ∃ hb : (cp t).getD i 0 < 31671,
+theorem cover_orbs : ∀ t < 3, ∃ Ms : List ℕ, (∀ i < (cp t).length, ∃ R, ∃ _hb : (cp t).getD i 0 < 31671,
       orbitOK 15 ((lt3 t).map CFSG.KD.YMY432F.Nf) ((cp t).getD i 0) R (Ms.getD i 0) = true) ∧
     Ms.foldr (· ||| ·) 0 = fullPts ∧ Ms.length = (cp t).length := by
   intro t ht

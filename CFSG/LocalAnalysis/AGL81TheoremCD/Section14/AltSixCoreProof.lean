@@ -59,7 +59,7 @@ private theorem card_le_pow_four_mul_card_inf_centralizer_of_rank {r : ℕ} [Fac
 
 private theorem commutator_eq_one_of_mem_inf_centralizer {r : ℕ} [Fact r.Prime] (hr2 : r ≠ 2)
     (hr3 : r ≠ 3) {ψ : K →* alternatingGroup (Fin 6)} (hcop : Nat.Coprime (Nat.card ψ.ker) 6)
-    (hsol : IsSolvable ψ.ker) (hrank : CFSG.Open.pRank r ψ.ker ≤ 3) {Y D : Subgroup K}
+    (hsol : Group.IsSolvable ψ.ker) (hrank : CFSG.Open.pRank r ψ.ker ≤ 3) {Y D : Subgroup K}
     (hY : ⁅Y, Y⁆ = Y) (hYψ : Y.map ψ = ⊤) (hDN : D ≤ ψ.ker)
     (hYZ : Y ≤ normalizer ((D ⊓ centralizer (D : Set K) : Subgroup K) : Set K))
     (hexp : ∀ x ∈ D, x ^ r = 1) :
@@ -79,7 +79,7 @@ private theorem commutator_eq_one_of_mem_inf_centralizer {r : ℕ} [Fact r.Prime
 
 private theorem commutator_mem_inf_centralizer {r : ℕ} [Fact r.Prime] (hr2 : r ≠ 2)
     (hr3 : r ≠ 3) {ψ : K →* alternatingGroup (Fin 6)} (hcop : Nat.Coprime (Nat.card ψ.ker) 6)
-    (hsol : IsSolvable ψ.ker) (hrank : CFSG.Open.pRank r ψ.ker ≤ 3) {Y D : Subgroup K}
+    (hsol : Group.IsSolvable ψ.ker) (hrank : CFSG.Open.pRank r ψ.ker ≤ 3) {Y D : Subgroup K}
     (hY : ⁅Y, Y⁆ = Y) (hYψ : Y.map ψ = ⊤) (hDN : D ≤ ψ.ker) (hYD : Y ≤ normalizer (D : Set K))
     (hYZ : Y ≤ normalizer ((D ⊓ centralizer (D : Set K) : Subgroup K) : Set K))
     (hexp : ∀ x ∈ D, x ^ r = 1)
@@ -91,11 +91,11 @@ private theorem commutator_mem_inf_centralizer {r : ℕ} [Fact r.Prime] (hr2 : r
 
 private theorem exists_perfect_supplement_le_centralizer {r : ℕ} [Fact r.Prime] (hr2 : r ≠ 2)
     (hr3 : r ≠ 3) {ψ : K →* alternatingGroup (Fin 6)} (hψ : Function.Surjective ψ)
-    (hcop : Nat.Coprime (Nat.card ψ.ker) 6) (hsol : IsSolvable ψ.ker)
+    (hcop : Nat.Coprime (Nat.card ψ.ker) 6) (hsol : Group.IsSolvable ψ.ker)
     (hrank : CFSG.Open.pRank r ψ.ker ≤ 3) {R : Subgroup K} (hRN : R ≤ ψ.ker)
     (hR : IsPGroup r R) :
     ∃ Y : Subgroup K, Y ≤ centralizer (R : Set K) ∧ ψ.ker ⊔ Y = ⊤ := by
-  haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
   obtain ⟨S, hRS, hSN, hSp, Y, hYS, hY, hYψ⟩ := exists_isPGroup_perfect_supplement ψ hψ hRN hR
   obtain ⟨D, hDS, hND, hNZ, hexp, hclass, hkey⟩ := exists_critical_reduction (p := r) hr2 hSp
@@ -117,7 +117,7 @@ open Subgroup
 
 theorem kFactAltSixCoreCentral_holds : KFactAltSixCoreCentral := by
   intro K _ _ hperf N hN hsol hcop ⟨e⟩ hrank
-  haveI : Group.IsPerfect K := hperf
+  have : Group.IsPerfect K := hperf
   let ψ : K →* alternatingGroup (Fin 6) := e.toMonoidHom.comp (QuotientGroup.mk' N)
   have hψ : Function.Surjective ψ := e.surjective.comp (QuotientGroup.mk'_surjective N)
   have hψN : ψ.ker = N := by
@@ -126,7 +126,7 @@ theorem kFactAltSixCoreCentral_holds : KFactAltSixCoreCentral := by
       MulEquiv.map_eq_one_iff]
     exact QuotientGroup.eq_one_iff x
   refine A6Core.le_center_of_forall_exists_le_centralizer hsol fun r hr R hRN hR => ?_
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   by_cases h6 : r ∣ 6
   · refine ⟨⊤, ?_, sup_top_eq N⟩
     simp [A6Core.eq_bot_of_isPGroup_of_dvd_six hRN hR h6 hcop]

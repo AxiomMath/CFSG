@@ -39,6 +39,7 @@ private theorem inf_barO2_gnD_barO2_gnC {T : Subgroup X} (hX : GNSetting X T) :
     ← CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_top_eq_pCore (G := X) 2]
   exact CFSG.AGLEmbeddingD2.GN.centralizer_quot_inf_le hX
 
+omit [Finite X] in
 private theorem barO2_le_sup_of_le_gnImg {T L : Subgroup X}
     {Ls : Subgroup (X ⧸ gnC T)} (hL : LiftOf T L Ls)
     (hLsD : Ls ≤ gnImg T (CFSG.AGLEmbeddingD2.GN.gnD T)) :
@@ -70,6 +71,7 @@ private theorem eq_bot_of_barO2_le_barO2_gnC {T L : Subgroup X}
       _ = ⊥ := map_barToStar_barO2_gnC hX
   rw [← h1, hbot]
 
+omit [Finite X] in
 private theorem le_gnImg_gnD_of_not_gnD_le {T : Subgroup X}
     {Ls : Subgroup (X ⧸ gnC T)} (hLs : IsComponentOf Ls ⊤)
     (hZ : Subgroup.center ↥Ls = ⊥)
@@ -77,11 +79,11 @@ private theorem le_gnImg_gnD_of_not_gnD_le {T : Subgroup X}
       Ls.comap (QuotientGroup.mk' (gnC T)) ≤ gnC T) :
     Ls ≤ gnImg T (CFSG.AGLEmbeddingD2.GN.gnD T) := by
   let Ds : Subgroup (X ⧸ gnC T) := gnImg T (CFSG.AGLEmbeddingD2.GN.gnD T)
-  haveI hDn : Ds.Normal := (CFSG.AGLEmbeddingD2.GN.normal_gnD T).map _
+  have hDn : Ds.Normal := (CFSG.AGLEmbeddingD2.GN.normal_gnD T).map _
     (QuotientGroup.mk'_surjective (gnC T))
-  haveI hNn : (Ds.subgroupOf Ls).Normal := Subgroup.normal_subgroupOf (H := Ls) (N := Ds)
-  haveI hsimple : IsSimpleGroup ↥Ls := by
-    haveI : IsSimpleGroup (↥Ls ⧸ Subgroup.center ↥Ls) := hLs.2.2.2
+  have hNn : (Ds.subgroupOf Ls).Normal := Subgroup.normal_subgroupOf (H := Ls) (N := Ds)
+  have hsimple : IsSimpleGroup ↥Ls := by
+    have : IsSimpleGroup (↥Ls ⧸ Subgroup.center ↥Ls) := hLs.2.2.2
     let e : ↥Ls ⧸ Subgroup.center ↥Ls ≃* ↥Ls :=
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
     exact MulEquiv.isSimpleGroup e.symm
@@ -105,6 +107,7 @@ private theorem le_gnImg_gnD_of_not_gnD_le {T : Subgroup X}
       exact Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 hmem
 
+omit [Finite X] in
 private theorem false_of_commutator_eq_bot {T L : Subgroup X} (hL : IsC2 L)
     (hLDC : barO2 L ≤ barO2 (CFSG.AGLEmbeddingD2.GN.gnD T) ⊔ barO2 (gnC T))
     (hLD : ⁅barO2 L, barO2 (CFSG.AGLEmbeddingD2.GN.gnD T)⁆ = ⊥)
@@ -142,7 +145,7 @@ theorem nonempty_barO2_mulEquiv_of_not_gnD_le {X : Type} [Group X] [Finite X]
       Ls.comap (QuotientGroup.mk' (gnC T)) ≤ gnC T) :
     Nonempty (↥(barO2 L) ≃* ↥Ls) := by
   obtain ⟨f, hfφ, hfsurj, -⟩ := barO2_centralExt' hX hLs hL
-  haveI hnD : (CFSG.AGLEmbeddingD2.GN.gnD T).Normal :=
+  have hnD : (CFSG.AGLEmbeddingD2.GN.gnD T).Normal :=
     CFSG.AGLEmbeddingD2.GN.normal_gnD T
   have hLsD := le_gnImg_gnD_of_not_gnD_le hLs hZ hD
   have hLDC := barO2_le_sup_of_le_gnImg hL hLsD

@@ -20,13 +20,13 @@ private lemma charP_two_of_card_D21 {K : Type} [Field K] [Finite K] {n : ℕ} (h
   exact CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero ((pow_eq_zero_iff hn).mp h)
 
 theorem kTab23d_sl4 {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n) (S : Sylow 2 ↥H)
+    (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n) (S : Sylow 2 ↥H)
     (h : IsSLn ↥H 4 n ∧ CFSG.Quasithin.BinaryNaturalSL H ⊤ ⊥ 4 n) :
     IsSLn (Bar2 (Hinf (pointStab H S))) 3 n := by
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := h.2
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : CharP K 2 := charP_two_of_card_D21 (by omega) hKcard
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : CharP K 2 := charP_two_of_card_D21 (by omega) hKcard
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     exact pow_le_pow_right' (a := 2) (n := 2) (m := n) (by norm_num) (by omega)

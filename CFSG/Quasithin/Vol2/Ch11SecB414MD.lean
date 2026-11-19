@@ -148,7 +148,6 @@ theorem rhoRef_surjective (hF : Nat.card F = 4) : Function.Surjective (rhoRef hF
   simp only [Matrix.adjugate_fin_three]
   fin_cases i <;> fin_cases k <;>
   · simp [A, C]
-    try linear_combination hB
 
 theorem card_pCoreOf_Ptheta (hF : Nat.card F = 4) :
     Nat.card ↥(pCoreOf 2 (Ptheta F 0)) = 16 := by

@@ -86,7 +86,7 @@ theorem closure_eq_bot_or_exists_mulEquiv_of {ws : List (List (Fin m × Bool))} 
     congr 2
     funext i
     exact hφ i
-  haveI : IsSimpleGroup (PG m ws) := e.isSimpleGroup
+  have : IsSimpleGroup (PG m ws) := e.isSimpleGroup
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal φ.ker with h | h
   · right
     have hinj : Function.Injective φ := (MonoidHom.ker_eq_bot_iff φ).mp h
@@ -315,7 +315,7 @@ theorem closure_eq_bot_or_exists_mulEquiv
     Subgroup.closure (Set.range x) = ⊥ ∨
       ∃ f : ↥(Subgroup.closure (Set.range x)) ≃* StatedSp 3 (ZMod 2),
         ∀ i, f ⟨x i, Subgroup.subset_closure ⟨i, rfl⟩⟩ = yamakiSp i := by
-  haveI := isSimpleGroup_sp62
+  have := isSimpleGroup_sp62
   simpa only [yamakiEquiv_of] using closure_eq_bot_or_exists_mulEquiv_of yamakiEquiv x hx
 
 end CFSG.ClassicalInvolution.Solomon73.Yamaki

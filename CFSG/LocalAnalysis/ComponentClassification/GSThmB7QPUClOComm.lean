@@ -145,7 +145,6 @@ theorem kappa_scalar_on_block {K : Type} [Field K] [Finite K] (hK : ringChar K �
     have hconj : ((matrixDerivedConjugation _ g ⟨signGL K J, hJ⟩ :
         matrixDerived (oQ (diagGL hw))) : GL (Fin d) K) = D * signGL K J * D⁻¹ := by
       rw [matrixDerivedConjugation_val, hτ, map_one, MulAut.one_apply]
-      try rfl
     have hc'' : GeneralLinearGroup.scalar (Fin d) c' =
         (D * signGL K J * D⁻¹)⁻¹ * signGL K J := by
       rw [← hconj]

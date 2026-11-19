@@ -33,6 +33,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_of_mem_normalizer_subgroupOf {M T : Subgroup G} (hTM : T ≤ M) {y : ↥M}
     (hy : y ∈ normalizer ((T.subgroupOf M : Subgroup ↥M) : Set ↥M)) :
     (y : G) ∈ normalizer (T : Set G) := by

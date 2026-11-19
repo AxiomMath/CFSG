@@ -24,7 +24,7 @@ theorem card_preimage_eq_mul (H : Subgroup G) (f : G → Y) (hf : ∀ x y, f x =
     (S : Set Y) (hS : S ⊆ Set.range f) : Nat.card (f ⁻¹' S) = Nat.card S * Nat.card H := by
   choose r hr using fun s : S => hS s.2
   have key : ∀ (h : H) (s : S), f (h * r s) = s := fun h s => by
-    rw [(hf _ _).2 (by simpa using h.2 : (h : G) * r s * (r s)⁻¹ ∈ H)]
+    rw [(hf _ _).2 (by simp : (h : G) * r s * (r s)⁻¹ ∈ H)]
     exact hr s
   rw [← Nat.card_prod]
   refine (Nat.card_eq_of_bijective
@@ -177,7 +177,7 @@ theorem card_orbit_eq_two [Finite G] {k : G} {c : G ⧸ T} (h1 : ¬ k • c = c)
     rcases (Nat.dvd_prime Nat.prime_two).mp ((minimalPeriod_dvd_iff k c 2).mpr h2) with hd | hd
     · exact absurd (by simpa using (minimalPeriod_dvd_iff k c 1).mp (by rw [hd])) h1
     · exact hd
-  haveI := Fintype.ofFinite (orbit (zpowers k) c)
+  have := Fintype.ofFinite (orbit (zpowers k) c)
   rw [← hn, MulAction.minimalPeriod_eq_card, Fintype.card_eq_nat_card]
 
 end Cosets

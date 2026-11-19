@@ -54,7 +54,7 @@ theorem GomiU42Data.centralizer_le_normalizer (h : GomiU42Data X J D E a) :
 theorem GomiU42Data.conjNormal_injective (h : GomiU42Data X J D E a) :
     haveI := h.normal
     Function.Injective (MulAut.conjNormal : X →* MulAut D) := by
-  haveI := h.normal
+  have := h.normal
   rw [injective_iff_map_eq_one]
   intro x hx
   have hxc : x ∈ centralizer (D : Set X) := by
@@ -74,7 +74,7 @@ theorem GomiU42Data.fixedRoot_conjNormal (h : GomiU42Data X J D E a) :
       ((J.subgroupOf D).subgroupOf
         ((MulAut.conjNormal a : MulAut D).toMonoidHom.eqLocus (MonoidHom.id D))).Normal ∧
       (a ∈ D ↔ (MulAut.conjNormal a : MulAut D) ∈ inner D) := by
-  haveI := h.normal
+  have := h.normal
   have hinj := h.conjNormal_injective
   have hfix : ∀ x : D, x ∈ (MulAut.conjNormal a : MulAut D).toMonoidHom.eqLocus
       (MonoidHom.id D) ↔ (x : X) ∈ centralizer ({a} : Set X) := by
@@ -178,7 +178,7 @@ theorem GomiU42Data.inf_centralizer_eq (h : GomiU42Data X J D E a) (ha : a ∉ D
 theorem GomiU42Data.eqLocus_eq (h : GomiU42Data X J D E a) (ha : a ∉ D) :
     haveI := h.normal
     (MulAut.conjNormal a : MulAut D).toMonoidHom.eqLocus (MonoidHom.id D) = J.subgroupOf D := by
-  haveI := h.normal
+  have := h.normal
   have hinf := h.inf_centralizer_eq ha
   ext x
   change MulAut.conjNormal a x = x ↔ _

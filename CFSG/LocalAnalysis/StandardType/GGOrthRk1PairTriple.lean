@@ -36,6 +36,7 @@ private lemma q2cO4t_algebraMap_injective {K K' : Type} [Field K] [Field K'] [Al
       _ = 0 := by rw [h0, zero_mul]
   exact one_ne_zero h1
 
+omit [FiniteDimensional K V] in
 theorem TBJOmData.exists_normTriple {Q : QuadraticForm K V} {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     {A : Subgroup (V ≃ₗ[K] V)} (hAΩ : A ≤ orthDerived Q) {r : ℕ} (Δ : TBJOmData Q p A r)
     {f : ℕ} (hf : Nat.card K = 2 ^ f) (hpq : p ∣ Nat.card K + 1) (K' : Type) [Field K'] [Finite K']
@@ -47,7 +48,7 @@ theorem TBJOmData.exists_normTriple {Q : QuadraticForm K V} {p : ℕ} [Fact p.Pr
   classical
   obtain ⟨inst, ψ, ζ, t, ht, hψ, hspan, hζ, hσζ, hσ⟩ :=
     (Δ.rk1Block hp2).exists_algebra_linearEquiv hf hpq K' hK'
-  letI := inst
+  let := inst
   have hinj : Function.Injective (algebraMap K K') := q2cO4t_algebraMap_injective
   let idx : Fin 3 → Fin r := ![i, j, k]
   have hidx : Function.Injective idx := by
@@ -178,9 +179,10 @@ open CFSG.RankThree.OrthogonalInvolutions
   (commSpace mem_commSpace sub_mem_commSpace omegaGroup mem_omegaGroup omegaGroup_le
     relIndex_omegaGroup)
 
+omit [CharP K 2] [CharP K' 2] in
 theorem six_finrank_K' {f : ℕ} (hK : Nat.card K = 2 ^ f) (hK' : Nat.card K' = (2 ^ f) ^ 2) :
     Module.finrank K K' = 2 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hK2 : 2 ≤ Nat.card K := by
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
@@ -209,6 +211,7 @@ noncomputable def normTripleU : Submodule K (Fin 3 → K') where
     · simp [hz.1]
     · simp [hz.2]
 
+omit [CharP K 2] [CharP K' 2] in
 theorem normTripleU_finrank {f : ℕ} (hK : Nat.card K = 2 ^ f)
     (hK' : Nat.card K' = (2 ^ f) ^ 2) :
     Module.finrank K (normTripleU (K := K) (K' := K')) = 2 := by
@@ -259,16 +262,19 @@ noncomputable abbrev sixQW (T : NormTriple Q σ) : QuadraticForm K (sixW (Q := Q
 noncomputable abbrev sixBW (T : NormTriple Q σ) : LinearMap.BilinForm K (sixW (Q := Q) T) :=
   polarBilin (sixQW (Q := Q) T)
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] [Finite K'] [CharP K' 2] in
 @[simp] theorem sixEW_apply (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     (z : Fin 3 → K') : ((sixEW (Q := Q) T hσ z : sixW (Q := Q) T) : V) = T.incl z := by
   change ((LinearEquiv.ofInjective T.incl (T.incl_injective hσ)) z : V) = T.incl z
   exact LinearEquiv.ofInjective_apply (f := T.incl) (h := T.incl_injective hσ) z
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] [Finite K'] [CharP K' 2] in
 @[simp] theorem sixQW_sixEW (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     (z : Fin 3 → K') : sixQW (Q := Q) T (sixEW (Q := Q) T hσ z) = Q (T.incl z) := by
   change Q ↑(sixEW (Q := Q) T hσ z) = Q (T.incl z)
   rw [sixEW_apply]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] [Finite K'] [CharP K' 2] in
 @[simp] theorem sixBW_sixEW (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     (z y : Fin 3 → K') :
     sixBW (Q := Q) T (sixEW (Q := Q) T hσ z) (sixEW (Q := Q) T hσ y) =
@@ -276,6 +282,7 @@ noncomputable abbrev sixBW (T : NormTriple Q σ) : LinearMap.BilinForm K (sixW (
   change polar Q ↑(sixEW (Q := Q) T hσ z) ↑(sixEW (Q := Q) T hσ y) = polar Q (T.incl z) (T.incl y)
   rw [sixEW_apply, sixEW_apply]
 
+omit [FiniteDimensional K V] [CharP K 2] [CharP K' 2] in
 theorem six_finrank {f : ℕ} (hK : Nat.card K = 2 ^ f)
     (hK' : Nat.card K' = (2 ^ f) ^ 2) (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ) :
     Module.finrank K ↥(sixW (Q := Q) T) = 6 := by
@@ -283,6 +290,7 @@ theorem six_finrank {f : ℕ} (hK : Nat.card K = 2 ^ f)
   rw [Module.finrank_pi_fintype]
   simp [six_finrank_K' hK hK']
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] [Finite K'] [CharP K' 2] in
 theorem six_nondegenerate (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ) :
     (sixBW (Q := Q) T).Nondegenerate := by
   constructor
@@ -301,12 +309,14 @@ theorem six_nondegenerate (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ) :
       simpa only [polar_comm] using h
     simp [hz]
 
+omit [FiniteDimensional K V] [CharP K 2] [CharP K' 2] in
 theorem six_U_finrank {f : ℕ} (hK : Nat.card K = 2 ^ f)
     (hK' : Nat.card K' = (2 ^ f) ^ 2) (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ) :
     Module.finrank K ↥(sixUW (Q := Q) T hσ) = 2 := by
   rw [sixUW, LinearEquiv.finrank_map_eq]
   exact normTripleU_finrank hK hK'
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] [Finite K'] in
 theorem six_U_perp_aniso (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     {x : sixW (Q := Q) T} (hx : x ∈ (sixBW (Q := Q) T).orthogonal (sixUW (Q := Q) T hσ))
     (hxnot : x ∉ sixUW (Q := Q) T hσ) : sixQW (Q := Q) T x ≠ 0 := by
@@ -348,6 +358,7 @@ theorem six_U_perp_aniso (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     exact (mul_ne_zero ((map_ne_zero σ).mpr hz2) hz2) hN
   exact Submodule.mem_map.mpr ⟨z, ⟨hS, hz2⟩, rfl⟩
 
+omit [Finite K] [CharP K 2] in
 theorem noTS_of_totally_singular_plane {W : Type} [AddCommGroup W] [Module K W]
     [FiniteDimensional K W] (R : QuadraticForm K W)
     (hB : (polarBilin R).Nondegenerate) (hWdim : finrank K W = 6)
@@ -406,7 +417,7 @@ theorem noTS_of_totally_singular_plane {W : Type} [AddCommGroup W] [Module K W]
       calc finrank K ↥(U₀ ⊓ P) ≤ finrank K ↥U := Submodule.finrank_mono hI_le_U
         _ = 2 := hUdim
     have hpos : 0 < finrank K ↥(U₀ ⊓ P) := by
-      haveI : Nontrivial ↥(U₀ ⊓ P) := Submodule.nontrivial_iff_ne_bot.mpr hinter_ne
+      have : Nontrivial ↥(U₀ ⊓ P) := Submodule.nontrivial_iff_ne_bot.mpr hinter_ne
       exact Module.finrank_pos
     omega
   have hsup_top : U₀ ⊔ P = ⊤ := by
@@ -436,6 +447,7 @@ theorem noTS_of_totally_singular_plane {W : Type} [AddCommGroup W] [Module K W]
     rw [map_add, LinearMap.add_apply, htu, hwu, add_zero]
   exact hu0 hu_zero
 
+omit [CharP K 2] in
 theorem six_noTS {f : ℕ} (hK : Nat.card K = 2 ^ f)
     (hK' : Nat.card K' = (2 ^ f) ^ 2) (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ) :
     ∀ U₀ : Submodule K (sixW (Q := Q) T), finrank K U₀ = 3 →
@@ -469,6 +481,7 @@ theorem omegaGroup_le_orthDerived_of_six_extract {W : Type} [AddCommGroup W] [Mo
   have hne : (orthDerived R).relIndex (omegaGroup R hR) ≠ 0 := Subgroup.index_ne_zero_of_finite
   exact Subgroup.relIndex_eq_one.mp (by omega)
 
+omit [Finite K] [CharP K 2] in
 theorem finrank_commSpace_conj_trans {M N : Type} [AddCommGroup M] [Module K M]
     [AddCommGroup N] [Module K N] (e : M ≃ₗ[K] N) (t : M ≃ₗ[K] M) :
     finrank K (commSpace (e.symm.trans (t.trans e))) = finrank K (commSpace t) := by
@@ -488,7 +501,7 @@ theorem finrank_commSpace_conj_trans {M N : Type} [AddCommGroup M] [Module K M]
       obtain ⟨v, hv⟩ := mem_commSpace.mp hy
       refine ⟨e y, ?_, ?_⟩
       · refine mem_commSpace.mpr ⟨e v, ?_⟩
-        simp only [LinearEquiv.trans_apply, LinearEquiv.symm_apply_apply, map_sub]
+        simp only [LinearEquiv.trans_apply, LinearEquiv.symm_apply_apply]
         rw [← map_sub, hv]
       · exact LinearEquiv.symm_apply_apply e y
   rw [← hmap]
@@ -508,9 +521,11 @@ noncomputable def suEquiv (g : SUid σ 3) : (Fin 3 → K') ≃ₗ[K] (Fin 3 → 
   map_add' := map_add (suEnd (K := K) g)
   map_smul' := map_smul (suEnd (K := K) g)
 
+omit [Finite K] [CharP K 2] [Finite K'] [CharP K' 2] in
 @[simp] theorem suEquiv_apply (g : SUid σ 3) (v : Fin 3 → K') :
     suEquiv (K := K) g v = g • v := suEnd_apply g v
 
+omit [Finite K'] [CharP K' 2] in
 theorem suEnd_smul_K' (g : SUid σ 3) (c : K') (v : Fin 3 → K') :
     g • (c • v) = c • (g • v) := by
   exact smul_comm g c v
@@ -521,11 +536,13 @@ noncomputable def suEndK' (g : SUid σ 3) : (Fin 3 → K') →ₗ[K'] (Fin 3 →
   map_smul' c v := by
     simpa only [RingHom.id_apply] using suEnd_smul_K' g c v
 
+omit [Finite K] [CharP K 2] [Finite K'] [CharP K' 2] in
 theorem suEndK'_restrictScalars (g : SUid σ 3) :
     (suEndK' g).restrictScalars K = suEnd (K := K) g := by
   ext v
   rfl
 
+omit [CharP K 2] [CharP K' 2] in
 theorem even_commSpace_suEquiv {f : ℕ} (hK : Nat.card K = 2 ^ f)
     (hK' : Nat.card K' = (2 ^ f) ^ 2) (g : SUid σ 3) :
     Even (finrank K (commSpace (suEquiv (K := K) g))) := by
@@ -541,6 +558,7 @@ theorem even_commSpace_suEquiv {f : ℕ} (hK : Nat.card K = 2 ^ f)
   rw [two_mul]
   exact ⟨finrank K' N, rfl⟩
 
+omit [Finite K] [CharP K 2] [Finite K'] [CharP K' 2] in
 @[simp] theorem toEmbedding_incl (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ) :
     (T.toEmbedding hσ).incl = T.incl := rfl
 
@@ -562,11 +580,13 @@ noncomputable def thetaRestrict (T : NormTriple Q σ) (hσ : IsUnitaryInvolution
   map_add' w₁ w₂ := by ext; simp
   map_smul' c w := by ext; simp
 
+omit [Finite K] [CharP K 2] [Finite K'] [CharP K' 2] in
 @[simp] theorem thetaRestrict_apply (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     (g : SUid σ 3) (w : sixW (Q := Q) T) :
     ((thetaRestrict (Q := Q) T hσ g w : sixW (Q := Q) T) : V) =
       (T.toEmbedding hσ).theta g w := by simp [thetaRestrict]
 
+omit [Finite K] [CharP K 2] [Finite K'] [CharP K' 2] in
 theorem thetaRestrict_eq_conj (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     (g : SUid σ 3) :
     thetaRestrict (Q := Q) T hσ g =
@@ -578,6 +598,7 @@ theorem thetaRestrict_eq_conj (T : NormTriple Q σ) (hσ : IsUnitaryInvolution �
     suEquiv_apply, sixEW_apply]
   exact UnitaryEmbedding.theta_incl (D := T.toEmbedding hσ) g z
 
+omit [Finite K] [CharP K 2] [Finite K'] [CharP K' 2] in
 theorem thetaRestrict_mem_orthogonalGroup (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     (g : SUid σ 3) :
     thetaRestrict (Q := Q) T hσ g ∈
@@ -588,6 +609,7 @@ theorem thetaRestrict_mem_orthogonalGroup (T : NormTriple Q σ) (hσ : IsUnitary
     (UnitaryEmbedding.theta_mem_orthogonalGroup (D := T.toEmbedding hσ) g)) w
   simpa [sixQW, thetaRestrict_apply] using h
 
+omit [CharP K 2] [CharP K' 2] in
 theorem even_commSpace_thetaRestrict {f : ℕ} (hK : Nat.card K = 2 ^ f)
     (hK' : Nat.card K' = (2 ^ f) ^ 2) (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     (g : SUid σ 3) :
@@ -595,6 +617,7 @@ theorem even_commSpace_thetaRestrict {f : ℕ} (hK : Nat.card K = 2 ^ f)
   rw [thetaRestrict_eq_conj, finrank_commSpace_conj_trans]
   exact even_commSpace_suEquiv hK hK' g
 
+omit [CharP K' 2] in
 theorem thetaRestrict_mem_omega {f : ℕ} (hK : Nat.card K = 2 ^ f)
     (hK' : Nat.card K' = (2 ^ f) ^ 2) (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     (g : SUid σ 3) :
@@ -629,8 +652,9 @@ noncomputable def extendHom (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
   map_mul' a b := by
     ext v
     obtain ⟨⟨w, w'⟩, rfl⟩ := (sixProd T hσ).surjective v
-    simp [sixProd, LinearEquiv.prodCongr_apply, add_assoc]
+    simp [sixProd, LinearEquiv.prodCongr_apply]
 
+omit [Finite K] [CharP K 2] [Finite K'] [CharP K' 2] in
 theorem extendHom_apply (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     (a : sixW (Q := Q) T ≃ₗ[K] sixW (Q := Q) T) (w : sixW (Q := Q) T)
     (w' : sixPerp (Q := Q) T) :
@@ -638,6 +662,7 @@ theorem extendHom_apply (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
       sixProd T hσ (a w, w') := by
   simp [extendHom, sixProd, LinearEquiv.prodCongr_apply]
 
+omit [Finite K] [CharP K 2] [Finite K'] [CharP K' 2] in
 theorem extendHom_mem_orthogonalGroup (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     {a : sixW (Q := Q) T ≃ₗ[K] sixW (Q := Q) T}
     (ha : a ∈ TauCeti.QuadraticMap.orthogonalGroup (sixQW (Q := Q) T)) :
@@ -658,6 +683,7 @@ theorem extendHom_mem_orthogonalGroup (T : NormTriple Q σ) (hσ : IsUnitaryInvo
     Q ((w : V) + (w' : V))
   rw [QuadraticMap.map_add Q, QuadraticMap.map_add Q, hperp, hperp', haQ]
 
+omit [Finite K] [CharP K 2] [Finite K'] [CharP K' 2] in
 theorem extendHom_thetaRestrict (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     (g : SUid σ 3) :
     extendHom T hσ (thetaRestrict (Q := Q) T hσ g) = (T.toEmbedding hσ).theta g := by
@@ -683,6 +709,7 @@ theorem extendHom_thetaRestrict (T : NormTriple Q σ) (hσ : IsUnitaryInvolution
   rw [map_add, hfix w']
   rw [thetaRestrict_apply]
 
+omit [Finite K] [CharP K 2] [Finite K'] [CharP K' 2] in
 theorem extendHom_mem_orthDerived (T : NormTriple Q σ) (hσ : IsUnitaryInvolution σ)
     {a : sixW (Q := Q) T ≃ₗ[K] sixW (Q := Q) T}
     (ha : a ∈ orthDerived (sixQW (Q := Q) T)) :

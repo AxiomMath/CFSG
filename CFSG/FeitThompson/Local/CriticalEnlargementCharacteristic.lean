@@ -122,7 +122,7 @@ theorem exists_mem_centralPTorsionCentralizer_notMem_map_center
   have hfin : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; exact pow_ne_zero _ hp.pos.ne')
   set Z := (center ↥K).map K.subtype with hZ
   set C := centralizer (K : Set P) with hC
-  obtain ⟨c, hcC, hcZ⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨c, hcC, hcZ⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hD : C.map (mk' Z) ≠ ⊥ := by
     intro h
     have hmem : (mk' Z) c ∈ C.map (mk' Z) := ⟨c, hcC, rfl⟩

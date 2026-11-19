@@ -266,7 +266,7 @@ theorem ggStepTwoToralWitnessSmallOn_of_frameSpec (hF : GGExcKGToralFrame) (hreg
   have ht' : GGExcFive t := ht
   have hp : p.Prime := hctx.prime
   have hp2 : p ≠ 2 := hctx.ne_two
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hks : GGKnownSetting t n f ψ := ggKnownSetting_of_ctx hctx s1
   have hcard : p ^ 4 ≤ Nat.card Bs := hctx.pow_four_le_card_bstar
   have hBsN : Bs ≤ Subgroup.normalizer (ψ.range : Set G) := by

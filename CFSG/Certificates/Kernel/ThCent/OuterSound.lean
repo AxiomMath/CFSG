@@ -70,10 +70,10 @@ theorem mu_conj {MU : ℕ} (hmu : muOK MU LT = true)
   induction hm using Subgroup.closure_induction'' with
   | mem x hx =>
     obtain ⟨g, hg, rfl⟩ := hx
-    exact hlet _ (2 * g) (by simp only [Set.mem_setOf_eq] at hg; omega) (hL g hg)
+    exact hlet _ (2 * g) (by simp only [Set.mem_ofPred_eq] at hg; omega) (hL g hg)
   | inv_mem x hx =>
     obtain ⟨g, hg, rfl⟩ := hx
-    exact hlet _ (2 * g + 1) (by simp only [Set.mem_setOf_eq] at hg; omega) (hLi g hg)
+    exact hlet _ (2 * g + 1) (by simp only [Set.mem_ofPred_eq] at hg; omega) (hLi g hg)
   | one => exact ⟨1, by rw [inv_one, Units.val_one, Matrix.one_mul, Matrix.mul_one, pow_one]⟩
   | mul x y _ _ hx hy =>
     obtain ⟨e1, h1⟩ := hx

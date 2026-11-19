@@ -72,7 +72,7 @@ theorem hyp51_of_rows_blockG (hU : TL4.OuterFixedOddFree .PSU 3)
         ∀ y ∈ T, ∃ l ∈ L, ∀ w ∈ L, y * w * y⁻¹ = l * w * l⁻¹)) := by
   rcases hrows with hG | hA
   · have hm : CFSG.Blueprint.LieModel (SecQuot P) .G2 0 3 1 := hG
-    haveI : IsSimpleGroup (SecQuot P) := isSimpleGroup_of_lieModel_g2 (by norm_num) hm
+    have : IsSimpleGroup (SecQuot P) := isSimpleGroup_of_lieModel_g2 (by norm_num) hm
     have hnab := exists_noncomm_of_center_eq_bot (center_eq_bot_of_lieModel_g2 hm)
     obtain ⟨U, I⟩ := g23_block F hFs hK hnab (hG2 (SecQuot P) hm) hmoved
     exact ⟨U, fun L hL hmv => Or.inr (I L hL hmv)⟩

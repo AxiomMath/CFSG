@@ -39,7 +39,7 @@ theorem pCore_isPGroup [Finite G] [Fact r.Prime] : IsPGroup r (pCore r G) := by
     rw [CFSG.pCore_eq_iSup]
     refine iSup_le fun N => iSup_le fun hN => iSup_le fun hp => ?_
     exact hp.le_sylow_of_normal P
-  exact P.isPGroup'.to_le hle
+  exact P.isPGroup.to_le hle
 
 theorem map_pCore_le {H : Type v} [Group H] (f : G →* H) (hf : Function.Surjective f) :
     (pCore r G).map f ≤ pCore r H := by

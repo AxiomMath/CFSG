@@ -31,6 +31,7 @@ section Model
 variable {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
   {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
 
+omit [Finite G] in
 theorem liftF_mem_range_sub_one_of_commute (hφ : ∀ g : ↥(H0 M Z), φ g = 1 ↔ (g : G) ∈ Q)
     {c t : Mbar M Q} (hcH : c ∈ bar M Q (H0 M Z)) (htH : t ∈ bar M Q (H0 M Z))
     (hct : c * t = t * c) {T : M₀.E ≃ₗ[K] M₀.E} (hT : liftF φ t = T) {w : M₀.E}

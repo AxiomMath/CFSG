@@ -24,6 +24,7 @@ theorem K_normal {K : Subgroup S.O} (hK : K ≤ S.Mbar) (hidx : K.relIndex S.Mba
   have := hN.conj_mem ⟨k, hK hk⟩ (mem_subgroupOf.mpr hk) ⟨m, hm⟩
   simpa [mem_subgroupOf] using this
 
+omit [Finite G] in
 theorem conj_mem_QG_of_mem_L0 {g x : G} (hx : x ∈ S.L0 g) : g⁻¹ * x * g ∈ S.QG := by
   have hx' : x ∈ S.Qa g := hx.1
   rw [S.Qa_eq_map] at hx'

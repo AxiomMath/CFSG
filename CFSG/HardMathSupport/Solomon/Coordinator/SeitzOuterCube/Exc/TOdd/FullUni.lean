@@ -98,7 +98,7 @@ theorem exists_isom_commute_det_eq_aux (hF : UnitaryFieldData p n F)
     have hΔ3 : (1 : Matrix (Fin 3) (Fin 3) F) + Δ + Δ * Δ = diagonal ![(3 : F), 0, 0] := by
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [hΔ, diagonal_apply, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply]
+        simp [hΔ]
       · norm_num
       · linear_combination hωs
       · linear_combination hωs + h4
@@ -109,7 +109,7 @@ theorem exists_isom_commute_det_eq_aux (hF : UnitaryFieldData p n F)
     have hD3 : c • (diagonal ![(3 : F), 0, 0] : Matrix (Fin 3) (Fin 3) F) =
         diagonal ![1, 0, 0] := by
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [diagonal_apply, hc, h3]
+      fin_cases i <;> fin_cases j <;> simp [hc, h3]
     rw [hE, smul_mul_assoc, hTP, ← mul_smul_comm, hD3]
   refine ⟨1 + (μ - 1) • E, ?_, ?_, ?_⟩
   · have hSE : S * E = E * S := by
@@ -120,7 +120,7 @@ theorem exists_isom_commute_det_eq_aux (hF : UnitaryFieldData p n F)
   · have hD : (1 : Matrix (Fin 3) (Fin 3) F) + (μ - 1) • diagonal ![(1 : F), 0, 0] =
         diagonal ![μ, 1, 1] := by
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [diagonal_apply]
+      fin_cases i <;> fin_cases j <;> simp
     have hZP : (1 + (μ - 1) • E) * P = P * diagonal ![μ, 1, 1] := by
       rw [← hD, add_mul, one_mul, smul_mul_assoc, hEP, mul_add, mul_one, mul_smul_comm]
     have h := congrArg Matrix.det hZP
@@ -133,7 +133,7 @@ theorem exists_isom_commute_det_eq_aux (hF : UnitaryFieldData p n F)
     rw [hZadj]
     have key : (1 + (hF.bar μ - 1) • E) * (1 + (μ - 1) • E) =
         1 + ((hF.bar μ - 1) + (μ - 1) + (hF.bar μ - 1) * (μ - 1)) • E := by
-      simp only [add_mul, mul_add, one_mul, mul_one, smul_mul_assoc, mul_smul_comm, smul_smul, hE2]
+      simp only [add_mul, mul_add, one_mul, mul_one, smul_mul_assoc, mul_smul_comm, hE2]
       module
     rw [key]
     have h0 : (hF.bar μ - 1) + (μ - 1) + (hF.bar μ - 1) * (μ - 1) = 0 := by
@@ -176,7 +176,7 @@ theorem exists_isom_commute_det_eq (h3 : 3 ∣ p ^ n + 1) {S : unitarySU p n F 3
     (μ : Fˣ) (hμ : μ ∈ rootsOfUnity (p ^ n + 1) F) :
     ∃ Z : unitaryIsom3 hF, (Z : GL₃ F) * (S : GL₃ F) = (S : GL₃ F) * (Z : GL₃ F) ∧
       Matrix.GeneralLinearGroup.det (Z : GL₃ F) = μ := by
-  haveI := hF.finite
+  have := hF.finite
   obtain ⟨hSdet, hSu⟩ := (mem_unitarySU_iff hF).1 S.2
   have hS3' : ((S : GL₃ F) : Matrix (Fin 3) (Fin 3) F) ^ 3 = 1 := by
     have h := congrArg (fun s : unitarySU p n F 3 => ((s : GL₃ F) : Matrix (Fin 3) (Fin 3) F)) hS3

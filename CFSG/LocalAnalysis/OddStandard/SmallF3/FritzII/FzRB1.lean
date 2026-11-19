@@ -11,7 +11,7 @@ private theorem fzrAux_card_mod3 {X : Type} [CommGroup X] [Finite X] (ρ : X →
     (hρ3 : ∀ x : X, ρ (ρ (ρ x)) = x) (hfpf : ∀ x : X, ρ x = x → x = 1)
     {K : Subgroup X} (hK : ∀ k ∈ K, ρ k ∈ K) : Nat.card K % 3 = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let f : Function.End K := fun k => ⟨ρ k, hK k k.2⟩
   have hf3 : f ^ 3 = 1 := by
     funext k
@@ -21,7 +21,7 @@ private theorem fzrAux_card_mod3 {X : Type} [CommGroup X] [Finite X] (ρ : X →
   have hcardfix : Fintype.card (Function.fixedPoints f) = 1 := by
     rw [Fintype.card_eq_one_iff]
     refine ⟨⟨1, ?_⟩, ?_⟩
-    · rw [Function.mem_fixedPoints_iff]; apply Subtype.ext; simp [f]
+    · rw [Function.mem_fixedPoints_iff]; apply Subtype.ext; simp
     · intro b
       apply Subtype.ext
       apply Subtype.ext
@@ -72,7 +72,7 @@ private theorem fzrAux_closure_Z {X : Type} [CommGroup X] [Finite X] {Z : Subgro
     {z : X} (hz : z ∈ Z) (hz1 : z ≠ 1) :
     ∀ y ∈ Z, y = 1 ∨ y = z ∨ y = ρ z ∨ y = ρ (ρ z) := by
   classical
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   have hρzZ : ρ z ∈ Z := hρZ z hz
   have hρρzZ : ρ (ρ z) ∈ Z := hρZ (ρ z) hρzZ
   have h1rz : ρ z ≠ 1 := by
@@ -117,11 +117,11 @@ private theorem fzrAux_closure_Z {X : Type} [CommGroup X] [Finite X] {Z : Subgro
     rw [hTZ, Set.mem_toFinset]; exact hy
   simpa only [Finset.mem_insert, Finset.mem_singleton] using hyT
 
-theorem fzr_B_core {X : Type} [CommGroup X] [Finite X] (hX2 : ∀ x : X, x * x = 1)
+theorem fzr_B_core {X : Type} [CommGroup X] [Finite X] (_hX2 : ∀ x : X, x * x = 1)
     (hX16 : Nat.card X = 16) {Z : Subgroup X} (hZ4 : Nat.card Z = 4)
     (ρ lam : X →* X) (hρ3 : ∀ x : X, ρ (ρ (ρ x)) = x) (hl2 : ∀ x : X, lam (lam x) = x)
     (hlρ : ∀ x : X, lam (ρ (lam x)) = ρ (ρ x)) (hfpf : ∀ x : X, ρ x = x → x = 1)
-    (hρZ : ∀ z ∈ Z, ρ z ∈ Z) (hlZ : ∀ z ∈ Z, lam z ∈ Z) (hlmove : ∃ z ∈ Z, lam z ≠ z)
+    (hρZ : ∀ z ∈ Z, ρ z ∈ Z) (_hlZ : ∀ z ∈ Z, lam z ∈ Z) (_hlmove : ∃ z ∈ Z, lam z ≠ z)
     (c d : X →* X) (hcZ : ∀ x : X, c x ∈ Z) (hdZ : ∀ x : X, d x ∈ Z)
     (hc0 : ∀ z ∈ Z, c z = 1) (hd0 : ∀ z ∈ Z, d z = 1)
     (hcρ : ∀ x : X, c (ρ x) = ρ (c x)) (hdρ : ∀ x : X, d (ρ x) = ρ (d x))
@@ -162,7 +162,7 @@ theorem fzr_B_core {X : Type} [CommGroup X] [Finite X] (hX2 : ∀ x : X, x * x =
       omega
     obtain ⟨x₀, hx₀⟩ : ∃ x : X, x ∉ Z := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hZ_ne_top (le_antisymm le_top fun x _ => hcon x)
     have hc_ne : c x₀ ≠ 1 := by
       intro h
@@ -180,33 +180,33 @@ theorem fzr_B_core {X : Type} [CommGroup X] [Finite X] (hX2 : ∀ x : X, x * x =
         one_mem' := by simp
         mul_mem' := by
           intro a b ha hb
-          simp only [Set.mem_setOf_eq] at ha hb ⊢
+          simp only [Set.mem_ofPred_eq] at ha hb ⊢
           rw [map_mul, map_mul, ha, hb]
         inv_mem' := by
           intro a ha
-          simp only [Set.mem_setOf_eq] at ha ⊢
+          simp only [Set.mem_ofPred_eq] at ha ⊢
           rw [map_inv, map_inv, ha] }
     let A1 : Subgroup X :=
       { carrier := {x | d x = ρ (c x)}
         one_mem' := by simp
         mul_mem' := by
           intro a b ha hb
-          simp only [Set.mem_setOf_eq] at ha hb ⊢
+          simp only [Set.mem_ofPred_eq] at ha hb ⊢
           rw [map_mul, map_mul, map_mul, ha, hb]
         inv_mem' := by
           intro a ha
-          simp only [Set.mem_setOf_eq] at ha ⊢
+          simp only [Set.mem_ofPred_eq] at ha ⊢
           rw [map_inv, map_inv, map_inv, ha] }
     let A2 : Subgroup X :=
       { carrier := {x | d x = ρ (ρ (c x))}
         one_mem' := by simp
         mul_mem' := by
           intro a b ha hb
-          simp only [Set.mem_setOf_eq] at ha hb ⊢
+          simp only [Set.mem_ofPred_eq] at ha hb ⊢
           rw [map_mul, map_mul, map_mul, map_mul, ha, hb]
         inv_mem' := by
           intro a ha
-          simp only [Set.mem_setOf_eq] at ha ⊢
+          simp only [Set.mem_ofPred_eq] at ha ⊢
           rw [map_inv, map_inv, map_inv, map_inv, ha] }
     have hZA0 : Z ≤ A0 := by
       intro y hy

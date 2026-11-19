@@ -199,7 +199,7 @@ theorem le_mParam_of_forall_involutions {W : Type} [CommGroup W] [Finite W]
     b ≤ E3.mParam Y := by
   classical
   unfold E3.mParam
-  rw [if_pos hY]
+  rw [ite_eq_left hY]
   refine le_csInf ?_ ?_
   · obtain ⟨t, ht, hto⟩ := hne
     exact ⟨_, t, ht, hto, rfl⟩
@@ -233,7 +233,7 @@ theorem involution_decomp_of_inner {W : Type} [CommGroup W] [Finite W]
       rw [hZ] at this
       simpa using this
     have hx1' : x = 1 := e.injective (by simpa using hx1)
-    simpa [hx1'] using Subgroup.one_mem (⊥ : Subgroup L')
+    simp [hx1']
   have hinner' : ∀ α : MulAut L', α ^ 2 = 1 → ∃ g : L', ∀ x, α x = g * x * g⁻¹ := by
     intro α hα2
     let β : MulAut L := MulAut.congr e α
@@ -286,7 +286,7 @@ theorem le_rkIdx_of_centralizing_involution {W : Type} [CommGroup W] [Finite W]
     (hW : ∀ w : W, w ^ 2 = 1) (L : Subgroup (MulAut W)) (hS : IsSimpleGroup L)
     (hfix : fixV L = ⊥) (hinv : ∃ l : L, orderOf l = 2) (b : ℕ)
     (hb : IrredInvolutionRankBound L b) {c : MulAut W}
-    (hcL : ∀ x ∈ L, c * x = x * c) (hc2 : c ^ 2 = 1) (hc1 : c ≠ 1) :
+    (hcL : ∀ x ∈ L, c * x = x * c) (_hc2 : c ^ 2 = 1) (hc1 : c ≠ 1) :
     b ≤ rkIdx (fixV (Subgroup.zpowers c)) := by
   classical
   let O : Subgroup W := commV (Subgroup.zpowers c)
@@ -403,7 +403,7 @@ theorem le_rkIdx_of_involution_mul_centralizing {W : Type} [CommGroup W] [Finite
       ext w
       exact Subsingleton.elim (l w) w
     · exact h
-  haveI : Nontrivial W := hWnt
+  have : Nontrivial W := hWnt
   let H : Subgroup (MulAut W) := L ⊔ Subgroup.zpowers c
   have hO : (⊤ : Subgroup W) ≠ ⊥ := bot_lt_top.ne.symm
   obtain ⟨U, -, hUne, hHU, hmin⟩ :=
@@ -584,7 +584,7 @@ theorem le_rkIdx_of_involution_mul_centralizing {W : Type} [CommGroup W] [Finite
       exact hUne hUbot
   have hlL' : l ≠ 1 := hl1
   have hlord : orderOf (⟨l, hlL⟩ : L) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine orderOf_eq_prime ?_ ?_
     · apply Subtype.ext
       simpa using hl2

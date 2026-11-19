@@ -31,7 +31,7 @@ private lemma sA2_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [Field
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  letI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+  let : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
     Algebra.isMulCommutative_adjoin F hcommS
   intro a b ha hb
   have h := mul_comm' (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
@@ -232,12 +232,12 @@ private lemma sA2_psu_transpose (n g : ℕ) :
   rw [hanti j i, hanti i j]
   by_cases h : i = j.rev
   · have h2 : j = i.rev := by rw [h, Fin.rev_rev]
-    rw [if_pos h, if_pos h2, map_one]
+    rw [ite_eq_left h, ite_eq_left h2, map_one]
   · have h2 : j ≠ i.rev := by
       intro h2
       apply h
       rw [h2, Fin.rev_rev]
-    rw [if_neg h, if_neg h2, map_zero]
+    rw [ite_eq_right h, ite_eq_right h2, map_zero]
 
 private lemma sA2_psu_involutive (g : ℕ) :
     ∀ x : GaloisField 2 (2 * (g + 1)),

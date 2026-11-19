@@ -48,7 +48,7 @@ theorem vecElt_lam_eq (ω : (GaloisField 2 2)ˣ) (v : Fin 3 → ZMod 3) :
     ← map_mul, ← map_mul]
   congr 1
   funext j
-  fin_cases j <;> simp [Pi.mulSingle_apply]
+  fin_cases j <;> simp
 
 theorem centQuasi_Sp6 {E : Subgroup Sp6} (hE : CFSG.Assembly.IsElemAbelian 3 E)
     (hE27 : Nat.card E = 27) {s : Sp6} (hs : s ∈ E) (hs1 : s ≠ 1) :
@@ -145,7 +145,7 @@ theorem centQuasi_Sp6 {E : Subgroup Sp6} (hE : CFSG.Assembly.IsElemAbelian 3 E)
       have hfin : Function.update (Function.update (Function.update a 0 c) 1 c) 2 c =
           fun _ : Fin 3 => c := by
         funext j
-        fin_cases j <;> simp [Function.update_apply]
+        fin_cases j <;> simp
       rw [← hfin, ← hw₂, ← hw₁, ← hw₀]
       group
     obtain ⟨w, hw⟩ := hnorm

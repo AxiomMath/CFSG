@@ -16,6 +16,7 @@ namespace LieClAltSix
 
 variable {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y} [L.Normal]
 
+omit [Finite Y] [L.Normal] in
 theorem map_center_eq_inf_centralizer :
     (center ↥L).map L.subtype = L ⊓ centralizer (L : Set Y) := by
   ext y
@@ -30,7 +31,7 @@ theorem map_center_eq_inf_centralizer :
 theorem not_two_dvd_card_inf (hO : CFSG.pCore 2 Y = ⊥) :
     ¬ 2 ∣ Nat.card ↥(L ⊓ centralizer (L : Set Y)) := by
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Z := L ⊓ centralizer (L : Set Y)
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have hcomm : ∀ a b : ↥Z, a * b = b * a := fun a b =>
@@ -51,6 +52,7 @@ theorem not_two_dvd_card_inf (hO : CFSG.pCore 2 Y = ⊥) :
   rw [show t = 1 from Subtype.ext htZ, orderOf_one] at ht
   exact absurd ht (by norm_num)
 
+omit [Finite Y] in
 theorem exists_mul_eq (hT : IsTripleA6 ↥L) [Group.IsPerfect ↥L] {x : Y} (hx : x ^ 3 = 1) :
     ∃ l c : Y, l ∈ L ∧ c ∈ centralizer (L : Set Y) ∧ l ^ 3 = 1 ∧ c ^ 3 = 1 ∧ l * c = x := by
   set σ : MulAut ↥L := MulAut.conjNormal x with hσdef
@@ -88,9 +90,9 @@ end LieClAltSix
 open LieClAltSix in
 theorem kFactTripleAltSixHTwo_holds : KFactTripleAltSixHTwo := by
   intro Y _ _ L hLn hq hO he h3 hrk E hE hEc
-  haveI := hLn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have := hLn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
   obtain ⟨e⟩ := he
   set C := centralizer (L : Set Y) with hCdef
   set Z := L ⊓ C with hZdef
@@ -138,7 +140,7 @@ theorem kFactTripleAltSixHTwo_holds : KFactTripleAltSixHTwo := by
       exact mul_mem hl (hno c hc hc3)
     set A' : Subgroup ↥L := A.subgroupOf L
     have hA' : IsElemAbelian 3 A' := by
-      haveI := hA.1
+      have := hA.1
       refine ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩, fun x hx => Subtype.ext ?_⟩
       · change ((a : ↥L) : Y) * ((b : ↥L) : Y) = ((b : ↥L) : Y) * ((a : ↥L) : Y)
         exact congrArg Subtype.val
@@ -157,7 +159,7 @@ theorem kFactTripleAltSixHTwo_holds : KFactTripleAltSixHTwo := by
     have := congrArg (fun H : Subgroup Y => Nat.card H) h
     simp only [Nat.card_zpowers, hz, hEc] at this
     norm_num at this
-  obtain ⟨x, hxE, hxz⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x, hxE, hxz⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hDxz := eq_sup_zpowers_of_card hEc' hz hzE hxE hxz
   obtain ⟨l, c, hlL, hcC, hl3, hc3, hlc⟩ := hdec (hE.2 x hxE)
   have hcl : c * l = l * c := (mem_centralizer_iff.1 hcC l hlL).symm

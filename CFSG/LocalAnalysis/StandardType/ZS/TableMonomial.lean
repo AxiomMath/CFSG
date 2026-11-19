@@ -55,7 +55,7 @@ private theorem tmo_refl_support_card_le_two (f : Module.Basis (Fin n) (ZMod p) 
     · by_cases hk2 : k = σ i₁
       · simp [hk2]
       · exfalso
-        rw [if_neg (Ne.symm hk1), if_neg (Ne.symm hk2), sub_zero] at hk
+        rw [ite_eq_right (Ne.symm hk1), ite_eq_right (Ne.symm hk2), sub_zero] at hk
         exact hk rfl
   calc (f.repr a).support.card ≤ ({i₁, σ i₁} : Finset (Fin n)).card := Finset.card_le_card hsub
     _ ≤ 2 := by
@@ -87,12 +87,12 @@ private theorem tmo_refl_fix_of_notMem_support (f : Module.Basis (Fin n) (ZMod p
     simp only [map_sub, map_smul, Module.Basis.repr_self, Finsupp.smul_single,
       Finsupp.sub_apply, Finsupp.single_apply]
     by_cases hll : σ l = l
-    · rw [if_pos hll, if_pos trivial]
+    · rw [ite_eq_left hll, ite_eq_left trivial]
       intro hc
       have hc1 : c l = 1 := by
         simpa [smul_eq_mul, mul_one] using (sub_eq_zero.mp hc)
       exact hne (by rw [hrb l, hll, hc1, one_smul])
-    · rw [if_neg hll, if_pos trivial]
+    · rw [ite_eq_right hll, ite_eq_left trivial]
       simp only [zero_sub]
       exact neg_ne_zero.mpr one_ne_zero
   by_cases hd0 : d = 0
@@ -251,15 +251,15 @@ theorem negOrGen_gmmn {i₀ i₁ : Fin n} (hi : i₀ ≠ i₁) (ζ : (ZMod p)ˣ)
 
 private theorem tmo_pairUnit_self {i j : Fin n} (_hij : i ≠ j) (c : (ZMod p)ˣ) :
     pairUnit p i j c i = c := by
-  rw [pairUnit, if_pos rfl]
+  rw [pairUnit, ite_eq_left rfl]
 
 private theorem tmo_pairUnit_other {i j : Fin n} (hij : i ≠ j) (c : (ZMod p)ˣ) :
     pairUnit p i j c j = c⁻¹ := by
-  rw [pairUnit, if_neg (Ne.symm hij), if_pos rfl]
+  rw [pairUnit, ite_eq_right (Ne.symm hij), ite_eq_left rfl]
 
 private theorem tmo_pairUnit_ne {i j k : Fin n} (hki : k ≠ i) (hkj : k ≠ j) (c : (ZMod p)ˣ) :
     pairUnit p i j c k = 1 := by
-  rw [pairUnit, if_neg hki, if_neg hkj]
+  rw [pairUnit, ite_eq_right hki, ite_eq_right hkj]
 
 private noncomputable def tmoDiagHom (f : Module.Basis (Fin n) (ZMod p) U) :
     (Fin n → (ZMod p)ˣ) →* (U ≃ₗ[ZMod p] U) where
@@ -642,13 +642,13 @@ theorem irredOnSection_fixReflSubgroup_g2mmn (hp : p ≠ 2) (i₀ i₁ : Fin n) 
       ?_, (-1 : ZMod p), 1, hneg, ?_, ?_⟩
     · refine mem_fixReflSubgroup ?_ (isRefl_diagMap_sign hp f i) ?_
       · exact signMap_mem_g2mmn f ζ i
-      · rw [diagMap_apply_basis, apply_ite Units.val, if_neg (Ne.symm (show i ≠ l from hi)),
+      · rw [diagMap_apply_basis, apply_ite Units.val, ite_eq_right (Ne.symm (show i ≠ l from hi)),
           Units.val_one, one_smul]
     · intro k hk
       refine ⟨((if k = i then (-1 : (ZMod p)ˣ) else 1) : ZMod p), ?_⟩
       rw [diagMap_apply_basis, apply_ite Units.val, Units.val_one]
-    · rw [diagMap_apply_basis, apply_ite Units.val, if_pos rfl, Units.val_neg, Units.val_one]
-    · rw [diagMap_apply_basis, apply_ite Units.val, if_neg (Ne.symm hij), Units.val_one, one_smul]
+    · rw [diagMap_apply_basis, apply_ite Units.val, ite_eq_left rfl, Units.val_neg, Units.val_one]
+    · rw [diagMap_apply_basis, apply_ite Units.val, ite_eq_right (Ne.symm hij), Units.val_one, one_smul]
   · intro i hi j hj
     by_cases hij : i = j
     · subst hij
@@ -656,10 +656,10 @@ theorem irredOnSection_fixReflSubgroup_g2mmn (hp : p ≠ 2) (i₀ i₁ : Fin n) 
         (-1 : ZMod p), ?_, ?_⟩
       · refine mem_fixReflSubgroup ?_ (isRefl_diagMap_sign hp f i) ?_
         · exact signMap_mem_g2mmn f ζ i
-        · rw [diagMap_apply_basis, apply_ite Units.val, if_neg (Ne.symm (show i ≠ l from hi)),
+        · rw [diagMap_apply_basis, apply_ite Units.val, ite_eq_right (Ne.symm (show i ≠ l from hi)),
             Units.val_one, one_smul]
       · exact neg_ne_zero.mpr one_ne_zero
-      · rw [diagMap_apply_basis, apply_ite Units.val, if_pos rfl, Units.val_neg, Units.val_one]
+      · rw [diagMap_apply_basis, apply_ite Units.val, ite_eq_left rfl, Units.val_neg, Units.val_one]
     · refine ⟨permMap p f (Equiv.swap i j), ?_, 1, one_ne_zero, ?_⟩
       · refine mem_fixReflSubgroup ?_ (isRefl_permMap_swap f hij) ?_
         · exact Subgroup.subset_closure (Or.inl (Set.mem_range_self _))

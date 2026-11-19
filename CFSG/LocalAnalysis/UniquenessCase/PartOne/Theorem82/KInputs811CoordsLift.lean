@@ -107,7 +107,7 @@ theorem centralizer_image_inv_eq {V : Type*} (f : V → G) (S : Set V) :
 
 theorem eq_zpowers_of_card_eq_three {X : Subgroup G} (hX : Nat.card X = 3) {x : G} (hx : x ∈ X)
     (hx1 : x ≠ 1) : X = Subgroup.zpowers x := by
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite X := Nat.finite_of_card_ne_zero (by omega)
   have hzp_le : Subgroup.zpowers x ≤ X := Subgroup.zpowers_le.mpr hx
   have hdiv : orderOf x ∣ 3 := by
     have hd := Subgroup.card_dvd_of_le hzp_le

@@ -133,10 +133,10 @@ theorem a2Roots_neg {α β : Fin Tag.E6.rank → ℤ} :
   intro γ hγ
   simp only [a2Roots, Set.mem_insert_iff, Set.mem_singleton_iff] at hγ ⊢
   rcases hγ with rfl | rfl | rfl | rfl | rfl | rfl <;>
-    simp [a2Roots]
+    simp
 
 theorem theta_rootSpan_a2PairE6_two {Ω : Type} [Field Ω] [IsAlgClosed Ω]
-    {Fr : Ω →+* Ω} {q : ℕ} (hFr : ∀ c, Fr c = c ^ q) (hq : Function.Surjective Fr) :
+    {Fr : Ω →+* Ω} {q : ℕ} (_hFr : ∀ c, Fr c = c ^ q) (hq : Function.Surjective Fr) :
     (rootSpan Tag.E6 Ω (a2Roots (a2PairE6 2).1 (a2PairE6 2).2)).map
         (CFSG.HardMathSupport.Lang.E6Descent.TwistedDiag.theta Fr) =
       rootSpan Tag.E6 Ω (a2Roots (a2PairE6 2).1 (a2PairE6 2).2) := by

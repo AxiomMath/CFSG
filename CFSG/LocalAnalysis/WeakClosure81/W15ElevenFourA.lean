@@ -55,8 +55,8 @@ theorem inf_centralizer_kHull15_eq_bot
 theorem card_eq_pow_three
     (c : Cfg1511 M V₀ V U S H P Q₀ p) (hX : XData15 V₀ U H Q₀ p X v)
     (hCV : V ⊓ centralizer (kHull15 V₀ H : Set G) = ⊥) : Nat.card ↥X = p ^ 3 := by
-  haveI : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
+  have : Fact p.Prime := ⟨c.prime⟩
   have hcardX : Nat.card ↥X = (iHull15 V₀ U H).relIndex Q₀ := by
     rw [nat_card_eq_of_complement hX.le hX.inf_eq hX.sup_eq, Subgroup.relIndex,
       Subgroup.index_eq_card]
@@ -65,7 +65,7 @@ theorem card_eq_pow_three
   · rw [hcardX, h]
   exfalso
   have hcardp : Nat.card ↥X = p := hcardX.trans h
-  haveI : IsCyclic ↥X := isCyclic_of_prime_card hcardp
+  have : IsCyclic ↥X := isCyclic_of_prime_card hcardp
   obtain ⟨⟨x, hxX⟩, hgen⟩ := IsCyclic.exists_generator (α := ↥X)
   have hx : x ^ p = 1 := by
     have h1 := congrArg Subtype.val

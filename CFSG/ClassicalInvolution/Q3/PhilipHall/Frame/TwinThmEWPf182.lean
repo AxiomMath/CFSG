@@ -57,7 +57,7 @@ theorem MinCexQ8.mem_of_conj_mem (c : MinCexQ8 Ω K S R W H) (hA : EtaAbelian Ω
 end MinCexQ8
 
 theorem etaAbelian_of_gen [Finite G] (hΩ : HypOmegaGen Ω) : EtaAbelian Ω :=
-  fun S _ hη hinv => (Sec6Gen.eta_abelian_of_cyc66 hΩ (Sec6Gen.cyc66 hΩ) hη hinv).1
+  fun _S _ hη hinv => (Sec6Gen.eta_abelian_of_cyc66 hΩ (Sec6Gen.cyc66 hΩ) hη hinv).1
 
 theorem etaMeet_of_gen [Finite G] (hΩ : HypOmegaGen Ω) : EtaMeet Ω :=
   fun S _ hη hηS _ hK h2 => Q3T8.Asc77.l6_11_proved G Ω hΩ S _ hη hηS _ hK h2

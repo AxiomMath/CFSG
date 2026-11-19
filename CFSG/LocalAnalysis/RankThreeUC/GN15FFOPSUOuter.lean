@@ -20,7 +20,7 @@ theorem mem_inner_of_uFactor_eq_one {m f : ℕ} {K : Type} [Field K]
     β ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner
       (StatedProj (StatedSU m (2 ^ f) K)) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hmemD :
       MulAut.congr (uTransport h (by omega : 1 ≤ m)) β ∈
         primeFormD h ((1 : GL (Fin m) K) : Matrix (Fin m) (Fin m) K) := by
@@ -48,7 +48,7 @@ theorem mem_inner_of_uFactor_eq_one {m f : ℕ} {K : Type} [Field K]
     (CFSG.ComponentClassification.OuterAutomorphisms.inner
       (primeFormP h ((1 : GL (Fin m) K) : Matrix (Fin m) (Fin m) K))).subgroupOf
       (primeFormD h ((1 : GL (Fin m) K) : Matrix (Fin m) (Fin m) K))
-  haveI : N.Normal := inferInstance
+  have : N.Normal := inferInstance
   let y : primeFormD h ((1 : GL (Fin m) K) : Matrix (Fin m) (Fin m) K) :=
     ⟨MulAut.congr (uTransport h (by omega : 1 ≤ m)) β, hmemD⟩
   have hy2 : (((QuotientGroup.mk' N) y : primeFormD h
@@ -97,11 +97,11 @@ theorem card_le_two_mul_card_inf_inner {m f : ℕ} {K : Type} [Field K]
       (MulAut.conj : StatedProj (StatedSU m (2 ^ f) K) →*
         MulAut (StatedProj (StatedSU m (2 ^ f) K))).range) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hn : 3 ≤ m := by omega
   have hq : ¬(m = 3 ∧ 2 ^ f = 2) := by omega
-  haveI : Finite (StatedProj (StatedSU m (2 ^ f) K)) := inferInstance
-  haveI : Finite (MulAut (StatedProj (StatedSU m (2 ^ f) K))) :=
+  have : Finite (StatedProj (StatedSU m (2 ^ f) K)) := inferInstance
+  have : Finite (MulAut (StatedProj (StatedSU m (2 ^ f) K))) :=
     Finite.of_injective (fun g : MulAut (StatedProj (StatedSU m (2 ^ f) K)) =>
         (g : StatedProj (StatedSU m (2 ^ f) K) ≃ StatedProj (StatedSU m (2 ^ f) K)))
       (fun g h gh => MulEquiv.ext fun z => congrArg (fun e => e z) gh)

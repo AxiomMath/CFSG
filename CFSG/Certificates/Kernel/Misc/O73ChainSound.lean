@@ -148,10 +148,10 @@ private theorem iso_dot {M : Matrix Idx Idx (ZMod 3)} (hM : Mᵀ * (gram * M) = 
 private theorem gram_mulVec (v : Idx → ZMod 3) : gram *ᵥ v = gv v := by
   funext a
   rcases a with k | k | u
-  · fin_cases k <;> simp [Matrix.mulVec, dotProduct, gram, gv, Fintype.sum_sum_type, Fin.sum_univ_three]
-  · fin_cases k <;> simp [Matrix.mulVec, dotProduct, gram, gv, Fintype.sum_sum_type, Fin.sum_univ_three]
+  · fin_cases k <;> simp [Matrix.mulVec, dotProduct, gram, gv, Fintype.sum_sum_type]
+  · fin_cases k <;> simp [Matrix.mulVec, dotProduct, gram, gv, Fintype.sum_sum_type]
   · cases u
-    simp [Matrix.mulVec, dotProduct, gram, gv, Fintype.sum_sum_type, Fin.sum_univ_three]
+    simp [Matrix.mulVec, dotProduct, gram, gv, Fintype.sum_sum_type]
 
 private theorem single_dot (a : Idx) (v : Idx → ZMod 3) : Pi.single a 1 ⬝ᵥ v = v a := by
   simp [dotProduct, Pi.single_apply]
@@ -208,10 +208,10 @@ theorem eq_one_of_fix {M : Matrix Idx Idx (ZMod 3)} (hM : Mᵀ * (gram * M) = gr
       by_cases hij : i = j
       · subst hij
         simp [hj]
-      · simp [Pi.single_apply, hij]
+      · simp [hij]
   have hdet : M.det = v z := by
     rw [hd, Matrix.det_diagonal]
-    simp [z, Fintype.prod_sum_type]
+    simp [z]
   have hc12 : ∀ c : ZMod 3, c * (2 * c) = 2 → c = 1 ∨ c = 2 := by decide
   rcases hc12 _ hsq with h1 | h2
   · rw [hd, h1]

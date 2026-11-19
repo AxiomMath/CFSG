@@ -90,7 +90,7 @@ theorem no_central_four_in_sylow {H : Type} [Group H] [Finite H]
   have hzn : (Subgroup.zpowers m').Normal :=
     Subgroup.normal_of_le_center ((Subgroup.zpowers_le).2 hm'c)
   have hm'S : m' ∈ (S : Subgroup C) := hzp.le_sylow_of_normal S (Subgroup.mem_zpowers m')
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hne : Q' ≠ (S : Subgroup C) := by
     intro h
     apply hmQ

@@ -192,11 +192,11 @@ theorem a1_centralizer_structure
     group
   refine ⟨fun hS2 => ⟨ψ, P, Z, hψinj, ⟨hPe⟩, hPψ hS2, hnorm, hZcomm, hcent⟩, fun hSsol => ?_⟩
   have hPsol : Group.IsSolvable P := by
-    haveI := hSsol
+    have := hSsol
     exact Group.isSolvable_of_isSolvable_injective (f := hPe.symm.toMonoidHom) hPe.symm.injective
   set PD : Subgroup D := P.comap ψ with hPD
-  haveI hPDsol : Group.IsSolvable PD := by
-    haveI := hPsol
+  have hPDsol : Group.IsSolvable PD := by
+    have := hPsol
     exact Group.isSolvable_of_isSolvable_injective
       (f := (ψ.comp PD.subtype).codRestrict P (fun y => y.2)) (fun a b hab =>
         Subtype.ext (hψinj (congrArg Subtype.val hab)))
@@ -210,7 +210,7 @@ theorem a1_centralizer_structure
   have hψM : ∀ y : D, ψ y ∈ H ⊔ Q := fun y => by
     have := hHQ y
     rwa [← Subgroup.coe_mul_of_left_le_normalizer_right _ _ hHle] at this
-  haveI : (Q.subgroupOf (H ⊔ Q)).Normal :=
+  have : (Q.subgroupOf (H ⊔ Q)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_right).2 hMle
   let g : D →* (H ⊔ Q : Subgroup (ModGL τ L)) ⧸ Q.subgroupOf (H ⊔ Q) :=
     (QuotientGroup.mk' (Q.subgroupOf (H ⊔ Q))).comp (ψ.codRestrict (H ⊔ Q) hψM)
@@ -232,7 +232,7 @@ theorem a1_centralizer_structure
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
     congr 1
     exact Subtype.ext (torusGroup_comm ha ha')
-  haveI : Group.IsSolvable ((H ⊔ Q : Subgroup (ModGL τ L)) ⧸ Q.subgroupOf (H ⊔ Q)) :=
+  have : Group.IsSolvable ((H ⊔ Q : Subgroup (ModGL τ L)) ⧸ Q.subgroupOf (H ⊔ Q)) :=
     Group.isSolvable_of_comm hcommq
   have hker : g.ker ≤ PD.subtype.range := by
     intro y hy

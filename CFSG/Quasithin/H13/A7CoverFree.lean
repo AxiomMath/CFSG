@@ -267,7 +267,7 @@ theorem isPGroup_inf_centralizer {T L V : Subgroup G} {ψ : V ≃* Multiplicativ
   have hPGcard : Nat.card PG = 27 := by
     rw [hPGdef, card_map_of_injective (subtype_injective _), hPcard]
   have hPGR : PG ≤ R := map_subtype_le _
-  have hPG3 : IsPGroup 3 PG := P.isPGroup'.map _
+  have hPG3 : IsPGroup 3 PG := P.isPGroup.map _
   have hkPG : k ∈ PG := ⟨⟨k, hkR⟩, hP (mem_zpowers _), rfl⟩
   have hPGnc : ¬ ∀ x ∈ PG, ∀ y ∈ PG, x * y = y * x := by
     intro hc

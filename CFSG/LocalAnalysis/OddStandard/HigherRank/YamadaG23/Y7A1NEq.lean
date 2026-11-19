@@ -9,7 +9,7 @@ namespace CFSG.OddStandard.HigherRank.YamadaG23
 open Subgroup
 
 theorem y7a_normal_eq {G : Type} [Group G] [Finite G] {N X H0 : Subgroup G} {t : G} {S : Set G}
-    (hXN : X ≤ N) (hH0X : H0 ≤ X) (hH0 : H0 = N ⊓ centralizer ({t} : Set G))
+    (hXN : X ≤ N) (_hH0X : H0 ≤ X) (hH0 : H0 = N ⊓ centralizer ({t} : Set G))
     (hX : Nat.card ↥X = 32 * Nat.card ↥H0) (hS : ∀ n ∈ N, n * t * n⁻¹ ∈ S)
     (hSc : Nat.card ↥S ≤ 52) : X = N := by
   have hNle : Nat.card ↥N ≤ Nat.card ↥S * Nat.card ↥H0 := y6_orbit_le hH0 hS

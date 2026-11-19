@@ -110,7 +110,7 @@ theorem _root_.CFSG.LocalAnalysis.RankThreeTheoremC.exists_sylow_of_normal_mul'
   obtain ⟨W₂, hW₂def⟩ : ∃ W₂ : Subgroup G, W₂ = (S₂ : Subgroup B).map B.subtype := ⟨_, rfl⟩
   have hW₂B : W₂ ≤ B := hW₂def ▸ Subgroup.map_subtype_le _
   have hW₂M : W₂ ≤ M := hW₂B.trans hBM
-  have hW₂p : IsPGroup 3 W₂ := hW₂def ▸ S₂.isPGroup'.map B.subtype
+  have hW₂p : IsPGroup 3 W₂ := hW₂def ▸ S₂.isPGroup.map B.subtype
   have hW₂sub : W₂.subgroupOf B = (S₂ : Subgroup B) := by
     rw [hW₂def]
     exact Subgroup.comap_map_eq_self_of_injective B.subtype_injective _
@@ -168,7 +168,7 @@ theorem _root_.CFSG.LocalAnalysis.RankThreeTheoremC.exists_sylow_of_normal_mul'
   have hW₂W : W₂ ≤ W := fun x hx => by
     rw [hWdef]
     exact ⟨⟨x, hW₂L hx⟩, hS (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
-  have hWp : IsPGroup 3 W := hWdef ▸ S.isPGroup'.map (C ⊔ W₂).subtype
+  have hWp : IsPGroup 3 W := hWdef ▸ S.isPGroup.map (C ⊔ W₂).subtype
   have hWsub : W.subgroupOf (C ⊔ W₂) = (S : Subgroup (C ⊔ W₂ : Subgroup G)) := by
     rw [hWdef]
     exact Subgroup.comap_map_eq_self_of_injective (C ⊔ W₂).subtype_injective _

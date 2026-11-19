@@ -52,7 +52,7 @@ public theorem S_normalizes_U (c : Hyp11 G) (g : G) (hg : g ∈ (c.S : Subgroup 
   have huU : u ∈ (pPrimeCore 2 c.H).map c.H.subtype := by
     simpa [Hyp11.U, oddCoreOf] using hu
   have huH : u ∈ c.H :=
-    SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
+    _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
   have hgH : g ∈ c.H := S_le_H c hg
   have hchar : (pPrimeCore 2 c.H).Characteristic :=
     pPrimeCore_characteristic (p := 2) (G := c.H)
@@ -344,8 +344,8 @@ public lemma S0_generator_normalizes_extensionSubgroup (c : Hyp11 G) (hSC : Sect
     group
   rw [hx']
   exact (extensionSubgroup c).mul_mem
-    (SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) hU)
-    (SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) hS)
+    (_root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) hU)
+    (_root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) hS)
 
 /-- Every element of `S0` lies in `S'` or in `r0·S'` (since `S0 = ⟨r0⟩` and
 `S' = ⟨r0²⟩` has index `2`). -/
@@ -365,7 +365,7 @@ public lemma S0_mem_SPrime_or_r0_mul (c : Hyp11 G) {g : G} (hg : g ∈ (c.S0 : S
       intro h
       exact hgSP (Subgroup.mem_subgroupOf.mp h)
     have hab : a * b ∈ (SPrime c).subgroupOf (c.S0 : Subgroup G) :=
-      hiff.mpr (by simpa [hr0, hb])
+      hiff.mpr (by simp [hr0, hb])
     exact (Subgroup.mem_subgroupOf.mp hab)
 
 /-- `X = S'·U` has index `2` in `H0 = U·S0` (the two cosets are `X` and
@@ -413,13 +413,13 @@ public lemma extensionSubgroup_index_two (c : Hyp11 G) (hSC : Section3Hyp c)
           group
         rw [hEq]
         exact (extensionSubgroup c).mul_mem
-          (SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) haU)
-          (SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) harSP)
+          (_root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) haU)
+          (_root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) harSP)
       · right
         rw [hbEq']
         exact (extensionSubgroup c).mul_mem
-          (SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2)
-          (SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) hrSP)
+          (_root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2)
+          (_root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) hrSP)
   simpa [Subgroup.relIndex] using hrelX
 
 /-- `X = S'·U ≃ U × S'` (a direct product, since `S'` centralizes `U`). -/
@@ -432,8 +432,8 @@ public noncomputable def extensionEquiv (c : Hyp11 G) (hSC : Section3Hyp c) :
         ⟨p.1, p.2⟩
       invFun := fun p => ⟨(p.1 : G) * (p.2 : G),
         (extensionSubgroup c).mul_mem
-          (SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) p.1.2)
-          (SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) p.2.2)⟩
+          (_root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) p.1.2)
+          (_root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) p.2.2)⟩
       left_inv := by
         intro x
         let p := Classical.choose (exists_decomp c hSC x)
@@ -446,15 +446,15 @@ public noncomputable def extensionEquiv (c : Hyp11 G) (hSC : Section3Hyp c) :
         let p' := Classical.choose (exists_decomp c hSC
           (⟨(p.1 : G) * (p.2 : G),
             (extensionSubgroup c).mul_mem
-              (SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) p.1.2)
-              (SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) p.2.2)⟩ :
+              (_root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) p.1.2)
+              (_root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) p.2.2)⟩ :
               ↥(extensionSubgroup c)))
         have hx : ((p.1 : G) * (p.2 : G)) = (p'.1 : G) * (p'.2 : G) :=
           Classical.choose_spec (exists_decomp c hSC
             (⟨(p.1 : G) * (p.2 : G),
               (extensionSubgroup c).mul_mem
-                (SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) p.1.2)
-                (SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) p.2.2)⟩ :
+                (_root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) p.1.2)
+                (_root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) p.2.2)⟩ :
                 ↥(extensionSubgroup c)))
         have hdecomp : (p'.1 : G) * (p'.2 : G) = (p.1 : G) * (p.2 : G) := hx.symm
         have hunique := decomp_unique c hdecomp
@@ -573,10 +573,10 @@ public lemma extensionChar_isIrreducible (c : Hyp11 G) (hSC : Section3Hyp c)
 public lemma extensionChar_restrict (c : Hyp11 G) (hSC : Section3Hyp c)
     (α : Irr (↥c.U)) (lam : ↥(SPrime c) →* ℂˣ) :
     ∀ u : ↥c.U, extensionChar c hSC α lam
-      ⟨(u : G), SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩ = α.1 u := by
+      ⟨(u : G), _root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩ = α.1 u := by
   intro u
   let x : ↥(extensionSubgroup c) :=
-    ⟨(u : G), SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩
+    ⟨(u : G), _root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩
   let p := Classical.choose (exists_decomp c hSC x)
   have hx : (x : G) = (p.1 : G) * (p.2 : G) := Classical.choose_spec (exists_decomp c hSC x)
   have hunique := decomp_unique c (u := p.1) (s := p.2) (u' := u) (s' := 1) (by
@@ -625,7 +625,7 @@ irreducible character of `U`. -/
 public theorem exists_irr_restrict_of_isIrreducible (c : Hyp11 G) (hSC : Section3Hyp c)
     {ξ : ClassFunction (↥(extensionSubgroup c))} (hξ : IsIrreducibleCharacter ξ) :
     ∃ α : Irr (↥c.U), ∀ u : ↥c.U,
-      ξ ⟨(u : G), SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩ =
+      ξ ⟨(u : G), _root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩ =
         α.1 u := by
   rcases exists_extensionChar_of_isIrreducible c hSC hξ with ⟨α, lam, hEq⟩
   refine ⟨α, ?_⟩
@@ -664,7 +664,7 @@ public lemma extensionChar_ind_restrict (c : Hyp11 G) (hSC : Section3Hyp c)
   ext u
   classical
   have huX : (u : G) ∈ extensionSubgroup c :=
-    SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2
+    _root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2
   let hx : ↥(extensionSubgroup c) := ⟨(u : G), huX⟩
   have hsh : (S0_generator c) * (u : G) * (S0_generator c)⁻¹ ∈ extensionSubgroup c :=
     S0_generator_normalizes_extensionSubgroup c hSC hx
@@ -684,7 +684,7 @@ public lemma extensionChar_ind_restrict (c : Hyp11 G) (hSC : Section3Hyp c)
     have hEqX : (⟨(S0_generator c) * (u : G) * (S0_generator c)⁻¹, hsh⟩ :
           ↥(extensionSubgroup c)) =
         ⟨(S0_generator c) * (u : G) * (S0_generator c)⁻¹,
-          SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) hUu⟩ := by
+          _root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) hUu⟩ := by
       apply Subtype.ext
       rfl
     rw [hEqX]
@@ -701,14 +701,14 @@ public lemma extensionChar_mul (c : Hyp11 G) (hSC : Section3Hyp c)
     (α : Irr (↥c.U)) (lam : ↥(SPrime c) →* ℂˣ) (u : ↥c.U) (s' : ↥(SPrime c)) :
     extensionChar c hSC α lam ⟨(u : G) * (s' : G),
       (extensionSubgroup c).mul_mem
-        (SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2)
-        (SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s'.2)⟩ =
+        (_root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2)
+        (_root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s'.2)⟩ =
       α.1 u * ((lam s' : ℂˣ) : ℂ) := by
   classical
   let x : ↥(extensionSubgroup c) := ⟨(u : G) * (s' : G),
     (extensionSubgroup c).mul_mem
-      (SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2)
-      (SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s'.2)⟩
+      (_root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2)
+      (_root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s'.2)⟩
   let p := Classical.choose (exists_decomp c hSC x)
   have hx : (x : G) = (p.1 : G) * (p.2 : G) := Classical.choose_spec (exists_decomp c hSC x)
   have hunique := decomp_unique c (u := p.1) (s := p.2) (u' := u) (s' := s') (by
@@ -728,7 +728,7 @@ public lemma extensionChar_injective (c : Hyp11 G) (hSC : Section3Hyp c)
   apply Subtype.ext
   funext u
   have h1 := congrFun h
-    ⟨(u : G), SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩
+    ⟨(u : G), _root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩
   rw [← extensionChar_restrict c hSC α lam u, h1, extensionChar_restrict c hSC β lam u]
 
 /-- For fixed `α`, the map `lam ↦ extensionChar α lam` is injective
@@ -740,13 +740,13 @@ public lemma extensionChar_lam_injective (c : Hyp11 G) (hSC : Section3Hyp c)
   intro s
   apply Units.ext
   have h1 := congrFun h ⟨(s : G),
-    SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2⟩
+    _root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2⟩
   have hL : extensionChar c hSC α lam ⟨(s : G),
-      SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2⟩ =
+      _root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2⟩ =
       α.1 1 * ((lam s : ℂˣ) : ℂ) := by
     simpa using extensionChar_mul c hSC α lam (1 : ↥c.U) s
   have hR : extensionChar c hSC α lam' ⟨(s : G),
-      SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2⟩ =
+      _root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2⟩ =
       α.1 1 * ((lam' s : ℂˣ) : ℂ) := by
     simpa using extensionChar_mul c hSC α lam' (1 : ↥c.U) s
   have hcast : ((lam s : ℂˣ) : ℂ) = ((lam' s : ℂˣ) : ℂ) := by
@@ -765,7 +765,7 @@ public lemma extensionChar_ne_of_ne_alpha (c : Hyp11 G) (hSC : Section3Hyp c)
   apply Subtype.ext
   funext u
   have h1 := congrFun hEq ⟨(u : G),
-    SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩
+    _root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩
   simpa [extensionChar_restrict c hSC α lam u, extensionChar_restrict c hSC β lam' u] using h1
 
 /-- Conjugation by `r0 = t1·t2` sends the extension of `α` by `lam` to the
@@ -811,8 +811,8 @@ public lemma extensionChar_conj_r0 (c : Hyp11 G) (hSC : Section3Hyp c)
           S0_generator_normalizes_extensionSubgroup c hSC x⟩ : ↥(extensionSubgroup c)) =
         ⟨((S0_generator c) * (p.1 : G) * (S0_generator c)⁻¹) * (p.2 : G),
           (extensionSubgroup c).mul_mem
-            (SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) hU)
-            (SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) p.2.2)⟩ by
+            (_root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) hU)
+            (_root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) p.2.2)⟩ by
         apply Subtype.ext
         exact hEq]
     exact extensionChar_mul c hSC α lam
@@ -822,8 +822,8 @@ public lemma extensionChar_conj_r0 (c : Hyp11 G) (hSC : Section3Hyp c)
     rw [show (x : ↥(extensionSubgroup c)) =
         ⟨(p.1 : G) * (p.2 : G),
           (extensionSubgroup c).mul_mem
-            (SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) p.1.2)
-            (SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) p.2.2)⟩ by
+            (_root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) p.1.2)
+            (_root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) p.2.2)⟩ by
         apply Subtype.ext
         exact hp]
     exact extensionChar_mul c hSC (conjIrrS c (c.S0_le_S (S0_generator_mem_S0 c)) α) lam p.1 p.2
@@ -1075,11 +1075,11 @@ public lemma extensionChar_ind_constituent_restrict_of_fixed (c : Hyp11 G)
   classical
   ext u
   have hx := extensionChar_ind_constituent_on_X_of_fixed c hSC h12 α lam hfix hσ hσin
-    ⟨(u : G), SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩
+    ⟨(u : G), _root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩
   have hval : σ ⟨(u : G), (h12.U_normal_in_H0).1 u.2⟩ = α.1 u := by
     rw [show (⟨(u : G), (h12.U_normal_in_H0).1 u.2⟩ : ↥c.H0) =
         ⟨(u : G), SPrimeMulU_le_H0 c
-          (SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2)⟩ by
+          (_root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2)⟩ by
           apply Subtype.ext
           rfl]
     simpa [extensionChar_restrict c hSC α lam u] using hx
@@ -1100,8 +1100,8 @@ public theorem exists_lambdaHom_extending_lam (c : Hyp11 G) (h12 : Hyp12 c)
   let e : H ≃* ↥(SPrime c) :=
     Subgroup.subgroupOfEquivOfLe (H := SPrime c) (K := c.S0) (SPrime_le_S0 c)
   let lamH : H →* ℂˣ := lam.comp e
-  have hsurj : Function.Surjective (MonoidHom.restrictHom H ℂˣ) :=
-    MonoidHom.restrict_surjective (G := ↥(c.S0 : Subgroup G)) (M := ℂ) H
+  have hsurj : Function.Surjective (MonoidHom.domRestrictHom H ℂˣ) :=
+    MonoidHom.domRestrict_surjective (G := ↥(c.S0 : Subgroup G)) (M := ℂ) H
   rcases hsurj lamH with ⟨φ, hφ⟩
   let l : LambdaHom c.H0 c.U := ⟨s0Char c h12 φ, s0Char_mem c h12 φ⟩
   refine ⟨l, ?_⟩
@@ -1146,8 +1146,8 @@ public lemma extensionChar_lambda_mul (c : Hyp11 G) (hSC : Section3Hyp c)
     simp
   have hxprod : x = ⟨(p.1 : G) * (p.2 : G),
       (extensionSubgroup c).mul_mem
-        (SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) p.1.2)
-        (SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) p.2.2)⟩ := by
+        (_root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) p.1.2)
+        (_root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) p.2.2)⟩ := by
     apply Subtype.ext
     exact hp
   calc
@@ -1162,7 +1162,7 @@ public lemma extensionChar_lambda_mul (c : Hyp11 G) (hSC : Section3Hyp c)
 
 /-- A `Λ`-character is constant on the `r0`-conjugacy within `X`: its value at
 `r0·x·r0⁻¹` equals its value at `x` (since `ℂˣ` is commutative). -/
-public lemma lambdaHom_conj_eq (c : Hyp11 G) (hSC : Section3Hyp c) (h12 : Hyp12 c)
+public lemma lambdaHom_conj_eq (c : Hyp11 G) (hSC : Section3Hyp c) (_h12 : Hyp12 c)
     (l : LambdaHom c.H0 c.U)
     {x : ↥(extensionSubgroup c)} :
     l.1 ⟨(S0_generator c) * (x : G) * (S0_generator c)⁻¹,
@@ -1182,7 +1182,7 @@ public lemma lambdaHom_conj_eq (c : Hyp11 G) (hSC : Section3Hyp c) (h12 : Hyp12 
     _ = l.1 b := by
           rw [map_mul, map_mul, map_inv]
           change ((l.1 a : ℂˣ) * (l.1 b : ℂˣ) * (l.1 a : ℂˣ)⁻¹) = (l.1 b : ℂˣ)
-          simp [mul_assoc, mul_comm, mul_left_comm]
+          simp [mul_assoc, mul_comm]
 
 /-- `λ₂` takes the value `-1` at the generator `r0 = t1·t2`. -/
 public theorem lambdaTwo_val_r0_eq_neg_one (c : Hyp11 G) (h12 : Hyp12 c) :

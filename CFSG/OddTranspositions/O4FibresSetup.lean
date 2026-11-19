@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 
 variable {D : Set G}
 
+omit [Finite G] in
 theorem mem_W_iff {u : G} {X : Subgroup G} {R : Subgroup X} [R.Normal] {huX : u ∈ X}
     {y : X} :
     y ∈ W D u X R huX ↔
@@ -25,10 +26,12 @@ theorem mem_W_iff {u : G} {X : Subgroup G} {R : Subgroup X} [R.Normal] {huX : u 
         QuotientGroup.mk' R y ≠ QuotientGroup.mk' R ⟨u, huX⟩ :=
   Iff.rfl
 
+omit [Finite G] in
 theorem W_subset_D {u : G} {X : Subgroup G} {R : Subgroup X} [R.Normal] {huX : u ∈ X}
     (y : X) (hy : y ∈ W D u X R huX) : (y : G) ∈ D :=
   (mem_W_iff.mp hy).1
 
+omit [Finite G] in
 theorem W_commute_u {u : G} {X : Subgroup G} {R : Subgroup X} [R.Normal] {huX : u ∈ X}
     (y : X) (hy : y ∈ W D u X R huX) : Commute (y : G) u :=
   (mem_W_iff.mp hy).2.1

@@ -44,7 +44,7 @@ theorem memA (g : alternatingGroup (Fin 6)) : Vector.ofFn ⇑(g : Perm (Fin 6)) 
   rw [List.mem_flatten]
   generalize hk : (g : Perm (Fin 6)) 0 = k
   fin_cases k
-  · exact ⟨_, by simp only [List.mem_cons, true_or, or_true], memA0 g hk⟩
+  · exact ⟨_, by simp only [List.mem_cons, true_or], memA0 g hk⟩
   · exact ⟨_, by simp only [List.mem_cons, true_or, or_true], memA1 g hk⟩
   · exact ⟨_, by simp only [List.mem_cons, true_or, or_true], memA2 g hk⟩
   · exact ⟨_, by simp only [List.mem_cons, true_or, or_true], memA3 g hk⟩

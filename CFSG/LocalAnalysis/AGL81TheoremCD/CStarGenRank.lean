@@ -16,7 +16,7 @@ theorem three_le_localRank_of_mem_sigmaA {p : ℕ}
     3 ≤ CFSG.Open.rankThreeLocalRank p G := by
   classical
   dsimp only [CFSG.Open.rankThreeSigmaA] at hp
-  split_ifs at hp <;> simp only [Set.mem_setOf_eq] at hp <;> omega
+  split_ifs at hp <;> simp only [Set.mem_ofPred_eq] at hp <;> omega
 
 theorem mem_sigmaA_of_four_le_localRank {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : 4 ≤ CFSG.Open.rankThreeLocalRank p G) :
@@ -34,7 +34,7 @@ theorem mem_sigmaA_of_four_le_localRank {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have hne : ({p : ℕ | p.Prime ∧ p ≠ 2 ∧ p ∣ Nat.card G ∧
       3 < CFSG.Open.rankThreeLocalRank p G} : Set ℕ).Nonempty := ⟨p, hS1⟩
   dsimp only [CFSG.Open.rankThreeSigmaA]
-  rw [if_pos hne]
+  rw [ite_eq_left hne]
   exact hS1
 
 theorem three_le_pRank_top_of_mem_sigmaA {p : ℕ}

@@ -373,14 +373,14 @@ theorem IsTypeJR.sylow_two_of_mem (hG : IsTypeJR G) (S : Sylow 2 G) {t : G}
       rw [inv_mul_eq_iff_eq_mul.mp h, mul_assoc, ht2, mul_one]
       exact hkL
   have hSLp : IsPGroup 2 ((Sg ⊓ L).subgroupOf L) :=
-    (S.isPGroup'.to_inf_left (K := L)).comap_subtype
+    (S.isPGroup.to_inf_left (K := L)).comap_subtype
   obtain ⟨P0, hP0⟩ := hSLp.exists_le_sylow
   set P : Subgroup G := (P0 : Subgroup L).map L.subtype with hP
   have hPL : P ≤ L := Subgroup.map_subtype_le _
   have hSLP : Sg ⊓ L ≤ P := by
     intro x hx
     exact ⟨⟨x, hx.2⟩, hP0 (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
-  have hPp : IsPGroup 2 P := P0.isPGroup'.map L.subtype
+  have hPp : IsPGroup 2 P := P0.isPGroup.map L.subtype
   have htp : IsPGroup 2 (Subgroup.zpowers t) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht, pow_one])
   have htN : Subgroup.zpowers t ≤ Subgroup.normalizer (P : Set G) := by

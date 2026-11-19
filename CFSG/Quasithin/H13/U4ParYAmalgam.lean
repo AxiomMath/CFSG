@@ -267,7 +267,7 @@ omit h in
 theorem isSylowTwoOf_top_of_sylow {Y : Type} [Group Y] [Finite Y] (P : Sylow 2 Y) :
     IsSylowTwoOf (P : Subgroup Y) ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   rw [show ((P : Subgroup Y).subgroupOf ⊤).index = (P : Subgroup Y).index from
     Subgroup.relIndex_top_right _]
   exact P.not_dvd_index

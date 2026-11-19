@@ -126,7 +126,7 @@ theorem κ_support {q : ModGL τ K} (hq : q ∈ Qθ τ K) {β : Fin τ.rank → 
   (heisCoord_spec τ D.L).support _ (Ψ_Qθ D hq) β hβ
 
 theorem frob_bc {q : ModGL τ K} (hq : q ∈ Qθ τ K) : frob (τ := τ) D.Fr (bc D q) = bc D q := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hfix : ∀ t : K, D.Fr (algebraMap K D.L t) = algebraMap K D.L t := by
     intro t
     rw [D.hFr, ← map_pow, Nat.card_eq_fintype_card, FiniteField.pow_card]
@@ -153,7 +153,7 @@ theorem frob_Ψ {q : ModGL τ K} (hq : q ∈ Qθ τ K) :
   rw [map_mul, map_mul, map_inv, frob_bc D hq, frob_g]
   group
 
-theorem κ_isSig (hw : w • highRoot τ = highRoot τ) {ε : (Fin τ.rank → ℤ) → D.L}
+theorem κ_isSig (_hw : w • highRoot τ = highRoot τ) {ε : (Fin τ.rank → ℤ) → D.L}
     (hε : MonomialProp w ε) {q : ModGL τ K} (hq : q ∈ Qθ τ K) : IsSig D ε (κ D q) := by
   refine ⟨fun β hβ => κ_support D hq hβ, fun β hβ => ?_⟩
   have hΨ := Ψ_Qθ D hq
@@ -178,8 +178,8 @@ theorem exists_lift (hw : w • highRoot τ = highRoot τ) {ε : (Fin τ.rank �
     funext ν
     rw [hxbc ν]
     by_cases hν : ν ∈ lst
-    · rw [if_pos hν]
-    · rw [if_neg hν]
+    · rw [ite_eq_left hν]
+    · rw [ite_eq_right hν]
       exact (hv.1 ν (fun h => hν ((hmem ν).2 h))).symm
   have hyQ : D.g * xb * D.g⁻¹ ∈ Qθ τ D.L := Lθ_conj_mem_Qθ D.g_mem hxbQ
   set y := D.g * xb * D.g⁻¹ with hy

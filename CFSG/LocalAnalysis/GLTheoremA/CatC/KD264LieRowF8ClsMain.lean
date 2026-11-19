@@ -73,7 +73,7 @@ theorem KD264F8ClsLin_holds : KD264F8ClsAt KD264F8IsLin := by
     refine ⟨rfl, ?_⟩
     rw [hq]
     norm_num
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let e : (TauCeti.CFSGIndex.lie ⟨.A n q, hd1⟩).Group ≃*
       projectiveSL (n + 1) (GaloisField q.p q.exponent) :=
     (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL n q hd1).trans
@@ -101,7 +101,7 @@ theorem KD264F8ClsSym_holds : KD264F8ClsAt KD264F8IsSym := by
       rintro rfl
       exact hk2 ⟨rfl, hq⟩
     have hn3 : 3 ≤ n := by omega
-    haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField
+    have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField
       (⟨TauCeti.LieTypeIndex.B n q, hd1⟩ : TauCeti.ValidLieTypeIndex)
     let e := CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivStatedProj n q hd1 hp2 hn3
     have hcardK : Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField

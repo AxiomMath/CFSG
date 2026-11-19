@@ -85,12 +85,12 @@ theorem twPhi_lang {L : Type} [Field L] [IsAlgClosed L] {Fr : L →+* L} {q : �
     by_cases hij : i = j
     · subst hij
       simp
-    · simp [hij, Pi.single_apply, Ne.symm hij]
+    · simp [hij, Ne.symm hij]
   obtain ⟨a, ha⟩ := exists_rootChar_rows_eq (τ := Tag.E6) (L := L) hNdet (fun l => (z l)⁻¹)
   refine ⟨a, funext fun l => ?_⟩
   have h1 := ha l
   have hsingle : ∏ j, a j ^ (Pi.single l 1 : Fin Tag.E6.rank → ℤ) j = a l := by
-    rw [Finset.prod_eq_single l (fun j _ hj => by simp [Pi.single_apply, hj])
+    rw [Finset.prod_eq_single l (fun j _ hj => by simp [hj])
       (fun h => absurd (Finset.mem_univ l) h)]
     simp
   have h2 : FourGroupChevalley.rootChar a (N l) = a l / twPhi Fr ω a l := by
@@ -110,20 +110,20 @@ theorem exists_finite_subfield_frob {p f : ℕ} (hp : p.Prime) {K : Type} [Field
       (∀ c : K₃, φ c = c ^ (p ^ f)) ∧ K₃.subtype.comp φ = Fr.comp K₃.subtype ∧
       φ.comp ι₃ = ι₃.comp σ.toRingHom := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hKp : CharP K p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have hKp : CharP K p :=
     charP_of_card_eq_prime_pow (f := f * 2)
       (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   obtain ⟨K₃, hK₃, hSK₃, hιK₃⟩ := exists_finite_subfield_of_finset (K := K) S
-  haveI : Finite K₃ := hK₃
+  have : Finite K₃ := hK₃
   have hιK : ∀ x : K, algebraMap K (AlgebraicClosure K) x ∈ K₃ := fun x => hιK₃ ⟨x, rfl⟩
   obtain ⟨ι₃, hιι⟩ : ∃ ι₃ : K →+* K₃,
       K₃.subtype.comp ι₃ = algebraMap K (AlgebraicClosure K) :=
     ⟨(algebraMap K (AlgebraicClosure K)).codRestrict K₃ hιK, RingHom.ext fun x => rfl⟩
-  haveI : CharP K₃ p := Subfield.charP K₃ p
+  have : CharP K₃ p := Subfield.charP K₃ p
   obtain ⟨φ, hφdef⟩ : ∃ φ : K₃ →+* K₃, φ = iterateFrobenius K₃ p f := ⟨_, rfl⟩
   have hφq : ∀ c : K₃, φ c = c ^ (p ^ f) := fun c => by
     rw [hφdef, iterateFrobenius_def]
@@ -150,7 +150,7 @@ theorem tw_torus_conj_fixed {p f : ℕ} (hp : p.Prime)
   set L := AlgebraicClosure K with hL
   obtain ⟨K₃, hK₃, ι₃, φ, hSK₃, hιι, hφq, hφL, hφι⟩ := exists_finite_subfield_frob hp hK σ hσ Fr hFr
     (Finset.univ.image fun l => ((u l : Lˣ) : L))
-  haveI : Finite K₃ := hK₃
+  have : Finite K₃ := hK₃
   have huK : ∀ l, ((u l : Lˣ) : L) ∈ K₃ := fun l =>
     hSK₃ (Finset.mem_coe.2 (Finset.mem_image.2 ⟨l, Finset.mem_univ l, rfl⟩))
   obtain ⟨u₃, hu₃⟩ : ∃ u₃ : Fin Tag.E6.rank → K₃ˣ,
@@ -228,8 +228,8 @@ theorem exists_primCubeRoot_of_charP {L : Type} [Field L] [IsAlgClosed L] {p : �
     intro h
     have : p ∣ 3 := (CharP.cast_eq_zero_iff L p 3).1 h
     exact hp3 ((Nat.prime_dvd_prime_iff_eq Fact.out Nat.prime_three).1 this)
-  haveI : NeZero ((3 : ℕ) : L) := ⟨hne3⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  have : NeZero ((3 : ℕ) : L) := ⟨hne3⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   have hζu : IsUnit ζ := hζ.isUnit (by norm_num)
   exact ⟨hζu.unit, by rw [IsUnit.unit_spec]; exact hζ⟩
 
@@ -269,9 +269,9 @@ theorem tw_exists_class_element {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
       g0 * t * g0⁻¹ ∉ (twistedE6RootGroup K σ).map
         (baseChangeGL (algebraMap K (AlgebraicClosure K))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hKp : CharP K p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have hKp : CharP K p :=
     charP_of_card_eq_prime_pow (f := f * 2)
       (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   have hp3 : p ≠ 3 := by
@@ -279,7 +279,7 @@ theorem tw_exists_class_element {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
     have : 3 ∣ 3 ^ f := dvd_pow_self 3 (by omega)
     omega
   have hq2 : 2 ≤ p ^ f := le_trans hp.two_le (Nat.le_self_pow (by omega) p)
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   obtain ⟨ζ, hζ⟩ := exists_primCubeRoot_of_charP (L := AlgebraicClosure K) hp3
   have hζ3 : ζ ^ 3 = 1 := Units.ext (by simpa using hζ.pow_eq_one)

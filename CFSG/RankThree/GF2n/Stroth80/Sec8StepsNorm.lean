@@ -13,6 +13,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem conjSubgroup_Rt_le_of_forall {L : Subgroup G} {t ν : G}
     (h : ∀ m ∈ M, t ∈ conjSubgroup m L → conjSubgroup (ν * m) L ≤ Rt M L t) :
     conjSubgroup ν (Rt M L t) ≤ Rt M L t := by

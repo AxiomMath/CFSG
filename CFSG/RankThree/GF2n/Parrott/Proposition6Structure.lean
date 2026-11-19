@@ -20,6 +20,7 @@ open CFSG.OddStandard.SmallF3.HarrisU33
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem inSubgroup_pCore_two_le_twoThreeCore (Y : Subgroup G) :
     inSubgroup (CFSG.pCore 2) Y ≤ twoThreeCore Y := by
   intro x hx
@@ -35,6 +36,7 @@ theorem inSubgroup_pCore_two_le_twoThreeCore (Y : Subgroup G) :
   rw [hmk]
   exact (CFSG.pCore 3 (↥Y ⧸ CFSG.pCore 2 ↥Y)).one_mem
 
+omit [Finite G] in
 theorem sl23Pair_of_local {M L1 L2 : Subgroup G}
     (hcomm : ∀ x ∈ L1, ∀ y ∈ L2, x * y = y * x)
     (hsup : L1 ⊔ L2 = M)
@@ -90,6 +92,7 @@ variable {K : Type} [Group K] [Finite K] {A B : Subgroup K} (h : SL23Pair K A B)
 
 include h
 
+omit [Finite K] in
 theorem not_map_A_A_B_A (α : MulAut K) (hA : ∀ a ∈ A, α a ∈ A)
     (hB : ∀ b ∈ B, α b ∈ A) : False := by
   have hK : (⊤ : Subgroup K) = A.map (α : K →* K) ⊔ B.map (α : K →* K) := by
@@ -106,6 +109,7 @@ theorem not_map_A_A_B_A (α : MulAut K) (hA : ∀ a ∈ A, α a ∈ A)
   exact h.gen_ne_one (Sum.inr 0)
     (h.eq_one_of_mem_inf ⟨hgenA, h.gen_mem_B 0⟩ (h.gen_pow_three _))
 
+omit [Finite K] in
 theorem not_map_A_B_B_B (α : MulAut K) (hA : ∀ a ∈ A, α a ∈ B)
     (hB : ∀ b ∈ B, α b ∈ B) : False := by
   have hK : (⊤ : Subgroup K) = A.map (α : K →* K) ⊔ B.map (α : K →* K) := by
@@ -143,6 +147,7 @@ variable {K : Type} [Group K] [Finite K] {A B : Subgroup K} (h : SL23Pair K A B)
 
 include h
 
+omit [Finite K] in
 theorem center_sq_one {z : K} (hz : z ∈ Subgroup.center K) : z * z = 1 := by
   obtain ⟨a, ha, b, hb, rfl⟩ := h.exists_mul z
   have hz_comm : ∀ g : K, (a * b) * g = g * (a * b) :=
@@ -215,6 +220,7 @@ open Subgroup
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem centralizer_le_of_pair {M A B : Subgroup X} [M.Normal]
     (hpair : CFSG.OddStandard.SmallF3.Omega.K5.SL23Pair ↥M (A.subgroupOf M) (B.subgroupOf M))
     (hquot2 : ∀ x : X ⧸ M, x ^ 2 = 1)
@@ -274,8 +280,8 @@ theorem p6_core_structure
     (hL1 : Nonempty (↥L1 ≃* CFSG.OddStandard.Solomon75.SL23))
     (hL2 : Nonempty (↥L2 ≃* CFSG.OddStandard.Solomon75.SL23))
     (hcomm : ∀ x ∈ L1, ∀ y ∈ L2, x * y = y * x)
-    (hinf1 : L1 ⊓ L2 = (Subgroup.center L1).map L1.subtype)
-    (hinf2 : L1 ⊓ L2 = (Subgroup.center L2).map L2.subtype)
+    (_hinf1 : L1 ⊓ L2 = (Subgroup.center L1).map L1.subtype)
+    (_hinf2 : L1 ⊓ L2 = (Subgroup.center L2).map L2.subtype)
     (hsup : L1 ⊔ L2 = twoThreeCore (H z))
     (hquot2 : ∀ x : ↥(H z) ⧸
       (twoThreeCore (H z)).subgroupOf (H z), x ^ 2 = 1) :

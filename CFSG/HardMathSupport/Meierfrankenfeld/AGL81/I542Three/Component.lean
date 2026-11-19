@@ -46,7 +46,7 @@ theorem center_eq_bot_of_layerType {R : Type} [Group R] [Finite R] [Group.IsPerf
     have hr3 : r ≠ 3 := by
       rintro rfl
       exact h3 hrZ
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     have hdvd : r ^ k ∣ Nat.card (R ⧸ Subgroup.center R) := by
       rw [← hk]
       exact Subgroup.card_subgroup_dvd_card _

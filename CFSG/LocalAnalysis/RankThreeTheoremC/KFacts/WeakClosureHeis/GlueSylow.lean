@@ -66,7 +66,7 @@ theorem exists_sylow_map_subtype [Fact p.Prime] {X : Type*} [Group X] [Finite X]
     exact h5
   have hpg : IsPGroup p ((Q : Subgroup X).subgroupOf K) := by
     rw [← Subgroup.comap_subtype]
-    exact Q.isPGroup'.comap_subtype
+    exact Q.isPGroup.comap_subtype
   have hnd : ¬ p ∣ ((Q : Subgroup X).subgroupOf K).index := by
     rw [hidx]
     exact Q.not_dvd_index
@@ -98,7 +98,7 @@ theorem pRank_top_eq_of_sylow [Fact p.Prime] {K : Type*} [Group K] [Finite K] (S
   · rintro ⟨E, -, hE, hcard⟩
     exact ⟨E, le_top, hE, hcard⟩
 
-theorem pRank_map_subtype_eq (hp : p.Prime) {X : Type*} [Group X] [Finite X] (K : Subgroup X) (S : Subgroup ↥K) :
+theorem pRank_map_subtype_eq (_hp : p.Prime) {X : Type*} [Group X] [Finite X] (K : Subgroup X) (S : Subgroup ↥K) :
     CFSG.Open.pRank p (S.map K.subtype) = CFSG.Open.pRank p S := by
   unfold CFSG.Open.pRank
   congr 1

@@ -68,7 +68,7 @@ theorem two_odd_distinct (S : Sylow 2 H) (s : Set X) (u v : X)
   have hc : Nat.card (fixedPoints S (SylowThreeFixedOrbits.orbitAction (S : Subgroup H) u)) = 2 := by
     rw [Nat.card_congr (fixedOrbitEquiv (S : Subgroup H) u), Nat.card_coe_set_eq, he]
     simp [huv]
-  have hm := S.isPGroup'.card_modEq_card_fixedPoints
+  have hm := S.isPGroup.card_modEq_card_fixedPoints
     (SylowThreeFixedOrbits.orbitAction (S : Subgroup H) u)
   change Nat.card (orbit H u) % 2 = _ at hm
   rw [hc] at hm

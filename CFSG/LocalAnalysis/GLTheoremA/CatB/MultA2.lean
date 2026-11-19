@@ -30,7 +30,7 @@ theorem key_center {S : Type} [Group S] [Finite J] (ψ : J →* S) (R : Subgroup
     (hZ : ∀ k : J, ψ k = 1 → ∃ a : ℕ, k ^ (3 ^ a) ∈ Subgroup.center J) :
     ψ.ker = R ∧ Subgroup.center J = R := by
   classical
-  haveI : Nontrivial (J ⧸ R) := hQs.toNontrivial
+  have : Nontrivial (J ⧸ R) := hQs.toNontrivial
   have hRord : ∀ r ∈ R, Nat.Coprime 3 (orderOf r) := by
     intro r hr
     have hd : orderOf (⟨r, hr⟩ : R) ∣ Nat.card R := orderOf_dvd_natCard _

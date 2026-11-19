@@ -16,8 +16,8 @@ open scoped commutatorElement
 theorem kdLieRowSp4EightField_holds : KDLieRowSp4EightField := by
   intro q hv hq α hα3 hαin I hI
   obtain ⟨e⟩ := bridge_B2 q hv hq
-  haveI : Finite ↥(StatedSp 2 F8) := inferInstance
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.B 2 q, hv⟩).Group :=
+  have : Finite ↥(StatedSp 2 F8) := inferInstance
+  have : Finite (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.B 2 q, hv⟩).Group :=
     Finite.of_equiv _ e.symm.toEquiv
   let eT : (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.B 2 q, hv⟩).Group ≃* TF :=
     e.trans eQ.symm
@@ -64,11 +64,11 @@ theorem kdLieRowSp4EightFreeBlock_of_FPF (hL : KDLieRowSp4EightFPFLayer) :
     KDLieRowSp4EightFreeBlock := by
   intro A hA3 hP I hI
   obtain ⟨N, hNC, hcomm, ⟨eN⟩⟩ := hL A hA3 hP
-  haveI : Finite ↥(StatedSp 2 (GaloisField 2 3)) := inferInstance
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
-  haveI : IsSimpleGroup ↥(StatedSL 2 (GaloisField 2 3)) :=
+  have : Finite ↥(StatedSp 2 (GaloisField 2 3)) := inferInstance
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  have : IsSimpleGroup ↥(StatedSL 2 (GaloisField 2 3)) :=
     isSimpleGroup_SL2 (K := GaloisField 2 3) card_F8
-  haveI : IsSimpleGroup ↥N := eN.isSimpleGroup
+  have : IsSimpleGroup ↥N := eN.isSimpleGroup
   have hIN : I ≤ N := by
     calc I = ⁅I, I⁆ := (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hI).symm
       _ ≤ ⁅Subgroup.centralizer ({A} : Set ↥(StatedSp 2 (GaloisField 2 3))),

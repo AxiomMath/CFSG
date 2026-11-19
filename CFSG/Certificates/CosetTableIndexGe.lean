@@ -23,10 +23,10 @@ private theorem cosetIdxGe_mem_block_fst {ws : List (List (Fin m × Bool))} {i :
     {x : Fin m × Bool}
     (h : x ∈ (if isInvol ws i then [(i, true)] else [(i, true), (i, false)])) : x.1 = i := by
   by_cases hi : isInvol ws i
-  · rw [if_pos hi] at h
+  · rw [ite_eq_left hi] at h
     simp only [List.mem_singleton] at h
     exact congrArg Prod.fst h
-  · rw [if_neg hi] at h
+  · rw [ite_eq_right hi] at h
     simp only [List.mem_cons] at h
     rcases h with h | h
     · exact congrArg Prod.fst h
@@ -92,7 +92,7 @@ private theorem cosetIdxGe_colCode_cols {ws : List (List (Fin m × Bool))} {y : 
     List.getElem_idxOf (xs := cols ws) (x := (cols ws)[y]) hidx
   exact hnd.getElem_inj.mp h1
 
-def basefixCheck (ws : List (List (Fin m × Bool))) (S : List ℕ) (k : ℕ) (st : St) : Bool :=
+def basefixCheck (ws : List (List (Fin m × Bool))) (S : List ℕ) (_k : ℕ) (st : St) : Bool :=
   (subsetOf m S).all fun x =>
     let y := colCode ws (x, true)
     let L := (cols ws).length
@@ -105,7 +105,7 @@ private def cosetIdxGe_reachProp (L : ℕ) (st : St) (c : ℕ) : Prop :=
 
 private def cosetIdxGe_reachBFS (L : ℕ) (st : St) : ℕ → List ℕ → Array Bool → Array Bool
   | 0, _, vis => vis
-  | fuel + 1, [], vis => vis
+  | _fuel + 1, [], vis => vis
   | fuel + 1, c :: q, vis =>
     if vis.getD c false then cosetIdxGe_reachBFS L st fuel q vis
     else
@@ -114,7 +114,7 @@ private def cosetIdxGe_reachBFS (L : ℕ) (st : St) : ℕ → List ℕ → Array
       let q := row.filter (fun d => 0 < d && d < st.next) ++ q
       cosetIdxGe_reachBFS L st fuel q vis
 
-def cosetReachCheck (ws : List (List (Fin m × Bool))) (S : List ℕ) (k : ℕ) (st : St) : Bool :=
+def cosetReachCheck (ws : List (List (Fin m × Bool))) (_S : List ℕ) (_k : ℕ) (st : St) : Bool :=
   let L := (cols ws).length
   let vis := cosetIdxGe_reachBFS L st (st.next * L + 2) [1] (Array.replicate (st.next + 1) false)
   (List.range st.next).all fun c => !(st.live c) || vis.getD c false
@@ -164,9 +164,9 @@ private theorem cosetIdxGe_reachBFS_sound (L : ℕ) (st : St) :
       have hq' : ∀ c ∈ q', cosetIdxGe_reachProp L st c := fun c hc => hq c (List.mem_cons_of_mem _ hc)
       rw [cosetIdxGe_reachBFS] at hc
       by_cases hvis : vis.getD hd false = true
-      · rw [if_pos hvis] at hc
+      · rw [ite_eq_left hvis] at hc
         exact ih q' vis hv hq' c hc
-      · rw [if_neg hvis] at hc
+      · rw [ite_eq_right hvis] at hc
         refine ih _ _ ?_ ?_ c hc
         · intro c' hc'
           by_cases hcc : hd = c'
@@ -250,17 +250,17 @@ theorem le_index_of_orderCheckLB {ws : List (List (Fin m × Bool))} {S : List �
   have hOC : orderCheck ws S k cap n words fuel = true := by
     have h' := h
     unfold orderCheckLB at h'
-    simp only [Bool.and_eq_true, List.all_eq_true, beq_iff_eq] at h'
+    simp only [Bool.and_eq_true] at h'
     exact h'.1.1
   have hbf : basefixCheck ws S k st = true := by
     have h' := h
     unfold orderCheckLB at h'
-    simp only [Bool.and_eq_true, List.all_eq_true, beq_iff_eq] at h'
+    simp only [Bool.and_eq_true] at h'
     simpa only [st, P, cosetIdxGe_state, cosetIdxGe_params, cosetIdxGe_subWords] using h'.1.2
   have hr : cosetReachCheck ws S k st = true := by
     have h' := h
     unfold orderCheckLB at h'
-    simp only [Bool.and_eq_true, List.all_eq_true, beq_iff_eq] at h'
+    simp only [Bool.and_eq_true] at h'
     simpa only [st, P, cosetIdxGe_state, cosetIdxGe_params, cosetIdxGe_subWords] using h'.2
   have hc : st.complete P.L = true := by
     have h' := hOC
@@ -318,8 +318,8 @@ theorem le_index_of_orderCheckLB {ws : List (List (Fin m × Bool))} {S : List �
     exact relsClosed_spec hrel hl (List.mem_map_of_mem hv)
   obtain ⟨ψ, hψ⟩ := exists_action_step ws (fun c => st.live c = true) δ hlive hinv hrel'
   let base : LiveNames st := ⟨1, St.live_one hc⟩
-  letI : SMul (PG m ws) (LiveNames st) := ⟨fun g c => (ψ g⁻¹).unop c⟩
-  letI : MulAction (PG m ws) (LiveNames st) :=
+  let : SMul (PG m ws) (LiveNames st) := ⟨fun g c => (ψ g⁻¹).unop c⟩
+  let : MulAction (PG m ws) (LiveNames st) :=
     { one_smul := fun c => by
         change (ψ (1 : PG m ws)⁻¹).unop c = c
         rw [inv_one, map_one]; rfl

@@ -71,7 +71,7 @@ theorem mem_twInndiagAut_iff {f : ℕ}
       ∃ (g : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)))
         (b : ↥(TableB.TwE6.compat (frobQ 2 f))),
         δ = MulAut.conj g * RootCentExc.compatParamAut (frobQ 2 f) b := by
-  haveI : (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)) →*
+  have : (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)) →*
       MulAut ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))).range.Normal :=
     RootCentExc.normal_range_mulAutConj
   change δ ∈ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
@@ -95,9 +95,9 @@ theorem exists_conj_compatParamAut_fixed {f : ℕ} {k K : Type} [Field k] [Field
       (MulAut.conj s * RootCentExc.compatParamAut σ b)
         (stdRepC (apply_apply_eq hK hσ) 0) = stdRepC (apply_apply_eq hK hσ) 0 := by
   classical
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Finite K := finite_of_card hK
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Finite K := finite_of_card hK
+  have : Fintype k := Fintype.ofFinite k
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   set C₀ := graphFixedRootGroup TwistTag.E6 K σ with hC₀
   set t : C₀ := stdRepC (apply_apply_eq hK hσ) 0 with ht
@@ -167,7 +167,7 @@ private theorem isPGroup_tRadical_subgroupOf {f : ℕ} {k K : Type} [Field k] [F
     IsPGroup 2 ((tRadical σ).subgroupOf (graphFixedRootGroup TwistTag.E6 K σ)) := by
   obtain ⟨-, hT⟩ := even_E6_graph_highest_root_normalizer f hf k K hk hK σ hσ
   obtain ⟨S, hS⟩ := hT.2.2.2.2.2.2.2.2.2.1
-  refine S.isPGroup'.to_le ?_
+  refine S.isPGroup.to_le ?_
   rw [hS]
   intro x hx
   rw [Subgroup.mem_subgroupOf] at hx ⊢
@@ -181,8 +181,8 @@ private theorem pCoreOf_centralizer_stdRepC {f : ℕ} {k K : Type} [Field k] [Fi
       Set (graphFixedRootGroup TwistTag.E6 K σ))) =
       (tRadical σ).subgroupOf (graphFixedRootGroup TwistTag.E6 K σ) := by
   set C₀ := graphFixedRootGroup TwistTag.E6 K σ with hC₀
-  haveI : Finite K := finite_of_card hK
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite K := finite_of_card hK
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hCx : Subgroup.centralizer ({stdRepC (apply_apply_eq hK hσ) 0} : Set C₀) =
       (tRadical σ).subgroupOf C₀ ⊔ (su6Levi σ).subgroupOf C₀ :=
     centralizer_stdRepC_zero_eq (k := k) hf hk hK hσ
@@ -198,7 +198,7 @@ private theorem pCoreOf_centralizer_stdRepC {f : ℕ} {k K : Type} [Field k] [Fi
   have hQ2 : IsPGroup 2 ((tRadical σ).subgroupOf C₀) :=
     isPGroup_tRadical_subgroupOf hf hk hK hσ
   have hZ : Subgroup.center ↥((su6Levi σ).subgroupOf C₀) = ⊥ := by
-    haveI : IsSimpleGroup (su6Levi σ) := isSimpleGroup_su6Levi (σ := σ) hf hk hK hσ
+    have : IsSimpleGroup (su6Levi σ) := isSimpleGroup_su6Levi (σ := σ) hf hk hK hσ
     have hnc : ∃ a b : su6Levi σ, a * b ≠ b * a := by
       by_contra hc
       push Not at hc
@@ -334,7 +334,7 @@ private theorem mapsTo_tRadical_of_fix_twE6 {f : ℕ} (hf : 1 ≤ f)
     rw [GaloisField.card 2 (2 * f) (by omega), ← pow_mul, mul_comm]
   have hσ : ∀ c, frobQ 2 f c = c ^ 2 ^ f := fun c => frobQ_apply 2 f c
   obtain ⟨ι⟩ := CFSG.LieType.Chevalley.E6GraphFullCoset.nonempty_ringHom_of_card hf hk hK
-  letI : Algebra (GaloisField 2 f) (GaloisField 2 (2 * f)) := ι.toAlgebra
+  let : Algebra (GaloisField 2 f) (GaloisField 2 (2 * f)) := ι.toAlgebra
   have hA : stdRepC (apply_apply_eq hK hσ) 0 =
       stdRepC (frobQ_frobQ 2 f hf) 0 := Subtype.ext rfl
   have hδt' : δ.toMonoidHom (stdRepC (apply_apply_eq hK hσ) 0) =
@@ -371,7 +371,7 @@ private theorem su6Levi_subgroupOf_le_normalizer {f : ℕ} (hf : 1 ≤ f) :
     rw [GaloisField.card 2 (2 * f) (by omega), ← pow_mul, mul_comm]
   have hσ : ∀ c, frobQ 2 f c = c ^ 2 ^ f := fun c => frobQ_apply 2 f c
   obtain ⟨ι⟩ := CFSG.LieType.Chevalley.E6GraphFullCoset.nonempty_ringHom_of_card hf hk hK
-  letI : Algebra (GaloisField 2 f) (GaloisField 2 (2 * f)) := ι.toAlgebra
+  let : Algebra (GaloisField 2 f) (GaloisField 2 (2 * f)) := ι.toAlgebra
   obtain ⟨-, hLN, -⟩ := centralizer_stdRep_zero_inf_eq (k := GaloisField 2 f) hf hk hK hσ
   intro x hx
   rw [Subgroup.mem_subgroupOf] at hx
@@ -426,7 +426,7 @@ private theorem exists_decomp_of_mem_twInndiagAut_of_fix {f : ℕ} (hf : 1 ≤ f
     rw [GaloisField.card 2 (2 * f) (by omega), ← pow_mul, mul_comm]
   have hσ : ∀ c, frobQ 2 f c = c ^ 2 ^ f := fun c => frobQ_apply 2 f c
   obtain ⟨ι⟩ := CFSG.LieType.Chevalley.E6GraphFullCoset.nonempty_ringHom_of_card hf hk hK
-  letI : Algebra (GaloisField 2 f) (GaloisField 2 (2 * f)) := ι.toAlgebra
+  let : Algebra (GaloisField 2 f) (GaloisField 2 (2 * f)) := ι.toAlgebra
   have hA : stdRepC (apply_apply_eq hK hσ) 0 =
       stdRepC (frobQ_frobQ 2 f hf) 0 := Subtype.ext rfl
   have hδt' : δ (stdRepC (apply_apply_eq hK hσ) 0) =
@@ -580,7 +580,7 @@ theorem kgPiecesD_stdRepC_twE6_of {f : ℕ} (hf : 1 ≤ f)
     (hφ : Function.Surjective φ)
     (hLm : LargeEvenMarking ↥((su6Levi (frobQ 2 f)).subgroupOf
         (graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)))
-      (fun lab R _ I _ θ => GGChevStTag lab ∧ ∀ α ∈ KGND.suConjSet φ, ∃ ψ ∈ I,
+      (fun lab _R _ I _ θ => GGChevStTag lab ∧ ∀ α ∈ KGND.suConjSet φ, ∃ ψ ∈ I,
         ∀ y : ↥((su6Levi (frobQ 2 f)).subgroupOf
           (graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))),
           ψ (θ (QuotientGroup.mk y)) = θ (QuotientGroup.mk (α y))))
@@ -599,7 +599,7 @@ theorem kgPiecesD_stdRepC_twE6_of {f : ℕ} (hf : 1 ≤ f)
     rw [GaloisField.card 2 (2 * f) (by omega), ← pow_mul, mul_comm]
   have hσ : ∀ c, frobQ 2 f c = c ^ 2 ^ f := fun c => frobQ_apply 2 f c
   obtain ⟨ι⟩ := CFSG.LieType.Chevalley.E6GraphFullCoset.nonempty_ringHom_of_card hf hk hK
-  letI : Algebra (GaloisField 2 f) (GaloisField 2 (2 * f)) := ι.toAlgebra
+  let : Algebra (GaloisField 2 f) (GaloisField 2 (2 * f)) := ι.toAlgebra
   refine KGND.kgPiecesD_of_decomp (𝒟 := LayerSixE.twInndiagAut f)
     (z := stdRepC (frobQ_frobQ 2 f hf) 0)
     (Q := (tRadical (frobQ 2 f)).subgroupOf

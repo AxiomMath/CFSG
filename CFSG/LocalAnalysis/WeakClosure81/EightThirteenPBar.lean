@@ -16,11 +16,13 @@ section Bar
 
 variable {H C : Subgroup G} {Q : Type} [Group Q] {φ : ↥H →* Q}
 
+omit [Finite G] in
 private theorem wc813pbar_barPre_mono {A B : Subgroup Q} (hAB : A ≤ B) :
     barPre H φ A ≤ barPre H φ B := fun _ hg =>
   let ⟨hgH, hgA⟩ := mem_barPre.mp hg
   mem_barPre.mpr ⟨hgH, hAB hgA⟩
 
+omit [Finite G] in
 private theorem wc813pbar_barSub_mono {A B : Subgroup G} (hAB : A ≤ B) :
     barSub H φ A ≤ barSub H φ B := fun _ hx =>
   let ⟨a, haA, hax⟩ := mem_barSub.mp hx
@@ -35,11 +37,13 @@ private def wc813pbar_proj (H : Subgroup G) {Q : Type} [Group Q] (φ : ↥H →*
     rw [MonoidHom.comp_apply, h]
     exact hgX
 
+omit [Finite G] in
 private theorem wc813pbar_proj_apply (H : Subgroup G) {Q : Type} [Group Q] (φ : ↥H →* Q)
     (Xb : Subgroup Q) (g : ↥(barPre H φ Xb)) :
     (wc813pbar_proj H φ Xb g : Q) =
       φ (Subgroup.inclusion (barPre_le H φ Xb) g) := rfl
 
+omit [Finite G] in
 private theorem wc813pbar_mem_barPre_iff_proj {H : Subgroup G} {Q : Type} [Group Q]
     {φ : ↥H →* Q} {Xb Yb : Subgroup Q} (g : ↥(barPre H φ Yb)) :
     (wc813pbar_proj H φ Yb g : Q) ∈ Xb ↔ (g : G) ∈ barPre H φ Xb := by
@@ -53,18 +57,21 @@ private theorem wc813pbar_mem_barPre_iff_proj {H : Subgroup G} {Q : Type} [Group
       Subtype.ext rfl
     rwa [h']
 
+omit [Finite G] in
 private theorem wc813pbar_subgroupOf_barPre_eq_comap_proj {Ab Bb : Subgroup Q}
-    (hAB : Ab ≤ Bb) : (barPre H φ Ab).subgroupOf (barPre H φ Bb) =
+    (_hAB : Ab ≤ Bb) : (barPre H φ Ab).subgroupOf (barPre H φ Bb) =
       (Ab.subgroupOf Bb).comap (wc813pbar_proj H φ Bb) := by
   ext g
   rw [Subgroup.mem_subgroupOf, Subgroup.mem_comap, Subgroup.mem_subgroupOf]
   exact (wc813pbar_mem_barPre_iff_proj g).symm
 
+omit [Finite G] in
 theorem barPre_top : barPre H φ (⊤ : Subgroup Q) = H := by
   ext g
   rw [mem_barPre]
   exact ⟨fun h => h.1, fun h => ⟨h, trivial⟩⟩
 
+omit [Finite G] in
 theorem barPre_bot (hφ : IsBarMap H C φ) (hCH : C ≤ H) : barPre H φ (⊥ : Subgroup Q) = C := by
   ext g
   rw [mem_barPre]
@@ -75,6 +82,7 @@ theorem barPre_bot (hφ : IsBarMap H C φ) (hCH : C ≤ H) : barPre H φ (⊥ : 
   · intro hg
     exact ⟨hCH hg, Subgroup.mem_bot.mpr ((hφ.ker_iff ⟨g, hCH hg⟩).mpr hg)⟩
 
+omit [Finite G] in
 theorem hasQuotShape_barPre (hφ : IsBarMap H C φ) {Lb Nb : Subgroup Q}
     {P : ∀ (X : Type) [Group X], Prop} (h : HasQuotShape Lb (Nb : Set Q) P) :
     HasQuotShape (barPre H φ Lb) ((barPre H φ Nb : Subgroup G) : Set G) P := by
@@ -97,6 +105,7 @@ theorem hasQuotShape_barPre (hφ : IsBarMap H C φ) {Lb Nb : Subgroup Q}
     rw [MonoidHom.comp_apply, hker (wc813pbar_proj H φ Lb k)]
     exact wc813pbar_mem_barPre_iff_proj k
 
+omit [Finite G] in
 theorem isSubnormal_barPre {Lb Mb : Subgroup Q} (h : IsSubnormal Lb Mb) :
     IsSubnormal (barPre H φ Lb) (barPre H φ Mb) :=
   CFSG.Open.IsSubnormal.rec
@@ -109,6 +118,7 @@ theorem isSubnormal_barPre {Lb Mb : Subgroup Q} (h : IsSubnormal Lb Mb) :
         exact hn.comap _) ih)
     h
 
+omit [Finite G] in
 theorem isComponentModN_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) {Lb : Subgroup Q}
     (h : IsComponentModN (⊥ : Subgroup Q) ⊤ Lb) : IsComponentModN C H (barPre H φ Lb) := by
   obtain ⟨-, -, -, hsub, hshape⟩ := h
@@ -123,6 +133,7 @@ theorem isComponentModN_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) {Lb : Sub
   · have h' := hasQuotShape_barPre hφ hshape
     rwa [barPre_bot hφ hCH] at h'
 
+omit [Finite G] in
 private theorem wc813pbar_barPre_barSub (hφ : IsBarMap H C φ) {Y : Subgroup G}
     (hCY : C ≤ Y) (hYH : Y ≤ H) : barPre H φ (barSub H φ Y) = Y := by
   ext g
@@ -141,8 +152,9 @@ private theorem wc813pbar_barPre_barSub (hφ : IsBarMap H C φ) {Y : Subgroup G}
   · intro hgY
     exact ⟨hYH hgY, ⟨⟨g, hYH hgY⟩, hgY, rfl⟩⟩
 
-private theorem wc813pbar_comap_barSub (hφ : IsBarMap H C φ) (hCH : C ≤ H) {Y : Subgroup G}
-    (hCY : C ≤ Y) (hYH : Y ≤ H) : (barSub H φ Y).comap φ = Y.subgroupOf H := by
+omit [Finite G] in
+private theorem wc813pbar_comap_barSub (hφ : IsBarMap H C φ) (_hCH : C ≤ H) {Y : Subgroup G}
+    (hCY : C ≤ Y) (_hYH : Y ≤ H) : (barSub H φ Y).comap φ = Y.subgroupOf H := by
   ext x
   rw [Subgroup.mem_comap, mem_barSub, Subgroup.mem_subgroupOf]
   constructor
@@ -159,6 +171,7 @@ private theorem wc813pbar_comap_barSub (hφ : IsBarMap H C φ) (hCH : C ≤ H) {
   · intro hx
     exact ⟨x, hx, rfl⟩
 
+omit [Finite G] in
 private theorem wc813pbar_relIndex_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H)
     {Pb : Subgroup Q} {Y : Subgroup G} (hCY : C ≤ Y) (hY : Y ≤ barPre H φ Pb) :
     Y.relIndex (barPre H φ Pb) = (barSub H φ Y).relIndex Pb := by
@@ -172,6 +185,7 @@ private theorem wc813pbar_relIndex_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H
   rw [hA, hsub, Subgroup.relIndex_comap,
     Subgroup.map_comap_eq_self_of_surjective hφ.surjective Pb]
 
+omit [Finite G] in
 private theorem wc813pbar_barSub_normalizer_le (φ : ↥H →* Q) {S' : Subgroup G} (hS'H : S' ≤ H) :
     barSub H φ (Subgroup.normalizer (S' : Set G)) ≤
       Subgroup.normalizer ((barSub H φ S' : Subgroup Q) : Set Q) := by
@@ -185,10 +199,12 @@ private def wc813pbar_twoSet (N K : Subgroup G) : Set (Subgroup G) :=
   {W | N ≤ W ∧ W ≤ K ∧ (W.subgroupOf K).Normal ∧
     ∀ w ∈ W, ∃ k : ℕ, w ^ 2 ^ k ∈ N}
 
+omit [Finite G] in
 private theorem wc813pbar_oTwoMod_eq (N K : Subgroup G) :
     oTwoMod N K = ⨆ W ∈ wc813pbar_twoSet N K, W := rfl
 
-private theorem wc813pbar_barSub_mem_twoSet (hφ : IsBarMap H C φ) (hCH : C ≤ H)
+omit [Finite G] in
+private theorem wc813pbar_barSub_mem_twoSet (hφ : IsBarMap H C φ) (_hCH : C ≤ H)
     {Kb : Subgroup Q} {W : Subgroup G}
     (hW : W ∈ wc813pbar_twoSet C (barPre H φ Kb)) :
     barSub H φ W ∈ wc813pbar_twoSet (⊥ : Subgroup Q) Kb := by
@@ -209,6 +225,7 @@ private theorem wc813pbar_barSub_mem_twoSet (hφ : IsBarMap H C φ) (hCH : C ≤
     rw [← hwx, ← map_pow]
     exact Subgroup.mem_bot.mpr ((hφ.ker_iff (w ^ 2 ^ k)).mpr (by simpa using hk))
 
+omit [Finite G] in
 private theorem wc813pbar_barPre_mem_twoSet (hφ : IsBarMap H C φ) (hCH : C ≤ H)
     {Kb : Subgroup Q} {Wb : Subgroup Q}
     (hWb : Wb ∈ wc813pbar_twoSet (⊥ : Subgroup Q) Kb) :
@@ -231,6 +248,7 @@ private theorem wc813pbar_barPre_mem_twoSet (hφ : IsBarMap H C φ) (hCH : C ≤
     have h' := (hφ.ker_iff ((⟨g, hgH⟩ : ↥H) ^ 2 ^ k)).mp hker
     simpa using h'
 
+omit [Finite G] in
 private theorem wc813pbar_comap_iSup {ι : Sort*} (hφ : IsBarMap H C φ) (Xb : ι → Subgroup Q)
     (i0 : ι) (h0 : Xb i0 = ⊥) :
     (⨆ i, Xb i).comap φ = ⨆ i, (Xb i).comap φ := by
@@ -265,6 +283,7 @@ private theorem wc813pbar_comap_iSup {ι : Sort*} (hφ : IsBarMap H C φ) (Xb : 
     exact key (φ x) hx x rfl
   · refine iSup_le fun i => Subgroup.comap_mono (le_iSup Xb i)
 
+omit [Finite G] in
 private theorem wc813pbar_barPre_iSup {ι : Sort*} (hφ : IsBarMap H C φ) (Xb : ι → Subgroup Q)
     (i0 : ι) (h0 : Xb i0 = ⊥) :
     barPre H φ (⨆ i, Xb i) = ⨆ i, barPre H φ (Xb i) := by
@@ -273,7 +292,7 @@ private theorem wc813pbar_barPre_iSup {ι : Sort*} (hφ : IsBarMap H C φ) (Xb :
 
 theorem oTwoMod_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) (Kb : Subgroup Q) :
     oTwoMod C (barPre H φ Kb) = barPre H φ (oTwoMod (⊥ : Subgroup Q) Kb) := by
-  haveI : Finite Q := Finite.of_surjective φ hφ.surjective
+  have : Finite Q := Finite.of_surjective φ hφ.surjective
   let s := wc813pbar_twoSet C (barPre H φ Kb)
   let sb := wc813pbar_twoSet (⊥ : Subgroup Q) Kb
   have hbot : (⊥ : Subgroup Q) ∈ sb := by
@@ -309,9 +328,11 @@ theorem oTwoMod_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) (Kb : Subgroup Q)
 private def wc813pbar_oddSet (N P : Subgroup G) : Set (Subgroup G) :=
   {Q | N ≤ Q ∧ Q ≤ P ∧ (Q.subgroupOf P).Normal ∧ Odd (Q.relIndex P)}
 
+omit [Finite G] in
 private theorem wc813pbar_oddResMod_eq (N P : Subgroup G) :
     oddResMod N P = ⨅ Q ∈ wc813pbar_oddSet N P, Q := rfl
 
+omit [Finite G] in
 private theorem wc813pbar_barSub_mem_oddSet (hφ : IsBarMap H C φ) (hCH : C ≤ H)
     {Pb : Subgroup Q} {Y : Subgroup G} (hY : Y ∈ wc813pbar_oddSet C (barPre H φ Pb)) :
     barSub H φ Y ∈ wc813pbar_oddSet (⊥ : Subgroup Q) Pb := by
@@ -328,6 +349,7 @@ private theorem wc813pbar_barSub_mem_oddSet (hφ : IsBarMap H C φ) (hCH : C ≤
   · rw [← wc813pbar_relIndex_barPre hφ hCH hCY hYP]
     exact hYodd
 
+omit [Finite G] in
 private theorem wc813pbar_barPre_mem_oddSet (hφ : IsBarMap H C φ) (hCH : C ≤ H)
     {Pb : Subgroup Q} {Yb : Subgroup Q} (hYb : Yb ∈ wc813pbar_oddSet (⊥ : Subgroup Q) Pb) :
     barPre H φ Yb ∈ wc813pbar_oddSet C (barPre H φ Pb) := by
@@ -343,6 +365,7 @@ private theorem wc813pbar_barPre_mem_oddSet (hφ : IsBarMap H C φ) (hCH : C ≤
   · rw [wc813pbar_relIndex_barPre hφ hCH (le_barPre hCH hφ Yb) hle, barSub_barPre hφ Yb]
     exact hYbodd
 
+omit [Finite G] in
 private theorem wc813pbar_barPre_iInf {ι : Sort*} [Nonempty ι] (Xb : ι → Subgroup Q) :
     barPre H φ (⨅ i, Xb i) = ⨅ i, barPre H φ (Xb i) := by
   simp only [barPre]
@@ -350,7 +373,7 @@ private theorem wc813pbar_barPre_iInf {ι : Sort*} [Nonempty ι] (Xb : ι → Su
 
 theorem oddResMod_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) (Pb : Subgroup Q) :
     oddResMod C (barPre H φ Pb) = barPre H φ (oddResMod (⊥ : Subgroup Q) Pb) := by
-  haveI : Finite Q := Finite.of_surjective φ hφ.surjective
+  have : Finite Q := Finite.of_surjective φ hφ.surjective
   let s := wc813pbar_oddSet C (barPre H φ Pb)
   let sb := wc813pbar_oddSet (⊥ : Subgroup Q) Pb
   have hPb : Pb ∈ sb := by
@@ -365,7 +388,7 @@ theorem oddResMod_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) (Pb : Subgroup 
       exact inferInstance
     · rw [Subgroup.relIndex_self]
       norm_num
-  haveI : Nonempty sb := ⟨⟨Pb, hPb⟩⟩
+  have : Nonempty sb := ⟨⟨Pb, hPb⟩⟩
   have hs : oddResMod C (barPre H φ Pb) = ⨅ j : s, (j : Subgroup G) :=
     (wc813pbar_oddResMod_eq C (barPre H φ Pb)).trans (iInf_subtype'' s id).symm
   have hreindex : (⨅ i : sb, barPre H φ (i : Subgroup Q)) = ⨅ j : s, (j : Subgroup G) := by
@@ -387,6 +410,7 @@ theorem oddResMod_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) (Pb : Subgroup 
           congr 1
           exact (iInf_subtype'' sb id).trans (wc813pbar_oddResMod_eq ⊥ Pb).symm
 
+omit [Finite G] in
 private theorem wc813pbar_barPre_lt (hφ : IsBarMap H C φ) {Xb Yb : Subgroup Q} :
     barPre H φ Xb < barPre H φ Yb ↔ Xb < Yb := by
   constructor
@@ -400,6 +424,7 @@ private theorem wc813pbar_barPre_lt (hφ : IsBarMap H C φ) {Xb Yb : Subgroup Q}
       have h' := congrArg (barSub H φ) heq
       rwa [barSub_barPre hφ Xb, barSub_barPre hφ Yb] at h')
 
+omit [Finite G] in
 theorem isMaxParabolicMod_barPre (hφ : IsBarMap H C φ) (hCH : C ≤ H) {Lb Pb : Subgroup Q}
     (h : IsMaxParabolicMod (⊥ : Subgroup Q) Lb Pb) :
     IsMaxParabolicMod C (barPre H φ Lb) (barPre H φ Pb) := by

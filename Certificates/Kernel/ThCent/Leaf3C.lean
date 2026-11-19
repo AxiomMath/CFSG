@@ -91,8 +91,8 @@ theorem card_centralizer_z3C_le (z : J) (hz : 𝕄 z = pkMat W3.Z3C) :
     (by rw [thcDce_LT]; exact C3C.mu) hwC (by rw [thcDce_CB, thcDce_LT]; exact C3C.outer) nOut
     out_counts
   have hF := hfix _ hcC
-  have hzC := conj_wit h hx hA hB hBi hk W3.w3C W3.d3C z hz
-  have hzD := conj_wit h hx hA hB hBi hk W3.w3D W3.d3D z hz
+  have hzC := conj_wit hx hA hB hBi hk W3.w3C W3.d3C z hz
+  have hzD := conj_wit hx hA hB hBi hk W3.w3D W3.d3D z hz
   have hnc : ¬IsConj (⟨wval gen C3C.word, htC⟩ : K) ⟨wval gen C3D.word, htD⟩ := by
     intro hc
     obtain ⟨g, hg⟩ := isConj_iff.1 hc

@@ -94,7 +94,7 @@ theorem l34g_exists_normal_pGroup {A : Type} [Group A] [Finite A] {P B : Subgrou
     refine Subgroup.mem_map.mpr ⟨⟨b, hb⟩ * x * ⟨b, hb⟩⁻¹, ?_, rfl⟩
     exact (pCore_normal (p := 3) (G := ↥B)).conj_mem x hx ⟨b, hb⟩
 
-theorem l34g_exists_O3 {A : Type} [Group A] [Finite A] {C0 F : Subgroup A} (hC0F : C0 ≤ F)
+theorem l34g_exists_O3 {A : Type} [Group A] [Finite A] {C0 F : Subgroup A} (_hC0F : C0 ≤ F)
     (hn : ∀ f ∈ F, ∀ c ∈ C0, f * c * f⁻¹ ∈ C0) :
     ∃ R : Subgroup A, R ≤ C0 ∧ IsPGroup 3 ↥R ∧ (∀ f ∈ F, ∀ r ∈ R, f * r * f⁻¹ ∈ R) ∧
       ∀ N : Subgroup A, N ≤ C0 → IsPGroup 3 ↥N → (∀ c ∈ C0, ∀ n ∈ N, c * n * c⁻¹ ∈ N) → N ≤ R := by

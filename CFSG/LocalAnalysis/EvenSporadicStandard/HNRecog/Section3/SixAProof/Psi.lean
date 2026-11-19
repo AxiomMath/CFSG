@@ -35,7 +35,7 @@ open Classical in
 theorem SixAIso.f_apply (ψ : SixAIso a x) {g : G} (hg : g ∈ Gxy a (x * (a * x) ^ 3)) :
     ψ.f g = ψ.e ⟨g, hg⟩ := by
   unfold SixAIso.f
-  exact dif_pos hg
+  exact dite_eq_left hg
 
 theorem SixAIso.f_mul (ψ : SixAIso a x) {g g' : G} (hg : g ∈ Gxy a (x * (a * x) ^ 3))
     (hg' : g' ∈ Gxy a (x * (a * x) ^ 3)) : ψ.f (g * g') = ψ.f g * ψ.f g' := by

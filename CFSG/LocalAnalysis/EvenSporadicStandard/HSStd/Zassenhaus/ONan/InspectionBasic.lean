@@ -116,7 +116,7 @@ theorem conjNormal_not_mem_inner {N : Subgroup Y} [N.Normal] (hC : centralizer (
 theorem orderOf_conjNormal_eq_two {N : Subgroup Y} [N.Normal] (hC : centralizer (N : Set Y) ≤ N)
     {w : Y} (hw : orderOf w = 2) (hwN : w ∉ N) :
     orderOf (MulAut.conjNormal w : MulAut ↥N) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply orderOf_eq_prime
   · have h2 : (MulAut.conjNormal w : MulAut ↥N) ^ 2 = MulAut.conjNormal (w ^ 2) := by
       rw [← map_pow]
@@ -256,8 +256,8 @@ theorem exists_mem_orderOf_eq_eight [Finite Y] {N : Subgroup Y} [N.Normal] (hcyc
     have hw1 : (w : Y ⧸ N) ≠ 1 := fun hc => hwN ((QuotientGroup.eq_one_iff (N := N) w).mp hc)
     have hclass : (QuotientGroup.mk' N) h = (QuotientGroup.mk' N) w := by
       change (h : Y ⧸ N) = (w : Y ⧸ N)
-      haveI : IsCyclic (Y ⧸ N) := hcyc
-      haveI : Fintype (Y ⧸ N) := Fintype.ofFinite (Y ⧸ N)
+      have : IsCyclic (Y ⧸ N) := hcyc
+      have : Fintype (Y ⧸ N) := Fintype.ofFinite (Y ⧸ N)
       let S : Finset (Y ⧸ N) := Finset.univ.filter (fun a => a ^ 2 = 1)
       by_contra hne
       have hSsub : ({1, (h : Y ⧸ N), (w : Y ⧸ N)} : Finset (Y ⧸ N)) ⊆ S := by
@@ -300,7 +300,7 @@ theorem exists_mem_orderOf_eq_eight [Finite Y] {N : Subgroup Y} [N.Normal] (hcyc
         norm_num
       have hh8 : h ^ 8 = 1 := by rw [← hh, pow_orderOf_eq_one]
       rw [hcomm.mul_pow 8, hw8, hh8, mul_one]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hnot : ¬ (w * h) ^ (2 ^ 2) = 1 := by simpa using hpow4
     have hfin : (w * h) ^ (2 ^ (2 + 1)) = 1 := by simpa using hpow8
     have horder : orderOf (w * h) = 2 ^ (2 + 1) :=

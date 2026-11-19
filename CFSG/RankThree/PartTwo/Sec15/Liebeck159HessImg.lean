@@ -76,7 +76,7 @@ private theorem hessImg_sylow {X : Type} [Group X] [Finite X] {P : Subgroup X}
     interval_cases k <;> norm_num at hPQd
   have hkeq : k = 2 := by omega
   refine le_of_eq (Subgroup.eq_of_le_of_card_ge hPQ ?_).symm
-  rw [hk, hkeq, hP] <;> norm_num
+  rw [hk, hkeq, hP]; norm_num
 
 private theorem hessImg_conj {X : Type} [Group X] [Finite X] {S B : Subgroup X}
     (hS : Nat.card S = 9) (hB : Nat.card B = 9) (h27 : ¬ 27 ∣ Nat.card X) :
@@ -141,7 +141,7 @@ private theorem hessImg_final {Q : Type} [Group Q] {M T : Subgroup Q} (hTM : T �
     refine ⟨⟨w, hwM⟩, ?_, Subtype.ext ?_⟩
     · rw [Subgroup.mem_normalizer_iff]
       intro h
-      simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
       exact hwT h.1
     · simpa using hwy
   · rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hTM]
@@ -181,7 +181,7 @@ theorem leaf2_hessian_img {n : ℕ} (hK : K ≤ L ⊓ J) (hB : A ⊓ L ≤ J)
     have hdvdK : 3 ^ 2 ∣ Nat.card K := by norm_num; exact h9K
     obtain ⟨S1, hS1⟩ := Sylow.exists_subgroup_card_pow_prime 3 hdvdK
     exact ⟨S1.map K.subtype, Subgroup.map_subtype_le S1,
-      by rw [Subgroup.card_map_of_injective K.subtype_injective, hS1] <;> norm_num⟩
+      by rw [Subgroup.card_map_of_injective K.subtype_injective, hS1]; norm_num⟩
   have hS0U : S0 ≤ J ⊔ A := hS0K.trans hKU
   have hS0D : S0 ≤ L ⊓ J := hS0K.trans hK
   have hS0P : IsPGroup 3 ↥S0 := IsPGroup.of_card (n := 2) (hS0card.trans (by norm_num))

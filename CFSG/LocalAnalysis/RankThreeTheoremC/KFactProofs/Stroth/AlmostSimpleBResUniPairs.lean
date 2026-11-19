@@ -120,7 +120,7 @@ theorem exists_two_indep_fixed_diag_unitary (hU : UnitaryFieldData ℓ f K) {p n
       primeFormFieldHom hU (isPrimeFormGram_one' (n := n)) τ x₁ = x₁ ∧
       primeFormFieldHom hU (isPrimeFormGram_one' (n := n)) τ x₂ = x₂ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvdU : p ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hU.card]
     have h1 : ℓ ^ (2 * f) - 1 = (ℓ ^ f + 1) * (ℓ ^ f - 1) := by
@@ -142,7 +142,7 @@ theorem exists_two_indep_fixed_diag_unitary (hU : UnitaryFieldData ℓ f K) {p n
     (Equiv.sumCongr finProdFinEquiv (Equiv.refl _)).trans
       (finSumFinEquiv.trans (finCongr (by omega)))
   let Φ : (Fin 2 → ↥(normOneUnits ℓ f K)) →* gramSU hU (1 : Matrix (Fin n) (Fin n) K) :=
-    (blkSU hU σ₁).comp (Pi.monoidHom fun _ : Fin 1 => diagThreeU hU)
+    (blkSU hU σ₁).comp (_root_.MonoidHom.pi fun _ : Fin 1 => diagThreeU hU)
   have hΦ : Function.Injective Φ := fun x y h =>
     diagThreeU_injective hU (congrFun (blkSU_injective hU σ₁ h) 0)
   let π := QuotientGroup.mk'

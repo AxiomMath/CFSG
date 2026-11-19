@@ -44,8 +44,7 @@ theorem reciprocalPolynomial_smuQuad (t : K) : reciprocalPolynomial (smuQuad t) 
   by_cases hn : n ≤ 2
   · rw [Polynomial.revAt_le hn]
     interval_cases n <;>
-      simp [smuQuad, Polynomial.coeff_add, Polynomial.coeff_X_pow, Polynomial.coeff_C_mul,
-        Polynomial.coeff_one, Polynomial.coeff_X]
+      simp [smuQuad, Polynomial.coeff_add, Polynomial.coeff_X_pow, Polynomial.coeff_one, Polynomial.coeff_X]
   · have hlt : (smuQuad t).natDegree < n := by rw [smuQuad_natDegree]; omega
     rw [Polynomial.revAt_eq_self_of_lt (by omega : 2 < n),
       Polynomial.coeff_eq_zero_of_natDegree_lt hlt]
@@ -83,7 +82,7 @@ theorem irreducible_smuQuad [Finite K] [CharP K 2] (hp : p.Prime) (hp2 : p ≠ 2
     {c : Multiplicative (ZMod p)} (hc : c ≠ 1) :
     Irreducible (smuQuad ((ζ c : Matrix (Fin 2) (Fin 2) K).trace)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Z : SpecialLinearGroup (Fin 2) K := ζ c with hZdef
   set t : K := (Z : Matrix (Fin 2) (Fin 2) K).trace with ht
   have hZ1 : Z ≠ 1 := fun h => hc (hζ (h.trans (map_one ζ).symm))
@@ -114,7 +113,7 @@ theorem irreducible_smuQuad [Finite K] [CharP K 2] (hp : p.Prime) (hp2 : p ≠ 2
       rw [ht, Matrix.trace_fin_two] at hr
       simp only [Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply_eq, Matrix.one_apply_ne,
         ne_eq, Fin.zero_eq_one_iff, OfNat.ofNat_ne_one, not_false_eq_true, smul_eq_mul, mul_one,
-        mul_zero, sub_zero, Fin.one_eq_zero_iff, one_ne_zero]
+        mul_zero, sub_zero, one_ne_zero]
       linear_combination hr + hZdet + (-((Z : Matrix (Fin 2) (Fin 2) K) 0 0 +
         (Z : Matrix (Fin 2) (Fin 2) K) 1 1) * r) * h2
     obtain ⟨v, hv0, hv⟩ := Matrix.exists_mulVec_eq_zero_iff.mpr hdet
@@ -137,7 +136,7 @@ theorem irreducible_smuQuad [Finite K] [CharP K 2] (hp : p.Prime) (hp2 : p ≠ 2
       have h2' : (r ^ p - 1) • v = 0 := by rw [sub_smul, ← h1, one_smul, sub_self]
       exact sub_eq_zero.mp ((smul_eq_zero.mp h2').resolve_right hv0)
     have hsq : r ^ (Nat.card K - 1) = 1 := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card]
       exact FiniteField.pow_card_sub_one_eq_one r hr0
     have hr1 : r = 1 := (pow_eq_one_iff_of_coprime hcop).mp ⟨hsp, hsq⟩
@@ -226,13 +225,13 @@ theorem aeval_smuQuad_suppIn [CharP K 2] {S : Finset (Fin m)} {c : Multiplicativ
   refine Finset.sum_eq_zero fun s _ => ?_
   rw [WitSpNs.planeMat_apply]
   by_cases hps : WitSpNs.plane r = WitSpNs.plane s
-  · rw [if_pos hps]
+  · rw [ite_eq_left hps]
     by_cases hx : WitSpNs.plane r ∈ S
     · have hx' : WitSpNs.plane s ∈ S := hps ▸ hx
       rw [smuPoly_block_eq_zero (ζ := ζ) hS hx']
       simp
     · rw [hv s (hps ▸ hx), mul_zero]
-  · rw [if_neg hps, zero_mul]
+  · rw [ite_eq_right hps, zero_mul]
 
 theorem aeval_smuQuad_suppOff [CharP K 2] {S : Finset (Fin m)} {c : Multiplicative (ZMod p)}
     (hS : ∀ i, i ∈ S ↔ f₀ i = c ∨ f₀ i = c⁻¹) (v : Fin m ⊕ Fin m → K) :
@@ -245,9 +244,9 @@ theorem aeval_smuQuad_suppOff [CharP K 2] {S : Finset (Fin m)} {c : Multiplicati
   rw [WitSpNs.planeMat_apply]
   by_cases hps : WitSpNs.plane r = WitSpNs.plane s
   · have hr' : WitSpNs.plane s ∈ S := hps ▸ hr
-    rw [if_pos hps, smuPoly_block_eq_zero (ζ := ζ) hS hr']
+    rw [ite_eq_left hps, smuPoly_block_eq_zero (ζ := ζ) hS hr']
     simp
-  · rw [if_neg hps, zero_mul]
+  · rw [ite_eq_right hps, zero_mul]
 
 end Torus
 

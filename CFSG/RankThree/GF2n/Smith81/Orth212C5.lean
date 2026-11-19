@@ -159,7 +159,7 @@ theorem core_A (hc : SmithOrthCfg M Q Z B) (C : OrthCtx M Q Z B) (hs : Sit M Q Z
       obtain ⟨s, hsL, hsa⟩ := C.hA.sl _ hdet2
       have := hstab (o' := LinearEquiv.refl C.K (C.ι → C.K)) hsL hsa
         (fun p => by
-          simp [orthTensor, OrthCaseI.orthTensor_one_apply]) p hp
+          simp [orthTensor]) p hp
       simpa [orthTensor] using this)
     (fun a b ha hab hcm p hp => by
       obtain ⟨s, hsL, hsa⟩ := C.hA.eich a b ha hab

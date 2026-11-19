@@ -896,7 +896,7 @@ theorem isSylowTwoOf_U [Finite F] :
     IsSylowTwoOf (projUnitriangular 3 F) (⊤ : Subgroup (projectiveSL 3 F)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_projUnitriangular (K := F) 2 (n := 3) (by norm_num)
-  refine ⟨le_top, hP ▸ P.isPGroup', ?_⟩
+  refine ⟨le_top, hP ▸ P.isPGroup, ?_⟩
   have h := Sylow.not_dvd_index P
   rw [hP] at h
   change ¬ 2 ∣ (projUnitriangular 3 F).relIndex ⊤

@@ -195,7 +195,7 @@ theorem ycK_sound (hn : n ≤ 32) (gs : List (Perm (Fin n))) (xW : List ℕ)
     simp only [List.mem_cons, List.not_mem_nil, or_false] at hx
     rcases hx with rfl | rfl | rfl | rfl | rfl
     · have hc := aux_isety_in hn gs c1 El σ hf hmem
-      simp only [CFSG.QuasithinUnique.A5.Kc3Cert.yCheck, hc, Bool.true_or, Bool.or_true]
+      simp only [CFSG.QuasithinUnique.A5.Kc3Cert.yCheck, hc, Bool.true_or]
     · have hc := aux_isety_in hn gs c2 El σ hf hmem
       simp only [CFSG.QuasithinUnique.A5.Kc3Cert.yCheck, hc, Bool.true_or, Bool.or_true]
     · have hc := aux_isety_in hn gs c3 El σ hf hmem
@@ -213,7 +213,7 @@ theorem ycK_sound (hn : n ≤ 32) (gs : List (Perm (Fin n))) (xW : List ℕ)
   · have hd := aux_isety_ne x₀ σ 4 1 4 rfl rfl h4
     simp only [CFSG.QuasithinUnique.A5.Kc3Cert.yCheck, hd, Bool.or_true, Bool.true_or]
   · have hd := aux_isety_ne5 x₀ σ h5
-    simp only [CFSG.QuasithinUnique.A5.Kc3Cert.yCheck, hd, Bool.or_true, Bool.true_or]
+    simp only [CFSG.QuasithinUnique.A5.Kc3Cert.yCheck, hd, Bool.or_true]
 
 end CFSG.KC.LQT.M24Snd
 

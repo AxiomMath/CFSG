@@ -17,7 +17,7 @@ theorem ggL48TableBKnownFormsRestRkOpen9_of_open10
   obtain ⟨ht, rfl, h3⟩ := hE
   have hrank : GGL48TB0Rank lab = 6 := by
     unfold GGL48TB0Rank
-    rw [if_pos ht]
+    rw [ite_eq_left ht]
   simpa [hrank] using largeEvenLabelAll_coverPRk_twE6_three (lab := lab) hlab ht h3
 
 end CFSG.StandardType

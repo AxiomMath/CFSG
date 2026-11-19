@@ -118,7 +118,6 @@ theorem ordA_five_false {p f m : ℕ} (hp : p.Prime) (hf : 1 ≤ f) (hm : 4 ≤ 
     interval_cases m <;> interval_cases f <;>
       first
         | omega
-        | (exfalso; revert h5m; decide)
         | (exfalso; revert h5q; norm_num; done)
         | exact absurd hd (by decide +kernel)
 
@@ -138,7 +137,6 @@ theorem ordTwistedA_five {p f m : ℕ} (hp : p.Prime) (hf : 1 ≤ f) (hm : 4 ≤
     interval_cases m <;> interval_cases f <;>
       first
         | omega
-        | (exfalso; revert h5m; decide)
         | (exfalso; revert h5q; norm_num; done)
         | exact absurd hd (by decide +kernel)
 

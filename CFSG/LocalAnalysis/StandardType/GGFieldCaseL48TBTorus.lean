@@ -46,7 +46,7 @@ theorem torusWeylCent_at_of_tableB (hF : GGL48NbrFieldInput) {p : ℕ} {B Bs : S
         W ⊆ Subgroup.normalizer ((Bs ⊓ Subgroup.centralizer (X : Set G) : Subgroup G) : Set G) ∧
         c ∈ Subgroup.closure (⋃ n ∈ W, (fun s => n * s * n⁻¹) '' (S : Set G)) := by
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsS := hS.1.1.1.2.2.2.2.2.2.1
   have hx1 : x ≠ 1 := hsS.2.2.1
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hsS.2.2.2.1.1

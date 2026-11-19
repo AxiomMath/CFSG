@@ -23,7 +23,7 @@ theorem exists_conj_mem_of_isPGroup {G : Type*} [Group G] [Finite G] {K A P : Su
   obtain ⟨S, hS⟩ := hA'.exists_le_sylow
   have hcardS : Nat.card (S : Subgroup K) ≤ Nat.card (A.subgroupOf K) := by
     have h1 := hmax ((S : Subgroup K).map K.subtype) (Subgroup.map_subtype_le _)
-      (S.isPGroup'.map _)
+      (S.isPGroup.map _)
     rw [Subgroup.card_map_of_injective K.subtype_injective] at h1
     rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA).toEquiv]
   have hAS : A.subgroupOf K = S := Subgroup.eq_of_le_of_card_ge hS hcardS

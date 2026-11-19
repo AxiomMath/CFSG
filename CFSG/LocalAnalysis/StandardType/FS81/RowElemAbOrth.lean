@@ -88,7 +88,7 @@ private theorem frameVec_linearIndependent {n : ℕ} {l : List (V × V)} (hf : I
     · subst hji
       cases b <;> cases c <;> simp
     · simp [hji]
-  simp only [hone, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [hone, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     at hsum
   rw [hx, polar_zero_left] at hsum
   exact hsum.symm
@@ -121,7 +121,7 @@ theorem torus_map_conj {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ TauCeti.QuadraticMap
   rw [torus, torus, MonoidHom.map_closure]
   congr 1
   ext x
-  simp only [rotSet, Set.mem_image, Set.mem_setOf_eq, List.mem_map, MulEquiv.coe_toMonoidHom,
+  simp only [rotSet, Set.mem_image, Set.mem_ofPred_eq, List.mem_map, MulEquiv.coe_toMonoidHom,
     MulAut.conj_apply]
   constructor
   · rintro ⟨_, ⟨p, hp, rfl⟩, rfl⟩

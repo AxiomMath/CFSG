@@ -85,7 +85,7 @@ theorem card_fiber_eq_card {V₁ Xg Yg : Subgroup G} (hV₁X : V₁ ≤ Xg) (hV�
 
 theorem card_eq_card_mul_of_fiber {α β : Type*} [Finite α] [Finite β] (f : α → β) (k : ℕ)
     (h : ∀ b, Nat.card {a // f a = b} = k) : Nat.card α = Nat.card β * k := by
-  haveI : Fintype β := Fintype.ofFinite β
+  have : Fintype β := Fintype.ofFinite β
   rw [Nat.card_congr (Equiv.sigmaFiberEquiv f).symm, Nat.card_sigma]
   simp only [h, Finset.sum_const, Finset.card_univ, smul_eq_mul, Nat.card_eq_fintype_card]
 
@@ -165,7 +165,7 @@ theorem isQ8CentralPow_of_special [Finite G] {V₁ P Xg Yg : Subgroup G}
     (hXP : Xg ≤ P) (hYP : Yg ≤ P) (hV₁X : V₁ ≤ Xg) (hV₁Y : V₁ ≤ Yg)
     (hXY : Xg ⊓ Yg = V₁) (hXYs : Xg ⊔ Yg = P)
     (hXe : ∀ x ∈ Xg, x * x = 1) (hXc : ∀ x ∈ Xg, ∀ x' ∈ Xg, x * x' = x' * x)
-    (hYe : ∀ y ∈ Yg, y * y = 1) (hYc : ∀ y ∈ Yg, ∀ y' ∈ Yg, y * y' = y' * y)
+    (_hYe : ∀ y ∈ Yg, y * y = 1) (_hYc : ∀ y ∈ Yg, ∀ y' ∈ Yg, y * y' = y' * y)
     (hXYcard : Nat.card Xg = Nat.card Yg) {j : ℕ} (hj : 0 < j) (hX : Nat.card Xg = 2 ^ (2 * j + 1))
     (hnab : ∃ p ∈ P, ∃ r ∈ P, p * r ≠ r * p) :
     CFSG.Quasithin.H13.IsQ8CentralPow (2 * j) ↥P := by

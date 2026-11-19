@@ -91,7 +91,7 @@ theorem range_y332HomR_le_rhoL :
 
 theorem rhoL_injective_and_card :
     Function.Injective rhoL ∧ Nat.card ↥L0 = 129123503308800 := by
-  haveI := finite_L0
+  have := finite_L0
   exact injective_and_card_of_model rhoL card_L0_le
     (card_y332HomR_range_ge.trans (Subgroup.card_le_of_le range_y332HomR_le_rhoL))
 
@@ -101,7 +101,7 @@ theorem card_L0_eq :
 
 theorem range_y332HomR_eq_rhoL :
     y332HomR.range = rhoL.range := by
-  haveI := finite_L0
+  have := finite_L0
   refine Subgroup.eq_of_le_of_card_ge range_y332HomR_le_rhoL ?_
   have h1 : Nat.card rhoL.range ≤ Nat.card ↥L0 :=
     Nat.card_le_card_of_surjective _ rhoL.rangeRestrict_surjective
@@ -148,7 +148,7 @@ theorem card_center_eq_two_of_equiv_Cd
       exact hz (ψ g)
   let e : Subgroup.center Λ ≃ Subgroup.center Cd :=
     { toFun := fun z => ⟨ψ z, (hmem z).1 z.2⟩
-      invFun := fun c => ⟨ψ.symm c, (hmem _).2 (by simpa using c.2)⟩
+      invFun := fun c => ⟨ψ.symm c, (hmem _).2 (by simp)⟩
       left_inv := fun z => Subtype.ext (by simp)
       right_inv := fun c => Subtype.ext (by simp) }
   exact (Nat.card_congr e).trans card_center_C

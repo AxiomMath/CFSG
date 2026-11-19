@@ -247,7 +247,7 @@ theorem decK_foldK (w : List ℕ) (a : ℕ) :
   | cons k w ih =>
     rw [foldK_cons, ih, decK_mulK, decK_bit, List.map_cons, List.prod_cons, Matrix.mul_assoc]
 
-theorem dg_codeK {a b c d : ℕ} (ha : a < 81) (hb : b < 81) (hc : c < 81) (hd : d < 81)
+theorem dg_codeK {a b c d : ℕ} (ha : a < 81) (hb : b < 81) (hc : c < 81) (_hd : d < 81)
     (i j : Fin 4) :
     dg (codeK a b c d) (4 * i.val + j.val) = (![a, b, c, d] i) / 3 ^ j.val % 3 := by
   rw [dg_eq]

@@ -25,9 +25,9 @@ namespace BS
   (List.range n).foldl (step F lv) ⟨[r], [0], [0]⟩
 
 @[expose] def trans (F : Nat → Nat → Nat) (s : BS) (k : Nat) (x : Nat) : Nat :=
-  if h : 0 < k ∧ s.par.getD k 0 < k then F (s.lab.getD k 0) (trans F s (s.par.getD k 0) x) else x
+  if _h : 0 < k ∧ s.par.getD k 0 < k then F (s.lab.getD k 0) (trans F s (s.par.getD k 0) x) else x
 termination_by k
-decreasing_by exact h.2
+decreasing_by exact _h.2
 
 end BS
 
@@ -260,10 +260,10 @@ private theorem step_ok (hF : ∀ l ∈ lv, ∀ x < n, F l x < n) {s : BS} (hs :
       (¬ h < s.pts.length → BS.step F lv s h = s) := by
   unfold BS.step
   by_cases hh : h < s.pts.length
-  · rw [if_pos hh]
+  · rw [ite_eq_left hh]
     obtain ⟨ho, hu, hmem⟩ := foldl_letter hF (p := s.pts.getD h 0) lv (fun l hl => hl) s hs hh rfl
     exact ⟨ho, hu, fun _ => hmem, fun h' => absurd hh h'⟩
-  · rw [if_neg hh]
+  · rw [ite_eq_right hh]
     exact ⟨hs, ⟨[], by simp⟩, fun h' => absurd h' hh, fun _ => rfl⟩
 
 private theorem init_ok (hr : r < n) : RunOK n F lv r ⟨[r], [0], [0]⟩ := by
@@ -328,10 +328,10 @@ theorem trans_root {s : BS} (hs : RunOK n F lv r s) {k : Nat} (hk : k < s.pts.le
   | _ k ih =>
     by_cases hk0 : 0 < k
     · have hpar := hs.par_lt k hk0 hk
-      rw [BS.trans, dif_pos ⟨hk0, hpar⟩, ih _ hpar (by omega), hs.edge k hk0 hk]
+      rw [BS.trans, dite_eq_left ⟨hk0, hpar⟩, ih _ hpar (by omega), hs.edge k hk0 hk]
     · have hk0' : k = 0 := by omega
       subst hk0'
-      rw [BS.trans, dif_neg (by simp), hs.root]
+      rw [BS.trans, dite_eq_right (by simp), hs.root]
 
 theorem trans_isPermN {s : BS} (hs : RunOK n F lv r s) (hF : ∀ l ∈ lv, IsPermN n (F l)) {k : Nat}
     (hk : k < s.pts.length) : IsPermN n (BS.trans F s k) := by
@@ -342,14 +342,14 @@ theorem trans_isPermN {s : BS} (hs : RunOK n F lv r s) (hF : ∀ l ∈ lv, IsPer
       have heq : BS.trans F s k =
           fun x => F (s.lab.getD k 0) (BS.trans F s (s.par.getD k 0) x) := by
         funext x
-        rw [BS.trans, dif_pos ⟨hk0, hpar⟩]
+        rw [BS.trans, dite_eq_left ⟨hk0, hpar⟩]
       rw [heq]
       exact (hF _ (hs.lab_mem k hk0 hk)).comp (ih _ hpar (by omega))
     · have hk0' : k = 0 := by omega
       subst hk0'
       have heq : BS.trans F s 0 = fun x => x := by
         funext x
-        rw [BS.trans, dif_neg (by simp)]
+        rw [BS.trans, dite_eq_right (by simp)]
       rw [heq]
       exact isPermN_id n
 

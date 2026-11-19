@@ -131,7 +131,7 @@ private theorem exists_blocks_eq_of_commute (A D : Matrix (Fin 2) (Fin 2) (ZMod 
     (h2 : A * !![0, 1; 1, 0] = !![0, 1; 1, 0] * D) :
     ∃ l m : ZMod 3, A = !![l, m; 0, l] ∧ D = !![l, 0; m, l] := by
   rw [Matrix.eta_fin_two A, Matrix.eta_fin_two D] at h1 h2
-  simp [Matrix.mul_apply, Fin.sum_univ_two] at h1 h2
+  simp at h1 h2
   obtain ⟨⟨h00, h01⟩, h10⟩ := h1
   obtain ⟨⟨h20, h21⟩, h22, h23⟩ := h2
   refine ⟨A 0 0, A 0 1, ?_, ?_⟩
@@ -177,8 +177,7 @@ private theorem square_eq_one_and_eq_zero_of_symplectic
       fromBlocks !![l, m; 0, l] B 0 !![l, 0; m, l] = J4) :
     l * l = 1 ∧ m = 0 := by
   simp only [J4, fromBlocks_transpose, fromBlocks_multiply, Matrix.transpose_zero,
-    Matrix.transpose_one, Matrix.mul_zero, Matrix.zero_mul, Matrix.mul_one, Matrix.one_mul,
-    add_zero, zero_add, Matrix.neg_mul, Matrix.mul_neg, neg_zero] at h
+    Matrix.mul_zero, Matrix.zero_mul, Matrix.mul_one, add_zero, zero_add, Matrix.neg_mul, Matrix.mul_neg, neg_zero] at h
   obtain ⟨-, hAD, -, -⟩ := fromBlocks_inj.mp h
   have hl : l * l = 1 := by
     have h00 := congrFun (congrFun hAD 0) 0
@@ -198,12 +197,11 @@ private theorem transpose_eq_of_symplectic
       fromBlocks !![l, m; 0, l] B 0 !![l, 0; m, l] = J4) :
     Bᵀ = B := by
   simp only [J4, fromBlocks_transpose, fromBlocks_multiply, Matrix.transpose_zero,
-    Matrix.transpose_one, Matrix.mul_zero, Matrix.zero_mul, Matrix.mul_one, Matrix.one_mul,
-    add_zero, zero_add, Matrix.neg_mul, Matrix.mul_neg, neg_zero] at h
+    Matrix.mul_zero, Matrix.zero_mul, Matrix.mul_one, add_zero, zero_add, Matrix.neg_mul, Matrix.mul_neg, neg_zero] at h
   obtain ⟨-, -, -, hB⟩ := fromBlocks_inj.mp h
   rw [hm, Matrix.eta_fin_two B] at hB
   have hb01 := congrFun (congrFun hB 0) 1
-  simp [Matrix.mul_apply, Fin.sum_univ_two, mul_comm, mul_left_comm, mul_assoc] at hb01
+  simp [Matrix.mul_apply, Fin.sum_univ_two, mul_comm] at hb01
   have hb : B 1 0 = B 0 1 := by
     linear_combination l * hb01 + (B 0 1 - B 1 0) * hl
   ext i j
@@ -273,7 +271,7 @@ private theorem eq_or_eq_neg_of_mk_eq {x y : GL (Fin 2 ⊕ Fin 2) (ZMod 3)}
 
 private theorem trace_conj (g h : GL (Fin 2 ⊕ Fin 2) (ZMod 3)) :
     trace ((g * h * g⁻¹ : GL (Fin 2 ⊕ Fin 2) (ZMod 3)) : SpMat3) = trace (h : SpMat3) := by
-  simp only [Units.val_mul, Units.val_inv_eq_inv_val]
+  simp only [Units.val_mul]
   rw [trace_mul_cycle]
   simp
 

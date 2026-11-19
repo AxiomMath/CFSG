@@ -23,7 +23,7 @@ private theorem spUCited_mem_sylow_of_mem_normalizer {G : Type*} [Group G] {T : 
     {y : G} (hy : y ∈ Subgroup.normalizer (T : Set G))
     (h2 : IsPGroup 2 (Subgroup.zpowers y)) : y ∈ T := by
   have hsup : IsPGroup 2 (T ⊔ Subgroup.zpowers y : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_left' T.isPGroup' h2 (Subgroup.zpowers_le.mpr hy)
+    IsPGroup.to_sup_of_normal_left' T.isPGroup h2 (Subgroup.zpowers_le.mpr hy)
   have hmax : (T ⊔ Subgroup.zpowers y : Subgroup G) = T :=
     T.maximal_isPGroup.eq_of_ge hsup le_sup_left
   exact (le_of_eq hmax) (Subgroup.mem_sup_right (Subgroup.mem_zpowers y))
@@ -48,21 +48,21 @@ private lemma spUCited_posFlag_two_eq (hr : 2 ≤ r) {v : HypIndex r ε → K}
         have hz : v (Sum.inl j) = 0 := hv (Sum.inl j) (by simpa using hj2)
         have h0 : j ≠ (⟨0, by omega⟩ : Fin r) := fun hh => hj0 (by rw [hh])
         have h1 : j ≠ (⟨1, by omega⟩ : Fin r) := fun hh => hj1 (by rw [hh])
-        simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, h0, h1, hz]
+        simp [Pi.add_apply, Pi.smul_apply, h0, h1, hz]
   · have hz : v (Sum.inr (Sum.inl k)) = 0 :=
       hv (Sum.inr (Sum.inl k)) (by simp [fullPos_inr_inl]; omega)
     have h0 : (Sum.inr (Sum.inl k) : HypIndex r ε) ≠ Sum.inl (⟨0, by omega⟩ : Fin r) := by
       simp
     have h1 : (Sum.inr (Sum.inl k) : HypIndex r ε) ≠ Sum.inl (⟨1, by omega⟩ : Fin r) := by
       simp
-    simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, h0, h1, hz]
+    simp [Pi.add_apply, Pi.smul_apply, h0, h1, hz]
   · have hz : v (Sum.inr (Sum.inr j)) = 0 :=
       hv (Sum.inr (Sum.inr j)) (by simp [fullPos_inr_inr]; omega)
     have h0 : (Sum.inr (Sum.inr j) : HypIndex r ε) ≠ Sum.inl (⟨0, by omega⟩ : Fin r) := by
       simp
     have h1 : (Sum.inr (Sum.inr j) : HypIndex r ε) ≠ Sum.inl (⟨1, by omega⟩ : Fin r) := by
       simp
-    simp [Pi.add_apply, Pi.smul_apply, Pi.single_apply, h0, h1, hz]
+    simp [Pi.add_apply, Pi.smul_apply, h0, h1, hz]
 
 private lemma spUCited_unipotent_fixes_two (h : UnitaryFieldData p f K) (hr : 2 ≤ r)
     (hε : ε ≤ 1) {u : ↥(hypSU h r ε)} (hu : u ∈ hypUnitriangular h r ε)
@@ -82,7 +82,7 @@ private lemma spUCited_unipotent_fixes_two (h : UnitaryFieldData p f K) (hr : 2 
         rw [hae] at ha
         simp only [fullPos_inl] at ha
         omega
-      · simp [Pi.single_apply, hae]
+      · simp [hae]
     have hsub := unitriangular_sub_mem_posFlag hu (i := 0) hv1
     rw [posFlag_zero, Submodule.mem_bot, sub_eq_zero] at hsub
     exact hsub
@@ -187,7 +187,7 @@ theorem uCited_conj_mem_inf_normalizer {f : ℕ} (h : UnitaryFieldData 2 f K) (h
         exact hv
     · exact mem_flagStabilizer.mp hyP i ⟨by omega, hir⟩
   obtain ⟨P, hP⟩ := (unitary_order_and_Sylow h (by omega : 1 ≤ r) hε).2.1
-  have hU2 : IsPGroup 2 (hypUnitriangular h r ε) := hP ▸ P.isPGroup'
+  have hU2 : IsPGroup 2 (hypUnitriangular h r ε) := hP ▸ P.isPGroup
   have hyN : g * x * g⁻¹ ∈
       Subgroup.normalizer (hypUnitriangular h r ε : Set ↥(hypSU h r ε)) := by
     rw [normalizer_hypUnitriangular h (by omega : 1 ≤ r) hε]
@@ -218,7 +218,7 @@ theorem uCited_conj_mem_inf_normalizer {f : ℕ} (h : UnitaryFieldData 2 f K) (h
       rw [hae] at ha
       simp only [fullPos_inl] at ha
       omega
-    · simp [Pi.single_apply, hae]
+    · simp [hae]
   exact (uCited_mem_inf_normalizer_iff h hr hε (g * x * g⁻¹)).mpr ⟨hyU, hyfix2 _ he2mem⟩
 
 theorem uCited_normal {f : ℕ} (h : UnitaryFieldData 2 f K) (hr : 2 ≤ r) (hε : ε ≤ 1) :

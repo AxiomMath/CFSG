@@ -14,13 +14,13 @@ theorem generalizedFitting_eq_innAutOf_subgroupOf {L₀ : Type} [Group L₀] [Fi
     (h : innAutOf L₀ ≤ A) :
     CFSG.generalizedFitting ↥A = (innAutOf L₀).subgroupOf A := by
   have hZ : Subgroup.center L₀ = ⊥ := (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnab).2
-  haveI : Finite (MulAut L₀) :=
+  have : Finite (MulAut L₀) :=
     Finite.of_injective (fun α : MulAut L₀ => (α : L₀ → L₀)) DFunLike.coe_injective
   set F : Subgroup ↥A := (innAutOf L₀).subgroupOf A with hF
-  haveI hFn : F.Normal := normal_innAutOf_subgroupOf h
+  have hFn : F.Normal := normal_innAutOf_subgroupOf h
   obtain ⟨e⟩ := nonempty_mulEquiv_innAutOf_subgroupOf hZ h
-  haveI : IsSimpleGroup ↥F := by
-    haveI := hs
+  have : IsSimpleGroup ↥F := by
+    have := hs
     exact e.isSimpleGroup
   have hnab' : ∃ a b : ↥F, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
@@ -49,14 +49,14 @@ theorem shapeInEAS_of_ambient {j : ℕ} {P : ∀ (X : Type) [Group X], Prop} (hP
     ShapeInEAS j P := by
   intro L₀ _ _ hs hnab hP₀ A S hAS
   obtain ⟨hInn, hSyl, hsup⟩ := hAS
-  haveI : Finite (MulAut L₀) :=
+  have : Finite (MulAut L₀) :=
     Finite.of_injective (fun α : MulAut L₀ => (α : L₀ → L₀)) DFunLike.coe_injective
-  haveI : Finite ↥A := inferInstance
+  have : Finite ↥A := inferInstance
   have hZ : Subgroup.center L₀ = ⊥ := (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnab).2
   obtain ⟨e⟩ := nonempty_mulEquiv_innAutOf_subgroupOf hZ hInn
-  haveI : ((innAutOf L₀).subgroupOf A).Normal := normal_innAutOf_subgroupOf hInn
-  haveI : IsSimpleGroup ↥((innAutOf L₀).subgroupOf A) := by
-    haveI := hs
+  have : ((innAutOf L₀).subgroupOf A).Normal := normal_innAutOf_subgroupOf hInn
+  have : IsSimpleGroup ↥((innAutOf L₀).subgroupOf A) := by
+    have := hs
     exact e.isSimpleGroup
   refine (E1.inE_subgroupOf j A).mpr (h ↥A ((innAutOf L₀).subgroupOf A) (S.subgroupOf A)
     inferInstance (generalizedFitting_eq_innAutOf_subgroupOf hs hnab hInn) inferInstance ?_

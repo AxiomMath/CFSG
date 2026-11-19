@@ -479,6 +479,7 @@ theorem extraspecial_section_pow_struct {p k : ℕ} [hp : Fact p.Prime] (hp2 : p
     exact hcard32
   · exact CFSG.RankThree.PartOne.Lifting36.isExtraspecialPGroup_of_mulEquiv e.symm hSx
 
+omit [Finite G] in
 theorem inSubgroup_center_eq_of_central {U Z D : Subgroup G} (hZU : Z ≤ U)
     (hZc : ∀ z ∈ Z, ∀ v ∈ U, z * v = v * z)
     (hcen : ∀ u ∈ U, (∀ v ∈ U, ⁅u, v⁆ ∈ centralizer (D : Set G)) → u ∈ Z) :

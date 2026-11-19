@@ -35,7 +35,7 @@ private theorem ggKGCCentSolv_of_mulEquiv {P P' : Type} [Group P] [Group P'] (e 
   let k : P := e.symm k'
   let eJ : ↥J ≃* ↥J' :=
     { toFun := fun x => ⟨e x.1, x.2⟩
-      invFun := fun y => ⟨e.symm y.1, Subgroup.mem_comap.mpr (by simpa using y.2)⟩
+      invFun := fun y => ⟨e.symm y.1, Subgroup.mem_comap.mpr (by simp)⟩
       left_inv := fun x => by ext; simp
       right_inv := fun y => by ext; simp
       map_mul' := fun x y => by ext; simp }
@@ -100,7 +100,7 @@ private theorem ggHalfKGCAssembly_scalars_two (n : ℕ) :
     simpa using GaloisField.card 2 1 (by norm_num)
   have hunits : Nat.card (GaloisField 2 1)ˣ = 1 := by
     rw [Nat.card_units, hK]
-  haveI : Subsingleton (GaloisField 2 1)ˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
+  have : Subsingleton (GaloisField 2 1)ˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
   have hc1 : c = 1 := Subsingleton.elim c 1
   subst c
   exact Subtype.ext (by simpa using hAeq)
@@ -111,8 +111,8 @@ private theorem ggHalfKGCAssembly_A_model {Q : Type} [Group Q] (n : ℕ) (hn : 5
   unfold GGHasLabel at h
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeLinear] at h
   obtain ⟨K, hF, hFin, hK, hne⟩ := h
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   obtain ⟨e⟩ := hne
   have hadm : CFSG.Open.StatedLieAdmissible .PSL (n + 1) 2 1 := by
     refine ⟨Nat.prime_two, le_rfl, by omega, ?_, ?_⟩
@@ -129,8 +129,8 @@ private theorem ggHalfKGCAssembly_twD_model {Q : Type} [Group Q]
     (h : GGHasLabel ⟨.twD, 4, 1⟩ Q) :
     CFSG.Open.StatedClassicalModel Q .POmegaMinus 4 2 1 := by
   obtain ⟨K, hF, hFin, hK, b, c, hbc, hne⟩ := h
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   obtain ⟨e⟩ := hne
   have hadm : CFSG.Open.StatedLieAdmissible .POmegaMinus 4 2 1 :=
     ⟨Nat.prime_two, le_rfl, le_rfl⟩

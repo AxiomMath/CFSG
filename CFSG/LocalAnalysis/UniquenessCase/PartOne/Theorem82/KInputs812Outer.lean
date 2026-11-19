@@ -15,7 +15,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms
 theorem outerThreeSplit_holds : OuterThreeSplit := by
   rintro X _ _ _ hXq _ hrank R S hR hS hSR α hα hα3
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   have hInorm : (inner X).Normal := inner_normal X
   have hXperf : ⁅(⊤ : Subgroup X), ⊤⁆ = ⊤ := hXq.1
   have hIperf : ⁅inner X, inner X⁆ = inner X := by
@@ -25,7 +25,7 @@ theorem outerThreeSplit_holds : OuterThreeSplit := by
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 3 X))
   have hQcyc : IsCyclic ↥(Q : Subgroup X) := by
     refine CFSG.LocalAnalysis.UniquenessCase.UCK.K31.isCyclic_of_pRank_le_one
-      (p := 3) (by decide) (by decide) Q.isPGroup' ?_
+      (p := 3) (by decide) (by decide) Q.isPGroup ?_
     have h := CFSG.SectionRank.pRank_mono (p := 3) (by norm_num)
       (le_top : (Q : Subgroup X) ≤ ⊤)
     rwa [hrank] at h
@@ -41,7 +41,7 @@ theorem outerThreeSplit_holds : OuterThreeSplit := by
     refine ⟨Sylow.mapSurjective (f := π) hπ Q, ?_⟩
     rw [Sylow.coe_mapSurjective, Subgroup.map_map, hcomp]
   have hP'cyc : IsCyclic ↥P' := by
-    haveI := hQcyc
+    have := hQcyc
     let f : ↥(Q : Subgroup X) →* ↥P' :=
       ((MulAut.conj : X →* MulAut X).comp (Q : Subgroup X).subtype).codRestrict P'
         fun x => Subgroup.mem_map.mpr ⟨x.1, x.2, rfl⟩
@@ -63,7 +63,7 @@ theorem outerThreeSplit_holds : OuterThreeSplit := by
         refine (hconj (k * y * k⁻¹)).mpr ?_
         rwa [show k⁻¹ * (k * y * k⁻¹) * k = y from by group]
     rw [hSeq]
-    haveI := hP'cyc
+    have := hP'cyc
     let f : ↥P' →* ↥(Subgroup.map (MulAut.conj k) P') :=
       ((MulAut.conj k).toMonoidHom.comp P'.subtype).codRestrict _
         fun x => Subgroup.mem_map.mpr ⟨x.1, x.2, rfl⟩

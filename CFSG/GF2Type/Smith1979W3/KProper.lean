@@ -25,7 +25,7 @@ theorem reducibleK_of_split (hSplit : DWSplitWidthThree)
     (hAsc : Quasithin.H13.Asc94_M24He_L52TypeK) : ReducibleWidthThreeK := by
   intro G _ _ _ hKP S hw hnwc hred
   obtain ⟨W₁, W₂, H, hsurj, x, hxM, hxQ, hx, A, hAel, hA, hAx⟩ := hSplit G S hw hnwc hred
-  haveI := hAel
+  have := hAel
   obtain ⟨e⟩ := H.nonempty_centralizer_mulEquiv hsurj hxM hxQ hx hA hAx
   obtain ⟨g, hg, hne⟩ := hnwc
   have hwc : ∃ g' : G, g'⁻¹ * S.z * g' ∈ pCoreOf 2 (Subgroup.centralizer ({S.z} : Set G)) ∧

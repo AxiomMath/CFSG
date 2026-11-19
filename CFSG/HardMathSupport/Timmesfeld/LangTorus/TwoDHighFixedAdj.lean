@@ -100,7 +100,7 @@ private theorem exists_fixed_adj_of_fork (hsl : ∀ β ∈ simpleRoots Ψ, iform
   · let j : Fin t.rank := e ⟨β, hβ⟩
     have hβj : (e.symm j : Fin τ.rank → ℤ) = β := by
       change (e.symm (e ⟨β, hβ⟩) : Fin τ.rank → ℤ) = β
-      simpa using congrArg Subtype.val (Equiv.symm_apply_apply e ⟨β, hβ⟩)
+      simp
     have hmoved : Equiv.swap a b j ≠ j := by
       intro heq
       apply hβm
@@ -131,8 +131,7 @@ private theorem cartanD_fork_adj :
     ((DynkinType.D 8).cartanMatrix (⟨6, by decide⟩ : Fin 8) ⟨5, by decide⟩ = -1 ∧
       (DynkinType.D 8).cartanMatrix (⟨7, by decide⟩ : Fin 8) ⟨5, by decide⟩ = -1) := by
   refine ⟨⟨?_, ?_⟩, ⟨?_, ?_⟩, ⟨?_, ?_⟩, ⟨?_, ?_⟩⟩ <;>
-    simp only [DynkinType.cartanMatrix_D, ← CFSG.LieType.Universal.Spin.cartanD_eq,
-      CFSG.Timmesfeld.LevisSpin.cartanD_apply] <;>
+    simp only [DynkinType.cartanMatrix_D, ← CFSG.LieType.Universal.Spin.cartanD_eq] <;>
     decide
 
 private theorem exists_fixed_adj_of_countType
@@ -246,15 +245,15 @@ theorem IsGraphTwist.adj_all (hG : IsGraphTwist Ψ δ)
 
 theorem IsGraphTwist.root_facts (hG : IsGraphTwist Ψ δ)
     (hiso : ∀ x y, iform (δ x) (δ y) = iform x y) (hΨ : IsRootComponent Ψ)
-    (hmaps : ∀ γ ∈ Ψ, δ γ ∈ Ψ)
+    (hmaps : ∀ _γ ∈ Ψ, δ _γ ∈ Ψ)
     (hN : ∀ β ∈ simpleRoots Ψ, δ β ≠ β →
       ∃ β' ∈ simpleRoots Ψ, δ β' = β' ∧ iform β β' = -1) :
-    (∀ γ ∈ Ψ, δ (δ γ) = γ) ∧
-      (∀ γ ∈ Ψ, δ γ ≠ γ → iform γ (δ γ) = 0) ∧
-      (∀ γ ∈ Ψ, δ γ = γ → ∃ γ' ∈ Ψ, δ γ' = γ' ∧ iform γ γ' = -1) ∧
-      ∀ γ ∈ Ψ, δ γ ≠ γ → ∃ γ' ∈ Ψ, δ γ' = γ' ∧ iform γ γ' = -1 :=
-  ⟨hG.invol, hG.orth, fun γ hγ _ => hG.adj_all hiso hΨ hmaps hN hγ,
-    fun γ hγ _ => hG.adj_all hiso hΨ hmaps hN hγ⟩
+    (∀ _γ ∈ Ψ, δ (δ _γ) = _γ) ∧
+      (∀ _γ ∈ Ψ, δ _γ ≠ _γ → iform _γ (δ _γ) = 0) ∧
+      (∀ _γ ∈ Ψ, δ _γ = _γ → ∃ γ' ∈ Ψ, δ γ' = γ' ∧ iform _γ γ' = -1) ∧
+      ∀ _γ ∈ Ψ, δ _γ ≠ _γ → ∃ γ' ∈ Ψ, δ γ' = γ' ∧ iform _γ γ' = -1 :=
+  ⟨hG.invol, hG.orth, fun _γ hγ _ => hG.adj_all hiso hΨ hmaps hN hγ,
+    fun _γ hγ _ => hG.adj_all hiso hΨ hmaps hN hγ⟩
 
 end Certificates
 

@@ -116,12 +116,12 @@ theorem tw_cocycle_mem_toralRootGroup_threeA2 {p f : ℕ} (hp : p.Prime) (hf : 1
   classical
   set L := AlgebraicClosure K with hL
   set ι : K →+* L := algebraMap K L with hι
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hKp : CharP K p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have hKp : CharP K p :=
     charP_of_card_eq_prime_pow (f := f * 2)
       (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP L p := charP_of_injective_algebraMap ι.injective p
+  have : CharP L p := charP_of_injective_algebraMap ι.injective p
   have hp3 : p ≠ 3 := by
     rintro rfl
     have h := Nat.mod_eq_zero_of_dvd (dvd_pow_self 3 (show f ≠ 0 by omega))
@@ -129,7 +129,7 @@ theorem tw_cocycle_mem_toralRootGroup_threeA2 {p f : ℕ} (hp : p.Prime) (hf : 1
   obtain ⟨Eg, hEg⟩ := exists_finset_descent hg0C
   obtain ⟨Ey, hEy⟩ := exists_finset_descent hy
   obtain ⟨K₃, hK₃, hSK₃, hιK₃⟩ := exists_finite_subfield_of_finset (K := K) (Eg ∪ Ey)
-  haveI : Finite K₃ := hK₃
+  have : Finite K₃ := hK₃
   have hgK : (Eg : Set L) ⊆ K₃ := fun x hx =>
     hSK₃ (Finset.mem_coe.2 (Finset.mem_union_left _ hx))
   have hyK : (Ey : Set L) ⊆ K₃ := fun x hx =>
@@ -139,7 +139,7 @@ theorem tw_cocycle_mem_toralRootGroup_threeA2 {p f : ℕ} (hp : p.Prime) (hf : 1
   obtain ⟨y3, hy3C, hy3⟩ := hEy K₃ hyK
   obtain ⟨ι₃, hιι⟩ : ∃ ι₃ : K →+* K₃, K₃.subtype.comp ι₃ = ι :=
     ⟨ι.codRestrict K₃ hιK, RingHom.ext fun x => rfl⟩
-  haveI : CharP K₃ p := Subfield.charP K₃ p
+  have : CharP K₃ p := Subfield.charP K₃ p
   obtain ⟨φ, hφdef⟩ : ∃ φ : K₃ →+* K₃, φ = iterateFrobenius K₃ p f := ⟨_, rfl⟩
   have hφq : ∀ c : K₃, φ c = c ^ (p ^ f) := fun c => by
     rw [hφdef, iterateFrobenius_def]

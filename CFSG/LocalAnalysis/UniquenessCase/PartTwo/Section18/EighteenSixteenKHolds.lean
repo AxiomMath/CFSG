@@ -67,7 +67,7 @@ theorem k_K_SU4_nonsingPoint_holds :
 theorem k_K_Omega6Minus_nonsingPoint_holds :
     ∀ {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W)) (p n : ℕ),
       2 ≤ n → IsOmegaMinus ↥H 6 n →
-        ∀ (W' : Subgroup W) (hW' : StableUnder H W') (hN : NatOmegaMinus H W' ⊥ 6 n),
+        ∀ (W' : Subgroup W) (hW' : StableUnder H W') (_hN : NatOmegaMinus H W' ⊥ 6 n),
         p.Prime → (2 : ℤ) ^ n ≡ -1 [ZMOD (p : ℤ)] →
           ∀ (F : Type) [Field F] [Finite F] (b c : F), Nat.card F = 2 ^ n →
             (∀ s : F, s ^ 2 + b * s + c ≠ 0) →

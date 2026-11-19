@@ -51,7 +51,7 @@ theorem sd_commute_R_Q (hd : Sec19Data p f K z S W) :
   intro r hr q hq
   have hqN : q ∈ Subgroup.normalizer (((S : Subgroup G) ⊓ K : Subgroup G) : Set G) :=
     mem_normalizer_inf_of_mem hq.1 (sd_normalizer_eq hd ▸ hd.hSz hq.1)
-  exact (commute_of_mem_centralizerModOdd hq.2 inf_le_right (S.isPGroup'.to_le inf_le_left) hqN
+  exact (commute_of_mem_centralizerModOdd hq.2 inf_le_right (S.isPGroup.to_le inf_le_left) hqN
     hr).symm
 
 theorem sd_inf_sup_R_Q (hd : Sec19Data p f K z S W) :
@@ -71,7 +71,7 @@ theorem sd_mem_S (hd : Sec19Data p f K z S W) : z ∈ (S : Subgroup G) := by
         exact ((Commute.zpow_left (Subgroup.mem_centralizer_singleton_iff.mp (hd.hSz hs)).symm
           k).eq))
   have h2 : IsPGroup 2 ↥((S : Subgroup G) ⊔ Subgroup.zpowers z) :=
-    S.isPGroup'.to_sup_of_normal_right' hz2 hSN
+    S.isPGroup.to_sup_of_normal_right' hz2 hSN
   have h3 := S.maximal_isPGroup.eq_of_ge h2 le_sup_left
   exact h3 ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers z)
 
@@ -140,7 +140,7 @@ theorem sd_yPrimeData (hd : Sec19Data p f K z S W)
   have hQY : Q ≤ sec19Y K z := inf_le_right
   have hY'Y : conjClosure C Q ≤ sec19Y K z := conjClosure_le_of_normalizes hQY fun c hc =>
     mem_normalizer_iff_conjSub_eq.mp (sd_centralizer_le_normalizer_Y hd hc)
-  have hQ2 : IsPGroup 2 Q := S.isPGroup'.to_le inf_le_left
+  have hQ2 : IsPGroup 2 Q := S.isPGroup.to_le inf_le_left
   refine ⟨fun c hc => mem_normalizer_iff_conjSub_eq.mpr (conjSub_conjClosure hc),
     hY'Y.trans (sd_le_centralizer_Y hd),
     IsSylow2In.of_le (sd_isSylow2In_Q hd) (le_conjClosure C Q) hY'Y, sd_isUniqueInvolution_Q hd hQ,

@@ -23,13 +23,13 @@ theorem commutator_le_pCoreOf_of_asc83CComponent {M L X : Subgroup G}
     (hL : Asc83CComponent M L) (hX : Asc83CComponent M X) (hne : L ≠ X) :
     ⁅L, X⁆ ≤ CFSG.Open.pCoreOf 2 M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLc : L ∈ CFSG.Quasithin.cComp M :=
     CFSG.Quasithin.mem_cComp_iff.mpr (asc83CComponent_quasithinIsCComponent hL)
   have hXc : X ∈ CFSG.Quasithin.cComp M :=
     CFSG.Quasithin.mem_cComp_iff.mpr (asc83CComponent_quasithinIsCComponent hX)
   let K : Subgroup ↥M := CFSG.pCore 2 ↥M
-  haveI hKn : K.Normal := CFSG.pCore_normal
+  have hKn : K.Normal := CFSG.pCore_normal
   let π : ↥M →* (↥M ⧸ K) := QuotientGroup.mk' K
   let l : Subgroup ↥M := L.subgroupOf M
   let x : Subgroup ↥M := X.subgroupOf M
@@ -43,7 +43,7 @@ theorem commutator_le_pCoreOf_of_asc83CComponent {M L X : Subgroup G}
     intro h
     exact hne (by rw [← hlmap, ← hxmap, h])
   have hK2 : IsPGroup 2 K := CFSG.pCore_isPGroup
-  haveI : Group.IsNilpotent ↥K := hK2.isNilpotent
+  have : Group.IsNilpotent ↥K := hK2.isNilpotent
   have hKsolv : Group.IsSolvable ↥K := IsNilpotent.to_isSolvable
   have hbij := CFSG.Quasithin.cComp_quotient_bijOn K hKsolv
   have hlRmem : l.map π ∈ CFSG.Quasithin.cComp (⊤ : Subgroup (↥M ⧸ K)) := hbij.mapsTo hlc
@@ -59,14 +59,14 @@ theorem commutator_le_pCoreOf_of_asc83CComponent {M L X : Subgroup G}
     intro hle
     rw [QuotientGroup.ker_mk' K] at hle
     have hl2 : IsPGroup 2 ↥l := hK2.to_le hle
-    haveI : Group.IsNilpotent ↥l := hl2.isNilpotent
-    haveI : Group.IsSolvable ↥l := IsNilpotent.to_isSolvable
+    have : Group.IsNilpotent ↥l := hl2.isNilpotent
+    have : Group.IsSolvable ↥l := IsNilpotent.to_isSolvable
     exact CFSG.Quasithin.not_isSolvable_of_mem_cComp hlc inferInstance
   have hlRq : CFSG.IsQuasisimple ↥(l.map π) := by
     refine CFSG.Quasithin.RonanD33.isQuasisimple_map_of_pCore_le_ker (L := l) (ρ := π) ?_ hqc hnt
     obtain ⟨hcore, hq'⟩ :=
       quasisimpleModOTwo_subgroupOf hL.1 hL.2.2.2
-    letI := hcore
+    let := hcore
     exact CFSG.Quasithin.A3.isQuasisimple_iff_open.mpr hq'
   have hxc' : CFSG.Open.pCoreOf 2 x ≤ π.ker := by
     have hsub : CFSG.Open.IsSubnormal x (⊤ : Subgroup ↥M) :=
@@ -78,14 +78,14 @@ theorem commutator_le_pCoreOf_of_asc83CComponent {M L X : Subgroup G}
     intro hle
     rw [QuotientGroup.ker_mk' K] at hle
     have hx2 : IsPGroup 2 ↥x := hK2.to_le hle
-    haveI : Group.IsNilpotent ↥x := hx2.isNilpotent
-    haveI : Group.IsSolvable ↥x := IsNilpotent.to_isSolvable
+    have : Group.IsNilpotent ↥x := hx2.isNilpotent
+    have : Group.IsSolvable ↥x := IsNilpotent.to_isSolvable
     exact CFSG.Quasithin.not_isSolvable_of_mem_cComp hxc inferInstance
   have hxRq : CFSG.IsQuasisimple ↥(x.map π) := by
     refine CFSG.Quasithin.RonanD33.isQuasisimple_map_of_pCore_le_ker (L := x) (ρ := π) ?_ hxc' hnt'
     obtain ⟨hcore, hq'⟩ :=
       quasisimpleModOTwo_subgroupOf hX.1 hX.2.2.2
-    letI := hcore
+    let := hcore
     exact CFSG.Quasithin.A3.isQuasisimple_iff_open.mpr hq'
   have hcommR : ⁅l.map π, x.map π⁆ = ⊥ := by
     rcases CFSG.Quasithin.H13.cComp_eq_or_commutator_eq_bot_of_isQuasisimple
@@ -102,6 +102,7 @@ theorem commutator_le_pCoreOf_of_asc83CComponent {M L X : Subgroup G}
     _ ≤ K.map M.subtype := Subgroup.map_mono hcommH
     _ = CFSG.Open.pCoreOf 2 M := rfl
 
+omit [Finite G] in
 theorem asc83CComponent_map_conj {M L : Subgroup G} (hL : Asc83CComponent M L) {m : G}
     (hm : m ∈ M) :
     Asc83CComponent M (L.map (MulAut.conj m).toMonoidHom) := by
@@ -116,7 +117,7 @@ theorem asc83CComponent_map_conj {M L : Subgroup G} (hL : Asc83CComponent M L) {
     exact h
   · rw [← Subgroup.map_commutator, hperf]
   · obtain ⟨hcore, hq'⟩ := hq
-    letI := hcore
+    let := hcore
     let equivalence := Subgroup.equivMapOfInjective L f (MulAut.conj m).injective
     have coreMap : (CFSG.Open.pCore 2 ↥L).map equivalence.toMonoidHom =
         CFSG.Open.pCore 2 ↥(L.map f) := CFSG.pCore_map_iso 2 equivalence
@@ -204,7 +205,7 @@ theorem map_conj_mem_of_asc83CComponent (c : Ctx82E3 D) {m : G} (hm : m ∈ D.M)
 
 theorem le_normalizer_L (c : Ctx82E3 D) :
     D.M ≤ Subgroup.normalizer (c.L : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   rcases c.hyp81.2.2.2.2 with hq | ⟨L₁, L₂, L₃, hLjoin, hL₁L, hL₂L, hL₃L,
     hcomp₁, hr₁, hcomp₂, hr₂, hcomp₃, hr₃, -⟩
   ·

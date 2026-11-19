@@ -16,11 +16,11 @@ variable {K : Type} [Group K] [Finite K] {J M X P : Subgroup K}
 
 theorem exists_index (h : OneComp J M X P) :
     ∃ m : ℕ, m ∣ Nat.card J ∧ Nat.Coprime m 6 ∧ m % 7 = 1 ∧ 1 < m := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hJM : J ⊔ M = ⊤ := by
     rw [eq_top_iff, ← h.sup_normalizer_eq_top]
     exact sup_le_sup_left h.normalizer_le J
-  haveI hJnormal : J.Normal := h.normal
+  have hJnormal : J.Normal := h.normal
   have hMJ : M.relIndex J = M.index := by
     rw [← CFSG.ABGLocalTools.relIndex_sup_eq_relIndex_of_normal (N := J) (P := M),
       hJM, Subgroup.relIndex_top_right]
@@ -29,7 +29,7 @@ theorem exists_index (h : OneComp J M X P) :
     exact Subgroup.relIndex_dvd_card M J
   have h2 : ¬ 2 ∣ M.index := by
     obtain ⟨S, hSyl, hSM⟩ := h.exists_sylow_two
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hSJ : IsSylowOf 2 (S ⊓ J) J := by
       have htop : (⊤ : Subgroup K) ≤ normalizer (J : Set K) := by
         rw [Subgroup.normalizer_eq_top]
@@ -43,7 +43,7 @@ theorem exists_index (h : OneComp J M X P) :
     have hnot2 : ¬ 2 ∣ (M ⊓ J).relIndex J := fun hd => hnot (hd.trans hdvd)
     rwa [Subgroup.inf_relIndex_right (H := M) (K := J), hMJ] at hnot2
   have h3 : ¬ 3 ∣ M.index := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hXM : X ≤ M := le_trans Subgroup.le_normalizer h.normalizer_le
     have hXle : X ≤ M ⊓ J := le_inf hXM h.sylow.le
     have hnot : ¬ 3 ∣ X.relIndex J :=

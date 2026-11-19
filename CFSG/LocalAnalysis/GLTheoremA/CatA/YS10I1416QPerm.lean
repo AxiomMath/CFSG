@@ -28,7 +28,7 @@ theorem sq_card_le_perm_aux (n : ℕ) : ∀ (α : Type) [Finite α], Nat.card α
   classical
   rcases Nat.eq_zero_or_pos n with h0 | hpos
   · have hem : IsEmpty α := by
-      haveI := Fintype.ofFinite α
+      have := Fintype.ofFinite α
       rw [Nat.card_eq_fintype_card] at hn
       exact Fintype.card_eq_zero_iff.1 (hn.trans h0)
     have hsub : Subsingleton (Equiv.Perm α) := ⟨fun f g => Equiv.ext fun x => isEmptyElim x⟩
@@ -38,9 +38,9 @@ theorem sq_card_le_perm_aux (n : ℕ) : ∀ (α : Type) [Finite α], Nat.card α
     rw [h0, pow_zero]
     have : Nat.card E ^ 2 ≤ 1 ^ 2 := Nat.pow_le_pow_left h1 2
     simpa using this
-  · haveI : Nonempty α := (Nat.card_pos_iff.1 (hn ▸ hpos)).1
+  · have : Nonempty α := (Nat.card_pos_iff.1 (hn ▸ hpos)).1
     obtain ⟨x⟩ := ‹Nonempty α›
-    haveI : Fintype α := Fintype.ofFinite α
+    have : Fintype α := Fintype.ofFinite α
     have hP : IsPGroup 2 E := CFSG.GH74.SmallRanks.isPGroup_two_of_isElemAbelian hE
     obtain ⟨k, hk⟩ := hP.exists_card_eq
     set O : Set α := MulAction.orbit E x with hO
@@ -158,7 +158,7 @@ theorem le_two_of_two_pow_dvd {j m : ℕ} (hm : Odd m) (h : 2 ^ j ∣ 2 * m) : 2
   exact Nat.le_of_dvd (by norm_num) h2
 
 theorem twoRank_lt_six_of_center_quotient {J : Type} [Group J] [Finite J]
-    (hJ : Group.IsPerfect J) {m : ℕ} (hm : Odd m) (hZ : Nat.card (Subgroup.center J) ∣ 2 * m)
+    (_hJ : Group.IsPerfect J) {m : ℕ} (hm : Odd m) (hZ : Nat.card (Subgroup.center J) ∣ 2 * m)
     (hS : ∀ F : Subgroup (J ⧸ Subgroup.center J), IsElemAbelian 2 F → Nat.card F ≤ 16) :
     twoRank J < 6 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

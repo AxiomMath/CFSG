@@ -135,11 +135,11 @@ theorem s15GapFour_eq_one_of_centralizes (hAbs : RAbsIrr153) (D : Data G) (h1217
     let F : Subgroup (vStar D.M V₀ V hV L) :=
       { carrier := {w | actTil (v1Sub D.M V₀ V hV L) V hV ⟨g, hg1⟩ w = w}
         mul_mem' := fun {a b} ha hb => by
-          simp only [Set.mem_setOf_eq] at ha hb ⊢
+          simp only [Set.mem_ofPred_eq] at ha hb ⊢
           rw [map_mul, ha, hb]
         one_mem' := by simp
         inv_mem' := fun {a} ha => by
-          simp only [Set.mem_setOf_eq] at ha ⊢
+          simp only [Set.mem_ofPred_eq] at ha ⊢
           rw [map_inv, ha] }
     have hle : sSup {Z : Subgroup (vStar D.M V₀ V hV L) | ∃ m ∈ D.M,
         Z = commSub ⊤ (barSub (v1Sub D.M V₀ V hV L) V hV (conjSubgroup K₀ m))} ≤ F := by

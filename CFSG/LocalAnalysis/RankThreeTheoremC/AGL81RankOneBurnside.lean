@@ -18,18 +18,18 @@ theorem exists_normal_pComplement_of_normalizer_le_centralizer {Y : Type*} [Grou
       Subgroup.centralizer (Subgroup.zpowers y : Set Y))
     (hcyc : ∀ S : Subgroup Y, IsPGroup p S → IsCyclic S) :
     ∃ N : Subgroup Y, N.Normal ∧ ¬ p ∣ Nat.card N ∧ ∃ n : ℕ, N.index = p ^ n := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZp : IsPGroup p (Subgroup.zpowers y) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hyp, pow_one])
   obtain ⟨Q, hQ⟩ := hZp.exists_le_sylow
-  have hQcyc : IsCyclic ↥(Q : Subgroup Y) := hcyc _ Q.isPGroup'
+  have hQcyc : IsCyclic ↥(Q : Subgroup Y) := hcyc _ Q.isPGroup
   obtain ⟨r, hr⟩ := hQcyc.exists_generator
   have hQr : (Q : Subgroup Y) = Subgroup.zpowers (r : Y) := by
     refine le_antisymm (fun z hz => ?_) (Subgroup.zpowers_le.2 r.2)
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 (hr ⟨z, hz⟩)
     exact Subgroup.mem_zpowers_iff.2 ⟨k, congrArg Subtype.val hk⟩
   have hyQ : y ∈ (Q : Subgroup Y) := hQ (Subgroup.mem_zpowers y)
-  obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf).1 Q.isPGroup' r
+  obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf).1 Q.isPGroup r
   have hm' : orderOf (r : Y) = p ^ m := by rw [Subgroup.orderOf_coe]; exact hm
   have hm0 : m ≠ 0 := by
     rintro rfl
@@ -67,7 +67,7 @@ theorem exists_normal_pComplement_of_normalizer_le_centralizer {Y : Type*} [Grou
   rw [hzeq] at hNC
   obtain ⟨N, hNn, hNcop, hNidx⟩ :=
     CFSG.GH74.Uniqueness.Hering.exists_normal_pComplement_of_cyclic Q hQr hm' hNC
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 Q.isPGroup'
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 Q.isPGroup
   exact ⟨N, hNn, hNcop, n, by rw [hNidx, hn]⟩
 
 theorem eq_one_of_mem_zpowers_of_isPGroup_two {Γ : Type*} [Group Γ] {N : Subgroup Γ}
@@ -92,8 +92,8 @@ theorem not_dvd_card_of_perfect {A : Type*} [Group A] [Finite A] [Group.IsPerfec
     obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x
     obtain ⟨n, hn⟩ := hpow g
     exact ⟨n, by rw [← QuotientGroup.mk_pow]; exact (QuotientGroup.eq_one_iff _).2 hn⟩
-  haveI : Group.IsNilpotent (A ⧸ M) := hp.isNilpotent
-  haveI : Subsingleton (A ⧸ M) := by
+  have : Group.IsNilpotent (A ⧸ M) := hp.isNilpotent
+  have : Subsingleton (A ⧸ M) := by
     by_contra h
     rw [not_subsingleton_iff_nontrivial] at h
     exact Group.IsPerfect.not_isNilpotent (A ⧸ M) ‹_›
@@ -111,8 +111,8 @@ theorem two_dvd_card_of_symThree {Q : Type} [Group Q] (h : IsSymThreeOrSUThreeTw
   rcases h with ⟨f⟩ | ⟨K, _, _, hK, ⟨f⟩⟩
   · rw [Nat.card_congr f.some.toEquiv, Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]
     decide
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := CFSG.HardMathSupport.Solomon.Proving.charP_two_of_card_four K hK
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := CFSG.HardMathSupport.Solomon.Proving.charP_two_of_card_four K hK
     have h2 := CFSG.SectionRank.OddCover.card_statedSU_three (K := K) (p := 2) (f := 1)
       (by rw [hK]; norm_num)
     rw [pow_one] at h2
@@ -130,10 +130,10 @@ theorem not_dvd_card_of_symThree (hSU : KFactSUThreeTwoNoNormalThreePrime) {I : 
   have hp3 : p = 3 := (prime_eq_of_dvd_card_of_symThree hb hp hpI).resolve_left hp2
   subst hp3
   set π : ↥I →* ↥I ⧸ CFSG.pCore 2 ↥I := QuotientGroup.mk' (CFSG.pCore 2 ↥I)
-  haveI : (M.map π).Normal := Subgroup.Normal.map ‹_› π (QuotientGroup.mk'_surjective _)
+  have : (M.map π).Normal := Subgroup.Normal.map ‹_› π (QuotientGroup.mk'_surjective _)
   have h3 : ¬ 3 ∣ Nat.card (M.map π) := fun h => hM (h.trans (Subgroup.card_map_dvd M π))
   have hbot : M.map π = ⊥ := SevenFourL34.normal_eq_bot_of_not_three_dvd hSU hb (M.map π) h3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥I ⧸ CFSG.pCore 2 ↥I) 2
     (two_dvd_card_of_symThree hb)
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective t
@@ -152,7 +152,7 @@ theorem exists_mem_cZero_dvd_card {H L : Subgroup G} {p : ℕ} (hp : p.Prime)
     (hpJ : p ∣ Nat.card (jZero H L)) : ∃ I ∈ cZero (H ⊓ L), p ∣ Nat.card I := by
   by_contra hne
   push Not at hne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJ : jZero H L ≤ (CFSG.pPrimeCore p ↥(H ⊓ L)).map (H ⊓ L).subtype := by
     refine iSup₂_le fun I hI => ?_
     have hle : I ≤ H ⊓ L := hI.le
@@ -215,17 +215,17 @@ theorem false_of_comm_jZero_of_cyclic
     (hcyc : ∀ S : Subgroup G, S ≤ jZero H L → IsPGroup p S → IsCyclic S)
     (hpJ : p ∣ Nat.card (jZero H L))
     (hc : ∀ x ∈ jZero H L, z * x * z⁻¹ * x⁻¹ ∈ pCoreOf 2 (jZero H L)) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨N, hNn, hNp, n, hn⟩ := exists_normal_pPrime_of_comm hp hp2 hz hzp hcyc hc
   obtain ⟨I, hI, hpI⟩ := exists_mem_cZero_dvd_card hp hpJ
   have hIJ : I ≤ jZero H L := IsCZeroMember.le_jZero hI
-  haveI : (N.comap (Subgroup.inclusion hIJ)).Normal := hNn.comap _
+  have : (N.comap (Subgroup.inclusion hIJ)).Normal := hNn.comap _
   have hM : ¬ p ∣ Nat.card (N.comap (Subgroup.inclusion hIJ)) := fun h =>
     hNp (h.trans (Subgroup.card_comap_dvd_of_injective N _ (Subgroup.inclusion_injective hIJ)))
   have hpow : ∀ g : ↥I, ∃ n : ℕ, g ^ p ^ n ∈ N.comap (Subgroup.inclusion hIJ) := fun g =>
     ⟨n, by rw [Subgroup.mem_comap, map_pow]; exact hn _⟩
   rcases hI.shape with hperf | ⟨_, hb⟩
-  · haveI : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.2 hperf.perfect
+  · have : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.2 hperf.perfect
     exact not_dvd_card_of_perfect _ hM hpow hpI
   · exact not_dvd_card_of_symThree hSU hp hp2 hb _ hM hpow hpI
 

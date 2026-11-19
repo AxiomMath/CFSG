@@ -12,7 +12,7 @@ theorem e214_seven
     (Γ : Type) [Group Γ] [Finite Γ] (H T M V : Subgroup Γ) (h : E2.Hyp28 H T M V)
     (hc : CharTwo H) (hTI : IsTISetIn V M) (I : Subgroup Γ) (g : Γ) (hI : IsInIHTV H T M V I)
     (hg : g ∈ I) (hIV : I = V ⊔ conjSubgroup V g) (hZ1 : V ⊓ conjSubgroup V g ≠ ⊥)
-    (MI TI JI B A P Z : Subgroup Γ) (k : ℕ) (hMI : MI = M ⊓ I) (hTI' : TI = T ⊓ I)
+    (MI TI JI B A P Z : Subgroup Γ) (k : ℕ) (hMI : MI = M ⊓ I) (_hTI' : TI = T ⊓ I)
     (hJI : JI = kerIn MI I) (hB : B = V ⊓ pCoreOf 2 I) (hA : A = conjSubgroup V g ⊓ pCoreOf 2 I)
     (hP : P = A ⊔ B) (hZ : Z = V ⊓ conjSubgroup V g)
     (hk : E1.nParam (⊤ : Subgroup (E2.StarQuot MI I)) = (k : ℕ∞))
@@ -38,7 +38,7 @@ theorem e214_seven
           Nat.card F = 4 ∧ S ≤ CFSG.Open.StatedSL 2 F ∧ Nonempty (↥S ≃* DihedralGroup 5) ∧
           Nonempty (E2.StarQuot MI I ≃* DihedralGroup 5) ∧ IsNaturalSection I P Z JI S)) := by
   intro hrk hq
-  subst hMI hTI' hJI hB hA
+  subst hMI _hTI' hJI hB hA
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := E2P.finite_starQuot (M ⊓ I) I
   obtain ⟨hPZ, hVZ⟩ := numerics h hc hI hg hIV
@@ -123,7 +123,7 @@ theorem e214_eight
     (Γ : Type) [Group Γ] [Finite Γ] (H T M V : Subgroup Γ) (h : E2.Hyp28 H T M V)
     (hc : CharTwo H) (hTI : IsTISetIn V M) (I : Subgroup Γ) (g : Γ) (hI : IsInIHTV H T M V I)
     (hg : g ∈ I) (hIV : I = V ⊔ conjSubgroup V g) (hZ1 : V ⊓ conjSubgroup V g ≠ ⊥)
-    (MI TI JI B A P Z : Subgroup Γ) (k : ℕ) (hMI : MI = M ⊓ I) (hTI' : TI = T ⊓ I)
+    (MI TI JI B A P Z : Subgroup Γ) (k : ℕ) (hMI : MI = M ⊓ I) (_hTI' : TI = T ⊓ I)
     (hJI : JI = kerIn MI I) (hB : B = V ⊓ pCoreOf 2 I) (hA : A = conjSubgroup V g ⊓ pCoreOf 2 I)
     (hP : P = A ⊔ B) (hZ : Z = V ⊓ conjSubgroup V g)
     (hk : E1.nParam (⊤ : Subgroup (E2.StarQuot MI I)) = (k : ℕ∞))
@@ -137,7 +137,7 @@ theorem e214_eight
       IsPSL 2 2 2 (E2.StarQuot MI I) ∧
       ∃ s : ℕ, (s = 2 ∨ s = 3) ∧ rk ↥(autI h.elem A) = 2 * s ∧ E3.mQuot V Z = 2 * (s + 1) := by
   rintro rfl hrk hq
-  subst hMI hTI' hJI hB hA
+  subst hMI _hTI' hJI hB hA
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := E2P.finite_starQuot (M ⊓ I) I
   obtain ⟨hPZ, hVZ⟩ := numerics h hc hI hg hIV

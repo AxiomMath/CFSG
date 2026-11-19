@@ -21,7 +21,7 @@ theorem tabFi23_card_om : Nat.card ↥Om = 4585351680 := by
   decide
 
 theorem tabFi23_isSimpleGroup_om : IsSimpleGroup ↥Om := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have := CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadOdd
     (K := ZMod 3) (n := 3) 3 (by norm_num) le_rfl
   exact (modelEquiv card_zmod_three).symm.isSimpleGroup
@@ -29,14 +29,14 @@ theorem tabFi23_isSimpleGroup_om : IsSimpleGroup ↥Om := by
 theorem tabFi23_nonabelian_om : ∃ a b : ↥Om, a * b ≠ b * a := by
   by_contra hc
   push Not at hc
-  haveI := tabFi23_isSimpleGroup_om
-  letI : CommGroup ↥Om := { (inferInstance : Group ↥Om) with mul_comm := hc }
+  have := tabFi23_isSimpleGroup_om
+  let : CommGroup ↥Om := { (inferInstance : Group ↥Om) with mul_comm := hc }
   have hp := IsSimpleGroup.prime_card (α := ↥Om)
   rw [tabFi23_card_om] at hp
   norm_num at hp
 
 theorem tabFi23_center_om : Subgroup.center ↥Om = ⊥ := by
-  haveI := tabFi23_isSimpleGroup_om
+  have := tabFi23_isSimpleGroup_om
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥Om) with h | h
   · exact h
   · exfalso
@@ -46,7 +46,7 @@ theorem tabFi23_center_om : Subgroup.center ↥Om = ⊥ := by
 
 theorem tabFi23_isSimpleGroup_of_equiv_om {T : Type*} [Group T] (e : T ≃* ↥Om) :
     IsSimpleGroup T := by
-  haveI := tabFi23_isSimpleGroup_om
+  have := tabFi23_isSimpleGroup_om
   exact e.isSimpleGroup
 
 theorem tabFi23_nonabelian_of_equiv_om {T : Type*} [Group T] (e : T ≃* ↥Om) :

@@ -123,7 +123,7 @@ theorem checkK_4_t : checkK 4 true = true := by decide +kernel
 
 theorem checkAll_eq : checkAll = true := by
   show ([0, 1, 2, 3, 4].all fun k => [false, true].all fun l0 => checkK k l0) = true
-  simp only [List.all_cons, List.all_nil, Bool.and_true, Bool.true_and, checkK_0_f, checkK_0_t,
+  simp only [List.all_cons, List.all_nil, Bool.and_true, checkK_0_f, checkK_0_t,
     checkK_1_f, checkK_1_t, checkK_2_f, checkK_2_t, checkK_3_f, checkK_3_t,
     checkK_4_f, checkK_4_t]
 
@@ -161,7 +161,7 @@ theorem f4_adj_value {Ψ : Set (Fin Tag.F4.rank → ℤ)} (hΨ : IsRootComponent
   rcases ha with ha | ha <;> rcases hb with hb | hb <;>
     rw [ha] at hda <;> rw [hb] at hdb <;> rw [ha, hb] at hpos <;> omega
 
-theorem f4_smul_of_values {Ψ : Set (Fin Tag.F4.rank → ℤ)} (hΨ : IsRootComponent Ψ)
+theorem f4_smul_of_values {Ψ : Set (Fin Tag.F4.rank → ℤ)} (_hΨ : IsRootComponent Ψ)
     {δ ε : Fin Tag.F4.rank → ℤ} (hδ : δ ∈ simpleRoots Ψ) (hε : ε ∈ simpleRoots Ψ)
     (hv : (iform δ δ = 2 ∧ iform ε ε = 2 ∧ iform δ ε = -1) ∨
       (iform δ δ = 4 ∧ iform ε ε = 4 ∧ iform δ ε = -2)) :
@@ -200,7 +200,7 @@ noncomputable def f4Vtx (Ψ : Set (Fin Tag.F4.rank → ℤ)) (i : ℕ) : Fin Tag
 theorem f4Vtx_mem {Ψ : Set (Fin Tag.F4.rank → ℤ)} {i : ℕ} (h : i < (simpleRoots Ψ).card) :
     f4Vtx Ψ i ∈ simpleRoots Ψ := by
   unfold f4Vtx
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact ((simpleRoots Ψ).equivFin.symm ⟨i, h⟩).2
 
 theorem exists_f4Vtx {Ψ : Set (Fin Tag.F4.rank → ℤ)} {x : Fin Tag.F4.rank → ℤ}
@@ -208,14 +208,14 @@ theorem exists_f4Vtx {Ψ : Set (Fin Tag.F4.rank → ℤ)} {x : Fin Tag.F4.rank �
   set e := (simpleRoots Ψ).equivFin ⟨x, hx⟩ with he
   refine ⟨e.1, e.2, ?_⟩
   unfold f4Vtx
-  rw [dif_pos e.2]
+  rw [dite_eq_left e.2]
   have h1 : (⟨e.1, e.2⟩ : Fin (simpleRoots Ψ).card) = e := Fin.eta _ _
   rw [h1, Equiv.symm_apply_apply]
 
 theorem f4Vtx_inj {Ψ : Set (Fin Tag.F4.rank → ℤ)} {i j : ℕ} (hi : i < (simpleRoots Ψ).card)
     (hj : j < (simpleRoots Ψ).card) (h : f4Vtx Ψ i = f4Vtx Ψ j) : i = j := by
   unfold f4Vtx at h
-  rw [dif_pos hi, dif_pos hj] at h
+  rw [dite_eq_left hi, dite_eq_left hj] at h
   have h2 : (simpleRoots Ψ).equivFin.symm ⟨i, hi⟩ = (simpleRoots Ψ).equivFin.symm ⟨j, hj⟩ :=
     Subtype.ext h
   exact congrArg Fin.val ((simpleRoots Ψ).equivFin.symm.injective h2)
@@ -255,9 +255,9 @@ theorem f4_indep_vtx {Ψ : Set (Fin Tag.F4.rank → ℤ)} (hΨ : IsRootComponent
     refine Finset.sum_congr rfl fun j _ => ?_
     have hv : f4Vtx Ψ (j : ℕ) = ((simpleRoots Ψ).equivFin.symm j).1 := by
       unfold f4Vtx
-      rw [dif_pos j.2]
+      rw [dite_eq_left j.2]
     have hc' : c ((simpleRoots Ψ).equivFin.symm j).1 = g j := by
-      simp only [hcdef, dif_pos ((simpleRoots Ψ).equivFin.symm j).2]
+      simp only [hcdef, dite_eq_left ((simpleRoots Ψ).equivFin.symm j).2]
       rw [Subtype.coe_eta, Equiv.apply_symm_apply]
     rw [hc', hv]
   have hz := eq_zero_of_sum_smul_simpleRoots hΨ hsum
@@ -267,10 +267,10 @@ theorem f4_indep_vtx {Ψ : Set (Fin Tag.F4.rank → ℤ)} (hΨ : IsRootComponent
   have hc' : c (f4Vtx Ψ i) = g i := by
     have hv : f4Vtx Ψ i = ((simpleRoots Ψ).equivFin.symm ⟨i, hi⟩).1 := by
       unfold f4Vtx
-      rw [dif_pos hi]
+      rw [dite_eq_left hi]
     have he' : (simpleRoots Ψ).equivFin ⟨f4Vtx Ψ i, hmem⟩ = ⟨i, hi⟩ :=
       ((simpleRoots Ψ).equivFin.eq_symm_apply).1 (Subtype.ext hv)
-    simp only [hcdef, dif_pos hmem, he']
+    simp only [hcdef, dite_eq_left hmem, he']
   rw [hc'] at hz'
   exact hz'
 
@@ -307,7 +307,7 @@ theorem f4_gram_eq {Ψ : Set (Fin Tag.F4.rank → ℤ)} (hΨ : IsRootComponent �
   · subst hij
     have hr := simpleRoots_isRoot (f4Vtx_mem (Ψ := Ψ) hi)
     unfold F4Cfg.gram
-    rw [if_pos rfl, f4Cfg_lg Ψ hi4]
+    rw [ite_eq_left rfl, f4Cfg_lg Ψ hi4]
     rcases f4_iform_self hr with h | h <;> rw [h] <;> simp
   · have hne : f4Vtx Ψ i ≠ f4Vtx Ψ j := fun h => hij (f4Vtx_inj hi hj h)
     have hedk : F4Cfg.edk (simpleRoots Ψ).card (f4Cfg Ψ) i j =
@@ -316,7 +316,7 @@ theorem f4_gram_eq {Ψ : Set (Fin Tag.F4.rank → ℤ)} (hΨ : IsRootComponent �
       rw [decide_eq_true hi, decide_eq_true hj, f4Cfg_ed Ψ hi4 hj4 hij]
       simp
     unfold F4Cfg.gram
-    rw [if_neg hij, hedk]
+    rw [ite_eq_right hij, hedk]
     by_cases hnz : iform (f4Vtx Ψ i) (f4Vtx Ψ j) = 0
     · rw [hnz]
       simp
@@ -326,7 +326,7 @@ theorem f4_gram_eq {Ψ : Set (Fin Tag.F4.rank → ℤ)} (hΨ : IsRootComponent �
       · have hlg : ((f4Cfg Ψ).lg i || (f4Cfg Ψ).lg j) = true := by
           rw [f4Cfg_lg Ψ hi4, f4Cfg_lg Ψ hj4]
           rcases h1 with h1 | h1 <;> simp [h1]
-        simp [hlg, h3, hnz]
+        simp [hlg, h3]
 
 
 theorem band_iff' (a b : Bool) : (a && b) = true ↔ a = true ∧ b = true := by

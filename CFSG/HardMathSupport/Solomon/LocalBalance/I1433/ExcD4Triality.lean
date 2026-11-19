@@ -23,7 +23,7 @@ theorem open_pRank_top_le_two_of_rankLE2 {S : Type} [Group S] [Finite S]
 theorem commutator_le_inner_of_ker {Γ A : Type*} [Group Γ] [Group A] [IsCyclic A]
     (Θ : MulAut Γ →* A) (hΘ : Θ.ker = (MulAut.conj : Γ →* MulAut Γ).range) :
     commutator (MulAut Γ) ≤ inner Γ := by
-  letI : CommGroup A := IsCyclic.commGroup
+  let : CommGroup A := IsCyclic.commGroup
   rw [_root_.commutator_def, Subgroup.commutator_le]
   intro g₁ _ g₂ _
   have h : ⁅g₁, g₂⁆ ∈ Θ.ker := by
@@ -41,12 +41,12 @@ theorem false_of_i1433SCfg_trialityD4 {S : Type} [Group S] [Finite S] (hs : IsSi
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie ⟨.trialityD4 r, hv⟩).Group))
     {Q : Subgroup (MulAut S)} {x : S} {J : Subgroup S} {q : ℕ} (c : I1433SCfg Q x J q) :
     False := by
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center S = ⊥ := b3Lie_center_eq_bot hna
   obtain ⟨e0⟩ := he
   obtain ⟨K, _, _, σ, -, -, ⟨Θ, hΘ⟩, ⟨e1⟩⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 r hv
-  haveI := CFSG.RankThree.PartTwo.KFacts.isCyclic_ringEquiv_of_finite K
+  have := CFSG.RankThree.PartTwo.KFacts.isCyclic_ringEquiv_of_finite K
   have hin : ∀ α ∈ Q, ∃ g : S, α = MulAut.conj g := fun α hα =>
     exists_conj_of_mem_commutator_of_le (e0.trans e1) (commutator_le_inner_of_ker Θ hΘ)
       (c.derived hα)

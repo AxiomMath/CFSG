@@ -139,7 +139,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem s16h_e3_map_conj_one {T : Type*} [Group T] (X : Subgroup T) :
     X.map (MulAut.conj (1 : T)).toMonoidHom = X := by
   ext x
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 private theorem s16h_e3_map_conj_mul {T : Type*} [Group T] (X : Subgroup T) (x y : T) :
     (X.map (MulAut.conj x).toMonoidHom).map (MulAut.conj y).toMonoidHom =
@@ -150,7 +150,7 @@ private theorem s16h_e3_map_conj_mul {T : Type*} [Group T] (X : Subgroup T) (x y
   simp [MulAut.conj_apply, mul_assoc]
 
 private theorem s16h_e3_exists_conj_eq {D : Data G} {V₀ V L : Subgroup G}
-    (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V) {φ : MulAut (Vtil V₀ V hV)}
+    (_h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V) {φ : MulAut (Vtil V₀ V hV)}
     (hφ : φ ∈ Mbar D.M V₀ V hV) :
     ∃ m : G, m ∈ D.M ∧ barSub V₀ V hV (conjSubgroup L m) =
       (barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom := by
@@ -345,7 +345,7 @@ private theorem s16h_e3_two_data (D : Data G) (h1217 : R1217 D)
     intro b hb w hw
     exact mem_fixV.1 (commSub_eq_bot_iff.1 hc1.2 hw) b hb
 
-theorem s16h_e3_frame_of_setting (D : Data G) (S : s16h_Std D) (h1217 : R1217 D)
+theorem s16h_e3_frame_of_setting (D : Data G) (_S : s16h_Std D) (h1217 : R1217 D)
     {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
     (hs2 : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2)
     (hZ : commSub ⊤ (lBar V₀ V h.hyp151.isElemAbelian L) ⊓
@@ -354,7 +354,7 @@ theorem s16h_e3_frame_of_setting (D : Data G) (S : s16h_Std D) (h1217 : R1217 D)
       (U' : Subgroup (Vtil V₀ V h.hyp151.isElemAbelian)),
       s16h_E3Frame (Mbar D.M V₀ V h.hyp151.isElemAbelian) (lBar V₀ V h.hyp151.isElemAbelian L) L'
         (barSub V₀ V h.hyp151.isElemAbelian D.T) (wTil V₀ V h.hyp151.isElemAbelian L) U' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV := h.hyp151.isElemAbelian
   have hMs : D.M ≤ stabTil V₀ V :=
     le_stabTil h.hyp151.hyp125.pairFacts.le_normalizer

@@ -29,15 +29,18 @@ section Basic
 
 variable {G : Type} [Group G] [Finite G] {z : G} {T V : Subgroup G}
 
+omit [Finite G] in
 theorem hsAut_mul_comm (hV : HSV z T V) {a b : G} (ha : a ∈ V) (hb : b ∈ V) :
     a * b = b * a := by
   have := hV.isElem.1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : V) ⟨b, hb⟩)
 
+omit [Finite G] in
 theorem hsAut_mul_self (hV : HSV z T V) {a : G} (ha : a ∈ V) : a * a = 1 := by
   have := hV.isElem.2 a ha
   rwa [pow_two] at this
 
+omit [Finite G] in
 theorem hsAut_T_le_normalizer (hV : HSV z T V) : T ≤ Subgroup.normalizer (V : Set G) := by
   intro t ht
   rw [Subgroup.mem_normalizer_iff]
@@ -54,11 +57,12 @@ theorem hsAut_exists_not_mem_zpowers (hz : orderOf z = 2) (hV : HSV z T V) :
   rw [hV.card_eq, Nat.card_zpowers, hz] at this
   omega
 
+omit [Finite G] in
 theorem hsAut_orbit_eq (hz : orderOf z = 2) (hV : HSV z T V) :
     MulAction.orbit (actV V).range (⟨z, hV.z_mem⟩ : ↥V) = {w | w ≠ 1} := by
   have hz1 : z ≠ 1 := fun h => by simp [h] at hz
   ext w
-  simp only [MulAction.mem_orbit_iff, Set.mem_setOf_eq]
+  simp only [MulAction.mem_orbit_iff, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨⟨σ, hσ⟩, hσw⟩ h1
     have h2 : σ ⟨z, hV.z_mem⟩ = 1 := hσw.trans h1
@@ -71,12 +75,13 @@ theorem hsAut_orbit_eq (hz : orderOf z = 2) (hV : HSV z T V) :
     rw [actV_apply]
     exact hnz
 
+omit [Finite G] in
 theorem hsAut_seven_dvd (hz : orderOf z = 2) (hV : HSV z T V) :
     7 ∣ Nat.card (actV V).range := by
   have hcard : (MulAction.orbit (actV V).range (⟨z, hV.z_mem⟩ : ↥V)).ncard = 7 := by
     rw [hsAut_orbit_eq hz hV]
     have : {w : ↥V | w ≠ 1} = Set.univ \ {1} := by ext; simp
-    rw [this, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, hV.card_eq]
+    rw [this, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, hV.card_eq]
   have hdvd := Subgroup.index_dvd_card
     (MulAction.stabilizer (actV V).range (⟨z, hV.z_mem⟩ : ↥V))
   rwa [MulAction.index_stabilizer, hcard] at hdvd

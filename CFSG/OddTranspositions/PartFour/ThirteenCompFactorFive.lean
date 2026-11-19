@@ -33,7 +33,7 @@ theorem of_sup_eq_top {Y : Type} [Group Y] (A B : Subgroup Y) [A.Normal] [B.Norm
 
 theorem of_isQuasisimple {Y : Type} [Group Y] (hY : CFSG.IsQuasisimple Y)
     (h : OddTranspFactor (Y ⧸ Subgroup.center Y)) : OddTranspFactors Y := by
-  haveI := hY.2.1
+  have := hY.2.1
   exact of_normal (Subgroup.center Y)
     (of_commute fun a b => Subtype.ext (Subgroup.mem_center_iff.mp b.2 a.1))
     (of_isSimpleGroup h)
@@ -64,8 +64,8 @@ theorem of_commutator_eq_sup {G : Type} [Group G]
   have hLC : L ≤ commutator G := hsup ▸ le_sup_left
   have hRC : R ≤ commutator G := hsup ▸ le_sup_right
   have hC : (commutator G).IsSubnormal := (inferInstance : (commutator G).Normal).isSubnormal
-  haveI := hnL
-  haveI := hnR
+  have := hnL
+  have := hnR
   refine of_sup_eq_top (L.subgroupOf (commutator G)) (R.subgroupOf (commutator G)) ?_
     ((hcomp L ⟨hqL, Subgroup.IsSubnormal.step L _ hLC hC hnL⟩).of_mulEquiv
       (Subgroup.subgroupOfEquivOfLe hLC).symm)
@@ -239,7 +239,7 @@ theorem oddTranspCompFactorOFive_of_models : OddTranspCompFactorOFive := by
   have hO := oddTranspFactors_commutator_orthogonalGroup_five (K := ZMod 5)
     (by rw [Nat.card_eq_fintype_card, ZMod.card]) _ hQ hdim
   have hle := reflectionGroup_le_orthogonalGroup hsym
-  haveI : (((Subgroup.closure (CFSG.Open.fischerTransvections (fun x y => -2 * b x y)
+  have : (((Subgroup.closure (CFSG.Open.fischerTransvections (fun x y => -2 * b x y)
       fun v => b v v = 1)).map (CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin n)
         (ZMod 5)).toMonoidHom).subgroupOf
       (TauCeti.QuadraticMap.orthogonalGroup (LinearMap.BilinMap.toQuadraticMap b))).Normal :=

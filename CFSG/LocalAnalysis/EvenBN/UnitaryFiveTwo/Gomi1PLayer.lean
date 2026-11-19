@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem zpow_eq_one_or_self {t : X} (ht2 : t * t = 1) (n : ℤ) : t ^ n = 1 ∨ t ^ n = t := by
   obtain ⟨k, rfl | rfl⟩ := Int.even_or_odd' n
   · left
@@ -22,6 +23,7 @@ theorem zpow_eq_one_or_self {t : X} (ht2 : t * t = 1) (n : ℤ) : t ^ n = 1 ∨ 
     rw [zpow_add_one, zpow_mul, show t ^ (2 : ℤ) = 1 by rw [zpow_two]; exact ht2, one_zpow,
       one_mul]
 
+omit [Finite X] in
 theorem mem_sup_zpowers_iff {K : Subgroup X} {t : X} (ht2 : t * t = 1)
     (hK : ∀ k ∈ K, k * t = t * k) {x : X} :
     x ∈ K ⊔ zpowers t ↔ ∃ k ∈ K, x = k ∨ x = k * t := by
@@ -62,7 +64,7 @@ theorem mem_sup_zpowers_iff {K : Subgroup X} {t : X} (ht2 : t * t = 1)
     · exact mul_mem (mem_sup_left hk) (mem_sup_right (mem_zpowers t))
 
 theorem isPGroup_zpowers_of_mul_self {t : X} (ht2 : t * t = 1) : IsPGroup 2 (zpowers t) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [IsPGroup.iff_card]
   have hdvd : orderOf t ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [sq]; exact ht2)
   rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h | h
@@ -74,10 +76,10 @@ theorem pCore_two_eq_bot {t : X} {Y : Subgroup X} [IsSimpleGroup Y] (hY2 : ¬ Is
     (hout : ¬ ∃ y ∈ Y, ∀ z ∈ Y, t * z * t⁻¹ = y * z * y⁻¹)
     (hcent : centralizer ({t} : Set X) ≤ (Y ⊓ centralizer ({t} : Set X)) ⊔ zpowers t) :
     pCore 2 X = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   set Q : Subgroup X := pCore 2 X with hQ
-  haveI hQn : Q.Normal := pCore_normal
+  have hQn : Q.Normal := pCore_normal
   have hQp : IsPGroup 2 Q := pCore_isPGroup
   have hYQ : Q.subgroupOf Y = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Q.subgroupOf Y) with h | h
@@ -93,9 +95,9 @@ theorem pCore_two_eq_bot {t : X} {Y : Subgroup X} [IsSimpleGroup Y] (hY2 : ¬ Is
     exact congrArg Subtype.val this
   set P : Subgroup X := Q ⊔ zpowers t with hP
   have hPp : IsPGroup 2 P := hQp.to_sup_of_normal_left (isPGroup_zpowers_of_mul_self ht2)
-  haveI : Group.IsNilpotent P := hPp.isNilpotent
+  have : Group.IsNilpotent P := hPp.isNilpotent
   have hQP : Q ≤ P := le_sup_left
-  haveI : (Q.subgroupOf P).Normal := inferInstance
+  have : (Q.subgroupOf P).Normal := inferInstance
   have hQP0 : Q.subgroupOf P ≠ ⊥ := by
     intro h
     apply hne
@@ -158,6 +160,7 @@ theorem fitting_eq_bot (hO : oddCore X = ⊥) (hp : pCore 2 X = ⊥) : fittingSu
   rw [hO, hp, sup_bot_eq] at h
   exact le_bot_iff.mp h
 
+omit [Finite X] in
 theorem eq_one_of_mem_layer_of_commute (hF : fittingSubgroup X = ⊥) {x : X} (hx : x ∈ layer X)
     (hc : ∀ l ∈ layer X, l * x = x * l) : x = 1 := by
   have h := WholeGroup.center_layer_le_fittingSubgroup (G := X)
@@ -177,6 +180,7 @@ theorem centralizer_layer_eq_bot (hF : fittingSubgroup X = ⊥) :
   rw [mem_bot]
   exact eq_one_of_mem_layer_of_commute hF (h2 hx) (mem_centralizer_iff.mp hx)
 
+omit [Finite X] in
 theorem layer_le_commutator : layer X ≤ commutator X := by
   have h : ⁅layer X, layer X⁆ = layer X := LocalCores.layer_perfect
   calc layer X = ⁅layer X, layer X⁆ := h.symm
@@ -276,6 +280,7 @@ theorem le_of_normal_of_not_mem {t : X} {Y L : Subgroup X} [IsSimpleGroup Y] [L.
     rw [this, hk1]
     simpa using hxL
 
+omit [Finite X] in
 theorem normalizes_sSup {A : Subgroup X} {𝒮 : Set (Subgroup X)}
     (h : ∀ T ∈ 𝒮, ∀ a ∈ A, ∀ x ∈ T, a * x * a⁻¹ ∈ T) :
     ∀ a ∈ A, ∀ x ∈ sSup 𝒮, a * x * a⁻¹ ∈ sSup 𝒮 := by
@@ -293,6 +298,7 @@ theorem even_card_of_isComponent {K : Subgroup X} (hK : IsComponent K) : Even (N
   have : Group.IsPerfect K := hK.1.1
   exact Group.IsPerfect.not_isSolvable K hsol
 
+omit [Finite X] in
 theorem conj_mem_centralizer_of_mem_normalizer {S : Subgroup X} {y x : X}
     (hy : y ∈ normalizer (S : Set X)) (hx : x ∈ centralizer (S : Set X)) :
     y * x * y⁻¹ ∈ centralizer (S : Set X) := by
@@ -309,7 +315,7 @@ theorem conj_mem_centralizer_of_mem_normalizer {S : Subgroup X} {y x : X}
 theorem isSimpleGroup_layer_of_sylow {Y U : Subgroup X} [IsSimpleGroup Y]
     (hF : fittingSubgroup X = ⊥) (hYL : Y ≤ layer X) (hUY : U ≤ Y)
     (hU : IsSylowOf 2 U (layer X)) : IsSimpleGroup (layer X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS, hYS⟩ : ∃ S : Subgroup X, IsComponent S ∧ ¬ Y ≤ centralizer (S : Set X) := by
     by_contra hcon
     push Not at hcon
@@ -392,11 +398,12 @@ theorem isSimpleGroup_layer_of_sylow {Y U : Subgroup X} [IsSimpleGroup Y]
     exact hZS z hz
   have e : S ≃* (S ⧸ center S) :=
     MulEquiv.ofBijective (QuotientGroup.mk' (center S)) ⟨hinj, QuotientGroup.mk'_surjective _⟩
-  haveI : IsSimpleGroup (S ⧸ center S) := hS.1.2.1
-  haveI : IsSimpleGroup S := e.isSimpleGroup
+  have : IsSimpleGroup (S ⧸ center S) := hS.1.2.1
+  have : IsSimpleGroup S := e.isSimpleGroup
   subst hLS
   exact this
 
+omit [Finite X] in
 theorem mem_sup_zpowers_iff_of_normalizes {U : Subgroup X} {t : X} (ht2 : t * t = 1)
     (htn : ∀ u ∈ U, t * u * t⁻¹ ∈ U) {x : X} :
     x ∈ U ⊔ zpowers t ↔ ∃ u ∈ U, x = u ∨ x = u * t := by
@@ -434,6 +441,7 @@ theorem mem_sup_zpowers_iff_of_normalizes {U : Subgroup X} {t : X} (ht2 : t * t 
     · exact mem_sup_left hu
     · exact mul_mem (mem_sup_left hu) (mem_sup_right (mem_zpowers t))
 
+omit [Finite X] in
 theorem index_eq_two_of_normalizes {U : Subgroup X} {t : X} (ht2 : t * t = 1)
     (htn : ∀ u ∈ U, t * u * t⁻¹ ∈ U) (htU : t ∉ U) :
     (U.subgroupOf (U ⊔ zpowers t)).index = 2 := by
@@ -442,16 +450,17 @@ theorem index_eq_two_of_normalizes {U : Subgroup X} {t : X} (ht2 : t * t = 1)
   refine ⟨⟨t, htM⟩, fun b => ?_⟩
   obtain ⟨x, hxM⟩ := b
   obtain ⟨u, hu, rfl | rfl⟩ := (mem_sup_zpowers_iff_of_normalizes ht2 htn).mp hxM
-  · change Xor' (x * t ∈ U) (x ∈ U)
+  · change Xor (x * t ∈ U) (x ∈ U)
     refine Or.inr ⟨hu, fun h => htU ?_⟩
     have : x⁻¹ * (x * t) ∈ U := U.mul_mem (U.inv_mem hu) h
     simpa using this
-  · change Xor' (u * t * t ∈ U) (u * t ∈ U)
+  · change Xor (u * t * t ∈ U) (u * t ∈ U)
     have h1 : u * t * t ∈ U := by rw [mul_assoc, ht2, mul_one]; exact hu
     refine Or.inl ⟨h1, fun h => htU ?_⟩
     have : u⁻¹ * (u * t) ∈ U := U.mul_mem (U.inv_mem hu) h
     simpa using this
 
+omit [Finite X] in
 theorem card_sup_zpowers_of_normalizes {U : Subgroup X} {t : X} (ht2 : t * t = 1)
     (htn : ∀ u ∈ U, t * u * t⁻¹ ∈ U) (htU : t ∉ U) :
     Nat.card (U ⊔ zpowers t : Subgroup X) = 2 * Nat.card U := by

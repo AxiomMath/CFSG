@@ -242,13 +242,13 @@ theorem heisD_pow_three {ω : K} (hω : ω ^ 3 = 1) : heisD ω ^ 3 = 1 := by
 theorem heisP_pow_three : (heisP : Matrix (Fin 3) (Fin 3) K) ^ 3 = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [heisP, pow_succ, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply]
+    simp [heisP, pow_succ, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem heisP_mul_heisD {ω : K} (hω : ω ^ 3 = 1) :
     heisP * heisD ω = (ω ^ 2) • (heisD ω * heisP) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [heisP, heisD, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal]
+    simp [heisP, heisD, Matrix.mul_apply, Matrix.diagonal]
   · rw [← pow_succ, hω]
   · rw [← pow_add, show 2 + 2 = 3 + 1 by rfl, pow_add, hω, one_mul, pow_one]
 
@@ -267,7 +267,7 @@ theorem heisP_unitary {q : ℕ} (hq : q ≠ 0) :
     ((heisP : Matrix (Fin 3) (Fin 3) K).map (· ^ q))ᵀ * heisP = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [heisP, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply, zero_pow hq]
+    simp [heisP, Matrix.mul_apply, Fin.sum_univ_three, zero_pow hq]
 
 end Matrices
 
@@ -324,7 +324,7 @@ theorem exists_elemAbelian_nine_statedProj {H : Subgroup (GL (Fin 3) K)} {ω : K
     (hD : glD hω3 ∈ H) (hP : glP ∈ H) (hZ : Matrix.GeneralLinearGroup.scalar (Fin 3) (ω ^ 2) ∈ H) :
     ∃ E : Subgroup (StatedProj H), CFSG.Assembly.IsElemAbelian 3 E ∧ Nat.card E = 9 := by
   set N : Subgroup ↥H := (StatedScalars (Fin 3) K).subgroupOf H with hNdef
-  haveI : N.Normal := Subgroup.Normal.subgroupOf inferInstance H
+  have : N.Normal := Subgroup.Normal.subgroupOf inferInstance H
   have hN : N ≤ Subgroup.center ↥H := by
     intro x hx
     rw [Subgroup.mem_center_iff]
@@ -388,7 +388,7 @@ theorem l3u3_cases {X : Type} [Group X] (h : L3U3 X) :
       by_cases hr : r = 2
       · subst hr
         obtain ⟨hp2, hk⟩ : q.p = 2 ∧ (q.exponent % 6 = 2 ∨ q.exponent % 6 = 4) := hi
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
         have hK : Nat.card (GaloisField q.p q.exponent) = 2 ^ q.exponent := by
           rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', hp2]
         refine Or.inl ⟨q.exponent, hk, GaloisField q.p q.exponent, inferInstance, inferInstance,
@@ -411,8 +411,8 @@ theorem l3u3_cases {X : Type} [Group X] (h : L3U3 X) :
           have h2 : 2 ^ q.exponent ≤ 2 ^ 1 := Nat.pow_le_pow_right (by norm_num) (by omega)
           omega
         have hq2 : q.card ≠ 2 := by omega
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-        haveI : Fintype (GaloisField q.p (2 * q.exponent)) := Fintype.ofFinite _
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fintype (GaloisField q.p (2 * q.exponent)) := Fintype.ofFinite _
         have hcardK : Nat.card (GaloisField q.p (2 * q.exponent)) = q.card ^ 2 := by
           rw [GaloisField.card q.p (2 * q.exponent) (by omega), PrimePower.card_def, ← pow_mul,
             mul_comm]
@@ -484,7 +484,7 @@ theorem exists_elemAbelian_nine_of_mulEquiv {A B : Type} [Group A] [Group B] (e 
 
 theorem exists_cube_root_of_unity {K : Type} [Field K] [Finite K] (h : 3 ∣ Nat.card K - 1) :
     ∃ ω : Kˣ, ω ^ 3 = 1 ∧ ω ≠ 1 ∧ (ω : K) ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 (by rw [Nat.card_units]; exact h)
   have hω3 : ω ^ 3 = 1 := hω ▸ pow_orderOf_eq_one ω
   refine ⟨ω, hω3, fun h1 => ?_, by rw [← Units.val_pow_eq_pow_val, hω3, Units.val_one]⟩
@@ -508,8 +508,8 @@ theorem l3u3_elem9 {X : Type} [Group X] (h : L3U3 X) :
     refine exists_elemAbelian_nine_of_mulEquiv
       (e.trans (CFSG.LocalAnalysis.GLTheoremA.H1419.projective_of_sl3 (MulEquiv.refl _))) ?_
     refine exists_elemAbelian_nine_statedProj hω3 hω1 hωK ?_ ?_ ?_
-    · exact Subgroup.subset_closure (by rw [Set.mem_setOf_eq, coe_glD, det_heisD hωK])
-    · exact Subgroup.subset_closure (by rw [Set.mem_setOf_eq, coe_glP, det_heisP])
+    · exact Subgroup.subset_closure (by rw [Set.mem_ofPred_eq, coe_glD, det_heisD hωK])
+    · exact Subgroup.subset_closure (by rw [Set.mem_ofPred_eq, coe_glP, det_heisP])
     · refine Subgroup.subset_closure (det_glScalar ?_)
       rw [← pow_mul, show 2 * 3 = 3 * 2 from rfl, pow_mul, hω3, one_pow]
   · have hq0 : (2 : ℕ) ^ n ≠ 0 := pow_ne_zero _ (by norm_num)

@@ -145,6 +145,7 @@ theorem p0_conjIn_y (hc : Ctx8a t L S x₁ x₂ lam rho tau) :
         (p0_lam_commute_z hc)⟩, ?_⟩
       rw [← conj_pow, hc.wreath.conj_x₁, hc.wreath.x₂_sq]
 
+omit [Finite G] in
 theorem p0_CV_eq (x₁ x₂ : G) (M : Subgroup G) :
     M ⊓ centralizer ((fourGrp x₁ x₂ : Subgroup G) : Set G) =
       (M ⊓ centralizer ({(x₁ * x₂) ^ 2} : Set G)) ⊓ centralizer ({x₁ ^ 2} : Set G) := by
@@ -225,7 +226,7 @@ theorem p0_CV_le_O (hc : Ctx8a t L S x₁ x₂ lam rho tau) :
 theorem p0_lam_not_mem_O (hc : Ctx8a t L S x₁ x₂ lam rho tau) :
     lam ∉ ctxO t tau x₁ x₂ := by
   intro hlam
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hM := p0_gens_mem_M hc.toCtx4
   have hrhoM : rho ∈ ctxM t tau x₁ x₂ := hM.2.2.2.2.1
   have hnorm := p0_normal_O t tau x₁ x₂
@@ -257,7 +258,7 @@ theorem p0_lam_not_mem_O (hc : Ctx8a t L S x₁ x₂ lam rho tau) :
 
 theorem p0_card_O (hc : Ctx8a t L S x₁ x₂ lam rho tau) :
     Nat.card ↥(ctxO t tau x₁ x₂) = 2 ^ 9 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hM := p0_gens_mem_M hc.toCtx4
   have hlamM : lam ∈ ctxM t tau x₁ x₂ := hM.2.2.2.2.2
   have hCV := p0_card_CV hc

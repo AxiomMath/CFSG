@@ -20,6 +20,7 @@ variable {G : Type} [Group G] {M V Q P H : Subgroup G} [Finite G]
 @[expose] def NoCentralTwist (V H : Subgroup G) : Prop :=
   ∀ z ∈ Subgroup.center (Xbar V H), ∀ d ∈ Dy V H, d * z ∈ Dy V H → z = 1
 
+omit [Finite G] in
 theorem conj_mem_Dy (hd : Sec23Data V H) {a : Xbar V H} (ha : a ∈ Dy V H) (g : Xbar V H) :
     g * a * g⁻¹ ∈ Dy V H := by
   obtain ⟨d₀, hd₀⟩ := hd.isClass
@@ -76,7 +77,7 @@ theorem isTI_Vtilde_of_noCentralTwist (hd : Sec23Data V H) (hnt : NoCentralTwist
   have ha1 : a ≠ 1 := fun h => hx1 (Subtype.ext (by simp [h]))
   have haD : a ∈ Dy V H := by
     rw [Vy, Subgroup.mem_subgroupOf] at haV
-    exact hc.barOf_V_subset_dbarOf haV (fun h => ha1 (Subtype.ext h))
+    exact CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf haV (fun h => ha1 (Subtype.ext h))
   have hz : c⁻¹ * (g⁻¹ * a * g) ∈ Subgroup.center (Xbar V H) := by
     refine QuotientGroup.eq.mp ?_
     simpa using hcg
@@ -95,7 +96,7 @@ theorem isTI_Vtilde_of_noCentralTwist (hd : Sec23Data V H) (hnt : NoCentralTwist
     exact hz
   have hcD : c ∈ Dy V H := by
     rw [Vy, Subgroup.mem_subgroupOf] at hcV
-    exact hc.barOf_V_subset_dbarOf hcV (fun h => hc1 (Subtype.ext h))
+    exact CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf hcV (fun h => hc1 (Subtype.ext h))
   have hzt := hnt _ hz c hcD (by rwa [mul_inv_cancel_left])
   have hgc : g⁻¹ * a * g = c := by
     have : c⁻¹ * (g⁻¹ * a * g) = 1 := hzt
@@ -139,7 +140,7 @@ theorem eq_one_of_mul_central_mem {X : Type*} [Group X] [Finite X] {D : Set X}
   have hoz : orderOf z = 2 := orderOf_eq_prime (by rw [sq]; exact hz2) hz1
   obtain ⟨g, hg⟩ : ∃ g : X, ¬ IsPGroup 2 (Subgroup.closure ({d, g * d * g⁻¹} : Set X)) := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hdO ((BaerSuzuki.baer_suzuki_iff d).mpr h)
   set e := g * d * g⁻¹
   have he : e ∈ D := hconj d hd g
@@ -170,8 +171,8 @@ theorem noCentralTwist (hd : Sec23Data V H) : NoCentralTwist V H := by
   intro hdO
   apply hd.noncentral d hdD
   have hP : IsPGroup 2 (CFSG.pCore 2 (Xbar V H)) := BaerSuzuki.Helpers.pCore_isPGroup 2
-  haveI := BaerSuzuki.Helpers.pCore_normal (G := Xbar V H) 2
-  haveI : Group.IsNilpotent (CFSG.pCore 2 (Xbar V H)) := hP.isNilpotent
+  have := BaerSuzuki.Helpers.pCore_normal (G := Xbar V H) 2
+  have : Group.IsNilpotent (CFSG.pCore 2 (Xbar V H)) := hP.isNilpotent
   exact hd.solv _ inferInstance inferInstance hdO
 
 namespace MinCex

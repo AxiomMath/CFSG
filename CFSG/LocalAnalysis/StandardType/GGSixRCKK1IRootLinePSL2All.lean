@@ -94,7 +94,7 @@ private theorem rckRLt2a_line_scalars {f : ℕ} {i j : Fin 2} (hij : i ≠ j) {�
         (g := Matrix.SpecialLinearGroup.diag2nUnit hij u) hcoe hij c]
     congr 1
     rw [← hu]
-    simp [hij, Ne.symm hij]
+    simp [Ne.symm hij]
     ring
   exact ⟨ε, hscal⟩
 

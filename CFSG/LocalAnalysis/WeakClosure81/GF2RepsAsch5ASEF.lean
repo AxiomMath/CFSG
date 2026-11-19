@@ -37,7 +37,7 @@ theorem inFForAS_top_of_inE {Q : Type} [Group Q] [Finite Q] (j : ℕ) {T : Subgr
 theorem inFAS_top_of_inE {Q : Type} [Group Q] [Finite Q] (j : ℕ) (hE : E1.InE j (⊤ : Subgroup Q))
     (hU : ∃ T : Subgroup Q, CFSG.ABGLocalTools.IsSylowOf 2 T ⊤ ∧ HasUniqueMaxOver T)
     (hO : CFSG.pCore 2 Q = ⊥) : InFAS j (⊤ : Subgroup Q) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T₀, hT₀, hU₀⟩ := hU
   intro T hT
   have hT' : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤ := CFSG.ABGLocalTools.isSylowOf_iff.mpr hT

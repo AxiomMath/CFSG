@@ -25,7 +25,7 @@ theorem s16t_exists_noncyclic_cent_of_case168_1 (D : Data G) {V L : Subgroup G}
   obtain ⟨-, ⟨eL⟩, -, -⟩ := h1
   obtain ⟨E, hE, hcard⟩ :=
     CFSG.RankThree.PartTwo.Sec15.Proof153Twin2.exists_e9_alternatingGroup_six
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E₀, hE₀L, hE₀el, hE₀card⟩ : ∃ E₀ : Subgroup (MulAut (Vtil ⊥ V hV)),
       E₀ ≤ barSub ⊥ V hV L ∧ IsElemAbelian 3 E₀ ∧ Nat.card E₀ = 9 :=
     ⟨(E.map eL.symm.toMonoidHom).map (lBar ⊥ V hV L).subtype, Subgroup.map_subtype_le _,

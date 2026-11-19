@@ -61,7 +61,7 @@ theorem tv_descent {L' R : Type} [Group L'] [Finite L'] [Group R] {ψ : L' →* 
       rfl
     rw [e1, map_mul, map_mul, map_inv]
     rfl
-  haveI : Finite (MulAut (L' ⧸ twoSub ψ.ker hker)) :=
+  have : Finite (MulAut (L' ⧸ twoSub ψ.ker hker)) :=
     Finite.of_injective (fun φ : MulAut (L' ⧸ twoSub ψ.ker hker) =>
       (φ : L' ⧸ twoSub ψ.ker hker → L' ⧸ twoSub ψ.ker hker)) DFunLike.coe_injective
   have hα₁N : α₁ ∈ Subgroup.normalizer (A₁ : Set (MulAut (L' ⧸ twoSub ψ.ker hker))) := by

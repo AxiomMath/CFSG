@@ -299,8 +299,8 @@ theorem AJ3_eq_aj3Sub : AJ3 = aj3Sub := by
     rw [mem_aj3List] at hx
     obtain ⟨i, j, rfl⟩ := hx
     exact Subgroup.mul_mem _
-      (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp [AJ3])) _)
-      (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp [AJ3])) _)
+      (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp)) _)
+      (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp)) _)
 
 theorem mem_AJ3_iff {α : MulAut Q1M} : α ∈ AJ3 ↔ α ∈ aj3List := by
   rw [AJ3_eq_aj3Sub]
@@ -359,9 +359,9 @@ theorem AJ_eq_ajSub : AJ = ajSub := by
     obtain ⟨i, j, k, rfl⟩ := hx
     exact Subgroup.mul_mem _
       (Subgroup.mul_mem _
-        (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp [AJ])) _)
-        (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp [AJ])) _))
-      (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp [AJ])) _)
+        (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp)) _)
+        (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp)) _))
+      (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp)) _)
 
 theorem mem_AJ_iff {α : MulAut Q1M} : α ∈ AJ ↔ α ∈ ajList := by
   rw [AJ_eq_ajSub]
@@ -451,10 +451,10 @@ theorem AJ'_eq_aj'Sub : AJ' = aj'Sub := by
     change x ∈ aj'List at hx
     rw [mem_aj'List] at hx
     obtain ⟨i, j, k, l, rfl⟩ := hx
-    have hρ : ρM ∈ AJ' := Subgroup.subset_closure (by simp [AJ'])
-    have hβ : βM ∈ AJ' := Subgroup.subset_closure (by simp [AJ'])
-    have hτ : τM ∈ AJ' := Subgroup.subset_closure (by simp [AJ'])
-    have hγ : γM ∈ AJ' := Subgroup.subset_closure (by simp [AJ'])
+    have hρ : ρM ∈ AJ' := Subgroup.subset_closure (by simp)
+    have hβ : βM ∈ AJ' := Subgroup.subset_closure (by simp)
+    have hτ : τM ∈ AJ' := Subgroup.subset_closure (by simp)
+    have hγ : γM ∈ AJ' := Subgroup.subset_closure (by simp)
     exact Subgroup.mul_mem _
       (Subgroup.mul_mem _
         (Subgroup.mul_mem _ (Subgroup.pow_mem _ hρ _) (Subgroup.pow_mem _ hβ _))

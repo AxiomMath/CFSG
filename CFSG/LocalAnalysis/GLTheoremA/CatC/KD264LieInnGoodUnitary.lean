@@ -76,8 +76,8 @@ theorem exists_perfect_fixSubgroup_of_goodBlock
       simpa [f, π, MonoidHom.comp_apply] using this
     rw [hcommT.symm, mul_assoc, mul_inv_cancel, mul_one]
   · have hSBperf : Group.IsPerfect SB := isPerfect_idSpecialBlock S hx i
-    haveI : Group.IsPerfect SB := hSBperf
-    haveI : Group.IsPerfect P := Group.IsPerfect.range f
+    have : Group.IsPerfect SB := hSBperf
+    have : Group.IsPerfect P := Group.IsPerfect.range f
     exact Subgroup.commutator_eq_self
   · have hj_inj : Function.Injective j := by
       intro u v huv

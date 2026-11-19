@@ -13,6 +13,7 @@ open CFSG.Quasithin.A94.L52 CFSG.Quasithin.A94 Subgroup
 
 variable {G : Type} [Group G] [Finite G] {z : G} (e : ↥(Cz z) ≃* L52.Hc)
 
+omit [Finite G] in
 theorem tr_cent1 (x : L52.Hc) :
     centralizer ({z} : Set G) ⊓ centralizer ({emb e x} : Set G) =
       tr e (centralizer ({x} : Set L52.Hc)) := by
@@ -28,6 +29,7 @@ theorem tr_cent1 (x : L52.Hc) :
     refine Subgroup.mem_inf.2 ⟨emb_mem_Cz e y, mem_centralizer_singleton_iff.2 ?_⟩
     exact (emb_mul_comm e).2 (mem_centralizer_singleton_iff.1 hy)
 
+omit [Finite G] in
 theorem tr_cent2 (x c : L52.Hc) :
     centralizer ({z} : Set G) ⊓ centralizer ({emb e x} : Set G) ⊓ centralizer ({emb e c} : Set G) =
       tr e (centralizer ({x} : Set L52.Hc) ⊓ centralizer ({c} : Set L52.Hc)) := by
@@ -51,9 +53,10 @@ theorem tr_cent2 (x c : L52.Hc) :
 open CFSG.Quasithin.A94.He42P427H in
 theorem zC_abar : L52.zC abar = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [L52.zC_apply, cm_abar, L52.rIdx, L52.cIdx, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [L52.zC_apply, cm_abar, L52.rIdx, L52.cIdx]
 
 open CFSG.Quasithin.A94.He42P427H in
+omit [Finite G] in
 theorem a_eq_emb_abar {a : G} (ha : a ∈ tr e L52.A1 ⊓ tr e L52.A2) (ham : HeJ.mG e a = 1) :
     a = emb e abar := by
   obtain ⟨ã, hã1, hã⟩ := (Subgroup.mem_inf.1 ha).1

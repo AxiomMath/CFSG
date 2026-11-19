@@ -60,7 +60,7 @@ theorem false_of_isSz_eq
     (hfpf : ∀ w : ↥(UT V₁ Vp H), (∀ e ∈ E, psiH h.toHypF98.toHypF91 e w = w) → w = 1) : False := by
   have hKH : K ≤ H := le_of_mem_cComp h.K_cComp
   obtain ⟨I, hV₁I, hIU, Wa, hWa, hirr⟩ := exists_isIrrPlusTildeU h
-  haveI hFI := factElem h hIU
+  have hFI := factElem h hIU
   have hIT := isIrrPlusTildeT_of_ambient h hIU Wa hWa hirr
   have hirr' : subM V₁ (conjClosure I H) I ∈
       IrrPlusOn (autIH V₁ I H (conjClosure K T))

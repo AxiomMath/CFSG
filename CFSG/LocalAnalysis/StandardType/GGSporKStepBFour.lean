@@ -48,7 +48,7 @@ private theorem gkbf_eq_of_ne_one_of_card_two {M : Type*} [Group M] (hM : Nat.ca
 private theorem gkbf_normal_card_two_le_center {W : Type} [Group W] {C M : Subgroup W}
     (hCM : M ≤ C) (hMn : (M.subgroupOf C).Normal) (hMcard : Nat.card M = 2) :
     M ≤ Subgroup.centralizer (C : Set W) := by
-  haveI : Nonempty M := ⟨⟨1, M.one_mem⟩⟩
+  have : Nonempty M := ⟨⟨1, M.one_mem⟩⟩
   intro m hm
   rw [Subgroup.mem_centralizer_iff]
   intro c hc
@@ -111,11 +111,11 @@ private theorem gkbf_center_card {W : Type} [Group W] {J : Subgroup W}
   exact hJ
 
 private theorem gkbf_inf_centralizer_le {W : Type} [Group W] [Finite W] (ha : BSevenComp W)
-    (hb : BSevenCentAbelian W) {H E : Subgroup W} (hyp : GGHypThreeSixteenFlat 7 H E)
+    (_hb : BSevenCentAbelian W) {H E : Subgroup W} (hyp : GGHypThreeSixteenFlat 7 H E)
     {L : Subgroup W} (hL : IsComponentOf L H) (h7 : ¬ 7 ∣ Nat.card L) {a : W} (haE : a ∈ E)
     (ha1 : a ≠ 1) :
     L ⊓ Subgroup.centralizer {a} ≤ Subgroup.centralizer (E : Set W) := by
-  haveI : Fact (Nat.Prime 7) := ⟨hyp.1.1⟩
+  have : Fact (Nat.Prime 7) := ⟨hyp.1.1⟩
   have hord : orderOf a = 7 := orderOf_eq_prime (hyp.1.2.2.1.2 a haE) ha1
   set C : Subgroup W := Subgroup.centralizer {a} with hCdef
   have hCH : C ≤ H := hyp.1.2.2.2.2.centralizer_le haE ha1
@@ -145,7 +145,7 @@ private theorem gkbf_inf_centralizer_le {W : Type} [Group W] [Finite W] (ha : BS
   have hEC : E ≤ C := by
     intro e he
     rw [Subgroup.mem_centralizer_singleton_iff]
-    haveI : IsMulCommutative E := hyp.1.2.2.1.1
+    have : IsMulCommutative E := hyp.1.2.2.1.1
     exact congrArg Subtype.val (mul_comm' (⟨e, he⟩ : E) (⟨a, haE⟩ : E))
   exact hleJ.trans (hMcent.trans (Subgroup.centralizer_le hEC))
 
@@ -153,7 +153,7 @@ private theorem gkbf_component_le_centralizer {W : Type} [Group W] [Finite W] (h
     (hb : BSevenCentAbelian W) {H E : Subgroup W} (hyp : GGHypThreeSixteenFlat 7 H E)
     (h2 : CFSG.pCore 2 ↥H = ⊥) {L : Subgroup W} (hL : IsComponentOf L H)
     (h7 : ¬ 7 ∣ Nat.card L) : L ≤ Subgroup.centralizer (E : Set W) := by
-  haveI : Fact (Nat.Prime 7) := ⟨hyp.1.1⟩
+  have : Fact (Nat.Prime 7) := ⟨hyp.1.1⟩
   have hEnormData : ∀ e ∈ E, ∀ x ∈ L, e * x * e⁻¹ ∈ L :=
     (ggSporK_component_data hyp h2 hL).1
   have hEnorm : E ≤ Subgroup.normalizer (L : Set W) := by
@@ -167,12 +167,12 @@ private theorem gkbf_component_le_centralizer {W : Type} [Group W] [Finite W] (h
       have h := hEnormData e he (e⁻¹ * r * e) hr
       have heq : e * (e⁻¹ * r * e) * e⁻¹ = r := by group
       rwa [heq] at h
-  haveI : IsElementaryAbelian 7 E :=
+  have : IsElementaryAbelian 7 E :=
     { toIsMulCommutative := hyp.1.2.2.1.1
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr fun x => by
         apply Subtype.ext
         simpa using hyp.1.2.2.1.2 (x : W) x.2 }
-  letI : MulDistribMulAction E ↥L :=
+  let : MulDistribMulAction E ↥L :=
     MulDistribMulAction.compHom L (L.normalizerMonoidHom.comp (Subgroup.inclusion hEnorm))
   have hact : ∀ (a : E) (x : ↥L), ((a • x : ↥L) : W) = (a : W) * (x : W) * (a : W)⁻¹ :=
     fun _ _ => rfl
@@ -215,8 +215,8 @@ private theorem gkbf_factorization_seven_eq_two {W : Type} [Group W] [Finite W]
     {H E : Subgroup W} (hEH : E ≤ H) (hEcard : Nat.card E = 49)
     (h49 : (Nat.card W).factorization 7 = 2) : (Nat.card H).factorization 7 = 2 := by
   have h7p : Nat.Prime 7 := by norm_num
-  haveI : Nonempty ↥H := ⟨⟨1, H.one_mem⟩⟩
-  haveI : Nonempty W := ⟨1⟩
+  have : Nonempty ↥H := ⟨⟨1, H.one_mem⟩⟩
+  have : Nonempty W := ⟨1⟩
   have hHne : Nat.card H ≠ 0 := (Nat.card_pos (α := ↥H)).ne'
   have hWne : Nat.card W ≠ 0 := (Nat.card_pos (α := W)).ne'
   have hge : 2 ≤ (Nat.card H).factorization 7 := by
@@ -235,10 +235,10 @@ private theorem gkbf_factorization_seven_eq_two {W : Type} [Group W] [Finite W]
 private theorem gkbf_components_unique {W : Type} [Group W] [Finite W] (ha : BSevenComp W)
     (h49 : (Nat.card W).factorization 7 = 2) {H E : Subgroup W}
     (hyp : GGHypThreeSixteenFlat 7 H E) (hP' : LargeEvenPPrimeCore 7 ↥H = ⊥)
-    (hP : CFSG.pCore 7 ↥H = ⊥) (h2 : CFSG.pCore 2 ↥H = ⊥) {L : Subgroup W}
+    (hP : CFSG.pCore 7 ↥H = ⊥) (_h2 : CFSG.pCore 2 ↥H = ⊥) {L : Subgroup W}
     (hL : IsComponentOf L H) (h7L : 7 ∣ Nat.card L) :
     ∀ C : Subgroup W, IsComponentOf C H → C = L := by
-  haveI : Fact (Nat.Prime 7) := ⟨hyp.1.1⟩
+  have : Fact (Nat.Prime 7) := ⟨hyp.1.1⟩
   have hEH : E ≤ H := hyp.1.2.2.2.2.1
   have hfac : (Nat.card ↥H).factorization 7 = 2 :=
     gkbf_factorization_seven_eq_two hEH (by rw [hyp.1.2.2.2.1]; norm_num) h49
@@ -297,7 +297,7 @@ private theorem gkbf_components_unique {W : Type} [Group W] [Finite W] (ha : BSe
     have hcenterne : Subgroup.center ↥J ≠ ⊥ := by
       intro hbot
       rw [hbot] at hcentercard
-      have : (1 : ℕ) = 2 := by simpa using hcentercard
+      have : (1 : ℕ) = 2 := by simp at hcentercard
       omega
     have hcentertop : Subgroup.center ↥J = ⊤ :=
       (hCsimple.eq_bot_or_eq_top_of_normal (Subgroup.center ↥J)).resolve_left hcenterne

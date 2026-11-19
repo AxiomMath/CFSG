@@ -9,6 +9,7 @@ namespace CFSG.Quasithin.C116Two
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_of_commute {Y K : Subgroup G} (hYK : ∀ y ∈ Y, ∀ k ∈ K, y * k = k * y) :
     Y ≤ Subgroup.normalizer (K : Set G) := by
   intro y hy
@@ -28,12 +29,14 @@ theorem le_normalizer_of_commute {Y K : Subgroup G} (hYK : ∀ y ∈ Y, ∀ k �
         _ = x := by group
     rwa [h3] at hk
 
+omit [Finite G] in
 theorem relIndex_sup_eq_of_le_normalizer' {Y K : Subgroup G} (hY : Y ≤ Subgroup.normalizer (K : Set G)) :
     K.relIndex (Y ⊔ K) = K.relIndex Y := by
   have := Subgroup.normal_subgroupOf_of_le_normalizer hY
   have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hY
   exact Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient Y K hY).toEquiv.symm
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf_of_commute {Y K : Subgroup G}
     (hYK : ∀ y ∈ Y, ∀ k ∈ K, y * k = k * y) :
     Nat.card ↥(Y ⊔ K) * Nat.card ↥(Y ⊓ K) = Nat.card ↥Y * Nat.card ↥K := by
@@ -66,6 +69,7 @@ theorem card_mul_le_of_le_sup {S Y K : Subgroup G} (hYK : ∀ y ∈ Y, ∀ k ∈
     _ ≤ K.relIndex Y * (Nat.card ↥(S ⊓ K) * Nat.card ↥(Y ⊓ K)) := Nat.mul_le_mul_right _ h3
     _ = Nat.card ↥(S ⊓ K) * (K.relIndex Y * Nat.card ↥(Y ⊓ K)) := by ring
 
+omit [Finite G] in
 theorem iSup_inf_centralizers_le {ι : Type} [DecidableEq ι] (U Z L : ι → Subgroup G)
     (hUab : ∀ i j, ∀ x ∈ U i, ∀ y ∈ U j, x * y = y * x)
     (hLU : ∀ i j, i ≠ j → ∀ l ∈ L i, ∀ u ∈ U j, l * u = u * l)
@@ -118,6 +122,7 @@ theorem iSup_inf_centralizers_le {ι : Type} [DecidableEq ι] (U Z L : ι → Su
     have hwZ := ih (Subgroup.mem_inf.mpr ⟨hw, hwC⟩)
     exact Subgroup.mul_mem_sup huZ hwZ
 
+omit [Finite G] in
 theorem iSup_inf_iInf_centralizer_le {ι : Type} [Fintype ι] [DecidableEq ι] (U Z L : ι → Subgroup G)
     (hUab : ∀ i j, ∀ x ∈ U i, ∀ y ∈ U j, x * y = y * x)
     (hLU : ∀ i j, i ≠ j → ∀ l ∈ L i, ∀ u ∈ U j, l * u = u * l)

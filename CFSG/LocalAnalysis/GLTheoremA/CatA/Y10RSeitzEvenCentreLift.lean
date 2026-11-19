@@ -19,7 +19,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 theorem noncentralWitness_three {K : Type} [Group K] [Finite K] {q k : ℕ} (hq : q.Prime)
     (hk : 3 ≤ k) (h : NoncentralWitness K q k) : NoncentralWitness K q 3 := by
   obtain ⟨E, hE, hEc, T, hT2, hTnc, hET⟩ := h
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hdvd : q ^ 3 ∣ Nat.card E := by
     rw [hEc]
     exact pow_dvd_pow q hk
@@ -39,7 +39,7 @@ theorem exists_two_subgroup_map_eq_of_cover {Y R : Type} [Group Y] [Finite Y] [G
     (hSU : ∀ x ∈ S, ∀ u ∈ U, φ x * u * (φ x)⁻¹ ∈ U) :
     ∃ T : Subgroup Y, IsPGroup 2 T ∧ T.map φ = U ∧ S ≤ Subgroup.normalizer (T : Set Y) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup Y := U.comap φ with hH
   have hZH : φ.ker ≤ H := by
     intro z hz
@@ -85,7 +85,7 @@ theorem noncentralWitness_of_cover {Y R : Type} [Group Y] [Finite Y] [Group R] {
     (hEc : Nat.card E = q ^ k) (hXE : E ≤ Subgroup.normalizer (X : Set R)) :
     NoncentralWitness Y q k := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨E', hE'le, hE'el, hE'map, hE'card⟩ :=
     CFSG.HardMathSupport.Curtis.NaturalModuleCensus.AltIb.exists_elemAbelian_lift hq hqk
       (π := φ) (P := E.comap φ) (E := E)
@@ -138,7 +138,7 @@ private theorem exists_elemAbelian_normalizer_twoSubgroup_of_central_lift {K R :
       T.map (θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))) = X ∧
       W ≤ Subgroup.normalizer (T : Set K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let φ : K →* R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))
   have hφ : Function.Surjective φ :=
     θ.surjective.comp (QuotientGroup.mk'_surjective (Subgroup.center K))

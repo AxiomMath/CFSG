@@ -24,7 +24,7 @@ open Matrix
 open scoped commutatorElement
 
 theorem forall_eq_smul_or_forall_mem_of_root_invariant {n : ℕ} {F : Type} [Field F]
-    {a : Fin n ⊕ Fin n → F} (S : AddSubgroup (Fin n ⊕ Fin n → F)) (haS : ∀ l : F, l • a ∈ S)
+    {a : Fin n ⊕ Fin n → F} (S : AddSubgroup (Fin n ⊕ Fin n → F)) (_haS : ∀ l : F, l • a ∈ S)
     (hSa : ∀ u ∈ S, CaseM.spForm a u = 0)
     (hinv : ∀ c : Fin n ⊕ Fin n → F, CaseM.spForm a c = 0 → (∀ l : F, c ≠ l • a) →
       ∀ μ : F, μ ≠ 0 → ∀ u ∈ S, u + (μ * CaseM.spForm c u) • c ∈ S) :
@@ -54,7 +54,7 @@ theorem forall_eq_smul_or_forall_mem_of_root_invariant {n : ℕ} {F : Type} [Fie
     intro u hau
     rcases eq_or_ne u 0 with hu0 | hu0
     · rw [hu0]
-      simpa using haS 0
+      simp
     · by_cases hus : CaseM.spForm u s = 0
       · have h1 : u + c₀ ∈ S := by
           refine hkind (u + c₀) ?_ ?_
@@ -229,7 +229,7 @@ theorem BigEndHyp.not_le_normalizer_P_inf_wOf [Finite G] (h : BigEndHyp M V Q P 
   exact hne (le_antisymm (le_inf hPWleV inf_le_right) hAle)
 
 private theorem mem_commutator_sup_inf_of_conj [Finite G] {M V Q P H : Subgroup G}
-    (hc : MinCex M V Q P H) (hQW : ∀ x ∈ Q, conjSubgroup x (wOf V H) = wOf V H) :
+    (hc : MinCex M V Q P H) (_hQW : ∀ x ∈ Q, conjSubgroup x (wOf V H) = wOf V H) :
     ∀ r ∈ xOf V H ⊓ Subgroup.centralizer (V : Set G),
       ∀ s ∈ ⁅P ⊓ wOf V H, Q⁆ ⊔ (V ⊓ wOf V H),
         r * s * r⁻¹ ∈ ⁅P ⊓ wOf V H, Q⁆ ⊔ (V ⊓ wOf V H) := by

@@ -161,7 +161,7 @@ theorem tup_one : tup (1 : GL (Fin 4) (ZMod 2)) = 0 := by
 theorem exists_conj_le_UT {Q : Subgroup (GL (Fin 4) (ZMod 2))} (hQ : IsPGroup 2 Q) :
     ∃ h : GL (Fin 4) (ZMod 2), ∀ x ∈ Q, h⁻¹ * x * h ∈ UT 4 := by
   obtain ⟨P, hQP⟩ := hQ.exists_le_sylow
-  obtain ⟨h, hh⟩ := exists_conj_UT P.isPGroup' P.not_dvd_index
+  obtain ⟨h, hh⟩ := exists_conj_UT P.isPGroup P.not_dvd_index
   exact ⟨h, fun x hx => (hh x).1 (hQP hx)⟩
 
 theorem exists_coords {Q : Subgroup (GL (Fin 4) (ZMod 2))} (hQ : IsPGroup 2 Q)

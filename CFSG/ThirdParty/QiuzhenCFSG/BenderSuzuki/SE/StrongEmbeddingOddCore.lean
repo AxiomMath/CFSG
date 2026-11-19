@@ -71,13 +71,13 @@ public theorem fourGroup_odd_subgroup_le_stronglyEmbedded
     (hWodd : Odd (Nat.card W)) :
     W ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : IsMulCommutative U := isMulCommutative_of_forall_sq_one hUsq
-  letI : CommGroup U := IsMulCommutative.instCommGroup
-  haveI : Fact (IsPGroup 2 U) := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : IsMulCommutative U := isMulCommutative_of_forall_sq_one hUsq
+  let : CommGroup U := IsMulCommutative.instCommGroup
+  have : Fact (IsPGroup 2 U) := by
     refine ⟨IsPGroup.of_card (p := 2) (G := U) (n := 2) ?_⟩
     norm_num [hUcard]
-  haveI : Subgroup.Normalizes U W := ⟨hUnormW⟩
+  have : Subgroup.Normalizes U W := ⟨hUnormW⟩
   have hUnoncyclic : ¬ IsCyclic U :=
     noncyclic_of_card_four_and_sq_one hUcard hUsq
   have hWcop : Nat.Coprime 2 (Nat.card W) :=
@@ -165,7 +165,7 @@ public theorem oddCore_map_le_stronglyEmbedded_of_twoRank_intersection
     rcases Subgroup.mem_map.mp u.property with ⟨e, heE, heu⟩
     let eE : E := ⟨e, heE⟩
     have he2 : (e : H) ^ 2 = 1 := by
-      convert congrArg Subtype.val (hEsq eE) using 1 <;> rfl
+      convert congrArg Subtype.val (hEsq eE) using 1
     calc
       (u : X) ^ 2 = (i e) ^ 2 := by rw [heu]
       _ = 1 := by simpa using congrArg i he2

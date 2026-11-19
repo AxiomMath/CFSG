@@ -33,6 +33,7 @@ private theorem false_of_conj_eq_inv {X : Type} [Group X] (N : Subgroup (MulAut 
     exact N.pow_mem (by simpa [pow_two] using hN) (k + 1)
   exact hθN (by simpa using N.inv_mem hmem)
 
+omit [Finite G] in
 private theorem false_of_inverted {L : Subgroup G}
     (N : Subgroup (MulAut (BarInf L ⧸ Subgroup.center (BarInf L))))
     {b m : G} (hbN : b ∈ normalizer (L : Set G)) (hmN : m ∈ normalizer (L : Set G)) {r : ℕ}
@@ -142,7 +143,7 @@ theorem uc22r3g_false_of_isL2 {D : Data G} {Ch : Choice2011 G} (h8107 : F08.R810
     (hbL : b ∈ normalizer (L : Set G))
     (hninn : ¬ ∃ y ∈ L, ∀ x ∈ L, b * x * b⁻¹ * (y * x * y⁻¹)⁻¹ ∈ CFSG.Open.pCoreOf 2 D.M) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, hne, hset, hK⟩ := uc22s21ru4e_exists_second_member hc2 hL
   have hq7 := PartTwo.s13_seven_le_of_dvd hm hq hqm
   have hq2 : q ≠ 2 := by omega

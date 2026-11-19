@@ -28,8 +28,8 @@ theorem s16c7_model_data {P : Subgroup (MulAut WMod)}
       fixV X = Subgroup.zpowers z ∧
       Set.ncard {w : WMod | ∃ n ∈ L3Wr.norm, n z = w} ≤ 49 ∧
       ∀ h ∈ img, h z = z → ∃ x ∈ X, ∃ t ∈ P, h = x * t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut WMod) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut WMod) := MulEquiv.finite_left
   obtain ⟨k, hk, hconj⟩ := CFSG.ABGLocalTools.IsSylowOf.exists_mem_conj s16c7_isSylow_S hP
   have hPeq : P = s16c7_S.map (MulAut.conj k).toMonoidHom := by
     ext x
@@ -100,10 +100,10 @@ theorem s16c7_tensor_data {W : Type*} [CommGroup W] {H Tb : Subgroup (MulAut W)}
       Set.ncard {w : W | ∃ n ∈ Subgroup.normalizer (H : Set (MulAut W)), n z = w} ≤ 49 ∧
       ∀ h ∈ H, h z = z → ∃ x ∈ X, ∃ t ∈ Tb ⊓ H, h = x * t := by
   obtain ⟨e, he⟩ := exists_model hreal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite W := Finite.of_equiv WMod e.symm.toEquiv
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
-  haveI : Finite (MulAut WMod) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite W := Finite.of_equiv WMod e.symm.toEquiv
+  have : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite (MulAut WMod) := MulEquiv.finite_left
   have hP : CFSG.ABGLocalTools.IsSylowOf 2 ((Tb ⊓ H).map (congrHom e)) img := by
     have hP' : CFSG.ABGLocalTools.IsSylowOf 2 ((Tb ⊓ H).map (congrHom e))
         (H.map (congrHom e)) := by

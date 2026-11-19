@@ -25,8 +25,8 @@ theorem ggTorusCoordFrameElt_adjointF4
     show p ^ k = p ^ 4
     rw [← CFSG.RankThree.CentralCover.card_multiplicative_fin_zmod k, hcardτ, hcardE])
   subst hk
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hT : GGF4ToralRankInput K p :=
     ggF4ToralRankInput_of_three hp hp2 hpq (fun _ => ggF4ThreeRankInput_holds)
   obtain ⟨g, hg⟩ := hT E hE hr

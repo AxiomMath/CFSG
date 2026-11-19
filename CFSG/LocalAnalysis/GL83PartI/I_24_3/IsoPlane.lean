@@ -13,7 +13,7 @@ section Rank
 theorem le_pRank_sylow_of_isElemAbelian {X : Type*} [Group X] [Finite X] {p : ℕ} (hp : p.Prime)
     (R : Sylow p X) {E : Subgroup X} (hE : IsElemAbelian p E) {k : ℕ}
     (hk : Nat.card E = p ^ k) : k ≤ Open.pRank p (R : Subgroup X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Q, hEQ⟩ := hE.isPGroup.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X R Q
   have hSg : ((g • R : Sylow p X) : Subgroup X) =

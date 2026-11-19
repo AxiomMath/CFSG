@@ -19,7 +19,7 @@ include hp
 
 theorem dvd_of_orderOf_three {q : ℕ} (he : orderOf ((q : ℕ) : ZMod p) = 3) :
     p ∣ q ^ 2 + q + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x : ZMod p := (q : ZMod p) with hxdef
   have hx3 : x ^ 3 = 1 := by rw [← he]; exact pow_orderOf_eq_one x
   have hx1 : x ≠ 1 := by
@@ -35,7 +35,7 @@ theorem dvd_of_orderOf_three {q : ℕ} (he : orderOf ((q : ℕ) : ZMod p) = 3) :
 
 theorem dvd_of_orderOf_four {q : ℕ} (he : orderOf ((q : ℕ) : ZMod p) = 4) :
     p ∣ q ^ 2 + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x : ZMod p := (q : ZMod p) with hxdef
   have hx4 : x ^ 4 = 1 := by rw [← he]; exact pow_orderOf_eq_one x
   have hx2 : x ^ 2 ≠ 1 := by
@@ -50,9 +50,9 @@ theorem dvd_of_orderOf_four {q : ℕ} (he : orderOf ((q : ℕ) : ZMod p) = 4) :
     · exact h
   exact (ZMod.natCast_eq_zero_iff (q ^ 2 + 1) p).1 (by push_cast; exact h0)
 
-theorem dvd_of_orderOf_six {q : ℕ} (hq : 1 ≤ q) (he : orderOf ((q : ℕ) : ZMod p) = 6) :
+theorem dvd_of_orderOf_six {q : ℕ} (_hq : 1 ≤ q) (he : orderOf ((q : ℕ) : ZMod p) = 6) :
     p ∣ q ^ 2 - q + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x : ZMod p := (q : ZMod p) with hxdef
   have hx6 : x ^ 6 = 1 := by rw [← he]; exact pow_orderOf_eq_one x
   have hx3 : x ^ 3 ≠ 1 := by
@@ -137,8 +137,8 @@ theorem fixesPair_adjointF4 {f p : ℕ} (hf : 1 ≤ f) (K : Type) [Field K] [Fin
     (hrk1 : ¬ RankLE1 p (adjointGroup Tag.F4 K)) (hrk2 : RankLE2 p (adjointGroup Tag.F4 K))
     {α : MulAut (adjointGroup Tag.F4 K)} (hαp : α ^ p = 1) (hα : α ∉ inner (adjointGroup Tag.F4 K)) :
     FixesIndepPair p α := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hαo : orderOf α = p := orderOf_eq_prime hαp (fun h1 => hα (h1 ▸
     (CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup Tag.F4 K)).one_mem))
@@ -150,14 +150,14 @@ theorem fixesPair_adjointF4 {f p : ℕ} (hf : 1 ≤ f) (K : Type) [Field K] [Fin
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow hd'))
   obtain ⟨hdvd, hc⟩ := CFSG.RankThree.Chevalley.SteinbergBT.card_fixSubfield Nat.prime_two hf hK σ
   rw [hσ] at hdvd hc
-  haveI : Finite (fixSubfield σ) :=
+  have : Finite (fixSubfield σ) :=
     Nat.finite_of_card_ne_zero (by rw [hc]; exact (pow_pos (by norm_num) _).ne')
   have hFk : Nat.card K = Nat.card (fixSubfield σ) ^ p := by
     rw [hK, hc, ← pow_mul, Nat.div_mul_cancel hdvd]
   have hpk : ¬ p ∣ Nat.card (fixSubfield σ) := fun h => hpK (by rw [hFk]; exact h.pow hp.ne_zero)
   have hord : orderOf ((Nat.card (fixSubfield σ) : ℕ) : ZMod p) =
       orderOf ((Nat.card K : ℕ) : ZMod p) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     rw [hFk]
     push_cast
     rw [ZMod.pow_card]
@@ -178,7 +178,7 @@ theorem chevTwoOuterFixesPair_F4 : ChevTwoOuterFixesPair LieIndexF4 := by
     · have hp5 := five_le_of_prime_ne hp hp2 hp3
       obtain ⟨K, _, _, hK, hchK, ⟨eK⟩⟩ :=
         exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.f4 q hv
-      haveI : CharP K 2 := hq2 ▸ hchK
+      have : CharP K 2 := hq2 ▸ hchK
       let θ : L ≃* adjointGroup Tag.F4 K := e.trans eK
       obtain ⟨hrk2, E, hE, hEc⟩ := rank_data_of_pRank hp hrk θ
       have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK, PrimePower.card_def, hq2]

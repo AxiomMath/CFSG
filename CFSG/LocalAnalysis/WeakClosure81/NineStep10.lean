@@ -16,11 +16,13 @@ variable {G : Type} [Group G] [Finite G] {V K S X A : Subgroup G} {p : ℕ}
 private def nineStep10_normalClosure (Y K : Subgroup G) : Subgroup G :=
   ⨆ k : ↥K, conjSubgroup Y (k : G)
 
+omit [Finite G] in
 private theorem nineStep10_le_normalClosure (Y K : Subgroup G) :
     Y ≤ nineStep10_normalClosure Y K := by
   have h := le_iSup (fun k : ↥K => conjSubgroup Y (k : G)) ⟨1, K.one_mem⟩
   simpa [nineStep10_normalClosure, CFSG.Quasithin.conjSubgroup_one] using h
 
+omit [Finite G] in
 private theorem nineStep10_normalClosure_le {Y K : Subgroup G} (hYK : Y ≤ K) :
     nineStep10_normalClosure Y K ≤ K := by
   rw [nineStep10_normalClosure]
@@ -32,6 +34,7 @@ private theorem nineStep10_normalClosure_le {Y K : Subgroup G} (hYK : Y ≤ K) :
   rw [hx']
   exact K.mul_mem (K.mul_mem (K.inv_mem k.2) hxK) k.2
 
+omit [Finite G] in
 private theorem nineStep10_conj_mem_normalClosure {Y K : Subgroup G} {k₀ : G} (hk₀ : k₀ ∈ K)
     {x : G} (hx : x ∈ nineStep10_normalClosure Y K) :
     k₀ * x * k₀⁻¹ ∈ nineStep10_normalClosure Y K := by
@@ -46,7 +49,7 @@ private theorem nineStep10_conj_mem_normalClosure {Y K : Subgroup G} {k₀ : G} 
       exact hy
     exact le_iSup (fun k' : ↥K => conjSubgroup Y (k' : G))
       ⟨(k : G) * k₀⁻¹, K.mul_mem k.2 (K.inv_mem hk₀)⟩ hy'
-  · simpa using (nineStep10_normalClosure Y K).one_mem
+  · simp
   · intro x y hx hy
     have hmul := (nineStep10_normalClosure Y K).mul_mem hx hy
     have heq : k₀ * (x * y) * k₀⁻¹
@@ -54,6 +57,7 @@ private theorem nineStep10_conj_mem_normalClosure {Y K : Subgroup G} {k₀ : G} 
     rw [heq]
     exact hmul
 
+omit [Finite G] in
 private theorem nineStep10_subgroupOf_normal {Y K : Subgroup G} (hYK : Y ≤ K) :
     ((nineStep10_normalClosure Y K).subgroupOf K).Normal := by
   refine (Subgroup.normal_subgroupOf_iff_le_normalizer (nineStep10_normalClosure_le hYK)).mpr ?_

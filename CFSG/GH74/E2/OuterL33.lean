@@ -322,12 +322,12 @@ theorem card_D_ne_48
   obtain ⟨S, hS⟩ := hS12.exists_le_sylow
   have hcard := card_cen_outer (K := K) hcen hOut2 hout
   have hS1card := card_sylow_outer (K := K) (D := D) hcard hSKK hSKp hSKmax hSDD hSDp hSDmax
-    S.isPGroup' (fun P hP h => (S.maximal_isPGroup.eq_of_le hP h).symm)
+    S.isPGroup (fun P hP h => (S.maximal_isPGroup.eq_of_le hP h).symm)
   set S₁ : Subgroup C := (S : Subgroup C) with hS₁def
   have hSKS : SK ≤ S₁ := le_sup_left.trans hS
   have hSDS : SD ≤ S₁ := le_sup_right.trans hS
   have hQS : Q ≤ S₁ := hQSD.trans hSDS
-  have hSDeq : S₁ ⊓ D = SD := hSDmax _ S.isPGroup'.to_inf_left inf_le_right (le_inf hSDS hSDD)
+  have hSDeq : S₁ ⊓ D = SD := hSDmax _ S.isPGroup.to_inf_left inf_le_right (le_inf hSDS hSDD)
   have hDn : D.Normal := Subgroup.normal_centralizer
   have hTn : (SD.subgroupOf S₁).Normal := by
     have : SD.subgroupOf S₁ = D.subgroupOf S₁ := by
@@ -425,7 +425,7 @@ theorem card_D_ne_48
     rw [hc1, hprod, hS1card] at h1
     have hpos : 0 < Nat.card SK * Nat.card SD := Nat.mul_pos Nat.card_pos Nat.card_pos
     exact Nat.eq_of_mul_eq_mul_right hpos (by rw [h1])
-  exact false_of_sixteen (hgen.subgroup S₁ ) S.isPGroup' (hQn.subgroupOf S₁) hTn hQ8S hT16S hC
+  exact false_of_sixteen (hgen.subgroup S₁ ) S.isPGroup (hQn.subgroupOf S₁) hTn hQ8S hT16S hC
     hdisj' eK hidx
 
 end CFSG.GH74.E2

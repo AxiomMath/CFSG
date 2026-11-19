@@ -35,7 +35,7 @@ private theorem image_fix_excRefl_map_e6
           (TableBExc.E6Three.zetaVec ζ hζ x)) ''
         {x : Fin Tag.E6.rank → ZMod 3 | x ∈ V ∧
           ∑ j, (γ j : ZMod 3) * x j = 0}) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [TwE6ThreeRootGen.image_fix_excRefl_toAdd (V := V) (γ := γ) (t := fun x =>
     g * rootDiagUnit .E6 (TableBExc.E6Three.zetaVec ζ hζ x) * g⁻¹) hVmem]
   have hfix : {x : Fin Tag.E6.rank → ZMod 3 | x ∈ V ∧
@@ -99,7 +99,7 @@ theorem isComponentOf_excComp_map_conj_e6
           (TableBExc.E6Three.zetaVec ζ hζ (Multiplicative.toAdd (κ a))) * g⁻¹) ''
         {a : A | ExcSplitRootGen.excRefl (p := 3) i.1 (Multiplicative.toAdd (κ a)) =
           Multiplicative.toAdd (κ a)})).comap (adjointGroup .E6 K).subtype) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hroot : ∀ β, IsRoot .E6 β → (∀ x ∈ V, ∑ j, (i.1 j : ZMod 3) * x j = 0 →
       ∑ j, (β j : ZMod 3) * x j = 0) → β = i.1 ∨ β = -i.1 :=
     fun β hβ h => TwE6ThreeRootGen.eq_or_eq_neg_of_forall_mem_sum_eq_zero hV i.2 hβ h
@@ -126,7 +126,7 @@ theorem dvd_card_excComp_map_conj_e6
     (i : {γ : Fin Tag.E6.rank → ℤ // IsRoot .E6 γ}) :
     3 ∣ Nat.card ((ExcSplitRootGen.excComp (K := K) i.1).map
       (MulAut.conj (⟨g, hg⟩ : adjointGroup .E6 K)).toMonoidHom) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Subgroup.card_map_of_injective
     (MulAut.conj (⟨g, hg⟩ : adjointGroup .E6 K)).injective]
   refine ExcSplitRootGen.dvd_card_excComp (K := K) (p := 3) (by norm_num) hζo i.2 ?_
@@ -142,7 +142,7 @@ private theorem iSup_excComp_map_conj_e6
           ExcSplitRootGen.excRefl (p := 3) j.1),
         (ExcSplitRootGen.excComp (K := K) i.1).map
           (MulAut.conj ⟨g, hg⟩).toMonoidHom) = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hgen := ExcSplitRootGen.iSup_excComp_ne (K := K) (p := 3) (τ := .E6) (Or.inl rfl)
     (fun α hα t => ExcSplitRootGen.excRefl_eq_self_iff (p := 3) (by norm_num) hα t)
     (fun α β hα hβ h => ExcSplitRootGen.eq_or_eq_neg_of_forall_sum_eq_zero (τ := .E6)
@@ -172,9 +172,9 @@ theorem ggTorusRootGenAvoidKG_E6Three
     (h3 : 3 ∣ Nat.card K - 1) :
     GGTorusRootGenAvoidKG 3 5 (TableBExc.RecipeGroup .E6 K) (TableBExc.RecipeID .E6 K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hKcard⟩ := FiniteField.card K 2
   have hn : 1 ≤ (n : ℕ) := n.pos
   have hK : Nat.card K = 2 ^ (n : ℕ) := by
@@ -216,7 +216,7 @@ theorem ggTorusRootGenAvoidKG_E6Three
   have hV : V = Set.univ ∨ V = (NoOffRest.hypE6 : Set (Fin Tag.E6.rank → ZMod 3)) :=
     TwE6ThreeRootGen.coordSet_eq_univ_or_hypE6 hκrange
   let ι := {γ : Fin Tag.E6.rank → ℤ // IsRoot .E6 γ}
-  haveI : Nonempty ι := ⟨⟨Pi.single 0 1, isRoot_single Tag.E6 0⟩⟩
+  have : Nonempty ι := ⟨⟨Pi.single 0 1, isRoot_single Tag.E6 0⟩⟩
   let s : ι → (Fin Tag.E6.rank → ZMod 3) → Fin Tag.E6.rank → ZMod 3 :=
     fun i => ExcSplitRootGen.excRefl (p := 3) i.1
   let τ : (Fin Tag.E6.rank → ZMod 3) → ModGL .E6 K :=

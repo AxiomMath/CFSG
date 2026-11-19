@@ -58,7 +58,7 @@ theorem padicValNat_pow_eight_add [Fact p.Prime] (hq : 2 ≤ q)
 
 
 theorem ten_dvd_sub_one (hp : p.Prime) (hord : orderOf (q : ZMod p) = 10) : 10 ∣ p - 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hq0 : (q : ZMod p) ≠ 0 := fun h => by
     rw [h, orderOf_zero] at hord
     omega
@@ -82,7 +82,7 @@ variable {p q : ℕ}
 theorem padicValNat_ordF4_of_orderOf_eq_six (hp : p.Prime) (hp5 : 5 ≤ p) (hq : 2 ≤ q)
     (hord : orderOf (q : ZMod p) = 6) :
     padicValNat p (CFSG.Open.ordF4 q) = 2 * padicValNat p (q ^ 6 - 1) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hodd : Odd p := hp.odd_of_ne_two (by omega)
   have hne : ∀ m, 0 < m → q ^ m - 1 ≠ 0 := fun m hm => pow_sub_one_ne_zero hq hm
   have hz : ∀ m, ¬ 6 ∣ m → padicValNat p (q ^ m - 1) = 0 := fun m hm =>
@@ -108,7 +108,7 @@ theorem padicValNat_ordF4_of_orderOf_eq_six (hp : p.Prime) (hp5 : 5 ≤ p) (hq :
 theorem padicValNat_ordE6_of_orderOf_eq_six (hp : p.Prime) (hp5 : 5 ≤ p) (hq : 2 ≤ q)
     (hord : orderOf (q : ZMod p) = 6) :
     padicValNat p (CFSG.Open.ordE6 q) = 2 * padicValNat p (q ^ 6 - 1) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hodd : Odd p := hp.odd_of_ne_two (by omega)
   have hne : ∀ m, 0 < m → q ^ m - 1 ≠ 0 := fun m hm => pow_sub_one_ne_zero hq hm
   have hz : ∀ m, ¬ 6 ∣ m → padicValNat p (q ^ m - 1) = 0 := fun m hm =>
@@ -146,7 +146,7 @@ theorem padicValNat_ordE6_of_orderOf_eq_six (hp : p.Prime) (hp5 : 5 ≤ p) (hq :
 theorem padicValNat_ordE8_of_orderOf_eq_ten (hp : p.Prime) (hp5 : 5 ≤ p) (hq : 2 ≤ q)
     (hord : orderOf (q : ZMod p) = 10) :
     padicValNat p (CFSG.Open.ordE8 q) = 2 * padicValNat p (q ^ 10 - 1) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hodd : Odd p := hp.odd_of_ne_two (by omega)
   have hne : ∀ m, 0 < m → q ^ m - 1 ≠ 0 := fun m hm => pow_sub_one_ne_zero hq hm
   have hz : ∀ m, ¬ 10 ∣ m → padicValNat p (q ^ m - 1) = 0 := fun m hm =>
@@ -186,7 +186,7 @@ theorem padicValNat_ordE8_of_orderOf_eq_ten (hp : p.Prime) (hp5 : 5 ≤ p) (hq :
 theorem padicValNat_ordE8_of_orderOf_eq_twelve (hp : p.Prime) (hp5 : 5 ≤ p) (hq : 2 ≤ q)
     (hord : orderOf (q : ZMod p) = 12) :
     padicValNat p (CFSG.Open.ordE8 q) = 2 * padicValNat p (q ^ 12 - 1) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hodd : Odd p := hp.odd_of_ne_two (by omega)
   have hne : ∀ m, 0 < m → q ^ m - 1 ≠ 0 := fun m hm => pow_sub_one_ne_zero hq hm
   have hz : ∀ m, ¬ 12 ∣ m → padicValNat p (q ^ m - 1) = 0 := fun m hm =>
@@ -221,7 +221,7 @@ theorem padicValNat_ordE8_of_orderOf_eq_twelve (hp : p.Prime) (hp5 : 5 ≤ p) (h
 
 theorem padicValNat_suThree (hp : p.Prime) (hq : 2 ≤ q) (hord : orderOf (q : ZMod p) = 6) :
     padicValNat p (q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 + 1))) = padicValNat p (q ^ 6 - 1) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hne2 : q ^ 2 - 1 ≠ 0 := pow_sub_one_ne_zero hq (by norm_num)
   rw [padicValNat.mul (pow_ne_zero _ (by omega)) (mul_ne_zero hne2 (by omega)),
     padicValNat.mul hne2 (by omega), padicValNat_pow_eq_zero_of_orderOf (by norm_num) hord,
@@ -231,7 +231,7 @@ theorem padicValNat_suThree (hp : p.Prime) (hq : 2 ≤ q) (hord : orderOf (q : Z
 
 theorem padicValNat_slThreeSq (hp : p.Prime) (hq : 2 ≤ q) (hord : orderOf (q : ZMod p) = 6) :
     padicValNat p (q ^ 6 * ((q ^ 4 - 1) * (q ^ 6 - 1))) = padicValNat p (q ^ 6 - 1) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hne4 : q ^ 4 - 1 ≠ 0 := pow_sub_one_ne_zero hq (by norm_num)
   have hne6 : q ^ 6 - 1 ≠ 0 := pow_sub_one_ne_zero hq (by norm_num)
   rw [padicValNat.mul (pow_ne_zero _ (by omega)) (mul_ne_zero hne4 hne6),
@@ -242,7 +242,7 @@ theorem padicValNat_slThreeSq (hp : p.Prime) (hq : 2 ≤ q) (hord : orderOf (q :
 theorem padicValNat_suFive (hp : p.Prime) (hq : 2 ≤ q) (hord : orderOf (q : ZMod p) = 10) :
     padicValNat p (q ^ 10 * ((q ^ 2 - 1) * (q ^ 3 + 1) * ((q ^ 4 - 1) * (q ^ 5 + 1)))) =
       padicValNat p (q ^ 10 - 1) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hne2 : q ^ 2 - 1 ≠ 0 := pow_sub_one_ne_zero hq (by norm_num)
   have hne4 : q ^ 4 - 1 ≠ 0 := pow_sub_one_ne_zero hq (by norm_num)
   have h3 : padicValNat p (q ^ 3 + 1) = 0 := by
@@ -265,7 +265,7 @@ theorem padicValNat_suFive (hp : p.Prime) (hq : 2 ≤ q) (hord : orderOf (q : ZM
 
 theorem padicValNat_trialityD4 (hp : p.Prime) (hq : 2 ≤ q) (hord : orderOf (q : ZMod p) = 12) :
     padicValNat p (CFSG.Open.ordTrialityD4 q) = padicValNat p (q ^ 12 - 1) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hne2 : q ^ 2 - 1 ≠ 0 := pow_sub_one_ne_zero hq (by norm_num)
   have hne6 : q ^ 6 - 1 ≠ 0 := pow_sub_one_ne_zero hq (by norm_num)
   have n12 : q ^ 12 ≠ 0 := pow_ne_zero _ (by omega)
@@ -359,9 +359,9 @@ theorem card_mul_card_dvd_of_commute {A B C : Subgroup G} (hA : A ≤ C) (hB : B
 theorem factorization_add_le_of_commute {A B C : Subgroup G} [Finite C] (hA : A ≤ C) (hB : B ≤ C)
     (hcomm : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x) {p : ℕ} (hAB : ¬ p ∣ Nat.card ↥(A ⊓ B)) :
     (Nat.card A).factorization p + (Nat.card B).factorization p ≤ (Nat.card C).factorization p := by
-  haveI : Finite A := Finite.of_injective (Subgroup.inclusion hA) (Subgroup.inclusion_injective hA)
-  haveI : Finite B := Finite.of_injective (Subgroup.inclusion hB) (Subgroup.inclusion_injective hB)
-  haveI : Finite ↥(A ⊓ B) :=
+  have : Finite A := Finite.of_injective (Subgroup.inclusion hA) (Subgroup.inclusion_injective hA)
+  have : Finite B := Finite.of_injective (Subgroup.inclusion hB) (Subgroup.inclusion_injective hB)
+  have : Finite ↥(A ⊓ B) :=
     Finite.of_injective (Subgroup.inclusion (inf_le_left.trans hA))
       (Subgroup.inclusion_injective _)
   have hdvd := card_mul_card_dvd_of_commute hA hB hcomm

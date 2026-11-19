@@ -120,6 +120,7 @@ section Hyp
 
 variable {S : Type} [Group S] [Finite S] {σ : MulAut S} {D : Subgroup ↥(fixedSubgroup σ)}
 
+omit [Finite S] in
 theorem A6Hyp.psu_pow_four (h : A6Hyp σ D) (x : ↥(fixedSubgroup σ)) (hx : x ∈ D)
     (h8 : x ^ 8 = 1) : x ^ 4 = 1 := by
   obtain ⟨-, ⟨eA⟩, -⟩ := h
@@ -129,6 +130,7 @@ theorem A6Hyp.psu_pow_four (h : A6Hyp σ D) (x : ↥(fixedSubgroup σ)) (hx : x 
   have h4 := eA.injective h3
   exact congrArg Subtype.val h4
 
+omit [Finite S] in
 theorem A6Hyp.psu_not_comm (h : A6Hyp σ D) : ∃ a b : S, a * b ≠ b * a := by
   obtain ⟨-, ⟨eA⟩, -⟩ := h
   obtain ⟨a, b, hab⟩ := a6sq_nonab

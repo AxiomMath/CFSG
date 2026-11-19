@@ -18,7 +18,7 @@ variable {k V : Type*} [Field k] [AddCommGroup V] [Module k V]
 theorem IsRefl.exists_neg {g : Module.End k V} (hg : IsRefl g) :
     ∃ b : V, b ≠ 0 ∧ g b = -b := by
   have hpos : 0 < finrank k (Module.End.eigenspace g (-1)) := by rw [hg.2]; norm_num
-  haveI : Module.Finite k (Module.End.eigenspace g (-1)) := Module.finite_of_finrank_pos hpos
+  have : Module.Finite k (Module.End.eigenspace g (-1)) := Module.finite_of_finrank_pos hpos
   obtain ⟨b, hb⟩ := (Module.finrank_pos_iff_exists_ne_zero (R := k)).mp hpos
   refine ⟨(b : V), ?_, ?_⟩
   · intro hb0
@@ -34,7 +34,7 @@ theorem IsRefl.eigenspace_neg_eq_span {g : Module.End k V} (hg : IsRefl g) {b : 
   have hle : k ∙ b ≤ Module.End.eigenspace g (-1) :=
     (Submodule.span_singleton_le_iff_mem b _).mpr hb_mem
   have hpos : 0 < finrank k (Module.End.eigenspace g (-1)) := by rw [hg.2]; norm_num
-  haveI : Module.Finite k (Module.End.eigenspace g (-1)) := Module.finite_of_finrank_pos hpos
+  have : Module.Finite k (Module.End.eigenspace g (-1)) := Module.finite_of_finrank_pos hpos
   exact (Submodule.eq_of_le_of_finrank_eq hle (by
     rw [finrank_span_singleton hb, hg.2])).symm
 

@@ -101,6 +101,7 @@ theorem core_six {g : X} {J : Subgroup X} (Z : Ctx M θ ρ t s H Q)
   · simpa [aF] using h2
   · simpa [aF] using h3
 
+omit [Finite X] in
 theorem exists_normalize (hρ : IsPermAction θ ρ) (π : Perm (Fin 9)) :
     ∃ (θ₀ : ↥M ⧸ pPrimeCore 2 ↥M ≃* alternatingGroup (Fin 9))
       (ρ₀ : ↥(normalizer (M : Set X)) →* Perm (Fin 9)), IsPermAction θ₀ ρ₀ ∧

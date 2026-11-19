@@ -51,11 +51,13 @@ theorem isLowerUni_y1Mat (c : K) : IsLowerUni (y1Mat c) := by
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem x0Mat_zero (n : ℕ) : (x0Mat n (0 : K)) = 1 := by
   have hq : (2 : ℕ) ^ n ≠ 0 := pow_ne_zero n two_ne_zero
   ext i j
   fin_cases i <;> fin_cases j <;> simp [x0Mat, zero_pow hq]
 
+omit [CharP K 2] in
 theorem x1Mat_zero : (x1Mat (0 : K)) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [x1Mat]
@@ -65,9 +67,10 @@ theorem x0Mat_mul (n : ℕ) (c d : K) : x0Mat n c * x0Mat n d = x0Mat n (c + d) 
   fin_cases i <;> fin_cases j <;>
     simp [x0Mat, Matrix.mul_apply, Fin.sum_univ_four, add_pow_char_pow] <;> ring
 
+omit [CharP K 2] in
 theorem x1Mat_mul (c d : K) : x1Mat c * x1Mat d = x1Mat (c + d) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [x1Mat, Matrix.mul_apply, Fin.sum_univ_four] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [x1Mat, Matrix.mul_apply, Fin.sum_univ_four]; ring
 
 end Matrices
 
@@ -99,10 +102,12 @@ section Elements
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2)
 
+omit [Finite K] [CharP K 2] in
 theorem ucond_a (a : K) : UCond n a 0 0 0 := by
   have hq : (2 : ℕ) ^ n ≠ 0 := pow_ne_zero n two_ne_zero
   simp [UCond, zero_pow hq]
 
+omit [Finite K] [CharP K 2] in
 theorem ucond_c {c : K} (hc : c ^ 2 ^ n = c) : UCond n 0 0 c 0 := by
   have hq : (2 : ℕ) ^ n ≠ 0 := pow_ne_zero n two_ne_zero
   simp [UCond, zero_pow hq, hc]

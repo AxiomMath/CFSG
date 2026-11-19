@@ -41,22 +41,27 @@ private theorem false_of_lieModel {X : Type} [Group X] {t : StatedLieTag} {n f :
   have hh := lieModel_eq_of_isChar2LieShape h hshape h'
   exact hne ⟨hh.1, hh.2.1⟩
 
+omit [Finite G] in
 private theorem simple_bar2_of_isU3 {X : Subgroup G} {m : ℕ} (h : IsU3 (Bar2 X) m) :
     IsSimpleGroup (Bar2 X) :=
   CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
 
+omit [Finite G] in
 private theorem simple_bar2_of_isL2 {X : Subgroup G} {m : ℕ} (h : IsL2 (Bar2 X) m) :
     IsSimpleGroup (Bar2 X) :=
   CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
 
+omit [Finite G] in
 private theorem simple_bar2_of_isSp4 {X : Subgroup G} {m : ℕ} (h : IsSp4 (Bar2 X) m) :
     IsSimpleGroup (Bar2 X) :=
   CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
 
+omit [Finite G] in
 private theorem simple_bar2_of_isU4 {X : Subgroup G} {m : ℕ} (h : IsU4 (Bar2 X) m) :
     IsSimpleGroup (Bar2 X) :=
   CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
 
+omit [Finite G] in
 private theorem simple_bar2_of_isU5 {X : Subgroup G} {m : ℕ} (h : IsU5 (Bar2 X) m) :
     IsSimpleGroup (Bar2 X) :=
   CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h
@@ -245,7 +250,7 @@ theorem not_isStronglyPEmbedded_of_normalizerQuotient {D : Data G} {V₀ V : Sub
       rw [show Ssub = (Sg : Subgroup ↥Y).subgroupOf B from rfl,
         Subgroup.map_subgroupOf_eq_of_le
           (show (Sg : Subgroup ↥Y) ≤ B from Subgroup.le_normalizer)]
-    exact Sg.isPGroup'.of_equiv
+    exact Sg.isPGroup.of_equiv
       ((Subgroup.equivMapOfInjective Ssub B.subtype B.subtype_injective).trans
         (MulEquiv.subgroupCongr hmap)).symm
   have hker_eq : f.ker = Ssub :=
@@ -289,7 +294,7 @@ theorem not_isStronglyPEmbedded_of_normalizerQuotient {D : Data G} {V₀ V : Sub
   let SG : Subgroup G := Ssub.map ι
   let E1G : Subgroup G := E1.map ι
   have hι : Function.Injective ι := by
-    simpa [ι] using Y.subtype_injective.comp B.subtype_injective
+    simp [ι]
   have hSG_eq : SG = S := by
     calc SG = (Ssub.map B.subtype).map Y.subtype := by
           dsimp only [SG, ι]
@@ -338,7 +343,6 @@ theorem not_isStronglyPEmbedded_of_normalizerQuotient {D : Data G} {V₀ V : Sub
     have hb3Ssub : (b : B) ^ 3 ∈ Ssub := by
       rwa [hker_eq] at hb3ker
     have hb3Sg : (((b : B) ^ 3 : B) : ↥Y) ∈ Sg := by
-      change (((b : B) ^ 3 : B) : ↥Y) ∈ Sg
       exact hb3Ssub
     have hb3S : ((((b : B) ^ 3 : B) : ↥Y) : G) ∈ S := (hSg_mem _).mp hb3Sg
     simpa [ι] using hb3S
@@ -371,7 +375,7 @@ theorem not_isStronglyPEmbedded_of_normalizerQuotient {D : Data G} {V₀ V : Sub
       exact hyNS
     have hy3S : (y : G) ^ 3 ∈ S := by
       have hy3eq : (y : G) ^ 3 = t * (((b : B) : ↥Y) : G) ^ 3 * t⁻¹ := by
-        simp only [y, Subgroup.coe_mk]
+        simp only [y]
         rw [show t * (((b : B) : ↥Y) : G) * t⁻¹ =
           MulAut.conj t (((b : B) : ↥Y) : G) from by simp [MulAut.conj_apply]]
         rw [← map_pow]

@@ -28,7 +28,7 @@ theorem pPrimeCore_three_eq_pCore_two {K : Type} [Group K] [Finite K]
     (CFSG.GroupTheory.pCore_le_pPrimeCore Nat.prime_two Nat.prime_three (by norm_num) K)
   set N : Subgroup (alternatingGroup (Fin 6)) := (CFSG.pPrimeCore 3 K).map (coverHom e) with hN
   have hNn : N.Normal := Subgroup.Normal.map inferInstance _ (coverHom_surjective e)
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h0 | h0
   · intro x hx
     rw [← coverHom_ker e, MonoidHom.mem_ker]
@@ -63,8 +63,8 @@ theorem alt6_nonabelian' : ∃ a b : alternatingGroup (Fin 6), a * b ≠ b * a :
 
 theorem isQuasisimple_of_equiv_alt6 {Q : Type*} [Group Q] (e : Q ≃* alternatingGroup (Fin 6)) :
     CFSG.Open.IsQuasisimple Q := by
-  haveI hs : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup Q := (MulEquiv.isSimpleGroup_congr e).mpr hs
+  have hs : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup Q := (MulEquiv.isSimpleGroup_congr e).mpr hs
   have hna : ∃ a b : Q, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := alt6_nonabelian'
     exact ⟨e.symm a, e.symm b, fun h => hab (e.symm.injective (by simpa using h))⟩

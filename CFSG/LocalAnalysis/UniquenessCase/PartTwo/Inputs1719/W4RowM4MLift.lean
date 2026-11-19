@@ -12,7 +12,7 @@ theorem closure_conj_eq_top_of_perfect_cover {K S : Type*} [Group K] [Group S] [
     (hK : Group.IsPerfect K) (π : K →* S) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center K) {t : K} (ht : π t ≠ 1) :
     Subgroup.closure {v : K | ∃ k : K, v = k * t * k⁻¹} = ⊤ := by
-  haveI : Group.IsPerfect K := hK
+  have : Group.IsPerfect K := hK
   have hset : {v : K | ∃ k : K, v = k * t * k⁻¹} = Group.conjugatesOfSet ({t} : Set K) := by
     ext v
     constructor
@@ -33,7 +33,7 @@ theorem closure_conj_eq_top_of_perfect_cover {K S : Type*} [Group K] [Group S] [
     Subgroup.normalClosure_normal
   have ht_mem : t ∈ Subgroup.normalClosure ({t} : Set K) :=
     Subgroup.subset_normalClosure (Set.mem_singleton t)
-  haveI hmap_normal : ((Subgroup.normalClosure ({t} : Set K)).map π).Normal :=
+  have hmap_normal : ((Subgroup.normalClosure ({t} : Set K)).map π).Normal :=
     hN_normal.map π hπ
   have hmap_top : (Subgroup.normalClosure ({t} : Set K)).map π = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
@@ -54,7 +54,7 @@ theorem closure_conj_eq_top_of_perfect_cover {K S : Type*} [Group K] [Group S] [
     have hx_eq : n * (n⁻¹ * x) = x := by group
     rw [← hx_eq]
     exact Subgroup.mul_mem_sup hn hz
-  haveI hker_comm : IsMulCommutative π.ker :=
+  have hker_comm : IsMulCommutative π.ker :=
     IsMulCommutative.of_comm fun a b =>
       Subtype.ext (Subgroup.mem_center_iff.1 (hker a.2) b.1).symm
   have hcomm_le : commutator K ≤ Subgroup.normalClosure ({t} : Set K) :=

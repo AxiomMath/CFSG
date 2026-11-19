@@ -33,9 +33,9 @@ theorem l2Eight_balance_of_conj {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 8) {S : Type} [Group S] [Finite S] (e : S ≃* PSL2 F) {s : S}
     (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) {T : Subgroup (MulAut S)} (hT3' : ¬ 3 ∣ Nat.card T)
     (hnorm : (MulAut.conj s : MulAut S) ∈ Subgroup.normalizer (T : Set (MulAut S))) : T = ⊥ := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
     (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hGal : Nat.card (F ≃+* F) = 3 := by
     have := card_ringAut F Nat.prime_two (show Nat.card F = 2 ^ 3 by rw [hF]; norm_num)
@@ -110,9 +110,9 @@ theorem l2EightCase
     (hF : Nat.card F = 8) (e : ↥K ⧸ Subgroup.center ↥K ≃* PSL2 F) :
     IsStronglyBalancedIn 3 B K := by
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (3 : ℕ).Prime := ⟨hp⟩
+  have : Fact (3 : ℕ).Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple ↥K := i116e_isQuasisimple hcore hcomp
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   have h3K : 3 ∣ Nat.card K := i116e_dvd_card hp hcore hcomp
   have hZ : Subgroup.center ↥K = ⊥ := l2Eight_center_eq_bot hF hq e
   obtain ⟨x, hxB, hxK, hx1, hxp⟩ := exists_mem_inf_of_isSCp hp hscp hBN h3K

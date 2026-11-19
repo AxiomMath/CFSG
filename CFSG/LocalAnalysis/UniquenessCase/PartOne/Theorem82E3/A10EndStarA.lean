@@ -23,7 +23,7 @@ variable {c : Ctx82E3 D}
 
 private theorem A_le_centralizer (F : A10Frame c) {B : Subgroup G} (hBA : B ≤ F.A) :
     F.A ≤ Subgroup.centralizer (B : Set G) := by
-  haveI : IsMulCommutative ↥F.A := F.elemAbelian.1
+  have : IsMulCommutative ↥F.A := F.elemAbelian.1
   intro a haA
   rw [Subgroup.mem_centralizer_iff]
   intro b hbB
@@ -99,7 +99,7 @@ private theorem le_centralizer_pCoreOf_three (F : A10Frame c) (hF : A10Facts F)
     hV2 (hWle.trans hW₀V) (hWle.trans hW₀H) hO'
 
 private theorem fixed_le_centralizer_of_deg_three (F : A10Frame c) (hF : A10Facts F)
-    {V : Subgroup G} (hV : UC22.InCalV D.M V) {B : Subgroup G} (hBA : B ≤ F.A)
+    {V : Subgroup G} (hV : UC22.InCalV D.M V) {B : Subgroup G} (_hBA : B ≤ F.A)
     {e : G} (heA : e ∈ F.A) (he3 : F.deg (Subgroup.zpowers e) = 3)
     {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) :
     CFSG.Open.pCoreOf p (Subgroup.centralizer (B : Set G)) ⊓
@@ -167,7 +167,7 @@ private theorem centralizes_pCoreOf_of_deg_three (F : A10Frame c) (hF : A10Facts
   · by_cases hp3 : p = 3
     · subst hp3
       exact le_centralizer_pCoreOf_three F hF hV hBA hO heA
-    · haveI : Fact p.Prime := ⟨hp⟩
+    · have : Fact p.Prime := ⟨hp⟩
       have hcop : Nat.Coprime p 6 := by
         have h2 : Nat.Coprime p 2 := (Nat.coprime_primes hp Nat.prime_two).mpr hp2
         have h3 : Nat.Coprime p 3 := (Nat.coprime_primes hp Nat.prime_three).mpr hp3
@@ -288,7 +288,7 @@ private theorem A_le_centralizer_inf (F : A10Frame c) (hF : A10Facts F)
 
 theorem inf_centralizer_le_centralizer_A (F : A10Frame c) (hF : A10Facts F)
     {V : Subgroup G} (hV : UC22.InCalV D.M V) {B : Subgroup G} (hBA : B ≤ F.A)
-    (hB3 : Nat.card B = 3)
+    (_hB3 : Nat.card B = 3)
     (hO : CFSG.Open.pCoreOf 2 (Subgroup.centralizer (B : Set G)) = ⊥)
     (hE : CFSG.GorensteinWalter.componentLayerOf (Subgroup.centralizer (B : Set G)) ≤ D.M) :
     V ⊓ Subgroup.centralizer (B : Set G) ≤ Subgroup.centralizer (F.A : Set G) :=

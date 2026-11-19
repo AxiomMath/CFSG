@@ -11,7 +11,7 @@ open CFSG.Quasithin CFSG.Quasithin.SmithD39Two CFSG.Quasithin.SmithD321 Subgroup
 variable {Γ : Type*} [Group Γ] {Q : Type*} [CommGroup Q] [MulDistribMulAction Γ Q]
 
 private noncomputable def s16t3_isoTypeEquiv {Λ : Subgroup Γ} {I : Subgroup Q}
-    (hI : XMod.IsIrr ↥Λ I) :
+    (_hI : XMod.IsIrr ↥Λ I) :
     {J : Subgroup Q // XMod.IsIrr ↥Λ J ∧ XMod.Iso ↥Λ J I} ≃
       {J : Subgroup Q // J ≤ isoComp ↥Λ I ∧ XMod.IsIrr ↥Λ J} where
   toFun J := ⟨J.1, le_isoComp J.2.1 J.2.2, J.2.1⟩

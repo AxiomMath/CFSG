@@ -19,7 +19,7 @@ theorem index_modEq_relIndex_normalizer {G : Type*} [Group G] [Finite G] {p : �
     (P : Sylow p G) {H : Subgroup G} (hPH : (P : Subgroup G) ≤ H) :
     H.index ≡ H.relIndex (Subgroup.normalizer (P : Set G)) [MOD p] := by
   set N := Subgroup.normalizer (P : Set G)
-  have hmod := P.isPGroup'.card_modEq_card_fixedPoints (G ⧸ H)
+  have hmod := P.isPGroup.card_modEq_card_fixedPoints (G ⧸ H)
   have hfix : fixedPoints (P : Subgroup G) (G ⧸ H) = orbit N ((1 : G) : G ⧸ H) := by
     ext x
     obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x

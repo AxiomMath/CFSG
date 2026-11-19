@@ -111,7 +111,7 @@ private lemma card_fixVec (F : Subgroup (Equiv.Perm (Fin 7))) :
 private lemma card_fixedBy_one (F : Subgroup (Equiv.Perm (Fin 7))) :
     Nat.card (MulAction.fixedBy (Fin 7) (1 : F)) = 7 := by
   rw [Nat.card_congr (Equiv.subtypeUnivEquiv (fun i => by
-    simp [MulAction.mem_fixedBy])), Nat.card_fin]
+    simp)), Nat.card_fin]
 
 private lemma card_fixedBy_ne_one (F : Subgroup (Equiv.Perm (Fin 7)))
     (hF : F ≤ alternatingGroup (Fin 7)) (h2 : ∀ f ∈ F, f * f = 1)
@@ -150,7 +150,7 @@ private lemma burnside (F : Subgroup (Equiv.Perm (Fin 7)))
     Nat.card (MulAction.orbitRel.Quotient F (Fin 7)) * Nat.card F =
       3 * Nat.card F + 4 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hsum : (∑ g : F, Nat.card (MulAction.fixedBy (Fin 7) g)) =
       3 * Fintype.card F + 4 := burnside_sum_card F hF h2
   have hsum' : (∑ g : F, Fintype.card (MulAction.fixedBy (Fin 7) g)) =
@@ -178,10 +178,10 @@ private lemma card_dvd_four (F : Subgroup (Equiv.Perm (Fin 7)))
   rwa [show (3 * Nat.card F + 4) - 3 * Nat.card F = 4 by omega] at hsub
 
 private lemma exists_fixed_point (F : Subgroup (Equiv.Perm (Fin 7)))
-    (hF : F ≤ alternatingGroup (Fin 7)) (h2 : ∀ f ∈ F, f * f = 1) (hne : F ≠ ⊥) :
+    (_hF : F ≤ alternatingGroup (Fin 7)) (h2 : ∀ f ∈ F, f * f = 1) (_hne : F ≠ ⊥) :
     ∃ i0 : Fin 7, ∀ f ∈ F, f i0 = i0 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hpg : IsPGroup 2 F := by
     intro g
     refine ⟨1, ?_⟩
@@ -283,7 +283,7 @@ theorem sec4I_card_mul_fixEven_le (F : Subgroup (Equiv.Perm (Fin 7)))
   obtain ⟨i0, hi0⟩ := exists_fixed_point F hF h2 hne
   have hb := burnside F hF h2
   have hdvd := card_dvd_four F hF h2
-  haveI : Nontrivial F := (Subgroup.nontrivial_iff_ne_bot F).mpr hne
+  have : Nontrivial F := (Subgroup.nontrivial_iff_ne_bot F).mpr hne
   have hge : 2 ≤ Nat.card F := by
     rw [Nat.card_eq_fintype_card]
     have := Fintype.one_lt_card (α := F)

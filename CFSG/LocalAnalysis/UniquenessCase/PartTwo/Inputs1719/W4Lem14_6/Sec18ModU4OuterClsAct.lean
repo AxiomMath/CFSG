@@ -35,6 +35,7 @@ private def adjTrace {F : Type} [Field F] (b : F) : Matrix Om6Idx Om6Idx F :=
 
 variable {F : Type} [Field F] [CharP F 2]
 
+omit [CharP F 2] in
 private lemma adjTrace_transpose_add (b : F) : adjTrace b + (adjTrace b)ᵀ = adjGram b := by
   have h1 : (adjTrace b)ᵀ =
       (∑ i : Fin (3 - 1),
@@ -58,6 +59,7 @@ private lemma adjTrace_transpose_add (b : F) : adjTrace b + (adjTrace b)ᵀ = ad
   rw [h1, adjTrace, adjGram, ← hsum, ← hb]
   abel
 
+omit [CharP F 2] in
 private lemma trace_vecMulVec_mul (u v : Om6Idx → F) (X : Matrix Om6Idx Om6Idx F) :
     (Matrix.vecMulVec u v * X).trace = v ⬝ᵥ (X *ᵥ u) := by
   have h1 : (Matrix.vecMulVec u v * X).trace = ∑ i, ∑ j, u i * v j * X j i := by
@@ -67,6 +69,7 @@ private lemma trace_vecMulVec_mul (u v : Om6Idx → F) (X : Matrix Om6Idx Om6Idx
   rw [h1, h2, Finset.sum_comm]
   exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
 
+omit [CharP F 2] in
 private lemma trace_adjTrace_mul (b : F) (X : Matrix Om6Idx Om6Idx F) :
     (adjTrace b * X).trace = wedgeTrace b X := by
   simp only [adjTrace, wedgeTrace, Matrix.add_mul, Matrix.sum_mul, Matrix.smul_mul,
@@ -84,12 +87,14 @@ private lemma quadraticPolar_eq_add (b c : F) (v w : Om6Idx → F) :
 private lemma adjPolar_eq_polar (b c : F) (v w : Om6Idx → F) :
     adjPolar b v w = QuadraticMap.polar (CFSG.LieType.Universal.Spin.quadMinus 3 F b c) v w := by
   rw [CFSG.LieType.Universal.Spin.polar_quadMinus]
-  simp only [adjPolar, CharTwo.two_eq_zero, zero_mul, zero_add, add_zero]
+  simp only [adjPolar, CharTwo.two_eq_zero, zero_mul, add_zero]
 
+omit [CharP F 2] in
 private lemma wedgeM_transpose (v w : Om6Idx → F) : (wedgeM v w)ᵀ = wedgeM v w := by
   simp only [wedgeM, Matrix.transpose_add, Matrix.transpose_vecMulVec]
   rw [add_comm]
 
+omit [CharP F 2] in
 private lemma adjBinv_transpose (b : F) : (adjBinv b)ᵀ = adjBinv b := by
   rw [adjBinv_eq_adjGram]
   simp only [adjGram, Matrix.transpose_add, Matrix.transpose_sum, Matrix.transpose_smul,
@@ -106,17 +111,20 @@ private lemma adjGram_diag (c : F) (i : Om6Idx) : adjGram c i i = 0 := by
     Matrix.add_apply, Matrix.vecMulVec_apply, add_mul_self_eq_zero, Finset.sum_const_zero,
     zero_add, smul_eq_mul, mul_zero]
 
+omit [CharP F 2] in
 private lemma wedgeTrace_add (b : F) (X Y : Matrix Om6Idx Om6Idx F) :
     wedgeTrace b (X + Y) = wedgeTrace b X + wedgeTrace b Y := by
   simp only [wedgeTrace, Matrix.add_apply, Finset.sum_add_distrib]
   ring
 
+omit [CharP F 2] in
 private lemma wedgeTrace_smul (b : F) (c : F) (X : Matrix Om6Idx Om6Idx F) :
     wedgeTrace b (c • X) = c * wedgeTrace b X := by
   simp only [wedgeTrace, Matrix.smul_apply, smul_eq_mul]
   rw [mul_add, Finset.mul_sum]
   ring
 
+omit [CharP F 2] in
 private lemma wedgeTrace_sum (s : Finset (Fin (3 - 1))) (b : F)
     (X : Fin (3 - 1) → Matrix Om6Idx Om6Idx F) :
     wedgeTrace b (∑ i ∈ s, X i) = ∑ i ∈ s, wedgeTrace b (X i) := by
@@ -124,18 +132,21 @@ private lemma wedgeTrace_sum (s : Finset (Fin (3 - 1))) (b : F)
   congr 1
   exact Finset.sum_comm
 
+omit [CharP F 2] in
 private lemma wedgeTrace_wedgeM (b : F) (v w : Om6Idx → F) :
     wedgeTrace b (wedgeM v w) = adjPolar b v w := by
   simp only [wedgeTrace, adjPolar, wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply,
     Finset.sum_add_distrib, mul_add]
 
+omit [CharP F 2] in
 private lemma wedgeTrace_stdWedge (b : F) (i : Fin (3 - 1)) :
     adjPolar b (adjStdVec (.inl i)) (adjStdVec (.inr (.inl i))) = 1 := by
-  simp [adjPolar, adjStdVec, Pi.single_apply, Finset.sum_ite_eq]
+  simp [adjPolar, adjStdVec, Pi.single_apply]
 
+omit [CharP F 2] in
 private lemma adjPolar_std_uv (b : F) :
     adjPolar b (adjStdVec (.inr (.inr 0))) (adjStdVec (.inr (.inr 1))) = b := by
-  simp [adjPolar, adjStdVec, Pi.single_apply, Finset.sum_ite_eq]
+  simp [adjPolar, adjStdVec]
 
 private lemma wedgeTrace_adjBinv (b : F) (hb : b ≠ 0) : wedgeTrace b (adjBinv b) = 1 := by
   have h1 : wedgeTrace b (∑ i : Fin (3 - 1),
@@ -151,9 +162,11 @@ private lemma wedgeTrace_adjBinv (b : F) (hb : b ≠ 0) : wedgeTrace b (adjBinv 
     norm_num
   rw [hc, show (2 : F) = 0 from CharTwo.two_eq_zero, zero_add, inv_mul_cancel₀ hb]
 
+omit [CharP F 2] in
 private lemma op_smul_eq (a b : F) : MulOpposite.op a • b = a * b := by
   simp [mul_comm]
 
+omit [CharP F 2] in
 private lemma adjWedgeM_mulVec (u v w : Om6Idx → F) :
     wedgeM u v *ᵥ w = (v ⬝ᵥ w) • u + (u ⬝ᵥ w) • v := by
   funext i
@@ -161,6 +174,7 @@ private lemma adjWedgeM_mulVec (u v w : Om6Idx → F) :
     op_smul_eq]
   ring
 
+omit [CharP F 2] in
 private lemma dotProduct_adjGram_mulVec (c : F) (v w : Om6Idx → F) :
     v ⬝ᵥ (adjGram c *ᵥ w) = adjPolar c v w := by
   simp only [adjGram, Matrix.add_mulVec, Matrix.sum_mulVec, Matrix.smul_mulVec, adjWedgeM_mulVec,
@@ -172,10 +186,12 @@ private lemma dotProduct_adjGram_mulVec (c : F) (v w : Om6Idx → F) :
   rw [e]
   ring
 
+omit [CharP F 2] in
 private lemma dotProduct_stdVec_stdVec (A : Matrix Om6Idx Om6Idx F) (r s : Om6Idx) :
     adjStdVec r ⬝ᵥ (A *ᵥ adjStdVec s) = A r s := by
   simp only [adjStdVec, single_one_dotProduct, Matrix.mulVec_single_one, Matrix.col_apply]
 
+omit [CharP F 2] in
 private lemma dotProduct_mulVec' (B : Matrix Om6Idx Om6Idx F) (v w : Om6Idx → F) :
     v ⬝ᵥ (B *ᵥ w) = (Bᵀ *ᵥ v) ⬝ᵥ w := by
   rw [Matrix.dotProduct_mulVec, ← Matrix.mulVec_transpose]
@@ -215,12 +231,13 @@ private lemma adjDotProduct_mulVec_self_eq_zero {X : Matrix Om6Idx Om6Idx F} (hX
     subst hij
     exact hp (by simp [hd i])
 
+omit [CharP F 2] in
 private lemma trace_mul_eq_zero {D X : Matrix Om6Idx Om6Idx F} (hD : Dᵀ + D = 0) (hX : Xᵀ = X)
     (hd : ∀ i, X i i = 0) : (D * X).trace = 0 := by
   have hDs : ∀ i j, D i j + D j i = 0 := by
     intro i j
     have h := congrFun (congrFun hD i) j
-    simp only [Matrix.add_apply, Matrix.transpose_apply, Pi.zero_apply] at h
+    simp only [Matrix.add_apply, Matrix.transpose_apply] at h
     rw [add_comm]
     exact h
   have hXs : ∀ i j, X j i = X i j := by
@@ -283,31 +300,38 @@ theorem mem_adjOmega6_conj {b c : F} {A : Matrix Om6Idx Om6Idx F}
     rw [htr, trace_mul_eq_zero hD hXs hXd, trace_adjTrace_mul, add_zero]
     exact hXt
 
+omit [CharP F 2] in
 private lemma wedgeTrace_sub (b : F) (X Y : Matrix Om6Idx Om6Idx F) :
     wedgeTrace b (X - Y) = wedgeTrace b X - wedgeTrace b Y := by
   simp only [wedgeTrace, Matrix.sub_apply, Finset.sum_sub_distrib]
   ring
 
+omit [CharP F 2] in
 private lemma adjGram_transpose (b : F) : (adjGram b)ᵀ = adjGram b := by
   rw [← adjTrace_transpose_add, Matrix.transpose_add, Matrix.transpose_transpose, add_comm]
 
+omit [CharP F 2] in
 private lemma adjPolar_std_inl (c : F) (w : Om6Idx → F) (i : Fin (3 - 1)) :
     adjPolar c (adjStdVec (.inl i)) w = w (.inr (.inl i)) := by
-  simp [adjPolar, adjStdVec, Pi.single_apply, Finset.sum_ite_eq]
+  simp [adjPolar, adjStdVec, Pi.single_apply]
 
+omit [CharP F 2] in
 private lemma adjPolar_std_inr_inl (c : F) (w : Om6Idx → F) (i : Fin (3 - 1)) :
     adjPolar c (adjStdVec (.inr (.inl i))) w = w (.inl i) := by
-  simp [adjPolar, adjStdVec, Pi.single_apply, Finset.sum_ite_eq]
+  simp [adjPolar, adjStdVec, Pi.single_apply]
 
+omit [CharP F 2] in
 private lemma adjPolar_std_inr_inr (c : F) (w : Om6Idx → F) (j : Fin 2) :
     adjPolar c (adjStdVec (.inr (.inr j))) w = c * w (.inr (.inr (Fin.rev j))) := by
-  fin_cases j <;> simp [adjPolar, adjStdVec, Pi.single_apply, Finset.sum_ite_eq, Fin.rev]
+  fin_cases j <;> simp [adjPolar, adjStdVec, Fin.rev]
 
+omit [CharP F 2] in
 private lemma adjGram_mulVec_apply (c : F) (w : Om6Idx → F) (r : Om6Idx) :
     (adjGram c *ᵥ w) r = adjPolar c (adjStdVec r) w := by
   rw [← single_one_dotProduct r (adjGram c *ᵥ w), dotProduct_adjGram_mulVec]
   rfl
 
+omit [CharP F 2] in
 private lemma adjGram_mulVec_adjGram (c c' : F) (h : c * c' = 1) (w : Om6Idx → F) :
     adjGram c *ᵥ (adjGram c' *ᵥ w) = w := by
   funext r
@@ -318,18 +342,20 @@ private lemma adjGram_mulVec_adjGram (c c' : F) (h : c * c' = 1) (w : Om6Idx →
   · rw [adjPolar_std_inr_inr, adjGram_mulVec_apply, adjPolar_std_inr_inr, ← mul_assoc, h,
       one_mul, Fin.rev_rev]
 
+omit [CharP F 2] in
 private lemma adjGram_mulVec_adjBinv (b : F) (hb : b ≠ 0) (w : Om6Idx → F) :
     adjGram b *ᵥ (adjBinv b *ᵥ w) = w := by
   rw [adjBinv_eq_adjGram]
   exact adjGram_mulVec_adjGram b b⁻¹ (mul_inv_cancel₀ hb) w
 
+omit [CharP F 2] in
 private lemma adjBinv_mulVec_adjGram (b : F) (hb : b ≠ 0) (w : Om6Idx → F) :
     adjBinv b *ᵥ (adjGram b *ᵥ w) = w := by
   rw [adjBinv_eq_adjGram]
   exact adjGram_mulVec_adjGram b⁻¹ b (inv_mul_cancel₀ hb) w
 
 private lemma adjBinv_conj {b c : F} (hb : b ≠ 0) {A B : Matrix Om6Idx Om6Idx F}
-    (hAB : A * B = 1) (hBA : B * A = 1)
+    (hAB : A * B = 1) (_hBA : B * A = 1)
     (hiso : ∀ v, StatedQuadMinus 3 F b c (A *ᵥ v) = StatedQuadMinus 3 F b c v) :
     A * adjBinv b * Aᵀ = adjBinv b := by
   have hinj : ∀ x y : Om6Idx → F, adjGram b *ᵥ x = adjGram b *ᵥ y → x = y := by
@@ -370,48 +396,58 @@ theorem mem_adjOmega6_adjWedge (b : F) (hb : b ≠ 0) (v w : Om6Idx → F) :
     rw [wedgeTrace_sub, wedgeTrace_smul, wedgeTrace_wedgeM, wedgeTrace_adjBinv b hb]
     ring
 
-private lemma adjConj_of_mul_eq_one {A B : Matrix Om6Idx Om6Idx F} (hAB : A * B = 1)
+omit [CharP F 2] in
+private lemma adjConj_of_mul_eq_one {A B : Matrix Om6Idx Om6Idx F} (_hAB : A * B = 1)
     (hBA : B * A = 1) (X : Matrix Om6Idx Om6Idx F) : B * (A * X * Aᵀ) * Bᵀ = X := by
   calc B * (A * X * Aᵀ) * Bᵀ = (B * A) * X * (Aᵀ * Bᵀ) := by noncomm_ring
     _ = X := by
       rw [hBA, Matrix.one_mul, ← Matrix.transpose_mul, hBA, Matrix.transpose_one,
         Matrix.mul_one]
 
+omit [CharP F 2] in
 private lemma conj_wedgeM {A : Matrix Om6Idx Om6Idx F} (v w : Om6Idx → F) :
     A * wedgeM v w * Aᵀ = wedgeM (A *ᵥ v) (A *ᵥ w) := by
   simp only [wedgeM, Matrix.mul_add, Matrix.add_mul, Matrix.mul_vecMulVec, Matrix.vecMulVec_mul,
     Matrix.vecMul_transpose]
 
+omit [CharP F 2] in
 private lemma adjWedgeM_add_right (v w w' : Om6Idx → F) :
     wedgeM v (w + w') = wedgeM v w + wedgeM v w' := by
   ext i j
   simp only [wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply, Pi.add_apply, mul_add, add_mul]
   ring
 
+omit [CharP F 2] in
 private lemma adjPolar_second_add (b : F) (v w w' : Om6Idx → F) :
     adjPolar b v (w + w') = adjPolar b v w + adjPolar b v w' := by
   rw [← dotProduct_adjGram_mulVec, ← dotProduct_adjGram_mulVec, ← dotProduct_adjGram_mulVec,
     Matrix.mulVec_add, dotProduct_add]
 
+omit [CharP F 2] in
 private lemma adjPolar_swap (b : F) (v w : Om6Idx → F) : adjPolar b v w = adjPolar b w v := by
   simp only [adjPolar, add_comm]
 
+omit [CharP F 2] in
 private lemma adjWedgeM_comm (v w : Om6Idx → F) : wedgeM v w = wedgeM w v := by
   simp only [wedgeM, add_comm]
 
+omit [CharP F 2] in
 private lemma adjWedgeM_smul_left (c : F) (v w : Om6Idx → F) :
     wedgeM (c • v) w = c • wedgeM v w := by
-  simp only [wedgeM, Pi.smul_apply, Matrix.smul_vecMulVec, Matrix.vecMulVec_smul, smul_add]
+  simp only [wedgeM, Matrix.smul_vecMulVec, Matrix.vecMulVec_smul, smul_add]
 
+omit [CharP F 2] in
 private lemma adjPolar_first_smul (b : F) (c : F) (v w : Om6Idx → F) :
     adjPolar b (c • v) w = c * adjPolar b v w := by
   rw [← dotProduct_adjGram_mulVec, ← dotProduct_adjGram_mulVec, smul_dotProduct, smul_eq_mul]
 
+omit [CharP F 2] in
 private lemma adjPolar_second_smul (b : F) (c : F) (v w : Om6Idx → F) :
     adjPolar b v (c • w) = c * adjPolar b v w := by
   rw [← dotProduct_adjGram_mulVec, ← dotProduct_adjGram_mulVec, Matrix.mulVec_smul,
     dotProduct_smul, smul_eq_mul]
 
+omit [CharP F 2] in
 private lemma toAdd_ext {b : F} {x y : Multiplicative ↥(adjOmega6 F b)}
     (h : ((Multiplicative.toAdd x : ↥(adjOmega6 F b)) : Matrix Om6Idx Om6Idx F) =
       ((Multiplicative.toAdd y : ↥(adjOmega6 F b)) : Matrix Om6Idx Om6Idx F)) : x = y := by
@@ -512,7 +548,7 @@ theorem adjAct_apply {F : Type} [Field F] [CharP F 2] {b c : F}
 lemma toAdd_adjWedge {b : F} (hb : b ≠ 0) (v w : Om6Idx → F) :
     ((Multiplicative.toAdd (adjWedge b v w) : ↥(adjOmega6 F b)) : Matrix Om6Idx Om6Idx F) =
       wedgeM v w - adjPolar b v w • adjBinv b := by
-  rw [adjWedge, dif_neg hb]
+  rw [adjWedge, dite_eq_right hb]
   rfl
 
 private lemma toAdd_adjWedge_mul {b : F} (hb : b ≠ 0) (v w w' : Om6Idx → F) :
@@ -524,6 +560,7 @@ private lemma toAdd_adjWedge_mul {b : F} (hb : b ≠ 0) (v w w' : Om6Idx → F) 
       Multiplicative.toAdd (adjWedge b v w) + Multiplicative.toAdd (adjWedge b v w') from rfl,
     AddSubgroup.coe_add, toAdd_adjWedge hb, toAdd_adjWedge hb]
 
+omit [CharP F 2] in
 private lemma adjWedgeM_smul_right (c : F) (v w : Om6Idx → F) :
     wedgeM v (c • w) = c • wedgeM v w := by
   ext i j

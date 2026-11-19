@@ -38,7 +38,7 @@ theorem normalizer_order_four_eq
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hYcyc, -, -, -, hnorm, -, huniq, -⟩ := center_facts h
-  haveI : IsCyclic (critCenter D) := hYcyc
+  have : IsCyclic (critCenter D) := hYcyc
   have hzT : z ∈ T := by
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := T) 2 (by rw [hT4]; norm_num)
     have hxz : (x : G) = z := huniq _ (hTY x.2) (by rw [Subgroup.orderOf_coe]; exact hx)

@@ -16,6 +16,7 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem bigB_le_normalizer_u3H {L1 L2 S : Subgroup G} (h : Hyp111 L1 L2 S) :
     bigB L1 L2 S ≤ Subgroup.normalizer (u3H L1 L2 S : Set G) := by
   have hBL2 : bigB L1 L2 S ≤ Subgroup.normalizer (L2 : Set G) := by

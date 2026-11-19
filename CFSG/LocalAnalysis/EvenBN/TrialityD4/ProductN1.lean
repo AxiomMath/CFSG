@@ -204,7 +204,7 @@ theorem E1_core (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : Product
         rw [mem_inf, mem_centralizerMod_iff]
         refine ⟨hxP, hPN hxP, fun b hb hbN => ?_⟩
         rcases mem_zpowers_involution htt hb with rfl | rfl
-        · simpa using one_mem (yamadaD₅ d t)
+        · simp
         · exact hxt
       rw [hPD₅.2.2, hPC] at hx
       exact hx
@@ -414,7 +414,7 @@ theorem eq_commutator_sup_of_perfect_quotient {K' V : Subgroup G} (hVK : V ≤ K
   rw [hx']
   exact mul_mem_sup hyK (by simpa using hyx')
 
-theorem commutator_commutator_eq_bot_of_central {A B V N : Subgroup G} (hA : A ≤ N) (hB : B ≤ N)
+theorem commutator_commutator_eq_bot_of_central {A B V N : Subgroup G} (_hA : A ≤ N) (hB : B ≤ N)
     (hAB : ⁅A, B⁆ ≤ V) (hV : V ≤ centralizer (N : Set G)) : ⁅⁅A, A⁆, ⁅B, B⁆⁆ = ⊥ := by
   have hVB : ⁅V, B⁆ = ⊥ := commutator_eq_bot_iff_le_centralizer.2 (hV.trans (centralizer_le hB))
   have hBA : ⁅B, A⁆ ≤ V := by
@@ -437,6 +437,7 @@ section CLV
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 theorem cLV_perfect (d : TrialityD4Data L (2 ^ f)) : ⁅cLV d, cLV d⁆ = cLV d := by
   have h1 : cLV d = (d.D ⊔ d.leviShort).map L.subtype := by
     unfold cLV
@@ -586,21 +587,29 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 
 include c
 
+omit [Finite 𝔊] in
 theorem t_inv : t⁻¹ = t := inv_eq_of_mul_eq_one_right c.t_mul_t
 
+omit [Finite 𝔊] in
 theorem u_inv : u⁻¹ = u := inv_eq_of_mul_eq_one_right c.u_mul_u
 
+omit [Finite 𝔊] in
 theorem Kt_conj : (Kᵍ[t])ᵍ[t] = K := map_conj_inv_map_conj_inv c.t_mul_t K
 
+omit [Finite 𝔊] in
 theorem D_conj : Dᵍ[t] = D := by
   rw [← c.K_inf, conjg_inf, c.Kt_conj, inf_comm]
 
+omit [Finite 𝔊] in
 theorem D_le_K : D ≤ K := c.K_inf ▸ inf_le_left
 
+omit [Finite 𝔊] in
 theorem D_le_Kt : D ≤ Kᵍ[t] := c.K_inf ▸ inf_le_right
 
+omit [Finite 𝔊] [Field Γ] [Finite Γ] c in
 theorem K_le_N : K ≤ K ⊔ Kᵍ[t] := le_sup_left
 
+omit [Finite 𝔊] [Field Γ] [Finite Γ] c in
 theorem Kt_le_N : Kᵍ[t] ≤ K ⊔ Kᵍ[t] := le_sup_right
 
 theorem Kt_le_normalizer_K : Kᵍ[t] ≤ normalizer (K : Set 𝔊) := by
@@ -623,6 +632,7 @@ theorem N_le_normalizer_D : K ⊔ Kᵍ[t] ≤ normalizer (D : Set 𝔊) := by
   rw [← c.K_inf]
   exact Common.mem_normalizer_inf (c.N_le_normalizer_K hg) (c.N_le_normalizer_Kt hg)
 
+omit [Finite 𝔊] in
 theorem card_SL : Nat.card SL(2, Γ) = (2 ^ f) ^ 3 * (((2 ^ f) ^ 3) ^ 2 - 1) := by
   rw [CFSG.SL2MinimalFaithful.card_specialLinearGroup_fin_two, c.card_Γ]
 
@@ -643,7 +653,7 @@ variable {G : Type*} [Group G]
 theorem isSylowOf_top_sl2 {k : Type} [Field k] [Finite k] {m : ℕ} (hk : Nat.card k = 2 ^ m)
     (hm : 1 ≤ m) {S : Subgroup SL(2, k)} (hS : Nat.card S = Nat.card k) :
     IsSylowOf 2 S (⊤ : Subgroup SL(2, k)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, IsPGroup.of_card (n := m) (by rw [hS, hk]), ?_⟩
   have h1 := Subgroup.relIndex_mul_card S (⊤ : Subgroup SL(2, k))
@@ -679,16 +689,19 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 
 include c
 
+omit [Finite 𝔊] in
 theorem card_Γ_pow : Nat.card Γ = 2 ^ (3 * f) := by
   rw [c.card_Γ, ← pow_mul, mul_comm]
 
+omit [Finite 𝔊] in
 theorem four_le_card_Γ : 4 ≤ Nat.card Γ := by
   rw [c.card_Γ_pow]
   calc 4 = 2 ^ 2 := by norm_num
     _ ≤ 2 ^ (3 * f) := Nat.pow_le_pow_right (by norm_num) (by have := c.two_le; omega)
 
+omit [Finite 𝔊] in
 theorem central_le_D {z : 𝔊} (hz : z ∈ K) (hc : ∀ k ∈ K, z * k = k * z) : z ∈ D := by
-  haveI := c.charTwo
+  have := c.charTwo
   have hcen : φ ⟨z, hz⟩ ∈ Subgroup.center SL(2, Γ) := by
     rw [Subgroup.mem_center_iff]
     intro g
@@ -701,22 +714,25 @@ theorem central_le_D {z : 𝔊} (hz : z ∈ K) (hc : ∀ k ∈ K, z * k = k * z)
   rw [c.φ_ker, Subgroup.mem_subgroupOf] at this
   exact this
 
+omit [Finite 𝔊] in
 theorem normal_D : (D.subgroupOf K).Normal := c.φ_ker ▸ MonoidHom.normal_ker φ
 
+omit [Finite 𝔊] in
 theorem perfect_quotient [hDn : (D.subgroupOf K).Normal] :
     Group.IsPerfect (↥K ⧸ D.subgroupOf K) := by
-  haveI := c.charTwo
+  have := c.charTwo
   have hSL : Group.IsPerfect SL(2, Γ) :=
     CFSG.LinearGroups.special_linear_dimension_two_perfect (exists_finset_card_four
       c.four_le_card_Γ)
-  haveI := hSL
+  have := hSL
   let e : (↥K ⧸ D.subgroupOf K) ≃* SL(2, Γ) :=
     (QuotientGroup.quotientMulEquivOfEq c.φ_ker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective φ c.φ_surj)
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
+omit [Finite 𝔊] in
 theorem K_eq_commutator_sup : K = ⁅K, K⁆ ⊔ D := by
-  haveI := c.normal_D
+  have := c.normal_D
   exact eq_commutator_sup_of_perfect_quotient c.D_le_K c.perfect_quotient
 
 end SL
@@ -743,6 +759,7 @@ theorem card_map_φ {A : Subgroup 𝔊} (hDA : D ≤ A) (hAK : A ≤ K) :
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAK).toEquiv] at h1
   exact h1
 
+omit [Finite 𝔊] in
 theorem comap_map_φ {A : Subgroup 𝔊} (hDA : D ≤ A) :
     ((A.subgroupOf K).map φ).comap φ = A.subgroupOf K := by
   apply Subgroup.comap_map_eq_self
@@ -753,7 +770,7 @@ theorem sylow_sup_inf {A A' : Subgroup 𝔊} (hDA : D ≤ A) (hDA' : D ≤ A') (
     (hA'K : A' ≤ K) (hcard : Nat.card A = Nat.card D * (2 ^ f) ^ 3)
     (hcard' : Nat.card A' = Nat.card D * (2 ^ f) ^ 3) (hne : A ≠ A') :
     A ⊔ A' = K ∧ A ⊓ A' = D := by
-  haveI := c.charTwo
+  have := c.charTwo
   have hDpos : 0 < Nat.card D := Nat.card_pos
   have hm : 1 ≤ 3 * f := by have := c.two_le; omega
   have hcardĀ : Nat.card ↥((A.subgroupOf K).map φ) = Nat.card Γ := by
@@ -876,7 +893,7 @@ theorem card_N : Nat.card ↥(K ⊔ Kᵍ[t]) = Nat.card D * Nat.card SL(2, Γ) *
   ring
 
 theorem P_isSylowOf_N : IsSylowOf 2 P (K ⊔ Kᵍ[t]) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨c.P_le_N, c.P_pgroup, ?_⟩
   have h1 := Subgroup.relIndex_mul_card P (K ⊔ Kᵍ[t])
@@ -923,10 +940,10 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 include c
 
 theorem A_isSylowOf_K : IsSylowOf 2 (P ⊓ K) K :=
-  c.P_isSylowOf_N.inf_of_le_normalizer c.K_le_N c.N_le_normalizer_K
+  c.P_isSylowOf_N.inf_of_le_normalizer CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1Aux.E2Ctx.K_le_N c.N_le_normalizer_K
 
 theorem card_A : Nat.card ↥(P ⊓ K) = Nat.card D * (2 ^ f) ^ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS := c.A_isSylowOf_K
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at hS
   obtain ⟨hle, hp, hdvd⟩ := hS
@@ -995,11 +1012,14 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 
 include c
 
+omit [Finite 𝔊] in
 theorem D_le_A : D ≤ P ⊓ K := le_inf c.D_le_P c.D_le_K
 
+omit [Finite 𝔊] in
 theorem At_eq : (P ⊓ K)ᵍ[t] = P ⊓ Kᵍ[t] := by
   rw [conjg_inf, c.P_conj]
 
+omit [Finite 𝔊] in
 theorem A_inf_At : (P ⊓ K) ⊓ (P ⊓ K)ᵍ[t] = D := by
   rw [c.At_eq]
   apply le_antisymm
@@ -1009,10 +1029,11 @@ theorem A_inf_At : (P ⊓ K) ⊓ (P ⊓ K)ᵍ[t] = D := by
     exact mem_inf.2 ⟨(mem_inf.1 hxA).2, (mem_inf.1 hxAt).2⟩
   · exact le_inf c.D_le_A (le_inf c.D_le_P c.D_le_Kt)
 
+omit [Finite 𝔊] in
 theorem A_comm_At : ⁅P ⊓ K, (P ⊓ K)ᵍ[t]⁆ ≤ D :=
   le_trans (commutator_mono inf_le_right (conjg_mono inf_le_right t)) c.comm_le
 
-theorem P_le_normalizer_A : P ≤ normalizer ((P ⊓ K : Subgroup 𝔊) : Set 𝔊) := fun g hg =>
+theorem P_le_normalizer_A : P ≤ normalizer ((P ⊓ K : Subgroup 𝔊) : Set 𝔊) := fun _g hg =>
   Common.mem_normalizer_inf (le_normalizer hg) (c.N_le_normalizer_K (c.P_le_N hg))
 
 theorem At_le_normalizer_A : (P ⊓ K)ᵍ[t] ≤ normalizer ((P ⊓ K : Subgroup 𝔊) : Set 𝔊) := by
@@ -1049,9 +1070,10 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 
 include c
 
+omit [Finite 𝔊] in
 theorem mem_D_of_commutators {z : 𝔊} (hz : z ∈ K) (hc : ∀ a ∈ K, z * a * z⁻¹ * a⁻¹ ∈ D) :
     z ∈ D := by
-  haveI := c.charTwo
+  have := c.charTwo
   have hcen : φ ⟨z, hz⟩ ∈ Subgroup.center SL(2, Γ) := by
     rw [Subgroup.mem_center_iff]
     intro g
@@ -1073,6 +1095,7 @@ theorem mem_D_of_commutators {z : 𝔊} (hz : z ∈ K) (hc : ∀ a ∈ K, z * a 
   rw [c.φ_ker, Subgroup.mem_subgroupOf] at this
   exact this
 
+omit [Finite 𝔊] in
 theorem mem_D_of_commutators_t {z : 𝔊} (hz : z ∈ Kᵍ[t])
     (hc : ∀ a ∈ Kᵍ[t], z * a * z⁻¹ * a⁻¹ ∈ D) : z ∈ D := by
   have hz' : t * z * t⁻¹ ∈ K := by
@@ -1109,6 +1132,7 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 
 include c
 
+omit [Finite 𝔊] in
 theorem t_mem_normalizer_N : t ∈ normalizer ((K ⊔ Kᵍ[t] : Subgroup 𝔊) : Set 𝔊) := by
   apply mem_normalizer_of_conjg_eq
   rw [conjg_sup, c.Kt_conj, sup_comm]
@@ -1125,7 +1149,7 @@ theorem centralizer_D_normalized {n x : 𝔊} (hn : n ∈ K ⊔ Kᵍ[t])
     _ = (n * x * n⁻¹) * d := by group
 
 theorem N_inf_centralizer_D : (K ⊔ Kᵍ[t]) ⊓ centralizer (D : Set 𝔊) = D := by
-  haveI := c.charTwo
+  have := c.charTwo
   set N := K ⊔ Kᵍ[t] with hN
   set Cc := N ⊓ centralizer (D : Set 𝔊) with hCc
   have hDN : D ≤ N := c.D_le_K.trans le_sup_left
@@ -1167,8 +1191,8 @@ theorem N_inf_centralizer_D : (K ⊔ Kᵍ[t]) ⊓ centralizer (D : Set 𝔊) = D
       rw [Subgroup.mem_subgroupOf]
       exact mem_inf.2 ⟨hCcN k (Subgroup.mem_sup_left k.2) y hyC,
         K.mul_mem (K.mul_mem k.2 hyK) (K.inv_mem k.2)⟩
-    haveI := hnormM
-    haveI := Common.sl2_isSimpleGroup_of_charTwo c.four_le_card_Γ
+    have := hnormM
+    have := Common.sl2_isSimpleGroup_of_charTwo c.four_le_card_Γ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (((Cc ⊓ K).subgroupOf K).map φ) with hM | hM
     · left
       intro x hx
@@ -1287,7 +1311,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 theorem exists_ne_one_central_of_pgroup {M : Subgroup G} (hM : IsPGroup 2 M) (hne : M ≠ ⊥) :
     ∃ z ∈ M, z ≠ 1 ∧ ∀ m ∈ M, z * m = m * z := by
-  haveI : Nontrivial ↥M := (Subgroup.nontrivial_iff_ne_bot M).2 hne
+  have : Nontrivial ↥M := (Subgroup.nontrivial_iff_ne_bot M).2 hne
   have h1 := hM.bot_lt_center
   obtain ⟨z, hz1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 (bot_lt_iff_ne_bot.1 h1)
   refine ⟨((z : ↥(Subgroup.center ↥M)) : ↥M), ((z : ↥(Subgroup.center ↥M)) : ↥M).2, ?_,
@@ -1367,6 +1391,7 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 
 include c
 
+omit [Finite 𝔊] in
 theorem D_le_At : D ≤ (P ⊓ K)ᵍ[t] := by
   have := conjg_mono c.D_le_A t
   rwa [c.D_conj] at this
@@ -1422,6 +1447,7 @@ theorem Y_eq : Y = zc (P ⊓ K) ⊓ (zc (P ⊓ K))ᵍ[t] := by
       · exact mem_centralizer_singleton_iff.2 (hyc' a ha)
     exact (mem_centralizer_singleton_iff.1 this).symm
 
+omit [Finite 𝔊] in
 theorem D_ne_bot : D ≠ ⊥ := by
   intro h
   have h1 := c.card_D
@@ -1476,7 +1502,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 theorem coprime_of_odd_of_card_two_pow {m : ℕ} {X : Subgroup G} (hm : Odd m)
     (hX : IsPGroup 2 X) : m.Coprime (Nat.card X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).1 hX
   rw [hn]
   refine Nat.Coprime.pow_right n ?_
@@ -1553,9 +1579,10 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 
 include c
 
+omit [Finite 𝔊] in
 theorem dichotomy_K {X : Subgroup 𝔊} (hXN : ∀ n ∈ K ⊔ Kᵍ[t], ∀ x ∈ X, n * x * n⁻¹ ∈ X)
     (hDX : D ≤ X) : X ⊓ K ≤ D ∨ K ≤ X := by
-  haveI := c.charTwo
+  have := c.charTwo
   have hnormM : (((X ⊓ K).subgroupOf K).map φ).Normal := by
     refine ⟨fun m hm g => ?_⟩
     obtain ⟨y, hy, rfl⟩ := hm
@@ -1568,8 +1595,8 @@ theorem dichotomy_K {X : Subgroup 𝔊} (hXN : ∀ n ∈ K ⊔ Kᵍ[t], ∀ x �
     rw [Subgroup.mem_subgroupOf]
     exact mem_inf.2 ⟨hXN k (Subgroup.mem_sup_left k.2) y hyC,
       K.mul_mem (K.mul_mem k.2 hyK) (K.inv_mem k.2)⟩
-  haveI := hnormM
-  haveI := Common.sl2_isSimpleGroup_of_charTwo c.four_le_card_Γ
+  have := hnormM
+  have := Common.sl2_isSimpleGroup_of_charTwo c.four_le_card_Γ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (((X ⊓ K).subgroupOf K).map φ) with hM | hM
   · left
     intro x hx
@@ -1594,6 +1621,7 @@ theorem dichotomy_K {X : Subgroup 𝔊} (hXN : ∀ n ∈ K ⊔ Kᵍ[t], ∀ x �
     rw [this]
     exact mul_mem hyC (hDX hker)
 
+omit [Finite 𝔊] in
 theorem conjg_t_normalized {X : Subgroup 𝔊} (hXN : ∀ n ∈ K ⊔ Kᵍ[t], ∀ x ∈ X, n * x * n⁻¹ ∈ X) :
     ∀ n ∈ K ⊔ Kᵍ[t], ∀ x ∈ Xᵍ[t], n * x * n⁻¹ ∈ Xᵍ[t] := by
   intro n hn x hx
@@ -1604,6 +1632,7 @@ theorem conjg_t_normalized {X : Subgroup 𝔊} (hXN : ∀ n ∈ K ⊔ Kᵍ[t], �
   rw [e]
   exact this
 
+omit [Finite 𝔊] in
 theorem dichotomy_Kt {X : Subgroup 𝔊} (hXN : ∀ n ∈ K ⊔ Kᵍ[t], ∀ x ∈ X, n * x * n⁻¹ ∈ X)
     (hDX : D ≤ X) : X ⊓ Kᵍ[t] ≤ D ∨ Kᵍ[t] ≤ X := by
   have hDXt : D ≤ Xᵍ[t] := by
@@ -1723,6 +1752,7 @@ theorem card_D_lt_card_K : Nat.card D < Nat.card K := by
     nlinarith
   nlinarith
 
+omit [Finite 𝔊] in
 theorem J_le_normalizer_D : J ≤ normalizer (D : Set 𝔊) := fun j hj => by
   have h := Common.mem_normalizer_sup (c.J_nor_W hj)
     (mem_normalizer_conjg_iff.2 (c.J_nor_W (c.J_conj_u j hj)))
@@ -1735,7 +1765,7 @@ theorem J_le_normalizer_K : J ≤ normalizer (K : Set 𝔊) := by
   have hNj : (K ⊔ Kᵍ[t])ᵍ[j] = K ⊔ Kᵍ[t] := conjg_eq_of_mem_normalizer hjN
   have hDj : Dᵍ[j] = D := conjg_eq_of_mem_normalizer hjD
   have hKjle : Kᵍ[j] ≤ K ⊔ Kᵍ[t] := by
-    have := conjg_mono (c.K_le_N) j
+    have := conjg_mono (CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1Aux.E2Ctx.K_le_N (K := K) (t := t)) j
     rwa [hNj] at this
   have hDKj : D ≤ Kᵍ[j] := by
     have := conjg_mono c.D_le_K j
@@ -1802,8 +1832,8 @@ theorem mem_normalizer_zc {X : Subgroup G} {g : G} (hg : g ∈ normalizer (X : S
 
 theorem isSolvable_of_isPGroup_two [Finite G] {X : Subgroup G} (hX : IsPGroup 2 X) :
     Group.IsSolvable ↥X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hX.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hX.isNilpotent
   infer_instance
 
 end ZcNormalizer
@@ -1818,27 +1848,33 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 
 include c
 
+omit [Finite 𝔊] in
 theorem Y_le_W : Y ≤ W := fun y hy => (c.mem_W y).2 ⟨((c.mem_Y y).1 hy).1, fun p hp => by
   have := ((c.mem_Y y).1 hy).2 p hp
   rw [this, mul_inv_cancel_right, mul_inv_cancel]
   exact one_mem Y⟩
 
+omit [Finite 𝔊] in
 theorem W_le_F : W ≤ F := fun w hw => (c.mem_F w).2 ⟨((c.mem_W w).1 hw).1, fun p hp =>
   c.Y_le_W (((c.mem_W w).1 hw).2 p hp)⟩
 
+omit [Finite 𝔊] in
 theorem Y_le_D : Y ≤ D := (c.Y_le_W.trans c.W_le_F).trans c.F_le_D
 
+omit [Finite 𝔊] in
 theorem W_le_D : W ≤ D := c.W_le_F.trans c.F_le_D
 
+omit [Finite 𝔊] in
 theorem odd_card_J₀ : Odd (Nat.card J₀) :=
   Odd.of_dvd_nat c.J_odd (Subgroup.card_dvd_of_le c.J₀_le_J)
 
-theorem J_le_normalizer_A : J ≤ normalizer ((P ⊓ K : Subgroup 𝔊) : Set 𝔊) := fun j hj =>
+theorem J_le_normalizer_A : J ≤ normalizer ((P ⊓ K : Subgroup 𝔊) : Set 𝔊) := fun _j hj =>
   Common.mem_normalizer_inf (c.J_nor_P hj) (c.J_le_normalizer_K hj)
 
-theorem J_le_normalizer_zcA : J ≤ normalizer ((zc (P ⊓ K) : Subgroup 𝔊) : Set 𝔊) := fun j hj =>
+theorem J_le_normalizer_zcA : J ≤ normalizer ((zc (P ⊓ K) : Subgroup 𝔊) : Set 𝔊) := fun _j hj =>
   mem_normalizer_zc (c.J_le_normalizer_A hj)
 
+omit [Finite 𝔊] in
 theorem J₀_normalizes_Wu {j : 𝔊} (hj : j ∈ J₀) : j ∈ normalizer ((Wᵍ[u] : Subgroup 𝔊) : Set 𝔊) :=
   mem_normalizer_conjg_iff.2 (c.J_nor_W (c.J₀_le_J (c.J₀_conj_u j hj)))
 
@@ -1929,8 +1965,10 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 
 include c
 
+omit [Finite 𝔊] in
 theorem Y_le_F : Y ≤ F := c.Y_le_W.trans c.W_le_F
 
+omit [Finite 𝔊] in
 theorem isPGroup_zcA : IsPGroup 2 (zc (P ⊓ K) : Subgroup 𝔊) :=
   (c.P_pgroup.to_inf_left (K := K)).to_inf_left
 
@@ -2012,15 +2050,18 @@ theorem Y_le_H : Y ≤ zc (P ⊓ K) := by
   rw [c.Y_eq]
   exact inf_le_left
 
+omit [Finite 𝔊] [Field Γ] [Finite Γ] c in
 theorem H_le_P : zc (P ⊓ K) ≤ P := (zc_le _).trans inf_le_left
 
-theorem P_le_normalizer_zcA : P ≤ normalizer ((zc (P ⊓ K) : Subgroup 𝔊) : Set 𝔊) := fun p hp =>
+theorem P_le_normalizer_zcA : P ≤ normalizer ((zc (P ⊓ K) : Subgroup 𝔊) : Set 𝔊) := fun _p hp =>
   mem_normalizer_zc (c.P_le_normalizer_A hp)
 
+omit [Finite 𝔊] in
 theorem t_conj_mem_Y {x : 𝔊} (hx : x ∈ Y) : t * x * t⁻¹ ∈ Y := by
   have : x ∈ Yᵍ[t] := by rw [c.Y_conj]; exact hx
   exact mem_conjg_iff.1 this
 
+omit [Finite 𝔊] in
 theorem Y_inf_Yut : Y ⊓ (Yᵍ[u])ᵍ[t] = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
@@ -2048,7 +2089,7 @@ theorem Y_ne_H_inf_W (hF : zc (P ⊓ K) ≤ F) : zc (P ⊓ K) ⊓ W ≠ Y := by
   apply c.Y_ne_H
   have hHW : zc (P ⊓ K) ≤ W := by
     intro h hh
-    refine (c.mem_W h).2 ⟨c.H_le_P hh, fun p hp => ?_⟩
+    refine (c.mem_W h).2 ⟨CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1Aux.E2Ctx.H_le_P hh, fun p hp => ?_⟩
     have h1 : h * p * h⁻¹ * p⁻¹ ∈ W := ((c.mem_F h).1 (hF hh)).2 p hp
     have h2 : h * p * h⁻¹ * p⁻¹ ∈ zc (P ⊓ K) := by
       have hp' : p * h⁻¹ * p⁻¹ ∈ zc (P ⊓ K) :=
@@ -2099,6 +2140,7 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 
 include c
 
+omit [Finite 𝔊] in
 theorem W_le_P : W ≤ P := fun w hw => ((c.mem_W w).1 hw).1
 
 theorem P_le_normalizer_W : P ≤ normalizer (W : Set 𝔊) := by
@@ -2117,9 +2159,11 @@ theorem P_le_normalizer_W : P ≤ normalizer (W : Set 𝔊) := by
       (p * w * p⁻¹) * q * (p * w * p⁻¹)⁻¹ * q⁻¹ := by group
   rwa [e] at h2
 
+omit [Finite 𝔊] in
 theorem Wu_conj_t : (Wᵍ[u])ᵍ[t] = Wᵍ[u] := by
   rw [conjg_conjg, ← c.t_comm_u, ← conjg_conjg, c.W_conj]
 
+omit [Finite 𝔊] in
 theorem conjg_conjg_le_Wu {X : Subgroup 𝔊} (hX : X ≤ W) : (Xᵍ[u])ᵍ[t] ≤ Wᵍ[u] := by
   rw [← c.Wu_conj_t]
   exact conjg_mono (conjg_mono hX u) t
@@ -2142,6 +2186,7 @@ theorem Hu_le_D : (zc (P ⊓ K))ᵍ[u] ≤ D := by
   have := conjg_mono c.zc_A_le_D u
   rwa [c.Du_conj] at this
 
+omit [Finite 𝔊] in
 theorem Wu_le_D : Wᵍ[u] ≤ D := by
   rw [c.D_eq_sup]
   exact le_sup_right
@@ -2329,13 +2374,13 @@ variable {G : Type*} [Group G] [Finite G]
 theorem exists_ne_one_commuting_of_normal_pgroup {A Q : Subgroup G} (hA : IsPGroup 2 A)
     (hQA : Q ≤ A) (hN : A ≤ normalizer (Q : Set G)) (hne : Q ≠ ⊥) :
     ∃ z ∈ Q, z ≠ 1 ∧ ∀ a ∈ A, z * a = a * z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥A := hA.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥A := hA.isNilpotent
   have hQn : (Q.subgroupOf A).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hQA]
     intro h k hh hk
     exact (mem_normalizer_iff.1 (hN hk) h).1 hh
-  haveI := hQn
+  have := hQn
   have hne' : Q.subgroupOf A ≠ ⊥ := by
     intro h
     apply hne
@@ -2443,14 +2488,14 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 include c
 
 theorem J_le_normalizer_Q :
-    J ≤ normalizer ((((zc (P ⊓ K))ᵍ[u])ᵍ[t] ⊓ W : Subgroup 𝔊) : Set 𝔊) := fun j hj =>
+    J ≤ normalizer ((((zc (P ⊓ K))ᵍ[u])ᵍ[t] ⊓ W : Subgroup 𝔊) : Set 𝔊) := fun _j hj =>
   Common.mem_normalizer_inf (c.J_le_normalizer_Hut hj) (c.J_nor_W hj)
 
 theorem Q_inf_Y (hZ : zc K = ⊥) : (((zc (P ⊓ K))ᵍ[u])ᵍ[t] ⊓ W) ⊓ Y = ⊥ := by
   rw [eq_bot_iff, ← c.Y_inf_Hut hZ]
   exact le_inf inf_le_right (inf_le_left.trans inf_le_left)
 
-theorem Q_sup_Y_ne_W (hZ : zc K = ⊥) :
+theorem Q_sup_Y_ne_W (_hZ : zc K = ⊥) :
     ((zc (P ⊓ K))ᵍ[u])ᵍ[t] ⊓ W ⊔ Y ≠ W := by
   intro hW
   have htt := c.t_mul_t
@@ -2657,14 +2702,14 @@ theorem card_Au : Nat.card ↥((P ⊓ K)ᵍ[u]) = Nat.card D * (2 ^ f) ^ 3 := by
   rw [card_conjg, c.card_A]
 
 theorem Au_isSylowOf_K : IsSylowOf 2 ((P ⊓ K)ᵍ[u]) K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.ABGLocalTools.isSylowOf_of_card c.Au_le_K ?_
   rw [card_conjg]
   exact c.A_isSylowOf_K.card_eq
 
 theorem mem_D_of_normalizer_Au {y : 𝔊} (hyA : y ∈ P ⊓ K)
     (hy : y ∈ normalizer (((P ⊓ K)ᵍ[u] : Subgroup 𝔊) : Set 𝔊)) : y ∈ D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hyP : y ∈ P := (mem_inf.1 hyA).1
   have hyK : y ∈ K := (mem_inf.1 hyA).2
   have hS : IsSylowOf 2 ((P ⊓ K)ᵍ[u]) K := c.Au_isSylowOf_K
@@ -2691,9 +2736,9 @@ theorem conj_Au_ne {y : 𝔊} (hyA : y ∈ P ⊓ K) (hyD : y ∉ D) :
 theorem Au_sup_conj {y : 𝔊} (hyA : y ∈ P ⊓ K) (hyD : y ∉ D) :
     (P ⊓ K)ᵍ[u] ⊔ ((P ⊓ K)ᵍ[u])ᵍ[y⁻¹] = K := by
   have hyK : y ∈ K := (mem_inf.1 hyA).2
-  have hyN : y⁻¹ ∈ normalizer (K : Set 𝔊) := inv_mem (c.N_le_normalizer_K (c.K_le_N hyK))
+  have hyN : y⁻¹ ∈ normalizer (K : Set 𝔊) := inv_mem (c.N_le_normalizer_K (CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1Aux.E2Ctx.K_le_N hyK))
   have hDy : Dᵍ[y⁻¹] = D :=
-    conjg_eq_of_mem_normalizer (inv_mem (c.N_le_normalizer_D (c.K_le_N hyK)))
+    conjg_eq_of_mem_normalizer (inv_mem (c.N_le_normalizer_D (CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1Aux.E2Ctx.K_le_N hyK)))
   refine (c.sylow_sup_inf c.D_le_Au (hDy ▸ conjg_mono c.D_le_Au y⁻¹) c.Au_le_K ?_ c.card_Au
     (by rw [card_conjg, c.card_Au]) (c.conj_Au_ne hyA hyD).symm).1
   have := conjg_mono c.Au_le_K y⁻¹
@@ -2713,7 +2758,7 @@ theorem card_mul_le_of_conjugates {A D Q Ω : Subgroup G}
       a⁻¹ * a' ∈ D) :
     Nat.card A * (Nat.card Q - 1) ≤ (Nat.card Ω - 1) * Nat.card D := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hfs : ∀ X : Subgroup G, (Finset.univ.filter (· ∈ X)).card = Nat.card X := fun X => by
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   have hmem : ∀ (X : Subgroup G) (x : G), x ∈ Finset.univ.filter (· ∈ X) ↔ x ∈ X := fun X x => by
@@ -2730,9 +2775,9 @@ theorem card_mul_le_of_conjugates {A D Q Ω : Subgroup G}
         (((Finset.univ.filter (· ∈ Ω)).erase 1).filter (r a)).card := by
       apply Finset.card_le_card_of_injOn (fun z => a * z * a⁻¹)
       · intro z hz
-        simp only [Finset.coe_erase, Set.mem_diff, Finset.mem_coe, hmem,
+        simp only [Finset.coe_erase, Set.mem_sdiff, Finset.mem_coe, hmem,
           Set.mem_singleton_iff] at hz
-        simp only [Finset.coe_filter, Finset.mem_erase, hmem, Set.mem_setOf_eq, hr]
+        simp only [Finset.coe_filter, Finset.mem_erase, hmem, Set.mem_ofPred_eq, hr]
         have e : a⁻¹ * (a * z * a⁻¹) * a = z := by group
         refine ⟨⟨?_, hΩ a haA z hz.1⟩, ?_⟩
         · intro h
@@ -2780,6 +2825,7 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 
 include c
 
+omit [Finite 𝔊] in
 theorem Q_conj_t : (((zc (P ⊓ K))ᵍ[u])ᵍ[t] ⊓ W)ᵍ[t] = (zc (P ⊓ K))ᵍ[u] ⊓ W := by
   rw [conjg_inf, c.W_conj, map_conj_inv_map_conj_inv c.t_mul_t]
 
@@ -2908,6 +2954,7 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 
 include c
 
+omit [Finite 𝔊] in
 theorem D_le_N : D ≤ K ⊔ Kᵍ[t] := c.D_le_K.trans le_sup_left
 
 theorem zc_N_eq_bot : zc (K ⊔ Kᵍ[t]) = ⊥ := by
@@ -2928,16 +2975,20 @@ theorem zc_N_eq_bot : zc (K ⊔ Kᵍ[t]) = ⊥ := by
   rw [c.W_inf] at this
   exact this
 
+omit [Finite 𝔊] [Field Γ] [Finite Γ] c in
 theorem zc_Kt_eq : zc (Kᵍ[t]) = (zc K)ᵍ[t] := zc_conjg K t
 
+omit [Finite 𝔊] in
 theorem zc_Kt_conj : (zc (Kᵍ[t]))ᵍ[t] = zc K := by
-  rw [c.zc_Kt_eq, map_conj_inv_map_conj_inv c.t_mul_t]
+  rw [CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1Aux.E2Ctx.zc_Kt_eq, map_conj_inv_map_conj_inv c.t_mul_t]
 
-theorem zc_K_le_D : zc K ≤ D := fun z hz =>
+omit [Finite 𝔊] in
+theorem zc_K_le_D : zc K ≤ D := fun _z hz =>
   c.central_le_D (mem_zc_iff.1 hz).1 (fun k hk => (mem_zc_iff.1 hz).2 k hk |>.symm)
 
+omit [Finite 𝔊] in
 theorem zc_Kt_le_D : zc (Kᵍ[t]) ≤ D := by
-  rw [c.zc_Kt_eq]
+  rw [CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1Aux.E2Ctx.zc_Kt_eq]
   have := conjg_mono c.zc_K_le_D t
   rwa [c.D_conj] at this
 
@@ -2958,11 +3009,11 @@ theorem zc_Kt_ne_bot : zc (Kᵍ[t]) ≠ ⊥ := by
   apply c.zc_K_ne_bot
   rw [← c.zc_Kt_conj, h, Subgroup.map_bot]
 
-theorem N_le_normalizer_zc_K : K ⊔ Kᵍ[t] ≤ normalizer ((zc K : Subgroup 𝔊) : Set 𝔊) := fun n hn =>
+theorem N_le_normalizer_zc_K : K ⊔ Kᵍ[t] ≤ normalizer ((zc K : Subgroup 𝔊) : Set 𝔊) := fun _n hn =>
   mem_normalizer_zc (c.N_le_normalizer_K hn)
 
 theorem N_le_normalizer_zc_Kt :
-    K ⊔ Kᵍ[t] ≤ normalizer ((zc (Kᵍ[t]) : Subgroup 𝔊) : Set 𝔊) := fun n hn =>
+    K ⊔ Kᵍ[t] ≤ normalizer ((zc (Kᵍ[t]) : Subgroup 𝔊) : Set 𝔊) := fun _n hn =>
   mem_normalizer_zc (c.N_le_normalizer_Kt hn)
 
 end Step2a
@@ -2979,16 +3030,19 @@ variable {𝔊 : Type*} [Group 𝔊] [Finite 𝔊] {f : ℕ} {Γ : Type} [Field 
 
 include c
 
+omit [Finite 𝔊] in
 theorem t_conj_conj (x : 𝔊) : t * (t * x * t⁻¹) * t⁻¹ = x := by
   calc t * (t * x * t⁻¹) * t⁻¹ = (t * t) * x * (t * t)⁻¹ := by group
     _ = x := by rw [c.t_mul_t]; group
 
+omit [Finite 𝔊] in
 theorem t_conj_mem_zc_K {e : 𝔊} (he : e ∈ zc (Kᵍ[t])) : t * e * t⁻¹ ∈ zc K := by
   rw [← c.zc_Kt_conj, mem_conjg_iff, c.t_conj_conj]
   exact he
 
+omit [Finite 𝔊] in
 theorem t_conj_mem_zc_Kt {e : 𝔊} (he : e ∈ zc K) : t * e * t⁻¹ ∈ zc (Kᵍ[t]) := by
-  rw [c.zc_Kt_eq, mem_conjg_iff, c.t_conj_conj]
+  rw [CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1Aux.E2Ctx.zc_Kt_eq, mem_conjg_iff, c.t_conj_conj]
   exact he
 
 theorem card_zc_Kt : Nat.card ↥(zc (Kᵍ[t])) = (2 ^ f) ^ 8 := by
@@ -3107,7 +3161,7 @@ include c
 
 theorem card_zc_K : Nat.card ↥(zc K) = (2 ^ f) ^ 8 := by
   have := c.card_zc_Kt
-  rw [c.zc_Kt_eq, card_conjg] at this
+  rw [CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1Aux.E2Ctx.zc_Kt_eq, card_conjg] at this
   exact this
 
 theorem D_eq_zc_sup : D = zc (Kᵍ[t]) ⊔ zc K := by
@@ -3146,6 +3200,7 @@ theorem commutator_K_inf_D_le : ⁅K, K⁆ ⊓ D ≤ zc (Kᵍ[t]) :=
   commutator_inf_le_of_sl2_two_pow_quotient (m := 3 * f) (by have := c.two_le; omega)
     c.card_Γ_pow c.zc_Kt_le_D c.comm_K_D_le φ c.φ_surj c.φ_ker
 
+omit [Finite 𝔊] [Field Γ] [Finite Γ] c in
 theorem K'_le_K : ⁅K, K⁆ ≤ K := commutator_le_of_le le_rfl le_rfl
 
 theorem N_le_normalizer_K' : K ⊔ Kᵍ[t] ≤ normalizer ((⁅K, K⁆ : Subgroup 𝔊) : Set 𝔊) :=
@@ -3158,19 +3213,24 @@ theorem N_le_normalizer_Kt' :
   apply mem_normalizer_of_conjg_eq
   rw [conjg_commutator, conjg_eq_of_mem_normalizer (c.N_le_normalizer_Kt hn)]
 
+omit [Finite 𝔊] in
 theorem zc_Kt_le_K : zc (Kᵍ[t]) ≤ K := c.zc_Kt_le_D.trans c.D_le_K
 
+omit [Finite 𝔊] in
 theorem zc_K_le_Kt : zc K ≤ Kᵍ[t] := c.zc_K_le_D.trans c.D_le_Kt
 
-theorem B_le_K : ⁅K, K⁆ ⊔ zc (Kᵍ[t]) ≤ K := sup_le c.K'_le_K c.zc_Kt_le_K
+omit [Finite 𝔊] in
+theorem B_le_K : ⁅K, K⁆ ⊔ zc (Kᵍ[t]) ≤ K := sup_le CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1Aux.E2Ctx.K'_le_K c.zc_Kt_le_K
 
+omit [Finite 𝔊] in
 theorem Bt_eq : (⁅K, K⁆ ⊔ zc (Kᵍ[t]))ᵍ[t] = ⁅Kᵍ[t], Kᵍ[t]⁆ ⊔ zc K := by
   rw [conjg_sup, conjg_commutator, c.zc_Kt_conj]
 
+omit [Finite 𝔊] in
 theorem Bt_le_Kt : (⁅K, K⁆ ⊔ zc (Kᵍ[t]))ᵍ[t] ≤ Kᵍ[t] := conjg_mono c.B_le_K t
 
 theorem N_le_normalizer_B :
-    K ⊔ Kᵍ[t] ≤ normalizer (((⁅K, K⁆ ⊔ zc (Kᵍ[t]) : Subgroup 𝔊)) : Set 𝔊) := fun n hn =>
+    K ⊔ Kᵍ[t] ≤ normalizer (((⁅K, K⁆ ⊔ zc (Kᵍ[t]) : Subgroup 𝔊)) : Set 𝔊) := fun _n hn =>
   Common.mem_normalizer_sup (c.N_le_normalizer_K' hn) (c.N_le_normalizer_zc_Kt hn)
 
 theorem N_le_normalizer_Bt :
@@ -3184,7 +3244,7 @@ theorem B_inf_D : (⁅K, K⁆ ⊔ zc (Kᵍ[t])) ⊓ D = zc (Kᵍ[t]) := by
   have hmul : ((⁅K, K⁆ ⊔ zc (Kᵍ[t]) : Subgroup 𝔊) : Set 𝔊) =
       ((⁅K, K⁆ : Subgroup 𝔊) : Set 𝔊) * (zc (Kᵍ[t]) : Set 𝔊) :=
     Subgroup.coe_mul_of_left_le_normalizer_right _ _
-      (fun k hk => mem_normalizer_zc (c.K_le_normalizer_Kt (c.K'_le_K hk)))
+      (fun k hk => mem_normalizer_zc (c.K_le_normalizer_Kt (CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1Aux.E2Ctx.K'_le_K hk)))
   have hx' : x ∈ ((⁅K, K⁆ : Subgroup 𝔊) : Set 𝔊) * (zc (Kᵍ[t]) : Set 𝔊) := by
     rw [← hmul]
     exact hxB
@@ -3451,8 +3511,8 @@ theorem B_mulEquiv_C : Nonempty (↥(⁅K, K⁆ ⊔ zc (Kᵍ[t])) ≃* ↥C) := 
 
 theorem B_perfect : ⁅⁅K, K⁆ ⊔ zc (Kᵍ[t]), ⁅K, K⁆ ⊔ zc (Kᵍ[t])⁆ = ⁅K, K⁆ ⊔ zc (Kᵍ[t]) := by
   obtain ⟨e⟩ := c.B_mulEquiv_C
-  haveI hC : Group.IsPerfect ↥C := Subgroup.isPerfect_iff.mpr c.C_perfect
-  haveI : Group.IsPerfect ↥(⁅K, K⁆ ⊔ zc (Kᵍ[t])) :=
+  have hC : Group.IsPerfect ↥C := Subgroup.isPerfect_iff.mpr c.C_perfect
+  have : Group.IsPerfect ↥(⁅K, K⁆ ⊔ zc (Kᵍ[t])) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact Subgroup.isPerfect_iff.1 inferInstance
 
@@ -3477,7 +3537,7 @@ theorem B_comm_le_K' :
   have hmul : ((⁅K, K⁆ ⊔ zc (Kᵍ[t]) : Subgroup 𝔊) : Set 𝔊) =
       ((⁅K, K⁆ : Subgroup 𝔊) : Set 𝔊) * (zc (Kᵍ[t]) : Set 𝔊) :=
     Subgroup.coe_mul_of_left_le_normalizer_right _ _
-      (fun k hk => mem_normalizer_zc (c.K_le_normalizer_Kt (c.K'_le_K hk)))
+      (fun k hk => mem_normalizer_zc (c.K_le_normalizer_Kt (CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase.ProductN1Aux.E2Ctx.K'_le_K hk)))
   have hx' : x ∈ ((⁅K, K⁆ : Subgroup 𝔊) : Set 𝔊) * (zc (Kᵍ[t]) : Set 𝔊) := by
     rw [← hmul]
     exact hx
@@ -3679,12 +3739,14 @@ theorem series_le (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hlay : h.L
   · rw [← hZ4]
     exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem F₄_le_D₅ (d : TrialityD4Data L (2 ^ f)) : yamadaF₄ d t ≤ yamadaD₅ d t :=
   Setup.yamadaF₄_le_yamadaD₅_PA d
 
+omit [Finite G] in
 theorem P_le_normalizer_V₁ (d : TrialityD4Data L (2 ^ f)) :
     yamadaP d t ≤ normalizer ((yamadaV₁ d t : Subgroup G) : Set G) :=
-  fun x hx => centralizer_le_normalizer _ (yamadaP_le_centralizer_yamadaV₁ d t hx)
+  fun _x hx => centralizer_le_normalizer _ (yamadaP_le_centralizer_yamadaV₁ d t hx)
 
 theorem normalizer_D₅_le_normalizer_V₁ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (hlay : h.LayerHyp d) :
@@ -3697,8 +3759,9 @@ theorem normalizer_D₅_le_normalizer_V₁ (h : Setup G L f t) (d : TrialityD4Da
   have := Setup.normalizer_le_normalizer_commutator_C8 (yamadaD₅ d t) hg
   rwa [h525] at this
 
+omit [Finite G] in
 theorem nOneBar_normal (d : TrialityD4Data L (2 ^ f)) (t : G) : (nOneBar d t).Normal := by
-  haveI hN : (xBar d t).Normal := Subgroup.normalClosure_normal
+  have hN : (xBar d t).Normal := Subgroup.normalClosure_normal
   constructor
   intro x hx g
   obtain ⟨y, hy, rfl⟩ := hx
@@ -3768,12 +3831,15 @@ theorem normalizer_P_le_series (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)
   · have := mem_normalizer_map_upperCentralSeries hg 4
     rwa [hZ4] at this
 
+omit [Finite G] in
 theorem K₁_le_nOne {d : TrialityD4Data L (2 ^ f)} {K₁ : Subgroup G} (hK₁ : IsN1Factor d t K₁) :
     K₁ ≤ nOne d t := hK₁.sup_eq ▸ le_sup_left
 
+omit [Finite G] in
 theorem K₁t_le_nOne {d : TrialityD4Data L (2 ^ f)} {K₁ : Subgroup G} (hK₁ : IsN1Factor d t K₁) :
     K₁ᵍ[t] ≤ nOne d t := hK₁.sup_eq ▸ le_sup_right
 
+omit [Finite G] in
 theorem nOne_le_normalizer_D₅ (d : TrialityD4Data L (2 ^ f)) :
     nOne d t ≤ normalizer ((yamadaD₅ d t : Subgroup G) : Set G) :=
   NormalizerQuotient.lift_le_normalizer _
@@ -3801,12 +3867,12 @@ theorem V₁_le_K₁ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hlay : 
 
 theorem K₁_le_normalizer_V₁ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (hlay : h.LayerHyp d) {K₁ : Subgroup G} (hK₁ : IsN1Factor d t K₁) :
-    K₁ ≤ normalizer ((yamadaV₁ d t : Subgroup G) : Set G) := fun x hx =>
+    K₁ ≤ normalizer ((yamadaV₁ d t : Subgroup G) : Set G) := fun _x hx =>
   normalizer_D₅_le_normalizer_V₁ h d hlay (nOne_le_normalizer_D₅ d (K₁_le_nOne hK₁ hx))
 
 theorem K₁t_le_normalizer_V₁ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (hlay : h.LayerHyp d) {K₁ : Subgroup G} (hK₁ : IsN1Factor d t K₁) :
-    K₁ᵍ[t] ≤ normalizer ((yamadaV₁ d t : Subgroup G) : Set G) := fun x hx =>
+    K₁ᵍ[t] ≤ normalizer ((yamadaV₁ d t : Subgroup G) : Set G) := fun _x hx =>
   normalizer_D₅_le_normalizer_V₁ h d hlay (nOne_le_normalizer_D₅ d (K₁t_le_nOne hK₁ hx))
 
 theorem cLV_le_normalizer_D₅ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
@@ -3829,6 +3895,7 @@ theorem cLV_le_nOne (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : Pro
   exact NormalizerQuotient.mem_lift_of_proj_mem (x := ⟨x, cLV_le_normalizer_D₅ h d hp.layer hx⟩)
     (kBar_le_nOneBar h d hp (NormalizerQuotient.proj_mem_bar hx))
 
+omit [Finite G] in
 theorem uG_mem_cLV (d : TrialityD4Data L (2 ^ f)) : uG d ∈ cLV d := by
   refine ⟨d.u, ?_, rfl⟩
   rw [d.centralizer_V_eq]
@@ -4184,18 +4251,21 @@ section LiftGlue
 variable {G : Type*} [Group G] [Finite G] {A : Subgroup G}
 
 open CFSG.LocalAnalysis.EvenBN.Common.NormalizerQuotient in
+omit [Finite G] in
 theorem lift_sup' (Y₁ Y₂ : Subgroup (Bar A)) : lift (Y₁ ⊔ Y₂) = lift Y₁ ⊔ lift Y₂ := by
   apply eq_of_bar_eq (le_lift _) (lift_le_normalizer _) (le_sup_of_le_left (le_lift _))
     (sup_le (lift_le_normalizer _) (lift_le_normalizer _))
   rw [bar_lift, bar_sup (lift_le_normalizer _) (lift_le_normalizer _), bar_lift, bar_lift]
 
 open CFSG.LocalAnalysis.EvenBN.Common.NormalizerQuotient in
+omit [Finite G] in
 theorem lift_inf' (Y₁ Y₂ : Subgroup (Bar A)) : lift (Y₁ ⊓ Y₂) = lift Y₁ ⊓ lift Y₂ := by
   apply eq_of_bar_eq (le_lift _) (lift_le_normalizer _) (le_inf (le_lift _) (le_lift _))
     (inf_le_left.trans (lift_le_normalizer _))
   rw [bar_lift, ProductN1HatAux.bar_inf (le_lift _) (le_lift _), bar_lift, bar_lift]
 
 open CFSG.LocalAnalysis.EvenBN.Common.NormalizerQuotient in
+omit [Finite G] in
 theorem lift_conjg' (Y : Subgroup (Bar A)) {g : G} (hg : g ∈ normalizer (A : Set G)) :
     lift (Yᵍ[proj A ⟨g, hg⟩]) = (lift Y)ᵍ[g] := by
   have hA : A ≤ (lift Y)ᵍ[g] := by
@@ -4206,6 +4276,7 @@ theorem lift_conjg' (Y : Subgroup (Bar A)) {g : G} (hg : g ∈ normalizer (A : S
   rw [bar_lift, bar_conjg hg, bar_lift]
 
 open CFSG.LocalAnalysis.EvenBN.Common.NormalizerQuotient in
+omit [Finite G] in
 theorem lift_bot' : lift (⊥ : Subgroup (Bar A)) = A := by
   ext g
   rw [mem_lift_iff]
@@ -4221,12 +4292,14 @@ noncomputable def barHom {X : Subgroup G} (hXN : X ≤ normalizer (A : Set G)) :
   ((NormalizerQuotient.proj A).comp (Subgroup.inclusion hXN)).codRestrict
     (NormalizerQuotient.bar A X) (fun x => NormalizerQuotient.proj_mem_bar x.2)
 
+omit [Finite G] in
 theorem barHom_surjective {X : Subgroup G} (hXN : X ≤ normalizer (A : Set G)) :
     Function.Surjective (barHom hXN) := by
   intro y
   obtain ⟨z, hz, hzy⟩ := y.2
   exact ⟨⟨z.1, mem_subgroupOf.1 hz⟩, Subtype.ext hzy⟩
 
+omit [Finite G] in
 theorem ker_barHom {X : Subgroup G} (hXN : X ≤ normalizer (A : Set G)) :
     (barHom hXN).ker = A.subgroupOf X := by
   ext x
@@ -4243,6 +4316,7 @@ noncomputable def barEquiv {X : Subgroup G} (hXN : X ≤ normalizer (A : Set G))
   (QuotientGroup.quotientMulEquivOfEq (ker_barHom hXN).symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective (barHom hXN) (barHom_surjective hXN))
 
+omit [Finite G] in
 theorem centerMod_eq_lift_zc {X : Subgroup G} :
     centerMod A X = NormalizerQuotient.lift (zc (NormalizerQuotient.bar A X)) := by
   unfold centerMod upperCenterMod
@@ -4272,7 +4346,7 @@ theorem pCoreOf_eq_of_quotient {B E : Subgroup G} {T : Type*} [Group T] [IsSimpl
   · have hP := CFSG.pCore_normal (p := 2) (G := ↥B)
     have hP2 : IsPGroup 2 (CFSG.pCore 2 ↥B) := CFSG.pCore_isPGroup (p := 2) (G := ↥B)
     have hN : ((CFSG.pCore 2 ↥B).map φ).Normal := Subgroup.Normal.map hP φ hφ
-    haveI := hN
+    have := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((CFSG.pCore 2 ↥B).map φ) with h | h
     · have hle : CFSG.pCore 2 ↥B ≤ φ.ker := (Subgroup.map_eq_bot_iff _).1 h
       rw [hker] at hle
@@ -4296,9 +4370,10 @@ section SL2NotPGroup
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 theorem not_isPGroup_sl2 (d : TrialityD4Data L (2 ^ f)) (hf : 2 ≤ f) :
     ¬ IsPGroup 2 SL(2, d.Γ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro h
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).1 h
   rw [CFSG.SL2MinimalFaithful.card_specialLinearGroup_fin_two, d.card_Γ] at hn
@@ -4341,6 +4416,7 @@ theorem J_le_normalizer_V₁ (hlay : h.LayerHyp d) :
   rintro _ ⟨j, hj, rfl⟩
   exact (normalizer_P_le_series h d hlay (J_le_normalizer_P h d hlay hj)).1
 
+omit [Finite G] in
 theorem jZeroG_le_J : jZeroG d ≤ d.J.map L.subtype := map_mono d.J₀_le_J
 
 theorem tB_mul_tB : tB h d * tB h d = 1 := by
@@ -4429,7 +4505,7 @@ theorem e2f_P_le_N (hp : ProductHyp h d) (hK₁ : IsN1Factor d t K₁) :
 theorem e2f_P_conj (hp : ProductHyp h d) : (𝔟[yamadaP d t])ᵍ[tB h d] = 𝔟[yamadaP d t] := by
   rw [← bar_conjg_t h d, conjg_eq_of_mem_normalizer (h.t_mem_normalizer_yamadaP d hp.layer)]
 
-theorem e2f_Y_conj (hp : ProductHyp h d) : (𝔟[yamadaY₂ d t])ᵍ[tB h d] = 𝔟[yamadaY₂ d t] := by
+theorem e2f_Y_conj (_hp : ProductHyp h d) : (𝔟[yamadaY₂ d t])ᵍ[tB h d] = 𝔟[yamadaY₂ d t] := by
   rw [← bar_conjg_t h d, conjg_eq_of_mem_normalizer (h.t_mem_normalizer_yamadaY₂ d)]
 
 theorem e2f_W_conj (hp : ProductHyp h d) : (𝔟[yamadaW₃ d t])ᵍ[tB h d] = 𝔟[yamadaW₃ d t] := by
@@ -4450,6 +4526,7 @@ theorem card_bar_pow (hlay : h.LayerHyp d) {X : Subgroup G} (hAX : yamadaV₁ d 
   rw [h1]
   ring
 
+omit [Finite G] in
 theorem mem_series_succ_iff {P Xn Xn1 : Subgroup G} {n : ℕ}
     (hn : (Subgroup.upperCentralSeries ↥P n).map P.subtype = Xn)
     (hn1 : (Subgroup.upperCentralSeries ↥P (n + 1)).map P.subtype = Xn1) :
@@ -4510,6 +4587,7 @@ theorem e2f_mem_F (hlay : h.LayerHyp d) : ∀ x : NormalizerQuotient.Bar (yamada
     (P_le_normalizer_V₁ d) hs.2.2.2 (series_mem_iff h d hlay).2.2
 
 
+omit [Finite G] in
 theorem uG_inv_eq (d : TrialityD4Data L (2 ^ f)) : (uG d)⁻¹ = uG d := by
   apply inv_eq_of_mul_eq_one_right
   have := congrArg (fun x : L => (x : G)) d.u_mul_self
@@ -4527,12 +4605,13 @@ theorem D₅_eq_sup_W₃ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hla
   rw [e]
   exact ⟨h1, h2⟩
 
+omit [Finite G] in
 theorem e2f_F_le_D : 𝔟[yamadaF₄ d t] ≤ 𝔟[yamadaD₅ d t] :=
   NormalizerQuotient.bar_mono (F₄_le_D₅ d)
 
 theorem e2f_card_D (hp : ProductHyp h d) : Nat.card (𝔟[yamadaD₅ d t]) = (2 ^ f) ^ 16 :=
   card_bar_pow h d hp.layer (V₁_le_D₅ h d hp.layer)
-    (fun x hx => P_le_normalizer_V₁ d (yamadaD₅_le_yamadaP d t hx))
+    (fun _x hx => P_le_normalizer_V₁ d (yamadaD₅_le_yamadaP d t hx))
     (T4_series_free h d hp).2.2.2.2.2.2.2.1
 
 theorem e2f_card_P' (hp : ProductHyp h d) : Nat.card (𝔟[yamadaP d t]) = (2 ^ f) ^ 22 := by
@@ -4594,7 +4673,7 @@ theorem e2f_u_not_mem (hp : ProductHyp h d) :
 
 
 theorem W₃_le_normalizer_V₁ (hlay : h.LayerHyp d) :
-    yamadaW₃ d t ≤ normalizer ((yamadaV₁ d t : Subgroup G) : Set G) := fun x hx =>
+    yamadaW₃ d t ≤ normalizer ((yamadaV₁ d t : Subgroup G) : Set G) := fun _x hx =>
   P_le_normalizer_V₁ d ((series_le h d hlay).2.2.1.trans (series_le h d hlay).2.2.2 hx)
 
 theorem e2f_D_eq_sup (hlay : h.LayerHyp d) :
@@ -4663,19 +4742,20 @@ theorem e2f_J_nor_P (hlay : h.LayerHyp d) :
 theorem e2f_J_nor_Y (hlay : h.LayerHyp d) :
     𝔟[d.J.map L.subtype] ≤ normalizer ((𝔟[yamadaY₂ d t] : Subgroup _) : Set _) :=
   NormalizerQuotient.bar_le_normalizer_bar (series_le h d hlay).1
-    (fun x hx => (normalizer_P_le_series h d hlay (J_le_normalizer_P' h d hlay hx)).2.1)
+    (fun _x hx => (normalizer_P_le_series h d hlay (J_le_normalizer_P' h d hlay hx)).2.1)
 
 theorem e2f_J_nor_W (hlay : h.LayerHyp d) :
     𝔟[d.J.map L.subtype] ≤ normalizer ((𝔟[yamadaW₃ d t] : Subgroup _) : Set _) :=
   NormalizerQuotient.bar_le_normalizer_bar ((series_le h d hlay).1.trans (series_le h d hlay).2.1)
-    (fun x hx => (normalizer_P_le_series h d hlay (J_le_normalizer_P' h d hlay hx)).2.2.1)
+    (fun _x hx => (normalizer_P_le_series h d hlay (J_le_normalizer_P' h d hlay hx)).2.2.1)
 
 theorem e2f_J_nor_F (hlay : h.LayerHyp d) :
     𝔟[d.J.map L.subtype] ≤ normalizer ((𝔟[yamadaF₄ d t] : Subgroup _) : Set _) :=
   NormalizerQuotient.bar_le_normalizer_bar
     ((series_le h d hlay).1.trans ((series_le h d hlay).2.1.trans (series_le h d hlay).2.2.1))
-    (fun x hx => (normalizer_P_le_series h d hlay (J_le_normalizer_P' h d hlay hx)).2.2.2)
+    (fun _x hx => (normalizer_P_le_series h d hlay (J_le_normalizer_P' h d hlay hx)).2.2.2)
 
+omit [Finite G] in
 theorem e2f_J₀_le_J : 𝔟[jZeroG d] ≤ 𝔟[d.J.map L.subtype] :=
   NormalizerQuotient.bar_mono (jZeroG_le_J d)
 
@@ -4811,7 +4891,7 @@ theorem W₃_le_D₅ (hlay : h.LayerHyp d) : yamadaW₃ d t ≤ yamadaD₅ d t :
   (series_le h d hlay).2.2.1.trans (F₄_le_D₅ d)
 
 theorem F₄_le_normalizer_V₁ (hlay : h.LayerHyp d) :
-    yamadaF₄ d t ≤ normalizer ((yamadaV₁ d t : Subgroup G) : Set G) := fun x hx =>
+    yamadaF₄ d t ≤ normalizer ((yamadaV₁ d t : Subgroup G) : Set G) := fun _x hx =>
   P_le_normalizer_V₁ d ((series_le h d hlay).2.2.2 hx)
 
 theorem F₄_conj (hp : ProductHyp h d) : (𝔟[yamadaF₄ d t])ᵍ[tB h d] = 𝔟[yamadaF₄ d t] := by
@@ -4916,7 +4996,7 @@ theorem barU_W (hp : ProductHyp h d) :
 
 
 theorem P_le_normalizer_Y₂ (hlay : h.LayerHyp d) :
-    yamadaP d t ≤ normalizer ((yamadaY₂ d t : Subgroup G) : Set G) := fun x hx =>
+    yamadaP d t ≤ normalizer ((yamadaY₂ d t : Subgroup G) : Set G) := fun _x hx =>
   (normalizer_P_le_series h d hlay (le_normalizer hx)).2.1
 
 theorem barIrr_W (hp : ProductHyp h d) :
@@ -5035,7 +5115,7 @@ theorem e2f_J_inv_W (hp : ProductHyp h d) :
 
 
 theorem P_le_normalizer_W₃ (hlay : h.LayerHyp d) :
-    yamadaP d t ≤ normalizer ((yamadaW₃ d t : Subgroup G) : Set G) := fun x hx =>
+    yamadaP d t ≤ normalizer ((yamadaW₃ d t : Subgroup G) : Set G) := fun _x hx =>
   (normalizer_P_le_series h d hlay (le_normalizer hx)).2.2.1
 
 theorem barU_F (hp : ProductHyp h d) :
@@ -5244,6 +5324,7 @@ theorem DL_le_D₅ (hp : ProductHyp h d) : d.D.map L.subtype ≤ yamadaD₅ d t 
   rw [← (T4_series_free h d hp).2.2.2.2.1]
   exact inf_le_left
 
+omit [Finite G] in
 theorem DL_le_cLV : d.D.map L.subtype ≤ cLV d :=
   Subgroup.map_mono (d.D_le_S.trans d.S_le_centralizer_V)
 
@@ -5251,8 +5332,9 @@ theorem DL_le_normalizer_V₁ (hlay : h.LayerHyp d) :
     d.D.map L.subtype ≤ normalizer ((yamadaV₁ d t : Subgroup G) : Set G) :=
   (DL_le_cLV d).trans (cLV_le_normalizer_V₁ h d hlay)
 
+omit [Finite G] in
 theorem D₅_le_normalizer_V₁ (d : TrialityD4Data L (2 ^ f)) :
-    yamadaD₅ d t ≤ normalizer ((yamadaV₁ d t : Subgroup G) : Set G) := fun x hx =>
+    yamadaD₅ d t ≤ normalizer ((yamadaV₁ d t : Subgroup G) : Set G) := fun _x hx =>
   P_le_normalizer_V₁ d (yamadaD₅_le_yamadaP d t hx)
 
 theorem D1_eq (hp : ProductHyp h d) :
@@ -5465,7 +5547,7 @@ theorem e2f_card_C (hp : ProductHyp h d) :
 
 
 theorem e2f_P_pgroup (hp : ProductHyp h d) : IsPGroup 2 (𝔟[yamadaP d t]) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine IsPGroup.of_card (n := 22 * f) ?_
   rw [e2f_card_P' h d hp, ← pow_mul, mul_comm]
 
@@ -5619,8 +5701,8 @@ theorem e2_core (hp : ProductHyp h d) (hK₁ : IsN1Factor d t K₁) :
     have hn2 : ((d.V.map L.subtype).subgroupOf (cLV d)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hVLc).2 hVLcN
     refine ⟨hn1, hn2, ?_⟩
-    haveI := hn1
-    haveI : ((yamadaV₁ d t).subgroupOf (cLV d)).Normal := ker_barHom hcN ▸ MonoidHom.normal_ker _
+    have := hn1
+    have : ((yamadaV₁ d t).subgroupOf (cLV d)).Normal := ker_barHom hcN ▸ MonoidHom.normal_ker _
     have eK := barEquiv (A := yamadaV₁ d t) hK'N
     have hVc : (yamadaV₁ d t).subgroupOf (cLV d) = (d.V.map L.subtype).subgroupOf (cLV d) := by
       rw [← Subgroup.inf_subgroupOf_right (yamadaV₁ d t) (cLV d), V₁_inf_cLV h d hp]
@@ -5678,7 +5760,7 @@ theorem e2_core (hp : ProductHyp h d) (hK₁ : IsN1Factor d t K₁) :
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hp.two_le
           _ ≤ (2 ^ f) ^ 3 := Nat.le_self_pow (by norm_num) _
-      haveI : IsSimpleGroup SL(2, d.Γ) := sl2_isSimpleGroup_of_charTwo hf4
+      have : IsSimpleGroup SL(2, d.Γ) := sl2_isSimpleGroup_of_charTwo hf4
       have hT : ¬ IsPGroup 2 SL(2, d.Γ) := not_isPGroup_sl2 d hp.two_le
       obtain ⟨φ₁, hφ₁, hker₁⟩ := hK₁.iso
       have hK₁K' : K₁ ≤ normalizer ((⁅K₁, K₁⁆ : Subgroup G) : Set G) := fun x hx =>
@@ -5710,7 +5792,7 @@ theorem e2_core (hp : ProductHyp h d) (hK₁ : IsN1Factor d t K₁) :
         rw [← MonoidHom.mem_ker, hker₁, mem_subgroupOf, Subgroup.mem_inf]
         exact ⟨fun h1 => ⟨x.2, h1⟩, fun h1 => h1.2⟩
       have hP2 : IsPGroup 2 (yamadaP d t) := by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         refine IsPGroup.of_card (n := 24 * f) ?_
         rw [(T4_series_free h d hp).2.2.2.2.2.2.2.2.2.1, ← pow_mul, mul_comm]
       have hE2 : IsPGroup 2 (centerMod (yamadaV₁ d t) (K₁ᵍ[t])) :=
@@ -5726,7 +5808,7 @@ section Statements
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ} {t : G}
 
 theorem E1_char_D5 (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : ProductHyp h d)
-    {K₁ : Subgroup G} (hK₁ : IsN1Factor d t K₁) :
+    {K₁ : Subgroup G} (_hK₁ : IsN1Factor d t K₁) :
     yamadaP d t ⊓ centralizerMod (yamadaV₁ d t) (yamadaW₃ d t) = yamadaD₅ d t ∧
       ((yamadaD₅ d t).subgroupOf (yamadaP d t)).Characteristic ∧
       normalizer ((yamadaP d t : Subgroup G) : Set G) ≤
@@ -5803,12 +5885,12 @@ theorem E3_commutators (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hp : 
   refine ⟨⟨hV₁K', le_inf hV₁N hV₁cenN⟩, hN, hcomm, ?_, ?_⟩
   ·
     obtain ⟨hn1, hn2, ⟨e⟩⟩ := hsec
-    haveI := hn1
+    have := hn1
     have hcLV : Group.IsPerfect ↥(cLV d) := Subgroup.isPerfect_iff.mpr (ProductN1Aux.cLV_perfect d)
-    haveI := hcLV
+    have := hcLV
     have hq : Group.IsPerfect (↥(cLV d) ⧸ (d.V.map L.subtype).subgroupOf (cLV d)) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-    haveI := hq
+    have := hq
     have hq' : Group.IsPerfect (↥⁅K₁, K₁⁆ ⧸ (yamadaV₁ d t).subgroupOf ⁅K₁, K₁⁆) :=
       Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
     exact ProductN1Aux.eq_commutator_sup_of_perfect_quotient hV₁K' hq'

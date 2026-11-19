@@ -32,7 +32,7 @@ theorem primeResidual_eq_top_of_corefree_quasisimple {G : Type*}
     let : Nontrivial G := Quasisimple.nontrivial hnative
     let P : Sylow p G := Classical.choice inferInstance
     have hPCentral : (P : Subgroup G) ≤ Subgroup.center G :=
-      (pSubgroup_le_residual p _ P.isPGroup').trans hcentral
+      (pSubgroup_le_residual p _ P.isPGroup).trans hcentral
     let : IsMulCommutative (P : Subgroup G) := isMulCommutative_iff.mpr
       fun x y => Subtype.ext ((Subgroup.mem_center_iff.mp (hPCentral x.property)) y).symm
     have hnormalizer : Subgroup.normalizer (P : Set G) ≤

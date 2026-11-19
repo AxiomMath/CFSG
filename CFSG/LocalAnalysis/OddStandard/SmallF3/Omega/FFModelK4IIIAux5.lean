@@ -21,12 +21,14 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
   {Q : QuadraticForm (ZMod 3) V}
 
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_simAct_eq_simConj {ρ : ↥(simGroup Q)}
     (hρ : IsSimilitude Q (ρ : V ≃ₗ[ZMod 3] V) (-1)) (t : OGroup Q) :
     simAct Q ρ t = simConj hρ t := by
   apply Subtype.ext
   rw [coe_simAct, coe_simConj]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_simAct_reflOf {ρ : ↥(simGroup Q)}
     (hρ : IsSimilitude Q (ρ : V ≃ₗ[ZMod 3] V) (-1)) (u : V) (hu : Q u ≠ 0) :
     simAct Q ρ (reflOf Q u hu) =
@@ -72,7 +74,7 @@ theorem ff_invType_reflQuad (hQ : Q.Nondegenerate) {g₂ g₃ : OGroup Q} (hg₂
   norm_num
 
 theorem ff_exists_hyperbolic_pair (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = 1) {ρ : ↥(simGroup Q)}
+    (_hsgn : quadSign Q = 1) {ρ : ↥(simGroup Q)}
     (hρ : IsSimilitude Q (ρ : V ≃ₗ[ZMod 3] V) (-1))
     (hρρ : ∀ v, (ρ : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) v) = v) :
     ∃ x₂ x₃ y₂ y₃ : V,
@@ -97,7 +99,7 @@ theorem ff_exists_hyperbolic_pair (hQ : Q.Nondegenerate) (hdim : Module.finrank 
     rw [hhalf, hdim]
   let b : Module.Basis (Fin 3) (ZMod 3) Vpos :=
     Module.finBasisOfFinrankEq (R := ZMod 3) (M := Vpos) hfin
-  letI : (crossPairing Q.polarBilin Vpos Vneg).IsPerfPair := hperf
+  let : (crossPairing Q.polarBilin Vpos Vneg).IsPerfPair := hperf
   let e : Vneg ≃ₗ[ZMod 3] Module.Dual (ZMod 3) Vpos :=
     (crossPairing Q.polarBilin Vpos Vneg).flip.toPerfPair
   have hkey : ∀ i j : Fin 3,
@@ -244,7 +246,7 @@ theorem ff_K4III_cover_of_data (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZM
     apply Subtype.ext
     change toProj Q t * toProj Q t = 1
     rw [← map_mul, ht_self, map_one]
-  haveI hSimple : IsSimpleGroup ↥(ffFix hQ h2dim
+  have hSimple : IsSimpleGroup ↥(ffFix hQ h2dim
       (QuotientGroup.mk ρ : ProjSim Q)) := by
     have hC : IsSimpleGroup ↥(omegaGroup hQ ⊓ fixSub (simAct Q ρ)) :=
       (ff_simple_of_lieModel_psl3 (ff_K4III_C_lieModel hQ hdim hsgn hρ hρρ)).1

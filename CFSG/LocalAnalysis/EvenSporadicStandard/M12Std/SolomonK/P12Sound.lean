@@ -151,7 +151,7 @@ theorem normalizes_sound {cs es : List (List (ℕ × ℕ))} (hvc : ∀ w ∈ cs,
     | mem a ha =>
       obtain ⟨j, hj, rfl⟩ := ha
       exact hgen j hj
-    | one => simpa using (genSub n es).one_mem
+    | one => simp
     | mul a b _ _ iha ihb =>
       have e : c * (a * b) * c⁻¹ = (c * a * c⁻¹) * (c * b * c⁻¹) := by group
       rw [e]

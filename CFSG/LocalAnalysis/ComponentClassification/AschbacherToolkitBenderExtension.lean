@@ -417,6 +417,6 @@ theorem bender_extension_strongly_closed_union_nested {Y : Type} [Group Y] [Fini
     A₁ ≤ A₂ ∨ A₂ ≤ A₁ :=
   BenderExt.nested_of_extData
     (BenderExt.extData_of_benderData K (BenderExt.benderData_of_isBenderGroup hK) P hKP)
-    P.isPGroup' A₁ A₂ h₁ h₂ hc hcl hC hinv
+    P.isPGroup A₁ A₂ h₁ h₂ hc hcl hC hinv
 
 end CFSG.ComponentClassification.AschbacherToolkit

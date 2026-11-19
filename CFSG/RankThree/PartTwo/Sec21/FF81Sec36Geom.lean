@@ -20,9 +20,10 @@ def ε4 (b₀ b₁ b₂ b₃ : G) (v : V) : G :=
   b₀ ^ (v 0).val * b₁ ^ (v 1).val * b₂ ^ (v 2).val * b₃ ^ (v 3).val
 
 theorem sum_e (v : V) : v 0 • e 0 + v 1 • e 1 + v 2 • e 2 + v 3 • e 3 = v := by
-  ext j; fin_cases j <;> simp [e, Pi.single_apply]
+  ext j; fin_cases j <;> simp [e]
 
 open P51T in
+omit [Finite G] in
 theorem cvG_ε4 {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B)) {b₀ b₁ b₂ b₃ : G}
     (hβ : ∀ i, ((Additive.toMul (β i) : B) : G) = ![b₀, b₁, b₂, b₃] i) (v : V) :
@@ -52,6 +53,7 @@ theorem cvG_ε4 {B : Subgroup G} [IsElementaryAbelian 3 B]
   exact sum_e v
 
 open P51T in
+omit [Finite G] in
 theorem ε4_eq_vB {B : Subgroup G} [IsElementaryAbelian 3 B]
     (β : Module.Basis (Fin 4) (ZMod 3) (Additive B)) {b₀ b₁ b₂ b₃ : G}
     (hβ : ∀ i, ((Additive.toMul (β i) : B) : G) = ![b₀, b₁, b₂, b₃] i) (v : V) :
@@ -69,7 +71,7 @@ theorem conjLines_iff {b : G} {L B : Subgroup G}
     ∃ m : Fin 7 → Bool, (m = mD ∨ m = mE) ∧ ∀ v : V, v ≠ 0 →
       (Subgroup.zpowers (ε4 b b₁ b₂ b₃ v) ∈ ConjLines B b ↔ m (orbOf v) = true) := by
   obtain ⟨hE, hcl, -⟩ := hB.mono
-  haveI : IsElementaryAbelian 3 B := hE.1
+  have : IsElementaryAbelian 3 B := hE.1
   obtain ⟨β, hβ⟩ := exists_basis (B := B) hE.2 hcl
   set bs : Fin 4 → G := ![b, b₁, b₂, b₃] with hbs
   have hbB : ∀ i, bs i ∈ B := fun i => hβ i ▸ (Additive.toMul (β i)).2
@@ -133,7 +135,7 @@ theorem conjLines_iff {b : G} {L B : Subgroup G}
     have : Om Γ ∩ {v | pos v = true} =
         ↑((nonzeroL.filter fun v => (cfgOf Γ).1 (tab v).1 && pos v).toFinset) := by
       ext v
-      simp only [Set.mem_inter_iff, Set.mem_setOf_eq, om_iff hyp, List.coe_toFinset,
+      simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, om_iff hyp, List.coe_toFinset,
         List.mem_filter, Bool.and_eq_true]
       tauto
     rw [this, Set.ncard_coe_finset]
@@ -161,6 +163,7 @@ section Coord
 
 variable {B : Subgroup G} {b₀ b₁ b₂ b₃ : G}
 
+omit [Finite G] in
 theorem ε4_mem (hcl : B = Subgroup.closure {b₀, b₁, b₂, b₃}) (v : V) :
     ε4 b₀ b₁ b₂ b₃ v ∈ B := by
   have h : ∀ x ∈ ({b₀, b₁, b₂, b₃} : Set G), x ∈ B := fun x hx =>
@@ -169,6 +172,7 @@ theorem ε4_mem (hcl : B = Subgroup.closure {b₀, b₁, b₂, b₃}) (v : V) :
     (B.pow_mem (h _ (by simp)) _)) (B.pow_mem (h _ (by simp)) _)) (B.pow_mem (h _ (by simp)) _)
 
 open P51T in
+omit [Finite G] in
 theorem cvG_pow [IsElementaryAbelian 3 B] (β : Module.Basis (Fin 4) (ZMod 3) (Additive B))
     {x : G} (hx : x ∈ B) (n : ℕ) : cvG β (x ^ n) = (n : ZMod 3) • cvG β x := by
   rw [cvG_of_mem β (B.pow_mem hx n), cvG_of_mem β hx]
@@ -180,7 +184,7 @@ theorem cvG_pow [IsElementaryAbelian 3 B] (β : Module.Basis (Fin 4) (ZMod 3) (A
 open P51T in
 theorem ε4_add (hE : IsElemAb 3 4 B) (hcl : B = Subgroup.closure {b₀, b₁, b₂, b₃}) (v w : V) :
     ε4 b₀ b₁ b₂ b₃ (v + w) = ε4 b₀ b₁ b₂ b₃ v * ε4 b₀ b₁ b₂ b₃ w := by
-  haveI : IsElementaryAbelian 3 B := hE.1
+  have : IsElementaryAbelian 3 B := hE.1
   obtain ⟨β, hβ⟩ := exists_basis (B := B) hE.2 hcl
   refine cvG_inj β (ε4_mem hcl _) (B.mul_mem (ε4_mem hcl _) (ε4_mem hcl _)) ?_
   rw [cvG_mul β (ε4_mem hcl _) (ε4_mem hcl _), cvG_ε4 β hβ, cvG_ε4 β hβ, cvG_ε4 β hβ]
@@ -188,7 +192,7 @@ theorem ε4_add (hE : IsElemAb 3 4 B) (hcl : B = Subgroup.closure {b₀, b₁, b
 open P51T in
 theorem ε4_smul (hE : IsElemAb 3 4 B) (hcl : B = Subgroup.closure {b₀, b₁, b₂, b₃}) (c : ZMod 3)
     (v : V) : ε4 b₀ b₁ b₂ b₃ (c • v) = ε4 b₀ b₁ b₂ b₃ v ^ c.val := by
-  haveI : IsElementaryAbelian 3 B := hE.1
+  have : IsElementaryAbelian 3 B := hE.1
   obtain ⟨β, hβ⟩ := exists_basis (B := B) hE.2 hcl
   refine cvG_inj β (ε4_mem hcl _) (B.pow_mem (ε4_mem hcl _) _) ?_
   rw [cvG_pow β (ε4_mem hcl _), cvG_ε4 β hβ, cvG_ε4 β hβ, ZMod.natCast_zmod_val]
@@ -196,22 +200,24 @@ theorem ε4_smul (hE : IsElemAb 3 4 B) (hcl : B = Subgroup.closure {b₀, b₁, 
 open P51T in
 theorem ε4_inj (hE : IsElemAb 3 4 B) (hcl : B = Subgroup.closure {b₀, b₁, b₂, b₃}) {v w : V}
     (h : ε4 b₀ b₁ b₂ b₃ v = ε4 b₀ b₁ b₂ b₃ w) : v = w := by
-  haveI : IsElementaryAbelian 3 B := hE.1
+  have : IsElementaryAbelian 3 B := hE.1
   obtain ⟨β, hβ⟩ := exists_basis (B := B) hE.2 hcl
   rw [← cvG_ε4 β hβ v, ← cvG_ε4 β hβ w, h]
 
 open P51T in
 theorem ε4_surj (hE : IsElemAb 3 4 B) (hcl : B = Subgroup.closure {b₀, b₁, b₂, b₃}) {x : G}
     (hx : x ∈ B) : ∃ v, ε4 b₀ b₁ b₂ b₃ v = x := by
-  haveI : IsElementaryAbelian 3 B := hE.1
+  have : IsElementaryAbelian 3 B := hE.1
   obtain ⟨β, hβ⟩ := exists_basis (B := B) hE.2 hcl
   refine ⟨cvG β x, ?_⟩
   rw [ε4_eq_vB β hβ, cvG_of_mem β hx, vB_cv]
 
+omit [Finite G] in
 theorem ε4_zero : ε4 b₀ b₁ b₂ b₃ 0 = 1 := by simp [ε4]
 
+omit [Finite G] in
 theorem ε4_e0 (s : ZMod 3) : ε4 b₀ b₁ b₂ b₃ (s • e 0) = b₀ ^ s.val := by
-  simp [ε4, e, Pi.single_apply]
+  simp [ε4, e]
 
 end Coord
 
@@ -220,6 +226,7 @@ def emb (x : Fin 3 → ZMod 3) : V := ![0, x 0, x 1, x 2]
 def ε3 (b₁ b₂ b₃ : G) (x : Fin 3 → ZMod 3) : G :=
   b₁ ^ (x 0).val * b₂ ^ (x 1).val * b₃ ^ (x 2).val
 
+omit [Finite G] in
 theorem ε4_emb (b₀ b₁ b₂ b₃ : G) (x : Fin 3 → ZMod 3) :
     ε4 b₀ b₁ b₂ b₃ (emb x) = ε3 b₁ b₂ b₃ x := by
   simp [ε4, ε3, emb]
@@ -299,15 +306,18 @@ theorem hypW_mem : ∀ i : Fin 13, 1 ≤ hypW i ∧ hypW i ≤ 3 := by decide
 theorem vec3_eta (x : Fin 3 → ZMod 3) : x = ![x 0, x 1, x 2] := by
   ext j; fin_cases j <;> rfl
 
+omit [Finite G] in
 theorem conjBy_zp (g y : G) : conjBy g (Subgroup.zpowers y) = Subgroup.zpowers (g * y * g⁻¹) := by
   rw [conjBy, MonoidHom.map_zpowers]; rfl
 
+omit [Finite G] in
 theorem conjBy_conjBy' (g h : G) (H : Subgroup G) : conjBy g (conjBy h H) = conjBy (g * h) H := by
   rw [conjBy, conjBy, conjBy, Subgroup.map_map]
   congr 1
   ext x
   simp [mul_assoc]
 
+omit [Finite G] in
 theorem conjLines_conj {B : Subgroup G} {b g : G} (hg : g ∈ Nor B) {y : G} :
     Subgroup.zpowers y ∈ ConjLines B b → Subgroup.zpowers (g * y * g⁻¹) ∈ ConjLines B b := by
   rintro ⟨hle, h, hh⟩
@@ -316,6 +326,7 @@ theorem conjLines_conj {B : Subgroup G} {b g : G} (hg : g ∈ Nor B) {y : G} :
     exact (Subgroup.mem_normalizer_iff.mp hg y).mp (hle (Subgroup.mem_zpowers y))
   · rw [← conjBy_conjBy', hh, conjBy_zp]
 
+omit [Finite G] in
 theorem conjLines_conj_iff {B : Subgroup G} {b g : G} (hg : g ∈ Nor B) {y : G} :
     Subgroup.zpowers (g * y * g⁻¹) ∈ ConjLines B b ↔ Subgroup.zpowers y ∈ ConjLines B b := by
   refine ⟨fun h => ?_, conjLines_conj hg⟩
@@ -468,7 +479,7 @@ theorem geom {b : G} {L B : Subgroup G} {b₁ b₂ b₃ : G}
   refine ⟨n⁻¹, hg, x, hx0, ?_, ?_, ⟨t, ?_⟩, tz, y, hindep, ?_⟩
   · rw [hK, hKL] at hKA
     unfold φw
-    rcases hm with rfl | rfl <;> simp only [if_true, show mE ≠ mD by decide, if_false] at hKA <;>
+    rcases hm with rfl | rfl <;> simp only [ite_true, show mE ≠ mD by decide, ite_false] at hKA <;>
       split_ifs at hKA ⊢ <;> omega
   · rw [hsb]
     have hb2 : b ^ 2 = b⁻¹ := by

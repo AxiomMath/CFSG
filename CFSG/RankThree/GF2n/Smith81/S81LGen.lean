@@ -44,7 +44,7 @@ theorem exists_comm_eq_of_mem_Qv [Finite G] {M Q Z : Subgroup G}
     group
   set k := orderOf v with hk
   have hk1 : (k : GaloisField 2 m) = 1 := by
-    rw [CharTwo.natCast_eq_ite, if_neg (Nat.not_even_iff_odd.mpr hk_odd)]
+    rw [CharTwo.natCast_eq_ite, ite_eq_right (Nat.not_even_iff_odd.mpr hk_odd)]
   have hiter : ∀ j : ℕ, ∀ x ∈ Q, (⇑T)^[j] (M₀.π x) = M₀.π (v ^ j * x * (v ^ j)⁻¹) := by
     intro j
     induction j with

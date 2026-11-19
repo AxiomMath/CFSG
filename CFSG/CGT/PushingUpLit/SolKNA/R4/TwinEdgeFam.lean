@@ -13,6 +13,7 @@ section FourGen
 
 variable {A : Type} [Group A] [Finite A]
 
+omit [Finite A] in
 theorem exists_comap_socle (T : Subgroup A) [T.Normal] (hTs : IsSimpleGroup ↥T)
     (hTab : ∃ a b : ↥T, a * b ≠ b * a) (hTC : Subgroup.centralizer (T : Set A) = ⊥)
     {Y : Type} [Group Y] [Finite Y] (ι : Y →* A) (hι : Function.Injective ι) (hT : T ≤ ι.range) :
@@ -37,7 +38,7 @@ theorem exists_comap_socle (T : Subgroup A) [T.Normal] (hTs : IsSimpleGroup ↥T
     rw [hTC, Subgroup.mem_bot] at this
     rw [Subgroup.mem_bot]
     exact hι (by rw [this, map_one])
-  haveI : IsSimpleGroup ↥(T.comap ι) := e.isSimpleGroup
+  have : IsSimpleGroup ↥(T.comap ι) := e.isSimpleGroup
   have hnab : ∃ a b : ↥(T.comap ι), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hTab
     exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
@@ -57,6 +58,7 @@ section Thm6Step
 theorem cit3Below_mono_R {m n : ℕ} (h : m ≤ n) (hn : CIT3Below n) : CIT3Below m :=
   fun Y _ _ hY Λ hΛ => hn Y (lt_of_lt_of_le hY h) Λ hΛ
 
+omit [Finite A] in
 theorem twoSubgroupsFourGenerated_socle {r n : ℕ} (hr : 4 ≤ r) (hA : CIT3Below n)
     (hB : TightBelowR r n) (h6 : ∀ m, TightLargeEdgeSR r m) (T : Subgroup A) [T.Normal]
     (hTs : IsSimpleGroup ↥T) (hTab : ∃ a b : ↥T, a * b ≠ b * a)
@@ -73,9 +75,9 @@ theorem twoSubgroupsFourGenerated_socle {r n : ℕ} (hr : 4 ≤ r) (hA : CIT3Bel
     · exact he
     · exact absurd h4 (not_tightE4_R hd hc hnO hZ)
   by_contra hne
-  haveI : IsSimpleGroup ↥T₁ := e.isSimpleGroup
+  have : IsSimpleGroup ↥T₁ := e.isSimpleGroup
   have hF' : ↥(genFittingFStar Y) ≃* ↥T₁ := MulEquiv.subgroupCongr hF
-  haveI : IsSimpleGroup ↥(genFittingFStar Y) := hF'.isSimpleGroup
+  have : IsSimpleGroup ↥(genFittingFStar Y) := hF'.isSimpleGroup
   have hnab : ∃ a b : ↥(genFittingFStar Y), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hTab
     exact ⟨hF'.symm (e.symm a), hF'.symm (e.symm b), fun h => hab (by
@@ -99,7 +101,7 @@ theorem edgelessFamily_of_embedded (hr : 4 ≤ r) (hList : SmallListR) (hO : NoD
     {Y : Type} [Group Y] [Finite Y] (ι : Y →* A) (hι : Function.Injective ι) (hT : T ≤ ι.range)
     {R : Subgroup Y} {S : Sylow 2 R} {t : Y} (hd : TightDatum R S t)
     (hc : TightClsR r Y R S t) : EdgelessFamily ↥T := by
-  haveI := hTs
+  have := hTs
   obtain ⟨T₁, hT₁n, ⟨e⟩, hC₁, -, -⟩ := exists_comap_socle T hTs hTab hTC ι hι hT
   have hvac : OtherFamily ↥T → False := fun hOF =>
     hO hr ↥T hTab hOF Y T₁ ⟨e⟩ hC₁ (twoSubgroupsFourGenerated_of_mulEquiv e.symm h4) R S t hd hc.1

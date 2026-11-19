@@ -134,7 +134,7 @@ theorem odd_card_commutator [Finite G] {K J A : Subgroup G} [IsSimpleGroup K]
     Nat.prime_three Nat.prime_two A N hA3 hAN hcop
   set S' : Subgroup G := (S : Subgroup N).map N.subtype with hS'
   have hS'N : S' ≤ N := map_subtype_le _
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map N.subtype
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map N.subtype
   have hAS : A ≤ centralizer (S' : Set G) := hS S' hS'N hS'2 hSA
   have hset : ((O ⊔ S' : Subgroup G) : Set G) = (O : Set G) * (S' : Set G) :=
     Subgroup.coe_mul_of_right_le_normalizer_left O S' (hS'N.trans hNO)

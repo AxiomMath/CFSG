@@ -40,7 +40,7 @@ theorem engineBlock_of_shape (hK2 : KFactOrthogonalTwoLieRank) (hK3 : KFactNineT
       (by norm_num) M L hw.le]
   have hrq := pRank_top_quot_center_eq hw.le hZ
   have hnt : Nontrivial ↥(barM M L) := by
-    haveI := hq.2.toNontrivial
+    have := hq.2.toNontrivial
     exact (QuotientGroup.mk'_surjective (Subgroup.center ↥(barM M L))).nontrivial
   have hperfX : commutator ↥(barM M L) = ⊤ :=
     Group.isPerfect_def.mp (Subgroup.isPerfect_iff.mpr (barM_perfect hw.le hperf))

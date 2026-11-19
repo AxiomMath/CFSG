@@ -64,7 +64,7 @@ private theorem restricted_family_of_huppert_partition
           _ = p := hxord
       have hyordP : orderOf (⟨y, hy⟩ : (P : Subgroup (PSL2 K))) = p := by
         simpa [Subgroup.orderOf_coe] using hyord
-      obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup')
+      obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup)
         (⟨y, hy⟩ : (P : Subgroup (PSL2 K)))
       have hpPow : p ∣ r ^ n := by rw [← hn, hyordP]
       have hpr : p ∣ r := (Fact.out : Nat.Prime p).dvd_of_dvd_pow hpPow
@@ -266,7 +266,7 @@ private theorem selected_half_torus_partition
             _ = Nat.card V := hvord
         have hyordP : orderOf (⟨y, hy⟩ : (P : Subgroup (PSL2 K))) =
             Nat.card V := by simpa [Subgroup.orderOf_coe] using hyord
-        obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup')
+        obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup)
           (⟨y, hy⟩ : (P : Subgroup (PSL2 K)))
         have hpPow : p ∣ r ^ n := by
           rw [← hn, hyordP]
@@ -314,7 +314,7 @@ private theorem selected_half_torus_partition
             _ = Nat.card V := hvord
         have hyordP : orderOf (⟨y, hy⟩ : (P : Subgroup (PSL2 K))) =
             Nat.card V := by simpa [Subgroup.orderOf_coe] using hyord
-        obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup')
+        obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup)
           (⟨y, hy⟩ : (P : Subgroup (PSL2 K)))
         have hpPow : p ∣ r ^ n := by
           rw [← hn, hyordP]

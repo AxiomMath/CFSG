@@ -119,7 +119,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem tt_two_le_pRank_involution_centralizer (hperf : commutator G = ⊤) (hrank : 3 ≤ twoRank G)
     (x : G) (hx : orderOf x = 2) : 3 ≤ pRank 2 (Subgroup.centralizer ({x} : Set G)) := by
   obtain ⟨S⟩ : Nonempty (Sylow 2 G) := inferInstance
-  have hS : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hS : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hS3 : 3 ≤ pRank 2 (S : Subgroup G) := (pRank_sylow_eq_twoRank S).symm ▸ hrank
   obtain ⟨A, hAS, hSA, hA, hA4⟩ := exists_normal_four_of_three_le_pRank hS hS3
   have hzp : IsPGroup 2 (Subgroup.zpowers x) :=

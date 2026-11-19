@@ -225,7 +225,7 @@ theorem rho1408_mem_blocks (x : HSCover) : rho1408 x ∈ blocks1408 := by
     · intro h
       have hc := hblock.1 v h
       rwa [hp] at hc
-  | one => simpa using blocks1408.one_mem
+  | one => simp
   | mul y z _ _ hy hz => rw [map_mul]; exact blocks1408.mul_mem hy hz
   | inv y _ hy => rw [map_inv]; exact blocks1408.inv_mem hy
 

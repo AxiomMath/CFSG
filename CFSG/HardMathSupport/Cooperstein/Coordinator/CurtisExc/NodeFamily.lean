@@ -96,7 +96,7 @@ theorem famVec_weight (a b : ℕ) (hU : ∀ j, (uW j).foldr (refE τ) (alphaF τ
 
 include hw in
 theorem node_dim_of_sep [Module.Finite k V] {ρ : Representation k (adjointGroup τ K) V}
-    (hρ : IsSimpleRep ρ) {n : ℕ} (hK : Nat.card K = 2 ^ n) (a b : ℕ)
+    (_hρ : IsSimpleRep ρ) {n : ℕ} (hK : Nat.card K = 2 ^ n) (a b : ℕ)
     (hU : ∀ j, (uW j).foldr (refE τ) (alphaF τ s) = alphaF τ s) {e : V} (he0 : e ≠ 0)
     (hew : e ∈ wtE ρ ((a : ℤ) • omegaF τ s - (2 : ℤ) ^ b • alphaF τ s))
     (hsep : ∀ p q : Fin A × Fin B,
@@ -119,7 +119,7 @@ theorem node_dim_of_sep [Module.Finite k V] {ρ : Representation k (adjointGroup
   have hcard : Nat.card Kˣ = 2 ^ n - 1 := by rw [Nat.card_units, hK]
   have hli : LinearIndependent k v := by
     refine linearIndependent_of_wtE hw ρ v x hv (fun c => ?_)
-    haveI : Subsingleton {p : Fin A × Fin B // wclsE τ K k (x p) = c} :=
+    have : Subsingleton {p : Fin A × Fin B // wclsE τ K k (x p) = c} :=
       ⟨fun p q => Subtype.ext (hsep p.1 q.1 (fun i => by
         have := dvd_of_wclsE_eq (p.2.trans q.2.symm) i
         rwa [hcard] at this))⟩
@@ -150,7 +150,7 @@ theorem node_dim_R2 [Module.Finite k V] {ρ : Representation k (adjointGroup τ 
     (hρ : IsSimpleRep ρ) {y : V} {χ : adjointGroup τ K → k} {J : Finset (Fin τ.rank)}
     (ht : IsChevType τ K 2 hw ρ y χ J) (hs : s ∉ J) {n : ℕ} (hK : Nat.card K = 2 ^ n)
     (hn : 2 ≤ n) (b : ℕ)
-    (hU : ∀ j, (uW j).foldr (refE τ) (alphaF τ s) = alphaF τ s)
+    (_hU : ∀ j, (uW j).foldr (refE τ) (alphaF τ s) = alphaF τ s)
     (hU2 : ∀ j, (uW j).foldr (reflect τ) (Pi.single s 1 : Fin τ.rank → ℤ) = Pi.single s 1)
     (v₀ : Fin τ.rank → ℤ) (hv₀ : ∀ j, j ≠ s → reflect τ j v₀ = v₀)
     (hdist : ∀ j j' : Fin B, j ≠ j' →

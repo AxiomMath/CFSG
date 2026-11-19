@@ -20,8 +20,8 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 
 theorem oddCore_oGroup_of_finrank_zero (h : Module.finrank (ZMod 3) V = 0) :
     oddCore (OGroup Q) = ⊥ := by
-  haveI : Subsingleton V := Module.finrank_zero_iff.mp h
-  haveI : Subsingleton (OGroup Q) :=
+  have : Subsingleton V := Module.finrank_zero_iff.mp h
+  have : Subsingleton (OGroup Q) :=
     ⟨fun f g => Subtype.ext (LinearEquiv.ext fun x => Subsingleton.elim _ _)⟩
   exact eq_bot_iff.mpr fun x _ => by rw [Subgroup.mem_bot]; exact Subsingleton.elim _ _
 

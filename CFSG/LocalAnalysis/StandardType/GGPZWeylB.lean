@@ -145,7 +145,7 @@ private theorem pnb_center_eq_one_or_neg {r : ℕ} (hr : 1 ≤ r)
         linarith
     by_contra hne
     have hne' : ¬ π a = a := fun h => hne (congrArg Fin.val h)
-    have h1 : spSgn a (π a) = 1 := by simp only [spSgn, if_neg hne']
+    have h1 : spSgn a (π a) = 1 := by simp only [spSgn, ite_eq_right hne']
     rw [h1] at key
     norm_num at key
   have hs1 : s = 1 ∨ s = (fun _ => -1) := by

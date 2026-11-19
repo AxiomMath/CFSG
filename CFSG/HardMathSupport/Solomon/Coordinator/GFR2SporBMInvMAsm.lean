@@ -30,13 +30,13 @@ theorem sporNoPumpup_M_of_uninverted
       CFSG.Open.IsComponentOf K (Subgroup.centralizer ({s} : Set Gmat)) →
       IsHatSix ↥K ∨ IsHatON ↥K → False) :
     SporNoPumpup .M := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
   have hE := CFSG.Milestones.cl_lit_monster_existence_griess_conway
   obtain ⟨e1⟩ : Nonempty (Gmat ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
   have e0 := e1.symm
   have φ := (CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth).symm
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .M).Group := Finite.of_equiv _ e1.toEquiv
+  have : Finite (TauCeti.CFSGIndex.sporadic .M).Group := Finite.of_equiv _ e1.toEquiv
   refine sporNoPumpup_of_components hSpM hOG hOut ?_ ?_ ?_ ?_
   · rw [← Nat.card_congr e1.toEquiv]
     exact CFSG.YGroups.Y443.natCard_Gmat_eq_monsterOrder

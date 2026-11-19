@@ -29,8 +29,8 @@ theorem exists_fixed_elemAbelian_of_cover [Finite Cov] [Finite L]
     (hEcard : Nat.card E = 3 ^ m) :
     ∃ E' : Subgroup L, E' ≤ MonoidHom.eqLocus β.toMonoidHom (MonoidHom.id _) ∧ IsElemAbelian 3 E' ∧
       Nat.card E' = 3 ^ m := by
-  haveI := hperfC
-  haveI := hperfL
+  have := hperfC
+  have := hperfL
   obtain ⟨φ, hφ, hφs⟩ := exists_surjective_lift qC qL hC hL hcL hperfL hsec
   have hle : Nat.card Cov ≤ Nat.card L := by
     rw [card_eq_mul_card_ker qC hC, card_eq_mul_card_ker qL hL]

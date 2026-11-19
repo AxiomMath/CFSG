@@ -18,9 +18,11 @@ section Elementary
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] theorem mem_ptPerp {c : Γ.Coloring (Fin 2)} {X : Set V} {z : V} :
     z ∈ ptPerp Γ c X ↔ c z = 0 ∧ ∀ x ∈ X, Γ.dist z x ≤ 2 := Iff.rfl
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 @[simp] theorem mem_ptPerp_pair {c : Γ.Coloring (Fin 2)} {x y z : V} :
     z ∈ ptPerp Γ c ({x, y} : Set V) ↔
       c z = 0 ∧ Γ.dist z x ≤ 2 ∧ Γ.dist z y ≤ 2 := by
@@ -36,6 +38,7 @@ variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
     · exact hx
     · exact hy
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem mem_starLine_iff {c : Γ.Coloring (Fin 2)} {x y z : V} :
     z ∈ starLine Γ c x y ↔
       c z = 0 ∧ ∀ a, c a = 0 → Γ.dist a x ≤ 2 → Γ.dist a y ≤ 2 → Γ.dist z a ≤ 2 := by
@@ -50,27 +53,32 @@ theorem mem_starLine_iff {c : Γ.Coloring (Fin 2)} {x y z : V} :
     rw [mem_ptPerp_pair] at ha
     exact h a ha.1 ha.2.1 ha.2.2
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem mem_starLine_left {c : Γ.Coloring (Fin 2)} {x y : V} (hx : c x = 0) :
     x ∈ starLine Γ c x y := by
   rw [mem_starLine_iff]
   refine ⟨hx, fun a _ hax _ => ?_⟩
   simpa [SimpleGraph.dist_comm] using hax
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem mem_starLine_right {c : Γ.Coloring (Fin 2)} {x y : V} (hy : c y = 0) :
     y ∈ starLine Γ c x y := by
   rw [mem_starLine_iff]
   refine ⟨hy, fun a _ _ hay => ?_⟩
   simpa [SimpleGraph.dist_comm] using hay
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem starLine_comm {c : Γ.Coloring (Fin 2)} (x y : V) :
     starLine Γ c x y = starLine Γ c y x := by
   unfold starLine
   rw [Set.pair_comm]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem color_eq_zero_of_mem_starLine {c : Γ.Coloring (Fin 2)} {x y z : V}
     (hz : z ∈ starLine Γ c x y) : c z = 0 :=
   (mem_starLine_iff.mp hz).1
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem isStarLine_starLine {c : Γ.Coloring (Fin 2)} {x y : V}
     (hx : c x = 0) (hy : c y = 0) (hxy : x ≠ y) : IsStarLine Γ c (starLine Γ c x y) :=
   ⟨x, y, hx, hy, hxy, rfl⟩
@@ -81,6 +89,7 @@ theorem starLine_eq_of_isStarLine_of_mem (hP : IsGeneralizedPolygon Γ 4) (hT : 
   obtain ⟨x, y, hx, hy, hxy, rfl⟩ := hX
   exact (starLine_eq_of_mem hP hT c hx hy hxy ha hb hab).symm
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem dist_eq_two_or_four_of_color_zero (hP : IsGeneralizedPolygon Γ 4)
     {c : Γ.Coloring (Fin 2)} {x y : V} (hx : c x = 0) (hy : c y = 0) (hxy : x ≠ y) :
     Γ.dist x y = 2 ∨ Γ.dist x y = 4 := by
@@ -91,6 +100,7 @@ theorem dist_eq_two_or_four_of_color_zero (hP : IsGeneralizedPolygon Γ 4)
   obtain ⟨k, hk⟩ := heven
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem dist_eq_two_or_four_of_color_eq (hP : IsGeneralizedPolygon Γ 4)
     {c : Γ.Coloring (Fin 2)} {x y : V} (hc : c x = c y) (hxy : x ≠ y) :
     Γ.dist x y = 2 ∨ Γ.dist x y = 4 := by
@@ -100,12 +110,14 @@ private theorem dist_eq_two_or_four_of_color_eq (hP : IsGeneralizedPolygon Γ 4)
   obtain ⟨k, hk⟩ := heven
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem color_eq_zero_of_dist_eq_two (hP : IsGeneralizedPolygon Γ 4)
     {c : Γ.Coloring (Fin 2)} {x y : V} (hx : c x = 0) (hxy : Γ.dist x y = 2) : c y = 0 := by
   have h : c x = c y := (hP.eq_iff_even_dist c x y).2 (by rw [hxy]; norm_num)
   rw [← h]
   exact hx
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem dist_eq_two_of_le_two_of_ne (hP : IsGeneralizedPolygon Γ 4)
     {c : Γ.Coloring (Fin 2)} {x y : V} (hx : c x = 0) (hy : c y = 0) (hxy : x ≠ y)
     (hle : Γ.dist x y ≤ 2) : Γ.dist x y = 2 := by
@@ -114,6 +126,7 @@ theorem dist_eq_two_of_le_two_of_ne (hP : IsGeneralizedPolygon Γ 4)
   obtain ⟨k, hk⟩ := heven
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem existsUnique_proj_of_not_adj (hP : IsGeneralizedPolygon Γ 4) {c : Γ.Coloring (Fin 2)}
     {x L : V} (hx : c x = 0) (hL : c L = 1) (hxL : ¬ Γ.Adj x L) :
     ∃! u, Γ.Adj L u ∧ Γ.dist x u = 2 := by
@@ -143,7 +156,7 @@ theorem t_lt_s (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Colori
   have hXcard : X.card = t + 1 := by
     have h1 : X.card = (spanSet Γ x y).ncard :=
       (Set.ncard_eq_toFinset_card' (spanSet Γ x y)).symm
-    rw [h1, hreg x hx y hxy, hdeg x, if_pos hx]
+    rw [h1, hreg x hx y hxy, hdeg x, ite_eq_left hx]
   have hXsub : (X : Set V) ⊆ spanSet Γ x y := by
     intro z hz
     simpa [X] using hz
@@ -157,7 +170,7 @@ theorem t_lt_s (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (c : Γ.Colori
 
 theorem isLinearVariety_ptPerp_singleton (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}
-    (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) {u : V} (hu : c u = 0) :
+    (_hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) {u : V} (hu : c u = 0) :
     IsLinearVariety Γ c (ptPerp Γ c {u}) := by
   classical
   refine ⟨?_, ?_⟩
@@ -332,7 +345,7 @@ theorem isStarPlane_ptPerp_singleton (hP : IsGeneralizedPolygon Γ 4) (hT : IsTh
   exact ⟨⟨hlin, hproper⟩, u, hu_mem, a1, ha1_mem, a2, ha2_mem, hnc⟩
 
 private theorem exists_mem_neighborSet_of_opposite_lines (hP : IsGeneralizedPolygon Γ 4)
-    (hT : IsThick Γ) (c : Γ.Coloring (Fin 2)) {s t : ℕ}
+    (_hT : IsThick Γ) (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
     {L M : V} (hL : c L = 1) (hM : c M = 1) (hLM : Γ.dist L M = 4) {v : V}
     (hv : Γ.Adj L v) : ∃ m, Γ.Adj M m ∧ Γ.dist v m = 2 := by
@@ -377,9 +390,9 @@ private theorem exists_mem_neighborSet_of_opposite_lines (hP : IsGeneralizedPoly
     rintro z ⟨m, rfl⟩
     exact hfadj m
   have hcardM : (Γ.neighborSet M).ncard = s + 1 := by
-    rw [SimpleGraph.ncard_neighborSet, hdeg M, if_neg (by rw [hM]; decide)]
+    rw [SimpleGraph.ncard_neighborSet, hdeg M, ite_eq_right (by rw [hM]; decide)]
   have hcardL : (Γ.neighborSet L).ncard = s + 1 := by
-    rw [SimpleGraph.ncard_neighborSet, hdeg L, if_neg (by rw [hL]; decide)]
+    rw [SimpleGraph.ncard_neighborSet, hdeg L, ite_eq_right (by rw [hL]; decide)]
   have hrange : Set.range f = Γ.neighborSet L := by
     refine Set.eq_of_subset_of_ncard_le hsub ?_
     rw [hcardL, himg, hcardM]
@@ -398,7 +411,7 @@ private theorem exists_line_through_ne (hP : IsGeneralizedPolygon Γ 4) (hT : Is
   classical
   have h3 : 0 < ((Γ.neighborFinset u).erase L).card := by
     rw [Finset.card_erase_of_mem (by simpa [mem_neighborFinset] using huL),
-      card_neighborFinset_eq_degree, hdeg u, if_pos hu]
+      card_neighborFinset_eq_degree, hdeg u, ite_eq_left hu]
     have := two_le_t hP hT c hdeg
     omega
   obtain ⟨N, hN⟩ := Finset.card_pos.mp h3
@@ -412,16 +425,17 @@ private theorem exists_point_on_line_ne (hP : IsGeneralizedPolygon Γ 4) (hT : I
   classical
   have h3 : 0 < ((Γ.neighborFinset L).erase u).card := by
     rw [Finset.card_erase_of_mem (by simpa [mem_neighborFinset] using huL),
-      card_neighborFinset_eq_degree, hdeg L, if_neg (by rw [hL]; decide)]
+      card_neighborFinset_eq_degree, hdeg L, ite_eq_right (by rw [hL]; decide)]
     have := two_le_s hP hT c hdeg
     omega
   obtain ⟨a, ha⟩ := Finset.card_pos.mp h3
   rw [Finset.mem_erase, mem_neighborFinset] at ha
   exact ⟨a, ha.2, ha.1⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem adj_of_pairwise_dist_two_of_adj_adj (hP : IsGeneralizedPolygon Γ 4)
     {p q r L : V} (hpq : Γ.dist p q = 2) (hpr : Γ.dist p r = 2)
-    (hqr : Γ.dist q r = 2) (hLq : Γ.Adj L q) (hLr : Γ.Adj L r) (hqr_ne : q ≠ r) :
+    (hqr : Γ.dist q r = 2) (hLq : Γ.Adj L q) (hLr : Γ.Adj L r) (_hqr_ne : q ≠ r) :
     Γ.Adj L p := by
   obtain ⟨N, ⟨hpN, hqN, hrN⟩, -⟩ :=
     existsUnique_commonNeighbor_of_pairwise_dist_two hP hpq hpr hqr
@@ -450,7 +464,7 @@ theorem ptPerp_subset_of_isLinearVariety (hP : IsGeneralizedPolygon Γ 4) (hT : 
     simp at hxu
   have hLpos : 0 < ((Γ.neighborFinset L).erase u).card := by
     rw [Finset.card_erase_of_mem (by simpa [mem_neighborFinset] using huL),
-      card_neighborFinset_eq_degree, hdeg L, if_neg (by rw [hL]; decide)]
+      card_neighborFinset_eq_degree, hdeg L, ite_eq_right (by rw [hL]; decide)]
     have := two_le_s hP hT c hdeg
     omega
   obtain ⟨y, hy⟩ := Finset.card_pos.mp hLpos
@@ -483,7 +497,7 @@ theorem ptPerp_subset_of_isLinearVariety (hP : IsGeneralizedPolygon Γ 4) (hT : 
     dist_eq_two_of_mem_span_of_mem_trace hP hT hxy4 hz hu_trace
   have hScard : S.ncard = t + 1 := by
     change (spanSet Γ x y).ncard = t + 1
-    rw [hreg x hx0 y hxy4, hdeg x, if_pos hx0]
+    rw [hreg x hx0 y hxy4, hdeg x, ite_eq_left hx0]
   let φ : S → V := fun z => commonNeighbor hP (hdistS z.1 z.2)
   have hinj : Function.Injective φ := by
     intro z z' hzz'
@@ -505,7 +519,7 @@ theorem ptPerp_subset_of_isLinearVariety (hP : IsGeneralizedPolygon Γ 4) (hT : 
     rintro z ⟨z₀, rfl⟩
     exact commonNeighbor_adj_right hP (hdistS z₀.1 z₀.2)
   have huNcard : (Γ.neighborSet u).ncard = t + 1 := by
-    rw [SimpleGraph.ncard_neighborSet, hdeg u, if_pos hu0]
+    rw [SimpleGraph.ncard_neighborSet, hdeg u, ite_eq_left hu0]
   have hImEq : Set.range φ = Γ.neighborSet u := by
     refine Set.eq_of_subset_of_ncard_le hImsub ?_
     rw [huNcard, hImcard, hScard]

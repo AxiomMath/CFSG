@@ -122,7 +122,7 @@ theorem two_le_pRank_three_of_commuting_images {q : G →* Q} (hq : q.ker ≤ Su
     (hma : m * a * m⁻¹ = a⁻¹) (hab : a * b = b * a) (hmb : m * b = b * m) :
     2 ≤ CFSG.Open.pRank 3 H := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨xa, hxa, rfl⟩ := ha
   obtain ⟨xb, hxb, rfl⟩ := hb
   obtain ⟨xm, hxm, rfl⟩ := hm

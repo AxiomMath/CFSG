@@ -234,7 +234,7 @@ theorem testBit_imgMK (x : Nat) (B : List Nat) (j : Nat) :
 
 theorem finOfNat_lt {n : Nat} [NeZero n] {b : Nat} (hb : b < n) :
     Fin.ofNat n b = (⟨b, hb⟩ : Fin n) :=
-  Fin.ext (by simp [Fin.val_ofNat, Nat.mod_eq_of_lt hb])
+  Fin.ext (by simp [Nat.mod_eq_of_lt hb])
 
 theorem imgMK_eq_iff {n : Nat} [NeZero n] {M : Subgroup (Equiv.Perm (Fin n))} (h32 : n < 32)
     (x : M) {B B' : List Nat} (hB : ∀ i ∈ B, i < n) (hB' : ∀ j ∈ B', j < n) :
@@ -464,8 +464,7 @@ theorem witness_of_alt5K (h32 : P.D.n < 32) (hnpos : 0 < P.D.n)
   have hB' : ∀ B ∈ bs, B ≠ [] ∧ B.Nodup ∧ ∀ x ∈ B, x < P.D.n := by
     intro B hBmem
     have := hB B hBmem
-    simp only [Bool.and_eq_true, decide_eq_true_eq, Bool.not_eq_true', List.isEmpty_eq_false_iff,
-      List.all_eq_true] at this
+    simp only [Bool.not_eq_true', List.isEmpty_eq_false_iff] at this
     exact ⟨this.1.1, this.1.2, this.2⟩
   have hlt : ∀ B ∈ bs, ∀ x ∈ B, x < P.D.n := fun B hBm => (hB' B hBm).2.2
   have hdisj' : ∀ i < 5, ∀ j < 5, i ≠ j → ∀ x, x ∈ bs.getD i [] → x ∉ bs.getD j [] := by

@@ -73,7 +73,7 @@ theorem noThetaNormal_of_isQuasisimple {Q : Type*} [Group Q] [Finite Q] (hq : Is
       Group.isSolvable_of_isSolvable_injective (f := (Subgroup.topEquiv (G := Q)).symm.toMonoidHom)
         (Subgroup.topEquiv (G := Q)).symm.injective
     obtain ⟨-, hsimple, x, y, hxy⟩ := hq
-    haveI := hsimple
+    have := hsimple
     exact hxy ((IsSimpleGroup.comm_iff_isSolvable.mpr inferInstance) x y)
 
 theorem imageModTheta_isSubnormal_barCentralizer (hbN : b ∈ Subgroup.normalizer (L : Set G))
@@ -111,11 +111,11 @@ theorem isPerfect_imageModTheta (hK : K ∈ thetaComponentsIn (L ⊓ Subgroup.ce
     Group.IsPerfect ↥(Sec8.imageModTheta L K) := by
   obtain ⟨hKM, hKp⟩ := mem_thetaComponentsIn_iff.mp hK
   have hKL : K ≤ L := hKM.trans inf_le_left
-  haveI hP := hKp.1
-  haveI : Group.IsPerfect K :=
+  have hP := hKp.1
+  have : Group.IsPerfect K :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hKM).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hKM).surjective
-  haveI : Group.IsPerfect ↥(Item87Res2Proof.toQuot hKL).range :=
+  have : Group.IsPerfect ↥(Item87Res2Proof.toQuot hKL).range :=
     Group.IsPerfect.ofSurjective (f := (Item87Res2Proof.toQuot hKL).rangeRestrict)
       (MonoidHom.rangeRestrict_surjective _)
   rw [← Item87Res2Proof.range_toQuot hKL]

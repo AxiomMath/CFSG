@@ -62,7 +62,7 @@ theorem L3C2Gen_inf_centralizer_le {A T : Subgroup G} (hA : CFSG.Assembly.IsElem
     T ⊓ Subgroup.centralizer (B : Set G) ≤
       (T ⊓ pPrimeCoreOf 3 (Subgroup.centralizer (B : Set G))) ⊔
         (T ⊓ pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G))) := by
-  haveI : IsMulCommutative A := hA.1
+  have : IsMulCommutative A := hA.1
   have hA3 : IsPGroup 3 A := CFSG.SignalizerFunctor.Helpers.elementary_abelian_isPGroup 3 A hA
   have hAC : A ≤ Subgroup.centralizer (B : Set G) := by
     intro a ha

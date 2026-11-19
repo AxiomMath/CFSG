@@ -21,12 +21,13 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 variable {M H E Q J N : Subgroup G}
 
+omit [Finite G] in
 private theorem le_quotientCentralizer_of_commutator_le {N L X : Subgroup G}
     (Q : Subgroup ↥L) [Q.Characteristic] (hLN : L ≤ N)
     (hNL : N ≤ Subgroup.normalizer (L : Set G))
     (hXN : X ≤ N) (hcomm : ⁅X, L⁆ ≤ Q.map L.subtype) :
     X ≤ quotientCentralizer N L Q hLN hNL := by
-  haveI : Q.Normal := Subgroup.normal_of_characteristic Q
+  have : Q.Normal := Subgroup.normal_of_characteristic Q
   intro x hx
   rw [mem_quotientCentralizer]
   refine ⟨⟨x, hXN hx⟩, rfl, ?_⟩
@@ -55,7 +56,7 @@ private theorem le_quotientCentralizer_of_commutator_le {N L X : Subgroup G}
 
 private theorem not_is3A6Star_of_le_isKComp {M H N J A : Subgroup G}
     (hJ : IsKComp M H J) (hJSL : IsSL34Star J)
-    (hA : IsKComp M N A) (hJA : J ≤ A) : ¬ Is3A6Star A := by
+    (_hA : IsKComp M N A) (hJA : J ≤ A) : ¬ Is3A6Star A := by
   intro hA6
   classical
   let D : Subgroup G := (CFSG.pPrimeCore 3 ↥A).map A.subtype
@@ -125,6 +126,7 @@ private theorem isPGroup_le_normalizer_of_two_components {P K A₁ A₂ : Subgro
   have h₂ := orbit_card_one_of_two_components hne honly hPK hP A₂ hA₂
   exact ⟨le_normalizer_of_orbit_card_one h₁, le_normalizer_of_orbit_card_one h₂⟩
 
+omit [Finite G] in
 private theorem isPerfect_le_normalizer_of_two_components {X K A₁ A₂ : Subgroup G}
     (hperf : Group.IsPerfect ↥X) (hXK : X ≤ Subgroup.normalizer (K : Set G)) (hne : A₁ ≠ A₂)
     (hA₁ : IsPComponentIn 3 A₁ K) (hA₂ : IsPComponentIn 3 A₂ K)

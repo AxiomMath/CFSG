@@ -111,7 +111,7 @@ theorem dihedral_central_involution_normal_odd_complement (S : Sylow 2 H) {n : �
     rw [Subgroup.disjoint_def]
     intro x hxN hxS
     have hodd := (hmemN x).mp hxN
-    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' ⟨x, hxS⟩
+    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp S.isPGroup ⟨x, hxS⟩
     rw [Subgroup.orderOf_mk] at hj
     rw [hj] at hodd
     have hj0 : j = 0 := by

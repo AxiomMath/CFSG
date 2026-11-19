@@ -79,7 +79,7 @@ private theorem exists_smul_of_mem_of_isTransvection {l : ℕ} {F : Type} [Field
     rw [spEnd_mul, Module.End.mul_apply]
   have hz2 : spEnd (spTransvection a c * spTransvection a' c') u₂ = u₂ + c • a := by
     rw [hmul, spEnd_spTransvection a' c' u₂, hu₂a', spEnd_spTransvection a c _]
-    simp [map_add, map_smul, hu₂a]
+    simp [hu₂a]
   have hz1 : spEnd (spTransvection a c * spTransvection a' c') u₁ =
       u₁ + (c' • a' + (c * (c' * spForm l F a' a)) • a) := by
     rw [hmul, spEnd_spTransvection a' c' u₁, hu₁a', spEnd_spTransvection a c _]

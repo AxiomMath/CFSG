@@ -107,7 +107,7 @@ theorem survivor_not_twist_odd {n : ℕ} (hK : Nat.card K = 2 ^ n) {r : ℕ} (hr
     intro t
     have := hχ (dC Tag.F4 K s t) (dC_mem_H s t)
     rw [phiPow_odd_dC, hχs, hχs] at this
-    simp only [↓reduceIte, if_neg (permF4_end s hs), pow_zero] at this
+    simp only [↓reduceIte, ite_eq_right (permF4_end s hs), pow_zero] at this
     rw [pow_zero]
     exact this.symm
   have hle : 0 ≤ 2 ^ b := Nat.zero_le _
@@ -128,7 +128,7 @@ theorem J_stable_of_twist_one (ρ : Representation k (adjointGroup Tag.F4 K) (Fi
     (hBρ : ∀ s, B' * ρ s = ρ ((phiF4 K ^ 1) s) * B') (i : Fin Tag.F4.rank) :
     permF4 i ∈ J ↔ i ∈ J := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨c, hc0, hc, hχ⟩ := chi_eq_of_twist_phiPow ρ hρ ht 1 B' hB' hBρ
   simp only [pow_one] at hBρ hχ
   have hbij := (Module.End.isUnit_iff B').1 hB'

@@ -65,7 +65,7 @@ private theorem ggL45NtRecLinSmall_centerPrime_of_hopf {R L' : Type} [Group R] [
     (ψ : L' →* R) (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤) :
     ¬ p ∣ Nat.card (Subgroup.center L') := by
-  haveI : Group.IsPerfect L' := ⟨hperf⟩
+  have : Group.IsPerfect L' := ⟨hperf⟩
   have hcen : Subgroup.center L' ≤ ψ.ker := by
     intro z hz
     have h1 : ψ z ∈ Subgroup.center R := by
@@ -87,7 +87,7 @@ private theorem ggL45NtRecLinSmall_centerPrime_of_hopf {R L' : Type} [Group R] [
 
 theorem ggL45NtRecLinSmall_three_two
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpd : ¬ p ∣ 3) :
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hpd : ¬ p ∣ 3) :
     GGCenterPrime p (LargeEvenProj (LargeEvenSLGroup (Fin 3) K)) := by
   have hZR : Subgroup.center (LargeEvenProj (LargeEvenSLGroup (Fin 3) K)) = ⊥ :=
     ggL45NtRecLinSmall_center_eq_bot_of_mulEquiv (TypeA.recipeEquiv 3 K)
@@ -100,7 +100,7 @@ theorem ggL45NtRecLinSmall_three_two
   obtain ⟨-, K', _, _, hK'card, ⟨eK'⟩⟩ :=
     (CFSG.Blueprint.LieModel.statedClassicalModel hLie2 (by decide) :
       StatedClassicalModel (LargeEvenProj (LargeEvenSLGroup (Fin 3) K)) .PSL 2 7 1)
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K' := Fintype.ofFinite K'
   have hcard7 : Fintype.card K' = 7 := by
     rw [Fintype.card_eq_nat_card, hK'card]; norm_num
   obtain ⟨-, ⟨eM⟩⟩ :=

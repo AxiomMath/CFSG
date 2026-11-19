@@ -21,7 +21,7 @@ theorem ptsM_EM : ptsM 1365 EM = ptsM 1365 DM \ ptsM 1365 FM := by
   have h := Orb.allN_iff.1 ch799103_gem
   ext i
   have e : Bool.beq (Nat.testBit EM i) (Nat.testBit DM i && !Nat.testBit FM i) = true := h i i.2
-  simp only [ptsM, Set.mem_setOf_eq, Set.mem_diff]
+  simp only [ptsM, Set.mem_ofPred_eq, Set.mem_sdiff]
   generalize Nat.testBit EM i = a at e ⊢
   generalize Nat.testBit DM i = b at e ⊢
   generalize Nat.testBit FM i = c at e ⊢
@@ -37,7 +37,7 @@ theorem ptsM_fix2MK {g h M : Nat} (hg : PP 1365 11 g) (hh : PP 1365 11 h) (hM : 
       (Nat.beq (pg 11 (mask 11) g i) i && Nat.beq (pg 11 (mask 11) h i) i) = true := hM i i.2
   have b1 : (pg 11 (mask 11) g i = i) ↔ Nat.beq (pg 11 (mask 11) g i) i = true := by rw [Nat.beq_eq]
   have b2 : (pg 11 (mask 11) h i = i) ↔ Nat.beq (pg 11 (mask 11) h i) i = true := by rw [Nat.beq_eq]
-  simp only [ptsM, Set.mem_setOf_eq, Set.mem_inter_iff]
+  simp only [ptsM, Set.mem_ofPred_eq, Set.mem_inter_iff]
   rw [← Fin.val_inj, ← Fin.val_inj, toPerm_apply hg, toPerm_apply hh, b1, b2]
   generalize Nat.testBit M i = a at e ⊢
   generalize Nat.beq (pg 11 (mask 11) g i) i = b at e ⊢

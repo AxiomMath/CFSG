@@ -13,6 +13,7 @@ namespace CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810.OmegaModel
 
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem model_equiv {ι : Type} [Fintype ι] [DecidableEq ι] (Q : (ι → ZMod 2) → ZMod 2)
     (hR : Red28 W K S) {V U₁ U₂ : Subgroup X} (sf : SingleFactor K V U₁ U₂)
     (hZ : Subgroup.center ↥(bar W K) = ⊥) {a : X} (hΩ : OmegaModelWith Q W K a U₁ U₂) :

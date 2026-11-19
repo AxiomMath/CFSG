@@ -35,7 +35,7 @@ theorem mem_sylow_of_commute [Fact p.Prime] (P : Sylow p K) {k : K} (hk : ∃ n 
         _ = g⁻¹ * (g * x * g⁻¹ * g) := by rw [hz]
         _ = x := by group
   have hsup : IsPGroup p ↥((P : Subgroup K) ⊔ Subgroup.zpowers k) :=
-    P.isPGroup'.to_sup_of_normal_right' hkp hnorm
+    P.isPGroup.to_sup_of_normal_right' hkp hnorm
   have heq := P.maximal_isPGroup.eq_of_ge hsup le_sup_left
   rw [← heq]
   exact Subgroup.mem_sup_right (Subgroup.mem_zpowers k)

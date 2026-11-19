@@ -47,8 +47,8 @@ theorem outRankP_of_notD4
     (rk2_rawDatum_finite hlab : MI.CAll lab fun R _ _ _ => Finite R)
   refine MI.CAll.mono ?_ h
   rintro R _ I F ⟨⟨⟨⟨hOdd, hCyc⟩, hDeg⟩, ⟨f₀, hf₀⟩⟩, hfin⟩ hs hna E hE
-  haveI := hfin
-  haveI : Finite (MulAut R) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have := hfin
+  have : Finite (MulAut R) := Finite.of_injective _ MulEquiv.toEquiv_injective
   obtain ⟨J, S, hJI, hJS, hN, hcycS, hpS⟩ := hCyc hs hna
   have hE1 : ∀ e ∈ E, e ^ p = 1 := hE.2
   have hES : E ≤ S := fun e he => hpS e ⟨1, by rw [pow_one]; exact hE1 e he⟩

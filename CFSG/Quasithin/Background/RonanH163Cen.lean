@@ -28,10 +28,10 @@ theorem eSetR_mem_numer {Y : Finset (Fin 24)} (hY : IsOctR Y)
   rw [toAdd_eSet, toAdd_eSet]
   by_cases h0 : (0 : Fin 24) ∈ Y
   · have h1 : (1 : Fin 24) ∈ Y := h01.1 h0
-    simp only [h0, h1, if_true]
+    simp only [h0, h1, ite_true]
     decide
   · have h1 : (1 : Fin 24) ∉ Y := fun h => h0 (h01.2 h)
-    simp only [h0, h1, if_false]
+    simp only [h0, h1, ite_false]
     decide
 
 theorem smul_eq_of_R_fix {Y : Finset (Fin 24)} (hY : IsOctR Y)
@@ -59,7 +59,7 @@ theorem smul_eq_of_R_fix {Y : Finset (Fin 24)} (hY : IsOctR Y)
       ext i
       have := congrFun (congrArg Multiplicative.toAdd he) i
       simp only [toAdd_mul, Pi.add_apply, toAdd_eSet, G6.allOnes, toAdd_ofAdd] at this
-      by_cases hi : i ∈ (g : P24) • Y <;> by_cases hi' : i ∈ Y <;> simp_all <;> revert this <;> decide
+      by_cases hi : i ∈ (g : P24) • Y <;> by_cases hi' : i ∈ Y <;> simp_all
     have h8 : ((g : P24) • Y).card = 8 := by rw [Finset.card_smul_finset]; exact hY.1
     rw [hcomp, Finset.card_sdiff_of_subset (Finset.subset_univ _), Finset.card_univ,
       Fintype.card_fin, hY.1] at h8

@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
   one_mem' := by
     refine ⟨K.one_mem, (Subgroup.normalizer (I : Set G)).one_mem, fun k _ => ?_⟩
     rw [commutatorElement_def]
-    simpa using I.one_mem
+    simp
   mul_mem' := by
     rintro a b ⟨haK, haN, ha⟩ ⟨hbK, hbN, hb⟩
     refine ⟨K.mul_mem haK hbK, (Subgroup.normalizer (I : Set G)).mul_mem haN hbN, fun k hk => ?_⟩
@@ -60,7 +60,7 @@ private theorem mem_normalizer_of_conj_le_aux {A : Subgroup G} {b : G}
     have hy' : y ∈ A.map (MulAut.conj b⁻¹).toMonoidHom := by rw [heq]; exact hy
     obtain ⟨a, ha, hay⟩ := hy'
     have : b * y * b⁻¹ = a := by
-      rw [← hay]; simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+      rw [← hay]; simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       group
     rw [this]; exact ha
   · intro hy
@@ -218,7 +218,7 @@ theorem seven_fifteen {V H E Q : Subgroup G} {p : ℕ} [Fact p.Prime] (hp : p �
       (sup_le_sup_left inf_le_right _)
   obtain ⟨P, hPQ, hPI, hPIQ, hvP⟩ := exists_complement_normalized_by_involution hV hTI hE hEH
     hEnorm hOmH hVΩ hQK hIQ hQnorm hindex hodd hnil hvV hvI
-  haveI hext : CFSG.IsExtraspecial p ↥P := isExtraspecial_of_complement hPQ hPI hPIQ
+  have hext : CFSG.IsExtraspecial p ↥P := isExtraspecial_of_complement hPQ hPI hPIQ
   have hPcard : Nat.card ↥P = p ^ 3 := (nat_card_eq_of_complement hPQ hPI hPIQ).trans hcard
   have hPexp : Monoid.exponent ↥P = p := (exponent_eq_of_complement hPQ hPI hPIQ).trans hexp
   have hvN : v ∈ normalizer (iSub V H E : Set G) := hHI (hKH (hVK hvV))

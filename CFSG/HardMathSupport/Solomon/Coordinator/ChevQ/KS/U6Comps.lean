@@ -15,7 +15,7 @@ open CFSG.Open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentI
 variable {K0 : Type} [Field K0]
 
 theorem u6_shape_big [Fintype K0] {X : Type} [Group X] [Finite X] {K : Subgroup X}
-    (hK : CFSG.Open.IsComponentOf K ⊤) (h : UnitaryFieldData 2 3 K0)
+    (_hK : CFSG.Open.IsComponentOf K ⊤) (h : UnitaryFieldData 2 3 K0)
     (e : (↥K ⧸ Subgroup.center ↥K) ≃* StatedProj (StatedSU 6 (2 ^ 3) K0)) {y : X}
     {g : StatedSU 6 (2 ^ 3) K0} (hact : ActsAs K e y g) (hy3 : y ^ 3 = 1)
     (hbig : 4 ≤ maxEig (g : GL (Fin 6) K0))
@@ -45,7 +45,7 @@ theorem u6_shape_big [Fintype K0] {X : Type} [Group X] [Finite X] {K : Subgroup 
     (by rw [hε]; exact h3)
 
 theorem u6_shape_three [Fintype K0] {X : Type} [Group X] [Finite X] {K : Subgroup X}
-    (hK : CFSG.Open.IsComponentOf K ⊤) (h : UnitaryFieldData 2 3 K0)
+    (_hK : CFSG.Open.IsComponentOf K ⊤) (h : UnitaryFieldData 2 3 K0)
     (e : (↥K ⧸ Subgroup.center ↥K) ≃* StatedProj (StatedSU 6 (2 ^ 3) K0)) {y : X}
     {g : StatedSU 6 (2 ^ 3) K0} (hact : ActsAs K e y g) (hy3 : y ^ 3 = 1)
     (hdiv : ∀ c : K0, 3 ∣ eigMult (g : GL (Fin 6) K0) c)

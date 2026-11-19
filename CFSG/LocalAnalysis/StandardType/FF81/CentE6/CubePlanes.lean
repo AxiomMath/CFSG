@@ -133,7 +133,7 @@ private lemma cubeAct_elem_w3 (a b : Fin 6) (hab : a ≠ b) (x y z : Fin 6) :
         + (if z = b then w3 x y a else 0) := by
   have hM : ((elem a b : SL(6, ZMod 2)) : Matrix (Fin 6) (Fin 6) (ZMod 2)) =
       Matrix.transvection a b 1 := by
-    rw [elem, dif_neg hab]
+    rw [elem, dite_eq_right hab]
     exact Matrix.SpecialLinearGroup.transvection_coe _ _
   change A5Cube.rho (ZMod 2) (Matrix.SpecialLinearGroup.toGL (elem a b))
       (exteriorPower.ιMulti (ZMod 2) 3 ![e6 x, e6 y, e6 z]) = _
@@ -243,9 +243,9 @@ private lemma Plane_inter_le (i j k l : Fin 6) (hi : i ∈ mid) (hj : j ∈ mid)
       · exact (mid_ne_zero hl) h0
       · exact (Ne.symm hil) hi'
       · exact (Ne.symm hkl) hk'
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
   have hgl : A5Cube.coord (ZMod 2) (w3 0 i l) S = 1 := by
-    rw [coord_w3_0 i l h0i h0l hil S, if_pos hSv]
+    rw [coord_w3_0 i l h0i h0l hil S, ite_eq_left hSv]
   have hgj : A5Cube.coord (ZMod 2) (w3 0 i j) S = 0 := by
     rw [coord_w3_0 i j h0i h0j hij S]
     have hne : S.val ≠ ({0, i, j} : Finset (Fin 6)) := by
@@ -257,7 +257,7 @@ private lemma Plane_inter_le (i j k l : Fin 6) (hi : i ∈ mid) (hj : j ∈ mid)
       · exact (mid_ne_zero hl) h0
       · exact (Ne.symm hil) hi'
       · exact (Ne.symm hjl) hj'
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
   have hphi : A5Cube.coord (ZMod 2) x S = 0 := by
     rw [← hcd, A5Cube.coord_add, A5Cube.coord_smul, A5Cube.coord_smul, hgj, hgk]
     ring
@@ -279,39 +279,39 @@ private lemma Tij_apply_5 (i j u v : Fin 6) (hij : i ≠ j) (hi5 : i ≠ 5) (h0j
       (if u = j then w3 0 i v else 0) + (if v = j then w3 0 i u else 0) := by
   have hB : (cubeAct (elem i 5) - 1) (w3 5 u v) = w3 i u v := by
     rw [LinearMap.sub_apply, cubeAct_elem_w3 i 5 hi5 5 u v]
-    simp only [if_true, if_neg hu5, if_neg hv5, add_zero]
+    simp only [ite_true, ite_eq_right hu5, ite_eq_right hv5, add_zero]
     simp
   rw [Tij, LinearMap.comp_apply, hB, LinearMap.sub_apply,
-    cubeAct_elem_w3 0 j (Ne.symm h0j) i u v, if_neg hij]
+    cubeAct_elem_w3 0 j (Ne.symm h0j) i u v, ite_eq_right hij]
   by_cases hu : u = j
   · subst hu
     simp [Ne.symm huv, w3_swap12]
   · by_cases hv : v = j
     · subst hv
-      simp [if_neg hu, w3_swap12, w3_swap23]
-    · simp [if_neg hu, if_neg hv]
+      simp [ite_eq_right hu, w3_swap12, w3_swap23]
+    · simp [ite_eq_right hu, ite_eq_right hv]
 
 private lemma Tij_apply_5_mem (i j u v : Fin 6) (hij : i ≠ j) (hi5 : i ≠ 5) (h0j : j ≠ 0)
     (hu5 : u ≠ 5) (hv5 : v ≠ 5) (huv : u ≠ v) :
     Tij i j (w3 5 u v) ∈ Plane i j := by
   rw [Tij_apply_5 i j u v hij hi5 h0j hu5 hv5 huv]
   by_cases hu : u = j
-  · rw [if_pos hu, if_neg (Ne.symm (hu ▸ huv)), add_zero]
+  · rw [ite_eq_left hu, ite_eq_right (Ne.symm (hu ▸ huv)), add_zero]
     by_cases hv0 : v = 0
     · rw [hv0, w3_self13]; exact Submodule.zero_mem (Plane i j)
     · by_cases hvi : v = i
       · rw [hvi, w3_self23]; exact Submodule.zero_mem (Plane i j)
       · exact w3_0_mem_Plane i j v (by revert hv0 hv5; fin_cases v <;> simp_all [mid]) hvi
           (Ne.symm (hu ▸ huv))
-  · rw [if_neg hu]
+  · rw [ite_eq_right hu]
     by_cases hv : v = j
-    · rw [if_pos hv, zero_add]
+    · rw [ite_eq_left hv, zero_add]
       by_cases hu0 : u = 0
       · rw [hu0, w3_self13]; exact Submodule.zero_mem (Plane i j)
       · by_cases hui : u = i
         · rw [hui, w3_self23]; exact Submodule.zero_mem (Plane i j)
         · exact w3_0_mem_Plane i j u (by revert hu0 hu5; fin_cases u <;> simp_all [mid]) hui hu
-    · rw [if_neg hv]; simp
+    · rw [ite_eq_right hv]; simp
 
 
 private lemma Tij_apply_w3_mem (i j x y z : Fin 6) (hij : i ≠ j) (hi : i ∈ mid) (hj : j ∈ mid)
@@ -337,7 +337,7 @@ private lemma Tij_apply_w3_mem (i j x y z : Fin 6) (hij : i ≠ j) (hi : i ∈ m
     have hz5 : z ≠ 5 := by intro h; exact h5 (by rw [h]; simp)
     have hB : (cubeAct (elem i 5) - 1) (w3 x y z) = 0 := by
       rw [LinearMap.sub_apply, cubeAct_elem_w3 i 5 hi5 x y z]
-      simp only [if_neg hx5, if_neg hy5, if_neg hz5, add_zero]
+      simp only [ite_eq_right hx5, ite_eq_right hy5, ite_eq_right hz5, add_zero]
       simp
     rw [Tij, LinearMap.comp_apply, hB, map_zero]
     exact Submodule.zero_mem _
@@ -360,11 +360,11 @@ private lemma Tij_gen_mem (i j k : Fin 6) (hi : i ∈ mid) (hj : j ∈ mid) (hk 
   refine ⟨w3 5 j k, ?_⟩
   have hB : (cubeAct (elem i 5) - 1) (w3 5 j k) = w3 i j k := by
     rw [LinearMap.sub_apply, cubeAct_elem_w3 i 5 (mid_ne_five hi) 5 j k]
-    simp only [if_true, if_neg (mid_ne_five hj), if_neg (mid_ne_five hk), add_zero]
+    simp only [ite_true, ite_eq_right (mid_ne_five hj), ite_eq_right (mid_ne_five hk), add_zero]
     simp
   rw [Tij, LinearMap.comp_apply, hB, LinearMap.sub_apply,
-    cubeAct_elem_w3 0 j (Ne.symm (mid_ne_zero hj)) i j k, if_neg hij, if_pos rfl,
-    if_neg (Ne.symm hjk)]
+    cubeAct_elem_w3 0 j (Ne.symm (mid_ne_zero hj)) i j k, ite_eq_right hij, ite_eq_left rfl,
+    ite_eq_right (Ne.symm hjk)]
   simp only [add_zero]
   rw [show w3 i 0 k = w3 0 i k from (w3_swap12 i 0 k).symm]
   simp
@@ -518,7 +518,7 @@ private lemma w3_0_in_spanLines (u v : Fin 6) (hu5 : u ≠ 5) (hv5 : v ≠ 5) :
     · rw [w3_self23]; exact Submodule.zero_mem spanLines
 
 private lemma elem_0_5 : elem 0 5 = CFSG.Holt.SL6.stdTransvection := by
-  rw [elem, dif_neg (by decide)]
+  rw [elem, dite_eq_right (by decide)]
   rfl
 
 private lemma transvection_W_mem (x y z : Fin 6) (hxy : x ≠ y) (hyz : y ≠ z) (hxz : x ≠ z) :
@@ -526,23 +526,23 @@ private lemma transvection_W_mem (x y z : Fin 6) (hxy : x ≠ y) (hyz : y ≠ z)
   rw [show CFSG.Holt.SL6.stdTransvection = elem 0 5 from elem_0_5.symm]
   rw [LinearMap.sub_apply, cubeAct_elem_w3 0 5 (by decide) x y z]
   by_cases hx : x = 5
-  · rw [if_pos hx, if_neg (Ne.symm (hx ▸ hxy)), if_neg (Ne.symm (hx ▸ hxz))]
+  · rw [ite_eq_left hx, ite_eq_right (Ne.symm (hx ▸ hxy)), ite_eq_right (Ne.symm (hx ▸ hxz))]
     simp only [add_zero, Module.End.one_apply]
     rw [add_sub_cancel_left]
     exact w3_0_in_spanLines y z (Ne.symm (hx ▸ hxy)) (Ne.symm (hx ▸ hxz))
-  · rw [if_neg hx]
+  · rw [ite_eq_right hx]
     by_cases hy : y = 5
-    · rw [if_pos hy, if_neg (Ne.symm (hy ▸ hyz))]
+    · rw [ite_eq_left hy, ite_eq_right (Ne.symm (hy ▸ hyz))]
       simp only [add_zero, Module.End.one_apply]
       rw [add_sub_cancel_left, ← w3_swap12]
       exact w3_0_in_spanLines x z (hy ▸ hxy) (Ne.symm (hy ▸ hyz))
-    · rw [if_neg hy]
+    · rw [ite_eq_right hy]
       by_cases hz : z = 5
-      · rw [if_pos hz]
+      · rw [ite_eq_left hz]
         simp only [add_zero, Module.End.one_apply]
         rw [add_sub_cancel_left, ← w3_swap23, ← w3_swap12]
         exact w3_0_in_spanLines x y (hz ▸ hxz) (hz ▸ hyz)
-      · rw [if_neg hz]
+      · rw [ite_eq_right hz]
         simp
 
 private lemma Wsp_le_spanLines : Wsp ≤ spanLines := by

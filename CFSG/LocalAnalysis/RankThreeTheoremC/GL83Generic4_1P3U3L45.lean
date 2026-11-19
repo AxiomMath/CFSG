@@ -108,7 +108,7 @@ theorem u3l45_exists_within_not_le (hS : Setting G) (hU0 : FullCoreLocal G)
         V ≤ A.map (QuotientGroup.mk' O) := by
     intro V hV2 hVu v hv
     obtain ⟨W, hW2, hUW, hWV⟩ := m11l45_exists_invariant_two_lift (J := J) (U := U) (x := x)
-      (u := u) (P.isPGroup'.to_le hUP) huJ hUxu hxJc O hOcop V hV2 hVu
+      (u := u) (P.isPGroup.to_le hUP) huJ hUxu hxJc O hOcop V hV2 hVu
     obtain ⟨s, hs, hsW, hsv⟩ := hWV v hv
     have hWM : W ⊓ J ≤ M := hall (W ⊓ J) inf_le_right (hW2.to_le inf_le_left)
       (fun g hg => Subgroup.inf_normalizer_le_normalizer_inf ⟨hUW hg, hUN hg⟩)

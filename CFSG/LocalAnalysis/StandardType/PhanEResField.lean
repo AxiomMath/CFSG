@@ -88,9 +88,7 @@ private lemma p9uRF_map_tv {R S : Type} [Field R] [Field S] (f : R →+* S)
     SpecialLinearGroup.map f (tv R p q c) = tv S p q (f c) := by
   rw [tv_of_ne hpq, tv_of_ne hpq]
   ext a b
-  simp [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, Matrix.map_apply,
-    Matrix.SpecialLinearGroup.transvection_coe, Matrix.one_apply, Matrix.single_apply,
-    apply_ite f]
+  simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.one_apply, Matrix.single_apply]
 
 @[expose] noncomputable def SLPath.mapField {M : ChevModel2 D n H Fld} {m : ℕ} (L : SLPath M m)
     (κ : Kf ≃+* Fld) : SLPath (M.mapField κ) m where

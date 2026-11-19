@@ -113,7 +113,7 @@ theorem card_range_B : Nat.card H.actB.range = 21 := by
     rw [← Nat.not_even_iff_odd]
     intro hev
     have h2 : 2 ∣ Nat.card H.actB.range := even_iff_two_dvd.1 hev
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨q, hq⟩ := exists_prime_orderOf_dvd_card' (G := H.actB.range) 2 h2
     obtain ⟨b, hb⟩ := q.2
     obtain ⟨j, ⟨k, hk⟩, o, ho, hc⟩ := exists_two_part b

@@ -44,7 +44,7 @@ private theorem caseA_str83R_elemAbelian
   have hlt : L2 ⊓ bigB L2 L1 S < L2 := by
     rw [CFSG.Quasithin.F1.inf_bigB_eq_borelOf hR']
     exact CFSG.Quasithin.F1.lt_borelOf hR'
-  obtain ⟨g0, hg0L2, hg0B⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨g0, hg0L2, hg0B⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hg0B' : g0 ∉ bigB L1 L2 S := fun h => hg0B ⟨hg0L2, by rwa [bigB_comm]⟩
   have hwP2 : d.w ∈ P2 L1 L2 S :=
     (sup_le le_sup_left ((le_sup_right : S ≤ bigB L1 L2 S).trans le_sup_right)) d.hwH2

@@ -31,6 +31,7 @@ namespace Data
 variable (hD : Data b J B)
 include hD
 
+omit [Finite G] hD in
 theorem conj_b_of_mem_cen {j : G} (hj : j ∈ Cen b) : j * b * j⁻¹ = b := by
   have := mem_cen_iff'.mp hj
   calc j * b * j⁻¹ = b * j * j⁻¹ := by rw [this]
@@ -47,7 +48,7 @@ theorem nor_B {k : G} (hk : k * b * k⁻¹ = b ∨ k * b * k⁻¹ = b⁻¹)
   · exact Subgroup.inv_mem _ (Subgroup.mem_zpowers b)
 
 theorem nor_B_of_J {j : G} (hj : j ∈ J) (hjn : j ∈ Nor (B ⊓ J)) : j ∈ Nor B :=
-  hD.nor_B (Or.inl (hD.conj_b_of_mem_cen (hD.hJC hj))) fun y hy => conj_mem_of_nor hjn hy
+  hD.nor_B (Or.inl (CFSG.RankThree.PartTwo.Sec21.FF79.L13b.Data.conj_b_of_mem_cen (hD.hJC hj))) fun _y hy => conj_mem_of_nor hjn hy
 
 theorem nor_J {k : G} (hk : k * b * k⁻¹ = b ∨ k * b * k⁻¹ = b⁻¹) : k ∈ Nor J :=
   mem_nor_of_forall (hD.hnormJ k hk)
@@ -56,6 +57,7 @@ theorem nor_B0 {k : G} (hk : k * b * k⁻¹ = b ∨ k * b * k⁻¹ = b⁻¹) (hk
     k ∈ Nor (B ⊓ J) :=
   mem_nor_of_forall fun y hy => ⟨conj_mem_of_nor hkB hy.1, hD.hnormJ k hk y hy.2⟩
 
+omit [Finite G] in
 theorem conj_eq_on_B {n₁ n₂ : G} (hb₁ : n₁ * b * n₁⁻¹ = b) (hb₂ : n₂ * b * n₂⁻¹ = b)
     (hx : ∀ x ∈ B ⊓ J, n₁ * x * n₁⁻¹ = n₂ * x * n₂⁻¹) :
     ∀ y ∈ B, n₁ * y * n₁⁻¹ = n₂ * y * n₂⁻¹ := by
@@ -77,12 +79,14 @@ theorem conj_eq_on_B {n₁ n₂ : G} (hb₁ : n₁ * b * n₁⁻¹ = b) (hb₂ :
 variable (c : Coord B)
 include c
 
+omit [Finite G] in
 theorem fix_iff {g : GL (Fin 3) (ZMod 3)} {n : G}
     (hg : ∀ x ∈ B, act33 g (c.e x) = c.e (n * x * n⁻¹)) (hn : n ∈ Nor B) :
     act33 g (c.e b) = c.e b ↔ n * b * n⁻¹ = b := by
   rw [hg b hD.hbB]
   exact ⟨fun h => c.e_inj (conj_mem_of_nor hn hD.hbB) hD.hbB h, fun h => by rw [h]⟩
 
+omit [Finite G] in
 theorem neg_iff {g : GL (Fin 3) (ZMod 3)} {n : G}
     (hg : ∀ x ∈ B, act33 g (c.e x) = c.e (n * x * n⁻¹)) (hn : n ∈ Nor B) :
     act33 g (c.e b) = -c.e b ↔ n * b * n⁻¹ = b⁻¹ := by
@@ -92,7 +96,7 @@ theorem neg_iff {g : GL (Fin 3) (ZMod 3)} {n : G}
 theorem exists_tau :
     ∃ τ ∈ c.X, act33 τ (c.e b) = c.e b ∧ ∀ x ∈ B ⊓ J, act33 τ (c.e x) = -c.e x := by
   obtain ⟨τ, hτJ, hτN, hτinv⟩ := hD.hτ
-  have hk : τ * b * τ⁻¹ = b := hD.conj_b_of_mem_cen (hD.hJC hτJ)
+  have hk : τ * b * τ⁻¹ = b := CFSG.RankThree.PartTwo.Sec21.FF79.L13b.Data.conj_b_of_mem_cen (hD.hJC hτJ)
   have hτB : τ ∈ Nor B := hD.nor_B (Or.inl hk) fun y hy => conj_mem_of_nor hτN hy
   obtain ⟨g, hg, hgx⟩ := c.exists_mem_X hτB
   refine ⟨g, hg, ?_, fun x hx => ?_⟩
@@ -128,7 +132,7 @@ theorem card_stab :
       exact hj x x.2
     · rintro ⟨j, hjJ, hjN, hf⟩
       obtain ⟨g, hg, hgx⟩ := c.exists_mem_X (hD.nor_B_of_J hjJ hjN)
-      have hjb := hD.conj_b_of_mem_cen (hD.hJC hjJ)
+      have hjb := CFSG.RankThree.PartTwo.Sec21.FF79.L13b.Data.conj_b_of_mem_cen (hD.hJC hjJ)
       refine ⟨g, ⟨hg, ?_⟩, ?_⟩
       · rw [hgx b hD.hbB, hjb]
       · funext x
@@ -148,8 +152,8 @@ theorem exists_noncomm : ∃ g ∈ c.X, ∃ h ∈ c.X, act33 g (c.e b) = c.e b �
   obtain ⟨g, hg, hgx⟩ := c.exists_mem_X hB₁
   obtain ⟨h, hh, hhx⟩ := c.exists_mem_X hB₂
   refine ⟨g, hg, h, hh, ?_, ?_, fun heq => hne ?_⟩
-  · rw [hgx b hD.hbB, hD.conj_b_of_mem_cen (hD.hJC hj₁)]
-  · rw [hhx b hD.hbB, hD.conj_b_of_mem_cen (hD.hJC hj₂)]
+  · rw [hgx b hD.hbB, CFSG.RankThree.PartTwo.Sec21.FF79.L13b.Data.conj_b_of_mem_cen (hD.hJC hj₁)]
+  · rw [hhx b hD.hbB, CFSG.RankThree.PartTwo.Sec21.FF79.L13b.Data.conj_b_of_mem_cen (hD.hJC hj₂)]
   · have e1 : act33 (g * h) (c.e x) = c.e (j₂ * (j₁ * x * j₁⁻¹) * j₂⁻¹) := by
       rw [Coord.act33_mul, hgx x hx.1, hhx _ (conj_mem_of_nor hB₁ hx.1)]
     have e2 : act33 (h * g) (c.e x) = c.e (j₁ * (j₂ * x * j₂⁻¹) * j₁⁻¹) := by
@@ -174,7 +178,7 @@ theorem line_stab (W : Submodule (ZMod 3) (Fin 3 → ZMod 3))
   · obtain ⟨j, hjJ, hjN, hj⟩ := hD.hlast n hnJ hn0
     obtain ⟨d, hd, hdx⟩ := c.exists_mem_X (hD.nor_B_of_J hjJ hjN)
     refine ⟨d, hd, ?_, Or.inl fun w hw => ?_⟩
-    · rw [hdx b hD.hbB, hD.conj_b_of_mem_cen (hD.hJC hjJ)]
+    · rw [hdx b hD.hbB, CFSG.RankThree.PartTwo.Sec21.FF79.L13b.Data.conj_b_of_mem_cen (hD.hJC hjJ)]
     · rw [c.act_eq hg, c.act_eq hdx, hj _ ((hW w).mp hw)]
 
 theorem exists_move : ∃ g ∈ c.X, act33 g (c.e b) ≠ c.e b ∧ act33 g (c.e b) ≠ -c.e b := by

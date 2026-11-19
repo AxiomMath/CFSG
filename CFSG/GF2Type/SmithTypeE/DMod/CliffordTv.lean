@@ -81,7 +81,7 @@ theorem exL_apply_evF (v : V) (c : Fin 32) : exL v (evF c) = v c := by
   · simp
   · intro b _ hb
     have : evF c ≠ evF b := fun e => hb (evF_injective e).symm
-    simp [Pi.single_apply, this]
+    simp [this]
   · simp
 
 theorem exL_injective : Function.Injective exL := by
@@ -104,8 +104,8 @@ theorem betaL_exL (v w : V) : betaL (exL v) (exL w) = fModel v w := by
         · intro e
           rw [← e, Fin.rev_rev]
       by_cases h : Fin.rev b = a
-      · rw [if_pos (hiff.mpr h), if_pos h]
-      · rw [if_neg (fun e => h (hiff.mp e)), if_neg h]
+      · rw [ite_eq_left (hiff.mpr h), ite_eq_left h]
+      · rw [ite_eq_right (fun e => h (hiff.mp e)), ite_eq_right h]
     · intro T _ hT
       simp [Pi.single_apply, hT]
     · simp
@@ -124,18 +124,18 @@ theorem clg2_spec {i j c : ℕ} (hi : i < 12) (hj : j < 12) (hc : c < 32) :
   simp only at g1 g1'
   by_cases h1 : clg j evens[c]! = 64
   · have e : clg2 i j c = 0 := by simp [clg2, h1]
-    rw [e, g1, if_pos h1, genC_zero, decode32_zero, decode64_zero, map_zero]
+    rw [e, g1, ite_eq_left h1, genC_zero, decode32_zero, decode64_zero, map_zero]
     exact ⟨by norm_num, rfl⟩
   · obtain ⟨hS1, hS1p⟩ := g1' h1
     obtain ⟨g2, g2'⟩ := genC_facts ⟨i, hi⟩ ⟨clg j evens[c]!, hS1⟩
     simp only at g2 g2'
-    rw [g1, if_neg h1, g2]
+    rw [g1, ite_eq_right h1, g2]
     by_cases h2 : clg i (clg j evens[c]!) = 64
     · have e : clg2 i j c = 0 := by simp [clg2, h1, h2]
-      rw [e, if_pos h2, decode32_zero, decode64_zero, map_zero]
+      rw [e, ite_eq_left h2, decode32_zero, decode64_zero, map_zero]
       exact ⟨by norm_num, rfl⟩
     · obtain ⟨hS2, hS2p⟩ := g2' h2
-      rw [if_neg h2]
+      rw [ite_eq_right h2]
       have hpar : par6 (clg i (clg j evens[c]!)) = false := by
         rw [hS2p, hS1p, hSp]
         rfl

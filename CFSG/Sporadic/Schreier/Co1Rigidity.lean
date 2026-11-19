@@ -187,7 +187,7 @@ theorem ite_xor_eq (P Q : Prop) [Decidable P] [Decidable Q] (b₁ b₂ : Bool) :
     (if ((decide P && b₁) ^^ (decide Q && b₂)) = true then (1 : ZMod 2) else 0) =
       (if P then (if b₁ = true then 1 else 0) else 0) -
         (if Q then (if b₂ = true then 1 else 0) else 0) := by
-  by_cases hP : P <;> by_cases hQ : Q <;> cases b₁ <;> cases b₂ <;> simp [hP, hQ] <;> decide
+  by_cases hP : P <;> by_cases hQ : Q <;> cases b₁ <;> cases b₂ <;> simp [hP, hQ]
 
 theorem rigN_eq (c : ℕ) (u : Fin 24 × Fin 24) :
     rigN c u = Descent.coeff (hqM (Fin.ofNat 3 (c / 576))) (hqM (Fin.ofNat 3 (c / 576)))

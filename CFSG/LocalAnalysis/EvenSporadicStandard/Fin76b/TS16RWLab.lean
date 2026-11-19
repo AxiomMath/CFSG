@@ -182,7 +182,7 @@ theorem lab_ixP {i k : ℕ} (hi : i < 8) (hk : k < 32) :
   rw [e]
   exact (h.val_peq (x := (i, k)) hi hk h6).symm
 
-theorem lab_mem (c : ℕ) (hc : c < 128) : labD eD eltE c ∈ D ⊔ E :=
+theorem lab_mem (c : ℕ) (_hc : c < 128) : labD eD eltE c ∈ D ⊔ E :=
   Subgroup.mul_mem_sup (sElt_mem eD _) (h.L.mem _ (Nat.mod_lt _ (by norm_num)))
 
 theorem lab_zero : labD eD eltE 0 = 1 := by

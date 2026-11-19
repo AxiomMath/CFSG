@@ -71,7 +71,7 @@ private lemma exists_fixed_of_ker_finite {W : Subgroup (ModGL τ k)} {e : ℕ}
     intro c u hu
     have h : ∃ u : ↥S, ((φ u.1 : W) : ModGL τ k) = (c : ModGL τ k) := ⟨u, hu⟩
     have hrc : r c = (h.choose.1 : W) := by
-      simp only [r, dif_pos h]
+      simp only [r, dite_eq_left h]
     rw [hrc]
     exact h.choose_spec
   let κW : ↥K → W := fun c => ⟨(c : ModGL τ k), hKle c.2⟩
@@ -138,7 +138,7 @@ private lemma exists_fixed_of_ker_finite {W : Subgroup (ModGL τ k)} {e : ℕ}
   have inj2 : Function.Injective (fun x : ↥K × Bool =>
       if x.2 then (⟨κW x.1 * s₁, hκsS x.1⟩ : ↥S) else (⟨κW x.1, hκS x.1⟩ : ↥S)) := by
     rintro ⟨c, b⟩ ⟨c', b'⟩ h
-    cases b <;> cases b' <;> simp only [Bool.false_eq_true, if_true, if_false] at h
+    cases b <;> cases b' <;> simp only [Bool.false_eq_true, ite_true, ite_false] at h
     · have h1 : κW c = κW c' := Subtype.ext_iff.mp h
       rw [hκWinj h1]
     · exfalso
@@ -239,7 +239,7 @@ private lemma exists_fixed_of_dense {W : Subgroup (ModGL τ k)} {N e : ℕ}
     have hset : {g : ModGL τ k | ((g : Module.End k V)) (σv x) = σv x} =
         ⋂ a : Label τ, {g : ModGL τ k | (((g : Module.End k V)) (σv x)) a = (σv x) a} := by
       ext g
-      simp only [Set.mem_setOf_eq, Set.mem_iInter, Finsupp.ext_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_iInter, Finsupp.ext_iff]
     have hclosed : IsPointClosed k (transportPoints (modGLPoint τ k)
         {g : ModGL τ k | ((g : Module.End k V)) (σv x) = σv x}) := by
       rw [hset]
@@ -335,7 +335,7 @@ private lemma exists_fixed_of_dense {W : Subgroup (ModGL τ k)} {N e : ℕ}
         ⋂ a : Label τ, {g : ModGL τ k |
           Pa a (((g : Module.End k V)) (σv x)) = Pa a (σv x)} := by
       ext g
-      simp only [Set.mem_setOf_eq, Set.mem_iInter]
+      simp only [Set.mem_ofPred_eq, Set.mem_iInter]
       rw [hVUiff]
       refine forall_congr' fun a => ?_
       rw [show (((g : Module.End k V)) - 1) (σv x) = ((g : Module.End k V)) (σv x) - σv x from by

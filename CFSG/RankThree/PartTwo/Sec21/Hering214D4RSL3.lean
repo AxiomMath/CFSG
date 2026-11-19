@@ -37,8 +37,7 @@ theorem cayley_hamilton_three_fin (M : Matrix (Fin 3) (Fin 3) F) :
     (M 1 1 * M 2 2 - M 1 2 * M 2 1), ?_⟩
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.det_fin_three, Matrix.trace_fin_three,
-      Matrix.one_apply] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.det_fin_three, Matrix.trace_fin_three] <;> ring
 
 theorem noncube_false [CharP F 2] {H : Matrix (Fin 3) (Fin 3) F} {c : F} (hdet : H.det = 1)
     (hH3 : H ^ 3 = c • (1 : Matrix (Fin 3) (Fin 3) F)) (hc3 : c ^ 3 = 1)

@@ -74,7 +74,7 @@ theorem sideDatum_of_d4
   classical
   obtain ⟨Λ, iΛf, iΛd, M, C, V, iVa, iVm, ι, φ, h, α, e, hM, hWM, hMC, hlin, hrefl, hpair,
     ⟨f, hf⟩, hcl, -⟩ := hXD
-  letI := iΛf; letI := iΛd; letI := iVa; letI := iVm
+  let := iΛf; let := iΛd; let := iVa; let := iVm
   subst hM
   have hRCS : GGReflConjSimple 3 (ggAutomizer X Bs) φ :=
     ggReflConjSimple_of_weylMatrix (by norm_num) (Or.inr (Or.inl ⟨e, rfl⟩))
@@ -134,7 +134,7 @@ theorem sideDatum_of_d4
     intro i
     refine LinearEquiv.ext fun v => ?_
     rw [ggLin_apply, ggLin_apply]
-    simp [ι', φ', MulEquiv.toAdditive_apply_apply, MulEquiv.toAdditive_symm_apply_apply]
+    simp [ι', φ', MulEquiv.toAdditive_apply_apply]
   have hlin' : ∀ i w, ggLin (p := 3) ι' (φ' i) w = w - α i w • h i := fun i w => by
     rw [hlin'0]
     exact hlin i w
@@ -253,7 +253,7 @@ theorem ggE6D4TwoNodeLocalRest_of_twX
     · exact le_of_ggNbr hLB hH.1.1 hH.1.2.2 h3J hH.2.2.2.2.1
   obtain ⟨VJ, iVJa, iVJm, ιJ, φJ, hJv, αJ, hlinJ, hreflJ, hpairJ, ⟨fJ, hfJ⟩, hclJ⟩ :=
     xDatumFin_of_torData (by norm_num) hm h3m (ggIntCartan_D 4) hH.1.2.1.2.1 hH.1.2.1.2.2.2 hN hTor
-  letI := iVJa; letI := iVJm
+  let := iVJa; let := iVJm
   exact sideDatum_of_d4 hXD (ggAutomizer_mono Bs hJX) ιJ φJ hJv αJ hlinJ hreflJ hpairJ fJ hfJ hclJ
 
 end E6D4Side

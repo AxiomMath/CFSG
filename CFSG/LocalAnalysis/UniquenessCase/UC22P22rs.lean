@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22p22r_mem_uniqueSet_of_sp (D : Data G) {p : ℕ} (hp : p.Prime)
     (hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M) {X : Subgroup G} (hXM : X ≤ D.M)
     (hX : IsPGroup p X) (hX1 : X ≠ ⊥) : X ∈ uniqueSet D.M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨hXM, fun g hXg => ?_⟩
   by_cases hg : g ∈ D.M
   · exact Subgroup.mem_normalizer_iff_map_conj_eq.1 (Subgroup.le_normalizer hg)
@@ -36,6 +36,7 @@ theorem uc22p22r_mem_uniqueSet_of_sp (D : Data G) {p : ℕ} (hp : p.Prime)
 
 section Lift
 
+omit [Finite G] in
 theorem uc22p22r_conj_eq_of_fix {M V : Subgroup G} (hVM : M ≤ normalizer (V : Set G)) {Vmod : Type}
     [AddCommGroup Vmod] [Module (ZMod 2) Vmod] (e : ↥V ≃* Multiplicative Vmod)
     (ρ : Representation (ZMod 2) (MBar M V) Vmod) (hc : ConjModule M V e ρ) (m : ↥M) (v : ↥V)
@@ -90,8 +91,8 @@ theorem uc22p22r_quot_card_le {Q : Type} [Group Q] [Finite Q] {R S₀ : Subgroup
 
 theorem uc22p22r_inf_eq_bot_of_coprime {Q : Type} [Group Q] [Finite Q] {A B : Subgroup Q} {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hA : IsPGroup 2 A) (hB : IsPGroup p B) : A ⊓ B = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine Subgroup.eq_bot_of_card_eq _ ?_
   obtain ⟨i, hi⟩ := (hA.to_le (inf_le_left : A ⊓ B ≤ A)).exists_card_eq
   obtain ⟨j, hj⟩ := (hB.to_le (inf_le_right : A ⊓ B ≤ B)).exists_card_eq
@@ -122,7 +123,7 @@ theorem uc22p22r_dvd_orderOf_quot {Q : Type} [Group Q] [Finite Q] {R S₀ : Subg
     [hn : (S₀.subgroupOf R).Normal] (hS₀2 : IsPGroup 2 S₀) {z : Q} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hzR : z ∈ R) (hzo : orderOf z = p) {x : Q} (hxR : x ∈ R) (hxz : x⁻¹ * z ∈ S₀) : p ∣ orderOf x := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set φ := QuotientGroup.mk' (S₀.subgroupOf R) with hφ
   have heq : φ ⟨x, hxR⟩ = φ ⟨z, hzR⟩ := by
     rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq, Subgroup.mem_subgroupOf]
@@ -138,13 +139,14 @@ theorem uc22p22r_dvd_orderOf_quot {Q : Type} [Group Q] [Finite Q] {R S₀ : Subg
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow hdvd))
   have hzp : (φ ⟨z, hzR⟩) ^ p = 1 := by
     rw [← map_pow]
-    have : (⟨z, hzR⟩ : ↥R) ^ p = 1 := Subtype.ext (by simpa [← hzo] using pow_orderOf_eq_one z)
+    have : (⟨z, hzR⟩ : ↥R) ^ p = 1 := Subtype.ext (by simp [← hzo])
     rw [this, map_one]
   have hord : orderOf (φ ⟨z, hzR⟩) = p := orderOf_eq_prime hzp hz1
   have h1 : orderOf (φ ⟨x, hxR⟩) ∣ orderOf (⟨x, hxR⟩ : ↥R) := orderOf_map_dvd φ _
   rw [heq, hord, Subgroup.orderOf_mk] at h1
   exact h1
 
+omit [Finite G] in
 theorem uc22p22r_set_mul_of_le {H K : Subgroup G} (h : H ≤ K) : (H : Set G) * (K : Set G) = K := by
   ext x
   constructor
@@ -153,6 +155,7 @@ theorem uc22p22r_set_mul_of_le {H K : Subgroup G} (h : H ≤ K) : (H : Set G) * 
   · intro hx
     exact ⟨1, H.one_mem, x, hx, one_mul x⟩
 
+omit [Finite G] in
 theorem uc22p22r_mul_set_of_le {H K : Subgroup G} (h : H ≤ K) : (K : Set G) * (H : Set G) = K := by
   ext x
   constructor
@@ -173,8 +176,8 @@ theorem uc22p22r_lift {M V T : Subgroup G} (hVM : M ≤ normalizer (V : Set G))
       A ≤ centralizer ({v} : Set G) ∧ A ≠ ⊥ ∧ IsPGroup p A ∧ (∀ a ∈ A, a ^ p = 1) ∧
       (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) ∧ Permutes A T ∧ CFSG.Open.pRank p A ≤ 2 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : ↥M →* MBar M V := QuotientGroup.mk' (kerAct M V).normalCore with hπdef
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   set Tb := mbarImage M V T with hTb
@@ -304,7 +307,7 @@ theorem uc22p22r_lift {M V T : Subgroup G} (hVM : M ≤ normalizer (V : Set G))
   have hπnR : π ⟨n, hnM⟩ ∈ R := (hmemJ ⟨n, hnM⟩).1 hnJ
   have hpn : p ∣ orderOf n := by
     have h1 : p ∣ orderOf (π ⟨n, hnM⟩) := by
-      haveI : (S₀.subgroupOf R).Normal := hRn
+      have : (S₀.subgroupOf R).Normal := hRn
       refine uc22p22r_dvd_orderOf_quot hS₀2 hp hp2 hzR hzo hπnR ?_
       have h2 := Subgroup.mem_subgroupOf.1 (hRn.conj_mem ⟨_, hπj₀.1⟩ hπj₀ ⟨z, hzR⟩⁻¹)
       have e : (π ⟨n, hnM⟩)⁻¹ * z = z⁻¹ * π ⟨j₀, hj₀M⟩ * z⁻¹⁻¹ := by
@@ -319,7 +322,7 @@ theorem uc22p22r_lift {M V T : Subgroup G} (hVM : M ≤ normalizer (V : Set G))
     have h1 : orderOf (⟨n, hnN⟩ : ↥N) ∣ Nat.card N := orderOf_dvd_natCard _
     rw [Subgroup.orderOf_mk] at h1
     exact hpn.trans h1
-  haveI hSnN : (S.subgroupOf N).Normal :=
+  have hSnN : (S.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSN).2 inf_le_right
   have hS2 : IsPGroup 2 ↥(S.subgroupOf N) := hSN'.isPGroup.comap_subtype
   have hÑodd : ¬ 2 ∣ Nat.card (↥N ⧸ S.subgroupOf N) := by
@@ -393,7 +396,7 @@ theorem uc22p22r_lift {M V T : Subgroup G} (hVM : M ≤ normalizer (V : Set G))
       obtain ⟨y', hy', rfl⟩ := hy
       show θ t x * θ t y' = θ t y' * θ t x
       rw [← map_mul, ← map_mul, hxc y' hy']
-  have hP0p : IsPGroup p ↥P0 := Ps.isPGroup'
+  have hP0p : IsPGroup p ↥P0 := Ps.isPGroup
   have hP0nt : Nontrivial ↥P0 := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     have h1 : Nat.card ↥P0 = p ^ (Nat.card Ñ).factorization p := Ps.card_eq_multiplicity
@@ -440,7 +443,7 @@ theorem uc22p22r_lift {M V T : Subgroup G} (hVM : M ≤ normalizer (V : Set G))
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow p ↥Bt))
   set A₀ : Subgroup ↥N := (Q : Subgroup ↥Bt).map Bt.subtype with hA₀
   have hA₀Bt : A₀ ≤ Bt := Subgroup.map_subtype_le _
-  have hA₀p : IsPGroup p ↥A₀ := Q.isPGroup'.map Bt.subtype
+  have hA₀p : IsPGroup p ↥A₀ := Q.isPGroup.map Bt.subtype
   have hA₀S : Sb ⊓ A₀ = ⊥ := uc22p22r_inf_eq_bot_of_coprime hp hp2 hS2 hA₀p
   have hinj : Function.Injective (q₀.comp A₀.subtype) := by
     rw [injective_iff_map_eq_one]
@@ -572,7 +575,7 @@ theorem uc22p22r_lift {M V T : Subgroup G} (hVM : M ≤ normalizer (V : Set G))
     let φ' : ↥E' →* MBar M V := π.comp (Subgroup.inclusion hE'M)
     have hE'p : IsPGroup p ↥E' := fun x => ⟨1, Subtype.ext (by simpa using hE'.2 x x.2)⟩
     have hrange : Nat.card φ'.range ≤ p := by
-      haveI : (S₀.subgroupOf R).Normal := hRn
+      have : (S₀.subgroupOf R).Normal := hRn
       refine uc22p22r_card_pSubgroup_le inf_le_left hS₀2 hp hp2 hzR (hzo ▸ pow_orderOf_eq_one z) hRz
         ?_ (hE'p.of_surjective φ'.rangeRestrict φ'.rangeRestrict_surjective)
       rintro _ ⟨x, rfl⟩

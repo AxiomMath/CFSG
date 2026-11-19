@@ -19,6 +19,7 @@ open CFSG.ASVolI.ChIJK (F4)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_one_or_eq_of_mem_zpowers {t x : G} (ht : orderOf t = 2) (hx : x ∈ zpowers t) :
     x = 1 ∨ x = t := by
   obtain ⟨n, hn⟩ := hx
@@ -35,6 +36,7 @@ theorem eq_one_or_eq_of_mem_zpowers {t x : G} (ht : orderOf t = 2) (hx : x ∈ z
     rw [← hn', ← h1, h]
     simp
 
+omit [Finite G] in
 theorem eq_of_zpowers_eq_of_orderOf_two {t t' : G} (ht : orderOf t = 2) (ht' : orderOf t' = 2)
     (h : zpowers t = zpowers t') : t = t' := by
   have h1 : t ∈ zpowers t' := h ▸ mem_zpowers t
@@ -43,6 +45,7 @@ theorem eq_of_zpowers_eq_of_orderOf_two {t t' : G} (ht : orderOf t = 2) (ht' : o
     omega
   · exact h2
 
+omit [Finite G] in
 theorem eq_zpowers_of_le_zpowers {t : G} (ht : orderOf t = 2) {Q : Subgroup G} (hQ : Q ≠ ⊥)
     (hle : Q ≤ zpowers t) : Q = zpowers t := by
   obtain ⟨q, hq1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 hQ
@@ -54,13 +57,15 @@ theorem eq_zpowers_of_le_zpowers {t : G} (ht : orderOf t = 2) {Q : Subgroup G} (
     rw [← h]
     exact q.2
 
+omit [Finite G] in
 theorem false_of_commutative_perfect {H : Subgroup G} (hP : Group.IsPerfect H) [Nontrivial H]
     (hc : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a) : False := by
-  haveI : Group.IsPerfect H := hP
-  haveI : IsMulCommutative H := ⟨⟨fun a b => Subtype.ext (hc a a.2 b b.2)⟩⟩
-  haveI : Subsingleton H := inferInstance
+  have : Group.IsPerfect H := hP
+  have : IsMulCommutative H := ⟨⟨fun a b => Subtype.ext (hc a a.2 b b.2)⟩⟩
+  have : Subsingleton H := inferInstance
   exact (not_subsingleton H) inferInstance
 
+omit [Finite G] in
 theorem false_of_isQuasisimple_sup {K L₁ L₂ : Subgroup G} (hq : CFSG.IsQuasisimple K) (hsup : K = L₁ ⊔ L₂)
     (hcomm : ∀ a ∈ L₁, ∀ b ∈ L₂, a * b = b * a) (h₁ : Group.IsPerfect L₁) (h₂ : Group.IsPerfect L₂)
     [Nontrivial L₁] [Nontrivial L₂] : False := by
@@ -94,16 +99,17 @@ theorem false_of_isQuasisimple_sup {K L₁ L₂ : Subgroup G} (hq : CFSG.IsQuasi
       ⟨b, hL₁K hb⟩
     exact (congrArg Subtype.val this).symm
 
+omit [Finite G] in
 theorem false_of_component_le_centralizer {K Λ : Subgroup G} (hK : CFSG.IsComponent K) (hKΛ : K ≤ Λ)
     (hKC : K ≤ centralizer (Λ : Set G)) : False := by
-  haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+  have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
   exact false_of_commutative_perfect hK.1.1 fun a ha b hb =>
     (Subgroup.mem_centralizer_iff.1 (hKC ha) b (hKΛ hb)).symm
 
 theorem Rank2Good.exists_le_sylow {K : Subgroup G} (hK : CFSG.IsComponent K) (hg : Rank2Good K)
     (P : Sylow 3 G) :
     ∃ A : Subgroup G, A ≤ K ∧ A ≤ (P : Subgroup G) ∧ IsElemAbelian 3 A ∧ Nat.card A = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨A, hAK, hAe, hAc⟩, -⟩ := hg
   obtain ⟨k, hk, hkA⟩ := exists_conj_le_sylow_of_isSubnormal P hK.2 hAK hAe.isPGroup
   refine ⟨A.map (MulAut.conj k).toMonoidHom, ?_, ?_, hAe.map _, ?_⟩
@@ -113,6 +119,7 @@ theorem Rank2Good.exists_le_sylow {K : Subgroup G} (hK : CFSG.IsComponent K) (hg
     exact hkA a ha
   · rw [Subgroup.card_map_of_injective (MulAut.conj k).injective, hAc]
 
+omit [Finite G] in
 theorem mem_sup_centralizer_of_forall {Λ : Subgroup G} {S : Set (Subgroup G)} (hΛ : Λ = sSup S) {e g : G}
     (hg : g ∈ Λ) (h : ∀ K ∈ S, ∀ y ∈ K, e * y * e⁻¹ = g * y * g⁻¹) :
     e ∈ Λ ⊔ centralizer (Λ : Set G) := by
@@ -145,6 +152,7 @@ namespace Hyp36
 variable {M E : Subgroup G} {p : ℕ} (h : Hyp36 G M p E)
 include h
 
+omit h [Finite G] in
 theorem mul_comm_of_pCoreOf_eq {t : G} (ht : orderOf t = 2) (hQ : pCoreOf 2 M = zpowers t) {m : G}
     (hm : m ∈ M) : m * t * m⁻¹ = t := by
   have hn := CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M hm
@@ -159,6 +167,7 @@ theorem mul_comm_of_pCoreOf_eq {t : G} (ht : orderOf t = 2) (hQ : pCoreOf 2 M = 
     omega
   · exact h2
 
+omit h in
 theorem pCoreOf_le_pCoreOf_inf {X : Subgroup G} (hQX : pCoreOf 2 M ≤ X) :
     pCoreOf 2 M ≤ pCoreOf 2 (X ⊓ M) := by
   have hQXM : pCoreOf 2 M ≤ X ⊓ M := le_inf hQX (CFSG.openPCoreOf_le 2 M)
@@ -170,12 +179,12 @@ theorem pCoreOf_le_pCoreOf_inf {X : Subgroup G} (hQX : pCoreOf 2 M ≤ X) :
 theorem perfect_le_of_le_sup_sup {N P : Subgroup G} (hP : Group.IsPerfect P)
     (hEN : E ≤ normalizer (N : Set G)) (hQN : pCoreOf 2 M ≤ normalizer (N : Set G))
     (hPX : P ≤ E ⊔ pCoreOf 2 M ⊔ N) : P ≤ N := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hsolvE : Group.IsSolvable ↥E := by
-    haveI := h.isPGroup.isNilpotent
+    have := h.isPGroup.isNilpotent
     infer_instance
   have hsolvQ : Group.IsSolvable ↥(pCoreOf 2 M) := by
-    haveI := (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M).isNilpotent
+    have := (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M).isNilpotent
     infer_instance
   have hEQN : E ≤ normalizer ((pCoreOf 2 M ⊔ N : Subgroup G) : Set G) := by
     intro e he'
@@ -198,8 +207,8 @@ theorem shapeComp_of_component (O : Oracle36 M E p) {K : Subgroup G}
   have hEX : E ≤ X := le_sup_of_le_left le_sup_left
   have hQX : Q ≤ X := le_sup_of_le_left le_sup_right
   have hKX : K ≤ X := le_sup_right
-  have hXM : ¬ X ≤ M := fun hle => h.false_of_component_le hKc hne (hKX.trans hle)
-  have hQle : Q ≤ pCoreOf 2 (X ⊓ M) := h.pCoreOf_le_pCoreOf_inf hQX
+  have hXM : ¬ X ≤ M := fun hle => CFSG.LocalAnalysis.UniquenessCase.UCK.Hyp36.false_of_component_le hKc hne (hKX.trans hle)
+  have hQle : Q ≤ pCoreOf 2 (X ⊓ M) := Hyp36.pCoreOf_le_pCoreOf_inf hQX
   have hQX' : pCoreOf 2 (X ⊓ M) ≠ ⊥ := fun hb => h.pCore_ne_bot (le_bot_iff.1 (hb ▸ hQle))
   obtain ⟨hp3, t, ht2, hpc, L', hL'X, hL'n, hXeq, hshape⟩ :=
     O.conclIn X hX hEX hXM hQX' (O.star_comp K hKc hne)
@@ -227,7 +236,7 @@ theorem shapeComp_of_component (O : Oracle36 M E p) {K : Subgroup G}
         have hmM : m ∈ M := (Subgroup.mem_inf.1 hm).2
         have htm : m * t = t * m := by
           calc m * t = (m * t * m⁻¹) * m := by group
-            _ = t * m := by rw [h.mul_comm_of_pCoreOf_eq ht2 hQeq hmM]
+            _ = t * m := by rw [Hyp36.mul_comm_of_pCoreOf_eq ht2 hQeq hmM]
         have hcL' : (m * l)⁻¹ * (t * (m * l) * t⁻¹) ∈ L' := by
           have e1 : (m * l)⁻¹ * (t * (m * l) * t⁻¹) = l⁻¹ * (t * l * t⁻¹) := by
             calc (m * l)⁻¹ * (t * (m * l) * t⁻¹) = l⁻¹ * (m⁻¹ * (t * m)) * l * t⁻¹ := by group
@@ -259,23 +268,23 @@ theorem shapeComp_of_component (O : Oracle36 M E p) {K : Subgroup G}
   · rcases hgf with hgf | ⟨L₁, L₂, hsup, hcomm, ⟨e₁⟩, ⟨e₂⟩, -, -, -⟩
     · exact Or.inl hgf
     · exfalso
-      haveI : Nontrivial SL(3, F4) := CFSG.LocalCores.isQuasisimple_nontrivial sl3F4_isQuasisimple
-      haveI : Nontrivial ↥L₁ := e₁.symm.injective.nontrivial (α := SL(3, F4))
-      haveI : Nontrivial ↥L₂ := e₂.symm.injective.nontrivial (α := SL(3, F4))
-      haveI := sl3F4_isPerfect
+      have : Nontrivial SL(3, F4) := CFSG.LocalCores.isQuasisimple_nontrivial sl3F4_isQuasisimple
+      have : Nontrivial ↥L₁ := e₁.symm.injective.nontrivial (α := SL(3, F4))
+      have : Nontrivial ↥L₂ := e₂.symm.injective.nontrivial (α := SL(3, F4))
+      have := sl3F4_isPerfect
       exact false_of_isQuasisimple_sup hKc.1 hsup hcomm
         (Group.IsPerfect.ofSurjective (f := e₁.symm.toMonoidHom) e₁.symm.surjective)
         (Group.IsPerfect.ofSurjective (f := e₂.symm.toMonoidHom) e₂.symm.surjective)
   · exact Or.inr hA
 
 theorem sup_eq_top_of_normal {D : Subgroup G} [D.Normal] (hED : E ≤ D) : D ⊔ M = ⊤ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨R, hER⟩ := (h.isPGroup.comap_subtype (K := D)).exists_le_sylow
   set R' : Subgroup G := (R : Subgroup D).map D.subtype with hR'
   have hER' : E ≤ R' := by
     intro x hx
     exact ⟨⟨x, hED hx⟩, hER (show (⟨x, hED hx⟩ : D) ∈ E.subgroupOf D from hx), rfl⟩
-  have hR'p : IsPGroup p R' := R.isPGroup'.map _
+  have hR'p : IsPGroup p R' := R.isPGroup.map _
   have hR'M : R' ≤ M := h.le_of_isPGroup hR'p hER'
   have hNM : normalizer (R' : Set G) ≤ M := h.normalizer_le_of_le hER' hR'M
   have hfr := Sylow.normalizer_sup_eq_top R
@@ -285,22 +294,22 @@ theorem sup_eq_top_of_normal {D : Subgroup G} [D.Normal] (hED : E ≤ D) : D ⊔
 
 theorem false_of_elemAbelian_four (he3 : twoLocalPrimeRank 3 G ≤ 3) {B : Subgroup G} (hBM : B ≤ M)
     (hB : IsElemAbelian 3 B) (hcard : 3 ^ 4 ≤ Nat.card B) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h4 := four_le_pRank_of_elemAbelian hBM hB hcard
   have := (pRank_le_twoLocalPrimeRank (G := G) Nat.prime_three h.maxTwoLocal.1).trans he3
   omega
 
 theorem exists_sylow_three (hp3 : p = 3) : ∃ P : Sylow 3 G, E ≤ (P : Subgroup G) ∧ (P : Subgroup G) ≤ M := by
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hEP⟩ := IsPGroup.exists_le_sylow h.isPGroup
-  exact ⟨P, hEP, h.le_of_isPGroup P.isPGroup' hEP⟩
+  exact ⟨P, hEP, h.le_of_isPGroup P.isPGroup hEP⟩
 
 theorem false_of_three (hp3 : p = 3) (he3 : twoLocalPrimeRank 3 G ≤ 3) {K₀ K₁ K₂ : Subgroup G}
     (h₀ : CFSG.IsComponent K₀) (h₁ : CFSG.IsComponent K₁) (h₂ : CFSG.IsComponent K₂)
     (hne01 : K₀ ≠ K₁) (hne02 : K₀ ≠ K₂) (hne12 : K₁ ≠ K₂) (g₀ : Rank2Good K₀) (g₁ : Rank2Good K₁)
     (g₂ : Rank2Good K₂) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, -, hPM⟩ := h.exists_sylow_three hp3
   obtain ⟨A₀, hA₀K, hA₀P, hA₀e, hA₀c⟩ := g₀.exists_le_sylow h₀ P
   obtain ⟨A₁, hA₁K, hA₁P, hA₁e, hA₁c⟩ := g₁.exists_le_sylow h₁ P
@@ -320,7 +329,7 @@ theorem false_of_three (hp3 : p = 3) (he3 : twoLocalPrimeRank 3 G ≤ 3) {K₀ K
 theorem inf_ne_bot_of_two (hp3 : p = 3) (he3 : twoLocalPrimeRank 3 G ≤ 3) {K₀ K₁ : Subgroup G}
     (h₀ : CFSG.IsComponent K₀) (h₁ : CFSG.IsComponent K₁) (hne : K₀ ≠ K₁) (g₀ : Rank2Good K₀)
     (g₁ : Rank2Good K₁) : K₀ ⊓ K₁ ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hinf
   obtain ⟨P, -, hPM⟩ := h.exists_sylow_three hp3
   obtain ⟨A₀, hA₀K, hA₀P, hA₀e, hA₀c⟩ := g₀.exists_le_sylow h₀ P
@@ -344,10 +353,10 @@ theorem normalizer_lam36_eq_top_of_rank (hp3 : p = 3) (he3 : twoLocalPrimeRank 3
 
 theorem centralizer_lam36_le (O : Oracle36 M E p) (hΛ : (lam36 M).Normal) :
     centralizer (lam36 M : Set G) ≤ M := by
-  haveI := hΛ
+  have := hΛ
   set Λ := lam36 M with hΛdef
   set C : Subgroup G := centralizer (Λ : Set G) with hCdef
-  haveI hCn : C.Normal := Subgroup.normal_centralizer (H := Λ)
+  have hCn : C.Normal := Subgroup.normal_centralizer (H := Λ)
   have hCnorm : normalizer (C : Set G) = ⊤ := Subgroup.normalizer_eq_top_iff.2 hCn
   set Q := pCoreOf 2 M with hQdef
   have hEC : E ≤ normalizer (C : Set G) := by rw [hCnorm]; exact le_top
@@ -369,7 +378,7 @@ theorem centralizer_lam36_le (O : Oracle36 M E p) (hΛ : (lam36 M).Normal) :
   have hCX : C ≤ X := le_sup_right
   have hQX : Q ≤ X := le_sup_of_le_left le_sup_right
   have hXM : ¬ X ≤ M := fun hle => hCM (hCX.trans hle)
-  have hQle : Q ≤ pCoreOf 2 (X ⊓ M) := h.pCoreOf_le_pCoreOf_inf hQX
+  have hQle : Q ≤ pCoreOf 2 (X ⊓ M) := Hyp36.pCoreOf_le_pCoreOf_inf hQX
   have hQX' : pCoreOf 2 (X ⊓ M) ≠ ⊥ := fun hb => h.pCore_ne_bot (le_bot_iff.1 (hb ▸ hQle))
   obtain ⟨-, t, ht2, hpc, -⟩ := O.conclIn X hXtop hEX hXM hQX' hstar
   have hQeq : Q = pCoreOf 2 (X ⊓ M) := by
@@ -472,7 +481,7 @@ theorem exists_inner_of_shape (hp3 : p = 3) (hOF : L34OuterFree) {t : G} (ht : o
     (hQt : pCoreOf 2 M = zpowers t) (hshape : ∀ K ∈ comps36 M, ShapeComp t K) {e : G} (he : e ∈ E)
     (he1 : e ≠ 1) : ∀ K ∈ comps36 M, ∃ g ∈ K, ∀ y ∈ K, e * y * e⁻¹ = g * y * g⁻¹ := by
   have hteM : ∀ m ∈ M, t * m = m * t := fun m hm => by
-    have := h.mul_comm_of_pCoreOf_eq ht hQt hm
+    have := Hyp36.mul_comm_of_pCoreOf_eq ht hQt hm
     calc t * m = (m * t * m⁻¹) * m := by rw [this]
       _ = m * t := by group
   have ht2' : t * t = 1 := by
@@ -549,8 +558,8 @@ theorem concl_of_normal_lam36 (hp3 : p = 3) {t : G} (ht : orderOf t = 2) (hQt : 
       Nonempty (↥K₀ ≃* SL(3, F4)) ∧ Nonempty (↥K₁ ≃* SL(3, F4)) ∧
       K₀ ⊓ K₁ = (center ↥K₀).map K₀.subtype ∧ UC6.InducesGraphField t K₀ ∧ UC6.InducesGraphField t K₁) :
     K36Concl M p := by
-  haveI := hΛ
-  haveI : (lam36 M ⊔ centralizer (lam36 M : Set G)).Normal := inferInstance
+  have := hΛ
+  have : (lam36 M ⊔ centralizer (lam36 M : Set G)).Normal := inferInstance
   have hD := h.sup_eq_top_of_normal hED
   have hΛM : lam36 M ⊔ M = ⊤ := by
     rw [← hD, sup_assoc, sup_eq_right.2 hCM]
@@ -583,7 +592,7 @@ theorem concl_of_forall_ne_top (O : Oracle36 M E p) (he3 : twoLocalPrimeRank 3 G
     exact this ▸ hs
   have hΛn : normalizer (lam36 M : Set G) = ⊤ :=
     h.normalizer_lam36_eq_top_of_rank hp3 he3 (fun K hK' => (hshape K hK').rank2Good)
-  haveI hΛ : (lam36 M).Normal := Subgroup.normalizer_eq_top_iff.1 hΛn
+  have hΛ : (lam36 M).Normal := Subgroup.normalizer_eq_top_iff.1 hΛn
   have hCM : centralizer (lam36 M : Set G) ≤ M := h.centralizer_lam36_le O hΛ
   have hED : E ≤ lam36 M ⊔ centralizer (lam36 M : Set G) := fun e he' =>
     h.mem_lam36_sup_centralizer hp3 he3 hOF ht hQt hshape hK₀ he'

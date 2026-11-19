@@ -41,12 +41,14 @@ theorem stringNorm_eq_one_or_two (β γ : Fin (Tag.rank .F4) → ℤ) :
   unfold stringNorm
   split <;> simp
 
+omit [Finite K] in
 theorem intCast_eq_nat_of_natAbs {z : ℤ} {n : ℕ} (h : z.natAbs = n) (hn : n = 1 ∨ n = 2) :
     (z : K) = (n : K) := by
   rcases hn with rfl | rfl
   · simpa using intCast_eq_one_of_natAbs (K := K) h
   · rw [intCast_eq_zero_of_natAbs (K := K) h, CharP.cast_eq_zero K 2]
 
+omit [Finite K] in
 theorem coeff11_without117_eq_spCommC
     {α β : Fin 3 → ℤ}
     (hα : α ∈ roots (isFiniteType_cartanC 3) ∅) (hβ : β ∈ roots (isFiniteType_cartanC 3) ∅)
@@ -72,6 +74,7 @@ theorem coeff11_without117_eq_spCommC
       CFSG.StandardType.F4ExplicitPos.DataValid.f4Data_valid_without117 hγ hroot)
     (stringNorm_eq_one_or_two _ _)
 
+omit [Finite K] in
 theorem coeff12_without117_eq_spCommC
     {α β : Fin 3 → ℤ}
     (hα : α ∈ roots (isFiniteType_cartanC 3) ∅) (hβ : β ∈ roots (isFiniteType_cartanC 3) ∅)
@@ -97,6 +100,7 @@ theorem coeff12_without117_eq_spCommC
       CFSG.StandardType.F4ExplicitPos.DataValid.f4Data_valid_without117 noG2_F4
       (α := ⟨c3ToF4 α, isRoot_c3ToF4 hα⟩) (β := ⟨c3ToF4 β, isRoot_c3ToF4 hβ⟩) hne1 hne2 hroot)
 
+omit [Finite K] in
 theorem coeff21_without117_eq_spCommC
     {α β : Fin 3 → ℤ}
     (hα : α ∈ roots (isFiniteType_cartanC 3) ∅) (hβ : β ∈ roots (isFiniteType_cartanC 3) ∅)
@@ -122,6 +126,7 @@ theorem coeff21_without117_eq_spCommC
       CFSG.StandardType.F4ExplicitPos.DataValid.f4Data_valid_without117 noG2_F4
       (α := ⟨c3ToF4 α, isRoot_c3ToF4 hα⟩) (β := ⟨c3ToF4 β, isRoot_c3ToF4 hβ⟩) hne1 hne2 hroot)
 
+omit [Finite K] in
 theorem spF4Par_pair_11_without117
     {α β : Fin 3 → ℤ}
     (hα : α ∈ roots (isFiniteType_cartanC 3) ∅) (hβ : β ∈ roots (isFiniteType_cartanC 3) ∅)
@@ -138,8 +143,9 @@ theorem spF4Par_pair_11_without117
       ← coeff11_without117_eq_spCommC hα hβ hne hαβ (by simpa using hr)]
   · rw [C3Exact.spF4Par_of_not_exact hr,
       show 1 • c3ToF4 α + 1 • c3ToF4 β = c3ToF4 (1 • α + 1 • β) from hv.symm,
-      xPar, dif_neg (by rwa [isRoot_c3ToF4_iff])]
+      xPar, dite_eq_right (by rwa [isRoot_c3ToF4_iff])]
 
+omit [Finite K] in
 theorem spF4Par_pair_12_without117
     {α β : Fin 3 → ℤ}
     (hα : α ∈ roots (isFiniteType_cartanC 3) ∅) (hβ : β ∈ roots (isFiniteType_cartanC 3) ∅)
@@ -156,8 +162,9 @@ theorem spF4Par_pair_12_without117
       ← coeff12_without117_eq_spCommC hα hβ hne hαβ (by simpa using hr)]
   · rw [C3Exact.spF4Par_of_not_exact hr,
       show 1 • c3ToF4 α + 2 • c3ToF4 β = c3ToF4 (1 • α + 2 • β) from hv.symm,
-      xPar, dif_neg (by rwa [isRoot_c3ToF4_iff])]
+      xPar, dite_eq_right (by rwa [isRoot_c3ToF4_iff])]
 
+omit [Finite K] in
 theorem spF4Par_pair_21_without117
     {α β : Fin 3 → ℤ}
     (hα : α ∈ roots (isFiniteType_cartanC 3) ∅) (hβ : β ∈ roots (isFiniteType_cartanC 3) ∅)
@@ -174,8 +181,9 @@ theorem spF4Par_pair_21_without117
       ← coeff21_without117_eq_spCommC hα hβ hne hαβ (by simpa using hr)]
   · rw [C3Exact.spF4Par_of_not_exact hr,
       show 2 • c3ToF4 α + 1 • c3ToF4 β = c3ToF4 (2 • α + 1 • β) from hv.symm,
-      xPar, dif_neg (by rwa [isRoot_c3ToF4_iff])]
+      xPar, dite_eq_right (by rwa [isRoot_c3ToF4_iff])]
 
+omit [Finite K] in
 theorem commutator_spF4Par_without117
     (O : CommOrder (Sp.Φ 3 K)) {α β : Fin 3 → ℤ}
     (hα : α ∈ roots (isFiniteType_cartanC 3) ∅) (hβ : β ∈ roots (isFiniteType_cartanC 3) ∅)
@@ -233,7 +241,7 @@ theorem f4C3_exists_pinned_unconditional
     ∃ ι : ↥(StatedSp 3 K) →* ↥(adjointGroup .F4 K), Function.Injective ι ∧
       ∀ γ c, ι (Sp.x 3 K γ c) = Adjoint.f4Par K (c3ToF4 γ) c :=
   CFSG.StandardType.F4ExplicitPos.C3Exact.f4C3_exists_pinned_of_comm_only O
-    (fun {α β} hα hβ hαβ c d => commutator_spF4Par_without117 O hα hβ hαβ c d)
+    (fun {_α _β} hα hβ hαβ c d => commutator_spF4Par_without117 O hα hβ hαβ c d)
 
 end CFSG.StandardType.F4ExplicitPos.C3Comm
 
@@ -249,14 +257,16 @@ open CFSG CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType CFSG.Li
   CFSG.LieType.RootSystem CFSG.LieType.Steinberg CFSG.LieType.Steinberg.Adjoint
   CFSG.LieType.Universal.Symplectic CFSG.Timmesfeld.LieEmbed
 
+omit [CharP K 2] in
 theorem xPar_of_isRoot_exact
     {γ : Fin (Tag.rank .F4) → ℤ} (h : IsRoot .F4 γ) (c : K) :
     xPar (rootOperatorFamily .F4) γ c
       = (rootOperatorFamily .F4).eltElement ⟨γ, h⟩ c := by
   classical
   unfold xPar
-  exact dif_pos h
+  exact dite_eq_left h
 
+omit [CharP K 2] in
 theorem f4Par_single_eq_eltElement
     (j : Fin (Tag.rank .F4)) (c : K) :
     f4Par K (Pi.single j 1) c
@@ -266,6 +276,7 @@ theorem f4Par_single_eq_eltElement
   rw [xPar_of_isRoot_exact (isRoot_single .F4 j)]
   rfl
 
+omit [CharP K 2] in
 theorem f4Par_neg_single_eq_eltElement
     (j : Fin (Tag.rank .F4)) (c : K) :
     f4Par K (-Pi.single j 1) c
@@ -275,6 +286,7 @@ theorem f4Par_neg_single_eq_eltElement
   rw [xPar_of_isRoot_exact (isRoot_neg_single .F4 j)]
   rfl
 
+omit [CharP K 2] in
 theorem isPerfect_of_pinnedC3Hom
     (ι : ↥(StatedSp 3 K) →* ↥(adjointGroup .F4 K))
     (hform : ∀ γ c, ι (Sp.x 3 K γ c) = f4Par K (c3ToF4 γ) c)

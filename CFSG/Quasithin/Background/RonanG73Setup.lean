@@ -50,16 +50,16 @@ theorem two_lt_finrank_of_quasisimple {L : Subgroup (GLV V)} (hq : CFSG.IsQuasis
   by_contra hle
   push Not at hle
   have hcard : Nat.card V ≤ 4 := by
-    haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := V), Nat.card_zmod]
     calc 2 ^ Module.finrank (ZMod 2) V ≤ 2 ^ 2 := Nat.pow_le_pow_right (by norm_num) hle
       _ = 4 := by norm_num
   have hsolv : Group.IsSolvable (GLV V) := by
     have := Equiv.Perm.isSolvable (α := V) hcard
     exact Group.isSolvable_of_isSolvable_injective (linToPerm_injective V)
-  haveI : Group.IsSolvable ↥L := solvable_of_solvable_injective L.subtype_injective
-  haveI : Group.IsPerfect ↥L := hq.1
-  haveI : Nontrivial ↥L := by
+  have : Group.IsSolvable ↥L := Group.isSolvable_of_isSolvable_injective L.subtype_injective
+  have : Group.IsPerfect ↥L := hq.1
+  have : Nontrivial ↥L := by
     by_contra hnt
     rw [not_nontrivial_iff_subsingleton] at hnt
     obtain ⟨a, b, hab⟩ := hq.2.2

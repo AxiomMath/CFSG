@@ -77,7 +77,7 @@ theorem vS_spec
     vecOK 9 (vS x) = true ∧ nv sE 9 (vS x) = x := by
   have h := nfS hx
   unfold vS
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact h.choose_spec
 
 @[expose] def Ok5 (w : ℕ) : Prop := w < 4 ^ 5 ∧ ∀ c < 5, dg w c < 3
@@ -126,7 +126,7 @@ theorem dg_add3 {u v c : ℕ} (hc : c < 5) (hu : dg u c < 3) (hv : dg v c < 3) :
       Nat.testBit_shiftRight, Nat.reduceMul, Nat.reduceAdd, Nat.reduceSub] at hA0 hA1 hB0 hB1 ⊢
     simp only [hA0, hA1, hB0, hB1, t341_0, t341_1, t341_2, t341_3, t341_4, t341_5, t341_6,
       t341_7, t341_8, t341_9, Bool.and_false, Bool.false_and, Bool.or_false, Bool.false_or,
-      Bool.and_true, Bool.true_and]
+      Bool.and_true]
     revert hu hv
     cases A0 <;> cases A1 <;> cases B0 <;> cases B1 <;> decide
 
@@ -139,8 +139,8 @@ theorem dg_neg3 {u c : ℕ} (hc : c < 5) (hu : dg u c < 3) : dg (neg3 u) c = (2 
   · simp only [Nat.testBit_or, Nat.testBit_and, Nat.testBit_shiftLeft,
       Nat.testBit_shiftRight, Nat.reduceMul, Nat.reduceAdd, Nat.reduceSub] at hA0 hA1 ⊢
     simp only [hA0, hA1, t341_0, t341_1, t341_2, t341_3, t341_4, t341_5, t341_6,
-      t341_7, t341_8, t341_9, Bool.and_false, Bool.false_and, Bool.or_false, Bool.false_or,
-      Bool.and_true, Bool.true_and]
+      t341_7, t341_8, t341_9, Bool.and_false, Bool.or_false, Bool.false_or,
+      Bool.and_true]
     revert hu
     cases A0 <;> cases A1 <;> decide
 
@@ -292,8 +292,8 @@ theorem epsG_congr (x : ℕ → G) {u v : ℕ} (h : ∀ c < 5, dg u c = dg v c) 
 
 theorem epsG_unit (x : ℕ → G) {c : ℕ} (hc : c < 5) : epsG x (4 ^ c) = x (4 + c) := by
   unfold epsG
-  rw [prod_range_single _ 5 hc fun m _ hmc => by rw [dg_unit, if_neg hmc, pow_zero]]
-  rw [dg_unit, if_pos rfl, pow_one]
+  rw [prod_range_single _ 5 hc fun m _ hmc => by rw [dg_unit, ite_eq_right hmc, pow_zero]]
+  rw [dg_unit, ite_eq_left rfl, pow_one]
 
 end Gen
 
@@ -467,8 +467,7 @@ theorem cj_vec {i j : ℕ} (hij : i < j) (hj : j < 9) :
   simp only [CFSG.KS.PK.bAnd_eq, Bool.and_eq_true, CFSG.KS.PK.allN_iff,
     CFSG.KS.PK.strictB_eq] at hd
   have hcj := (hd.2 i (by omega)).2.2 j hj
-  simp only [CFSG.KS.PK.bIf_eq, Nat.blt_eq, hij, ↓reduceIte, CFSG.KS.PK.strictB_eq,
-    CFSG.KS.PK.bAnd_eq, Bool.and_eq_true, cj_index] at hcj
+  simp only [CFSG.KS.PK.bIf_eq, Nat.blt_eq, hij, ↓reduceIte, Bool.and_eq_true, cj_index] at hcj
   exact hcj.1
 
 theorem colE_eq (CJ k c : ℕ) : colE CJ k c = Nat.shiftRight (f32 CJ (16 * k + (4 + c))) 8 := by
@@ -479,7 +478,7 @@ theorem colE_eq (CJ k c : ℕ) : colE CJ k c = Nat.shiftRight (f32 CJ (16 * k + 
 theorem tauG_eq {G : Type*} [Group G] (x : ℕ → G) (a : ℕ) :
     tauG x a = x 0 ^ dg a 0 * (x 1 ^ dg a 1 * (x 2 ^ dg a 2 * x 3 ^ dg a 3)) := by
   unfold tauG
-  simp [List.range_succ, mul_assoc]
+  simp [List.range_succ]
 
 theorem tau_eq (a : ℕ) :
     tau a = sE 0 ^ dg a 0 * (sE 1 ^ dg a 1 * (sE 2 ^ dg a 2 * sE 3 ^ dg a 3)) := tauG_eq sE a

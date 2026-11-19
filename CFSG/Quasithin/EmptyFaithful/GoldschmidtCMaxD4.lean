@@ -93,7 +93,7 @@ theorem centMaxProp_d4_of_cent3Data (K : Type) [Field K] [Finite K] (hK : Nat.ca
   have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   obtain ⟨U, hUN⟩ := exists_standard_sylow_d4 hK σ
   have hU2 : IsPGroup 2 ↥(U : Subgroup ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) :=
-    U.isPGroup'
+    U.isPGroup
   have hUi : ¬ 2 ∣ (U : Subgroup ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).index :=
     U.not_dvd_index
   obtain ⟨hcard, h3dvd⟩ := h3 _ hU2 hUi

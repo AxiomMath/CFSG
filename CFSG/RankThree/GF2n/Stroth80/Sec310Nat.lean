@@ -13,7 +13,7 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 theorem exists_natural_data_of_subspace {R V N : Subgroup G} (H : StrothHyp M Q Z) (hVQ : V ≤ Q)
-    (hZV : Z ≤ V) (hRH : R ≤ H0 M Z) (hRV : R ≤ Subgroup.normalizer (V : Set G))
+    (_hZV : Z ≤ V) (hRH : R ≤ H0 M Z) (hRV : R ≤ Subgroup.normalizer (V : Set G))
     (hN : ∀ r, r ∈ N ↔ r ∈ R ∧ ∀ v ∈ V, ⁅r, v⁆ ∈ Z) {K : Type} [Field K] [Finite K]
     {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} (h : GlobalModelData M Q Z γ M₀)
     (hS : ∀ (c : K) (e : M₀.E), e ∈ M₀.img V → c • e ∈ M₀.img V) :
@@ -111,7 +111,7 @@ theorem exists_natural_data_of_subspace {R V N : Subgroup G} (H : StrothHyp M Q 
     apply Subtype.ext
     exact hu
   have hn : (Z.subgroupOf V).Normal := hker' ▸ πV.normal_ker
-  haveI := hn
+  have := hn
   let e1 : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative W :=
     (QuotientGroup.quotientMulEquivOfEq hker'.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective πV hsurj)

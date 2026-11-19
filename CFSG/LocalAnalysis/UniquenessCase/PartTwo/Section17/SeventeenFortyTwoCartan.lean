@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem oinf_le_normalizer_inf_sylow {D : Data G} {L : Subgroup G} (hL : L ∈ calC D.M) :
     OInf L ≤ Subgroup.normalizer ((D.T ⊓ L : Subgroup G) : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq := hL.2.2
   have hTsyl : CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ L) L :=
     uc22p22r_fo_sylow_inf D.sylowM hL.1
@@ -69,7 +69,7 @@ theorem oinf_le_normalizer_inf_sylow {D : Data G} {L : Subgroup G} (hL : L ∈ c
 theorem exists_cIsCartanOf {D : Data G} {L : Subgroup G} (hL : L ∈ calC D.M) :
     ∃ C : Subgroup G, CIsCartanOf D.T L C := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T0 : Subgroup G := D.T ⊓ L with hT0def
   have hTsyl : CFSG.ABGLocalTools.IsSylowOf 2 T0 L := uc22p22r_fo_sylow_inf D.sylowM hL.1
   set B : Subgroup G := L ⊓ Subgroup.normalizer (T0 : Set G) with hBdef
@@ -95,8 +95,8 @@ theorem exists_cIsCartanOf {D : Data G} {L : Subgroup G} (hL : L ∈ calC D.M) :
     rw [hidx]
     refine Nat.not_even_iff_odd.mp fun he => ?_
     exact (CFSG.ABGLocalTools.isSylowOf_iff.mp hBsyl).2.2 (even_iff_two_dvd.mp he)
-  haveI := hOn
-  haveI := hPn
+  have := hOn
+  have := hPn
   obtain ⟨C0, hNC0, hodd0, k, hk⟩ :=
     CFSG.GroupTheory.exists_cartan_complement ((OInf L).subgroupOf B) (T0.subgroupOf B)
       hPn hP2 hPodd

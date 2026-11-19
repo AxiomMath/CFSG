@@ -70,7 +70,7 @@ theorem ggF4TWP_minpoly_irreducible (hF : Nat.card F = 4)
     (hax : a * x = x * a) (hx : x ^ 15 = 1) :
     Irreducible (minpoly F x.toLinearMap) := by
   classical
-  haveI : Nontrivial V :=
+  have : Nontrivial V :=
     Module.nontrivial_of_finrank_pos (R := F) (M := V) (by omega)
   have hT15 : (x : V →ₗ[F] V) ^ 15 = 1 := by
     have h := (map_pow
@@ -163,7 +163,7 @@ end Image
 theorem ggF4TWP_seventeen_dvd_card_GL_six (E : Type) [Field E] [Finite E]
     (hE : Nat.card E = 4) : 17 ∣ Nat.card (GL (Fin 6) E) := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   rw [Matrix.card_GL_field (𝔽 := E) (n := 6), ← Nat.card_eq_fintype_card, hE]
   have hfac : 17 ∣ (4 ^ 6 - 4 ^ 2) := by norm_num
   exact hfac.trans
@@ -172,7 +172,7 @@ theorem ggF4TWP_seventeen_dvd_card_GL_six (E : Type) [Field E] [Finite E]
 theorem ggF4TWP_seventeen_dvd_card_GL_three (E : Type) [Field E] [Finite E]
     (hE : Nat.card E = 16) : 17 ∣ Nat.card (GL (Fin 3) E) := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   rw [Matrix.card_GL_field (𝔽 := E) (n := 3), ← Nat.card_eq_fintype_card, hE]
   have hfac : 17 ∣ (16 ^ 3 - 16 ^ 1) := by norm_num
   exact hfac.trans
@@ -195,10 +195,10 @@ theorem ggF4TWP_exists_seventeen_commute {F : Type} [Field F] [Finite F]
     ggF4TWP_minpoly_irreducible hF hV (e A) (e X) ha ha1 hax hx
   have hdvd2 : m.natDegree ∣ 2 :=
     ggF4TWP_minpoly_natDegree_dvd_two hF hV (e A) (e X) ha ha1 hax hx
-  haveI hFact : Fact (Irreducible m) := ⟨hirr⟩
+  have hFact : Fact (Irreducible m) := ⟨hirr⟩
   have hm0 : m ≠ 0 := minpoly.ne_zero_of_finite F (e X).toLinearMap
-  haveI : Module.Finite F (AdjoinRoot m) := (AdjoinRoot.powerBasis hm0).finite
-  haveI : Finite (AdjoinRoot m) := Module.finite_of_finite F
+  have : Module.Finite F (AdjoinRoot m) := (AdjoinRoot.powerBasis hm0).finite
+  have : Finite (AdjoinRoot m) := Module.finite_of_finite F
   have hdim : Module.finrank F (Fin 6 → F) =
       m.natDegree * Module.finrank (AdjoinRoot m)
         (CFSG.RankThree.PartOne.KCPrimary.primaryComponent (e X).toLinearMap m) :=
@@ -240,8 +240,8 @@ theorem ggF4TWP_exists_seventeen_commute {F : Type} [Field F] [Finite F]
       have hE16 : Nat.card (AdjoinRoot m) = 16 := by rw [hcardE, h2]; norm_num
       rw [hn]
       exact ggF4TWP_seventeen_dvd_card_GL_three (AdjoinRoot m) hE16
-  haveI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
-  haveI : Finite ((Fin 6 → F) ≃ₗ[F] (Fin 6 → F)) :=
+  have : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+  have : Finite ((Fin 6 → F) ≃ₗ[F] (Fin 6 → F)) :=
     Finite.of_equiv (GL (Fin 6) F) e.toEquiv
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.centralizer ({e X} : Set ((Fin 6 → F) ≃ₗ[F] (Fin 6 → F))))) 17 h17card

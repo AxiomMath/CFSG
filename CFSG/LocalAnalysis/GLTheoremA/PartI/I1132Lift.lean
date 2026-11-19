@@ -102,7 +102,7 @@ theorem i1132_of_good {X B L : Subgroup G} (hB : GLAIsBmax 3 B) (hBX : B ≤ X)
         Nat.card E = 3 ^ 3 := by
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   set π := QuotientGroup.mk' (GLAPPrimeCore 3 ↥X) with hπ
   have hBp : IsPGroup 3 B := GLAIsBmax.isPGroup hB
   have hLX : L ≤ X := hL.1

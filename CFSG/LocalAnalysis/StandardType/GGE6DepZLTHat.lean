@@ -30,9 +30,9 @@ theorem tFrame_hat {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
       (∀ i, q (û i) = D.nb i) ∧ (∀ i, q (ĥ i) ∈ D.V0) ∧ (∀ i, ⁅û i, ĥ i⁆ = ĥ i) ∧
       q.ker ≤ Subgroup.closure (Set.range ĥ) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 (2 * n)) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 (2 * n)) := Fintype.ofFinite _
   have hcard : Fintype.card (GaloisField 2 (2 * n)) = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       card_galoisField_two_mul 2 n hn, hK]
@@ -42,10 +42,10 @@ theorem tFrame_hat {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
       rw [RingHom.comp_apply, RingHom.comp_apply, frobQ_apply, map_pow]
       exact (hσ (τ c)).symm
   obtain ⟨q, hqsurj, hqcenter, hqb⟩ := exists_qGeo (Ω := Ω) hn hK σ hσ τ hτ
-  haveI : Algebra.IsAlgebraic K Ω := IsAlgClosure.isAlgebraic
+  have : Algebra.IsAlgebraic K Ω := IsAlgClosure.isAlgebraic
   obtain ⟨E, hEfin, hζE_mem, hKE, gE, hgE_mem, hgEeq⟩ :=
     exists_finiteData (K := K) hL.1 ζ
-  haveI : Finite E := hEfin
+  have : Finite E := hEfin
   let ι : GaloisField 2 (2 * n) →+* E :=
     (((algebraMap K Ω).comp τ.toRingHom).codRestrict E fun c => hKE ⟨τ c, rfl⟩)
   have hι : E.subtype.comp ι = (algebraMap K Ω).comp τ.toRingHom := by

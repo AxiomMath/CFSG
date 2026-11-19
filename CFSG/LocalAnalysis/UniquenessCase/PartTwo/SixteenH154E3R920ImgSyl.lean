@@ -27,7 +27,7 @@ theorem isL2_bar2_xbar9 {Y H L : Subgroup G} {m : ℕ} (hY : Opp 3 Y = L) (hLH :
 theorem isSylowOf_two_img9_subgroupOf {Y H S : Subgroup G} (hYH : Y ≤ H)
     (hSH : CFSG.ABGLocalTools.IsSylowOf 2 S H) :
     CFSG.ABGLocalTools.IsSylowOf 2 ((F09.img9 H S).subgroupOf (F09.img9 H (F09.L9 Y H))) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSodd : ¬ 2 ∣ (S.subgroupOf H).index :=
     (CFSG.ABGLocalTools.isSylowOf_iff.mp hSH).2.2
   have hSbSyl : CFSG.ABGLocalTools.IsSylowOf 2 (F09.img9 H S) ⊤ := by
@@ -38,7 +38,7 @@ theorem isSylowOf_two_img9_subgroupOf {Y H S : Subgroup G} (hYH : Y ≤ H)
       exact fun h2 => hSodd (h2.trans (Subgroup.index_map_dvd (S.subgroupOf H)
         (f := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H))
         (QuotientGroup.mk'_surjective _)))
-  haveI hLbNormal : (F09.img9 H (F09.L9 Y H)).Normal := F09.img9_L9_normal hYH
+  have hLbNormal : (F09.img9 H (F09.L9 Y H)).Normal := F09.img9_L9_normal hYH
   have hP : CFSG.ABGLocalTools.IsSylowOf 2
       (F09.img9 H S ⊓ F09.img9 H (F09.L9 Y H)) (F09.img9 H (F09.L9 Y H)) :=
     hSbSyl.inf_of_le_normalizer le_top
@@ -73,7 +73,7 @@ theorem L9_le_sup_of_wbar9_eq_top (D : Data G) {Y H : Subgroup G} (hYH : Y ≤ H
     Subgroup.mem_map.mpr ⟨mH⁻¹ * (⟨l, hlH⟩ : ↥H), hker, rfl⟩
   have hprod : (mH : G) * ((mH⁻¹ * (⟨l, hlH⟩ : ↥H) : ↥H) : G) = l := by
     have h1 : mH * (mH⁻¹ * (⟨l, hlH⟩ : ↥H)) = (⟨l, hlH⟩ : ↥H) := by group
-    simpa using congrArg (Subgroup.subtype H) h1
+    simp
   rw [← hprod]
   exact (F09.I9 H ⊔ (H ⊓ D.M)).mul_mem (Subgroup.mem_sup_right hmG) (Subgroup.mem_sup_left hI)
 

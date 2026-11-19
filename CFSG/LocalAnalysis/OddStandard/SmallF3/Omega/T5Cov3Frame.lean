@@ -15,25 +15,29 @@ open Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {ι : Type} [Fintype ι] [DecidableEq ι]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem NFrame.permOrth_conj_signChange {c : ZMod 3} (fr : NFrame Q ι c) (σ : Equiv.Perm ι)
     (J : Finset ι) :
     fr.permOrth σ * fr.signChange J * (fr.permOrth σ)⁻¹ =
       fr.signChange (J.map σ.toEmbedding) := by
   rw [fr.permOrth_mul_signChange σ J, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem NFrame.permOrth_comm_signChange {c : ZMod 3} (fr : NFrame Q ι c) {σ : Equiv.Perm ι}
     {J : Finset ι} (h : J.map σ.toEmbedding = J) :
     fr.permOrth σ * fr.signChange J = fr.signChange J * fr.permOrth σ := by
   rw [fr.permOrth_mul_signChange σ J, h]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem NFrame.signChange_univ {c : ZMod 3} (fr : NFrame Q ι c) :
     fr.signChange Finset.univ = piOrth Q := by
   apply Subtype.ext
   apply fr.b.ext'
   intro i
-  rw [fr.signChange_basis Finset.univ i, if_pos (Finset.mem_univ i)]
+  rw [fr.signChange_basis Finset.univ i, ite_eq_left (Finset.mem_univ i)]
   exact (coe_piOrth_apply (Q := Q) (fr.b i)).symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem NFrame.signChange_mem_twoRes {c : ZMod 3} (fr : NFrame Q ι c)
     {H : Subgroup (OGroup Q)} {σ : Equiv.Perm ι} (hσ3 : σ ^ 3 = 1) {J : Finset ι}
     (hp : fr.permOrth σ ∈ H) (ht : fr.signChange J ∈ H)

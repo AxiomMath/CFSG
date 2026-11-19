@@ -25,7 +25,7 @@ theorem stabilizer_card_ne_rSix_cases
       Nat.card (fixingSubgroup P s) = 13063680) :
     False := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   have hSevenDvdH : 7 ∣ Nat.card H := by
     rcases hCases with hH | hH
@@ -41,7 +41,7 @@ theorem stabilizer_card_ne_rSix_cases
   let F := Function.fixedPoints g
   let ρ : D →* Equiv.Perm F :=
     subgroupCentralizerToFixedPoints P uP
-  letI : MulAction D F :=
+  let : MulAction D F :=
     MulAction.compHom F ρ
   have huP : orderOf uP = 7 := by
     calc
@@ -249,7 +249,7 @@ theorem stabilizer_card_ne_rSix_cases
           Subgroup.card_range_dvd ρ)
   have hAltCard :
       Nat.card (alternatingGroup F) = 1814400 := by
-    letI : Nontrivial F :=
+    let : Nontrivial F :=
       Fintype.one_lt_card_iff_nontrivial.mp (by omega)
     rw [Nat.card_eq_fintype_card,
       card_alternatingGroup, hFcard]

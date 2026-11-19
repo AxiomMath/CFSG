@@ -122,13 +122,13 @@ private theorem str86_critPath_odd_T313_turn
   have hlam'0 : lam' 0 = μ := by simp [lam']
   have hlam'1 : lam' 1 = lam (str86CritB L1 L2 S) := by
     dsimp only [lam']
-    rw [if_neg (by decide : (1 : ℕ) ≠ 0), Nat.add_sub_cancel]
+    rw [ite_eq_right (by decide : (1 : ℕ) ≠ 0), Nat.add_sub_cancel]
   have hlam'b : lam' (str86CritB L1 L2 S) = lam 1 := by
     dsimp only [lam']
-    rw [if_neg hb0, Nat.add_sub_cancel_left]
+    rw [ite_eq_right hb0, Nat.add_sub_cancel_left]
   have hlam'bm1 : lam' (str86CritB L1 L2 S - 1) = lam 2 := by
     dsimp only [lam']
-    rw [if_neg hbm1]
+    rw [ite_eq_right hbm1]
     have h : str86CritB L1 L2 S + 1 - (str86CritB L1 L2 S - 1) = 2 := by omega
     rw [h]
   have hadj : ∀ i, i < str86CritB L1 L2 S →
@@ -140,9 +140,9 @@ private theorem str86_critPath_odd_T313_turn
       exact CosetGeom.mem_nbrs_symm hμ
     · have hi1 : i + 1 ≠ 0 := by omega
       rw [show lam' i = lam (str86CritB L1 L2 S + 1 - i) from by
-            dsimp only [lam']; rw [if_neg (by omega)],
+            dsimp only [lam']; rw [ite_eq_right (by omega)],
           show lam' (i + 1) = lam (str86CritB L1 L2 S + 1 - (i + 1)) from by
-            dsimp only [lam']; rw [if_neg hi1]]
+            dsimp only [lam']; rw [ite_eq_right hi1]]
       have h := (hP.isGeo.adj (i := str86CritB L1 L2 S - i) (by omega)).symm
       have e1 : str86CritB L1 L2 S + 1 - i = str86CritB L1 L2 S - i + 1 := by omega
       have e2 : str86CritB L1 L2 S + 1 - (i + 1) = str86CritB L1 L2 S - i := by omega

@@ -100,7 +100,7 @@ theorem le_pPrimeCoreOf_of_commutator_mem {p : ℕ} [hp : Fact p.Prime] {D N V R
       rw [h2]
       exact (Subgroup.mem_normalizer_iff.mp (hDV hd) _).mp h1
   obtain ⟨P⟩ : Nonempty (Sylow p ↥C₀) := inferInstance
-  have hP' : IsPGroup p ((P : Subgroup ↥C₀).map C₀.subtype) := P.isPGroup'.map _
+  have hP' : IsPGroup p ((P : Subgroup ↥C₀).map C₀.subtype) := P.isPGroup.map _
   have hPN : ∀ x : ↥C₀, x ∈ (P : Subgroup ↥C₀) → (x : G) ∈ N := fun x hx =>
     le_of_isPGroup_of_le_sup hDN hDR hRN hR ((Subgroup.map_subtype_le _).trans hC₀D) hP'
       ⟨x, hx, rfl⟩
@@ -122,7 +122,7 @@ theorem le_pPrimeCoreOf_of_commutator_mem {p : ℕ} [hp : Fact p.Prime] {D N V R
     exact commutatorElement_eq_one_iff_mul_comm.mp (Subtype.ext h3)
   obtain ⟨K₀, hK₀n, hK₀p, hK₀idx, -⟩ := GroupTheory.burnside_normal_complement P hNC
   have hq : IsPGroup p (↥C₀ ⧸ K₀) := by
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     exact IsPGroup.of_card (hK₀idx.trans hk)
   have hJ' : ¬ p ∣ Nat.card (J.subgroupOf C₀) := by
     rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hJC).toEquiv]

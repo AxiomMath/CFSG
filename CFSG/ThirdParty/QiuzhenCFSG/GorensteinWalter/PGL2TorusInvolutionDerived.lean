@@ -164,7 +164,7 @@ public theorem pgl2_torus_involution_mem_commutator
     have hx1' : x = 1 := by
       apply Subtype.ext
       exact hx1
-    have : (1 : ℕ) = 2 := by simpa [hx1'] using hxord
+    have : (1 : ℕ) = 2 := by simp [hx1'] at hxord
     norm_num at this
   have hxeq : xG = s :=
     pgl2_unique_involution_of_cyclic_subgroup U hUcyc hsU hssq hsne

@@ -108,8 +108,8 @@ theorem lin_two_std_form {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian
       (P : Fin (Module.finrank (ZMod 2) V / 2) → Submodule (ZMod 2) V)
       (V0 : Submodule (ZMod 2) V), LinTwoStdFrame E x P V0 := by
   classical
-  haveI : IsMulCommutative ↥E := hE.1
-  haveI : Fintype E := Fintype.ofFinite E
+  have : IsMulCommutative ↥E := hE.1
+  have : Fintype E := Fintype.ofFinite E
   have hcard' : 3 ^ (Module.finrank (ZMod 2) V / 2) ≤ Fintype.card E := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
@@ -131,7 +131,7 @@ theorem lin_two_std_form {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian
     have hsome : g (eqv.symm q).1 = some (eqv ⟨(eqv.symm q).1, h2⟩) := by
       change (if h : Module.finrank (ZMod 2) (X (eqv.symm q).1) = 2 then
         some (eqv ⟨(eqv.symm q).1, h⟩) else none) = some (eqv ⟨(eqv.symm q).1, h2⟩)
-      rw [dif_pos h2]
+      rw [dite_eq_left h2]
     rw [hsome]
     have hsub : (⟨(eqv.symm q).1, h2⟩ :
         {i // Module.finrank (ZMod 2) (X i) = 2}) = eqv.symm q := Subtype.ext rfl
@@ -147,7 +147,7 @@ theorem lin_two_std_form {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian
         · have hsome : g i.1 = some (eqv ⟨i.1, h2⟩) := by
             change (if h : Module.finrank (ZMod 2) (X i.1) = 2 then
               some (eqv ⟨i.1, h⟩) else none) = some (eqv ⟨i.1, h2⟩)
-            rw [dif_pos h2]
+            rw [dite_eq_left h2]
           have heq : eqv ⟨i.1, h2⟩ = q := Option.some.inj (hsome ▸ hgi)
           have hsub : (⟨i.1, h2⟩ :
               {i // Module.finrank (ZMod 2) (X i) = 2}) = eqv.symm q := by
@@ -156,7 +156,7 @@ theorem lin_two_std_form {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian
         · have hnone : g i.1 = none := by
             change (if h : Module.finrank (ZMod 2) (X i.1) = 2 then
               some (eqv ⟨i.1, h⟩) else none) = none
-            rw [dif_neg h2]
+            rw [dite_eq_right h2]
           rw [hnone] at hgi
           exact absurd hgi (by simp)
       rw [hi]
@@ -295,7 +295,7 @@ theorem lin_two_std_form {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian
         have hsome : g i.1 = some (eqv ⟨i.1, h2⟩) := by
           change (if h : Module.finrank (ZMod 2) (X i.1) = 2 then
             some (eqv ⟨i.1, h⟩) else none) = some (eqv ⟨i.1, h2⟩)
-          rw [dif_pos h2]
+          rw [dite_eq_left h2]
         have hi2 : g i.1 = none := i.2
         rw [hsome] at hi2
         nomatch hi2

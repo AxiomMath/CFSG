@@ -115,7 +115,7 @@ theorem exists_lift_LayT : ∃ τ ∈ Seven.Lay s.h s.y, ∃ hτ : τ ∈ s.h.se
     have hS2 : IsPGroup 2 ((s.hr.S ⊓ s.h.secG0 s.y).subgroupOf M) := hT2.comap_subtype
     obtain ⟨P, hP⟩ := hS2.exists_le_sylow
     refine ⟨P, le_antisymm (fun q hq => ?_) hP⟩
-    have hP2 : IsPGroup 2 ((P : Subgroup ↥M).map M.subtype) := P.isPGroup'.map _
+    have hP2 : IsPGroup 2 ((P : Subgroup ↥M).map M.subtype) := P.isPGroup.map _
     have hSP : s.hr.S ⊓ s.h.secG0 s.y ≤ (P : Subgroup ↥M).map M.subtype := fun x hx =>
       ⟨⟨x, hTM hx⟩, hP (show (⟨x, hTM hx⟩ : ↥M) ∈ (s.hr.S ⊓ s.h.secG0 s.y).subgroupOf M
         from hx), rfl⟩

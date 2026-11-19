@@ -13,7 +13,7 @@ theorem nonempty_mulEquiv_perm_six {M : Type*} [Group M] {D K : Subgroup M} (hKD
     (hcore : ∀ d ∈ D, (∀ g ∈ D, g * d * g⁻¹ ∈ K) → d = 1) :
     Nonempty (↥D ≃* Equiv.Perm (Fin 6)) := by
   classical
-  haveI : Finite ↥D := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite ↥D := Nat.finite_of_card_ne_zero (by omega)
   have hK' : Nat.card (K.subgroupOf D) = 120 := by
     rw [← hK]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKD).toEquiv

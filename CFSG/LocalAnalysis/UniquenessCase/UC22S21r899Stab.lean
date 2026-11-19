@@ -13,6 +13,7 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22r899_map_conj_mem {M L : Subgroup G} {g : G} (hg : g ∈ M) {N : Subgroup G}
     (hN : N ∈ conjSetOf M L) : N.map (MulAut.conj g).toMonoidHom ∈ conjSetOf M L := by
   obtain ⟨h, hh, rfl⟩ := hN
@@ -23,9 +24,9 @@ theorem uc22r899_mem_normalizer_of_fix {M L : Subgroup G} (hc3 : (conjSetOf M L)
     (hfix : q = 3 → ∃ N ∈ conjSetOf M L, g ∈ normalizer (N : Set G)) :
     ∀ N ∈ conjSetOf M L, g ∈ normalizer (N : Set G) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Finite ↥(conjSetOf M L) := Set.toFinite _
-  letI : Fintype ↥(conjSetOf M L) := Fintype.ofFinite _
+  have : Fact q.Prime := ⟨hq⟩
+  have : Finite ↥(conjSetOf M L) := Set.toFinite _
+  let : Fintype ↥(conjSetOf M L) := Fintype.ofFinite _
   let f : Function.End ↥(conjSetOf M L) := fun N =>
     ⟨(N : Subgroup G).map (MulAut.conj g).toMonoidHom, uc22r899_map_conj_mem hg N.2⟩
   have hfpow : ∀ m : ℕ, ∀ N : ↥(conjSetOf M L),
@@ -82,8 +83,8 @@ theorem uc22r899_exists_elemAbelian_stab {M L P : Subgroup G} {p : ℕ} (hp : p.
       ∀ a ∈ A, ∀ N ∈ conjSetOf M L, a ∈ normalizer (N : Set G) := by
   classical
   have hL : L ∈ conjSetOf M L := ⟨1, M.one_mem, by ext x; simp⟩
-  letI : SMul ↥P (Subgroup G) := ⟨fun a N => N.map (MulAut.conj (a : G)).toMonoidHom⟩
-  letI : MulAction ↥P (Subgroup G) :=
+  let : SMul ↥P (Subgroup G) := ⟨fun a N => N.map (MulAut.conj (a : G)).toMonoidHom⟩
+  let : MulAction ↥P (Subgroup G) :=
     { one_smul := fun N => by
         show N.map (MulAut.conj ((1 : ↥P) : G)).toMonoidHom = N
         ext x

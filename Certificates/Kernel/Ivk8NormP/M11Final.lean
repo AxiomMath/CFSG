@@ -126,7 +126,7 @@ theorem m11_hh :
   obtain ⟨T, hT⟩ := hE'p.exists_le_sylow
   have hTc : E' = (T : Subgroup G) := by
     refine Subgroup.eq_of_le_of_card_ge hT ?_
-    obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 T.isPGroup'
+    obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 T.isPGroup
     have hdvd : Nat.card T ∣ 7920 := by
       rw [← card_M11]
       exact Subgroup.card_subgroup_dvd_card _

@@ -38,7 +38,7 @@ theorem isConj_uv_xyuv_of_d2 (h : F.IsD D dD) {d2 : G}
     refine isConj_iff.2 ⟨(dD.ofTorus (-v))⁻¹, ?_⟩
     simpa [huv] using hconj'
 
-theorem IsD.omegaIn_one_eq_closure_w_a_sq_b_sq (h : F.IsD D dD) :
+theorem omegaIn_one_eq_closure_w_a_sq_b_sq (h : F.IsD D dD) :
     omegaIn 1 D = Subgroup.closure ({(F.dA.c : G), ((F.dA.a : G) ^ 2),
       ((F.dA.b : G) ^ 2)} : Set G) := by
   rw [h.omegaIn_one_eq, omegaIn_one_t100 F.dA]
@@ -54,7 +54,7 @@ theorem t100_uv_not_fixes_w (F : StrothFrame G) :
       Torus.c + (2 : ℕ) • Torus.a + (2 : ℕ) • Torus.b
     rw [Type100.uv_c 1]
     funext i
-    fin_cases i <;> simp [Torus.c, Torus.a, Torus.b, gen, Pi.single_apply, zsmul_eq_mul]
+    fin_cases i <;> simp [Torus.c, Torus.a, Torus.b, gen, zsmul_eq_mul]
     all_goals decide
   have h := F.dA.conj_ofTorus F.dA.uv_mem F.dA.uv_conj
     (Torus.c (k := (StrothTypeIndex.t100 1).k))
@@ -67,7 +67,7 @@ theorem t100_uv_not_fixes_w (F : StrothFrame G) :
       simpa [show F.dA.ofTorus (Torus.c (k := (StrothTypeIndex.t100 1).k)) =
         ((F.dA.c : F.A) : G) from rfl] using h.symm)
   have hcoord := congrFun hc 1
-  simp [Torus.c, Torus.a, Torus.b, gen, Pi.single_apply] at hcoord
+  simp [Torus.c, Torus.a, Torus.b, gen] at hcoord
   change (2 : ZMod 4) = 0 at hcoord
   exact (by decide : ¬ ((2 : ZMod 4) = 0)) hcoord
 
@@ -80,7 +80,7 @@ theorem t100_uv_fixed_torus :
           (2 : ℕ) • Torus.b (k := (StrothTypeIndex.t100 1).k)} :
         Set (Torus (StrothTypeIndex.t100 1).k)) := by
   ext v
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   revert v
   decide
 
@@ -93,7 +93,7 @@ theorem t100_uv_fixes_a_sq (F : StrothFrame G) :
       (2 : ℕ) • Torus.a (k := Type100.k 1)
     rw [map_nsmul, Type100.uv_a 1]
     funext i
-    fin_cases i <;> simp [Torus.c, Torus.a, Torus.b, gen, Pi.single_apply, nsmul_eq_mul]
+    fin_cases i <;> simp [Torus.c, Torus.a, Torus.b, gen, nsmul_eq_mul]
     all_goals decide
   have h := F.dA.conj_ofTorus F.dA.uv_mem F.dA.uv_conj
     ((2 : ℕ) • Torus.a (k := (StrothTypeIndex.t100 1).k))
@@ -123,7 +123,7 @@ theorem t100_uv_fixes_b_sq (F : StrothFrame G) :
       (2 : ℕ) • Torus.a (k := Type100.k 1)
     rw [map_nsmul, Type100.uv_a 1]
     funext i
-    fin_cases i <;> simp [Torus.c, Torus.a, Torus.b, gen, Pi.single_apply, nsmul_eq_mul]
+    fin_cases i <;> simp [Torus.c, Torus.a, Torus.b, gen, nsmul_eq_mul]
     all_goals decide
   have hφ : (StrothTypeIndex.t100 1).action.φuv
       ((2 : ℕ) • Torus.b (k := (StrothTypeIndex.t100 1).k)) =
@@ -150,7 +150,7 @@ theorem t100_uv_fixes_b_sq (F : StrothFrame G) :
 theorem t100_uv_fixed_group (F : StrothFrame G) :
     (omegaIn 1 F.A) ⊓ Subgroup.centralizer ({(F.dA.uv : G)} : Set G) =
       Subgroup.closure ({(F.dA.a : G) ^ 2, (F.dA.b : G) ^ 2} : Set G) := by
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hcomm : ∀ x ∈ F.A, ∀ y ∈ F.A, x * y = y * x :=
     fun x hx y hy => mul_comm_mem_of_isMulCommutative hx hy
   let K : Subgroup G := Subgroup.closure ({(F.dA.a : G) ^ 2, (F.dA.b : G) ^ 2} : Set G)
@@ -231,7 +231,7 @@ theorem t100_uv_fixed_set (F : StrothFrame G) :
     {g : G | g ∈ omegaIn 1 F.A ∧ F.dA.uv⁻¹ * g * F.dA.uv = g} =
       Subgroup.closure ({(F.dA.a : G) ^ 2, (F.dA.b : G) ^ 2} : Set G) := by
   ext g
-  rw [Set.mem_setOf_eq, ← t100_uv_fixed_group F]
+  rw [Set.mem_ofPred_eq, ← t100_uv_fixed_group F]
   constructor
   · rintro ⟨hg, hfix⟩
     refine ⟨hg, ?_⟩
@@ -247,7 +247,7 @@ theorem t100_uv_fixed_set (F : StrothFrame G) :
       _ = F.dA.uv⁻¹ * (F.dA.uv * g) := by rw [hgc]
       _ = g := by group
 
-theorem IsD.omegaIn_one_uv_fixed_eq (h : F.IsD D dD) :
+theorem omegaIn_one_uv_fixed_eq (h : F.IsD D dD) :
     {g : G | g ∈ omegaIn 1 D ∧ dD.uv⁻¹ * g * dD.uv = g} =
       Subgroup.closure ({((F.dA.a : G)⁻¹) ^ 2, ((F.dA.b : G)⁻¹) ^ 2} : Set G) := by
   have ha4 : (F.dA.a : G) ^ 4 = 1 := by
@@ -294,6 +294,7 @@ theorem t310_u_a_half (m : ℕ) (hm : 2 ≤ m) :
   rw [map_nsmul, Type310.u_a m hm]
   simp
 
+omit [Finite G] in
 theorem t310_u_swaps_a_half {D : Subgroup G} {m : ℕ} (hm : 2 ≤ m)
     (dD : StrothWeakTypeData D (StrothTypeIndex.t310 m hm)) :
     dD.u⁻¹ * ((dD.a : G) ^ 2 ^ (m - 1)) * dD.u = (dD.b : G) ^ 2 ^ (m - 1) := by
@@ -312,11 +313,11 @@ theorem t310_uv_fixes_a (m : ℕ) (hm : 2 ≤ m) :
     (2 ^ (m - 1) : ℕ) • Torus.a (k := Type310.k m)
   dsimp only [Type310.action, SigmaFourAction.ofMatEq, SigmaFourAction.φuv, Torus.a]
   rw [map_nsmul, matAct_gen_eq]
-  simp [Type310.uvM, Type310.uvA, Type310.ρM, Type310.tM, uMat, ofCols, Matrix.of_apply,
+  simp [Type310.uvM, Type310.uvA, Type310.ρM, Type310.tM, ofCols, Matrix.of_apply,
     Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
     Matrix.tail_cons, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
   funext i
-  fin_cases i <;> simp [gen, Pi.single_apply, zsmul_eq_mul]
+  fin_cases i <;> simp [gen]
   · have hzero : ((2 : ZMod (2 ^ m)) ^ m) = 0 := by
       rw [show (2 : ZMod (2 ^ m)) = ((2 : ℕ) : ZMod (2 ^ m)) from by norm_num]
       rw [← Nat.cast_pow, ZMod.natCast_self]
@@ -366,7 +367,7 @@ theorem t310_φuv_a_add_b (m : ℕ) (hm : 2 ≤ m) :
   rw [map_add, Type310.uv_a m hm, Type310.uv_b m hm]
   funext i
   fin_cases i <;>
-    simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, Torus.ofInt, zsmul_eq_mul]
+    simp [Torus.a, Torus.b, Torus.c, gen, Torus.ofInt, zsmul_eq_mul]
   all_goals ring
 
 theorem t310_uv_preimage {m : ℕ} (hm : 2 ≤ m) :
@@ -423,22 +424,18 @@ theorem t310_uv_preimage {m : ℕ} (hm : 2 ≤ m) :
     fin_cases i
     · rw [Int.modEq_iff_dvd]
       refine ⟨8 * N - 1, ?_⟩
-      simp only [Type310.k, Pi.sub_apply, hN2, Fin.isValue, Fin.zero_eta, Fin.mk_one,
-        Fin.reduceFinMk, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-        Matrix.head_cons, Matrix.tail_cons]
+      simp only [Type310.k, Pi.sub_apply, hN2, Fin.isValue, Fin.zero_eta, Matrix.cons_val_zero]
       rw [← h8N]
       ring_nf
     · rw [Int.modEq_iff_dvd]
       refine ⟨2 * N, ?_⟩
-      simp only [Type310.k, Pi.sub_apply, hN2, Fin.isValue, Fin.zero_eta, Fin.mk_one,
-        Fin.reduceFinMk, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-        Matrix.head_cons, Matrix.tail_cons]
+      simp only [Type310.k, Pi.sub_apply, hN2, Fin.isValue, Fin.mk_one,
+        Matrix.cons_val_zero, Matrix.cons_val_one]
       rw [← h8N]
       ring_nf
     · rw [Int.modEq_iff_dvd]
       refine ⟨2 * N, ?_⟩
-      simp only [Type310.k, Pi.sub_apply, hN2, Fin.isValue, Fin.zero_eta, Fin.mk_one,
-        Fin.reduceFinMk, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+      simp only [Type310.k, Pi.sub_apply, hN2, Fin.isValue, Fin.reduceFinMk, Matrix.cons_val_two,
         Matrix.head_cons, Matrix.tail_cons]
       rw [← h8N]
       ring_nf
@@ -471,8 +468,8 @@ theorem t310_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 2 ≤
   set bh : G := (dD.b : G) ^ 2 ^ (m - 1) with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 ^ (m - 2) * ab ^ 2 ^ (m - 2) = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 2 ^ m := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a]
     rfl
@@ -633,7 +630,7 @@ theorem t310_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 2 ≤
       (2 ^ (m - 1) : ℕ) • Torus.b (k := (StrothTypeIndex.t310 m hm).k) := by
     intro htor
     have h1 := congrFun htor 1
-    simp [Torus.a, Torus.b, gen, Pi.single_apply, nsmul_eq_mul] at h1
+    simp [Torus.a, Torus.b, gen, nsmul_eq_mul] at h1
     exact two_pow_pred_ne_zero (n := m) (by omega) h1
   have hahb_ne : ah ≠ bh := by
     intro heq
@@ -681,6 +678,7 @@ theorem t310_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 2 ≤
     · exact absurd hahxy hah_ne_xy
   exact hLHS.trans hmain
 
+omit [Finite G] in
 theorem t310_d2_ofTorus {D : Subgroup G} {m : ℕ} {hm : 2 ≤ m}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t310 m hm)} :
     ((dD.a : G) * (dD.b : G)) ^ 2 ^ (m - 2) =
@@ -700,8 +698,8 @@ theorem t310_d2_mem_A {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 2 ≤
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _

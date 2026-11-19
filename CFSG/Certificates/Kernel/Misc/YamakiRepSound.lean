@@ -26,7 +26,7 @@ theorem rows_of_chunks {L m : ℕ} (h : ∀ q < m, chunkK R st o n k L q = true)
     rw [Nat.mul_comm] at this
     exact this)
   have hb : Nat.blt t n = true := Nat.blt_eq.mpr ht
-  rw [hb, cond_true] at e
+  rw [hb, _root_.Bool.cond_true] at e
   exact e
 
 theorem build_of_rows (h : ∀ t < n, rowK R st o n k t = true) :
@@ -36,7 +36,7 @@ theorem build_of_rows (h : ∀ t < n, rowK R st o n k t = true) :
   have e := h i (by omega)
   unfold rowK buildAt at e
   have hb : Nat.blt (Nat.succ i) n = true := Nat.blt_eq.mpr (by omega)
-  rw [hb, cond_true] at e
+  rw [hb, _root_.Bool.cond_true] at e
   simp only [Bool.and_eq_true, Nat.ble_eq, Nat.blt_eq, Nat.beq_eq] at e
   obtain ⟨⟨⟨⟨a, b⟩, c⟩, -⟩, -⟩ := e
   exact ⟨a, b, c⟩
@@ -51,7 +51,7 @@ theorem stepAt_facts {X PA PB C POS : ℕ → ℕ} {i : ℕ}
   obtain ⟨⟨⟨⟨a, b⟩, c⟩, d⟩, e⟩ := h
   refine ⟨a, b, c, d, fun hpc => ?_, fun hpc => ?_⟩
   · have hb : Nat.beq (POS i) (C i) = true := Nat.beq_eq.mpr hpc
-    rw [hb, cond_true] at e
+    rw [hb, _root_.Bool.cond_true] at e
     simp only [Bool.and_eq_true, Nat.beq_eq] at e
     obtain ⟨⟨e1, e2⟩, e3⟩ := e
     rw [Nat.pred_eq_sub_one] at e2 e3
@@ -60,7 +60,7 @@ theorem stepAt_facts {X PA PB C POS : ℕ → ℕ} {i : ℕ}
       cases hq : Nat.beq (POS i) (C i)
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hq) hpc
-    rw [hb, cond_false] at e
+    rw [hb, Bool.cond_false] at e
     exact Nat.eq_of_beq_eq_true e
 
 theorem step_of_rows (hk0 : 0 < k) (hk : k ≤ 64) (h : ∀ t < n, rowK R st o n k t = true) :
@@ -90,7 +90,7 @@ theorem sort_of_rows (h : ∀ t < n, rowK R st o n k t = true) :
     simp only [Bool.and_eq_true] at e
     have e2 := e.2.2
     have hb : Nat.blt (Nat.succ i) n = true := Nat.blt_eq.mpr hi1
-    rw [hb, cond_true] at e2
+    rw [hb, _root_.Bool.cond_true] at e2
     exact Nat.blt_eq.mp e2
 
 theorem recX_lt {g : ℕ} (h0 : recX R o 0 = ONE)

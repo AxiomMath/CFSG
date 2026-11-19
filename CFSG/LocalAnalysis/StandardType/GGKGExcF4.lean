@@ -136,7 +136,7 @@ private theorem kgf_quotSp_iso
     {X : Type} [Group X] (g : StatedSp m K →* X) (hg : Function.Surjective g)
     (hker : g.ker ≤ Subgroup.center (StatedSp m K)) :
     Nonempty (X ⧸ Subgroup.center X ≃* StatedProj (StatedSp m K)) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hne' : (m, Fintype.card K) ≠ (2, 2) := fun h =>
     hne ⟨(Prod.mk.inj h).1, by rw [Nat.card_eq_fintype_card]; exact (Prod.mk.inj h).2⟩
   have hSpPerf : commutator (StatedSp m K) = ⊤ :=
@@ -160,7 +160,7 @@ private theorem kgf_adjoint
   obtain ⟨h, hh, hβh, hp1, hh1⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.KD264Lie.ExcUntw.exists_inndiag_of_mem_innAutDerived_F4
       β hβmem hβp hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨fld, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hKfld : Nat.card K = ringChar K ^ (fld : ℕ) := by
     rw [Nat.card_eq_fintype_card]; exact hcardK
@@ -186,7 +186,7 @@ private theorem kgf_adjoint
   let R := ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)
   let eJ : ↥J ≃* R := (J.equivMapOfInjective ι hinj).trans (MulEquiv.subgroupCongr hJR)
   have hch : ringChar (AlgebraicClosure K) = 2 := by rw [hℓL, hK2]
-  haveI : CharP (AlgebraicClosure K) 2 := ringChar.of_eq hch
+  have : CharP (AlgebraicClosure K) 2 := ringChar.of_eq hch
   have hTp := rootDiagUnit_pow_eq_one_of_forall hap
   have hp2' : p % 2 = 1 := (hp.eq_two_or_odd).resolve_left hp2
   have hpLp : ringChar (AlgebraicClosure K) ≠ p := ringChar_ne_of_pow_eq_one hp hap h1
@@ -213,12 +213,12 @@ private theorem kgf_adjoint
         · obtain ⟨K', hfin, hcard, g, hg, hker⟩ :=
             CFSG.LocalAnalysis.GLTheoremA.K155X.l154f4_exists_spSurj S hT i hinner (m := 2)
               (fun K' hfin' hcardK' => by
-                haveI := hfin'
-                haveI : Fintype ↥K' := Fintype.ofFinite _
+                have := hfin'
+                have : Fintype ↥K' := Fintype.ofFinite _
                 obtain ⟨hch', f', -, hKf', -, h4'⟩ :=
                   CFSG.LocalAnalysis.GLTheoremA.K155X.l154f4_subfield_params (m := 2) K'
                     (by norm_num) hcardK' (fun _ => hQ)
-                haveI := hch'
+                have := hch'
                 have hne2' : (2, Fintype.card ↥K') ≠ (2, 2) := by
                   intro hh
                   have h2 : Nat.card ↥K' = 2 := by
@@ -235,12 +235,12 @@ private theorem kgf_adjoint
                 rw [hr']
                 show _ = rootSpan Tag.F4 ↥K' (componentRoots (rootCharHom a) i)
                 rw [hroots])
-          haveI := hfin
+          have := hfin
           obtain ⟨hch', f', -, hKf', -, -⟩ :=
             CFSG.LocalAnalysis.GLTheoremA.K155X.l154f4_subfield_params (m := 2) K'
               (by norm_num) hcard (fun _ => hQ)
-          haveI : Fintype ↥K' := Fintype.ofFinite _
-          haveI := hch'
+          have : Fintype ↥K' := Fintype.ofFinite _
+          have := hch'
           have hne2 : ¬(2 = 2 ∧ Nat.card ↥K' = 2) := by
             rintro ⟨-, h2⟩
             have h3 : 3 ≤ Nat.card ↥K' := by rw [hcard]; exact hQ
@@ -252,7 +252,7 @@ private theorem kgf_adjoint
         · obtain ⟨K', hfin, hK2', ⟨eR⟩⟩ :=
             CFSG.LocalAnalysis.GLTheoremA.CanonTriL.exists_sp42_equiv_rationalComponent S hT i v
               hroots hinner (not_le.1 hQ) hqs
-          haveI := hfin
+          have := hfin
           have hcardR : Nat.card (R ⧸ Subgroup.center R) = 360 :=
             CFSG.LocalAnalysis.GLTheoremA.I141F.Cls.card_quot_center_eq_360_of_sp42 hK2' eR
           have hcardJ : Nat.card (↥J ⧸ Subgroup.center ↥J) = 360 := by
@@ -284,12 +284,12 @@ private theorem kgf_adjoint
       · obtain ⟨K', hfin, hcard, g, hg, hker⟩ :=
           CFSG.LocalAnalysis.GLTheoremA.K155X.l154f4_exists_spSurj S hT i hinner (m := 3)
             (fun K' hfin' hcardK' => by
-              haveI := hfin'
-              haveI : Fintype ↥K' := Fintype.ofFinite _
+              have := hfin'
+              have : Fintype ↥K' := Fintype.ofFinite _
               obtain ⟨hch', f', hf', hKf', -, -⟩ :=
                 CFSG.LocalAnalysis.GLTheoremA.K155X.l154f4_subfield_params (m := 3) K'
                   (by norm_num) hcardK' (fun h => absurd h (by decide))
-              haveI := hch'
+              have := hch'
               have hne3' : (3, Fintype.card ↥K') ≠ (2, 2) := by
                 intro hh; exact absurd (Prod.mk.inj hh).1 (by decide)
               refine ⟨(CFSG.HardMathSupport.Solomon.Coordinator.LieComp.spFactorFacts_holds
@@ -302,12 +302,12 @@ private theorem kgf_adjoint
               rw [hr']
               show _ = rootSpan Tag.F4 ↥K' (componentRoots (rootCharHom a) i)
               rw [hroots])
-        haveI := hfin
+        have := hfin
         obtain ⟨hch', f', hf', hKf', -, -⟩ :=
           CFSG.LocalAnalysis.GLTheoremA.K155X.l154f4_subfield_params (m := 3) K'
             (by norm_num) hcard (fun h => absurd h (by decide))
-        haveI : Fintype ↥K' := Fintype.ofFinite _
-        haveI := hch'
+        have : Fintype ↥K' := Fintype.ofFinite _
+        have := hch'
         have hne3 : ¬(3 = 2 ∧ Nat.card ↥K' = 2) := by
           rintro ⟨h, -⟩; exact absurd h (by decide)
         obtain ⟨φR⟩ := kgf_quotSp_iso (m := 3) (f := f') (by norm_num) hKf' hne3 g hg hker
@@ -346,7 +346,7 @@ theorem kgExcF4_holds :
     (CFSG.LocalAnalysis.GLTheoremA.CanonInn.quotCenterEquivOfBot hcen).symm.trans
       (e₀.trans ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot))
   have hKf2 : ringChar Kf = 2 := by
-    haveI := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKf
+    have := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKf
     exact ringChar.eq Kf 2
   have hα'mem : MulAut.congr ψ α ∈ innAutDerived _ := (mem_innAutDerived_congr ψ).2 hαmem
   have hα'p : (MulAut.congr ψ α) ^ p = 1 := by rw [← map_pow, hαp, map_one]

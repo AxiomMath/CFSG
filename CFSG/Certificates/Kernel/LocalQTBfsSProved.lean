@@ -98,7 +98,7 @@ theorem body_step (hO : Order n r G M U par dk cl) {c i t : Nat} {S : St}
   · have hf := hcont.2 hkm
     have e : bodyB n r i (U i) S G[t]! = S := by
       unfold bodyB
-      rw [if_pos hf]
+      rw [ite_eq_left hf]
     rw [e]
     refine ⟨⟨m, hm0, hmM, hs1, hs2, hS1, hSp, hmc, hmg, fun k' hk'0 hk'M => ?_⟩, by omega⟩
     constructor
@@ -120,7 +120,7 @@ theorem body_step (hO : Order n r G M U par dk cl) {c i t : Nat} {S : St}
     have e : bodyB n r i (U i) S G[t]! = (S.1.push (U k), S.2.1.push i,
         S.2.2.insert (keyNat n r (U k)) S.1.size) := by
       unfold bodyB
-      rw [if_neg hf, hkU]
+      rw [ite_eq_right hf, hkU]
     have hk0 : 0 < k := by omega
     have hdkc : dk k = c := by
       have h1 : dk k ≤ c := by
@@ -179,9 +179,9 @@ theorem body_step (hO : Order n r G M U par dk cl) {c i t : Nat} {S : St}
       show (S.2.2.insert (keyNat n r (U m)) S.1.size).getD (keyNat n r (U k')) 0 = k'
       rw [Std.HashMap.getD_insert]
       rcases Nat.lt_succ_iff_lt_or_eq.1 hk' with h | rfl
-      · rw [if_neg (by rw [beq_iff_eq]; exact fun e' => hnotN k' h e'.symm)]
+      · rw [ite_eq_right (by rw [beq_iff_eq]; exact fun e' => hnotN k' h e'.symm)]
         exact hmg k' h
-      · rw [if_pos (by rw [beq_iff_eq]), hs1]
+      · rw [ite_eq_left (by rw [beq_iff_eq]), hs1]
     · intro k' hk'0 hk'M
       constructor
       · intro h
@@ -253,7 +253,7 @@ theorem loop_order (hO : Order n r G M U par dk cl) : ∀ (f i : Nat) (S : St),
     intro i S hc hf
     rw [bfsLoopB_succ]
     by_cases hlt : i < S.1.size
-    · rw [if_pos hlt]
+    · rw [ite_eq_left hlt]
       have hS1 : S.1[i]! = U i := by
         obtain ⟨m, -, -, hs1, -, hS1, -⟩ := hc
         exact hS1 i (by omega)
@@ -263,14 +263,14 @@ theorem loop_order (hO : Order n r G M U par dk cl) : ∀ (f i : Nat) (S : St),
       apply ih (i + 1) _ _ (by omega)
       rw [Nat.succ_mul]
       exact this.1
-    · rw [if_neg hlt]
+    · rw [ite_eq_right hlt]
       have hM := final_size hO hc (by omega)
       obtain ⟨m, hm0, hmM, hs1, hs2, hS1, hSp, hmc, hmg, hlast⟩ := hc
       have hm : m = M := by omega
       subst hm
       exact ⟨hs1, hS1, hSp, hmg⟩
 
-theorem init_inv (hO : Order n r G M U par dk cl) {o : List Nat} (hM : 0 < M) (hU0 : U 0 = o) :
+theorem init_inv (_hO : Order n r G M U par dk cl) {o : List Nat} (hM : 0 < M) (hU0 : U 0 = o) :
     Inv n r M U par dk (0 * G.length) (#[o], #[0],
       (∅ : Std.HashMap Nat Nat).insert (keyNat n r o) 0) := by
   refine ⟨1, by omega, hM, by simp, by simp, ?_, ?_, ?_, ?_, ?_⟩
@@ -514,7 +514,7 @@ theorem bfsI_spec {w nb r M lg W g : Nat} {app : Nat → List Nat → List Nat}
     fun t ht => ?_, ?_⟩
   · rw [rangeK_eq', allL_eq, List.all_eq_true] at h4
     have := h4 t (List.mem_range.2 ht)
-    simp only [allBs_cons, allBs_nil, Bool.and_true, Bool.and_eq_true, orB_eq, Bool.or_eq_true,
+    simp only [Bool.and_eq_true, orB_eq, Bool.or_eq_true,
       Nat.add_eq, Nat.mul_eq] at this
     obtain ⟨e1, e2, e3, e4⟩ := this
     refine ⟨P.beq_iff.1 e1, P.beq_iff.1 e2, P.blt_iff.1 e3, ?_⟩
@@ -525,7 +525,7 @@ theorem bfsI_spec {w nb r M lg W g : Nat} {app : Nat → List Nat → List Nat}
     rcases h5 with h5 | h5
     · exact Or.inl (P.beq_iff.1 h5)
     · right
-      simp only [allBs_cons, allBs_nil, Bool.and_true, Bool.and_eq_true] at h5
+      simp only [Bool.and_eq_true] at h5
       obtain ⟨e1, e2, e3⟩ := h5
       refine ⟨P.blt_iff.1 e1, P.blt_iff.1 e2, fun hi => P.blt_iff.1 (impB_true e3 (P.blt_iff.2 hi))⟩
 

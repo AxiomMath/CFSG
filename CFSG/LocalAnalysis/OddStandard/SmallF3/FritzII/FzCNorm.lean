@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 theorem fzc_K_pGroup (t : G) : IsPGroup 2 (twoCore t) := by
   rw [twoCore]
   exact fzc_pCoreOf_two_isPGroup (invCent t)

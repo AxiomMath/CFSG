@@ -61,7 +61,7 @@ private lemma j1a_adjoin_comm {ι K : Type} [Fintype ι] [DecidableEq ι] [Field
       (s' : Matrix ι ι K) * (s : Matrix ι ι K)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  letI : IsMulCommutative (Algebra.adjoin K (Units.val '' S)) :=
+  let : IsMulCommutative (Algebra.adjoin K (Units.val '' S)) :=
     Algebra.isMulCommutative_adjoin K hcommS
   intro a b ha hb
   have h := mul_comm' (⟨a, ha⟩ : Algebra.adjoin K (Units.val '' S))
@@ -280,7 +280,7 @@ private lemma j1a_closureS_odd {ι K : Type} [Fintype ι] [DecidableEq ι] [Fiel
   intro s hs
   induction hs using Subgroup.closure_induction with
   | mem x hx => exact hodd x hx
-  | one => simpa using odd_one
+  | one => simp
   | mul x y hx hy ihx ihy =>
       exact Odd.of_dvd_nat (ihx.mul ihy)
         (j1a_orderOf_mul_dvd_of_commute (j1a_closureS_commute hS x hx y hy))
@@ -455,7 +455,7 @@ private lemma j1a_sum_mul_block_zero {ι K : Type} [Fintype ι] [DecidableEq ι]
   let A : Subalgebra K (Matrix ι ι K) := Algebra.adjoin K (Units.val '' S)
   obtain ⟨E, fieldE, _algE, _finiteE, π, _hπsurj, hπker, _hπdeg⟩ :=
     exists_blockField (F := K) hS hodd he
-  letI : Field E := fieldE
+  let : Field E := fieldE
   have hxA : (x : Matrix ι ι K) ∈ A := j1a_closureS_mem_adjoin x hx
   have hmem_sum : (∑ i ∈ Finset.range (orderOf x), (x : Matrix ι ι K) ^ i) ∈ A :=
     Subalgebra.sum_mem A (fun i _ => Subalgebra.pow_mem A hxA i)
@@ -630,7 +630,7 @@ private lemma j1a_choose_generator {ι K : Type} [Fintype ι] [DecidableEq ι] [
   obtain ⟨e, he, _hee, hcase⟩ := j1a_exists_prim_idem Φ hΦ hSΩ hS hε
   obtain ⟨E, fieldE, _algE, _finiteE, π, _hπsurj, hπker, _hπdeg⟩ :=
     exists_blockField (F := K) hS hodd he
-  letI : Field E := fieldE
+  let : Field E := fieldE
   have hmemH : ∀ h : H, ((h : GL ι K) : Matrix ι ι K) ∈ A :=
     fun h => j1a_closureS_mem_adjoin h.1 h.2
   have hne0 : ∀ h : H, π ⟨((h : GL ι K) : Matrix ι ι K), hmemH h⟩ ≠ 0 := by
@@ -664,9 +664,9 @@ private lemma j1a_choose_generator {ι K : Type} [Fintype ι] [DecidableEq ι] [
             ⟨((a : GL ι K) : Matrix ι ι K), hmemH a⟩ *
               ⟨((b : GL ι K) : Matrix ι ι K), hmemH b⟩ from Subtype.ext rfl,
           map_mul] }
-  haveI : IsCyclic Eˣ := instIsCyclicUnitsOfFinite
+  have : IsCyclic Eˣ := instIsCyclicUnitsOfFinite
   let He : Subgroup Eˣ := f.range
-  haveI : IsCyclic He := Subgroup.isCyclic He
+  have : IsCyclic He := Subgroup.isCyclic He
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := He)
   obtain ⟨s, hs⟩ := (MonoidHom.mem_range (f := f)).mp g.2
   have hgen : ∀ h : H, ∃ k : ℕ, f h = (f s) ^ k := by
@@ -770,7 +770,7 @@ private lemma j1a_eps_mem_adjoin {ι K : Type} [Fintype ι] [DecidableEq ι] [Fi
   simpa using h
 
 private lemma j1a_field_eq {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
-    (Φ : QuadraticForm K (ι → K)) {S : Set (GL ι K)}
+    (_Φ : QuadraticForm K (ι → K)) {S : Set (GL ι K)}
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') {ε : Matrix ι ι K} {b : GL ι K}
     (hbA : (b : Matrix ι ι K) ∈ Algebra.adjoin K (Units.val '' S))
     (hgen : ∀ s' ∈ S, ∃ k : ℕ,
@@ -844,7 +844,7 @@ private lemma j1a_mem_adjoin_commute {ι K : Type} [Fintype ι] [DecidableEq ι]
 private lemma j1a_one_sub_commute {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
     [Fintype K] [CharP K 2] (Φ : QuadraticForm K (ι → K))
     (hΦ : (QuadraticMap.polarBilin Φ).Nondegenerate)
-    {S : Set (GL ι K)} (hSΩ : ∀ s ∈ S, s ∈ StatedOmega ⇑Φ) {ε : Matrix ι ι K}
+    {S : Set (GL ι K)} (_hSΩ : ∀ s ∈ S, s ∈ StatedOmega ⇑Φ) {ε : Matrix ι ι K}
     (hε : IsPrimAdjIdemIn (RingHom.id K) (LinearMap.toMatrix₂' K (QuadraticMap.polarBilin Φ))
       (Algebra.adjoin K (Units.val '' S)) ε)
     {g : GL ι K} (hgΩ : g ∈ StatedOmega ⇑Φ)
@@ -959,7 +959,7 @@ private lemma j1a_blockgroup_iff {ι K : Type} [Fintype ι] [DecidableEq ι] [Fi
     rw [hsplit, Matrix.mul_add, hleft, hright, ← Matrix.add_mul, ← hsplit]
 
 private lemma j1a_idem_transfer {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
-    (Φ : QuadraticForm K (ι → K)) {S : Set (GL ι K)}
+    (_Φ : QuadraticForm K (ι → K)) {S : Set (GL ι K)}
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') {ε : Matrix ι ι K} {b : GL ι K}
     (hbA : (b : Matrix ι ι K) ∈ Algebra.adjoin K (Units.val '' S))
     (hεA : ε ∈ Algebra.adjoin K (Units.val '' S))
@@ -1092,7 +1092,7 @@ private lemma j1b_adjoin_comm {ι K : Type} [Fintype ι] [DecidableEq ι] [Field
       (s' : Matrix ι ι K) * (s : Matrix ι ι K)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  letI : IsMulCommutative (Algebra.adjoin K (Units.val '' S)) :=
+  let : IsMulCommutative (Algebra.adjoin K (Units.val '' S)) :=
     Algebra.isMulCommutative_adjoin K hcommS
   intro a b ha hb
   have h := mul_comm' (⟨a, ha⟩ : Algebra.adjoin K (Units.val '' S))
@@ -1100,7 +1100,7 @@ private lemma j1b_adjoin_comm {ι K : Type} [Fintype ι] [DecidableEq ι] [Field
   simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
 
 private lemma j1b_mul_eq_smul_of_fixed {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
-    (S : Set (GL ι K)) {f : Matrix ι ι K} (hfid : IsIdempotentElem f)
+    (S : Set (GL ι K)) {f : Matrix ι ι K} (_hfid : IsIdempotentElem f)
     (hffix : ∀ s ∈ S, (s : Matrix ι ι K) * f = f) :
     ∀ a ∈ Algebra.adjoin K (Units.val '' S), ∃ c : K, a * f = c • f := by
   intro a ha
@@ -1690,12 +1690,12 @@ theorem exists_blockElement_trivial {ι K : Type} [Fintype ι] [DecidableEq ι] 
     intro p hp
     have hspec := Classical.choose_spec (j1b_exists_moves hS hε.1 hε.2.1 htriv hε.2.2.1
       (hQprim p hp).1.1 (hQprim p hp).1.2.1 (hQprim p hp).1.2.2.1 (hQprim p hp).2)
-    simpa only [sOf, dif_pos hp] using hspec.1
+    simpa only [sOf, dite_eq_left hp] using hspec.1
   have hsOf_moved : ∀ p ∈ Q, (sOf p : Matrix ι ι K) * p ≠ p := by
     intro p hp
     have hspec := Classical.choose_spec (j1b_exists_moves hS hε.1 hε.2.1 htriv hε.2.2.1
       (hQprim p hp).1.1 (hQprim p hp).1.2.1 (hQprim p hp).1.2.2.1 (hQprim p hp).2)
-    simpa only [sOf, dif_pos hp] using hspec.2
+    simpa only [sOf, dite_eq_left hp] using hspec.2
   let N : ℕ := ∏ p ∈ Q, orderOf (sOf p)
   have hdvd : ∀ p ∈ Q, orderOf (sOf p) ∣ N := fun p hp =>
     Finset.dvd_prod_of_mem (fun q => orderOf (sOf q)) hp

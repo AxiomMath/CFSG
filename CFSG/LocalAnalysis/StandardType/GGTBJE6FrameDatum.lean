@@ -81,7 +81,7 @@ private lemma e6d_card_fix {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     Nat.card {f : Fin 6 → Multiplicative (ZMod p) // ρ (simple .E6 i) f = f} * p =
       Nat.card (Fin 6 → Multiplicative (ZMod p)) := by
   have hp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hs := e6d_simple_apply ρ hρ i
   let a₁ : Fin 6 → Multiplicative (ZMod p) := fun j => ofAdd ((Tag.cartan .E6 i j : ℤ) : ZMod p)
   refine card_fix_mul_of_le_zpowers hp (fun a b => mul_comm a b) (ρ (simple .E6 i))
@@ -114,7 +114,7 @@ theorem exists_E6_datum_of_frameAction {G : Type} [Group G] {p : ℕ} [Fact p.Pr
       (f : CoxeterMatrix.E₆.Group ≃* ↥(ggAutomizer X Bs)),
       (∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i) ∧
       (∀ i, GGIsReflection p (φ i)) ∧
-      (∀ i j, α i (h j) = (CartanMatrix.E₆ i j : ZMod p)) ∧
+      (∀ i j, α i (h j) = ((CartanMatrix.E 6) i j : ZMod p)) ∧
       (∀ i, (f (CoxeterMatrix.E₆.simple i) : MulAut ↥Bs) = φ i) ∧
       ggAutomizer X Bs = Subgroup.closure (Set.range φ) ∧
       (∀ i, φ i = liftBs Θ (ρ (simple .E6 i))) ∧
@@ -177,7 +177,7 @@ theorem exists_E6_datum_of_frameAction {G : Type} [Group G] {p : ℕ} [Fact p.Pr
     show ρ (simple .E6 i) ^ 2 = 1
     rw [← map_pow, show simple Tag.E6 i ^ 2 = 1 from (coxeterSystem Tag.E6).simple_sq i,
       map_one]
-  have hpair : ∀ i j, α i (hv j) = (CartanMatrix.E₆ i j : ZMod p) := by
+  have hpair : ∀ i j, α i (hv j) = ((CartanMatrix.E 6) i j : ZMod p) := by
     intro i j
     change c j i = _
     change ((Tag.cartanE 6 j i : ℤ) : ZMod p) = _
@@ -225,7 +225,7 @@ theorem exists_E6_datum_of_sectionFrameAut {G : Type} [Group G] {p : ℕ} [Fact 
       (f : CoxeterMatrix.E₆.Group ≃* ↥(ggAutomizer X Bs)),
       (∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i) ∧
       (∀ i, GGIsReflection p (φ i)) ∧
-      (∀ i j, α i (h j) = (CartanMatrix.E₆ i j : ZMod p)) ∧
+      (∀ i j, α i (h j) = ((CartanMatrix.E 6) i j : ZMod p)) ∧
       (∀ i, (f (CoxeterMatrix.E₆.simple i) : MulAut ↥Bs) = φ i) ∧
       ggAutomizer X Bs = Subgroup.closure (Set.range φ) ∧
       (∀ i, φ i = liftBs Θ (ρ (simple .E6 i))) ∧

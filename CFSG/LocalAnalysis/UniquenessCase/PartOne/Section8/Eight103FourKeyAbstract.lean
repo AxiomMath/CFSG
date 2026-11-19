@@ -487,7 +487,7 @@ theorem u45KeyDvdConcl_of_torus {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact
   obtain ⟨Q, hRQ⟩ := CFSG.exists_sylow_forall_apply_mem (p := p) hR.isPGroup
   obtain ⟨β, -, hβconj⟩ :=
     CFSG.exists_mulAut_map_eq_and_conj_mem hP₀ hP₀i ⟨a, hφp⟩ hΦP hφi
-      Q.isPGroup' Q.not_dvd_index hR.isPGroup hRQ
+      Q.isPGroup Q.not_dvd_index hR.isPGroup hRQ
   let R' : Subgroup (MulAut X) := R.map (MulAut.conj β).toMonoidHom
   have hR'def : R' = R.map (MulAut.conj β).toMonoidHom := rfl
   have hR'abel : IsElemAbelian p R' := hR.map _

@@ -43,23 +43,23 @@ private theorem spFrame_toStd_single_of_not_lt_apply {m : ℕ} {k a : Fin m}
 
 private theorem spFrame_toStd_single_of_lt_self {m : ℕ} {k : Fin m} (h : k.val + 1 < m) :
     toStd m (Pi.single k 1) k = 1 := by
-  rw [spFrame_toStd_single_of_lt_apply h, if_pos rfl]
+  rw [spFrame_toStd_single_of_lt_apply h, ite_eq_left rfl]
   have hne : k ≠ (⟨k.val + 1, h⟩ : Fin m) := fun e => by
     have := congrArg Fin.val e
-    simp only [Fin.val_mk] at this
+    simp only at this
     omega
-  rw [if_neg hne, sub_zero]
+  rw [ite_eq_right hne, sub_zero]
 
 private theorem spFrame_toStd_single_of_not_lt_self {m : ℕ} {k : Fin m}
     (h : ¬ k.val + 1 < m) :
     toStd m (Pi.single k 1) k = 2 := by
-  rw [spFrame_toStd_single_of_not_lt_apply h, if_pos rfl]
+  rw [spFrame_toStd_single_of_not_lt_apply h, ite_eq_left rfl]
 
 end UniqueAux
 
 theorem _root_.CFSG.StandardType.SpRealizes.unique {m : ℕ}
     {w : (coxeterMatrix (isFiniteType_cartanC m)).Group} {π π' : Equiv.Perm (Fin m)}
-    {s s' : Fin m → ℤ} (hs : SpIsSign s) (hs' : SpIsSign s') (h : SpRealizes m w π s)
+    {s s' : Fin m → ℤ} (hs : SpIsSign s) (_hs' : SpIsSign s') (h : SpRealizes m w π s)
     (h' : SpRealizes m w π' s') : π = π' ∧ s = s' := by
   have hkey : ∀ (c b : Fin m),
       s (π.symm b) * toStd m (Pi.single c 1) (π.symm b) =
@@ -76,14 +76,14 @@ theorem _root_.CFSG.StandardType.SpRealizes.unique {m : ℕ}
       rw [spFrame_toStd_single_of_not_lt_apply hlt] at hbase
       have ha : π'.symm (π c) = c := by
         by_contra hne
-        rw [if_neg hne, mul_zero] at hbase
+        rw [ite_eq_right hne, mul_zero] at hbase
         have hsc : s c = 0 := by omega
         rcases hs c with h1 | h1 <;> omega
       have hπ : π c = π' c := by
         have := congrArg π' ha
         simpa using this
       have hsc : s c = s' c := by
-        rw [ha, if_pos rfl] at hbase
+        rw [ha, ite_eq_left rfl] at hbase
         omega
       exact ⟨hπ, hsc⟩
     | succ d ih =>
@@ -106,7 +106,7 @@ theorem _root_.CFSG.StandardType.SpRealizes.unique {m : ℕ}
           have := congrArg π' ha
           simpa using this
         have hsc : s c = s' c := by
-          rw [ha, if_pos rfl, if_neg hcne', sub_zero, mul_one] at hbase
+          rw [ha, ite_eq_left rfl, ite_eq_right hcne', sub_zero, mul_one] at hbase
           exact hbase
         exact ⟨hπ, hsc⟩
       · by_cases ha' : π'.symm (π c) = c'
@@ -117,7 +117,7 @@ theorem _root_.CFSG.StandardType.SpRealizes.unique {m : ℕ}
           have hcc' : c' = c := Equiv.injective π (hPc'.1.trans hπ'.symm)
           exact hcne hcc'.symm
         · have h0 : s c = 0 := by
-            rw [if_neg ha, if_neg ha', sub_zero, mul_zero] at hbase
+            rw [ite_eq_right ha, ite_eq_right ha', sub_zero, mul_zero] at hbase
             exact hbase
           rcases hs c with h1 | h1 <;> omega
   have hP : ∀ c : Fin m, π c = π' c ∧ s c = s' c := fun c =>
@@ -167,7 +167,7 @@ theorem exists_sign_family (m : ℕ) (hm : 1 ≤ m) :
       (SpRealizes.unique (spIsSign_spSgn i) (spIsSign_spSgn j) (hε i) h2).2
     have hii : spSgn i i = spSgn j i := congrFun hsgn i
     simp only [spSgn] at hii
-    rw [if_neg hij] at hii
+    rw [ite_eq_right hij] at hii
     norm_num at hii
   · intro k hk j
     let k' : Fin (m + 1) := ⟨k.val + 1, hk⟩

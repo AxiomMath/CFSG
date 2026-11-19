@@ -29,7 +29,7 @@ theorem e7_conj_into_frame_five_even (hev : Even (Nat.card K)) (hpq : 5 ∣ Nat.
     (hE₀c : Nat.card E₀ = 5 ^ 2) (hN : ¬ NormalizesRGroup (ringChar K) E₀) :
     ∃ g : adjointGroup .E7 K, E₀.map (MulAut.conj g).toMonoidHom ≤ e7FrameGroup K := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hp5p : (5 : ℕ).Prime := Nat.prime_five
   have hord := orderOf_eq_two_of_dvd_add_one hp5p (by norm_num) hpq
   have hpK : ¬ 5 ∣ Nat.card K := not_dvd_card_of_dvd_add_one hp5p hpq
@@ -41,7 +41,7 @@ theorem e7_conj_into_frame_five_even (hev : Even (Nat.card K)) (hpq : 5 ∣ Nat.
       rw [← Nat.card_eq_fintype_card]
       exact hev
     exact FiniteField.even_card_iff_char_two.mpr (Nat.even_iff.mp heven)
-  haveI : CharP K 2 := ringChar.of_eq hchar2
+  have : CharP K 2 := ringChar.of_eq hchar2
   have hK : Nat.card K = ringChar K ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hm
   have hpl : 5 ≠ ringChar K := by
     intro h
@@ -54,8 +54,8 @@ theorem e7_conj_into_frame_five_even (hev : Even (Nat.card K)) (hpq : 5 ∣ Nat.
   obtain ⟨ρ, hρi, hρr⟩ := exists_sl2_hom_rootPairE7 (K := K) isRoot_e7Theta
   have hcomm : ∀ (a : SL(2, K)) (t : spinGroup (Spin.quadPlus 6 K)), Commute (ρ a) (Ψ t) :=
     fun a t => commute_rootPairE7_theta_of_mem_e7D6Group (hρr ▸ ⟨a, rfl⟩) (hrange ▸ ⟨t, rfl⟩)
-  haveI : Nonempty (Fin 6 ⊕ Fin 6) := ⟨Sum.inl 0⟩
-  haveI : Finite (spinGroup (Spin.quadPlus 6 K)) :=
+  have : Nonempty (Fin 6 ⊕ Fin 6) := ⟨Sum.inl 0⟩
+  have : Finite (spinGroup (Spin.quadPlus 6 K)) :=
     CFSG.ClassicalInvolution.ModelFacts.finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
   have hcen5 := not_dvd_card_center_spinPlus (K := K) hn3 (p := 5) (by norm_num) hpq1
   let ψ : SL(2, K) × spinGroup (Spin.quadPlus 6 K) →* adjointGroup .E7 K :=
@@ -130,7 +130,7 @@ theorem e7_conj_into_frame_five_even (hev : Even (Nat.card K)) (hpq : 5 ∣ Nat.
     by_contra hT0
     obtain ⟨U, hU0, hUp, hUn⟩ :=
       exists_rGroup_normalized_of_invariant_singular_charTwo hn3 E₂ T hT0 hTs hTi
-    haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+    have : Fact (ringChar K).Prime := ⟨hℓ⟩
     have hcenr : ¬ ringChar K ∣ Nat.card (Subgroup.center (spinGroup (Spin.quadPlus 6 K))) := by
       rw [hchar2]
       exact not_dvd_card_center_spinPlus_charTwo hn3
@@ -149,7 +149,7 @@ theorem e7_conj_into_frame_five_even (hev : Even (Nat.card K)) (hpq : 5 ∣ Nat.
       x * e * x⁻¹ ∈ spinFrameGroup 6 K hn3 ι6 := by
     rcases hE₂card with h5 | h25
     ·
-      haveI : Nontrivial E₂ := Finite.one_lt_card_iff_nontrivial.mp (by rw [h5]; norm_num)
+      have : Nontrivial E₂ := Finite.one_lt_card_iff_nontrivial.mp (by rw [h5]; norm_num)
       obtain ⟨b', hb'⟩ := exists_ne (1 : E₂)
       set b : spinGroup (Spin.quadPlus 6 K) := (b' : spinGroup (Spin.quadPlus 6 K)) with hbdef
       have hbE : b ∈ E₂ := b'.2
@@ -217,7 +217,7 @@ open scoped MatrixGroups
 
 section Glue
 
-theorem e7TwoSylowFiveEven : E7TwoSylowFiveEven := fun K _ _ hev hpq E₀ hE₀p hE₀c hN =>
+theorem e7TwoSylowFiveEven : E7TwoSylowFiveEven := fun _K _ _ hev hpq E₀ hE₀p hE₀c hN =>
   e7_conj_into_frame_five_even hev hpq E₀ hE₀p hE₀c hN
 
 theorem e7TwoSylowFive : E7TwoSylowFive := e7TwoSylowFive_of_even e7TwoSylowFiveEven

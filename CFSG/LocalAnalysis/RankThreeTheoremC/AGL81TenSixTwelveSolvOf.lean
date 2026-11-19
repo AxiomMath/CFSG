@@ -61,11 +61,11 @@ theorem commutator_mem_pCoreOf_of_cube {Y I₀ N : Subgroup G} (hsub : IsSubnorm
     rw [← this]
     exact hv
   set W := pCoreOf 3 (⊤ : Subgroup (↥Y ⧸ CFSG.pCore 2 ↥Y)) with hW
-  haveI hWn : W.Normal := pCoreOf_top_normal 3
+  have hWn : W.Normal := pCoreOf_top_normal 3
   have hIbW : Ib ≤ W := CFSG.AGLEmbedding.SubnormalCommute.le_pCoreOf_of_isSubnormal hsubIb hIb3
   set ψ := QuotientGroup.mk' W with hψ
   set D := (pCoreOf 2 (⊤ : Subgroup ((↥Y ⧸ CFSG.pCore 2 ↥Y) ⧸ W))).comap ψ with hD
-  haveI hDn : D.Normal := (pCoreOf_top_normal 2).comap ψ
+  have hDn : D.Normal := (pCoreOf_top_normal 2).comap ψ
   have hIb0D : Ib0 ≤ D := by
     have h2 : IsPGroup 2 (Ib0.map ψ) := by
       rintro ⟨z, hz⟩
@@ -85,7 +85,7 @@ theorem commutator_mem_pCoreOf_of_cube {Y I₀ N : Subgroup G} (hsub : IsSubnorm
     intro z hz
     exact this ⟨z, hz, rfl⟩
   set Nb := (N.subgroupOf Y).map π with hNb
-  haveI hNbn : Nb.Normal := by
+  have hNbn : Nb.Normal := by
     have : (N.subgroupOf Y).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hNY).mpr hNn
     exact Subgroup.Normal.map this π hπs

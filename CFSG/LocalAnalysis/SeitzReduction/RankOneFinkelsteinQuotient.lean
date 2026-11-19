@@ -1,7 +1,7 @@
 module
 
 public import CFSG.LocalAnalysis.SeitzReduction.RankOneFinkelsteinBasic
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

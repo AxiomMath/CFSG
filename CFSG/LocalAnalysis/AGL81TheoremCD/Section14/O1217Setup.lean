@@ -78,7 +78,7 @@ theorem Setting1417.two_le_pRank_Q (s : Setting1417 G M Q H F q) :
 
 private theorem Hyp1417.normalizer_ne_top (h : Hyp1417 G M q p E) {A : Subgroup G}
     (hAE : A ≤ E) (hA : Nat.card A = p) : Subgroup.normalizer (A : Set G) ≠ ⊤ := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hAlt : Nat.card A < Nat.card E := by
     rw [hA, h.card, pow_two]
     calc p = p * 1 := (mul_one p).symm
@@ -94,7 +94,7 @@ private theorem Hyp1417.normalizer_ne_top (h : Hyp1417 G M q p E) {A : Subgroup 
     exact lt_irrefl _ hAlt
   intro hHtop
   have hAn : A.Normal := Subgroup.normalizer_eq_top_iff.mp hHtop
-  letI : A.Normal := hAn
+  let : A.Normal := hAn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal A with hbot | htop
   · exact hAne_bot hbot
   · exact hAne_top htop
@@ -103,7 +103,7 @@ theorem Hyp1417.exists_setting (h : Hyp1417 G M q p E) {A : Subgroup G} (hAE : A
     (hA : Nat.card A = p) (hH : ¬ Subgroup.normalizer (A : Set G) ≤ M) :
     ∃ Q F : Subgroup G, Setting1417 G M Q (Subgroup.normalizer (A : Set G)) F q := by
   classical
-  haveI : Fact q.Prime := ⟨h.qPrime⟩
+  have : Fact q.Prime := ⟨h.qPrime⟩
   have hqSet : q ∈ sigmaSet G M := by
     simpa only [sigmaSet, CFSG.LocalAnalysis.RankThreeUC.S15.sigmaM] using h.hq
   obtain ⟨Q, hQ⟩ :=
@@ -135,7 +135,7 @@ theorem Hyp1417.exists_setting (h : Hyp1417 G M q p E) {A : Subgroup G} (hAE : A
 
 theorem Hyp1417.exists_orderOf_eq (h : Hyp1417 G M q p E) :
     ∃ y ∈ M ⊓ Subgroup.centralizer (E : Set G), orderOf y = q := by
-  haveI : Fact q.Prime := ⟨h.qPrime⟩
+  have : Fact q.Prime := ⟨h.qPrime⟩
   obtain ⟨y, hy⟩ :=
     exists_prime_orderOf_dvd_card'
       (G := ↥(M ⊓ Subgroup.centralizer (E : Set G))) q h.dvd
@@ -144,14 +144,14 @@ theorem Hyp1417.exists_orderOf_eq (h : Hyp1417 G M q p E) :
 theorem Setting1417.normalizer_le_of_isPGroup (s : Setting1417 G M Q H F q) {W : Subgroup G}
     (hW : W ≠ ⊥) (hWq : IsPGroup q W) (hWM : W ≤ M) :
     Subgroup.normalizer (W : Set G) ≤ M := by
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   exact s.strongQ.normalizer_le hW hWq hWM
 
 theorem Setting1417.odd_card_relPPrimeCore (s : Setting1417 G M Q H F q) :
     Odd (Nat.card (CFSG.Open.relPPrimeCore q H)) := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup G := CFSG.Open.relPPrimeCore q H
   change Odd (Nat.card N)
   have hNH : N ≤ H := relPPrimeCore_le (p := q) H
@@ -193,13 +193,13 @@ theorem Setting1417.odd_card_relPPrimeCore (s : Setting1417 G M Q H F q) :
 
 theorem Setting1417.pCoreOf_two_eq_bot (s : Setting1417 G M Q H F q) :
     CFSG.Open.pCoreOf 2 H = ⊥ := by
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   have hle : CFSG.Open.pCoreOf 2 H ≤ CFSG.Open.relPPrimeCore q H :=
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3.pCoreOf_two_le_relPPrimeCore
       s.q_ne_two H
   have hodd : Odd (Nat.card (CFSG.Open.pCoreOf 2 H)) :=
     Odd.of_dvd_nat s.odd_card_relPPrimeCore (Subgroup.card_dvd_of_le hle)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H).exists_card_eq
   rw [hn] at hodd
@@ -214,7 +214,7 @@ private theorem Setting1417.not_dvd_card_relPPrimeCore_of_mem_sigmaSet
     ¬ r ∣ Nat.card (CFSG.Open.relPPrimeCore q H) := by
   classical
   intro hdvd
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let N : Subgroup G := CFSG.Open.relPPrimeCore q H
   have hNH : N ≤ H := relPPrimeCore_le (p := q) H
   have hHN : H ≤ Subgroup.normalizer (N : Set G) :=

@@ -8,7 +8,7 @@ namespace CFSG.Quasithin.C116Two
 
 open CFSG.QuasithinUnique CFSG.Open
 
-theorem charP_two_of_card {F : Type} [Field F] [Fintype F] {n : ℕ} (hn : 1 ≤ n)
+theorem charP_two_of_card {F : Type} [Field F] [Fintype F] {n : ℕ} (_hn : 1 ≤ n)
     (hcard : Fintype.card F = 2 ^ n) : CharP F 2 := by
   obtain ⟨p, hc⟩ := CharP.exists F
   obtain ⟨m, hp, hm⟩ := FiniteField.card F p
@@ -78,11 +78,11 @@ theorem isSemilinear_inv {F : Type} [Field F] {σ : F ≃+* F}
 theorem card_involutions_le_two (F : Type) [Field F] [Finite F] :
     Nat.card {σ : F ≃+* F // ∀ c, σ (σ c) = c} ≤ 2 := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨p, hc⟩ := CharP.exists F
   obtain ⟨m, hp, -⟩ := FiniteField.card F p
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : Algebra (ZMod p) F := ZMod.algebra F p
+  have : Fact p.Prime := ⟨hp⟩
+  let : Algebra (ZMod p) F := ZMod.algebra F p
   let toAlg : (F ≃+* F) → (F ≃ₐ[ZMod p] F) := fun σ =>
     AlgEquiv.ofRingEquiv (f := σ)
       (fun x => RingHom.congr_fun (RingHom.ext_zmod (σ.toRingHom.comp (algebraMap (ZMod p) F))
@@ -101,7 +101,7 @@ theorem card_involutions_le_two (F : Type) [Field F] [Finite F] :
   have hfin : Finite (F ≃ₐ[ZMod p] F) :=
     Finite.of_injective (fun e : F ≃ₐ[ZMod p] F => (e : F → F))
       (fun a b h => AlgEquiv.ext (fun x => congrFun h x))
-  letI : Fintype (F ≃ₐ[ZMod p] F) := Fintype.ofFinite _
+  let : Fintype (F ≃ₐ[ZMod p] F) := Fintype.ofFinite _
   let φ : {σ : F ≃+* F // ∀ c, σ (σ c) = c} → {τ : F ≃ₐ[ZMod p] F // τ ^ 2 = 1} :=
     fun σ => ⟨toAlg σ.1, hinv σ.1 σ.2⟩
   have hφ : Function.Injective φ := by

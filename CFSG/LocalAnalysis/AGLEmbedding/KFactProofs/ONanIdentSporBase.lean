@@ -31,7 +31,7 @@ theorem exists_plane_of_not_isCyclic (hp : p.Prime) (hp2 : p ≠ 2) (T : Sylow p
     (hT : ¬ IsCyclic (T : Subgroup K)) :
     ∃ A : Subgroup K, A ≤ (T : Subgroup K) ∧ IsElemAbelian p A ∧ Nat.card A = p ^ 2 := by
   have : Fact p.Prime := ⟨hp⟩
-  have : Fact (IsPGroup p (T : Subgroup K)) := ⟨T.isPGroup'⟩
+  have : Fact (IsPGroup p (T : Subgroup K)) := ⟨T.isPGroup⟩
   obtain ⟨S, -, hcard, hel⟩ := CFSG.lemma_4_5_a hp2 hT
   refine ⟨S.map (T : Subgroup K).subtype, ?_, ?_, ?_⟩
   · rintro _ ⟨x, -, rfl⟩

@@ -149,7 +149,7 @@ theorem cyc_jointM {li : ℕ → ℕ} (hli : LIOk u li) {blk LB MB : ℕ → ℕ
     simpa using hI
   | k + 1, hk, R, st, acc, hr, hI => by
     rw [cycWalk_succ, cycLab_succ]
-    rw [readsM_succ, if_neg (by rw [Nat.beq_eq]; change ¬ n - (k + 1) = 2048; omega)] at hr
+    rw [readsM_succ, ite_eq_right (by rw [Nat.beq_eq]; change ¬ n - (k + 1) = 2048; omega)] at hr
     obtain ⟨hm, hr'⟩ := (andB_iff _ _).1 hr
     refine cyc_jointM hli hrefs hn k (by omega) _ _ _ hr' ?_
     rw [show n - k = n - (k + 1) + 1 by omega]

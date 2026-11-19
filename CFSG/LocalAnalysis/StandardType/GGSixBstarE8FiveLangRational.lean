@@ -98,7 +98,7 @@ theorem exists_langTorsionHom {Fr : L →+* L} (hFr : ∀ c, Fr c = c ^ Nat.card
     apply Subtype.ext
     rw [Subgroup.coe_pow, OneMemClass.coe_one]
     exact hX5 x x.2
-  haveI : Finite X := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+  have : Finite X := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   have frameElt_injective : Function.Injective (frameElt ζ hζ lam) := by
     intro a b hab
     have hdet : IsUnit (((Tag.E8).symmetrizedCartan.det : ℤ) : ZMod 5) :=

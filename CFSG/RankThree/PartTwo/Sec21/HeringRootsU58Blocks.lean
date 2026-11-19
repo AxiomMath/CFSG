@@ -81,7 +81,7 @@ theorem cv_le_normalizer (v : Fin 4 → ZMod 3) (κ : ZMod 3) :
   centralizer_le_normalizer_idOutsideSU (u := ι3v v) fun i j e => by
     simp only [ext9_ι3v] at e
     have h := ι3_injective e
-    simp only [Set.mem_setOf_eq, h]
+    simp only [Set.mem_ofPred_eq, h]
 
 section BlockParts
 
@@ -296,7 +296,7 @@ theorem mem_iSup_fibre_of_perfect {v : Fin 4 → ZMod 3} {Q : Type*} [Group Q]
     (κ : ZMod 3) (b : SUI)
     (hb : mU b = blkM {i : Fin 5 | ext3 v i = κ} (mU (f q))) :
     b ∈ ⨆ κ' : BigFibre v, idOutsideSU {i : Fin 5 | ext3 v i = κ'.1} := by
-  haveI : Group.IsPerfect Q := hQ
+  have : Group.IsPerfect Q := hQ
   have hPr : Group.IsPerfect f.range := Group.IsPerfect.range f
   have hSat := satBlock_fibre (isBlockDiag_of_mem_centralizer_δ (hf q)) κ
   by_cases hbig : ∃ i j : Fin 5, i ≠ j ∧ ext3 v i = κ ∧ ext3 v j = κ

@@ -29,7 +29,7 @@ theorem Cex16.conjImgSpace_img_eq (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G
     (D : ModDataE H (iSub16 V H)) :
     D.conjImgSpace V₀ V (D.img V) = D.sp V₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let I : Subgroup G := iSub16 V H
   have hV_le_H : V ≤ H := h.V_le_S.trans hF.1
   have hV0_le_V : V₀ ≤ V := h.hyp.h6.le
@@ -151,7 +151,7 @@ theorem IsMinFam16.hyp716_UAOf_img (h1 : W16One G) (h5 : W16Five G) (hS : Std15 
     SevenK.Hyp716 (UAOf (D.img H) (D.conjImgSpace V₀ V) (D.img V))
       (⊤ : Subgroup (VG (D.img H))) (vHat (D.img H)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let G' : Subgroup (LGL 2 D.W) := D.img H
   let Γ : Set (Subgroup (LGL 2 D.W)) := D.conjImgFam V
   let VA : Subgroup (LGL 2 D.W) → Submodule (ZMod 2) D.W := D.conjImgSpace V₀ V
@@ -188,7 +188,7 @@ theorem IsMinFam16.hyp716_UAOf_img (h1 : W16One G) (h5 : W16Five G) (hS : Std15 
     (normal_vHat (G := G')).subgroupOf _
   have hOm : ∀ W ∈ omegaSet U' (⊤ : Subgroup (VG G')) E', W ≤ (⊤ : Subgroup (VG G')) :=
     fun _ _ => le_top
-  haveI hK_normal : (kSub U' (⊤ : Subgroup (VG G')) E').Normal := by
+  have hK_normal : (kSub U' (⊤ : Subgroup (VG G')) E').Normal := by
     have h1 := (Subgroup.normal_subgroupOf_iff_le_normalizer le_top).mp
       (kSub_subgroupOf_normal (V := U') le_top hE_norm hOm)
     exact Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h1)
@@ -276,7 +276,7 @@ theorem IsMinFam16.exists_isBarMap_kSub_UAOf_img (h1 : W16One G) (h5 : W16Five G
           (⊤ : Subgroup (VG (D.img H))) (vHat (D.img H))) ψ ∧
       ∀ k, ((ψ k : ↥(D.img (conjClosure V H))) : LGL 2 D.W) = projG (D.img H) k := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let G' : Subgroup (LGL 2 D.W) := D.img H
   let Γ : Set (Subgroup (LGL 2 D.W)) := D.conjImgFam V
   let VA : Subgroup (LGL 2 D.W) → Submodule (ZMod 2) D.W := D.conjImgSpace V₀ V

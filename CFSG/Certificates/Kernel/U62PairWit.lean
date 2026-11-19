@@ -100,22 +100,22 @@ theorem eltK_rep {R L : ℕ} {ρ ℓ : SU0} (hR : RepSU R ρ) (hL : RepSU L ℓ)
   by_cases h1 : m = 1
   · subst h1
     exact hR
-  · rw [Nat_beq_false h1, if_neg h1]
+  · rw [Nat_beq_false h1, ite_eq_right h1]
     by_cases h2 : m = 2
     · subst h2
       exact hL
-    · rw [Nat_beq_false h2, if_neg h2]
+    · rw [Nat_beq_false h2, ite_eq_right h2]
       exact RepSU_mul hR hL
 
 theorem ePerm_eq (ρ ℓ : SU0) (m : ℕ) :
     ePerm (piSU ρ) (piSU ℓ * fieldPerm frob4) m = piSU (eMat ρ ℓ m) * eFl m := by
   unfold ePerm eMat eFl
   by_cases h1 : m = 1
-  · rw [if_pos h1, if_pos h1, if_pos h1, mul_one]
-  · rw [if_neg h1, if_neg h1, if_neg h1]
+  · rw [ite_eq_left h1, ite_eq_left h1, ite_eq_left h1, mul_one]
+  · rw [ite_eq_right h1, ite_eq_right h1, ite_eq_right h1]
     by_cases h2 : m = 2
-    · rw [if_pos h2, if_pos h2]
-    · rw [if_neg h2, if_neg h2, map_mul, mul_assoc]
+    · rw [ite_eq_left h2, ite_eq_left h2]
+    · rw [ite_eq_right h2, ite_eq_right h2, map_mul, mul_assoc]
 
 
 theorem commE_sound {C Tm : ℕ} {c ε : SU0} (hc : RepSU C c)
@@ -132,7 +132,7 @@ theorem commE_sound {C Tm : ℕ} {c ε : SU0} (hc : RepSU C c)
     have h' : eqP (mulK C Tm) (mulK Tm (barK C)) = true := h
     have := piSU_eq_of_eqP (RepSU_mul hc hε) (RepSU_mul hε (RepSU_barK hc)) h'
     rw [map_mul, map_mul, ← conj_frSU] at this
-    rw [eFl, if_neg h1]
+    rw [eFl, ite_eq_right h1]
     calc piSU c * (piSU ε * fieldPerm frob4)
         = (piSU c * piSU ε) * fieldPerm frob4 := by rw [mul_assoc]
       _ = (piSU ε * (fieldPerm frob4 * piSU c * (fieldPerm frob4)⁻¹)) * fieldPerm frob4 := by
@@ -264,19 +264,19 @@ theorem nVal_sound {T : WTab} {NP R L f : ℕ} {ρ ℓ : SU0}
   by_cases hm : f8 T.NE f = 1
   · rw [hm] at hε hmem hsq hpe ⊢
     rw [hbe]
-    have hε1 : eMat ρ ℓ 1 = ρ := by unfold eMat; rw [if_pos rfl]
+    have hε1 : eMat ρ ℓ 1 = ρ := by unfold eMat; rw [ite_eq_left rfl]
     rw [hε1] at hε
     refine ⟨ρ * γ * (ρ * γ⁻¹), RepSU_mul (RepSU_mul hε hγ) (RepSU_mul hε hγi), ?_⟩
     rw [map_mul, map_mul, map_mul, map_inv, alg_lin (piSU ρ) (piSU γ) hC.hrr]
     have hpe1 : ePerm (piSU ρ) (piSU ℓ * fieldPerm frob4) 1 = piSU ρ := by
-      unfold ePerm; rw [if_pos rfl]
+      unfold ePerm; rw [ite_eq_left rfl]
     rw [hpe1] at hmem
     exact Subgroup.commutator_mem_commutator hmem hQγ
   · rw [Nat_beq_false hm]
     refine ⟨eMat ρ ℓ (f8 T.NE f) * frSU γ * (frSU (eMat ρ ℓ (f8 T.NE f)) * γ⁻¹),
       RepSU_mul (RepSU_mul hε (RepSU_barK hγ)) (RepSU_mul (RepSU_barK hε) hγi), ?_⟩
     rw [map_mul, map_mul, map_mul, map_inv, ← conj_frSU, ← conj_frSU]
-    have hF : eFl (f8 T.NE f) = fieldPerm frob4 := by unfold eFl; rw [if_neg hm]
+    have hF : eFl (f8 T.NE f) = fieldPerm frob4 := by unfold eFl; rw [ite_eq_right hm]
     rw [hF] at hpe
     rw [hpe] at hmem hsq
     rw [alg_semi (piSU (eMat ρ ℓ (f8 T.NE f))) (piSU γ) (fieldPerm frob4) fieldPerm_inv hsq]
@@ -480,7 +480,6 @@ theorem trnEqM_of_scal {L : ℕ} {ℓ : SU0} (hℓ : RepSU L ℓ)
       ((ℓ : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4)ᵀ = 1 := by
     first
     | exact mul_eq_one_comm.1 hu
-    | exact Matrix.mul_eq_one_comm_of_equiv (Equiv.refl _) hu
   have hinv : ((ℓ : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4) *
       (((ℓ : GL (Fin 6) F4)⁻¹ : GL (Fin 6) F4) : Matrix (Fin 6) (Fin 6) F4) = 1 := Units.mul_inv _
   unfold RepSU at hℓ

@@ -27,7 +27,7 @@ private lemma s11d_perfect_of_isSimple {X : Type*} [Group X] [IsSimpleGroup X]
   rcases Subgroup.Normal.eq_bot_or_eq_top (commutator X) with h | h
   · exfalso
     have hcomm : IsMulCommutative X := (commutator_eq_bot_iff X).mp h
-    haveI := hcomm
+    have := hcomm
     have hp : Nat.Prime (Nat.card X) := (Group.is_simple_iff_prime_card).mp inferInstance
     rw [hcard] at hp
     exact absurd hp (by norm_num)
@@ -110,10 +110,10 @@ private theorem s11d_H_facts (h : ElevenOneHyp hC)
   let L2' : Subgroup H := ⁅Lam2, Lam2⁆
   let H2 : Subgroup H := ⁅H1, H1⁆
   have hAperf : Group.IsPerfect A := by
-    haveI := hAB.simpleA
+    have := hAB.simpleA
     exact s11d_perfect_of_isSimple hAB.cardA
   have hBperf : Group.IsPerfect B := by
-    haveI := hAB.simpleB
+    have := hAB.simpleB
     exact s11d_perfect_of_isSimple hAB.cardB
   let π₁ : Lam1 →* (H ⧸ K) := π.comp Lam1.subtype
   have hker₁ : π₁.ker = K.subgroupOf Lam1 := by
@@ -122,7 +122,6 @@ private theorem s11d_H_facts (h : ElevenOneHyp hC)
     rfl
   have hrange₁ : π₁.range = A := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
-    change Subgroup.map π Lam1 = A
     rw [Subgroup.map_comap_eq, hπrange, top_inf_eq]
   have hmap₁ : (commutator ↥Lam1).map π₁ = A := by
     rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, hrange₁]
@@ -134,7 +133,6 @@ private theorem s11d_H_facts (h : ElevenOneHyp hC)
     rfl
   have hrange₂ : π₂.range = B := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
-    change Subgroup.map π Lam2 = B
     rw [Subgroup.map_comap_eq, hπrange, top_inf_eq]
   have hmap₂ : (commutator ↥Lam2).map π₂ = B := by
     rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, hrange₂]
@@ -369,7 +367,7 @@ private theorem s11d_H_facts (h : ElevenOneHyp hC)
       _ = L1' := sup_eq_left.mpr hKleL1'
   have hperfect : Group.IsPerfect Lam1 := Subgroup.isPerfect_iff.mpr hL1_perf.symm
   have hcenterA : Subgroup.center A = ⊥ := by
-    haveI := hAB.simpleA
+    have := hAB.simpleA
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center A) with h | h
     · exact h
     · exfalso
@@ -377,7 +375,7 @@ private theorem s11d_H_facts (h : ElevenOneHyp hC)
         rw [isMulCommutative_iff]
         intro x y
         exact (Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top x) y).symm
-      haveI := hcommA
+      have := hcommA
       have hp : Nat.Prime (Nat.card A) := (Group.is_simple_iff_prime_card).mp inferInstance
       rw [hAB.cardA] at hp
       exact absurd hp (by norm_num)
@@ -413,11 +411,11 @@ private theorem s11d_H_facts (h : ElevenOneHyp hC)
     (QuotientGroup.quotientMulEquivOfEq (hcenterL1.trans hker₁.symm)).trans
       ((QuotientGroup.quotientKerEquivRange π₁).trans (MulEquiv.subgroupCongr hrange₁))
   have hsimpleL1 : IsSimpleGroup (Lam1 ⧸ Subgroup.center Lam1) := by
-    haveI := hAB.simpleA
+    have := hAB.simpleA
     exact MulEquiv.isSimpleGroup eA
   have hnotcommA : ¬ IsMulCommutative A := by
     intro hc
-    haveI := hc
+    have := hc
     have hp : Nat.Prime (Nat.card A) := (Group.is_simple_iff_prime_card).mp hAB.simpleA
     rw [hAB.cardA] at hp
     exact absurd hp (by norm_num)
@@ -454,7 +452,7 @@ private theorem s11d_H_facts (h : ElevenOneHyp hC)
       Nonempty (Lam1 ⧸ Subgroup.center Lam1 ≃* alternatingGroup (Fin 5)) :=
     ⟨hq, hcenterL1, ⟨e⟩⟩
   have hcenterB : Subgroup.center B = ⊥ := by
-    haveI := hAB.simpleB
+    have := hAB.simpleB
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center B) with h | h
     · exact h
     · exfalso
@@ -462,7 +460,7 @@ private theorem s11d_H_facts (h : ElevenOneHyp hC)
         rw [isMulCommutative_iff]
         intro x y
         exact (Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top x) y).symm
-      haveI := hcommB
+      have := hcommB
       have hp : Nat.Prime (Nat.card B) := (Group.is_simple_iff_prime_card).mp inferInstance
       rw [hAB.cardB] at hp
       exact absurd hp (by norm_num)
@@ -498,11 +496,11 @@ private theorem s11d_H_facts (h : ElevenOneHyp hC)
     (QuotientGroup.quotientMulEquivOfEq (hcenterL2.trans hker₂.symm)).trans
       ((QuotientGroup.quotientKerEquivRange π₂).trans (MulEquiv.subgroupCongr hrange₂))
   have hsimpleL2 : IsSimpleGroup (Lam2 ⧸ Subgroup.center Lam2) := by
-    haveI := hAB.simpleB
+    have := hAB.simpleB
     exact MulEquiv.isSimpleGroup eB
   have hnotcommB : ¬ IsMulCommutative B := by
     intro hc
-    haveI := hc
+    have := hc
     have hp : Nat.Prime (Nat.card B) := (Group.is_simple_iff_prime_card).mp hAB.simpleB
     rw [hAB.cardB] at hp
     exact absurd hp (by norm_num)

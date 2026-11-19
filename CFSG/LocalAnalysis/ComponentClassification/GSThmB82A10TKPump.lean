@@ -52,7 +52,7 @@ theorem nonempty_equiv_of_mem_kernel {b : X} {Y : Subgroup X}
 theorem pump (hcore : EvenPump.EvenAltPumpInput) (hHN : EvenPump.HNPumpInput)
     (hA8 : EvenPump.A8PumpInput) {b : X}
     {Y : Subgroup X} (hbw : b ∈ centralizer ({e.w} : Set X)) (hb : orderOf b = 2)
-    (hbN : b ∈ normalizer (e.K : Set X)) (hbK : b ∉ coreActionKernel e.K)
+    (hbN : b ∈ normalizer (e.K : Set X)) (_hbK : b ∉ coreActionKernel e.K)
     (hYK : Y ≤ e.K ⊓ centralizer ({b} : Set X))
     (hY : IsPComponent 2 (Y.subgroupOf (centralizer ({e.w} : Set X) ⊓ centralizer ({b} : Set X))))
     {s : ℕ} (hs : Even s) (hs8 : 8 ≤ s)

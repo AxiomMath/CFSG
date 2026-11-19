@@ -83,7 +83,7 @@ end
 public theorem CFSG.generatorRank_le_natCard_local
     (G : Type*) [Group G] [Finite G] :
     generatorRank G ≤ Nat.card G := by
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   obtain ⟨S, hS_card, _hS_top⟩ := Group.rank_spec G
   calc
     generatorRank G = Group.rank G := generatorRank_eq_group_rank G

@@ -101,12 +101,12 @@ theorem Ctx12.mem_R_of_centralizes_t [IsSimpleGroup G] (c : Ctx12 p f K z S W L 
   obtain ⟨-, h2⟩ := h98 G (omegaPrime K Y') (hypOmegaGen_omegaPrime ht hY) Y'
     (Or.inr (CoreAssembly.mem_conjClass_self Y')) L (Or.inl c.data.memL) (c.inA_L hY) z t hzY
     c.data.invL K (Or.inl (CoreAssembly.mem_conjClass_self K)) hKY' (twinSet_omegaPrime' ht hY)
-    Xg (S.isPGroup'.to_le hXgS) hXgC _ hMsyl hPinv S (sup_le inf_le_left hXgS)
+    Xg (S.isPGroup.to_le hXgS) hXgC _ hMsyl hPinv S (sup_le inf_le_left hXgS)
     c.two_lt_card_L_inf_S W' hW' hW'S
   obtain ⟨A, hAeq, -, -, hA1, hA2⟩ := h2 fun y hy w hw =>
     (Subgroup.mem_centralizer_iff.mp hy.1.2 w ⟨hW'S hw.1, hY'Y hw.2⟩).symm
   have hB1 : W' ⊓ L ≤ sec19X K z :=
-    c.le_X_of_le_inf (S.isPGroup'.to_le (inf_le_left.trans hW'S))
+    c.le_X_of_le_inf (S.isPGroup.to_le (inf_le_left.trans hW'S))
       (le_inf inf_le_right (inf_le_left.trans (hW'S.trans hd.hSz)))
   have hB2 : W' ⊓ Y' ≤ sec19X K z := inf_le_right.trans (hY'Y.trans (sec19Y_le_sec19X K z))
   have hBS : (W' ⊓ L) ⊔ (W' ⊓ Y') ≤ (S : Subgroup G) :=
@@ -122,7 +122,7 @@ theorem Ctx12.mem_R_of_centralizes_t [IsSimpleGroup G] (c : Ctx12 p f K z S W L 
     have ha2 := hA2 ha
     have hav : ∀ v ∈ L ⊓ W, a * v = v * a := fun v hv =>
       commute_of_mem_centralizerModOdd ha2 (inf_le_left : L ⊓ (S : Subgroup G) ≤ L)
-        (S.isPGroup'.to_le inf_le_right)
+        (S.isPGroup.to_le inf_le_right)
         (mem_normalizer_inf ha2.2.1 (Subgroup.le_normalizer haS)) ⟨hv.1, hd.hWS hv.2⟩
     exact c.W_le_X (h11 G K z S W hd ⟨haS, c.mem_cStar_X hY hY'Y haS (hA1 ha) hav⟩)
   have hxXg : x ∈ Xg := ⟨⟨hxS, Subgroup.mem_centralizer_iff.mpr fun q hq => (hxQ q hq).symm⟩,

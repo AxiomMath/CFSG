@@ -15,7 +15,7 @@ theorem AmalgamS3.coreIn_eq_bot (hA : AmalgamS3 G₀ G₁ G₂ T L) {W : Subgrou
     (hW_le_Dμ : W ≤ coreIn (pCoreOf 2 G₁ ⊓ pCoreOf 2 G₂) G₁) (hr : r ∈ G₂) (hr1 : r ∉ G₁)
     (hrD : ∀ d ∈ pCoreOf 2 G₁ ⊓ pCoreOf 2 G₂, r * d * r⁻¹ * d⁻¹ ∈ W) :
     coreIn (pCoreOf 2 G₁ ⊓ pCoreOf 2 G₂) G₁ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let D : Subgroup G := pCoreOf 2 G₁ ⊓ pCoreOf 2 G₂
   let H : Subgroup G := G₁ ⊓ G₂
   let Dμ : Subgroup G := coreIn D G₁
@@ -76,7 +76,7 @@ theorem AmalgamA.false_of_elemAbelian (hA : AmalgamA G₀ G₁ G₂ T L) {W : Su
     (hr : r ∈ G₂) (hr1 : r ∉ G₁)
     (hrD : ∀ d ∈ pCoreOf 2 G₁ ⊓ pCoreOf 2 G₂, r * d * r⁻¹ * d⁻¹ ∈ W) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q1 : Subgroup G := pCoreOf 2 G₁
   let Q2 : Subgroup G := pCoreOf 2 G₂
   let D : Subgroup G := Q1 ⊓ Q2

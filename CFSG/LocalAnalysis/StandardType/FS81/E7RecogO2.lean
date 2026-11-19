@@ -37,7 +37,7 @@ private abbrev E7G : Type := ↥(adjointGroup .E7 (ZMod 2))
 
 private instance finite_E7G :
     Finite E7G := by
-  haveI : Finite (ModGL .E7 (ZMod 2)) := finite_modGL
+  have : Finite (ModGL .E7 (ZMod 2)) := finite_modGL
   infer_instance
 
 local instance e7RecogO2NeZeroRank : NeZero Tag.E7.rank := ⟨by decide⟩
@@ -211,7 +211,7 @@ private theorem pCore_e7D4_eq_bot :
     CFSG.pCore 2 ↥e7D4 = ⊥ := by
   have hS : IsSimpleGroup ↥e7D4 :=
     isSimpleGroup_overlapSpanD4 (K := ZMod 2) (by decide)
-  haveI := hS
+  have := hS
   refine pCore_eq_bot_of_simple ?_
   intro hP
   have hcent : Nontrivial ↥(Subgroup.center ↥e7D4) := hP.center_nontrivial
@@ -239,7 +239,7 @@ theorem e7JThetaD6_le_perpLevi :
           by rw [iform_neg_right, iform_highRoot_d6HighRoot, neg_zero]⟩)
 
 private theorem subgroupOf_inf' {M : Type*} [Group M] {G H₁ H₂ : Subgroup M}
-    (h₁ : H₁ ≤ G) (h₂ : H₂ ≤ G) :
+    (_h₁ : H₁ ≤ G) (_h₂ : H₂ ≤ G) :
     H₁.subgroupOf G ⊓ H₂.subgroupOf G = (H₁ ⊓ H₂).subgroupOf G := by
   ext x
   simp only [Subgroup.mem_inf, Subgroup.mem_subgroupOf]
@@ -562,7 +562,7 @@ private theorem e7M_normal
 
 private theorem e7N_le_Q
     {N Q D : Subgroup E7G} {n : E7G}
-    (hC : Q ⊔ D = Subgroup.centralizer ({e7HighInv} : Set E7G))
+    (_hC : Q ⊔ D = Subgroup.centralizer ({e7HighInv} : Set E7G))
     (hDQ : D ≤ Subgroup.normalizer (Q : Set E7G))
     (hnCD : n ∈ ((Q ⊔ D : Subgroup E7G) : Set E7G)) (hnN : n ∈ N)
     (hMbot : (N ⊔ Q) ⊓ D = ⊥) : n ∈ Q := by

@@ -62,7 +62,7 @@ private theorem matrix_eq_of_conj_graph_aut {N : ℕ}
   exact add_left_cancel key
 
 private theorem not_conj_graph_core {N : ℕ} {C C' : Matrix (Fin N) (Fin N) F2}
-    (hC : C * C' = 1) (hC' : C' * C = 1)
+    (_hC : C * C' = 1) (hC' : C' * C = 1)
     {p q r p' q' r' : Fin N} (hqr : q' ≠ r')
     (h1 : C * Matrix.single q p 1 * C' = Matrix.single p' q' 1)
     (h2 : C * Matrix.single p r 1 * C' = Matrix.single r' p' 1)
@@ -79,7 +79,7 @@ private theorem not_conj_graph_core {N : ℕ} {C C' : Matrix (Fin N) (Fin N) F2}
   have hne : Matrix.single r' q' (1 : F2) ≠ 0 := by
     intro hh
     have hh' := congrFun (congrFun hh r') q'
-    simp [Matrix.single_apply] at hh'
+    simp at hh'
   exact hne hzero
 
 private theorem lower_equation {m : ℕ} (c : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2)

@@ -17,10 +17,10 @@ namespace Hering129KH4b
 variable {P : Type} [Group P] [Finite P] {Yh Bh : Subgroup P} {xh bh ch : P}
   {K : Type} [Field K] {p f : ℕ} {π : Bool}
 
-theorem liftSub_trans [Yh.Normal] (hD : HessData Yh Bh xh bh ch) (hK : Sec4.PiField π p f K)
-    (hq : Sec4.ModThree π (p ^ f)) (e : ↥Yh ≃* projImage (Sec4.slPi π 3 (p ^ f) K))
-    (hact : ∀ g ∈ Yh ⊔ Bh, ∃ y, Sec4.IsPGLAtP e g y) {y : GL (Fin 3) K}
-    (hy : Sec4.IsPGLAtP e bh y) {F : Subgroup (ProjGenLinGroup (Fin 3) K)}
+theorem liftSub_trans [Yh.Normal] (hD : HessData Yh Bh xh bh ch) (_hK : Sec4.PiField π p f K)
+    (_hq : Sec4.ModThree π (p ^ f)) (e : ↥Yh ≃* projImage (Sec4.slPi π 3 (p ^ f) K))
+    (_hact : ∀ g ∈ Yh ⊔ Bh, ∃ y, Sec4.IsPGLAtP e g y) {y : GL (Fin 3) K}
+    (_hy : Sec4.IsPGLAtP e bh y) {F : Subgroup (ProjGenLinGroup (Fin 3) K)}
     (hF : PglHess π p f K y
       ((e ⟨ch, hD.cY⟩ : projImage (Sec4.slPi π 3 (p ^ f) K)) : ProjGenLinGroup (Fin 3) K) F) :
     ∀ g ∈ Hering129KH4.liftSub e F, g ≠ 1 →

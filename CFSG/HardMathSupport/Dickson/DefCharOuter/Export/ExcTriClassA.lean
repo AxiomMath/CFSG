@@ -365,10 +365,10 @@ theorem outerCentData_three_classA {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K]
     (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f)) :
     OuterCentData 3 (fieldActor (t := TwistTag.D4) σ σ) := by
   classical
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     Finite.of_injective (fun x => (x : ModGL TwistTag.D4.tag K)) Subtype.val_injective
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hσ3 : σ ^ 3 = 1 := by
     ext c
     exact ringEquiv_cube_apply_eq hK hσ c

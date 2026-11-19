@@ -31,6 +31,7 @@ private theorem cycJ_ne_one (d : Cyc L Q z) : z ≠ 1 := by
   rw [hz, orderOf_one] at this
   omega
 
+omit [Finite G] in
 private theorem cycJ_conj_mem_centralizer {c x : G} (hc : c ∈ normalizer (L : Set G))
     (hx : x ∈ centralizer (L : Set G)) : c * x * c⁻¹ ∈ centralizer (L : Set G) := by
   rw [mem_centralizer_iff]
@@ -179,6 +180,7 @@ theorem not_J_z (hS : StandardSetting G L) (θ : L ≃* alternatingGroup (Fin n)
   rw [hXQ] at hz1
   exact cycJ_ne_one d hz1
 
+omit [Finite G] in
 private theorem cycJ_J_of_mem (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) {y : G}
     (hy : y ∈ L) (hy2 : orderOf y = 2) : J y := by
   have ha2 : orderOf (θ ⟨y, hy⟩ : alternatingGroup (Fin n)) = 2 := by

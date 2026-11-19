@@ -290,7 +290,7 @@ theorem kE6Test_sound {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGTWNVa
     · obtain ⟨i, rfl⟩ := hx
       have hiv : i.val + 1 < 6 := by have := i.isLt; omega
       have hgen : ggTWNGen 3 6 news i.val = (ggTWNH 3 6 i.val, ggTWNA 3 6 i.val) := by
-        simp only [ggTWNGen, if_pos hiv]
+        simp only [ggTWNGen, ite_eq_left hiv]
       have h1 := hS_mem i.val (by have := i.isLt; omega)
       rw [hgen] at h1
       simp only [ggTWNRflOf] at h1
@@ -299,7 +299,7 @@ theorem kE6Test_sound {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGTWNVa
       obtain ⟨q, hq, rfl⟩ := ht
       obtain ⟨k, hk, rfl⟩ := List.mem_iff_getElem.mp hq
       have hgen : ggTWNGen 3 6 news (5 + k) = news[k] := by
-        rw [ggTWNGen, if_neg (by omega), show 5 + k + 1 - 6 = k by omega,
+        rw [ggTWNGen, ite_eq_right (by omega), show 5 + k + 1 - 6 = k by omega,
           List.getD_eq_getElem _ _ hk]
       have h1 := hS_mem (5 + k) (by omega)
       rw [hgen] at h1

@@ -155,7 +155,7 @@ private theorem hmbBlock_exists_blockHom_far {S : PhanFamilyE K 2 f M G} (hg : S
     subst hj
     exact (hφ2 ⟨S.ι j A, A, rfl⟩).trans (hmbBlock_rangeHom_apply hg F j _ A rfl)
 
-theorem PhanFamilyE.Good.exists_blockHom (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
+theorem PhanFamilyE.Good.exists_blockHom (_hK : Nat.card K = (2 ^ f) ^ 2) (_hq : 4 ≤ 2 ^ f)
     {S : PhanFamilyE K 2 f M G} (hg : S.Good) {Y : Type} [Group Y] (F : PhanFamilyE K 2 f M Y)
     {J : Set (Fin n)} (hJ : J.encard ≤ 2) : ∃ φN : S.lsup J →* Y, S.IsBlockHom F J φN := by
   rcases hJ.lt_or_eq with h | h

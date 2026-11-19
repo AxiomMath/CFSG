@@ -49,17 +49,17 @@ theorem one_ne_of_prim (hζ : IsPrimitiveRoot ζ 3) : (1 : L) ≠ ζ :=
 
 theorem sg_zeta (hζ : IsPrimitiveRoot ζ 3) : sg6 ζ ζ = 1 := by
   unfold sg6
-  rw [if_pos rfl, if_neg (ne_sq_of_prim hζ)]
+  rw [ite_eq_left rfl, ite_eq_right (ne_sq_of_prim hζ)]
   norm_num
 
 theorem sg_zeta_sq (hζ : IsPrimitiveRoot ζ 3) : sg6 ζ (ζ ^ 2) = -1 := by
   unfold sg6
-  rw [if_neg (ne_sq_of_prim hζ).symm, if_pos rfl]
+  rw [ite_eq_right (ne_sq_of_prim hζ).symm, ite_eq_left rfl]
   norm_num
 
 theorem sg_one (hζ : IsPrimitiveRoot ζ 3) : sg6 ζ 1 = 0 := by
   unfold sg6
-  rw [if_neg (one_ne_of_prim hζ), if_neg (one_ne_sq_of_prim hζ)]
+  rw [ite_eq_right (one_ne_of_prim hζ), ite_eq_right (one_ne_sq_of_prim hζ)]
   norm_num
 
 theorem sg_triple (hζ : IsPrimitiveRoot ζ 3) {v : L} (hv : v ^ 3 = 1) :
@@ -73,7 +73,7 @@ theorem sg_triple (hζ : IsPrimitiveRoot ζ 3) {v : L} (hv : v ^ 3 = 1) :
       _ = 1 := hz3
   have hz6 : ζ * ζ ^ 2 = 1 := by rw [mul_comm]; exact hz5
   rcases mu3_cases hζ hv with rfl | rfl | rfl
-  · simp only [one_mul, mul_one]
+  · simp only [mul_one]
     rw [sg_one hζ, sg_zeta hζ, sg_zeta_sq hζ]
     norm_num
   · rw [one_mul, ← pow_two, hz5, sg_zeta hζ, sg_zeta_sq hζ, sg_one hζ]
@@ -81,6 +81,7 @@ theorem sg_triple (hζ : IsPrimitiveRoot ζ 3) {v : L} (hv : v ^ 3 = 1) :
   · rw [one_mul, hz6, hz4, sg_zeta_sq hζ, sg_one hζ, sg_zeta hζ]
     norm_num
 
+omit [Fintype P] in
 theorem char_one {c : P → L} (hcmul : ∀ x y, c (x * y) = c x * c y)
     (hcpow : ∀ x, c x ^ 3 = 1) : c 1 = 1 := by
   have h1 : c 1 = c 1 * c 1 := by rw [← hcmul, mul_one]
@@ -100,6 +101,7 @@ section Triv
 
 variable {ζ : L}
 
+omit [Fintype P] in
 theorem triv_pow (hζ : IsPrimitiveRoot ζ 3) {c d : P → L}
     (hcmul : ∀ x y, c (x * y) = c x * c y) (hcpow : ∀ x, c x ^ 3 = 1)
     (hdmul : ∀ x y, d (x * y) = d x * d y)
@@ -188,6 +190,7 @@ section Symm
 
 variable {ζ : L}
 
+omit [Group P] [Fintype P] in
 theorem sum_sg_eq_zero6 {d : Fin 6 → P → L}
     (hsymm : ∀ z, (univ.filter fun i => d i z = ζ).card =
       (univ.filter fun i => d i z = ζ ^ 2).card) (z : P) :
@@ -227,14 +230,14 @@ theorem mult_inv_eq6 (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
     intro i
     simp only [hdmul]
     by_cases htriv : ∀ x, c x = 1 → d i x = 1
-    · rw [if_pos htriv, Finset.sum_mul]
+    · rw [ite_eq_left htriv, Finset.sum_mul]
       apply Finset.sum_congr rfl
       intro x _
       by_cases hcx : c x = 1
       · simp [h, hcx, htriv x hcx]
       · simp [h, hcx]
-    · rw [if_neg htriv]
-      push_neg at htriv
+    · rw [ite_eq_right htriv]
+      push Not at htriv
       obtain ⟨x1, hx1c, hx1d⟩ := htriv
       obtain ⟨t, ht1, htζ⟩ : ∃ t, c t = 1 ∧ d i t = ζ := by
         rcases mu3_cases hζ (hdpow i x1) with h' | h' | h'
@@ -278,7 +281,7 @@ theorem mult_inv_eq6 (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
         have h2' : d i y = c y ^ 2 := congrFun hB y
         rw [h1, hy] at h2'
         exact ne_sq_of_prim hζ h2'
-      rw [if_pos htriv, if_pos hA, if_neg hB, hA, hy, sg_zeta hζ]
+      rw [ite_eq_left htriv, ite_eq_left hA, ite_eq_right hB, hA, hy, sg_zeta hζ]
       norm_num
     · by_cases hB : d i = fun x => c x ^ 2
       · have htriv : ∀ x, c x = 1 → d i x = 1 := fun x hx => by
@@ -287,11 +290,11 @@ theorem mult_inv_eq6 (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
         have hdy : d i y = ζ ^ 2 := by
           have this : d i y = c y ^ 2 := congrFun hB y
           rw [this, hy]
-        rw [if_pos htriv, if_neg hA, if_pos hB, hdy, sg_zeta_sq hζ]
+        rw [ite_eq_left htriv, ite_eq_right hA, ite_eq_left hB, hdy, sg_zeta_sq hζ]
         norm_num
-      · rw [if_neg hA, if_neg hB, sub_zero]
+      · rw [ite_eq_right hA, ite_eq_right hB, sub_zero]
         by_cases htriv : ∀ x, c x = 1 → d i x = 1
-        · rw [if_pos htriv]
+        · rw [ite_eq_left htriv]
           rcases mu3_cases hζ (hdpow i y) with h4 | h4 | h4
           · rw [h4, sg_one hζ]
           · exfalso
@@ -305,7 +308,7 @@ theorem mult_inv_eq6 (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
             obtain ⟨j, _, hcx, hdx⟩ := triv_pow hζ hcmul hcpow (fun x y => hdmul i x y) hy htriv x
             rw [hdx, h4, hcx]
             ring
-        · rw [if_neg htriv]
+        · rw [ite_eq_right htriv]
   have hsum_eq : ∑ i, ((if d i = c then (1 : ℤ) else 0) -
       (if d i = fun x => c x ^ 2 then 1 else 0)) = 0 :=
     Eq.trans (Finset.sum_congr rfl (fun i _ => (hpt i).symm)) hfin
@@ -320,9 +323,10 @@ section Pairs
 
 variable {ζ : L}
 
+omit [Group P] in
 theorem exists_ne_one_of_ne_fun {u : P → L} (h : u ≠ fun _ => 1) : ∃ x, u x ≠ 1 := by
   by_contra h'
-  push_neg at h'
+  push Not at h'
   exact h (funext h')
 
 theorem sq_ne_one_of {u : L} (hu3 : u ^ 3 = 1) (hu : u ≠ 1) : u ^ 2 ≠ 1 := by
@@ -330,6 +334,7 @@ theorem sq_ne_one_of {u : L} (hu3 : u ^ 3 = 1) (hu : u ≠ 1) : u ^ 2 ≠ 1 := b
   apply hu
   linear_combination (-u) * hu3 + (u ^ 2 + 1) * h
 
+omit [Group P] [Fintype P] in
 theorem sq_ne_left {u v : P → L} (hu : ∀ x, u x ^ 3 = 1) (h : u ≠ fun x => v x ^ 2) :
     (fun x => u x ^ 2) ≠ v := by
   intro e
@@ -339,6 +344,7 @@ theorem sq_ne_left {u v : P → L} (hu : ∀ x, u x ^ 3 = 1) (h : u ≠ fun x =>
   rw [← h1]
   exact (KA7.sq_sq_eq (hu x)).symm
 
+omit [Group P] [Fintype P] in
 theorem ne_sq_of {b c : P → L} (hc : ∀ x, c x ^ 3 = 1) (h : c ≠ fun x => b x ^ 2) :
     b ≠ fun x => c x ^ 2 := by
   intro e
@@ -354,16 +360,16 @@ theorem exists_three (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
       (∃ x, d i1 x ≠ 1) ∧ d i2 ≠ d i1 ∧ d i2 ≠ (fun x => d i1 x ^ 2) ∧ (∃ x, d i2 x ≠ 1) ∧
       d i3 ≠ d i1 ∧ d i3 ≠ (fun x => d i1 x ^ 2) ∧ d i3 ≠ d i2 ∧
       d i3 ≠ (fun x => d i2 x ^ 2) ∧ (∃ x, d i3 x ≠ 1) := by
-  haveI : Nontrivial P := Fintype.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
+  have : Nontrivial P := Fintype.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
   obtain ⟨x0, hx0⟩ := exists_ne (1 : P)
   obtain ⟨i1, hi1⟩ : ∃ i, d i x0 ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hx0 (hfaith x0 h)
   obtain ⟨i2, hi2a, hi2a2, hi21⟩ : ∃ i, d i ≠ d i1 ∧ d i ≠ (fun x => d i1 x ^ 2) ∧
       d i ≠ (fun _ => 1) := by
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨x1, hx1, hax1, -⟩ :=
       KA7.common_kernel hζ (hdmul i1) (hdpow i1) (hdmul i1) (hdpow i1) hcard
     apply hx1
@@ -377,7 +383,7 @@ theorem exists_three (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
   obtain ⟨i3, hi3a, hi3a2, hi3b, hi3b2, hi31⟩ : ∃ i, d i ≠ d i1 ∧ d i ≠ (fun x => d i1 x ^ 2) ∧
       d i ≠ d i2 ∧ d i ≠ (fun x => d i2 x ^ 2) ∧ d i ≠ (fun _ => 1) := by
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨x1, hx1, hax1, hbx1⟩ :=
       KA7.common_kernel hζ (hdmul i1) (hdpow i1) (hdmul i2) (hdpow i2) hcard
     apply hx1
@@ -401,6 +407,7 @@ section Count
 
 variable {ζ : L}
 
+omit [Group P] in
 theorem card_eval {d u : Fin 6 → P → L} (hu : Function.Injective u)
     (hcover : ∀ i, ∃ k, d i = u k) (g : P) :
     (univ.filter fun i => d i g = 1).card =
@@ -489,7 +496,6 @@ theorem pairs_count (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
       | exact absurd h hbc_2
       | exact absurd h hc2.symm
       | exact absurd h hab
-      | exact absurd h.symm hab.symm
       | exact absurd h.symm ha2.symm
       | exact absurd h.symm hb2a.symm
       | exact absurd h.symm hac.symm
@@ -504,9 +510,6 @@ theorem pairs_count (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
       | exact absurd h.symm hb2c
       | exact absurd h.symm hbc_2
       | exact absurd h.symm hc2.symm
-      | exact absurd h ha2
-      | exact absurd h hb2
-      | exact absurd h hc2
   have hpt : ∀ i, ∑ k : Fin 6, (if d i = u k then 1 else 0) ≤ 1 := by
     intro i
     rw [← Finset.card_filter]
@@ -554,7 +557,7 @@ theorem pairs_count (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
   have hcover : ∀ i, ∃ k, d i = u k := by
     intro i
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 := hpt_eq i
     simp [h] at h1
   exact ⟨hu_inj, fun i => by
@@ -603,13 +606,13 @@ theorem exists_gt (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
     have e3 : u 3 g = 1 := v3
     have e4 : ¬ u 4 g = 1 := hcg
     have e5 : ¬ u 5 g = 1 := v5
-    rw [card_eval hu hcov g, Fin.sum_univ_six, if_pos e0, if_pos e1, if_pos e2, if_pos e3,
-      if_neg e4, if_neg e5, c0, c1, c2, c3]
+    rw [card_eval hu hcov g, Fin.sum_univ_six, ite_eq_left e0, ite_eq_left e1, ite_eq_left e2, ite_eq_left e3,
+      ite_eq_right e4, ite_eq_right e5, c0, c1, c2, c3]
   have ka := KA7.ker_card hζ (hdmul i1) (hdpow i1) ⟨x1, hx1⟩ hcard
   have kb := KA7.ker_card hζ (hdmul i2) (hdpow i2) ⟨y2, hy2⟩ hcard
   obtain ⟨t, ht1, ht2⟩ : ∃ t, d i1 t ≠ 1 ∧ d i2 t ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hsub : (univ : Finset P) ⊆
         (univ.filter fun x => d i1 x = 1) ∪ (univ.filter fun x => d i2 x = 1) := by
       intro x _
@@ -626,10 +629,10 @@ theorem exists_gt (hζ : IsPrimitiveRoot ζ 3) {d : Fin 6 → P → L}
   rw [hk] at hi ⊢
   fin_cases k
   · simpa using ht1
-  · simp only [Fin.zero_eta, Fin.mk_one, Fin.isValue, Matrix.cons_val_one, Matrix.head_cons]
+  · simp only [Fin.mk_one, Fin.isValue, Matrix.cons_val_one]
     exact sq_ne_one_of (hdpow i1 t) ht1
   · simpa using ht2
-  · simp only [Fin.isValue, Matrix.cons_val_one, Matrix.head_cons]
+  · simp only
     exact sq_ne_one_of (hdpow i2 t) ht2
   · exact absurd (by simpa using hi) hcg
   · exfalso

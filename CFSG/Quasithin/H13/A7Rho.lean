@@ -516,7 +516,7 @@ theorem sign_kAct_of_inverts (T : Sylow 2 G) {K : Subgroup G}
     have h2 : (k : G) ∈ (T ⊓ K : Subgroup G) := (hc ⟨k, hkK⟩).2 (by
       rw [← hkbar]
       exact h1)
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨k, (mem_inf.1 h2).1⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨k, (mem_inf.1 h2).1⟩
     have hn' : k ^ 2 ^ n = 1 := by simpa using congrArg Subtype.val hn
     have h3 : orderOf k ∣ Nat.gcd 3 (2 ^ n) :=
       Nat.dvd_gcd (orderOf_dvd_of_pow_eq_one hk3) (orderOf_dvd_of_pow_eq_one hn')

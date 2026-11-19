@@ -41,10 +41,12 @@ private noncomputable def l54P (D : QuotientData (z := z) hN) (σ₂ τ : ↥(H 
     Subgroup G :=
   l54N D σ₂ τ ⊓ centralizer ({z₁} : Set G)
 
+omit [Finite G] hN in
 private theorem l54_tau_sq {τ : ↥(H z)} (hτ : τ * τ = 1) :
     (τ : G) * (τ : G) = 1 := by
   simpa using congrArg Subtype.val hτ
 
+omit [Finite G] in
 private theorem l54_tau_notMem_J {D : QuotientData (z := z) hN} {τ : ↥(H z)}
     (hqτ : qH (z := z) D τ = tA) :
     (τ : G) ∉ J z := by
@@ -54,14 +56,16 @@ private theorem l54_tau_notMem_J {D : QuotientData (z := z) hN} {τ : ↥(H z)}
   rw [hqτ] at hq
   exact t_ne_one (congrArg Subtype.val hq)
 
+omit [Finite G] in
 private theorem l54_tau_ne_one {D : QuotientData (z := z) hN} {τ : ↥(H z)}
     (hqτ : qH (z := z) D τ = tA) :
     (τ : G) ≠ 1 :=
   fun h1 => l54_tau_notMem_J hqτ (h1 ▸ Subgroup.one_mem (J z))
 
+omit [Finite G] in
 private theorem l54_tau_ord {D : QuotientData (z := z) hN} {τ : ↥(H z)}
     (hτ : τ * τ = 1) (hqτ : qH (z := z) D τ = tA) : orderOf (τ : G) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by rw [pow_two]; exact l54_tau_sq hτ) (l54_tau_ne_one hqτ)
 
 private theorem l54_tau_mem_W (D : QuotientData (z := z) hN) {σ₂ τ : ↥(H z)} :
@@ -100,11 +104,11 @@ private theorem l54_conj_tau_notMem_J {D : QuotientData (z := z) hN} {σ₂ τ :
   exact l54_tau_notMem_J hqτ hτ
 
 private noncomputable def l54Label (D : QuotientData (z := z) hN) (h : Tim79a.ParrottHyp z)
-    (P : GL8) (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
-    {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
-    (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
-    {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (hτ : τ * τ = 1)
-    (hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ) (hτ₂ : τ * σ₂ = σ₂ * τ)
+    (P : GL8) (_hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
+    {σ₂ : ↥(H z)} (_hσ₂ : orderOf σ₂ = 3) (_hq₂ : qH (z := z) D σ₂ = s2A)
+    (_hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
+    {τ : ↥(H z)} (_hqτ : qH (z := z) D τ = tA) (_hτ : τ * τ = 1)
+    (_hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ) (_hτ₂ : τ * σ₂ = σ₂ * τ)
     (g : G) : ↥(centerIn (J z)) := by
   classical
   exact if hex : ∃ e ∈ centerIn (J z),
@@ -132,7 +136,7 @@ private theorem l54Label_spec (D : QuotientData (z := z) hN) (h : Tim79a.Parrott
     exists_isLemma54Label (z := z) D h P hP hσ₂ hq₂ hc₂ hqτ hτ hτ₁ hτ₂
       (l54_conj_tau_mem_W hg) (l54_conj_tau_notMem_J hqτ hg)
   have hval : (l54Label D h P hP hσ₂ hq₂ hc₂ hqτ hτ hτ₁ hτ₂ g : G) = hex.choose := by
-    simp only [l54Label, dif_pos hex]
+    simp only [l54Label, dite_eq_left hex]
   rw [hval]
   exact hex.choose_spec.2
 
@@ -200,6 +204,7 @@ private theorem l54_mem_centralizer_centerIn_of_mem_P (h : Tim79a.ParrottHyp z)
       _ = (g * z) * z₁ := by rw [hzg]
       _ = g * (z * z₁) := by group
 
+omit [Finite G] hN in
 private theorem l54_mem_centralizer_z1_of_mem_J {z₁ q : G} (hz₁ : z₁ ∈ centerIn (J z))
     (hq : q ∈ J z) : q ∈ centralizer ({z₁} : Set G) := by
   rw [Subgroup.mem_centralizer_singleton_iff]
@@ -579,6 +584,7 @@ theorem isLemma54Label_conj_tau_of_mem_centralizer_z1
   have hspec := l54Label_spec D h P hP hσ₂ hq₂ hc₂ hqτ hτ hτ₁ hτ₂ hg
   rwa [h1] at hspec
 
+omit hN in
 private theorem l54_conj_inv_z₁_eq (h : Tim79a.ParrottHyp z) {z₁ : G}
     (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
     {μ : G} (hμH : μ ∈ H z) (hμc : μ ∉ centralizer ({z₁} : Set G)) :
@@ -590,10 +596,13 @@ private theorem l54_conj_inv_z₁_eq (h : Tim79a.ParrottHyp z) {z₁ : G}
   have h := conj_z1_eq_of_not_mem_centralizer (h := h) hz₁ hz₁z hord hμinvH hμinvc
   simpa using h
 
+omit [Finite G] hN in
 private theorem l54_conj_inv_z_eq {μ : G} (hμH : μ ∈ H z) : μ⁻¹ * z * μ = z := by
   have hcomm : Commute μ z := Subgroup.mem_centralizer_singleton_iff.mp hμH
   rw [(hcomm.inv_left).eq, mul_assoc, inv_mul_cancel, mul_one]
 
+omit hN in
+omit [Finite G] in
 private theorem l54_conj_mem_centerIn {e g : G} (he : e ∈ centerIn (J z)) (hg : g ∈ H z) :
     g * e * g⁻¹ ∈ centerIn (J z) := by
   have hHN : H z ≤ Subgroup.normalizer (centerIn (J z) : Set G) :=
@@ -601,6 +610,7 @@ private theorem l54_conj_mem_centerIn {e g : G} (he : e ∈ centerIn (J z)) (hg 
       (centerIn_subgroupOf_normal z)
   exact (Subgroup.mem_normalizer_iff.mp (hHN hg) e).mp he
 
+omit hN in
 private theorem l54_inv_mul_mem_centralizer_z1 (h : Tim79a.ParrottHyp z) {z₁ : G}
     (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
     {μ g : G} (hμH : μ ∈ H z) (hμc : μ ∉ centralizer ({z₁} : Set G))
@@ -623,6 +633,7 @@ private theorem l54_inv_mul_mem_centralizer_z1 (h : Tim79a.ParrottHyp z) {z₁ :
   calc (μ⁻¹ * g) * z₁ = ((μ⁻¹ * g) * z₁ * (μ⁻¹ * g)⁻¹) * (μ⁻¹ * g) := by group
     _ = z₁ * (μ⁻¹ * g) := by rw [hconj]
 
+omit hN in
 private theorem l54_sq_mem_centralizer_z1 (h : Tim79a.ParrottHyp z) {z₁ : G}
     (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
     {μ : G} (hμH : μ ∈ H z) (hμc : μ ∉ centralizer ({z₁} : Set G)) :
@@ -705,6 +716,7 @@ private theorem l54_label_mu_mul_conj_eq_one
       (l54Label_spec D h P hP hσ₂ hq₂ hc₂ hqτ hτ hτ₁ hτ₂ hμ2N) hmul'
   exact hlabelEq.symm.trans hsq
 
+omit [Finite G] hN in
 private theorem l54_eq_one_of_z1_mul {z₁ μ : G} (hord : orderOf z₁ = 2)
     (hzz₁ : z * z₁ = z₁ * z) (hμz₁ : μ * z₁ * μ⁻¹ = z * z₁)
     (hone : z₁ * (μ * z₁ * μ⁻¹) = 1) : z = 1 := by
@@ -719,6 +731,7 @@ private theorem l54_eq_one_of_z1_mul {z₁ μ : G} (hord : orderOf z₁ = 2)
     _ = z₁ * (z * z₁) := by group
     _ = 1 := hcontra
 
+omit [Finite G] hN in
 private theorem l54_eq_one_of_zz1_mul {z₁ μ : G} (hord : orderOf z₁ = 2)
     (hμzz₁ : μ * (z * z₁) * μ⁻¹ = z₁)
     (hone : (z * z₁) * (μ * (z * z₁) * μ⁻¹) = 1) : z = 1 := by

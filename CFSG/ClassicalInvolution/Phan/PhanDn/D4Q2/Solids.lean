@@ -694,7 +694,7 @@ private theorem d4s_exists_solSub_eq [Finite K] (hσ : IsUnitaryInvolution σ) (
     have hne : Fin.cast h4.symm k ≠ Fin.cast h4.symm l :=
       fun h' => hkl (Fin.cast_injective h4.symm h')
     have h := hb (Fin.cast h4.symm k) (Fin.cast h4.symm l)
-    rw [if_neg hne] at h
+    rw [ite_eq_right hne] at h
     simpa [x] using h
   have hxquad : ∀ k, quadPlus 4 K (x k) = 0 := fun k => hS.total (x k) (hxmem k)
   have hxne : ∀ k, x k ≠ 0 := by

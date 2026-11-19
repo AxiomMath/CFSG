@@ -16,7 +16,7 @@ namespace CrossExcU
 section Numerics
 
 theorem unitaryOrder_pos {ℓ f p : ℕ} (hp : p.Prime) (hpℓ : ¬ p ∣ ℓ) : 0 < unitaryOrder ℓ f p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : (-((ℓ ^ f : ℕ) : ZMod p)) ≠ 0 := fun h0 => by
     have h1 := (ZMod.natCast_eq_zero_iff (ℓ ^ f) p).1 (neg_eq_zero.1 h0)
     exact hpℓ (hp.dvd_of_dvd_pow h1)
@@ -37,7 +37,7 @@ theorem crossAbelianOn_unitary_of_props (hR1 : UnitaryRankProp) (hR2 : UnitaryAb
     {m : ℕ} {q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeIndex.twistedA m q).Valid) :
     CrossAbelianOn ⟨.twistedA m q, hv⟩ (UnitaryLarge m q) := by
   intro p hp hp5 _ hdp L _ _ hs ⟨e⟩ hn h2 P
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA m q hv e
   have hdp' : q.p ≠ p := by simpa using hdp
@@ -60,7 +60,7 @@ theorem crossRankOn_unitary_of_props (hR1 : UnitaryRankProp) (hR2 : UnitaryAbeli
     (hv : (TauCeti.LieTypeIndex.twistedA m q).Valid) :
     CrossRankOn ⟨.twistedA m q, hv⟩ (UnitaryLarge m q) := by
   intro p hp hp5 _ hdp L _ _ hs ⟨e⟩ hn h3 y hy
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA m q hv e
   have hdp' : q.p ≠ p := by simpa using hdp

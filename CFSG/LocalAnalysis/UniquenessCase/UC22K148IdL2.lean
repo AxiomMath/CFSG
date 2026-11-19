@@ -24,9 +24,9 @@ variable {ρ : Representation (ZMod 2) G V}
 theorem exists_mulEquiv_sl2_of_isL2 {X : Type} [Group X] {n : ℕ} (h : IsL2 X n) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F), Nat.card F = 2 ^ n ∧ Nonempty (X ≃* SL(2, F)) := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
   exact ⟨K, inferInstance, inferInstance, hK,
     ⟨e.trans (CFSG.QuasithinUnique.Setup.Family.statedProjSL_two_equiv K)⟩⟩
 
@@ -114,11 +114,11 @@ theorem exists_componentOffenderOutput
             (imgGL ρ (L ⊔ B) (commOn ρ L ⊤) hinv B) n α
             (commGL (imgGL ρ (L ⊔ B) (commOn ρ L ⊤) hinv L) ⊤) := by
   classical
-  haveI hLs : IsSimpleGroup ↥L := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
+  have hLs : IsSimpleGroup ↥L := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
   obtain ⟨B, hinv, hBA, hbest, hquad, hBU, hmov, hT⟩ := exists_transportGL hρ hL hLs hA hLA
   obtain ⟨F, _, _, hF, ⟨eF⟩⟩ := exists_mulEquiv_sl2_of_isL2 hX
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Fintype (ℙ F (Fin 2 → F)) := Fintype.ofFinite _
+  let : Fintype F := Fintype.ofFinite F
+  let : Fintype (ℙ F (Fin 2 → F)) := Fintype.ofFinite _
   have hF' : Fintype.card F = 2 ^ n := by rw [← Nat.card_eq_fintype_card, hF]
   obtain ⟨e, -⟩ := hT.iso
   let α := ((QuotientGroup.quotientMulEquivOfEq hT.center).trans QuotientGroup.quotientBot).trans

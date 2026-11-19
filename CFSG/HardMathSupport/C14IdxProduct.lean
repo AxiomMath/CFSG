@@ -62,8 +62,7 @@ private lemma rootDiagUnit_cochar_mem_sup_of_mem_closure {τ : Tag} {L : Type} [
           · exact neg_mem_familyKernel a hβ)
           (rootSL2_mem_rootSpan_pair hβ.1 (HSL c)))
   | zero =>
-      simpa [cochar_zero, rootDiagUnit_one] using
-        (Subgroup.one_mem (famZ a ⊔ rootSpan τ L (familyKernel a)))
+      simp [cochar_zero, rootDiagUnit_one]
   | add x y _ _ hx hy =>
       rw [cochar_add, rootDiagUnit_mul]
       exact mul_mem hx hy

@@ -221,7 +221,7 @@ theorem a6Block_rhoA6 [IsAlgClosed L] (hL : ringChar L ≠ 7)
   · intro t ht
     have : NeZero ((7 : ℕ) : L) :=
       ⟨by exact_mod_cast Torality.natCast_ne_zero_of_ringChar_ne (by norm_num) hL⟩
-    obtain ⟨ω, hω⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 7
+    obtain ⟨ω, hω⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 7
     have hconj : ∀ (d' : Fin 7 → Lˣ) (hd' : ∏ i, (d' i : L) = 1), ∃ g : SL(7, L), ∀ i j, i ≠ j →
         ((g⁻¹ * (coxSL7 * Torality.diagSLn d' hd') * g : SL(7, L)) :
           Matrix (Fin 7) (Fin 7) L) i j = 0 := by

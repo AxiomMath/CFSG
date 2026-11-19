@@ -14,7 +14,7 @@ variable {G : Type*} [Group G] [Finite G] {k : Type*} [Field k] [Finite k] {S : 
   {ρ : G →* Matrix.SpecialLinearGroup (Fin 2) k} {ψ : Ecore G →* Multiplicative (Fin 2 → k)}
 
 private theorem aimg_mul_J {G : Type*} [Group G] {T : Subgroup G} (δ ε : T ≃* T)
-    (Y : Subgroup G) (hY : Y ≤ T) : aimg T (δ * ε) Y = aimg T δ (aimg T ε Y) := by
+    (Y : Subgroup G) (_hY : Y ≤ T) : aimg T (δ * ε) Y = aimg T δ (aimg T ε Y) := by
   ext x
   constructor
   · intro hx

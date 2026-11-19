@@ -281,7 +281,7 @@ theorem exists_stdSetup_suCover_of_twA_component_E7 {F : Type} [Field F] [Finite
               (∀ x, θ (QuotientGroup.mk (Φ x)) =
                 LargeEvenProjMk (LargeEvenSUGroup (Fin (m + 1)) K 2) x) ∧
               Function.Surjective Φ ∧ Φ.ker ≤ Subgroup.center (StatedSU (m + 1) 2 K) := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have : CharP (AlgebraicClosure F) 2 :=

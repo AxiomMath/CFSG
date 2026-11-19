@@ -53,7 +53,7 @@ variable {L : Type} [Field L] [Finite L] {ℓ f n : ℕ}
 
 theorem famU_field (hL : Nat.card L = (ℓ ^ f) ^ 2) :
     ∃ f', ℓ ^ f = ringChar L ^ f' ∧ UnitaryFieldData (ringChar L) f' L := by
-  haveI := Fintype.ofFinite L
+  have := Fintype.ofFinite L
   exact exists_unitaryFieldData L (by rw [Fintype.card_eq_nat_card]; exact hL)
 
 theorem famU_two_le {q : ℕ} (hL : Nat.card L = q ^ 2) : 2 ≤ q := by
@@ -91,6 +91,7 @@ theorem famUDet_pow (hL : Nat.card L = (ℓ ^ f) ^ 2) (g : ↥(StatedGU n (ℓ ^
   rw [Units.val_pow_eq_pow_val, famUDet_val, Units.val_one]
   exact det_pow_card_add_one_of_mem_statedGU h hq g.2
 
+omit [Finite L] in
 theorem famU_mem_range_det {q : ℕ} (hq : q ≠ 0) (hn : 1 ≤ n) (c : Lˣ)
     (hc : c ^ (q + 1) = 1) : c ∈ (famUDet n q L).range := by
   classical
@@ -152,6 +153,7 @@ theorem famU_card_GU (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (hn : 
   rw [← famU_card_range_det hL hn, Nat.card_congr (famUEquivKer hℓ hL hn).toEquiv,
     Subgroup.card_ker_mul_card_range]
 
+omit [Finite L] in
 theorem famU_card_ker_proj (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (hn : 1 ≤ n) :
     Nat.card (famUProj n (ℓ ^ f) L).ker = Nat.gcd n (ℓ ^ f + 1) := by
   rw [famUProj, QuotientGroup.ker_mk']
@@ -163,7 +165,7 @@ theorem famU_sylow_GU_homC {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {q : ℕ}
     ∀ P : Sylow p ↥(StatedGU n q L), Nonempty (↥P ≃* HomC p
       (padicValInt p ((-(q : ℤ)) ^ orderOf (-(q : ZMod p)) - 1))
       (n / orderOf (-(q : ZMod p)))) := by
-  haveI := Fintype.ofFinite L
+  have := Fintype.ofFinite L
   have hp : p.Prime := Fact.out
   exact sylow_equiv_homC_of_sigmaModel hp hlt fun P =>
     sylow_GU (hp.odd_of_ne_two hp2) L (by rw [Fintype.card_eq_nat_card]; exact hL) hpq hn P
@@ -176,7 +178,7 @@ theorem famU_sylow_PSU {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hℓ : ℓ.Prim
       (2 ≤ padicValInt p ((-((ℓ ^ f : ℕ) : ℤ)) ^ orderOf (-((ℓ ^ f : ℕ) : ZMod p)) - 1) →
         ∀ x : M, x ^ p = 1 → ∃ y : M, y ^ p = x) ∧
       ∀ S : Sylow p (StatedProj (StatedSU n (ℓ ^ f) L)), Nonempty (↥S ≃* M) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hker : ¬ p ∣ Nat.card (famUProj n (ℓ ^ f) L).ker := by
     rw [famU_card_ker_proj hℓ hL hn]
     exact hgcd

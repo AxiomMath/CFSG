@@ -270,7 +270,7 @@ theorem closure_gens_eq_top : Subgroup.closure ({paA, pbA, sgA} : Set AA) = ⊤ 
     exact key hK
   rw [eq_top_iff, ← htop, Subgroup.closure_le]
   intro x hx
-  simp only [Set.mem_preimage, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+  simp only [Set.mem_preimage, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with hx | hx | hx
   · have : x = paA := Subtype.ext hx
     rw [this]
@@ -294,7 +294,7 @@ theorem aStar_vStar {Y : Type} [Group Y] [Finite Y] (θ : Y ≃* AA) :
     (nonempty_closure_pair_mulEquiv h1) (nonempty_closure_pair_mulEquiv h2) hI1 hI2 ?_ classes
     ?_ ?_ ?_
   · intro g hg
-    haveI := u33P_normal
+    have := u33P_normal
     have hP : conjSub g u33P = u33P :=
       mem_normalizer_iff_conjSub_eq.mp (by
         rw [Subgroup.normalizer_eq_top_iff.mpr u33P_normal]
@@ -310,7 +310,7 @@ theorem aStar_vStar {Y : Type} [Group Y] [Finite Y] (θ : Y ≃* AA) :
     calc t * (i1A * i1A) = t * (i1A * i1A) * t⁻¹ * t := by group
       _ = i1A * i1A * t := by rw [h3]
   · intro e he
-    rw [Set.mem_setOf_eq, List.mem_singleton] at he
+    rw [Set.mem_ofPred_eq, List.mem_singleton] at he
     rw [he]
     exact edgeB_sound h1 h2 hedge
   · rw [eq_top_iff, ← closure_gens_eq_top, Subgroup.closure_le]

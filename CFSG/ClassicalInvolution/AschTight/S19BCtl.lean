@@ -66,7 +66,7 @@ theorem mem_centralizerModOdd_K (hd : Sec19DataT p f K z S W L t V) {x : G}
   refine ⟨Subgroup.mem_top x, hxN, mem_normalizer_oddCoreOf_of_mem_normalizer hxN,
     fun k hk => ?_⟩
   exact S1916.commutator_mem_oddCoreOf_of_centralizes ht (S1916.sd_isSylow2In_R hd.toSec19Data)
-    (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxS)) hxN
+    (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxS)) hxN
     (fun r hr => Subgroup.mem_centralizer_iff.mp hxR r hr) hk
 
 omit [IsSimpleGroup G] in
@@ -75,7 +75,7 @@ theorem mem_centralizer_inf_of_mem (S : Sylow 2 G) {J : Subgroup G} {x : G}
     x ∈ Subgroup.centralizer (((S : Subgroup G) ⊓ J : Subgroup G) : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
   intro r hr
-  exact (S1916.commute_of_mem_centralizerModOdd hxJ inf_le_right (S.isPGroup'.to_le inf_le_left)
+  exact (S1916.commute_of_mem_centralizerModOdd hxJ inf_le_right (S.isPGroup.to_le inf_le_left)
     (mem_normalizer_inf hxS hxJ.2.1) hr).symm
 
 theorem mem_centralizer_W (hd : Sec19DataT p f K z S W L t V) {x : G}

@@ -124,7 +124,7 @@ theorem sup_sylow_normal_of_outTower (hC : Subgroup.centralizer (K : Set Y) = �
   set YD := D.comap ρ with hYD
   set H := K ⊔ (Rb : Subgroup Y) with hH
   have hRp : ∀ r ∈ (Rb : Subgroup Y), ∃ k : ℕ, r ^ (p ^ k) = 1 := fun r hr => by
-    obtain ⟨k, hk⟩ := Rb.isPGroup' ⟨r, hr⟩
+    obtain ⟨k, hk⟩ := Rb.isPGroup ⟨r, hr⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hYDR : ∀ d ∈ YD, ∀ r ∈ (Rb : Subgroup Y), d * r * d⁻¹ ∈ H := by
     intro d hd r hr

@@ -102,8 +102,8 @@ theorem exists_even_swapping_element (σ : Perm Ω) (hσ1 : ∀ x, σ x ≠ x) (
     intro z
     rw [hr z]
     by_cases hz : c z = true
-    · rw [if_pos hz]; exact htrue s0 hs0 z hz
-    · rw [if_neg hz]; exact Or.inl rfl
+    · rw [ite_eq_left hz]; exact htrue s0 hs0 z hz
+    · rw [ite_eq_right hz]; exact Or.inl rfl
   have hswa : swap a (σ a) ∈ Ss := hWS (hWsw a hy0F)
   have hrS : r ∈ Ss := by
     by_cases hev : r ∈ alternatingGroup Ω
@@ -126,14 +126,14 @@ theorem exists_even_swapping_element (σ : Perm Ω) (hσ1 : ∀ x, σ x ≠ x) (
       · rw [e]; exact hx
       · rw [e, hc]; exact hx
     show r (s0 x) = x
-    rw [hr, if_pos hs]
+    rw [hr, ite_eq_left hs]
     exact hs0true x hx
   have hs1F : ∀ x, c x = false → s1 x = s0 x := by
     intro x hx
     have hs : ¬ c (s0 x) = true := by
       rw [hFclosed s0 hs0 x hx]; simp
     show r (s0 x) = s0 x
-    rw [hr, if_neg hs]
+    rw [hr, ite_eq_right hs]
   have hs1a : s1 a = b := hs1F a hy0F
   have hs1a' : s1 (σ a) = σ b := by
     have h1 := hnormW s1 hs1 (swap a (σ a)) (hWsw a hy0F)
@@ -172,6 +172,8 @@ section Helpers
 
 variable {σ : Perm Ω} {hσ1 : ∀ x, σ x ≠ x} {hσ2 : ∀ x, σ (σ x) = x}
 
+omit [Fintype Ω] in
+omit [DecidableEq Ω] in
 theorem pairPres_comm {g h : Perm Ω} (hg : g ∈ pairPres σ hσ1 hσ2) (hh : h ∈ pairPres σ hσ1 hσ2) :
     g * h = h * g := by
   ext x
@@ -180,6 +182,8 @@ theorem pairPres_comm {g h : Perm Ω} (hg : g ∈ pairPres σ hσ1 hσ2) (hh : h
     rcases pair_cases hσ1 hσ2 hh x with ⟨h1, h2⟩ | ⟨h1, h2⟩ <;>
     simp [g1, g2, h1, h2]
 
+omit [Fintype Ω] in
+omit [DecidableEq Ω] in
 theorem comm_sigma_of_normalizer {W : Subgroup (Perm Ω)} (hW : W ≤ pairPres σ hσ1 hσ2)
     (hflip : ∀ x, ∃ w ∈ W, w x = σ x) {h : Perm Ω}
     (hh : h ∈ Subgroup.normalizer (W : Set (Perm Ω))) (x : Ω) : h (σ x) = σ (h x) := by
@@ -192,6 +196,8 @@ theorem comm_sigma_of_normalizer {W : Subgroup (Perm Ω)} (hW : W ≤ pairPres �
     exact hσ1 x (h.injective e)
   · rw [key] at e; exact e
 
+omit [Fintype Ω] in
+omit [DecidableEq Ω] in
 theorem conj_mem_pairPres {h : Perm Ω} (hσh : ∀ x, h (σ x) = σ (h x)) {u : Perm Ω}
     (hu : u ∈ pairPres σ hσ1 hσ2) : h * u * h⁻¹ ∈ pairPres σ hσ1 hσ2 := by
   intro z

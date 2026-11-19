@@ -16,6 +16,7 @@ open CFSG.LocalAnalysis.GLTheoremA.S172A.GL (fixSp comSp glue glue_apply_left gl
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem frame_ext {r : ℕ} {P : Fin r → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hint : DirectSum.IsInternal (fun o : Option (Fin r) => o.elim V0 P))
     {f g : V →ₗ[ZMod 2] V} (hV0 : ∀ v ∈ V0, f v = g v)
@@ -32,11 +33,13 @@ private theorem frame_ext {r : ℕ} {P : Fin r → Submodule (ZMod 2) V} {V0 : S
   · intro x y hx hy
     rw [map_add, map_add, hx, hy]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem x_mem_P {x : V ≃ₗ[ZMod 2] V} {P : Submodule (ZMod 2) V}
     (hcom : comSp x = P) {v : V} (hv : v ∈ P) : x v ∈ P := by
   rw [← hcom] at hv ⊢
   exact e_mem_comSp hv
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem frame_mul_comm {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hF : LinTwoStdFrame E x P V0) (a b : Fin r) : x a * x b = x b * x a := by
@@ -97,6 +100,7 @@ private theorem conj_mem_iSup_zpowers {G : Type*} [Group G] {ι : Type*} (x : ι
   rw [← hconj]
   exact hmap ⟨y, hy, rfl⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem ds_surj_on_comSp {g : V ≃ₗ[ZMod 2] V} (hg3 : g ^ 3 = 1) {a : V}
     (ha : a ∈ comSp g) : ∃ u ∈ comSp g, g u - u = a := by
   obtain ⟨w, hw⟩ := mem_comSp.mp ha
@@ -105,14 +109,16 @@ private theorem ds_surj_on_comSp {g : V ≃ₗ[ZMod 2] V} (hg3 : g ^ 3 = 1) {a :
   rw [← hw, map_add, mem_fixSp.1 u'.2]
   abel
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem comSp_le_comSp_mul {g h : V ≃ₗ[ZMod 2] V} (hg3 : g ^ 3 = 1)
-    (hcomm : g * h = h * g) (htriv : ∀ v ∈ comSp g, h v = v) :
+    (_hcomm : g * h = h * g) (htriv : ∀ v ∈ comSp g, h v = v) :
     comSp g ≤ comSp (g * h) := by
   intro a ha
   obtain ⟨u, hu, rfl⟩ := ds_surj_on_comSp hg3 ha
   refine mem_comSp.mpr ⟨u, ?_⟩
   rw [LinearEquiv.mul_apply, htriv u hu]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem li_pair_of_mem_comSp {x : V ≃ₗ[ZMod 2] V} (h3 : x ^ 3 = 1)
     {Q : Submodule (ZMod 2) V} {v : V} (hv : v ∈ comSp x) (hvQ : v ∈ Q) (hxQ : x v ∈ Q)
     (hvne : v ≠ 0) : LinearIndependent (ZMod 2) ![⟨v, hvQ⟩, (⟨x v, hxQ⟩ : Q)] := by
@@ -136,6 +142,7 @@ private theorem li_pair_of_mem_comSp {x : V ≃ₗ[ZMod 2] V} (h3 : x ^ 3 = 1)
       rwa [neg_V] at h2
     exact eq_zero_of_mem_comSp_fixed h3 hv hfix
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem lin_two_frame_inv {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hF : LinTwoStdFrame E x P V0) (j : Fin r) :

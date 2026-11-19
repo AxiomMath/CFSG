@@ -21,8 +21,8 @@ theorem FS79Hyp.card_le_nine_of_cen (h : FS79Hyp b t b₁ b₂ J) {u : H} (hu2 :
     (hu1 : u ≠ 1) {X : Subgroup H} (hX : IsPGroup 3 X) (hXu : X ≤ Cen u) :
     Nat.card X ≤ 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set B : Subgroup H := Subgroup.closure ({b, b₁, b₂} : Set H) with hB
   obtain ⟨k, -, hk⟩ := L14.exists_conj_le_sylowOf h.isSylowOf_B_top (le_top : X ≤ ⊤) hX
   set X' : Subgroup H := X.map (MulAut.conj k).toMonoidHom with hX'
@@ -74,7 +74,7 @@ theorem FS79Hyp.card_le_nine_of_cen (h : FS79Hyp b t b₁ b₂ J) {u : H} (hu2 :
 theorem FS79Hyp.isSylowOf_cen (h : FS79Hyp b t b₁ b₂ J) {u : H} (hu2 : u * u = 1) (hu1 : u ≠ 1)
     {E : Subgroup H} (hE3 : IsPGroup 3 E) (hEu : E ≤ Cen u) (hEc : Nat.card E = 9) :
     IsSylowOf 3 E (Cen u) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := L14.exists_sylowOf (G := H) (Cen u)
   have hScard := L14.isSylowOf_card hS
   have hS9 : Nat.card S ≤ 9 := h.card_le_nine_of_cen hu2 hu1 hS.2.1 hS.1
@@ -90,6 +90,7 @@ theorem FS79Hyp.isSylowOf_cen (h : FS79Hyp b t b₁ b₂ J) {u : H} (hu2 : u * u
   refine L14.isSylowOf_of_card hEu ?_
   rw [hEc, ← hScard, hS9']
 
+omit [Finite H] in
 theorem isPGroup_zpowers_of_pow_three {w : H} (hw : w ^ 3 = 1) :
     IsPGroup 3 (Subgroup.zpowers w) := by
   intro x

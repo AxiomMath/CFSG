@@ -20,6 +20,7 @@ section Lift
 
 variable {ℓ f : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem exists_sylow_two_lift (h : UnitaryFieldData ℓ f K) {n : ℕ}
     {T : Subgroup (primeFormP h (idGram K n))} (hT2 : IsPGroup 2 T) (hT : T ≠ ⊥)
     {Â : Subgroup (primeFormUnitary h (idGram K n))}
@@ -29,7 +30,7 @@ theorem exists_sylow_two_lift (h : UnitaryFieldData ℓ f K) {n : ℕ}
       ∀ X ∈ Â, ∀ t ∈ T₂, (X : GL (Fin n) K) * t * (X : GL (Fin n) K)⁻¹ ∈ T₂ := by
   classical
   have := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N := normOneScalars h (gramSU h (idGram K n)) n
   let Tc : Subgroup (gramSU h (idGram K n)) := T.comap (QuotientGroup.mk' N)
   let Tl : Subgroup (GL (Fin n) K) := Tc.map (gramSU h (idGram K n)).subtype
@@ -45,7 +46,7 @@ theorem exists_sylow_two_lift (h : UnitaryFieldData ℓ f K) {n : ℕ}
         primeFormP h (idGram K n)) ∈ T
     rw [← primeFormConjHom_mk h (idGram K n) X g]
     exact hm
-  haveI : Group.IsNilpotent T := hT2.isNilpotent
+  have : Group.IsNilpotent T := hT2.isNilpotent
   let ψ : Tc →* T :=
     MonoidHom.codRestrict ((QuotientGroup.mk' N).comp Tc.subtype) T (fun x => x.2)
   have hψ : ψ.ker ≤ Subgroup.center Tc := by
@@ -61,9 +62,9 @@ theorem exists_sylow_two_lift (h : UnitaryFieldData ℓ f K) {n : ℕ}
     rintro ⟨t, ht⟩
     obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective N t
     exact ⟨⟨g, ht⟩, rfl⟩
-  haveI : Group.IsNilpotent Tc := Subgroup.isNilpotent_of_ker_le_center ψ hψ
+  have : Group.IsNilpotent Tc := Subgroup.isNilpotent_of_ker_le_center ψ hψ
   let e : Tc ≃* Tl := Tc.equivMapOfInjective (gramSU h (idGram K n)).subtype Subtype.val_injective
-  haveI : Group.IsNilpotent Tl := Group.nilpotent_of_mulEquiv e
+  have : Group.IsNilpotent Tl := Group.nilpotent_of_mulEquiv e
   have h2T : 2 ∣ Nat.card T := by
     rcases hT2.card_eq_or_dvd with h1 | h2
     · exact absurd (Subgroup.eq_bot_of_card_eq T h1) hT
@@ -78,7 +79,7 @@ theorem exists_sylow_two_lift (h : UnitaryFieldData ℓ f K) {n : ℕ}
       (fun t => hconj X hX t t.2))
     (Finite.injective_iff_bijective.mp (fun a b hab =>
       Subtype.ext ((MulAut.conj (X : GL (Fin n) K)).injective (congrArg Subtype.val hab))))
-  refine ⟨(P : Subgroup Tl).map Tl.subtype, P.isPGroup'.map _, ?_, ?_, ?_⟩
+  refine ⟨(P : Subgroup Tl).map Tl.subtype, P.isPGroup.map _, ?_, ?_, ?_⟩
   · intro hbot
     exact P.ne_bot_of_dvd_card h2Tl
       ((Subgroup.map_eq_bot_iff_of_injective _ Subtype.val_injective).mp hbot)
@@ -90,6 +91,7 @@ theorem exists_sylow_two_lift (h : UnitaryFieldData ℓ f K) {n : ℕ}
       exact Subgroup.mem_map_of_mem _ hx
     exact ⟨φ X hX x, hmem, rfl⟩
 
+omit [Finite K] in
 theorem exists_isotropic_stable [CharP K 2] (h : UnitaryFieldData ℓ f K) {n : ℕ}
     {T : Subgroup (GL (Fin n) K)} (hT2 : IsPGroup 2 T) (hT : T ≠ ⊥)
     (hTU : T ≤ primeFormUnitary h (idGram K n))
@@ -99,7 +101,7 @@ theorem exists_isotropic_stable [CharP K 2] (h : UnitaryFieldData ℓ f K) {n : 
       ∀ X ∈ Â, ∀ w ∈ W, (X : Matrix (Fin n) (Fin n) K) *ᵥ w ∈ W := by
   classical
   have := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   set Fx : Set (Fin n → K) :=
     {w | ∀ t ∈ T, ((t : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ w = w} with hFx
@@ -119,7 +121,7 @@ theorem exists_isotropic_stable [CharP K 2] (h : UnitaryFieldData ℓ f K) {n : 
   obtain ⟨v₀, hv₀0, hv₀F, hv₀W⟩ : ∃ v : Fin n → K, v ≠ 0 ∧ v ∈ Fx ∧ v ∈ Wp := by
     by_contra hcon
     push Not at hcon
-    letI act : MulAction T Wp :=
+    let act : MulAction T Wp :=
       { smul := fun t v => ⟨((t : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ (v : Fin n → K),
           hTWp t t.2 v v.2⟩
         one_smul := fun v => Subtype.ext (show (((1 : T) : GL (Fin n) K) :
@@ -210,7 +212,7 @@ theorem exists_isotropic_stable [CharP K 2] (h : UnitaryFieldData ℓ f K) {n : 
   · intro hbot
     exact hv₀0 ((Submodule.eq_bot_iff _).mp hbot v₀ ⟨hv₀F, hv₀W⟩)
   · intro m hm
-    rw [Submodule.mem_orthogonalBilin_iff]
+    rw [Submodule.mem_orthogonalBilin]
     intro x hx
     exact (hmemWp m).1 hm.2 x hx.1
   · intro X hX w hw
@@ -240,7 +242,7 @@ private theorem u6e_exists_eigen {V : Type*} [AddCommGroup V] [Module K V] {G : 
     (hG : IsPGroup 3 G) (ρ : G →* LinearMap.GeneralLinearGroup K V)
     (hnd : ¬ 3 ∣ Nat.card (Projectivization K V)) :
     ∃ v : V, v ≠ 0 ∧ ∀ g : G, ∃ a : K, (ρ g : V →ₗ[K] V) v = a • v := by
-  letI : MulAction G (Projectivization K V) := MulAction.compHom _ ρ
+  let : MulAction G (Projectivization K V) := MulAction.compHom _ ρ
   obtain ⟨x, hx⟩ := hG.nonempty_fixed_point_of_prime_not_dvd_card (Projectivization K V) hnd
   refine ⟨x.rep, x.rep_nonzero, fun g => ?_⟩
   have hgx : ρ g • x = x := MulAction.mem_fixedPoints.mp hx g
@@ -337,7 +339,7 @@ private theorem u6e_card_dvd [CharP K 2] [Finite K] (h : UnitaryFieldData 2 1 K)
   let e : (Module.End K W)ˣ ≃* GL (Fin 3) K :=
     Units.mapEquiv (LinearMap.toMatrixAlgEquiv b).toMulEquiv
   have h2 : Nat.card (Module.End K W)ˣ = Nat.card (GL (Fin 3) K) := Nat.card_congr e.toEquiv
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hq : Fintype.card K = 4 := by
     rw [← Nat.card_eq_fintype_card, h.card]
     norm_num

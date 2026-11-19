@@ -56,7 +56,7 @@ private lemma exists_order_four_of_index_le_two {H : Type*} [Group H]
     ∃ x ∈ K, orderOf x = 4 := by
   have hcardH : Nat.card H = 64 := by
     rw [Nat.card_congr e.toEquiv, natCard_z4cube]
-  haveI : Finite H := Nat.finite_of_card_ne_zero (by rw [hcardH]; norm_num)
+  have : Finite H := Nat.finite_of_card_ne_zero (by rw [hcardH]; norm_num)
   have hcard : Nat.card K * K.index = 64 := by
     rw [Subgroup.card_mul_index, hcardH]
   have hne : K.index ≠ 0 := by
@@ -69,7 +69,7 @@ private lemma exists_order_four_of_index_le_two {H : Type*} [Group H]
     rcases hcases with h | h <;> rw [h] at hcard <;> omega
   have hex : ∃ x ∈ K, x * x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hinj : Function.Injective
         (fun x : K => (⟨(x : H), hcon x x.2⟩ : {x : H // x * x = 1})) := by
       intro a b hab

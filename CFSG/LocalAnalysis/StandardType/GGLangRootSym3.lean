@@ -71,7 +71,7 @@ theorem exists_rootSL2_sym3_mem_Γ
     {α : Fin τ.rank → ℤ} (hα : IsRoot τ α) (hρα : S.ρ α = α ∨ S.ρ α = -α) :
     ∃ A : SL2 L, rootSL2 τ L α A ∈ S.Γ ∧ A * A = 1 ∧ (WSL * A) ^ 3 = 1 ∧ WSL * A ≠ 1 := by
   have hq' : S.D.q = 2 ^ 1 := hq.trans (pow_one 2).symm
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq'
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S hq'
   have h2 : (2 : L) = 0 := CharTwo.two_eq_zero
   suffices H : ∃ A : SL2 L, S.D.step (rootSL2 τ L α A) = rootSL2 τ L α A ∧ A * A = 1 ∧
       (WSL * A) ^ 3 = 1 ∧ WSL * A ≠ 1 by
@@ -84,7 +84,7 @@ theorem exists_rootSL2_sym3_mem_Γ
     · rw [rootSL2_uSL_of_charTwo (K := L) hα, step_pinnedX_one_of_charTwo S hα, h]
     · ext i j
       simp only [Matrix.SpecialLinearGroup.coe_mul, coe_uSL, Matrix.SpecialLinearGroup.coe_one]
-      fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, h2] <;> grind
+      fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]; grind
     · rw [pow_three]
       ext i j
       simp only [Matrix.SpecialLinearGroup.coe_mul, coe_uSL, coe_WSL,

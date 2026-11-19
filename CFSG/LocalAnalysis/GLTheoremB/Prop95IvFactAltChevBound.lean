@@ -75,7 +75,7 @@ theorem prod_twistedA_le (q r : ℕ) (hq : 1 ≤ q) :
     Finset.prod_pow_eq_pow_sum] at h
   exact h
 
-theorem ordA_le {r q : ℕ} (hr : 1 ≤ r) (hq : 1 ≤ q) :
+theorem ordA_le {r q : ℕ} (_hr : 1 ≤ r) (hq : 1 ≤ q) :
     ordA r q ≤ q ^ (3 * (r * (r + 1) / 2)) := by
   unfold ordA
   refine (Nat.div_le_self _ _).trans ?_
@@ -132,7 +132,7 @@ theorem ordTwistedA_two {q : ℕ} (hq : 2 ≤ q) : ordTwistedA 2 q ≤ q ^ (3 * 
           _ = q ^ 9 := by ring
     _ = q ^ (3 * (2 * (2 + 1) / 2)) := by norm_num
 
-theorem ordBC_le {n q : ℕ} (hn : 1 ≤ n) (hq : 1 ≤ q) :
+theorem ordBC_le {n q : ℕ} (_hn : 1 ≤ n) (hq : 1 ≤ q) :
     ordBC n q ≤ q ^ (3 * (n * n)) := by
   unfold ordBC
   refine (Nat.div_le_self _ _).trans ?_
@@ -219,6 +219,7 @@ theorem ordE7_le {q : ℕ} (hq : 1 ≤ q) : ordE7 q ≤ q ^ (3 * 63) := by
     _ = q ^ 133 := by ring
     _ ≤ q ^ (3 * 63) := Nat.pow_le_pow_right hq (by norm_num)
 
+set_option exponentiation.threshold 360 in
 theorem ordE8_le {q : ℕ} (hq : 1 ≤ q) : ordE8 q ≤ q ^ (3 * 120) := by
   unfold ordE8
   calc q ^ 120 * (q ^ 30 - 1) * (q ^ 24 - 1) * (q ^ 20 - 1) * (q ^ 18 - 1) * (q ^ 14 - 1) *
@@ -258,7 +259,7 @@ theorem ordTrialityD4_le {q : ℕ} (hq : 2 ≤ q) : ordTrialityD4 q ≤ q ^ (3 *
     nlinarith [Nat.mul_le_mul_right (q ^ 8) hq, h1]
   calc q ^ 12 * (q ^ 8 + q ^ 4 + 1) * (q ^ 6 - 1) * (q ^ 2 - 1)
       ≤ q ^ 12 * q ^ 9 * q ^ 6 * q ^ 2 := by
-        gcongr <;> first | exact h9 | exact Nat.sub_le _ _
+        gcongr <;> (exact Nat.sub_le _ _)
     _ = q ^ 29 := by ring
     _ ≤ q ^ (3 * 12) := Nat.pow_le_pow_right (by omega) (by norm_num)
 
@@ -269,7 +270,7 @@ theorem ordSuzuki_le {q : ℕ} (hq : 2 ≤ q) : ordSuzuki q ≤ q ^ (3 * 2) := b
     rw [this]
     nlinarith
   calc q ^ 2 * (q ^ 2 + 1) * (q - 1) ≤ q ^ 2 * q ^ 3 * q := by
-        gcongr <;> first | exact h3 | exact Nat.sub_le _ _
+        gcongr; exact Nat.sub_le _ _
     _ = q ^ 6 := by ring
     _ ≤ q ^ (3 * 2) := le_rfl
 
@@ -279,7 +280,7 @@ theorem ordTwistedF4_le {q : ℕ} (hq : 2 ≤ q) : ordTwistedF4 q ≤ q ^ (3 * 1
   have h4 : q ^ 3 + 1 ≤ q ^ 4 := add_one_le_pow_succ hq 3
   calc q ^ 12 * (q ^ 6 + 1) * (q ^ 4 - 1) * (q ^ 3 + 1) * (q - 1)
       ≤ q ^ 12 * q ^ 7 * q ^ 4 * q ^ 4 * q := by
-        gcongr <;> first | exact h7 | exact h4 | exact Nat.sub_le _ _
+        gcongr <;> exact Nat.sub_le _ _
     _ = q ^ 28 := by ring
     _ ≤ q ^ (3 * 12) := Nat.pow_le_pow_right (by omega) (by norm_num)
 

@@ -27,7 +27,7 @@ private theorem transfer_contradiction
     (hnormalizer : Subgroup.normalizer (T : Set (fixingSubgroup P (Set.range e))) ≤
       Subgroup.centralizer (T : Set (fixingSubgroup P (Set.range e)))) : False := by
   classical
-  letI : Fact (Nat.Prime 23) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 23) := ⟨by norm_num⟩
   let J := fixingSubgroup P (Set.range e)
   have hh : h ≠ 0 := by
     rintro rfl
@@ -45,14 +45,14 @@ private theorem transfer_contradiction
   let transfer : J →* T :=
     MonoidHom.transferSylow T hnormalizer
   let Q : Subgroup J := transfer.ker
-  letI : Q.Normal := by
+  let : Q.Normal := by
     dsimp only [Q, transfer]
     infer_instance
   have hcomplement : IsComplement' Q T := by
     simpa only [Q, transfer] using
       MonoidHom.ker_transferSylow_isComplement'
         T hnormalizer
-  have hcardMul := hcomplement.card_mul
+  have hcardMul := hcomplement.card_mul_card
   have hQcard : Nat.card Q = 462 * h := by
     rw [hTcard, hJcard] at hcardMul
     nlinarith only [hcardMul]
@@ -68,7 +68,7 @@ private theorem transfer_contradiction
     omega
   have hJ3 :
       MulAction.IsMultiplyPretransitive J Z 3 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 :=
+    let : MulAction.IsMultiplyPretransitive P X 5 :=
       hP5
     change
       MulAction.IsMultiplyPretransitive
@@ -79,15 +79,15 @@ private theorem transfer_contradiction
     omega
   have hJ2 :
       MulAction.IsMultiplyPretransitive J Z 2 := by
-    letI : MulAction.IsMultiplyPretransitive J Z 3 := hJ3
+    let : MulAction.IsMultiplyPretransitive J Z 3 := hJ3
     exact MulAction.isMultiplyPretransitive_of_le
       (G := J) (α := Z) (m := 2) (n := 3)
         (by omega) (by
           rw [hZcard]
           omega)
-  letI : MulAction.IsPreprimitive J Z :=
+  let : MulAction.IsPreprimitive J Z :=
     MulAction.isPreprimitive_of_is_two_pretransitive hJ2
-  letI : Nonempty Z :=
+  let : Nonempty Z :=
     Fintype.card_pos_iff.mp (by
       rw [← Nat.card_eq_fintype_card, hZcard]
       norm_num)
@@ -184,7 +184,7 @@ theorem five_point_stabilizer_card_mod_twentyThree
     ext i
     exact hg i
   have hP2 : MulAction.IsMultiplyPretransitive P X 2 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 2) (n := 5)
         (by omega) (by
@@ -201,7 +201,7 @@ theorem five_point_stabilizer_card_mod_twentyThree
   have hPcard : Nat.card P = 6375600 * h := by
     rw [hHindex] at hHindexCard
     exact hHindexCard.symm
-  letI : Fact (Nat.Prime 23) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 23) := ⟨by norm_num⟩
   have hPfactorization :
       (6375600 * h).factorization 23 = 1 := by
     have hf := LongPrimeArithmetic.factorization_prime_mul_once 23 277200 h
@@ -275,9 +275,9 @@ theorem five_point_stabilizer_card_mod_twentyThree
     rw [T.card_eq_multiplicity, hJcard,
       hJfactorization]
     norm_num
-  letI : IsCyclic T :=
+  let : IsCyclic T :=
     isCyclic_of_prime_card hTcard
-  letI : IsMulCommutative T :=
+  let : IsMulCommutative T :=
     IsCyclic.isMulCommutative
   obtain ⟨u, huorder⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := T)
@@ -357,7 +357,7 @@ theorem five_point_stabilizer_card_mod_twentyThree
     simp only [T.coe_coe]
   have hrJDvd : CJ.relIndex NJ ∣ 22 := by
     rwa [hrJEq]
-  letI : CJ.IsFiniteRelIndex NJ :=
+  let : CJ.IsFiniteRelIndex NJ :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hNJmod : NJ.index % 23 = 1 := by
     change

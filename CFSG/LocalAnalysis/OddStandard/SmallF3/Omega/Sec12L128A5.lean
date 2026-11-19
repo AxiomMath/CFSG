@@ -57,7 +57,7 @@ theorem sec128_closure_odd_of_alt5 {Y : Type} [Group Y] {X : Subgroup Y}
       rw [MonoidHom.map_closure]
       congr 1
       ext y
-      simp only [Set.mem_image, Set.mem_setOf_eq]
+      simp only [Set.mem_image, Set.mem_ofPred_eq]
       constructor
       · rintro ⟨a, ha, rfl⟩
         have : orderOf (e.symm.toMonoidHom a) = orderOf a :=

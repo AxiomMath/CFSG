@@ -19,6 +19,7 @@ section HeisAlg
 
 variable {F : Type} [Field F] [Finite F] {p : ℕ} {A B : GL (Fin p) F} {ω : Fˣ}
 
+omit [Finite F] in
 theorem commute_of_commute_heis (hp0 : 0 < p) (hω : IsPrimitiveRoot ω p)
     (hAB : A * B * A⁻¹ * B⁻¹ = GeneralLinearGroup.scalar (Fin p) ω) (hpK : (p : F) ≠ 0) {b : Fˣ}
     (hb : B ^ p = GeneralLinearGroup.scalar (Fin p) b) {v v' : GL (Fin p) F} (hv : v * A = A * v)
@@ -30,6 +31,7 @@ theorem commute_of_commute_heis (hp0 : 0 < p) (hω : IsPrimitiveRoot ω p)
   apply Units.ext
   rw [Units.val_mul, Units.val_mul, hP, hP', ← map_mul, ← map_mul, mul_comm]
 
+omit [Finite F] in
 theorem conj_mul_comm (hAB : A * B * A⁻¹ * B⁻¹ = GeneralLinearGroup.scalar (Fin p) ω) {v : GL (Fin p) F}
     (hv : v * A = A * v) : B * v * B⁻¹ * A = A * (B * v * B⁻¹) := by
   have h1 := CFSG.HardMathSupport.Timmesfeld.LocalTwo.HeisP.rel_BA hAB
@@ -45,6 +47,7 @@ theorem conj_mul_comm (hAB : A * B * A⁻¹ * B⁻¹ = GeneralLinearGroup.scalar
     _ = (GeneralLinearGroup.scalar (Fin p) ω * (B * A * B⁻¹)) * (B * v * B⁻¹) := by group
     _ = A * (B * v * B⁻¹) := by rw [← hA]
 
+omit [Finite F] in
 theorem commutator_test (hAB : A * B * A⁻¹ * B⁻¹ = GeneralLinearGroup.scalar (Fin p) ω) {u : GL (Fin p) F}
     (hu : u * A = A * u) :
     (u * B * u⁻¹ * B⁻¹) * A = A * (u * B * u⁻¹ * B⁻¹) ∧
@@ -57,6 +60,7 @@ theorem commutator_test (hAB : A * B * A⁻¹ * B⁻¹ = GeneralLinearGroup.scal
   · rw [one_pow, map_mul, map_mul, map_mul, map_inv, map_inv, mul_comm (GeneralLinearGroup.det u)]
     group
 
+omit [Finite F] in
 theorem comm_scalar_mul (c : Fˣ) (g h : GL (Fin p) F) :
     g * (GeneralLinearGroup.scalar (Fin p) c * h) * g⁻¹ * (GeneralLinearGroup.scalar (Fin p) c * h)⁻¹ =
       g * h * g⁻¹ * h⁻¹ := by
@@ -64,6 +68,7 @@ theorem comm_scalar_mul (c : Fˣ) (g h : GL (Fin p) F) :
     (fun x => by rw [one_mul, mul_one]) (fun x => GeneralLinearGroup.scalar_commute c x)
   simpa using this
 
+omit [Finite F] in
 theorem conj_scalar_add (g : GL (Fin p) F) (s : F) (N : Matrix (Fin p) (Fin p) F) :
     (g : Matrix (Fin p) (Fin p) F) * (Matrix.scalar (Fin p) s + N) *
         ((g⁻¹ : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) =
@@ -75,6 +80,7 @@ theorem conj_scalar_add (g : GL (Fin p) F) (s : F) (N : Matrix (Fin p) (Fin p) F
     ← (Matrix.scalar_commute s (fun r => Commute.all _ r) (g : Matrix (Fin p) (Fin p) F)).eq, Matrix.mul_assoc,
     hgg, Matrix.mul_one]
 
+omit [Finite F] in
 theorem B_conj_A (hAB : A * B * A⁻¹ * B⁻¹ = GeneralLinearGroup.scalar (Fin p) ω) :
     (B : Matrix (Fin p) (Fin p) F) * A * ((B⁻¹ : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) =
         ((ω⁻¹ : Fˣ) : F) • (A : Matrix (Fin p) (Fin p) F) ∧
@@ -93,6 +99,7 @@ theorem B_conj_A (hAB : A * B * A⁻¹ * B⁻¹ = GeneralLinearGroup.scalar (Fin
     simp only [Units.val_mul, GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at h3
     rw [h3, ← Matrix.smul_eq_diagonal_mul]
 
+omit [Finite F] in
 theorem isUnit_det_scalar_add_of_ne {M : Matrix (Fin p) (Fin p) F} {μ : F}
     (hM : M ^ p = Matrix.scalar (Fin p) μ) {a : F} (ha : (-a) ^ p ≠ μ) :
     IsUnit (Matrix.scalar (Fin p) a + M).det := by
@@ -120,6 +127,7 @@ theorem isUnit_det_scalar_add_of_ne {M : Matrix (Fin p) (Fin p) F} {μ : F}
   · exact ha (sub_eq_zero.1 h5).symm
   · exact hv0 h5
 
+omit [Finite F] in
 theorem coeff_theta0 {M : Matrix (Fin p) (Fin p) F} (hind : LinearIndependent F (fun i : Fin p => M ^ (i : ℕ)))
     (hp3 : 3 ≤ p) {a s l ν w : F} (ha : a ≠ 0) (hs : s ≠ 0) (hw : w ≠ 1)
     (h : (Matrix.scalar (Fin p) s + l • M) * (Matrix.scalar (Fin p) a + w • M) =
@@ -161,13 +169,13 @@ theorem coeff_theta1 {M N : Matrix (Fin p) (Fin p) F} (hind : LinearIndependent 
   have e1 : (s • (1 : Matrix (Fin p) (Fin p) F) + (k * z) • N) * (a • 1 + z⁻¹ • M) * M =
       (k * z * a) • M ^ 0 + (s * a + k * z * z⁻¹) • M ^ 1 + (s * z⁻¹) • M ^ 2 := by
     simp only [Matrix.add_mul, Matrix.mul_add, Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul, Matrix.mul_one,
-      Matrix.mul_assoc, hNM, hNM']
+      hNM]
     simp only [pow_zero, pow_one, pow_two]
     module
   have e2 : ν • ((a • (1 : Matrix (Fin p) (Fin p) F) + M) * (s • 1 + k • N)) * M =
       (ν * (a * k)) • M ^ 0 + (ν * (a * s + k)) • M ^ 1 + (ν * s) • M ^ 2 := by
     simp only [Matrix.add_mul, Matrix.mul_add, Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul, Matrix.mul_one,
-      Matrix.mul_assoc, hNM, hMN]
+      hNM, hMN]
     simp only [pow_zero, pow_one, pow_two]
     module
   rw [e1, e2] at h'
@@ -199,7 +207,7 @@ section CharTwo
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {p : ℕ}
 
 theorem odd_card_sub_one_two : Odd (Nat.card F - 1) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   rw [Nat.card_eq_fintype_card, hn]
   obtain ⟨k, hk⟩ : ∃ k, (n : ℕ) = k + 1 := ⟨n - 1, by have := n.pos; omega⟩
@@ -213,7 +221,7 @@ theorem exists_odd_conjAut_pow_eq_one_two (hp : p.Prime) (hp2 : p ≠ 2) (hpF : 
     {v : GL (Fin p) F} (hv : v * A = A * v) : ∃ m : ℕ, Odd m ∧ conjAut p F (v ^ m) = 1 := by
   classical
   by_cases hζ : μ ^ ((Nat.card F - 1) / p) = 1
-  · haveI : Fintype F := Fintype.ofFinite F
+  · have : Fintype F := Fintype.ofFinite F
     have hp0 := hp.pos
     have hQF : Fintype.card F = Nat.card F := Nat.card_eq_fintype_card.symm
     have hQ1 : 1 ≤ Nat.card F := Nat.card_pos
@@ -235,7 +243,7 @@ theorem exists_odd_conjAut_pow_eq_one_two (hp : p.Prime) (hp2 : p ≠ 2) (hpF : 
       (by simpa only [Units.val_mul] using congrArg Units.val hv)
     have hvQ : v ^ Nat.card F = v := by
       apply Units.ext
-      rw [Units.val_pow_eq_pow_val, hP, ← map_pow, ← hQF, ← FiniteField.expand_card, Polynomial.expand_aeval,
+      rw [Units.val_pow_eq_pow_val, hP, ← map_pow, ← hQF, ← FiniteField.Polynomial.expand_card, Polynomial.expand_aeval,
         hQF, hAQm]
     have hv1 : v ^ (Nat.card F - 1) = 1 := by
       have h1 : v ^ (Nat.card F - 1) * v = 1 * v := by
@@ -255,7 +263,7 @@ theorem commute_conjAut_two (hp : p.Prime) (hp2 : p ≠ 2) (hpF : p ∣ Nat.card
     (hΘA : ∀ w, w * A = A * w → Θ w * A = A * Θ w) {w : GL (Fin p) F} (hw : w * A = A * w)
     (hwi : conjAut p F w ∈ innerAut (projectiveSL p F)) : t * conjAut p F w = conjAut p F w * t := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite (projectiveSL p F) := finite_projectiveSL
   have hwC : conjAut p F w ∈ H ⊓ Subgroup.centralizer ({conjAut p F A} : Set (MulAut (projectiveSL p F))) :=
     ⟨hH hwi, Subgroup.mem_centralizer_singleton_iff.2 (by rw [← map_mul, ← map_mul, hw])⟩
@@ -297,6 +305,7 @@ variable {F : Type} [Field F] [Finite F] {p : ℕ}
   (MulAut.conj X).toMonoidHom.comp ((GeneralLinearGroup.map (σ : F →+* F)).comp
     GeneralLinearGroup.inverseTranspose.toMonoidHom)
 
+omit [Finite F] in
 theorem conj_theta0 (X : GL (Fin p) F) (σ : F ≃+* F) (g : GL (Fin p) F) :
     (conjAut p F X * fieldAut p F σ) * conjAut p F g * (conjAut p F X * fieldAut p F σ)⁻¹ =
       conjAut p F (theta0 X σ g) := by
@@ -307,6 +316,7 @@ theorem conj_theta0 (X : GL (Fin p) F) (σ : F ≃+* F) (g : GL (Fin p) F) :
       rw [h1, ← map_inv, ← map_mul, ← map_mul]
       rfl
 
+omit [Finite F] in
 theorem conj_theta1 (X : GL (Fin p) F) (σ : F ≃+* F) (g : GL (Fin p) F) :
     (conjAut p F X * fieldAut p F σ * dualAut p F) * conjAut p F g *
         (conjAut p F X * fieldAut p F σ * dualAut p F)⁻¹ = conjAut p F (theta1 X σ g) := by
@@ -322,6 +332,7 @@ theorem conj_theta1 (X : GL (Fin p) F) (σ : F ≃+* F) (g : GL (Fin p) F) :
       rw [hδinv, h1, h2, ← map_inv, ← map_mul, ← map_mul]
       rfl
 
+omit [Finite F] in
 theorem coe_theta0 (X : GL (Fin p) F) (σ : F ≃+* F) (g : GL (Fin p) F) :
     ((theta0 X σ g : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) =
       (X : Matrix (Fin p) (Fin p) F) * (g : Matrix (Fin p) (Fin p) F).map σ *
@@ -330,6 +341,7 @@ theorem coe_theta0 (X : GL (Fin p) F) (σ : F ≃+* F) (g : GL (Fin p) F) :
   rw [Units.val_mul, Units.val_mul, coe_map_GL]
   rfl
 
+omit [Finite F] in
 theorem coe_theta1_inv (X : GL (Fin p) F) (σ : F ≃+* F) (g : GL (Fin p) F) :
     ((theta1 X σ g⁻¹ : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) =
       (X : Matrix (Fin p) (Fin p) F) * ((g : Matrix (Fin p) (Fin p) F).map σ)ᵀ *
@@ -340,6 +352,7 @@ theorem coe_theta1_inv (X : GL (Fin p) F) (σ : F ≃+* F) (g : GL (Fin p) F) :
     Matrix.transpose_map]
   rfl
 
+omit [Finite F] in
 theorem map_scalar_GL (σ : F →+* F) (c : Fˣ) :
     GeneralLinearGroup.map σ (GeneralLinearGroup.scalar (Fin p) c) =
       GeneralLinearGroup.scalar (Fin p) (Units.map (σ : F →* F) c) := by
@@ -348,12 +361,14 @@ theorem map_scalar_GL (σ : F →+* F) (c : Fˣ) :
     Matrix.scalar_apply, Matrix.diagonal_map (map_zero σ)]
   rfl
 
+omit [Finite F] in
 theorem theta0_scalar (X : GL (Fin p) F) (σ : F ≃+* F) (c : Fˣ) :
     theta0 X σ (GeneralLinearGroup.scalar (Fin p) c) =
       GeneralLinearGroup.scalar (Fin p) (Units.map ((σ : F →+* F) : F →* F) c) := by
   show X * GeneralLinearGroup.map (σ : F →+* F) (GeneralLinearGroup.scalar (Fin p) c) * X⁻¹ = _
   rw [map_scalar_GL, ← GeneralLinearGroup.scalar_commute, mul_inv_cancel_right]
 
+omit [Finite F] in
 theorem theta1_scalar (X : GL (Fin p) F) (σ : F ≃+* F) (c : Fˣ) :
     theta1 X σ (GeneralLinearGroup.scalar (Fin p) c) =
       GeneralLinearGroup.scalar (Fin p) (Units.map ((σ : F →+* F) : F →* F) c⁻¹) := by
@@ -377,7 +392,7 @@ theorem heis_data (hp : p.Prime) (hp2 : p ≠ 2) (hpF : p ∣ Nat.card F - 1)
     (hcomm : conjAut p F A * conjAut p F B = conjAut p F B * conjAut p F A) :
     (p : F) ≠ 0 ∧ ∃ z μ b : Fˣ, IsPrimitiveRoot z p ∧ A * B * A⁻¹ * B⁻¹ = GeneralLinearGroup.scalar (Fin p) z ∧
       A ^ p = GeneralLinearGroup.scalar (Fin p) μ ∧ B ^ p = GeneralLinearGroup.scalar (Fin p) b := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 3 ≤ p := by have := hp.two_le; omega
   have hpQ : ¬ p ∣ Nat.card F := fun hd => by
     have hQ1 : 1 ≤ Nat.card F := Nat.card_pos
@@ -403,7 +418,7 @@ theorem delta_facts {G : Type*} [Group G] [Finite G] {H : Subgroup G} {x y t : G
     (ht : t ∈ localDeltaTwoIn H (Subgroup.closure {x, y})) :
     t ∈ pCoreOf 2 (H ⊓ Subgroup.centralizer ({x} : Set G)) ∧ t * x = x * t ∧ t * y = y * t ∧
       ∃ k : ℕ, t ^ (2 ^ k) = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmem : ∀ d ∈ Subgroup.closure ({x, y} : Set G), d ≠ 1 →
       t ∈ pCoreOf 2 (H ⊓ Subgroup.centralizer ({d} : Set G)) := by
     intro d hd hd1
@@ -426,6 +441,7 @@ theorem exists_scalar_of_commute_conj (hn : 3 ≤ p) {t : MulAut (projectiveSL p
   obtain ⟨l, hl⟩ := CFSG.HardMathSupport.Timmesfeld.LocalTwo.Heis.eq_scalar_of_conjAut_eq_one hn h1
   exact ⟨l, by rw [hl, inv_mul_cancel_right]⟩
 
+omit [Finite F] in
 theorem comm_of_scalar_mul {A : GL (Fin p) F} {Θ : GL (Fin p) F →* GL (Fin p) F} {l : Fˣ}
     (hl : Θ A = GeneralLinearGroup.scalar (Fin p) l * A) {w : GL (Fin p) F} (hw : w * A = A * w) :
     Θ w * A = A * Θ w := by
@@ -478,8 +494,8 @@ theorem eq_one_of_mem_delta_theta0 [CharP F 2] (hp : p.Prime) (hp2 : p ≠ 2) (h
     (ht : t ∈ localDeltaTwoIn H (Subgroup.closure {conjAut p F A, conjAut p F B}))
     {X : GL (Fin p) F} {σ : F ≃+* F} (hteq : t = conjAut p F X * fieldAut p F σ) : t = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have : Finite (projectiveSL p F) := finite_projectiveSL
   have hn : 3 ≤ p := by have := hp.two_le; omega
   have hp0 := hp.pos
@@ -613,8 +629,8 @@ theorem false_of_mem_delta_theta1 [CharP F 2] (hp : p.Prime) (hp2 : p ≠ 2) (hp
     (ht : t ∈ localDeltaTwoIn H (Subgroup.closure {conjAut p F A, conjAut p F B}))
     {X : GL (Fin p) F} {σ : F ≃+* F} (hteq : t = conjAut p F X * fieldAut p F σ * dualAut p F) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have : Finite (projectiveSL p F) := finite_projectiveSL
   have hn : 3 ≤ p := by have := hp.two_le; omega
   have hp0 := hp.pos
@@ -639,7 +655,7 @@ theorem false_of_mem_delta_theta1 [CharP F 2] (hp : p.Prime) (hp2 : p ≠ 2) (hp
       rw [hzrel, theta1_scalar] at h1
       have h2 := CFSG.HardMathSupport.Timmesfeld.CrossChar.glScalar_injective hp0 h1
       have h3 := congrArg Units.val h2
-      simp only [Units.coe_map, MonoidHom.coe_coe] at h3
+      simp only [Units.coe_map, _root_.MonoidHom.coe_ofClass] at h3
       rw [map_units_inv] at h3
       have h4 : (σ (z : F))⁻¹ = (z : F) := h3
       rw [Units.val_inv_eq_inv_val]
@@ -834,7 +850,7 @@ theorem linear_plane {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime) (h
       conjAut p F A * conjAut p F B = conjAut p F B * conjAut p F A ∧ conjAut p F A ≠ 1 ∧ conjAut p F B ≠ 1 ∧
       conjAut p F A ∈ innerAut (projectiveSL p F) ∧ conjAut p F B ∈ innerAut (projectiveSL p F) ∧
       ∃ H : Subgroup (MulAut (projectiveSL p F)), innerAut (projectiveSL p F) ≤ H ∧ localDeltaTwoIn H D ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 3 ≤ p := by have := hp.two_le; omega
   obtain ⟨H, hH, hDH, hΔ⟩ := exists_delta_of_not_balanced hp hDc hnb
   have hΔ' : localDeltaIn p H D ≠ ⊥ := fun h0 =>
@@ -876,7 +892,7 @@ theorem unitary_balanced {ℓ f : ℕ} {K : Type} [Field K] (h : UnitaryFieldDat
     {D : Subgroup (MulAut (primeFormP h (idGram K p)))} (hD : IsElemAbelian p D)
     (hDc : Nat.card D = p ^ 2) : IsLocallyOTwoBalanced p 2 D := by
   have := h.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 3 ≤ p := by have := hp.two_le; omega
   by_contra hnb
   obtain ⟨H, hH, hDH, hΔ⟩ := exists_delta_of_not_balanced hp hDc hnb
@@ -1241,10 +1257,10 @@ theorem input19_16_twoLp_holds : BalanceFromYS.Input19_16_twoLp := by
       rw [pow_two]
       nth_rewrite 1 [← hinv]
       exact inv_mul_cancel u
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hord : orderOf u = 2 := orderOf_eq_prime hsq hu1
     refine ⟨u, ⟨hord, ?_⟩, hΔu⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hZ : IsPGroup 3 (Subgroup.center Y) :=
       CFSG.LocalAnalysis.GLTheoremB.MovingAround.AltFacts2.isPGroup_center_of_core_eq_bot hp hO
     have hucomm : ∀ b ∈ B', u * b = b * u := by

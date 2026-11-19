@@ -25,7 +25,7 @@ theorem t210_u_a_half (m : ℕ) (hm : 2 ≤ m) :
   rw [map_nsmul, Type210.u_a m hm]
   funext i
   fin_cases i <;>
-    simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, nsmul_eq_mul, zsmul_eq_mul]
+    simp [Torus.a, Torus.b, Torus.c, gen, nsmul_eq_mul, zsmul_eq_mul]
   change (2 : ZMod (2 ^ m)) ^ (m + 1) * (2 * 2 ^ (m - 2)) = 0
   have hzero : (2 : ZMod (2 ^ m)) ^ m = 0 := by
     rw [show (2 : ZMod (2 ^ m)) = ((2 : ℕ) : ZMod (2 ^ m)) from by norm_num]
@@ -46,7 +46,7 @@ theorem t210_uv_fixes_a_half (m : ℕ) (hm : 2 ≤ m) :
   have hva : (2 ^ (m + 1) : ℕ) • Torus.a (k := Type210.k m) =
       Torus.ofInt (Type210.k m) ![0, (2 : ℤ) ^ (m + 1), 0] := by
     rw [Torus.ofInt_eq_zsmul_gens]
-    simp [Torus.a, Torus.b, Torus.c]
+    simp [Torus.a]
   rw [hva]
   let S : ℤ := (2 : ℤ) ^ (m - 2)
   have hpow : (2 : ℤ) ^ (m + 1) = 8 * S := by
@@ -149,7 +149,7 @@ theorem t210_φuv_a_add_b (m : ℕ) (hm : 2 ≤ m) :
   rw [map_add, Type210.uv_a m hm, Type210.uv_b m hm]
   funext i
   fin_cases i <;>
-    simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, Torus.ofInt, zsmul_eq_mul]
+    simp [Torus.a, Torus.b, Torus.c, gen, Torus.ofInt, zsmul_eq_mul]
   all_goals ring
 
 theorem t210_uv_preimage (m : ℕ) (hm : 2 ≤ m) :
@@ -202,7 +202,6 @@ theorem t210_uv_preimage (m : ℕ) (hm : 2 ≤ m) :
       congr 1
       funext i
       fin_cases i <;> simp [Pi.smul_apply]
-      all_goals ring
     have hw : (2 ^ m : ℕ) •
         (Torus.a (k := (StrothTypeIndex.t210 m hm).k) +
           Torus.b (k := (StrothTypeIndex.t210 m hm).k)) =
@@ -247,7 +246,7 @@ theorem t210_φu_ab_half (m : ℕ) (hm : 2 ≤ m) :
   rw [map_nsmul, map_add, Type210.u_a m hm, Type210.u_b m hm]
   funext i
   fin_cases i <;>
-    simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, nsmul_eq_mul, zsmul_eq_mul]
+    simp [Torus.a, Torus.b, Torus.c, gen, nsmul_eq_mul, zsmul_eq_mul]
   have hzero : (2 : ZMod (2 ^ m)) ^ m = 0 := by
     rw [show (2 : ZMod (2 ^ m)) = ((2 : ℕ) : ZMod (2 ^ m)) from by norm_num]
     rw [← Nat.cast_pow, ZMod.natCast_self]
@@ -273,6 +272,7 @@ theorem t210_φuv_ab_half (m : ℕ) (hm : 2 ≤ m) :
     abel
   rwa [hv] at h2
 
+omit [Finite G] in
 theorem t210_u_swaps_a_half {D : Subgroup G} {m : ℕ} {hm : 2 ≤ m}
     (dD : StrothWeakTypeData D (StrothTypeIndex.t210 m hm)) :
     dD.u⁻¹ * ((dD.a : G) ^ 2 ^ (m + 1)) * dD.u = (dD.b : G) ^ 2 ^ (m + 1) := by
@@ -299,8 +299,8 @@ theorem t210_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 2 ≤
   set bh : G := (dD.b : G) ^ 2 ^ (m + 1) with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 ^ m * ab ^ 2 ^ m = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 2 ^ (m + 2) := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a]
     rfl
@@ -462,11 +462,11 @@ theorem t210_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 2 ≤
     have hva : (2 ^ (m + 1) : ℕ) • Torus.a (k := (StrothTypeIndex.t210 m hm).k) =
         Torus.ofInt (StrothTypeIndex.t210 m hm).k ![0, (2 : ℤ) ^ (m + 1), 0] := by
       rw [Torus.ofInt_eq_zsmul_gens]
-      simp [Torus.a, Torus.b, Torus.c]
+      simp [Torus.a]
     have hvb : (2 ^ (m + 1) : ℕ) • Torus.b (k := (StrothTypeIndex.t210 m hm).k) =
         Torus.ofInt (StrothTypeIndex.t210 m hm).k ![0, 0, (2 : ℤ) ^ (m + 1)] := by
       rw [Torus.ofInt_eq_zsmul_gens]
-      simp [Torus.a, Torus.b, Torus.c]
+      simp [Torus.b]
     intro htor
     rw [hva, hvb, Torus.ofInt_eq_ofInt_iff] at htor
     have h2 := htor 2
@@ -523,6 +523,7 @@ theorem t210_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 2 ≤
     · exact absurd hahxy hah_ne_xy
   exact hLHS.trans hmain
 
+omit [Finite G] in
 theorem t210_d2_ofTorus {D : Subgroup G} {m : ℕ} {hm : 2 ≤ m}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t210 m hm)} :
     ((dD.a : G) * (dD.b : G)) ^ 2 ^ ((StrothTypeIndex.t210 m hm).n - 2) =
@@ -542,8 +543,8 @@ theorem t210_d2_mem_A {F : StrothFrame G} {D : Subgroup G} {m : ℕ} (hm : 2 ≤
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _

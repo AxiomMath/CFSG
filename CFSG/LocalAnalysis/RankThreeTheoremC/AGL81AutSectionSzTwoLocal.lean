@@ -55,7 +55,7 @@ theorem autSectionSz :
       ∀ (A : Subgroup (MulAut V)) (φ : ↥A →* (TauCeti.CFSGIndex.lie d).Group),
         ¬ Function.Surjective φ := by
   intro q hq hq2 _ d hd V _ _ hV hrank A φ hφ
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨W, _, _, _, hW, ρ, hρ⟩ := hasSmallLinearModel hq2 hV hrank
   obtain ⟨d, hv⟩ := d
   change d = _ at hd

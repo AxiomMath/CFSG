@@ -47,6 +47,6 @@ theorem le_normalizer_centreOfSub_of_le {T Y₀ : Subgroup Y}
 
 theorem natCard_sylow_eq_pow (P : Sylow 5 Y) : ∃ k : ℕ, Nat.card (P : Subgroup Y) = 5 ^ k := by
   have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  exact IsPGroup.iff_card.mp P.isPGroup'
+  exact IsPGroup.iff_card.mp P.isPGroup
 
 end CFSG.HardMathSupport.Malle.Proving

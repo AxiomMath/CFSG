@@ -376,8 +376,8 @@ private theorem toAdd_sgnAut_apply {n p : ℕ} (m k : Fin n)
   rw [sgnAut_apply]
   by_cases hk : k = m
   · subst hk
-    rw [Function.update_self, toAdd_inv, if_pos rfl]
-  · rw [Function.update_of_ne hk, if_neg hk]
+    rw [Function.update_self, toAdd_inv, ite_eq_left rfl]
+  · rw [Function.update_of_ne hk, ite_eq_right hk]
 
 private theorem toAdd_sgnAut_sgnAut_apply {n p : ℕ} {i j k : Fin n} (hij : i ≠ j)
     (xh : Fin n → Multiplicative (ZMod p)) :
@@ -386,12 +386,12 @@ private theorem toAdd_sgnAut_sgnAut_apply {n p : ℕ} {i j k : Fin n} (hij : i �
   rw [toAdd_sgnAut_apply]
   by_cases hki : k = i
   · subst hki
-    rw [if_pos rfl, toAdd_sgnAut_apply, if_neg hij, if_pos (Or.inl rfl)]
-  · rw [if_neg hki, toAdd_sgnAut_apply]
+    rw [ite_eq_left rfl, toAdd_sgnAut_apply, ite_eq_right hij, ite_eq_left (Or.inl rfl)]
+  · rw [ite_eq_right hki, toAdd_sgnAut_apply]
     by_cases hkj : k = j
     · subst hkj
-      rw [if_pos rfl, if_pos (Or.inr rfl)]
-    · rw [if_neg hkj, if_neg (fun h => h.elim hki hkj)]
+      rw [ite_eq_left rfl, ite_eq_left (Or.inr rfl)]
+    · rw [ite_eq_right hkj, ite_eq_right (fun h => h.elim hki hkj)]
 
 private theorem sigmaFix_of_const {n p : ℕ} {I : Finset (Fin n)} {d : Fin n → ZMod p}
     {xh : Fin n → Multiplicative (ZMod p)} (hxh : ∀ a b, xh a = xh b) {δ : ZMod p}
@@ -482,11 +482,11 @@ private theorem const_axis_sigma_ne {n p : ℕ} (hp : p.Prime)
   rw [toAdd_sgnAut_apply]
   by_cases hkm : k = m
   · subst hkm
-    rw [if_pos rfl, hw k hm, hdm]
+    rw [ite_eq_left rfl, hw k hm, hdm]
     calc -δ * lam = -(δ * lam) := neg_mul ..
       _ = -(α * toAdd (xh k)) := by rw [hδrel]
       _ = α * -toAdd (xh k) := by ring
-  · rw [if_neg hkm, hcoord k, hxh k m, hw₀ k hkm, toAdd_one, mul_zero, add_zero]
+  · rw [ite_eq_right hkm, hcoord k, hxh k m, hw₀ k hkm, toAdd_one, mul_zero, add_zero]
 
 private theorem const_axis_sigma_case {n p : ℕ} (hp : p.Prime) (hn : 5 ≤ n)
     {xh w₀ w : Fin n → Multiplicative (ZMod p)} {I : Finset (Fin n)} {d : Fin n → ZMod p}
@@ -535,13 +535,13 @@ private theorem const_pair_sigma_final {n p : ℕ} {xh w₀ w : Fin n → Multip
   rw [toAdd_sgnAut_sgnAut_apply hij]
   by_cases hki : k = i
   · subst hki
-    rw [if_pos (Or.inl rfl), hwi]
+    rw [ite_eq_left (Or.inl rfl), hwi]
     ring
   · by_cases hkj : k = j
     · subst hkj
-      rw [if_pos (Or.inr rfl), hwj, hxh i k]
+      rw [ite_eq_left (Or.inr rfl), hwj, hxh i k]
       ring
-    · rw [if_neg (fun h => h.elim hki hkj), hcoord k, hxh k i, hw₀ k hki hkj,
+    · rw [ite_eq_right (fun h => h.elim hki hkj), hcoord k, hxh k i, hw₀ k hki hkj,
         toAdd_one, mul_zero, add_zero]
 
 private theorem const_pair_sigma_ne {n p : ℕ} (hp : p.Prime)
@@ -721,26 +721,26 @@ theorem profile_of_forall_mem_zpowers (hp : p.Prime) {I₀ : Finset (Fin n)} {i 
     set e : Fin n → Multiplicative (ZMod p) := Pi.mulSingle m (ofAdd 1) with he
     have heI : ∀ k ∈ I₀, e k = 1 := by
       intro k hk
-      rw [he, Pi.mulSingle_apply, if_neg]
+      rw [he, Pi.mulSingle_apply, ite_eq_right]
       intro hkm
       exact hmI (hkm ▸ hk)
     have hei : e i = e j := by
-      rw [he, Pi.mulSingle_apply, Pi.mulSingle_apply, if_neg (Ne.symm hmi),
-        if_neg (Ne.symm hmj)]
+      rw [he, Pi.mulSingle_apply, Pi.mulSingle_apply, ite_eq_right (Ne.symm hmi),
+        ite_eq_right (Ne.symm hmj)]
     have hmem : e ∈ Subgroup.zpowers w₀ := hline e heI hei
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hmem
     have hkm : (k : ZMod p) ≠ 0 := by
       intro hk0
       have h1 : (k : ZMod p) * toAdd (w₀ m) = 1 := by
         have := congrArg (fun f => toAdd (f m)) hk
-        rw [Pi.pow_apply, toAdd_zpow, zsmul_eq_mul, he, Pi.mulSingle_apply, if_pos rfl] at this
+        rw [Pi.pow_apply, toAdd_zpow, zsmul_eq_mul, he, Pi.mulSingle_apply, ite_eq_left rfl] at this
         simpa using this
       rw [hk0, zero_mul] at h1
       exact (coord_zero_ne_one hp) h1
     intro l hl
     have h0 : (k : ZMod p) * toAdd (w₀ l) = 0 := by
       have := congrArg (fun f => toAdd (f l)) hk
-      rw [Pi.pow_apply, toAdd_zpow, zsmul_eq_mul, he, Pi.mulSingle_apply, if_neg hl] at this
+      rw [Pi.pow_apply, toAdd_zpow, zsmul_eq_mul, he, Pi.mulSingle_apply, ite_eq_right hl] at this
       exact this
     exact toAdd.injective (by simpa using (coord_mul_eq_zero hp h0).resolve_left hkm)
   · right

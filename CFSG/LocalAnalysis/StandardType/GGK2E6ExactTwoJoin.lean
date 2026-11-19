@@ -74,7 +74,7 @@ theorem KOnlyE6_dependent_L_A5_join_or_B5D5_of_moving_K
     hS, hA1, hA3, hMLW, hCLL, hMKW, hCKW, htyp, hlin, hrefl, hpair, hpairK, hsel,
     ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hconn, hclosJ, heML, hcardL, hType, hD5rel⟩ :=
     KOnlyE6_dependent_L_full hH hFix hD hno
-  letI := i1; letI := i2; letI := i3; letI := i4; letI := i5; letI := i6
+  let := i1; let := i2; let := i3; let := i4; let := i5; let := i6
   have hx : x ∈ Bs := hH.1.tableB_facts.2.2.1
   have hcardΛ : Fintype.card Λ = 6 := by
     have hc : Fintype.card (Fin 6) = Fintype.card Λ := Fintype.card_congr e
@@ -176,12 +176,12 @@ theorem KOnlyE6_dependent_L_A5_B5_join_or_D5_of_moving_K
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α, e,
     hS, hA1, hAeq, hA3, hMLW, hCLL, hMKW, hCKW, htyp, hlin, hrefl, hpair, hpairK, hsel,
     ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hconn, hclosJ, heML, hcardL, hType⟩ := hRest
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   have hD2 : GGResLeviDatumExact2 3 Bs K J L ggSelAny ggTypAny :=
     ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
       hS, hA1, hA3, hMLW, hCLL, hMKW, hCKW, trivial, hlin, hrefl, hpair, hpairK,
@@ -234,12 +234,12 @@ theorem K_only_E6_dependent_join_of_moving_K
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α, e,
     hS, hA1, hA3, hA3', hMLW, hCLL, hMKW, hCKW, htyp, hlin, hrefl, hpair, hpairK, hsel,
     ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hconn, hclosJ, heML, hcardL, hType⟩ := hD5
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   obtain ⟨e5, he5⟩ := hType
   subst MK
   have hcardBs : Nat.card Bs = 3 ^ 6 :=
@@ -327,12 +327,12 @@ private theorem ggK2E6_other_reflGenerated
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, ha1, ha3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpairL, hpairK,
     hsel, hfL, hfK, hclosL, hclosK, hdel, hclosJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   let φL : ({i : Λ // i ∉ S} ⊕ Λa) → MulAut ↥Bs :=
     fun o => φ (o.map Subtype.val id)
   have hrange : Set.range φL =
@@ -377,12 +377,12 @@ GGWeylReflectionGroup p (ggAutomizer L Bs ⊔ ggAutomizer K Bs) := by
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, ha1, ha3, hML, hCL, hMK, hCK, htyp, hlin, hrefl, hpairL, hpairK,
     hsel, hfL, hfK, hclosL, hclosK, hdel, hclosJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   obtain ⟨fL, hfL⟩ := hfL
   obtain ⟨fK, hfK⟩ := hfK
   obtain ⟨e, he⟩ := htyp

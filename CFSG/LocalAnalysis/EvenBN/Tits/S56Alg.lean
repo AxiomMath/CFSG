@@ -15,8 +15,8 @@ variable {Γ : Type*} [Group Γ]
 private theorem card_modEq_ncard_fixedPoints {α : Type*} [Finite α] {f : α → α}
     (hf : ∀ a, f^[5] a = a) : Nat.card α ≡ (Function.fixedPoints f).ncard [MOD 5] := by
   classical
-  haveI := Fintype.ofFinite α
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := Fintype.ofFinite α
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let F : Function.End α := f
   have hF : F ^ 5 ^ 1 = 1 := by
     funext a
@@ -154,14 +154,14 @@ theorem centralizer_le_derived_of_commutator_eq [Finite Γ] {p r : ℕ} [Fact p.
     (hXP : X ≤ normalizer (P : Set Γ)) (hPX : ⁅P, X⁆ = P) :
     P ⊓ centralizer (X : Set Γ) ≤ ⁅P, P⁆ := by
   classical
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   obtain ⟨ρ, hρ⟩ : ∃ ρ : X →* MulAut P, ∀ (y : X) (q : P),
       ((ρ y q : P) : Γ) = y * q * (y : Γ)⁻¹ :=
     ⟨P.normalizerMonoidHom.comp (Subgroup.inclusion hXP), fun y q => rfl⟩
   obtain ⟨T, hT⟩ : ∃ T : P →* Abelianization P,
       ∀ q, T q = ∏ y : X, (Abelianization.of (ρ y q) : Abelianization P) :=
     ⟨∏ y : X, (Abelianization.of : P →* Abelianization P).comp (ρ y).toMonoidHom,
-      fun q => by simp [MonoidHom.finset_prod_apply]⟩
+      fun q => by simp⟩
   have hTinv : ∀ (z : X) (q : P), T (ρ z q) = T q := by
     intro z q
     rw [hT, hT]

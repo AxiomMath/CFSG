@@ -97,7 +97,7 @@ theorem frameC205_of_hyp51 (hCent : Frame20ACentX') (hCov : FrameXCover) {G : Ty
       exact hn
     exact hu' hmem
   have hp2 : IsPGroup 2 ↥(Subgroup.zpowers a') :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr haS)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr haS)
   obtain ⟨m, hm2, hm1⟩ := late_exists_pow_invol hp2 ha1
   set a := a' ^ m with ha_def
   have ha₀A : a ∈ A' := Subgroup.pow_mem _ ha' m

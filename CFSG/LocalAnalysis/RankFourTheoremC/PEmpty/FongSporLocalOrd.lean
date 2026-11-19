@@ -14,7 +14,7 @@ theorem two_pow_orderOf_dvd_card {A : Type} [Group A] [Finite A] {p : ℕ} (hp :
     (hp2 : p ≠ 2) {z : A} (hz : orderOf z = p) {Y : Subgroup A} (hY : IsPGroup 2 Y)
     (hzY : z ∈ normalizer (Y : Set A)) (hnc : ∃ y ∈ Y, z * y ≠ y * z) :
     2 ^ orderOf (2 : ZMod p) ∣ Nat.card Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y, hy, hyz⟩ := hnc
   obtain ⟨k, hk1, hk2, hdvd⟩ :=
     CFSG.Quasithin.Vol2.Ch10.SecB.C10KH.dvd_two_pow_sub_one_of_act hY hp hp2 hz hzY

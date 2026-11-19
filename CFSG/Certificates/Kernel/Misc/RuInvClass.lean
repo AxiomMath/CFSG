@@ -196,7 +196,7 @@ theorem prep_gen2 {C0 C1 : Nat} {x0 x1 : G} (h0 : PRep 4060 12 C0 x0) (h1 : PRep
   by_cases hl : l = 0
   · subst hl
     exact h0
-  · rw [if_neg hl, show Nat.beq l 0 = false from beq_false_of_ne hl]
+  · rw [ite_eq_right hl, show Nat.beq l 0 = false from beq_false_of_ne hl]
     exact h1
 
 theorem prep_gen2_inv {CI0 CI1 : Nat} {x0 x1 : G} (h0 : PRep 4060 12 CI0 x0⁻¹)
@@ -205,7 +205,7 @@ theorem prep_gen2_inv {CI0 CI1 : Nat} {x0 x1 : G} (h0 : PRep 4060 12 CI0 x0⁻¹
   by_cases hl : l = 0
   · subst hl
     exact h0
-  · rw [if_neg hl, show Nat.beq l 0 = false from beq_false_of_ne hl]
+  · rw [ite_eq_right hl, show Nat.beq l 0 = false from beq_false_of_ne hl]
     exact h1
 
 section Class

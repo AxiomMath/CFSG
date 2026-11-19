@@ -19,11 +19,13 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {L1 L2 S : Subgroup G} {m : ℕ}
 
+omit [Finite G] in
 theorem sup_eq_of_S_eq {L1 L2 S : Subgroup G}
     (hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S) : L1 ⊔ S = L1 ⊔ Q1 L1 L2 S := by
   have h1 : L1 ⊔ S = L1 ⊔ ((S ⊓ L1) ⊔ Q1 L1 L2 S) := congrArg (fun X => L1 ⊔ X) hS1
   rw [h1, ← sup_assoc, show L1 ⊔ (S ⊓ L1) = L1 from sup_eq_left.mpr inf_le_right]
 
+omit [Finite G] in
 theorem sup_eq_of_S_eq_right {L1 L2 S : Subgroup G}
     (hS2 : S = (S ⊓ L2) ⊔ Q2 L1 L2 S) : L2 ⊔ S = L2 ⊔ Q2 L1 L2 S := by
   have h1 : L2 ⊔ S = L2 ⊔ ((S ⊓ L2) ⊔ Q2 L1 L2 S) := congrArg (fun X => L2 ⊔ X) hS2
@@ -77,6 +79,7 @@ theorem isSimpleGroup_oTwoQuot_sup_right_of_isL2Quot
     exact ⟨(oTwoQuotSupEquiv hF.symm).trans eL2⟩
   exact CFSG.Quasithin.S1421NS.isSimpleGroup_of_isL2Quot hm hL2sup
 
+omit [Finite G] in
 theorem inf_centralizer_pCoreOf_left_of_hyp111 (hF : Hyp111 L1 L2 S) :
     (L1 ⊔ S) ⊓ Subgroup.centralizer (Q1 L1 L2 S : Set G) ≤ Q1 L1 L2 S := by
   have hchar : CharTwo (P1 L1 L2 S) := by
@@ -87,6 +90,7 @@ theorem inf_centralizer_pCoreOf_left_of_hyp111 (hF : Hyp111 L1 L2 S) :
     exact sup_le le_sup_left ((le_sup_right : S ≤ bigB L1 L2 S).trans le_sup_right)
   exact (inf_le_inf_right (Subgroup.centralizer (Q1 L1 L2 S : Set G)) hHle).trans hchar
 
+omit [Finite G] in
 theorem inf_centralizer_pCoreOf_right_of_hyp111 (hF : Hyp111 L1 L2 S) :
     (L2 ⊔ S) ⊓ Subgroup.centralizer (Q2 L1 L2 S : Set G) ≤ Q2 L1 L2 S := by
   have hchar : CharTwo (P2 L1 L2 S) := by
@@ -154,11 +158,13 @@ theorem not_thompsonJ_le_Q2_of_caseII
   exact CFSG.QuasithinUnique.Setup.thompsonJ_ne_bot hF.1.h1.pgroup hSne
     (le_bot_iff.mp hJleO)
 
+omit [Finite G] in
 theorem Z1_le_centralizer_Q1 (L1 L2 S : Subgroup G) :
     Z1 L1 L2 S ≤ Subgroup.centralizer (Q1 L1 L2 S : Set G) :=
   (A4.omegaOneCenterOf_le_centerOf (Q1 L1 L2 S)).trans
     (A4.centerOf_le_centralizer (Q1 L1 L2 S))
 
+omit [Finite G] in
 theorem Q1_le_centralizer_Z1 (L1 L2 S : Subgroup G) :
     Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G) := by
   simpa [Z1, omegaOneCenterOf_eq] using
@@ -222,6 +228,7 @@ theorem z1_le_omegaOneCenterOf_thompsonJ_of_caseII
   have hz2 : z ^ 2 = 1 := (SmithC27.isElemAbelian_omegaOneCenterOf (Q1 L1 L2 S)).2 z hz
   exact Subgroup.subset_closure ⟨Subgroup.mem_inf.mpr ⟨hzJ, hZ1CJ hz⟩, hz2⟩
 
+omit [Finite G] in
 theorem omegaOneCenterOf_S_le_caseII (hF : Hyp111 L1 L2 S)
     (hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S)
     (hS2 : S = (S ⊓ L2) ⊔ Q2 L1 L2 S) :
@@ -471,7 +478,7 @@ private theorem Z1_ne_bot_of_caseII
     (hF : F112HypW L1 L2 S) (hB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
     (hB1 : VSzBig L1 ∨ VU3Big L1)
     (hS2 : S = (S ⊓ L2) ⊔ Q2 L1 L2 S)
-    (hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G)) :
+    (_hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G)) :
     Z1 L1 L2 S ≠ ⊥ := by
   intro hbot
   have hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S :=

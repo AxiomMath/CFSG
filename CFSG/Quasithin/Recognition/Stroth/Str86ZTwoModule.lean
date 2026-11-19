@@ -11,14 +11,16 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mulAut_conj_smul_eq_conjAct (g : G) (H : Subgroup G) :
     MulAut.conj g • H = ConjAct.toConjAct g • H := by
   ext x
   rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem,
     Subgroup.mem_pointwise_smul_iff_inv_smul_mem, ← ConjAct.toConjAct_inv,
     ConjAct.toConjAct_smul]
-  simp [MulAut.conj_apply]
+  simp
 
+omit [Finite G] in
 theorem bigB_le_normalizer_u3Y {L1 L2 S : Subgroup G} :
     bigB L1 L2 S ≤ Subgroup.normalizer (u3Y L1 L2 S : Set G) := by
   have hBP1 : bigB L1 L2 S ≤ P1 L1 L2 S := le_sup_right
@@ -114,6 +116,7 @@ theorem str86_u3Y_normalizer
       (Subgroup.mem_inf.mp hg).1, (Subgroup.mem_inf.mp hg).2⟩
 
 
+omit [Finite G] in
 theorem str86_u3Y_conj_le_q1 {L1 L2 S : Subgroup G} {g : G} (hg : g ∈ L1 ⊔ S) :
     MulAut.conj g • u3Y L1 L2 S ≤ Q1 L1 L2 S := by
   have hgP1 : g ∈ P1 L1 L2 S :=

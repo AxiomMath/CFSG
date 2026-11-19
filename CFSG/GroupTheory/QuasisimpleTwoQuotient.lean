@@ -34,11 +34,13 @@ abbrev twoQuotientSY (K S : Subgroup H) (h : (twoQuotientC K S).Normal) :
     Subgroup (twoQuotientY K S h) :=
   (S.subgroupOf (K ⊔ S)).map (twoQuotientPi K S h)
 
+omit [Finite H] in
 theorem twoQuotientK_normal (hSK : S ≤ Subgroup.normalizer (K : Set H)) :
     (K.subgroupOf (K ⊔ S)).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (le_sup_left : K ≤ K ⊔ S)).mpr
     (sup_le Subgroup.le_normalizer hSK)
 
+omit [Finite H] in
 theorem twoQuotientC_normal (hSK : S ≤ Subgroup.normalizer (K : Set H)) :
     (twoQuotientC K S).Normal := by
   let J := K ⊔ S
@@ -113,7 +115,7 @@ theorem twoQuotientC_normal (hSK : S ≤ Subgroup.normalizer (K : Set H)) :
   exact Subgroup.normalizer_eq_top_iff.mp (top_unique hle)
 
 theorem twoQuotientK_inf_C_eq_bot (hZ : Odd (Nat.card (Subgroup.center ↥K)))
-    (hS : IsPGroup 2 S) (hSK : S ≤ Subgroup.normalizer (K : Set H)) :
+    (hS : IsPGroup 2 S) (_hSK : S ≤ Subgroup.normalizer (K : Set H)) :
     (K.subgroupOf (K ⊔ S)) ⊓ twoQuotientC K S = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
@@ -140,7 +142,7 @@ theorem twoQuotient_mk_injective_K (hZ : Odd (Nat.card (Subgroup.center ↥K)))
     Function.Injective (fun x : ↥(K.subgroupOf (K ⊔ S)) =>
       twoQuotientPi K S (twoQuotientC_normal hSK) x) := by
   let C := twoQuotientC K S
-  letI : C.Normal := twoQuotientC_normal hSK
+  let : C.Normal := twoQuotientC_normal hSK
   intro x y hxy
   have hker : ∀ z : ↥(K.subgroupOf (K ⊔ S)),
       twoQuotientPi K S (twoQuotientC_normal hSK) z = 1 → z = 1 := by
@@ -170,7 +172,7 @@ theorem twoQuotientK_nonempty_equiv_K (hZ : Odd (Nat.card (Subgroup.center ↥K)
     Nonempty (↥(twoQuotientKY K S (twoQuotientC_normal hSK)) ≃* ↥K) := by
   let hC := twoQuotientC_normal hSK
   let C := twoQuotientC K S
-  letI : C.Normal := hC
+  let : C.Normal := hC
   let K₀ : Subgroup ↥(K ⊔ S) := K.subgroupOf (K ⊔ S)
   let K_Y : Subgroup (twoQuotientY K S hC) := K₀.map (twoQuotientPi K S hC)
   let φ : ↥K₀ →* ↥K_Y :=
@@ -187,23 +189,26 @@ theorem twoQuotientK_nonempty_equiv_K (hZ : Odd (Nat.card (Subgroup.center ↥K)
   let e : ↥K₀ ≃* ↥K_Y := MulEquiv.ofBijective φ ⟨hinj, hsurj⟩
   exact ⟨e.symm.trans (Subgroup.subgroupOfEquivOfLe (le_sup_left : K ≤ K ⊔ S))⟩
 
+omit [Finite H] in
 theorem twoQuotientKY_normal (hSK : S ≤ Subgroup.normalizer (K : Set H)) :
     letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
     (twoQuotientKY K S (twoQuotientC_normal hSK)).Normal := by
-  letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
+  let : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
   exact (twoQuotientK_normal hSK).map _ (QuotientGroup.mk'_surjective _)
 
 
+omit [Finite H] in
 theorem twoQuotientSY_isPGroup (hS : IsPGroup 2 S)
     (hSK : S ≤ Subgroup.normalizer (K : Set H)) :
     letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
     IsPGroup 2 (twoQuotientSY K S (twoQuotientC_normal hSK)) := by
-  letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
+  let : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
   let J := K ⊔ S
   have h : IsPGroup 2 ((S.subgroupOf J).map (twoQuotientPi K S (twoQuotientC_normal hSK))) :=
     (hS.comap_subtype (K := J)).map _
   exact h
 
+omit [Finite H] in
 theorem twoQuotientY_quotient_KY_isPGroup (hS : IsPGroup 2 S)
     (hSK : S ≤ Subgroup.normalizer (K : Set H)) :
     letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
@@ -211,7 +216,7 @@ theorem twoQuotientY_quotient_KY_isPGroup (hS : IsPGroup 2 S)
       twoQuotientKY_normal hSK
     IsPGroup 2 (twoQuotientY K S (twoQuotientC_normal hSK) ⧸
       twoQuotientKY K S (twoQuotientC_normal hSK)) := by
-  letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
+  let : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
   let J := K ⊔ S
   let C := twoQuotientC K S
   let Y := ↥J ⧸ C
@@ -219,8 +224,8 @@ theorem twoQuotientY_quotient_KY_isPGroup (hS : IsPGroup 2 S)
   let K_Y : Subgroup Y := (K.subgroupOf J).map π
   let S_Y : Subgroup Y := (S.subgroupOf J).map π
   have hKJ : (K.subgroupOf J).Normal := twoQuotientK_normal hSK
-  haveI : (K.subgroupOf J).Normal := hKJ
-  haveI hKY : K_Y.Normal := twoQuotientKY_normal hSK
+  have : (K.subgroupOf J).Normal := hKJ
+  have hKY : K_Y.Normal := twoQuotientKY_normal hSK
   have hsup : (K.subgroupOf J) ⊔ (S.subgroupOf J) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup (le_sup_left : K ≤ J) (le_sup_right : S ≤ J),
       Subgroup.subgroupOf_self]
@@ -247,10 +252,10 @@ theorem twoQuotientKY_index_eq_pow (hS : IsPGroup 2 S)
     (hSK : S ≤ Subgroup.normalizer (K : Set H)) :
     letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
     ∃ n, (twoQuotientKY K S (twoQuotientC_normal hSK)).index = 2 ^ n := by
-  letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
+  let : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
   let Y := twoQuotientY K S (twoQuotientC_normal hSK)
   let K_Y := twoQuotientKY K S (twoQuotientC_normal hSK)
-  haveI hKY : K_Y.Normal := twoQuotientKY_normal hSK
+  have hKY : K_Y.Normal := twoQuotientKY_normal hSK
   have hquot : IsPGroup 2 (Y ⧸ K_Y) := twoQuotientY_quotient_KY_isPGroup hS hSK
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := Y ⧸ K_Y)).mp hquot
   exact ⟨n, by rw [Subgroup.index_eq_card, hn]⟩
@@ -262,8 +267,8 @@ theorem twoQuotientSY_sylow (hS : IsPGroup 2 S)
     ∃ Sbar : Sylow 2 (twoQuotientY K S (twoQuotientC_normal hSK)),
       (Sbar : Subgroup (twoQuotientY K S (twoQuotientC_normal hSK))) =
         twoQuotientSY K S (twoQuotientC_normal hSK) := by
-  letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let J := K ⊔ S
   let C := twoQuotientC K S
   have hKJ : (K.subgroupOf J).Normal := twoQuotientK_normal hSK
@@ -297,12 +302,12 @@ theorem twoQuotientSY_isSylowIn (hS : IsPGroup 2 S)
     (hSyl : CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ K) K) :
     letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
     CFSG.Quasithin.IsSylowIn 2 (twoQuotientSY K S (twoQuotientC_normal hSK)) ⊤ := by
-  letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Sbar, hSbar⟩ := twoQuotientSY_sylow hS hSK hSyl
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hSbar]
-    exact Sbar.isPGroup'
+    exact Sbar.isPGroup
   · rw [Subgroup.relIndex_top_right, ← hSbar]
     exact Sbar.not_dvd_index
 
@@ -312,7 +317,7 @@ theorem twoQuotientSY_inf_centralizer_eq_bot (hZ : Odd (Nat.card (Subgroup.cente
     twoQuotientSY K S (twoQuotientC_normal hSK) ⊓
       Subgroup.centralizer (twoQuotientKY K S (twoQuotientC_normal hSK) : Set
         (twoQuotientY K S (twoQuotientC_normal hSK))) = ⊥ := by
-  letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
+  let : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
   let J := K ⊔ S
   let C := twoQuotientC K S
   let Y := ↥J ⧸ C
@@ -376,7 +381,7 @@ theorem twoQuotient_centralizer_eq_center (hZ : Odd (Nat.card (Subgroup.center �
         (twoQuotientY K S (twoQuotientC_normal hSK))) =
       (Subgroup.center ↥(twoQuotientKY K S (twoQuotientC_normal hSK))).map
         (twoQuotientKY K S (twoQuotientC_normal hSK)).subtype := by
-  letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
+  let : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
   let J := K ⊔ S
   let C := twoQuotientC K S
   let Y := ↥J ⧸ C
@@ -385,8 +390,8 @@ theorem twoQuotient_centralizer_eq_center (hZ : Odd (Nat.card (Subgroup.center �
   let S_Y : Subgroup Y := (S.subgroupOf J).map π
   let Z : Subgroup Y := (Subgroup.center ↥K_Y).map K_Y.subtype
   let CY : Subgroup Y := Subgroup.centralizer (K_Y : Set Y)
-  haveI hKYn : K_Y.Normal := twoQuotientKY_normal hSK
-  haveI hCYn : CY.Normal := Subgroup.normal_centralizer
+  have hKYn : K_Y.Normal := twoQuotientKY_normal hSK
+  have hCYn : CY.Normal := Subgroup.normal_centralizer
   have hCYinf : CY ⊓ K_Y = Z := by
     rw [inf_comm, CFSG.GroupTheory.inf_centralizer_eq_map_center K_Y]
   have hZodd : Odd (Nat.card Z) := by
@@ -460,7 +465,7 @@ theorem twoQuotient_centralizer_eq_center (hZ : Odd (Nat.card (Subgroup.center �
       rw [hse, mul_inv_cancel]
     exact (Subgroup.mem_sup_of_normal_left).2 ⟨c * s⁻¹, hmem, s, hs, by group⟩
   let Q : Subgroup Y := (Q0 : Subgroup ↥CY).map CY.subtype
-  have hQ2 : IsPGroup 2 Q := Q0.isPGroup'.map CY.subtype
+  have hQ2 : IsPGroup 2 Q := Q0.isPGroup.map CY.subtype
   have hQleCY : Q ≤ CY := Subgroup.map_subtype_le _
   have hsplit : Z ⊔ Q = CY := by
     have h := congrArg (Subgroup.map CY.subtype) hsplitCY
@@ -531,10 +536,10 @@ theorem twoQuotient_centralizer_eq_center (hZ : Odd (Nat.card (Subgroup.center �
   have hQchar : (Q.subgroupOf CY).Characteristic := by
     rwa [hQSc] at hQSchar
   have hQnormalY : Q.Normal := by
-    haveI : (Q.subgroupOf CY).Characteristic := hQchar
+    have : (Q.subgroupOf CY).Characteristic := hQchar
     have h := ConjAct.normal_of_characteristic_of_normal (H := CY) (K := Q.subgroupOf CY)
     rwa [Subgroup.map_subgroupOf_eq_of_le hQleCY] at h
-  haveI : Q.Normal := hQnormalY
+  have : Q.Normal := hQnormalY
   obtain ⟨Sbar, hSbarCoe⟩ := twoQuotientSY_sylow hS hSK hSyl
   have hQleSY : Q ≤ S_Y := by
     have := hQ2.le_sylow_of_normal Sbar
@@ -554,7 +559,7 @@ theorem twoQuotient_lift_subgroup (hZ : Odd (Nat.card (Subgroup.center ↥K)))
         ∃ E : Subgroup H, E ≤ K ∧ Nonempty (↥E ≃* ↥E_Y) ∧
           E = ((E_Y.comap (twoQuotientPi K S (twoQuotientC_normal hSK)) ⊓
             K.subgroupOf (K ⊔ S)).map (K ⊔ S).subtype) := by
-  letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
+  let : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
   intro E_Y hEY
   let J := K ⊔ S
   let C := twoQuotientC K S
@@ -596,7 +601,7 @@ theorem twoQuotient_lift_subgroup (hZ : Odd (Nat.card (Subgroup.center ↥K)))
 
 theorem twoQuotient_lift_pgroup_permutes (hZ : Odd (Nat.card (Subgroup.center ↥K)))
     (hS : IsPGroup 2 S) (hSK : S ≤ Subgroup.normalizer (K : Set H))
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
+    {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) :
     letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
     ∀ {E_Y : Subgroup (twoQuotientY K S (twoQuotientC_normal hSK))},
       E_Y ≤ twoQuotientKY K S (twoQuotientC_normal hSK) →
@@ -609,7 +614,7 @@ theorem twoQuotient_lift_pgroup_permutes (hZ : Odd (Nat.card (Subgroup.center �
           (E_Y : Set (twoQuotientY K S (twoQuotientC_normal hSK))) →
       ∃ E : Subgroup H, E ≤ K ∧ Nonempty (↥E ≃* ↥E_Y) ∧ IsPGroup p ↥E ∧
         (E : Set H) * (S : Set H) = (S : Set H) * (E : Set H) := by
-  letI : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
+  let : (twoQuotientC K S).Normal := twoQuotientC_normal hSK
   intro E_Y hEY hEp hperm
   obtain ⟨E, hEK, ⟨eE⟩, hEeq⟩ := twoQuotient_lift_subgroup hZ hS hSK hEY
   have hEpE : IsPGroup p ↥E := hEp.of_equiv eE.symm

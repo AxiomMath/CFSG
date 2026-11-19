@@ -18,7 +18,7 @@ private lemma mulAut_congr_symm_apply' {G H : Type*} [Group G] [Group H] (ϕ : G
     (f : MulAut H) (g : G) : ((MulAut.congr ϕ).symm f) g = ϕ.symm (f (ϕ g)) := rfl
 
 theorem inner_or_nonempty_mulEquiv_sym_eight {H : Type} [Group H] (K : Subgroup H)
-    (φ : alternatingGroup (Fin 8) ≃* ↥K) (c : H) (hc2 : c * c = 1) (hcK : c ∉ K)
+    (φ : alternatingGroup (Fin 8) ≃* ↥K) (c : H) (hc2 : c * c = 1) (_hcK : c ∉ K)
     (hnorm : ∀ k ∈ K, c * k * c⁻¹ ∈ K) :
     (∃ k ∈ K, ∀ x ∈ K, c * x * c⁻¹ = k * x * k⁻¹) ∨
       Nonempty (↥(K ⊔ Subgroup.zpowers c) ≃* Sym 8) := by
@@ -43,7 +43,7 @@ theorem inner_or_nonempty_mulEquiv_sym_eight {H : Type} [Group H] (K : Subgroup 
       rw [hc_inv]
       rw [show c * (c * k * c) * c = (c * c) * k * (c * c) by group, hc2]
       simp
-    haveI : (K.subgroupOf L).Normal :=
+    have : (K.subgroupOf L).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hKL).mpr hnormL
     let e : ↥(K.subgroupOf L) ≃* ↥K := Subgroup.subgroupOfEquivOfLe hKL
     let g : L →* MulAut ↥K :=

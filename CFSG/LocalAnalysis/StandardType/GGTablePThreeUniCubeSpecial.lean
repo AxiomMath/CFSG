@@ -386,7 +386,7 @@ private lemma apply_mem_V_mu {K : Type} [Field K] {n f : ℕ}
     {h : UnitaryFieldData 2 f K} {d : GL (Fin n) K} (hq3 : 3 ∣ 2 ^ f + 1)
     (H : UnitaryPrimaryData h.bar (idForm h n) (Matrix.GeneralLinearGroup.toLin d))
     (hd : d ∈ primeFormUnitary h (idGram K n)) (hd3 : (d : GL (Fin n) K) ^ 3 = 1)
-    {μ : K} (hμ : μ ^ 3 = 1) {g : GL (Fin n) K}
+    {μ : K} (_hμ : μ ^ 3 = 1) {g : GL (Fin n) K}
     (hgU : Matrix.GeneralLinearGroup.toLin g ∈ sesqUnitaryGroup (idForm h n))
     (hfix : ∀ c ∈ primaryFactors (toEnd d), c ≠ Polynomial.X - Polynomial.C μ →
       ∀ w ∈ primaryComponent (toEnd d) c, (toEnd g) w = w)

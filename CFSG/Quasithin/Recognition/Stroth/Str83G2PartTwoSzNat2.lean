@@ -157,11 +157,11 @@ theorem str83_partTwo_z1_main
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     Nonempty (Str83Z1MainData L1 L2 S a K) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardF : Fintype.card K = 2 ^ (2 * a + 1) := by
     rw [Fintype.card_eq_nat_card]; exact hK
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow hcardF
+  have : CharP K 2 := charP_of_card_eq_prime_pow hcardF
   let eSz := Classical.choice hSz
   have hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S :=
     eq_sup_pCoreOf_of_bender_left hF.1 hB (Or.inl ⟨a, ha, ⟨eSz⟩⟩)
@@ -217,8 +217,8 @@ theorem str83_partTwo_z1_main
       rw [h1]; exact Subgroup.one_mem ⊥
   have hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W) := by
     rw [hWdef]; exact isElemAbelian_chiefMod_bot hZ1ea
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let ρ := sectionRep (D14.le_normalizer_bot H) hHW (D14.le_normalizer_bot W) hE hO D.e
   have hcentW : W ⊓ Subgroup.centralizer (H : Set G) = ⊥ := by
     rw [hWdef, hHdef]; exact hcent
@@ -261,7 +261,6 @@ theorem str83_partTwo_z1_main
         D.e.toMonoidHom = suzukiZ0 a K := by
       rw [show (D.X0.subgroupOf H).map (QuotientGroup.mk' (pCore 2 ↥H)) =
         szX0bar D.X0 L1 L2 S from rfl]
-      change (szX0bar D.X0 L1 L2 S).map D.e.toMonoidHom = suzukiZ0 a K
       exact D.map_X0
     rw [hmap3] at h
     exact h
@@ -424,7 +423,7 @@ theorem str83_partTwo_z1_main
     rw [h4] at h3
     exact h3
   have hNnat : IsSzNatural Nsub.toRepresentation := by
-    haveI : Fact Nsub.toRepresentation.IsIrreducible := ⟨hNirr⟩
+    have : Fact Nsub.toRepresentation.IsIrreducible := ⟨hNirr⟩
     rcases isSzNatural_or_le_card (K := K) (a := a) hK Nsub.toRepresentation hnt with hnat | hbig
     · exact hnat
     · have hq16 : (2 ^ (2 * a + 1)) ^ 16 ≤ Nat.card ↥Nsub.toSubmodule := by

@@ -103,15 +103,15 @@ theorem noEmb_of_cited (hS : Sp6NoEmbeddingStatement)
     hNker x (MonoidHom.mem_ker.mp hx) a
   have hXker' : ∀ x ∈ φ.ker, ∀ a : X, x • a = a := fun x hx a =>
     hXker x (MonoidHom.mem_ker.mp hx) a
-  letI actN : DistribMulAction ↥(StatedSp 3 Kn) N :=
+  let actN : DistribMulAction ↥(StatedSp 3 Kn) N :=
     CFSG.ClassicalGroups.F2Fixed.descendAction φ hφ hNker'
-  letI actX : DistribMulAction ↥(StatedSp 3 Kn) X :=
+  let actX : DistribMulAction ↥(StatedSp 3 Kn) X :=
     CFSG.ClassicalGroups.F2Fixed.descendAction φ hφ hXker'
   have hactN : ∀ (g : ↥(StatedSp 3 Kn)) (a : N), g • a = s g • a := fun g a => rfl
   have hactX : ∀ (g : ↥(StatedSp 3 Kn)) (x : X), g • x = s g • x := fun g x => rfl
-  letI modX : Module Kn X := Module.compHom X θ.symm.toRingHom
+  let modX : Module Kn X := Module.compHom X θ.symm.toRingHom
   have hcX : ∀ (c : Kn) (x : X), c • x = θ.symm c • x := fun c x => rfl
-  haveI : Module.Finite Kn X := Module.Finite.of_finite
+  have : Module.Finite Kn X := Module.Finite.of_finite
   have hfinX : Module.finrank Kn X = d := by
     have h1 := Module.natCard_eq_pow_finrank (K := Kn) (V := X)
     rw [hXcard] at h1

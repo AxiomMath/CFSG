@@ -30,6 +30,7 @@ theorem natCard_two_torsion_torus_of_pos {k : Fin 3 → ℕ} (hk : ∀ i, 1 ≤ 
 variable {k : Fin 3 → ℕ} (e : Additive D ≃+ Torus k)
 
 include e in
+omit [Finite G] in
 theorem natCard_omegaIn_one_of_pos (hk : ∀ i, 1 ≤ k i) : Nat.card (omegaIn 1 D) = 8 := by
   have hD : IsMulCommutative D := ⟨⟨fun x y => Additive.ofMul.injective (e.injective (by
     simp only [ofMul_mul, map_add]; exact add_comm _ _))⟩⟩
@@ -87,7 +88,7 @@ theorem StrothFrame.IsD.exists_mem_uv_mul_of_normal (h : F.IsD D dD) (hk : ∀ i
     refine mem_omegaIn_one_of_mul_self ((Subgroup.mem_normalizer_iff.mp hx.2 w).mp hwD) ?_
     calc x * w * x⁻¹ * (x * w * x⁻¹) = x * (w * w) * x⁻¹ := by group
       _ = 1 := by rw [hw2, mul_one, mul_inv_cancel]
-  haveI : (Ω.subgroupOf N).Normal := ⟨fun w hw x => Subgroup.mem_subgroupOf.mpr (by
+  have : (Ω.subgroupOf N).Normal := ⟨fun w hw x => Subgroup.mem_subgroupOf.mpr (by
     simpa using hΩnorm x x.2 w (Subgroup.mem_subgroupOf.mp hw))⟩
   let θ : ↥N →* MulAut ↥(Ω.subgroupOf N) := MulAut.conjNormal
   have hθ : ∀ x : N, θ x = 1 ↔ ∀ w ∈ Ω, w * (x : G) = (x : G) * w := by
@@ -112,7 +113,7 @@ theorem StrothFrame.IsD.exists_mem_uv_mul_of_normal (h : F.IsD D dD) (hk : ∀ i
     ((mem_omegaIn_one_iff hDc).mp (Subgroup.mem_subgroupOf.mp v.2)).2)
   have h168 : Nat.card (MulAut ↥(Ω.subgroupOf N)) = 168 :=
     CFSG.OddStandard.ChengHeld.card_mulAut_elemAb8 hV8 hV2
-  have hNp : IsPGroup 2 N := F.S.isPGroup'.to_le inf_le_left
+  have hNp : IsPGroup 2 N := F.S.isPGroup.to_le inf_le_left
   have hPp : IsPGroup 2 θ.range := hNp.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
   have hdvd8 : ∀ H : Subgroup (MulAut ↥(Ω.subgroupOf N)), H ≤ θ.range → Nat.card H ∣ 8 := by
     intro H hH
@@ -179,8 +180,8 @@ theorem StrothFrame.IsD.exists_mem_uv_mul_of_normal (h : F.IsD D dD) (hk : ∀ i
   refine ⟨?_, ?_⟩
   ·
     have hPp' : IsPGroup 2 θ.range := hPp
-    haveI : Group.IsNilpotent θ.range := hPp'.isNilpotent
-    haveI hHn : ((K'.map θ).subgroupOf θ.range).Normal := by
+    have : Group.IsNilpotent θ.range := hPp'.isNilpotent
+    have hHn : ((K'.map θ).subgroupOf θ.range).Normal := by
       refine ⟨fun z hz p => ?_⟩
       rw [Subgroup.mem_subgroupOf] at hz ⊢
       obtain ⟨y, hy, hyz⟩ := hz
@@ -323,7 +324,7 @@ theorem StrothFrame.IsD.mem_normalizer_omegaIn_of_cent (h : F.IsD D dD) (hτ : �
       have h2 := hA x hxR
       omega
     ·
-      obtain ⟨y₂, hy₂KC, hy₂D⟩ := SetLike.not_le_iff_exists.mp hcase
+      obtain ⟨y₂, hy₂KC, hy₂D⟩ := IsConcreteLE.not_le_iff_exists.mp hcase
       have hy₂R : y₂ ∈ R := ⟨hKN hy₂KC.1, hy₂KC.2⟩
       have hKD2 : K ⊓ D ≤ D ⊓ Subgroup.centralizer ({dD.uv * x} : Set G) ⊓
           Subgroup.centralizer ({y₂} : Set G) := by
@@ -378,6 +379,7 @@ theorem StrothFrame.IsD.mem_normalizer_omegaIn_of_cent (h : F.IsD D dD) (hτ : �
       exact this ▸ hd
   exact normalizer_le_normalizer_omegaIn D hgD
 
+omit [Finite G] in
 theorem inf_centralizer_mul_of_mem (hD : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x)
     {b x : G} (hx : x ∈ D) :
     D ⊓ Subgroup.centralizer ({b * x} : Set G) = D ⊓ Subgroup.centralizer ({b} : Set G) := by
@@ -396,6 +398,7 @@ theorem inf_centralizer_mul_of_mem (hD : ∀ x ∈ D, ∀ y ∈ D, x * y = y * x
       _ = b * d * x := by rw [h1]
       _ = b * x * d := by rw [mul_assoc, ← hxd, ← mul_assoc]
 
+omit [Finite G] in
 theorem StrothWeakTypeData.not_forall_commute_uv_of_torus (dD : StrothWeakTypeData D τ)
     {v : Torus τ.k} (hv : 2 • v = 0) (hφ : τ.action.φuv v ≠ v) :
     ¬ ∀ w ∈ omegaIn 1 D, w * dD.uv = dD.uv * w := by

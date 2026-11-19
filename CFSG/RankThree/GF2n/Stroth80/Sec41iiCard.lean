@@ -8,7 +8,7 @@ public section
 namespace CFSG.RankThree.GF2n.Stroth80
 
 theorem card_eq_inf_mul_card_projection {Γ : Type*} [Group Γ] [Finite Γ]
-    {Λ N X R : Subgroup Γ} (hΛR : Λ ≤ R) (hNR : N ≤ R) (hXR : X ≤ R)
+    {Λ N X R : Subgroup Γ} (hΛR : Λ ≤ R) (_hNR : N ≤ R) (hXR : X ≤ R)
     (hN : ∀ r ∈ R, ∀ n ∈ N, r * n * r⁻¹ ∈ N)
     (hRNX : ∀ r ∈ R, ∃ n ∈ N, ∃ x ∈ X, r = n * x) (hNX : N ⊓ X = ⊥) :
     Nat.card Λ = Nat.card ↥(Λ ⊓ N) * Nat.card ↥(X ⊓ (Λ ⊔ N)) := by

@@ -47,7 +47,7 @@ structure TwinLeavesS (n : ℕ) : Prop where
 theorem twinPerpSmallE_of_list (hList : SmallListR) (n : ℕ) (hL : TwinLeavesS n) :
     TwinPerpSmallE n := by
   intro Y _ _ R S t hP hsmall
-  haveI := hP.core.simple
+  have := hP.core.simple
   rcases hList _ hP.core.nonab hsmall with hfam | hex
   · unfold SmallFamily at hfam
     rcases hfam with h | h | h | h | h | h | h | h | h | h | h | h | h

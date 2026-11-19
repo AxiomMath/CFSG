@@ -139,7 +139,7 @@ theorem ggTWSc_closure {a : ZMod p} (ha : a ≠ 0) (news : Set (GGTWE p N × GGT
           rw [ggTWSc_inv_mul ha, mul_one]; simp only [mul_assoc]
 
 @[expose] def ggTWScEquiv {a : ZMod p} (ha : a ≠ 0) : GGTWE p N ≃ₗ[ZMod p] GGTWE p N :=
-  LinearEquiv.ofLinear (ggTWSc p N a) (ggTWSc p N a⁻¹) (ggTWSc_mul_inv ha) (ggTWSc_inv_mul ha)
+  LinearEquiv.ofLinearMap (ggTWSc p N a) (ggTWSc p N a⁻¹) (ggTWSc_mul_inv ha) (ggTWSc_inv_mul ha)
 
 theorem ggTWSc_tv {a : ZMod p} (ha : a ≠ 0) {s : Module.End (ZMod p) (GGTWE p N)}
     (h : GGTWIsTv (ggTWSc p N a * s * ggTWSc p N a⁻¹)) : GGTWIsTv s := by
@@ -231,6 +231,7 @@ theorem twlkF_dotX {l : List ℕ} (hl : l.length = N - 1) {k : ℕ} (hk : k < p)
   rw [← ggTWNX_toZ] at h
   exact twNDot_eq (N := N - 1) hl (ggTWNX_length N) hk h
 
+omit [Fact (Nat.Prime p)] in
 theorem pat1N_of_cover {RF : List (List ℕ)} {S : List KPat1} {T : List KPat2}
     (hC : kCover N S T = true) (hS : ∀ i < S.length, kPat1NAt p N RF S i = true)
     (posn c0 mi ni : ℕ) (hpos : posn = 0 ∨ posn = 1) (hc0 : c0 < N - 1) (hmi : mi = 1 ∨ mi = 2)
@@ -250,6 +251,7 @@ theorem pat1N_of_cover {RF : List (List ℕ)} {S : List KPat1} {T : List KPat2}
   rw [hek] at h7
   exact ⟨_, _, h7⟩
 
+omit [Fact (Nat.Prime p)] in
 theorem pat2N_of_cover {RF : List (List ℕ)} {S : List KPat1} {T : List KPat2}
     (hC : kCover N S T = true) (hT : ∀ i < T.length, kPat2NAt p N RF T i = true)
     (posn c : ℕ) (c2 : Option ℕ) (hpos : posn = 0 ∨ posn = 1) (hc : c < N - 1)
@@ -387,9 +389,9 @@ theorem twlkF_surv2 (hp : 3 ≤ p) (hN : 5 ≤ N) {RF : List (List ℕ)}
     have hcJ : ggTWInJ N pos c.val := hpat.1
     have hs := (ggTWNSolA_sound hla1).2 c hcJ
     have hq := (hpair'.1 c hcJ).2.2.1
-    rw [if_neg (fun h => hc2c h.symm)] at hq
+    rw [ite_eq_right (fun h => hc2c h.symm)] at hq
     have hm1 : ((if c.val = c.val then (p - 1) % p else 0 : ℕ) : ZMod p) = -1 := by
-      rw [if_pos rfl, twCast_neg_one]
+      rw [ite_eq_left rfl, twCast_neg_one]
     rw [heq, hq] at hs
     exact neg_ne_zero.mpr one_ne_zero (hs.trans hm1).symm
   have hmem2 : ggTWNToZ p N la1 = ggTWSc p N a⁻¹ αa1 ∧ ggTWNToZ p N la2 = ggTWSc p N a⁻¹ αa2 := by
@@ -413,13 +415,13 @@ theorem twlkF_surv2 (hp : 3 ≤ p) (hN : 5 ≤ N) {RF : List (List ℕ)}
         kSolAX p N (ggTWPosNat pos) (ggTWNTgt2 p (c₂.map Fin.val)) 0 else []) := by
     have A2 := kSolA_complete hN pos _ hla2
     by_cases he2 : e2 ≠ 0
-    · have hai : a = e2 := by rw [ha_def, if_pos he2]
+    · have hai : a = e2 := by rw [ha_def, ite_eq_left he2]
       have h2X : ggDepANDot p la2 (ggTWNX N) = 1 :=
         twlkF_dotX hvp2.2.1 (by omega)
           (by rw [hmem2.2, hx2', hai, inv_mul_cancel₀ he2, Nat.cast_one])
       exact List.mem_append_left _ (List.mem_filter.mpr ⟨A2, by simp [h2X]⟩)
     · have he2' : e2 = 0 := not_not.mp he2
-      have hai : a = e1 := by rw [ha_def, if_neg he2]
+      have hai : a = e1 := by rw [ha_def, ite_eq_right he2]
       have he1 : e1 ≠ 0 := by rw [← hai]; exact ha0
       have h1X : ggDepANDot p la1 (ggTWNX N) = 1 :=
         twlkF_dotX hvp1.2.1 (by omega)
@@ -428,7 +430,7 @@ theorem twlkF_surv2 (hp : 3 ≤ p) (hN : 5 ≤ N) {RF : List (List ℕ)}
         twlkF_dotX hvp2.2.1 (Fact.out : p.Prime).pos
           (by rw [hmem2.2, hx2', he2', mul_zero, Nat.cast_zero])
       refine List.mem_append_right _ ?_
-      rw [h1X, beq_self_eq_true, if_pos rfl]
+      rw [h1X, beq_self_eq_true, ite_eq_left rfl]
       exact List.mem_filter.mpr ⟨A2, by simp [h2X]⟩
   have ht1 : kTgt1 p c.val 1 = fun c' => if c' = c.val then (p - 1) % p else 0 := by
     funext c'
@@ -442,19 +444,19 @@ theorem twlkF_surv2 (hp : 3 ≤ p) (hN : 5 ≤ N) {RF : List (List ℕ)}
     cases c₂ with
     | none =>
       simp only [Option.map_none] at H2 hA2 hd2 hd4 ⊢
-      simp only [kCells2N, List.mem_flatMap, List.mem_filterMap]
+      simp only [kCells2N, List.mem_flatMap]
       refine ⟨lh1, H1, la1, A1, ?_⟩
-      rw [if_pos (beq_iff_eq.mpr hd1), List.mem_flatMap]
+      rw [ite_eq_left (beq_iff_eq.mpr hd1), List.mem_flatMap]
       refine ⟨lh2, H2, ?_⟩
-      rw [if_pos (beq_iff_eq.mpr hd2), List.mem_filterMap]
+      rw [ite_eq_left (beq_iff_eq.mpr hd2), List.mem_filterMap]
       exact ⟨la2, hA2, by simp [hd3, hd4, hdet]⟩
     | some c' =>
       simp only [Option.map_some] at H2 hA2 hd2 hd4 ⊢
-      simp only [kCells2N, List.mem_flatMap, List.mem_filterMap]
+      simp only [kCells2N, List.mem_flatMap]
       refine ⟨lh1, H1, la1, A1, ?_⟩
-      rw [if_pos (beq_iff_eq.mpr hd1), List.mem_flatMap]
+      rw [ite_eq_left (beq_iff_eq.mpr hd1), List.mem_flatMap]
       refine ⟨lh2, H2, ?_⟩
-      rw [if_pos (beq_iff_eq.mpr hd2), List.mem_filterMap]
+      rw [ite_eq_left (beq_iff_eq.mpr hd2), List.mem_filterMap]
       exact ⟨la2, hA2, by simp [hd3, hd4, hdet]⟩
   obtain ⟨code, hcode⟩ := twlk_all2_mem _ _ ents hchk _ hmem
   have hvalid : ∀ q ∈ [(lh1, la1), (lh2, la2)], GGTWNValid p N q := by

@@ -72,7 +72,7 @@ theorem neg_two (z : ZMod 2) : -z = z := by revert z; decide
 
 theorem det_toM (x : B9) : (toM x).det = e (detB x) := by
   rw [Matrix.det_fin_three]
-  simp [toM, detB, e_xor, e_and, sub_eq_add_neg, neg_two, Matrix.vecHead, Matrix.vecTail] <;> ring
+  simp [toM, detB, e_xor, e_and, sub_eq_add_neg]; ring
 
 theorem det_toM_ne_zero (x : B9) : (toM x).det ≠ 0 ↔ detB x = true := by
   rw [det_toM]
@@ -121,11 +121,11 @@ theorem all512_nodup : all512.Nodup := by
   rw [beq_iff_eq.1 all512_idx]
   exact List.nodup_range
 
-theorem forall_toM (p : M3K → Prop) : (∀ t : M3K, p t) ↔ ∀ x : B9, p (toM x) :=
-  ⟨fun h x => h _, fun h t => toM_ofM t ▸ h (ofM t)⟩
+theorem forall_toM (p : M3K → Prop) : (∀ t : M3K, p t) ↔ ∀ _x : B9, p (toM _x) :=
+  ⟨fun h _x => h _, fun h t => toM_ofM t ▸ h (ofM t)⟩
 
-theorem exists_toM (p : M3K → Prop) : (∃ t : M3K, p t) ↔ ∃ x : B9, p (toM x) :=
-  ⟨fun ⟨t, ht⟩ => ⟨ofM t, (toM_ofM t).symm ▸ ht⟩, fun ⟨x, hx⟩ => ⟨_, hx⟩⟩
+theorem exists_toM (p : M3K → Prop) : (∃ t : M3K, p t) ↔ ∃ _x : B9, p (toM _x) :=
+  ⟨fun ⟨t, ht⟩ => ⟨ofM t, (toM_ofM t).symm ▸ ht⟩, fun ⟨_x, hx⟩ => ⟨_, hx⟩⟩
 
 theorem card_filter_toM (p : M3K → Prop) [DecidablePred p] (q : B9 → Bool)
     (h : ∀ x, p (toM x) ↔ q x = true) :

@@ -30,7 +30,7 @@ theorem eq_bot_or_eq_of_conj_twF4Three {G : Type*} [Group G] {D : Subgroup G}
   obtain ⟨hbot, htop⟩ := hne
   obtain ⟨⟨x, hxE'⟩, hx1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hbot
   have hx1' : x ≠ 1 := fun h => hx1 (Subtype.ext h)
-  obtain ⟨x', hx'E, hx'E'⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hE'E htop)
+  obtain ⟨x', hx'E, hx'E'⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hE'E htop)
   have hx'1 : x' ≠ 1 := fun h => hx'E' (h ▸ E'.one_mem)
   obtain ⟨h, hhN, hhx⟩ := htrans x (hE'E hxE') x' hx'E hx1' hx'1
   have hhD : h ∉ D := fun hD' => hx'E' (hhx ▸ hinv h hD' hhN x hxE')

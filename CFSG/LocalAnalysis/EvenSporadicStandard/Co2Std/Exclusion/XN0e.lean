@@ -54,7 +54,7 @@ theorem XHyp.eq_bot_or_eq_top (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) (hX : zpower
 
 theorem XHyp.eq_bot_of_isPGroup [Finite X] [Finite V] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁)
     (hX : zpowers z ⊔ Q ≠ ⊤) {P : Subgroup X} (hP : P.Normal) (h2 : IsPGroup 2 P) : P = ⊥ := by
-  letI : MulAction ↥P V := MulAction.compHom V (ρ.comp P.subtype)
+  let : MulAction ↥P V := MulAction.compHom V (ρ.comp P.subtype)
   let U : Subgroup V :=
     { carrier := MulAction.fixedPoints ↥P V
       one_mem' := by
@@ -122,7 +122,7 @@ theorem XHyp.eq_bot_of_isPGroup [Finite X] [Finite V] (h : XHyp ρ Q V₁ V₂ z
       simpa using hfix
     exact h.injective (by rw [htriv, map_one])
 
-private noncomputable def conjZHom (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {O : Subgroup X}
+private noncomputable def conjZHom (_h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {O : Subgroup X}
     (hO : O.Normal) : ↥O →* ↥O where
   toFun o := ⟨z * (o : X) * z⁻¹, hO.conj_mem (o : X) o.2 z⟩
   map_one' := by
@@ -209,7 +209,7 @@ private theorem conjZHom_involutive (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {O : S
 
 theorem XHyp.conj_eq_inv_of_odd [Finite X] (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {O : Subgroup X}
     (hO : O.Normal) (hodd : Odd (Nat.card O)) {o : X} (ho : o ∈ O) : z * o * z⁻¹ = o⁻¹ := by
-  haveI : Finite ↥O := Subtype.finite
+  have : Finite ↥O := Subtype.finite
   have hff := conjZHom_fixedPointFree h hO hodd
   have hinv := conjZHom_involutive h hO
   have hcoe := MonoidHom.FixedPointFree.coe_eq_inv_of_involutive hff hinv

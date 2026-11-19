@@ -10,6 +10,7 @@ open Subgroup
 
 variable {α : Type*} [Fintype α] [DecidableEq α]
 
+omit [DecidableEq α] in
 theorem card_cent_le {G : Subgroup (Equiv.Perm α)} {x : Equiv.Perm α} {N : ℕ}
     (y : ℕ → Equiv.Perm α) (hy : ∀ j < N, ∃ h ∈ G, y j = h * x * h⁻¹)
     (hinj : ∀ i < N, ∀ j < N, y i = y j → i = j) :
@@ -37,6 +38,7 @@ theorem card_cent_le {G : Subgroup (Equiv.Perm α)} {x : Equiv.Perm α} {N : ℕ
   have := Nat.card_le_card_of_injective F hF
   rwa [Nat.card_prod, Nat.card_eq_fintype_card (α := Fin N), Fintype.card_fin] at this
 
+omit [DecidableEq α] in
 theorem exists_of_card_le {H : Subgroup (Equiv.Perm α)} {M : ℕ} (z : ℕ → Equiv.Perm α)
     (hz : ∀ i < M, z i ∈ H) (hinj : ∀ i < M, ∀ j < M, z i = z j → i = j)
     (hcard : Nat.card H ≤ M) : ∀ c ∈ H, ∃ i < M, z i = c := by
@@ -51,6 +53,7 @@ theorem exists_of_card_le {H : Subgroup (Equiv.Perm α)} {M : ℕ} (z : ℕ → 
   obtain ⟨i, hi⟩ := hbij.2 ⟨c, hc⟩
   exact ⟨i, i.2, congrArg Subtype.val hi⟩
 
+omit [Fintype α] [DecidableEq α] in
 theorem card_eq_of_cover {H : Subgroup (Equiv.Perm α)} {N : ℕ} (z : ℕ → Equiv.Perm α)
     (hz : ∀ i < N, z i ∈ H) (hinj : ∀ i < N, ∀ j < N, z i = z j → i = j)
     (hcov : ∀ c ∈ H, ∃ i < N, z i = c) : Nat.card H = N := by
@@ -61,6 +64,7 @@ theorem card_eq_of_cover {H : Subgroup (Equiv.Perm α)} {N : ℕ} (z : ℕ → E
     exact ⟨⟨i, hi⟩, Subtype.ext e⟩
   rw [← Nat.card_eq_of_bijective F hF, Nat.card_eq_fintype_card, Fintype.card_fin]
 
+omit [DecidableEq α] in
 theorem mul_inv_mem_of_mul {M : Set (Equiv.Perm α)} {g : Equiv.Perm α}
     (h : ∀ m ∈ M, m * g ∈ M) : ∀ m ∈ M, m * g⁻¹ ∈ M := by
   have hfin : M.Finite := Set.toFinite M
@@ -73,6 +77,7 @@ theorem mul_inv_mem_of_mul {M : Set (Equiv.Perm α)} {g : Equiv.Perm α}
   rw [this]
   exact hm'
 
+omit [DecidableEq α] in
 theorem closure_subset_of_mul {M : Set (Equiv.Perm α)} {S : Set (Equiv.Perm α)} (h1 : 1 ∈ M)
     (h : ∀ m ∈ M, ∀ g ∈ S, m * g ∈ M) : (closure S : Set (Equiv.Perm α)) ⊆ M := by
   suffices key : ∀ x ∈ closure S, ∀ m ∈ M, m * x ∈ M by
@@ -86,6 +91,7 @@ theorem closure_subset_of_mul {M : Set (Equiv.Perm α)} {S : Set (Equiv.Perm α)
   | mul a b _ _ ha hb => exact fun m hm => by rw [← mul_assoc]; exact hb _ (ha m hm)
   | inv a _ ha => exact mul_inv_mem_of_mul ha
 
+omit [DecidableEq α] in
 theorem conj_inv_mem_of_conj {M : Set (Equiv.Perm α)} {g : Equiv.Perm α}
     (h : ∀ m ∈ M, g * m * g⁻¹ ∈ M) : ∀ m ∈ M, g⁻¹ * m * g ∈ M := by
   have hfin : M.Finite := Set.toFinite M
@@ -99,6 +105,7 @@ theorem conj_inv_mem_of_conj {M : Set (Equiv.Perm α)} {g : Equiv.Perm α}
   rw [this]
   exact hm'
 
+omit [DecidableEq α] in
 theorem conj_mem_of_closure {M : Set (Equiv.Perm α)} {S : Set (Equiv.Perm α)}
     (h : ∀ m ∈ M, ∀ g ∈ S, g * m * g⁻¹ ∈ M) :
     ∀ x ∈ closure S, ∀ m ∈ M, x * m * x⁻¹ ∈ M := by

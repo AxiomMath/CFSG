@@ -53,7 +53,7 @@ theorem c8h_invol_of_sl2 {Γ : Type} [Group Γ] [Finite Γ]
     rw [hindex, hidx, hS] at h
     exact h
   have hcardI : Nat.card ↥((CFSG.pPrimeCore 3 Γ).map ρ) = 2 := by omega
-  haveI : Nontrivial ↥((CFSG.pPrimeCore 3 Γ).map ρ) :=
+  have : Nontrivial ↥((CFSG.pPrimeCore 3 Γ).map ρ) :=
     (Finite.one_lt_card_iff_nontrivial).1 (by rw [hcardI]; norm_num)
   obtain ⟨u, hu_ne⟩ := exists_ne (1 : ↥((CFSG.pPrimeCore 3 Γ).map ρ))
   have hu2 : u ^ 2 = 1 := by

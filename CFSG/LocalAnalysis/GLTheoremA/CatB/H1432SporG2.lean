@@ -53,7 +53,7 @@ theorem noCardComp_suzM_g2
         have hz1 : (⟨fuseXA, aX_mem⟩ : ↥aSub) ≠ 1 :=
           fun h => fuseXA_ne_one (congrArg Subtype.val h)
         have hord : orderOf (⟨fuseXA, aX_mem⟩ : ↥aSub) = 3 := orderOf_eq_prime hz3 hz1
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         refine noCardComp_of_centralizer_equiv e' hq ?_ (by rw [card_aSub]; norm_num) ?_
         · have h3 : IsPGroup 3 ↥(Subgroup.zpowers (⟨fuseXA, aX_mem⟩ : ↥aSub)) :=
             IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord, pow_one])
@@ -87,7 +87,7 @@ theorem cardRow_suz_g2
   have hc : Nat.card ↥suzM = 448345497600 := by
     rw [← Nat.card_congr e.toEquiv]
     exact CFSG.Sporadic.Suz.card_Suz
-  haveI : IsSimpleGroup ↥suzM :=
+  have : IsSimpleGroup ↥suzM :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Suz.isSimpleGroup_Suz e.symm
   exact cardRow_of_model (s := .Suz) (Q := ↥suzM) hOut (e.symm.trans (hbr .Suz).some)
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
@@ -106,9 +106,9 @@ theorem cardRow_shape_g2
   refine ⟨?_, ?_, ?_⟩
   · have hc : Nat.card (NativeSporadic.Carrier .Fi22) = 64561751654400 :=
       CFSG.Sporadic.Fi22.card_Fi22
-    haveI : Finite (NativeSporadic.Carrier .Fi22) :=
+    have : Finite (NativeSporadic.Carrier .Fi22) :=
       Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-    haveI : IsSimpleGroup (NativeSporadic.Carrier .Fi22) := CFSG.Sporadic.Fi22.isSimpleGroup_Fi22
+    have : IsSimpleGroup (NativeSporadic.Carrier .Fi22) := CFSG.Sporadic.Fi22.isSimpleGroup_Fi22
     refine cardRow_of_centShapeRk (s := .Fi22) hOut (hbr .Fi22).some
       (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
       fi22CentShapeRk_native ?_
@@ -118,9 +118,9 @@ theorem cardRow_shape_g2
     norm_num at hcT
   · have hc : Nat.card (NativeSporadic.Carrier .Fi23) = 4089470473293004800 :=
       CFSG.Sporadic.Fi23.card_Fi23
-    haveI : Finite (NativeSporadic.Carrier .Fi23) :=
+    have : Finite (NativeSporadic.Carrier .Fi23) :=
       Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-    haveI : IsSimpleGroup (NativeSporadic.Carrier .Fi23) := CFSG.Sporadic.Fi23.isSimpleGroup_Fi23
+    have : IsSimpleGroup (NativeSporadic.Carrier .Fi23) := CFSG.Sporadic.Fi23.isSimpleGroup_Fi23
     refine cardRow_of_centShapeRk (s := .Fi23) hOut (hbr .Fi23).some
       (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
       fi23CentShapeRk_native ?_

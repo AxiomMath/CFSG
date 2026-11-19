@@ -16,7 +16,7 @@ theorem exists_sylow_sub_ge {p : ℕ} [Fact p.Prime] {W P : Subgroup G} (hPW : P
   have hP' : IsPGroup p ↥(P.subgroupOf W) :=
     IsPGroup.of_equiv hPp (Subgroup.subgroupOfEquivOfLe hPW).symm
   obtain ⟨S, hS⟩ := hP'.exists_le_sylow
-  refine ⟨(S : Subgroup ↥W).map W.subtype, ?_, Subgroup.map_subtype_le _, S.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(S : Subgroup ↥W).map W.subtype, ?_, Subgroup.map_subtype_le _, S.isPGroup.map _, ?_, ?_⟩
   · intro x hx
     exact ⟨⟨x, hPW hx⟩, hS (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   · have hsub : ((S : Subgroup ↥W).map W.subtype).subgroupOf W = S := by

@@ -17,8 +17,8 @@ section Abstract
 theorem isQuasisimple_of_surjective {E Q : Type*} [Group E] [Group Q]
     (hE : CFSG.Open.IsQuasisimple E) (f : E →* Q) (hf : Function.Surjective f) [Nontrivial Q] :
     CFSG.Open.IsQuasisimple Q := by
-  haveI : Group.IsPerfect E := ⟨hE.1⟩
-  haveI : IsSimpleGroup (E ⧸ Subgroup.center E) := hE.2
+  have : Group.IsPerfect E := ⟨hE.1⟩
+  have : IsSimpleGroup (E ⧸ Subgroup.center E) := hE.2
   have hperf : Group.IsPerfect Q := Group.IsPerfect.ofSurjective hf
   have hcenter : ∀ z ∈ Subgroup.center E, f z ∈ Subgroup.center Q := by
     intro z hz
@@ -52,7 +52,7 @@ theorem isQuasisimple_quotient_pCore_of_surjective {J E : Type*} [Group J] [Fini
     (hE : CFSG.Open.IsQuasisimple E) (θ : J →* E) (hθ : Function.Surjective θ)
     (hker : θ.ker ≤ CFSG.pCore 2 J) (h3 : 3 ∣ Nat.card J) :
     CFSG.Open.IsQuasisimple (J ⧸ CFSG.pCore 2 J) := by
-  haveI : Nontrivial (J ⧸ CFSG.pCore 2 J) := by
+  have : Nontrivial (J ⧸ CFSG.pCore 2 J) := by
     by_contra hne
     rw [not_nontrivial_iff_subsingleton] at hne
     have htop : CFSG.pCore 2 J = ⊤ := by
@@ -106,10 +106,12 @@ section Lift
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mul_mul_inv_mem_pCoreOf_of_mem {M : Subgroup G} {g x : G} (hg : g ∈ M)
     (hx : x ∈ pCoreOf 2 M) : g * x * g⁻¹ ∈ pCoreOf 2 M :=
   CFSG.HardMathSupport.Cooperstein.Proving.conj_mem_pCoreOf (Subgroup.le_normalizer hg) hx
 
+omit [Finite G] in
 theorem mk'_eq_of_inv_mul_mem {M : Subgroup G} {x y : G} (hx : x ∈ M) (hy : y ∈ M)
     (h : x⁻¹ * y ∈ pCoreOf 2 M) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨x, hx⟩ = QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨y, hy⟩ := by
@@ -117,6 +119,7 @@ theorem mk'_eq_of_inv_mul_mem {M : Subgroup G} {x y : G} (hx : x ∈ M) (hy : y 
   have hzz : z = (⟨x, hx⟩ : ↥M)⁻¹ * ⟨y, hy⟩ := Subtype.ext hzv
   exact QuotientGroup.eq.2 (hzz ▸ hz)
 
+omit [Finite G] in
 theorem inv_mul_mem_of_mk'_eq {M : Subgroup G} {x y : G} (hx : x ∈ M) (hy : y ∈ M)
     (h : QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨x, hx⟩ =
       QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨y, hy⟩) : x⁻¹ * y ∈ pCoreOf 2 M :=
@@ -143,7 +146,7 @@ theorem exists_centralizer_lift {M L : Subgroup G} (hLM : L ≤ M) {b : G} (hbM 
   have hnormN : ∀ n g : G, n ∈ N → g ∈ T → g * n * g⁻¹ ∈ N := fun n g hn hg =>
     ⟨(Subgroup.mem_normalizer_iff.1 (hTL hg) n).1 hn.1,
       mul_mul_inv_mem_pCoreOf_of_mem (hTM hg) hn.2⟩
-  haveI : (N.subgroupOf T).Normal := (Subgroup.normal_subgroupOf_iff hNT).2 hnormN
+  have : (N.subgroupOf T).Normal := (Subgroup.normal_subgroupOf_iff hNT).2 hnormN
   have hNp : IsPGroup 2 N := by
     have h2 : IsPGroup 2 (pCoreOf 2 M) :=
       (CFSG.pCore_isPGroup (p := 2) (G := ↥M)).map M.subtype
@@ -214,6 +217,7 @@ theorem exists_centralizer_lift {M L : Subgroup G} (hLM : L ≤ M) {b : G} (hbM 
       (inv_mem (hLM hl)) hmN.2
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem mem_barM_iff {M L : Subgroup G} {y : ↥M ⧸ CFSG.pCore 2 ↥M} :
     y ∈ barM M L ↔ ∃ (l : G) (hl : l ∈ M), l ∈ L ∧
       QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨l, hl⟩ = y := by
@@ -225,12 +229,14 @@ theorem mem_barM_iff {M L : Subgroup G} {y : ↥M ⧸ CFSG.pCore 2 ↥M} :
   · rintro ⟨l, hl, hlL, rfl⟩
     exact ⟨⟨l, hl⟩, Subgroup.mem_subgroupOf.2 hlL, rfl⟩
 
+omit [Finite G] in
 theorem barM_self_eq_top' (X : Subgroup G) : barM X X = ⊤ := by
   rw [eq_top_iff]
   intro y _
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥X) y
   exact mem_barM_iff.2 ⟨x.1, x.2, x.2, rfl⟩
 
+omit [Finite G] in
 theorem conj_mem_barM {M L : Subgroup G} {g : G} (hgM : g ∈ M)
     (hgn : g ∈ Subgroup.normalizer (L : Set G)) {y : ↥M ⧸ CFSG.pCore 2 ↥M} (hy : y ∈ barM M L) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨g, hgM⟩ * y *
@@ -241,6 +247,7 @@ theorem conj_mem_barM {M L : Subgroup G} {g : G} (hgM : g ∈ M)
   simp only [← map_inv, ← map_mul]
   rfl
 
+omit [Finite G] in
 theorem mem_normalizer_barM {M L : Subgroup G} {b : G} (hbM : b ∈ M)
     (hbn : b ∈ Subgroup.normalizer (L : Set G)) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hbM⟩ ∈
@@ -259,6 +266,7 @@ theorem mem_normalizer_barM {M L : Subgroup G} {b : G} (hbM : b ∈ M)
   rw [e] at h2
   simpa [mul_assoc] using h2
 
+omit [Finite G] in
 theorem commutator_zpowers_le_pCoreOf_of_le_centralizer {M L : Subgroup G} (hLM : L ≤ M) {b : G}
     (hbM : b ∈ M) (hbz : Subgroup.zpowers b ≤ Subgroup.normalizer (L : Set G))
     (hle : barM M L ≤ Subgroup.centralizer

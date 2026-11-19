@@ -29,8 +29,8 @@ theorem exists_invariant_totallyIsotropic_of_twoLocal
       (∀ b ∈ Bb, ∀ v ∈ R, ((b : ↥(orthDerived Q)) : V ≃ₗ[ZMod 2] V) v ∈ R) ∧
       R ≤ LinearMap.BilinForm.orthogonal (polarBilin Q) R := by
   classical
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
   let φ : P →* (V ≃ₗ[ZMod 2] V) := (orthDerived Q).subtype.comp P.subtype
   let C : Submodule (ZMod 2) V := CFSG.LargeExtraspecial.fixSpaceOf (P.map (orthDerived Q).subtype)
   have hCmem : ∀ v : V, v ∈ C ↔ ∀ p ∈ P, ((p : ↥(orthDerived Q)) : V ≃ₗ[ZMod 2] V) v = v := by
@@ -174,7 +174,7 @@ noncomputable abbrev blockSet (A : Subgroup (V ≃ₗ[ZMod 2] V)) [Fintype A] :
 
 theorem card_blockSet_le_five (hQ : (polarBilin Q).Nondegenerate)
     {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A] (hA : IsElemAbelian 3 A)
-    (hAcard : Nat.card A = 3 ^ 4) (hdim : finrank (ZMod 2) V = 2 * 5)
+    (_hAcard : Nat.card A = 3 ^ 4) (hdim : finrank (ZMod 2) V = 2 * 5)
     (hB : ∀ a : ↥A, ∀ u v : V, polarBilin Q ((a : V ≃ₗ[ZMod 2] V) u)
       ((a : V ≃ₗ[ZMod 2] V) v) = polarBilin Q u v) :
     (blockSet A).card ≤ 5 := by
@@ -208,9 +208,10 @@ theorem card_blockSet_le_five (hQ : (polarBilin Q).Nondegenerate)
   have h2c : (blockSet A).card * 2 ≤ 10 := by omega
   omega
 
-theorem four_le_card_blockSet (hQ : (polarBilin Q).Nondegenerate)
+omit [FiniteDimensional (ZMod 2) V] in
+theorem four_le_card_blockSet (_hQ : (polarBilin Q).Nondegenerate)
     {A : Subgroup (V ≃ₗ[ZMod 2] V)} [Fintype A] (hA : IsElemAbelian 3 A)
-    (hAcard : Nat.card A = 3 ^ 4) (hdim : finrank (ZMod 2) V = 2 * 5)
+    (hAcard : Nat.card A = 3 ^ 4) (_hdim : finrank (ZMod 2) V = 2 * 5)
     (hfaith : ∀ a : ↥A, (∀ v : V, (a : V ≃ₗ[ZMod 2] V) v = v) → a = 1) :
     4 ≤ (blockSet A).card := by
   classical
@@ -225,7 +226,7 @@ theorem four_le_card_blockSet (hQ : (polarBilin Q).Nondegenerate)
     have hprod : (∏ D : blockSet A, (f D).index) = 3 ^ (blockSet A).card := by
       rw [show (∏ D : blockSet A, (f D).index) = ∏ _D : blockSet A, 3 from
         Finset.prod_congr rfl fun D _ => D.1.2]
-      simp [Finset.prod_const, Finset.card_univ]
+      simp [Finset.prod_const]
     rw [hprod]
   have hne : (⨅ D : blockSet A, f D) ≠ ⊥ := by
     intro hbot

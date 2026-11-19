@@ -23,7 +23,7 @@ private theorem center_statedSU_four_eq_bot {F : Type} [Field F] [Finite F] [Cha
     (hF : Nat.card F = (2 ^ f) ^ 2) :
     Subgroup.center (StatedSU 4 (2 ^ f) F) = ⊥ ∧
       (StatedScalars (Fin 4) F).subgroupOf (StatedSU 4 (2 ^ f) F) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
     (F := F) (p := 2) (f := f) (n := 4) hF (by norm_num) (by simp)).2
   have hscal := CFSG.SectionRank.EvenCover.statedScalars_subgroupOf_statedSU_four_eq_bot
@@ -64,7 +64,7 @@ theorem kgMult_statedSU_four
     (N : Type) [Group N] [Finite N] (π : N →* StatedSU 4 (2 ^ f) F)
     (hπ : Function.Surjective π) (hker : π.ker ≤ Subgroup.center N) (hperf : commutator N = ⊤) :
     IsCyclic (Subgroup.center N) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hcenterA, hscal⟩ := center_statedSU_four_eq_bot hF
   have hker_eq : π.ker = Subgroup.center N :=
     le_antisymm hker (center_le_ker_of_center_eq_bot π hπ hcenterA)
@@ -106,7 +106,7 @@ theorem kgMult_statedSU_four
     have hcen' : π'.ker ≤ Subgroup.center N := by rw [hker']; exact hker
     obtain ⟨s, hs⟩ := CFSG.LieType.Steinberg.CentralExt.SUClosed.su_exists_section_of_central
       (F := F) (p := 2) (f := f) hF (n := 4) ⟨2, by norm_num⟩ le_rfl hq hπ' hcen'
-    haveI : Group.IsPerfect N := ⟨hperf⟩
+    have : Group.IsPerfect N := ⟨hperf⟩
     have hbot : π'.ker = ⊥ :=
       CFSG.LieType.Steinberg.CentralExt.SL2Closed.ker_eq_bot_of_section π' hcen' s hs
     have hkerbot : π.ker = ⊥ := by rw [← hker', hbot]

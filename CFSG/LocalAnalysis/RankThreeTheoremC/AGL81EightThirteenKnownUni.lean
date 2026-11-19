@@ -71,7 +71,7 @@ private theorem uni_threePlaneGen [Finite M] {a₁ b₁ a₂ b₂ : M}
     (hgen : Subgroup.normalizer (Subgroup.closure ({a₁, b₁} : Set M) : Set M) ⊔
       Subgroup.normalizer (Subgroup.closure ({a₂, b₂} : Set M) : Set M) = ⊤) :
     ThreePlaneGen M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X₁ := Subgroup.closure ({a₁, b₁} : Set M) with hX₁
   set X₂ := Subgroup.closure ({a₂, b₂} : Set M) with hX₂
   have hE : X₁ ⊔ X₂ = Subgroup.closure ({a₁, b₁, a₂, b₂} : Set M) := by
@@ -457,7 +457,7 @@ end Supp
 
 private theorem uni_exists_diag (hn : 4 ≤ n) (b : Fin n → K)
     (hb : ∀ x : Fin 3, b (uniIdx (by omega) x) ≠ 0) :
-    ∃ (δ : Fin n → K) (hu : ∀ i, frob (δ i) * δ i = 1) (_ : ∏ i, δ i = 1),
+    ∃ (δ : Fin n → K) (_hu : ∀ i, frob (δ i) * δ i = 1) (_ : ∏ i, δ i = 1),
       (∀ i, δ i ≠ 0) ∧ ∀ x : Fin 3, (δ * b) (uniIdx (by omega) x) = 1 := by
   have h3 : 3 ≤ n := by omega
   set i₀ := uniIdx h3 0
@@ -680,7 +680,7 @@ private theorem uni_prod (hn : 5 ≤ n) (hn' : n ≤ 6) :
     simp [Fin.prod_univ_five, Fin.prod_univ_six, uniX₁, uniY₁, uniX₂, uniY₂, h3', h3'']
 
 private theorem uni_two_threePlaneGen (hn : 5 ≤ n) (hn' : n ≤ 6) : ThreePlaneGen (UniP n) := by
-  haveI := uni_finite n
+  have := uni_finite n
   obtain ⟨pX₁, pY₁, pX₂, pY₂⟩ := uni_prod hn hn'
   have hω1 : ω ≠ 1 := omega_ne_one
   have hω2 : ω ^ 2 ≠ ω := uni_omega_sq_ne
@@ -706,19 +706,19 @@ private theorem uni_two_threePlaneGen (hn : 5 ≤ n) (hn' : n ≤ 6) : ThreePlan
     simp [uniX₁]; omega
   have vY₁ : ∀ k : Fin n, k.val < 3 → uniY₁ n k = 1 := fun k hk => by
     simp only [uniY₁]
-    rw [if_neg (by omega), if_neg (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega)]
   have vY₁p : uniY₁ n p = ω := by simp [uniY₁, p]
   have vY₁q : uniY₁ n q = ω ^ 2 := by simp [uniY₁, q]; omega
   have vY₁r : ∀ k : Fin n, k ≠ p → k ≠ q → uniY₁ n k = 1 := fun k hkp hkq => by
     simp only [uniY₁]
-    rw [if_neg fun e => hkp (Fin.ext e), if_neg fun e => hkq (Fin.ext e)]
+    rw [ite_eq_right fun e => hkp (Fin.ext e), ite_eq_right fun e => hkq (Fin.ext e)]
   have vX₂ : ∀ k : Fin n, 2 ≤ k.val → k.val < 5 → uniX₂ n k = ω := fun k hk hk' => by
     simp [uniX₂, hk, hk']
   have vX₂' : ∀ k : Fin n, k.val < 2 → uniX₂ n k = 1 := fun k hk => by
     simp [uniX₂]; omega
   have vY₂ : ∀ k : Fin n, 2 ≤ k.val → uniY₂ n k = 1 := fun k hk => by
     simp only [uniY₂]
-    rw [if_neg (by omega), if_neg (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega)]
   have vY₂0 : uniY₂ n i₀ = ω := by simp [uniY₂, i₀]
   have vY₂1 : uniY₂ n i₁ = ω ^ 2 := by simp [uniY₂, i₁]
   have hcomm : ∀ {g d : SUid frob n}, g * d = d * g → π g * π d = π d * π g := fun h => by
@@ -886,10 +886,10 @@ private theorem uni_block_commute {i : Fin 4} (A : Su UniK8 2 3 2) {δ : Fin 5 �
   · exact absurd (one_apply_ne hab) h0
 
 private theorem uni_eight_threePlaneGen : ThreePlaneGen (Su UniK8 2 3 5) := by
-  haveI : Finite (Su UniK8 2 3 5) := by
+  have : Finite (Su UniK8 2 3 5) := by
     have : Finite (GL (Fin 5) UniK8) := Finite.of_injective _ Units.val_injective
     infer_instance
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2 : (2 : UniK8) = 0 := CharTwo.two_eq_zero
   obtain ⟨u, hu⟩ : ∃ u : UniK8ˣ, orderOf u = 3 := exists_prime_orderOf_dvd_card' 3
     (by rw [CFSG.RankThree.PartTwo.KFacts.KS21.U58.card_units_K]; norm_num)

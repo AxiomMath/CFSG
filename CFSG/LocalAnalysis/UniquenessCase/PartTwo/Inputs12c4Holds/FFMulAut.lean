@@ -15,8 +15,8 @@ theorem ffConclusion_of_mulAut_of_commutator_ne_bot
     (hO2 : pCoreOf 2 G = ⊥) (hA : IsFFStarOffender G A)
     (hL : CFSG.Open.IsComponentOf L G) (hLA : ⁅L, A⁆ ≠ ⊥) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.FFConclusion (↥L ⧸ Subgroup.center ↥L) := by
-  letI : Module (ZMod 2) (Additive V) := CFSG.RankThree.FFModules.moduleOfSq hV
-  haveI : Finite (MulAut V) := inferInstanceAs (Finite (V ≃* V))
+  let : Module (ZMod 2) (Additive V) := CFSG.RankThree.FFModules.moduleOfSq hV
+  have : Finite (MulAut V) := inferInstanceAs (Finite (V ≃* V))
   obtain ⟨hAG, -, hAel0, hAmax⟩ := hA
   obtain ⟨hLG, hsn, hq⟩ := hL
   obtain ⟨hcomm, hsq⟩ := hAel0

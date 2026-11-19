@@ -193,7 +193,7 @@ private theorem setupData_exists
       starImg p H D.I₃ ≤ cStarL p H) :
     Nonempty (SetupData hc D hn) := by
   subst p
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEQ, hE, hEc, hΓ⟩ := hc.ctx.exists_E_sq
   have hd : NineSettingGen G M 3 E H E 2 :=
     (hc.ctx.hypCGen hEQ hE hEc hΓ).toNineSettingGen
@@ -237,7 +237,7 @@ private theorem inf_eq_V0_of_not_le
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) (hn : n₁ = 1 ∧ n₂ = 1 ∧ n₃ = 1)
     {V R : Subgroup G} (hV3 : IsPGroup 3 V) (hVM : V ≤ M) (hV0V : D.V ≤ V)
     (hV0R : D.V ≤ R) (hnot : ¬ V ≤ R) : V ⊓ R = D.V := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hV0le : D.V ≤ V ⊓ R := le_inf hV0V hV0R
   have hcardV_le : Nat.card V ≤ 81 :=
     TwelveFiveData.card_le_eighty_one hc.data hn hc.h3 hc.hcard hVM hV3
@@ -303,12 +303,14 @@ private theorem pCore_le_starImg_V0_of_inf_le
     _ = starImg 3 H D.V := bot_sup_eq _
 
 
+omit [Finite G] in
 private theorem starImg_sup_of_le {A B : Subgroup G} (hA : A ≤ H) (hB : B ≤ H) :
     starImg 3 H (A ⊔ B) = starImg 3 H A ⊔ starImg 3 H B := by
   unfold starImg
   rw [Subgroup.subgroupOf_sup hA hB, Subgroup.map_sup]
 
-private theorem conjNormal_fix_of_comm {t : G} (ht : t ∈ H) {W : Subgroup G} (hWH : W ≤ H)
+omit [Finite G] in
+private theorem conjNormal_fix_of_comm {t : G} (ht : t ∈ H) {W : Subgroup G} (_hWH : W ≤ H)
     (hcomm : ∀ w ∈ W, t * w = w * t)
     (x : ↥(CFSG.pCore 3 (StarGroup 3 H)))
     (hx : (x : StarGroup 3 H) ∈ starImg 3 H W) :
@@ -334,7 +336,8 @@ private theorem conjNormal_fix_of_comm {t : G} (ht : t ∈ H) {W : Subgroup G} (
     simpa only [map_mul, map_inv] using hmap
   simpa [tbar, tH, π] using hmap'
 
-private theorem conjNormal_inv_of_inv {t : G} (ht : t ∈ H) {W : Subgroup G} (hWH : W ≤ H)
+omit [Finite G] in
+private theorem conjNormal_inv_of_inv {t : G} (ht : t ∈ H) {W : Subgroup G} (_hWH : W ≤ H)
     (hinv : ∀ w ∈ W, t * w * t⁻¹ = w⁻¹)
     (x : ↥(CFSG.pCore 3 (StarGroup 3 H)))
     (hx : (x : StarGroup 3 H) ∈ starImg 3 H W) :
@@ -370,7 +373,7 @@ private theorem conjNormal_inv_of_inv {t : G} (ht : t ∈ H) {W : Subgroup G} (h
 
 
 private theorem starImg_V_eq_sup_W
-    (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
+    (_hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃)
     (hRstar : CFSG.pCore 3 (StarGroup 3 H) = starImg 3 H D.V) :
     CFSG.pCore 3 (StarGroup 3 H) =
@@ -382,6 +385,7 @@ private theorem starImg_V_eq_sup_W
   rw [starImg_sup_of_le (A := D.W₁ ⊔ D.W₂) (B := D.W₃) (sup_le hW1H hW2H) hW3H,
     starImg_sup_of_le hW1H hW2H]
 
+omit [Finite G] in
 private theorem W_le_H_and_DV (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) :
     (D.W₁ ≤ H ∧ D.W₂ ≤ H ∧ D.W₃ ≤ H) ∧
       (D.W₁ ≤ D.V ∧ D.W₂ ≤ D.V ∧ D.W₃ ≤ D.V) := by
@@ -394,7 +398,7 @@ private theorem W_le_H_and_DV (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n�
   · rw [D.cfg.join]; exact le_sup_right
 
 private theorem starImg_W_le_pCore
-    (hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃)
+    (_hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃)
     (hRstar : starImg 3 H D.V = CFSG.pCore 3 (StarGroup 3 H)) :
     starImg 3 H D.W₁ ≤ CFSG.pCore 3 (StarGroup 3 H) ∧
@@ -434,7 +438,7 @@ private theorem starImg_elem_card
   exact ⟨helem, hcardR⟩
 
 private theorem starImg_conjNormal_inv
-    (hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃)
+    (_hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃)
     (hRstar : starImg 3 H D.V = CFSG.pCore 3 (StarGroup 3 H))
     {t : G} (ht : t ∈ H) {W : Subgroup G} (hWH : W ≤ H) (hWV : W ≤ D.V)
@@ -453,7 +457,7 @@ private theorem starImg_conjNormal_inv
   simpa [MulAut.conjNormal_apply] using h2
 
 private theorem starImg_conjNormal_fix
-    (hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃)
+    (_hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃)
     (hRstar : starImg 3 H D.V = CFSG.pCore 3 (StarGroup 3 H))
     {t : G} (ht : t ∈ H) {W : Subgroup G} (hWH : W ≤ H) (hWV : W ≤ D.V)
@@ -484,11 +488,12 @@ private theorem conj_comm_of_mem_sup {X : Type} [Group X] {t : X} {A B : Subgrou
     _ = a * (b * t) := by rw [commute_of_conj_eq (hB b hb)]
     _ = (a * b) * t := by group
 
+omit [Finite G] in
 private theorem elemAbelian_mul_comm {P : Subgroup (StarGroup 3 H)}
     (helem : IsElemAbelian 3 P) :
     ∀ a b : StarGroup 3 H, a ∈ P → b ∈ P → a * b = b * a := by
   intro a b ha hb
-  haveI : IsMulCommutative ↥P := helem.1
+  have : IsMulCommutative ↥P := helem.1
   have h := setLike_mul_comm
     (show (⟨a, ha⟩ : ↥P) ∈ (⊤ : Subgroup ↥P) from Subgroup.mem_top _)
     (show (⟨b, hb⟩ : ↥P) ∈ (⊤ : Subgroup ↥P) from Subgroup.mem_top _)
@@ -550,7 +555,7 @@ private theorem relPPrimeCore_three_le_M
     (hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃) :
     relPPrimeCore 3 H ≤ M := by
   obtain ⟨E, hEQ, hE, hEc, hΓ⟩ := hc.ctx.exists_E_sq
-  exact relPPrimeCore_le_of_gamma (Q := Q) hc.ctx.p_prime (hEQ.trans hc.ctx.Q_le_H) hE hEc hΓ
+  exact relPPrimeCore_le_of_gamma (_Q := Q) hc.ctx.p_prime (hEQ.trans hc.ctx.Q_le_H) hE hEc hΓ
 
 private theorem normalizer_W1_le_M
     (hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃)
@@ -560,7 +565,7 @@ private theorem normalizer_W1_le_M
     D.cfg.inv₁
 
 private theorem map_conj_W1_le_sup_of_starImg_eq
-    (hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃)
+    (_hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {h : G} (hh : h ∈ H)
     (hstar : starImg 3 H (D.W₁.map (MulAut.conj h).toMonoidHom) = starImg 3 H D.W₁) :
     D.W₁.map (MulAut.conj h).toMonoidHom ≤ D.W₁ ⊔ relPPrimeCore 3 H := by
@@ -573,7 +578,7 @@ private theorem map_conj_W1_le_sup_of_starImg_eq
 
 private theorem mem_M_of_map_conj_W1_le_sup
     (hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃)
-    (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {h : G} (hh : h ∈ H)
+    (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {h : G} (_hh : h ∈ H)
     (hle : D.W₁.map (MulAut.conj h).toMonoidHom ≤ D.W₁ ⊔ relPPrimeCore 3 H) :
     h ∈ M := by
   have hW1H : D.W₁ ≤ H := D.le₁.trans (D.le_inf₁.trans inf_le_left)
@@ -730,7 +735,7 @@ private theorem ncard_modEq_ncard_fixedPoints_of_invariant {P X : Type*} [Group 
     (hO : ∀ g : P, ∀ x ∈ O, g • x ∈ O) :
     O.ncard ≡ (O ∩ MulAction.fixedPoints P X).ncard [MOD p] := by
   let T : SubMulAction P X := ⟨O, fun {g x} hx => hO g x hx⟩
-  haveI : Finite T := hOf.to_subtype
+  have : Finite T := hOf.to_subtype
   have h := hP.card_modEq_card_fixedPoints T
   have e1 : Nat.card T = O.ncard := rfl
   have e2 : Nat.card (MulAction.fixedPoints P T) =
@@ -897,7 +902,7 @@ private theorem not_three_dvd_index_starImg_M
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) (hn : n₁ = 1 ∧ n₂ = 1 ∧ n₃ = 1)
     (S : SetupData hc D hn) :
     ¬ 3 ∣ (starImg 3 H M).index := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S₀, hS₀⟩ := isSylowOf_starImg_of_isSylowOf S.hVsylH
   have hle : (S₀ : Subgroup (StarGroup 3 H)) ≤ starImg 3 H M := by
     rw [hS₀]
@@ -910,7 +915,7 @@ private theorem false_of_isSylowOf_le (hc : TwelveSixKCtx G M p Q H d L₁ L₂ 
     (hp : p = 3) {V R : Subgroup G} (hV : CFSG.ABGLocalTools.IsSylowOf 3 V H)
     (hR : starImg 3 H R = CFSG.pCore 3 (StarGroup 3 H)) (hVR : V ≤ R) : False := by
   subst p
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEQ, hE, hEc, hΓ⟩ := hc.ctx.exists_E_sq
   have hd : NineSettingGen G M 3 E H E 2 :=
     (hc.ctx.hypCGen hEQ hE hEc hΓ).toNineSettingGen
@@ -926,10 +931,10 @@ private theorem false_of_isSylowOf_le (hc : TwelveSixKCtx G M p Q H d L₁ L₂ 
     (CFSG.pCore_isPGroup (p := 3) (G := StarGroup 3 H)).le_sylow_of_normal S
   have hS_eq : (S : Subgroup (StarGroup 3 H)) = CFSG.pCore 3 (StarGroup 3 H) :=
     le_antisymm (hS ▸ hstarV_le) hpCore_le_S
-  haveI hSnormal : (S : Subgroup (StarGroup 3 H)).Normal := by
+  have hSnormal : (S : Subgroup (StarGroup 3 H)).Normal := by
     rw [hS_eq]
     exact CFSG.pCore_normal (p := 3) (G := StarGroup 3 H)
-  haveI : Unique (Sylow 3 (StarGroup 3 H)) := Sylow.unique_of_normal S hSnormal
+  have : Unique (Sylow 3 (StarGroup 3 H)) := Sylow.unique_of_normal S hSnormal
   have hE3 : IsPGroup 3 (starImg 3 H E) :=
     ((CFSG.Open.IsElemAbelian.isPGroup hE).comap_subtype (K := H)).map
       (QuotientGroup.mk' (primeComplementCore (G := ↥H) 3))
@@ -959,7 +964,7 @@ private theorem starE27Config_of_not_le
       IsE27InvConfig (starP H) (starImg 3 H D.W₁) (starImg 3 H D.W₂)
         (starImg 3 H D.W₃) (starT H D.t₁ (D.t₁_mem hc.data).1)
         (starT H D.t₂ (D.t₂_mem hc.data).1) (starT H D.t₃ (D.t₃_mem hc.data).1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hVR : S.V ⊓ S.R = D.V :=
     inf_eq_V0_of_not_le hc D hn S.hV3 S.hVM S.hV0V S.hV0R hle
   have hRstar_le : starP H ≤ starImg 3 H D.V :=
@@ -989,10 +994,10 @@ private theorem starOmega_basic
 private theorem sigma_inv_fix
     (hc : TwelveSixKCtx G M 3 Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃)
-    (hRstar : starImg 3 H D.V = starP H)
+    (_hRstar : starImg 3 H D.V = starP H)
     (hW1H : D.W₁ ≤ H) (hW2H : D.W₂ ≤ H) (hW3H : D.W₃ ≤ H)
-    (hW1P : starImg 3 H D.W₁ ≤ starP H) (hW2P : starImg 3 H D.W₂ ≤ starP H)
-    (hW3P : starImg 3 H D.W₃ ≤ starP H) :
+    (_hW1P : starImg 3 H D.W₁ ≤ starP H) (_hW2P : starImg 3 H D.W₂ ≤ starP H)
+    (_hW3P : starImg 3 H D.W₃ ≤ starP H) :
     (∀ x ∈ starW H D.W₁, starSigma H D.t₁ (D.t₁_mem hc.data).1 x = x⁻¹) ∧
     (∀ x ∈ starW H D.W₂, starSigma H D.t₂ (D.t₂_mem hc.data).1 x = x⁻¹) ∧
     (∀ x ∈ starW H D.W₂, starSigma H D.t₁ (D.t₁_mem hc.data).1 x = x) ∧
@@ -1272,6 +1277,7 @@ private theorem sigma_closure_isPGroup
     (CFSG.Timmesfeld.isPGroup_two_closure_pair (d := σ1) (e := σ2)
       (by simpa [pow_two] using h1) (by simpa [pow_two] using h2) (k := 1) (by simpa using hsq))
 
+omit [Finite G] in
 private theorem orbit_invariant_of_le_range
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃)
     {E : Subgroup (MulAut ↥(starP H))}
@@ -1610,6 +1616,7 @@ private theorem starW_pairwise_ne
   rw [Set.ncard_insert_of_notMem (by simp [h12, h13]),
     Set.ncard_insert_of_notMem (by simp [h23]), Set.ncard_singleton]
 
+omit [Finite G] in
 private theorem index_mul_orbit_ncard_eq
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃)
     (hstab_le_K : MulAction.stabilizer (StarGroup 3 H) (starW H D.W₁) ≤
@@ -1636,13 +1643,13 @@ private theorem false_of_not_le_of_conj
     (h₂ : ∃ x ∈ S.V, D.W₁.map (MulAut.conj x).toMonoidHom = D.W₂)
     (h₃ : ∃ x ∈ S.V, D.W₁.map (MulAut.conj x).toMonoidHom = D.W₃) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hRstar, hE27⟩ := starE27Config_of_not_le hc D hn S hle
   have hWne := starImg_W_pairwise_ne hc D (hc.V_inf_relPPrimeCore_eq_bot D)
   obtain ⟨hW1P, hW2P, hW3P, hcardω1⟩ := starOmega_basic hc D hE27
   obtain ⟨⟨hW1H, hW2H, hW3H⟩, -⟩ := W_le_H_and_DV D
   have hjoin := starOmega_join hc D hE27 hW1P hW2P hW3P
-  haveI : IsMulCommutative ↥(starP H) := hE27.elem.1
+  have : IsMulCommutative ↥(starP H) := hE27.elem.1
   have hcommP : ∀ a b : ↥(starP H), a * b = b * a := fun a b =>
     setLike_mul_comm (Subgroup.mem_top a) (Subgroup.mem_top b)
   obtain ⟨hinv1, hinv2, hfix12, hfix13, hfix21, hfix23⟩ :=

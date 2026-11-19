@@ -18,7 +18,7 @@ theorem ys04c_of_centData (hC : CentData z ι) (hx : IsConj z (ι τ₀))
   obtain ⟨Q, hQ⟩ := exists_goodQ
   have hTpg : IsPGroup 2 (Tgrp z ι Q) := Tgrp_isPGroup hC hQ.pgroup
   have hidx : ¬ 2 ∣ (Tgrp z ι Q).index := not_two_dvd_index_Tgrp_P1 hC hx hP1 hQ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Sylow 2 G := hTpg.toSylow hidx
   have hScoe : (S : Subgroup G) = Tgrp z ι Q := by simp [S]
   have hzF : z ∈ Fgrp (Tgrp z ι Q) := (mem_Fgrp_iff hC hQ).mpr ⟨1, 0, 0, by simp⟩

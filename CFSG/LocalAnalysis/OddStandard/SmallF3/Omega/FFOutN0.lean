@@ -14,12 +14,14 @@ open Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffSimInGStar_mul {x y : ProjSim Q} (hx : SimInGStar x) (hy : SimInGStar y) :
     SimInGStar (x * y) := by
   obtain ⟨a, ha⟩ := hx
   obtain ⟨b, hb⟩ := hy
   exact ⟨a * b, by rw [map_mul, ha, hb]⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffSimInGStar_inv {x : ProjSim Q} (hx : SimInGStar x) : SimInGStar x⁻¹ := by
   obtain ⟨a, ha⟩ := hx
   exact ⟨a⁻¹, by rw [map_inv, ha]⟩
@@ -38,13 +40,14 @@ private lemma ffOutN0_map_mul {H : Type} [Group H] (c d : MulAut H) (U : Subgrou
 
 private lemma ffOutN0_isElemAb2_map_mulEquiv {H : Type} [Group H] (f : H ≃* H) {U : Subgroup H}
     {k : ℕ} (h : IsElemAb2 U k) : IsElemAb2 (U.map f.toMonoidHom) k := by
-  haveI : IsMulCommutative U := h.1.1
+  have : IsMulCommutative U := h.1.1
   refine ⟨⟨inferInstance, ?_⟩, ?_⟩
   · intro x hx
     obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hx
     rw [← map_pow, h.1.2 u hu, map_one]
   · rw [Nat.card_congr (U.equivMapOfInjective f.toMonoidHom f.injective).toEquiv.symm, h.2]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffSimInGStar_inv_mul_of_not {u v : ProjSim Q} (hu : ¬ SimInGStar u) (hv : ¬ SimInGStar v) :
     SimInGStar (u⁻¹ * v) := by
   obtain ⟨γu, rfl⟩ := QuotientGroup.mk_surjective u

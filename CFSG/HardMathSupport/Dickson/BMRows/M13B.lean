@@ -22,7 +22,7 @@ theorem isSolvable_of_card_dvd_312 {X : Type*} [Group X] [Finite X] (h : Nat.car
     Group.IsSolvable X := by
   classical
   by_cases h13 : 13 ∣ Nat.card X
-  · haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
     obtain ⟨P⟩ : Nonempty (Sylow 13 X) := inferInstance
     have hpos : Nat.card X ≠ 0 := Nat.card_pos.ne'
     have hfac : (Nat.card X).factorization 13 = 1 := by
@@ -49,12 +49,12 @@ theorem isSolvable_of_card_dvd_312 {X : Type*} [Group X] [Finite X] (h : Nat.car
       have hle : Nat.card (Sylow 13 X) ≤ 24 := Nat.le_of_dvd (by norm_num) hn
       have hpos' : 0 < Nat.card (Sylow 13 X) := Nat.card_pos
       generalize Nat.card (Sylow 13 X) = n at hn hmod hle hpos'
-      interval_cases n <;> first | rfl | omega | (exfalso; norm_num at hn)
-    haveI : Subsingleton (Sylow 13 X) := (Nat.card_eq_one_iff_unique.1 hn1).1
-    haveI : (P : Subgroup X).Normal := Sylow.normal_of_subsingleton P
-    haveI : Group.IsSolvable (P : Subgroup X) :=
+      interval_cases n <;> first | rfl | omega
+    have : Subsingleton (Sylow 13 X) := (Nat.card_eq_one_iff_unique.1 hn1).1
+    have : (P : Subgroup X).Normal := Sylow.normal_of_subsingleton P
+    have : Group.IsSolvable (P : Subgroup X) :=
       CFSG.GroupTheory.groups_order_below_sixty_solvable (by omega)
-    haveI : Group.IsSolvable (X ⧸ (P : Subgroup X)) :=
+    have : Group.IsSolvable (X ⧸ (P : Subgroup X)) :=
       CFSG.GroupTheory.groups_order_below_sixty_solvable (by
         rw [← Subgroup.index_eq_card]
         exact lt_of_le_of_lt (Nat.le_of_dvd (by norm_num) hidx) (by norm_num))
@@ -70,11 +70,11 @@ theorem isSolvable_of_zStar {H : Type} [Group H] [Finite H] {v : H} (hv : v * v 
     (hiso : ∀ g : H, (g * v * g⁻¹) * v = v * (g * v * g⁻¹) → g * v * g⁻¹ = v)
     (hC : Group.IsSolvable ↥(Subgroup.centralizer ({v} : Set H))) : Group.IsSolvable H := by
   classical
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   obtain ⟨N, hNn, hNodd, hNc⟩ := CFSG.ZStar.glauberman_zStar H v hv1 hv hiso
   have hfr := CFSG.HardMathSupport.Dickson.Sec6.I1431.exists_mul_centralizer_of_zStar hv hNodd hNc
-  haveI : Group.IsSolvable N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hNodd
-  haveI : N.Normal := hNn
+  have : Group.IsSolvable N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hNodd
+  have : N.Normal := hNn
   let φ : ↥(Subgroup.centralizer ({v} : Set H)) →* H ⧸ N :=
     (QuotientGroup.mk' N).comp (Subgroup.centralizer ({v} : Set H)).subtype
   have hφ : Function.Surjective φ := by
@@ -85,8 +85,8 @@ theorem isSolvable_of_zStar {H : Type} [Group H] [Finite H] {v : H} (hv : v * v 
     show QuotientGroup.mk' N k = QuotientGroup.mk' N (m * k)
     refine (QuotientGroup.eq).2 ?_
     simpa [mul_assoc] using hNn.conj_mem m hm k⁻¹
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer ({v} : Set H)) := hC
-  haveI : Group.IsSolvable (H ⧸ N) := Group.isSolvable_of_surjective hφ
+  have : Group.IsSolvable ↥(Subgroup.centralizer ({v} : Set H)) := hC
+  have : Group.IsSolvable (H ⧸ N) := Group.isSolvable_of_surjective hφ
   exact Group.isSolvable_of_subgroup_quotient N
 
 theorem noComp_of_conj_pow {G : Type} [Group G] [Finite G] {p : ℕ} [hp : Fact p.Prime] {t s m : G}
@@ -126,7 +126,7 @@ open CFSG.Monster CFSG.Monster.Generated CFSG.Monster.Existence
 
 theorem isSolvable_centralizer_c13 :
     Group.IsSolvable ↥(Subgroup.centralizer ({gw genD13W1} : Set Gmat)) := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
   have hcx : gw genD13W1 * xGmat = xGmat * gw genD13W1 :=
     Subgroup.mem_centralizer_singleton_iff.1 c_mem_cent
   have hxC : xGmat ∈ Subgroup.centralizer ({gw genD13W1} : Set Gmat) :=
@@ -144,15 +144,15 @@ theorem isSolvable_centralizer_c13 :
 theorem noComp_c13 :
     ∀ I : Subgroup Gmat,
       ¬ GLAPComponent 13 (Subgroup.centralizer ({gw genD13W1} : Set Gmat)) I := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
   exact fun I hI => CFSG.LocalAnalysis.GLTheoremA.KDSpor.false_of_glaPComponent_of_solvable
     (by norm_num) isSolvable_centralizer_c13 hI
 
 theorem noComp_conj_c13 {s m : Gmat} {k : ℕ} (hk : k % 13 ≠ 0)
     (h : m * s * m⁻¹ = gw genD13W1 ^ k) :
     ∀ I : Subgroup Gmat, ¬ GLAPComponent 13 (Subgroup.centralizer ({s} : Set Gmat)) I := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   exact noComp_of_conj_pow orderOf_c13 hk h noComp_c13
 
 theorem levelOK_conj_c13 {s m : Gmat} {k : ℕ} (hk : k % 13 ≠ 0)

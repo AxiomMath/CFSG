@@ -33,10 +33,10 @@ theorem isCharTwoSteinberg_e6 [CharP k 2] :
   have hα' : IsRoot .E6 α := by simpa [hroot] using hα
   have hβ' : IsRoot .E6 β := by simpa [hroot] using hβ
   by_cases h : IsRoot .E6 (α + β)
-  · rw [if_pos (by simpa [hroot] using h)]
+  · rw [ite_eq_left (by simpa [hroot] using h)]
     obtain ⟨σ, hσ, hσc⟩ := (e6Data_valid.commutator_xm k hα' hβ' hne).1 h
     rw [hσc c d, CFSG.Timmesfeld.LieEmbed.isSign_eq_one hσ, one_mul]
-  · rw [if_neg (by simpa [hroot] using h)]
+  · rw [ite_eq_right (by simpa [hroot] using h)]
     exact (e6Data_valid.commutator_xm k hα' hβ' hne).2 h c d
 
 theorem isCharTwoSteinberg_e7 [CharP k 2] :
@@ -48,10 +48,10 @@ theorem isCharTwoSteinberg_e7 [CharP k 2] :
   have hα' : IsRoot .E7 α := by simpa [hroot] using hα
   have hβ' : IsRoot .E7 β := by simpa [hroot] using hβ
   by_cases h : IsRoot .E7 (α + β)
-  · rw [if_pos (by simpa [hroot] using h)]
+  · rw [ite_eq_left (by simpa [hroot] using h)]
     obtain ⟨σ, hσ, hσc⟩ := (e7Data_valid.commutator_xm k hα' hβ' hne).1 h
     rw [hσc c d, CFSG.Timmesfeld.LieEmbed.isSign_eq_one hσ, one_mul]
-  · rw [if_neg (by simpa [hroot] using h)]
+  · rw [ite_eq_right (by simpa [hroot] using h)]
     exact (e7Data_valid.commutator_xm k hα' hβ' hne).2 h c d
 
 variable [Finite k] [CharP k 2]

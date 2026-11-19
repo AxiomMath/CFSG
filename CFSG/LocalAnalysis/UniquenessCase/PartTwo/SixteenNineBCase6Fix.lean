@@ -18,7 +18,7 @@ theorem s16n9b_case6_invFix (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup 
   obtain ⟨g, hg⟩ := s16n9b_twoConj D h1217 hV hc hV0 h6.2.2.1
   obtain ⟨hN, hrank⟩ := s16n9b_case6_rank D hV h6
   have hord3 : ∃ a ∈ lBar V₀ V hV L, orderOf a = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hY : IsAlt ↥(lBar V₀ V hV L) 5 ∨ IsL3 ↥(lBar V₀ V hV L) 1 := by
       rcases h6.2.1 with ⟨hA, -⟩ | ⟨hL, -⟩
       · exact Or.inl hA

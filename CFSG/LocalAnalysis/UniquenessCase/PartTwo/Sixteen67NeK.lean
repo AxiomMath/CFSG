@@ -31,7 +31,7 @@ private theorem mQuot_le_one_of_relIndex_le_two {A : Subgroup G} (hA : IsPGroup 
       _ ≤ 2 ^ E3.mQuot A B := pow_le_pow_right' (by norm_num) hc'
   omega
 
-theorem inCalO_of_le (h : Cfg1667Ne M V₀ V W₁ W₂) {n : G} {F : Subgroup G} (hFV : F ≤ V)
+theorem inCalO_of_le (h : Cfg1667Ne M V₀ V W₁ W₂) {n : G} {F : Subgroup G} (_hFV : F ≤ V)
     (hF : F.relIndex V ≤ 2) (hFM : F ≤ conjSubgroup M n) (hFn : conjSubgroup F n ≤ M)
     (hV₀F : V₀ ≤ F) (hc : ⁅V, conjSubgroup V n⁆ ≠ ⊥) : InCalO 1 M V₀ V n := by
   have hV : IsPGroup 2 V := IsElemAbelian.isPGroup h.elemAbelian
@@ -124,6 +124,7 @@ theorem cube_mem_sup_of_le (h : Cfg1667Ne M V₀ V W₁ W₂)
   have hres := cube_mem_K (g := n) h hs hs' ht (by rw [hUF]; exact htF) hi hiB
   rwa [hUF, hBF] at hres
 
+omit [Finite G] in
 private theorem exists_pow_mul_eq_mul {X N : Subgroup G}
     (hnorm : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N) {h e : G} (hh : h ∈ X) (he : e ∈ N)
     (k : ℕ) : ∃ e' ∈ N, (h * e) ^ k = h ^ k * e' := by
@@ -149,7 +150,7 @@ theorem sq_or_cube_mem_relPPrimeCore (h : Cfg1667Ne M V₀ V W₁ W₂)
     (ha : a ∈ centralizer ({z} : Set G)) :
     (t * (a * t * a⁻¹)) ^ 2 ∈ CFSG.Open.relPPrimeCore 3 (centralizer ({z} : Set G)) ∨
       (t * (a * t * a⁻¹)) ^ 3 ∈ CFSG.Open.relPPrimeCore 3 (centralizer ({z} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup G := centralizer ({z} : Set G)
   let K : Subgroup G := CFSG.Open.relPPrimeCore 3 H
   change (t * (a * t * a⁻¹)) ^ 2 ∈ K ∨ (t * (a * t * a⁻¹)) ^ 3 ∈ K

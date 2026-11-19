@@ -33,12 +33,12 @@ private theorem forIn_range'_break {β : Type} (f : Nat → β → β) (c : Nat 
   | k + 1, s, b => by
     rw [List.range'_succ, List.forIn_cons, List.foldl_cons]
     by_cases hc : c s b
-    · simp only [hc, if_true, pure_bind]
+    · simp only [hc, ite_true, pure_bind]
       exact forIn_range'_break f c hmono k (s + 1) (f s b)
-    · simp only [hc, if_false, pure_bind]
+    · simp only [hc, ite_false, pure_bind]
       refine (foldl_fixed _ b _ fun h hh => ?_).symm
       rw [List.mem_range'_1] at hh
-      exact if_neg (hmono s h b (by omega) hc)
+      exact ite_eq_right (hmono s h b (by omega) hc)
 
 private theorem ite_pure_yield {β : Type} (c : Prop) [Decidable c] (a b : β) :
     (if c then (pure (ForInStep.yield a) : Id (ForInStep β)) else pure (ForInStep.yield b)) =
@@ -68,7 +68,7 @@ private theorem treeBFS_eq_foldl (n root : Nat) (letters : Array Table) (lv : Ar
   unfold treeBFS
   simp only [Id.run, Std.Legacy.Range.forIn_eq_forIn_range', Std.Legacy.Range.size,
     ← Array.forIn_toList, ite_pure_yield, List.forIn_pure_yield_eq_foldl, Nat.sub_zero,
-    Nat.add_sub_cancel, Nat.div_one, pure_bind, bind_pure, Prod.eta]
+    Nat.add_sub_cancel, Nat.div_one, pure_bind, Prod.eta]
   rw [List.range_eq_range']
   exact congrArg finalN (forIn_range'_break (β := NS)
     (fun h b => lv.toList.foldl (letterN letters h (ap b.2.1 h)) b) (fun h b => h < b.2.1.size)
@@ -123,11 +123,11 @@ private theorem letter_rel {n : Nat} (hn : n < 2 ^ 32) {letters : Array Table} {
   unfold BS.letter letterN
   by_cases hmem : tabF letters l p ∈ s.pts
   · have hne : b.1[tabF letters l p]! ≠ none32 () := by
-      rw [hv, if_pos hmem]
+      rw [hv, ite_eq_left hmem]
       exact ofNat_ne_none32 (by have := List.idxOf_lt_length_of_mem hmem; omega)
-    rw [if_pos hmem, if_neg (by simpa using hne)]
+    rw [ite_eq_left hmem, ite_eq_right (by simpa using hne)]
     exact hs
-  · rw [if_neg hmem, hv, if_neg hmem, if_pos (by simp)]
+  · rw [ite_eq_right hmem, hv, ite_eq_right hmem, ite_eq_left (by simp)]
     have hsz : b.2.1.size = s.pts.length := by rw [hs.pts]; simp
     refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
     · rw [Array.size_set!]
@@ -144,13 +144,13 @@ private theorem letter_rel {n : Nat} (hn : n < 2 ^ 32) {letters : Array Table} {
     · intro x hx
       by_cases e : x = tabF letters l p
       · subst e
-        rw [Array.getElem!_set!_self _ _ _ (by rw [hs.size]; exact hq), hsz, if_pos (by simp),
-          List.idxOf_append, if_neg hmem]
+        rw [Array.getElem!_set!_self _ _ _ (by rw [hs.size]; exact hq), hsz, ite_eq_left (by simp),
+          List.idxOf_append, ite_eq_right hmem]
         simp
       · rw [Array.getElem!_set!_ne _ _ _ _ (Ne.symm e), hs.pos x hx]
         by_cases hx' : x ∈ s.pts
-        · rw [if_pos hx', if_pos (List.mem_append_left _ hx'), List.idxOf_append, if_pos hx']
-        · rw [if_neg hx', if_neg]
+        · rw [ite_eq_left hx', ite_eq_left (List.mem_append_left _ hx'), List.idxOf_append, ite_eq_left hx']
+        · rw [ite_eq_right hx', ite_eq_right]
           simp [hx', e]
     · rw [List.nodup_append]
       refine ⟨hs.nodup, by simp, ?_⟩
@@ -180,13 +180,13 @@ private theorem step_rel {n : Nat} (hn : n < 2 ^ 32) {letters : Array Table} {lv
   unfold BS.step stepN
   have hsz : b.2.1.size = s.pts.length := by rw [hs.pts]; simp
   by_cases hh : h < s.pts.length
-  · rw [if_pos hh, if_pos (hsz ▸ hh)]
+  · rw [ite_eq_left hh, ite_eq_left (hsz ▸ hh)]
     have hap : ap b.2.1 h = s.pts.getD h 0 := by
       rw [hs.pts]
       exact ap_mapOfNat hn hs.lt hh
     rw [hap]
     exact foldl_letter_rel hn hF (hs.lt _ (getD_mem' hh)) lv.toList (fun l hl => hl) hs
-  · rw [if_neg hh, if_neg (by omega)]
+  · rw [ite_eq_right hh, ite_eq_right (by omega)]
     exact hs
 
 private theorem init_rel {n root : Nat} (hr : root < n) : Rel n ⟨[root], [0], [0]⟩ (initN n root) := by

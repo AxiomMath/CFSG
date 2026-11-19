@@ -30,10 +30,10 @@ theorem homC_card_torsion_le_pow (hp : p.Prime) :
       (Equiv.subtypePiEquivPi (p := fun _ c => c ^ p = 1))
   rw [Nat.card_congr e, Nat.card_pi]
   calc ∏ _i : Fin n, Nat.card {c : Multiplicative (ZMod (p ^ a)) // c ^ p = 1}
-      ≤ ∏ _i : Fin n, p := Finset.prod_le_prod' (fun i _ => zmod_card_torsion_le hp)
+      ≤ ∏ _i : Fin n, p := Finset.prod_le_prod (fun i _ => zmod_card_torsion_le hp)
     _ = p ^ n := by simp
 
-theorem mem_zpowers_of_card_torsion_le {C : Type*} [Group C] [Finite C] (hp : p.Prime)
+theorem mem_zpowers_of_card_torsion_le {C : Type*} [Group C] [Finite C] (_hp : p.Prime)
     (hC : Nat.card {c : C // c ^ p = 1} ≤ p) {g : C} (hg : orderOf g = p) {c : C}
     (hc : c ^ p = 1) : c ∈ Subgroup.zpowers g := by
   by_contra hnot
@@ -69,7 +69,7 @@ theorem heis_ker_data (hp : p.Prime) (ha : 1 ≤ a) {P M : Type*} [Group P] [Gro
     (∀ x ∈ φ.ker, ∀ y ∈ φ.ker, x * y = y * x) ∧
     (n ≤ 2 → Nat.card {x : φ.ker // x ^ p = 1} ≤ p) ∧
     (2 ≤ a → ∀ x ∈ φ.ker, x ^ p = 1 → ∃ y ∈ φ.ker, y ^ p = x) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have Pcomm : ∀ x y : P, x * y = y * x := fun x y =>
     e.injective (by rw [map_mul, map_mul]; exact mul_comm _ _)
   have hexp : ∀ x : P, x ^ (p ^ a) = 1 := fun x =>
@@ -98,9 +98,9 @@ theorem heis_ker_data (hp : p.Prime) (ha : 1 ≤ a) {P M : Type*} [Group P] [Gro
     intro hn
     let Ω : Subgroup P := torsionSubgroup (⊤ : Subgroup P) (fun x _ y _ => Pcomm x y) p
     let ψ : Ω →* M := φ.comp Ω.subtype
-    haveI : NeZero (p ^ a) := ⟨pow_ne_zero a hp.ne_zero⟩
-    haveI : Finite P := Finite.of_equiv (HomC p a n) e.symm.toEquiv
-    haveI : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+    have : NeZero (p ^ a) := ⟨pow_ne_zero a hp.ne_zero⟩
+    have : Finite P := Finite.of_equiv (HomC p a n) e.symm.toEquiv
+    have : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
     have hΩcard : Nat.card Ω ≤ p ^ n := by
       have h1 : Nat.card Ω = Nat.card {x : (⊤ : Subgroup P) // x ^ p = 1} :=
         torsionSubgroup_card (⊤ : Subgroup P) (fun x _ y _ => Pcomm x y) p
@@ -157,12 +157,12 @@ theorem heis_ker_data (hp : p.Prime) (ha : 1 ≤ a) {P M : Type*} [Group P] [Gro
       apply e.injective
       rw [map_pow, hy, MulEquiv.apply_symm_apply, hy']
     have hwp : (φ y) ^ p = 1 := by rw [← map_pow, hyp]; exact MonoidHom.mem_ker.1 hx
-    haveI : NeZero (p ^ a) := ⟨pow_ne_zero a hp.ne_zero⟩
-    haveI : Finite P := Finite.of_equiv (HomC p a n) e.symm.toEquiv
-    haveI : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+    have : NeZero (p ^ a) := ⟨pow_ne_zero a hp.ne_zero⟩
+    have : Finite P := Finite.of_equiv (HomC p a n) e.symm.toEquiv
+    have : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
     have hC : Nat.card {c : φ.range // c ^ p = 1} ≤ p := by
       classical
-      haveI : Fintype φ.range := Fintype.ofFinite _
+      have : Fintype φ.range := Fintype.ofFinite _
       have h := IsCyclic.card_pow_eq_one_le (α := φ.range) hp.pos
       rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
       exact h
@@ -193,7 +193,7 @@ theorem heis_sylow_ker_data {G C : Type*} [Group G] [Finite G] [Group C] (p : �
   intro T
   have hp : p.Prime := Fact.out
   let T' : Subgroup G := (T : Subgroup δ.ker).map δ.ker.subtype
-  have hT'p : IsPGroup p T' := T.isPGroup'.map δ.ker.subtype
+  have hT'p : IsPGroup p T' := T.isPGroup.map δ.ker.subtype
   obtain ⟨P, hTP⟩ := hT'p.exists_le_sylow
   obtain ⟨e⟩ := hG P
   let φ : ↥(P : Subgroup G) →* C := δ.comp (P : Subgroup G).subtype
@@ -201,7 +201,7 @@ theorem heis_sylow_ker_data {G C : Type*} [Group G] [Finite G] [Group C] (p : �
     intro x hxP hx
     let Q : Subgroup δ.ker := ((P : Subgroup G) ⊓ δ.ker).subgroupOf δ.ker
     have hQp : IsPGroup p Q :=
-      (P.isPGroup'.to_le (inf_le_left : (P : Subgroup G) ⊓ δ.ker ≤ P)).comap_of_injective
+      (P.isPGroup.to_le (inf_le_left : (P : Subgroup G) ⊓ δ.ker ≤ P)).comap_of_injective
         δ.ker.subtype δ.ker.subtype_injective
     have hTQ : (T : Subgroup δ.ker) ≤ Q := by
       intro t ht
@@ -232,8 +232,8 @@ theorem heis_sylow_ker_data {G C : Type*} [Group G] [Finite G] [Group C] (p : �
     apply Subtype.ext
     exact ht
   let Θ : (T : Subgroup δ.ker) ≃* φ.ker := MulEquiv.ofBijective Ψ ⟨hΨinj, hΨsurj⟩
-  haveI : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
-  haveI : Finite δ.range := Finite.of_surjective δ.rangeRestrict δ.rangeRestrict_surjective
+  have : Finite φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  have : Finite δ.range := Finite.of_surjective δ.rangeRestrict δ.rangeRestrict_surjective
   have hcyc' : IsCyclic φ.range := by
     have hle : φ.range ≤ δ.range := by
       rintro _ ⟨x, rfl⟩

@@ -22,8 +22,8 @@ set_option linter.unusedSectionVars false
 theorem ringChar_ne_three_of_pow_three {τ : Tag} {L : Type} [Field L] {a : Fin τ.rank → Lˣ}
     (hap : ∀ i, a i ^ 3 = 1) (h1 : rootDiagUnit τ a ≠ 1) : ringChar L ≠ 3 := by
   intro h3
-  haveI : CharP L 3 := ringChar.of_eq h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP L 3 := ringChar.of_eq h3
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply h1
   have ha : a = 1 := by
     funext j
@@ -55,8 +55,8 @@ theorem rationalLieType_of_split_frame (hT : rootDiagUnit τ ta ∈ S.D.torus)
   classical
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ := split_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq
   obtain ⟨hfinK, -⟩ := finite_card_fixSubfield (L := L) (r := r)
     (n := e * componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i))
@@ -93,8 +93,8 @@ theorem rationalLieType_of_unitary_frame (hT : rootDiagUnit τ ta ∈ S.D.torus)
   classical
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
   have hes : 0 < e * s := Nat.mul_pos he hs0
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ := two_suN_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq
@@ -103,15 +103,15 @@ theorem rationalLieType_of_unitary_frame (hT : rootDiagUnit τ ta ∈ S.D.torus)
   ·
     exfalso
     have hcard := hc216 h32
-    haveI := hfin
-    haveI := Fintype.ofFinite ↥(suFix (ν := ν) σQ)
-    haveI : Group.IsSolvable ↥(suFix (ν := ν) σQ) :=
+    have := hfin
+    have := Fintype.ofFinite ↥(suFix (ν := ν) σQ)
+    have : Group.IsSolvable ↥(suFix (ν := ν) σQ) :=
       CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
         (p := 2) (q := 3) (a := 3) (b := 3) Nat.prime_two Nat.prime_three (by norm_num)
         (by rw [← Nat.card_eq_fintype_card, hcard]; norm_num)
-    haveI : Group.IsSolvable ↥f.range :=
+    have : Group.IsSolvable ↥f.range :=
       Group.isSolvable_of_surjective (f := f.rangeRestrict) f.rangeRestrict_surjective
-    haveI : Group.IsSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom ta) i) :=
+    have : Group.IsSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom ta) i) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hf1)
     exact not_isSolvable_of_isQuasisimple hQS inferInstance
   · have hCperf : Group.IsPerfect ↥(suFix (ν := ν) σQ) := (hqsC h32).1
@@ -121,10 +121,10 @@ theorem rationalLieType_of_unitary_frame (hT : rootDiagUnit τ ta ∈ S.D.torus)
         ↥(rationalComponent S.ρ S.Γ (rootCharHom ta) i) :=
       f.codRestrict _ (fun c => hRf ▸ ⟨c, rfl⟩)
     obtain ⟨F, hFcard, ⟨eC⟩⟩ := two_suN_exists_equiv hr hes σQ hσc hν
-    haveI : Finite ↥F := Nat.finite_of_card_ne_zero (by
+    have : Finite ↥F := Nat.finite_of_card_ne_zero (by
       rw [hFcard]
       exact (pow_pos (pow_pos hr.pos _) 2).ne')
-    haveI : Fintype ↥F := Fintype.ofFinite ↥F
+    have : Fintype ↥F := Fintype.ofFinite ↥F
     have hFcard' : Fintype.card ↥F = (r ^ (e * s)) ^ 2 := by
       rw [← Nat.card_eq_fintype_card]
       exact hFcard

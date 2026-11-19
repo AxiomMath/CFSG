@@ -18,7 +18,7 @@ theorem conj_mem_of_mem_nor {H : Subgroup G} {g x : G} (hg : g ∈ Nor H) (hx : 
 
 def fixMod (T₀ : Subgroup G) (E : Set G) : Subgroup G where
   carrier := {a | a ∈ Nor T₀ ∧ ∀ x ∈ E, a * x * a⁻¹ * x⁻¹ ∈ T₀}
-  one_mem' := Set.mem_setOf.mpr ⟨one_mem _, fun x _ => by simp⟩
+  one_mem' := Set.mem_ofPred.mpr ⟨one_mem _, fun x _ => by simp⟩
   mul_mem' := by
     rintro a b ⟨ha, haE⟩ ⟨hb, hbE⟩
     refine ⟨mul_mem ha hb, fun x hx => ?_⟩
@@ -42,7 +42,7 @@ theorem mem_fixMod {T₀ : Subgroup G} {E : Set G} {a : G} :
 
 def omegaMod (T T₀ : Subgroup G) : Subgroup G where
   carrier := {x | x ∈ T ⊓ Nor T₀ ∧ x ∈ fixMod T₀ (T ⊓ Nor T₀ : Subgroup G) ∧ x * x ∈ T₀}
-  one_mem' := Set.mem_setOf.mpr ⟨one_mem _, one_mem _, by simp⟩
+  one_mem' := Set.mem_ofPred.mpr ⟨one_mem _, one_mem _, by simp⟩
   mul_mem' := by
     rintro x y ⟨hxN, hxF, hxx⟩ ⟨hyN, hyF, hyy⟩
     refine ⟨mul_mem hxN hyN, mul_mem hxF hyF, ?_⟩
@@ -120,29 +120,29 @@ theorem le_nor_omegaMod {T T₀ J : Subgroup G} (hJT : J ≤ Nor T) (hJT₀ : J 
 
 theorem lt_inf_nor [Finite G] {T T₀ : Subgroup G} (hT : IsPGroup 2 T) (hlt : T₀ < T) :
     T₀ < T ⊓ Nor T₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent T := hT.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent T := hT.isNilpotent
   have hT₀T : T₀ ≤ T := hlt.le
   have h1 : T₀.subgroupOf T < ⊤ :=
     lt_top_iff_ne_top.mpr fun h => lt_irrefl T₀ (hlt.trans_le (Subgroup.subgroupOf_eq_top.mp h))
   have h2 := Group.normalizerCondition_of_isNilpotent (G := T) _ h1
   rw [← Subgroup.subgroupOf_normalizer_eq hT₀T] at h2
-  obtain ⟨y, hy, hny⟩ := SetLike.exists_of_lt h2
+  obtain ⟨y, hy, hny⟩ := _root_.IsConcreteLE.exists_of_lt h2
   rw [Subgroup.mem_subgroupOf] at hy hny
-  exact SetLike.lt_iff_le_and_exists.mpr
+  exact IsConcreteLE.lt_iff_le_and_exists.mpr
     ⟨le_inf hT₀T Subgroup.le_normalizer, (y : G), Subgroup.mem_inf.mpr ⟨y.2, hy⟩, hny⟩
 
 theorem exists_mem_omegaMod [Finite G] {T T₀ : Subgroup G} (hT : IsPGroup 2 T) (hlt : T₀ < T) :
     ∃ x ∈ omegaMod T T₀, x ∉ T₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hlt' : T₀ < T ⊓ Nor T₀ := lt_inf_nor hT hlt
   set N : Subgroup G := T ⊓ Nor T₀ with hN
-  haveI : (T₀.subgroupOf N).Normal :=
+  have : (T₀.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hlt'.le).mpr inf_le_right
   have hQp : IsPGroup 2 (↥N ⧸ T₀.subgroupOf N) := (hT.to_le inf_le_left).to_quotient _
-  obtain ⟨y₀, hy₀N, hy₀⟩ := SetLike.exists_of_lt hlt'
-  haveI : Nontrivial (↥N ⧸ T₀.subgroupOf N) := by
+  obtain ⟨y₀, hy₀N, hy₀⟩ := _root_.IsConcreteLE.exists_of_lt hlt'
+  have : Nontrivial (↥N ⧸ T₀.subgroupOf N) := by
     refine ⟨⟨QuotientGroup.mk ⟨y₀, hy₀N⟩, 1, fun h => hy₀ ?_⟩⟩
     rwa [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf] at h
   have hZp : IsPGroup 2 (Subgroup.center (↥N ⧸ T₀.subgroupOf N)) := hQp.to_subgroup _
@@ -179,8 +179,8 @@ theorem mem_of_comm_mem [Finite G] {T T₀ : Subgroup G} (hT : IsPGroup 2 T) (hT
     {β : G} (hβ : orderOf β = 3) (hβT₀ : β ∈ Nor T₀) (hC : T ⊓ Cen β ≤ T₀) {x : G} (hx : x ∈ T)
     (hβx : β * x * β⁻¹ * x⁻¹ ∈ T₀) : x ∈ T₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA : IsPGroup 3 (Subgroup.zpowers β) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hβ, pow_one])
   have hle : Subgroup.zpowers β ≤ fixMod T₀ {x} := by
@@ -248,7 +248,7 @@ theorem ff79_1_6_holds : FF79_1_6 := by
     frob73_mod (le_omegaMod hT₀T) (omegaMod_le_nor T T₀) (omegaMod_comm T T₀) (omegaMod_sq T T₀)
       (hJE (hfJ d')) (hJT₀ (hfJ d')) (hJE hβJ) (hJT₀ hβJ) hd7 hβ3 hk hrel hfix
   let K : Subgroup J := (fixMod T₀ (omegaMod T T₀ : Set G)).subgroupOf J
-  haveI hKn : K.Normal := by
+  have hKn : K.Normal := by
     refine ⟨fun a ha n => ?_⟩
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     obtain ⟨haN, haE⟩ := mem_fixMod.mp ha
@@ -267,8 +267,8 @@ theorem ff79_1_6_holds : FF79_1_6 := by
       group
     rw [e]
     exact h1
-  haveI := GroupTheory.GL52.isSimpleGroup_G52
-  haveI : IsSimpleGroup J := e.isSimpleGroup
+  have := GroupTheory.GL52.isSimpleGroup_G52
+  have : IsSimpleGroup J := e.isSimpleGroup
   have hdK : (⟨f d', hfJ d'⟩ : J) ∈ K := by
     rw [Subgroup.mem_subgroupOf]
     exact mem_fixMod.mpr ⟨hJT₀ (hfJ d'), hdE⟩

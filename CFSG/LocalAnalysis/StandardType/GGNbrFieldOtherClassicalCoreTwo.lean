@@ -89,7 +89,7 @@ theorem ggTorusNoLineFieldComp_of_fixDataTwo {p r : ℕ} (hp : p.Prime) {R : Typ
       le_trans (Nat.pow_le_pow_right hp.pos (Nat.le_succ r)) hcard1
     obtain ⟨W, h1, h2⟩ := hin L' ψ hψ hker hperf A hAe hind hc1 hcard3 hsc
     exact ⟨W, h1, fun hN' a₀ ha₀ hne _ hcl => h2 hN' a₀ ha₀ hne hcl⟩
-  · obtain ⟨b, hbA, hbA₀⟩ := SetLike.not_le_iff_exists.mp hAA₀
+  · obtain ⟨b, hbA, hbA₀⟩ := IsConcreteLE.not_le_iff_exists.mp hAA₀
     set x : MulAut R := Ind ⟨b, hbA⟩ with hx
     have hxcl : x ∈ Subgroup.closure (I ∪ F) := hIndcl _
     have hxI : x ∉ I := fun h => hbA₀ ((hmem ⟨b, hbA⟩).mpr ((hIJ _).mp h))

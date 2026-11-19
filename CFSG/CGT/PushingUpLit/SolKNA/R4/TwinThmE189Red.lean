@@ -176,7 +176,7 @@ theorem MinCex.e189_exists_minimal (c : MinCex r Ω K S R W H) {z t k : G} (hz :
         rw [Subgroup.orderOf_coe]
         exact hN₁odd.of_dvd_nat (by simpa using Subgroup.orderOf_dvd_natCard N₁ hmN)
       have h1 : (m : G) = 1 :=
-        heq1 (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (hm ▸ hcS))) hodd
+        heq1 (S.isPGroup.to_le (Subgroup.zpowers_le.mpr (hm ▸ hcS))) hodd
       rw [hm] at h1
       have hxt : x * t = t * x := by
         calc x * t = (x * t * x⁻¹ * t⁻¹) * (t * x) := by group

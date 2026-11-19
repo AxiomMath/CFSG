@@ -63,8 +63,8 @@ private theorem wc85bd_unitary_transvection_sq {m n : ℕ} {F : Type} [Field F] 
 private theorem wc85bd_card_sylow_eq {Y : Type} [Group Y] [Finite Y] {n m : ℕ}
     (hY : Nat.card Y = 2 ^ n * m) (hm : Odd m) (S : Sylow 2 Y) :
     Nat.card (S : Subgroup Y) = 2 ^ n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hidx : Odd (S : Subgroup Y).index :=
     Nat.not_even_iff_odd.mp fun h => S.not_dvd_index (even_iff_two_dvd.mp h)
   have hmain : 2 ^ k * (S : Subgroup Y).index = 2 ^ n * m := by
@@ -110,7 +110,7 @@ theorem exists_sylow_weaklyClosed_of_bender_root {X : Type}
       (IsSzGp (X ⧸ Subgroup.center X) n ∧ IsSuzukiRootGroup X S)) :
     ∃ P : Sylow 2 X, S ≤ (P : Subgroup X) ∧ IsWeaklyClosedIn S (P : Subgroup X) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (Nat.card (Subgroup.center X)) := wc85bd_odd_card_center hp
   let π : X →* X ⧸ Subgroup.center X := QuotientGroup.mk' (Subgroup.center X)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -130,7 +130,7 @@ theorem exists_sylow_weaklyClosed_of_bender_root {X : Type}
           obtain ⟨w, hw1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hSb
           have hw := htrans (w : X) w.2 (fun h => hw1 (Subtype.ext h))
           simp only [IsSymplecticTransvectionIn] at hw
-          haveI : Subsingleton (Matrix (Fin 0 ⊕ Fin 0) (Fin 0 ⊕ Fin 0) F) :=
+          have : Subsingleton (Matrix (Fin 0 ⊕ Fin 0) (Fin 0 ⊕ Fin 0) F) :=
             ⟨fun a b => by ext i j; exact Sum.elim Fin.elim0 Fin.elim0 i⟩
           have hsub : (((e (QuotientGroup.mk w) : ↥(StatedSp 0 F)) :
               GL (Fin 0 ⊕ Fin 0) F) : Matrix (Fin 0 ⊕ Fin 0) (Fin 0 ⊕ Fin 0) F) - 1 = 0 :=
@@ -159,7 +159,7 @@ theorem exists_sylow_weaklyClosed_of_bender_root {X : Type}
       have hSylCard : Nat.card (Pbar : Subgroup (X ⧸ Subgroup.center X)) = 2 ^ n :=
         wc85bd_card_sylow_eq hcardY hoddY Pbar
       have hPinf : (P : Subgroup X) ⊓ Subgroup.center X = ⊥ :=
-        CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd P.isPGroup' hodd
+        CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd P.isPGroup hodd
       have hPcard : Nat.card (P : Subgroup X) = 2 ^ n := by
         have h1 : Nat.card ((P : Subgroup X).map π) = Nat.card (P : Subgroup X) :=
           CFSG.card_map_eq_card_of_inf_ker_eq_bot π (by rw [hker]; exact hPinf)
@@ -173,8 +173,8 @@ theorem exists_sylow_weaklyClosed_of_bender_root {X : Type}
       rw [conjSubgroup, Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective]
     ·
       obtain ⟨hScard, F, hFld, hFin, hFcard, e, htrans⟩ := hroot
-      letI : Field F := hFld
-      letI : Finite F := hFin
+      let : Field F := hFld
+      let : Finite F := hFin
       have hB : BenderType (X ⧸ Subgroup.center X) n 3
           ((2 ^ n + 1) / Nat.gcd 3 (2 ^ n + 1)) := wc85bd_benderType_of_isPSUGp hPSU
       have hTIY : SylowTwoTI (X ⧸ Subgroup.center X) :=
@@ -189,7 +189,7 @@ theorem exists_sylow_weaklyClosed_of_bender_root {X : Type}
         Sylow.coe_mapSurjective hπ P
       obtain ⟨t, hc⟩ := hB.exists_benderCore Pbar
       have hPinf : (P : Subgroup X) ⊓ Subgroup.center X = ⊥ :=
-        CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd P.isPGroup' hodd
+        CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd P.isPGroup hodd
       have hSinf : S ⊓ Subgroup.center X = ⊥ :=
         CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd hS2 hodd
       have hSle : S ≤ rootCenter (P : Subgroup X) := by

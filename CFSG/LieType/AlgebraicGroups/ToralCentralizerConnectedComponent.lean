@@ -15,8 +15,8 @@ theorem finiteIndex_toralRootGroup {tau : Tag} {K : Type} [Field K]
     ((toralRootGroup tau K a).subgroupOf (toralCentralizer tau K a)).FiniteIndex := by
   obtain ⟨-, hN, -, hKN, phi, hsurj, -⟩ :=
     Chevalley_toral_centralizer_root_generated_quotient tau K a
-  haveI := hN
-  haveI := hKN
+  have := hN
+  have := hKN
   have : Finite (toralCentralizer tau K a ⧸
       (toralRootGroup tau K a).subgroupOf (toralCentralizer tau K a)) :=
     Finite.of_surjective phi hsurj
@@ -36,7 +36,7 @@ theorem isPointClosed_toralRootGroup {tau : Tag} {K : Type} [Field K] [IsAlgClos
 theorem closedIdentityComponent_toralCentralizer_eq {tau : Tag} {K : Type} [Field K]
     [IsAlgClosed K] (a : Fin tau.rank → Kˣ) :
     closedIdentityComponent (toralCentralizer tau K a) = toralRootGroup tau K a := by
-  letI := finiteIndex_toralRootGroup a
+  let := finiteIndex_toralRootGroup a
   refine le_antisymm
     (closedIdentityComponent_le_of_isPointClosed_finiteIndex (isPointClosed_toralRootGroup a)) ?_
   have he : familyGroup (fun _ : PUnit => a) = toralRootGroup tau K a := by

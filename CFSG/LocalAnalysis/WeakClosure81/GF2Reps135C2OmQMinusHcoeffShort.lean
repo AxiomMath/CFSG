@@ -65,8 +65,8 @@ theorem omq_omMinus_hcoeff_short {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [
       φ (σ (shortX n hirr ⟨0, by omega⟩ s * shortY n hirr ⟨0, by omega⟩ t) y) =
         (1 + ι' s * ι' t) ^ C := by
   classical
-  haveI := fact_shortField hirr
-  haveI := finite_shortField (b := b) (c := c)
+  have := fact_shortField hirr
+  have := finite_shortField (b := b) (c := c)
   let D := SmallO8mCurtis.curtisDatum n hn hirr
   let i0 : Fin (n - 1) := ⟨0, by omega⟩
   let R := shortRels n hirr i0

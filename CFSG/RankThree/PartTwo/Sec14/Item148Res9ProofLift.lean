@@ -158,7 +158,7 @@ theorem exists_centralizing_lift [Finite Γ] {U N : Subgroup Γ} (hNU : N ≤ U)
   have hPU : P ≤ U := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2
-  have hPp : IsPGroup p P := P0.isPGroup'.map U.subtype
+  have hPp : IsPGroup p P := P0.isPGroup.map U.subtype
   have hcos : ∀ {y : Γ}, y ∈ U → ∃ x ∈ P, x⁻¹ * y ∈ N := fun hy =>
     exists_mem_sylow_of_isPGroup_quotient hNU hUN hUp P0 hy
   set cU := U.normalizerMonoidHom ⟨a, haU⟩ with hcU

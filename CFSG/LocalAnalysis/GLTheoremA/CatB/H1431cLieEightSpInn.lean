@@ -92,7 +92,7 @@ theorem lieSEightSpInn_fixed_perfect (hK : Nat.card K = 8)
   have hs1 : 1 ≤ s := by
     have := Module.finrank_pos (R := K) (M := primaryComponent (spEnd xt) (X - 1))
     omega
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcardK : Fintype.card K = 8 := by rw [Fintype.card_eq_nat_card, hK]
   have hperf : commutator (StatedSp s K) = ⊤ := by
     by_cases hs2 : s = 1
@@ -108,7 +108,7 @@ theorem lieSEightSpInn_fixed_perfect (hK : Nat.card K = 8)
       exact (spFactorFacts_holds K s (by omega) hne).perfect
   exact lieSEightSpInn_commutator_self_of_equiv (φ.trans e) hperf
 
-theorem lieSEightSpInn_card_ne (hLO : LieOrderBridge) (hK : Nat.card K = 8)
+theorem lieSEightSpInn_card_ne (hLO : LieOrderBridge) (_hK : Nat.card K = 8)
     (blocks : SpPrimaryBlocks 2 3 3 xt a) (h : primaryFactors (spEnd xt))
     (h1 : (h : K[X]) ≠ X - 1)
     (hQ : CFSG.IsQuasisimple ↥⁅spSupported xt {(h : K[X]), reciprocalPolynomial (h : K[X])},
@@ -133,8 +133,8 @@ theorem lieSEightSpInn_card_ne (hLO : LieOrderBridge) (hK : Nat.card K = 8)
     exact lieSEightSp_gu_card_ne hLO hE (by omega) hHf hHfl e he φ hQ
   · have hP := blocks.paired h (fun e => hself e.symm)
     obtain ⟨φ⟩ := hP.matrixFactor
-    haveI : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
-    haveI := Fintype.ofFinite (AdjoinRoot (h : K[X]))
+    have : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
+    have := Fintype.ofFinite (AdjoinRoot (h : K[X]))
     have hdeg : 1 ≤ (h : K[X]).natDegree :=
       Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors h.2)
     have hEc : Fintype.card (AdjoinRoot (h : K[X])) = 2 ^ (3 * (h : K[X]).natDegree) := by
@@ -146,8 +146,8 @@ end Blocks
 theorem lieSEightSpInner_holds (hLO : LieOrderBridge) : LieSEightSpInner := by
   classical
   intro K _ _ hK x hx3 hx1 J hJ hT g hg
-  haveI : CharP K 2 := lieSEight_charP_two hK
-  haveI := Fintype.ofFinite K
+  have : CharP K 2 := lieSEight_charP_two hK
+  have := Fintype.ofFinite K
   have hK' : Nat.card K = 2 ^ 3 := by rw [hK]; norm_num
   obtain ⟨xt, rfl⟩ := SymplecticHigher.proj_surjective x
   have hZc : (SymplecticFlag.proj 4 K).ker ≤ Subgroup.center (StatedSp 4 K) :=
@@ -177,7 +177,7 @@ theorem lieSEightSpInner_holds (hLO : LieOrderBridge) : LieSEightSpInner := by
     rw [CharP.cast_eq_zero_iff K 2] at h
     omega
   have hsq := (altPrimaryData_spLin hpK hxt3).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd xt)) :=
+  have : Finite (reciprocalOrbits (spEnd xt)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   have hc : ∀ i j : reciprocalOrbits (spEnd xt), i ≠ j →

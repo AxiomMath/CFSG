@@ -102,7 +102,6 @@ theorem PhanJK.solidOf_sup (v : V8 K) :
     all_goals field_simp
     all_goals
       first
-      | ring1
       | linear_combination hl2
   refine ⟨(2 : K)⁻¹ • (v + (lam D)⁻¹ • J v), ?_,
     conj D ((2 : K)⁻¹ • (v - (lam D)⁻¹ • J v)), ?_, ?_⟩
@@ -112,7 +111,6 @@ theorem PhanJK.solidOf_sup (v : V8 K) :
     all_goals field_simp
     all_goals
       first
-      | ring1
       | linear_combination hl2
       | linear_combination (-1) * hl2
   · rw [mem_solidOf, ← hJ.rat, hu, conj_smul, map_neg, tau_lam, neg_neg]

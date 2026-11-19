@@ -44,7 +44,7 @@ theorem k37R_exists_cover {X : Type} [Group X] [Finite X] {K : Subgroup X}
     ∃ φ : ↥K →* S, Function.Surjective φ ∧ φ.ker = Subgroup.center ↥K ∧
       3 ∣ Nat.card φ.ker ∧ Odd (Nat.card φ.ker) := by
   obtain ⟨-, h3, ⟨e⟩⟩ := hc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hker : (e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥K))).ker =
       Subgroup.center ↥K := by
     ext y

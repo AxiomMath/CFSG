@@ -118,7 +118,7 @@ theorem noCfgU419_of_two_pow_twentyone [Finite X] {M : ℕ} (hM : Nat.card X ∣
 theorem CfgU419.map_mulEquiv {X' : Type} [Group X'] [Finite X] (e : X ≃* X') {α : MulAut X}
     {Y : Subgroup X} {m : ℕ} (hc : CfgU419 X α Y m) :
     CfgU419 X' (MulAut.congr e α) (Y.map e.toMonoidHom) m := by
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   obtain ⟨π, hπ, hker⟩ := hc.cover
   have hfix := autFix_congr e α
   set eY : Y ≃* Y.map e.toMonoidHom := Y.equivMapOfInjective e.toMonoidHom e.injective with heY
@@ -154,7 +154,7 @@ theorem CfgU419.map_mulEquiv {X' : Type} [Group X'] [Finite X] (e : X ≃* X') {
     exact ⟨π', hπ', Nat.Coprime.coprime_dvd_left hdvd hker⟩
 
 theorem NoCfgU419.of_mulEquiv {X' : Type} [Group X'] [Finite X] (e : X ≃* X')
-    (h : NoCfgU419 X') : NoCfgU419 X := fun α Y m hc => h _ _ m (hc.map_mulEquiv e)
+    (h : NoCfgU419 X') : NoCfgU419 X := fun _α _Y m hc => h _ _ m (hc.map_mulEquiv e)
 
 theorem nonempty_quot_center_of_isExtOf {Q B : Type*} [Group Q] [Group B] [Nontrivial Q]
     (hq : IsQuasisimple X) (h : IsExtOf X Q B) (hQ : Subgroup.center Q = ⊥) :
@@ -194,7 +194,7 @@ theorem cfgU419_center [Finite X] (hq : IsQuasisimple X) {α : MulAut X} {Y : Su
     (hc : CfgU419 X α Y m) :
     CfgU419 (X ⧸ Subgroup.center X) (centerDescend X α)
       (Y.map (QuotientGroup.mk' (Subgroup.center X))) m := by
-  haveI : Group.IsPerfect X := hq.1
+  have : Group.IsPerfect X := hq.1
   exact cfgU419_map le_rfl (fun h => centerDescend_mk X α h) hc
 
 theorem noCfgU419_of_isExtOf [Finite X] {Q B : Type} [Group Q] [Group B] [Nontrivial Q]

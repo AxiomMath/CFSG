@@ -69,6 +69,7 @@ theorem coe_semiAut_apply (A : GL ι K) (σ : K ≃+* K) (h : ∀ k ∈ H, Model
     (k : ↥H) : ((semiAut A σ h k : ↥H) : GL ι K) = ModelGen.semiConj A σ k :=
   rfl
 
+omit [Finite ↥H] in
 theorem semiConj_mem_of_fieldAct {φ : ↥H →* Ω} {b : Ω} {A : GL ι K} {σ : K ≃+* K}
     (hact : ModelGen.FieldAct p φ b A σ) : ∀ k ∈ H, ModelGen.semiConj A σ k ∈ H := by
   intro k hk
@@ -107,6 +108,7 @@ section Lift
 variable [Finite Ω] {H : Subgroup (GL ι K)} [Finite ↥H]
   {β : (ι → K) →ₗ[K] (ι → K) →ₛₗ[τ] K}
 
+omit [Finite Ω] in
 theorem exists_mul_pow_of_mem_sup (hp : p.Prime) (hB : IsElemAbelian p B) {D : Subgroup Ω}
     (hDB : D ≤ B) {b : Ω} (hbB : b ∈ B) {x : Ω} (hx : x ∈ D ⊔ Subgroup.zpowers b) :
     ∃ y ∈ D, ∃ k : ℕ, k < p ∧ x = y * b ^ k := by
@@ -144,11 +146,13 @@ theorem exists_mul_pow_of_mem_sup (hp : p.Prime) (hB : IsElemAbelian p B) {D : S
     conv_lhs => rw [← Int.mul_ediv_add_emod m p]
     rw [zpow_add, zpow_mul, zpow_natCast, hbp, one_zpow, one_mul]
 
+omit [Finite Ω] in
 theorem exists_inner_mul_pow (hp : p.Prime) (hB : IsElemAbelian p B) {b : Ω} (hbB : b ∈ B)
     (hBb : B = innerPart S B ⊔ Subgroup.zpowers b) (x : Ω) (hx : x ∈ B) :
     ∃ y ∈ innerPart S B, ∃ k : ℕ, k < p ∧ x = y * b ^ k :=
   exists_mul_pow_of_mem_sup hp hB inf_le_left hbB (hBb ▸ hx)
 
+omit [Finite Ω] in
 theorem eq_of_mul_pow_eq (hp : p.Prime) (hB : IsElemAbelian p B) {N D : Subgroup Ω}
     (hDN : D ≤ N) {b : Ω} (hbB : b ∈ B) (hbN : b ∉ N)
     (hbout : Subgroup.zpowers b ⊓ N = ⊥) {d d' : Ω} (hd : d ∈ D) (hd' : d' ∈ D) {k k' : ℕ}
@@ -168,7 +172,7 @@ theorem eq_of_mul_pow_eq (hp : p.Prime) (hB : IsElemAbelian p B) {N D : Subgroup
   have hbk : b ^ k = b ^ k' := by
     rw [hmem, eq_comm, mul_inv_eq_one] at hw
     exact hw.symm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hb1 : b ≠ 1 := fun h1 => hbN (h1 ▸ N.one_mem)
   have hord : orderOf b = p := orderOf_eq_prime (hB.2 b hbB) hb1
   have := (pow_eq_pow_iff_modEq.mp hbk)

@@ -26,7 +26,7 @@ theorem uc22s2112r2_false_of_kf7 {D : Data G} (hKF7 : KF7Use D) {p : ℕ} (hpσ 
     (hpS : p ∣ Nat.card S) (h5 : p = 5 → ¬ IsAlt S 5) : False := by
   classical
   obtain ⟨hp, hp2⟩ := D.sig_prime p hpσ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hD0H : D0 ≤ H := hD0.trans inf_le_left
   have hKF := hKF7 p hpσ H ⟨hp, hp2, hM, hHne, hHM, by omega⟩
   let ψ : ↥D0 →* F07.QuotK7 p H :=
@@ -42,7 +42,7 @@ theorem uc22s2112r2_false_of_kf7 {D : Data G} (hKF7 : KF7Use D) {p : ℕ} (hpσ 
       (Subgroup.inclusion_injective hD0H)
   have hpI : ¬ p ∣ Nat.card (CFSG.pPrimeCore p ↥H) :=
     (hp.coprime_iff_not_dvd).mp (CFSG.pPrimeCore_coprime_card (G := ↥H) (p := p))
-  haveI : (J.map f0).Normal := hJn.map f0 hf0
+  have : (J.map f0).Normal := hJn.map f0 hf0
   have hker : ψ.ker ≤ f0.ker := by
     rw [hψJ]
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (J.map f0) with hbot | htop
@@ -65,7 +65,7 @@ theorem uc22s2112r2_false_of_kf7 {D : Data G} (hKF7 : KF7Use D) {p : ℕ} (hpσ 
     have hx : Subgroup.inclusion hD0H x ∈ (H ⊓ D.M).subgroupOf H :=
       Subgroup.mem_subgroupOf.mpr (hD0 x.2)
     exact Subgroup.mem_map_of_mem _ hx
-  haveI : Group.IsPerfect ↥D0 := Subgroup.isPerfect_iff.mpr hD0perf
+  have : Group.IsPerfect ↥D0 := Subgroup.isPerfect_iff.mpr hD0perf
   have hrs : Function.Surjective ψ.rangeRestrict := MonoidHom.rangeRestrict_surjective ψ
   have hYperf : ⁅ψ.range, ψ.range⁆ = ψ.range :=
     Subgroup.isPerfect_iff.mp (Group.IsPerfect.ofSurjective (f := ψ.rangeRestrict) hrs)
@@ -80,9 +80,9 @@ theorem uc22s2112r2_false_of_kf7 {D : Data G} (hKF7 : KF7Use D) {p : ℕ} (hpσ 
     exact ⟨ψ.rangeRestrict x, MonoidHom.liftOfRightInverse_comp_apply ψ.rangeRestrict
       (Function.surjInv hrs) (Function.rightInverse_surjInv hrs) ⟨f0, hker'⟩ x⟩
   rcases hKF with hsolv | ⟨hp5, hquot⟩
-  · haveI : Group.IsSolvable
+  · have : Group.IsSolvable
         ↥(((H ⊓ D.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) := hsolv
-    haveI : Group.IsSolvable ↥ψ.range :=
+    have : Group.IsSolvable ↥ψ.range :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hYle)
         (Subgroup.inclusion_injective hYle)
     exact hSns (Group.isSolvable_of_surjective hφY)
@@ -141,7 +141,7 @@ theorem uc22s2112r2_alpha (hGA : GriessAllModelsStatement) {D : Data G} {Ch : Ch
       _ ≤ p ^ (f / r) := Nat.pow_le_pow_right hp.pos hfr
   obtain ⟨D0, hD0C, hD0perf, f0, hf0⟩ := hD0 (by omega)
   obtain ⟨hS, hSns, -, hpS⟩ := uc22s2112r2_psl2_facts (k := f / r) hp2 (by omega) (by omega)
-  haveI := hS
+  have := hS
   refine uc22s2112r2_false_of_kf7 hKF7 hpσ hMs hHne hHM hrank (hD0C.trans hCH) hD0perf hSns
     f0 hf0 ((dvd_pow_self p (by omega)).trans hpS) ?_
   rintro rfl ⟨e⟩

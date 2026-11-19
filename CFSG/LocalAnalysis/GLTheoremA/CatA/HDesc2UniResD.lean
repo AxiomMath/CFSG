@@ -93,6 +93,7 @@ section AssemblyFour
 
 variable {K : Type} [Field K] [CharP K 2] [Finite K]
 
+omit [Finite K] in
 theorem exists_weight_split_four {ℓ f : ℕ} (h : UnitaryFieldData ℓ f K)
     {T : Subgroup (primeFormP h (idGram K 4))} (hT2 : IsPGroup 2 T) (hT : T ≠ ⊥)
     {X₁ X₂ : primeFormUnitary h (idGram K 4)} {d₁ d₂ : Fin 4 → K}
@@ -270,7 +271,7 @@ theorem goodSubThree_primeFormP_four {ℓ f : ℕ} (h : UnitaryFieldData ℓ f K
     (hf : Odd f) (hf1 : f ≠ 1) : HDescLinRes.GoodSubThree (primeFormP h (idGram K 4)) := by
   classical
   subst hℓ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro A hA hA27 T hT2 hT hAT
   have hne : ¬ (4 = 3 ∧ 2 ^ f = 2) := fun h' => by omega
   have h3 : 3 ∣ 2 ^ f + 1 := by
@@ -355,8 +356,8 @@ theorem goodSubAt_twistedA_three (q : TauCeti.PrimePower)
     KD264Lie.exists_primeFormP_mulEquiv_of_isUnitaryIdx (d := ⟨.twistedA 3 q, hv⟩) trivial
   injection hdA with hr hqq
   subst hr hqq
-  haveI := hU.charP
-  haveI := hU.finite
+  have := hU.charP
+  have := hU.finite
   have hq8 : q.p ^ q.exponent = 2 ^ 3 := by
     rw [← TauCeti.PrimePower.card_def, h8]
     norm_num
@@ -366,7 +367,7 @@ theorem goodSubAt_twistedA_three (q : TauCeti.PrimePower)
   have he3 : q.exponent = 3 := by
     rw [hp2] at hq8
     exact Nat.pow_right_injective (le_refl 2) hq8
-  haveI : CharP K 2 := CharP.congr q.p hp2
+  have : CharP K 2 := CharP.congr q.p hp2
   have hodd : Odd q.exponent := by
     rw [he3]
     decide

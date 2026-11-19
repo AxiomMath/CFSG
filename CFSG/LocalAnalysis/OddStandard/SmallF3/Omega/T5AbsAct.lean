@@ -97,11 +97,11 @@ private theorem transfer_aux {f : ↥L →* ↥L'} {s : G} {s' : G'} (hf : IsAct
         InducesViaP L (Subgroup.center ↥L) hQ e s x ∧ P x) := by
   constructor
   · rintro ⟨V, i1, i2, i3, Q, hQ, e, x, hdim, hsgn, hind, hty⟩
-    letI := i1; letI := i2; letI := i3
+    let := i1; let := i2; let := i3
     exact ⟨V, i1, i2, i3, Q, hQ, hf.quotEquiv.trans e, x, hdim, hsgn,
       (hf.inducesViaP_iff hQ e x).mp hind, hty⟩
   · rintro ⟨V, i1, i2, i3, Q, hQ, e, x, hdim, hsgn, hind, hty⟩
-    letI := i1; letI := i2; letI := i3
+    let := i1; let := i2; let := i3
     refine ⟨V, i1, i2, i3, Q, hQ, hf.quotEquiv.symm.trans e, x, hdim, hsgn, ?_, hty⟩
     have he : hf.quotEquiv.trans (hf.quotEquiv.symm.trans e) = e := by
       ext a; simp [MulEquiv.trans_apply]

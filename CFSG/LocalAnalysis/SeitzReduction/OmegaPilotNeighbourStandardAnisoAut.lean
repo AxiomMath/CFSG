@@ -191,7 +191,7 @@ theorem IsAnisoCoord.eq_smul_rot_of_commute [Finite K] [CharP K 2]
     rw [map_add, map_add, map_smul, map_smul, anisoRotLin_single_left h.ne, anisoRotLin_single_right h.ne,
       anisoRotLin_apply_of_mem_perpSub _ _ hpx]
   rw [hφx, hrx]
-  match_scalars <;> (field_simp; try ring)
+  match_scalars <;> (field_simp)
 
 theorem IsAnisoCoord.exists_mem_anisoTorusOf_eq_conj [Finite K] [CharP K 2]
     (hQ : (polarBilin Q).Nondegenerate)

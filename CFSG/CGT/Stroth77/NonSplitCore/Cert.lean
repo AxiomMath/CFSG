@@ -21,7 +21,7 @@ theorem certLHS_eq_certRHS : certLHS = certRHS :=
 theorem normalize (v : Fin 15 → U4) (hv : ∀ i, cycHom i v = 0) (j : Fin 15) :
     Ext.fox actC sw (rel j) (corr v) + v j = lamHom v • titsVal j := by
   have h := congrArg (fun f => f v j) certLHS_eq_certRHS
-  have h0 : (Pi.addMonoidHom cycHom) v = 0 := funext hv
+  have h0 : (_root_.AddMonoidHom.pi cycHom) v = 0 := funext hv
   simp only [certRHS, AddMonoidHom.comp_apply, h0, map_zero, Pi.zero_apply] at h
   simp only [certLHS, AddMonoidHom.add_apply, AddMonoidHom.id_apply, AddMonoidHom.comp_apply,
     AddMonoidHom.flip_apply, smulAddHom_apply, Pi.add_apply, Pi.smul_apply] at h

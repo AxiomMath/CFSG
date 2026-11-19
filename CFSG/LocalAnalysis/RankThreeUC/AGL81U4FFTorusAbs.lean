@@ -12,7 +12,7 @@ theorem odd_natCard_of_forall_odd_orderOf {G : Type*} [Group G] [Finite G]
     (h : ∀ g : G, Odd (orderOf g)) : Odd (Nat.card G) := by
   by_contra hev
   have h2 : 2 ∣ Nat.card G := even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hev)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have := h g
   rw [hg] at this

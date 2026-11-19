@@ -10,6 +10,7 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem setting_conj_inf_cj (g h : G) (M : Subgroup G) :
     cj g M ⊓ cj h (cj g M) = cj g (M ⊓ cj (g⁻¹ * h * g) M) := by
   have hgh : g * (g⁻¹ * h * g) = h * g := by group

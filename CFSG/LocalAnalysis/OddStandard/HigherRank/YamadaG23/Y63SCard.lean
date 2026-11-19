@@ -10,6 +10,7 @@ open Y63Chk
 
 variable {D : Data} [Group Y63TG]
 
+omit [Group Y63TG] in
 theorem y63_card_list {l : List ℕ} (hnd : l.Nodup) (hlt : ∀ a ∈ l, a < 512) :
     Nat.card {x : Y63TG // x.val ∈ l} = l.length := by
   classical

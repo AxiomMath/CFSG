@@ -190,7 +190,7 @@ theorem burnsideF429b_G2two_S_inf_range :
   · exfalso
     apply (g2IndexTwoData h2 hk2).rho_not_mem
     have e : F6.G22Perm.sEl h2 i = g2RhoC h2 * g2HomC h2 (u33Tel u33GenPG (i - 32)) := by
-      rw [F6.G22Perm.sEl, if_neg hi32]
+      rw [F6.G22Perm.sEl, ite_eq_right hi32]
     have e2 : g2RhoC h2 = F6.G22Perm.sEl h2 i * (g2HomC h2 (u33Tel u33GenPG (i - 32)))⁻¹ := by
       rw [e, mul_inv_cancel_right]
     rw [e2]
@@ -272,9 +272,9 @@ theorem burnsideF429b_G2_chart3 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : S
     ⟨c', hk, -⟩ | ⟨hk, hp, hd, K, fK, finK, card, marking, h1, h2, h3, h4, h5⟩ |
     ⟨hk, -⟩ | ⟨hk, -⟩ | ⟨-, exponent, K, fK, finK, charK, scope, ⟨hk, -⟩ | ⟨hk, -⟩⟩
   · exact absurd hk (by cases c' <;> decide)
-  · letI := fK
-    haveI := finK
-    haveI : CharP K 2 := burnsideF4f_charP_of_card hd card
+  · let := fK
+    have := finK
+    have : CharP K 2 := burnsideF4f_charP_of_card hd card
     let Ψ : H13.F431.G2.C K ≃* ↥Gp := (H13.F431.G2.mk K).trans marking
     have hΨ : ∀ L : Subgroup (G2Native.Parent K),
         G2Native.fullImage K marking L = L.map Ψ.toMonoidHom := by

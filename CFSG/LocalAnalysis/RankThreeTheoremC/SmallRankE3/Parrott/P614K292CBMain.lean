@@ -20,7 +20,7 @@ variable {X : Type} [Group X]
 
 theorem exists_involution [Finite X] {T L : Subgroup X} (hT : IsPGroup 2 T)
     (hTL : T ⊓ L ≠ ⊥) : ∃ t : X, t ∈ T ⊓ L ∧ t ^ 2 = 1 ∧ t ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 ↥(T ⊓ L) := hT.to_inf_left
   have hdvd : 2 ∣ Nat.card ↥(T ⊓ L) :=
     hp.card_eq_or_dvd.resolve_left fun h1 => hTL (Subgroup.card_eq_one.1 h1)
@@ -178,7 +178,7 @@ open CFSG.LocalAnalysis.RankFourTheoremC.PEmpty (omegaOneTwo I292.mem_normalizer
 
 theorem kD292CaseB3_holds : KD292CaseB3 := by
   intro h2 h5 X _ _ L x Px B π p f K _ ν y cfg S T hT hxT hTL
-  haveI : L.Normal := cfg.setup.normal
+  have : L.Normal := cfg.setup.normal
   have M := S.model
   have hgen : {t : X | t ∈ T ⊓ L ∧ t ^ 2 = 1} ⊆ L := fun t ht => (mem_inf.1 ht.1).2
   have hRXL : omegaOneTwo T L ≤ L := (closure_le _).2 hgen

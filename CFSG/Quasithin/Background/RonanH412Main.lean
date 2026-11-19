@@ -18,7 +18,7 @@ theorem wmod_sq (a : WMod) : a * a = 1 := by
 
 theorem exists_gen_of_card_three {G : Type*} [Group G] {Y : Subgroup G} (hY : Nat.card Y = 3) :
     ∃ y ∈ Y, y ≠ 1 ∧ y ^ 3 = 1 ∧ Subgroup.zpowers y = Y := by
-  haveI : Finite ↥Y := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite ↥Y := Nat.finite_of_card_ne_zero (by omega)
   have hne : Y ≠ ⊥ := fun h => by
     rw [h, Subgroup.card_bot] at hY
     omega
@@ -48,7 +48,7 @@ theorem zpow_cases_of_pow_three {G : Type*} [Group G] {y : G} (hy : y ^ 3 = 1) (
 
 theorem card_wmod : Nat.card WMod = 2 ^ 9 := by
   show Nat.card (Matrix (Fin 3) (Fin 3) (ZMod 2)) = 2 ^ 9
-  rw [Matrix.card_matrix, Nat.card_zmod, Nat.card_fin] <;> norm_num
+  rw [Matrix.card_matrix, Nat.card_zmod, Nat.card_fin]
 
 theorem h412_one {Y : Subgroup (MulAut WMod)} (hY : Y ≤ GW) (hcard : Nat.card Y = 3) :
     HasChiefCount {f | ∃ y ∈ Y, f = fun v => y v} ⊤ 3 := by
@@ -128,7 +128,7 @@ theorem h412_two {P : Subgroup (MulAut WMod)} (hP1 : P ≤ stabE) (hP0 : P ≤ i
     rw [← hgen]
     exact Subgroup.zpowers_le.2 ⟨(a, 1), Subgroup.mem_prod.2 ⟨Subgroup.mem_top _,
       Subgroup.one_mem _⟩, rfl⟩)
-  letI : CommGroup ↥Shat :=
+  let : CommGroup ↥Shat :=
     { (inferInstance : Group ↥Shat) with
       mul_comm := fun x y => Subtype.ext (Shat_comm x.2 y.2) }
   let φ : MulAut WMod →* MulAut WMod := (MulAut.conj (rho (a, b))).toMonoidHom

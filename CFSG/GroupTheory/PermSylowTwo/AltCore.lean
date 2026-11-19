@@ -16,7 +16,7 @@ theorem isPGroup_two_of_pairing_alt [Subsingleton γ] (hβ : 3 ≤ Fintype.card 
     (hsw : ∀ b b', pairSwap β γ b * pairSwap β γ b' ∈ S)
     {R : Subgroup (Perm β)} (hR : IsSylowTwoOf R ⊤)
     (hRS : R.map ((pairCent β γ).subtype.comp (pairLift β γ)) ≤ S) (hSH : S ≤ H)
-    (hHA : H ≤ alternatingGroup ((β × Bool) ⊕ γ))
+    (_hHA : H ≤ alternatingGroup ((β × Bool) ⊕ γ))
     (h3 : ¬ 3 ∣ Nat.card H ∨ H ≤ Subgroup.normalizer (S : Set (Perm ((β × Bool) ⊕ γ)))) :
     IsPGroup 2 H := by
   have hHC : H ≤ pairCent β γ := by

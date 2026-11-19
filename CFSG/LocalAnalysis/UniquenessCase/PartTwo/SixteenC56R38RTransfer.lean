@@ -13,7 +13,7 @@ theorem not_dvd_card_ker_of_isPerfect_of_isCyclic_sylow {X Y : Type*} [Group X] 
     [Group Y] [Group.IsPerfect X] (f : X →* Y) (hker : f.ker ≤ Subgroup.center X) {q : ℕ}
     (hq : q.Prime) (hY : ∀ Q : Sylow q Y, IsCyclic Q) : ¬ q ∣ Nat.card f.ker := by
   intro hqZ
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨⟨z, hzZ⟩, hz⟩ := exists_prime_orderOf_dvd_card' (G := f.ker) q hqZ
   have hzo : orderOf z = q := by rw [← hz, Subgroup.orderOf_mk]
   obtain ⟨P, hzP⟩ : ∃ P : Sylow q X, z ∈ (P : Subgroup X) := by
@@ -25,7 +25,7 @@ theorem not_dvd_card_ker_of_isPerfect_of_isCyclic_sylow {X Y : Type*} [Group X] 
   have hPcomm : ∀ a b : (P : Subgroup X), a * b = b * a := by
     set g : (P : Subgroup X) →* Y := f.comp (P : Subgroup X).subtype with hg
     have hR : IsPGroup q g.range :=
-      (P.isPGroup').of_surjective g.rangeRestrict g.rangeRestrict_surjective
+      (P.isPGroup).of_surjective g.rangeRestrict g.rangeRestrict_surjective
     obtain ⟨Q, hRQ⟩ := hR.exists_le_sylow
     have hQ := hY Q
     have hcyc : IsCyclic g.range :=
@@ -52,7 +52,7 @@ theorem exists_perfect_pair_of_surjective_prod {Q A B : Type*} [Group Q] [Group 
       (∀ x ∈ H₁, ∀ y ∈ H₂, x * y = y * x) ∧ H₁ ⊔ H₂ = ⊤ ∧
       (∀ x ∈ H₁, (f x).2 = 1) ∧ (∀ y ∈ H₂, (f y).1 = 1) ∧
       (∀ a : A, ∃ x ∈ H₁, (f x).1 = a) ∧ (∀ b : B, ∃ y ∈ H₂, (f y).2 = b) := by
-  haveI : Group.IsPerfect Q := hQ
+  have : Group.IsPerfect Q := hQ
   classical
   let p : Q →* A := (MonoidHom.fst A B).comp f
   let q : Q →* B := (MonoidHom.snd A B).comp f
@@ -71,21 +71,21 @@ theorem exists_perfect_pair_of_surjective_prod {Q A B : Type*} [Group Q] [Group 
     exact ⟨x, by simp [q, hx]⟩
   have hAperf : Group.IsPerfect A := Group.IsPerfect.ofSurjective (f := p) hp
   have hBperf : Group.IsPerfect B := Group.IsPerfect.ofSurjective (f := q) hq
-  haveI := hAperf
-  haveI := hBperf
+  have := hAperf
+  have := hBperf
   have hZ_center : Z ≤ Subgroup.center Q := hker
   have hmapN₁ : Subgroup.map p N₁ = ⊤ := by
     rw [eq_top_iff]
     intro a _
     rw [Subgroup.mem_map]
     obtain ⟨x, hx⟩ := hf (a, 1)
-    exact ⟨x, by simpa [N₁, q, hx], by simpa [p, hx]⟩
+    exact ⟨x, by simp [N₁, q, hx], by simp [p, hx]⟩
   have hmapN₂ : Subgroup.map q N₂ = ⊤ := by
     rw [eq_top_iff]
     intro b _
     rw [Subgroup.mem_map]
     obtain ⟨x, hx⟩ := hf (1, b)
-    exact ⟨x, by simpa [N₂, p, hx], by simpa [q, hx]⟩
+    exact ⟨x, by simp [N₂, p, hx], by simp [q, hx]⟩
   have hmapH₁ : Subgroup.map p H₁ = ⊤ := by
     rw [Subgroup.map_commutator, hmapN₁, ← commutator_def]
     exact hAperf.commutator_eq_top
@@ -99,11 +99,11 @@ theorem exists_perfect_pair_of_surjective_prod {Q A B : Type*} [Group Q] [Group 
   have hZ_le_N₁ : Z ≤ N₁ := by
     intro x hx
     have hx1 : f x = 1 := hx
-    simpa [N₁, q, hx1]
+    simp [N₁, q, hx1]
   have hZ_le_N₂ : Z ≤ N₂ := by
     intro x hx
     have hx1 : f x = 1 := hx
-    simpa [N₂, p, hx1]
+    simp [N₂, p, hx1]
   have hN₁_le : N₁ ≤ H₁ ⊔ Z := by
     intro x hx
     have hxmem : p x ∈ Subgroup.map p H₁ := by
@@ -248,8 +248,8 @@ theorem exists_perfect_pair_of_surjective_prod {Q A B : Type*} [Group Q] [Group 
     intro z _
     obtain ⟨x, hx⟩ := hf ((f z).1, 1)
     obtain ⟨y, hy⟩ := hf (1, (f z).2)
-    have hxN₁ : x ∈ N₁ := by simpa [N₁, q, hx]
-    have hyN₂ : y ∈ N₂ := by simpa [N₂, p, hy]
+    have hxN₁ : x ∈ N₁ := by simp [N₁, q, hx]
+    have hyN₂ : y ∈ N₂ := by simp [N₂, p, hy]
     have hxy : f (x * y) = f z := by
       rw [map_mul, hx, hy]
       exact Prod.ext (mul_one _) (one_mul _)
@@ -355,10 +355,10 @@ theorem not_dvd_card_ker_of_isPerfect_prod {Q A B : Type*} [Group Q] [Finite Q] 
       exact Prod.ext hx1 hx2
     have hxc : (x : Q) ∈ Subgroup.center Q := hker hxZ
     exact Subtype.ext (by simpa using Subgroup.mem_center_iff.mp hxc (y : Q))
-  haveI : Finite ↥H₁ := Subtype.finite
-  haveI : Finite ↥H₂ := Subtype.finite
-  haveI : Group.IsPerfect ↥H₁ := Subgroup.isPerfect_iff.mpr hH₁
-  haveI : Group.IsPerfect ↥H₂ := Subgroup.isPerfect_iff.mpr hH₂
+  have : Finite ↥H₁ := Subtype.finite
+  have : Finite ↥H₂ := Subtype.finite
+  have : Group.IsPerfect ↥H₁ := Subgroup.isPerfect_iff.mpr hH₁
+  have : Group.IsPerfect ↥H₂ := Subgroup.isPerfect_iff.mpr hH₂
   have hnd₁ : ¬ q ∣ Nat.card g₁.ker :=
     not_dvd_card_ker_of_isPerfect_of_isCyclic_sylow g₁ hker₁ hq hA
   have hnd₂ : ¬ q ∣ Nat.card g₂.ker :=

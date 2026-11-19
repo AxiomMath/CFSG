@@ -46,7 +46,7 @@ theorem kdClubAt_m22 :
   have ha1 : a ≠ 1 := by
     rintro rfl
     exact hα1 (map_one MulAut.conj)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hperm : orderOf (a : Equiv.Perm (Fin 22)) = 3 := by
     rw [Subgroup.orderOf_coe]
     exact orderOf_eq_prime ha3 ha1
@@ -71,7 +71,7 @@ theorem kdClubAt_m22 :
     exact hC
   have hfin : Fintype.card ↥(Subgroup.centralizer ({a} : Set ↥CFSG.Blueprint.NativeSporadic.M22))
       = 2 ^ 2 * 3 ^ 2 := by
-    rw [← Nat.card_eq_fintype_card, hcardC] <;> norm_num
+    rw [← Nat.card_eq_fintype_card, hcardC]; norm_num
   have hfix : CFSG.HardMathSupport.Solomon.LocalBalance.Lemma510Ns.fixSub (MulAut.conj a) =
       Subgroup.centralizer ({a} : Set ↥CFSG.Blueprint.NativeSporadic.M22) := by
     ext x

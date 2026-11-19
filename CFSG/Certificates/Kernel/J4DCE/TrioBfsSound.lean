@@ -81,15 +81,15 @@ private theorem inner_sim (x : T3) (h : Nat) :
           pure (.yield (st.1.push (CFSG.J4DCE.Native.imgTrioTab g x), st.2.1.push h,
             st.2.2.1.push st.2.2.2.2, st.2.2.2.1.insert
               (CFSG.J4DCE.Native.key (CFSG.J4DCE.Native.imgTrioTab g x)) st.1.size,
-            st.2.2.2.2 + 1)) := if_pos hc
+            st.2.2.2.2 + 1)) := ite_eq_left hc
       have e2 : jInner x g (st.1, st.2.2.2.1) =
           pure (.yield (st.1.push (CFSG.J4DCE.Native.imgTrioTab g x), st.2.2.2.1.insert
-              (CFSG.J4DCE.Native.key (CFSG.J4DCE.Native.imgTrioTab g x)) st.1.size)) := if_pos hc
+              (CFSG.J4DCE.Native.key (CFSG.J4DCE.Native.imgTrioTab g x)) st.1.size)) := ite_eq_left hc
       rw [e1, e2]
       exact inner_sim x h tabs _
     · have e1 : kInner x h (CFSG.J4DCE.Native.imgTrioTab g) st =
-          pure (.yield (st.1, st.2.1, st.2.2.1, st.2.2.2.1, st.2.2.2.2 + 1)) := if_neg hc
-      have e2 : jInner x g (st.1, st.2.2.2.1) = pure (.yield (st.1, st.2.2.2.1)) := if_neg hc
+          pure (.yield (st.1, st.2.1, st.2.2.1, st.2.2.2.1, st.2.2.2.2 + 1)) := ite_eq_right hc
+      have e2 : jInner x g (st.1, st.2.2.2.1) = pure (.yield (st.1, st.2.2.2.1)) := ite_eq_right hc
       rw [e1, e2]
       exact inner_sim x h tabs _
 
@@ -118,7 +118,7 @@ private theorem outer_sim :
               CFSG.J4DCE.Native.imgTrioTab) (st.1, st.2.1, st.2.2.1, st.2.2.2.1, 0)
               (kInner st.1[st.2.2.2.2]! st.2.2.2.2))).2.2.2.1,
             st.2.2.2.2 + 1)) := by
-        simp only [kOuter, if_pos hlt]
+        simp only [kOuter, ite_eq_left hlt]
         rfl
       have e2 : jOuter i (proj st) = pure (.yield
           ((Id.run (forIn [CFSG.J4DCE.Native.xTab, CFSG.J4DCE.Native.yTab] (st.1, st.2.2.2.1)
@@ -126,13 +126,13 @@ private theorem outer_sim :
             (Id.run (forIn [CFSG.J4DCE.Native.xTab, CFSG.J4DCE.Native.yTab] (st.1, st.2.2.2.1)
               (jInner st.1[st.2.2.2.2]!))).2, st.2.2.2.2 + 1)) := by
         have hlt' : (proj st).2.2 < (proj st).1.size := hlt
-        simp only [jOuter, if_pos hlt']
+        simp only [jOuter, ite_eq_left hlt']
         rfl
       rw [e1, e2, ← hi]
       exact outer_sim l _
     · have e1 : kOuter ([CFSG.J4DCE.Native.xTab, CFSG.J4DCE.Native.yTab].map
-          CFSG.J4DCE.Native.imgTrioTab) i st = pure (.done st) := if_neg hlt
-      have e2 : jOuter i (proj st) = pure (.done (proj st)) := if_neg hlt
+          CFSG.J4DCE.Native.imgTrioTab) i st = pure (.done st) := ite_eq_right hlt
+      have e2 : jOuter i (proj st) = pure (.done (proj st)) := ite_eq_right hlt
       rw [e1, e2]
       rfl
 

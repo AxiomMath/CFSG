@@ -107,7 +107,7 @@ theorem exists_isSylowOf_le_perfectCore_of_quot (hθ : Function.Surjective θ)
   have hQ : 2 ^ (Nat.card ↥A).factorization 2 ∣ Nat.card Q := Q.pow_dvd_card_of_pow_dvd_card hdvd
   set S₀ : Subgroup ↥A := (Q : Subgroup XA).map XA.subtype
   have hS₀ : Nat.card S₀ = Nat.card Q := Subgroup.card_map_of_injective XA.subtype_injective
-  obtain ⟨T, hT⟩ := (Q.isPGroup'.map XA.subtype).exists_le_sylow
+  obtain ⟨T, hT⟩ := (Q.isPGroup.map XA.subtype).exists_le_sylow
   have hS₀v : Nat.card S₀ = 2 ^ (Nat.card ↥A).factorization 2 := by
     refine Nat.dvd_antisymm ?_ (hS₀ ▸ hQ)
     rw [← T.card_eq_multiplicity]

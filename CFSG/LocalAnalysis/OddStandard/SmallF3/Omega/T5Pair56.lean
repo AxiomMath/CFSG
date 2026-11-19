@@ -31,7 +31,7 @@ private lemma mul_self_eq_one_of_commuting_involutions {H : Type*} [Group H] {a 
 theorem asc82Pair56_of (hS : Asc82SchurU43) : Asc82Pair56 := by
   intro G _ _ L hL t ht ht2 z hz
   obtain ⟨V, i1, i2, i3, Q, hQ, φ, h⟩ := t5_exists_cover hS hL
-  letI := i1; letI := i2; letI := i3
+  let := i1; let := i2; let := i3
   have hO : OddCentralCover φ := h.oddCentralCover hL
   have hdim : Module.finrank (ZMod 3) V = 6 := h.finrank_eq
   have hsgn : quadSign Q = -1 := h.quadSign_eq

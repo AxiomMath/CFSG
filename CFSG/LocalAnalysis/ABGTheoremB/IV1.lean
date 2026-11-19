@@ -267,7 +267,7 @@ theorem exists_sylow_ON_normalized_le_oddCoreIn (hσ : σ.IsValid) {r : ℕ} (hr
   have hDK : σ.D ≤ Subgroup.normalizer ((σ.ON ⊓ H : Subgroup G) : Set G) :=
     (le_inf ((σ.D_le_N hσ).trans σ.N_le_normalizer_ON)
       (hDH.trans Subgroup.le_normalizer)).trans Subgroup.inf_normalizer_le_normalizer_inf
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   obtain ⟨R, hR, hDR⟩ := exists_isSylowOf_normalized_of_odd hr hD2 hDK
     (σ.odd_card_ON.of_dvd_nat (Subgroup.card_dvd_of_le inf_le_left))
   refine ⟨R, isSylowOf_of_card (hR.le.trans inf_le_left) ?_, hDR, hR.le.trans hON⟩

@@ -80,11 +80,11 @@ theorem SL3Facts.mem_M_iff {D : Data G} {Ch : Choice2011 G} {c : Ctx2311 D Ch}
     (l : G) ∈ D.M ↔ c.phiL F.hV l ∈ MulAction.stabilizer ↥(c.H F.hV)
       ((c.toCtx23L.Ztil F.hV : Subgroup (c.toCtx23L.W F.hV)) :
         Set (c.toCtx23L.W F.hV)) := by
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
   exact (c.toCtx23L.phiL_mem_stabilizer_Ztil_iff F.hV F.h4 F.h1930 l).symm
 
 private noncomputable def KStar {D : Data G} {Ch : Choice2011 G} {c : Ctx2311 D Ch}
@@ -134,7 +134,7 @@ private theorem phiK_ker_iff {D : Data G} {Ch : Choice2011 G} {c : Ctx2311 D Ch}
 
 private theorem phiK_ker_isPGroup {D : Data G} {Ch : Choice2011 G} {c : Ctx2311 D Ch}
     (F : c.SL3Facts) : IsPGroup 2 (phiK F).ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ψ : (phiK F).ker →* ↥(CFSG.Open.pCoreOf 2 c.L) :=
     { toFun := fun x => ⟨(x.1 : G), (phiK_ker_iff F x.1).1 x.2⟩
       map_one' := Subtype.ext rfl
@@ -152,7 +152,7 @@ theorem SL3Facts.mem_pCoreOf_K_of_map {D : Data G} {Ch : Choice2011 G}
       CFSG.Open.pCoreOf 2 ((c.K.subgroupOf c.L).map (c.phiL F.hV))) :
     k ∈ CFSG.Open.pCoreOf 2 c.K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : Function.Surjective (phiK F) := phiK_surjective F
   have hker2 : IsPGroup 2 (phiK F).ker := phiK_ker_isPGroup F
   have hmapcore := CFSG.map_pCore_eq_of_surjective_of_isPGroup_ker (phiK F) hf hker2
@@ -191,15 +191,15 @@ private theorem pointCore_trivial {D : Data G} {Ch : Choice2011 G} {c : Ctx2311 
       ∀ w : c.toCtx23L.W F.hV,
         w⁻¹ * (u • w) ∈ c.toCtx23L.Ztil F.hV := by
   classical
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV)
       ((c.H F.hV).subtype.comp (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
-  letI : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV)
       ((c.H F.hV).subtype.comp (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
   let S : Sylow 2 ↥(c.H F.hV) := c.sylowStar F.hV
@@ -242,15 +242,15 @@ private theorem pointCore_fpf {D : Data G} {Ch : Choice2011 G} {c : Ctx2311 D Ch
         ∀ w : c.toCtx23L.W F.hV,
           w⁻¹ * (k • w) ∈ c.toCtx23L.Ztil F.hV → w ∈ c.toCtx23L.Ztil F.hV := by
   classical
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV)
       ((c.H F.hV).subtype.comp (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
-  letI : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV)
       ((c.H F.hV).subtype.comp (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
   let S : Sylow 2 ↥(c.H F.hV) := c.sylowStar F.hV
@@ -296,15 +296,15 @@ private theorem pointCore_irreducible {D : Data G} {Ch : Choice2011 G} {c : Ctx2
       (∀ k ∈ (c.K.subgroupOf c.L).map (c.phiL F.hV), ∀ x ∈ N, k * x * k⁻¹ ∈ N) →
         N = CFSG.Open.pCoreOf 2 ((c.K.subgroupOf c.L).map (c.phiL F.hV)) := by
   classical
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV)
       ((c.H F.hV).subtype.comp (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
-  letI : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV)
       ((c.H F.hV).subtype.comp (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
   let S : Sylow 2 ↥(c.H F.hV) := c.sylowStar F.hV
@@ -355,15 +355,15 @@ private theorem commutator_mem_Z_of_pCoreOf_V {D : Data G} {Ch : Choice2011 G}
     {c : Ctx2311 D Ch} (F : c.SL3Facts) {u v : G}
     (hu : u ∈ CFSG.Open.pCoreOf 2 c.K) (hv : v ∈ c.V) : ⁅u, v⁆ ∈ D.Z := by
   classical
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV)
       ((c.H F.hV).subtype.comp (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
-  letI : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV)
       ((c.H F.hV).subtype.comp (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
   have hU := pointCore_trivial F
@@ -408,7 +408,7 @@ private theorem commutator_mem_Z_of_pCoreOf_conj {D : Data G} {Ch : Choice2011 G
     (hv : v ∈ c.V) :
     ⁅u, (MulEquiv.toMonoidHom (MulAut.conj g)) v⁆ ∈ D.Z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have huK : u ∈ c.K := CFSG.LieType.BorelTits.pCoreOf_le 2 c.K hu
   have hZM : D.M ≤ Subgroup.normalizer (D.Z : Set G) := by
     rw [F.normalizer_Z_eq]
@@ -439,7 +439,7 @@ theorem SL3Facts.commutator_mem_Z_of_pCoreOf {D : Data G} {Ch : Choice2011 G}
     {c : Ctx2311 D Ch} (F : c.SL3Facts) {u : G}
     (hu : u ∈ CFSG.Open.pCoreOf 2 c.K) {x : G} (hx : x ∈ c.E) : ⁅u, x⁆ ∈ D.Z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have huK : u ∈ c.K := CFSG.LieType.BorelTits.pCoreOf_le 2 c.K hu
   have hEM : c.E ≤ D.M :=
     (c.E_le_pCoreOf_M F.h1930 F.h4 F.h12 F.hN8).trans
@@ -477,7 +477,7 @@ private theorem K_conj_mem {D : Data G} {Ch : Choice2011 G} {c : Ctx2311 D Ch}
 private theorem pCoreOf_conj_mem {D : Data G} {Ch : Choice2011 G} {c : Ctx2311 D Ch}
     (F : c.SL3Facts) {k g : G} (hk : k ∈ CFSG.Open.pCoreOf 2 c.K) (hg : g ∈ D.M) :
     g * k * g⁻¹ ∈ CFSG.Open.pCoreOf 2 c.K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKM : c.K ≤ D.M := (uc22p21c_Hinf_le (D.M ⊓ c.L)).trans inf_le_left
   have hMN : D.M ≤ Subgroup.normalizer (c.K : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).mp (F.h12 F.h1930 c)
@@ -548,7 +548,7 @@ private theorem mem_Ztil_of_commutator_mem_V {D : Data G} {Ch : Choice2011 G}
   exact ⟨zI, hcommZ, hright.symm⟩
 
 private theorem mem_Z_of_mem_Ztil {D : Data G} {Ch : Choice2011 G}
-    {c : Ctx2311 D Ch} (F : c.SL3Facts) {v : G} (hv : v ∈ c.V)
+    {c : Ctx2311 D Ch} (F : c.SL3Facts) {v : G} (_hv : v ∈ c.V)
     {vI : IntMod c.V F.hV} (hvI : vI.val = v)
     (h : mkTil (⊥ : Subgroup G) c.V F.hV vI ∈ c.toCtx23L.Ztil F.hV) :
     v ∈ D.Z := by
@@ -571,16 +571,16 @@ private theorem mem_Z_of_commutator_mem_V {D : Data G} {Ch : Choice2011 G}
     (hkr : k ^ r ∈ CFSG.Open.pCoreOf 2 c.K) (hv : v ∈ c.V)
     (hcomm : ⁅k, v⁆ ∈ D.Z) : v ∈ D.Z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV)
       ((c.H F.hV).subtype.comp (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
-  letI : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV)
       ((c.H F.hV).subtype.comp (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
   have hfpf := pointCore_fpf F
@@ -616,7 +616,7 @@ private theorem mem_Z_of_commutator_mem_of_conj {D : Data G} {Ch : Choice2011 G}
     (hkr : k ^ r ∈ CFSG.Open.pCoreOf 2 c.K) (hg : g ∈ D.M) (hv : v ∈ c.V)
     (hcomm : ⁅k, (MulEquiv.toMonoidHom (MulAut.conj g)) v⁆ ∈ D.Z) : v ∈ D.Z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZM : D.M ≤ Subgroup.normalizer (D.Z : Set G) := by
     rw [F.normalizer_Z_eq]
   have hk' : g⁻¹ * k * g ∈ c.K := by
@@ -650,7 +650,7 @@ theorem SL3Facts.mem_Z_of_commutator_mem {D : Data G} {Ch : Choice2011 G}
     (hkr : k ^ r ∈ CFSG.Open.pCoreOf 2 c.K) :
     ∀ x ∈ c.E, ⁅k, x⁆ ∈ D.Z → x ∈ D.Z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKM : c.K ≤ D.M := (uc22p21c_Hinf_le (D.M ⊓ c.L)).trans inf_le_left
   have hkM : k ∈ D.M := hKM hk
   have hZM : D.M ≤ Subgroup.normalizer (D.Z : Set G) := by
@@ -707,7 +707,7 @@ private theorem E_le_centralizer_of_map_eq_bot {D : Data G} {Ch : Choice2011 G}
   simpa [eL] using hcent
 
 private theorem conj_V_pairwise_commute {D : Data G} {Ch : Choice2011 G}
-    {c : Ctx2311 D Ch} (F : c.SL3Facts)
+    {c : Ctx2311 D Ch} (_F : c.SL3Facts)
     (hcent : c.E ≤ Subgroup.centralizer (c.V : Set G)) :
     ∀ g h : ↥D.M, ∀ a ∈ c.V.map (MulAut.conj (g : G)).toMonoidHom,
       ∀ b ∈ c.V.map (MulAut.conj (h : G)).toMonoidHom, a * b = b * a := by
@@ -753,7 +753,7 @@ private theorem map_E_ne_bot {D : Data G} {Ch : Choice2011 G} {c : Ctx2311 D Ch}
   intro hbot
   have hcent := E_le_centralizer_of_map_eq_bot F hbot
   have hEel := isElemAbelian_E_of_le_centralizer F hcent
-  haveI : Fact (IsPGroup 2 ↥c.E) :=
+  have : Fact (IsPGroup 2 ↥c.E) :=
     ⟨c.isPGroup_E F.h1930 F.h4 F.h12 F.hN8⟩
   have hphi : frattini ↥c.E = ⊥ :=
     (CFSG.frattini_eq_bot_iff_isElementaryAbelian (R := ↥c.E) (p := 2)).mpr
@@ -789,18 +789,18 @@ theorem SL3Facts.map_E_eq {D : Data G} {Ch : Choice2011 G} {c : Ctx2311 D Ch}
     (c.E.subgroupOf c.L).map (c.phiL F.hV) =
       CFSG.Open.pCoreOf 2 ((c.K.subgroupOf c.L).map (c.phiL F.hV)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNle := map_E_le F
   have hNne := map_E_ne_bot F
-  letI : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulDistribMulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV) (c.H F.hV).subtype
-  letI : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.H F.hV) (Set (c.toCtx23L.W F.hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulDistribMulAction.compHom (c.toCtx23L.W F.hV)
       ((c.H F.hV).subtype.comp (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
-  letI : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
+  let : MulAction ↥(c.sylowStar F.hV) (c.toCtx23L.W F.hV) :=
     MulAction.compHom (c.toCtx23L.W F.hV)
       ((c.H F.hV).subtype.comp (c.sylowStar F.hV : Subgroup ↥(c.H F.hV)).subtype)
   exact pointCore_irreducible F _ hNle hNne (map_E_invariant F)

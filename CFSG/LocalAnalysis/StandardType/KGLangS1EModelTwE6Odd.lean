@@ -76,9 +76,9 @@ private theorem kgLangS1EModelTwE6OddAux_twInndiag_comm_le
     (hconj d' hd' _ (C₀.inv_mem hX))) (C₀.inv_mem hY)
 
 theorem kgLangS1E_J0_model_twE6_odd
-    {n : ℕ} (hn : 1 ≤ n) (hodd : Odd n) {K₁ : Type} [Field K₁] [Finite K₁]
+    {n : ℕ} (hn : 1 ≤ n) (_hodd : Odd n) {K₁ : Type} [Field K₁] [Finite K₁]
     (hK₁ : Nat.card K₁ = (2 ^ n) ^ 2)
-    {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {e : ℕ} (he : 1 ≤ e) (hen : e * 3 = n)
+    {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {e : ℕ} (he : 1 ≤ e) (_hen : e * 3 = n)
     (ρ : LargeEvenCenterQuot (LargeEvenTwistedH (LargeEvenCartanE 6) K₁ LargeEvenRhoE6 n) →*
       ModGL TwistTag.E6.tag L)
     (Θ : ratPts TwistTag.E6.tag L
@@ -99,7 +99,7 @@ theorem kgLangS1E_J0_model_twE6_odd
     {K : Type} [Group K] [Finite K]
     (θ : K ⧸ Subgroup.center K ≃*
       LargeEvenCenterQuot (LargeEvenTwistedH (LargeEvenCartanE 6) K₁ LargeEvenRhoE6 n))
-    (hcomm : commutator K = ⊤) (A : Subgroup (MulAut K)) (hA : IsElemAbelian 3 A)
+    (_hcomm : commutator K = ⊤) (A : Subgroup (MulAut K)) (hA : IsElemAbelian 3 A)
     (hAI : ∀ α ∈ A, ∃ u ∈ LargeEvenChevIDImage (LargeEvenCartanE 6) K₁
         (LargeEvenTwistedH (LargeEvenCartanE 6) K₁ LargeEvenRhoE6 n),
       ∃ f ∈ Subgroup.closure (LargeEvenChevFieldImage (LargeEvenCartanE 6) K₁

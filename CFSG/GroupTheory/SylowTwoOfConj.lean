@@ -22,7 +22,7 @@ theorem exists_eq_conjSub_of_isSylowTwoOf {L P P' : Subgroup G} [Finite ↥L]
     ext x
     rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem, Subgroup.mem_subgroupOf,
       Subgroup.mem_subgroupOf, mem_conjSub]
-    simp [MulAut.conj_inv_apply]
+    simp
   have hle : conjSub (g : G) P' ≤ L := by
     intro x hx
     rw [mem_conjSub] at hx
@@ -39,7 +39,7 @@ theorem exists_eq_conjSub_of_isSylowTwoOf {L P P' : Subgroup G} [Finite ↥L]
 
 theorem eq_of_isSylowTwoOf_of_le {P Q H : Subgroup G} [Finite ↥Q] (hP : IsSylowTwoOf P H)
     (hQ : IsPGroup 2 ↥Q) (hQH : Q ≤ H) (hPQ : P ≤ Q) : Q = P := by
-  haveI : Finite ↥P := Finite.of_injective _ (Subgroup.inclusion_injective hPQ)
+  have : Finite ↥P := Finite.of_injective _ (Subgroup.inclusion_injective hPQ)
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card).mp hP.2.1
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card).mp hQ
   have hm := Subgroup.relIndex_mul_card (H := P) (K := Q)

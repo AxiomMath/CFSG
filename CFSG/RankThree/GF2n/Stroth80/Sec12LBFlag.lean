@@ -53,6 +53,7 @@ theorem Ctx.LB_hom_inj_of_card (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n)
 
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite K] in
 theorem Ctx.LB_act_fix_line (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) {b : M₀.E}
     (hB : ∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • b) {r : G} (hr : r ∈ LB M Q B)
     {T : M₀.E →ₗ[K] M₀.E} (hT : ∀ x ∈ Q, M₀.π (r * x * r⁻¹) = T (M₀.π x)) :

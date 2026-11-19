@@ -349,7 +349,7 @@ theorem d1Orb_eq (hw : (d1Orb.toList.all fun p => p.all (· < 22)) = true) (h : 
         simpa using e
       have := (List.Nodup.getElem_inj_iff hnd).1 h3
       omega
-    have hc : ∀ p, cK (d1oK p) = d1oK p := fun p => by simp [d1oK, cK_eq, Nat.mod_mod]
+    have hc : ∀ p, cK (d1oK p) = d1oK p := fun p => by simp [d1oK, cK_eq]
     cases e : eqK (d1oK d1Orb.toList[i]) (d1oK d1Orb.toList[k])
     · rfl
     · unfold eqK at e

@@ -58,7 +58,7 @@ theorem u62lb_torus_add_inv (h2 : (2 : K) = 0) {u : K} (hu3 : u ^ 3 = 1) (hu1 : 
 
 theorem u62lb_torus_ringEquiv_eq_one (h : UnitaryFieldData 2 1 K) {ω : Kˣ} (hω : ω ≠ 1)
     {φ : K ≃+* K} (hφ : φ (ω : K) = ω) : φ = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine RingEquiv.ext fun x => ?_
   by_cases hx : x = 0
   · rw [hx, map_zero]
@@ -202,8 +202,8 @@ theorem u62lb_torus_rigid {K : Type} [Field K] (h : UnitaryFieldData 2 1 K)
   have hC : IsPrimeFormGram (1 : GL (Fin 6) K) := isPrimeFormGram_idGram
   obtain ⟨φ, ⟨A, hA⟩, -⟩ := existsUnique_primeFormFieldFactor h hC (by norm_num) (by omega) g
   obtain ⟨ω, hω⟩ : ∃ ω : Kˣ, ω ≠ 1 := by
-    haveI : Finite Kˣ := Nat.finite_of_card_ne_zero (by rw [u62lb_card_units h]; norm_num)
-    haveI : Nontrivial Kˣ :=
+    have : Finite Kˣ := Nat.finite_of_card_ne_zero (by rw [u62lb_card_units h]; norm_num)
+    have : Nontrivial Kˣ :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [u62lb_card_units h]; norm_num)
     exact exists_ne 1
   have hrel : ∀ k m : Fin 6, k ≠ m → ∀ x y : Fin 6,

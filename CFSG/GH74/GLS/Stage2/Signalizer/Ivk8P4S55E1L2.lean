@@ -124,7 +124,7 @@ theorem aut_coordinateG_eq_conj {B : Equiv.Perm (Omega F)} {α : MulAut ↥(coor
       rw [hcoe]
       exact ⟨x, hx, rfl⟩
     rwa [← hωω] at this
-  have hfixS := hHH _ (pointSylow F r ω).isPGroup' hSinv
+  have hfixS := hHH _ (pointSylow F r ω).isPGroup hSinv
   have hcomm : ∀ x ∈ (pointSylow F r ω : Subgroup ↥(coordinateG F)),
       B * (x : Equiv.Perm (Omega F)) = (x : Equiv.Perm (Omega F)) * B := by
     intro x hx

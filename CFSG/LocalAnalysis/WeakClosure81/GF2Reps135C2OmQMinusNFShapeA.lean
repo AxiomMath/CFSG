@@ -37,7 +37,7 @@ theorem omqnf_exists_conj_shapeA {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [
   have hTT : T * T = 1 := hacts.mul_self_eq_one hσ
   have hrk : finrank K (commSpace T) = 2 * r := by
     rw [omqnf_finrank_commSpace hirr hacts hσ, omqnf_support_card_A hr2]
-    simp only [Pi.one_apply, Finset.prod_const_one, if_true]
+    simp only [Pi.one_apply, Finset.prod_const_one, ite_true]
     omega
   have hvan := omqnf_vanish_of_involution (omqnfPermA_mul_self _ r) hacts
   have hlT : suzukiLetter (quadMinus n K b c) T = SuzukiLetter.a :=

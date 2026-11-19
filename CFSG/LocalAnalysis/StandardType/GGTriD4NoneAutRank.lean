@@ -47,7 +47,7 @@ theorem card_le_of_isElemAbelian_aut {p : ℕ} (hp : p.Prime) (hZ : Subgroup.cen
     (hR : ∀ E : Subgroup R, IsElemAbelian p E → Nat.card E ≤ p ^ c)
     {A : Subgroup (MulAut R)} (hA : IsElemAbelian p A) : Nat.card A ≤ p ^ (c + 1) := by
   classical
-  haveI : ((MulAut.conj : R →* MulAut R).range).Normal := normal_range_conj_mulAut
+  have : ((MulAut.conj : R →* MulAut R).range).Normal := normal_range_conj_mulAut
   set Inn : Subgroup (MulAut R) := (MulAut.conj : R →* MulAut R).range with hInn
   have hfin : Finite (MulAut R) := inferInstance
   let π : A →* MulAut R ⧸ Inn := (QuotientGroup.mk' Inn).comp A.subtype
@@ -59,7 +59,7 @@ theorem card_le_of_isElemAbelian_aut {p : ℕ} (hp : p.Prime) (hZ : Subgroup.cen
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz
     refine Subgroup.mem_zpowers_iff.2 ⟨k, ?_⟩
     rw [QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff i).2 hi, one_mul, QuotientGroup.mk_zpow]
-  haveI : Finite π.range := Finite.of_surjective _ π.rangeRestrict_surjective
+  have : Finite π.range := Finite.of_surjective _ π.rangeRestrict_surjective
   have hrange : Nat.card π.range ≤ p := by
     refine TableB.card_le_of_isCyclic hp.pos (Subgroup.isCyclic π.range) ?_
     rintro _ ⟨a, rfl⟩

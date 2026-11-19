@@ -112,7 +112,7 @@ theorem commutator_pLayer_pPrimeCore_centralizer_eq_bot {Z : Type} [Group Z] [Fi
 
 theorem elementCaseBp : CFSG.Yardstones.Md42047359a2a.ElementCaseBp := by
   intro Z _ _ p hp hO hK x hx hxc hN a ha b hb
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [CFSG.ComponentClassification.LBalance.primeCore_top] at hO
   rw [CFSG.ComponentClassification.LBalance.Asm.lBalancePLayer_eq_map] at ha
   rw [CFSG.ComponentClassification.LBalance.primeCore_eq_map] at hb

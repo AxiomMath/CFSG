@@ -53,7 +53,7 @@ theorem nonempty_equiv_L28_of_catalog_A1 {T : Type} [Group T] (q : TauCeti.Prime
     have : (2 : ℕ) ^ k = 2 ^ 3 := by rw [hc]; norm_num
     exact Nat.pow_right_injective (le_refl 2) this
   subst hk3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e1⟩ := equiv_psl_P
   exact ⟨((e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 ⟨2, 3, hp, hk⟩ hv)).trans
     (CFSG.ClassicalModels.projectiveSpecialLinearFieldEquiv

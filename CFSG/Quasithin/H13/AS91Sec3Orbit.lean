@@ -80,7 +80,7 @@ theorem classOrbitCheck_spec {n k : ℕ} {f : ℕ → List Bool} {sizes : List �
     cases c with
     | nil => simp at hpair
     | cons p₀ t =>
-      simp only [Bool.and_eq_true, beq_iff_eq] at hpair
+      simp only at hpair
       obtain ⟨hl, hr⟩ := hpair
       have hp₀ : p₀ ∈ (List.range n).filter (fun p => (f p).getD i false) := by
         rw [hc]
@@ -97,7 +97,7 @@ theorem ncard_eq_length_filter {β : Type*} {n : ℕ} {F : ℕ → β}
   have hset : {x | P x ∧ Q x} =
       (((Finset.range n).filter fun p => b p = true).image F : Set β) := by
     ext x
-    simp only [Set.mem_setOf_eq, Finset.coe_image, Finset.coe_filter, Finset.mem_range,
+    simp only [Set.mem_ofPred_eq, Finset.coe_image, Finset.coe_filter, Finset.mem_range,
       Set.mem_image]
     constructor
     · rintro ⟨hx, hq⟩
@@ -107,7 +107,7 @@ theorem ncard_eq_length_filter {β : Type*} {n : ℕ} {F : ℕ → β}
       exact ⟨(hP _).2 ⟨p, hp, rfl⟩, (hQ p hp).2 hb⟩
   rw [hset, Set.ncard_coe_finset, Finset.card_image_of_injOn, length_filter_range]
   intro p hp p' hp' he
-  simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hp hp'
+  simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hp hp'
   exact hinj p hp.1 p' hp'.1 he
 
 theorem mem_combs {k : ℕ} {l c : List ℕ} : c ∈ Native.combs k l ↔ c.Sublist l ∧ c.length = k := by

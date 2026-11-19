@@ -124,7 +124,7 @@ theorem Qθ_le_scalSub {g : ModGL Tag.E8 L} {c : L}
       by_cases hβ : β = α
       · subst hβ
         simp
-      · simp [Pi.single_apply, hβ]
+      · simp [hβ]
   · refine ⟨pinnedX_highRoot_mem_Qθ z, ?_, ?_⟩
     · rw [h₂ z]
       exact pinnedX_highRoot_mem_Qθ _
@@ -163,7 +163,7 @@ theorem dθ_scal (a : Lˣ) {q : ModGL Tag.E8 L} (hq : q ∈ Qθ Tag.E8 L) :
         iform_highRoot_deg1 hα, zpow_one]
     · rw [dθ_eq, rootDiagUnit_conj_pinnedX _ (isRoot_highRoot Tag.E8), rootChar_thetaDiag,
         iform_self_isRoot_E8 (isRoot_highRoot Tag.E8)]
-      simp [zpow_two, sq]
+      simp [sq]
   exact (hle hq).2
 
 end Torus

@@ -37,7 +37,7 @@ theorem kf43_comp_isSimple (hrad : solvableRadical Q = ⊥) {L : Subgroup Q} (hL
   let e : L ≃* L ⧸ Subgroup.center L :=
     ((QuotientGroup.quotientMulEquivOfEq hbot).trans (QuotientGroup.quotientBot)).symm
   have hs : IsSimpleGroup (L ⧸ Subgroup.center L) := hL.1.2.1
-  haveI := hs
+  have := hs
   have hs' : IsSimpleGroup L := e.isSimpleGroup
   obtain ⟨a, b, hab⟩ := hL.1.2.2
   refine ⟨hs', ⟨e.symm a, e.symm b, fun h => hab ?_⟩, hz⟩
@@ -57,7 +57,7 @@ theorem kf43_comp_exists_order_five (hSz : LemmaSz) (hrad : solvableRadical Q = 
   have h3L : ¬ 3 ∣ Nat.card L := fun h => h3 (h.trans (Subgroup.card_subgroup_dvd_card L))
   have h5 : 5 ∣ Nat.card L :=
     hSz L hs hn (KCore.KGroupNonab.subgroup Assembly.inCatalog_isoInvariant hK L) h3L
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := L) 5 h5
   exact ⟨y, y.2, by rw [Subgroup.orderOf_coe]; exact hy⟩
 
@@ -69,7 +69,7 @@ theorem kf43_comp_exists_involution (hrad : solvableRadical Q = ⊥) {L : Subgro
     have hodd : Odd (Nat.card L) := Nat.odd_iff.2 (by omega)
     obtain ⟨a, b, hab⟩ := hn
     exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr (CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd) a b)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := L) 2 h2
   exact ⟨y, y.2, by rw [Subgroup.orderOf_coe]; exact hy⟩
 
@@ -115,7 +115,7 @@ theorem kf43_three_le_localRank_layer (hSz : LemmaSz) (hrad : solvableRadical Q 
   obtain ⟨a, ha, oa⟩ := kf43_comp_exists_order_five hSz hrad hK h3 h₂
   obtain ⟨b, hb, ob⟩ := kf43_comp_exists_order_five hSz hrad hK h3 h₃
   obtain ⟨c, hc, oc⟩ := kf43_comp_exists_order_five hSz hrad hK h3 h₄
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have ind := kf43_comp_independent hrad h₂ h₃ h₄ h23 h24 h34 ha hb hc oa ob oc
   let s' : ↥(layer Q) := ⟨s, CFSG.LocalCores.component_le_layer h₁ hs⟩
   let a' : ↥(layer Q) := ⟨a, CFSG.LocalCores.component_le_layer h₂ ha⟩

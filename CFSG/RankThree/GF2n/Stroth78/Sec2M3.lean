@@ -11,8 +11,8 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
-theorem commutator_centerIn_H_CQ_le (S : Setting z E F) {a : G}
-    (haQ : a ∈ Q z) (hconj : IsConj z a) :
+theorem commutator_centerIn_H_CQ_le (_S : Setting z E F) {a : G}
+    (_haQ : a ∈ Q z) (_hconj : IsConj z a) :
     ⁅(centerIn (QaOf a) ⊓ H z : Subgroup G),
       (Q z ⊓ Subgroup.centralizer ({a} : Set G) : Subgroup G)⁆
       ≤ Q z ⊓ centerIn (QaOf a) := by

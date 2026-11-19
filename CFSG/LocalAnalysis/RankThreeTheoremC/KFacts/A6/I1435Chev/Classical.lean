@@ -55,6 +55,7 @@ theorem Shape.not_abelian_nine_equiv (h : Shape K) (e : K ≃* M) {A : Subgroup 
     intro h1
     exact ha3 (e.symm.injective (by rw [h1, map_one]))
 
+omit [Finite K] in
 theorem three_dvd_card_of_equiv (e : K ≃* M) (h : 3 ∣ Nat.card M) : 3 ∣ Nat.card K := by
   rwa [Nat.card_congr e.toEquiv]
 
@@ -64,6 +65,7 @@ theorem three_dvd_of_witness [Finite M] (e : K ≃* M) (hM : Witness M) : 3 ∣ 
   rw [hE] at h
   exact (show 3 ∣ 27 by norm_num).trans h
 
+omit [Finite K] in
 theorem three_dvd_of_card81 (e : K ≃* M) {E : Subgroup M} (hc : Nat.card E = 3 ^ 4) :
     3 ∣ Nat.card K := by
   refine three_dvd_card_of_equiv e ?_
@@ -187,7 +189,7 @@ theorem familyAt_A (r : ℕ) (q : PrimePower) (hq : q.p = 2) : FamilyAt (.A r q)
   obtain ⟨hadm, F, _, _, hF, ⟨e'⟩⟩ := hC
   have hr1 : 1 ≤ r := by have := hadm.2.2.1; omega
   obtain ⟨hQ2, h3Q⟩ := two_pow_facts hq
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       q.exponent_pos (by rw [hF, hq])
   have hF3 : ¬ 3 ∣ Nat.card F := by rw [hF]; exact h3Q
@@ -324,7 +326,7 @@ theorem familyAt_twistedA (r : ℕ) (q : PrimePower) (hq : q.p = 2) :
     obtain ⟨m, hm6⟩ : ∃ m, r + 1 = 6 + m := ⟨r + 1 - 6, by omega⟩
     rw [hm6, hq] at e'
     rw [hq] at hL
-    haveI : CharP L 2 :=
+    have : CharP L 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
         (k := 2 * q.exponent) (by have := q.exponent_pos; omega) (by rw [hL]; ring)
     have hW := Sp62.witness_projSU (L := L) q.exponent_pos hL m
@@ -348,7 +350,7 @@ theorem familyAt_B (r : ℕ) (q : PrimePower) (hq : q.p = 2) : FamilyAt (.B r q)
   ·
     obtain ⟨-, F, _, _, hF, ⟨e'⟩⟩ :=
       CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeB_even r q hv hq hr3 e
-    haveI : CharP F 2 :=
+    have : CharP F 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
         q.exponent_pos (by rw [hF, hq])
     have hW := Sp62.witness_projSp (K := F) hr3

@@ -23,7 +23,7 @@ theorem false_of_cyclic (hP : P12Facts) (hK : SolomonA12HypK K) {q : ℕ} (hq : 
   obtain ⟨S⟩ : Nonempty (Sylow 2 K) := inferInstance
   have h1 : Nat.card (S : Subgroup K) = 2 ^ 9 := (elemFactsIn_sylow hP hK S).1
   have h2 : Nat.card K = q := by
-    haveI := Fact.mk hq
+    have := Fact.mk hq
     rw [Nat.card_congr e.toEquiv, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
   have h3 : 2 ^ 9 ∣ q := by
     rw [← h1, ← h2]

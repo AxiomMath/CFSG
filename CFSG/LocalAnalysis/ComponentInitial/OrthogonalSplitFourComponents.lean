@@ -11,6 +11,7 @@ open Matrix Subgroup CFSG.ComponentClassification.CatalogueBOrthogonalFourSplit
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem eq_left_or_right_of_isSubnormal (hK : 4 ≤ Nat.card K)
     {T : Subgroup (DeterminantIsometries K)} (hT : CFSG.IsQuasisimple T)
     (hTs : CFSG.Assembly.IsSubnormal T ⊤) :
@@ -18,7 +19,7 @@ theorem eq_left_or_right_of_isSubnormal (hK : 4 ≤ Nat.card K)
   classical
   have hK2 : Nat.card K ≠ 2 := by omega
   have hK3 : Nat.card K ≠ 3 := by omega
-  haveI : Finite (DeterminantIsometries K) :=
+  have : Finite (DeterminantIsometries K) :=
     Finite.of_injective
       (fun g : DeterminantIsometries K =>
         (g.val : Matrix (Fin 2) (Fin 2) K → Matrix (Fin 2) (Fin 2) K))
@@ -51,7 +52,7 @@ theorem eq_left_or_right_of_isSubnormal (hK : 4 ≤ Nat.card K)
   have h5 : specialImage K ≤ Subgroup.centralizer (T : Set (DeterminantIsometries K)) := by
     rw [← determinantFactors_sup]
     exact sup_le h1 h2
-  haveI : Group.IsPerfect T := hT.1
+  have : Group.IsPerfect T := hT.1
   have hTc : T ≤ specialImage K := by
     calc T = ⁅T, T⁆ := Subgroup.commutator_eq_self.symm
       _ ≤ commutator (DeterminantIsometries K) := Subgroup.commutator_mono le_top le_top

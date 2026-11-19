@@ -43,8 +43,8 @@ theorem td4InnThreeCentLe_holds : ∀ f : ℕ, 1 ≤ f → TD4InnThreeCentLe f :
   intro f hf K _ _ σ hK hσ z hz3 hz1
   classical
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hchar : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hchar : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hK3
   have hK' : Nat.card (FiniteField.Extension K 2 2) = (2 ^ (2 * f)) ^ 3 := by

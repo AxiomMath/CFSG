@@ -29,7 +29,7 @@ theorem typeLayer_entrywiseAdjointAut_D4W (hD : LieSOutTypeW T tm tf tN)
     {d : ℕ} (hd : 1 ≤ d) {K : Type}
     [Field K] [Finite K] (σ : K ≃+* K) (hk : Nat.card (fixSubfield σ) = 2 ^ d) :
     TypeLayer T (entrywiseAdjointAut Tag.D4 σ) False := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
   obtain ⟨hs, hnab⟩ := isSimple_adjointD4 (fixSubfield σ)
   exact typeLayer_entrywise σ hs hnab fun h =>
     absurd (hD.det h (lieModel_adjointD4 Nat.prime_two hd (fixSubfield σ) hk)).1 (by decide)
@@ -40,18 +40,18 @@ theorem typeLayer_twistedEntrywiseAut_D4_oneW (hD : LieSOutTypeW T tm tf tN)
     (hσ : ∀ c, σ c = c ^ ((2 ^ d) ^ r)) :
     TypeLayer T (twistedEntrywiseAut TwistTag.D4 1 σ) False := by
   classical
-  haveI := finite_adjointD4 K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have := finite_adjointD4 K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := d * 3) (by omega) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨-, -, htw, hs, hnab⟩ := triality_both_field_orientations_simple_full_ambient_fixed_group
     2 d Nat.prime_two hd K hK (AlgebraicClosure K) r hr σ.toRingHom hσ
     (iterateFrobenius (AlgebraicClosure K) 2 d) (fun c => iterateFrobenius_def _ _ _)
   have hcard := (triality_both_orientations_exact_finite_order 2 d Nat.prime_two hd K hK r hr
     σ.toRingHom hσ).1
-  haveI := hs
+  have := hs
   let e : ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 1 σ)) ≃*
       graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
     (CFSG.HardMathSupport.Lang.E6Descent.fixedSubgroupTwistedEntrywiseAutOneEquiv
@@ -87,8 +87,8 @@ theorem typeLayer_adjointD4_of_fieldTypeW (hD : LieSOutTypeW T tm tf tN) {f : �
     (a : Fin Tag.D4.rank → Kˣ) (σ : K ≃+* K) (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K 0)) :
     TypeLayer T α False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two hf hK
   obtain ⟨d, Tf, hd0, hdf, hT, hT3, hσT⟩ := exists_frobenius_of_cube Nat.prime_two hf K hK σ hσ3 hσ1
   rw [d4Graph_zero, mul_one] at hαeq
@@ -126,10 +126,10 @@ theorem typeLayer_adjointD4_of_graphFieldTypeW (hD : LieSOutTypeW T tm tf tN) {f
     (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) :
     TypeLayer T α False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two hf hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
   obtain ⟨e, Tf, he, hef, hT, hσT⟩ := exists_frobenius_eq_or_inv_of_orderOf_three Nat.prime_two hf K
     hK σ hord
@@ -168,11 +168,11 @@ theorem typeLayer_adjointD4_of_graphTypeW (hD : LieSOutTypeW T tm tf tN)
     (g : adjointGroup Tag.D4 K) (a : Fin Tag.D4.rank → Kˣ) {ε : ℕ} (hε : ε = 1 ∨ ε = 2)
     (hαeq : α = MulAut.conj g * (exactNormalAut Tag.D4 K a 1 0 * d4Graph K ε)) :
     TypeLayer T α False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K₃, _, _, Fr, hK₃, hFr, φ, hφ3, hφout, ⟨e⟩⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.D4Dual.exists_dual_fixEquiv hf K hK α
       hα3 g a hε hαeq
-  haveI := finite_graphFixedRootGroup_D4 Fr
+  have := finite_graphFixedRootGroup_D4 Fr
   exact typeLayer_of_fixEquiv e (typeLayer_three_D4_outer_twoW hD hf hK₃ Fr hFr φ hφ3 hφout)
 
 theorem typeLayer_adjointD4_outerW (hD : LieSOutTypeW T tm tf tN)

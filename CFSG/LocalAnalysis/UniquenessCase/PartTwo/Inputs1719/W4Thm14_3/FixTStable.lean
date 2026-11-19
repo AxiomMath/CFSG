@@ -164,8 +164,8 @@ theorem borelMoves_map {G : Type} [Group G] {W : Type} [CommGroup W] [Finite W]
     IsSylowIn 2 (U₀.map (L.subtype.comp ψ.toMonoidHom)) L ∧
       BorelMoves L (U₀.map (L.subtype.comp ψ.toMonoidHom)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite G := Finite.of_injective (ψ : G → ↥L) ψ.injective
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite G := Finite.of_injective (ψ : G → ↥L) ψ.injective
   let ψ' : G →* MulAut W := L.subtype.comp ψ.toMonoidHom
   let S₀ : Subgroup (MulAut W) := U₀.map ψ'
   let H : Subgroup (MulAut W) := T₀.map ψ'

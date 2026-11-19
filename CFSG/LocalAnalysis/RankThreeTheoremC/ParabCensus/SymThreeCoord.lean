@@ -14,6 +14,7 @@ open CFSG.Open CFSG.AGLEmbedding Subgroup
 variable {k : ℕ} {G : Fin k → Type} [∀ j, Group (G j)] [∀ j, Finite (G j)]
   {S : ∀ j, Subgroup (G j)} {Λ : Subgroup (∀ j, G j)}
 
+omit [∀ (j : Fin k), Finite (G j)] in
 theorem pi_map_evalMonoidHom (j : Fin k) :
     (Subgroup.pi Set.univ S).map (Pi.evalMonoidHom G j) = S j := by
   refine le_antisymm ?_ ?_
@@ -26,6 +27,7 @@ theorem pi_map_evalMonoidHom (j : Fin k) :
       simpa using hb
     · simp [Pi.mulSingle_eq_of_ne hij]
 
+omit [∀ (j : Fin k), Finite (G j)] in
 theorem le_pi_of_subnormal_symThree
     (hSΛ : Subgroup.pi Set.univ S ≤ Λ)
     (hΛS : Λ ≤ normalizer (Subgroup.pi Set.univ S : Set (∀ j, G j)))
@@ -43,7 +45,7 @@ theorem le_pi_of_subnormal_symThree
   have hNle : N ≤ Λ := hSΛ
   have hNnorm : (N.subgroupOf Λ).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNle).2 hΛS
-  haveI : (N.subgroupOf Λ).Normal := hNnorm
+  have : (N.subgroupOf Λ).Normal := hNnorm
   have hsq_one : ∀ {H : Type} [Group H], Odd (Nat.card H) → ∀ {x : H}, x ^ 2 = 1 → x = 1 := by
     intro H _ hH x hx
     have h1 : orderOf x ∣ Nat.card H := orderOf_dvd_natCard x
@@ -92,6 +94,7 @@ theorem le_pi_of_subnormal_symThree
     rwa [inf_eq_left.2 hUNle] at h
   exact ⟨a, s, haU, ha1, ha3, hsU, hs2, hs1, hsa, hUeq, hUord, hUN⟩
 
+omit [∀ (j : Fin k), Finite (G j)] in
 theorem mulSingle_eq_or_inv_of_subnormal_symThree
     {U : Subgroup (∀ j, G j)} (hUN : IsSubnormal U (Subgroup.pi Set.univ S))
     {s : ∀ j, G j} (hsU : s ∈ U) {j : Fin k} {b : G j}
@@ -141,14 +144,15 @@ theorem mulSingle_eq_or_inv_of_subnormal_symThree
     exact hb1 (Pi.mulSingle_injective j (by simpa using h))
   exact hUord _ hbmem hpow hne
 
+omit [∀ (j : Fin k), Finite (G j)] in
 theorem projection_le_center_of_isQuasisimple
     {U : Subgroup (∀ j, G j)} (hU : TwelveNotLe.Sym.IsSymThree U)
     (hUN : IsSubnormal U (Subgroup.pi Set.univ S))
     {j : Fin k} (hQ : CFSG.Open.IsQuasisimple ↥(S j)) :
     (U.map (Pi.evalMonoidHom G j)).subgroupOf (S j) ≤ Subgroup.center ↥(S j) := by
   obtain ⟨eU⟩ := hU
-  haveI : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
-  haveI : Group.IsSolvable ↥U :=
+  have : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
+  have : Group.IsSolvable ↥U :=
     Group.isSolvable_of_surjective (f := eU.symm.toMonoidHom) eU.symm.surjective
   set P : Subgroup (G j) := U.map (Pi.evalMonoidHom G j) with hP
   have hPle : P ≤ S j := by
@@ -157,7 +161,7 @@ theorem projection_le_center_of_isQuasisimple
   have hPsub : IsSubnormal P (S j) := by
     have h := hUN.map (Pi.evalMonoidHom G j)
     rwa [pi_map_evalMonoidHom (S := S) j] at h
-  haveI : Group.IsSolvable ↥P :=
+  have : Group.IsSolvable ↥P :=
     Group.isSolvable_of_surjective
       (f := (Pi.evalMonoidHom G j).subgroupMap U)
       (MonoidHom.subgroupMap_surjective (Pi.evalMonoidHom G j) U)
@@ -169,22 +173,23 @@ theorem projection_le_center_of_isQuasisimple
       (P.subgroupOf (S j)) hPsubj with h | h
     · exact h
     · exfalso
-      haveI : Group.IsSolvable ↥(P.subgroupOf (S j)) :=
+      have : Group.IsSolvable ↥(P.subgroupOf (S j)) :=
         Group.isSolvable_of_isSolvable_injective
           (f := (Subgroup.subgroupOfEquivOfLe hPle).toMonoidHom)
           (Subgroup.subgroupOfEquivOfLe hPle).injective
-      haveI : Group.IsSolvable ↥(⊤ : Subgroup ↥(S j)) :=
+      have : Group.IsSolvable ↥(⊤ : Subgroup ↥(S j)) :=
         h ▸ (inferInstance : Group.IsSolvable ↥(P.subgroupOf (S j)))
-      haveI : Group.IsSolvable ↥(S j) :=
+      have : Group.IsSolvable ↥(S j) :=
         Group.isSolvable_of_surjective
           (f := (Subgroup.topEquiv (G := ↥(S j))).toMonoidHom)
           (Subgroup.topEquiv (G := ↥(S j))).surjective
-      haveI : Group.IsPerfect ↥(S j) := ⟨hQ.1⟩
-      haveI : Nontrivial ↥(S j) :=
+      have : Group.IsPerfect ↥(S j) := ⟨hQ.1⟩
+      have : Nontrivial ↥(S j) :=
         CFSG.ComponentClassification.Quasisimple.nontrivial hQ
       exact (Group.IsPerfect.not_isSolvable ↥(S j)) inferInstance
   exact hcent
 
+omit [∀ (j : Fin k), Finite (G j)] in
 theorem eq_one_coord_of_center
     {U : Subgroup (∀ j, G j)}
     {j : Fin k} (hZodd : Odd (Nat.card (Subgroup.center ↥(S j))))
@@ -240,6 +245,7 @@ theorem eq_one_coord_of_center
       exact ha_eq
   exact ⟨ha1j, hs1j⟩
 
+omit [∀ (j : Fin k), Finite (G j)] in
 theorem eq_one_coord_of_isQuasisimple
     {U : Subgroup (∀ j, G j)} (hU : TwelveNotLe.Sym.IsSymThree U)
     (hUN : IsSubnormal U (Subgroup.pi Set.univ S))
@@ -312,6 +318,7 @@ theorem eq_one_coord_of_isSUThreeTwo
   exact TwelveNotLe.Sym.eq_one_of_pow_two_pow_three
     ⟨1, by simpa using ha2⟩ ⟨1, by simpa using ha3j⟩
 
+omit [∀ (j : Fin k), Finite (G j)] in
 theorem eq_one_coord_of_isSymThree
     {U : Subgroup (∀ j, G j)} (hUN : IsSubnormal U (Subgroup.pi Set.univ S))
     {a s : ∀ j, G j} (hsU : s ∈ U) (hs2 : s ^ 2 = 1)
@@ -405,7 +412,7 @@ theorem eq_map_mulSingle_of_supported
       exact hsupp a haS ha_supp
     · rw [hx]
       exact hsupp s hsS hs_supp
-  haveI : Finite U := TwelveNotLe.Sym.finite_symThree hU
+  have : Finite U := TwelveNotLe.Sym.finite_symThree hU
   have hUcard : Nat.card U = 6 := TwelveNotLe.Sym.card_symThree hU
   have hAcard : Nat.card A = 6 := by
     rw [hA, Subgroup.card_map_of_injective (Pi.mulSingle_injective j),

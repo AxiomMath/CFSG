@@ -38,7 +38,7 @@ private theorem m5p_cfm_zero_of_range [CharP K 2] (i j : Fin 6) (hij : i ≠ j) 
     cfm K η m = 0 := by
   obtain ⟨ξ, rfl⟩ := LinearMap.mem_range.mp hη
   rw [LinearMap.sub_apply, Module.End.one_apply, cfm_sub,
-    cfm_rho_transv i j hij c ξ m hm, if_neg hsupp]
+    cfm_rho_transv i j hij c ξ m hm, ite_eq_right hsupp]
   simp
 
 private theorem m5p_three_masks : ∀ k : Fin 64, k.val.testBit 0 = true →
@@ -55,14 +55,14 @@ private theorem m5p_transvection_01 (α : K) :
     Matrix.transvection (0 : Fin 6) 1 α = 1 + vecMulVec (e K 0) (α • e K 1) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.transvection, Matrix.single_apply, Matrix.one_apply, Matrix.vecMulVec, e,
+    simp [Matrix.transvection, Matrix.vecMulVec, e,
       Pi.single_apply, Pi.smul_apply, smul_eq_mul]
 
 private theorem m5p_transvection_02 (β : K) :
     Matrix.transvection (0 : Fin 6) 2 β = 1 + vecMulVec (e K 0) (β • e K 2) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.transvection, Matrix.single_apply, Matrix.one_apply, Matrix.vecMulVec, e,
+    simp [Matrix.transvection, Matrix.vecMulVec, e,
       Pi.single_apply, Pi.smul_apply, smul_eq_mul]
 
 theorem pure_of_range_inf_range_std [CharP K 2] (α β : K) :

@@ -353,11 +353,11 @@ theorem barV_lt (v : ℕ) : barV v < 2 ^ 12 := barB_lt isMask_LOV v
 
 theorem ent_omK (M i j : ℕ) (hi : i < 6) (hj : j < 6) : ent (omK M) i j = fm 2 (ent M i j) := by
   change fget (omB LO M) (6 * i + j) 2 = fm 2 (fget M (6 * i + j) 2)
-  rw [fget_omB isMask_LO, if_pos (by omega)]
+  rw [fget_omB isMask_LO, ite_eq_left (by omega)]
 
 theorem ent_barK (M i j : ℕ) (hi : i < 6) (hj : j < 6) : ent (barK M) i j = sqC (ent M i j) := by
   change fget (barB LO M) (6 * i + j) 2 = sqC (fget M (6 * i + j) 2)
-  rw [fget_barB isMask_LO, if_pos (by omega)]
+  rw [fget_barB isMask_LO, ite_eq_left (by omega)]
 
 theorem decM_omK (M : ℕ) : decM (omK M) = (F4.ω : F4) • decM M := by
   ext i j
@@ -539,7 +539,7 @@ theorem ent_mulK (A B i j : ℕ) (hi : i < 6) (hj : j < 6) :
   rw [mulK_eq]
   change fget (orN 6 _) (6 * i + j) 2 = _
   rw [← fget_fget12 _ i j hj, fget_orN (w := 12) (c := fun i => rowK A B i)
-    (fun i => rowK_lt A B i) 6 i, if_pos hi]
+    (fun i => rowK_lt A B i) 6 i, ite_eq_left hi]
   unfold rowK
   rw [fget2_xorN]
   apply xorN_congr
@@ -594,7 +594,7 @@ theorem ent_tvK (v i j : ℕ) (hi : i < 6) (hj : j < 6) :
   congr 1
   rw [fget_orN (w := 2)
     (c := fun t => fm (fget v (Nat.div t 6) 2) (sqC (fget v (Nat.mod t 6) 2)))
-    (fun t => fm_lt _ _) 36 (6 * i + j), if_pos (by omega)]
+    (fun t => fm_lt _ _) 36 (6 * i + j), ite_eq_left (by omega)]
   have e1 : Nat.div (6 * i + j) 6 = i := by
     change (6 * i + j) / 6 = i
     omega
@@ -627,7 +627,7 @@ theorem mvK_lt (M x : ℕ) : mvK M x < 2 ^ 12 := by
 theorem fget_mvK (M x i : ℕ) (hi : i < 6) :
     fget (mvK M x) i 2 = xorN 6 (fun j => fm (ent M i j) (fget x j 2)) := by
   rw [mvK_eq, fget_orN (w := 2) (c := fun i => xorN 6 fun j => fm (ent M i j) (fget x j 2))
-    (fun i => xorN_lt (w := 2) (fun j => fm_lt _ _) 6) 6 i, if_pos hi]
+    (fun i => xorN_lt (w := 2) (fun j => fm_lt _ _) 6) 6 i, ite_eq_left hi]
 
 theorem vecOfCode_mvK (M x : ℕ) : vecOfCode (mvK M x) = decM M *ᵥ vecOfCode x := by
   funext i
@@ -641,7 +641,7 @@ theorem vecOfCode_omV (v : ℕ) : vecOfCode (omV v) = (F4.ω : F4) • vecOfCode
   funext i
   rw [vecOfCode_apply, Pi.smul_apply, vecOfCode_apply]
   change cF4 (fget (omB LOV v) i 2) = _
-  rw [fget_omB isMask_LOV, if_pos (by have := i.2; omega),
+  rw [fget_omB isMask_LOV, ite_eq_left (by have := i.2; omega),
     fm_spec (by norm_num) (fget2_lt _ _), smul_eq_mul]
   rfl
 
@@ -649,7 +649,7 @@ theorem vecOfCode_barV (v : ℕ) : vecOfCode (barV v) = fun i => (vecOfCode v i)
   funext i
   rw [vecOfCode_apply, vecOfCode_apply]
   change cF4 (fget (barB LOV v) i 2) = _
-  rw [fget_barB isMask_LOV, if_pos (by have := i.2; omega), ← cF4_sq (fget2_lt _ _)]
+  rw [fget_barB isMask_LOV, ite_eq_left (by have := i.2; omega), ← cF4_sq (fget2_lt _ _)]
 
 theorem orB_eq_true {a b : Bool} : orB a b = true ↔ a = true ∨ b = true := by
   cases a <;> simp [orB]

@@ -80,7 +80,7 @@ theorem q13e_comm_BP_mul_left (h : Q13Om t L S x₁ x₂ lam rho tau om)
     _ = (b * p * b⁻¹ * p⁻¹) * (b' * p * b'⁻¹ * p⁻¹) :=
         (q13d_P_comm h hD.A_cent _ (q13d_N_le_P h hn) _ (q13d_N_le_P h hn')).symm
 
-theorem q13e_comm_tP (h : Q13Om t L S x₁ x₂ lam rho tau om) (hD : Q13D t x₁ x₂ lam rho tau om) :
+theorem q13e_comm_tP (_h : Q13Om t L S x₁ x₂ lam rho tau om) (hD : Q13D t x₁ x₂ lam rho tau om) :
     ∀ p ∈ q13P t tau x₁ x₂ rho om, t * p * t⁻¹ * p⁻¹ = (p ^ 2)⁻¹ := by
   intro p hp
   rw [hD.t_inv_P p hp]

@@ -364,7 +364,7 @@ theorem false_of_case_ii_iii (hLn2 : KG8310MinParLn2)
     have hSy : (Sy : Subgroup (↥Y ⧸ R)) = T'.map π := by
       rw [Sylow.coe_mapSurjective]
       rfl
-    refine ⟨le_top, hSy ▸ Sy.isPGroup', ?_⟩
+    refine ⟨le_top, hSy ▸ Sy.isPGroup, ?_⟩
     show ¬ 2 ∣ (T'.map π).relIndex ⊤
     rw [Subgroup.relIndex_top_right, ← hSy]
     exact Sy.not_dvd_index

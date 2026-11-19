@@ -11,6 +11,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {E E0 Y Y' V V' F F' P H : Subgroup G}
 
+omit [Finite G] in
 theorem sec8t84g3b_norm_image {B : Type} [Group B] [Finite B] (π : ↥Y →* B) {y : G}
     (hy : y ∈ Y) (hV : ∀ v ∈ V, y * v * y⁻¹ ∈ V) (hF : ∀ f ∈ F, y * f * y⁻¹ ∈ F) :
     π ⟨y, hy⟩ ∈ normalizer ((((V.subgroupOf Y).map π ⊔ (F.subgroupOf Y).map π : Subgroup B)) :
@@ -26,6 +27,7 @@ theorem sec8t84g3b_norm_image {B : Type} [Group B] [Finite B] (π : ↥Y →* B)
     · exact hF f' hf'
     · rw [map_mul, map_mul, map_inv]
 
+omit [Finite G] in
 theorem sec8t84g3b_odd_image {B : Type} [Group B] (π : ↥Y →* B) {y : G} (hy : y ∈ Y)
     (h : Odd (orderOf y)) : Odd (orderOf (π ⟨y, hy⟩)) := by
   have h1 := orderOf_map_dvd π (⟨y, hy⟩ : ↥Y)

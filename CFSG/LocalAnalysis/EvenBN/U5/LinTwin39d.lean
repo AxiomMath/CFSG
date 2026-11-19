@@ -36,7 +36,7 @@ variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
 theorem lin_sec39d (hl : d.LinCtx) (k8 : d.Know8) (S : Subgroup G) (hS : IsSylowOf 2 S d.L₂)
-    (hP : d.P ≤ S) (ha : d.Sec39a S) (hb : d.Sec39b) (hc : d.Sec39c S) : d.Sec39d S := by
+    (_hP : d.P ≤ S) (ha : d.Sec39a S) (_hb : d.Sec39b) (hc : d.Sec39c S) : d.Sec39d S := by
   refine ⟨?_, sec39d_D_char hc⟩
   have hd := hl.hyp
   have hGMS := hl.gms

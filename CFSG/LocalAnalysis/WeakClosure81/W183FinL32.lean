@@ -38,12 +38,12 @@ private theorem w183FinL32B_sound {n : ℕ} {Y : List (w183Pm n)} (h : w183FinL3
         g * a * g⁻¹ ∈ w183V4 a b ∧ g * b * g⁻¹ ∈ w183V4 a b) := by
   intro hTI
   simp only [w183FinL32B, List.all_eq_true, List.mem_filter, decide_eq_true_eq, Bool.or_eq_true,
-    Bool.not_eq_true', Bool.and_eq_true] at h
+    Bool.not_eq_true'] at h
   have h1 := h a ⟨ha, ha2, ha1⟩ b ⟨hb, hb2, hb1⟩
   have hk : w183KleinB a b = true := by simp [w183KleinB, hc, hab]
   have ht : w183TiB Y a b = true := by
     simp only [w183TiB, List.all_eq_true, Bool.or_eq_true, Bool.not_eq_true', Bool.and_eq_true,
-      decide_eq_false_iff_not, decide_eq_true_eq, List.contains_iff_mem]
+      decide_eq_false_iff_not, List.contains_iff_mem]
     intro t ht g hg
     by_cases hgt : g * t = t * g
     · exact Or.inr (hTI t ht g hg hgt)
@@ -85,7 +85,7 @@ private theorem w183MemV4OfMap {Y G : Type*} [Group Y] [Group G] (ψ : Y →* G)
 
 theorem finL32_holds : FinL32 := by
   intro Y _ _ L hLn hL hC hτ A hA4 hAel hTI
-  haveI := hLn
+  have := hLn
   obtain ⟨M, hP, hA, h2⟩ := w183L32Model L hL
   obtain ⟨τ, hτ⟩ := hτ
   have hτL : τ ∉ L := by
@@ -103,7 +103,7 @@ theorem finL32_holds : FinL32 := by
   have hsurj : ∀ g ∈ M.A, ∃ y, ψ y = g := by
     let f : Y →* M.A := ψ.codRestrict M.A hψmem
     have hf : Function.Injective f := fun a b hab => hψinj (congrArg Subtype.val hab)
-    haveI : Finite M.A := Nat.finite_of_card_ne_zero (by
+    have : Finite M.A := Nat.finite_of_card_ne_zero (by
       rw [← hcardYA]; exact Nat.card_pos.ne')
     have hfb : Function.Bijective f := hf.bijective_of_nat_card_le (le_of_eq hcardYA.symm)
     intro g hg

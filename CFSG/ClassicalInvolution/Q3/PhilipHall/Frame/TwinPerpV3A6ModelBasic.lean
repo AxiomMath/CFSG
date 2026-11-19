@@ -42,7 +42,7 @@ theorem rep_permOfInv {n : ℕ} {t r : Array ℕ} (h : invPairB n t r = true) :
     CFSG.Monster.B.Co2.Rep n t (permOfInv n t r) := by
   intro x
   unfold permOfInv
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   rfl
 
 section Gens
@@ -164,7 +164,7 @@ theorem mem_wQ : ∀ y ∈ ae6ModelW, (y : Equiv.Perm (Fin 360)) ∈ (wQ ()).ori
     rw [wQ, certificate_originalSubgroup, ae6ModelW, MonoidHom.map_closure]
     congr 1
     ext g
-    simp only [Set.mem_image, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq,
+    simp only [Set.mem_image, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq,
       w0Gens, wWords, List.map_cons, List.map_nil, List.mem_cons, List.not_mem_nil, or_false,
       Subgroup.coe_subtype]
     constructor

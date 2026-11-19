@@ -16,7 +16,7 @@ theorem l2_scale_involution {K : Type} [Field K] [Finite K] (hq : Nat.card K % 4
     ∃ μ : K, μ ≠ 0 ∧
       (μ • (x : Matrix (Fin n) (Fin n) K)) * (μ • (x : Matrix (Fin n) (Fin n) K)) = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K % 4 = 1 := by
     rw [← Nat.card_eq_fintype_card]; exact hq
   have hne : Fintype.card K % 4 ≠ 3 := by rw [hcard]; decide

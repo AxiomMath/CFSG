@@ -46,56 +46,44 @@ theorem ggTwoPlaneThree_eichler_mul_eichler {K V : Type} [Field K] [CharP K 2]
     res_eichler_apply P₁.Q_e P₂.Q_f had x
   have hya : y P₁.e = P₂.e := by
     rw [hydef, LinearEquiv.mul_apply, hE2, hE1]
-    simp only [polar_add_left, polar_smul_left, polar_add_right, polar_smul_right,
-      P₁.polar_ee, P₁.polar_ef, P₁.polar_fe, P₁.polar_ff, P₂.polar_ee, P₂.polar_ef,
-      P₂.polar_fe, P₂.polar_ff, h₁₂.ee, h₁₂.ef, h₁₂.fe, h₁₂.ff, hee, hfe, hff, hcb, had,
-      smul_eq_mul, mul_one, mul_zero, zero_mul]
+    simp only [polar_add_left, polar_smul_left, P₁.polar_ee, P₁.polar_ef, P₁.polar_fe, P₂.polar_ef,
+      h₁₂.ee, h₁₂.ef, h₁₂.ff, hee, smul_eq_mul, mul_one, mul_zero]
     simp only [zero_smul, one_smul, add_zero, zero_add]
     try abel_nf
-    try simp only [two_zsmul, hvv, zero_add, add_zero]
+    try simp only [two_zsmul, hvv, zero_add]
   have hyb : y P₁.f = P₁.f + P₂.f := by
     rw [hydef, LinearEquiv.mul_apply, hE2, hE1]
-    simp only [polar_add_left, polar_smul_left, polar_add_right, polar_smul_right,
-      P₁.polar_ee, P₁.polar_ef, P₁.polar_fe, P₁.polar_ff, P₂.polar_ee, P₂.polar_ef,
-      P₂.polar_fe, P₂.polar_ff, h₁₂.ee, h₁₂.ef, h₁₂.fe, h₁₂.ff, hee, hfe, hff, hcb, had,
-      smul_eq_mul, mul_one, mul_zero, zero_mul]
-    simp only [zero_smul, one_smul, add_zero, zero_add]
-    try abel_nf
-    try simp only [two_zsmul, hvv, zero_add, add_zero]
+    simp only [polar_add_left, polar_smul_left, P₁.polar_fe, P₁.polar_ff, P₂.polar_ef,
+      h₁₂.fe, h₁₂.ff, hee, smul_eq_mul, mul_one, mul_zero]
+    simp only [zero_smul, one_smul, add_zero]
   have hyc : y P₂.e = P₁.e + P₂.e := by
     rw [hydef, LinearEquiv.mul_apply, hE2, hE1]
-    simp only [polar_add_left, polar_smul_left, polar_add_right, polar_smul_right,
-      P₁.polar_ee, P₁.polar_ef, P₁.polar_fe, P₁.polar_ff, P₂.polar_ee, P₂.polar_ef,
-      P₂.polar_fe, P₂.polar_ff, h₁₂.ee, h₁₂.ef, h₁₂.fe, h₁₂.ff, hee, hfe, hff, hcb, had,
-      smul_eq_mul, mul_one, mul_zero, zero_mul]
-    simp only [zero_smul, one_smul, add_zero, zero_add]
+    simp only [polar_add_left, polar_smul_left, P₁.polar_fe, P₂.polar_ee, P₂.polar_ef,
+      h₁₂.ff, hee, hcb, smul_eq_mul, mul_one, mul_zero]
+    simp only [zero_smul, one_smul, add_zero]
     try abel_nf
-    try simp only [two_zsmul, hvv, zero_add, add_zero]
   have hyd : y P₂.f = P₁.f := by
     rw [hydef, LinearEquiv.mul_apply, hE2, hE1]
-    simp only [polar_add_left, polar_smul_left, polar_add_right, polar_smul_right,
-      P₁.polar_ee, P₁.polar_ef, P₁.polar_fe, P₁.polar_ff, P₂.polar_ee, P₂.polar_ef,
-      P₂.polar_fe, P₂.polar_ff, h₁₂.ee, h₁₂.ef, h₁₂.fe, h₁₂.ff, hee, hfe, hff, hcb, had,
-      smul_eq_mul, mul_one, mul_zero, zero_mul]
+    simp only [polar_add_left, polar_smul_left, P₁.polar_fe, P₂.polar_ef,
+      P₂.polar_fe, P₂.polar_ff, h₁₂.ff, hee, hfe, hff, smul_eq_mul, mul_one, mul_zero]
     simp only [zero_smul, one_smul, add_zero, zero_add]
     try abel_nf
-    try simp only [two_zsmul, hvv, zero_add, add_zero]
+    try simp only [two_zsmul, hvv, zero_add]
   set v₁ : V := P₁.e + P₁.f with hv1def
   set v₂ : V := P₁.e + P₂.e + P₁.f with hv2def
   have hyv₁ : y v₁ = P₁.f + P₂.e + P₂.f := by
     rw [hv1def, map_add y, hya, hyb]
     try abel_nf
-    try simp only [two_zsmul, hvv, zero_add, add_zero]
   have hyv₂ : y v₂ = P₁.e + P₁.f + P₂.f := by
     rw [hv2def, map_add y, map_add y, hya, hyc, hyb]
     try abel_nf
-    try simp only [two_zsmul, hvv, zero_add, add_zero]
+    try simp only [two_zsmul, hvv, zero_add]
   have hQv₁ : Q v₁ = 1 := by
     rw [hv1def, QuadraticMap.map_add Q, P₁.Q_e, P₁.Q_f, P₁.polar_ef]
     norm_num
   have hQv₂ : Q v₂ = 1 := by
     rw [hv2def, QuadraticMap.map_add Q, QuadraticMap.map_add Q, P₁.Q_e, P₂.Q_e, P₁.Q_f]
-    simp only [polar_add_left, P₁.polar_ee, P₁.polar_ef, h₁₂.ee, h₁₂.fe, hcb]
+    simp only [polar_add_left, P₁.polar_ef, h₁₂.ee, hcb]
     norm_num
   have hyO : y ∈ TauCeti.QuadraticMap.orthogonalGroup Q := by
     rw [hydef]
@@ -104,56 +92,43 @@ theorem ggTwoPlaneThree_eichler_mul_eichler {K V : Type} [Field K] [CharP K 2]
   have hQyv₂ : Q (y v₂) = 1 := by rw [map_of_mem hyO, hQv₂]
   have hB11 : polar Q v₁ (y v₁) = 1 := by
     rw [hv1def, hyv₁]
-    simp only [polar_add_left, polar_add_right, P₁.polar_ee, P₁.polar_ef, P₁.polar_fe,
-      P₁.polar_ff, P₂.polar_ee, P₂.polar_ef, P₂.polar_fe, P₂.polar_ff, h₁₂.ee, h₁₂.ef,
-      h₁₂.fe, h₁₂.ff, hee, hfe, hff, hcb, had, smul_eq_mul, mul_one, mul_zero, zero_mul,
-      zero_add, add_zero]
-    try norm_num
-    try linear_combination hk2
+    simp only [polar_add_left, polar_add_right, P₁.polar_ef, P₁.polar_ff, h₁₂.ee, h₁₂.ef,
+      h₁₂.fe, h₁₂.ff, add_zero]
   have hB22 : polar Q v₂ (y v₂) = 1 := by
     rw [hv2def, hyv₂]
     simp only [polar_add_left, polar_add_right, P₁.polar_ee, P₁.polar_ef, P₁.polar_fe,
-      P₁.polar_ff, P₂.polar_ee, P₂.polar_ef, P₂.polar_fe, P₂.polar_ff, h₁₂.ee, h₁₂.ef,
-      h₁₂.fe, h₁₂.ff, hee, hfe, hff, hcb, had, smul_eq_mul, mul_one, mul_zero, zero_mul,
-      zero_add, add_zero]
+      P₁.polar_ff, P₂.polar_ef, h₁₂.ef,
+      h₁₂.ff, hee, hcb, zero_add, add_zero]
     try norm_num
     try linear_combination hk2
   have hB12 : polar Q v₁ v₂ = 0 := by
     rw [hv1def, hv2def]
     simp only [polar_add_left, polar_add_right, P₁.polar_ee, P₁.polar_ef, P₁.polar_fe,
-      P₁.polar_ff, P₂.polar_ee, P₂.polar_ef, P₂.polar_fe, P₂.polar_ff, h₁₂.ee, h₁₂.ef,
-      h₁₂.fe, h₁₂.ff, hee, hfe, hff, hcb, had, smul_eq_mul, mul_one, mul_zero, zero_mul,
-      zero_add, add_zero]
+      P₁.polar_ff, h₁₂.ee, h₁₂.fe, zero_add, add_zero]
     try norm_num
     try linear_combination hk2
   have hB1y2 : polar Q v₁ (y v₂) = 0 := by
     rw [hv1def, hyv₂]
     simp only [polar_add_left, polar_add_right, P₁.polar_ee, P₁.polar_ef, P₁.polar_fe,
-      P₁.polar_ff, P₂.polar_ee, P₂.polar_ef, P₂.polar_fe, P₂.polar_ff, h₁₂.ee, h₁₂.ef,
-      h₁₂.fe, h₁₂.ff, hee, hfe, hff, hcb, had, smul_eq_mul, mul_one, mul_zero, zero_mul,
-      zero_add, add_zero]
+      P₁.polar_ff, h₁₂.ef,
+      h₁₂.ff, zero_add, add_zero]
     try norm_num
     try linear_combination hk2
   have hBy12 : polar Q (y v₁) v₂ = 0 := by
     rw [hyv₁, hv2def]
-    simp only [polar_add_left, polar_add_right, P₁.polar_ee, P₁.polar_ef, P₁.polar_fe,
-      P₁.polar_ff, P₂.polar_ee, P₂.polar_ef, P₂.polar_fe, P₂.polar_ff, h₁₂.ee, h₁₂.ef,
-      h₁₂.fe, h₁₂.ff, hee, hfe, hff, hcb, had, smul_eq_mul, mul_one, mul_zero, zero_mul,
-      zero_add, add_zero]
+    simp only [polar_add_left, polar_add_right, P₁.polar_fe,
+      P₁.polar_ff, P₂.polar_ee, P₂.polar_fe, h₁₂.fe, hee, hfe, hff, hcb, zero_add, add_zero]
     try norm_num
     try linear_combination hk2
   have hBy1y2 : polar Q (y v₁) (y v₂) = 0 := by
     rw [hyv₁, hyv₂]
-    simp only [polar_add_left, polar_add_right, P₁.polar_ee, P₁.polar_ef, P₁.polar_fe,
-      P₁.polar_ff, P₂.polar_ee, P₂.polar_ef, P₂.polar_fe, P₂.polar_ff, h₁₂.ee, h₁₂.ef,
-      h₁₂.fe, h₁₂.ff, hee, hfe, hff, hcb, had, smul_eq_mul, mul_one, mul_zero, zero_mul,
-      zero_add, add_zero]
+    simp only [polar_add_left, polar_add_right, P₁.polar_fe,
+      P₁.polar_ff, P₂.polar_ef, P₂.polar_ff, h₁₂.ff, hee, hfe, hff, hcb, zero_add, add_zero]
     try norm_num
     try linear_combination hk2
   have hsq1 : y (y v₁) = y v₁ + v₁ := by
     rw [hyv₁, hv1def, map_add y, map_add y, hyb, hyc, hyd]
     try abel_nf
-    try simp only [two_zsmul, hvv, zero_add, add_zero]
   have hsq2 : y (y v₂) = y v₂ + v₂ := by
     rw [hyv₂, hv2def, map_add y, map_add y, hya, hyb, hyd]
     try abel_nf
@@ -229,7 +204,7 @@ theorem GGTwoPlaneThree.orderOf_eq_three {K V : Type} [Field K] [CharP K 2]
     have h0 : v₁ = 0 := hs
     have hp := h.polar_v₁_yv₁
     rw [h0, hy] at hp
-    simp only [LinearEquiv.coe_one, id, map_zero, polar_zero_left] at hp
+    simp only [map_zero, polar_zero_left] at hp
     exact zero_ne_one hp
   have hy3_v₁ : (y ^ 3) v₁ = v₁ := by
     rw [hpow]
@@ -263,23 +238,17 @@ theorem GGTwoPlaneThree.orderOf_eq_three {K V : Type} [Field K] [CharP K 2]
     set w : V := v - s with hwdef
     have hs1 : polar Q v₁ s = polar Q v v₁ := by
       rw [hsdef]
-      simp only [polar_add_right, polar_smul_right_eq, hP11, hPy11, hP1y1, hPy1y1, hP12,
-        hP21, hP1y2, hPy21, hPy12, hP2y1, hPy1y2, hPy2y1, hP22, hPy22, hP2y2, hPy2y2,
-        mul_one, mul_zero, add_zero, zero_add]
+      simp only [polar_add_right, polar_smul_right_eq, hP11, hP1y1, hP12,
+        hP1y2, mul_one, mul_zero, add_zero, zero_add]
     have hsy1 : polar Q (y v₁) s = polar Q v (y v₁) := by
       rw [hsdef]
-      simp only [polar_add_right, polar_smul_right_eq, hP11, hPy11, hP1y1, hPy1y1, hP12,
-        hP21, hP1y2, hPy21, hPy12, hP2y1, hPy1y2, hPy2y1, hP22, hPy22, hP2y2, hPy2y2,
-        mul_one, mul_zero, add_zero, zero_add]
+      simp only [polar_add_right, polar_smul_right_eq, hPy11, hPy1y1, hPy12, hPy1y2, mul_one, mul_zero, add_zero]
     have hs2 : polar Q v₂ s = polar Q v v₂ := by
       rw [hsdef]
-      simp only [polar_add_right, polar_smul_right_eq, hP11, hPy11, hP1y1, hPy1y1, hP12,
-        hP21, hP1y2, hPy21, hPy12, hP2y1, hPy1y2, hPy2y1, hP22, hPy22, hP2y2, hPy2y2,
-        mul_one, mul_zero, add_zero, zero_add]
+      simp only [polar_add_right, polar_smul_right_eq, hP21, hP2y1, hP22, hP2y2, mul_one, mul_zero, add_zero, zero_add]
     have hsy2 : polar Q (y v₂) s = polar Q v (y v₂) := by
       rw [hsdef]
-      simp only [polar_add_right, polar_smul_right_eq, hP11, hPy11, hP1y1, hPy1y1, hP12,
-        hP21, hP1y2, hPy21, hPy12, hP2y1, hPy1y2, hPy2y1, hP22, hPy22, hP2y2, hPy2y2,
+      simp only [polar_add_right, polar_smul_right_eq, hPy21, hPy2y1, hPy22, hPy2y2,
         mul_one, mul_zero, add_zero, zero_add]
     have hw1 : polar Q v₁ w = 0 := by
       rw [hwdef, sub_eq_add_neg, polar_add_right, polar_neg_right, hs1,
@@ -351,7 +320,7 @@ private theorem components_le_map_of_sup {A : Type*} [Group A] [Finite A]
       exact sup_le hLnorm (Subgroup.le_normalizer)
     refine ⟨fun n hn g => ?_⟩
     exact (Subgroup.mem_normalizer_iff.mp (htopnorm (Subgroup.mem_top g)) n).mp hn
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hsol : Group.IsSolvable ((A ⧸ O) ⧸ N) := by
     let f : ↥L →* (A ⧸ O) ⧸ N :=
       (QuotientGroup.mk' N).comp ((QuotientGroup.mk' O).comp L.subtype)
@@ -366,7 +335,7 @@ private theorem components_le_map_of_sup {A : Type*} [Group A] [Finite A]
       change QuotientGroup.mk' N (QuotientGroup.mk' O l₀) =
         QuotientGroup.mk' N (QuotientGroup.mk' O l₀ * n)
       rw [map_mul, hn1, mul_one]
-    haveI : Group.IsSolvable ↥L := hLsol
+    have : Group.IsSolvable ↥L := hLsol
     exact Group.isSolvable_of_surjective hf
   intro C hC
   have hperf : ⁅C, C⁆ = C :=
@@ -511,12 +480,12 @@ private theorem exists_levi_three_frame {K V : Type} [Field K] [Finite K] [CharP
     have hAGsol : Group.IsSolvable ↥AG := by
       have eAG : ↥AG ≃* Matrix.SpecialLinearGroup (Fin 2) K :=
         (RCSTOm.Φ_equiv hσ φ hφ hL₁E).trans (leviFixEquiv P₁ P₂ h₁₂ hE)
-      haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) :=
+      have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) :=
         SevOmSmall.isSolvable_SL_two hK
       exact Group.isSolvable_of_isSolvable_injective (f := eAG.toMonoidHom) eAG.injective
     have hLsol : Group.IsSolvable ↥(AG.subgroupOf A₀) := by
       have e : ↥(AG.subgroupOf A₀) ≃* ↥AG := Subgroup.subgroupOfEquivOfLe hAG_A
-      haveI : Group.IsSolvable ↥AG := hAGsol
+      have : Group.IsSolvable ↥AG := hAGsol
       exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
     have hcomp := components_le_map_of_sup (A := ↥A₀) (Q := QG.subgroupOf A₀)
       (L := AG.subgroupOf A₀) (M := BG.subgroupOf A₀) hsupA hQcore hLM' hLsol

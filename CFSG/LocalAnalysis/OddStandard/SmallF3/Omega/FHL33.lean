@@ -17,8 +17,8 @@ theorem fh_fixedO3Free_L33 {Y : Type} [Group Y]
   obtain ⟨e⟩ := L33.equiv_of_lieModel hY
   obtain ⟨M, hP, hA⟩ := L33.autModel e
   have hsound := fhO3Chk_sound L33.QA L33.QP L33.QA_ok L33.QP_ok hchk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite Y := L33.finite_K e
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite Y := L33.finite_K e
   have hmemA : ∀ τ : Equiv.Perm (Fin 26), τ ∈ M.A → τ ∈ L33.QA.originalSubgroup := fun τ h => hA ▸ h
   have hmemP : ∀ p : Equiv.Perm (Fin 26), p ∈ M.P ↔ p ∈ L33.QP.originalSubgroup := fun p => by
     rw [hP]
@@ -27,7 +27,7 @@ theorem fh_fixedO3Free_L33 {Y : Type} [Group Y]
   by_contra hne
   obtain ⟨x, hxN, hx1⟩ : ∃ x ∈ N, x ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne ((Subgroup.eq_bot_iff_forall N).2 hcon)
   have h3x : 3 ∣ orderOf x := by
     have := hN3.dvd_orderOf (g := (⟨x, hxN⟩ : N)) fun h => hx1 (congrArg Subtype.val h)

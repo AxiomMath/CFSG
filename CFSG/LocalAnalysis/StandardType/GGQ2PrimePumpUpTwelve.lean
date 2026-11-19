@@ -27,9 +27,9 @@ theorem center_eq_bot_of_twelve
     rw [h1, Nat.dvd_one] at this
     exact Subgroup.card_eq_one.1 this
   rcases h with ⟨-, F, _, _, hF, ⟨e⟩⟩ | ⟨-, F, _, _, hF, ⟨e⟩⟩ | ⟨-, F, _, _, hF, b, c, hirr, ⟨e⟩⟩
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Fintype F := Fintype.ofFinite F
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fintype F := Fintype.ofFinite F
+    have : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
       (by rw [← Nat.card_eq_fintype_card, hF])
     obtain ⟨-, ⟨eM⟩⟩ := CFSG.LieType.Steinberg.CentralExt.SpClosed.psp_even_hopfMultiplier
       (n := 6) (f := 1) hF le_rfl (by norm_num) (by omega)
@@ -73,7 +73,7 @@ theorem pumpUpAut_map_config {F V : Type} [Field F] [AddCommGroup V] [Module F V
     obtain ⟨-, hc | ⟨h0, -⟩⟩ := h.W_model
     · exact hc
     · omega
-  haveI : IsSimpleGroup W := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWcl
+  have : IsSimpleGroup W := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWcl
   have hWc : Nat.card W = 13685760 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_five_two hWcl
   let eW : W ≃* W.map φ := W.equivMapOfInjective φ hφ
@@ -141,9 +141,9 @@ private theorem exists_sp_model {K : Type} [Group K] (hZ : center K = ⊥)
         φ.range = TauCeti.BilinForm.isometryGroup (Matrix.toBilin' (Matrix.J (Fin 6) F)) := by
   obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ := h
   have hF2 : Nat.card F = 2 := by rw [hF, pow_one]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hF])
   obtain ⟨eSp⟩ := CFSG.RankThree.PartOne.K159.nonempty_isometryGroup_mulEquiv_statedSp
     (Matrix.toBilin' (Matrix.J (Fin 6) F))
@@ -174,9 +174,9 @@ private theorem exists_omegaPlus_model {K : Type} [Group K] (hZ : center K = ⊥
           (CFSG.LieType.Universal.Spin.quadPlus 6 F) := by
   obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ := h
   have hF2 : Nat.card F = 2 := by rw [hF, pow_one]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hF])
   have hcoe := CFSG.LieType.Universal.Spin.coe_quadPlus 6 F
   have hv : ∃ v, (CFSG.LieType.Universal.Spin.quadPlus 6 F) v ≠ 0 := by
@@ -240,7 +240,7 @@ theorem pumpUpTwelveInput_holds :
     rw [hrange] at hcomp hKF
     have hzB : φ z ∈ TauCeti.BilinForm.isometryGroup (Matrix.toBilin' (Matrix.J (Fin 6) F)) :=
       hrange ▸ ⟨z, rfl⟩
-    haveI := hWs
+    have := hWs
     exact false_of_twelve_sp_config hF
       (by rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin])
       CFSG.ClassicalInvolution.Models.SymplecticPairs.isAlt_toBilin'_J
@@ -251,7 +251,7 @@ theorem pumpUpTwelveInput_holds :
     rw [hrange] at hcomp hKF
     have hzΩ : φ z ∈ CFSG.RankThree.Classical2.orthDerived
         (CFSG.LieType.Universal.Spin.quadPlus 6 F) := hrange ▸ ⟨z, rfl⟩
-    haveI := hWs
+    have := hWs
     exact false_of_twelve_orth_config hF
       (by rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin])
       (CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadPlus 6 F)

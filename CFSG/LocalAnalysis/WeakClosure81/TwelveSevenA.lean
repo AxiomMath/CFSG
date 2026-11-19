@@ -16,6 +16,7 @@ section PartTwo
 
 variable {G : Type} [Group G] [Finite G] {A M : Subgroup G} {n : ℕ}
 
+omit [Finite V] in
 theorem Setting12Two.exists_odd_fix (h : Setting12Two A M n)
     (hA : IsElemAbelian 2 A) (ρ : G →* LGL 2 V) (hq : RepQuad ρ A)
     {u v : G ⧸ CFSG.Quasithin.kerIn M ⊤} (hu : u * u = 1) (hv : v * v = 1)

@@ -147,7 +147,7 @@ theorem npB_normalizer {T : Tabs} {g5 gE f : Nat → J} (hT : TabsOK T g5 gE uJ 
     rw [burnsideJ4NP_Wv, vjSub, MonoidHom.map_closure]
     refine congrArg Subgroup.closure ?_
     ext x
-    simp only [Set.mem_setOf_eq, Set.mem_image, List.mem_map]
+    simp only [Set.mem_ofPred_eq, Set.mem_image, List.mem_map]
     constructor
     · rintro ⟨p, hp, rfl⟩
       obtain ⟨i, hi, rfl⟩ := List.mem_iff_getElem.1 hp

@@ -64,10 +64,10 @@ theorem a3_single_sub_mem (i j : Fin m) :
   rw [Finset.sum_sub_distrib]
   have h1 : (∑ k : Fin m, (Pi.single i (1 : ZMod p) : Fin m → ZMod p) k) = 1 := by
     have h := Fintype.sum_pi_single (M := fun _ : Fin m => ZMod p) i (fun _ => (1 : ZMod p))
-    simpa [Pi.single_apply, eq_comm] using h
+    simp [Pi.single_apply, eq_comm]
   have h2 : (∑ k : Fin m, (Pi.single j (1 : ZMod p) : Fin m → ZMod p) k) = 1 := by
     have h := Fintype.sum_pi_single (M := fun _ : Fin m => ZMod p) j (fun _ => (1 : ZMod p))
-    simpa [Pi.single_apply, eq_comm] using h
+    simp [Pi.single_apply, eq_comm]
   rw [h1, h2, sub_self]
 
 theorem a3_theta_eq (hfr : A3Frame p m θ z) {u v : Fin m → ZMod p} (hu : u ∈ a3Aug p m)
@@ -133,7 +133,7 @@ private theorem hdRo7A3BasicAux_finrank_aug (hm : 1 ≤ m) :
     refine ⟨Pi.single ⟨0, hm⟩ c, ?_⟩
     have h := Fintype.sum_pi_single (M := fun _ : Fin m => ZMod p) (⟨0, hm⟩ : Fin m)
       (fun _ => c)
-    simpa [S, Pi.single_apply, eq_comm] using h
+    simp [S, Pi.single_apply]
   have hrange : LinearMap.range S = ⊤ := LinearMap.range_eq_top.mpr hsurj
   have hrn := LinearMap.finrank_range_add_finrank_ker S
   have htop : Module.finrank (ZMod p) (LinearMap.range S) = 1 := by
@@ -358,7 +358,7 @@ private lemma hdRo7A3BasicAux_perm_eq_of_pair_sets {m : ℕ} (hm : 3 ≤ m)
   obtain ⟨j, hji⟩ := Fintype.exists_ne_of_one_lt_card hcard i
   have hcard' : 1 < Fintype.card {x : Fin m // x ≠ i} := by
     have hc : Fintype.card {x : Fin m // x ≠ i} = m - 1 := by
-      simpa [Fintype.card_fin] using Set.card_ne_eq (α := Fin m) i
+      simp [Fintype.card_fin]
     omega
   obtain ⟨k, hkj⟩ := Fintype.exists_ne_of_one_lt_card hcard' ⟨j, hji⟩
   have hki : (k : Fin m) ≠ i := k.2

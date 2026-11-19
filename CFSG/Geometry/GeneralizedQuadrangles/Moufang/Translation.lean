@@ -23,22 +23,26 @@ variable [Fintype V] [DecidableRel Γ.Adj]
     (p L₀ : V) : Subgroup H :=
   Subgroup.closure {g | ∃ L, Γ.Adj p L ∧ L ≠ L₀ ∧ g ∈ symmetryGroup H Γ L}
 
+omit [FaithfulSMul H V] [GraphAction H Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem symmetryGroup_le_translationGroup {p L : V} (hpL : Γ.Adj p L) :
     symmetryGroup H Γ L ≤ translationGroup H Γ p := by
   intro g hg
   exact Subgroup.subset_closure ⟨L, hpL, hg⟩
 
+omit [FaithfulSMul H V] [GraphAction H Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem symmetryGroup_le_translationGroupMinus {p L₀ L : V} (hpL : Γ.Adj p L)
     (hL : L ≠ L₀) : symmetryGroup H Γ L ≤ translationGroupMinus H Γ p L₀ := by
   intro g hg
   exact Subgroup.subset_closure ⟨L, hpL, hL, hg⟩
 
+omit [FaithfulSMul H V] [GraphAction H Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem translationGroupMinus_le_translationGroup (p L₀ : V) :
     translationGroupMinus H Γ p L₀ ≤ translationGroup H Γ p := by
   refine (Subgroup.closure_le (translationGroup H Γ p)).mpr ?_
   rintro g ⟨L, hpL, -, hg⟩
   exact Subgroup.subset_closure ⟨L, hpL, hg⟩
 
+omit [FaithfulSMul H V] [GraphAction H Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem symmetryGroup_le_whorlGroup_of_adj (hP : IsGeneralizedPolygon Γ 4) {p L : V}
     (hpL : Γ.Adj p L) : symmetryGroup H Γ L ≤ whorlGroup H Γ p := by
   intro g hg
@@ -52,6 +56,7 @@ theorem symmetryGroup_le_whorlGroup_of_adj (hP : IsGeneralizedPolygon Γ 4) {p L
     simp
   · exact Nat.le_of_eq (dist_eq_two_of_adj_of_adj_of_ne hP hpL.symm hpM (Ne.symm hML))
 
+omit [FaithfulSMul H V] [GraphAction H Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem translationGroup_le_whorlGroup (hP : IsGeneralizedPolygon Γ 4) (p : V) :
     translationGroup H Γ p ≤ whorlGroup H Γ p := by
   refine (Subgroup.closure_le (whorlGroup H Γ p)).mpr ?_
@@ -79,6 +84,7 @@ theorem commute_of_mem_symmetryGroup_of_mem_translationGroupMinus
   · intro x _ hx
     exact hx.inv_right
 
+omit [FaithfulSMul H V] [GraphAction H Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem generator_set_eq_union (p L₀ : V) (hpL₀ : Γ.Adj p L₀) :
     {g : H | ∃ L, Γ.Adj p L ∧ g ∈ symmetryGroup H Γ L} =
       {g : H | ∃ L, Γ.Adj p L ∧ L ≠ L₀ ∧ g ∈ symmetryGroup H Γ L} ∪
@@ -95,12 +101,14 @@ theorem generator_set_eq_union (p L₀ : V) (hpL₀ : Γ.Adj p L₀) :
     · exact ⟨L, hpL, hg⟩
     · exact ⟨L₀, hpL₀, hg⟩
 
+omit [FaithfulSMul H V] [GraphAction H Γ] [Fintype V] [DecidableRel Γ.Adj] in
 theorem translationGroup_eq_sup (p L₀ : V) (hpL₀ : Γ.Adj p L₀) :
     translationGroup H Γ p = symmetryGroup H Γ L₀ ⊔ translationGroupMinus H Γ p L₀ := by
   rw [translationGroup, translationGroupMinus, generator_set_eq_union p L₀ hpL₀]
   simp only [Subgroup.closure_union, Subgroup.closure_eq]
   exact sup_comm _ _
 
+omit [FaithfulSMul H V] in
 theorem exists_smul_eq_of_mem_symmetryGroup_of_adj (hP : IsGeneralizedPolygon Γ 4)
     (hT : IsThick Γ) (hM : MoufangCondition H Γ 4) {a L N : V}
     (hL : IsRegularVertex Γ L) (haL : Γ.Adj L a)
@@ -126,7 +134,7 @@ theorem exists_smul_eq_of_mem_symmetryGroup_of_adj (hP : IsGeneralizedPolygon Γ
         have h1 : i ≠ 1 := by omega
         have h2 : i ≠ 2 := by omega
         have h3 : i ≠ 3 := by omega
-        simp [h0, h1, h2, h3, hq₀L, hba, hLN] }
+        simp [h0, h1, h2, h3] }
   have hr0 : r 0 = q₀ := by simp [r]
   have hr1 : r 1 = b := by simp [r]
   have hr2 : r 2 = L := by simp [r]
@@ -151,6 +159,7 @@ theorem exists_smul_eq_of_mem_symmetryGroup_of_adj (hP : IsGeneralizedPolygon Γ
         (by simpa [hr3] using hw))⟩
   exact ⟨g, by rwa [← hsym], hgx⟩
 
+omit [FaithfulSMul H V] in
 theorem exists_smul_eq_of_mem_symmetryGroup_of_meet (hP : IsGeneralizedPolygon Γ 4)
     (hT : IsThick Γ) (hM : MoufangCondition H Γ 4) {c : Γ.Coloring (Fin 2)}
     (hreg : ∀ L, c L = 1 → IsRegularVertex Γ L) {p L N a y u : V}
@@ -193,6 +202,7 @@ theorem exists_smul_eq_of_mem_symmetryGroup_of_meet (hP : IsGeneralizedPolygon �
   exact exists_smul_eq_of_mem_symmetryGroup_of_adj hP hT hM (hreg L hcL) haL haN hLN hyN huN
     hya hua
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem dist_eq_four_of_not_mem_perpSet (hP : IsGeneralizedPolygon Γ 4) {p y u : V}
     (hy : Γ.dist p y = 4) (hyu : Γ.dist y u = 2) (hu : u ∉ perpSet Γ p) :
     Γ.dist p u = 4 := by
@@ -207,6 +217,7 @@ theorem dist_eq_four_of_not_mem_perpSet (hP : IsGeneralizedPolygon Γ 4) {p y u 
   obtain ⟨k, hk⟩ := heven
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem not_exists_adj_projectionLine_of_mem_trace (hP : IsGeneralizedPolygon Γ 4)
     {p L₀ x y y' u : V} (hpL₀ : Γ.Adj p L₀) (hxL₀ : Γ.Adj L₀ x) (hxp : x ≠ p)
     (hy : Γ.dist p y = 4) (hx : Γ.dist y x = 2) (hx' : Γ.dist y' x = 2)
@@ -254,10 +265,11 @@ theorem not_exists_adj_projectionLine_of_mem_trace (hP : IsGeneralizedPolygon Γ
       (dist_eq_two_of_adj_of_adj_of_ne hP hpL₀ hxL₀ (Ne.symm hxp))
   exact hu (hux ▸ hxperp)
 
+omit [FaithfulSMul H V] in
 theorem exists_smul_mem_translationGroupMinus_of_trace
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (hM : MoufangCondition H Γ 4)
     {c : Γ.Coloring (Fin 2)} {s t : ℕ}
-    (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
+    (_hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
     (hreg : ∀ L, c L = 1 → IsRegularVertex Γ L)
     {p L₀ x y₁ y₂ u : V} (hp : c p = 0) (hpL₀ : Γ.Adj p L₀)
     (hxL₀ : Γ.Adj L₀ x) (hxp : x ≠ p)
@@ -336,7 +348,7 @@ theorem exists_smul_mem_translationGroupMinus_of_trace
     _ = y₂ := by rw [← hg₂]; exact inv_smul_smul g₂ y₂
 
 theorem exists_mem_traceSet_not_mem_perpSet (hP : IsGeneralizedPolygon Γ 4)
-    {p y z : V} (hy : Γ.dist p y = 4) (hz : Γ.dist p z = 4) (hyz : Γ.dist y z = 4)
+    {p y z : V} (hy : Γ.dist p y = 4) (_hz : Γ.dist p z = 4) (hyz : Γ.dist y z = 4)
     (hzspan : z ∉ spanSet Γ p y) :
     ∃ u, u ∈ traceSet Γ y z ∧ u ∉ perpSet Γ p := by
   classical
@@ -459,6 +471,7 @@ theorem traceSet_eq_traceSet_of_subset_perp (hP : IsGeneralizedPolygon Γ 4) {p 
   rw [ncard_trace hP hyz, ncard_trace hP hy,
     hP.degree_eq_of_dist_eq (by norm_num) hy]
 
+omit [FaithfulSMul H V] in
 theorem exists_smul_mem_translationGroupMinus_of_distinct
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (hM : MoufangCondition H Γ 4)
     {c : Γ.Coloring (Fin 2)} {s t : ℕ}
@@ -496,7 +509,7 @@ theorem exists_smul_mem_translationGroupMinus_of_distinct
     have htrace₂ : traceSet Γ y₁ y₂ = traceSet Γ p y₂ := by
       have hsym : traceSet Γ y₁ y₂ = traceSet Γ y₂ y₁ := by
         ext u
-        simp only [traceSet, Set.mem_setOf_eq, and_comm]
+        simp only [traceSet, Set.mem_ofPred_eq, and_comm]
       rw [hsym]
       exact traceSet_eq_traceSet_of_subset_perp hP hy₂
         (by rw [SimpleGraph.dist_comm]; exact h12)
@@ -515,7 +528,7 @@ theorem exists_smul_mem_translationGroupMinus_of_distinct
       rw [hcp]
       exact hp
     have hxdeg : 4 ≤ Γ.degree x := by
-      rw [hdeg x, if_pos hcx]
+      rw [hdeg x, ite_eq_left hcx]
       omega
     obtain ⟨M₃, hxM₃, hM₃L₀, hM₃M₁, hM₃M₂⟩ :=
       exists_adj_ne_three x L₀ (commonNeighbor hP hx₁) (commonNeighbor hP hx₂) hxdeg
@@ -562,6 +575,7 @@ theorem exists_smul_mem_translationGroupMinus_of_distinct
       _ = g₂⁻¹ • y₃ := by rw [hg₁]
       _ = y₂ := by rw [← hg₂]; exact inv_smul_smul g₂ y₂
 
+omit [FaithfulSMul H V] in
 theorem exists_smul_mem_translationGroupMinus_of_same_projection
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (hM : MoufangCondition H Γ 4)
     {c : Γ.Coloring (Fin 2)} {s t : ℕ}
@@ -612,6 +626,7 @@ theorem exists_smul_mem_translationGroupMinus_of_same_projection
   · exact exists_smul_mem_translationGroupMinus_of_distinct hP hT hM hdeg hreg hp hpL₀ hxL₀
       hxp h3 hy₁ hy₂ hx₁ hx₂ hM₁₂
 
+omit [FaithfulSMul H V] in
 theorem exists_smul_mem_translationGroupMinus_of_dist_eq_four
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (hM : MoufangCondition H Γ 4)
     {c : Γ.Coloring (Fin 2)} {s t : ℕ}

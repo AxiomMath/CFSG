@@ -78,14 +78,14 @@ theorem xorMap_xor (f g : ℕ → ℕ) (L : List ℕ) :
 theorem xorMap_single (k x n : ℕ) :
     xorMap (fun b => if b = k then x else 0) (List.range n) = if k < n then x else 0 := by
   induction n with
-  | zero => rw [List.range_zero, xorMap_nil, if_neg (Nat.not_lt_zero k)]
+  | zero => rw [List.range_zero, xorMap_nil, ite_eq_right (Nat.not_lt_zero k)]
   | succ n ih =>
     rw [List.range_succ, xorMap_append, ih, xorMap_cons, xorMap_nil, Nat.xor_zero]
     by_cases h : k < n
-    · rw [if_pos h, if_neg (by omega), if_pos (by omega), Nat.xor_zero]
+    · rw [ite_eq_left h, ite_eq_right (by omega), ite_eq_left (by omega), Nat.xor_zero]
     · by_cases h' : n = k
-      · rw [if_neg h, if_pos h', if_pos (by omega), Nat.zero_xor]
-      · rw [if_neg h, if_neg h', if_neg (by omega), Nat.xor_zero]
+      · rw [ite_eq_right h, ite_eq_left h', ite_eq_left (by omega), Nat.zero_xor]
+      · rw [ite_eq_right h, ite_eq_right h', ite_eq_right (by omega), Nat.xor_zero]
 
 theorem xorMap_bits (m n : ℕ) :
     xorMap (fun b => if m.testBit b then 1 <<< b else 0) (List.range n) = m % 2 ^ n := by
@@ -98,12 +98,12 @@ theorem xorMap_bits (m n : ℕ) :
     rw [Nat.testBit_xor, Nat.testBit_mod_two_pow, Nat.testBit_mod_two_pow]
     rcases Nat.lt_trichotomy i n with hi | rfl | hi
     · have : (if m.testBit n then 1 <<< n else 0).testBit i = false := by
-        split <;> simp [Nat.one_shiftLeft, Nat.testBit_two_pow] <;> omega
+        split <;> simp [Nat.one_shiftLeft, Nat.testBit_two_pow]; omega
       rw [this, decide_eq_true hi, decide_eq_true (by omega)]
       simp
-    · by_cases h : m.testBit i <;> simp [h, Nat.one_shiftLeft, Nat.testBit_two_pow]
+    · by_cases h : m.testBit i <;> simp [h, Nat.one_shiftLeft]
     · have : (if m.testBit n then 1 <<< n else 0).testBit i = false := by
-        split <;> simp [Nat.one_shiftLeft, Nat.testBit_two_pow] <;> omega
+        split <;> simp [Nat.one_shiftLeft, Nat.testBit_two_pow]; omega
       rw [this, decide_eq_false (by omega), decide_eq_false (by omega)]
       simp
 
@@ -121,14 +121,14 @@ theorem xorMap_filter (t : ℕ → Bool) (g : ℕ → ℕ) (n : ℕ) :
       rw [List.filter_cons]
       by_cases hb : b = c / 128
       · subst hb
-        rw [if_pos (beq_self_eq_true _), if_pos rfl, xorMap_cons]
+        rw [ite_eq_left (beq_self_eq_true _), ite_eq_left rfl, xorMap_cons]
         cases t (c / 128) <;> simp
       · have hcb : (c / 128 == b) = false := beq_eq_false_iff_ne.2 (Ne.symm hb)
-        rw [hcb, if_neg hb, Nat.zero_xor]
+        rw [hcb, ite_eq_right hb, Nat.zero_xor]
         rfl
     rw [xorMap_congr (fun b _ => e b), xorMap_xor, xorMap_single,
       xorMap_filter t g n P (fun c' h => hP c' (List.mem_cons_of_mem _ h)), xorMap_cons,
-      if_pos (hP c (by simp))]
+      ite_eq_left (hP c (by simp))]
 
 theorem actX_xor (a x y : ℕ) : actX a (x ^^^ y) = actX a x ^^^ actX a y := by
   unfold actX
@@ -148,7 +148,7 @@ theorem actX_one (a k : ℕ) : actX a (1 <<< k) = if k < 78 then colX a k else 0
   by_cases h : b = k
   · subst h
     simp
-  · rw [if_neg h, decide_eq_false (Ne.symm h)]
+  · rw [ite_eq_right h, decide_eq_false (Ne.symm h)]
     rfl
 
 theorem actXF_eq (a f m : ℕ) : actXF a f m = actX a m := by
@@ -244,9 +244,9 @@ theorem laneK_term {S b r j : ℕ} (hb : b < 78) (hr : r < 78) (hj : j < 78) :
     rw [hq, ho, hge, Nat.add_comm b, decide_eq_true hr, Bool.true_and, Bool.true_and,
       Bool.and_true]
     by_cases hs : S.testBit (78 * j + b)
-    · rw [hs, if_pos rfl, Nat.one_shiftLeft, Nat.testBit_two_pow, decide_eq_true rfl]
+    · rw [hs, ite_eq_left rfl, Nat.one_shiftLeft, Nat.testBit_two_pow, decide_eq_true rfl]
     · rw [Bool.not_eq_true] at hs
-      rw [hs, if_neg (by simp), Nat.zero_testBit]
+      rw [hs, ite_eq_right (by simp), Nat.zero_testBit]
   · have hR : (if S.testBit (78 * j + b) then 1 <<< r else 0).testBit i = false := by
       split
       · rw [Nat.one_shiftLeft, Nat.testBit_two_pow, decide_eq_false (Ne.symm hi)]

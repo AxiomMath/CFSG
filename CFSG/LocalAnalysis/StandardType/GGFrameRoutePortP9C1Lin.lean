@@ -15,7 +15,7 @@ theorem P9C1_card_adjoinRoot {g : (ZMod 2)[X]} [Fact (Irreducible g)]
     (hgd : g ∣ cyclotomic 3 (ZMod 2)) : Nat.card (AdjoinRoot g) = 4 := by
   classical
   have hg0 : g ≠ 0 := (Fact.out : Irreducible g).ne_zero
-  haveI : Module.Finite (ZMod 2) (AdjoinRoot g) := (AdjoinRoot.powerBasis hg0).finite
+  have : Module.Finite (ZMod 2) (AdjoinRoot g) := (AdjoinRoot.powerBasis hg0).finite
   have hcard : Nat.card (AdjoinRoot g) = 2 ^ g.natDegree := by
     have hfin : Module.finrank (ZMod 2) (AdjoinRoot g) = g.natDegree := by
       rw [(AdjoinRoot.powerBasis hg0).finrank, AdjoinRoot.powerBasis_dim]
@@ -28,8 +28,8 @@ theorem P9C1_card_adjoinRoot {g : (ZMod 2)[X]} [Fact (Irreducible g)]
     have hpos : 0 < g.natDegree :=
       natDegree_pos_iff_degree_pos.mpr (degree_pos_of_irreducible (Fact.out : Irreducible g))
     have h1 : g.natDegree = 1 := by omega
-    haveI : Finite (AdjoinRoot g) := Module.finite_of_finite (ZMod 2)
-    haveI : Fintype (AdjoinRoot g) := Fintype.ofFinite _
+    have : Finite (AdjoinRoot g) := Module.finite_of_finite (ZMod 2)
+    have : Fintype (AdjoinRoot g) := Fintype.ofFinite _
     have hL2 : Fintype.card (AdjoinRoot g) = 2 := by
       rw [← Nat.card_eq_fintype_card, hcard, h1]
       norm_num
@@ -45,9 +45,9 @@ theorem P9C1_card_adjoinRoot {g : (ZMod 2)[X]} [Fact (Irreducible g)]
 theorem P9C1_algEquiv_F4 {L : Type} [Field L] [Algebra (ZMod 2) L] [Finite L]
     (hL : Nat.card L = 4) : Nonempty (L ≃ₐ[ZMod 2] F4) := by
   classical
-  haveI : Fintype L := Fintype.ofFinite L
-  haveI : Fintype F4 := Fintype.ofFinite F4
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) L).injective 2
+  have : Fintype L := Fintype.ofFinite L
+  have : Fintype F4 := Fintype.ofFinite F4
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) L).injective 2
   exact ⟨FiniteField.algEquivOfCardEq 2 (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hL, P9_F4_card])⟩
 
@@ -58,13 +58,13 @@ theorem P9C1_matrices {n : ℕ} (S : Set (Matrix (Fin n) (Fin n) (ZMod 2)))
         ∀ v, Θ (x *ᵥ v) = ((fun i => c i * (Θ v).1 i), (Θ v).2) := by
   classical
   obtain ⟨g, hg, hgd⟩ := LineL2.exists_irreducible_factor_cyclotomic_three (ZMod 2)
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hp3 : ((3 : ℕ) : ZMod 2) ≠ 0 := by decide
   obtain ⟨s, r, ε, A₀, hframe⟩ := CoordSL.exists_frame g Nat.prime_three hp3 hgd S hSc hSp
   have hζ : AdjoinRoot.root g ^ 3 = 1 :=
     (CoordSL.root_isPrimitiveRoot Nat.prime_three hp3 hgd).pow_eq_one
-  haveI : Module.Finite (ZMod 2) (AdjoinRoot g) := (CoordSL.rootPB g).finite
-  haveI : Finite (AdjoinRoot g) := Module.finite_of_finite (ZMod 2)
+  have : Module.Finite (ZMod 2) (AdjoinRoot g) := (CoordSL.rootPB g).finite
+  have : Finite (AdjoinRoot g) := Module.finite_of_finite (ZMod 2)
   obtain ⟨σ⟩ := P9C1_algEquiv_F4 (L := AdjoinRoot g) (P9C1_card_adjoinRoot hgd)
   set A : Matrix (Fin n) (Fin n) (ZMod 2) := (A₀ : Matrix (Fin n) (Fin n) (ZMod 2)) with hA
   set Ai : Matrix (Fin n) (Fin n) (ZMod 2) :=
@@ -77,7 +77,7 @@ theorem P9C1_matrices {n : ℕ} (S : Set (Matrix (Fin n) (Fin n) (ZMod 2)))
     rw [hA, hAi, ← Matrix.SpecialLinearGroup.coe_mul, inv_mul_cancel,
       Matrix.SpecialLinearGroup.coe_one]
   let Ainv : (Fin n → ZMod 2) ≃ₗ[ZMod 2] (Fin n → ZMod 2) :=
-    LinearEquiv.ofLinear (Matrix.toLin' Ai) (Matrix.toLin' A)
+    LinearEquiv.ofLinearMap (Matrix.toLin' Ai) (Matrix.toLin' A)
       (by rw [← Matrix.toLin'_mul, hAiA, Matrix.toLin'_one])
       (by rw [← Matrix.toLin'_mul, hAAi, Matrix.toLin'_one])
   have hAinv : ∀ v, Ainv v = Ai *ᵥ v := fun v => by

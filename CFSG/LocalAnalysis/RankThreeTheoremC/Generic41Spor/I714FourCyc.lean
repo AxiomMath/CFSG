@@ -35,9 +35,10 @@ theorem orderOf_eq_twentyFive {Q : Subgroup X} (hQ : Nat.card Q = 5 ^ 3)
     have : IsCyclic Q := isCyclic_of_orderOf_eq_card (⟨q, hq⟩ : Q) (by rw [hord, hk', hQ])
     infer_instance
 
+omit [Finite X] in
 theorem isMetacyclic_of_orderOf_eq_twentyFive {Q : Subgroup X} (hQ : Nat.card Q = 5 ^ 3) {a : X}
     (ha : a ∈ Q) (ha25 : orderOf a = 25) : CFSG.IsMetacyclic Q := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set C : Subgroup Q := zpowers ⟨a, ha⟩ with hC
   have hCcard : Nat.card C = 25 := by rw [hC, Nat.card_zpowers, Subgroup.orderOf_mk, ha25]
   have hidx : C.index = 5 := by
@@ -52,7 +53,7 @@ theorem isMetacyclic_of_orderOf_eq_twentyFive {Q : Subgroup X} (hQ : Nat.card Q 
 theorem exists_cyclic_inf_commutator_five (P : Sylow 5 X)
     (hmeta : CFSG.IsMetacyclic (P : Subgroup X)) (hnab : ¬ IsMulCommutative (P : Subgroup X)) :
     ∃ D : Subgroup X, D ≤ P ∧ IsCyclic D ∧ (P : Subgroup X) ⊓ commutator X ≤ D := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨D, hDP, hDcyc, hD⟩ :=
     CFSG.Walter.Huppert.exists_cyclic_of_normalizer (by norm_num) P hmeta hnab
   refine ⟨D, hDP, hDcyc, ?_⟩
@@ -67,6 +68,7 @@ theorem exists_cyclic_inf_commutator_five (P : Sylow 5 X)
     simpa using this
   rwa [CFSG.derivedSubgroup, derivedSeries_one] at hfocal
 
+omit [Finite X] in
 theorem le_commutator_of_simple {K : Subgroup X} (hKs : IsSimpleGroup K)
     (hnab : ∃ a b : K, a * b ≠ b * a) : K ≤ commutator X := by
   have htop : commutator K = ⊤ := by

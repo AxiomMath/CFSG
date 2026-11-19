@@ -30,7 +30,7 @@ theorem s15GapFour_exists_two_conj [Finite A] (M K : Subgroup A)
     ∃ φ ∈ M, ∀ x ∈ M, K.map (MulAut.conj x).toMonoidHom = K ∨
       K.map (MulAut.conj x).toMonoidHom = K.map (MulAut.conj φ).toMonoidHom := by
   classical
-  haveI : Finite (Subgroup A) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup A) := Finite.of_injective _ SetLike.coe_injective
   set 𝒦 : Set (Subgroup A) :=
     {X | ∃ φ ∈ M, X = K.map (MulAut.conj φ).toMonoidHom} with h𝒦
   by_cases hall : ∀ x ∈ M, K.map (MulAut.conj x).toMonoidHom = K
@@ -64,14 +64,14 @@ theorem s15GapFour_pRank_le_two (hAut : RAutRank153) [Finite A] {M K : Subgroup 
     (hfaith : ∀ y ∈ M, (∀ x ∈ M, x * y * x⁻¹ ∈ centralizer (K : Set A)) → y = 1)
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) : CFSG.Open.pRank q M ≤ 2 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq1 : 1 < q := hq.one_lt
   have hqodd : Odd q := hq.odd_of_ne_two hq2
   obtain ⟨φ, hφM, hφ⟩ := s15GapFour_exists_two_conj M K hcard
   have hnorm : ∀ y ∈ M, y ^ q = 1 → y ∈ normalizer (K : Set A) := fun y hy hyq =>
     s15GapFour_mem_normalizer_of_odd M K hcard hy hqodd hyq
   set c : A →* A := (MulAut.conj φ⁻¹).toMonoidHom with hc
-  have hcy : ∀ y : A, c y = φ⁻¹ * y * φ := fun y => by simp [hc, MulAut.conj_apply]
+  have hcy : ∀ y : A, c y = φ⁻¹ * y * φ := fun y => by simp [hc]
   set P : Subgroup A :=
     M ⊓ normalizer (K : Set A) ⊓ (normalizer (K : Set A)).comap c with hP
   have hEP : ∀ E : Subgroup A, E ≤ M → IsElemAbelian q E → E ≤ P := by

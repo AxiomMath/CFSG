@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16g_commSub_map_conj (g : MulAut W) (J : Subgroup W)
     (A : Subgroup (MulAut W)) :
     commSub (J.map g.toMonoidHom) (A.map (MulAut.conj g).toMonoidHom) =
@@ -29,6 +30,7 @@ private theorem w16g_commSub_map_conj (g : MulAut W) (J : Subgroup W)
     refine ⟨(MulAut.conj g).toMonoidHom x, ⟨x, hx, rfl⟩, g w, ⟨w, hw, rfl⟩, ?_⟩
     simp [MulAut.conj_apply, MulAut.mul_apply]
 
+omit [Finite W] in
 private theorem w16g_map_conj_inv (U : Subgroup W) (g : MulAut W) :
     (U.map g.toMonoidHom).map (g⁻¹).toMonoidHom = U := by
   rw [Subgroup.map_map]
@@ -37,6 +39,7 @@ private theorem w16g_map_conj_inv (U : Subgroup W) (g : MulAut W) :
     exact MulEquiv.symm_apply_apply g w
   rw [h, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w16g_map_conj_inv' (U : Subgroup W) (g : MulAut W) :
     (U.map (g⁻¹).toMonoidHom).map g.toMonoidHom = U := by
   rw [Subgroup.map_map]
@@ -45,12 +48,14 @@ private theorem w16g_map_conj_inv' (U : Subgroup W) (g : MulAut W) :
     exact MulEquiv.apply_symm_apply g w
   rw [h, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w16g_commute_of_commutator_eq_bot {A C : Subgroup (MulAut W)}
     (h : ⁅A, C⁆ = ⊥) {a c : MulAut W} (ha : a ∈ A) (hc : c ∈ C) : Commute a c := by
   rw [commute_iff_eq]
   exact (Subgroup.mem_centralizer_iff.mp
     (Subgroup.commutator_eq_bot_iff_le_centralizer.mp h ha) c hc).symm
 
+omit [Finite W] in
 private theorem w16g_conj_mem_of_commutator_eq_bot {A C : Subgroup (MulAut W)}
     (h : ⁅A, C⁆ = ⊥) {a c : MulAut W} (ha : a ∈ A) (hc : c ∈ C) :
     a * c * a⁻¹ ∈ C := by
@@ -58,6 +63,7 @@ private theorem w16g_conj_mem_of_commutator_eq_bot {A C : Subgroup (MulAut W)}
   rw [hcomm.eq, mul_assoc, mul_inv_cancel, mul_one]
   exact hc
 
+omit [Finite W] in
 private theorem w16g_centralizer_sup (A B : Subgroup (MulAut W)) :
     Subgroup.centralizer ((A ⊔ B : Subgroup (MulAut W)) : Set (MulAut W)) =
       Subgroup.centralizer (A : Set (MulAut W)) ⊓
@@ -73,12 +79,14 @@ private theorem w16g_centralizer_sup (A B : Subgroup (MulAut W)) :
     · exact h1 y hy
     · exact h2 y hy
 
+omit [Finite W] in
 private theorem w16g_commutator_sup_eq_bot {A B C : Subgroup (MulAut W)}
     (hAC : ⁅A, C⁆ = ⊥) (hBC : ⁅B, C⁆ = ⊥) : ⁅A ⊔ B, C⁆ = ⊥ := by
   rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
   exact sup_le (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hAC)
     (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hBC)
 
+omit [Finite W] in
 private theorem w16g_commutator_sup_sup_eq_bot {A B C D : Subgroup (MulAut W)}
     (hAC : ⁅A, C⁆ = ⊥) (hAD : ⁅A, D⁆ = ⊥) (hBC : ⁅B, C⁆ = ⊥) (hBD : ⁅B, D⁆ = ⊥) :
     ⁅A ⊔ B, C ⊔ D⁆ = ⊥ := by
@@ -88,6 +96,7 @@ private theorem w16g_commutator_sup_sup_eq_bot {A B C D : Subgroup (MulAut W)}
     (sup_le (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hAD)
       (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hBD))
 
+omit [Finite W] in
 private theorem w16g_commutator_sup_sup_self {A B : Subgroup (MulAut W)}
     (hA : ⁅A, A⁆ = A) (hB : ⁅B, B⁆ = B) : ⁅A ⊔ B, A ⊔ B⁆ = A ⊔ B := by
   refine le_antisymm (Subgroup.commutator_le_of_le le_rfl le_rfl) (sup_le ?_ ?_)
@@ -96,6 +105,7 @@ private theorem w16g_commutator_sup_sup_self {A B : Subgroup (MulAut W)}
   · calc B = ⁅B, B⁆ := hB.symm
       _ ≤ ⁅A ⊔ B, A ⊔ B⁆ := Subgroup.commutator_mono le_sup_right le_sup_right
 
+omit [Finite W] in
 private theorem w16g_commSub_top_ne_bot {H : Subgroup (MulAut W)} (hH : H ≠ ⊥) :
     commSub ⊤ H ≠ ⊥ := by
   intro hbot
@@ -112,6 +122,7 @@ private theorem w16g_commSub_top_ne_bot {H : Subgroup (MulAut W)} (hH : H ≠ �
     exact hmem
   exact (mem_fixV.mp hw) x hx
 
+omit [Finite W] in
 private theorem w16g_inf_fixV_commSub_eq_bot {H : Subgroup (MulAut W)}
     (hperf : ⁅H, H⁆ = H) (hirr : IsIrrOn H (commSub ⊤ H) ⊥) :
     commSub ⊤ H ⊓ fixV H = ⊥ := by
@@ -127,6 +138,7 @@ private theorem w16g_inf_fixV_commSub_eq_bot {H : Subgroup (MulAut W)}
     have hchain := s13_perfect_chain H hperf ⊥ (commSub ⊤ H) ⊤ (le_of_eq hbot) le_rfl
     exact (not_lt_of_ge hchain) hirr.1
 
+omit [Finite W] in
 private theorem w16g_isComponentOf_map_conj {A B : Subgroup (MulAut W)} (e : MulAut W)
     (h : IsComponentOf A B) :
     IsComponentOf (A.map (MulAut.conj e).toMonoidHom) (B.map (MulAut.conj e).toMonoidHom) :=
@@ -135,6 +147,7 @@ private theorem w16g_isComponentOf_map_conj {A B : Subgroup (MulAut W)} (e : Mul
     CFSG.ComponentClassification.Components.quasisimple_of_equiv
       (A.equivMapOfInjective (MulAut.conj e).toMonoidHom (MulAut.conj e).injective).symm h.2.2⟩
 
+omit [Finite W] in
 private theorem w16g_isComponentOf_subgroupOf_top {A Y : Subgroup (MulAut W)}
     (hA : IsComponentOf A Y) : IsComponentOf (A.subgroupOf Y) ⊤ := by
   refine ⟨le_top, ?_, CFSG.ComponentClassification.Components.quasisimple_of_equiv
@@ -143,7 +156,7 @@ private theorem w16g_isComponentOf_subgroupOf_top {A Y : Subgroup (MulAut W)}
 
 private theorem w16g_commutator_eq_bot_of_components {Y A B : Subgroup (MulAut W)}
     (hA : IsComponentOf A Y) (hB : IsComponentOf B Y) (hne : A ≠ B) : ⁅A, B⁆ = ⊥ := by
-  haveI : Finite ↥Y := Subtype.finite
+  have : Finite ↥Y := Subtype.finite
   have hA' := w16g_isComponentOf_subgroupOf_top hA
   have hB' := w16g_isComponentOf_subgroupOf_top hB
   have hne' : A.subgroupOf Y ≠ B.subgroupOf Y := by
@@ -157,6 +170,7 @@ private theorem w16g_commutator_eq_bot_of_components {Y A B : Subgroup (MulAut W
   rwa [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hA.1,
     Subgroup.map_subgroupOf_eq_of_le hB.1, Subgroup.map_bot] at hmap
 
+omit [Finite W] in
 private theorem w16g_isIrrOn_map_conj {X : Subgroup (MulAut W)} {U : Subgroup W}
     (h : IsIrrOn X U ⊥) (g : MulAut W) :
     IsIrrOn (X.map (MulAut.conj g).toMonoidHom) (U.map g.toMonoidHom) ⊥ := by
@@ -170,7 +184,7 @@ private theorem w16g_isIrrOn_map_conj {X : Subgroup (MulAut W)} {U : Subgroup W}
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hx'
     obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hu'
     refine Subgroup.mem_map.mpr ⟨x u, hUstab x hx u hu, ?_⟩
-    simp [MulAut.conj_apply, MulAut.mul_apply, MulAut.inv_apply_self]
+    simp [MulAut.conj_apply, MulAut.mul_apply]
   refine ⟨hlt', hstab', ?_, ?_⟩
   · intro x hx u hu
     rw [Subgroup.mem_bot] at hu ⊢
@@ -182,7 +196,7 @@ private theorem w16g_isIrrOn_map_conj {X : Subgroup (MulAut W)} {U : Subgroup W}
       have hx' : g * x * g⁻¹ ∈ X.map (MulAut.conj g).toMonoidHom := ⟨x, hx, rfl⟩
       have hu' : (g * x * g⁻¹) w ∈ J := hJstab _ hx' w hw
       refine Subgroup.mem_map.mpr ⟨(g * x * g⁻¹) w, hu', ?_⟩
-      simp [MulAut.mul_apply, MulAut.inv_apply_self]
+      simp [MulAut.mul_apply]
     have hJ'le : J.map (g⁻¹).toMonoidHom ≤ U := by
       have hmono := Subgroup.map_mono (f := (g⁻¹).toMonoidHom) hJle
       rwa [w16g_map_conj_inv] at hmono
@@ -196,6 +210,7 @@ private theorem w16g_isIrrOn_map_conj {X : Subgroup (MulAut W)} {U : Subgroup W}
         rw [h]
       rwa [w16g_map_conj_inv'] at h'
 
+omit [Finite W] in
 private theorem w16g_factor_commSub_eq {H K₁ K₂ : Subgroup (MulAut W)}
     (hH : H = K₁ ⊔ K₂) (hcomm : ⁅K₁, K₂⁆ = ⊥) (hK₁ne : K₁ ≠ ⊥)
     (hirr : IsIrrOn H (commSub ⊤ H) ⊥) : commSub ⊤ K₁ = commSub ⊤ H := by
@@ -264,6 +279,7 @@ private theorem w16g_shared_factor_false (hW : ∀ w : W, w * w = 1)
     exact w16g_commSub_top_ne_bot hCne' (le_bot_iff.mp hchain)
   exact hCne hCbot
 
+omit [Finite W] in
 private theorem w16g_sup_eq_of_mem {K K' Kg K'g : Subgroup (MulAut W)}
     (hKg_ne_K'g : Kg ≠ K'g) (hKg : Kg = K ∨ Kg = K') (hK'g : K'g = K ∨ K'g = K') :
     Kg ⊔ K'g = K ⊔ K' := by

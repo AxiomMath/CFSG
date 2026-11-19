@@ -33,7 +33,7 @@ theorem step26_holds : Step26 := by
   have hnorm : Hg d ≤ normalizer ((H0 d z₀ : Subgroup G) : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hH₀H).mp hN
   have hidx : (H0 d z₀).relIndex (Hg d) = 2 ∨ (H0 d z₀).relIndex (Hg d) = 6 := by
-    haveI := hN
+    have := hN
     exact P6.relIndex_eq_two_or_six hquot
   exact P6.firstTransferData_of_sylow_quotient hd.t_two hSH hH₀H hnorm hidx h23a.2.2.2.1 htS hfus hsyl
 

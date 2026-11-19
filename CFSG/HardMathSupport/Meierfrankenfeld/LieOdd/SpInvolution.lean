@@ -77,7 +77,7 @@ theorem scalar_matrix_eq (c : Kˣ) :
       (c : K) • (1 : Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K) := by
   ext i j
   by_cases hij : i = j <;>
-    simp [Matrix.GeneralLinearGroup.scalar, Matrix.diagonal_apply, Matrix.one_apply, hij]
+    simp [Matrix.GeneralLinearGroup.scalar, hij]
 
 theorem mk_eq_one_of_mulVec (g : StatedSp r K) (c : Kˣ)
     (h : ∀ w, mat r K g *ᵥ w = (c : K) • w) :
@@ -239,7 +239,7 @@ theorem exists_pairData_neg [Finite K] (g : StatedSp r K) (hK2 : (2 : K) ≠ 0)
     (hG2 : ∀ w, mat r K g *ᵥ (mat r K g *ᵥ w) = -w) :
     ∃ a₀ b₀ v v', PairData g a₀ b₀ v v' := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : 3 ≤ Fintype.card (Fin r ⊕ Fin r) := by
     rw [Fintype.card_sum, Fintype.card_fin]; omega
   obtain ⟨v, hv0, hvQ⟩ := exists_isotropic_of_three_le hcard (gram K r * mat r K g)
@@ -300,11 +300,11 @@ section Main
 
 theorem form_e_e (i j : Fin r) :
     form (Pi.single (Sum.inl i) 1 : Fin r ⊕ Fin r → K) (Pi.single (Sum.inl j) 1) = 0 := by
-  rw [form_single_right]; simp [Pi.single_apply]
+  rw [form_single_right]; simp
 
 theorem form_f_f (i j : Fin r) :
     form (Pi.single (Sum.inr i) 1 : Fin r ⊕ Fin r → K) (Pi.single (Sum.inr j) 1) = 0 := by
-  rw [form_single_right]; simp [Pi.single_apply]
+  rw [form_single_right]; simp
 
 theorem form_e_f (i j : Fin r) :
     form (Pi.single (Sum.inl i) 1 : Fin r ⊕ Fin r → K) (Pi.single (Sum.inr j) 1) =

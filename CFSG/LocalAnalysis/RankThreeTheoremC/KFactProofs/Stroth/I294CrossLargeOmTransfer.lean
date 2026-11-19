@@ -26,7 +26,7 @@ theorem CommOrRank.of_projOmega {F : Type} [Field F] [Finite F] {ι : Type} [Fin
   have hsq : ∀ g : ↥(TauCeti.QuadraticMap.orthogonalGroup Q),
       g ^ 2 ∈ commutator ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := fun g =>
     mem_commutator_of_coe_mem (by simpa using hsq' (g : (ι → F) ≃ₗ[F] (ι → F)) g.2)
-  haveI : Nontrivial (ι → F) := by
+  have : Nontrivial (ι → F) := by
     obtain ⟨T, hT3, -⟩ := hT
     refine Module.nontrivial_of_finrank_pos (R := F) ?_
     have := Submodule.finrank_le T

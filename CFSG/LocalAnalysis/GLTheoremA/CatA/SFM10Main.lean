@@ -39,7 +39,7 @@ section Main
 theorem I1429TwoRankSp4_holds : I1429TwoRankSp4 := by
   intro Q _ _ hQ hcat
   obtain ⟨q, hv, hq27, ⟨e⟩⟩ := exists_B2_of_isSp4_27 hcat
-  haveI : Finite ↥(ValidLieTypeIndex.fixedField ⟨.B 2 q, hv⟩) :=
+  have : Finite ↥(ValidLieTypeIndex.fixedField ⟨.B 2 q, hv⟩) :=
     finite_validIndex_fixedField _
   have hK : Nat.card ↥(ValidLieTypeIndex.fixedField ⟨.B 2 q, hv⟩) = 27 := by
     rw [ValidLieTypeIndex.card_fixedField, ValidLieTypeIndex.fieldOrder, LieTypeIndex.fieldOrder_B]

@@ -53,12 +53,15 @@ theorem burnsideB46_charP [Finite K] (H : burnsideB46_Hyp V n K G L π θ) : Cha
 @[expose] def burnsideB46_nat (w : Ix3 → K) : NatQ K :=
   (fun i => w (Sum.inl i), fun i => w (Sum.inr i))
 
+omit [Field K] in
 theorem burnsideB46_ix_nat (w : Ix3 → K) : burnsideB46_ix (burnsideB46_nat w) = w := by
   funext i
   rcases i with i | i <;> rfl
 
+omit [Field K] in
 theorem burnsideB46_nat_ix (x : NatQ K) : burnsideB46_nat (burnsideB46_ix x) = x := rfl
 
+omit [Field K] in
 theorem burnsideB46_ix_injective : Function.Injective (burnsideB46_ix (K := K)) := fun x y h => by
   rw [← burnsideB46_nat_ix x, ← burnsideB46_nat_ix y, h]
 
@@ -110,7 +113,7 @@ theorem burnsideB46_theta_act (H : burnsideB46_Hyp V n K G L π θ) (γ : ↥(qu
 
 theorem burnsideB46_part_2 [Finite K] (H : burnsideB46_Hyp V n K G L π θ) :
     ∀ v w : V, θ v ≠ 1 → θ w ≠ 1 → ∃ l ∈ L, θ (l v) = θ w := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   intro v w hv hw
   have hx : burnsideB46_ix (Multiplicative.toAdd (θ v)) ≠ 0 := by
     intro h
@@ -150,7 +153,7 @@ theorem burnsideB46_part_1a [Finite K] (H : burnsideB46_Hyp V n K G L π θ) :
     ∀ ψ : Multiplicative (NatQ K) →* Multiplicative (NatQ K),
       (∀ l ∈ L, ∀ v w : V, ψ (θ v) = θ w → ψ (θ (l v)) = θ (l w)) →
         ∃ c : K, ∀ x, ψ x = Multiplicative.ofAdd (c • Multiplicative.toAdd x) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   intro ψ hψ
   let φ : NatQ K → NatQ K := fun y => Multiplicative.toAdd (ψ (Multiplicative.ofAdd y))
   have hφ : ∀ y, ψ (Multiplicative.ofAdd y) = Multiplicative.ofAdd (φ y) := fun y => rfl
@@ -260,7 +263,7 @@ theorem burnsideB46_ixMul_apply (x : Multiplicative (NatQ K)) :
     burnsideB46_ixMul x = Multiplicative.ofAdd (burnsideB46_ix (Multiplicative.toAdd x)) := rfl
 
 theorem burnsideB46_ixMul_injective : Function.Injective (burnsideB46_ixMul (K := K)) :=
-  fun x y h => Multiplicative.toAdd.injective
+  fun _x _y h => Multiplicative.toAdd.injective
     (burnsideB46_ix_injective (Multiplicative.ofAdd.injective h))
 
 theorem burnsideB46_ixMul_surjective : Function.Surjective (burnsideB46_ixMul (K := K)) :=
@@ -414,7 +417,7 @@ theorem burnsideB46_O0Equiv_act [CharP K 2] (γ : ↥(quasithinG2 K)) (m m' : �
 
 theorem burnsideB46_part_1c_ge2 [Finite K] [Finite V] (H : burnsideB46_Hyp V n K G L π θ)
     (hn : 2 ≤ n) : Nat.card V ≤ 2 ^ (7 * n) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   obtain ⟨ψ, hψs, -⟩ := burnsideB46_weyl H hn
   have h1 : Nat.card V ≤ Nat.card ↥(zornO0 K) := Nat.card_le_card_of_surjective ψ hψs
   rw [burnsideB46_card_O0, H.card, ← pow_mul, mul_comm] at h1
@@ -425,7 +428,7 @@ theorem burnsideB46_part_1d_ge2 [Finite K] [Finite V] (H : burnsideB46_Hyp V n K
     Nat.card V = 2 ^ (7 * n) → ∃ Ψ : V ≃* Multiplicative (WeylM K),
       ∀ (γ : ↥(quasithinG2 K)) (v : V), Ψ ((π γ) v) = Multiplicative.ofAdd
         (weylAct (γ : quasithinZorn K ≃ₗ[K] quasithinZorn K) (Multiplicative.toAdd (Ψ v))) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   intro hcard
   obtain ⟨ψ, hψs, hψk, hψe, -⟩ := burnsideB46_weyl H hn
   have hD := FFModel.zornQ_isActionModel (quasithinG2 K) (le_refl _)
@@ -470,7 +473,7 @@ theorem burnsideB46_fix_lift [CharP K 2] (γ : ↥(cayleyGroup K)) (x : quasithi
 
 theorem burnsideB46_lift_fix_ge2 [Finite K] [Finite V] (H : burnsideB46_Hyp V n K G L π θ)
     (hn : 2 ≤ n) {l : MulAut V} (hl : l ∈ L) {v : V} (h : l v * v⁻¹ ∈ fixV L) : l v = v := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   obtain ⟨γ, rfl⟩ := (burnsideB46_mem_L H).1 hl
   obtain ⟨ψ, hψs, -, hψe, hψθ⟩ := burnsideB46_weyl H hn
   obtain ⟨m, rfl⟩ := hψs v
@@ -525,16 +528,16 @@ theorem burnsideB46_shortRootFn_eq [CharP K 2] (t : K) (x : quasithinZorn K) :
   · simp
   · funext i
     fin_cases i
-    · simp [Pi.single_apply]
+    · simp
       ring
-    · simp [Pi.single_apply]
-    · simp [Pi.single_apply]
+    · simp
+    · simp
   · funext i
     fin_cases i
-    · simp [Pi.single_apply, Matrix.vecHead, Matrix.vecTail]
-    · simp [Pi.single_apply, Matrix.vecHead, Matrix.vecTail]
+    · simp [Matrix.vecHead, Matrix.vecTail]
+    · simp [Matrix.vecHead, Matrix.vecTail]
       linear_combination (t * u 2) * h2
-    · simp [Pi.single_apply, Matrix.vecHead, Matrix.vecTail]
+    · simp [Matrix.vecHead, Matrix.vecTail]
   · simp
 
 theorem burnsideB46_shortRoot_mem [CharP K 2] (t : K) :
@@ -569,13 +572,13 @@ theorem burnsideB46_part8_id [CharP K 2] (φ₁ φ₂ : ↥(quasithinG2 K)) (t c
   change (φ₁ : quasithinZorn K ≃ₗ[K] quasithinZorn K) _ - _ - ((φ₂ : quasithinZorn K ≃ₗ[K] quasithinZorn K) _ - _) = _
   rw [h₁, h₂]
   refine Prod.ext ?_ (Prod.ext ?_ (Prod.ext ?_ ?_))
-  · simp [shortRootFn, burnsideB46_av, Pi.single_apply]
+  · simp [shortRootFn, burnsideB46_av]
     linear_combination (-(t ^ 2 * c₁)) * h2
   · funext i
-    fin_cases i <;> simp [shortRootFn, burnsideB46_av, Pi.single_apply, Matrix.vecHead, Matrix.vecTail]
+    fin_cases i <;> simp [shortRootFn, burnsideB46_av]
   · funext i
-    fin_cases i <;> simp [shortRootFn, burnsideB46_av, Pi.single_apply, Matrix.vecHead, Matrix.vecTail]
-  · simp [shortRootFn, burnsideB46_av, Pi.single_apply]
+    fin_cases i <;> simp [shortRootFn, burnsideB46_av]
+  · simp [shortRootFn, burnsideB46_av]
     linear_combination (-(t ^ 2 * c₁)) * h2
 
 theorem burnsideB46_conj_gen {R : Subgroup (MulAut V)} (a b : MulAut V) (hab : a * b * a⁻¹ ∈ R)
@@ -587,7 +590,7 @@ theorem burnsideB46_conj_gen {R : Subgroup (MulAut V)} (a b : MulAut V) (hab : a
 theorem burnsideB46_part_8_ge2 [Finite K] [Finite V] (H : burnsideB46_Hyp V n K G L π θ)
     (hn : 2 ≤ n) :
     1 < n → ∀ R : Subgroup (MulAut V), IsShortRootSub π R → fixV L ≤ commV R := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   intro _ R hR w hw
   obtain ⟨g, hg⟩ := hR
   obtain ⟨ψ, hψs, -, hψe, hψθ⟩ := burnsideB46_weyl H hn
@@ -695,7 +698,7 @@ theorem burnsideB46_G2Qs_of_cert
     rw [hF]
     calc 3 ≤ 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI hs : IsSimpleGroup (AdjointQuotient .G2 F) := isSimpleGroup_g2Model hF3
+  have hs : IsSimpleGroup (AdjointQuotient .G2 F) := isSimpleGroup_g2Model hF3
   refine ⟨?_, e.isSimpleGroup⟩
   have hder : ⁅quasithinG2 K, quasithinG2 K⁆ = cayleyGroup K := g2Derived_eq hc0 hc1
   have hq : quasithinG2 K = cayleyGroup K :=
@@ -946,7 +949,7 @@ theorem burnsideB46_derived_eq [CharP K 2] [Finite K] (H : burnsideB46_Hyp V n K
 @[expose] noncomputable def burnsideB46_piDer (H : burnsideB46_Hyp V n K G L π θ) :
     ↥⁅quasithinG2 K, quasithinG2 K⁆ →* ↥L :=
   (π.comp (Subgroup.inclusion (Subgroup.commutator_le_self _))).codRestrict L
-    (fun γ => (burnsideB46_mem_L H).2 ⟨_, rfl⟩)
+    (fun _γ => (burnsideB46_mem_L H).2 ⟨_, rfl⟩)
 
 theorem burnsideB46_isCoord [CharP K 2] [Finite K] (H : burnsideB46_Hyp V n K G L π θ)
     (hn : 2 ≤ n) :
@@ -972,7 +975,7 @@ theorem burnsideB46_isCoord [CharP K 2] [Finite K] (H : burnsideB46_Hyp V n K G 
 theorem burnsideB46_scalar_eq_one [CharP K 2] [Finite K] [Finite V] (hqs : burnsideB46_G2Qs)
     (H : burnsideB46_Hyp V n K G L π θ) (hn : 2 ≤ n) {g : MulAut V} (hg : g ∈ G) {c : K}
     (hc : c ≠ 0) (hgc : ∀ v, burnsideB46_f θ (g v) = c • burnsideB46_f θ v) : g = 1 := by
-  haveI : Finite (MulAut V) := Finite.of_injective (fun e : MulAut V => (e : V → V))
+  have : Finite (MulAut V) := Finite.of_injective (fun e : MulAut V => (e : V → V))
     (fun e e' h => MulEquiv.ext (congrFun h))
   have hginv : ∀ u, burnsideB46_f θ (g⁻¹ u) = c⁻¹ • burnsideB46_f θ u := by
     intro u
@@ -1245,14 +1248,14 @@ theorem burnsideB46_mp_tv12 (t a b c d e f : K) :
       q6 a (b + t * c) c d e (f + t * e) := by
   rw [g2Act_tv]
   funext k
-  rcases k with k | k <;> fin_cases k <;> simp [q6, eu, ev, Pi.single_apply]
+  rcases k with k | k <;> fin_cases k <;> simp [q6, eu, ev]
 
 theorem burnsideB46_mp_tv21 (t a b c d e f : K) :
     g2Act (g2A (tv 2 1 (by decide) t)) (q6 a b c d e f) =
       q6 a b (c + t * b) d (e + t * f) f := by
   rw [g2Act_tv]
   funext k
-  rcases k with k | k <;> fin_cases k <;> simp [q6, eu, ev, Pi.single_apply]
+  rcases k with k | k <;> fin_cases k <;> simp [q6, eu, ev]
 
 theorem burnsideB46_mp_tv12_mem (t : K) : g2A (tv 1 2 (by decide) t) ∈ stabQ (stdF K 1) := by
   refine burnsideB46_mp_mem_P (c := 1) one_ne_zero ?_
@@ -1393,17 +1396,20 @@ theorem burnsideB46_mp_rel_r3 [Finite K] (a e f : K) (h : e ≠ 0 ∨ f ≠ 0) :
     exact s0.trans (burnsideB46_mp_rel_r3_of_e _ _ _ he')
   · exact burnsideB46_mp_rel_r3_of_e a e f he
 
+omit [CharP K 2] in
 theorem burnsideB46_mp_mem_F5 (y : Ix3 → K) : y ∈ stdF K 5 ↔ y (.inr 0) = 0 := by
   conv_lhs => rw [q6_eta y]
   rw [mem_stdF, inF_q6_iff]
   simp
 
+omit [CharP K 2] in
 theorem burnsideB46_mp_mem_F3 (y : Ix3 → K) :
     y ∈ stdF K 3 ↔ y (.inl 1) = 0 ∧ y (.inl 2) = 0 ∧ y (.inr 0) = 0 := by
   conv_lhs => rw [q6_eta y]
   rw [mem_stdF, inF_q6_iff]
   simp
 
+omit [CharP K 2] in
 theorem burnsideB46_mp_mem_F1 (y : Ix3 → K) :
     y ∈ stdF K 1 ↔ y (.inl 1) = 0 ∧ y (.inl 2) = 0 ∧ y (.inr 0) = 0 ∧ y (.inr 1) = 0 ∧
       y (.inr 2) = 0 := by
@@ -1439,6 +1445,7 @@ theorem burnsideB46_mp_rel_r3' [Finite K] {y : Ix3 → K} (h3 : y ∈ stdF K 3)
   conv_lhs => rw [q6_eta y, hb, hc, hd]
   exact burnsideB46_mp_rel_r3 _ _ _ hef
 
+omit [Field K] [CharP K 2] in
 theorem burnsideB46_mp_card_Ix3 [Finite K] : Nat.card (Ix3 → K) = Nat.card K ^ 6 := by
   rw [Nat.card_fun]
   congr 1
@@ -1457,7 +1464,7 @@ theorem burnsideB46_mp_orbit_count [Finite K] (Q : Subgroup ↥(cayleyGroup K))
     (hQ : stabV0 K ≤ Q) :
     Set.ncard {w : Ix3 → K | ∃ q ∈ Q, g2Act q (eu 0 1) = w} * Q.index + 1 = Nat.card K ^ 6 := by
   classical
-  letI : MulAction ↥(cayleyGroup K) (Ix3 → K) := burnsideB46_mp_act (K := K)
+  let : MulAction ↥(cayleyGroup K) (Ix3 → K) := burnsideB46_mp_act (K := K)
   have hsmul : ∀ (g : ↥(cayleyGroup K)) (w : Ix3 → K), g • w = g2Act g w := fun _ _ => rfl
   have hstab : MulAction.stabilizer ↥(cayleyGroup K) (eu 0 1 : Ix3 → K) = stabV0 K := by
     ext g
@@ -1500,7 +1507,7 @@ theorem burnsideB46_mp_orbit_count [Finite K] (Q : Subgroup ↥(cayleyGroup K))
     have hset : {w : Ix3 → K | w ≠ 0} = (Set.univ : Set (Ix3 → K)) \ {0} := by
       ext w
       simp
-    rw [hset, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, h6]
+    rw [hset, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, h6]
     have : 1 ≤ Nat.card K ^ 6 := Nat.one_le_pow _ _ Nat.card_pos
     omega
   rw [h1]
@@ -1530,7 +1537,7 @@ theorem burnsideB46_mp_ncard_step {Ω : Type*} [Finite Ω] (X A B : Set Ω) (hAB
   · left
     refine ⟨?_, h⟩
     rw [hcard, Set.inter_eq_left.mpr h]
-    have h1 := Set.ncard_diff hAB
+    have h1 := Set.ncard_sdiff hAB
     have hle : A.ncard ≤ B.ncard := Set.ncard_le_ncard hAB
     omega
   · right
@@ -1641,6 +1648,7 @@ theorem burnsideB46_mp_arith_TTT_Z (M m N₁ N₃ N₅ N₆ : ℤ) (hM : 2 ≤ M
   · exact absurd h hpos.ne'
   · linarith
 
+omit [CharP K 2] in
 theorem burnsideB46_mp_eu_ne_zero : (eu 0 1 : Ix3 → K) ≠ 0 := by
   rw [eu_eq_q6]
   intro h
@@ -1665,6 +1673,7 @@ theorem burnsideB46_mp_stab_of_eq (Q : Subgroup ↥(cayleyGroup K)) (S : Submodu
   have := key q⁻¹ (Subgroup.inv_mem _ hq) _ h
   rwa [g2Act_inv_apply] at this
 
+omit [CharP K 2] in
 theorem burnsideB46_mp_ncard_stdF [Finite K] {h : ℕ} (hh : h ≤ 6) :
     ((stdF K h : Submodule K (Ix3 → K)) : Set (Ix3 → K)).ncard = Nat.card K ^ h := by
   rw [← Nat.card_coe_set_eq]
@@ -1687,7 +1696,7 @@ theorem burnsideB46_mp_layers {Ω : Type*} [Finite Ω] (X F1 F3 F5 : Set Ω) (z 
         rwa [Set.mem_singleton_iff.mp h] at hwX
       · rintro ⟨hw1, hw⟩
         exact ⟨hw1, hF1X ⟨hw1, hw⟩⟩
-    rw [hF, Set.ncard_diff_singleton_of_mem hzF1, c1]
+    rw [hF, Set.ncard_sdiff_singleton_of_mem hzF1, c1]
     omega
   have stB := burnsideB46_mp_ncard_step X F1 F3 h13 hL3
   have stC := burnsideB46_mp_ncard_step X F3 F5 h35 hL5
@@ -1904,7 +1913,7 @@ theorem burnsideB46_mp_hmax1 [Finite K] {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn 
     IsMaxParabolic2 (⊤ : Subgroup ↥(cayleyGroup K)) (burnsideB46_P1 K x) := by
   obtain ⟨g, hg⟩ := burnsideB46_mp_P1_eq_map hx
   rw [hg]
-  haveI : Finite ↥(cayleyGroup K) := finite_cayleyGroup
+  have : Finite ↥(cayleyGroup K) := finite_cayleyGroup
   exact CFSG.QuasithinUnique.Vol2Native.A312L.isMaxParabolic2_top_map_equiv (MulAut.conj g)
     (burnsideB46_mp_isMax hK hn)
 
@@ -2069,12 +2078,14 @@ theorem burnsideB46_wp2_rel_C [Finite K] (a b c d e f : K) (h : c ≠ 0 ∨ d �
     exact s1.trans (burnsideB46_wp2_rel_C_of_d _ _ _ _ _ _ one_ne_zero)
   · exact burnsideB46_wp2_rel_C_of_d a b c d e f hd
 
+omit [CharP K 2] in
 theorem burnsideB46_wp2_mem_F2 (y : Ix3 → K) :
     y ∈ stdF K 2 ↔ y (.inl 1) = 0 ∧ y (.inl 2) = 0 ∧ y (.inr 0) = 0 ∧ y (.inr 1) = 0 := by
   conv_lhs => rw [q6_eta y]
   rw [mem_stdF, inF_q6_iff]
   simp
 
+omit [CharP K 2] in
 theorem burnsideB46_wp2_mem_F4 (y : Ix3 → K) :
     y ∈ stdF K 4 ↔ y (.inl 2) = 0 ∧ y (.inr 0) = 0 := by
   conv_lhs => rw [q6_eta y]
@@ -2338,7 +2349,7 @@ theorem burnsideB46_wp2_isMax_conj [Finite K] {n : ℕ} (hK : Nat.card K = 2 ^ n
     (g : ↥(cayleyGroup K)) :
     IsMaxParabolic2 (⊤ : Subgroup ↥(cayleyGroup K))
       ((stabQ (stdF K 2)).map (MulAut.conj g).toMonoidHom) := by
-  haveI : Finite ↥(cayleyGroup K) := finite_cayleyGroup
+  have : Finite ↥(cayleyGroup K) := finite_cayleyGroup
   exact CFSG.QuasithinUnique.Vol2Native.A312L.isMaxParabolic2_top_map_equiv (MulAut.conj g)
     (burnsideB46_wp2_isMax hK hn)
 
@@ -2384,7 +2395,7 @@ theorem burnsideB46_w14b_orbit_ge_e [Finite K] (a e f : K) (he : e ≠ 0) :
   intro t t' htt'
   simp only [g2Act_g2A_uSL] at htt'
   obtain ⟨-, -, -, -, -, h6⟩ := q6_inj htt'
-  simp only [q6_apply_inl0, q6_apply_inl1, q6_apply_inl2, q6_apply_inr0, q6_apply_inr1,
+  simp only [q6_apply_inr0, q6_apply_inr1,
     q6_apply_inr2] at h6
   exact mul_right_cancel₀ he (by linear_combination h6)
 
@@ -2394,7 +2405,7 @@ theorem burnsideB46_w14b_orbit_ge_f [Finite K] (a f : K) (hf : f ≠ 0) :
   intro β β' hββ'
   simp only [g2Act_g2Y_e12] at hββ'
   obtain ⟨h1, -, -, -, -, -⟩ := q6_inj hββ'
-  simp only [q6_apply_inl0, q6_apply_inl1, q6_apply_inl2, q6_apply_inr0, q6_apply_inr1,
+  simp only [q6_apply_inl0, q6_apply_inr1,
     q6_apply_inr2] at h1
   exact mul_right_cancel₀ hf (by linear_combination h1)
 
@@ -2418,11 +2429,11 @@ theorem burnsideB46_w14b_orbit_ge [Finite K] :
     · exact burnsideB46_w14b_orbit_ge_e a e f he
 
 theorem burnsideB46_w14b_orbit_card_le [Finite K] {H : Subgroup ↥(cayleyGroup K)}
-    (hU : U0 K ≤ H) :
+    (_hU : U0 K ≤ H) :
     Set.ncard {w : Ix3 → K | ∃ h ∈ H, g2Act h (eu 0 1) = w} ≤ (U0 K).relIndex H := by
   classical
-  haveI : Finite ↥(cayleyGroup K) := finite_cayleyGroup
-  letI : MulAction ↥(cayleyGroup K) (Ix3 → K) := burnsideB46_mp_act (K := K)
+  have : Finite ↥(cayleyGroup K) := finite_cayleyGroup
+  let : MulAction ↥(cayleyGroup K) (Ix3 → K) := burnsideB46_mp_act (K := K)
   have hsmul : ∀ (g : ↥(cayleyGroup K)) (w : Ix3 → K), g • w = g2Act g w := fun _ _ => rfl
   have hle : (U0 K).subgroupOf H ≤ MulAction.stabilizer ↥H (eu 0 1 : Ix3 → K) := by
     intro q hq
@@ -2508,7 +2519,7 @@ theorem burnsideB46_n1_der_conj {g x : quasithinZorn K ≃ₗ[K] quasithinZorn K
 
 theorem burnsideB46_n1_layerOf_le_commutator (X : Subgroup (MulAut V)) : layerOf X ≤ ⁅X, X⁆ := by
   refine sSup_le fun C hC => ?_
-  haveI : Group.IsPerfect ↥C := Group.isPerfect_def.2 hC.2.2.1
+  have : Group.IsPerfect ↥C := Group.isPerfect_def.2 hC.2.2.1
   calc C = ⁅C, C⁆ := Subgroup.commutator_eq_self.symm
     _ ≤ ⁅X, X⁆ := Subgroup.commutator_mono hC.1 hC.1
 
@@ -2742,7 +2753,7 @@ theorem burnsideB46_n1_weyl
           ψ m' = π γ (ψ m)) ∧
       ∀ m, Multiplicative.toAdd (θ (ψ m)) =
         burnsideB46_nat (zP (Multiplicative.toAdd (m : Multiplicative (quasithinZorn K)))) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   have hK : Nat.card K = 2 := by rw [H.card, hn1, pow_one]
   obtain ⟨ψ, hψs, hψk, hψe, hψθ⟩ := burnsideB46_n1_psi H hK
   refine ⟨ψ, hψs, hψk, ?_, hψθ⟩
@@ -2816,7 +2827,7 @@ theorem burnsideB46_n1_weyl
 theorem burnsideB46_part_1c_one
     [Finite K] [Finite V]
     (H : burnsideB46_Hyp V n K G L π θ) (hn1 : n = 1) : Nat.card V ≤ 2 ^ (7 * n) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   obtain ⟨ψ, hψs, -⟩ := burnsideB46_n1_weyl H hn1
   have h1 : Nat.card V ≤ Nat.card ↥(zornO0 K) := Nat.card_le_card_of_surjective ψ hψs
   rw [burnsideB46_card_O0, H.card, ← pow_mul, mul_comm] at h1
@@ -2828,7 +2839,7 @@ theorem burnsideB46_part_1d_one
     Nat.card V = 2 ^ (7 * n) → ∃ Ψ : V ≃* Multiplicative (WeylM K),
       ∀ (γ : ↥(quasithinG2 K)) (v : V), Ψ ((π γ) v) = Multiplicative.ofAdd
         (weylAct (γ : quasithinZorn K ≃ₗ[K] quasithinZorn K) (Multiplicative.toAdd (Ψ v))) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   intro hcard
   obtain ⟨ψ, hψs, hψk, hψe, -⟩ := burnsideB46_n1_weyl H hn1
   have hD := FFModel.zornQ_isActionModel (quasithinG2 K) (le_refl _)
@@ -2851,7 +2862,7 @@ theorem burnsideB46_n1_lift_fix
     [Finite K] [Finite V]
     (H : burnsideB46_Hyp V n K G L π θ) (hn1 : n = 1) {l : MulAut V} (hl : l ∈ L) {v : V}
     (h : l v * v⁻¹ ∈ fixV L) : l v = v := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   obtain ⟨γ, rfl⟩ := (burnsideB46_mem_L H).1 hl
   obtain ⟨ψ, hψs, -, hψe, hψθ⟩ := burnsideB46_n1_weyl H hn1
   obtain ⟨m, rfl⟩ := hψs v
@@ -2978,7 +2989,7 @@ theorem burnsideB46_w1g_isComponent
     [Finite K] (H : burnsideB46_Hyp V n K G L π θ)
     (hK : Nat.card K = 2) : IsComponentOf (burnsideB46_w1g_D π) L := by
   have hDL := burnsideB46_w1g_D_le H
-  haveI := burnsideB46_w1g_simple H hK
+  have := burnsideB46_w1g_simple H hK
   refine ⟨hDL, ?_, burnsideB46_w1g_isQuasisimple (burnsideB46_w1g_center H hK)⟩
   refine IsSubnormal.step hDL ?_ (IsSubnormal.refl L)
   refine (Subgroup.normal_subgroupOf_iff_le_normalizer hDL).2 fun l hl => ?_
@@ -2996,7 +3007,7 @@ theorem burnsideB46_w1g_layerOf_eq
 
 theorem burnsideB46_w1g_card_L [Finite K] (H : burnsideB46_Hyp V n K G L π θ)
     (hK : Nat.card K = 2) : Nat.card ↥L = 12096 := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   have e : ↥(quasithinG2 K) ≃* ↥L :=
     (MonoidHom.ofInjective H.inj).trans (MulEquiv.subgroupCongr H.range)
   rw [← Nat.card_congr e.toEquiv, Nat.card_congr (burnsideB46_cg (K := K)).toEquiv,
@@ -3041,7 +3052,7 @@ theorem burnsideB46_w1g_G_eq_L
     [Finite V] [Finite K]
     (H : burnsideB46_Hyp V n K G L π θ) (hn1 : n = 1) : G = L := by
   have hK : Nat.card K = 2 := by rw [H.card, hn1, pow_one]
-  haveI : Finite (MulAut V) := MulEquiv.finite_left
+  have : Finite (MulAut V) := MulEquiv.finite_left
   have hD := burnsideB46_w1g_layerOf_eq H hK
   have hN : G ≤ Subgroup.normalizer
       ((burnsideB46_w1g_D π : Subgroup (MulAut V)) : Set (MulAut V)) := by
@@ -3051,8 +3062,8 @@ theorem burnsideB46_w1g_G_eq_L
       ((burnsideB46_w1g_D π : Subgroup (MulAut V)) : Set (MulAut V)) ≤ burnsideB46_w1g_D π := by
     have := CFSG.Quasithin.centralizer_quasithinGenFitting_le G
     rwa [H.fstar, hD] at this
-  haveI : Finite ↥(burnsideB46_w1g_D π) := inferInstance
-  haveI : Finite (MulAut ↥(burnsideB46_w1g_D π)) := MulEquiv.finite_left
+  have : Finite ↥(burnsideB46_w1g_D π) := inferInstance
+  have : Finite (MulAut ↥(burnsideB46_w1g_D π)) := MulEquiv.finite_left
   have h1 := burnsideB46_w1g_card_le_aut hN hC (burnsideB46_w1g_center H hK)
   rw [burnsideB46_w1g_card_aut H hK] at h1
   have h3 := burnsideB46_w1g_card_L H hK
@@ -3418,7 +3429,7 @@ theorem burnsideB46_of_offender [Finite K] [Finite V] (hqs : burnsideB46_G2Qs)
     (hff : Nat.card V ≤ Nat.card A * Nat.card (CFSG.Quasithin.fixV A)) :
     A ≤ L ∧ Nat.card A = Nat.card K ^ 3 ∧
       Nat.card (CFSG.Quasithin.fixV A) = Nat.card (CFSG.Quasithin.fixV L) * Nat.card K ^ 3 := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   have hinj := burnsideB46_of_Phi_injective hqs H hn
   set A' : Subgroup (MulAut (Multiplicative (Ix3 → K))) :=
     (A.subgroupOf G).map (burnsideB46_of_Phi hqs H hn) with hA'
@@ -3666,7 +3677,7 @@ theorem burnsideB46_part_13a [CharP K 2] [Finite K] [Finite V] (hqs : burnsideB4
   have hA₁' : A₁ = ((A1 K).map (MulAut.conj γ).toMonoidHom).map (burnsideB46_pi π) := by
     rw [hA₁, hγ]
   ext A
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hAG, hAne, hAe, hB⟩
     have hff : Nat.card V ≤ Nat.card A * Nat.card (fixV A) := by
@@ -3693,6 +3704,7 @@ open CFSG.ClassicalInvolution.ModelFacts.OddCover (uSL uSL_mul uSL_inv)
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_pt_eu : burnsideB46_pt K (eu 0 (1 : K)) = stdF K 1 := by
   ext w
   rw [burnsideB46_pt, Submodule.mem_span_singleton, mem_stdF_one_iff]
@@ -3869,6 +3881,7 @@ theorem burnsideB46_p3_fixSub_Z1 : fixSub (Z1 K) = stdF K 3 := by
 theorem burnsideB46_p3_F3_eu [Finite K] : burnsideB46_F3 K (eu 0 (1 : K)) = stdF K 3 := by
   rw [burnsideB46_F3, burnsideB46_p3_Z1_eu, burnsideB46_p3_fixSub_Z1]
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_finrank_stdF_three [Finite K] : Module.finrank K (stdF K 3) = 3 := by
   have h := card_stdF (F := K) (h := 3) (by norm_num)
   have h2 : Nat.card (stdF K 3) = Nat.card K ^ Module.finrank K (stdF K 3) :=
@@ -3974,8 +3987,8 @@ theorem burnsideB46_p3_F3_card [Finite K] {x : Ix3 → K} (hx : x ≠ 0) :
   rw [← hγ, burnsideB46_p3_F3_act, burnsideB46_p3_finrank_gmapG, burnsideB46_p3_F3_eu,
     burnsideB46_p3_finrank_stdF_three]
 
-theorem burnsideB46_p3_A1_conj [Finite K] {n : ℕ} (hK : Nat.card K = 2 ^ n)
-    (hn : 1 ≤ n) {x : Ix3 → K} (hx : x ≠ 0) :
+theorem burnsideB46_p3_A1_conj [Finite K] {n : ℕ} (_hK : Nat.card K = 2 ^ n)
+    (_hn : 1 ≤ n) {x : Ix3 → K} (hx : x ≠ 0) :
     ∃ γ : ↥(cayleyGroup K),
       burnsideB46_A1 K x =
         (CFSG.Quasithin.Vol2.Ch11.G2Q8.A1 K).map (MulAut.conj γ).toMonoidHom := by
@@ -4265,6 +4278,7 @@ theorem burnsideB46_p3_z3_not_mem_stabV0 {ω : K} (h : ω ^ 3 = 1) (h1 : ω ≠ 
   simp only [q6_apply_inl0] at this
   exact h1 (by linear_combination this)
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_z3_comm {ω : K} (h : ω ^ 3 = 1) (p q' : K) :
     g2A (uSL p q' 0) * burnsideB46_p3_z3 h = burnsideB46_p3_z3 h * g2A (uSL p q' 0) := by
   unfold burnsideB46_p3_z3
@@ -4508,8 +4522,8 @@ theorem burnsideB46_p3_core_coords [Finite K] {r : ↥(cayleyGroup K)}
   rw [h, burnsideB46_p3_kerElt_v0]
   refine ⟨?_, ?_, ?_⟩
   · simp only [q6_apply_inr0]
-  · simp only [q6_apply_inl2, q6_apply_inr0]
-  · simp only [q6_apply_inl1, q6_apply_inr0]
+  · simp only [q6_apply_inl2]
+  · simp only [q6_apply_inl1]
 
 theorem burnsideB46_p3_core_sub_mem [Finite K] {r : ↥(cayleyGroup K)}
     (hr : r ∈ pCoreOf 2 (stabV0 K)) {w : Ix3 → K} (hw : w (.inr 0) = 0) :
@@ -4545,7 +4559,7 @@ theorem burnsideB46_p3_core_sub_mem [Finite K] {r : ↥(cayleyGroup K)}
     · simp only [Fin.zero_eta, Matrix.cons_val_zero, Pi.add_apply]
       rw [h2, h0']
       ring
-    · simp only [Fin.mk_one, Matrix.cons_val_one, Matrix.head_cons, Pi.add_apply]
+    · simp only [Fin.mk_one, Matrix.cons_val_one, Pi.add_apply]
       rw [h1, h0']
       simp only [Matrix.cons_val_zero]
       ring
@@ -4564,7 +4578,6 @@ theorem burnsideB46_p3_zetaR_surjective [Finite K] :
       pCoreOf 2 (stabV0 K) := burnsideB46_p3_mem_core_iff.mpr ⟨_, _, _, _, _, rfl⟩
   refine ⟨⟨_, hmem⟩, ?_⟩
   rw [burnsideB46_p3_zetaR_kerElt]
-  congr 1
   funext i
   fin_cases i <;> rfl
 
@@ -4596,15 +4609,19 @@ theorem burnsideB46_p3_zetaR_ker [Finite K] :
     funext i
     fin_cases i <;> rfl
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_polarQ_eu (x : Ix3 → K) : polarQ x (eu 0 1) = x (.inr 0) := by
-  simp [polarQ, eu, Pi.single_apply]
+  simp [polarQ, eu]
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_polarQ_v1 (x : Ix3 → K) : polarQ x (q6 0 0 0 0 1 0) = x (.inl 1) := by
   simp [polarQ, q6]
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_polarQ_v2 (x : Ix3 → K) : polarQ x (q6 0 0 0 0 0 1) = x (.inl 2) := by
   simp [polarQ, q6]
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_polarQ_F3 (x : Ix3 → K) {z : Ix3 → K} (hz : z ∈ stdF K 3) :
     polarQ x z = z (.inl 0) * x (.inr 0) + x (.inl 1) * z (.inr 1) + x (.inl 2) * z (.inr 2) := by
   obtain ⟨h1, h2, h3⟩ := mem_stdF_three.mp hz
@@ -4666,7 +4683,7 @@ theorem burnsideB46_p3_zetaR_equivar [Finite K] {p y y' : ↥(cayleyGroup K)}
   obtain ⟨h0', -, -⟩ := burnsideB46_p3_core_coords hy' (q6 0 0 0 1 0 0)
   simp only [q6_apply_inr0] at h0'
   simp only [Pi.sub_apply, h0', q6_apply_inr0, q6_apply_inl1, q6_apply_inl2, sub_self, mul_zero,
-    add_zero, sub_zero] at c1 c2
+    sub_zero] at c1 c2
   rw [← levi1Mat_00, ← burnsideB46_p3_levi1Mat_10] at c1
   rw [← levi1Mat_01, ← levi1Mat_11] at c2
   set c := burnsideB46_p3_c p
@@ -4749,8 +4766,9 @@ theorem burnsideB46_p3_uSL0_sub (a b : K) (w : Ix3 → K) :
   conv_lhs => rw [q6_eta w]
   rw [g2Act_g2A_uSL]
   funext j
-  rcases j with j | j <;> fin_cases j <;> simp [q6] <;> ring
+  rcases j with j | j <;> fin_cases j <;> simp [q6]; ring
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_vpart_q6_F3 (a e f : K) : vpart (q6 a 0 0 0 e f) = ![e, f] := by
   funext i
   fin_cases i <;> rfl
@@ -4784,7 +4802,6 @@ theorem burnsideB46_p3_zetaZ_surjective : Function.Surjective (burnsideB46_p3_ze
     ⟨(Multiplicative.toAdd v 0, Multiplicative.toAdd v 1), rfl⟩
   refine ⟨⟨_, hz⟩, ?_⟩
   rw [burnsideB46_p3_zetaZ_uSL _ _ hz]
-  congr 1
   funext i
   fin_cases i <;> rfl
 
@@ -4981,6 +4998,7 @@ theorem burnsideB46_p3_A1_eu [Finite K] : burnsideB46_A1 K (eu 0 (1 : K)) = A1 K
   rw [burnsideB46_p3_F3_eu]
   exact Iff.rfl
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_conj_injective (γ : ↥(cayleyGroup K)) :
     Function.Injective (MulAut.conj γ).toMonoidHom := (MulAut.conj γ).injective
 
@@ -5036,23 +5054,24 @@ theorem burnsideB46_IsNatGL2QuotTw_iff {M : Type*} [Group M] {K : Type} [Field K
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_transvection_mulVec (i j : Fin 3) (c : K) (u : Fin 3 → K) :
     Matrix.transvection i j c *ᵥ u = u + Pi.single i (c * u j) := by
   funext k
   simp only [Matrix.mulVec, dotProduct, transvection_entry, Pi.add_apply, Pi.single_apply,
     add_mul, Finset.sum_add_distrib, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   by_cases hk : k = i
   · subst hk
-    simp [Finset.sum_ite_eq']
-  · simp [hk, Finset.sum_ite_eq', Ne.symm hk]
+    simp
+  · simp [hk, Ne.symm hk]
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_transvection_transpose_mulVec (i j : Fin 3) (c : K) (v : Fin 3 → K) :
     (Matrix.transvection i j c)ᵀ *ᵥ v = v + Pi.single j (c * v i) := by
   funext k
   simp only [Matrix.mulVec, dotProduct, Matrix.transpose_apply, transvection_entry, Pi.add_apply,
-    Pi.single_apply, add_mul, Finset.sum_add_distrib, ite_mul, one_mul, zero_mul,
-    Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    Pi.single_apply, add_mul, Finset.sum_add_distrib, ite_mul, one_mul, zero_mul]
   by_cases hk : k = j
   · subst hk
     simp [Finset.sum_ite_eq']
@@ -5070,7 +5089,7 @@ theorem burnsideB46_p3_tv_ne_one (i j : Fin 3) (hij : i ≠ j) :
   intro h
   have h1 := congrArg (fun g : ↥(cayleyGroup K) => g2Act g (eu j 1) (.inl i)) h
   simp only [g2Act_tv, map_one] at h1
-  simp [eu, ev, Pi.single_apply, hij, Ne.symm hij] at h1
+  simp [eu, ev, hij] at h1
 
 @[expose] def burnsideB46_p3_hyp (x : Ix3 → K) : Submodule K (Ix3 → K) where
   carrier := {w | polarQ x w = 0}
@@ -5084,9 +5103,11 @@ theorem burnsideB46_p3_tv_ne_one (i j : Fin 3) (hij : i ≠ j) :
     change polarQ x (c • w) = 0
     rw [polarQ_symm, polarQ_smul_left, polarQ_symm, show polarQ x w = 0 from hw, mul_zero]
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_mem_hyp {x w : Ix3 → K} :
     w ∈ burnsideB46_p3_hyp x ↔ polarQ x w = 0 := Iff.rfl
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_mem_hyp_eu {w : Ix3 → K} :
     w ∈ burnsideB46_p3_hyp (eu 0 (1 : K)) ↔ w (.inr 0) = 0 := by
   rw [burnsideB46_p3_mem_hyp, polarQ_symm, burnsideB46_p3_polarQ_eu]
@@ -5097,6 +5118,7 @@ theorem burnsideB46_p3_hyp_act (γ : ↥(cayleyGroup K)) (x : Ix3 → K) :
   rw [mem_gmapG, burnsideB46_p3_mem_hyp, burnsideB46_p3_mem_hyp,
     ← polarQ_g2Act γ x (g2Act γ⁻¹ w), g2Act_apply_inv]
 
+omit [CharP K 2] in
 theorem burnsideB46_p3_finrank_hyp_eu :
     Module.finrank K (burnsideB46_p3_hyp (eu 0 (1 : K))) = 5 := by
   have hker : burnsideB46_p3_hyp (eu 0 (1 : K)) =
@@ -5505,6 +5527,7 @@ variable {V : Type} [CommGroup V] [Finite V] {n : ℕ} {K : Type} [Field K] [Cha
   {G L : Subgroup (MulAut V)} {π : ↥(quasithinG2 K) →* MulAut V}
   {θ : V →* Multiplicative (NatQ K)}
 
+omit [Finite V] [Finite K] in
 theorem burnsideB46_p3_L_eq_map (H : burnsideB46_Hyp V n K G L π θ) :
     L = (⊤ : Subgroup ↥(CFSG.Quasithin.Explicit.cayleyGroup K)).map (burnsideB46_pi π) := by
   ext l
@@ -5516,6 +5539,7 @@ theorem burnsideB46_p3_L_eq_map (H : burnsideB46_Hyp V n K G L π θ) :
   · rintro ⟨g, -, rfl⟩
     exact burnsideB46_pi_mem_L H g
 
+omit [Finite V] [Finite K] in
 theorem burnsideB46_p3_isMaxParabolic2_L (H : burnsideB46_Hyp V n K G L π θ)
     {P : Subgroup ↥(CFSG.Quasithin.Explicit.cayleyGroup K)}
     (h : IsMaxParabolic2 (⊤ : Subgroup ↥(CFSG.Quasithin.Explicit.cayleyGroup K)) P) :
@@ -5672,6 +5696,7 @@ section P3k
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem burnsideB46_p3_h3_of_odd {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn : Odd n) :
     ∀ w : K, w ^ 3 = 1 → w = 1 := by
   intro w hw
@@ -5724,6 +5749,7 @@ variable {V : Type} [CommGroup V] [Finite V] {n : ℕ} {K : Type} [Field K] [Fin
   {G L : Subgroup (MulAut V)} {π : ↥(quasithinG2 K) →* MulAut V}
   {θ : V →* Multiplicative (NatQ K)}
 
+omit [Finite V] [Finite K] in
 theorem burnsideB46_p3_cfg1_A1_of_GL [CharP K 2] (H : burnsideB46_Hyp V n K G L π θ) (hGL : G = L)
     {x : CFSG.Quasithin.JonesParshall.Ix3 → K} {V₃ : Subgroup V} {A₁ : Subgroup (MulAut V)}
     (hV₃ : V₃ = burnsideB46_pre θ (burnsideB46_F3 K x))
@@ -5756,6 +5782,7 @@ theorem burnsideB46_p3_cfg1_A1_of_GL [CharP K 2] (H : burnsideB46_Hyp V n K G L 
     rw [burnsideB46_f_act H]
     exact hγ _ hv
 
+omit [Finite V] in
 theorem burnsideB46_part_3_one (H : burnsideB46_Hyp V n K G L π θ) (hn1 : n = 1) (hGL : G = L) :
     (∀ (V₁ : Subgroup V) (P₁ R₁ Z₁ : Subgroup (MulAut V)) (V₃ : Subgroup V)
       (A₁ : Subgroup (MulAut V)),
@@ -5766,7 +5793,7 @@ theorem burnsideB46_part_3_one (H : burnsideB46_Hyp V n K G L π θ) (hn1 : n = 
         ∀ E : Subgroup V,
           E = ⨆ (Z : Subgroup (MulAut V)) (_ : IsLongRootSub π Z ∧ Z ≤ Z₁), cPre (fixV L) Z →
             IsFPre θ 5 E ∧ commSub E A₁ ⊔ fixV L = V₃) := by
-  haveI := burnsideB46_charP H
+  have := burnsideB46_charP H
   intro V₁ P₁ R₁ Z₁ V₃ A₁ h
   obtain ⟨x, hx0, hV₁, hP, hR, hZ, hV₃⟩ := burnsideB46_cfg1_point H h
   have hA : A₁ = (burnsideB46_A1 K x).map (burnsideB46_pi π) :=
@@ -5813,6 +5840,7 @@ theorem burnsideB46_as_eq_of_act {γ δ : ↥(cayleyGroup F)} (h : ∀ w, g2Act 
     rw [g2Act_mul_apply, h, g2Act_inv_apply]
   exact (inv_mul_eq_one.mp h1).symm
 
+omit [Field F] [CharP F 2] in
 theorem burnsideB46_as_exists_q6 (w : Ix3 → F) : ∃ a b c d e f : F, w = q6 a b c d e f :=
   ⟨_, _, _, _, _, _, q6_eta w⟩
 
@@ -6391,12 +6419,12 @@ theorem burnsideB46_as_card_le_R1 [Finite F] {Γ : Subgroup ↥(cayleyGroup F)}
       have hl := hline g₀ g
       by_cases hb0 : bb g₀ = 0
       · have hc0 : cc g₀ ≠ 0 := fun hc0 => hg₀ hb0 hc0
-        have : lam g = cc g := if_pos hb0
+        have : lam g = cc g := ite_eq_left hb0
         rw [this]
         refine ⟨fun h => ⟨?_, h⟩, fun h => h.2⟩
         rw [hb0, zero_mul] at hl
         exact (mul_eq_zero.mp hl.symm).resolve_left hc0
-      · have : lam g = bb g := if_neg hb0
+      · have : lam g = bb g := ite_eq_right hb0
         rw [this]
         refine ⟨fun h => ⟨h, ?_⟩, fun h => h.1⟩
         rw [h, mul_zero] at hl
@@ -6810,7 +6838,7 @@ theorem burnsideB46_as_aParam [CharP K 2] [Finite K] [Finite V] (hqs : burnsideB
     have h3 : 2 ∣ Nat.card G := h2 ▸ orderOf_dvd_natCard _
     exact even_iff_two_dvd.mpr h3
   have hempty := burnsideB46_as_aSet_succ_empty hqs H hn
-  rw [E3.aParam, if_pos hev]
+  rw [E3.aParam, ite_eq_left hev]
   refine IsGreatest.csSup_eq ⟨⟨by omega, hne⟩, fun k hk => ?_⟩
   by_contra hlt
   push Not at hlt
@@ -6965,7 +6993,7 @@ theorem burnsideB46_as_part_9 (hqs : burnsideB46_G2Qs) (H : burnsideB46_Hyp V n 
         B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
           E3.aSet (2 * n) G = {A | ∃ l ∈ L, A = A₁.map (MulAut.conj l).toMonoidHom} ∧
           ∀ A ∈ E3.aSet (n + 1) G, ∃ l ∈ L, A.map (MulAut.conj l).toMonoidHom ≤ A₁) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   exact burnsideB46_as_part_9_of hqs H hn (fun x hx => burnsideB46_as_F3_ne_bot hx)
     (fun x hx => (burnsideB46_as_std hx).imp fun _ h => h.2)
 
@@ -6974,7 +7002,7 @@ theorem burnsideB46_as_part_12 (hqs : burnsideB46_G2Qs) (H : burnsideB46_Hyp V n
     (1 < n → ∀ (V₁ : Subgroup V) (P₁ R₁ Z₁ : Subgroup (MulAut V)) (V₃ : Subgroup V)
       (A₁ : Subgroup (MulAut V)), B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
         ∀ A ∈ E3.aSet (2 * n - 1) G, A ≤ R₁ → A ≤ A₁) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   exact burnsideB46_as_part_12_of hqs H hn (fun x hx => burnsideB46_as_F3_ne_bot hx)
     (fun x hx => burnsideB46_as_std hx)
 
@@ -7126,7 +7154,7 @@ theorem burnsideB46_of_ffstar_eq [CharP K 2] (H : burnsideB46_Hyp V n K G L π �
     (hA₁ : A₁ = ((A1 K).map (MulAut.conj γ).toMonoidHom).map (burnsideB46_pi π)) :
     {A | IsFFStarOffender G A} = {A | ∃ l ∈ L, A = A₁.map (MulAut.conj l).toMonoidHom} := by
   ext A
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · intro hA
     obtain ⟨x', hx'⟩ := hconj A hA
@@ -7176,7 +7204,7 @@ theorem burnsideB46_part_13a_one
       (A₁ : Subgroup (MulAut V)),
       B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
       {A | IsFFStarOffender G A} = {A | ∃ l ∈ L, A = A₁.map (MulAut.conj l).toMonoidHom} := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   intro V₁ P₁ R₁ Z₁ V₃ A₁ hcfg
   obtain ⟨x, hx0, -, -, -, -, hV₃⟩ := burnsideB46_cfg1_point H hcfg
   have hA₁ := burnsideB46_of_cfg1_A1_of_le H hGL.le hV₃ hcfg.2.2.2.2.2
@@ -7371,7 +7399,7 @@ theorem burnsideB46_as_g_aParam [CharP K 2] [Finite K] [Finite V]
     have h3 : 2 ∣ Nat.card G := h2 ▸ orderOf_dvd_natCard _
     exact even_iff_two_dvd.mpr h3
   have hempty := burnsideB46_as_g_aSet_succ_empty H hlift hGL
-  rw [E3.aParam, if_pos hev]
+  rw [E3.aParam, ite_eq_left hev]
   refine IsGreatest.csSup_eq ⟨⟨by omega, hne⟩, fun k hk => ?_⟩
   by_contra hlt
   push Not at hlt
@@ -7462,7 +7490,7 @@ theorem burnsideB46_as_part_9_one
         B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
           E3.aSet (2 * n) G = {A | ∃ l ∈ L, A = A₁.map (MulAut.conj l).toMonoidHom} ∧
           ∀ A ∈ E3.aSet (n + 1) G, ∃ l ∈ L, A.map (MulAut.conj l).toMonoidHom ≤ A₁) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   have hlift : ∀ {l : MulAut V}, l ∈ L → ∀ {v : V}, l v * v⁻¹ ∈ fixV L → l v = v :=
     fun hl _ h => burnsideB46_n1_lift_fix H hn1 hl h
   refine ⟨burnsideB46_as_g_aParam H hlift hGL.le, fun A hA => hA.1.trans hGL.le, ?_⟩
@@ -7542,20 +7570,25 @@ theorem burnsideB46_p4_U0_le_stabQ_two : U0 K ≤ stabQ (stdF K 2) := by
   intro w
   exact ((stdF_stable (F := K) 2).mem_iff hg w).symm
 
+omit [Field K] [CharP K 2] in
 theorem burnsideB46_p4_q6_exists (w : Ix3 → K) : ∃ a b c d e f : K, w = q6 a b c d e f :=
   ⟨_, _, _, _, _, _, q6_eta w⟩
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_inC_q6 {a b c d e f : K} :
     InC (q6 a b c d e f) ↔ c = 0 ∧ d = 0 := Iff.rfl
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_F2_q6 {a b c d e f : K} :
     q6 a b c d e f ∈ stdF K 2 ↔ b = 0 ∧ c = 0 ∧ d = 0 ∧ e = 0 := by
   rw [mem_stdF_two]
   exact Iff.rfl
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_F2_of {a f : K} : q6 a 0 0 0 0 f ∈ stdF K 2 :=
   burnsideB46_p4_F2_q6.2 ⟨rfl, rfl, rfl, rfl⟩
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_q6_sub_self {a b c d e f a' b' c' d' e' f' : K} :
     q6 a b c d e f - q6 a' b' c' d' e' f' = q6 (a - a') (b - b') (c - c') (d - d') (e - e') (f - f') :=
   q6_sub _ _ _ _ _ _ _ _ _ _ _ _
@@ -7576,6 +7609,7 @@ theorem burnsideB46_p4_mem_R2 {g : ↥(cayleyGroup K)} :
     g ∈ burnsideB46_p4_R2 K ↔ g2Act g (q6 1 0 0 0 0 0) = q6 1 0 0 0 0 0 ∧
       g2Act g (q6 0 0 0 0 0 1) = q6 0 0 0 0 0 1 := Iff.rfl
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_F2_eq {w : Ix3 → K} (hw : w ∈ stdF K 2) :
     w = q6 (w (.inl 0)) 0 0 0 0 (w (.inr 2)) := by
   obtain ⟨h1, h2, h3, h4⟩ := mem_stdF_two.mp hw
@@ -7659,6 +7693,7 @@ theorem burnsideB46_p4_R2_le_U0 : burnsideB46_p4_R2 K ≤ U0 K := by
   obtain ⟨α, γ, p, r, b, rfl⟩ := burnsideB46_p4_R2_param hg
   exact (U0 K).mul_mem ((U0 K).mul_mem (g2X_mem_U0 α) (g2Y_mem_U0 0 γ)) (g2A_mem_U0 p r b)
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_uSL_inj {p r b p' r' b' : K} (h : uSL p r b = uSL p' r' b') :
     p = p' ∧ r = r' ∧ b = b' := by
   have h1 := congrArg (fun A : SL3 K => (A : Matrix (Fin 3) (Fin 3) K)) h
@@ -7688,12 +7723,15 @@ theorem burnsideB46_p4_card_R2 : Nat.card ↥(burnsideB46_p4_R2 K) = Nat.card K 
     Nat.card_prod]
   ring
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_inC_add {x y : Ix3 → K} (hx : InC x) (hy : InC y) : InC (x + y) :=
   ⟨by simp [hx.1, hy.1], by simp [hx.2, hy.2]⟩
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_inC_sub {x y : Ix3 → K} (hx : InC x) (hy : InC y) : InC (x - y) :=
   ⟨by simp [hx.1, hy.1], by simp [hx.2, hy.2]⟩
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_inC_of_F2 {x : Ix3 → K} (hx : x ∈ stdF K 2) : InC x :=
   ⟨(mem_stdF_two.1 hx).2.1, (mem_stdF_two.1 hx).2.2.1⟩
 
@@ -7861,6 +7899,7 @@ theorem burnsideB46_p4_sq_R2 {g : ↥(cayleyGroup K)} (hg : g ∈ burnsideB46_p4
     rw [e w, two_smul_eq_zero, add_zero]
     exact hf.2.1 _ (hf.2.2 w)
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_q6_decomp (a b c d e f : K) : q6 a b c d e f =
     a • q6 1 0 0 0 0 0 + b • q6 0 1 0 0 0 0 + c • q6 0 0 1 0 0 0 + d • q6 0 0 0 1 0 0 +
       e • q6 0 0 0 0 1 0 + f • q6 0 0 0 0 0 1 := by
@@ -8103,9 +8142,9 @@ theorem burnsideB46_p4_R2_isPGroup : IsPGroup 2 ↥(burnsideB46_p4_R2 K) :=
 
 theorem burnsideB46_p4_R2_special [Finite K] :
     IsSpecial2 (burnsideB46_p4_R2 K) (burnsideB46_p4_Z0 K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
-  haveI : Finite ↥(burnsideB46_p4_R2 K) := Subtype.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
+  have : Finite ↥(burnsideB46_p4_R2 K) := Subtype.finite
   have hmapcomm : (⁅(⊤ : Subgroup ↥(burnsideB46_p4_R2 K)), (⊤ : Subgroup ↥(burnsideB46_p4_R2 K))⁆ :
       Subgroup ↥(burnsideB46_p4_R2 K)).map (burnsideB46_p4_R2 K).subtype =
       burnsideB46_p4_Z0 K := by
@@ -8116,7 +8155,7 @@ theorem burnsideB46_p4_R2_special [Finite K] :
     apply Subgroup.map_injective (burnsideB46_p4_R2 K).subtype_injective
     rw [hmapcomm, Subgroup.subgroupOf_map_subtype]
     exact inf_eq_left.2 (burnsideB46_p4_Z0_le_R2 (K := K))
-  haveI : ((burnsideB46_p4_Z0 K).subgroupOf (burnsideB46_p4_R2 K)).Normal := by
+  have : ((burnsideB46_p4_Z0 K).subgroupOf (burnsideB46_p4_R2 K)).Normal := by
     rw [hN]
     exact Subgroup.commutator_normal _ _
   have hfr : frattini ↥(burnsideB46_p4_R2 K) =
@@ -8216,10 +8255,10 @@ theorem burnsideB46_p4_ker_levi2GL :
 
 theorem burnsideB46_p4_GL2_pCore [Finite K] {N : Subgroup (GL (Fin 2) K)} [hN : N.Normal]
     (hp : IsPGroup 2 N) : N = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let φ : Matrix.SpecialLinearGroup (Fin 2) K →* GL (Fin 2) K := Matrix.SpecialLinearGroup.toGL
   have h1 : N.comap φ = ⊥ := by
-    haveI : (N.comap φ).Normal := hN.comap φ
+    have : (N.comap φ).Normal := hN.comap φ
     exact CFSG.Quasithin.Vol2.KGNat.eq_bot_of_normal_isPGroup_SL2
       (hp.comap_of_injective φ Matrix.SpecialLinearGroup.toGL_injective)
   rw [eq_bot_iff]
@@ -8251,6 +8290,7 @@ theorem burnsideB46_p4_GL2_pCore [Finite K] {N : Subgroup (GL (Fin 2) K)} [hN : 
     ext i j
     fin_cases i <;> fin_cases j <;> simp⟩
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_det_dg (d : Kˣ) : Matrix.GeneralLinearGroup.det (burnsideB46_p4_dg d) = d := by
   apply Units.ext
   rw [Matrix.GeneralLinearGroup.val_det_apply]
@@ -8285,9 +8325,9 @@ theorem burnsideB46_p4_levi2GL_surjective [Finite K] (h4 : 4 ≤ Nat.card K) :
 
 theorem burnsideB46_p4_pCore_P2 [Finite K] (h4 : 4 ≤ Nat.card K) :
     pCoreOf 2 (stabQ (stdF K 2)) = burnsideB46_p4_R2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
-  haveI : Finite ↥(stabQ (stdF K 2)) := Subtype.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
+  have : Finite ↥(stabQ (stdF K 2)) := Subtype.finite
   apply le_antisymm
   · rintro x ⟨y, hy, rfl⟩
     have hbot := burnsideB46_p4_GL2_pCore (N := (CFSG.pCore 2 ↥(stabQ (stdF K 2))).map
@@ -8320,6 +8360,7 @@ theorem burnsideB46_p4_fixSub_R2 : fixSub (burnsideB46_p4_R2 K) = stdF K 2 := by
   · intro hw g hg
     exact burnsideB46_p4_R2_fix hg hw
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_mem_stdF_four {w : Ix3 → K} : w ∈ stdF K 4 ↔ InC w := by
   rw [mem_stdF, q6_eta w, inF_q6_iff]
   constructor
@@ -8356,6 +8397,7 @@ theorem burnsideB46_p4_fixSub_zpowers {z : ↥(cayleyGroup K)} (hz : z ∈ burns
   · intro w hw g hg
     exact mem_fixSub.1 hw g ((Subgroup.zpowers_le.2 hmem) hg)
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_finrank_stdF [Finite K] {h : ℕ} (hh : h ≤ 6) :
     Module.finrank K (stdF K h) = h := by
   have h1 : Nat.card (stdF K h) = Nat.card K ^ Module.finrank K (stdF K h) :=
@@ -8531,7 +8573,7 @@ theorem natMod {P R : Subgroup ↥(cayleyGroup K)} {Y : Submodule K (Ix3 → K)}
         rw [hρk, Subgroup.mem_subgroupOf]
         exact h3
       exact h2
-  haveI hnorm : ((R.map C.Φ).subgroupOf (P.map C.Φ)).Normal := hρ'k ▸ MonoidHom.normal_ker ρ'
+  have hnorm : ((R.map C.Φ).subgroupOf (P.map C.Φ)).Normal := hρ'k ▸ MonoidHom.normal_ker ρ'
   let θ' : ↥(P.map C.Φ) ⧸ (R.map C.Φ).subgroupOf (P.map C.Φ) ≃* GL (Fin 2) K :=
     (QuotientGroup.quotientMulEquivOfEq hρ'k.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective ρ' hρ's)
@@ -8673,11 +8715,11 @@ theorem burnsideB46_p4_tL_apply (s : K) (x : quasithinZorn K) :
   refine Prod.ext rfl (Prod.ext ?_ (Prod.ext ?_ rfl))
   · funext i
     fin_cases i <;> simp [longRootFn, tv_coe, Matrix.mulVec, dotProduct, Fin.sum_univ_three,
-      transvection_entry, Pi.single_apply]
+      transvection_entry]
   · rw [adjugate_tv]
     funext i
     fin_cases i <;> simp [longRootFn, Matrix.mulVec, dotProduct, Fin.sum_univ_three,
-      transvection_entry, Pi.single_apply] <;> ring
+      transvection_entry]; ring
 
 theorem burnsideB46_p4_cg_symm_coe (a : ↥(cayleyGroup K)) :
     ((burnsideB46_cg.symm a : ↥(quasithinG2 K)) : quasithinZorn K ≃ₗ[K] quasithinZorn K) =
@@ -8709,6 +8751,7 @@ theorem burnsideB46_p4_isLongRootSub {V : Type} [CommGroup V] (π : ↥(quasithi
     rw [hφ']
     simp only [burnsideB46_pi_apply, map_mul, map_inv]
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_conjSubgroup_eq (c : ↥(cayleyGroup K)) (H : Subgroup ↥(cayleyGroup K)) :
     CFSG.CGT.Timmesfeld75.conjSubgroup c H = H.map (MulAut.conj c).toMonoidHom := by
   ext g
@@ -8717,7 +8760,7 @@ theorem burnsideB46_p4_conjSubgroup_eq (c : ↥(cayleyGroup K)) (H : Subgroup �
 theorem burnsideB46_p4_sylow_conj [Finite K] {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn : 1 ≤ n)
     {S : Subgroup ↥(cayleyGroup K)} (hS : IsSylowTwoOf S ⊤) :
     ∃ c : ↥(cayleyGroup K), S = (U0 K).map (MulAut.conj c).toMonoidHom := by
-  haveI : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
+  have : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
   have hSi : ¬ 2 ∣ S.index := by
     have h1 : ¬ 2 ∣ S.relIndex ⊤ := hS.2.2
     rwa [Subgroup.relIndex_top_right] at h1
@@ -8749,6 +8792,7 @@ theorem inf_normalizer_map (X : Subgroup ↥(cayleyGroup K)) :
 
 end burnsideB46_p4_Coord
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_four_le {V : Type} [CommGroup V] {n : ℕ} {G L : Subgroup (MulAut V)}
     {π : ↥(quasithinG2 K) →* MulAut V} {θ : V →* Multiplicative (NatQ K)}
     (H : burnsideB46_Hyp V n K G L π θ) (hn : 2 ≤ n) : 4 ≤ Nat.card K := by
@@ -8769,9 +8813,9 @@ theorem burnsideB46_p4_cfg2 {V : Type} [CommGroup V] [Finite K] [Finite V] {n : 
       P₂ = (stabQ (stdF K 2)).map (burnsideB46_p4_ofHyp H c).Φ ∧
       R₂ = (burnsideB46_p4_R2 K).map (burnsideB46_p4_ofHyp H c).Φ ∧
       V₂ = burnsideB46_pre θ (gmapG c (stdF K 2)) := by
-  haveI : Finite (MulAut V) := Finite.of_injective (fun e : MulAut V => (e : V → V))
+  have : Finite (MulAut V) := Finite.of_injective (fun e : MulAut V => (e : V → V))
     (fun e e' h => MulEquiv.ext (congrFun h))
-  haveI : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
+  have : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
   have h4 := burnsideB46_p4_four_le H hn
   have hnormLG : G ≤ Subgroup.normalizer (L : Set (MulAut V)) := by
     intro g hg
@@ -8944,7 +8988,7 @@ theorem burnsideB46_part_4 (hqs : burnsideB46_G2Qs)
         (∀ z ∈ Z₂, z ≠ 1 → V₂ = commV (Subgroup.zpowers z) ⊔ fixV L) ∧
         (∀ z ∈ Z₂, z ≠ 1 → cPre (fixV L) Z₂ = cPre (fixV L) (Subgroup.zpowers z) ∧
           IsFPre θ 4 (cPre (fixV L) Z₂))) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   have h4 := burnsideB46_p4_four_le H hn
   intro V₁ P₁ R₁ Z₁ V₃ A₁ hcfg1 T Z₂ P₂ R₂ V₂ hcfg2
   obtain ⟨x, hx0, hV₁, hP₁, hR₁, hZ₁, hV₃⟩ := burnsideB46_cfg1_point H hcfg1
@@ -9032,24 +9076,29 @@ variable {K : Type} [Field K] [CharP K 2]
     simp only [Pi.smul_apply, smul_eq_mul]
     linear_combination t * a4
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_mem_Y {e f : K} {w : Ix3 → K} :
     w ∈ burnsideB46_p4_Y K e f ↔ w (.inl 1) = 0 ∧ w (.inl 2) = 0 ∧ w (.inr 0) = 0 ∧
       f * w (.inr 1) = e * w (.inr 2) := Iff.rfl
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_F1_le_Y (e f : K) : stdF K 1 ≤ burnsideB46_p4_Y K e f := by
   intro w hw
   obtain ⟨t, rfl⟩ := mem_stdF_one_iff.1 hw
   refine ⟨by simp [eu], by simp [eu], by simp [eu], by simp [eu]⟩
 
-theorem burnsideB46_p4_Y_le_F3 (e f : K) : burnsideB46_p4_Y K e f ≤ stdF K 3 := fun w hw =>
+omit [CharP K 2] in
+theorem burnsideB46_p4_Y_le_F3 (e f : K) : burnsideB46_p4_Y K e f ≤ stdF K 3 := fun _w hw =>
   mem_stdF_three.2 ⟨hw.1, hw.2.1, hw.2.2.1⟩
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_mem_F1_of {w : Ix3 → K} (h1 : w (.inl 1) = 0) (h2 : w (.inl 2) = 0)
     (h3 : w (.inr 0) = 0) (h4 : w (.inr 1) = 0) (h5 : w (.inr 2) = 0) : w ∈ stdF K 1 := by
   rw [mem_stdF, q6_eta w, inF_q6_iff]
   exact ⟨fun h => absurd h (by norm_num), fun _ => h1, fun _ => h2, fun _ => h3, fun _ => h4,
     fun _ => h5⟩
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_Y_inf {e f e' f' : K} (h : e * f' ≠ e' * f) :
     burnsideB46_p4_Y K e f ⊓ burnsideB46_p4_Y K e' f' = stdF K 1 := by
   apply le_antisymm
@@ -9072,6 +9121,7 @@ theorem burnsideB46_p4_Y_inf {e f e' f' : K} (h : e * f' ≠ e' * f) :
   | none => burnsideB46_p4_Y K 1 0
   | some s => burnsideB46_p4_Y K s 1
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_Psi_injective : Function.Injective (burnsideB46_p4_Psi K) := by
   intro o o' h
   rcases o with _ | s <;> rcases o' with _ | s'
@@ -9095,12 +9145,14 @@ theorem burnsideB46_p4_Psi_injective : Function.Injective (burnsideB46_p4_Psi K)
     simp [q6] at h4
     rw [h4]
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_Psi_le (o : Option K) :
     stdF K 1 ≤ burnsideB46_p4_Psi K o ∧ burnsideB46_p4_Psi K o ≤ stdF K 3 := by
   rcases o with _ | s
   · exact ⟨burnsideB46_p4_F1_le_Y _ _, burnsideB46_p4_Y_le_F3 _ _⟩
   · exact ⟨burnsideB46_p4_F1_le_Y _ _, burnsideB46_p4_Y_le_F3 _ _⟩
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_Psi_inf {o o' : Option K} (h : o ≠ o') :
     burnsideB46_p4_Psi K o ⊓ burnsideB46_p4_Psi K o' = stdF K 1 := by
   rcases o with _ | s <;> rcases o' with _ | s'
@@ -9111,6 +9163,7 @@ theorem burnsideB46_p4_Psi_inf {o o' : Option K} (h : o ≠ o') :
     simp at h'
     rw [h']
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_Psi_cover {w : Ix3 → K} (hw : w ∈ stdF K 3) :
     ∃ o : Option K, w ∈ burnsideB46_p4_Psi K o := by
   obtain ⟨h1, h2, h3⟩ := mem_stdF_three.1 hw
@@ -9120,6 +9173,7 @@ theorem burnsideB46_p4_Psi_cover {w : Ix3 → K} (hw : w ∈ stdF K 3) :
     simp only [one_mul]
     field_simp
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_exists_prop {e f w1 w2 : K} (hef : e ≠ 0 ∨ f ≠ 0)
     (h : f * w1 = e * w2) : ∃ β : K, β * e = w1 ∧ β * f = w2 := by
   by_cases hf : f = 0
@@ -9227,6 +9281,7 @@ theorem burnsideB46_p4_exists_g (e f : K) (hef : e ≠ 0 ∨ f ≠ 0) :
   conv_lhs => rw [q6_eta (g2Act (g2A A) (q6 0 0 0 0 0 1))]
   rw [hb, hc, hd, e1', e2']
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_Y_eq_some {e f : K} (hf : f ≠ 0) :
     burnsideB46_p4_Y K e f = burnsideB46_p4_Y K (e / f) 1 := by
   ext w
@@ -9239,6 +9294,7 @@ theorem burnsideB46_p4_Y_eq_some {e f : K} (hf : f ≠ 0) :
   · intro h
     linear_combination h
 
+omit [CharP K 2] in
 theorem burnsideB46_p4_Y_eq_none {e : K} (he : e ≠ 0) :
     burnsideB46_p4_Y K e 0 = burnsideB46_p4_Y K 1 0 := by
   ext w
@@ -9295,7 +9351,7 @@ theorem burnsideB46_part_10 (hqs : burnsideB46_G2Qs)
         (∀ p ∈ P₁, ∀ p' ∈ P₁, V₂.map (p : MulAut V).toMonoidHom ≠ V₂.map (p' : MulAut V).toMonoidHom →
           V₂.map (p : MulAut V).toMonoidHom ⊓ V₂.map (p' : MulAut V).toMonoidHom = V₁) ∧
         (∀ v ∈ V₃, ∃ p ∈ P₁, v ∈ V₂.map (p : MulAut V).toMonoidHom)) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   intro V₁ P₁ R₁ Z₁ V₃ A₁ hcfg1 T Z₂ P₂ R₂ V₂ hcfg2
   obtain ⟨x, hx0, hV₁, hP₁, hR₁, hZ₁, hV₃⟩ := burnsideB46_cfg1_point H hcfg1
   obtain ⟨c, hpt, hT, hZ, hP, hR, hV⟩ := burnsideB46_p4_cfg2 hqs H hn hx0 hP₁ hcfg2
@@ -9430,7 +9486,7 @@ theorem burnsideB46_p4_stabQ_two_ne_top : stabQ (stdF K 2) ≠ ⊤ := by
 
 theorem burnsideB46_p4_isParabolic2 [Finite K] {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn : 1 ≤ n) :
     IsParabolic2 (⊤ : Subgroup ↥(cayleyGroup K)) (stabQ (stdF K 2)) :=
-  ⟨le_top, U0 K, burnsideB46_p4_U0_sylow hK hn, fun g hg => burnsideB46_p4_normalizer_U0_le hg.2⟩
+  ⟨le_top, U0 K, burnsideB46_p4_U0_sylow hK hn, fun _g hg => burnsideB46_p4_normalizer_U0_le hg.2⟩
 
 theorem burnsideB46_p4_isMaxParabolic2_of_coatom [Finite K] {n : ℕ} (hK : Nat.card K = 2 ^ n)
     (hn : 1 ≤ n)
@@ -9546,9 +9602,9 @@ theorem burnsideB46_p4_n1_levi2GL_surjective :
 
 theorem burnsideB46_p4_n1_pCore_P2 [Finite K] :
     pCoreOf 2 (stabQ (stdF K 2)) = burnsideB46_p4_R2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
-  haveI : Finite ↥(stabQ (stdF K 2)) := Subtype.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
+  have : Finite ↥(stabQ (stdF K 2)) := Subtype.finite
   apply le_antisymm
   · rintro x ⟨y, hy, rfl⟩
     have hbot := burnsideB46_p4_GL2_pCore (N := (CFSG.pCore 2 ↥(stabQ (stdF K 2))).map
@@ -9598,9 +9654,9 @@ theorem burnsideB46_p4_n1_cfg2 {V : Type} [CommGroup V] [Finite K] [Finite V] {n
       P₂ = (stabQ (stdF K 2)).map (burnsideB46_p4_ofHyp H c).Φ ∧
       R₂ = (burnsideB46_p4_R2 K).map (burnsideB46_p4_ofHyp H c).Φ ∧
       V₂ = burnsideB46_pre θ (gmapG c (stdF K 2)) := by
-  haveI : Finite (MulAut V) := Finite.of_injective (fun e : MulAut V => (e : V → V))
+  have : Finite (MulAut V) := Finite.of_injective (fun e : MulAut V => (e : V → V))
     (fun e e' h => MulEquiv.ext (congrFun h))
-  haveI : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
+  have : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
   obtain ⟨hTG, hTLP₁, hZ₂, hP₂, hR₂, hV₂⟩ := h
   have hSyl : IsSylowTwoOf (T ⊓ L) L := B6.isSylowTwoOf_inf_normal hTG H.le hnormLG
   set S₀ : Subgroup ↥(cayleyGroup K) := (T ⊓ L).comap (burnsideB46_pi π) with hS₀def
@@ -9685,7 +9741,7 @@ theorem burnsideB46_part_4_one (H : burnsideB46_Hyp V n K G L π θ) (hn1 : n = 
         (∀ z ∈ Z₂, z ≠ 1 → V₂ = commV (Subgroup.zpowers z) ⊔ fixV L) ∧
         (∀ z ∈ Z₂, z ≠ 1 → cPre (fixV L) Z₂ = cPre (fixV L) (Subgroup.zpowers z) ∧
           IsFPre θ 4 (cPre (fixV L) Z₂))) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   have _hn1 := hn1
   have hnormLG : G ≤ Subgroup.normalizer (L : Set (MulAut V)) := by
     rw [hGL]
@@ -9756,7 +9812,7 @@ theorem burnsideB46_part_10_one (H : burnsideB46_Hyp V n K G L π θ) (hn1 : n =
         (∀ p ∈ P₁, ∀ p' ∈ P₁, V₂.map (p : MulAut V).toMonoidHom ≠ V₂.map (p' : MulAut V).toMonoidHom →
           V₂.map (p : MulAut V).toMonoidHom ⊓ V₂.map (p' : MulAut V).toMonoidHom = V₁) ∧
         (∀ v ∈ V₃, ∃ p ∈ P₁, v ∈ V₂.map (p : MulAut V).toMonoidHom)) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   have _hn1 := hn1
   have hnormLG : G ≤ Subgroup.normalizer (L : Set (MulAut V)) := by
     rw [hGL]
@@ -9866,12 +9922,12 @@ theorem burnsideB46_p5_polarQ_self (x : Ix3 → K) : polarQ x x = 0 := by
 omit [CharP K 2] in
 theorem burnsideB46_p5_polarQ_eu (x : Ix3 → K) (i : Fin 3) (a : K) :
     polarQ x (eu i a) = x (.inr i) * a := by
-  fin_cases i <;> simp [polarQ, eu, Pi.single_apply] <;> ring
+  fin_cases i <;> simp [polarQ, eu] <;> ring
 
 omit [CharP K 2] in
 theorem burnsideB46_p5_polarQ_ev (x : Ix3 → K) (j : Fin 3) (b : K) :
     polarQ x (ev j b) = x (.inl j) * b := by
-  fin_cases j <;> simp [polarQ, ev, Pi.single_apply] <;> ring
+  fin_cases j <;> simp [polarQ, ev]
 
 theorem burnsideB46_p5_qr_tv (i j : Fin 3) (hij : i ≠ j) (t : K) (x : Ix3 → K) :
     qr (g2A (tv i j hij t)) x = 0 := by
@@ -9887,19 +9943,18 @@ theorem burnsideB46_p5_transvection_mulVec (i j : Fin 3) (c : K) (u : Fin 3 → 
   funext k
   simp only [Matrix.mulVec, dotProduct, transvection_entry, Pi.add_apply, Pi.single_apply,
     add_mul, Finset.sum_add_distrib, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   by_cases hk : k = i
   · subst hk
-    simp [Finset.sum_ite_eq']
-  · simp [hk, Finset.sum_ite_eq', Ne.symm hk]
+    simp
+  · simp [hk, Ne.symm hk]
 
 omit [CharP K 2] in
 theorem burnsideB46_p5_transvection_transpose_mulVec (i j : Fin 3) (c : K) (v : Fin 3 → K) :
     (Matrix.transvection i j c)ᵀ *ᵥ v = v + Pi.single j (c * v i) := by
   funext k
   simp only [Matrix.mulVec, dotProduct, Matrix.transpose_apply, transvection_entry, Pi.add_apply, Pi.single_apply,
-    add_mul, Finset.sum_add_distrib, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true]
+    add_mul, Finset.sum_add_distrib, ite_mul, one_mul, zero_mul]
   by_cases hk : k = j
   · subst hk
     simp [Finset.sum_ite_eq']
@@ -9921,10 +9976,10 @@ theorem burnsideB46_p5_tv_ne_one (i j : Fin 3) (hij : i ≠ j) {t : K} (ht : t �
   intro h
   have h1 := congrArg (fun g : ↥(cayleyGroup K) => g2Act g (eu j 1) (.inl i)) h
   simp only [g2Act_tv, map_one] at h1
-  simp [eu, ev, Pi.single_apply, hij, Ne.symm hij] at h1
+  simp [eu, ev, hij] at h1
   exact ht h1
 
-theorem burnsideB46_p5_card_fixQ_tv [Finite K] (i j : Fin 3) (hij : i ≠ j) {t : K} (ht : t ≠ 0) :
+theorem burnsideB46_p5_card_fixQ_tv [Finite K] (i j : Fin 3) (hij : i ≠ j) {t : K} (_ht : t ≠ 0) :
     Nat.card K ^ 4 ≤ Nat.card (fixQ (g2A (tv i j hij t))) := by
   have h2 := card_commQ_mul_card_fixQ (g2A (tv i j hij t))
   rw [card_Q] at h2
@@ -10011,7 +10066,7 @@ theorem burnsideB46_p5_rank_ne_three {W : Type*} [AddCommGroup W] [Module K W]
     (halt : ∀ x, B x (T x) = 0) : Module.finrank K (LinearMap.range T) ≠ 3 := by
   intro h3
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
-  haveI : Module.Finite K (LinearMap.range T) := Module.finite_of_finrank_eq_succ h3
+  have : Module.Finite K (LinearMap.range T) := Module.finite_of_finrank_eq_succ h3
   let b := Module.finBasisOfFinrankEq K (LinearMap.range T) h3
   have hx : ∀ i, ∃ x : W, T x = (b i : W) := fun i => (b i).2
   choose x hx using hx
@@ -10180,6 +10235,7 @@ theorem burnsideB46_p5_qr_conj_ne {r : ↥(cayleyGroup K)} (hq : ∃ x, qr r x �
 @[expose] def burnsideB46_p5_IsShortEl (γ : ↥(cayleyGroup K)) : Prop :=
   ∃ g : ↥(cayleyGroup K), γ = g * g2X ![1, 0, 0] * g⁻¹
 
+omit [CharP K 2] in
 theorem burnsideB46_p5_tL_eq_tv (s : K) : tL s = g2A (tv 0 2 (by decide) s) := rfl
 
 theorem burnsideB46_p5_qr_tL (s : K) (x : Ix3 → K) : qr (tL s) x = 0 :=
@@ -10287,8 +10343,7 @@ theorem burnsideB46_p5_act_tL (s : K) (w : Ix3 → K) :
   conv_lhs => rw [q6_eta w]
   conv_rhs => rw [q6_eta w]
   rw [g2Act_tL, q6_add']
-  simp only [q6_apply_inl0, q6_apply_inl1, q6_apply_inl2, q6_apply_inr0, q6_apply_inr1,
-    q6_apply_inr2, add_zero]
+  simp only [q6_apply_inl2, q6_apply_inr0, add_zero]
 
 theorem burnsideB46_p5_conj_tL {g : ↥(cayleyGroup K)} (hg : g ∈ stabQ (stdF K 2)) (s : K) :
     g * tL s * g⁻¹ = tL ((levi2Mat g).det * s) := by
@@ -10479,7 +10534,7 @@ theorem burnsideB46_p5_centralizer_D :
 theorem burnsideB46_p5_two_elt_mem {G : Type*} [Group G] {H N : Subgroup G} (hNH : N ≤ H)
     (hnorm : H ≤ Subgroup.normalizer (N : Set G)) (hodd : ¬ 2 ∣ N.relIndex H) {x : G}
     (hx : x ∈ H) {k : ℕ} (hk : x ^ 2 ^ k = 1) : x ∈ N := by
-  haveI : (N.subgroupOf H).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNH).mpr hnorm
+  have : (N.subgroupOf H).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNH).mpr hnorm
   have h1 : orderOf (QuotientGroup.mk (⟨x, hx⟩ : ↥H) : ↥H ⧸ N.subgroupOf H) ∣ 2 ^ k := by
     apply orderOf_dvd_of_pow_eq_one
     rw [← QuotientGroup.mk_pow]
@@ -10808,6 +10863,7 @@ theorem burnsideB46_p5_centralizer_single_Dconj (h : ↥(cayleyGroup K)) {s₀ :
     exact hg _ (burnsideB46_p5_mem_Dconj.mpr ⟨s₀, rfl⟩)
 
 
+omit [CharP K 2] in
 theorem burnsideB46_p5_smul_e0 (s : K) : s • (![1, 0, 0] : Fin 3 → K) = ![s, 0, 0] := by
   funext i
   fin_cases i <;> simp
@@ -11362,6 +11418,7 @@ theorem burnsideB46_p5_exists_smul_of_mem_stabQ_pt {g : ↥(cayleyGroup K)} {x :
 @[expose] def burnsideB46_p5_Lev (K : Type) [Field K] [CharP K 2] : Subgroup ↥(cayleyGroup K) :=
   stabQ (stdF K 1) ⊓ stabQ (burnsideB46_pt K (q6 0 0 0 1 0 0))
 
+omit [CharP K 2] in
 theorem burnsideB46_p5_v0_ne_zero : (q6 (0 : K) 0 0 1 0 0) ≠ 0 := by
   intro h
   have := congrFun h (.inr 0)
@@ -11458,6 +11515,7 @@ theorem burnsideB46_p5_tG_mem_normalizer (d : Kˣ) :
     rw [hy.trans h1]
     exact ⟨_, rfl⟩
 
+omit [CharP K 2] in
 theorem burnsideB46_p5_polarQ_v0 (x : Ix3 → K) : polarQ x (eu 0 1) = x (.inr 0) := by
   rw [burnsideB46_p5_polarQ_eu, mul_one]
 
@@ -11725,6 +11783,7 @@ theorem burnsideB46_p5_obj_act (h : ↥(cayleyGroup K)) :
   · rw [burnsideB46_p3_F3_act, burnsideB46_p3_F3_eu]
   · rw [burnsideB46_p3_A1_act, burnsideB46_p5_A1_eu]
 
+omit [Finite K] in
 theorem burnsideB46_p5_g2Act_ne_zero (h : ↥(cayleyGroup K)) : g2Act h (eu 0 (1 : K)) ≠ 0 := by
   intro h0
   have h1 := congrArg (g2Act h⁻¹) h0
@@ -11980,7 +12039,7 @@ theorem burnsideB46_part_6 (hqs : burnsideB46_G2Qs) (H : burnsideB46_Hyp V n K G
           commV (Subgroup.zpowers r) ⊔ fixV L = V₃) ∧
         ∃ L₁ : Subgroup (MulAut V), IsLeviComplement P₁ L₁ ∧
           L ⊓ Subgroup.normalizer (R : Set (MulAut V)) = A₁ ⊔ L₁) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   exact burnsideB46_p5_part6_core hqs H hn
 
 end P5c
@@ -12010,7 +12069,7 @@ theorem burnsideB46_part_5 (hqs : burnsideB46_G2Qs) (H : burnsideB46_Hyp V n K G
         (L ⊓ Subgroup.centralizer ({z} : Set (MulAut V)) =
             L ⊓ Subgroup.centralizer (Z₂ : Set (MulAut V)) ∧
           L ⊓ Subgroup.centralizer (Z₂ : Set (MulAut V)) = twoPrimeResidual P₂)) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   intro V₁ P₁ R₁ Z₁ V₃ A₁ hcfg1 T Z₂ P₂ R₂ V₂ hcfg2 z hz hz1
   obtain ⟨x, hx0, hV₁, hP₁, hR₁, hZ₁, hV₃⟩ := burnsideB46_cfg1_point H hcfg1
   obtain ⟨c, hpt, hT, hZ, hP, hR, hV⟩ := burnsideB46_p4_cfg2 hqs H hn hx0 hP₁ hcfg2
@@ -12545,7 +12604,7 @@ theorem burnsideB46_part_5_one (H : burnsideB46_Hyp V n K G L π θ) (hn1 : n = 
         (L ⊓ Subgroup.centralizer ({z} : Set (MulAut V)) =
             L ⊓ Subgroup.centralizer (Z₂ : Set (MulAut V)) ∧
           L ⊓ Subgroup.centralizer (Z₂ : Set (MulAut V)) = twoPrimeResidual P₂)) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   have _hn1 := hn1
   have hnormLG : G ≤ Subgroup.normalizer (L : Set (MulAut V)) := by
     rw [hGL]
@@ -12567,7 +12626,7 @@ theorem burnsideB46_part_6_one (H : burnsideB46_Hyp V n K G L π θ) (hn1 : n = 
           commV (Subgroup.zpowers r) ⊔ fixV L = V₃) ∧
         ∃ L₁ : Subgroup (MulAut V), IsLeviComplement P₁ L₁ ∧
           L ⊓ Subgroup.normalizer (R : Set (MulAut V)) = A₁ ⊔ L₁) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   have _hn1 := hn1
   exact burnsideB46_p5_part6_core_gen H fun hx _ => burnsideB46_p5_cfg1_of_point_GL H hGL hx
 
@@ -12671,6 +12730,7 @@ variable {K : Type} [Field K] [Finite K] {V : Type} [CommGroup V] [Finite V] {n 
   {G L : Subgroup (MulAut V)} {π : ↥(quasithinG2 K) →* MulAut V}
   {θ : V →* Multiplicative (NatQ K)}
 
+omit [Finite V] in
 theorem burnsideB46_w11_conj_qr [CharP K 2] (hqs : burnsideB46_G2Qs)
     (H : burnsideB46_Hyp V n K G L π θ) (hn : 2 ≤ n) {g : MulAut V} (hg : g ∈ G)
     {γ γ' : ↥(cayleyGroup K)}
@@ -12715,6 +12775,7 @@ theorem burnsideB46_w11_good_ge2 [CharP K 2] (hqs : burnsideB46_G2Qs)
     exact ⟨c, hT, hZ, hR⟩
   A1red := fun hx0 _ _ hV hA => burnsideB46_cfg1_A1 hqs H hn (burnsideB46_w11_F3_ne_bot hx0) hV hA
 
+omit [Finite V] in
 theorem burnsideB46_w11_strong_gen [CharP K 2] (H : burnsideB46_Hyp V n K G L π θ)
     (hG : burnsideB46_w11_Good H)
     {V₁ : Subgroup V} {P₁ R₁ Z₁ : Subgroup (MulAut V)} {V₃ : Subgroup V}
@@ -12743,7 +12804,7 @@ theorem burnsideB46_w11_strong (hqs : burnsideB46_G2Qs)
     {V₁ : Subgroup V} {P₁ R₁ Z₁ : Subgroup (MulAut V)} {V₃ : Subgroup V}
     {A₁ : Subgroup (MulAut V)} (hcfg : B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁) :
     IsStrongClosedWrt Z₁ R₁ G := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   exact burnsideB46_w11_strong_gen H (burnsideB46_w11_good_ge2 hqs H hn) hcfg
 
 theorem burnsideB46_w11_offenders (hqs : burnsideB46_G2Qs)
@@ -12751,10 +12812,11 @@ theorem burnsideB46_w11_offenders (hqs : burnsideB46_G2Qs)
     {V₁ : Subgroup V} {P₁ R₁ Z₁ : Subgroup (MulAut V)} {V₃ : Subgroup V}
     {A₁ : Subgroup (MulAut V)} (hcfg : B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁) :
     {A | IsFFStarOffender G A} = {A | ∃ l ∈ L, A = A₁.map (MulAut.conj l).toMonoidHom} := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   exact burnsideB46_part_13a hqs H hn (fun x hx => burnsideB46_w11_F3_ne_bot hx)
     (fun x hx => burnsideB46_p3_A1_conj H.card H.one_le hx) V₁ P₁ R₁ Z₁ V₃ A₁ hcfg
 
+omit [Finite V] in
 theorem burnsideB46_w11_ffJ_R1_gen [CharP K 2] (H : burnsideB46_Hyp V n K G L π θ)
     (hG : burnsideB46_w11_Good H)
     {V₁ : Subgroup V} {P₁ R₁ Z₁ : Subgroup (MulAut V)} {V₃ : Subgroup V}
@@ -12805,7 +12867,7 @@ theorem burnsideB46_w11_ffJ_R1 (hqs : burnsideB46_G2Qs)
     {V₁ : Subgroup V} {P₁ R₁ Z₁ : Subgroup (MulAut V)} {V₃ : Subgroup V}
     {A₁ : Subgroup (MulAut V)} (hcfg : B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁) :
     ffJ R₁ = A₁ := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   exact burnsideB46_w11_ffJ_R1_gen H (burnsideB46_w11_good_ge2 hqs H hn) hcfg
     (burnsideB46_w11_offenders hqs H hn hcfg)
 
@@ -12826,11 +12888,13 @@ variable {K : Type} [Field K] [CharP K 2] [Finite K]
 @[expose] noncomputable def burnsideB46_w11_ell (γ : ↥(cayleyGroup K)) : Submodule K (Ix3 → K) :=
   LinearMap.range (burnsideB46_p5_T γ)
 
+omit [Finite K] in
 theorem burnsideB46_w11_mem_ell {γ : ↥(cayleyGroup K)} {y : Ix3 → K} :
     y ∈ burnsideB46_w11_ell γ ↔ ∃ w, burnsideB46_p5_T γ w = y := by
   unfold burnsideB46_w11_ell
   rw [LinearMap.mem_range]
 
+omit [Finite K] in
 theorem burnsideB46_w11_ell_conj (g γ : ↥(cayleyGroup K)) :
     burnsideB46_w11_ell (g * γ * g⁻¹) = gmapG g (burnsideB46_w11_ell γ) := by
   ext y
@@ -12848,6 +12912,7 @@ theorem burnsideB46_w11_ell_conj (g γ : ↥(cayleyGroup K)) :
     simp only [burnsideB46_p5_T_apply, e]
     exact h1
 
+omit [Finite K] in
 theorem burnsideB46_w11_ell_tL {s : K} (hs : s ≠ 0) : burnsideB46_w11_ell (tL s) = stdF K 2 := by
   ext y
   rw [burnsideB46_w11_mem_ell]
@@ -12863,11 +12928,13 @@ theorem burnsideB46_w11_finrank_ell {γ : ↥(cayleyGroup K)} (hγ : burnsideB46
   rw [burnsideB46_w11_ell_conj, burnsideB46_p3_finrank_gmapG,
     burnsideB46_w11_ell_tL (one_ne_zero (α := K)), burnsideB46_p4_finrank_stdF (by norm_num)]
 
+omit [Finite K] in
 theorem burnsideB46_w11_inv_apply {γ : ↥(cayleyGroup K)} (hγ : γ * γ = 1) (w : Ix3 → K) :
     g2Act γ (g2Act γ w) = w := by
   rw [← g2Act_mul_apply, hγ, map_one]
   rfl
 
+omit [Finite K] in
 theorem burnsideB46_w11_T_T {γ : ↥(cayleyGroup K)} (hγ : γ * γ = 1) (w : Ix3 → K) :
     burnsideB46_p5_T γ (burnsideB46_p5_T γ w) = 0 := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -12876,6 +12943,7 @@ theorem burnsideB46_w11_T_T {γ : ↥(cayleyGroup K)} (hγ : γ * γ = 1) (w : I
     Pi.zero_apply]
   linear_combination (w j - g2Act γ w j) * h2
 
+omit [Finite K] in
 theorem burnsideB46_w11_polarQ_T {γ : ↥(cayleyGroup K)} (hγ : γ * γ = 1) (x y : Ix3 → K) :
     polarQ (burnsideB46_p5_T γ x) y = polarQ x (burnsideB46_p5_T γ y) := by
   simp only [burnsideB46_p5_T_apply, polarQ_sub_left, polarQ_sub_right]
@@ -12884,6 +12952,7 @@ theorem burnsideB46_w11_polarQ_T {γ : ↥(cayleyGroup K)} (hγ : γ * γ = 1) (
     rwa [burnsideB46_w11_inv_apply hγ] at this
   rw [h1]
 
+omit [Finite K] in
 theorem burnsideB46_w11_fix_of_ell {γ : ↥(cayleyGroup K)} (hγ : γ * γ = 1) {f : Ix3 → K}
     (h : ∀ y ∈ burnsideB46_w11_ell γ, polarQ y f = 0) : g2Act γ f = f := by
   have h1 : burnsideB46_p5_T γ f = 0 := eq_zero_of_polarQ fun z => by
@@ -12893,11 +12962,13 @@ theorem burnsideB46_w11_fix_of_ell {γ : ↥(cayleyGroup K)} (hγ : γ * γ = 1)
   rw [burnsideB46_p5_T_apply] at h2
   exact sub_eq_zero.mp h2
 
+omit [CharP K 2] [Finite K] in
 theorem burnsideB46_w11_B_nondeg : (burnsideB46_p5_B K).Nondegenerate :=
   ⟨fun x hx => eq_zero_of_polarQ hx, fun y hy => eq_zero_of_polarQ fun x => by
     rw [polarQ_symm]
     exact hy x⟩
 
+omit [CharP K 2] [Finite K] in
 theorem burnsideB46_w11_ti_finrank_le (U : Submodule K (Ix3 → K))
     (hU : ∀ x ∈ U, ∀ y ∈ U, polarQ x y = 0) : Module.finrank K U ≤ 3 := by
   have h1 : U ≤ LinearMap.BilinForm.orthogonal (burnsideB46_p5_B K) U := fun x hx y hy => hU y hy x hx
@@ -12959,6 +13030,7 @@ theorem burnsideB46_w11_concur {a b : ↥(cayleyGroup K)} (ha : burnsideB46_p5_I
   have hle := burnsideB46_w11_ti_finrank_le _ hti
   omega
 
+omit [Finite K] in
 theorem burnsideB46_w11_tL_mem_Z1_std (s : K) : tL s ∈ Z1 K := by
   have h : tL s = g2A (uSL 0 s 0) := by
     unfold tL
@@ -12968,6 +13040,7 @@ theorem burnsideB46_w11_tL_mem_Z1_std (s : K) : tL s ∈ Z1 K := by
     rfl
   exact ⟨(0, s), h⟩
 
+omit [Finite K] in
 theorem burnsideB46_w11_exists_sl2E1 (M : Matrix.SpecialLinearGroup (Fin 2) K) :
     ∃ s ∈ sl2E1 K, levi2Mat s = (M : Matrix (Fin 2) (Fin 2) K) := by
   have hM : M ∈ Subgroup.closure (CFSG.LinearGroups.elementarySet 2 K) := by
@@ -13014,6 +13087,7 @@ theorem burnsideB46_w11_exists_sl2E1 (M : Matrix.SpecialLinearGroup (Fin 2) K) :
       _ = ((M⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) := by
           rw [← h1, mul_one]
 
+omit [Finite K] in
 theorem burnsideB46_w11_exists_k {y : Ix3 → K} (hy : y ∈ stdF K 2)
     (hy0 : y ≠ 0) : ∃ k ∈ stabQ (stdF K 2), g2Act k (eu 0 (1 : K)) = y := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -13102,6 +13176,7 @@ theorem burnsideB46_w11_long_of_ell_le {c : ↥(cayleyGroup K)} (hc : burnsideB4
     burnsideB46_w11_fix_of_ell hc2 fun y hy => burnsideB46_w11_F3_ti hw (hle hy) hf
   exact burnsideB46_w11_R1_mem_Z1 hw (burnsideB46_w11_A1_le_R1 hw hA) hc.qr_zero
 
+omit [CharP K 2] [Finite K] in
 theorem burnsideB46_w11_eu_ne_zero : (eu 0 (1 : K) : Ix3 → K) ≠ 0 := by
   rw [eu_eq_q6]
   intro h
@@ -13223,6 +13298,7 @@ variable {K : Type} [Field K] [Finite K] {V : Type} [CommGroup V] [Finite V] {n 
   {G L : Subgroup (MulAut V)} {π : ↥(quasithinG2 K) →* MulAut V}
   {θ : V →* Multiplicative (NatQ K)}
 
+omit [Finite V] in
 theorem burnsideB46_w11_part_11_i_gen [CharP K 2] (H : burnsideB46_Hyp V n K G L π θ)
     (hG : burnsideB46_w11_Good H)
     {V₁ : Subgroup V} {P₁ R₁ Z₁ : Subgroup (MulAut V)} {V₃ : Subgroup V}
@@ -13280,7 +13356,7 @@ theorem burnsideB46_w11_part_11_i (hqs : burnsideB46_G2Qs)
     (hcfg2 : B46Cfg2 G L P₁ T Z₂ P₂ R₂ V₂) {z : MulAut V} (hz : z ∈ Z₂) (hz1 : z ≠ 1) :
     ∀ B : Subgroup (MulAut V), B ≤ G → (∀ b ∈ B, b ≠ 1 → ∃ l ∈ L, b = l * z * l⁻¹) →
       ∃ l ∈ L, B.map (MulAut.conj l).toMonoidHom ≤ Z₁ := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   exact burnsideB46_w11_part_11_i_gen H (burnsideB46_w11_good_ge2 hqs H hn) hcfg hcfg2 hz hz1
 
 theorem burnsideB46_w11_part_11 (hqs : burnsideB46_G2Qs)
@@ -13308,6 +13384,7 @@ open CFSG.ClassicalInvolution.ModelFacts.OddCover (uSL uSL_mul uSL_inv)
 
 variable {K : Type} [Field K] [CharP K 2] [Finite K]
 
+omit [Finite K] in
 theorem burnsideB46_w11_Z1_std_mul_self {z : ↥(cayleyGroup K)} (hz : z ∈ Z1 K) : z * z = 1 := by
   obtain ⟨v, rfl⟩ := hz
   rw [← map_mul, uSL_mul]
@@ -13355,6 +13432,7 @@ theorem burnsideB46_w11_mem_ell_of_Z1 {y : Ix3 → K} (hy : y ≠ 0) {ζ : ↥(c
     funext j
     rcases j with j | j <;> fin_cases j <;> simp [q6, hp]
 
+omit [CharP K 2] [Finite K] in
 theorem burnsideB46_w11_tL_eq (s : K) : tL s = g2A (uSL 0 s 0) := by
   unfold tL
   congr 1
@@ -13362,12 +13440,14 @@ theorem burnsideB46_w11_tL_eq (s : K) : tL s = g2A (uSL 0 s 0) := by
   rw [tv02_lit]
   rfl
 
+omit [Finite K] in
 theorem burnsideB46_w11_gmapG_inj {γ : ↥(cayleyGroup K)} {S S' : Submodule K (Ix3 → K)}
     (h : gmapG γ S = gmapG γ S') : S = S' := by
   ext x
   have h1 : g2Act γ x ∈ gmapG γ S ↔ g2Act γ x ∈ gmapG γ S' := by rw [h]
   rwa [mem_gmapG, mem_gmapG, g2Act_inv_apply] at h1
 
+omit [Finite K] in
 theorem burnsideB46_w11_ell_std_ne :
     burnsideB46_w11_ell (g2A (uSL (0 : K) 1 0)) ≠ burnsideB46_w11_ell (g2A (uSL (1 : K) 0 0)) := by
   have hF : burnsideB46_w11_ell (g2A (uSL (0 : K) 1 0)) = stdF K 2 := by
@@ -13416,8 +13496,9 @@ theorem burnsideB46_w11_F2_le_F3 {y : Ix3 → K} (hy : y ∈ stdF K 2)
   have hk' : k⁻¹ ∈ stabQ (stdF K 2) := (stabQ (stdF K 2)).inv_mem hk
   exact stdF_mono (by norm_num) (((mem_stabQ.1 hk') x).1 hx)
 
+omit [Finite K] in
 theorem burnsideB46_w11_A1_le_R2_of_F2_le {y : Ix3 → K} (h : stdF K 2 ≤ burnsideB46_F3 K y) :
-    burnsideB46_A1 K y ≤ burnsideB46_p4_R2 K := fun γ hγ =>
+    burnsideB46_A1 K y ≤ burnsideB46_p4_R2 K := fun _γ hγ =>
   ⟨hγ _ (h (burnsideB46_p4_F2_of (a := 1) (f := 0))), hγ _ (h (burnsideB46_p4_F2_of (a := 0) (f := 1)))⟩
 
 theorem burnsideB46_w11_A1_le_U0 {y : Ix3 → K} (hy0 : y ≠ 0)
@@ -13473,6 +13554,7 @@ theorem burnsideB46_w11_A1_u0_le_R2 : burnsideB46_A1 K (eu 0 (1 : K)) ≤ burnsi
     rw [burnsideB46_p3_F3_eu]
     exact stdF_mono (by norm_num))
 
+omit [Finite K] in
 theorem burnsideB46_w11_y2_mem : g2Act (g2X ![0, 1, 0]) (eu 0 (1 : K)) ∈ stdF K 2 ∧
     g2Act (g2X ![0, 1, 0]) (eu 0 (1 : K)) ≠ 0 := by
   have hx₁mem : g2X ![0, 1, 0] ∈ stabQ (stdF K 2) :=
@@ -13492,7 +13574,7 @@ theorem burnsideB46_w11_A1_y2_le_R2 :
 theorem burnsideB46_w11_R2_le_sup :
     burnsideB46_p4_R2 K ≤ burnsideB46_A1 K (eu 0 (1 : K)) ⊔
       burnsideB46_A1 K (g2Act (g2X ![0, 1, 0]) (eu 0 (1 : K))) := by
-  haveI : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
+  have : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
   set x₁ : ↥(cayleyGroup K) := g2X ![0, 1, 0] with hx₁
   set A := burnsideB46_A1 K (eu 0 (1 : K)) with hA
   set A' := burnsideB46_A1 K (g2Act x₁ (eu 0 (1 : K))) with hA'
@@ -13510,7 +13592,7 @@ theorem burnsideB46_w11_R2_le_sup :
   have hinf : Nat.card ↥(A' ⊓ A) ≤ Nat.card K := by
     have hle : A' ⊓ A ≤ burnsideB46_p4_Z0 K := fun g hg => burnsideB46_w11_inf_le_Z0 hg.2 hg.1
     exact (Subgroup.card_le_of_le hle).trans (burnsideB46_p4_card_Z0 (K := K)).le
-  haveI : A'.IsFiniteRelIndex (A ⊔ A') := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : A'.IsFiniteRelIndex (A ⊔ A') := Subgroup.isFiniteRelIndex_of_finiteIndex
   have h1 : A'.relIndex A ≤ A'.relIndex (A ⊔ A') :=
     Subgroup.relIndex_le_of_le_right hAJ Subgroup.relIndex_ne_zero
   have e1 : A'.relIndex A * Nat.card ↥(A' ⊓ A) = Nat.card A := Subgroup.relIndex_mul_card A' A
@@ -13546,6 +13628,7 @@ variable {K : Type} [Field K] [Finite K] {V : Type} [CommGroup V] [Finite V] {n 
   {G L : Subgroup (MulAut V)} {π : ↥(quasithinG2 K) →* MulAut V}
   {θ : V →* Multiplicative (NatQ K)}
 
+omit [Finite V] in
 theorem burnsideB46_w11_ffJ_T_gen [CharP K 2] (H : burnsideB46_Hyp V n K G L π θ)
     (hG : burnsideB46_w11_Good H)
     {V₁ : Subgroup V} {P₁ R₁ Z₁ : Subgroup (MulAut V)} {V₃ : Subgroup V}
@@ -13655,7 +13738,7 @@ theorem burnsideB46_w11_ffJ_T (hqs : burnsideB46_G2Qs)
     {A₁ : Subgroup (MulAut V)} (hcfg : B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁)
     {T Z₂ P₂ R₂ : Subgroup (MulAut V)} {V₂ : Subgroup V}
     (hcfg2 : B46Cfg2 G L P₁ T Z₂ P₂ R₂ V₂) : ffJ T = R₂ := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   exact burnsideB46_w11_ffJ_T_gen H (burnsideB46_w11_good_ge2 hqs H hn) hcfg
     (burnsideB46_w11_offenders hqs H hn hcfg) hcfg2
 
@@ -13716,7 +13799,7 @@ theorem burnsideB46_w11_good_of_GL [CharP K 2] (H : burnsideB46_Hyp V n K G L π
     exact ⟨c, hT, hZ, hR⟩
   A1red := fun hx0 _ _ hV hA => burnsideB46_of_cfg1_A1_of_le H hGL.le hV hA
 
-theorem burnsideB46_w11_part_11_one (H : burnsideB46_Hyp V n K G L π θ) (hn1 : n = 1)
+theorem burnsideB46_w11_part_11_one (H : burnsideB46_Hyp V n K G L π θ) (_hn1 : n = 1)
     (hGL : G = L) :
     (∀ (V₁ : Subgroup V) (P₁ R₁ Z₁ : Subgroup (MulAut V)) (V₃ : Subgroup V)
       (A₁ : Subgroup (MulAut V)),
@@ -13726,7 +13809,7 @@ theorem burnsideB46_w11_part_11_one (H : burnsideB46_Hyp V n K G L π θ) (hn1 :
         (∀ B : Subgroup (MulAut V), B ≤ G → (∀ b ∈ B, b ≠ 1 → ∃ l ∈ L, b = l * z * l⁻¹) →
           ∃ l ∈ L, B.map (MulAut.conj l).toMonoidHom ≤ Z₁) ∧
         IsStrongClosedWrt Z₁ R₁ G) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   have hG := burnsideB46_w11_good_of_GL H hGL
   exact fun _ _ _ _ _ _ hcfg _ _ _ _ _ hcfg2 _ hz hz1 =>
     ⟨burnsideB46_w11_part_11_i_gen H hG hcfg hcfg2 hz hz1, burnsideB46_w11_strong_gen H hG hcfg⟩
@@ -13739,7 +13822,7 @@ theorem burnsideB46_w11_part_13bc_one
       B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
       ∀ (T Z₂ P₂ R₂ : Subgroup (MulAut V)) (V₂ : Subgroup V), B46Cfg2 G L P₁ T Z₂ P₂ R₂ V₂ →
         ffJ T = R₂ ∧ ffJ R₁ = A₁) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   have hG := burnsideB46_w11_good_of_GL H hGL
   exact fun V₁ P₁ R₁ Z₁ V₃ A₁ hcfg _ _ _ _ _ hcfg2 =>
     ⟨burnsideB46_w11_ffJ_T_gen H hG hcfg (burnsideB46_part_13a_one H hn1 hGL V₁ P₁ R₁ Z₁ V₃ A₁ hcfg)
@@ -13789,7 +13872,7 @@ theorem burnsideB46_w14_mem_normalizer_of_lower {x : ↥(cayleyGroup K)}
     have hcomm : y * !![1, 0; t, 1] = !![1, 0; s, 1] * y := by
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.mul_apply, Fin.sum_univ_two, hlow, hs] <;> field_simp <;> ring
+        simp [Matrix.mul_apply, Fin.sum_univ_two, hlow, hs]; field_simp; ring
     have hmat : levi1Mat (x * g * x⁻¹) = levi1Mat (g2A (uSL 0 0 s)) := by
       rw [burnsideB46_p3_levi1Mat_mul ((stabQ (stdF K 1)).mul_mem hxP (hP g hg)) hxi,
         burnsideB46_p3_levi1Mat_mul hxP (hP g hg), ← hy, hg', hcomm, Matrix.mul_assoc, hyYi,
@@ -13812,7 +13895,7 @@ theorem burnsideB46_w14_mem_normalizer_of_lower {x : ↥(cayleyGroup K)}
 theorem burnsideB46_w14_conj_torus [Finite K] (hK : Nat.card K = 2 ^ 2) {x : ↥(cayleyGroup K)}
     (hx3 : x ^ 3 = 1) (hxN : x ∈ Subgroup.normalizer (U0 K : Set ↥(cayleyGroup K))) :
     ∃ u ∈ U0 K, ∃ s : Kˣ × Kˣ, x = u * g2T s * u⁻¹ := by
-  haveI : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
+  have : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
   set U := U0 K with hU
   set Y : Subgroup ↥(cayleyGroup K) := U ⊔ Subgroup.zpowers x with hY
   have hUN : U ≤ Subgroup.normalizer (U : Set ↥(cayleyGroup K)) := Subgroup.le_normalizer
@@ -13870,6 +13953,7 @@ theorem burnsideB46_w14_scalar_conj {u y : ↥(cayleyGroup K)} (hu : u ∈ stabQ
     burnsideB46_p3_levi1Mat_mul hu hy, h, Matrix.mul_smul, Matrix.mul_one, Matrix.smul_mul,
     ← burnsideB46_p3_levi1Mat_mul hu hui, mul_inv_cancel, levi1Mat_one]
 
+omit [CharP K 2] in
 theorem burnsideB46_w14_units_pow_three [Finite K] (hK : Nat.card K = 4) (c : Kˣ) : c ^ 3 = 1 := by
   have h := pow_card_eq_one' (G := Kˣ) (x := c)
   rwa [Nat.card_units, hK] at h
@@ -13915,7 +13999,7 @@ theorem burnsideB46_w14_torus_scalar_iff [Finite K] (hK : Nat.card K = 4) (s : K
     refine ⟨(c : K)⁻¹, ?_⟩
     rw [← hs, levi1Mat_g2T, torHom2_apply]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [e1, e2, hcc]
+    fin_cases i <;> fin_cases j <;> simp [hcc]
 
 
 theorem burnsideB46_w14_pCore_stabQ_one [Finite K] :
@@ -14222,7 +14306,7 @@ theorem burnsideB46_w14_model [Finite K] (hK : Nat.card K = 4) {X : Subgroup ↥
       (U0 K : Set ↥(cayleyGroup K)) * (X : Set ↥(cayleyGroup K))) :
     X ≤ stabQ (stdF K 1) ⊓ perfectCore (stabQ (stdF K 2)) ↔
       ⁅X, perfectCore (stabQ (stdF K 1))⁆ ≤ pCoreOf 2 (stabQ (stdF K 1)) := by
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hX3]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hX3]; norm_num)
   obtain ⟨H, hUH, hXH, hidx⟩ := burnsideB46_w14_relIndex_le hXU
   have hXP : X ≤ stabQ (stdF K 1) :=
     hXH.trans (burnsideB46_w14_fix_of_index_three (by omega) hUH (hidx.trans (by rw [hX3])))
@@ -14257,10 +14341,10 @@ theorem burnsideB46_w14_part_14 (hqs : burnsideB46_G2Qs) (H : burnsideB46_Hyp V 
         (X : Set (MulAut V)) * (T : Set (MulAut V)) = (T : Set (MulAut V)) * (X : Set (MulAut V)) →
         (X ≤ P₁ ⊓ perfectCore P₂ ↔ ⁅X, perfectCore P₁⁆ ≤ R₁)) := by
   intro hn2 V₁ P₁ R₁ Z₁ V₃ A₁ hcfg1 T Z₂ P₂ R₂ V₂ hcfg2 X hXG hX3 hXT
-  haveI := burnsideB46_charP H
-  haveI : Finite (MulAut V) := Finite.of_injective (fun e : MulAut V => (e : V → V))
+  have := burnsideB46_charP H
+  have : Finite (MulAut V) := Finite.of_injective (fun e : MulAut V => (e : V → V))
     (fun e e' h => MulEquiv.ext (congrFun h))
-  haveI : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
+  have : Finite ↥(cayleyGroup K) := finite_cayleyGroup (F := K)
   have hK : Nat.card K = 4 := by rw [H.card, hn2]; norm_num
   obtain ⟨x, hx0, -, hP₁, -, -, -⟩ := burnsideB46_cfg1_point H hcfg1
   obtain ⟨c, hpt, hT, -, hP₂, -, -⟩ := burnsideB46_p4_cfg2 hqs H hn hx0 hP₁ hcfg2
@@ -14320,7 +14404,7 @@ theorem burnsideB46_part_3_twisted_final (hqs : burnsideB46_G2Qs)
         ∀ E : Subgroup V,
           E = ⨆ (Z : Subgroup (MulAut V)) (_ : IsLongRootSub π Z ∧ Z ≤ Z₁), cPre (fixV L) Z →
             IsFPre θ 5 E ∧ commSub E A₁ ⊔ fixV L = V₃) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   exact burnsideB46_part_3_twisted hqs H hn
     (fun x hx => burnsideB46_mp_hmax1 H.card H.one_le hx)
 
@@ -14335,7 +14419,7 @@ theorem burnsideB46_part_3_final (hqs : burnsideB46_G2Qs)
         ∀ E : Subgroup V,
           E = ⨆ (Z : Subgroup (MulAut V)) (_ : IsLongRootSub π Z ∧ Z ≤ Z₁), cPre (fixV L) Z →
             IsFPre θ 5 E ∧ commSub E A₁ ⊔ fixV L = V₃) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   exact burnsideB46_part_3 hqs H hn h3 (fun x hx => burnsideB46_mp_hmax1 H.card H.one_le hx)
 
 theorem burnsideB46_part_13a_final (hqs : burnsideB46_G2Qs)
@@ -14344,7 +14428,7 @@ theorem burnsideB46_part_13a_final (hqs : burnsideB46_G2Qs)
       (A₁ : Subgroup (MulAut V)),
       B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
       {A | IsFFStarOffender G A} = {A | ∃ l ∈ L, A = A₁.map (MulAut.conj l).toMonoidHom} := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   exact burnsideB46_part_13a hqs H hn (fun x hx => burnsideB46_as_F3_ne_bot hx)
     (fun x hx => (burnsideB46_as_std hx).imp fun _ h => h.2)
 
@@ -14360,7 +14444,7 @@ theorem burnsideB46_part_4_final (hqs : burnsideB46_G2Qs)
         (∀ z ∈ Z₂, z ≠ 1 → V₂ = commV (Subgroup.zpowers z) ⊔ fixV L) ∧
         (∀ z ∈ Z₂, z ≠ 1 → cPre (fixV L) Z₂ = cPre (fixV L) (Subgroup.zpowers z) ∧
           IsFPre θ 4 (cPre (fixV L) Z₂))) := by
-  haveI : CharP K 2 := burnsideB46_charP H
+  have : CharP K 2 := burnsideB46_charP H
   exact burnsideB46_part_4 hqs
     (burnsideB46_p4_hmax2_of_std H.card H.one_le (burnsideB46_wp2_isMax H.card H.one_le)) H hn
 
@@ -14473,7 +14557,7 @@ variable {V : Type} [CommGroup V] [Finite V] {n : ℕ} {K : Type} [Field K] [Fin
           (T : Set (MulAut V)) * (X : Set (MulAut V)) →
         (X ≤ P₁ ⊓ perfectCore P₂ ↔ ⁅X, perfectCore P₁⁆ ≤ R₁))
 
-@[expose] def burnsideB46_Cl11 (H : burnsideB46_Hyp V n K G L π θ) : Prop :=
+@[expose] def burnsideB46_Cl11 (_H : burnsideB46_Hyp V n K G L π θ) : Prop :=
     (∀ (V₁ : Subgroup V) (P₁ R₁ Z₁ : Subgroup (MulAut V)) (V₃ : Subgroup V) (A₁ : Subgroup (MulAut V)),
       B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
       ∀ (T Z₂ P₂ R₂ : Subgroup (MulAut V)) (V₂ : Subgroup V), B46Cfg2 G L P₁ T Z₂ P₂ R₂ V₂ →
@@ -14481,13 +14565,13 @@ variable {V : Type} [CommGroup V] [Finite V] {n : ℕ} {K : Type} [Field K] [Fin
         (∀ B : Subgroup (MulAut V), B ≤ G → (∀ b ∈ B, b ≠ 1 → ∃ l ∈ L, b = l * z * l⁻¹) →
           ∃ l ∈ L, B.map (MulAut.conj l).toMonoidHom ≤ Z₁) ∧
         IsStrongClosedWrt Z₁ R₁ G)
-@[expose] def burnsideB46_Cl13bc (H : burnsideB46_Hyp V n K G L π θ) : Prop :=
+@[expose] def burnsideB46_Cl13bc (_H : burnsideB46_Hyp V n K G L π θ) : Prop :=
   (∀ (V₁ : Subgroup V) (P₁ R₁ Z₁ : Subgroup (MulAut V)) (V₃ : Subgroup V) (A₁ : Subgroup (MulAut V)),
       B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
       ∀ (T Z₂ P₂ R₂ : Subgroup (MulAut V)) (V₂ : Subgroup V), B46Cfg2 G L P₁ T Z₂ P₂ R₂ V₂ →
         ffJ T = R₂ ∧ ffJ R₁ = A₁)
 
-@[expose] def burnsideB46_Cl14 (H : burnsideB46_Hyp V n K G L π θ) : Prop :=
+@[expose] def burnsideB46_Cl14 (_H : burnsideB46_Hyp V n K G L π θ) : Prop :=
     (n = 2 → ∀ (V₁ : Subgroup V) (P₁ R₁ Z₁ : Subgroup (MulAut V)) (V₃ : Subgroup V) (A₁ : Subgroup (MulAut V)),
       B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
       ∀ (T Z₂ P₂ R₂ : Subgroup (MulAut V)) (V₂ : Subgroup V), B46Cfg2 G L P₁ T Z₂ P₂ R₂ V₂ →
@@ -14630,7 +14714,7 @@ variable {V : Type} [CommGroup V] [Finite V] {n : ℕ} {K : Type} [Field K] [Fin
           (T : Set (MulAut V)) * (X : Set (MulAut V)) →
         (X ≤ P₁ ⊓ perfectCore P₂ ↔ ⁅X, perfectCore P₁⁆ ≤ R₁))
 
-@[expose] def burnsideB46_Cl4 (H : burnsideB46_Hyp V n K G L π θ) : Prop :=
+@[expose] def burnsideB46_Cl4 (_H : burnsideB46_Hyp V n K G L π θ) : Prop :=
     (∀ (V₁ : Subgroup V) (P₁ R₁ Z₁ : Subgroup (MulAut V)) (V₃ : Subgroup V) (A₁ : Subgroup (MulAut V)),
       B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
       ∀ (T Z₂ P₂ R₂ : Subgroup (MulAut V)) (V₂ : Subgroup V), B46Cfg2 G L P₁ T Z₂ P₂ R₂ V₂ →
@@ -14642,7 +14726,7 @@ variable {V : Type} [CommGroup V] [Finite V] {n : ℕ} {K : Type} [Field K] [Fin
         (∀ z ∈ Z₂, z ≠ 1 → cPre (fixV L) Z₂ = cPre (fixV L) (Subgroup.zpowers z) ∧
           IsFPre θ 4 (cPre (fixV L) Z₂)))
 
-@[expose] def burnsideB46_Cl5 (H : burnsideB46_Hyp V n K G L π θ) : Prop :=
+@[expose] def burnsideB46_Cl5 (_H : burnsideB46_Hyp V n K G L π θ) : Prop :=
     (∀ (V₁ : Subgroup V) (P₁ R₁ Z₁ : Subgroup (MulAut V)) (V₃ : Subgroup V) (A₁ : Subgroup (MulAut V)),
       B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
       ∀ (T Z₂ P₂ R₂ : Subgroup (MulAut V)) (V₂ : Subgroup V), B46Cfg2 G L P₁ T Z₂ P₂ R₂ V₂ →
@@ -14658,7 +14742,7 @@ variable {V : Type} [CommGroup V] [Finite V] {n : ℕ} {K : Type} [Field K] [Fin
             L ⊓ Subgroup.centralizer (Z₂ : Set (MulAut V)) ∧
           L ⊓ Subgroup.centralizer (Z₂ : Set (MulAut V)) = twoPrimeResidual P₂))
 
-@[expose] def burnsideB46_Cl6 (H : burnsideB46_Hyp V n K G L π θ) : Prop :=
+@[expose] def burnsideB46_Cl6 (_H : burnsideB46_Hyp V n K G L π θ) : Prop :=
     (∀ R : Subgroup (MulAut V), IsShortRootSub π R → ∀ r ∈ R, r ≠ 1 →
       L ⊓ Subgroup.centralizer ({r} : Set (MulAut V)) = L ⊓ Subgroup.centralizer (R : Set (MulAut V)) ∧
       ∃ (V₁ : Subgroup V) (P₁ R₁ Z₁ : Subgroup (MulAut V)) (V₃ : Subgroup V) (A₁ : Subgroup (MulAut V)),
@@ -14668,14 +14752,14 @@ variable {V : Type} [CommGroup V] [Finite V] {n : ℕ} {K : Type} [Field K] [Fin
         ∃ L₁ : Subgroup (MulAut V), IsLeviComplement P₁ L₁ ∧
           L ⊓ Subgroup.normalizer (R : Set (MulAut V)) = A₁ ⊔ L₁)
 
-@[expose] def burnsideB46_Cl9 (H : burnsideB46_Hyp V n K G L π θ) : Prop :=
+@[expose] def burnsideB46_Cl9 (_H : burnsideB46_Hyp V n K G L π θ) : Prop :=
     (E3.aParam G = 2 * n ∧ (∀ A ∈ E3.aSet 2 G, A ≤ L) ∧
       ∀ (V₁ : Subgroup V) (P₁ R₁ Z₁ : Subgroup (MulAut V)) (V₃ : Subgroup V) (A₁ : Subgroup (MulAut V)),
         B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
           E3.aSet (2 * n) G = {A | ∃ l ∈ L, A = A₁.map (MulAut.conj l).toMonoidHom} ∧
           ∀ A ∈ E3.aSet (n + 1) G, ∃ l ∈ L, A.map (MulAut.conj l).toMonoidHom ≤ A₁)
 
-@[expose] def burnsideB46_Cl10 (H : burnsideB46_Hyp V n K G L π θ) : Prop :=
+@[expose] def burnsideB46_Cl10 (_H : burnsideB46_Hyp V n K G L π θ) : Prop :=
     (∀ (V₁ : Subgroup V) (P₁ R₁ Z₁ : Subgroup (MulAut V)) (V₃ : Subgroup V) (A₁ : Subgroup (MulAut V)),
       B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
       ∀ (T Z₂ P₂ R₂ : Subgroup (MulAut V)) (V₂ : Subgroup V), B46Cfg2 G L P₁ T Z₂ P₂ R₂ V₂ →
@@ -14685,7 +14769,7 @@ variable {V : Type} [CommGroup V] [Finite V] {n : ℕ} {K : Type} [Field K] [Fin
           V₂.map (p : MulAut V).toMonoidHom ⊓ V₂.map (p' : MulAut V).toMonoidHom = V₁) ∧
         (∀ v ∈ V₃, ∃ p ∈ P₁, v ∈ V₂.map (p : MulAut V).toMonoidHom))
 
-@[expose] def burnsideB46_Cl13 (H : burnsideB46_Hyp V n K G L π θ) : Prop :=
+@[expose] def burnsideB46_Cl13 (_H : burnsideB46_Hyp V n K G L π θ) : Prop :=
     (∀ (V₁ : Subgroup V) (P₁ R₁ Z₁ : Subgroup (MulAut V)) (V₃ : Subgroup V) (A₁ : Subgroup (MulAut V)),
       B46Cfg1 G L θ V₁ P₁ R₁ Z₁ V₃ A₁ →
       ∀ (T Z₂ P₂ R₂ : Subgroup (MulAut V)) (V₂ : Subgroup V), B46Cfg2 G L P₁ T Z₂ P₂ R₂ V₂ →
@@ -14754,7 +14838,7 @@ theorem burnsideB46_tw_of_card_two {K : Type} [Field K] [Finite K] (hK : Nat.car
     have hcard : ∀ a : K, a ≠ 0 → a = 1 := by
       intro a ha0
       have hu : Nat.card Kˣ = 1 := by rw [Nat.card_units, hK]
-      haveI : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp hu).1
+      have : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp hu).1
       have := Subsingleton.elim (Units.mk0 a ha0) 1
       simpa using congrArg Units.val this
     exact hcard _ hne
@@ -14967,6 +15051,7 @@ variable {K : Type} [Field K] [CharP K 2] [Finite K]
       map_zero' := rfl
       map_add' := fun _ _ => rfl }
 
+omit [Finite K] in
 theorem burnsideB46_neg_exp2 (v : Multiplicative (Ix3 → K)) : v ^ 2 = 1 := by
   have h : Multiplicative.toAdd v + Multiplicative.toAdd v = 0 := by
     funext i
@@ -14974,6 +15059,7 @@ theorem burnsideB46_neg_exp2 (v : Multiplicative (Ix3 → K)) : v ^ 2 = 1 := by
   rw [pow_two]
   exact congrArg Multiplicative.ofAdd h
 
+omit [Finite K] in
 theorem burnsideB46_neg_pi_injective : Function.Injective (burnsideB46_neg_pi (K := K)) := by
   intro γ γ' h
   have h1 : ∀ w, g2Act (burnsideB46_cg γ) w = g2Act (burnsideB46_cg γ') w := by
@@ -14987,6 +15073,7 @@ theorem burnsideB46_neg_pi_injective : Function.Injective (burnsideB46_neg_pi (K
 noncomputable abbrev burnsideB46_neg_L : Subgroup (MulAut (Multiplicative (Ix3 → K))) :=
   (burnsideB46_neg_pi (K := K)).range
 
+omit [Finite K] in
 theorem burnsideB46_neg_pi_apply (γ : ↥(quasithinG2 K)) (v : Multiplicative (Ix3 → K)) :
     Multiplicative.toAdd ((burnsideB46_neg_pi γ) v) =
       g2Act (burnsideB46_cg γ) (Multiplicative.toAdd v) := rfl
@@ -15036,16 +15123,19 @@ theorem burnsideB46_neg_qs (hqs : burnsideB46_G2Qs) {n : ℕ} (hn : 2 ≤ n)
     MonoidHom.ofInjective burnsideB46_neg_pi_injective
   exact CFSG.Open.IsQuasisimple.of_mulEquiv e.symm (hqs K n hn hK)
 
+omit [Finite K] in
 theorem burnsideB46_neg_layer (hq : CFSG.Open.IsQuasisimple ↥(burnsideB46_neg_L (K := K))) :
     layerOf (burnsideB46_neg_L (K := K)) = burnsideB46_neg_L :=
   le_antisymm (burnsideB46_layerOf_le _) (le_sSup ⟨le_rfl, IsSubnormal.refl _, hq⟩)
 
+omit [Finite K] in
 theorem burnsideB46_neg_fstar (hq : CFSG.Open.IsQuasisimple ↥(burnsideB46_neg_L (K := K))) :
     quasithinGenFitting (burnsideB46_neg_L (K := K)) = layerOf (burnsideB46_neg_L (K := K)) :=
   (le_antisymm (CFSG.Quasithin.quasithinGenFitting_le _)
     (le_sup_of_le_right (le_sSup ⟨le_rfl, IsSubnormal.refl _, hq⟩))).trans
       (burnsideB46_neg_layer hq).symm
 
+omit [CharP K 2] [Finite K] in
 theorem burnsideB46_neg_theta_eq_one {v : Multiplicative (Ix3 → K)} :
     burnsideB46_neg_theta v = 1 ↔ v = 1 := by
   constructor
@@ -15076,6 +15166,7 @@ theorem burnsideB46_neg_ker (hc : ∃ c : K, c ≠ 0 ∧ c ≠ 1) :
       rw [sub_smul, one_smul, ← hla, sub_self]
     exact ha ((smul_eq_zero.mp h2).resolve_left (sub_ne_zero.mpr hc1))
 
+omit [Finite K] in
 theorem burnsideB46_neg_equiv (γ : ↥(quasithinG2 K)) (v : Multiplicative (Ix3 → K)) :
     burnsideB46_neg_theta ((burnsideB46_neg_pi γ) v) = Multiplicative.ofAdd
       (qAct (γ : quasithinZorn K ≃ₗ[K] quasithinZorn K)
@@ -15107,7 +15198,7 @@ theorem burnsideB46_neg_Hyp (hqs : burnsideB46_G2Qs) {n : ℕ} (hn : 2 ≤ n)
 theorem burnsideB46_not_printed :
     ¬ burnsideB46_B_4_6_printed := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 2) = 2 ^ 2 := GaloisField.card 2 2 (by norm_num)
   have hqs : burnsideB46_G2Qs := burnsideB46_G2Qs_of_cert
   have hH := burnsideB46_neg_Hyp (K := GaloisField 2 2) hqs (le_refl 2) hK

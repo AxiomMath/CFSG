@@ -47,7 +47,7 @@ theorem normalizer_zpowers_le_of_centralizer_le (hFC : FullCoreLocality G) {p : 
   have : Fact p.Prime := ⟨hprime⟩
   set C : Subgroup G := centralizer ({x} : Set G) with hC
   have hPCp : IsPGroup p ((P ⊓ C : Subgroup G).subgroupOf C) :=
-    (P.isPGroup'.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
+    (P.isPGroup.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
   obtain ⟨Q, hQ⟩ := hPCp.exists_le_sylow
   set S : Subgroup G := (Q : Subgroup C).map C.subtype with hS
   have hSyl : CFSG.ABGLocalTools.IsSylowOf p S C := ⟨Q, rfl⟩
@@ -77,7 +77,7 @@ theorem stronglyEmbedded_three_of_pElement (hS : D1Global G) (hD1 : D1For G)
   have hkey : ∀ x ∈ (P : Subgroup G), x ≠ 1 → x ^ 3 = 1 →
       normalizer ((zpowers x : Subgroup G) : Set G) ≤ M := by
     intro x hxP hx1 hx3
-    have hC3 := three_le_pRank_inf_centralizer h313 P.isPGroup' hP4 hxP hx3
+    have hC3 := three_le_pRank_inf_centralizer h313 P.isPGroup hP4 hxP hx3
     have hCM : centralizer ({x} : Set G) ≤ M := by
       by_contra hCM
       have h5 := hP5 hS hD1 hFC 3 P M hloc x ⟨hPM hxP, orderOf_eq_prime hx3 hx1,

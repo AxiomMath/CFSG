@@ -11,7 +11,7 @@ open Subgroup
 theorem alt_two_part_eq_nine {n : ℕ} (hn : 5 ≤ n)
     (h : (Nat.card (alternatingGroup (Fin n))).factorization 2 = 9) : n = 12 ∨ n = 13 := by
   have hn2 : 2 ≤ n := by omega
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn2
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn2
   have hcard : 2 * Nat.card (alternatingGroup (Fin n)) = Nat.factorial n := by
     rw [two_mul_nat_card_alternatingGroup, Nat.card_perm, Nat.card_fin]
   have hc0 : Nat.card (alternatingGroup (Fin n)) ≠ 0 := by

@@ -55,7 +55,7 @@ theorem kdl227Row_of_census (hOut : SporadicOuterLeTwo)
     {P : TauCeti.CFSGIndex → Prop} (hC : PCompCensus 3 Q P)
     (hT : ∀ (T : Type) [Group T], catalogIs T P → ¬ catalogIs T (onLie (isL2 27))) :
     KDL227Rows.KDL227SporRow s := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact KDL227Rows.kdl227Row_of_model hOut b hnc fun k hk1 hk3 J hJ =>
     hT _ (hC k (orderOf_eq_prime hk3 hk1) J hJ)
 

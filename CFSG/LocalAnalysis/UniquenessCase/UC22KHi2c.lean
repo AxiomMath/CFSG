@@ -82,7 +82,7 @@ theorem uc22k_Hi_exists_two (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch)
     {m : ℕ} {Nb : Fin m → Subgroup (MBar D.M D.U)} (hNb : NbarSplit D Nb) (i : Fin m)
     (hS3 : IsL2Ev ↥(Nb i) 1) : ∃ H : Subgroup G, HiPkgK D (Nb i) H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨V₀, K₃, kp⟩ := uc22k_klein_exists D Ch h2 h3 h51 hH c hNb i hS3
   set Y : Subgroup (MBar D.M D.U) := Nb i with hYdef
   set S : Subgroup G := proofS D with hSdef
@@ -206,7 +206,7 @@ theorem uc22k_Hi_exists_two (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch)
         (uc22p22sb_proofS_le_centralizer D Ch h2 h3 h51 hH c m Nb hNb i hs)) z hz).symm
   have hnc : ¬ H ≤ centralizer (proofEiHat D (preN D Y) : Set G) := by
     intro hle
-    haveI := hF.s3_isKleinFour
+    have := hF.s3_isKleinFour
     obtain ⟨y₀, hy₀L, hy₀⟩ := hF.s3_exists_twoResidual_actsOrdThree
     have hy₀P : y₀ ∈ P := CFSG.Quasithin.twoResidual_le P hy₀L
     have hy₀H : y₀ ∈ H := hLH hy₀L

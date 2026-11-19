@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem inf_closure_pair_eq_bot (hS : Setup G D) {Q : Subgroup G} (hQn : Q.Normal)
     (hQp : IsPGroup 2 Q) {u w : G} (hu : u ∈ D) (hw : w ∈ D) (hnc : ¬ Commute u w) :
     Subgroup.closure ({u, w} : Set G) ⊓ Q = ⊥ := by
@@ -24,7 +25,7 @@ theorem inf_closure_pair_eq_bot (hS : Setup G D) {Q : Subgroup G} (hQn : Q.Norma
   have hu2 : u * u = 1 := hS.oddT.mul_self_eq_one hu
   have hw2 : w * w = 1 := hS.oddT.mul_self_eq_one hw
   have hodd : Odd (orderOf (u * w)) := hS.oddT.odd_of_not_commute hu hw hnc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hkey : ∀ x ∈ Q, Odd (orderOf x) → x = 1 := by
     intro x hx hoddx
     obtain ⟨n, hn⟩ := IsPGroup.exists_orderOf_eq_pow (p := 2) hQp ⟨x, hx⟩
@@ -91,6 +92,7 @@ theorem inf_closure_pair_eq_bot (hS : Setup G D) {Q : Subgroup G} (hQn : Q.Norma
     have hP : IsPGroup 2 (⊤ : Subgroup G) := hQtop ▸ hQp
     exact hnc (hS.oddT.commute_of_isPGroup hP hu hw (Subgroup.mem_top u) (Subgroup.mem_top w))
 
+omit [Finite G] in
 theorem sixFive_widthStep (hS : Setup G D) {Q : Subgroup G} (hQ : Q = CFSG.pCore 2 G)
     {u w : G} (hu : u ∈ D) (hw : w ∈ D) (hnc : ¬ Commute u w)
     (hgenQ : Q ⊔ Subgroup.closure ({u, w} : Set G) = ⊤)
@@ -100,7 +102,7 @@ theorem sixFive_widthStep (hS : Setup G D) {Q : Subgroup G} (hQ : Q = CFSG.pCore
   set F : Subgroup G := ⁅Q, Subgroup.zpowers u⁆ ⊔ ⁅Q, Subgroup.zpowers w⁆ with hF
   have hQn : Q.Normal := by rw [hQ]; exact CFSG.pCore_normal
   have hQp : IsPGroup 2 Q := by rw [hQ]; exact CFSG.pCore_isPGroup
-  haveI : F.Normal := hFnormal
+  have : F.Normal := hFnormal
   set A : Subgroup G := Subgroup.closure ({u, w} : Set G) with hA
   have hQA : Q ⊔ A = ⊤ := hgenQ
   have hAQ : A ⊓ Q = ⊥ := inf_closure_pair_eq_bot hS hQn hQp hu hw hnc

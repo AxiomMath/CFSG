@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem not_dvd_card_ker_pQuotHom {p : ℕ} (hp : p.Prime) (L : Subgroup G) :
     ¬ p ∣ Nat.card (pQuotHom p L).ker := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [ker_pQuotHom]
   exact (Nat.Prime.coprime_iff_not_dvd hp).1 CFSG.pPrimeCore_coprime_card
 

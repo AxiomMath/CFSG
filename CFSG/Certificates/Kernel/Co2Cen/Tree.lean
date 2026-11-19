@@ -17,7 +17,7 @@ variable {PE PM PS : Nat → Nat} {PT : Nat → Nat → Nat} {MK : Nat → Nat} 
 theorem edgeN_spec {m X g t : Nat} (h : edgeN PE N m X g t = true) (hm : m ≤ t) :
     t < N ∧ PE t = mulT X g := by
   unfold edgeN at h
-  rw [implK_eq, notK_eq, blt_false (Nat.not_lt.2 hm), Bool.not_false, if_pos rfl, andK_eq,
+  rw [implK_eq, notK_eq, blt_false (Nat.not_lt.2 hm), Bool.not_false, ite_eq_left rfl, andK_eq,
     Bool.and_eq_true] at h
   exact ⟨blt_iff.1 h.1, Nat.eq_of_beq_eq_true h.2⟩
 

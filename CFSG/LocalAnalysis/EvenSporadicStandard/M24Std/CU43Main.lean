@@ -154,8 +154,8 @@ theorem residue_cU43
         orderOf_dvd_of_pow_eq_one (by rw [pow_one, sq]; exact hpsi2))
     exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
   obtain ⟨S, hS⟩ := hzp.exists_le_sylow
-  have hSc := hcore.sylow_conditions S.isPGroup' S.not_dvd_index
-  refine ⟨(S : Subgroup (egQD C)), S.isPGroup', S.not_dvd_index, hS (mem_zpowers _), hSc.1, ?_⟩
+  have hSc := hcore.sylow_conditions S.isPGroup S.not_dvd_index
+  refine ⟨(S : Subgroup (egQD C)), S.isPGroup, S.not_dvd_index, hS (mem_zpowers _), hSc.1, ?_⟩
   intro D hDS hD2 hDbot
   obtain ⟨d, hdD, hd1, b, hb, hlt⟩ := hSc.2 D hDS hD2 hDbot
   exact ⟨d, hdD, hd1, b, fun g hg hgd => by rw [hfix g hg, hgd]; exact hb, hlt⟩

@@ -15,7 +15,7 @@ theorem ggB2der_D_gen {G : Type} [Group G] [Finite G] {B D : Subgroup G} {x y : 
     (hx1 : x ≠ 1) (hyD : y ∈ D) (hyx : y ∉ Subgroup.zpowers x) :
     ∀ d ∈ D, ∃ i j : ℤ, d = x ^ i * y ^ j := by
   classical
-  haveI : IsMulCommutative ↥B := hB.1
+  have : IsMulCommutative ↥B := hB.1
   have hxB : x ∈ B := hDB hxD
   have hx3 : x ^ 3 = 1 := hB.2 x hxB
   have horder : orderOf x = 3 := orderOf_eq_prime hx3 hx1

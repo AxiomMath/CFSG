@@ -15,12 +15,12 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
 private theorem s16c13beta_main_dParam_three : dParam 3 = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 
 private theorem s16c13beta_main_dParam_seven : dParam 7 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 
@@ -31,7 +31,7 @@ private theorem s16c13beta_main_k_le_two (D : Data G) : D.k ≤ 2 := by
 private theorem s16c13beta_main_k_eq_one (D : Data G) (hSg : UC6S846.SigmaStd D)
     (h1219 : D.sig = D.sig1) (h3 : 3 ∈ D.sig) : D.k = 1 := by
   unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam
-  rw [if_pos (hSg.sig1_sp 3 (h1219 ▸ h3))]
+  rw [ite_eq_left (hSg.sig1_sp 3 (h1219 ▸ h3))]
 
 theorem s16c13beta_k_lt_dParam (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig = D.sig1)
     {p : ℕ} (hp : p = 3 ∨ p = 7) (hpσ : p ∈ D.sig) : D.k < dParam p := by
@@ -75,7 +75,7 @@ theorem s16c13beta_bounds_of_case4_sub (D : Data G) (hSg : UC6S846.SigmaStd D)
   | top => simp
   | coe n =>
     have h1 : D.k + 1 + mSub V₀ < n := by exact_mod_cast hr'
-    rw [← ENat.coe_sub]
+    rw [← _root_.ENat.natCast_sub]
     exact_mod_cast (by omega : D.k + 1 < n - mSub V₀)
 
 theorem s16GapBetaBound_holds (D : Data G) (hSg : UC6S846.SigmaStd D)

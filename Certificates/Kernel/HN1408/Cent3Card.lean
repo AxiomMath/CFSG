@@ -61,14 +61,14 @@ theorem tt_mem {k : Nat} (hk : k < 1440) (h1 : ttK RT (R k) = 1) :
   obtain ⟨k', hk', hyk, h0', ht, hconj⟩ := inv_conj hC hmem hy2 hy1
   rw [elH_val] at hyk
   obtain rfl : k = k' := el_inj hk hk' hyk
-  exact ⟨(mem_cent_iff hpf _).2 hmem, hy2, hy1, (tTH_iff hC hnc h0' ht hconj).2 h1⟩
+  exact ⟨(mem_cent_iff hpf _).2 hmem, hy2, hy1, (tTH_iff hnc h0' ht hconj).2 h1⟩
 
 theorem tt_el {y : ↥P1408} (hyc : y ∈ centralizer ({repP fix3} : Set ↥P1408)) (hy2 : y ^ 2 = 1)
     (hy1 : y ≠ 1) (ht : tTH pA pZ pZ₁ y) :
     ∃ k < 1440, ttK RT (R k) = 1 ∧ (y : Equiv.Perm (Fin 1408)) = el k := by
   have hC := hC_of hpf
   obtain ⟨k, hk, hyk, h0, ht', hconj⟩ := inv_conj hC ((mem_cent_iff hpf y).1 hyc) hy2 hy1
-  exact ⟨k, hk, (tTH_iff hC hnc h0 ht' hconj).1 ht, hyk⟩
+  exact ⟨k, hk, (tTH_iff hnc h0 ht' hconj).1 ht, hyk⟩
 
 theorem card_tT : CardTTAt pA pZ pZ₁ (repP fix3) := by
   classical

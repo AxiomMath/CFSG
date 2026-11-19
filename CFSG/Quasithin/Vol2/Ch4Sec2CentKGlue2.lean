@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G] {T M L I H K : Subgroup G}
 
+omit [Finite G] in
 private theorem g2_mem_sup_iff_of_le_normalizer {s t : Subgroup G}
     (hst : s ≤ Subgroup.normalizer (t : Set G)) {x : G} :
     x ∈ s ⊔ t ↔ ∃ y ∈ s, ∃ z ∈ t, y * z = x := by
@@ -35,6 +36,7 @@ private theorem g2_mem_sup_iff_of_le_normalizer {s t : Subgroup G}
   · rintro ⟨y, hy, z, hz, rfl⟩
     exact Subgroup.mul_mem_sup hy hz
 
+omit [Finite G] in
 private theorem g2_le_normalizer_of_comm {s t : Subgroup G}
     (hst : ∀ x ∈ s, ∀ y ∈ t, x * y = y * x) : s ≤ Subgroup.normalizer (t : Set G) := by
   intro x hx
@@ -53,6 +55,7 @@ private theorem g2_le_normalizer_of_comm {s t : Subgroup G}
     rw [e]
     exact hk
 
+omit [Finite G] in
 private theorem g2_eq_of_mul_eq_mul {V₁ V₂ : Subgroup G} (hdisj : V₁ ⊓ V₂ = ⊥) {a b a' b' : G}
     (ha : a ∈ V₁) (hb : b ∈ V₂) (ha' : a' ∈ V₁) (hb' : b' ∈ V₂) (h : a' * b' = a * b) :
     a' = a ∧ b' = b := by
@@ -69,6 +72,7 @@ private theorem g2_eq_of_mul_eq_mul {V₁ V₂ : Subgroup G} (hdisj : V₁ ⊓ V
   have h2 : b * b'⁻¹ = 1 := by rw [← e, h1]
   exact (mul_inv_eq_one.mp h2).symm
 
+omit [Finite G] in
 private theorem g2_conj_eq_of_comm {V₁ V₂ : Subgroup G} (hdisj : V₁ ⊓ V₂ = ⊥) {z a b : G}
     (ha : a ∈ V₁) (hb : b ∈ V₂) (hza : z * a * z⁻¹ ∈ V₁) (hzb : z * b * z⁻¹ ∈ V₂)
     (h : z * (a * b) = a * b * z) : z * a * z⁻¹ = a ∧ z * b * z⁻¹ = b := by
@@ -135,6 +139,7 @@ private theorem g2_vec_eq_zero {F : Type} [Field F] (w : Fin 2 → F)
   funext i
   fin_cases i <;> simp [e0, e1]
 
+omit [Finite G] in
 private theorem g2_exists_lift {LH R : Subgroup G} (hR : R ≤ Subgroup.normalizer (LH : Set G))
     {F : Type} [Field F] (α : ↥(LH ⊔ R) →* ↥(StatedSL 2 F)) (hα : Function.Surjective α)
     (hker : α.ker = R.subgroupOf (LH ⊔ R)) {g : ↥(StatedSL 2 F)} (hg : g * g = 1) :
@@ -158,6 +163,7 @@ private theorem g2_exists_lift {LH R : Subgroup G} (hR : R ≤ Subgroup.normaliz
   rw [hker, Subgroup.mem_subgroupOf] at hmem
   exact hmem
 
+omit [Finite G] in
 private theorem g2_mem_Z_of_fix {LH R V₁ Z : Subgroup G} {F : Type} [Field F] (h2 : (2 : F) = 0)
     (hR : R ≤ Subgroup.normalizer (LH : Set G))
     (h : IsNaturalSection (LH ⊔ R) V₁ Z (R.subgroupOf (LH ⊔ R)) (StatedSL 2 F))
@@ -182,6 +188,7 @@ private theorem g2_mem_Z_of_fix {LH R V₁ Z : Subgroup G} {F : Type} [Field F] 
   rw [hβk, Subgroup.mem_subgroupOf] at hmem
   exact hmem
 
+omit [Finite G] in
 theorem card_of_naturalSection_two {A V₁ Z : Subgroup G} {N : Subgroup ↥A} {F : Type} [Field F]
     [Fintype F] (h : IsNaturalSection A V₁ Z N (StatedSL 2 F)) (hZ : Z = ⊥) :
     Nat.card ↥V₁ = Fintype.card F ^ 2 := by

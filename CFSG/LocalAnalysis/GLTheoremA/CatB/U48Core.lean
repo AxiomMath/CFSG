@@ -77,6 +77,7 @@ theorem catalogIs_psimple (hL : GLAPComponent 3 X L) (hcat : catalogIs ↥L S9.i
     MulAut SU4 :=
   MulAut.congr e (conjL L b hb)
 
+omit [Finite G] in
 theorem indAut_apply (e : ↥L ≃* SU4) (b : G) (hb : b ∈ Subgroup.normalizer (L : Set G))
     (x : ↥L) : indAut e b hb (e x) = e (conjL L b hb x) := by
   simp [indAut, MulAut.congr_apply]
@@ -88,6 +89,7 @@ theorem indAut_psModel (hL : GLAPComponent 3 X L) (hcat : catalogIs ↥L S9.isU4
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
   rw [psModel_mk, psModel_mk, pquotEquiv_mk, barAut_mk, pquotEquiv_mk, indAut_apply]
 
+omit [Finite G] in
 theorem conjL_eq_iff (b : G) (hb : b ∈ Subgroup.normalizer (L : Set G)) (x : ↥L) :
     conjL L b hb x = x ↔ (x : G) ∈ cx b := by
   rw [Subgroup.mem_centralizer_singleton_iff]
@@ -104,6 +106,7 @@ theorem conjL_eq_iff (b : G) (hb : b ∈ Subgroup.normalizer (L : Set G)) (x : �
       _ = b⁻¹ * (b * (x : G)) := by rw [h]
       _ = x := by group
 
+omit [Finite G] in
 theorem map_cent_eq (e : ↥L ≃* SU4) (b : G) (hb : b ∈ Subgroup.normalizer (L : Set G)) :
     ((L ⊓ cx b).subgroupOf L).map e.toMonoidHom = fixSub (indAut e b hb) := by
   ext y
@@ -125,11 +128,13 @@ theorem map_cent_eq (e : ↥L ≃* SU4) (b : G) (hb : b ∈ Subgroup.normalizer 
   (((Subgroup.subgroupOfEquivOfLe (inf_le_left : L ⊓ cx b ≤ L)).symm).trans
     (e.subgroupMap _)).trans (MulEquiv.subgroupCongr (map_cent_eq e b hb))
 
+omit [Finite G] in
 theorem indRel_barAut' {b : G} (hb : b ∈ Subgroup.normalizer (L : Set G)) (l : ↥L) :
     indRel 3 L b (QuotientGroup.mk l : PQuot 3 L)
       (barAut L b hb (QuotientGroup.mk l : PQuot 3 L)) :=
   ⟨l, conjL L b hb l, rfl, rfl, rfl⟩
 
+omit [Finite G] in
 theorem indRel_iff_barAut {b : G} (hb : b ∈ Subgroup.normalizer (L : Set G)) (q q' : PQuot 3 L) :
     indRel 3 L b q q' ↔ barAut L b hb q = q' := by
   constructor

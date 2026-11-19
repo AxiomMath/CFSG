@@ -177,7 +177,7 @@ theorem mem_B₁_of_mem_sup [Finite G] {x : G} (hx : x ∈ Subgroup.zpowers b �
     exact h.pow_not_mem hpos hn hbn
 
 theorem card_A [Finite G] : Nat.card A = 3 * Nat.card h.B₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb1 : b ≠ 1 := fun e => h.bB₁ (e ▸ one_mem _)
   have hord : orderOf b = 3 := orderOf_eq_prime h.b3 hb1
   have hinf : ∀ u ∈ Subgroup.zpowers b, u ∈ h.B₂ → u = 1 := by

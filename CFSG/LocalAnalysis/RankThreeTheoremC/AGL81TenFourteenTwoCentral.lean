@@ -61,12 +61,12 @@ theorem not_dvd_card_of_d1KBar_eq_bot (h74 : AGL81SevenFourTwo)
     (hIle : I ≤ centralizer ({a} : Set G) ⊓ M) (hI : ⁅I, I⁆ = I) : ¬ p ∣ Nat.card I := by
   intro hpI
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N := centralizer ({a} : Set G) with hN
   have ha1 : a ≠ 1 := fun h => hp.one_lt.ne' (hao ▸ h ▸ orderOf_one)
   have hNtop : N ≠ ⊤ := by
     intro htop
-    haveI := hS.simple
+    have := hS.simple
     rcases (Subgroup.center G).normal_of_characteristic.eq_bot_or_eq_top with hZ | hZ
     · refine ha1 ((Subgroup.mem_bot).mp (hZ ▸ Subgroup.mem_center_iff.mpr fun g => ?_))
       have hg : g ∈ N := by rw [htop]; exact Subgroup.mem_top g
@@ -83,7 +83,7 @@ theorem not_dvd_card_of_d1KBar_eq_bot (h74 : AGL81SevenFourTwo)
     set a' : N := ⟨a, haN⟩
     have hc : ∀ g : N, Commute g a' := fun g =>
       Subtype.ext (mem_centralizer_singleton_iff.mp g.2)
-    haveI : (zpowers a').Normal := ⟨fun n hn g => by
+    have : (zpowers a').Normal := ⟨fun n hn g => by
       obtain ⟨k, rfl⟩ := mem_zpowers_iff.mp hn
       rw [((hc g).zpow_right k).eq, mul_inv_cancel_right]
       exact zpow_mem (mem_zpowers a') k⟩
@@ -93,7 +93,7 @@ theorem not_dvd_card_of_d1KBar_eq_bot (h74 : AGL81SevenFourTwo)
     rw [← hTB]
     exact ⟨a', hzp.le_sylow_of_normal T (mem_zpowers a'), rfl⟩
   have hR3 := three_le_pRank_of_centralizer_not_le hao hC hUC hUQ hUR haR
-  have hRp : IsPGroup p R := hTB ▸ T.isPGroup'.map N.subtype
+  have hRp : IsPGroup p R := hTB ▸ T.isPGroup.map N.subtype
   obtain ⟨m, hm, hRP⟩ := Hyp111.exists_conj_le he.sylow_le hRp hRM
   have hP' : ((m • P : Sylow p G) : Subgroup G) =
       (P : Subgroup G).map (MulAut.conj m).toMonoidHom := by

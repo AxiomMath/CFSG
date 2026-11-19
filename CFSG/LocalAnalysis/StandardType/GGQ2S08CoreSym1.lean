@@ -212,7 +212,7 @@ theorem ggQ2s08core_sym1 {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {ℓ : 
     have hS' : Fintype.card {x : Fin (ℓ + 2) // x ∈ S} = ℓ + 1 := hcardS
     rw [h, Fintype.card_fin, hS']
     omega
-  haveI : Subsingleton {x : Fin (ℓ + 2) // x ∉ S} :=
+  have : Subsingleton {x : Fin (ℓ + 2) // x ∉ S} :=
     ⟨fun a b => by
       have h : Fintype.card {x : Fin (ℓ + 2) // x ∉ S} ≤ 1 := by omega
       exact Fintype.card_le_one_iff.mp h a b⟩

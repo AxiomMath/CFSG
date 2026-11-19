@@ -28,7 +28,7 @@ theorem cs6_chart_of_witness
     {ι : Additive ↥Bs ≃+ V} {φ : Λ ⊕ Λa → MulAut ↥Bs} {h : Λ ⊕ Λa → V}
     {α : Λ ⊕ Λa → Module.Dual (ZMod 3) V}
     (hS2 : S.card = 2) (hΛa : Nat.card Λa = 1)
-    (hWML : GGIsWeylMatrix ML) (hCLL : GGIntCartan ML CL)
+    (_hWML : GGIsWeylMatrix ML) (hCLL : GGIntCartan ML CL)
     (hWMK : GGIsWeylMatrix MK) (hCKK : GGIntCartan MK CK)
     (htyp : ggTypLE6 ML MK)
     (hlin : ∀ o w, ggLin (p := 3) ι (φ o) w = w - α o w • h o)
@@ -70,7 +70,7 @@ theorem cs6_chart_of_witness
         (CL (i : Λ) (j : Λ) : ZMod 3) := by
       have hp := hpairK (Sum.inl i) (Sum.inl j)
       have hl := hpairL (i : Λ) (j : Λ)
-      simp only [Sum.map_inl, id_eq] at hp
+      simp only [Sum.map_inl] at hp
       exact hp.symm.trans hl
     have h2 : CL (i : Λ) (j : Λ) = CartanMatrix.E 6 (e6.symm i) (e6.symm j) := by
       simpa using hCLstd (e6.symm i) (e6.symm j)
@@ -112,7 +112,7 @@ theorem cs6_chart_of_witness
       α (Sum.inl (e6 i)) (h (Sum.inl (e6 j))) = (CartanMatrix.E 6 i j : ZMod 3) := by
     intro i j
     rw [hpairL (e6 i) (e6 j), hCLstd i j]
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hcardV : Nat.card V = 3 ^ 6 := by
     rw [← Nat.card_congr ι.toEquiv, Nat.card_congr Additive.toMul, hcard]
   obtain ⟨θ, hθx, hθh, hθα⟩ :=

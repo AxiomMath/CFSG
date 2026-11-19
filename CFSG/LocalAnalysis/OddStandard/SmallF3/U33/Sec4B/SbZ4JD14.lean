@@ -20,11 +20,13 @@ variable {Mh : Subgroup H} (hMh : IsZJMh y z v₁ v₂ Mh) include hMh
 
 variable {Mc : Subgroup H} (hMc : IsZJMc ρ Q Mh Mc) include hMc
 
+omit [Finite H] hMh hMc in
 theorem mem_E_fin {e : H} :
     e ∈ closure ({t, τ, l} : Set H) ↔
       ∃ a b c : Fin 2, e = t ^ (a : ℕ) * τ ^ (b : ℕ) * l ^ (c : ℕ) :=
   mem_closure_t_tau_l_iff h.t_sq h.tau_sq h.l_sq h.t_tau h.t_l h.tau_l
 
+omit [Finite H] hMh hMc in
 theorem mem_E_iff {e : H} :
     e ∈ closure ({t, τ, l} : Set H) ↔
       e = 1 ∨ e = t ∨ e = τ ∨ e = t * τ ∨ e = l ∨ e = t * l ∨ e = τ * l ∨
@@ -80,26 +82,30 @@ theorem mem_Vh_iff {g : H} : g ∈ zjVh Mc t τ l ↔
   constructor
   · rintro ⟨m, hm, e, he, rfl⟩
     refine ⟨m, hm, ?_⟩
-    rcases (mem_E_iff h hMh hMc).mp he with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> simp
+    rcases (mem_E_iff h).mp he with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> simp
   · rintro ⟨m, hm, h1 | h2 | h3 | h4 | h5 | h6 | h7 | h8⟩
-    · exact ⟨m, hm, 1, (mem_E_fin h hMh hMc).mpr ⟨0, 0, 0, by simp⟩, by rw [h1]; simp⟩
-    · exact ⟨m, hm, t, (mem_E_fin h hMh hMc).mpr ⟨1, 0, 0, by simp⟩, h2.symm⟩
-    · exact ⟨m, hm, τ, (mem_E_fin h hMh hMc).mpr ⟨0, 1, 0, by simp⟩, h3.symm⟩
-    · exact ⟨m, hm, t * τ, (mem_E_fin h hMh hMc).mpr ⟨1, 1, 0, by simp⟩, h4.symm⟩
-    · exact ⟨m, hm, l, (mem_E_fin h hMh hMc).mpr ⟨0, 0, 1, by simp⟩, h5.symm⟩
-    · exact ⟨m, hm, t * l, (mem_E_fin h hMh hMc).mpr ⟨1, 0, 1, by simp⟩, h6.symm⟩
-    · exact ⟨m, hm, τ * l, (mem_E_fin h hMh hMc).mpr ⟨0, 1, 1, by simp⟩, h7.symm⟩
-    · exact ⟨m, hm, t * τ * l, (mem_E_fin h hMh hMc).mpr ⟨1, 1, 1, by simp⟩, h8.symm⟩
+    · exact ⟨m, hm, 1, (mem_E_fin h).mpr ⟨0, 0, 0, by simp⟩, by rw [h1]; simp⟩
+    · exact ⟨m, hm, t, (mem_E_fin h).mpr ⟨1, 0, 0, by simp⟩, h2.symm⟩
+    · exact ⟨m, hm, τ, (mem_E_fin h).mpr ⟨0, 1, 0, by simp⟩, h3.symm⟩
+    · exact ⟨m, hm, t * τ, (mem_E_fin h).mpr ⟨1, 1, 0, by simp⟩, h4.symm⟩
+    · exact ⟨m, hm, l, (mem_E_fin h).mpr ⟨0, 0, 1, by simp⟩, h5.symm⟩
+    · exact ⟨m, hm, t * l, (mem_E_fin h).mpr ⟨1, 0, 1, by simp⟩, h6.symm⟩
+    · exact ⟨m, hm, τ * l, (mem_E_fin h).mpr ⟨0, 1, 1, by simp⟩, h7.symm⟩
+    · exact ⟨m, hm, t * τ * l, (mem_E_fin h).mpr ⟨1, 1, 1, by simp⟩, h8.symm⟩
 
+omit [Finite H] hMh in
 private lemma tau_ne_one' : τ ≠ 1 := fun h1 =>
-  tau_not_mem_Mc h hMh hMc (by rw [h1]; exact Mc.one_mem)
+  tau_not_mem_Mc h hMc (by rw [h1]; exact Mc.one_mem)
 
+omit hMc [Finite H] in
 private lemma l_ne_one' : l ≠ 1 := fun h1 =>
   l_not_mem_Mh h hMh (by rw [h1]; exact Mh.one_mem)
 
+omit hMc [Finite H] in
 private lemma t_l_ne_one' : t * l ≠ 1 := fun h1 =>
   tl_not_mem_Mh h hMh (by rw [h1]; exact Mh.one_mem)
 
+omit hMc [Finite H] in
 private lemma t_tau_ne_one' : t * τ ≠ 1 := by
   intro h1
   have hmem : t * τ ∈ Mh := by rw [h1]; exact Mh.one_mem
@@ -108,6 +114,7 @@ private lemma t_tau_ne_one' : t * τ ≠ 1 := by
     rwa [show (t * τ) * τ = t by rw [mul_assoc, h.tau_sq, mul_one]] at this
   exact t_not_mem_Mh h hMh ht
 
+omit hMc [Finite H] in
 private lemma tau_l_ne_one' : τ * l ≠ 1 := by
   intro h1
   have hmem : τ * l ∈ Mh := by rw [h1]; exact Mh.one_mem
@@ -116,6 +123,7 @@ private lemma tau_l_ne_one' : τ * l ≠ 1 := by
     rwa [show (τ * l) * τ = l by rw [h.tau_l, mul_assoc, h.tau_sq, mul_one]] at this
   exact l_not_mem_Mh h hMh hl
 
+omit hMc [Finite H] in
 private lemma t_tau_l_ne_one' : t * τ * l ≠ 1 := by
   intro h1
   have hmem : t * τ * l ∈ Mh := by rw [h1]; exact Mh.one_mem
@@ -128,24 +136,26 @@ private lemma t_tau_l_ne_one' : t * τ * l ≠ 1 := by
         _ = t * l := by rw [h.tau_sq, mul_one]] at this
   exact tl_not_mem_Mh h hMh htl
 
+omit [Finite H] in
 private lemma word_ne_one_of_ne_zero {a b c : Fin 2} (hd : (a, b, c) ≠ (0, 0, 0)) :
     t ^ (a : ℕ) * τ ^ (b : ℕ) * l ^ (c : ℕ) ≠ 1 := by
   fin_cases a <;> fin_cases b <;> fin_cases c <;> simp_all
   all_goals
     first
       | exact h.t_ne_one
-      | exact tau_ne_one' h hMh hMc
-      | exact t_tau_ne_one' h hMh hMc
-      | exact l_ne_one' h hMh hMc
-      | exact t_l_ne_one' h hMh hMc
-      | exact tau_l_ne_one' h hMh hMc
-      | exact t_tau_l_ne_one' h hMh hMc
+      | exact tau_ne_one' h hMc
+      | exact t_tau_ne_one' h hMh
+      | exact l_ne_one' h hMh
+      | exact t_l_ne_one' h hMh
+      | exact tau_l_ne_one' h hMh
+      | exact t_tau_l_ne_one' h hMh
 
+omit [Finite H] in
 theorem card_closure_t_tau_l : Nat.card ↥(closure ({t, τ, l} : Set H)) = 8 := by
   classical
   let f : Fin 2 × Fin 2 × Fin 2 → ↥(closure ({t, τ, l} : Set H)) := fun p =>
     ⟨t ^ (p.1 : ℕ) * τ ^ (p.2.1 : ℕ) * l ^ (p.2.2 : ℕ),
-      (mem_E_fin h hMh hMc).mpr ⟨p.1, p.2.1, p.2.2, rfl⟩⟩
+      (mem_E_fin h).mpr ⟨p.1, p.2.1, p.2.2, rfl⟩⟩
   have hf : Function.Bijective f := by
     constructor
     · rintro ⟨a, b, c⟩ ⟨a', b', c'⟩ heq
@@ -172,32 +182,33 @@ theorem card_closure_t_tau_l : Nat.card ↥(closure ({t, τ, l} : Set H)) = 8 :=
           (Prod.ext (fin2_add_eq_zero h2) (fin2_add_eq_zero h3))
       · exact absurd hword (word_ne_one_of_ne_zero h hMh hMc hsum)
     · rintro ⟨x, hx⟩
-      obtain ⟨a, b, c, rfl⟩ := (mem_E_fin h hMh hMc).mp hx
+      obtain ⟨a, b, c, rfl⟩ := (mem_E_fin h).mp hx
       exact ⟨(a, b, c), rfl⟩
   rw [← Nat.card_congr (Equiv.ofBijective f hf), Nat.card_eq_fintype_card]
   norm_num [Fintype.card_prod]
 
+omit [Finite H] in
 theorem Mc_inf_E : Mc ⊓ closure ({t, τ, l} : Set H) = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
   intro x hx
   obtain ⟨hxMc, hxE⟩ := Subgroup.mem_inf.mp hx
-  rcases (mem_E_iff h hMh hMc).mp hxE with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
+  rcases (mem_E_iff h).mp hxE with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   · rfl
-  · exact absurd (Mc_le_Mh h hMh hMc hxMc) (t_not_mem_Mh h hMh)
-  · exact absurd hxMc (tau_not_mem_Mc h hMh hMc)
-  · have hMh' : t * τ ∈ Mh := Mc_le_Mh h hMh hMc hxMc
+  · exact absurd (Mc_le_Mh hMc hxMc) (t_not_mem_Mh h hMh)
+  · exact absurd hxMc (tau_not_mem_Mc h hMc)
+  · have hMh' : t * τ ∈ Mh := Mc_le_Mh hMc hxMc
     have ht : t ∈ Mh := by
       have := Mh.mul_mem hMh' (tau_mem_Mh h hMh)
       rwa [show (t * τ) * τ = t by rw [mul_assoc, h.tau_sq, mul_one]] at this
     exact absurd ht (t_not_mem_Mh h hMh)
-  · exact absurd (Mc_le_Mh h hMh hMc hxMc) (l_not_mem_Mh h hMh)
-  · exact absurd (Mc_le_Mh h hMh hMc hxMc) (tl_not_mem_Mh h hMh)
-  · have hMh' : τ * l ∈ Mh := Mc_le_Mh h hMh hMc hxMc
+  · exact absurd (Mc_le_Mh hMc hxMc) (l_not_mem_Mh h hMh)
+  · exact absurd (Mc_le_Mh hMc hxMc) (tl_not_mem_Mh h hMh)
+  · have hMh' : τ * l ∈ Mh := Mc_le_Mh hMc hxMc
     have hl : l ∈ Mh := by
       have := Mh.mul_mem hMh' (tau_mem_Mh h hMh)
       rwa [show (τ * l) * τ = l by rw [h.tau_l, mul_assoc, h.tau_sq, mul_one]] at this
     exact absurd hl (l_not_mem_Mh h hMh)
-  · have hMh' : t * τ * l ∈ Mh := Mc_le_Mh h hMh hMc hxMc
+  · have hMh' : t * τ * l ∈ Mh := Mc_le_Mh hMc hxMc
     have htl : t * l ∈ Mh := by
       have := Mh.mul_mem hMh' (tau_mem_Mh h hMh)
       rwa [show (t * τ * l) * τ = t * l by

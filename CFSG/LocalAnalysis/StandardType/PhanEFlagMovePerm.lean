@@ -40,13 +40,13 @@ lemma q2cFM_permRk_succ {n : ℕ} (σ : Equiv.Perm (Fin n)) (a : ℕ) (k : Fin n
   have hcard2 : (Finset.univ.filter fun x : Fin n => x.val < a ∧ σ x = k).card =
       (if (σ⁻¹ k).val < a then 1 else 0) := by
     by_cases h : (σ⁻¹ k).val < a
-    · rw [if_pos h, Finset.card_eq_one]
+    · rw [ite_eq_left h, Finset.card_eq_one]
       refine ⟨σ⁻¹ k, ?_⟩
       ext x
       simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_singleton]
       exact ⟨fun hx => σ.injective (by rw [hx.2]; exact (Equiv.apply_symm_apply σ k).symm),
         fun hx => ⟨by rw [hx]; exact h, by rw [hx]; simp⟩⟩
-    · rw [if_neg h, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+    · rw [ite_eq_right h, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
       rintro x - ⟨hx, hk⟩
       exact h (by rw [← hk]; simpa using hx)
   rw [hunion, Finset.card_union_of_disjoint hdisj, hcard2]
@@ -125,18 +125,18 @@ lemma q2cFM_adjSwap_ne_one {m : ℕ} (i : Fin m) : adjSwap i ≠ 1 := by
 
 lemma q2cFM_ind_sum_zero {u v a : ℕ} (h : a ≤ min u v) :
     (if u < a then 1 else 0) + (if v < a then 1 else 0) = 0 := by
-  rw [if_neg (by omega : ¬ u < a), if_neg (by omega : ¬ v < a), add_zero]
+  rw [ite_eq_right (by omega : ¬ u < a), ite_eq_right (by omega : ¬ v < a), add_zero]
 
 lemma q2cFM_ind_sum_one {u v a : ℕ} (h1 : min u v < a) (h2 : a ≤ max u v) :
     (if u < a then 1 else 0) + (if v < a then 1 else 0) = 1 := by
   rcases le_total u v with h | h
-  · rw [if_pos (min_eq_left h ▸ h1), if_neg (by have := max_eq_right h; omega), add_zero]
-  · rw [if_neg (by have := max_eq_left h; omega), if_pos (min_eq_right h ▸ h1), zero_add]
+  · rw [ite_eq_left (min_eq_left h ▸ h1), ite_eq_right (by have := max_eq_right h; omega), add_zero]
+  · rw [ite_eq_right (by have := max_eq_left h; omega), ite_eq_left (min_eq_right h ▸ h1), zero_add]
 
 lemma q2cFM_ind_sum_two {u v a : ℕ} (h : max u v < a) :
     (if u < a then 1 else 0) + (if v < a then 1 else 0) = 2 := by
   have hu : u < a := by omega
   have hv : v < a := by omega
-  rw [if_pos hu, if_pos hv]
+  rw [ite_eq_left hu, ite_eq_left hv]
 
 end CFSG.ClassicalInvolution.Phan.PhanE.Flag

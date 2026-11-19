@@ -25,13 +25,16 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] noncomputable def rhoL (L : Subgroup G) : ↥(normalizer (L : Set G)) →* MulAut (Bar2 L) :=
   (barAut L).comp (Subgroup.normalizerMonoidHom L)
 
+omit [Finite G] in
 theorem rhoL_mk (L : Subgroup G) (m : ↥(normalizer (L : Set G))) (x : ↥L) :
     rhoL L m (QuotientGroup.mk x) = QuotientGroup.mk (Subgroup.normalizerMonoidHom L m x) := rfl
 
+omit [Finite G] in
 theorem rhoL_mk_coe (L : Subgroup G) (m : ↥(normalizer (L : Set G))) (x : ↥L) :
     ((Subgroup.normalizerMonoidHom L m x : ↥L) : G) = (m : G) * (x : G) * (m : G)⁻¹ := by
   simp
 
+omit [Finite G] in
 theorem rhoL_inner (L : Subgroup G) (l : G) (hl : l ∈ L) :
     rhoL L ⟨l, Subgroup.le_normalizer hl⟩ = MulAut.conj (QuotientGroup.mk (⟨l, hl⟩ : ↥L) : Bar2 L) := by
   ext x
@@ -45,6 +48,7 @@ theorem rhoL_inner (L : Subgroup G) (l : G) (hl : l ∈ L) :
     rw [this]
     simp [MulAut.conj_apply]
 
+omit [Finite G] in
 theorem rhoL_fix_iff (L : Subgroup G) (m : ↥(normalizer (L : Set G))) (x : ↥L) :
     rhoL L m (QuotientGroup.mk x) = QuotientGroup.mk x ↔
       (m : G) * (x : G) * (m : G)⁻¹ * (x : G)⁻¹ ∈ pCoreOf 2 L := by
@@ -61,6 +65,7 @@ theorem rhoL_fix_iff (L : Subgroup G) (m : ↥(normalizer (L : Set G))) (x : ↥
     rw [← this]
     exact hy
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_pCoreOf (L : Subgroup G) :
     normalizer (L : Set G) ≤ normalizer (pCoreOf 2 L : Set G) := by
   intro g hg
@@ -80,6 +85,7 @@ theorem normalizer_le_normalizer_pCoreOf (L : Subgroup G) :
     have := key g⁻¹ (Subgroup.inv_mem _ hg) _ hx
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem isPGroup_pCoreOf (L : Subgroup G) : IsPGroup 2 (pCoreOf 2 L) := by
   unfold pCoreOf
   exact (CFSG.pCore_isPGroup (p := 2) (G := ↥L)).map L.subtype

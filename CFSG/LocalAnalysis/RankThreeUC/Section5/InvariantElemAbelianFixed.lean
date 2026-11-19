@@ -18,6 +18,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commSpace_eq_top_of_normal {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     {ρ : Representation (ZMod 2) G V} (hfaith : Function.Injective ρ) (hirr : ρ.IsIrreducible)
     {N : Subgroup G} (hN : N.Normal) (hN1 : N ≠ ⊥) :
@@ -53,7 +54,7 @@ theorem isInternal_fixedSubmodule {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : 
     [Module (ZMod 2) V] (ρ : Representation (ZMod 2) G V) {Z : Subgroup G}
     (hZ : CFSG.Open.IsElemAbelian p Z) (hcomm : BinaryRepresentations.commSpace ρ Z = ⊤) :
     DirectSum.IsInternal (fun E : ↥(Delta p Z ρ) => fixedSubmodule ρ (E : Subgroup G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfix : ∀ D : Subgroup G, fixedSubmodule ρ D = BinaryRepresentations.fixedSpace ρ D := fun D => rfl
   obtain ⟨hind, hsup⟩ := (DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top _).1
     (BinaryRepresentations.coprime_hyperplane_decomposition hp2 ρ Z hZ hcomm)
@@ -82,7 +83,7 @@ theorem orbit_stable {p : ℕ} {P T B : Subgroup G} {e : ℕ}
       (E.map (MulAut.conj s).toMonoidHom).map (MulAut.conj b).toMonoidHom =
         E.map (MulAut.conj t).toMonoidHom := by
   classical
-  letI : MulAction G (Delta p Z ρ) := MulAction.compHom _ (DeltaConjugationAction.act (p := p) hZn ρ)
+  let : MulAction G (Delta p Z ρ) := MulAction.compHom _ (DeltaConjugationAction.act (p := p) hZn ρ)
   have hperm : ∀ (g : G) (i : Delta p Z ρ),
       (fixedSubmodule ρ i.1).map (ρ g) = fixedSubmodule ρ (g • i).1 :=
     fun g i => DeltaConjugationAction.fixed_map hZn ρ g i
@@ -144,7 +145,7 @@ theorem exists_fixed_member {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     ∃ s ∈ twoCoreCommutator T B, ∀ b ∈ B,
       b ∈ Subgroup.normalizer ((E.map (MulAut.conj s).toMonoidHom : Subgroup G) : Set G) := by
   classical
-  letI : MulAction G (Delta p Z ρ) :=
+  let : MulAction G (Delta p Z ρ) :=
     MulAction.compHom _ (DeltaConjugationAction.act (p := p) hZn ρ)
   have hsmul : ∀ (g : G) (i : Delta p Z ρ), ((g • i : Delta p Z ρ) : Subgroup G) =
       i.1.map (MulAut.conj g).toMonoidHom := fun g i => rfl
@@ -193,8 +194,8 @@ theorem exists_fixed_member {p : ℕ} {P T B : Subgroup G} {e : ℕ}
         have h2 : (h : G) • O = O := hHle h.2
         rw [← h2]
         exact Set.smul_mem_smul_set hx }
-  haveI : Nonempty X := ⟨⟨i, 1, S.one_mem, by simp⟩⟩
-  haveI hN : (S.subgroupOf H).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hBnorm
+  have : Nonempty X := ⟨⟨i, 1, S.one_mem, by simp⟩⟩
+  have hN : (S.subgroupOf H).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hBnorm
   have hS' : IsPGroup 2 (S.subgroupOf H) := hS2.comap_subtype
   have hB' : Odd (Nat.card (B.subgroupOf H)) := by
     have : Nat.card (B.subgroupOf H) = Nat.card B :=
@@ -231,7 +232,7 @@ theorem inf_mem_Delta {p : ℕ} (hp : p.Prime) {V : Type} [AddCommGroup V] [Modu
     {ρ : Representation (ZMod 2) G V} {P Z : Subgroup G} (hPp : IsPGroup p P) (hPZ : P ≤ Z)
     (hP0 : fixedSubmodule ρ P = ⊥) {E : Subgroup G} (hE : E ∈ Delta p Z ρ) :
     E ⊓ P ∈ Delta p P ρ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hidx, hne⟩ := (mem_Delta_iff p Z ρ E).1 hE
   have hanti : ∀ {D D' : Subgroup G}, D ≤ D' → fixedSubmodule ρ D' ≤ fixedSubmodule ρ D :=
     fun {D D'} h v hv => (QuadraticSetConjugationTransport.mem_fixedSubmodule_iff ρ D v).2 fun n hn =>
@@ -313,6 +314,7 @@ theorem commutator_le {p : ℕ} {P T B : Subgroup G} {e : ℕ}
   convert this using 1
   group
 
+omit [Finite G] in
 theorem le_normalizer_of_forall_conj_mem {K W : Subgroup G}
     (h : ∀ g ∈ K, ∀ w ∈ W, g * w * g⁻¹ ∈ W) : K ≤ Subgroup.normalizer (W : Set G) := by
   intro g hg
@@ -331,7 +333,7 @@ theorem exists_complement {p : ℕ} {P T B : Subgroup G} {e : ℕ}
       B ≤ Subgroup.normalizer (W : Set G) := by
   classical
   have hS := hc.oddPrimeClassTwoAction.setting
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hp2 : p ≠ 2 := by
     intro h
     have hodd := hS.odd
@@ -346,16 +348,16 @@ theorem exists_complement {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     apply Subgroup.le_normalizer_iff_commutator_le_left.mpr
     exact (CoprimeStarSubgroupStructure.Xs_generated hc.oddPrimeClassTwoAction).le
   set H : Subgroup G := S ⊔ B with hH
-  haveI : Z.Normal := hZn
-  haveI : IsElementaryAbelian p ↥Z :=
+  have : Z.Normal := hZn
+  have : IsElementaryAbelian p ↥Z :=
     { toIsMulCommutative := hZ.1
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
         Subtype.ext (by simpa using hZ.2 x x.2) }
-  letI : MulDistribMulAction ↥H ↥Z :=
+  let : MulDistribMulAction ↥H ↥Z :=
     MulDistribMulAction.compHom ↥Z ((MulAut.conjNormal : G →* MulAut ↥Z).comp H.subtype)
   have hsmul : ∀ (a : ↥H) (z : ↥Z), ((a • z : ↥Z) : G) = (a : G) * z * (a : G)⁻¹ := fun a z =>
     MulAut.conjNormal_apply (a : G) z
-  haveI : Fintype ↥H := Fintype.ofFinite _
+  have : Fintype ↥H := Fintype.ofFinite _
   have hcop : ¬ p ∣ Fintype.card ↥H := by
     rw [Fintype.card_eq_nat_card]
     intro hdvd
@@ -394,7 +396,7 @@ theorem inf_centralizer_eq {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     (hcyc : IsCyclic ↥(Z ⊓ Subgroup.centralizer ({b} : Set G))) :
     P ⊓ Subgroup.centralizer ({b} : Set G) = Z ⊓ Subgroup.centralizer ({b} : Set G) := by
   have hS := hc.oddPrimeClassTwoAction.setting
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hcan := CanonicalBFixedHyperplane.canonical hc
   have hQ0 : P ⊓ Subgroup.centralizer ({b} : Set G) ≠ ⊥ := by
     rw [hcan.2.1.2 b hb hb1]; exact hcan.2.1.1
@@ -418,8 +420,8 @@ theorem fixedSubmodule_eq_bot {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     {V : Type} [AddCommGroup V] [Module (ZMod 2) V] {ρ : Representation (ZMod 2) G V}
     (hc : BinaryActionRankCounterexample G p P T B e ρ) : fixedSubmodule ρ P = ⊥ := by
   have hS := hc.oddPrimeClassTwoAction.setting
-  haveI : Fact p.Prime := ⟨hS.prime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : p ≠ 2 := by
     intro h
     have hodd := hS.odd
@@ -439,8 +441,8 @@ theorem eq_of_normal_of_le {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     (hZcyc : ∀ b ∈ B, b ≠ 1 → IsCyclic ↥(Z ⊓ Subgroup.centralizer ({b} : Set G))) : Z = P := by
   classical
   have hS := hc.oddPrimeClassTwoAction.setting
-  haveI : Fact p.Prime := ⟨hS.prime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : p ≠ 2 := by
     intro h
     have hodd := hS.odd

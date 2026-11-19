@@ -23,7 +23,7 @@ theorem hilbert90_three {σ : F ≃+* F} (hσ : orderOf σ = 3) {c : F} (hc0 : c
     ext i j
     fin_cases i
     fin_cases j
-    simp [iterMat, hB, Matrix.mul_apply, Matrix.map_apply, Matrix.one_apply]
+    simp [iterMat, hB, Matrix.mul_apply, Matrix.map_apply]
     linear_combination hN
   obtain ⟨P, hPu, hP⟩ := bgll_exists_fixed_basis σ hσ (by norm_num) hBu hC
   have hP0 : P 0 0 ≠ 0 := by

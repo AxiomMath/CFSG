@@ -126,18 +126,20 @@ theorem fzl59c_gen_mem_two {g : G} (hg : fzl59c_Gen Z s t g) :
   rw [e]
   exact hβ
 
+omit hA in
 theorem fzl59c_B_nrm {T : Subgroup G} (hT1 : ∀ g ∈ T, ∀ x ∈ Z ⊔ zpowers s, g * x * g⁻¹ * x⁻¹ ∈ Z)
     {g x : G} (hg : g ∈ T) (hx : x ∈ Z ⊔ zpowers s) : g * x * g⁻¹ ∈ Z ⊔ zpowers s := by
   have e : g * x * g⁻¹ = (g * x * g⁻¹ * x⁻¹) * x := by group
   rw [e]
   exact mul_mem (Subgroup.mem_sup_left (hT1 g hg x hx)) hx
 
+omit hA in
 theorem fzl59c_F_nrm {T : Subgroup G} (hT1 : ∀ g ∈ T, ∀ x ∈ Z ⊔ zpowers s, g * x * g⁻¹ * x⁻¹ ∈ Z)
     (hT2 : ∀ g ∈ T, g * t * g⁻¹ * t⁻¹ ∈ Z ⊔ zpowers s) {g f : G} (hg : g ∈ T)
     (hf : f ∈ (Z ⊔ zpowers s) ⊔ zpowers t) : g * f * g⁻¹ ∈ (Z ⊔ zpowers s) ⊔ zpowers t := by
   refine fzl59c_conj_sup (P := Z ⊔ zpowers s) (Q := zpowers t)
     (F := (Z ⊔ zpowers s) ⊔ zpowers t) (fun x hx => ?_) (fun x hx => ?_) f hf
-  · exact Subgroup.mem_sup_left (fzl59c_B_nrm hA hT1 hg hx)
+  · exact Subgroup.mem_sup_left (fzl59c_B_nrm hT1 hg hx)
   · obtain ⟨n, rfl⟩ := mem_zpowers_iff.mp hx
     have h1 : g * t * g⁻¹ ∈ (Z ⊔ zpowers s) ⊔ zpowers t := by
       have e : g * t * g⁻¹ = (g * t * g⁻¹ * t⁻¹) * t := by group

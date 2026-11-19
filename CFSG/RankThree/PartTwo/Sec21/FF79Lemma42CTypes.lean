@@ -24,9 +24,9 @@ theorem e9_types [Finite G] (J R : Subgroup G) (hJ : IsLnq 5 2 1 J) (hRJ : R ≤
       e ∉ Subgroup.zpowers x ∧
       ((IsLnq 2 2 2 (Lay (J ⊓ Cen e)) ↔ IsLnq 2 2 2 (Lay (J ⊓ Cen x))) ∧
        (IsLnq 3 2 1 (Lay (J ⊓ Cen e)) ↔ IsLnq 3 2 1 (Lay (J ⊓ Cen x))))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := GF2Type.Smith1979.Case2.nonempty_mulEquiv_gl_of_psl_two (X := ↥J) (n := 5) hJ
-  haveI := hR.1
+  have := hR.1
   have hcube : ∀ r ∈ R, r ^ 3 = 1 := fun r hr => elemPow_eq_one_of_isElementaryAbelian r hr
   have hord : ∀ r ∈ R, r ≠ 1 → orderOf r = 3 := fun r hr h1 =>
     orderOf_eq_prime (hcube r hr) h1

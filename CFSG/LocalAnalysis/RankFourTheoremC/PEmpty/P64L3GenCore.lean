@@ -27,8 +27,8 @@ theorem scalar_injective_fin3 {F : Type} [Field F] :
 
 theorem factorization_PSL3 {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime)
     (hF : Nat.card F = p) : (Nat.card (PSL3 F)).factorization p = 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (PSL3 F) := Finite.of_surjective (phi3 F) (phi3_surjective F)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (PSL3 F) := Finite.of_surjective (phi3 F) (phi3_surjective F)
   have hSL : Nat.card (StatedSL 3 F) = p ^ 3 * ((p ^ 2 - 1) * (p ^ 3 - 1)) := by
     have hI : Finset.Icc 2 3 = ({2, 3} : Finset ℕ) := by decide
     rw [CFSG.Open.StatedAPI.card_statedSL_eq_prod (K := F) (d := 3) (by norm_num), hF, hI,
@@ -159,32 +159,32 @@ theorem core_U {F : Type} [Field F] (Y : Subgroup (PSL3 F))
     intro i j hij c
     fin_cases i <;> fin_cases j
     · exact absurd rfl hij
-    · exact hT1 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
-        (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
-    · exact hT1 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
-        (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
-    · exact hT2 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
-        (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
+    · exact hT1 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe])
+        (by simp [Matrix.SpecialLinearGroup.transvection_coe])
+    · exact hT1 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe])
+        (by simp [Matrix.SpecialLinearGroup.transvection_coe])
+    · exact hT2 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe])
+        (by simp [Matrix.SpecialLinearGroup.transvection_coe])
     · exact absurd rfl hij
-    · exact hT1 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
-        (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
+    · exact hT1 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe])
+        (by simp [Matrix.SpecialLinearGroup.transvection_coe])
     ·
       show Matrix.SpecialLinearGroup.transvection (show (2 : Fin 3) ≠ 0 by decide) c ∈ H
       have ha : Matrix.SpecialLinearGroup.transvection (show (2 : Fin 3) ≠ 1 by decide) c ∈ H :=
-        hT1 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
-          (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
+        hT1 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe])
+          (by simp [Matrix.SpecialLinearGroup.transvection_coe])
       have hb : Matrix.SpecialLinearGroup.transvection (show (1 : Fin 3) ≠ 0 by decide)
           (1 : F) ∈ H :=
-        hT2 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
-          (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
+        hT2 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe])
+          (by simp [Matrix.SpecialLinearGroup.transvection_coe])
       have hcomm := Matrix.SpecialLinearGroup.commutatorElement_transvection
         (show (2 : Fin 3) ≠ 1 by decide) (show (1 : Fin 3) ≠ 0 by decide)
         (show (2 : Fin 3) ≠ 0 by decide) c (1 : F)
       rw [mul_one] at hcomm
       rw [← hcomm, commutatorElement_def]
       exact H.mul_mem (H.mul_mem (H.mul_mem ha hb) (H.inv_mem ha)) (H.inv_mem hb)
-    · exact hT1 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
-        (by simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply])
+    · exact hT1 _ (by simp [Matrix.SpecialLinearGroup.transvection_coe])
+        (by simp [Matrix.SpecialLinearGroup.transvection_coe])
     · exact absurd rfl hij
   have hle : Subgroup.closure (Set.range
       (Matrix.TransvectionStruct.toSpecialLinearGroup :
@@ -204,9 +204,9 @@ theorem core_G {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime) (hF : Na
     (P : Sylow p (PSL3 F)) (Y : Subgroup (PSL3 F))
     (hY : ∀ S : Subgroup (PSL3 F), S ≤ (P : Subgroup (PSL3 F)) →
       2 ≤ CFSG.Open.pRank p S → normalizer (S : Set (PSL3 F)) ≤ Y) : Y = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Q₀ : Sylow p (PSL3 F) := Sylow.ofCard (Ubar F) (card_Ubar_eq hp hF)
-  haveI : Finite (Sylow p (PSL3 F)) :=
+  have : Finite (Sylow p (PSL3 F)) :=
     Finite.of_injective (fun Q : Sylow p (PSL3 F) => (Q : Set (PSL3 F))) SetLike.coe_injective
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (PSL3 F) Q₀ P
   have hcj : ∀ u ∈ Ubar F, MulAut.conj g u ∈ (P : Subgroup (PSL3 F)) := by
@@ -243,7 +243,7 @@ open P64L3Gen Subgroup
 theorem kdi278L3_holds : KDI278L3 := by
   unfold KDI278L3
   intro p hp hp5 K _ _ hK P Y hY
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨F, hFfield, hFfin, hF, ⟨e⟩⟩ := hK
   let P' : Sylow p (PSL3 F) := Sylow.mapSurjective (f := e.toMonoidHom) e.surjective P
   have hP' : (P' : Subgroup (PSL3 F)) = (P : Subgroup K).map e.toMonoidHom := rfl

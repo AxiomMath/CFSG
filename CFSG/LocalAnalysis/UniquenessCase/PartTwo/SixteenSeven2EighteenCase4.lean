@@ -24,7 +24,7 @@ theorem s16c167_insp18_case4 (D : Data G) (hk : D.k = 1) {V L : Subgroup G}
   have hW : ∀ w : Vtil ⊥ V hV, w ^ 2 = 1 := s15_Infra_vtil_sq_eq_one ⊥ V hV
   have hdParam : dParam 3 = 2 := by
     unfold dParam
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (p := 2) (by decide) (by decide)
   obtain ⟨hLab, -, -⟩ := h4
   obtain ⟨Z, hZ, hind, hsup, hncard, hperm, hpairs'⟩ := hpairs

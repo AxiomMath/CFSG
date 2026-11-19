@@ -285,7 +285,7 @@ theorem two_le_pRank_three_psu_four {X : Type} [Group X] [Finite X] {n p f : ℕ
     rw [← h2]
     by_cases hab' : a' = b'
     · subst hab'; simp [Matrix.scalar_apply]
-    · simp [Matrix.scalar_apply, Matrix.one_apply, hab']
+    · simp [Matrix.scalar_apply, hab']
   have key := CFSG.QuasithinUnique.Vol2Native.EvenWit.two_le_pRank_statedProj
     (H := StatedSU n (p ^ f) K) (p := 3) hAS hBS hA3 hB3 ⟨1, one_mem _, by
       rw [one_mul]; exact hcomm⟩ hxA hyB

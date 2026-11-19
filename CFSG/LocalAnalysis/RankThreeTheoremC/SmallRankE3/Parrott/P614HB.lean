@@ -16,12 +16,14 @@ variable {G : Type} [Group G] [Finite G] {P : Sylow 3 G} {M H S K : Subgroup G} 
 noncomputable def kbarAct (K : Subgroup G) : normalizer (K : Set G) →* MulAut (Kbar K) :=
   (quotientAutomorphism (CFSG.pPrimeCore 3 K)).comp K.normalizerMonoidHom
 
+omit [Finite G] in
 theorem kbarAct_mk (g : normalizer (K : Set G)) (k : K) :
     kbarAct K g (kbarMk K k) =
       kbarMk K ⟨g * k * (g : G)⁻¹, (mem_normalizer_iff.mp g.2 k).mp k.2⟩ := by
   rw [kbarAct, MonoidHom.comp_apply, quotientAutomorphism_apply]
   rfl
 
+omit [Finite G] in
 theorem kbarAct_of_mem (k : K) :
     kbarAct K ⟨k, le_normalizer k.2⟩ = MulAut.conj (kbarMk K k) := by
   ext a
@@ -51,8 +53,8 @@ theorem exists_b (kOut : KFactOutThreePrimeSimple) (hyp : Hyp P M x z H S)
     (h618 : Stage618 M H K z) (hcard : Nat.card (Kbar K) = 60 ∨ Nat.card (Kbar K) = 168) :
     ∃ b : G, b ∈ zpowers x ⊔ zpowers z ∧ b ∉ zpowers z ∧
       ⁅zpowers b, K⁆ ≤ pCoreOf 2 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := isSimpleGroup_kbar hyp h618
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := isSimpleGroup_kbar hyp h618
   have hnab := exists_ne_comm_kbar hyp h618
   have hBH : zpowers x ⊔ zpowers z ≤ H := hyp.optimal.ext.pair.le
   have hxB : x ∈ zpowers x ⊔ zpowers z := mem_sup_left (mem_zpowers x)

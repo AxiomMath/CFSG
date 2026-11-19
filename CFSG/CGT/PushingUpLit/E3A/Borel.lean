@@ -37,7 +37,7 @@ theorem isSolvable_normalizer_sylow {G : Type*} [Group G] [Finite G] (S : Sylow 
   have hnorm : ((S : Subgroup G).subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSN).2 le_rfl
   have hp : IsPGroup 2 ((S : Subgroup G).subgroupOf N) :=
-    S.isPGroup'.comap_of_injective N.subtype N.subtype_injective
+    S.isPGroup.comap_of_injective N.subtype N.subtype_injective
   have h1 : Group.IsSolvable ↥((S : Subgroup G).subgroupOf N) := by
     have := hp.isNilpotent
     infer_instance

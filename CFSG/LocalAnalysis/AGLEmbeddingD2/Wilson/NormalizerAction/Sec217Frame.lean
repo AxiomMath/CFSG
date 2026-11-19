@@ -68,7 +68,7 @@ theorem sec217Frame_of (h45 : Sec4.Item4_5) : Sec217Frame (G := G) := by
     rw [hcen, Subgroup.zpowers_le]
     exact Subgroup.mem_subgroupOf.2 h.c_mem_A
   have hab := h.isElemAbelian_A
-  haveI : IsMulCommutative A := hab.1
+  have : IsMulCommutative A := hab.1
   have hFel : CFSG.IsElementaryAbelian 3 (F.map (QuotientGroup.mk' (Subgroup.center ↥L))) := by
     have hFE : CFSG.IsElementaryAbelian 3 F := by
       rw [← isElemAbelian_iff_isElementaryAbelian]
@@ -91,7 +91,7 @@ theorem sec217Frame_of (h45 : Sec4.Item4_5) : Sec217Frame (G := G) := by
   have hEF : ∀ a : ↥L, (a : G) ∈ E → a ∈ F := fun a ha => Subgroup.mem_subgroupOf.2 (hEA ha)
   obtain ⟨a, haE, haF₁⟩ : ∃ a : ↥L, (a : G) ∈ E ∧ a ∉ F₁ := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     refine false_of_pure3B hq hZ3 (e.trans Item228CensusProof.j3CarrierEquiv) hEL ?_ hE27
       (fun x hx => hFcube x (hEF x hx)) (fun x hx hxc => h3B x (hno x hx) hxc) hUN hU4 hU2 hEU hLU
     intro z hz

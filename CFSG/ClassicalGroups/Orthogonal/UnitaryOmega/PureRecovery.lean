@@ -156,7 +156,7 @@ private theorem recovery_of_native_formulas {H : Type*} [Group H]
     transport J φ (normPureBlock E 4 T) =
       transport (normDel E (by norm_num : 2 ≤ 3) c) (a c) (normPureBlock E 4 T) := by
   classical
-  letI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  let : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
   have jr (S : Finset (Fin 4)) : normPureBlock E 4 S ≤ J.range := by
     rw [hJrange]
     exact normPureBlock_mono E 4 (Finset.subset_univ S)
@@ -211,7 +211,7 @@ private theorem recovery_of_native_formulas {H : Type*} [Group H]
       (hC 1 0 3 (by decide) (by decide) (by decide)) (jr {1}) (jr {1,0,3})
     simp only [show ({1,0,3} : Finset (Fin 4)) = {0,1,3} by decide +kernel] at yform
     have zp : ⁅Z,Z⁆ = Z := by
-      letI := hPerf
+      let := hPerf
       change ⁅transport (normDel E (by norm_num : 2 ≤ 3) 2) (a 2) (normPureBlock E 4 {0,3}),
         transport (normDel E (by norm_num : 2 ≤ 3) 2) (a 2) (normPureBlock E 4 {0,3})⁆ = _
       rw [← transport_commutator (normDel_injective E (by norm_num : 2 ≤ 3) 2)
@@ -236,7 +236,7 @@ private theorem recovery_of_native_formulas {H : Type*} [Group H]
         (dr 2 {0,3} (by decide))
     have ycard : Nat.card Y = Nat.card (normPureBlock E 4 {0,3}) :=
       card_transport hJ hφ (jr {0,3})
-    letI : Finite Y := Finite.of_equiv ((normPureBlock E 4 {0,3}).comap J)
+    let : Finite Y := Finite.of_equiv ((normPureBlock E 4 {0,3}).comap J)
       (Subgroup.equivMapOfInjective ((normPureBlock E 4 {0,3}).comap J) φ hφ).toEquiv
     exact (Subgroup.eq_of_le_of_card_ge zY (by rw [ycard,zcard])).symm
   have b0two : transport J φ (normPureBlock E 4 {0}) =

@@ -44,7 +44,7 @@ theorem toMatrix'_orthReflLin_mul_self {v : Fin m → ZMod p} (hv : f v v = -2) 
 
 theorem orthRefl_mulVec {v : Fin m → ZMod p} (hv : f v v = -2) (x : Fin m → ZMod p) :
     (orthRefl f v : Matrix (Fin m) (Fin m) (ZMod p)) *ᵥ x = x + f x v • v := by
-  rw [orthRefl, dif_pos hv]
+  rw [orthRefl, dite_eq_left hv]
   change LinearMap.toMatrix' (orthReflLin f v) *ᵥ x = x + f x v • v
   rw [LinearMap.toMatrix'_mulVec, orthReflLin_apply]
 
@@ -64,16 +64,16 @@ theorem exists_eq_orthRefl_of_mem {g : GL (Fin m) (ZMod p)} (hg : g ∈ orthRefl
 
 theorem orthRefl_mul_self {v : Fin m → ZMod p} (hv : f v v = -2) :
     orthRefl f v * orthRefl f v = 1 := by
-  rw [orthRefl, dif_pos hv]
+  rw [orthRefl, dite_eq_left hv]
   apply Units.ext
   exact toMatrix'_orthReflLin_mul_self f hv
 
 theorem orthRefl_inv (v : Fin m → ZMod p) : (orthRefl f v)⁻¹ = orthRefl f v := by
   by_cases hv : f v v = -2
-  · rw [orthRefl, dif_pos hv]
+  · rw [orthRefl, dite_eq_left hv]
     apply Units.ext
     rfl
-  · rw [show orthRefl f v = 1 from by simp only [orthRefl, dif_neg hv], inv_one]
+  · rw [show orthRefl f v = 1 from by simp only [orthRefl, dite_eq_right hv], inv_one]
 
 theorem orthRefl_neg (v : Fin m → ZMod p) : orthRefl f (-v) = orthRefl f v := by
   by_cases hv : f v v = -2
@@ -82,8 +82,8 @@ theorem orthRefl_neg (v : Fin m → ZMod p) : orthRefl f (-v) = orthRefl f v := 
     rw [orthRefl_mulVec f hv' x, orthRefl_mulVec f hv x,
       LinearMap.BilinForm.neg_right, neg_smul, smul_neg, neg_neg]
   · have hv' : ¬(f (-v) (-v) = -2) := by rw [orthReflLin_neg_norm]; exact hv
-    rw [show orthRefl f (-v) = 1 from by simp only [orthRefl, dif_neg hv'],
-      show orthRefl f v = 1 from by simp only [orthRefl, dif_neg hv]]
+    rw [show orthRefl f (-v) = 1 from by simp only [orthRefl, dite_eq_right hv'],
+      show orthRefl f v = 1 from by simp only [orthRefl, dite_eq_right hv]]
 
 private theorem toMatrix'_orthReflLin_eq (v : Fin m → ZMod p) :
     LinearMap.toMatrix' (orthReflLin f v) =
@@ -100,8 +100,8 @@ private theorem dotProduct_orthReflLin (v : Fin m → ZMod p) :
     funext k
     rw [Pi.single_apply]
     by_cases h : j = k
-    · rw [if_pos h, if_pos h.symm]
-    · rw [if_neg h, if_neg (Ne.symm h)]
+    · rw [ite_eq_left h, ite_eq_left h.symm]
+    · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
   have hv : v = ∑ j, v j • Pi.single j 1 := by
     conv_lhs => rw [pi_eq_sum_univ v]
     exact Finset.sum_congr rfl fun j _ => by rw [hsingle j]
@@ -116,7 +116,7 @@ private theorem dotProduct_orthReflLin (v : Fin m → ZMod p) :
 
 theorem orthRefl_det {v : Fin m → ZMod p} (hv : f v v = -2) :
     (orthRefl f v : Matrix (Fin m) (Fin m) (ZMod p)).det = -1 := by
-  rw [orthRefl, dif_pos hv]
+  rw [orthRefl, dite_eq_left hv]
   change (LinearMap.toMatrix' (orthReflLin f v)).det = -1
   rw [toMatrix'_orthReflLin_eq f v, Matrix.det_one_add_replicateCol_mul_replicateRow,
     dotProduct_orthReflLin f v, hv]
@@ -143,8 +143,8 @@ theorem orthRefl_comm (hf : ∀ x y, f x y = f y x) {u v : Fin m → ZMod p} (hu
       rw [orthRefl_mulVec f hv x, orthRefl_mulVec f hu (x + f x v • v),
         orthRefl_mulVec f hu x, orthRefl_mulVec f hv (x + f x u • u), h1, h2]
       abel
-    · rw [show orthRefl f v = 1 from by simp only [orthRefl, dif_neg hv], mul_one, one_mul]
-  · rw [show orthRefl f u = 1 from by simp only [orthRefl, dif_neg hu], one_mul, mul_one]
+    · rw [show orthRefl f v = 1 from by simp only [orthRefl, dite_eq_right hv], mul_one, one_mul]
+  · rw [show orthRefl f u = 1 from by simp only [orthRefl, dite_eq_right hu], one_mul, mul_one]
 
 @[expose] def IsOrthIsometry (g : GL (Fin m) (ZMod p)) : Prop :=
   ∀ x y, f ((g : Matrix (Fin m) (Fin m) (ZMod p)) *ᵥ x)
@@ -177,7 +177,7 @@ theorem isOrthIsometry_orthRefl (hf : ∀ x y, f x y = f y x) (v : Fin m → ZMo
     simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
       hv, hfy]
     ring
-  · rw [show orthRefl f v = 1 from by simp only [orthRefl, dif_neg hv],
+  · rw [show orthRefl f v = 1 from by simp only [orthRefl, dite_eq_right hv],
       Matrix.GeneralLinearGroup.coe_one, Matrix.one_mulVec, Matrix.one_mulVec]
 
 theorem isOrthIsometry_of_mem_closure (hf : ∀ x y, f x y = f y x) {g : GL (Fin m) (ZMod p)}
@@ -208,8 +208,8 @@ theorem orthRefl_conj {f} {g : GL (Fin m) (ZMod p)} (hg : IsOrthIsometry f g) (v
         Matrix.GeneralLinearGroup.coe_one, Matrix.one_mulVec]
     rw [hL, orthRefl_mulVec f hgv]
   · have hgv : ¬(f (↑g *ᵥ v) (↑g *ᵥ v) = -2) := by rw [hg]; exact hv
-    rw [show orthRefl f v = 1 from by simp only [orthRefl, dif_neg hv],
-      show orthRefl f (↑g *ᵥ v) = 1 from by simp only [orthRefl, dif_neg hgv]]
+    rw [show orthRefl f v = 1 from by simp only [orthRefl, dite_eq_right hv],
+      show orthRefl f (↑g *ᵥ v) = 1 from by simp only [orthRefl, dite_eq_right hgv]]
     simp
 
 end CFSG.LocalAnalysis.WeakClosure81

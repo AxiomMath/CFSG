@@ -13,7 +13,7 @@ open CFSG.Quasithin.H13.Ch3Sec3
 open scoped IsMulCommutative
 
 abbrev NFSite : Type 1 :=
-  ∀ (G : Type) [Group G] [Finite G] (T M L D H : Subgroup G), Prop
+  ∀ (G : Type) [Group G] [Finite G] (_T _M _L _D _H : Subgroup G), Prop
 
 @[expose] def sgn4 (q : ℕ) : ℤ := if q % 4 = 1 then 1 else -1
 

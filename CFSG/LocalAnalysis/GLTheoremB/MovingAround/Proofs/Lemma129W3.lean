@@ -15,9 +15,11 @@ variable {Y : Type*} [Group Y] {Q : Type*} [Group Q] [Fintype Q] [DecidableEq Q]
 private def conjEmb (ρ : Q →* Y) (K : Subgroup Y) (x : Q) : K →* Y :=
   (MulAut.conj (ρ x)).toMonoidHom.comp K.subtype
 
+omit [Fintype Q] [DecidableEq Q] in
 private theorem conjEmb_apply (ρ : Q →* Y) (K : Subgroup Y) (x : Q) (k : K) :
     conjEmb ρ K x k = ρ x * k * (ρ x)⁻¹ := rfl
 
+omit [Fintype Q] [DecidableEq Q] in
 private theorem conjEmb_injective (ρ : Q →* Y) (K : Subgroup Y) (x : Q) :
     Function.Injective (conjEmb ρ K x) :=
   (MulAut.conj (ρ x)).injective.comp K.subtype_injective
@@ -39,6 +41,7 @@ private def shiftHom (K : Type*) [Group K] (q : Q) : (Q → K) →* (Q → K) wh
   map_one' := rfl
   map_mul' _ _ := rfl
 
+omit [Fintype Q] in
 private theorem shiftHom_mulSingle {K : Type*} [Group K] (q x : Q) (k : K) :
     shiftHom K q (Pi.mulSingle x k) = Pi.mulSingle (q * x) k := by
   funext y
@@ -54,10 +57,12 @@ private theorem prodHom_shift (hc : ConjComm ρ K) (q : Q) (f : Q → K) :
     group
   exact DFunLike.congr_fun key f
 
+omit [DecidableEq Q] in
 private theorem prodHom_range (hc : ConjComm ρ K) :
     (prodHom hc).range = ⨆ x : Q, (conjEmb ρ K x).range :=
   MonoidHom.noncommPiCoprod_range (conjEmb ρ K)
 
+omit [DecidableEq Q] in
 private theorem prodHom_injective (hK : ∀ z ∈ K, (∀ y ∈ K, z * y = y * z) → z = 1)
     (hc : ConjComm ρ K) : Function.Injective (prodHom hc) := by
   refine MonoidHom.injective_noncommPiCoprod_of_iSupIndep (conjEmb ρ K) ?_ (conjEmb_injective ρ K)
@@ -82,9 +87,11 @@ private theorem prodHom_injective (hK : ∀ z ∈ K, (∀ y ∈ K, z * y = y * z
 private def diagHom (hc : ConjComm ρ K) : K →* Y :=
   (prodHom hc).comp (Pi.constMonoidHom Q K)
 
+omit [DecidableEq Q] in
 private theorem diagHom_apply (hc : ConjComm ρ K) (x : K) :
     diagHom hc x = prodHom hc (fun _ => x) := rfl
 
+omit [DecidableEq Q] in
 private theorem diagHom_injective (hK : ∀ z ∈ K, (∀ y ∈ K, z * y = y * z) → z = 1)
     (hc : ConjComm ρ K) : Function.Injective (diagHom hc) := by
   intro x y h
@@ -142,6 +149,7 @@ private noncomputable def projHom (hc : ConjComm ρ K) (hinj : Function.Injectiv
   (Pi.evalMonoidHom (fun _ : Q => ↥K) 1).comp
     ((MonoidHom.ofInjective hinj).symm.toMonoidHom.comp (Subgroup.inclusion hB.ge))
 
+omit [DecidableEq Q] in
 private theorem projHom_eq (hc : ConjComm ρ K) (hinj : Function.Injective (prodHom hc))
     {B : Subgroup Y}
     (hB : (prodHom hc).range = B) (w : B) (l : Q → K) (hl : prodHom hc l = (w : Y)) :
@@ -219,7 +227,7 @@ theorem exists_diagonal {Y : Type*} [Group Y] [Finite Y] (p : ℕ) [hpp : Fact p
     (K : Subgroup Y) (a : Y) (ha : a ^ p = 1)
     (hcomm : ∀ i j : Fin p, i ≠ j → ∀ x ∈ kconj a K i, ∀ y ∈ kconj a K j, x * y = y * x)
     (hcenter : ∀ z ∈ K, (∀ y ∈ K, z * y = y * z) → z = 1)
-    (hcap : ∀ m : ℕ, 0 < m → m < p → a ^ m ∉ Subgroup.normalizer (K : Set Y)) :
+    (_hcap : ∀ m : ℕ, 0 < m → m < p → a ^ m ∉ Subgroup.normalizer (K : Set Y)) :
     ∃ (Δ : ↥K →* Y) (π₀ : ↥(kstar p a K) →* ↥K),
       Function.Injective Δ ∧
       (∀ x : ↥K, Δ x ∈ kstar p a K ∧ Δ x * a = a * Δ x) ∧
@@ -232,7 +240,7 @@ theorem exists_diagonal {Y : Type*} [Group Y] [Finite Y] (p : ℕ) [hpp : Fact p
       (∀ s : Y, (∀ i : Fin p, s ∈ Subgroup.normalizer ((kconj a K i : Subgroup Y) : Set Y)) →
         ∀ (w : ↥(kstar p a K)) (h : s * (w : Y) * s⁻¹ ∈ kstar p a K),
           ((π₀ ⟨s * (w : Y) * s⁻¹, h⟩ : ↥K) : Y) = s * ((π₀ w : ↥K) : Y) * s⁻¹) := by
-  haveI : NeZero p := ⟨hpp.out.ne_zero⟩
+  have : NeZero p := ⟨hpp.out.ne_zero⟩
   have hc : ConjComm (zpHom p a ha) K := by
     intro x y hxy k l
     have hne : (⟨(Multiplicative.toAdd x).val, ZMod.val_lt _⟩ : Fin p) ≠
@@ -308,7 +316,7 @@ theorem exists_diagonal {Y : Type*} [Group Y] [Finite Y] (p : ℕ) [hpp : Fact p
           rw [e1, e2]
           simp
       · have h1 : (1 : Y) ∈ kstar p a K := Subgroup.one_mem _
-        have h2 : s * 1 * s⁻¹ ∈ kstar p a K := by simpa using h1
+        have h2 : s * 1 * s⁻¹ ∈ kstar p a K := by simp
         refine ⟨h1, h2, ?_⟩
         have e1 : (⟨1, h1⟩ : ↥(kstar p a K)) = 1 := rfl
         have e2 : (⟨s * 1 * s⁻¹, h2⟩ : ↥(kstar p a K)) = 1 := Subtype.ext (by simp)

@@ -16,6 +16,7 @@ variable {A : Type} [Group A] [Finite A] {ι : A →* Equiv.Perm (Fin 8330)}
 
 namespace He
 
+omit [Finite A] in
 theorem Emb.isSporadic
     (hι : Emb ⊤ ι) : IsSporadic .He A := by
   have hrange : ι.range = CFSG.Sporadic.HeldB.heP := by
@@ -24,6 +25,7 @@ theorem Emb.isSporadic
     (MonoidHom.ofInjective hι.inj).trans (MulEquiv.subgroupCongr hrange)
   exact ⟨e.trans CFSG.Sporadic.HeldB.heEquivP.symm⟩
 
+omit [Finite A] in
 private theorem isElemAbelian_comap
     (hι : Emb ⊤ ι) :
     IsElemAbelian 2 ((eSub basis_E).comap ι) := by
@@ -34,24 +36,28 @@ private theorem isElemAbelian_comap
   · rw [map_pow, map_one, sq]
     exact eSub_sq basis_E _ (Subgroup.mem_comap.mp hx)
 
+omit [Finite A] in
 private theorem comap_le_normalizer_E
-    (hι : Emb ⊤ ι) :
+    (_hι : Emb ⊤ ι) :
     lGrp.comap ι ≤
       Subgroup.normalizer (((eSub basis_E).comap ι : Subgroup A) : Set A) :=
   comap_le_normalizer (Ls_le.trans inf_le_right)
 
+omit [Finite A] in
 private theorem card_comap_E
     (hι : Emb ⊤ ι) :
     Nat.card ((eSub basis_E).comap ι) = 64 := by
   rw [hι.card_comap E_le_heP, card_eSub]
   norm_num
 
+omit [Finite A] in
 theorem normal_comap
     (hι : Emb ⊤ ι) :
     (((eSub basis_E).comap ι).subgroupOf (lGrp.comap ι)).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.comap_mono E_le_Ls)).mpr
     (comap_le_normalizer_E hι)
 
+omit [Finite A] in
 theorem isHat_comap
     (hι : Emb ⊤ ι)
     (hperf : ⁅lGrp, lGrp⁆ = lGrp)
@@ -89,7 +95,7 @@ theorem isHat_comap
     rw [MonoidHom.mem_ker]
     show ψ₀ (e.symm x) = 1
     exact hψR _ (by rw [he]; exact E_le_bFix hx)
-  haveI hRn : (R.subgroupOf M).Normal := normal_comap hι
+  have hRn : (R.subgroupOf M).Normal := normal_comap hι
   let φ : ↥M ⧸ R.subgroupOf M →* ↥(alternatingGroup (Fin 6)) :=
     QuotientGroup.lift _ ψ hRle
   have hφs : Function.Surjective φ := by
@@ -127,17 +133,17 @@ theorem isHat_comap
     rw [_root_.commutator_def, ← Subgroup.map_top_of_surjective _
       (QuotientGroup.mk'_surjective (R.subgroupOf M)), ← Subgroup.map_commutator,
       ← _root_.commutator_def, hcommM]
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   exact isHat_of_surj (CFSG.Quasithin.H13.alternatingGroup_nonabelian (by norm_num))
     hperfQ φ hφs hφk
 
+omit [Finite A] in
 theorem centralizer_comap_le
     (hι : Emb ⊤ ι) :
     Subgroup.centralizer (((eSub basis_E).comap ι : Subgroup A) : Set A) ≤
       (eSub basis_E).comap ι := by
   intro x hx
   refine mem_E_of_cent (hι.mem_heAutGroup x) fun i => ?_
-  change ι x * vW5 i = vW5 i * ι x
   obtain ⟨r, -, hr⟩ := hι.exists_of_mem (E_le_heP (vW5_mem_E i))
   have hrR : r ∈ (eSub basis_E).comap ι := by
     rw [Subgroup.mem_comap, hr]
@@ -157,7 +163,7 @@ theorem irr_comap
   have hVc : Nat.card R = 64 := card_comap_E hι
   have hC : M ⊓ Subgroup.centralizer (R : Set A) ≤ R :=
     inf_le_right.trans (centralizer_comap_le hι)
-  haveI : (R.subgroupOf M).Normal := normal_comap hι
+  have : (R.subgroupOf M).Normal := normal_comap hι
   have hhat : CFSG.Quasithin.IsHat (↥M ⧸ R.subgroupOf M) ↥(alternatingGroup (Fin 6)) :=
     isHat_comap hι hperf
   exact irr_of_hat hEA hLV hVc hC hhat hWV hLW
@@ -176,7 +182,7 @@ theorem conclK_he_ref
       lGrp.comap ι := by
     apply Subgroup.map_injective hι.inj
     rw [Subgroup.map_commutator, hmap, hperf]
-  haveI : (((eSub basis_E).comap ι).subgroupOf
+  have : (((eSub basis_E).comap ι).subgroupOf
       (lGrp.comap ι)).Normal := He.normal_comap hι
   exact conclK_of_isHatA6 (Or.inr (He.Emb.isSporadic hι))
     (He.isElemAbelian_comap hι) (Subgroup.comap_mono E_le_Ls)

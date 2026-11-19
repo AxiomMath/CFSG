@@ -16,7 +16,7 @@ namespace OneComp
 
 variable {K : Type} [Group K] [Finite K] {J M X P : Subgroup K}
 
-theorem exists_automorphism_seven (h : OneComp J M X P) (h7 : ¬ 7 ∣ Nat.card J) :
+theorem exists_automorphism_seven (h : OneComp J M X P) (_h7 : ¬ 7 ∣ Nat.card J) :
     ∃ W : Subgroup (MulAut ↥J), Nat.card W = 7 ∧
       (∀ w ∈ W, ∀ x ∈ X.subgroupOf J, w x = x) ∧ ∀ x ∈ fixedBy W, (x : K) ∈ M := by
   have h7M : 7 ∣ Nat.card M := h.strong.2.1
@@ -29,7 +29,7 @@ theorem exists_automorphism_seven (h : OneComp J M X P) (h7 : ¬ 7 ∣ Nat.card 
   have hyKP : yK ∈ P := y.2
   have hyKord : orderOf yK = 7 := by
     simpa [yK] using (Subgroup.orderOf_coe y).trans hyord
-  letI : J.Normal := h.normal
+  let : J.Normal := h.normal
   let ρ : K →* MulAut ↥J := MulAut.conjNormal
   have hρinj : Function.Injective ρ := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]

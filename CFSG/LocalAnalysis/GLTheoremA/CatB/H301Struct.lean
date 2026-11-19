@@ -46,7 +46,7 @@ private theorem eq_one_of_mem_centralizer_component {p : ℕ} (hp : p.Prime) (hp
     exact ⟨n, hn, rfl⟩
   have hcyc : IsCyclic ((R : Subgroup Q) ⊓ Subgroup.centralizer (K : Set Q) : Subgroup Q) :=
     RankThree.PartOne.K1214.isCyclic_subgroup_of_pow_eq_one_subset hp hp2
-      (R.isPGroup'.to_le inf_le_left)
+      (R.isPGroup.to_le inf_le_left)
       ⟨AGLEmbedding.mem_sylow_of_mem_center hz hzp R, Subgroup.center_le_centralizer _ hz⟩ hzp
       fun y hy hyp => hrk y hy.2 hyp
   have hP := RankFourTheoremC.isPGroup_centralizer_of_unique_component R hcore hK hKn huniq
@@ -110,7 +110,7 @@ private theorem centMod_of_mk_mem_centralizer_barX {p : ℕ} (hp : p.Prime) {X L
 
 theorem mem_pPrimeCoreOf_of_centMod_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {x : G}
     {L : Subgroup G} (hx : orderOf x = p) (hL : GLAPComponent p (cx x) L)
-    (hZ : Odd (Nat.card (Subgroup.center (PQuot p L))))
+    (_hZ : Odd (Nat.card (Subgroup.center (PQuot p L))))
     (hrk1 : ∀ A : Subgroup G, IsElemAbelian p A → A ≤ cx x → (∀ a ∈ A, CentMod p L a) →
       Nat.card A ≤ p)
     {g : G} (hg : g ∈ cx x) (hg2 : ∃ k : ℕ, g ^ (2 ^ k) = 1) (hgL : CentMod p L g) :

@@ -23,13 +23,16 @@ structure S48Ctx (b : G) (L B K : Subgroup G) (b₁ b₂ : G) : Prop where
   f47 : S47Facts b B b₁ b₂
   hD : Cen (b * b₁) ≤ Nor (Subgroup.closure ({b, b₁} : Set G))
 
+omit [Finite G] in
 theorem conj_inv_of {n x y : G} (h : n * x * n⁻¹ = y) : n⁻¹ * y * n = x := by
   rw [← h]; group
 
+omit [Finite G] in
 theorem conj_comp {n m x y z : G} (h1 : m * x * m⁻¹ = y) (h2 : n * y * n⁻¹ = z) :
     (n * m) * x * (n * m)⁻¹ = z := by
   rw [← h2, ← h1]; group
 
+omit [Finite G] in
 theorem conj_inv_elt {n x : G} : n * x⁻¹ * n⁻¹ = (n * x * n⁻¹)⁻¹ := by group
 
 namespace S48Ctx
@@ -40,19 +43,19 @@ include c
 
 theorem sec : FF84Sec4 b L B K b₁ b₂ := c.post.sec
 
-theorem hBcomm : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x := fun x hx y hy =>
+theorem hBcomm : ∀ _x ∈ B, ∀ _y ∈ B, _x * _y = _y * _x := fun _x hx _y hy =>
   (comm_of_mem c.post.sec hx hy).eq
 
-theorem hB3 : ∀ x ∈ B, x ^ 3 = 1 := fun x hx => pow3_of_mem c.post.sec hx
+theorem hB3 : ∀ _x ∈ B, _x ^ 3 = 1 := fun _x hx => pow3_of_mem c.post.sec hx
 
 theorem ord_b : orderOf b = 3 := c.sec.hyp.ord
 
 theorem ord_b₁ : orderOf b₁ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (c.hB3 _ (mem_b₁ c.sec)) (b₁_ne_one c.sec)
 
 theorem ord_b₂ : orderOf b₂ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (c.hB3 _ (mem_b₂ c.sec)) (b₂_ne_one c.sec)
 
 theorem piU {U : Subgroup G} (hU : U ∈ PiStar (Cen b) B 2) :

@@ -35,9 +35,9 @@ theorem exists_sylow_eq_of_normalizer_le {Q N : Subgroup G} (hQ : IsPGroup p Q)
   refine ⟨S, ?_⟩
   by_contra hne
   have hlt : Q < S := lt_of_le_of_ne hQS (Ne.symm hne)
-  obtain ⟨z, hzS, hzQ, hzN⟩ := exists_mem_normalizer_not_mem_of_lt_pGroup S.isPGroup' hlt
+  obtain ⟨z, hzS, hzQ, hzN⟩ := exists_mem_normalizer_not_mem_of_lt_pGroup S.isPGroup hlt
   have hKp : IsPGroup p (S ⊓ normalizer (Q : Set G) : Subgroup G) :=
-    S.isPGroup'.to_le inf_le_left
+    S.isPGroup.to_le inf_le_left
   have hKN : (S ⊓ normalizer (Q : Set G) : Subgroup G) ≤ N := by
     intro x hx
     obtain ⟨n, hn⟩ := hKp ⟨x, hx⟩

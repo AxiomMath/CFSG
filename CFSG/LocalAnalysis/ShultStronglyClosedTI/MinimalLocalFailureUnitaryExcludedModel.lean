@@ -24,7 +24,7 @@ theorem mem_of_sylow_of_le_normalizer {P : Type*} [Group P] {U B : Subgroup P} (
     change (y ^ n) ^ 2 ^ k = 1
     rw [← zpow_natCast, ← _root_.zpow_mul, mul_comm, _root_.zpow_mul, zpow_natCast, hk,
       _root_.one_zpow]
-  have hUp : IsPGroup 2 U := hS ▸ S.isPGroup'
+  have hUp : IsPGroup 2 U := hS ▸ S.isPGroup
   have hY : IsPGroup 2 (Subgroup.zpowers y ⊔ U : Subgroup P) :=
     IsPGroup.to_sup_of_normal_right' hzp hUp (Subgroup.zpowers_le.mpr (hB hy))
   have hYU : Subgroup.zpowers y ⊔ U = U := by

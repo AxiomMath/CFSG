@@ -14,6 +14,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sec715Cm_extData {K : Type} [Field K] [Finite K] [CharP K 2]
     {R Zn Z0 Q : Subgroup G} {M₀ Mm : Type} [AddCommGroup M₀] [Finite M₀] [AddCommGroup Mm]
     [Finite Mm] [DistribMulAction ↥R M₀] [DistribMulAction ↥R Mm]
@@ -125,6 +126,7 @@ theorem sec715Cm_extData {K : Type} [Field K] [Finite K] [CharP K 2]
     have h1 : κ₀ ⟨z, hz⟩ = 1 := toAdd_eq_zero.mp h
     exact (hκ₀.ker ⟨z, hz⟩).mp h1
 
+omit [Finite G] in
 theorem sec715Cm_final {K : Type} [Field K] [Finite K] [CharP K 2]
     {R Zn Z0 Q L : Subgroup G} {M₀ Mm : Type} [AddCommGroup M₀] [Finite M₀] [AddCommGroup Mm]
     [Finite Mm] [DistribMulAction ↥R M₀] [DistribMulAction ↥R Mm]

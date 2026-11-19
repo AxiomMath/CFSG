@@ -29,7 +29,7 @@ theorem false_of_two_tori
   obtain ⟨A₀, hA₀L, hA₀el, hA₀rank, hA₀perm⟩ :=
     exists_elemAbelian_permutes_of_isL3 ctx.memC.1.le (ctx.hyp54.2 L ctx.memC).1 ctx.shapeL
   have hA₀M : A₀ ≤ D.M := hA₀L.trans hLM
-  haveI hns : s13_NormalSimple (Bar2 D.M) := normalSimple_of_hyp1754 D hThin ctx.hyp54
+  have hns : s13_NormalSimple (Bar2 D.M) := normalSimple_of_hyp1754 D hThin ctx.hyp54
   have hLcomp : CFSG.IsComponent (barImage D.M L) := s13_barImage_isComponent ctx.memC
   have hKcomp : CFSG.IsComponent (barImage D.M K) := s13_barImage_isComponent hK
   have hneComp : barImage D.M K ≠ barImage D.M L := by

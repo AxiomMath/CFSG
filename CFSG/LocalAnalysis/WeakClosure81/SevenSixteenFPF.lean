@@ -39,6 +39,7 @@ theorem s716F_isSolvable_dihedralGroup (z : ℕ) [NeZero z] :
   exact Group.isSolvable_of_ker_le_range R.subtype (QuotientGroup.mk' R)
     (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
 
+omit [Finite G] in
 theorem exists_natural_l2_of_isNaturalSection {X Y P Q : Subgroup G}
     [(Y.subgroupOf X).Normal] {n : ℕ} (hn : 2 ≤ n)
     (hX : IsL2Gp (↥X ⧸ Y.subgroupOf X) n) (h : IsNaturalSection X Y P Q) :
@@ -49,10 +50,10 @@ theorem exists_natural_l2_of_isNaturalSection {X Y P Q : Subgroup G}
             Matrix (Fin 2) (Fin 2) (GaloisField 2 k)).mulVec v) := by
   rcases h with ⟨m, hm, hm1, ⟨e⟩, _⟩ | ⟨k, hk, e, hmod⟩ | ⟨k, hk, e, _⟩
   · exfalso
-    haveI : NeZero m := ⟨hm.pos.ne'⟩
-    haveI := s716F_isSolvable_dihedralGroup m
+    have : NeZero m := ⟨hm.pos.ne'⟩
+    have := s716F_isSolvable_dihedralGroup m
     have hsol : Group.IsSolvable (↥X ⧸ Y.subgroupOf X) :=
-      solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
+      Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
     exact not_isSolvable_of_isL2Gp hn hX hsol
   · exact ⟨k, e, hmod⟩
   · exfalso
@@ -60,6 +61,7 @@ theorem exists_natural_l2_of_isNaturalSection {X Y P Q : Subgroup G}
     rw [Nat.card_congr e.toEquiv] at h3
     exact CFSG.Quasithin.E6.E68Proof.RankOne.not_three_dvd_card_sz hk h3
 
+omit [Finite G] in
 theorem inf_centralizer_le_of_natural {X Y P Q : Subgroup G} [(Y.subgroupOf X).Normal]
     {n : ℕ} (hn : 2 ≤ n) (hX : IsL2Gp (↥X ⧸ Y.subgroupOf X) n)
     (hnat : IsNaturalSection X Y P Q) {l : G} (hl : l ∈ X) (hlY : l ∉ Y) {m : ℕ} (hm : Odd m)
@@ -153,14 +155,14 @@ theorem isSimpleGroup_of_surjective_isL2Gp {Γ S : Type} [Group Γ] [Group S] {n
     {f : Γ →* S} (hf : Function.Surjective f) : IsSimpleGroup Γ := by
   rcases hΓ with ⟨m, hm, ⟨e⟩⟩ | ⟨k, hk, ⟨e⟩⟩ | ⟨k, hk, ⟨e⟩⟩
   · exfalso
-    haveI : NeZero m := ⟨hm.pos.ne'⟩
-    haveI := s716F_isSolvable_dihedralGroup m
-    haveI : Group.IsSolvable Γ := solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
-    haveI : Group.IsSolvable S := solvable_of_surjective hf
+    have : NeZero m := ⟨hm.pos.ne'⟩
+    have := s716F_isSolvable_dihedralGroup m
+    have : Group.IsSolvable Γ := Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
+    have : Group.IsSolvable S := Group.isSolvable_of_surjective hf
     exact not_isSolvable_of_isL2Gp hn hS inferInstance
   · have hΓL : IsL2Gp Γ k :=
       ⟨GaloisField 2 k, inferInstance, inferInstance, GaloisField.card 2 k (by omega), ⟨e⟩⟩
-    haveI : Finite Γ := finite_of_isL2Gp hΓL
+    have : Finite Γ := finite_of_isL2Gp hΓL
     by_cases hk2 : 2 ≤ k
     · exact isSimpleGroup_of_isL2Gp hk2 hΓL
     · exfalso
@@ -171,9 +173,10 @@ theorem isSimpleGroup_of_surjective_isL2Gp {Γ S : Type} [Group Γ] [Group S] {n
       have hcard := card_eq_of_isL2Gp hΓL
       norm_num at hcard
       omega
-  · haveI := CFSG.SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup hk
+  · have := CFSG.SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup hk
     exact e.isSimpleGroup
 
+omit [Finite G] in
 theorem eq_of_quotient_dihedral_l2_sz {X Y N : Subgroup G} [(Y.subgroupOf X).Normal]
     [(N.subgroupOf X).Normal] (hQ : QuotientIsDihedralL2OrSz X Y) (hYN : Y ≤ N) (hNX : N ≤ X)
     {n : ℕ} (hn : 2 ≤ n) (hS : IsL2Gp (↥X ⧸ N.subgroupOf X) n) : N = Y := by
@@ -186,7 +189,7 @@ theorem eq_of_quotient_dihedral_l2_sz {X Y N : Subgroup G} [(Y.subgroupOf X).Nor
     intro s
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective s
     exact ⟨QuotientGroup.mk x, hfmk x⟩
-  haveI hsimple : IsSimpleGroup (↥X ⧸ Y.subgroupOf X) :=
+  have hsimple : IsSimpleGroup (↥X ⧸ Y.subgroupOf X) :=
     isSimpleGroup_of_surjective_isL2Gp hn hS hQ hfs
   rcases hsimple.eq_bot_or_eq_top_of_normal f.ker with hker | hker
   · refine le_antisymm (fun x hx => ?_) hYN
@@ -197,7 +200,7 @@ theorem eq_of_quotient_dihedral_l2_sz {X Y N : Subgroup G} [(Y.subgroupOf X).Nor
     rw [hker, Subgroup.mem_bot] at h2
     exact (QuotientGroup.eq_one_iff (N := Y.subgroupOf X) (⟨x, hNX hx⟩ : ↥X)).mp h2
   · exfalso
-    haveI : Subsingleton (↥X ⧸ N.subgroupOf X) := by
+    have : Subsingleton (↥X ⧸ N.subgroupOf X) := by
       refine ⟨fun a b => ?_⟩
       obtain ⟨g, rfl⟩ := hfs a
       obtain ⟨g', rfl⟩ := hfs b

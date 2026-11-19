@@ -17,7 +17,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82.ModelTransport (ModelK6
 
 private theorem ringChar_ne_two {K : Type} [Field K] (h2 : (2 : K) ≠ 0) : ringChar K ≠ 2 := by
   intro h
-  haveI : CharP K 2 := ringChar.of_eq h
+  have : CharP K 2 := ringChar.of_eq h
   exact h2 (CharP.cast_eq_zero K 2)
 
 theorem omega7K6cFacts_holds : Omega7K6cFacts := by
@@ -30,7 +30,7 @@ theorem omega7K6rFacts_holds : Omega7K6rFacts := by
   obtain ⟨F⟩ := Frame.nonempty (ringChar_ne_two h2) h3
   refine ⟨c₀ F, c₀_signedCoords F, ?_⟩
   intro r _ hchar _
-  haveI : CharP K r := hchar
+  have : CharP K r := hchar
   have hrc : ringChar K = r := ringChar.eq K r
   unfold ModelK6rRank
   refine ⟨⟨?_, ?_, ?_⟩, ?_, ?_⟩

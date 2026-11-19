@@ -47,7 +47,7 @@ theorem twClosing_f4Six (K : Type) [Field K] [Finite K] (h3 : 3 ≤ Nat.card K)
     (D : LangLevi TwClass.f4Six.tag K TwClass.f4Six.w) :
     TwFrameClosing TwClass.f4Six.tag K (TwClass.f4Six.X₁ D ⊔ TwClass.f4Six.X₂ D) := by
   by_cases h2 : ringChar K = 2
-  · haveI : CharP K 2 := ringChar.of_eq h2
+  · have : CharP K 2 := ringChar.of_eq h2
     have h4 : 4 ≤ Nat.card K := by
       have : Fintype K := Fintype.ofFinite K
       obtain ⟨n, hn, hcard⟩ := FiniteField.card K 2

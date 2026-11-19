@@ -45,10 +45,10 @@ theorem exists_fixesFixed_altDn {m : ℕ} (h5 : 5 ≤ m) (h8 : m ≤ 8) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 ↥(alternatingGroup (Fin m)) := default
   have hS : CFSG.Open.quasithinIsSylowTwo (P : Subgroup ↥(alternatingGroup (Fin m))) :=
-    ⟨P.isPGroup', P.not_dvd_index⟩
+    ⟨P.isPGroup, P.not_dvd_index⟩
   obtain ⟨g, hg3, hfix⟩ := F420.exists_orderOf_eq_three_heart m h5 h8 P hS
   have hm : 0 < m := by omega
-  refine ⟨P, P.isPGroup', g, hg3, fun x hx hT => (altDn_mem_ker_iff (g : Equiv.Perm (Fin m)) hm
+  refine ⟨P, P.isPGroup, g, hg3, fun x hx hT => (altDn_mem_ker_iff (g : Equiv.Perm (Fin m)) hm
     hx).mpr ?_⟩
   have h := hfix ⟨Multiplicative.toAdd x, hx⟩ fun s hs =>
     (F420.mem_constWeight_iff _ _).mpr

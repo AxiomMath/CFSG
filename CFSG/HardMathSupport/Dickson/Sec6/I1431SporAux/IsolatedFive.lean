@@ -31,7 +31,7 @@ theorem centralizes_of_card_le_thirteen_cube {H : Type*} [Group H] [Finite H] {R
     [R.Normal] (hR : IsPGroup 13 R) (hle : Nat.card R ≤ 13 ^ 3) {z : H} (hz : orderOf z = 5) :
     ∀ r ∈ R, z * r = r * z := by
   classical
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have h5 : Nat.Prime 5 := by norm_num
   have hF : ∀ g ∈ zpowers z, ∀ s ∈ (R : Set H), g * s * g⁻¹ ∈ (R : Set H) := fun g _ s hs =>
     Subgroup.Normal.conj_mem inferInstance s hs g
@@ -39,7 +39,7 @@ theorem centralizes_of_card_le_thirteen_cube {H : Type*} [Group H] [Finite H] {R
   set K : Subgroup H := R ⊓ centralizer ({z} : Set H) with hK
   have hset : {s | s ∈ (R : Set H) ∧ z * s = s * z} = (K : Set H) := by
     ext s
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe, hK, Subgroup.mem_inf,
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe, hK, Subgroup.mem_inf,
       Subgroup.mem_centralizer_singleton_iff]
     constructor
     · rintro ⟨h1, h2⟩
@@ -146,9 +146,9 @@ theorem not_five_dvd_card_of_zStar {H : Type} [Group H] [Finite H]
     (h5 : ¬ 5 ∣ Nat.card (centralizer ({v} : Set H))) : ¬ 5 ∣ Nat.card H := by
   classical
   intro hdvd
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fintype H := Fintype.ofFinite H
   obtain ⟨N, hNn, hNodd, hNc⟩ := CFSG.ZStar.glauberman_zStar H v hv1 hv hiso
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := H) 5 hdvd
   have hfr := exists_mul_centralizer_of_zStar hv hNodd hNc
@@ -194,7 +194,7 @@ theorem not_five_dvd_card_of_zStar {H : Type} [Group H] [Finite H]
     exact (Subgroup.map_eq_bot_iff_of_injective _ N.subtype_injective).1 this
   have hchar : CFSG.IsCharacteristicP 13 N :=
     CFSG.HallHigman.isCharacteristicP_of_isPSolvable hNps hNcore
-  haveI hRn : (CFSG.pCore 13 N |>.map N.subtype).Normal :=
+  have hRn : (CFSG.pCore 13 N |>.map N.subtype).Normal :=
     hnormal (CFSG.pCore 13 N) (fun e => CFSG.pCore_map_iso 13 e)
   have hRp : IsPGroup 13 ((CFSG.pCore 13 N).map N.subtype) :=
     (CFSG.pCore_isPGroup (p := 13) (G := N)).map N.subtype

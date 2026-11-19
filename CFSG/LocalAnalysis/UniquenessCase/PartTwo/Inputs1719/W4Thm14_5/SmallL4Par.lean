@@ -199,9 +199,9 @@ theorem flagStabilizer_four_one_two_three :
 omit [CharP K 2] in
 theorem isSL3_of_mulEquiv_sl3_of_card_two {X : Type} [Group X] (hK : Nat.card K = 2)
     (e : X ≃* Matrix.SpecialLinearGroup (Fin 3) K) : IsSL3 X 1 := by
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 3) K) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 3) K) :=
     CFSG.QuasithinUnique.Vol2Native.A312L.sl_isSimple_of_card_two hK le_rfl
-  haveI : IsSimpleGroup X := e.isSimpleGroup
+  have : IsSimpleGroup X := e.isSimpleGroup
   have hnab : ∃ a b : X, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := CFSG.QuasithinUnique.Vol2Native.A312L.sl_nonabelian_of_card_two hK le_rfl
     exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
@@ -246,9 +246,9 @@ theorem not_nParam_of_isSLn_four_one {G : Type} [Group G] [Finite G] {L : Subgro
   have hF2 : Nat.card F = 2 := by rw [hF, pow_one]
   let e' : Bar2 L ≃* Matrix.SpecialLinearGroup (Fin 4) F :=
     e.trans (specialLinearGroupEquivStatedSL 4 F).symm
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 4) F) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 4) F) :=
     CFSG.QuasithinUnique.Vol2Native.A312L.sl_isSimple_of_card_two hF2 (by norm_num)
-  haveI : IsSimpleGroup (Bar2 L) := e'.isSimpleGroup
+  have : IsSimpleGroup (Bar2 L) := e'.isSimpleGroup
   have hnab : ∃ a b : Bar2 L, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ :=
       CFSG.QuasithinUnique.Vol2Native.A312L.sl_nonabelian_of_card_two (m := 4) hF2 (by norm_num)

@@ -172,7 +172,7 @@ noncomputable def sElt (i : ℕ) : S :=
 
 theorem sElt_mat {i : ℕ} (hi : i < 128) :
     (((hS.sElt i : S) : GL (Fin 6) (ZMod 2)) : Matrix (Fin 6) (Fin 6) (ZMod 2)) = mat L[i]! := by
-  rw [sElt, dif_pos hi]
+  rw [sElt, dite_eq_left hi]
   exact (hS.exists_mem _ (hS.getElem_mem' hi)).choose_spec.2
 
 theorem sElt_eq_iff {i j : ℕ} (hi : i < 128) (hj : j < 128) : hS.sElt i = hS.sElt j ↔ i = j := by
@@ -216,6 +216,7 @@ theorem sElt_mul {i j : ℕ} (hi : i < 128) (hj : j < 128) :
 theorem idxOf_lt {i j : ℕ} (hi : i < 128) (hj : j < 128) : L.idxOf (mul L[i]! L[j]!) < 128 :=
   hS.len ▸ List.idxOf_lt_length_of_mem (hS.mul_mem' hi hj)
 
+omit hS in
 theorem smulTab_get {i j : ℕ} (hi : i < 128) (hj : j < 128) :
     (SCATWreath.smulTab L)[i * 128 + j]! = L.idxOf (mul L[i]! L[j]!) := by
   have hk : i * 128 + j < 128 * 128 := by omega
@@ -224,6 +225,7 @@ theorem smulTab_get {i j : ℕ} (hi : i < 128) (hj : j < 128) :
   rw [show (i * 128 + j) / 128 = i by omega, show (i * 128 + j) % 128 = j by omega]
   rfl
 
+omit hS in
 theorem actTab_get {i v : ℕ} (hi : i < 128) (hv : v < 64) :
     (SCATWreath.actTab L)[i * 64 + v]! = act L[i]! v := by
   have hk : i * 64 + v < 128 * 64 := by omega
@@ -248,8 +250,8 @@ theorem isModel_decW :
       (SCATWreath.actTab L) a b = 64 * L.idxOf (mul L[a / 64]! L[b / 64]!) +
         (a % 64 ^^^ act L[a / 64]! (b % 64)) := by
     intro a ha b hb
-    rw [SCATWreath.wMul, hS.smulTab_get (hdiv a ha) (hdiv b hb),
-      hS.actTab_get (hdiv a ha) (hmod b)]
+    rw [SCATWreath.wMul, CFSG.OddStandard.AltStdSmall4.Tower.SubModel.smulTab_get (hdiv a ha) (hdiv b hb),
+      CFSG.OddStandard.AltStdSmall4.Tower.SubModel.actTab_get (hdiv a ha) (hmod b)]
   have hxor : ∀ a b, a % 64 ^^^ act (L[a / 64]!) (b % 64) < 64 := fun a b =>
     Nat.xor_lt_two_pow (n := 6) (by simpa using hmod a) (by simpa using act_lt _ _)
   refine ⟨fun c _ => mem_top _, fun a ha b hb h => ?_, fun x _ => ?_, fun a ha b hb => ?_,

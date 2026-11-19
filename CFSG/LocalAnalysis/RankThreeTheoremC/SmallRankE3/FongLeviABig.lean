@@ -15,7 +15,7 @@ theorem aBig_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : 
     (hodd : Odd q.exponent) (hv : (LieTypeIndex.A n q).Valid)
     (e : Nonempty (↥K ≃* ValidLieTypeIndex.Group ⟨.A n q, hv⟩)) : False := by
   obtain ⟨e⟩ := e
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hmodel : StatedClassicalModel K .PSL (n + 1) q.p q.exponent :=
     CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv_typeA hv e
   obtain ⟨-, F, _, _, hF, ⟨eF⟩⟩ := hmodel
@@ -40,7 +40,7 @@ theorem aBig_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : 
       (CFSG.AGLEmbedding.not_dvd_card_outer_lie_two ⟨.A n q, hv⟩ (Or.inl hcard) e S.hp S.hp5)
   ·
     obtain ⟨ℓ, hℓp, hℓ2, hℓ5, hℓd⟩ := exists_prime_dvd_two_pow_sub_one_ne_five hodd hge
-    haveI : Fact ℓ.Prime := ⟨hℓp⟩
+    have : Fact ℓ.Prime := ⟨hℓp⟩
     have hℓrk : CFSG.Open.pRank ℓ K ≤ 3 := S.hℓ ℓ hℓp hℓ2
     have h4 : 4 ≤ CFSG.Open.pRank ℓ (⊤ : Subgroup ↥K) := by
       rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hℓp.one_lt eF]

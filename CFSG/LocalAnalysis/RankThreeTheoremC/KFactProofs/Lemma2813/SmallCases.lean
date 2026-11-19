@@ -13,6 +13,7 @@ section CT
 
 variable {M : Type} [AddCommGroup M] [Finite M] [DistribMulAction GL32 M]
 
+omit [Finite M] in
 theorem sc_CTConcl_intro {p₀ : V3} {d : GL32}
     (h1 : Nat.card (commSub M (zpowers d)) ≤ 16)
     (h2 : Nat.card (fixSub M (Spt p₀ ⊔ zpowers d)) ≤ 2)
@@ -24,7 +25,7 @@ theorem sc_CTConcl_intro {p₀ : V3} {d : GL32}
 theorem sc_Ncnt_pos {k : ℕ} {w : M} (hw : w ≠ 0) (hk : (Pset M w).card = k) :
     0 < Ncnt M k := by
   unfold Ncnt
-  haveI : Nonempty {w : M // w ≠ 0 ∧ (Pset M w).card = k} := ⟨⟨w, hw, hk⟩⟩
+  have : Nonempty {w : M // w ≠ 0 ∧ (Pset M w).card = k} := ⟨⟨w, hw, hk⟩⟩
   exact Nat.card_pos
 
 theorem sc_card_commSub_le (hn : Nat.card M ≤ 16) (H : Subgroup GL32) :

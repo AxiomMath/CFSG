@@ -24,9 +24,9 @@ private def ggDiagCoordTarget (p n : ℕ) (F : Type) [Field F] :
 
 private theorem card_units_pow_eq_one_le {F : Type} [Field F] [Finite F] {p : ℕ} (hp : 0 < p) :
     Nat.card {x : Fˣ // x ^ p = 1} ≤ p := by
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
-  haveI : DecidableEq Fˣ := Classical.decEq Fˣ
-  haveI : IsCyclic Fˣ := instIsCyclicUnitsOfFinite
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : DecidableEq Fˣ := Classical.decEq Fˣ
+  have : IsCyclic Fˣ := instIsCyclicUnitsOfFinite
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   exact IsCyclic.card_pow_eq_one_le hp
 
@@ -59,7 +59,7 @@ private theorem exists_diagAt_of_not_dvd {X : Type} [Group X] {F : Type} [Field 
     (hdiag : ∀ b ∈ Bs, GGActsDiag φ b) :
     ∃ k : Fin (n + 1), ∃ τ : Fˣ, τ ≠ 1 ∧ ∃ g ∈ Bs, GGActsVec φ g (diagAt k τ) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hζp : ζ ^ p = 1 := (orderOf_eq_prime_iff.mp hζ).1
   have hζne : ζ ≠ 1 := (orderOf_eq_prime_iff.mp hζ).2
   let u : Fin (n + 1) → Fˣ := Fin.cons (ζ⁻¹ ^ n) (fun _ : Fin n => ζ)
@@ -162,7 +162,7 @@ private theorem div_const_normalize_mul {G : Type} [CommGroup G] (d x1 x2 y1 y2 
 private theorem exists_diagAt_of_dvd {X : Type} [Group X] [Finite X] {F : Type} [Field F]
     [Finite F] {p n : ℕ} (hp : p.Prime) (hpF : p ∣ Nat.card Fˣ) (hpn : p ∣ n + 1)
     {Bs : Subgroup X} (hBs : IsElemAbelian p Bs)
-    (hBsC : ∀ g ∈ Subgroup.centralizer (Bs : Set X), g ^ p = 1 → g ∈ Bs)
+    (_hBsC : ∀ g ∈ Subgroup.centralizer (Bs : Set X), g ^ p = 1 → g ∈ Bs)
     {φ : SpecialLinearGroup (Fin (n + 1)) F →* X}
     (hker : φ.ker ≤ Subgroup.center (SpecialLinearGroup (Fin (n + 1)) F))
     (hdiag : ∀ b ∈ Bs, GGActsDiag φ b)
@@ -170,7 +170,7 @@ private theorem exists_diagAt_of_dvd {X : Type} [Group X] [Finite X] {F : Type} 
     (hfull : p ^ (n + 1) ≤ Nat.card Bs) :
     ∃ k : Fin (n + 1), ∃ τ : Fˣ, τ ≠ 1 ∧ ∃ g ∈ Bs, GGActsVec φ g (diagAt k τ) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) p hpF
   have hζp : ζ ^ p = 1 := (orderOf_eq_prime_iff.mp hζ).1
   have hζne : ζ ≠ 1 := (orderOf_eq_prime_iff.mp hζ).2
@@ -219,7 +219,6 @@ private theorem exists_diagAt_of_dvd {X : Type} [Group X] [Finite X] {F : Type} 
     have hmap : ∀ x : Theta.ker, (x.1 : X) ∈ Bs ⊓ Subgroup.centralizer (φ.range : Set X) := by
       intro x
       refine Subgroup.mem_inf.mpr ⟨x.1.2, ?_⟩
-      change (x.1 : X) ∈ Subgroup.centralizer (φ.range : Set X)
       rw [Subgroup.mem_centralizer_iff]
       intro y hy
       obtain ⟨s, rfl⟩ := hy
@@ -292,7 +291,7 @@ theorem exists_actsVec_diagAt_of_bstar {X : Type} [Group X] [Finite X] {F : Type
     (hC : Nat.card ↥(Bs ⊓ Subgroup.centralizer (φ.range : Set X)) ≤ p)
     (hfull : p ∣ n + 1 → p ^ (n + 1) ≤ Nat.card Bs) (r : Fin (n + 1)) :
     ∃ g ∈ Bs, ∃ τ : Fˣ, τ ≠ 1 ∧ GGActsVec φ g (diagAt r τ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) p hpF
   by_cases hpn : p ∣ n + 1
   · obtain ⟨k, τ, hτ, g, hg, hv⟩ :=

@@ -31,18 +31,16 @@ private theorem cycleType_aux (m : Multiset ℕ) (h2 : ∀ n ∈ m, 2 ≤ n) (hs
     interval_cases a <;> simp_all
   · obtain ⟨a, b, rfl⟩ := Multiset.card_eq_two.1 hc
     simp only [Multiset.insert_eq_cons, Multiset.mem_cons, Multiset.mem_singleton,
-      forall_eq_or_imp, forall_eq, Multiset.sum_cons, Multiset.sum_singleton,
-      Multiset.card_cons, Multiset.card_singleton] at h2 hsum hpar ⊢
+      forall_eq_or_imp, forall_eq, Multiset.sum_cons, Multiset.sum_singleton] at h2 hsum hpar ⊢
     rw [Nat.even_iff] at hpar
     have ha := h2.1
     have hb := h2.2
     have ha' : a ≤ 4 := by omega
     have hb' : b ≤ 4 := by omega
-    interval_cases a <;> interval_cases b <;> simp_all <;> omega
+    interval_cases a <;> interval_cases b <;> simp_all
   · obtain ⟨a, b, c, rfl⟩ := Multiset.card_eq_three.1 hc
     simp only [Multiset.insert_eq_cons, Multiset.mem_cons, Multiset.mem_singleton,
-      forall_eq_or_imp, forall_eq, Multiset.sum_cons, Multiset.sum_singleton,
-      Multiset.card_cons, Multiset.card_singleton] at h2 hsum hpar ⊢
+      forall_eq_or_imp, forall_eq, Multiset.sum_cons, Multiset.sum_singleton] at h2 hsum hpar ⊢
     rw [Nat.even_iff] at hpar
     omega
 
@@ -65,13 +63,13 @@ private theorem alt6_pow (σ : Equiv.Perm (Fin 6)) (hσ : Equiv.Perm.sign σ = 1
 
 private theorem nontrivial_of_isQuasisimple {K : Type*} [Group K] (h : CFSG.Open.IsQuasisimple K) :
     Nontrivial K := by
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := h.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := h.2
   exact (QuotientGroup.mk_surjective (s := Subgroup.center K)).nontrivial
 
 private theorem false_of_isQuasisimple_of_isSolvable {K : Type*} [Group K]
     (h : CFSG.Open.IsQuasisimple K) (hs : Group.IsSolvable K) : False := by
-  haveI := nontrivial_of_isQuasisimple h
-  haveI : Group.IsPerfect K := ⟨h.1⟩
+  have := nontrivial_of_isQuasisimple h
+  have : Group.IsPerfect K := ⟨h.1⟩
   exact Group.IsPerfect.not_isSolvable K hs
 
 theorem card_of_isHatSix {X : Type*} [Group X] [Finite X] (h : IsHatSix X) : Nat.card X = 1080 := by
@@ -95,20 +93,22 @@ theorem false_of_isHatSix_of_not_five {C K : Subgroup G} (hK : K ≤ C) (h : IsH
       rw [Nat.card_congr e.toEquiv, card_A6]; norm_num
   exact h5.trans (Subgroup.card_dvd_of_le hK)
 
+omit [Finite G] in
 theorem false_of_component_of_solvable {C K : Subgroup G} (hK : IsComponentOf K C)
-    (hC : IsSolvable ↥C) : False := by
-  haveI : Group.IsSolvable ↥C := hC
-  haveI : Group.IsSolvable ↥K := Group.isSolvable_of_isSolvable_injective
+    (hC : Group.IsSolvable ↥C) : False := by
+  have : Group.IsSolvable ↥C := hC
+  have : Group.IsSolvable ↥K := Group.isSolvable_of_isSolvable_injective
     (f := Subgroup.inclusion hK.1) (Subgroup.inclusion_injective hK.1)
   exact false_of_isQuasisimple_of_isSolvable hK.2.2 inferInstance
 
 theorem false_of_component_of_card_two_three {C K : Subgroup G} (hK : IsComponentOf K C) {a b : ℕ}
     (hC : Nat.card C = 2 ^ a * 3 ^ b) : False := by
   refine false_of_component_of_solvable hK ?_
-  haveI : Fintype ↥C := Fintype.ofFinite _
+  have : Fintype ↥C := Fintype.ofFinite _
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
     Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card, hC])
 
+omit [Finite G] in
 theorem mem_of_isSubnormal_of_coprime {C K : Subgroup G} (hK : IsSubnormal K C) {g : G}
     (hg : g ∈ C) (hco : Nat.Coprime (orderOf g) (K.relIndex C)) : g ∈ K := by
   induction hK with
@@ -120,7 +120,7 @@ theorem mem_of_isSubnormal_of_coprime {C K : Subgroup G} (hK : IsSubnormal K C) 
       ih hg (Nat.Coprime.coprime_dvd_right (Dvd.intro_left _ hrel) hco)
     have hco2 : Nat.Coprime (orderOf g) (H.relIndex M) :=
       Nat.Coprime.coprime_dvd_right (Dvd.intro _ hrel) hco
-    haveI := hn
+    have := hn
     set x : M := ⟨g, hgM⟩ with hx
     have h1 : orderOf (QuotientGroup.mk x : M ⧸ H.subgroupOf M) ∣ orderOf g := by
       rw [← Subgroup.orderOf_mk g hgM]
@@ -173,12 +173,14 @@ theorem false_of_isHatSix_of_elem {C K : Subgroup G} (hK : IsComponentOf K C) (h
   rw [Subgroup.orderOf_mk] at h4
   omega
 
+omit [Finite G] in
 theorem false_of_isHatSix_of_noA6 {C K : Subgroup G} (hK : K ≤ C) (h : IsHatSix ↥K)
     (hC : NoA6 C) : False := by
   obtain ⟨-, -, ⟨e⟩⟩ := h
   exact hC K hK (e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥K)))
     (e.surjective.comp (QuotientGroup.mk'_surjective _))
 
+omit [Finite G] in
 theorem false_of_alt6_of_noA6 {C K : Subgroup G} (hK : K ≤ C)
     (h : Nonempty (↥K ≃* alternatingGroup (Fin 6))) (hC : NoA6 C) : False := by
   obtain ⟨e⟩ := h
@@ -187,7 +189,7 @@ theorem false_of_alt6_of_noA6 {C K : Subgroup G} (hK : K ≤ C)
 theorem false_of_component_of_selfCentralizing {C K R : Subgroup G} (hK : IsComponentOf K C)
     (hRC : R ≤ C) (hRn : (R.subgroupOf C).Normal) (hR : IsPGroup 3 R)
     (hcen : C ⊓ Subgroup.centralizer (R : Set G) ≤ R) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKC := hK.1
   have hcomp : CFSG.Open.IsComponentOf (K.subgroupOf C) ⊤ := by
     refine ⟨le_top, ?_, ?_⟩
@@ -195,7 +197,7 @@ theorem false_of_component_of_selfCentralizing {C K R : Subgroup G} (hK : IsComp
       rwa [show C.comap C.subtype = ⊤ from Subgroup.subgroupOf_self C] at h1
     · exact CFSG.Open.IsQuasisimple.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hKC) hK.2.2
   have hR' : IsPGroup 3 ↥(R.subgroupOf C) := hR.of_equiv (Subgroup.subgroupOfEquivOfLe hRC).symm
-  haveI : Group.IsNilpotent ↥(R.subgroupOf C) := hR'.isNilpotent
+  have : Group.IsNilpotent ↥(R.subgroupOf C) := hR'.isNilpotent
   have hRsub : IsSubnormal (R.subgroupOf C) ⊤ := IsSubnormal.of_mathlib hRn.isSubnormal
   have hbot := CFSG.ComponentClassification.LocalComponents.commutes_with_solvable_subnormal
     (K.subgroupOf C) (R.subgroupOf C) hcomp hRsub
@@ -208,18 +210,19 @@ theorem false_of_component_of_selfCentralizing {C K R : Subgroup G} (hK : IsComp
       (show (⟨r, hRC hr⟩ : ↥C) ∈ R.subgroupOf C from hr)
     rw [hbot, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hmem
     exact (congrArg Subtype.val hmem).symm
-  haveI : Group.IsNilpotent ↥K := (hR.to_le hKR).isNilpotent
+  have : Group.IsNilpotent ↥K := (hR.to_le hKR).isNilpotent
   exact false_of_isQuasisimple_of_isSolvable hK.2.2 inferInstance
 
+omit [Finite G] in
 theorem component_eq_of_normal_simple {C K N : Subgroup G} (hK : IsComponentOf K C)
-    (hNC : N ≤ C) (hNn : (N.subgroupOf C).Normal) (hN : IsSimpleGroup ↥N)
+    (hNC : N ≤ C) (_hNn : (N.subgroupOf C).Normal) (hN : IsSimpleGroup ↥N)
     (hperf : ∀ H : Subgroup G, H ≤ C → commutator ↥H = ⊤ → H ≤ N) : K = N := by
   have hKN : K ≤ N := hperf K hK.1 hK.2.2.1
   have h1 := hK.2.1.inf_of_le hNC
   rw [inf_eq_left.2 hKN] at h1
   rcases h1.eq_bot_or_eq_of_isSimpleGroup hN with h2 | h2
   · exfalso
-    haveI := nontrivial_of_isQuasisimple hK.2.2
+    have := nontrivial_of_isQuasisimple hK.2.2
     exact (K.nontrivial_iff_ne_bot.1 inferInstance) h2
   · exact h2
 
@@ -273,13 +276,13 @@ theorem false_of_alt6_of_five_gen {C K : Subgroup G} (hK : IsComponentOf K C)
 private theorem not_index_three_of_perfect_crit {X : Type*} [Group X] [Finite X]
     [Group.IsPerfect X] (H : Subgroup X) (hH : H.index = 3) : False := by
   have hcard : Nat.card (X ⧸ H) = 3 := by rw [← Subgroup.index_eq_card]; exact hH
-  haveI : Finite (X ⧸ H) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI hsolv : Group.IsSolvable (Equiv.Perm (X ⧸ H)) :=
+  have : Finite (X ⧸ H) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have hsolv : Group.IsSolvable (Equiv.Perm (X ⧸ H)) :=
     Equiv.Perm.isSolvable (by rw [hcard]; norm_num)
   let φ : X →* Equiv.Perm (X ⧸ H) := MulAction.toPermHom X (X ⧸ H)
   let P : Subgroup (Equiv.Perm (X ⧸ H)) := Subgroup.map φ ⊤
-  haveI : Group.IsPerfect P := Group.IsPerfect.map (H := ⊤) φ
-  haveI : Group.IsSolvable P :=
+  have : Group.IsPerfect P := Group.IsPerfect.map (H := ⊤) φ
+  have : Group.IsSolvable P :=
     Group.isSolvable_of_isSolvable_injective (f := P.subtype) (Subgroup.subtype_injective P)
   obtain ⟨k, hk⟩ : ∃ k : X, k ∉ H := by
     by_contra hcon
@@ -296,13 +299,13 @@ private theorem not_index_three_of_perfect_crit {X : Type*} [Group X] [Finite X]
     rw [QuotientGroup.eq] at h2
     apply hk
     simpa using h2
-  haveI : Nontrivial P :=
+  have : Nontrivial P :=
     ⟨⟨⟨φ k, k, Subgroup.mem_top k, rfl⟩, 1, fun h => hφk (congrArg Subtype.val h)⟩⟩
   exact Group.IsPerfect.not_isSolvable P inferInstance
 
 theorem false_of_isHatSix_of_card_sub {K H : Subgroup G} (h : IsHatSix ↥K) (hHK : H ≤ K)
     (hH : Nat.card H = 360) : False := by
-  haveI : Group.IsPerfect ↥K := ⟨h.1⟩
+  have : Group.IsPerfect ↥K := ⟨h.1⟩
   have hcardK : Nat.card K = 1080 := card_of_isHatSix h
   have hHk : Nat.card (H.subgroupOf K) = 360 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHK).toEquiv]
@@ -366,8 +369,9 @@ private theorem not_isQuasisimple_of_le_comm_crit {X : Type*} [Group X] {K A : S
     trivial
   rw [h1 a, h1 b]
 
+omit [Finite G] in
 theorem component_eq_of_normal_quasisimple {C K N : Subgroup G} (hK : IsComponentOf K C)
-    (hNC : N ≤ C) (hNn : (N.subgroupOf C).Normal) (hN : IsQuasisimple ↥N)
+    (hNC : N ≤ C) (_hNn : (N.subgroupOf C).Normal) (hN : IsQuasisimple ↥N)
     (hperf : ∀ H : Subgroup G, H ≤ C → commutator ↥H = ⊤ → H ≤ N) : K = N := by
   have hKN : K ≤ N := hperf K hK.1 hK.2.2.1
   have h1 := hK.2.1.inf_of_le hNC
@@ -380,6 +384,7 @@ theorem component_eq_of_normal_quasisimple {C K N : Subgroup G} (hK : IsComponen
     rintro _ ⟨a, ha, rfl⟩ _ ⟨b, -, rfl⟩
     exact congrArg Subtype.val (Subgroup.mem_center_iff.mp ha b).symm
 
+omit [Finite G] in
 private theorem isComponentOf_map_conj_crit {C K : Subgroup G} (hK : IsComponentOf K C) {c : G}
     (hc : c ∈ C) : IsComponentOf (K.map (MulAut.conj c).toMonoidHom) C := by
   have hC : C.map (MulAut.conj c).toMonoidHom = C := by
@@ -420,6 +425,7 @@ private theorem mul_comm_of_components_ne_crit {C K L : Subgroup G} (hK : IsComp
   rw [h, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hmem
   exact congrArg Subtype.val hmem
 
+omit [Finite G] in
 private theorem dvd_of_pow_mem_normalizer_crit {K : Subgroup G} {v : G} {p : ℕ} (hp : p.Prime)
     (hvp : orderOf v = p) (hv : v ∉ Subgroup.normalizer (K : Set G)) {k : ℕ}
     (hk : v ^ k ∈ Subgroup.normalizer (K : Set G)) : p ∣ k := by
@@ -432,11 +438,13 @@ private theorem dvd_of_pow_mem_normalizer_crit {K : Subgroup G} {v : G} {p : ℕ
   rw [← hm]
   exact Subgroup.pow_mem _ hk m
 
+omit [Finite G] in
 private theorem mem_map_conj_iff_crit (K : Subgroup G) (c x : G) :
     x ∈ K.map (MulAut.conj c).toMonoidHom ↔ c⁻¹ * x * c ∈ K := by
   rw [Subgroup.mem_map_equiv]
   simp [MulAut.conj_symm_apply]
 
+omit [Finite G] in
 private theorem cube_of_map_crit {K : Subgroup G} (φ : G ≃* G)
     (hZ3 : ∀ z : G, z ∈ K → (∀ k ∈ K, k * z = z * k) → z ^ 3 = 1) :
     ∀ z : G, z ∈ K.map φ.toMonoidHom → (∀ k ∈ K.map φ.toMonoidHom, k * z = z * k) →
@@ -564,7 +572,7 @@ private theorem mulAut_alt6_eq_one_crit {p : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p)
   rcases (Nat.dvd_prime hp).1 hdvd with h1 | h1
   · exact orderOf_eq_one_iff.1 h1
   · exfalso
-    haveI : Finite (MulAut (alternatingGroup (Fin 6))) :=
+    have : Finite (MulAut (alternatingGroup (Fin 6))) :=
       Finite.of_injective
         (fun f : MulAut (alternatingGroup (Fin 6)) =>
           (f : alternatingGroup (Fin 6) → alternatingGroup (Fin 6))) DFunLike.coe_injective
@@ -651,6 +659,7 @@ private theorem eq_one_of_autCenterQuot_eq_one_crit {X : Type*} [Group X]
   rw [MulAut.one_apply]
   exact (inv_mul_eq_one.1 h1).symm
 
+omit [Finite G] in
 private theorem le_centralizer_of_normalizes_crit {K : Subgroup G} (hperf : commutator ↥K = ⊤)
     (e : (↥K ⧸ Subgroup.center ↥K) ≃* alternatingGroup (Fin 6)) {v : G} {p : ℕ}
     (hp : p.Prime) (hp7 : 7 ≤ p) (hvp : orderOf v = p)
@@ -687,7 +696,7 @@ theorem false_of_component_of_prime_elem {C K : Subgroup G} (hK : IsComponentOf 
   by_cases hvN : v ∈ Subgroup.normalizer (K : Set G)
   · exact h5 (h5K.trans (Subgroup.card_dvd_of_le
       (le_centralizer_of_normalizes_crit hK.2.2.1 e hp hp7 hvp hvN)))
-  · haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  · have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' 5 h5K
     refine false_of_not_normalizes_crit hK ?_ u.2 (by rw [Subgroup.orderOf_coe]; exact hu) hv hp
       hvp hvN h5p

@@ -17,10 +17,10 @@ open CFSG.Sporadic.Fi22.Native CFSG.Sporadic.Th.Native CFSG.Perm.Native CFSG.KS.
 variable {D : LHData}
 
 theorem far_himg (hO : OrbOK) (h : LHChecks D) :
-    ∀ k < fd D.mt 80 16383, fd (D.TF k) 0 16383 < 14080 → ∀ l < 7,
-      ap (phiDec D.ph)[l]! (fd (D.TF k) 0 16383) = e14 (D.ph l) (fd (D.TF k) 0 16383) ∧
-        e14 (D.ph l) (fd (D.TF k) 0 16383) < 14080 :=
-  fun _ _ hx l hl => ⟨(phiDec_get hl hx).2.2, (phi_facts hO h hl hx).1⟩
+    ∀ k < fd D.mt 80 16383, fd (D.TF k) 0 16383 < 14080 → ∀ _l < 7,
+      ap (phiDec D.ph)[_l]! (fd (D.TF k) 0 16383) = e14 (D.ph _l) (fd (D.TF k) 0 16383) ∧
+        e14 (D.ph _l) (fd (D.TF k) 0 16383) < 14080 :=
+  fun _ _ hx _l hl => ⟨(phiDec_get hl hx).2.2, (phi_facts hO h hl hx).1⟩
 
 theorem far_bfs (hO : OrbOK) (h : LHChecks D) :
     (0 < fd D.mt 80 16383 ∧ fd D.mt 80 16383 ≤ 14080 ∧
@@ -76,13 +76,13 @@ theorem c_far (hO : OrbOK) (h : LHChecks D) :
         have := allN_iff.1 h6.2 m hm
         rw [strictB_eq, bIf_eq, beq_false (show fd (D.QA m) 7792 16383 ≠ 16383 by
           have := fd_le (D.QA m) 7792 16383
-          omega), if_neg (by simp), bAnd_eq, Bool.and_eq_true, Nat.beq_eq] at this
+          omega), ite_eq_right (by simp), bAnd_eq, Bool.and_eq_true, Nat.beq_eq] at this
         exact this.2
       rw [← hfar]
       simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, Array.size_ofFn]
       rw [ap_ofFn (g := fun x => if fd (D.QA x) 7792 16383 = 16383 then none32
           else UInt32.ofNat (fd (D.QA x) 7792 16383)) hm,
-        if_neg (by have := fd_le (D.QA m) 7792 16383; omega), toNat_ofNat32 (by omega),
+        ite_eq_right (by have := fd_le (D.QA m) 7792 16383; omega), toNat_ofNat32 (by omega),
         ap_ofFn (g := fun k => UInt32.ofNat (fd (D.TF k) 0 16383)) hlt,
         toNat_ofNat32 (by have := hpts _ hlt; omega), hP2]
       exact ⟨hlt, rfl⟩

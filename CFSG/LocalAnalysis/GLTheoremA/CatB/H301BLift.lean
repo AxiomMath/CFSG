@@ -23,7 +23,7 @@ theorem twoLocal_of_witness_gen {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K A : 
       IsElemAbelian p W ∧
         Nat.card E * Nat.card A ≤ Nat.card W * Nat.card (Subgroup.center (PQuot p K)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hOK : GLAPPrimeCoreOf p K ≤ K := by
     unfold GLAPPrimeCoreOf
     exact Subgroup.map_subtype_le _
@@ -34,7 +34,7 @@ theorem twoLocal_of_witness_gen {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K A : 
     sup_le (le_normalizer_glaPPrimeCoreOf p K)
       (hAN.trans (normalizer_le_normalizer_glaPPrimeCoreOf p K))
   set O : Subgroup ↥(K ⊔ A) := (GLAPPrimeCoreOf p K).subgroupOf (K ⊔ A) with hOdef
-  haveI hOn : O.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOJ).2 hJN
+  have hOn : O.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOJ).2 hJN
   let π : ↥(K ⊔ A) →* ↥(K ⊔ A) ⧸ O := QuotientGroup.mk' O
   have hπker : π.ker = O := QuotientGroup.ker_mk' _
   have hOcard : ¬ p ∣ Nat.card (GLAPPrimeCoreOf p K : Subgroup G) :=

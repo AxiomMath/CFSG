@@ -77,10 +77,10 @@ theorem uniform_of_core_E4
     rw [hKcard]
     exact hctx.hyp.q4
   have hX : Module.finrank K M₀.E = 32 := finrank_E_eq_of_card hg hZQ (m := 32) hw
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   obtain ⟨hnoB, hgenB⟩ := hTac B hctx
   obtain ⟨θ, hθs, hθk, hθB⟩ := exists_base_E4 hSame h34 hctx hw hg hnoB hgenB hUp hT0E hTnorm θ₀ hθ₀s hθ₀k
-  haveI : Finite ↥(EAut0 K) := Finite.of_surjective θ hθs
+  have : Finite ↥(EAut0 K) := Finite.of_surjective θ hθs
   obtain ⟨T, hTe, hTker, hTiso⟩ := exists_T_Lgen_isom hctx hg
   obtain ⟨A₁, hA₁⟩ : ∃ A₁ : ↥(EAut0 K) →* (M₀.E ≃ₗ[K] M₀.E),
       ∀ s : Lgen M (LB M Q B), A₁ (θ s) = T s := by

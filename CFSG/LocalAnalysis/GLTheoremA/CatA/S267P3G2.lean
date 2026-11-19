@@ -215,7 +215,7 @@ theorem glaPLayer_g2ShortSL2_inf_fix_ne_bot [Finite K] (σ : K ≃+* K)
     (h4 : 4 ≤ Nat.card (semilinearFixedSubfield σ)) :
     GLAPLayer 3 (g2ShortSL2 K ⊓ fixSubgroup (g2FieldHom K σ)) ≠ ⊥ := by
   classical
-  haveI : Finite ↥(adjointGroup .G2 K) := by
+  have : Finite ↥(adjointGroup .G2 K) := by
     have : Finite (Module.End K (RootModule .G2 K)) := Module.finite_of_finite K
     infer_instance
   set K₀ := semilinearFixedSubfield σ with hK₀
@@ -290,7 +290,7 @@ theorem glaPComponent_g2ShortSL2 (hK3 : ringChar K ≠ 3) (hK4 : 4 ≤ Nat.card 
     GLAPComponent 3 (Subgroup.centralizer
       ((Subgroup.zpowers (eStd K) : Subgroup ↥(adjointGroup .G2 K)) : Set ↥(adjointGroup .G2 K)))
       (g2ShortSL2 K) := by
-  haveI : Finite ↥(adjointGroup .G2 K) := by
+  have : Finite ↥(adjointGroup .G2 K) := by
     have : Finite (Module.End K (RootModule .G2 K)) := Module.finite_of_finite K
     infer_instance
   have hB := g2ThreeBCent_holds K hK3 hK4 (eStd K) eStd_mem_g2LongSL2 (eStd_pow_three K)
@@ -328,10 +328,10 @@ theorem g2_centMod_clause (hK3 : ringChar K ≠ 3) (hK4 : 4 ≤ Nat.card K) {σ 
     (hc : ∀ j ∈ g2ShortSL2 K, j * (a * ((g2FieldHom K σ) ^ k) j * a⁻¹)⁻¹ ∈
       GLAPPrimeCoreOf 3 (g2ShortSL2 K)) :
     k = 0 ∧ a ∈ Subgroup.zpowers (eStd K) := by
-  haveI : Finite ↥(adjointGroup .G2 K) := by
+  have : Finite ↥(adjointGroup .G2 K) := by
     have : Finite (Module.End K (RootModule .G2 K)) := Module.finite_of_finite K
     infer_instance
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ψ := g2FieldHom K σ with hψ
   have hψ3 : ψ ^ 3 = 1 := by rw [hψ, ← map_pow, hσ3, map_one]
   have hzJ : Subgroup.zpowers (zStd K) ≤ g2ShortSL2 K :=
@@ -416,10 +416,10 @@ theorem modelB_g2 {p : ℕ} [Fact p.Prime] [CharP K p] (hp5 : 5 ≤ p) {σ : K �
     (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) :
     ModelB ↥(adjointGroup .G2 K) (g2FieldHom K σ) := by
   classical
-  haveI : Finite ↥(adjointGroup .G2 K) := by
+  have : Finite ↥(adjointGroup .G2 K) := by
     have : Finite (Module.End K (RootModule .G2 K)) := Module.finite_of_finite K
     infer_instance
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hchar : ringChar K = p := ringChar.eq K p
   have hK3 : ringChar K ≠ 3 := by rw [hchar]; omega
   have hK2 : ringChar K ≠ 2 := by rw [hchar]; omega
@@ -429,7 +429,7 @@ theorem modelB_g2 {p : ℕ} [Fact p.Prime] [CharP K p] (hp5 : 5 ≤ p) {σ : K �
   have hK4 : 4 ≤ Nat.card K := by omega
   have hK₀ : 4 ≤ Nat.card (semilinearFixedSubfield σ) := by
     set K₀ := semilinearFixedSubfield σ
-    haveI : CharP K₀ p := (RingHom.charP_iff K₀.subtype K₀.subtype.injective p).mpr ‹_›
+    have : CharP K₀ p := (RingHom.charP_iff K₀.subtype K₀.subtype.injective p).mpr ‹_›
     calc 4 ≤ p := by omega
       _ = Nat.card (ZMod p) := (Nat.card_zmod p).symm
       _ ≤ Nat.card K₀ :=
@@ -489,7 +489,7 @@ variable {q : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
 theorem concA_g2 (H : P3Hyp q S B) {K : Type} [Field K] [Finite K] [Fact q.Prime] [CharP K q]
     (e : ↥(adjointGroup .G2 K) ≃* PSimple 3 S) : S267ConcA 3 S B := by
   classical
-  haveI : Finite ↥(adjointGroup .G2 K) := by
+  have : Finite ↥(adjointGroup .G2 K) := by
     have : Finite (Module.End K (RootModule .G2 K)) := Module.finite_of_finite K
     infer_instance
   have hq5 : 5 ≤ q := by
@@ -508,7 +508,7 @@ theorem concA_g2 (H : P3Hyp q S B) {K : Type} [Field K] [Finite K] [Fact q.Prime
   have hK5 : 5 ≤ Nat.card K := le_trans hq5 hqK
   have hK4 : 4 ≤ Nat.card K := by omega
   have h3K : ¬ 3 ∣ Nat.card K := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K q
     rw [Nat.card_eq_fintype_card, hn]
     intro h
@@ -519,7 +519,7 @@ theorem concA_g2 (H : P3Hyp q S B) {K : Type} [Field K] [Finite K] [Fact q.Prime
   have hZ : Subgroup.center ↥S = ⊥ := by
     refine H.center_eq_bot_of_multiplier (e.symm.trans
       ((QuotientGroup.quotientMulEquivOfEq hZX).trans QuotientGroup.quotientBot).symm) ?_
-    haveI := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.g2_hopfMultiplier hK5).2
+    have := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.g2_hopfMultiplier hK5).2
     rw [Nat.card_of_subsingleton
       (1 : CFSG.Open.griessHopfMultiplier (CFSG.Blueprint.AdjointQuotient .G2 K))]
     norm_num
@@ -595,14 +595,14 @@ theorem concA_g2 (H : P3Hyp q S B) {K : Type} [Field K] [Finite K] [Fact q.Prime
     have h1 : c * (φ g)⁻¹ = (φ g)⁻¹ * c := H.comm_of_mem_centMod hcC (S.inv_mem hgS)
     have h2 : b * c = c * b := congrArg Subtype.val (H.elem.1.is_comm.comm ⟨b, hbB⟩ ⟨c, hcB⟩)
     rw [hb', mul_assoc, h2, ← mul_assoc, ← h1, mul_assoc]
-  haveI : Fact q.Prime := ‹_›
+  have : Fact q.Prime := ‹_›
   exact concA_of_modelB H hZ φ hφ hφS hb'3 hb'B₀ hb'φ (modelB_g2 hq5 hσ3 hσ1)
 
 theorem p3At_G2 (Q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.G2 Q).Valid) :
     P3At ⟨.G2 Q, hv⟩ := by
   intro q Ω _ _ S B H hchar ⟨e⟩
   have hQq : Q.p = q := by simpa using hchar
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   have hK : Nat.card (GaloisField Q.p Q.exponent) = Q.card := by
     rw [GaloisField.card Q.p Q.exponent Q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   obtain ⟨eb⟩ := CFSG.TauCetiBridge.untwistedBridge_G2 Q hv (by rw [hQq]; exact H.two)

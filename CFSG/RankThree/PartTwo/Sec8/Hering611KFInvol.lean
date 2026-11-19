@@ -29,7 +29,7 @@ variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L E T : Subgr
   {S K : Subgroup G}
 
 theorem cfg611_transfer_facts (h45 : Sec4.Item4_5) (C : Cfg611 G A c L E T d S K) :
-    ∃ (hcN : c ∈ Subgroup.normalizer (K : Set G)) (hdN : d ∈ Subgroup.normalizer (L : Set G)),
+    ∃ (_hcN : c ∈ Subgroup.normalizer (K : Set G)) (hdN : d ∈ Subgroup.normalizer (L : Set G)),
       Odd (Nat.card (inSubgroup (aschbacherSolvableCore 3) K)) ∧
       IsQuasisimple ((Sec4.thetaQuotMulAut L (Sec4.compAction L ⟨d, hdN⟩)).toMonoidHom.eqLocus
         (MonoidHom.id (L ⧸ aschbacherSolvableCore 3 L))) ∧
@@ -64,6 +64,7 @@ theorem cfg611_transfer_facts (h45 : Sec4.Item4_5) (C : Cfg611 G A c L E T d S K
   exact ⟨hAK hcA, hdN, Sec6.Res611Res3.odd_card_theta hst.evenRank_eq hAe
     (by rw [C.card_A]) hAK, hQ, hZ, hD⟩
 
+omit [Finite G] in
 theorem mem_aschbacherSolvableCore_iff {K : Subgroup G} {x : K} :
     x ∈ aschbacherSolvableCore 3 K ↔ (x : G) ∈ inSubgroup (aschbacherSolvableCore 3) K := by
   constructor

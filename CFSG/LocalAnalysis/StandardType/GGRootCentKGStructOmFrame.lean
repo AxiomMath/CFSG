@@ -119,7 +119,7 @@ theorem exists_kgPieces_frame {K V : Type} [Field K] [Finite K] [CharP K 2] [Add
       subst hJ
       exact hpB hO2
   ·
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     obtain ⟨f, -, hKf⟩ := FiniteField.card K 2
     have hKnat : Nat.card K = 2 ^ (f : ℕ) := by
       rw [Nat.card_eq_fintype_card, hKf]

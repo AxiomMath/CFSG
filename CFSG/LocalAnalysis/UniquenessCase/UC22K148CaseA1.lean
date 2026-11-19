@@ -21,8 +21,8 @@ variable {ρ : Representation (ZMod 2) G V}
 theorem conj_eq_inv_of_card_three {Q : Subgroup G} {b : G} (hQ3 : Nat.card ↥Q = 3)
     (hb2 : b * b = 1) (hbQ : b ∈ Subgroup.normalizer (Q : Set G))
     (hne : ⁅Q, Subgroup.zpowers b⁆ ≠ ⊥) : ∀ q ∈ Q, b * q * b⁻¹ = q⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hQ3]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥Q := Nat.finite_of_card_ne_zero (by rw [hQ3]; norm_num)
   have hcyc : IsCyclic ↥Q := isCyclic_of_prime_card hQ3
   have hcomm : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hcyc.commGroup.mul_comm ⟨x, hx⟩ ⟨y, hy⟩)
@@ -176,7 +176,7 @@ private theorem exists_card_three_of_moving [Finite G] [Finite V] (hρ : Functio
   have hFn : ((imgGL ρ H U hinv K).subgroupOf (imgGL ρ H U hinv H)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hFG).2 (imgGL_le_normalizer hHN)
   have hnil : Group.IsNilpotent ↥(imgGL ρ H U hinv K) := by
-    haveI : Group.IsNilpotent ↥(K.subgroupOf H) :=
+    have : Group.IsNilpotent ↥(K.subgroupOf H) :=
       Group.nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hKH).symm
     exact Group.nilpotent_of_surjective _ (MonoidHom.subgroupMap_surjective (resGL ρ H U hinv) _)
   have hodd : Odd (Nat.card ↥(imgGL ρ H U hinv K)) := by
@@ -294,7 +294,7 @@ theorem exists_Q_of_moving [Finite G] [Finite V] (hρ : Function.Injective ρ) {
   have hAK' : A ≤ Subgroup.normalizer ((⁅K, A⁆ : Subgroup G) : Set G) :=
     Subgroup.normalizer_commutator_ge_right K A
   have hK'nil : Group.IsNilpotent ↥(⁅K, A⁆ : Subgroup G) := by
-    haveI : Group.IsNilpotent ↥((⁅K, A⁆ : Subgroup G).subgroupOf K) := Subgroup.isNilpotent _
+    have : Group.IsNilpotent ↥((⁅K, A⁆ : Subgroup G).subgroupOf K) := Subgroup.isNilpotent _
     exact Group.nilpotent_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hK'K)
   have hK'odd : Odd (Nat.card ↥(⁅K, A⁆ : Subgroup G)) :=
     Odd.of_dvd_nat hKodd (Subgroup.card_dvd_of_le hK'K)

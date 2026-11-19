@@ -43,7 +43,7 @@ theorem exists_vertexEquiv_torus {K : Type} [Field K] [Finite K]
     BenderType.suzuki a ha (Classical.choice hSz |>.trans
       (MulEquiv.subgroupCongr (szModel_eq_open_sz a).symm))
   obtain ⟨hDcard, hDcyc⟩ := card_isCyclic_of_hallTwoPrime hF.h1.sylow hD hBD hBt
-  haveI : IsCyclic ↥D := hDcyc
+  have : IsCyclic ↥D := hDcyc
   obtain ⟨gD, hgDord⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥D)
   let g : G := (gD : D)
   have hgD : g ∈ D := gD.2

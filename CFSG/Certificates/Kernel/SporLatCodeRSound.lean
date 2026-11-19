@@ -70,7 +70,7 @@ theorem rChkC_sound {n : Nat} {Δ : List Nat} {sTabs : List (Array Nat)} {ta tb 
       have hk : k < uWords.length := by omega
       have e : ((sTabs ++ uWords.map (wordTabA #[ta, tb] n)).toArray).getD (sTabs.length + k) #[] =
           wordTabA #[ta, tb] n (uWords.getD k []) := by
-        simp [Array.getD_eq_getD_getElem?, List.getElem?_append_right, hk]
+        simp [Array.getD_eq_getD_getElem?, hk]
       rw [e]
       have hmem : uWords.getD k [] ∈ uWords := by
         rw [List.getD_eq_getElem _ _ hk]
@@ -131,7 +131,7 @@ theorem rChkC_sound {n : Nat} {Δ : List Nat} {sTabs : List (Array Nat)} {ta tb 
       have g := hLet _ hk'
       have e : ((sTabs ++ uWords.map (wordTabA #[ta, tb] n)).toArray).getD (sTabs.length + k) #[] =
           wordTabA #[ta, tb] n uWords[k] := by
-        simp [Array.getD_eq_getD_getElem?, List.getElem?_append_right, hk]
+        simp [Array.getD_eq_getD_getElem?, hk]
       rw [e] at g
       have hc := good_comm g hz
       rw [beq_iff_eq]

@@ -42,7 +42,7 @@ theorem cm_eq_Xm_of_comm (x : Hc) (hx : x * abar = abar * x) :
   have e01 := congrFun (congrFun hm 0) 1
   rw [cm_abar] at e14 e24 e34 e04 e02 e03 e01 hm
   simp only [Matrix.mul_apply, Fin.sum_univ_five] at e14 e24 e34 e04 e02 e03 e01
-  simp only [c10, c20, c30, c40, c41, c42, c43, c44, c00] at e14 e24 e34 e04 e02 e03 e01
+  simp only [c10, c20, c30, c41, c42, c43, c44, c00] at e14 e24 e34 e04 e02 e03 e01
   simp at e14 e24 e34 e04 e02 e03 e01
   have x11 : cm x 1 1 = 1 := by linear_combination e14
   have x21 : cm x 2 1 = 0 := by linear_combination e24
@@ -53,13 +53,13 @@ theorem cm_eq_Xm_of_comm (x : Hc) (hx : x * abar = abar * x) :
   clear hm e14 e24 e34 e04 e02 e03 e01
   have hup : (cm x).IsUpperTriangular := by
     intro i j hij
-    fin_cases i <;> fin_cases j <;> simp_all [c10, c20, c30, c40, c41, c42, c43, x21, x31, x32]
+    fin_cases i <;> fin_cases j <;> simp_all
   have hdet : (cm x).det = 1 := Matrix.SpecialLinearGroup.det_coe x.1
   rw [Matrix.det_of_isUpperTriangular hup, Fin.prod_univ_five, c00, x11, x33, c44] at hdet
   have x22 : cm x 2 2 = 1 := by simpa using hdet
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Xm, prm, cm_col0 x, cm_row4 x, c00, c10, c20, c30, x11, x21, x22, x31, x32, x33, x34]
+    simp [Xm, prm, cm_col0 x, cm_row4 x, x11, x21, x22, x31, x32, x33, x34]
 
 theorem eq_Phi_of_comm (x : Hc) (hx : x * abar = abar * x) : x = Phi (prm x) := by
   apply Subtype.ext

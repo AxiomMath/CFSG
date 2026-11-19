@@ -18,7 +18,7 @@ open CFSG.LocalAnalysis.GLTheoremA.KD264Inner CFSG.LocalAnalysis.GLTheoremA.KD26
 
 variable {Y : Type} [Group Y] [Finite Y]
 
-theorem indep_pow {p : ℕ} (hp : p.Prime) {α : Type*} [Fintype α] [DecidableEq α]
+theorem indep_pow {p : ℕ} (_hp : p.Prime) {α : Type*} [Fintype α] [DecidableEq α]
     (x y : Perm α) (A B : Finset α) (hx : x ^ p = 1) (hy : y ^ p = 1)
     (hA : ∀ j : ℕ, ¬ p ∣ j → ∀ t, (x ^ j) t ≠ t ↔ t ∈ A)
     (hB : ∀ j : ℕ, ¬ p ∣ j → ∀ t, (y ^ j) t ≠ t ↔ t ∈ B)
@@ -82,6 +82,7 @@ theorem support_mul_eq {α : Type*} [Fintype α] [DecidableEq α] (x y : Perm α
       rw [Equiv.Perm.mul_apply, hxyt]
       exact (hB t).2 htB
 
+omit [Finite Y] in
 theorem psiImage_comap {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} (hn : 5 ≤ n)
     (K : Subgroup Y) (hK : K.Normal) (e : K ≃* alternatingGroup (Fin n)) (B : Subgroup Y)
     (hB : ∀ b ∈ B, b ^ p = 1) (Q : Subgroup (alternatingGroup (Fin n)))
@@ -112,7 +113,7 @@ theorem alt_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} (hn : 5 ≤ 
     ∃ E : Subgroup Y, E ≤ B ∧ CFSG.Open.IsElemAbelian p E ∧ Nat.card E = p ^ 3 ∧
       GLAPLayer p (K ⊓ Subgroup.centralizer (E : Set Y)) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3' : 3 ≤ p := by
     have := hp.two_le
     omega

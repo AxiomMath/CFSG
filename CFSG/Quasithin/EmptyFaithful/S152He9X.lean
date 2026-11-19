@@ -60,7 +60,7 @@ theorem exists_E (h : WrH H T K₁ K₂ π) :
   have hE'P : ∀ x ∈ E', π x ∈ W5.E0 := by
     rintro _ ⟨y, -, rfl⟩
     exact y.2
-  have hE'p : IsPGroup 3 E' := Q.isPGroup'.map P.subtype
+  have hE'p : IsPGroup 3 E' := Q.isPGroup.map P.subtype
   have hinj : ∀ x ∈ E', π x = 1 → x = 1 := by
     intro x hx hπx
     obtain ⟨a, ha⟩ := hE'p ⟨x, hx⟩

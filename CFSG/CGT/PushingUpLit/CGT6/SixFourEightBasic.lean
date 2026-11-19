@@ -49,7 +49,7 @@ theorem hNo (h : EightCtx Y T R) : SubTwo.NoTwoQuotient Y :=
 theorem R_le_T (h : EightCtx Y T R) : R ≤ (T : Subgroup G) := by
   have : R.Normal := h.hRn
   have hTtop : IsSylowOf 2 (T : Subgroup G) ⊤ :=
-    ⟨le_top, T.isPGroup', by simpa [Subgroup.relIndex_top_right] using T.not_dvd_index⟩
+    ⟨le_top, T.isPGroup, by simpa [Subgroup.relIndex_top_right] using T.not_dvd_index⟩
   exact Nine.le_of_isSylowOf_of_normal hTtop h.hR2 le_top
     (Subgroup.normalizer_eq_top R).ge
 

@@ -91,16 +91,20 @@ variable {A : Type} [Group A] {K : Subgroup A} [K.Normal] {k : Type} [Field k]
 @[expose] def emb (θ : ↥K ≃* projectiveSL 3 k) : projectiveSL 3 k →* A :=
   K.subtype.comp θ.symm.toMonoidHom
 
+omit [K.Normal] in
 theorem emb_injective (θ : ↥K ≃* projectiveSL 3 k) : Function.Injective (emb θ) :=
   K.subtype_injective.comp θ.symm.injective
 
+omit [K.Normal] in
 theorem map_emb (θ : ↥K ≃* projectiveSL 3 k) (X : Subgroup (projectiveSL 3 k)) :
     X.map (emb θ) = (X.map θ.symm.toMonoidHom).map K.subtype := by
   rw [emb, ← Subgroup.map_map]
 
+omit [K.Normal] in
 theorem emb_mem (θ : ↥K ≃* projectiveSL 3 k) (x : projectiveSL 3 k) : emb θ x ∈ K :=
   (θ.symm x).2
 
+omit [K.Normal] in
 theorem range_emb (θ : ↥K ≃* projectiveSL 3 k) : (emb θ).range = K := by
   ext x
   constructor

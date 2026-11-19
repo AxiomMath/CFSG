@@ -142,9 +142,9 @@ theorem noNormalCop_fixSub_entrywise_aux {ℓ e : ℕ} [Fact ℓ.Prime] (hℓ3 :
   let eJ : ↥J ≃* ↥(adjointGroup Tag.D4 (fixSubfield T)) :=
     (Subgroup.subgroupOfEquivOfLe (fun x hx => (fixedFieldImage_le hx).1)).trans
       (fixedFieldImageEquiv (τ := Tag.D4) (σ := T)).symm
-  haveI : IsSimpleGroup ↥(adjointGroup Tag.D4 (fixSubfield T)) :=
+  have : IsSimpleGroup ↥(adjointGroup Tag.D4 (fixSubfield T)) :=
     isSimpleGroup_adjointGroup_D4 _
-  haveI : IsSimpleGroup ↥J := eJ.isSimpleGroup
+  have : IsSimpleGroup ↥J := eJ.isSimpleGroup
   have hJ3 : 3 ∣ Nat.card J := by
     rw [Nat.card_congr eJ.toEquiv]
     exact three_dvd_card_adjointGroup_D4 _ hk3
@@ -152,7 +152,7 @@ theorem noNormalCop_fixSub_entrywise_aux {ℓ e : ℕ} [Fact ℓ.Prime] (hℓ3 :
     intro n hn hnJ
     let N₁ : Subgroup ↥J := N.subgroupOf J
     have hN₁mem : ∀ m : ↥J, m ∈ N₁ ↔ (m : adjointGroup Tag.D4 K) ∈ N := fun m => Iff.rfl
-    haveI : N₁.Normal := ⟨fun m hm g => by
+    have : N₁.Normal := ⟨fun m hm g => by
       rw [hN₁mem] at hm ⊢
       simpa using hNn g.1 (hJF g.2) m.1 hm⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N₁ with h | h

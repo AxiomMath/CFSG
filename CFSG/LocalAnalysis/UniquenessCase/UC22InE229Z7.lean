@@ -18,7 +18,7 @@ theorem exists_not_mem_commute_of_prime (k : Sec7Core4 G) (h75 : Step75 k) (h72L
     (hyHM : y ∈ H ⊓ k.M) (hxp : IsPGroup k.p (Subgroup.zpowers x)) (hx1 : x ≠ 1)
     (hy : (orderOf y).Prime) (hy2 : orderOf y ≠ 2) (hyp : orderOf y ≠ k.p)
     (hxy : x * y = y * x) : ∃ j : G, j ∉ k.M ∧ j * y = y * j := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   let K : Subgroup G := (CFSG.pPrimeCore k.p ↥H).map H.subtype
   let J : Subgroup G := layerLift k.p H
   have hKcop : Nat.Coprime k.p (Nat.card K) := by
@@ -27,7 +27,7 @@ theorem exists_not_mem_commute_of_prime (k : Sec7Core4 G) (h75 : Step75 k) (h72L
   have hcentJK : J ≤ Subgroup.centralizer (K : Set G) :=
     (Subgroup.commutator_eq_bot_iff_le_centralizer (H₁ := J) (H₂ := K)).mp (h75 H hH)
   by_cases hyK : y ∈ K
-  · obtain ⟨j, hjJ, hjM⟩ := SetLike.not_le_iff_exists.mp (h72L H hH)
+  · obtain ⟨j, hjJ, hjM⟩ := IsConcreteLE.not_le_iff_exists.mp (h72L H hH)
     exact ⟨j, hjM, (Subgroup.mem_centralizer_iff.mp (hcentJK hjJ) y hyK).symm⟩
   have hxK : x ∉ K := by
     intro hxK

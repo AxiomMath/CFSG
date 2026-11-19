@@ -270,7 +270,7 @@ theorem centralizesSylow_of_isUnitaryTransvection (h : UnitaryFieldData 2 e K) (
     rwa [ho] at h3
   have hU : (U : Subgroup (unitaryPSU h n)) ≠ ⊥ := U.ne_bot_of_dvd_card h2
   have : Nontrivial U := (Subgroup.nontrivial_iff_ne_bot _).2 hU
-  have hZ := U.isPGroup'.center_nontrivial
+  have hZ := U.isPGroup.center_nontrivial
   obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center U)
   set z₀ : unitaryPSU h n := ((z : U) : unitaryPSU h n) with hz₀
   have hz₀c : ∀ u ∈ (U : Subgroup (unitaryPSU h n)), u * z₀ = z₀ * u := by

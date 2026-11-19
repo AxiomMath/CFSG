@@ -135,8 +135,8 @@ end Q3L
 
 theorem leaf_l53 {n : ℕ} : TwinLeafS n fun F _ => LieModel F .PSL 5 3 1 :=
   TwinLeafS.of_no fun Y _ _ R S t h _ hm => by
-    haveI := h.core.simple
-    haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+    have := h.core.simple
+    have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
     have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
       Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
     obtain ⟨htN, s, hsK, hsN, hs4⟩ := exists_u1_of_outTwoCyclic h hC

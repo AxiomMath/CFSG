@@ -118,8 +118,8 @@ theorem exists_conj_sign_of_update {S : Type*} [Group S] {p n : ℕ}
   congr 1
   funext k
   by_cases hk : k ∈ s
-  · rw [if_pos hk, (hs k).1 hk, neg_one_mul, ofAdd_neg, ofAdd_toAdd]
-  · rw [if_neg hk]
+  · rw [ite_eq_left hk, (hs k).1 hk, neg_one_mul, ofAdd_neg, ofAdd_toAdd]
+  · rw [ite_eq_right hk]
     have hεk : ε k = 1 := by
       rcases hε k with h | h
       · exact h

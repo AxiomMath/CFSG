@@ -14,6 +14,7 @@ section Hyp
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_centModSubgroup_of_subgroupOf {p : ℕ} {H L : Subgroup G} (hLH : L ≤ H)
     (hHN : H ≤ Subgroup.normalizer (L : Set G)) {g : ↥H}
     (hg : g ∈ centModSubgroup p (L.subgroupOf H)) : (g : G) ∈ centModSubgroup p L := by
@@ -28,7 +29,7 @@ theorem cycModSylow_quot {p : ℕ} (hp : p.Prime) {H L : Subgroup G} (hLH : L �
     (hN₀ : N₀ = GLAPPrimeCoreOf p (L.subgroupOf H)) (hcyc : CycModSylow p L) :
     CycModSylow p ((L.subgroupOf H).map (QuotientGroup.mk' N₀)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hker : ¬ p ∣ Nat.card (QuotientGroup.mk' N₀).ker := by
     rw [QuotientGroup.ker_mk', hN₀]; exact not_dvd_card_glaPPrimeCoreOf hp _
   intro E hE hEp
@@ -69,7 +70,7 @@ theorem i268At_of_facts (hZ1 : S267FactZ1) (hZ3 : S267FactZ3) (G : Type) [Group 
   intro hp hp2 q hq hq2 hqp X L hX hL hLayer hlie hcyc _hz hA
   obtain ⟨Q, hQq, hQ⟩ := hlie
   obtain ⟨A, hAX, hAel, hAc⟩ := hA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQ2 : Q.p ≠ 2 := by rw [hQq]; exact hq2
   have hQp : Q.p ≠ p := by rw [hQq]; exact hqp
   have hLX : L ≤ X := hL.1
@@ -82,9 +83,9 @@ theorem i268At_of_facts (hZ1 : S267FactZ1) (hZ3 : S267FactZ3) (G : Type) [Group 
   have hHX : H ≤ X := sup_le hLX hAX
   have hHN : H ≤ Subgroup.normalizer (L : Set G) := hHX.trans hXL
   set K₀ : Subgroup ↥H := L.subgroupOf H with hK₀
-  haveI hK₀n : K₀.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).2 hHN
+  have hK₀n : K₀.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).2 hHN
   set N₀ : Subgroup ↥H := GLAPPrimeCoreOf p K₀ with hN₀def
-  haveI hN₀n : N₀.Normal := by
+  have hN₀n : N₀.Normal := by
     have h := normalizer_le_normalizer_glaPPrimeCoreOf p K₀
     rw [Subgroup.normalizer_eq_top_iff.2 hK₀n, top_le_iff] at h
     exact Subgroup.normalizer_eq_top_iff.1 h

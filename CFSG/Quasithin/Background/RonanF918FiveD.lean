@@ -238,7 +238,7 @@ theorem exists_bq {L : Subgroup (MulAut W)} {U Z : Subgroup W} (I : Fin 2 → Su
     exact ⟨x, Subtype.ext hx⟩
   let Bmap : (∀ i, ↥(I i)) →* Multiplicative (Matrix (Fin 2) (Fin 2) F) :=
     (colsToMatrix 2 2 F).toMonoidHom.comp
-      (Pi.monoidHom fun i => (b i).comp (Pi.evalMonoidHom (fun i => ↥(I i)) i))
+      (_root_.MonoidHom.pi fun i => (b i).comp (Pi.evalMonoidHom (fun i => ↥(I i)) i))
   have hBmap : ∀ x, Bmap x = colsToMatrix 2 2 F (fun i => b i (x i)) := fun x => rfl
   have hI01 : I 0 ⊓ I 1 ≤ Z := by
     have h1 : I 1 ≤ ⨆ (j : Fin 2) (_ : j ≠ 0), I j :=
@@ -359,8 +359,8 @@ theorem coordData_of_d321Three [Finite W] {Mp L : Subgroup (MulAut W)} (h : D321
   obtain ⟨bq, hbs, hbk, hbe⟩ := exists_bq (L := L) (U := commV L) (Z := commV L ⊓ fixV Mp) I π hZI hind
     hsup hreal
   have hπs : Function.Surjective π := (hreal 0).1
-  haveI : IsSimpleGroup ↥(StatedSL 2 F) := isSimpleGroup_statedSL_two hn hcard
-  haveI : Nontrivial ↥L := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 2 2 n hpsl).1
+  have : IsSimpleGroup ↥(StatedSL 2 F) := isSimpleGroup_statedSL_two hn hcard
+  have : Nontrivial ↥L := (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 2 2 n hpsl).1
   have hπi : Function.Injective π := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal π.ker with hbot | htop
     · exact (MonoidHom.ker_eq_bot_iff π).mp hbot
@@ -380,6 +380,7 @@ variable {W : Type} [CommGroup W] [Finite W] {L Mp : Subgroup (MulAut W)} {F : T
 abbrev NLM (L Mp : Subgroup (MulAut W)) : Subgroup (MulAut W) :=
   Subgroup.normalizer (L : Set (MulAut W)) ⊓ Subgroup.normalizer (Mp : Set (MulAut W))
 
+omit [Finite W] in
 theorem apply_mem_commV {g : MulAut W} (hg : g ∈ Subgroup.normalizer (L : Set (MulAut W))) {u : W}
     (hu : u ∈ commV L) : g u ∈ commV L := by
   have h1 : conjAutSub g L = L := A38.map_conj_eq_iff.mpr hg
@@ -392,6 +393,7 @@ theorem apply_mem_commV {g : MulAut W} (hg : g ∈ Subgroup.normalizer (L : Set 
   (((g : ↥(NLM L Mp)) : MulAut W).toMonoidHom.comp (commV L).subtype).codRestrict (commV L)
     (fun u => apply_mem_commV g.2.1 u.2)
 
+omit [Finite W] in
 theorem gU_coe (g : ↥(NLM L Mp)) (u : ↥(commV L)) :
     ((gU g u : ↥(commV L)) : W) = ((g : ↥(NLM L Mp)) : MulAut W) (u : W) := rfl
 
@@ -405,15 +407,18 @@ variable (D : CoordData L Mp F)
       have hu' : (u : W) ∈ fixV Mp := (D.bq_ker u).mp hu
       exact (D.bq_ker _).mpr (apply_mem_fixV_of_mem_normalizer g.2.2 hu')⟩
 
+omit [Finite W] in
 theorem psi0_apply (g : ↥(NLM L Mp)) (u : ↥(commV L)) : psi0 D g (D.bq u) = D.bq (gU g u) :=
   liftOfSurjective_apply D.bq D.bq_surj _ u
 
+omit [Finite W] in
 theorem psi0_mul (g g' : ↥(NLM L Mp)) (Y : Multiplicative (Matrix (Fin 2) (Fin 2) F)) :
     psi0 D (g * g') Y = psi0 D g (psi0 D g' Y) := by
   obtain ⟨u, rfl⟩ := D.bq_surj Y
   rw [psi0_apply, psi0_apply, psi0_apply]
   congr 1
 
+omit [Finite W] in
 theorem psi0_one (Y : Multiplicative (Matrix (Fin 2) (Fin 2) F)) : psi0 D 1 Y = Y := by
   obtain ⟨u, rfl⟩ := D.bq_surj Y
   rw [psi0_apply]
@@ -430,9 +435,11 @@ theorem psi0_one (Y : Multiplicative (Matrix (Fin 2) (Fin 2) F)) : psi0 D 1 Y = 
   map_one' := MulEquiv.ext fun Y => psi0_one D Y
   map_mul' g g' := MulEquiv.ext fun Y => psi0_mul D g g' Y
 
+omit [Finite W] in
 theorem psi_apply (g : ↥(NLM L Mp)) (Y : Multiplicative (Matrix (Fin 2) (Fin 2) F)) :
     psi D g Y = psi0 D g Y := rfl
 
+omit [Finite W] in
 theorem psi_comm_left (g : ↥(NLM L Mp)) (hg : ∀ l ∈ L, (g : MulAut W) * l = l * (g : MulAut W))
     (γ : ↥(StatedSL 2 F)) (X : Matrix (Fin 2) (Fin 2) F) :
     psi D g (Multiplicative.ofAdd (slm γ * X)) =
@@ -460,6 +467,7 @@ theorem psi_comm_left (g : ↥(NLM L Mp)) (hg : ∀ l ∈ L, (g : MulAut W) * l 
   rw [h3, ← psi0_apply, hu]
   rfl
 
+omit [Finite W] in
 theorem centralizer_le_NLM (hLMp : L ≤ Mp) :
     Subgroup.centralizer (Mp : Set (MulAut W)) ≤ NLM L Mp := by
   intro g hg
@@ -480,6 +488,7 @@ theorem centralizer_le_NLM (hLMp : L ≤ Mp) :
     rw [e2]
     exact hl
 
+omit [Finite W] in
 theorem exists_mult (hLMp : L ≤ Mp) :
     ∃ m : ↥(Subgroup.centralizer (Mp : Set (MulAut W))) →* Matrix.GeneralLinearGroup (Fin 2) F,
       ∀ (g : ↥(Subgroup.centralizer (Mp : Set (MulAut W))))
@@ -503,6 +512,7 @@ theorem exists_mult (hLMp : L ≤ Mp) :
     intro Y
     rw [map_mul ι, map_mul (psi D), MulAut.mul_apply, hm g', hm g, multOpU_mul]
 
+omit [Finite W] in
 theorem psi_twist (g : ↥(NLM L Mp)) (δ : ↥(StatedSL 2 F)) :
     ∃ γ : ↥(StatedSL 2 F), ∀ X : Matrix (Fin 2) (Fin 2) F,
       psi D g (Multiplicative.ofAdd (slm γ * X)) =
@@ -538,6 +548,7 @@ theorem psi_twist (g : ↥(NLM L Mp)) (δ : ↥(StatedSL 2 F)) :
   rw [h3, ← psi0_apply, hu]
   rfl
 
+omit [Finite W] in
 theorem psi_conj_rmul (g : ↥(NLM L Mp)) (B : Matrix.GeneralLinearGroup (Fin 2) F) :
     ∃ B' : Matrix.GeneralLinearGroup (Fin 2) F, ∀ Y : Multiplicative (Matrix (Fin 2) (Fin 2) F),
       psi D g (multOpU F B Y) = multOpU F B' (psi D g Y) := by
@@ -575,6 +586,7 @@ theorem psi_conj_rmul (g : ↥(NLM L Mp)) (B : Matrix.GeneralLinearGroup (Fin 2)
   rw [MulAut.mul_apply, MulAut.mul_apply, MulAut.inv_apply_self, rmulAut_apply] at this
   exact this
 
+omit [Finite W] in
 theorem psi_twist' [Finite F] (g : ↥(NLM L Mp)) (γ : ↥(StatedSL 2 F)) :
     ∃ δ : ↥(StatedSL 2 F), ∀ X : Matrix (Fin 2) (Fin 2) F,
       psi D g (Multiplicative.ofAdd (slm γ * X)) =
@@ -592,6 +604,7 @@ theorem psi_twist' [Finite F] (g : ↥(NLM L Mp)) (γ : ↥(StatedSL 2 F)) :
     Multiplicative.toAdd (ψ (Multiplicative.ofAdd (c • X))) =
       σ c • Multiplicative.toAdd (ψ (Multiplicative.ofAdd X))
 
+omit [Finite W] in
 theorem exists_semi_psi [Finite F] (g : ↥(NLM L Mp)) : ∃ σ : F ≃+* F, SemiWith (psi D g) σ := by
   let Φ : Matrix (Fin 2) (Fin 2) F →+ Matrix (Fin 2) (Fin 2) F :=
     AddMonoidHom.mk' (fun X => Multiplicative.toAdd (psi D g (Multiplicative.ofAdd X))) (fun X Y => by
@@ -659,6 +672,7 @@ theorem SemiWith.unique {ψ : MulAut (Multiplicative (Matrix (Fin 2) (Fin 2) F))
   rw [e2] at e1
   exact (smul_left_injective F hne e1).symm
 
+omit [Finite W] in
 theorem exists_fieldHom [Finite F] :
     ∃ s : ↥(NLM L Mp) →* (F ≃+* F), ∀ g, SemiWith (psi D g) (s g) := by
   choose s hs using exists_semi_psi D

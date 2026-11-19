@@ -11,7 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 open scoped commutatorElement
 
 theorem s1611e3_shape_of_normal_solvable_quotient {P : Type} [Group P] [Finite P]
-    {R Ehat : Subgroup P} [R.Normal] [Ehat.Normal] (hRE : R ≤ Ehat)
+    {R Ehat : Subgroup P} [R.Normal] [Ehat.Normal] (_hRE : R ≤ Ehat)
     (hRsol : Group.IsSolvable ↥R) (hPE : Group.IsSolvable (P ⧸ Ehat))
     {L : Type} [Group L] [Finite L] (hL : IsL3 L 1)
     (f : L × L →* (↥Ehat ⧸ R.subgroupOf Ehat)) (hf : Function.Surjective f)
@@ -20,7 +20,7 @@ theorem s1611e3_shape_of_normal_solvable_quotient {P : Type} [Group P] [Finite P
     (hXnc : ¬ IsMulCommutative X) :
     ∀ L0 : Subgroup P, CFSG.Open.IsComponentOf L0 X → IsL3 ↥L0 1 := by
   classical
-  haveI hLsimple : IsSimpleGroup L := isSimpleGroup_of_isL3 hL
+  have hLsimple : IsSimpleGroup L := isSimpleGroup_of_isL3 hL
   have hXcomm : ⁅X, X⁆ = X := by
     have hcomm_le : ⁅X, X⁆ ≤ X := Subgroup.commutator_le_left X X
     have hcomm_normal : (⁅X, X⁆).Normal := inferInstance
@@ -44,11 +44,11 @@ theorem s1611e3_shape_of_normal_solvable_quotient {P : Type} [Group P] [Finite P
     · exact hbot
     · exfalso
       have hXleR : X ≤ R := by rw [← htop]; exact inf_le_right
-      haveI := hRsol
+      have := hRsol
       have hXsol : Group.IsSolvable ↥X :=
         Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hXleR)
-      haveI : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).mpr hXne
-      haveI := hXperf
+      have : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).mpr hXne
+      have := hXperf
       exact Group.IsPerfect.not_isSolvable ↥X hXsol
   let Xsub : Subgroup ↥Ehat := X.subgroupOf Ehat
   have hXsubn : Xsub.Normal := by
@@ -58,7 +58,7 @@ theorem s1611e3_shape_of_normal_solvable_quotient {P : Type} [Group P] [Finite P
   let qR : ↥Ehat →* (↥Ehat ⧸ R.subgroupOf Ehat) := QuotientGroup.mk' (R.subgroupOf Ehat)
   let Xbar : Subgroup (↥Ehat ⧸ R.subgroupOf Ehat) := Xsub.map qR
   have hXbarn : Xbar.Normal := hXsubn.map qR (QuotientGroup.mk'_surjective _)
-  haveI : Xbar.Normal := hXbarn
+  have : Xbar.Normal := hXbarn
   have hXisoXbar : Nonempty (↥X ≃* ↥Xbar) := by
     let fX : ↥Xsub →* ↥Xbar :=
       (qR.comp Xsub.subtype).codRestrict Xbar fun x => Subgroup.mem_map.mpr ⟨x, x.2, rfl⟩
@@ -91,7 +91,7 @@ theorem s1611e3_shape_of_normal_solvable_quotient {P : Type} [Group P] [Finite P
     exact (CFSG.SignalizerFunctorTheorem.McBride.isMulCommutative_congr eX).mpr h
   let N' : Subgroup (L × L) := Xbar.comap f
   have hN'n : N'.Normal := hXbarn.comap f
-  haveI : N'.Normal := hN'n
+  have : N'.Normal := hN'n
   let fN : ↥N' →* ↥Xbar :=
     (f.comp N'.subtype).codRestrict Xbar fun x => Subgroup.mem_comap.mp x.2
   have hfNsurj : Function.Surjective fN := by
@@ -104,43 +104,43 @@ theorem s1611e3_shape_of_normal_solvable_quotient {P : Type} [Group P] [Finite P
   have hXbarClass : Nonempty (↥Xbar ≃* L) ∨ Nonempty (↥Xbar ≃* L × L) := by
     rcases hN'cases with hbot | hL1 | h1L | htop
     · exfalso
-      haveI : Subsingleton ↥N' := by rw [hbot]; infer_instance
-      haveI : Subsingleton (↥N' ⧸ fN.ker) := inferInstance
-      haveI : Subsingleton ↥Xbar := hXbarQuot.symm.injective.subsingleton
+      have : Subsingleton ↥N' := by rw [hbot]; infer_instance
+      have : Subsingleton (↥N' ⧸ fN.ker) := inferInstance
+      have : Subsingleton ↥Xbar := hXbarQuot.symm.injective.subsingleton
       exact hXbarnc (IsMulCommutative.of_comm (fun a b => Subsingleton.elim _ _))
     · left
       have hN'iso : ↥N' ≃* L := by
         rw [hL1]
         exact (Subgroup.prodEquiv (⊤ : Subgroup L) (⊥ : Subgroup L)).trans
           (MulEquiv.prodUnique.trans Subgroup.topEquiv)
-      haveI : IsSimpleGroup ↥N' := hN'iso.isSimpleGroup_congr.mpr (isSimpleGroup_of_isL3 hL)
+      have : IsSimpleGroup ↥N' := hN'iso.isSimpleGroup_congr.mpr (isSimpleGroup_of_isL3 hL)
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal fN.ker with hK | hK
       · refine ⟨hXbarQuot.symm.trans ?_⟩
         exact (QuotientGroup.quotientMulEquivOfEq hK).trans
           ((QuotientGroup.quotientBot).trans hN'iso)
       · exfalso
-        haveI : Subsingleton (↥N' ⧸ (⊤ : Subgroup ↥N')) :=
+        have : Subsingleton (↥N' ⧸ (⊤ : Subgroup ↥N')) :=
           QuotientGroup.subsingleton_quotient_top
-        haveI : Subsingleton (↥N' ⧸ fN.ker) :=
+        have : Subsingleton (↥N' ⧸ fN.ker) :=
           (QuotientGroup.quotientMulEquivOfEq hK).injective.subsingleton
-        haveI : Subsingleton ↥Xbar := hXbarQuot.symm.injective.subsingleton
+        have : Subsingleton ↥Xbar := hXbarQuot.symm.injective.subsingleton
         exact hXbarnc (IsMulCommutative.of_comm (fun a b => Subsingleton.elim _ _))
     · left
       have hN'iso : ↥N' ≃* L := by
         rw [h1L]
         exact (Subgroup.prodEquiv (⊥ : Subgroup L) (⊤ : Subgroup L)).trans
           (MulEquiv.uniqueProd.trans Subgroup.topEquiv)
-      haveI : IsSimpleGroup ↥N' := hN'iso.isSimpleGroup_congr.mpr (isSimpleGroup_of_isL3 hL)
+      have : IsSimpleGroup ↥N' := hN'iso.isSimpleGroup_congr.mpr (isSimpleGroup_of_isL3 hL)
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal fN.ker with hK | hK
       · refine ⟨hXbarQuot.symm.trans ?_⟩
         exact (QuotientGroup.quotientMulEquivOfEq hK).trans
           ((QuotientGroup.quotientBot).trans hN'iso)
       · exfalso
-        haveI : Subsingleton (↥N' ⧸ (⊤ : Subgroup ↥N')) :=
+        have : Subsingleton (↥N' ⧸ (⊤ : Subgroup ↥N')) :=
           QuotientGroup.subsingleton_quotient_top
-        haveI : Subsingleton (↥N' ⧸ fN.ker) :=
+        have : Subsingleton (↥N' ⧸ fN.ker) :=
           (QuotientGroup.quotientMulEquivOfEq hK).injective.subsingleton
-        haveI : Subsingleton ↥Xbar := hXbarQuot.symm.injective.subsingleton
+        have : Subsingleton ↥Xbar := hXbarQuot.symm.injective.subsingleton
         exact hXbarnc (IsMulCommutative.of_comm (fun a b => Subsingleton.elim _ _))
     ·
       have hXbarTop : Xbar = ⊤ := by
@@ -158,13 +158,13 @@ theorem s1611e3_shape_of_normal_solvable_quotient {P : Type} [Group P] [Finite P
         exact Subgroup.topEquiv
       rcases s1611e3_quotient_prod_l3 (center_eq_bot_of_isL3 hL) (K := f.ker) with hK | h | h
       · exfalso
-        haveI : Subsingleton ((L × L) ⧸ (⊤ : Subgroup (L × L))) :=
+        have : Subsingleton ((L × L) ⧸ (⊤ : Subgroup (L × L))) :=
           QuotientGroup.subsingleton_quotient_top
-        haveI : Subsingleton ((L × L) ⧸ f.ker) :=
+        have : Subsingleton ((L × L) ⧸ f.ker) :=
           (QuotientGroup.quotientMulEquivOfEq hK).injective.subsingleton
-        haveI : Subsingleton (↥Ehat ⧸ R.subgroupOf Ehat) :=
+        have : Subsingleton (↥Ehat ⧸ R.subgroupOf Ehat) :=
           (QuotientGroup.quotientKerEquivOfSurjective f hf).symm.injective.subsingleton
-        haveI : Subsingleton ↥Xbar := eTop.injective.subsingleton
+        have : Subsingleton ↥Xbar := eTop.injective.subsingleton
         exact hXbarnc (IsMulCommutative.of_comm (fun a b => Subsingleton.elim _ _))
       · obtain ⟨e⟩ := h
         exact Or.inl ⟨eTop.trans ((QuotientGroup.quotientKerEquivOfSurjective f hf).symm.trans e)⟩

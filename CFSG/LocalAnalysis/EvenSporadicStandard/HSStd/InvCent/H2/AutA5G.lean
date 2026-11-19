@@ -44,10 +44,10 @@ theorem exists_inner_of_normalizes {S : Subgroup G} (φ : ↥S ≃* alternatingG
     { toFun := fun s => ⟨c * (s : G) * c⁻¹, (hc (s : G)).mp s.2⟩
       invFun := fun s => ⟨c⁻¹ * (s : G) * c,
         ((Subgroup.mem_set_normalizer_iff''.mp hc) (s : G)).mp s.2⟩
-      left_inv := fun s => by ext; simp only [Subgroup.coe_mk]; group
-      right_inv := fun s => by ext; simp only [Subgroup.coe_mk]; group
+      left_inv := fun s => by ext; simp only; group
+      right_inv := fun s => by ext; simp only; group
       map_mul' := fun s t => by
-        ext; simp only [Subgroup.coe_mk, Subgroup.coe_mul]; group }
+        ext; simp only [Subgroup.coe_mul]; group }
   let σ : MulAut (alternatingGroup (Fin 5)) := (φ.symm.trans κ).trans φ
   have hκa : κ ⟨a, ha⟩ = ⟨a, ha⟩ := by
     apply Subtype.ext

@@ -9,7 +9,7 @@ namespace CFSG.GroupTheory
 theorem oddOrderClosure_eq_top_of_isPerfect {H : Type*} [Group H] [Finite H]
     [Group.IsPerfect H] : oddOrderClosure (⊤ : Subgroup H) = ⊤ := by
   let N : Subgroup H := oddOrderClosure (⊤ : Subgroup H)
-  haveI hN : N.Normal := by
+  have hN : N.Normal := by
     refine Subgroup.Normal.mk fun n hn g => ?_
     have hg : g ∈ Subgroup.normalizer N := by
       have h := normalizer_le_normalizer_oddOrderClosure (⊤ : Subgroup H)
@@ -31,7 +31,7 @@ theorem oddOrderClosure_eq_top_of_isPerfect {H : Type*} [Group H] [Finite H]
       (Subgroup.topEquiv (G := H ⧸ N)).surjective
   have hbot : Subsingleton (H ⧸ N) := by
     by_contra h
-    haveI : Nontrivial (H ⧸ N) := not_subsingleton_iff_nontrivial.mp h
+    have : Nontrivial (H ⧸ N) := not_subsingleton_iff_nontrivial.mp h
     exact (Group.IsPerfect.not_isNilpotent (G := H ⧸ N)) hq.isNilpotent
   rw [eq_top_iff]
   intro x _
@@ -53,7 +53,7 @@ theorem map_le_of_isPerfect_of_forall_odd_order {G H : Type*} [Group G] [Finite 
 theorem oddOrderClosure_eq_self_of_commutator_eq {G : Type*} [Group G] [Finite G]
     {Y : Subgroup G} (hY : ⁅Y, Y⁆ = Y) : oddOrderClosure Y = Y := by
   refine le_antisymm (oddOrderClosure_le Y) ?_
-  letI : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
+  let : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
   have h : ∀ x : ↥Y, Y.subtype x ∈ oddOrderClosure Y :=
     map_le_of_isPerfect_of_forall_odd_order (f := Y.subtype) (K := oddOrderClosure Y)
       (fun x hx => mem_oddOrderClosure_of_mem_of_odd x.2 (by simpa using hx))

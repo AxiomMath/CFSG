@@ -44,7 +44,7 @@ theorem twE_x (hN : 1 ≤ N) {e d : Module.End (ZMod p) (GGDepAE p N)} (hde : d 
     simp [ggDepAx, Nat.sub_add_cancel hN]
   · have h0 : vAt (Pi.single j (1 : ZMod p) : GGDepAE p N) (N - 1) = 0 := by
       rw [vAt_lt _ (by omega : N - 1 < N)]
-      rw [Pi.single_apply, if_neg (fun h => hj (by rw [← h, Fin.val_mk]; omega))]
+      rw [Pi.single_apply, ite_eq_right (fun h => hj (by rw [← h, Fin.val_mk]; omega))]
     have h := hd0 _ h0 (e (ggDepAx p N))
     rw [twApply_of_mul hde, twDot_single_left, twDot_single_left] at h
     rw [Pi.smul_apply, smul_eq_mul, ← h]
@@ -189,7 +189,7 @@ theorem mem_kOuterA {pos c a b t u : ℕ} (ha : a < p) (hb : b < p) (ht : t < p)
       (kVec p N pos c ((p - 1) % p) a b t) = 2 % p) :
     (kVec p N pos c ((p - 1) % p) a b t, kAN p N pos c ((p - 1) % p) u) ∈ kOuterA p N pos c := by
   simp only [kOuterA, List.mem_flatMap, List.mem_range, List.mem_filterMap]
-  exact ⟨a, ha, b, hb, t, ht, u, hu, by rw [if_pos (beq_iff_eq.mpr hd)]⟩
+  exact ⟨a, ha, b, hb, t, ht, u, hu, by rw [ite_eq_left (beq_iff_eq.mpr hd)]⟩
 
 theorem mem_kA2All {pos code a b t : ℕ} (ha : a < p) (hb : b < p) (ht : t < p) :
     kSolC p N pos code a b t ∈ kA2All p N pos code := by
@@ -207,7 +207,7 @@ theorem mem_kInnerC {pos code : ℕ} {as2 : List (List ℕ)} {o : GGDepANPair} {
     (kSolC p N pos code a b t, a2) ∈ kInnerC p N pos code as2 o := by
   simp only [kInnerC, List.mem_flatMap, List.mem_range]
   refine ⟨a, ha, b, hb, t, ht, ?_⟩
-  rw [if_pos (beq_iff_eq.mpr h1), List.mem_filterMap]
+  rw [ite_eq_left (beq_iff_eq.mpr h1), List.mem_filterMap]
   exact ⟨a2, hmem, by rw [h2, h3]; simp⟩
 
 theorem chainH2 (hN : 5 ≤ N) (pos : GGTWPos) (c₂ : Option (Fin (N - 1))) (v : GGDepAE p N)
@@ -246,11 +246,11 @@ theorem kSolC_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (c₂ : Opt
       (vAt v (kNc N pos)).val (vAt v (kLo pos)).val (vAt v (N - 1)).val) = v := by
   cases c₂ with
   | none =>
-    simp only [kSolC, Option.map_none, ggTWNCode, if_true]
+    simp only [kSolC, Option.map_none, ggTWNCode, ite_true]
     exact kVec_complete hN pos 0 0 v (Or.inr Nat.cast_zero) fun k h1 h2 => by
       rw [h k h1 h2]; simp
   | some c' =>
-    simp only [kSolC, Option.map_some, ggTWNCode, Nat.add_one_ne_zero, if_false,
+    simp only [kSolC, Option.map_some, ggTWNCode, Nat.add_one_ne_zero, ite_false,
       Nat.add_sub_cancel]
     exact kVec_complete hN pos c'.val ((p - 1) % p) v (Or.inl (hc₂ c' rfl)) fun k h1 h2 => by
       rw [h k h1 h2, twCast_neg_one]; simp
@@ -263,11 +263,11 @@ theorem kANC_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (c₂ : Opti
     ∃ u < p, ggDepANToZ p N (kANC p N (ggTWPosNat pos) (ggTWNCode (c₂.map Fin.val)) u) = v := by
   cases c₂ with
   | none =>
-    simp only [kANC, Option.map_none, ggTWNCode, if_true]
+    simp only [kANC, Option.map_none, ggTWNCode, ite_true]
     exact kAN_complete hN pos 0 0 v (Or.inr Nat.cast_zero) (fun k hk1 hk2 => by
       rw [h k hk1 hk2]; simp) h0 h1
   | some c' =>
-    simp only [kANC, Option.map_some, ggTWNCode, Nat.add_one_ne_zero, if_false,
+    simp only [kANC, Option.map_some, ggTWNCode, Nat.add_one_ne_zero, ite_false,
       Nat.add_sub_cancel]
     exact kAN_complete hN pos c'.val ((p - 1) % p) v (Or.inl (hc₂ c' rfl)) (fun k hk1 hk2 => by
       rw [h k hk1 hk2, twCast_neg_one]; simp) h0 h1
@@ -333,11 +333,9 @@ theorem outer_finish (hp2 : p ≠ 2) (hN : 5 ≤ N) (hE : EntrySound p N F O Out
       Out (frameR p N ∪ {X1, X2}) := by
   unfold kOuterOK at hchk
   obtain ⟨en, hen⟩ := kAll2_mem _ _ ent hchk o ho
-  try dsimp only at hen
   by_cases h0 : en.1 = 0
-  · rw [if_pos h0] at hen
+  · rw [ite_eq_left h0] at hen
     obtain ⟨j, hj⟩ := kAll2_mem _ _ _ hen c hc
-    try dsimp only at hj
     have hv : ∀ q ∈ [o, c], GGTWDValid p N q := by
       intro q hq
       simp only [List.mem_cons, List.not_mem_nil, or_false] at hq
@@ -356,7 +354,7 @@ theorem outer_finish (hp2 : p ≠ 2) (hN : 5 ≤ N) (hE : EntrySound p N F O Out
       · rw [Set.mem_singleton_iff] at hg
         subst hg
         exact ⟨c, by simp, hrc.symm⟩
-  · rw [if_neg h0] at hen
+  · rw [ite_eq_right h0] at hen
     have hv : ∀ q ∈ [o], GGTWDValid p N q := by
       intro q hq
       rw [List.mem_singleton] at hq
@@ -370,9 +368,9 @@ theorem outer_finish (hp2 : p ≠ 2) (hN : 5 ≤ N) (hE : EntrySound p N F O Out
     rw [hro]
     exact Or.inr (Set.mem_insert _ _)
 
-theorem twdk36_cells1 (hp2 : p ≠ 2) (hpN : p ∣ N) (hN : 5 ≤ N) (hE : EntrySound p N F O Out)
+theorem twdk36_cells1 (_hp2 : p ≠ 2) (hpN : p ∣ N) (hN : 5 ≤ N) (hE : EntrySound p N F O Out)
     (hOut : OutBack Out) {S : List KOneE} {T : List KTwoE}
-    (hF : kFrameOK p N F = true) (hC : kCover36 N S T = true)
+    (_hF : kFrameOK p N F = true) (hC : kCover36 N S T = true)
     (hS : ∀ i < S.length, kOneAt p N F O S i = true) :
     ∀ (pos : GGTWPos) (c0 : Fin (N - 1)) (m n : ℤ), GGTWPat1 N pos c0.val m n →
       ∀ ha αa : GGDepAE p N, GGTWDPairs1 p N pos c0 m n ha αa → ggDepAdot αa ha = 2 →
@@ -409,7 +407,6 @@ theorem twdk36_cells1 (hp2 : p ≠ 2) (hpN : p ∣ N) (hN : 5 ≤ N) (hE : Entry
     mem_kCells1 (ZMod.val_lt _) (ZMod.val_lt _) (ZMod.val_lt _) hu hd2
   simp only [kOne] at hchk
   obtain ⟨i, hi⟩ := kAll2_mem _ _ _ hchk _ hmem
-  try dsimp only at hi
   have hval : GGTWDValid p N (lh, la) := ⟨kVec_length _ _ _ _ _ _, kAN_length _ _ _ _, hd2⟩
   have hr : d * ggTWDRflOf p N (lh, la) * e = ggDepARefl ha αa := by
     change d * ggDepARefl (ggDepANToZ p N lh) (ggDepANToZ p N la) * e = _

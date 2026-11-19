@@ -16,8 +16,8 @@ theorem GomiU42Data.exists_involution_aut_component (h : GomiU42Data X J D E a) 
       Nat.card ↥(α.toMonoidHom.eqLocus (MonoidHom.id D)) ∣ 51840 ∧
       ∃ L : Subgroup ↥(α.toMonoidHom.eqLocus (MonoidHom.id D)),
         CFSG.IsComponent L ∧ Nat.card L = 25920 := by
-  haveI := h.normal
-  haveI := h.isSimpleGroup_J
+  have := h.normal
+  have := h.isSimpleGroup_J
   have hord := h.fixedRoot_conjNormal.1
   have hJle := h.fixedRoot_conjNormal.2.1
   have hJn := h.fixedRoot_conjNormal.2.2.1

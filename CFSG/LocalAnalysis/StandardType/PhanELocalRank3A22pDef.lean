@@ -28,6 +28,7 @@ private theorem plh_sgS_comap_rho (c : Submodule K (Fin 2 → K)) :
   ext v
   simp only [mem_sgS, Submodule.mem_comap, plh_rho_sgv]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_comap_rho_bot_iff (e : Submodule K (Fin 2 → K)) :
     e.comap (rho (K := K)) = Vsub 4 2 ↔ e = ⊥ := by
   constructor
@@ -37,6 +38,7 @@ private theorem plh_comap_rho_bot_iff (e : Submodule K (Fin 2 → K)) :
   · intro h
     rw [h, Submodule.comap_bot, ker_rho]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_sup_eq_comap_map (p : Submodule K (Fin 4 → K)) :
     p ⊔ Vsub 4 2 = (p.map (rho (K := K))).comap (rho (K := K)) := by
   rw [Submodule.comap_map_eq, ker_rho]
@@ -62,14 +64,17 @@ private theorem plh_map_inf_sgS_eq_bot_iff (p : Submodule K (Fin 4 → K)) :
   · intro h
     exact (plh_comap_rho_bot_iff (K := K) _).mp h
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_blockU_zero_a3_22p (E : ℕ → Submodule K (Fin 4 → K)) :
     blockU K 4 [0, 2, 4] E 0 1 = E 3 ⊓ Vsub 4 2 := by
   simp [blockU, Vsub_zero]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_blockU_one_a3_22p (E : ℕ → Submodule K (Fin 4 → K)) :
     blockU K 4 [0, 2, 4] E 1 1 = E 1 ⊔ Vsub 4 2 := by
   simp [blockU, Vsub_self]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_mem_farSet_a3_22p_iff (x : FlagK K 4) :
     x ∈ farSet 4 [0, 2, 4] ↔ x.E 2 ⊓ Vsub 4 2 = ⊥ := by
   have hd : ∀ i, i < ([0, 2, 4] : List ℕ).length →
@@ -143,7 +148,7 @@ theorem genSet_a3_22p_eq :
       omega
     interval_cases i <;> decide
   ext x
-  simp only [genSet, Set.mem_setOf_eq, admSet, AdmS, D22p]
+  simp only [genSet, Set.mem_ofPred_eq, admSet, AdmS, D22p]
   constructor
   · rintro ⟨hfar, hblocks⟩
     refine ⟨(plh_mem_farSet_a3_22p_iff (K := K) x).mp hfar, ?_, ?_⟩

@@ -106,6 +106,7 @@ theorem U_le_L : conjClosure V H ≤ L := by
   have h1 : u * l * u⁻¹ ∈ L := (mem_normalizer_iff.mp (X.St.U_le_normL hu) l).mp hlL
   exact mul_mem h1 (inv_mem hlL)
 
+omit [Finite G] in
 theorem sup_eq : L ⊔ conjClosure V H = L := sup_eq_left.2 X.U_le_L
 
 theorem I_eq : conjClosure V H ⊔ rconj (conjClosure V H) g = L := by

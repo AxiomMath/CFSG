@@ -60,7 +60,7 @@ theorem not_layerLie6 (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) {a : G}
     (h4 : Nat.card ↥(cA S R R') = 4) (hcl : Subgroup.closure {a, z} = cA S R R')
     (hbad : BadElt z a) (hT : TwinThmE.T4Supply) (hno : SecNoExitAt Ω a) : ¬ LayerLie Ω a 6 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rintro ⟨D, hD1, i, hi⟩
   have hFD := fourData_of_four hyp h4 hcl hbad
   have ha2 : a * a = 1 := hFD.ha2

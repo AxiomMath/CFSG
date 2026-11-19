@@ -97,14 +97,14 @@ theorem orbF : ∀ j < 6, ∀ p < 3, ∀ q < 3, ∃ e < 3, (if j < 3 then zJ els
   have hA : PR (actP j) (if j < 3 then zJ else xJ) ∧ (if j < 3 then zJ else xJ) ^ 3 = 1 := by
     by_cases h : j < 3
     · have hb : Nat.blt j 3 = true := by rw [Nat.blt_eq]; exact h
-      rw [if_pos h]
+      rw [ite_eq_left h]
       unfold actP
       rw [hb]
       exact ⟨prZ, z_cube⟩
     · have hb : Nat.blt j 3 = false := by
         rw [Bool.eq_false_iff, ne_eq, Nat.blt_eq]
         exact h
-      rw [if_neg h]
+      rw [ite_eq_right h]
       unfold actP
       rw [hb]
       exact ⟨prX, x_cube⟩

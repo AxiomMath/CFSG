@@ -92,7 +92,7 @@ theorem glaPLayer_inf_fixSubgroup_ne_bot_of_map_ne {p : ℕ} (hp : p.Prime) [Fin
     GLAPLayer p (X ⊓ fixSubgroup a) ≠ ⊥ := by
   classical
   let H := S ⋊[MonoidHom.id (MulAut S)] MulAut S
-  haveI : Finite H := inferInstance
+  have : Finite H := inferInstance
   let inl : S →* H := SemidirectProduct.inl (φ := MonoidHom.id (MulAut S))
   let inr : MulAut S →* H := SemidirectProduct.inr (φ := MonoidHom.id (MulAut S))
   have hinl : Function.Injective inl := SemidirectProduct.inl_injective
@@ -115,7 +115,7 @@ theorem glaPLayer_inf_fixSubgroup_ne_bot_of_map_ne {p : ℕ} (hp : p.Prime) [Fin
       rw [MulAut.conj_apply, h1.symm]
     rw [Subgroup.map_map, hcomp, ← Subgroup.map_map, hX]
   have hord : orderOf (inr a) = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have haord : orderOf a = p := orderOf_eq_prime hap ha1
     exact (orderOf_injective inr SemidirectProduct.inr_injective a).trans haord
   have hJa' : (J.map inl).map (MulAut.conj (inr a)).toMonoidHom ≠ J.map inl := by
@@ -170,11 +170,11 @@ theorem centerQuotientHom_subgroupStabRestrict_eq_one_iff {J : Subgroup S} {a : 
 
 theorem glaPLayer_fixSubgroup_ne_bot_of_centerQuotient_ne_bot
     {J : Type} [Group J] [Finite J] {p : ℕ} (hp : p.Prime) (a : MulAut J)
-    (hperf : Group.IsPerfect J)
+    (_hperf : Group.IsPerfect J)
     (hgood : GLAPLayer p (fixSubgroup (centerQuotientHom J a)) ≠ ⊥) :
     GLAPLayer p (fixSubgroup a) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let π : J →* (J ⧸ Subgroup.center J) := QuotientGroup.mk' (Subgroup.center J)
   let φ : MulAut (J ⧸ Subgroup.center J) := centerQuotientHom J a
   let M : Subgroup J := (fixSubgroup φ).comap π
@@ -270,7 +270,7 @@ theorem card_zpowers_sup_zpowers_eq_prime_sq {G : Type} [Group G] [Finite G] {p 
     (hp : p.Prime) {x y : G} (hx : x ^ p = 1) (hy : y ^ p = 1) (hx1 : x ≠ 1)
     (hyx : y ∉ Subgroup.zpowers x) (hcomm : x * y = y * x) :
     Nat.card (Subgroup.zpowers x ⊔ Subgroup.zpowers y : Subgroup G) = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hy1 : y ≠ 1 := by
     rintro rfl
     exact hyx (Subgroup.one_mem _)

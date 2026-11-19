@@ -54,7 +54,7 @@ theorem card_le_card_mul_card_of_stabilizer_embeds {E : Subgroup (GL (Fin n) (ZM
     (hf : ∀ k₁ ∈ E, ∀ k₂ ∈ E, (k₁ : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ v = v →
       (k₂ : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ v = v → f k₁ = f k₂ → k₁ = k₂) :
     Nat.card E ≤ Nat.card S * Nat.card T := by
-  letI : MulAction E (Fin n → ZMod 2) :=
+  let : MulAction E (Fin n → ZMod 2) :=
     { smul := fun k w => ((k : GL (Fin n) (ZMod 2)) : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ w
       one_smul := fun w => by
         show ((1 : E) : GL (Fin n) (ZMod 2)).val *ᵥ w = w

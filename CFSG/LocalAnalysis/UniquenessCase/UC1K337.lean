@@ -54,8 +54,8 @@ private lemma two_pow_eq_neg_one_iff {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     ∀ t : ℕ, Odd t →
       ((2 : ZMod p) ^ (t * n) = -1 ↔
         ∃ s : ℕ, s ∣ t ∧ orderOf (2 : ZMod p) = 2 * n * s) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (2 < p) := ⟨by have := hp.two_le; omega⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (2 < p) := ⟨by have := hp.two_le; omega⟩
   obtain ⟨a, rfl⟩ := hn
   have hn0 : (0 : ℕ) < 2 ^ a := pow_pos (by norm_num) a
   intro t ht
@@ -226,7 +226,7 @@ theorem k337_holds :
         have h1m : (2 : ZMod p) ^ m = -1 := by rwa [hnm'] at h1
         rw [show 2 * m = m * 2 by ring, pow_mul, h1m, neg_one_sq]
   · intro h3n hn_neg L _ hL hpdvd
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hiff3 := two_pow_eq_neg_one_iff hp hp2 hn 3 (by norm_num : Odd 3)
     obtain ⟨s, hs, hd⟩ := hiff3.mp h3n
     have hn_pos : 0 < n := by

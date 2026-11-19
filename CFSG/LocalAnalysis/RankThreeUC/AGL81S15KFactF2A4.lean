@@ -59,7 +59,7 @@ theorem exists_a4_pair {X : Type} [Group X] [Finite X] (hX : IsLThreeTwo X) {c :
       have h2' : c ^ 2 = c⁻¹ := eq_inv_of_mul_eq_one_left h2
       have hinv : c⁻¹ = g * a₀ * g⁻¹ := by
         rw [← h2', ← hk']
-        simp [zpow_two, pow_two]
+        simp [pow_two]
       exact hinv.symm
   let φ : GL (Fin 3) (ZMod 2) ≃* X := e.symm.trans (MulAut.conj g)
   have hφ : φ aGL = g * a₀ * g⁻¹ := rfl

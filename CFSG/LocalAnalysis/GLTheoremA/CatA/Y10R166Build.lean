@@ -38,7 +38,7 @@ theorem concl166S_of_witness_of_comp {K : Type} [Group K] [Finite K] {p q : ℕ}
     {B : Subgroup K} {x : K} {J : Subgroup K} (hq : q.Prime) (hq2 : q ≠ 2)
     (hB : IsElemAbelian q B) (hx : x ∈ B)
     (hx1 : x ≠ 1) (hrankB : Nat.card B = q ^ evenRank K) (he : 4 ≤ evenRank K)
-    (hJx : J ≤ Subgroup.centralizer ({x} : Set K)) (hJq : CFSG.IsQuasisimple ↥J)
+    (hJx : J ≤ Subgroup.centralizer ({x} : Set K)) (_hJq : CFSG.IsQuasisimple ↥J)
     (hcomp : IsComponentOf J (Subgroup.centralizer ({x} : Set K)) ∧
       GLALayer (Subgroup.centralizer ({x} : Set K)) = J)
     (labJ : GLALabel) (hJlab : HasLabel ↥J (fun l : GLALabel => l = labJ))
@@ -148,7 +148,7 @@ theorem concl166S_of_witness_idiag_of_comp {K : Type} [Group K] [Finite K] {p q 
     {B : Subgroup K} {x : K} {J : Subgroup K} (hq : q.Prime) (hq2 : q ≠ 2)
     (hB : IsElemAbelian q B) (hx : x ∈ B)
     (hx1 : x ≠ 1) (hrankB : Nat.card B = q ^ evenRank K) (he : 4 ≤ evenRank K)
-    (hJx : J ≤ Subgroup.centralizer ({x} : Set K)) (hJq : CFSG.IsQuasisimple ↥J)
+    (_hJx : J ≤ Subgroup.centralizer ({x} : Set K)) (_hJq : CFSG.IsQuasisimple ↥J)
     (hcomp : IsComponentOf J (Subgroup.centralizer ({x} : Set K)) ∧
       GLALayer (Subgroup.centralizer ({x} : Set K)) = J)
     (labJ : GLALabel) (hJlab : HasLabel ↥J (fun l : GLALabel => l = labJ))

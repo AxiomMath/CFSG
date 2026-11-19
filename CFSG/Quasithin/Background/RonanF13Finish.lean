@@ -78,8 +78,8 @@ theorem twist_finish {K : Type*} [Group K] (D : Subgroup K) (α : MulAut K) {k :
     rw [h0, mul_zero] at hcN
     have h2 : 1 < 2 ^ M := Nat.one_lt_two_pow (by omega)
     omega
-  haveI : Finite ↥D := (Nat.card_ne_zero.mp hcardD).2
-  haveI : Fintype ↥D := Fintype.ofFinite _
+  have : Finite ↥D := (Nat.card_ne_zero.mp hcardD).2
+  have : Fintype ↥D := Fintype.ofFinite _
   have htop : Subgroup.zpowers g = ⊤ := (Subgroup.eq_top_iff' _).mpr hgen
   set g0 : K := (g : K) with hg0
   have hg0D : g0 ∈ D := g.2

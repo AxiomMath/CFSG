@@ -72,7 +72,7 @@ theorem sec7l771_l_of_nu [Finite G] {K E : Subgroup G} {z ν : G}
       ∀ e ∈ E, l * e = e * l → e = 1 ∨ e = z := by
   classical
   obtain ⟨l, hl, hl3, hlact⟩ := sec7l771_nu_to_l hZ hout hν hν3
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hlne : l ≠ 1 := by
     intro hl1
     have hsubset : ∀ e ∈ E, e = 1 ∨ e = z := by

@@ -79,8 +79,8 @@ theorem ggSplitLie_of_rowSD
   have hU : ggU .POmegaPlus l n =
       ⟨spinGroup (Spin.quadPlus l (GaloisField 2 n)), Spin.plusDatum l (GaloisField 2 n) hl3⟩ := by
     simp only [ggU, lieUniversal, hl3, ↓reduceDIte]
-  haveI : Finite (ggU .POmegaPlus l n).K := by
-    haveI : NeZero l := ⟨by omega⟩
+  have : Finite (ggU .POmegaPlus l n).K := by
+    have : NeZero l := ⟨by omega⟩
     rw [hU]
     exact CFSG.LieType.Steinberg.finite_spinGroup_of_ker _ Spin.coe_ker_spinMatrix_quadPlus
   refine ggSplitLie_of_lieModel hp (.inr (.inl rfl)) hpn (fun hf E _ _ => ?_) h.1 hX

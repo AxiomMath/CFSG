@@ -38,7 +38,7 @@ theorem gs03_action_not_inner {G : Type} [Group G] (S' : Subgroup G) [S'.Normal]
   exact hx hxS'
 
 theorem hgen_conj_of_normalizes {S Ω : Type} [Group S] (ι : S →* Equiv.Perm Ω)
-    (hι : Function.Injective ι) {k : ℕ} {g h : Equiv.Perm Ω}
+    (_hι : Function.Injective ι) {k : ℕ} {g h : Equiv.Perm Ω}
     (hh : ∀ s : S, h * ι s * h⁻¹ ∈ ι.range) (hhi : ∀ s : S, h⁻¹ * ι s * h ∈ ι.range)
     (hw : ∃ s : Fin k → S,
       ι.range ≤ Subgroup.closure (Set.range fun i => (ι (s i))⁻¹ * g * ι (s i))) :

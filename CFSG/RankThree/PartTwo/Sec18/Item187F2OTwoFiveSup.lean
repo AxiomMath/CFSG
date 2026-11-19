@@ -84,9 +84,10 @@ abbrev YQuot (X : Subgroup G) : Type := ZQuot X ⧸ CFSG.pCore 5 (ZQuot X)
   ((CFSG.pCore 2 (YQuot X)).comap (QuotientGroup.mk' (CFSG.pCore 5 (ZQuot X)))).comap
     (QuotientGroup.mk' (CFSG.pCore 2 ↥X))
 
+omit [Finite G] in
 theorem oTwoFiveOv_characteristic (X : Subgroup G) : (oTwoFiveOv X).Characteristic := by
   unfold oTwoFiveOv
-  haveI : ((CFSG.pCore 2 (YQuot X)).comap
+  have : ((CFSG.pCore 2 (YQuot X)).comap
       (QuotientGroup.mk' (CFSG.pCore 5 (ZQuot X)))).Characteristic :=
     char_comap_mk (CFSG.pCore 5 (ZQuot X)) (CFSG.pCore 2 (YQuot X))
   exact char_comap_mk (CFSG.pCore 2 ↥X) _
@@ -119,18 +120,20 @@ theorem relIndex_oTwoFive_oTwoFiveOv (X : Subgroup G) :
 theorem relIndex_oTwoFive_two_pow (X : Subgroup G) :
     ∃ k : ℕ, (oTwoFive X).relIndex ((oTwoFiveOv X).map X.subtype) = 2 ^ k := by
   rw [relIndex_oTwoFive_oTwoFiveOv]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := YQuot X))
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_oTwoFiveOv (X : Subgroup G) :
     Subgroup.normalizer (X : Set G) ≤
       Subgroup.normalizer ((oTwoFiveOv X).map X.subtype : Set G) := by
-  haveI := oTwoFiveOv_characteristic X
+  have := oTwoFiveOv_characteristic X
   exact CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic (oTwoFiveOv X)
 
+omit [Finite G] in
 theorem mem_pCoreOf_two_of_mem_oTwoFive_of_pow {x : G} (hx : x ∈ oTwoFive X)
     (h2 : ∃ n : ℕ, x ^ 2 ^ n = 1) : x ∈ CFSG.Open.pCoreOf 2 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hy, rfl⟩ := hx
   obtain ⟨n, hn⟩ := h2
   have hyn : y ^ 2 ^ n = 1 := Subtype.ext (by simpa using hn)
@@ -151,8 +154,8 @@ theorem mem_pCoreOf_two_of_mem_oTwoFive_of_pow {x : G} (hx : x ∈ oTwoFive X)
 theorem MinCex.sup_oTwoFive_eq (h186 : Item186H) (hX : MinCex A M H c X)
     (hsol : Group.IsSolvable ↥X) (h5 : 5 ∣ Nat.card X) :
     oTwoFive X ⊔ CFSG.Open.pCoreOf 2 (H ⊓ M) = X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hsol
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hsol
   have hπ : ∀ q : ℕ, q.Prime → q ∣ Nat.card X → q = 2 ∨ q = 5 :=
     MinCex.card_primeFactors_subset h186 hX hsol h5
   have hS : CFSG.ABGLocalTools.IsSylowOf 2 (CFSG.Open.pCoreOf 2 (H ⊓ M)) X :=
@@ -213,7 +216,7 @@ theorem MinCex.sup_oTwoFive_eq (h186 : Item186H) (hX : MinCex A M H c X)
       exact Subgroup.mem_map_of_mem X.subtype h2
     exact le_antisymm (sup_le (oTwoFive_le X) hS.le) (hXle.trans le_sup_left)
 
-theorem MinCex.oTwoFive_inf_S (hX : MinCex A M H c X) :
+theorem MinCex.oTwoFive_inf_S (_hX : MinCex A M H c X) :
     oTwoFive X ⊓ CFSG.Open.pCoreOf 2 (H ⊓ M) ≤ CFSG.Open.pCoreOf 2 X := by
   intro x hx
   obtain ⟨hxP, hxS⟩ := hx

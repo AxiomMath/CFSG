@@ -32,8 +32,8 @@ theorem exists_isClassicalMember_of_lieModel (hI : OddLieInputs) (h4 : TrialityD
     letI : Fact p.Prime := ⟨hp⟩
     ∃ (J : Subgroup L) (u : L),
       CFSG.ClassicalInvolution.Generic.IsClassicalMember p f J u ∧ u ∉ Subgroup.center L := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup (L ⧸ center L) := hq.2
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup (L ⧸ center L) := hq.2
   have hf0 : f ≠ 0 := by
     have := hadm.2.1
     omega
@@ -41,7 +41,7 @@ theorem exists_isClassicalMember_of_lieModel (hI : OddLieInputs) (h4 : TrialityD
     rw [GaloisField.card p f hf0]
     exact (hp.odd_of_ne_two hp2).pow
   have hne' : (t, n) ≠ (.PSL, 2) := fun h => hne (Prod.mk.inj h)
-  haveI : Finite (modelUniv t n p f hp).K := ModelFacts.finite_modelUniv hp2 hp hfund hadm
+  have : Finite (modelUniv t n p f hp).K := ModelFacts.finite_modelUniv hp2 hp hfund hadm
   obtain ⟨γ, hγ, hdata⟩ := exists_sl2CentralizerData hI h4 hp2 hfund hadm hne'
   obtain ⟨eR⟩ := nonempty_rankOne_equiv hp2 hfund hadm hγ
   have hz2 := orderOf_centralInv eR hF

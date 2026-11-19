@@ -102,7 +102,7 @@ private theorem pow_eq_one_of_fix_cube_root (h : UnitaryFieldData p f K) {τ : K
       exact hfixτ
     exact hmem
   have hS3 : 3 ∣ Nat.card S - 1 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hτ0 : τ ≠ 0 := tau_ne_zero hτ
     have hτS0 : (⟨τ, hτS⟩ : S) ≠ 0 := fun h => hτ0 (by simpa using congrArg Subtype.val h)
     have hτS3 : (Units.mk0 (⟨τ, hτS⟩ : S) hτS0) ^ 3 = 1 := by

@@ -77,7 +77,7 @@ theorem original_sylow_admissible
   let : Fact p.Prime := ⟨hp⟩
   exact ⟨hXne, (hXV.trans hVE).trans
     (inf_le_left.trans (pairPointStabilizer_le_point H beta)), hPz, ht, htP, hrank,
-    le_inf Subgroup.le_normalizer hXJ, P.isPGroup'.map V.subtype, hPz, htP,
+    le_inf Subgroup.le_normalizer hXJ, P.isPGroup.map V.subtype, hPz, htP,
     hnoncentral⟩
 
 theorem exists_maximal_admissible

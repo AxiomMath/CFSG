@@ -152,8 +152,8 @@ theorem ggTBJ_e6Three_torusNoncomm {K : Type} [Field K] [Finite K] [CharP K 2]
     have h1 : orderOf ζ ≤ Nat.card Kˣ := orderOf_le_card
     rw [hζo, Nat.card_units] at h1
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hKcard⟩ := FiniteField.card K 2
   have hn : 1 ≤ (n : ℕ) := n.pos
   have hK2 : Nat.card K = 2 ^ (n : ℕ) := by
@@ -258,7 +258,7 @@ theorem ggTBJ_e6Three_torusNoncomm {K : Type} [Field K] [Finite K] [CharP K 2]
         · intro y
           refine ⟨⟨Multiplicative.toAdd y.1, ?_⟩, ?_⟩
           · show Multiplicative.ofAdd (Multiplicative.toAdd y.1) ∈ κ.range
-            simpa using y.2
+            simp
           · apply Subtype.ext
             rfl
       have h2 : Nat.card ↥κ.range = Nat.card A := by
@@ -362,17 +362,17 @@ theorem ggTBJ_e6Three_torusNoncomm {K : Type} [Field K] [Finite K] [CharP K 2]
   have hs₁'' : ∀ a : A, Multiplicative.toAdd (castE (κ ((ggConjAut A hm₁) a))) =
       ExcSplitRootGen.excRefl γ₁ (Multiplicative.toAdd (castE (κ a))) := by
     intro a
-    simp only [castE, hcast, ofAdd_toAdd]
+    simp only [castE, hcast]
     exact hs₁ a
   have hs₂'' : ∀ a : A, Multiplicative.toAdd (castE (κ ((ggConjAut A hm₂) a))) =
       ExcSplitRootGen.excRefl γ₂ (Multiplicative.toAdd (castE (κ a))) := by
     intro a
-    simp only [castE, hcast, ofAdd_toAdd]
+    simp only [castE, hcast]
     exact hs₂ a
   intro hcomm
   obtain ⟨a, ha⟩ := MonoidHom.mem_range.mp hwV
   have ha'' : castE (κ a) = Multiplicative.ofAdd w := by
-    simp only [castE, hcast, ofAdd_toAdd]
+    simp only [castE, hcast]
     exact ha
   have hcomm_a : (ggConjAut A hm₁ * ggConjAut A hm₂) a =
       (ggConjAut A hm₂ * ggConjAut A hm₁) a := congrArg (fun f : MulAut ↥A => f a) hcomm

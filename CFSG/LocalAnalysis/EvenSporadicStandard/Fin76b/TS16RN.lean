@@ -30,6 +30,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {z t : G} {T E : Subgr
 
 include c
 
+omit [Finite G] c in
 theorem sigma_norm_D {s : G} (hS : S16Gen S s z t) {σ : G} (hσz : σ * z = z * σ)
     (hσs : σ * s * σ⁻¹ = s ^ 5) : ∀ d ∈ Dsub s z, σ * d * σ⁻¹ ∈ Dsub s z := by
   have hσz' : σ * z * σ⁻¹ = z := by
@@ -61,6 +62,7 @@ theorem sigma_norm_D {s : G} (hS : S16Gen S s z t) {σ : G} (hσz : σ * z = z *
   have := hle hd
   simpa [MulAut.conj_apply] using this
 
+omit [Finite G] c in
 theorem sigma_norm_W {s : G} (hS : S16Gen S s z t) {σ : G} (hσ2 : σ * σ = 1) (hσz : σ * z = z * σ)
     (hσs : σ * s * σ⁻¹ = s ^ 5) (hσE : σ ∈ normalizer (E : Set G)) :
     σ ∈ normalizer ((Dsub s z ⊔ E : Subgroup G) : Set G) := by
@@ -70,7 +72,7 @@ theorem sigma_norm_W {s : G} (hS : S16Gen S s z t) {σ : G} (hσ2 : σ * σ = 1)
       refine sup_le (fun d hd => ?_) (fun e he => ?_)
       · show (MulAut.conj σ).toMonoidHom d ∈ Dsub s z ⊔ E
         simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
-        exact mem_sup_left (c.sigma_norm_D hS hσz hσs d hd)
+        exact mem_sup_left (OuterS16Ctx.sigma_norm_D hS hσz hσs d hd)
       · show (MulAut.conj σ).toMonoidHom e ∈ Dsub s z ⊔ E
         simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
         exact mem_sup_right ((mem_normalizer_iff.1 hσE e).1 he)
@@ -158,7 +160,7 @@ theorem fusion_in_normW {s : G} (hS : S16Gen S s z t) {σ : G} (hσ2 : σ * σ =
   have htD : t ∈ Dsub s z := t_mem_Dsub hS.hs4
   have hW128 : Nat.card ↥(Dsub s z ⊔ E) = 128 :=
     card_sup_eq hDC c.hyp.outerE.econfig.center ht2 ht1 htD htE hD8 c.hyp.wFacts.card_E
-  have hσW := c.sigma_norm_W hS hσ2 hσz hσs hσE
+  have hσW := CFSG.EvenSporadicStandard.Fin76b.OuterS16Ctx.sigma_norm_W hS hσ2 hσz hσs hσE
   have hσnW := c.sigma_not_mem_W hS hσz hσL
   set W : Subgroup G := Dsub s z ⊔ E with hWdef
   set E0 : Subgroup G := centralizer ({σ} : Set G) ⊓ W with hE0def

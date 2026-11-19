@@ -21,7 +21,7 @@ theorem nfa2G1_not_dvd_two_pow_sub_one {q j : ℕ} (hq : q.Prime) (h24 : q % 24 
     omega
   obtain ⟨k, hk⟩ : ∃ k, q = 24 * k + 11 ∨ q = 24 * k + 13 := ⟨q / 24, by omega⟩
   have hk21 : k ≤ 21 := by omega
-  rcases hk with rfl | rfl <;> interval_cases k <;> interval_cases j <;> (norm_num at hd) <;>
+  rcases hk with rfl | rfl <;> interval_cases k <;> interval_cases j <;> (norm_num at hd);
     norm_num at hq
 
 theorem nfa2_G1 : Leaf_G1 := by
@@ -30,7 +30,7 @@ theorem nfa2_G1 : Leaf_G1 := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨eK⟩⟩ := hmatch
   have hq11 : 11 ≤ q := by omega
   have hKq : Nat.card K = q := by rw [hKcard, pow_one]
-  haveI hsimP : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 K)) :=
+  have hsimP : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 K)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL (d := 2) K le_rfl
       (Or.inr (by omega)) (Or.inr (by omega))
   have hsimKb : IsSimpleGroup Kb := eK.isSimpleGroup
@@ -46,8 +46,8 @@ theorem nfa2_G1 : Leaf_G1 := by
       exact hk (MonoidHom.mem_ker.1 hkker)
   have hqKb : q ∣ Nat.card Kb := by
     rw [Nat.card_congr eK.toEquiv]
-    haveI : Finite (CFSG.Open.StatedSL 2 K) := by
-      haveI : Finite (Matrix.GeneralLinearGroup (Fin 2) K) :=
+    have : Finite (CFSG.Open.StatedSL 2 K) := by
+      have : Finite (Matrix.GeneralLinearGroup (Fin 2) K) :=
         Finite.of_injective
           (fun g : Matrix.GeneralLinearGroup (Fin 2) K => (g : Matrix (Fin 2) (Fin 2) K))
           (fun a b h => Units.ext h)

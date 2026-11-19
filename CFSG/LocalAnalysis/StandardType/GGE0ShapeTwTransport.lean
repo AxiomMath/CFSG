@@ -57,11 +57,11 @@ private theorem baseChangeGL_mem_twistedTorusOf
 
 theorem twisted_langData_of_setup
     {K : Type} [Field K] [Finite K] (σ : K ≃+* K) (q : ℕ)
-    (hK : Nat.card K = q ^ 2) (hσ : ∀ c, σ c = c ^ q)
+    (_hK : Nat.card K = q ^ 2) (_hσ : ∀ c, σ c = c ^ q)
     {Ω : Type} [Field Ω] [IsAlgClosed Ω] [CharP Ω 2] [Algebra K Ω] [IsAlgClosure K Ω]
-    (S : LangSetup .E6 Ω 5) (hq : S.D.q = q)
+    (S : LangSetup .E6 Ω 5) (_hq : S.D.q = q)
     (hΦ : ∃ Fr : Ω →+* Ω, (∀ c, Fr c = c ^ q) ∧ S.D.Φ = twistHom .E6 Ω Fr)
-    (A : Subgroup (ModGL TwistTag.E6.tag K)) (hAI : A ≤ twistedE6InndiagGL K σ)
+    (A : Subgroup (ModGL TwistTag.E6.tag K)) (_hAI : A ≤ twistedE6InndiagGL K σ)
     (A₀ : Subgroup (ModGL .E6 Ω)) (hA₀ : A₀ ≤ S.D.torus ⊓ S.D.model)
     (hrel : A.map ((MulAut.conj S.D.g0⁻¹).toMonoidHom.comp
       (baseChangeGL (algebraMap K Ω) : ModGL TwistTag.E6.tag K →* ModGL Tag.E6 Ω)) = A₀)
@@ -163,7 +163,7 @@ theorem twisted_langData_of_setup
       simp only [map_mul, map_inv, baseChangeGL_comp_algebraMap]
     rw [hTy]
     simp only [one_mul, inv_one, mul_one]
-    group <;> rfl
+    group
   let D : TwLangData K σ q A :=
     { v := v, Fr := Fr, hFr := hFr, g0 := T g0t, hg0C := hg0C, hg0 := hg0,
       c := 1, hcI := Subgroup.one_mem _, hc := hc }

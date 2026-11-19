@@ -685,7 +685,6 @@ theorem fs_disj {C : List Nat} (hal : allAligned C = true) (hd : pairDisj (takeN
   have e := pairDisj_getD hd a b hab
   rw [nth_take (by omega), nth_take hb] at e
   have e2 := congrArg (fun x => fld x f) e
-  try simp only at e2
   rw [fld_land, show fld 0 f = 0 by simp [fld]] at e2
   unfold fs
   rcases fld_alignedM (nthN_aligned hal a) f with h1 | h1
@@ -1135,7 +1134,6 @@ theorem stSparse_sound {Bs Cs SG : List (List Nat)} {R : Nat → Nat}
     · rw [Nat.and_zero]
   have hW8 : ∀ f, fld W f % 8 = 0 := fun f => by
     have e := congrArg (fun y => fld y f) (Nat.eq_of_beq_eq_true hok)
-    try simp only at e
     rw [fld_land, fld_rep (by decide), show fld 0 f = 0 by simp [fld]] at e
     split at e
     · rw [show (7 : Nat) = 2 ^ 3 - 1 from rfl, Nat.and_two_pow_sub_one_eq_mod] at e

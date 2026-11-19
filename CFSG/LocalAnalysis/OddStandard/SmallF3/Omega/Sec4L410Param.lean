@@ -39,7 +39,7 @@ private lemma conj_mem_conjClassIn {M : Subgroup G} {x y k : G} (hk : k ∈ M)
 private lemma weightClosed_of_conjInvariant {M H B : Subgroup G}
     {φ : (Fin 7 → ZMod 2) → G}
     (hperm : IsPermModuleVia IsEvenVec φ B H (alternatingGroup (Fin 7)))
-    (hHM : H ≤ M) {P : G → Prop}
+    (_hHM : H ≤ M) {P : G → Prop}
     (hPconj : ∀ k ∈ H, ∀ y, P y → P (k * y * k⁻¹))
     {v : Fin 7 → ZMod 2} (hv : IsEvenVec v) (hP : P (φ v)) :
     ∀ w : Fin 7 → ZMod 2, IsEvenVec w → vecWeight w = vecWeight v → P (φ w) := by

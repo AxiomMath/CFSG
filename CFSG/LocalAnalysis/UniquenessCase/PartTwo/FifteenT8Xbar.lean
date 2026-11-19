@@ -41,7 +41,7 @@ theorem s15_T8_xbar [Finite W] {Mb : Subgroup (MulAut W)} {B : Fin 4 → Subgrou
     rw [iSupIndep_def]
     intro j
     rw [disjoint_iff]
-    simpa only [Set.mem_setOf_eq] using hB.indep j
+    simpa only [Set.mem_ofPred_eq] using hB.indep j
   let φ : (∀ j : Fin 4, B j) →* MulAut W := Subgroup.noncommPiCoprod (H := B) hcomm
   have hφinj : Function.Injective φ :=
     Subgroup.injective_noncommPiCoprod_of_iSupIndep (hcomm := hcomm) hind
@@ -51,7 +51,7 @@ theorem s15_T8_xbar [Finite W] {Mb : Subgroup (MulAut W)} {B : Fin 4 → Subgrou
   have hdom_comm : ∀ u v : (∀ j : Fin 4, B j), u * v = v * u := by
     intro u v
     funext j
-    haveI := hB.comm j
+    have := hB.comm j
     exact mul_comm' (u j) (v j)
   have hdom3 : ∀ u : (∀ j : Fin 4, B j), u ^ 3 = 1 := by
     intro u
@@ -123,7 +123,7 @@ theorem s15_T8_xbar [Finite W] {Mb : Subgroup (MulAut W)} {B : Fin 4 → Subgrou
     rw [hb]
     exact (B 0 ⊔ N).mul_mem (Subgroup.mem_sup_right hcommN) (Subgroup.mem_sup_left hb₀)
   have hN_lower : 3 ^ (3 * r) ≤ Nat.card N := by
-    haveI hEcomm : IsMulCommutative ↥E :=
+    have hEcomm : IsMulCommutative ↥E :=
       IsMulCommutative.of_comm (fun a b => Subtype.ext (hEab a.1 a.2 b.1 b.2))
     have hsup : (B 0).subgroupOf E ⊔ N.subgroupOf E = ⊤ := by
       rw [← Subgroup.subgroupOf_sup hB0E hNle_E, hE_eq, Subgroup.subgroupOf_self]
@@ -159,7 +159,7 @@ theorem s15_T8_xbar [Finite W] {Mb : Subgroup (MulAut W)} {B : Fin 4 → Subgrou
   have hN_isPGroup : IsPGroup 3 ↥N := fun x =>
     ⟨1, by simpa using Subtype.ext (hN_el.2 x.1 x.2)⟩
   have h27 : 3 ^ 3 ≤ Nat.card ↥(N ⊓ S) := by
-    haveI hEcomm : IsMulCommutative ↥E :=
+    have hEcomm : IsMulCommutative ↥E :=
       IsMulCommutative.of_comm (fun a b => Subtype.ext (hEab a.1 a.2 b.1 b.2))
     have hNC : N ⊓ (E ⊓ S) = N ⊓ S := by
       ext x

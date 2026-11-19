@@ -29,7 +29,7 @@ theorem gen_of_quasisimple {G : Type*} [Group G] {X U V : Subgroup G}
     show conjSub y (conjSub x U) ≤ ⨆ x ∈ X, conjSub x U
     rw [← conjSub_mul]
     exact le_iSup₂ (f := fun x (_ : x ∈ X) => conjSub x U) (y * x) (mul_mem hy hx)
-  haveI hnorm : ((⨆ x ∈ X, conjSub x U).subgroupOf X).Normal := by
+  have hnorm : ((⨆ x ∈ X, conjSub x U).subgroupOf X).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact key g.1 g.2 (Subgroup.mem_map_of_mem _ hn)

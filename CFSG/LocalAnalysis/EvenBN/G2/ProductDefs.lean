@@ -89,10 +89,12 @@ noncomputable def ProductHyp.Astar {d : G2Data L K} {t : G} {f : ℕ} (hp : Prod
     Subgroup G :=
   hp.compl₂.choose
 
+omit [Finite G] [Finite K] in
 theorem ProductHyp.Astar_spec {d : G2Data L K} {t : G} {f : ℕ} (hp : ProductHyp d t f) :
     Complement₂ d t hp.Astar :=
   hp.compl₂.choose_spec
 
+omit [Finite G] [Finite K] in
 theorem Complement₂.yamadaN₃_eq {d : G2Data L K} {t : G} {A : Subgroup G}
     (hA : Complement₂ d t A) (hN : yamadaN₂ d t ≤ normalizer (yamadaM₆ d t : Set G))
     (hinf : (yamadaN₂ d t ⊓ centralizer (d.J₄ : Set G)) ⊓ yamadaM₆ d t ≤ yamadaY₂ d t) :

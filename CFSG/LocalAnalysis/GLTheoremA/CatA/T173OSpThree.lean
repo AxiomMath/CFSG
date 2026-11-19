@@ -35,7 +35,7 @@ open scoped commutatorElement
 
 theorem modelFactSpThree : ∀ (F : Type) [Field F] [Finite F] (ℓ : ℕ), 3 ≤ ℓ → Nat.card F = 2 → ModelFactO 3 ↥(StatedSp ℓ F) := by
   intro F instField instFinite ℓ hℓ hF
-  haveI : Finite ↥(StatedSp ℓ F) := Subtype.finite
+  have : Finite ↥(StatedSp ℓ F) := Subtype.finite
   intro A d hA hd
   have hℓ1 : 1 ≤ ℓ := by omega
   have hd3 : d ^ 3 = 1 := hd.2.2.1

@@ -93,7 +93,7 @@ theorem sec8t84g_om5Out : Sec8T84FactOm5Out := by
   intro G _ _ K hK x hx hodd
   have hsimple : IsSimpleGroup (↥K ⧸ CFSG.oddCore ↥K) :=
     sec8t84g6_simple_of_shape (Or.inl hK.2)
-  haveI : Group.IsPerfect ↥K := hK.1.1
+  have : Group.IsPerfect ↥K := hK.1.1
   have hcen : center ↥K = CFSG.oddCore ↥K := center_eq_oddCore_of_simple hK.1 hsimple
   have hle : Nat.card (Outer (↥K ⧸ CFSG.oddCore ↥K)) ≤ 2 :=
     ff_card_outer_le_two_of_lieModel_psp hK.2

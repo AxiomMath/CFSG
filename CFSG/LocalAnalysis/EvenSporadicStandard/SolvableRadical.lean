@@ -17,12 +17,12 @@ theorem isSolvable_solvableRadical (G : Type) [Group G] [Finite G] :
 
 theorem solvableRadical_eq_bot_of_isSimpleGroup (G : Type) [Group G] [Finite G]
     [IsSimpleGroup G] (hnab : ∃ x y : G, x * y ≠ y * x) : solvableRadical G = ⊥ := by
-  haveI : (solvableRadical G).Normal := solvableRadical_normal G
+  have : (solvableRadical G).Normal := solvableRadical_normal G
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (solvableRadical G) with h | h
   · exact h
   · exfalso
     obtain ⟨x, y, hxy⟩ := hnab
-    haveI : Group.IsSolvable ↥(solvableRadical G) := isSolvable_solvableRadical G
+    have : Group.IsSolvable ↥(solvableRadical G) := isSolvable_solvableRadical G
     have hsurj : Function.Surjective (Subgroup.subtype (solvableRadical G)) := by
       have hrange : (Subgroup.subtype (solvableRadical G)).range = ⊤ := by
         rw [Subgroup.range_subtype, h]

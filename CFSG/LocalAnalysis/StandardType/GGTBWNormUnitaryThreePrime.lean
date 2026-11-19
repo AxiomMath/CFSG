@@ -429,11 +429,11 @@ theorem ggTorusWNormSC_unitary_three_prime {K : Type} [Field K] [Finite K]
           · by_cases hj : j ∈ S
             · simp [TableBUE.blockExt, hi, hj, Matrix.one_apply, diagonal_apply]
             · have hij : i ≠ j := fun e => hj (e ▸ hi)
-              simp [TableBUE.blockExt, hi, hj, hij, diagonal_apply]
+              simp [TableBUE.blockExt, hi, hj, hij]
           · by_cases hij : i = j
             · subst hij
-              simp [TableBUE.blockExt, hi, diagonal_apply]
-            · simp [TableBUE.blockExt, hi, hij, Matrix.one_apply, diagonal_apply]
+              simp [TableBUE.blockExt, hi]
+            · simp [TableBUE.blockExt, hi, hij]
         have hζ1 : (ζ : K) ≠ 1 := by
           rw [Ne, Units.val_eq_one]
           exact hζ.ne_one (by norm_num)

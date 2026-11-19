@@ -34,7 +34,7 @@ theorem coprime_three_of_isPGroup_two {Q : Subgroup G} (hQ : IsPGroup 2 Q) :
   exact Nat.Coprime.pow_right n (by norm_num)
 
 theorem L32Data.stage620iii_of_block (h : L32Data M B H S K z b f) {A₀ B₀ : Subgroup G}
-    (hAB : A₀ ≤ B₀) (hBW : B₀ ≤ omegaCenter (K ⊓ pCoreOf 2 H))
+    (_hAB : A₀ ≤ B₀) (hBW : B₀ ≤ omegaCenter (K ⊓ pCoreOf 2 H))
     (hXB : K ⊔ pCoreOf 2 H ≤ normalizer (B₀ : Set G)) (hKA : K ≤ centralizer (A₀ : Set G))
     (hKW : ∀ w ∈ K ⊓ pCoreOf 2 H, ∀ k ∈ K, w * k * w⁻¹ * k⁻¹ ∈ B₀)
     (h8 : A₀.relIndex B₀ = 8)

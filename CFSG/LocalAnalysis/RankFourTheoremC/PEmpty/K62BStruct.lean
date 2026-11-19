@@ -22,7 +22,7 @@ theorem Cfg.moved_card_and_z (h : Cfg p P x z)
       (∀ e ∈ E, (∀ i : Moved P, ∀ c ∈ i.1.1, c * e = e * c) → e = 1) ∧
       (∀ g ∈ P, g ∈ normalizer (E : Set Y)) := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEdef, hEP, hEl, hEe, hEn, hcard, hP5⟩ := h.moved_family hM
   have hJE := h.card_le_of_normalizes hEP hEe (hEn x h.x_mem)
   have hm1 : Nat.card (Moved P) ≤ p := by
@@ -76,10 +76,11 @@ theorem Cfg.moved_card_and_z (h : Cfg p P x z)
   exact ⟨E, hEdef, hEP, hEl, hEe, hzE, hm, hpp, hP5, hEn⟩
 
 
+omit [Finite Y] in
 theorem commute_of_normalizes_zpowers {p : ℕ} (hp : p.Prime) {a x : Y} (ha : orderOf a = p)
     (hxp : x ^ p = 1) (hx : x ∈ normalizer ((zpowers a : Subgroup Y) : Set Y)) :
     x * a = a * x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : x * a * x⁻¹ ∈ zpowers a := (mem_normalizer_iff.mp hx a).mp (mem_zpowers a)
   obtain ⟨k, hk⟩ := mem_zpowers_iff.mp h1
   have hiter : ∀ j : ℕ, x ^ j * a * (x ^ j)⁻¹ = a ^ (k ^ j) := by
@@ -130,12 +131,12 @@ theorem Cfg.struct (h : Cfg p P x z) (h64 : KFactCenterCyclicGeFive) (h610 : GL8
       (∀ C C' : ComponentIndex Y, ∃ k : ℕ, cjComp (x ^ k) C = C') ∧ z ∈ layer Y ∧
       (∀ g ∈ P, g ∈ centralizer (layer Y : Set Y) → g = 1) := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hM : ∀ C : ComponentIndex Y, ¬ Fixed P C → IsCyclic ↥(P ⊓ C.1) ∧ center C.1 = ⊥ :=
     fun C hC => ⟨hcycl C hC, h.center_eq_bot_of_cyclic h610 (hcycl C hC)⟩
   obtain ⟨C₀, hC₀⟩ : ∃ C₀ : ComponentIndex Y, ¬ Fixed P C₀ := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     obtain ⟨C, C', hCC'⟩ := hcomp
     exact h.false_of_two_fixed h64 h610 hCC' (hall C) (hall C')
   obtain ⟨E, hEdef, hEP, hEl, hEe, hzE, hm, hpp, hP5, hEn⟩ :=
@@ -178,7 +179,7 @@ theorem Cfg.struct (h : Cfg p P x z) (h64 : KFactCenterCyclicGeFive) (h610 : GL8
     exact h.z_ne_one hz1
   have hxmoves : ∃ C₁ : ComponentIndex Y, x ∉ normalizer (C₁.1 : Set Y) := by
     by_contra hnone
-    push_neg at hnone
+    push Not at hnone
     have hcent : ∀ i : Moved P, omega1 p P i.1 ≤ centralizer ({x} : Set Y) := by
       intro i
       obtain ⟨a₀, -, ho, he⟩ := h.omega1_eq_zpowers (hcycl i.1 i.2)

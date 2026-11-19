@@ -167,15 +167,15 @@ private theorem a2Config_diagonal {G : Type} [Group G] [Finite G] {x y : G} {X K
         intro hbot
         exact ne_bot_of_isPComponent_two h.X_comp
           (by rw [hbot]; exact Subgroup.bot_subgroupOf (centralizer ({x, y} : Set G)))
-      haveI : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).mpr hXnt
-      haveI : Nontrivial ↥(X.subgroupOf φ.range) :=
+      have : Nontrivial ↥X := (Subgroup.nontrivial_iff_ne_bot X).mpr hXnt
+      have : Nontrivial ↥(X.subgroupOf φ.range) :=
         (Subgroup.subgroupOfEquivOfLe hXleRange).surjective.nontrivial
-      haveI : Group.IsPerfect ↥X := hperfX
+      have : Group.IsPerfect ↥X := hperfX
       have hUperf : Group.IsPerfect ↥(X.subgroupOf φ.range) :=
         Group.IsPerfect.ofSurjective
           (f := (Subgroup.subgroupOfEquivOfLe hXleRange).symm.toMonoidHom)
           (Subgroup.subgroupOfEquivOfLe hXleRange).symm.surjective
-      haveI : Group.IsPerfect ↥(X.subgroupOf φ.range) := hUperf
+      have : Group.IsPerfect ↥(X.subgroupOf φ.range) := hUperf
       exact (Group.IsPerfect.not_isMulCommutative ↥(X.subgroupOf φ.range)) hUcomm
   exact ⟨hne, hcommutator, φ, hφapply, le_antisymm hXleRange hRangeX, hker⟩
 

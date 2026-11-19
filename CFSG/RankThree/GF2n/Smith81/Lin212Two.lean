@@ -143,7 +143,7 @@ theorem eq_one_of_mul_mul_eq' {F : Type} [Field F] [CharP F 2] {A B : Matrix (Fi
     Matrix.mem_range_scalar_iff_commute_single'.mpr fun i j => (hcomm _).symm
   have hc1 : c = 1 := by
     have hdet : (Matrix.scalar (Fin 2) c).det = c ^ 2 := by
-      simp [Matrix.scalar_apply, Matrix.det_diagonal, Fin.prod_univ_two, sq]
+      simp [Matrix.scalar_apply, Matrix.det_diagonal, sq]
     rw [hc, hA] at hdet
     have : c ^ 2 = 1 ^ 2 := by rw [← hdet, one_pow]
     exact CharTwo.sq_inj.mp this
@@ -154,6 +154,7 @@ section TMAux
 
 variable [Finite G] {M Q Z B : Subgroup G} {TM : TensorModel M Q Z B}
 
+omit [Finite G] in
 theorem exists_phi_eq' (g : Matrix (Fin 2) (Fin 2) TM.F) (hg : g.det = 1) :
     ∃ s : ↥(Lgen M (LB M Q B)), (TM.φ s : Matrix (Fin 2) (Fin 2) TM.F) = g := by
   have hmem : Matrix.GeneralLinearGroup.mkOfDetNeZero g (by rw [hg]; exact one_ne_zero) ∈
@@ -207,7 +208,7 @@ theorem exists_matrix_form' (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M)
   · have := hform (TM.Φ e)
     rw [hT'_apply, AddEquiv.symm_apply_apply] at this
     rw [this]
-    simp [Matrix.smul_mul, Matrix.mul_smul, smul_smul, hr0]
+    simp [smul_smul, hr0]
 
 end TMAux
 
@@ -215,14 +216,17 @@ section World
 
 variable [Finite G] {M Q Z B : Subgroup G} {V₁ V₂ : Subgroup G}
 
+omit [Finite G] in
 theorem Q_le_LgenLB : Q ≤ Lgen M (LB M Q B) :=
   (le_sup_left : Q ≤ Q ⊔ (QB B ⊓ M)).trans (le_Lgen_self M (LB M Q B))
 
+omit [Finite G] in
 theorem Z_comm (H : StrothHyp M Q Z) {z q : G} (hz : z ∈ Z) (hq : q ∈ Q) : z * q = q * z := by
   have h : z ∈ cen Q := H.hZ ▸ hz
   rw [cen_eq] at h
   exact (Subgroup.mem_centralizer_iff.mp h.2 q hq).symm
 
+omit [Finite G] in
 theorem conj_mem_of_normalizer {V : Subgroup G} {t : G} (h : t ∈ Subgroup.normalizer (V : Set G))
     {v : G} (hv : v ∈ V) : t * v * t⁻¹ ∈ V :=
   (Subgroup.mem_normalizer_iff.mp h v).mp hv
@@ -275,6 +279,7 @@ theorem comm_eq_one_of_mem_Z (hc : Ctx M Q Z B) (SS : OddSetup M Q Z B V₁ V₂
   rw [e, hzaC, inv_mul_cancel_left]
   exact Z.mul_mem (Z.mul_mem (comm_mem_Z H ha₀Q (Q.inv_mem hcQ)) hza) hzb
 
+omit [Finite G] in
 theorem conjSubgroup_injective {A C : Subgroup G} {m : G}
     (h : conjSubgroup m A = conjSubgroup m C) : A = C := by
   ext v
@@ -329,7 +334,7 @@ theorem oddSetup_conj_V (SS : OddSetup M Q Z B V₁ V₂) (hc₁ : Nat.card V₁
 theorem exists_mem_ne_one_ne {X : Subgroup G} (hX : 3 ≤ Nat.card X) (x : G) :
     ∃ y ∈ X, y ≠ 1 ∧ y ≠ x := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (X : Set G) ⊆ {1, x} := by
     intro y hy
     by_cases hy1 : y = 1
@@ -358,7 +363,7 @@ theorem exists_cent_not_mem {V Z : Subgroup G} (hab : ∀ a ∈ V, ∀ b ∈ V, 
   rw [Subgroup.card_map_of_injective V.subtype_injective] at hrk
   have hkr := Subgroup.card_ker_mul_card_range f
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hkZ : Nat.card f.ker ≤ Nat.card Z := by
     rw [← Subgroup.card_map_of_injective V.subtype_injective]
     refine Subgroup.card_le_of_le ?_
@@ -469,6 +474,7 @@ theorem Sit.comm_eq_one (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B 2 V₁ V₂)
   obtain ⟨hd₁, hd₂⟩ := hasDimOn_two hc hS hs hxL
   exact comm_eq_one_of_mem_Z hc SS hc₁ hc₂ hxL hs.x_sq hd₁ hd₂ hd hdZ
 
+omit [Finite G] in
 theorem comm_mem_commutator_zpowers {V : Subgroup G} {x v : G} (hv : v ∈ V) :
     ⁅x, v⁆ ∈ ⁅V, Subgroup.zpowers x⁆ := by
   rw [← commutatorElement_inv]
@@ -490,7 +496,7 @@ theorem Sit.exists_root_le_two (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B 2 V₁ 
   have hq := H.q4
   obtain ⟨q', hq'V, hcZ⟩ : ∃ q' ∈ V₁, ⁅x, q'⁆ ∉ Z := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hle : ⁅V₁, Subgroup.zpowers x⁆ ⊔ Z ≤ Z := by
       refine sup_le ?_ le_rfl
       rw [Subgroup.commutator_le]
@@ -727,7 +733,7 @@ theorem c8_two (hb : Smith1981Below (Nat.card G)) (hc : Ctx M Q Z B)
   obtain ⟨K, _, _, _, γ, M₀, gm, c, hcM, ν, hν, hcπ⟩ := lin26Scalar_of_two G M Q Z B V₁ V₂ hb hc hS
   obtain ⟨p, hp, hp2, A, hQA, hAM, hAn, hpow, hAc, c', hcA, hfpf⟩ :=
     exists_scalar_normal_of_scalar hc.hyp gm (Lgen_le_H0 hc) hcM hν hcπ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQ2 : IsPGroup 2 Q := by
     rw [hc.hyp.hQ]
     exact (inSubgroup_pCore_two M).1

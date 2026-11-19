@@ -45,7 +45,7 @@ variable {Y S : Type*} [Group Y] [Group S]
 
 theorem ker_le_of_isCoatom_of_perfect [Finite Y] (hperf : Group.IsPerfect Y) {Z X : Subgroup Y}
     (hZ : Z ≤ Subgroup.center Y) (hX : IsCoatom X) : Z ≤ X := by
-  haveI : Group.IsPerfect Y := hperf
+  have : Group.IsPerfect Y := hperf
   by_contra hle
   have hlt : X < X ⊔ Z := by
     refine lt_of_le_of_ne le_sup_left ?_
@@ -55,7 +55,7 @@ theorem ker_le_of_isCoatom_of_perfect [Finite Y] (hperf : Group.IsPerfect Y) {Z 
     have hz' : z ∈ X ⊔ Z := Subgroup.mem_sup_right hz
     rwa [← heq] at hz'
   have htop : X ⊔ Z = ⊤ := hX.lt_iff.mp hlt
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   have hproduct : ∀ x ∈ X ⊔ Z, ∃ e ∈ X, ∃ i ∈ Z, e * i = x :=
     fun x hx => Subgroup.mem_sup_of_normal_right.mp hx
   have hcentral : ∀ e ∈ X, ∀ i ∈ Z, Commute e i :=
@@ -141,7 +141,7 @@ theorem maximal_overgroups_of_central_cover [Finite Y] (π : Y →* S) (hπ : Fu
   have hcardB' : Nat.card (B.comap π) = Nat.card π.ker * Nat.card B := by
     rw [card_eq_card_ker_mul_card_map π hKB', Subgroup.map_comap_eq_self_of_surjective hπ B]
   have hpos : 0 < Nat.card π.ker := by
-    haveI : Nonempty ↥π.ker := ⟨1, (π.ker).one_mem⟩
+    have : Nonempty ↥π.ker := ⟨1, (π.ker).one_mem⟩
     exact Nat.card_pos
   have hclause1 : ∀ X : Subgroup Y, IsCoatom X → T ≤ X → X = A.comap π ∨ X = B.comap π := by
     intro X hX hTX

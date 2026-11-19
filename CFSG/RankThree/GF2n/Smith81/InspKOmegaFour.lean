@@ -65,7 +65,7 @@ theorem KFact.exists_frame_pomega_plus_four {Y : Type} [Group Y] {D : Set Y} (hH
       rw [h1] at h2
       exact Nat.pow_right_injective (le_refl 2) h2
     subst hnm
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h0 : 0 < 4 := by norm_num
     obtain ⟨d₁, hd₁, hd₁A⟩ := hX.memA ⟨0, h0⟩
     have hd₁mem : d₁ ∈ A ⟨0, h0⟩ := by
@@ -127,7 +127,7 @@ theorem KFact.exists_frame_pomega_minus_four {Y : Type} [Group Y] {D : Set Y} (h
     {f : ℕ} (hf : 2 ≤ f) (hL : LieModel Y .POmegaMinus 4 2 f)
     (hroot : ∀ d ∈ D, Nat.card (rootGroup D d) = 2 ^ f) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2) (b c : K)
-      (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
+      (_hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
       (Ψ : spinGroup (quadMinus 4 K b c) →* Y),
       Nat.card K = 2 ^ f ∧ Function.Surjective Ψ ∧ Ψ.ker ≤ Subgroup.center _ ∧
       ∃ g : spinGroup (quadMinus 4 K b c),
@@ -188,15 +188,15 @@ theorem KFact.exists_frame_pomega_minus_four {Y : Type} [Group Y] {D : Set Y} (h
         hcardR _ F.mem
       rcases KFact.nslFrame_cases F hZ hf hmem with
         ⟨n, K, _, _, _, Ψ, hn, hK, hLm, -⟩ |
-        ⟨n, K, _, _, b, c, hirr, Ψ, hn, hK, hLm, hsurj, hker, i, hi, hmemR⟩ |
+        ⟨n, K, _, _, b, c, _hirr, Ψ, hn, hK, hLm, hsurj, hker, i, hi, hmemR⟩ |
         ⟨t, n, f', ht1, ht2, ht3, hL'⟩
       · exact absurd (lieModel_POmega_two_unique hsgn hL hLm).1 (by simp)
       · obtain ⟨-, hnm, -⟩ := lieModel_POmega_two_unique hsgn hL hLm
         subst hnm
-        haveI hch : CharP K 2 := KFact.charP_two_of_card (by omega) hK
+        have hch : CharP K 2 := KFact.charP_two_of_card (by omega) hK
         obtain ⟨d₁, hd₁, hmd⟩ := hmemR
         have hd₁mem : d₁ ∈ Subgroup.map Ψ
-            ((minusDatum 4 hirr).rootGroup (Pi.single i 1)) := by
+            ((minusDatum 4 _hirr).rootGroup (Pi.single i 1)) := by
           rw [hmd]
           exact rootSet_subset_rootGroup D d₁ ⟨hd₁, fun _ _ => Iff.rfl⟩
         obtain ⟨x, hx, hxd⟩ := Subgroup.mem_map.mp hd₁mem
@@ -206,14 +206,14 @@ theorem KFact.exists_frame_pomega_minus_four {Y : Type} [Group Y] {D : Set Y} (h
           have := hH.root.1 d₁ hd₁
           rw [← hxd, orderOf_one] at this
           omega
-        obtain ⟨a, rfl⟩ := (mem_minusRootGroup_long_iff 4 hirr
+        obtain ⟨a, rfl⟩ := (mem_minusRootGroup_long_iff 4 _hirr
           (succ_ne_of_lt 4 hi) true false (toStdB_single_of_lt' 4 hi)).mp hx
         have ha : a ≠ 0 := by
           rintro rfl
           exact hx1 (map_one _)
-        obtain ⟨w, hw⟩ := exists_conj_longRoot_std_minus (by norm_num : 4 ≤ 4) hirr
+        obtain ⟨w, hw⟩ := exists_conj_longRoot_std_minus (by norm_num : 4 ≤ 4) _hirr
           (succ_ne_of_lt 4 hi) true false ha
-        refine ⟨K, inferInstance, inferInstance, hch, b, c, hirr, Ψ, hK, hsurj, hker, w, ?_⟩
+        refine ⟨K, inferInstance, inferInstance, hch, b, c, _hirr, Ψ, hK, hsurj, hker, w, ?_⟩
         have hw' : w * KFact.stdLongRootMinus K (by norm_num : 4 ≤ 4) b c * w⁻¹ =
             (minusFrame 4 b c).longRoot (succ_ne_of_lt 4 hi) true false (.ofAdd a) := hw
         rw [hw', hxd]

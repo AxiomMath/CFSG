@@ -25,7 +25,7 @@ theorem lemma35_inv {n : ℕ} {Z N : Subgroup X} (hZ : IsPGroup 2 ↥Z)
     IsSylowTwoIn (⊤ : Subgroup X) ((S : Subgroup ↥N).map N.subtype) := by
   have hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set SX : Subgroup X := (S : Subgroup ↥N).map N.subtype with hSX
-  have hSXp : IsPGroup 2 ↥SX := S.isPGroup'.map N.subtype
+  have hSXp : IsPGroup 2 ↥SX := S.isPGroup.map N.subtype
   have hZSX : Z ≤ SX := le_map_sylow_of_isPGroup_normalizer hZ hN S
   obtain ⟨S₀, hS₀⟩ := hSXp.exists_le_sylow
   have hmain : SX = (S₀ : Subgroup X) := by
@@ -34,10 +34,10 @@ theorem lemma35_inv {n : ℕ} {Z N : Subgroup X} (hZ : IsPGroup 2 ↥Z)
       exact le_bot_iff.1 hS₀
     have hnt : Nontrivial ↥(S₀ : Subgroup X) := (Subgroup.nontrivial_iff_ne_bot _).2 h1
     have hcn : Nontrivial ↥(Subgroup.center ↥(S₀ : Subgroup X)) :=
-      S₀.isPGroup'.center_nontrivial
+      S₀.isPGroup.center_nontrivial
     have hdvd : 2 ∣ Nat.card ↥(Subgroup.center ↥(S₀ : Subgroup X)) := by
       obtain ⟨k, hk⟩ :=
-        (S₀.isPGroup'.to_subgroup (Subgroup.center ↥(S₀ : Subgroup X))).exists_card_eq
+        (S₀.isPGroup.to_subgroup (Subgroup.center ↥(S₀ : Subgroup X))).exists_card_eq
       have hk0 : k ≠ 0 := by
         rintro rfl
         have h1' : Nat.card ↥(Subgroup.center ↥(S₀ : Subgroup X)) = 1 := by simpa using hk
@@ -95,14 +95,14 @@ theorem lemma35_inv {n : ℕ} {Z N : Subgroup X} (hZ : IsPGroup 2 ↥Z)
     have hS₀card : Nat.card (S₀ : Subgroup X) ∣ Nat.card CN := by
       have h1 : Nat.card (S₀ : Subgroup X) ∣ Nat.card Oc * Nat.card CN :=
         (Subgroup.card_dvd_of_le hS₀C).trans hCcard
-      obtain ⟨k, hk⟩ := S₀.isPGroup'.exists_card_eq
+      obtain ⟨k, hk⟩ := S₀.isPGroup.exists_card_eq
       have hcop : Nat.Coprime (Nat.card (S₀ : Subgroup X)) (Nat.card Oc) := by
         rw [hk]
         exact (Nat.coprime_two_left.2 hOcodd).pow_left k
       exact hcop.dvd_of_dvd_mul_left h1
     have hCNN : Nat.card CN ∣ Nat.card N := Subgroup.card_dvd_of_le inf_le_left
     have hS₀N : Nat.card (S₀ : Subgroup X) ∣ Nat.card N := hS₀card.trans hCNN
-    obtain ⟨k, hk⟩ := S₀.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S₀.isPGroup.exists_card_eq
     have hN0 : Nat.card N ≠ 0 := Nat.card_pos.ne'
     have hk' : k ≤ (Nat.card N).factorization 2 := by
       rw [hk] at hS₀N
@@ -116,7 +116,7 @@ theorem lemma35_inv {n : ℕ} {Z N : Subgroup X} (hZ : IsPGroup 2 ↥Z)
     exact Subgroup.eq_of_le_of_card_ge hS₀ hle
   have hSXS₀ : IsSylowTwoIn (⊤ : Subgroup X) SX := by
     rw [hmain]
-    refine ⟨le_top, S₀.isPGroup', ?_⟩
+    refine ⟨le_top, S₀.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S₀.not_dvd_index
   exact hSXS₀

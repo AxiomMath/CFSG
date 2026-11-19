@@ -50,7 +50,7 @@ theorem exists_mulEquiv_statedSL4_of_coverHyp (hG : CFSG.GH74.Generic.GenericKno
     exact ⟨F, hFf, hFfin, h2F, ⟨MulEquiv.ofBijective π ⟨hinj, hπs⟩⟩⟩
   · exfalso
     have hi : ∃ i : F, i * i = -1 := by
-      haveI := Fintype.ofFinite F
+      have := Fintype.ofFinite F
       have hsq : IsSquare (-1 : F) := by
         rw [FiniteField.isSquare_neg_one_iff, Fintype.card_eq_nat_card]
         omega
@@ -74,7 +74,7 @@ theorem exists_mulEquiv_statedSU4_of_coverHyp (hG : CFSG.GH74.Generic.GenericKno
   have h2K : (2 : K) ≠ 0 := CFSG.GH74.L5U5.two_ne_zero_of_odd_card hKodd
   obtain ⟨π, hπs, hπe⟩ := hG.psu4_cover Q hquasi h2z K (p ^ f) hK hq_odd e
   have hker := l4u_ker_scalar e π hπe
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : Subgroup.center (StatedProj (StatedSU 4 (p ^ f) K)) = ⊥ :=
     CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.ka_center_bot_pu hK (by norm_num) (by simp)
   have hnonker := l4u_exists_nonker hZ π hπs hker hz
@@ -116,7 +116,7 @@ theorem exists_mulEquiv_statedSU4_of_coverHyp (hG : CFSG.GH74.Generic.GenericKno
     have hq2 : (p ^ f) ^ 2 % 4 = 1 := by
       rw [Nat.pow_mod, h4']
     have hi : ∃ i : K, i * i = -1 := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       have hsq : IsSquare (-1 : K) := by
         rw [FiniteField.isSquare_neg_one_iff, Fintype.card_eq_nat_card, hK, hq2]
         norm_num
@@ -145,7 +145,7 @@ theorem f1LeafU4_holds
   obtain ⟨K, _, _, _, hK, ⟨e⟩⟩ :=
     exists_mulEquiv_statedSU4_of_coverHyp (CFSG.GH74.Generic.genericKnownFacts_of_griess hGA) hQ
       hp hp2 hf h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact CentralSquareFour.of_mulEquiv e (centralSquareFour_statedSU4 hp2 hK)
 
 end CFSG.ComponentClassification.Sol76.Sig.GSYard03

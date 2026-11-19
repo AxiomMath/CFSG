@@ -87,8 +87,7 @@ theorem Shat_comm {s t : MulAut WMod} (hs : s ∈ Shat) (ht : t ∈ Shat) : s * 
 
 theorem card_Shat : Nat.card ↥Shat = 16 := by
   unfold Shat
-  rw [Subgroup.card_map_of_injective rho_injective, card_prod_subgroup, card_Scen_aux] <;>
-    norm_num
+  rw [Subgroup.card_map_of_injective rho_injective, card_prod_subgroup, card_Scen_aux]
 
 theorem pCoreOf_stabE : CFSG.Open.pCoreOf 2 stabE = Shat := by
   apply le_antisymm

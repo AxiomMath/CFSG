@@ -26,7 +26,7 @@ theorem borel166Conclusion_of_benderType_sz {K : Type} [Group K] [Finite K] {n :
   have hYeq : Y = rootCenter (Q : Subgroup K) :=
     Subgroup.eq_of_le_of_card_ge hYZ (by rw [hY, hc.card_center])
   rw [hYeq]
-  haveI : IsCyclic ↥(cartan (Q : Subgroup K) t) := hc.isCyclic
+  have : IsCyclic ↥(cartan (Q : Subgroup K) t) := hc.isCyclic
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(cartan (Q : Subgroup K) t))
   set h : K := (g : K) with hh
   have hhD : h ∈ cartan (Q : Subgroup K) t := by rw [hh]; exact g.2

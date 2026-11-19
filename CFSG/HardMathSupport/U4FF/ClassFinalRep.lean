@@ -48,9 +48,10 @@ theorem binRep_ne_one {G : Type} [Group G] (L : Subgroup (MulAut S)) (η : ↥L 
   have h2 := binaryLin_injective (W := S) (h1.trans (map_one binaryLin).symm)
   exact Subtype.ext h2
 
+omit [Fact (∀ (s : S), s * s = 1)] in
 theorem nontrivial_of_isU4Group {n : ℕ} {L : Subgroup (MulAut S)} (hL : IsU4Group n L) :
     Nontrivial S ∧ ∃ x : ↥L, x ≠ 1 := by
-  haveI := isSimpleGroup_of_isU4Group hL
+  have := isSimpleGroup_of_isU4Group hL
   obtain ⟨x, hx⟩ := exists_ne (1 : ↥L)
   refine ⟨?_, x, hx⟩
   by_contra h

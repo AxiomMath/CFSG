@@ -131,7 +131,7 @@ theorem pnode_succ (n w m nw : Nat) (LR TR TRI : Nat → Nat) (BP nb : Nat) (src
               (Nat.lor IM (Nat.shiftLeft (apL w m ts (rpt w m (LR i) k)) (Nat.mul w i))),
             0))) := by
   unfold pnode
-  simp only [Nat.rec_add_one, strictN_eqS, child]
+  simp only [strictN_eqS, child]
   rfl
 
 theorem leafOK_of {n w nb BP IM : Nat} {ts : List Nat} {A : Equiv.Perm (Fin n)}
@@ -166,7 +166,7 @@ theorem card_le_pnode {src Ys pr : List Nat} (hs : srcOK w (mask w) BP nb src Ys
     {Y : Nat → Equiv.Perm (Fin n)} (hY : ∀ l < nb, PRep n w (nthN Ys l) (Y l)) :
     ∀ fuel i, i + fuel = nb → ∀ (ts tis : List Nat) (IM : Nat) (A : Equiv.Perm (Fin n)),
       LRep n w ts A → IRep n w tis A⁻¹ → IM < 2 ^ (w * i) →
-      (∀ l (hl : l < i), ∀ hb' : pg w (mask w) BP l < n,
+      (∀ l (_hl : l < i), ∀ hb' : pg w (mask w) BP l < n,
         pg w (mask w) IM l = A ⟨pg w (mask w) BP l, hb'⟩) →
       ∀ X : Finset (Equiv.Perm (Fin n)),
         (∀ c ∈ X, (∀ l < nb, c * Y l = Y l * c) ∧
@@ -206,7 +206,7 @@ theorem card_le_pnode {src Ys pr : List Nat} (hs : srcOK w (mask w) BP nb src Ys
       have hcA := hXA c hc
       subst hcA
       exact leafOK_of hts hbn (fun l hl => hIM l hl (hbn l hl)) pr (hX c hc).2.1
-    rw [if_pos hok]
+    rw [ite_eq_left hok]
     exact Finset.card_le_one.2 fun a ha b hb2 => (hXA a ha).trans (hXA b hb2).symm
   | succ fuel ih =>
     intro i hi ts tis IM A hts htis hIMlt hIM X hX
@@ -264,7 +264,7 @@ theorem card_le_pnode {src Ys pr : List Nat} (hs : srcOK w (mask w) BP nb src Ys
     have hYi := hY i hib
     by_cases hlt : nthN src i < i
     ·
-      rw [if_pos (Nat.blt_eq.mpr hlt)]
+      rw [ite_eq_left (Nat.blt_eq.mpr hlt)]
       by_cases hne : X = ∅
       · rw [hne, Finset.card_empty]
         exact Nat.zero_le _
@@ -292,7 +292,7 @@ theorem card_le_pnode {src Ys pr : List Nat} (hs : srcOK w (mask w) BP nb src Ys
         rw [hAp]
         exact Ag.posE _ (Fin.is_lt _) hk0
       have hkR : L.pos[(((A⁻¹ * c0) bi : Fin n) : Nat)]! < rcnt R := Ag.cnt ▸ hk0
-      rw [hpos, nIf_eqS, if_pos (Nat.blt_eq.mpr hkR)]
+      rw [hpos, nIf_eqS, ite_eq_left (Nat.blt_eq.mpr hkR)]
       refine hchild _ hkR p X fun c hc => ⟨hc, ?_, ?_⟩
       · have e : (A⁻¹ * c) bi = (A⁻¹ * c0) bi := by
           rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hci c hc, hci c0 hc0]
@@ -300,7 +300,7 @@ theorem card_le_pnode {src Ys pr : List Nat} (hs : srcOK w (mask w) BP nb src Ys
         rwa [e] at this
       · rw [hpv, hci c hc]
     ·
-      rw [if_neg (by rw [Nat.blt_eq]; exact hlt)]
+      rw [ite_eq_right (by rw [Nat.blt_eq]; exact hlt)]
       have hsi' : nthN src i = i := le_antisymm hsi.1 (Nat.le_of_not_lt hlt)
       have hYbi : Y i bi = bi := Fin.ext (by rw [← hYi bi]; have := hsi.2; rwa [hsi'] at this)
       rw [sumN_eqS]
@@ -330,7 +330,7 @@ theorem card_le_pnode {src Ys pr : List Nat} (hs : srcOK w (mask w) BP nb src Ys
         have e := congrArg (fun σ : Equiv.Perm (Fin n) => σ bi) ((hX c0 hc0X).1 i hib)
         simp only [Equiv.Perm.mul_apply, hYbi] at e
         rw [← e]
-      rw [nIf_eqS, if_pos hfl]
+      rw [nIf_eqS, ite_eq_left hfl]
       refine hchild k hk' q _ fun c hc => ?_
       obtain ⟨hcX, hck⟩ := Finset.mem_filter.1 hc
       refine ⟨hcX, ?_, (hqc c hcX hck).symm⟩

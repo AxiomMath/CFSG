@@ -9,6 +9,7 @@ namespace CFSG.StandardType.QTwo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem qtwoDL1_le_ggOTwoPrime_ggOTwoPrime (Y : Subgroup G) :
     ggOTwoPrime Y ≤ ggOTwoPrime (ggOTwoPrime Y) := by
   rw [ggOTwoPrime, Subgroup.closure_le]
@@ -75,7 +76,7 @@ theorem qtwoDL1_not_comm_of_card_six {S : Subgroup G} (h6 : Nat.card ↥S = 6)
   have hST : S ≤ T := hS2.trans hgen
   have hT2 : T ≤ S := fun _ hx => hx.1
   have hdvdT : Nat.card ↥T ∣ 6 := h6 ▸ Subgroup.card_dvd_of_le hT2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTp : IsPGroup 2 ↥T := by
     rw [isPGroup_iff_pow_pow_eq_one]
     intro x
@@ -88,7 +89,7 @@ theorem qtwoDL1_not_comm_of_card_six {S : Subgroup G} (h6 : Nat.card ↥S = 6)
     have h2 : 2 ^ 2 ∣ 2 ^ n := pow_dvd_pow 2 (by omega)
     have h46 : 4 ∣ 6 := by
       have := h2.trans (hn ▸ hdvdT)
-      simpa using this
+      simp at this
     norm_num at h46
   have hTle2 : Nat.card ↥T ≤ 2 := by
     rw [hn]

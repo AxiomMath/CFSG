@@ -52,8 +52,7 @@ theorem small_facts {r : Nat} (hr : r < 5) : WW (cw r) 0 = 0 ∧
       WW (bw r i) 0 = 0 ∧
       ∀ k < 36, (ABL r i).getD k 0 = trK (stepF 2) (PARf 2) (LABf 2) 36 k (WW (bw r i) 227759)) := by
   have h := List.all_eq_true.1 small_ok r (List.mem_range.2 hr)
-  simp only [Bool.and_eq_true, Bool.or_eq_true, Nat.beq_eq, Bool.not_eq_true',
-    Nat.blt_eq] at h
+  simp only [Bool.and_eq_true, Nat.beq_eq] at h
   obtain ⟨⟨h0, hA⟩, hb⟩ := h
   refine ⟨h0, fun k hk => Nat.eq_of_beq_eq_true (allN_spec hA k hk), fun i hi => ?_⟩
   have h' := List.all_eq_true.1 hb i (List.mem_range.2 hi)

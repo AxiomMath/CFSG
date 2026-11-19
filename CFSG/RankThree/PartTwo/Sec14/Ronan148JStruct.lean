@@ -36,6 +36,7 @@ theorem img148_deltaZero_le_of_hyperplanes {LB : Subgroup G → Subgroup G}
   rw [← this]
   exact hm
 
+omit [Finite G] in
 theorem le_deltaZero_centPre148 {LB : Subgroup G → Subgroup G} {J R : Subgroup G}
     (hR : R ∈ scriptQZero A LB) (hRY : R ≤ Y)
     (hRc : img148 A Y R ≤ Subgroup.centralizer (img148 A Y J : Set (↥(Y ⊔ A) ⧸ ker148 A Y))) :

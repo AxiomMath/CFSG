@@ -52,10 +52,10 @@ theorem j3_fourGen :
   have p23 := hp 23 (by simp)
   have p24 := hp 24 (by simp)
   simp only [j3Rows, List.all_cons, List.all_nil, beq_self_eq_true, Bool.true_or, Bool.true_and,
-    Bool.and_true, Bool.false_or]
+    Bool.and_true]
   unfold fourGenOK
   simp only [List.length_cons, List.length_nil, List.all_cons, List.all_nil, p22, p23, p24,
-    List.getElem!_cons_zero, List.getElem!_cons_succ, Bool.and_true, Bool.true_and]
+    List.getElem!_cons_zero, List.getElem!_cons_succ, Bool.and_true]
   rw [tbl_unpack (k := 22) (by norm_num), tbl_unpack (k := 23) (by norm_num),
     involOK_unpack' (by norm_num) hid hidc h22, involOK_unpack' (by norm_num) hid hidc h23,
     commTT_unpack h22 h23, tblEq_unpack h22 h23, a1, a2, a3, a4, a5]

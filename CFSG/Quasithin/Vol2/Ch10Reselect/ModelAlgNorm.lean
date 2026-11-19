@@ -87,7 +87,7 @@ theorem normStruct (hAut : AutSL2Exists) {K : Type} [Field K] [Finite K] [CharP 
       rw [hβ g, hβg, map_one, one_mul, mul_one]
     exact nrm_rho_eq_one (mul_left_cancel h1)
   have hαbij : Function.Bijective α := by
-    haveI : Finite (Matrix.SpecialLinearGroup (Fin 2) K) :=
+    have : Finite (Matrix.SpecialLinearGroup (Fin 2) K) :=
       Finite.of_injective
         (fun g : Matrix.SpecialLinearGroup (Fin 2) K => (g : Matrix (Fin 2) (Fin 2) K))
         (fun _ _ hgh => Subtype.ext hgh)

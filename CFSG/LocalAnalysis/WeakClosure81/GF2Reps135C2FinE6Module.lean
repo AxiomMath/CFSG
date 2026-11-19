@@ -41,7 +41,7 @@ open CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisE6
 
 theorem nonempty_ringHom_of_card_two {K k : Type} [Field K] [Finite K] [Field k] [CharP k 2]
     (hK : Nat.card K = 2) : Nonempty (K →+* k) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = Fintype.card (ZMod 2) := by
     rw [← Nat.card_eq_fintype_card, hK, ZMod.card]
   exact ⟨(ZMod.castHom (dvd_refl 2) k).comp (FiniteField.ringEquivOfCardEq hc).toRingHom⟩
@@ -53,7 +53,7 @@ theorem exists_adjointEquiv_of_lieModel {G : Type} [Group G] (h : LieModel G .E6
   have hm := (h.chevalleyExceptionalModel (by decide)).2
   obtain ⟨K, hKf, hKfin, hcard, ⟨e0⟩⟩ := hm
   have hc : Nat.card K = 2 := by simpa using hcard
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (k := 1) le_rfl (by simpa using hc)
   exact ⟨K, hKf, hKfin, inferInstance, hc,

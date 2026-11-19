@@ -21,6 +21,7 @@ variable (H) in
   fixingSubgroup H (Γ.neighborSet z) ⊓
     ⨅ w ∈ Γ.neighborSet z, fixingSubgroup H (Γ.neighborSet w)
 
+omit [GraphAction H Γ] in
 theorem mem_secondKernel_iff {z : V} {g : H} :
     g ∈ secondKernel H Γ z ↔
       (∀ w, Γ.Adj z w → g • w = w) ∧

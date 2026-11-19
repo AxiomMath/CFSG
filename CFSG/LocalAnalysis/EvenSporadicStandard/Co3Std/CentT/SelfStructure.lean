@@ -13,6 +13,7 @@ namespace CentConfig
 
 variable {X : Type} [Group X] [Finite X] {a b : X} {E : Subgroup X} {Fus : X → Prop}
 
+omit [Finite X] in
 theorem self_comm (E : Subgroup X) : ⁅E, centralizer (E : Set X)⁆ = ⊥ := by
   rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
   exact Subgroup.le_centralizer_iff.mpr le_rfl
@@ -55,7 +56,7 @@ theorem self_normal (h : CentConfig X a b E Fus) (hE : IsComponentOf E ⊤) : E.
 
 theorem self_sup (h : CentConfig X a b E Fus) (hE : IsComponentOf E ⊤) :
     E ⊔ centralizer (E : Set X) = ⊤ := by
-  haveI : E.Normal := self_normal h hE
+  have : E.Normal := self_normal h hE
   rw [eq_top_iff]
   intro x _
   obtain ⟨e, he⟩ := (IsTwoSp62.isSp62Cover h.E_two).aut_inner
@@ -81,7 +82,7 @@ theorem self_sup (h : CentConfig X a b E Fus) (hE : IsComponentOf E ⊤) :
 theorem self_quotient (h : CentConfig X a b E Fus) (hE : IsComponentOf E ⊤) [E.Normal] :
     LieModel (X ⧸ centralizer (E : Set X)) .PSp 3 2 1 := by
   let N : Subgroup X := centralizer (E : Set X)
-  haveI : N.Normal := Subgroup.normal_centralizer
+  have : N.Normal := Subgroup.normal_centralizer
   let φ : ↥E →* X ⧸ N := (QuotientGroup.mk' N).comp E.subtype
   have hker : φ.ker = Subgroup.center ↥E := by
     ext l

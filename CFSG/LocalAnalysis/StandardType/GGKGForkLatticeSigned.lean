@@ -78,9 +78,9 @@ private theorem ggKGSg_refl_single {k : ℕ} (i : Fin k) (y : Fin k → ℤ) :
   rw [ggLatRefl, ggKGSg_cartan_single]
   by_cases hl : l = i
   · subst hl
-    simp [Pi.single_apply]
+    simp
     ring
-  · simp [Pi.single_apply, Function.update_of_ne hl, hl]
+  · simp [hl]
 
 private theorem ggKGSg_cartan_sub {k : ℕ} {i j : Fin k} (hij : i ≠ j) (y : Fin k → ℤ) :
     ggLatCartan (1 : Matrix (Fin k) (Fin k) ℤ) y
@@ -91,7 +91,7 @@ private theorem ggKGSg_cartan_sub {k : ℕ} {i j : Fin k} (hij : i ≠ j) (y : F
   have h2 : dotProduct (Pi.single i (1 : ℤ) - Pi.single j (1 : ℤ))
       (Pi.single i (1 : ℤ) - Pi.single j (1 : ℤ)) = (2 : ℤ) := by
     rw [sub_dotProduct, dotProduct_sub, dotProduct_sub]
-    simp [dotProduct_single_one, single_dotProduct, Pi.single_apply, Pi.sub_apply, hij,
+    simp [hij,
       Ne.symm hij]
   rw [h1, h2]
   exact Int.mul_ediv_cancel_left (y i - y j) (by norm_num)
@@ -104,11 +104,11 @@ private theorem ggKGSg_refl_sub {k : ℕ} {i j : Fin k} (hij : i ≠ j) (y : Fin
   rw [ggLatRefl, ggKGSg_cartan_sub hij]
   by_cases hi : l = i
   · subst hi
-    simp [Pi.single_apply, Pi.sub_apply, hij]
+    simp [Pi.sub_apply, hij]
   · by_cases hj : l = j
     · subst hj
-      simp [Pi.single_apply, Pi.sub_apply, hi, Ne.symm hij]
-    · simp [Pi.single_apply, Pi.sub_apply, hi, hj]
+      simp [Pi.sub_apply, hi]
+    · simp [Pi.sub_apply, hi, hj]
 
 private theorem ggKGSg_cartan_add {k : ℕ} {i j : Fin k} (hij : i ≠ j) (y : Fin k → ℤ) :
     ggLatCartan (1 : Matrix (Fin k) (Fin k) ℤ) y
@@ -119,7 +119,7 @@ private theorem ggKGSg_cartan_add {k : ℕ} {i j : Fin k} (hij : i ≠ j) (y : F
   have h2 : dotProduct (Pi.single i (1 : ℤ) + Pi.single j (1 : ℤ))
       (Pi.single i (1 : ℤ) + Pi.single j (1 : ℤ)) = (2 : ℤ) := by
     rw [add_dotProduct, dotProduct_add, dotProduct_add]
-    simp [dotProduct_single_one, single_dotProduct, Pi.single_apply, Pi.add_apply, hij,
+    simp [hij,
       Ne.symm hij]
   rw [h1, h2]
   exact Int.mul_ediv_cancel_left (y i + y j) (by norm_num)
@@ -132,11 +132,11 @@ private theorem ggKGSg_refl_add {k : ℕ} {i j : Fin k} (hij : i ≠ j) (y : Fin
   rw [ggLatRefl, ggKGSg_cartan_add hij]
   by_cases hi : l = i
   · subst hi
-    simp [Pi.single_apply, Pi.add_apply, hij]
+    simp [Pi.add_apply, hij]
   · by_cases hj : l = j
     · subst hj
-      simp [Pi.single_apply, Pi.add_apply, hi, Ne.symm hij]
-    · simp [Pi.single_apply, Pi.add_apply, hi, hj]
+      simp [Pi.add_apply, hi]
+    · simp [Pi.add_apply, hi, hj]
 
 private theorem ggKGSg_root_single {k : ℕ} (i : Fin k) :
     GGLatRoot (1 : Matrix (Fin k) (Fin k) ℤ) (Pi.single i (1 : ℤ)) := by
@@ -164,7 +164,7 @@ private theorem ggKGSg_root_sub {k : ℕ} {i j : Fin k} (hij : i ≠ j) :
     have h : dotProduct (Pi.single i (1 : ℤ) - Pi.single j (1 : ℤ))
         (Pi.single i (1 : ℤ) - Pi.single j (1 : ℤ)) = (2 : ℤ) := by
       rw [sub_dotProduct, dotProduct_sub, dotProduct_sub]
-      simp [dotProduct_single_one, single_dotProduct, Pi.single_apply, Pi.sub_apply, hij,
+      simp [hij,
         Ne.symm hij]
     rw [h]
     exact ⟨_, rfl⟩
@@ -181,7 +181,7 @@ private theorem ggKGSg_root_add {k : ℕ} {i j : Fin k} (hij : i ≠ j) :
     have h : dotProduct (Pi.single i (1 : ℤ) + Pi.single j (1 : ℤ))
         (Pi.single i (1 : ℤ) + Pi.single j (1 : ℤ)) = (2 : ℤ) := by
       rw [add_dotProduct, dotProduct_add, dotProduct_add]
-      simp [dotProduct_single_one, single_dotProduct, Pi.single_apply, Pi.add_apply, hij,
+      simp [hij,
         Ne.symm hij]
     rw [h]
     exact ⟨_, rfl⟩
@@ -225,7 +225,7 @@ private theorem ggKGSg_d_mulSingle_apply {p k : ℕ} {u : MulAut (ggKGSg_V p k)}
 private theorem ggKGSg_range_card {p k : ℕ} (hp : p.Prime) {u : MulAut (ggKGSg_V p k)}
     (hcard : Nat.card {f : ggKGSg_V p k // u f = f} * p = Nat.card (ggKGSg_V p k)) :
     Nat.card (ggKGSg_d u).range = p := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hK : Nat.card (ggKGSg_d u).ker = Nat.card {f : ggKGSg_V p k // u f = f} :=
     ggKGSg_d_ker_card u
   have hV : Nat.card (ggKGSg_V p k) =
@@ -239,14 +239,14 @@ private theorem ggKGSg_range_card {p k : ℕ} (hp : p.Prime) {u : MulAut (ggKGSg
       p * Nat.card (ggKGSg_d u).ker := by
     rw [h1, mul_comm]
   have hKpos : 0 < Nat.card (ggKGSg_d u).ker := by
-    haveI : Nonempty (ggKGSg_d u).ker := ⟨⟨1, (ggKGSg_d u).ker.one_mem⟩⟩
+    have : Nonempty (ggKGSg_d u).ker := ⟨⟨1, (ggKGSg_d u).ker.one_mem⟩⟩
     exact Nat.card_pos
   exact Nat.mul_right_cancel hKpos h2
 
 private theorem ggKGSg_coord_supp {p k : ℕ} (hp : p.Prime) {x y : ggKGSg_V p k}
     (hy : y ≠ 1) (hpow : ∃ c : ℕ, x ^ c = y) :
     ∀ j, toAdd (y j) = 0 ↔ toAdd (x j) = 0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨c, hc⟩ := hpow
   have hc0 : ((c : ℕ) : ZMod p) ≠ 0 := by
     intro hc0
@@ -270,7 +270,7 @@ private theorem ggKGSg_mem_supp_self {p k : ℕ} (hp : p.Prime) {u : MulAut (ggK
     (hπ : ∀ f i, toAdd (u f (π i)) = ε i * toAdd (f i)) (j : Fin k)
     (hj : ggKGSg_d u (ggKGSg_delta j) ≠ 1) :
     toAdd (ggKGSg_d u (ggKGSg_delta j) j) ≠ 0 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   by_cases hpj : π j = j
   · intro h0
     apply hj
@@ -324,7 +324,7 @@ private theorem ggKGSg_classify {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     ∃ w : Fin k → ℤ, GGLatRoot (1 : Matrix (Fin k) (Fin k) ℤ) w ∧
       ∀ y : Fin k → ℤ, u (ggKGSg_red y) = ggKGSg_red (ggLatRefl (1 : Matrix (Fin k) (Fin k) ℤ) w y) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨π, ε, hε, hπ⟩ := hu
   have hrange : Nat.card (ggKGSg_d u).range = p := ggKGSg_range_card hp hcard
   have hex : ∃ i, ggKGSg_d u (ggKGSg_delta i) ≠ 1 := by
@@ -339,14 +339,14 @@ private theorem ggKGSg_classify {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     have hr : (ggKGSg_d u).range = ⊥ := by
       rw [hd]
       ext x
-      simp [MonoidHom.mem_range, eq_comm]
+      simp
     have h1 : Nat.card (ggKGSg_d u).range = 1 := by
       rw [hr]
       exact Subgroup.card_bot
     rw [hrange] at h1
     exact hp.ne_one h1
   obtain ⟨i0, hi0⟩ := hex
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpow : ∀ i, ggKGSg_d u (ggKGSg_delta i) ≠ 1 →
       ∃ c : ℕ, (ggKGSg_d u (ggKGSg_delta i0)) ^ c = ggKGSg_d u (ggKGSg_delta i) := by
     intro i hi
@@ -423,21 +423,21 @@ private theorem ggKGSg_classify {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     by_cases hl : l = i0
     · subst hl
       simp [Function.update_self]
-    · simp [Function.update_of_ne hl, hl]
+    · simp [hl]
   ·
     set i1 : Fin k := π i0 with hi1def
     have hi1 : i1 ≠ i0 := by rw [hi1def]; exact hfix
     have hπi0 : π i0 = i1 := hi1def.symm
     have hx0i0 : toAdd (ggKGSg_d u (ggKGSg_delta i0) i0) = -1 := by
-      rw [hx0 i0, if_neg (Ne.symm hi1), if_pos rfl]
+      rw [hx0 i0, ite_eq_right (Ne.symm hi1), ite_eq_left rfl]
       ring
     have hx0i1 : toAdd (ggKGSg_d u (ggKGSg_delta i0) i1) = ε i0 := by
-      rw [hx0 i1, if_pos rfl, if_neg hi1]
+      rw [hx0 i1, ite_eq_left rfl, ite_eq_right hi1]
       ring
     have hx0out : ∀ j, j ≠ i0 → j ≠ i1 →
         toAdd (ggKGSg_d u (ggKGSg_delta i0) j) = 0 := by
       intro j hj0 hj1
-      rw [hx0 j, if_neg hj1, if_neg hj0]
+      rw [hx0 j, ite_eq_right hj1, ite_eq_right hj0]
       ring
     have htriv : ∀ j, j ≠ i0 → j ≠ i1 → ggKGSg_d u (ggKGSg_delta j) = 1 := by
       intro j hj0 hj1
@@ -475,7 +475,7 @@ private theorem ggKGSg_classify {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       · have hR : (if l = i0 then i1 else if l = i1 then i0 else l) = i1 := by simp [h0]
         rw [hR, h0, Equiv.symm_apply_eq, hπi1]
       · by_cases h1 : l = i1
-        · have hR : (if l = i0 then i1 else if l = i1 then i0 else l) = i0 := by simp [h0, h1]
+        · have hR : (if l = i0 then i1 else if l = i1 then i0 else l) = i0 := by simp [h1]
           rw [hR, h1, Equiv.symm_apply_eq]
         · have hR : (if l = i0 then i1 else if l = i1 then i0 else l) = l := by simp [h0, h1]
           rw [hR, Equiv.symm_apply_eq]
@@ -552,7 +552,7 @@ theorem ggTorusLattice_of_signedModel {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         ∃ w : Fin m → ℤ, GGLatRoot Q w ∧ ∀ y : Fin m → ℤ,
           φ (Additive.toMul (π y)) = Additive.toMul (π (ggLatRefl Q w y)) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   refine ⟨k, 1, ggKGSg_pi (p := p) (k := k) Θ, ggKGSg_latForm_one,
     ggKGSg_pi_surjective Θ, ?_⟩
   intro φ hφmem hφrefl

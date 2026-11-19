@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G] {A Abar S₀ B : Subgroup G}
 
 namespace Sec3Ctx
 
+omit [Finite G] in
 theorem mem_centralizer_of_isSChoice (h : Sec3Ctx A Abar S₀ B) {s : G}
     (hs : Section3.IsSChoice A Abar S₀ B s) : s ∈ centralizer (A : Set G) := by
   obtain ⟨b, hb, -, hdisj⟩ := hs

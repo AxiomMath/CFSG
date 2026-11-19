@@ -27,7 +27,7 @@ theorem factorization_three_card_onan : (460815505920 : ℕ).factorization 3 = 4
 theorem sylow_three_comm_of_ON
     {S : Type} [Group S] [Finite S] (e : S ≃* Spor .ONan) :
     ∀ P : Sylow 3 S, ∀ a b : S, a ∈ (P : Subgroup S) → b ∈ (P : Subgroup S) → a * b = b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨β⟩ := CFSG.Sporadic.Bridge.ON.nonempty_mulEquiv
   have hS : Nat.card S = 460815505920 :=
     (Nat.card_congr (e.toEquiv.trans β.toEquiv.symm)).trans CFSG.Sporadic.ON.card_ON
@@ -44,7 +44,7 @@ theorem sylow_three_comm_of_ON
     congrArg Subtype.val (hE.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   let Q : Sylow 3 S := Sylow.ofCard E hEc
   have hQ : (Q : Subgroup S) = E := rfl
-  haveI : Finite (Sylow 3 S) := Sylow.finite_of_finiteIndex Q
+  have : Finite (Sylow 3 S) := Sylow.finite_of_finiteIndex Q
   intro P a b ha hb
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq S Q P
   have hPg : (P : Subgroup S) = MulAut.conj g • E := by

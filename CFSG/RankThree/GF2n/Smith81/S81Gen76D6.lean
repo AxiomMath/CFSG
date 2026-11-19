@@ -199,13 +199,13 @@ theorem rootGensW_single [CharP K 2] {g : (Module.End K (W K))ˣ} (hg : g ∈ ro
   obtain rfl : g = xuWUnit hβ c := h.unique (xuWUnit_induces hβ c)
   rw [xuWUnit_apply, EW_single hβ]
   by_cases hpr : pr (a : Fin e7Data.d) β = -1
-  · rw [if_pos hpr]
+  · rw [ite_eq_left hpr]
     refine Or.inr ⟨shiftW β a, ?_, isLine_rootLineW ⟨β, hβ, hpr, (shiftW_val hβ hpr).symm⟩, c, rfl⟩
     intro hba
     have h1 := pr_shift_self hβ'.1 hpr
     rw [← shiftW_val hβ hpr, hba, hpr] at h1
     norm_num at h1
-  · rw [if_neg hpr, smul_zero, add_zero]
+  · rw [ite_eq_right hpr, smul_zero, add_zero]
     exact Or.inl rfl
 
 theorem weightPointsW_generate [CharP K 2] {S : Set (Submodule K (W K))}

@@ -55,7 +55,7 @@ theorem six_le_pRank_of_surj_PSp4 {K : Type} [Field K] [Finite K] {q f : ℕ} (h
     calc 27 = 3 ^ 3 := by norm_num
       _ ≤ q ^ 3 := Nat.pow_le_pow_left hq3 3
       _ ≤ q ^ f := Nat.pow_le_pow_right hq.pos hf
-  haveI : IsSimpleGroup (StatedProj (StatedSp 2 K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSp 2 K)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp K 2 (by norm_num)
       (Or.inl (Or.inr (by omega)))
   obtain ⟨hperf, ⟨eM⟩⟩ :=

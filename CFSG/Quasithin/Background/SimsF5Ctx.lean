@@ -168,6 +168,7 @@ theorem ctx_exists_central {X : Type} [Group X] [Finite X] {T U : Subgroup X} (h
 
 variable {G : Type} [Group G] [Finite G] {M₁ M₂ : Subgroup G}
 
+omit [Finite G] in
 theorem toG_xB_sq (iso : AutIso M₁ M₂) : iso.toG xB ^ 2 = 1 := by
   have h : xB * xB = 1 := Subtype.ext (by
     show xA * xA = 1
@@ -175,12 +176,14 @@ theorem toG_xB_sq (iso : AutIso M₁ M₂) : iso.toG xB ^ 2 = 1 := by
   rw [pow_two, ← AutIso.toG_mul, h]
   exact AutIso.toG_one iso
 
+omit [Finite G] in
 theorem toG_xB_ne_one (iso : AutIso M₁ M₂) : iso.toG xB ≠ 1 := by
   intro h
   rw [← AutIso.toG_one iso] at h
   have h' := congrArg (fun b : ↥Bh => ((b : Ah) : Equiv.Perm (Fin 45))) (AutIso.toG_injective iso h)
   exact U42.xY_ne_one (Subtype.ext h')
 
+omit [Finite G] in
 theorem toG_xB_mem_centerOf (iso : AutIso M₁ M₂) : iso.toG xB ∈ centerOf (M₁ ⊓ M₂) := by
   refine ⟨iso.toG_mem xB, Subgroup.mem_centralizer_iff.2 fun g hg => ?_⟩
   obtain ⟨b, rfl⟩ : ∃ b : ↥Bh, iso.toG b = g := ⟨iso.phiB.symm ⟨g, hg⟩, by

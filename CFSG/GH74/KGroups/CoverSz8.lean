@@ -67,8 +67,8 @@ theorem sz8_cover :
   have hZc : ∀ z ∈ Z, ∀ g : K, g * z = z * g := fun z hz g => Subgroup.mem_center_iff.1 hz g
   obtain ⟨T⟩ : Nonempty (Sylow 2 (K ⧸ Z)) := inferInstance
   obtain ⟨hT1, hT2, hT3, x, hxN, hxtrans⟩ :=
-    Sz8.bender h (T : Subgroup (K ⧸ Z)) T.isPGroup' T.not_dvd_index
-  have hEcard := Sz8.bender_card h (T : Subgroup (K ⧸ Z)) T.isPGroup' T.not_dvd_index
+    Sz8.bender h (T : Subgroup (K ⧸ Z)) T.isPGroup T.not_dvd_index
+  have hEcard := Sz8.bender_card h (T : Subgroup (K ⧸ Z)) T.isPGroup T.not_dvd_index
   set E : Subgroup (K ⧸ Z) := (T : Subgroup (K ⧸ Z)) ⊓
     Subgroup.centralizer ((T : Subgroup (K ⧸ Z)) : Set (K ⧸ Z)) with hEdef
   have hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := by

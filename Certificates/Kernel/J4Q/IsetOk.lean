@@ -65,7 +65,7 @@ theorem iAt_dec {k : Nat} (hk : k < 43264) :
     simpa [Nat.shiftLeft_eq] using this
   · have hg' := allR_spec h5 g hg
     beta_reduce at hg'
-    simp only [orB_eq'', andB_eq, Bool.and_eq_true, Bool.or_eq_true] at hg'
+    simp only [orB_eq'', Bool.and_eq_true, Bool.or_eq_true] at hg'
     obtain ⟨⟨a1, a2⟩, a3⟩ := hg'
     refine ⟨lt_of_blt a1, ?_, Nat.eq_of_beq_eq_true a3⟩
     rcases a2 with a2 | a2

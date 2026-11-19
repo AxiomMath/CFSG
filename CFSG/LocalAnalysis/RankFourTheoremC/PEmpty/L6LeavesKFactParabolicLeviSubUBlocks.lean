@@ -91,7 +91,7 @@ theorem eq_one_of_pow_eq_one_hypSU_small (h : UnitaryFieldData 2 f K) (hε : ε 
   · have := subsingleton_hypSU_zero h hε
     exact Subsingleton.elim _ _
   · have : Finite K := h.finite
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     by_contra hx1
     have hord : orderOf x = p := orderOf_eq_prime hx hx1
     have hdvd : p ∣ Nat.card (hypSU h 1 ε) := hord ▸ orderOf_dvd_natCard x
@@ -168,7 +168,7 @@ theorem uni_res_block_data (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1) {p : �
   have hpZ : ¬ p ∣ Nat.card (Subgroup.center (hypSU h s ε)) := by
     rw [hZ]
     exact fun hd => hq1 (hd.trans (Nat.gcd_dvd_right _ _))
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf x = p := orderOf_eq_prime hx hx1
   have hdvd : p ∣ Nat.card (hypSU h s ε) := hord ▸ orderOf_dvd_natCard x
   have hmul := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center (hypSU h s ε))
@@ -196,7 +196,7 @@ theorem exists_uniLeviHom_ne_one (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1) {
     (hI : IsTopCut I t) {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p)
     {g : ↥(flagStabilizer h (t + s) ε ↑I)} (hgp : g ^ p = 1) (hg1 : g ≠ 1) :
     ∃ j, uniLeviHom h hε hI g j ≠ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hβ : uniLeviHom h hε hI g ≠ 1 := by
     intro h1
     obtain ⟨k, hk⟩ := isPGroup_ker_uniLeviHom h hε hI ⟨g, h1⟩

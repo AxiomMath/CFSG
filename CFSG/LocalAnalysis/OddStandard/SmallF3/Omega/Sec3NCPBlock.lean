@@ -14,7 +14,7 @@ open Subgroup CFSG.LocalAnalysis.ComponentInitial
 theorem asc82NonCommuteNonPocketed_of_walter12L2
     (h : Asc82Walter12L2) : Asc82NonCommuteNonPocketed := by
   intro G _ _ t L hS X hXC hXF hF hL g
-  haveI : IsSimpleGroup G := hS.simple
+  have : IsSimpleGroup G := hS.simple
   have huniv : ComponentAtCentralInvolutions X := h G t L hS X hXC hXF hF hL
   obtain ⟨x₀, hx₀, hXx₀⟩ := hXC.1
   have hXq : CFSG.Assembly.IsComponentOf X (centralizer ({x₀} : Set G)) :=

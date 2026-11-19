@@ -12,6 +12,7 @@ open scoped commutatorElement
 variable {Γ M : Type} [Group Γ] [Finite Γ] [Group M] [Finite M] {ρ : Γ →* MulAut M}
   {t : Γ} {J Q P M6 M7 K : Subgroup Γ}
 
+omit [Finite Γ] in
 private lemma mem_sup_of_commute {H L : Subgroup Γ}
     (hcomm : ∀ a ∈ H, ∀ b ∈ L, a * b = b * a) {x : Γ} :
     x ∈ H ⊔ L ↔ ∃ a ∈ H, ∃ b ∈ L, a * b = x := by
@@ -40,6 +41,7 @@ private lemma mem_sup_of_commute {H L : Subgroup Γ}
   rw [hEq]
   exact hS x
 
+omit [Finite Γ] in
 private lemma conjSub_central {g z : Γ} {H : Subgroup Γ}
     (hz : ∀ h ∈ H, z * h = h * z) :
     ∀ m ∈ conjSub g H, (g * z * g⁻¹) * m = m * (g * z * g⁻¹) := by

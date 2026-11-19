@@ -39,11 +39,14 @@ variable {G : Type} [Group G] [Finite G]
     have : Commute x y := hxc y hy
     exact this.inv_left.eq
 
+omit [Finite G] in
 theorem omegaZ_le (P : Subgroup G) : omegaZ P ≤ P := fun _ hx => hx.1
 
+omit [Finite G] in
 theorem isElemAbelian_omegaZ (P : Subgroup G) : CFSG.Assembly.IsElemAbelian 2 (omegaZ P) :=
-  ⟨⟨⟨fun a b => Subtype.ext (a.2.2.1 b b.2.1)⟩⟩, fun x hx => hx.2.2⟩
+  ⟨⟨⟨fun a b => Subtype.ext (a.2.2.1 b b.2.1)⟩⟩, fun _x hx => hx.2.2⟩
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_omegaZ (P : Subgroup G) :
     Subgroup.normalizer (P : Set G) ≤ Subgroup.normalizer (omegaZ P : Set G) := by
   have key : ∀ g ∈ Subgroup.normalizer (P : Set G), ∀ x ∈ omegaZ P, g * x * g⁻¹ ∈ omegaZ P := by
@@ -66,19 +69,23 @@ theorem normalizer_le_normalizer_omegaZ (P : Subgroup G) :
   have e : g⁻¹ * (g * x * g⁻¹) * (g⁻¹)⁻¹ = x := by group
   rwa [e] at this
 
+omit [Finite G] in
 theorem qOf_le (s : G) : qOf s ≤ Subgroup.centralizer ({s} : Set G) :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem isPGroup_qOf (s : G) : IsPGroup 2 (qOf s) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.pCore_isPGroup.map _
 
+omit [Finite G] in
 theorem centralizer_le_normalizer_qOf (s : G) :
     Subgroup.centralizer ({s} : Set G) ≤ Subgroup.normalizer (qOf s : Set G) :=
   Subgroup.le_normalizer.trans
     (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (CFSG.pCore 2 (Subgroup.centralizer ({s} : Set G))))
 
+omit [Finite G] in
 theorem inf_centralizer_le_rOf (e s : G) :
     qOf s ⊓ Subgroup.centralizer ({e} : Set G) ≤ rOf e s := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -114,8 +121,8 @@ theorem inf_centralizer_le_rOf (e s : G) :
 theorem exists_ne_one_mem_omegaZ {P : Subgroup G} (hP2 : IsPGroup 2 P) (hP1 : P ≠ ⊥) :
     ∃ x ∈ omegaZ P, x ≠ 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).mpr hP1
-  haveI : Nontrivial (Subgroup.center P) := hP2.center_nontrivial
+  have : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).mpr hP1
+  have : Nontrivial (Subgroup.center P) := hP2.center_nontrivial
   have hZ2 : IsPGroup 2 (Subgroup.center P) := hP2.to_subgroup _
   obtain ⟨k, hk⟩ := hZ2.exists_card_eq
   have hk1 : k ≠ 0 := by
@@ -138,6 +145,7 @@ theorem exists_ne_one_mem_omegaZ {P : Subgroup G} (hP2 : IsPGroup 2 P) (hP1 : P 
     rw [this, orderOf_one] at hz
     omega
 
+omit [Finite G] in
 theorem isTwoLocal_centralizer_of_sq {t : G} (ht1 : t ≠ 1) (ht2 : t ^ 2 = 1) :
     CFSG.Assembly.IsTwoLocal (Subgroup.centralizer ({t} : Set G)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

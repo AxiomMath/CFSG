@@ -84,9 +84,9 @@ theorem exists_mulEquiv_elemAbelian_two {G : Type*} [Group G] [Finite G] (E : Su
     (hE : IsElemAbelian 2 E) (n : ℕ) (hcard : Nat.card ↥E = 2 ^ n) :
     Nonempty (↥E ≃* Multiplicative (Fin n → ZMod 2)) := by
   classical
-  letI : CommGroup ↥E := @IsMulCommutative.instCommGroup _ _ hE.1
+  let : CommGroup ↥E := @IsMulCommutative.instCommGroup _ _ hE.1
   have hsq : ∀ y : ↥E, y ^ 2 = 1 := fun y => Subtype.ext (hE.2 (y : G) y.2)
-  haveI : Module (ZMod 2) (Additive ↥E) :=
+  have : Module (ZMod 2) (Additive ↥E) :=
     AddCommGroup.zmodModule fun x => by
       apply Additive.toMul.injective
       simpa [toMul_nsmul] using hsq (Additive.toMul x)

@@ -29,11 +29,11 @@ theorem coprime_action_trivial_of_fixed_normal_and_quotient
     (hfixQ : ∀ a : A, ∀ q : G ⧸ N, a • q = q) :
     ∀ a : A, ∀ g : G, a • g = g := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpiG : IsPiGroup ({⟨2, Nat.prime_two⟩} : Set Nat.Primes) G :=
     isPiGroup_singleton_two_of_isPGroup hG2
-  haveI : Group.IsNilpotent G := hG2.isNilpotent
-  haveI : Group.IsSolvable G := @IsNilpotent.to_isSolvable G _ (hG2.isNilpotent)
+  have : Group.IsNilpotent G := hG2.isNilpotent
+  have : Group.IsSolvable G := @IsNilpotent.to_isSolvable G _ (hG2.isNilpotent)
   let Gi : Fin 3 → Subgroup G := ![⊤, N, ⊥]
   let next : Fin 3 → Fin 3 := ![1, 2, 2]
   have hstab : StabilizesNormalSeries (G := G) (A := A) Gi next := by
@@ -120,7 +120,7 @@ theorem coprime_action_trivial_of_fixed_normal_and_quotient
     have heven : 2 ∣ Nat.card (A ⧸ K) := ⟨2 ^ j, by rw [hk]; ring⟩
     exact hoddQ.not_two_dvd_nat heven
   have hcard1 : Nat.card (A ⧸ K) = 1 := by rw [hk, hk0, pow_zero]
-  haveI : Subsingleton (A ⧸ K) := Finite.card_le_one_iff_subsingleton.mp (by omega)
+  have : Subsingleton (A ⧸ K) := Finite.card_le_one_iff_subsingleton.mp (by omega)
   intro a g
   have haK : a ∈ K := by
     rw [← QuotientGroup.eq_one_iff]
@@ -141,7 +141,7 @@ theorem coprime_action_trivial_mod_of_fixed_normal_and_quotient
   let Nq : Subgroup qW := N.map (QuotientGroup.mk' W)
   have hNq_normal : Nq.Normal :=
     Subgroup.Normal.map hNn (QuotientGroup.mk' W) (QuotientGroup.mk'_surjective W)
-  haveI : Nq.Normal := hNq_normal
+  have : Nq.Normal := hNq_normal
   have hqG2 : IsPGroup 2 qW := by
     obtain ⟨k, hk⟩ := hG2.exists_card_eq
     refine IsPGroup.of_card_dvd_pow (p := 2) (n := k) ?_
@@ -168,7 +168,7 @@ theorem coprime_action_trivial_mod_of_fixed_normal_and_quotient
       exact (hmemNq (a • x)).mpr ((hNinv.invariant a x).mp ((hmemNq x).mp hx))
     · intro hx
       exact (hmemNq x).mpr ((hNinv.invariant a x).mpr ((hmemNq (a • x)).mp hx))
-  haveI : IsInvariant A qW Nq := hNq_inv
+  have : IsInvariant A qW Nq := hNq_inv
   have hfixN : ∀ a : A, ∀ q : qW, q ∈ Nq → a • q = q := by
     intro a q hq
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
@@ -218,7 +218,7 @@ theorem commutator_zpowers_le_of_mem_commutator {M W : Subgroup G} {a : G}
     { carrier := {z | ∀ m ∈ M, (z : G) * m * (z : G)⁻¹ * m⁻¹ ∈ W}
       one_mem' := by
         intro m hm
-        simpa using W.one_mem
+        simp
       mul_mem' := by
         intro z₁ z₂ hz₁ hz₂ m hm
         have hz₁n : (z₁ : G) ∈ Subgroup.normalizer (W : Set G) := hAn z₁.2

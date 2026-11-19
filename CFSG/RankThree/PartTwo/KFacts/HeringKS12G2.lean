@@ -41,11 +41,11 @@ namespace KS12G2
 
 theorem rowOf_getD (m : List ℕ) {i : ℕ} (hi : i < 14) :
     ((List.range 14).map (rowOf m)).getD i [] = rowOf m i := by
-  simp [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range, hi]
+  simp [List.getD_eq_getElem?_getD, hi]
 
 theorem colOf_getD (n : List ℕ) {j : ℕ} (hj : j < 14) :
     ((List.range 14).map (colOf n)).getD j [] = colOf n j := by
-  simp [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range, hj]
+  simp [List.getD_eq_getElem?_getD, hj]
 
 theorem sum_zipWith_map (f g : ℕ → ℕ) (l : List ℕ) :
     (List.zipWith (· * ·) (l.map f) (l.map g)).sum = (l.map fun k => f k * g k).sum := by

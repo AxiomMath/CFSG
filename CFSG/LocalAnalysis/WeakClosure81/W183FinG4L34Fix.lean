@@ -26,14 +26,14 @@ private theorem w183finL34Good_rho (A : GL (Fin 3) F4) : w183finL34Good (rho A) 
     have h := vIdx_lt (Matrix.mulVec (A : Matrix (Fin 3) (Fin 3) F4) (vecOf p))
     rw [rho_apply]
     unfold rhoFun
-    rw [if_pos hp]
+    rw [ite_eq_left hp]
     exact h
   · intro p hp
     have h := vIdx_lt (Matrix.mulVec
       (Matrix.transpose ((A⁻¹ : GL (Fin 3) F4) : Matrix (Fin 3) (Fin 3) F4)) (vecOf p))
     rw [rho_apply]
     unfold rhoFun
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
     change 21 ≤ 21 + vIdx (Matrix.mulVec
       (Matrix.transpose ((A⁻¹ : GL (Fin 3) F4) : Matrix (Fin 3) (Fin 3) F4)) (vecOf p))
     omega
@@ -59,12 +59,12 @@ private theorem w183finL34Good_g6 : w183finL34Good g₆ := by
   constructor
   · intro p hp
     change 21 ≤ (g6Fun p).val
-    simp only [g6Fun, dif_pos hp, Fin.val_mk]
+    simp only [g6Fun, dite_eq_left hp, Fin.val_mk]
     omega
   · intro p hp
     change (g6Fun p).val < 21
     have hnot : ¬ p.val < 21 := by omega
-    simp only [g6Fun, dif_neg hnot, Fin.val_mk]
+    simp only [g6Fun, dite_eq_right hnot, Fin.val_mk]
     omega
 
 private def w183finL34BlockSubgroup : Subgroup (Equiv.Perm (Fin 42)) where
@@ -193,7 +193,7 @@ private theorem w183finL34_card_filter_range (mask lo : ℕ) (hlo : lo + 21 ≤ 
   · intro i hi
     have hi21 : i < 21 := Finset.mem_range.1 (Finset.mem_filter.1 hi).1
     have hbit : mask.testBit (lo + i) = true := (Finset.mem_filter.1 hi).2
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Fin.val_mk]
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and]
     exact ⟨by omega, by omega, hbit⟩
   · intro p hp
     obtain ⟨hp1, hp2, hp3⟩ := (Finset.mem_filter.1 hp).2
@@ -204,12 +204,12 @@ private theorem w183finL34_card_filter_range (mask lo : ℕ) (hlo : lo + 21 ≤ 
     exact hp3
   · intro i hi
     have hi21 : i < 21 := Finset.mem_range.1 (Finset.mem_filter.1 hi).1
-    simp only [Fin.val_mk]
+    simp only
     omega
   · intro p hp
     obtain ⟨hp1, hp2, hp3⟩ := (Finset.mem_filter.1 hp).2
     apply Fin.ext
-    simp only [Fin.val_mk]
+    simp only
     omega
 
 private theorem w183finL34_ncard_fixSet {A : Subgroup (Equiv.Perm (Fin 42))} {mask : ℕ}
@@ -488,7 +488,7 @@ theorem preserves_block_of_normalizes
     rcases fix_counts hAC hel h8 with ⟨h0c, h1c⟩ | ⟨h0c, h1c⟩
     · have hmap : τ '' fixSet A 0 21 ⊆ fixSet A 21 42 := by
         rintro _ ⟨p, hp, rfl⟩
-        simp only [fixSet, Set.mem_setOf_eq] at hp
+        simp only [fixSet, Set.mem_ofPred_eq] at hp
         obtain ⟨hp0, hp21, hpf⟩ := hp
         exact ⟨hsw0 p hp21, (τ p).isLt, w183finL34_normalizer_fixes hτA hpf⟩
       have hle := Set.ncard_le_ncard hmap
@@ -496,7 +496,7 @@ theorem preserves_block_of_normalizes
       omega
     · have hmap : τ '' fixSet A 21 42 ⊆ fixSet A 0 21 := by
         rintro _ ⟨p, hp, rfl⟩
-        simp only [fixSet, Set.mem_setOf_eq] at hp
+        simp only [fixSet, Set.mem_ofPred_eq] at hp
         obtain ⟨hp21, hp42, hpf⟩ := hp
         exact ⟨Nat.zero_le _, hsw1 p hp21, w183finL34_normalizer_fixes hτA hpf⟩
       have hle := Set.ncard_le_ncard hmap

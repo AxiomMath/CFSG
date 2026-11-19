@@ -31,7 +31,7 @@ private theorem q2cLI_map_ggAutFixedSubgroup {R R' : Type*} [Group R] [Group R']
     exact hx'
 
 theorem q2c_lin_irred {N p : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpF : p ∣ Nat.card F - 1) (h4 : 4 ≤ Nat.card F) (hN : 2 ≤ N)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hpF : p ∣ Nat.card F - 1) (_h4 : 4 ≤ Nat.card F) (_hN : 2 ≤ N)
     {g : GL (Fin N) F} {c : Fˣ} (hc : ∀ z : Fˣ, z ^ p ≠ c)
     (hg : g ^ p = Matrix.GeneralLinearGroup.scalar (Fin N) c)
     {J₀ : Subgroup (LargeEvenProj (LargeEvenSLGroup (Fin N) F))}
@@ -79,8 +79,8 @@ theorem q2c_lin_irred {N p : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]
     (CFSG.HardMathSupport.Solomon.Coordinator.LieComp.linear_fieldType_component
       (n := N) (k := F) hp hpk hg hc' hT).1
   obtain ⟨h2a, E, hEfld, hEfin, hEcard, hiso⟩ := hstruct
-  letI : Field E := hEfld
-  letI : Fintype E := hEfin
+  let : Field E := hEfld
+  let : Fintype E := hEfin
   refine ⟨N / p, E, hEfld, inferInstance, h2a, ?_, hEcard, ?_⟩
   · have h := Nat.div_mul_cancel hpN
     rw [mul_comm]

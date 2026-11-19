@@ -24,7 +24,7 @@ theorem e6ComponentCore_of_toralComponentAction
     (hcore : E6ToralComponentAction) : E6ComponentCore := by
   intro G _ _ L J A d b n K _ _ _ hn hK h3 hS θ wd wb hd hb w g0 hg0 hF htorus
   classical
-  haveI : Finite (TableBExc.RecipeGroup Tag.E6 K) := Finite.of_equiv _ θ.toEquiv
+  have : Finite (TableBExc.RecipeGroup Tag.E6 K) := Finite.of_equiv _ θ.toEquiv
   have hdL : d ∈ Subgroup.normalizer (L : Set G) :=
     (CFSG.LocalAnalysis.GLTheoremA.S171.normalizer_of_innerDiagMarking hS.idiag) hS.d_mem
   have hcomp : CFSG.Assembly.IsComponentOf J
@@ -46,7 +46,7 @@ theorem e6ComponentCore_of_toralComponentAction
 theorem e6LangTorusExit_of_componentCore
     (hcore : E6ComponentCore) : E6LangTorusExit := by
   intro G _ _ L J A d b n K _ _ _ hn hK h3 hS θ wd wb hd hb w g0 hg0 hF htorus
-  haveI : Finite (TableBExc.RecipeGroup Tag.E6 K) := Finite.of_equiv _ θ.toEquiv
+  have : Finite (TableBExc.RecipeGroup Tag.E6 K) := Finite.of_equiv _ θ.toEquiv
   have hdiag : InnDiagOn 3 (Subgroup.zpowers (e6RecipeConj wb))
       (((J.subgroupOf L).map (piCenterQuot θ)).map (MulAut.conj :
         TableBExc.RecipeGroup Tag.E6 K →* MulAut (TableBExc.RecipeGroup Tag.E6 K))) :=

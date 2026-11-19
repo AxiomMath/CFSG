@@ -17,7 +17,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
   {Q : QuadraticForm (ZMod 3) V}
 
 theorem t5_coset_omega (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hs : quadSign Q = -1) {s g : OGroup Q} (hss : s * s = 1) (hs3 : invDim s = 3)
+    (_hs : quadSign Q = -1) {s g : OGroup Q} (hss : s * s = 1) (hs3 : invDim s = 3)
     (hg2 : g * g = 1 ∨ g * g = piOrth Q) (hg : ∃ u ∈ omegaGroup hQ, g = u * s) :
     g * g = 1 ∧ ((invType g = invType s ∧ ∃ c ∈ omegaGroup hQ, c * s * c⁻¹ = g) ∨
       invDim g = 1 ∨ invDim g = 5) := by

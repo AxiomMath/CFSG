@@ -17,7 +17,7 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 theorem ntpD4_layer
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p₀ : ℕ} (S : LangSetup .E6 L p₀)
     (a : Fin Tag.E6.rank → Lˣ) (n : ModGL .E6 L) (hpair : OrderThreeOutsideConnected S a n)
-    (hker : (rootCharKernel a).ncard = 24) (i : KernelComponent (rootCharHom a))
+    (_hker : (rootCharKernel a).ncard = 24) (i : KernelComponent (rootCharHom a))
     (hi : ∀ j : KernelComponent (rootCharHom a), j = i)
     (K : Subgroup (ModGL .E6 L))
     (hK : IsComponentOf K (S.Γ ⊓ Subgroup.centralizer
@@ -152,13 +152,13 @@ theorem ntpD4_layer
         (p := 3) Nat.prime_three h3L (fun h => absurd h (by decide)) hT hap h1 i with hq | hsolv
     · exact hq
     · exfalso
-      haveI : Group.IsSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := hsolv
+      have : Group.IsSolvable ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := hsolv
       have hKsolv : Group.IsSolvable ↥K :=
         Group.isSolvable_of_isSolvable_injective
           (f := Subgroup.inclusion hKR) (Subgroup.inclusion_injective hKR)
-      haveI := hKsolv
-      haveI hKnt : Nontrivial ↥K := by
-        haveI := hK.2.2.2.toNontrivial
+      have := hKsolv
+      have hKnt : Nontrivial ↥K := by
+        have := hK.2.2.2.toNontrivial
         exact (QuotientGroup.mk_surjective (s := Subgroup.center ↥K)).nontrivial
       have hlt := Group.IsSolvable.commutator_lt_top_of_nontrivial ↥K
       rw [hK.2.2.1] at hlt

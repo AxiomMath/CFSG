@@ -73,7 +73,7 @@ theorem e6Three_not_common_component_of_le_inndiag {K : Type} [Field K] [Finite 
   intro hall
   set L := AlgebraicClosure K with hL
   obtain ⟨K₁, hK₁, hroot⟩ := exists_cubeExt K
-  haveI : Finite K₁ := hK₁
+  have : Finite K₁ := hK₁
   have hinj := e6InndiagConj_injective K hK4
   have h3 : ¬ 3 ∣ Nat.card K := not_three_dvd_card_of_ringChar K hK3
   have hJfix : ∀ x ∈ E, ∀ c ∈ J, x c = c := fun x hx c hc => by
@@ -102,7 +102,7 @@ theorem e6Three_not_common_component_of_le_inndiag {K : Type} [Field K] [Finite 
       (MulAut.conj g0⁻¹).toMonoidHom.comp
         ((baseChangeGL (algebraMap K L)).comp (e6InndiagGL K).subtype)
     have hθ : ∀ x, θ x = g0⁻¹ * baseChangeGL (algebraMap K L) (x : ModGL Tag.E6 K) * g0 :=
-      fun x => by simp [θ, MulAut.conj_apply]
+      fun x => by simp [θ]
     have hθinj : Function.Injective θ :=
       (MulAut.conj g0⁻¹).injective.comp
         ((baseChangeGL_injective _).comp Subtype.val_injective)

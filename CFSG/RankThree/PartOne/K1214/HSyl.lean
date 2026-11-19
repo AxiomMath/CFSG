@@ -104,7 +104,7 @@ theorem kf1214HSyl_of_u5 (hU5 : KF1214U5) : KF1214HSyl := by
   obtain ⟨S, hCS⟩ := hC'p.exists_le_sylow
   set S1 : Subgroup G := (S : Subgroup ↥H).map H.subtype with hS1
   have hCS1 : P ⊓ H ≤ S1 := fun x hx => ⟨⟨x, hx.2⟩, hCS (Subgroup.mem_subgroupOf.2 hx), rfl⟩
-  have hS1p : IsPGroup p ↥S1 := S.isPGroup'.map H.subtype
+  have hS1p : IsPGroup p ↥S1 := S.isPGroup.map H.subtype
   have hS1H : S1 ≤ H := Subgroup.map_subtype_le _
   have hS1le : S1 ≤ P ⊓ H := by
     by_contra hne

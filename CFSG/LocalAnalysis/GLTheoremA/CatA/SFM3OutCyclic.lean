@@ -13,7 +13,7 @@ open CFSG.RankThree.PartOne.Census3 (IsoLie)
 theorem card_le_three_of_isCyclic_pow_three (H : Type) [Group H] [IsCyclic H] [Finite H]
     (h : ∀ x : H, x ^ 3 = 1) : Nat.card H ≤ 3 := by
   classical
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   have hc := IsCyclic.card_pow_eq_one_le (α := H) (n := 3) (by norm_num)
   simp only [h, Finset.filter_true_of_mem, Finset.mem_univ, implies_true] at hc
   rw [Nat.card_eq_fintype_card]
@@ -46,7 +46,7 @@ theorem card_le_three_mul_inf_inner_of_hom {S G : Type} [Group S] [Group G] [IsC
     Nat.card E ≤ 3 * Nat.card ↥(E ⊓ innerAutS S) := by
   by_cases hfin : Finite E
   swap
-  · haveI : Infinite E := not_finite_iff_infinite.mp hfin
+  · have : Infinite E := not_finite_iff_infinite.mp hfin
     rw [Nat.card_eq_zero_of_infinite]
     exact Nat.zero_le _
   let f : E →* G := Θ.comp E.subtype
@@ -67,7 +67,7 @@ theorem card_le_three_mul_inf_inner_of_hom {S G : Type} [Group S] [Group G] [IsC
   have hQ : Nat.card (E ⧸ f.ker) = Nat.card f.range :=
     Nat.card_congr (QuotientGroup.quotientKerEquivRange f).toEquiv
   have hR : Nat.card f.range ≤ 3 := by
-    haveI : Finite f.range := Finite.of_surjective _ (MonoidHom.rangeRestrict_surjective f)
+    have : Finite f.range := Finite.of_surjective _ (MonoidHom.rangeRestrict_surjective f)
     refine card_le_three_of_isCyclic_pow_three f.range fun x => ?_
     obtain ⟨y, hy⟩ := MonoidHom.mem_range.mp x.2
     have hy3 : y ^ 3 = 1 := Subtype.ext (by simpa using hE.2 _ y.2)
@@ -112,7 +112,7 @@ theorem I2023FactOutCyclic_holds : I2023FactOutCyclic := by
   intro S _ _ hS E hE
   obtain ⟨q, hq⟩ := isoLie_trialityD4_of_catalogIs hS
   obtain ⟨K, _, Θ, hcyc, hker⟩ := exists_cyclic_hom_of_isoLie_trialityD4 q hq
-  haveI : IsCyclic (K ≃+* K) := hcyc
+  have : IsCyclic (K ≃+* K) := hcyc
   exact card_le_three_mul_inf_inner_of_hom Θ hker hE
 
 end TriD4Out

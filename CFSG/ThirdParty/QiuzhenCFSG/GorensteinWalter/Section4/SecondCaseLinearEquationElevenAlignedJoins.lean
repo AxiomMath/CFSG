@@ -308,13 +308,13 @@ public theorem secondCase_equation11_aligned_join_identities
     rw [hX] at h
     exact ⟨g, h⟩
   -- `K` is abelian, and `A ≤ C_G(K)` (via `P ≤ C_G(E)`, `P0 ≤ K`)
-  haveI : CommGroup K := hKcyc.commGroup
+  have : CommGroup K := hKcyc.commGroup
   have hKleCK : K ≤ Subgroup.centralizer (K : Set G) := by
     intro k hk
     exact Subgroup.mem_centralizer_iff.mpr (by
       intro k' hk'
-      letI : IsCyclic K := hKcyc
-      letI : CommGroup K := IsCyclic.commGroup
+      let : IsCyclic K := hKcyc
+      let : CommGroup K := IsCyclic.commGroup
       have hcomm : (⟨k, hk⟩ : K) * ⟨k', hk'⟩ = ⟨k', hk'⟩ * ⟨k, hk⟩ := mul_comm _ _
       exact (congrArg (fun z : K => (z : G)) hcomm).symm)
   have hAleCK : A ≤ Subgroup.centralizer (K : Set G) := by

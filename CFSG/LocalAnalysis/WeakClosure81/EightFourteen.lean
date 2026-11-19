@@ -129,10 +129,10 @@ private theorem exists_rep_elemAbelian {E : Subgroup G} (hE : IsElemAbelian 2 E)
   classical
   let hc : ∀ a b : ↥E, a * b = b * a := fun a b => Subtype.ext (hE.comm a.2 b.2)
   let hp : ∀ a : ↥E, a ^ 2 = 1 := fun a => Subtype.ext (by simpa using hE.2 a.1 a.2)
-  letI : CommGroup ↥E := commGroupOfComm hc
-  letI : Module (ZMod 2) (Additive ↥E) := elemTwoModule hc hp
+  let : CommGroup ↥E := commGroupOfComm hc
+  let : Module (ZMod 2) (Additive ↥E) := elemTwoModule hc hp
   let ι : G → Additive ↥E := fun g => if hg : g ∈ E then Additive.ofMul ⟨g, hg⟩ else 0
-  have hι_of : ∀ (g : G) (hg : g ∈ E), ι g = Additive.ofMul (⟨g, hg⟩ : ↥E) := fun g hg => dif_pos hg
+  have hι_of : ∀ (g : G) (hg : g ∈ E), ι g = Additive.ofMul (⟨g, hg⟩ : ↥E) := fun g hg => dite_eq_left hg
   let hlin : MulAut ↥E →* LGL 2 (Additive ↥E) :=
     { toFun := fun g =>
         (MulEquiv.toAdditive g).toLinearEquiv (ZMod.map_smul (MulEquiv.toAdditive g))
@@ -172,8 +172,8 @@ private theorem Sit813.v1Grp_ne_bot {V H T A L K : Subgroup G} {i : ℕ}
     have h8 := h.card_V_eq_eight
     rw [hb, Subgroup.card_bot] at h8
     omega
-  haveI : Group.IsNilpotent ↥T := hTp.isNilpotent
-  haveI hnormal : (V.subgroupOf T).Normal :=
+  have : Group.IsNilpotent ↥T := hTp.isNilpotent
+  have hnormal : (V.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVT).mpr h.le_normalizer_T
   have hne : V.subgroupOf T ≠ ⊥ := by
     intro hb
@@ -342,7 +342,7 @@ theorem Sit813.exists_klein_setting {V H T A L K : Subgroup G} {i : ℕ} (h : Si
       (∀ f ∈ F, ∀ z ∈ Z, ρ f z = z) := by
   classical
   obtain ⟨X, hXg, φ, hφ, hker, hXl2⟩ := h.concl813.c_shape
-  letI : Group X := hXg
+  let : Group X := hXg
   have hXpsl : IsPSL 2 2 2 X := isL2_iff_isPSL.mp hXl2
   set E : Subgroup G := u1Grp V H T A K with hEdef
   set V1 : Subgroup G := v1Grp V H T A K with hV1def
@@ -352,9 +352,9 @@ theorem Sit813.exists_klein_setting {V H T A L K : Subgroup G} {i : ℕ} (h : Si
   have hEel : IsElemAbelian 2 E := by
     rw [hEdef]; exact h.isElemAbelian_uGrp.mono Sit813.u1Grp_le_uGrp
   obtain ⟨W, hWadd, hWmod, hWfin, ι, rep, hadd, hsurj, hinj, hρι⟩ := exists_rep_elemAbelian hEel
-  letI : AddCommGroup W := hWadd
-  letI : Module (ZMod 2) W := hWmod
-  letI : Finite W := hWfin
+  let : AddCommGroup W := hWadd
+  let : Module (ZMod 2) W := hWmod
+  let : Finite W := hWfin
   have hι_one : ι 1 = 0 := by
     have h1 := hadd 1 E.one_mem 1 E.one_mem
     rw [mul_one] at h1
@@ -784,10 +784,10 @@ theorem Sit813.eight_fourteen_of_nv (h122one : W3Lem122One) (h122two : W3Lem122T
   obtain ⟨X, hXg, W, hWadd, hWmod, hWfin, φ, ρ, ι, B, F, Z,
     hXpsl, hφ, hker, hadd, hsurj, hinj, hρι, hZmem, hBi, hstab, hFel, hFcard, hFB, hquad,
     hFZ⟩ := h.exists_klein_setting hNV1
-  letI : Group X := hXg
-  letI : AddCommGroup W := hWadd
-  letI : Module (ZMod 2) W := hWmod
-  letI : Finite W := hWfin
+  let : Group X := hXg
+  let : AddCommGroup W := hWadd
+  let : Module (ZMod 2) W := hWmod
+  let : Finite W := hWfin
   set E : Subgroup G := u1Grp V H T A K with hEdef
   have hEhe : ∀ e ∈ E, e ∈ u1Grp V H T A K := fun _ he => hEdef ▸ he
   have hEuh : ∀ e ∈ u1Grp V H T A K, e ∈ E := fun _ he => hEdef ▸ he
@@ -845,7 +845,7 @@ theorem Sit813.eight_fourteen_of_nv (h122one : W3Lem122One) (h122two : W3Lem122T
     calc 2 ^ k ≤ 2 ^ 2 := Nat.pow_le_pow_right (by norm_num) hk2
       _ = 4 := by norm_num
   have hZle4 : Nat.card Z ≤ 4 := by rw [← hcardZ]; exact hV1le4
-  haveI : Module.Finite (ZMod 2) Z := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) Z := Module.Finite.of_finite
   have hZcard : Nat.card Z = 2 ^ Module.finrank (ZMod 2) Z := by
     have h1 := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Z)
     rwa [Nat.card_zmod] at h1
@@ -880,8 +880,8 @@ theorem Sit813.eight_fourteen_of_nv (h122one : W3Lem122One) (h122two : W3Lem122T
   have hcardZ4 : Nat.card Z = 4 := by rw [hZcard, hZ2]; norm_num
   have hcardV14 : Nat.card (v1Grp V H T A K) = 4 := by rw [hcardZ, hcardZ4]
   obtain ⟨-, -, -, K', hK'field, hK'fin, φ', ψ', hK'card, hφ', hφ'ker, hψ', hψ'ker, hψ'eq⟩ := hnat
-  letI : Field K' := hK'field
-  letI : Finite K' := hK'fin
+  let : Field K' := hK'field
+  let : Finite K' := hK'fin
   have hcardK' : Nat.card K' = 4 := by rw [hK'card]; norm_num
   let ψ'' : ↥E →* Multiplicative (Fin 2 → K') :=
     MonoidHom.mk' (fun u => Multiplicative.ofAdd (ψ' ⟨ι u, Submodule.mem_top⟩)) (by

@@ -94,7 +94,7 @@ theorem uc22s206q_commute {W : Type*} [Group W] {x y g : W}
 
 theorem uc22s206q_zpow_eq_one {W S : Type*} [Group W] [Group S] (π : W →* S) {x : W}
     (hx3 : x ^ 3 = 1) (hx1 : π x ≠ 1) {m : ℤ} (hm : π x ^ m = 1) : x ^ m = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : orderOf (π x) = 3 := orderOf_eq_prime (by rw [← map_pow, hx3, map_one]) hx1
   have h2 : orderOf x = 3 := orderOf_eq_prime hx3 fun h => hx1 (by rw [h, map_one])
   rw [← orderOf_dvd_iff_zpow_eq_one, h1] at hm
@@ -106,7 +106,7 @@ theorem uc22s206q_E9 {S : Type*} [Group S] {a b h : S} (hab : a * b = b * a) (ha
     (hb : h * b * h⁻¹ = b⁻¹) :
     IsElemAbelian 3 (zpowers a ⊔ zpowers b) ∧
       Nat.card ↥(zpowers a ⊔ zpowers b) = 3 ^ (1 + 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine uc22s206p_elemAbelian_sup (isElemAbelian_zpowers ha3) (isElemAbelian_zpowers hb3)
     (fun x hx y hy => ?_) (uc22s206p_disjoint ha hb hb3) ?_ ?_
   · obtain ⟨m, rfl⟩ := mem_zpowers_iff.mp hx
@@ -121,7 +121,7 @@ theorem uc22s206q_E27 {W S : Type*} [Group W] [Group S] (π : W →* S) {x y z :
     (hd : Disjoint (zpowers (π x)) (zpowers (π y))) :
     IsElemAbelian 3 (zpowers x ⊔ (zpowers y ⊔ zpowers z)) ∧
       Nat.card ↥(zpowers x ⊔ (zpowers y ⊔ zpowers z)) = 3 ^ (1 + (1 + 1)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : ∀ {w : W}, w ^ 3 = 1 → w ≠ 1 → Nat.card (zpowers w) = 3 ^ 1 := fun h3 h1 => by
     rw [Nat.card_zpowers, orderOf_eq_prime h3 h1, pow_one]
   have hne : ∀ {w : W}, π w ≠ 1 → w ≠ 1 := fun h h1 => h (by rw [h1, map_one])
@@ -162,7 +162,7 @@ theorem uc22s206q_not_dvd {W S : Type*} [Group W] [Finite W] [Group S] (π : W �
     (h1a : h₁ * a * h₁⁻¹ = a⁻¹) (h1b : h₁ * b * h₁⁻¹ = b) (h2a : h₂ * a * h₂⁻¹ = a)
     (h2b : h₂ * b * h₂⁻¹ = b⁻¹) (h3 : CFSG.Open.pRank 3 (⊤ : Subgroup W) ≤ 2) :
     ¬ 3 ∣ Nat.card (Subgroup.center W) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : ∀ {w : W}, π w = 1 → w ∈ Subgroup.center W := fun {w} hw => by
     rw [← hker]
     exact MonoidHom.mem_ker.mpr hw
@@ -194,7 +194,7 @@ theorem uc22s206q_pRank [Finite G] {L : Subgroup G} (α : ↥L →* alternatingG
     {W : Type*} [Group W] [Finite W] (ψ : ↥(ptCore α i) →* W ⧸ Subgroup.center W)
     (hψ : ψ.range ≠ ⊥) (h3 : CFSG.Open.pRank 3 (⊤ : Subgroup W) ≤ 2) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (W ⧸ Subgroup.center W)) = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, b, h₁, h₂, hab, ha3, hb3, h1a, h1b, h2a, h2b, ha1, hb1⟩ :=
     uc22s206p_elements α hα hker i
   have hle : ∀ k, ψ k = 1 → ptHom α i k = 1 := fun k hk => by

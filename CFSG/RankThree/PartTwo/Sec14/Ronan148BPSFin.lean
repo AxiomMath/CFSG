@@ -96,7 +96,7 @@ theorem kf148PointSigImg_of_insp (h : KF148PointSigInsp) : KF148PointSigImg := b
     rw [hP] at ha hc
     have hs := PS.isSimpleGroup_of_types148 hT hsolX
     have hZ : Subgroup.center (↥L ⧸ aschbacherSolvableCore 3 ↥L) = ⊥ := by
-      haveI := hs
+      have := hs
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         (Subgroup.center (↥L ⧸ aschbacherSolvableCore 3 ↥L)) with hZ | hZ
       · exact hZ

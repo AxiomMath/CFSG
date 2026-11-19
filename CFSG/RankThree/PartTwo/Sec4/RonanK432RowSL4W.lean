@@ -106,7 +106,7 @@ theorem sl4_cover_pair_facts {X Y : Type} [Group X] [Group Y] (π : Y →* X)
     (hker : ∀ z ∈ π.ker, z ^ 4 = 1) {a b : Y} (ha3 : a ^ 3 = 1) (ha1 : a ≠ 1) (hb3 : b ^ 3 = 1)
     (hab : a * b = b * a) (hbn : b ∉ Subgroup.zpowers a) :
     orderOf (π a) = 3 ∧ π b ^ 3 = 1 ∧ π a * π b = π b * π a ∧ π b ∉ Subgroup.zpowers (π a) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have key : ∀ w : Y, π w = 1 → w ^ 3 = 1 → w = 1 := by
     intro w hw hw3
     have h4 : w ^ 4 = 1 := hker w (MonoidHom.mem_ker.mpr hw)
@@ -139,14 +139,14 @@ theorem sl4_projSL_E9 (K : Type) [Field K] :
     (sl4b_pow_three K) (sl4a_mul_sl4b_comm K) (sl4b_not_mem_zpowers K)
 
 instance finite_projSL_four_sl4w (K : Type) [Field K] [Finite K] : Finite (projSL 4 K) := by
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 4) K) :=
+  have : Finite (Matrix.ProjGenLinGroup (Fin 4) K) :=
     Finite.of_surjective (Matrix.ProjGenLinGroup.mk : Matrix.GeneralLinearGroup (Fin 4) K →* _)
       Matrix.ProjGenLinGroup.mk_surjective
   infer_instance
 
 theorem listRow_projSL_four_of_noroot {K : Type} [Field K] [Finite K] (h3 : (3 : K) ≠ 0)
     (hK : ∀ c : K, c ^ 2 + c + 1 ≠ 0) : ListRow (projSL 4 K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hx0, hy3, hc, hn⟩ := sl4_projSL_E9 K
   exact listRow_of_cover_weyl (projCover4 K) (projCover4_surjective K) (projCover4_ker K)
     (fun E hE hexp hcard => Item424Res5.exists_weyl_sl4 h3 hK E hE hexp hcard) hx0 hy3 hc hn

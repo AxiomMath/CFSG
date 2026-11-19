@@ -95,7 +95,8 @@ theorem critB_set_nonempty (hc : CritAmalgam G₀ G₁ G₂ T Z) :
   rw [hbot] at hZ
   exact hc.ne_bot (le_bot_iff.mp hZ)
 
-theorem lt_critB_imp (hc : CritAmalgam G₀ G₁ G₂ T Z) {μ : CosetGeom G₀ G₁ G₂}
+omit [Finite G] in
+theorem lt_critB_imp (_hc : CritAmalgam G₀ G₁ G₂ T Z) {μ : CosetGeom G₀ G₁ G₂}
     (hμ : CosetGeom.dist (γ₀ G₀ G₁ G₂) μ < critB G₀ G₁ G₂ Z) : Z ≤ ballStab 1 μ := by
   by_contra h
   exact absurd (Nat.sInf_le (s := {n : ℕ | ∃ μ ∈ sphere n (γ₀ G₀ G₁ G₂), ¬ Z ≤ ballStab 1 μ})

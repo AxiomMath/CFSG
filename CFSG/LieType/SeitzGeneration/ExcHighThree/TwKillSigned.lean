@@ -46,7 +46,7 @@ theorem exists_reflProd_neg (S : Set (Fin TwistTag.E6.tag.rank → ℤ)) (n : �
         have : (k < m + 1) ↔ (k < m) := by omega
         simp only [this]
   refine ⟨zs n, hmem n le_rfl, fun k hk => ?_⟩
-  rw [hneg n le_rfl k hk, if_pos hk]
+  rw [hneg n le_rfl k hk, ite_eq_left hk]
 
 theorem kill_cycle_signed {L : Type} [Field L] {ι : Type} (a : ι → Fin TwistTag.E6.tag.rank → Lˣ)
     (w : WeylGroup TwistTag.E6.tag)

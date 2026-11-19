@@ -68,11 +68,11 @@ theorem hasCleanFullClassBMember_psl
     [IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin n) K)] :
     HasCleanFullClassBMember (Matrix.ProjectiveSpecialLinearGroup (Fin n) K) := by
   have h2 := two_ne_zero_of_card_three hK
-  haveI hSfin : Finite SL(n, K) := inferInstance
-  haveI hQfin : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin n) K) :=
+  have hSfin : Finite SL(n, K) := inferInstance
+  have hQfin : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin n) K) :=
     Finite.of_surjective (QuotientGroup.mk' (center SL(n, K)))
       (QuotientGroup.mk'_surjective _)
-  haveI hXfin : Finite SL(4, K) := inferInstance
+  have hXfin : Finite SL(4, K) := inferInstance
   have key : HasCleanFullClassBMember (SL(n, K) ⧸ center SL(n, K)) :=
     hasCleanFullClassBMember_of_block
       (QuotientGroup.mk' (center SL(n, K)))
@@ -99,7 +99,7 @@ theorem hasCleanFullClassBMember_of_lieModel_psl
   have hK : Nat.card K = 3 := by simpa using hKcard
   let e' : Q ≃* Matrix.ProjectiveSpecialLinearGroup (Fin n) K :=
     e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj n K).symm
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin n) K) := e'.symm.isSimpleGroup
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin n) K) := e'.symm.isSimpleGroup
   exact HasCleanFullClassBMember.of_mulEquiv e'.symm (hasCleanFullClassBMember_psl hGA hK hn)
 
 end CFSG.OddStandard.HigherRank.F3

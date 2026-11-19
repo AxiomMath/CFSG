@@ -68,7 +68,7 @@ theorem exists_commutatorForm_form {p : ℕ} [Fact p.Prime] {P : Type*} [Group P
         (Additive.ofMul (QuotientGroup.mk' (frattini P) b)) =
         Multiplicative.toAdd (ε ⟨⁅a, b⁆, Subgroup.commutator_mem_commutator
           (Subgroup.mem_top a) (Subgroup.mem_top b)⟩)) := by
-  haveI : Module (ZMod p) (Additive (Abelianization P)) :=
+  have : Module (ZMod p) (Additive (Abelianization P)) :=
     AddCommGroup.zmodModule (CFSG.OddSolvableUnitary.nsmul_abelianization_eq_zero hexp)
   obtain ⟨e₀', he_mk⟩ := exists_frattiniAddEquiv hP hexp
   let e : Additive (Abelianization P) ≃ₗ[ZMod p] Additive (P ⧸ frattini P) :=
@@ -264,7 +264,7 @@ theorem commutatorModelBar_conj {p : ℕ} [Fact p.Prime] {X : Type} [Group X]
     ∀ x : X, ∀ d ∈ D.map Q.subtype, bar (x * d * x⁻¹) =
       ((φ x : (Module.End (ZMod p) W)ˣ) : Module.End (ZMod p) W) (bar d) := by
   classical
-  haveI hDn : (D.map Q.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
+  have hDn : (D.map Q.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
   intro x d hd
   obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp hd
   have hmem : x * (Q.subtype a : X) * x⁻¹ ∈ D.map Q.subtype :=
@@ -300,7 +300,7 @@ theorem exists_bar_of_extraspecial {p : ℕ} [Fact p.Prime] {X : Type} [Group X]
       (∀ x : X, ∀ d ∈ D.map Q.subtype, bar (x * d * x⁻¹) =
         ((φ x : (Module.End (ZMod p) W)ˣ) : Module.End (ZMod p) W) (bar d)) := by
   classical
-  haveI hDn : (D.map Q.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
+  have hDn : (D.map Q.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
   let κ : ↥D ≃* ↥(D.map Q.subtype) := D.equivMapOfInjective Q.subtype Q.subtype_injective
   let bar : X → W := fun x =>
     if hx : x ∈ D.map Q.subtype then π (Additive.ofMul (κ.symm ⟨x, hx⟩)) else 0
@@ -309,7 +309,7 @@ theorem exists_bar_of_extraspecial {p : ℕ} [Fact p.Prime] {X : Type} [Group X]
     intro a ha
     have hmem : (Q.subtype a : X) ∈ D.map Q.subtype := Subgroup.mem_map_of_mem Q.subtype ha
     rw [show bar (Q.subtype a) = π (Additive.ofMul (κ.symm ⟨Q.subtype a, hmem⟩)) from
-      dif_pos hmem]
+      dite_eq_left hmem]
     exact congrArg (fun y => π (Additive.ofMul y)) (κ.symm_apply_eq.mpr (Subtype.ext rfl))
   refine ⟨bar, hbar_sub, ?_, ?_, ?_, ?_⟩
   · intro a ha b hb
@@ -336,7 +336,7 @@ theorem exists_bar_of_extraspecial {p : ℕ} [Fact p.Prime] {X : Type} [Group X]
     refine ⟨Q.subtype (d' : ↥Q), Subgroup.mem_map_of_mem Q.subtype d'.2, ?_⟩
     rw [hbar_sub (d' : ↥Q) d'.2]
     exact hd
-  · exact commutatorModelBar_conj φ π bar (fun x hx => dif_pos hx) hbar_sub hπconj
+  · exact commutatorModelBar_conj φ π bar (fun x hx => dite_eq_left hx) hbar_sub hπconj
 
 theorem commutatorModel_centralizer {p : ℕ} [Fact p.Prime] {X : Type} [Group X]
     {Q : Subgroup X} [Q.Normal] {D : Subgroup Q} [D.Characteristic]
@@ -417,7 +417,7 @@ theorem isCommutatorModel_of_extraspecial {p : ℕ} [Fact p.Prime] {X : Type} [G
         (Subgroup.mem_top a) (Subgroup.mem_top b)⟩)) :
     IsCommutatorModel p φ B := by
   classical
-  haveI hDn : (D.map Q.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
+  have hDn : (D.map Q.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
   have hinj : Function.Injective (Q.subtype.comp D.subtype) := fun a b h =>
     D.subtype_injective (Q.subtype_injective h)
   obtain ⟨bar, hbar_sub, hbar_mul, hbar_ker, hbar_surj, hbar_conj⟩ :=
@@ -465,7 +465,7 @@ theorem finrank_frattini_le_three_or {p : ℕ} [Fact p.Prime] {Q : Type*} [Group
     Module.finrank (ZMod p) (Additive (D ⧸ frattini D)) ≤ 3 ∨
       (Module.finrank (ZMod p) (Additive (D ⧸ frattini D)) = 4 ∧ Nat.card D = p ^ 5 ∧
         Nat.card (Subgroup.center D) = p ∧ commutator D = Subgroup.center D) := by
-  haveI : Finite D := Finite.of_injective D.subtype D.subtype_injective
+  have : Finite D := Finite.of_injective D.subtype D.subtype_injective
   have hfr : frattini D = commutator D := CFSG.RankThree.PartTwo.frattini_eq_commutator hDq hexp
   have hfin : Nat.card (Additive (D ⧸ frattini D)) =
       p ^ Module.finrank (ZMod p) (Additive (D ⧸ frattini D)) := by
@@ -510,7 +510,7 @@ theorem exists_sympForm_isCommutatorModel {p : ℕ} [Fact p.Prime] {X : Type} [G
           (((φ x : (Module.End (ZMod p) (Additive (↥D ⧸ frattini ↥D)))ˣ) :
             Module.End (ZMod p) (Additive (↥D ⧸ frattini ↥D))) v) = c * B u v) ∧
       IsCommutatorModel p φ B := by
-  haveI : Finite ↥D := Finite.of_injective D.subtype D.subtype_injective
+  have : Finite ↥D := Finite.of_injective D.subtype D.subtype_injective
   have hΦD : frattini ↥D = Subgroup.center ↥D :=
     (CFSG.RankThree.PartTwo.frattini_eq_commutator hDq hexp).trans hcz
   obtain ⟨B, ε, hAlt, hNondeg, hBform, hBsim⟩ :=
@@ -576,11 +576,11 @@ theorem exists_commutatorModel_of_nontrivial {p : ℕ} [Fact p.Prime] (hp2 : p �
   classical
   obtain ⟨D, hDchar, -, hDcomm, hDexp, hDfix⟩ :=
     CFSG.SectionRank.Ccomm.odd_critical_exponent_subgroup hp2 hQp
-  haveI hDc : D.Characteristic := hDchar
+  have hDc : D.Characteristic := hDchar
   have hDq : IsPGroup p ↥D := hQp.to_subgroup D
   obtain ⟨-, -, -, hEA, -⟩ := CFSG.GroupTheory.frattini_elementary_quotient hDq
-  haveI hEAi : CFSG.IsElementaryAbelian p (↥D ⧸ frattini ↥D) := hEA
-  haveI hEAc : IsMulCommutative (↥D ⧸ frattini ↥D) := hEA.toIsMulCommutative
+  have hEAi : CFSG.IsElementaryAbelian p (↥D ⧸ frattini ↥D) := hEA
+  have hEAc : IsMulCommutative (↥D ⧸ frattini ↥D) := hEA.toIsMulCommutative
   obtain ⟨φ, hφker, hφconj⟩ := exists_frattini_representation hDq hDfix
   have hexp : ∀ x : ↥D, x ^ p = 1 := fun x => Subtype.ext (hDexp x x.2)
   have hclass : commutator ↥D ≤ Subgroup.center ↥D := by
@@ -624,11 +624,11 @@ theorem exists_commutatorModel {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {X : Typ
           IsCommutatorModel p φ B)) := by
   classical
   let Q : Subgroup X := CFSG.pCore p X
-  haveI hQn : Q.Normal := CFSG.pCore_normal
+  have hQn : Q.Normal := CFSG.pCore_normal
   have hQp : IsPGroup p ↥Q := CFSG.pCore_isPGroup
   rcases subsingleton_or_nontrivial ↥Q with hQ1 | hQ2
   ·
-    haveI hQsub : Subsingleton ↥Q := hQ1
+    have hQsub : Subsingleton ↥Q := hQ1
     have hQbot : Q = ⊥ := (Subgroup.eq_bot_iff_forall Q).mpr fun x hx => by
       have h1 : (⟨x, hx⟩ : ↥Q) = 1 := Subsingleton.elim _ _
       exact congrArg Subtype.val h1
@@ -646,12 +646,12 @@ theorem exists_commutatorModel {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {X : Typ
 
 theorem sixThreeOneAt_of_split {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hL : LinearListAt p)
     (hS : SympSplitAt p) : SixThreeOneAt p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro X _ _ hC hQ hXrank
   obtain ⟨W, hWac, hWmod, hWfin, φ, hker, hdim⟩ := exists_commutatorModel hp2 hC hQ
-  letI : AddCommGroup W := hWac
-  letI : Module (ZMod p) W := hWmod
-  letI : Module.Finite (ZMod p) W := hWfin
+  let : AddCommGroup W := hWac
+  let : Module (ZMod p) W := hWmod
+  let : Module.Finite (ZMod p) W := hWfin
   let H : Subgroup (Module.End (ZMod p) W)ˣ := oPPrimeHull p φ.range
   have hH : oPPrimeHull p H = H := oPPrimeHull_oPPrimeHull p φ.range
   have hHrange : H ≤ φ.range := by
@@ -672,7 +672,7 @@ theorem sixThreeOneAt_of_split {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hL : Li
       have hneg : -1 ∈ φ.range := hHrange hnegH
       obtain ⟨D, Z, bar, hDn, hZD, hZ, hDp, hbar_mul, hbar_ker, hbar_surj, hbar_conj,
         hcomm, hisoZ⟩ := hmodel
-      haveI : D.Normal := hDn
+      have : D.Normal := hDn
       have hkerp : IsPGroup p φ.ker := by
         refine (CFSG.pCore_isPGroup.to_subgroup (φ.ker.subgroupOf (CFSG.pCore p X))).of_equiv
           (Subgroup.subgroupOfEquivOfLe hker)

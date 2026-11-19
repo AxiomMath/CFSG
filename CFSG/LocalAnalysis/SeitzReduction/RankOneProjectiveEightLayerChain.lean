@@ -256,7 +256,7 @@ theorem psl2_pushing_up_sylow_of_stage {L : Subgroup G} (h : SeitzSetting G L) {
   obtain ⟨hsimple, hnab, hK, -⟩ := h
   have hT2 : IsPGroup 2 T := by
     obtain ⟨P, hP⟩ := hT
-    have h1 : IsPGroup 2 (T.subgroupOf (normalizer (zpowers t : Set G))) := hP ▸ P.isPGroup'
+    have h1 : IsPGroup 2 (T.subgroupOf (normalizer (zpowers t : Set G))) := hP ▸ P.isPGroup
     exact h1.of_equiv (subgroupOfEquivOfLe hTN)
   obtain ⟨d, C, hst, hdfix⟩ := pushState_zero ht htC h0
   have hdL : d ∈ L := hst.d_mem

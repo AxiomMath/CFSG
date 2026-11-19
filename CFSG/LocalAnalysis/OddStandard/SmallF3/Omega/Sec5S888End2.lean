@@ -123,14 +123,14 @@ theorem gold_dichotomy (hGold : GoldStmt) {X : Type} [Group X] [Finite X] (S : S
       rw [hU_bot, bot_sup_eq] at hlay
       exact hlay
     have hSyl : IsSylowOf 2 (S : Subgroup X) ⊤ :=
-      (isSylowOf_iff).2 ⟨le_top, S.isPGroup', by
+      (isSylowOf_iff).2 ⟨le_top, S.isPGroup, by
         rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
     have hSylM : IsSylowOf 2 ((S : Subgroup X) ⊓ M) M :=
       hSyl.inf_of_le_normalizer le_top (Subgroup.normalizer_eq_top_iff.2 hMn).ge
     obtain ⟨Qs, hQs⟩ := hSylM.exists_sylow_eq_subgroupOf
     rw [Subgroup.inf_subgroupOf_right] at hQs
     have hQsP : IsPGroup 2 ↥((S : Subgroup X).subgroupOf M) := by
-      rw [← hQs]; exact Qs.isPGroup'
+      rw [← hQs]; exact Qs.isPGroup
     let Ts : Sylow 2 (↥M ⧸ O) := Sylow.mapSurjective (QuotientGroup.mk'_surjective O) Qs
     have hTs : (Ts : Subgroup (↥M ⧸ O)) = ((S : Subgroup X).subgroupOf M).map π := by
       rw [Sylow.coe_mapSurjective, hQs]

@@ -109,11 +109,11 @@ theorem s16fh_sumOfNat_pull {A : Subgroup (MulAut X)} {B : Subgroup (MulAut Y)} 
         · intro hj z hz
           exact Subgroup.mem_iSup_of_mem j (Subgroup.mem_iSup_of_mem hj
             (Subgroup.mem_comap.mp (Subgroup.mem_inf.mp hz).2))
-        · simpa using Subgroup.one_mem (⨆ (j' : Fin k) (_ : j' ≠ i), S j')
+        · simp
         · intro x y hx hy
           rw [map_mul]
           exact mul_mem hx hy
-      · simpa using Subgroup.one_mem (⨆ (j : Fin k) (_ : j ≠ i), S j)
+      · simp
       · intro x y hx hy
         rw [map_mul]
         exact mul_mem hx hy

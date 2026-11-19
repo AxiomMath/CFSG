@@ -278,7 +278,7 @@ theorem le_zpowers_of_le_centralizer_inf [Finite G] (hn : 0 < n) (L : Subgroup G
     ∀ P : Subgroup G, P ≤ Subgroup.centralizer (heisSub x y : Set G) ⊓ L → IsPGroup 3 P →
       P ≤ Subgroup.zpowers z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro P hP hP3
   set ρ := heisRepL h hy3 hn L hLN with hρ
   set Q := heisSub x y with hQ

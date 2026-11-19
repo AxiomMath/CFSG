@@ -112,10 +112,10 @@ lemma QuotientGroup.natCard_quotient_lt_natCard_of_ne_bot
     (K : Subgroup G) [K.Normal] (hK : K ≠ ⊥) :
     Nat.card (G ⧸ K) < Nat.card G := by
 
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (G ⧸ K) := Fintype.ofFinite (G ⧸ K)
-  haveI: Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hK
+  let : Fintype G := Fintype.ofFinite G
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (G ⧸ K) := Fintype.ofFinite (G ⧸ K)
+  have: Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hK
   have hKcard : 1 < Fintype.card K := Fintype.one_lt_card
   have hquot_pos : 0 < Fintype.card (G ⧸ K) := Fintype.card_pos_iff.mpr ⟨1⟩
 

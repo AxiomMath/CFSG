@@ -20,7 +20,7 @@ namespace Setup
 
 private theorem Q_comm {X : Setup Γ G} {i : ℤ} (hQ : IsElemAbelian 2 (X.Q i))
     {a b : G} (ha : a ∈ X.Q i) (hb : b ∈ X.Q i) : a * b = b * a := by
-  letI : IsMulCommutative ↥(X.Q i) := hQ.1
+  let : IsMulCommutative ↥(X.Q i) := hQ.1
   have h := mul_comm' (⟨a, ha⟩ : ↥(X.Q i)) (⟨b, hb⟩ : ↥(X.Q i))
   simpa using congrArg Subtype.val h
 
@@ -43,7 +43,7 @@ private theorem action_eq_one_of_card_lt {X : Setup Γ G} {i : ℤ} {W : Type*} 
   classical
   let L := X.L i
   let F := GaloisField 2 (X.n i)
-  haveI : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L) (X.L_le_Gi i)
+  have : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L) (X.L_le_Gi i)
   have hpc : pCoreOf 2 L = X.Q i := (X.hyp.isLocL2_oTwoPrime (X.vert i)).pCoreOf_eq
   have hker : CFSG.pCore 2 ↥L ≤ ρ.ker := by
     intro x hx
@@ -103,8 +103,8 @@ theorem two_mul_n_le_of_isElemAbelian (X : Setup Γ G) (hc : CharTwoStab (V := V
   let L := X.L i
   let Q := X.Q i
   let F := GaloisField 2 (X.n i)
-  haveI : Finite ↥Q := finite_of_le_stabilizer X.hyp (H := Q) (X.Q_le_Gi i)
-  haveI : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L) (X.L_le_Gi i)
+  have : Finite ↥Q := finite_of_le_stabilizer X.hyp (H := Q) (X.Q_le_Gi i)
+  have : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L) (X.L_le_Gi i)
   have hpc : pCoreOf 2 L = Q := (X.hyp.isLocL2_oTwoPrime (X.vert i)).pCoreOf_eq
   have hLQ : L ≤ Subgroup.normalizer (Q : Set G) := by
     rw [← hpc]
@@ -146,8 +146,8 @@ private theorem exists_card_eq_two_pow_lt (X : Setup Γ G) (i : ℤ)
     (hQ : IsElemAbelian 2 (X.Q i)) (hd : Nat.card (X.Q i) = 2 ^ (2 * X.n i))
     {N : Subgroup G} (hN : N ≤ X.Q i) (hbot : N ≠ ⊥) (htop : N ≠ X.Q i) :
     ∃ b : ℕ, Nat.card N = 2 ^ b ∧ 0 < b ∧ b < 2 * X.n i := by
-  haveI : Finite ↥N := finite_of_le_stabilizer X.hyp (H := N) (hN.trans (X.Q_le_Gi i))
-  haveI : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (H := X.Q i) (X.Q_le_Gi i)
+  have : Finite ↥N := finite_of_le_stabilizer X.hyp (H := N) (hN.trans (X.Q_le_Gi i))
+  have : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (H := X.Q i) (X.Q_le_Gi i)
   have hQp : IsPGroup 2 (X.Q i) := CFSG.LocalAnalysis.EvenBN.Common.isPGroup_two_of_mul_self
     (fun v hv => by simpa [pow_two] using hQ.2 v hv)
   have hNp : IsPGroup 2 ↥N := hQp.to_le hN
@@ -170,7 +170,7 @@ private theorem le_centralizer_of_card_lt (X : Setup Γ G) (i : ℤ) (hn : 2 ≤
     (hQ : IsElemAbelian 2 (X.Q i)) {b : ℕ} {N : Subgroup G} (hN : N ≤ X.Q i)
     (hL : X.L i ≤ Subgroup.normalizer (N : Set G)) (hb : Nat.card N = 2 ^ b)
     (hblt : b < 2 * X.n i) : X.L i ≤ Subgroup.centralizer (N : Set G) := by
-  haveI : Finite ↥N := finite_of_le_stabilizer X.hyp (H := N) (hN.trans (X.Q_le_Gi i))
+  have : Finite ↥N := finite_of_le_stabilizer X.hyp (H := N) (hN.trans (X.Q_le_Gi i))
   let ρN : ↥(X.L i) →* MulAut ↥N := CFSG.SL2MinimalFaithful.conjAction hL
   have hρN : ρN = 1 := by
     refine action_eq_one_of_card_lt (X := X) (i := i) hn hb hblt ρN ?_
@@ -241,10 +241,10 @@ private theorem conj_mem_quotient_of_card_lt (X : Setup Γ G) (i : ℤ) (hn : 2 
     (hLQ : X.L i ≤ Subgroup.normalizer (X.Q i : Set G)) {k : G} (hkL : k ∈ X.L i)
     {q : G} (hq : q ∈ X.Q i) : k * q * k⁻¹ * q⁻¹ ∈ N := by
   classical
-  haveI : Finite ↥N := finite_of_le_stabilizer X.hyp (H := N) (hN.trans (X.Q_le_Gi i))
-  haveI : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (H := X.Q i) (X.Q_le_Gi i)
+  have : Finite ↥N := finite_of_le_stabilizer X.hyp (H := N) (hN.trans (X.Q_le_Gi i))
+  have : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (H := X.Q i) (X.Q_le_Gi i)
   let W : Subgroup ↥(X.Q i) := N.subgroupOf (X.Q i)
-  haveI hWn : W.Normal := subgroupOf_normal X i hQ hN
+  have hWn : W.Normal := subgroupOf_normal X i hQ hN
   let ρQ : ↥(X.L i) →* MulAut ↥(X.Q i) := CFSG.SL2MinimalFaithful.conjAction hLQ
   have hWmap : ∀ j : ↥(X.L i), W.map (ρQ j : ↥(X.Q i) →* ↥(X.Q i)) = W := by
     intro j
@@ -313,7 +313,7 @@ private theorem sq_mem_Q_of_le_centralizer (X : Setup Γ G) (i : ℤ)
 private theorem eq_one_of_sq_mem (X : Setup Γ G) (i : ℤ) (hn : 2 ≤ X.n i)
     (hQ : IsElemAbelian 2 (X.Q i)) {k : G} (hkKi : k ∈ X.Ki i)
     (hk2Q : k ^ 2 ∈ X.Q i) : k = 1 := by
-  haveI : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (H := X.Q i) (X.Q_le_Gi i)
+  have : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (H := X.Q i) (X.Q_le_Gi i)
   have hQp : IsPGroup 2 (X.Q i) := CFSG.LocalAnalysis.EvenBN.Common.isPGroup_two_of_mul_self
     (fun v hv => by simpa [pow_two] using hQ.2 v hv)
   have hordKi : orderOf k ∣ 2 ^ X.n i - 1 := by
@@ -366,8 +366,8 @@ theorem eq_bot_or_eq_Q_of_card (X : Setup Γ G) (hc : CharTwoStab (V := V) (G :=
   exfalso
   let L := X.L i
   let Q := X.Q i
-  haveI : Finite ↥Q := finite_of_le_stabilizer X.hyp (H := Q) (X.Q_le_Gi i)
-  haveI : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L) (X.L_le_Gi i)
+  have : Finite ↥Q := finite_of_le_stabilizer X.hyp (H := Q) (X.Q_le_Gi i)
+  have : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L) (X.L_le_Gi i)
   obtain ⟨b, hb, hbpos, hblt⟩ := exists_card_eq_two_pow_lt X i hQ hd hN hbot htop
   have hpc : pCoreOf 2 L = Q := (X.hyp.isLocL2_oTwoPrime (X.vert i)).pCoreOf_eq
   have hLQ : L ≤ Subgroup.normalizer (Q : Set G) := by
@@ -386,7 +386,7 @@ theorem eq_bot_or_eq_Q_of_card (X : Setup Γ G) (hc : CharTwoStab (V := V) (G :=
     calc k * n * k⁻¹ = (n * k) * k⁻¹ := by rw [← hcomm]
       _ = n := by group
   let W : Subgroup ↥Q := N.subgroupOf Q
-  haveI hWn : W.Normal := subgroupOf_normal X i hQ hN
+  have hWn : W.Normal := subgroupOf_normal X i hQ hN
   have hWcard : Nat.card W = 2 ^ b := by
     rw [← hb]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hN).toEquiv

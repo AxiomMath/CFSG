@@ -39,7 +39,7 @@ theorem false_of_alt5Block {H T M V L : Subgroup G}
     (hVO : V ≤ pCoreOf 2 H)
     (hC : ∀ v ∈ V, v ≠ 1 → ∀ x : G, x * v = v * x → x ∈ M) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLsh : IsShort2 L := hL.1
   have hZ : blockZ L = ⊥ := AppC.blockZ_eq_bot_of_alt5 hLsh hA5
   set T' : Subgroup G := T ⊓ Subgroup.normalizer (L : Set G) with hT'def

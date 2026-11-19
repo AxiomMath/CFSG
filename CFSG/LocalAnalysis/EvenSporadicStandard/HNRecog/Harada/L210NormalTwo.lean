@@ -10,6 +10,7 @@ open Subgroup CFSG.Open
 
 variable {X : Type} [Group X] [Finite X] {A : Subgroup X}
 
+omit [Finite X] in
 theorem L210_normal_two_subgroup (S : Sylow 2 X) (hSN : (S : Subgroup X) ≤ normalizer (A : Set X))
     (hirr : ∀ B : Subgroup X, B ≤ A →
       (∀ n ∈ normalizer (A : Set X), ∀ b ∈ B, n * b * n⁻¹ ∈ B) → B = ⊥ ∨ B = A)

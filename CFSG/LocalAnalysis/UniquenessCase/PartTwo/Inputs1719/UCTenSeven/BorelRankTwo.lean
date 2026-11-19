@@ -62,7 +62,7 @@ theorem kLieBorelAutPrimeRank2_holds : KLieBorelAutPrimeRank2 := by
       obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ :=
         CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel
           hLie
-      letI : Field K := hKf
+      let : Field K := hKf
       have : Finite K := hKfin
       have hcase : (∃ n : ℕ, (n = 6 ∨ n = 7 ∨ n = 8) ∧
             Nonempty (X ≃* alternatingGroup (Fin n))) ∨
@@ -85,7 +85,7 @@ theorem kLieBorelAutPrimeRank2_holds : KLieBorelAutPrimeRank2 := by
         CFSG.Blueprint.LieModel.statedClassicalModel hLie (by decide)
       have hSCM' : CFSG.Open.StatedClassicalModel X .PSU m 2 1 := hSCM
       obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hSCM'
-      letI : Field K := hKf
+      let : Field K := hKf
       have : Finite K := hKfin
       have hm1 : 1 ≤ m := by rcases hm45 with rfl | rfl <;> norm_num
       have hn3 : 3 ≤ m := by rcases hm45 with rfl | rfl <;> norm_num

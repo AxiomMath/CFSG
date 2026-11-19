@@ -54,11 +54,9 @@ theorem HermK.diag_fixed (H : HermK σ e₀) (i : Fin 3) : σ (H.mat i i) = H.ma
 @[expose] noncomputable def tauK (σ : F ≃+* F) (e₀ : K ≃+* Fσ σ) : HermK σ e₀ →ₗ[K] K where
   toFun H := e₀.symm ⟨H.mat 0 0, H.diag_fixed 0⟩
   map_add' H H' := by
-    beta_reduce
     rw [← map_add e₀.symm]
     congr 1
   map_smul' c H := by
-    beta_reduce
     apply e₀.injective
     rw [e₀.apply_symm_apply, RingHom.id_apply, smul_eq_mul, map_mul, e₀.apply_symm_apply]
     apply Subtype.ext
@@ -73,10 +71,10 @@ theorem tauK_apply (H : HermK σ e₀) : (e₀ (tauK σ e₀ H) : F) = H.mat 0 0
     ext i j
     by_cases h : i = 0 ∧ j = 0
     · obtain ⟨rfl, rfl⟩ := h
-      simp [cT_apply, Matrix.single_apply]
+      simp [cT_apply]
     · have h1 : ¬ ((0 : Fin 3) = i ∧ (0 : Fin 3) = j) := fun h' => h ⟨h'.1.symm, h'.2.symm⟩
       have h2 : ¬ ((0 : Fin 3) = j ∧ (0 : Fin 3) = i) := fun h' => h ⟨h'.2.symm, h'.1.symm⟩
-      simp only [cT_apply, Matrix.single_apply, if_neg h1, if_neg h2, map_zero]
+      simp only [cT_apply, Matrix.single_apply, ite_eq_right h1, ite_eq_right h2, map_zero]
 
 theorem n1K_mat : (n1K σ e₀).mat = Matrix.single 0 0 1 := rfl
 

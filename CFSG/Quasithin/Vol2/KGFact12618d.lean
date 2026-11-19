@@ -21,7 +21,7 @@ theorem exists_orderOf_eq_fifteen {M : Type*} [Group M] [Finite M] (hM : Nat.car
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 3 (show 3 ∣ Nat.card M by rw [hM]; norm_num)
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 M))
   have hidx5 : (P : Subgroup M).index = 9 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup
     have hi := P.not_dvd_index
     have hc := (P : Subgroup M).card_mul_index
     rw [hk, hM] at hc
@@ -52,7 +52,7 @@ theorem exists_orderOf_eq_fifteen {M : Type*} [Group M] [Finite M] (hM : Nat.car
     interval_cases h : Nat.card (Sylow 5 M) <;> omega
   obtain ⟨R⟩ := (inferInstance : Nonempty (Sylow 3 M))
   have hidx3 : (R : Subgroup M).index = 5 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 R.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 R.isPGroup
     have hi := R.not_dvd_index
     have hc := (R : Subgroup M).card_mul_index
     rw [hk, hM] at hc

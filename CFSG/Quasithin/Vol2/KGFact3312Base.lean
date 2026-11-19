@@ -123,7 +123,7 @@ theorem exists_sylow_comap_conj [Finite Q] {A S : Subgroup (MulAut Q)}
   have hPn : (P : Subgroup ↥T).Normal := h14.mp hnil 2 inferInstance P
   set U : Subgroup Q := (P : Subgroup ↥T).map T.subtype with hU
   refine ⟨U, ?_, Subgroup.map_subtype_le _, fun d hd => ?_⟩
-  · refine K1.isSylowTwoOf_top_iff.mpr ⟨P.isPGroup'.map _, ?_⟩
+  · refine K1.isSylowTwoOf_top_iff.mpr ⟨P.isPGroup.map _, ?_⟩
     rw [hU, Subgroup.index_map_subtype]
     exact fun h => (Nat.prime_two.dvd_mul.mp h).elim P.not_dvd_index (index_comap_conj_odd hA hS)
   · have hdT := map_comap_conj hd
@@ -132,7 +132,7 @@ theorem exists_sylow_comap_conj [Finite Q] {A S : Subgroup (MulAut Q)}
       rw [← hdT]
       exact Subgroup.map_mono (Subgroup.map_subtype_le _)
     have hV : IsPGroup 2 ↥((U.map d.toMonoidHom).subgroupOf T) :=
-      ((P.isPGroup'.map T.subtype).map d.toMonoidHom).of_equiv
+      ((P.isPGroup.map T.subtype).map d.toMonoidHom).of_equiv
         (Subgroup.subgroupOfEquivOfLe hle).symm
     obtain ⟨P', hP'⟩ := hV.exists_le_sylow
     have hu : Unique (Sylow 2 ↥T) := Sylow.unique_of_normal P hPn

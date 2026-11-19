@@ -417,7 +417,7 @@ theorem orderOf_fiveReflOf_mul (n : ℕ) (ε π : Bool) {v w : Fin (n + 1) → Z
     · exact hne1 h'
     · exact hne2 h'
   by_cases hB0 : fiveForm n ε v w = 0
-  · rw [if_pos hB0]
+  · rw [ite_eq_left hB0]
     have hb0 : fiveBilin n ε π (μ • v) (ν • w) = 0 := by
       rw [fiveBilin_apply, fiveForm_smul_left, fiveForm_smul_right]
       simp [hB0]
@@ -444,7 +444,7 @@ theorem orderOf_fiveReflOf_mul (n : ℕ) (ε π : Bool) {v w : Fin (n + 1) → Z
         _ = 1 := by rw [refl_mul_self, refl_mul_self, one_mul]
     rw [hrv, hrw]
     exact orderOf_eq_prime hsq hne
-  · rw [if_neg hB0]
+  · rw [ite_eq_right hB0]
     have hb0 : fiveBilin n ε π (μ • v) (ν • w) ≠ 0 := by
       rw [fiveBilin_apply, fiveForm_smul_left, fiveForm_smul_right]
       exact mul_ne_zero (inv_ne_zero hsal) (mul_ne_zero hμ0 (mul_ne_zero hν0 hB0))
@@ -461,8 +461,8 @@ theorem orderOf_fiveReflOf_mul (n : ℕ) (ε π : Bool) {v w : Fin (n + 1) → Z
         exact mul_right_cancel₀ (mul_ne_zero hv hw) (by simpa using h)
     rw [hrv, hrw, hord]
     by_cases hB2 : fiveForm n ε v w ^ 2 = fiveForm n ε v v * fiveForm n ε w w
-    · rw [if_pos hB2, if_pos (hiff.mpr hB2)]
-    · rw [if_neg hB2, if_neg (fun h => hB2 (hiff.mp h))]
+    · rw [ite_eq_left hB2, ite_eq_left (hiff.mpr hB2)]
+    · rw [ite_eq_right hB2, ite_eq_right (fun h => hB2 (hiff.mp h))]
 
 theorem span_fiveForm_eq_of_nondeg {k : ℕ} {ε : Bool}
     {N : Submodule (ZMod 5) (Fin (k + 1) → ZMod 5)} (hN : IsFiveNondeg k ε N)

@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
 
 theorem order_three_conj_of_base (hC : HypothesisC D)
     (h3 : ∀ w ∈ AalphaStar D hC.alpha, orderOf (hC.d * w) = 3)
-    {g₀ x y : G} (hxD : x ∈ D) (hxg : x ∈ cimg g₀ hC.alpha)
+    {g₀ x y : G} (_hxD : x ∈ D) (hxg : x ∈ cimg g₀ hC.alpha)
     (hyA : y ∈ AalphaStar D (cimg g₀ hC.alpha)) :
     orderOf (x * y) = 3 := by
   classical
@@ -58,7 +58,7 @@ theorem order_three_conj_of_base (hC : HypothesisC D)
     obtain ⟨β, hβA, hyβ⟩ := hyA'
     have hβ'A : cimg n⁻¹ β ∈ Aalpha D hC'.alpha :=
       Aalpha.conj_normalizer hC'.setup.normal (Subgroup.inv_mem _ hnN) hβA
-    exact ⟨cimg n⁻¹ β, hβ'A, ⟨y, hyβ, by simp [cimg]⟩⟩
+    exact ⟨cimg n⁻¹ β, hβ'A, ⟨y, hyβ, by simp⟩⟩
   have h := h3' (n⁻¹ * y * n) hy''
   have e : x * y = n * (hC'.d * (n⁻¹ * y * n)) * n⁻¹ := by
     rw [← hn]

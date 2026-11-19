@@ -60,7 +60,7 @@ theorem exists_conj_ref {A P S : Subgroup M} [Finite A] (hP2 : (P.subgroupOf A).
     rw [Subgroup.mem_subgroupOf] at h3
     simpa [ha] using h3
   set f : M →* M := (MulAut.conj a⁻¹).toMonoidHom with hf
-  have hfx : ∀ x, f x = a⁻¹ * x * a := fun x => by simp [hf, MulAut.conj_apply]
+  have hfx : ∀ x, f x = a⁻¹ * x * a := fun x => by simp [hf]
   have hfinj : Function.Injective f := (MulAut.conj a⁻¹).injective
   have hij' : S5.Q8Rel (f i) (f j) :=
     hij.map f fun h0 => hij.2.1 (hfinj (by rw [h0, map_one]))

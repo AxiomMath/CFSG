@@ -132,7 +132,7 @@ theorem ctxConjHom_eq_one_iff (h : Hyp G t L) (g : ↥(invCent t)) :
 theorem ctxConjHom_coe (h : Hyp G t L) (l : ↥L) :
     ctxConjHom h ⟨(l : G), L_le_invCent h l.2⟩ = MulAut.conj l := by
   ext x
-  simp only [ctxConjHom_apply, MulAut.conj_apply, Subtype.coe_mk, Subgroup.coe_mul,
+  simp only [ctxConjHom_apply, MulAut.conj_apply, Subgroup.coe_mul,
     Subgroup.coe_inv]
 
 theorem ctxConjHom_inner_iff (h : Hyp G t L) (g : ↥(invCent t)) :

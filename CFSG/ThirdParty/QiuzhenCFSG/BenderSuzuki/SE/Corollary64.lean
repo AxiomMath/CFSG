@@ -181,7 +181,7 @@ public theorem corollary64_zj_normalizer
   classical
   let H : Subgroup X := O ⊔ R
   have hOpH : pPrimeCore p.val H = ⊥ := by simpa [H] using hOp
-  letI : Fact p.val.Prime := ⟨p.2⟩
+  let : Fact p.val.Prime := ⟨p.2⟩
   let : Group.IsSolvable H := odd_order_theorem H (by simpa [H] using hHodd)
   obtain ⟨S, hSR⟩ := hRsylow
   have hZJH :
@@ -229,7 +229,7 @@ public theorem corollary64_zj_normalizer
       Subgroup.normalizer
         (((omega₁ (G := J) (p := p.val)).map J.subtype : Subgroup X) :
           Set X) := by
-    haveI : (omega₁ (G := J) (p := p.val)).Characteristic :=
+    have : (omega₁ (G := J) (p := p.val)).Characteristic :=
       omega₁_characteristic (G := J) (p := p.val)
     exact section8_normalizer_map_subtype_le_of_characteristic
       (H := J) (K := omega₁ (G := J) (p := p.val))
@@ -331,7 +331,7 @@ private theorem corollary64_isSylow_of_contains_oddCore_sylow
         (twoPrimeCore D).subtype).map D.subtype) : Subgroup X) ≤ R) :
     theorem4bIsSylowSubgroupOf p R D := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hOtop : twoPrimeCore D = ⊤ := by
     apply top_unique
     change (⊤ : Subgroup D) ≤ pPrimeCore 2 D
@@ -358,7 +358,7 @@ private theorem corollary64_isSylow_of_contains_oddCore_sylow
   have hRDeq : RD = PD := (PDsyl.maximal_isPGroup.eq_of_le hRDp hPDRD).symm
   refine ⟨PDsyl, ?_⟩
   have hRmap : RD.map D.subtype = R := by
-    simpa [RD, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hRD]
+    simp [RD, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hRD]
   calc
     R = RD.map D.subtype := hRmap.symm
     _ = PD.map D.subtype := by rw [hRDeq]
@@ -373,7 +373,7 @@ public theorem corollary64_exists_conjugate_involution_normalizing_sylow
     ∃ x : D,
       rightConjugateElem t (x : X) ∈ Subgroup.normalizer (R : Set X) := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨Q, hQsyl, _hbotQ, htNormQ⟩ :=
     theorem4b_exists_invariant_sylow_containing
       (D := D) (P := (⊥ : Subgroup X)) (z := t) (p := p)
@@ -413,7 +413,7 @@ private theorem corollary64_z_ne_bot
     {R : Subgroup X} (hRp : IsPGroup p.val R) (hRne : R ≠ ⊥) :
     corollary64Z p R ≠ ⊥ := by
   classical
-  letI : Fact p.val.Prime := ⟨p.2⟩
+  let : Fact p.val.Prime := ⟨p.2⟩
   have hJne : thompsonCenter R ≠ ⊥ :=
     section8_centerIn_thompsonSubgroup_ne_bot_of_ne_bot hRp hRne
   have hJp : IsPGroup p.val (thompsonCenter R) :=

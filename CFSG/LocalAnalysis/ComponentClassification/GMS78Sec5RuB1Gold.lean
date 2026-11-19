@@ -57,7 +57,7 @@ theorem eq_one_of_odd_of_fix_sylow {L : Type} [Group L] [Finite L]
     | succ n ih =>
       rw [pow_succ', mul_smul, ih, AschbacherToolkit.Bender.Omega.smul_conj_smul,
         hα _ (pow_mem hr n), ← hrS, smul_smul, ← pow_succ]
-  obtain ⟨m, hm⟩ := (IsPGroup.iff_card).mp R.isPGroup'
+  obtain ⟨m, hm⟩ := (IsPGroup.iff_card).mp R.isPGroup
   have hr1 : r ^ (2 ^ m) = 1 := by
     have h := pow_card_eq_one' (G := (R : Subgroup L)) (x := ⟨r, hr⟩)
     rw [hm] at h

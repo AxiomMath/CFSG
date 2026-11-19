@@ -33,7 +33,7 @@ theorem in84_i1431_of_facts (hLie : I1431LieS) (hAlt : I1431AltS) (hSpor : I1431
   intro X B K J d y hX hBX hB hrk hK hBN hcex hd hJ hT hnot hy hIa
   obtain ⟨c, hcB, hc1, hcK⟩ := hcex
   obtain ⟨Ia, hIaC, hIaT⟩ := hIa
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hd3 : d ^ 3 = 1 := hB.2 d hd
   have hy3 : y ^ 3 = 1 := hB.2 y hy

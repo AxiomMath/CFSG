@@ -50,7 +50,7 @@ theorem reeF4l_uniClosure_eq_top_of_cenGen [IsSimpleGroup G] {E : Subgroup G} {r
     rw [eq_top_iff, ← h0, Subgroup.closure_le]
     rintro k ⟨x, hx, hx1, hkx⟩
     exact hsupN (hC x hx hx1 (Subgroup.mem_centralizer_singleton_iff.2 hkx))
-  haveI : M.Normal := Subgroup.normalizer_eq_top_iff.1 hN
+  have : M.Normal := Subgroup.normalizer_eq_top_iff.1 hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M with hbot | htop
   ·
     exfalso
@@ -99,7 +99,7 @@ theorem reeF4l_centralizer_le_uniClosure_sup (ha : 1 ≤ a) (hK : Nat.card K = 2
   classical
   have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, rfl⟩ := hx
   have hz : z ≠ 1 := fun h => hx1 (by rw [h, map_one])
   have htorus : ∀ γ : ReeTag.F4.reeGamma K a,
@@ -228,10 +228,10 @@ theorem uniSeitzPlanes_reeF4_inner_phi24 :
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, hn, m, hm, hpq⟩
   obtain rfl : d = .reeF4 m := hm
   obtain ⟨X, _, _, _, hm1, hX, hsimple, ⟨e⟩⟩ := exists_reeGamma_equiv_cat hv
-  haveI := hsimple
-  haveI : IsSimpleGroup ↥(F4.reeGamma X m) := MulEquiv.isSimpleGroup e.symm
-  haveI : Finite (ModGL F4.tag X) := finite_modGL
-  haveI : Finite (F4.reeGamma X m) := Subtype.finite
+  have := hsimple
+  have : IsSimpleGroup ↥(F4.reeGamma X m) := MulEquiv.isSimpleGroup e.symm
+  have : Finite (ModGL F4.tag X) := finite_modGL
+  have : Finite (F4.reeGamma X m) := Subtype.finite
   have hinj := conj_injective_of_mulEquiv e
     (CFSG.LieType.SeitzGeneration.conj_injective_of_center_eq_bot (large_Ree_fixed_group_center_trivial m X hX))
   have hiso : CFSG.RankThree.PartOne.Census3.IsoLie ↥(F4.reeGamma X m) (.reeF4 m) := ⟨hv, ⟨e.symm⟩⟩

@@ -172,7 +172,7 @@ private theorem claim_9_choice_from_claim_5_7_8_obligation
     (hh_mem : ∀ x : G, x ∈ Q → x ≠ 1 → h x ∈ D)
     (hcanonical_eq : ∀ x : G, x ∈ Q → x ≠ 1 → t * x * t = g x * h x * t * f x)
     (hKW : KW = K ⊔ W) (hzeta : zeta ∈ W) (hzeta_ne : zeta ≠ 1)
-    (hzeta_gen : Subgroup.closure ({zeta} : Set G) = W)
+    (_hzeta_gen : Subgroup.closure ({zeta} : Set G) = W)
     (hWorder : m = Nat.card W) (hn : n * m = Nat.card Q0 + 1)
     (horbit_representatives :
       (∀ j : ℕ, 1 ≤ j → j ≤ n → omega j ∈ Q ∧ omega j ∉ Q0) ∧
@@ -215,7 +215,7 @@ private theorem claim_9_choice_from_claim_5_7_8_obligation
     intro q a hqQ0 haD
     have haH := PFchapter4section1.rankOneSplit_D_le_M hD_eq haD
     rcases (hsec2.Q0_def q).1 hqQ0 with rfl | ⟨hqH, hqI⟩
-    · simpa [rightConjugateElem] using Q0.one_mem
+    · simp [rightConjugateElem]
     · exact (hsec2.Q0_def _).2 (Or.inr
         ⟨H.mul_mem (H.mul_mem (H.inv_mem haH) hqH) haH,
           isInvolution_rightConjugateElem hqI⟩)
@@ -358,13 +358,12 @@ private theorem claim_9_choice_from_claim_5_7_8_obligation
       (heqOf u) (heqOf v)
     exact hnot ⟨(kOf u)⁻¹ * kOf v, hkdiff, hdcos⟩
   have hcardWne : Nat.card {w : W // w ≠ 1} = m - 1 := by
-    letI := Fintype.ofFinite W
+    let := Fintype.ofFinite W
     have hcard : Nat.card {w : W // w ≠ 1} = Nat.card W - 1 := by
-      simpa [Nat.card_eq_fintype_card] using
-        (Fintype.card_subtype_compl (fun w : W => w = 1))
-    simpa [hWorder] using hcard
-  letI := Fintype.ofFinite Fiber
-  letI := Fintype.ofFinite {w : W // w ≠ 1}
+      simp [Nat.card_eq_fintype_card]
+    simp [hWorder]
+  let := Fintype.ofFinite Fiber
+  let := Fintype.ofFinite {w : W // w ≠ 1}
   have hphi_bij : Function.Bijective phi :=
     (Fintype.bijective_iff_injective_and_card phi).2 ⟨hphi_inj, by
       simpa [Nat.card_eq_fintype_card] using hcardFiber.trans hcardWne.symm⟩

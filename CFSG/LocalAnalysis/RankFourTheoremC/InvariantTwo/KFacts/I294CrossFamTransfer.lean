@@ -23,6 +23,7 @@ theorem pRank_centralizer_of_mulEquiv (e : G ≃* G') (y : G) :
   apply e.injective
   simpa using hg
 
+omit [Finite G] [Finite G'] in
 theorem isMulCommutative_of_map_injective (f : G →* G') (hf : Function.Injective f)
     {P : Subgroup G} (h : IsMulCommutative (P.map f)) : IsMulCommutative P :=
   .of_setLike_mul_comm fun a ha b hb => hf (by
@@ -43,7 +44,7 @@ theorem pRank_le_pRank_inf_ker_add_one (φ : G →* Kˣ) (C : Subgroup G) :
   set m := CFSG.Open.pRank p C with hm
   let ψ : E →* Kˣ := φ.comp E.subtype
   have hmul := Subgroup.card_ker_mul_card_range ψ
-  haveI := Fintype.ofFinite Kˣ
+  have := Fintype.ofFinite Kˣ
   have hr : Nat.card ψ.range ≤ p := by
     have h1 : Nat.card ψ.range ≤ Nat.card {a : Kˣ // a ^ p = 1} := by
       refine Nat.card_le_card_of_injective (fun x => ⟨x.1, ?_⟩) ?_
@@ -88,6 +89,7 @@ section Quotient
 
 variable {H : Type*} [Group H] [Finite H] {p : ℕ} [hp : Fact p.Prime]
 
+omit [Finite H] in
 theorem exists_pow_eq_one_lift (N : Subgroup H) [N.Normal] (hN : ¬ p ∣ Nat.card N)
     (y : H ⧸ N) (hy : y ^ p = 1) : ∃ z : H, z ^ p = 1 ∧ (z : H ⧸ N) = y := by
   obtain ⟨z₀, rfl⟩ := QuotientGroup.mk_surjective y

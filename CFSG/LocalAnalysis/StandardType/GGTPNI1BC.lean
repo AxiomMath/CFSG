@@ -60,8 +60,8 @@ theorem tpbc_exists_spLift_top {L : Type} [Group L] [Finite L] {n f : ℕ} (hn :
     exact (QuotientGroup.congr _ _ Subgroup.topEquiv
       (Subgroup.map_center_eq Subgroup.topEquiv)).trans e
   have hperfTop : commutator ↥(⊤ : Subgroup L) = ⊤ := by
-    haveI : Group.IsPerfect L := ⟨hperf⟩
-    haveI : Group.IsPerfect ↥(⊤ : Subgroup L) :=
+    have : Group.IsPerfect L := ⟨hperf⟩
+    have : Group.IsPerfect ↥(⊤ : Subgroup L) :=
       Group.IsPerfect.ofSurjective (f := (Subgroup.topEquiv (G := L)).symm.toMonoidHom)
         (Subgroup.topEquiv (G := L)).symm.surjective
     exact Group.IsPerfect.commutator_eq_top
@@ -233,7 +233,7 @@ theorem tpbc_of_core
   have hφsurj : Function.Surjective φ := MonoidHom.range_eq_top.mp hφtop
   let α : L ≃* StatedSp (m + 1) (GaloisField 2 n) :=
     (MulEquiv.ofBijective φ ⟨hφinj, hφsurj⟩).symm
-  haveI : CharP (GaloisField 2 n) 2 :=
+  have : CharP (GaloisField 2 n) 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) (GaloisField.card 2 n (by omega))
   have hSpCenter : Subgroup.center (StatedSp (m + 1) (GaloisField 2 n)) = ⊥ :=

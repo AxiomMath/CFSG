@@ -56,7 +56,7 @@ private theorem IsClique101.conj_sup_le_of_mem_Q (hc : Ctx M Q Z B) {X Y : Subgr
   exact sup_le (hmapX.trans le_sup_left) hmapY
 
 private theorem IsClique101.conj_sup_le_of_mem_QB (hc : Ctx M Q Z B) {X Y E : Subgroup G}
-    (hX : IsClique101 M Q Z B X) (hY : IsRootB M B Y) (hE : IsRootB M B E) (hEX : E ≤ X)
+    (hX : IsClique101 M Q Z B X) (_hY : IsRootB M B Y) (hE : IsRootB M B E) (hEX : E ≤ X)
     (hYQ : ∀ E, IsRootB M B E → E ≤ X → Y ≤ QB E) {s : G} (hsQB : s ∈ QB E) :
     conjSubgroup s (X ⊔ Y) ≤ X ⊔ Y := by
   have hXE : X ≤ QB E := hX.le_QB E hE hEX

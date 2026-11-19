@@ -213,7 +213,7 @@ private lemma sylow_card_eq_prime_sq {G : Type} [Group G] [Finite G] {p : ℕ} [
     (P : Sylow p G) (h2 : p ^ 2 ∣ Nat.card G) (h3 : ¬ p ^ 3 ∣ Nat.card G) :
     Nat.card ↥(↑P : Subgroup G) = p ^ 2 := by
   have hp1 : 1 < p := (Fact.out : Nat.Prime p).one_lt
-  obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq (p := p) P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq (p := p) P.isPGroup
   have hdvd : Nat.card ↥(↑P : Subgroup G) ∣ Nat.card G := by
     have h := Subgroup.card_dvd_of_le (le_top : (↑P : Subgroup G) ≤ ⊤)
     rwa [Subgroup.card_top] at h
@@ -263,7 +263,7 @@ theorem normalizer_le_of_index_eq_147 {A : Type} [Group A] [Finite A] {T B M : S
     · rw [hNcard]; norm_num
     · rw [hNcard]; norm_num
   have hPcomm : ∀ x y : ↥Psub, x * y = y * x := by
-    apply IsPGroup.commutative_of_card_eq_prime_sq (p := 7)
+    apply (fun {p : ℕ} {G : Type _} [Group G] [Fact (Nat.Prime p)] (h : Nat.card G = p ^ 2) => (IsPGroup.isMulCommutative_of_card_eq_prime_sq h).is_comm.comm) (p := 7)
     rw [hPcard]; norm_num
   have hPleM : Psub.map N.subtype ≤ M := by
     rintro x ⟨xN, hxP, rfl⟩
@@ -282,7 +282,7 @@ theorem normalizer_le_of_index_eq_147 {A : Type} [Group A] [Finite A] {T B M : S
     rw [he]
     exact hBM hb
   have hPinfTn : Psub ⊓ Tn = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     rw [hPcard, hcardTn]
     norm_num
   let φ : ↥Psub →* ↥N ⧸ Tn := π.comp Psub.subtype

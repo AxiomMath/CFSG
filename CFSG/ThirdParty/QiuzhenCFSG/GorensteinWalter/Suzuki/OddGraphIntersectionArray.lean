@@ -258,8 +258,8 @@ private def rootFour_incidence_equiv
     (hmin : IsMinimalCounterexample G)
     (c : CentralizerSetup G) (hfirst : FirstCase c)
     {V W : UConjugates c}
-    (hV : V ∈ firstCaseRootLayerFour hmin c hfirst)
-    (hW : W ∈ firstCaseRootLayerFour hmin c hfirst)
+    (_hV : V ∈ firstCaseRootLayerFour hmin c hfirst)
+    (_hW : W ∈ firstCaseRootLayerFour hmin c hfirst)
     (h : c.Hhat) (hVW : (h : G) • V = W) :
     {X : lineNeighborSet c // (commutingGraph c).Adj X.1 V} ≃
       {X : lineNeighborSet c // (commutingGraph c).Adj X.1 W} := by

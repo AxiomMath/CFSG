@@ -90,7 +90,7 @@ theorem not_four_dvd_card_centralizer_X (c : Local27 N X t) :
     (Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_two Nat.card_pos.ne').1
       (by simpa using h4)
   set T : Subgroup N := (S : Subgroup ↥C).map C.subtype with hT
-  have hT2 : IsPGroup 2 T := S.isPGroup'.map C.subtype
+  have hT2 : IsPGroup 2 T := S.isPGroup.map C.subtype
   have hTC : T ≤ C := Subgroup.map_subtype_le _
   have htT : t ∈ T := ⟨t', hS (mem_zpowers t'), rfl⟩
   have hle := c.le_zpowers_of_centralizer_X hT2 hTC htT

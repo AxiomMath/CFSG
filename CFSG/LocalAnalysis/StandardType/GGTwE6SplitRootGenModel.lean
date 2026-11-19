@@ -44,7 +44,7 @@ theorem ggTorusModelAt_range_twE6SplitFrameHom
     (hp2 : p ≠ 2) {ζ : Kˣ} (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1) (hζσ : σ (ζ : K) = ζ) :
     GGTorusModelAt p (ExcFrames.twE6SplitFrameHom σ ζ hζ hζσ).range := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   choose w hwmem hwconj using fun a =>
     exists_mem_orbitRankOneGroup_conj_twE6SplitFrameHom σ hζ hζσ a
   let T := ExcFrames.twE6SplitFrameHom σ ζ hζ hζσ

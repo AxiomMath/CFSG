@@ -43,13 +43,13 @@ theorem stepF_struct {T : Array ℕ} (hT : TabLt T) (x g : ℕ) {st : Array ℕ 
   obtain ⟨hsz, hel, hbit, hnd⟩ := h
   unfold stepF
   by_cases hb : st.2[mulc T x g]! = true
-  · simp only [hb, if_true]; exact ⟨hsz, hel, hbit, hnd⟩
+  · simp only [hb, ite_true]; exact ⟨hsz, hel, hbit, hnd⟩
   · have hbf : st.2[mulc T x g]! = false := by simpa using hb
     simp only [hbf]
     set c := mulc T x g with hc
     have hcN : c < N := mulc_lt' hT x g
     have hcs : c < st.2.size := by rw [hsz]; exact hcN
-    simp only [Bool.false_eq_true, if_false]
+    simp only [Bool.false_eq_true, ite_false]
     refine ⟨by simpa using hsz, ?_, ?_, ?_⟩
     · intro d hd
       rw [Array.mem_push] at hd
@@ -80,8 +80,8 @@ theorem stepF_mem {T : Array ℕ} {Xc : Set ℕ}
     {st : Array ℕ × Array Bool} (h : MemIn Xc st) : MemIn Xc (stepF T x st g) := by
   unfold stepF
   by_cases hb : st.2[mulc T x g]! = true
-  · simp only [hb, if_true]; exact h
-  · simp only [hb, Bool.false_eq_true, if_false]
+  · simp only [hb, ite_true]; exact h
+  · simp only [hb, Bool.false_eq_true, ite_false]
     intro d hd
     rw [Array.mem_push] at hd
     rcases hd with hd | rfl
@@ -115,11 +115,11 @@ theorem bfsLoop_spec {T : Array ℕ} (hT : TabLt T) {Xc : Set ℕ}
     intro i st h1 h2
     unfold bfsLoop
     by_cases hi : i < st.1.size
-    · rw [dif_pos hi]
+    · rw [dite_eq_left hi]
       have hx : st.1[i] ∈ Xc := h2 _ (Array.getElem_mem hi)
       obtain ⟨a, b⟩ := foldl_step hT hmul hx gens hg st h1 h2
       exact ih _ _ (by rw [expand_eq]; exact a) (by rw [expand_eq]; exact b)
-    · rw [dif_neg hi]; exact ⟨h1, h2⟩
+    · rw [dite_eq_right hi]; exact ⟨h1, h2⟩
 
 theorem replicate_false_get (n i : ℕ) : (Array.replicate n false)[i]! = false := by
   by_cases hcs : i < (Array.replicate n false).size
@@ -211,7 +211,7 @@ theorem foldl_mark (m : ℕ → ℕ) (hm : ∀ x, m x ≤ x) (seen : Array Bool)
     have hy := hL y (List.mem_cons_self ..)
     have hL' : ∀ x ∈ L, x < N := fun x hx => hL x (List.mem_cons_of_mem _ hx)
     by_cases hs : seen[y]! = true
-    · simp only [hs, if_true]
+    · simp only [hs, ite_true]
       obtain ⟨a, b, c⟩ := ih mk hsz hL'
       refine ⟨a, b, ?_⟩
       intro x hx hxs
@@ -219,7 +219,7 @@ theorem foldl_mark (m : ℕ → ℕ) (hm : ∀ x, m x ≤ x) (seen : Array Bool)
       · rw [hs] at hxs; exact absurd hxs (by simp)
       · exact c x hx hxs
     · have hsf : seen[y]! = false := by simpa using hs
-      simp only [hs, Bool.false_eq_true, if_false]
+      simp only [hs, Bool.false_eq_true, ite_false]
       have hsz' : (mk.set! (m y) true).size = N := by rw [Array.size_set!]; exact hsz
       obtain ⟨a, b, c⟩ := ih (mk.set! (m y) true) hsz' hL'
       refine ⟨a, fun i hi => b i (set!_true_get mk _ i hi), ?_⟩

@@ -317,13 +317,13 @@ theorem rankThreeCent_of_tail {p : ℕ} [hp : Fact p.Prime] [Finite K] [CharP K 
     (π : orthElementaryGroup (quadTail r qA) →* S) (hπ : Function.Surjective π)
     (hπinj : ∀ u ∈ (tailUnipotent r qA).subgroupOf (orthElementaryGroup (quadTail r qA)),
       π u = 1 → u = 1) : RankThreeCent p S := by
-  haveI : Finite A := Module.finite_of_finite K
-  haveI : Finite (((Fin r ⊕ Fin r → K) × A) ≃ₗ[K] ((Fin r ⊕ Fin r → K) × A)) :=
+  have : Finite A := Module.finite_of_finite K
+  have : Finite (((Fin r ⊕ Fin r → K) × A) ≃ₗ[K] ((Fin r ⊕ Fin r → K) × A)) :=
     Finite.of_injective (β := ((Fin r ⊕ Fin r → K) × A) → ((Fin r ⊕ Fin r → K) × A))
       (fun e => ⇑e) fun a b h => LinearEquiv.ext (congrFun h)
   let E := orthElementaryGroup (quadTail r qA)
   have hpos : 0 < Module.finrank K A := by rcases hm with h | h <;> omega
-  haveI : Nontrivial A := Module.nontrivial_of_finrank_pos hpos
+  have : Nontrivial A := Module.nontrivial_of_finrank_pos hpos
   obtain ⟨v₀, hv₀⟩ := exists_ne (0 : A)
   obtain ⟨i0, hi0⟩ : ∃ i : Fin r, (i : ℕ) = 0 := ⟨⟨0, by omega⟩, rfl⟩
   obtain ⟨i1, hi1⟩ : ∃ i : Fin r, (i : ℕ) = 1 := ⟨⟨1, by omega⟩, rfl⟩

@@ -39,6 +39,7 @@ section Ops
 variable {n w : ℕ} (hw : szOK n w = true)
 include hw
 
+omit hw in
 theorem pk_unpack {p : ℕ} (hp : permB n w p = true) : Pk n w (unpack n w p) p := ⟨rfl, hp⟩
 
 theorem pk_id : Pk n w (idA n) (pidn n w) :=
@@ -53,7 +54,7 @@ theorem pk_comp {a b : Array ℕ} {p q : ℕ} (ha : Pk n w a p) (hb : Pk n w b q
 theorem pk_inv {a : Array ℕ} {p : ℕ} (ha : Pk n w a p) :
     Pk n w (invCand n a) (pinvS n w (mask w) p) := by
   obtain ⟨rfl, hp⟩ := ha
-  exact ⟨inv_unpack hw hp, permB_pinvS hw hp⟩
+  exact ⟨inv_unpack hp, permB_pinvS hw hp⟩
 
 theorem pk_powArr {a : Array ℕ} {p : ℕ} (ha : Pk n w a p) (k : ℕ) :
     Pk n w (CFSG.Monster.B.Mathieu.powArr n a k) (pw n w p k) := by

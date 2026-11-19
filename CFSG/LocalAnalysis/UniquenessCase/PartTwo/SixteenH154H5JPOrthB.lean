@@ -36,10 +36,10 @@ theorem s16jp_natOmegaMinus_binaryOrthogonalFour {H : Subgroup (MulAut W)} {U Z 
     {m : ℕ} (hm : 1 ≤ m) (h : NatOmegaMinus H U Z 4 m) : BinaryOrthogonalFour H U Z m := by
   obtain ⟨-, K, hKfield, hKfin, b, c, hKcard, hirr, hR⟩ := h
   rw [show 4 / 2 = 2 by norm_num] at hR
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hKcard
   have hK' : Fintype.card K = 2 ^ m := by
@@ -47,12 +47,12 @@ theorem s16jp_natOmegaMinus_binaryOrthogonalFour {H : Subgroup (MulAut W)} {U Z 
     exact hKcard
   obtain ⟨F, hFfield, hFalg, ω, hrank, hω⟩ :=
     CFSG.ASVolI.burnsideI16h_exists_quad_ext (K := K) (b := b) (c := c) hirr
-  letI : Field F := hFfield
-  letI : Algebra K F := hFalg
-  haveI : Module.Finite K F := Module.finite_of_finrank_pos (by rw [hrank]; norm_num)
-  haveI : Finite F := Module.finite_of_finite K
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_injective_algebraMap (algebraMap K F).injective 2
+  let : Field F := hFfield
+  let : Algebra K F := hFalg
+  have : Module.Finite K F := Module.finite_of_finrank_pos (by rw [hrank]; norm_num)
+  have : Finite F := Module.finite_of_finite K
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_injective_algebraMap (algebraMap K F).injective 2
   let S : CFSG.ASVolI.burnsideI16h_Setup K F :=
     ⟨m, b, c, hm, hK', ω, hω, hirr, hrank⟩
   have hFcard : Fintype.card F = 2 ^ (2 * m) := CFSG.ASVolI.burnsideI16h_hF S

@@ -10,8 +10,8 @@ open CFSG CFSG.RankThree.PartTwo.Sec4
 
 theorem isQuasisimple_slPi {π : Bool} {p f : ℕ} {K : Type} [Field K] (hK : PiField π p f K)
     (hq2 : 2 < p ^ f) : IsQuasisimple (slPi π 3 (p ^ f) K) := by
-  haveI := hK.finite
-  haveI : Fact p.Prime := ⟨hK.prime⟩
+  have := hK.finite
+  have : Fact p.Prime := ⟨hK.prime⟩
   cases π
   · have hnq : ((3 : ℕ), p ^ f) ≠ (3, 2) := fun h => by
       have h2 := congrArg Prod.snd h

@@ -21,6 +21,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem le_normalizer_of_commutative_sup {A A₂ : Subgroup G}
     (hAc : ∀ x ∈ A ⊔ A₂, ∀ y ∈ A ⊔ A₂, x * y = y * x) :
     A₂ ≤ Subgroup.normalizer (A : Set G) := by
@@ -124,6 +125,7 @@ private def caseIICentralizer (L1 : Subgroup G) (S : Subgroup G) (k : G) : Subgr
   commutatorCentralizerIn (S ⊓ L1) (pCoreOf 2 L1) (Subgroup.zpowers k)
     (inf_le_right.trans (le_normalizer_pCoreOf 2 L1))
 
+omit [Finite G] in
 private theorem K_le_normalizer_of_map_conj {A A₂ : Subgroup G}
     (hKA : t.K ≤ normalizer (A : Set G))
     (hA₂ : A.map (MulAut.conj t.x₁).toMonoidHom = A₂) :
@@ -152,6 +154,7 @@ private theorem K_le_normalizer_of_map_conj {A A₂ : Subgroup G}
     have := hfwd h⁻¹ (t.K.inv_mem hh) (h * a₂ * h⁻¹) hconj
     rwa [show h⁻¹ * (h * a₂ * h⁻¹) * (h⁻¹)⁻¹ = a₂ from by group] at this
 
+omit [Finite G] in
 private theorem caseII_Z1_le_A {Q A A₂ : Subgroup G} (hQleA : Q ≤ A)
     (hZ₁A : t.Zv 0 ≤ A ⊔ A₂) (hA₂NA : A₂ ≤ normalizer (A : Set G))
     (hAc : ∀ x ∈ A ⊔ A₂, ∀ y ∈ A ⊔ A₂, x * y = y * x)
@@ -187,6 +190,7 @@ private theorem caseII_Z1_le_A {Q A A₂ : Subgroup G} (hQleA : Q ≤ A)
     exact hcommz
   exact A.mul_mem ha (hQleA ha₂Q)
 
+omit [Finite G] in
 private theorem caseII_Z1_le_A₂ {A A₂ : Subgroup G} (hZ₁leA : t.Zv 0 ≤ A)
     (hA₂ : A.map (MulAut.conj t.x₁).toMonoidHom = A₂) :
     t.Zv 0 ≤ A₂ := by
@@ -241,6 +245,7 @@ private theorem caseII_exists_commutator_not_mem {a f : ℕ}
     exact hZ₁Q
   exact t.Zv_ne_bot hfr.hF 0 hbot
 
+omit [Finite G] in
 private theorem caseII_commutator_mem_A₂ {A A₂ : Subgroup G}
     (hZ₁A : t.Zv 0 ≤ A ⊔ A₂)
     (hAc : ∀ x ∈ A ⊔ A₂, ∀ y ∈ A ⊔ A₂, x * y = y * x)
@@ -275,6 +280,7 @@ private theorem caseII_commutator_mem_A₂ {A A₂ : Subgroup G}
   rw [heq]
   exact hqA₂
 
+omit [Finite G] in
 private theorem caseII_commutator_mem_inf_not_mem {A A₂ : Subgroup G}
     (hZ₁A : t.Zv 0 ≤ A ⊔ A₂)
     (hAc : ∀ x ∈ A ⊔ A₂, ∀ y ∈ A ⊔ A₂, x * y = y * x)
@@ -294,6 +300,7 @@ private theorem caseII_commutator_mem_inf_not_mem {A A₂ : Subgroup G}
     t.caseII_commutator_mem_A₂ hZ₁A hAc hA₂NA hK_A₂ hD₂A hz₀Z1 hk₁D2
   exact ⟨_, hcZ1, hcA₂, hc₀⟩
 
+omit [Finite G] in
 private theorem caseII_A₂_le_sup_of_commutator {A A₂ : Subgroup G} {c : G}
     (hcZ : c ∈ t.Zv 0) (hcA₂ : c ∈ A₂) (hcQ : c ∉ pCoreOf 2 t.GT)
     (hAc : ∀ x ∈ A ⊔ A₂, ∀ y ∈ A ⊔ A₂, x * y = y * x)
@@ -319,6 +326,7 @@ private theorem caseII_A₂_le_sup_of_commutator {A A₂ : Subgroup G} {c : G}
     rw [hyq]
     exact Subgroup.mul_mem_sup ⟨hkcZ, hkcA₂⟩ ((pCoreOf 2 t.GT).inv_mem hkcomm)
 
+omit [Finite G] in
 private theorem caseII_A_le_sup_of_A₂_le_sup {A A₂ : Subgroup G}
     (hA : A₂.map (MulAut.conj t.x₁).toMonoidHom = A)
     (hx₁Q : t.x₁ ∈ normalizer (pCoreOf 2 t.GT : Set G))
@@ -364,6 +372,7 @@ private theorem caseII_le_sup {a f : ℕ}
   exact ⟨hA₂_le, t.caseII_A_le_sup_of_A₂_le_sup hA
     t.x₁_mem_normalizer_pCoreOf_GT hA₂_le⟩
 
+omit [Finite G] in
 private theorem caseII_relIndex_A₂ {Q A A₂ : Subgroup G} {f : ℕ}
     (hAQ : Q.relIndex A = 2 ^ f) (hA₂ : A.map (MulAut.conj t.x₁).toMonoidHom = A₂)
     (hx₁Q : t.x₁ ∈ normalizer (Q : Set G)) :
@@ -375,6 +384,7 @@ private theorem caseII_relIndex_A₂ {Q A A₂ : Subgroup G} {f : ℕ}
   rw [hQmap, hA₂, hAQ] at h
   exact h
 
+omit [Finite G] in
 private theorem caseII_elemsec_Z₁ : IsElemSec (⊥ : Subgroup G) (t.Zv 0) := by
   have hElem : IsElemAbelian 2 (t.Zv 0) := by
     rw [t.Zv_eq 0]
@@ -390,6 +400,7 @@ private theorem caseII_elemsec_Z₁ : IsElemSec (⊥ : Subgroup G) (t.Zv 0) := b
     rw [show e ^ 2 = 1 from hElem.2 e he]
     exact Subgroup.one_mem _
 
+omit [Finite G] in
 private theorem caseII_L1_le_normalizer_Z₁ :
     L1 ≤ normalizer (t.Zv 0 : Set G) ⊓ normalizer (⊥ : Subgroup G) := by
   have hP1Z : P1 L1 L2 S ≤ normalizer (t.Zv 0 : Set G) := by
@@ -443,6 +454,7 @@ private theorem caseII_pair_exists_le {a f : ℕ}
     (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp h2
   omega
 
+omit [Finite G] in
 private theorem caseII_no_pair_L1 {A X : Subgroup G} (hXdef : X = t.Zv 0 ⊓ A)
     (hL1cent : ∀ l ∈ L1, ∀ v ∈ t.Zv 0, l * v * l⁻¹ = v) :
     L1 ≤ (P1 L1 L2 S ⊓ normalizer (X : Set G)) ⊔ Q1 L1 L2 S := by
@@ -463,6 +475,7 @@ private theorem caseII_no_pair_L1 {A X : Subgroup G} (hXdef : X = t.Zv 0 ⊓ A)
     rw [hxe]
     exact hx
 
+omit [Finite G] in
 private theorem caseII_no_pair_Lstar {A X Lstar : Subgroup G} (hXdef : X = t.Zv 0 ⊓ A)
     (hLA : ∀ l ∈ Lstar, ∀ x ∈ A, l * x * l⁻¹ = x) :
     Lstar ≤ normalizer (X : Set G) := by
@@ -480,6 +493,7 @@ private theorem caseII_no_pair_Lstar {A X Lstar : Subgroup G} (hXdef : X = t.Zv 
     rw [hxe]
     exact hx
 
+omit [Finite G] in
 private theorem caseII_no_pair_L2 {Lstar X : Subgroup G}
     (hLstar : Lstar ≤ L2 ⊔ t.Qv 1) (hL2 : L2 ≤ Lstar ⊔ t.Qv 1)
     (hstarN : Lstar ≤ normalizer (X : Set G)) :
@@ -553,6 +567,7 @@ private theorem caseII_four_mul_le {a f : ℕ}
     exfalso
     exact t.caseII_false_of_centralizes hfr hAA₂ hAQ hZA hLstar hL2 hLA hL1cent
 
+omit [Finite G] in
 private theorem caseII_le_centralizer {A : Subgroup G} {k : G} (hk : k ∈ t.D2)
     (hD₂A : ∀ k ∈ t.D2, ∀ x ∈ A, k * x * k⁻¹ = x) :
     t.Zv 0 ⊓ A ≤ t.Zv 0 ⊓ Subgroup.centralizer ({k} : Set G) := by
@@ -566,6 +581,7 @@ private theorem caseII_le_centralizer {A : Subgroup G} {k : G} (hk : k ∈ t.D2)
   calc k * x = (k * x * k⁻¹) * k := by group
     _ = x * k := by rw [h1]
 
+omit [Finite G] in
 private theorem caseII_L1_mem_normalizer_centralizer {C : Subgroup G} {k : G}
     (hCdef : C = t.Zv 0 ⊓ Subgroup.centralizer ({k} : Set G))
     (hkL : ∀ l ∈ L1, k * l * k⁻¹ * l⁻¹ ∈ Q1 L1 L2 S) :
@@ -604,6 +620,7 @@ private theorem caseII_L1_mem_normalizer_centralizer {C : Subgroup G} {k : G}
   calc k * (l * x * l⁻¹) = (k * (l * x * l⁻¹) * k⁻¹) * k := by group
     _ = (l * x * l⁻¹) * k := by rw [hkey]
 
+omit [Finite G] in
 private theorem caseII_L1_le_normalizer_centralizer {C : Subgroup G} {k : G}
     (hCdef : C = t.Zv 0 ⊓ Subgroup.centralizer ({k} : Set G))
     (hkL : ∀ l ∈ L1, k * l * k⁻¹ * l⁻¹ ∈ Q1 L1 L2 S) :
@@ -618,6 +635,7 @@ private theorem caseII_L1_le_normalizer_centralizer {C : Subgroup G} {k : G}
       (l * x * l⁻¹) hx
     rwa [show l⁻¹ * (l * x * l⁻¹) * (l⁻¹)⁻¹ = x from by group] at this
 
+omit [Finite G] in
 private theorem caseII_Q1_mem_normalizer_centralizer {C : Subgroup G} {k : G}
     (hCdef : C = t.Zv 0 ⊓ Subgroup.centralizer ({k} : Set G)) :
     ∀ q ∈ Q1 L1 L2 S, ∀ x ∈ C, q * x * q⁻¹ ∈ C := by
@@ -633,6 +651,7 @@ private theorem caseII_Q1_mem_normalizer_centralizer {C : Subgroup G} {k : G}
       _ = x := by group
   rwa [hconj]
 
+omit [Finite G] in
 private theorem caseII_Q1_le_normalizer_centralizer {C : Subgroup G} {k : G}
     (hCdef : C = t.Zv 0 ⊓ Subgroup.centralizer ({k} : Set G)) :
     Q1 L1 L2 S ≤ normalizer (C : Set G) := by
@@ -764,6 +783,7 @@ private theorem caseII_eq_one {a f : ℕ}
       group
     exact hxQ (hD₂free k hk hk1 x hxA₂ (by rw [hcomm]; exact Q.one_mem))
 
+omit [Finite G] in
 private theorem caseII_D2_le_normalizer_L1 {a f : ℕ}
     (hfr : Frame L1 L2 S a f) :
     t.D2 ≤ normalizer (L1 : Set G) := by
@@ -773,6 +793,7 @@ private theorem caseII_D2_le_normalizer_L1 {a f : ℕ}
     exact le_sup_right
   exact (hD2K.trans hKbigB).trans (bigB_le_normalizer_of_hyp111 hfr.hF.1)
 
+omit [Finite G] in
 private theorem caseII_D2_le_normalizer_T {a f : ℕ}
     (hfr : Frame L1 L2 S a f) :
     t.D2 ≤ normalizer (S ⊓ L1 : Set G) := by
@@ -832,6 +853,7 @@ private theorem caseII_D1_le_normalizer_centralizer {a f : ℕ}
     have := t.caseII_D1_conj_mem_centralizer hfr hk d⁻¹ (t.D1.inv_mem hd) (d * x * d⁻¹) hx
     rwa [show d⁻¹ * (d * x * d⁻¹) * (d⁻¹)⁻¹ = x from by group] at this
 
+omit [Finite G] in
 private theorem caseII_centralizer_not_le {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {k z : G} (hk : k ∈ t.D2) (hz : z ∈ S ⊓ L1)
     (hzO : z ∉ pCoreOf 2 L1) (hcomm : ⁅k, z⁆ ∈ pCoreOf 2 L1) :

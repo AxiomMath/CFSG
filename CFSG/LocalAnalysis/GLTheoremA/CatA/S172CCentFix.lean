@@ -19,6 +19,7 @@ open Polynomial Module QuadraticMap CFSG.RankThree.Classical2 CFSG.RankThree.Par
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [CharP F 2] in
 private theorem apply_comm_of_finrank_eq_add_two_aux1 (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x)
     {h : F[X]} (hh : h ∈ primaryFactors x.toLinearMap) (hne : h ≠ X - 1) :
@@ -43,18 +44,20 @@ private theorem apply_comm_of_finrank_eq_add_two_aux1 (hp : p.Prime) (hp2 : p �
     (V := V) hp (x := x.toLinearMap) hxp hh (by simpa using hne)
   omega
 
+omit [Finite F] [CharP F 2] in
 private theorem apply_comm_of_finrank_eq_add_two_aux2 {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x)
     (hdim : finrank F V = finrank F (fixedSpace x) + 2) :
     finrank F (othersSpace x.toLinearMap (X - 1)) = 2 := by
   have h1 := Submodule.finrank_add_eq_of_isCompl hx.fixed_others.1
   omega
 
+omit [CharP F 2] in
 private theorem apply_comm_of_finrank_eq_add_two_aux3 (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {a : F[X]}
     (ha : a ∈ primaryFactors x.toLinearMap) (hne : a ≠ X - 1)
     (hle : finrank F (primaryComponent x.toLinearMap a) ≤ 2) :
     primaryMultiplicity x.toLinearMap a = 1 := by
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   have hdeg := apply_comm_of_finrank_eq_add_two_aux1 hp hp2 hpq hx ha hne
   have hfin := finrank_primaryComponent (x := x.toLinearMap) (a := a)
   have hmpos : 1 ≤ primaryMultiplicity x.toLinearMap a := by
@@ -73,6 +76,7 @@ private theorem apply_comm_of_finrank_eq_add_two_aux3 (hp : p.Prime) (hp2 : p �
   have h4 : a.natDegree * primaryMultiplicity x.toLinearMap a ≤ 2 := hfin ▸ hle
   omega
 
+omit [CharP F 2] in
 private theorem apply_comm_of_finrank_eq_add_two_aux4 (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {a : F[X]}
     (ha : a ∈ primaryFactors x.toLinearMap) (hne : a ≠ X - 1)
@@ -80,7 +84,7 @@ private theorem apply_comm_of_finrank_eq_add_two_aux4 (hp : p.Prime) (hp2 : p �
     (hg : g ∈ Subgroup.centralizer ({x} : Set (V ≃ₗ[F] V)))
     (hk : k ∈ Subgroup.centralizer ({x} : Set (V ≃ₗ[F] V))) :
     ∀ m ∈ primaryComponent x.toLinearMap a, g (k m) = k (g m) := by
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   have hm1 := apply_comm_of_finrank_eq_add_two_aux3 hp hp2 hpq hx ha hne hle
   let G : Module.End (AdjoinRoot a) (primaryComponent x.toLinearMap a) :=
     (centralizerGL x a ⟨g, hg⟩ : BlockGL x a)
@@ -111,6 +115,7 @@ private theorem apply_comm_of_finrank_eq_add_two_aux4 (hp : p.Prime) (hp2 : p �
   have e2 : ((K (G ⟨m, hm⟩)) : V) = k (g m) := by rw [hKcoe, hGcoe]
   rw [← e1, happ, e2]
 
+omit [CharP F 2] in
 theorem apply_comm_of_finrank_eq_add_two (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card F + 1)
     {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x)
     (hdim : finrank F V = finrank F (fixedSpace x) + 2) {g k : V ≃ₗ[F] V}
@@ -139,6 +144,7 @@ theorem apply_comm_of_finrank_eq_add_two (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p
   · intro u w hu hw
     rw [map_add, map_add, map_add, map_add, hu, hw]
 
+omit [CharP F 2] in
 theorem commutator_mem_supportedFixedDerived_gen (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x)
     (hdim : finrank F V = finrank F (fixedSpace x) + 2) {g k : V ≃ₗ[F] V}
@@ -220,6 +226,7 @@ theorem apply_eq_of_commute_supportedFixedDerived_gen {x : V ≃ₗ[F] V} (hx : 
   have h1 := congrArg (fun f : fixedSpace x ≃ₗ[F] fixedSpace x => (f ⟨w, hw⟩ : V)) hT1
   simpa [coe_isometryRestrictFixed] using h1
 
+omit [CharP F 2] in
 theorem isQuasisimple_specialBlock_of_multiplicity (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {h : F[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) (hne : h ≠ X - 1) {m : ℕ}
@@ -241,7 +248,7 @@ theorem isQuasisimple_specialBlock_of_multiplicity (hp : p.Prime) (hp2 : p ≠ 2
         rcases hm4 with h4 | ⟨-, hcard⟩
         · exact h4
         · exact absurd hcard hK4
-      haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+      have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
       exact CFSG.HardMathSupport.Timmesfeld.CrossChar.orth2_isQuasisimple_specialBlock_selfDual
         hx (hp.odd_of_ne_two hp2) hh hne hself (by rw [hm]; exact hm4')
 

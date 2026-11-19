@@ -29,11 +29,11 @@ private theorem exists_mem_normalizer_isPGroup_sup_zpowers_aux {p : ℕ} [Fact p
   obtain ⟨R, hR⟩ := (hQ.comap_subtype (K := C)).exists_le_sylow
   have hlt : Q.subgroupOf C < R :=
     lt_of_le_of_ne hR fun h => R.not_dvd_index (h ▸ hdvd)
-  obtain ⟨a, haR, hanorm, haQ⟩ := exists_mem_normalizer_not_mem_of_lt_aux R.isPGroup' hlt
+  obtain ⟨a, haR, hanorm, haQ⟩ := exists_mem_normalizer_not_mem_of_lt_aux R.isPGroup hlt
   refine ⟨a, a.2, ?_, haQ, ?_⟩
   · rw [← subgroupOf_normalizer_eq hQC] at hanorm
     exact hanorm
-  · refine ((R.isPGroup'.map C.subtype).to_le ?_)
+  · refine ((R.isPGroup.map C.subtype).to_le ?_)
     exact sup_le (fun q hq => ⟨⟨q, hQC hq⟩, hR hq, rfl⟩) (zpowers_le.mpr ⟨a, haR, rfl⟩)
 
 theorem exists_smallRankPoint (hS : Setting G) (hU0 : FullCoreLocal G) {p : ℕ}
@@ -53,11 +53,11 @@ theorem exists_smallRankPoint (hS : Setting G) (hU0 : FullCoreLocal G) {p : ℕ}
     (Set.toFinite 𝒳) ⟨x₀, hx₀P, hx₀1, hx₀p, hx₀M⟩
   refine ⟨x, hxP, hx1, hxp, hxM, fun hdvd => ?_⟩
   set Q₀ : Subgroup G := (P : Subgroup G) ⊓ centralizer ({x} : Set G) with hQ₀
-  have hQ₀p : IsPGroup p Q₀ := P.isPGroup'.to_inf_left
+  have hQ₀p : IsPGroup p Q₀ := P.isPGroup.to_inf_left
   have hQ₀M : Q₀ ≤ M := inf_le_left.trans hPM
   have hN : normalizer (Q₀ : Set G) ≤ M :=
     normalizer_le_of_le_of_two_le_pRank hS hU0 hp hM hQ₀p hQ₀M
-      (two_le_pRank_inf_centralizer P.isPGroup' (by omega) hxP hx1 hxp)
+      (two_le_pRank_inf_centralizer P.isPGroup (by omega) hxP hx1 hxp)
   obtain ⟨r, hrC, hrN, hrQ, hS₁p⟩ :=
     exists_mem_normalizer_isPGroup_sup_zpowers_aux
       (inf_le_right : Q₀ ≤ centralizer ({x} : Set G)) hQ₀p hdvd
@@ -112,9 +112,9 @@ theorem exists_smallRankSylowTwo (hS : Setting G) {p : ℕ} (hp : p ∈ rankThre
   obtain ⟨hPM, -⟩ := sylow_le_of_isCoreMaxLocal hS hp hM
   obtain ⟨-, hMO, hcop⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec p M
   obtain ⟨S, hSn⟩ := CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow p 2
-    hprime Nat.prime_two (P : Subgroup G) (rankThreePrimeCore p M) P.isPGroup' (hPM.trans hMO) hcop
+    hprime Nat.prime_two (P : Subgroup G) (rankThreePrimeCore p M) P.isPGroup (hPM.trans hMO) hcop
   refine ⟨(S : Subgroup (rankThreePrimeCore p M)).map (rankThreePrimeCore p M).subtype,
-    map_subtype_le _, S.isPGroup'.map _, ?_, hSn⟩
+    map_subtype_le _, S.isPGroup.map _, ?_, hSn⟩
   rw [Subgroup.subgroupOf,
     comap_map_eq_self_of_injective (rankThreePrimeCore p M).subtype_injective]
   exact S.not_dvd_index

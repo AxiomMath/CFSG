@@ -15,8 +15,8 @@ open CFSG.Open CFSG.Quasithin CFSG.Quasithin.Stroth CFSG.Geometry.GeneralizedPol
 
 private lemma sup_transitive_of_compl {X Ω : Type*} [Group X] [MulAction X Ω]
     {ω ω' : Ω} (hne : ω ≠ ω') (h3 : ∃ α : Ω, α ≠ ω ∧ α ≠ ω')
-    {R R' : Subgroup X} (hR : R ≤ MulAction.stabilizer X ω)
-    (hR' : R' ≤ MulAction.stabilizer X ω')
+    {R R' : Subgroup X} (_hR : R ≤ MulAction.stabilizer X ω)
+    (_hR' : R' ≤ MulAction.stabilizer X ω')
     (hRt : ∀ α β : Ω, α ≠ ω → β ≠ ω → ∃ r ∈ R, (r : X) • α = β)
     (hR't : ∀ α β : Ω, α ≠ ω' → β ≠ ω' → ∃ r ∈ R', (r : X) • α = β) :
     ∀ α β : Ω, ∃ m ∈ R ⊔ R', (m : X) • α = β := by
@@ -70,7 +70,7 @@ theorem le_socle {X Ω : Type*} [Group X] [Finite X] [MulAction X Ω]
     (Subgroup.normal_subgroupOf_iff_le_normalizer hR₀_H).mpr
       (sup_le Subgroup.le_normalizer hTnormR₀)
   have hcop : Nat.Coprime (Nat.card R₀) (Nat.card T) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := hR₀2.exists_card_eq
     rw [hk]
     exact (Nat.coprime_two_left.mpr
@@ -94,7 +94,7 @@ theorem le_socle {X Ω : Type*} [Group X] [Finite X] [MulAction X Ω]
       subst hx
       exact ⟨(R₀.subgroupOf H).one_mem, (T.subgroupOf H).one_mem⟩
   have hmul : (R₀.subgroupOf H : Set H) * (T.subgroupOf H : Set H) = Set.univ := by
-    haveI : (R₀.subgroupOf H).Normal := hR₀normalH
+    have : (R₀.subgroupOf H).Normal := hR₀normalH
     rw [← Subgroup.normal_mul (R₀.subgroupOf H) (T.subgroupOf H), hsup]
     rfl
   have hcompRT : (R₀.subgroupOf H).IsComplement' (T.subgroupOf H) :=
@@ -215,7 +215,7 @@ theorem le_socle {X Ω : Type*} [Group X] [Finite X] [MulAction X Ω]
   have hmove : ∀ g : H, ∃ r : R₀.subgroupOf H, ((r : X) * (g : X)) • α = α := by
     intro g
     have hgmem : (g : H) ∈ (R₀.subgroupOf H : Set H) * (T.subgroupOf H : Set H) := by
-      haveI : (R₀.subgroupOf H).Normal := hR₀normalH
+      have : (R₀.subgroupOf H).Normal := hR₀normalH
       rw [← Subgroup.normal_mul (R₀.subgroupOf H) (T.subgroupOf H), hsup]
       exact Subgroup.mem_top g
     obtain ⟨c, hc, t, ht, hct⟩ := Set.mem_mul.mp hgmem
@@ -242,8 +242,7 @@ theorem le_socle {X Ω : Type*} [Group X] [Finite X] [MulAction X Ω]
       _ = α := by
           have h1 : (((cR * cXH)⁻¹ : R₀.subgroupOf H) : X) *
               ((cR * cXH : R₀.subgroupOf H) : X) = 1 := by
-            simpa [Subgroup.coe_inv] using
-              inv_mul_cancel ((cR * cXH : R₀.subgroupOf H) : X)
+            simp
           rw [h1, one_smul]
   have hcompRL : (R₀.subgroupOf H).IsComplement' (MulAction.stabilizer H α) :=
     Subgroup.isComplement'_stabilizer α hfree (fun g => by
@@ -450,8 +449,8 @@ theorem le_sup_root {X Ω : Type*} [Group X] [Finite X] [MulAction X Ω]
     rw [hbot] at h1
     rw [Subgroup.mem_bot] at h1
     exact Subtype.ext_iff.mp h1
-  haveI : IsSimpleGroup ↥N := hNs
-  haveI : (M.subgroupOf N).Normal := hMnormal
+  have : IsSimpleGroup ↥N := hNs
+  have : (M.subgroupOf N).Normal := hMnormal
   rcases Subgroup.Normal.eq_bot_or_eq_top (M.subgroupOf N) with hbot | htop
   · exact absurd hbot hMsubne
   · exact Subgroup.subgroupOf_eq_top.mp htop
@@ -535,7 +534,7 @@ theorem rankOneCenter_of_zassenhaus {X Ω : Type*} [Group X] [Finite X]
         intro h1
         exact hconj_ne t (congrArg Subtype.val h1)⟩
     have hSubCard : Nat.card {z : ZR // z ≠ 1} = Nat.card T := by
-      haveI : Fintype ZR := Fintype.ofFinite ZR
+      have : Fintype ZR := Fintype.ofFinite ZR
       have h1 : Nat.card {z : ZR // z ≠ 1} = Nat.card ZR - 1 := by
         rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card,
           Fintype.card_subtype_compl (fun z : ZR => z = 1)]
@@ -615,7 +614,7 @@ theorem rankOneCenter_of_zassenhaus {X Ω : Type*} [Group X] [Finite X]
       have h1 : Nat.card ↥ZR = 1 := by
         rw [hbot]
         simp
-      haveI : Nonempty ↥T := ⟨1⟩
+      have : Nonempty ↥T := ⟨1⟩
       have hTpos : 0 < Nat.card ↥T := Nat.card_pos
       omega
     have hTnormZR : T ≤ Subgroup.normalizer ZR := by
@@ -728,7 +727,7 @@ theorem rankOneCenter_of_zassenhaus {X Ω : Type*} [Group X] [Finite X]
     have hgT : g ∈ T := ⟨⟨hgN, hg.1⟩, hg.2⟩
     have hg1 : g = 1 :=
       hCT g hgT (fun z hz => hgcent z hz.1 (Subgroup.mem_centralizer_iff.mp hz.2))
-    simpa [hg1]
+    simp [hg1]
 
 end RankOneLocal
 

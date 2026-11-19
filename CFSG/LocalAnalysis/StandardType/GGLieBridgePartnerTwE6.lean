@@ -46,7 +46,7 @@ private theorem l10b6_partner_of_induces {L C G Y : Type} [Group L] [Group C] [G
     have h' : ψ k' ∈ G₀ := by rw [← hrange]; exact ⟨k', rfl⟩
     have hsub : (⟨ψ k', h'⟩ : ↥G₀) = ⟨d * (x : G) * d⁻¹, h⟩ := by
       apply Subtype.ext
-      simp only [Subtype.coe_mk]
+      simp only
       rw [hk', hk]
     rw [← hsub]
     exact hθ k' h'
@@ -79,7 +79,7 @@ private theorem l10b6_alpha_form
     ∃ (g : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)))
       (b : ↥(TableB.TwE6.compat (frobQ 2 f))),
       α = MulAut.conj g * RootCentExc.compatParamAut (frobQ 2 f) b := by
-  haveI : (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)) →*
+  have : (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)) →*
       MulAut ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))).range.Normal :=
     RootCentExc.normal_range_mulAutConj
   unfold LayerSixE.twInndiagAut at hα
@@ -100,12 +100,12 @@ private theorem l10b6_mem_fix
   classical
   let F := GaloisField 2 (2 * f)
   let σ : F →+* F := frobQ 2 f
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra F GGL := (ggRatEmb (2 * f)).toAlgebra
-  haveI : IsScalarTower (ZMod 2) F GGL := IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : Algebra.IsAlgebraic F GGL :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra F GGL := (ggRatEmb (2 * f)).toAlgebra
+  have : IsScalarTower (ZMod 2) F GGL := IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
+  have : Algebra.IsAlgebraic F GGL :=
     Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := F) (A := GGL)
-  haveI : IsAlgClosure F GGL := ⟨IsAlgClosure.isAlgClosed (ZMod 2), inferInstance⟩
+  have : IsAlgClosure F GGL := ⟨IsAlgClosure.isAlgClosed (ZMod 2), inferInstance⟩
   have hσsurj : Function.Surjective σ :=
     Finite.surjective_of_injective σ.injective
   let σE : F ≃+* F := RingEquiv.ofBijective σ ⟨σ.injective, hσsurj⟩

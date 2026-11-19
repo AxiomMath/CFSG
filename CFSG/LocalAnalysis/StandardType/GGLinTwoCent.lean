@@ -182,12 +182,12 @@ private theorem exists_torusAct_of_comm {K : Type} [Field K] [Finite K] (hK : Na
     funext i
     by_cases hi : i = j
     · subst hi
-      simp only [Pi.single_eq_same, if_true, hlam]
+      simp only [Pi.single_eq_same, ite_true, hlam]
     · have hne : (Pi.single j (1 : ZMod 3) : Fin s → ZMod 3) i ≠
           (Pi.single j (1 : ZMod 3) : Fin s → ZMod 3) j := by
         rw [Pi.single_eq_of_ne hi 1, Pi.single_eq_same]
         exact zero_ne_one
-      rw [if_neg hne, Pi.single_eq_of_ne hi]
+      rw [ite_eq_right hne, Pi.single_eq_of_ne hi]
   have hlam_ne : ∀ j : Fin s, lam j ≠ 0 := by
     intro j hj0
     have h1 : φ (Pi.single j (1 : AdjoinRoot g), (0 : Fin r → K)) = φ (0, 0) := by

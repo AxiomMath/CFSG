@@ -14,7 +14,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 theorem not_dvd_card_of_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T N : Subgroup G}
     (hT : IsPGroup 2 T) (h : N ≤ T) : ¬ p ∣ Nat.card N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (hT.to_le h).exists_card_eq
   rw [hk]
   intro hd
@@ -105,6 +105,7 @@ theorem commute_of_fixed_coset {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {A T T�
   rw [e] at this
   exact this
 
+omit [Finite G] in
 theorem comm_of_mem_zpowers {y g a : G} (h : y * g = g * y) (ha : a ∈ Subgroup.zpowers y) :
     a * g = g * a := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
@@ -140,7 +141,7 @@ theorem elemAbelian_eight_aux {u v z a b : G} (hz : orderOf z = 2) (hu2 : u ^ 2 
     (hub : u * b = b * u) (hbv : b * v = z * (v * b)) :
     IsElemAbelian 2 (Subgroup.zpowers z ⊔ Subgroup.zpowers u ⊔ Subgroup.zpowers v) ∧
       Nat.card ↥(Subgroup.zpowers z ⊔ Subgroup.zpowers u ⊔ Subgroup.zpowers v) = 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz1 : z ≠ 1 := by
     intro h
     rw [h, orderOf_one] at hz

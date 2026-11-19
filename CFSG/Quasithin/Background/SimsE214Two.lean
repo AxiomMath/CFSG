@@ -17,7 +17,7 @@ theorem e214_two
     (hg : g ∈ I) (hIV : I = V ⊔ conjSubgroup V g) (hZ : V ⊓ conjSubgroup V g ≠ ⊥)
     (MI TI JI B A P Z : Subgroup Γ) (_k : ℕ) (hMI : MI = M ⊓ I) (hTI' : TI = T ⊓ I)
     (hJI : JI = kerIn MI I) (hB : B = V ⊓ pCoreOf 2 I) (hA : A = conjSubgroup V g ⊓ pCoreOf 2 I)
-    (hP : P = A ⊔ B) (hZ' : Z = V ⊓ conjSubgroup V g)
+    (hP : P = A ⊔ B) (_hZ' : Z = V ⊓ conjSubgroup V g)
     (_hk : E1.nParam (⊤ : Subgroup (E2.StarQuot MI I)) = (_k : ℕ∞)) :
     (P = JI ∧ E2.star MI I V = centerOf (E2.star MI I TI)) ∨
       (∃ (_ : (P.subgroupOf I).Normal), CFSG.IsQuasisimple (↥I ⧸ P.subgroupOf I) ∧
@@ -28,7 +28,7 @@ theorem e214_two
       (∃ (_ : (P.subgroupOf I).Normal),
         Nonempty (↥I ⧸ P.subgroupOf I ≃* Equiv.Perm (Fin 6) × Multiplicative (ZMod 2)) ∧
         ∀ x : Γ, x ∈ JI ↔ x ∈ I ∧ ∀ y ∈ I, x * y * x⁻¹ * y⁻¹ ∈ P) := by
-  subst hMI hTI' hJI hB hA hP hZ'
+  subst hMI hTI' hJI hB hA hP _hZ'
   have e : conjSubgroup V g = B6.conjSub g⁻¹ V := SimsE210.conjSubgroup_eq_conjSub V g
   have hgen : I = V ⊔ B6.conjSub g⁻¹ V := e ▸ hIV
   obtain ⟨hp, hVZ, -, -, -, -, -, -⟩ := RonanE211.e2_11C_all E2.kgSz8CoverInvolutions_holds

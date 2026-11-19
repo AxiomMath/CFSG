@@ -34,23 +34,23 @@ theorem not_mem_of_badSub_gen
     exact hzS g (hDA hg).1
 
 theorem exists_bad_complement_of_ext_gen
-    (hz2 : z * z = 1)
-    (hz1 : z ≠ 1)
+    (_hz2 : z * z = 1)
+    (_hz1 : z ≠ 1)
     (hzS : ∀ s ∈ (S : Subgroup G), s * z = z * s)
-    (hexbad : ∀ {D₀ : Subgroup G} (hD₀A : D₀ ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
-        Subgroup G) : Set G)) (hD₀bad : z ∉ zStarOf (Subgroup.centralizer (D₀ : Set G))) (hD₀1 : D₀
-        ≠ ⊥) (hsmall : Nat.card D₀ < 4 → ∃ x ∈ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
+    (hexbad : ∀ {D₀ : Subgroup G} (_hD₀A : D₀ ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
+        Subgroup G) : Set G)) (_hD₀bad : z ∉ zStarOf (Subgroup.centralizer (D₀ : Set G))) (_hD₀1 : D₀
+        ≠ ⊥) (_hsmall : Nat.card D₀ < 4 → ∃ x ∈ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
         Subgroup G) : Set G), x ∉ D₀ ∧ x * z ∉ D₀ ∧ (∀ d ∈ D₀, x * d = d * x) ∧ (x * x ∈ D₀ ∨ x * x
         * z ∈ D₀)), ∃ D : Subgroup G, D ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
         Subgroup G) : Set G) ∧ D₀ ≤ D ∧ z ∉ zStarOf (Subgroup.centralizer (D : Set G)) ∧ ∀ g ∈ (S :
         Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G), g ∈ D ∨ g * z ∈ D)
-    (hsq : ∀ {z x : G} (hz2 : z * z = 1) (hx : x ∈ Subgroup.zpowers z), x = 1 ∨ x = z)
-    (hfour : ∀ {D : Subgroup G} (hD2 : IsPGroup 2 D) {a b : G} (ha : a ∈ D) (hb : b ∈ D) (ha1 : a ≠
-        1) (hb1 : b ≠ 1) (hab : a ≠ b), 4 ≤ Nat.card D)
+    (hsq : ∀ {z x : G} (_hz2 : z * z = 1) (_hx : x ∈ Subgroup.zpowers z), x = 1 ∨ x = z)
+    (hfour : ∀ {D : Subgroup G} (_hD2 : IsPGroup 2 D) {a b : G} (_ha : a ∈ D) (_hb : b ∈ D) (_ha1 : a ≠
+        1) (_hb1 : b ≠ 1) (_hab : a ≠ b), 4 ≤ Nat.card D)
     {a : G}
     (haA : a ∈ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G))
     (ha2 : a * a = 1)
-    (ha1 : a ≠ 1)
+    (_ha1 : a ≠ 1)
     (haz : a ≠ z)
     (hbad : z ∉ zStarOf (Subgroup.centralizer ({a} : Set G)))
     {y : G}
@@ -64,14 +64,14 @@ theorem exists_bad_complement_of_ext_gen
   classical
   have hza : a * z = z * a := hzS a haA.1
   have hzy : y * z = z * y := hzS y hyA.1
-  have hD₀A : Subgroup.zpowers a ≤
+  have _hD₀A : Subgroup.zpowers a ≤
       (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G) :=
     Subgroup.zpowers_le.mpr haA
-  have hD₀bad : z ∉ zStarOf (Subgroup.centralizer (Subgroup.zpowers a : Set G)) := by
+  have _hD₀bad : z ∉ zStarOf (Subgroup.centralizer (Subgroup.zpowers a : Set G)) := by
     rwa [centralizer_zpowers_eq_singleton']
-  have hD₀1 : Subgroup.zpowers a ≠ ⊥ := by
+  have _hD₀1 : Subgroup.zpowers a ≠ ⊥ := by
     intro h
-    apply ha1
+    apply _ha1
     have : a ∈ Subgroup.zpowers a := Subgroup.mem_zpowers a
     rwa [h, Subgroup.mem_bot] at this
   have hmemA : ∀ g, g ∈ Subgroup.zpowers a → g = 1 ∨ g = a := fun g hg =>
@@ -86,13 +86,13 @@ theorem exists_bad_complement_of_ext_gen
     rcases hmemA _ h with h1 | h1
     · apply hyV
       right; right; left
-      calc y = y * z * z := by rw [mul_assoc, hz2, mul_one]
+      calc y = y * z * z := by rw [mul_assoc, _hz2, mul_one]
         _ = z := by rw [h1, one_mul]
     · apply hyV
       right; right; right
-      calc y = y * z * z := by rw [mul_assoc, hz2, mul_one]
+      calc y = y * z * z := by rw [mul_assoc, _hz2, mul_one]
         _ = a * z := by rw [h1]
-  have hsmall : Nat.card (Subgroup.zpowers a) < 4 → ∃ x ∈ (S : Subgroup G) ⊓
+  have _hsmall : Nat.card (Subgroup.zpowers a) < 4 → ∃ x ∈ (S : Subgroup G) ⊓
       Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G), x ∉ Subgroup.zpowers a ∧
         x * z ∉ Subgroup.zpowers a ∧ (∀ d ∈ Subgroup.zpowers a, x * d = d * x) ∧
         (x * x ∈ Subgroup.zpowers a ∨ x * x * z ∈ Subgroup.zpowers a) := by
@@ -104,10 +104,10 @@ theorem exists_bad_complement_of_ext_gen
     · rcases hy2 with h | h | h | h
       · left; rw [h]; exact one_mem _
       · left; rw [h]; exact Subgroup.mem_zpowers a
-      · right; rw [h, hz2]; exact one_mem _
-      · right; rw [h, mul_assoc, hz2, mul_one]; exact Subgroup.mem_zpowers a
+      · right; rw [h, _hz2]; exact one_mem _
+      · right; rw [h, mul_assoc, _hz2, mul_one]; exact Subgroup.mem_zpowers a
   obtain ⟨D, hDA, hD₀D, hDbad, hcov⟩ :=
-    hexbad hD₀A hD₀bad hD₀1 hsmall
+    hexbad _hD₀A _hD₀bad _hD₀1 _hsmall
   have haD : a ∈ D := hD₀D (Subgroup.mem_zpowers a)
   refine ⟨D, hDA, haD, hDbad, hcov, ?_⟩
   have hzD : z ∉ D := by
@@ -120,42 +120,42 @@ theorem exists_bad_complement_of_ext_gen
     · rw [Subgroup.mem_centralizer_iff]
       intro g hg
       exact hzS g (hDA hg).1
-  have hD2 : IsPGroup 2 D := S.isPGroup'.to_le (hDA.trans inf_le_left)
+  have _hD2 : IsPGroup 2 D := S.isPGroup.to_le (hDA.trans inf_le_left)
   rcases hcov y hyA with hyD | hyzD
-  · refine hfour hD2 haD hyD ha1 (fun h => hyV (Or.inl h)) ?_
+  · refine hfour _hD2 haD hyD _ha1 (fun h => hyV (Or.inl h)) ?_
     intro h
     exact hyV (Or.inr (Or.inl h.symm))
-  · refine hfour hD2 haD hyzD ha1 ?_ ?_
+  · refine hfour _hD2 haD hyzD _ha1 ?_ ?_
     · intro h
       apply hyV
       right; right; left
-      calc y = y * z * z := by rw [mul_assoc, hz2, mul_one]
+      calc y = y * z * z := by rw [mul_assoc, _hz2, mul_one]
         _ = z := by rw [h, one_mul]
     · intro h
       apply hyV
       right; right; right
-      calc y = y * z * z := by rw [mul_assoc, hz2, mul_one]
+      calc y = y * z * z := by rw [mul_assoc, _hz2, mul_one]
         _ = a * z := by rw [← h]
 
 theorem elemAbelian_of_noMix_gen
-    (hz2 : z * z = 1)
-    (hz1 : z ≠ 1)
+    (_hz2 : z * z = 1)
+    (_hz1 : z ≠ 1)
     (hzS : ∀ s ∈ (S : Subgroup G), s * z = z * s)
-    (hzA : z ∈ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G))
-    (hexbad : ∀ {D₀ : Subgroup G} (hD₀A : D₀ ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
-        Subgroup G) : Set G)) (hD₀bad : z ∉ zStarOf (Subgroup.centralizer (D₀ : Set G))) (hD₀1 : D₀
-        ≠ ⊥) (hsmall : Nat.card D₀ < 4 → ∃ x ∈ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
+    (_hzA : z ∈ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G))
+    (hexbad : ∀ {D₀ : Subgroup G} (_hD₀A : D₀ ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
+        Subgroup G) : Set G)) (_hD₀bad : z ∉ zStarOf (Subgroup.centralizer (D₀ : Set G))) (_hD₀1 : D₀
+        ≠ ⊥) (_hsmall : Nat.card D₀ < 4 → ∃ x ∈ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
         Subgroup G) : Set G), x ∉ D₀ ∧ x * z ∉ D₀ ∧ (∀ d ∈ D₀, x * d = d * x) ∧ (x * x ∈ D₀ ∨ x * x
         * z ∈ D₀)), ∃ D : Subgroup G, D ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' :
         Subgroup G) : Set G) ∧ D₀ ≤ D ∧ z ∉ zStarOf (Subgroup.centralizer (D : Set G)) ∧ ∀ g ∈ (S :
         Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G), g ∈ D ∨ g * z ∈ D)
-    (hsq : ∀ {z x : G} (hz2 : z * z = 1) (hx : x ∈ Subgroup.zpowers z), x = 1 ∨ x = z)
-    (hfour : ∀ {D : Subgroup G} (hD2 : IsPGroup 2 D) {a b : G} (ha : a ∈ D) (hb : b ∈ D) (ha1 : a ≠
-        1) (hb1 : b ≠ 1) (hab : a ≠ b), 4 ≤ Nat.card D)
-    (hscm : ∀ {A D' : Subgroup G} {z : G} (hz2 : z * z = 1) (hzA : z ∈ A) (hzc : ∀ g ∈ A, g * z = z
-        * g) (hcov : ∀ g ∈ A, g ∈ D' ∨ g * z ∈ D') {d e : G} (hd : d ∈ A) (he : e ∈ A), d * d ∈ D' ∧
+    (hsq : ∀ {z x : G} (_hz2 : z * z = 1) (_hx : x ∈ Subgroup.zpowers z), x = 1 ∨ x = z)
+    (_hfour : ∀ {D : Subgroup G} (_hD2 : IsPGroup 2 D) {a b : G} (_ha : a ∈ D) (_hb : b ∈ D) (_ha1 : a ≠
+        1) (_hb1 : b ≠ 1) (_hab : a ≠ b), 4 ≤ Nat.card D)
+    (hscm : ∀ {A D' : Subgroup G} {z : G} (_hz2 : z * z = 1) (_hzA : z ∈ A) (_hzc : ∀ g ∈ A, g * z = z
+        * g) (_hcov : ∀ g ∈ A, g ∈ D' ∨ g * z ∈ D') {d e : G} (_hd : d ∈ A) (_he : e ∈ A), d * d ∈ D' ∧
         d * e * d⁻¹ * e⁻¹ ∈ D')
-    (hnsq : ∀ {A H : Subgroup G} (hA : IsPGroup 2 A) (hHA : H ≤ A) (hne : H ≠ A), ∃ x ∈ A, x ∉ H ∧ x
+    (hnsq : ∀ {A H : Subgroup G} (_hA : IsPGroup 2 A) (_hHA : H ≤ A) (_hne : H ≠ A), ∃ x ∈ A, x ∉ H ∧ x
         ∈ Subgroup.normalizer (H : Set G) ∧ x * x ∈ H)
     {D : Subgroup G}
     (hDA : D ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G))
@@ -166,22 +166,22 @@ theorem elemAbelian_of_noMix_gen
         (Subgroup.centralizer ({x * z} : Set G)))
     : (∀ d ∈ D, d * d = 1) ∧ ∀ d ∈ D, ∀ e ∈ D, d * e = e * d := by
   classical
-  set A := (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G) with hA
+  set A := (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G) with _hA
   have hzcA : ∀ g ∈ A, g * z = z * g := fun g hg => hzS g hg.1
   have hzD : z ∉ D := not_mem_of_badSub_gen hzS hDA hDbad
-  have hA2 : IsPGroup 2 A := S.isPGroup'.to_le inf_le_left
-  have hD2 : IsPGroup 2 D := hA2.to_le hDA
+  have hA2 : IsPGroup 2 A := S.isPGroup.to_le inf_le_left
+  have _hD2 : IsPGroup 2 D := hA2.to_le hDA
   have hex : ∀ w ∈ D, w ≠ 1 → ∃ D' : Subgroup G, D' ≤ A ∧ w * z ∈ D' ∧
       z ∉ zStarOf (Subgroup.centralizer (D' : Set G)) ∧ ∀ g ∈ A, g ∈ D' ∨ g * z ∈ D' := by
     intro w hw hw1
     have hwA : w ∈ A := hDA hw
-    have hwzA : w * z ∈ A := A.mul_mem hwA hzA
+    have hwzA : w * z ∈ A := A.mul_mem hwA _hzA
     have hwz : w ≠ z := fun h => hzD (h ▸ hw)
     have hwbad : z ∉ zStarOf (Subgroup.centralizer ({w} : Set G)) :=
       C25W.not_mem_zStarOf_of_mem_badSub hw (fun y hy => hzS y (hDA hy).1) hDbad
     have hwnz : w ∉ Subgroup.zpowers z := by
       intro h
-      rcases hsq hz2 h with h1 | h1
+      rcases hsq _hz2 h with h1 | h1
       · exact hw1 h1
       · exact hwz h1
     have hwzbad := hnomix w hwA hwnz hwbad
@@ -194,23 +194,23 @@ theorem elemAbelian_of_noMix_gen
     have hwz1 : w * z ≠ 1 := by
       intro h
       apply hwz
-      calc w = w * z * z := by rw [mul_assoc, hz2, mul_one]
+      calc w = w * z * z := by rw [mul_assoc, _hz2, mul_one]
         _ = z := by rw [h, one_mul]
-    have hD₀A : Subgroup.zpowers (w * z) ≤ A := Subgroup.zpowers_le.mpr hwzA
-    have hD₀bad : z ∉ zStarOf (Subgroup.centralizer (Subgroup.zpowers (w * z) : Set G)) := by
+    have _hD₀A : Subgroup.zpowers (w * z) ≤ A := Subgroup.zpowers_le.mpr hwzA
+    have _hD₀bad : z ∉ zStarOf (Subgroup.centralizer (Subgroup.zpowers (w * z) : Set G)) := by
       rwa [centralizer_zpowers_eq_singleton']
-    have hD₀1 : Subgroup.zpowers (w * z) ≠ ⊥ := by
+    have _hD₀1 : Subgroup.zpowers (w * z) ≠ ⊥ := by
       intro h
       apply hwz1
       have : w * z ∈ Subgroup.zpowers (w * z) := Subgroup.mem_zpowers _
       rwa [h, Subgroup.mem_bot] at this
-    have hsmall : Nat.card (Subgroup.zpowers (w * z)) < 4 → ∃ x ∈ A,
+    have _hsmall : Nat.card (Subgroup.zpowers (w * z)) < 4 → ∃ x ∈ A,
         x ∉ Subgroup.zpowers (w * z) ∧ x * z ∉ Subgroup.zpowers (w * z) ∧
           (∀ d ∈ Subgroup.zpowers (w * z), x * d = d * x) ∧
           (x * x ∈ Subgroup.zpowers (w * z) ∨ x * x * z ∈ Subgroup.zpowers (w * z)) := by
       intro hlt
       have hwz2 : (w * z) * (w * z) = 1 := by
-        have h2 : IsPGroup 2 (Subgroup.zpowers (w * z)) := hA2.to_le hD₀A
+        have h2 : IsPGroup 2 (Subgroup.zpowers (w * z)) := hA2.to_le _hD₀A
         obtain ⟨k, hk⟩ := h2.exists_card_eq
         rw [Nat.card_zpowers] at hk hlt
         have hk1 : k ≤ 1 := by
@@ -229,7 +229,7 @@ theorem elemAbelian_of_noMix_gen
           calc (w * z) * (w * z) = w * (z * w) * z := by group
             _ = w * (w * z) * z := by rw [← hzcA w hwA]
             _ = w * w * (z * z) := by group
-            _ = w * w := by rw [hz2, mul_one]
+            _ = w * w := by rw [_hz2, mul_one]
         rw [← e, hwz2]
       set C := D ⊓ Subgroup.centralizer ({w} : Set G) with hC
       have hHC : Subgroup.zpowers w ≤ C := Subgroup.zpowers_le.mpr
@@ -244,7 +244,7 @@ theorem elemAbelian_of_noMix_gen
           rw [h, Subgroup.card_bot] at h4
           omega
         obtain ⟨c, hc1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp
-          (hD2.bot_lt_center).ne'
+          (_hD2.bot_lt_center).ne'
         have hcC : ((c : ↥D) : G) ∈ C := ⟨(c : ↥D).2,
           Subgroup.mem_centralizer_singleton_iff.mpr
             (congrArg Subtype.val (Subgroup.mem_center_iff.mp c.2 ⟨w, hw⟩)).symm⟩
@@ -252,27 +252,27 @@ theorem elemAbelian_of_noMix_gen
         · exact hc1 (Subtype.ext (Subtype.ext h))
         ·
           have hwcen : ∀ d ∈ D, d * w = w * d := by
-            intro d hd
-            have := Subgroup.mem_center_iff.mp c.2 ⟨d, hd⟩
+            intro d _hd
+            have := Subgroup.mem_center_iff.mp c.2 ⟨d, _hd⟩
             have h' := congrArg Subtype.val this
             simp only [Subgroup.coe_mul] at h'
             rw [h] at h'
             exact h'
-          have hall : ∀ d ∈ D, d = 1 ∨ d = w := fun d hd =>
-            hmem2 d ⟨hd, Subgroup.mem_centralizer_singleton_iff.mpr (hwcen d hd)⟩
+          have hall : ∀ d ∈ D, d = 1 ∨ d = w := fun d _hd =>
+            hmem2 d ⟨_hd, Subgroup.mem_centralizer_singleton_iff.mpr (hwcen d _hd)⟩
           have hle : Nat.card D ≤ Nat.card (Fin 2) := by
             refine Nat.card_le_card_of_injective
-              (fun d : D => if (d : G) = 1 then (0 : Fin 2) else 1) fun d₁ d₂ hd => ?_
+              (fun d : D => if (d : G) = 1 then (0 : Fin 2) else 1) fun d₁ d₂ _hd => ?_
             apply Subtype.ext
             by_cases h₁ : (d₁ : G) = 1 <;> by_cases h₂ : (d₂ : G) = 1 <;>
-              simp only [h₁, h₂, ↓reduceIte] at hd
+              simp only [h₁, h₂, ↓reduceIte] at _hd
             · rw [h₁, h₂]
-            · exact absurd hd (by decide)
-            · exact absurd hd (by decide)
+            · exact absurd _hd (by decide)
+            · exact absurd _hd (by decide)
             · rw [(hall d₁ d₁.2).resolve_left h₁, (hall d₂ d₂.2).resolve_left h₂]
           rw [Nat.card_fin] at hle
           omega
-      have hC2 : IsPGroup 2 C := hD2.to_le inf_le_left
+      have hC2 : IsPGroup 2 C := _hD2.to_le inf_le_left
       obtain ⟨x, hxC, hxH, -, hx2⟩ := hnsq hC2 hHC hHne
       have hxD : x ∈ D := hxC.1
       have hxw : x * w = w * x := Subgroup.mem_centralizer_singleton_iff.mp hxC.2
@@ -295,8 +295,8 @@ theorem elemAbelian_of_noMix_gen
               _ = w := by rw [h1]; group
           rw [this]
           exact Subgroup.mem_zpowers w
-      · intro d hd
-        rcases hmemWZ d hd with rfl | rfl
+      · intro d _hd
+        rcases hmemWZ d _hd with rfl | rfl
         · simp
         · calc x * (w * z) = (x * w) * z := by group
             _ = (w * x) * z := by rw [hxw]
@@ -310,7 +310,7 @@ theorem elemAbelian_of_noMix_gen
           rw [h]
           exact Subgroup.mem_zpowers _
     obtain ⟨D', hD'A, hD₀D', hD'bad, hD'cov⟩ :=
-      hexbad hD₀A hD₀bad hD₀1 hsmall
+      hexbad _hD₀A _hD₀bad _hD₀1 _hsmall
     exact ⟨D', hD'A, hD₀D' (Subgroup.mem_zpowers _), hD'bad, hD'cov⟩
   have htriv : ∀ g ∈ D, (∀ w ∈ D, w ≠ 1 → ∀ D' : Subgroup G, D' ≤ A → w * z ∈ D' →
       z ∉ zStarOf (Subgroup.centralizer (D' : Set G)) → (∀ h ∈ A, h ∈ D' ∨ h * z ∈ D') →
@@ -323,12 +323,12 @@ theorem elemAbelian_of_noMix_gen
     have : z = g⁻¹ * (g * z) := by group
     rw [this]
     exact D'.mul_mem (D'.inv_mem hgD') hgzD'
-  refine ⟨fun d hd => htriv _ (D.mul_mem hd hd) fun w _ _ D' hD'A _ _ hD'cov =>
-    (hscm hz2 hzA hzcA hD'cov (hDA hd) (hDA hd)).1,
-    fun d hd e he => ?_⟩
-  have h1 := htriv _ (D.mul_mem (D.mul_mem (D.mul_mem hd he) (D.inv_mem hd)) (D.inv_mem he))
+  refine ⟨fun d _hd => htriv _ (D.mul_mem _hd _hd) fun w _ _ D' hD'A _ _ hD'cov =>
+    (hscm _hz2 _hzA hzcA hD'cov (hDA _hd) (hDA _hd)).1,
+    fun d _hd e _he => ?_⟩
+  have h1 := htriv _ (D.mul_mem (D.mul_mem (D.mul_mem _hd _he) (D.inv_mem _hd)) (D.inv_mem _he))
     fun w _ _ D' hD'A _ _ hD'cov =>
-      (hscm hz2 hzA hzcA hD'cov (hDA hd) (hDA he)).2
+      (hscm _hz2 _hzA hzcA hD'cov (hDA _hd) (hDA _he)).2
   calc d * e = (d * e * d⁻¹ * e⁻¹) * (e * d) := by group
     _ = e * d := by rw [h1, one_mul]
 

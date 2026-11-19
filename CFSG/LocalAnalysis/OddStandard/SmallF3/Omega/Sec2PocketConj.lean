@@ -90,9 +90,9 @@ theorem asc82OmegaPlusPocketedConj_holds : Asc82OmegaPlusPocketedConj := by
   obtain ⟨hz₁Y, f₁, hf₁, hf₁z⟩ := exists_quaternion_quotient_of_le (le_refl Y) h₁
   obtain ⟨hz₂Y, f₂, hf₂, hf₂z⟩ := exists_quaternion_quotient_of_le (le_refl Y) h₂
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, -, ⟨e⟩⟩ := isOmegaStar_of_lieModel_plus hY.2
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   obtain ⟨c, hc⟩ := exists_conj_of_quaternion_omegaProj hQ hdim
     (f₁ := e.toMonoidHom.comp f₁) (f₂ := e.toMonoidHom.comp f₂)
     (e.injective.comp hf₁) (e.injective.comp hf₂)

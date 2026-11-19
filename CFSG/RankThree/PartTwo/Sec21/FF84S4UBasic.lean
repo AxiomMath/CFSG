@@ -146,10 +146,10 @@ theorem Ub_sq {a : P8} (ha : a ∈ Ub) : a ^ 2 = 1 := by
   exact key t
 
 theorem isEA2_of_le_Ua {H : Subgroup P8} (hH : H ≤ Ua) : CFSG.IsElementaryAbelian 2 H :=
-  isEA2_of (fun a ha b hb => Ua_comm (hH ha) (hH hb)) (fun a ha => Ua_sq (hH ha))
+  isEA2_of (fun _a ha _b hb => Ua_comm (hH ha) (hH hb)) (fun _a ha => Ua_sq (hH ha))
 
 theorem isEA2_of_le_Ub {H : Subgroup P8} (hH : H ≤ Ub) : CFSG.IsElementaryAbelian 2 H :=
-  isEA2_of (fun a ha b hb => Ub_comm (hH ha) (hH hb)) (fun a ha => Ub_sq (hH ha))
+  isEA2_of (fun _a ha _b hb => Ub_comm (hH ha) (hH hb)) (fun _a ha => Ub_sq (hH ha))
 
 theorem mem_Ua_inf_cent (g x : P8) : x ∈ Ua ⊓ Cen g ↔
     ∃ t, tup4 pa pb pc pd t * g = g * tup4 pa pb pc pd t ∧ x = tup4 pa pb pc pd t := by

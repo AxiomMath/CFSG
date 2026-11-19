@@ -36,7 +36,7 @@ variable (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] {p : ℕ}
 theorem finrank_blockSpace_dvd_rk2Ord [Finite F] [CharP F 2] [FiniteDimensional F V]
     (hp : p.Prime) (hp2 : p ≠ 2) (hA : IsElemAbelian p A)
     (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1) (D : Hyperplane A p)
-    (hD : blockSpace A D.1 ≠ ⊥) {n : ℕ} (hn : Nat.card F = 2 ^ n) :
+    (_hD : blockSpace A D.1 ≠ ⊥) {n : ℕ} (hn : Nat.card F = 2 ^ n) :
     CFSG.LocalAnalysis.GLTheoremA.rk2Ord p n ∣ Module.finrank F ↥(blockSpace A D.1) := by
   classical
   have hpF : (p : F) ≠ 0 := by

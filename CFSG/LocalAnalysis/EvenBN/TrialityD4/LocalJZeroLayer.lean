@@ -22,7 +22,7 @@ theorem exists_isPGroup_two_lt_card_of_isQuasisimple_D4 {Q : Type*} [Group Q] [F
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 2 Q))
   by_contra hcon
   push Not at hcon
-  have hS2 : Nat.card S ≤ 2 := hcon S S.isPGroup'
+  have hS2 : Nat.card S ≤ 2 := hcon S S.isPGroup
   have heven : Even (Nat.card Q) := by
     by_contra hodd
     rw [Nat.not_even_iff_odd] at hodd

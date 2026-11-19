@@ -37,7 +37,7 @@ theorem pow_three_eq_one (k : ℕ) (v : Multiplicative (Fin k → ZMod 3)) : v ^
 theorem redMod3_surjective (k : ℕ) : Function.Surjective (redMod3 k) := by
   intro v
   refine ⟨Multiplicative.ofAdd fun i => ((Multiplicative.toAdd v i).val : ℤ), ?_⟩
-  simp [redMod3, ZMod.natCast_zmod_val]
+  simp [redMod3]
 
 theorem card_zmod_three_pow (k : ℕ) :
     Nat.card (Multiplicative (Fin k → ZMod 3)) = 3 ^ k := by
@@ -78,7 +78,7 @@ theorem exists_elemAbelian_card_ge_pow {R : Type*} [CommGroup R] [Finite R] {k :
       Subgroup.zpow_mem _ (Subgroup.subset_closure (Set.mem_range_self i)) _
   have hinj : Function.Injective (QuotientGroup.kerLift (expProd x)) :=
     QuotientGroup.kerLift_injective _
-  haveI : Finite (Multiplicative (Fin k → ℤ) ⧸ (expProd x).ker) := Finite.of_injective _ hinj
+  have : Finite (Multiplicative (Fin k → ℤ) ⧸ (expProd x).ker) := Finite.of_injective _ hinj
   have hle : (expProd x).ker ≤ (redMod3 k).ker := by
     intro e he
     rw [MonoidHom.mem_ker] at he ⊢

@@ -257,7 +257,7 @@ private theorem charVal_simple_smul_iff {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     have h1 := h (Pi.single i 1)
     rw [key, sub_eq_self] at h1
     have hii : (∑ j, Tag.F4.cartan i j * (Pi.single i (1 : ℤ) : Fin Tag.F4.rank → ℤ) j) = 2 := by
-      rw [Finset.sum_eq_single i (fun j _ hj => by simp [Pi.single_apply, hj]) (by simp)]
+      rw [Finset.sum_eq_single i (fun j _ hj => by simp [hj]) (by simp)]
       simp only [Pi.single_eq_same, mul_one]
       fin_cases i <;> decide
     rw [hii, Int.cast_ofNat] at h1

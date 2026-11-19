@@ -119,7 +119,7 @@ theorem exists_sylow_of_data
           (by rw [h, e22])
   obtain ⟨R, hPR⟩ := hP2.exists_le_sylow
   have hRP : (R : Subgroup X) ≤ P :=
-    le_of_isPGroup P Q hQP hQ hτvc hxP hxτ hxv hτ1 hτv hv1 hnc hV R R.isPGroup' hPR
+    le_of_isPGroup P Q hQP hQ hτvc hxP hxτ hxv hτ1 hτv hv1 hnc hV R R.isPGroup hPR
   have heq : (R : Subgroup X) = P := le_antisymm hRP hPR
   exact ⟨R, ⟨(MulEquiv.subgroupCongr heq).trans (MonoidHom.ofInjective hΦinj).symm⟩⟩
 

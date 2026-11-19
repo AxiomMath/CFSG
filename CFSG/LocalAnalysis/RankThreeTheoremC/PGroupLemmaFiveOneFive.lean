@@ -25,9 +25,11 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace PGroupL515
 
+omit [Finite G] in
 theorem isPGroup_of_pow_eq_one {p : ℕ} {H : Subgroup G} (h : ∀ x ∈ H, x ^ p = 1) :
     IsPGroup p H := fun x => ⟨1, by rw [pow_one]; exact Subtype.ext (h x x.2)⟩
 
+omit [Finite G] in
 theorem mem_map_conj_iff {H : Subgroup G} {m t : G} :
     t ∈ H.map (MulAut.conj m).toMonoidHom ↔ m⁻¹ * t * m ∈ H := by
   constructor
@@ -36,6 +38,7 @@ theorem mem_map_conj_iff {H : Subgroup G} {m t : G} :
   · intro ht
     exact ⟨m⁻¹ * t * m, ht, by simp [MulAut.conj_apply, mul_assoc]⟩
 
+omit [Finite G] in
 theorem normalizer_le_of_conj {H M : Subgroup G} {m : G} (hm : m ∈ M)
     (h : normalizer ((H.map (MulAut.conj m).toMonoidHom : Subgroup G) : Set G) ≤ M) :
     normalizer (H : Set G) ≤ M := by
@@ -69,7 +72,7 @@ theorem pGroupLemmaFiveOneFive_of (h1 : PGroupRankTwoCharSubgroup G)
     (h2 : PGroupExtraspecialNormalizer G) (h3 : PGroupExtraspecialOmegaOne G) :
     PGroupLemmaFiveOneFive G := by
   intro p hp hp2 M V hVM hV3 hW hE
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 := hp.one_lt
   have ha : ∀ Q : Subgroup G, Q ≤ V → 2 ≤ Open.pRank p Q →
       3 ≤ Open.pRank p (Q ⊔ ((V : Subgroup G) ⊓ centralizer (Q : Set G))) →
@@ -116,7 +119,7 @@ theorem pGroupLemmaFiveOneFive_of (h1 : PGroupRankTwoCharSubgroup G)
     have := pRank_mono hp1
       (le_sup_left : Q ≤ Q ⊔ ((V : Subgroup G) ⊓ centralizer (Q : Set G)))
     omega
-  obtain ⟨Y, hYQ, hNY, hY2, hYcase⟩ := h1 p hp hp2 Q (V.isPGroup'.to_le hQV) hQeq
+  obtain ⟨Y, hYQ, hNY, hY2, hYcase⟩ := h1 p hp hp2 Q (V.isPGroup.to_le hQV) hQeq
   refine le_trans hNY ?_
   have hYV : Y ≤ V := hYQ.trans hQV
   rcases hYcase with ⟨hYe, hYc⟩ | hYx
@@ -147,7 +150,7 @@ theorem pGroupLemmaFiveOneFive_of (h1 : PGroupRankTwoCharSubgroup G)
       refine ⟨hconj v hvN y, fun hy => ?_⟩
       have := hconj v⁻¹ (inv_mem hvN) _ hy
       simpa [mul_assoc] using this
-    have hvT := hT (zpowers v) (zpowers_le.mpr hvY) (V.isPGroup'.to_le (zpowers_le.mpr hvV))
+    have hvT := hT (zpowers v) (zpowers_le.mpr hvY) (V.isPGroup.to_le (zpowers_le.mpr hvV))
       (mem_zpowers v)
     rw [← SetLike.mem_coe, coe_mul_of_left_le_normalizer_right _ _ hYn] at hvT
     obtain ⟨y, hy, c, hc, rfl⟩ := hvT
@@ -161,8 +164,8 @@ theorem pGroupLemmaFiveOneFive_of (h1 : PGroupRankTwoCharSubgroup G)
       refine lt_top_iff_ne_top.mpr fun htop => hne fun x hx => ?_
       have : (⟨x, hx⟩ : V) ∈ R.subgroupOf V := htop ▸ Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp this
-    haveI : Group.IsNilpotent V := V.isPGroup'.isNilpotent
-    obtain ⟨x, hxN, hxR⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
+    have : Group.IsNilpotent V := V.isPGroup.isNilpotent
+    obtain ⟨x, hxN, hxR⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
     rw [← subgroupOf_normalizer_eq hRV, Subgroup.mem_subgroupOf] at hxN
     exact hxR (Subgroup.mem_subgroupOf.mpr (hNR x x.2 hxN))
   have := pRank_mono hp1 hVR

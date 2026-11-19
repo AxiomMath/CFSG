@@ -73,7 +73,7 @@ private def fixesA (ρ : Q →* MulAut V) (a : Q) : Set Q :=
 private lemma one_mem_fixesA (ρ : Q →* MulAut V) (a : Q) :
     (1 : Q) ∈ fixesA ρ a := by
   intro v
-  simp [fixesA]
+  simp
 
 private lemma mul_mem_fixesA {ρ : Q →* MulAut V} {a x y : Q}
     (hx : x ∈ fixesA ρ a) (hy : y ∈ fixesA ρ a) :

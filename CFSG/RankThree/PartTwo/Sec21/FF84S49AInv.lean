@@ -111,6 +111,7 @@ theorem P4_inv_elt (h : FF84Post b L B K b₁ b₂) :
     intro y hy
     exact Subgroup.mem_centralizer_singleton_iff.1 (hle hy)
 
+omit [Finite G] in
 theorem zpowers_central (a x : G) (ha : a ∈ Subgroup.zpowers b) (hx : x ∈ Cen b) :
     Commute a x := by
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 ha
@@ -130,6 +131,7 @@ theorem sq_mem_L (h : FF84Post b L B K b₁ b₂) {z : G} (hz : z ∈ Cen b) (hz
     z ∈ L :=
   mem_of_sq_one_sup (zpowers_comm_L h) (zpowers_cube h) (h.cb ▸ hz) hz2
 
+omit [Finite G] in
 theorem comm_mul_central {a l y : G} (hal : Commute a l) (hay : Commute a y) :
     ⁅a * l, y⁆ = ⁅l, y⁆ := by
   rw [commutatorElement_def, commutatorElement_def]
@@ -175,6 +177,7 @@ theorem nor_cen_le_nor_L (h : FF84Post b L B K b₁ b₂) : Nor (Cen b) ≤ Nor 
   have := hL ⟨x, hx, rfl⟩
   simpa [hf] using this
 
+omit [Finite G] in
 theorem nor_cen_of_inv {g : G} (hg : g * b * g⁻¹ = b⁻¹) : g ∈ Nor (Cen b) := by
   have key : ∀ g : G, g * b * g⁻¹ = b⁻¹ → ∀ x ∈ Cen b, g * x * g⁻¹ ∈ Cen b := by
     intro g hg x hx

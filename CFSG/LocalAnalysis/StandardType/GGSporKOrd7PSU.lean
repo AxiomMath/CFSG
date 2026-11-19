@@ -15,7 +15,7 @@ open CFSG CFSG.StandardType CFSG.Assembly CFSG.Blueprint CFSG.Open
 open CFSG.LieType.BorelTits CFSG.LieType.ChevTwo.OppCl Matrix in
 theorem ord7Param_PSU {n f : ℕ} (h7 : ¬ 7 ∣ f) : Ord7Param .PSU n 2 f := by
   intro R _ _ hR hmodel
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hadm : StatedLieAdmissible .PSU n 2 f := LieModel.admissible hmodel
   rw [StatedLieAdmissible] at hadm
   obtain ⟨hp2, hf1, hn, hneq⟩ := hadm
@@ -24,11 +24,11 @@ theorem ord7Param_PSU {n f : ℕ} (h7 : ¬ 7 ∣ f) : Ord7Param .PSU n 2 f := by
     LieModel.statedClassicalModel_of_ne_zero hn0 hmodel
   rw [StatedClassicalModel] at hclass
   obtain ⟨_, K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hclass
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hKcard' : Nat.card K = 2 ^ (2 * f) := by
     rw [hKcard, ← pow_mul, Nat.mul_comm]
-  haveI : CharP K 2 := charP_of_natCard_eq (p := 2) (f := 2 * f) hKcard'
+  have : CharP K 2 := charP_of_natCard_eq (p := 2) (f := 2 * f) hKcard'
   have hq : 2 < 2 ^ f ∨ 4 ≤ n := by
     by_cases hn3 : n = 3
     · left
@@ -66,7 +66,7 @@ theorem ord7Param_PSU {n f : ℕ} (h7 : ¬ 7 ∣ f) : Ord7Param .PSU n 2 f := by
     rcases (Nat.Prime.dvd_mul (by norm_num : Nat.Prime 7)).mp hdvd with h72 | h7f
     · norm_num at h72
     · exact h7 h7f
-  haveI : Nontrivial (Fin n → K) :=
+  have : Nontrivial (Fin n → K) :=
     ⟨fun _ => 1, fun _ => 0, by
       intro h
       exact one_ne_zero (congr_fun h ⟨0, by omega⟩)⟩
@@ -83,8 +83,8 @@ theorem ord7Param_PSU {n f : ℕ} (h7 : ¬ 7 ∣ f) : Ord7Param .PSU n 2 f := by
         r ∈ semilinGroup K (Fin n → K) ∧ SemiIso Φ r ∧
         Induces (QuotientGroup.mk' N) (natRep (StatedSU n (2 ^ f) K)) r α := by
     intro R' hR' α hα
-    exact induced_PSU (F := K) (p := 7) (hp2 := by norm_num) (f := f) (hK := hKcard)
-      (n := n) (hn := hn) (hq := hq) (R := R') (hR := hR') α hα
+    exact induced_PSU (F := K) (p := 7) (f := f) (hK := hKcard)
+      (n := n) (hn := hn) (hq := hq) (R := R') (_hR := hR') α hα
   have h7k : ¬ 7 ∣ Nat.card (QuotientGroup.mk' N).ker := by
     rw [QuotientGroup.ker_mk']
     intro hdvd

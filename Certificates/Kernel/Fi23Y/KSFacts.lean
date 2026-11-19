@@ -75,7 +75,7 @@ private theorem cen_spec {cj wt : ℕ → ℕ} {l : ℕ} (h : cenY gLY CDY cj wt
       ∀ b < 6, gLY (cj l >>> 7) (gLY l b) =
         gLY (wt (4608 + (cj l &&& 127))) (gLY (cj l >>> 7) b) := by
   unfold cenY at h
-  rw [bIf_eq, if_neg (fun hb => (Nat.not_lt.2 hc) (Nat.blt_eq.mp hb))] at h
+  rw [bIf_eq, ite_eq_right (fun hb => (Nat.not_lt.2 hc) (Nat.blt_eq.mp hb))] at h
   simp only [strictB_eq, bAnd_eq, Bool.and_eq_true] at h
   exact ⟨Nat.blt_eq.mp h.1, Nat.blt_eq.mp h.2.1, eqB6_spec h.2.2⟩
 
@@ -377,7 +377,7 @@ private theorem facP_mem
   have hvi : (selP lx lb vs)⁻¹ = selP lx lb vs := inv_eq_of_mul_eq_one_right hv2
   have e : facP lx lb vs k1 k2 = ⁅selP lx lb vs, ⁅cT k1, cT k2⁆⁆ := by
     unfold facP
-    simp only [commutatorElement_def, mul_inv_rev, inv_inv, hvi, hc1, hc2, mul_assoc]
+    simp only [commutatorElement_def, mul_inv_rev, hvi, hc1, hc2, mul_assoc]
   rw [e]
   exact Subgroup.commutator_mem_commutator hvE hγ
 

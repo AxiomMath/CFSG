@@ -36,7 +36,7 @@ theorem t5c_involution_pow_lift {A B : Type*} [Group A] [Group B] (f : A →* B)
     (hk : Odd (Nat.card f.ker)) {a : A} {w : B} (ha : f a = w) (hww : w * w = 1)
     (hw1 : w ≠ 1) :
     ∃ n : ℕ, orderOf (a ^ n) = 2 ∧ f (a ^ n) = w := by
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   have h2ker : a ^ 2 ∈ f.ker := by
     rw [MonoidHom.mem_ker, map_pow, ha, pow_two, hww]
   have hN : (a ^ 2) ^ Nat.card f.ker = 1 :=

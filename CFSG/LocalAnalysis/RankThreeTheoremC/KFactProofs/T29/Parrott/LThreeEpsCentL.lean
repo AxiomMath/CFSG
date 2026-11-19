@@ -52,10 +52,10 @@ theorem mem_centImage {y : GL (Fin 3) K} {b : X} :
 
 theorem isCyclic_centImage {y : GL (Fin 3) K} (hT : IsTypeThree π (p ^ f) K y) :
     IsCyclic ↥(centImage ν y : Subgroup X) := by
-  haveI := hT.cyclic
+  have := hT.cyclic
   set C := slPi π 3 (p ^ f) K ⊓ centralizer ({y} : Set (GL (Fin 3) K))
   have hle : C ≤ slPi π 3 (p ^ f) K := inf_le_left
-  haveI : IsCyclic ↥(C.subgroupOf (slPi π 3 (p ^ f) K)) :=
+  have : IsCyclic ↥(C.subgroupOf (slPi π 3 (p ^ f) K)) :=
     isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hle).symm.toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hle).symm.surjective
   exact isCyclic_of_surjective _ (MonoidHom.subgroupMap_surjective _ _)
@@ -129,6 +129,7 @@ section Cover
 variable {X : Type} [Group X] [Finite X] {L : Subgroup X} [hLn : L.Normal] {π : Bool} {p f : ℕ}
   {K : Type} [Field K] {ν : ↥(slPi π 3 (p ^ f) K) →* ↥L}
 
+omit [Finite X] hLn in
 theorem LModel.centralizer_le_centImage (M : LModel L π p f K ν) (hinj : Function.Injective ν)
     {x : X} {y : GL (Fin 3) K} (hx : IsLiftAt ν x y) :
     L ⊓ centralizer ({x} : Set X) ≤ centImage ν y := by
@@ -223,7 +224,7 @@ theorem LModel.commute_of_cover (M : LModel L π p f K ν) (hinj : Function.Inje
   set A := L ⊓ centralizer ({x} : Set X) with hAdef
   have hAeq : A = centImage ν y := le_antisymm (M.centralizer_le_centImage hinj hx)
     hx.centImage_le
-  haveI hAcyc : IsCyclic ↥A := by rw [hAeq]; exact isCyclic_centImage hT
+  have hAcyc : IsCyclic ↥A := by rw [hAeq]; exact isCyclic_centImage hT
   have hAcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
     intro a ha b hb
     have := (IsCyclic.commGroup (α := ↥A)).mul_comm ⟨a, ha⟩ ⟨b, hb⟩

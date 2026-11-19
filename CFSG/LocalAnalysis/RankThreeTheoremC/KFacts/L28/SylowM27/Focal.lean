@@ -38,6 +38,7 @@ theorem orderOf_eq_nine {Q : Subgroup X} (hQ : Nat.card Q = 3 ^ 3) (hnab : ¬ Is
     have : IsCyclic Q := isCyclic_of_orderOf_eq_card (⟨q, hq⟩ : Q) (by rw [hord, hk', hQ])
     infer_instance
 
+omit [Finite X] in
 theorem isMetacyclic {Q : Subgroup X} (hQ : Nat.card Q = 3 ^ 3) {a : X} (ha : a ∈ Q)
     (ha9 : orderOf a = 9) : CFSG.IsMetacyclic Q := by
   set C : Subgroup Q := zpowers ⟨a, ha⟩ with hC
@@ -67,6 +68,7 @@ theorem exists_cyclic_inf_commutator (P : Sylow 3 X) (hmeta : CFSG.IsMetacyclic 
     simpa using this
   rwa [CFSG.derivedSubgroup, derivedSeries_one] at hfocal
 
+omit [Finite X] in
 theorem le_commutator {K : Subgroup X} (hKs : IsSimpleGroup K) (hnab : ∃ a b : K, a * b ≠ b * a) :
     K ≤ commutator X := by
   have htop : commutator K = ⊤ := by

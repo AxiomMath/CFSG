@@ -15,9 +15,9 @@ open Subgroup CFSG.Blueprint
 theorem asc82OmegaPlusGen_holds : Asc82OmegaPlusGen := by
   intro G _ _ Y hY z hz
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hσ, ⟨e⟩⟩ := isOmegaStar_of_lieModel_plus hY.2
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   obtain ⟨hzY, f, hf, hfz⟩ := exists_quaternion_quotient_of_le (le_refl Y) hz
   obtain ⟨y, hyy, hty, hωy⟩ := exists_invType_of_quaternion_omegaProj hQ hdim
     (f := e.toMonoidHom.comp f) (e.injective.comp hf)

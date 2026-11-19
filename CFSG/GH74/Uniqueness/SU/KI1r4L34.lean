@@ -24,7 +24,7 @@ theorem ki1r4L34_of
   obtain ⟨hcard, hC, hy, hcomm⟩ := L34M.l34_facts T K hcen e x hx2 hxK h.xT hd9
   set P : Subgroup H := (T : Subgroup H) ⊓ K with hPdef
   have hPK : P ≤ K := inf_le_right
-  have hP2 : IsPGroup 2 P := T.isPGroup'.to_le inf_le_left
+  have hP2 : IsPGroup 2 P := T.isPGroup.to_le inf_le_left
   have hPne : P ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hcard

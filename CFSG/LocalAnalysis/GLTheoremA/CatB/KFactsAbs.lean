@@ -24,7 +24,7 @@ variable {Y : Type} [Group Y] [Finite Y]
 
 theorem KProfile.not_abelian (h : KProfile Y) {A : Subgroup Y} (hA : Nat.card A = 3 ^ 5) :
     ∃ a ∈ A, ∃ b ∈ A, a * b ≠ b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP, a, ha, b, hb, hab⟩ := h.nonab
   have hP' : Nat.card P = 3 ^ (Nat.card Y).factorization 3 := by rw [hP, h.card3]
   have hAp : IsPGroup 3 A := IsPGroup.of_card (n := 5) hA
@@ -42,7 +42,7 @@ theorem KProfile.not_abelian (h : KProfile Y) {A : Subgroup Y} (hA : Nat.card A 
 
 theorem KProfile.card_le (h : KProfile Y) {E : Subgroup Y} (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 3 ^ 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp := isPGroup_of_isElemAbelian hE
   have hle := CFSG.RankThree.PartTwo.Sec4.Item434AltPerm.card_le_of_isPGroup hp
   rw [h.card3] at hle
@@ -59,7 +59,7 @@ theorem exists_nonab_of_normalizing (h5 : (Nat.card Y).factorization 3 = 5) {F :
     (hσ : σ ∈ Subgroup.normalizer (F : Set Y)) (hσ3 : ∃ k : ℕ, σ ^ 3 ^ k = 1)
     (hσc : σ ∉ Subgroup.centralizer (F : Set Y)) :
     ∃ P : Subgroup Y, Nat.card P = 3 ^ 5 ∧ ∃ a ∈ P, ∃ b ∈ P, a * b ≠ b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hσ3
   have hz3 : IsPGroup 3 (Subgroup.zpowers σ) := by
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 (orderOf_dvd_of_pow_eq_one hk)
@@ -194,6 +194,7 @@ theorem piK_injective (K : Subgroup G) {W : Subgroup ↥K} (hW : IsPGroup 3 W) :
     Function.Injective ((piK K).comp W.subtype) :=
   injective_comp_subtype Nat.prime_three (piK K) (not_dvd_card_ker_piK K) hW
 
+omit [Finite G] in
 theorem not_catalog_ON
     {K : Subgroup G} (hZ : Subgroup.center (PQuot 3 K) = ⊥)
     (h5 : (Nat.card (PQuot 3 K)).factorization 3 = 5) :
@@ -216,6 +217,7 @@ theorem rank_le_of_profile {K : Subgroup G} (hp : KProfile (PQuot 3 K)) {W : Sub
   rw [hcard]
   exact hp.card_le (S8.L84.isElemAbelian_map π hW')
 
+omit [Finite G] in
 theorem sup_primeCore_eq_top {K K₀ : Subgroup G} (hK₀ : K₀ ≤ K)
     (hcov : K₀ ⊔ GLAPPrimeCoreOf 3 K = K) :
     K₀.subgroupOf K ⊔ GLAPPrimeCore 3 ↥K = ⊤ := by
@@ -275,6 +277,7 @@ theorem cover_of_profile {K : Subgroup G} (hp : KProfile (PQuot 3 K)) {K₀ : Su
     rw [← hcp']
     exact (QuotientGroup.eq_one_iff c).2 hc
 
+omit [Finite G] in
 theorem barAut_eq_localBalance (K : Subgroup G) (g : G) (hg : g ∈ Subgroup.normalizer (K : Set G)) :
     barAut K g hg = CFSG.HardMathSupport.Solomon.LocalBalance.barAut 3 K
       ⟨g⁻¹, (Subgroup.normalizer (K : Set G)).inv_mem hg⟩ := by

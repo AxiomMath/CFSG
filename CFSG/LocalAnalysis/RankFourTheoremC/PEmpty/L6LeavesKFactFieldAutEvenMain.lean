@@ -44,8 +44,8 @@ theorem kFactFieldAutEven_of_props
     (hFix : OuterFixedOrderBoundCyc)
     (hLB : ∀ t, FixedLowerBoundAt t) (hOL : ∀ t, OvergroupLocalAt t) : KFactFieldAutEven := by
   intro J _ _ p α T hp hp5 hα hpJ hs hna hK hT hnoU
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup J := hs
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup J := hs
   have hp2 : p ≠ 2 := by omega
   have hab : ∃ a b : J, a * b ≠ b * a := by
     by_contra h
@@ -109,7 +109,7 @@ theorem kFactFieldAutEven_of_props
       ·
         subst hℓ2
         obtain ⟨r, hr, hrloc⟩ := hOL t J hs hab n f f₀ p hadm hmodel ht hp hp5 hpJ hdivp hf
-        haveI : Fact r.Prime := ⟨hr⟩
+        have : Fact r.Prime := ⟨hr⟩
         have hD0 : lieOrderDivisor t n (2 ^ f₀) ≠ 0 :=
           lieOrderDivisor_ne_zero t n _ (by
             calc 2 = 2 ^ 1 := (pow_one 2).symm

@@ -251,7 +251,7 @@ theorem four_le_nonBotBlocks_card {K : Type} [Field K] [Finite K] [CharP K 2] {V
       intro h
       have h1 : D.1.index = 1 := by rw [h, Subgroup.index_top]
       omega
-    obtain ⟨x, -, hx⟩ := SetLike.not_le_iff_exists.mp (fun hle => hD (top_le_iff.mp hle))
+    obtain ⟨x, -, hx⟩ := IsConcreteLE.not_le_iff_exists.mp (fun hle => hD (top_le_iff.mp hle))
     exact ⟨x, hx⟩
   let t : Hyperplane A 3 → A := fun D => Classical.choose (ht_exists D)
   have ht : ∀ D, t D ∉ D.1 := fun D => Classical.choose_spec (ht_exists D)
@@ -438,7 +438,7 @@ theorem exists_block_element_moving {K : Type} [Field K] [Finite K] [CharP K 2] 
     intro h
     have h1 : D.1.index = 1 := by rw [h, Subgroup.index_top]
     omega
-  obtain ⟨x, -, hx⟩ := SetLike.not_le_iff_exists.mp (fun hle => hDtop (top_le_iff.mp hle))
+  obtain ⟨x, -, hx⟩ := IsConcreteLE.not_le_iff_exists.mp (fun hle => hDtop (top_le_iff.mp hle))
   exact ⟨x, v, hv, fun hfix => hv0 (eq_zero_of_fixed_mem_blockSpace A hp hpF hA hx hv hfix)⟩
 
 theorem fourBlockData_exists {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type}

@@ -247,7 +247,7 @@ theorem eq_zero_of_forall_linearEquiv_bilin (hW : 3 ≤ finrank (ZMod 2) W) (B :
     rw [Set.finrank, h, finrank_top] at h1
     have h2 := Finset.card_le_two (a := x) (b := w)
     omega
-  obtain ⟨y, hy⟩ := SetLike.exists_not_mem_of_ne_top _ hS
+  obtain ⟨y, hy⟩ := SetLike.exists_notMem_of_ne_top _ hS
   obtain ⟨φ, hφy, hφS⟩ := Submodule.exists_dual_map_eq_bot_of_notMem hy inferInstance
   have hφ : ∀ v ∈ Submodule.span (ZMod 2) ((({x, w} : Finset W)) : Set W), φ v = 0 :=
     fun v hv => by
@@ -275,7 +275,7 @@ theorem eq_zero_of_forall_linearEquiv_add (hW : 2 ≤ finrank (ZMod 2) W) (Q : W
   by_cases hx : x = 0
   · subst hx
     exact h2 _ (by rw [← hadd, add_zero])
-  · obtain ⟨y, hy⟩ := SetLike.exists_not_mem_of_ne_top ((ZMod 2) ∙ x) (by
+  · obtain ⟨y, hy⟩ := SetLike.exists_notMem_of_ne_top ((ZMod 2) ∙ x) (by
       intro h
       have := finrank_span_singleton (K := ZMod 2) hx
       rw [h, finrank_top] at this

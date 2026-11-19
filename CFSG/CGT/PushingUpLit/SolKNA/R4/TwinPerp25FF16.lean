@@ -179,7 +179,7 @@ theorem mem_zStarOf_ff_of_le_pCore (F : FSet r n R S t K' W S₁ R₁ R₂ t₁ 
       (hLQ.trans hQS) hKL
     have hK4 : 4 ≤ Nat.card ↥(imgX b ⊤ (tightCore R)) := by
       obtain ⟨e⟩ := hT4.quat _ hJ₀ _ ⟨le_rfl, hK2, fun V' hV' _ hle => le_antisymm hV' hle⟩
-      haveI : NeZero (2 ^ (r - 1 - 2)) := ⟨by positivity⟩
+      have : NeZero (2 ^ (r - 1 - 2)) := ⟨by positivity⟩
       rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
       have : 1 ≤ 2 ^ (r - 1 - 2) := Nat.one_le_two_pow
       omega

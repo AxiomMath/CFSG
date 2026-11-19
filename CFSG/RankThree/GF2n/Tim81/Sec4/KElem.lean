@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M V H : Subgroup G}
 
+omit [Finite G] in
 theorem kOf_le_centralizer_V (V H : Subgroup G) :
     kOf V H ≤ Subgroup.centralizer (V : Set G) := by
   intro k hk
@@ -106,11 +107,12 @@ theorem isPGroup_kOf_of_factorization (h : RootHyp M V) {h₀ : G}
   rw [hK]
   exact IsPGroup.to_sup_of_normal_left' hA2 hB2 hnorm
 
+omit [Finite G] in
 private theorem exists_mul_of_mem_sup_of_le {K S T : Subgroup G}
     (hcomm : ∀ x ∈ K, ∀ y ∈ K, x * y = y * x) (hST : S ⊔ T ≤ K) {x : G}
     (hx : x ∈ S ⊔ T) : ∃ a ∈ S, ∃ b ∈ T, a * b = x := by
-  haveI : IsMulCommutative ↥K := ⟨⟨fun a b => Subtype.ext (hcomm a a.2 b b.2)⟩⟩
-  letI : CommGroup ↥K := IsMulCommutative.instCommGroup
+  have : IsMulCommutative ↥K := ⟨⟨fun a b => Subtype.ext (hcomm a a.2 b b.2)⟩⟩
+  let : CommGroup ↥K := IsMulCommutative.instCommGroup
   have hS : S ≤ K := le_sup_left.trans hST
   have hT : T ≤ K := le_sup_right.trans hST
   have hxK : x ∈ K := hST hx
@@ -136,9 +138,9 @@ private theorem frattini_kOf_eq_sup (h : RootHyp M V) {h₀ : G}
   have hB2 : IsPGroup 2 ↥(conjSubgroup h₀ (Pc M V) ⊓ kOf V H) :=
     hP2h.to_le (inf_le_left : conjSubgroup h₀ (Pc M V) ⊓ kOf V H ≤ conjSubgroup h₀ (Pc M V))
   have hcommK : ∀ x ∈ kOf V H, ∀ y ∈ kOf V H, x * y = y * x := hab
-  haveI : IsMulCommutative ↥(kOf V H) :=
+  have : IsMulCommutative ↥(kOf V H) :=
     ⟨⟨fun x y => Subtype.ext (hab x x.2 y y.2)⟩⟩
-  letI : CommGroup ↥(kOf V H) := IsMulCommutative.instCommGroup
+  let : CommGroup ↥(kOf V H) := IsMulCommutative.instCommGroup
   have hST : (Pc M V ⊓ kOf V H) ⊔ (conjSubgroup h₀ (Pc M V) ⊓ kOf V H) ≤ kOf V H := by
     rw [← hK]
   have hPhi_le : inSubgroup frattini (kOf V H) ≤
@@ -214,9 +216,9 @@ private theorem sup_inf_Pc_le (h : RootHyp M V) {h₀ : G}
     (hab : ∀ x ∈ kOf V H, ∀ y ∈ kOf V H, x * y = y * x) :
     (kPart (Pc M V) (kOf V H) ⊔ kPart (conjSubgroup h₀ (Pc M V)) (kOf V H)) ⊓ Pc M V ≤
       kPart (Pc M V) (kOf V H) := by
-  haveI : IsMulCommutative ↥(kOf V H) :=
+  have : IsMulCommutative ↥(kOf V H) :=
     ⟨⟨fun x y => Subtype.ext (hab x x.2 y y.2)⟩⟩
-  letI : CommGroup ↥(kOf V H) := IsMulCommutative.instCommGroup
+  let : CommGroup ↥(kOf V H) := IsMulCommutative.instCommGroup
   have hA_le_K : kPart (Pc M V) (kOf V H) ≤ kOf V H :=
     (Subgroup.map_subtype_le (frattini ↥(Pc M V ⊓ kOf V H))).trans inf_le_right
   have hB_le_K : kPart (conjSubgroup h₀ (Pc M V)) (kOf V H) ≤ kOf V H :=
@@ -310,7 +312,7 @@ private theorem frattini_kOf_eq_bot (h : RootHyp M V) (hPH : Pc M V ≤ H) {h₀
     exact kPart_le_V h
   have hPhi_normal : H ≤ Subgroup.normalizer (inSubgroup frattini (kOf V H) : Set G) :=
     fun g hg => mem_normalizer_inSubgroup_frattini (le_normalizer_kOf V H hg)
-  obtain ⟨x, hxH, hxM⟩ := SetLike.not_le_iff_exists.mp hnM
+  obtain ⟨x, hxH, hxM⟩ := IsConcreteLE.not_le_iff_exists.mp hnM
   have hTI : V ⊓ conjSubgroup x V = ⊥ := by
     rcases h.toHyp.ti x with hbot | heq
     · exact hbot

@@ -84,7 +84,7 @@ private theorem exists_psi_card (h34 : Stroth34Statement) (h311a : Stroth311aSta
     rw [show V = (Q ⊓ QB Y) ⊔ Z from Good103.Vt_eq ht hs]
     exact sup_le (fun x hx => Subgroup.mem_sup_left (hCY hx))
       (fun z hz => Subgroup.mem_sup_right hz)
-  haveI : IsMulCommutative ↥V := hVab.1
+  have : IsMulCommutative ↥V := hVab.1
   let S : Subgroup ↥V := (C ⊔ Z).subgroupOf V
   let Ψ' : Subgroup ↥W := S.comap ν
   let Ψ : Subgroup G := Ψ'.map W.subtype
@@ -155,7 +155,7 @@ private theorem exists_root_comm_data (h34 : Stroth34Statement)
   have hγ2 : γ * γ = 1 := by
     simpa [pow_two] using (isElemAbelian_conjSubgroup hc.isElemAbelian_B r).2 γ hγD
   have hγa : γ * a = a * γ := by
-    haveI : IsMulCommutative ↥(Q ⊓ QB (conjSubgroup r B)) := hD.inf_QB_elemAbelian.1
+    have : IsMulCommutative ↥(Q ⊓ QB (conjSubgroup r B)) := hD.inf_QB_elemAbelian.1
     exact setLike_mul_comm
       (s := (Q ⊓ QB (conjSubgroup r B) : Subgroup G))
       ⟨hD.le hγD, hD.B_le_QB hγD⟩ ha
@@ -172,6 +172,7 @@ private theorem exists_root_comm_data (h34 : Stroth34Statement)
       _ = (γ * z) * t := by rw [h]
   exact ⟨conjSubgroup r B, a, hD, hDC, hγD, ha, hat, hγ2, hγa, hta, hxt'⟩
 
+omit [Finite G] in
 private theorem comm_inv_mul_eq {a x γ z t : G}
     (hγ2 : γ * γ = 1) (hγa : γ * a = a * γ) (hza : z * a = a * z)
     (hzγ : z * γ = γ * z) (hta : t * a = (γ * a) * t) (hxt' : x * t * x⁻¹ = (γ * z) * t) :

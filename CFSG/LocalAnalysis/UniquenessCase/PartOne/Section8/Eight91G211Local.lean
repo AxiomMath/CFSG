@@ -37,7 +37,7 @@ theorem r891g211_basic {G : Type} [Group G] [Finite G] (D : Data G) {L S R A : S
   have hXleH : R891X L (R891Z L S) 1 ≤ R891H L S := by
     have hXeq : R891X L (R891Z L S) 1 = Opp 2 (L ⊓ centralizer (R891Z L S : Set G)) := by
       unfold R891X
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
     rw [hXeq]
     change Opp 2 (L ⊓ centralizer (R891Z L S : Set G)) ≤ centralizer (R891Z L S : Set G)
     exact (k891gbasic_opp_le 2 (L ⊓ centralizer (R891Z L S : Set G))).trans inf_le_right
@@ -100,7 +100,7 @@ theorem r891g211_uniq {G : Type} [Group G] [Finite G] (D : Data G) {L S R A : Su
   have hRL : R ≤ L := hst.ctx.xShape.rSylow.trans inf_le_right
   have hWM : W ≤ D.M := hWR.trans (hRL.trans hLM)
   have hRexp : Monoid.exponent ↥R = 3 := hst.ctx.xShape.rExtra.2.1
-  obtain ⟨w, hwW, hwZ⟩ := SetLike.exists_of_lt hZW
+  obtain ⟨w, hwW, hwZ⟩ := _root_.IsConcreteLE.exists_of_lt hZW
   have hwR : w ∈ R := hWR hwW
   have hw3 : w ^ 3 = 1 := by
     have h := Monoid.pow_exponent_eq_one (⟨w, hwR⟩ : ↥R)
@@ -602,10 +602,10 @@ private theorem k891gstarsyl_sylow_rel {G : Type} [Group G] [Finite G] {H Z R X 
   exact k891gstarsyl_IsSylowOf_map hRsub (QuotientGroup.mk' (R891Ker H Z))
 
 theorem r891g211_star_sylow {G : Type} [Group G] [Finite G] {H Z R X P0 M : Subgroup G}
-    (hXs : IsSolvable ↥X) (hRX : IsSylowOf 3 R X) (hP0 : IsSylowOf 3 P0 H) (hRP0 : R ≤ P0)
+    (hXs : Group.IsSolvable ↥X) (hRX : IsSylowOf 3 R X) (hP0 : IsSylowOf 3 P0 H) (hRP0 : R ≤ P0)
     (hP0M : P0 ≤ M) :
     IsSylowOf 3 (R891Img H Z P0) ⊤ ∧ R891Img H Z P0 ≤ R891Img H Z M ∧
-      R891Img H Z R = R891Img H Z P0 ⊓ R891Img H Z X ∧ IsSolvable ↥(R891Img H Z X) := by
+      R891Img H Z R = R891Img H Z P0 ⊓ R891Img H Z X ∧ Group.IsSolvable ↥(R891Img H Z X) := by
   have : Group.IsSolvable ↥X := hXs
   have hRH : R ≤ H := hRP0.trans hP0.le
   have : Group.IsSolvable ↥(X ⊓ H : Subgroup G) :=
@@ -910,8 +910,8 @@ private theorem k891glift_commutator_le {X : Type*} [Group X] {V N Z' : Subgroup
   have htop : N.subgroupOf V ⊔ Z'.subgroupOf V = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hNV hZ'V, ← hVeq, Subgroup.subgroupOf_self]
   have hcomm : _root_.commutator ↥V ≤ N.subgroupOf V := by
-    haveI : (N.subgroupOf V).Normal := hNVnormal
-    haveI : IsMulCommutative (Z'.subgroupOf V) := hZVcomm
+    have : (N.subgroupOf V).Normal := hNVnormal
+    have : IsMulCommutative (Z'.subgroupOf V) := hZVcomm
     exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top htop
   have hmapNV : (N.subgroupOf V).map V.subtype = N := by
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hNV]

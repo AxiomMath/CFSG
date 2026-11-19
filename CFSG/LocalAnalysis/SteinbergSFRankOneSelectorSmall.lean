@@ -462,7 +462,7 @@ theorem false_of_small_survivor
       obtain ⟨P, hP⟩ := hxP.exists_le_sylow
       obtain ⟨Q, hQ⟩ := hV.exists_le_sylow
       have hQV : V = (Q : Subgroup D) :=
-        Subgroup.eq_of_le_of_card_ge hQ (by rw [h64']; exact h64 _ Q.isPGroup')
+        Subgroup.eq_of_le_of_card_ge hQ (by rw [h64']; exact h64 _ Q.isPGroup)
       obtain ⟨g, hg⟩ := MulAction.exists_smul_eq D Q P
       have h1 : x ∈ (P : Subgroup D) := hP (mem_zpowers x)
       rw [← hg, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem, ← hQV]

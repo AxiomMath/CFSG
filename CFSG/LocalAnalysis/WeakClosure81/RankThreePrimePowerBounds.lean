@@ -66,12 +66,12 @@ private theorem nParam_le_one_psl_pure
   classical
   obtain ⟨K, hKfld, hKfin, hKcard, ⟨e⟩⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hP
-  letI : Field K := hKfld
-  letI : Finite K := hKfin
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := CFSG.LieType.BorelTits.charP_of_natCard_eq hKcard
-  haveI : IsSimpleGroup ↥(CFSG.generalizedFitting Q) := hAS.simple
-  haveI : IsSimpleGroup (projectiveSL 3 K) := e.symm.isSimpleGroup
+  let : Field K := hKfld
+  let : Finite K := hKfin
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := CFSG.LieType.BorelTits.charP_of_natCard_eq hKcard
+  have : IsSimpleGroup ↥(CFSG.generalizedFitting Q) := hAS.simple
+  have : IsSimpleGroup (projectiveSL 3 K) := e.symm.isSimpleGroup
   let eQ : Q ≃* projectiveSL 3 K :=
     (Subgroup.topEquiv.symm.trans (MulEquiv.subgroupCongr hLtop.symm)).trans e
   rw [CFSG.Quasithin.E1.Eleven.nParam_top_mulEquiv eQ]
@@ -86,7 +86,7 @@ private theorem settingL3_psl3_of_qmod4_three
     (hLie : LieModel ↥L .PSL 3 p f) :
     SecU1.L3I.SettingL3 L := by
   classical
-  haveI : L.Normal := hAS.normal
+  have : L.Normal := hAS.normal
   have hfodd : Odd f :=
     CFSG.GH74.KGroups.L3Eps.odd_of_pow_mod_four_eq_three (hp.odd_of_ne_two hp2) hq3
   have hf3 : 3 ≤ f := by
@@ -172,11 +172,11 @@ private theorem settingL3_psu3_of_qmod4_one
     (hLie : LieModel ↥L .PSU 3 p f) :
     SecU1.L3I.SettingL3 L := by
   classical
-  haveI : L.Normal := hAS.normal
-  haveI : Finite K := hU.finite
+  have : L.Normal := hAS.normal
+  have : Finite K := hU.finite
   have hp : p.Prime := hU.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := hU.charP
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := hU.charP
   have hq9 : 9 ≤ p ^ f := CFSG.RankThree.PartTwo.Sec4.HeringPin.nine_le_pow hp hp2 hf2
   have hq5 : 5 ≤ p ^ f := by omega
   refine
@@ -261,7 +261,7 @@ theorem asch4_11ASPow_holds :
   let L : Subgroup Q := CFSG.generalizedFitting Q
   have hAS : SecE3.AlmostSimple L :=
     SecE3.almostSimple_generalizedFitting hs hnab hT.2.1 hFT
-  haveI : L.Normal := hAS.normal
+  have : L.Normal := hAS.normal
   have hqodd : Odd (p ^ f) := (hp.odd_of_ne_two hp2).pow
   have hqmod4 : p ^ f % 4 = 1 ∨ p ^ f % 4 = 3 :=
     Nat.odd_mod_four_iff.mp (Nat.odd_iff.mp hqodd)
@@ -277,14 +277,14 @@ theorem asch4_11ASPow_holds :
             exact hLtop ((Subgroup.eq_top_iff' L).mpr h)
           obtain ⟨K, hKfld, hKfin, hKcard, ⟨e⟩⟩ :=
             CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hPSL
-          letI : Field K := hKfld
-          letI : Finite K := hKfin
+          let : Field K := hKfld
+          let : Finite K := hKfin
           exact nParam_le_one_psl_q3_of_lt_top hp hp2 hf2 hKcard hq3 hs hnab hPSL hT hFT hGL e
     · rcases hqmod4 with hq1 | hq3
       · obtain ⟨-, hf1, K, hKfld, hKfin, hKcard, ⟨e⟩⟩ :=
           CFSG.GH74.Generic.lieModel_psu_data hPSU
-        letI : Field K := hKfld
-        letI : Finite K := hKfin
+        let : Field K := hKfld
+        let : Finite K := hKfin
         have hU : UnitaryFieldData p f K :=
           ⟨hp, hf1, by rw [hKcard, ← pow_mul, Nat.mul_comm]⟩
         exact nParam_le_one_psu_q1 hp2 hf2 hU hq1 hs hnab hPSU hT hFT e

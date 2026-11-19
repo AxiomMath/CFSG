@@ -22,10 +22,10 @@ theorem sylow_seven_card_ne_three_hundred_forty_three
     Nat.card S ≠ 343 := by
   classical
   intro hScard
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let F : Set X := MulAction.fixedPoints S X
   have hFmod :=
-    S.isPGroup'.card_modEq_card_fixedPoints X
+    S.isPGroup.card_modEq_card_fixedPoints X
   have hFmod' :
       3 = Fintype.card F % 7 := by
     change Nat.card X % 7 = Nat.card F % 7 at hFmod
@@ -42,7 +42,7 @@ theorem sylow_seven_card_ne_three_hundred_forty_three
     Finite.one_lt_card_iff_nontrivial.mp (by
       rw [hScard]
       norm_num)
-  letI : Nontrivial S := hSnontrivial
+  let : Nontrivial S := hSnontrivial
   have hFne : F ≠ Set.univ := by
     obtain ⟨u, hu⟩ := exists_ne (1 : S)
     intro hFuniv
@@ -103,7 +103,7 @@ theorem sylow_seven_card_ne_three_hundred_forty_three
       Nat.card_eq_fintype_card]
     exact hO₁card
   have hR₁normal : R₁.Normal := by
-    haveI : R₁.FiniteIndex := ⟨by rw [hR₁index]; norm_num⟩
+    have : R₁.FiniteIndex := ⟨by rw [hR₁index]; norm_num⟩
     have hkerDvd : R₁.normalCore.index ∣ 5040 := by
       rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker]
       refine (Subgroup.card_subgroup_dvd_card _).trans ?_
@@ -157,7 +157,7 @@ theorem sylow_seven_card_ne_three_hundred_forty_three
       Finite.one_lt_card_iff_nontrivial.mp (by
         rw [hR₁card]
         norm_num)
-    letI : Nontrivial R₁ := hR₁nontrivial
+    let : Nontrivial R₁ := hR₁nontrivial
     obtain ⟨v, hv⟩ := exists_ne (1 : R₁)
     have hvPerm :
         ((((v : R₁) : S) : P) : Equiv.Perm X) = 1 := by
@@ -212,7 +212,7 @@ theorem sylow_seven_card_ne_three_hundred_forty_three
       Nat.card_eq_fintype_card]
     exact hO₂card
   have hR₂normal : R₂.Normal := by
-    haveI : R₂.FiniteIndex := ⟨by rw [hR₂index]; norm_num⟩
+    have : R₂.FiniteIndex := ⟨by rw [hR₂index]; norm_num⟩
     have hkerDvd : R₂.normalCore.index ∣ 5040 := by
       rw [Subgroup.normalCore_eq_ker, Subgroup.index_ker]
       refine (Subgroup.card_subgroup_dvd_card _).trans ?_
@@ -305,7 +305,7 @@ theorem sylow_seven_card_ne_three_hundred_forty_three
     nlinarith [Nat.card_pos (α := K)]
   have hKnontrivial : Nontrivial K :=
     Finite.one_lt_card_iff_nontrivial.mp (by omega)
-  letI : Nontrivial K := hKnontrivial
+  let : Nontrivial K := hKnontrivial
   obtain ⟨v, hv⟩ := exists_ne (1 : K)
   let vS : S := v
   let vP : P := vS

@@ -28,7 +28,7 @@ theorem exists_sylow_normalized_of_orderOf_prime {G : Type*} [Group G] [Finite G
   obtain ⟨P, hP⟩ := hA.nonempty_fixed_point_of_prime_not_dvd_card (Sylow q Y) hcard
   have hnP : n • P = P := hP ⟨n, Subgroup.mem_zpowers n⟩
   have hnP' : n • (P : Subgroup Y) = P := by rw [← Sylow.pointwise_smul_def, hnP]
-  refine ⟨(P : Subgroup Y).map Y.subtype, Subgroup.map_subtype_le _, P.isPGroup'.map _,
+  refine ⟨(P : Subgroup Y).map Y.subtype, Subgroup.map_subtype_le _, P.isPGroup.map _,
     fun hq => ?_, fun x hx => ?_⟩
   · exact fun h => P.ne_bot_of_dvd_card hq
       ((Subgroup.map_eq_bot_iff_of_injective _ Y.subtype_injective).1 h)
@@ -110,7 +110,7 @@ private theorem eq_bot_of_normalizes {K : Type} [Group K] [Finite K]
   obtain ⟨Q, -, hQp, hQne', hQk⟩ := exists_sylow_normalized_of_orderOf_prime hk hkY hY r
   have hQne := hQne' hrY
   rcases hr' with rfl | rfl
-  · haveI : Finite (MulAut K) :=
+  · have : Finite (MulAut K) :=
       Finite.of_injective (fun f : MulAut K => (f : K → K)) DFunLike.coe_injective
     have hU : IsPGroup 2 (Q.map (MulAut.conj : K →* MulAut K)) := hQp.map _
     have hN : MulAut.conj k ∈ normalizer
@@ -153,7 +153,7 @@ theorem signalizerAutAt_linTwoEight {p : ℕ} {d : TauCeti.ValidLieTypeIndex} (h
     exact card_mulAut
   have hinj : Function.Injective (MulAut.conj : K →* MulAut K) := conj_injective_of_equiv ε
   set I : Subgroup (MulAut K) := (MulAut.conj : K →* MulAut K).range
-  haveI : I.Normal := L28Data.normal_range_conj K
+  have : I.Normal := L28Data.normal_range_conj K
   have hIcard : Nat.card I = 504 := by
     rw [← hKcard]
     exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
@@ -187,7 +187,7 @@ theorem signalizerAutAt_linTwoEight {p : ℕ} {d : TauCeti.ValidLieTypeIndex} (h
   have hz1 : z ≠ 1 := by
     rintro rfl
     exact hb1 (by rw [← hz, map_one])
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzord : orderOf z = 3 := orderOf_eq_prime hz3 hz1
   set Y' : Subgroup K := Y.comap (MulAut.conj : K →* MulAut K)
   have hmapY : Y'.map (MulAut.conj : K →* MulAut K) = Y := Subgroup.map_comap_eq_self hYI

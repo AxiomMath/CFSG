@@ -85,7 +85,7 @@ theorem sylow_containing_subgroup_local_normal_two_transfer [Finite D] {S : Subg
   set P := (P₁ : Subgroup H).map H.subtype with hPdef
   have hPH : P ≤ H := Subgroup.map_subtype_le _
   have hOP : O ≤ P := Subgroup.map_mono (IsPGroup.le_sylow_of_normal CFSG.pCore_isPGroup P₁)
-  obtain ⟨T, hPT⟩ := (P₁.isPGroup'.map H.subtype).exists_le_sylow
+  obtain ⟨T, hPT⟩ := (P₁.isPGroup.map H.subtype).exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq D T P₀
   have hcT : conjSub c (T : Subgroup D) ≤ S := by
     rintro _ ⟨x, hx, rfl⟩

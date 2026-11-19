@@ -40,7 +40,7 @@ theorem CosetTrans.mono {H H' A B : Subgroup G} (h : CosetTrans H A B) (hH : H �
 
 theorem cosetTrans_self (A B : Subgroup G) : CosetTrans A A B := by
   intro g hg
-  exact ⟨g, ⟨hg, hg⟩, by simpa using B.one_mem⟩
+  exact ⟨g, ⟨hg, hg⟩, by simp⟩
 
 theorem CosetTrans.map_conj {H A B : Subgroup G} (h : CosetTrans H A B) (g : G) :
     CosetTrans (H.map (MulAut.conj g).toMonoidHom) (A.map (MulAut.conj g).toMonoidHom)

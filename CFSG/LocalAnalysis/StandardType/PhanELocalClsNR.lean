@@ -17,27 +17,33 @@ private def plh_ws (s : K) : Fin 4 → K := ![1, s, 0, 0]
 
 private def plh_winf (K : Type) [Zero K] [One K] : Fin 4 → K := ![0, 1, 0, 0]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_ws_mem_Vsub (s : K) : plh_ws s ∈ Vsub 4 2 := by
   intro j hj
   fin_cases j <;> simp_all [plh_ws]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_winf_mem_Vsub : plh_winf K ∈ Vsub 4 2 := by
   intro j hj
   fin_cases j <;> simp_all [plh_winf]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_ws_ne_zero (s : K) : plh_ws s ≠ 0 := by
   intro h
   have h0 := congrFun h 0
   simp [plh_ws] at h0
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_winf_ne_zero : plh_winf K ≠ 0 := by
   intro h
   have h1 := congrFun h 1
   simp [plh_winf] at h1
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_ws_finrank (s : K) : finrank K (K ∙ plh_ws s) = 1 :=
   finrank_span_singleton (plh_ws_ne_zero s)
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_winf_finrank : finrank K (K ∙ plh_winf K) = 1 :=
   finrank_span_singleton plh_winf_ne_zero
 
@@ -90,12 +96,12 @@ theorem exists_two_nrpt (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) :
   · exact plh_nrpt_of_moved (f := f) hK hs₁
   · exact plh_nrpt_of_moved (f := f) hK hs₂
 
-theorem exists_nr_lines (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) :
+theorem exists_nr_lines (hK : Nat.card K = (2 ^ f) ^ 2) (_hq : 4 ≤ 2 ^ f) :
     ∃ B : Finset (Submodule K (Fin 4 → K)), B.Nonempty ∧ B.card ≤ 2 ^ f + 1 ∧
       (∀ m ∈ B, m ≤ Vsub 4 2 ∧ finrank K m = 1) ∧
       ∀ w ∈ Vsub 4 2, (∀ m ∈ B, w ∉ m) → w ≠ 0 ∧ NRpt f (K ∙ w) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   set Fx : Finset K := Finset.univ.filter (fun s => sg K f s = s) with hFx
   have hFxcard : Fx.card ≤ 2 ^ f := by
     have h := card_sg_fixed_le (K := K) (f := f) hK
@@ -146,7 +152,7 @@ theorem exists_nr_lines (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) :
         simp [plh_ws]
       · change w 1 = (w 0 • plh_ws s) 1
         simp only [Pi.smul_apply, smul_eq_mul, plh_ws, Matrix.cons_val_one,
-          Matrix.cons_val_zero, Matrix.head_cons]
+          Matrix.cons_val_zero]
         rw [hs]
         rw [mul_div_cancel₀ (w 1) ha]
       · change w 2 = (w 0 • plh_ws s) 2

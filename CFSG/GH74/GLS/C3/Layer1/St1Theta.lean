@@ -78,8 +78,8 @@ theorem thetaGA_spec_of_elementary {A : Subgroup G}
     Nat.Coprime 2 (Nat.card ↥(thetaGA A)) ∧ A ≤ normalizer (thetaGA A : Set G) ∧
       ∀ a ∈ A, a ≠ 1 → thetaGA A ⊓ centralizer ({a} : Set G) =
         pPrimeCoreOf 2 (centralizer ({a} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hAe
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hAe
   have hAe' : CFSG.Open.IsElemAbelian 2 A :=
     ⟨hAe.toIsMulCommutative,
       fun x hx => by

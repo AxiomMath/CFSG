@@ -78,7 +78,7 @@ theorem RadCent.of_mulEquiv {S T : Type*} [Group S] [Group T] [Finite S] {p : �
 theorem kdCharPAt_of_model {S Y : Type} [Group S] [Group Y] [Finite Y] {p : ℕ} [Fact p.Prime]
     (e : S ≃* Y) (hBT : Holds Y p) (hcen : Subgroup.center Y = ⊥) (hd : PCharData Y p ⊤) :
     KDCharPAt p S := by
-  haveI : Finite S := Finite.of_equiv Y e.symm.toEquiv
+  have : Finite S := Finite.of_equiv Y e.symm.toEquiv
   intro u hu
   exact gLAPLayer_centralizer_eq_bot_of_holds (hBT.of_mulEquiv e.symm)
     (RadCent.of_mulEquiv e (radCent_of_pCharData le_top hcen hd)) hu

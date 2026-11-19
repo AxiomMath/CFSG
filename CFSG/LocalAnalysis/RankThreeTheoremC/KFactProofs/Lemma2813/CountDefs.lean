@@ -34,6 +34,7 @@ open Classical in
     (k : ℕ) : ℕ :=
   Nat.card {w : M // w ≠ 0 ∧ (Pset M w).card = k}
 
+omit [Finite M] in
 theorem mem_Pset {w : M} {x : V3} : x ∈ Pset M w ↔ x ≠ 0 ∧ w ∈ fixSub M (Spt x) := by
   classical
   simp [Pset]

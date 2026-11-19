@@ -24,7 +24,7 @@ theorem genOf_h1408Gens : genOf 1408 h1408Gens = P1408 := by
   unfold genOf P1408
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, Array.mem_toArray, h1408Gens, List.mem_map,
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_toArray, h1408Gens, List.mem_map,
     List.mem_finRange, true_and, Set.mem_range]
   constructor
   · rintro ⟨x, ⟨j, rfl⟩, rfl⟩

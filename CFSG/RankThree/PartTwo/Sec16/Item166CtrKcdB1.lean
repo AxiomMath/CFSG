@@ -23,6 +23,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L Y₀ : Subgroup G}
 
+omit [Finite G] in
 private lemma mem_A_of_mem_pair {c d b : G} (hc : c ∈ A) (hd : d ∈ A)
     (hb : b ∈ ({c * d, c * d ^ 2} : Set G)) : b ∈ A := by
   rcases Set.mem_insert_iff.mp hb with h | h
@@ -36,7 +37,7 @@ theorem commutator_zpowers_c_le_pCoreOf (h : Sec17Std G A c L Y₀)
     (hAJ : A ≤ Subgroup.normalizer (J : Set G)) :
     ⁅J, Subgroup.zpowers c⁆ ≤ CFSG.Open.pCoreOf 2 J := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := CFSG.Open.pCoreOf 2 J with hN
   have hcA : c ∈ A := h.toSec13Data.mem_A
   have hcN : c ∈ Subgroup.normalizer (N : Set G) :=
@@ -72,8 +73,8 @@ theorem commutator_zpowers_d_le_pCoreOf
     (hdc : IsThreeCentralIn L d) :
     ⁅J, Subgroup.zpowers d⁆ ≤ CFSG.Open.pCoreOf 2 J := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Q : Subgroup ↥Y₀ := CFSG.pCore 2 ↥Y₀ with hQ
   set JY : Subgroup ↥Y₀ := J.subgroupOf Y₀ with hJYdef
   set π : ↥Y₀ →* ↥Y₀ ⧸ Q := QuotientGroup.mk' Q with hπ
@@ -191,7 +192,7 @@ theorem commutator_zpowers_b_le_pCoreOf
     (hdc : IsThreeCentralIn L d) {b : G} (hb : b ∈ ({c * d, c * d ^ 2} : Set G)) :
     ⁅J, Subgroup.zpowers b⁆ ≤ CFSG.Open.pCoreOf 2 J := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := CFSG.Open.pCoreOf 2 J with hN
   have hcA : c ∈ A := h.toSec13Data.mem_A
   have hcN : c ∈ Subgroup.normalizer (N : Set G) :=
@@ -231,7 +232,7 @@ theorem nonempty_residual_quot_a5 {J : Subgroup G} {b : G}
       CFSG.pCore 2 ↥(inSubgroup perfectResidual (J ⊓ Subgroup.centralizer ({b} : Set G))) ≃*
         alternatingGroup (Fin 5)) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := CFSG.Open.pCoreOf 2 J with hN
   set R : Subgroup G := Subgroup.zpowers b with hR
   set C : Subgroup G := J ⊓ Subgroup.centralizer ({b} : Set G) with hC
@@ -245,7 +246,7 @@ theorem nonempty_residual_quot_a5 {J : Subgroup G} {b : G}
   have hbN : b ∈ Subgroup.normalizer (N : Set G) :=
     (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 J) hbJ
   have hRN : R ≤ Subgroup.normalizer (N : Set G) := Subgroup.zpowers_le.mpr hbN
-  haveI : Group.IsNilpotent N := hN2.isNilpotent
+  have : Group.IsNilpotent N := hN2.isNilpotent
   have hsolvN : Group.IsSolvable ↥N := inferInstance
   have hRodd : Odd (Nat.card R) := by
     rw [hR, Nat.card_zpowers]
@@ -293,7 +294,7 @@ theorem nonempty_residual_quot_a5 {J : Subgroup G} {b : G}
   have hQJperf : Group.IsPerfect QJ := by
     have hA5perf : Group.IsPerfect (alternatingGroup (Fin 5)) :=
       Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
-    haveI : Group.IsPerfect (alternatingGroup (Fin 5)) := hA5perf
+    have : Group.IsPerfect (alternatingGroup (Fin 5)) := hA5perf
     obtain ⟨e⟩ := hJA5
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hCJtop : CJ.map πJ = ⊤ := by
@@ -384,7 +385,7 @@ theorem residual_facts
         ((inSubgroup perfectResidual (J ⊓ Subgroup.centralizer ({b} : Set G)) :
           Subgroup G) : Set G) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcA : c ∈ A := h.toSec13Data.mem_A
   have hbA : b ∈ A := mem_A_of_mem_pair hcA hdA hb
   have hbJ : b ∈ Subgroup.normalizer (J : Set G) := hAJ hbA

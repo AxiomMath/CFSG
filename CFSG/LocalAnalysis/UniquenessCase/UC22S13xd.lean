@@ -21,7 +21,7 @@ theorem uc22s13xd_normalSimple (hThin : PartTwo.ThinList13) {D : Data G}
   intro J hJ
   obtain ⟨L, hL, rfl⟩ := PartTwo.s13_exists_calC_of_component D.M hJ
   refine ⟨PartTwo.s13_barImage_normal (hN L hL), ?_⟩
-  haveI : IsSimpleGroup (Bar2 L) := by
+  have : IsSimpleGroup (Bar2 L) := by
     rcases hTU L hL with hthin | ⟨n, -, hU⟩
     · exact (PartTwo.s13_list_bar hThin D hL hthin).1
     · exact PartTwo.s13_isSimple_of_isU3 hU
@@ -66,7 +66,7 @@ theorem uc22s13xd_pElement_inner (hThin : PartTwo.ThinList13)
         (hSig.sig1_sp p (hsig ▸ hp)))
   have hcomm := uc22p21c_mem_commutator_of_oResidual_eq_top htop
     (PartTwo.s13_Thirteen2_orderOf_bar hxM hk)
-  haveI : (barImage D.M L).Normal := PartTwo.s13_barImage_normal (hN L hL)
+  have : (barImage D.M L).Normal := PartTwo.s13_barImage_normal (hN L hL)
   exact PartTwo.s13_commutator_le_sup_centralizer (barImage D.M L)
     (uc22s13xd_outAbelian hThin hCyc hTU hL) hcomm
 
@@ -128,6 +128,7 @@ theorem uc22s13xd_Sp_le_centE (hThin : PartTwo.ThinList13)
   exact uc22s13xd_mem_centE hThin hCyc hSig hTU hN hsig hp hx
     ⟨k, by rw [← hk]; exact pow_orderOf_eq_one x⟩
 
+omit [Finite G] in
 theorem uc22s13xd_centE_le_cMStar (M : Subgroup G) (p : ℕ) :
     barPreimage M (centE M) ≤ F13.cMStar M (F13.Lp M p) := by
   show ((centE M).comap (QuotientGroup.mk' (CFSG.pCore 2 ↥M))).map M.subtype ≤
@@ -158,7 +159,7 @@ theorem uc22s13xd_sylow (hThin : PartTwo.ThinList13)
         P ≤ Subgroup.normalizer (c.B : Set G) := by
   intro p hp
   have hp' := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hp'.1⟩
+  have : Fact p.Prime := ⟨hp'.1⟩
   obtain ⟨P, hPsyl, hPB⟩ := hH.2.2.1 p hp
   refine ⟨P, hPsyl.of_le ?_ (uc22s13xd_Sp_le_centE hThin hCyc hSig hTU hN hsig hp), hPB⟩
   intro x hxP

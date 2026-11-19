@@ -16,7 +16,7 @@ private theorem w16l_map_conjSubgroup_hom {G K : Type*} [Group G] [Group K]
     Subgroup.map_map]
   congr 1
   ext a
-  simp [MulAut.conj_apply, map_mul]
+  simp [map_mul]
 
 private theorem w16l_mem_normalizer_sup_ker {G K : Type*} [Group G] [Group K]
     (f : G →* K) {A : Subgroup G} {b : G}
@@ -41,7 +41,7 @@ private theorem w16l_conj_mem_of_mem_normalizer_sup {X : Type*} [Group X] [Finit
     (hT : IsPGroup 2 T) {y : X}
     (hy : y ∈ Subgroup.normalizer ((T ⊔ Z : Subgroup X) : Set X)) :
     ∀ t ∈ T, y * t * y⁻¹ ∈ T := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   intro t ht
   have hmem : y * t * y⁻¹ ∈ ((T ⊔ Z : Subgroup X) : Set X) :=
     (Subgroup.mem_set_normalizer_iff.mp hy t).mp (Subgroup.mem_sup_left ht)
@@ -87,7 +87,7 @@ theorem w16l_mem_normalizer_of_mem_normalizer_sup {X : Type*} [Group X] [Finite 
     {Z T : Subgroup X} (hZ : Z ≤ Subgroup.center X) (hZo : Odd (Nat.card Z))
     (hT : IsPGroup 2 T) {y : X} (hy : y ∈ Subgroup.normalizer ((T ⊔ Z : Subgroup X) : Set X)) :
     y ∈ Subgroup.normalizer (T : Set X) := by
-  haveI : Finite (T : Set X) := Finite.of_injective (Subtype.val) Subtype.val_injective
+  have : Finite (T : Set X) := Finite.of_injective (Subtype.val) Subtype.val_injective
   exact Subgroup.mem_normalizer_fintype fun t ht =>
     w16l_conj_mem_of_mem_normalizer_sup hZ hZo hT hy t ht
 

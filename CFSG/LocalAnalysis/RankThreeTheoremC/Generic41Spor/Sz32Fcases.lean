@@ -21,7 +21,7 @@ theorem szk_finite_Q (hQ : Sz32QFacts Q a c y x) : Finite Q :=
   Nat.finite_of_card_ne_zero (by rw [hQ.card]; norm_num)
 
 theorem szk_finite_of_le (hQ : Sz32QFacts Q a c y x) {H : Subgroup X} (h : H ≤ Q) : Finite H := by
-  haveI := szk_finite_Q hQ
+  have := szk_finite_Q hQ
   exact Finite.of_injective (Subgroup.inclusion h) (Subgroup.inclusion_injective h)
 
 theorem szk_card_zpowers_x (hQ : Sz32QFacts Q a c y x) : Nat.card (Subgroup.zpowers x) = 5 := by
@@ -40,7 +40,7 @@ theorem szk_omega_eq (hQ : Sz32QFacts Q a c y x) {U F : Subgroup X}
     (hrank : ∀ E : Subgroup X, E ≤ F → IsElemAbelian 5 E → Nat.card E ≤ 5 ^ 2) :
     ∀ f ∈ F, f ^ 5 = 1 → f ∈ U := by
   intro f hf hf5
-  haveI hOmc : IsMulCommutative (sz32Om a c y) := hQ.Om_elem.1
+  have hOmc : IsMulCommutative (sz32Om a c y) := hQ.Om_elem.1
   have hfOm : f ∈ sz32Om a c y := hQ.Om_all f (hFQ hf) hf5
   have hEOm : U ⊔ Subgroup.zpowers f ≤ sz32Om a c y :=
     sup_le hU.le_Om (Subgroup.zpowers_le.2 hfOm)
@@ -48,7 +48,7 @@ theorem szk_omega_eq (hQ : Sz32QFacts Q a c y x) {U F : Subgroup X}
   have hEel : IsElemAbelian 5 (U ⊔ Subgroup.zpowers f : Subgroup X) :=
     ⟨isMulCommutative_anti hEOm, fun e he => hQ.Om_elem.2 e (hEOm he)⟩
   have hcard := hrank _ hEF hEel
-  haveI : Finite (U ⊔ Subgroup.zpowers f : Subgroup X) := szk_finite_of_le hQ (hEF.trans hFQ)
+  have : Finite (U ⊔ Subgroup.zpowers f : Subgroup X) := szk_finite_of_le hQ (hEF.trans hFQ)
   have hUE : U = U ⊔ Subgroup.zpowers f :=
     Subgroup.eq_of_le_of_card_ge le_sup_left (by rw [hU.card]; exact hcard)
   have hfE : f ∈ U ⊔ Subgroup.zpowers f := Subgroup.mem_sup_right (Subgroup.mem_zpowers f)
@@ -131,7 +131,7 @@ theorem szk_pow5_mul (hQ : Sz32QFacts Q a c y x) {f g : X} (hf : f ∈ Q) (hg : 
 theorem szk_card_F (hQ : Sz32QFacts Q a c y x) {U F : Subgroup X}
     (hU : Sz32PlaneAbs (sz32Z a c) (sz32Om a c y) x U) (hUF : U ≤ F) (hFQ : F ≤ Q)
     (hΩ : ∀ f ∈ F, f ^ 5 = 1 → f ∈ U) : F = U ∨ Nat.card F = 5 ^ 3 := by
-  haveI : Finite F := szk_finite_of_le hQ hFQ
+  have : Finite F := szk_finite_of_le hQ hFQ
   let ψ : F →* X := MonoidHom.mk' (fun f : F => (f : X) ^ 5)
     (fun f g => szk_pow5_mul hQ (hFQ f.2) (hFQ g.2))
   have hker : ψ.ker = U.subgroupOf F := by
@@ -166,7 +166,7 @@ theorem szk_abelian_eq (hQ : Sz32QFacts Q a c y x) {U F : Subgroup X}
     (hU : Sz32PlaneAbs (sz32Z a c) (sz32Om a c y) x U) (hUF : U ≤ F) (hFQ : F ≤ Q)
     (hrank : ∀ E : Subgroup X, E ≤ F → IsElemAbelian 5 E → Nat.card E ≤ 5 ^ 2)
     (hF : IsMulCommutative F) : F = U := by
-  haveI : Finite F := szk_finite_of_le hQ hFQ
+  have : Finite F := szk_finite_of_le hQ hFQ
   have hUZ : ¬ U ≤ sz32Z a c := by
     intro h
     have h1 : U ⊓ sz32Z a c = U := inf_eq_left.2 h
@@ -176,7 +176,7 @@ theorem szk_abelian_eq (hQ : Sz32QFacts Q a c y x) {U F : Subgroup X}
     norm_num at h2
   obtain ⟨u, huU, huZ⟩ : ∃ u ∈ U, u ∉ sz32Z a c := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hUZ hcon
   have hFOm : F ≤ sz32Om a c y := by
     intro f hf
@@ -196,8 +196,8 @@ theorem szk_center (hQ : Sz32QFacts Q a c y x) {U F : Subgroup X}
   intro z hz
   constructor
   · intro hzc
-    haveI hFfin : Finite F := szk_finite_of_le hQ hFQ
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have hFfin : Finite F := szk_finite_of_le hQ hFQ
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     set x' : F := ⟨x, hxF⟩ with hx'
     have hx'C : x' ∈ Subgroup.center F := Subgroup.mem_center_iff.2 (fun g => Subtype.ext (hxc g g.2))
     have hzxC : Subgroup.zpowers x' ≤ Subgroup.center F := Subgroup.zpowers_le.2 hx'C
@@ -230,7 +230,7 @@ theorem szk_center (hQ : Sz32QFacts Q a c y x) {U F : Subgroup X}
         · have hk25 : k = 25 := by simpa using hki
           rw [hk25] at hqk
           exact ⟨5, by omega⟩
-      haveI : IsCyclic (F ⧸ Subgroup.center F) := isCyclic_of_card_dvd_prime hqd
+      have : IsCyclic (F ⧸ Subgroup.center F) := isCyclic_of_card_dvd_prime hqd
       exact (QuotientGroup.mk' (Subgroup.center F)).isMulCommutative_of_isCyclic_of_ker_le_center
         (by rw [QuotientGroup.ker_mk'])
     have hCcard : Nat.card (Subgroup.center F) = 5 := by rw [hk, hk1]

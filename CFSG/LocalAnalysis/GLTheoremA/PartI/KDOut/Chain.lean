@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA
 open CFSG.HardMathSupport.Curtis.Coordinator.SeitzTower
 
 theorem commutator_mem_of_chain_three {G : Type*} [Group G] [Finite G] {N K₁ O D : Subgroup G}
-    [N.Normal] (hNK : N ≤ K₁) (hKO : K₁ ≤ O) (hOD : O ≤ D)
+    [N.Normal] (hNK : N ≤ K₁) (hKO : K₁ ≤ O) (_hOD : O ≤ D)
     (hK₁ : ∀ o ∈ O, ∀ k ∈ K₁, o * k * o⁻¹ ∈ K₁)
     (hO : ∀ d ∈ D, ∀ o ∈ O, d * o * d⁻¹ ∈ O)
     (h1 : N.relIndex K₁ ≤ 2) (h2 : K₁.relIndex O ≤ 2) (h3 : O.relIndex D ≤ 2)
@@ -17,7 +17,7 @@ theorem commutator_mem_of_chain_three {G : Type*} [Group G] [Finite G] {N K₁ O
     (hαK : ∀ x ∈ K₁, α * x * α⁻¹ ∈ K₁) (hαO : ∀ x ∈ O, α * x * α⁻¹ ∈ O)
     (hαD : ∀ x ∈ D, α * x * α⁻¹ ∈ D) {δ : G} (hδ : δ ∈ D) :
     α * δ * α⁻¹ * δ⁻¹ ∈ N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have h10 : N.relIndex K₁ ≠ 0 := Subgroup.index_ne_zero_of_finite
   have h20 : K₁.relIndex O ≠ 0 := Subgroup.index_ne_zero_of_finite

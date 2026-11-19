@@ -63,9 +63,9 @@ theorem rank_inf_eq_of_isCyclic (hHA : IsAStar H) (hK : IsComponentOf K H) (T : 
   have hcommT : ∀ x ∈ Tg, ∀ y ∈ Tg, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hTab.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hcommQ : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x := fun x hx y hy => hcommT x hx.1 y hy.1
-  have hTp : IsPGroup 2 Tg := T.isPGroup'
+  have hTp : IsPGroup 2 Tg := T.isPGroup
   have hQp : IsPGroup 2 Q := hTp.to_le inf_le_left
-  have hWQ := inf_inf_eq_bot T.isPGroup' hKQ
+  have hWQ := inf_inf_eq_bot T.isPGroup hKQ
   have hΩQ : Nat.card (omegaOneOfComm 2 Q hcommQ) = Nat.card Q := by
     congr 2
     ext x

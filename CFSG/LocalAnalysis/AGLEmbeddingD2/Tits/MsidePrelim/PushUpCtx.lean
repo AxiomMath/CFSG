@@ -48,6 +48,7 @@ omit [Finite G] in
 theorem L34Ctx.toCore (hd : L34Ctx M H R Rbar K) : L34FF.Core H R Rbar K :=
   ⟨hd.normal, hd.isSimpleGroup, hd.mapX, hd.inf_ne_bot, hd.isPGroup⟩
 
+omit [Finite G] in
 theorem L34Ctx.map_threeComp (hd : L34Ctx M H R Rbar K) :
     ((L34FF.threeComp H R K).subgroupOf H).map
       (QuotientGroup.mk' (primeComplementCore (G := H) 3)) = K :=
@@ -68,7 +69,7 @@ theorem L34Ctx.glbPrimeCore_le_inf (hd : L34Ctx M H R Rbar K) :
   le_glbPrimeCore (_root_.le_inf (glbPrimeCore_le 3 H) hd.primeCore_le)
     (inf_le_left.trans (le_normalizer_glbPrimeCore 3 H)) (glbPrimeCore_coprime 3 H)
 
-theorem L34Ctx.twoCore_le_of_isSylowTwoOf (hd : L34Ctx M H R Rbar K)
+theorem L34Ctx.twoCore_le_of_isSylowTwoOf (_hd : L34Ctx M H R Rbar K)
     {D₀ V : Subgroup G} (hD₀H : D₀ ≤ H) (hOD : GLBPrimeCore 3 H ≤ D₀)
     (hV : IsSylowTwoOf V D₀) : pCoreOf 2 H ≤ V := by
   have hS2 := RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 2 H

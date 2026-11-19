@@ -26,9 +26,9 @@ theorem exists_zOf_of_classical {K : Type} [Group K] [Finite K] {F : Type} [Fiel
       exact orderOf_dvd_natCard z
     have : Nontrivial (S : Subgroup K) :=
       (Subgroup.nontrivial_iff_ne_bot _).mpr (S.ne_bot_of_dvd_card hdvd)
-    have : Nontrivial (Subgroup.center (S : Subgroup K)) := S.isPGroup'.center_nontrivial
+    have : Nontrivial (Subgroup.center (S : Subgroup K)) := S.isPGroup.center_nontrivial
     have h2Z : 2 ∣ Nat.card (Subgroup.center (S : Subgroup K)) := by
-      rcases (S.isPGroup'.to_subgroup (Subgroup.center _)).card_eq_or_dvd with h | h
+      rcases (S.isPGroup.to_subgroup (Subgroup.center _)).card_eq_or_dvd with h | h
       · exact absurd h Finite.one_lt_card.ne'
       · exact h
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' 2 h2Z

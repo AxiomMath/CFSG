@@ -119,7 +119,7 @@ private theorem eq_bot_of_permutes_of_forall_involution {G : Type} [Group G] [Fi
   let S : Subgroup G := (P : Subgroup G) ⊓ N
   have hPsyl : CFSG.ABGLocalTools.IsSylowOf 2 (P : Subgroup G) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, P.isPGroup', by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
+    exact ⟨le_top, P.isPGroup, by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
   have hPNsup : (P : Subgroup G) ⊔ N ≤ Subgroup.normalizer (N : Set G) :=
     sup_le hPN (Subgroup.le_normalizer (H := N))
   have hSsyl : CFSG.ABGLocalTools.IsSylowOf 2 S N :=

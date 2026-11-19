@@ -168,7 +168,7 @@ theorem isQuatType_of_elementary [Finite Γ] (hK : ringChar K ≠ 2) (ρ : Γ �
   have hr_two : r = 2 := by
     by_contra hr2
     have hNab : ∀ x ∈ N, ∀ y ∈ N, x * y = y * x := hNab_of_ne_two hr2
-    obtain ⟨x, hxN, hxZ⟩ := SetLike.exists_of_lt hZN
+    obtain ⟨x, hxN, hxZ⟩ := _root_.IsConcreteLE.exists_of_lt hZN
     have hxrZ : x ^ r ∈ Z := hpow x hxN
     obtain ⟨k, hk⟩ := IsPGroup.exists_pow_pow_eq_one hZ2 ⟨x ^ r, hxrZ⟩
     have hxpow : x ^ (r * 2 ^ k) = 1 := by
@@ -459,7 +459,7 @@ private theorem card_lower_of_isQuatType [Finite Γ] (ρ : Γ →* GL ι K)
   have hQ2 : IsPGroup 2 Q := hN2.to_quotient (Z.subgroupOf N)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hQ2
-  obtain ⟨x, hxN, hxZ⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x, hxN, hxZ⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hxcomm : ¬ ∀ y ∈ N, x * y = y * x := by
     intro h
     exact hxZ (hN.mem_of_comm x hxN h)

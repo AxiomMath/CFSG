@@ -19,9 +19,9 @@ open Subgroup CFSG.Blueprint
 theorem asc82Sec5FactB5z_of (hS : Asc82SchurU43) : Asc82Sec5FactB5z := by
   intro G _ _ L hL t ht ht2 z hz r hr2 hrz hα
   obtain ⟨α, V, i1, i2, i3, Q, hQ, e, x, hdim, hsgn, hind, y, hyx, _, s, hss, hst, hsy⟩ := hα
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   obtain ⟨φ, hcov, he⟩ := t5_cover_of_model hS hL hdim hsgn e
   have hx' : (QuotientGroup.mk (orthToSim Q s) : ProjSim Q) = x := by
     rw [← hyx, ← hsy, projOrthToProjSim_toProj]

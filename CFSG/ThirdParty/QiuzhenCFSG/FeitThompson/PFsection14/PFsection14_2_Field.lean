@@ -38,8 +38,8 @@ public theorem section14_appendixC_embedding_of_case_b_field_model_source_bridge
         Subgroup.map σ (appendixCPInH p q) = P ∧
         Subgroup.map σ (appendixCUInH p q) = U ∧
         Subgroup.map σ (appendixCP0InH p q) = W2 := by
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : Fact q.Prime := ⟨hq⟩
+  let : Fact p.Prime := ⟨hp⟩
+  let : Fact q.Prime := ⟨hq⟩
   -- Core finite-field conversion for PF `(14.2)(a)`: transport the Section 9
   -- quotient model to the concrete Appendix C `GaloisField p q` semidirect
   -- product, using `C = ⊥`, the norm-one cardinality endpoint, and the
@@ -48,17 +48,17 @@ public theorem section14_appendixC_embedding_of_case_b_field_model_source_bridge
     ⟨hnormalH0, hnormalC, hW1normU, hCinv, F, fieldInst, fintypeInst, Ustar,
       hFcard, hUstarCard, hUstarCyc, hspan, φH, φU, φW, hactions, hW2⟩
   rcases hactions with ⟨hUaction, hWaction⟩
-  letI : (⊥ : Subgroup G).subgroupOf P |>.Normal := hnormalH0
-  letI : (C.subgroupOf U).Normal := hnormalC
-  letI : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
-  letI : MulDistribMulAction W1 (U ⧸ C.subgroupOf U) :=
+  let : (⊥ : Subgroup G).subgroupOf P |>.Normal := hnormalH0
+  let : (C.subgroupOf U).Normal := hnormalC
+  let : Subgroup.Normalizes W1 U := ⟨hW1normU⟩
+  let : MulDistribMulAction W1 (U ⧸ C.subgroupOf U) :=
     quotientMulDistribMulAction (A := W1) (G := U) (C.subgroupOf U) hCinv
-  letI : Field F := fieldInst
-  letI : Fintype F := fintypeInst
+  let : Field F := fieldInst
+  let : Fintype F := fintypeInst
   have hFcard_fintype : Fintype.card F = p ^ q := by
     simpa [Nat.card_eq_fintype_card] using hFcard
-  haveI : CharP F p := charP_of_card_eq_prime_pow (R := F) hFcard_fintype
-  letI : Algebra (ZMod p) F := ZMod.algebra F p
+  have : CharP F p := charP_of_card_eq_prime_pow (R := F) hFcard_fintype
+  let : Algebra (ZMod p) F := ZMod.algebra F p
   let eF : F ≃+* appendixCField p q :=
     Classical.choice (section14_finiteField_ringEquiv_appendixC hp hFcard)
   have hUstarCard_appendix :

@@ -17,11 +17,12 @@ variable {G : Type} [Group G] [Finite G]
 
 section Hall
 
+omit [Finite G] in
 theorem uc22p22r_exists_conj_le {X A Y : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hXp : IsPGroup p X) (hXY : X ≤ Y) {k : ℕ} (hk : (A.subgroupOf Y).index = 2 ^ k) :
     ∃ y ∈ Y, ∀ x ∈ X, y⁻¹ * x * y ∈ A := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hXp' : IsPGroup p ↥(X.subgroupOf Y) :=
     hXp.of_equiv (Subgroup.subgroupOfEquivOfLe hXY).symm
   have hndvd : ¬ p ∣ Nat.card (↥Y ⧸ A.subgroupOf Y) := by
@@ -70,7 +71,7 @@ theorem uc22p22r_mul_eq_of_card {A T Y : Subgroup G} (hAY : A ≤ Y) (hTY : T �
 theorem uc22p22r_permutes_of_hall {A T Y : Subgroup G} (hAY : A ≤ Y) (hAo : Odd (Nat.card A))
     {k : ℕ} (hY : Nat.card Y = Nat.card A * 2 ^ k) (hT : CFSG.ABGLocalTools.IsSylowOf 2 T Y) :
     Permutes A T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTY := hT.le
   have hTcard : Nat.card T = 2 ^ k := by
     rw [hT.card_eq, hY, Nat.factorization_mul (Nat.card_pos.ne') (by positivity),
@@ -117,6 +118,7 @@ theorem uc22p22r_mem_of_conj_mem_of_unique (D : Data G) {x : G} (hU : Subgroup.z
   rw [e]
   exact D.M.zpow_mem hg i
 
+omit [Finite G] in
 theorem uc22p22r_card_eq_mul_index {A Y : Subgroup G} (hAY : A ≤ Y) :
     Nat.card Y = Nat.card A * (A.subgroupOf Y).index := by
   have h1 := Subgroup.card_mul_index (A.subgroupOf Y)

@@ -30,11 +30,11 @@ theorem s16h_e3_Z3MatrixCoreAA1A_three_subgroup_cyclic
     {R : Subgroup G3F4} (hRK : R ≤ K') (hR : IsPGroup 3 R) :
     IsCyclic ↥R := by
   by_contra hnc
-  haveI : Finite OmegaField := by
-    haveI : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
+  have : Finite OmegaField := by
+    have : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
     exact Module.finite_of_finite (ZMod 2)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 ↥R) := ⟨hR⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 ↥R) := ⟨hR⟩
   obtain ⟨S, -, hScard, hS⟩ := CFSG.lemma_4_5_a (R := ↥R) (p := 3) (by norm_num) hnc
   have hSel : CFSG.Open.IsElemAbelian 3 S :=
     CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mpr hS
@@ -66,8 +66,8 @@ theorem s16h_e3_Z3MatrixCoreAA1A_scalar_card :
       (A : Matrix (Fin 3) (Fin 3) OmegaField)) hab
     rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.GeneralLinearGroup.coe_scalar] at h
     exact Matrix.scalar_inj.mp h
-  haveI : Finite OmegaField := by
-    haveI : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
+  have : Finite OmegaField := by
+    have : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
     exact Module.finite_of_finite (ZMod 2)
   rw [MonoidHom.range_eq_map, Subgroup.card_map_of_injective hinj, Subgroup.card_top,
     Nat.card_units, s16h_e3_z3_card_omegaField_eq_four]
@@ -115,8 +115,8 @@ theorem s16h_e3_Z3MatrixCoreAA1A_normal_two_eq_bot_of_le_normal
 theorem s16h_e3_Z3MatrixCoreAA1A_card_SL :
     Nat.card ↥(Matrix.GeneralLinearGroup.det (n := Fin 3) (R := OmegaField)).ker =
       2 ^ 6 * 3 ^ 3 * 5 * 7 := by
-  haveI : Finite OmegaField := by
-    haveI : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
+  have : Finite OmegaField := by
+    have : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
     exact Module.finite_of_finite (ZMod 2)
   have hGL : Nat.card (Matrix.GeneralLinearGroup (Fin 3) OmegaField) = 181440 :=
     s16h_e3_z3_card_gl

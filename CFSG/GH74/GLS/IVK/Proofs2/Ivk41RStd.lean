@@ -122,7 +122,7 @@ theorem rgood_std [Finite F] {p n : ℕ} (hp : p.Prime) [CharP F p] (hF : Nat.ca
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := F) p (n := 3) (by norm_num)
   have hRp : IsPGroup p (unitriangular 3 F) := by
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   refine ⟨unitriangular 3 F, ?_, hRp, X₀_le_unitriangular, unitriangular_le_centralizer, ?_,
     ?_, commutator_unitriangular.ge, ?_, ?_⟩
   · apply le_antisymm

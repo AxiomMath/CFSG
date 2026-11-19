@@ -49,7 +49,7 @@ theorem exists_sylow_le_comap {H A : Type*} [Group H] [Group A] [Finite H] [Fini
   obtain ⟨T₀⟩ := hne
   have hTsub_le : (T₀ : Subgroup Q).map Q.subtype ≤ Q := Subgroup.map_subtype_le _
   have hTsub_p : IsPGroup 2 ((T₀ : Subgroup Q).map Q.subtype) :=
-    T₀.isPGroup'.map Q.subtype
+    T₀.isPGroup.map Q.subtype
   have hTsub_idx : ¬ 2 ∣ ((T₀ : Subgroup Q).map Q.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact Nat.Prime.not_dvd_mul Fact.out T₀.not_dvd_index hQodd.not_two_dvd_nat

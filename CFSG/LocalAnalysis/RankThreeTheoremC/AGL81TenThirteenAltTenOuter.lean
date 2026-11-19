@@ -78,7 +78,7 @@ theorem exists_conj_eq_of_sq_inner {A T : Type*} [Group A] [Group T] {Y : Subgro
     set m : ↥Y := (y₀ * ⟨u, hu⟩ * y₀⁻¹)⁻¹ * ⟨t ^ 2 * u * (t ^ 2)⁻¹, hc _ (htn 2) u hu⟩ with hmdef
     have hmA : t ^ 2 * u * (t ^ 2)⁻¹ = (y₀ : A) * u * (y₀ : A)⁻¹ * (m : A) := by
       rw [hmdef]
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       group
     have hmc : ∀ v ∈ Y, (m : A) * v = v * (m : A) := fun v hv =>
       (congrArg Subtype.val (Subgroup.mem_center_iff.mp hm ⟨v, hv⟩)).symm
@@ -98,7 +98,7 @@ private theorem ringEquiv_mul_self_of_card_four {K : Type} [Field K] (hK : Nat.c
     (σ : K ≃+* K) : σ * σ = 1 := by
   obtain ⟨-, -, -, -, hcard, -⟩ := finite_field_automorphism_fixed_field_cardinality
     Nat.prime_two (by norm_num : 1 ≤ 2) (by rw [hK]; norm_num : Nat.card K = 2 ^ 2)
-  haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   rw [← pow_two, ← hcard]
   exact pow_card_eq_one'
 
@@ -169,7 +169,7 @@ theorem sq_inner_projectiveSp {K : Type} [Field K] [Finite K] (hK : Nat.card K =
     (hr : 3 ≤ r) (β : MulAut (StatedProj (StatedSp r K))) (hβ : ∃ k : ℕ, β ^ 2 ^ k = 1) :
     ∃ w, β ^ 2 = MulAut.conj w := by
   classical
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   obtain ⟨A, σ, rfl⟩ := (SymplecticHigher.automorphism_generation (K := K) hr).2 β
   have hσ := ringEquiv_mul_self_of_card_four hK σ
   set B := A * SymplecticHigher.gspFieldMap σ A with hBdef
@@ -210,7 +210,7 @@ theorem mem_of_mem_normalizer_of_isParabolicTwo {A : Type*} [Group A] [Finite A]
     {Y P : Subgroup A} (hP : IsParabolicTwo Y P) {y : A} (hy : y ∈ Y)
     (hyP : y ∈ Subgroup.normalizer (P : Set A)) : y ∈ P := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hPY, T, ⟨hTY, hT2, hTi⟩, hNP⟩ := hP
   set J := P.subgroupOf Y with hJ
   let T₀ : Sylow 2 ↥Y := (hT2.comap_of_injective Y.subtype Y.subtype_injective).toSylow hTi
@@ -241,7 +241,7 @@ theorem mem_of_mem_normalizer_of_isParabolicTwo {A : Type*} [Group A] [Finite A]
   have hTG : (T₀ : Subgroup ↥Y) ≤ G' := hTJ.trans hJG
   let P' : Sylow 2 G' := T₀.subtype hTG
   set N' : Subgroup G' := J.subgroupOf G' with hN'
-  haveI hN'n : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJG).2 le_rfl
+  have hN'n : N'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJG).2 le_rfl
   have hP'N' : (P' : Subgroup G') ≤ N' := by
     rw [Sylow.coe_subtype]
     exact fun x hx => Subgroup.mem_subgroupOf.mpr (hTJ (Subgroup.mem_subgroupOf.mp hx))

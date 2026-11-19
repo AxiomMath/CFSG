@@ -88,7 +88,7 @@ theorem ggSecFiveCompatLeviInput_of_kgPos
     rcases hM with hM | hM
     · exact fun i j hij => hM.le_three i j hij
     · exact fun i j hij => hM.le_three i j hij
-  haveI : Finite ι := ggIsWeylMatrix_finite hpres.1
+  have : Finite ι := ggIsWeylMatrix_finite hpres.1
   have hconn : GGSimplyLacedConnected M := ggSimplyLacedConnected_of_weyl hpres.1 hle3
   have hAH : ggAutomizerJoin L Bs 𝒦 ≤ ggAutomizer (L ⊔ ⨆ K ∈ 𝒦, K) Bs :=
     ggAutomizerJoin_le_ggAutomizer L Bs 𝒦

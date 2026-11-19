@@ -17,6 +17,7 @@ open scoped MatrixGroups Pointwise commutatorElement
 variable {K : Type} [Field K] [Finite K] {ℓ f p : ℕ} [Fact ℓ.Prime]
   {L : Type} [Field L] [Algebra K L] [IsAlgClosure K L] [CharP L ℓ]
 
+omit [Finite K] in
 theorem exists_e7Three_a5Layer_unitary_compat (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f)
     (hp : p.Prime) (hp3 : 3 < p) (hq2 : 2 < ℓ ^ f)
     (hΦ : (Nat.card K : ZMod p) ^ 2 - Nat.card K + 1 = 0)
@@ -97,7 +98,7 @@ theorem exists_e7Three_a5Layer_unitary_compat (hf : 1 ≤ f) (hK : Nat.card K = 
     intro c
     rw [hFdef, RingHom.mem_eqLocusField, iterateFrobenius_def, RingHom.id_apply]
     rfl
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; positivity)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; positivity)
   have hrange : ∀ Y : SL(6, L),
       Y ∈ (statedSUToSL F 6 (ℓ ^ f)).range ↔
         Matrix.SpecialLinearGroup.toGL Y ∈ unitarySet (ℓ ^ f) 6 :=
@@ -110,7 +111,7 @@ theorem exists_e7Three_a5Layer_unitary_compat (hf : 1 ≤ f) (hK : Nat.card K = 
           fixSubgroup Φ')) := by
       intro Z Z' hZZ'
       have h := congrArg (fun t : fixSubgroup Φ' => (t : SL(6, L))) hZZ'
-      simp only [Subtype.mk.injEq] at h
+      simp only at h
       have h2 : statedSUToSL F 6 (ℓ ^ f) Z = statedSUToSL F 6 (ℓ ^ f) Z' :=
         (MulAut.conj H).injective (by simpa [MulAut.conj_apply] using h)
       exact statedSUToSL_injective F 6 (ℓ ^ f) h2
@@ -139,8 +140,8 @@ theorem exists_e7Three_a5Layer_unitary_compat (hf : 1 ≤ f) (hK : Nat.card K = 
   obtain ⟨P, hfam, hPeq, ρ, hρs, hρc, hρk⟩ :=
     exists_a5Layer_sigma_of_aut (ε := -1) hf hK (Or.inr rfl) (fun _ => hq2)
       hnm hnC hcert' Φ' hΦ' hq hcent
-  haveI : Finite ↥(fixSubgroup Φ') := hfin
-  haveI : Finite ↥P := hfam.1 ()
+  have : Finite ↥(fixSubgroup Φ') := hfin
+  have : Finite ↥P := hfam.1 ()
   refine ⟨Φ', P, hfam, hPeq, hfin, hq, ⟨H, hH⟩, ?_, ?_, ρ, hρs, hρc, hρk⟩
   · have hΦ'arith : ((ℓ ^ f : ℕ) : ZMod p) ^ 2 - (ℓ ^ f : ℕ) + 1 = 0 := by
       rw [← hK]
@@ -164,8 +165,8 @@ theorem exists_e7Three_a5Layer_J_unitary_data (F : E7ThreeFrame K L ℓ f p (-1)
     (hh : F.g0⁻¹ * adjEmb .E7 K L (c * x * c⁻¹) * F.g0 ∈
       twistedTorusOf F.n (Units.map (entrywiseHom (iterateFrobenius L ℓ f))))
     {b : Fin Tag.E7.rank → Lˣ}
-    (hb : b ∈ fixedCharTuples ((-1 : ℤ) • e7T3W) (iterateFrobenius L ℓ f))
-    (hap : ∀ i, b i ^ p = 1) (hb1 : b ≠ 1)
+    (_hb : b ∈ fixedCharTuples ((-1 : ℤ) • e7T3W) (iterateFrobenius L ℓ f))
+    (_hap : ∀ i, b i ^ p = 1) (_hb1 : b ≠ 1)
     (hbh : rootDiagUnit .E7 b = F.g0⁻¹ * adjEmb .E7 K L (c * x * c⁻¹) * F.g0)
     {v : WeylGroup Tag.E7}
     (hS : rootCharKernel b = (fun γ => v • γ) '' parabolicRoots Tag.E7 (a5Nodes Tag.E7))
@@ -238,7 +239,7 @@ theorem exists_e7Three_a5Layer_J_unitary_data (F : E7ThreeFrame K L ℓ f p (-1)
   obtain ⟨ψ, hψinj, hψ, hψHQ, hψR, hψadj, hPψ, hψV⟩ :=
     sigma_embedding_data_of_stab (adjEmb .E7 K L) adjEmb_injective adjEmb_mem
       (Units.map (entrywiseHom Fr)) (adjEmb_frobenius Fr hFrK) F.n F.g0 F.hg0C F.hg0 F.hperf hp
-      (fun a hap ha1 haT => hstab a hap ha1 haT)
+      (fun a _hap ha1 haT => hstab a _hap ha1 haT)
       (S := rootCharKernel b) (fun α hα => hα.1) hSn (fun _ : Unit => P) hPfin hPq hPQ' hPR
       hPadj hPnorm' hPcent'
       hx c hcS hkerZ
@@ -276,9 +277,9 @@ theorem exists_e7Three_a5Layer_J_unitary_data (F : E7ThreeFrame K L ℓ f p (-1)
           ⟨k, hk⟩ * v * ⟨k, hk⟩⁻¹ := Subtype.ext rfl
       rw [harg, map_mul, map_mul, map_inv]
       exact hconj
-  haveI : Finite ↥(fixSubgroup Φ') := hfin
-  haveI : Finite ↥P := hPfin ()
-  haveI : Finite ↥J := Finite.of_equiv ↥P (e1.symm.trans e2).toEquiv.symm
+  have : Finite ↥(fixSubgroup Φ') := hfin
+  have : Finite ↥P := hPfin ()
+  have : Finite ↥J := Finite.of_equiv ↥P (e1.symm.trans e2).toEquiv.symm
   have hfixq : CFSG.Open.IsQuasisimple ↥(fixSubgroup Φ') :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff ↥(fixSubgroup Φ')).2.2.1.mp hq
   refine ⟨J, Φ', P, ψ, hJ0le, hJn, hJq, hcardJ ▸ hpP, hfin, hfixq, ⟨H, hH⟩,

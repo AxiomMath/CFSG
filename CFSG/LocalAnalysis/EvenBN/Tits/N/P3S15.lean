@@ -19,7 +19,7 @@ section S15
 variable {G : Type} [Group G] [Finite G] {d : Data G} {z₀ : G}
 
 
-@[expose] noncomputable def vCommGroup (h10 : Node10 d z₀) : CommGroup ↥d.s56V :=
+@[expose, instance_reducible] noncomputable def vCommGroup (h10 : Node10 d z₀) : CommGroup ↥d.s56V :=
   { (inferInstance : Group ↥d.s56V) with
     mul_comm := fun a b => Subtype.ext (h10.comm_V a.2 b.2) }
 
@@ -123,7 +123,7 @@ theorem z0V_not_mem (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) :
   rw [hz.eps] at h2
   exact hd.s56_z_ne_one h2
 
-theorem star_t_z0V (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h10 : Node10 d z₀) :
+theorem star_t_z0V (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (_h10 : Node10 d z₀) :
     star d d.t (z0V hz) = z0V hz * zV h49 hd := by
   apply Subtype.ext
   rw [star_eq, actFun_apply_coe d.s56V (t_mem_Hg h49 hd)]
@@ -221,7 +221,7 @@ theorem commutator_V_X_eq (h49 : d.Thm49Statement) (hd : d.Hyp) (h10 : Node10 d 
     (D : @ThData ↥d.s56V (vCommGroup h10) inferInstance)
     (hx : @ThData.x _ (vCommGroup h10) _ D = star d d.x₅) :
     ⁅d.s56V, Xg d⁆ = (@ThData.V₁ _ (vCommGroup h10) _ D).map d.s56V.subtype := by
-  letI : CommGroup ↥d.s56V := vCommGroup h10
+  let : CommGroup ↥d.s56V := vCommGroup h10
   apply le_antisymm
   · rw [Subgroup.commutator_le]
     intro a ha g hg
@@ -233,7 +233,6 @@ theorem commutator_V_X_eq (h49 : d.Thm49Statement) (hd : d.Hyp) (h10 : Node10 d 
         D.V₁.inv_mem (D.xpow_mul_inv_mem_V₁ m _), ?_⟩
       have hD : D.x ^ m = star d (d.x₅ ^ m) := by
         rw [hx, star_eq, star_eq, actFun_pow d.s56V (x5_mem_Hg h49 hd)]
-        rfl
       have h1 := coe_star_mul_inv (d := d) (d.x₅ ^ m) hgm ⟨a, ha⟩
       rw [hD]
       show (((star d (d.x₅ ^ m) ⟨a, ha⟩ * (⟨a, ha⟩ : ↥d.s56V)⁻¹ : ↥d.s56V))⁻¹ : G) = _
@@ -266,7 +265,7 @@ theorem mem_axis_iff (h49 : d.Thm49Statement) (hd : d.Hyp) (h10 : Node10 d z₀)
     (y : G) ∈ ⁅d.s56V, Xg d⁆ ⊔ zpowers d.z ↔
       ∃ a : ↥d.s56V, y = (@ThData.x _ (vCommGroup h10) _ D) a * a⁻¹ ∨
         y = (@ThData.x _ (vCommGroup h10) _ D) a * a⁻¹ * (@ThData.z _ (vCommGroup h10) _ D) := by
-  letI : CommGroup ↥d.s56V := vCommGroup h10
+  let : CommGroup ↥d.s56V := vCommGroup h10
   rw [commutator_V_X_eq h49 hd h10 D hx]
   have hzz : d.z * d.z = 1 := hd.s56_z_sq
   have hc : ∀ h ∈ D.V₁.map d.s56V.subtype, h * d.z = d.z * h := by
@@ -297,7 +296,7 @@ theorem node15 (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h10 : 
     Node15 d z₀ := by
   intro y₁ hy S' hS' ht
   obtain ⟨D, hE, hz', hz₀', hτ, hx, hy'⟩ := exists_thData h49 hd hz h10 hy
-  letI : CommGroup ↥d.s56V := vCommGroup h10
+  let : CommGroup ↥d.s56V := vCommGroup h10
   have hSOK : D.SOK S' := by
     refine ⟨hS'.2.1, ?_, ?_, ?_⟩
     · intro s hs
@@ -387,7 +386,6 @@ theorem node15 (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h10 : 
       have htb : d.t * b ∈ normalizer (d.s56V : Set G) := mul_mem (t_mem_Hg h49 hd) hbH
       have hτb : D.τ * β = star d (d.t * b) := by
         rw [hτ, hbstar, star_eq, star_eq, star_eq, actFun_mul d.s56V (t_mem_Hg h49 hd) hbN]
-        rfl
       have hcent : ∀ y : ↥d.s56V, ((y : G) ∈ centralizer ({d.t * b} : Set G) ↔ (D.τ * β) y = y) := by
         intro y
         have h1 := actFun_fixes_iff d.s56V htb y

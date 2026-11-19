@@ -39,7 +39,7 @@ theorem xiMat_one : xiMat (1 : Matrix (Fin 2) (Fin 2) K) 0 = 1 := by
 theorem xiMat_neg (P S : Matrix (Fin 2) (Fin 2) K) : xiMat (-P) (-S) = -xiMat P S := by
   ext i k
   rcases i with i | i <;> rcases k with k | k <;> fin_cases i <;> fin_cases k <;>
-    simp [xiMat, Matrix.fromBlocks] <;> ring
+    simp [xiMat, Matrix.fromBlocks]; ring
 
 theorem xiMat_injective (h3 : (3 : K) ≠ 0) {P S P' S' : Matrix (Fin 2) (Fin 2) K}
     (h : xiMat P S = xiMat P' S') : P = P' ∧ S = S' := by
@@ -122,7 +122,7 @@ theorem star_xiMat (P S : Matrix (Fin 2) (Fin 2) K) :
   ext i k
   rcases i with i | i <;> rcases k with k | k <;> fin_cases i <;> fin_cases k <;>
     simp [xiMat, spGram, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two,
-      Matrix.fromBlocks, adjugate_fin_two] <;> ring
+      Matrix.fromBlocks, adjugate_fin_two]; ring
 
 @[expose] noncomputable def rSc (α β : K) : Matrix V₄ V₄ K :=
   xiMat (α • (1 : Matrix (Fin 2) (Fin 2) K)) (β • 1)

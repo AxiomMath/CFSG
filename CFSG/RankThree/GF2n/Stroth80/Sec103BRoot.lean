@@ -147,6 +147,7 @@ section Model
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K}
   {M₀ : Tim79.QuadModel Q Z K γ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
 
+omit [Finite K] [CharP K 2] in
 private theorem card_img_Vt {hc : Ctx M Q Z B} (hD : GlobalModelData M Q Z γ M₀) {t : G}
     (h2 : SLMNat hc t 2) :
     Nat.card ↥(M₀.img (Vt M (LB M Q B) B Z t)) = Nat.card K ^ 2 := by
@@ -163,6 +164,7 @@ private theorem card_img_Vt {hc : Ctx M Q Z B} (hD : GlobalModelData M Q Z γ M�
   have h4 : Nat.card ↥(M₀.img V) = Nat.card Z ^ 2 := Nat.mul_left_cancel hZpos h3
   rw [h4, ← hD.card]
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem pi_comm_eq {hc : Ctx M Q Z B}
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
     {h x : G} (hh : h ∈ H0 M Z) (hx : x ∈ Q) :
@@ -171,7 +173,8 @@ private theorem pi_comm_eq {hc : Ctx M Q Z B}
   rw [show ⁅h, x⁆ = h * x * h⁻¹ * x⁻¹ by rfl, M₀.π_mul _ hxQ _ (Q.inv_mem hx),
     hφπ ⟨h, hh⟩ x hx, M₀.pi_inv hx, sub_eq_add_neg]
 
-private theorem action_sub_one_comm {hc : Ctx M Q Z B}
+omit [Finite K] [CharP K 2] in
+private theorem action_sub_one_comm {_hc : Ctx M Q Z B}
     (hφQ : ∀ m : H0 M Z, φ m = 1 ↔ (m : G) ∈ Q)
     {C : Subgroup G} (hC : Ctx M Q Z C) (hLC : LB M Q C ≤ H0 M Z)
     (i j : ↥(LB M Q C)) (e : M₀.E) :
@@ -201,7 +204,8 @@ private theorem action_sub_one_comm {hc : Ctx M Q Z B}
   rw [h3]
   abel
 
-private theorem action_sub_one_sq {hc : Ctx M Q Z B}
+omit [Finite K] in
+private theorem action_sub_one_sq {_hc : Ctx M Q Z B}
     (hφQ : ∀ m : H0 M Z, φ m = 1 ↔ (m : G) ∈ Q)
     {C : Subgroup G} (hC : Ctx M Q Z C) (hLC : LB M Q C ≤ H0 M Z)
     (i : ↥(LB M Q C)) (e : M₀.E) :
@@ -222,6 +226,7 @@ private theorem action_sub_one_sq {hc : Ctx M Q Z B}
       -((φ ⟨i, hLC i.2⟩ : M₀.E →ₗ[K] M₀.E) e - e) := by abel
   rw [hx, sub_eq_add_neg, ← neg_add, add_self_eq_zero_of_charP K, neg_zero]
 
+omit [Finite K] [CharP K 2] in
 private theorem action_sub_one_mem_span {hc : Ctx M Q Z B}
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
     (hφQ : ∀ m : H0 M Z, φ m = 1 ↔ (m : G) ∈ Q)
@@ -249,6 +254,7 @@ private theorem action_sub_one_mem_span {hc : Ctx M Q Z B}
   obtain ⟨a, ha⟩ := (he _).mp (M₀.pi_mem_img hsv (hC.le hsv))
   exact Submodule.mem_span_singleton.mpr ⟨a, ha.symm⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem action_sub_one_kernel {hc : Ctx M Q Z B}
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
     (h34 : Stroth34Statement) {n : ℕ} (H : Sec10Hyp hc n)
@@ -285,6 +291,7 @@ private theorem action_sub_one_kernel {hc : Ctx M Q Z B}
   exact Submodule.mem_span_singleton.mpr ⟨a, ha.symm⟩
 
 
+omit [CharP K 2] in
 private theorem finrank_Vs {hc : Ctx M Q Z B} (hD : GlobalModelData M Q Z γ M₀) {t : G}
     (h2 : SLMNat hc t 2) :
     Module.finrank K (imgSub M₀ (Vt M (LB M Q B) B Z t)
@@ -296,6 +303,7 @@ private theorem finrank_Vs {hc : Ctx M Q Z B} (hD : GlobalModelData M Q Z γ M�
   rw [h1]
   exact card_img_Vt hD h2
 
+omit [CharP K 2] in
 private theorem span_le_imgSub {hc : Ctx M Q Z B} (hD : GlobalModelData M Q Z γ M₀) {t : G}
     {C : Subgroup G} (hCV : C ≤ Vt M (LB M Q B) B Z t) {e : M₀.E}
     (heC : ∀ w : M₀.E, w ∈ M₀.img C ↔ ∃ s : K, w = s • e) :
@@ -305,6 +313,7 @@ private theorem span_le_imgSub {hc : Ctx M Q Z B} (hD : GlobalModelData M Q Z γ
   obtain ⟨s, hs⟩ := Submodule.mem_span_singleton.mp hx
   exact mem_imgSub.mpr (M₀.img_mono hCV ((heC x).mpr ⟨s, hs.symm⟩))
 
+omit [CharP K 2] in
 private theorem mem_span_of_mem_img {hc : Ctx M Q Z B}
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
     (hφQ : ∀ m : H0 M Z, φ m = 1 ↔ (m : G) ∈ Q) (hD : GlobalModelData M Q Z γ M₀) {t : G}
@@ -317,6 +326,7 @@ private theorem mem_span_of_mem_img {hc : Ctx M Q Z B}
   obtain ⟨x, hxV, -, rfl⟩ := (M₀.mem_img).mp (mem_imgSub.mp hv)
   exact action_sub_one_mem_span (hc := hc) hφπ hφQ hC heC hVCle i hxV
 
+omit [CharP K 2] in
 private theorem mem_img_Vt {hc : Ctx M Q Z B}
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
     (hD : GlobalModelData M Q Z γ M₀) {t : G}
@@ -334,6 +344,8 @@ private theorem mem_img_Vt {hc : Ctx M Q Z B}
   rw [h1]
   exact mem_imgSub.mpr (M₀.pi_mem_img hmemV (hc.Vt_le_Q t hmemV))
 
+omit [Finite K] [CharP K 2] in
+omit [Finite G] in
 private theorem mem_sup_of_pi_mem_img {hc : Ctx M Q Z B} {C : Subgroup G} {a l : G}
     (hl : l ∈ H0 M Z) (ha : a ∈ Q) (hπ : M₀.π ⁅l, a⁆ ∈ M₀.img C) : ⁅l, a⁆ ∈ C ⊔ Z := by
   obtain ⟨c, hcC, hcQ, hπc⟩ := (M₀.mem_img).mp hπ
@@ -371,8 +383,8 @@ private theorem comm_mem_sup_Z_of_forall_mem_Vt {hc : Ctx M Q Z B} {n : ℕ}
   let g : ↥(LB M Q C) → M₀.E →ₗ[K] M₀.E :=
     fun i => (φ ⟨i, hC.LB_le_H0 i.2⟩ : M₀.E →ₗ[K] M₀.E) - 1
   have hres := apply_mem_line_of_apply_mem_plane hCs_le hVdim (finrank_span_singleton he0)
-    (fun i j e => action_sub_one_comm (hc := hc) hφQ hC hC.LB_le_H0 i j e)
-    (fun i e => action_sub_one_sq (hc := hc) hφQ hC hC.LB_le_H0 i e)
+    (fun i j e => action_sub_one_comm (_hc := hc) hφQ hC hC.LB_le_H0 i j e)
+    (fun i e => action_sub_one_sq (_hc := hc) hφQ hC hC.LB_le_H0 i e)
     (fun i v hv => mem_span_of_mem_img (hc := hc) hφπ hφQ hD hC hVCle heC i hv)
     (fun v hv h => action_sub_one_kernel (hc := hc) hφπ h34 H hC hno hgen heC
       (mem_imgSub.mp hv) h)
@@ -403,7 +415,7 @@ theorem Good101.mem_QB_of_forall_comm_LB_mem_Vt (h34 : Stroth34Statement)
   have hgen : GenByB M Q C := by rw [← hμC]; exact H.gen.conj_of_mem hμ
   have hXcomm : ∀ x ∈ Subgroup.zpowers a ⊔ Z, ∀ t ∈ LB M Q C, ⁅t, x⁆ ∈ C ⊔ Z :=
     comm_mem_sup_Z_of_mem_sup (hc := hc) hC ha.1 hcomm
-  haveI : IsMulCommutative ↥(Q ⊓ QB Y) := (Sit.inf_QB_elemAbelian hs).1
+  have : IsMulCommutative ↥(Q ⊓ QB Y) := (Sit.inf_QB_elemAbelian hs).1
   have hXQ : Subgroup.zpowers a ⊔ Z ≤ Q ⊓ Subgroup.centralizer (C : Set G) := by
     refine sup_le (Subgroup.zpowers_le.mpr ?_) ?_
     · refine Subgroup.mem_inf.mpr ⟨ha.1, Subgroup.mem_centralizer_iff.mpr fun c hcC => ?_⟩

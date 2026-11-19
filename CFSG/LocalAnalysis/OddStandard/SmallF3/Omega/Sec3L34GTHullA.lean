@@ -41,7 +41,7 @@ theorem l34g_oddHull_conj {A C : Type} [Group A] [Group C] (φ : A →* C) (B : 
 theorem l34g_map_oddHull {A C : Type} [Group A] [Group C] [Finite A] (φ : A →* C)
     (hφ : Function.Surjective φ) {B : Subgroup C} (hB : IsSL23Mod ↥B) :
     (l34g_oddHull φ B).map φ = B := by
-  haveI : Finite C := Finite.of_surjective φ hφ
+  have : Finite C := Finite.of_surjective φ hφ
   refine le_antisymm ?_ ?_
   · rw [Subgroup.map_le_iff_le_comap]
     exact l34g_oddHull_le φ B

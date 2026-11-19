@@ -109,7 +109,7 @@ theorem exists_coxeterEquiv (hp2 : p ≠ 2) (hN : 4 ≤ N)
     intro j
     by_cases hi : i.val + 1 < N
     · have hlast : i.val ≠ N - 1 := by omega
-      rw [dif_neg hlast, simpleReflection, dif_pos hi]
+      rw [dite_eq_right hlast, simpleReflection, dite_eq_left hi]
       rw [ZS.permMap, Module.Basis.equiv_apply]
       symm
       have hlin := (lin_basis_iff (p := p)
@@ -118,7 +118,7 @@ theorem exists_coxeterEquiv (hp2 : p ≠ 2) (hN : 4 ≤ N)
           (fun f k => by simp [SpCoord.permAut_apply, Equiv.swap_inv])
       simpa only [one_smul] using hlin j
     · have hlast : i.val = N - 1 := by have := i.isLt; omega
-      rw [dif_pos hlast, simpleReflection, dif_neg hi]
+      rw [dite_eq_left hlast, simpleReflection, dite_eq_right hi]
       let s : Equiv.Perm (Fin N) := Equiv.swap ⟨N - 2, by omega⟩ ⟨N - 1, by omega⟩
       let d : Fin N → (ZMod p)ˣ := fun k =>
         if k = (⟨N - 2, by omega⟩ : Fin N) ∨ k = ⟨N - 1, by omega⟩ then -1 else 1
@@ -234,9 +234,9 @@ theorem evenSignedGroup_le {H : Subgroup (MulAut (Fin N → Multiplicative (ZMod
     have hc' : c = fun i => if i ∈ S then (-1 : ZMod p) else 1 := by
       funext i
       by_cases hi : i ∈ S
-      · simp only [if_pos hi]
+      · simp only [ite_eq_left hi]
         exact (Finset.mem_filter.mp hi).2
-      · simp only [if_neg hi]
+      · simp only [ite_eq_right hi]
         exact (hc i).resolve_right (by simpa [hS] using hi)
     rw [hc', Finset.prod_ite_mem_eq, Finset.prod_const]
   have hneg : (-1 : ZMod p) ≠ 1 := by

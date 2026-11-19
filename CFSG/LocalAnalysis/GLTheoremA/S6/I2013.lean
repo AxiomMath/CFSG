@@ -32,7 +32,7 @@ private theorem three_cube (p q r : α) (hpq : p ≠ q) (hpr : p ≠ r) (hqr : q
   have hq : (swap p q * swap q r) q = r := by
     simp [Perm.mul_apply, swap_apply_of_ne_of_ne, *]
   have hr : (swap p q * swap q r) r = p := by
-    simp [Perm.mul_apply, swap_apply_of_ne_of_ne, *]
+    simp [Perm.mul_apply, *]
   ext i
   by_cases h1 : i = p
   · rw [h1]; simp only [pow_succ, pow_zero, one_mul, Perm.mul_apply, Perm.one_apply, hp, hq, hr]
@@ -50,7 +50,7 @@ private theorem four_cube (x y z w : α) (hxy : x ≠ y) (hxz : x ≠ z) (hxw : 
   have := hyw.symm; have := hzw.symm
   simp only [mul_inv_rev, swap_inv]
   have hx : (swap w y * swap y z * (swap y z * swap x y)) x = w := by
-    simp [Perm.mul_apply, swap_apply_of_ne_of_ne, *]
+    simp [Perm.mul_apply, *]
   have hw : (swap w y * swap y z * (swap y z * swap x y)) w = y := by
     simp [Perm.mul_apply, swap_apply_of_ne_of_ne, *]
   have hy : (swap w y * swap y z * (swap y z * swap x y)) y = x := by
@@ -128,21 +128,22 @@ private theorem disj_cube (x y z u a b : α) (hxy : x ≠ y) (hxz : x ≠ z) (hy
   refine ⟨?_, hu⟩
   ext i
   by_cases h1 : i = x
-  · rw [h1]; simp only [pow_succ, pow_zero, one_mul, Perm.mul_apply, Perm.one_apply, hx, hz, hy, hu, ha, hb]
+  · rw [h1]; simp only [pow_succ, pow_zero, one_mul, Perm.mul_apply, Perm.one_apply, hx, hz, hy]
   by_cases h2 : i = y
-  · rw [h2]; simp only [pow_succ, pow_zero, one_mul, Perm.mul_apply, Perm.one_apply, hx, hz, hy, hu, ha, hb]
+  · rw [h2]; simp only [pow_succ, pow_zero, one_mul, Perm.mul_apply, Perm.one_apply, hx, hz, hy]
   by_cases h3 : i = z
-  · rw [h3]; simp only [pow_succ, pow_zero, one_mul, Perm.mul_apply, Perm.one_apply, hx, hz, hy, hu, ha, hb]
+  · rw [h3]; simp only [pow_succ, pow_zero, one_mul, Perm.mul_apply, Perm.one_apply, hx, hz, hy]
   by_cases h4 : i = u
-  · rw [h4]; simp only [pow_succ, pow_zero, one_mul, Perm.mul_apply, Perm.one_apply, hx, hz, hy, hu, ha, hb]
+  · rw [h4]; simp only [pow_succ, pow_zero, one_mul, Perm.mul_apply, Perm.one_apply, hu, ha, hb]
   by_cases h5 : i = a
-  · rw [h5]; simp only [pow_succ, pow_zero, one_mul, Perm.mul_apply, Perm.one_apply, hx, hz, hy, hu, ha, hb]
+  · rw [h5]; simp only [pow_succ, pow_zero, one_mul, Perm.mul_apply, Perm.one_apply, hu, ha, hb]
   by_cases h6 : i = b
-  · rw [h6]; simp only [pow_succ, pow_zero, one_mul, Perm.mul_apply, Perm.one_apply, hx, hz, hy, hu, ha, hb]
+  · rw [h6]; simp only [pow_succ, pow_zero, one_mul, Perm.mul_apply, Perm.one_apply, hu, ha, hb]
   have hf : (swap u a * swap a b * (swap y z * swap x y)) i = i := by
     simp [Perm.mul_apply, swap_apply_of_ne_of_ne, *]
   simp [pow_succ, Perm.mul_apply, hf]
 
+omit [DecidableEq α] in
 private theorem no_two_of_pow {g : Perm α} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hgp : g ^ p = 1)
     (hg : g ≠ 1) (k : ℕ) (hk : g ^ (2 ^ k) = 1) : False := by
   have hcop : Nat.Coprime p (2 ^ k) :=
@@ -152,6 +153,7 @@ private theorem no_two_of_pow {g : Perm α} {p : ℕ} (hp : p.Prime) (hp2 : p �
   rw [Nat.Coprime.gcd_eq_one hcop] at h3
   exact hg (orderOf_eq_one_iff.mp (Nat.dvd_one.mp h3))
 
+omit [DecidableEq α] in
 private theorem ne_one_of_apply {g : Perm α} {u s : α} (h : g u = s) (hus : s ≠ u) : g ≠ 1 := by
   rintro rfl
   rw [Perm.one_apply] at h
@@ -299,15 +301,15 @@ theorem i2013At_holds : I2013At := by
         * ((e t : alternatingGroup (Fin N)) : Perm (Fin N))⁻¹
         * ((e j : alternatingGroup (Fin N)) : Perm (Fin N))⁻¹ := by
     intro t j
-    simp [map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp [map_mul, map_inv, Subgroup.coe_mul]
   have hm5' : 5 ≤ Nat.card (Fin m) := by simp; omega
-  haveI : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hm5'
-  haveI : Nontrivial (alternatingGroup (Fin m)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hm5'
+  have : Nontrivial (alternatingGroup (Fin m)) :=
     alternatingGroup.nontrivial_of_three_le_card (by omega)
-  haveI : Nontrivial ↥J := ψ.surjective.nontrivial
-  haveI : IsSimpleGroup ↥J :=
+  have : Nontrivial ↥J := ψ.surjective.nontrivial
+  have : IsSimpleGroup ↥J :=
     IsSimpleGroup.isSimpleGroup_of_surjective ψ.symm.toMonoidHom ψ.symm.surjective
-  haveI : Nontrivial ↥Ω := by
+  have : Nontrivial ↥Ω := by
     obtain ⟨a, ha, b, hb, hab⟩ := Finset.one_lt_card.1 (show 1 < Ω.card by rw [hΩcard]; omega)
     exact ⟨⟨a, ha⟩, ⟨b, hb⟩, fun h => hab (congrArg Subtype.val h)⟩
   have hG : J.map e.toMonoidHom = (alternatingGroup.ofSubtype Ω).range := by
@@ -320,7 +322,7 @@ theorem i2013At_holds : I2013At := by
     · have h1 : Nat.card J = Nat.card (alternatingGroup (Fin m)) := Nat.card_congr ψ.toEquiv
       have hcardΩ : Nat.card ↥Ω = m := by
         rw [Nat.card_eq_fintype_card, Fintype.card_coe, hΩcard]
-      haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
       have hcardFin : Nat.card (Fin m) = m := by simp
       have h2 : Nat.card (alternatingGroup Ω) = Nat.card (alternatingGroup (Fin m)) := by
         rw [nat_card_alternatingGroup, nat_card_alternatingGroup,
@@ -395,7 +397,7 @@ theorem i2013At_holds : I2013At := by
     have hK : (T.subgroupOf J).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact (Subgroup.mem_normalizer_iff.1 (hJT g.2) (n : Q)).1 hn⟩
-    haveI := hK
+    have := hK
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T.subgroupOf J) with hbot | htop
     · have hmem : (⟨h, hJh⟩ : ↥J) ∈ T.subgroupOf J := Subgroup.mem_subgroupOf.2 hTh
       rw [hbot, Subgroup.mem_bot] at hmem

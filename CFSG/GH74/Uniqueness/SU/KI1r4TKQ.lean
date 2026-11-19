@@ -69,7 +69,7 @@ theorem index_le_two_of_frattini_quot_le_four {H : Type} [Group H] [Finite H] (T
   let φ : (T : Subgroup H) →* Equiv.Perm {v : ↥Q ⧸ frattini ↥Q // v ≠ 1} :=
     σ.comp (T : Subgroup H).subtype
   have hφ2 : IsPGroup 2 φ.range :=
-    T.isPGroup'.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+    T.isPGroup.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
   have hXcard : Nat.card {v : ↥Q ⧸ frattini ↥Q // v ≠ 1} ≤ 3 := by
     classical
     let : Fintype (↥Q ⧸ frattini ↥Q) := Fintype.ofFinite _

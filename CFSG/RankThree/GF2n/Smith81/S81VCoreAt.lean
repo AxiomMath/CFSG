@@ -14,9 +14,11 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F} {K : Type}
 @[expose] def conjAct (A : SUid σ 6 →* (V ≃ₗ[K] V)) (g : SUid σ 6) : SUid σ 6 →* (V ≃ₗ[K] V) :=
   A.comp (MulAut.conj g).toMonoidHom
 
+omit [Finite F] [CharP F 2] [Finite K] in
 theorem conjAct_apply (A : SUid σ 6 →* (V ≃ₗ[K] V)) (g h : SUid σ 6) :
     conjAct A g h = A (g * h * g⁻¹) := rfl
 
+omit [Finite K] [Finite F] [CharP F 2] in
 theorem fixAt_conjAct (A : SUid σ 6 →* (V ≃ₗ[K] V)) (g : SUid σ 6) {W W' : Submodule F (Fin 6 → F)}
     (hW' : ∀ v, v ∈ W' ↔ ∃ w ∈ W, g • w = v) :
     fixAt σ (conjAct A g) W = fixAt σ A W' := by
@@ -29,6 +31,7 @@ theorem fixAt_conjAct (A : SUid σ 6 →* (V ≃ₗ[K] V)) (g : SUid σ 6) {W W'
   · intro h k hk
     exact h _ (Subgroup.mem_map_of_mem (MulAut.conj g).toMonoidHom hk)
 
+omit [Finite K] [Finite F] [CharP F 2] in
 theorem V1At_conjAct (A : SUid σ 6 →* (V ≃ₗ[K] V)) (β : V →ₗ[K] V →ₗ[K] K) (g : SUid σ 6)
     {W W' : Submodule F (Fin 6 → F)} (hW' : ∀ v, v ∈ W' ↔ ∃ w ∈ W, g • w = v) :
     V1At σ (conjAct A g) β W = V1At σ A β W' := by
@@ -42,6 +45,7 @@ theorem V1At_conjAct (A : SUid σ 6 →* (V ≃ₗ[K] V)) (β : V →ₗ[K] V �
   · rintro ⟨h1, h2⟩
     exact ⟨h1, fun k hk => h2 _ (Subgroup.mem_map_of_mem (MulAut.conj g).toMonoidHom hk)⟩
 
+omit [Finite K] [Finite F] [CharP F 2] in
 theorem fixAt_map (A : SUid σ 6 →* (V ≃ₗ[K] V)) (h : SUid σ 6) {W W' : Submodule F (Fin 6 → F)}
     (hW' : ∀ v, v ∈ W' ↔ ∃ w ∈ W, h • w = v) :
     fixAt σ A W' = (fixAt σ A W).map (A h : V →ₗ[K] V) := by

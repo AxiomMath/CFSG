@@ -164,7 +164,7 @@ private theorem spCI_interp_w {G : Type*} [Group G] {F k V : Type*} [Field F] [F
     rw [Finset.sum_eq_single 0]
     · simp
     · intro b _ hb
-      rw [if_neg hb, smul_zero]
+      rw [ite_eq_right hb, smul_zero]
     · intro h0
       exact absurd (Finset.mem_range.mpr (Fintype.card_pos)) h0
   calc ρ (Y t) v₀ = (ρ (Y t) v₀ - ρ (Y 0) v₀) + ρ (Y 0) v₀ := by abel
@@ -419,8 +419,8 @@ private theorem spCI_sum_pow {K : Type*} [Field K] [Fintype K] {m : ℕ} (_hm : 
     (hmq : m < 2 * (Fintype.card K - 1)) :
     ∑ t : K, t ^ m = if m = Fintype.card K - 1 then -1 else 0 := by
   by_cases h : m = Fintype.card K - 1
-  · rw [if_pos h, h]; exact spCI_sum_pow_card_sub_one
-  · rw [if_neg h]
+  · rw [ite_eq_left h, h]; exact spCI_sum_pow_card_sub_one
+  · rw [ite_eq_right h]
     by_cases hlt : m < Fintype.card K - 1
     · exact FiniteField.sum_pow_lt_card_sub_one K m hlt
     · have hgt : Fintype.card K - 1 < m := lt_of_le_of_ne (le_of_not_gt hlt) (Ne.symm h)
@@ -469,7 +469,7 @@ theorem sum_pow_mul_one_add_pow {K : Type*} [Field K] [Fintype K] {j c : ℕ} (h
             have := Finset.mem_range.mp hi; omega
           have hmq : Fintype.card K - 1 - j + i < 2 * (Fintype.card K - 1) := by
             have := Finset.mem_range.mp hi; omega
-          rw [spCI_sum_pow hm hmq, if_neg (by rintro h; exact hij (by omega)), mul_zero]
+          rw [spCI_sum_pow hm hmq, ite_eq_right (by rintro h; exact hij (by omega)), mul_zero]
         · intro hj'
           rw [Nat.choose_eq_zero_of_lt (by
             simp only [Finset.mem_range] at hj'; omega), Nat.cast_zero, zero_mul]

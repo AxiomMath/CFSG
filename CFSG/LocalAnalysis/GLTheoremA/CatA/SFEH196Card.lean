@@ -55,7 +55,7 @@ private theorem dvd_orderTwistedA {p n q : ℕ} (hp : p.Prime) (hn : 2 ≤ n) (h
     refine (?_ : q + 1 ∣ (if Even 3 then q ^ 3 - 1 else q ^ 3 + 1)).trans
       (Finset.dvd_prod_of_mem (fun i => if Even i then q ^ i - 1 else q ^ i + 1) h3)
     have he : ¬ Even 3 := by decide
-    rw [if_neg he]
+    rw [ite_eq_right he]
     simpa using Odd.nat_add_dvd_pow_add_pow q 1 (by decide : Odd 3)
   have hg : Nat.gcd (n + 1) (q + 1) ∣
       q ^ (n * (n + 1) / 2) * ∏ i ∈ Icc 2 (n + 1), (if Even i then q ^ i - 1 else q ^ i + 1) :=

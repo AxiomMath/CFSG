@@ -68,7 +68,7 @@ theorem dsp_of_coord_even
   have hπ0 : π 0 = 0 := by
     by_contra hne
     have h := congrArg (fun v => b.equivFun v (π 0)) hfix'
-    simp [b.equivFun_self, hne, Ne.symm hne] at h
+    simp [b.equivFun_self, Ne.symm hne] at h
     exact hc0ne h.symm
   have hc0 : c 0 = 1 := by
     have h := congrArg (fun v => b.equivFun v 0) hfix'

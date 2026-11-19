@@ -44,9 +44,9 @@ theorem indClassFun_comp_mulEquiv (e : M ≃* L) {K : Subgroup M} {K' : Subgroup
   have he : e (t⁻¹ * z * t) = (e t)⁻¹ * e z * e t := by simp
   by_cases h : t⁻¹ * z * t ∈ K
   · have hmem : (e t)⁻¹ * e z * e t ∈ K' := by rw [← he]; exact (hK _).1 h
-    rw [dif_pos h, dif_pos hmem]
+    rw [dite_eq_left h, dite_eq_left hmem]
     exact (hθ ⟨t⁻¹ * z * t, h⟩ ⟨_, hmem⟩ he.symm).symm
-  · rw [dif_neg h, dif_neg (fun hc => h ((hK _).2 (by rw [he]; exact hc)))]
+  · rw [dite_eq_right h, dite_eq_right (fun hc => h ((hK _).2 (by rw [he]; exact hc)))]
 
 end Transport
 

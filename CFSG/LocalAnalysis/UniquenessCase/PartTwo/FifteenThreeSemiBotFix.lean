@@ -25,7 +25,7 @@ theorem s15_semiBot_fixV_iSup_le {W : Type*} [CommGroup W] {ι : Type*} [Finite 
     (hKU : ∀ i j, i ≠ j → U i ≤ fixV (K j)) (hU : ⨆ i, U i = ⊤) :
     fixV (⨆ i, K i) ≤ ⨆ i, (U i ⊓ fixV (⨆ j, K j)) := by
   classical
-  letI : Fintype ι := Fintype.ofFinite ι
+  let : Fintype ι := Fintype.ofFinite ι
   let C : Subgroup W := fixV (⨆ i, K i)
   have hC : ∀ q : W, q ∈ C ↔ ∀ i, q ∈ fixV (K i) := s15_semiBot_mem_fixV_iSup_iff K
   have key : ∀ S : Finset ι, ∀ q : W, q ∈ C → q ∈ (⨆ i ∈ S, U i) →
@@ -114,8 +114,7 @@ theorem s15_semiBot_fixV_le_imgTil (h1217 : R1217 D) (h : Hyp151 D V₀ V L)
       change i.1 ≤ Xb
       rw [← hm]
       exact le_iSup (fun m : D.M => barSub V₀ V hV (conjSubgroup L (m : G))) m
-    · change Xb ≤ ⨆ i : ι, K i
-      refine iSup_le fun m => ?_
+    · refine iSup_le fun m => ?_
       exact le_iSup (fun i : ι => K i) ⟨barSub V₀ V hV (conjSubgroup L (m : G)), m, rfl⟩
   have hU : (⨆ i : ι, U i) = ⊤ := by
     refine le_antisymm le_top ?_

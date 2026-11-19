@@ -30,6 +30,7 @@ section PlaneFacts
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {U : Type} [AddCommGroup U] [Module K U]
   {Q : QuadraticForm K U}
 
+omit [Finite K] in
 private theorem eq_one_of_sq_eq_one_plane {a : K} (h : a ^ 2 = 1) : a = 1 := by
   have hfac : (a - 1) * (a - 1) = 0 := by
     calc (a - 1) * (a - 1) = a ^ 2 - 2 * a + 1 := by ring
@@ -39,6 +40,7 @@ private theorem eq_one_of_sq_eq_one_plane {a : K} (h : a ^ 2 = 1) : a = 1 := by
   · exact sub_eq_zero.mp h0
   · exact sub_eq_zero.mp h0
 
+omit [Finite K] in
 private theorem anisotropic_no_eigenvalue_plane (c : U ≃ₗ[K] U)
     (hc : c ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hfix : ∀ u, c u = u → u = 0)
     (hani : ∀ u, Q u = 0 → u = 0) :
@@ -58,16 +60,18 @@ private theorem anisotropic_no_eigenvalue_plane (c : U ≃ₗ[K] U)
   rw [hlam, one_smul] at h
   exact hu0 (hfix u h)
 
+omit [Finite K] [CharP K 2] in
 private theorem exists_map_ne_zero_plane (hU : Module.finrank K U = 2)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) : ∃ u : U, Q u ≠ 0 := by
   classical
-  haveI : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hU]; norm_num)
+  have : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hU]; norm_num)
   by_contra h
   push Not at h
   obtain ⟨u, hu⟩ := exists_ne (0 : U)
   refine hu (hQ.1 u fun v => ?_)
   simp [polarBilin_apply_apply, polar, h]
 
+omit [Finite K] in
 private theorem not_scalar_plane (hU : Module.finrank K U = 2)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (c : U ≃ₗ[K] U)
     (hc : c ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hfix : ∀ u, c u = u → u = 0) :
@@ -95,19 +99,20 @@ private theorem not_scalar_plane (hU : Module.finrank K U = 2)
     rcases mul_eq_zero.mp hfac with h0 | h0
     · exact sub_eq_zero.mp h0
     · exact sub_eq_zero.mp h0
-  haveI : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hU]; norm_num)
+  have : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hU]; norm_num)
   obtain ⟨u, hu⟩ := exists_ne (0 : U)
   apply hu
   apply hfix u
   have h := congrArg (fun f : Module.End K U => f u) ha
   simpa [ha1] using h
 
+omit [Finite K] in
 private theorem minpoly_natDegree_eq_two_plane (hU : Module.finrank K U = 2)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (c : U ≃ₗ[K] U)
     (hc : c ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hfix : ∀ u, c u = u → u = 0) :
     (minpoly K (c : Module.End K U)).natDegree = 2 := by
-  haveI : FiniteDimensional K U := .of_finrank_pos (by rw [hU]; norm_num)
-  haveI : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hU]; norm_num)
+  have : FiniteDimensional K U := .of_finrank_pos (by rw [hU]; norm_num)
+  have : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hU]; norm_num)
   have hle : (minpoly K (c : Module.End K U)).natDegree ≤ 2 := by
     have hdvd := LinearMap.minpoly_dvd_charpoly (c : Module.End K U)
     calc (minpoly K (c : Module.End K U)).natDegree ≤
@@ -123,13 +128,14 @@ private theorem minpoly_natDegree_eq_two_plane (hU : Module.finrank K U = 2)
     exact ha.symm
   omega
 
+omit [Finite K] in
 private theorem minpoly_not_isRoot_plane (hU : Module.finrank K U = 2)
-    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (c : U ≃ₗ[K] U)
+    (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (c : U ≃ₗ[K] U)
     (hc : c ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hfix : ∀ u, c u = u → u = 0)
     (hani : ∀ u, Q u = 0 → u = 0) (lam : K) :
     ¬ Polynomial.IsRoot (minpoly K (c : Module.End K U)) lam := by
-  haveI : FiniteDimensional K U := .of_finrank_pos (by rw [hU]; norm_num)
-  haveI : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hU]; norm_num)
+  have : FiniteDimensional K U := .of_finrank_pos (by rw [hU]; norm_num)
+  have : Nontrivial U := Module.nontrivial_of_finrank_pos (by rw [hU]; norm_num)
   intro hroot
   have hdvd : minpoly K (c : Module.End K U) ∣ (c : Module.End K U).charpoly :=
     LinearMap.minpoly_dvd_charpoly (c : Module.End K U)
@@ -141,6 +147,7 @@ private theorem minpoly_not_isRoot_plane (hU : Module.finrank K U = 2)
   obtain ⟨u, hu⟩ := hev.exists_hasEigenvector
   exact anisotropic_no_eigenvalue_plane (Q := Q) c hc hfix hani lam u hu.2 hu.apply_eq_smul
 
+omit [Finite K] in
 private theorem minpoly_irreducible_plane (hU : Module.finrank K U = 2)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (c : U ≃ₗ[K] U)
     (hc : c ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hfix : ∀ u, c u = u → u = 0)
@@ -154,10 +161,12 @@ private theorem minpoly_irreducible_plane (hU : Module.finrank K U = 2)
 
 end PlaneFacts
 
+omit [Finite F] [CharP F 2] in
 theorem framePoly_monic (t : F) : (OmNsRootGen.framePoly t).Monic := by
   unfold OmNsRootGen.framePoly
   monicity!
 
+omit [Finite F] [CharP F 2] in
 theorem framePoly_natDegree (t : F) : (OmNsRootGen.framePoly t).natDegree = 2 := by
   unfold OmNsRootGen.framePoly
   compute_degree!
@@ -168,10 +177,11 @@ noncomputable def planeEnd (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a
     Module.End F ↥(U a) :=
   (((e a : V ≃ₗ[F] V) : V →ₗ[F] V)).restrict (p := U a) (q := U a) (hF.maps_to a)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem planeEnd_apply (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k)
     (x : ↥(U a)) :
     ((planeEnd hF a x : ↥(U a)) : V) = (e a : V ≃ₗ[F] V) x :=
-  LinearMap.restrict_coe_apply (f := ((e a : V ≃ₗ[F] V) : V →ₗ[F] V)) (hF.maps_to a) x
+  LinearMap.coe_restrict_apply (f := ((e a : V ≃ₗ[F] V) : V →ₗ[F] V)) (hF.maps_to a) x
 
 abbrev frameU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) : ↥(U a) :=
   ⟨u a, hF.mem a⟩
@@ -179,17 +189,20 @@ abbrev frameU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) : �
 abbrev frameEU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) : ↥(U a) :=
   ⟨(e a : V ≃ₗ[F] V) (u a), hF.maps_to a _ (hF.mem a)⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem planeEnd_frameU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     planeEnd hF a (frameU hF a) = frameEU hF a := by
   ext
   exact planeEnd_apply hF a _
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem planeEnd_apply_frameEU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     ((planeEnd hF a (frameEU hF a) : ↥(U a)) : V) =
       t • (e a : V ≃ₗ[F] V) (u a) + u a := by
   rw [planeEnd_apply]
   exact hF.rot a
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem linearIndependent_frameU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     LinearIndependent F ![frameU hF a, frameEU hF a] := by
   rw [LinearIndependent.pair_iff]
@@ -226,6 +239,7 @@ theorem linearIndependent_frameU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c
     rw [hF.polar_eq a, hpolar0, mul_zero] at h2
     exact htc h2
 
+omit [Finite F] in
 theorem span_frameU_eq_top (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     Submodule.span F ({frameU hF a, frameEU hF a} : Set ↥(U a)) = ⊤ := by
   refine Submodule.eq_of_le_of_finrank_eq le_top ?_
@@ -235,11 +249,12 @@ theorem span_frameU_eq_top (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a
     simpa using finrank_span_eq_card (linearIndependent_frameU hF a)
   rw [h2, finrank_top, hF.finrank_eq a]
 
+omit [Finite F] in
 theorem planeEnd_aeval_framePoly (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     aeval (planeEnd hF a) (OmNsRootGen.framePoly t) = 0 := by
   set f : Module.End F ↥(U a) := planeEnd hF a with hf
   have hT : aeval f (OmNsRootGen.framePoly t) = f * f + t • f + 1 := by
-    simp only [OmNsRootGen.framePoly, map_add, map_mul, map_pow, pow_two, aeval_X, aeval_C,
+    simp only [OmNsRootGen.framePoly, map_add, map_mul, pow_two, aeval_X, aeval_C,
       aeval_one, Algebra.algebraMap_eq_smul_one, smul_mul_assoc, one_mul]
   have hfu : f (frameU hF a) = frameEU hF a := by
     rw [hf]
@@ -289,14 +304,17 @@ theorem planeEnd_aeval_framePoly (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c
       exact (e a : V ≃ₗ[F] V).injective h)
     rfl
 
+omit [Finite F] [CharP F 2] in
 theorem planeEquiv_toLinearMap (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     (planeEquiv hF a : ↥(U a) →ₗ[F] ↥(U a)) = planeEnd hF a := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem planeEquiv_apply (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k)
     (x : ↥(U a)) :
     ((planeEquiv hF a x : ↥(U a)) : V) = (e a : V ≃ₗ[F] V) x :=
   planeEnd_apply hF a x
 
+omit [Finite F] [CharP F 2] in
 theorem planeEquiv_mem_orthogonalGroup (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) :
     planeEquiv hF a ∈ TauCeti.QuadraticMap.orthogonalGroup (Q.comp (U a).subtype) := by
@@ -307,6 +325,7 @@ theorem planeEquiv_mem_orthogonalGroup (hF : OmNsRootGen.IsCoherentFrame Q p U e
   exact TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup
     (CFSG.RankThree.Classical.orthDerived_le_orthogonalGroup Q (e a).2) (x : V)
 
+omit [Finite F] [CharP F 2] in
 theorem planeEquiv_eq_self_imp_eq_zero (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) : ∀ x : ↥(U a), planeEquiv hF a x = x → x = 0 := by
   intro x hx
@@ -315,6 +334,7 @@ theorem planeEquiv_eq_self_imp_eq_zero (hF : OmNsRootGen.IsCoherentFrame Q p U e
   have h := congrArg Subtype.val hx
   simpa [planeEquiv_apply] using h
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem planeEquiv_anisotropic (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     ∀ x : ↥(U a), (Q.comp (U a).subtype) x = 0 → x = 0 := by
   intro x hx
@@ -322,6 +342,7 @@ theorem planeEquiv_anisotropic (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t
     (Q := Q) (W := U a) (hF.finrank_eq a) (hF.not_isPlusType a) x.2 ?_)
   simpa using hx
 
+omit [Finite F] in
 theorem framePoly_irreducible (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     Irreducible (OmNsRootGen.framePoly t) := by
   have hdvd : minpoly F (planeEquiv hF a : ↥(U a) →ₗ[F] ↥(U a)) ∣ OmNsRootGen.framePoly t := by
@@ -334,7 +355,7 @@ theorem framePoly_irreducible (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
       (hF.nondeg a) (planeEquiv hF a) (planeEquiv_mem_orthogonalGroup hF a)
       (planeEquiv_eq_self_imp_eq_zero hF a)
   have hmin : minpoly F (planeEquiv hF a : ↥(U a) →ₗ[F] ↥(U a)) = OmNsRootGen.framePoly t := by
-    haveI : FiniteDimensional F ↥(U a) :=
+    have : FiniteDimensional F ↥(U a) :=
       FiniteDimensional.of_finrank_pos (by rw [hF.finrank_eq a]; norm_num)
     have hint : IsIntegral F (planeEquiv hF a : ↥(U a) →ₗ[F] ↥(U a)) :=
       (Module.End.isIntegral (R := F) (M := ↥(U a))).isIntegral _
@@ -346,9 +367,10 @@ theorem framePoly_irreducible (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (planeEquiv_eq_self_imp_eq_zero hF a) (planeEquiv_anisotropic hF a)
   rwa [hmin] at hdec
 
+omit [Finite F] [CharP F 2] in
 theorem natCard_frameField [Fact (Irreducible (OmNsRootGen.framePoly t))] :
     Nat.card (FrameField t) = Nat.card F ^ 2 := by
-  haveI : Module.Finite F (FrameField t) :=
+  have : Module.Finite F (FrameField t) :=
     (AdjoinRoot.isAdjoinRootMonic (OmNsRootGen.framePoly t) (framePoly_monic t)).finite
   have hdim : Module.finrank F (FrameField t) = 2 := by
     rw [(AdjoinRoot.isAdjoinRootMonic (OmNsRootGen.framePoly t) (framePoly_monic t)).finrank,
@@ -358,17 +380,19 @@ theorem natCard_frameField [Fact (Irreducible (OmNsRootGen.framePoly t))] :
 noncomputable def normOne (t : F) : Subgroup (FrameField t)ˣ :=
   (powMonoidHom (Nat.card F + 1)).ker
 
+omit [CharP F 2] in
 theorem isCyclic_normOne [Fact (Irreducible (OmNsRootGen.framePoly t))] :
     IsCyclic (normOne t) := by
-  haveI : Module.Finite F (FrameField t) :=
+  have : Module.Finite F (FrameField t) :=
     (AdjoinRoot.isAdjoinRootMonic (OmNsRootGen.framePoly t) (framePoly_monic t)).finite
-  haveI : Finite (FrameField t) := Module.finite_of_finite F
-  haveI : Finite (FrameField t)ˣ := Finite.of_injective Units.val (fun _ _ h => Units.ext h)
+  have : Finite (FrameField t) := Module.finite_of_finite F
+  have : Finite (FrameField t)ˣ := Finite.of_injective Units.val (fun _ _ h => Units.ext h)
   exact Subgroup.isCyclic (normOne t)
 
+omit [CharP F 2] in
 theorem natCard_normOne [Fact (Irreducible (OmNsRootGen.framePoly t))] :
     Nat.card (normOne t) = Nat.card F + 1 := by
-  haveI : IsCyclic (normOne t) := isCyclic_normOne
+  have : IsCyclic (normOne t) := isCyclic_normOne
   rw [normOne, IsCyclic.card_powMonoidHom_ker, Nat.card_units, natCard_frameField]
   have hdvd : (Nat.card F + 1) ∣ Nat.card F ^ 2 - 1 := by
     obtain ⟨m, hm⟩ : ∃ m, Nat.card F = m + 1 :=
@@ -390,6 +414,7 @@ instance instCharP_frameField : CharP (FrameField t) 2 := by
 instance instExpChar_frameField : ExpChar (FrameField t) 2 :=
   ExpChar.prime Nat.prime_two
 
+omit [Finite F] [CharP F 2] in
 theorem root_sq_add_mul_add_one :
     (AdjoinRoot.root (OmNsRootGen.framePoly t)) ^ 2 +
         t * AdjoinRoot.root (OmNsRootGen.framePoly t) + 1 = 0 := by
@@ -400,6 +425,7 @@ theorem root_sq_add_mul_add_one :
   rw [map_add, map_add, map_mul, map_pow, AdjoinRoot.mk_X, AdjoinRoot.mk_C, map_one] at h
   exact h
 
+omit [Finite F] in
 theorem root_mul_add :
     (AdjoinRoot.root (OmNsRootGen.framePoly t)) *
         (AdjoinRoot.root (OmNsRootGen.framePoly t) + t) = 1 := by
@@ -409,6 +435,7 @@ theorem root_mul_add :
           t * AdjoinRoot.root (OmNsRootGen.framePoly t) := by ring
     _ = 1 := CharTwo.add_eq_zero.mp (root_sq_add_mul_add_one (F := F) (t := t))
 
+omit [Finite F] [CharP F 2] in
 theorem root_not_mem_fieldRange :
     AdjoinRoot.root (OmNsRootGen.framePoly t) ∉
       (algebraMap F (FrameField t)).fieldRange := by
@@ -432,7 +459,7 @@ theorem root_pow_card_eq_add :
     (AdjoinRoot.root (OmNsRootGen.framePoly t)) ^ Nat.card F =
       AdjoinRoot.root (OmNsRootGen.framePoly t) + t := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let K := FrameField t
   let θ : K := AdjoinRoot.root (OmNsRootGen.framePoly t)
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
@@ -536,12 +563,14 @@ section Plane
 
 variable [Fact (Irreducible (OmNsRootGen.framePoly t))]
 
+omit [Finite F] [CharP F 2] in
 theorem finrank_frameField : Module.finrank F (FrameField t) = 2 := by
-  haveI : Module.Finite F (FrameField t) :=
+  have : Module.Finite F (FrameField t) :=
     (AdjoinRoot.isAdjoinRootMonic (OmNsRootGen.framePoly t) (framePoly_monic t)).finite
   rw [(AdjoinRoot.isAdjoinRootMonic (OmNsRootGen.framePoly t) (framePoly_monic t)).finrank,
     framePoly_natDegree]
 
+omit [Fact (Irreducible (OmNsRootGen.framePoly t))] [Finite F] in
 theorem planeAlg_aeval_zero (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) :
     (OmNsRootGen.framePoly t).eval₂
@@ -583,6 +612,7 @@ theorem planeAlg_aeval_zero (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
         Algebra.adjoin F ({planeEnd hF a} : Set (Module.End F ↥(U a))))
       (planeAlg_aeval_zero hF a))
 
+omit [Finite F] in
 theorem planeAlg_root (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     planeAlg hF a (AdjoinRoot.root (OmNsRootGen.framePoly t)) = planeEnd hF a := by
   change (Subalgebra.val (Algebra.adjoin F ({planeEnd hF a} :
@@ -596,6 +626,7 @@ theorem planeAlg_root (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fi
   rw [AdjoinRoot.liftAlgHom_root]
   rfl
 
+omit [Finite F] in
 theorem planeAlg_commute_planeEnd (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k)
     (z : FrameField t) : Commute (planeAlg hF a z) (planeEnd hF a) := by
   rw [← planeAlg_root hF a]
@@ -603,20 +634,23 @@ theorem planeAlg_commute_planeEnd (hF : OmNsRootGen.IsCoherentFrame Q p U e E u 
     planeAlg hF a (AdjoinRoot.root (OmNsRootGen.framePoly t)) * planeAlg hF a z
   rw [← map_mul, ← map_mul, mul_comm z (AdjoinRoot.root (OmNsRootGen.framePoly t))]
 
+omit [Finite F] in
 theorem planeAlg_injective (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     Function.Injective (planeAlg hF a) := by
-  haveI : Nontrivial ↥(U a) :=
+  have : Nontrivial ↥(U a) :=
     Module.nontrivial_of_finrank_pos (by rw [hF.finrank_eq a]; norm_num)
-  haveI : Nontrivial (Module.End F ↥(U a)) := by
+  have : Nontrivial (Module.End F ↥(U a)) := by
     obtain ⟨v, hv⟩ := exists_ne (0 : ↥(U a))
     exact ⟨1, 0, fun h => hv (by
       simpa using congrArg (fun f : Module.End F ↥(U a) => f v) h)⟩
   exact RingHom.injective (planeAlg hF a).toRingHom
 
+omit [Fact (Irreducible (OmNsRootGen.framePoly t))] [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem planeEnd_frameEU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     planeEnd hF a (frameEU hF a) = t • frameEU hF a + frameU hF a :=
   Subtype.ext (planeEnd_apply_frameEU hF a)
 
+omit [Finite F] in
 theorem planeAlg_eq_zero_of_apply_frameU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) {z : FrameField t} (hz : planeAlg hF a z (frameU hF a) = 0) :
     planeAlg hF a z = 0 := by
@@ -643,6 +677,7 @@ noncomputable def planeToField (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t
   map_add' z w := by simp
   map_smul' r z := by simp
 
+omit [Finite F] in
 theorem planeToField_injective (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     Function.Injective (planeToField hF a) := by
   intro z w hzw
@@ -660,17 +695,20 @@ theorem planeToField_injective (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t
       (LinearMap.injective_iff_surjective_of_finrank_eq_finrank
         (by rw [finrank_frameField, hF.finrank_eq a])).mp (planeToField_injective hF a)⟩
 
+omit [Finite F] in
 theorem planeFieldEquiv_apply (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k)
     (z : FrameField t) :
     planeFieldEquiv hF a z = planeAlg hF a z (frameU hF a) := by
   simp only [planeFieldEquiv, LinearEquiv.ofBijective_apply, planeToField]
   rfl
 
+omit [Finite F] in
 theorem planeFieldEquiv_one (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     planeFieldEquiv hF a 1 = frameU hF a := by
   rw [planeFieldEquiv_apply, map_one]
   rfl
 
+omit [Finite F] in
 theorem planeFieldEquiv_root (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     planeFieldEquiv hF a (AdjoinRoot.root (OmNsRootGen.framePoly t)) = frameEU hF a := by
   rw [planeFieldEquiv_apply, planeAlg_root, planeEnd_frameU]
@@ -733,7 +771,7 @@ theorem mul_pow_card_coord (x y : F) :
           y • AdjoinRoot.root (OmNsRootGen.framePoly t)) ^ Nat.card F =
       algebraMap F (FrameField t) (x ^ 2 + t * x * y + y ^ 2) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let K := FrameField t
   let θ : K := AdjoinRoot.root (OmNsRootGen.framePoly t)
   let φ : K →ₐ[F] K := FiniteField.frobeniusAlgHom F K
@@ -772,7 +810,8 @@ theorem mul_pow_card_coord (x y : F) :
 abbrev normOneVal (z : normOne t) : FrameField t :=
   ((z : (FrameField t)ˣ) : FrameField t)
 
-theorem norm_coord_eq_one (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k)
+omit [FiniteDimensional F V] in
+theorem norm_coord_eq_one (_hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (_a : Fin k)
     (z : normOne t) {x y : F}
     (hz : normOneVal (F := F) (t := t) z = x • (1 : FrameField t) +
       y • AdjoinRoot.root (OmNsRootGen.framePoly t)) :
@@ -790,6 +829,7 @@ theorem norm_coord_eq_one (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a 
   have h2' : algebraMap F (FrameField t) (x ^ 2 + t * x * y + y ^ 2) = 1 := h2.symm
   exact RingHom.injective (algebraMap F (FrameField t)) (h2'.trans (map_one _).symm)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] [Fact (Irreducible (OmNsRootGen.framePoly t))] in
 theorem quad_frameU_add (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k)
     (x y : F) :
     Q (x • u a + y • (e a : V ≃ₗ[F] V) (u a)) =
@@ -803,6 +843,7 @@ theorem quad_frameU_add (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : 
   simp only [smul_eq_mul]
   ring
 
+omit [Finite F] in
 theorem planeAlg_frameU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k)
     (z : FrameField t) {x y : F}
     (hz : z = x • (1 : FrameField t) +
@@ -812,6 +853,7 @@ theorem planeAlg_frameU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : 
   simp only [LinearMap.add_apply, LinearMap.smul_apply, Module.End.one_apply,
     planeEnd_frameU]
 
+omit [Finite F] in
 theorem planeAlg_frameEU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k)
     (z : FrameField t) {x y : F}
     (hz : z = x • (1 : FrameField t) +
@@ -822,6 +864,7 @@ theorem planeAlg_frameEU (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a :
     planeEnd_frameEU]
   module
 
+omit [Fact (Irreducible (OmNsRootGen.framePoly t))] [Finite F] [CharP F 2] in
 theorem quad_planeEnd (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k)
     (w : ↥(U a)) :
     (Q.comp (U a).subtype) (planeEnd hF a w) = (Q.comp (U a).subtype) w := by
@@ -895,11 +938,11 @@ noncomputable def planeLinEquiv (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c 
     normOne t →* (↥(U a) ≃ₗ[F] ↥(U a)) :=
   (LinearMap.GeneralLinearGroup.generalLinearEquiv F ↥(U a)).toMonoidHom.comp (planeUnit hF a)
 
+omit [Finite F] in
 theorem planeLinEquiv_apply (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k)
     (z : normOne t) (x : ↥(U a)) :
     (planeLinEquiv hF a z) x = planeAlg hF a (normOneVal (F := F) (t := t) z) x := by
-  simp only [planeLinEquiv, MonoidHom.comp_apply,
-    LinearMap.GeneralLinearGroup.generalLinearEquiv_to_linearMap]
+  simp only [planeLinEquiv, MonoidHom.comp_apply]
   rfl
 
 theorem planeLinEquiv_mem_orthogonalGroup (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
@@ -910,6 +953,7 @@ theorem planeLinEquiv_mem_orthogonalGroup (hF : OmNsRootGen.IsCoherentFrame Q p 
   rw [planeLinEquiv_apply]
   exact quad_planeAlg hF a z w
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] [Fact (Irreducible (OmNsRootGen.framePoly t))] in
 theorem planeNondeg (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     CFSG.ClassicalGroups.Orthogonal.PolarNondegOn Q (U a) := by
   intro x hx h
@@ -919,6 +963,7 @@ theorem planeNondeg (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin 
       exact h y y.2
   exact congrArg Subtype.val h1
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem mem_orthBlk_perp_iff {W : Submodule F V} {x : V} :
     x ∈ CFSG.LieType.SeitzGeneration.OrthBlk.perp Q W ↔ x ∈ polarPerp Q W := by
   rw [CFSG.LieType.SeitzGeneration.OrthBlk.mem_perp, mem_polarPerp_iff]
@@ -927,6 +972,7 @@ noncomputable def planeRot (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a
     normOne t →* (V ≃ₗ[F] V) :=
   (CFSG.LieType.SeitzGeneration.OrthNS.extU (planeNondeg hF a)).comp (planeLinEquiv hF a)
 
+omit [Finite F] in
 theorem planeRot_apply_mem (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k)
     (z : normOne t) {w : V} (hw : w ∈ U a) :
     planeRot hF a z w = ((planeAlg hF a (normOneVal (F := F) (t := t) z)) ⟨w, hw⟩ : V) := by
@@ -935,6 +981,7 @@ theorem planeRot_apply_mem (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a
   rw [CFSG.LieType.SeitzGeneration.OrthNS.extU_apply_mem (planeNondeg hF a) _ hw]
   rw [planeLinEquiv_apply]
 
+omit [Finite F] in
 theorem planeRot_apply_perp (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k)
     (z : normOne t) {w : V} (hw : w ∈ polarPerp Q (U a)) :
     planeRot hF a z w = w := by
@@ -973,6 +1020,7 @@ theorem planeRot_commute (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) {a b
       CFSG.LieType.SeitzGeneration.OrthNS.extU (planeNondeg hF a) (planeLinEquiv hF a z)
   exact OmNsRootGen.extU_commute_of_fixes (hU := planeNondeg hF a) hg hfix (planeLinEquiv hF a z)
 
+omit [Finite F] in
 theorem planeRot_pow_card_add_one (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) (z : normOne t) :
     planeRot hF a z ^ (Nat.card F + 1) = 1 := by
@@ -997,7 +1045,7 @@ theorem planeRot_rootNormOne (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) 
     exact hF.apply_of_perp a r (by rwa [mem_orthBlk_perp_iff] at hr)
 
 theorem odd_natCard_add_one : Odd (Nat.card F + 1) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   have hq : Nat.card F = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   rw [hq]
@@ -1027,12 +1075,13 @@ noncomputable def frameTorusFull (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hT : ∃ T : Submodule F V, Module.finrank F T = 3 ∧ ∀ x ∈ T, Q x = 0) :
     (Fin k → normOne t) →* ↥(orthDerived Q) :=
-  MonoidHom.noncommPiCoprod (fun a => planeRotDerived hF hQ hT a)
+  MonoidHom.noncommPiCoprod (fun _a => planeRotDerived hF hQ hT _a)
     (show Pairwise (fun i j => ∀ x y : normOne t,
-        Commute ((fun a => planeRotDerived hF hQ hT a) i x)
-          ((fun a => planeRotDerived hF hQ hT a) j y)) from
-      fun {a b : Fin k} hab x y => planeRotDerived_commute hF hQ hT hab x y)
+        Commute ((fun _a => planeRotDerived hF hQ hT _a) i x)
+          ((fun _a => planeRotDerived hF hQ hT _a) j y)) from
+      fun {_a _b : Fin k} hab x y => planeRotDerived_commute hF hQ hT hab x y)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem noncommProd_apply_of_eq_of_ne {ι : Type*} [DecidableEq ι] (s : Finset ι)
     (g : ι → V ≃ₗ[F] V)
     (hcomm : (s : Set ι).Pairwise fun x y => Commute (g x) (g y)) {c : ι} (hc : c ∈ s)
@@ -1113,6 +1162,7 @@ theorem frameTorusFull_apply_perp (hF : OmNsRootGen.IsCoherentFrame Q p U e E u 
     intro y hy
     exact mem_polarPerp_iff.mp hw y (le_iSup U i hy)
 
+omit [Finite F] in
 theorem planeRot_injective (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     Function.Injective (planeRot hF a) := by
   intro z z' hzz'
@@ -1144,7 +1194,7 @@ theorem mem_zpowers_rootNormOne (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c 
     {z : normOne t} (hz : z ^ p = 1) :
     z ∈ Subgroup.zpowers (rootNormOne (F := F) (t := t)) := by
   classical
-  haveI : IsCyclic (normOne t) := isCyclic_normOne (F := F) (t := t)
+  have : IsCyclic (normOne t) := isCyclic_normOne (F := F) (t := t)
   let H : Subgroup (normOne t) := (powMonoidHom p : normOne t →* normOne t).ker
   have hdvd : p ∣ Nat.card F + 1 := by
     have h := Subgroup.orderOf_dvd_natCard (normOne t)

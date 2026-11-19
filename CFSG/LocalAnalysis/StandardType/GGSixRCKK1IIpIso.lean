@@ -157,16 +157,16 @@ private theorem rckIIpIso_recipeLinear {lab : LargeEvenLabel} (hlab : LargeEvenI
     have hn : n = 1 := by
       by_contra hne
       have h2 : 2 ≤ n := by omega
-      rw [if_pos h2] at hrow
+      rw [ite_eq_left h2] at hrow
       exact absurd hrow (by decide)
     subst hn
     have hl : l = 3 := by
-      rw [if_neg (by omega : ¬ 2 ≤ 1)] at hrow
+      rw [ite_eq_right (by omega : ¬ 2 ≤ 1)] at hrow
       by_contra hne
-      rw [if_neg hne] at hrow
+      rw [ite_eq_right hne] at hrow
       by_cases h4 : 4 ≤ l
-      · rw [if_pos h4] at hrow; exact absurd hrow (by decide)
-      · rw [if_neg h4] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_left h4] at hrow; exact absurd hrow (by decide)
+      · rw [ite_eq_right h4] at hrow; exact absurd hrow (by decide)
     subst hl
     change LargeEvenRecipeLinear 4 2 Q at h
     exact h
@@ -176,13 +176,13 @@ private theorem rckIIpIso_recipeLinear {lab : LargeEvenLabel} (hlab : LargeEvenI
     have hn : n = 1 := by
       by_contra hne
       have h2 : 2 ≤ n := by omega
-      rw [if_pos h2] at hrow
+      rw [ite_eq_left h2] at hrow
       exact absurd hrow (by decide)
     subst hn
     have hl : l = 3 := by
-      rw [if_neg (by omega : ¬ 2 ≤ 1)] at hrow
+      rw [ite_eq_right (by omega : ¬ 2 ≤ 1)] at hrow
       by_contra hne
-      rw [if_neg hne] at hrow
+      rw [ite_eq_right hne] at hrow
       exact absurd hrow (by decide)
     subst hl
     change LargeEvenRecipeLinear 4 2 Q at h
@@ -190,7 +190,7 @@ private theorem rckIIpIso_recipeLinear {lab : LargeEvenLabel} (hlab : LargeEvenI
   all_goals
     exfalso
     first
-      | (split_ifs at hrow <;> exact absurd hrow (by decide))
+      | (split_ifs at hrow)
       | exact absurd hrow (by decide)
 
 private theorem rckIIpIso_proj_congr {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι]
@@ -208,8 +208,8 @@ theorem rckIIp_iso {Jb : Type} [Group Jb]
   have hRecipe : LargeEvenRecipeLinear 4 2 _ := rckIIpIso_recipeLinear hlab hrow hraw
   unfold LargeEvenRecipeLinear at hRecipe
   obtain ⟨K, hField, hFinite, hK, hQK⟩ := hRecipe
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   obtain ⟨_, _, θ, _⟩ := hQK
   obtain ⟨eSL⟩ := rckIIpIso_proj_congr
     (show LargeEvenSLGroup (Fin 4) K = CFSG.Open.StatedSL 4 K from

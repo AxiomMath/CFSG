@@ -34,13 +34,13 @@ theorem le_pRank_of_layer {Y Z : Type} [Group Y] [Finite Y] [Group Z] {p n : ℕ
     (s : Fin n → Z) (hs : ∀ j, s j ∈ N j) (hsp : ∀ j, orderOf (s j) = p) :
     n ≤ CFSG.Open.pRank p (⊤ : Subgroup Y) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set R : Subgroup Y := CFSG.pCore 2 Y with hRdef
   set π : Y →* Y ⧸ R := QuotientGroup.mk' R with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective R
-  haveI hKn : (f.ker.map π).Normal := (MonoidHom.normal_ker f).map π hπs
+  have hKn : (f.ker.map π).Normal := (MonoidHom.normal_ker f).map π hπs
   have hKs : Group.IsSolvable ↥(f.ker.map π) := by
-    haveI := hsolv
+    have := hsolv
     exact Group.isSolvable_of_surjective (π.subgroupMap_surjective f.ker)
   have hKZ : f.ker.map π ≤ Subgroup.center (Y ⧸ R) :=
     (CFSG.SectionRank.semisimple_solvable_quotient hlayer (f.ker.map π) hKs).1
@@ -130,7 +130,7 @@ theorem le_pRank_of_layer {Y Z : Type} [Group Y] [Finite Y] [Group Z] {p n : ℕ
       have : (powHomOfComm hAcomm p) a = 1 := ha
       exact congrArg Subtype.val this
   have hRp : ¬ p ∣ Nat.card R := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card.1 (CFSG.pCore_isPGroup (p := 2) (G := Y)))
     rw [hk]
     intro h

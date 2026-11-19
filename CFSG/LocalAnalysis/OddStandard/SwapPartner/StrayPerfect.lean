@@ -13,7 +13,7 @@ open Subgroup
 
 theorem four_dvd_card_of_isPerfect {J : Type*} [Group J] [Finite J] [Group.IsPerfect J]
     [Nontrivial J] : 4 ∣ Nat.card J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have heven : Even (Nat.card J) := by
     rw [← Nat.not_odd_iff_even]
     intro hodd
@@ -21,7 +21,7 @@ theorem four_dvd_card_of_isPerfect {J : Type*} [Group J] [Finite J] [Group.IsPer
   let S : Sylow 2 J := Classical.choice Sylow.nonempty
   have hSnotcyc : ¬ IsCyclic ↥(S : Subgroup J) :=
     CFSG.TwoRankLowerBound.Helpers.sylow_two_not_isCyclic_of_perfect J heven S
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hk2 : 2 ≤ k := by
     by_contra h
     have hk1 : k ≤ 1 := Nat.lt_succ_iff.mp (Nat.lt_of_not_le h)

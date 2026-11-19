@@ -27,6 +27,7 @@ private theorem conjAut_eq_one_iff (A : GL (Fin 3) K) :
   · rintro ⟨c, rfl⟩
     exact conjAut_scalar c
 
+omit [Finite K] in
 private theorem card_center_GL : Nat.card (Subgroup.center (GL (Fin 3) K)) = Nat.card K - 1 := by
   rw [Matrix.GeneralLinearGroup.center_eq_range_scalar, ← Nat.card_units]
   have hinj : Function.Injective (Matrix.GeneralLinearGroup.scalar (Fin 3) : Kˣ →* GL (Fin 3) K) := by
@@ -41,7 +42,7 @@ theorem card_le_of_le_linearAutGroup_of_not_dvd {p : ℕ} (hp : p.Prime) (hpK : 
     (hq : ¬ p ∣ Nat.card K - 1) {E : Subgroup (MulAut (projectiveSL 3 K))}
     (hED : E ≤ linearAutGroup 3 K) (hE : IsElemAbelian p E) : Nat.card E ≤ p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let ψ : Matrix.ProjGenLinGroup (Fin 3) K →* MulAut (projectiveSL 3 K) :=
     QuotientGroup.lift (Subgroup.center (GL (Fin 3) K)) (conjAut 3 K)
       (fun A hA => (conjAut_eq_one_iff A).2 hA)

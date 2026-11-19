@@ -70,7 +70,7 @@ theorem three_lt_pRank_of_sp4 {X : Subgroup L} (hq2 : q ≠ 2)
       (Matrix.diagonal_injective (Matrix.fromBlocks_inj.1 h).2.1)
   have hA : Nat.card (Multiplicative (Fin 2 → ZMod q)) = q ^ 2 := by
     change Nat.card (Fin 2 → ZMod q) = q ^ 2
-    simp [Nat.card_fun]
+    simp
   have hAq : ∀ a : Multiplicative (Fin 2 → ZMod q), a ^ q = 1 := by
     intro a
     apply Multiplicative.toAdd.injective
@@ -104,7 +104,7 @@ theorem three_lt_pRank_of_sl2 {X : Subgroup L} (hq2 : q ≠ 2)
     {ψ : L →* GL (Fin 2 ⊕ Fin 2) (ZMod q)} (hD : SympSection X q ψ)
     (hPS : ψ.range ≤ CFSG.Open.StatedSp 2 (ZMod q)) (hirr : IsIrreducibleOn ψ.range)
     (e : ψ.range ≃* SL(2, GaloisField q 2)) : 3 < CFSG.Open.pRank q (⊤ : Subgroup L) := by
-  letI : Fintype (GaloisField q 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField q 2) := Fintype.ofFinite _
   have hK : ringChar (GaloisField q 2) ≠ 2 := by
     rw [ringChar.eq (GaloisField q 2) q]
     exact hq2

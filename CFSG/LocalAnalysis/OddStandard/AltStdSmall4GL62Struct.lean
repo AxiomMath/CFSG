@@ -51,7 +51,7 @@ theorem img_eq_of_subset {g : GL (Fin 6) (ZMod 2)} {S : Set (Fin 6 → ZMod 2)} 
   carrier := {g | (img g T₁ = T₁ ∧ img g T₂ = T₂) ∨ (img g T₁ = T₂ ∧ img g T₂ = T₁)}
   mul_mem' := by
     rintro g h (⟨hg₁, hg₂⟩ | ⟨hg₁, hg₂⟩) (⟨hh₁, hh₂⟩ | ⟨hh₁, hh₂⟩) <;>
-      simp only [Set.mem_setOf_eq, img_mul, hh₁, hh₂, hg₁, hg₂, true_and, and_true, true_or,
+      simp only [Set.mem_ofPred_eq, img_mul, hh₁, hh₂, hg₁, hg₂, and_true, true_or,
         or_true]
   one_mem' := Or.inl ⟨img_one _, img_one _⟩
   inv_mem' := by
@@ -229,7 +229,7 @@ theorem gG_conj_cGL : gG * cGL * gG⁻¹ = cGL⁻¹ := by
     intro x y hx hy
     have e : x * y * cGL * (x * y)⁻¹ = x * (y * cGL * y⁻¹) * x⁻¹ := by group
     have e' : x * cGL⁻¹ * x⁻¹ = (x * cGL * x⁻¹)⁻¹ := by group
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rw [e]
     rcases hy with hy | hy <;> rw [hy]
     · exact hx
@@ -240,7 +240,7 @@ theorem gG_conj_cGL : gG * cGL * gG⁻¹ = cGL⁻¹ := by
   one_mem' := Or.inl (by group)
   inv_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rcases hx with hx | hx
     · refine Or.inl ?_
       calc x⁻¹ * cGL * x⁻¹⁻¹ = x⁻¹ * (x * cGL * x⁻¹) * x⁻¹⁻¹ := by rw [hx]

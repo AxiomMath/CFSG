@@ -31,7 +31,7 @@ theorem hH2_of (hAut : AutSL2Exists)
   obtain ⟨hzm, hBm⟩ := pow_eq_one_of_corrector h37 h38 hfsu hlt hA hL3 M ht htn hz h1 h2
   refine exists_two_pow_scalar_of_pow_eq_one B (orderOf_pos σ) hBm ?_
   intro r hr hr2 hrm hrSL
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   exact false_of_odd_prime_dvd h37 h38 hfsu hlt hA M ht htn hz h2 hzm hr2 hrm
     (hrSL.trans (card_SL_dvd_card_L M))
 

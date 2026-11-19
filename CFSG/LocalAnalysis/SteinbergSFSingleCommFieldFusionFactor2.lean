@@ -18,6 +18,7 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8_factor2 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (hE : EmbConclusion φ t i) (hK : SixKConclusion φ t i) (f7 : FF7Concl φ t i) :
     FF8FactorConcl n φ t i 1 := by
@@ -72,7 +73,7 @@ theorem sixFF_ff8_factor2 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ 
       exact hW
   obtain ⟨c₂, hc₂⟩ := hZ
   obtain ⟨c₃, hc₃⟩ := hF
-  haveI := (f7.2.2.1 1).choose_spec
+  have := (f7.2.2.1 1).choose_spec
   refine ffBridge_scalar_section_two hcard μ hv2 (hfrob hv2 hvF) h1 h0 (Z₀ φ) ?_ ?_ ?_ ?_ ?_
     hc₂ hc₃
   · exact pull_mono φ (rootU_le_center i)

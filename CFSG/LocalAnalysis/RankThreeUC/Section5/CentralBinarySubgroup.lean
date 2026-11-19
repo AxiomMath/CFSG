@@ -89,7 +89,7 @@ private theorem conj_mem_Y (hc : BinaryActionRankCounterexample G p P T B e ρ)
     · have : (φ * x * φ⁻¹) ^ 2 = φ * x ^ 2 * φ⁻¹ := by
         rw [conj_pow]
       rw [this, hx.2.2]; group
-  | one => simp [Subgroup.one_mem]
+  | one => simp
   | mul x y _ _ ihx ihy =>
     have : φ * (x * y) * φ⁻¹ = (φ * x * φ⁻¹) * (φ * y * φ⁻¹) := by group
     rw [this]; exact Subgroup.mul_mem _ ihx ihy
@@ -111,7 +111,7 @@ theorem X_le_Y (hc : BinaryActionRankCounterexample G p P T B e ρ) (he : Odd e)
   ElementaryCommSpace.commutator_le_left (Bstar_normalizes_Y hc he)
 
 theorem Bstar_normalizes_X (hc : BinaryActionRankCounterexample G p P T B e ρ) (he : Odd e) :
-    Bstar P B ≤ Subgroup.normalizer (X hc : Set (MulAut ↥P)) := fun b hb =>
+    Bstar P B ≤ Subgroup.normalizer (X hc : Set (MulAut ↥P)) := fun _b hb =>
   ElementaryCommSpace.normalizer_commutator (Bstar_normalizes_Y hc he hb)
     (Subgroup.le_normalizer hb)
 
@@ -141,7 +141,7 @@ theorem central_binary (hc : BinaryActionRankCounterexample G p P T B e ρ) (he 
       ⁅X hc, Bstar P B⁆ = X hc := by
   have hXY := X_le_Y hc he
   have hYe := Y_elemAbelian hc
-  haveI := hYe.1
+  have := hYe.1
   refine ⟨hYe, hXY, ?_, hXY.trans (Y_le hc), fun ψ hψ => Y_commute hc ψ (hXY hψ),
     Bstar_normalizes_X hc he, commutator_X_eq hc he⟩
   refine ⟨?_, fun x hx => hYe.2 x (hXY hx)⟩

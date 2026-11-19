@@ -18,7 +18,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
     ∀ (X : Type) [Group X] [Finite X], CFSG.Open.IsKGroup X → CFSG.pPrimeCore p X = ⊥ →
       2 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) → ∀ N : Subgroup X, IsStronglyPEmbedded p N →
         ¬ CoverHasLargeTwoLocal ↥(CFSG.generalizedFitting X) →
-        IsSolvable ↥N ∨ (p = 5 ∧ (Nat.card N).factorization 5 ≤ 2 ∧
+        Group.IsSolvable ↥N ∨ (p = 5 ∧ (Nat.card N).factorization 5 ≤ 2 ∧
           ∀ Y : Subgroup X, Y ≤ N → ⁅Y, Y⁆ = Y → Nat.card Y ≤ 3600)
 
 variable {G : Type} [Group G] [Finite G]
@@ -28,7 +28,7 @@ namespace Sec7Core4
 theorem solvable_or_of_stronglyEmbeddedSolvable (k : Sec7Core4 G) (h5 : 5 ≤ k.p)
     (h3 : 3 ∉ CFSG.Open.uniqueFourBeta G) {H : Subgroup G}
     (hH : Config k H) (h75 : Step75 k) (hS : StronglyEmbeddedSolvable) :
-    IsSolvable ↥(((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) ∨
+    Group.IsSolvable ↥(((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H))) ∨
       (k.p = 5 ∧
         (Nat.card ↥(((H ⊓ k.M).subgroupOf H).map
           (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H)))).factorization 5 ≤ 2 ∧
@@ -36,7 +36,7 @@ theorem solvable_or_of_stronglyEmbeddedSolvable (k : Sec7Core4 G) (h5 : 5 ≤ k.
           Y ≤ ((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H)) →
           ⁅Y, Y⁆ = Y → Nat.card Y ≤ 3600) := by
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   have hKH : CFSG.Open.IsKGroup ↥H :=
     CFSG.LocalAnalysis.GLTheoremB.isKGroup_of_isKProper k.standing.kProper hH.ne_top
   exact hS k.p hp h5 _

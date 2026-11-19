@@ -172,6 +172,7 @@ section Section
 variable {R P I V : Subgroup G} {Md : Type} [AddCommGroup Md] [DistribMulAction ↥R Md]
   {κ : ↥P →* Multiplicative Md}
 
+omit [Finite G] in
 theorem smul_toAdd_sub_eq (hκ : IsSecMod R P I Md κ) (hP : ∀ r ∈ R, ∀ x ∈ P, r * x * r⁻¹ ∈ P)
     (l : ↥R) (x : ↥P) (hc : ⁅(l : G), (x : G)⁆ ∈ P) :
     l • Multiplicative.toAdd (κ x) - Multiplicative.toAdd (κ x) =
@@ -186,6 +187,7 @@ theorem smul_toAdd_sub_eq (hκ : IsSecMod R P I Md κ) (hP : ∀ r ∈ R, ∀ x 
   rw [← h3]
   abel
 
+omit [Finite G] in
 theorem conj_mem_of_secSub_invariant (hκ : IsSecMod R P I Md κ)
     (hP : ∀ r ∈ R, ∀ x ∈ P, r * x * r⁻¹ ∈ P) {U : Subgroup G} (hIU : I ≤ U) (hUP : U ≤ P)
     (hinv : ∀ z : ↥R, ∀ a ∈ secSub κ U, z • a ∈ secSub κ U) :
@@ -202,6 +204,7 @@ theorem conj_mem_of_secSub_invariant (hκ : IsSecMod R P I Md κ)
     exact h2
   exact (toAdd_mem_secSub_iff hκ hIU _).mp h4
 
+omit [Finite G] in
 theorem secSub_irred_of_irred (hκ : IsSecMod R P I Md κ) (hIV : I ≤ V) (hVP : V ≤ P)
     (hP : ∀ r ∈ R, ∀ x ∈ P, r * x * r⁻¹ ∈ P)
     (hirr : ∀ U : Subgroup G, I ≤ U → U ≤ V → (∀ r ∈ R, ∀ u ∈ U, r * u * r⁻¹ ∈ U) →
@@ -219,6 +222,7 @@ theorem secSub_irred_of_irred (hκ : IsSecMod R P I Md κ) (hIV : I ≤ V) (hVP 
   · right
     rw [← hUT, h]
 
+omit [Finite G] in
 theorem commutator_zpowers_le {Q U : Subgroup G} {s : G}
     (hs : s ∈ Subgroup.normalizer (U : Set G)) (hsU : ∀ x ∈ Q, ⁅x, s⁆ ∈ U) :
     ⁅Q, Subgroup.zpowers s⁆ ≤ U := by

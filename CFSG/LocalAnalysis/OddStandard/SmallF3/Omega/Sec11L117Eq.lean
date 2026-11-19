@@ -47,7 +47,7 @@ theorem sec11_conj_agree_closure {N : Subgroup G} {S : Set G} {u v : G}
 theorem sec11_exists_order_three [Finite G] {Q K : Subgroup G} (hQK : Q ≤ K)
     (hQ : Nat.card Q = 8) (hK : Nat.card K = 24) :
     ∃ ρ ∈ K, ρ * ρ * ρ = 1 ∧ K = Q ⊔ zpowers ρ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3dvd : 3 ∣ Nat.card K := by rw [hK]; norm_num
   obtain ⟨ρ0, hρ0⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 3 h3dvd
   have hord : orderOf (ρ0 : G) = 3 := (Subgroup.orderOf_coe ρ0).trans hρ0

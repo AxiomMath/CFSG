@@ -71,7 +71,7 @@ instance Ysu_normal (w : ℕ) : (Ysu w).Normal :=
 
 theorem five_element_statedSU (hw : 4 ≤ w) :
     ∃ g : GL (Fin w) F4, g ∈ StatedSU w 2 F4 ∧ orderOf g = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(StatedSU w 2 F4)) 5
     (five_dvd_card_statedSU hw)
   refine ⟨(x : GL (Fin w) F4), x.2, ?_⟩
@@ -151,7 +151,7 @@ theorem ker_FSU (w : ℕ) : (FSU w).ker = (StatedScalars (Fin w) F4).subgroupOf 
   rfl
 
 theorem Ysu_simple (hw : 12 ≤ w) : IsSimpleGroup ↥(Ysu w) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F4 2 1 card_F4' w
     (by omega)
     (by intro h; simp only [Prod.mk.injEq] at h; omega)
@@ -173,7 +173,7 @@ theorem oPrimeRes_PGU (hw : 12 ≤ w) : oPrimeRes 5 (PGU w) = Ysu w := by
     rintro y ⟨k, hk⟩
     exact five_power_mem_Ysu y k hk
   · intro y hy
-    haveI := Ysu_simple hw
+    have := Ysu_simple hw
     let H : Subgroup ↥(Ysu w) := (oPrimeRes 5 (PGU w)).subgroupOf (Ysu w)
     rcases (IsSimpleGroup.eq_bot_or_eq_top_of_normal (G := ↥(Ysu w)) H) with h | h
     · exfalso

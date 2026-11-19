@@ -27,7 +27,7 @@ theorem l10a_two_nsmul {T : Type*} [Group T] (hT : ∀ t : T, t * t = 1) (x : Ad
 
 theorem l10a_finrank {T : Type*} [CommGroup T] [Finite T] [Module (ZMod 2) (Additive T)] {n : ℕ}
     (hcard : Nat.card T = 2 ^ n) : Module.finrank (ZMod 2) (Additive T) = n := by
-  haveI : Module.Finite (ZMod 2) (Additive T) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) (Additive T) := Module.Finite.of_finite
   have h : Nat.card (Additive T) = Nat.card (ZMod 2) ^ Module.finrank (ZMod 2) (Additive T) :=
     Module.natCard_eq_pow_finrank
   rw [Nat.card_congr Additive.toMul, Nat.card_zmod, hcard] at h
@@ -45,9 +45,9 @@ theorem l10a_subset {T : Type*} [CommGroup T] [Finite T] [Module (ZMod 2) (Addit
     ∃ S : Finset (Module.Dual (ZMod 2) (Additive T)), S.card = n - 1 ∧
       ∀ χ ∈ S, signWeightSpace ρ χ ≠ ⊥ := by
   classical
-  haveI := l10a_dual_finite (T := T)
-  haveI : FiniteDimensional (ZMod 2) (Additive T) := Module.Finite.of_finite
-  haveI := Fintype.ofFinite (Module.Dual (ZMod 2) (Additive T))
+  have := l10a_dual_finite (T := T)
+  have : FiniteDimensional (ZMod 2) (Additive T) := Module.Finite.of_finite
+  have := Fintype.ofFinite (Module.Dual (ZMod 2) (Additive T))
   set Λ : Finset (Module.Dual (ZMod 2) (Additive T)) :=
     Finset.univ.filter (fun χ => signWeightSpace ρ χ ≠ ⊥) with hΛdef
   have hΛ : (Λ : Set (Module.Dual (ZMod 2) (Additive T))) = {χ | signWeightSpace ρ χ ≠ ⊥} := by
@@ -77,7 +77,7 @@ theorem l10a_common_kernel {T : Type*} [CommGroup T] [Finite T] [Module (ZMod 2)
     (S : Finset (Module.Dual (ZMod 2) (Additive T))) (hS : S.card = n - 1) :
     ∃ x : Additive T, x ≠ 0 ∧ ∀ χ ∈ S, χ x = 0 := by
   classical
-  haveI : FiniteDimensional (ZMod 2) (Additive T) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive T) := Module.Finite.of_finite
   let f : Additive T →ₗ[ZMod 2] (S → ZMod 2) :=
     LinearMap.pi (fun χ : S => (χ.1 : Additive T →ₗ[ZMod 2] ZMod 2))
   have hker : LinearMap.ker f ≠ ⊥ := by
@@ -105,7 +105,7 @@ theorem l10a_card_le {T : Type*} [CommGroup T] [Finite T] [Module (ZMod 2) (Addi
     (S : Finset (Module.Dual (ZMod 2) (Additive T))) (hS : ∀ χ ∈ S, signWeightSpace ρ χ ≠ ⊥)
     (L : Submodule (ZMod 3) W) (hL : ∀ χ ∈ S, signWeightSpace ρ χ ≤ L) :
     S.card ≤ Module.finrank (ZMod 3) L := by
-  haveI := Fintype.ofFinite T
+  have := Fintype.ofFinite T
   have hind : iSupIndep (fun χ : S => signWeightSpace ρ χ.1) :=
     (iSupIndep_signWeightSpace ρ hK).comp Subtype.val_injective
   have hne : ∀ χ : S, ∃ v : W, v ∈ signWeightSpace ρ χ.1 ∧ v ≠ 0 := fun χ =>
@@ -143,8 +143,8 @@ theorem L10a_lin {W : Type*} [AddCommGroup W] [Module (ZMod 3) W] [FiniteDimensi
     {T : Type*} [Group T] [Finite T] (hT : ∀ t : T, t * t = 1) {n : ℕ} (hn : 1 ≤ n)
     (hcard : Nat.card T = 2 ^ n) (ρ : Representation (ZMod 3) T W) (hρ : Function.Injective ρ) :
     ∃ t : T, t ≠ 1 ∧ n - 1 ≤ Module.finrank (ZMod 3) (LinearMap.ker (ρ t - 1)) := by
-  letI : CommGroup T := l10a_commGroup hT
-  letI : Module (ZMod 2) (Additive T) := AddCommGroup.zmodModule (n := 2) (l10a_two_nsmul hT)
+  let : CommGroup T := l10a_commGroup hT
+  let : Module (ZMod 2) (Additive T) := AddCommGroup.zmodModule (n := 2) (l10a_two_nsmul hT)
   exact l10a_core hn (l10a_finrank hcard) ρ hρ
 
 end CFSG.RankThree.PartTwo.Sec13.F135Last

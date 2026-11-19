@@ -109,7 +109,7 @@ theorem odd_card_irrSet_of_homog {W : Type} [CommGroup W] [Finite W]
   have hset : irrSet X =
       {J : Subgroup W | J ≤ SmithD39Two.isoComp ↥X I ∧ XMod.IsIrr ↥X J} := by
     ext J
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · intro hJ
       have hJirr : XMod.IsIrr ↥X J := (isIrr_iff_mem_irrSet hfix).mpr hJ
@@ -134,7 +134,7 @@ theorem exists_stable_mem_irrSet {W : Type} [CommGroup W] [Finite W]
       fun x hx => inv_conj_mem_of_mem_normalizer (hAX a.2) hx
     have h := map_mem_irrSet (g := (a : MulAut W)) h1 h2 I.2
     rwa [Subgroup.pointwise_smul_def]
-  letI : MulAction ↥A ↥(irrSet X) :=
+  let : MulAction ↥A ↥(irrSet X) :=
     { smul := fun a I => ⟨(a : MulAut W) • (I : Subgroup W), hsmul a I⟩
       one_smul := fun I => by
         apply Subtype.ext

@@ -630,7 +630,7 @@ private theorem huppert_XI_6_3_abelianizationLinearCharacter_injective
 private theorem huppert_XI_6_3_abelianizationLinearCharacter_card
     {Q : Type*} [Group Q] [Finite Q] :
     Nat.card (Abelianization Q →* ℂˣ) = Nat.card (Abelianization Q) := by
-  haveI : Finite (Abelianization Q) := Quotient.finite _
+  have : Finite (Abelianization Q) := Quotient.finite _
   let : HasEnoughRootsOfUnity ℂ (Monoid.exponent (Abelianization Q)) := by
     have : NeZero (Monoid.exponent (Abelianization Q)) := by infer_instance
     exact Section1.complex_hasEnoughRootsOfUnity
@@ -696,9 +696,9 @@ private theorem huppert_XI_6_3_product_abelianization_card_le
     (e : A × B ≃* Q) :
     Nat.card (Abelianization A) * Nat.card (Abelianization B) ≤
       Nat.card (Abelianization Q) := by
-  haveI : Finite (Abelianization A) := Quotient.finite _
-  haveI : Finite (Abelianization B) := Quotient.finite _
-  haveI : Finite (Abelianization Q) := Quotient.finite _
+  have : Finite (Abelianization A) := Quotient.finite _
+  have : Finite (Abelianization B) := Quotient.finite _
+  have : Finite (Abelianization Q) := Quotient.finite _
   let CharA := Abelianization A →* ℂˣ
   let CharB := Abelianization B →* ℂˣ
   let CharQ := Abelianization Q →* ℂˣ
@@ -899,7 +899,7 @@ private theorem huppert_XI_1_4_b_primePower_of_large_complement
   have hlt : Nat.card F < 2 * Nat.card Pmap := by omega
   have hFcard : Nat.card F = Nat.card Pmap :=
     Nat.eq_of_dvd_of_lt_two_mul Nat.card_pos.ne' hPmap_dvd_F hlt
-  obtain ⟨f, hPpow⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨f, hPpow⟩ := P.isPGroup.exists_card_eq
   have hfpos : 0 < f := by
     by_contra hf
     have hfzero : f = 0 := Nat.eq_zero_of_not_pos hf
@@ -1589,7 +1589,7 @@ private theorem zassenhaus_odd_twoPointStabilizer_cyclic_and_commutator_eq
       simpa [Qg, hDgRange] using
         (Subgroup.map_le_range iotaD (Qd : Subgroup D))
     have hQgT : Qg ≤ T := hQgDg.trans Subgroup.le_normalizer
-    have hQgP : IsPGroup q Qg := Qd.isPGroup'.map iotaD
+    have hQgP : IsPGroup q Qg := Qd.isPGroup.map iotaD
     let QTsub : Subgroup T := Qg.subgroupOf T
     have hQTsubP : IsPGroup q QTsub :=
       hQgP.of_equiv (Subgroup.subgroupOfEquivOfLe hQgT).symm
@@ -2150,7 +2150,7 @@ private theorem frobenius_normal_subgroup_le_kernel_or_kernel_le
   by_cases hNF : N ≤ F
   · exact Or.inl hNF
   right
-  obtain ⟨n, hnN, hnnotF⟩ := SetLike.not_le_iff_exists.mp hNF
+  obtain ⟨n, hnN, hnnotF⟩ := IsConcreteLE.not_le_iff_exists.mp hNF
   let : F.Normal := hFrob.normal
   have hcentD :
       ∀ r : D, r ≠ 1 → Section2.centralizerIn F (r : H) = ⊥ := by
@@ -2883,14 +2883,14 @@ private theorem huppert_XI_6_5_derived_base_degree_data
         (degreeNat chi : ℂ) := by
     intro chi
     dsimp [degreeNat]
-    rw [dif_pos chi.property]
+    rw [dite_eq_left chi.property]
     exact (Classical.choose_spec (Classical.choose_spec
       (Section6.inducedKernelFamily_degree_data hYbot chi.property))).1
   have hdiv : ∀ chi : Y,
       F.relIndex (⊤ : Subgroup H) ∣ degreeNat chi := by
     intro chi
     dsimp [degreeNat]
-    rw [dif_pos chi.property]
+    rw [dite_eq_left chi.property]
     exact (Classical.choose_spec (Classical.choose_spec
       (Section6.inducedKernelFamily_degree_data hYbot chi.property))).2.2
   have hderNorm : ⁅F, F⁆.Normal := Subgroup.commutator_normal F F
@@ -3277,7 +3277,7 @@ private theorem huppert_XI_6_3_pCore_ne_bot_of_nilpotent_dvd_card
   have hSnormal : (S : Subgroup Q).Normal :=
     Group.IsNilpotent.sylow_normal hnil p S
   have hSle : (S : Subgroup Q) ≤ pCore p Q :=
-    le_sSup ⟨hSnormal, S.isPGroup'⟩
+    le_sSup ⟨hSnormal, S.isPGroup⟩
   have hpS : p ∣ Nat.card (S : Subgroup Q) :=
     Sylow.dvd_card_of_dvd_card S hpdvd
   intro hbot
@@ -3303,7 +3303,7 @@ private theorem huppert_XI_6_3_pCore_abelianization_card_le
       (Subgroup.topEquiv : (⊤ : Subgroup Q) ≃* Q)
   have hproduct :=
     huppert_XI_6_3_product_abelianization_card_le e
-  haveI : Finite (Abelianization (pPrimeCore p Q)) := Quotient.finite _
+  have : Finite (Abelianization (pPrimeCore p Q)) := Quotient.finite _
   have hright :
       1 ≤ Nat.card (Abelianization (pPrimeCore p Q)) :=
     Nat.card_pos
@@ -4442,7 +4442,7 @@ private theorem huppert_XI_6_3_linear_lifted_lower_family
   let lower : Finset ι :=
     Finset.univ.filter (fun i => degreeNat i < a)
   let L := {i : ι // i ∈ lower}
-  haveI : Finite (Abelianization (pPrimeCore p Q)) := Quotient.finite _
+  have : Finite (Abelianization (pPrimeCore p Q)) := Quotient.finite _
   let Char := Abelianization (pPrimeCore p Q) →* ℂˣ
   let : Fintype Char := Fintype.ofFinite _
   let charEquiv : Char ≃ Fin (Fintype.card Char) := Fintype.equivFin Char
@@ -4638,7 +4638,7 @@ private theorem huppert_XI_6_3_abelianization_card_le_complete_lower_sum
     Nat.card (Abelianization Q) ≤
       ∑ chi ∈ K.filter (fun chi => degreeNat chi < z),
         degreeNat chi ^ 2 := by
-  haveI : Finite (Abelianization Q) := Quotient.finite _
+  have : Finite (Abelianization Q) := Quotient.finite _
   let Char := Abelianization Q →* ℂˣ
   let : Fintype Char := Fintype.ofFinite _
   let charEquiv : Char ≃ Fin (Fintype.card Char) := Fintype.equivFin Char
@@ -5171,7 +5171,7 @@ private theorem huppert_XI_6_3_induced_indexed_degree_sum_le
       intro j hj
       have heq : imageInS1 j = imageInS1 i := by
         simpa [fiber] using hj
-      simp only [orbitMap, dif_pos heq]
+      simp only [orbitMap, dite_eq_left heq]
       exact Classical.choose_spec (hsameOrbit i j heq)
     have horbitInj : Set.InjOn orbitMap (fiber : Set ι) := by
       intro j hj k hk heq
@@ -7739,7 +7739,7 @@ private theorem huppert_XI_6_5_frobenius_degree_growth
         (kernelDegree eta : ℂ) := by
     intro eta
     dsimp [kernelDegree]
-    rw [dif_pos eta.property]
+    rw [dite_eq_left eta.property]
     exact (Classical.choose_spec
       (huppert_XI_6_positive_degree_nat (hKirr eta))).2.1
   have hkernelGrowth :
@@ -8923,9 +8923,9 @@ private theorem huppert_XI_5_3_scalarProduct_inflations
     Section1.characterInflationByHom_isIrreducibleCharacterOnGroup pi psi
   by_cases h : chi = psi
   · subst psi
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact Section1.scalarProduct_irreducibleCharacter_self hchi
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact Section1.scalarProduct_irreducibleCharacter_eq_zero_of_ne
       hchi hpsi (fun hEq => h
         ((huppert_XI_5_3_inflation_injective_of_surjective pi hpi) hEq))
@@ -9080,7 +9080,7 @@ public theorem huppert_XI_5_3_nonprincipal_induced_family
       Section1.IsIrreducibleCharacterOnGroup (ind chi) := by
     intro chi
     have hnorm := hpair chi chi
-    rw [if_pos rfl, if_neg (hinv_ne chi)] at hnorm
+    rw [ite_eq_left rfl, ite_eq_right (hinv_ne chi)] at hnorm
     norm_num at hnorm
     apply Section1.isIrreducibleCharacterOnGroup_of_isBookIrreducibleCharacter
     exact ⟨Section1.isCharacter_inducedCF_of_isCharacter H (inflate chi)
@@ -9099,10 +9099,10 @@ public theorem huppert_XI_5_3_nonprincipal_induced_family
       rw [hpair] at hsp
       by_cases hsame : (chi : A) = (psi : A)
       · exact Or.inl hsame
-      · rw [if_neg hsame] at hsp
+      · rw [ite_eq_right hsame] at hsp
         by_cases hinv : (chi : A) = (psi : A)⁻¹
         · exact Or.inr hinv
-        · rw [if_neg hinv] at hsp
+        · rw [ite_eq_right hinv] at hsp
           norm_num at hsp
     · rintro (hsame | hinv)
       · exact congrArg ind hsame
@@ -9110,7 +9110,7 @@ public theorem huppert_XI_5_3_nonprincipal_induced_family
           intro hEq
           exact hinv_ne chi (hinv.trans (by rw [← hEq]))
         have hsp := hpair chi psi
-        rw [if_neg hsame, if_pos hinv] at hsp
+        rw [ite_eq_right hsame, ite_eq_left hinv] at hsp
         norm_num at hsp
         by_contra hne
         have hzero :=
@@ -11107,7 +11107,7 @@ public theorem huppert_XI_6_1_centralPrime_eq_noncommutativeSylowPrime
     let : Subsingleton P := hPsub
     exact ⟨⟨fun x y => Subsingleton.elim (x * y) (y * x)⟩⟩
   obtain ⟨k, hk, hPcard⟩ :=
-    P.isPGroup'.nontrivial_iff_card.mp (inferInstance : Nontrivial P)
+    P.isPGroup.nontrivial_iff_card.mp (inferInstance : Nontrivial P)
   have hp_dvd_P : p ∣ Nat.card P := by
     rw [hPcard]
     exact dvd_pow_self p hk.ne'
@@ -11517,7 +11517,7 @@ public theorem huppert_XI_regular_restriction_multiplicity_free
       let : Fintype K := Fintype.ofFinite K
       unfold scalarProduct Section6.regularCharacter
       rw [Finset.sum_eq_single (1 : K)]
-      · simp only [if_true]
+      · simp only [ite_true]
         rw [hthetaOne]
         have hstar : star ((Nat.card K : ℂ)) = (Nat.card K : ℂ) := by
           simp

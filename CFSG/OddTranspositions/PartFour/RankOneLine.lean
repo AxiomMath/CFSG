@@ -19,6 +19,7 @@ theorem map_pCore_two_le_Malpha (α : Set G) :
     (CFSG.pCore 2 (Halpha D α)).map (Halpha D α).subtype ≤ Malpha D α :=
   Subgroup.map_mono (CFSG.pCore_le_solvableRadical 2 _)
 
+omit [Finite G] in
 theorem conj_mem_map_pCore_two_of_mem_normalizer (hN : IsNormalSet D) {α : Set G} {g x : G}
     (hg : g ∈ Subgroup.normalizer α)
     (hx : x ∈ (CFSG.pCore 2 (Halpha D α)).map (Halpha D α).subtype) :
@@ -35,6 +36,7 @@ theorem conj_mem_map_pCore_two_of_mem_normalizer (hN : IsNormalSet D) {α : Set 
     exact Subgroup.mem_map_of_mem _ hy
   · exact (Halpha D α).normalizerMonoidHom_apply_apply_coe ⟨g, hgH⟩ y
 
+omit [Finite G] in
 theorem isPGroup_mapToConjActStabilizer_pCore (hC : HypothesisC D) (β : Set G) :
     IsPGroup 2 (mapToConjActStabilizer hC
       ((CFSG.pCore 2 (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype) β) := by
@@ -75,7 +77,7 @@ private theorem rankOneLine_smul_eq_base_and_right (h89 : PartThree.Lemma8_9)
   classical
   let ℓ : Set (Set G) := blockLine D hC.alpha β
   let pt : ↥ℓ := ⟨β, right_mem_blockLine hβ.1 hβ.2.1⟩
-  haveI : Finite ↥ℓ := Set.Finite.to_subtype (Set.toFinite ℓ)
+  have : Finite ↥ℓ := Set.Finite.to_subtype (Set.toFinite ℓ)
   have hpre : IsPretransitive (blockLineStabilizer hC β) ↥ℓ :=
     isPretransitive_stabilizer_blockLine h89 h113 hC hrad hW hn3 hMZ hβ
   obtain ⟨g₁, hg₁⟩ := MulAction.IsPretransitive.exists_smul_eq
@@ -288,7 +290,7 @@ theorem ncard_blockLine_lt_sq_add_one (h89 : PartThree.Lemma8_9)
   have hmpos : 0 < m := by omega
   have hΔ := ncard_blockLine_diff_eq h113 hC hrad hn3 hHns hβ
   have hℓ : (blockLine D hC.alpha β).ncard = Δ.ncard + 1 :=
-    (Set.ncard_diff_singleton_add_one hαℓ (Set.toFinite _)).symm
+    (Set.ncard_sdiff_singleton_add_one hαℓ (Set.toFinite _)).symm
   have hmul : r * m < m * m := Nat.mul_lt_mul_of_pos_right hrlt hmpos
   calc (blockLine D hC.alpha β).ncard = Δ.ncard + 1 := hℓ
     _ = r * m + 1 := by rw [hΔ]
@@ -329,7 +331,7 @@ theorem exists_ncard_blockLine_eq_two_pow_add_one_of_lt
   let F : Subgroup X := mapToConjActStabilizer hC N β
   let m : ℕ := ((fun x => cimg x β) '' (Malpha D hC.alpha : Set G)).ncard
   let pt : ↥ℓ := ⟨β, right_mem_blockLine hβ.1 hβ.2.1⟩
-  haveI : Finite ↥ℓ := Set.Finite.to_subtype (Set.toFinite ℓ)
+  have : Finite ↥ℓ := Set.Finite.to_subtype (Set.toFinite ℓ)
   have h2 : ∀ a b c d : ↥ℓ, a ≠ b → c ≠ d → ∃ g : X, g • a = c ∧ g • b = d :=
     exists_smul_eq_and_smul_eq_blockLine h89 h113 hC hrad hW hn3 hMZ hβ
   have hPα : P ≤ MulAction.stabilizer X (blockLineBase hC β) :=

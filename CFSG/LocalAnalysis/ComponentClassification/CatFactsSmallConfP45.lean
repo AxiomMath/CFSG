@@ -220,7 +220,7 @@ theorem QA45_closure_list : QA45.originalSubgroup = closure {g | g ∈ [x45, y45
   congr 1
   ext g
   simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_insert_iff,
-    Set.mem_singleton_iff, Set.mem_setOf_eq]
+    Set.mem_singleton_iff, Set.mem_ofPred_eq]
 
 theorem cfCard_D : Nat.card ↥(QQ45.originalSubgroup ⊓ QL45.originalSubgroup) = 8 := by
   rw [card_inf_eq_length QQ45 QQ45_ok QL45.originalSubgroup (fun x => QL45.sift x 0)

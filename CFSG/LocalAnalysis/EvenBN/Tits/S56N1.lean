@@ -119,11 +119,11 @@ theorem s56_B_le_N (d : Data G) : d.B ≤ d.N := fun b hb =>
     simpa [mul_assoc] using this⟩
 
 theorem Hyp.s56_B_isPGroup (hd : d.Hyp) : IsPGroup 2 d.B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact IsPGroup.of_card (n := 6) hd.B_facts.2.2.2.1
 
 theorem Hyp.s56_B_le_P0 (hd : d.Hyp) : d.B ≤ d.s56P0 :=
-  s56_le_P0_of_normal d (s56_B_le_N d) hd.s56_B_isPGroup fun n hn b hb =>
+  s56_le_P0_of_normal d (s56_B_le_N d) hd.s56_B_isPGroup fun _n hn b hb =>
     (mem_normalizer_iff.1 hn b).1 hb
 
 theorem s56_F_le_B (d : Data G) : d.F ≤ d.B := le_sup_left
@@ -132,7 +132,7 @@ theorem s56_t_mem_B (d : Data G) : d.t ∈ d.B := mem_sup_right (mem_zpowers _)
 
 theorem Hyp.s56_F_le_P0 (hd : d.Hyp) : d.F ≤ d.s56P0 := (s56_F_le_B d).trans hd.s56_B_le_P0
 
-theorem Hyp.s56_t_mem_CNt (hd : d.Hyp) : d.t ∈ d.N ⊓ centralizer ({d.t} : Set G) :=
+theorem Hyp.s56_t_mem_CNt (_hd : d.Hyp) : d.t ∈ d.N ⊓ centralizer ({d.t} : Set G) :=
   mem_inf.2 ⟨s56_B_le_N d (s56_t_mem_B d), t_mem_centralizer d⟩
 
 end Data

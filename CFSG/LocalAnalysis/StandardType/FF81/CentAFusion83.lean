@@ -127,7 +127,7 @@ theorem centAFus_of_afterProp2 {G : Type} [Group G] [Finite G] {n : ℕ} {b t : 
         _ = g⁻¹ * ((g * b * g⁻¹) * x) * g := by rw [h]
         _ = b * (g⁻¹ * x * g) := by group
     have hx'pow : (g⁻¹ * x * g) ^ 3 ^ k' = 1 := by
-      rw [show g⁻¹ * x * g = (MulAut.conj g⁻¹) x by simp [MulAut.conj_apply]]
+      rw [show g⁻¹ * x * g = (MulAut.conj g⁻¹) x by simp]
       rw [← map_pow, hxk', map_one]
     have hx'sup : g⁻¹ * x * g ∈ Subgroup.zpowers b ⊔ L :=
       mem_zpowers_sup_of_pow_eq_one hset hP2.loc

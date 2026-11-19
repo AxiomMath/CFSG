@@ -33,6 +33,7 @@ private noncomputable def s16c6_barSubBar2Hom {V₀ V : Subgroup G} (hV : IsElem
     exact Subtype.ext h1
   exact QuotientGroup.lift (CFSG.pCore 2 ↥L) φ hker
 
+omit [Finite G] in
 private theorem s16c6_barSubBar2Hom_surjective {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {L : Subgroup G} (hLS : L ≤ stabTil V₀ V) (h2 : barSub V₀ V hV (pCoreOf 2 L) = ⊥) :
     Function.Surjective (s16c6_barSubBar2Hom hV hLS h2) := by
@@ -44,6 +45,7 @@ private theorem s16c6_barSubBar2Hom_surjective {V₀ V : Subgroup G} (hV : IsEle
   change actTil V₀ V hV a = (y : MulAut (Vtil V₀ V hV))
   rw [hay]
 
+omit [Finite G] in
 private theorem s16c6_barSubBar2Hom_mk {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {L : Subgroup G} (hLS : L ≤ stabTil V₀ V) (h2 : barSub V₀ V hV (pCoreOf 2 L) = ⊥)
     (l : ↥L) :
@@ -62,7 +64,7 @@ theorem s16c6_parabolic_of_singular
       ParabolicOf K P ∧ X = F07.DerInf P ∧ IsL2 (Bar2 X) (2 * 3) ∧ pCoreOf 2 X ≠ ⊥ ∧
       ∀ x ∈ X, x * w * x⁻¹ * w⁻¹ ∈ V₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hKcalC, hKN, hKbar, hKsimple⟩ := s16c6_exists_cover D hstd hS hc
   have hH : Hyp125 D V₀ V := hS.setting.hyp16.hyp125
   have hKM : K ≤ D.M := CFSG.Quasithin.A3.subnormal_le hKcalC.1

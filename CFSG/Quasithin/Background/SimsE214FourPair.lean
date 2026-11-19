@@ -37,6 +37,7 @@ theorem fixed_of_pair (hp : E2.Pair X T M V g) :
   rw [← hp.B_inf_A]
   exact ⟨hB, hA⟩
 
+omit [Finite Γ] in
 theorem le_sup_kerIn {L : Subgroup Γ} (hL : E2.star M X L = ⊤) : X ≤ L ⊔ kerIn M X := by
   intro x hx
   have h1 : E2P.starMap M X ⟨x, hx⟩ ∈ E2.star M X L := by
@@ -51,7 +52,8 @@ theorem le_sup_kerIn {L : Subgroup Γ} (hL : E2.star M X L = ⊤) : X ≤ L ⊔ 
   rw [e1]
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hl) (Subgroup.mem_sup_right (by simpa using hlx))
 
-theorem le_sup_zpowers_sup_kerIn {W : Subgroup Γ} {e : Γ} (hWX : W ≤ X) (heX : e ∈ X)
+omit [Finite Γ] in
+theorem le_sup_zpowers_sup_kerIn {W : Subgroup Γ} {e : Γ} (_hWX : W ≤ X) (heX : e ∈ X)
     (h : E2.star M X W ⊔ Subgroup.zpowers (E2P.starMap M X ⟨e, heX⟩) = ⊤) :
     X ≤ (W ⊔ Subgroup.zpowers e) ⊔ kerIn M X := by
   refine le_sup_kerIn (eq_top_iff.mpr (h ▸ sup_le ?_ ?_))
@@ -159,7 +161,7 @@ theorem four_of_gen (hp : E2.Pair X T M V g) (hJ : pCoreOf 2 X = kerIn M X)
     rw [← hZc z hz x hxX, mul_inv_cancel_right]
   have hxY₂ : ∀ y ∈ Y₂, x * y * x⁻¹ ∈ Y₂ := fun y hy =>
     (Subgroup.mem_normalizer_iff.mp (hXY₂ hxX) y).mp hy
-  obtain ⟨y₀, hy₀Y₁, hy₀Y₂⟩ := SetLike.exists_of_lt hY
+  obtain ⟨y₀, hy₀Y₁, hy₀Y₂⟩ := _root_.IsConcreteLE.exists_of_lt hY
   have hxne : ∃ y ∈ Y₁, x * y * x⁻¹ * y⁻¹ ∉ Y₂ := ⟨y₀, hy₀Y₁, fun h => hy₀Y₂
     (mem_of_commutator_mem hZY (hY.le.trans hY₁P) (hPX.trans hXZ) hxZ hxY₂ hxfpf
       (hY₁P hy₀Y₁) h)⟩

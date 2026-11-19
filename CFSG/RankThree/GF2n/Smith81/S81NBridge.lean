@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
   {ψ : M₀.E ≃ₗ[K] Cube K} {φ : Lgen M (LB M Q B) →* (Cube K ≃ₗ[K] Cube K)}
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem exists_lift (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K)) {g : GL (Fin 6) K}
     (hg : (g : Matrix (Fin 6) (Fin 6) K).det = 1) :
     ∃ s : Lgen M (LB M Q B), φ s = rhoEquiv K g := by
@@ -27,6 +28,7 @@ theorem exists_lift (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K)) {g :
   obtain ⟨s, hs⟩ := hgG
   exact ⟨s, hs⟩
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem psi_T (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K)) {x : G}
     (hxL : x ∈ Lgen M (LB M Q B)) (Tx : XAct M₀ x) {t : GL (Fin 6) K}
     (hφ : φ ⟨x, hxL⟩ = rhoEquiv K t) (e : M₀.E) : ψ (Tx.T e) = rho K t (ψ e) := by
@@ -34,6 +36,7 @@ theorem psi_T (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K)) {x : G}
   rw [← Tx.hπ y hy, d.equivariant ⟨x, hxL⟩ y hy, hφ]
   rfl
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem mem_Cs_iff (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K)) {x : G}
     (hxL : x ∈ Lgen M (LB M Q B)) (Tx : XAct M₀ x) {t : GL (Fin 6) K}
     (hφ : φ ⟨x, hxL⟩ = rhoEquiv K t) {e : M₀.E} :
@@ -41,6 +44,7 @@ theorem mem_Cs_iff (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K)) {x : 
   rw [mem_Cs, LinearMap.mem_ker, LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero,
     ← psi_T d hxL Tx hφ, ψ.injective.eq_iff]
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem mem_Rs_iff (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K)) {x : G}
     (hxL : x ∈ Lgen M (LB M Q B)) (Tx : XAct M₀ x) {t : GL (Fin 6) K}
     (hφ : φ ⟨x, hxL⟩ = rhoEquiv K t) {r : M₀.E} :
@@ -55,6 +59,7 @@ theorem mem_Rs_iff (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K)) {x : 
     rw [map_sub, psi_T d hxL Tx hφ, LinearEquiv.apply_symm_apply, ← hξ,
       LinearMap.sub_apply, Module.End.one_apply]
 
+omit [Finite K] [CharP K 2] in
 theorem rootPt_of_pure (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K))
     (H : StrothHyp M Q Z) {ξ : Cube K} (hξ : IsPure K ξ) : RootPt M₀ (ψ.symm ξ) := by
   by_cases h0 : ξ = 0
@@ -64,6 +69,7 @@ theorem rootPt_of_pure (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K))
     right
     exact ⟨A, hA, hAQ, hAZ, a, haA, by rw [← ha, LinearEquiv.symm_apply_apply]⟩
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem comm_mem_Q_of_lift (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K)) {x u : G}
     (hxL : x ∈ Lgen M (LB M Q B)) (hu : u ∈ Lgen M (LB M Q B)) {t u₀ : GL (Fin 6) K}
     (hφx : φ ⟨x, hxL⟩ = rhoEquiv K t) (hφu : φ ⟨u, hu⟩ = rhoEquiv K u₀)
@@ -81,6 +87,7 @@ section Main
 
 variable {X : Subgroup G} {x : G}
 
+omit [Finite K] in
 theorem qf_zero_of_QfR (hD : GlobalModelData M Q Z γ M₀)
     (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K)) (hs : Sit M Q Z X x)
     (hxL : x ∈ Lgen M (LB M Q B)) (Tx : XAct M₀ x) {t : GL (Fin 6) K}
@@ -121,6 +128,7 @@ theorem qf_zero_of_QfR (hD : GlobalModelData M Q Z γ M₀)
   have := key (ψ r) (hQ h1)
   simpa using this
 
+omit [Finite K] in
 theorem e3l28_of_involModel12 (hc : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K))
     (hform : ∃ lam : K, lam ≠ 0 ∧ ∀ e f : M₀.E, M₀.B e f = lam * beta K (ψ e) (ψ f))

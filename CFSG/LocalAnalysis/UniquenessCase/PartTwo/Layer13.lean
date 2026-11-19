@@ -26,6 +26,7 @@ theorem s13_mem_compsP {p : ℕ} {J : Subgroup Q} :
     J ∈ s13_compsP Q p ↔ CFSG.IsComponent J ∧ p ∣ Nat.card J := by
   simp [s13_compsP]
 
+omit [Finite Q] in
 theorem s13_Layer13_component_not_commutative {J : Subgroup Q} (hJ : CFSG.IsComponent J) :
     ∃ x y : J, x * y ≠ y * x := by
   obtain ⟨-, -, a, b, hab⟩ := hJ.1
@@ -46,7 +47,7 @@ theorem s13_Layer13_layer_eq_iSup :
   unfold s13_Layer13_comps
   rw [← Finset.iSup_coe, Set.Finite.coe_toFinset]
 
-theorem s13_components_commute (hns : s13_NormalSimple Q) {J K : Subgroup Q}
+theorem s13_components_commute (_hns : s13_NormalSimple Q) {J K : Subgroup Q}
     (hJ : CFSG.IsComponent J) (hK : CFSG.IsComponent K) (hne : J ≠ K) :
     J ≤ Subgroup.centralizer (K : Set Q) := by
   rcases CFSG.LocalCores.distinct_components_commute hJ hK with h | h
@@ -69,8 +70,8 @@ theorem s13_inf_iSup_eq_bot (hns : s13_NormalSimple Q) {J : Subgroup Q} (hJ : CF
     have hnP : (n : Q) ∈ P := (Subgroup.mem_subgroupOf.mp hn).2
     exact Subtype.ext (Subgroup.mem_centralizer_iff.mp (hPc hnP) m m.2)
   have hNbot : N = ⊥ := by
-    haveI : IsSimpleGroup ↥J := (hns J hJ).2
-    haveI : (N.subgroupOf J).Normal := hNnorm
+    have : IsSimpleGroup ↥J := (hns J hJ).2
+    have : (N.subgroupOf J).Normal := hNnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf J) with hbot | htop
     · rw [Subgroup.subgroupOf_eq_bot] at hbot
       exact hbot.eq_bot_of_le inf_le_left
@@ -157,6 +158,7 @@ theorem s13_exists_mul_of_inner (hns : s13_NormalSimple Q) {x : Q}
     intro h hh
     exact (Subgroup.mem_centralizer_iff.mp (hlayer hh) (e⁻¹ * x) (by simp)).symm
 
+omit [Finite Q] in
 theorem s13_commutator_le_sup_centralizer (J : Subgroup Q) [J.Normal]
     (hOut : ∀ σ τ : MulAut ↥J, ∃ y : ↥J, σ * τ * σ⁻¹ * τ⁻¹ = MulAut.conj y) :
     commutator Q ≤ J ⊔ Subgroup.centralizer (J : Set Q) := by
@@ -182,6 +184,7 @@ theorem s13_commutator_le_sup_centralizer (J : Subgroup Q) [J.Normal]
   rw [sup_comm, ← hdmy]
   exact Subgroup.mul_mem_sup hd y.2
 
+omit [Finite Q] in
 theorem s13_prime_dvd_card_of_mem_sup_centralizer (J : Subgroup Q) {y : Q}
     (hy : y ∈ J ⊔ Subgroup.centralizer (J : Set Q))
     (hyc : y ∉ Subgroup.centralizer (J : Set Q)) {r : ℕ} (hr : r.Prime) (hyr : y ^ r = 1) :
@@ -226,7 +229,7 @@ theorem s13_pElementSubgroup_layer_eq (hns : s13_NormalSimple Q) {p : ℕ} (hp :
       intro hS x hx hxpow
       have haC : CFSG.IsComponent a := hS a (Finset.mem_insert_self a S)
       have hSC : ∀ K ∈ S, CFSG.IsComponent K := fun K hK => hS K (Finset.mem_insert_of_mem hK)
-      haveI : a.Normal := (hns a haC).1
+      have : a.Normal := (hns a haC).1
       rw [Finset.iSup_insert] at hx
       obtain ⟨u, hu, v, hv, huv⟩ :=
         (Subgroup.mem_sup_of_normal_left (s := a) (t := ⨆ K ∈ S, K)).mp hx
@@ -279,7 +282,7 @@ theorem s13_pElementSubgroup_layer_eq (hns : s13_NormalSimple Q) {p : ℕ} (hp :
             exact hpua (by rw [hj]; exact dvd_pow_self p hj0)
           have : orderOf u = 1 := by rw [hj, hj0, pow_zero]
           exact orderOf_eq_one_iff.mp this
-        rw [show x = v by rw [← huv, hu1, one_mul], Finset.filter_insert, if_neg hpa]
+        rw [show x = v by rw [← huv, hu1, one_mul], Finset.filter_insert, ite_eq_right hpa]
         exact ih hSC v hv ⟨k, hv_one⟩
   refine le_antisymm ?_ ?_
   · rw [pElementSubgroup, Subgroup.closure_le]
@@ -306,13 +309,13 @@ theorem s13_pElementSubgroup_layer_eq (hns : s13_NormalSimple Q) {p : ℕ} (hp :
       change CFSG.RankThree.PartOne.conjBy w (pElementSubgroup p J) = pElementSubgroup p J
       rw [← CFSG.RankThree.PartOne.Equivariance.pElementSubgroup_conjBy p w J]
       congr 1
-      haveI : J.Normal := hJN
+      have : J.Normal := hJN
       exact Subgroup.Normal.map_conj_eq (H := J) w
     have hNJ : pElementSubgroup p J ≤ J := by
       unfold pElementSubgroup
       exact (Subgroup.closure_le J).mpr fun x hx => hx.1
     have hNnontriv : pElementSubgroup p J ≠ ⊥ := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' (G := ↥J) p hpJ
       have hsmem : (s : Q) ∈ pElementSubgroup p J :=
         Subgroup.subset_closure ⟨s.2, ⟨1, by rw [pow_one, Subgroup.orderOf_coe, hs]⟩⟩
@@ -325,8 +328,8 @@ theorem s13_pElementSubgroup_layer_eq (hns : s13_NormalSimple Q) {p : ℕ} (hp :
       rw [hbot] at hsmem
       exact hsne (Subgroup.mem_bot.mp hsmem)
     have hsub : (pElementSubgroup p J).subgroupOf J = ⊤ := by
-      haveI : IsSimpleGroup ↥J := (hns J hJc).2
-      haveI : ((pElementSubgroup p J).subgroupOf J).Normal := hNnorm.subgroupOf J
+      have : IsSimpleGroup ↥J := (hns J hJc).2
+      have : ((pElementSubgroup p J).subgroupOf J).Normal := hNnorm.subgroupOf J
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((pElementSubgroup p J).subgroupOf J) with
         h | h
       · exfalso
@@ -383,6 +386,7 @@ theorem s13_le_centralizer_pElementSubgroup_layer (hns : s13_NormalSimple Q) {p 
     exact s13_components_commute hns hKc hJ (fun h => hpJ (h ▸ hpK))
   exact Subgroup.le_centralizer_iff.mpr hEp
 
+omit [Finite Q] in
 theorem s13_Layer13_inf_centralizer_eq_bot (hns : s13_NormalSimple Q) {J : Subgroup Q}
     (hJ : CFSG.IsComponent J) : J ⊓ Subgroup.centralizer (J : Set Q) = ⊥ := by
   set N : Subgroup Q := J ⊓ Subgroup.centralizer (J : Set Q) with hN
@@ -392,8 +396,8 @@ theorem s13_Layer13_inf_centralizer_eq_bot (hns : s13_NormalSimple Q) {J : Subgr
     intro m
     exact Subtype.ext (Subgroup.mem_centralizer_iff.mp (Subgroup.mem_subgroupOf.mp hn).2 m m.2)
   have hNbot : N = ⊥ := by
-    haveI : IsSimpleGroup ↥J := (hns J hJ).2
-    haveI : (N.subgroupOf J).Normal := hNnorm
+    have : IsSimpleGroup ↥J := (hns J hJ).2
+    have : (N.subgroupOf J).Normal := hNnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf J) with hbot | htop
     · rw [Subgroup.subgroupOf_eq_bot] at hbot
       exact hbot.eq_bot_of_le inf_le_left
@@ -423,7 +427,7 @@ theorem s13_inf_centralizer_eq_bot (hns : s13_NormalSimple Q) {p : ℕ} (hp : p.
       intro hS z hz hcent
       have haC : CFSG.IsComponent a := hS a (Finset.mem_insert_self a S)
       have hSC : ∀ K ∈ S, CFSG.IsComponent K := fun K hK => hS K (Finset.mem_insert_of_mem hK)
-      haveI : a.Normal := (hns a haC).1
+      have : a.Normal := (hns a haC).1
       rw [Finset.iSup_insert] at hz
       obtain ⟨u, hu, v, hv, huv⟩ :=
         (Subgroup.mem_sup_of_normal_left (s := a) (t := ⨆ K ∈ S, K)).mp hz

@@ -41,7 +41,7 @@ theorem tabMFive_shapeRkAt'_of_inverted {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hs : IsSimpleGroup ↥H) (hnab : ∃ a b : ↥H, a * b ≠ b * a) (hpH : p ∣ Nat.card ↥H)
     (hbound : Nat.card ↥(Subgroup.centralizer ({k} : Set G)) ≤ p * Nat.card ↥H)
     (hG : Good ↥H) (hR : Rk ↥H) : ShapeRkAt' p Good Rk k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set X : Subgroup G := Subgroup.centralizer ({k} : Set G) with hX
   have hkX : k ∈ X := Subgroup.mem_centralizer_singleton_iff.2 rfl
   have hinv : ∀ g ∈ Subgroup.zpowers k, α * g * α⁻¹ = g⁻¹ := by
@@ -140,7 +140,7 @@ theorem tabMFive_shapeRkAt'_of_inverted {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have hKp : IsPGroup p ↥(Subgroup.zpowers k) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hk, pow_one])
   have hcent : IsPGroup p ↥(X ⊓ Subgroup.centralizer (H : Set G)) := hKp.to_le hcentle
-  haveI := hs
+  have := hs
   have hLq : CFSG.Open.IsQuasisimple ↥H := tabMFive_quasisimple_of_simple_nonab hnab
   have hcoreH : GLAPPrimeCore p ↥H = ⊥ := glaPPrimeCore_eq_bot_of_simple hp hpH
   have hG' : Good (PSimple p H) :=

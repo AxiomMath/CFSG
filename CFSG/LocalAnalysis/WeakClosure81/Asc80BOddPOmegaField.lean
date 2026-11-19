@@ -365,7 +365,7 @@ theorem exists_stable_singular_field {K : Type} [Field K] [Finite K] {d : ℕ}
   let q2K : QuadraticForm K (Fin d → K) := (Q.comp (LinearMap.id + BmL)) - Q - Q.comp BmL
   have hq2K : ∀ v : Fin d → K, q2K v = polar Q v (BmL v) := by
     intro v
-    simp only [q2K, QuadraticMap.sub_apply, QuadraticMap.comp_apply, LinearMap.add_apply,
+    simp only [q2K, _root_.sub_apply, QuadraticMap.comp_apply, LinearMap.add_apply,
       LinearMap.id_apply]
     rw [QuadraticMap.map_add Q v (BmL v)]
     abel

@@ -46,6 +46,7 @@ section Basic
 
 variable {H : Type} [Group H] [Finite H] {K T : Subgroup H}
 
+omit [Finite H] in
 theorem pCore_map_subtype_normal (hK : K.Normal) :
     ((CFSG.pCore 2 ↥K).map K.subtype).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -56,11 +57,13 @@ theorem pCore_map_subtype_normal (hK : K.Normal) :
     exact ⟨k, hk, rfl⟩
   exact ⟨_, hmem, by simp [MulAut.conjNormal_apply]⟩
 
+omit [Finite H] in
 theorem le_of_normal_pGroup {N : Subgroup H} (hN : N.Normal) (hp : IsPGroup 2 ↥N)
     (hT : IsSylowTwoOf T ⊤) : N ≤ T := by
   obtain ⟨hp', hi⟩ := K1.isSylowTwoOf_top_iff.mp hT
   exact IsPGroup.le_sylow_of_normal hp (hp'.toSylow hi)
 
+omit [Finite H] in
 theorem exists_pow_mem_of_sup_eq_top (hK : K.Normal) (hKT : K ⊔ T = ⊤) (hT : IsPGroup 2 ↥T)
     (x : H) : ∃ a : ℕ, x ^ 2 ^ a ∈ K := by
   have hx : x ∈ ((K ⊔ T : Subgroup H) : Set H) := by rw [hKT]; trivial
@@ -87,6 +90,7 @@ theorem eq_one_of_commutes {X : Type*} [Group X] [IsSimpleGroup X]
     have ha : a ∈ Subgroup.center X := by rw [h]; trivial
     exact (hab (Subgroup.mem_center_iff.mp ha b).symm).elim
 
+omit [Finite H] in
 theorem centralizer_map_eq_bot (hK : K.Normal) (hKT : K ⊔ T = ⊤) (hT : IsPGroup 2 ↥T)
     (hcen : ∀ x ∈ K.map (QuotientGroup.mk' (CFSG.pCore 2 H)),
       (∀ n ∈ K.map (QuotientGroup.mk' (CFSG.pCore 2 H)), n * x = x * n) → x = 1) :
@@ -147,9 +151,9 @@ theorem not_normal_of_quotient (hK : K.Normal) (hT : IsSylowTwoOf T ⊤)
     exact this
   have hle : (T ⊓ K).subgroupOf K ≤ f.ker := by
     rw [← hker_eq]
-    haveI := hTn
-    haveI := hK
-    haveI : ((T ⊓ K).subgroupOf K).Normal := Subgroup.Normal.subgroupOf inferInstance K
+    have := hTn
+    have := hK
+    have : ((T ⊓ K).subgroupOf K).Normal := Subgroup.Normal.subgroupOf inferInstance K
     exact le_sSup ⟨inferInstance, hp⟩
   have hdvd : f.ker.index ∣ ((T ⊓ K).subgroupOf K).index := Subgroup.index_dvd_of_le hle
   have hidx : f.ker.index = 168 := by
@@ -170,7 +174,7 @@ theorem nParam_le_one_of_pgl7
     sl_isSimple_of_card_two hK2 le_rfl
   have hker_eq : CFSG.pCore 2 ↥K = f.ker := pCore_two_eq_ker hnab f hf hker
   set Y := CFSG.pCore 2 H with hY
-  haveI hYn : Y.Normal := CFSG.pCore_normal
+  have hYn : Y.Normal := CFSG.pCore_normal
   have hYT : Y ≤ T := le_of_normal_pGroup hYn CFSG.pCore_isPGroup hT
   have hmin : MinParabolic (⊤ : Subgroup H) T T :=
     ⟨hT, not_normal_of_quotient hK hT f hf hker, isUniqueMaxOver_iff.mpr
@@ -197,7 +201,7 @@ theorem nParam_le_one_of_pgl7
         intro g
         obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (p := 2) (G := H)) ⟨(g.1 : H), g.2⟩
         exact ⟨n, Subtype.ext (Subtype.ext (by simpa using congrArg Subtype.val hn))⟩
-      haveI : (Y.subgroupOf K).Normal := Subgroup.Normal.subgroupOf hYn K
+      have : (Y.subgroupOf K).Normal := Subgroup.Normal.subgroupOf hYn K
       exact (le_sSup ⟨inferInstance, hp⟩ : Y.subgroupOf K ≤ CFSG.pCore 2 ↥K) hkY
     · intro hk
       apply Subtype.ext
@@ -207,7 +211,7 @@ theorem nParam_le_one_of_pgl7
   let θ : ↥N ≃* Matrix.SpecialLinearGroup (Fin 3) (ZMod 2) :=
     (QuotientGroup.quotientKerEquivOfSurjective (π.subgroupMap K) hsurj).symm.trans
       ((QuotientGroup.quotientMulEquivOfEq hkerπ).trans (QuotientGroup.quotientKerEquivOfSurjective f hf))
-  haveI : IsSimpleGroup ↥N := θ.isSimpleGroup
+  have : IsSimpleGroup ↥N := θ.isSimpleGroup
   have hncN : ∃ x y : ↥N, x * y ≠ y * x := by
     obtain ⟨a, b, hab⟩ := hnab
     refine ⟨θ.symm a, θ.symm b, fun h => hab ?_⟩

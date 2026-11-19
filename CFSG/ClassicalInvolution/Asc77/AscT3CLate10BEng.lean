@@ -32,7 +32,7 @@ theorem Std20G.late_swap_sq_data (d : Std20G K K' J S R R' W V z t) {σ e : G}
   have heK' : e ∉ K' := by
     intro heK'
     have hA2 : IsPGroup 2 ↥(Subgroup.zpowers e) :=
-      S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (d.hWS heW))
+      S.isPGroup.to_le (Subgroup.zpowers_le.mpr (d.hWS heW))
     have hcard := Sec6Gen.card_le_two_of_le_inf d.late_hΩ d.late_mem_K d.late_mem_K' d.ne.symm hA2
       (Subgroup.zpowers_le.mpr heKW.1) (Subgroup.zpowers_le.mpr heK')
     rw [Nat.card_zpowers] at hcard

@@ -313,7 +313,7 @@ private theorem factored_of_huppert [Finite G] {p : ℕ} [Fact p.Prime] (S : Syl
             le_rfl hh
         · push Not at hrad
           obtain ⟨R, hUCR, hRN, hNR, hk, hne⟩ := hrad
-          obtain ⟨D, hUD, hDS, hext⟩ := exists_extension_of_not_radical S.isPGroup' hUS
+          obtain ⟨D, hUD, hDS, hext⟩ := exists_extension_of_not_radical S.isPGroup hUS
             (coprime_index_of_huppertExtremal hUext) hUCR hRN hNR hk hne
           obtain ⟨h', hh'S, hh'⟩ := hext h hh
           have hcard : Nat.card A < Nat.card D :=

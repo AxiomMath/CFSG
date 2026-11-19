@@ -29,12 +29,12 @@ private theorem B_eq_zero_of_mem_span (M₀ : QuadModel QF V K γ) {S : AddSubgr
     (fun _ _ _ _ _ _ ha hb => by simp [map_add, LinearMap.add_apply, ha, hb])
     (fun _ _ _ _ _ _ ha hb => by simp [map_add, ha, hb])
     (fun _ _ _ _ _ ha => by simp [map_smul, LinearMap.smul_apply, ha])
-    (fun _ _ _ _ _ ha => by simp [map_smul, LinearMap.smul_apply, ha]) hx hy
+    (fun _ _ _ _ _ ha => by simp [map_smul, ha]) hx hy
 
 private theorem two_mul_finrank_span_le_of_isotropic (M₀ : QuadModel QF V K γ)
     {S : AddSubgroup M₀.E} (hS : ∀ x ∈ S, ∀ y ∈ S, M₀.B x y = 0) :
     2 * Module.finrank K (Submodule.span K (S : Set M₀.E)) ≤ Module.finrank K M₀.E := by
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   have hle : Submodule.span K (S : Set M₀.E) ≤
       M₀.B.orthogonal (Submodule.span K (S : Set M₀.E)) := by
     intro x hx
@@ -63,7 +63,7 @@ private theorem eq_of_gamma_eq (M₀ : QuadModel QF V K γ) (R : GammaReg QF V �
     _ = v := one_mul v
 
 private theorem B_eq_zero_on_img (M₀ : QuadModel QF V K γ) (R : GammaReg QF V γ)
-    {A : Subgroup G} (hAQ : A ≤ QF) (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) :
+    {A : Subgroup G} (_hAQ : A ≤ QF) (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) :
     ∀ e ∈ M₀.img A, ∀ f ∈ M₀.img A, M₀.B e f = 0 := by
   intro e he f hf
   obtain ⟨a, haA, haQ, rfl⟩ := he
@@ -98,9 +98,9 @@ private theorem card_span_img_sq [Finite G] (M₀ : QuadModel QF V K γ) (R : Ga
     (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     (hcard : Nat.card A ^ 2 = Nat.card QF * Nat.card V) :
     Nat.card (Submodule.span K (M₀.img A : Set M₀.E)) ^ 2 = Nat.card M₀.E := by
-  haveI : Finite K := finite_K_of_gammaReg R
-  haveI : Module.Finite K M₀.E := M₀.fin
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite K := finite_K_of_gammaReg R
+  have : Module.Finite K M₀.E := M₀.fin
+  have : Finite M₀.E := Module.finite_of_finite K
   have hWc : Nat.card (Submodule.span K (M₀.img A : Set M₀.E)) =
       Nat.card K ^ Module.finrank K (Submodule.span K (M₀.img A : Set M₀.E)) :=
     Module.natCard_eq_pow_finrank
@@ -134,9 +134,9 @@ private theorem two_mul_finrank_span_img [Finite G] (M₀ : QuadModel QF V K γ)
     (hcard : Nat.card A ^ 2 = Nat.card QF * Nat.card V) :
     2 * Module.finrank K (Submodule.span K (M₀.img A : Set M₀.E)) =
       Module.finrank K M₀.E := by
-  haveI : Finite K := finite_K_of_gammaReg R
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Finite K := finite_K_of_gammaReg R
+  have : Fintype K := Fintype.ofFinite K
+  have : Module.Finite K M₀.E := M₀.fin
   have hWc : Nat.card (Submodule.span K (M₀.img A : Set M₀.E)) =
       Nat.card K ^ Module.finrank K (Submodule.span K (M₀.img A : Set M₀.E)) :=
     Module.natCard_eq_pow_finrank
@@ -157,9 +157,9 @@ private theorem span_img_eq [Finite G] (M₀ : QuadModel QF V K γ) (R : GammaRe
     (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     (hcard : Nat.card A ^ 2 = Nat.card QF * Nat.card V) :
     (Submodule.span K (M₀.img A : Set M₀.E) : Set M₀.E) = (M₀.img A : Set M₀.E) := by
-  haveI : Finite K := finite_K_of_gammaReg R
-  haveI : Module.Finite K M₀.E := M₀.fin
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite K := finite_K_of_gammaReg R
+  have : Module.Finite K M₀.E := M₀.fin
+  have : Finite M₀.E := Module.finite_of_finite K
   have hWleS : Nat.card (Submodule.span K (M₀.img A : Set M₀.E)) ≤ Nat.card (M₀.img A) :=
     (Nat.pow_le_pow_iff_left (show (2 : ℕ) ≠ 0 by norm_num)).mp
       (by rw [card_span_img_sq M₀ R hAQ hVA hA hcard, card_img_sq M₀ R hAQ hVA hcard])
@@ -176,7 +176,7 @@ private theorem orthogonal_span_img [Finite G] (M₀ : QuadModel QF V K γ) (R :
     (hcard : Nat.card A ^ 2 = Nat.card QF * Nat.card V) :
     M₀.B.orthogonal (Submodule.span K (M₀.img A : Set M₀.E)) =
       Submodule.span K (M₀.img A : Set M₀.E) := by
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   have hle : Submodule.span K (M₀.img A : Set M₀.E) ≤
       M₀.B.orthogonal (Submodule.span K (M₀.img A : Set M₀.E)) := by
     intro y hy

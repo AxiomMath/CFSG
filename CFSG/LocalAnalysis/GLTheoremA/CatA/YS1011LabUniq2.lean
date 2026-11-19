@@ -34,9 +34,9 @@ theorem exists_extension_prime_root (p : ℕ) [hp : Fact p.Prime] {F : Type} [Fi
     have := hp.out.two_le
     omega
   obtain ⟨g, hg, hgΦ⟩ := WfDvdMonoid.exists_irreducible_factor hnu hΦ0
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hfin : Finite (AdjoinRoot g) := by
-    haveI : Module.Finite F (AdjoinRoot g) := (AdjoinRoot.powerBasis hg.ne_zero).finite
+    have : Module.Finite F (AdjoinRoot g) := (AdjoinRoot.powerBasis hg.ne_zero).finite
     exact Module.finite_of_finite F
   refine ⟨AdjoinRoot g, inferInstance, hfin, inferInstance, AdjoinRoot.root g, ?_, ?_⟩
   · have hdvd : g ∣ (X : F[X]) ^ p - 1 := by
@@ -79,7 +79,7 @@ theorem card_le_pow_statedProj {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {F : Typ
     (hF : (p : F) ≠ 0) {n : ℕ} (hn : 0 < n) (H : Subgroup (GL (Fin n) F))
     (E : Subgroup (StatedProj H)) (hE : CFSG.Open.IsElemAbelian p E) :
     Nat.card E ≤ p ^ (n - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨F', _, hfin, _, r, hr, hr1⟩ := exists_extension_prime_root p hF
   have hpK : p ∣ Nat.card F'ˣ := by
     have hr0 : r ≠ 0 := by
@@ -126,7 +126,7 @@ theorem card_le_pow_statedProj {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {F : Typ
 theorem inf_center_eq_bot_of_card_dvd_two {Q : Type} [Group Q] [Finite Q] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hZ : Nat.card (Subgroup.center Q) ∣ 2) {E : Subgroup Q}
     (hE : CFSG.Open.IsElemAbelian p E) : E ⊓ Subgroup.center Q = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hP : IsPGroup p ↥(E ⊓ Subgroup.center Q) := fun g => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hE.2 g.1 (Subgroup.mem_inf.1 g.2).1)⟩
@@ -141,7 +141,7 @@ theorem inf_center_eq_bot_of_card_dvd_two {Q : Type} [Group Q] [Finite Q] {p : �
   rw [hk0, pow_zero] at hk
   exact (Subgroup.eq_bot_iff_card _).2 hk
 
-theorem pRank_le_three_of_bound {Q : Type} [Group Q] [Finite Q] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem pRank_le_three_of_bound {Q : Type} [Group Q] [Finite Q] {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (H : Subgroup Q) (hq : ∀ E : Subgroup Q, CFSG.Open.IsElemAbelian p E → Nat.card E ≤ p ^ 3) :
     CFSG.Open.pRank p H ≤ 3 := by
   unfold CFSG.Open.pRank
@@ -197,7 +197,7 @@ theorem card_le_three_of_quot {Q : Type} [Group Q] [Finite Q] (hZ : Nat.card (Su
 theorem natCast_ne_zero_of_card_two_pow {F : Type} [Field F] [Finite F] {f : ℕ}
     (hF : Nat.card F = 2 ^ f) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : (p : F) ≠ 0 := by
   intro h
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨m, hq, hcard⟩ := FiniteField.card F (ringChar F)
   rw [← Nat.card_eq_fintype_card] at hcard
   have hdvd : ringChar F ∣ p := (CharP.cast_eq_zero_iff F (ringChar F) p).1 h
@@ -347,7 +347,7 @@ theorem evenRank_le_three_of_card_dvd {Q : Type} [Group Q] [Finite Q] {N : ℕ}
     (hQ : Nat.card Q ∣ N) (hN : ∀ p : ℕ, p.Prime → p ≠ 2 → ¬ p ^ 4 ∣ N) :
     CFSG.Open.evenRank Q ≤ 3 := by
   refine evenRank_le_three_of_bound fun p hp hp2 E hE => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hP : IsPGroup p E := fun g => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hE.2 g g.2)⟩

@@ -19,7 +19,7 @@ theorem exists_orderOf_three_of_split
     (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup ↥J) ≤ 1) (hC : centralizer (J : Set Q) = ⊥)
     (P : Sylow 3 Q) (hPJ : ¬ (P : Subgroup Q) ≤ J) :
     ∃ x : Q, x ∈ (P : Subgroup Q) ∧ x ∉ J ∧ orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let ι : Q →* MulAut ↥J := MulAut.conjNormal
   have hι_apply : ∀ (q : Q) (j : ↥J), (ι q j : Q) = q * j * q⁻¹ :=
     fun q j => MulAut.conjNormal_apply q j

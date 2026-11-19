@@ -82,8 +82,8 @@ theorem wccg_conj_eq_of_forall_fixed
     (hβnot : β ∉ L ⊔ Subgroup.centralizer (L : Set Y))
     {x : Y} (hxL : x ∈ L) (hxβ : x * β = β * x) :
     x * a * x⁻¹ = a := by
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
-  haveI : Finite ↥L := Subtype.finite
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Finite ↥L := Subtype.finite
   have hβN : β ∈ Subgroup.normalizer (L : Set Y) := hAN hβA
   have haN : a ∈ Subgroup.normalizer (L : Set Y) := hAN haA
   have hβ1 : β ≠ 1 := by
@@ -92,7 +92,7 @@ theorem wccg_conj_eq_of_forall_fixed
   have ha2 : a * a = 1 := by simpa [pow_two] using hAe.2 a haA
   have hβ2 : β * β = 1 := by simpa [pow_two] using hAe.2 β hβA
   have hcommA : ∀ u ∈ A, ∀ v ∈ A, u * v = v * u := by
-    haveI : IsMulCommutative A := hAe.1
+    have : IsMulCommutative A := hAe.1
     intro u hu v hv
     exact congrArg Subtype.val (mul_comm' (⟨u, hu⟩ : A) ⟨v, hv⟩)
   have hAcent : A ≤ Subgroup.centralizer ({β} : Set Y) := by
@@ -161,7 +161,7 @@ theorem wccg_conj_eq_of_forall_fixed
         have h3 := E.mul_mem h1 (E.inv_mem h2)
         convert h3 using 1
         group
-    | one => simpa using E.one_mem
+    | one => simp
     | mul u v hu hv ihu ihv =>
         have h3 := E.mul_mem ihu ihv
         convert h3 using 1

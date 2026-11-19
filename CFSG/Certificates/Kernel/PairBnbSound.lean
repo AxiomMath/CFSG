@@ -123,11 +123,11 @@ theorem growR_eq (fuel cand C mx : Nat) :
       (C, mx) (Nat.beq cand 0) = g.grow (n + 1) cand C mx
     simp only [forceN_eq, hbR_eq, ih, WGraph.grow]
     cases h : Nat.beq cand 0
-    · simp only [beq_f h, if_false]
+    · simp only [beq_f h, ite_false]
       congr 1
       cases h2 : Nat.ble mx (g.wt cand.log2)
-      · simp only [Nat.max_def, ble_f h2, if_false]
-      · simp only [Nat.max_def, ble_t h2, if_true]
+      · simp only [Nat.max_def, ble_f h2, ite_false]
+      · simp only [Nat.max_def, ble_t h2, ite_true]
     · simp [beq_t h]
 
 theorem boundR_eq (fuel mask : Nat) : boundR g.nb g.wt fuel mask = g.bound fuel mask := by
@@ -149,7 +149,7 @@ theorem boundR_eq (fuel mask : Nat) : boundR g.nb g.wt fuel mask = g.bound fuel 
     simp only [forceN_eq, hbR_eq, growR_eq, ih]
     rw [WGraph.bound]
     cases h : Nat.beq mask 0
-    · simp only [beq_f h, if_false]
+    · simp only [beq_f h, ite_false]
       change _ = Option.map (· + (g.grow 256 (Nat.land mask (g.nb mask.log2)) (Nat.pow 2 mask.log2)
         (g.wt mask.log2)).2) (g.bound n (Nat.xor mask (g.grow 256 (Nat.land mask (g.nb mask.log2))
         (Nat.pow 2 mask.log2) (g.wt mask.log2)).1))

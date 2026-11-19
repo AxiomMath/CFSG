@@ -29,13 +29,15 @@ theorem exists_maxOver_eq_singleton_sec5Hyp {H M A : Subgroup G} (h : Sec5Hyp H 
     rwa [Subgroup.inf_relIndex_right] at this
   exact Odd.of_dvd_nat h.odd_relIndex hdvd
 
+omit [Finite G] in
 theorem fstar_ne_bot_of_mulEquiv_alternatingGroup {H : Subgroup G} {n : ℕ} (hn : 5 ≤ n)
     (e : ↥(Fstar H) ≃* alternatingGroup (Fin n)) : Fstar H ≠ ⊥ := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (by simpa using hn)
-  haveI : Nontrivial ↥(Fstar H) := e.symm.injective.nontrivial
+  have : Nontrivial ↥(Fstar H) := e.symm.injective.nontrivial
   exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
 
+omit [Finite G] in
 theorem normal_subgroupOf_fstar (H : Subgroup G) : ((Fstar H).subgroupOf H).Normal := by
   refine ⟨fun x hx g => ?_⟩
   rw [Subgroup.mem_subgroupOf] at hx ⊢

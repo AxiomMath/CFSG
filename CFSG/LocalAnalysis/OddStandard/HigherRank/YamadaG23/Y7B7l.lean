@@ -96,6 +96,7 @@ theorem y7b_exists_seed (c : Ctx7 G L) (hb : B5Std c) :
 theorem y7b_W_isPGroup (c : Ctx7 G L) (hb : B5Std c) : IsPGroup 2 ↥(y7bW c.s) :=
   IsPGroup.of_card (n := 9) (y7b_card_W c hb)
 
+omit [Finite G] in
 theorem y7b_pCoreOf_eq_self {K : Subgroup G} (hK : IsPGroup 2 ↥K) : pCoreOf 2 K = K := by
   show (pCore 2 ↥K).map K.subtype = K
   apply le_antisymm (Subgroup.map_subtype_le _)

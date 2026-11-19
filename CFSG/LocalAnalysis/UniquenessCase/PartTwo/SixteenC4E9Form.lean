@@ -20,28 +20,28 @@ private def s16_R2 (K : Type) [Field K] : Matrix (Fin 4) (Fin 4) K :=
 
 private theorem s16_symJ_sq (K : Type) [Field K] (h2 : (2 : K) = 0) :
     symJ K * symJ K = 1 := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [symJ, Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero]
 
 private theorem s16_R1_cube (K : Type) [Field K] (h2 : (2 : K) = 0) :
     s16_R1 K * s16_R1 K * s16_R1 K = 1 := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [s16_R1, Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero]
 
 private theorem s16_R2_cube (K : Type) [Field K] (h2 : (2 : K) = 0) :
     s16_R2 K * s16_R2 K * s16_R2 K = 1 := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [s16_R2, Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero]
 
 private theorem s16_R12_comm (K : Type) [Field K] (h2 : (2 : K) = 0) :
     s16_R1 K * s16_R2 K = s16_R2 K * s16_R1 K := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [s16_R1, s16_R2, Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero]
@@ -58,26 +58,26 @@ private theorem s16_R2_conj (K : Type) [Field K] (σ : K ≃+* K) :
 
 private theorem s16_R1_iso (K : Type) [Field K] (h2 : (2 : K) = 0) :
     s16_R1 K * symJ K * s16_R1 K = symJ K := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [s16_R1, symJ, Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero]
 
 private theorem s16_R2_iso (K : Type) [Field K] (h2 : (2 : K) = 0) :
     s16_R2 K * symJ K * s16_R2 K = symJ K := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [s16_R2, symJ, Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero]
 
 private theorem s16_R1_det (K : Type) [Field K] (h2 : (2 : K) = 0) : (s16_R1 K).det = 1 := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
-  simp [s16_R1, Matrix.det_succ_row_zero, Fin.sum_univ_succ, Matrix.det_fin_two, Fin.succAbove,
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  simp [s16_R1, Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.succAbove,
     CharTwo.add_self_eq_zero, CharTwo.neg_eq]
 
 private theorem s16_R2_det (K : Type) [Field K] (h2 : (2 : K) = 0) : (s16_R2 K).det = 1 := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
-  simp [s16_R2, Matrix.det_succ_row_zero, Fin.sum_univ_succ, Matrix.det_fin_two, Fin.succAbove,
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  simp [s16_R2, Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.succAbove,
     CharTwo.add_self_eq_zero, CharTwo.neg_eq]
 
 private theorem s16_R1_ne_one (K : Type) [Field K] : s16_R1 K ≠ 1 := by
@@ -91,21 +91,21 @@ private theorem s16_R2_ne_R1 (K : Type) [Field K] : s16_R2 K ≠ s16_R1 K := by
 
 private theorem s16_R2_ne_R1sq (K : Type) [Field K] (h2 : (2 : K) = 0) :
     s16_R2 K ≠ s16_R1 K * s16_R1 K := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   intro h; have := congrFun (congrFun h 1) 1
   simp [s16_R1, s16_R2, Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero] at this
 
-private theorem s16_R1sq_ne_one (K : Type) [Field K] (h2 : (2 : K) = 0) :
+private theorem s16_R1sq_ne_one (K : Type) [Field K] (_h2 : (2 : K) = 0) :
     s16_R1 K * s16_R1 K ≠ 1 := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero _h2
   intro h; have := congrFun (congrFun h 0) 1
-  simp [s16_R1, Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero] at this
+  simp [s16_R1, Matrix.mul_apply, Fin.sum_univ_four] at this
 
-private theorem s16_R1_ne_R1sq (K : Type) [Field K] (h2 : (2 : K) = 0) :
+private theorem s16_R1_ne_R1sq (K : Type) [Field K] (_h2 : (2 : K) = 0) :
     s16_R1 K ≠ s16_R1 K * s16_R1 K := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero _h2
   intro h; have := congrFun (congrFun h 0) 0
-  simp [s16_R1, Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero] at this
+  simp [s16_R1, Matrix.mul_apply, Fin.sum_univ_four] at this
 
 private theorem s16_GL_cube (K : Type) [Field K] (R : Matrix (Fin 4) (Fin 4) K)
     (R' : GL (Fin 4) K) (hRval : (R' : Matrix (Fin 4) (Fin 4) K) = R)
@@ -234,20 +234,19 @@ private theorem s16_E9_of_gens (K : Type) [Field K] [Finite K] (σ : K ≃+* K)
   have hg2E : g2 ∈ E := by
     rw [hEdef]; exact Subgroup.subset_closure (Set.mem_insert_of_mem g1 rfl)
   have h4 : 4 ≤ Nat.card E := by
-    haveI : Fintype E := Fintype.ofFinite E
+    have : Fintype E := Fintype.ofFinite E
     let emb : Fin 4 → E := ![
       ⟨1, E.one_mem⟩, ⟨g1, hg1E⟩, ⟨g1 * g1, E.mul_mem hg1E hg1E⟩, ⟨g2, hg2E⟩]
     have hemb : Function.Injective emb := by
       intro i j hij
       fin_cases i <;> fin_cases j <;>
-        simp_all [emb, hg1_ne_one, hg2_ne_one, hg2_ne_g1, hg2_ne_g1sq, hg1sq_ne_one,
-          hg1_ne_g1sq]
+        simp_all [emb]
     have hcl := Fintype.card_le_of_injective emb hemb
     rw [Nat.card_eq_fintype_card]
     simpa using hcl
   have hEnc : ¬ IsCyclic E := by
     intro hcyc
-    letI := hcyc
+    let := hcyc
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := E)
     have hcard : orderOf g = Nat.card E := orderOf_eq_card_of_forall_mem_zpowers hg
     have hg3 : g ^ 3 = 1 := Subtype.ext (hEel.2 g g.2)
@@ -308,7 +307,7 @@ private theorem s16_exists_E9 (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (
     ∃ E : Subgroup (GL (Fin 4) K), E ≤ SUid σ 4 ∧ IsPGroup 3 E ∧ ¬ IsCyclic E ∧
       ∀ g ∈ E, ∀ i, ((g : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) *ᵥ u i ∈
         AddSubgroup.closure (Set.range u) := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   let P : Matrix (Fin 4) (Fin 4) K := Matrix.of (fun r c => u c r)
   have hPP : conjTr σ P * P = symJ K := by
     ext i j
@@ -485,6 +484,7 @@ namespace UFrame
 variable {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {L : Subgroup G}
   (F : UFrame V₀ V hV L)
 
+omit [Finite G] in
 theorem exists_E9_of_symp_basis (u : Fin 4 → (Fin 4 → F.K))
     (hu : ∀ i j, herm F.σ (u i) (u j) = symJ F.K i j) :
     ∃ E : Subgroup (GL (Fin 4) F.K), E ≤ SUid F.σ 4 ∧ IsPGroup 3 E ∧ ¬ IsCyclic E ∧
@@ -492,6 +492,7 @@ theorem exists_E9_of_symp_basis (u : Fin 4 → (Fin 4 → F.K))
         AddSubgroup.closure (Set.range u) :=
   s16_exists_E9 F.K F.σ F.two_eq_zero u hu
 
+omit [Finite G] in
 theorem exists_E9_stab_form (S : AddSubgroup (Fin 4 → F.K)) (hcard : Nat.card S = 16)
     (hts : ∀ x ∈ S, herm F.σ x x = 0) (hcore : ∀ x ∈ S, x ≠ 0 → ∃ c : F.K, c • x ∉ S) :
     ∃ E : Subgroup (GL (Fin 4) F.K), E ≤ SUid F.σ 4 ∧ IsPGroup 3 E ∧ ¬ IsCyclic E ∧

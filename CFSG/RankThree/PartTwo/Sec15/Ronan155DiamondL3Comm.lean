@@ -14,6 +14,7 @@ variable {K : Type*} [Field K] [Finite K] [CharP K 2]
     Matrix.SpecialLinearGroup (Fin 3) K :=
   ⟨!![a, 0, 0; 0, b, 0; 0, 0, 1], by simp [Matrix.det_fin_three, hab]⟩
 
+omit [Finite K] [CharP K 2] in
 @[simp] theorem coe_diagSL (a b : K) (hab : a * b = 1) :
     ((diagSL a b hab : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
       !![a, 0, 0; 0, b, 0; 0, 0, 1] :=
@@ -22,11 +23,13 @@ variable {K : Type*} [Field K] [Finite K] [CharP K 2]
 @[expose] noncomputable def unipSL (α : K) : Matrix.SpecialLinearGroup (Fin 3) K :=
   ⟨!![1, α, 0; 0, 1, 0; 0, 0, 1], by simp [Matrix.det_fin_three]⟩
 
+omit [Finite K] [CharP K 2] in
 @[simp] theorem coe_unipSL (α : K) :
     ((unipSL α : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
       !![1, α, 0; 0, 1, 0; 0, 0, 1] :=
   rfl
 
+omit [Finite K] in
 theorem unipSL_mul_self (α : K) : unipSL α * unipSL α = 1 := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one, coe_unipSL]
@@ -34,14 +37,17 @@ theorem unipSL_mul_self (α : K) : unipSL α * unipSL α = 1 := by
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three, CharTwo.add_self_eq_zero]
 
+omit [Finite K] in
 theorem unipSL_inv (α : K) : (unipSL α)⁻¹ = unipSL α :=
   inv_eq_of_mul_eq_one_right (unipSL_mul_self α)
 
+omit [Finite K] [CharP K 2] in
 theorem inv_proj_eq_of_mul_eq_one {g h : Matrix.SpecialLinearGroup (Fin 3) K} (hgh : g * h = 1) :
     (proj 3 K g)⁻¹ = proj 3 K h := by
   apply inv_eq_of_mul_eq_one_right
   rw [← map_mul (proj 3 K), hgh, map_one]
 
+omit [Finite K] [CharP K 2] in
 theorem pow_mulVec_eq_smul {M : Matrix (Fin 3) (Fin 3) K} {v : Fin 3 → K} {μ : K}
     (hv : M *ᵥ v = μ • v) (k : ℕ) : (M ^ k) *ᵥ v = μ ^ k • v := by
   induction k with
@@ -50,6 +56,7 @@ theorem pow_mulVec_eq_smul {M : Matrix (Fin 3) (Fin 3) K} {v : Fin 3 → K} {μ 
     rw [pow_succ M k, ← Matrix.mulVec_mulVec, hv, Matrix.mulVec_smul, ih, smul_smul,
       ← pow_succ' μ k]
 
+omit [Finite K] [CharP K 2] in
 theorem scalar_eq_one_of_pow_twelve {M : Matrix (Fin 3) (Fin 3) K} {c : K}
     (hpow : M ^ 12 = Matrix.scalar (Fin 3) c) (he : M *ᵥ ![0, 0, 1] = ![0, 0, 1]) : c = 1 := by
   have he' : M *ᵥ ![0, 0, 1] = (1 : K) • ![0, 0, 1] := by
@@ -60,6 +67,7 @@ theorem scalar_eq_one_of_pow_twelve {M : Matrix (Fin 3) (Fin 3) K} {c : K}
   have h2 := congrFun h 2
   simpa [Matrix.scalar_apply, Matrix.mulVec_diagonal] using h2
 
+omit [Finite K] [CharP K 2] in
 theorem pow_twelve_eq_one_of_mulVec {M : Matrix (Fin 3) (Fin 3) K} {v : Fin 3 → K} {μ : K}
     (hpow : M ^ 12 = 1) (hv : M *ᵥ v = μ • v) {i : Fin 3} (hi : v i ≠ 0) : μ ^ 12 = 1 := by
   have h := pow_mulVec_eq_smul hv 12
@@ -70,6 +78,7 @@ theorem pow_twelve_eq_one_of_mulVec {M : Matrix (Fin 3) (Fin 3) K} {v : Fin 3 �
   rw [one_mul]
   exact h2.symm
 
+omit [Finite K] [CharP K 2] in
 theorem mulVec_unip_eq {α B U V : K} (h2 : (2 : K) = 0) (hT : B * α = U + V)
     (hUV : U * V = 1) :
     !![1, α, 0; B, 1 + B * α, 0; 0, 0, 1] *ᵥ ![α, 1 + U, 0] = U • ![α, 1 + U, 0] := by
@@ -81,6 +90,7 @@ theorem mulVec_unip_eq {α B U V : K} (h2 : (2 : K) = 0) (hT : B * α = U + V)
     linear_combination (2 + U) * hT + hUV + (U + V + 1) * h2
   · simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three]
 
+omit [Finite K] [CharP K 2] in
 theorem val_pow_eq_one_iff {x : Kˣ} {m : ℕ} : (x : K) ^ m = 1 ↔ x ^ m = 1 := by
   constructor
   · intro h
@@ -97,8 +107,9 @@ theorem add_two_not_dvd_twelve {r : ℕ} (hr : 3 ≤ r) (hodd : r % 2 = 1) : ¬ 
   intro h
   have h1 : r + 2 ≤ 12 := Nat.le_of_dvd (by norm_num) h
   have h2 : r ≤ 10 := by omega
-  interval_cases r <;> first | omega | norm_num at h
+  interval_cases r <;> first | omega
 
+omit [CharP K 2] in
 theorem exists_setup {f : ℕ} (hK : Nat.card K = 2 ^ f) (hf : 4 ≤ f) (hfe : Even f) :
     ∃ r : ℕ, 3 ≤ r ∧ r % 2 = 1 ∧ 2 ^ (f / 2) = r + 1 ∧
       ∃ x : Kˣ, (∀ y : Kˣ, ∃ j : ℕ, x ^ j = y) ∧ ∀ n : ℕ, x ^ (r * n) = 1 ↔ (r + 2) ∣ n := by
@@ -129,6 +140,7 @@ theorem exists_setup {f : ℕ} (hK : Nat.card K = 2 ^ f) (hf : 4 ≤ f) (hfe : E
   rw [← orderOf_dvd_iff_pow_eq_one, hord, hcardU,
     Nat.mul_dvd_mul_iff_left (show 0 < r by omega)]
 
+omit [CharP K 2] in
 theorem exists_fieldAut_comm_pow_twelve_ne_one {f : ℕ} (hK : Nat.card K = 2 ^ f) (hf : 4 ≤ f)
     (hfe : Even f) {σ : K ≃+* K} (hσ : ∀ x, σ x = x ^ 2 ^ (f / 2)) :
     ∃ j : projectiveSL 3 K, (fieldAut 3 K σ j * j⁻¹) ^ 12 ≠ 1 := by
@@ -142,7 +154,7 @@ theorem exists_fieldAut_comm_pow_twelve_ne_one {f : ℕ} (hK : Nat.card K = 2 ^ 
       coe_diagSL]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_three, mul_inv_cancel₀ hl, inv_mul_cancel₀ hl]
+      simp [Matrix.mul_apply, Fin.sum_univ_three]
   have hinv : (proj 3 K (diagSL (x : K) (x : K)⁻¹ (mul_inv_cancel₀ hl)))⁻¹ =
       proj 3 K (diagSL (x : K)⁻¹ (x : K) (inv_mul_cancel₀ hl)) :=
     inv_proj_eq_of_mul_eq_one hDD
@@ -244,7 +256,7 @@ theorem exists_fieldAut_mul_dualAut_comm_pow_twelve_ne_one {f : ℕ} (hK : Nat.c
       Matrix.SpecialLinearGroup.coe_transpose, coe_unipSL]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_three, RingHom.mapMatrix_apply] <;> ring
+      simp [Matrix.mul_apply, Fin.sum_univ_three, RingHom.mapMatrix_apply]; ring
   refine ⟨proj 3 K (unipSL α), ?_⟩
   intro h
   rw [hY, ← map_pow (proj 3 K), proj_eq_one_iff, mem_scalars] at h

@@ -13,7 +13,7 @@ namespace CFSG.LocalAnalysis.AGL81TheoremCD.Section14.A9Lin
 open Module
 
 private theorem eight_le_add_of_brauer_wielandt {m c₀ δ : ℕ} (h4 : m + 3 * c₀ = 4 * δ)
-    (hc₀ : c₀ ≤ δ) (hδ : δ ≤ m) (heven : Even (m - δ)) (hpos : 0 < m - δ) :
+    (hc₀ : c₀ ≤ δ) (_hδ : δ ≤ m) (heven : Even (m - δ)) (hpos : 0 < m - δ) :
     8 + c₀ ≤ m := by
   have h4' : 4 * (m - δ) = 3 * (m - c₀) := by omega
   obtain ⟨j, hj⟩ := heven

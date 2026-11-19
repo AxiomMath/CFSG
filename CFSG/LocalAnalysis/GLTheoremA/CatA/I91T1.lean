@@ -56,7 +56,7 @@ theorem psu6_index {R : Type} [Group R] {p f : ℕ} (hadm : StatedLieAdmissible 
   let eT := CFSG.QuasithinUnique.SQTK.typeTwistedAGroupEquivStatedProj 5 q hv'
   exact ⟨hv', ⟨(e.trans e1).trans eT.symm⟩⟩
 
-theorem catalogIs_isU6n_of_lieModel {R : Type} [Group R] {m : ℕ} (hm : 1 ≤ m)
+theorem catalogIs_isU6n_of_lieModel {R : Type} [Group R] {m : ℕ} (_hm : 1 ≤ m)
     (h : CFSG.Blueprint.LieModel R .PSU 6 2 m) : catalogIs R (isU6n m) := by
   rcases h with ⟨-, hS⟩ | ⟨h0, -, -⟩ | ⟨h0, -, -⟩ | ⟨h0, -, -⟩
   · obtain ⟨hv, ⟨e⟩⟩ := psu6_index hS.1 hS
@@ -71,7 +71,7 @@ theorem lieModel_of_catalogIs_isU6n {R : Type} [Group R] {m : ℕ}
   cases d with
   | twistedA r q =>
     rcases r with _ | _ | _ | _ | _ | _ | r
-    all_goals first | exact hP.elim | skip
+    all_goals try exact hP.elim
     · have hm := lieModel_twistedA' 5 q hv e
       rw [hP.1, hP.2] at hm
       exact CFSG.Models.LieModel.toBlueprint (by decide) hm

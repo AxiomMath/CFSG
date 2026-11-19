@@ -56,10 +56,10 @@ theorem seqAct_good {g : Γ} {f : ℕ → ℕ} (hg : Good n (tab n g).toArray f)
     seqAct (tab n g).toArray x = x.map fun p => bif Nat.blt p n then f p else 0 := by
   refine List.map_congr_left fun p _ => ?_
   by_cases hp : p < n
-  · rw [show Nat.blt p n = true from Nat.blt_eq.mpr hp, cond_true]
+  · rw [show Nat.blt p n = true from Nat.blt_eq.mpr hp, _root_.Bool.cond_true]
     exact (hg.2 p hp).1
   · rw [show Nat.blt p n = false from Bool.eq_false_iff.mpr fun h => hp (Nat.blt_eq.mp h),
-      cond_false, Array.getD_eq_getD_getElem?,
+      Bool.cond_false, Array.getD_eq_getD_getElem?,
       Array.getElem?_eq_none (by rw [tabA_size]; omega), Option.getD_none]
 
 theorem seqLab_lawful : LabLawful Γ n seqLab (SeqValid n) where

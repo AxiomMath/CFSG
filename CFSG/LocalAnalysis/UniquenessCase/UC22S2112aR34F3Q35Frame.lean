@@ -338,23 +338,23 @@ private theorem unitaryTorus_diag_ne {F : Type} [Field F] {N m : ℕ} {ε : F}
   have hbne : b.val ≠ a.val := fun h => hab (Fin.ext h.symm)
   rw [hk]
   by_cases hae : a.val = 2 * (a.val / 2)
-  · rw [if_pos hae]
+  · rw [ite_eq_left hae]
     have hbe : b.val ≠ 2 * (a.val / 2) := by omega
-    rw [if_neg hbe]
+    rw [ite_eq_right hbe]
     by_cases hbo : b.val = 2 * (a.val / 2) + 1
-    · rw [if_pos hbo]
+    · rw [ite_eq_left hbo]
       exact hεne
-    · rw [if_neg hbo]
+    · rw [ite_eq_right hbo]
       exact hε1
-  · rw [if_neg hae]
+  · rw [ite_eq_right hae]
     have hao : a.val = 2 * (a.val / 2) + 1 := by omega
-    rw [if_pos hao]
+    rw [ite_eq_left hao]
     have hbo : b.val ≠ 2 * (a.val / 2) + 1 := by omega
-    rw [if_neg hbo]
+    rw [ite_eq_right hbo]
     by_cases hbe : b.val = 2 * (a.val / 2)
-    · rw [if_pos hbe]
+    · rw [ite_eq_left hbe]
       exact fun h => hεne h.symm
-    · rw [if_neg hbe]
+    · rw [ite_eq_right hbe]
       exact hεinv1
 
 private theorem blockMat_diagonal_two {F : Type} [Field F] {m tail : ℕ} {ε ε' : F}
@@ -367,25 +367,25 @@ private theorem blockMat_diagonal_two {F : Type} [Field F] {m tail : ℕ} {ε ε
   rw [Matrix.diagonal_apply, blockMat_apply]
   by_cases hab : a = b
   · subst hab
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     by_cases h0 : a.val = 2 * k.val
     · have hin : 2 * k.val ≤ a.val ∧ a.val < 2 * k.val + 2 := by omega
-      rw [dif_pos ⟨hin, hin⟩, if_pos h0]
+      rw [dite_eq_left ⟨hin, hin⟩, ite_eq_left h0]
       have hx : (⟨a.val - 2 * k.val, by omega⟩ : Fin 2) = 0 := Fin.ext (by simp [h0])
       rw [hx]
       simp
     · by_cases h1 : a.val = 2 * k.val + 1
       · have hin : 2 * k.val ≤ a.val ∧ a.val < 2 * k.val + 2 := by omega
-        rw [dif_pos ⟨hin, hin⟩, if_neg h0, if_pos h1]
+        rw [dite_eq_left ⟨hin, hin⟩, ite_eq_right h0, ite_eq_left h1]
         have hx : (⟨a.val - 2 * k.val, by omega⟩ : Fin 2) = 1 := Fin.ext (by simp [h1])
         rw [hx]
         simp
       · have hout : ¬ (2 * k.val ≤ a.val ∧ a.val < 2 * k.val + 2) := by omega
-        rw [dif_neg (fun h => hout h.1), if_neg h0, if_neg h1, Matrix.one_apply_eq]
-  · rw [if_neg hab]
+        rw [dite_eq_right (fun h => hout h.1), ite_eq_right h0, ite_eq_right h1, Matrix.one_apply_eq]
+  · rw [ite_eq_right hab]
     by_cases hin : (2 * k.val ≤ a.val ∧ a.val < 2 * k.val + 2) ∧
         (2 * k.val ≤ b.val ∧ b.val < 2 * k.val + 2)
-    · rw [dif_pos hin]
+    · rw [dite_eq_left hin]
       have hne : (⟨a.val - 2 * k.val, by omega⟩ : Fin 2) ≠
           ⟨b.val - 2 * k.val, by omega⟩ := by
         intro h
@@ -394,7 +394,7 @@ private theorem blockMat_diagonal_two {F : Type} [Field F] {m tail : ℕ} {ε ε
         have h' : a.val - 2 * k.val = b.val - 2 * k.val := congrArg Fin.val h
         omega
       rw [Matrix.diagonal_apply_ne _ hne]
-    · rw [dif_neg hin, Matrix.one_apply_ne hab]
+    · rw [dite_eq_right hin, Matrix.one_apply_ne hab]
 
 private theorem suMat_blockEmb_diag_eq {F : Type} [Field F] [Finite F] {p f m tail : ℕ}
     [Fact p.Prime] [CharP F p] {ε : F} {D : Su F p f 2}

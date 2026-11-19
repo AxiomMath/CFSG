@@ -44,8 +44,8 @@ theorem odd_card_of_pCore_eq_bot {G : Type*} [Group G] [Finite G] (hG : Group.Is
   rw [← Nat.not_even_iff_odd, even_iff_two_dvd]
   intro hdvd
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 G))
-  haveI := hG
-  have hP : (P : Subgroup G) ≤ CFSG.pCore 2 G := le_pCore 2 inferInstance P.isPGroup'
+  have := hG
+  have hP : (P : Subgroup G) ≤ CFSG.pCore 2 G := le_pCore 2 inferInstance P.isPGroup
   rw [h] at hP
   exact P.ne_bot_of_dvd_card hdvd (le_bot_iff.mp hP)
 
@@ -99,6 +99,7 @@ theorem card_sup_mul_card_inf_of_le_normalizer {X : Type*} [Group X] {A B : Subg
   rw [hsup, hinf, hc _ (sup_le hAN hB), hc _ (inf_le_left.trans hAN), hc A hAN, hc B hB] at h
   exact h
 
+omit [Finite Q] in
 theorem isSolvable_sup_of_le_normalizer {A B : Subgroup Q} (hA : Group.IsSolvable ↥A)
     (hB : Group.IsSolvable ↥B) (hBA : B ≤ Subgroup.normalizer (A : Set Q)) :
     Group.IsSolvable ↥(A ⊔ B) := by
@@ -127,6 +128,7 @@ theorem isSolvable_sup_of_le_normalizer {A B : Subgroup Q} (hA : Group.IsSolvabl
     (QuotientGroup.mk' (A.subgroupOf (A ⊔ B)))
     (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
 
+omit [Finite Q] in
 theorem isNilpotent_of_commutator_central {K : Subgroup Q}
     (h : ∀ a ∈ K, ∀ b ∈ K, ∀ c ∈ K, c * ⁅a, b⁆ = ⁅a, b⁆ * c) : Group.IsNilpotent ↥K := by
   refine Subgroup.isNilpotent_of_ker_le_center (Abelianization.of : ↥K →* Abelianization ↥K) ?_
@@ -138,16 +140,17 @@ theorem isNilpotent_of_commutator_central {K : Subgroup Q}
   intro c
   exact Subtype.ext (h a a.2 b b.2 c c.2)
 
+omit [Finite Q] in
 theorem le_centralizer_of_forall_commute {T X : Subgroup Q}
     (hTX : ∀ t ∈ T, ∀ x ∈ X, t * x = x * t) : T ≤ Subgroup.centralizer (X : Set Q) :=
   fun t ht => Subgroup.mem_centralizer_iff.mpr fun x hx => (hTX t ht x hx).symm
 
 theorem commutator_eq_bot_of_commutator_le
     (hO : ∀ N : Subgroup Q, N.Normal → IsPGroup 2 N → N = ⊥)
-    {T X W : Subgroup Q} (hT : IsPGroup 2 T) (hW : W.Normal) (hX : X.Normal) (hXW : X ≤ W)
+    {T X W : Subgroup Q} (hT : IsPGroup 2 T) (hW : W.Normal) (hX : X.Normal) (_hXW : X ≤ W)
     (hTX : ∀ t ∈ T, ∀ x ∈ X, t * x = x * t) (hTW : ⁅T, W⁆ ≤ X) : ⁅T, W⁆ = ⊥ := by
-  haveI := hW
-  haveI := hX
+  have := hW
+  have := hX
   have hXT : ⁅T, X⁆ = ⊥ :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.mpr (le_centralizer_of_forall_commute hTX)
   have hYT : T ⊔ X ≤ Subgroup.normalizer (T : Set Q) := by
@@ -179,8 +182,8 @@ theorem commutator_eq_bot_of_pGroup_quotient
     {T X W : Subgroup Q} (hT : IsPGroup 2 T) (hW : W.Normal) (hX : X.Normal) (hXW : X ≤ W)
     (hTX : ∀ t ∈ T, ∀ x ∈ X, t * x = x * t) (hB : ∀ w ∈ W, ∃ k : ℕ, w ^ (2 ^ k) ∈ X) :
     ⁅T, W⁆ = ⊥ := by
-  haveI := hW
-  haveI := hX
+  have := hW
+  have := hX
   refine commutator_eq_bot_of_commutator_le hO hT hW hX hXW hTX ?_
   have hTc := le_centralizer_of_forall_commute hTX
   have hYN : (W ⊓ Subgroup.centralizer (X : Set Q)).Normal := inferInstance
@@ -197,7 +200,7 @@ theorem commutator_eq_bot_of_pGroup_quotient
     intro g
     exact Subtype.ext
       (Subgroup.mem_centralizer_iff.mp (hYC g.2) (z : Q) (Subgroup.mem_subgroupOf.mp hz)).symm
-  haveI : (X.subgroupOf Y).Normal := Subgroup.normal_of_le_center hZc
+  have : (X.subgroupOf Y).Normal := Subgroup.normal_of_le_center hZc
   have hq : IsPGroup 2 (↥Y ⧸ X.subgroupOf Y) := by
     intro g
     induction g using QuotientGroup.induction_on with
@@ -206,7 +209,7 @@ theorem commutator_eq_bot_of_pGroup_quotient
       refine ⟨k, ?_⟩
       rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
       simpa using hk
-  haveI : Group.IsNilpotent (↥Y ⧸ X.subgroupOf Y) := hq.isNilpotent
+  have : Group.IsNilpotent (↥Y ⧸ X.subgroupOf Y) := hq.isNilpotent
   have hnil : Group.IsNilpotent ↥Y :=
     Subgroup.isNilpotent_of_ker_le_center (QuotientGroup.mk' (X.subgroupOf Y))
       (by rw [QuotientGroup.ker_mk']; exact hZc)
@@ -220,11 +223,11 @@ theorem commutator_eq_bot_of_pGroup_quotient
 
 theorem commutator_isNilpotent_odd
     (hO : ∀ N : Subgroup Q, N.Normal → IsPGroup 2 N → N = ⊥)
-    {T X W : Subgroup Q} (hT : IsPGroup 2 T) (hW : W.Normal) (hX : X.Normal) (hXW : X ≤ W)
+    {T X W : Subgroup Q} (_hT : IsPGroup 2 T) (hW : W.Normal) (hX : X.Normal) (_hXW : X ≤ W)
     (hTX : ∀ t ∈ T, ∀ x ∈ X, t * x = x * t) (hab : ⁅W, W⁆ ≤ X) :
     Group.IsNilpotent ↥⁅T, W⁆ ∧ Odd (Nat.card ↥⁅T, W⁆) := by
-  haveI := hW
-  haveI := hX
+  have := hW
+  have := hX
   have hKW : ⁅T, W⁆ ≤ W := Subgroup.commutator_le_right T W
   have hWK : W ≤ Subgroup.normalizer ((⁅T, W⁆ : Subgroup Q) : Set Q) :=
     Subgroup.normalizer_commutator_ge_right T W
@@ -276,14 +279,15 @@ theorem isSolvable_sup_commutator
     (hTX : ∀ t ∈ T, ∀ x ∈ X, t * x = x * t) (hab : ⁅W, W⁆ ≤ X) :
     Group.IsSolvable ↥(T ⊔ ⁅T, W⁆) := by
   obtain ⟨hnil, -⟩ := commutator_isNilpotent_odd hO hT hW hX hXW hTX hab
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
   rw [sup_comm]
   exact isSolvable_sup_of_le_normalizer inferInstance inferInstance
     (Subgroup.normalizer_commutator_ge_left T W)
 
+omit [Finite Q] in
 theorem not_dvd_card_sup_commutator {T W : Subgroup Q} (hW : W.Normal) {p : ℕ} (hp : p.Prime)
     (hpT : ¬ p ∣ Nat.card T) (hpW : ¬ p ∣ Nat.card W) : ¬ p ∣ Nat.card ↥(T ⊔ ⁅T, W⁆) := by
-  haveI := hW
+  have := hW
   have hKW : ⁅T, W⁆ ≤ W := Subgroup.commutator_le_right T W
   have hTK : T ≤ Subgroup.normalizer ((⁅T, W⁆ : Subgroup Q) : Set Q) :=
     Subgroup.normalizer_commutator_ge_left T W

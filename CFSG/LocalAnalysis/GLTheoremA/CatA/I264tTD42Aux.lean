@@ -163,7 +163,7 @@ theorem mem_normalizer_of_comm {H : Subgroup G} {g : G} (hg : ∀ h ∈ H, g * h
         _ = g * n * g⁻¹ := key
     exact (congrArg (fun x => x ∈ H) hnh).mpr hn
 
-theorem isElemAbelian_map_of_forall {G' : Type*} [Group G'] (f : G →* G') (hf : Function.Injective f)
+theorem isElemAbelian_map_of_forall {G' : Type*} [Group G'] (f : G →* G') (_hf : Function.Injective f)
     {H : Subgroup G} (hcomm : ∀ x ∈ H, ∀ y ∈ H, x * y = y * x) (hexp : ∀ x ∈ H, x ^ 3 = 1) :
     IsElemAbelian 3 (H.map f) := by
   refine ⟨isMulCommutative_of_forall _ ?_, ?_⟩

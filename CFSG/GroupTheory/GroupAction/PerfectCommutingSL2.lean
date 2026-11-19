@@ -56,7 +56,7 @@ theorem closure_translates_fixedPoints_sl2Diag_eq_top [Fintype F] [CharP F 2] (l
         {v | Representation.ofDistribMulAction (ZMod ℓ) SL(2, F) W (sl2Diag F lam) v = v} := by
     intro g
     ext w
-    simp only [Set.mem_image, Set.mem_setOf_eq, Representation.ofDistribMulAction_apply_apply]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Representation.ofDistribMulAction_apply_apply]
     refine exists_congr fun v => and_congr_left fun _ =>
       ⟨fun hv => hv _ (Subgroup.mem_zpowers _), fun hv t ht => ?_⟩
     exact MulAction.mem_stabilizer_iff.mp

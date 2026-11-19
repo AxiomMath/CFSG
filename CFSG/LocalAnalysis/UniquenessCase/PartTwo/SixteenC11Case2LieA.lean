@@ -227,7 +227,7 @@ private theorem s16c11_case2lie_mem_flagSpace_two_cases {m : ℕ} (hm : 2 ≤ m)
     by_cases hj0 : j = (⟨0, by omega⟩ : Fin m)
     · subst hj0; simp [h0]
     · by_cases hj1 : j = (⟨1, by omega⟩ : Fin m)
-      · subst hj1; simp [h1, Pi.single_eq_of_ne (Ne.symm hj0)]
+      · subst hj1; simp [h1]
       · rw [hother j hj0 hj1]; simp [Pi.single_eq_of_ne hj0]
   · right; right
     funext j
@@ -259,7 +259,7 @@ theorem s16c11_case2lie_unitriangular_relIndex_flagStabilizer {m : ℕ} (hm : 2 
     (LinearFlag.unitriangular m K).relIndex
         (LinearFlag.flagStabilizer m K {i : ℕ | 2 ≤ i ∧ i ≤ m - 1}) = 3 := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite K := Nat.finite_of_card_ne_zero (by omega)
   set V := LinearFlag.flagStabilizer m K {i : ℕ | 2 ≤ i ∧ i ≤ m - 1} with hV
   set U := LinearFlag.unitriangular m K with hU
   set v : Fin m → K := Pi.single ⟨0, by omega⟩ 1 with hv
@@ -311,24 +311,24 @@ theorem s16c11_case2lie_unitriangular_relIndex_flagStabilizer {m : ℕ} (hm : 2 
     · intro h
       have hh := congrFun h (⟨0, by omega⟩ : Fin m)
       rw [hs_act, hv] at hh
-      simpa using hh
+      simp at hh
     · intro h
       have hh := congrFun h (⟨1, by omega⟩ : Fin m)
       rw [ht_act, hv] at hh
-      simpa using hh
+      simp at hh
   have h2 : s • v ∉ ({t • v} : Set (Fin m → K)) := by
     simp only [Set.mem_singleton_iff]
     intro h
     have hh := congrFun h (⟨0, by omega⟩ : Fin m)
     rw [hs_act, ht_act] at hh
-    simpa using hh
+    simp at hh
   have h3 : ({v, s • v, t • v} : Set (Fin m → K)).ncard = 3 := by
     rw [Set.ncard_insert_of_notMem h1, Set.ncard_insert_of_notMem h2, Set.ncard_singleton]
   have hsub : ({v, s • v, t • v} : Set (Fin m → K)) ⊆ MulAction.orbit ↥V v := by
     intro w hw
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hw
     rcases hw with rfl | rfl | rfl
-    · simpa using MulAction.mem_orbit v (1 : ↥V)
+    · simp
     · exact ⟨⟨s, hsV⟩, rfl⟩
     · exact ⟨⟨t, htV⟩, rfl⟩
   have hsub' : MulAction.orbit ↥V v ⊆ ({v, s • v, t • v} : Set (Fin m → K)) := by

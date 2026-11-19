@@ -16,9 +16,9 @@ open CFSG.QuasithinUnique CFSG.Open CFSG.LocalAnalysis.ComponentInitial
 theorem l3BorelFacts_holds : L3BorelFacts := by
   intro n hn Y _ _ X U hperf hX hU
   obtain ⟨-, K, _, _, hK, ⟨e₀⟩⟩ := id hX
-  haveI : CharP K 2 := burnsideA26_charP_two hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := burnsideA26_charP_two hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 ^ n := by rw [← Nat.card_eq_fintype_card, hK]
   have h8 : 8 ≤ 2 ^ n := by
     calc 8 = 2 ^ 3 := by norm_num
@@ -73,7 +73,7 @@ theorem l3BorelFacts_holds : L3BorelFacts := by
     have hN : Subgroup.normalizer (projUnitriangular 3 K : Set (projectiveSL 3 K)) =
         projUpperTriangular 3 K := normalizer_projUnitriangular (n := 3) (K := K) 2
     have hcardU : Nat.card ↥(projUnitriangular 3 K) = (2 ^ n) ^ 3 := by
-      rw [card_projUnitriangular, hK] <;> norm_num
+      rw [card_projUnitriangular, hK]
     have hcardN : Nat.card ↥(Subgroup.normalizer (projUnitriangular 3 K : Set (projectiveSL 3 K))) *
         Nat.gcd 3 (2 ^ n - 1) = (2 ^ n) ^ 3 * (2 ^ n - 1) ^ 2 * 1 := by
       rw [hN, mul_one]
@@ -110,7 +110,7 @@ theorem l3BorelFacts_holds : L3BorelFacts := by
     have hN : Subgroup.normalizer (unitriangular 3 K : Set (Matrix.SpecialLinearGroup (Fin 3) K)) =
         upperTriangular 3 K := normalizer_unitriangular
     have hcardU : Nat.card ↥(unitriangular 3 K) = (2 ^ n) ^ 3 := by
-      rw [card_unitriangular, hK] <;> norm_num
+      rw [card_unitriangular, hK]
     have hcardN : Nat.card ↥(Subgroup.normalizer
         (unitriangular 3 K : Set (Matrix.SpecialLinearGroup (Fin 3) K))) *
         Nat.gcd 3 (2 ^ n - 1) = (2 ^ n) ^ 3 * (2 ^ n - 1) ^ 2 * Nat.card (Subgroup.center ↥X) := by

@@ -23,12 +23,12 @@ private theorem s1c_exists_fixed_of_fixed_coset {H U D2 L N : Subgroup G} (hUH :
   have hHL : H ≤ Subgroup.normalizer (L : Set G) := D14.le_normalizer_of_isNormalIn hstep.2.1
   let A : Type := ↥D2
   let G₁ : Type := ↥N
-  haveI : Subgroup.Normalizes D2 N := ⟨hD2H.trans hHN⟩
-  letI : MulDistribMulAction A G₁ :=
+  have : Subgroup.Normalizes D2 N := ⟨hD2H.trans hHN⟩
+  let : MulDistribMulAction A G₁ :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer D2 N (hD2H.trans hHN)
   let Lsub : Subgroup G₁ := L.subgroupOf N
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := (hstep.1.1.trans hUH).trans hHL
-  haveI : Lsub.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNL
+  have : Lsub.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNL
   have hLinv : CFSG.IsInvariant A G₁ Lsub := by
     apply CFSG.SolvableHall.isInvariant_of_forall_smul_mem
     intro a x hx
@@ -37,9 +37,9 @@ private theorem s1c_exists_fixed_of_fixed_coset {H U D2 L N : Subgroup G} (hUH :
     exact (Subgroup.mem_normalizer_iff.mp (hHL (hD2H a.2)) (x : G)).mp hx
   have hLp : IsPGroup 2 ↥Lsub :=
     (hU2.to_le hstep.2.1.1).of_equiv (Subgroup.subgroupOfEquivOfLe hstep.2.2.1.le).symm
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥Lsub := hLp.isNilpotent
-  haveI : Group.IsSolvable ↥Lsub := inferInstance
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥Lsub := hLp.isNilpotent
+  have : Group.IsSolvable ↥Lsub := inferInstance
   obtain ⟨k, hk⟩ := hLp.exists_card_eq
   have hcop : Nat.Coprime (Nat.card A) (Nat.card ↥Lsub) := by
     rw [hk]
@@ -81,6 +81,7 @@ private theorem s1c_chiefStep_noncentral {H U R₀ D2 L N : Subgroup G} (hUH : U
   rw [hx]
   exact L.mul_mem (hR0L hyR) hyx
 
+omit [Finite G] in
 private theorem s1c_between_eq_of_zero {H U R₀ : Subgroup G}
     (hnc : ∀ L N : Subgroup G, IsChiefStep H U L N → R₀ ≤ L → ¬ IsCentralStep H L N) :
     ∀ {N : Subgroup G} {n : ℕ}, F112W.IsChiefSeriesBetween H U R₀ N n → n = 0 → N = R₀ := by
@@ -90,6 +91,7 @@ private theorem s1c_between_eq_of_zero {H U R₀ : Subgroup G}
   | central hstep hcent hs ih => intro _; exact (hnc _ _ hstep hs.le hcent).elim
   | noncentral hstep hnc' hs ih => intro hn; omega
 
+omit [Finite G] in
 private theorem s1c_exists_one_step {H U R₀ : Subgroup G}
     (hnc : ∀ L N : Subgroup G, IsChiefStep H U L N → R₀ ≤ L → ¬ IsCentralStep H L N)
     {N : Subgroup G} (hser : F112W.IsChiefSeriesBetween H U R₀ N 1) :
@@ -101,6 +103,7 @@ private theorem s1c_exists_one_step {H U R₀ : Subgroup G}
       subst hL
       exact ⟨hstep, hnc'⟩
 
+omit [Finite G] in
 private theorem s1c_exists_two_steps {H U R₀ : Subgroup G}
     (hnc : ∀ L N : Subgroup G, IsChiefStep H U L N → R₀ ≤ L → ¬ IsCentralStep H L N)
     {N : Subgroup G} (hser : F112W.IsChiefSeriesBetween H U R₀ N 2) :
@@ -230,6 +233,7 @@ private theorem s1c_commutator_le {H U R₀ D2 : Subgroup G} {m : ℕ} {t : G} (
     exact s1c_double_commutator hm2 hmodd hL2 hU2 hUH hHU htH ht2 htO hdisp hstepL hncL hstepU
       hncU
 
+omit [Finite G] in
 private theorem s1c_s_le_normalizer_q1 (L1 L2 S : Subgroup G) :
     S ≤ Subgroup.normalizer (Q1 L1 L2 S : Set G) :=
   ((le_sup_right : S ≤ bigB L1 L2 S).trans le_sup_right).trans
@@ -320,13 +324,13 @@ private theorem s1c_Q2R_equiv_SQ1
     ext x
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
     exact ⟨fun hx => ⟨hx, x.2⟩, fun hx => hx.1⟩
-  haveI : (Q1 L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
+  have : (Q1 L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQ2NQ1
   have hQ2Q1NQ1 : Q2 L1 L2 S ⊔ Q1 L1 L2 S ≤
       Subgroup.normalizer (Q1 L1 L2 S : Set G) := by
     rw [sup_comm, hQ]
     exact hSNQ1
-  haveI : (Q1 L1 L2 S).subgroupOf (Q2 L1 L2 S ⊔ Q1 L1 L2 S) |>.Normal :=
+  have : (Q1 L1 L2 S).subgroupOf (Q2 L1 L2 S ⊔ Q1 L1 L2 S) |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQ2Q1NQ1
   let eY : ↥(Q2 L1 L2 S ⊔ Q1 L1 L2 S) ≃* ↥S :=
     MulEquiv.subgroupCongr (by rw [sup_comm, hQ])
@@ -361,9 +365,9 @@ private theorem s1c_false_of_commutator_le
   have hQ2NQ1 := s1c_q2_le_normalizer_q1 hfr
   have hQ2NR : Q2 L1 L2 S ≤ Subgroup.normalizer (Q1 L1 L2 S ⊓ Q2 L1 L2 S : Set G) :=
     Subgroup.le_normalizer_inf hQ2NQ1 (Subgroup.le_normalizer (H := Q2 L1 L2 S))
-  haveI : (Q1 L1 L2 S ⊓ Q2 L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
+  have : (Q1 L1 L2 S ⊓ Q2 L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQ2NR
-  haveI : (Q1 L1 L2 S).subgroupOf S |>.Normal :=
+  have : (Q1 L1 L2 S).subgroupOf S |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hSNQ1
   have hQcomm : IsMulCommutative
       (↥(Q2 L1 L2 S) ⧸ (Q1 L1 L2 S ⊓ Q2 L1 L2 S).subgroupOf (Q2 L1 L2 S)) := by

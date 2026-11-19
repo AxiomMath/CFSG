@@ -30,10 +30,10 @@ namespace Mc614
 
 variable {G : Type} [Group G] [Finite G] {Dat : Data G} (c : Mc614 Dat)
 
-abbrev M (c : Mc614 Dat) : Subgroup G := Dat.M
+abbrev M (_c : Mc614 Dat) : Subgroup G := Dat.M
 
 theorem M_ne_top : c.M ≠ ⊤ := by
-  haveI := Dat.standing.simple
+  have := Dat.standing.simple
   exact CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top Dat.standing.nonab Dat.maxLocal.1
 
 theorem R_le_M : c.R ≤ c.M := c.d.sylow.le
@@ -80,7 +80,7 @@ theorem IsZ.not_le_E {Z : Subgroup G} (hZ : c.IsZ Z) : ¬ Z ≤ c.E := by
 
 theorem IsZ.R_sylow {Z : Subgroup G} (_hZ : c.IsZ Z) (hRC : c.R ≤ centralizer (Z : Set G)) :
     IsSylowOf c.r c.R (centralizer (Z : Set G)) := by
-  haveI : Fact c.r.Prime := ⟨c.d.prime⟩
+  have : Fact c.r.Prime := ⟨c.d.prime⟩
   have hRp : IsPGroup c.r c.R := c.d.sylow.isPGroup
   obtain ⟨S, hS, hRS⟩ := exists_isSylowOf_ge hRC hRp
   have hE1 : c.E ≠ ⊥ := by
@@ -138,7 +138,7 @@ theorem IsZ.p16_hyp {Z : Subgroup G} (hZ : c.IsZ Z)
 theorem IsZ.sixteen {Z : Subgroup G} (hZ : c.IsZ Z) (h69 : R6_9 Dat) :
     (∀ a ∈ Z ⊔ c.E, ∀ x ∈ c.R, a * x = x * a) ∧ (∀ x ∈ c.R, x ^ c.r = 1 → x ∈ Z ⊔ c.E) :=
   p16_core c.d.prime c.d.sylow.isPGroup c.rank_le_three
-    (fun e he x hx => (mem_centralizer_iff.1 (c.d.E_le he).2 x hx).symm) c.E_le_R c.d.E_el
+    (fun _e he x hx => (mem_centralizer_iff.1 (c.d.E_le he).2 x hx).symm) c.E_le_R c.d.E_el
     c.d.E_card hZ.le hZ.card hZ.not_le_E (hZ.p16_hyp h69)
 
 theorem IsZ.R_le_centralizer {Z : Subgroup G} (hZ : c.IsZ Z)

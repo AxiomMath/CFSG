@@ -19,7 +19,7 @@ private theorem str83G4_relIndex_inf_centralizer_le
     {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a)
     (d : Str83G4Data L1 L2 S) (hX : IsElemAbelian 2 (str83X L1 L2 S))
     {t : G} (ht : t ∈ CFSG.conjugate (str83X L1 L2 S) d.w)
-    (htQ : t ∉ Q1 L1 L2 S) :
+    (_htQ : t ∉ Q1 L1 L2 S) :
     ((Q1 L1 L2 S ⊓ CFSG.conjugate (Q1 L1 L2 S) d.w) ⊓
         Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)).relIndex
       (Q1 L1 L2 S ⊓ CFSG.conjugate (Q1 L1 L2 S) d.w) ≤ 2 ^ (2 * a + 1) := by

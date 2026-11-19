@@ -77,7 +77,7 @@ theorem exists_fixed_diag {k V : Type*} {F : Type} [Field k] [AddCommGroup V] [M
         (orderOf_dvd_of_mem_zpowers (Subgroup.mem_zpowers_iff.mpr ⟨j, rfl⟩)))
         (orderOf_dvd_of_pow_eq_one h2)
       exact ha1 (orderOf_eq_one_iff.mp h3)
-  haveI : ((unipSL F).subgroupOf (unipSL F ⊔ zpowers (diag μ))).Normal :=
+  have : ((unipSL F).subgroupOf (unipSL F ⊔ zpowers (diag μ))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr
       (sup_le Subgroup.le_normalizer hRN)
   have hcK : Nat.card ((unipSL F).subgroupOf (unipSL F ⊔ zpowers (diag μ))) =
@@ -90,7 +90,7 @@ theorem exists_fixed_diag {k V : Type*} {F : Type} [Field k] [AddCommGroup V] [M
       ((zpowers (diag μ)).subgroupOf (unipSL F ⊔ zpowers (diag μ))) := by
     refine Subgroup.isComplement'_of_coprime ?_ (by rw [hcK, hcR]; exact hcop)
     rw [hcK, hcR, CFSG.GH74.Uniqueness.Bender.card_sup_eq_mul_of_le_normalizer hRN
-      (Subgroup.inf_eq_bot_of_coprime hcop)]
+      ((Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop)))]
   obtain ⟨v, hv0, hv⟩ := CFSG.LocalAnalysis.frobenius_complement_fixed_vector hKR
     (fun r hr hr1 x hx hxr => Subtype.ext (hfixSL r (Subgroup.mem_subgroupOf.mp hr)
       (fun h => hr1 (Subtype.ext h)) x (Subgroup.mem_subgroupOf.mp hx)
@@ -123,7 +123,7 @@ theorem I9_le_M_of_odd_dvd (S : Slice D L D₃ Y H q)
   obtain ⟨p, hp, F, hF, hFt, V, hV, hVm, hVf, σ, hcard, -, hpq, hσ, -, hfpf⟩ :=
     S.exists_sl2_rep_of_not_le hN hyp hK461 hK462 hSch hIM
   obtain ⟨r, hrp, hr2, hrq⟩ := hr
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   obtain ⟨μ, hμ⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) r (by
     rw [Nat.card_units, Nat.card_eq_fintype_card, hcard]
     exact hrq)

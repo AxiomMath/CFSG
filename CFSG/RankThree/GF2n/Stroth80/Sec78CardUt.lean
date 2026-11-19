@@ -12,10 +12,10 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 theorem sec7ctr_secHyp (hc : Ctx M Q Z B) {R : Subgroup G} (hRM : R ≤ M) : SecHyp R Q Z :=
-  ⟨hc.Z_le_Q, fun x hx y hy => hc.hyp.toHyp79.comm_mem_V hx hy,
-    fun x hx => hc.hyp.toHyp79.sq_mem_V hx,
-    fun r hr x hx => (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 (hRM hr)) x).mp hx,
-    fun r hr x hx => (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 (hRM hr)) x).mp hx⟩
+  ⟨hc.Z_le_Q, fun _x hx _y hy => hc.hyp.toHyp79.comm_mem_V hx hy,
+    fun _x hx => hc.hyp.toHyp79.sq_mem_V hx,
+    fun _r hr _x hx => (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 (hRM hr)) _x).mp hx,
+    fun _r hr _x hx => (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 (hRM hr)) _x).mp hx⟩
 
 theorem sec7ctr_card_Ut_le (hc : Ctx M Q Z B) {R : Subgroup G} (hRM : R ≤ M) {s : G}
     (hsR : s ∈ R) (hsc : ∀ ρ ∈ R, ⁅ρ⁻¹, s⁆ ∈ Q) {W : Subgroup G} (hZW : Z ≤ W) (hWQ : W ≤ Q)
@@ -26,7 +26,7 @@ theorem sec7ctr_card_Ut_le (hc : Ctx M Q Z B) {R : Subgroup G} (hRM : R ≤ M) {
   have hSec := sec7ctr_secHyp hc hRM
   have hP := hSec.normP
   obtain ⟨Md, iA, iD, κ, hκ⟩ := exists_sectionModule hSec
-  haveI : Finite Md := hκ.finite
+  have : Finite Md := hκ.finite
   obtain ⟨ε, hε, hεR⟩ := exists_comm_endo hc hRM hκ (hRM hsR) hsc
   obtain ⟨U, hZU, hUQ, hUε⟩ := exists_secSub_eq hZQ hκ ε.range
   have hinvU : ∀ z : ↥R, ∀ a ∈ secSub κ U, z • a ∈ secSub κ U := by

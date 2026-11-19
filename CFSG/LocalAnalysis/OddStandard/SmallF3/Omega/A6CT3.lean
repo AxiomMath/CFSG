@@ -29,7 +29,7 @@ theorem a6c_autCentOmega5_of_check
   obtain ⟨c, hc0, ⟨fr⟩⟩ := exists_nframe_five hQ hdim
   obtain ⟨m, -⟩ := a6c_model_of_frame fr hc0
   have hcard : Nat.card (ProjSim Q) = 51840 := ff_natCard_projSim_five hQ hdim
-  haveI : Finite (ProjSim Q) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite (ProjSim Q) := Nat.finite_of_card_ne_zero (by omega)
   have hΓ : ¬ 25 ∣ Nat.card (ProjSim Q) := by rw [hcard]; norm_num
   obtain ⟨hle, -⟩ := a6c_red (P := fun _ => True) (kc := 10) (bound := 2)
     (fun _ _ _ => trivial) hΓ (by norm_num) (hc _ m) φ ψ eA hodd hker

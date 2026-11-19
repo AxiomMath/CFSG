@@ -13,7 +13,7 @@ open CFSG.Open CFSG.LieType.Universal.Symplectic CFSG.ClassicalInvolution.Models
 
 private theorem cartanC_ne_zero_iff {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
     cartanC m i j ≠ 0 ↔ i.val + 1 = j.val ∨ j.val + 1 = i.val := by
-  simp only [cartanC, Matrix.of_apply, if_neg hij]
+  simp only [cartanC, Matrix.of_apply, ite_eq_right hij]
   split_ifs <;> omega
 
 private theorem edgeCond_pair {n : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]

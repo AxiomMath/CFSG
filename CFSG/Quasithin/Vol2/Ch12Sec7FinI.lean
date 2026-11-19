@@ -13,6 +13,7 @@ namespace S127
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_autOn_eq_relIndex {V D : Subgroup G} (hDV : D ≤ Subgroup.normalizer (V : Set G)) :
     Nat.card ↥(autOn D V) = (D ⊓ Subgroup.centralizer (V : Set G)).relIndex D :=
   CFSG.Quasithin.AutOn.card_autOn_eq_relIndex hDV
@@ -94,6 +95,7 @@ theorem V2_le_of_le_sup (h1222 : Stmt12_2_2) (h2 : Lemma12_7_2) {T L V : Subgrou
     exact D.mul_mem ((Subgroup.mem_normalizer_iff.1 (hVD hv) d).1 hd) (D.inv_mem hd)
   exact hVRD.trans hVDD
 
+omit [Finite G] in
 theorem inf_centralizer_conj_of_mem {D V : Subgroup G} {k : G}
     (hk : k ∈ Subgroup.normalizer (D : Set G)) :
     D ⊓ Subgroup.centralizer (V.map (MulAut.conj k).toMonoidHom : Set G) =
@@ -124,6 +126,7 @@ theorem inf_centralizer_conj_of_mem {D V : Subgroup G} {k : G}
       _ = k * (y * a) * k⁻¹ := by rw [h]
       _ = k * y * k⁻¹ * (k * a * k⁻¹) := by group
 
+omit [Finite G] in
 theorem map_conj_of_mem_normalizer {D : Subgroup G} {k : G}
     (hk : k ∈ Subgroup.normalizer (D : Set G)) : D.map (MulAut.conj k).toMonoidHom = D := by
   ext x

@@ -70,7 +70,7 @@ theorem decode32_surj (v : V) : ∃ c < 2 ^ 32, decode32 c = v := by
     intro m n hmn
     exact Fin.ext (eq_of_decode32_eq m.isLt n.isLt hmn)
   have hcard : Fintype.card (Fin (2 ^ 32)) = Fintype.card V := by
-    simp [Fintype.card_fun, ZMod.card]
+    simp [ZMod.card]
   obtain ⟨n, hn⟩ := ((Fintype.bijective_iff_injective_and_card
     (fun n : Fin (2 ^ 32) => decode32 n.val)).2 ⟨hf, hcard⟩).2 v
   exact ⟨n.val, n.isLt, hn⟩

@@ -16,6 +16,7 @@ open CFSG.RankThree.Classical2 (orthDerived)
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p r : ℕ} {A : Subgroup (V ≃ₗ[K] V)}
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjF_coord_of_fixed [Fact p.Prime] (Δ : TBJOmData Q p A r)
     (hA : A ≤ orthDerived Q) {f₀ : Fin r → Multiplicative (ZMod p)}
     {J : Subgroup ↥(orthDerived Q)} {P : Fin r → Prop}
@@ -34,7 +35,7 @@ private theorem tbjF_coord_of_fixed [Fact p.Prime] (Δ : TBJOmData Q p A r)
     apply toAdd.injective
     rw [hf, toAdd_mulSingle]
     have hki : k ≠ i := fun h => hi (h ▸ hk)
-    rw [if_neg hki, toAdd_one]
+    rw [ite_eq_right hki, toAdd_one]
   have hcf : ∀ j ∈ J, Δ.τΩ hA f * j = j * Δ.τΩ hA f :=
     hcent f ⟨0, fun k hk => by rw [hfP k hk, toAdd_one, zero_mul]⟩
   have hconj : n * Δ.τΩ hA f * n⁻¹ = Δ.τΩ hA f := by
@@ -42,7 +43,7 @@ private theorem tbjF_coord_of_fixed [Fact p.Prime] (Δ : TBJOmData Q p A r)
   have hσf : σ f = f :=
     tbjA_tauOmega_injective Δ hA (by rw [← hn f, hconj])
   have hfi : toAdd (f i) = 1 := by
-    rw [hf, toAdd_mulSingle, if_pos rfl]
+    rw [hf, toAdd_mulSingle, ite_eq_left rfl]
   have h1 : toAdd (f (π i)) = ε i := by
     have h := hu f i
     rw [hσf, hfi, mul_one] at h
@@ -50,14 +51,15 @@ private theorem tbjF_coord_of_fixed [Fact p.Prime] (Δ : TBJOmData Q p A r)
   rw [hf, toAdd_mulSingle] at h1
   by_cases hπ : π i = i
   · refine ⟨hπ, ?_⟩
-    rw [if_pos hπ] at h1
+    rw [ite_eq_left hπ] at h1
     exact h1.symm
   · exfalso
-    rw [if_neg hπ] at h1
+    rw [ite_eq_right hπ] at h1
     rcases hε i with h | h
     · exact zero_ne_one (h1.trans h)
     · exact (neg_ne_zero.mpr one_ne_zero) ((h1.trans h).symm)
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjF_mem_signedSupportedAut_of_fixed [Fact p.Prime] (Δ : TBJOmData Q p A r)
     (hA : A ≤ orthDerived Q) {f₀ : Fin r → Multiplicative (ZMod p)}
     {J : Subgroup ↥(orthDerived Q)} {P : Fin r → Prop} [DecidablePred P]
@@ -75,6 +77,7 @@ private theorem tbjF_mem_signedSupportedAut_of_fixed [Fact p.Prime] (Δ : TBJOmD
     have hiP : ¬ P i := fun hPi => hi (Finset.mem_filter.mpr ⟨Finset.mem_univ i, hPi⟩)
     exact (tbjF_coord_of_fixed Δ hA hcent hσ hε hu hiP).2
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjF_supported_le_torusAut (Δ : TBJOmData Q p A r) (hA : A ≤ orthDerived Q)
     {f₀ : Fin r → Multiplicative (ZMod p)} {J : Subgroup ↥(orthDerived Q)} {P : Fin r → Prop}
     [DecidablePred P]
@@ -159,7 +162,7 @@ theorem TBJOmData.torusAut_component_fixed [Fact p.Prime] (hp2 : p ≠ 2) (Δ : 
       have hiP : P i := by
         have hiS : i ∈ S := by rw [hSU]; exact Finset.mem_univ i
         simpa [S] using hiS
-      simpa [hP0 i hiP]
+      simp [hP0 i hiP]
     have hclause : ∀ f : Fin r → Multiplicative (ZMod p),
         (∀ σ ∈ Δ.torusAut hA J, σ f = f) →
           ∀ j ∈ J, Δ.τΩ hA f * j = j * Δ.τΩ hA f := by
@@ -169,7 +172,7 @@ theorem TBJOmData.torusAut_component_fixed [Fact p.Prime] (hp2 : p ≠ 2) (Δ : 
         intro σ hσ
         exact hf σ (by rw [hEq]; exact hσ)
       have h1 := tbjA_fixed_of_mem_signedSupportedAut hp2 hfix i (by simpa [S] using hi)
-      simpa [h1]
+      simp [h1]
     exact ⟨S, hclause, Or.inl ⟨by omega, hS_ne_univ, hEq⟩⟩
   ·
     obtain ⟨S, s, hs, hS3, hEq, hfix⟩ :=

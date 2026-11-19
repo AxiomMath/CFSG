@@ -13,7 +13,7 @@ theorem exists_lift_centralizing [Finite N] {f : N →* Q} {U : Subgroup N} {p :
     (hcomm : ∀ u ∈ U, f u * f n = f n * f u) :
     ∃ n' : N, f n' = f n ∧ ∀ u ∈ U, u * n' = n' * u := by
   classical
-  letI : MulAction U N := MulAction.compHom N (ConjAct.toConjAct.toMonoidHom.comp U.subtype)
+  let : MulAction U N := MulAction.compHom N (ConjAct.toConjAct.toMonoidHom.comp U.subtype)
   have hsmul : ∀ (u : U) (g : N), u • g = (u : N) * g * (u : N)⁻¹ := fun u g => rfl
   obtain ⟨S, hS⟩ : ∃ S : SubMulAction U N, ∀ g, g ∈ S ↔ f g = f n :=
     ⟨{ carrier := {g | f g = f n}

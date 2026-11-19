@@ -15,6 +15,7 @@ open CFSG.ComponentClassification.GSThmB.Eight2
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem conj_mem_oddCoreIn' {H : Subgroup X} {h x : X} (hh : h ∈ H)
     (hx : x ∈ oddCoreIn H) : h * x * h⁻¹ ∈ oddCoreIn H := by
   obtain ⟨o, ho, rfl⟩ := hx
@@ -34,6 +35,7 @@ private theorem inf_oddCoreIn_le' {Y M : Subgroup X} (hYM : Y ≤ M) :
   rw [h1]
   exact ho
 
+omit [Finite X] in
 private theorem conjugate_le_of_mem {C H : Subgroup X} {g : X} (hg : g ∈ C) (hH : H ≤ C) :
     conjugate H g ≤ C := by
   intro x hx
@@ -41,6 +43,7 @@ private theorem conjugate_le_of_mem {C H : Subgroup X} {g : X} (hg : g ∈ C) (h
   have h := mul_mem (mul_mem (inv_mem hg) (hH hx)) hg
   rwa [show g⁻¹ * (g * x * g⁻¹) * g = x by group] at h
 
+omit [Finite X] in
 private theorem card_fusionZStar_conjugate (M : Subgroup X) (g : X) :
     Nat.card (↥(conjugate M g) ⧸ Open.fusionZStar ↥(conjugate M g)) =
       Nat.card (↥M ⧸ Open.fusionZStar ↥M) :=
@@ -354,7 +357,7 @@ private theorem inf_P_eq_bot_aux {Js₁ Js₂ R : Subgroup X} (hJ1 : c.Jstar0 �
   rwa [c.s.h.inf_conjugate_x] at hmem
 
 theorem inf_P_eq_bot_of_commutator_le {Js R : Subgroup X} (hJ0 : c.Jstar0 ≤ Js)
-    (hxJs : c.s.h.x ∈ normalizer (Js : Set X)) (hRC : R ≤ centralizer ({c.Z.z} : Set X))
+    (hxJs : c.s.h.x ∈ normalizer (Js : Set X)) (_hRC : R ≤ centralizer ({c.Z.z} : Set X))
     (hR : ⁅R, Js⁆ ≤ oddCoreIn (centralizer ({c.Z.z} : Set X))) :
     c.s.h.S ⊓ R ⊓ c.s.h.P = ⊥ := by
   have hJ2 : conjugate c.Jstar0 c.s.h.x ≤ Js :=

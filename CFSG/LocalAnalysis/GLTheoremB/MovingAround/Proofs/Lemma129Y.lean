@@ -55,7 +55,7 @@ theorem not_dvd_card_of_isSCp_of_normalized {p : ℕ} [Fact p.Prime] {Ab K M : S
     (hMN : ∀ a ∈ Ab, ∀ m ∈ M, a * m * a⁻¹ ∈ M) (hMK : ∀ m ∈ M, ∀ y ∈ K, m * y = y * m) :
     ¬ p ∣ Nat.card M := by
   intro hdvd
-  letI : MulAction Ab M := scpConjAction Ab M hMN
+  let : MulAction Ab M := scpConjAction Ab M hMN
   have hpAb : IsPGroup p Ab := fun a => ⟨1, Subtype.ext (by simpa using hAb.2.1.2 a a.2)⟩
   have hpf : p ∣ Nat.card (MulAction.fixedPoints Ab M) :=
     Nat.modEq_zero_iff_dvd.1 ((hpAb.card_modEq_card_fixedPoints M).symm.trans
@@ -119,6 +119,7 @@ theorem subnormal_coprime_eq_bot {p : ℕ} (hp : p.Prime) (hcore : GLAPPrimeCore
   rw [h2, h3] at h1
   exact le_bot_iff.1 h1
 
+omit [Finite Y] in
 theorem conj_mem_iSup_of_permuted {Ab : Subgroup Y} {𝒜 : Set (Subgroup Y)}
     (h𝒜 : ∀ a ∈ Ab, ∀ K ∈ 𝒜, GLBConj a K ∈ 𝒜) :
     ∀ a ∈ Ab, ∀ m ∈ (⨆ K ∈ 𝒜, K : Subgroup Y), a * m * a⁻¹ ∈ (⨆ K ∈ 𝒜, K : Subgroup Y) := by
@@ -143,7 +144,7 @@ theorem scp_centralizer_eq_bot {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p
     (∀ K' : Subgroup Y, IsComponentOf K' ⊤ → ∃ g ∈ Ab, K' = GLBConj g K₁) ∧
       CFSG.pCore p Y = ⊥ ∧
       Subgroup.centralizer ((⨆ g ∈ Ab, GLBConj g K₁ : Subgroup Y) : Set Y) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hconj_le : ∀ g ∈ Ab, GLBConj g K₁ ≤ (⨆ g ∈ Ab, GLBConj g K₁ : Subgroup Y) :=
     fun g hg => le_iSup₂_of_le g hg le_rfl
   have hcomp : ∀ K' : Subgroup Y, IsComponentOf K' ⊤ → ∃ g ∈ Ab, K' = GLBConj g K₁ := by
@@ -181,7 +182,7 @@ theorem scp_centralizer_eq_bot {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p
   have hpcore : CFSG.pCore p Y = ⊥ := by
     have hcent : ∀ m ∈ CFSG.pCore p Y, ∀ y ∈ (⨆ g ∈ Ab, GLBConj g K₁ : Subgroup Y),
         m * y = y * m := by
-      haveI : Group.IsNilpotent ↥(CFSG.pCore p Y) := CFSG.pCore_isPGroup.isNilpotent
+      have : Group.IsNilpotent ↥(CFSG.pCore p Y) := CFSG.pCore_isPGroup.isNilpotent
       have h : (⨆ g ∈ Ab, GLBConj g K₁ : Subgroup Y) ≤
           Subgroup.centralizer (CFSG.pCore p Y : Set Y) := by
         refine iSup₂_le fun g hg => ?_

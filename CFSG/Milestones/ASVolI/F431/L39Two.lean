@@ -73,8 +73,8 @@ theorem burnsideF4m_F439Sp2_of (hfacts : burnsideF4m_Sp2Facts) (htop : burnsideF
   intro E _ Gp M₁ M₂ Y _ β M _ ε z hyp hL43 u hu hu1 hu2 hu₁ hu₂
   have hGp := htop E Gp M₁ M₂ hyp.amalgam
   subst hGp
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
   simp only [top_inf_eq] at hu hu₁ hu₂
   obtain ⟨hsh, hc2, ⟨z₁, hz₁, hz₁1, hz₁S⟩, ⟨z₂, hz₂, hz₂1, hz₂S⟩⟩ :=
     hfacts E M₁ M₂ hyp.amalgam

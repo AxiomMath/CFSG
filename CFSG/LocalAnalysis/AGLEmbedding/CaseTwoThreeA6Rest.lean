@@ -45,7 +45,7 @@ theorem D1CaseTwoData.false_of_threeASix_out (hβ : KFactBeta) (hS : KFactSeitzC
       Subgroup.mem_centralizer_singleton_iff.mpr hgz
     set V := ((P : Subgroup G) ⊓ Subgroup.centralizer ({(z : G)} : Set G)).comap
       (Subgroup.centralizer ({(z : G)} : Set G)).subtype with hV
-    have hVp : IsPGroup 3 V := (P.isPGroup'.to_le inf_le_left).comap_subtype
+    have hVp : IsPGroup 3 V := (P.isPGroup.to_le inf_le_left).comap_subtype
     have hQV : (Q : Subgroup _) ≤ V := by
       intro q hq
       have hqR : (q : G) ∈ R := hQ ▸ ⟨q, hq, rfl⟩

@@ -49,7 +49,7 @@ theorem finiteIndex_familyGroup_inf_centralizer (a : ι → Fin τ.rank → kˣ)
     refine ⟨w z, ?_⟩
     change (if hv : ∃ z', w z' = w z then QuotientGroup.mk (Classical.choose hv)
       else QuotientGroup.mk 1) = _
-    rw [dif_pos hv]
+    rw [dite_eq_left hv]
     exact key _ _ (Classical.choose_spec hv)
   have : Finite (Z ⧸ T.subgroupOf Z) := Finite.of_surjective f hf
   exact Subgroup.finiteIndex_of_finite_quotient

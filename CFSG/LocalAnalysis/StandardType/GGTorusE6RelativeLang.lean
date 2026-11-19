@@ -24,9 +24,11 @@ variable (F : ExcFrame .E6 K p E)
 noncomputable def frobHom : AlgebraicClosure K →+* AlgebraicClosure K :=
   Classical.choose F.frob
 
+omit [CharP K 2] in
 theorem frobHom_eq : ∀ c, frobHom F c = c ^ Nat.card K :=
   (Classical.choose_spec F.frob).1
 
+omit [CharP K 2] in
 theorem frobHom_apply : ∀ g, F.D.Φ g = Units.map (entrywiseHom (frobHom F)) g :=
   (Classical.choose_spec F.frob).2
 
@@ -47,16 +49,19 @@ theorem frobHom_apply : ∀ g, F.D.Φ g = Units.map (entrywiseHom (frobHom F)) g
     funext i
     rfl
 
+omit [Finite K] [CharP K 2] in
 @[simp] theorem coordMap_apply
     (a : Fin 4 → rootsOfUnity (Nat.card K + 1) (AlgebraicClosure K))
     (i : Fin Tag.E6.rank) :
     coordMap (K := K) a i = coordTuple a i := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem coordTuple_pow_card_add_one
     (a : Fin 4 → rootsOfUnity (Nat.card K + 1) (AlgebraicClosure K)) (i : Fin Tag.E6.rank) :
     coordTuple a i ^ (Nat.card K + 1) = 1 := by
   exact (mem_rootsOfUnity _ _).mp (a (e6IndexToF4 i)).2
 
+omit [Finite K] [CharP K 2] in
 theorem coordMap_pow_card_add_one
     (a : Fin 4 → rootsOfUnity (Nat.card K + 1) (AlgebraicClosure K)) :
     a ^ (Nat.card K + 1) = 1 := by
@@ -64,6 +69,7 @@ theorem coordMap_pow_card_add_one
   apply Subtype.ext
   simpa using (mem_rootsOfUnity _ _).mp (a i).2
 
+omit [Finite K] [CharP K 2] in
 theorem coordMap_injective : Function.Injective (coordMap (K := K)) := by
   intro a b hab
   funext j
@@ -83,6 +89,7 @@ theorem ggKGEp_phi_eq_rhoE6 : ggKGEp_phi = rhoE6 := by
   ext i
   fin_cases i <;> rfl
 
+omit [Finite K] [CharP K 2] in
 theorem coordTuple_phi
     (a : Fin 4 → rootsOfUnity (Nat.card K + 1) (AlgebraicClosure K)) (i : Fin Tag.E6.rank) :
     coordTuple a (ggKGEp_phi i) = coordTuple a i := by
@@ -94,12 +101,14 @@ theorem coordTuple_phi
       ((baseChangeGL (algebraMap K (AlgebraicClosure K))).comp
         (adjointGroup .E6 K).subtype))
 
+omit [CharP K 2] in
 theorem mem_fullTorus {x : adjointGroup .E6 K} :
     x ∈ fullTorus F ↔
       F.D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL .E6 K) *
         F.D.g0 ∈ F.D.torus := by
   rfl
 
+omit [CharP K 2] in
 theorem rootDiagUnit_mem_torus_of_mTorsion_fixed
     (hlong : ExcIsLongest .E6 F.w) {b : Fin Tag.E6.rank → (AlgebraicClosure K)ˣ}
     (hbpow : ∀ i, b i ^ (Nat.card K + 1) = 1)
@@ -133,6 +142,7 @@ theorem rootDiagUnit_mem_torus_of_mTorsion_fixed
     rw [hbq (ggKGEp_phi i), inv_inv, hbfix i]
   rw [hΦb, F.n_eq, canonicalRep_conj_rootDiagUnit, hwt]
 
+omit [CharP K 2] in
 theorem coordTuple_mem_torus
     (hlong : ExcIsLongest .E6 F.w)
     (a : Fin 4 → rootsOfUnity (Nat.card K + 1) (AlgebraicClosure K)) :
@@ -190,6 +200,7 @@ theorem phi_mem_fullTorus (hlong : ExcIsLongest .E6 F.w)
       rootDiagUnit .E6 (coordTuple a) by group]
   exact coordTuple_mem_torus F hlong a
 
+omit [CharP K 2] in
 theorem rootDiagUnit_phi_fixed_of_mem_torus
     (hlong : ExcIsLongest .E6 F.w) {b : Fin Tag.E6.rank → (AlgebraicClosure K)ˣ}
     (hbpow : ∀ i, b i ^ (Nat.card K + 1) = 1)
@@ -225,6 +236,7 @@ theorem rootDiagUnit_phi_fixed_of_mem_torus
   rw [hbq (ggKGEp_phi i), inv_inv] at hi
   exact hi
 
+omit [CharP K 2] in
 theorem b_eq_coordTuple_of_mTorsion
     (hlong : ExcIsLongest .E6 F.w) {b : Fin Tag.E6.rank → (AlgebraicClosure K)ˣ}
     (hbpow : ∀ i, b i ^ (Nat.card K + 1) = 1)

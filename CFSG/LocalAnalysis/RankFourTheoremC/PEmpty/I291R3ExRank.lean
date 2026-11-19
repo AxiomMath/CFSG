@@ -14,7 +14,7 @@ section Centralizer
 variable {S : Type*} [Group S] [Finite S] {p : ℕ}
 
 theorem three_le_pRank_centralizer_of_central_rank_two [Fact p.Prime] (P : Sylow p S)
-    {E : Subgroup S} (hEP : E ≤ (P : Subgroup S)) (hE : IsElemAbelian p E)
+    {E : Subgroup S} (_hEP : E ≤ (P : Subgroup S)) (hE : IsElemAbelian p E)
     (hEc : ∀ e ∈ E, ∀ y ∈ (P : Subgroup S), e * y = y * e) (hE2 : p ^ 2 ≤ Nat.card E)
     (h3 : 3 ≤ CFSG.Open.pRank p (⊤ : Subgroup S)) {x : S} (hxP : x ∈ (P : Subgroup S))
     (hx : x ^ p = 1) : 3 ≤ CFSG.Open.pRank p (centralizer ({x} : Set S)) := by
@@ -34,7 +34,7 @@ theorem three_le_pRank_centralizer_of_central_rank_two [Fact p.Prime] (P : Sylow
       rcases ha with ha | ha
       · exact hEc a ha x hxP
       · rw [Set.mem_singleton_iff.1 ha]
-    haveI := hE.1
+    have := hE.1
     have hFcomm : IsMulCommutative F := by
       refine Subgroup.isMulCommutative_closure ?_
       intro a ha b hb _
@@ -133,6 +133,7 @@ section Transfer
 
 variable {G S : Type*} [Group G] [Finite G] [Group S] [Finite S] {p : ℕ}
 
+omit [Finite G] [Finite S] in
 theorem card_map_eq_of_injOn_subgroup (π : G →* S) {U : Subgroup G}
     (hinj : ∀ u ∈ U, π u = 1 → u = 1) : Nat.card (U.map π) = Nat.card U := by
   have hψ : Function.Injective (π.comp U.subtype) := by

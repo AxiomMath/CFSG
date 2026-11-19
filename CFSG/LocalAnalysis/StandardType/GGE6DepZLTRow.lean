@@ -27,7 +27,7 @@ theorem tFrame_zl_row {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
       ψ.ker ≤ Subgroup.closure (Set.range fun i => ⁅w i, t i⁆) := by
   obtain ⟨q, û, ĥ, hqs, _hqk, hqn, hqV, hqc, hqcl⟩ :=
     tFrame_hat hn hK σ hσ Fr hFr h3 hL hζ hζo hD
-  haveI := TwE6DD2.finite_twistedE6Group n
+  have := TwE6DD2.finite_twistedE6Group n
   have hsplit : ∀ (E : Type) [Group E] [Finite E]
       (π : E →* twistedE6Group 2 n), Function.Surjective π →
       π.ker ≤ Subgroup.center E → Nat.Coprime 2 (Nat.card π.ker) →

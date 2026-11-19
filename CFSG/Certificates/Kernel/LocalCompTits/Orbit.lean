@@ -55,12 +55,12 @@ theorem orbHyp_of_K {gs : Array (List Nat)} {root cap N : Nat} {TP TG TR : Nat �
   · have := CFSG.KS.allN_spec h4 i (by omega)
     simpa [Nat.blt_eq] using this
   · have := CFSG.KS.allN_spec h5 s hs
-    simp only [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true] at this
+    simp only [Bool.and_eq_true] at this
     have := CFSG.KS.allN_spec this.2 i hi
     simpa [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bAnd_eq, Nat.blt_eq, Nat.beq_eq] using this
   · simpa [Nat.beq_eq] using h6
   · have := CFSG.KS.allN_spec h7 j hj
-    simp only [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true, CFSG.KS.Raw.Orb.bIf_eq, Nat.blt_eq,
+    simp only [Bool.and_eq_true, CFSG.KS.Raw.Orb.bIf_eq, Nat.blt_eq,
       Nat.beq_eq] at this
     obtain ⟨a, b⟩ := this
     refine ⟨a, ?_⟩
@@ -207,7 +207,7 @@ private theorem inner_loop' {S : Nat → Prop} {gs : Array (List Nat)} {v : Nat}
   · refine ⟨b, ?_, hnd, hSb, ⟨ext, hext⟩, ?_⟩
     · exact innerB_mem hc
     · intro g hg'
-      rw [List.take_succ, List.getElem?_eq_getElem hj] at hg'
+      rw [List.take_add_one, List.getElem?_eq_getElem hj] at hg'
       simp only [Option.toList_some, List.mem_append, List.mem_singleton] at hg'
       rcases hg' with h | h
       · exact hcb g h
@@ -226,7 +226,7 @@ private theorem inner_loop' {S : Nat → Prop} {gs : Array (List Nat)} {v : Nat}
       · exact hSb x h
       · rw [h]; exact hSw
     · intro g hg'
-      rw [List.take_succ, List.getElem?_eq_getElem hj] at hg'
+      rw [List.take_add_one, List.getElem?_eq_getElem hj] at hg'
       simp only [Option.toList_some, List.mem_append, List.mem_singleton] at hg'
       simp only [Array.toList_push, List.mem_append, List.mem_singleton]
       rcases hg' with h | h
@@ -264,7 +264,7 @@ theorem orbitBFS_spec {S : Nat → Prop} {gs : Array (List Nat)} {root cap : Nat
         simp only [hext]
         exact List.getElem_append_left (by simpa using hi)
       refine ⟨b', ?_, hnd', hS', ?_, ?_⟩
-      · simp only [outerB, hjb, if_true, hv, ← Array.forIn_toList, hb']
+      · simp only [outerB, hjb, ite_true, hv, ← Array.forIn_toList, hb']
       · rw [hext]; simp [hrb]
       · intro i hi hij g hg
         have hmem : ∀ y ∈ b.toList, y ∈ b'.toList := by

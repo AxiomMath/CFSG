@@ -165,7 +165,7 @@ theorem X6_fix {Fr : L →+* L} {w0 : WeylGroup TwistTag.E6.tag}
 
 theorem X6_le_monomial (Fr : L →+* L) (w0 : WeylGroup TwistTag.E6.tag) :
     X6 L Fr w0 ≤ monomialSubgroup TwistTag.E6.tag L :=
-  sup_le (fun y hy => (le_sup_left : torusGroup TwistTag.E6.tag L ≤ monomialSubgroup _ L)
+  sup_le (fun _y hy => (le_sup_left : torusGroup TwistTag.E6.tag L ≤ monomialSubgroup _ L)
     (mem_twistedTorusOf.1 hy).1) tits6_le_monomial
 
 theorem X6_le_adjoint (Fr : L →+* L) (w0 : WeylGroup TwistTag.E6.tag) :
@@ -185,7 +185,7 @@ theorem card_rootsOfUnity_alg' [IsAlgClosed L] {n : ℕ} (hn : ((n : ℕ) : L) �
     Nat.card (rootsOfUnity n L) = n := by
   have : NeZero n := ⟨fun h => hn (by rw [h]; simp)⟩
   have : NeZero (n : L) := ⟨hn⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L n
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L n
   exact hζ.card_rootsOfUnity
 
 theorem rootChar_neg6 (a : Fin TwistTag.E6.tag.rank → Lˣ) (v : Fin TwistTag.E6.tag.rank → ℤ) :

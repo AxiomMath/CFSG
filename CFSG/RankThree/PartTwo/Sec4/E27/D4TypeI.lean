@@ -33,9 +33,9 @@ theorem gsub_plane_closure (P : D4Par n X σ) (hn : 2 ≤ n) {Q : Subgroup (C0 �
     (hQG : Q ≤ Gsub σ) (hQ : IsElemAbelian 3 Q) (hQc : Nat.card Q = 3 ^ 2) :
     Gsub σ ≤ Subgroup.closure {x : C0 σ | x ∈ Gsub σ ∧ ∃ b ∈ Q, b ≠ 1 ∧ x * b = b * x} := by
   classical
-  haveI := P.charP
-  haveI := P.charP_fix
-  haveI : Finite (fixSubfield σ) := Nat.finite_of_card_ne_zero (by rw [P.card_fix]; positivity)
+  have := P.charP
+  have := P.charP_fix
+  have : Finite (fixSubfield σ) := Nat.finite_of_card_ne_zero (by rw [P.card_fix]; positivity)
   have hK : ringChar X = 2 := ringChar.eq X 2
   have hmk : Nat.card (fixSubfield σ) = 2 ^ n := P.card_fix
   let q0 : PrimePower := ⟨2, n, Nat.prime_two, by omega⟩

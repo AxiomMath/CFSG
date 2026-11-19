@@ -43,17 +43,18 @@ theorem xT : x ∈ T b B (R u v) := K.toCtx.P_le_T K.hP K.hx
 
 theorem yT : y ∈ T b B (R u v) := K.toCtx.P_le_T K.hP K.hy
 
+omit [Finite G] in
 theorem u_ne : u ≠ 1 := fun h => by
   have := ψ_eq_one K.toCtx.E (p := (1, 0)) (by rw [ψ_10]; exact h)
   exact absurd (Prod.ext_iff.mp this).1 (by decide)
 
 theorem gens_comm : ({x, y, u, v} : Set G).Pairwise Commute := by
-  have hxu : Commute x u := (Subgroup.mem_centralizer_iff.mp K.xT.2.1 u K.toCtx.uR).symm
-  have hxv : Commute x v := (Subgroup.mem_centralizer_iff.mp K.xT.2.1 v K.toCtx.vR).symm
-  have hyu : Commute y u := (Subgroup.mem_centralizer_iff.mp K.yT.2.1 u K.toCtx.uR).symm
-  have hyv : Commute y v := (Subgroup.mem_centralizer_iff.mp K.yT.2.1 v K.toCtx.vR).symm
+  have hxu : Commute x u := (Subgroup.mem_centralizer_iff.mp K.xT.2.1 u CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR).symm
+  have hxv : Commute x v := (Subgroup.mem_centralizer_iff.mp K.xT.2.1 v CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.vR).symm
+  have hyu : Commute y u := (Subgroup.mem_centralizer_iff.mp K.yT.2.1 u CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR).symm
+  have hyv : Commute y v := (Subgroup.mem_centralizer_iff.mp K.yT.2.1 v CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.vR).symm
   have hxy : Commute x y := K.xy
-  have huv : Commute u v := K.toCtx.comm_R K.toCtx.uR K.toCtx.vR
+  have huv : Commute u v := K.toCtx.comm_R CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.vR
   intro a ha c hc _
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hc
   rcases ha with rfl | rfl | rfl | rfl <;> rcases hc with rfl | rfl | rfl | rfl <;>
@@ -69,14 +70,18 @@ theorem A_comm {a c : G} (ha : a ∈ Agrp x y u v) (hc : c ∈ Agrp x y u v) : a
   have := K.A_commutative.is_comm.comm ⟨a, ha⟩ ⟨c, hc⟩
   exact congrArg Subtype.val this
 
+omit [Finite G] K in
 theorem xA : x ∈ Agrp x y u v := Subgroup.subset_closure (by simp)
 
+omit [Finite G] K in
 theorem yA : y ∈ Agrp x y u v := Subgroup.subset_closure (by simp)
 
+omit [Finite G] K in
 theorem R_le_A : R u v ≤ Agrp x y u v :=
   Subgroup.closure_mono (by intro z hz; simp only [Set.mem_insert_iff,
     Set.mem_singleton_iff] at hz ⊢; tauto)
 
+omit [Finite G] in
 theorem A_le_P : Agrp x y u v ≤ P := by
   refine (Subgroup.closure_le _).mpr ?_
   intro z hz
@@ -84,8 +89,8 @@ theorem A_le_P : Agrp x y u v ≤ P := by
   rcases hz with rfl | rfl | rfl | rfl
   · exact K.hx
   · exact K.hy
-  · exact K.hBP (K.toCtx.R_le_B K.toCtx.uR)
-  · exact K.hBP (K.toCtx.R_le_B K.toCtx.vR)
+  · exact K.hBP (K.toCtx.R_le_B CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR)
+  · exact K.hBP (K.toCtx.R_le_B CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.vR)
 
 theorem A_le_T : Agrp x y u v ≤ T b B (R u v) := K.A_le_P.trans (K.toCtx.P_le_T K.hP)
 
@@ -93,9 +98,9 @@ theorem mem_R_of_B {a : G} (haB : a ∈ B) (hax : x * a = a * x) : a ∈ R u v :
   obtain ⟨k, q, rfl⟩ := (K.toCtx.mem_B_iff).mp haB
   have hq := ψ_mem K.toCtx.E q
   have e1 : x * b ^ k.val * x⁻¹ = u ^ k.val * b ^ k.val := by
-    rw [← conj_pow, K.toCtx.conj_b_T K.xT, K.θx]
-    exact (Commute.mul_pow (K.toCtx.comm_bR K.toCtx.uR).symm _)
-  have e2 : x * ψ u v q * x⁻¹ = ψ u v q := K.toCtx.T_cen K.xT hq
+    rw [← conj_pow, CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.conj_b_T K.xT, K.θx]
+    exact (Commute.mul_pow (K.toCtx.comm_bR CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR).symm _)
+  have e2 : x * ψ u v q * x⁻¹ = ψ u v q := CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_cen K.xT hq
   have e3 : x * (b ^ k.val * ψ u v q) * x⁻¹ = u ^ k.val * (b ^ k.val * ψ u v q) := by
     calc x * (b ^ k.val * ψ u v q) * x⁻¹ = (x * b ^ k.val * x⁻¹) * (x * ψ u v q * x⁻¹) := by
           group
@@ -114,23 +119,23 @@ theorem mem_R_of_B {a : G} (haB : a ∈ B) (hax : x * a = a * x) : a ∈ R u v :
   simpa using hq
 
 theorem A_inf_B {a : G} (ha : a ∈ Agrp x y u v) (haB : a ∈ B) : a ∈ R u v :=
-  K.mem_R_of_B haB (K.A_comm K.xA ha)
+  K.mem_R_of_B haB (K.A_comm (CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.xA (x := x) (y := y) (u := u) (v := v)) ha)
 
 theorem b_not_A : b ∉ Agrp x y u v := fun h => K.toCtx.bJ (K.toCtx.R_le_J (K.A_inf_B h K.toCtx.bB))
 
 noncomputable def θA : Agrp x y u v →* G where
   toFun a := θ b a
-  map_one' := K.toCtx.θ_one
+  map_one' := CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_one
   map_mul' a c := K.toCtx.θ_mul (K.A_le_T a.2) (K.A_le_T c.2)
 
 theorem θA_range : (θA K).range = R u v := by
   refine le_antisymm ?_ ?_
-  · rintro _ ⟨a, rfl⟩; exact K.toCtx.θ_mem (K.A_le_T a.2)
+  · rintro _ ⟨a, rfl⟩; exact CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem (K.A_le_T a.2)
   · refine (Subgroup.closure_le _).mpr ?_
     intro z hz
     rcases hz with rfl | rfl
-    · exact ⟨⟨x, K.xA⟩, K.θx⟩
-    · exact ⟨⟨y, K.yA⟩, K.θy⟩
+    · exact ⟨⟨x, CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.xA⟩, K.θx⟩
+    · exact ⟨⟨y, CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.yA⟩, K.θy⟩
 
 theorem θA_ker : (θA K).ker.map (Agrp x y u v).subtype = R u v := by
   refine le_antisymm ?_ ?_
@@ -138,10 +143,11 @@ theorem θA_ker : (θA K).ker.map (Agrp x y u v).subtype = R u v := by
     have h1 : θ b a = 1 := ha
     exact K.A_inf_B a.2 (K.toCtx.θ_eq_one_mem_B K.hP (K.A_le_P a.2) h1)
   · intro r hr
-    refine ⟨⟨r, K.R_le_A hr⟩, ?_, rfl⟩
+    refine ⟨⟨r, CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.R_le_A hr⟩, ?_, rfl⟩
     show θ b r = 1
-    exact K.toCtx.θ_of_cen (K.toCtx.comm_bR hr).symm
+    exact CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_of_cen (K.toCtx.comm_bR hr).symm
 
+omit [Finite G] in
 theorem card_R : Nat.card (R u v) = 9 := by
   have := K.toCtx.D.hB0.2
   rw [K.toCtx.B0] at this
@@ -160,14 +166,14 @@ theorem b_nor : b ∈ Nor (Agrp x y u v) := by
   refine L41.mem_nor_of_forall fun a ha => ?_
   have haT := K.A_le_T ha
   have e : b * a * b⁻¹ = a * (θ b a)⁻¹ := by
-    have e0 := K.toCtx.conj_b_T haT
+    have e0 := CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.conj_b_T haT
     have h1 : a⁻¹ * θ b a * a = θ b a := by
-      have := K.toCtx.T_cen (Subgroup.inv_mem _ haT) (K.toCtx.θ_mem haT); simpa using this
+      have := CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_cen (Subgroup.inv_mem _ haT) (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem haT); simpa using this
     calc b * a * b⁻¹ = a * ((a⁻¹ * θ b a * a)⁻¹ * (a⁻¹ * (θ b a * b) * a)) * b⁻¹ := by group
       _ = a * ((θ b a)⁻¹ * (a⁻¹ * (a * b * a⁻¹) * a)) * b⁻¹ := by rw [h1, ← e0]
       _ = a * (θ b a)⁻¹ := by group
   rw [e]
-  exact (Agrp x y u v).mul_mem ha (K.R_le_A ((R u v).inv_mem (K.toCtx.θ_mem haT)))
+  exact (Agrp x y u v).mul_mem ha (CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.R_le_A ((R u v).inv_mem (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem haT)))
 
 theorem comm_bA : ⁅Subgroup.zpowers b, Agrp x y u v⁆ = R u v := by
   refine le_antisymm ?_ ?_
@@ -182,8 +188,8 @@ theorem comm_bA : ⁅Subgroup.zpowers b, Agrp x y u v⁆ = R u v := by
     intro z hz
     have hx : ⁅x, b⁆ = u := by rw [commutatorElement_def]; exact K.θx
     have hy : ⁅y, b⁆ = v := by rw [commutatorElement_def]; exact K.θy
-    have h1 := Subgroup.commutator_mem_commutator K.xA (Subgroup.mem_zpowers b)
-    have h2 := Subgroup.commutator_mem_commutator K.yA (Subgroup.mem_zpowers b)
+    have h1 := Subgroup.commutator_mem_commutator (CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.xA (x := x) (y := y) (u := u) (v := v)) (Subgroup.mem_zpowers b)
+    have h2 := Subgroup.commutator_mem_commutator (CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.yA (x := x) (y := y) (u := u) (v := v)) (Subgroup.mem_zpowers b)
     rw [hx] at h1
     rw [hy] at h2
     rcases hz with h | h
@@ -194,10 +200,10 @@ theorem P_eq : P = Subgroup.zpowers b ⊔ Agrp x y u v := by
   refine le_antisymm ?_ (sup_le ((Subgroup.zpowers_le).mpr (K.hBP K.toCtx.bB)) K.A_le_P)
   intro z hz
   have hzT := K.toCtx.P_le_T K.hP hz
-  obtain ⟨q, hq⟩ := exists_ψ K.toCtx.E (K.toCtx.θ_mem hzT)
+  obtain ⟨q, hq⟩ := exists_ψ K.toCtx.E (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem hzT)
   set a := x ^ q.1.val * y ^ q.2.val with ha
-  have haA : a ∈ Agrp x y u v := (Agrp x y u v).mul_mem ((Agrp x y u v).pow_mem K.xA _)
-    ((Agrp x y u v).pow_mem K.yA _)
+  have haA : a ∈ Agrp x y u v := (Agrp x y u v).mul_mem ((Agrp x y u v).pow_mem (CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.xA (x := x) (y := y) (u := u) (v := v)) _)
+    ((Agrp x y u v).pow_mem (CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.yA (x := x) (y := y) (u := u) (v := v)) _)
   have haT := K.A_le_T haA
   have hθa : θ b a = ψ u v q := by
     rw [ha, K.toCtx.θ_mul ((T b B (R u v)).pow_mem K.xT _) ((T b B (R u v)).pow_mem K.yT _),
@@ -208,7 +214,7 @@ theorem P_eq : P = Subgroup.zpowers b ⊔ Agrp x y u v := by
       mul_inv_cancel]
   have hB : B ≤ Subgroup.zpowers b ⊔ Agrp x y u v := by
     rw [← K.toCtx.D.hsup, K.toCtx.B0]
-    exact sup_le le_sup_left (K.R_le_A.trans le_sup_right)
+    exact sup_le le_sup_left (CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.R_le_A.trans le_sup_right)
   have : z = (z * a⁻¹) * a := by group
   rw [this]
   exact Subgroup.mul_mem _ (hB hc) (Subgroup.mem_sup_right haA)
@@ -217,7 +223,7 @@ theorem cube_R {a : G} (ha : a ∈ Agrp x y u v) : a ^ 3 ∈ R u v := by
   have haT := K.A_le_T ha
   refine K.A_inf_B ((Agrp x y u v).pow_mem ha 3) (K.toCtx.θ_eq_one_mem_B K.hP
     (P.pow_mem (K.A_le_P ha) 3) ?_)
-  rw [K.toCtx.θ_pow haT, K.toCtx.pow3_R (K.toCtx.θ_mem haT)]
+  rw [K.toCtx.θ_pow haT, K.toCtx.pow3_R (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem haT)]
 
 end PCtx
 

@@ -67,6 +67,7 @@ theorem perm_comm_of_fix_of_supp {Ω₀ : Set (Fin 13)} {a b : Equiv.Perm (Fin 1
       exact hp (happ ▸ h)
     rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hb _ hp, hb _ hap]
 
+omit [Finite G] in
 theorem exists_x_zeta {n : ℕ} (hn13 : n = 13)
     (ψ : ↥(barX 3 N K) ≃* alternatingGroup (Fin n)) (Ω₀ : Set (Fin n)) (hΩ₀ : Ω₀.ncard = 4)
     (hFK : barX 3 N F ≤ barX 3 N K) (hFel : IsElemAbelian 3 (barX 3 N F))
@@ -88,7 +89,7 @@ theorem exists_x_zeta {n : ℕ} (hn13 : n = 13)
         ((¬ S₀ ≤ Subgroup.centralizer (barX 3 N K : Set (↥N ⧸ GLAPPrimeCore 3 ↥N))) →
           ∃ s ∈ S₀, ∃ ζ ∈ barX 3 N K, ζ * x = x * ζ ∧ orderOf (ζ * s * ζ⁻¹ * s⁻¹) = 3) := by
   subst hn13
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hyK : y ∈ barX 3 N K := hFK hyF
   let yK : ↥(barX 3 N K) := ⟨y, hyK⟩
   let cK : ↥(barX 3 N K) := ⟨c₀, hc₀K⟩
@@ -191,7 +192,7 @@ theorem exists_x_zeta {n : ℕ} (hn13 : n = 13)
       have hmem : s * k * s⁻¹ ∈ barX 3 N K := (Subgroup.mem_normalizer_iff.1 (hS₀ hsS) _).1 hk
       have h2 := hρ s' ⟨k, hk⟩ ⟨_, hmem⟩ rfl
       rw [h1] at h2
-      simp only [map_one, one_mul, inv_one, mul_one] at h2
+      simp only [one_mul, inv_one, mul_one] at h2
       have h3 : (⟨_, hmem⟩ : ↥(barX 3 N K)) = ⟨k, hk⟩ := ψ.injective (Subtype.ext h2)
       have h4 : s * k * s⁻¹ = k := congrArg Subtype.val h3
       calc k * s = (s * k * s⁻¹) * s := by rw [h4]
@@ -268,7 +269,7 @@ theorem exists_order_three_lift {G : Type} [Group G] [Finite G] {N : Subgroup G}
     (hx₂ : QuotientGroup.mk' (GLAPPrimeCore 3 ↥N) ⟨x₂, hx₂N⟩ = xb) (hxb : orderOf xb = 3) :
     ∃ (n' : ℕ) (x : G) (hxN : x ∈ N), x ∈ Subgroup.zpowers x₂ ∧ orderOf x = 3 ∧
       QuotientGroup.mk' (GLAPPrimeCore 3 ↥N) ⟨x, hxN⟩ = xb ^ n' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpos : 0 < orderOf x₂ := orderOf_pos x₂
   obtain ⟨e, n', hn', hord⟩ := Nat.exists_eq_pow_mul_and_not_dvd hpos.ne' 3 (by norm_num)
   have hn'0 : n' ≠ 0 := by
@@ -351,8 +352,8 @@ theorem alt_E5 (h128 : Lemma128Statement) (h23 : Lemma129e.Input23_5) (h121 : Pr
   have hFA := alt_F_ne_A h23 h hs D'
   obtain ⟨hp3, hδ4⟩ := alt_p_three_delta_four h121 h hs D' hAK hFA
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 := ne_two_of h
   by_contra h5
   have hE4 : CFSG.Open.pRank 3 E ≤ 4 := by omega

@@ -53,11 +53,14 @@ theorem lt_sq (h : H.Ctx a b) {c : Nat} (hc2 : 2 ≤ c) (hc5 : c < 5) : lt a b c
   · exact letK_mul (f := IdL) h (hq 2 (by norm_num))
   · exact letK_mul (f := IdL) h (hq 3 (by norm_num))
 
+omit [MulAction Γ (Fin 4060)] in
 theorem E_gs {c : Nat} (hc : c < 3) : G.E a b (gs.getD c 0) = lt a b (c + 2) := by
   interval_cases c <;> rfl
 
+omit [MulAction Γ (Fin 4060)] in
 theorem RX_eq : H.RX a b = Subgroup.closure {x | x ∈ [lt a b 2, lt a b 3, lt a b 4]} := rfl
 
+omit [MulAction Γ (Fin 4060)] in
 theorem lt_mem {c : Nat} (hc2 : 2 ≤ c) (hc5 : c < 5) : lt a b c ∈ H.RX a b := by
   rw [RX_eq]
   refine Subgroup.subset_closure ?_
@@ -113,7 +116,7 @@ theorem kOf_spec [Finite Γ] (h : H.Ctx a b) {g : Γ} (hg : g ∈ H.RX a b) :
     kOf a b g < 16384 ∧ H.X a b (kOf a b g) = g := by
   have hex : ∃ k < 16384, H.X a b k = g := H.mem_X h hg
   unfold kOf
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact hex.choose_spec
 
 theorem kOf_X [Finite Γ] (h : H.Ctx a b) (hc : Nat.card (H.RX a b) = 2 ^ 14) {k : Nat}
@@ -182,9 +185,11 @@ theorem lab_prod [Finite Γ] (h : H.Ctx a b) (hc : Nat.card (H.RX a b) = 2 ^ 14)
 @[expose] noncomputable def Rv (a b : Γ) (u : Nat) : Subgroup Γ :=
   Subgroup.closure {x | x ∈ RS a b u}
 
+omit [MulAction Γ (Fin 4060)] in
 theorem gen_mem {u l : Nat} (hl : l < nr u) : wE a b (RG u l) ∈ Rv a b u :=
   Subgroup.subset_closure (List.mem_map.2 ⟨l, List.mem_range.2 hl, rfl⟩)
 
+omit [MulAction Γ (Fin 4060)] in
 theorem wE_of {W : Nat} {L : List Nat} (e : unW W = L) : wE a b W = (L.map (lt a b)).prod := by
   unfold wE
   rw [e]
@@ -198,9 +203,11 @@ theorem RG_par : ∀ u < 7, ∀ l < nr u,
 theorem tau_let : ∀ u < 7, 2 ≤ tau u ∧ tau u < 5 ∧ vm u < 8 ∧
     ((par (vm u) (2 ^ (tau u - 2)) : Nat) : ZMod 2) = 1 := by decide +kernel
 
+omit [MulAction Γ (Fin 4060)] in
 theorem caseA {R : Subgroup Γ} {s τ : Γ} (h1 : s ∈ R) (h2 : τ * s * τ ∈ R) :
     (s ∈ R ∧ τ * s * τ ∈ R) ∨ (τ * s ∈ R ∧ s * τ ∈ R) := Or.inl ⟨h1, h2⟩
 
+omit [MulAction Γ (Fin 4060)] in
 theorem caseB {R : Subgroup Γ} {s τ : Γ} (hs : s * s = 1) (hτ : τ * τ = 1) (h : s * τ ∈ R) :
     (s ∈ R ∧ τ * s * τ ∈ R) ∨ (τ * s ∈ R ∧ s * τ ∈ R) := by
   refine Or.inr ⟨?_, h⟩
@@ -209,11 +216,13 @@ theorem caseB {R : Subgroup Γ} {s τ : Γ} (hs : s * s = 1) (hτ : τ * τ = 1)
   rw [e]
   exact R.inv_mem h
 
+omit [MulAction Γ (Fin 4060)] in
 theorem caseT {R : Subgroup Γ} {τ : Γ} (hτ : τ * τ = 1) :
     (τ ∈ R ∧ τ * τ * τ ∈ R) ∨ (τ * τ ∈ R ∧ τ * τ ∈ R) := by
   rw [hτ]
   exact Or.inr ⟨R.one_mem, R.one_mem⟩
 
+omit [MulAction Γ (Fin 4060)] in
 theorem gen_eq {u l : Nat} {L : List Nat} (hl : l < nr u) (e : unW (RG u l) = L) :
     (L.map (lt a b)).prod ∈ Rv a b u := by
   rw [← wE_of e]

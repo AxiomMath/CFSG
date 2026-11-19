@@ -28,6 +28,7 @@ structure IsRootS3Like (q : QuadraticForm (ZMod 2) V) (o : Subgroup (V ≃ₗ[ZM
   disj : ∀ s ∈ o, ∀ s' ∈ o, s * s = 1 → s' * s' = 1 → s ≠ 1 → s' ≠ 1 → s ≠ s' →
     commSpace s ⊓ commSpace s' = ⊥
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem subCommSpace_map_conj (Z : Subgroup (V ≃ₗ[ZMod 2] V)) (w : V ≃ₗ[ZMod 2] V) :
     subCommSpace (Z.map (MulAut.conj w).toMonoidHom) = (subCommSpace Z).map (w : V →ₗ[ZMod 2] V) := by
   have hreindex : (⨆ z ∈ Z.map (MulAut.conj w).toMonoidHom, commSpace z) =
@@ -56,7 +57,7 @@ theorem exists_conj_of_linearBlockStandardPair {X : Type} [Group X] {W U U' : Su
   let φ : SL(3, ZMod 2) →* X := θ.comp (MulAut.conj c⁻¹).toMonoidHom
   have hφapply : ∀ x, φ x = θ (c⁻¹ * x * c) := by
     intro x
-    simp [φ, MulAut.conj_apply]
+    simp [φ]
   have hφmem : ∀ x, φ x ∈ W := by
     intro x
     rw [← hW]
@@ -94,7 +95,7 @@ theorem exists_singular_pair_of_standardPair (hq : q.polarBilin.Nondegenerate)
   let φ : SL(3, ZMod 2) →* (V ≃ₗ[ZMod 2] V) := θ.comp (MulAut.conj c⁻¹).toMonoidHom
   have hφapply : ∀ x, φ x = θ (c⁻¹ * x * c) := by
     intro x
-    simp [φ, MulAut.conj_apply]
+    simp [φ]
   have hθinj : Function.Injective θ := by
     intro x y hxy
     have hmem : x * y⁻¹ ∈ θ.ker := by

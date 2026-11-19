@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 namespace HS9
 
+omit [Finite G] in
 theorem mem_sup_conj_of_normalizes {A B : Subgroup G} {g : G} (hA : ∀ a ∈ A, g * a * g⁻¹ ∈ A)
     (hB : ∀ b ∈ B, g * b * g⁻¹ ∈ B) : ∀ h ∈ A ⊔ B, g * h * g⁻¹ ∈ A ⊔ B := by
   have hle : A ⊔ B ≤ (A ⊔ B).comap (MulAut.conj g).toMonoidHom := by
@@ -82,7 +83,7 @@ theorem normal_eq_Y (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
   have hRcard : Nat.card ↥(Rt M (LB M Q B) x) =
       Nat.card ↥(hc.CN x) * (Nat.card Z * (Nat.card Z ^ 2 - 1)) ^ 2 := by
     obtain ⟨K, fK, finK, hK, φ, hφ, hker, -⟩ := hOm
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
     have hK4 : 4 ≤ Nat.card K := hK ▸ hq4

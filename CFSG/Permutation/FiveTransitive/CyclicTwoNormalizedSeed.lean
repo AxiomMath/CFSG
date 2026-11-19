@@ -83,7 +83,7 @@ theorem exists_double_seed
       (fixedBy X v.val \ fixedPoints Q X).ncard = 4 ∧
       ∃ T : Set X, T.ncard = 4 ∧ T ⊆ (fixedPoints Q X)ᶜ ∧
         ∀ t ∈ T, v.val • t = t := by
-  have hQp : IsPGroup 2 Q := by rw [← hS]; exact S.isPGroup'.map _
+  have hQp : IsPGroup 2 Q := by rw [← hS]; exact S.isPGroup.map _
   have hQne : Q ≠ ⊥ := by
     intro he
     rw [he, Subgroup.card_bot] at hQ

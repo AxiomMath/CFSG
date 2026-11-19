@@ -19,10 +19,10 @@ theorem triD4Line_placement
     (k : Type) [Field k] [Algebra k K] (D : TriD4LineKGXData n K k)
     (E : Subgroup (GGTriD4R n K)) (hE : IsPGroup 3 E) :
     ∃ g : GGTriD4R n K, ∀ e ∈ E, g * e * g⁻¹ ∈ Subgroup.centralizer {D.z₀} := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero 3 (pow_ne_zero n (by norm_num)))
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : 1 < Nat.card K := by
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
@@ -32,13 +32,13 @@ theorem triD4Line_placement
       simp only [pow_zero, one_pow] at hK
       omega
     · exact h
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 3)
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 3)
     (by rw [hK, pow_mul])
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
     rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]
   obtain ⟨e⟩ := CFSG.StandardType.TableBExcSmallRest.nonempty_triD4_equiv hn K hK σ hσ
-  haveI : Finite (GGTriD4R n K) :=
+  have : Finite (GGTriD4R n K) :=
     Finite.of_equiv (CFSG.LieType.Chevalley.graphFixedRootGroup
       CFSG.Blueprint.Chevalley.TwistTag.D4 K σ.toRingHom) e.symm.toEquiv
   obtain ⟨P, _, hcommP⟩ := D.sylow_z₀
@@ -50,9 +50,9 @@ theorem triD4Line_placement
     subst hb
     exact (hcommP y hy).symm
   obtain ⟨Q, hEQ⟩ := hE.exists_le_sylow
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Sylow 3 (GGTriD4R n K)) := Sylow.finite_of_finiteIndex P
-  haveI : MulAction.IsPretransitive (GGTriD4R n K) (Sylow 3 (GGTriD4R n K)) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Sylow 3 (GGTriD4R n K)) := Sylow.finite_of_finiteIndex P
+  have : MulAction.IsPretransitive (GGTriD4R n K) (Sylow 3 (GGTriD4R n K)) :=
     Sylow.isPretransitive_of_finite
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (GGTriD4R n K) Q P
   refine ⟨g, fun e he => ?_⟩
@@ -73,16 +73,16 @@ theorem triD4Line_mem_of_order_nine
     (E : Subgroup (GGTriD4R n K)) (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 9)
     (hle : E ≤ Subgroup.centralizer {D.z₀}) : D.z₀ ∈ E := by
   by_contra hzE
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero 3 (pow_ne_zero n (by norm_num)))
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 3)
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 3)
     (by rw [hK, pow_mul])
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
     rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]
   obtain ⟨e⟩ := CFSG.StandardType.TableBExcSmallRest.nonempty_triD4_equiv hn K hK σ hσ
-  haveI : Finite (GGTriD4R n K) :=
+  have : Finite (GGTriD4R n K) :=
     Finite.of_equiv (CFSG.LieType.Chevalley.graphFixedRootGroup
       CFSG.Blueprint.Chevalley.TwistTag.D4 K σ.toRingHom) e.symm.toEquiv
   have hdvd : 3 ∣ 2 ^ n - 1 := by

@@ -218,9 +218,6 @@ theorem four_pairs_of_orth {P₀ P₁ P₂ P₃ : HypPair Q} (h01 : P₀.Orth P�
     | exact absurd rfl hij
     | assumption
     | exact s ‹_›
-    | simp only [Fin.isValue, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-        Matrix.cons_val_three, Matrix.head_cons, Matrix.cons_val_succ, Matrix.tail_cons]
-      first | assumption | exact s ‹_›
 
 theorem false_of_sPHyp_induced' [Finite K] [FiniteDimensional K V] (hK : Nat.card K = 3)
     (hQ : (polarBilin Q).Nondegenerate) (hn : 7 ≤ Module.finrank K V)

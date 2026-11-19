@@ -43,7 +43,7 @@ public theorem secondCase_a7_sylow_card
     rw [Subgroup.mem_bot]
     have hxS : x ∈ (SM : Subgroup M) := (Subgroup.mem_inf.mp hx).1
     have hxO : x ∈ O := (Subgroup.mem_inf.mp hx).2
-    rcases SM.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases SM.isPGroup.exists_card_eq with ⟨n, hn⟩
     have hdvd : orderOf x ∣ 2 ^ n := by
       have hd : orderOf x ∣ Nat.card (SM : Subgroup M) :=
         Subgroup.orderOf_dvd_natCard (SM : Subgroup M) hxS
@@ -102,7 +102,7 @@ public theorem secondCase_a7_sylow_card
   have hcardSM : Nat.card (SM : Subgroup M) = 8 := by
     rw [hformula, ← hmap, hcardSQ]
     have hqker : q.ker = O := by
-      simpa [q] using QuotientGroup.ker_mk' O
+      simp [q]
     rw [hqker, hSMker]
     simp
   exact ⟨SM, hcardSM⟩

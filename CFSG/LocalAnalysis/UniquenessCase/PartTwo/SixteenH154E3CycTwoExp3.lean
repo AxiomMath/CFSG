@@ -49,7 +49,7 @@ theorem s16h_e3_CycTwoExp3_pow_three
   have hgp : IsPGroup 3 (Subgroup.zpowers g) :=
     IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
   obtain ⟨S, hS⟩ := IsPGroup.exists_le_sylow hgp
-  haveI : Finite (Sylow 3 (MulAut W)) := Sylow.finite_of_finiteIndex S0
+  have : Finite (Sylow 3 (MulAut W)) := Sylow.finite_of_finiteIndex S0
   let e : S0 ≃* S := Sylow.equiv S0 S
   set y : S0 := e.symm ⟨g, hS (Subgroup.mem_zpowers g)⟩ with hy
   have h1 : e y = ⟨g, hS (Subgroup.mem_zpowers g)⟩ := by
@@ -84,11 +84,10 @@ theorem s16h_e3_CycTwoExp3_mem_of_normal
     exact hA27 h27
   let P0 : Sylow 3 ↥A := hDsubP.toSylow hnotdvd
   have hP0normal : P0.Normal := by
-    change (P0 : Subgroup ↥A).Normal
     rw [IsPGroup.toSylow_coe hDsubP hnotdvd]
     exact hDn
-  haveI : Finite (Sylow 3 ↥A) := Sylow.finite_of_finiteIndex P0
-  haveI : Unique (Sylow 3 ↥A) := Sylow.unique_of_normal P0 hP0normal
+  have : Finite (Sylow 3 ↥A) := Sylow.finite_of_finiteIndex P0
+  have : Unique (Sylow 3 ↥A) := Sylow.unique_of_normal P0 hP0normal
   obtain ⟨k, hk⟩ := hg
   have hgp : IsPGroup 3 (Subgroup.zpowers (⟨g, hgA⟩ : ↥A)) :=
     IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, Subgroup.orderOf_mk, hk])

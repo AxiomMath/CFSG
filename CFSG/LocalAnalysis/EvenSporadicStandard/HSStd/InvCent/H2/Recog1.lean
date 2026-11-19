@@ -17,6 +17,7 @@ namespace H2Two
 
 variable {G : Type*} [Group G] [Finite G] {t v : G} {J S₁ : Subgroup G}
 
+omit [Finite G] in
 private theorem recog1_mem_jOne {x : G} :
     x ∈ jOne t S₁ ↔ x ∈ centralizer ({t} : Set G) ∧ x ∈ centralizer (S₁ : Set G) :=
   Iff.rfl

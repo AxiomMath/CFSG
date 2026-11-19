@@ -30,10 +30,10 @@ theorem k331c_isPGroup_ker {Γ K' : Type*} [Group Γ] [Finite Γ] [Group K'] [Fi
     [Group.IsPerfect Γ] (α : Γ →* K') (hα : α.ker ≤ center Γ)
     (β : K' →* alternatingGroup (Fin 8)) (hβ : IsPGroup 2 β.ker)
     (hχ : Function.Surjective (β.comp α)) : IsPGroup 2 (β.comp α).ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set χ : Γ →* alternatingGroup (Fin 8) := β.comp α with hχdef
   set N : Subgroup Γ := χ.ker with hN
-  haveI : Group.IsNilpotent β.ker := hβ.isNilpotent
+  have : Group.IsNilpotent β.ker := hβ.isNilpotent
   let f : N →* β.ker := (α.comp N.subtype).codRestrict β.ker fun n =>
     MonoidHom.mem_ker.mpr (MonoidHom.mem_ker.mp n.2)
   have hf : f.ker ≤ center N := by
@@ -42,16 +42,16 @@ theorem k331c_isPGroup_ker {Γ K' : Type*} [Group Γ] [Finite Γ] [Group K'] [Fi
     rw [mem_center_iff]
     intro m
     exact Subtype.ext (mem_center_iff.mp (hα (MonoidHom.mem_ker.mpr h1)) (m : Γ))
-  haveI : Group.IsNilpotent N := Subgroup.isNilpotent_of_ker_le_center f hf
+  have : Group.IsNilpotent N := Subgroup.isNilpotent_of_ker_le_center f hf
   obtain ⟨P⟩ : Nonempty (Sylow 2 N) := Sylow.nonempty
-  haveI hPn : (P : Subgroup N).Normal := inferInstance
-  haveI : (P : Subgroup N).Characteristic := Sylow.characteristic_of_normal P hPn
+  have hPn : (P : Subgroup N).Normal := inferInstance
+  have : (P : Subgroup N).Characteristic := Sylow.characteristic_of_normal P hPn
   set S : Subgroup Γ := (P : Subgroup N).map N.subtype with hS
-  haveI : S.Normal := inferInstance
+  have : S.Normal := inferInstance
   have hSN : S ≤ N := by
     rintro _ ⟨s, -, rfl⟩
     exact s.2
-  have hS2 : IsPGroup 2 S := P.isPGroup'.map N.subtype
+  have hS2 : IsPGroup 2 S := P.isPGroup.map N.subtype
   obtain ⟨T, hT⟩ := Subgroup.exists_right_complement'_of_coprime (Sylow.card_coprime_index P)
   have hTcop : Nat.Coprime 2 (Nat.card T) := by
     rw [← hT.symm.index_eq_card]
@@ -75,7 +75,7 @@ theorem k331c_isPGroup_ker {Γ K' : Type*} [Group Γ] [Finite Γ] [Group K'] [Fi
     exact h3
   have hTc : ∀ t : T, ((t : N) : Γ) ∈ center Γ := fun t =>
     hα (MonoidHom.mem_ker.mpr (hTker t))
-  haveI : Group.IsPerfect (Γ ⧸ S) := Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective S)
+  have : Group.IsPerfect (Γ ⧸ S) := Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective S)
   let χ' : Γ ⧸ S →* alternatingGroup (Fin (6 + 2)) := QuotientGroup.lift S χ hSN
   have hχ' : Function.Surjective χ' := fun y => by
     obtain ⟨x, rfl⟩ := hχ y
@@ -123,7 +123,7 @@ theorem k331c_lift {H L : Type} [Group H] [Finite H] [Group L] [Finite L] (φ : 
     ∃ (Γ : Type) (_ : Group Γ) (_ : Finite Γ) (ρ : Γ →* H) (χ : Γ →* alternatingGroup (Fin 8)),
       Function.Injective ρ ∧ Function.Surjective χ ∧ IsPGroup 2 χ.ker := by
   obtain ⟨e8⟩ := hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ψ₀ : ↥K →* alternatingGroup (Fin 8) :=
     e8.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pCore 2 ↥K)) with hψ₀
   have hψ₀s : Function.Surjective ψ₀ := e8.surjective.comp (QuotientGroup.mk'_surjective _)
@@ -137,14 +137,14 @@ theorem k331c_lift {H L : Type} [Group H] [Finite H] [Group L] [Finite L] (φ : 
     exact CFSG.pCore_isPGroup
   set X : Subgroup H := K.comap φ with hX
   let φ' : X →* K := φ.subgroupComap K
-  have hφ' : Function.Surjective φ' := φ.subgroupComap_surjective_of_surjective K hφ
+  have hφ' : Function.Surjective φ' := φ.subgroupComap_surjective K hφ
   let ψ₁ : X →* alternatingGroup (Fin 8) := ψ₀.comp φ'
   have hψ₁ : Function.Surjective ψ₁ := hψ₀s.comp hφ'
   have hA8 : commutator (alternatingGroup (Fin 8)) = ⊤ :=
     commutator_alternatingGroup_eq_top
       (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num)
   obtain ⟨Γ₀, hΓ₀, hΓ₀m⟩ := k331c_exists_perfect ψ₁ hψ₁ hA8
-  haveI : Group.IsPerfect Γ₀ := Subgroup.isPerfect_iff.mpr hΓ₀
+  have : Group.IsPerfect Γ₀ := Subgroup.isPerfect_iff.mpr hΓ₀
   let α : Γ₀ →* K := φ'.comp Γ₀.subtype
   have hαker : α.ker ≤ center Γ₀ := by
     intro x hx

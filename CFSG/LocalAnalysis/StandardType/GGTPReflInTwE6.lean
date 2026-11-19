@@ -47,10 +47,10 @@ private theorem ggTP_a3_E0_data_cent
       ∀ μ : Fin Tag.E6.rank → ℤ, IsRoot Tag.E6 μ → iform μ α = 0 → iform μ β = 0 →
         rootSL2 Tag.E6 (AlgebraicClosure K) μ WSL ∈ E0 := by
   classical
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set L := AlgebraicClosure K with hL
   set D := LangDatum.ofTwist TwistTag.E6 Fr (2 ^ n) hFr v hg0C hg0 with hD
   obtain ⟨u, hUeq, hlayer⟩ := ggLayerOf_pair_A3 ζ hζ hζo hα hβ hαβ
@@ -201,9 +201,9 @@ theorem ggTPReflIn_TwE6
             ∀ a b : ↥A, (b : MulAut L') = MulAut.conj m * (a : MulAut L') * (MulAut.conj m)⁻¹ →
               Multiplicative.toAdd (κ b) = KGL.rootRefl γ (Multiplicative.toAdd (κ a)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
     obtain ⟨m, hprime, hm⟩ := FiniteField.card K (ringChar K)
     have hcard : Fintype.card K = 2 ^ (2 * n) := by
       rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, Nat.mul_comm]
@@ -215,9 +215,9 @@ theorem ggTPReflIn_TwE6
       (Nat.prime_dvd_prime_iff_eq hprime Nat.prime_two).mp
         (Nat.Prime.dvd_of_dvd_pow hprime hdvd)
     exact hrc ▸ ringChar.charP K
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
   have hinj : Function.Injective (iterateFrobenius K 2 n) := (iterateFrobenius K 2 n).injective
   set σ : K ≃+* K := RingEquiv.ofBijective (iterateFrobenius K 2 n)
     ⟨hinj, Finite.surjective_of_injective hinj⟩ with hσdef
@@ -259,7 +259,7 @@ theorem ggTPReflIn_TwE6
   obtain ⟨E', hE'comp, hE'uniq, hE'max, hE'map⟩ :=
     ggLayerOf_lift ψ hψ hker ({(c : MulAut L')} : Set (MulAut L')) hFaut (ggFix (c : MulAut L')) hC hER
   have hJeq : J = E' := hE'uniq J hJ
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hF.aut.card_eq]; norm_num)
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hF.aut.card_eq]; norm_num)
   refine ⟨κ, β, hF.aut, hβ, hκc, fun γ hγ hγβ => ?_⟩
   obtain ⟨δ, α, hδ, hα, -, -, hαγ, hαβ, -⟩ := exists_root_pair_kgL4 hγ hβ hγβ
   have hγα : iform γ α = 0 := by rw [iform_comm]; exact hαγ

@@ -13,7 +13,7 @@ open CFSG.KC.Ord CFSG.KC.LQT.P CFSG.KC.Misc.GL4 CFSG.KC.Misc.A6GL4
 open CFSG.KC.Misc.Clos (ExactList treeAt sortAt closedAt)
 open CertificateChecks.KernelMisc.GL4EA (EA EAI eaAt eaAt_ok ea_exact)
 open Certificates.A5GL42 (Mat4 ofCode)
-open Certificates.GL4 (GL4 sg)
+open Certificates.GL4Sub (GL4 sg)
 open Certificates.Asc82NormA6
 
 theorem rhoCode_sigma : rhoCode sigma = xA6 := by decide +kernel
@@ -65,7 +65,7 @@ theorem sg_eq_map :
   congr 1
   ext g
   simp only [List.map_cons, List.map_nil, List.mem_cons, List.not_mem_nil, or_false,
-    Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff, u4_x, u4_y]
+    Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff, u4_x, u4_y]
 
 theorem closure_eq :
     Subgroup.closure ({sigma, tau} : Set (Equiv.Perm (Fin 6))) = alternatingGroup (Fin 6) := by

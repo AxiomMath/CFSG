@@ -65,7 +65,7 @@ theorem ltbFive_witness_of_lines {M : Type*} [Group M] [Finite M] {P R Q : Subgr
     ∀ E : Subgroup P, IsElemAbelian 5 E → Nat.card E = 5 ^ 2 →
       ∃ d ∈ E, d ≠ 1 ∧
         GLAPPrimeCoreOf 5 (Subgroup.centralizer ({(d : M)} : Set M) ⊓ R) = ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hlineQ : ∀ j, lines j ∈ Q := fun j => by
     have hm : Subgroup.zpowers (lines j) ∈ {H : Subgroup M | H ≤ Q ∧ Nat.card H = 5} := by
       rw [hlines]
@@ -94,10 +94,10 @@ theorem ltbFive_witness_of_lines {M : Type*} [Group M] [Finite M] {P R Q : Subgr
     have h := Monoid.pow_exponent_eq_one (⟨x, hx⟩ : Q)
     rw [hQe] at h
     simpa using congrArg Subtype.val h
-  haveI : Nontrivial (Q' : Subgroup P) :=
+  have : Nontrivial (Q' : Subgroup P) :=
     (Finite.one_lt_card_iff_nontrivial).1 (by rw [hQ'c]; norm_num)
-  have hbot := IsPGroup.bot_lt_center Q'.isPGroup'
-  obtain ⟨c, hcC, hc⟩ := SetLike.exists_of_lt hbot
+  have hbot := IsPGroup.bot_lt_center Q'.isPGroup
+  obtain ⟨c, hcC, hc⟩ := _root_.IsConcreteLE.exists_of_lt hbot
   have hc1 : (c : P) ≠ 1 := fun h => hc (Subgroup.mem_bot.2 (Subtype.ext h))
   set z : P := (c : P) with hzdef
   have hzQ' : z ∈ Q' := c.2
@@ -111,7 +111,7 @@ theorem ltbFive_witness_of_lines {M : Type*} [Group M] [Finite M] {P R Q : Subgr
     hall (z : M) hzM hzMo
   have hnc : ∃ a ∈ Q', ∃ b ∈ Q', a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcomm : Q ≤ Subgroup.centralizer ({lines 0} : Set M) ⊓ R := by
       intro y hy
       refine Subgroup.mem_inf.2 ⟨Subgroup.mem_centralizer_singleton_iff.2 ?_, hA.le (hQP hy)⟩

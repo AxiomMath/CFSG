@@ -32,14 +32,17 @@ namespace ZJData
 
 variable (h : ZJData Q Y V V' B ρ t τ l y z v₁ v₂) include h
 
+omit [Finite H] in
 private theorem V_le_Y' : V ≤ Y := by rw [h.Y_eq]; exact le_sup_left
 
+omit [Finite H] in
 private theorem V'_le_Y' : V' ≤ Y := by rw [h.Y_eq]; exact le_sup_right
 
-private theorem V_le_Q' : V ≤ Q := fun x hx => h.Y_le_Q (h.V_le_Y' hx)
+omit [Finite H] in
+private theorem V_le_Q' : V ≤ Q := fun _x hx => h.Y_le_Q (h.V_le_Y' hx)
 
 private theorem comm_tau_mem_Q (a : H) : a * τ * a⁻¹ * τ⁻¹ ∈ Q := by
-  haveI hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
+  have hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
   have hgE : a * τ * a⁻¹ ∈ centralizer (Y : Set H) := h.E_normal h.tau_mem_E
   have hgEE : a * τ * a⁻¹ ∈ Q ⊔ zpowers τ := by rw [← h.E_eq]; exact hgE
   obtain ⟨q, hq, zz, hzz, hxz⟩ :=
@@ -63,7 +66,7 @@ private theorem comm_tau_mem_Q (a : H) : a * τ * a⁻¹ * τ⁻¹ ∈ Q := by
     rw [hgoal]; exact hq
 
 theorem E_cent_mod_Q {a e : H} (he : e ∈ centralizer (Y : Set H)) : a * e * a⁻¹ * e⁻¹ ∈ Q := by
-  haveI hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
+  have hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
   let φ : H →* H ⧸ Q := QuotientGroup.mk' Q
   let K : Subgroup H := (Subgroup.centralizer ({φ a} : Set (H ⧸ Q))).comap φ
   have hφ1 : ∀ x : H, φ x = 1 ↔ x ∈ Q := by
@@ -105,7 +108,7 @@ private theorem mk_center_of_mem_E [hQn : Q.Normal] {a : H}
 variable {Mh : Subgroup H} (hMh : IsZJMh y z v₁ v₂ Mh) include hMh
 
 theorem Mh_comm_t {m : H} (hm : m ∈ Mh) : m * t * m⁻¹ * t⁻¹ ∈ Q := by
-  haveI hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
+  have hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
   let φ : H →* H ⧸ Q := QuotientGroup.mk' Q
   let K : Subgroup H := (Subgroup.centralizer ({φ t} : Set (H ⧸ Q))).comap φ
   have hφ1 : ∀ x : H, φ x = 1 ↔ x ∈ Q := by
@@ -138,7 +141,7 @@ theorem Mh_comm_t {m : H} (hm : m ∈ Mh) : m * t * m⁻¹ * t⁻¹ ∈ Q := by
   exact (hφ1 _).mp hmem
 
 theorem Mh_comm_Q {m q : H} (hm : m ∈ Mh) (hq : q ∈ Q) : m * q * m⁻¹ * q⁻¹ ∈ V := by
-  haveI hVn : V.Normal := ⟨fun x hx g => h.normal_V g x hx⟩
+  have hVn : V.Normal := ⟨fun x hx g => h.normal_V g x hx⟩
   let φ : H →* H ⧸ V := QuotientGroup.mk' V
   let K : Subgroup H := (Subgroup.centralizer ({φ m} : Set (H ⧸ V))).comap φ
   have hφ1 : ∀ x : H, φ x = 1 ↔ x ∈ V := by

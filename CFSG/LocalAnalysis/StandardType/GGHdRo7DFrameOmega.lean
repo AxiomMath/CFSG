@@ -342,7 +342,7 @@ private theorem hdRo7DFrOAux_prod_eq_one
   have hprod' : ∏ i, ε' i = 1 := by
     have hupdate : ∏ i, ε' i = ∏ i ∈ Finset.univ \ {i₀}, ε i := by
       rw [show (∏ i, ε' i) = ∏ i ∈ (Finset.univ : Finset (Fin k)), ε' i from rfl]
-      rw [Finset.prod_eq_mul_prod_diff_singleton_of_mem (Finset.mem_univ i₀) ε', hε'i₀, one_mul]
+      rw [Finset.prod_eq_mul_prod_sdiff_singleton_of_mem (Finset.mem_univ i₀) ε', hε'i₀, one_mul]
       refine Finset.prod_congr rfl fun i hi => ?_
       simp only [Finset.mem_sdiff, Finset.mem_singleton] at hi
       exact Function.update_of_ne hi.2 (1 : ZMod p) ε

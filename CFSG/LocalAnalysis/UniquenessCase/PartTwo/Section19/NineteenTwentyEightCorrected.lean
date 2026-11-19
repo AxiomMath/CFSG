@@ -105,7 +105,7 @@ private theorem card_le_two_of_forall_eq_of_ne_one {H : Type} [Group H] [Finite 
     (h : ∀ x y : H, x ≠ 1 → y ≠ 1 → x = y) : Nat.card H ≤ 2 := by
   classical
   by_cases htriv : ∀ x : H, x = 1
-  · haveI : Subsingleton H := ⟨fun a b => (htriv a).trans (htriv b).symm⟩
+  · have : Subsingleton H := ⟨fun a b => (htriv a).trans (htriv b).symm⟩
     have hcard : Nat.card H ≤ 1 :=
       (Finite.card_le_one_iff_subsingleton (α := H)).mpr inferInstance
     omega
@@ -132,8 +132,9 @@ private theorem card_le_two_of_forall_eq_of_ne_one {H : Type} [Group H] [Finite 
     have := Nat.card_le_card_of_injective f hf
     simpa using this
 
+omit [Finite G] in
 private theorem sup_inter_pCore_eq {A O P : Subgroup G}
-    (hAnormO : A ≤ normalizer (O : Set G)) (hOleP : O ≤ P) (hAnormP : A ≤ normalizer (P : Set G))
+    (hAnormO : A ≤ normalizer (O : Set G)) (hOleP : O ≤ P) (_hAnormP : A ≤ normalizer (P : Set G))
     (hAinfP : A ⊓ P = ⊥) : (A ⊔ O) ⊓ P = O := by
   apply le_antisymm
   · intro x hx
@@ -162,7 +163,7 @@ private theorem inf_pCoreOf_eq_bot_of_odd {I A : Subgroup G}
     (hAodd : Odd (Nat.card A)) : A ⊓ pCoreOf 2 I = ⊥ := by
   have h2 : IsPGroup 2 (pCoreOf 2 I) := CFSG.LocalAnalysis.UniquenessCase.UC6S846.isPGroup_pCoreOf I
   obtain ⟨k, hk⟩ := h2.exists_card_eq
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   rw [hk]
   exact (Nat.coprime_two_right.mpr hAodd).pow_right k
 
@@ -408,8 +409,8 @@ theorem not_commutator_zpowers_eq_bot_of_ctx19_23 (D : Data G) {V₀ V : Subgrou
 @[expose] def Trichotomy19_28 (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L A : Subgroup G)
     (t : G) (B : Subgroup G) (r : ℕ) (A₀ H : Subgroup G)
     (h : Ctx19_23 D V₀ V p L A t B r A₀ H)
-    (h25 : R19_25At D V₀ V p L A t B r A₀ H h)
-    (h26 : R19_26At D V₀ V p L A t B r A₀ H h) : Prop :=
+    (_h25 : R19_25At D V₀ V p L A t B r A₀ H h)
+    (_h26 : R19_26At D V₀ V p L A t B r A₀ H h) : Prop :=
   ∀ S : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 2 S (H ⊓ D.M) →
     (pCoreOf 2 (A ⊔ S)).relIndex S ≤ 2 →
       ((((Subgroup.center ↥S).map S.subtype : Subgroup G)).subgroupOf (A ⊔ S)).Normal ∨
@@ -438,13 +439,13 @@ theorem exists_s_trichotomy_of_ctx19_23 (D : Data G) {V₀ V : Subgroup G} {p : 
                (¬ ZS ≤ pCoreOf 2 (A ⊔ S) → ⁅pCoreOf 2 (A ⊔ S), B₀⁆ = ⊥) ∧
                (B₀ = ⊥ → (ZS.subgroupOf (A ⊔ S)).Normal)))) := by
   intro S hS hQrel
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : Subgroup G := A ⊔ S
   let Q : Subgroup G := pCoreOf 2 X
   let Z : Subgroup G := (Subgroup.center ↥Q).map Q.subtype
   let ZS : Subgroup G := (Subgroup.center ↥S).map S.subtype
   have hAodd : Odd (Nat.card A) := odd_card_A_of_ctx19_23 D h
-  haveI hAcomm : IsMulCommutative ↥A := isMulCommutative_A_of_ctx19_23 D h
+  have hAcomm : IsMulCommutative ↥A := isMulCommutative_A_of_ctx19_23 D h
   have h3A : ¬ 3 ∣ Nat.card A := three_not_dvd_card_A_of_ctx19_23 D h h26
   have hQleS : Q ≤ S := pCoreOf_sup_le_sylow_of_ctx19_23 D h hS
   have hXleNQ : X ≤ Subgroup.normalizer (Q : Set G) := by
@@ -500,7 +501,7 @@ theorem exists_normalU_of_trichotomy19_28 (D : Data G) {V₀ V : Subgroup G} {p 
   rcases htri with hZ | hJ | ⟨E, hEA, hEel, hEcard, hEidx⟩
   · exact exists_normalU_of_trichotomy D h h12 hS (Or.inl hZ)
   · exact exists_normalU_of_trichotomy D h h12 hS (Or.inr (Or.inl hJ))
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hAM : A ≤ D.M := A_le_M_of_ctx19_10 D h.ctx22.ctx
     have hV0ne : V₀ ≠ ⊥ := ne_bot_of_one_lt_mSub h.ctx22.ctx.hyp.big
     have hV0data := inCalV0_of_hyp125 h.ctx22.ctx.hyp.hyp125 hV0ne
@@ -545,7 +546,7 @@ theorem exists_normalU_of_trichotomy19_28 (D : Data G) {V₀ V : Subgroup G} {p 
         have : 2 ≤ Nat.card X := by
           interval_cases k <;> omega
         omega
-      haveI : Nontrivial ↥X := Finite.one_lt_card_iff_nontrivial.mp hXcard
+      have : Nontrivial ↥X := Finite.one_lt_card_iff_nontrivial.mp hXcard
       obtain ⟨a, ha1⟩ := exists_ne (1 : ↥X)
       have haX : (a : G) ∈ X := a.2
       have ha1' : (a : G) ≠ 1 := fun h' => ha1 (Subtype.ext h')
@@ -621,7 +622,7 @@ theorem nineteen_twentyeight_of_gap19_28 (D : Data G) {V₀ V : Subgroup G} {p :
     (hgap : Gap19_28 D V₀ V p L A t B r A₀ H h h25 h26)
     (hgapT : Trichotomy19_28 D V₀ V p L A t B r A₀ H h h25 h26) :
     R19_28At D V₀ V p L A t B r A₀ H h := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   change Concl19_28 D A H
   intro S hS
   have hindex : (pCoreOf 2 (A ⊔ S)).relIndex S ≤ 2 :=
@@ -669,7 +670,7 @@ theorem gap19_28_of_torusAutomizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ}
     Gap19_28 D V₀ V p L A t B r A₀ H h h25 h26 := by
   classical
   intro S hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let I : Subgroup G := IOf D p L
   let n : ℕ := S17.nOf L
   let O : Subgroup G := pCoreOf 2 (H ⊓ I)
@@ -697,7 +698,7 @@ theorem gap19_28_of_torusAutomizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ}
   have hn3 : 3 ≤ n := three_le_nOf_of_setting1910 h.ctx22.ctx.h1910
   let T : Subgroup (Bar2 I) := barImage (IOf D p L) A
   let Lf : Subgroup (Bar2 I) := barImage (IOf D p L) A₀
-  haveI hTcomm : IsMulCommutative ↥T := isMulCommutative_torusImage D h.ctx22.ctx
+  have hTcomm : IsMulCommutative ↥T := isMulCommutative_torusImage D h.ctx22.ctx
   let V : Subgroup (Bar2 I) :=
     (MonoidHom.ker (powMonoidHom r : ↥T →* ↥T)).map T.subtype
   have hTz : IsZModSq T n := isZModSq_torusImage D h.ctx22.ctx
@@ -709,7 +710,7 @@ theorem gap19_28_of_torusAutomizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ}
     simpa [hcardA, n] using h.ctx22.ctx.hr.2
   have hVleT : V ≤ T := fun x hx => (mem_powTorsionSubgroup.mp hx).1
   have hVcomm : IsMulCommutative ↥V := by
-    haveI : IsMulCommutative ↥(V.subgroupOf T) := inferInstance
+    have : IsMulCommutative ↥(V.subgroupOf T) := inferInstance
     exact CFSG.LocalAnalysis.UniquenessCase.UCK.UC46.isMulCommutative_of_mulEquiv
       (Subgroup.subgroupOfEquivOfLe hVleT).symm inferInstance
   have hsNI : ∀ s ∈ S, s ∈ normalizer (I : Set G) :=
@@ -774,9 +775,6 @@ theorem gap19_28_of_torusAutomizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ}
     change ((φFun s) y : ↥T).1 = (y : ↥T).1
     rw [φFun_coe]
     rw [← hya']
-    change (CFSG.LocalAnalysis.UniquenessCase.UC6S846.rhoL I
-      ⟨s.1, hsNI s.1 s.2⟩) (QuotientGroup.mk' (CFSG.pCore 2 ↥I) a) =
-      QuotientGroup.mk' (CFSG.pCore 2 ↥I) a
     rw [show QuotientGroup.mk' (CFSG.pCore 2 ↥I) a = QuotientGroup.mk a from rfl]
     rw [CFSG.LocalAnalysis.UniquenessCase.UC6S846.rhoL_mk]
     congr 1
@@ -1067,11 +1065,6 @@ theorem gap19_28_of_torusAutomizer (D : Data G) {V₀ V : Subgroup G} {p : ℕ}
           change (σVs c) x = σVs a (σVs b x)
           apply Subtype.ext
           rw [σVs_coe, σVs_coe, σVs_coe]
-          change (CFSG.LocalAnalysis.UniquenessCase.UC6S846.rhoL I
-              ⟨c.1, hsNI c.1 c.2⟩) (x : Bar2 I) =
-            (CFSG.LocalAnalysis.UniquenessCase.UC6S846.rhoL I
-              ⟨a.1, hsNI a.1 a.2⟩) ((CFSG.LocalAnalysis.UniquenessCase.UC6S846.rhoL I
-              ⟨b.1, hsNI b.1 b.2⟩) (x : Bar2 I))
           have hc : (CFSG.LocalAnalysis.UniquenessCase.UC6S846.rhoL I
               ⟨c.1, hsNI c.1 c.2⟩) =
               CFSG.LocalAnalysis.UniquenessCase.UC6S846.rhoL I ⟨a.1, hsNI a.1 a.2⟩ *
@@ -1241,7 +1234,7 @@ theorem trichotomy19_28_of_torusAutomizer (D : Data G) {V₀ V : Subgroup G} {p 
     (hK : K_19_28_torusAutomizer) :
     Trichotomy19_28 D V₀ V p L A t B r A₀ H h h25 h26 := by
   intro S hS hidx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let I : Subgroup G := IOf D p L
   let X : Subgroup G := A ⊔ S
   let Q : Subgroup G := pCoreOf 2 X
@@ -1299,7 +1292,7 @@ theorem trichotomy19_28_of_torusAutomizer (D : Data G) {V₀ V : Subgroup G} {p 
         · exact Or.inl (hB1Z hB1)
         ·
           have hAodd : Odd (Nat.card A) := odd_card_of_ctx19_10 h.ctx22.ctx
-          haveI hAcomm : IsMulCommutative ↥A :=
+          have hAcomm : IsMulCommutative ↥A :=
             isMulCommutative_of_isZModSq h.ctx22.ctx.hAcard
           let n : ℕ := S17.nOf L
           have hnodd : Odd n := h26

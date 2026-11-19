@@ -72,7 +72,7 @@ theorem exists_conj_eq_model_lift {f p : ℕ} (hf : 1 ≤ f) (hp : p.Prime)
     not_dvd_card_center_of_rk2Ord_one (frobQ 2 f) hK (fun c => frobQ_apply 2 f c) hp hp2 hrk
   have hAinf : A ⊓ π.ker = ⊥ := by
     rw [hker]
-    exact Subgroup.inf_eq_bot_of_coprime (by
+    exact (fun h => (Subgroup.disjoint_of_coprime_natCard h).eq_bot) (by
       rw [hAcard]
       exact ((hp.coprime_iff_not_dvd).2 hpZ).pow_left 4)
   have hAmapcard : Nat.card (A.map π) = p ^ 4 := by
@@ -91,7 +91,7 @@ theorem exists_conj_eq_model_lift {f p : ℕ} (hf : 1 ≤ f) (hp : p.Prime)
       hAcard]
   have hZ : CFSG.Quasithin.A1b.conjSub g A ⊓
       Subgroup.center ↥(fixedGroup (GaloisField 2 (2 * f)) (frobQ 2 f)) = ⊥ :=
-    Subgroup.inf_eq_bot_of_coprime (by
+    (fun h => (Subgroup.disjoint_of_coprime_natCard h).eq_bot) (by
       rw [hcard]
       exact ((hp.coprime_iff_not_dvd).2 hpZ).pow_left 4)
   exact ⟨CFSG.Quasithin.A1b.conjSub g A, g,

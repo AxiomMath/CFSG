@@ -38,7 +38,7 @@ theorem exists_twE6_base {X : Type} [Group X] [Finite X] {n f p : ℕ} (hf : 1 �
     (hpos : TwE6LawPos p f E) :
     ∃ B : ExcBase .E6 f p G₀ B₁ D J x, TwE6BaseCompat n f p ψ B := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ht, w, g, ⟨hg, hlang, hconj⟩, hlaw⟩ := hpos
   obtain ⟨Δ, ρ, hρ, hfin, hΦΔ, hq, hn, hg0, hmodel, hρroots⟩ :=
     exists_twE6_datum hf hg hlang
@@ -60,7 +60,7 @@ theorem exists_twE6_base {X : Type} [Group X] [Finite X] {n f p : ℕ} (hf : 1 �
     rw [hΦΔ]
     change twistHom TwistTag.E6 GGL (ggFrobT f) y =
       diag * Units.map (entrywiseHom (ggFrobT f)) y * diag⁻¹
-    simp only [twistHom, MonoidHom.comp_apply, MulAut.conj_apply]
+    simp only [twistHom]
     rfl
   let η : ↥G₀ →* ModGL (langTag .twistedE6) GGL := (MulAut.conj g⁻¹).toMonoidHom.comp θ
   have hconj_one : ∀ z : ModGL (langTag .twistedE6) GGL,
@@ -136,7 +136,7 @@ theorem exists_twE6_base {X : Type} [Group X] [Finite X] {n f p : ℕ} (hf : 1 �
       coord e = (coord_witness ⟨e, hDB he⟩ he).choose := by
     intro e he
     dsimp only [coord]
-    rw [dif_pos he]
+    rw [dite_eq_left he]
   have hΘ'coord : ∀ b : ↥B₁, (b : X) ∈ D → Θ' b = CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley.rootDiagUnit (langTag .twistedE6) (coord b) := by
     intro b hb
     have hcoord_b : coord b = (coord_witness ⟨(b : X), hDB hb⟩ hb).choose := by
@@ -376,7 +376,7 @@ theorem exists_twE6_base {X : Type} [Group X] [Finite X] {n f p : ℕ} (hf : 1 �
       change (MulAut.conj g⁻¹).toMonoidHom (θ ⟨ψ k, hk⟩) =
         Δ.g0⁻¹ * ggIotaK .twistedE6 n f hf k * Δ.g0
       rw [hθψ k hk, hg0]
-      simp [MulAut.conj_apply]
+      simp
     · exact ⟨ht, w, hlaw, hn⟩
 
 end CFSG.StandardType.LieKnownR2.ExcPos

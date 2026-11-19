@@ -34,9 +34,9 @@ theorem certificate7124 :
     · right
       refine ⟨j, hj17, ?_⟩
       unfold memberOrTop
-      rw [if_pos hj17]
+      rw [ite_eq_left hj17]
     · left
       unfold memberOrTop
-      rw [if_neg hj17]
+      rw [ite_eq_right hj17]
 
 end Certificates

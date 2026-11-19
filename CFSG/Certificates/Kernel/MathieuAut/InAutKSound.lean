@@ -65,13 +65,13 @@ theorem getElem!_set!_ne (b : Array ℕ) {i k : ℕ} (v : ℕ) (h : i ≠ k) :
   rw [Array.set!_eq_setIfInBounds]
   by_cases hk : k < b.size
   · rw [getElem!_pos _ k (by simpa using hk), getElem!_pos b k hk,
-      Array.getElem_setIfInBounds hk, if_neg h]
+      Array.getElem_setIfInBounds hk, ite_eq_right h]
   · rw [getElem!_neg _ k (by simpa using hk), getElem!_neg b k hk]
 
 theorem getElem!_set!_self (b : Array ℕ) {i : ℕ} (v : ℕ) (h : i < b.size) :
     (b.set! i v)[i]! = v := by
   rw [Array.set!_eq_setIfInBounds, getElem!_pos _ i (by simpa using h),
-    Array.getElem_setIfInBounds h, if_pos rfl]
+    Array.getElem_setIfInBounds h, ite_eq_left rfl]
 
 theorem size_foldl_set (f : ℕ → ℕ) : ∀ (L : List ℕ) (b : Array ℕ),
     (L.foldl (fun b i => b.set! (f i) i) b).size = b.size

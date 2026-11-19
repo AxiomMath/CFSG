@@ -10,6 +10,7 @@ open QuadraticMap
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem vanishLA_polar_range {V : Type} [AddCommGroup V] [Module K V] {Q' : QuadraticForm K V}
     {T : V →ₗ[K] V} (hT2 : ∀ w, T (T w) = 0) (hiso : ∀ w, Q' (w + T w) = Q' w) (v w : V) :
     polar Q' (T v) (T w) = 0 := by
@@ -27,6 +28,7 @@ theorem vanishLA_polar_range {V : Type} [AddCommGroup V] [Module K V] {Q' : Quad
   simp only [hT2, polar_zero_right, add_zero, zero_add] at h3
   exact h3
 
+omit [CharP K 2] in
 theorem vanishLA_Q_range_add {V : Type} [AddCommGroup V] [Module K V] {Q' : QuadraticForm K V}
     {T : V →ₗ[K] V} (hT2 : ∀ w, T (T w) = 0) (hiso : ∀ w, Q' (w + T w) = Q' w) (v w : V) :
     Q' (T (v + w)) = Q' (T v) + Q' (T w) := by
@@ -41,6 +43,7 @@ theorem vanishLA_polar_eq_Q_of_singular {V : Type} [AddCommGroup V] [Module K V]
   have h3 : polar Q' w (T w) = -Q' (T w) := eq_neg_of_add_eq_zero_left h2
   rw [h3, CharTwo.neg_eq]
 
+omit [CharP K 2] in
 theorem vanishLA_exists_nonsing_perp {ι : Type} [Fintype ι] [DecidableEq ι] [Finite K]
     {Q' : QuadraticForm K (ι → K)} (hQ : (polarBilin Q').Nondegenerate)
     (h4 : 4 ≤ Module.finrank K (ι → K)) {x : ι → K} (hx : x ≠ 0) :

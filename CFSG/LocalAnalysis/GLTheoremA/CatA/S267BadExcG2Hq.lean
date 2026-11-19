@@ -50,6 +50,7 @@ section Hq
 
 variable {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
 
+omit [Finite Ω] in
 theorem exists_surjective_of_pquot {p : ℕ} {K' : Type} [Group K']
     (eK : PQuot p (⊤ : Subgroup K') ≃* ↥S) {F : Type} [Group F] (eF : PSimple p S ≃* F) :
     ∃ φ : K' →* F, Function.Surjective φ := by
@@ -82,7 +83,7 @@ theorem five_le_pRank_of_mulEquiv_sl2
     ∀ (X' : Type) [Group X'] [Finite X'] (φ' : X' →* J), Function.Surjective φ' →
       5 ≤ CFSG.Open.pRank q (⊤ : Subgroup X') := by
   intro X' _ _ φ' hφ'
-  haveI : Fintype L := Fintype.ofFinite L
+  have : Fintype L := Fintype.ofFinite L
   exact CFSG.LocalAnalysis.GLTheoremA.S267.HqRank.le_pRank_of_surj_SL2 hq hq2
     (by rw [← Nat.card_eq_fintype_card]; exact hL) (by omega) hm (by norm_num; omega)
     (eJ.symm.toMonoidHom.comp φ') (eJ.symm.surjective.comp hφ')
@@ -100,7 +101,7 @@ theorem dvd_exponent_of_elemAbelian_mulAut_G2 {K : Type} [Field K] [Finite K] {�
     {E : Subgroup (MulAut ↥(adjointGroup .G2 K))} (hE : IsElemAbelian p E)
     (hEc : p ^ 3 ≤ Nat.card E) : p ∣ f := by
   classical
-  haveI : Finite ↥(adjointGroup .G2 K) := by
+  have : Finite ↥(adjointGroup .G2 K) := by
     have : Finite (Module.End K (RootModule .G2 K)) := Module.finite_of_finite K
     infer_instance
   have hZ : Subgroup.center ↥(adjointGroup .G2 K) = ⊥ :=
@@ -109,14 +110,14 @@ theorem dvd_exponent_of_elemAbelian_mulAut_G2 {K : Type} [Field K] [Finite K] {�
     CFSG.LieType.SeitzGeneration.rankLE2_adjointGroup_G2 K hp hp5 hpK
   by_cases h3 : ringChar K = 3
   ·
-    haveI : CharP K 3 := ringChar.of_eq h3
+    have : CharP K 3 := ringChar.of_eq h3
     have hℓ3 : ℓ = 3 := by
-      haveI : CharP K ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+      have : CharP K ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         hℓ hf hK
       rw [← ringChar.eq K ℓ, h3]
     subst hℓ3
-    haveI : CharP K CFSG.LieType.Ree.ReeTag.G2.prime := ‹CharP K 3›
-    haveI : NeZero (2 * f) := ⟨by omega⟩
+    have : CharP K CFSG.LieType.Ree.ReeTag.G2.prime := ‹CharP K 3›
+    have : NeZero (2 * f) := ⟨by omega⟩
     obtain ⟨-, -, ⟨Θ, -, -, hker⟩, -⟩ :=
       CFSG.LieType.Chevalley.G2_three_exact_automorphism_normal_form hf K hK
     have h := dvd_card_of_elemAbelian_mulAut hZ hp hX Θ hker hE hEc
@@ -152,9 +153,9 @@ theorem false_of_badExcLie_G2_hq {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hS : 
     (e : PSimple p S ≃* (TauCeti.CFSGIndex.lie ⟨.G2 Q, hv⟩).Group)
     (hHq : ∃ (K' : Type) (_ : Group K') (_ : Finite K'),
       Nonempty (PQuot p (⊤ : Subgroup K') ≃* ↥S) ∧ GLATwoLocalRank Q.p K' ≤ CFSG.Open.pRank p B) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, hK, hKc, ⟨eX⟩⟩ := exists_adjointGroup_G2_equiv_psimple hQ2 hv e
-  haveI : Finite ↥(adjointGroup .G2 K) := by
+  have : Finite ↥(adjointGroup .G2 K) := by
     have : Finite (Module.End K (RootModule .G2 K)) := Module.finite_of_finite K
     infer_instance
   have hchar : ringChar K = Q.p := ringChar.eq K Q.p

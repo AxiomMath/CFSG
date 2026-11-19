@@ -27,16 +27,16 @@ theorem diagHom_mem_unitaryIsom3 {d : Fin 3 → Kˣ} (hd : ∀ i, d i ∈ normOn
   rw [h.bar_apply, ← pow_succ, ← Units.val_pow_eq_pow_val, hi, Units.val_one]
 
 theorem cycGL_mem_unitaryIsom3 : (cycGL : GL (Fin 3) K) ∈ unitaryIsom3 h := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI := h.charP
+  have : Fact p.Prime := ⟨h.prime⟩
+  have := h.charP
   exact unitarySU_le_unitaryIsom3 (monomialData_statedSU (p := p) (f := f)).cyc_mem
 
 theorem card_unitaryIsom3 (h : UnitaryFieldData p f K) :
     Nat.card (unitaryIsom3 h) =
       (p ^ f + 1) * ((p ^ f) ^ 3 * ((p ^ f) ^ 2 - 1) * ((p ^ f) ^ 3 + 1)) := by
-  haveI := h.finite
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI := h.charP
+  have := h.finite
+  have : Fact p.Prime := ⟨h.prime⟩
+  have := h.charP
   have hK : Nat.card K = (p ^ f) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   set δ : unitaryIsom3 h →* Kˣ := GeneralLinearGroup.det.comp (unitaryIsom3 h).subtype with hδ
   have hδx : ∀ x : unitaryIsom3 h,
@@ -91,8 +91,8 @@ theorem card_GU_three_eq {q : ℕ} (hq : q % 3 = 2) :
 
 theorem signDiag_le_unitarySU (h : UnitaryFieldData p f K) (hq : Odd (p ^ f)) :
     (signDiag : Subgroup (GL (Fin 3) K)) ≤ unitarySU p f K 3 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI := h.charP
+  have : Fact p.Prime := ⟨h.prime⟩
+  have := h.charP
   rintro _ ⟨d, rfl, hd, hd'⟩
   refine (monomialData_statedSU (p := p) (f := f)).diag_mem d (fun i => ?_) hd'
   rw [mem_normOne]
@@ -129,13 +129,13 @@ theorem psuConj_mem_signPSU {n : unitaryIsom3 h}
   exact (Subgroup.mem_normalizer_iff.mp hn _).mp hg'
 
 theorem signPSU_ne_bot (hq : Odd (p ^ f)) (hp2 : p ≠ 2) : signPSU h ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI := h.charP
+  have : Fact p.Prime := ⟨h.prime⟩
+  have := h.charP
   have hd : diagHom 3 ![(1 : Kˣ), -1, -1] ∈ unitarySU p f K 3 :=
     signDiag_le_unitarySU h hq ⟨![1, -1, -1], rfl,
-      fun i => by fin_cases i <;> simp [neg_one_sq], by simp [neg_mul_neg]⟩
+      fun i => by fin_cases i <;> simp, by simp⟩
   have hmem : (⟨_, hd⟩ : unitarySU p f K 3) ∈ signSU p f K :=
-    ⟨![1, -1, -1], rfl, fun i => by fin_cases i <;> simp [neg_one_sq], by simp [neg_mul_neg]⟩
+    ⟨![1, -1, -1], rfl, fun i => by fin_cases i <;> simp, by simp⟩
   intro hbot
   have hx : unitaryProj h 3 ⟨_, hd⟩ ∈ signPSU h := ⟨_, hmem, rfl⟩
   rw [hbot, Subgroup.mem_bot] at hx
@@ -161,7 +161,7 @@ theorem norm2e_unitaryPSU (h : UnitaryFieldData p f K) (hq2 : 2 < p ^ f) (hq3 : 
     (P : Subgroup (MulAut (unitaryPSU h 3))) (hP : IsPGroup 3 P) (hP3 : ∀ σ ∈ P, σ ^ 3 = 1) :
     ∃ V : Subgroup (unitaryPSU h 3), V ≠ ⊥ ∧ IsPGroup 2 V ∧
       ∀ σ ∈ P, V.map σ.toMonoidHom = V := by
-  haveI := h.finite
+  have := h.finite
   have hK : Nat.card K = (p ^ f) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   obtain ⟨i, hi3, hGU⟩ := card_GU_three_eq hq3
   have hle : diagSub (normOne K (p ^ f)) ⊔ Subgroup.zpowers (cycGL : GL (Fin 3) K) ≤

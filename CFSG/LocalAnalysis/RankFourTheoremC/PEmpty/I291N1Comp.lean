@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.RankFourTheoremC.Lemma213 (cjComp mem_cjComp_of_mem)
 
 variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x z : Y} {L : Subgroup Y}
 
+omit [Finite Y] in
 theorem normal_of_unique (hL : IsComponentOf L ⊤)
     (hLu : ∀ K : Subgroup Y, IsComponentOf K ⊤ → K = L) : L.Normal := by
   refine ⟨fun c hc g => ?_⟩
@@ -43,7 +44,7 @@ theorem pCore_le_of_sylow [Fact p.Prime] (hP : CFSG.ABGLocalTools.IsSylowOf p P 
 
 theorem pCore_eq_bot (hcfg : Cfg p P x z) (hL : IsComponentOf L ⊤) (hLn : L.Normal)
     (hZ : center ↥L = ⊥) : CFSG.pCore p Y = ⊥ := by
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   by_contra hne
   have hle := pCore_le_of_sylow hcfg.sylow
   have hz : z ∈ CFSG.pCore p Y :=
@@ -56,9 +57,9 @@ theorem pCore_eq_bot (hcfg : Cfg p P x z) (hL : IsComponentOf L ⊤) (hLn : L.No
   have hsub : IsSubnormal (CFSG.pCore p Y) ⊤ :=
     ComponentClassification.Components.chain_of_mathlib_subnormal
       (inferInstance : (CFSG.pCore p Y).Normal).isSubnormal
-  haveI : Group.IsNilpotent ↥(CFSG.pCore p Y) :=
+  have : Group.IsNilpotent ↥(CFSG.pCore p Y) :=
     (CFSG.pCore_isPGroup (G := Y) (p := p)).isNilpotent
-  haveI : Group.IsSolvable ↥(CFSG.pCore p Y) := inferInstance
+  have : Group.IsSolvable ↥(CFSG.pCore p Y) := inferInstance
   have hcomm := ComponentClassification.Layer.commutes_with_solvable_subnormal
     (CFSG.pCore p Y) hsub
   have hLle : L ≤ ComponentClassification.Layer.subgroup Y :=

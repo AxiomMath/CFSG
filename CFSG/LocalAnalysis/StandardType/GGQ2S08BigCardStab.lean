@@ -12,8 +12,8 @@ private def ggQ2s08b3a_stabEquiv {G : Type*} [Group G] (S A : Subgroup G) :
     ↥(S.subgroupOf A) ≃ ↥(A ⊓ S) where
   toFun x := ⟨((x : ↥A) : G), (x : ↥A).2, x.2⟩
   invFun x := ⟨⟨(x : G), x.2.1⟩, x.2.2⟩
-  left_inv x := Subtype.ext (Subtype.ext rfl)
-  right_inv x := Subtype.ext rfl
+  left_inv _x := Subtype.ext (Subtype.ext rfl)
+  right_inv _x := Subtype.ext rfl
 
 theorem ggQ2s08_card_le_of_stab {G : Type} [Group G] [Finite G] {Bs : Subgroup G} {x : G}
     (hx : x ∈ Bs) {S : ℕ}

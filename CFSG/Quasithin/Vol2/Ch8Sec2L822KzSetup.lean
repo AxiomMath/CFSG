@@ -83,18 +83,18 @@ theorem exists_sylow3_oTwoUpper_kz {H : Subgroup G}
           Nonempty ((↥L ⧸ CFSG.pCore 2 ↥L) ≃* CFSG.Blueprint.NativeSporadic.Carrier .He)))
 
 theorem exists_z_prop134_kz (h134 : EmptyFaithfulMultiple.Prop134E9He)
-    (hyp : Hyp7_0_2 G T L I) (h731 : Hyp7_3_1 T L I) (h821 : Hyp8_2_1 T L I)
+    (hyp : Hyp7_0_2 G T L I) (_h731 : Hyp7_3_1 T L I) (_h821 : Hyp8_2_1 T L I)
     [hc : IsMulCommutative ↥(fsuV T I)] (hrow : Case8_2 T L I) (h711n : Stmt7_1_1_normal)
     (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQTK) (h3228 : Stmt3_2_2_eight)
     (hC58 : TheoremC58) (h317 : AS317Sylow)
-    {H : Subgroup G} (hH : IsHStar T (fsuM T L) H) (hVH : fsuV T I ≤ pCoreOf 2 H)
+    {H : Subgroup G} (hH : IsHStar T (fsuM T L) H) (_hVH : fsuV T I ≤ pCoreOf 2 H)
     (φ : ↥H →* S3Wr) (hφs : Function.Surjective φ) (hφk : φ.ker = (pCoreOf 2 H).subgroupOf H) :
     ∃ z : G, z ≠ 1 ∧ z ∈ fsuV T I ∧ z ∈ quasithinOmegaOneCenter T ∧
       H ≤ Subgroup.centralizer ({z} : Set G) ∧ T ≤ Subgroup.centralizer ({z} : Set G) ∧
       ∃ P : Subgroup G, P ≤ twoResidual H ∧ IsPGroup 3 P ∧ Nat.card P = 9 ∧
         Kz134Concl_kz (Subgroup.centralizer ({z} : Set G)) T (twoResidual H) P := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hV, hN⟩ := stmtFSUModule_of_eight h3228 G T L I hyp.fsu
   have hTL : T ≤ Subgroup.normalizer (L : Set G) := le_normalizer_of_case82 h711n hyp hrow
   have hne := fsuV_inf_omegaOneCenter_ne_bot hyp.fsu hV hN

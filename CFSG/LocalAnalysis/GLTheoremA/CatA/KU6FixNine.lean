@@ -128,8 +128,8 @@ theorem false_of_nine (A : Subgroup (MulAut S6)) (hA : IsElemAbelian 3 A) (hcard
     (B : Gu) {c : F4ˣ} (hc : c ≠ 1)
     (hBc : (B : GL (Fin 6) F4) ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin 6) c)
     (hBA : Psi0 B ∈ A) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π : Gu →* PGU6 := QuotientGroup.mk' ZG with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective ZG
   have hk : Nat.card π.ker = 3 := by rw [hπ, QuotientGroup.ker_mk']; exact card_ZG
@@ -207,7 +207,7 @@ theorem false_of_nine (A : Subgroup (MulAut S6)) (hA : IsElemAbelian 3 A) (hcard
     rw [hD, finrank_hperp]
     omega
   obtain ⟨r, hr0, hrR⟩ : ∃ r : Fin 6 → F4, r ≠ 0 ∧ r ∈ R := by
-    letI := nzAct T₀.subtype D hDT₀
+    let := nzAct T₀.subtype D hDT₀
     have hnd : ¬ 2 ∣ Nat.card {w : Fin 6 → F4 // w ∈ D ∧ w ≠ 0} := by
       rw [card_nonzero]
       exact not_two_dvd_four_pow_sub_one hD1
@@ -261,7 +261,7 @@ theorem false_of_nine (A : Subgroup (MulAut S6)) (hA : IsElemAbelian 3 A) (hcard
       _ = B * ((k : Ah) : Gu) := by rw [h1, one_mul]
   have hRK : ∀ k : K, ∀ w ∈ R, gm (ρ k) *ᵥ w ∈ R := fun k w hw =>
     hRAh _ (k : Ah).2 w hw
-  letI := nzAct ρ R hRK
+  let := nzAct ρ R hRK
   have hfree : ∀ (k : K) (x : {w : Fin 6 → F4 // w ∈ R ∧ w ≠ 0}), k • x = x → k = 1 := by
     intro k x hx
     have hx1 : gm (ρ k) *ᵥ x.1 = x.1 := congrArg Subtype.val hx

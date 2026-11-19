@@ -153,8 +153,8 @@ theorem exists_diagonal_of_rootCocycle_twist4 [Fintype K] [CharP K 2]
   have hZ : ∀ β ∈ posRoot, ∀ t (a b d : Fin 4 → ℤ), a - b = d → d ≠ β → d ≠ -β → d ≠ 0 →
       ent (δ β t) a b = 0 := by
     intro β hβ t a b d hd h1 h2 h3
-    rw [hNF β hβ t a b, if_neg fun h => h1 (by rw [← hd, h]; abel),
-      if_neg fun h => h2 (by rw [← hd, h]; abel)]
+    rw [hNF β hβ t a b, ite_eq_right fun h => h1 (by rw [← hd, h]; abel),
+      ite_eq_right fun h => h2 (by rw [← hd, h]; abel)]
   have hcomm : ∀ β ∈ posRoot, ∀ γ ∈ posRoot, β ≠ γ → β + γ ∉ posRoot → ∀ φ ∈ W, φ + β ∈ W →
       φ + γ ∈ W → ν β φ = ν γ φ := by
     intro β hβ γ hγ hne hβγ φ hφ h1 h2
@@ -171,11 +171,11 @@ theorem exists_diagonal_of_rootCocycle_twist4 [Fintype K] [CharP K 2]
     have z4 : ent (δ γ 1) (φ + β) (φ + γ + -β) = 0 :=
       hZ γ hγ 1 _ _ (β + β - γ) (by abel) f9 f10 f11
     have n1 : ent (δ γ 1) (φ + β - β) (φ + γ) = ν γ φ := by
-      rw [add_sub_cancel_right, hNF γ hγ 1 φ (φ + γ), if_neg (vec_ne_of_sub_ne (by
-        rw [show φ - (φ + γ + γ) = -(γ + γ) by abel]; exact neg_ne_zero.2 f12)), if_pos rfl,
+      rw [add_sub_cancel_right, hNF γ hγ 1 φ (φ + γ), ite_eq_right (vec_ne_of_sub_ne (by
+        rw [show φ - (φ + γ + γ) = -(γ + γ) by abel]; exact neg_ne_zero.2 f12)), ite_eq_left rfl,
         inv_one, one_mul]
     have n2 : ent (δ β 1) (φ + β) (φ + γ + -γ) = ν β φ := by
-      rw [show φ + γ + -γ = φ by abel, hNF β hβ 1 (φ + β) φ, if_pos rfl, one_mul]
+      rw [show φ + γ + -γ = φ by abel, hNF β hβ 1 (φ + β) φ, ite_eq_left rfl, one_mul]
     rw [z1, z2, z3, z4, n1, n2] at e
     have h2' : (2 : K) = 0 := CharTwo.two_eq_zero
     linear_combination e - ν γ φ * h2'
@@ -186,7 +186,7 @@ theorem exists_diagonal_of_rootCocycle_twist4 [Fintype K] [CharP K 2]
     intro β hβ χ hχ hχβ
     have h : ∃ β ∈ posRoot, χ + β ∈ W := ⟨β, hβ, hχβ⟩
     have hspec := h.choose_spec
-    simp only [hl_def, dif_pos h]
+    simp only [hl_def, dite_eq_left h]
     by_cases heq : h.choose = β
     · rw [heq]
     · exact hcomm _ hspec.1 β hβ heq (hmin _ hspec.1 β hβ χ hχ hspec.2 hχβ) χ hχ hspec.2 hχβ
@@ -218,7 +218,7 @@ theorem exists_diagonal_of_rootCocycle_twist4 [Fintype K] [CharP K 2]
     have hn : ¬ (ψ : Fin 4 → ℤ) = χ + -β := fun h => hββ (by
       have h3 : β = -β := add_left_cancel (h1.symm.trans h)
       rw [show β + β = β - -β by abel, ← h3, sub_self])
-    simp only [if_pos h1, if_neg hn, Matrix.one_apply_ne hne]
+    simp only [ite_eq_left h1, ite_eq_right hn, Matrix.one_apply_ne hne]
     rw [hl β hβ χ χ.2 (h1 ▸ ψ.2)]
     linear_combination t * ν β χ * h2'
   · by_cases h2 : (χ : Fin 4 → ℤ) = ψ + β
@@ -227,11 +227,11 @@ theorem exists_diagonal_of_rootCocycle_twist4 [Fintype K] [CharP K 2]
         rw [e] at h
         simpa using h.symm)
       have hn : (ψ : Fin 4 → ℤ) = χ + -β := by rw [h2]; abel
-      simp only [if_neg h1, if_pos h2, if_pos hn, Matrix.one_apply_ne hne]
+      simp only [ite_eq_right h1, ite_eq_left h2, ite_eq_left hn, Matrix.one_apply_ne hne]
       rw [hl β hβ ψ ψ.2 (h2 ▸ χ.2), hinv]
       ring
     · have hn : ¬ (ψ : Fin 4 → ℤ) = χ + -β := fun h => h2 (by rw [h]; abel)
-      simp only [if_neg h1, if_neg h2, if_neg hn]
+      simp only [ite_eq_right h1, ite_eq_right h2, ite_eq_right hn]
       by_cases h3 : ψ = χ
       · subst h3
         rw [Matrix.one_apply_eq]

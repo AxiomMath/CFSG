@@ -22,6 +22,7 @@ private noncomputable def w183b2_swapEquiv (hL : Br2TwoComp Y T L₁ L₂) : ↥
       (show L₁.map (MulAut.conj (Classical.choose hL.swap)).toMonoidHom = L₂ from
         (Classical.choose_spec hL.swap).2))
 
+omit [Finite V] in
 private theorem w183b2_shape_of_swap (hL : Br2TwoComp Y T L₁ L₂)
     (hshape : IsL3 ↥L₁ 2 ∨ IsAlt ↥L₁ 6 ∨ IsSp4 ↥L₁ 2) :
     IsL3 ↥L₂ 2 ∨ IsAlt ↥L₂ 6 ∨ IsSp4 ↥L₂ 2 := by

@@ -35,10 +35,10 @@ theorem isSylowOf_top_of_normalizer_le {T M : Subgroup G} (hT : IsSylowOf 2 T M)
   have hTS' : T = S := by
     by_contra hne
     obtain ⟨y, hyS, hyT, hyN⟩ :=
-      exists_mem_normalizer_not_mem_of_lt S.isPGroup' (lt_of_le_of_ne hTS hne)
+      exists_mem_normalizer_not_mem_of_lt S.isPGroup (lt_of_le_of_ne hTS hne)
     have hQ : T ⊔ zpowers y = T :=
       hT.eq_of_le le_sup_left (sup_le hT.le (zpowers_le.mpr (hN hyN)))
-        (S.isPGroup'.to_le (sup_le hTS (zpowers_le.mpr hyS)))
+        (S.isPGroup.to_le (sup_le hTS (zpowers_le.mpr hyS)))
     exact hyT (hQ ▸ mem_sup_right (mem_zpowers y))
   rw [isSylowOf_iff]
   refine ⟨le_top, hT.isPGroup, ?_⟩

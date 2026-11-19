@@ -93,7 +93,7 @@ theorem ggTorusReflGenW_E8Plus_large
   refine ggTorusReflGenW_of_excPlusModel hp hp2
     (ggExcPlusWeylModelSCr_of_frameModel (Or.inr rfl) hp hp2 K
       (excPlusFrameModel_large (Or.inr rfl) hp h11 K hpq fun Fr hFr X hX hXC hXF => ?_))
-  haveI := hX
+  have := hX
   exact Subgroup.relIndex_eq_one.1 (Nat.dvd_one.1
     (CFSG.RankThree.PartOne.KE.finite_fixed_subgroup_rational_perfect (τ := .E8) (K := K)
       (L := AlgebraicClosure K) 1 (Or.inr (Or.inr ⟨rfl, rfl⟩)) Fr hFr X hXC hXF).1)
@@ -107,7 +107,7 @@ theorem ggTorusReflGenW_E7Plus_large
   refine ggTorusReflGenW_of_excPlusModel hp hp2
     (ggExcPlusWeylModelSCr_of_frameModel (Or.inl rfl) hp hp2 K
       (excPlusFrameModel_large (Or.inl rfl) hp h11 K hpq fun Fr hFr X hX hXC hXF => ?_))
-  haveI := hX
+  have := hX
   exact finite_fixed_le_map_adjointGroup_E7 Fr hFr X hXC hXF
 
 end CFSG.StandardType

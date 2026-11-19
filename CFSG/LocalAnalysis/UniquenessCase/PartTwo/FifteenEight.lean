@@ -203,7 +203,7 @@ theorem s15_Eight_fix_of_ne (D : Data G) {V₀ V L : Subgroup G} (h : Hyp154 D V
   exact one_mem _
 
 theorem s15_Eight_fix_of_s_two (D : Data G) {V₀ V L : Subgroup G} (h : Hyp154 D V₀ V L)
-    (hV : IsElemAbelian 2 V) (hL : barSub V₀ V hV L ≠ ⊥) {g : G} {B : Subgroup G}
+    (hV : IsElemAbelian 2 V) (_hL : barSub V₀ V hV L ≠ ⊥) {g : G} {B : Subgroup G}
     (hB : B = conjSubgroup (wSub V₀ V hV L ⊔ v1Sub D.M V₀ V hV L) g)
     (hgM : conjSubgroup V g ≤ D.M) (hVg : ¬ V ≤ conjSubgroup D.M g)
     (hs : s15 D.M V₀ V hV L = 2 ∧ delta15 D.M V₀ V hV L < gamma15 D.M V₀ V hV L - 1)

@@ -42,7 +42,7 @@ theorem isSimpleGroup_unitarySU_four {k : ℕ} {F : Type} [Field F] (h₀ : Unit
       exact Nat.Coprime.pow_left 2 (Nat.coprime_two_left.mpr hodd)
     exact CFSG.RankThree.PartOne.KFU.scalars_subgroupOf_eq_bot
       (by rw [h₀.card, ← pow_mul, mul_comm]) (by norm_num) hcop
-  haveI := CFSG.SeitzReduction.UnitaryPilot.isSimpleGroup_unitaryPSU_of_three_le h₀
+  have := CFSG.SeitzReduction.UnitaryPilot.isSimpleGroup_unitaryPSU_of_three_le h₀
     (n := 4) (by norm_num) (by simp)
   exact ((QuotientGroup.quotientMulEquivOfEq hbot).trans
     QuotientGroup.quotientBot).symm.isSimpleGroup
@@ -52,22 +52,22 @@ theorem u4Excl429 {k : ℕ} {F : Type} [Field F] (h₀ : UnitaryFieldData 2 k F)
     (hJperf : Group.IsPerfect J) (hsub : (J.subgroupOf C).IsSubnormal)
     (htype : IsType429 (J ⧸ CFSG.pCore 2 J)) : False := by
   obtain ⟨eC⟩ := hC
-  haveI := hJperf
+  have := hJperf
   obtain ⟨E, hEJ, -, hE3, hE9, -⟩ := exists_e9_of_type429 htype
   obtain ⟨k₀, hk₀E, hk₀1, hk₀3⟩ := exists_ne_one_pow_three hE3 hE9
   have hk₀J : k₀ ∈ J := hEJ hk₀E
   have hJnt : J ≠ ⊥ := fun hb => hk₀1 ((Subgroup.mem_bot).mp (hb ▸ hk₀J))
   have hk₀1' : (⟨k₀, hk₀J⟩ : J) ≠ 1 := fun h => hk₀1 (congrArg Subtype.val h)
   have hk₀3' : (⟨k₀, hk₀J⟩ : J) ^ 3 = 1 := Subtype.ext (by simpa using hk₀3)
-  haveI := isSimpleGroup_unitarySU_four h₀
+  have := isSimpleGroup_unitarySU_four h₀
   have hCs' : IsSimpleGroup C := eC.isSimpleGroup
   have hJC' : J = C := eq_of_subnormal_of_le_simple hJC le_rfl hsub hCs' hJnt
-  haveI hJs : IsSimpleGroup J := by
+  have hJs : IsSimpleGroup J := by
     rw [hJC']
     exact hCs'
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : CFSG.pCore 2 J = ⊥ := by
-    haveI : (CFSG.pCore 2 J).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore 2 J).Normal := CFSG.pCore_normal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 J) with h | h
     · exact h
     · exfalso
@@ -115,7 +115,7 @@ section Chain
 
 theorem exists_autFix_mulEquiv_unitarySU_four {n : ℕ} (hn1 : 1 ≤ n)
     {α : MulAut (projSU 4 2 n)} (hα3 : α ^ 3 = 1) (hout : ¬ IsInnerAut α) :
-    ∃ k : ℕ, n = 3 * k ∧ 1 ≤ k ∧ ∃ (F : Type) (_ : Field F) (h₀ : UnitaryFieldData 2 k F),
+    ∃ k : ℕ, n = 3 * k ∧ 1 ≤ k ∧ ∃ (F : Type) (_ : Field F) (_h₀ : UnitaryFieldData 2 k F),
       Nonempty (Sec4.autFix α ≃* unitarySU 2 k F 4) := by
   have hU := unitaryFieldData_galoisField 2 n hn1
   have hC : IsPrimeFormGram (1 : GL (Fin 4) (GaloisField 2 (2 * n))) := isPrimeFormGram_one_GL
@@ -203,7 +203,7 @@ theorem seven_SU4_of (hU4 : U4OddInner429) :
   intro n hn
   refine rowSOf429_of_noCfg fun S _ _ hs hna ⟨eS⟩ => ?_
   intro A σ K hc
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   have hσ3 := cfgS429_pow_three hc
   set α := MulAut.congr eS σ with hα
   have hα3 : α ^ 3 = 1 := by rw [hα, ← map_pow, hσ3, map_one]

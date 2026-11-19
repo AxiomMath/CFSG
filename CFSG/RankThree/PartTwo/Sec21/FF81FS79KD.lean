@@ -56,7 +56,7 @@ theorem kdata_T : S.KData J6.T1 J6.c₂ J6.e1 where
   Na := S.nf_t_cl1 J6.cl1_e1
   Nb := S.nf_t_tcl1 J6.cl1_e1
   Nc := fun hc => S.nf_tcl1_cl1 J6.cl1_e1 J6.cl1_e1 hc.symm
-  Nd := fun r hr => S.nf_cen_cl1 hr J6.cl1_e1
+  Nd := fun _r hr => S.nf_cen_cl1 hr J6.cl1_e1
 
 theorem kdata_V (h34 : R34Stmt b b₁ b₂) : S.KData J6.V1 J6.c0 (J6.e1 * J6.pp * J6.qq) where
   sqA := fun s hs => J6.V1fin_sq s hs
@@ -72,17 +72,18 @@ theorem kdata_V (h34 : R34Stmt b b₁ b₂) : S.KData J6.V1 J6.c0 (J6.e1 * J6.pp
   Na := S.nf_t_cl3 J6.cl3_y
   Nb := S.nf_t_tcl3 h34 J6.cl3_y
   Nc := fun hc => S.nf_tcl3_cl3 h34 J6.cl3_y J6.cl3_y hc.symm
-  Nd := fun r hr => S.nf_cen_cl3 hr J6.cl3_y
+  Nd := fun _r hr => S.nf_cen_cl3 hr J6.cl3_y
 
 
 end Std
 
+omit [Finite H] in
 theorem conj_hom_apply (g x : H) : (MulAut.conj g).toMonoidHom x = g * x * g⁻¹ := by
   simp [MulAut.conj_apply]
 
 theorem abgSylow_to_ff79 {G : Type} [Group G] [Finite G] {P K : Subgroup G}
     (h : CFSG.ABGLocalTools.IsSylowOf 3 P K) : IsSylowOf 3 P K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hle, hp, hdvd⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp h
   exact ⟨hle, hp, (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hdvd⟩
 
@@ -128,7 +129,7 @@ theorem not_conj_TV (h34 : R34Stmt b b₁ b₂) (g : H) :
     have h1 : S.ι J6.c₂ ^ 3 = 1 := by rw [← map_pow, J6.c₂_pow_three, map_one]
     have h2 : w ^ 3 = g * S.ι J6.c₂ ^ 3 * g⁻¹ := by
       have := map_pow (MulAut.conj g) (S.ι J6.c₂) 3
-      simpa [MulAut.conj_apply, hw] using this
+      simp [hw]
     rw [h2, h1]
     group
   have hXp : IsPGroup 3 (Subgroup.zpowers w) := isPGroup_zpowers_of_pow_three hw3

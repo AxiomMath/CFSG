@@ -38,7 +38,7 @@ theorem card_le_four_of_sq_eq_one (E : Subgroup SL32) (hE : ∀ a ∈ E, a ^ 2 =
       _ = 4 := by norm_num
   · exfalso
     obtain ⟨P, hEP⟩ := hp.exists_le_sylow
-    obtain ⟨j, hj3, hj⟩ := exists_card_of_isPGroup (P : Subgroup SL32) P.isPGroup'
+    obtain ⟨j, hj3, hj⟩ := exists_card_of_isPGroup (P : Subgroup SL32) P.isPGroup
     have hEq : E = (P : Subgroup SL32) := by
       refine Subgroup.eq_of_le_of_card_ge hEP ?_
       rw [hj, hk]

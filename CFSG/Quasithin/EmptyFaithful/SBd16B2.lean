@@ -272,7 +272,7 @@ theorem RestHyp.exists_sylow_X (r : RestHyp T Mc M V₁ V₂ Yp I L t) (h113 : S
   obtain ⟨P, hdP⟩ := (isPGroup_zpowers_of_pow_three hdY3).exists_le_sylow
   set X : Subgroup G := (P : Subgroup ↥Yp).map Yp.subtype with hX
   have hXY : X ≤ Yp := Subgroup.map_subtype_le _
-  have hX3 : IsPGroup 3 ↥X := P.isPGroup'.map Yp.subtype
+  have hX3 : IsPGroup 3 ↥X := P.isPGroup.map Yp.subtype
   have hXi : ¬ 3 ∣ X.relIndex Yp := by
     have hsub : X.subgroupOf Yp = (P : Subgroup ↥Yp) :=
       Subgroup.comap_map_eq_self_of_injective Yp.subtype_injective _

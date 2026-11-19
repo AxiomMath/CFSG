@@ -340,7 +340,7 @@ theorem gms_singer_field [Finite D] {J R X U P : Subgroup D} {n : ℕ}
     ⟨hPN, ⟨TP, hTP⟩, -, -, hPNU, -, -, -⟩⟩ := h
   have : IsElementaryAbelian 2 U := hUel
   have hP2 : IsPGroup 2 P := by
-    have h1 : IsPGroup 2 (P.subgroupOf (normalizer (R : Set D))) := hTP ▸ TP.isPGroup'
+    have h1 : IsPGroup 2 (P.subgroupOf (normalizer (R : Set D))) := hTP ▸ TP.isPGroup
     exact h1.of_equiv (subgroupOfEquivOfLe hPN)
   have : Nontrivial (Additive U) := by
     have h1 : 1 < Nat.card (Additive U) := by
@@ -604,7 +604,7 @@ theorem gms_normal_root_singer_action_and_weak_closure [Finite D] {J R X U P : S
   have hVel := isElementaryAbelian_sup_of_centralizes hUel hRel hRU
   have hVP : U ⊔ R ≤ P := sup_le hUP hRP
   have hP2 : IsPGroup 2 P := by
-    have h1 : IsPGroup 2 (P.subgroupOf (normalizer (R : Set D))) := hTP ▸ TP.isPGroup'
+    have h1 : IsPGroup 2 (P.subgroupOf (normalizer (R : Set D))) := hTP ▸ TP.isPGroup
     exact h1.of_equiv (subgroupOfEquivOfLe hPN)
   have hker' : φ.ker = (U ⊔ R).subgroupOf P := by rw [hker, hCPU]
   have hquot : ∀ [((U ⊔ R).subgroupOf P).Normal], IsCyclic (P ⧸ (U ⊔ R).subgroupOf P) ∧

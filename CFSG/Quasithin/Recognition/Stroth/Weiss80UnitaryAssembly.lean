@@ -19,25 +19,23 @@ theorem weiss80UnitaryAssembly :
       QuadrangleIdentification → MoufangLittleNormal 4 → StabilizersOfPolygon 4 →
       ExtensionOfStabilizers → BorelResidualSplitTransport → Un5BorelResidualSplit →
       Weiss80UnitaryOfLeaves := by
-  intro hEmb hRGR hRTS hQuad hMLN hStab hExt hBRST hUn5BRS
-  intro hPoly hHerm hRootsAb hSubNat hNonab
-  intro X _ _ P1 P2 k m F _ _ hk hm hF hm2k hMouf hU3N hL2N hV1 hV2
+  intro hEmb hRGR hRTS hQuad hMLN hStab hExt hBRST hUn5BRS hPoly hHerm hRootsAb hSubNat hNonab X _ _ P1 P2 k m F _ _ hk hm hF hm2k hMouf hU3N hL2N hV1 hV2
   obtain ⟨Y, hY, hFinY, c, hcFaith, hcProj, hcMouf, hcWf, hcGirth⟩ :=
     ofSubgroups_exists_faithful_finite_completion_weiss P1 P2 (n := 4) (by norm_num)
       hMouf (2 * 4 + 2)
-  letI : Group Y := hY
-  letI : Finite Y := hFinY
+  let : Group Y := hY
+  let : Finite Y := hFinY
   obtain ⟨V, hFinV, Δ, hDecΔ, D, hD, hFinD, hAct, hFaith, hGraphAct, u, v, ψ1, ψ2, ι,
     hGP, hThick, huv, hMoufΔ, hψ1u0, hψ2v0, hWEmb, huVal, hvVal⟩ :=
     hPoly X P1 P2 k m F hk hm hF hm2k hU3N hL2N hV1 hV2 Y c hcFaith hcMouf hcWf
       (show ((2 * 4 + 2 : ℕ) : ℕ∞) < c.graph.egirth by simpa using hcGirth)
-  letI : Fintype V := hFinV
-  letI : DecidableRel Δ.Adj := hDecΔ
-  letI : Group D := hD
-  letI : Finite D := hFinD
-  letI : MulAction D V := hAct
-  letI : FaithfulSMul D V := hFaith
-  letI : GraphAction D Δ := hGraphAct
+  let : Fintype V := hFinV
+  let : DecidableRel Δ.Adj := hDecΔ
+  let : Group D := hD
+  let : Finite D := hFinD
+  let : MulAction D V := hAct
+  let : FaithfulSMul D V := hFaith
+  let : GraphAction D Δ := hGraphAct
   have hApt : ∃ t : ZMod (2 * 4) → V, IsPolygonApartment Δ 4 t ∧ t 4 = v ∧ t 5 = u :=
     exists_polygonApartment_through_edge (Γ := Δ) (n := 4) (by norm_num) hGP hThick
       (v := v) (u := u) huv.symm
@@ -190,16 +188,16 @@ theorem weiss80UnitaryAssembly :
     rw [hmap]
     have : Nat.card (pathRootGroup D Δ q) = 2 ^ m := by omega
     exact this
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := by
-    letI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := by
+    let : Fintype F := Fintype.ofFinite F
     have hcard : Fintype.card F = 2 ^ (2 * k) := by
       rw [← Nat.card_eq_fintype_card, hF, pow_two, ← pow_add]
       congr 1
       omega
     exact charP_of_card_eq_prime_pow (p := 2) (f := 2 * k) hcard
   obtain ⟨ζ, hζ⟩ := exists_traceZero_ne_zero (p := 2) (f := k) hF
-  letI : Fact ((ζ : F) ≠ 0) := ⟨hζ⟩
+  let : Fact ((ζ : F) ≠ 0) := ⟨hζ⟩
   have hdegOr : ∀ w : V, Δ.degree w = 2 ^ m + 1 ∨ Δ.degree w = 2 ^ (3 * k) + 1 := by
     intro w
     rcases degree_eq_degree_u_or_degree_v_of_adj_orbit (Γ := Δ) (D := D) hGP.connected
@@ -279,7 +277,7 @@ theorem weiss80UnitaryAssembly :
       R.P₂.map κ'.toMonoidHom = M.P₂ := by
     have h := map_parabolic_eq_or R M κ' hBmap false
     simpa [CFSG.Quasithin.H13.F431.BN.P_false] using h
-  haveI : IsSimpleGroup (Un5Group k F) := isSimpleGroup_un5 hF
+  have : IsSimpleGroup (Un5Group k F) := isSimpleGroup_un5 hF
   have hYamModel : IsYAmalgamPair M.U M.P₁ M.P₂ :=
     CFSG.Quasithin.H13.F431.BN.isYAmalgamPair M hmodelSylow
   have hYamSwap : IsYAmalgamPair M.U M.P₂ M.P₁ := by
@@ -331,9 +329,9 @@ theorem weiss80UnitaryAssembly :
             have h45 : (((4 : ℕ) : ZMod (2 * 4)) + 1) = ((5 : ℕ) : ZMod (2 * 4)) := by
               norm_num
             rw [h45]
-            simpa [ht5]
+            simp [ht5]
           · rw [hRP2]
-            simpa [ht4])
+            simp [ht4])
       hUle hSylowU hBRS
   have hNdiag : Subgroup.normalizer ((L ⊓ Du ⊓ Dv : Subgroup D) : Set D) ≤ Du := by
     refine normalizer_chamber_le_left (Γ := Δ) (D := D) (L := L) (Du := Du) (Dv := Dv)

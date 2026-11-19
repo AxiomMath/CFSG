@@ -33,7 +33,7 @@ theorem isStronglyPEmbedded_map_quotient_pPrimeCore {A : Type*} [Group A] [Finit
     (hne : ¬ H ≤ H₀ ⊔ CFSG.Open.relPPrimeCore 3 H) :
     CFSG.RankThree.PartOne.IsStronglyPEmbedded 3
       ((H₀.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine isStronglyPEmbedded_map_mk_of_sup_ne_top Nat.prime_three hY
     (N := CFSG.pPrimeCore 3 ↥H) ?_ ?_
   · exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card
@@ -52,7 +52,7 @@ theorem exists_sylow_two_le_map_quotient {A : Type*} [Group A] [Finite A] {H H�
       (S' : Subgroup (↥H ⧸ CFSG.pPrimeCore 3 ↥H)) ≤
         (H₀.subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)) := by
   obtain ⟨S, hSyl, hSH₀⟩ := hS
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   obtain ⟨Q, hQ⟩ := hSyl.exists_sylow_eq_subgroupOf
   refine ⟨Q.mapSurjective (QuotientGroup.mk'_surjective _), ?_⟩
   rw [Sylow.coe_mapSurjective]

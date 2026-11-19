@@ -18,7 +18,7 @@ open Snd (decR)
 
 theorem partM_lt {P : Pt} {d : FDN} {i : Nat} (hi : i < 10) : partM P d i = partN P 0 d i := by
   unfold partM
-  simp only [Nat.blt_eq.mpr hi, cond_true]
+  simp only [Nat.blt_eq.mpr hi, _root_.Bool.cond_true]
 
 theorem verifyRepM_of {P0 : Pt} {cand : List Refl} {rp : NRep}
     (hw : ∀ c, rp.kind ≠ .w (.weyl c)) (h : verifyRepD P0 cand rp = true) :
@@ -41,19 +41,19 @@ theorem partM_verify (P : Pt) (d : FDN) (h : ∀ i < 16, partM P d i = true) :
   have h15 := h 15 (by norm_num)
   unfold partN at h0 h9
   unfold partM at h14 h15
-  simp only [Nat.beq_refl, cond_true, beqF (by norm_num : (9 : Nat) ≠ 0),
-    bltF (by norm_num : ¬ (9 : Nat) < 9), cond_false] at h0 h9
-  simp only [Nat.beq_refl, cond_true, bltF (by norm_num : ¬ (14 : Nat) < 10),
+  simp only [Nat.beq_refl, _root_.Bool.cond_true, beqF (by norm_num : (9 : Nat) ≠ 0),
+    bltF (by norm_num : ¬ (9 : Nat) < 9), Bool.cond_false] at h0 h9
+  simp only [Nat.beq_refl, _root_.Bool.cond_true, bltF (by norm_num : ¬ (14 : Nat) < 10),
     bltF (by norm_num : ¬ (14 : Nat) < 14), bltF (by norm_num : ¬ (15 : Nat) < 10),
-    bltF (by norm_num : ¬ (15 : Nat) < 14), beqF (by norm_num : (15 : Nat) ≠ 14), cond_false,
+    bltF (by norm_num : ¬ (15 : Nat) < 14), beqF (by norm_num : (15 : Nat) ≠ 14), Bool.cond_false,
     Bool.true_and] at h14 h15
   have hmsk : ∀ k < 8, mskB (ptF P) P.D (cloE (gensK P) rows)
       (slc (Nat.succ (Nat.div bk.length 8)) k bk) = true := by
     intro k hk
     have := hN (k + 1) (by omega)
     unfold partN at this
-    simp only [beqF (by omega : k + 1 ≠ 0), cond_false,
-      Nat.blt_eq.mpr (by omega : k + 1 < 9), cond_true] at this
+    simp only [beqF (by omega : k + 1 ≠ 0), Bool.cond_false,
+      Nat.blt_eq.mpr (by omega : k + 1 < 9), _root_.Bool.cond_true] at this
     exact this
   have htg : ∀ k < 4, all2 (tagM (ptF P) P.D (gensK P).length
       (Nat.add (gensK P).length rows.length) (pk P.D P.x) (gensK P) (cloE (gensK P) rows) R1)
@@ -62,8 +62,8 @@ theorem partM_verify (P : Pt) (d : FDN) (h : ∀ i < 16, partM P d i = true) :
     intro k hk
     have := h (k + 10) (by omega)
     unfold partM at this
-    simp only [bltF (by omega : ¬ k + 10 < 10), cond_false,
-      Nat.blt_eq.mpr (by omega : k + 10 < 14), cond_true, Nat.add_sub_cancel] at this
+    simp only [bltF (by omega : ¬ k + 10 < 10), Bool.cond_false,
+      Nat.blt_eq.mpr (by omega : k + 10 < 14), _root_.Bool.cond_true] at this
     exact this
   change (Nat.beq P.p 3 && Nat.ble 1 P.D && Nat.ble P.D 9 && allK (reflOK (fdB 3 P.D)) (gensK P) &&
       allK (fun g => Nat.beq (dotK (fdB 3 P.D) g.2 (pk P.D P.x)) 0) (gensK P) &&
@@ -172,7 +172,7 @@ theorem partM_verify (P : Pt) (d : FDN) (h : ∀ i < 16, partM P d i = true) :
       exact absurd h2 (by decide)
     · rw [e] at h3
       exact h3
-    · rw [beqF e, cond_false] at h3
+    · rw [beqF e, Bool.cond_false] at h3
       simp only [recBad, Bool.and_eq_true, Bool.or_eq_true, Nat.beq_eq] at h3
       exact h3.2
   have hv0 : vFixN P = true := by
@@ -267,7 +267,7 @@ theorem partM_verify (P : Pt) (d : FDN) (h : ∀ i < 16, partM P d i = true) :
       rw [← dotK_packR hp hD, hpr]
       simpa using hmK
     by_cases hz : rp.2.1 = 0
-    · have hk : (NK.NS.mk1 P cd rp).kind = .cent := if_pos hz
+    · have hk : (NK.NS.mk1 P cd rp).kind = .cent := ite_eq_left hz
       refine verifyRepM_of (by rw [hk]; intro c hc; cases hc) ?_
       unfold verifyRepD
       rw [hbase, Bool.true_and, hk]
@@ -277,7 +277,7 @@ theorem partM_verify (P : Pt) (d : FDN) (h : ∀ i < 16, partM P d i = true) :
       exact hk0 hz
     · obtain ⟨hkk, hchk⟩ := hk1 hz
       have hk : (NK.NS.mk1 P cd rp).kind = .w (witB (ptX P [rp.1] P.bound) rp.2.2.1.1) :=
-        if_neg hz
+        ite_eq_right hz
       obtain ⟨hbad, hver⟩ := witB_bad hchk hkk
       refine verifyRepM_of ?_ ?_
       · rw [hk]
@@ -320,7 +320,7 @@ theorem partM_verify (P : Pt) (d : FDN) (h : ∀ i < 16, partM P d i = true) :
       unfold centEntryOK
       rw [hget]
       by_cases hz : R1[j].2.1 = 0
-      · have hk : (NK.NS.mk1 P cd R1[j]).kind = .cent := if_pos hz
+      · have hk : (NK.NS.mk1 P cd R1[j]).kind = .cent := ite_eq_left hz
         obtain ⟨hrf, -, -, -⟩ := hR1 R1[j] (List.getElem_mem hj)
         obtain ⟨hr, -⟩ := canon_facts hp hD hca hrf
         rw [hz] at hc'
@@ -345,7 +345,7 @@ theorem partM_verify (P : Pt) (d : FDN) (h : ∀ i < 16, partM P d i = true) :
           rw [e, decR_negRf hp, negR_eq hp]
           exact Snd.reqb_self _
       · have hk : (NK.NS.mk1 P cd R1[j]).kind =
-            .w (witB (ptX P [R1[j].1] P.bound) R1[j].2.2.1.1) := if_neg hz
+            .w (witB (ptX P [R1[j].1] P.bound) R1[j].2.2.1.1) := ite_eq_right hz
         dsimp only
         rw [hk]
   refine ⟨T, ?_⟩

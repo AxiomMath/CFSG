@@ -56,7 +56,7 @@ private theorem exists_mem_locC_of_not_le
     refine lt_top_iff_ne_top.2 fun htop => hne fun r hr => ?_
     have h1 : (⟨r, hr⟩ : R) ∈ Q' := htop ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 h1
-  obtain ⟨y, hyN, hyQ⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q' hlt)
+  obtain ⟨y, hyN, hyQ⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q' hlt)
   have hconj : ∀ u : R, u ∈ Subgroup.normalizer (Q' : Set R) → ∀ q ∈ locQ,
       ((u : co2P) : Equiv.Perm (Fin 2300)) * q * ((u : co2P) : Equiv.Perm (Fin 2300))⁻¹ ∈
         locQ := by

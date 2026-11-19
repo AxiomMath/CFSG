@@ -17,13 +17,13 @@ private theorem finrank_img_Vt_eq_two {K : Type} [Field K] [Finite K] {γ : G �
     {M₀ : Tim79.QuadModel Q Z K γ} (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     {t : G} (h2 : SLMNat hc t 2) :
     Module.finrank K (imgSub M₀ (Vt M (LB M Q B) B Z t)
-      (fun s e he => hc.smul_mem_img_Vt h t s he)) = 2 := by
+      (fun s _e he => hc.smul_mem_img_Vt h t s he)) = 2 := by
   let V := Vt M (LB M Q B) B Z t
   let Vsub : Submodule K M₀.E :=
-    imgSub M₀ V (fun s e he => hc.smul_mem_img_Vt h t s he)
-  have hVsub_mem : ∀ e, e ∈ Vsub ↔ e ∈ M₀.img V := fun e => mem_imgSub
+    imgSub M₀ V (fun s _e he => hc.smul_mem_img_Vt h t s he)
+  have hVsub_mem : ∀ _e, _e ∈ Vsub ↔ _e ∈ M₀.img V := fun _e => mem_imgSub
   have hVcardImg : Nat.card ↥Vsub = Nat.card (M₀.img V) :=
-    Nat.card_congr (Equiv.subtypeEquivRight fun e => (hVsub_mem e).symm)
+    Nat.card_congr (Equiv.subtypeEquivRight fun _e => (hVsub_mem _e).symm)
   have hcard : Nat.card ↥V = Nat.card Z * Nat.card (M₀.img V) :=
     M₀.card_eq (S := V) (hc.Vt_le_Q t) sec39_Z_le_Vt
   have hVcard : Nat.card ↥Vsub = Nat.card Z ^ 2 := by
@@ -44,11 +44,11 @@ private theorem finrank_ker_B_pi_eq_one {K : Type} [Field K] [Finite K] {γ : G 
     (hcW : c ∉ Wt Q (Vt M (LB M Q B) B Z t)) :
     Module.finrank K (LinearMap.ker ((M₀.B (M₀.π c)).comp
       (imgSub M₀ (Vt M (LB M Q B) B Z t)
-        (fun s e he => hc.smul_mem_img_Vt h t s he)).subtype)) = 1 := by
+        (fun s _e he => hc.smul_mem_img_Vt h t s he)).subtype)) = 1 := by
   let V := Vt M (LB M Q B) B Z t
   let Vsub : Submodule K M₀.E :=
-    imgSub M₀ V (fun s e he => hc.smul_mem_img_Vt h t s he)
-  have hVsub_mem : ∀ e, e ∈ Vsub ↔ e ∈ M₀.img V := fun e => mem_imgSub
+    imgSub M₀ V (fun s _e he => hc.smul_mem_img_Vt h t s he)
+  have hVsub_mem : ∀ _e, _e ∈ Vsub ↔ _e ∈ M₀.img V := fun _e => mem_imgSub
   have hVQ : V ≤ Q := hc.Vt_le_Q t
   let f : M₀.E →ₗ[K] K := M₀.B (M₀.π c)
   let g : Vsub →ₗ[K] K := f.comp Vsub.subtype
@@ -75,7 +75,7 @@ private theorem finrank_ker_B_pi_eq_one {K : Type} [Field K] [Finite K] {γ : G 
     rw [map_smul, smul_eq_mul, div_mul_cancel₀ _ hgv]
   have hgrange : Module.finrank K g.range = 1 := by
     rw [hsurj]
-    simpa using Module.finrank_self K
+    simp
   have hVdim : Module.finrank K Vsub = 2 := by
     simpa [Vsub, V] using finrank_img_Vt_eq_two hc h h2
   have hru := LinearMap.finrank_range_add_finrank_ker g
@@ -129,6 +129,7 @@ private theorem pi_mem_img_B_of_mem_Vt_inf_centralizer {K : Type} [Field K] [Fin
     simpa [b'] using h1.symm
   exact (hbimg _).mpr ⟨s, hpi⟩
 
+omit [Finite G] in
 private theorem mem_B_of_pi_mem_img_B {K : Type} [Field K] [Finite K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} (hc : Ctx M Q Z B) {t x : G} {Y : Subgroup G}
     (hBY : B ≤ QB Y) (hZQB : Z ⊓ QB Y = ⊥) (hxQY : x ∈ QB Y)

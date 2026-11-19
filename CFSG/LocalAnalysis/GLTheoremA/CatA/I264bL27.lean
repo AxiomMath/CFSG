@@ -37,7 +37,7 @@ theorem card_fL27 {S : Type} [Group S] (h : catalogIs S fL27) : Nat.card S = 168
 
 theorem card_mulAut_dvd_40320 {T : Type} [Group T] [Finite T] [IsSimpleGroup T]
     (hT : Nat.card T = 168) : Nat.card (MulAut T) ∣ 40320 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨h8, hP⟩ := I1416Rows.sylow7_facts_168 hT
   obtain ⟨P⟩ : Nonempty (Sylow 7 T) := inferInstance
   have hdvd := I1416Rows.card_mulAut_dvd_factorial (hP P).2
@@ -47,7 +47,7 @@ theorem card_mulAut_dvd_40320 {T : Type} [Group T] [Finite T] [IsSimpleGroup T]
 theorem kDescFam_l27 (p : ℕ) : KDescFam p fL27 := by
   intro hp hp2 Y _ _ K B h hc hcB
   have hS : Nat.card (↥K ⧸ Subgroup.center ↥K) = 168 := card_fL27 hc
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.qs.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.qs.2
   have hnab : ∃ a b : ↥K ⧸ Subgroup.center ↥K, a * b ≠ b * a :=
     exists_noncomm_of_simple_card hS (by norm_num)
   refine (false_of_not_sq_dvd hp h hcB (MulEquiv.refl _) ?_).elim

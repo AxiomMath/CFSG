@@ -95,7 +95,7 @@ theorem ggCommonJOmPlusTwo_signed (hK : Nat.card K = 2) (m : ℕ) :
     · intro i
       by_cases hη : η (π.symm i) = true <;> simp [hη]
     · intro f i
-      simp only [u, toAdd_ofAdd, ChoiceTwo.moveExp_apply, Equiv.symm_apply_apply]
+      simp only [u, toAdd_ofAdd, ChoiceTwo.moveExp_apply]
       by_cases hη : η (π.symm i) = true <;> simp [ChoiceTwo.sgnZ, hη]
   · intro f
     apply Subtype.ext
@@ -110,7 +110,7 @@ theorem ggCommonJOmPlusTwo_signed (hK : Nat.card K = 2) (m : ℕ) :
         otau (otc_zeta K) m 1 (fun i => (u f i).toAdd)
     rw [hφ, hπη, htoadd]
 
-theorem ggCommonJOmPlusTwo_equiv (hK : Nat.card K = 2) {m : ℕ} (hme : Even m) :
+theorem ggCommonJOmPlusTwo_equiv (_hK : Nat.card K = 2) {m : ℕ} (hme : Even m) :
     Nonempty (↥(omegaQ (K := K) m 1) ≃*
       LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K (m + 1)))) := by
   obtain ⟨e⟩ := nonempty_isometryEquiv_planeQForm_quadPlus (K := K) m (1 : Fin 2) hme

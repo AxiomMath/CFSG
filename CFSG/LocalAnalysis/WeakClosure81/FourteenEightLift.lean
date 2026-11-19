@@ -38,7 +38,7 @@ theorem card_map_subgroupOf_eq_two_pow_mQuot (h : Hyp64 n M V₀ V g)
       ((UOf M V g : Subgroup G) : Set G)) :
     Nat.card ((V.subgroupOf (LOf V g)).map (QuotientGroup.mk' (K.subgroupOf (LOf V g)))) =
       2 ^ E3.mQuot V (UOf M V g) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ :=
     IsPGroup.iff_card.1 (isElemAbelian_map_subgroupOf (K := K) h).isPGroup
   have hcard : Nat.card ((V.subgroupOf (LOf V g)).map
@@ -197,7 +197,7 @@ theorem exists_isFixedPointFreeTorus_of_torusData (h : Hyp64 n M V₀ V g) (hgen
     exists_isCyclic_map_eq_of_isPGroup (K.subgroupOf (LOf V g))
       (isPGroup_subgroupOf_LOf h hKset) hT.1 hTodd
   have hYle := map_subtype_le_of_torusData h hgen hKset hlL hlV hT hY'
-  haveI : IsCyclic ↥Y' := hY'cyc
+  have : IsCyclic ↥Y' := hY'cyc
   have hcyc : IsCyclic ↥(Y'.map (LOf V g).subtype) :=
     isCyclic_of_surjective (((LOf V g).subtype).subgroupMap Y')
       (((LOf V g).subtype).subgroupMap_surjective Y')

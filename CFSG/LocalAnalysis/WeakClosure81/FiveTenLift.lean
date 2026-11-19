@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def kerQuotLift (M H : Subgroup G) (Y : Subgroup (KerQuot M H)) : Subgroup G :=
   (Y.comap (kerQuotMk M H)).map H.subtype
 
+omit [Finite G] in
 theorem mem_kerQuotLift_iff {M H : Subgroup G} {Y : Subgroup (KerQuot M H)} {x : G} :
     x ∈ kerQuotLift M H Y ↔ ∃ hx : x ∈ H, kerQuotMk M H ⟨x, hx⟩ ∈ Y := by
   unfold kerQuotLift
@@ -25,10 +26,12 @@ theorem mem_kerQuotLift_iff {M H : Subgroup G} {Y : Subgroup (KerQuot M H)} {x :
   · rintro ⟨hx, h⟩
     exact ⟨⟨x, hx⟩, h, rfl⟩
 
+omit [Finite G] in
 theorem kerQuotLift_le (M H : Subgroup G) (Y : Subgroup (KerQuot M H)) :
     kerQuotLift M H Y ≤ H :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem kerMOf_le_kerQuotLift (M H : Subgroup G) (Y : Subgroup (KerQuot M H)) :
     kerMOf M H ≤ kerQuotLift M H Y := by
   intro x hx
@@ -41,6 +44,7 @@ theorem kerMOf_le_kerQuotLift (M H : Subgroup G) (Y : Subgroup (KerQuot M H)) :
   rw [MonoidHom.mem_ker.1 hker]
   exact Y.one_mem
 
+omit [Finite G] in
 theorem le_kerQuotLift_iff {M H X : Subgroup G} {Y : Subgroup (KerQuot M H)} (hXH : X ≤ H) :
     X ≤ kerQuotLift M H Y ↔ kerQuotImg M H X ≤ Y := by
   constructor
@@ -52,6 +56,7 @@ theorem le_kerQuotLift_iff {M H X : Subgroup G} {Y : Subgroup (KerQuot M H)} (hX
     rw [mem_kerQuotLift_iff]
     exact ⟨hXH hx, h ⟨⟨x, hXH hx⟩, hx, rfl⟩⟩
 
+omit [Finite G] in
 theorem kerQuotImg_kerQuotLift (M H : Subgroup G) (Y : Subgroup (KerQuot M H)) :
     kerQuotImg M H (kerQuotLift M H Y) = Y := by
   refine le_antisymm ((le_kerQuotLift_iff (kerQuotLift_le M H Y)).1 le_rfl) ?_
@@ -60,6 +65,7 @@ theorem kerQuotImg_kerQuotLift (M H : Subgroup G) (Y : Subgroup (KerQuot M H)) :
   have hy : (y : G) ∈ kerQuotLift M H Y := mem_kerQuotLift_iff.2 ⟨y.2, hq⟩
   exact ⟨y, hy, rfl⟩
 
+omit [Finite G] in
 theorem kerQuotLift_kerQuotImg {M H X : Subgroup G} (hXH : X ≤ H) :
     kerQuotLift M H (kerQuotImg M H X) = X ⊔ kerMOf M H := by
   refine le_antisymm ?_ (sup_le ((le_kerQuotLift_iff hXH).2 le_rfl)
@@ -74,21 +80,25 @@ theorem kerQuotLift_kerQuotImg {M H X : Subgroup G} (hXH : X ≤ H) :
   rw [hxy]
   exact Subgroup.mul_mem_sup hy hk
 
+omit [Finite G] in
 theorem kerQuotLift_kerQuotImg_of_le {M H K : Subgroup G} (hKH : K ≤ H)
     (hJK : kerMOf M H ≤ K) : kerQuotLift M H (kerQuotImg M H K) = K := by
   rw [kerQuotLift_kerQuotImg hKH]
   exact sup_eq_left.2 hJK
 
+omit [Finite G] in
 theorem kerQuotLift_mono {M H : Subgroup G} {Y Z : Subgroup (KerQuot M H)} (h : Y ≤ Z) :
     kerQuotLift M H Y ≤ kerQuotLift M H Z :=
   Subgroup.map_mono (Subgroup.comap_mono h)
 
+omit [Finite G] in
 theorem kerQuotLift_le_kerQuotLift_iff {M H : Subgroup G} {Y Z : Subgroup (KerQuot M H)} :
     kerQuotLift M H Y ≤ kerQuotLift M H Z ↔ Y ≤ Z := by
   refine ⟨fun h => ?_, kerQuotLift_mono⟩
   have := kerQuotImg_mono (M := M) (H := H) h
   rwa [kerQuotImg_kerQuotLift, kerQuotImg_kerQuotLift] at this
 
+omit [Finite G] in
 theorem kerQuotLift_kerQuotImg_left (M H : Subgroup G) :
     kerQuotLift M H (kerQuotImg M H M) = M ⊓ H := by
   have h1 : kerQuotImg M H M = kerQuotImg M H (M ⊓ H) := by
@@ -97,6 +107,7 @@ theorem kerQuotLift_kerQuotImg_left (M H : Subgroup G) :
   rw [h1, kerQuotLift_kerQuotImg inf_le_right]
   exact sup_eq_left.2 (le_inf (kerMOf_le_left M H) (kerMOf_le_group M H))
 
+omit [Finite G] in
 theorem kerQuotLift_inf {M H : Subgroup G} (Y Z : Subgroup (KerQuot M H)) :
     kerQuotLift M H (Y ⊓ Z) = kerQuotLift M H Y ⊓ kerQuotLift M H Z := by
   ext x
@@ -107,6 +118,7 @@ theorem kerQuotLift_inf {M H : Subgroup G} (Y Z : Subgroup (KerQuot M H)) :
   · rintro ⟨⟨hx, h1⟩, ⟨_, h2⟩⟩
     exact ⟨hx, h1, h2⟩
 
+omit [Finite G] in
 theorem kerQuotLift_sup {M H : Subgroup G} (Y Z : Subgroup (KerQuot M H)) :
     kerQuotLift M H (Y ⊔ Z) = kerQuotLift M H Y ⊔ kerQuotLift M H Z := by
   refine le_antisymm ?_ (sup_le (kerQuotLift_mono le_sup_left) (kerQuotLift_mono le_sup_right))
@@ -120,6 +132,7 @@ theorem kerQuotLift_sup {M H : Subgroup G} (Y Z : Subgroup (KerQuot M H)) :
   · calc Z = kerQuotImg M H (kerQuotLift M H Z) := (kerQuotImg_kerQuotLift M H Z).symm
       _ ≤ kerQuotImg M H L := kerQuotImg_mono le_sup_right
 
+omit [Finite G] in
 theorem isMaxSubgroupIn_kerQuotLift {M H : Subgroup G} {Y N : Subgroup (KerQuot M H)} :
     IsMaxSubgroupIn (kerQuotLift M H Y) (kerQuotLift M H N) ↔ IsMaxSubgroupIn Y N := by
   have hlt : ∀ {Y N : Subgroup (KerQuot M H)}, kerQuotLift M H N < kerQuotLift M H Y ↔ N < Y := by
@@ -140,6 +153,7 @@ theorem isMaxSubgroupIn_kerQuotLift {M H : Subgroup G} {Y N : Subgroup (KerQuot 
     have h1 := h (kerQuotImg M H K) (hlt.1 hNK) (kerQuotLift_le_kerQuotLift_iff.1 hKY)
     rw [h1]
 
+omit [Finite G] in
 theorem mem_normalizer_kerQuotLift {M H : Subgroup G} {Y : Subgroup (KerQuot M H)} {x : G}
     (hx : x ∈ H) (hq : kerQuotMk M H ⟨x, hx⟩ ∈ normalizer (Y : Set (KerQuot M H))) :
     x ∈ normalizer (kerQuotLift M H Y : Set G) := by
@@ -171,6 +185,7 @@ theorem mem_normalizer_kerQuotLift {M H : Subgroup G} {Y : Subgroup (KerQuot M H
     rw [h2] at hmem
     exact (Subgroup.mem_normalizer_iff.1 hq (kerQuotMk M H ⟨y, hyH⟩)).2 hmem
 
+omit [Finite G] in
 theorem kerQuotImg_conjSub {M H X : Subgroup G} {x : G} (hx : x ∈ H) :
     kerQuotImg M H (A1b.conjSub x X) =
       A1b.conjSub (kerQuotMk M H ⟨x, hx⟩) (kerQuotImg M H X) := by

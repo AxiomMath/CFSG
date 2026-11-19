@@ -75,13 +75,11 @@ public theorem firstCase_global_commuting_involution_card
     intro x
     apply Subtype.ext
     dsimp [fInv, f]
-    change g⁻¹ * (g * (x.1 : G) * g⁻¹) * g = (x.1 : G)
     group
   have hfInv' : Function.RightInverse fInv f := by
     intro x
     apply Subtype.ext
     dsimp [fInv, f]
-    change g * (g⁻¹ * (x : G) * g) * g⁻¹ = (x : G)
     group
   exact Nat.card_congr (Equiv.ofBijective f ⟨
     (fun a b h => by exact hfInv.injective h),

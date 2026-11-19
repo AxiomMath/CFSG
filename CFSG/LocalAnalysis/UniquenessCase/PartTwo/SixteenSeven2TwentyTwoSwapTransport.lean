@@ -11,6 +11,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c167_twenty_two_map_conj {I₀ : Subgroup G} {S : Set G} {r : G}
     (hcomm : ∀ b ∈ S, ∀ v ∈ I₀, b * (r * v * r⁻¹) * b⁻¹ = r * (b * v * b⁻¹) * r⁻¹) :
     (I₀ ⊓ centralizer S).map (MulAut.conj r).toMonoidHom =
@@ -27,7 +28,7 @@ theorem s16c167_twenty_two_map_conj {I₀ : Subgroup G} {S : Set G} {r : G}
     · intro b hb
       have h1 := hcomm b hb v hv
       have h2 : b * v = v * b := hvc b hb
-      simp only [MulAut.conj_apply, MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom]
+      simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
       have h3 : b * v * b⁻¹ = v := by rw [h2]; group
       rw [h3] at h1
       calc b * (r * v * r⁻¹) = (b * (r * v * r⁻¹) * b⁻¹) * b := by group
@@ -45,9 +46,10 @@ theorem s16c167_twenty_two_map_conj {I₀ : Subgroup G} {S : Set G} {r : G}
         simpa [mul_assoc] using this.symm
       calc b * (r⁻¹ * w * r) = (b * (r⁻¹ * w * r) * b⁻¹) * b := by group
         _ = (r⁻¹ * w * r) * b := by rw [h7]
-    · simp only [MulAut.conj_apply, MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom]
+    · simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
       group
 
+omit [Finite G] in
 theorem s16c167_twenty_two_card_conj {I₀ I B' : Subgroup G} {r : G}
     (hI : conjSubgroup I₀ r⁻¹ = I)
     (hcomm : ∀ b ∈ B', ∀ v ∈ I₀, b * (r * v * r⁻¹) * b⁻¹ = r * (b * v * b⁻¹) * r⁻¹) :
@@ -56,6 +58,7 @@ theorem s16c167_twenty_two_card_conj {I₀ I B' : Subgroup G} {r : G}
   exact Subgroup.card_map_of_injective (f := (MulAut.conj r).toMonoidHom)
     (MulAut.conj r).injective
 
+omit [Finite G] in
 theorem s16c167_twenty_two_transitive {M V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) {π : ↥(Mbar M ⊥ V hV) →* Equiv.Perm (Fin 3)}
     (hcomm : ∀ x : ↥(Mbar M ⊥ V hV), (∃ k : ℕ, x ^ (2 ^ k) = 1) →
@@ -87,6 +90,7 @@ theorem s16c167_twenty_two_transitive {M V : Subgroup G} (hV : IsElemAbelian 2 V
     simp only [actStab_apply_val] at hc'
     exact hc'
 
+omit [Finite G] in
 theorem s16c167_twenty_two_card_family {M V B' : Subgroup G} {I : Fin 3 → Subgroup G}
     {ρ : ↥M →* Equiv.Perm (Fin 3)} (hle : ∀ i, I i ≤ V)
     (hconj : ∀ (m : ↥M) (i : Fin 3), conjSubgroup (I i) (m : G)⁻¹ = I (ρ m i))

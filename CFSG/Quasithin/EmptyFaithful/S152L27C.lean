@@ -112,7 +112,7 @@ private theorem not_dvd_card_of_perfect_of_central152 {C : Type*} [Group C] [Fin
   obtain ⟨P⟩ : Nonempty (Sylow p C) := inferInstance
   have hPc : (P : Subgroup C) ≤ Subgroup.center C := by
     intro y hy
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨y, hy⟩
     exact hcen y ⟨k, by rw [← Subgroup.orderOf_coe] at hk; simpa using hk⟩
   have hP : Subgroup.normalizer ((P : Subgroup C) : Set C) ≤ Subgroup.centralizer ((P : Subgroup C) : Set C) := by
     intro x _ y hy

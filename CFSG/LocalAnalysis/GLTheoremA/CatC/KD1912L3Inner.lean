@@ -32,7 +32,7 @@ theorem odd_card_gLAPPrimeCoreOf_fixSub_conjM' (hK : PiField π 2 n K)
       projImage (slPi π 3 (2 ^ n) K) →*
         projImage (slPi π 3 (2 ^ n) K)).eqLocus (MonoidHom.id _)))) := by
   classical
-  haveI hKfin : Finite K := hK.finite
+  have hKfin : Finite K := hK.finite
   let L := slPi π 3 (2 ^ n) K
   change Odd (Nat.card (GLAPPrimeCoreOf 3
     (((Res8Hess.conjM' (p := 2) (f := n)
@@ -57,7 +57,7 @@ theorem odd_card_gLAPPrimeCoreOf_fixSub_conjM' (hK : PiField π 2 n K)
         (fun h => by subst h; exact hK.unitary) hg := by
     ext m
     rw [Res8Hess.coe_conjM', Res8Hess.coe_conjM']
-    simp [hyz, map_mul, map_inv, hmkz]
+    simp [hyz, map_mul, hmkz]
   have hfix : (((Res8Hess.conjM' (p := 2) (f := n)
         (fun h => by subst h; exact hK.unitary) hg :
       MulAut (projImage L)) : projImage L →* projImage L).eqLocus (MonoidHom.id _)) =

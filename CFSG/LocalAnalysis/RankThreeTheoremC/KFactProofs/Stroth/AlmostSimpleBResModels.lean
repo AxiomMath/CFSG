@@ -87,6 +87,7 @@ section Models
 
 variable {X : Type} [Group X] [Finite X] {L : Subgroup X} [L.Normal]
 
+omit [Finite X] in
 theorem conjNormal_injective_of_centralizer_eq_bot'
     (hC : Subgroup.centralizer (L : Set X) = ⊥) :
     Function.Injective (MulAut.conjNormal : X →* MulAut ↥L) := by
@@ -105,6 +106,7 @@ theorem conjNormal_injective_of_centralizer_eq_bot'
   rw [hC] at this
   exact this
 
+omit [Finite X] in
 theorem exists_mem_map_conj {P : Type} [Group P] (eL : ↥L ≃* P) (y : P) :
     ∃ l ∈ L, ((MulAut.congr eL).toMonoidHom.comp MulAut.conjNormal) l = MulAut.conj y := by
   refine ⟨((eL.symm y : ↥L) : X), (eL.symm y).2, ?_⟩
@@ -133,6 +135,7 @@ theorem eq_bot_of_linear_model {K : Type} [Field K] [Finite K] [CharP K 2] {ω :
   rw [hAψ] at hAt ⊢
   exact exists_inverted_three_linear A hA3 ht2 ht1 hAt
 
+omit [Finite X] [L.Normal] in
 theorem conj_injective_of_centralizer_eq_bot' (hC : Subgroup.centralizer (L : Set X) = ⊥)
     {P : Type} [Group P] (e : ↥L ≃* P) : Function.Injective (MulAut.conj : P →* MulAut P) := by
   intro a b hab
@@ -189,7 +192,7 @@ section Rank
 
 theorem exists_cube_root_of_unity {K : Type} [Field K] [Finite K] (h3 : 3 ∣ Nat.card K - 1) :
     ∃ ω : K, ω ^ 3 = 1 ∧ ω ≠ 1 ∧ ω ^ 2 + ω + 1 = 0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3' : 3 ∣ Nat.card Kˣ := by rwa [Nat.card_units]
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 h3'
   have hu3 : u ^ 3 = 1 := by rw [← hu]; exact pow_orderOf_eq_one u
@@ -212,7 +215,7 @@ theorem exists_omega_of_pRank_linear {X : Type} [Group X] [Finite X] {L : Subgro
     (hf : 1 ≤ f) (eL : ↥L ≃* projectiveSL 3 (GaloisField 2 f))
     (hrk : CFSG.Open.pRank 3 (⊤ : Subgroup L) = 2) :
     ∃ ω : GaloisField 2 f, ω ^ 2 + ω + 1 = 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hodd : Odd f
   · exfalso
     have h := CFSG.RankThree.PartTwo.Sec20.kFactL3OddThreeRank f hodd ↥L
@@ -273,9 +276,9 @@ theorem exists_omega_of_pRank_unitary {X : Type} [Group X] [Finite X] {L : Subgr
     (eS : ↥L ≃* StatedProj (StatedSU 3 (2 ^ f) K))
     (hrk : CFSG.Open.pRank 3 (⊤ : Subgroup L) = 2) :
     ∃ ω : K, ω ^ 2 + ω + 1 = 0 ∧ hU.bar ω * ω = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := hU.charP
-  haveI := hU.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := hU.charP
+  have := hU.finite
   have hq3 : 2 ^ f % 3 = 1 ∨ 2 ^ f % 3 = 2 := by
     have : ¬ 3 ∣ 2 ^ f := fun h => by
       have := (Nat.prime_dvd_prime_iff_eq Nat.prime_three Nat.prime_two).1
@@ -334,7 +337,7 @@ theorem eq_bot_of_lThreeTwo (hC : Subgroup.centralizer (L : Set X) = ⊥)
     obtain ⟨hv, ⟨e⟩⟩ := h
     have hp2 : p = 2 := hq2
     subst hp2
-    haveI : Fact (Nat.Prime 2) := ⟨hp⟩
+    have : Fact (Nat.Prime 2) := ⟨hp⟩
     let eL : ↥L ≃* projectiveSL 3 (GaloisField 2 ex) :=
       e.trans ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2
         (⟨2, ex, hp, hex⟩ : TauCeti.PrimePower) hv).trans

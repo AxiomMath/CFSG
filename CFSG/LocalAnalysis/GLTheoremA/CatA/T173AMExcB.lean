@@ -10,7 +10,7 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremA
 
 theorem uexc_not_dvd_card_ker {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω Ω' : Type} [Group Ω]
     [Finite Ω] [Group Ω'] (π : Ω →* Ω') (hk : IsPGroup 2 π.ker) : ¬ p ∣ Nat.card π.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hk.exists_card_eq
   intro hd
   rw [hn] at hd

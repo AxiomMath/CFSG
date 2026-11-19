@@ -16,7 +16,7 @@ theorem asc82FinkCE_of (hSyl : Asc82FinkSylow) : Asc82FinkCE := by
   change C = E ⊔ oddCoreIn X ∧ oddCoreIn X ≤ C
   have hY : IsSylow2Of E C := sec8s_E_sylow hSyl hE
   have hEC : E ≤ C := by
-    haveI : IsMulCommutative E := hE.elem.1.1
+    have : IsMulCommutative E := hE.elem.1.1
     intro e he
     exact Subgroup.mem_centralizer_iff.mpr fun a ha => setLike_mul_comm ha he
   have hBurn : E ⊔ oddCoreIn C = C :=

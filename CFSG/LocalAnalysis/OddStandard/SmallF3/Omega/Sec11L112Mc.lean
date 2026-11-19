@@ -77,7 +77,7 @@ end Sec11Perm
 
 theorem sec11_sylow_card_of {H : Type} [Group H] [Finite H] (P : Sylow 2 H) {k m : ℕ}
     (hm : ¬ 2 ∣ m) (h : Nat.card H = 2 ^ k * m) : Nat.card P = 2 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm0 : m ≠ 0 := by
     rintro rfl
     exact hm (dvd_zero 2)
@@ -90,7 +90,7 @@ theorem sec11_card_T [Finite G] {A M T : Subgroup G} {Alt : Subgroup (Equiv.Perm
     (hAlt : Alt = alternatingGroup (Fin 6) ∨ Alt = ⊤) (hT : IsSylow2Of T M) (hAT : A ≤ T)
     (hcen : ∀ c ∈ T, (∀ a ∈ A, c * a = a * c) → c ∈ A) :
     (Alt = ⊤ → Nat.card ↥T = 512) ∧ (Alt ≠ ⊤ → Nat.card ↥T = 256) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := hT.exists_sylow
   have hPT : ∀ p : ↥P, ((p : ↥M) : G) ∈ T := fun p => hP ▸ ⟨(p : ↥M), p.2, rfl⟩
   let F : ↥M →* ↥hm.rhoHom.range := hm.rhoHom.rangeRestrict

@@ -48,13 +48,13 @@ theorem card_alt5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
 
 theorem closure_a5ab : Subgroup.closure ({a5a, a5b} : Set (alternatingGroup (Fin 5))) = ⊤ := by
   have hordA : orderOf a5a = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime a5a_sq a5a_ne
   have hordB : orderOf a5b = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime a5b_cube a5b_ne
   have hordAB : orderOf (a5a * a5b) = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact orderOf_eq_prime a5ab_pow a5ab_ne
   set H := Subgroup.closure ({a5a, a5b} : Set (alternatingGroup (Fin 5))) with hH
   have hmemA : a5a ∈ H := Subgroup.subset_closure (by simp)
@@ -77,8 +77,8 @@ theorem closure_a5ab : Subgroup.closure ({a5a, a5b} : Set (alternatingGroup (Fin
       have hmul := Subgroup.card_mul_index H
       rw [hcard30, card_alt5] at hmul
       omega
-    haveI : H.Normal := Subgroup.normal_of_index_eq_two hindex
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+    have : H.Normal := Subgroup.normal_of_index_eq_two hindex
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     rcases Subgroup.Normal.eq_bot_or_eq_top H with hbot | htop
     · rw [hbot, Subgroup.card_bot] at hcard30
       omega

@@ -12,6 +12,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c1_G47_mem_of_three {M : Subgroup G} (hsp : IsStronglyPEmbedded 3 M) {d g : G}
     (hd : orderOf d = 3) (hdM : d ∈ M) (hg : g * d * g⁻¹ ∈ M) : g ∈ M := by
   by_contra hgM
@@ -28,6 +29,7 @@ theorem s16c1_G47_mem_of_three {M : Subgroup G} (hsp : IsStronglyPEmbedded 3 M) 
   rw [← h3]
   exact orderOf_dvd_natCard _
 
+omit [Finite G] in
 theorem s16c1_G47_star_normalizer_le {H M : Subgroup G} (hQM : pCoreOf 2 H ≤ M)
     (hsp : IsStronglyPEmbedded 3 M) {X : Subgroup G} (hXH : X ≤ H) (hXM : X ≤ M) {d : G}
     (hdX : d ∈ X) (hd3 : orderOf d = 3) {b : Bar2 H}

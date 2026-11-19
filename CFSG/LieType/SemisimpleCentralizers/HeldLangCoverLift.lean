@@ -93,7 +93,7 @@ theorem exists_cover_lift [Finite Cov] [Finite K]
     (β : MulAut K) (γ : MulAut X) (hcomm : ∀ k, ρK (β k) = γ (ρK k)) (hγ3 : γ ^ 3 = 1) :
     ∃ (π : Cov →* K) (βL : MulAut Cov), Function.Surjective π ∧ (∀ x, π x = 1 → x ∈ Subgroup.center Cov) ∧
       (∀ x, ρK (π x) = ρC x) ∧ βL ^ 3 = 1 ∧ ∀ x, π (βL x) = β (π x) := by
-  haveI := hperfC
+  have := hperfC
   obtain ⟨π, hπ, hπsurj⟩ := exists_surjective_lift ρC ρK hC hK hcK hperfK hsec
   obtain ⟨βL, hβL⟩ := exists_automorphism_lift ρC hC hcC hperfC hsec γ
   have hpow : ∀ n : ℕ, ∀ x, ρC ((βL ^ n) x) = (γ ^ n) (ρC x) := by

@@ -37,8 +37,8 @@ theorem exists_conj_eq_zpow (hb : U81BasisR D L K r B b) (hr : r.Prime) (hr2 : r
     (h : ∀ i (hi : b i ∈ D.M),
       m * uc22p21cPi D.M ⟨b i, hi⟩ * m⁻¹ = uc22p21cPi D.M ⟨b i, hi⟩ ^ k i) :
     ∃ t ∈ normalizer (B : Set G) ⊓ D.M, ∀ i, t * b i * t⁻¹ = b i ^ k i := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hBp : IsPGroup r B := hb.frame.elem.isPGroup
   have hbM : ∀ i, b i ∈ D.M := fun i => hBM (hb.frame.mem i)
   have hφ : ∀ i, MulAut.conj m (uc22p21cPi D.M ⟨b i, hbM i⟩) ∈ barImage D.M B := fun i => by

@@ -22,7 +22,7 @@ private theorem card_hopfMultiplier_adjointGroup_E6 {F : Type} [Field F] [Finite
     (hn : 2 ≤ n) (hF : Nat.card F = 2 ^ n) :
     Nat.card (CFSG.RankThree.PerfectCover.hopfMultiplier ↥(adjointGroup .E6 F)) =
       Nat.gcd 3 (Nat.card F - 1) := by
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hF
   let χ : AdjointQuotient .E6 F ≃* adjointGroup .E6 F :=
@@ -59,12 +59,12 @@ theorem exists_cover_e6_of_isLabel {K : Type} [Group K] [Finite K] {lab : GLALab
     lieModel_of_markedModel_E6 ht hM
   obtain ⟨-, F, hField, hFinite, hCard, ⟨φ⟩⟩ :=
     hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E6 ∈ chevalleyExceptionalTags)
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  haveI : CharP F 2 :=
+  let : Field F := hField
+  let : Finite F := hFinite
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hCard
-  letI : Finite ↥(e6Data_valid.minGroup F) :=
+  let : Finite ↥(e6Data_valid.minGroup F) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid F
   have hperfK : Group.IsPerfect K := hQ.1
   have hperfS : Group.IsPerfect ↥(e6Data_valid.minGroup F) := CFSG.LieType.CurtisTits.isPerfect_e6 F
@@ -107,12 +107,12 @@ theorem exists_cover_twE6_of_isLabel {K : Type} [Group K] [Finite K] {lab : GLAL
   obtain ⟨-, -, hT⟩ :=
     CFSG.HardMathSupport.Timmesfeld.Tables.T1b.twistedChevalleyModel_of_lieModel hM'
   obtain ⟨k, hkfield, hkfin, hkcard, θ, hθ, ⟨e⟩⟩ := hT
-  letI : Field k := hkfield
-  letI : Finite k := hkfin
-  letI : Fintype k := Fintype.ofFinite k
-  letI : Finite ↥(e6Data_valid.minGroup k) :=
+  let : Field k := hkfield
+  let : Finite k := hkfin
+  let : Fintype k := Fintype.ofFinite k
+  let : Finite ↥(e6Data_valid.minGroup k) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid k
-  haveI : Finite ↥(fixedGroup k θ) := Subtype.finite
+  have : Finite ↥(fixedGroup k θ) := Subtype.finite
   have hk2 : Nat.card k = (2 ^ lab.n) ^ 2 := by
     rw [hkcard]
     rfl

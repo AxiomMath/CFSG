@@ -33,15 +33,15 @@ theorem gen4_of_harada_e16 (hMW : MacWilliamsStatement) {T U : Subgroup G}
   have hT2 : IsPGroup 2 T := IsPGroup.of_card (n := 4) (by rw [hT16]; norm_num)
   obtain ⟨Q, hTQ⟩ := hT2.exists_le_sylow
   have hSsyl : IsSylowOf 2 (Q : Subgroup G) ⊤ :=
-    isSylowOf_iff.mpr ⟨le_top, Q.isPGroup', by rw [relIndex_top_right]; exact Q.not_dvd_index⟩
+    isSylowOf_iff.mpr ⟨le_top, Q.isPGroup, by rw [relIndex_top_right]; exact Q.not_dvd_index⟩
   have hcentG : ∀ u ∈ U, u ≠ 1 → ∀ g ∈ (Q : Subgroup G), g * u = u * g → g ∈ T := by
     intro u hu hu1 g hg hgu
     have hTC : T ≤ centralizer ({u} : Set G) := fun x hx =>
       mem_centralizer_singleton_iff.mpr (hTab x hx u (hUT hu))
-    have heq := (hsyl u hu hu1).eq_of_le (le_inf hTQ hTC) inf_le_right Q.isPGroup'.to_inf_left
+    have heq := (hsyl u hu hu1).eq_of_le (le_inf hTQ hTC) inf_le_right Q.isPGroup.to_inf_left
     rw [← heq]
     exact mem_inf.mpr ⟨hg, mem_centralizer_singleton_iff.mpr hgu⟩
-  have hgen := harE16_gen4_twoGroup hMW Q.isPGroup' (T := T.subgroupOf Q) (U := U.subgroupOf Q)
+  have hgen := harE16_gen4_twoGroup hMW Q.isPGroup (T := T.subgroupOf Q) (U := U.subgroupOf Q)
     (fun a ha b hb => Subtype.ext (hTab _ ha _ hb)) (fun a ha => Subtype.ext (hTsq _ ha))
     (by rw [← hT16]; exact Nat.card_congr (subgroupOfEquivOfLe hTQ).toEquiv) (fun x hx => hUT hx)
     (by rw [← hU4]; exact Nat.card_congr (subgroupOfEquivOfLe (hUT.trans hTQ)).toEquiv)

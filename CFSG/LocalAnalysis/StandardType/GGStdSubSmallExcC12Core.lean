@@ -163,7 +163,7 @@ theorem exists_eq_componentRootSpan (τ : Tag) {K : Type} [Field K] [Finite K] {
     (D : Subgroup (ModGL τ K)) (hD : D ≤ toralCentralizer τ K b)
     (hn : ∀ c ∈ toralCentralizer τ K b, ∀ d ∈ D, c * d * c⁻¹ ∈ D) (hq : CFSG.IsQuasisimple D) :
     ∃ i, D = componentRootSpan K (rootCharHom b) i := by
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   have hU : D ≤ rootSpan τ K (rootCharKernel b) :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.perfect_le_rootSpan_kernel hp b hb hD
       (Subgroup.isPerfect_iff.1 hq.1)

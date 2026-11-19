@@ -33,17 +33,17 @@ theorem chief_rep_exists {G : Type} [Group G] [Finite G] {T X K U V X₁ W₀ W�
     sup_le (CFSG.Quasithin.conjClosure_le fun t ht z hz =>
       Subgroup.mul_mem _ (Subgroup.mul_mem _ (hTO ht) (hKO hz)) (Subgroup.inv_mem _ (hTO ht)))
       hTO
-  haveI hN : (W₀.subgroupOf W₁).Normal := ch827_normal hW0W1 hP hΛW0 hΛW1 hchief
+  have hN : (W₀.subgroupOf W₁).Normal := ch827_normal hW0W1 hP hΛW0 hΛW1 hchief
   have hcomm := ch827_comm_quot hW0W1 hP hΛW0 hΛW1 hchief
   have hexp := ch827_exp2_quot hW0W1 hP hΛW0 hΛW1 hchief hcomm
-  haveI := ch827_nontrivial_quot hW0W1
-  letI : CommGroup (ch827Quot W₀ W₁) :=
+  have := ch827_nontrivial_quot hW0W1
+  let : CommGroup (ch827Quot W₀ W₁) :=
     { (inferInstance : Group (ch827Quot W₀ W₁)) with mul_comm := hcomm }
   have h2 : ∀ x : Additive (ch827Quot W₀ W₁), (2 : ℕ) • x = 0 := by
     intro x
     obtain ⟨q, rfl⟩ : ∃ q : ch827Quot W₀ W₁, Additive.ofMul q = x := ⟨Additive.toMul x, rfl⟩
     rw [← ofMul_pow, hexp q, ofMul_one]
-  letI : Module (ZMod 2) (Additive (ch827Quot W₀ W₁)) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive (ch827Quot W₀ W₁)) := AddCommGroup.zmodModule h2
   let π : ↥W₁ → Additive (ch827Quot W₀ W₁) := fun w => Additive.ofMul (QuotientGroup.mk w)
   have hπadd : ∀ a b : ↥W₁, π (a * b) = π a + π b := fun a b =>
     (congrArg Additive.ofMul (QuotientGroup.mk_mul (W₀.subgroupOf W₁) a b)).trans (ofMul_mul _ _)
@@ -70,7 +70,7 @@ theorem chief_rep_exists {G : Type} [Group G] [Finite G] {T X K U V X₁ W₀ W�
         (ch827CQ Λ W₀ W₁ hΛW1 hΛW0 l' (Additive.toMul x)))
     rw [ch827CQ_mul]
   let τl : Λ → (Additive (ch827Quot W₀ W₁) ≃ₗ[ZMod 2] Additive (ch827Quot W₀ W₁)) :=
-    fun l => LinearEquiv.ofLinear (lin l) (lin l⁻¹)
+    fun l => LinearEquiv.ofLinearMap (lin l) (lin l⁻¹)
       (LinearMap.ext fun x => by
         rw [LinearMap.comp_apply, ← lin_mul, mul_inv_cancel, lin_one]
         rfl)
@@ -137,7 +137,7 @@ theorem chief_rep_exists {G : Type} [Group G] [Finite G] {T X K U V X₁ W₀ W�
   have hPp : IsPGroup 2 ↥(pCoreOf 2 X ⊓ Λ) := IsPGroup.to_le hOp inf_le_left
   let ρ : ↥(pCoreOf 2 X ⊓ Λ) →* (Additive (ch827Quot W₀ W₁) ≃ₗ[ZMod 2] Additive (ch827Quot W₀ W₁)) :=
     τ.comp (Subgroup.inclusion inf_le_right)
-  letI : MulAction ↥(pCoreOf 2 X ⊓ Λ) (Additive (ch827Quot W₀ W₁)) := MulAction.compHom _ ρ
+  let : MulAction ↥(pCoreOf 2 X ⊓ Λ) (Additive (ch827Quot W₀ W₁)) := MulAction.compHom _ ρ
   obtain ⟨w₁, hw₁0, hw₁⟩ := ch827_exists_fixed_ne_zero ↥(pCoreOf 2 X ⊓ Λ) hPp (fun g => by
     show τ (Subgroup.inclusion inf_le_right g) 0 = 0
     exact map_zero _)

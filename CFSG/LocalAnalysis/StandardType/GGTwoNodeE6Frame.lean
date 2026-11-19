@@ -152,9 +152,6 @@ theorem ggIndepE6_x_mem_span {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {h 
       simp
       first
         | (rw [sub_eq_add_neg, sub_eq_add_neg] at h0; exact h0)
-        | (rw [← h0]; abel)
-        | (rw [← sub_eq_zero] at h0; rw [← h0]; abel)
-        | (simpa [sub_eq_add_neg] using h0)
     have h2 := (Fintype.linearIndependent_iff.mp hind)
       (fun i : Fin 6 => if i = 0 then (1 : ZMod 3) else if i = 2 then -1
         else if i = 4 then 1 else if i = 5 then -1 else 0) hsum 0

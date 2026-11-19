@@ -59,7 +59,7 @@ abbrev conjActionOfNormalizes (Q K : Subgroup Y) (hQK : ∀ q ∈ Q, ∀ k ∈ K
 theorem card_fixedPoints_conj_eq (Q K : Subgroup Y) (hQK : ∀ q ∈ Q, ∀ k ∈ K, q * k * q⁻¹ ∈ K) :
     letI := conjActionOfNormalizes Q K hQK
     Nat.card (MulAction.fixedPoints Q K) = Nat.card ↥(K ⊓ Subgroup.centralizer (Q : Set Y)) := by
-  letI := conjActionOfNormalizes Q K hQK
+  let := conjActionOfNormalizes Q K hQK
   have hF : ∀ k : MulAction.fixedPoints Q K, (k.1 : Y) ∈ K ⊓ Subgroup.centralizer (Q : Set Y) := by
     intro k
     refine Subgroup.mem_inf.mpr ⟨k.1.2, ?_⟩
@@ -86,15 +86,15 @@ theorem exists_orderOf_eq_prime_mem_inf_centralizer [Finite Y] {p : ℕ} (hp : p
     {Q K : Subgroup Y} (hQ : IsPGroup p Q) (hQK : ∀ q ∈ Q, ∀ k ∈ K, q * k * q⁻¹ ∈ K)
     (hpK : p ∣ Nat.card K) :
     ∃ x ∈ K ⊓ Subgroup.centralizer (Q : Set Y), orderOf x = p := by
-  haveI := Fact.mk hp
-  letI := conjActionOfNormalizes Q K hQK
+  have := Fact.mk hp
+  let := conjActionOfNormalizes Q K hQK
   have hmod : Nat.card K ≡ Nat.card (MulAction.fixedPoints Q K) [MOD p] :=
     hQ.card_modEq_card_fixedPoints K
   rw [card_fixedPoints_conj_eq Q K hQK] at hmod
   have hdvd : p ∣ Nat.card ↥(K ⊓ Subgroup.centralizer (Q : Set Y)) := by
     have h0 : Nat.card K ≡ 0 [MOD p] := Nat.modEq_zero_iff_dvd.mpr hpK
     exact Nat.modEq_zero_iff_dvd.mp (hmod.symm.trans h0)
-  haveI : Fintype ↥(K ⊓ Subgroup.centralizer (Q : Set Y)) := Fintype.ofFinite _
+  have : Fintype ↥(K ⊓ Subgroup.centralizer (Q : Set Y)) := Fintype.ofFinite _
   have hdvd' : p ∣ Fintype.card ↥(K ⊓ Subgroup.centralizer (Q : Set Y)) := by
     rw [← Nat.card_eq_fintype_card]
     exact hdvd

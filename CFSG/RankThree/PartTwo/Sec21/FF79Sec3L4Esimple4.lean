@@ -14,23 +14,26 @@ open scoped commutatorElement
 variable {H : Type} [Group H] [Finite H]
 variable {β : MulAut H} {Z K : Subgroup H} {z₀ : H}
 
+omit [Finite H] in
 theorem e34_K_simple (hd : FF79APData β Z K z₀) : IsSimpleGroup ↥K := by
   obtain ⟨e⟩ := hd.K_a5
-  haveI := alternatingGroup.isSimpleGroup_five
+  have := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   exact e.isSimpleGroup
 
+omit [Finite H] in
 theorem e34_K_perfect (hd : FF79APData β Z K z₀) : ⁅K, K⁆ = K := by
   obtain ⟨e⟩ := hd.K_a5
   have h5 : 5 ≤ Nat.card (Fin 5) := by simp
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top h5)
-  haveI : Group.IsPerfect ↥K :=
+  have : Group.IsPerfect ↥K :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact Subgroup.isPerfect_iff.mp inferInstance
 
+omit [Finite H] in
 theorem e34_K_inf_normal_eq_bot (hd : FF79APData β Z K z₀) {N : Subgroup H} [N.Normal]
     (hKN : ¬ K ≤ N) : ∀ k ∈ K, k ∈ N → k = 1 := by
-  haveI := e34_K_simple hd
+  have := e34_K_simple hd
   intro k hk hkN
   have hnor : (N.subgroupOf K).Normal := inferInstance
   rcases hnor.eq_bot_or_eq_top with h | h
@@ -41,6 +44,7 @@ theorem e34_K_inf_normal_eq_bot (hd : FF79APData β Z K z₀) {N : Subgroup H} [
       have : (⟨g, hg⟩ : ↥K) ∈ N.subgroupOf K := by rw [h]; trivial
       exact this) hKN
 
+omit [Finite H] in
 theorem e34_K_le_of_le_sup (hd : FF79APData β Z K z₀) {E : Subgroup H} [E.Normal]
     (hK : K ≤ E ⊔ Subgroup.zpowers z₀) : K ≤ E := by
   have hz : z₀ ∈ Subgroup.center H := hd.Z_central hd.z₀_mem
@@ -63,8 +67,8 @@ theorem e34_K_le_of_le_sup (hd : FF79APData β Z K z₀) {E : Subgroup H} [E.Nor
   exact (QuotientGroup.eq_one_iff _).mp key
 
 theorem e34_K_le_layer (hd : FF79APData β Z K z₀) : K ≤ layer H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := e34_layer_normal (H := H)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := e34_layer_normal (H := H)
   by_contra hKE
   obtain ⟨e⟩ := hd.K_a5
   obtain ⟨x, hxK, hx3, -⟩ := e34_a5_data e
@@ -80,7 +84,7 @@ theorem e34_K_le_layer (hd : FF79APData β Z K z₀) : K ≤ layer H := by
   have hxE : x ∉ layer H := fun h => hx1 (hKE0 x hxK h)
   have hβx : β x = x := hd.K_fix x hxK
   obtain ⟨Q, hxQ, hQβ⟩ := e34_exists_fixed_sylow hd.beta3 hx3' hβx
-  have hQc := e34_comm_of_pGroup hS Q.isPGroup'
+  have hQc := e34_comm_of_pGroup hS Q.isPGroup
   obtain ⟨C, hC⟩ : ∃ C : Subgroup H, IsComponent C := by
     by_contra hno
     push Not at hno
@@ -90,7 +94,7 @@ theorem e34_K_le_layer (hd : FF79APData β Z K z₀) : K ≤ layer H := by
   have hgo : orderOf (g : H) = 3 := by rw [Subgroup.orderOf_coe]; exact hg
   have hgE : (g : H) ∈ layer H := LocalCores.component_le_layer hC g.2
   have hQsyl : IsSylowOf 3 (Q : Subgroup H) ⊤ :=
-    ⟨le_top, Q.isPGroup', by
+    ⟨le_top, Q.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr Q.not_dvd_index⟩
   have hg3 : (g : H) ^ 3 = 1 := hgo ▸ pow_orderOf_eq_one _
@@ -135,7 +139,7 @@ theorem e34_K_le_layer (hd : FF79APData β Z K z₀) : K ≤ layer H := by
   have hW : IsElemAb 3 (1 + 1) (Subgroup.zpowers y ⊔ Subgroup.zpowers z₀) :=
     e34_elemAb_sup (e34_elemAb_zpowers hyo) (e34_elemAb_zpowers hz0o)
       (fun a _ b hb => hzc b hb a) hyz
-  haveI : (Subgroup.zpowers z₀).Normal :=
+  have : (Subgroup.zpowers z₀).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr (hd.Z_central hd.z₀_mem))
   have hxN : x ∉ layer H ⊔ Subgroup.zpowers z₀ := by
     intro h

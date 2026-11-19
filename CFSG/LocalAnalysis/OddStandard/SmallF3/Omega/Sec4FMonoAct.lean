@@ -24,8 +24,8 @@ private lemma sec4F_permVec_single {n : ℕ} (σ : Equiv.Perm (Fin n)) (a : Fin 
   funext k
   simp only [permVec, Function.comp_apply, Pi.single_apply]
   by_cases h : k = σ a
-  · rw [if_pos h, if_pos ((Equiv.symm_apply_eq σ).mpr h)]
-  · rw [if_neg h, if_neg (fun hh => h ((Equiv.symm_apply_eq σ).mp hh))]
+  · rw [ite_eq_left h, ite_eq_left ((Equiv.symm_apply_eq σ).mpr h)]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h ((Equiv.symm_apply_eq σ).mp hh))]
 
 private lemma sec4F_sec4MV_pair (a b : Fin 7) :
     sec4MV (some a) + sec4MV (some b) = Pi.single a (1 : ZMod 2) + Pi.single b 1 := by

@@ -306,7 +306,7 @@ theorem odd_card_centralizer (hL : Loc2129 F H Q Y e d)
     exact ⟨_, hTinv ⟨s, hs⟩ x hx, rfl⟩
   have hT2 : IsPGroup 2 ((T : Subgroup (Y ⊓ Subgroup.centralizer (F : Set G) :
       Subgroup G)).map (Y ⊓ Subgroup.centralizer (F : Set G)).subtype) :=
-    T.isPGroup'.map _
+    T.isPGroup.map _
   have hTne : (T : Subgroup (Y ⊓ Subgroup.centralizer (F : Set G) : Subgroup G)).map
       (Y ⊓ Subgroup.centralizer (F : Set G)).subtype ≠ ⊥ := by
     intro hbot

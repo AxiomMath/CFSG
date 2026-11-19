@@ -14,8 +14,8 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Quasithin C
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
 private theorem w183_i2_finite_lgl : Finite (LGL 2 V) :=
-  Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
-    (fun e f h => LinearEquiv.ext (congrFun h))
+  Finite.of_injective (fun _e : LGL 2 V => fun v : V => _e v)
+    (fun _e _f h => LinearEquiv.ext (congrFun h))
 
 theorem br1_I2_member (hfin : FinG3) {Y L₁ L₂ T A : Subgroup (LGL 2 V)}
     {Γ : Set (Subgroup (LGL 2 V))} {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
@@ -36,9 +36,9 @@ theorem br1_I2_member (hfin : FinG3) {Y L₁ L₂ T A : Subgroup (LGL 2 V)}
         (A ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V)) = ⊥ ∧
           A ≤ Subgroup.centralizer (L₁ : Set (LGL 2 V)))) := by
   classical
-  haveI : Finite (LGL 2 V) := w183_i2_finite_lgl
-  haveI := htwo.simple₁
-  haveI := htwo.simple₂
+  have : Finite (LGL 2 V) := w183_i2_finite_lgl
+  have := htwo.simple₁
+  have := htwo.simple₂
   have hAn₁' : ∀ a ∈ A, ∀ l ∈ L₁, a * l * a⁻¹ ∈ L₁ := fun a ha l hl =>
     (Subgroup.mem_normalizer_iff.mp (hAn₁ ha) l).mp hl
   have hAn₂' : ∀ a ∈ A, ∀ l ∈ L₂, a * l * a⁻¹ ∈ L₂ := fun a ha l hl =>

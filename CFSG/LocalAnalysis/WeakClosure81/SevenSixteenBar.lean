@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G}
 theorem isTI_barSub_iSub (h : Hyp716 V H E) {Q : Type} [Group Q]
     {φ : ↥(kSub V H E) →* Q} (hφ : IsBarMap (kSub V H E) (iSub V H E) φ) :
     IsTI (barSub (kSub V H E) φ V) := by
-  haveI : Finite Q := Finite.of_surjective φ hφ.surjective
+  have : Finite Q := Finite.of_surjective φ hφ.surjective
   let K : Subgroup G := kSub V H E
   let J : Subgroup G := iSub V H E
   have hJleK : J ≤ K := iSub_le_kSub V H E
@@ -82,6 +82,7 @@ theorem isTI_barSub_iSub (h : Hyp716 V H E) {Q : Type} [Group Q]
     rw [hconjT]
     exact inf_eq_left.mpr le_rfl
 
+omit [Finite G] in
 theorem normalClosure_barSub_iSub_eq_top (h : Hyp716 V H E) {Q : Type} [Group Q]
     {φ : ↥(kSub V H E) →* Q} (hφ : IsBarMap (kSub V H E) (iSub V H E) φ) :
     Subgroup.normalClosure (barSub (kSub V H E) φ V : Set Q) = ⊤ := by
@@ -127,7 +128,7 @@ theorem barSub_inf_center_eq_bot (h : Hyp716 V H E) {Q : Type} [Group Q]
     {φ : ↥(kSub V H E) →* Q} (hφ : IsBarMap (kSub V H E) (iSub V H E) φ)
     [Nontrivial (Q ⧸ Subgroup.center Q)] :
     barSub (kSub V H E) φ V ⊓ Subgroup.center Q = ⊥ := by
-  haveI : Finite Q := Finite.of_surjective φ hφ.surjective
+  have : Finite Q := Finite.of_surjective φ hφ.surjective
   by_contra hne
   obtain ⟨z, hz⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
   have hzT : (z : Q) ∈ barSub (kSub V H E) φ V := (Subgroup.mem_inf.mp z.2).1
@@ -169,7 +170,7 @@ theorem barSub_inf_center_eq_bot (h : Hyp716 V H E) {Q : Type} [Group Q]
   have htop : barSub (kSub V H E) φ V = ⊤ := by
     have h1 := normalClosure_barSub_iSub_eq_top h hφ
     rwa [Subgroup.normalClosure_eq_self] at h1
-  haveI hab : IsMulCommutative ↥(barSub (kSub V H E) φ V) :=
+  have hab : IsMulCommutative ↥(barSub (kSub V H E) φ V) :=
     (isElemAbelian_barSub h.elemAbelian φ).1
   have hcenter : Subgroup.center Q = ⊤ := by
     rw [Subgroup.eq_top_iff']
@@ -188,7 +189,7 @@ theorem card_barSub_eq_two_pow (h : Hyp716 V H E) {Q : Type} [Group Q]
     {φ : ↥(kSub V H E) →* Q} {n : ℕ} (hn : rk ↥(barSub (kSub V H E) φ V) = n) :
     Nat.card ↥(barSub (kSub V H E) φ V) = 2 ^ n := by
   have hab : IsElemAbelian 2 (barSub (kSub V H E) φ V) := isElemAbelian_barSub h.elemAbelian φ
-  haveI : Finite ↥(barSub (kSub V H E) φ V) :=
+  have : Finite ↥(barSub (kSub V H E) φ V) :=
     Finite.of_surjective
       (fun x : ↥(V.subgroupOf (kSub V H E)) =>
         (⟨φ x, Subgroup.mem_map_of_mem φ x.2⟩ : ↥(barSub (kSub V H E) φ V)))
@@ -198,11 +199,13 @@ theorem card_barSub_eq_two_pow (h : Hyp716 V H E) {Q : Type} [Group Q]
   rw [← hn]
   exact card_eq_two_pow_of_isPGroup (isPGroup_two_of_isElemAbelian hab)
 
+omit [Finite G] in
 theorem barSub_comp {K A : Subgroup G} {Q P : Type} [Group Q] [Group P] (φ : ↥K →* Q)
     (f : Q →* P) : barSub K (f.comp φ) A = (barSub K φ A).map f := by
   unfold barSub
   rw [Subgroup.map_map]
 
+omit [Finite G] in
 theorem card_barSub_comp_mk {K A : Subgroup G} {Q : Type} [Group Q] (φ : ↥K →* Q)
     (hA : barSub K φ A ⊓ Subgroup.center Q = ⊥) :
     Nat.card ↥(barSub K ((QuotientGroup.mk' (Subgroup.center Q)).comp φ) A) =

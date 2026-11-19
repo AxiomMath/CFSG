@@ -193,22 +193,22 @@ private theorem hsums_minusLSizes :
       intro x hx hx1
       have hmem : x ∈ U.filter (· ∈ lsB1) := Finset.mem_filter.2 ⟨hx, hx1⟩
       rw [hB1e] at hmem
-      simpa using hmem
+      simp at hmem
     have hnotB3 : ∀ x, x ∈ U → x ≠ 3 := by
       intro x hx hx3
       have hmem : x ∈ U.filter (· = 3) := Finset.mem_filter.2 ⟨hx, hx3⟩
       rw [hB3e] at hmem
-      simpa using hmem
+      simp at hmem
     have hnotBm : ∀ x, x ∈ U → x ∉ lsBmid := by
       intro x hx hxm
       have hmem : x ∈ U.filter (· ∈ lsBmid) := Finset.mem_filter.2 ⟨hx, hxm⟩
       rw [hBme] at hmem
-      simpa using hmem
+      simp at hmem
     have hnotBt : ∀ x, x ∈ U → x ∉ lsBtop := by
       intro x hx hxt
       have hmem : x ∈ U.filter (· ∈ lsBtop) := Finset.mem_filter.2 ⟨hx, hxt⟩
       rw [hBte] at hmem
-      simpa using hmem
+      simp at hmem
     apply Finset.Subset.antisymm
     · intro x hx
       fin_cases x
@@ -387,7 +387,7 @@ theorem isSimpleGroup_minusLPerm : IsSimpleGroup minusLPerm := by
   exact hsums_transport (by decide) hsums_minusLSizes l₀ hl₀0
 
 theorem isSimpleGroup_minusL : IsSimpleGroup minusL := by
-  letI : IsSimpleGroup minusLPerm := isSimpleGroup_minusLPerm
+  let : IsSimpleGroup minusLPerm := isSimpleGroup_minusLPerm
   exact (Subgroup.subgroupOfEquivOfLe minusLPerm_le_minusPerm).isSimpleGroup
 
 theorem minusRefl_not_mem_minusLPerm (i : Fin 65) : minusRefl i ∉ minusLPerm := by

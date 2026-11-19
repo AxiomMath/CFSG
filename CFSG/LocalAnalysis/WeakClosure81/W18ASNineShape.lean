@@ -67,9 +67,9 @@ theorem exists_simpleSocleMod_of_hasQuotShape {H : Subgroup G}
   have hKn : ((relPPrimeCore 3 H).subgroupOf H).Normal :=
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_normal
       (p := 3) (by norm_num) H
-  haveI := hKn
+  have := hKn
   have hLH : fStarMod (relPPrimeCore 3 H) H ≤ H := Subgroup.map_subtype_le _
-  haveI : Finite X := Finite.of_surjective φ₀ hφ₀s
+  have : Finite X := Finite.of_surjective φ₀ hφ₀s
   have hsimple : IsSimpleGroup X := hX.isSimpleGroup
   have hnc : ∃ a b : X, a * b ≠ b * a := hX.exists_not_commute
   set C : Subgroup ↥H := ((relPPrimeCore 3 H).subgroupOf H).normalCore with hC
@@ -98,7 +98,7 @@ theorem exists_simpleSocleMod_of_hasQuotShape {H : Subgroup G}
     exact ⟨⟨⟨l, hLH l.2⟩, l.2⟩, rfl⟩
   have hφk : ∀ k : ↥F, φ k = 1 ↔ (k : ↥H) ∈ Kk := fun k => hφ₀k (ι k)
   have hcenter : Subgroup.center X = ⊥ := by
-    haveI := hsimple
+    have := hsimple
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h | h
     · exact h
     · exfalso
@@ -111,8 +111,8 @@ theorem exists_simpleSocleMod_of_hasQuotShape {H : Subgroup G}
     exact (genFittingFStar _).one_mem
   ·
     intro T hKT hTF hTn
-    haveI hTn' : ((T.subgroupOf F).map φ).Normal := hTn.map φ hφs
-    haveI := hsimple
+    have hTn' : ((T.subgroupOf F).map φ).Normal := hTn.map φ hφs
+    have := hsimple
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((T.subgroupOf F).map φ) with hbot | htop
     · left
       refine le_antisymm (fun t ht => ?_) hKT
@@ -160,6 +160,7 @@ theorem exists_simpleSocleMod_of_hasQuotShape {H : Subgroup G}
     rw [hcenter, Subgroup.mem_bot] at hcentral
     exact (hφk _).mp hcentral
 
+omit [Finite G] in
 theorem ModDataE.exists_surjective_img {H E : Subgroup G} (M : ModDataE H E) :
     ∃ π : ↥H →* ↥(M.img H), Function.Surjective π ∧
       (∀ j : ↥H, ((π j : ↥(M.img H)) : LGL 2 M.W) = M.ρ j) ∧
@@ -218,7 +219,7 @@ theorem isCompositionFactor_of_simpleSocleMod {Y : Type} [Group Y] [Finite Y]
     exact Subgroup.normal_top
   have hFN : F ≤ N ⊔ Kk := h.le_sup_of_not_le hN le_rfl hNN hnot
   obtain ⟨ψ, hψs, -⟩ := exists_hom_subgroupOf_of_le_sup hN h.le hFN hφ hker
-  haveI : Finite S := Finite.of_surjective φ hφ
+  have : Finite S := Finite.of_surjective φ hφ
   have hsub : (F.subgroupOf N).IsSubnormal :=
     Subgroup.Normal.isSubnormal (h.normal_right.subgroupOf N)
   exact CFSG.Quasithin.H13.L829N.isCompositionFactor_of_subnormal_surjection hsub

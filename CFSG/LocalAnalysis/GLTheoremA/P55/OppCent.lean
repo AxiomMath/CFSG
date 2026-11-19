@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem oPPrimeP_le_centModSubgroup {p : ℕ} (hp : p.Prime) {X L : Subgroup G}
     (hL : GLAPComponent p X L) : oPPrimeP p X ≤ centModSubgroup p L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcomm : ⁅CFSG.LocalAnalysis.GLTheoremB.barX p X L,
       CFSG.pCore p (↥X ⧸ GLAPPrimeCore p ↥X)⁆ = ⊥ := by
     rcases CFSG.ComponentClassification.LocalComponents.normal_contains_or_commutes
@@ -26,9 +26,9 @@ theorem oPPrimeP_le_centModSubgroup {p : ℕ} (hp : p.Prime) {X L : Subgroup G}
         IsPGroup.to_le CFSG.pCore_isPGroup hle
       have hnil : Group.IsNilpotent ↥(CFSG.LocalAnalysis.GLTheoremB.barX p X L) :=
         IsPGroup.isNilpotent hpg
-      haveI : Group.IsPerfect ↥(CFSG.LocalAnalysis.GLTheoremB.barX p X L) :=
+      have : Group.IsPerfect ↥(CFSG.LocalAnalysis.GLTheoremB.barX p X L) :=
         Group.isPerfect_def.2 hL.2.2.1.2.2.1
-      haveI : Nontrivial ↥(CFSG.LocalAnalysis.GLTheoremB.barX p X L) :=
+      have : Nontrivial ↥(CFSG.LocalAnalysis.GLTheoremB.barX p X L) :=
         isQuasisimple_nontrivial hL.2.2.1.2.2
       exact Group.IsPerfect.not_isNilpotent _ hnil
     · exact hc

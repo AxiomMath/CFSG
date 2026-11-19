@@ -83,12 +83,14 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {S : Subgroup (GL (Fin 3) F
     simp
   map_mul' x y := by
     ext v
-    simp [Matrix.mulVec_mulVec]
+    simp
 
+omit [Finite F] [CharP F 2] in
 theorem Mv_apply (x : ↥S) (v : Fin 3 → F) :
     Mv S x v = ((x : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) *ᵥ v := by
   simp [Mv]
 
+omit [Finite F] [CharP F 2] in
 theorem semiMap_iter_mulVec (α : MulAut ↥S) (A : GL (Fin 3) F) (φ : F ≃+* F)
     (hα : ∀ x : ↥S, ((α x : ↥S) : GL (Fin 3) F) = A * glAut φ (x : GL (Fin 3) F) * A⁻¹)
     (x : ↥S) (v : Fin 3 → F) (j : ℕ) :
@@ -99,6 +101,7 @@ theorem semiMap_iter_mulVec (α : MulAut ↥S) (A : GL (Fin 3) F) (φ : F ≃+* 
     rw [Function.iterate_succ_apply', Function.iterate_succ_apply', ih, Mv_apply,
       semiMap_mulVec, pow_succ', MulAut.mul_apply, Mv_apply, hα]
 
+omit [Finite F] [CharP F 2] in
 theorem semiMap_iter_smul (A : GL (Fin 3) F) (φ : F ≃+* F) (c : F) (v : Fin 3 → F) (j : ℕ) :
     (semiMap A φ)^[j] (c • v) = (φ^[j] c) • (semiMap A φ)^[j] v := by
   induction j with
@@ -119,13 +122,14 @@ theorem semiMap_iter_smul (A : GL (Fin 3) F) (φ : F ≃+* F) (c : F) (v : Fin 3
     intro c v hv t ht
     rw [map_smul, hv t ht]
 
+omit [Finite F] [CharP F 2] in
 theorem mem_fixedSpace {T : Subgroup ↥S} {v : Fin 3 → F} :
     v ∈ fixedSpace T ↔ ∀ t ∈ T, Mv S t v = v := Iff.rfl
 
 theorem fixedSpace_ne_bot (T : Subgroup ↥S) (hT : IsPGroup 2 T) : fixedSpace T ≠ ⊥ := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
-  letI : MulAction ↥T (Fin 3 → F) :=
+  let : Fintype F := Fintype.ofFinite F
+  let : MulAction ↥T (Fin 3 → F) :=
     { smul := fun t v => Mv S (t : ↥S) v
       one_smul := fun v => by
         show Mv S (1 : ↥S) v = v
@@ -135,7 +139,7 @@ theorem fixedSpace_ne_bot (T : Subgroup ↥S) (hT : IsPGroup 2 T) : fixedSpace T
         show Mv S ((s : ↥S) * (t : ↥S)) v = Mv S (s : ↥S) (Mv S (t : ↥S) v)
         rw [map_mul]
         rfl }
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : 2 ∣ Nat.card (Fin 3 → F) := by
     obtain ⟨m, -, hm⟩ := FiniteField.card F 2
     rw [Nat.card_eq_fintype_card, Fintype.card_fun, hm]
@@ -151,6 +155,7 @@ theorem fixedSpace_ne_bot (T : Subgroup ↥S) (hT : IsPGroup 2 T) : fixedSpace T
   rw [hbot, Submodule.mem_bot] at hbmem
   exact hb0 hbmem.symm
 
+omit [Finite F] [CharP F 2] in
 theorem Mv_injective : Function.Injective (Mv S) := by
   intro x y h
   have h1 : (Matrix.toLin' ((x : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)) =
@@ -159,6 +164,7 @@ theorem Mv_injective : Function.Injective (Mv S) := by
     exact h
   exact Subtype.ext (Units.ext (Matrix.toLin'.injective h1))
 
+omit [Finite F] [CharP F 2] in
 theorem semiMap_Mv (α : MulAut ↥S) (A : GL (Fin 3) F) (φ : F ≃+* F)
     (hα : ∀ x : ↥S, ((α x : ↥S) : GL (Fin 3) F) = A * glAut φ (x : GL (Fin 3) F) * A⁻¹)
     (x : ↥S) (v : Fin 3 → F) : semiMap A φ (Mv S x v) = Mv S (α x) (semiMap A φ v) := by
@@ -176,7 +182,7 @@ theorem frob_of_semilinear (α : MulAut ↥S) (A : GL (Fin 3) F) (φ : F ≃+* F
       (∀ v : Fin 3 → F, Mv S z v = c • v) ∧ x = d₀ ^ a * z) :
     α d₀ = d₀ ^ ν := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = Nat.card F := (Nat.card_eq_fintype_card).symm
   have hg : Mv S d₀ ^ (Fintype.card F - 1) = 1 := by
     rw [← map_pow, hcard, hd₀pow, map_one]

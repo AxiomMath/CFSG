@@ -37,7 +37,7 @@ private theorem exists_model_frobQ {G : Type} [Group G] {f : ℕ} (hf : 1 ≤ f)
   obtain ⟨π, hπ, hπker, -, hπval⟩ := LayerSixE.exists_model_twistedE6 hf
   have hπker' : π.ker = ψ.ker :=
     hπker.trans (AutSt.ker_eq_center hker hC).symm
-  haveI : ψ.ker.Normal := MonoidHom.normal_ker ψ
+  have : ψ.ker.Normal := MonoidHom.normal_ker ψ
   let eC : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)) ≃*
       twistedE6Group 2 f ⧸ ψ.ker :=
     (QuotientGroup.quotientKerEquivOfSurjective π hπ).symm.trans

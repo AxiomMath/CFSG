@@ -72,8 +72,8 @@ theorem isQuasisimple_nineJ {G : Type} [Group G] [Finite G] {b₀ : G} {K E : Su
   have hnonab : ∃ a b : ↥(nineJ K (B.b 2)), a * b ≠ b * a := by
     by_contra h
     push Not at h
-    haveI : IsMulCommutative ↥(nineJ K (B.b 2)) := ⟨⟨h⟩⟩
-    haveI := hJsimple.toNontrivial
+    have : IsMulCommutative ↥(nineJ K (B.b 2)) := ⟨⟨h⟩⟩
+    have := hJsimple.toNontrivial
     exact bot_ne_top ((center_nineJ_eq_bot hstd hB hrec).symm.trans
       (Subgroup.center_eq_top_iff.mpr inferInstance))
   refine ⟨CFSG.GorensteinWalter.Helpers.commutator_eq_top_of_noncommutative hnonab, ?_⟩

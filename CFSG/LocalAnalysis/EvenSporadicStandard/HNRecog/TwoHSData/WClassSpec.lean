@@ -92,7 +92,7 @@ theorem wclassOK_spec (hP : Nat.card P1408 = 177408000) {cap : ℕ} {r : WClass}
   have hcommw : ∀ w ∈ r.centGens, commTT 1408 (tabW w) (tabW r.rep) = true := by
     intro w hw
     have hmem : tabW w ∈ cg := by
-      simp only [cg, tabsW, Array.mem_toArray, List.mem_map]
+      simp only [cg, tabsW, List.mem_toArray, List.mem_map]
       exact ⟨w, hw, rfl⟩
     exact Array.all_eq_true'.1 hcomm (tabW w) hmem
   have hHle : Kc ≤ P1408 ⊓ centralizer ({t} : Set _) := by

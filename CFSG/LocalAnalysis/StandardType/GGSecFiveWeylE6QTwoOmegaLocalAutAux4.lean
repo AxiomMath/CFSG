@@ -14,10 +14,12 @@ variable {K : Type} [Field K] [Finite K]
 
 @[expose] public def NL (L Bs : Subgroup G) : Subgroup G := L ⊓ Subgroup.normalizer (Bs : Set G)
 
+omit [Finite G] in
 public theorem mem_NL {L Bs : Subgroup G} {g : G} :
     g ∈ NL L Bs ↔ g ∈ L ∧ g ∈ Subgroup.normalizer (Bs : Set G) :=
   Subgroup.mem_inf
 
+omit [Finite G] in
 public theorem NL_le_normalizer_inf (L Bs : Subgroup G) :
     NL L Bs ≤ Subgroup.normalizer ((Bs ⊓ L : Subgroup G) : Set G) := by
   intro g hg
@@ -40,14 +42,17 @@ public theorem NL_le_normalizer_inf (L Bs : Subgroup G) :
   (Subgroup.normalizerMonoidHom (H := Bs ⊓ L)).comp
     (Subgroup.inclusion (NL_le_normalizer_inf L Bs))
 
+omit [Finite G] in
 public theorem conjBs_coe (L Bs : Subgroup G) (l : ↥(NL L Bs)) (b : ↥Bs) :
     ((conjBs L Bs l) b : G) = (l : G) * (b : G) * (l : G)⁻¹ :=
   Subgroup.normalizerMonoidHom_apply_apply_coe Bs _ b
 
+omit [Finite G] in
 public theorem conjE_coe (L Bs : Subgroup G) (l : ↥(NL L Bs)) (e : ↥(Bs ⊓ L)) :
     ((conjE L Bs l) e : G) = (l : G) * (e : G) * (l : G)⁻¹ :=
   Subgroup.normalizerMonoidHom_apply_apply_coe (Bs ⊓ L) _ e
 
+omit [Finite G] in
 public theorem ggAutomizer_eq_range_conjBs (L Bs : Subgroup G) :
     ggAutomizer L Bs = (conjBs L Bs).range := by
   rw [ggAutomizer]
@@ -81,6 +86,7 @@ public theorem bstar_eq_sup {Bs L : Subgroup G} {x : G}
     Subgroup.map_subgroupOf_eq_of_le (Subgroup.zpowers_le.mpr hxBs), hbot] at hmap
   exact hmap.symm
 
+omit [Finite G] in
 public theorem conj_eq_self_of_sup {Bs E Z : Subgroup G} {g : G} (hsup : Bs = E ⊔ Z)
     (hE : ∀ e ∈ E, g * e * g⁻¹ = e) (hZ : ∀ z ∈ Z, g * z * g⁻¹ = z) :
     ∀ b ∈ Bs, g * b * g⁻¹ = b := by
@@ -168,11 +174,13 @@ public theorem card_ggAutomizer_eq_card_range_conjE {Bs L : Subgroup G} {x : G}
   MonoidHom.codRestrict ((qMap (K := K) θ).comp (Subgroup.inclusion inf_le_right)) _
     fun e => Subgroup.mem_map_of_mem (qMap (K := K) θ) (mem_EL.mpr (Subgroup.mem_inf.mp e.2))
 
+omit [Finite K] [Finite G] in
 public theorem qE_apply (Bs L : Subgroup G)
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4) (e : ↥(Bs ⊓ L)) :
     ((qE Bs L θ e : ↥(Ebar Bs L θ)) : OrthRest.RPlus K 4) = qMap (K := K) θ ⟨(e : G), e.2.2⟩ :=
   rfl
 
+omit [Finite G] [Finite K] in
 public theorem qE_injective (Bs L : Subgroup G)
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4)
     (hEbot : (Bs ⊓ L) ⊓ (Subgroup.center L).map L.subtype = ⊥) :
@@ -190,6 +198,8 @@ public theorem qE_injective (Bs L : Subgroup G)
   rw [hEbot] at hbot
   exact eq_of_mul_inv_eq_one (Subgroup.mem_bot.mp hbot)
 
+omit [Finite K] in
+omit [Finite G] in
 public theorem qE_surjective (Bs L : Subgroup G)
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4) :
     Function.Surjective (qE Bs L θ) := by
@@ -208,6 +218,8 @@ public noncomputable def ΘE (Bs L : Subgroup G)
   (MulEquiv.ofBijective (qE Bs L θ) ⟨qE_injective Bs L θ hEbot, qE_surjective Bs L θ⟩).trans
     Θ.symm
 
+omit [Finite K] in
+omit [Finite G] in
 public theorem ΘE_apply (Bs L : Subgroup G)
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4)
     (Θ : (Fin 4 → Multiplicative (ZMod 3)) ≃* ↥(Ebar Bs L θ))

@@ -15,9 +15,9 @@ theorem inf_centralizer_eq_bot_of_le_normalizer {G : Type} [Group G] [Finite G] 
     (hN : ¬ 7 ∣ Nat.card N) (hHN : H ≤ normalizer (N : Set G)) :
     N ⊓ Subgroup.centralizer ({c} : Set G) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hNF : N ⊓ F = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hL.card_eq]
     exact Nat.prime_seven.coprime_pow_of_not_dvd hN
   have hcent : ∀ d ∈ N ⊓ Subgroup.centralizer ({c} : Set G),
@@ -67,7 +67,7 @@ theorem inf_centralizer_eq_bot_of_mem_zpowers {G : Type} [Group G] [Finite G] {c
     {e : G} (he : e ∈ Subgroup.zpowers c) (he1 : e ≠ 1) :
     N ⊓ Subgroup.centralizer ({e} : Set G) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hdvd : orderOf e ∣ 7 := by
     rw [← Nat.card_zpowers, ← hL.orderOf_w, ← Nat.card_zpowers]
     exact Subgroup.card_dvd_of_le (Subgroup.zpowers_le.mpr he)
@@ -94,7 +94,7 @@ theorem inf_centralizer_eq_bot_of_conj_zpow {G : Type} [Group G] [Finite G] {c w
     (hD : N ⊓ Subgroup.centralizer ({c} : Set G) = ⊥) (m : ℤ) :
     N ⊓ Subgroup.centralizer ({w * c ^ m} : Set G) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hc7 : c ^ (7 : ℤ) = 1 := by simpa using hL.pow_eq
   have hNw : N ⊓ Subgroup.centralizer ({w} : Set G) = ⊥ := by
     rw [← le_bot_iff]
@@ -216,7 +216,7 @@ theorem inf_centralizer_eq_bot_of_mem_sup {G : Type} [Group G] [Finite G] {c w h
     (he : e ∈ Subgroup.zpowers c ⊔ Subgroup.zpowers w) (he1 : e ≠ 1) :
     N ⊓ Subgroup.centralizer ({e} : Set G) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hcw : Commute c w := hL.comm_w hwF
   have hc7z : c ^ (7 : ℤ) = 1 := by simpa using hL.pow_eq
   have hw7z : w ^ (7 : ℤ) = 1 := by
@@ -334,7 +334,7 @@ theorem eq_bot_of_le_normalizer {G : Type} [Group G] [Finite G] {c w h : G} {F H
     (hhw : h * w * h⁻¹ = c) (hN : ¬ 7 ∣ Nat.card N) (hHN : H ≤ normalizer (N : Set G)) :
     N = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hD : N ⊓ Subgroup.centralizer ({c} : Set G) = ⊥ :=
     inf_centralizer_eq_bot_of_le_normalizer hL hFH hN hHN
   have hcw : Commute c w := hL.comm_w hwF
@@ -363,7 +363,7 @@ theorem eq_bot_of_le_normalizer {G : Type} [Group G] [Finite G] {c w h : G} {F H
       obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 ha
       obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hb
       exact (hcw.zpow_zpow m n).eq
-  haveI : CFSG.IsElementaryAbelian 7 E :=
+  have : CFSG.IsElementaryAbelian 7 E :=
     CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hEle
   have hc_card : Nat.card (Subgroup.zpowers c) = 7 := by
     rw [Nat.card_zpowers, hL.orderOf_w]
@@ -387,7 +387,7 @@ theorem eq_bot_of_le_normalizer {G : Type} [Group G] [Finite G] {c w h : G} {F H
       obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hb
       exact hcw.zpow_zpow m n
     rw [CFSG.card_sup_eq_mul_of_commute _ _ hcomm hinf, hc_card, hw_card]
-  haveI : Nontrivial E := by
+  have : Nontrivial E := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcardE]
     norm_num
   have hAE : E ≤ Subgroup.normalizer (N : Set G) := by
@@ -406,7 +406,7 @@ theorem eq_bot_of_le_normalizer {G : Type} [Group G] [Finite G] {c w h : G} {F H
       omega
     have hB'card : Nat.card (B.map E.subtype : Subgroup G) = 7 := by
       rw [Subgroup.card_map_of_injective E.subtype_injective, hBcard]
-    haveI : Nontrivial ↥(B.map E.subtype) := by
+    have : Nontrivial ↥(B.map E.subtype) := by
       rw [← Finite.one_lt_card_iff_nontrivial, hB'card]
       norm_num
     obtain ⟨x, hx1⟩ := exists_ne (1 : ↥(B.map E.subtype))

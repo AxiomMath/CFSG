@@ -118,7 +118,7 @@ theorem cw_rep {t : Nat} (ht : t < 2) : ∃ c ∈ Xc, ∀ y < 31671,
   have hcw : cw t y = wa G ((invW (((conjWords ())[t]!).reverse.map regZ) ++ [43]) ++
       ((conjWords ())[t]!).reverse.map regZ) y := by
     unfold cw
-    rw [e1, e2, wa_append, wa_append, wa_cons, wa_nil, lf_eq, if_pos (by norm_num)]
+    rw [e1, e2, wa_append, wa_append, wa_cons, wa_nil, lf_eq, ite_eq_left (by norm_num)]
   rw [ws_get ht]
   refine ⟨by rw [hC.ap hy, hcw], ?_⟩
   rw [actN_eq_val _ hy, ← idx_eq _ hy, ← hC.2.2 y hy, hC.ap hy, hcw]

@@ -145,7 +145,7 @@ theorem torData_aligned {K L : Type} [Field K] [Finite K] [CharP K 2]
     (hΛn : ∀ l : L, Λ (ψ l) = MulAut.conj l)
     (hΛmap : ∀ g l, ψ (Λ g l) = g * ψ l * g⁻¹)
     (hA : (torusPow .E6 K p).map Λ = A) :
-    ∃ w : GGTorusTorWit (Nat.card K - 1) 6 L A, w.Holds CartanMatrix.E₆ CoxeterMatrix.E₆ ∧
+    ∃ w : GGTorusTorWit (Nat.card K - 1) 6 L A, w.Holds (CartanMatrix.E 6) CoxeterMatrix.E₆ ∧
       ∀ k, ψ (w.n k) = CFSG.LieType.Chevalley.weylElement .E6 K k := by
   classical
   let : Fact p.Prime := ⟨hp⟩
@@ -328,7 +328,7 @@ theorem torData_aligned {K L : Type} [Field K] [Finite K] [CharP K 2]
 theorem ggTorusTorW_recipe_E6 {K : Type} [Field K] [Finite K] [CharP K 2]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3)
     (hpq : p ∣ Nat.card K - 1) :
-    GGTorusTorW p 6 (Nat.card K - 1) 6 CartanMatrix.E₆ CoxeterMatrix.E₆
+    GGTorusTorW p 6 (Nat.card K - 1) 6 (CartanMatrix.E 6) CoxeterMatrix.E₆
       (RecipeGroup .E6 K) (RecipeID .E6 K) := by
   intro L _ _ ψ A hTB
   obtain ⟨ψa, hψa, hka, Λ, hΛ, hΛn, hΛmap, hA⟩ :=

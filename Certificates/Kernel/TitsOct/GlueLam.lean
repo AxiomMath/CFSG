@@ -21,9 +21,9 @@ theorem ncard_fin (P : ℕ → Prop) [DecidablePred P] :
   rw [← Set.ncard_coe_finset]
   refine Set.ncard_congr (fun c _ => c.val) (fun c hc => ?_) (fun a b _ _ h => Fin.ext h)
     (fun n hn => ?_)
-  · simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hc ⊢
+  · simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hc ⊢
     exact ⟨c.2, hc⟩
-  · simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hn
+  · simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hn
     exact ⟨⟨n, hn.1⟩, hn.2, rfl⟩
 
 theorem dist0 (c : Fin 1755) : octGraph.dist (Sum.inl 0) (Sum.inl c) = layAt LAY0 c := by
@@ -75,7 +75,7 @@ theorem cnt_eq {d n : ℕ} (h : Nat.beq (layCnt LAY0 d) n = true) :
   have e : {p : Fin 1755 | octGraph.dist (Sum.inl 0) (Sum.inl p) = d} =
       {p : Fin 1755 | layAt LAY0 p.val = d} := by
     ext p
-    simp only [Set.mem_setOf_eq, dist0]
+    simp only [Set.mem_ofPred_eq, dist0]
   rw [e]
   refine (ncard_fin (fun x => layAt LAY0 x = d)).trans ?_
   rw [← layCnt_eq, Nat.eq_of_beq_eq_true h]
@@ -119,10 +119,10 @@ theorem ncard_lam_g {g : ↥TA} (hg : g • (Sum.inl 0 : Vtx) = Sum.inl 0) (u : 
   symm
   refine Set.ncard_congr (fun c _ => g.1 c) (fun c hc => ?_) (fun a b _ _ e => g.1.injective e)
     (fun c hc => ⟨(g⁻¹).1 c, ?_, ?_⟩)
-  · simp only [Set.mem_setOf_eq] at hc ⊢
+  · simp only [Set.mem_ofPred_eq] at hc ⊢
     rw [← smul_inl g c, lam_g hg]
     exact hc
-  · simp only [Set.mem_setOf_eq] at hc ⊢
+  · simp only [Set.mem_ofPred_eq] at hc ⊢
     rw [inl_eq g c, lam_g hg] at hc
     exact hc
   · have := inl_eq g c
@@ -138,7 +138,7 @@ theorem q7_g {g : ↥TA} (hg : g • (Sum.inl 0 : Vtx) = Sum.inl 0) (y x : Vtx) 
         0 < octGraph.dist y (Sum.inl c) ∧ octGraph.dist y (Sum.inl c) < 8} =
       {c : Fin 1755 | octGraph.dist (Sum.inl 0) (Sum.inl c) = 8 ∧
         ¬ (0 < octGraph.dist x (Sum.inl c) ∧ octGraph.dist x (Sum.inl c) < 8)}) := by
-  simp only [Set.ext_iff, Set.mem_setOf_eq]
+  simp only [Set.ext_iff, Set.mem_ofPred_eq]
   constructor
   · intro h c
     have := h (g.1 c)
@@ -154,15 +154,15 @@ theorem codesX : CodesOK wX := by
   unfold CodesOK
   decide +kernel
 
-theorem aX_ev {j : ℕ} (hj : j < 6) {y : ℕ} (hy : y < 1755) : gp (FX j) y = ev (aX j).1 y := by
+theorem aX_ev {j : ℕ} (_hj : j < 6) {y : ℕ} (hy : y < 1755) : gp (FX j) y = ev (aX j).1 y := by
   obtain ⟨hl5, -, hc1, -, -, -⟩ := dWords
   unfold FX aX
   rw [nIf_d, blt_d]
   by_cases h5 : j < 5
-  · simp only [h5, decide_true, if_true]
+  · simp only [h5, decide_true, ite_true]
     have hj' : j < fwPt.length := by rw [hl5]; exact h5
     rw [bindK_sound bindP j hj' y hy, getD_eq _ hj', wPt_ev (hc1 _ (List.getElem_mem hj')) hy]
-  · simp only [h5, decide_false, Bool.false_eq_true, if_false]
+  · simp only [h5, decide_false, Bool.false_eq_true, ite_false]
     rw [bindK_sound bindX 0 (by simp) y hy]
     exact wPt_ev codesX hy
 
@@ -177,11 +177,11 @@ theorem aX_fix {j : ℕ} (hj : j < 6) : aX j • (Sum.inl 0 : Vtx) = Sum.inl 0 :
     unfold FX
     rw [nIf_d, blt_d]
     by_cases h5 : j < 5
-    · simp only [h5, decide_true, if_true]
+    · simp only [h5, decide_true, ite_true]
       have := (fixV_sound (allN_iff'.1 fix0 j h5)).1
       rw [actV_pt (by norm_num)] at this
       exact this.2
-    · simp only [h5, decide_false, Bool.false_eq_true, if_false]
+    · simp only [h5, decide_false, Bool.false_eq_true, ite_false]
       exact Nat.eq_of_beq_eq_true fixX
   have := aX_smul hj (y := 0) (by norm_num)
   rwa [h0, ofCode_zero] at this
@@ -207,7 +207,7 @@ theorem lam_root {b PAR LAYJ : ℕ} (hl : layK lpD PL b 1024 LAYJ PAR = true) :
         0 < octGraph.dist (ofCode b) (Sum.inl c) ∧ octGraph.dist (ofCode b) (Sum.inl c) < 8} =
       {c : Fin 1755 | layAt LAY0 c.val = 8 ∧ 0 < layAt LAYJ c.val ∧ layAt LAYJ c.val < 8} := by
     ext c
-    simp only [Set.mem_setOf_eq, dist0, distL hl]
+    simp only [Set.mem_ofPred_eq, dist0, distL hl]
   rw [e, lamCnt_eq]
   exact ncard_fin (fun x => layAt LAY0 x = 8 ∧ 0 < layAt LAYJ x ∧ layAt LAYJ x < 8)
 
@@ -247,7 +247,7 @@ theorem pt012 (w : Vtx) (h0 : octGraph.Adj (Sum.inl 0) w) (h1 : octGraph.Adj (of
   change adjK lpD 0 (vCode w) = true at h0
   change adjK lpD p (vCode w) = true at hp
   obtain ⟨k, hk, e⟩ := (hnb.1 0 (by norm_num) (vCode w)).1 h0
-  rw [degK_eq, if_pos (by norm_num)] at hk
+  rw [degK_eq, ite_eq_left (by norm_num)] at hk
   rw [nbK_pt (by norm_num)] at e
   have hl := allN_iff'.1 line12 k hk
   rw [strictB_eq', bIf_d] at hl
@@ -255,7 +255,7 @@ theorem pt012 (w : Vtx) (h0 : octGraph.Adj (Sum.inl 0) w) (h1 : octGraph.Adj (of
   · obtain ⟨-, -, ⟨-, -, hp'⟩ | ⟨h'', -⟩⟩ := adjK_iff.1 hp
     · have hv : vCode w - 1755 = plK PL 0 k := by omega
       rw [hv] at h1' hp'
-      rw [if_pos h1', allN_iff'] at hl
+      rw [ite_eq_left h1', allN_iff'] at hl
       obtain ⟨m, hm, em⟩ := onLine_iff.1 hp'
       have := hl m hm
       simp only [strictB_eq', Nat.add_eq, Nat.mul_eq] at this
@@ -275,7 +275,7 @@ theorem setB :
       {c : Fin 1755 | octGraph.dist (Sum.inl 0) (Sum.inl c) = 8 ∧
         ¬ (0 < octGraph.dist (ofCode 1) (Sum.inl c) ∧ octGraph.dist (ofCode 1) (Sum.inl c) < 8)} := by
   ext c
-  simp only [Set.mem_setOf_eq, dist0, distL layA, distL layB]
+  simp only [Set.mem_ofPred_eq, dist0, distL layA, distL layB]
   have := cmpK_sound cmpAB c c.2
   simp only [Bool.eq_false_iff, ne_eq, midL_iff] at this
   exact ⟨fun ⟨h8, hb⟩ => ⟨h8, (this h8).1 hb⟩, fun ⟨h8, ha⟩ => ⟨h8, (this h8).2 ha⟩⟩
@@ -330,9 +330,9 @@ theorem q7_one (y : Fin 1755) (hy : octGraph.dist (Sum.inl 0) (Sum.inl y) = 2) :
     have hmem : (⟨W[k].getLastD 0, hc⟩ : Fin 1755) ∈ {c : Fin 1755 |
         octGraph.dist (Sum.inl 0) (Sum.inl c) = 8 ∧ 0 < octGraph.dist (Sum.inl y) (Sum.inl c) ∧
           octGraph.dist (Sum.inl y) (Sum.inl c) < 8} := by
-      rw [Set.mem_setOf_eq, dist0]
+      rw [Set.mem_ofPred_eq, dist0]
       exact ⟨h8, (poly.connected.preconnected _ _).pos_dist_of_ne hne', by omega⟩
-    rw [hset, Set.mem_setOf_eq, distL layA] at hmem
+    rw [hset, Set.mem_ofPred_eq, distL layA] at hmem
     exact hmem.2 (midL_iff.1 hm)
   · intro h2
     have e : (ofCode 2 : Vtx) = Sum.inl y := by

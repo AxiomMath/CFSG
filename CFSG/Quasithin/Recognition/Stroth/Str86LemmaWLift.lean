@@ -13,8 +13,8 @@ theorem exists_lift_pow_primePow_eq_one {G H : Type*} [Group G] [Group H] [Finit
     (f : G →* H) (hf : Function.Surjective f) (hK : IsPGroup 2 f.ker) {p a : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) {h : H} (hh : h ^ p ^ a = 1) : ∃ g : G, f g = h ∧ g ^ p ^ a = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g₁, hg₁⟩ := hf h
   obtain ⟨i, n', hn', horder⟩ :=
     Nat.exists_eq_pow_mul_and_not_dvd (orderOf_pos g₁).ne' p hp.ne_one
@@ -44,8 +44,8 @@ private theorem exists_preimage_commute {G H : Type*} [Group G] [Group H] [Finit
     (hp2 : p ≠ 2) {w : G} (hPw : IsPGroup p (Subgroup.zpowers w)) {y : H}
     (hyw : Commute y (f w)) : ∃ c : G, f c = y ∧ Commute c w := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g₀, hg₀⟩ := hf y
   have hKcard : ¬ p ∣ Nat.card f.ker := by
     obtain ⟨k, hk⟩ := hK.exists_card_eq
@@ -93,7 +93,7 @@ private theorem exists_odd_pow_of_commute {G H : Type*} [Group G] [Group H] [Fin
   have hcop2 : Nat.Coprime (orderOf y) (2 ^ b) := by
     have h2 : Nat.Coprime (orderOf y) 2 := Nat.coprime_two_right.mpr hy
     cases b with
-    | zero => simpa using Nat.coprime_one_right (orderOf y)
+    | zero => simp
     | succ b =>
         rw [Nat.coprime_pow_right_iff (Nat.succ_pos b)]
         exact h2

@@ -189,7 +189,7 @@ theorem Cfg.ki6A_sz8
   · rw [Subgroup.closure_le]
     rintro g ⟨-, hg2⟩
     exact hinv g hg2
-  · have hTp : IsPGroup 2 ↥(T : Subgroup H) := T.isPGroup'
+  · have hTp : IsPGroup 2 ↥(T : Subgroup H) := T.isPGroup
     have hCp : IsPGroup 2 ↥(center ↥(T : Subgroup H)) := hTp.to_subgroup _
     obtain ⟨m, hm⟩ := hCp.exists_card_eq
     have key : ∀ w : ↥(center ↥(T : Subgroup H)), orderOf w = 2 →

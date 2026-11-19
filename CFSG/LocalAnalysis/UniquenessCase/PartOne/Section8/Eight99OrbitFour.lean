@@ -16,13 +16,14 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem r899_exists_swap_of_opRes_three {M L : Subgroup G} (hc3 : (conjSetOf M L).ncard = 3)
     (hOp : F10.OpRes 3 M = M) :
     ∃ τ ∈ M, ∃ K ∈ conjSetOf M L, K.map (MulAut.conj τ).toMonoidHom = K ∧
       ∃ K' ∈ conjSetOf M L, K'.map (MulAut.conj τ).toMonoidHom ≠ K' := by
   classical
-  letI : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
-  letI : MulAction ↥M (Subgroup G) :=
+  let : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
+  let : MulAction ↥M (Subgroup G) :=
     MulAction.compHom (Subgroup G) ((MulAut.conj : G →* MulAut G).comp M.subtype)
   have hsmul : ∀ (g : ↥M) (N : Subgroup G),
       g • N = N.map (MulAut.conj (g : G)).toMonoidHom := by

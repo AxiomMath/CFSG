@@ -17,21 +17,24 @@ section Matrices
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem pmat_pA : (pmat pA : Matrix (Fin 4) (Fin 4) K) =
     !![0, 1, 0, 0; 1, 0, 0, 0; 0, 0, 0, 1; 0, 0, 1, 0] := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [pmat_apply, pA_zero, pA_one, pA_two, pA_three]
 
+omit [CharP K 2] in
 theorem pmat_pB : (pmat pB : Matrix (Fin 4) (Fin 4) K) =
     !![1, 0, 0, 0; 0, 0, 1, 0; 0, 1, 0, 0; 0, 0, 0, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [pmat_apply, pB_zero, pB_one, pB_two, pB_three]
 
+omit [CharP K 2] in
 theorem diagonal_vec (a b c d : K) :
     (diagonal ![a, b, c, d] : Matrix (Fin 4) (Fin 4) K) =
       !![a, 0, 0, 0; 0, b, 0, 0; 0, 0, c, 0; 0, 0, 0, d] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 variable (n : ℕ)
 
@@ -43,7 +46,7 @@ theorem matrix_phi0 {u : K} (hu : u ≠ 0) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [x0Mat, y0Mat, Matrix.mul_apply, Fin.sum_univ_four, inv_pow] <;>
-    field_simp <;> first | linear_combination (-1 : K) * hchar | linear_combination (-u) * hchar | linear_combination (-(u ^ 2 ^ n)) * hchar
+    field_simp <;> first | linear_combination (-1 : K) * hchar
 
 theorem matrix_psi0 {u : K} (hu : u ≠ 0) :
     pmat pA * x0Mat n u * pmat pA =
@@ -54,7 +57,7 @@ theorem matrix_psi0 {u : K} (hu : u ≠ 0) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [x0Mat, Matrix.mul_apply, Fin.sum_univ_four, inv_pow] <;>
-    field_simp <;> first | linear_combination (-1 : K) * hchar | linear_combination (-u) * hchar | linear_combination (-(u ^ 2 ^ n)) * hchar
+    field_simp <;> first | linear_combination (-1 : K) * hchar
 
 theorem matrix_bruhat0 {u : K} (hu : u ≠ 0) :
     y0Mat n u⁻¹ = x0Mat n u * diagonal (tor0Vec n u) * pmat pA * x0Mat n u := by
@@ -73,7 +76,7 @@ theorem matrix_phi1 {u : K} (hu : u ≠ 0) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [x1Mat, y1Mat, Matrix.mul_apply, Fin.sum_univ_four] <;>
-    field_simp <;> first | linear_combination (-1 : K) * hchar | linear_combination (-u) * hchar | linear_combination (-(u ^ 2 ^ n)) * hchar
+    field_simp; first | linear_combination (-1 : K) * hchar
 
 theorem matrix_psi1 {u : K} (hu : u ≠ 0) :
     pmat pB * x1Mat u * pmat pB =
@@ -83,7 +86,7 @@ theorem matrix_psi1 {u : K} (hu : u ≠ 0) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [x1Mat, Matrix.mul_apply, Fin.sum_univ_four] <;>
-    field_simp <;> first | linear_combination (-1 : K) * hchar | linear_combination (-u) * hchar | linear_combination (-(u ^ 2 ^ n)) * hchar
+    field_simp; first | linear_combination (-1 : K) * hchar
 
 theorem matrix_bruhat1 {u : K} (hu : u ≠ 0) :
     y1Mat u⁻¹ = x1Mat u * diagonal (tor1Vec u) * pmat pB * x1Mat u := by
@@ -92,7 +95,7 @@ theorem matrix_bruhat1 {u : K} (hu : u ≠ 0) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [x1Mat, y1Mat, Matrix.mul_apply, Fin.sum_univ_four] <;>
-    field_simp <;> first | linear_combination (-1 : K) * hchar | linear_combination (-u) * hchar | linear_combination (-(u ^ 2 ^ n)) * hchar
+    field_simp; first | linear_combination (-1 : K) * hchar | linear_combination (-u) * hchar
 
 end Matrices
 
@@ -127,6 +130,7 @@ theorem rank0_bruhat (u : Kˣ) :
     Units.val_inv_eq_inv_val]
   exact matrix_bruhat0 n u.ne_zero
 
+omit [Finite K] in
 theorem fq_coe_inv (u : (Fq K n)ˣ) :
     (((u⁻¹ : (Fq K n)ˣ) : Fq K n) : K) = ((u : Fq K n) : K)⁻¹ := by
   rw [Units.val_inv_eq_inv_val]

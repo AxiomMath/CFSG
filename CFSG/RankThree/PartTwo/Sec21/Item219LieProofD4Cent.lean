@@ -378,7 +378,7 @@ theorem exists_sylow_center [Finite K] {n : ℕ} (hn : 0 < n) (hev : Even n)
     have := congrArg Subtype.val hct.eq
     simpa using this
   obtain ⟨rfl, hNa⟩ := fixed_of_rotT_conj hσ3 hfix
-  have hPp : IsPGroup 3 P := Q.isPGroup'.map N.subtype
+  have hPp : IsPGroup 3 P := Q.isPGroup.map N.subtype
   obtain ⟨m, hm⟩ := hPp ⟨y, hyP⟩
   have hym : (y : ModGL TwistTag.D4.tag K) ^ 3 ^ m = 1 := by
     have h1 := congrArg (fun u : P => ((u : C) : ModGL TwistTag.D4.tag K)) hm

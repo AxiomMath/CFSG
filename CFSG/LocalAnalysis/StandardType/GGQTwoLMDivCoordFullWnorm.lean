@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G] {Bs L : Subgroup G} {m : ℕ}
   {c : ↥L →* L0} {π : Su F0 2 1 m →* L0} {ρ : ↥Bs →* MulAut L0}
   {hN : Bs ≤ Subgroup.normalizer (L : Set G)}
 
+omit [Finite F0] [CharP F0 2] in
 theorem qTwoLMDivF_scalar_conj {Z : GL (Fin m) F0} {z : F0}
     (hZ : (Z : Matrix (Fin m) (Fin m) F0) = Matrix.diagonal fun _ => z) (X : GL (Fin m) F0) :
     Z * X * Z⁻¹ = X := by
@@ -25,12 +26,14 @@ theorem qTwoLMDivF_scalar_conj {Z : GL (Fin m) F0} {z : F0}
     exact mul_comm _ _
   rw [hc, mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem qTwoLMDivF_c_gamma (hU : QTwoDivInnerFrame m Bs L hN F0 L0 c π ρ) (b : ↥Bs) (l : ↥L) :
     c (ggGamma L hN b l) = ρ b (c l) := by
   have h := hU.induced b l
   rw [← h]
   congr 1
 
+omit [Finite G] in
 theorem qTwoLMDivF_c_conjgamma (hU : QTwoDivInnerFrame m Bs L hN F0 L0 c π ρ) (n : ↥L)
     (b : ↥Bs) (l : ↥L) :
     c ((MulAut.conj n * ggGamma L hN b * (MulAut.conj n)⁻¹) l) =

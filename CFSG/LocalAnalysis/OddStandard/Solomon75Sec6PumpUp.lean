@@ -223,7 +223,7 @@ end PumpUp
 theorem sec6PumpUpHolds : Sec6PumpUpHolds := by
   intro X _ _ n hX _ h51 s t u K M hs ht hst hne hK hKn hM htK hlt
   have hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup X := hX.simple
+  have : IsSimpleGroup X := hX.simple
   set E : Subgroup X := oTwoPrimeOf (K ⊓ cen t) with hEdef
   have hKs : K ≤ cen s := hK.2.2.1.1
   have hKq : IsTwoGenQuasi ↥K :=

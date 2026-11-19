@@ -45,7 +45,7 @@ theorem s16h_L3World_fix {U : Type} [CommGroup U] [Finite U] {N L : Subgroup (Mu
   let Z : Subgroup U := fixV L
   let Q : Type := Sec (⊤ : Subgroup U) Z
   let Λ : Subgroup (MulAut Q) := autSec L (⊤ : Subgroup U) Z
-  haveI : Finite Q := inferInstanceAs (Finite (Sec (⊤ : Subgroup U) Z))
+  have : Finite Q := inferInstanceAs (Finite (Sec (⊤ : Subgroup U) Z))
   obtain ⟨k, hk, I, hZI, hind, hsup, hnat⟩ := h.sum
   have hshape : ∀ i, SumOfNatShape L (I i) Z 1 := fun i =>
     ⟨3, Or.inl ⟨h.sl3, s16t3_sumOfNat_singleton (hZI i) (hnat i)⟩⟩

@@ -18,13 +18,13 @@ private lemma cyclic_pgroup_zpowers_le_or_le {G : Type*} [Group G] {p k l : ℕ}
   have hy_card : Nat.card (Subgroup.zpowers y) = p ^ l := by rw [Nat.card_zpowers, hy]
   by_cases hkl : k ≤ l
   · left
-    haveI : Finite (Subgroup.zpowers x) := hx_fin.finite_zpowers
+    have : Finite (Subgroup.zpowers x) := hx_fin.finite_zpowers
     rw [IsCyclic.subgroup_le_iff_card_dvd]
     rw [hx_card, hy_card]
     exact Nat.pow_dvd_pow p hkl
   · right
     have hlk : l ≤ k := Nat.le_of_not_le hkl
-    haveI : Finite (Subgroup.zpowers y) := hy_fin.finite_zpowers
+    have : Finite (Subgroup.zpowers y) := hy_fin.finite_zpowers
     rw [IsCyclic.subgroup_le_iff_card_dvd]
     rw [hy_card, hx_card]
     exact Nat.pow_dvd_pow p hlk
@@ -79,7 +79,7 @@ private lemma orderOf_pow_mul_pow_eq_prime_pow {G : Type*} [Group G] {p e : ℕ}
   have hw_pow_e' : w ^ p ^ ((e - 1) + 1) = 1 := by
     rw [Nat.sub_add_cancel (Nat.succ_le_of_lt he)]
     exact hw_pow_e
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have := orderOf_eq_prime_pow hw_pow_e1 hw_pow_e'
   rwa [Nat.sub_add_cancel (Nat.succ_le_of_lt he)] at this
 
@@ -202,7 +202,7 @@ theorem exists_pow_mul_pow_mem_ker {G H : Type*} [Group G] [Group H] {p e : ℕ}
     · rw [hu1, hv1]
       simp
     · rw [hu1, hv1]
-      simp [hp1]
+      simp
   · have he_pos : 0 < e := Nat.pos_of_ne_zero he
     exact exists_pow_mul_pow_mem_ker_of_e_pos hp φ huv hu hv hind he_pos hcyc
 

@@ -32,7 +32,7 @@ theorem diagonal_mul_signedCycMat_sq_pow_three (d : Fin 3 → K) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply]
-  all_goals first | ring1 | (left; ring1)
+  all_goals first | ring1
 
 theorem diagonal_mul_signedCycMat_pow_cube (d : Fin 3 → K) {n : ℕ} (hn : ¬ 3 ∣ n) :
     (diagonal d * signedCycMat ^ n : Matrix (Fin 3) (Fin 3) K) ^ 3 = (d 0 * d 1 * d 2) • 1 := by
@@ -125,13 +125,13 @@ theorem e6DetChar_classes (t : Fin Tag.E6.rank → Kˣ) :
   refine ⟨t 3, (t 0)⁻¹, t 3 * (t 4)⁻¹, (t 1)⁻¹, ?_, ?_, ?_⟩
   · rw [key 0 (-3) 0 0 1 0 0 (by decide +kernel) (by decide +kernel) (by decide +kernel)
       (by decide +kernel) (by decide +kernel) (by decide +kernel)]
-    simp [_root_.zpow_neg, inv_pow, mul_pow, mul_comm, pow_succ, mul_assoc, mul_left_comm]
+    simp [_root_.zpow_neg, mul_comm, pow_succ, mul_assoc]
   · rw [key 1 0 0 0 2 (-3) 0 (by decide +kernel) (by decide +kernel) (by decide +kernel)
       (by decide +kernel) (by decide +kernel) (by decide +kernel)]
-    simp [_root_.zpow_neg, inv_pow, mul_pow, mul_comm, pow_succ, mul_assoc, mul_left_comm]
+    simp [_root_.zpow_neg, mul_comm, pow_succ, mul_assoc, mul_left_comm]
   · rw [key 2 0 (-3) 0 1 0 0 (by decide +kernel) (by decide +kernel) (by decide +kernel)
       (by decide +kernel) (by decide +kernel) (by decide +kernel)]
-    simp [_root_.zpow_neg, inv_pow, mul_pow, mul_comm, pow_succ, mul_assoc, mul_left_comm]
+    simp [_root_.zpow_neg, mul_comm, pow_succ, mul_assoc]
 
 theorem exists_cube_iff_of_eq {g a q : Kˣ} (h : q = g * a ^ 3) :
     (∃ m : Kˣ, m ^ 3 = q) ↔ ∃ m : Kˣ, m ^ 3 = g := by

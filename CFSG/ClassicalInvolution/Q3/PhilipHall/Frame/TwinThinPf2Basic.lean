@@ -46,11 +46,11 @@ theorem letter_mem_closure (gs : List G) (l : ℕ) :
   unfold letter
   split_ifs with h
   · have : gs.getD l 1 ∈ gs := by
-      simpa [List.getD_eq_getElem?_getD, h] using List.getElem_mem h
+      simp [List.getD_eq_getElem?_getD, h]
     exact Subgroup.subset_closure this
   · by_cases h' : l - gs.length < gs.length
     · have : gs.getD (l - gs.length) 1 ∈ gs := by
-        simpa [List.getD_eq_getElem?_getD, h'] using List.getElem_mem h'
+        simp [List.getD_eq_getElem?_getD, h']
       exact (Subgroup.closure _).inv_mem (Subgroup.subset_closure this)
     · simp [List.getD_eq_getElem?_getD, Nat.not_lt.mp h']
 

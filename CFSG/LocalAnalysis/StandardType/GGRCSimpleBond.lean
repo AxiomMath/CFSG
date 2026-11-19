@@ -15,13 +15,13 @@ private lemma l05nK43s_pair_avoid (n : ℕ) (hn : 4 ≤ n) (b : Fin n) :
       intro h
       have hv : (2 : ℕ) = 0 := by
         have := congrArg Fin.val (h.trans h0.symm)
-        simpa using this
+        simp at this
       omega
     have e3 : (⟨3, by omega⟩ : Fin n) ≠ b := by
       intro h
       have hv : (3 : ℕ) = 0 := by
         have := congrArg Fin.val (h.trans h0.symm)
-        simpa using this
+        simp at this
       omega
     exact ⟨e2, e3⟩
   · by_cases h1 : (⟨1, by omega⟩ : Fin n) = b
@@ -30,13 +30,13 @@ private lemma l05nK43s_pair_avoid (n : ℕ) (hn : 4 ≤ n) (b : Fin n) :
         intro h
         have hv : (2 : ℕ) = 1 := by
           have := congrArg Fin.val (h.trans h1.symm)
-          simpa using this
+          simp at this
         omega
       have e3 : (⟨3, by omega⟩ : Fin n) ≠ b := by
         intro h
         have hv : (3 : ℕ) = 1 := by
           have := congrArg Fin.val (h.trans h1.symm)
-          simpa using this
+          simp at this
         omega
       exact ⟨e2, e3⟩
     · left
@@ -51,13 +51,13 @@ private lemma l05nK43s_fin_exists (n : ℕ) (hn : 4 ≤ n) (M : CoxeterMatrix (F
     intro h
     have hv : (0 : ℕ) = 1 := by
       have := congrArg Fin.val h
-      simpa using this
+      simp at this
     omega
   · refine ⟨⟨2, by omega⟩, ⟨3, by omega⟩, h2, h3, ?_, h23⟩
     intro h
     have hv : (2 : ℕ) = 3 := by
       have := congrArg Fin.val h
-      simpa using this
+      simp at this
     omega
 
 private lemma l05nK43s_reindex_exists {Λ : Type} [Fintype Λ] [DecidableEq Λ]
@@ -77,23 +77,23 @@ private lemma l05nK43s_reindex_exists {Λ : Type} [Fintype Λ] [DecidableEq Λ]
 
 private lemma l05nK43s_gD_of (n : ℕ) (i j : Fin n) (hij : i ≠ j)
     (hD : CartanMatrix.D n i j = -1) : ggCoxeterMatrixD n i j = 3 := by
-  rw [ggCoxeterMatrixD_apply, if_neg hij, if_neg (by rw [hD]; omega)]
+  rw [ggCoxeterMatrixD_apply, ite_eq_right hij, ite_eq_right (by rw [hD]; omega)]
 
 private lemma l05nK43s_D01 (n : ℕ) (hn : 8 ≤ n) :
     ggCoxeterMatrixD n (⟨0, by omega⟩ : Fin n) (⟨1, by omega⟩ : Fin n) = 3 := by
   refine l05nK43s_gD_of n _ _ (by simp [Fin.ext_iff]) ?_
-  simp only [CartanMatrix.D, Matrix.of_apply, Fin.val_mk]
-  rw [if_neg (by simp [Fin.ext_iff] : ¬ ((⟨0, by omega⟩ : Fin n) = ⟨1, by omega⟩))]
-  rw [if_neg (by omega : ¬ n ≤ 2)]
-  rw [if_pos (show True ∧ 1 + 2 < n from ⟨trivial, by omega⟩)]
+  simp only [CartanMatrix.D, Matrix.of_apply]
+  rw [ite_eq_right (by simp [Fin.ext_iff] : ¬ ((⟨0, by omega⟩ : Fin n) = ⟨1, by omega⟩))]
+  rw [ite_eq_right (by omega : ¬ n ≤ 2)]
+  rw [ite_eq_left (show True ∧ 1 + 2 < n from ⟨trivial, by omega⟩)]
 
 private lemma l05nK43s_D23 (n : ℕ) (hn : 8 ≤ n) :
     ggCoxeterMatrixD n (⟨2, by omega⟩ : Fin n) (⟨3, by omega⟩ : Fin n) = 3 := by
   refine l05nK43s_gD_of n _ _ (by simp [Fin.ext_iff]) ?_
-  simp only [CartanMatrix.D, Matrix.of_apply, Fin.val_mk]
-  rw [if_neg (by simp [Fin.ext_iff] : ¬ ((⟨2, by omega⟩ : Fin n) = ⟨3, by omega⟩))]
-  rw [if_neg (by omega : ¬ n ≤ 2)]
-  rw [if_pos (show True ∧ 3 + 2 < n from ⟨trivial, by omega⟩)]
+  simp only [CartanMatrix.D, Matrix.of_apply]
+  rw [ite_eq_right (by simp [Fin.ext_iff] : ¬ ((⟨2, by omega⟩ : Fin n) = ⟨3, by omega⟩))]
+  rw [ite_eq_right (by omega : ¬ n ≤ 2)]
+  rw [ite_eq_left (show True ∧ 3 + 2 < n from ⟨trivial, by omega⟩)]
 
 private lemma l05nK43s_E8_key :
     ∀ b' : Fin 8, ∃ i i' : Fin 8, i ≠ b' ∧ i' ≠ b' ∧ i ≠ i' ∧ CoxeterMatrix.E₈.M i i' = 3 := by

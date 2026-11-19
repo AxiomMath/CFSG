@@ -27,7 +27,7 @@ theorem isSolvable_of_isCyclic_sylow_two {Q : Type*} [Group Q] [Finite Q] (T : S
   obtain ⟨-, -, -, ⟨hn, hodd, hidx, -⟩, -⟩ := cyclic_sylow_normal_odd_complement T hT
   have hO : Group.IsSolvable ↥(pPrimeCore 2 Q) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   have hQ2 : IsPGroup 2 (Q ⧸ pPrimeCore 2 Q) := by
-    obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
     refine IsPGroup.of_card (n := k) ?_
     show (pPrimeCore 2 Q).index = 2 ^ k
     rw [hidx]
@@ -151,7 +151,7 @@ theorem orderOf_eq_two_of_diag {L H : Type*} [Group L] [Finite L] [Group H] [Fin
       exact v.2
     have := hu _ _ hu' hv'
     exact Subtype.ext (Subtype.ext (Subtype.ext this))
-  rcases rank_one_two_cyclic_or_quaternion T.isPGroup' hrank with hcyc | ⟨e, he1, ⟨ε⟩⟩
+  rcases rank_one_two_cyclic_or_quaternion T.isPGroup hrank with hcyc | ⟨e, he1, ⟨ε⟩⟩
   · exact hQnotsolv (isSolvable_of_isCyclic_sylow_two T hcyc)
   · obtain ⟨e', rfl⟩ : ∃ e', e = e' + 1 := ⟨e - 1, by omega⟩
     obtain ⟨hq1, hq2, hq3, hq4, hq5, hq6, hq7⟩ :=

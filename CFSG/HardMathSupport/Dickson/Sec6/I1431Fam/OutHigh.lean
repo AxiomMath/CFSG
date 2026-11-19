@@ -365,7 +365,7 @@ variable {r : ℕ} {K : Type} [Field K] [Finite K]
 theorem t6outh_commutator_psp_le_range (hr : 3 ≤ r) :
     commutator (MulAut (StatedProj (StatedSp r K))) ≤ (conjAut r K).range := by
   obtain ⟨-, hform⟩ := automorphism_generation (K := K) hr
-  haveI : ((conjAut r K).range : Subgroup (MulAut (StatedProj (StatedSp r K)))).Normal := by
+  have : ((conjAut r K).range : Subgroup (MulAut (StatedProj (StatedSp r K)))).Normal := by
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨A, σ, rfl⟩ := hform g
     obtain ⟨B, rfl⟩ := hn
@@ -383,7 +383,7 @@ theorem t6outh_commutator_psp_le_range (hr : 3 ≤ r) :
 
 theorem t6outh_isInnerAut_psp (hr : 3 ≤ r) {τ : MulAut (StatedProj (StatedSp r K))}
     (hτ : τ ∈ innAutDerived (StatedProj (StatedSp r K))) (h3 : τ ^ 3 = 1) : IsInnerAut τ := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have hle : innAutDerived (StatedProj (StatedSp r K)) ≤ (conjAut r K).range :=
     sup_le (innAut_le_range_spConjAut r K) (t6outh_commutator_psp_le_range hr)
   obtain ⟨A, rfl⟩ := hle hτ

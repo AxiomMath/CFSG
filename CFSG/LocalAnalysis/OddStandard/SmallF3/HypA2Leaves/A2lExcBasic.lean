@@ -21,9 +21,9 @@ theorem a2l_pPrimeCore_ne_top_of_quasisimple {K : Type} [Group K] [Finite K]
     have h := pPrimeCore_coprime_card (G := K) (p := 2)
     rw [htop, Subgroup.card_top] at h
     exact Nat.coprime_two_left.1 h
-  haveI : Group.IsSolvable K := CFSG.Milestones.odd_order_solvable hodd
-  haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsSolvable K := CFSG.Milestones.odd_order_solvable hodd
+  have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK
+  have : Group.IsPerfect K := hK.1
   exact Group.IsPerfect.not_isSolvable K inferInstance
 
 theorem a2l_exc_reduce {K : Type} [Group K] [Finite K] (hK : CFSG.IsQuasisimple K)

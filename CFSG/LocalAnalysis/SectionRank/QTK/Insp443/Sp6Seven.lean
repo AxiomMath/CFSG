@@ -131,7 +131,7 @@ theorem fano_of_test {tests : List (Table → Bool)}
 theorem conclK_fano {L V MK : Subgroup co3X36} (h : KConfig co3X36 L V MK)
     {ws as : List Table} {rows : List ℕ} (hwl : ws.length = 6) (hal : as.length = 3)
     (hsubW : subOK 36 ws ws = true) (hsubA : subOK 36 as ws = true)
-    (hwS : ws.all siftOK = true) (haS : as.all siftOK = true)
+    (_hwS : ws.all siftOK = true) (haS : as.all siftOK = true)
     {tests : List (Table → Bool)}
     (hcnt : countProducts 36 (anyTest tests) (levelTables co3Sp36Chain) (idT 36) = 0)
     (hmCA : centTestS 36 as (spanTabs 36 ws) ∈ tests)
@@ -173,8 +173,8 @@ theorem conclK_fano {L V MK : Subgroup co3X36} (h : KConfig co3X36 L V MK)
   have hθ : ∀ l : ↥L, α₀ l = 1 ↔
       (l : co3X36) ∈ Subgroup.centralizer (eSub (liftB_basis haH hab) : Set co3X36) :=
     fun l => E16.eNHom_eq_one_iff _ hLA l
-  haveI : Group.IsPerfect ↥L := ⟨commutator_eq_top_of_perfect h.perfect⟩
-  haveI : IsSimpleGroup ↥(StatedSL 3 (ZMod 2)) := E8.isSimpleGroup_statedSL3
+  have : Group.IsPerfect ↥L := ⟨commutator_eq_top_of_perfect h.perfect⟩
+  have : IsSimpleGroup ↥(StatedSL 3 (ZMod 2)) := E8.isSimpleGroup_statedSL3
   have hsurj₀ : Function.Surjective α₀ := by
     rw [← MonoidHom.range_eq_top]
     rcases CFSG.Quasithin.J4Fam.eq_bot_or_top_of_isPerfect

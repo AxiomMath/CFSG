@@ -56,9 +56,9 @@ theorem inv_facts (hsz : szOK n w = true) {p r : ℕ}
     permOfArr_eq_of_rep hr⟩
   · exact (PF.canon_facts hc).2.2.2 i hi
   · have ea : pg w (mask w) r a = ((permOfArr n (unpack n w p))⁻¹ ⟨a, ha⟩ : ℕ) := by
-      rw [← hr ⟨a, ha⟩, unpack_getElem!, if_pos ha]
+      rw [← hr ⟨a, ha⟩, unpack_getElem!, ite_eq_left ha]
     have eb : pg w (mask w) r b = ((permOfArr n (unpack n w p))⁻¹ ⟨b, hb⟩ : ℕ) := by
-      rw [← hr ⟨b, hb⟩, unpack_getElem!, if_pos hb]
+      rw [← hr ⟨b, hb⟩, unpack_getElem!, ite_eq_left hb]
     have := (permOfArr n (unpack n w p))⁻¹.injective (Fin.ext (ea.symm.trans (e.trans eb)))
     exact congrArg Fin.val this
 
@@ -181,7 +181,7 @@ theorem fjK_sound {n w A B AI BI ng N m nBig nX INV : ℕ}
   obtain ⟨hmem, hcard, -⟩ := enumOK_spec hps hok
   have gd : ∀ i < N, permB n w (T i) = true ∧
       permOfArr n (unpack n w (T i)) ∈ Subgroup.closure (permsA n (gsK n w ng G)) :=
-    fun i hi => ⟨permB_of_pp (PP_pts hk hp i hi), mem_of_pt hsz hps hok hsize hget hi⟩
+    fun i hi => ⟨permB_of_pp (PP_pts hk hp i hi), mem_of_pt hps hok hsize hget hi⟩
   have ex : ∀ z ∈ Subgroup.closure (permsA n (gsK n w ng G)),
       ∃ i < N, permOfArr n (unpack n w (T i)) = z := fun z hz => by
     obtain ⟨i, hi, e⟩ := (hmem z).1 hz

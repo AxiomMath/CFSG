@@ -38,7 +38,7 @@ theorem aux_eq : aux () = (aW.map (·.map decZ)).toArray := by
 
 theorem aux_get {t : ℕ} (ht : t < aW.length) : (aux ())[t]! = (aW.getD t []).map decZ := by
   rw [aux_eq, getElem!_pos _ t (by simpa using ht)]
-  simp [List.getD_eq_getElem _ _ ht, List.getElem?_eq_getElem ht]
+  simp [List.getElem?_eq_getElem ht]
 
 theorem det_ne_of_mul {X Y : Matrix (Fin 24) (Fin 24) (ZMod 2)} (h : X * Y = 1) : X.det ≠ 0 := by
   intro h0
@@ -62,11 +62,11 @@ theorem gen_parts : Gi.length = 2 ∧ MatP 24 (G.getD 0 0) * MatP 24 (Gi.getD 0 
   exact ⟨by rw [hl, seed_parts.1], e 0 (by omega), e 1 (by omega)⟩
 
 theorem val_a (D : VecData) (h : (mA D).det ≠ 0) : matOf (J D).subtype (a D) = mA D := by
-  rw [matOf, Subgroup.subtype_apply, a, Subtype.coe_mk, gA, dif_pos h,
+  rw [matOf, Subgroup.subtype_apply, a, Subtype.coe_mk, gA, dite_eq_left h,
     Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
 
 theorem val_b (D : VecData) (h : (mB D).det ≠ 0) : matOf (J D).subtype (b D) = mB D := by
-  rw [matOf, Subgroup.subtype_apply, b, Subtype.coe_mk, gB, dif_pos h,
+  rw [matOf, Subgroup.subtype_apply, b, Subtype.coe_mk, gB, dite_eq_left h,
     Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
 
 theorem MatP_a : MatP 24 (G.getD 0 0) = matOf φJ (a (co1Data ())) := by
@@ -100,32 +100,32 @@ theorem letter_eq {t c : ℕ} (hc : c / 2 < 2 + t) :
   rw [hn]
   unfold letG
   rcases (by omega : c / 2 = 0 ∨ c / 2 = 1 ∨ 2 ≤ c / 2) with h | h | h
-  · rw [if_pos (by omega), h]
+  · rw [ite_eq_left (by omega), h]
     by_cases hc2 : c % 2 = 1
-    · rw [if_pos hc2, decZ_eq, if_pos hc2, h]
+    · rw [ite_eq_left hc2, decZ_eq, ite_eq_left hc2, h]
       simp [genG, eA]
-    · rw [if_neg hc2, decZ_eq, if_neg hc2, h]
+    · rw [ite_eq_right hc2, decZ_eq, ite_eq_right hc2, h]
       simp [genG, eA]
-  · rw [if_pos (by omega), h]
+  · rw [ite_eq_left (by omega), h]
     by_cases hc2 : c % 2 = 1
-    · rw [if_pos hc2, decZ_eq, if_pos hc2, h]
+    · rw [ite_eq_left hc2, decZ_eq, ite_eq_left hc2, h]
       simp [genG, eA]
-    · rw [if_neg hc2, decZ_eq, if_neg hc2, h]
+    · rw [ite_eq_right hc2, decZ_eq, ite_eq_right hc2, h]
       simp [genG, eA]
-  · rw [if_neg (by omega), if_pos (by omega)]
+  · rw [ite_eq_right (by omega), ite_eq_left (by omega)]
     have he : eA (c / 2) = auxG (c / 2 + 1 - 3) := by
       have e3 : c / 2 - 2 = c / 2 + 1 - 3 := by omega
-      rw [eA, if_neg (by omega), if_neg (by omega), e3]
+      rw [eA, ite_eq_right (by omega), ite_eq_right (by omega), e3]
     by_cases hc2 : c % 2 = 1
-    · rw [if_neg (by rw [hp]; exact not_not.2 hc2), if_pos hc2, he]
-    · rw [if_pos (hp.2 hc2), if_neg hc2, he]
+    · rw [ite_eq_right (by rw [hp]; exact not_not.2 hc2), ite_eq_left hc2, he]
+    · rw [ite_eq_left (hp.2 hc2), ite_eq_right hc2, he]
 
 theorem auxG_eq {t : ℕ} (ht : t < aW.length) :
     eA (2 + t) = ((aW.getD t []).map (letG eA)).prod := by
   have hr := (slpK_spec ch120801_aux).2.2
   rw [seed_parts.1] at hr
   have e2 : eA (2 + t) = auxG t := by
-    rw [eA, if_neg (by omega), if_neg (by omega), Nat.add_sub_cancel_left]
+    rw [eA, ite_eq_right (by omega), ite_eq_right (by omega), Nat.add_sub_cancel_left]
   rw [e2, auxG, slpG_eq, aux_get ht, wordG, List.map_map]
   congr 1
   exact List.map_congr_left fun c hc => letter_eq (hr t ht c hc)
@@ -142,7 +142,7 @@ theorem MatP_aM {t : ℕ} (ht : t < aW.length) :
   have hs := slpK_sound ch120801_aux hB fun t ht => by rw [seed_parts.1]; exact auxG_eq ht
   obtain ⟨-, h1, h2⟩ := hs t ht
   have e2 : eA (G.length + t) = auxG t := by
-    rw [seed_parts.1, eA, if_neg (by omega), if_neg (by omega), Nat.add_sub_cancel_left]
+    rw [seed_parts.1, eA, ite_eq_right (by omega), ite_eq_right (by omega), Nat.add_sub_cancel_left]
   rw [e2] at h1 h2
   exact ⟨h1, h2⟩
 

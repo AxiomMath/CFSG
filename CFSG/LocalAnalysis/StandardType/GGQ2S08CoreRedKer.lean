@@ -60,7 +60,7 @@ private lemma ggQ2s08k10_C1_or_Cm {V : Type} [AddCommGroup V] [Module (ZMod 3) V
     exact hh
 
 private lemma ggQ2s08k10_C1_eq_one {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
-    (H : Submodule (ZMod 3) V) (xv : V) (hx : xv ≠ 0)
+    (H : Submodule (ZMod 3) V) (xv : V) (_hx : xv ≠ 0)
     (hH : IsCompl H (Submodule.span (ZMod 3) {xv}))
     (R : Subgroup (V ≃ₗ[ZMod 3] V))
     (hnt : ∀ a ∈ R, ¬ (Module.finrank (ZMod 3)

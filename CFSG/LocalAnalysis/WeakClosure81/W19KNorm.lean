@@ -36,35 +36,43 @@ namespace KData196
 
 variable {p : ℕ} {H T X A : Subgroup G}
 
+omit [Finite G] in
 theorem T_le_H (h : KData196 p H T X A) : T ≤ H := h.isSylow.le
 
+omit [Finite G] in
 theorem A_le_H (h : KData196 p H T X A) : A ≤ H := h.A_le.trans h.T_le_H
 
 theorem pCoreOf_le_T (h : KData196 p H T X A) : pCoreOf 2 H ≤ T :=
   E1.pCoreOf_two_le_of_isSylowIn h.isSylow
 
+omit [Finite G] in
 theorem H_le_normalizer_pCoreOf (_h : KData196 p H T X A) :
     H ≤ normalizer (pCoreOf 2 H : Set G) :=
   CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H
 
+omit [Finite G] in
 theorem isPGroup_A (h : KData196 p H T X A) : IsPGroup 2 A :=
   h.isSylow.isPGroup.to_le h.A_le
 
 theorem isPGroup_pCoreOf (_h : KData196 p H T X A) : IsPGroup 2 (pCoreOf 2 H) :=
   CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H
 
+omit [Finite G] in
 theorem N_le_normalizer_pCoreOf (h : KData196 p H T X A) :
     X ⊔ pCoreOf 2 H ≤ normalizer (pCoreOf 2 H : Set G) :=
   sup_le (h.X_le.trans h.H_le_normalizer_pCoreOf) Subgroup.le_normalizer
 
+omit [Finite G] in
 theorem A_le_normalizer_N (h : KData196 p H T X A) :
     A ≤ normalizer ((X ⊔ pCoreOf 2 H : Subgroup G) : Set G) :=
   h.A_le_H.trans h.normal
 
+omit [Finite G] in
 theorem A_le_normalizer_pCoreOf (h : KData196 p H T X A) :
     A ≤ normalizer (pCoreOf 2 H : Set G) :=
   h.A_le_H.trans h.H_le_normalizer_pCoreOf
 
+omit [Finite G] in
 theorem pow_mem_of_mem_N (h : KData196 p H T X A) {x : G} (hx : x ∈ X ⊔ pCoreOf 2 H) :
     ∃ k : ℕ, x ^ p ^ k ∈ pCoreOf 2 H :=
   exists_pow_mem_of_mem_sup_pGroup h.isPGroup (h.X_le.trans h.H_le_normalizer_pCoreOf) hx
@@ -75,36 +83,45 @@ theorem pCoreOf_le_tauOf (h : KData196 p H T X A) : pCoreOf 2 H ≤ E1.tauOf H T
 theorem A_le_tauOf (h : KData196 p H T X A) : A ≤ E1.tauOf H T A :=
   le_sup_left.trans (E1.le_tauOf h.isSylow h.A_le h.isElemAbelian)
 
+omit [Finite G] in
 theorem isPGroup_tauOf (h : KData196 p H T X A) : IsPGroup 2 (E1.tauOf H T A) :=
   h.isSylow.isPGroup.to_le (E1.tauOf_le H T A)
 
+omit [Finite G] in
 theorem tauOf_le_H (h : KData196 p H T X A) : E1.tauOf H T A ≤ H :=
   (E1.tauOf_le H T A).trans h.T_le_H
 
+omit [Finite G] in
 theorem tauOf_le_normalizer_N (h : KData196 p H T X A) :
     E1.tauOf H T A ≤ normalizer ((X ⊔ pCoreOf 2 H : Subgroup G) : Set G) :=
   h.tauOf_le_H.trans h.normal
 
+omit [Finite G] in
 theorem tauOf_le_normalizer_pCoreOf (h : KData196 p H T X A) :
     E1.tauOf H T A ≤ normalizer (pCoreOf 2 H : Set G) :=
   h.tauOf_le_H.trans h.H_le_normalizer_pCoreOf
 
+omit [Finite G] in
 theorem KN_le_N (h : KData196 p H T X A) : KN196 H X A ≤ X ⊔ pCoreOf 2 H :=
   sup_le (E1.commutator_le_of_le_normalizer h.A_le_normalizer_N) le_sup_right
 
+omit [Finite G] in
 theorem pCoreOf_le_KN (_h : KData196 p H T X A) : pCoreOf 2 H ≤ KN196 H X A := le_sup_right
 
 theorem KN_le_H (h : KData196 p H T X A) : KN196 H X A ≤ H :=
   h.KN_le_N.trans (sup_le h.X_le (h.pCoreOf_le_T.trans h.T_le_H))
 
+omit [Finite G] in
 theorem KN_le_normalizer_pCoreOf (h : KData196 p H T X A) :
     KN196 H X A ≤ normalizer (pCoreOf 2 H : Set G) :=
   h.KN_le_N.trans h.N_le_normalizer_pCoreOf
 
+omit [Finite G] in
 theorem pow_mem_of_mem_KN (h : KData196 p H T X A) {x : G} (hx : x ∈ KN196 H X A) :
     ∃ k : ℕ, x ^ p ^ k ∈ pCoreOf 2 H :=
   h.pow_mem_of_mem_N (h.KN_le_N hx)
 
+omit [Finite G] in
 theorem KN_inf_T_le (h : KData196 p H T X A) : KN196 H X A ⊓ T ≤ pCoreOf 2 H := by
   intro x hx
   obtain ⟨k, hk⟩ := h.pow_mem_of_mem_KN hx.1
@@ -114,6 +131,7 @@ theorem KN_inf_T_le (h : KData196 p H T X A) : KN196 H X A ⊓ T ≤ pCoreOf 2 H
     rw [this]
     exact Subgroup.one_mem _)
 
+omit [Finite G] in
 theorem not_KN_le_pCoreOf (h : KData196 p H T X A) : ¬ KN196 H X A ≤ pCoreOf 2 H := fun hle =>
   h.not_le ((Subgroup.commutator_mono le_sup_left le_rfl).trans (le_sup_left.trans hle))
 
@@ -135,6 +153,7 @@ theorem tauOf_le_normalizer_A_sup (h : KData196 p H T X A) :
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.mem_sup_right h1)
     (Subgroup.mem_sup_left ha)) (Subgroup.mem_sup_right h2)
 
+omit [Finite G] in
 theorem KN_eq_comm_sup (h : KData196 p H T X A) :
     KN196 H X A = ⁅X ⊔ pCoreOf 2 H, A ⊔ pCoreOf 2 H⁆ ⊔ pCoreOf 2 H :=
   le_antisymm (sup_le_sup_right (Subgroup.commutator_mono le_rfl le_sup_left) _)
@@ -178,7 +197,7 @@ theorem KN_le_comm_sup (h : KData196 p H T X A) :
 
 theorem eOneAmb_K (h : KData196 p H T X A) : E1.EOneAmb (K196 H T X A) A :=
   eOneAmb_sup_mod h.prime h.odd h.isPGroup_pCoreOf h.pCoreOf_le_KN h.KN_le_normalizer_pCoreOf
-    h.tauOf_le_normalizer_pCoreOf (fun x hx => h.pow_mem_of_mem_KN hx) h.isPGroup_tauOf
+    h.tauOf_le_normalizer_pCoreOf (fun _x hx => h.pow_mem_of_mem_KN hx) h.isPGroup_tauOf
     h.tauOf_le_normalizer_KN h.not_KN_le_pCoreOf h.A_le_tauOf h.KN_le_comm_sup h.relIndex
 
 theorem isE_K (h : KData196 p H T X A) : E1.IsE 1 H T A (K196 H T X A) := by
@@ -227,6 +246,7 @@ theorem iSup_conj_sup_pCoreOf_eq (h : KData196 p H T X A) :
       (Subgroup.mem_iSup_of_mem 1 (Subgroup.mem_iSup_of_mem (Subgroup.one_mem _) h2))
   · exact le_sup_of_le_left (le_iSup₂_of_le 1 (Subgroup.one_mem _) (by rw [conjSubgroup_one]))
 
+omit [Finite G] in
 theorem A_le_normalizer_KN (h : KData196 p H T X A) :
     A ≤ normalizer ((KN196 H X A : Subgroup G) : Set G) := by
   intro a ha

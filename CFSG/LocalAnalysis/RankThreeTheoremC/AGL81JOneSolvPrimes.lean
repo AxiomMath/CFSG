@@ -18,8 +18,8 @@ theorem IsSymThreeOrSUThreeTwo.prime_eq_of_dvd_card {Q : Type} [Group Q]
     rcases h with ⟨f⟩ | ⟨K, _, _, hK, ⟨f⟩⟩
     · rw [Nat.card_congr f.some.toEquiv, Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]
       decide
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI := CFSG.HardMathSupport.Solomon.Proving.charP_two_of_card_four K hK
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have := CFSG.HardMathSupport.Solomon.Proving.charP_two_of_card_four K hK
       have h2 := CFSG.SectionRank.OddCover.card_statedSU_three (K := K) (p := 2) (f := 1)
         (by rw [hK]; norm_num)
       rw [pow_one] at h2
@@ -37,7 +37,7 @@ theorem prime_eq_of_dvd_card_of_symThree {I : Subgroup G}
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 ↥I)] at hd
   rcases (Nat.Prime.dvd_mul hq).1 hd with h | h
   · exact IsSymThreeOrSUThreeTwo.prime_eq_of_dvd_card hb hq h
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥I)).exists_card_eq
     rw [hk] at h
     exact Or.inl ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).1 (hq.dvd_of_dvd_pow h))
@@ -64,7 +64,7 @@ theorem prime_eq_of_dvd_card_jOne {H L : Subgroup G}
     (hd : q ∣ Nat.card (jOne H L)) : q = 2 ∨ q = 3 := by
   by_contra hne
   push Not at hne
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hJ : jOne H L ≤ (CFSG.pPrimeCore q ↥(H ⊓ L)).map (H ⊓ L).subtype := by
     refine iSup₂_le fun I₀ hI => ?_
     refine le_trans ?_ (le_pPrimeCore_of_mem_cZero hI (hs I₀ hI) hne.1 hne.2)

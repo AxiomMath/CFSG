@@ -18,9 +18,9 @@ private theorem index_two_unique {B : Type} [Group B] (hF : U42Facts) (hB : IsU4
     {M1 M2 : Subgroup B} (h1 : M1.index = 2) (h2 : M2.index = 2) : M1 = M2 := by
   by_contra hne
   have hcardB : Nat.card B = 2 ^ 7 * 3 ^ 4 * 5 := hF.card B hB
-  haveI : Finite B := Nat.finite_of_card_ne_zero (by rw [hcardB]; norm_num)
-  haveI : M1.Normal := Subgroup.normal_of_index_eq_two h1
-  haveI : M2.Normal := Subgroup.normal_of_index_eq_two h2
+  have : Finite B := Nat.finite_of_card_ne_zero (by rw [hcardB]; norm_num)
+  have : M1.Normal := Subgroup.normal_of_index_eq_two h1
+  have : M2.Normal := Subgroup.normal_of_index_eq_two h2
   rcases hF.normal B hB (M1 ⊓ M2) inferInstance with hbot | hidx | htop
   · have hle : (M1 ⊓ M2).index ≤ M1.index * M2.index :=
       Subgroup.index_inf_le (H := M1) (K := M2)
@@ -48,7 +48,7 @@ theorem statedClassicalModel_of_index_two (hF : U42Facts) {A : Type} [Group A]
     CFSG.Open.StatedClassicalModel ↥N .PSU 4 2 1 := by
   obtain ⟨U, hUgrp, hU, ⟨e⟩⟩ := hA
   have hA' : IsU42Two A := ⟨U, hUgrp, hU, ⟨e⟩⟩
-  letI : Group U := hUgrp
+  let : Group U := hUgrp
   have hcardU : Nat.card U = 25920 :=
     CFSG.EvenSporadicStandard.M24Std.card_of_statedClassicalModel_psu_four_two hU
   obtain ⟨-, hUsimple⟩ := CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity U 4 2 1 hU
@@ -56,7 +56,7 @@ theorem statedClassicalModel_of_index_two (hF : U42Facts) {A : Type} [Group A]
     rcases hUsimple.eq_bot_or_eq_top_of_normal (Subgroup.center U) with h | h
     · exact h
     · exfalso
-      haveI : IsMulCommutative U := Subgroup.center_eq_top_iff.mp h
+      have : IsMulCommutative U := Subgroup.center_eq_top_iff.mp h
       have hprime : (Nat.card U).Prime := (Group.is_simple_iff_prime_card (α := U)).mp hUsimple
       rw [hcardU] at hprime
       norm_num at hprime

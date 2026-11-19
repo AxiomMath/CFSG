@@ -29,8 +29,8 @@ theorem e6_fieldKind_false {S : Type} [Group S] [Finite S] {p : ℕ} {α : MulAu
   dsimp only at hraw
   obtain ⟨K, hKF, hKfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hnaR, θ, -, ⟨i, hi, f, hf, hind⟩, hout⟩ := hQ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
   have hn : 1 ≤ (⟨.E6, 0, 2⟩ : GLALabel).n := by norm_num
   have hconj := RecipeExcLang.ggRawFieldConj_chev
     (τ := CFSG.Blueprint.Chevalley.TwistTag.E6.tag) (ℓ := 2) (f := 2) (p := p) hn hK hp

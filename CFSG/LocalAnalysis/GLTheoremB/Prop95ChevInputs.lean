@@ -43,7 +43,7 @@ theorem mem_of_rho_mem_inner (hC : Subgroup.centralizer (K : Set X) = ⊥) {g : 
 theorem mem_pCoreOf_autCentralizer [Finite X] (E : Subgroup X) {y : X} (hyK : y ∈ K)
     (hy : y ∈ pCoreOf 2 (Subgroup.centralizer (E : Set X))) :
     (⟨y, hyK⟩ : ↥K) ∈ pCoreOf 2 (autCentralizer (E.map (rho K))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C := Subgroup.centralizer (E : Set X) with hCdef
   set H : Subgroup ↥K := autCentralizer (E.map (rho K)) with hH
   set N : Subgroup ↥K := (pCoreOf 2 C ⊓ K).subgroupOf K with hN
@@ -98,7 +98,7 @@ theorem input19_20_3Core_of (h1 : OmegaTwoAutTwoPart)
     (h2 : (∀ n : ℕ, 1 ≤ n → OmegaTwoAutInduced (StatedQuadMinus (n + 1) (ZMod 2) 1 1)) ∧
       (∀ n : ℕ, 2 ≤ n → n ≠ 3 → OmegaTwoAutInduced (StatedQuadPlus (n + 1) (ZMod 2))))
     (h2' : OmegaPlusEightInvolutions)
-    (h3 : ∀ n : ℕ, 1 ≤ n → OrthOddCentCore (StatedQuadPlus (n + 1) (ZMod 2)) true n ∧
+    (_h3 : ∀ n : ℕ, 1 ≤ n → OrthOddCentCore (StatedQuadPlus (n + 1) (ZMod 2)) true n ∧
       OrthOddCentCore (StatedQuadMinus (n + 1) (ZMod 2) 1 1) false n) : Input19_20_3Core :=
   CFSG.LieType.ChevTwo.input19_20_3_assembly h1 h2 h2'
 

@@ -133,7 +133,7 @@ theorem s16_model_of_check {n : ℕ} {P R : Subgroup (Equiv.Perm (Fin n))} {pg :
     unfold genOf
     congr 1
     ext y
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_toArray, List.mem_cons,
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_toArray, List.mem_cons,
       List.not_mem_nil, or_false, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨z, (rfl | rfl), rfl⟩
@@ -178,7 +178,7 @@ theorem s16_model_of_check {n : ℕ} {P R : Subgroup (Equiv.Perm (Fin n))} {pg :
     unfold genOf
     congr 1
     ext y
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_toArray, List.mem_cons,
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_toArray, List.mem_cons,
       List.not_mem_nil, or_false, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨z, (rfl | rfl | rfl), rfl⟩
@@ -209,7 +209,7 @@ theorem s16_model_of_check {n : ℕ} {P R : Subgroup (Equiv.Perm (Fin n))} {pg :
     have hxc : tp n T * x = x * tp n T := (commTT_iff RT Rx).1 (hcx T hT')
     simp only at hTe
     by_cases hfl : fl = true
-    · rw [if_pos hfl] at hTe
+    · rw [ite_eq_left hfl] at hTe
       have hTeq : tp n T = tp n e' * r := by
         apply rep_unique RT
         rw [← hTe]
@@ -217,7 +217,7 @@ theorem s16_model_of_check {n : ℕ} {P R : Subgroup (Equiv.Perm (Fin n))} {pg :
       refine ⟨?_, Or.inr ⟨tp n e', heP, het, hTeq⟩, hxc⟩
       rw [hTeq]
       exact mul_mem (hPR heP) hrR
-    · rw [if_neg hfl] at hTe
+    · rw [ite_eq_right hfl] at hTe
       have hTeq : tp n T = tp n e' := by
         apply rep_unique RT
         rw [← hTe]

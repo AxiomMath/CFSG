@@ -83,7 +83,7 @@ theorem ggRootSub_eq_conj_map {U X : Type} [Group U] [Group X] (Δ : UniversalRo
   simp [map_mul, map_inv]
 
 theorem map_conj_inv_inf_eq {M : Type*} [Group M] {model : Subgroup M} {Vs V : Subgroup M}
-    {h t γ : M} (hht : h = t * γ) (ht : t ∈ model) (hγ : γ ∈ model)
+    {h t γ : M} (hht : h = t * γ) (_ht : t ∈ model) (hγ : γ ∈ model)
     (hconj : V.map (MulAut.conj h).toMonoidHom = Vs)
     (htn : Vs.map (MulAut.conj t).toMonoidHom = Vs) :
     (Vs ⊓ model).map (MulAut.conj γ⁻¹).toMonoidHom = V ⊓ model := by

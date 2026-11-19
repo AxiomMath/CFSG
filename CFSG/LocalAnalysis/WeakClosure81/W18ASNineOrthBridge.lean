@@ -72,13 +72,13 @@ noncomputable def commutatorOrthogonalMinusEquiv (k : ℕ) (F : Type) [Field F] 
 theorem noSocle185Factor_orthogonalPlus_of_statedOmega (k : ℕ) {F : Type} [Field F] [Finite F]
     (h : NoSocle185Factor ↥(StatedOmega (StatedQuadPlus k F))) :
     NoSocle185Factor ↥(CFSG.PGLModel.orthogonalPlus k F) := by
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin k ⊕ Fin k) F) := inferInstance
+  have : Finite (Matrix.GeneralLinearGroup (Fin k ⊕ Fin k) F) := inferInstance
   exact NoSocle185Factor.of_commutator (h.of_mulEquiv (commutatorOrthogonalPlusEquiv k F).symm)
 
 theorem noSocle185Factor_orthogonalMinus_of_statedOmega (k : ℕ) {F : Type} [Field F] [Finite F]
     (b c : F) (h : NoSocle185Factor ↥(StatedOmega (StatedQuadMinus (k + 1) F b c))) :
     NoSocle185Factor ↥(CFSG.PGLModel.orthogonalMinus k F b c) := by
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin k ⊕ Fin k ⊕ Fin 2) F) := inferInstance
+  have : Finite (Matrix.GeneralLinearGroup (Fin k ⊕ Fin k ⊕ Fin 2) F) := inferInstance
   exact NoSocle185Factor.of_commutator
     (h.of_mulEquiv (commutatorOrthogonalMinusEquiv k F b c).symm)
 

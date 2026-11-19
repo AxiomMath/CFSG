@@ -21,7 +21,7 @@ theorem s16h_H5_natNorm_statedSL_two_four_lin_dvd
     (hD : IsElemAbelian q D) :
     D ≤ linSub (ι := Fin 2) (K := K) ∧ Nat.card D ∣ 180 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hΓ : HasScalarCommutant (CFSG.Assembly.LowTwoRank.StatedSL 2 K) :=
     hasScalarCommutant_statedSL (K := K) (by norm_num)
   have hAut : Nat.card (K ≃+* K) = 2 := by
@@ -80,7 +80,7 @@ theorem s16h_H5_natNorm_statedSL_two_four_elemAbelian_one
     (hD : IsElemAbelian q D) :
     Nat.card D ≤ q := by
   obtain ⟨-, hdiv⟩ := s16h_H5_natNorm_statedSL_two_four_lin_dvd hK hq hq2 hDN hD
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hpg : IsPGroup q D := CFSG.Open.IsElemAbelian.isPGroup hD
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hpg
   rw [hk] at hdiv ⊢
@@ -135,7 +135,7 @@ theorem s16h_H5_natNorm_statedSL_two_four_three_card
     Nat.card D = 9 ∧ D ≤ linSub (ι := Fin 2) (K := K) := by
   obtain ⟨hDlin, hdiv⟩ :=
     s16h_H5_natNorm_statedSL_two_four_lin_dvd hK Nat.prime_three (by norm_num) hDN hD
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpg : IsPGroup 3 D := CFSG.Open.IsElemAbelian.isPGroup hD
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hpg
   have hkdiv : 3 ^ k ∣ 180 := hk ▸ hdiv
@@ -161,7 +161,7 @@ private theorem s16h_E3RowSL4_finite_mulAut {W : Type} [CommGroup W] [Finite W] 
     (fun f g h => MulEquiv.ext (congrFun h))
 
 private theorem s16h_E3RowSL4_le_stabSub_commSub {W : Type} [CommGroup W]
-    (L : Subgroup (MulAut W)) : L ≤ stabSub (commSub ⊤ L) := fun l hl =>
+    (L : Subgroup (MulAut W)) : L ≤ stabSub (commSub ⊤ L) := fun _l hl =>
   s16h_H5_row_SL2_four_stab_commSub (Subgroup.le_normalizer hl)
 
 private theorem s16h_E3RowSL4_le_stabSub_fixV {W : Type} [CommGroup W]
@@ -234,9 +234,9 @@ private theorem s16h_E3RowSL4_autSec_le_normalizer {W : Type} [CommGroup W]
 private theorem s16h_E3RowSL4_center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finite X]
     {a : ℕ} (h : IsSLn X 2 a) : Subgroup.center X = ⊥ := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have h2le : 2 ≤ Nat.card K := Finite.one_lt_card
   have ha : 1 ≤ a := by
     rcases Nat.eq_zero_or_pos a with h0 | hpos
@@ -250,7 +250,7 @@ private theorem s16h_E3RowSL4_center_eq_bot_of_isSLn_two {X : Type} [Group X] [F
     exact Nat.dvd_iff_mod_eq_zero.mp (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 :=
     (FiniteField.even_card_iff_char_two (F := K)).mpr hKeven
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   have hKcenter : Subgroup.center ↥(StatedSL 2 K) = ⊥ :=
     CFSG.RankThree.GF2n.Stroth80.center_statedSL_two_eq_bot
   have hcard : Nat.card ↥(Subgroup.center X) = 1 := by
@@ -262,7 +262,7 @@ theorem s16h_H5_row_SL2_four_bridge_strong {W : Type} [CommGroup W] [Finite W]
     {A L : Subgroup (MulAut W)}
     {t : MulAut W} (hc : s16h_H5Cfg A L t)
     (h : s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 2)
-    {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
+    {q : ℕ} (_hq : q.Prime) (_hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
     (hE : E ≤ A ⊓ normalizer (L : Set (MulAut W))) (hEab : IsElemAbelian q E) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : Nat.card K = 4)
       (e : Sec (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) ≃* StdMod (Fin 2) K)
@@ -274,11 +274,11 @@ theorem s16h_H5_row_SL2_four_bridge_strong {W : Type} [CommGroup W] [Finite W]
       IsElemAbelian q D ∧
       Nat.card D = Nat.card ↥(autSub E (commSub ⊤ L)) := by
   classical
-  haveI : Finite (MulAut W) := s16h_E3RowSL4_finite_mulAut
+  have : Finite (MulAut W) := s16h_E3RowSL4_finite_mulAut
   obtain ⟨hSL, hNat⟩ := h
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hNat
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hcenter : Subgroup.center ↥L = ⊥ := s16h_E3RowSL4_center_eq_bot_of_isSLn_two hSL
   have hfaith : L ⊓ centSec (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) = ⊥ :=
     s16h_H5_faithful_on_quotient hc hcenter
@@ -358,7 +358,7 @@ theorem s16h_H5_eigenvector_one_of_three_subgroup {K : Type} [Field K] [Finite K
     ∃ (A : GL (Fin 2) K) (v : Fin 2 → K),
       v ≠ 0 ∧ A ≠ 1 ∧ matHom A ∈ D ∧ A • v = v := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let Dlin : Subgroup (GL (Fin 2) K) := D.comap (matHom : GL (Fin 2) K →* MulAut (StdMod (Fin 2) K))
   have hrange : D ≤ (matHom : GL (Fin 2) K →* MulAut (StdMod (Fin 2) K)).range := by
     rw [s16h_H5_matHom_range]
@@ -368,13 +368,13 @@ theorem s16h_H5_eigenvector_one_of_three_subgroup {K : Type} [Field K] [Finite K
   have hcardDlin : Nat.card Dlin = 9 := by
     rw [← Subgroup.card_map_of_injective
       (f := (matHom : GL (Fin 2) K →* MulAut (StdMod (Fin 2) K))) matHom_injective, hmap, hcard]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpgD : IsPGroup 3 D := CFSG.Open.IsElemAbelian.isPGroup hD
   have hpg : IsPGroup 3 Dlin :=
     hpgD.of_equiv ((Subgroup.equivMapOfInjective Dlin
       (matHom : GL (Fin 2) K →* MulAut (StdMod (Fin 2) K)) matHom_injective).trans
         (MulEquiv.subgroupCongr hmap)).symm
-  letI : Fintype Dlin := Fintype.ofFinite Dlin
+  let : Fintype Dlin := Fintype.ofFinite Dlin
   have hcardK : Fintype.card K = 4 := by rwa [Fintype.card_eq_nat_card]
   have hnot : ¬ 3 ∣ Nat.card (ℙ K (Fin 2 → K)) := by
     rw [Projectivization.card_of_finrank_two (k := K) (V := Fin 2 → K) (by simp)]
@@ -468,7 +468,7 @@ theorem s16h_H5_eigenvector_one_of_three_subgroup {K : Type} [Field K] [Finite K
 
 theorem s16h_H5_row_SL2_four_le_stabSub_commSub_fixV {W : Type} [CommGroup W]
     (L : Subgroup (MulAut W)) : L ≤ stabSub (commSub ⊤ L ⊓ fixV L) :=
-  fun l hl => s16h_E3RowSL4_stabSub_inf
+  fun _l hl => s16h_E3RowSL4_stabSub_inf
     (s16h_H5_row_SL2_four_stab_commSub (Subgroup.le_normalizer hl))
     (s16h_E3RowSL4_le_stabSub_fixV L hl)
 

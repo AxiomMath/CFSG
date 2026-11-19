@@ -14,8 +14,8 @@ variable {G : Type} [Group G]
 private theorem open_isQuasisimple_of_mulEquiv {A B : Type*} [Group A] [Group B] (e : A ≃* B)
     (h : CFSG.Open.IsQuasisimple A) : CFSG.Open.IsQuasisimple B := by
   obtain ⟨hperf, hsimple⟩ := h
-  haveI : Group.IsPerfect A := ⟨hperf⟩
-  haveI : IsSimpleGroup (A ⧸ Subgroup.center A) := hsimple
+  have : Group.IsPerfect A := ⟨hperf⟩
+  have : IsSimpleGroup (A ⧸ Subgroup.center A) := hsimple
   exact ⟨(Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective).commutator_eq_top,
     (QuotientGroup.congr (Subgroup.center A) (Subgroup.center B) e
       (Subgroup.map_center_eq e)).symm.isSimpleGroup⟩
@@ -83,7 +83,7 @@ theorem y6f4a_standard_lift [Finite G] {g : G} (hg : orderOf g = 2)
       exact Subgroup.mem_inf.mpr ⟨hτA, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
   have hperfA : ∀ B : Subgroup G, B ≤ centralizer ({g} : Set G) → Group.IsPerfect ↥B → B ≤ A := by
     intro B hBC hB
-    haveI : Group.IsPerfect ↥B := hB
+    have : Group.IsPerfect ↥B := hB
     have hperfB : Group.IsPerfect ↥(B.subgroupOf C) := by
       have hsurj : Function.Surjective
           ((Subgroup.subgroupOfEquivOfLe hBC).symm : ↥B → ↥(B.subgroupOf C)) :=

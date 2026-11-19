@@ -344,7 +344,7 @@ private lemma exists_unitaryLift_blockScalar
     let g : Su F p f (2 * m + 1 + 1 + tail) :=
       blockEmb F p f (2 * m + 1 + 1 + tail) 2 (2 * k.val) (by have := k.isLt; omega) B
     let b : GL (Fin (2 * m + 1 + 1 + tail)) F := (g : GL (Fin (2 * m + 1 + 1 + tail)) F)
-    obtain ⟨n, hn⟩ := (Q k).isPGroup' ⟨B, hB⟩
+    obtain ⟨n, hn⟩ := (Q k).isPGroup ⟨B, hB⟩
     have hBpow : B ^ 2 ^ n = 1 := by
       have h := congrArg (fun x : ↥(Q k) => (x : Su F p f 2)) hn
       simpa using h

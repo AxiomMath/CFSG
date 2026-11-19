@@ -17,6 +17,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem alpha_conj_le_normalClosure (A : Subgroup G) (g : G) :
     conjSubgroup g A ≤ normalClosure (A : Set G) := by
   intro x hx
@@ -26,6 +27,7 @@ theorem alpha_conj_le_normalClosure (A : Subgroup G) (g : G) :
   have e : g * (g⁻¹ * x * g) * g⁻¹ = x := by group
   rwa [e] at h
 
+omit [Finite G] in
 theorem alpha_le_centralizer_of_comm {S T : Subgroup G}
     (h : ∀ a ∈ S, ∀ b ∈ T, a * b = b * a) : S ≤ centralizer (T : Set G) := by
   intro a ha
@@ -33,10 +35,11 @@ theorem alpha_le_centralizer_of_comm {S T : Subgroup G}
   intro b hb
   exact (h a ha b hb).symm
 
+omit [Finite G] in
 theorem alpha_le_centralizer_conj {A : Subgroup G} {g : G}
     (hg : conjSubgroup g A ≤ centralizer (A : Set G)) :
     A ≤ centralizer (conjSubgroup g A : Set G) :=
-  alpha_le_centralizer_of_comm fun a ha b hb => Subgroup.mem_centralizer_iff.mp (hg hb) a ha
+  alpha_le_centralizer_of_comm fun a ha _b hb => Subgroup.mem_centralizer_iff.mp (hg hb) a ha
 
 theorem alpha_mem_of_mul_mem {A : Subgroup G} (hTI : IsTI A) {k a b : G}
     (ha : a ∈ conjSubgroup k A) (hb : b ∈ conjSubgroup k A) (hab : a * b ∈ A)
@@ -74,6 +77,7 @@ theorem alpha_exists_conj_elem {A : Subgroup G} (hTI : IsTI A) {g t : G} (ht : t
     calc t = g⁻¹ * (g * t * g⁻¹) * g := by group
       _ = 1 := by rw [hm]; group
 
+omit [Finite G] in
 theorem alpha_exists_conj_le_centralizer {A : Subgroup G} (hA : IsElemAbelian 2 A)
     (hne : ⁅WAC A, WAC A⁆ ≠ ⊥) :
     ∃ g : G, conjSubgroup g A ≤ centralizer (A : Set G) ∧ conjSubgroup g A ≠ A := by
@@ -93,6 +97,7 @@ theorem alpha_conj_le_centralizer_of_comm {A : Subgroup G} (hroot : IsRootType 2
   simp only [CFSG.RankThree.GF2n.conjSubgroup_one] at h
   exact alpha_le_centralizer_of_comm h
 
+omit [Finite G] in
 theorem alpha_false_of_involution {K : Subgroup G} (hodd : Odd (Nat.card K)) {y : G}
     (hy : y ∈ K) (hy2 : y * y = 1) (hy1 : y ≠ 1) : False := by
   have hord : orderOf (⟨y, hy⟩ : K) = 2 := by
@@ -111,6 +116,7 @@ theorem alpha_false_of_involution {K : Subgroup G} (hodd : Odd (Nat.card K)) {y 
   obtain ⟨k, hk⟩ := h2
   omega
 
+omit [Finite G] in
 theorem alpha_exists_noncomm {A : Subgroup G} (hne : ⁅WAC A, WAC A⁆ ≠ ⊥) :
     ∃ g h : G, conjSubgroup g A ≤ centralizer (A : Set G) ∧
       conjSubgroup h A ≤ centralizer (A : Set G) ∧

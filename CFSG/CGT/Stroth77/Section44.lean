@@ -29,6 +29,7 @@ theorem uv_not_mem (h : F.IsD D dD) : dD.uv ∉ D := fun huv => F.uv_not_mem_cen
   exact congrArg Subtype.val (dD.isMulCommutative.is_comm.comm ⟨y, h.A_le hy⟩ ⟨_, huv⟩))
 
 variable (dD) in
+omit [Finite G] in
 theorem u_mul_c : dD.u * (dD.c : G) = (dD.c : G) * dD.u := by
   have h := dD.conj_ofTorus dD.u_mem dD.u_conj Torus.c
   rw [show (StrothTypeIndex.t201 m).action.φu Torus.c = Torus.c from
@@ -37,20 +38,22 @@ theorem u_mul_c : dD.u * (dD.c : G) = (dD.c : G) * dD.u := by
     _ = (dD.c : G) * dD.u := by group
 
 variable (dD) in
+omit [Finite G] in
 theorem zab_ne_one : (dD.a : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1) ≠ 1 := by
-  have h := ab_pow_ne_one201 (S := G) dD.e (c := dD.c) (a := dD.a) (b := dD.b)
-    (dD.e.apply_symm_apply _) (dD.e.apply_symm_apply _) (dD.e.apply_symm_apply _)
+  have h := ab_pow_ne_one201 (S := G) dD.e (a := dD.a) (b := dD.b)
+    (dD.e.apply_symm_apply _) (dD.e.apply_symm_apply _)
   have hcomm : Commute (dD.a : G) (dD.b : G) :=
     congrArg Subtype.val (dD.isMulCommutative.is_comm.comm dD.a dD.b)
   rwa [hcomm.mul_pow] at h
 
+omit [Finite G] in
 theorem not_isConj_za {S Du : Subgroup G} {c₁ u e za : G}
     (hL6 : ∀ {v y : G}, IsConj v za → y ∈ S → v ∈ S → y * v = v * y → y * y = 1 → y ≠ 1 →
       y ≠ v → IsConj y (y * v))
     (hza : ¬ IsConj c₁ za) (hz2 : c₁ * c₁ = 1) (hz1 : c₁ ≠ 1) (hc₁S : c₁ ∈ S) (huS : u ∈ S)
     (heS : e ∈ S) (hc₁Du : c₁ ∈ Du) (huDu : u ∈ Du) (heDu : e ∉ Du)
     (hDuc₁ : Du ≤ Subgroup.centralizer {c₁}) (hc₁e : c₁ * e = e * c₁) (hue' : u * e = e * u)
-    (huc₁ : u * c₁ = c₁ * u) (hu2 : u * u = 1) (he2 : e * e = 1)
+    (huc₁ : u * c₁ = c₁ * u) (_hu2 : u * u = 1) (he2 : e * e = 1)
     (hzu : IsConj (c₁ * u) za) (hue_c : IsConj (u * e) (c₁ * u * e))
     (hC11 : ∀ y ∈ S, y * e ∈ Du → y * y = 1 →
       (∃ q ∈ S, q⁻¹ * y * q = c₁ * y) ∨ (∃ q ∈ S, q⁻¹ * y * q = e) ∨
@@ -155,7 +158,7 @@ theorem StrothFrame.IsD.isConj_of_t201 {F : StrothFrame G} {D : Subgroup G} {m :
     (hxlu : ∃ q ∈ (F.S : Subgroup G), q⁻¹ * ((dD.c : G) ^ 2 ^ (m - 1) * dD.cab * dD.uv *
       ((dD.c : G) ^ 2 ^ (m - 1) * ((dD.a : G) * (dD.b : G)⁻¹) ^ 2 ^ m * dD.u)) * q = dD.u) :
     IsConj ((dD.c : G) ^ 2 ^ (m - 1) * dD.cab * dD.uv) ((dD.c : G) ^ 2 ^ (m - 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm := Stroth44.one_le h
   have hoc : orderOf (dD.c : G) = 2 ^ m := by rw [Stroth42.orderOf_c_coe]; rfl
   obtain ⟨hz2, hz1⟩ := Stroth42.pow_mul_self_eq_one hm hoc
@@ -314,8 +317,8 @@ theorem StrothFrame.IsD.false_of_t201_iii {F : StrothFrame G} {D : Subgroup G} {
         {(dD.a : G) ^ 2 ^ (m + 1), (dD.b : G) ^ 2 ^ (m + 1), dD.uv}) = 8) :
     False := by
   classical
-  haveI := F.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := F.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnonab := Stroth42.frame_exists_mul_ne F
   have hm := Stroth44.one_le h
   have hx := h.isConj_of_t201 hE hu hzu hC2 hC2c hl hx2 hxl hxlu
@@ -384,7 +387,7 @@ theorem StrothFrame.IsD.false_of_t201_iii {F : StrothFrame G} {D : Subgroup G} {
   have hThom : ∀ y ∈ (F.S : Subgroup G), y ∉ U → orderOf y = 2 →
       IsConj y c₁ ∨ IsConj y za := by
     intro y hyS hyU hyo
-    obtain ⟨g, hg⟩ := EvenSporadicStandard.exists_conj_mem_complement hnonab F.S.isPGroup'
+    obtain ⟨g, hg⟩ := EvenSporadicStandard.exists_conj_mem_complement hnonab F.S.isPGroup
       F.S.not_dvd_index hUS h1 hyS hyU hyo
     have hy2 : y * y = 1 := by rw [← sq, ← hyo]; exact pow_orderOf_eq_one y
     have hy1 : y ≠ 1 := by rintro rfl; rw [orderOf_one] at hyo; omega

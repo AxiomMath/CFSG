@@ -61,12 +61,12 @@ private theorem exists3_statedSp_three (K : Type) [Field K] [Finite K] :
       exact hinner_le hmem
     exact hσne ((fieldAut_mem_range_conjAut_iff (K := K) (r := 3) (by norm_num)).mp hrange)
 
-theorem exists3_psp6 {X : Type} [Group X] [Finite X] {r f : ℕ} (hr : r.Prime) (hr3 : r ≠ 3)
+theorem exists3_psp6 {X : Type} [Group X] [Finite X] {r f : ℕ} (_hr : r.Prime) (_hr3 : r ≠ 3)
     (h : LieModel X .PSp 3 r f) : Exists3 X := by
   obtain ⟨-, K, hKfield, hKfin, hKcard, he⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num : (3 : ℕ) ≠ 0) h
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   obtain ⟨e⟩ := he
   exact exists3_of_mulEquiv e (exists3_statedSp_three K)
 

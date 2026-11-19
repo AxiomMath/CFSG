@@ -16,7 +16,7 @@ variable {minus : Bool}
 
 theorem mem_singOf {n : ℕ} :
     n ∈ singOf minus ↔ n < 64 ∧ n ≠ 0 ∧ qB minus n = false := by
-  simp [singOf, Array.mem_toList_iff, List.mem_toArray, List.mem_filter, List.mem_range]
+  simp [singOf, List.mem_toArray, List.mem_filter, List.mem_range]
 
 theorem qB_eq_false_of_qModel_eq_zero {n : ℕ}
     (h : qModel minus (Code.vec n) = 0) : qB minus n = false := by

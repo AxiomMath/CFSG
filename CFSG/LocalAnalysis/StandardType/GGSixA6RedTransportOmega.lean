@@ -61,11 +61,11 @@ theorem ggA6_transport_Omega
   have hJG : J ≤ G₀ := hJc.1.trans inf_le_left
   obtain ⟨F, hF, hFfin, hFchar, ι, hι, hιdec, Φ, ⟨e⟩⟩ :=
     ggA6_omega_model t ht n f ↥G₀ hZ hLie
-  letI : Field F := hF
-  letI : Finite F := hFfin
-  letI : CharP F 2 := hFchar
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := hιdec
+  let : Field F := hF
+  let : Finite F := hFfin
+  let : CharP F 2 := hFchar
+  let : Fintype ι := hι
+  let : DecidableEq ι := hιdec
   let S : Subgroup (GL ι F) := CFSG.Open.StatedOmega Φ.Q
   let P₀' : Subgroup ↥G₀ := P₀.subgroupOf G₀
   let J₀ : Subgroup ↥G₀ := J.subgroupOf G₀
@@ -109,7 +109,7 @@ theorem ggA6_transport_Omega
     exact (e x).2
   have hPorth : P ≤ orthGroup Φ.Q :=
     hPS.trans (CFSG.LieType.BorelTits.statedOmega_le_orthGroup Φ.Q)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcardP : Nat.card P = Nat.card P₀ := by
     show Nat.card (P₀'.map φ) = Nat.card P₀
     rw [Subgroup.card_map_of_injective hφ]

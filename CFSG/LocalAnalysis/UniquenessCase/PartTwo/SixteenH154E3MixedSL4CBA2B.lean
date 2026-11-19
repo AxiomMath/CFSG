@@ -20,30 +20,30 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_sl4_engine_b_involution_swap
-    (D : Data G) (S : s16h_Std D) (hσ : D.sig = D.sig1)
-    (hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
-    (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
-    {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
-    (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
+    (D : Data G) (_S : s16h_Std D) (_hσ : D.sig = D.sig1)
+    (_hJP : K_JonesParshallH1) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (_hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
+    {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)} (_ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
+    (_ht2 : t ^ 2 = 1) (_ht1 : t ≠ 1) (_htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)
     (hW : Conc4_136W (Mbar D.M ⊥ V h.hyp151.isElemAbelian) t (lBar ⊥ V h.hyp151.isElemAbelian L))
-    (hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
+    (_hcomp : IsComponentOf (lBar ⊥ V h.hyp151.isElemAbelian L)
       (Mbar D.M ⊥ V h.hyp151.isElemAbelian))
-    (hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
+    (_hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
       CFSG.Open.pRank q (lBar ⊥ V h.hyp151.isElemAbelian L) ≤ 1)
-    (hZ : commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
+    (_hZ : commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L) ≠ ⊥)
-    (hbad : ∀ q ∈ D.sig, ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian q E →
+    (_hbad : ∀ q ∈ D.sig, ∀ E : Subgroup G, E ≤ D.M → IsElemAbelian q E →
       Nat.card ↥(E ⊓ preBarSub D.M ⊥ V h.hyp151.isElemAbelian
         (centSub (wTil ⊥ V h.hyp151.isElemAbelian L))) < q ^ 2)
     (hrow : s16h_H5RowSL2 (lBar ⊥ V h.hyp151.isElemAbelian L)
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
         fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) 2)
-    (hZ4 : 2 < Nat.card ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
+    (_hZ4 : 2 < Nat.card ↥(commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L)))
     {s : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)}
     (hs : s ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
-    (hsq : s ^ 2 = 1) (hs1 : s ≠ 1)
+    (hsq : s ^ 2 = 1) (_hs1 : s ≠ 1)
     (hsN : s ∉ Subgroup.normalizer
       ((lBar ⊥ V h.hyp151.isElemAbelian L : Subgroup (MulAut (Vtil ⊥ V h.hyp151.isElemAbelian))) :
         Set (MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)))) :
@@ -61,7 +61,7 @@ theorem s16h_sl4_engine_b_involution_swap
   have hmove : E3.mQuot U Z ≤ rk ↥(commSub (⊤ : Subgroup W) (Subgroup.zpowers s)) := by
     have hmap_one : H.map (MulAut.conj (1 : MulAut W)).toMonoidHom = H := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     have hnot : s ∉ Subgroup.normalizer
         (H.map (MulAut.conj (1 : MulAut W)).toMonoidHom : Set (MulAut W)) := by
       simpa only [H, hmap_one] using hsN
@@ -82,7 +82,7 @@ theorem s16h_sl4_engine_b_involution_swap
   have hmq : E3.mQuot U Z = 4 := by
     unfold E3.mQuot
     rw [hrel]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [show (16 : ℕ) = 2 ^ 4 by norm_num, padicValNat.prime_pow]
   have h4 : 4 ≤ rk ↥(commSub (⊤ : Subgroup W) (Subgroup.zpowers s)) := by
     rw [hmq] at hmove

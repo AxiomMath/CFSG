@@ -22,7 +22,7 @@ theorem twCard_three_mul_le {G : Type*} [Group G] {T S : Subgroup G} [Finite S] 
     (hS : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a) {e : G} (he : e ∈ S) (heT : e ∉ T)
     (he3 : e ^ 3 = 1) :
     3 * Nat.card {τ : G // τ ∈ T ∧ τ ^ 3 = 1} ≤ Nat.card {τ : G // τ ∈ S ∧ τ ^ 3 = 1} := by
-  haveI : Finite {τ : G // τ ∈ S ∧ τ ^ 3 = 1} :=
+  have : Finite {τ : G // τ ∈ S ∧ τ ^ 3 = 1} :=
     Finite.of_injective (fun x => (⟨x.1, x.2.1⟩ : S)) fun a b hab =>
       Subtype.ext (congrArg (fun x : S => (x : G)) hab)
   let F : Fin 3 × {τ : G // τ ∈ T ∧ τ ^ 3 = 1} → {τ : G // τ ∈ S ∧ τ ^ 3 = 1} := fun p =>

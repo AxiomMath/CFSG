@@ -52,6 +52,7 @@ set_option quotPrecheck false in
 local notation "𝐓₀" => (𝐑[Axis.one] ⊔ 𝐑[Axis.two] : Subgroup G)
 local notation "𝐁[" i "]" => (zpowers t ⊔ pull φ (rootA K i) : Subgroup G)
 
+omit [Finite K] in
 theorem map_U_swap {u : G} (hU : ∀ x ∈ 𝐔[Axis.two], u * x * u⁻¹ ∈ 𝐔[Axis.one]) :
     (𝐔[Axis.two]).map (MulAut.conj u).toMonoidHom = 𝐔[Axis.one] := by
   refine eq_of_le_of_card_ge ?_ ?_
@@ -59,6 +60,7 @@ theorem map_U_swap {u : G} (hU : ∀ x ∈ 𝐔[Axis.two], u * x * u⁻¹ ∈ �
     exact hU x hx
   · rw [card_map_of_injective (MulAut.conj u).injective, FCHyp.card_U, FCHyp.card_U]
 
+omit [Finite G] in
 theorem map_C {u : G} (huC : u ∈ 𝐂) : (𝐂).map (MulAut.conj u).toMonoidHom = 𝐂 := by
   refine le_antisymm ?_ ?_
   · rintro _ ⟨x, hx, rfl⟩
@@ -68,6 +70,7 @@ theorem map_C {u : G} (huC : u ∈ 𝐂) : (𝐂).map (MulAut.conj u).toMonoidHo
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
 
+omit [Finite K] in
 theorem map_D_swap {u : G} (huC : u ∈ 𝐂) (hU : ∀ x ∈ 𝐔[Axis.two], u * x * u⁻¹ ∈ 𝐔[Axis.one]) :
     (𝐃[Axis.two]).map (MulAut.conj u).toMonoidHom = 𝐃[Axis.one] := by
   have htu : u * t * u⁻¹ = t := by

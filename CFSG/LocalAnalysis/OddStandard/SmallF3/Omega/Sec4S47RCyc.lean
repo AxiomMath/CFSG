@@ -34,7 +34,7 @@ theorem sec4S47R_inv_tau (h : Sec4FSetup t L S z A B φ) {y : G}
 theorem sec4S47R_inv_cycle (h : Sec4FSetup t L S z A B φ) {y : G}
     (hyN : y ∈ normalizer (A : Set G)) (hρ : h.actHom ⟨y, hyN⟩ = sec4S47RTau)
     {v : Option (Fin 7) → ZMod 2} (hv : sec4S47RCoord t φ v = y * y)
-    {a b c : Option (Fin 7)} (hab : a ≠ b) (hbc : b ≠ c) (hac : a ≠ c)
+    {a b c : Option (Fin 7)} (hab : a ≠ b) (hbc : b ≠ c) (_hac : a ≠ c)
     (ha0 : a ≠ some 0) (ha1 : a ≠ some 1) (hb0 : b ≠ some 0) (hb1 : b ≠ some 1)
     (hc0 : c ≠ some 0) (hc1 : c ≠ some 1) :
     ∃ e ε : ZMod 2, ∀ r, v ((sec4S47RCyc a b c).symm r) + v r = e * sec4S47RInd r + ε := by

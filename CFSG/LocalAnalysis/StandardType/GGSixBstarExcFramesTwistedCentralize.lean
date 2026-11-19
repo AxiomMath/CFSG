@@ -30,7 +30,7 @@ theorem centralizes_twistedE6 {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 1 
     g ∈ Subgroup.centralizer (Bs : Set G) := by
   subst hθ
   classical
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hk : ¬ p ∣ 3 := fun hd =>
     hp3 ((Nat.prime_dvd_prime_iff_eq Fact.out Nat.prime_three).1 hd)
   have hSyl : SylowTorus ↥(twistedE6RootGroup K σ) p m := hdata f hf K hK σ hσ rfl

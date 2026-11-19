@@ -42,10 +42,11 @@ theorem commZ_le_Z (hcomm : ∀ x ∈ D.T₁, p * x * p⁻¹ * x⁻¹ ∈ D.A �
 variable {F : Subgroup G} (hF : IsE64 (T : Subgroup G) F)
 
 include hF in
+omit [Finite G] in
 theorem mem_normalizer_of_comm
     (hcomm : ∀ x ∈ D.T₁, p * x * p⁻¹ * x⁻¹ ∈ D.A ⊔ (zpowers D.b₀ ⊔ zpowers D.b₁)) :
     p ∈ normalizer (F : Set G) := by
-  haveI := hF.finite
+  have := hF.finite
   refine TStruct.mem_normalizer_of_forall_conj_mem fun v hv => ?_
   rw [show p * v * p⁻¹ = (p * v * p⁻¹ * v⁻¹) * v by group]
   exact mul_mem (Z_le_E64 D hF (hcomm v (D.le_T₁_of_isE64 hF hv))) hv
@@ -54,6 +55,7 @@ variable (hcomm : ∀ x ∈ D.T₁, p * x * p⁻¹ * x⁻¹ ∈ D.A ⊔ (zpowers
   [IsMulCommutative ↥F]
 
 include hF in
+omit [IsMulCommutative ↥F] [Finite G] in
 theorem ρ_pbar_pow_three (hcube : ∀ x ∈ D.T₁, p ^ 3 * x * (p ^ 3)⁻¹ = x) :
     NBar.ρ F (NBar.π F ⟨p, mem_normalizer_of_comm D hF hcomm⟩) ^ 3 = 1 := by
   refine MulEquiv.ext fun v => Subtype.ext ?_
@@ -61,6 +63,7 @@ theorem ρ_pbar_pow_three (hcube : ∀ x ∈ D.T₁, p ^ 3 * x * (p ^ 3)⁻¹ = 
   exact hcube v (D.le_T₁_of_isE64 hF v.2)
 
 include hF in
+omit [Finite G] [IsMulCommutative ↥F] in
 theorem ρ_pbar_ne_one (hmove : ∃ z ∈ D.A ⊔ (zpowers D.b₀ ⊔ zpowers D.b₁), p * z * p⁻¹ ≠ z) :
     NBar.ρ F (NBar.π F ⟨p, mem_normalizer_of_comm D hF hcomm⟩) ≠ 1 := by
   obtain ⟨z, hz, hpz⟩ := hmove
@@ -71,6 +74,7 @@ theorem ρ_pbar_ne_one (hmove : ∃ z ∈ D.A ⊔ (zpowers D.b₀ ⊔ zpowers D.
   exact this
 
 include hF in
+omit [Finite G] [IsMulCommutative ↥F] in
 theorem orderOf_pbar (hcube : ∀ x ∈ D.T₁, p ^ 3 * x * (p ^ 3)⁻¹ = x)
     (hmove : ∃ z ∈ D.A ⊔ (zpowers D.b₀ ⊔ zpowers D.b₁), p * z * p⁻¹ ≠ z) :
     orderOf (NBar.π F ⟨p, mem_normalizer_of_comm D hF hcomm⟩) = 3 := by
@@ -82,6 +86,7 @@ theorem orderOf_pbar (hcube : ∀ x ∈ D.T₁, p ^ 3 * x * (p ^ 3)⁻¹ = x)
     exact ρ_pbar_ne_one D hF hcomm hmove (by rw [h, map_one])
 
 include hF in
+omit [Finite G] in
 theorem pbar_comm (x : ↥(normalizer (F : Set G))) (hx : (x : G) ∈ D.T₁) :
     NBar.π F ⟨p, mem_normalizer_of_comm D hF hcomm⟩ * NBar.π F x =
       NBar.π F x * NBar.π F ⟨p, mem_normalizer_of_comm D hF hcomm⟩ := by
@@ -101,6 +106,7 @@ theorem pbar_comm (x : ↥(normalizer (F : Set G))) (hx : (x : G) ∈ D.T₁) :
     _ = NBar.π F x * NBar.π F pN := by rw [← h]
 
 include hF in
+omit [Finite G] in
 theorem commV_pbar_le_Z (hcube : ∀ x ∈ D.T₁, p ^ 3 * x * (p ^ 3)⁻¹ = x) {w : ↥F}
     (hw : w ∈ commV (zpowers (NBar.ρ F (NBar.π F ⟨p, mem_normalizer_of_comm D hF hcomm⟩)))) :
     (w : G) ∈ D.A ⊔ (zpowers D.b₀ ⊔ zpowers D.b₁) := by
@@ -123,10 +129,11 @@ theorem commV_pbar_le_Z (hcube : ∀ x ∈ D.T₁, p ^ 3 * x * (p ^ 3)⁻¹ = x)
   exact hle hw
 
 include hF in
+omit [Finite G] in
 theorem mem_commV_iff (hcube : ∀ x ∈ D.T₁, p ^ 3 * x * (p ^ 3)⁻¹ = x) (w : ↥F) :
     w ∈ commV (zpowers (NBar.ρ F (NBar.π F ⟨p, mem_normalizer_of_comm D hF hcomm⟩))) ↔
       (w : G) ∈ commZ D p := by
-  haveI := hF.finite
+  have := hF.finite
   set pN : ↥(normalizer (F : Set G)) := ⟨p, mem_normalizer_of_comm D hF hcomm⟩ with hpN
   set x := NBar.ρ F (NBar.π F pN) with hx
   have hx3 : x ^ 3 = 1 := ρ_pbar_pow_three D hF hcomm hcube
@@ -156,7 +163,8 @@ theorem mem_commV_iff (hcube : ∀ x ∈ D.T₁, p ^ 3 * x * (p ^ 3)⁻¹ = x) (
     exact hw'
 
 include hF in
-theorem pbar_fix_b (hcube : ∀ x ∈ D.T₁, p ^ 3 * x * (p ^ 3)⁻¹ = x) :
+omit [Finite G] in
+theorem pbar_fix_b (_hcube : ∀ x ∈ D.T₁, p ^ 3 * x * (p ^ 3)⁻¹ = x) :
     NBar.ρ F (NBar.π F ⟨p, mem_normalizer_of_comm D hF hcomm⟩) ⟨D.b₀, D.b₀_mem_E64 hF⟩ =
         ⟨D.b₀, D.b₀_mem_E64 hF⟩ ∧
       NBar.ρ F (NBar.π F ⟨p, mem_normalizer_of_comm D hF hcomm⟩) ⟨D.b₁, D.b₁_mem_E64 hF⟩ =
@@ -200,7 +208,7 @@ include hF hcomm in
 theorem card_commZ (hcube : ∀ x ∈ D.T₁, p ^ 3 * x * (p ^ 3)⁻¹ = x)
     (hmove : ∃ z ∈ D.A ⊔ (zpowers D.b₀ ⊔ zpowers D.b₁), p * z * p⁻¹ ≠ z) :
     Nat.card (commZ D p) = 4 := by
-  haveI := hF.finite
+  have := hF.finite
   set x := NBar.ρ F (NBar.π F ⟨p, mem_normalizer_of_comm D hF hcomm⟩) with hx
   have hV : ∀ v : ↥F, v * v = 1 := fun v => Subtype.ext (hF.mul_self v v.2)
   rw [← map_commV_pbar D hF hcomm hcube, card_map_of_injective F.subtype_injective]
@@ -225,9 +233,10 @@ theorem card_commZ (hcube : ∀ x ∈ D.T₁, p ^ 3 * x * (p ^ 3)⁻¹ = x)
     exact D.b₀_ne_one this
 
 include hF hcomm in
+omit [Finite G] in
 theorem commZ_inf (hcube : ∀ x ∈ D.T₁, p ^ 3 * x * (p ^ 3)⁻¹ = x) :
     commZ D p ⊓ (zpowers D.b₀ ⊔ zpowers D.b₁) = ⊥ := by
-  haveI := hF.finite
+  have := hF.finite
   set x := NBar.ρ F (NBar.π F ⟨p, mem_normalizer_of_comm D hF hcomm⟩) with hx
   have hV : ∀ v : ↥F, v * v = 1 := fun v => Subtype.ext (hF.mul_self v v.2)
   have hinf0 := commV_zpowers_inf_eq hV (ρ_pbar_pow_three D hF hcomm hcube)

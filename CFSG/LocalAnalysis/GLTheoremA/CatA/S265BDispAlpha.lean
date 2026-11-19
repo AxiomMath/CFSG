@@ -61,7 +61,7 @@ theorem QSNL.exists_alphaD {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup 
     (innDiagOn_mono hc.inn (Subgroup.zpowers_le.2 (hpre.1 hdD)))
   have hcen := Y10F.center_centerQuot_eq_bot hqS
   obtain ⟨hsimp, hnc⟩ := chev_pSimple_simple_nonabelian Nat.prime_three hc.comp
-  haveI := hsimp
+  have := hsimp
   have hLab := Y10F.hasLabel_of_equiv_centerQuot
     (CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_isQuasisimple_of_simple hnc).1
     ((QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot).symm hLabQ

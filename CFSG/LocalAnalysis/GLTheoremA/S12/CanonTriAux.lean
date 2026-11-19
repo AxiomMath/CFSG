@@ -123,8 +123,8 @@ theorem exists_mem_not_mem_of_not_le {G : Type} [Group G] {B A M : Subgroup G} (
     (hM : ¬ B ≤ M) : ∃ g ∈ B, g ∉ A ∧ g ∉ M := by
   by_contra hcon
   push Not at hcon
-  obtain ⟨a, haB, haA⟩ := SetLike.not_le_iff_exists.mp hA
-  obtain ⟨m, hmB, hmM⟩ := SetLike.not_le_iff_exists.mp hM
+  obtain ⟨a, haB, haA⟩ := IsConcreteLE.not_le_iff_exists.mp hA
+  obtain ⟨m, hmB, hmM⟩ := IsConcreteLE.not_le_iff_exists.mp hM
   have haM : a ∈ M := hcon a haB haA
   have hmA : m ∈ A := by
     by_contra h

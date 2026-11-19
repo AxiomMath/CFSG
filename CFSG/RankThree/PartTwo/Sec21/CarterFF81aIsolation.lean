@@ -20,7 +20,7 @@ theorem mulAut_eq_tau_of_commute_fix_line {B : Subgroup G} {b b₁ b₂ b₃ : G
     (hτ₁ : τ ⟨b₁, hb₁B⟩ = (⟨b₁, hb₁B⟩)⁻¹)
     (hτ₂ : τ ⟨b₂, hb₂B⟩ = (⟨b₂, hb₂B⟩)⁻¹)
     (hτ₃ : τ ⟨b₃, hb₃B⟩ = (⟨b₃, hb₃B⟩)⁻¹)
-    (hτ2 : τ * τ = 1) (hσ2 : σ * σ = 1)
+    (_hτ2 : τ * τ = 1) (hσ2 : σ * σ = 1)
     (hcomm : σ * τ = τ * σ)
     (hσb : σ ⟨b, hbB⟩ = ⟨b, hbB⟩)
     (hfix : ∀ x : ↥B, σ x = x → x ∈ Subgroup.zpowers (⟨b, hbB⟩ : ↥B)) :
@@ -34,10 +34,10 @@ theorem mulAut_eq_tau_of_commute_fix_line {B : Subgroup G} {b b₁ b₂ b₃ : G
   have hcardB : Nat.card ↥B = 81 := by
     rw [hE.2]
     norm_num
-  haveI : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hcardB]; norm_num)
-  haveI : IsElementaryAbelian 3 ↥B := hE.1
-  haveI : IsMulCommutative ↥B := hE.1.toIsMulCommutative
-  letI : CommGroup ↥B := IsMulCommutative.instCommGroup
+  have : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hcardB]; norm_num)
+  have : IsElementaryAbelian 3 ↥B := hE.1
+  have : IsMulCommutative ↥B := hE.1.toIsMulCommutative
+  let : CommGroup ↥B := IsMulCommutative.instCommGroup
   have hBexp : ∀ x : ↥B, x ^ 3 = 1 := fun x =>
     Monoid.exponent_dvd_iff_forall_pow_eq_one.mp hE.1.exponent_dvd_p x
   have hgen : Subgroup.closure ({bB, b₁B, b₂B, b₃B} : Set ↥B) = ⊤ := by
@@ -95,10 +95,10 @@ theorem mulAut_eq_tau_of_commute_fix_line {B : Subgroup G} {b b₁ b₂ b₃ : G
   have hbB3 : bB ^ 3 = 1 := hBexp bB
   have hbBne : bB ≠ 1 := fun h1 => hb_not_mem (h1 ▸ B₁B.one_mem)
   have horder : orderOf bB = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime hbB3 hbBne
   have hinf : Subgroup.zpowers bB ⊓ B₁B = ⊥ := by
-    haveI : Fact (Nat.Prime (Nat.card ↥(Subgroup.zpowers bB))) :=
+    have : Fact (Nat.Prime (Nat.card ↥(Subgroup.zpowers bB))) :=
       ⟨by rw [Nat.card_zpowers, horder]; norm_num⟩
     let K : Subgroup ↥(Subgroup.zpowers bB) :=
       (Subgroup.zpowers bB ⊓ B₁B).subgroupOf (Subgroup.zpowers bB)

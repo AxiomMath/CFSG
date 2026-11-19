@@ -12,7 +12,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open CFSG.Quasithin Subgroup
 
 theorem s16c11_v1_realizes_pull {W W' : Type} [CommGroup W] [CommGroup W'] {κ : W →* W'}
-    (hκ : Function.Surjective κ) {A : Subgroup (MulAut W)} {B : Subgroup (MulAut W')}
+    (_hκ : Function.Surjective κ) {A : Subgroup (MulAut W)} {B : Subgroup (MulAut W')}
     (e : ↥B →* ↥A) (he : Function.Surjective e)
     (hequiv : ∀ (b : ↥B) (w : W), κ ((e b : MulAut W) w) = (b : MulAut W') (κ w))
     (hker : ∀ w, κ w = 1 → w ∈ fixV A) {J : Subgroup W} {I : Subgroup W'}
@@ -43,8 +43,8 @@ theorem s16c11_v1_realizes_pull {W W' : Type} [CommGroup W] [CommGroup W'] {κ :
     rw [MonoidHom.comp_apply, hβk, Subgroup.mem_bot]
     constructor
     · intro h1
-      have hκ : κ (u : W) = 1 := by rw [← hq_coe u]; exact h1
-      exact ⟨hker (u : W) hκ, u.2⟩
+      have _hκ : κ (u : W) = 1 := by rw [← hq_coe u]; exact h1
+      exact ⟨hker (u : W) _hκ, u.2⟩
     · intro hu
       have huA : ∀ a ∈ A, a (u : W) = (u : W) := hu.1
       have hfixB : κ (u : W) ∈ fixV B := by

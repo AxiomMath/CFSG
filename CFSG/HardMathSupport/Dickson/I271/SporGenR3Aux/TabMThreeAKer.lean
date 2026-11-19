@@ -21,7 +21,7 @@ theorem ker_coverHom_yMc
       zetaM hG ∈ (yMc hG).range ∧
       ∀ d : ↥(yMc hG).range, coverHom (yMc hG) yJ h d = 1 ↔
         (d : MGriess) ∈ Subgroup.zpowers (zetaM hG) := by
-  haveI := card_ker_yJ_le.1
+  have := card_ker_yJ_le.1
   obtain ⟨hfin, hcard⟩ := card_ker_coverHom_le (Φ := yMc hG) (ψ := yJ) h
   set K : Subgroup MGriess := (coverHom (yMc hG) yJ h).ker.map (yMc hG).range.subtype with hK
   have hmem : ∀ g : MGriess, g ∈ K ↔ ∃ y, yJ y = 1 ∧ yMc hG y = g := by
@@ -34,7 +34,7 @@ theorem ker_coverHom_yMc
       exact ⟨⟨yMc hG y, y, rfl⟩, (coverHom_eq_one_iff h _).2 ⟨y, hy, rfl⟩, rfl⟩
   have hKe : ↥(coverHom (yMc hG) yJ h).ker ≃ ↥K :=
     (Subgroup.equivMapOfInjective _ _ Subtype.val_injective).toEquiv
-  haveI : Finite K := Finite.of_equiv _ hKe
+  have : Finite K := Finite.of_equiv _ hKe
   have hKcard : Nat.card K ≤ 3 := by
     rw [← Nat.card_congr hKe]
     exact hcard.trans card_ker_yJ_le.2

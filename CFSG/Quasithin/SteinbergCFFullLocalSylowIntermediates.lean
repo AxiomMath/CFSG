@@ -67,17 +67,17 @@ theorem full_local_Sylow_intermediates_centralizer_controls_char_two_test [Finit
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hev' := quasithinEvenCharacteristic_of_isEvenCharacteristic hev
   have hT2 : CFSG.QuasithinUnique.IsSylowTwoOf (T : Subgroup G) ⊤ := by
-    refine ⟨le_top, T.isPGroup', ?_⟩
+    refine ⟨le_top, T.isPGroup, ?_⟩
     rw [← relIndex, relIndex_top_right]
     exact T.not_dvd_index
-  have hB2 : IsPGroup 2 B := T.isPGroup'.to_le hBT
+  have hB2 : IsPGroup 2 B := T.isPGroup.to_le hBT
   have hBH' : B ≤ H := le_sup_left.trans hBH
   have hCH : centralizer (B : Set G) ≤ H := le_sup_right.trans hBH
   have hRT : R ≤ T := inf_le_left
   have hRH : R ≤ H := inf_le_right
   have hBR : B ≤ R := le_inf hBT hBH'
   have hBI : B ≤ I := hBR.trans hRI
-  have hRsyl : CFSG.QuasithinUnique.IsSylowTwoOf R H := ⟨hRH, T.isPGroup'.to_le hRT, hR⟩
+  have hRsyl : CFSG.QuasithinUnique.IsSylowTwoOf R H := ⟨hRH, T.isPGroup.to_le hRT, hR⟩
   have hZT : ∀ z ∈ Z, z ∈ (T : Subgroup G) ∧ ∀ t ∈ (T : Subgroup G), z * t = t * z := by
     rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩
     refine ⟨(w : T).2, fun t ht => ?_⟩

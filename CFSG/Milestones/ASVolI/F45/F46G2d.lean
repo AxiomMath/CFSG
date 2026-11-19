@@ -46,9 +46,9 @@ theorem burnsideF46_g2d : ∀ (p f : ℕ) (E : Type) [Group E] (Gp M₁ M₂ : S
   subst hp2 hf1
   have hGp : Gp = ⊤ := hyp.canonical (Or.inl rfl)
   subst hGp
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
   have D := burnsideF46_g2d_data hyp β hβ
   have hthree := burnsideF4a_F46_three β hβ (incl M₁ M₂) (incl_faithful M₁ M₂)
   refine ⟨fun a => ⟨fun hext => ?_, fun _ => ?_⟩, hthree.1, hthree.2, ?_, ?_⟩

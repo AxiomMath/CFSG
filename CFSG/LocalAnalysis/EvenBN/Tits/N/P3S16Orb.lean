@@ -196,7 +196,7 @@ theorem odd_orderOf_of_mem_oddCoreSub {Γ : Type*} [Group Γ] [Finite Γ] {K : S
 theorem trans_of_oddCore (h49 : d.Thm49Statement) (hd : d.Hyp) (h10 : Node10 d z₀) (h12 : Node12 d z₀)
     {S : Subgroup G} (hS : fusionIsSylowIn 2 S (Cv d))
     (hK : Cv d = oddCoreSub (Cv d) ⊔ d.s56V) : Trans S (OrbSet d S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVK : d.s56V ≤ Cv d := V_le_Cv h10
   have hVc : ∀ v ∈ d.s56V, ∀ k ∈ Cv d, v * k = k * v := fun v hv k hk =>
     (Subgroup.mem_centralizer_iff.1 hk) v hv

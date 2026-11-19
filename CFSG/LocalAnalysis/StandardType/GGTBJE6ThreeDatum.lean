@@ -34,8 +34,8 @@ theorem e6Three_datum_of_coords {G : Type} [Group G] {Bs : Subgroup G} (hBs : Is
     intro k
     fin_cases k <;> rfl
   obtain ⟨V, hVadd, hVmod, ⟨ι⟩⟩ := exists_ggLinData (p := 3) (G := G) (Bs := Bs) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
   let a : Fin Tag.E6.rank → (V →+ ZMod 3) := fun j =>
     AddMonoidHom.mk' (fun v => (Multiplicative.toAdd (cd (Additive.toMul (ι.symm v)))) j)
       (fun u w => by simp only [map_add, toMul_add, map_mul, toAdd_mul]; try rfl)
@@ -87,7 +87,7 @@ theorem e6Three_datum_of_coords {G : Type} [Group G] {Bs : Subgroup G} (hBs : Is
         rw [Finset.sum_eq_single k]
         · simp [hdiag]
         · intro m _ hm
-          simp [Pi.single_apply, hm]
+          simp [hm]
         · intro h
           exact absurd (Finset.mem_univ k) h
       simp only [e6ThreeRootPt, h1]

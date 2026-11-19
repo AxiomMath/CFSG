@@ -212,7 +212,7 @@ theorem exists_long_mul_short_twisted
     ∃ μ ∈ g2LongSL2 K, ∃ s ∈ g2ShortSL2 K, x = μ * s := by
   obtain ⟨K₂, _, _, _, σ, hdeg, hσ⟩ := exists_quadratic_ext' K
   obtain ⟨hfin, -, hfix⟩ := CFSG.RankThree.QuadraticSL2.quadratic_frobenius hdeg σ hσ
-  haveI : Finite K₂ := hfin
+  have : Finite K₂ := hfin
   have hcard := natCard_quadratic (K := K) (K₂ := K₂) hdeg
   have h31 : 3 ∣ Nat.card K₂ - 1 := by rw [hcard]; exact three_dvd_sq_sub_one' h3
   have hK₂2 : ringChar K₂ = 2 := by

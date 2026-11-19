@@ -19,13 +19,13 @@ theorem card_outer_of_lieModel_G2_prime
     {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3)
     (h : CFSG.Blueprint.LieModel X .G2 0 p 1) :
     Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hc : ChevalleyExceptionalModel X .G2 p 1 :=
     LieModel.chevalleyExceptionalModel h (by decide)
   have hm : UntwistedChevalleyModel X .G2 (p ^ 1) := hc.2
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨eX⟩⟩ :=
     nonempty_mulEquiv_adjointGroup .G2 hm
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let eZ : ZMod p ≃+* K :=
     ZMod.ringEquivOfPrime K hp (by
       rw [← Nat.card_eq_fintype_card, hKcard, pow_one])

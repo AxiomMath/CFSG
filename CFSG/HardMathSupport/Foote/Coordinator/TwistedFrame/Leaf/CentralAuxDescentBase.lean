@@ -92,13 +92,13 @@ theorem Lθ_central_torus (lam : Lˣ) {l : ModGL τ L} (hl : l ∈ Lθ τ L) :
       · rw [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
         have hj' : j ≠ iθ τ := hj
         have e := hconj0 (Pi.single j 1) (isRoot_single τ j) (by
-          rw [iform_highRoot_apply]; simp [Pi.single_apply, hj']) c
+          rw [iform_highRoot_apply]; simp [hj']) c
         rw [pinnedX_single] at e
         exact (mul_inv_eq_iff_eq_mul.1 e).symm
       · rw [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
         have hj' : j ≠ iθ τ := hj
         have e := hconj0 (-Pi.single j 1) (isRoot_neg_single τ j) (by
-          rw [iform_highRoot_apply]; simp [Pi.single_apply, hj']) c
+          rw [iform_highRoot_apply]; simp [hj']) c
         rw [pinnedX_neg_single] at e
         exact (mul_inv_eq_iff_eq_mul.1 e).symm
   have := Subgroup.mem_centralizer_singleton_iff.1 (hle hl)

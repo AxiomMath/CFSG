@@ -120,7 +120,7 @@ theorem ThCyc.sylow_of_sq (H : ThCyc G L R t) (hS : IsThSylow L SL) {ρ : G} (h�
   have hRSL := H.le_centralizer_sylow hS
   have hSP := H.pgroup_sup hS
   obtain ⟨P, hSP'⟩ := hSP.exists_le_sylow
-  refine ⟨P, (eq_of_inf_normalizer_le P.isPGroup' hSP' ?_).symm⟩
+  refine ⟨P, (eq_of_inf_normalizer_le P.isPGroup hSP' ?_).symm⟩
   intro x hxP hxn
   set S := SL ⊔ R with hSdef
   have hx1 : ∀ s, s ∈ S ↔ x * s * x⁻¹ ∈ S := mem_normalizer_iff.1 hxn
@@ -183,7 +183,7 @@ theorem ThCyc.sylow_of_sq (H : ThCyc G L R t) (hS : IsThSylow L SL) {ρ : G} (h�
     rw [mem_centralizer_singleton_iff]
     calc x * t = (x * t * x⁻¹) * x := by group
       _ = t * x := by rw [hxtR]
-  have hX : IsPGroup 2 ↥(S ⊔ zpowers x) := P.isPGroup'.to_le (sup_le hSP' (zpowers_le.2 hxP))
+  have hX : IsPGroup 2 ↥(S ⊔ zpowers x) := P.isPGroup.to_le (sup_le hSP' (zpowers_le.2 hxP))
   have hXt : S ⊔ zpowers x ≤ centralizer ({t} : Set G) :=
     sup_le (H.sup_le_centralizer hS) (zpowers_le.2 hxC)
   exact H.sup_max hS hXt hX le_sup_left (Subgroup.mem_sup_right (mem_zpowers x))

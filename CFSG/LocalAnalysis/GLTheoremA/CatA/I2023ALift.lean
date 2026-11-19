@@ -115,7 +115,7 @@ theorem exists_lift {x : G} {L : Subgroup G} (hL : GLAPComponent 3 (cx x) L)
     have hle : Subgroup.closure G₀ ≤ S₀.map π := fun e he => by
       obtain ⟨s, hs, hse⟩ := hsurj e he
       exact ⟨s, hs, hse⟩
-    haveI : Finite ↥(S₀.map π) := inferInstance
+    have : Finite ↥(S₀.map π) := inferInstance
     refine Subgroup.eq_of_le_of_card_ge hle ?_
     rw [← hcard]
     exact Nat.card_le_card_of_surjective _ (π.subgroupMap_surjective S₀)

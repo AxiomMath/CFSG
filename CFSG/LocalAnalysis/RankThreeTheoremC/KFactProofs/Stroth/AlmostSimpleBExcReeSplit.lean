@@ -28,7 +28,7 @@ theorem oddPCoreInClosure_of_two_elements_in_simple {C : Type*} [Group C] [Finit
   intro K hK _ hKcop
   by_contra hodd
   have h2 : 2 ∣ Nat.card K := (Nat.not_odd_iff_even.1 hodd).two_dvd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := K) 2 h2
   have hy' : orderOf (y : C) = 2 := by rw [Subgroup.orderOf_coe, hy]
   have hyN : (y : C) ∈ N := hN2 _ ⟨1, by rw [hy', pow_one]⟩
@@ -38,8 +38,8 @@ theorem oddPCoreInClosure_of_two_elements_in_simple {C : Type*} [Group C] [Finit
   rcases hNs with rfl | ⟨hsimple, -⟩
   · exact hy1 (Subgroup.mem_bot.1 hyN)
   · have hN1 : N ≠ ⊥ := fun h => hy1 (Subgroup.mem_bot.1 (h ▸ hyN))
-    haveI := hsimple
-    haveI : (K.subgroupOf N).Normal := Subgroup.Normal.subgroupOf hK N
+    have := hsimple
+    have : (K.subgroupOf N).Normal := Subgroup.Normal.subgroupOf hK N
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.subgroupOf N) with hbot | htop
     · have : (⟨(y : C), hyN⟩ : N) ∈ K.subgroupOf N := y.2
       rw [hbot] at this

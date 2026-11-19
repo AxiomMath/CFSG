@@ -27,7 +27,7 @@ private theorem mem_zpowers_of_orderOf_prime_of_ne_one {G : Type*} [Group G] {p 
   exact Subgroup.mem_zpowers_iff.mpr ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 theorem nf5_exists_z (h : NF5 F Γ B R₀ x) : ∃ z : Y, NF5Z F z := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hF : Nat.card F = 5 ^ 3 := h.card.trans (by norm_num)
   have hC : Nat.card (Subgroup.center ↥F) = 5 := by
     obtain ⟨k, hk0, hkc⟩ := IsPGroup.card_center_eq_prime_pow hF (by norm_num : 0 < 3)
@@ -43,7 +43,7 @@ theorem nf5_exists_z (h : NF5 F Γ B R₀ x) : ∃ z : Y, NF5Z F z := by
       have hidx : (Subgroup.center ↥F).index = 5 :=
         Nat.eq_of_mul_eq_mul_left (by norm_num) (h1.trans (by norm_num))
       rw [Subgroup.index_eq_card] at hidx
-      haveI : IsCyclic (↥F ⧸ Subgroup.center ↥F) := isCyclic_of_prime_card hidx
+      have : IsCyclic (↥F ⧸ Subgroup.center ↥F) := isCyclic_of_prime_card hidx
       exact isMulCommutative_of_isCyclic_quotient_center_self ↥F
     · exfalso
       apply h.nonab
@@ -51,7 +51,7 @@ theorem nf5_exists_z (h : NF5 F Γ B R₀ x) : ∃ z : Y, NF5Z F z := by
         apply Subgroup.eq_top_of_card_eq
         rw [hkc, hF]
       exact Subgroup.center_eq_top_iff.mp htop
-  haveI : Nontrivial (Subgroup.center ↥F) :=
+  have : Nontrivial (Subgroup.center ↥F) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hC]; norm_num)
   obtain ⟨g, hg⟩ : ∃ g : Subgroup.center ↥F, g ≠ 1 := exists_ne 1
   have hord : orderOf g = 5 := by
@@ -74,9 +74,9 @@ theorem nf5_exists_z (h : NF5 F Γ B R₀ x) : ∃ z : Y, NF5Z F z := by
 
 theorem nf5_normal_contains (h : NF5 F Γ B R₀ x) {z : Y} (hz : NF5Z F z) {N : Subgroup Y} (hN : N ≤ F)
     (hnorm : ∀ f ∈ F, ∀ n ∈ N, f * n * f⁻¹ ∈ N) (hne : N ≠ ⊥) : z ∈ N := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Group.IsNilpotent ↥F := (nf5_isPGroup h).isNilpotent
-  haveI : (N.subgroupOf F).Normal :=
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Group.IsNilpotent ↥F := (nf5_isPGroup h).isNilpotent
+  have : (N.subgroupOf F).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hnorm g g.2 n hn⟩
@@ -110,7 +110,7 @@ theorem nf5_mem_zpowers_of_mem_x (h : NF5 F Γ B R₀ x) {z : Y} (hz : NF5Z F z)
   hz.gen b hb ((h.cen b hb).2 hbx)
 
 theorem nf5_pCoreOf_le (h : NF5 F Γ B R₀ x) : pCoreOf 5 (⊤ : Subgroup Y) ≤ Γ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨Q, hQ⟩ := h.sylow
   have hN : CFSG.pCore 5 (⊤ : Subgroup Y) ≤ (Q : Subgroup ↥(⊤ : Subgroup Y)) :=
     IsPGroup.le_sylow_of_normal CFSG.pCore_isPGroup Q

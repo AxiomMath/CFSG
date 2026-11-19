@@ -53,7 +53,7 @@ theorem bDigit_eq_iff {n : ℕ} (ε : Fin f → Finset (Fin n)) (j : Fin n) :
   · intro h
     rw [bDigit]
     have hc : ∀ s : Fin f, (if j ∈ ε s then 2 ^ (s : ℕ) else 0) = 2 ^ (s : ℕ) :=
-      fun s => if_pos (h s)
+      fun s => ite_eq_left (h s)
     simp only [hc]
     rw [sum_fin_two_pow_eq]
 
@@ -64,7 +64,7 @@ theorem bExp_eq_add {n : ℕ} (ε : Fin f → Finset (Fin n)) {a b : Fin n}
   have hset : (ε r).filter (fun j : Fin n => a < j) =
       (ε r).filter (fun j : Fin n => b < j) ∪ (if b ∈ ε r then {b} else ∅) := by
     by_cases hb : b ∈ ε r
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       ext j
       simp only [Finset.mem_filter, Finset.mem_union, Finset.mem_singleton]
       constructor
@@ -77,7 +77,7 @@ theorem bExp_eq_add {n : ℕ} (ε : Fin f → Finset (Fin n)) {a b : Fin n}
         · exact ⟨hj, by simp only [Fin.lt_def] at hbj ⊢; omega⟩
         · subst hbj
           exact ⟨hb, by simp only [Fin.lt_def] at hb ⊢; omega⟩
-    · rw [if_neg hb, Finset.union_empty]
+    · rw [ite_eq_right hb, Finset.union_empty]
       ext j
       simp only [Finset.mem_filter]
       constructor
@@ -92,9 +92,9 @@ theorem bExp_eq_add {n : ℕ} (ε : Fin f → Finset (Fin n)) {a b : Fin n}
   have hdisj : Disjoint ((ε r).filter (fun j : Fin n => b < j))
       (if b ∈ ε r then {b} else ∅) := by
     by_cases hb : b ∈ ε r
-    · rw [if_pos hb, Finset.disjoint_singleton_right]
+    · rw [ite_eq_left hb, Finset.disjoint_singleton_right]
       simp
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       exact Finset.disjoint_empty_right _
   rw [Finset.card_union_of_disjoint hdisj]
   by_cases hb : b ∈ ε r
@@ -169,10 +169,10 @@ theorem prod_pow_shortTorusFun {σ : F ≃+* F} {n : ℕ} {a b : Fin n} (hab : a
   have va : shortTorusFun σ a b c a = c := SUExtras.shortTorusFun_left a b c
   have vb : shortTorusFun σ a b c b = c⁻¹ := SUExtras.shortTorusFun_right hab c
   have vra : shortTorusFun σ a b c (Fin.rev a) = (σ c)⁻¹ := by
-    rw [shortTorusFun, if_neg (Ne.symm ha), if_neg (Ne.symm hba), if_pos rfl]
+    rw [shortTorusFun, ite_eq_right (Ne.symm ha), ite_eq_right (Ne.symm hba), ite_eq_left rfl]
   have vrb : shortTorusFun σ a b c (Fin.rev b) = σ c := by
-    rw [shortTorusFun, if_neg (fun h => hba (by rw [← h, Fin.rev_rev])),
-      if_neg (Ne.symm hb), if_neg (fun h => hab (Fin.rev_injective h).symm), if_pos rfl]
+    rw [shortTorusFun, ite_eq_right (fun h => hba (by rw [← h, Fin.rev_rev])),
+      ite_eq_right (Ne.symm hb), ite_eq_right (fun h => hab (Fin.rev_injective h).symm), ite_eq_left rfl]
   rw [va, vb, vra, vrb]
   ac_rfl
 
@@ -188,7 +188,7 @@ theorem prod_pow_longTorusFun {n : ℕ} {b : Fin n} (hb : b ≠ Fin.rev b) {e : 
     Finset.prod_insert (by simpa using hb), Finset.prod_singleton]
   have vb : longTorusFun b e b = e := SUExtras.longTorusFun_self b e
   have vrb : longTorusFun b e (Fin.rev b) = e⁻¹ := by
-    rw [longTorusFun, if_neg (Ne.symm hb), if_pos rfl]
+    rw [longTorusFun, ite_eq_right (Ne.symm hb), ite_eq_left rfl]
   rw [vb, vrb]
 
 omit [Finite F] [CharP F 2] in
@@ -207,9 +207,9 @@ theorem prod_pow_heisTorusFun {σ : F ≃+* F} {n : ℕ} {b mid : Fin n}
     Finset.prod_singleton]
   have vb : heisTorusFun σ b t b = t := SUExtras.heisTorusFun_self b t
   have vrb : heisTorusFun σ b t (Fin.rev b) = (σ t)⁻¹ := by
-    rw [heisTorusFun, if_neg (Ne.symm hb), if_pos rfl]
+    rw [heisTorusFun, ite_eq_right (Ne.symm hb), ite_eq_left rfl]
   have vmid : heisTorusFun σ b t mid = σ t / t := by
-    rw [heisTorusFun, if_neg (Ne.symm hbm), if_neg (Ne.symm hb'm), if_pos hm]
+    rw [heisTorusFun, ite_eq_right (Ne.symm hbm), ite_eq_right (Ne.symm hb'm), ite_eq_left hm]
   rw [vb, vrb, vmid, mul_assoc]
 
 end ProdPow
@@ -254,7 +254,7 @@ theorem chiEps_of_tFun (φ₀ : F →+* k) {n : ℕ} (ε : Fin f → Finset (Fin
       have hσA : (unitaryInvolution F 2 f c) ^ bExp ε (Fin.rev (lowIdx s)) ≠ 0 :=
         pow_ne_zero _ hσc
       field_simp
-    rw [hmain, if_neg hif, hp, hq', map_mul, map_pow, map_pow]
+    rw [hmain, ite_eq_right hif, hp, hq', map_mul, map_pow, map_pow]
   · rw [SUExtras.tFun, dite_eq_right h]
     by_cases hn : Even n
     ·
@@ -272,7 +272,7 @@ theorem chiEps_of_tFun (φ₀ : F →+* k) {n : ℕ} (ε : Fin f → Finset (Fin
             omega),
           pow_add, inv_pow]
         field_simp
-      rw [hmain, if_pos hif, hp, map_pow, mul_one]
+      rw [hmain, ite_eq_left hif, hp, map_pow, mul_one]
     ·
       rw [ite_eq_right hn]
       obtain ⟨k, hk⟩ := Nat.not_even_iff_odd.mp hn
@@ -321,7 +321,7 @@ theorem chiEps_of_tFun (φ₀ : F →+* k) {n : ℕ} (ε : Fin f → Finset (Fin
           pow_ne_zero _ hσc
         field_simp
         ring
-      rw [hmain, if_neg hif, hp, hq', map_mul, map_pow, map_pow]
+      rw [hmain, ite_eq_right hif, hp, hq', map_mul, map_pow, map_pow]
 
 @[expose] def IsFullNode {n : ℕ} (ε : Fin f → Finset (Fin n)) (s : Fin (n / 2)) : Prop :=
   ∀ r, (⟨(s : ℕ) + 1, by omega⟩ : Fin n) ∈ ε r ∧
@@ -330,7 +330,7 @@ theorem chiEps_of_tFun (φ₀ : F →+* k) {n : ℕ} (ε : Fin f → Finset (Fin
 omit [Finite F] [CharP F 2] in
 theorem longTorusFun_rev {n : ℕ} {b : Fin n} (hb : b ≠ Fin.rev b) (e : F) :
     longTorusFun b e (Fin.rev b) = e⁻¹ := by
-  rw [longTorusFun, if_neg (Ne.symm hb), if_pos rfl]
+  rw [longTorusFun, ite_eq_right (Ne.symm hb), ite_eq_left rfl]
 
 omit [Finite F] [CharP F 2] in
 theorem pow_sub_one_eq_one_of_pow_eq {x : F} {q : ℕ} (hq : 1 ≤ q) (hx0 : x ≠ 0)
@@ -363,7 +363,7 @@ theorem chiEps_eq_one_of_isFullNode (hF : Nat.card F = (2 ^ f) ^ 2) (φ₀ : F �
     have := FiniteField.pow_card_sub_one_eq_one (c : F) c.ne_zero
     rwa [Nat.card_eq_fintype_card]
   by_cases h : s.val + 1 < n / 2
-  · rw [if_neg (by omega : ¬ 2 * (s : ℕ) + 2 = n)]
+  · rw [ite_eq_right (by omega : ¬ 2 * (s : ℕ) + 2 = n)]
     rw [hσpow, ← pow_mul, ← pow_add, hcard, ← map_pow, hcF, map_one]
   · by_cases hn : Even n
     ·
@@ -378,11 +378,11 @@ theorem chiEps_eq_one_of_isFullNode (hF : Nat.card F = (2 ^ f) ^ 2) (φ₀ : F �
         exact hσc
       have hc1 : (c : F) ^ (2 ^ f - 1) = 1 :=
         pow_sub_one_eq_one_of_pow_eq (Nat.one_le_two_pow (n := f)) c.ne_zero hc2
-      rw [if_pos (by
+      rw [ite_eq_left (by
         obtain ⟨k, hk⟩ := hn
         omega : 2 * (s : ℕ) + 2 = n), mul_one, ← map_pow, hc1, map_one]
     · obtain ⟨k, hk⟩ := Nat.not_even_iff_odd.mp hn
-      rw [if_neg (by omega : ¬ 2 * (s : ℕ) + 2 = n)]
+      rw [ite_eq_right (by omega : ¬ 2 * (s : ℕ) + 2 = n)]
       rw [hσpow, ← pow_mul, ← pow_add, hcard, ← map_pow, hcF, map_one]
 
 theorem exists_mem_levelTorus_tFun (hF : Nat.card F = (2 ^ f) ^ 2) {n : ℕ} (s : Fin (n / 2))
@@ -676,16 +676,16 @@ theorem exists_eps_eq_chi (hF : Nat.card F = (2 ^ f) ^ 2) (φ₀ : F →+* k) {n
     intro s
     rw [hε]
     simp only [d]
-    rw [dif_neg (by omega : ¬ (s : ℕ) + 1 = 0),
-      dif_pos (by omega : (s : ℕ) + 1 ≤ n / 2)]
+    rw [dite_eq_right (by omega : ¬ (s : ℕ) + 1 = 0),
+      dite_eq_left (by omega : (s : ℕ) + 1 ≤ n / 2)]
     exact congrArg a (Fin.ext (by simp))
   have hdq : ∀ s : Fin (n / 2), ¬ (2 * (s : ℕ) + 2 = n) →
       bDigit ε (⟨n - 1 - (s : ℕ), by omega⟩ : Fin n) = b s := by
     intro s hP
     rw [hε]
     simp only [d]
-    rw [dif_neg (by omega : ¬ n - 1 - (s : ℕ) = 0),
-      dif_neg (by omega : ¬ n - 1 - (s : ℕ) ≤ n / 2)]
+    rw [dite_eq_right (by omega : ¬ n - 1 - (s : ℕ) = 0),
+      dite_eq_right (by omega : ¬ n - 1 - (s : ℕ) ≤ n / 2)]
     exact congrArg b (Fin.ext (by
       show n - 1 - (n - 1 - (s : ℕ)) = (s : ℕ)
       omega))
@@ -695,7 +695,7 @@ theorem exists_eps_eq_chi (hF : Nat.card F = (2 ^ f) ^ 2) (φ₀ : F →+* k) {n
     obtain ⟨c, hc⟩ := SUExtras.exists_tFun_of_mem_levelTorus hx
     rw [chiEps_of_tFun φ₀ ε s c.ne_zero hc]
     by_cases hP : 2 * (s : ℕ) + 2 = n
-    · rw [if_pos hP, mul_one, hdp s]
+    · rw [ite_eq_left hP, mul_one, hdp s]
       by_cases hf : full s
       · have hn : Even n := ⟨s + 1, by omega⟩
         have hlt : ¬ s.val + 1 < n / 2 := by omega
@@ -708,7 +708,7 @@ theorem exists_eps_eq_chi (hF : Nat.card F = (2 ^ f) ^ 2) (φ₀ : F →+* k) {n
           omega
         rw [show a s = e s % 2 ^ f from by simp [a, hf], Nat.mod_eq_of_lt he2]
         exact hform s x (c : F) c.ne_zero hc
-    · rw [if_neg hP, hdp s, hdq s hP]
+    · rw [ite_eq_right hP, hdp s, hdq s hP]
       by_cases hf : full s
       · rw [show a s = 2 ^ f - 1 from by simp [a, hf],
           show b s = 2 ^ f - 1 from by simp [b, hf],

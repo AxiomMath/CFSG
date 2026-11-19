@@ -39,7 +39,7 @@ theorem exists_lift_linear {K' : Type} [Group K'] [Finite F] {f n : ℕ} [Fact f
     (hcen : ∀ s ∈ (S : Subgroup K'), z * s = s * z) :
     ∃ A : SpecialLinearGroup (Fin n) F, A ^ f = 1 ∧ ψ A = z := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hp : f.Prime := Fact.out
   have hFc : Fintype.card F = Nat.card F := (Nat.card_eq_fintype_card).symm
   have hfF' : f ∣ Fintype.card F - 1 := by rwa [hFc]

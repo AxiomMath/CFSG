@@ -25,7 +25,7 @@ theorem b3BComponentLeaf_of_catalogue (hGA : GriessAllModelsStatement)
     (hBr : SporadicBridges) (hX : CFSG.Open.IsKGroup NativeSporadic.B) : B3BComponentLeaf := by
   intro J hq h3 h7 haut
   have hcard := B3BLeaf.card_B_eq_orderBabyMonster hBr hOrd
-  haveI : Finite NativeSporadic.B :=
+  have : Finite NativeSporadic.B :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; unfold orderBabyMonster; norm_num)
   exact B3BLeaf.b3b_leaf_catalogue hGA hLO hBA hSpM hOut hOrd hq (hX.subgroup J) h3 h7
     (by rw [← hcard]; exact Subgroup.card_subgroup_dvd_card J) haut

@@ -15,7 +15,7 @@ open CFSG.Permutation.FinPack CFSG.QuasithinUnique CFSG.QuasithinUnique.A6Facts
 theorem pk_code (σ : P10) : pk (code σ) = enc σ := by
   unfold pk enc
   refine encF_congr fun i hi => ?_
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   exact code_getD σ ⟨i, hi⟩
 
 theorem pk_cd (x : AutA6) : pk (cd x) = enc (x : P10) := pk_code _

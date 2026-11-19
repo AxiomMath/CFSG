@@ -76,7 +76,7 @@ theorem item188_of (h1846 : Item184_6) (h186 : Item186H) (h187 : Item187) (hrem 
   by_contra hne
   obtain ⟨H', c, hsec, h7⟩ := hrem G A M hstd ⟨H, hH.prop, hne⟩
   obtain ⟨-, ⟨hSmax, hNS⟩, -, hmaxN⟩ := h186 G A M H' c hsec h7
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set L := inSubgroup perfectResidual H'
   set S := CFSG.Open.pCoreOf 2 (H' ⊓ M)
   set O := inSubgroup (CFSG.pPrimeCore 3) M with hOdef

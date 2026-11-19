@@ -153,7 +153,7 @@ theorem c1At_all : ∀ i < 1536, c1At RX HC1 1536 cr0 cr1 i = true := by
       have e := ch550712c1K.all q hq
       unfold ch550712c1 c1Chunk at e
       exact e) i (by omega)
-  rw [Nat.blt_eq.mpr hi, cond_true] at e
+  rw [Nat.blt_eq.mpr hi, _root_.Bool.cond_true] at e
   exact e
 
 theorem c2At_all : ∀ i < 1536, c2At RX (fun k => pc1.getD k 0) (fun k => pc2.getD k 0) ts2 1536
@@ -168,7 +168,7 @@ theorem c2At_all : ∀ i < 1536, c2At RX (fun k => pc1.getD k 0) (fun k => pc2.g
       have e := ch550712c2K.all q hq
       unfold ch550712c2 c2Chunk at e
       exact e) i (by omega)
-  rw [Nat.blt_eq.mpr hi, cond_true, Bool.and_eq_true] at e
+  rw [Nat.blt_eq.mpr hi, _root_.Bool.cond_true, Bool.and_eq_true] at e
   exact e
 
 theorem c1Check_holds : c1Check () = true := by
@@ -185,11 +185,11 @@ theorem c1Check_holds : c1Check () = true := by
   · rfl
   rw [Bool.not_true, Bool.false_or]
   rcases Nat.eq_zero_or_pos h0 with rfl | hpos
-  · rw [Nat.beq_refl, cond_true, hp] at h
+  · rw [Nat.beq_refl, _root_.Bool.cond_true, hp] at h
     exact absurd h (by decide)
   have hb0 : Nat.beq h0 0 = false :=
     Bool.eq_false_iff.mpr fun e => by have := Nat.eq_of_beq_eq_true e; omega
-  rw [hb0, cond_false, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h
+  rw [hb0, Bool.cond_false, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h
   obtain ⟨hj, hc⟩ := h
   obtain ⟨Z, hZ⟩ := invX _ hj
   have hr2 : Nat.mod (Nat.pred h0) 2 < 2 := Nat.mod_lt _ (by norm_num)
@@ -241,14 +241,13 @@ theorem c2Check_holds : c2Check () = true := by
   · rfl
   rw [Bool.not_true, Bool.false_or]
   rcases Nat.eq_zero_or_pos h0 with rfl | hpos
-  · rw [Nat.beq_refl, cond_true, hp] at h
+  · rw [Nat.beq_refl, _root_.Bool.cond_true, hp] at h
     exact absurd h (by decide)
   have hb0 : Nat.beq h0 0 = false :=
     Bool.eq_false_iff.mpr fun e => by have := Nat.eq_of_beq_eq_true e; omega
-  rw [hb0, cond_false, Bool.and_eq_true, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq,
+  rw [hb0, Bool.cond_false, Bool.and_eq_true, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq,
     Nat.beq_eq] at h
   obtain ⟨hj, hc1, hc2⟩ := h
-  beta_reduce at hc1 hc2
   have hk : Nat.mod (Nat.pred h0) 16 < 16 := Nat.mod_lt _ (by norm_num)
   obtain ⟨Z, hZ⟩ := invX _ hj
   obtain ⟨p1, p2⟩ := ya550712_pc _ hk

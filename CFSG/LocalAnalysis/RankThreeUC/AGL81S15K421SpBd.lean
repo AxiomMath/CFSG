@@ -17,6 +17,7 @@ variable {F : Type} [Field F] [CharP F 2]
 @[expose] def bd (d : Fin 3 → Matrix (Fin 2) (Fin 2) F) : Matrix Idx Idx F :=
   Matrix.of fun i j => if i.1 = j.1 then d i.1 i.2 j.2 else 0
 
+omit [CharP F 2] in
 theorem bd_eq_comp (d : Fin 3 → Matrix (Fin 2) (Fin 2) F) :
     bd d = Matrix.compRingEquiv (Fin 3) (Fin 2) F (Matrix.diagonal d) := by
   ext ⟨i, a⟩ ⟨j, b⟩
@@ -27,13 +28,16 @@ theorem bd_eq_comp (d : Fin 3 → Matrix (Fin 2) (Fin 2) F) :
     rfl
   · rfl
 
+omit [CharP F 2] in
 theorem bd_mul (d d' : Fin 3 → Matrix (Fin 2) (Fin 2) F) :
     bd d * bd d' = bd (fun j => d j * d' j) := by
   rw [bd_eq_comp, bd_eq_comp, bd_eq_comp, ← map_mul, Matrix.diagonal_mul_diagonal]
 
+omit [CharP F 2] in
 theorem bd_one : bd (fun _ => (1 : Matrix (Fin 2) (Fin 2) F)) = 1 := by
   rw [bd_eq_comp, Matrix.diagonal_one, map_one]
 
+omit [CharP F 2] in
 theorem bd_transpose (d : Fin 3 → Matrix (Fin 2) (Fin 2) F) :
     (bd d)ᵀ = bd (fun j => (d j)ᵀ) := by
   ext ⟨i, a⟩ ⟨j, b⟩
@@ -43,6 +47,7 @@ theorem bd_transpose (d : Fin 3 → Matrix (Fin 2) (Fin 2) F) :
     simp
   · simp [h, Ne.symm h]
 
+omit [CharP F 2] in
 theorem bd_injective {d d' : Fin 3 → Matrix (Fin 2) (Fin 2) F} (h : bd d = bd d') : d = d' := by
   funext j
   ext a b
@@ -65,6 +70,7 @@ theorem bd_injective {d d' : Fin 3 → Matrix (Fin 2) (Fin 2) F} (h : bd d = bd 
     rw [bd_mul]
     rfl)
 
+omit [CharP F 2] in
 theorem bdGL_injective : Function.Injective (bdGL (F := F)) := by
   intro y y' h
   have h0 : bd (fun j => ((y j : GL (Fin 2) F) : Matrix (Fin 2) (Fin 2) F)) =

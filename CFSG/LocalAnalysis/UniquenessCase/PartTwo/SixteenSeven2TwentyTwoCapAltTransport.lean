@@ -101,7 +101,7 @@ theorem s16c167_altNatural_transvection {W : Type} [CommGroup W] {L : Subgroup (
     have hxg : ∀ e : W, ((π γ' : ↥L) : MulAut W) (x e) = x (g e) := by
       intro e
       rw [hγ'val, MulAut.conj_apply]
-      simp [MulAut.mul_apply, MulAut.inv_apply_self]
+      simp [MulAut.mul_apply]
     refine ⟨(γ' : Equiv.Perm (Fin n)), γ'.2, ?_⟩
     intro v
     obtain ⟨e, he⟩ : ∃ e : ↥E, Multiplicative.toAdd (ψ e) = v := by

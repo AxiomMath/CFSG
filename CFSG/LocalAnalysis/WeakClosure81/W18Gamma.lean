@@ -18,7 +18,7 @@ variable {D : Data G} {V₀ V H : Subgroup G} {i : ℕ}
 theorem exists_gamma_not_le_kerMV (c : MinCex183 D V₀ V H i) :
     ∃ A₀ ∈ E3.gammaSet V i D.T, ¬ A₀ ≤ kerMV V H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra h
   have h' : ∀ A₀, A₀ ∈ E3.gammaSet V i D.T → A₀ ≤ kerMV V H := by
     intro A₀ hA₀

@@ -33,7 +33,7 @@ theorem nsWeakNonUnitaryInputOf_of_orthPos {T : ∀ {ι : Type}, CoxeterMatrix �
   obtain ⟨Φ, hΦ⟩ := hPos G p B Bs x L D J 𝒦 hcfg hns hguard K hw hnsK hNU
   have hp : p.Prime := (ggRouteCfg_prime hcfg).1
   have hp2 : p ≠ 2 := (ggRouteCfg_prime hcfg).2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨y, hK⟩, hKA⟩ := hw
   obtain ⟨ι, M, e, hpres, hT, hbig⟩ := hguard
   have h3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3 := hT3 hT

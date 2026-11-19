@@ -29,6 +29,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 noncomputable def tSm (S : List Rt) : e7Data_valid.minGroup K := ⟨tS K S, tS_mem S⟩
 
+omit [Finite K] [CharP K 2] in
 theorem tSm_cons (β : Rt) (S : List Rt) :
     (tSm (β :: S) : e7Data_valid.minGroup K) = e7Data_valid.xm K β 1 * tSm S :=
   Subtype.ext (tS_cons β S)

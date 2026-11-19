@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {H Λ K₁ : Subgroup G}
 
+omit [Finite G] in
 theorem burnsideC56_glue_exists_x {S X : Subgroup G} (h2 : S.relIndex X = 2) :
     ∃ x ∈ X, x ∉ S := by
   by_contra hcon
@@ -18,6 +19,7 @@ theorem burnsideC56_glue_exists_x {S X : Subgroup G} (h2 : S.relIndex X = 2) :
   have : S.relIndex X = 1 := Subgroup.relIndex_eq_one.mpr hcon
   omega
 
+omit [Finite G] in
 theorem burnsideC56_glue_c1 (hC : C61Concl Λ H (Λ ⊓ H) K₁) :
     (Λ ⊓ H).relIndex (Λ ⊓ Subgroup.normalizer ((Λ ⊓ H : Subgroup G) : Set G)) = 2 ∧
       thompsonJ (Λ ⊓ H) = baum (Λ ⊓ H) ∧
@@ -34,14 +36,17 @@ theorem burnsideC56_glue_c1 (hC : C61Concl Λ H (Λ ⊓ H) K₁) :
   rw [hb, Subgroup.coe_mul_of_right_le_normalizer_left _ _ hle]
   rfl
 
+omit [Finite G] in
 theorem burnsideC56_glue_L_eq (hjoin : conjJoin (Λ ⊓ H) K₁ = oTwoUpper H)
     (hj : conjJoin (Λ ⊓ H) K₁ = K₁) : oTwoUpper H = K₁ := hjoin.symm.trans hj
 
+omit [Finite G] in
 theorem burnsideC56_glue_blockD (hjoin : conjJoin (Λ ⊓ H) K₁ = oTwoUpper H) :
     blockD (Λ ⊓ H) K₁ = (Λ ⊓ H) ⊓ Subgroup.centralizer (oTwoUpper H : Set G) := by
   unfold blockD
   rw [hjoin]
 
+omit [Finite G] in
 theorem burnsideC56_glue_c5 (hjoin : conjJoin (Λ ⊓ H) K₁ = oTwoUpper H)
     (hC : C61Concl Λ H (Λ ⊓ H) K₁) :
     (pCoreOf 2 H : Set G) =

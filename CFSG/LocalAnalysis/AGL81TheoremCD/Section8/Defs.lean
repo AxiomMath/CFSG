@@ -44,7 +44,7 @@ variable {G : Type} [Group G] [Finite G]
     ∀ (X : Type) [Group X] [Finite X], CFSG.Open.IsKGroup X → CFSG.pPrimeCore p X = ⊥ →
       2 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) →
       ∀ N : Subgroup X, CFSG.RankThree.PartOne.IsStronglyPEmbedded p N →
-        IsSolvable ↥N ∨
+        Group.IsSolvable ↥N ∨
           (2 ≤ CFSG.Open.pRank 3 N ∧
             (CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.CoverHasLargeTwoLocal
                 ↥(CFSG.generalizedFitting X) ∨
@@ -74,7 +74,7 @@ theorem strongQ (k : S8Core G) :
   k.strong k.q k.hq
 
 theorem M_ne_top (k : S8Core G) : k.M ≠ ⊤ := by
-  haveI := k.cstar.simple
+  have := k.cstar.simple
   exact CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top k.cstar.nonab k.M k.maxLocal.1
 
 theorem huniq (k : S8Core G) :

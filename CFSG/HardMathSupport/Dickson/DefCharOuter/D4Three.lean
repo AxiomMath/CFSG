@@ -20,7 +20,7 @@ private theorem mulAut_congr_conj {G H : Type*} [Group G] [Group H] (e : G ≃* 
 
 theorem lieDefCharOuter_D4_three (h1 : D4ThreeGraphOuter) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.D 4 q).Valid)
-    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (hnc : ∃ a b : S, a * b ≠ b * a)
+    {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (_hnc : ∃ a b : S, a * b ≠ b * a)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.D 4 q, hv⟩)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpc : p = q.p)
     (hp3 : p = 3)
@@ -28,11 +28,11 @@ theorem lieDefCharOuter_D4_three (h1 : D4ThreeGraphOuter) (q : TauCeti.PrimePowe
     PerfectInLayer β ∨ CFSG.Open.GLAPPrimeCoreOf p (fixSubgroup β) = ⊥ := by
   subst hp3
   have hq3 : q.p = 3 := hpc.symm
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hcard : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card q.p q.exponent (by have := q.exponent_pos; omega),
       TauCeti.PrimePower.card_def]
-  haveI : CharP (GaloisField q.p q.exponent) 3 := CharP.congr q.p hq3
+  have : CharP (GaloisField q.p q.exponent) 3 := CharP.congr q.p hq3
   have hK3 : Nat.card (GaloisField q.p q.exponent) = 3 ^ q.exponent := by
     rw [hcard, TauCeti.PrimePower.card_def, hq3]
   obtain ⟨br⟩ := CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_adjointQuotient_D4_equiv
@@ -40,7 +40,7 @@ theorem lieDefCharOuter_D4_three (h1 : D4ThreeGraphOuter) (q : TauCeti.PrimePowe
   let φ : S ≃* adjointGroup Tag.D4 (GaloisField q.p q.exponent) :=
     (e.trans br.symm).trans ((QuotientGroup.quotientMulEquivOfEq
       CFSG.LieType.Chevalley.center_adjointGroup_eq_bot).trans QuotientGroup.quotientBot)
-  haveI : Finite (adjointGroup Tag.D4 (GaloisField q.p q.exponent)) := Finite.of_equiv S φ.toEquiv
+  have : Finite (adjointGroup Tag.D4 (GaloisField q.p q.exponent)) := Finite.of_equiv S φ.toEquiv
   have hβ' : MulAut.congr φ β ^ 3 = 1 := by rw [← map_pow, hβ, map_one]
   have hout' : MulAut.congr φ β ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner
       (adjointGroup Tag.D4 (GaloisField q.p q.exponent)) := by

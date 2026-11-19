@@ -22,18 +22,18 @@ theorem TwE6PlusRootGen.ggTorusModelAt_twE6Plus_of_frame
     (hp5 : 5 ≤ p) (hpq : p ∣ 2 ^ n + 1) (F : TwE6Frame K σ n p E)
     (hv : ExcIsLongest TwistTag.E6.tag F.v) :
     GGTorusModelAt p E := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 : p ≠ 2 := by omega
   have hq : 4 ≤ 2 ^ n :=
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   obtain ⟨ζ, hζp⟩ := CFSG.LieType.SeitzGeneration.exists_primitiveRoot_units
     (L := AlgebraicClosure K) (ℓ := 2) Nat.prime_two hp hp2
   have hζ : ζ ^ p = 1 := hζp.pow_eq_one
@@ -43,7 +43,7 @@ theorem TwE6PlusRootGen.ggTorusModelAt_twE6Plus_of_frame
       ggKGTwY F r = canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K)
         (rootReflection i.1) := fun i => ggKGTwJ_weyl hK hσ F hv i.2
   choose w hwJ hwY using hweyl
-  haveI : Nonempty {γ : Fin Tag.E6.rank → ℤ // IsRoot Tag.E6 γ} :=
+  have : Nonempty {γ : Fin Tag.E6.rank → ℤ // IsRoot Tag.E6 γ} :=
     ⟨⟨Pi.single 0 1, isRoot_single Tag.E6 0⟩⟩
   rw [← hTE]
   refine ggTorusModelAt_of_reflFamily hTinj w (fun i => ExcSplitRootGen.excRefl (τ := Tag.E6) i.1)
@@ -84,9 +84,9 @@ theorem TwE6PlusRootGen.ggTorusModelAt_recipeR_twE6Plus
     {E : Subgroup (TwE6Delta.RecipeR K n)} (hE : IsElemAbelian p E) (hcard : p ^ 5 ≤ Nat.card E)
     (hsc : ∀ g : TwE6Delta.RecipeR K n, (∀ e ∈ E, g * e = e * g) → g ^ p = 1 → g ∈ E) :
     GGTorusModelAt p E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
   let σ : K ≃+* K := iterateFrobeniusEquiv K 2 n
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => iterateFrobeniusEquiv_def K 2 n c
@@ -126,7 +126,7 @@ theorem ggTorusRootGenAvoidKG_twE6Plus_of_lss92
   have hn1 : 1 ≤ n := by omega
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
-  haveI := TwE6Delta.finite_recipeR (K := K) (n := n) hK
+  have := TwE6Delta.finite_recipeR (K := K) (n := n) hK
   refine ggTorusRootGenAvoidKG_of_scTorusModel_centerPrime hp
     (TwE6Delta.center_recipeR_eq_bot hn1 hK) (TwE6Delta.ggOutdiagPrime_twE6 hn1 hK hp hp3)
     (TwE6Delta.ggCenterPrime_twE6 hn1 hK hp hp2 hp3) ?_

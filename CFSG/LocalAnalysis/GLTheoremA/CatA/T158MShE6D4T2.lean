@@ -106,7 +106,7 @@ private theorem d4t2un_three_dvd {L : Type} [Field L] [IsAlgClosed L] {p₀ : �
         (w₀ • (Pi.single 0 1 : Fin Tag.E6.rank → ℤ)) 5 - 1 ∧
       (3 : ℤ) ∣ (w₀ • (Pi.single 5 1 : Fin Tag.E6.rank → ℤ)) 0 +
         (w₀ • (Pi.single 5 1 : Fin Tag.E6.rank → ℤ)) 5 - 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hker : ∀ γ, IsRoot .E6 γ → rootChar a (v • γ) = 1 →
       γ ∈ parabolicRoots .E6 (d4Nodes .E6) := by
     intro γ hγ h1
@@ -255,7 +255,7 @@ private theorem d4t2un_layer_equiv {L : Type} [Field L] [IsAlgClosed L] {ℓ f :
     · have h₁ : ∀ c, σ.symm c = c ^ (ℓ ^ f) := fun c => by
         apply σ.injective
         rw [RingEquiv.apply_symm_apply, hσ, ← pow_mul]
-        haveI : Fintype K := Fintype.ofFinite K
+        have : Fintype K := Fintype.ofFinite K
         have hcard : ℓ ^ f * (ℓ ^ f) ^ 2 = Fintype.card K := by
           rw [← Nat.card_eq_fintype_card, hKc]
           ring
@@ -467,8 +467,8 @@ private theorem e6D4T2_catalogIs_trialityD4 {L : Type} [Field L] [IsAlgClosed L]
   classical
   obtain ⟨v, hv, hsub, hρ⟩ := e6D4T2_class S hT hap h24 i
   obtain ⟨ℓ, f, hℓ, hchar, hf, hq⟩ := S.exists_char_pow
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP L ℓ := hchar
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP L ℓ := hchar
   have hcat : Nonempty (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ≃*
         (TauCeti.CFSGIndex.lie ⟨.trialityD4 ⟨ℓ, f, Fact.out, hf⟩,
           TauCeti.LieTypeIndex.valid_trialityD4 _⟩).Group) ∧

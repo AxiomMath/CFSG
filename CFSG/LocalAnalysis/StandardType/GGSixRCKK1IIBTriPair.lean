@@ -39,9 +39,9 @@ theorem rckTriP_pair
       (triD4Universal F σ).D.rootGroup β = Subgroup.zpowers x ∧ x * x = 1 ∧ x ≠ 1 ∧
       RCKK1Data x V := by
   classical
-  haveI hfinU : Finite (twistedGroup σ) := inferInstance
-  haveI hfinAutU : Finite (MulAut (twistedGroup σ)) := inferInstance
-  haveI hchar : CharP F 2 := CFSG.StandardType.RCKC1.charP_two_of_triField hF
+  have hfinU : Finite (twistedGroup σ) := inferInstance
+  have hfinAutU : Finite (MulAut (twistedGroup σ)) := inferInstance
+  have hchar : CharP F 2 := CFSG.StandardType.RCKC1.charP_two_of_triField hF
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   have hσ3 : ∀ c : F, σ (σ (σ c)) = c := sigma_three_of_card hF.2.1 hF.2.2
   let C0 : Subgroup (ModGL d4 F) := graphFixedRootGroup TwistTag.D4 F σ
@@ -343,12 +343,11 @@ theorem rckTriP_pair
         (ggRootSub (twistedDatum σ)
           (MulAut.conj : twistedGroup σ →* MulAut (twistedGroup σ)) θ 1) := h
     rwa [hgg] at h'
-  haveI hEA : CFSG.IsElementaryAbelian 2 (FourGroup.kleinFourOf x y hx2 hy2' hxy') :=
+  have hEA : CFSG.IsElementaryAbelian 2 (FourGroup.kleinFourOf x y hx2 hy2' hxy') :=
     FourGroup.isElementaryAbelian_kleinFourOf
   have hK1b : K1Lift.K1b x (FourGroup.kleinFourOf x y hx2 hy2' hxy') :=
     rckK1b_of_inner
       (by
-        change Subgroup.center (CFSG.LieType.Steinberg.TwistedD4.twistedGroup σ) = ⊥
         exact CFSG.LieType.Steinberg.CentralExt.TrialityClosed.twistedGroup_center_eq_bot_of_card
           (q := 2) (by norm_num) (by rw [hF.2.1]; norm_num) (fun c => by simpa using hF.2.2 c))
       x hx2 hI hQ (FourGroup.kleinFourOf x y hx2 hy2' hxy') hVcentral

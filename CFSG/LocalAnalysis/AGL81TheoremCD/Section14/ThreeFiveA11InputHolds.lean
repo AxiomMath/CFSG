@@ -117,7 +117,7 @@ private theorem normalizer_le_barInf {X : Type} [Group X] [Finite X]
   intro B hB hBne
   have hBpos : 1 ≤ CFSG.Open.pRank 3 B := by
     have hBab : IsElemAbelian 3 B := hEab.mono hB
-    letI : Nontrivial ↥B := (Subgroup.nontrivial_iff_ne_bot B).mpr hBne
+    let : Nontrivial ↥B := (Subgroup.nontrivial_iff_ne_bot B).mpr hBne
     obtain ⟨x, hxne⟩ := exists_ne (1 : ↥B)
     have hx3 : (x : X) ^ 3 = 1 := hBab.2 (x : X) x.2
     have hxord : orderOf (x : X) = 3 := orderOf_eq_prime hx3 (by
@@ -177,7 +177,7 @@ private theorem starImg_le_component {X : Type} [Group X] [Finite X]
   exact hrL
 
 private theorem normalizer_subgroupOf_le {X : Type} [Group X] [Finite X]
-    {L Ebar Mbar : Subgroup X} (hEsubL : Ebar ≤ L)
+    {L Ebar Mbar : Subgroup X} (_hEsubL : Ebar ≤ L)
     (hNorm : ∀ B : Subgroup X, B ≤ Ebar → B ≠ ⊥ →
       Subgroup.normalizer (B : Set X) ≤ Mbar) :
     ∀ F₀ : Subgroup ↥L, F₀ ≤ Ebar.subgroupOf L → F₀ ≠ ⊥ →
@@ -253,7 +253,7 @@ theorem threeFiveA11InputGen_holds :
     CFSG.LocalAnalysis.RankThreeUC.AGL81C.ThreeFiveA11InputGen := by
   intro G _ _ M Q H E hT hH2 h3
   rintro ⟨L, hLcomp, hLnotle, ⟨e⟩⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X := ↥H ⧸ CFSG.pPrimeCore 3 ↥H
   let Ebar : Subgroup X := starImg 3 H E
   let Mbar : Subgroup X := barInf 3 M H

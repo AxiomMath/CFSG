@@ -23,7 +23,7 @@ private theorem comm_U_zero_one {x y : G} (hx : x ∈ T.U 0) (hy : y ∈ T.U 1) 
   have h := T.comm 0 1 (by norm_num) (by norm_num) x hx y hy
   have hbot : win T.U 1 0 = ⊥ := T.win_eq_bot (by norm_num)
   have hmem : ⁅x, y⁆ ∈ win T.U 1 0 := by
-    refine SetLike.le_def.mp (iSup₂_le fun k hk => ?_) h
+    refine _root_.IsConcreteLE.le_iff.mp (iSup₂_le fun k hk => ?_) h
     have hk' : 0 < k ∧ k < 1 := hk
     exact T.U_le_win (by omega) (by omega)
   rw [hbot] at hmem
@@ -168,7 +168,7 @@ private theorem lemma34_aux (hT : T.Normalized) {u v : G} (hu : u ∈ T.U 3) (hu
     rwa [h]
   have hcommuwin : ⁅vp, u⁻¹⁆ ∈ win T.U 1 2 := by
     have h := T.comm 0 3 (by norm_num) (by norm_num) vp hvp0 u⁻¹ ((T.U 3).inv_mem hu)
-    refine SetLike.le_def.mp (iSup₂_le fun k hk => ?_) h
+    refine _root_.IsConcreteLE.le_iff.mp (iSup₂_le fun k hk => ?_) h
     have hk' : (0 : ℤ) < k ∧ k < 3 := hk
     exact T.U_le_win (by omega) (by omega)
   have hyv1win : y * v1 ∈ win T.U 3 7 :=
@@ -188,7 +188,7 @@ private theorem lemma34_aux (hT : T.Normalized) {u v : G} (hu : u ∈ T.U 3) (hu
       w⁻¹ ((T.U 8).inv_mem hw_mem)
     have he : X⁻¹ * (w⁻¹ * X * w) = X⁻¹ * w⁻¹ * (X⁻¹)⁻¹ * (w⁻¹)⁻¹ := by group
     rw [hk, he]
-    refine SetLike.le_def.mp (iSup₂_le fun k hk' => ?_) h
+    refine _root_.IsConcreteLE.le_iff.mp (iSup₂_le fun k hk' => ?_) h
     have hk'' : (5 : ℤ) < k ∧ k < 8 := hk'
     exact T.U_le_win (by omega) (by omega)
   have hprodR : (u⁻¹ * X) * kk ∈ win T.U 3 7 :=
@@ -398,7 +398,7 @@ theorem comm_one_five_mem (hT : T.Normalized) {x y : G} (hx : x ∈ T.U 1) (hy :
     have hcomm := T.comm 1 3 (by norm_num) (by norm_num) x hx
       ((T.mu 8 v)⁻¹ * y * T.mu 8 v) hu3
     have hmem : ⁅x, (T.mu 8 v)⁻¹ * y * T.mu 8 v⁆ ∈ win T.U 2 2 := by
-      refine SetLike.le_def.mp (iSup₂_le fun k hk => ?_) hcomm
+      refine _root_.IsConcreteLE.le_iff.mp (iSup₂_le fun k hk => ?_) hcomm
       have hk' : (1 : ℤ) < k ∧ k < 3 := hk
       exact T.U_le_win (by omega) (by omega)
     rwa [T.win_self] at hmem
@@ -818,7 +818,7 @@ theorem lemma35_ii (hT : T.Normalized) {j : ℤ} (hj : Odd j) {u : G} (hu : u �
     (hu1 : u ≠ 1) : T.mu j u * T.mu j u = 1 := by
   have hj' : Odd (j + 8) := by
     obtain ⟨k, hk⟩ := hj
-    exact ⟨k + 4, by push_cast at hk ⊢; omega⟩
+    exact ⟨k + 4, by omega⟩
   set m := T.mu j u with hm
   set u' := T.nu j u with hu'_def
   have hu'U : u' ∈ T.U (j + 8) := by
@@ -1306,7 +1306,7 @@ private theorem lemma38_ii_iii_aux (hT : T.Normalized) {v u u' : G}
   have hz12 : ⁅vp, y⁆ ∈ win T.U 1 2 := by
     have h := T.comm (i := 0) (j := 3) (by norm_num) (by norm_num) vp hvp0 y hy3
     have h' : vp * y * vp⁻¹ * y⁻¹ ∈ win T.U 1 2 := by
-      refine SetLike.le_def.mp ?_ h
+      refine _root_.IsConcreteLE.le_iff.mp ?_ h
       refine iSup₂_le fun k hk => ?_
       obtain ⟨hk1, hk2⟩ := hk
       exact T.U_le_win (by omega) (by omega)
@@ -1356,7 +1356,7 @@ private theorem lemma38_ii_iii_aux (hT : T.Normalized) {v u u' : G}
     have hve14 : ⁅vpp, e⁆ ∈ win T.U 1 4 := by
       have h := T.comm (i := 0) (j := 5) (by norm_num) (by norm_num) vpp hvpp0 e he
       have h' : vpp * e * vpp⁻¹ * e⁻¹ ∈ win T.U 1 4 := by
-        refine SetLike.le_def.mp ?_ h
+        refine _root_.IsConcreteLE.le_iff.mp ?_ h
         refine iSup₂_le fun k hk => ?_
         obtain ⟨hk1, hk2⟩ := hk
         exact T.U_le_win (by omega) (by omega)
@@ -1515,7 +1515,7 @@ private theorem lemma38_ii_iii_aux (hT : T.Normalized) {v u u' : G}
   have hve14 : ⁅vpp, e⁆ ∈ win T.U 1 4 := by
     have h := T.comm (i := 0) (j := 5) (by norm_num) (by norm_num) vpp hvpp0 e he
     have h' : vpp * e * vpp⁻¹ * e⁻¹ ∈ win T.U 1 4 := by
-      refine SetLike.le_def.mp ?_ h
+      refine _root_.IsConcreteLE.le_iff.mp ?_ h
       refine iSup₂_le fun k hk => ?_
       obtain ⟨hk1, hk2⟩ := hk
       exact T.U_le_win (by omega) (by omega)
@@ -1547,11 +1547,11 @@ private theorem lemma38_ii_iii_aux (hT : T.Normalized) {v u u' : G}
       (by norm_num)
       ((win T.U 5 5).mul_mem (T.U_le_win (by norm_num) (by norm_num) hez)
         (T.U_le_win (by norm_num) (by norm_num) ((T.U 5).inv_mem he)))
-      (by simpa [T.win_self] using one_mem (T.U 5))
+      (by simp [T.win_self])
       ((win T.U 6 6).mul_mem
         (T.U_le_win (by norm_num) (by norm_num) (T.Uprime_le 6 hmz6))
         (T.U_le_win (by norm_num) (by norm_num) (T.Uprime_le 6 hvy6)))
-      (by simpa [T.win_self] using one_mem (T.U 6))
+      (by simp [T.win_self])
       (by simpa using hcomp3)
   have heze : ez = e := by
     calc ez = ez * e⁻¹ * e := by group

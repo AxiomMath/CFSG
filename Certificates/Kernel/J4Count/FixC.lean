@@ -360,7 +360,7 @@ theorem card_fix_le_of (hcov : ∀ w ∈ orbit J v, ∃ l < 7, w ∈ orbit H (qv
     rw [Set.Finite.mem_toFinset] at hw
     simp only [Finset.mem_biUnion, Finset.mem_range]
     obtain ⟨l, hl, hwl⟩ := hcov w hw.1
-    exact ⟨l, hl, by rw [dif_pos hl, Set.Finite.mem_toFinset]; exact ⟨hwl, hw.2⟩⟩
+    exact ⟨l, hl, by rw [dite_eq_left hl, Set.Finite.mem_toFinset]; exact ⟨hwl, hw.2⟩⟩
   have hcard : ∀ l (hl : l < 7), (hfinFl l hl).toFinset.card ≤ FB.getD l 0 := by
     intro l hl
     rw [← Set.ncard_eq_toFinset_card _ (hfinFl l hl), ← Nat.card_coe_set_eq]
@@ -379,7 +379,7 @@ theorem card_fix_le_of (hcov : ∀ w ∈ orbit J v, ∃ l < 7, w ∈ orbit H (qv
   simp only [FB, List.getD_cons_zero, List.getD_cons_succ] at c0 c1 c2 c3 c4 c5 c6
   simp only [show (0 : ℕ) < 7 by norm_num, show (1 : ℕ) < 7 by norm_num,
     show (2 : ℕ) < 7 by norm_num, show (3 : ℕ) < 7 by norm_num, show (4 : ℕ) < 7 by norm_num,
-    show (5 : ℕ) < 7 by norm_num, show (6 : ℕ) < 7 by norm_num, dif_pos]
+    show (5 : ℕ) < 7 by norm_num, show (6 : ℕ) < 7 by norm_num, dite_eq_left]
   omega
 
 theorem fix_eq_of_card (hcov : ∀ w ∈ orbit J v, ∃ l < 7, w ∈ orbit H (qv l))

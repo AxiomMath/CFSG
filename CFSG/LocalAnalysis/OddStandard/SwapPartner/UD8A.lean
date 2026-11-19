@@ -74,6 +74,7 @@ lemma u_gz_sq : (g * z) * (g * z) = x := by
   rw [← mul_assoc]
   exact u_gzgz h
 
+omit h in
 lemma u_zpow_mul (m n : ℤ) :
     (z * g) ^ m * (z * g) ^ n = (z * g) ^ (m + n) :=
   (zpow_add (z * g) m n).symm
@@ -132,23 +133,23 @@ lemma u_form_mul {a b : G}
     (hb : (∃ i : ℤ, b = (z * g) ^ i) ∨ (∃ i : ℤ, b = (z * g) ^ i * g)) :
     (∃ i : ℤ, a * b = (z * g) ^ i) ∨ (∃ i : ℤ, a * b = (z * g) ^ i * g) := by
   rcases ha with ⟨i, rfl⟩ | ⟨i, rfl⟩ <;> rcases hb with ⟨j, rfl⟩ | ⟨j, rfl⟩
-  · left; exact ⟨i + j, by rw [u_zpow_mul h]⟩
+  · left; exact ⟨i + j, by rw [u_zpow_mul]⟩
   · right; refine ⟨i + j, ?_⟩
-    rw [← mul_assoc, u_zpow_mul h]
+    rw [← mul_assoc, u_zpow_mul]
   · right; refine ⟨i - j, ?_⟩
     calc (z * g) ^ i * g * (z * g) ^ j
         = (z * g) ^ i * (g * (z * g) ^ j) := by group
       _ = (z * g) ^ i * ((z * g) ^ (-j) * g) := by rw [u_B_mul_zpow h j]
       _ = ((z * g) ^ i * (z * g) ^ (-j)) * g := by group
       _ = (z * g) ^ (i - j) * g := by
-            rw [u_zpow_mul h, show i + -j = i - j from by ring]
+            rw [u_zpow_mul, show i + -j = i - j from by ring]
   · left; refine ⟨i - j, ?_⟩
     calc (z * g) ^ i * g * ((z * g) ^ j * g)
         = (z * g) ^ i * (g * (z * g) ^ j) * g := by group
       _ = (z * g) ^ i * ((z * g) ^ (-j) * g) * g := by rw [u_B_mul_zpow h j]
       _ = ((z * g) ^ i * (z * g) ^ (-j)) * (g * g) := by group
       _ = (z * g) ^ (i - j) := by
-            rw [u_zpow_mul h, h.g_sq, mul_one, show i + -j = i - j from by ring]
+            rw [u_zpow_mul, h.g_sq, mul_one, show i + -j = i - j from by ring]
 
 lemma u_form_inv {a : G}
     (ha : (∃ i : ℤ, a = (z * g) ^ i) ∨ (∃ i : ℤ, a = (z * g) ^ i * g)) :

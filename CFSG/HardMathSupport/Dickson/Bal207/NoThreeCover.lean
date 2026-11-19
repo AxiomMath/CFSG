@@ -46,14 +46,14 @@ theorem normalizerMonoidHom_pow_eq_one {X : Type} [Group X] {K : Subgroup X} {a 
     _ = (k : X) := by group
 
 theorem false_of_threeCover {Y : Type} [Group Y] [Finite Y] (hY : CFSG.Open.IsQuasisimple Y)
-    (hL : LieComp.LieComp) (idx : TauCeti.ValidLieTypeIndex)
+    (hL : LieComp.LieCompAll) (idx : TauCeti.ValidLieTypeIndex)
     (he : Nonempty ((Y ⧸ Subgroup.center Y) ≃* (TauCeti.CFSGIndex.lie idx).Group))
     {α : MulAut Y} (hα : α ^ 3 = 1) {J : Subgroup Y} (hJ : GLAPComponent 3 (fixSubgroup α) J)
     (hA6 : Nonempty ((↥J ⧸ Subgroup.center ↥J) ≃* ↥(alternatingGroup (Fin 6))))
     (h3 : 3 ∣ Nat.card ↥(Subgroup.center ↥J)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a6⟩ := hA6
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   let Z := Subgroup.center Y
   let π : Y →* (Y ⧸ Z) := QuotientGroup.mk' Z
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -80,7 +80,7 @@ theorem false_of_threeCover {Y : Type} [Group Y] [Finite Y] (hY : CFSG.Open.IsQu
   have hQJ : CFSG.Open.IsQuasisimple ↥J := ⟨hperf, a6.isSimpleGroup⟩
   have hbarQ : CFSG.Open.IsQuasisimple (barOf 3 (J.map π)) :=
     isQuasisimple_quotient_of_glaPComponent hJ'
-  haveI : Nontrivial (barOf 3 (J.map π) ⧸ Subgroup.center (barOf 3 (J.map π))) :=
+  have : Nontrivial (barOf 3 (J.map π) ⧸ Subgroup.center (barOf 3 (J.map π))) :=
     hbarQ.2.toNontrivial
   have hkφ : φ.ker ≤ Subgroup.center ↥J := ker_le_center_of_surjective hQJ φ hφ
   obtain ⟨f⟩ := LieComp.nonempty_centralQuotient_mulEquiv hperf φ hφ hkφ

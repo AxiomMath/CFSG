@@ -32,7 +32,7 @@ theorem coverEvenAt_of_split (h67 : I67Cover) (h1066 : I1066Cover) : CoverEvenAt
   · exact absurd h hex
   have hperf := ltilde_perfect hL
   obtain ⟨e⟩ := ltilde_centre_equiv hL
-  haveI hsimple : IsSimpleGroup (PSimple p L) := (isQuasisimple_pQuot_of_glaPComponent hp hL).2
+  have hsimple : IsSimpleGroup (PSimple p L) := (isQuasisimple_pQuot_of_glaPComponent hp hL).2
   have hraw : GLARawDatum lab
       (fun R _ _ _ => Nonempty (LTilde p L ⧸ Subgroup.center (LTilde p L) ≃* R)) := by
     refine CFSG.StandardType.Canonical.largeEvenRawDatum_mono (fun R _ I F hQ => ?_)

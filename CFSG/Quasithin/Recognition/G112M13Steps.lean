@@ -21,6 +21,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V] {Q : ConclPr
   {B : LinearMap.BilinForm (ZMod 2) V} {Γ : Subgroup (GLV V)} {v₁ : V}
   {W : Submodule (ZMod 2) V} {X X₀ L : Subgroup (GLV V)} {m : ℕ}
 
+omit [Finite V] in
 private theorem finrank_top_eq (d : ℕ)
     (h : Module.finrank (ZMod 2) ↥(⊤ : Submodule (ZMod 2) V) = d) :
     Module.finrank (ZMod 2) V = d := by

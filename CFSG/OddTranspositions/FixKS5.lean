@@ -447,7 +447,7 @@ theorem actFixK_surjective : Function.Surjective actFixK := by
 theorem fixK_equiv_s5 :
     ∃ e : FixK ≃* Equiv.Perm (Fin 5),
       e '' Set.range leftY = CFSG.GroupTheory.transpositions := by
-  haveI : Finite FixK :=
+  have : Finite FixK :=
     Finite.of_injective (fun x : FixK => (x : PSL2 K25)) Subtype.coe_injective
   have hcard : Nat.card FixK = Nat.card (Equiv.Perm (Fin 5)) := by
     rw [card_FixK, Nat.card_perm, Nat.card_fin]
@@ -466,7 +466,7 @@ theorem fixK_equiv_s5 :
 
 theorem not_isSolvable_FixK : ¬ Group.IsSolvable FixK := by
   intro hsol
-  haveI : Group.IsSolvable FixK := hsol
+  have : Group.IsSolvable FixK := hsol
   obtain ⟨e, -⟩ := fixK_equiv_s5
   exact Equiv.Perm.not_isSolvable_fin_5
     (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)

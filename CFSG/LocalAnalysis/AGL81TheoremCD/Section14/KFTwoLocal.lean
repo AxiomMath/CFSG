@@ -71,7 +71,7 @@ theorem quotient_congr_eq_one_of_relIndex_eq_prime [Fact p.Prime] (hp : ¬ 3 ∣
     simpa [ψ, hφ3] using h
   have hψdvd3 : orderOf ψ ∣ 3 := orderOf_dvd_of_pow_eq_one hψ3
   have hψcard : Nat.card (MulAut (↥R ⧸ W.subgroupOf R)) = p - 1 := by
-    haveI : IsCyclic (↥R ⧸ W.subgroupOf R) := isCyclic_of_prime_card hquotcard
+    have : IsCyclic (↥R ⧸ W.subgroupOf R) := isCyclic_of_prime_card hquotcard
     rw [IsCyclic.card_mulAut, hquotcard, Nat.totient_prime (Fact.out : p.Prime)]
   have hψdvd : orderOf ψ ∣ p - 1 := by
     have := orderOf_dvd_natCard ψ
@@ -96,7 +96,7 @@ theorem eq_one_of_fixed_inf_of_relIndex_eq_prime [Fact p.Prime] (hp3 : p ≠ 3)
       rw [hfix w hw]
       exact hw
     · exact le_of_eq (Subgroup.card_map_of_injective φ.injective).symm
-  haveI : (W.subgroupOf R).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hWn
+  have : (W.subgroupOf R).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hWn
   have hψ1 := quotient_congr_eq_one_of_relIndex_eq_prime hp hrel φ hφW hφ3
   have hdisp : ∀ x : ↥R, x⁻¹ * φ x ∈ W.subgroupOf R := by
     intro x
@@ -146,7 +146,7 @@ theorem centralizes_of_relIndex_eq_prime [Fact p.Prime] (hp3 : p ≠ 3) (hp : ¬
   rw [Subgroup.mem_centralizer_iff]
   intro x hx
   have hφx : ((φ ⟨x, hx⟩ : ↥R) : X) = e * x * e⁻¹ := by
-    simp only [φ, MulEquiv.coe_toMonoidHom, Subgroup.normalizerMonoidHom_apply_apply_coe]
+    simp only [φ, Subgroup.normalizerMonoidHom_apply_apply_coe]
   have hxfix : ((φ ⟨x, hx⟩ : ↥R) : X) = x := by
     rw [hφ1]
     rfl
@@ -158,7 +158,7 @@ theorem inf_centralizer_singleton_eq_of_three_element [Fact p.Prime] (hp3 : p �
     (hp : ¬ 3 ∣ p - 1) {R Z : Subgroup X} (hR : IsPGroup p R)
     (hC : Subgroup.centralizer (R : Set X) ≤ R)
     (hZleR : Z ≤ R) (hZC : Z ≤ Subgroup.centralizer (R : Set X))
-    (hZcard : Nat.card Z = 1 ∨ Nat.card Z = p)
+    (_hZcard : Nat.card Z = 1 ∨ Nat.card Z = p)
     (hcomm : ⁅R, R⁆ ≤ Z) (hexp : ∀ r ∈ R, r ^ p = 1)
     (hcardR : Nat.card R = p ^ 2 * Nat.card Z)
     {e : X} (he : e ∈ Subgroup.normalizer (R : Set X)) (he3 : e ^ 3 = 1) (he1 : e ≠ 1)
@@ -180,6 +180,7 @@ theorem inf_centralizer_singleton_eq_of_three_element [Fact p.Prime] (hp3 : p �
   rw [orderOf_eq_prime he3 he1] at hcope
   exact absurd hcope (by norm_num : ¬ Nat.Coprime 3 3)
 
+omit [Finite X] in
 theorem le_centralizer_of_three_element [Fact p.Prime] (hp : ¬ 3 ∣ p - 1)
     {Z E : Subgroup X} (hZcard : Nat.card Z = 1 ∨ Nat.card Z = p)
     (hEZ : E ≤ Subgroup.normalizer (Z : Set X))
@@ -222,8 +223,8 @@ theorem card_dvd_sub_of_free_action {R Z E : Subgroup X}
     (hcent : ∀ e : ↥E, e ≠ 1 → R ⊓ Subgroup.centralizer ({(e : X)} : Set X) = Z) :
     Nat.card E ∣ Nat.card R - Nat.card Z := by
   classical
-  letI : E.Normalizes R := ⟨hE⟩
-  letI : MulDistribMulAction ↥E ↥R := Subgroup.conjMulDistribMulActionOfLeNormalizer E R hE
+  let : E.Normalizes R := ⟨hE⟩
+  let : MulDistribMulAction ↥E ↥R := Subgroup.conjMulDistribMulActionOfLeNormalizer E R hE
   have hC : ∀ e : ↥E, ∀ x ∈ ({r : ↥R | (r : X) ∈ Z} : Set ↥R),
       e • x ∈ ({r : ↥R | (r : X) ∈ Z} : Set ↥R) := by
     intro e x hx
@@ -300,6 +301,7 @@ theorem pRank_three_normalizer_le_one [Fact p.Prime] (hp : p = 5 ∨ p = 11)
     · rw [hcardR, hZp] at h9dvd
       norm_num at h9dvd
 
+omit [Finite X] in
 theorem eq_normalizer_and_isSolvable_of_maximal [Fact p.Prime] {N : Subgroup X}
     (hN : CFSG.RankThree.PartOne.IsStronglyPEmbedded p N) {R : Sylow p X}
     (hRN : (R : Subgroup X) ≤ N) (hRne : (R : Subgroup X) ≠ ⊥)
@@ -308,7 +310,7 @@ theorem eq_normalizer_and_isSolvable_of_maximal [Fact p.Prime] {N : Subgroup X}
     (hsolv : Group.IsSolvable (Subgroup.normalizer ((R : Subgroup X) : Set X))) :
     N = Subgroup.normalizer ((R : Subgroup X) : Set X) ∧ Group.IsSolvable ↥N := by
   have hMleN : Subgroup.normalizer ((R : Subgroup X) : Set X) ≤ N :=
-    hN.normalizer_le hRne R.isPGroup' hRN
+    hN.normalizer_le hRne R.isPGroup hRN
   rcases hmax N hMleN with h | h
   · exact ⟨h, h ▸ hsolv⟩
   · exact absurd h hN.1
@@ -324,7 +326,7 @@ theorem isSolvable_and_pRank_three_self_le_one_of_d2HeisLocalAt {i : TauCeti.CFS
   set K : Subgroup X := CFSG.generalizedFitting X with hKdef
   obtain ⟨hKs, hKnab, hKn, hKC⟩ :=
     CFSG.RankThree.PartOne.Sec1511.spe_fstar (p := p) Fact.out hO hN
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   obtain ⟨P, hPsyl, hPN⟩ := hN.exists_isSylowOf_le
   let R : Sylow p X := hPsyl.2.1.toSylow (by simpa [Subgroup.relIndex_top_right] using hPsyl.2.2)
   have hRcoe : (R : Subgroup X) = P :=
@@ -354,7 +356,7 @@ theorem isSolvable_and_pRank_three_self_le_one_of_d2HeisLocalAt {i : TauCeti.CFS
           (R : Subgroup X))
       exact (le_inf hE h2).trans Subgroup.inf_normalizer_le_normalizer_inf
     have hcardE := pRank_three_normalizer_le_one (Z := (R : Subgroup X) ⊓
-        Subgroup.centralizer ((R : Subgroup X) : Set X)) (E := E) hp R.isPGroup' hC
+        Subgroup.centralizer ((R : Subgroup X) : Set X)) (E := E) hp R.isPGroup hC
       inf_le_left inf_le_right (Or.inr hZ) (le_of_eq hcomm) hexp ?_ hE hEZ hEab
     · simpa using hcardE
     · rw [hcard, hZ]; ring
@@ -378,11 +380,11 @@ theorem isSolvable_and_pRank_three_self_le_one_of_d2TorusLocalAt {i : TauCeti.CF
     (e : ↥(CFSG.generalizedFitting X) ≃* i.Group) :
     Group.IsSolvable ↥N ∧ CFSG.Open.pRank 3 N ≤ 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set K : Subgroup X := CFSG.generalizedFitting X with hKdef
   obtain ⟨hKs, hKnab, hKn, hKC⟩ :=
     CFSG.RankThree.PartOne.Sec1511.spe_fstar (p := 5) (by norm_num) hO hN
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   obtain ⟨P, hPsyl, hPN⟩ := hN.exists_isSylowOf_le
   let R : Sylow 5 X := hPsyl.2.1.toSylow (by simpa [Subgroup.relIndex_top_right] using hPsyl.2.2)
   have hRcoe : (R : Subgroup X) = P :=
@@ -406,13 +408,13 @@ theorem isSolvable_and_pRank_three_self_le_one_of_d2TorusLocalAt {i : TauCeti.CF
     rw [Subgroup.mem_centralizer_iff]
     intro b hb
     exact congrArg Subtype.val
-      (IsPGroup.commutative_of_card_eq_prime_sq hcard ⟨b, hb⟩ ⟨a, ha⟩)
+      ((IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard).is_comm.comm ⟨b, hb⟩ ⟨a, ha⟩)
   have hrank : CFSG.Open.pRank 3 N ≤ 1 := by
     rw [hNM]
     refine CFSG.SectionRank.pRank_le (by norm_num) ?_
     intro E hE hEab
     have hcardE := pRank_three_normalizer_le_one (Z := ⊥) (E := E) (Or.inl rfl)
-      R.isPGroup' hC bot_le bot_le (Or.inl (by simp)) hcomm0 hTpow ?_ hE
+      R.isPGroup hC bot_le bot_le (Or.inl (by simp)) hcomm0 hTpow ?_ hE
       (fun x hx => by
         rw [Subgroup.mem_normalizer_iff]
         intro y

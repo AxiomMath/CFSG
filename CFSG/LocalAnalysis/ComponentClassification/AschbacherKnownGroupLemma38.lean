@@ -138,7 +138,7 @@ theorem two_le_pRank_centralizer_involution [Finite G] {A : Subgroup G}
     have hTnt : Nontrivial (T : Subgroup A) := by
       refine ⟨⟨⟨a', haT⟩, 1, fun h => ha1 ?_⟩⟩
       exact congrArg (fun w : (T : Subgroup A) => ((w : A) : G)) h
-    have hTp : IsPGroup 2 (T : Subgroup A) := T.isPGroup'
+    have hTp : IsPGroup 2 (T : Subgroup A) := T.isPGroup
     have hZnt : Nontrivial (center (T : Subgroup A)) := hTp.center_nontrivial
     have h2Z : 2 ∣ Nat.card (center (T : Subgroup A)) := by
       obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (hTp.to_subgroup (center (T : Subgroup A)))
@@ -322,8 +322,8 @@ theorem quasisimple_of_comparable [Finite G] {A : Subgroup G}
   have hR₁K : R₁ ≤ K i₁ := map_subtype_le _
   have hRcomm : ∀ x ∈ R₀, ∀ y ∈ R₁, x * y = y * x :=
     fun x hx y hy => hcomm i₀ i₁ hi x (hR₀K hx) y (hR₁K hy)
-  have hR₀p : IsPGroup 2 R₀ := T₀.isPGroup'.map _
-  have hR₁p : IsPGroup 2 R₁ := T₁.isPGroup'.map _
+  have hR₀p : IsPGroup 2 R₀ := T₀.isPGroup.map _
+  have hR₁p : IsPGroup 2 R₁ := T₁.isPGroup.map _
   have hRp : IsPGroup 2 (R₀ ⊔ R₁ : Subgroup G) := by
     refine hR₀p.to_sup_of_normal_left' hR₁p ?_
     refine le_trans ?_ (Subgroup.centralizer_le_normalizer _)
@@ -380,7 +380,7 @@ theorem quasisimple_of_comparable [Finite G] {A : Subgroup G}
   have hab : IsMulCommutative (T₀ : Subgroup (K i₀)) := by
     refine ⟨⟨fun a b => Subtype.ext ?_⟩⟩
     exact mem_center_iff.1 (hcen b.2) a
-  have hbot := Walter.W67.inf_commutator_eq_bot_of_isPGroup T₀ hab hcen T₀.isPGroup'
+  have hbot := Walter.W67.inf_commutator_eq_bot_of_isPGroup T₀ hab hcen T₀.isPGroup
   have : Group.IsPerfect (K i₀) := ⟨(hKq i₀).2.1⟩
   rw [Group.IsPerfect.commutator_eq_top, inf_top_eq] at hbot
   apply hT₀
@@ -555,7 +555,7 @@ theorem lemma_3_8 (hK : AschbacherKnownGroupFacts) {G : Type} [Group G] [Finite 
     LocalAnalysis.ComponentInitial.TwoGroupAction.exists_sylow_le_normalizer hUp hUA
   set S := (S₀ : Subgroup A).map A.subtype with hS
   have hSA : S ≤ A := map_subtype_le _
-  have hSp : IsPGroup 2 S := S₀.isPGroup'.map _
+  have hSp : IsPGroup 2 S := S₀.isPGroup.map _
   have hrankS : Open.pRank 2 S = Open.pRank 2 A := pRank_sylow_map S₀
   set P := S ⊔ U with hP
   have hPp : IsPGroup 2 P := hSp.to_sup_of_normal_left' hUp hS₀

@@ -139,15 +139,13 @@ theorem d4PK_mul_PinvK (K : Type) [Field K] :
     d4PK K * d4PinvK K = (3 : K) • (1 : Matrix Ix4 Ix4 K) := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [d4PK, d4PinvK, d4Pz, d4Pinvz, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_four,
-      Matrix.one_apply] <;> norm_num
+    simp [d4PK, d4PinvK, d4Pz, d4Pinvz, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_four] <;> norm_num
 
 theorem d4PinvK_mul_PK (K : Type) [Field K] :
     d4PinvK K * d4PK K = (3 : K) • (1 : Matrix Ix4 Ix4 K) := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [d4PK, d4PinvK, d4Pz, d4Pinvz, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_four,
-      Matrix.one_apply] <;> norm_num
+    simp [d4PK, d4PinvK, d4Pz, d4Pinvz, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_four] <;> norm_num
 
 theorem d4PK_mul_PiK {K : Type} [Field K] (h3 : (3 : K) ≠ 0) : d4PK K * d4PiK K = 1 := by
   unfold d4PiK
@@ -257,57 +255,53 @@ theorem d4gE_tab {K : Type} [Field K] (k : Fin 4) (hk : k.val % 2 = 0) (n : Fin 
     d4gE (((tabZ k n 0 0 : ℤ) : K) * x + ((tabZ k n 0 1 : ℤ) : K) * y)
       (((tabZ k n 1 0 : ℤ) : K) * x + ((tabZ k n 1 1 : ℤ) : K) * y) = d4gE x y := by
   unfold tabZ
-  rw [if_pos hk]
-  fin_cases n <;> simp [powM, mRot, d4gE, Matrix.mul_fin_two] <;> ring
+  rw [ite_eq_left hk]
+  fin_cases n <;> simp [powM, mRot, d4gE] <;> ring
 
 theorem d4gO_tab {K : Type} [Field K] (k : Fin 4) (hk : ¬ k.val % 2 = 0) (n : Fin 3) (x y : K) :
     d4gO (((tabZ k n 0 0 : ℤ) : K) * x + ((tabZ k n 0 1 : ℤ) : K) * y)
       (((tabZ k n 1 0 : ℤ) : K) * x + ((tabZ k n 1 1 : ℤ) : K) * y) = d4gO x y := by
   unfold tabZ
-  rw [if_neg hk]
-  fin_cases n <;> simp [powN, nRot, d4gO, Matrix.mul_fin_two] <;> ring
+  rw [ite_eq_right hk]
+  fin_cases n <;> simp [powN, nRot, d4gO] <;> ring
 
 theorem d4gE_sTab {K : Type} [Field K] (k : Fin 4) (hk : k.val % 2 = 0) (x y : K) :
     d4gE (((sTab k 0 0 : ℤ) : K) * x + ((sTab k 0 1 : ℤ) : K) * y)
       (((sTab k 1 0 : ℤ) : K) * x + ((sTab k 1 1 : ℤ) : K) * y) = d4gE x y := by
   unfold sTab
-  rw [if_pos hk]
-  simp [sRefM, d4gE] <;> ring
+  rw [ite_eq_left hk]
+  simp [sRefM, d4gE]; ring
 
 theorem d4gO_sTab {K : Type} [Field K] (k : Fin 4) (hk : ¬ k.val % 2 = 0) (x y : K) :
     d4gO (((sTab k 0 0 : ℤ) : K) * x + ((sTab k 0 1 : ℤ) : K) * y)
       (((sTab k 1 0 : ℤ) : K) * x + ((sTab k 1 1 : ℤ) : K) * y) = d4gO x y := by
   unfold sTab
-  rw [if_neg hk]
-  simp [sRefN, d4gO] <;> ring
+  rw [ite_eq_right hk]
+  simp [sRefN, d4gO]; ring
 
 theorem d4DK_mulVec_inl (K : Type) [Field K] (t : Fin 4 → Fin 3) (v : Ix4 → K) (k : Fin 4) :
     (d4DK K t *ᵥ v) (Sum.inl k) =
       ((tabZ k (t k) 0 0 : ℤ) : K) * v (Sum.inl k) + ((tabZ k (t k) 0 1 : ℤ) : K) * v (Sum.inr k) := by
   fin_cases k <;> simp [Matrix.mulVec, dotProduct, d4DK, Fin.sum_univ_four, Dint, Dblk, Fintype.sum_sum_type, ixEquiv_inl,
-    ixEquiv_inr, Matrix.blockDiagonal_apply, Finset.sum_ite_eq, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    ixEquiv_inr, Matrix.blockDiagonal_apply]
 
 theorem d4DK_mulVec_inr (K : Type) [Field K] (t : Fin 4 → Fin 3) (v : Ix4 → K) (k : Fin 4) :
     (d4DK K t *ᵥ v) (Sum.inr k) =
       ((tabZ k (t k) 1 0 : ℤ) : K) * v (Sum.inl k) + ((tabZ k (t k) 1 1 : ℤ) : K) * v (Sum.inr k) := by
   fin_cases k <;> simp [Matrix.mulVec, dotProduct, d4DK, Fin.sum_univ_four, Dint, Dblk, Fintype.sum_sum_type, ixEquiv_inl,
-    ixEquiv_inr, Matrix.blockDiagonal_apply, Finset.sum_ite_eq, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    ixEquiv_inr, Matrix.blockDiagonal_apply]
 
 theorem d4SK_mulVec_inl (K : Type) [Field K] (v : Ix4 → K) (k : Fin 4) :
     (d4SK K *ᵥ v) (Sum.inl k) =
       ((sTab k 0 0 : ℤ) : K) * v (Sum.inl k) + ((sTab k 0 1 : ℤ) : K) * v (Sum.inr k) := by
   fin_cases k <;> simp [Matrix.mulVec, dotProduct, d4SK, Fin.sum_univ_four, Sint, Sblk, Fintype.sum_sum_type, ixEquiv_inl,
-    ixEquiv_inr, Matrix.blockDiagonal_apply, Finset.sum_ite_eq, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    ixEquiv_inr, Matrix.blockDiagonal_apply]
 
 theorem d4SK_mulVec_inr (K : Type) [Field K] (v : Ix4 → K) (k : Fin 4) :
     (d4SK K *ᵥ v) (Sum.inr k) =
       ((sTab k 1 0 : ℤ) : K) * v (Sum.inl k) + ((sTab k 1 1 : ℤ) : K) * v (Sum.inr k) := by
   fin_cases k <;> simp [Matrix.mulVec, dotProduct, d4SK, Fin.sum_univ_four, Sint, Sblk, Fintype.sum_sum_type, ixEquiv_inl,
-    ixEquiv_inr, Matrix.blockDiagonal_apply, Finset.sum_ite_eq, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    ixEquiv_inr, Matrix.blockDiagonal_apply]
 
 theorem d4Qn_DK (K : Type) [Field K] (t : Fin 4 → Fin 3) (v : Ix4 → K) :
     d4Qn (d4DK K t *ᵥ v) = d4Qn v := by
@@ -325,8 +319,8 @@ theorem d4Qn_SK (K : Type) [Field K] (v : Ix4 → K) :
 
 theorem d4StQ_PK (K : Type) [Field K] (w : Ix4 → K) :
     StatedQuadPlus 4 K (d4PK K *ᵥ w) = d4Qn w := by
-  simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, d4Qn, d4gE, d4gO, Matrix.mulVec, dotProduct,
-    d4PK, d4Pz, Fintype.sum_sum_type, Fin.sum_univ_four] <;> ring
+  simp [StatedQuadPlus, d4Qn, d4gE, d4gO, Matrix.mulVec, dotProduct,
+    d4PK, d4Pz, Fintype.sum_sum_type, Fin.sum_univ_four]; ring
 
 theorem d4FK_iso (K : Type) [Field K] (h3 : (3 : K) ≠ 0) (t : Fin 4 → Fin 3) (v : Ix4 → K) :
     StatedQuadPlus 4 K (d4FK K t *ᵥ v) = StatedQuadPlus 4 K v := by
@@ -392,7 +386,7 @@ theorem d4GL_add (K : Type) [Field K] (h3 : (3 : K) ≠ 0) (s t : Fin 4 → Fin 
 theorem tab01_cast_ne (K : Type) [Field K] (k : Fin 4) (n : Fin 3) (hn : n ≠ 0) :
     ((tabZ k n 0 1 : ℤ) : K) ≠ 0 := by
   revert hn
-  fin_cases k <;> fin_cases n <;> simp [tabZ, powM, powN, mRot, nRot, Matrix.mul_fin_two]
+  fin_cases k <;> fin_cases n <;> simp [tabZ, powM, powN, mRot, nRot]
 
 theorem d4DK_eq_conj (K : Type) [Field K] (h3 : (3 : K) ≠ 0) (t : Fin 4 → Fin 3) :
     d4PiK K * d4FK K t * d4PK K = d4DK K t := by
@@ -424,8 +418,7 @@ theorem d4phi_injective (K : Type) [Field K] (h3 : (3 : K) ≠ 0) :
     funext k
     by_contra hk
     have hent := congrFun (congrFun hD (Sum.inl k)) (Sum.inr k)
-    simp [d4DK, Dint, Dblk, ixEquiv_inl, ixEquiv_inr, Matrix.blockDiagonal_apply,
-      Matrix.one_apply] at hent
+    simp [d4DK, Dint, Dblk, ixEquiv_inl, ixEquiv_inr, Matrix.blockDiagonal_apply] at hent
     exact tab01_cast_ne K k _ hk hent
   exact toAdd_eq_zero.mp ht
 
@@ -433,7 +426,7 @@ theorem d4_card_range (K : Type) [Field K] (h3 : (3 : K) ≠ 0) :
     Nat.card (d4phi K h3).range = 3 ^ 4 := by
   rw [Nat.card_congr (MonoidHom.ofInjective (d4phi_injective K h3)).toEquiv.symm,
     Nat.card_congr Multiplicative.ofAdd.symm]
-  simp [Nat.card_fun, Nat.card_eq_fintype_card]
+  simp [Nat.card_eq_fintype_card]
 
 theorem d4_pow_three (a : Multiplicative (Fin 4 → Fin 3)) : a ^ 3 = 1 := by
   apply toAdd_eq_zero.mp

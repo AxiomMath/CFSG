@@ -70,6 +70,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
         obtain ⟨k, hk, hky⟩ := y.2
         exact ⟨⟨k, hk⟩, Subtype.ext hky⟩⟩
 
+omit [Finite F] in
 theorem coe_fixRho [Nontrivial V] (hQ : (polarBilin Q).Nondegenerate) {p : ℕ}
     (hx : OddOrderIsometry Q p x) (g : ↥(supportedFixedDerived Q x)) :
     (fixRho hQ hx g : ProjOrthDerived Q) =
@@ -89,6 +90,7 @@ theorem coe_fixRho [Nontrivial V] (hQ : (polarBilin Q).Nondegenerate) {p : ℕ}
           (KCOrthogonal.orthDerived_le_orthogonalGroup h.2)
         exact ⟨⟨f, mem_supportedFixedDerived.mpr ⟨f.2, by rw [hf]; exact h.2⟩⟩, Subtype.ext hf⟩⟩
 
+omit [Finite F] [CharP F 2] in
 theorem coe_fixRestr_apply {p : ℕ} (hx : OddOrderIsometry Q p x)
     (g : ↥(supportedFixedDerived Q x)) (w : fixedSpace x) :
     ((((fixRestr hx g : ↥(orthDerived (Q.comp (fixedSpace x).subtype))) :
@@ -116,6 +118,7 @@ theorem coe_fixRestr_apply {p : ℕ} (hx : OddOrderIsometry Q p x)
   right_inv w := Subtype.ext (Fs.apply_symm_apply (w : V))
   map_add' w w' := Subtype.ext (map_add Fs (w : V) (w' : V))
 
+omit [Finite F] in
 theorem mulAut_congr_mem_image_of_semilin [Nontrivial V] (hQ : (polarBilin Q).Nondegenerate)
     {p : ℕ} (hx : OddOrderIsometry Q p x)
     (ι : (Q.comp (fixedSpace x).subtype).IsometryEquiv (coordinateQuadPlus 4 F))

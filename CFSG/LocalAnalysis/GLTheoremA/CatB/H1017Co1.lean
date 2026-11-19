@@ -12,7 +12,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremA
 
 theorem card_lt_pow_of_dvd {X : Type} [Group X] [Finite X] {F : Subgroup X} (hF : IsPGroup 3 F)
     {n k : ℕ} (hdvd : Nat.card F ∣ n) (hk : ¬ 3 ^ k ∣ n) : Nat.card F < 3 ^ k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 hF
   rw [hm] at hdvd ⊢
   by_contra hlt
@@ -31,7 +31,7 @@ open CFSG.Sporadic.Co1Patterson CFSG.Blueprint
 
 set_option maxRecDepth 100000 in
 theorem twoLocalBoundPow_co1 : TwoLocalBoundPow 4 NativeSporadic.Co1 := by
-  haveI : Finite NativeSporadic.Co1 := inferInstance
+  have : Finite NativeSporadic.Co1 := inferInstance
   have hcls₀ := exists_involution_classes (Y := NativeSporadic.Co1) (MulEquiv.refl NativeSporadic.Co1)
   obtain ⟨a, b, c, hcls, -, -, -, -, -, -, hCa, hCb, hCc⟩ := hcls₀
   have hcardconj : ∀ {x y : NativeSporadic.Co1}, IsConj x y →

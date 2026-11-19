@@ -71,9 +71,9 @@ theorem sec53c_prod_of_vone_ne (h34 : Stroth34Statement) (hRoot : Stroth310RootS
   obtain ⟨K₀, iF₀, iFin₀, hK₀, m, hm, hrep₀⟩ := hsp
   have hV : SpMNat hc t m := ⟨K₀, iF₀, iFin₀, hK₀, hrep₀⟩
   obtain ⟨K, iF, iFin, iCh, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  letI := iF
-  letI := iFin
-  letI := iCh
+  let := iF
+  let := iFin
+  let := iCh
   let T : Submodule K M₀.E := imgSub M₀ (Vt M (LB M Q B) B Z t) (hc.smul_mem_img_Vt hD t)
   have hTmem : ∀ e : M₀.E, e ∈ T ↔ e ∈ M₀.img (Vt M (LB M Q B) B Z t) := fun e => mem_imgSub
   have hBC := (Ctx.hBC_iff_vone_ne h34 hRoot h51 hc hs hm hV hr hplane hD T hTmem).mpr hne

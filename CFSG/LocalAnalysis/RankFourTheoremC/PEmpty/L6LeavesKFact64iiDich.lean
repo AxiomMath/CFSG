@@ -23,7 +23,7 @@ theorem orderOf_conjAut (hI121 : KFact64iiI121) {K : Subgroup Z} (hK : IsCompone
     (hout : conjAut K y (h.plane_le_normalizer hI121 hK hyB) ∉
       (MulAut.conj : ↥K →* MulAut ↥K).range) :
     orderOf (conjAut K y (h.plane_le_normalizer hI121 hK hyB)) = p := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hφ1 : conjAut K y (h.plane_le_normalizer hI121 hK hyB) ≠ 1 := fun h1 =>
     hout ⟨1, by rw [h1]; simp⟩
   have hφp : conjAut K y (h.plane_le_normalizer hI121 hK hyB) ^ p = 1 := by
@@ -38,7 +38,7 @@ theorem z_mem_of_outer (hOuter : KFact64iiOuterSylow) (hI121 : KFact64iiI121)
     (hout : conjAut K y (h.plane_le_normalizer hI121 hK hyB) ∉
       (MulAut.conj : ↥K →* MulAut ↥K).range) : z ∈ K := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set hy := h.plane_le_normalizer hI121 hK hyB with hhy
   have hyp : y ^ p = 1 := h.plane_pow y hyB
   have hy1 : y ≠ 1 := fun h1 => hyK (h1 ▸ K.one_mem)
@@ -118,7 +118,7 @@ theorem exists_centralizing_of_inner (hI121 : KFact64iiI121) {K : Subgroup Z}
       (MulAut.conj : ↥K →* MulAut ↥K).range) :
     ∃ y₁ ∈ zpowers x ⊔ zpowers z, y₁ ∉ K ∧ ∀ g ∈ K, y₁ * g = g * y₁ := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set hy := h.plane_le_normalizer hI121 hK hyB with hhy
   obtain ⟨k, hk⟩ := hin
   have hky : ∀ g : ↥K, ((k : Z)) * (g : Z) * (k : Z)⁻¹ = y * (g : Z) * y⁻¹ := by
@@ -182,7 +182,7 @@ theorem z_mem_or_of_centralizing (hI121 : KFact64iiI121) {K : Subgroup Z}
     (hK : IsComponentOf K ⊤) {y₁ : Z} (hy₁B : y₁ ∈ zpowers x ⊔ zpowers z) (hy₁K : y₁ ∉ K)
     (hy₁c : ∀ g ∈ K, y₁ * g = g * y₁) : z ∈ K ∨ zpowers z = zpowers y₁ := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP⟩ := h.exists_sylow_component hK
   have hcyc := h.isCyclic_sylow_component hI121 hK P hP
   have hP1 : (P : Subgroup ↥K) ≠ ⊥ := fun h0 => P.not_dvd_index (by
@@ -190,7 +190,7 @@ theorem z_mem_or_of_centralizing (hI121 : KFact64iiI121) {K : Subgroup Z}
     exact dvd_card_of_isComponentOf hp h.core hK)
   have hperf : ⁅(⊤ : Subgroup ↥K), (⊤ : Subgroup ↥K)⁆ = ⊤ := hK.2.2.1
   obtain ⟨g, hgN, a, haP, hap, hga⟩ :=
-    CFSG.RankThree.PartOne.D4RC.rcb_exists_normalizer_elt_perfect hperf P.isPGroup'
+    CFSG.RankThree.PartOne.D4RC.rcb_exists_normalizer_elt_perfect hperf P.isPGroup
       P.not_dvd_index hcyc hP1
   have haSK : (a : Z) ∈ (S : Subgroup Z) ⊓ K := hP ▸ ⟨a, haP, rfl⟩
   have hgaP : g * a * g⁻¹ ∈ (P : Subgroup ↥K) := (mem_normalizer_iff.mp hgN a).mp haP

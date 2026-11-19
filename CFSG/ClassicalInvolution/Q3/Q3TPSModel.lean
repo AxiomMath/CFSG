@@ -81,7 +81,7 @@ theorem sl2Upper_pow_three (c : F₃) : (sl2Upper c) ^ 3 = 1 := by
   fin_cases i <;> fin_cases j
   all_goals simp [pow_succ, CFSG.LieType.Steinberg.coe_sl2Upper, Matrix.mul_apply,
     Fin.sum_univ_two, mul_comm]
-  all_goals first | exact key | exact key'
+  all_goals exact key'
 
 theorem sl2Lower_pow_three (c : F₃) : (sl2Lower c) ^ 3 = 1 := by
   apply Matrix.SpecialLinearGroup.ext

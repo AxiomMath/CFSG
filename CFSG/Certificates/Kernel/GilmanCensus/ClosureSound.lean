@@ -55,7 +55,7 @@ theorem pc_le (m : Nat) : pc m ≤ 128 := by
 theorem countP_eq_one (k : Nat) (hk : k < 128) :
     (List.range 128).countP (fun i => decide (k = i)) = 1 := by
   have h := List.count_range (a := k) (n := 128)
-  rw [if_pos hk, List.count_eq_countP] at h
+  rw [ite_eq_left hk, List.count_eq_countP] at h
   rw [← h]
   apply List.countP_congr
   intro x _
@@ -88,7 +88,7 @@ theorem testBit_or_bit (seen k : Nat) (hk : k < 128) (hs : seen < 2 ^ 128) :
   let k := (row >>> (7 * j)) % 128
   if hasBitK st.1 k then st else (st.1 ||| bitK k, k :: st.2)
 
-theorem cl_inner (refl : Array (Array Nat)) (P : Nat → Nat) (j : Nat) (hj : j < 128) :
+theorem cl_inner (refl : Array (Array Nat)) (P : Nat → Nat) (j : Nat) (_hj : j < 128) :
     ∀ (l : List Nat), (∀ i ∈ l, (P i >>> (7 * j)) % 128 = refl[i]![j]!) →
     ∀ (s : Nat × Array Nat), s.1 < 2 ^ 128 → (∀ x ∈ s.2.toList, x < 128) →
     let r := l.foldl (clStep refl j) s

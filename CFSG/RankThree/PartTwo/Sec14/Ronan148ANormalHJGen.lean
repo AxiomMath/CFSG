@@ -15,6 +15,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec13
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem deltaZero_eq_of_le148 {A : Subgroup G} {LB : Subgroup G → Subgroup G} {U Y : Subgroup G}
     (hUY : U ≤ Y) (hXU : deltaZero A LB Y ≤ U) : deltaZero A LB U = deltaZero A LB Y :=
   le_antisymm (Sec14.deltaZero_mono hUY)

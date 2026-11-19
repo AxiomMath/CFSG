@@ -16,6 +16,7 @@ section Hom
 
 variable {M V₀ V : Type} [Inhabited M] {O₀ : Ops M V₀} {O : Ops Nat V} (H : Hom O₀ O)
 
+omit [Inhabited M] in
 theorem movesOK_U (tests : List Nat) {x : Nat} (hx : H.P x) :
     NC2Data.movesOK O₀ tests (H.U x) = movesN O tests x := by
   unfold NC2Data.movesOK movesN

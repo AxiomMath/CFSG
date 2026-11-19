@@ -15,7 +15,7 @@ theorem s16h_le_commutator_of_not_centralizes {A : Type*} [Group A] {Mb Lb : Sub
     {p : ℕ} (hp : p.Prime) (hLb : Nat.card ↥Lb = p) (hLM : Lb ≤ Mb)
     (hχ : ¬ ∀ n ∈ Mb, n ∈ normalizer (Lb : Set A) → ∀ l ∈ Lb, n * l = l * n) :
     Lb ≤ ⁅Mb, Mb⁆ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   simp only [not_forall] at hχ
   obtain ⟨n, hnM, hnN, l, hl, hne⟩ := hχ
   have hcL : n * l * n⁻¹ * l⁻¹ ∈ Lb :=
@@ -56,7 +56,7 @@ theorem s16h_condU2_of_chi_ne (D : Data G) (hSig : UC6S846.SigmaStd D)
   have hLM : lBar V₀ V hV L ≤ Mbar D.M V₀ V hV := barSub_mono V₀ V hV h.hyp151.le
   have hd := s16h_le_commutator_of_not_centralizes hp hLp.2 hLM hχ
   have hcomm : IsMulCommutative ↥(lBar V₀ V hV L) := by
-    haveI := hLp.1
+    have := hLp.1
     infer_instance
   refine s16h_condU2_of_central_derived D hSig h61 h63 h77 h869 h111 h112 hThin hCyc h127 hσ h
     hc hp hp2 (B := lBar V₀ V hV L) le_rfl ?_ ⟨hcomm, ?_⟩ ?_ hd

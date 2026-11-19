@@ -20,7 +20,7 @@ theorem exists_fixed_subfield (q : ℕ) (K : Type) [Field K] [Finite K] (σ : K 
     (hK : Nat.card K = q ^ 2) (hσ : ∀ c : K, σ c = c ^ q) (hq2 : 2 ≤ q) :
     ∃ (k : Type) (_ : Field k) (_ : Finite k) (_ : Algebra k K), Nat.card k = q ∧
       ringChar k = ringChar K ∧ ∀ c : k, σ (algebraMap k K c) = algebraMap k K c := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hpr, hKcard⟩ := FiniteField.card K (ringChar K)
   have hpr' : Fact (ringChar K).Prime := ⟨hpr⟩
   have hdvd : q ∣ ringChar K ^ (n : ℕ) := by
@@ -38,14 +38,14 @@ theorem exists_fixed_subfield (q : ℕ) (K : Type) [Field K] [Finite K] (σ : K 
     rw [hK, hqi]
   obtain ⟨ιk⟩ := nonempty_ringHom_of_card_sq (ℓ := ringChar K) (f := i) (hkcard.trans hqi)
     (by rw [hqi] at hK; exact hK)
-  letI : Algebra (GaloisField (ringChar K) i) K := ιk.toAlgebra
+  let : Algebra (GaloisField (ringChar K) i) K := ιk.toAlgebra
   refine ⟨GaloisField (ringChar K) i, inferInstance, inferInstance, inferInstance, hkcard, ?_, ?_⟩
   · exact ringChar.eq _ _
   · intro c
     rw [hσ]
     have hc : c ^ q = c := by
       rw [← hkcard]
-      haveI : Fintype (GaloisField (ringChar K) i) := Fintype.ofFinite _
+      have : Fintype (GaloisField (ringChar K) i) := Fintype.ofFinite _
       rw [Nat.card_eq_fintype_card]
       exact FiniteField.pow_card c
     rw [← map_pow, hc]
@@ -53,8 +53,8 @@ theorem exists_fixed_subfield (q : ℕ) (K : Type) [Field K] [Finite K] (σ : K 
 theorem exists_ord_three_units (k : Type) [Field k] [Finite k] (hq : Nat.card k % 3 = 1) :
     ∃ ω : kˣ, orderOf ω = 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype k := Fintype.ofFinite k
   have hcard : Nat.card kˣ = Nat.card k - 1 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_units, Nat.card_eq_fintype_card]
   have h3 : 3 ∣ Nat.card kˣ := by

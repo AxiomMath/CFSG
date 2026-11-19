@@ -188,7 +188,7 @@ theorem false_of_inf_preimage_bot {Ystar : Subgroup (MulAut (IntMod V hU))}
   have h9S : 3 ^ 2 ∣ Nat.card S := Sylow.pow_dvd_card_of_pow_dvd_card S h9Y
   set S' : Subgroup G := (S : Subgroup ↥(preAutM hU hMN Ystar)).map
     (preAutM hU hMN Ystar).subtype with hS'
-  have hS'p : IsPGroup 3 S' := S.isPGroup'.map _
+  have hS'p : IsPGroup 3 S' := S.isPGroup.map _
   have hS'Y : S' ≤ preAutM hU hMN Ystar := Subgroup.map_subtype_le _
   have hS'card : Nat.card S' = Nat.card S :=
     (Nat.card_congr (Subgroup.equivMapOfInjective _ (preAutM hU hMN Ystar).subtype

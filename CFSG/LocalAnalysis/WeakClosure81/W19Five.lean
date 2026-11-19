@@ -20,12 +20,12 @@ variable {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {X : Subgroup G}
 theorem exists_mem_normalizer_Z (c : MinCex193 D V₀ V p X) :
     ∃ g : G, g ∈ normalizer (Z193 D V : Set G) ∧ g ∉ D.M := by
   have h : ¬ normalizer (Z193 D V : Set G) ≤ D.M := fun h => c.fail (Or.inr h)
-  obtain ⟨g, hg, hgM⟩ := SetLike.not_le_iff_exists.1 h
+  obtain ⟨g, hg, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 h
   exact ⟨g, hg, hgM⟩
 
 theorem not_dvd_card_inf_centralizer_cClos (c : MinCex193 D V₀ V p X) :
     ¬ p ∣ Nat.card ↥((X ⊔ D.T) ⊓ centralizer (E3.cClos V 1 D.T : Set G)) := by
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   obtain ⟨g, hgZ, hgM⟩ := c.exists_mem_normalizer_Z
   obtain ⟨v, hv⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 c.inf_Z193_ne_bot
   have hvV₀ : (v : G) ∈ V₀ := (Subgroup.mem_inf.1 v.2).1

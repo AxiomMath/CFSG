@@ -24,7 +24,7 @@ theorem card_statedProj_six_lt_card_statedSL_ten {K K' : Type} [Field K] [Finite
   have h6 : Nat.card (StatedSL 6 K') ≤ q ^ 35 := by
     rw [CFSG.Open.StatedAPI.card_statedSL_eq_prod (by norm_num), hKK]
     have hprod : ∏ j ∈ Finset.Icc 2 6, (q ^ j - 1) ≤ ∏ j ∈ Finset.Icc 2 6, q ^ j :=
-      Finset.prod_le_prod' fun j _ => Nat.sub_le _ _
+      Finset.prod_le_prod fun j _ => Nat.sub_le _ _
     rw [Finset.prod_pow_eq_pow_sum] at hprod
     have hsum : ∑ j ∈ Finset.Icc 2 6, j = 20 := by decide
     rw [hsum] at hprod

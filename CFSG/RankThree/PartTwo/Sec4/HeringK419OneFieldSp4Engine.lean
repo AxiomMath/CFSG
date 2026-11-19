@@ -19,7 +19,7 @@ theorem jMat_mul_self : (fromBlocks 0 1 (-1) 0 : Matrix (Fin n ⊕ Fin n) (Fin n
     fromBlocks 0 1 (-1) 0 = 1 := by
   have hneg : (-1 : Matrix (Fin n) (Fin n) F) = 1 := by
     ext i j
-    simp [Matrix.neg_apply, Matrix.one_apply, apply_ite Neg.neg, CharTwo.neg_eq]
+    simp [Matrix.neg_apply, Matrix.one_apply, CharTwo.neg_eq]
   rw [hneg, fromBlocks_multiply]
   simp [fromBlocks_one]
 
@@ -183,9 +183,9 @@ theorem not_isType419_of_commute_sp4 {F : Type} [Field F] [Finite F] [CharP F 2]
   have hcomm' : ∀ k, ρ k * B = B * ρ k := fun k => congrArg Subtype.val (hcomm k)
   obtain ⟨E', hF', hfin', φ, μ, M, hchar, hMinj, hblock, hμ3, hprod, hsum, hsum_inv, hconst, -⟩ :=
     exists_blockDiagonalization h3 ρ B 1 hB hcomm'
-  letI : Field E' := hF'
-  haveI : Finite E' := hfin'
-  haveI : CharP E' 2 := hchar 2 inferInstance
+  let : Field E' := hF'
+  have : Finite E' := hfin'
+  have : CharP E' 2 := hchar 2 inferInstance
   have hμ3' : ∀ i, μ i ^ 3 = 1 := fun i => by simpa using hμ3 i
   have hdet : (B : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) F).det = 1 := statedSp_det_eq_one g.2
   have hprod' : ∏ i, μ i = 1 := by rw [hprod, hdet, map_one]

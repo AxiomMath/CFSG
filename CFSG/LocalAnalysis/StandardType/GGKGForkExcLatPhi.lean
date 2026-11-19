@@ -28,7 +28,7 @@ theorem ggKGExc_latticeAt_E6phi
     GGKGLatticeAt p E := by
   classical
   obtain ⟨Fr, hFr, hΦ⟩ := F.frob
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_ringHom (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨ζu, hζu⟩ :=
     CFSG.LieType.SeitzGeneration.exists_primitiveRoot_units (L := AlgebraicClosure K) (ℓ := 2)

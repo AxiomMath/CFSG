@@ -112,7 +112,7 @@ theorem rckF4_center_three
       unfold CFSG.Open.GLALayer
       have hset : {K : Subgroup (ggU .F4 n 1).K | CFSG.Open.IsComponentOf K C} = ∅ := by
         ext K
-        simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+        simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
         exact hex K
       rw [hset, sSup_empty]
     have hxbot : x ∈ (⊥ : Subgroup (ggU .F4 n 1).K) := hbot ▸ (hJ'le hxJ')
@@ -174,7 +174,7 @@ theorem rck_A6F4Center_of_f
       omega
     have hcyc : ∀ P : Sylow r (↥J ⧸ Subgroup.center ↥J), IsCyclic P := by
       intro P
-      haveI : Fact r.Prime := ⟨hrprime⟩
+      have : Fact r.Prime := ⟨hrprime⟩
       exact rckF4_A6_sylow_isCyclic eA6 hr5 P
     exact rckF4_no_center_prime_of_isCyclic hperfJ hrprime hcyc hw'mem hw'ord
 

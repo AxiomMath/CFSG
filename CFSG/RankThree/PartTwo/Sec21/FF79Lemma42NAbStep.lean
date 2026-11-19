@@ -21,7 +21,7 @@ theorem conj_inv_mem_of_normalizes (hn : L ≤ Subgroup.normalizer (Q : Set G)) 
 theorem cent_of_order_three (h : NHyp Q L b) {c : G} (hc : c ∈ L) (hc3 : orderOf c = 3) :
     Q ⊓ Subgroup.centralizer ({c} : Set G) ≤ Subgroup.centralizer (L : Set G) := by
   obtain ⟨φ⟩ := h.iso
-  haveI : Finite L := Finite.of_equiv _ φ.symm.toEquiv
+  have : Finite L := Finite.of_equiv _ φ.symm.toEquiv
   have hcard : Nat.card L = 168 := by
     rw [Nat.card_congr φ.toEquiv, CFSG.ComponentClassification.GHarris.card_GL32_gh]
   obtain ⟨g, hg⟩ := exists_conj_mem_zpowers_of_card_168 hcard
@@ -116,7 +116,7 @@ theorem le_centralizer_of_simple [IsSimpleGroup L] (hn : L ≤ Subgroup.normaliz
     {s : G} (hs : s ∈ L) (hs1 : s ≠ 1) (hsc : ∀ x ∈ Q, s * x = x * s) :
     Q ≤ Subgroup.centralizer (L : Set G) := by
   let K : Subgroup L := (Subgroup.centralizer (Q : Set G)).comap L.subtype
-  haveI : K.Normal := ⟨fun k hk g => by
+  have : K.Normal := ⟨fun k hk g => by
     show (g : G) * (k : G) * (g : G)⁻¹ ∈ Subgroup.centralizer (Q : Set G)
     have hk' : ∀ y ∈ Q, y * (k : G) = (k : G) * y :=
       Subgroup.mem_centralizer_iff.1 (Subgroup.mem_comap.1 hk)

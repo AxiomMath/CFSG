@@ -233,7 +233,7 @@ theorem nested_two_local_full_core_residual_identities_of_inputs
   have hS2 : IsPGroup 2 S := by
     obtain ⟨P₀, hP₀⟩ := hSsyl
     have h1 : IsPGroup 2 (S.subgroupOf (centralizer ({a} : Set G) ⊓ normalizer (J : Set G))) :=
-      hP₀ ▸ P₀.isPGroup'
+      hP₀ ▸ P₀.isPGroup
     exact h1.of_equiv (subgroupOfEquivOfLe hSX)
   subst hP
   have hJq : IsQuasisimple (J ⧸ pPrimeCore 2 J) :=

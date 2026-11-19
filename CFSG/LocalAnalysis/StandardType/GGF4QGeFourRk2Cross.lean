@@ -122,7 +122,7 @@ theorem exists_coxeterMatrix_PSU_six {f : ℕ} (hf : 1 ≤ f) :
   rw [e]
   refine ⟨Equiv.refl _, fun k => rfl, fun k l => ?_⟩
   have hC : GGIntCartan (CoxeterMatrix.B 3) (Unitary.cartan 6) := by
-    rw [show Unitary.cartan 6 = Symplectic.cartanC 3 from if_pos (by decide), cartanC_three_eq]
+    rw [show Unitary.cartan 6 = Symplectic.cartanC 3 from ite_eq_left (by decide), cartanC_three_eq]
     exact ggIntCartan_B 3
   have h := coxeterMatrix_eq_of_ggIntCartan (Unitary.isFiniteType_cartan 6) hC
   change coxeterMatrix (Unitary.isFiniteType_cartan 6) k l = _

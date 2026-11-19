@@ -19,9 +19,9 @@ theorem entV_sound {C : Ctx} {ds : List ℕ} {a M : ℕ} {e : YEnt} {cands : Lis
     ∃ c ∈ cands, candOK C.AT C.BT C.BC C.FK C.FC ds a (Nat.land M e.2.1)
       (pc (Nat.land M e.2.1)) c = true := by
   unfold entV at h
-  rw [ble_false h1, cond_false] at h
+  rw [ble_false h1, Bool.cond_false] at h
   simp only at h
-  rw [ble_false h2, cond_false] at h
+  rw [ble_false h2, Bool.cond_false] at h
   cases cands with
   | nil => exact (none_ne_some h).elim
   | cons c rest =>
@@ -37,10 +37,10 @@ theorem entV_sub {C : Ctx} {ds : List ℕ} {a M : ℕ} {e : YEnt} {cands l : Lis
     (h : entV C ds a M e cands = some l) : ∀ x ∈ l, x ∈ cands := by
   unfold entV at h
   cases h1 : Nat.ble (a * e.2.2) 16384
-  · rw [h1, cond_false] at h
+  · rw [h1, Bool.cond_false] at h
     simp only at h
     cases h2 : Nat.ble (a * pc (Nat.land M e.2.1)) 16384
-    · rw [h2, cond_false] at h
+    · rw [h2, Bool.cond_false] at h
       cases cands with
       | nil => exact (none_ne_some h).elim
       | cons c rest =>
@@ -50,13 +50,13 @@ theorem entV_sub {C : Ctx} {ds : List ℕ} {a M : ℕ} {e : YEnt} {cands l : Lis
           (pc (Nat.land M e.2.1)) c
         · rw [hc] at h
           exact (none_ne_some h).elim
-        · rw [hc, cond_true, Option.some.injEq] at h
+        · rw [hc, _root_.Bool.cond_true, Option.some.injEq] at h
           subst h
           exact fun x hx => List.mem_cons_of_mem _ hx
-    · rw [h2, cond_true, Option.some.injEq] at h
+    · rw [h2, _root_.Bool.cond_true, Option.some.injEq] at h
       subst h
       exact fun x hx => hx
-  · rw [h1, cond_true, Option.some.injEq] at h
+  · rw [h1, _root_.Bool.cond_true, Option.some.injEq] at h
     subst h
     exact fun x hx => hx
 
@@ -118,7 +118,7 @@ theorem grpsV_sound {C : Ctx} {ds : List ℕ} {d M nM : ℕ} :
       have h0' : 16384 < 2 ^ (d + 4 + s) * nM := h0
       have h1' : 16384 < 2 ^ (d + 4 + s) * e.2.2 := h1
       have h2' : 16384 < 2 ^ (d + 4 + s) * pc (Nat.land M e.2.1) := h2
-      rw [ble_false h0', cond_false] at h
+      rw [ble_false h0', Bool.cond_false] at h
       cases hE : entsV C ds (2 ^ (d + 4 + s)) M g cands with
       | none =>
         rw [hE] at h
@@ -130,7 +130,7 @@ theorem grpsV_sound {C : Ctx} {ds : List ℕ} {d M nM : ℕ} :
       have ht' : t < gs.length := by simpa using ht
       have he' : e ∈ gs.getD t [] := by simpa using he
       cases hb : Nat.ble (2 ^ (d + 4 + s) * nM) 16384
-      · rw [hb, cond_false] at h
+      · rw [hb, Bool.cond_false] at h
         cases hE : entsV C ds (2 ^ (d + 4 + s)) M g cands with
         | none =>
           rw [hE] at h
@@ -139,7 +139,7 @@ theorem grpsV_sound {C : Ctx} {ds : List ℕ} {d M nM : ℕ} :
           rw [hE] at h
           obtain ⟨c, hc, hok⟩ := grpsV_sound gs (s + 1) l₀ l h t ht' e he' h0 h1 h2
           exact ⟨c, entsV_sub g cands l₀ hE c hc, hok⟩
-      · rw [hb, cond_true] at h
+      · rw [hb, _root_.Bool.cond_true] at h
         exact grpsV_sound gs (s + 1) cands l h t ht' e he' h0 h1 h2
 
 theorem visitOK_sound {C : Ctx} {RT FA : ℕ} {YG : List (List YEnt)} {r : ℕ} {row : VRow}

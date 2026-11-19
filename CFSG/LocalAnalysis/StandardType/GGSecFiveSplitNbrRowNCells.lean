@@ -30,9 +30,9 @@ theorem ggRowPRankLeTwo_smallPlus :
     intro j hj hj3 hdiv
     have hj1 : j = 1 := by
       rcases hl with ⟨ht, hr⟩ | ⟨ht, hr⟩
-      · rw [if_neg (by rw [ht]; decide)] at hj3
+      · rw [ite_eq_right (by rw [ht]; decide)] at hj3
         omega
-      · rw [if_pos ht] at hj3
+      · rw [ite_eq_left ht] at hj3
         omega
     subst hj1
     rw [pow_one] at hdiv

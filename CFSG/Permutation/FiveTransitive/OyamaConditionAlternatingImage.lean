@@ -21,7 +21,7 @@ private theorem sylow_at_fixed_embedding
       (P:Subgroup (stabilizer G b)).map (stabilizer G b).subtype := by
   let A := (P:Subgroup (stabilizer G b)).map (stabilizer G b).subtype
   let cX:Fin 4 ↪ X := c.trans (Function.Embedding.subtype _)
-  have hA:IsPGroup 2 A := P.isPGroup'.map (stabilizer G b).subtype
+  have hA:IsPGroup 2 A := P.isPGroup.map (stabilizer G b).subtype
   have hAc:A≤stabilizer G cX := by
     intro a ha
     apply Function.Embedding.ext
@@ -33,7 +33,7 @@ private theorem sylow_at_fixed_embedding
     have hc:Nat.card (fixedPoints B X)=6 := (hcond.2.1 cX R).1
     omega
   exact ⟨R,LocalSylowFixedMaximal.eq_of_four_fixed hcond.2.1 b P B
-    (R.isPGroup'.map (stabilizer G cX).subtype) hR hfix⟩
+    (R.isPGroup.map (stabilizer G cX).subtype) hR hfix⟩
 
 private theorem image_four_transitive
     {G X:Type*} [Group G] [Finite G] [Fintype X] [MulAction G X] [FaithfulSMul G X]

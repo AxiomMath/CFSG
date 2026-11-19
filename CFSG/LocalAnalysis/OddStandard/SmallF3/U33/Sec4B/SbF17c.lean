@@ -39,7 +39,7 @@ theorem l17_Q_le_P (hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
   refine ⟨hc.normal_Q_K.1 hq, ?_⟩
   exact Subgroup.mem_centralizer_iff.mpr (fun a ha => IsZ4Z4E4.comm hc.q_iso ha hq)
 
-theorem l17_P_cent_Y (hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
+theorem l17_P_cent_Y (_hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
     ∀ p ∈ ctxP t tau x₁ x₂ rho, ∀ a ∈ ctxYq t tau x₁ x₂ rho, p * a = a * p := by
   intro p hp a ha
   have hpC : p ∈ centralizer ((ctxQ t tau x₁ x₂ rho : Subgroup G) : Set G) := hp.2

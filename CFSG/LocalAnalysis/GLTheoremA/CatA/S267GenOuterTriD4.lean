@@ -22,7 +22,7 @@ theorem compsNormal_triD4_field {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) 
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range) :
     CompsNormal ↥(fixSubgroup φ) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hφ1 : φ ≠ 1 := fun h => hφout (h ▸ one_mem _)
   have hφord : orderOf φ = p := orderOf_eq_prime hφp hφ1
   obtain ⟨-, -, Θ, hΘ, -⟩ := triality_normal_form_data hℓ hf K hK σ hσ
@@ -67,7 +67,7 @@ theorem compsNormal_triD4_field {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) 
   obtain ⟨-, -, -, -, -, -, hfixJ, hsimpJ, -, -⟩ :=
     triality_canonical_field_full_centralizer_and_pointwise_kernel hℓ hd hp.two_le hm3 K hK' σ
       hσ' δc hδc
-  haveI := hsimpJ
+  have := hsimpJ
   set δ₀ := fieldActor (t := TwistTag.D4) σ δc with hδ₀
   have e3 : ↥(fixSubgroup δ₀) ≃* ↥(trialityFieldImage σ δc) :=
     (Subgroup.equivMapOfInjective _ (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype
@@ -108,7 +108,7 @@ theorem compsNormal_fieldActor_self {ℓ f : ℕ} [Fact ℓ.Prime] (hℓ5 : 5 �
     CompsNormal ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) := by
   classical
   obtain ⟨e⟩ := nonempty_fixSubgroup_fieldActor_equiv_G2 (by omega) hf (Or.inr hℓ5) hK σ hσ
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hq2 : 2 ≤ ℓ ^ f := le_trans (by omega) (Nat.le_self_pow (by omega) ℓ)
   have hk : Nat.card (fixSubfield σ) = ℓ ^ f := card_fixedField_of_cube σ.toRingHom hq2 hK hσ
   have hk3 : 3 ≤ Nat.card (fixSubfield σ) := by
@@ -116,7 +116,7 @@ theorem compsNormal_fieldActor_self {ℓ f : ℕ} [Fact ℓ.Prime] (hℓ5 : 5 �
     exact le_trans (by omega) (Nat.le_self_pow (by omega) ℓ)
   obtain ⟨hs, -⟩ := ExcCopy.isSimpleGroup_adjointGroup_of_perfect .G2 (fixSubfield σ)
     (ExcCopy.isPerfect_adjointGroup .G2 (fixSubfield σ) fun _ => hk3)
-  haveI := hs
+  have := hs
   exact (compsNormal_of_isSimpleGroup).of_mulEquiv e
 
 variable {p f : ℕ}
@@ -132,7 +132,7 @@ private theorem compsNormal_cocycle_q1 (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p �
     have := hp.two_le
     have h4 : p ≠ 4 := fun h => by rw [h] at hp; exact absurd hp (by norm_num)
     omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hG2 : CompsNormal ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) :=
     compsNormal_fieldActor_self hp5 hf hK σ hσ
   obtain ⟨y, n, hn, hyn⟩ := d4MonoNF p f hp hp2 hp3 hf hq K hK σ hσ g hg
@@ -244,7 +244,7 @@ theorem compsNormal_triD4_cat (q : TauCeti.PrimePower)
   have hℓ := q.prime_p
   by_cases hp3 : p = 3
   · subst hp3
-    haveI : Fact q.p.Prime := ⟨hℓ⟩
+    have : Fact q.p.Prime := ⟨hℓ⟩
     have hℓ5 : 5 ≤ q.p := by
       have := hℓ.two_le
       have h4 : q.p ≠ 4 := fun h => by rw [h] at hℓ; exact absurd hℓ (by norm_num)

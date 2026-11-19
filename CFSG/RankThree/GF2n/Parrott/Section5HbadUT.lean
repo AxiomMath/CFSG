@@ -64,7 +64,7 @@ theorem exists_conj_mem_of_qH_eq_utA
     ·
       have hxB : k * y * k⁻¹ * y⁻¹ ∈ B := by
         have h' := hxmem
-        rw [if_pos hf, mul_one] at h'
+        rw [ite_eq_left hf, mul_one] at h'
         exact h'
       refine ⟨k, J_le_H hkJ, ?_, ?_⟩
       · rw [show k * y * k⁻¹ = (k * y * k⁻¹ * y⁻¹) * y by group]
@@ -81,7 +81,7 @@ theorem exists_conj_mem_of_qH_eq_utA
       obtain ⟨hb_ne, hb2⟩ := spin_hbadA (hbadCoord h P k) hf1
       have hBkz : k * y * k⁻¹ * y⁻¹ * z ∈ B := by
         have h' := hxmem
-        rw [if_neg hf] at h'
+        rw [ite_eq_right hf] at h'
         exact h'
       obtain ⟨a, hqa, ζ₁, hζ₁Z, hay⟩ := exists_lift_hbadA_of_utA D hyH hy2 hq h P hP
       have key : (∃ u ∈ H z, u * y * u⁻¹ = y * z) →
@@ -270,7 +270,7 @@ theorem exists_conj_mem_of_qH_eq_utA
                     hbadCoord h P (k * ((a : G) * k * (a : G)⁻¹)) +
                     hbadCoord h P (k * ((a : G) * k * (a : G)⁻¹)))) = 0 then (1 : G) else z) = 1 := by
             rw [hm2]
-            rw [if_pos hb2]
+            rw [ite_eq_left hb2]
           have hxB₂ : (k * ((a : G) * k * (a : G)⁻¹)) * y *
               (k * ((a : G) * k * (a : G)⁻¹))⁻¹ * y⁻¹ ∈ B := by
             have h' := hres

@@ -121,6 +121,7 @@ theorem conj_mem_of_normal {S B : Subgroup Gp} (hSB : S ≤ B)
   rw [heq]
   exact Subgroup.mem_sup_right this
 
+omit [Finite Gp] in
 theorem conj_mem_center {S : Subgroup Gp} (g : Gp) (h1 : ∀ s ∈ S, g * s * g⁻¹ ∈ S)
     (h2 : ∀ s ∈ S, g⁻¹ * s * g⁻¹⁻¹ ∈ S) :
     ∀ t ∈ S ⊓ Subgroup.centralizer (S : Set Gp),
@@ -364,7 +365,7 @@ theorem comm_S (hc : commOK = true) :
   simp only [ev_mul, ev_inv, ev_cOf] at h1
   exact h1.symm
 
-theorem dec_of (hQS : ValidSchreier QS) (hS : Nat.card QS.originalSubgroup = 64)
+theorem dec_of (_hQS : ValidSchreier QS) (hS : Nat.card QS.originalSubgroup = 64)
     (hx : ∀ i, xs i ∈ QS.originalSubgroup) (hy : ∀ j, ys j ∈ QS.originalSubgroup)
     (hdec : decOK = true) :
     ∀ s ∈ QS.originalSubgroup, ∃ a b : Fin 3 → ZMod 2, s = pr3 xs a * pr3 ys b := by

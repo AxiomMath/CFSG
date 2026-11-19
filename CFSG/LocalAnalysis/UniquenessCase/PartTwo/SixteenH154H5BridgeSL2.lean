@@ -37,7 +37,7 @@ private theorem s16h_H5_normalizer_le_stabSub_commSub {L : Subgroup (MulAut W)} 
     exact commSub_top_stable151b hnorm u hu
 
 private theorem s16h_H5_le_stabSub_commSub (L : Subgroup (MulAut W)) :
-    L ≤ stabSub (commSub ⊤ L) := fun l hl =>
+    L ≤ stabSub (commSub ⊤ L) := fun _l hl =>
   s16h_H5_normalizer_le_stabSub_commSub (Subgroup.le_normalizer hl)
 
 private theorem s16h_le_stabSub_fixV (L : Subgroup (MulAut W)) : L ≤ stabSub (fixV L) := by
@@ -107,9 +107,9 @@ private theorem s16h_autSec_le_normalizer {L Y : Subgroup (MulAut W)} {V C : Sub
 private theorem s16h_center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finite X] {a : ℕ}
     (h : IsSLn X 2 a) : Subgroup.center X = ⊥ := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have h2le : 2 ≤ Nat.card K := Finite.one_lt_card
   have ha : 1 ≤ a := by
     rcases Nat.eq_zero_or_pos a with h0 | hpos
@@ -123,7 +123,7 @@ private theorem s16h_center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finite X] 
     exact Nat.dvd_iff_mod_eq_zero.mp (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 :=
     (FiniteField.even_card_iff_char_two (F := K)).mpr hKeven
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   have hKcenter : Subgroup.center ↥(StatedSL 2 K) = ⊥ :=
     CFSG.RankThree.GF2n.Stroth80.center_statedSL_two_eq_bot
   have hcard : Nat.card ↥(Subgroup.center X) = 1 := by
@@ -134,18 +134,18 @@ private theorem s16h_center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finite X] 
 theorem s16h_H5_bridge_statedSL2 [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
     (hc : s16h_H5Cfg A L t) {a : ℕ}
     (h : s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) a)
-    {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
+    {q : ℕ} (_hq : q.Prime) (_hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
     (hE : E ≤ A ⊓ normalizer (L : Set (MulAut W))) (hEab : IsElemAbelian q E) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : Nat.card K = 2 ^ a)
       (D : Subgroup (MulAut (StdMod (Fin 2) K))),
       D ≤ natNorm (CFSG.Assembly.LowTwoRank.StatedSL 2 K) ∧ IsElemAbelian q D ∧
       Nat.card D = Nat.card ↥(autSub E (commSub ⊤ L)) := by
   classical
-  haveI : Finite (MulAut W) := s16h_finite_mulAut
+  have : Finite (MulAut W) := s16h_finite_mulAut
   obtain ⟨hSL, hNat⟩ := h
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hNat
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hcenter : Subgroup.center ↥L = ⊥ := s16h_center_eq_bot_of_isSLn_two hSL
   have hfaith : L ⊓ centSec (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) = ⊥ :=
     s16h_H5_faithful_on_quotient hc hcenter

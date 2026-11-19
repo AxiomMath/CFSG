@@ -58,7 +58,7 @@ theorem enc64_sum_bit {q : ℕ} (hq : q < 6) (f : ℕ → GF64) : ∀ n : ℕ,
   | 0 => by simp [enc64_zero, bxr]
   | n + 1 => by
     rw [Fin.sum_univ_castSucc, enc64_bit_add _ _ hq]
-    simp only [Fin.coe_castSucc, Fin.val_last]
+    simp only [Fin.val_castSucc, Fin.val_last]
     rw [enc64_sum_bit hq f n]
     rfl
 
@@ -164,7 +164,7 @@ theorem codeA64_mulArr (A B : Array GF64) :
       rw [ea 0 (by omega), ea 1 (by omega), ea 2 (by omega), ea 3 (by omega), ea 4 (by omega),
         ea 5 (by omega), ex, r0 _ (by omega) s hs, r1 _ (by omega) s hs, r2 _ (by omega) s hs,
         r3 _ (by omega) s hs, r4 _ (by omega) s hs, r5 _ (by omega) s hs]
-      simp only [Nat.add_zero, Bool.xor_false, Bool.false_xor, Bool.xor_assoc]
+      simp only [Bool.xor_false, Bool.false_xor, Bool.xor_assoc]
     rw [mulG_bit]
     have e : 48 * i + (6 * j + s) = 6 * (8 * i + j) + s := by omega
     rw [e, rep_codeA64 (mulArr A B) _ (by omega) s hs, ← e]

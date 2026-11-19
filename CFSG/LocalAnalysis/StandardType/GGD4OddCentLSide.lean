@@ -14,6 +14,7 @@ section LSide
 
 variable {G : Type} [Group G] [Finite G] {B : Subgroup G} {x y : G} {L D J : Subgroup G}
 
+omit [Finite G] in
 theorem le_of_stdSub_left (hDJ : LargeEvenStdSub 3 B x L D J) : J ≤ L :=
   (hDJ.1.2.2.2.2.2.1.1).trans inf_le_left
 

@@ -111,7 +111,7 @@ theorem gomi_card_fixedRootSpan {S : Set (Fin τ.rank → ℤ)} (hSΨ : S ⊆ D.
     obtain ⟨Q, hQ', rfl⟩ := List.mem_map.1 hz
     have hQ𝒪 : Q ∈ 𝒪 := (h𝒪L Q).2 hQ'
     obtain ⟨γ, hγ, rfl⟩ := hQ Q hQ'
-    simp only [blk, dif_pos hQ𝒪]
+    simp only [blk, dite_eq_left hQ𝒪]
     exact gomi_fixedRootSpan_mono D (hθS γ hγ) (y ⟨_, hQ𝒪⟩).2
   let Φ : G → ↥(D.fixedRootSpan S) := fun y => ⟨(L.map (blk y)).prod, hblkmem y⟩
   have hsurj : Function.Surjective Φ := by
@@ -122,7 +122,7 @@ theorem gomi_card_fixedRootSpan {S : Set (Fin τ.rank → ℤ)} (hSΨ : S ⊆ D.
     show (L.map (blk y')).prod = x
     rw [hxy]
     refine congrArg List.prod (List.map_congr_left fun Q hQ' => ?_)
-    simp only [blk, y', dif_pos ((h𝒪L Q).2 hQ')]
+    simp only [blk, y', dite_eq_left ((h𝒪L Q).2 hQ')]
   have hpar : ∀ y : G, ∃ c : Set (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ) → k, ∀ Q ∈ L,
       ((enum Q).map fun α => pinnedX τ k α (c Q α)).prod =
         (((blk y Q : adjointGroup τ k)) : ModGL τ k) := by
@@ -139,7 +139,7 @@ theorem gomi_card_fixedRootSpan {S : Set (Fin τ.rank → ℤ)} (hSΨ : S ⊆ D.
         (fun α hα β hβ a b ha hb hr =>
           absurd hr (D.not_isRoot_nsmul_add_nsmul_of_mem_thetaOrbit hγK hα hβ ha hb))
         (henum _ hQ').1 (henum _ hQ').2 hU
-      simp only [blk, dif_pos hQ𝒪]
+      simp only [blk, dite_eq_left hQ𝒪]
       exact this
     choose! c hc using this
     exact ⟨c, hc⟩

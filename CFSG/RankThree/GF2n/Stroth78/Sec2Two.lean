@@ -35,13 +35,13 @@ theorem stroth78_2_2 (S : Setting z E F) {a r : G}
     (haQ : a ∈ Q z) (haZ : a ∉ ZQ z) (ha2 : a ^ 2 = 1) (hrH : r ∈ H z)
     (hcomm : ∀ u ∈ Q z, ⁅u, a⁆ = 1 → ⁅u, r⁆ = 1) : r ∈ Q z := by
   classical
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   let V := Additive (QbarOf S)
   let aV : V := Additive.ofMul (QuotientGroup.mk (⟨a, haQ⟩ : ↥(Q z)))
   let B : LinearMap.BilinForm (ZMod 2) V := (q S).polarBilin
   let φ : V ≃ₗ[ZMod 2] V := conjQbar S (⟨r, hrH⟩ : ↥(H z))
-  haveI : Finite V := inferInstance
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Finite V := inferInstance
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hqa : q S aV = 0 := by
     change q S (QuotientGroup.mk (⟨a, haQ⟩ : ↥(Q z))) = 0
     exact (q_eq_zero_iff S (⟨a, haQ⟩ : ↥(Q z))).mpr (by simpa using ha2)

@@ -95,7 +95,7 @@ theorem exists_two_subgroup_of_not_sylow {L Q : Subgroup G} (hQL : Q ≤ L) (hQ 
     rw [lt_top_iff_ne_top]
     intro h
     exact hne (le_antisymm hPs (subgroupOf_eq_top.mp h))
-  have : Group.IsNilpotent ↥(Ps : Subgroup ↥L) := Ps.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(Ps : Subgroup ↥L) := Ps.isPGroup.isNilpotent
   have h1 := Group.normalizerCondition_of_isNilpotent _ hlt
   set N := normalizer (((Q.subgroupOf L).subgroupOf (Ps : Subgroup ↥L) :
     Subgroup ↥(Ps : Subgroup ↥L)) : Set ↥(Ps : Subgroup ↥L)) with hNdef
@@ -107,7 +107,7 @@ theorem exists_two_subgroup_of_not_sylow {L Q : Subgroup G} (hQL : Q ≤ L) (hQ 
   · rintro _ ⟨_, ⟨y, hy, rfl⟩, rfl⟩
     have h2 := UnbalancedLayer.mem_normalizer_of_subgroupOf hPs hy
     exact UnbalancedLayer.mem_normalizer_of_subgroupOf hQL h2
-  · exact (Ps.isPGroup'.to_subgroup N |>.map _).map _
+  · exact (Ps.isPGroup.to_subgroup N |>.map _).map _
   · have h2 := card_lt_of_lt h1
     rw [card_map_of_injective L.subtype_injective, card_map_of_injective (subtype_injective _)]
     calc Nat.card Q = Nat.card ↥((Q.subgroupOf L).subgroupOf (Ps : Subgroup ↥L)) := by
@@ -152,7 +152,7 @@ theorem two_local_pair_full_sylow_representative_of_inputs
   have hS2 : IsPGroup 2 S := by
     obtain ⟨P₀, hP₀⟩ := hSsyl
     have h1 : IsPGroup 2 (S.subgroupOf (centralizer ({a} : Set G) ⊓ normalizer (J : Set G))) :=
-      hP₀ ▸ P₀.isPGroup'
+      hP₀ ▸ P₀.isPGroup
     exact h1.of_equiv (subgroupOfEquivOfLe hSX)
   obtain ⟨-, hBn, hCn⟩ := nested_two_local_full_core_residual_identities_of_inputs hS hU hheld
     hnonab hK ha hJa hJ hSX hSsyl hP H R T X hH hR hT hX

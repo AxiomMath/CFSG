@@ -45,7 +45,7 @@ theorem s1614e3_lemmaP_split (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h
   have hMn : D.M ≤ normalizer (V : Set G) := hpf.le_normalizer
   have hMst : D.M ≤ stabTil ⊥ V := le_stabTil hMn hpf.le_normalizer₀
   have hpp : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hk3 : 3 ≤ CFSG.Open.pRank p D.M := hx.three_le p hp
   obtain ⟨E₀, hE₀el, hE₀card⟩ := exists_isElemAbelian_subgroupOf_of_le_pRank hpp hk3
   let E : Subgroup G := E₀.map D.M.subtype
@@ -126,6 +126,7 @@ theorem s1614e3_lemmaP_split (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h
       group
   rwa [← hpre]
 
+omit [Finite G] in
 private theorem s1614e3_imgTil_bot_work (V : Subgroup G) (hV : IsElemAbelian 2 V) :
     imgTil ⊥ V hV (⊥ : Subgroup G) = ⊥ := by
   ext q
@@ -212,8 +213,8 @@ theorem s1614e3_false_of_lemmaP (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
   have hXc : ¬ IsCyclic X := by
     intro hcyc
     have hpp : p.Prime := (D.sig_prime p hp).1
-    haveI : Fintype ↥X := Fintype.ofFinite _
-    haveI : IsCyclic ↥X := hcyc
+    have : Fintype ↥X := Fintype.ofFinite _
+    have : IsCyclic ↥X := hcyc
     have hle : Nat.card ↥X ≤ p := by
       have h := IsCyclic.card_pow_eq_one_le (α := ↥X) hpp.pos
       have hall : (Finset.univ.filter fun a : ↥X => a ^ p = 1) = Finset.univ := by

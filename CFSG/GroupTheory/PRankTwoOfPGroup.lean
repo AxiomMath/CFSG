@@ -9,8 +9,8 @@ namespace CFSG
 theorem one_lt_pRank_of_isPGroup {D : Type} [Group D] [Finite D] {p : Nat} (hp : p.Prime)
     (hD : IsPGroup p D) (hcard : p < Nat.card D) (hDexp : ∀ x : D, x ^ p = 1) :
     1 < CFSG.Open.pRank p (⊤ : Subgroup D) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hnt : Nontrivial D :=
+  have : Fact p.Prime := ⟨hp⟩
+  have hnt : Nontrivial D :=
     Finite.one_lt_card_iff_nontrivial.mp (lt_trans hp.one_lt hcard)
   obtain ⟨c, hc_mem, hc_ne⟩ :=
     (Subgroup.nontrivial_iff_exists_ne_one (Subgroup.center D)).mp hD.center_nontrivial
@@ -22,7 +22,7 @@ theorem one_lt_pRank_of_isPGroup {D : Type} [Group D] [Finite D] {p : Nat} (hp :
       rw [htop, Subgroup.card_top]
     rw [Nat.card_zpowers, hcord] at hcard'
     omega
-  obtain ⟨y, -, hyc⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨y, -, hyc⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hy_ne : y ≠ 1 := by
     intro h
     exact hyc (h ▸ Subgroup.one_mem (Subgroup.zpowers c))

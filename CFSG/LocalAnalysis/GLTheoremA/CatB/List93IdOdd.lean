@@ -18,7 +18,7 @@ private theorem not_cube_dvd_336 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p
     have h343 : 343 ≤ p ^ 3 := calc (343 : ℕ) = 7 ^ 3 := by norm_num
       _ ≤ p ^ 3 := Nat.pow_le_pow_left h7 3
     omega
-  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at h; done)
+  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at h)
 
 section Certs
 
@@ -39,7 +39,7 @@ theorem chevOdd_holds : ∀ (S : Type) [Group S] [Finite S] (q : ℕ), q.Prime �
       refine ⟨⟨by norm_num, le_rfl, le_rfl, by norm_num, by norm_num⟩, F, fld, fin, ?_, ⟨f⟩⟩
       rw [pow_one]
       exact hF
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨e7⟩ := small_psl_iso (p := 7) (f := 1) le_rfl hS
     have hAut := small_card_aut_psl (p := 7) (f := 1) le_rfl e7
     rw [hAut] at hdvd

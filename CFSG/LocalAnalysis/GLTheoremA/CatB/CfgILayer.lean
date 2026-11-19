@@ -43,6 +43,7 @@ section Layer
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barX_layer_le_of_forall {p : ℕ} {X : Subgroup G}
     {J : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X)}
     (hJ : ∀ K : Subgroup G, GLAPComponent p X K → barX p X K ≤ J) :
@@ -61,6 +62,7 @@ theorem barX_layer_le_of_forall {p : ℕ} {X : Subgroup G}
   rw [← hzeq]
   exact hz
 
+omit [Finite G] in
 theorem commutator_barX_layer_self (p : ℕ) (X : Subgroup G) :
     ⁅barX p X (GLAPLayer p X), barX p X (GLAPLayer p X)⁆ = barX p X (GLAPLayer p X) := by
   apply le_antisymm

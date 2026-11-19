@@ -145,7 +145,7 @@ theorem exists_sylow_mulEquiv_of_isSylowOf (h : FooteSec4 G L) {M P : Subgroup G
       MulEquiv.coe_toMonoidHom, map_eq_one_iff _ ε.injective, QuotientGroup.mk'_apply,
       QuotientGroup.eq_one_iff] at hx
     apply Subtype.ext
-    have h1 := eq_bot_of_le_two_group_of_le_odd Q₀.isPGroup' (pPrimeCore_coprime_card (p := 2)
+    have h1 := eq_bot_of_le_two_group_of_le_odd Q₀.isPGroup (pPrimeCore_coprime_card (p := 2)
       (G := ↥M) |>.symm |> fun h => (Nat.coprime_two_right.mp h)) (zpowers_le.mpr x.2)
       (zpowers_le.mpr hx)
     rw [zpowers_eq_bot] at h1

@@ -31,11 +31,13 @@ private noncomputable def conjAut {Q : Subgroup G} (g : G)
     (hg : g ∈ Subgroup.normalizer (Q : Set G)) : ↥Q ≃* ↥Q :=
   Q.normalizerMonoidHom ⟨g, hg⟩
 
+omit [Finite G] in
 private theorem conjAut_apply {Q : Subgroup G} (g : G)
     (hg : g ∈ Subgroup.normalizer (Q : Set G)) (x : ↥Q) :
     (conjAut g hg x : G) = g * (x : G) * g⁻¹ :=
   Subgroup.normalizerMonoidHom_apply_apply_coe Q ⟨g, hg⟩ x
 
+omit [Finite G] in
 private theorem conjAut_trans {Q : Subgroup G} (g h : G)
     (hg : g ∈ Subgroup.normalizer (Q : Set G)) (hh : h ∈ Subgroup.normalizer (Q : Set G)) :
     (conjAut g hg).trans (conjAut h hh) =
@@ -44,6 +46,7 @@ private theorem conjAut_trans {Q : Subgroup G} (g h : G)
   rw [MulEquiv.trans_apply, conjAut_apply, conjAut_apply, conjAut_apply]
   group
 
+omit [Finite G] in
 private theorem conjAut_symm {Q : Subgroup G} (g : G)
     (hg : g ∈ Subgroup.normalizer (Q : Set G)) :
     (conjAut g hg).symm = conjAut g⁻¹ (Subgroup.inv_mem (Subgroup.normalizer (Q : Set G)) hg) := by
@@ -64,9 +67,9 @@ private noncomputable def pCoreOfG2ParAEquiv (K : Type) [Field K] [Finite K] [Ch
         (parabolicRadical_le_posUnipotent (τ := Tag.G2) (K := K) {i1}).trans
           (posUnipotent_le_adjointGroup (τ := Tag.G2) (K := K)) y.2⟩,
       G2q.mem_pCoreOf_g2ParA_iff.mpr y.2⟩
-  left_inv x := Subtype.ext (Subtype.ext rfl)
-  right_inv y := Subtype.ext rfl
-  map_mul' x y := Subtype.ext rfl
+  left_inv _x := Subtype.ext (Subtype.ext rfl)
+  right_inv _y := Subtype.ext rfl
+  map_mul' _x _y := Subtype.ext rfl
 
 private theorem pCoreOfG2ParAEquiv_apply {K : Type} [Field K] [Finite K] [CharP K 2]
     (q : ↥(pCoreOf 2 (g2ParA K))) :
@@ -80,6 +83,7 @@ private noncomputable def transportAut {K : Type} [Field K] [Finite K] [CharP K 
     ↥(parabolicRadical Tag.G2 K {i1}) ≃* ↥(parabolicRadical Tag.G2 K {i1}) :=
   iota.symm.trans (θ.symm.trans (e.trans (θ.trans iota)))
 
+omit [Finite G] in
 private theorem transportAut_apply {K : Type} [Field K] [Finite K] [CharP K 2]
     (θ : ↥(pCoreOf 2 L1) ≃* ↥(pCoreOf 2 (g2ParA K)))
     (iota : ↥(pCoreOf 2 (g2ParA K)) ≃* ↥(parabolicRadical Tag.G2 K {i1}))
@@ -87,6 +91,7 @@ private theorem transportAut_apply {K : Type} [Field K] [Finite K] [CharP K 2]
     (x : ↥(parabolicRadical Tag.G2 K {i1})) :
     transportAut θ iota e x = iota (θ (e (θ.symm (iota.symm x)))) := rfl
 
+omit [Finite G] in
 private theorem transportAut_trans {K : Type} [Field K] [Finite K] [CharP K 2]
     (θ : ↥(pCoreOf 2 L1) ≃* ↥(pCoreOf 2 (g2ParA K)))
     (iota : ↥(pCoreOf 2 (g2ParA K)) ≃* ↥(parabolicRadical Tag.G2 K {i1}))
@@ -97,8 +102,9 @@ private theorem transportAut_trans {K : Type} [Field K] [Finite K] [CharP K 2]
   change transportAut θ iota f (transportAut θ iota e x) =
     transportAut θ iota (e.trans f) x
   rw [transportAut_apply, transportAut_apply, transportAut_apply]
-  simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+  simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
 
+omit [Finite G] in
 private theorem transportAut_symm {K : Type} [Field K] [Finite K] [CharP K 2]
     (θ : ↥(pCoreOf 2 L1) ≃* ↥(pCoreOf 2 (g2ParA K)))
     (iota : ↥(pCoreOf 2 (g2ParA K)) ≃* ↥(parabolicRadical Tag.G2 K {i1}))
@@ -108,8 +114,9 @@ private theorem transportAut_symm {K : Type} [Field K] [Finite K] [CharP K 2]
   apply (transportAut θ iota e).injective
   rw [MulEquiv.apply_symm_apply]
   rw [transportAut_apply, transportAut_apply]
-  simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+  simp only [MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
 
+omit [Finite G] in
 private theorem transportAut_refl {K : Type} [Field K] [Finite K] [CharP K 2]
     (θ : ↥(pCoreOf 2 L1) ≃* ↥(pCoreOf 2 (g2ParA K)))
     (iota : ↥(pCoreOf 2 (g2ParA K)) ≃* ↥(parabolicRadical Tag.G2 K {i1})) :
@@ -117,8 +124,9 @@ private theorem transportAut_refl {K : Type} [Field K] [Finite K] [CharP K 2]
       MulEquiv.refl (↥(parabolicRadical Tag.G2 K {i1})) := by
   refine MulEquiv.ext fun x => ?_
   rw [transportAut_apply]
-  simp only [MulEquiv.refl_apply, MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+  simp only [MulEquiv.refl_apply, MulEquiv.apply_symm_apply]
 
+omit [Finite G] in
 private theorem transportAut_conj_apply {K : Type} [Field K] [Finite K] [CharP K 2]
     (ψ₂ : ↥(L2 ⊔ bigB L1 L2 S) ≃* ↥(g2ParB K))
     (hQ1P : pCoreOf 2 L1 ≤ L2 ⊔ bigB L1 L2 S)
@@ -132,7 +140,7 @@ private theorem transportAut_conj_apply {K : Type} [Field K] [Finite K] [CharP K
       ((iota q : ↥(parabolicRadical Tag.G2 K {i1})) : ModGL Tag.G2 K) =
         ((q : ↥(adjointGroup Tag.G2 K)) : ModGL Tag.G2 K))
     {g : G} (hgP2 : g ∈ L2 ⊔ bigB L1 L2 S)
-    (hgN : g ∈ Subgroup.normalizer (pCoreOf 2 L1 : Set G))
+    (_hgN : g ∈ Subgroup.normalizer (pCoreOf 2 L1 : Set G))
     (e : ↥(pCoreOf 2 L1) ≃* ↥(pCoreOf 2 L1))
     (he : ∀ x : ↥(pCoreOf 2 L1), (e x : G) = g * (x : G) * g⁻¹)
     (x : ↥(parabolicRadical Tag.G2 K {i1})) :
@@ -177,6 +185,7 @@ private theorem transportAut_conj_apply {K : Type} [Field K] [Finite K] [CharP K
           rw [← hθ q1, hθ_q1, ← hiota qa, hiota_qa]
         rw [hq1ψ]
 
+omit [Finite G] in
 private theorem transportAut_conj_pinnedX_r {K : Type} [Field K] [Finite K] [CharP K 2]
     (ψ₂ : ↥(L2 ⊔ bigB L1 L2 S) ≃* ↥(g2ParB K))
     (hQ1P : pCoreOf 2 L1 ≤ L2 ⊔ bigB L1 L2 S)
@@ -206,6 +215,7 @@ private theorem transportAut_conj_pinnedX_r {K : Type} [Field K] [Finite K] [Cha
     simp only [CharTwo.neg_eq]
   rw [hXinv]
 
+omit [Finite G] in
 private theorem conjAut_trans_pow_three {Q : Subgroup G} (x w : G)
     (hxN : x ∈ Subgroup.normalizer (Q : Set G))
     (hwN : w ∈ Subgroup.normalizer (Q : Set G))
@@ -231,6 +241,7 @@ private theorem conjAut_trans_pow_three {Q : Subgroup G} (x w : G)
         rw [hcube]
         group
 
+omit [Finite G] in
 private theorem transportAut_cube {K : Type} [Field K] [Finite K] [CharP K 2]
     (θ : ↥(pCoreOf 2 L1) ≃* ↥(pCoreOf 2 (g2ParA K)))
     (iota : ↥(pCoreOf 2 (g2ParA K)) ≃* ↥(parabolicRadical Tag.G2 K {i1}))
@@ -361,6 +372,7 @@ private theorem transportAut_torusASub {K : Type} [Field K] [Finite K] [CharP K 
       (G2q.dT s 1)⁻¹
   rw [hyca, hcomm, hca ((transportAut θ iota (conjAut w₁ hw₁N)) x)]
 
+omit [Finite G] in
 private theorem transportAut_conj_levi_torus {K : Type} [Field K] [Finite K] [CharP K 2]
     (ψ₂ : ↥(L2 ⊔ bigB L1 L2 S) ≃* ↥(g2ParB K))
     (hQ1P : pCoreOf 2 L1 ≤ L2 ⊔ bigB L1 L2 S)
@@ -597,6 +609,7 @@ private theorem transportAut_center {K : Type} [Field K] [Finite K] [CharP K 2]
     rw [show θ q = iota.symm x from θ.apply_symm_apply _, iota.apply_symm_apply x]
   rw [hΨx, hx]
 
+omit [Finite G] in
 private theorem partner_weyl_of_radA {K : Type} [Field K] [Finite K] [CharP K 2]
     (θ : ↥(pCoreOf 2 L1) ≃* ↥(pCoreOf 2 (g2ParA K)))
     (iota : ↥(pCoreOf 2 (g2ParA K)) ≃* ↥(parabolicRadical Tag.G2 K {i1}))
@@ -675,9 +688,9 @@ private theorem G2qLocalData.exists_weyl_vertexOne (hf : 2 ≤ f) (hH : Hyp111 L
     hD.exists_mem_left_of_vertexTwo hf hH h1 h2 hHB hSH hSinfH hHcard hHcomm hK
       ψ₂ hψ₂S hψ₂Q hψ₂H
   obtain ⟨c1⟩ := hD.exists_coordLeft hH h1
-  letI := c1.field
-  letI := c1.fintype
-  haveI : CharP c1.F 2 :=
+  let := c1.field
+  let := c1.fintype
+  have : CharP c1.F 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, c1.card])
   have hTN : H ⊓ L1 ≤ Subgroup.normalizer (S : Set G) :=
     (inf_le_left.trans hHB).trans ((hD.bigB_le_normalizer hH h1 h2).trans inf_le_right)
@@ -715,7 +728,7 @@ private theorem G2qLocalData.exists_partner_weyl (hf : 3 ≤ f) (hH : Hyp111 L1 
     {x₁ w₁ : G}
     (hx₁K : x₁ ∈ L1 ⊓ Subgroup.centralizer
       ((H ⊓ trivOTwoQuot L1 : Subgroup G) : Set G))
-    (hx₁S : x₁ ∈ S) (hx₁Q : x₁ ∉ pCoreOf 2 L1)
+    (hx₁S : x₁ ∈ S) (_hx₁Q : x₁ ∉ pCoreOf 2 L1)
     (hx₁X : ∀ y : ↥(L2 ⊔ bigB L1 L2 S), (y : G) = x₁ →
       (((ψ₂ y : ↥(g2ParB K)) : ↥(adjointGroup Tag.G2 K)) : ModGL Tag.G2 K) =
         pinnedX Tag.G2 K g2r 1)
@@ -774,6 +787,7 @@ private theorem G2qLocalData.exists_partner_weyl (hf : 3 ≤ f) (hH : Hyp111 L1 
   exact partner_weyl_of_radA θ iota hiota ew
     (fun z => conjAut_apply w₁ hw₁N z) hpartner
 
+omit [Finite G] in
 private theorem partner_of_psi₂ {K : Type} [Field K] [Finite K] [CharP K 2]
     (ψ₂ : ↥(L2 ⊔ bigB L1 L2 S) ≃* ↥(g2ParB K))
     (hQ1P : pCoreOf 2 L1 ≤ L2 ⊔ bigB L1 L2 S)
@@ -897,6 +911,7 @@ private noncomputable def psiOne {K : Type} [Field K] [Finite K] [CharP K 2]
     ↥(L1 ⊔ bigB L1 L2 S) ≃* ↥(g2ParA K) :=
   (MulEquiv.subgroupCongr hsupQR.symm).trans (ψ.trans (MulEquiv.subgroupCongr hQ'R'))
 
+omit [Finite G] in
 private theorem psiOne_val {K : Type} [Field K] [Finite K] [CharP K 2]
     {H : Subgroup G}
     (ψ : ↥(pCoreOf 2 L1 ⊔ vertexOneR L1 H) ≃*
@@ -916,6 +931,7 @@ private theorem psiOne_val {K : Type} [Field K] [Finite K] [CharP K 2]
   rw [h1]
   exact MulEquiv.subgroupCongr_apply hQ'R' (ψ ⟨x, hsupQR.symm ▸ hx⟩)
 
+omit [Finite G] in
 private theorem psiOne_mem_pCoreOf_iff {K : Type} [Field K] [Finite K] [CharP K 2]
     {H : Subgroup G}
     (ψ : ↥(pCoreOf 2 L1 ⊔ vertexOneR L1 H) ≃*
@@ -1072,20 +1088,20 @@ private theorem vertexOne_s_decomp (hf2 : 2 ≤ f) (hH : Hyp111 L1 L2 S)
 
 private theorem psiOne_maps_S_to_U {K : Type} [Field K] [Finite K] [CharP K 2]
     (hf2 : 2 ≤ f) (hH : Hyp111 L1 L2 S) (hD : G2qLocalData L1 L2 S f)
-    (h1 : IsL2Quot f (oTwoQuot ↥L1)) (h2 : IsL2Quot f (oTwoQuot ↥L2))
-    (hK : Nat.card K = 2 ^ f)
+    (h1 : IsL2Quot f (oTwoQuot ↥L1)) (_h2 : IsL2Quot f (oTwoQuot ↥L2))
+    (_hK : Nat.card K = 2 ^ f)
     (ψ₂ : ↥(L2 ⊔ bigB L1 L2 S) ≃* ↥(g2ParB K))
-    (hψ₂Q : ∀ x : ↥(L2 ⊔ bigB L1 L2 S), (x : G) ∈ pCoreOf 2 L1 ↔
+    (_hψ₂Q : ∀ x : ↥(L2 ⊔ bigB L1 L2 S), (x : G) ∈ pCoreOf 2 L1 ↔
       ((ψ₂ x : ↥(g2ParB K)) : ↥(adjointGroup Tag.G2 K)) ∈ pCoreOf 2 (g2ParA K))
     (hψ₂S : ∀ x : ↥(L2 ⊔ bigB L1 L2 S), (x : G) ∈ S ↔
       ((ψ₂ x : ↥(g2ParB K)) : ↥(adjointGroup Tag.G2 K)) ∈ posUnipotentSub Tag.G2 K)
     {H : Subgroup G}
-    (hψ₂H : ∀ x : ↥(L2 ⊔ bigB L1 L2 S), (x : G) ∈ H ↔
+    (_hψ₂H : ∀ x : ↥(L2 ⊔ bigB L1 L2 S), (x : G) ∈ H ↔
       (((ψ₂ x : ↥(g2ParB K)) : ↥(adjointGroup Tag.G2 K)) : ModGL Tag.G2 K) ∈
         torusGroup Tag.G2 K)
-    (hHB : H ≤ bigB L1 L2 S) (hSH : S ⊔ H = bigB L1 L2 S)
-    (hSinfH : S ⊓ H = ⊥) (hHcard : Nat.card H = (2 ^ f - 1) * (2 ^ f - 1))
-    (hHcomm : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a)
+    (_hHB : H ≤ bigB L1 L2 S) (_hSH : S ⊔ H = bigB L1 L2 S)
+    (_hSinfH : S ⊓ H = ⊥) (_hHcard : Nat.card H = (2 ^ f - 1) * (2 ^ f - 1))
+    (_hHcomm : ∀ a ∈ H, ∀ b ∈ H, a * b = b * a)
     (hsupQK : pCoreOf 2 L1 ⊔
       (L1 ⊓ Subgroup.centralizer ((H ⊓ trivOTwoQuot L1 : Subgroup G) : Set G)) = L1)
     (ψ : ↥(pCoreOf 2 L1 ⊔ vertexOneR L1 H) ≃*
@@ -1144,14 +1160,15 @@ private theorem psiOne_maps_S_to_U {K : Type} [Field K] [Finite K] [CharP K 2]
   simpa only [Subgroup.coe_mul] using Subgroup.mul_mem
     (posUnipotentSub Tag.G2 K) hqU hsU
 
+omit [Finite G] in
 private theorem psiOne_mem_s_iff {K : Type} [Field K] [Finite K] [CharP K 2]
-    (hD : G2qLocalData L1 L2 S f)
-    (hK : Nat.card K = 2 ^ f)
+    (_hD : G2qLocalData L1 L2 S f)
+    (_hK : Nat.card K = 2 ^ f)
     (ψ₂ : ↥(L2 ⊔ bigB L1 L2 S) ≃* ↥(g2ParB K))
     (hψ₂S : ∀ x : ↥(L2 ⊔ bigB L1 L2 S), (x : G) ∈ S ↔
       ((ψ₂ x : ↥(g2ParB K)) : ↥(adjointGroup Tag.G2 K)) ∈ posUnipotentSub Tag.G2 K)
     {H : Subgroup G}
-    (hsupQK : pCoreOf 2 L1 ⊔
+    (_hsupQK : pCoreOf 2 L1 ⊔
       (L1 ⊓ Subgroup.centralizer ((H ⊓ trivOTwoQuot L1 : Subgroup G) : Set G)) = L1)
     (ψ : ↥(pCoreOf 2 L1 ⊔ vertexOneR L1 H) ≃*
       ↥(pCoreOf 2 (g2ParA K) ⊔ G2q.complA K))

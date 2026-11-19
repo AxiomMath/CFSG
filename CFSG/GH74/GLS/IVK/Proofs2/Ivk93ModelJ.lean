@@ -81,7 +81,7 @@ theorem jm_isSylowOf_of_le [Finite K] (P : Sylow 2 K) {L : Subgroup K}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htop : IsSylowOf 2 (P : Subgroup K) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact P.not_dvd_index
   exact htop.of_le hPL le_top

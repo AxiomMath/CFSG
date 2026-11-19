@@ -142,7 +142,7 @@ theorem exists_sylow_eq_zpowers_of_card_le {H : Type*} [Group H] [Finite H] {A :
   · intro x hx
     exact ⟨⟨x, htC hx⟩, hS hx, rfl⟩
   · rw [Nat.card_zpowers, ht]
-    exact hrank _ (map_subtype_le _) (S.isPGroup'.map _)
+    exact hrank _ (map_subtype_le _) (S.isPGroup.map _)
 
 end Generic
 

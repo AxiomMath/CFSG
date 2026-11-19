@@ -30,7 +30,7 @@ private theorem eq_one_or_eq_of_sq_eq_one {a x : G} (ha : a ^ 2 = 1)
     rw [hk, zpow_add, zpow_mul, zpow_ofNat, ha, one_zpow, one_mul, zpow_one]
 
 private theorem zpowers_inf_zpowers_eq_bot {a b : G} (ha : a ^ 2 = 1) (hb : b ^ 2 = 1)
-    (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hab : a ≠ b) :
+    (ha1 : a ≠ 1) (_hb1 : b ≠ 1) (hab : a ≠ b) :
     Subgroup.zpowers a ⊓ Subgroup.zpowers b = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
@@ -46,7 +46,7 @@ theorem isE3_closure_of_commuting {u₁ u₂ u₃ : G} (h1 : u₁ ^ 2 = 1) (h2 :
     (c23 : u₂ * u₃ = u₃ * u₂) (n1 : u₁ ∉ closure {u₂, u₃}) (n2 : u₂ ≠ 1) (n3 : u₃ ≠ 1)
     (n23 : u₂ ≠ u₃) :
     IsElemAbelian 2 (closure {u₁, u₂, u₃}) ∧ Nat.card ↥(closure {u₁, u₂, u₃}) = 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set A : Subgroup G := closure {u₁, u₂, u₃} with hA
   set B : Subgroup G := closure {u₂, u₃} with hB
   set H : Subgroup G := closure {u₁} with hH
@@ -77,7 +77,7 @@ theorem isE3_closure_of_commuting {u₁ u₂ u₃ : G} (h1 : u₁ ^ 2 = 1) (h2 :
   have hAeq : A = H ⊔ B := by
     rw [hA, hH, hB]
     rw [show ({u₁, u₂, u₃} : Set G) = {u₁} ∪ ({u₂, u₃} : Set G) by
-      ext x; simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union, or_assoc]]
+      ext x; simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union]]
     rw [Subgroup.closure_union]
   have hHA : H ≤ A := by rw [hAeq]; exact le_sup_left
   have hBA : B ≤ A := by rw [hAeq]; exact le_sup_right
@@ -117,7 +117,7 @@ theorem isE3_closure_of_commuting {u₁ u₂ u₃ : G} (h1 : u₁ ^ 2 = 1) (h2 :
 theorem card_le_eight_of_pRank [Finite G] {X : Subgroup G} (hX : pRank 2 X = 3) :
     ∀ E : Subgroup G, E ≤ X → IsElemAbelian 2 E → Nat.card E ≤ 8 := by
   intro E hEX hE
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsPGroup 2 E := fun x => ⟨1, by
     apply Subtype.ext
     simpa using hE.2 x x.2⟩

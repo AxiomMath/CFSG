@@ -82,7 +82,7 @@ theorem exists_commute_three {x y : H} (hx3 : x ^ 3 = 1) (hy3 : y ^ 3 = 1) (hxy 
     (hx1 : x ≠ 1) (hy : y ∉ Subgroup.zpowers x) {d : H} (hd3 : d ^ 3 = 1) :
     ∃ z : H, z ^ 3 = 1 ∧ Commute z d ∧ z ∉ Subgroup.zpowers d := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hd1 : d = 1
   · subst hd1
     refine ⟨x, hx3, Commute.one_right x, ?_⟩
@@ -143,8 +143,8 @@ theorem exists_commute_three {x y : H} (hx3 : x ^ 3 = 1) (hy3 : y ^ 3 = 1) (hxy 
   ·
     push Not at hdc
     obtain ⟨w₀, hw₀P, hw₀d⟩ := hdc
-    haveI : Nontrivial (P : Subgroup H) := ⟨⟨⟨d, hdP'⟩, 1, fun h => hd1 (congrArg Subtype.val h)⟩⟩
-    have hPp : IsPGroup 3 (P : Subgroup H) := P.isPGroup'
+    have : Nontrivial (P : Subgroup H) := ⟨⟨⟨d, hdP'⟩, 1, fun h => hd1 (congrArg Subtype.val h)⟩⟩
+    have hPp : IsPGroup 3 (P : Subgroup H) := P.isPGroup
     have hZnt : Nontrivial (Subgroup.center (P : Subgroup H)) := hPp.center_nontrivial
     have hZp : IsPGroup 3 (Subgroup.center (P : Subgroup H)) := hPp.to_subgroup _
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 hZp
@@ -279,7 +279,7 @@ theorem not_ordG2_eight_dvd_ordD : ¬ ordG2 8 ∣ ordD 4 2 := by
 
 theorem three_mul_card_le_of_lt {G : Type*} [Group G] [Finite G] {H L : Subgroup G}
     (hL : IsPGroup 3 L) (hHL : H ≤ L) (hne : H ≠ L) : 3 * Nat.card H ≤ Nat.card L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := hL.exists_card_eq
   obtain ⟨n, hn⟩ := (hL.to_le hHL).exists_card_eq
   have hdvd : Nat.card H ∣ Nat.card L := Subgroup.card_dvd_of_le hHL
@@ -316,7 +316,7 @@ theorem autImageRankThree_of_outer {X : Type} [Group X] [Finite X] {B H J : Subg
     (hout : ¬ ∃ h ∈ H, ∀ x ∈ J, b * x * b⁻¹ = h * x * h⁻¹) :
     KSF4SU3.AutImageRankThree B J := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set D := B ⊓ H with hD
   have hDN : D ≤ Subgroup.normalizer (J : Set X) := fun x hx => hBJ hx.1
   let ψ : ↥D →* MulAut (↥J ⧸ Subgroup.center ↥J) := (actHom J).comp (Subgroup.inclusion hDN)
@@ -662,8 +662,8 @@ theorem exists_pair_fix_D4_two {F₀ : Type} [Field F₀] [Finite F₀] (h2 : Na
     ∃ x y : ↥(adjointGroup Tag.D4 F₀), α₀ x = x ∧ α₀ y = y ∧ x ^ 3 = 1 ∧ y ^ 3 = 1 ∧
       Commute x y ∧ x ≠ 1 ∧ y ∉ Subgroup.zpowers x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hcharP : CharP F₀ 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcharP : CharP F₀ 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := 1) le_rfl (by rw [h2]; norm_num)
   have hchar : ringChar F₀ = 2 := ringChar.eq F₀ 2
   set B₁ : SL2 F₀ := uSL 1 * vSL 1 with hB₁
@@ -750,8 +750,8 @@ theorem exists_pair_fix_field_D4 {F : Type} [Field F] [Finite F] (hF : Nat.card 
       entrywiseAdjointAut Tag.D4 σ x = x ∧ entrywiseAdjointAut Tag.D4 σ y = y ∧
       x ^ 3 = 1 ∧ y ^ 3 = 1 ∧ Commute x y ∧ x ≠ 1 ∧ y ∉ Subgroup.zpowers x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := 3) (by norm_num) hF
   have hchar : ringChar F = 2 := ringChar.eq F 2
   obtain ⟨hdvd, hcardfix⟩ := CFSG.RankThree.Chevalley.SteinbergBT.card_fixSubfield
@@ -760,7 +760,7 @@ theorem exists_pair_fix_field_D4 {F : Type} [Field F] [Finite F] (hF : Nat.card 
     have h1 : orderOf σ ≠ 1 := fun h => hσ1 (orderOf_eq_one_iff.1 h)
     exact ((Nat.dvd_prime Nat.prime_three).1 hdvd).resolve_left h1
   have h2 : Nat.card ↥(fixSubfield σ) = 2 := by rw [hcardfix, hord]; norm_num
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
   have hΓJ := entrywiseFixedGroup_eq_fixedFieldImage_of_ringChar_two
     (τ := Tag.D4) (Or.inr (Or.inr (Or.inl rfl))) hchar σ
   set L := fixedSubgroup (entrywiseAdjointAut Tag.D4 σ) with hLdef
@@ -1418,7 +1418,7 @@ theorem pguModelData {K : Type} [Field K] [Finite K] (hK : Nat.card K = (2 ^ 3) 
   set S := CFSG.PGLModel.projImage (Sec4.slPi false 3 (2 ^ 3) K) with hS
   have hSP : S ≤ P := Subgroup.map_mono (Sec4.slPi_le_glPi (fun _ => hU))
   have hcomm : commutator ↥P = S.subgroupOf P := Sec13.commutator_projImage_glPi hPi hq2
-  haveI hperf : Group.IsPerfect ↥S := Sec13.isPerfect_projImage_slPi hPi hq2
+  have hperf : Group.IsPerfect ↥S := Sec13.isPerfect_projImage_slPi hPi hq2
   have hsS : IsSimpleGroup ↥S := Sec8.Item8KFacts2Proof.isSimpleGroup_projImage_slPi hPi hq2
   have hmodel : Nonempty (↥S ≃* ↥(CFSG.PGLModel.projSU 3 2 3)) := by
     refine KSF4SU3.nonempty_equiv_projSU_of_model ⟨⟨Nat.prime_two, by norm_num, le_rfl, by decide⟩,
@@ -1442,7 +1442,7 @@ theorem pguModelData {K : Type} [Field K] [Finite K] (hK : Nat.card K = (2 ^ 3) 
         have h1 := congrArg Subtype.val (hx _ hm)
         simp only [Subgroup.coe_mul] at h1
         rw [← hxw] at h1
-        simp only [map_mul, map_inv, MonoidHom.coe_coe]
+        simp only [map_mul, map_inv]
         rw [h1]
         group
       have hw1 := Sec4.mem_statedScalars_of_comm_mod hPi hq hscal
@@ -1492,7 +1492,7 @@ theorem fix_cases_sigma0 {K₃ : Type} [Field K₃] [Finite K₃] {Fr : K₃ ≃
     have hy1' : y = 1 := Subtype.ext hy1
     subst hy1'
     have hK3 : Nat.card K₃ = 2 ^ (3 * 3) := by rw [hK₃]; norm_num
-    haveI : CharP K₃ 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+    have : CharP K₃ 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by norm_num) hK3
     have hK2 : ringChar K₃ = 2 := ringChar.eq K₃ 2
     obtain ⟨eG⟩ := nonempty_fixedPoints_fieldActor_mulEquiv_g2 (σ := Fr) hK2
@@ -1516,7 +1516,7 @@ theorem graphFix_cases {F : Type} [Field F] [Finite F] (hF : Nat.card F = 2 ^ 3)
     (∃ (F' : Type) (_ : Field F') (_ : Finite F'), Nat.card F' = 2 ^ 3 ∧
         Nonempty (↥(fixedSubgroup α) ≃* ↥(adjointGroup Tag.G2 F'))) ∨
       IsoPGUThree ↥(fixedSubgroup α) (2 ^ 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, a, σ, ε, hε3, -, ⟨hε0, hσ1⟩, hαeq⟩ := hA
   subst hσ1
   have hε : ε = 1 ∨ ε = 2 := by omega

@@ -24,18 +24,18 @@ theorem card_le_pow_of_weylOfType {p : ℕ} {Bs : Subgroup G} {ι : Type} [Finty
     { carrier := {b | φ i b = b}
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul, ha, hb]
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         exact map_one (φ i)
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv, ha] }
   have hFcard : ∀ i, Nat.card (F i) * p = Nat.card ↥Bs := fun i => (he i).2
   have hFpos : ∀ i, 0 < Nat.card (F i) := fun i => by
-    haveI : Nonempty ↥(F i) := ⟨⟨1, by simp [F]⟩⟩
+    have : Nonempty ↥(F i) := ⟨⟨1, by simp [F]⟩⟩
     exact Nat.card_pos
   have hindex : ∀ i, (F i).index = p := fun i => by
     have h1 : Nat.card (F i) * (F i).index = Nat.card ↥Bs := Subgroup.card_mul_index (F i)
@@ -106,7 +106,7 @@ private theorem alg_unitGauge_eq_of_ne_root {K : Type*} [Field K] {ι : Type*} [
     (hdepth : ∀ i, i ≠ root → depth (par i) < depth i) {i : ι} (hi : i ≠ root) :
     alg_unitGauge P par root depth hdepth i =
       -(alg_unitGauge P par root depth hdepth (par i)) * P i (par i) := by
-  rw [alg_unitGauge.eq_1, dif_neg hi]
+  rw [alg_unitGauge.eq_1, dite_eq_right hi]
 
 private theorem alg_unitGauge_ne_zero {K : Type*} [Field K] {ι : Type*} [DecidableEq ι]
     (A : ι → ι → ℤ) (P : ι → ι → K) (par : ι → ι) (root : ι) (depth : ι → ℕ)
@@ -235,7 +235,7 @@ theorem le_finrank_add_one_of_cartanA {V : Type} [AddCommGroup V] [Module (ZMod 
     have hsub : (CartanMatrix.A r).submatrix e e = CartanMatrix.A (r - 1) := by
       ext i j
       simp only [Matrix.submatrix_apply, CartanMatrix.A, Matrix.of_apply]
-      split_ifs with h1 h2 h3 <;> simp_all [Fin.ext_iff, e] <;> omega
+      split_ifs with h1 h2 h3 <;> simp_all [Fin.ext_iff, e]
     have hP' : ∀ i j : Fin (r - 1),
         α (e i) (h (e j)) = (CartanMatrix.A (r - 1) i j : ZMod p) := by
       intro i j

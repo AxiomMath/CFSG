@@ -358,12 +358,12 @@ section Six
 
 theorem yamadaL₃_le_H (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hlay : h.LayerHyp d) :
     yamadaL₃ d t ≤ normalizer (yamadaL₃ d t : Set G) ⊓ normalizer (yamadaM₃ d t : Set G) :=
-  fun g hg => ⟨le_normalizer hg, h.yamadaL₃_le_normalizer_yamadaM₃ d hlay hg⟩
+  fun _g hg => ⟨le_normalizer hg, h.yamadaL₃_le_normalizer_yamadaM₃ d hlay hg⟩
 
 theorem centralizer_inf_normalizer_Y_le_H (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (hlay : h.LayerHyp d) :
     centralizer ({t} : Set G) ⊓ normalizer ((d.Y.map L.subtype : Subgroup G) : Set G) ≤
-      normalizer (yamadaL₃ d t : Set G) ⊓ normalizer (yamadaM₃ d t : Set G) := fun g hg =>
+      normalizer (yamadaL₃ d t : Set G) ⊓ normalizer (yamadaM₃ d t : Set G) := fun _g hg =>
   ⟨h.centralizer_inf_normalizer_Y_le_normalizer_yamadaL₃ d hg,
     h.centralizer_inf_normalizer_Y_le_normalizer_yamadaM₃ d hlay hg⟩
 

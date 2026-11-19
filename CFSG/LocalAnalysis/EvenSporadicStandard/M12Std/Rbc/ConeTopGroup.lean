@@ -40,13 +40,13 @@ theorem card_le_two_mul_card_of_inv_mul_mem {G : Type*} [Group G] [Finite G] {S 
 theorem four_le_relIndex_center_sylow {B : Type*} [Group B] [Finite B]
     (hB : CFSG.IsQuasisimple B) (Q : Sylow 2 B) : 4 ≤ (center B).relIndex (Q : Subgroup B) := by
   classical
-  haveI : Group.IsPerfect B := hB.1
-  haveI : Nontrivial (B ⧸ center B) := by
+  have : Group.IsPerfect B := hB.1
+  have : Nontrivial (B ⧸ center B) := by
     obtain ⟨a, b, hab⟩ := hB.2.2
     exact nontrivial_of_ne (a * b) (b * a) hab
-  haveI : Finite (B ⧸ center B) :=
+  have : Finite (B ⧸ center B) :=
     ((finite_iff_subgroup_quotient (center B)).mp ‹Finite B›).2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let pi : B →* B ⧸ center B := QuotientGroup.mk' (center B)
   have hpi : Function.Surjective pi := QuotientGroup.mk'_surjective (center B)
   let Q' : Sylow 2 (B ⧸ center B) := Sylow.mapSurjective hpi Q
@@ -89,7 +89,7 @@ theorem four_mul_card_le_of_isQuasisimple {A B C : Subgroup G}
   let R : Subgroup G := Q ⊔ C
   let Z : Subgroup G := (center ↥B).map B.subtype
   let cA : Subgroup G := centralizer (A : Set G)
-  have hQ2 : IsPGroup 2 Q := (Q'.isPGroup').map B.subtype
+  have hQ2 : IsPGroup 2 Q := (Q'.isPGroup).map B.subtype
   have hQ_le_cent : Q ≤ centralizer (C : Set G) := by
     show (Q' : Subgroup ↥B).map B.subtype ≤ centralizer (C : Set G)
     rw [Subgroup.map_le_iff_le_comap]
@@ -162,7 +162,7 @@ theorem four_mul_card_le_of_isQuasisimple {A B C : Subgroup G}
 theorem exists_isPGroup_card_eq {H T : Subgroup G} (hT : IsPGroup 2 T) (hTH : T ≤ H) :
     ∃ S : Subgroup G, T ≤ S ∧ S ≤ H ∧ IsPGroup 2 S ∧
       Nat.card S = 2 ^ (Nat.card H).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT' : IsPGroup 2 (T.subgroupOf H) :=
     hT.of_equiv (Subgroup.subgroupOfEquivOfLe hTH).symm
   obtain ⟨Q, hTQ⟩ := hT'.exists_le_sylow
@@ -170,7 +170,7 @@ theorem exists_isPGroup_card_eq {H T : Subgroup G} (hT : IsPGroup 2 T) (hTH : T 
     Subgroup.map_subtype_le (K := (Q : Subgroup ↥H)), ?_, ?_⟩
   · rintro t ht
     exact ⟨⟨t, hTH ht⟩, hTQ (by rw [Subgroup.mem_subgroupOf]; exact ht), rfl⟩
-  · exact Q.isPGroup'.of_equiv
+  · exact Q.isPGroup.of_equiv
       (Subgroup.equivMapOfInjective (Q : Subgroup ↥H) H.subtype H.subtype_injective)
   · rw [Subgroup.card_map_of_injective H.subtype_injective, Sylow.card_eq_multiplicity Q]
 

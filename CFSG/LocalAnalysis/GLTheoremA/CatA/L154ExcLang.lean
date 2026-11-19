@@ -91,7 +91,7 @@ theorem l154_exists_conj_of_induces_inner {X : Subgroup G} (hX : commutator ↥X
     (θ : ↥X ⧸ Subgroup.center ↥X ≃* R) (ρ : R)
     (hind : LargeEvenInduces θ (fun x x' : ↥X => σ (x : G) = (x' : G)) (MulAut.conj ρ)) :
     ∃ z ∈ X, ∀ x ∈ X, σ x = z * x * z⁻¹ := by
-  haveI : Group.IsPerfect ↥X := ⟨hX⟩
+  have : Group.IsPerfect ↥X := ⟨hX⟩
   obtain ⟨z, hz⟩ := QuotientGroup.mk_surjective (θ.symm ρ)
   let σX : ↥X →* ↥X := (σ.comp X.subtype).codRestrict X fun x => hσ x x.2
   let f : ↥X →* ↥X := (MulAut.conj z⁻¹).toMonoidHom.comp σX

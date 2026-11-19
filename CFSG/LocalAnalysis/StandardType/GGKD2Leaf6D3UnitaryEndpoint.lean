@@ -70,17 +70,17 @@ theorem unitaryA1EightForcesSixOne_of_component (h : UnitaryComponentContractSim
   intro K hKf hKfin hKcharP n hUF d hd S κ hκ hS hS3 hSnorm J hJcomp hJlabel
   obtain ⟨h3dvd, m, E, hEf, hEa, hEfin, hEUF, hm2, hd3m, hcubic, ⟨φ⟩⟩ :=
     (h K n hUF d hd S κ hκ hS hS3 hSnorm J) hJcomp
-  letI : Field E := hEf
-  letI : Algebra K E := hEa
-  letI : Finite E := hEfin
+  let : Field E := hEf
+  let : Algebra K E := hEa
+  let : Finite E := hEfin
   let Q := ↥(unitarySU 2 (3 * n) E m) ⧸
     Subgroup.center ↥(unitarySU 2 (3 * n) E m)
   have hlabel : LargeEvenRecipeLinear 2 8
       (fun R' _ _ _ => Nonempty (↥J ⧸ Subgroup.center ↥J ≃* R')) := hJlabel
   unfold LargeEvenRecipeLinear at hlabel
   obtain ⟨K₀, hK0f, hK0fin, hK0card, ⟨ψ⟩⟩ := hlabel
-  letI : Field K₀ := hK0f
-  letI : Finite K₀ := hK0fin
+  let : Field K₀ := hK0f
+  let : Finite K₀ := hK0fin
   have hcardQ : Nat.card Q = 504 := by
     have e1 : Q ≃* LargeEvenProj (LargeEvenSLGroup (Fin 2) K₀) := φ.symm.trans ψ
     have eL : Q ≃* CFSG.LieType.SemisimpleCentralizers.HeldLang.PSL (Fin 2) K₀ :=
@@ -107,7 +107,7 @@ theorem unitaryA1EightForcesSixOne_of_component (h : UnitaryComponentContractSim
     have hQnz : Nat.card Q ≠ 0 := by rw [hcardQ]; norm_num
     have hZnz : Nat.card (Subgroup.center ↥(unitarySU 2 (3 * n) E m)) ≠ 0 := by
       rintro h0
-      exact (Nat.not_even_iff_odd.mpr hodd) (by simpa [h0] using Nat.even_zero)
+      exact (Nat.not_even_iff_odd.mpr hodd) (by simp [h0])
     have hZfac : (Nat.card (Subgroup.center ↥(unitarySU 2 (3 * n) E m))).factorization 2 = 0 :=
       Nat.factorization_eq_zero_of_not_dvd
         (p := 2) (n := Nat.card (Subgroup.center ↥(unitarySU 2 (3 * n) E m))) (by

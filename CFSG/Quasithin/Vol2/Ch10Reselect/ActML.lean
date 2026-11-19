@@ -18,14 +18,17 @@ variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G}
 abbrev fsuML (T L : Subgroup G) : Subgroup G :=
   fsuM T L ⊓ Subgroup.normalizer (L : Set G)
 
+omit [Finite G] in
 theorem L_le_fsuML : L ≤ fsuML T L :=
   le_inf ((le_fsuL0 T L).trans (fsuL0_le_fsuM T L)) Subgroup.le_normalizer
 
+omit [Finite G] in
 private lemma normU_of_mem_fsuML {s : G} (hs : s ∈ fsuML T L) :
     s ∈ Subgroup.normalizer (fsuUL T L I : Set G) := by
   obtain ⟨hsM, hsL⟩ := Subgroup.mem_inf.mp hs
   rw [← conjugate_eq_self_iff, conjugate_commutator_fsuVM hsM, conjugate_eq_self_iff.mpr hsL]
 
+omit [Finite G] in
 private lemma conj_mem_centralizer' {X : Subgroup G} {t : G}
     (ht : t ∈ Subgroup.normalizer (X : Set G)) (x : G) :
     t * x * t⁻¹ ∈ Subgroup.centralizer (X : Set G) ↔ x ∈ Subgroup.centralizer (X : Set G) := by
@@ -47,6 +50,7 @@ private lemma conj_mem_centralizer' {X : Subgroup G} {t : G}
       _ = t * (x * (t⁻¹ * b * t)) * t⁻¹ := by rw [h1]
       _ = t * x * t⁻¹ * b := by group
 
+omit [Finite G] in
 private lemma normZ_of_mem_fsuML {s : G} (hs : s ∈ fsuML T L) :
     s ∈ Subgroup.normalizer ((fsuUL T L I ⊓ Subgroup.centralizer (fsuL0 T L : Set G) :
       Subgroup G) : Set G) := by
@@ -57,17 +61,21 @@ private lemma normZ_of_mem_fsuML {s : G} (hs : s ∈ fsuML T L) :
   exact and_congr (Subgroup.mem_normalizer_iff.mp (normU_of_mem_fsuML hs) h)
     (conj_mem_centralizer' (X := fsuL0 T L) hsM h).symm
 
+omit [Finite G] in
 private lemma conj_mem_L (s : ↥(fsuML T L)) (l : ↥L) : (s : G) * (l : G) * (s : G)⁻¹ ∈ L :=
   (Subgroup.mem_normalizer_iff.mp (Subgroup.mem_inf.mp s.2).2 (l : G)).mp l.2
 
+omit [Finite G] in
 private lemma conj_mem_U_L (l : ↥L) (u : ↥(fsuUL T L I)) :
     (l : G) * (u : G) * (l : G)⁻¹ ∈ fsuUL T L I :=
   (Subgroup.mem_normalizer_iff.mp (L_le_normalizer_fsuUL T L I l.2) (u : G)).mp u.2
 
+omit [Finite G] in
 private lemma conj_mem_U_M (s : ↥(fsuML T L)) (u : ↥(fsuUL T L I)) :
     (s : G) * (u : G) * (s : G)⁻¹ ∈ fsuUL T L I :=
   (Subgroup.mem_normalizer_iff.mp (normU_of_mem_fsuML s.2) (u : G)).mp u.2
 
+omit [Finite G] in
 theorem mem_acting_of_mem_fsuML {s : G} (hs : s ∈ fsuML T L) :
     s ∈ UModel.acting (fsuUL T L I)
       (fsuUL T L I ⊓ Subgroup.centralizer (fsuL0 T L : Set G)) := by
@@ -83,6 +91,7 @@ variable {K : Type} [Field K]
 @[expose] noncomputable def actML (M : RModel T L I K) : ↥(fsuML T L) →* Equiv.Perm (UTilde K) :=
   UModel.actHom M |>.comp (Subgroup.inclusion fun _ hs => mem_acting_of_mem_fsuML hs)
 
+omit [Finite G] in
 private theorem gamma_conj_eq (M : RModel T L I K) (s : ↥(fsuML T L)) (l : ↥L)
     (hc : ⁅(s : G), (l : G)⁆ ∈ Subgroup.centralizer (fsuVM T L I : Set G)) :
     M.γ ⟨(s : G) * (l : G) * (s : G)⁻¹, conj_mem_L s l⟩ = M.γ l := by
@@ -97,16 +106,19 @@ private theorem gamma_conj_eq (M : RModel T L I K) (s : ↥(fsuML T L)) (l : ↥
         rw [← map_mul, inv_mul_cancel_right]
     _ = M.γ l := by rw [h1, one_mul]
 
+omit [Finite G] in
 theorem actML_ψ (M : RModel T L I K) (s : ↥(fsuML T L)) (u : ↥(fsuUL T L I))
     (hu : (s : G) * (u : G) * (s : G)⁻¹ ∈ fsuUL T L I) :
     Multiplicative.toAdd (M.ψ ⟨(s : G) * (u : G) * (s : G)⁻¹, hu⟩) =
       actML M s (Multiplicative.toAdd (M.ψ u)) :=
   UModel.actHom_ψ M ⟨(s : G), mem_acting_of_mem_fsuML s.2⟩ u hu
 
+omit [Finite G] in
 theorem actML_add (M : RModel T L I K) (s : ↥(fsuML T L)) (p q : UTilde K) :
     actML M s (p + q) = actML M s p + actML M s q :=
   UModel.actHom_add M ⟨(s : G), mem_acting_of_mem_fsuML s.2⟩ p q
 
+omit [Finite G] in
 theorem actML_conj_rho (M : RModel T L I K) (s : ↥(fsuML T L)) (l l' : ↥L)
     (h : (l' : G) = (s : G) * (l : G) * (s : G)⁻¹) :
     actML M s * rhoSL K (M.γ l) = rhoSL K (M.γ l') * actML M s := by
@@ -144,6 +156,7 @@ theorem actML_conj_rho (M : RModel T L I K) (s : ↥(fsuML T L)) (l l' : ↥L)
     group
   rw [e1, e2, e3, e4, e5]
 
+omit [Finite G] in
 theorem actML_hnorm (M : RModel T L I K) (s : ↥(fsuML T L))
     (g : Matrix.SpecialLinearGroup (Fin 2) K) :
     ∃ g' : Matrix.SpecialLinearGroup (Fin 2) K,
@@ -153,6 +166,7 @@ theorem actML_hnorm (M : RModel T L I K) (s : ↥(fsuML T L))
   rw [← hl]
   exact actML_conj_rho M s l ⟨(s : G) * (l : G) * (s : G)⁻¹, conj_mem_L s l⟩ rfl
 
+omit [Finite G] in
 theorem actML_mem_centralizerSL2 (M : RModel T L I K) (s : ↥(fsuML T L))
     (h : ∀ l ∈ L, ⁅(s : G), l⁆ ∈ Subgroup.centralizer (fsuVM T L I : Set G)) :
     actML M s ∈ centralizerSL2 K := by
@@ -166,6 +180,7 @@ theorem actML_mem_centralizerSL2 (M : RModel T L I K) (s : ↥(fsuML T L))
   rw [← hl]
   exact key
 
+omit [Finite G] in
 theorem commutator_mem_centralizer_of_actML (M : RModel T L I K) (s : ↥(fsuML T L))
     (h : ∀ g : Matrix.SpecialLinearGroup (Fin 2) K,
       actML M s * rhoSL K g = rhoSL K g * actML M s) :
@@ -188,6 +203,7 @@ theorem commutator_mem_centralizer_of_actML (M : RModel T L I K) (s : ↥(fsuML 
   rw [h7] at h6
   exact h6
 
+omit [Finite G] in
 theorem actML_eq_one_of_mem_centralizer (M : RModel T L I K) (s : ↥(fsuML T L))
     (hs : (s : G) ∈ Subgroup.centralizer (fsuVM T L I : Set G)) : actML M s = 1 := by
   have h : M.actHom ⟨(s : G), mem_acting_of_mem_fsuML s.2⟩ = 1 := by
@@ -203,10 +219,12 @@ theorem actML_eq_one_of_mem_centralizer (M : RModel T L I K) (s : ↥(fsuML T L)
     exact one_mem _
   exact h
 
+omit [Finite G] in
 theorem actML_of_mem_L (M : RModel T L I K) (l : ↥L) :
     actML M ⟨(l : G), L_le_fsuML l.2⟩ = rhoSL K (M.γ l) :=
   UModel.actHom_of_mem_L M ⟨(l : G), mem_acting_of_mem_fsuML (L_le_fsuML l.2)⟩ l.2
 
+omit [Finite G] in
 theorem card_SL_dvd_card_L (M : RModel T L I K) :
     Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) ∣ Nat.card L := by
   have h1 : Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) = M.γ.ker.index := by

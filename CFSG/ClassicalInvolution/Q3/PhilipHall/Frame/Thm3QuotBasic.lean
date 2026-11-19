@@ -161,7 +161,7 @@ theorem exists_fixed_mem_coset {H U : Subgroup Y} (hH : Odd (Nat.card H)) (hU : 
   have hcard : Nat.card S = Nat.card H := by
     refine (Nat.card_congr ?_).symm
     exact
-      { toFun := fun h => ⟨m * h, show m⁻¹ * (m * h) ∈ H by simpa using h.2⟩
+      { toFun := fun h => ⟨m * h, show m⁻¹ * (m * h) ∈ H by simp⟩
         invFun := fun c => ⟨m⁻¹ * c, c.2⟩
         left_inv := fun h => Subtype.ext (by simp)
         right_inv := fun c => Subtype.ext (by simp) }
@@ -249,7 +249,7 @@ theorem mem_of_isPGroup_of_mem_sup {A D : Subgroup Y} (hD : Odd (Nat.card D))
     (hw2 : IsPGroup 2 (Subgroup.zpowers w)) : w ∈ A := by
   set H : Subgroup Y := A ⊔ D with hH
   have hHN : H ≤ Subgroup.normalizer (A : Set Y) := sup_le Subgroup.le_normalizer hDA
-  haveI : (A.subgroupOf H).Normal :=
+  have : (A.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr hHN
   set ψ : ↥D →* ↥H ⧸ A.subgroupOf H :=
     (QuotientGroup.mk' (A.subgroupOf H)).comp (Subgroup.inclusion le_sup_right) with hψ

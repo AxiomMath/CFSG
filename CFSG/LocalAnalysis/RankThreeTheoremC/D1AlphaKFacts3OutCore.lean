@@ -92,7 +92,7 @@ theorem ThreeFilter.normal_sup_sylow [Finite A] {I : Subgroup A} [I.Normal] (h :
     exact ⟨k + j, by rwa [← pow_mul, ← pow_add] at hj⟩
   have h2 : I ⊔ (S : Subgroup A) ≤ threeElementSubgroup hDE hcomm hE := by
     refine sup_le (fun i hi => (hMmem i).2 ⟨0, by simpa using hID hi⟩) fun s hs => ?_
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     refine (hMmem s).2 ⟨k, ?_⟩
     have : s ^ 3 ^ k = 1 := congrArg Subtype.val hk
     rw [this]

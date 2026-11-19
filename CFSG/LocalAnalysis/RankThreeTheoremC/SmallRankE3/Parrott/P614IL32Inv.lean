@@ -75,7 +75,7 @@ theorem sq_eq_one_of_l₀ {V : Subgroup GL32} (hcard : Nat.card V = 4)
   exact hw1 (L32Insp.eq_one_of_commute_l₀ hc hw2)
 
 theorem exists_inverting_of_four {V : Subgroup GL32} {l : GL32} (hl : orderOf l = 3)
-    (hV : IsPGroup 2 V) (hcard : Nat.card V = 4) (hlV : l ∈ normalizer (V : Set GL32)) :
+    (_hV : IsPGroup 2 V) (hcard : Nat.card V = 4) (hlV : l ∈ normalizer (V : Set GL32)) :
     ∃ τ : GL32, τ ∈ normalizer (V : Set GL32) ∧ τ * l * τ⁻¹ = l⁻¹ := by
   have hl3 : l ^ 3 = 1 := by
     have := pow_orderOf_eq_one l
@@ -162,6 +162,7 @@ theorem exists_fixed_of_coprime {Q : Subgroup G} {z q : G} (hz3 : z ^ 3 = 1)
   obtain ⟨⟨p, hp⟩⟩ := hne
   exact ⟨p, p.2, congrArg Subtype.val hp⟩
 
+omit [Finite G] in
 theorem conj_pow_odd_eq_inv {t z : G} (ht : t * z * t⁻¹ = z⁻¹) {m : ℕ} (hm : Odd m) :
     t ^ m * z * (t ^ m)⁻¹ = z⁻¹ := by
   have hc2 : Commute (t * t) z := by

@@ -144,7 +144,7 @@ theorem prime_dvd_card_of_isNineFourIndex {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 
   | lie d =>
     rcases hi with ⟨r, hrp, hr2, hrd⟩ | ⟨r, hrp, hrd⟩ | ⟨rfl, m, hm⟩ |
       ⟨rfl, ⟨r, hr2, hr3, hrd⟩ | ⟨r, hr2, hr2', hrd⟩⟩ | ⟨rfl, hd | hd⟩
-    · haveI : Fact r.p.Prime := ⟨r.prime_p⟩
+    · have : Fact r.p.Prime := ⟨r.prime_p⟩
       have hp2 : r.p ≠ 2 := by rw [hrp]; exact hq2
       rw [← hrp]
       exact ThreeEightFive.prime_dvd_card_catGroup_linTwo (p := r.p) (n := r.exponent)

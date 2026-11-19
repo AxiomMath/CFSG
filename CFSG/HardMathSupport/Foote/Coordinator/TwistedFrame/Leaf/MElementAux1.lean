@@ -90,7 +90,7 @@ theorem exists_special_data {β : Fin τ.rank → ℤ} (hw : ∃ w : WeylGroup �
   · refine CoordAux.mem_Deg1.2 ⟨hw' ▸ IsRoot.smul hθ _, ?_⟩
     simp [CoordAux.highRoot_degree, hneg]
 
-theorem commPairs_special {β : Fin τ.rank → ℤ} (hβ : IsRoot τ β) (hlong : IsLongRoot τ β)
+theorem commPairs_special {β : Fin τ.rank → ℤ} (_hβ : IsRoot τ β) (hlong : IsLongRoot τ β)
     (hneg : β (iθ τ) = -1) (hsum : IsRoot τ (highRoot τ + β)) :
     commPairs τ (highRoot τ) β = [(1, 1)] := by
   have hc := cθ_pos τ
@@ -128,7 +128,7 @@ theorem commPairs_deg_zero {β : Fin τ.rank → ℤ} (hβ : IsRoot τ β) (h0 :
   obtain ⟨j, hj⟩ := Function.ne_iff.1 hβ.ne_zero
   simp only [Pi.zero_apply] at hj
   have := congrFun hz j
-  simp only [Pi.smul_apply, Pi.zero_apply, smul_eq_mul, nsmul_eq_mul] at this
+  simp only [Pi.smul_apply, Pi.zero_apply, nsmul_eq_mul] at this
   rcases mul_eq_zero.1 this with h | h
   · omega
   · exact hj h
@@ -170,7 +170,7 @@ theorem conjSub_canonicalRep_rootSubgroup (w : WeylGroup τ) {γ : Fin τ.rank �
 
 theorem exists_ne_zero_ne_one_of_three_le (h3 : 3 ≤ Nat.card K) : ∃ c : K, c ≠ 0 ∧ c ≠ 1 := by
   by_contra! h
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite K := Nat.finite_of_card_ne_zero (by omega)
   have hsurj : Function.Surjective fun b : Bool => if b then (1 : K) else 0 := by
     intro s
     by_cases hs : s = 0
@@ -206,7 +206,7 @@ theorem commute_Uθ_conjSub_of_deg_zero {p : ModGL τ K} (hp : p ∈ Pθ τ K)
 theorem exists_M_of_le_Qθ {X₁ X₂ H B : Subgroup (ModGL τ K)} (hco : TwCoords X₁ X₂)
     (hBH : B ≤ H) (hBQ : B ≤ Qθ τ K) (hBX : ¬ B ≤ X₁ ⊔ X₂) :
     ∃ m ∈ H, m ∈ Qθ τ K ∧ heisCoord τ K m ∉ VS (X₁ ⊔ X₂) := by
-  obtain ⟨b, hb, hbX⟩ := SetLike.not_le_iff_exists.1 hBX
+  obtain ⟨b, hb, hbX⟩ := IsConcreteLE.not_le_iff_exists.1 hBX
   exact ⟨b, hBH hb, hBQ hb, fun hS => hbX (hco.inj b (hBQ hb) hS)⟩
 
 theorem exists_mem_Rθ_of_mem_VS {X₁ X₂ : Subgroup (ModGL τ K)} (hb : TwBasic X₁ X₂)

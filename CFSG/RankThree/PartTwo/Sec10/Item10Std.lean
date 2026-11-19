@@ -55,7 +55,7 @@ theorem exists_pGroup_le_normalizer {G : Type*} [Group G] [Finite G] {p q : ℕ}
     ∃ T : Subgroup G, T ≤ Y ∧ T ≠ ⊥ ∧ IsPGroup q T ∧
       E ≤ Subgroup.normalizer (T : Set G) := by
   obtain ⟨T, ⟨S, rfl⟩, hET⟩ := exists_isSylowOf_le_normalizer (q := q) hE hY hEY
-  refine ⟨_, Subgroup.map_subtype_le _, ?_, S.isPGroup'.map _, hET⟩
+  refine ⟨_, Subgroup.map_subtype_le _, ?_, S.isPGroup.map _, hET⟩
   rw [Ne, Subgroup.map_eq_bot_iff_of_injective _ Y.subtype_injective]
   exact Sylow.ne_bot_of_dvd_card S hqY
 

@@ -28,7 +28,7 @@ theorem k331c_ker_le_center {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F
 theorem k331c_six_le_card {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F] [Finite F]
     (h2 : (2 : F) ≠ 0) {H : Subgroup (GL ι F)} {L : Type} [Group L] [Finite L]
     (e : L ≃* StatedProj H) {K : Subgroup L} (hK : IsAlt (Bar2 K) 8) : 6 ≤ Fintype.card ι := by
-  haveI : Finite (GL ι F) :=
+  have : Finite (GL ι F) :=
     Finite.of_injective (fun g : GL ι F => (g : Matrix ι ι F)) Units.val_injective
   let φ : ↥H →* L := e.symm.toMonoidHom.comp (QuotientGroup.mk' ((StatedScalars ι F).subgroupOf H))
   have hφ : Function.Surjective φ :=

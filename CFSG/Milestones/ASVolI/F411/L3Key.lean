@@ -45,10 +45,10 @@ private theorem burnsideF411_l3_marking_parabolic {p f : ℕ} {H : Type} [Group 
     simp only [Units.val_one, Matrix.one_mulVec, Set.image_id']
     rw [hxu]
     cases b
-    · simp only [Bool.false_eq_true, if_false, ChF.ClassicalRoots.flagOne]
+    · simp only [Bool.false_eq_true, ite_false, ChF.ClassicalRoots.flagOne]
       exact forall_congr' fun v => by
         rw [(burnsideF4h_cl_sl_coordinateSpace _).1, (burnsideF4h_cl_sl_coordinateSpace _).1]
-    · simp only [if_true, ChF.ClassicalRoots.flagTwo]
+    · simp only [ite_true, ChF.ClassicalRoots.flagTwo]
       exact forall_congr' fun v => by
         rw [(burnsideF4h_cl_sl_coordinateSpace _).2, (burnsideF4h_cl_sl_coordinateSpace _).2]
   let φ : projectiveSL 3 K ≃* StatedProj (StatedSL 3 K) :=
@@ -83,7 +83,7 @@ theorem burnsideF411_l3_chart {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : S
   iterate 5 exact absurd hk (by decide)
   have hc : c = .L3 := by cases c <;> first | rfl | exact absurd hk (by decide)
   subst hc
-  haveI : Fact p.Prime := ⟨marking.prime⟩
+  have : Fact p.Prime := ⟨marking.prime⟩
   set K := marking.field
   have hK : Nat.card K = p ^ f := by simpa using marking.field_card
   have hcl := burnsideF4h_cl_L3 p f ↥Gp marking
@@ -277,7 +277,7 @@ theorem burnsideF411_l3_pCoreOf_projUT [Finite K] (p : ℕ) [Fact p.Prime] [Char
     hN ▸ Subgroup.le_normalizer
   apply le_antisymm
   · have hSB : (SU : Subgroup (projectiveSL 3 K)) ≤ projUpperTriangular 3 K := hSU ▸ hUB
-    haveI := CFSG.LieType.BorelTits.pCore_normal p (G := ↥(projUpperTriangular 3 K))
+    have := CFSG.LieType.BorelTits.pCore_normal p (G := ↥(projUpperTriangular 3 K))
     have hle := (CFSG.LieType.BorelTits.pCore_isPGroup p
       (G := ↥(projUpperTriangular 3 K))).le_sylow_of_normal (SU.subtype hSB)
     rintro _ ⟨x, hx, rfl⟩
@@ -286,7 +286,7 @@ theorem burnsideF411_l3_pCoreOf_projUT [Finite K] (p : ℕ) [Fact p.Prime] [Char
     exact hx'
   · refine burnsideF411_le_pCoreOf hUB (le_of_eq hN.symm) ?_
     rw [← hSU]
-    exact SU.isPGroup'
+    exact SU.isPGroup
 
 theorem burnsideF411_l3_proj_dt_mem (t : Kˣ) :
     proj 3 K (burnsideF411_l3dt t) ∈ projUpperTriangular 3 K := by
@@ -307,8 +307,8 @@ theorem burnsideF411_l3_inner_of_torus [Finite K] {p f : ℕ} (hp : p.Prime) (hp
       projUnitriangular 3 K) :
     ∃ g, β = MulAut.conj g := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := burnsideF4h_cl_charP hK
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := burnsideF4h_cl_charP hK
   obtain ⟨-, hinj, -⟩ := maximal_parabolics (K := K) p (n := 3) (by norm_num)
   obtain ⟨A, σ, ε, hε, rfl⟩ := (automorphism_generation (K := K) (n := 3) (by norm_num)).2 β
   obtain ⟨v0F1, v1F2, v1nF1, v0nO1, v0nO2, v1O1, v2O2, hF12⟩ := burnsideF411_l3_vectors (K := K)
@@ -467,12 +467,12 @@ theorem burnsideF411_key_L3 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ (p ^ k) = 1 →
       (∀ b ∈ Gp ⊓ (M₁ ⊓ M₂), r * b * r⁻¹ * b⁻¹ ∈ pCoreOf p (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
   intro r hr k hrk hcomm
-  haveI : Finite E := hyp.finite
-  haveI := hyp.normal
+  have : Finite E := hyp.finite
+  have := hyp.normal
   have hp : p.Prime := hyp.model.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, e, hK, hG1, hG2, hP⟩ := burnsideF411_l3_chart hyp
-  haveI : CharP K p := burnsideF4h_cl_charP hK
+  have : CharP K p := burnsideF4h_cl_charP hK
   set Ψ : projectiveSL 3 K →* E := Gp.subtype.comp e.toMonoidHom with hΨdef
   have hΨ : Function.Injective Ψ := Gp.subtype_injective.comp e.injective
   have hGB : Gp ⊓ (M₁ ⊓ M₂) = (projUpperTriangular 3 K).map Ψ := by
@@ -548,8 +548,8 @@ theorem burnsideF411_key_L3 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
 theorem burnsideF411_l3_pCoreOf_eq {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .L3 p f Gp M₁ M₂) (hp3 : p ≠ 3) :
     pCoreOf p M₁ = pCoreOf p (Gp ⊓ M₁) ∧ pCoreOf p M₂ = pCoreOf p (Gp ⊓ M₂) := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact p.Prime := ⟨hyp.model.1⟩
+  have : Finite E := hyp.finite
+  have : Fact p.Prime := ⟨hyp.model.1⟩
   obtain ⟨K, _, _, e, hK, hG1, hG2, hP⟩ := burnsideF411_l3_chart hyp
   obtain ⟨T, hTp, hTi, hT⟩ := burnsideF411_exists_sylow_inf hyp.normal hyp.split hP
   exact ⟨burnsideF411_pCoreOf_eq_of_key hyp.normal hTp hTi hT (burnsideF411_key_L3 hyp hp3)

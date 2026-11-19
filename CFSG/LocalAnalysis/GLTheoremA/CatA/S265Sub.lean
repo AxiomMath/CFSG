@@ -16,6 +16,7 @@ section Basic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem closureIn_eq_self_of_le {L B : Subgroup G} (h : B ≤ Subgroup.normalizer (L : Set G)) :
     closureIn L B = L := by
   apply le_antisymm
@@ -25,16 +26,19 @@ theorem closureIn_eq_self_of_le {L B : Subgroup G} (h : B ≤ Subgroup.normalize
     exact (Subgroup.mem_normalizer_iff.1 (h ha) z).1 hz
   · exact le_closureIn_self L B
 
+omit [Finite G] in
 theorem normal_subgroupOf {H L : Subgroup G} (hLH : L ≤ H) (hHN : H ≤ Subgroup.normalizer (L : Set G)) :
     (L.subgroupOf H).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).2 hHN
 
+omit [Finite G] in
 theorem mem_normalizer_subgroupOf {H L : Subgroup G} (hLH : L ≤ H) (hHN : H ≤ Subgroup.normalizer (L : Set G))
     (h : ↥H) : h ∈ Subgroup.normalizer ((L.subgroupOf H : Subgroup ↥H) : Set ↥H) := by
-  haveI := normal_subgroupOf hLH hHN
+  have := normal_subgroupOf hLH hHN
   rw [Subgroup.normalizer_eq_top_iff.2 inferInstance]
   exact Subgroup.mem_top h
 
+omit [Finite G] in
 theorem sup3_subgroupOf {H L B T : Subgroup G} (h : L ⊔ B ⊔ T = H) :
     L.subgroupOf H ⊔ B.subgroupOf H ⊔ T.subgroupOf H = ⊤ := by
   have hLH : L ≤ H := h ▸ (le_sup_left.trans le_sup_left)
@@ -45,6 +49,7 @@ theorem sup3_subgroupOf {H L B T : Subgroup G} (h : L ⊔ B ⊔ T = H) :
     Subgroup.map_subgroupOf_eq_of_le hBH, Subgroup.map_subgroupOf_eq_of_le hTH, h, Subgroup.map_top,
     Subgroup.range_subtype]
 
+omit [Finite G] in
 theorem comm_subgroupOf_ne_bot {H B T : Subgroup G} (hBH : B ≤ H) (hTH : T ≤ H)
     (h : (⁅T, B⁆ : Subgroup G) ≠ ⊥) : (⁅T.subgroupOf H, B.subgroupOf H⁆ : Subgroup ↥H) ≠ ⊥ := by
   intro hbot
@@ -53,7 +58,8 @@ theorem comm_subgroupOf_ne_bot {H B T : Subgroup G} (hBH : B ≤ H) (hTH : T ≤
   rwa [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hTH, Subgroup.map_subgroupOf_eq_of_le hBH,
     Subgroup.map_bot] at this
 
-theorem le_normalizer_subgroupOf {H B T : Subgroup G} (hBH : B ≤ H) (hTH : T ≤ H)
+omit [Finite G] in
+theorem le_normalizer_subgroupOf {H B T : Subgroup G} (_hBH : B ≤ H) (_hTH : T ≤ H)
     (h : B ≤ Subgroup.normalizer (T : Set G)) :
     B.subgroupOf H ≤ Subgroup.normalizer ((T.subgroupOf H : Subgroup ↥H) : Set ↥H) := by
   intro b hb
@@ -63,6 +69,7 @@ theorem le_normalizer_subgroupOf {H B T : Subgroup G} (hBH : B ≤ H) (hTH : T �
   simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
   exact hb'
 
+omit [Finite G] in
 theorem isElemAbelian_subgroupOf' {p : ℕ} {B : Subgroup G} (H : Subgroup G) (hB : IsElemAbelian p B) :
     IsElemAbelian p (B.subgroupOf H) := by
   refine ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩, fun x hx => Subtype.ext ?_⟩
@@ -70,9 +77,11 @@ theorem isElemAbelian_subgroupOf' {p : ℕ} {B : Subgroup G} (H : Subgroup G) (h
   · rw [Subgroup.coe_pow, Subgroup.coe_one]
     exact hB.2 _ (Subgroup.mem_subgroupOf.1 hx)
 
+omit [Finite G] in
 theorem card_subgroupOf' {B H : Subgroup G} (hBH : B ≤ H) : Nat.card (B.subgroupOf H) = Nat.card B :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBH).toEquiv
 
+omit [Finite G] in
 theorem isPGroup_subgroupOf' {q : ℕ} {T H : Subgroup G} (hT : IsPGroup q T) (hTH : T ≤ H) :
     IsPGroup q (T.subgroupOf H) :=
   IsPGroup.of_injective hT (Subgroup.subgroupOfEquivOfLe hTH).toMonoidHom
@@ -106,7 +115,7 @@ theorem fieldOn_of_subgroupOf (hp : p.Prime) {H L : Subgroup G} (hLH : L ≤ H)
   T156.fieldOn_to_Omega (eL hp hLH) (hHN hb) (fun x x' => (indRel_eL hp hLH hHN ⟨b, hb⟩ x x').symm) hF
 
 theorem innDiagOn_subgroupOf (hp : p.Prime) {H L A : Subgroup G} (hLH : L ≤ H)
-    (hHN : H ≤ Subgroup.normalizer (L : Set G)) (hAH : A ≤ H) (h : InnDiagOn p A L) :
+    (hHN : H ≤ Subgroup.normalizer (L : Set G)) (_hAH : A ≤ H) (h : InnDiagOn p A L) :
     InnDiagOn p (A.subgroupOf H) (L.subgroupOf H) := by
   refine T156.innDiagOn_to_Omega (eL hp hLH).symm (fun a _ => mem_normalizer_subgroupOf hLH hHN a)
     (fun a' ha' => ⟨(a' : G), Subgroup.mem_subgroupOf.1 ha', fun x x' => ?_⟩) h
@@ -170,6 +179,7 @@ section Layers
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem map_inf_cx_subgroupOf {H L : Subgroup G} (hLH : L ≤ H) {b : G} (hb : b ∈ H) :
     ((L.subgroupOf H) ⊓ Subgroup.centralizer ({(⟨b, hb⟩ : ↥H)} : Set ↥H) : Subgroup ↥H).map H.subtype =
       L ⊓ Subgroup.centralizer ({b} : Set G) := by
@@ -189,6 +199,7 @@ theorem map_inf_cx_subgroupOf {H L : Subgroup G} (hLH : L ≤ H) {b : G} (hb : b
     apply Subtype.ext
     simpa using hxC
 
+omit [Finite G] in
 theorem map_inf_cs_subgroupOf {H L E : Subgroup G} (hLH : L ≤ H) (hEH : E ≤ H) :
     ((L.subgroupOf H) ⊓ Subgroup.centralizer ((E.subgroupOf H : Subgroup ↥H) : Set ↥H) : Subgroup ↥H).map
         H.subtype = L ⊓ Subgroup.centralizer (E : Set G) := by
@@ -225,6 +236,7 @@ section Zpowers
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem mem_zpowers_subgroupOf_iff {H : Subgroup G} (a c : ↥H) :
     c ∈ Subgroup.zpowers a ↔ (c : G) ∈ Subgroup.zpowers (a : G) := by
   constructor

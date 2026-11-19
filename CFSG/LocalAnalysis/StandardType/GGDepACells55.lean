@@ -102,11 +102,11 @@ private lemma l05nPC_isTv_one_add {p N : ℕ} [Fact p.Prime] (d f : GGDepAE p N)
     have hg : ∀ x, (1 + (ggDepAform f).smulRight d) x = x + ggDepAdot f x • d := by
       intro x; simp [l05nPC_form_apply]
     rw [hg, hg]
-    simp only [l05nPC_dot_add, l05nPC_dot_sub, l05nPC_dot_smul, hfd, mul_zero, zero_smul,
+    simp only [l05nPC_dot_smul, hfd, mul_zero, zero_smul,
       add_zero, add_sub_cancel_left]
 
 private lemma l05nPC_refl_mul_same {p N : ℕ} (c f1 f2 : GGDepAE p N)
-    (h1 : ggDepAdot f1 c = 2) (h2 : ggDepAdot f2 c = 2) :
+    (h1 : ggDepAdot f1 c = 2) (_h2 : ggDepAdot f2 c = 2) :
     ggDepARefl c f1 * ggDepARefl c f2 =
       1 + (ggDepAform (f2 - f1)).smulRight c := by
   apply LinearMap.ext; intro v
@@ -114,12 +114,12 @@ private lemma l05nPC_refl_mul_same {p N : ℕ} (c f1 f2 : GGDepAE p N)
   have hone : (1 : Module.End (ZMod p) (GGDepAE p N)) v = v := rfl
   simp only [Module.End.mul_apply, l05nPC_refl_apply, LinearMap.add_apply,
     LinearMap.smulRight_apply, Pi.add_apply, Pi.sub_apply, Pi.smul_apply,
-    l05nPC_dot_sub, l05nPC_dot_smul, l05nPC_dot_sub_left, l05nPC_form_apply, h1, h2]
+    l05nPC_dot_sub, l05nPC_dot_smul, l05nPC_dot_sub_left, l05nPC_form_apply, h1]
   rw [hone]
   ring
 
 private lemma l05nPC_refl_mul_prop {p N : ℕ} [Fact p.Prime] (c1 c2 f1 f2 : GGDepAE p N)
-    (k : ZMod p) (h1 : ggDepAdot f1 c1 = 2) (hf : f2 = k • f1) (hk0 : k ≠ 0)
+    (k : ZMod p) (_h1 : ggDepAdot f1 c1 = 2) (hf : f2 = k • f1) (hk0 : k ≠ 0)
     (hk : ggDepAdot f1 c2 = k⁻¹ * 2) :
     ggDepARefl c1 f1 * ggDepARefl c2 f2 =
       1 + (ggDepAform f1).smulRight (c1 - k • c2) := by
@@ -129,8 +129,7 @@ private lemma l05nPC_refl_mul_prop {p N : ℕ} [Fact p.Prime] (c1 c2 f1 f2 : GGD
   have hone : (1 : Module.End (ZMod p) (GGDepAE p N)) v = v := rfl
   simp only [Module.End.mul_apply, l05nPC_refl_apply, LinearMap.add_apply,
     LinearMap.smulRight_apply, Pi.add_apply, Pi.sub_apply, Pi.smul_apply,
-    l05nPC_dot_sub, l05nPC_dot_smul, l05nPC_dot_smul_left, l05nPC_dot_sub_left,
-    l05nPC_form_apply, h1]
+    l05nPC_dot_sub, l05nPC_dot_smul, l05nPC_dot_smul_left, l05nPC_form_apply]
   rw [hone, hk]
   field_simp
   ring
@@ -375,13 +374,13 @@ private lemma l05nPCprop_spec (f1 f2 : GGDepAE 5 5) (k : ZMod 5)
       dsimp only at h
       by_cases hk : (List.finRange 5).all
           (fun i => (f2 j * (f1 j)⁻¹) * f1 i == f2 i) = true
-      · rw [if_pos hk] at h
+      · rw [ite_eq_left hk] at h
         have hk' : k = f2 j * (f1 j)⁻¹ := (Option.some.inj h).symm
         rw [hk']
         ext i
         have hi := (List.all_eq_true.mp hk) i (List.mem_finRange i)
         exact (beq_iff_eq.mp hi).symm
-      · rw [if_neg hk] at h; simp at h
+      · rw [ite_eq_right hk] at h; simp at h
 
 private theorem l05nPCtestPairN_sound (q1 q2 : GGDepAE 5 5 × GGDepAE 5 5)
     (h1 : ggDepAdot q1.2 q1.1 = 2) (h2 : ggDepAdot q2.2 q2.1 = 2)
@@ -602,7 +601,7 @@ theorem ggDepA_cells_5_5 : GGDepASmallCells 5 5 := by
     exact ⟨beq_iff_eq.mpr (by rw [l05nPCdot_eq]; exact h2),
       bne_iff_ne.mpr (by rw [l05nPCdot_eq, l05nPCxTab_eq]; exact hx)⟩
   rw [hcond] at h2'
-  simp only [if_true] at h2'
+  simp only [ite_true] at h2'
   rw [List.any_eq_true] at h2'
   obtain ⟨w, hwmem, hwtest⟩ := h2'
   let g1 : Fin 5 → Module.End (ZMod 5) (GGDepAE 5 5) := l05nPCgen ha αa

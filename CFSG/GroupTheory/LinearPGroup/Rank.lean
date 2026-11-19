@@ -15,7 +15,7 @@ theorem rank_le_of_isPGroup_of_isAlgClosed {ι : Type*} [Fintype ι] [DecidableE
   classical
   obtain ⟨A, hAn, hAc, hAcent⟩ :=
     CFSG.GroupTheory.exists_normal_commutative_centralizer_le hP
-  haveI : A.Normal := hAn
+  have : A.Normal := hAn
   have hcardA : (Nat.card A : K) ≠ 0 := by
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp (hP.to_subgroup A)
     rw [hm, Nat.cast_pow]
@@ -37,7 +37,7 @@ theorem rank_le_of_isPGroup_of_isAlgClosed {ι : Type*} [Fintype ι] [DecidableE
     have hAtriv : Subsingleton A := by
       rw [← Group.rank_eq_zero_iff]
       omega
-    haveI : Subsingleton A := hAtriv
+    have : Subsingleton A := hAtriv
     have hmem : ∀ x : P, x ∈ A := by
       intro x
       refine hAcent ?_
@@ -87,7 +87,7 @@ theorem rank_le_of_isPGroup {ι : Type*} [Fintype ι] [DecidableEq ι] {K : Type
   let P' : Subgroup (GL ι L) := P.map f
   let e : P ≃* P' := Subgroup.equivMapOfInjective P f hf
   have hP' : IsPGroup p P' := hP.map f
-  haveI : Finite P' :=
+  have : Finite P' :=
     Finite.of_injective (fun x : P' => e.symm x) e.symm.injective
   have hpL : (p : L) ≠ 0 := by
     intro h

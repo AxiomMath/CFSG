@@ -22,6 +22,7 @@ namespace UFrame
 variable {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {L : Subgroup G}
   (F : UFrame V₀ V hV L)
 
+omit [Finite G] in
 theorem card_fixV_eq {X : Subgroup (MulAut (Vtil V₀ V hV))} (hX : X ≤ lBar V₀ V hV L) :
     Nat.card (fixV X) = Nat.card (fixSp (F.suSub X)) := by
   have h : F.addSub (fixV X) = (fixSp (F.suSub X)).toAddSubgroup := by
@@ -32,12 +33,14 @@ theorem card_fixV_eq {X : Subgroup (MulAut (Vtil V₀ V hV))} (hX : X ≤ lBar V
     _ = Nat.card ((fixSp (F.suSub X)).toAddSubgroup) := by rw [h]
     _ = Nat.card (fixSp (F.suSub X)) := rfl
 
+omit [Finite G] in
 theorem exists_card_fixV_eq_pow_four (F : UFrame V₀ V hV L)
     {X : Subgroup (MulAut (Vtil V₀ V hV))}
     (hX : X ≤ lBar V₀ V hV L) : ∃ d : ℕ, Nat.card (fixV X) = 4 ^ d := by
   refine ⟨Module.finrank F.K ↥(fixSp (F.suSub X)), ?_⟩
   rw [F.card_fixV_eq hX, Module.natCard_eq_pow_finrank (K := F.K), F.card_K]
 
+omit [Finite G] in
 theorem card_commV_eq {X : Subgroup (MulAut (Vtil V₀ V hV))} (hX : X ≤ lBar V₀ V hV L) :
     Nat.card (commV X) = Nat.card (commSp (F.suSub X)) := by
   have h : F.addSub (commV X) = (commSp (F.suSub X)).toAddSubgroup := by

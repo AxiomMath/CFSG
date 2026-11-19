@@ -14,18 +14,21 @@ section B
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem Hbar_mono (X : Subgroup A) (ψ : ↥X →* GL32) {H₁ H₂ : Subgroup A} (h : H₁ ≤ H₂) :
     Hbar X ψ H₁ ≤ Hbar X ψ H₂ :=
   Subgroup.map_mono (Subgroup.comap_mono h)
 
+omit [Finite A] in
 theorem Hbar_isPGroup (X : Subgroup A) (ψ : ↥X →* GL32) {S : Subgroup A} (hS : IsPGroup 2 S) :
     IsPGroup 2 (Hbar X ψ S) :=
   hS.comap_subtype.map ψ
 
+omit [Finite A] in
 theorem Hbar_ne_bot (X : Subgroup A) {ψ : ↥X →* GL32}
     (hψk : ψ.ker = (pCoreOf 2 X).subgroupOf X) {A₀ : Subgroup A} (hA₀X : A₀ ≤ X)
     (hA₀Q : ¬ A₀ ≤ pCoreOf 2 X) : Hbar X ψ A₀ ≠ ⊥ := by
-  obtain ⟨a, ha, haQ⟩ := SetLike.not_le_iff_exists.1 hA₀Q
+  obtain ⟨a, ha, haQ⟩ := IsConcreteLE.not_le_iff_exists.1 hA₀Q
   intro hbot
   have hmem : ψ ⟨a, hA₀X ha⟩ ∈ Hbar X ψ A₀ :=
     Subgroup.mem_map_of_mem ψ (Subgroup.mem_subgroupOf.2 ha)
@@ -34,18 +37,19 @@ theorem Hbar_ne_bot (X : Subgroup A) {ψ : ↥X →* GL32}
   rw [hψk, Subgroup.mem_subgroupOf] at hker
   exact haQ hker
 
+omit [Finite A] in
 theorem dbar_order (X : Subgroup A) {ψ : ↥X →* GL32} (hψk : ψ.ker = (pCoreOf 2 X).subgroupOf X)
     {d₀ : A} (hd₀X : d₀ ∈ X) (hd₀3 : orderOf d₀ = 3) : orderOf (ψ ⟨d₀, hd₀X⟩) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcube : (⟨d₀, hd₀X⟩ : ↥X) ^ 3 = 1 :=
-    Subtype.ext (by simpa [← hd₀3] using pow_orderOf_eq_one d₀)
+    Subtype.ext (by simp [← hd₀3])
   have h3 : ψ ⟨d₀, hd₀X⟩ ^ 3 = 1 := by
     rw [← map_pow, hcube, map_one]
   have h1 : ψ ⟨d₀, hd₀X⟩ ≠ 1 := by
     intro h1
     have hker : (⟨d₀, hd₀X⟩ : ↥X) ∈ ψ.ker := h1
     rw [hψk, Subgroup.mem_subgroupOf] at hker
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 (isPGroup_pCoreOf X)) ⟨d₀, hker⟩
     rw [Subgroup.orderOf_mk, hd₀3] at hk
     have h3k : 3 ∣ 2 ^ k := by
@@ -54,6 +58,7 @@ theorem dbar_order (X : Subgroup A) {ψ : ↥X →* GL32} (hψk : ψ.ker = (pCor
     omega
   exact orderOf_eq_prime h3 h1
 
+omit [Finite A] in
 theorem dbar_mem_normalizer (X : Subgroup A) (ψ : ↥X →* GL32) {P : Subgroup A} (hPX : P ≤ X)
     {d₀ : A} (hd₀P : d₀ ∈ P) :
     ψ ⟨d₀, hPX hd₀P⟩ ∈ normalizer (Hbar X ψ (pCoreOf 2 P) : Set GL32) := by
@@ -77,6 +82,7 @@ theorem dbar_mem_normalizer (X : Subgroup A) (ψ : ↥X →* GL32) {P : Subgroup
     rw [e] at this
     simpa [mul_assoc] using this
 
+omit [Finite A] in
 theorem hb_card_Hbar (X : Subgroup A) {ψ : ↥X →* GL32}
     (hψk : ψ.ker = (pCoreOf 2 X).subgroupOf X) {A₀ : Subgroup A} (hA₀X : A₀ ≤ X) :
     Nat.card (Hbar X ψ A₀) * Nat.card ↥(A₀ ⊓ pCoreOf 2 X) = Nat.card A₀ := by
@@ -101,6 +107,7 @@ section TR
 variable {ψ : ↥X →* GL32} {N : Type} [AddCommGroup N] [DistribMulAction GL32 N]
   {ι : ↥(TT X) → N}
 
+omit [Finite A] in
 theorem hb_card_inf_le [Finite N] (hι : IsTBridge X ψ ι) {A₀ : Subgroup A} (hA₀X : A₀ ≤ X)
     (hAc : IsMulCommutative A₀) :
     Nat.card ↥(A₀ ⊓ TT X) ≤ Nat.card (fixSub N (Hbar X ψ A₀)) := by

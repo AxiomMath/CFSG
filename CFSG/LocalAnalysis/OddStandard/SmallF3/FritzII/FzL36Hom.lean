@@ -50,22 +50,20 @@ private theorem fzl_le_range (hsh : FzSpShape t x₁ x₂ lam T₂ a₁₂ a₂�
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg
     rcases hg with rfl | rfl | rfl | rfl | rfl | rfl | rfl
     · exact MonoidHom.mem_range.mpr ⟨⟨(QuaternionGroup.a 1, 1, 1), 1⟩, by
-        simp only [fzl_pi_mk, fzl_fn_apply, fzl_lamHom_one, map_one, mul_one, one_mul,
-          fzl_q8Hom_a_one hsh.quat₁]⟩
+        simp only [fzl_pi_mk, fzl_fn_apply, map_one, mul_one, fzl_q8Hom_a_one hsh.quat₁]⟩
     · exact MonoidHom.mem_range.mpr ⟨⟨(QuaternionGroup.xa 0, 1, 1), 1⟩, by
-        simp only [fzl_pi_mk, fzl_fn_apply, fzl_lamHom_one, map_one, mul_one, one_mul,
-          fzl_q8Hom_xa_zero hsh.quat₁]⟩
+        simp only [fzl_pi_mk, fzl_fn_apply, map_one, mul_one, fzl_q8Hom_xa_zero hsh.quat₁]⟩
     · exact MonoidHom.mem_range.mpr ⟨⟨(1, QuaternionGroup.a 1, 1), 1⟩, by
-        simp only [fzl_pi_mk, fzl_fn_apply, fzl_lamHom_one, map_one, mul_one, one_mul,
+        simp only [fzl_pi_mk, fzl_fn_apply, map_one, mul_one, one_mul,
           fzl_q8Hom_a_one hsh.quat₂]⟩
     · exact MonoidHom.mem_range.mpr ⟨⟨(1, QuaternionGroup.xa 0, 1), 1⟩, by
-        simp only [fzl_pi_mk, fzl_fn_apply, fzl_lamHom_one, map_one, mul_one, one_mul,
+        simp only [fzl_pi_mk, fzl_fn_apply, map_one, mul_one, one_mul,
           fzl_q8Hom_xa_zero hsh.quat₂]⟩
     · exact MonoidHom.mem_range.mpr ⟨⟨(1, 1, QuaternionGroup.a 1), 1⟩, by
-        simp only [fzl_pi_mk, fzl_fn_apply, fzl_lamHom_one, map_one, mul_one, one_mul,
+        simp only [fzl_pi_mk, fzl_fn_apply, map_one, mul_one, one_mul,
           fzl_q8Hom_a_one hsh.quat₃]⟩
     · exact MonoidHom.mem_range.mpr ⟨⟨(1, 1, QuaternionGroup.xa 0), 1⟩, by
-        simp only [fzl_pi_mk, fzl_fn_apply, fzl_lamHom_one, map_one, mul_one, one_mul,
+        simp only [fzl_pi_mk, fzl_fn_apply, map_one, mul_one, one_mul,
           fzl_q8Hom_xa_zero hsh.quat₃]⟩
     · exact MonoidHom.mem_range.mpr ⟨⟨1, Multiplicative.ofAdd 1⟩, by
         simp only [fzl_pi_mk, fzl_fn_one, fzl_lamHom_gen, one_mul]⟩
@@ -161,11 +159,11 @@ theorem fzl_model_hom (hsh : FzSpShape t x₁ x₂ lam T₂ a₁₂ a₂₂ a₃
       ∀ g h : Model, π g = π h ↔ KEq g h := by
   refine ⟨fzl_pi hsh, ?_, ?_, ?_, ?_, fzl_range_eq hsh, fzl_pi_eq_iff hsh⟩
   · intro q
-    simp only [fzl_pi_mk, fzl_fn_apply, fzl_lamHom_one, map_one, mul_one, one_mul]
+    simp only [fzl_pi_mk, fzl_fn_apply, map_one, mul_one]
   · intro q
-    simp only [fzl_pi_mk, fzl_fn_apply, fzl_lamHom_one, map_one, mul_one, one_mul]
+    simp only [fzl_pi_mk, fzl_fn_apply, map_one, mul_one, one_mul]
   · intro q
-    simp only [fzl_pi_mk, fzl_fn_apply, fzl_lamHom_one, map_one, mul_one, one_mul]
-  · simp only [fzl_pi_mk, fzl_fn_apply, fzl_lamHom_gen, map_one, one_mul]
+    simp only [fzl_pi_mk, fzl_fn_apply, map_one, mul_one, one_mul]
+  · simp only [fzl_pi_mk, fzl_lamHom_gen, map_one, one_mul]
 
 end CFSG.OddStandard.SmallF3.FritzII

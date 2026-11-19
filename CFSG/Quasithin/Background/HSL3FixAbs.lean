@@ -15,6 +15,7 @@ open scoped Matrix
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem map_conj_pairSL {g : MulAut (PairMod K)} (hg : g ∈ pairNorm K) :
     (pairSL K).map (MulAut.conj g).toMonoidHom = pairSL K := by
   ext x
@@ -113,7 +114,8 @@ theorem eq_one_or_eq_of_mem_zpowers {M : Type*} [Group M] {x y : M} (hx : x * x 
   · right
     rw [zpow_add, zpow_mul, zpow_two, hx, one_zpow, one_mul, zpow_one]
 
-theorem not_V₁_le_zpowers (hK : Nat.card K = 2) (c : Fin 3 → K) :
+omit [Finite K] in
+theorem not_V₁_le_zpowers (_hK : Nat.card K = 2) (c : Fin 3 → K) :
     ¬ V₁ K ≤ Subgroup.zpowers (zvec c) := by
   intro hle
   obtain ⟨u, hu0, huc⟩ : ∃ u : Fin 3 → K, u ≠ 0 ∧ u ≠ c := by
@@ -211,7 +213,7 @@ theorem H4_SL3One_fix {V : Type*} [CommGroup V] [Finite V] {H : Subgroup (MulAut
     obtain ⟨h, hh, rfl⟩ := hl
     rintro _ ⟨w, hw, rfl⟩
     refine ⟨h w, hW h hh w hw, ?_⟩
-    simp [congrHom_apply]
+    simp
   have hcardV : Nat.card V = 2 ^ 6 := (Nat.card_congr e.toEquiv).trans (card_pairMod_two hK2)
   have htopbot : (⊤ : Subgroup V) ≠ ⊥ := by
     intro h

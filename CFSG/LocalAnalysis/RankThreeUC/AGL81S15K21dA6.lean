@@ -21,7 +21,7 @@ end K21dA6Proof
 theorem k21dGeomA6_holds : K21dGeomA6 := by
   intro S _ _ ⟨e⟩ U D E hU hUD hDs hED hE hE9 _
   exfalso
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : Nat.card S = 360 := (Nat.card_congr e.toEquiv).trans K21aProof.card_alt6
   have hU8 : Nat.card U = 8 := by
     have h := hU.card_eq
@@ -42,9 +42,9 @@ theorem k21dGeomA6_holds : K21dGeomA6 := by
       omega
     have hsolv : Group.IsSolvable S := by
       subst hDtop
-      exact solvable_of_solvable_injective (f := (Subgroup.topEquiv (G := S)).symm.toMonoidHom)
+      exact Group.isSolvable_of_isSolvable_injective (f := (Subgroup.topEquiv (G := S)).symm.toMonoidHom)
         (Subgroup.topEquiv (G := S)).symm.injective
-    exact K21dA6Proof.not_isSolvable_alt6 (solvable_of_solvable_injective
+    exact K21dA6Proof.not_isSolvable_alt6 (Group.isSolvable_of_isSolvable_injective
       (f := e.symm.toMonoidHom) e.symm.injective)
 
 end CFSG.LocalAnalysis.RankThreeUC.S15

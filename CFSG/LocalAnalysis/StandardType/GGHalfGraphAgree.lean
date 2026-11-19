@@ -45,8 +45,8 @@ private theorem ggHalfGraphAgree_slPerm_conj_slE (π : Equiv.Perm (Fin 6)) (i j 
   by_cases hij : i = j
   · subst hij
     simp [slE]
-  · rw [slE, dif_neg hij, ggHalfGraphAgree_slPerm_conj_transvection π hij 1, slE,
-      dif_neg (π.injective.ne hij)]
+  · rw [slE, dite_eq_right hij, ggHalfGraphAgree_slPerm_conj_transvection π hij 1, slE,
+      dite_eq_right (π.injective.ne hij)]
 
 private theorem ggHalfGraphAgree_agree4 {G : Type} [Group G]
     {φ₁ φ₂ : SpecialLinearGroup (Fin 6) F2 →* G}
@@ -59,8 +59,8 @@ private theorem ggHalfGraphAgree_agree4 {G : Type} [Group G]
     rw [MonoidHom.comp_apply, MonoidHom.comp_apply,
       ggHalfGraphAgree_slLower2Hom_transvection huv 1,
       ggHalfGraphAgree_slUpper2Hom_transvection huv 1] at h
-    rw [slE, dif_neg ((Fin.succ_injective _).ne ((Fin.succ_injective _).ne huv)),
-      slE, dif_neg ((Fin.castSucc_injective _).ne ((Fin.castSucc_injective _).ne huv))]
+    rw [slE, dite_eq_right ((Fin.succ_injective _).ne ((Fin.succ_injective _).ne huv)),
+      slE, dite_eq_right ((Fin.castSucc_injective _).ne ((Fin.castSucc_injective _).ne huv))]
     exact h
 
 private theorem ggHalfGraphAgree_LK {G : Type} [Group G]
@@ -75,21 +75,21 @@ private theorem ggHalfGraphAgree_LK {G : Type} [Group G]
   have hcu : c = u.succ.succ := by
     apply Fin.ext
     dsimp only [u]
-    simp only [Fin.val_succ, Fin.val_mk]
+    simp only [Fin.val_succ]
     omega
   have hdv : d = v.succ.succ := by
     apply Fin.ext
     dsimp only [v]
-    simp only [Fin.val_succ, Fin.val_mk]
+    simp only [Fin.val_succ]
     omega
   have hc'u : c' = u.castSucc.castSucc := by
     apply Fin.ext
     dsimp only [u]
-    simp only [Fin.val_castSucc, Fin.val_mk]
+    simp only [Fin.val_castSucc]
   have hd'v : d' = v.castSucc.castSucc := by
     apply Fin.ext
     dsimp only [v]
-    simp only [Fin.val_castSucc, Fin.val_mk]
+    simp only [Fin.val_castSucc]
   have h4 := ggHalfGraphAgree_agree4 hagree u v
   rw [← hcu, ← hdv] at h4
   rw [← hc'u, ← hd'v] at h4
@@ -155,11 +155,11 @@ private theorem ggHalfGraphAgree_ML {G : Type} [Group G]
   have hcu : c = u.castSucc.castSucc := by
     apply Fin.ext
     dsimp only [u]
-    simp only [Fin.val_castSucc, Fin.val_mk]
+    simp only [Fin.val_castSucc]
   have hdv : d = v.castSucc.castSucc := by
     apply Fin.ext
     dsimp only [v]
-    simp only [Fin.val_castSucc, Fin.val_mk]
+    simp only [Fin.val_castSucc]
   have hΦ : φ₂ (slE c d) = φ₁ (slE u.succ.succ v.succ.succ) := by
     rw [hcu, hdv]
     exact (ggHalfGraphAgree_agree4 hagree u v).symm
@@ -276,13 +276,13 @@ private theorem ggHalfGraphAgree_overlap_LK {m : GGHalfE6Model} (hmL : m.FrameOK
     have h2 := congrArg Fin.val hKc'
     rw [ggHalfGraphAgree_lab_L] at h1
     rw [ggHalfGraphAgree_lab_K] at h2
-    simp only [Fin.val_mk] at h1 h2
+    simp only at h1 h2
     omega
   · have h1 := congrArg Fin.val hLd
     have h2 := congrArg Fin.val hKd'
     rw [ggHalfGraphAgree_lab_L] at h1
     rw [ggHalfGraphAgree_lab_K] at h2
-    simp only [Fin.val_mk] at h1 h2
+    simp only at h1 h2
     omega
 
 private theorem ggHalfGraphAgree_overlap_LM {m : GGHalfE6Model} (hmL : m.FrameOK .L)
@@ -314,25 +314,25 @@ private theorem ggHalfGraphAgree_overlap_LM {m : GGHalfE6Model} (hmL : m.FrameOK
   have hc'4 : c'.val < 4 := by
     have h := congrArg Fin.val hMc'
     rw [ggHalfGraphAgree_lab_M] at h
-    simp only [Fin.val_mk] at h
+    simp only at h
     omega
   have hd'4 : d'.val < 4 := by
     have h := congrArg Fin.val hMd'
     rw [ggHalfGraphAgree_lab_M] at h
-    simp only [Fin.val_mk] at h
+    simp only at h
     omega
   refine ⟨?_, ?_, hc'4, hd'4⟩
   · apply Fin.ext
     rw [ggHalfGraphAgree_mup_val c' hc'4, hMc']
     have h := congrArg Fin.val hLc
     rw [ggHalfGraphAgree_lab_L] at h
-    simp only [Fin.val_mk] at h
+    simp only at h
     exact h
   · apply Fin.ext
     rw [ggHalfGraphAgree_mup_val d' hd'4, hMd']
     have h := congrArg Fin.val hLd
     rw [ggHalfGraphAgree_lab_L] at h
-    simp only [Fin.val_mk] at h
+    simp only at h
     exact h
 
 private theorem ggHalfGraphAgree_overlap_MK {m : GGHalfE6Model} (hmK : m.FrameOK .K)
@@ -366,25 +366,25 @@ private theorem ggHalfGraphAgree_overlap_MK {m : GGHalfE6Model} (hmK : m.FrameOK
   have hc2 : 2 ≤ c.val := by
     have h := congrArg Fin.val hMc
     rw [ggHalfGraphAgree_lab_M] at h
-    simp only [Fin.val_mk] at h
+    simp only at h
     omega
   have hd2 : 2 ≤ d.val := by
     have h := congrArg Fin.val hMd
     rw [ggHalfGraphAgree_lab_M] at h
-    simp only [Fin.val_mk] at h
+    simp only at h
     omega
   refine ⟨?_, ?_, hc2, hd2⟩
   · apply Fin.ext
     rw [ggHalfGraphAgree_pidown_val d, hMd]
     have h := congrArg Fin.val hKc'
     rw [ggHalfGraphAgree_lab_K] at h
-    simp only [Fin.val_mk] at h
+    simp only at h
     omega
   · apply Fin.ext
     rw [ggHalfGraphAgree_pidown_val c, hMc]
     have h := congrArg Fin.val hKd'
     rw [ggHalfGraphAgree_lab_K] at h
-    simp only [Fin.val_mk] at h
+    simp only at h
     omega
 
 namespace GGHalfCtx

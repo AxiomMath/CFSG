@@ -47,8 +47,8 @@ theorem ParabolicLeviData.map_injective {G H : Type*} [Group G] [Group H] {f : G
       (MulEquiv.subgroupCongr hmapS).symm.trans
         (Subgroup.equivMapOfInjective (S.comap f) f hf).symm
     have hS₀perf : commutator ↥(S.comap f) = ⊤ := by
-      haveI : Group.IsPerfect ↥S := Group.IsPerfect.mk hSperf
-      haveI : Group.IsPerfect ↥(S.comap f) :=
+      have : Group.IsPerfect ↥S := Group.IsPerfect.mk hSperf
+      have : Group.IsPerfect ↥(S.comap f) :=
         Group.IsPerfect.ofSurjective (f := eS.toMonoidHom) eS.surjective
       exact Group.IsPerfect.commutator_eq_top
     have hcardS : Nat.card ↥(S.comap f) = Nat.card ↥S := by
@@ -87,8 +87,8 @@ theorem unitarySixLevi_of_model
   intro q hq2 Y _ _ U hU A hAU hAne hA2
   obtain ⟨f, hf, rfl⟩ := hq2
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hU
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   let A' : Subgroup (StatedProj (StatedSU 6 (2 ^ f) K)) :=
     (A.subgroupOf U).map e.toMonoidHom
   have hA'ne : A' ≠ ⊥ := by
@@ -134,7 +134,7 @@ theorem unitarySixLevi_of_model
   simpa [d₁, d₂, d₃] using hdisjY
 
 theorem unitarySixLevi_holds : UnitarySixLeviStatement :=
-  unitarySixLevi_of_model fun f hf K _ _ hK A hA hA2 =>
+  unitarySixLevi_of_model fun _f hf _K _ _ hK _A hA hA2 =>
     CFSG.LieType.BorelTits.exists_levi_statedProj_su6 hf hK hA hA2
 
 end CFSG.RankThree.GF2n.Stroth80

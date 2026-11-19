@@ -61,8 +61,8 @@ theorem orth_case (n : ℕ) (hn : Nat.card F = 2 ^ n)
   have h : OrthHyp B G₀ Q := ⟨halt, hnd, hdim, hSp, hD, hirrG, hQB, hQ⟩
   have hT : transvGen G₀ = G₀ := h.transvGen_eq orthIdent_holds hprimG
   have hprim : ¬ IsImprimitiveOnV G₀ := hT ▸ hprimG
-  haveI : Finite V := h.finite
-  haveI : Finite (V ≃ₗ[F] V) :=
+  have : Finite V := h.finite
+  have : Finite (V ≃ₗ[F] V) :=
     Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V)) DFunLike.coe_injective
   rw [hT]
   have hdim' := h.finrank_form'
@@ -86,8 +86,8 @@ theorem orth_case (n : ℕ) (hn : Nat.card F = 2 ^ n)
       rw [hK, hk1'] at h4
       norm_num at h4
     obtain ⟨e⟩ := orth_plus_core (formQ Q G₀) hdim' hnd' hplus h4 _ hf hrange
-    letI := Fintype.ofFinite (centreField Q G₀)
-    letI := Fintype.ofFinite (GaloisField 2 k)
+    let := Fintype.ofFinite (centreField Q G₀)
+    let := Fintype.ofFinite (GaloisField 2 k)
     have hcard : Fintype.card (centreField Q G₀) = Fintype.card (GaloisField 2 k) := by
       rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, hK, GaloisField.card 2 k hk.ne']
     obtain ⟨σ⟩ := nonempty_sl2_mulEquiv (FiniteField.ringEquivOfCardEq hcard)

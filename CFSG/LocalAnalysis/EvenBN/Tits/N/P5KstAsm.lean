@@ -69,6 +69,7 @@ theorem part3 (h : KSetup U K x v t) :
   rw [hC, h.hF.card] at hcomm
   exact ⟨by omega, hC⟩
 
+omit [Finite Γ] in
 theorem inverts_x (h : KSetup U K x v t) {z : Γ} (hz : z = v ^ 2 ∨ z = t * v ^ 2) :
     z * x * z⁻¹ = x⁻¹ := by
   have h1 : v ^ 2 * x * (v ^ 2)⁻¹ = x⁻¹ := h.hF.sq_conj
@@ -324,8 +325,8 @@ theorem part5 (h : KSetup U K x v t) :
       show h.rho k (h.rho ⟨x, h.x_mem_K⟩ ((h.rho k)⁻¹ p)) = q
       rw [h1]
       exact hgj
-  letI : MulAction ↥Ñ (Fin 6) := MulAction.compHom (Fin 6) (h.rho.comp Ñ.subtype)
-  haveI : MulAction.IsPretransitive ↥Ñ (Fin 6) := ⟨fun p q => by
+  let : MulAction ↥Ñ (Fin 6) := MulAction.compHom (Fin 6) (h.rho.comp Ñ.subtype)
+  have : MulAction.IsPretransitive ↥Ñ (Fin 6) := ⟨fun p q => by
     obtain ⟨n, hn, hnpq⟩ := htr p q
     exact ⟨⟨n, hn⟩, hnpq⟩⟩
   have hcs : Nat.card (MulAction.stabilizer ↥Ñ h.base) * 6 = Nat.card Ñ := by

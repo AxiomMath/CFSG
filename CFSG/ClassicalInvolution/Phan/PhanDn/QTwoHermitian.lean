@@ -11,6 +11,7 @@ open CFSG.ClassicalGroups.Unitary
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {σ : K ≃+* K}
 
+omit [Finite K] in
 theorem qTwo_fixed_eq_one (hσ : IsUnitaryInvolution σ) (hK : Nat.card K = 4)
     {x : K} (hfix : σ x = x) (hx : x ≠ 0) : x = 1 := by
   classical
@@ -25,6 +26,7 @@ theorem qTwo_fixed_eq_one (hσ : IsUnitaryInvolution σ) (hK : Nat.card K = 4)
   have hone' : one' ≠ 0 := fun h => one_ne_zero (congrArg Subtype.val h)
   exact congrArg Subtype.val ((hu x' hx').trans (hu one' hone').symm)
 
+omit [Finite K] in
 theorem qTwo_norm_eq_one (hσ : IsUnitaryInvolution σ) (hK : Nat.card K = 4)
     {x : K} (hx : x ≠ 0) : σ x * x = 1 := by
   have hs : σ x ≠ 0 := fun h => hx (σ.injective (h.trans (map_zero σ).symm))
@@ -42,6 +44,7 @@ private theorem point_eq_span {n : ℕ}
   apply Submodule.eq_of_le_of_finrank_eq ((Submodule.span_singleton_le_iff_mem x p).2 hx)
   rw [finrank_span_singleton hx0, hpdim]
 
+omit [Finite K] in
 private theorem point_diag_eq_one (hσ : IsUnitaryInvolution σ) (hK : Nat.card K = 4)
     {n : ℕ} {p : Submodule K (Fin n ⊕ Fin n → K)} (hp : IsFlipflopPt σ p)
     {x : Fin n ⊕ Fin n → K} (hx : x ∈ p) (hx0 : x ≠ 0) : flipHerm σ x x = 1 := by
@@ -49,6 +52,7 @@ private theorem point_diag_eq_one (hσ : IsUnitaryInvolution σ) (hK : Nat.card 
   exact qTwo_fixed_eq_one hσ hK (flipHerm_conj hσ.invol x x)
     ((isFlipflopPt_span_singleton_iff hx0).1 hp').2
 
+omit [Finite K] in
 theorem FlipColl.flipHerm_eq_zero_of_card_four (hσ : IsUnitaryInvolution σ)
     (hK : Nat.card K = 4) {n : ℕ} {p q : Submodule K (Fin n ⊕ Fin n → K)}
     (hcoll : FlipColl σ p q) (hp : IsFlipflopPt σ p) (hq : IsFlipflopPt σ q)
@@ -93,6 +97,7 @@ theorem FlipColl.flipHerm_eq_zero_of_card_four (hσ : IsUnitaryInvolution σ)
   exact hcoll.1 (Submodule.eq_of_le_of_finrank_eq hpq
     (by rw [hpx, hqy, finrank_span_singleton hx0, finrank_span_singleton hy0]))
 
+omit [Finite K] in
 theorem FlipColl.le_flipOrth_of_card_four (hσ : IsUnitaryInvolution σ)
     (hK : Nat.card K = 4) {n : ℕ} {p q : Submodule K (Fin n ⊕ Fin n → K)}
     (hcoll : FlipColl σ p q) (hp : IsFlipflopPt σ p) (hq : IsFlipflopPt σ q) :

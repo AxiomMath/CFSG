@@ -17,7 +17,7 @@ theorem uc22s216_isJ1_bar2_of_isJ1_barInf {M L : Subgroup G} (hL : L ∈ calC M)
   obtain ⟨e⟩ := h
   have hq : CFSG.Open.IsQuasisimple (Bar2 L) := hL.2.2
   obtain ⟨e'⟩ := uc22p21k_barInf_equiv hq
-  haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hq.1
   have hNC : CFSG.GH74.Generic.S45.NoCentralCover (CFSG.Blueprint.NativeSporadic.Carrier .J1) :=
     CFSG.GH74.Generic.S45.NoCentralCover.of_mulEquiv CFSG.Walter.walterJ1EquivNative
       CFSG.GH74.Generic.S45.noCentralCover_walterJ1

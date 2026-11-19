@@ -18,7 +18,7 @@ theorem false_of_not_dvd_pred [Finite A] [Fact p.Prime] (h : OddCfg p L P T) {K 
   have hcyc : ∀ Q : Subgroup (StatedProj (StatedSL 3 K)), IsPGroup p Q → IsCyclic Q :=
     fun Q hQ => CFSG.Quasithin.F134.isCyclic_of_isPGroup_of_surjective
       (QuotientGroup.mk'_surjective _) (fun S =>
-        CFSG.SectionRank.OddCover.isCyclic_of_isPGroup_of_le_GL_three hq hq1 S.isPGroup') Q hQ
+        CFSG.SectionRank.OddCover.isCyclic_of_isPGroup_of_le_GL_three hq hq1 S.isPGroup) Q hQ
   have h1 : IsPGroup p (P.subgroupOf L) :=
     h.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe h.le).symm
   have h2 : IsCyclic ((P.subgroupOf L).map e.toMonoidHom) := hcyc _ (h1.map _)

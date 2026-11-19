@@ -56,7 +56,7 @@ theorem two_dvd_card_of_isTypeEpsCube {X : Type} [Group X] (h : IsTypeEpsCube X)
 
 theorem exists_omega_of_card {F : Type} [Field F] [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n)
     (hn : Even n) : ∃ ω : F, ω ^ 2 + ω + 1 = 0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card Fˣ := by
     rw [Nat.card_units, hF]
     have := two_pow_mod_three_of_even hn
@@ -83,8 +83,8 @@ theorem false_of_fieldCase {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
     {A : Subgroup (MulAut (projectiveSL 3 F))} {α : MulAut (projectiveSL 3 F)}
     {K : Subgroup (projectiveSL 3 F)} (hc : CfgSEps (projectiveSL 3 F) A α K)
     (hD : α ∉ linearAutGroup 3 F) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hc.isPerfect
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hc.isPerfect
   have hα3 : α ^ 3 = 1 := hc.pow_three
   obtain ⟨φ, hφ, H, hαH⟩ := linear_order_three_field_descent le_rfl α hα3 hD
   have hr : MulAut.congr (MulEquiv.refl (projectiveSL 3 F)) α = α := MulEquiv.ext fun x => rfl
@@ -128,10 +128,10 @@ theorem false_of_fieldCase {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
   have ψ : fixedField φ ≃+* GaloisField 2 m :=
     CFSG.ClassicalModels.finiteFieldEquivGaloisField (fixedField φ) 2 m (by omega) hK₀
   obtain ⟨φ₁⟩ := nonempty_projSL_mulEquiv 3 (GaloisField 2 m)
-  haveI := isSimpleGroup_projectiveSL_three (fixedField φ)
-  haveI : IsSimpleGroup ↥K := eK.isSimpleGroup
+  have := isSimpleGroup_projectiveSL_three (fixedField φ)
+  have : IsSimpleGroup ↥K := eK.isSimpleGroup
   have hpc : CFSG.pCore 2 ↥K = ⊥ := by
-    haveI : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 ↥K) with h | h
     · exact h
     · exfalso
@@ -141,7 +141,7 @@ theorem false_of_fieldCase {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
       have h3' := three_dvd_card_of_isTypeEpsCube (isTypeEpsCube_of_cfgSEps hc)
       rw [hidx] at h3'
       norm_num at h3'
-  haveI : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
   have eQ : ↥K ⧸ CFSG.pCore 2 ↥K ≃* ↥K :=
     (QuotientGroup.quotientMulEquivOfEq hpc).trans QuotientGroup.quotientBot
   have hiso : IsoLThreePi (↥K ⧸ CFSG.pCore 2 ↥K) 2 m :=
@@ -327,7 +327,7 @@ theorem odd_card_C0_of_no_cube_root {F : Type} [Field F] [Finite F] [CharP F 2]
     (hno : ¬ ∃ μ : F, μ ^ 3 = c) : Odd (Nat.card ↥(C0 g)) := by
   by_contra hev
   rw [Nat.not_odd_iff_even] at hev
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.mp hev)
   have ht2 : t ^ 2 = 1 := by
     have h := pow_orderOf_eq_one t
@@ -398,9 +398,9 @@ theorem exists_scalar_diagUnits_eq {F : Type} [Field F] {ω : F} (hω0 : ω ≠ 
   funext i
   fin_cases i
   · simp
-  · simp [hne]
+  · simp
     field_simp
-  · simp [hne]
+  · simp
     field_simp
 
 theorem false_of_sl2_residual {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
@@ -413,7 +413,7 @@ theorem false_of_sl2_residual {F : Type} [Field F] [Finite F] [CharP F 2] {n : �
     (ψR : ↥(inSubgroup perfectResidual
       (slPi true 3 (2 ^ n) F ⊓ Subgroup.centralizer ({g} : Set (GL (Fin 3) F)))) ≃*
         Matrix.SpecialLinearGroup (Fin 2) F) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X : Subgroup (GL (Fin 3) F) :=
     slPi true 3 (2 ^ n) F ⊓ Subgroup.centralizer ({g} : Set (GL (Fin 3) F)) with hX
   set R : Subgroup (GL (Fin 3) F) := inSubgroup perfectResidual X with hR
@@ -496,8 +496,8 @@ theorem false_of_linearCase {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ
     {A : Subgroup (MulAut (projectiveSL 3 F))} {α : MulAut (projectiveSL 3 F)}
     {K : Subgroup (projectiveSL 3 F)} (hc : CfgSEps (projectiveSL 3 F) A α K)
     (g : GL (Fin 3) F) (hg : conjAut 3 F g = α) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hc.isPerfect
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hc.isPerfect
   have hn1 : 1 ≤ n := by omega
   have h4 : 4 ≤ Nat.card F := by
     rw [hF]
@@ -573,7 +573,7 @@ theorem false_of_linearCase {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ
       Subgroup.centralizer ({g} : Set (GL (Fin 3) F)))) := Nat.not_odd_iff_even.mp hodd
   obtain ⟨ψR⟩ := Sec21.SL3Lines.perfectResidual_centralizer_of_conj (y := g) (g := h⁻¹) (l := u * E0)
     (s := s1) (t := t2) hPi h4 hy hnc hev
-  haveI := isPerfect_commutator_comap K
+  have := isPerfect_commutator_comap K
   exact false_of_sl2_residual hF hn1 h4 hc g hg
     (⁅K.comap (LinearFlag.proj 3 F), K.comap (LinearFlag.proj 3 F)⁆) (map_proj_commutator_comap K)
     (commutator_comap_le_C0 K hfix) ψR
@@ -589,7 +589,7 @@ theorem noCfgSEps_projectiveSL_three_even {F : Type} [Field F] [Finite F] [CharP
 
 theorem rowSEpsOf_seven_SL3 : ∀ n : ℕ, 1 ≤ n → RowSEpsOf (projSL 3 (GaloisField 2 n)) := by
   intro n hn S _ _ _ _ ⟨eS⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   obtain ⟨φ₀⟩ := nonempty_projSL_mulEquiv 3 (GaloisField 2 n)
   rcases Nat.even_or_odd n with he | ho

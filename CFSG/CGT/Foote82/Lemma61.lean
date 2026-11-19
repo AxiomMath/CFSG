@@ -99,7 +99,7 @@ private theorem apply_eq_zero_of_commSpace {L : Subgroup (GLV V)} (hperf : ⁅L,
     fun c hc => ⟨hc.2, hNC c hc⟩
   rcases hmin _ hInv hKC inf_le_left with hKeq | hKeq
   · exfalso
-    obtain ⟨w, hwW, hwC⟩ := SetLike.exists_of_lt hCW
+    obtain ⟨w, hwW, hwC⟩ := _root_.IsConcreteLE.exists_of_lt hCW
     have key : ∀ j : ℕ, (N ^ j) w ∈ commSpace L ⊤ ∧
         (N ^ j) w ∉ fixedSpace L ⊓ commSpace L ⊤ := by
       intro j

@@ -40,8 +40,8 @@ private theorem finrank_quad_eq_two_of_isComponentOf (hF : Nat.card F = 2) {d : 
     (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1) {Kb : Subgroup ↥(StatedSp 3 F)}
     (hcomp : IsComponentOf Kb (Subgroup.centralizer ({d} : Set ↥(StatedSp 3 F)))) :
     finrank F ↥(primaryComponent (spEnd d) (X ^ 2 + X + 1 : F[X])) = 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hsum := finrank_primaryComponent_fixed_add_quad (ℓ := 3) hd3
   obtain ⟨m, hm⟩ := finrank_quad_eq_two_mul hF (d := d)
@@ -60,6 +60,7 @@ private theorem finrank_quad_eq_two_of_isComponentOf (hF : Nat.card F = 2) {d : 
     have h8 := eight_le_finrank_unitary hF hd3 hd1 hcomp.2.2
     omega
 
+omit [Finite F] in
 private theorem spEnd_commutator_transvection_of_mem_fixed [CharP F 2] {d : ↥(StatedSp ℓ F)}
     {u v : Fin ℓ ⊕ Fin ℓ → F} (hu : u ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1 : F[X]))
     (hv : v ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1 : F[X])) (huv : spForm ℓ F u v = 1)
@@ -72,6 +73,7 @@ private theorem spEnd_commutator_transvection_of_mem_fixed [CharP F 2] {d : ↥(
     CFSG.LieType.SeitzGeneration.spForm_fixSub_normKer (three_ne_zero_of_charP_two) d hx hv]
   simp
 
+omit [Finite F] in
 private theorem spEnd_eq_commutator_transvection_of_mem_quad [CharP F 2] {d : ↥(StatedSp ℓ F)}
     (h2 : finrank F ↥(primaryComponent (spEnd d) (X ^ 2 + X + 1 : F[X])) = 2)
     {w : Fin ℓ ⊕ Fin ℓ → F} (hw : w ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1 : F[X]))
@@ -136,6 +138,7 @@ private theorem exists_eq_commutator_of_finrank_quad_eq_two [CharP F 2] (hF : Na
       (apply_mem_primaryComponent (Commute.refl (spEnd d)) hw) hw hQ' hx1,
     spEnd_eq_commutator_transvection_of_mem_quad h2 hw hQ hQ' hx3]
 
+omit [Finite F] in
 private theorem spTransvection_single_inl_two [CharP F 2] :
     spTransvection (Pi.single (Sum.inl 2) 1 : Fin 3 ⊕ Fin 3 → F) (1 : F) =
       Sp.x 3 F (Pi.single 2 1) 1 := by
@@ -160,10 +163,10 @@ private theorem spTransvection_single_inl_two [CharP F 2] :
   rw [hB]
   funext i
   rcases i with i | i <;> fin_cases i <;>
-    simp [Matrix.add_mulVec, Matrix.mulVec, dotProduct, Matrix.single_apply, Matrix.one_apply,
-      Fintype.sum_sum_type, Fin.sum_univ_three, Pi.single_apply,
-      CFSG.LieType.Universal.Symplectic.SpExtras.E, CharTwo.neg_eq]
+    simp [Matrix.mulVec, dotProduct, Matrix.single_apply, Matrix.one_apply,
+      Fintype.sum_sum_type, CFSG.LieType.Universal.Symplectic.SpExtras.E, CharTwo.neg_eq]
 
+omit [Finite F] in
 private theorem spTransvection_single_inr_two :
     spTransvection (Pi.single (Sum.inr 2) 1 : Fin 3 ⊕ Fin 3 → F) (1 : F) =
       Sp.x 3 F (-Pi.single 2 1) 1 := by
@@ -188,10 +191,10 @@ private theorem spTransvection_single_inr_two :
   rw [hB]
   funext i
   rcases i with i | i <;> fin_cases i <;>
-    simp [Matrix.add_mulVec, Matrix.mulVec, dotProduct, Matrix.single_apply, Matrix.one_apply,
-      Fintype.sum_sum_type, Fin.sum_univ_three, Pi.single_apply,
-      CFSG.LieType.Universal.Symplectic.SpExtras.E] <;> ring
+    simp [Matrix.mulVec, dotProduct, Matrix.single_apply, Matrix.one_apply,
+      Fintype.sum_sum_type, CFSG.LieType.Universal.Symplectic.SpExtras.E]; ring
 
+omit [Finite F] in
 private theorem exists_conj_eq_commutator_x [CharP F 2] {u v : Fin 3 ⊕ Fin 3 → F}
     (huv : spForm 3 F u v = 1) :
     ∃ g : ↥(StatedSp 3 F), ⁅spTransvection u (1 : F), spTransvection v (1 : F)⁆ =
@@ -229,8 +232,8 @@ theorem exists_conj_eq_commutator_x_of_isComponentOf (hF : Nat.card F = 2)
     (hcomp : IsComponentOf Kb (Subgroup.centralizer ({d} : Set ↥(StatedSp 3 F)))) :
     ∃ g : ↥(StatedSp 3 F),
       d = g * ⁅Sp.x 3 F (Pi.single 2 1) 1, Sp.x 3 F (-Pi.single 2 1) 1⁆ * g⁻¹ := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   obtain ⟨u, hu, hdu⟩ := exists_eq_commutator_of_finrank_quad_eq_two hF hd3
     (finrank_quad_eq_two_of_isComponentOf hF hd3 hd1 hcomp)

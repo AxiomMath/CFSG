@@ -25,7 +25,7 @@ theorem ggInducedAutOf_eq {L' R : Type} [Group L'] [Group R] {ψ : L' →* R}
   classical
   have h : ∃ φ : MulAut R, ∀ l, φ (ψ l) = ψ (τ l) := ⟨φ, hφ⟩
   unfold ggInducedAutOf
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact TypeA.induced_unique ψ hψ h.choose_spec hφ
 
 theorem ggInducedAutOf_conj {L' R : Type} [Group L'] [Group R] {ψ : L' →* R}

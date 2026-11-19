@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conjSubgroup_eq_of_mul_inv_mem_normalizer {A : Subgroup G} {g g' : G}
     (h : g * g'⁻¹ ∈ normalizer (A : Set G)) : conjSubgroup A g = conjSubgroup A g' := by
   have hA : conjSubgroup A (g * g'⁻¹) = A := conjSubgroup_eq_iff_mem_normalizer.mpr h
@@ -21,6 +22,7 @@ private theorem conjSubgroup_eq_of_mul_inv_mem_normalizer {A : Subgroup G} {g g'
     _ = conjSubgroup (conjSubgroup A (g * g'⁻¹)) g' := by rw [conjSubgroup_conjSubgroup]
     _ = conjSubgroup A g' := by rw [hA]
 
+omit [Finite G] in
 theorem inCalO_of_mem_calO {n : ℕ} {M V₀ V : Subgroup G} (hN : normalizer (V : Set G) = M)
     (hN₀ : M ≤ normalizer (V₀ : Set G)) {g : G} (hg : conjSubgroup V g ∈ calO n M V₀ V) :
     InCalO n M V₀ V g := by
@@ -45,6 +47,7 @@ namespace Cfg1667Ne
 
 variable {M V₀ V W₁ W₂ : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem not_mem_of_inCalO (h : Cfg1667Ne M V₀ V W₁ W₂) (hg : InCalO 1 M V₀ V g) : g ∉ M := by
   intro hgM
   have hgn : g ∈ normalizer (V : Set G) := by rwa [h.normalizer_eq]
@@ -120,6 +123,7 @@ theorem two_mul_card_le_card_conj_inf (h : Cfg1667Ne M V₀ V W₁ W₂) (hg : I
   have h' := two_mul_card_le_card_inf (h.conj g) (CFSG.LocalAnalysis.WeakClosure81.inCalO_swap hg)
   simpa only [conjSubgroup_conjSubgroup_inv, E3.card_conjSubgroup] using h'
 
+omit [Finite G] in
 theorem le_normalizer_U (h : Cfg1667Ne M V₀ V W₁ W₂) :
     conjSubgroup V g ⊓ M ≤ normalizer ((V ⊓ conjSubgroup M g : Subgroup G) : Set G) := by
   refine (le_inf ?_ ?_).trans (inf_normalizer_le_normalizer_inf (H := V)
@@ -130,6 +134,7 @@ theorem le_normalizer_U (h : Cfg1667Ne M V₀ V W₁ W₂) :
   · intro b hb
     exact Subgroup.le_normalizer ((E3.conjSubgroup_mono_left g (le_M h)) hb.1)
 
+omit [Finite G] in
 theorem le_normalizer_B (h : Cfg1667Ne M V₀ V W₁ W₂) :
     V ⊓ conjSubgroup M g ≤ normalizer ((conjSubgroup V g ⊓ M : Subgroup G) : Set G) := by
   have hnorm : normalizer (conjSubgroup V g : Set G) = conjSubgroup M g := by
@@ -172,6 +177,7 @@ theorem commutator_Vg_U_le (h : Cfg1667Ne M V₀ V W₁ W₂) (hg : InCalO 1 M V
   have h' := commutator_V_B_le (h.conj g) (CFSG.LocalAnalysis.WeakClosure81.inCalO_swap hg)
   simpa only [conjSubgroup_conjSubgroup_inv] using h'
 
+omit [Finite G] in
 theorem commutator_U_B_le (h : Cfg1667Ne M V₀ V W₁ W₂) :
     ⁅V ⊓ conjSubgroup M g, conjSubgroup V g ⊓ M⁆ ≤
       (V ⊓ conjSubgroup M g) ⊓ (conjSubgroup V g ⊓ M) := by
@@ -192,6 +198,7 @@ theorem commutator_U_B_le (h : Cfg1667Ne M V₀ V W₁ W₂) :
     rw [commutatorElement_def, show u * b * u⁻¹ * b⁻¹ = (u * b * u⁻¹) * b⁻¹ by group]
     exact (conjSubgroup V g ⊓ M).mul_mem hub ((conjSubgroup V g ⊓ M).inv_mem hb)
 
+omit [Finite G] in
 theorem U_inf_B_eq (h : Cfg1667Ne M V₀ V W₁ W₂) :
     (V ⊓ conjSubgroup M g) ⊓ (conjSubgroup V g ⊓ M) = V ⊓ conjSubgroup V g := by
   have hle : conjSubgroup V g ≤ conjSubgroup M g := E3.conjSubgroup_mono_left g (le_M h)

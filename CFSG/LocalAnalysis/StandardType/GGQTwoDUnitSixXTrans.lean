@@ -27,6 +27,7 @@ namespace NsQuot
 
 variable {G : Type} [Group G] [Finite G] {Q : Type} [Group Q]
 
+omit [Finite G] in
 theorem Datum.le_of_img_le_of_fix {p : ℕ} {N L Bs Z : Subgroup G} {f : ↥N →* Q}
     (hD : Datum p N f L Bs Z) {J S H : Subgroup G} (hJZ : ∀ j ∈ J, j ∈ Z → j = 1) (hSL : S ≤ L)
     (hSH : S ≤ Subgroup.centralizer (H : Set G)) (hHBs : H ≤ Bs)
@@ -117,6 +118,7 @@ theorem ggQTwoDUnitSix_perm_mem {B L Bs : Subgroup G} {x : G} {Q : Type} [Group 
     rw [hD.tau_apply, hbase.perm σ (hD.tau s), hD.tau_apply] at h2
     exact hpermβ σ s (r s) (hD.BsN s.2) (hD.BsN (r s).2) h2
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_conj_mem_block (hK : Nat.card K = 4) {L Bs : Subgroup G} {Q : Type}
     [Group Q] {f : ↥(Subgroup.normalizer (L : Set G)) →* Q} {ψ : Su K 2 1 6 →* Q}
     (hD : NsQuot.Datum 3 (Subgroup.normalizer (L : Set G)) f L Bs (twoCentral L))
@@ -227,8 +229,8 @@ theorem ggQTwoDUnitSix_twoCentral_fix (hK : Nat.card K = 4) {L Bs : Subgroup G} 
     rw [Matrix.GeneralLinearGroup.val_det_apply, Units.val_one] at h1
     change Matrix.det (Matrix.diagonal fun i => ((c i : Kˣ) : K)) = 1 at h1
     rw [Matrix.det_diagonal, Finset.prod_eq_single k
-      (fun i _ hik => by rw [hci, if_neg hik, Units.val_one])
-      (fun h => absurd (Finset.mem_univ k) h), hci, if_pos rfl, Units.val_eq_one] at h1
+      (fun i _ hik => by rw [hci, ite_eq_right hik, Units.val_one])
+      (fun h => absurd (Finset.mem_univ k) h), hci, ite_eq_left rfl, Units.val_eq_one] at h1
     rw [h1, orderOf_one] at hω
     exact absurd hω (by norm_num)
   have htN : (t : G) ∈ Subgroup.normalizer (L : Set G) := hD.BsN t.2

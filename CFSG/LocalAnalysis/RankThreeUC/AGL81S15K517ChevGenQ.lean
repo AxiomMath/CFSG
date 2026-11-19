@@ -53,7 +53,7 @@ theorem kFactChevGenQ_of_cases {R₁ R₂ : TauCeti.LieTypeIndex → Prop}
 
 theorem classical_of_rankTwoPlus {d : TauCeti.LieTypeIndex} (h : IsRankTwoPlus d) :
     IsClassicalOrG2Index d := by
-  cases d <;> first | exact h.1 | exact h | exact h.elim
+  cases d <;> first | exact h.1 | exact h
 
 end K517ChevGenQ
 

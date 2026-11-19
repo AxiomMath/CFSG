@@ -239,6 +239,6 @@ end E8
 
 theorem wcOn_e8_model {K : Type} [Group K] [Finite K] {ℓ f p : ℕ} [Fact p.Prime] (hℓ : ℓ.Prime)
     (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ) (h : UntwistedChevalleyModel K Tag.E8 (ℓ ^ f)) : WCOn p K :=
-  wcOn_of_untwisted_model hℓ hpℓ h fun F _ _ _ hpq => E8.wcOn_adjoint hp2 hpq
+  wcOn_of_untwisted_model hℓ hpℓ h fun _F _ _ _ hpq => E8.wcOn_adjoint hp2 hpq
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.WeakClosure.ExcCross.Untw

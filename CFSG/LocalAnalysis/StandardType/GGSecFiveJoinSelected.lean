@@ -22,7 +22,7 @@ theorem GuardedLargeEvenLabel.not_ggLabelIso_unitary
   intro hi
   rcases hi with he | hBC | hDA | hAD | hD3A3 | hA3D3 | hD2A1 | hA1D2
   · rw [he] at hg
-    simpa [GuardedLargeEvenLabel] using hg
+    simp [GuardedLargeEvenLabel] at hg
   · simp at hBC
   · simp at hDA
   · simp at hAD

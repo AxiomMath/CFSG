@@ -212,8 +212,7 @@ theorem finGraphOddSp44_holds :
       Subgroup.centralizer (L : Set Y) = ⊥ → (∃ τ : Y, ActsOnDynkinMod ⊥ L τ) →
       ∀ a : Y, orderOf a = 2 →
         ¬ CFSG.Timmesfeld.Bridge.Asc72.IsOddTransp {x : Y | IsConj a x} := by
-  intro Y _ _ L hLn hSp hC hτ a ha
-  intro hOT
+  intro Y _ _ L hLn hSp hC hτ a ha hOT
   obtain ⟨f, hfinj, hL⟩ := Sp44.exists_emb Y L hLn hSp hC
   have hfbij : Function.Bijective f := Sp44.emb_bijective Y L f hfinj hL hτ
   have hα : orderOf (f a) = 2 := by

@@ -890,10 +890,10 @@ private abbrev ecY (X : Type) [Group X] (n : ℕ) (t b : X) : Subgroup X :=
   ⨆ (L : Subgroup X) (_ : Sec6KComp X n (cen t) L), sec6Piece L b
 
 private theorem ecY_le_cen_t {X : Type} [Group X] {n : ℕ} {t b : X} : ecY X n t b ≤ cen t :=
-  iSup₂_le fun L hL => (oTwoPrimeOf_le _).trans (inf_le_left.trans (ec_kcomp_pc hL).1)
+  iSup₂_le fun _L hL => (oTwoPrimeOf_le _).trans (inf_le_left.trans (ec_kcomp_pc hL).1)
 
 private theorem ecY_le_cen_b {X : Type} [Group X] {n : ℕ} {t b : X} : ecY X n t b ≤ cen b :=
-  iSup₂_le fun L _ => (oTwoPrimeOf_le _).trans inf_le_right
+  iSup₂_le fun _L _ => (oTwoPrimeOf_le _).trans inf_le_right
 
 private theorem piece_le_ecY {X : Type} [Group X] {n : ℕ} {t b : X} {L : Subgroup X}
     (hL : Sec6KComp X n (cen t) L) : sec6Piece L b ≤ ecY X n t b :=
@@ -1323,7 +1323,7 @@ theorem sec6_base_balance
 
 theorem sec6_extCanon
     {X : Type} [Group X] [Finite X] {n : ℕ} {t : X}
-    (hS : Sec6Setting X n t) (hK : Sec6Lemma51 X n) (hC : Sec6CtrlAt X n t)
+    (hS : Sec6Setting X n t) (_hK : Sec6Lemma51 X n) (hC : Sec6CtrlAt X n t)
     (hcan : ∀ B : Subgroup X, B ≤ Sec6M X n (cen t) → CFSG.Open.IsElemAbelian 2 B →
       Nat.card B = 4 → (⨆ (b : X) (_ : b ∈ B) (_ : b ≠ 1), oddCoreOf (cen b)) = sec6Sig X n t)
     {E : Subgroup X} (hEB : E ≤ Sec6Base X n t) (hE : CFSG.Open.IsElemAbelian 2 E)

@@ -24,7 +24,7 @@ public theorem CFSG.proposition_10_14_c
     ∀ {X : Subgroup G}, X ≤ (P : Subgroup G) →
       subgroupNormalizerIn (P : Subgroup G) (X : Set G) ∈ section9UniqueSubgroups G := by
   intro X hXP
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hpβG' := hpβG
   rcases hpβG with ⟨hprankG, _hnotNarrow⟩
   have hprimeRank_le : 3 ≤ primeRank p.val G := Nat.succ_le_of_lt hprankG
@@ -41,7 +41,7 @@ public theorem CFSG.proposition_10_14_c
   have hQ_le_P : Q ≤ (P : Subgroup G) := by
     change subgroupNormalizerIn (P : Subgroup G) (X : Set G) ≤ (P : Subgroup G)
     exact section10_subgroupNormalizerIn_le (P : Subgroup G) (X : Set G)
-  have hQp : IsPGroup p.val Q := IsPGroup.to_le P.isPGroup' hQ_le_P
+  have hQp : IsPGroup p.val Q := IsPGroup.to_le P.isPGroup hQ_le_P
   have hX_le_Q : X ≤ Q := by
     change X ≤ subgroupNormalizerIn (P : Subgroup G) (X : Set G)
     exact section10_le_subgroupNormalizerIn hXP
@@ -50,16 +50,16 @@ public theorem CFSG.proposition_10_14_c
     exact proposition_10_14_b (G := G) hpβG' hQp hQrank
   · have hQcyc : IsCyclic Q := by
       by_contra hQnoncyc
-      haveI : Fact (IsPGroup p.val Q) := ⟨hQp⟩
+      have : Fact (IsPGroup p.val Q) := ⟨hQp⟩
       have hQrank_ge_two : 2 ≤ groupRank Q :=
         section10_groupRank_at_least_two_of_noncyclic_pgroup
           (p := p.val) Q hpodd hQnoncyc
       exact hQrank (by omega)
     let XQ : Subgroup Q := X.subgroupOf Q
     have hXQchar : XQ.Characteristic := by
-      letI : IsCyclic Q := hQcyc
+      let : IsCyclic Q := hQcyc
       exact section10_characteristic_of_subgroup_of_isCyclic (K := XQ)
-    letI : XQ.Characteristic := hXQchar
+    let : XQ.Characteristic := hXQchar
     have hnormQ_le_normX :
         Subgroup.normalizer (Q : Set G) ≤ Subgroup.normalizer (X : Set G) := by
       have hnorm :=
@@ -84,8 +84,8 @@ public theorem CFSG.proposition_10_14_c
     have hnormK_eq : Subgroup.normalizer (K : Set P) = K :=
       le_antisymm hnormK_le Subgroup.le_normalizer
     have hPnil : Group.IsNilpotent P :=
-      IsPGroup.isNilpotent (p := p.val) (G := P) P.isPGroup'
-    letI : Group.IsNilpotent P := hPnil
+      IsPGroup.isNilpotent (p := p.val) (G := P) P.isPGroup
+    let : Group.IsNilpotent P := hPnil
     have hnc : NormalizerCondition P := Group.normalizerCondition_of_isNilpotent (G := P)
     have hKtop : K = ⊤ :=
       (normalizerCondition_iff_only_full_group_self_normalizing.mp hnc) K hnormK_eq

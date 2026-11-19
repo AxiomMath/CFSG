@@ -77,8 +77,8 @@ private lemma card_eq_six_and_fixed_eq_one (a c : ℕ) (ha6 : 6 ≤ a) (ha9 : a 
 
 private lemma not_card_six_of_isElementaryAbelian {A : Type*} [Group A] [Finite A]
     {p : ℕ} (hp : p.Prime) (hA : IsElementaryAbelian p A) (h6 : Nat.card A = 6) : False := by
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsElementaryAbelian p A := hA
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsElementaryAbelian p A := hA
   have hpdvd : p ∣ 6 := by
     rcases (IsElementaryAbelian.isPGroup p A).card_eq_or_dvd with h1 | hd
     · omega
@@ -112,7 +112,7 @@ private lemma not_card_six_of_isElementaryAbelian {A : Type*} [Group A] [Finite 
 private lemma isPretransitive_of_nontrivial_abelian_normal {Ω P : Type*} [Fintype Ω]
     [Group P] [MulAction P Ω] [Finite P] [FaithfulSMul P Ω] (hΩ : Fintype.card Ω ≤ 9)
     (htrans : MulAction.IsPretransitive P Ω) (hperf : Group.IsPerfect P)
-    (A : Subgroup P) [A.Normal] (hAne : A ≠ ⊥) (hAab : IsMulCommutative A) :
+    (A : Subgroup P) [A.Normal] (hAne : A ≠ ⊥) (_hAab : IsMulCommutative A) :
     MulAction.IsPretransitive A Ω := by
   classical
   obtain ⟨a, ha1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hAne
@@ -148,14 +148,14 @@ private lemma isPretransitive_of_nontrivial_abelian_normal {Ω P : Type*} [Finty
   have hψsolv : Group.IsSolvable ψ.range := by
     have hk4 : Nat.card (MulAction.orbit P B) ≤ 4 := by
       rwa [Nat.card_coe_set_eq]
-    letI : Group.IsSolvable (Equiv.Perm (MulAction.orbit P B)) :=
+    let : Group.IsSolvable (Equiv.Perm (MulAction.orbit P B)) :=
       Equiv.Perm.isSolvable hk4
     exact Group.instIsSolvableSubtypeMemSubgroup ψ.range
   have hψsub : Subsingleton ψ.range := by
     by_contra h
     rw [not_subsingleton_iff_nontrivial] at h
-    letI : Nontrivial ψ.range := h
-    letI : Group.IsPerfect ψ.range := hψperf
+    let : Nontrivial ψ.range := h
+    let : Group.IsPerfect ψ.range := hψperf
     exact (Group.IsPerfect.not_isSolvable ψ.range) hψsolv
   have hψone : ψ = 1 := by
     apply MonoidHom.ext
@@ -184,9 +184,9 @@ private lemma isPretransitive_of_nontrivial_abelian_normal {Ω P : Type*} [Finty
 private lemma centralizer_eq_of_abelian_regular {Ω P : Type*} [Group P] [MulAction P Ω]
     [FaithfulSMul P Ω] (A : Subgroup P) (hAab : IsMulCommutative A)
     (hAtrans : MulAction.IsPretransitive A Ω) (α : Ω)
-    (hstab : MulAction.stabilizer A α = ⊥) :
+    (_hstab : MulAction.stabilizer A α = ⊥) :
     Subgroup.centralizer (A : Set P) = A := by
-  letI : IsMulCommutative A := hAab
+  let : IsMulCommutative A := hAab
   apply le_antisymm
   · intro g hg
     obtain ⟨a, haeq⟩ := MulAction.exists_smul_eq A α (g • α)
@@ -218,7 +218,7 @@ private lemma stabilizer_eq_bot_of_abelian_transitive {Ω P : Type*} [Group P] [
     (A : Subgroup P) [FaithfulSMul A Ω] (hAab : IsMulCommutative A)
     (hAtrans : MulAction.IsPretransitive A Ω) (α : Ω) :
     MulAction.stabilizer A α = ⊥ := by
-  letI : IsMulCommutative A := hAab
+  let : IsMulCommutative A := hAab
   rw [eq_bot_iff]
   intro a ha
   rw [Subgroup.mem_bot]
@@ -243,20 +243,20 @@ private lemma ker_eq_bot {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
     (hΩ : Fintype.card Ω ≤ 9) (hn6 : 6 ≤ Fintype.card Ω)
     (P : Subgroup (Equiv.Perm Ω))
     (htrans : MulAction.IsPretransitive P Ω) (hperf : Group.IsPerfect P)
-    (φ : P →* alternatingGroup (Fin 6)) (hφ : Function.Surjective φ)
+    (φ : P →* alternatingGroup (Fin 6)) (_hφ : Function.Surjective φ)
     (hker : Group.IsSolvable φ.ker) (h360 : 360 ∣ Nat.card P) :
     φ.ker = ⊥ := by
   classical
   by_contra hne
-  letI : Nontrivial φ.ker := (Subgroup.nontrivial_iff_ne_bot φ.ker).mpr hne
+  let : Nontrivial φ.ker := (Subgroup.nontrivial_iff_ne_bot φ.ker).mpr hne
   obtain ⟨A0, p, hA0char, hA0ne, hp, hA0elem⟩ :=
     CFSG.ComponentClassification.CatalogueBHeldSmallCore.exists_characteristic_elementaryAbelian
       φ.ker
   let A : Subgroup P := A0.map (φ.ker).subtype
   have hAnorm : A.Normal := by
-    letI : A0.Characteristic := hA0char
+    let : A0.Characteristic := hA0char
     exact ConjAct.normal_of_characteristic_of_normal (H := φ.ker) (K := A0)
-  letI : A.Normal := hAnorm
+  let : A.Normal := hAnorm
   have hAne : A ≠ ⊥ := by
     intro h
     apply hA0ne
@@ -267,11 +267,11 @@ private lemma ker_eq_bot {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
     exact Subtype.ext hxA
   have hAle : A ≤ φ.ker := Subgroup.map_subtype_le _
   have hAelem : IsElementaryAbelian p A := by
-    letI : Fact p.Prime := ⟨hp⟩
-    letI : IsElementaryAbelian p A0 := hA0elem
+    let : Fact p.Prime := ⟨hp⟩
+    let : IsElementaryAbelian p A0 := hA0elem
     exact IsElementaryAbelian.map_subtype
   have hAab : IsMulCommutative A := hAelem.toIsMulCommutative
-  haveI : FaithfulSMul P Ω := by
+  have : FaithfulSMul P Ω := by
     rw [faithfulSMul_iff]
     intro g hg
     apply Subtype.ext
@@ -280,7 +280,7 @@ private lemma ker_eq_bot {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
     exact hg x
   have hAtrans : MulAction.IsPretransitive A Ω :=
     isPretransitive_of_nontrivial_abelian_normal hΩ htrans hperf A hAne hAab
-  haveI : FaithfulSMul A Ω := by
+  have : FaithfulSMul A Ω := by
     rw [faithfulSMul_iff]
     intro a ha
     apply Subtype.ext
@@ -288,7 +288,7 @@ private lemma ker_eq_bot {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
     apply Equiv.ext
     intro x
     exact ha x
-  haveI : Nonempty Ω := Fintype.card_pos_iff.mp (by omega)
+  have : Nonempty Ω := Fintype.card_pos_iff.mp (by omega)
   obtain ⟨α⟩ := ‹Nonempty Ω›
   have hstab : MulAction.stabilizer A α = ⊥ :=
     stabilizer_eq_bot_of_abelian_transitive A hAab hAtrans α
@@ -300,7 +300,7 @@ private lemma ker_eq_bot {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
   have hcentralizer : Subgroup.centralizer (A : Set P) = A :=
     centralizer_eq_of_abelian_regular A hAab hAtrans α hstab
   have h5dvdP : 5 ∣ Nat.card P := dvd_trans (by norm_num : 5 ∣ 360) h360
-  letI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 5 h5dvdP
   have hx_notA : x ∉ A := by
     intro hxA
@@ -340,7 +340,7 @@ private lemma ker_eq_bot {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
   have hG5card : Nat.card G5 = 5 := by
     rw [Nat.card_zpowers, hx]
   have hG5p : IsPGroup 5 G5 := IsPGroup.of_card (n := 1) (by rw [hG5card]; norm_num)
-  letI : MulDistribMulAction G5 A :=
+  let : MulDistribMulAction G5 A :=
     MulDistribMulAction.compHom A ((MulAut.conjNormal (H := A)).comp G5.subtype)
   have hcong : Nat.card A ≡ Nat.card (MulAction.fixedPoints G5 A) [MOD 5] :=
     hG5p.card_modEq_card_fixedPoints A
@@ -424,7 +424,7 @@ theorem card_eq_six_and_eq_alternatingGroup {Ω : Type*} [Fintype Ω] [Decidable
       rwa [Nat.card_eq_fintype_card]
     rw [hker_bot, hA6] at h
     simpa using h.symm
-  haveI : Nonempty Ω := Fintype.card_pos_iff.mp (by omega)
+  have : Nonempty Ω := Fintype.card_pos_iff.mp (by omega)
   obtain ⟨α⟩ := ‹Nonempty Ω›
   have hn_dvd360 : Nat.card Ω ∣ 360 := by
     have hidx := MulAction.index_stabilizer_of_transitive (G := P) (x := α)

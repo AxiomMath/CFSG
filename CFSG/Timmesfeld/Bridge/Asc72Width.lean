@@ -131,7 +131,7 @@ theorem widthOne_of_forall_not_commute {Q : Type*} [Group Q] [Finite Q] {X : Set
   simp only [Set.mem_inter_iff, Set.mem_singleton_iff, SetLike.mem_coe]
   constructor
   · rintro ⟨hyX, hyS⟩
-    exact h _ hyX _ (hN g x hx) (hX.commute_of_isPGroup S.isPGroup' hyX (hN g x hx) hyS hgx)
+    exact h _ hyX _ (hN g x hx) (hX.commute_of_isPGroup S.isPGroup hyX (hN g x hx) hyS hgx)
   · rintro rfl
     exact ⟨hN g x hx, hgx⟩
 

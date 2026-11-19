@@ -51,7 +51,7 @@ theorem ggConjAut_mul {g h : G} (hg : g ∈ Subgroup.normalizer (Bs : Set G))
     (hh : h ∈ Subgroup.normalizer (Bs : Set G)) :
     ggConjAut Bs (Subgroup.mul_mem _ hg hh) = ggConjAut Bs hg * ggConjAut Bs hh := by
   ext b
-  simp only [ggConjAut_apply, MulAut.mul_apply, Subgroup.coe_mul, mul_assoc, mul_inv_rev]
+  simp only [ggConjAut_apply, MulAut.mul_apply, mul_assoc, mul_inv_rev]
 
 theorem ggConjAut_one : ggConjAut Bs (Subgroup.one_mem (Subgroup.normalizer (Bs : Set G))) = 1 := by
   ext b
@@ -66,6 +66,7 @@ theorem SpCoord.permAut_one' : (SpCoord.permAut (p := p) (1 : Equiv.Perm (Fin n)
   ext a j
   simp [SpCoord.permAut_apply]
 
+omit [Finite K] [CharP K 2] in
 theorem GGSecFiveBPermUniLFrame.permSUHom_mem_normalizer [Finite G] {π : Equiv.Perm (Fin n)}
     {σ : ↥(unitarySU 2 f K n) →* G} {χ : Multiplicative (ZMod p) →* Kˣ}
     {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod p))}
@@ -82,7 +83,7 @@ theorem GGSecFiveBPermUniLFrame.permSUHom_mem_normalizer [Finite G] {π : Equiv.
     have hc : ggConjAut Bs (h1 ▸ Subgroup.one_mem _ :
         σ (permSUHom hK 1) ∈ Subgroup.normalizer (Bs : Set G)) = 1 := by
       ext b
-      simp [ggConjAut_apply, h1]
+      simp [ggConjAut_apply]
     rw [hc, map_one, mul_one, mul_inv_cancel, SpCoord.permAut_one']
   | swap_mul ρ a b hab ih =>
     obtain ⟨hu, hη⟩ := ih
@@ -95,7 +96,7 @@ theorem GGSecFiveBPermUniLFrame.permSUHom_mem_normalizer [Finite G] {π : Equiv.
         σ (permSUHom hK (Equiv.swap a b * ρ)) ∈ Subgroup.normalizer (Bs : Set G)) =
         ggConjAut Bs hv * ggConjAut Bs hu := by
       ext c
-      simp [ggConjAut_apply, hmul, mul_assoc]
+      simp [ggConjAut_apply, mul_assoc]
     rw [hc, map_mul, hvη, hη, ← SpCoord.permAut_mul', Equiv.swap_apply_apply]
     congr 1
     group
@@ -177,6 +178,7 @@ theorem uniFourChart_map_normBlock_pair [Finite G] [Fact p.Prime] {Bs L KU : Sub
   exact congrArg₂ (fun a b => ({a, b} : Set (Fin 4))) (congrArg π (uniFourTau_castSucc i s))
     (congrArg π (uniFourTau_castSucc i s'))
 
+omit [Finite K] [CharP K 2] in
 private theorem uniFour_blockSU_mono {d : ℕ} {S T : Finset (Fin d)} (hST : S ⊆ T) :
     TableBUE.blockSU (K := K) (n := f) S ≤ TableBUE.blockSU (K := K) (n := f) T := by
   intro y hy
@@ -394,13 +396,13 @@ theorem fourCharts_map_normBlock_eq_uniFourBlocks {Bs : Subgroup G}
   rcases (show S.card = 1 ∨ S.card = 2 by have := hS.card_pos; omega) with h1 | h2
   · obtain ⟨s, rfl⟩ := Finset.card_eq_one.mp h1
     obtain ⟨t, hts⟩ : ∃ t : Fin 3, t ≠ s := ⟨s + 1, by fin_cases s <;> decide⟩
-    rw [uniFourBlocks, if_pos (hcard.trans h1), Finset.image_singleton]
+    rw [uniFourBlocks, ite_eq_left (hcard.trans h1), Finset.image_singleton]
     simp only [Finset.mem_singleton, iSup_iSup_eq_left]
     rw [hsing i s t hts.symm]
     exact ggSingletonFrom_eq_of_four_charts a hsing
       (fun h => hts (Fin.succAbove_right_injective h)) (uniFour_add_one_ne _)
   · obtain ⟨s, s', hss', rfl⟩ := Finset.card_eq_two.mp h2
-    rw [uniFourBlocks, if_neg (by rw [hcard, h2]; decide), Finset.image_insert,
+    rw [uniFourBlocks, ite_eq_right (by rw [hcard, h2]; decide), Finset.image_insert,
       Finset.image_singleton, Finset.coe_pair, Set.image_pair, hpair i s s' hss']
 
 theorem uniFourChart_map_normBlock_eq_uniFourBlocks [Finite G] [Fact p.Prime]

@@ -202,7 +202,7 @@ theorem rankA_getElem {R : Nat} {rr cc : Array Nat} (hr : rr.size = 33) (hc : cc
       (by rw [Array.size_map]; exact ht'), Array.getElem_map, getElem!_pos cc t ht']
 
 theorem rankOK_sum {R : Nat} {rr cc inv : Array Nat} (hr : rr.size = 33) (hc : cc.size = 33)
-    {s u : Nat} (hs : s < 33) (hu : u < 33)
+    {s u : Nat} (hs : s < 33) (_hu : u < 33)
     (hm : (List.range 33).foldl (fun acc t => acc ^^
       (((rr.map fun i => cc.map fun j => relD R i j)[s]!)[t]! && inv[t]!.testBit u)) false =
         (s == u)) :

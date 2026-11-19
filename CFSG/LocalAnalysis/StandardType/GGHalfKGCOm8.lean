@@ -12,7 +12,7 @@ private theorem ggHalfKGCOm8_zpowers_conj {G : Type*} [Group G] [Finite G]
     {r : ℕ} (hr : r.Prime) {y z : G} (hy : orderOf y = r) (hz : orderOf z = r)
     (hr2 : ¬ r ^ 2 ∣ Nat.card G) :
     ∃ c : G, Subgroup.zpowers y = (Subgroup.zpowers z).map (MulAut.conj c).toMonoidHom := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hsyl : ∀ w : G, orderOf w = r →
       IsPGroup r (Subgroup.zpowers w) ∧ ¬ r ∣ (Subgroup.zpowers w).index := by
     intro w hw
@@ -85,7 +85,7 @@ private theorem ggHalfKGCOm8_centralizer_solvable_of_orderOf_seven
         show c⁻¹ * ((a : Om8) * (b : Om8)) * c =
           (c⁻¹ * (a : Om8) * c) * (c⁻¹ * (b : Om8) * c)
         group }
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer ({w} : Set Om8)) := by
+  have : Group.IsSolvable ↥(Subgroup.centralizer ({w} : Set Om8)) := by
     rw [hcent_w]
     exact ggKGCOm8_cent_y7_solvable
   refine Group.isSolvable_of_isSolvable_injective (f := f) ?_
@@ -108,7 +108,7 @@ theorem ggKGCCentSolv_Om8 : GGKGCCentSolv CFSG.RankThree.PartTwo.Sec4.RonanK429F
     change Nat.card (Matrix.SpecialLinearGroup (Fin 4) (GaloisField 2 1)) = 20160
     exact hcard
   have hdvd7 : 7 ∣ Nat.card ↥J := by rw [hcardJ]; norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨yJ, hyJ⟩ := exists_prime_orderOf_dvd_card' (G := ↥J) 7 hdvd7
   let y : Om8 := (yJ : Om8)
   have hy : orderOf y = 7 := by
@@ -119,7 +119,7 @@ theorem ggKGCCentSolv_Om8 : GGKGCCentSolv CFSG.RankThree.PartTwo.Sec4.RonanK429F
     intro x hx
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_iff.mp hx y hy_mem).symm
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer ({y} : Set Om8)) :=
+  have : Group.IsSolvable ↥(Subgroup.centralizer ({y} : Set Om8)) :=
     ggHalfKGCOm8_centralizer_solvable_of_orderOf_seven hy
   exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
     (Subgroup.inclusion_injective hle)

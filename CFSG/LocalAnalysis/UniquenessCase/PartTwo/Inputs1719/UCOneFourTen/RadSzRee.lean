@@ -188,7 +188,7 @@ theorem eq_of_lieModel_twistedF4_of_isComponentOf
   have hTP : TwoPar ↥Γ (U₀.subgroupOf Γ) (P₀.subgroupOf Γ) (P₁.subgroupOf Γ) :=
     twoPar_reeF4 (K := K) (a := a) ha hK
   have hT : CFSG.QuasithinUnique.IsSylowTwoOf (T : Subgroup S) ⊤ :=
-    ⟨le_top, T.isPGroup', by
+    ⟨le_top, T.isPGroup, by
       rw [show ((T : Subgroup S).subgroupOf ⊤).index = (T : Subgroup S).index from
         Subgroup.relIndex_top_right _]
       exact T.not_dvd_index⟩

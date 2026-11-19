@@ -17,6 +17,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L E T : Subgroup G} {d : G}
 
+omit [Finite G] in
 private theorem frame611_mem_normalizer_of_commute_forall {H : Subgroup G} {g : G}
     (h : ∀ x ∈ H, g * x = x * g) : g ∈ Subgroup.normalizer (H : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -32,7 +33,7 @@ private theorem frame611_mem_normalizer_of_commute_forall {H : Subgroup G} {g : 
 
 theorem Frame611.cd_inf_L (F : Frame611 G A c L E T d) :
     (Subgroup.zpowers c ⊔ Subgroup.zpowers d) ⊓ L = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcd : Commute c d := F.comm_of_mem F.c_mem F.d_mem_A
   have hPA : Subgroup.zpowers c ⊔ Subgroup.zpowers d ≤ A :=
     sup_le (Subgroup.zpowers_le.mpr F.c_mem) (Subgroup.zpowers_le.mpr F.d_mem_A)
@@ -127,7 +128,7 @@ theorem Frame611.cd_inf_L (F : Frame611 G A c L E T d) :
 
 theorem Frame611.card_cd (F : Frame611 G A c L E T d) :
     Nat.card (Subgroup.zpowers c ⊔ Subgroup.zpowers d : Subgroup G) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcd : Commute c d := F.comm_of_mem F.c_mem F.d_mem_A
   have hcardc : Nat.card (Subgroup.zpowers c) = 3 := by
     rw [Nat.card_zpowers, orderOf_eq_prime F.c_pow_three F.c_ne_one]
@@ -157,7 +158,7 @@ theorem Frame611.card_cd (F : Frame611 G A c L E T d) :
 
 theorem Frame611.A_eq_sup (h45 : Sec4.Item4_5) (F : Frame611 G A c L E T d) :
     A = (Subgroup.zpowers c ⊔ Subgroup.zpowers d) ⊔ (A ⊓ L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPA : Subgroup.zpowers c ⊔ Subgroup.zpowers d ≤ A :=
     sup_le (Subgroup.zpowers_le.mpr F.c_mem) (Subgroup.zpowers_le.mpr F.d_mem_A)
   have hnorm : A ⊓ L ≤ Subgroup.normalizer

@@ -82,7 +82,7 @@ theorem Sec.isNaturalSection_of_sz {I P Z J : Subgroup Γ}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let _ : Fintype K := Fintype.ofFinite K
   have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
-  letI : CommGroup (↥P ⧸ Z.subgroupOf P) :=
+  let : CommGroup (↥P ⧸ Z.subgroupOf P) :=
     { (inferInstance : Group (↥P ⧸ Z.subgroupOf P)) with mul_comm := hS.comm_quot }
   let ρ : ↥(suzukiGroup a K) →* MulAut (↥P ⧸ Z.subgroupOf P) :=
     hS.starAct.comp e.symm.toMonoidHom

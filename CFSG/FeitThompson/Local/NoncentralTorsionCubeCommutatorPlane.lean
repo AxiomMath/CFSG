@@ -259,7 +259,7 @@ theorem index_centralizer_commutator_top_omega1 [Finite R] (hp : p.Prime) (hR : 
   have hZc : Z ≤ center R := map_center_omega1_le_center hp hR hB hnab
   have hZT : Z ≤ T := map_center_le_commutator_top_omega1 hp hB hnab
   have hTcard : Nat.card T = p ^ 2 := card_commutator_top_omega1 hp hR hB hnab hZ
-  obtain ⟨t, htT, htZ⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hZT fun h => hZ (h ▸ le_rfl))
+  obtain ⟨t, htT, htZ⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hZT fun h => hZ (h ▸ le_rfl))
   have hTt : zpowers t ⊔ Z = T := zpowers_sup_eq_of_card_eq_prime_sq hp hTcard hZT hZcard htT htZ
   have hcomm : ∀ r : R, ⁅r, t⁆ ∈ Z := fun r =>
     commutator_top_commutator_top_omega1_le hp hR hB hnab hZ

@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
 theorem cfg_extraspecial (hc : S8Ctx G p) (hin : Inputs8910 G p) {x : G} {L : Subgroup G} {row : Row}
     (hx : orderOf x = p) (hL : GLAPComponent p (cx x) L) (hrow : RowL row p L)
-    (hodd : Odd (Nat.card (GLAPPrimeCoreOf p (cx x)))) (c : SporCfg G p x L row)
+    (_hodd : Odd (Nat.card (GLAPPrimeCoreOf p (cx x)))) (c : SporCfg G p x L row)
     {M : Subgroup G} (hM : GLAIsMaxTwoLocal M) (hNM : Subgroup.normalizer (c.R : Set G) ≤ M) :
     c.R ≤ pCoreOf 2 M ∧ IsExtraSpec2 (pCoreOf 2 M) ∧ c.R = pCoreOf 2 M ⊓ cx x := by
   obtain ⟨hS, hT⟩ := L89.lemma810 hc hin.toInputs89 hx hL hrow c hM hNM

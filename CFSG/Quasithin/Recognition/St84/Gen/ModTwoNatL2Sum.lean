@@ -82,7 +82,7 @@ private theorem card_le_card_mul_card_fixUpper [Finite F] [CharP F 2] [Module (Z
     {U : AddSubgroup V} (hU : ∀ g : SL(2, F), ∀ v ∈ U, g • v ∈ U) (hAU : fixUpper F V ≤ U) :
     Nat.card V ≤ Nat.card U * Nat.card (fixUpper F V) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have h2 : 2 ∣ Fintype.card F :=
     (CharP.cast_eq_zero_iff F 2 _).mp (FiniteField.cast_card_eq_zero F)
   have hpos : 0 < Fintype.card F := Fintype.card_pos
@@ -190,7 +190,7 @@ theorem exists_addEquiv_matrix_of_quadratic [Finite F] [CharP F 2] [Module (ZMod
     intro g v hv
     rw [AddSubgroup.mem_sInf] at hv ⊢
     exact fun U hU => hU.1 g v (hv U hU)
-  letI : DistribMulAction SL(2, F) W :=
+  let : DistribMulAction SL(2, F) W :=
     { smul := fun g w => ⟨g • (w : V), hWinv g w w.2⟩
       one_smul := fun w => Subtype.ext (one_smul _ (w : V))
       mul_smul := fun g g' w => Subtype.ext (mul_smul g g' (w : V))

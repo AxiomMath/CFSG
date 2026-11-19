@@ -13,7 +13,7 @@ open CFSG.QuasithinUnique.Setup.X7 CFSG.QuasithinUnique.Setup.SL2Modules CFSG.CG
 open scoped Matrix MatrixGroups Pointwise
 
 private theorem suzukiT_eq_zpowers_of_generator {a : ℕ} {K : Type} [Field K] [Finite K]
-    (hK : Nat.card K = 2 ^ (2 * a + 1))
+    (_hK : Nat.card K = 2 ^ (2 * a + 1))
     {l : Kˣ} (hl : ∀ m : Kˣ, m ∈ Subgroup.zpowers l) :
     suzukiT a K = Subgroup.zpowers (suzukiDElt a K l) := by
   let Dh : Kˣ →* ↥(suzukiGroup a K) :=
@@ -190,8 +190,8 @@ theorem lemmaNat_sz {a : ℕ} {K : Type} [Field K] [Finite K]
     rw [show (2 : ZMod 2) = 0 by decide, zero_mul, zero_add]
   have hDA : D ≤ Subgroup.normalizer (suzukiZ0 a K : Set ↥(suzukiGroup a K)) :=
     (suzukiT_le_suzukiB a K).trans (suzukiB_le_normalizer_suzukiZ0 hK)
-  haveI : Finite ↥(suzukiGroup a K) := (suzuki_simple ha hK).1
-  letI : Fintype D := Fintype.ofFinite D
+  have : Finite ↥(suzukiGroup a K) := (suzuki_simple ha hK).1
+  let : Fintype D := Fintype.ofFinite D
   intro c hc
   let πc : M := ∑ d : D, ρ (d : ↥(suzukiGroup a K)) c
   have hπD : πc ∈ fixedSub ρ D := by
@@ -258,7 +258,6 @@ private theorem wElt_conj_torusElt {F : Type} [Field F] [CharP F 2] (a : Fˣ) :
     sl2_simp
     try rw [CharTwo.neg_eq]
     try simp [inv_inv]
-    try ring
 
 private theorem wElt_mul_self {F : Type} [Field F] [CharP F 2] :
     (wElt : Matrix.SpecialLinearGroup (Fin 2) F) * wElt = 1 := by
@@ -468,7 +467,7 @@ theorem lemmaNat_sl2 {F : Type} [Field F] [Finite F] [CharP F 2]
     fixedSub_utri_inf_torus_eq_bot hF ρ Nsub hNnat hQ hcent
   have hcardD : Nat.card (torus F) = Nat.card Fˣ := by
     rw [card_torus, Nat.card_units]
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, hp, hcardF⟩ := FiniteField.card F 2
   have hcardFn : Nat.card F = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -494,7 +493,7 @@ theorem lemmaNat_sl2 {F : Type} [Field F] [Finite F] [CharP F 2]
   let D : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F) := torus F
   have hCD' : fixedSub ρ (utri F) ⊓ fixedSub ρ D = ⊥ := hCD
   have hcardD' : Nat.card D = Nat.card Fˣ := hcardD
-  letI : Fintype D := Fintype.ofFinite D
+  let : Fintype D := Fintype.ofFinite D
   intro c hc
   let πc : M := ∑ d : D, ρ (d : Matrix.SpecialLinearGroup (Fin 2) F) c
   have hπD : πc ∈ fixedSub ρ D := by

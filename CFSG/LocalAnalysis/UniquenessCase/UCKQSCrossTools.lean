@@ -25,7 +25,7 @@ theorem of_rankLE1 {K : Type} [Group K] [Finite K] {p : ℕ} [Fact p.Prime] (hp2
 theorem of_sylowShape {K : Type} [Group K] [Finite K] {p r e : ℕ} [Fact p.Prime]
     (h : CFSG.RankThree.PartOne.K1214.SylowShape p r e K) : PCentralAbelianAt K p := by
   refine of_sylow_comm fun S => ?_
-  obtain ⟨φ⟩ := h S S.isPGroup' S.not_dvd_index
+  obtain ⟨φ⟩ := h S S.isPGroup S.not_dvd_index
   rw [isMulCommutative_iff]
   intro a b
   apply φ.injective
@@ -36,7 +36,7 @@ theorem of_sylowTorus {K : Type} [Group K] [Finite K] {p m : ℕ} [Fact p.Prime]
   refine of_sylow_comm fun S => ?_
   rw [isMulCommutative_iff]
   intro a b
-  exact Subtype.ext (CFSG.HardMathSupport.Timmesfeld.CrossChar.mul_comm_of_sylowTorus h S.isPGroup' a.2 b.2)
+  exact Subtype.ext (CFSG.HardMathSupport.Timmesfeld.CrossChar.mul_comm_of_sylowTorus h S.isPGroup a.2 b.2)
 
 theorem of_sylow_le_comm {K : Type} [Group K] [Finite K] {p : ℕ} [Fact p.Prime] (P : Sylow p K)
     {A : Subgroup K} (hA : IsMulCommutative A) (hPA : (P : Subgroup K) ≤ A) : PCentralAbelianAt K p := by
@@ -52,7 +52,7 @@ theorem of_sylowFrameM
     {τ : Tag} {F : Type} [Field F] [Finite F] {p : ℕ} [Fact p.Prime] {w : WeylGroup τ}
     [Finite (adjointGroup τ F)] (h : SylowFrameM τ F p w) : PCentralAbelianAt (adjointGroup τ F) p := by
   obtain ⟨L, _, _, Fr, D, -, -, -, -, ⟨e⟩, S₀, hS₀⟩ := h
-  haveI : Finite D.Γ := Finite.of_equiv _ e.toEquiv
+  have : Finite D.Γ := Finite.of_equiv _ e.toEquiv
   have hT := CFSG.HardMathSupport.Timmesfeld.LangTorus.LangDatum.isMulCommutative_torus D
   have hT' : IsMulCommutative (D.torus.subgroupOf D.Γ) := by
     rw [isMulCommutative_iff] at hT ⊢
@@ -67,7 +67,7 @@ theorem of_sylowFrameM
 open CFSG.GroupTheory.WeirSylow CFSG.LocalAnalysis.RankThreeTheoremC.WeakClosureHeis in
 theorem of_sylow_sigmaModel {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) {G : Type} [Group G] [Finite G] {e a N : ℕ}
     (ha : 1 ≤ a) (h : ∀ P : Sylow p G, Nonempty (P ≃* sigmaModel p e a N)) : PCentralAbelianAt G p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hm : N / e < p
   · exact of_sylow_comm (sylow_isMulCommutative_of_sigmaModel_of_lt hp hm h)
   · push Not at hm
@@ -143,7 +143,7 @@ theorem qsPermGL_mem_normalizer_torus5 {L : Type} [Field L] {ζ : Lˣ} (σ : Equ
 
 theorem qsIsPGroup_torus5_sup {L : Type} [Field L] {ζ : Lˣ} (hζ : orderOf ζ = 5) :
     IsPGroup 5 ↥(qsTorus5 ζ ⊔ Subgroup.zpowers (permGL 5 (finRotate 5) : GL (Fin 5) L)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hT : IsPGroup 5 ↥(qsTorus5 ζ : Subgroup (GL (Fin 5) L)) := by
     intro x
     exact ⟨1, by apply Subtype.ext; simpa using qsPow_five_of_mem_torus5 hζ x.2⟩
@@ -159,7 +159,7 @@ theorem qsIsPGroup_torus5_sup {L : Type} [Field L] {ζ : Lˣ} (hζ : orderOf ζ 
 theorem qsCross_pca_projFive {L : Type} [Field L] [Finite L] {ζ : Lˣ} (hζ : orderOf ζ = 5)
     (H : Subgroup (GL (Fin 5) L)) (hd : diagGL 5 ![ζ, ζ⁻¹, 1, 1, 1] ∈ H)
     (hc : permGL 5 (finRotate 5) ∈ H) : PCentralAbelianAt (StatedProj H) 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hv : ∀ i, (![ζ, ζ⁻¹, 1, 1, 1] : Fin 5 → Lˣ) i ∈ Subgroup.zpowers ζ := by
     intro i
     fin_cases i
@@ -201,8 +201,8 @@ theorem qsCross_pca_projFive {L : Type} [Field L] [Finite L] {ζ : Lˣ} (hζ : o
     omega
   have r0 : (finRotate 5)⁻¹ 0 = 4 := by decide
   have r3 : (finRotate 5)⁻¹ 3 = 2 := by decide
-  have ha0 : a 0 = ζ⁻¹ := by simp [a, v, r0]
-  have ha3 : a 3 = 1 := by simp [a, v, r3]
+  have ha0 : a 0 = ζ⁻¹ := by simp [a, v]
+  have ha3 : a 3 = 1 := by simp [a, v]
   have hax : ((⁅c', d'⁆ : H) : GL (Fin 5) L) = diagGL 5 a := by
     show ⁅(permGL 5 (finRotate 5) : GL (Fin 5) L), (diagGL 5 v : GL (Fin 5) L)⁆ = diagGL 5 a
     rw [commutatorElement_def, permGL_mul_diagGL_mul_inv, ← map_inv, ← map_mul]

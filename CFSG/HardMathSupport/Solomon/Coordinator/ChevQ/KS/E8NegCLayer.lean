@@ -63,8 +63,8 @@ theorem layer_le_hyperClosure_of_gen (ψ : G →* M) (hψ : Function.Injective �
       seitzHyperGamma 3 (layerAction ψ E P hPnorm).range = ⊤) :
     ∀ g : G, ψ g ∈ P → g ∈ hyperClosure 3 ⊤ E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hEc]; norm_num)
   set β := layerAction ψ E P hPnorm with hβdef
   have hβ : ∀ (e : E) (u : P), ((β e u : P) : M) = ψ e * u * (ψ e)⁻¹ :=
     layerAction_apply ψ hPnorm

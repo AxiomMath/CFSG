@@ -17,6 +17,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_stableUnder_commSub_top (H : Subgroup (MulAut W)) :
     StableUnder H (commSub ⊤ H) := by
   intro x hx c hc
@@ -33,7 +34,7 @@ private theorem w1369_stableUnder_commSub_top (H : Subgroup (MulAut W)) :
 
 theorem swap_l3 (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : MulAut W}
     {L : Subgroup (MulAut W)} {g : MulAut W} (S : Swap136 Y t L g)
-    (hW : Wd (Lc L g) = Wd L) (hC : Cd L = ⊥) (hC' : Cd (Lc L g) = ⊥) (hS : Strong3 L (Lc L g))
+    (hW : Wd (Lc L g) = Wd L) (hC : Cd L = ⊥) (_hC' : Cd (Lc L g) = ⊥) (hS : Strong3 L (Lc L g))
     (hT : SwapT Y L g) :
     IsL3 ↥L 1 ∧ IsL3 ↥(Lc L g) 1 ∧ Nat.card ↥(Wd L) = 2 ^ 9 ∧
       ∀ a ∈ L ⊔ Lc L g, (∀ u ∈ Wd L, a u = u) → a = 1 := by
@@ -163,7 +164,7 @@ theorem swap_l3 (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : MulA
   have hsimple_X : IsSimpleGroup ↥(Lc L g) :=
     (CFSG.LocalAnalysis.GLTheoremA.KD264Gen.Seven.perfect_dvd_168 hperf_X hnt_X hd_X).1
   have hL3_Lc : IsL3 ↥(Lc L g) 1 := by
-    haveI := hsimple_X
+    have := hsimple_X
     have hPSL := CFSG.Quasithin.HSRuLoc.Mod.isPSL_three_two_of_simple_card_168
       (H := ↥(Lc L g)) hcard_X
     change LieModel ↥(Lc L g) .PSL 3 2 1

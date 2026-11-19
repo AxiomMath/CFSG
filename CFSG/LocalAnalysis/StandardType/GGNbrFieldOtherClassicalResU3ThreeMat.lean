@@ -237,8 +237,8 @@ theorem exists_conj_diag_of_prj_ne_zero [CharP F 2] {ω : F} (hω : ω ^ 2 + ω 
     have h1 := congrArg (fun v => prj (lamU3Three ω k) X *ᵥ v) hc
     simp only [hQv, Matrix.mulVec_sum, Matrix.mulVec_smul, hproj, smul_smul, Matrix.mulVec_zero]
       at h1
-    rw [Finset.sum_eq_single k (fun b _ hb => by rw [if_neg (Ne.symm hb), mul_zero, zero_smul])
-      (fun h => absurd (Finset.mem_univ k) h), if_pos rfl, mul_one] at h1
+    rw [Finset.sum_eq_single k (fun b _ hb => by rw [ite_eq_right (Ne.symm hb), mul_zero, zero_smul])
+      (fun h => absurd (Finset.mem_univ k) h), ite_eq_left rfl, mul_one] at h1
     by_contra hck
     exact hjk k (by
       have := congrArg (fun v => (c k)⁻¹ • v) h1

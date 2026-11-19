@@ -29,7 +29,7 @@ theorem five_dvd_card_sub_one {c : F} (hc5 : c ^ 5 = 1) (hc1 : c ≠ 1) (W : Add
     | succ k ih =>
       intro x
       rw [Function.iterate_succ_apply']
-      simp only [f]
+      simp only
       rw [ih]
       ring
   have hf5 : (f^[5] : Function.End {w : W // w ≠ 0}) = id := by
@@ -45,9 +45,9 @@ theorem five_dvd_card_sub_one {c : F} (hc5 : c ^ 5 = 1) (hc1 : c ≠ 1) (W : Add
     rcases mul_eq_zero.mp h2 with h3 | h3
     · exact hc1 (sub_eq_zero.mp h3)
     · exact x.2 (Subtype.ext h3)
-  haveI : Fintype W := Fintype.ofFinite _
-  haveI : Fintype {w : W // w ≠ 0} := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fintype W := Fintype.ofFinite _
+  have : Fintype {w : W // w ≠ 0} := Fintype.ofFinite _
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hperm : f ^ 5 = 1 := by
     funext x
     exact congrFun hf5 x
@@ -127,7 +127,7 @@ theorem unipSL_mul_unipSL' (b c : F) : unipSL b * unipSL c = unipSL (b + c) := b
   apply Matrix.SpecialLinearGroup.ext
   intro i j
   rw [Matrix.SpecialLinearGroup.coe_mul, coe_unipSL, coe_unipSL, coe_unipSL]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 theorem not_comm_order_five [CharP F 2] {s : SL(2, F)} (hs : orderOf s = 5) {c : F} (hc : c ≠ 0)
     (hcomm : unipSL c * s = s * unipSL c) : False := by
@@ -137,7 +137,7 @@ theorem not_comm_order_five [CharP F 2] {s : SL(2, F)} (hs : orderOf s = 5) {c :
   have e01 := congrArg (fun g : SL(2, F) => (g : Matrix (Fin 2) (Fin 2) F) 0 1) hcomm
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_unipSL, Matrix.mul_apply, Fin.sum_univ_two,
     Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons, Matrix.head_fin_const]
+    Matrix.empty_val', Matrix.cons_val_fin_one]
     at e00 e01
   have hγ : (s : Matrix (Fin 2) (Fin 2) F) 1 0 = 0 := by
     have h : c * (s : Matrix (Fin 2) (Fin 2) F) 1 0 = 0 := by linear_combination e00
@@ -323,18 +323,17 @@ theorem eq_one_of_central [CharP F 2] {g : SL(2, F)} (hg : ∀ x : SL(2, F), g *
     congrArg (fun x : SL(2, F) => (x : Matrix (Fin 2) (Fin 2) F) 0 1) hl
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, hlc] at hl00 hl01
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val',
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-    Matrix.head_cons, Matrix.head_fin_const] at hl00 hl01
+    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one] at hl00 hl01
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_unipSL, Matrix.mul_apply, Fin.sum_univ_two,
     Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons, Matrix.head_fin_const] at hu00 hu01
+    Matrix.empty_val', Matrix.cons_val_fin_one] at hu00 hu01
   have hl' : l = l := rfl
   have g10 : (g : Matrix (Fin 2) (Fin 2) F) 1 0 = 0 := by
-    first | linear_combination -hu00 | linear_combination hu00
+    first | linear_combination -hu00
   have g11 : (g : Matrix (Fin 2) (Fin 2) F) 1 1 = (g : Matrix (Fin 2) (Fin 2) F) 0 0 := by
-    first | linear_combination -hu01 | linear_combination hu01
+    first | linear_combination -hu01
   have g01 : (g : Matrix (Fin 2) (Fin 2) F) 0 1 = 0 := by
-    first | linear_combination hl00 | linear_combination -hl00
+    first | linear_combination hl00
   have hdet := det_sl g
   have hsq : (g : Matrix (Fin 2) (Fin 2) F) 0 0 * (g : Matrix (Fin 2) (Fin 2) F) 0 0 = 1 := by
     rw [g10, g01, g11] at hdet

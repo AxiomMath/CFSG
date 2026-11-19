@@ -18,10 +18,10 @@ theorem ggCommonJSpSplit_signed {K : Type} [Field K] {p r : ℕ} (hp : p.Prime)
         ∀ f, g * TableBSymp.spTorusSp (m := r) hζ f * g⁻¹ =
           TableBSymp.spTorusSp (m := r) hζ (u f) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let τ := TableBSymp.spTorusSp (m := r) hζ
   have hτ : Function.Injective τ := TableBSymp.spTorusSp_injective hζ hζo
-  haveI : Finite τ.range :=
+  have : Finite τ.range :=
     Finite.of_surjective τ.rangeRestrict τ.rangeRestrict_surjective
   have hmap_le : τ.range.map (MulAut.conj g).toMonoidHom ≤ τ.range := by
     rintro x ⟨y, hy, rfl⟩

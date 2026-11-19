@@ -107,7 +107,7 @@ theorem levi_chev {n : ℕ} (hK : Nat.card K = 3 ^ n) {g : ModGL Tag.D4 K}
     (rel₂ : ∀ x ∈ adjointGroup Tag.D4 K,
       phiG g a σ ε (Γ₂ * x * Γ₂⁻¹) = (Γ₁ * Γ₂) * phiG g a σ ε x * (Γ₁ * Γ₂)⁻¹)
     (hne₁ : ∃ x ∈ adjointGroup Tag.D4 K, Γ₁ * x * Γ₁⁻¹ ≠ x)
-    {Vm : Subgroup (ModGL Tag.D4 K)} (hVC : Vm ≤ adjointGroup Tag.D4 K) (hVp : IsPGroup 3 Vm)
+    {Vm : Subgroup (ModGL Tag.D4 K)} (hVC : Vm ≤ adjointGroup Tag.D4 K) (_hVp : IsPGroup 3 Vm)
     (hB : borelGroup Tag.D4 K ≤
       adjointGroup Tag.D4 K ⊓ Subgroup.normalizer (Vm : Set (ModGL Tag.D4 K)))
     (hne : adjointGroup Tag.D4 K ⊓ Subgroup.normalizer (Vm : Set (ModGL Tag.D4 K)) ≠
@@ -120,8 +120,8 @@ theorem levi_chev {n : ℕ} (hK : Nat.card K = 3 ^ n) {g : ModGL Tag.D4 K}
     {A : Subgroup (ModGL Tag.D4 K)} (hAV : A ≤ Vm) (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     (hA₁ : ∀ a ∈ A, Γ₁ * a * Γ₁⁻¹ = a) (hA₂ : ∀ a ∈ A, Γ₂ * a * Γ₂⁻¹ = a)
     (hbig : 3 ^ (4 * n) ≤ 3 * Nat.card A) : False := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_modGL (τ := Tag.D4) (K := K)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Pm := adjointGroup Tag.D4 K ⊓ Subgroup.normalizer (Vm : Set (ModGL Tag.D4 K)) with hPmdef
   have hAC : Pm ≤ adjointGroup Tag.D4 K := inf_le_left
   have hφA : ∀ x ∈ Pm, phiG g a σ ε x ∈ Pm := by

@@ -32,7 +32,7 @@ theorem linShape_induced_range
     exact hmem y hy
   have hAne : Nat.card A ≠ 0 :=
     Nat.card_ne_zero.mpr ⟨⟨1⟩, inferInstance⟩
-  haveI : Finite Ā := Nat.finite_of_card_ne_zero (by rw [hcardĀ]; exact hAne)
+  have : Finite Ā := Nat.finite_of_card_ne_zero (by rw [hcardĀ]; exact hAne)
   have hEq : A.map (ggInducedAut θ) = Ā :=
     Subgroup.eq_of_le_of_card_ge hle (hcardĀ.trans hcardMap.symm).le
   rw [← hEq] at ha

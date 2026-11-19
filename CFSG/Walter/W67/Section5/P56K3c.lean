@@ -191,7 +191,7 @@ theorem odd_card_centralizer
   obtain ⟨S, hS⟩ := hJ2.exists_le_sylow
   set S' := (S : Subgroup D).map D.subtype with hS'def
   have hS'D : S' ≤ D := Subgroup.map_subtype_le _
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map _
   have hJS' : s.J ∈ S' :=
     ⟨⟨s.J, Subgroup.mem_sup_right (Subgroup.mem_zpowers _)⟩,
       hS (Subgroup.mem_subgroupOf.mpr (Subgroup.mem_zpowers _)), rfl⟩
@@ -292,7 +292,7 @@ theorem card_le_of_le_centralizer
     (A := A) 2 3 hA2 hModd
   set S₂ := (T : Subgroup M).map M.subtype with hS₂def
   have hS₂M : S₂ ≤ M := Subgroup.map_subtype_le _
-  have hS₂3 : IsPGroup 3 S₂ := T.isPGroup'.map _
+  have hS₂3 : IsPGroup 3 S₂ := T.isPGroup.map _
   have hS₂card : Nat.card S₂ = 3 ^ (Nat.card M).factorization 3 := by
     rw [hS₂def, Subgroup.card_map_of_injective M.subtype_injective, Sylow.card_eq_multiplicity]
   have hVS₂ : V ≤ S₂ := by
@@ -388,7 +388,7 @@ theorem card_le_of_le_centralizer
   obtain ⟨S₁, hS₁⟩ := hV'.exists_le_sylow
   set S₁' := (S₁ : Subgroup C).map C.subtype with hS₁'def
   have hVS₁ : V ≤ S₁' := fun v hv => ⟨⟨v, hVC hv⟩, hS₁ (Subgroup.mem_subgroupOf.mpr hv), rfl⟩
-  have hS₁'3 : IsPGroup 3 S₁' := S₁.isPGroup'.map _
+  have hS₁'3 : IsPGroup 3 S₁' := S₁.isPGroup.map _
   have hS₁'C : S₁' ≤ C := Subgroup.map_subtype_le _
   have hQS : Nat.card Q ≤ Nat.card S₁' := by
     have hQ' : IsPGroup 3 (Q.subgroupOf C) := hQ.comap_of_injective C.subtype C.subtype_injective

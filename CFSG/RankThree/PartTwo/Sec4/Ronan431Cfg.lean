@@ -167,10 +167,12 @@ variable {K : Type} [Group K] [Finite K]
     K →* alternatingGroup (Fin 6) :=
   e.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pCore 2 K))
 
+omit [Finite K] in
 theorem coverHom_surjective (e : K ⧸ CFSG.pCore 2 K ≃* alternatingGroup (Fin 6)) :
     Function.Surjective (coverHom e) :=
   e.surjective.comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite K] in
 theorem coverHom_ker (e : K ⧸ CFSG.pCore 2 K ≃* alternatingGroup (Fin 6)) :
     (coverHom e).ker = CFSG.pCore 2 K := by
   ext x
@@ -179,7 +181,7 @@ theorem coverHom_ker (e : K ⧸ CFSG.pCore 2 K ≃* alternatingGroup (Fin 6)) :
 
 theorem not_three_dvd_card_pCore_two : ¬ 3 ∣ Nat.card (CFSG.pCore 2 K) := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 K)).exists_card_eq
   rw [hn] at h
   have := (Nat.prime_dvd_prime_iff_eq Nat.prime_three Nat.prime_two).mp
@@ -191,15 +193,18 @@ theorem not_three_dvd_card_ker_coverHom (e : K ⧸ CFSG.pCore 2 K ≃* alternati
   rw [coverHom_ker]
   exact not_three_dvd_card_pCore_two
 
+omit [Finite K] in
 theorem card_eq_of_isType431 (h : IsType431 (K ⧸ CFSG.pCore 2 K)) :
     Nat.card K = 360 * Nat.card (CFSG.pCore 2 K) := by
   obtain ⟨e⟩ := h
   rw [Sec8.Hering611R.card_eq_of_surjective (coverHom e) (coverHom_surjective e), coverHom_ker]
 
+omit [Finite K] in
 theorem five_dvd_card_of_isType431 (h : IsType431 (K ⧸ CFSG.pCore 2 K)) : 5 ∣ Nat.card K := by
   rw [card_eq_of_isType431 h]
   exact Dvd.dvd.mul_right (by norm_num) _
 
+omit [Finite K] in
 theorem nine_dvd_card_of_isType431 (h : IsType431 (K ⧸ CFSG.pCore 2 K)) : 9 ∣ Nat.card K := by
   rw [card_eq_of_isType431 h]
   exact Dvd.dvd.mul_right (by norm_num) _
@@ -222,6 +227,7 @@ theorem eq_one_of_mem_center_of_isType431 (h : IsType431 (K ⧸ CFSG.pCore 2 K))
   exact Sec8.Hering611R.eq_one_of_mem_center (coverHom e) (coverHom_surjective e)
     (not_three_dvd_card_ker_coverHom e) hz h9
 
+omit [Finite K] in
 theorem center_quot_eq_bot_of_isType431 (h : IsType431 (K ⧸ CFSG.pCore 2 K)) :
     Subgroup.center (K ⧸ CFSG.pCore 2 K) = ⊥ := by
   obtain ⟨e⟩ := h
@@ -297,7 +303,7 @@ theorem CfgS431.map [Finite S] [Finite T] {A : Subgroup (MulAut S)} {σ : MulAut
       faithful := ?_ }
   · rw [hfix, ← RonanK429.map_subgroupOf_equivMap]
     exact h.isSubnormal.map (MulEquiv.surjective _)
-  · haveI := h.isPerfect
+  · have := h.isPerfect
     exact Group.IsPerfect.map _
   · rintro _ ⟨a, ha, rfl⟩ _ ⟨k, hk, rfl⟩
     refine ⟨a k, h.map_mem a ha k hk, ?_⟩

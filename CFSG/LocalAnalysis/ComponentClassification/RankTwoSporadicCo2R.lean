@@ -80,20 +80,20 @@ theorem co2Letters_of {L : ℕ → ℕ}
     have hget : ∀ p < 2300, (co2StrongArrs[k]!)[p]! = at' 12 (L k) p := by
       intro p hp
       have := allLt_spec he hp
-      rw [beq_iff_eq, SP.unpackP_get, if_pos hp] at this
+      rw [beq_iff_eq, SP.unpackP_get, ite_eq_left hp] at this
       exact this.symm
     refine ⟨(rep_permOfArr (r := unpackP 2300 12 (L (11 + k))) ?_).1, hget⟩
     unfold isInvA
     rw [allLt_iff]
     intro i hi
     simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
-    rw [hget i hi, SP.unpackP_get, if_pos (hinv k hk i hi).1]
+    rw [hget i hi, SP.unpackP_get, ite_eq_left (hinv k hk i hi).1]
     exact hinv k hk i hi
   refine ⟨fun k hk p hp => ?_, fun k hk => ?_⟩
   · by_cases h11 : k < 11
-    · rw [co2Let, if_pos h11, ← (hrep k h11).1.apply hp, (hrep k h11).2 p hp]
+    · rw [co2Let, ite_eq_left h11, ← (hrep k h11).1.apply hp, (hrep k h11).2 p hp]
     · have hj : k - 11 < 11 := by omega
-      rw [co2Let, if_neg h11]
+      rw [co2Let, ite_eq_right h11]
       set g := permOfArr 2300 co2StrongArrs[k - 11]!
       set q := g⁻¹ ⟨p, hp⟩
       have hq : at' 12 (L (k - 11)) q = p := by
@@ -103,7 +103,7 @@ theorem co2Letters_of {L : ℕ → ℕ}
       have := (hinv _ hj q q.2).2
       rw [hq, show 11 + (k - 11) = k by omega] at this
       exact this
-  · simp only [co2Let, if_pos hk, if_neg (show ¬ 11 + k < 11 by omega),
+  · simp only [co2Let, ite_eq_left hk, ite_eq_right (show ¬ 11 + k < 11 by omega),
       show 11 + k - 11 = k by omega]
 
 theorem co2Let_mem {k : ℕ}
@@ -199,7 +199,7 @@ theorem co2_yCensus17R {L : ℕ → ℕ} {pxs : List ℕ} {rs : List RootR}
   have hX₀ : ∀ i < 3, ∀ p (hp : p < 2300), at' 12 (pxs.getD i 0) p = (co2X₀ i ⟨p, hp⟩ : ℕ) := by
     intro i hi p hp
     have he := allLt_spec (hri i hi).1 hp
-    rw [beq_iff_eq, SP.unpackP_get, if_pos hp] at he
+    rw [beq_iff_eq, SP.unpackP_get, ite_eq_left hp] at he
     rw [he]
     exact rep_co2X₀ hi ⟨p, hp⟩
   have hroot : ∀ i < 3, ∃ T : Subgroup (Equiv.Perm (Fin 2300)),

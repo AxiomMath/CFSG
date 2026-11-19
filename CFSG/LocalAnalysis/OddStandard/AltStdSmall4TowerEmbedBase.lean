@@ -245,6 +245,7 @@ theorem exists_compl_two {X : Subgroup G} (hXN : X ≤ normalizer (T : Set G)) (
     exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
   exact eq_of_le_of_card_ge hle (by rw [hS, hcard])
 
+omit [Finite G] in
 theorem card_hbar_eq_of_compl {X : Subgroup G} (hXN : X ≤ normalizer (T : Set G))
     (hXC : X ⊓ centralizer (T : Set G) = ⊥)
     (hcov : normalizer (T : Set G) ≤ X ⊔ centralizer (T : Set G)) :

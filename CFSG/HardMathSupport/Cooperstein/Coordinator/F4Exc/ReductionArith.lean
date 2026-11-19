@@ -23,7 +23,7 @@ theorem ordF4_lt {q : ℕ} (hq : 2 ≤ q) : ordF4 q < q ^ 52 := by
   rw [e]
   have hq0 : 0 < q := by omega
   gcongr
-  all_goals first | exact (h _ (by norm_num)).2 | exact (h _ (by norm_num)).1.le | positivity
+  all_goals first | exact (h _ (by norm_num)).2
 
 theorem nonsurv_numerics {n δ m g : ℕ} (hg : 1 ≤ g) (hgn : g ∣ n) (hgδ : g ∣ δ) (hδ : 1 ≤ δ)
     (h : 52 * (n / g) + 1 ≤ m) : 52 * n + 1 ≤ δ * m := by

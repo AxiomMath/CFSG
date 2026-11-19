@@ -425,8 +425,8 @@ theorem e6FixPairCheck_spec {A B : List ℕ} (hA : A ∈ (e6SylL ()).filter isO3
   simp only [e6FixPairCheck, List.all_eq_true, Bool.or_eq_true, bne_iff_ne, beq_iff_eq,
     decide_eq_true_eq] at h
   have h1 := h A hA B hB
-  simp only [beq_iff_eq, bne_iff_ne, hc, ne_eq, not_false_eq_true, hAB, hAB2, false_or,
-    not_true_eq_false, or_false, decide_eq_true_eq] at h1
+  simp only [hc, ne_eq, hAB, hAB2, false_or,
+    not_true_eq_false, or_false] at h1
   exact h1
 
 theorem card_inter_fixMat6_le (A B : List ℕ) :
@@ -488,7 +488,7 @@ theorem card_fixMat6_inter_le_nine {w w' : WeylGroup Tag.E6} (hw : w ∈ e6Syl)
 theorem card_e6Fix_le_nine_of_le (F : Subgroup (WeylGroup Tag.E6)) (hF : IsElemAbelian 3 F)
     (hFP : F ≤ e6Syl) (h9 : 9 ≤ Nat.card F) : Nat.card (e6Fix F) ≤ 9 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite _
+  have : Fintype F := Fintype.ofFinite _
   have hone : 1 < Nat.card F := by omega
   obtain ⟨x, hx⟩ : ∃ x : F, x ≠ 1 := by
     by_contra hcon
@@ -535,7 +535,7 @@ theorem card_e6Fix_le_nine_of_le (F : Subgroup (WeylGroup Tag.E6)) (hF : IsElemA
 private theorem isElemAbelian_map' {G H : Type*} [Group G] [Group H] {p : ℕ}
     {E : Subgroup G} (f : G →* H) (hE : IsElemAbelian p E) : IsElemAbelian p (E.map f) := by
   refine ⟨?_, ?_⟩
-  · haveI := hE.1
+  · have := hE.1
     infer_instance
   · rintro y ⟨x, hx, rfl⟩
     rw [← map_pow, hE.2 x hx, map_one]
@@ -690,13 +690,14 @@ theorem e6ScPhi_surjective : Function.Surjective (e6ScPhi K) := by
   rw [hval]
   exact mapsRootLines_canonicalRep w
 
+omit [Finite K] in
 private theorem torusGroup_le_adjointGroup : torusGroup Tag.E6 K ≤ adjointGroup Tag.E6 K :=
   fun _ hx => monomialSubgroup_le_adjointGroup' (CFSG.LieType.Chevalley.torusGroup_le_monomialSubgroup hx)
 
 private theorem card_e6ScH (h3 : 3 ∣ Nat.card K - 1) :
     Nat.card ↥(e6ScH K) = (Nat.card K - 1) ^ 6 := by
   classical
-  haveI : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup' e6Data_valid
+  have : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup' e6Data_valid
   have hker3 : Nat.card (e6Isogeny K).ker = 3 := by
     rw [e6Isogeny_ker_eq_center, (card_center_e6 (k := K)).1, Nat.gcd_eq_left h3]
   have hkerH : (e6Isogeny K).ker ≤ e6ScH K := by
@@ -726,7 +727,7 @@ private theorem card_e6ScH (h3 : 3 ∣ Nat.card K - 1) :
 theorem e6ScH_eq_minTorus_range (h3 : 3 ∣ Nat.card K - 1) :
     e6ScH K = (minTorus e6Data_valid K).range := by
   classical
-  haveI : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup' e6Data_valid
+  have : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup' e6Data_valid
   have hTH : (minTorus e6Data_valid K).range ≤ e6ScH K := by
     rintro _ ⟨u, rfl⟩
     rw [e6ScH, Subgroup.mem_comap, Subgroup.mem_subgroupOf]
@@ -798,7 +799,7 @@ theorem card_mul_le_of_e6ScTorus (h3 : 3 ∣ Nat.card K - 1)
       (e : ↥(e6Data_valid.minGroup K)) * h * (e : ↥(e6Data_valid.minGroup K))⁻¹ = h) :
     Nat.card S * Nat.card F ≤ 3 ^ 6 := by
   classical
-  haveI : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup' e6Data_valid
+  have : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup' e6Data_valid
   have hST : S ≤ (minTorus e6Data_valid K).range :=
     hSH.trans (le_of_eq (e6ScH_eq_minTorus_range (K := K) h3))
   set c := e6RootParamsHom K with hcdef
@@ -888,11 +889,11 @@ theorem card_mul_le_of_e6ScTorus (h3 : 3 ∣ Nat.card K - 1)
             Nat.card_le_card_of_injective _ hinj
         _ = 3 ^ 6 := by
             rw [Nat.card_fun]
-            haveI : Fintype K := Fintype.ofFinite K
+            have : Fintype K := Fintype.ofFinite K
             have hfac : Nat.card (rootsOfUnity 3 K) = 3 := by
               rw [CFSG.LieType.Steinberg.CentralExt.SLClosed.card_rootsOfUnity_eq_gcd,
                 Fintype.card_eq_nat_card, Nat.gcd_eq_left h3]
-            simp only [hfac, Finset.prod_const, Nat.card_fin, show Tag.E6.rank = 6 from rfl]
+            simp only [hfac, Nat.card_fin, show Tag.E6.rank = 6 from rfl]
     rw [← hS₀card]
     exact hμ
   · have hbound := card_e6Fix_mul_card_le_of_ne_bot F hF hFbot
@@ -909,7 +910,7 @@ instance instFiniteE6ScMinGroup (K : Type) [Field K] [Finite K] :
 theorem pRank_three_e6Sc_le_six (h3 : 3 ∣ Nat.card K - 1) :
     CFSG.Open.pRank 3 (⊤ : Subgroup ↥(e6Data_valid.minGroup K)) ≤ 6 := by
   classical
-  haveI : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup' e6Data_valid
+  have : Finite ↥(e6Data_valid.minGroup K) := finite_minGroup' e6Data_valid
   have hHc : ∀ a ∈ e6ScH K, ∀ b ∈ e6ScH K, a * b = b * a := by
     intro a ha b hb
     rw [e6ScH_eq_minTorus_range (K := K) h3] at ha hb
@@ -933,7 +934,7 @@ theorem pRank_eq_hopfCover_of_ker {p : ℕ} (hp : p.Prime) {R K : Type} [Group R
     (hpart : (Nat.card κ.ker).factorization p =
       (Nat.card (hopfMultiplier R)).factorization p) :
     CFSG.Open.pRank p (⊤ : Subgroup K) = CFSG.Open.pRank p (⊤ : Subgroup (HopfCover R)) := by
-  haveI : Finite (HopfCover R) := finite_hopfCover (X := R) inferInstance
+  have : Finite (HopfCover R) := finite_hopfCover (X := R) inferInstance
   obtain ⟨-, h, hcomp, -, hsurj, hmap, -⟩ :=
     perfect_central_kernel_quotient_of_hopf_multiplier κ hκ hcen
   have hker_le : h.ker ≤ hopfMultiplier R := by
@@ -964,7 +965,7 @@ theorem pRank_eq_hopfCover_of_ker {p : ℕ} (hp : p.Prime) {R K : Type} [Group R
     have hpos : 1 ≤ (Nat.card h.ker).factorization p :=
       (Nat.Prime.dvd_iff_one_le_factorization hp (Nat.card_pos.ne')).1 hdvd
     omega
-  haveI : h.ker.Normal := inferInstance
+  have : h.ker.Normal := inferInstance
   have e : HopfCover R ⧸ h.ker ≃* K := QuotientGroup.quotientKerEquivOfSurjective h hsurj
   rw [← CFSG.SectionRank.pRank_eq_open_pRank_top p K,
     ← CFSG.SectionRank.pRank_eq_open_pRank_top p (HopfCover R)]

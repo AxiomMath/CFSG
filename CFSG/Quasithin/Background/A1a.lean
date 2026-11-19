@@ -375,7 +375,7 @@ theorem not_dvd_index_subgroupOf_of_sylow (T : Sylow p G) {K : Subgroup G}
 theorem pCore_le_pCoreOf_of_sylow (T : Sylow p G) {H : Subgroup G}
     (hTH : (T : Subgroup G) ≤ H) : CFSG.Open.pCore p G ≤ pCoreOf p H := by
   rw [← pCoreOf_top p]
-  exact pCoreOf_le_pCoreOf_of_sylow le_top T.isPGroup' hTH
+  exact pCoreOf_le_pCoreOf_of_sylow le_top T.isPGroup hTH
     (not_dvd_index_subgroupOf_of_sylow T le_top)
 
 theorem centralizer_pCoreOf_le_of_sylow_ambient (T : Sylow p G) {H : Subgroup G}

@@ -26,14 +26,14 @@ theorem orthComponentBlockAnalysis_holds {K V : Type} [Field K] [Finite K] [Char
 
 theorem orthComponentBlockAnalysisPlus_holds : OrthComponentBlockAnalysisPlus :=
   orthComponentBlockAnalysisPlus_of_generic fun m K _ _ _ hm => by
-    haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+    have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
     have hQ := CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadPlus m K
     exact @orthComponentBlockAnalysis_holds _ _ _ _ _ _ _ _ _ hQ
       (CFSG.LocalAnalysis.ComponentInitial.ProjectiveOrthogonal.exists_ne_zero_of_nondegenerate hQ)
 
 theorem orthComponentBlockAnalysisMinus_holds : OrthComponentBlockAnalysisMinus :=
   orthComponentBlockAnalysisMinus_of_generic fun m K _ _ _ b₀ c₀ _ hbc => by
-    haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+    have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     have hQ := CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadMinus_of_finite m K hbc
     exact @orthComponentBlockAnalysis_holds _ _ _ _ _ _ _ _ _ hQ
       (CFSG.LocalAnalysis.ComponentInitial.ProjectiveOrthogonal.exists_ne_zero_of_nondegenerate hQ)

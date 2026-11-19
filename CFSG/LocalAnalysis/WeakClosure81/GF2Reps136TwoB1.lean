@@ -62,14 +62,13 @@ theorem swap_nontriv (hw2 : ∀ w : W, w * w = 1) {Y : Subgroup (MulAut W)} {t :
     (swap_comp S).2.2.2.1 hLR hfix
   exact S.nontriv hbot
 
-theorem swap_ctx (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : MulAut W}
+theorem swap_ctx (_hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : MulAut W}
     {L : Subgroup (MulAut W)} {g : MulAut W} (S : Swap136 Y t L g) :
     Ctx136 Y (g * t * g⁻¹) (Lc L g) ∧
       ∀ I ∈ irrSet (Lc L g), I.map (g * t * g⁻¹).toMonoidHom = I := by
   have hzt : Subgroup.zpowers (g * t * g⁻¹) =
       (Subgroup.zpowers t).map (MulAut.conj g).toMonoidHom := by
-    simpa [MulAut.conj_apply] using
-      (MonoidHom.map_zpowers (MulAut.conj g).toMonoidHom t).symm
+    simp [MulAut.conj_apply]
   have htY : g * t * g⁻¹ ∈ Y :=
     Y.mul_mem (Y.mul_mem S.gY S.ctx.std.tY) (Y.inv_mem S.gY)
   have ht2 : orderOf (g * t * g⁻¹) = 2 := by
@@ -138,7 +137,7 @@ theorem swap_ctx (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : Mul
     have hJI : (I.map (g⁻¹).toMonoidHom).map g.toMonoidHom = I := by
       rw [Subgroup.map_map]
       have : g.toMonoidHom.comp (g⁻¹).toMonoidHom = MonoidHom.id W := by
-        ext x; simp [MulAut.mul_apply, MulAut.apply_inv_self]
+        ext x; simp
       rw [this, Subgroup.map_id]
     calc I.map (g * t * g⁻¹).toMonoidHom
         = ((I.map (g⁻¹).toMonoidHom).map g.toMonoidHom).map
@@ -150,12 +149,13 @@ theorem swap_ctx (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : Mul
       _ = (I.map (g⁻¹).toMonoidHom).map (g.toMonoidHom.comp t.toMonoidHom) := by
           congr 1
           ext x
-          simp [MulAut.mul_apply, MulAut.inv_apply_self]
+          simp
       _ = ((I.map (g⁻¹).toMonoidHom).map t.toMonoidHom).map g.toMonoidHom := by
           simp only [Subgroup.map_map, MonoidHom.comp_assoc]
       _ = (I.map (g⁻¹).toMonoidHom).map g.toMonoidHom := by rw [hJfix]
       _ = I := hJI
 
+omit [Finite W] in
 theorem swap_Wd (L : Subgroup (MulAut W)) (g : MulAut W) :
     Wd (Lc L g) = (Wd L).map g.toMonoidHom := by
   simpa [Wd, Lc] using s15_Core_commSub_map_conj (⊤ : Subgroup W) L g

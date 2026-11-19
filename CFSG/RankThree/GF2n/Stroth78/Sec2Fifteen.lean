@@ -187,7 +187,7 @@ theorem mkQbar_commutator_eq_mul (S : Setting z E F) {s q : G}
         ⟨⁅q, s⁆, commutator_mem_Q_of_mem_H hsH hq⟩ : ↥(Q z)) =
         ⟨s * q ^ 2 * s⁻¹, (inf_le_left : ZQ z ≤ Q z) hconjZ⟩ := by
       apply Subtype.ext
-      simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_mk, Subgroup.coe_inv,
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv,
         div_eq_mul_inv]
       rw [commutatorElement_def]
       calc
@@ -286,7 +286,7 @@ theorem QaInterImage_CQ_eq_orthogonal (S : Setting z E F) {a : G} (haQ : a ∈ Q
     QaInterImage S (Q z ⊓ Subgroup.centralizer ({a} : Set G)) =
       LinearMap.BilinForm.orthogonal (qS S).polarBilin
         (Submodule.span (ZMod 2) {Additive.ofMul (mkQbar S ⟨a, haQ⟩)}) := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   ext v
   constructor
   · intro hv
@@ -352,7 +352,7 @@ theorem commSpace_le_span_of_w0 (S : Setting z E F) {a s : G}
       Submodule.span (ZMod 2)
         ({Additive.ofMul (mkQbar S ⟨a, haQ⟩),
           conjQbar S ⟨s, hsH⟩ u0 - u0} : Set (Additive (QbarOf S))) := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   let aV : Additive (QbarOf S) := Additive.ofMul (mkQbar S ⟨a, haQ⟩)
   let σ : Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S) := conjQbar S ⟨s, hsH⟩
   let φ : Additive (QbarOf S) →ₗ[ZMod 2] Additive (QbarOf S) :=
@@ -420,7 +420,7 @@ theorem polar_aV_commSpace_eq_zero (S : Setting z E F) {a s : G}
     (haQ : a ∈ Q z) (hsZ : s ∈ centerIn (QaOf a)) (hsH : s ∈ H z)
     {w : Additive (QbarOf S)} (hw : w ∈ commSpace (conjQbar S ⟨s, hsH⟩)) :
     (qS S).polarBilin (Additive.ofMul (QuotientGroup.mk ⟨a, haQ⟩)) w = 0 := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   rw [mem_commSpace] at hw
   obtain ⟨v, rfl⟩ := hw
   have hfix : conjQbar S ⟨s, hsH⟩ (Additive.ofMul (QuotientGroup.mk ⟨a, haQ⟩)) =
@@ -444,6 +444,7 @@ theorem polar_aV_commSpace_eq_zero (S : Setting z E F) {a s : G}
       _ = (qS S).polarBilin (Additive.ofMul (QuotientGroup.mk ⟨a, haQ⟩)) v := hiso
   rw [LinearMap.map_sub, h1, sub_self]
 
+omit [Finite G] in
 theorem conj_s_eq_mul_z_of_commutator (S : Setting z E F) {s q : G}
     (hs2 : s ^ 2 = 1) (ht2 : ⁅q, s⁆ ^ 2 = z) :
     ⁅q, s⁆ * s * ⁅q, s⁆⁻¹ = s * z := by
@@ -483,7 +484,7 @@ theorem q_eq_zero_of_mem_commSpace_conjQbar (S : Setting z E F) {a s : G}
     (hsZ : s ∈ centerIn (QaOf a)) (hsH : s ∈ H z) (hs2 : s ^ 2 = 1)
     {w : Additive (QbarOf S)} (hw : w ∈ commSpace (conjQbar S ⟨s, hsH⟩)) :
     qS S w = 0 := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   by_contra hqne
   obtain ⟨q, rfl⟩ := (mem_commSpace_conjQbar_iff S hsH).mp hw
   let t : G := ⁅(q : G), s⁆
@@ -532,6 +533,7 @@ theorem q_eq_zero_of_mem_commSpace_conjQbar (S : Setting z E F) {a s : G}
     simpa using this
   exact hzaZ hz
 
+omit [Finite G] in
 theorem commutator_zpowers_eq_closure_commutator {s : G} (hs2 : s ^ 2 = 1) :
     ⁅Q z, Subgroup.zpowers s⁆ =
       Subgroup.closure {g : G | ∃ q ∈ Q z, ⁅q, s⁆ = g} := by
@@ -551,7 +553,7 @@ theorem commutator_zpowers_eq_closure_commutator {s : G} (hs2 : s ^ 2 = 1) :
         rw [zpow_add, zpow_mul]
         simp [hs2]
       rw [h1]
-      exact Subgroup.subset_closure (Set.mem_setOf.mpr ⟨q, hq, rfl⟩)
+      exact Subgroup.subset_closure (Set.mem_ofPred.mpr ⟨q, hq, rfl⟩)
   · rw [Subgroup.closure_le]
     rintro g ⟨q, hq, rfl⟩
     exact Subgroup.subset_closure ⟨q, hq, s, Subgroup.mem_zpowers s, rfl⟩
@@ -561,7 +563,7 @@ theorem commutator_zpowers_sq_eq_one (S : Setting z E F) {a s q : G}
     (hzaZ : z ∉ centerIn (QaOf a))
     (hsZ : s ∈ centerIn (QaOf a)) (hsH : s ∈ H z) (hs2 : s ^ 2 = 1)
     (hq : q ∈ Q z) : ⁅q, s⁆ ^ 2 = 1 := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   have htQ : ⁅q, s⁆ ∈ Q z := commutator_mem_Q_of_mem_H hsH hq
   have hw : Additive.ofMul (mkQbar S ⟨⁅q, s⁆, htQ⟩) ∈
       commSpace (conjQbar S ⟨s, hsH⟩) :=
@@ -575,7 +577,7 @@ theorem commutator_zpowers_commute (S : Setting z E F) {a s q₁ q₂ : G}
     (hsZ : s ∈ centerIn (QaOf a)) (hsH : s ∈ H z) (hs2 : s ^ 2 = 1)
     (hq₁ : q₁ ∈ Q z) (hq₂ : q₂ ∈ Q z) :
     ⁅q₁, s⁆ * ⁅q₂, s⁆ = ⁅q₂, s⁆ * ⁅q₁, s⁆ := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   have ht₁ : ⁅q₁, s⁆ ∈ Q z := commutator_mem_Q_of_mem_H hsH hq₁
   have ht₂ : ⁅q₂, s⁆ ∈ Q z := commutator_mem_Q_of_mem_H hsH hq₂
   have hw₁ : Additive.ofMul (mkQbar S ⟨⁅q₁, s⁆, ht₁⟩) ∈
@@ -618,7 +620,7 @@ theorem eq_one_of_commSpace_eq_span_singular (S : Setting z E F) {s c : G}
       Submodule.span (ZMod 2) {Additive.ofMul (mkQbar S ⟨c, hc⟩)})
     (hqc : qS S (Additive.ofMul (mkQbar S ⟨c, hc⟩)) = 0) :
     conjQbar S ⟨s, hsH⟩ = 1 := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   let σ : Additive (QbarOf S) ≃ₗ[ZMod 2] Additive (QbarOf S) := conjQbar S ⟨s, hsH⟩
   let B := (qS S).polarBilin
   let cV : Additive (QbarOf S) := Additive.ofMul (mkQbar S ⟨c, hc⟩)
@@ -670,7 +672,7 @@ theorem eq_one_of_commSpace_eq_span_singular (S : Setting z E F) {s c : G}
     have hmain : B (σ x) (σ y) = B x y + lam := by
       rw [hσx, hσy]
       simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, smul_eq_mul,
-        hBcσy, hBxc, hBcc, hy1, mul_one, mul_zero, add_zero, zero_add]
+        hBxc, hBcc, hy1, mul_one, mul_zero, add_zero]
     have hlam0 : lam = 0 := by
       rw [hmain] at hiso
       simpa using hiso
@@ -718,7 +720,7 @@ theorem finrank_commSpace_eq_two (S : Setting z E F) {a s : G}
     (hsQ : s ∉ Q z) :
     finrank (ZMod 2) (commSpace (conjQbar S ⟨s, hsH⟩)) = 2 := by
   classical
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   let V := Additive (QbarOf S)
   let aV : V := Additive.ofMul (mkQbar S ⟨a, haQ⟩)
   let B := (qS S).polarBilin
@@ -784,7 +786,7 @@ theorem QaInterImage_commutator_eq_commSpace (S : Setting z E F) {s : G}
     (hsH : s ∈ H z) (hs2 : s ^ 2 = 1) :
     QaInterImage S ⁅Q z, Subgroup.zpowers s⁆ =
       commSpace (conjQbar S ⟨s, hsH⟩) := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   let A : Subgroup G := ⁅Q z, Subgroup.zpowers s⁆
   let W : Submodule (ZMod 2) (Additive (QbarOf S)) :=
     commSpace (conjQbar S ⟨s, hsH⟩)
@@ -865,12 +867,12 @@ theorem card_commSpace_eq_four (S : Setting z E F) {a s : G}
     (hsQ : s ∉ Q z) :
     Nat.card (commSpace (conjQbar S ⟨s, hsH⟩)) = 4 := by
   classical
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
-  haveI : Module.Finite (ZMod 2) (commSpace (conjQbar S ⟨s, hsH⟩)) :=
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  have : Module.Finite (ZMod 2) (commSpace (conjQbar S ⟨s, hsH⟩)) :=
     Module.Finite.of_finite
   have h := Module.natCard_eq_pow_finrank (K := ZMod 2)
     (V := commSpace (conjQbar S ⟨s, hsH⟩))
-  have h2 : Nat.card (ZMod 2) = 2 := by simpa using Nat.card_zmod (n := 2)
+  have h2 : Nat.card (ZMod 2) = 2 := by simp
   rw [h2, finrank_commSpace_eq_two S haQ hconj haZ hzaZ hsZ hsH hs2 hsQ] at h
   norm_num at h
   exact h
@@ -954,7 +956,7 @@ theorem isA2Q_of_mem_centerIn_H (S : Setting z E F) {a s : G}
 theorem isA2Hbar_of_mem_Rbar (S : Setting z E F) {a : G}
     (haQ : a ∈ Q z) (hconj : IsConj z a) (haZ : a ∉ ZQ z)
     (hza : z ∈ QaOf a)
-    (hZQa : ¬ centerIn (QaOf a) ≤ Q z) :
+    (_hZQa : ¬ centerIn (QaOf a) ≤ Q z) :
     ∀ r ∈ Rbar S a, r ≠ 1 → IsA2Hbar S r := by
   intro r hr hr1
   obtain ⟨s, hsZ, hsH, hsQ, hsr⟩ :=

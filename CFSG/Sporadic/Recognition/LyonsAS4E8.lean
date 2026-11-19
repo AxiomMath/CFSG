@@ -53,7 +53,7 @@ theorem not_isConj_of_elementaryAbelian_eight {G : Type} [Group G] [Finite G] {x
     exact smul_mem_pointwise_smul a (MulAut.conj c) (Q₁ : Subgroup C) ha
   set T : Subgroup G := (Q₂ : Subgroup C).map C.subtype
   set F₁ : Subgroup G := F'.map (MulAut.conj (c : G)).toMonoidHom
-  have hT : IsPGroup 2 T := Q₂.isPGroup'.map C.subtype
+  have hT : IsPGroup 2 T := Q₂.isPGroup.map C.subtype
   have htT : t ∈ T := ⟨tC, hQ₂ (mem_zpowers tC), rfl⟩
   have hF₁T : F₁ ≤ T := by
     rintro _ ⟨a, ha, rfl⟩

@@ -79,12 +79,12 @@ theorem centralizer_cClos_le_of_ne_bot (D : Data G) {V₀ V : Subgroup G} (h : H
     rcases h.1 with ⟨-, h0⟩ | ⟨-, hCU, -⟩
     · exact absurd h0 hV₀
     · exact hCU
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 D.T := D.sylowM.isPGroup
   have hTne : D.T ≠ ⊥ := fun hb =>
     h.pairFacts.ne_bot (le_bot_iff.1 (hb ▸ uc22p22p_le_T_of_inCalV D h.inCalV))
-  haveI : Nontrivial ↥D.T := (Subgroup.nontrivial_iff_ne_bot D.T).2 hTne
-  haveI : Nontrivial ↥(Subgroup.center ↥D.T) := hT2.center_nontrivial
+  have : Nontrivial ↥D.T := (Subgroup.nontrivial_iff_ne_bot D.T).2 hTne
+  have : Nontrivial ↥(Subgroup.center ↥D.T) := hT2.center_nontrivial
   obtain ⟨z, hz1⟩ := exists_ne (1 : ↥(Subgroup.center ↥D.T))
   have hzc : ∀ t ∈ D.T, ((z : ↥D.T) : G) * t = t * ((z : ↥D.T) : G) := fun t ht =>
     congrArg Subtype.val ((Subgroup.mem_center_iff.1 z.2) ⟨t, ht⟩).symm
@@ -102,7 +102,7 @@ theorem centralizer_cClos_le_of_ne_bot (D : Data G) {V₀ V : Subgroup G} (h : H
 theorem Data.k_eq_one_of_isStronglyPEmbedded (D : Data G)
     (h : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 D.M) : D.k = 1 := by
   unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem Data.k_eq_one_of_three_mem (D : Data G) (hSg : UC6S846.SigmaStd D)
     (h1219 : D.sig = D.sig1) (h3 : 3 ∈ D.sig) : D.k = 1 :=
@@ -122,6 +122,7 @@ theorem v0_eq_bot_and_not_le_of_trichotomy (D : Data G) {V₀ V : Subgroup G}
       exact absurd h1 (Set.not_nonempty_empty)
   exact ⟨by_contra fun hV0 => hC (centralizer_cClos_le_of_ne_bot D h.hyp125 hV0 i), hC⟩
 
+omit [Finite G] in
 theorem calO2_subset_calO (n : ℕ) (M V₀ V : Subgroup G) : calO2 n M V₀ V ⊆ calO n M V₀ V := by
   rintro X ⟨g, rfl, h, -⟩
   exact ⟨g, rfl, h⟩

@@ -214,11 +214,11 @@ theorem mul_card_le_cent_inf [Finite G] (hp : p.Prime) (hp2 : p ≠ 2) (hk : ord
     p * Nat.card ↥(H ⊓ centralizer ({t} : Set G)) ≤
       Nat.card ↥(centralizer ({t} : Set G) ⊓ centralizer ({k} : Set G)) :=
   mul_card_le_of_prod hp hp2 hk hα (H' := H ⊓ centralizer ({t} : Set G))
-    (fun x hx => hHα hx.1)
+    (fun _x hx => hHα hx.1)
     ⟨Subgroup.mem_centralizer_singleton_iff.2
       (Subgroup.mem_centralizer_singleton_iff.1 (hHk ht)).symm,
       Subgroup.mem_centralizer_singleton_iff.2 rfl⟩
-    (fun x hx => ⟨hx.2, hHk hx.1⟩)
+    (fun _x hx => ⟨hx.2, hHk hx.1⟩)
 
 theorem card_centralizer_le_of_involutions [Finite G] (hp : p.Prime) (hp2 : p ≠ 2)
     (hk : orderOf k = p) {α : G} (hα : α * k * α⁻¹ = k⁻¹)

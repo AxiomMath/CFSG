@@ -29,7 +29,7 @@ theorem finRotate_three_inv_apply (i : Fin 3) :
 theorem listRow_of_twistFrame [Finite S] {a : ℕ} (ha : 1 ≤ a) {μ : ℤ} (hμ : ¬ (3 : ℤ) ∣ μ - 1)
     (F : TwistFrame (Multiplicative (ZMod (3 ^ a))) 3 S μ)
     (hS : ¬ 3 ^ (3 * a + 2) ∣ Nat.card S) : ListRow S := by
-  haveI : NeZero (3 ^ a) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (3 ^ a) := ⟨pow_ne_zero _ (by norm_num)⟩
   let σ : alternatingGroup (Fin 3) := ⟨finRotate 3, finRotate_three_mem⟩
   have hσ3 : σ ^ 3 = 1 := by
     apply Subtype.ext

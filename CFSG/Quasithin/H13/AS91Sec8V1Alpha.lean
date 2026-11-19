@@ -20,7 +20,7 @@ theorem zmod2_mul_eq_one_of_ne_one {a b : Multiplicative (ZMod 2)} (ha : a ≠ 1
   decide
 
 @[expose] def twistHom {M : Type*} [Group M] (χ : M →* Multiplicative (ZMod 2)) (c : M)
-    (hc : c * c = 1) (hcχ : χ c = 1) (hcent : ∀ x : M, c * x = x * c) : M →* M where
+    (hc : c * c = 1) (_hcχ : χ c = 1) (hcent : ∀ x : M, c * x = x * c) : M →* M where
   toFun x := x * (if χ x = 1 then 1 else c)
   map_one' := by simp
   map_mul' x y := by
@@ -28,13 +28,13 @@ theorem zmod2_mul_eq_one_of_ne_one {a b : Multiplicative (ZMod 2)} (ha : a ≠ 1
     · have hxy : χ (x * y) = 1 := by rw [map_mul, hx, hy, one_mul]
       simp [hx, hy, hxy]
     · have hxy : χ (x * y) ≠ 1 := by rw [map_mul, hx, one_mul]; exact hy
-      simp only [hx, hy, hxy, if_true, if_false, mul_one]
+      simp only [hx, hy, hxy, ite_true, ite_false, mul_one]
       rw [mul_assoc]
     · have hxy : χ (x * y) ≠ 1 := by rw [map_mul, hy, mul_one]; exact hx
-      simp only [hx, hy, hxy, if_true, if_false, mul_one]
+      simp only [hx, hy, hxy, ite_true, ite_false, mul_one]
       rw [mul_assoc x c y, hcent y, ← mul_assoc x y c]
     · have hxy : χ (x * y) = 1 := by rw [map_mul, zmod2_mul_eq_one_of_ne_one hx hy]
-      simp only [hx, hy, hxy, if_true, if_false, mul_one]
+      simp only [hx, hy, hxy, ite_true, ite_false, mul_one]
       rw [mul_assoc x c (y * c), ← mul_assoc c y c, hcent y, mul_assoc y c c, hc, mul_one]
 
 theorem twistHom_apply {M : Type*} [Group M] (χ : M →* Multiplicative (ZMod 2)) (c : M)
@@ -47,7 +47,7 @@ theorem twistHom_chi_eq_one_iff {M : Type*} [Group M] (χ : M →* Multiplicativ
   rw [twistHom_apply]
   by_cases hx : χ x = 1
   · simp [hx]
-  · rw [if_neg hx, map_mul, hcχ, mul_one]
+  · rw [ite_eq_right hx, map_mul, hcχ, mul_one]
 
 theorem twistHom_comm {M : Type*} [Group M] (χ : M →* Multiplicative (ZMod 2)) (c : M)
     (hc : c * c = 1) (hcχ : χ c = 1) (hcent : ∀ x : M, c * x = x * c)
@@ -63,12 +63,12 @@ theorem twistHom_involutive {M : Type*} [Group M] (χ : M →* Multiplicative (Z
   have hiff := twistHom_chi_eq_one_iff χ c hc hcχ hcent x
   conv_lhs => rw [twistHom_apply]
   by_cases hx : χ x = 1
-  · rw [if_pos (hiff.mpr hx), mul_one]
+  · rw [ite_eq_left (hiff.mpr hx), mul_one]
     conv_lhs => rw [twistHom_apply]
-    rw [if_pos hx, mul_one]
-  · rw [if_neg (fun h => hx (hiff.mp h))]
+    rw [ite_eq_left hx, mul_one]
+  · rw [ite_eq_right (fun h => hx (hiff.mp h))]
     conv_lhs => rw [twistHom_apply]
-    rw [if_neg hx, mul_assoc, hc, mul_one]
+    rw [ite_eq_right hx, mul_assoc, hc, mul_one]
 
 namespace Loc49
 
@@ -181,7 +181,7 @@ theorem E_le_of_indexTwo
   have hε1 : (χH.comp (toddToG3 c r)) w = 1 := by
     by_contra hne
     have hwz : wz = 1 := by
-      rw [if_neg hne] at hA
+      rw [ite_eq_right hne] at hA
       exact hA
     exact M24G.sextClass_ne_one (M24G.isSextet_sextFin (q := 0) (by norm_num))
       (by simpa [wz] using hwz)
@@ -277,9 +277,9 @@ theorem hasAlphaTwist (hLU : Stmt5_LineU) (hG2 : Stmt5_Gamma2)
       rw [hα_apply h]
       apply mul_mem hh
       by_cases hχ : χH h = 1
-      · rw [if_pos hχ]
+      · rw [ite_eq_left hχ]
         exact c.G1.one_mem
-      · rw [if_neg hχ]
+      · rw [ite_eq_right hχ]
         exact c.E_le_G1 c.z_mem_E
     intro h
     constructor
@@ -299,10 +299,10 @@ theorem hasAlphaTwist (hLU : Stmt5_LineU) (hG2 : Stmt5_Gamma2)
       exact r.todd.symm_apply_apply _
     rw [hα_apply (Subgroup.inclusion inf_le_left h), hχh]
     by_cases hc : χ (c.phiS r hU h) = 1
-    · rw [if_pos hc, if_pos hc, mul_one]
+    · rw [ite_eq_left hc, ite_eq_left hc, mul_one]
       rw [show r.todd.symm 1 = 1 from map_one r.todd.symm]
       simp
-    · rw [if_neg hc, if_neg hc]
+    · rw [ite_eq_right hc, ite_eq_right hc]
       rw [hzw]
       simp [zH]
   exact ⟨χ, α, hχne, hpres, hformula⟩

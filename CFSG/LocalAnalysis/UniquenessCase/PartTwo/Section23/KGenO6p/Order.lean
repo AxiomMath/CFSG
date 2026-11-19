@@ -96,7 +96,7 @@ theorem card_lineStab_omegaPlusSix (hK : 4 ≤ Nat.card K) :
       Nat.card K ^ 6 * (Nat.card K - 1) * (Nat.card K ^ 2 - 1) ^ 2 := by
   classical
   obtain ⟨hQ, hT⟩ := regular_quadPlus (n := 3) (K := K) le_rfl
-  haveI htrans := (CFSG.LocalAnalysis.ComponentInitial.orthogonal_singular_line_primitive
+  have htrans := (CFSG.LocalAnalysis.ComponentInitial.orthogonal_singular_line_primitive
     (quadPlus 3 K) hQ hT).1
   set e₀ : Fin 3 ⊕ Fin 3 → K := Pi.single (Sum.inl 0) 1 with he₀def
   have he0 : e₀ ≠ 0 := by

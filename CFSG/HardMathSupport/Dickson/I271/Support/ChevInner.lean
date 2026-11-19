@@ -34,10 +34,12 @@ variable {X : Type} [Group X] [Finite X]
     MulAut (barOf p K) →* MulAut (↥K ⧸ Subgroup.center ↥K) :=
   (autCenterQuot ↥K).comp (MulAut.congr (barOfEquiv p hO)).symm.toMonoidHom
 
+omit [Finite X] in
 theorem autBarToQuot_injective (p : ℕ) {K : Subgroup X} (hO : GLAPPrimeCore p ↥K = ⊥)
     (hperf : commutator ↥K = ⊤) : Function.Injective (autBarToQuot p hO) :=
   (autCenterQuot_injective_of_perfect hperf).comp (MulAut.congr (barOfEquiv p hO)).symm.injective
 
+omit [Finite X] in
 theorem autBarToQuot_conj (p : ℕ) {K : Subgroup X} (hO : GLAPPrimeCore p ↥K = ⊥) (q : barOf p K) :
     autBarToQuot p hO (MulAut.conj q) =
       MulAut.conj (QuotientGroup.mk ((barOfEquiv p hO).symm q) : ↥K ⧸ Subgroup.center ↥K) := by
@@ -78,6 +80,7 @@ theorem coreFree_of_inner {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hDC : DefCha
     ← map_glaPPrimeCoreOf_of_injective p Φ hΦinj] at hS
   exact (Subgroup.map_eq_bot_iff_of_injective _ hΦinj).1 hS
 
+omit [Finite X] in
 theorem barAut_eq_conj_of_inner {p : ℕ} {K : Subgroup X} {a k : X} (hk : k ∈ K)
     (hc : k⁻¹ * a ∈ Subgroup.centralizer (K : Set X))
     (haN : a ∈ Subgroup.normalizer (K : Set X)) :
@@ -104,11 +107,11 @@ theorem isCompLocallyBalanced_of_inner {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hLie : ∃ idx : TauCeti.ValidLieTypeIndex,
       Nonempty ((↥K ⧸ Subgroup.center ↥K) ≃* (TauCeti.CFSGIndex.lie idx).Group) ∧
         idx.1.characteristic = p)
-    (hAN : A ≤ Subgroup.normalizer (K : Set X))
+    (_hAN : A ≤ Subgroup.normalizer (K : Set X))
     (hin : ∀ a ∈ A, ∃ k ∈ K, k⁻¹ * a ∈ Subgroup.centralizer (K : Set X)) :
     IsCompLocallyBalanced p 1 A K := by
   intro D hD H hH hDH
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card D = p := by simpa using hD.2.2
   have hnt : 1 < Nat.card D := by rw [hcard]; exact hp.one_lt
   obtain ⟨d, hdD, hd1⟩ : ∃ d ∈ D, d ≠ 1 := by
@@ -175,7 +178,7 @@ theorem not_glaPComponent_of_inner {p : ℕ} (hp : p.Prime) (hKD : KDChevInner p
     (inf_le_left : K ⊓ Subgroup.centralizer ({a} : Set X) ≤ K) hJ
   rw [hfix] at hJ'
   have hnc := exists_noncomm_of_isQuasisimple hq
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hSz : Subgroup.center (↥K ⧸ Subgroup.center ↥K) = ⊥ := center_eq_bot_of_simple hnc
   have hβp : β ^ p = 1 := by
     rw [hβ, ← map_pow]

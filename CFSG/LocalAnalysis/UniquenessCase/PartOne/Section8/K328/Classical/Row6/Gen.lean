@@ -22,7 +22,7 @@ private theorem k328r6g_conjTr_diagonal {K : Type} [Field K] {σ : K ≃+* K} {n
     Matrix.diagonal_apply, Matrix.diagonal_apply]
   by_cases h : i = j
   · subst h; simp
-  · rw [if_neg (Ne.symm h), map_zero, if_neg h]
+  · rw [ite_eq_right (Ne.symm h), map_zero, ite_eq_right h]
 
 private theorem k328r6g_mem_SUid_of_diagonal {K : Type} [Field K] {σ : K ≃+* K} {n : ℕ}
     (d : Fin n → K) (hdet : ∏ i, d i = 1) (hnorm : ∀ i, σ (d i) * d i = 1)
@@ -523,9 +523,9 @@ theorem row6_gen (F : Type) [Field F] [Fintype F] [DecidableEq F]
           rw [show b = k328r6g_headEmb (Pi.single i (1 : F)) + Pi.single 3 1 from rfl,
             k328r6g_headEmb_single]
         have hsub : (Pi.single (Fin.castSucc i) (1 : F) : Fin 4 → F) 3 = 0 := by
-          rw [Pi.single_apply, if_neg (Ne.symm (k328r6g_castSucc_ne_three i))]
+          rw [Pi.single_apply, ite_eq_right (Ne.symm (k328r6g_castSucc_ne_three i))]
         have hsub' : (Pi.single 3 (1 : F) : Fin 4 → F) (Fin.castSucc i) = 0 := by
-          rw [Pi.single_apply, if_neg (k328r6g_castSucc_ne_three i)]
+          rw [Pi.single_apply, ite_eq_right (k328r6g_castSucc_ne_three i)]
         have hb3 : b 3 = 1 := by
           rw [hb_eq, Pi.add_apply, hsub, Pi.single_eq_same, zero_add]
         have hb_ne : b ≠ 0 := by
@@ -555,7 +555,7 @@ theorem row6_gen (F : Type) [Field F] [Fintype F] [DecidableEq F]
         have hb_plane : ∃ k : Fin 4, k ≠ 3 ∧ (∀ l : Fin 4, l ≠ k → l ≠ 3 → b l = 0) := by
           refine ⟨Fin.castSucc i, k328r6g_castSucc_ne_three i, ?_⟩
           intro l hl hl3
-          rw [hb_eq, Pi.add_apply, Pi.single_apply, Pi.single_apply, if_neg hl, if_neg hl3,
+          rw [hb_eq, Pi.add_apply, Pi.single_apply, Pi.single_apply, ite_eq_right hl, ite_eq_right hl3,
             add_zero]
         have hbS : b ∈ S := hcase_i b hb_iso hb_ne hb_plane
         obtain ⟨c₀, hc₀_ne, hc₀_trace⟩ := hσinv.exists_traceZero

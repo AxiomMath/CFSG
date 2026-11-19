@@ -83,13 +83,13 @@ theorem ggSpSigned_rho_spReflPerm (p k : ℕ) (i : Fin k) :
         SpJoin.spReflPerm_mem_spSignedGroup k p i⟩ = ggSpSigned_spReflAut p k i := by
   apply MulEquiv.ext; intro f
   rw [ggSpSigned_rho_apply]
-  simp only [Subtype.coe_mk]
+  simp only
   by_cases h : i.val + 1 < k
   · rw [SpJoin.spReflPerm_of_lt k p i h]
-    simp only [ggSpSigned_spReflAut, dif_pos h]
+    simp only [ggSpSigned_spReflAut, dite_eq_left h]
     rfl
   · rw [SpJoin.spReflPerm_of_not_lt k p i h]
-    simp only [ggSpSigned_spReflAut, dif_neg h]
+    simp only [ggSpSigned_spReflAut, dite_eq_right h]
     rfl
 
 theorem ggSpSigned_conj_permAut_sgnAut (p k : ℕ) (τ : Equiv.Perm (Fin k)) (j : Fin k) :
@@ -142,10 +142,10 @@ theorem ggSpSigned_isSignedPerm_mem_range {p k : ℕ} (hk : 1 ≤ k)
     u ∈ (ggSpSigned_rho p k).range := by
   classical
   have hlast : ¬ (⟨k - 1, by omega⟩ : Fin k).val + 1 < k := by
-    simp only [Fin.val_mk]; omega
+    simp only; omega
   have hlast_dif : ggSpSigned_spReflAut p k ⟨k - 1, by omega⟩ =
       SpCoord.sgnAut ⟨k - 1, by omega⟩ := by
-    simp only [ggSpSigned_spReflAut, dif_neg hlast]
+    simp only [ggSpSigned_spReflAut, dite_eq_right hlast]
   let gen : Fin k → ↥(SpJoin.spSignedGroup k p) := fun i =>
     ⟨SpJoin.spReflPerm k p i, SpJoin.spReflPerm_mem_spSignedGroup k p i⟩
   let K : Subgroup (Equiv.Perm (Fin k)) :=
@@ -157,7 +157,7 @@ theorem ggSpSigned_isSignedPerm_mem_range {p k : ℕ} (hk : 1 ≤ k)
     have hρ := ggSpSigned_rho_spReflPerm (p := p) (k := k) i
     have hr : ggSpSigned_spReflAut p k i =
         SpCoord.permAut (Equiv.swap i ⟨i.val + 1, h⟩) := by
-      simp only [ggSpSigned_spReflAut, dif_pos h]
+      simp only [ggSpSigned_spReflAut, dite_eq_left h]
     have hgg : (ggSpSigned_permAutHom p k) (Equiv.swap i ⟨i.val + 1, h⟩) =
         ggSpSigned_rho p k (gen i) := by
       rw [hρ, hr]
@@ -186,10 +186,10 @@ theorem ggSpSigned_isSignedPerm_mem_range {p k : ℕ} (hk : 1 ≤ k)
         · have hlt : a.val < b.val := by omega
           have ha' : a.val + 1 < k := by omega
           have hdiff : b.val - (⟨a.val + 1, ha'⟩ : Fin k).val = d - 1 := by
-            simp only [Fin.val_mk]; omega
+            simp only; omega
           have hdlt : d - 1 < d := Nat.sub_lt (Nat.pos_of_ne_zero h0) (by omega)
           have hle' : (⟨a.val + 1, ha'⟩ : Fin k).val ≤ b.val := by
-            simp only [Fin.val_mk]; omega
+            simp only; omega
           have h1 : Equiv.swap a ⟨a.val + 1, ha'⟩ ∈ K := hadj a ha'
           have h2 : Equiv.swap ⟨a.val + 1, ha'⟩ b ∈ K :=
             ih (d - 1) hdlt ⟨a.val + 1, ha'⟩ b hle' hdiff

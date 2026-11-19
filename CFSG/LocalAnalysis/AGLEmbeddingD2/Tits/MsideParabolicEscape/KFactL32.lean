@@ -31,7 +31,7 @@ theorem l32_case {N : Type} [Group N] [Finite N] (hs : IsSimpleGroup N)
   have hYeq : Y = innSub N := le_antisymm hYZ hY
   let g : ↥Y ≃* N :=
     ((MulEquiv.subgroupCongr hYeq).trans (MonoidHom.ofInjective hinj).symm)
-  haveI := hs
+  have := hs
   have hsG : IsSimpleGroup (GL (Fin 3) (ZMod 2)) := MulEquiv.isSimpleGroup e.symm
   refine sylow_permute_transport (Z := innSub N) hS (g.trans e) ?_
   intro T hT2 hTi

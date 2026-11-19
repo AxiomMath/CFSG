@@ -18,12 +18,14 @@ section Descent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ker_piCenterQuot {L : Subgroup G} {C : Type} [Group C] (θ : ↥L ⧸ Subgroup.center ↥L ≃* C) :
     (T171Sh.piCenterQuot θ).ker = Subgroup.center ↥L := by
   dsimp only [T171Sh.piCenterQuot]
   rw [MonoidHom.ker_comp_of_injective (QuotientGroup.mk' (Subgroup.center ↥L)) θ.toMonoidHom θ.injective,
     QuotientGroup.ker_mk']
 
+omit [Finite G] in
 theorem piCenterQuot_surjective {L : Subgroup G} {C : Type} [Group C] (θ : ↥L ⧸ Subgroup.center ↥L ≃* C) :
     Function.Surjective (T171Sh.piCenterQuot θ) := by
   intro x
@@ -52,6 +54,7 @@ theorem glaPComponent_fixSubgroup_map_piCenterQuot {p : ℕ} (hp : p.Prime) {L J
   exact CFSG.HardMathSupport.Solomon.Coordinator.glaPComponent_map_fixSubgroup _
     (ker_piCenterQuot θ).le α β hαβ (piCenterQuot_surjective θ) hp hJ'
 
+omit [Finite G] in
 theorem map_piCenterQuot_eq_of_normalizes {L J : Subgroup G} {b : G}
     (hbL : b ∈ Subgroup.normalizer (L : Set G)) (hbJ : b ∈ Subgroup.normalizer (J : Set G))
     {C : Type} [Group C] [Finite C] (θ : ↥L ⧸ Subgroup.center ↥L ≃* C) {φ : MulAut C}
@@ -79,6 +82,7 @@ theorem conj_mem_subgroupStabAut_map {C H : Type} [Group C] [Group H] (ι : C �
     MonoidHom.ext fun c => by simp [hφ]
   rw [Subgroup.map_map, hcomp, ← Subgroup.map_map, hJc]
 
+omit [Finite G] in
 theorem exists_centralSurjection {L J : Subgroup G} (hJL : J ≤ L) {C H : Type} [Group C] [Group H]
     (θ : ↥L ⧸ Subgroup.center ↥L ≃* C) (ι : C →* H) (hι : Function.Injective ι) {K : Subgroup H}
     (hK : ((J.subgroupOf L).map (T171Sh.piCenterQuot θ)).map ι = K) :
@@ -101,6 +105,7 @@ theorem exists_centralSurjection {L J : Subgroup G} (hJL : J ≤ L) {C H : Type}
     intro k
     exact Subtype.ext (congrArg (fun t : ↥L => (t : G)) (h2 (Subgroup.inclusion hJL k)))
 
+omit [Finite G] in
 theorem le_of_map_piCenterQuot_le {L J K : Subgroup G} (hJL : J ≤ L) (hKL : K ≤ L) (hKperf : ⁅K, K⁆ = K)
     {C : Type} [Group C] (θ : ↥L ⧸ Subgroup.center ↥L ≃* C)
     (hle : (K.subgroupOf L).map (T171Sh.piCenterQuot θ) ≤ (J.subgroupOf L).map (T171Sh.piCenterQuot θ)) :

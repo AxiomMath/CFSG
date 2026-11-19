@@ -22,7 +22,7 @@ open CFSG.Open CFSG.ASVolI.ChF CFSG.Quasithin
 
 @[expose] def burnsideF429_Even6 : Prop :=
   ∀ (κ : GLKind) (f : ℕ) (E : Type) [Group E] (Gp M₁ M₂ : Subgroup E),
-    ∀ hyp : HypF_4_4 κ 2 f Gp M₁ M₂, κ.IsLie → ¬ Odd Gp.index →
+    ∀ _hyp : HypF_4_4 κ 2 f Gp M₁ M₂, κ.IsLie → ¬ Odd Gp.index →
     ∀ T : Subgroup E, ChF.IsSylowOf 2 T (M₁ ⊓ M₂) → burnsideF429_C6 κ f Gp M₁ M₂ T
 
 section Assembly
@@ -31,7 +31,7 @@ section Assembly
 theorem burnsideF429_C5corr_of_odd {κ : GLKind} {f : ℕ} {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) (hodd : Odd Gp.index)
     {T : Subgroup E} (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : burnsideF429_C5corr κ Gp M₁ M₂ hyp T := by
-  haveI := hyp.finite
+  have := hyp.finite
   have hTS := burnsideF429_T_eq_of_odd hyp hodd hT
   have hSB : pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ Gp ⊓ (M₁ ⊓ M₂) := CFSG.LieType.BorelTits.pCoreOf_le 2 _
   left

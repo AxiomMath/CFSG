@@ -41,7 +41,7 @@ private lemma ggQ2xN_wt_eq_zero_iff {n : ℕ} (v : GGBCV n) : ggBCWt v = 0 ↔ v
 private lemma ggQ2xN_refl_apply {n : ℕ} (c : GGBCV n) (hc : c ⬝ᵥ c ≠ 0) (v : GGBCV n) :
     ggBCRefl c hc v = v + ((c ⬝ᵥ v) * (c ⬝ᵥ c)) • c := by
   have hdot : ggBCDot c v = c ⬝ᵥ v := by
-    simp [ggBCDot, dotProduct, Finset.sum_apply, LinearMap.proj_apply, smul_eq_mul]
+    simp [ggBCDot, dotProduct, Finset.sum_apply, smul_eq_mul]
   have h : (ggBCRefl c hc : GGBCV n → GGBCV n) =
       @Module.preReflection (ZMod 3) (GGBCV n) (ZMod.commRing 3) Pi.addCommGroup (ggBCModule n)
         c ((2 / (c ⬝ᵥ c)) • ggBCDot c) := rfl
@@ -97,7 +97,7 @@ private lemma ggQ2xN_single_one_dot_self {n : ℕ} (i : Fin n) :
 
 private lemma ggQ2xN_single_one_mem_roots {n : ℕ} (i : Fin n) :
     (Pi.single i (1 : ZMod 3) : GGBCV n) ∈ ggBCRoots n := by
-  rw [ggBCRoots, Set.mem_setOf_eq, ggQ2xN_wt_single_one]
+  rw [ggBCRoots, Set.mem_ofPred_eq, ggQ2xN_wt_single_one]
   norm_num
 
 private noncomputable def ggQ2xN_flip {n : ℕ} (i : Fin n) (v : GGBCV n) : GGBCV n :=
@@ -294,7 +294,7 @@ private lemma ggQ2xN_partA {n : ℕ} (hn : 5 ≤ n) (Z : Set (GGBCV n))
       have h3z : ((3 : ℕ) : ZMod 3) = 0 := by decide
       exact hZ0 z hz (by rw [ggQ2xN_dot_self_eq_wt]; simpa [h3] using h3z)
   by_cases hfull : ∀ k, z k ≠ 0
-  · haveI : NeZero n := ⟨by omega⟩
+  · have : NeZero n := ⟨by omega⟩
     have hfullWt : ggBCWt z = n := by
       rw [ggBCWt]
       have h : (Finset.univ.filter fun k => z k ≠ 0) = Finset.univ := by

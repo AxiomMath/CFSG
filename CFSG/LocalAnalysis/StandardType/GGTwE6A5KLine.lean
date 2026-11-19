@@ -31,10 +31,10 @@ theorem ggTwE6A5KLine_of (hS : E6LeviThreeToralBar) : GGTwE6A5KLine := by
     hmark
   obtain ⟨C, hC, ψ, σ', B, hψ, hXM, hB, hBc⟩ :=
     exists_frame_commute_of_commLifts hn h3 hK hσ hh1 hh3 h36 hE hfE hJ hEJ hCL
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hL3 : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 := by
     intro h0

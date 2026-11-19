@@ -80,8 +80,8 @@ theorem nPrime_lt_sParam {V : Subgroup G} (hV : IsElemAbelian 2 V)
   have hlt : (nPrime (autI hV ⊤) : ℕ∞) < min (rParam V) ((mParam (autI hV ⊤) : ℕ) : ℕ∞) :=
     lt_min hr (by exact_mod_cast hm)
   have hne : min (rParam V) ((mParam (autI hV ⊤) : ℕ) : ℕ∞) ≠ ⊤ :=
-    ne_top_of_le_ne_top (ENat.coe_ne_top _) (min_le_right _ _)
-  rw [← ENat.coe_toNat hne] at hlt
+    ne_top_of_le_ne_top (ENat.natCast_ne_top _) (min_le_right _ _)
+  rw [← ENat.natCast_toNat hne] at hlt
   exact_mod_cast hlt
 
 end CFSG.Quasithin.H13

@@ -45,7 +45,7 @@ theorem aimg_injective (φ : MulAut P) {S T : Subgroup P} (h : aimg φ S = aimg 
 
 theorem mem_aimg_conj {k y : P} {S : Subgroup P} : y ∈ aimg (MulAut.conj k) S ↔ k⁻¹ * y * k ∈ S := by
   rw [mem_aimg_inv]
-  simp [MulAut.conj_inv_apply]
+  simp
 
 theorem mem_normalizer_iff_aimg {V : Subgroup P} {n : P} :
     n ∈ Subgroup.normalizer (V : Set P) ↔ aimg (MulAut.conj n) V = V := by
@@ -72,7 +72,7 @@ theorem mem_normalizer_iff_aimg {V : Subgroup P} {n : P} :
 
 theorem sylow_of_card_two' [Finite P] {K : Subgroup P} {k : ℕ} (hK : Nat.card K = 2 ^ k)
     (hnd : ¬ 2 ^ (k + 1) ∣ Nat.card P) : ∃ S : Sylow 2 P, S.toSubgroup = K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨⟨K, IsPGroup.of_card (n := k) hK, ?_⟩, rfl⟩
   intro R hR hle
   obtain ⟨m, hm⟩ := hR.exists_card_eq
@@ -93,7 +93,7 @@ theorem exists_conj_of_card_two' [Finite P] {K K' : Subgroup P} {k : ℕ} (hK : 
     ∃ g : P, aimg (MulAut.conj g) K = K' := by
   obtain ⟨S, hS⟩ := sylow_of_card_two' hK hnd
   obtain ⟨S', hS'⟩ := sylow_of_card_two' hK' hnd
-  haveI : Finite (Sylow 2 P) :=
+  have : Finite (Sylow 2 P) :=
     Finite.of_injective (fun S : Sylow 2 P => (S : Subgroup P)) (fun S T h => Sylow.ext h)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq P S S'
   refine ⟨g, ?_⟩
@@ -128,7 +128,7 @@ theorem exists_odd_pow_mem [Finite P] {R : Subgroup P} {k : ℕ} (hR : Nat.card 
   set N := Subgroup.normalizer (R : Set P) with hN
   have hRN : R ≤ N := Subgroup.le_normalizer
   let H : Subgroup N := R.subgroupOf N
-  haveI : H.Normal := Subgroup.normal_in_normalizer
+  have : H.Normal := Subgroup.normal_in_normalizer
   have hmem := Subgroup.pow_index_mem H (⟨n, hn⟩ : ↥N)
   refine ⟨H.index, ?_, ?_⟩
   · have h1 := H.card_mul_index
@@ -232,7 +232,7 @@ theorem normalizer_B [Finite P] {R : Subgroup P}
 theorem aut_stab_inner [Finite P] (hPcard : Nat.card P = 4030387200)
     (hnn : ∀ N : Subgroup P, N.Normal → Nat.card N ≠ 69120)
     {R : Subgroup P} (hR : Nat.card R = 2 ^ 10)
-    {W₁ W₂ W₃ : Subgroup P} (hRW₁ : R ≤ W₁) (hRW₂ : R ≤ W₂)
+    {W₁ W₂ W₃ : Subgroup P} (_hRW₁ : R ≤ W₁) (_hRW₂ : R ≤ W₂)
     (h₁ : Nat.card W₁ = 138240) (h₂ : Nat.card W₂ = 138240) (h₃ : Nat.card W₃ = 21504)
     (hcls : ∀ Y : Subgroup P, R ≤ Y → Y ≠ ⊤ → Y ≤ W₁ ∨ Y ≤ W₂ ∨ Y ≤ W₃)
     (ξ : MulAut P) (hξR : aimg ξ R = R) (hξ₁ : aimg ξ W₁ ≠ W₁) (hξ₂ : aimg ξ W₂ ≠ W₂)
@@ -296,7 +296,7 @@ theorem aut_stab_inner [Finite P] (hPcard : Nat.card P = 4030387200)
     exact Subgroup.eq_of_le_of_card_ge hle (by rw [card_aimg])
   have hξc : ξ * (MulAut.conj c)⁻¹ = MulAut.conj (ξ c⁻¹) * ξ := by
     ext x
-    simp [MulAut.conj_apply, MulAut.conj_inv_apply, mul_assoc]
+    simp [mul_assoc]
   have hf₂ξ : f₂ = MulAut.conj (w * c * k * ξ c⁻¹) * ξ := by
     rw [hf₂, hf₁, hk]
     calc MulAut.conj w * (MulAut.conj c * (MulAut.conj k * ξ) * (MulAut.conj c)⁻¹)
@@ -335,7 +335,7 @@ theorem transport {Q J : Type} [Group Q] [Group J] [Finite Q] (e : Q ≃* J)
     (S B : Subgroup Q) (hS : Nat.card S = 2 ^ 10) (hSB : S ≤ Subgroup.normalizer (B : Set Q))
     (hB : Nat.card B = 69120) (f : Q →* Q) (hf : Function.Bijective f) (hfB : B.map f = B) :
     ∃ k : Q, ∀ x : Q, f x = k * x * k⁻¹ := by
-  haveI : Finite J := Finite.of_equiv Q e.toEquiv
+  have : Finite J := Finite.of_equiv Q e.toEquiv
   let F : MulAut Q := MulEquiv.ofBijective f hf
   let F' : MulAut J := MulAut.congr e F
   have hF'e : ∀ x : Q, F' (e x) = e (f x) := by

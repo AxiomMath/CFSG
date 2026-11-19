@@ -58,10 +58,10 @@ theorem factB_std_statedSU {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Pri
         v * ψ A = ψ A * v) →
       v = 1 ∨ ∃ A : ↥(StatedSU 3 (p ^ 1) F), (A : GL (Fin 3) F) = negDiag3 F ∧ v = ψ A := by
   intro v hv2 hvA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p 1 F :=
     ⟨hp, le_rfl, by rw [hF]; ring⟩
-  haveI : CharP F p := h1.charP
+  have : CharP F p := h1.charP
   have hp2 : p ≠ 2 := by omega
   have hq : 5 ≤ p ^ 1 := by rw [pow_one]; exact hp5
   have h2F : (2 : F) ≠ 0 := Ring.two_ne_zero (by rw [ringChar.eq F p]; exact hp2)

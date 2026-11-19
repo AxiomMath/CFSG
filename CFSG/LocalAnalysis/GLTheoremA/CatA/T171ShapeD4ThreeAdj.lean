@@ -29,7 +29,7 @@ private lemma two_pow_mod_three_of_not_dvd (n : ℕ) (h : ¬ 3 ∣ 2 ^ n - 1) : 
 
 private lemma card_mod_three_of_not_dvd {K : Type} [Field K] [Finite K] [CharP K 2]
     (h : ¬ 3 ∣ Nat.card K - 1) : Nat.card K % 3 = 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hqK : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   rw [hqK]
@@ -67,7 +67,7 @@ theorem d4ExitAt_adjoint_three {τ : Tag}
   intro x w hx1 hxp hwp hxw Kc hKc hCat hw hmem
   exfalso
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hqK : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   have hpK : ¬ 3 ∣ Nat.card K := by
@@ -123,7 +123,7 @@ theorem excAdjD4Inner_of_G2Two
     · have hG2le : τ = .G2 → 4 ≤ Nat.card K := by
         intro hτG2
         have hcard2 : Nat.card K ≠ 2 := fun hc => hcase ⟨hτG2, hc⟩
-        haveI : Fintype K := Fintype.ofFinite K
+        have : Fintype K := Fintype.ofFinite K
         obtain ⟨n, -, hn⟩ := FiniteField.card K 2
         have hqK : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
         have hn1 : (n : ℕ) ≠ 1 := by

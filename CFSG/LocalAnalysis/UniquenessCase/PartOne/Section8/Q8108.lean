@@ -85,7 +85,7 @@ theorem isSylowOf_barImage_of_isSylowOf {M L R : Subgroup G} (hLM : L ≤ M)
     (hR : CFSG.ABGLocalTools.IsSylowOf 3 R L)
     (e : Bar2 L ≃* ↥(barImage M L)) :
     CFSG.ABGLocalTools.IsSylowOf 3 (barImage M R) (barImage M L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRin : CFSG.Quasithin.IsSylowIn 3 R L := by
     refine ⟨hR.le, hR.isPGroup, ?_⟩
     exact (CFSG.ABGLocalTools.isSylowOf_iff.mp hR).2.2
@@ -112,7 +112,7 @@ theorem exists_elemAbelian_nine_of_isExtraspecial_of_pow_three {A : Subgroup G}
     (hA : CFSG.IsExtraspecial 3 A) (hexp : ∀ x : A, x ^ 3 = 1) {x : G} (hx : x ∈ A) :
     ∃ E : Subgroup G, x ∈ E ∧ E ≤ A ∧ CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Z : Subgroup G := (Subgroup.center A).map A.subtype
   have hZcard : Nat.card Z = 3 := by
     rw [Subgroup.card_map_of_injective A.subtype_injective, hA.center_order_p]
@@ -125,7 +125,7 @@ theorem exists_elemAbelian_nine_of_isExtraspecial_of_pow_three {A : Subgroup G}
     exact hc.map A.subtype
   have hcenter_ne_top : Subgroup.center A ≠ ⊤ := by
     intro htop
-    haveI : Subsingleton (A ⧸ Subgroup.center A) :=
+    have : Subsingleton (A ⧸ Subgroup.center A) :=
       (QuotientGroup.subsingleton_iff).mpr htop
     exact not_subsingleton_iff_nontrivial.mpr hA.quotient_nontrivial inferInstance
   obtain ⟨y, hy⟩ : ∃ y : A, y ∉ Subgroup.center A := by
@@ -137,11 +137,11 @@ theorem exists_elemAbelian_nine_of_isExtraspecial_of_pow_three {A : Subgroup G}
     by_cases hxZ : x ∈ Z
     · have hw : w = y := by
         dsimp [w]
-        rw [if_pos hxZ]
+        rw [ite_eq_left hxZ]
       rw [hw]; exact hy
     · have hw : w = ⟨x, hx⟩ := by
         dsimp [w]
-        rw [if_neg hxZ]
+        rw [ite_eq_right hxZ]
       rw [hw]
       intro hmem
       exact hxZ (Subgroup.mem_map.mpr ⟨⟨x, hx⟩, hmem, rfl⟩)
@@ -168,15 +168,15 @@ theorem exists_elemAbelian_nine_of_isExtraspecial_of_pow_three {A : Subgroup G}
     · exact Subgroup.mem_sup_left hxZ
     · have hxw : x = (w : G) := by
         dsimp [w]
-        rw [if_neg hxZ]
+        rw [ite_eq_right hxZ]
       rw [hxw]
       exact Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
   · exact sup_le (Subgroup.map_subtype_le _) (Subgroup.zpowers_le.mpr w.2)
   · have hZclass : CFSG.IsElementaryAbelian 3 ↥Z :=
       CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hZel
     have hclass : CFSG.IsElementaryAbelian 3 ↥(Z ⊔ Subgroup.zpowers (w : G)) := by
-      haveI : CFSG.IsElementaryAbelian 3 ↥Z := hZclass
-      haveI : CFSG.IsElementaryAbelian 3 ↥(Subgroup.zpowers (w : G)) := hzp
+      have : CFSG.IsElementaryAbelian 3 ↥Z := hZclass
+      have : CFSG.IsElementaryAbelian 3 ↥(Subgroup.zpowers (w : G)) := hzp
       exact CFSG.IsElementaryAbelian.sup_of_le_centralizer (E := Z)
         (C := Subgroup.zpowers (w : G)) hcent
     exact CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mpr hclass

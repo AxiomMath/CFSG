@@ -62,7 +62,7 @@ theorem ggTPLayerModel_E6
     ∃ (ER : Subgroup (RecipeGroup Tag.E6 K)) (X : Type) (_ : Group X),
       GGLayerOf (ggRFix ψ {(c : MulAut L')}) ER ∧ Nonempty (ER ≃* X) ∧
         Subgroup.center X = ⊥ ∧ CFSG.Open.StatedClassicalModel X .PSL 6 2 n := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hchar : ringChar K = 2 := by
     obtain ⟨m, hprime, hm⟩ := FiniteField.card K (ringChar K)
     have hcard : Fintype.card K = 2 ^ n := by
@@ -73,7 +73,7 @@ theorem ggTPLayerModel_E6
       exact dvd_pow_self _ m.pos.ne'
     exact (Nat.prime_dvd_prime_iff_eq hprime Nat.prime_two).mp
       (Nat.Prime.dvd_of_dvd_pow hprime hdvd)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardu : Nat.card Kˣ = 2 ^ n - 1 := by rw [Nat.card_units, hK]
   have h3u : 3 ∣ Nat.card Kˣ := by rw [hcardu]; exact h3
   obtain ⟨ζ, hζo⟩ := exists_prime_orderOf_dvd_card' 3 h3u
@@ -121,7 +121,7 @@ theorem ggTPLayerModel_E6
     (ggTP_comapEquiv (kgThetaHom g) (kgThetaHom_injective g)
       (rootSpan Tag.E6 K (kgKernelE6 {kgZetaE6 ζ hζ (Multiplicative.toAdd (κ c))}))
       hLle).trans (MulEquiv.subgroupCongr (congrArg (rootSpan Tag.E6 K) hker_eq))
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   refine ⟨ER, ↥(E6Pilot.a5Levi K), inferInstance, hER,
     ⟨e1.trans (ggTP_perpRootSpan_equiv hβroot)⟩, ?_, ?_⟩
   · exact E6Pilot.center_a5Levi_eq_bot (K := K)

@@ -23,6 +23,7 @@ section Eight
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem card_bar_eq_of_inf_eq_bot {M Q S : Subgroup G} [(Q.subgroupOf M).Normal] (hSM : S ≤ M)
     (h : S ⊓ Q = ⊥) : Nat.card (bar M Q S) = Nat.card S := by
   have hinj : Function.Injective
@@ -55,6 +56,7 @@ section Twelve
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem conjClassSet_inter_cosetSet_eq {z x : G} {Z : Subgroup G} (hx : IsConj z x)
     (h : ∀ w ∈ Z, w ≠ 1 → ¬ IsConj x (x * w)) : conjClassSet z ∩ cosetSet x Z = {x} := by
   ext y

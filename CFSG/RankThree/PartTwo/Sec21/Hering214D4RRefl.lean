@@ -95,7 +95,7 @@ theorem reflection_shape {E : Type*} [CommGroup E] [Finite E] (hE3 : ∀ e : E, 
     have hK9 : Nat.card K = 9 := by
       have hle9 : Nat.card K ≤ 9 := Nat.le_of_dvd (by norm_num) hdvd
       generalize Nat.card K = c at hdvd h3 hne hle9 ⊢
-      interval_cases c <;> first | rfl | omega | (norm_num at hdvd)
+      interval_cases c <;> first | rfl | omega
     have hKtop : K = ⊤ := (Subgroup.card_eq_iff_eq_top K).mp (by rw [hK9, hE9])
     apply MulEquiv.ext
     intro x

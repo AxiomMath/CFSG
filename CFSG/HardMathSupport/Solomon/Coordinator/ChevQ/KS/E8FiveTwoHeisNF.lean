@@ -77,7 +77,7 @@ theorem heis_normal_form [IsAlgClosed L] {κ : L} (hκ : IsPrimitiveRoot κ 5)
     simpa using hw_eig k
   set S0 : Matrix (Fin 5) (Fin 5) L := Matrix.of fun r k => w k r with hS0
   have hS0u : IsUnit S0 := by
-    rw [← Matrix.linearIndependent_cols_iff_isUnit]
+    rw [← Matrix.linearIndependent_col_iff_isUnit]
     exact hli
   have hS0c : ∀ r k, S0 r k = w k r := fun r k => rfl
   refine ⟨hS0u.unit, ν, hν0, ?_, ?_⟩
@@ -92,7 +92,7 @@ theorem heis_normal_form [IsAlgClosed L] {κ : L} (hκ : IsPrimitiveRoot κ 5)
       intro k
       by_cases hk : k = 4
       · subst hk
-        simp only [hw, Matrix.mulVec_mulVec, if_true]
+        simp only [hw, Matrix.mulVec_mulVec, ite_true]
         rw [← pow_succ']
         show (M₁ ^ 5).mulVec v = c • (M₁ ^ 0).mulVec v
         rw [h5, Matrix.smul_mulVec, Matrix.one_mulVec, pow_zero, Matrix.one_mulVec]
@@ -100,7 +100,7 @@ theorem heis_normal_form [IsAlgClosed L] {κ : L} (hκ : IsPrimitiveRoot κ 5)
           have := k.isLt
           have h2 : (k : ℕ) ≠ 4 := fun h => hk (Fin.ext h)
           omega
-        simp only [hw, Matrix.mulVec_mulVec, hk, if_false, one_smul]
+        simp only [hw, Matrix.mulVec_mulVec, hk, ite_false, one_smul]
         rw [← pow_succ']
         congr 2
         rw [Fin.val_add_one_of_lt (by simpa [Fin.lt_def] using hk4)]
@@ -108,7 +108,7 @@ theorem heis_normal_form [IsAlgClosed L] {κ : L} (hκ : IsPrimitiveRoot κ 5)
     have h1 : (M₁ * S0) r k = (M₁.mulVec (w k)) r := by
       simp [Matrix.mul_apply, Matrix.mulVec, dotProduct, hS0c]
     rw [h1, hstep k]
-    simp [Matrix.mul_apply, shiftMat, hS0c, Finset.sum_ite_eq]
+    simp [Matrix.mul_apply, shiftMat, hS0c]
     by_cases hk : k = 4 <;> simp [hk, mul_comm]
 
 theorem heis_schur [IsAlgClosed L] {κ : L} (hκ : IsPrimitiveRoot κ 5)
@@ -154,7 +154,7 @@ theorem heis_schur [IsAlgClosed L] {κ : L} (hκ : IsPrimitiveRoot κ 5)
     intro i j hij
     have h := congrFun (congrFun hND i) j
     simp only [Matrix.mul_apply, hDdef, Matrix.diagonal_apply, mul_ite, ite_mul, mul_zero,
-      zero_mul, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true] at h
+      zero_mul, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h
     have h2 : (ν * κ ^ (j : ℕ) - ν * κ ^ (i : ℕ)) * N' i j = 0 := by linear_combination h
     have h3 : ν * κ ^ (j : ℕ) - ν * κ ^ (i : ℕ) ≠ 0 := by
       intro h4
@@ -165,8 +165,8 @@ theorem heis_schur [IsAlgClosed L] {κ : L} (hκ : IsPrimitiveRoot κ 5)
     intro j hj
     have h := congrFun (congrFun hNQ (j + 1)) j
     simp only [Matrix.mul_apply, shiftMat, Matrix.of_apply, mul_ite, ite_mul, mul_zero,
-      zero_mul, mul_one, one_mul, hj, if_false, add_left_inj, Finset.sum_ite_eq,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true] at h
+      zero_mul, mul_one, one_mul, hj, ite_false, add_left_inj, Finset.sum_ite_eq,
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h
     exact h
   have hall : ∀ i : Fin 5, N' i i = N' 0 0 := by
     intro i
@@ -191,7 +191,7 @@ theorem heis_schur [IsAlgClosed L] {κ : L} (hκ : IsPrimitiveRoot κ 5)
     calc N = (Sm * Si) * N * (Sm * Si) := by rw [hSSi, Matrix.one_mul, Matrix.mul_one]
       _ = Sm * N' * Si := by simp only [hN', Matrix.mul_assoc]
   rw [hN, hN'1]
-  simp [Matrix.mul_smul, Matrix.smul_mul, hSSi]
+  simp [hSSi]
 
 theorem exists_conj_diag_enum [IsAlgClosed L] {κ : L} (hκ : IsPrimitiveRoot κ 5)
     {M₀ M₁ : Matrix (Fin 5) (Fin 5) L} (h₀ : IsUnit M₀) (h₁ : IsUnit M₁)
@@ -229,8 +229,8 @@ theorem exists_conj_diag_enum [IsAlgClosed L] {κ : L} (hκ : IsPrimitiveRoot κ
   have hπbij : Function.Bijective π := Finite.injective_iff_bijective.1 hπinj
   set S' : Matrix (Fin 5) (Fin 5) L := Sm.submatrix id π with hS'
   have hli : LinearIndependent L (fun j => Sm.col j) :=
-    Matrix.linearIndependent_cols_iff_isUnit.2 S₀.isUnit
-  have hS'u : IsUnit S' := Matrix.linearIndependent_cols_iff_isUnit.1 (hli.comp π hπinj)
+    Matrix.linearIndependent_col_iff_isUnit.2 S₀.isUnit
+  have hS'u : IsUnit S' := Matrix.linearIndependent_col_iff_isUnit.1 (hli.comp π hπinj)
   refine ⟨hS'u.unit, ?_⟩
   rw [IsUnit.unit_spec]
   ext r i

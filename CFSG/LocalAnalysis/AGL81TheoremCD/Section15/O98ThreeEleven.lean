@@ -42,7 +42,7 @@ private theorem le_sSup_centralizer_of_not_le_normalizer
     rintro K ⟨b₀, hb₀, rfl⟩ K' ⟨b₁, hb₁, rfl⟩
     refine ⟨b₀⁻¹ * b₁, E.mul_mem (E.inv_mem hb₀) hb₁, ?_⟩
     rw [gLBConj_gLBConj, mul_inv_cancel_left]
-  rw [SetLike.le_def] at hEN
+  rw [_root_.IsConcreteLE.le_iff] at hEN
   push Not at hEN
   obtain ⟨b, hbE, hbN⟩ := hEN
   have hb1 : b ≠ 1 := by
@@ -80,7 +80,7 @@ theorem le_gamma_or_le_normalizer
   · left
     refine h.trans (sSup_le ?_)
     rintro C ⟨e, he, he1, rfl⟩
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hQ : Subgroup.zpowers e ≤ E := Subgroup.zpowers_le.2 he
     have hcard : Nat.card (Subgroup.zpowers e) = p ^ 1 := by
       rw [Nat.card_zpowers, orderOf_eq_prime (hE.2 e he) he1, pow_one]

@@ -23,7 +23,7 @@ open CFSG.EvenSporadicStandard.Fin76b.W16 CFSG.Monster.B.Co2.Native
 
 meta def baseM : Array Nat := baseArr
 
-@[expose] def derivs : List (List Int) := []
+def derivs : List (List Int) := []
 
 meta def maskM (S : Array Nat) : Nat := S.foldl (fun m x => m ||| (1 <<< x)) 0
 

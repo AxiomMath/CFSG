@@ -54,10 +54,10 @@ theorem evalCodes_val (x : Fin 360) : ∀ c : List ℤ, (∀ z ∈ c, z ≠ 0 �
     rw [← ih, ← lettersX (zL z) (evalCodes genList c x)]
     by_cases h0 : 0 < z
     · have hk : z.toNat - 1 = z.natAbs - 1 := by omega
-      simp only [h0, if_true, letter, zL, decide_true, cond_true]
+      simp only [h0, ite_true, letter, zL, decide_true, _root_.Bool.cond_true]
       rw [hk, genList_getD hr]
     · have hk : (-z).toNat - 1 = z.natAbs - 1 := by omega
-      simp only [h0, if_false, letter, zL, decide_false, cond_false]
+      simp only [h0, ite_false, letter, zL, decide_false, Bool.cond_false]
       rw [hk, genList_getD hr]
 
 theorem lettersA : LetterOKW 9 D.TA gens := by
@@ -85,7 +85,7 @@ theorem model3006 : ((rels.all fun r => decide (word r = 1)) && ((List.finRange 
     ext x
     rw [eqOKW_sound lettersA (hc i) x]
     have := lettersA (i, true) x
-    simp only [letter, cond_true, codeW, Nat.add_zero] at this
+    simp only [letter, _root_.Bool.cond_true, codeW, Nat.add_zero] at this
     rw [this]
   · rw [word_eq]
     ext x

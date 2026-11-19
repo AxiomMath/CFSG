@@ -188,14 +188,14 @@ theorem lemma44_frame_of_le
       0 < m ∧ ¬ p ∣ m ∧ (∀ z, γ^[m] z = z) ∧
       ∀ z : diagKer τ L (familyKernel a), (frobTwistGL τ L 2 e Q z : ModGL τ L) = γ (z ^ 2 ^ e) := by
   classical
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   obtain ⟨A, hA, hAroot, -, -, -⟩ := CFSG.HardMathSupport.C14W1.exists_lattice_map Q hQT
   obtain ⟨o, ho0, hpo, w₀, hw₀⟩ := C14L44.exists_pow_weyl hp hp2 h3D Q A hA hQτ
   set q : ℕ := 2 ^ e with hq
   have hinj := CFSG.HardMathSupport.C14W1.rootDiagUnit_injective' (τ := τ) (K := L)
   have hFr : ∀ t : Fin τ.rank → Lˣ,
       (fun i => Units.map (iterateFrobenius L 2 e).toMonoidHom (t i)) = t ^ q := by
-    intro t; funext i; apply Units.ext; simp [iterateFrobenius_def, q]
+    intro t; funext i; apply Units.ext; simp [q]
   have hFz : ∀ t, frobTwistGL τ L 2 e Q (rootDiagUnit τ t) = Q * rootDiagUnit τ t ^ q * Q⁻¹ := by
     intro t
     rw [frobTwistGL_apply, entrywiseFrobGL_rootDiagUnit_eq_map, hFr,
@@ -344,7 +344,7 @@ theorem lemma45_frame
   obtain ⟨k, hk⟩ : ∃ k : ℕ, p * k ≡ 1 [MOD m] := by
     refine ⟨(((p : ZMod m)⁻¹ : ZMod m)).val, ?_⟩
     rw [← ZMod.natCast_eq_natCast_iff]
-    haveI : NeZero m := ⟨hm0.ne'⟩
+    have : NeZero m := ⟨hm0.ne'⟩
     push_cast
     rw [ZMod.natCast_zmod_val]
     exact ZMod.coe_mul_inv_eq_one p hcop
@@ -393,13 +393,13 @@ theorem lemma46_frame_gen
       (endPow (frobTwistGL τ L 2 e Q) p) z = z ∧
       ((List.range p).map fun i => (endPow (frobTwistGL τ L 2 e Q) i) z).prod = y := by
   classical
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   obtain ⟨A, hA, hAroot, N, hN0, hAN⟩ := CFSG.HardMathSupport.C14W1.exists_lattice_map Q hQT
   set q : ℕ := 2 ^ e with hq
   set B : Matrix (Fin τ.rank) (Fin τ.rank) ℤ := (q : ℤ) • A with hB
   have hFr : ∀ t : Fin τ.rank → Lˣ,
       (fun i => Units.map (iterateFrobenius L 2 e).toMonoidHom (t i)) = t ^ q := by
-    intro t; funext i; apply Units.ext; simp [iterateFrobenius_def, q]
+    intro t; funext i; apply Units.ext; simp [q]
   have hFd : ∀ t, frobTwistGL τ L 2 e Q (rootDiagUnit τ t) =
       rootDiagUnit τ (C14Torus.tmap B t) := by
     intro t
@@ -450,7 +450,7 @@ theorem lemma46_frame_gen
   have hsZ : s ∈ C14Torus.zp p Ncl := C14Torus.mem_zp.2 ⟨hchar s hs, hsp⟩
   have hsB : C14Torus.tmap B s = s := hinj (by rw [← hFd]; exact hyF)
   obtain ⟨ζ, hζ⟩ : ∃ ζ : Lˣ, IsPrimitiveRoot ζ p := by
-    haveI : NeZero (p : L) := ⟨fun h => hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1
+    have : NeZero (p : L) := ⟨fun h => hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1
       ((CharP.cast_eq_zero_iff L 2 p).1 h)).symm⟩
     obtain ⟨m, hm⟩ := HasEnoughRootsOfUnity.prim (M := L) (n := p)
     exact ⟨(hm.isUnit hp.ne_zero).unit, IsPrimitiveRoot.coe_units_iff.1 (by rw [IsUnit.unit_spec]; exact hm)⟩

@@ -110,10 +110,10 @@ theorem exists_frame {n : ℕ} (hK : Nat.card K = 3 ^ n) {b : MulAut (D4Model K)
       (ε = 1 ∨ ε = 2) ∧ (g : ModGL Tag.D4 K) ∈ borelGroup Tag.D4 K ∧
       MulAut.congr Θ.symm b = MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε) := by
   classical
-  haveI := charP_three_of_card hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (D4Model K) := inferInstance
-  haveI : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
+  have := charP_three_of_card hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (D4Model K) := inferInstance
+  have : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
   obtain ⟨ψ, hψdef⟩ : ∃ ψ : adjointGroup Tag.D4 K ≃* D4Model K,
       ψ = coordinatePlusWitnessEquiv K (isoAdj K).symm := ⟨_, rfl⟩
   obtain ⟨S', hS'coe⟩ : ∃ S' : Sylow 3 ↥(adjointGroup Tag.D4 K),
@@ -167,7 +167,7 @@ theorem exists_frame {n : ℕ} (hK : Nat.card K = 3 ^ n) {b : MulAut (D4Model K)
       rw [hΘapp]; simp
     change ψ (α' (ψ.symm s)) = ((MulAut.conj (ψ x))⁻¹ * b * MulAut.conj (ψ x)) s
     rw [hα'app, h1, hΘsymm]
-    simp [MulAut.conj_inv_apply, MulAut.conj_apply]
+    simp [MulAut.conj_apply]
   have ht₂3 : (MulAut.congr ψ α') ^ 3 = 1 := by rw [← map_pow, hα'3, map_one]
   have ht₂E : MulAut.congr ψ α' ∉ D4Img K := by
     intro h

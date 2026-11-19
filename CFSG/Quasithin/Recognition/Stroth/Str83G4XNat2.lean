@@ -16,6 +16,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem exists_chiefMod_proj {L L' N : Subgroup G}
     (hNL : N ≤ Subgroup.normalizer (L : Set G))
     (hNL' : N ≤ Subgroup.normalizer (L' : Set G)) (hLL' : L ≤ L') :
@@ -35,9 +36,10 @@ private theorem exists_chiefMod_proj {L L' N : Subgroup G}
       (f_inv := Function.surjInv (Ch3z.chiefIota_surjective hNL))
       (hf := Function.rightInverse_surjInv _) ⟨Ch3z.chiefIota hNL', hker⟩ x)
 
+omit [Finite G] in
 private theorem chiefMod_proj_iota {L L' N : Subgroup G}
     (hNL : N ≤ Subgroup.normalizer (L : Set G))
-    (hNL' : N ≤ Subgroup.normalizer (L' : Set G)) (hLL' : L ≤ L')
+    (hNL' : N ≤ Subgroup.normalizer (L' : Set G)) (_hLL' : L ≤ L')
     {π : Ch3z.chiefMod L N →* Ch3z.chiefMod L' N}
     (hπ : π.comp (Ch3z.chiefIota hNL) = Ch3z.chiefIota hNL') (x : ↥N) :
     π (Ch3z.chiefIota hNL x) = Ch3z.chiefIota hNL' x := by
@@ -60,7 +62,7 @@ theorem str83G4_x1_le_commutator_sup_z1
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
   have ha : 1 ≤ a := hfr.2.2.1
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hZ1X : Z1 ≤ X := str83G4_z1_le_x hfr
   have hZ1X1 : Z1 ≤ X1 := str83G4_z1_le_x1 hfr
   have hHNZ : H ≤ Subgroup.normalizer (X : Set G) := str83G4_sup_le_normalizer_x hfr
@@ -88,8 +90,8 @@ theorem str83G4_x1_le_commutator_sup_z1
     str83G4_mem_conjugate_x_sup_q1_iff hfr d hX hB
   have hquad : ⁅⁅X, W⁆, W⁆ = ⊥ := by
     simpa [X, W] using str83G4_commutator_commutator_x_conjugate_eq_bot hfr d hX
-  letI : CommGroup (Ch3z.chiefMod X1 X) := l2ChiefSectionCommGroup hE1
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod X1 X)) := l2ChiefSectionModule hE1
+  let : CommGroup (Ch3z.chiefMod X1 X) := l2ChiefSectionCommGroup hE1
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod X1 X)) := l2ChiefSectionModule hE1
   let ρ1 : Representation (ZMod 2) (suzukiGroup a K) (Additive (Ch3z.chiefMod X1 X)) :=
     sectionRep hHL1 hHN1 hNL1' hE1 hO1 e
   have hnat1 : IsSzNatural ρ1 :=
@@ -118,8 +120,8 @@ theorem str83G4_x1_le_commutator_sup_z1
         Subgroup.commutator_mem_commutator hq hx
       rw [Subgroup.commutator_comm] at hmem
       exact str83G4_commutator_x_q1_le hfr hmem
-  letI : CommGroup (Ch3z.chiefMod Z1 X) := l2ChiefSectionCommGroup hEZ
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod Z1 X)) := l2ChiefSectionModule hEZ
+  let : CommGroup (Ch3z.chiefMod Z1 X) := l2ChiefSectionCommGroup hEZ
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod Z1 X)) := l2ChiefSectionModule hEZ
   let ρ : Representation (ZMod 2) (suzukiGroup a K) (Additive (Ch3z.chiefMod Z1 X)) :=
     sectionRep hHLZ hHNZ hNLZ hEZ hOZ e
   obtain ⟨π, hπ⟩ := exists_chiefMod_proj hNLZ hNL1 hZ1X1
@@ -261,7 +263,7 @@ theorem str83G4_x1_le_commutator_sup_z1
     simpa using hneg
   have hM : CFSG.QuasithinUnique.Setup.X7.commSub ρ
       (⊤ : Subgroup ↥(suzukiGroup a K)) = ⊤ := by
-    letI : CommGroup ↥X := commGroupOfElemAbelian hX
+    let : CommGroup ↥X := commGroupOfElemAbelian hX
     refine eq_top_iff.mpr ?_
     intro m _
     obtain ⟨x, hx⟩ := Ch3z.chiefIota_surjective hNLZ m

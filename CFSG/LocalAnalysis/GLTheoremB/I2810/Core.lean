@@ -26,7 +26,7 @@ open CFSG.ComponentClassification.OutcomeLocal CFSG.HardMathSupport.Cooperstein.
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
 theorem trans_lattice (h : Setup28 W K S) (hR : Red28 W K S) {a : X} (haS : a ∈ S)
-    (hna : a ∉ kerAct W K S) (ha2 : a ^ 2 = 1) (htr : TransvOn (vOf W K S) a) :
+    (_hna : a ∉ kerAct W K S) (ha2 : a ^ 2 = 1) (htr : TransvOn (vOf W K S) a) :
     ∃ (u : X) (U₁ U₂ : Subgroup X), TLattice K (vOf W K S) a u U₁ U₂ :=
   trans_lattice_proof h hR haS ha2 htr
 
@@ -39,7 +39,7 @@ theorem kirred_of_irredM {a : X} {K V U₁ U₂ : Subgroup X} (hKa : ∀ x ∈ K
     (hV : IsElemAbelian 2 V) (hts : TransSectionM K V U₁ U₂ a) :
     SingleFactor K V U₁ U₂ := kirred_of_irredM_proof hKa hV hts
 
-theorem secRep_exists (K : Subgroup X) (a : X) (ha2 : a ^ 2 = 1) (hKa : ∀ x ∈ K, a * x * a⁻¹ ∈ K)
+theorem secRep_exists (K : Subgroup X) (a : X) (_ha2 : a ^ 2 = 1) (_hKa : ∀ x ∈ K, a * x * a⁻¹ ∈ K)
     (U₁ U₂ : Subgroup X) (hel : IsElemAbelian 2 U₁) (hle : U₂ ≤ U₁)
     (hK₁ : ∀ k ∈ K, ∀ x ∈ U₁, k * x * k⁻¹ ∈ U₁) (hK₂ : ∀ k ∈ K, ∀ x ∈ U₂, k * x * k⁻¹ ∈ U₂)
     (ha₁ : ∀ x ∈ U₁, a * x * a⁻¹ ∈ U₁) (ha₂ : ∀ x ∈ U₂, a * x * a⁻¹ ∈ U₂) :
@@ -48,15 +48,17 @@ theorem secRep_exists (K : Subgroup X) (a : X) (ha2 : a ^ 2 = 1) (hKa : ∀ x �
       (φ : ↥U₁ →* Multiplicative P), SecRepData (K ⊔ Subgroup.zpowers a) U₁ U₂ ρ φ :=
   secRep_exists_proof K a U₁ U₂ hel hle hK₁ hK₂ ha₁ ha₂
 
-theorem rho_triv_of_W (h : Setup28 W K S) (hR : Red28 W K S) {a : X} {U₁ U₂ : Subgroup X}
+omit [Finite X] in
+theorem rho_triv_of_W (_h : Setup28 W K S) (hR : Red28 W K S) {a : X} {U₁ U₂ : Subgroup X}
     (hU : U₁ ≤ vOf W K S) {P : Type} [AddCommGroup P] [Module (ZMod 2) P]
     {ρ : ↥(K ⊔ Subgroup.zpowers a) →* LinearMap.GeneralLinearGroup (ZMod 2) P}
     {φ : ↥U₁ →* Multiplicative P} (hd : SecRepData (K ⊔ Subgroup.zpowers a) U₁ U₂ ρ φ) :
     ∀ k : ↥K, (k : X) ∈ W → ρ ⟨k, Subgroup.mem_sup_left k.2⟩ = 1 :=
   rho_triv_of_W_proof hR hU hd
 
+omit [Finite X] in
 theorem outer_rho (h : Setup28 W K S) (hR : Red28 W K S) {a : X} (haS : a ∈ S)
-    (hna : a ∉ kerAct W K S) {U₁ U₂ : Subgroup X} (hts : TransSection K (vOf W K S) U₁ U₂ a)
+    (_hna : a ∉ kerAct W K S) {U₁ U₂ : Subgroup X} (hts : TransSection K (vOf W K S) U₁ U₂ a)
     (hout : ¬ IndInner W K a) {P : Type} [AddCommGroup P] [Module (ZMod 2) P] [Finite P]
     (ρ : ↥(Mof K a) →* LinearMap.GeneralLinearGroup (ZMod 2) P) (φ : ↥U₁ →* Multiplicative P)
     (hd : SecRepData (Mof K a) U₁ U₂ ρ φ) :
@@ -87,6 +89,7 @@ theorem orth_coords {P : Type} [AddCommGroup P] [Module (ZMod 2) P] [Finite P]
           ∀ v, StatedQuadMinus (n + 1) (ZMod 2) 1 1 (φ v) = Q v)) :=
   orth_coords_of_perfect Q hQ hperf hnt
 
+omit [Finite X] [W.Normal] in
 theorem omega_model_of_coords {ι : Type} [Fintype ι] [DecidableEq ι] (Q₀ : (ι → ZMod 2) → ZMod 2)
     {a : X} {U₁ U₂ : Subgroup X} {P : Type} [AddCommGroup P] [Module (ZMod 2) P] [Finite P]
     {ρ : ↥(Mof K a) →* LinearMap.GeneralLinearGroup (ZMod 2) P} {φ : ↥U₁ →* Multiplicative P}
@@ -116,6 +119,7 @@ theorem isAlt_transv_swap_six {P : Type} [AddCommGroup P] [Module (ZMod 2) P] [F
     (hτn : τ ∈ Subgroup.normalizer (L : Set (LinearMap.GeneralLinearGroup (ZMod 2) P))) :
     AltSwapConcl L 6 τ := isAlt_transv_swap_six_proof hA hτ hτn
 
+omit [Finite X] [W.Normal] in
 theorem altModel_of_isAlt {a : X} {U₁ U₂ : Subgroup X} {P : Type} [AddCommGroup P]
     [Module (ZMod 2) P] [Finite P]
     {ρ : ↥(Mof K a) →* LinearMap.GeneralLinearGroup (ZMod 2) P} {φs : ↥U₁ →* Multiplicative P}

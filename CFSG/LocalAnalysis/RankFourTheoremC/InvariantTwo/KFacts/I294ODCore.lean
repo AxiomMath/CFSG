@@ -38,6 +38,7 @@ variable {p n : ℕ} {X : Type} [Group X] [Finite X] {L : Subgroup X} [L.Normal]
 
 noncomputable abbrev odC (L : Subgroup X) [L.Normal] : X →* MulAut L := MulAut.conjNormal
 
+omit [Finite X] in
 theorem odC_injective (hcen : centralizer (L : Set X) = ⊥) : Function.Injective (odC L) := by
   rw [injective_iff_map_eq_one]
   intro g hg
@@ -51,13 +52,16 @@ theorem odC_injective (hcen : centralizer (L : Set X) = ⊥) : Function.Injectiv
   rw [hcen, Subgroup.mem_bot] at hgc
   exact hgc
 
+omit [Finite X] in
 theorem odC_of_mem {ℓ : X} (hℓ : ℓ ∈ L) : odC L ℓ = MulAut.conj (⟨ℓ, hℓ⟩ : L) :=
   MulAut.conjNormal_val (h := ⟨ℓ, hℓ⟩)
 
+omit [Finite X] [L.Normal] in
 theorem ODFamily.inv_mul_mem (hF : ODFamily p n Φ det Z) {B B' : G} (h : Φ B = Φ B') :
     B⁻¹ * B' ∈ Z := by
   rw [← hF.ker_eq, map_mul, map_inv, h, inv_mul_cancel]
 
+omit [Finite X] [L.Normal] in
 theorem ODFamily.exists_scalar (hF : ODFamily p n Φ det Z) {B B' : G} (h : Φ B = Φ B') :
     ∃ w ∈ Z, B' = B * w := by
   refine ⟨B⁻¹ * B', hF.inv_mul_mem h, ?_⟩
@@ -78,7 +82,7 @@ theorem od_exists_lift (hF : ODFamily p n Φ det Z) [Fact p.Prime] (hp5 : 5 ≤ 
 
 theorem od_card_torus [Fact p.Prime] (k : ℕ) :
     Nat.card (Fin k → Multiplicative (ZMod p)) = p ^ k := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   rw [Nat.card_fun, Nat.card_congr (Multiplicative.toAdd : _ ≃ _), Nat.card_zmod,
     Nat.card_eq_fintype_card, Fintype.card_fin]
 
@@ -143,7 +147,7 @@ theorem od_three_le_pRank_of_normalizes [Fact p.Prime] (hp5 : 5 ≤ p) {x : X} (
   set P : Subgroup X := E' ⊔ zpowers x with hPdef
   have hEP : E' ≤ P := le_sup_left
   have hPN : P ≤ normalizer (E' : Set X) := sup_le le_normalizer hzN
-  haveI : (E'.subgroupOf P).Normal := (normal_subgroupOf_iff_le_normalizer hEP).2 hPN
+  have : (E'.subgroupOf P).Normal := (normal_subgroupOf_iff_le_normalizer hEP).2 hPN
   have hxP : x ∈ P := mem_sup_right (mem_zpowers x)
   have hxPord : orderOf (⟨x, hxP⟩ : P) = p := by rw [← hx]; exact Subgroup.orderOf_mk x hxP
   have hEPel : IsElemAbelian p (E'.subgroupOf P) := by
@@ -165,6 +169,7 @@ theorem od_three_le_pRank_of_normalizes [Fact p.Prime] (hp5 : 5 ≤ p) {x : X} (
     exact Subgroup.mem_centralizer_singleton_iff.2 (congrArg Subtype.val hy')
   exact h3.trans (h4.trans (CFSG.SectionRank.pRank_mono hp.one_lt h5))
 
+omit [Finite X] in
 theorem od_pow_mem (hF : ODFamily p n Φ det Z) {x : X} (hx : x ^ p = 1) {B : G}
     (hB : Φ B = odC L x) : B ^ p ∈ Z := by
   rw [← hF.ker_eq, map_pow, hB, ← map_pow, hx, map_one]
@@ -183,6 +188,7 @@ theorem od_not_pow [Fact p.Prime] (hF : ODFamily p n Φ det Z) {x : X}
   have := od_three_le_pRank_of_torus f hf hfix
   omega
 
+omit [Finite X] [L.Normal] in
 theorem od_inner_iff (hF : ODFamily p n Φ det Z) (B : G) :
     Φ B ∈ (MulAut.conj : L →* MulAut L).range ↔ ∃ c : C, det B = c ^ n := by
   refine ⟨fun ⟨ℓ, hℓ⟩ => ?_, hF.inner_of_det B⟩
@@ -192,6 +198,7 @@ theorem od_inner_iff (hF : ODFamily p n Φ det Z) (B : G) :
   rw [h1]
   exact (hF.det_center _).1 ⟨_, hz, rfl⟩
 
+omit [Finite X] in
 theorem od_inner_iff_mem (hcen : centralizer (L : Set X) = ⊥) (u : X) :
     odC L u ∈ (MulAut.conj : L →* MulAut L).range ↔ u ∈ L := by
   constructor
@@ -202,6 +209,7 @@ theorem od_inner_iff_mem (hcen : centralizer (L : Set X) = ⊥) (u : X) :
   · intro hu
     exact ⟨⟨u, hu⟩, (odC_of_mem hu).symm⟩
 
+omit [Finite X] [L.Normal] in
 theorem od_class_eq (hF : ODFamily p n Φ det Z) {B B' : G} (h : Φ B = Φ B') :
     (QuotientGroup.mk (det B) : C ⧸ (powMonoidHom n : C →* C).range) =
       QuotientGroup.mk (det B') := by
@@ -213,6 +221,7 @@ theorem od_class_eq (hF : ODFamily p n Φ det Z) {B B' : G} (h : Φ B = Φ B') :
     exact ⟨c, by rw [hc]; rfl⟩
   rw [this, mul_one]
 
+omit [Finite X] in
 theorem od_exists_class_hom (hF : ODFamily p n Φ det Z) {D : Subgroup X}
     (hlift : ∀ u ∈ D, ∃ B : G, Φ B = odC L u) :
     ∃ ψ : D →* C ⧸ (powMonoidHom n : C →* C).range, ∀ (u : D) (B : G), Φ B = odC L u →
@@ -232,6 +241,7 @@ theorem od_exists_class_hom (hF : ODFamily p n Φ det Z) {D : Subgroup X}
     have := od_class_eq hF h1
     simpa [map_mul, QuotientGroup.mk_mul] using this
 
+omit [Finite X] in
 theorem od_exists_inner [Fact p.Prime] (hF : ODFamily p n Φ det Z)
     (hcen : centralizer (L : Set X) = ⊥) {D : Subgroup X} (hD : IsElemAbelian p D)
     (hDcard : Nat.card D = p ^ 2) (hlift : ∀ u ∈ D, ∃ B : G, Φ B = odC L u) :
@@ -251,11 +261,11 @@ theorem od_exists_inner [Fact p.Prime] (hF : ODFamily p n Φ det Z)
     have hinn : Φ B ∈ (MulAut.conj : L →* MulAut L).range := hF.inner_of_det B ⟨c, hc.symm⟩
     rw [hB, od_inner_iff_mem hcen] at hinn
     exact hno u.1 u.2 (fun h => hu1 (Subtype.ext h)) hinn
-  haveI := hF.cyclic
-  haveI : IsCyclic (C ⧸ (powMonoidHom n : C →* C).range) :=
+  have := hF.cyclic
+  have : IsCyclic (C ⧸ (powMonoidHom n : C →* C).range) :=
     isCyclic_of_surjective (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-  haveI : IsCyclic ψ.range := inferInstance
-  haveI : IsCyclic D :=
+  have : IsCyclic ψ.range := inferInstance
+  have : IsCyclic D :=
     isCyclic_of_surjective (MonoidHom.ofInjective hinj).symm
       (MonoidHom.ofInjective hinj).symm.surjective
   obtain ⟨gen, hgen⟩ := IsCyclic.exists_generator (α := D)
@@ -320,6 +330,7 @@ section Endgame
 variable {p n : ℕ} {X : Type} [Group X] [Finite X] {L : Subgroup X} [L.Normal]
   {G C : Type} [Group G] [CommGroup C] {Φ : G →* MulAut L} {det : G →* C} {Z : Subgroup G}
 
+omit [Finite X] in
 theorem od_endgame [Fact p.Prime] (hF : ODFamily p n Φ det Z) (hn : n = p)
     (hcen : centralizer (L : Set X) = ⊥) {u₀ u₁ x g : X} {a b i j : ℕ}
     (hu₀L : u₀ ∈ L) (hu₀1 : u₀ ≠ 1) (hu₀p : u₀ ^ p = 1) (hu₁L : u₁ ∉ L) (hu₁p : u₁ ^ p = 1)
@@ -447,6 +458,7 @@ section Plane
 
 variable {p : ℕ} {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem od_pow_eq_pow_of_natCast [Fact p.Prime] {u : X} (hu : u ^ p = 1) {m k : ℕ}
     (h : (m : ZMod p) = k) : u ^ m = u ^ k := by
   have hmod : ∀ r : ℕ, u ^ r = u ^ (r % p) := by

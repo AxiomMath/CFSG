@@ -60,12 +60,12 @@ theorem exists_original_normalizer_lift (hS : GGQTwoSetting p B Bs x L D J)
     (hA : L.normalizerMonoidHom ⟨j₀, Subgroup.le_normalizer
         ((hS.1.1.2.2.1.2.2.2.2.2.1.1 hj₀).1)⟩ ∈
       Subgroup.normalizer ((ggGamma L hN).range : Set (MulAut L))) :
-    ∃ j ∈ J, ∃ hjB : j ∈ Subgroup.normalizer (Bs : Set G),
+    ∃ j ∈ J, ∃ _hjB : j ∈ Subgroup.normalizer (Bs : Set G),
       ∃ hjL : j ∈ Subgroup.normalizer (L : Set G),
         L.normalizerMonoidHom ⟨j, hjL⟩ =
           L.normalizerMonoidHom ⟨j₀, Subgroup.le_normalizer
             ((hS.1.1.2.2.1.2.2.2.2.2.1.1 hj₀).1)⟩ := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hSS : LargeEvenSStar p B x L := hS.1.1.1.2.2.2.2.2.2.1
   have hpre : LargeEvenStdSubPre p B x L D J := hS.1.1.2.2.1
   have hJL : J ≤ L := hpre.2.2.2.2.2.1.1.trans inf_le_left
@@ -80,11 +80,11 @@ theorem exists_original_normalizer_lift (hS : GGQTwoSetting p B Bs x L D J)
   let C : Subgroup Y := ρ.ker
   have hCeq : C = (Subgroup.centralizer (L : Set G)).subgroupOf Y :=
     quasisimpleActionKernel_eq_centralizer Y L hYN
-  letI : J₀.Normal :=
+  let : J₀.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer
       (le_sup_right : J ≤ Y)).mpr hYJ
-  letI : C.Normal := inferInstance
-  letI : ((C ⊓ J₀).subgroupOf C).Normal := inferInstance
+  let : C.Normal := inferInstance
+  let : ((C ⊓ J₀).subgroupOf C).Normal := inferInstance
   have hNcen : (C ⊓ J₀).subgroupOf C ≤ Subgroup.center C := by
     intro z hz
     rw [Subgroup.mem_center_iff]
@@ -133,8 +133,8 @@ theorem exists_original_normalizer_lift (hS : GGQTwoSetting p B Bs x L D J)
         exact hPgC hz
       exact Subgroup.mem_subgroupOf.mp hzC
     have hcyc : IsCyclic P_G := hSS.2.2.2.2 P_G hP_GC
-      ((P.isPGroup'.map C.subtype).map Y.subtype)
-    letI : IsCyclic P_G := hcyc
+      ((P.isPGroup.map C.subtype).map Y.subtype)
+    let : IsCyclic P_G := hcyc
     exact isCyclic_of_injective
       (Pg.equivMapOfInjective Y.subtype Y.subtype_injective).toMonoidHom
       (Pg.equivMapOfInjective Y.subtype Y.subtype_injective).injective
@@ -155,21 +155,21 @@ theorem exists_original_normalizer_lift (hS : GGQTwoSetting p B Bs x L D J)
           (fun h => hxne (congrArg Subtype.val h))]
         simp)
     obtain ⟨Q, hQ⟩ := hxGp.exists_le_sylow
-    letI : Unique (Sylow p C) := Sylow.unique_of_normal P hPnormal
+    let : Unique (Sylow p C) := Sylow.unique_of_normal P hPnormal
     have hQP : Q = P := Subsingleton.elim _ _
     exact ⟨⟨xY, hxC⟩, hQP ▸ hQ (Subgroup.mem_zpowers _), rfl⟩
   have hOmega : ∀ z ∈ Pg, z ^ p = 1 → z ∈ B₀ := by
     intro z hz hzpow
-    letI := hPcyc
+    let := hPcyc
     have hzX : z ∈ Subgroup.zpowers xY :=
       CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs245.mem_of_pow_eq_one_of_cyclic hp
         (Subgroup.zpowers_le.mpr hxP) (by rw [Nat.card_zpowers, orderOf_eq_prime hxpow hxne])
         hz hzpow
     exact (Subgroup.zpowers_le.mpr (show xY ∈ B₀ from hxB)) hzX
-  letI : CFSG.IsElementaryAbelian p B₀ := hBY.isElementaryAbelian
+  let : CFSG.IsElementaryAbelian p B₀ := hBY.isElementaryAbelian
   have hBchar : (B₀.subgroupOf (B₀ ⊔ Pg)).Characteristic :=
     characteristic_subgroupOf_sup_of_isElementaryAbelian_isCyclic hp hp2 hPcyc
-      (P.isPGroup'.map C.subtype) hBPN hOmega
+      (P.isPGroup.map C.subtype) hBPN hOmega
   have hρB : (ρ.comp B₀.subtype).range = (ggGamma L hN).range := by
     ext a
     constructor
@@ -181,21 +181,21 @@ theorem exists_original_normalizer_lift (hS : GGQTwoSetting p B Bs x L D J)
   have hjA : ρ jY ∈ Subgroup.normalizer ((ρ.comp B₀.subtype).range : Set (MulAut L)) := by
     rw [hρB]
     exact hA
-  obtain ⟨j, hjJ, hjB, hjρ⟩ := central_quotient_normalizer_lift ρ hBY inferInstance
+  obtain ⟨j, hjJ, _hjB, hjρ⟩ := central_quotient_normalizer_lift ρ hBY inferInstance
     inferInstance hNcen hCQ P rfl hBchar (show jY ∈ J₀ from hj₀) hjA
   have hjBG : (j : G) ∈ Subgroup.normalizer (Bs : Set G) := by
     rw [Subgroup.mem_normalizer_iff]
     intro b
     constructor
     · intro hb
-      exact (Subgroup.mem_normalizer_iff.mp hjB ⟨b, (le_sup_left : Bs ≤ Y) hb⟩).mp hb
+      exact (Subgroup.mem_normalizer_iff.mp _hjB ⟨b, (le_sup_left : Bs ≤ Y) hb⟩).mp hb
     · intro hb
       have hbY : b ∈ Y := by
         have hcY : (j : G) * b * (j : G)⁻¹ ∈ Y := (le_sup_left : Bs ≤ Y) hb
         have h := Y.mul_mem (Y.mul_mem (Y.inv_mem j.property) hcY) j.property
         have heq : (j : G)⁻¹ * ((j : G) * b * (j : G)⁻¹) * j = b := by group
         rwa [heq] at h
-      exact (Subgroup.mem_normalizer_iff.mp hjB ⟨b, hbY⟩).mpr hb
+      exact (Subgroup.mem_normalizer_iff.mp _hjB ⟨b, hbY⟩).mpr hb
   exact ⟨j, hjJ, hjBG, hYN j.property, hjρ⟩
 
 end CFSG.StandardType.QTwoCav

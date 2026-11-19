@@ -110,8 +110,7 @@ private lemma langRatBU_exists_pin_diag {L : Type} [Field L] [IsAlgClosed L] {ν
       permGL_inv_mul_single_mul, diagHom_mul_one_add_single_mul d (Ne.symm hab) u]
     congr 2
     rw [hd a b hab]
-    simp only [Units.val_neg, Units.val_mul, Units.val_inv_eq_inv_val, inv_neg, inv_inv, neg_mul,
-      neg_neg]
+    simp only [Units.val_neg, Units.val_mul, Units.val_inv_eq_inv_val, inv_neg, neg_neg]
     have h0 : (d a : L) ≠ 0 := Units.ne_zero _
     have h0' : (d b : L) ≠ 0 := Units.ne_zero _
     field_simp

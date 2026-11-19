@@ -28,8 +28,8 @@ theorem code_extHom (σ : Equiv.Perm (Fin 12)) : code (Yosh.extHom σ) = ofFn 14
   rw [vals_fin]
   unfold ev12
   by_cases h : i < 12
-  · rw [dif_pos h, Yosh.extHom_apply_lt σ ⟨i, hi⟩ h]
-  · rw [dif_neg h, Yosh.extHom_apply_ge σ ⟨i, hi⟩ h]
+  · rw [dite_eq_left h, Yosh.extHom_apply_lt σ ⟨i, hi⟩ h]
+  · rw [dite_eq_right h, Yosh.extHom_apply_ge σ ⟨i, hi⟩ h]
 
 theorem code_tauP : code Yosh.tauP = P.swap 14 12 13 :=
   (code_swap (⟨12, by omega⟩ : Fin 14) ⟨13, by omega⟩).symm
@@ -188,7 +188,7 @@ theorem closure_gl : Subgroup.closure {g | g ∈ gl} = yK := by
   apply le_antisymm
   · rw [Subgroup.closure_le]
     intro g hg
-    simp only [gl, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hg
+    simp only [gl, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hg
     rcases hg with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
     · exact ygP_mem 4 (by norm_num)
     · exact ygP_mem 0 (by norm_num)
@@ -230,7 +230,7 @@ theorem closure_tl : Subgroup.closure {g | g ∈ tl} = tK := by
   apply le_antisymm
   · rw [Subgroup.closure_le]
     intro g hg
-    simp only [tl, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hg
+    simp only [tl, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hg
     rcases hg with rfl | rfl | rfl | rfl
     · rw [← tp_tauT]
       exact Subgroup.subset_closure ⟨_, by simp [Yosh.tGens], rfl⟩
@@ -274,7 +274,7 @@ noncomputable def xK (k : ℕ) : ↥yK :=
   if h : k < 384 then ⟨(closK.1 k h).choose, (closK.1 k h).choose_spec.1⟩ else 1
 
 theorem code_xK {k : ℕ} (hk : k < 384) : code (xK k : Equiv.Perm (Fin 14)) = KE k := by
-  rw [xK, dif_pos hk]
+  rw [xK, dite_eq_left hk]
   exact (closK.1 k hk).choose_spec.2
 
 theorem eq_xK {y : ↥yK} {k : ℕ} (hk : k < 384) (h : code (y : Equiv.Perm (Fin 14)) = KE k) :
@@ -402,8 +402,8 @@ theorem survivor (ψ : MulAut ↥yK) (hψ : IsYoshAut ψ) :
 theorem bool01 (b : Bool) {p : Prop} [Decidable p] (h : b = true ↔ p) :
     Bool.rec (motive := fun _ => ℕ) 0 1 b = if p then 1 else 0 := by
   cases b
-  · rw [if_neg fun hp => absurd (h.2 hp) (by decide)]
-  · rw [if_pos (h.1 rfl)]
+  · rw [ite_eq_right fun hp => absurd (h.2 hp) (by decide)]
+  · rw [ite_eq_left (h.1 rfl)]
 
 theorem epsK_eq (x : ℕ) : epsK x = if img x 12 = 13 then 1 else 0 :=
   bool01 _ P.beq_iff
@@ -413,7 +413,7 @@ theorem img_code_lt (y : Equiv.Perm (Fin 14)) {i : ℕ} (hi : i < 14) : img (cod
   change vals y ((⟨i, hi⟩ : Fin 14) : ℕ) = yv y i
   rw [vals_fin]
   unfold yv
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
 
 theorem epsK_code (y : Equiv.Perm (Fin 14)) : epsK (code y) = epsY y := by
   rw [epsK_eq, img_code_lt y (by norm_num)]
@@ -541,8 +541,6 @@ theorem spec_facts : Facts where
   inv_s := by
     obtain ⟨h13, h13e⟩ := misc_parts.2.2.1
     refine ⟨xK (SC 13), encK.inj ?_⟩
-    change code ((xK (SC 13) * sK : ↥yK) : Equiv.Perm (Fin 14)) =
-      code ((sK * sK * xK (SC 13) : ↥yK) : Equiv.Perm (Fin 14))
     rw [code_coe_mul, code_coe_mul, code_coe_mul, code_xK h13, code_sK, h13e]
   syl_s := by
     intro z h3 h1

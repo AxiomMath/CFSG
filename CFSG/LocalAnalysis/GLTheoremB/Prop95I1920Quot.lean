@@ -21,12 +21,14 @@ abbrev Kbar : Type := ↥K ⧸ Subgroup.center ↥K
     ↥(Subgroup.normalizer (K : Set X)) →* MulAut (Kbar K) :=
   quotAutOfCentreHom.comp K.normalizerMonoidHom
 
+omit [Finite X] in
 theorem rhoK_mk (n : ↥(Subgroup.normalizer (K : Set X))) (k : ↥K) :
     rhoK K n (QuotientGroup.mk k) = QuotientGroup.mk (K.normalizerMonoidHom n k) :=
   quotAutOfCentre_mk _ _
 
 variable {K}
 
+omit [Finite X] in
 theorem rhoK_eq_one_iff (hK : IsComponentOf K ⊤) {w : X}
     (hw : w ∈ Subgroup.normalizer (K : Set X)) :
     rhoK K ⟨w, hw⟩ = 1 ↔ w ∈ Subgroup.centralizer (K : Set X) := by
@@ -40,8 +42,9 @@ theorem rhoK_eq_one_iff (hK : IsComponentOf K ⊤) {w : X}
     show quotAutOfCentreHom (K.normalizerMonoidHom ⟨w, hw⟩) = 1
     rw [h, map_one]
 
+omit [Finite X] in
 theorem center_Kbar (hK : IsComponentOf K ⊤) : Subgroup.center (Kbar K) = ⊥ := by
-  haveI : IsSimpleGroup (Kbar K) := hK.2.2.2
+  have : IsSimpleGroup (Kbar K) := hK.2.2.2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (Kbar K)) with h | h
   · exact h
   · exfalso
@@ -49,6 +52,7 @@ theorem center_Kbar (hK : IsComponentOf K ⊤) : Subgroup.center (Kbar K) = ⊥ 
     have ha : a ∈ Subgroup.center (Kbar K) := by rw [h]; exact Subgroup.mem_top a
     exact hab (Subgroup.mem_center_iff.1 ha b).symm
 
+omit [Finite X] in
 theorem conj_injective_of_center_bot (hZ : Subgroup.center (Kbar K) = ⊥) :
     Function.Injective (MulAut.conj : Kbar K →* MulAut (Kbar K)) := by
   intro a b h
@@ -64,6 +68,7 @@ theorem conj_injective_of_center_bot (hZ : Subgroup.center (Kbar K) = ⊥) :
   rw [hZ] at hc
   exact (inv_mul_eq_one.1 (Subgroup.mem_bot.1 hc)).symm
 
+omit [Finite X] in
 theorem rhoK_conj (k : ↥K) :
     rhoK K ⟨(k : X), Subgroup.le_normalizer k.2⟩ = MulAut.conj (QuotientGroup.mk k : Kbar K) := by
   apply MulEquiv.ext
@@ -73,6 +78,7 @@ theorem rhoK_conj (k : ↥K) :
     rw [rhoK_mk, rho_conj]
     simp [MulAut.conj_apply]
 
+omit [Finite X] in
 theorem quotAutOfCentreHom_conj (k : ↥K) :
     quotAutOfCentreHom (MulAut.conj k) = MulAut.conj (QuotientGroup.mk k : Kbar K) := by
   apply MulEquiv.ext

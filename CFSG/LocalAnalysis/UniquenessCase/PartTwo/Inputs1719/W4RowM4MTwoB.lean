@@ -13,9 +13,10 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Row
 open CFSG.Quasithin CFSG.HardMathSupport.Meierfrankenfeld.FFToolkit Subgroup ArithmeticFunction
 
 private theorem m4_orderOf_two_zmod_three : orderOf (2 : ZMod 3) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (x := (2 : ZMod 3)) (p := 2) (by decide) (by decide)
 
+set_option exponentiation.threshold 648 in
 theorem two_pow_four_le_index_of_twoB {W : Type} [CommGroup W] [Finite W]
     (hW : ∀ w : W, w * w = 1) {G : Type} [Group G] [Finite G]
     [IsSimpleGroup CFSG.Blueprint.NativeSporadic.B] (ι : G →* MulAut W)
@@ -28,7 +29,7 @@ theorem two_pow_four_le_index_of_twoB {W : Type} [CommGroup W] [Finite W]
         u ∈ Subgroup.closure (Set.range x ∪ Set.range y ∪ {z}) ∧
         u ∉ Subgroup.zpowers z ∧ IsConj u z) :
     2 ^ 4 ≤ (fixV (zpowers (ι t))).index := by
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun σ : MulAut W => (σ : W → W)) DFunLike.coe_injective
   let K : Subgroup G := Subgroup.centralizer ({a} : Set G)
   have hmemt : t ∈ K := by
@@ -154,7 +155,7 @@ theorem two_pow_four_le_index_of_twoB {W : Type} [CommGroup W] [Finite W]
   have hHeis'' : HeisCfg 3 4 (fun i => Φ (x' i)) (fun i => Φ (y' i)) (Φ z') :=
     HeisCfg.map Φ hHeis' hz'ne
   have hy'' : ∀ i, Φ (y' i) ^ 3 = 1 := fun i => by rw [← map_pow, hy' i, map_one]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbound : 2 ^ (3 ^ 4 * orderOf (2 : ZMod 3)) ≤
       Nat.card (CFSG.QuasithinUnique.Setup.X1.imgT (Φ z')) :=
     two_pow_le_card_imgT_of_heisCfg (p := 3) (n := 4) hW (by norm_num) hHeis''

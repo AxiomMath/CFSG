@@ -164,8 +164,8 @@ theorem bMat_update_one_add_single_mulVec_bvec [CharP k 2] (ε : τ → Finset (
       fun p => 1 + Matrix.single j i (if p.1 = r then c else 0) := by
     funext p
     by_cases hp : p.1 = r
-    · rw [hp, Function.update_self, if_pos rfl]
-    · rw [Function.update_of_ne hp, if_neg hp, Matrix.single_zero, add_zero]
+    · rw [hp, Function.update_self, ite_eq_left rfl]
+    · rw [Function.update_of_ne hp, ite_eq_right hp, Matrix.single_zero, add_zero]
   have hkey : ∀ p : τ × Fin n,
       i ∈ ((btop ε p : Set.powersetCard (Fin n) (bdeg ε p)) : Finset (Fin n)) →
       j ∉ ((btop ε p : Set.powersetCard (Fin n) (bdeg ε p)) : Finset (Fin n)) → p.2 = j := by
@@ -196,15 +196,15 @@ theorem bMat_update_one_add_single_mulVec_bvec [CharP k 2] (ε : τ → Finset (
     exact Finset.mem_insert_self _ _
   by_cases hst : s = btop ε
   · subst hst
-    rw [Finset.prod_eq_one fun p _ => if_pos rfl, Pi.single_eq_same, if_neg, mul_zero, add_zero]
+    rw [Finset.prod_eq_one fun p _ => ite_eq_left rfl, Pi.single_eq_same, ite_eq_right, mul_zero, add_zero]
     rintro ⟨p, -, -, hC⟩
     exact hA p hC rfl
   · rw [Pi.single_eq_of_ne hst, zero_add]
     split_ifs with hex
     · rw [mul_one]
       obtain ⟨p, hp, hq, hC⟩ := hex
-      rw [Finset.prod_eq_single p (fun q _ hqp => if_pos (hq q hqp))
-        (fun h => absurd (Finset.mem_univ p) h), if_neg (hA p hC), if_pos hC, if_pos hp]
+      rw [Finset.prod_eq_single p (fun q _ hqp => ite_eq_left (hq q hqp))
+        (fun h => absurd (Finset.mem_univ p) h), ite_eq_right (hA p hC), ite_eq_left hC, ite_eq_left hp]
     · rw [mul_zero]
       obtain ⟨p₀, hp₀⟩ : ∃ p, s p ≠ btop ε p := by
         by_contra h
@@ -219,7 +219,7 @@ theorem bMat_update_one_add_single_mulVec_bvec [CharP k 2] (ε : τ → Finset (
               insert j (((btop ε p : Set.powersetCard (Fin n) (bdeg ε p)) : Finset (Fin n)).erase i)) := by
         intro p hp
         have h0 := hf p (Finset.mem_univ p)
-        rw [if_neg hp] at h0
+        rw [ite_eq_right hp] at h0
         split_ifs at h0 with hC hr
         · exact ⟨hr, hC⟩
         · exact absurd rfl h0
@@ -300,13 +300,13 @@ theorem bMat_mulSingle_transvection_mulVec_bvec_mem [CharP k 2] (ε : τ → Fin
     · by_cases hr : r' = r
       · subst hr
         rw [Function.update_self, Matrix.add_apply, Matrix.one_apply_ne hba.ne', Matrix.single_apply,
-          if_neg, add_zero]
+          ite_eq_right, add_zero]
         rintro ⟨rfl, rfl⟩
-        exact absurd (Fin.lt_iff_val_lt_val.mp hba) (by omega)
+        exact absurd (Fin.lt_def.mp hba) (by omega)
       · rw [Function.update_of_ne hr, Matrix.one_apply_ne hba.ne']
     · by_cases hr : r' = r
       · subst hr
-        rw [Function.update_self, Matrix.add_apply, Matrix.one_apply_eq, Matrix.single_apply, if_neg,
+        rw [Function.update_self, Matrix.add_apply, Matrix.one_apply_eq, Matrix.single_apply, ite_eq_right,
           add_zero]
         rintro ⟨rfl, h⟩
         exact hij h.symm
@@ -365,7 +365,7 @@ theorem pi_mem_of_transvection_adjacent_mem (H : Subgroup (τ → SpecialLinearG
     induction S using Finset.induction_on with
     | empty =>
       have h0 : (fun r => if r ∈ (∅ : Finset τ) then h r else 1) = 1 :=
-        funext fun r => if_neg (Finset.notMem_empty r)
+        funext fun r => ite_eq_right (Finset.notMem_empty r)
       rw [h0]
       exact H.one_mem
     | insert a S haS ih =>
@@ -376,13 +376,13 @@ theorem pi_mem_of_transvection_adjacent_mem (H : Subgroup (τ → SpecialLinearG
         rw [Pi.mul_apply]
         by_cases hr : r = a
         · subst hr
-          rw [if_pos (Finset.mem_insert_self _ _), Pi.mulSingle_eq_same, if_neg haS, mul_one]
+          rw [ite_eq_left (Finset.mem_insert_self _ _), Pi.mulSingle_eq_same, ite_eq_right haS, mul_one]
         · rw [Pi.mulSingle_eq_of_ne hr, one_mul]
           simp only [Finset.mem_insert, hr, false_or]
       rw [h1]
       exact H.mul_mem (hsingle a (h a)) ih
   have hu := hfin Finset.univ
-  simpa only [Finset.mem_univ, if_true] using hu
+  simpa only [Finset.mem_univ, ite_true] using hu
 
 theorem bMat_mulVec_mem_bCyc [CharP k 2] (ε : τ → Finset (Fin n))
     (h : τ → SpecialLinearGroup (Fin n) k) {w : BIdx ε → k} (hw : w ∈ bCyc ε) :
@@ -456,38 +456,37 @@ theorem sub_smul_bvec_mem_bRad (ε : τ → Finset (Fin n)) {w : BIdx ε → k} 
     (bvec_dotProduct_bvec ε) hw ?_
   · rintro ⟨r, a, b⟩
     rcases lt_trichotomy a b with hab | rfl | hab
-    · simp only [sgn, op, if_pos hab, if_neg (not_lt.mpr hab.le), if_neg hab.ne']
+    · simp only [sgn, op, ite_eq_left hab, ite_eq_right (not_lt.mpr hab.le), ite_eq_right hab.ne']
+    · simp only [sgn, op, lt_irrefl, ite_false, ite_true]
       try rfl
-    · simp only [sgn, op, lt_irrefl, if_false, if_true]
-      try rfl
-    · simp only [sgn, op, if_pos hab, if_neg (not_lt.mpr hab.le), if_neg hab.ne']
+    · simp only [sgn, op, ite_eq_left hab, ite_eq_right (not_lt.mpr hab.le), ite_eq_right hab.ne']
       try rfl
   · rintro ⟨r, a, b⟩
     exact bDer_transpose ε r a b
   · rintro ⟨r, a, b⟩ hb
     rcases lt_trichotomy a b with hab | rfl | hab
     · exact bDer_mulVec_bvec_of_lt ε r hab
-    · simp only [sgn, lt_irrefl, if_false, if_true] at hb
+    · simp only [sgn, lt_irrefl, ite_false, ite_true] at hb
       exact absurd hb (by decide)
-    · simp only [sgn, if_neg (not_lt.mpr hab.le), if_neg hab.ne'] at hb
+    · simp only [sgn, ite_eq_right (not_lt.mpr hab.le), ite_eq_right hab.ne'] at hb
       exact absurd hb (by decide)
   · rintro ⟨r, a, b⟩ hb
     rcases lt_trichotomy a b with hab | rfl | hab
-    · simp only [sgn, if_pos hab] at hb
+    · simp only [sgn, ite_eq_left hab] at hb
       exact absurd hb (by decide)
     · exact bDer_mulVec_bvec_self ε r a
-    · simp only [sgn, if_neg (not_lt.mpr hab.le), if_neg hab.ne'] at hb
+    · simp only [sgn, ite_eq_right (not_lt.mpr hab.le), ite_eq_right hab.ne'] at hb
       exact absurd hb (by decide)
   · rintro ⟨r, a, b⟩ hb
     rcases lt_trichotomy a b with hab | rfl | hab
     · exact h r a b hab
-    · simp only [sgn, lt_irrefl, if_false, if_true] at hb
+    · simp only [sgn, lt_irrefl, ite_false, ite_true] at hb
       exact absurd hb (by decide)
-    · simp only [sgn, if_neg (not_lt.mpr hab.le), if_neg hab.ne'] at hb
+    · simp only [sgn, ite_eq_right (not_lt.mpr hab.le), ite_eq_right hab.ne'] at hb
       exact absurd hb (by decide)
 
 @[expose] noncomputable def twistHom {F : Type*} [CommRing F] (φ : τ → F →+* k) :
     SpecialLinearGroup (Fin n) F →* (τ → SpecialLinearGroup (Fin n) k) :=
-  Pi.monoidHom fun r => SpecialLinearGroup.map (φ r)
+  _root_.MonoidHom.pi fun r => SpecialLinearGroup.map (φ r)
 
 end CFSG.LieType.SpecialLinear.ExteriorModel

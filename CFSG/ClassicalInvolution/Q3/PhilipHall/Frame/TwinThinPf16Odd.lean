@@ -216,7 +216,7 @@ theorem exists_star_edge {m : ℕ} (hm : 6 ≤ m) (J : AEIdent (fam K (conjSub g
   obtain ⟨z₁, hz₁⟩ := (S.hs.hyp.omega1 L₁ hL₁Ω).1
   have hnc : ∃ y ∈ L₂, z₁ * y ≠ y * z₁ := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have hne : (α ∩ β).Nonempty := Finset.card_pos.mp (by rw [h2]; norm_num)
     refine Finset.not_disjoint_iff_nonempty_inter.mpr hne
       (AE.disjoint_of_zBar_comm (h := hα) (h' := hβ) hαβ (c := true) fun y hy => ?_)

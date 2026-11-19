@@ -13,12 +13,14 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {T : Type} [CommGroup T] [Finite T]
 
+omit [Finite T] in
 private theorem s1614e3_row11_card_of_elemAbelian {E : Subgroup (MulAut T)}
     (hE : IsElemAbelianOfRank 7 2 ↥E) : Nat.card E = 7 ^ 2 := by
   obtain ⟨e⟩ := hE
   rw [Nat.card_congr e.toEquiv, Nat.card_congr Multiplicative.ofAdd.symm, Nat.card_fun,
     Nat.card_fin, Nat.card_zmod]
 
+omit [Finite T] in
 private theorem s1614e3_row11_pow_seven_eq_one {E : Subgroup (MulAut T)}
     (hE : IsElemAbelianOfRank 7 2 ↥E) : ∀ x ∈ E, x ^ 7 = 1 := by
   obtain ⟨e⟩ := hE
@@ -36,7 +38,7 @@ private theorem s1614e3_row11_pow_seven_eq_one {E : Subgroup (MulAut T)}
       _ = 1 := rfl
   exact congrArg Subtype.val hE1
 
-theorem s1614e3_row11_rk (hT : ∀ t : T, t ^ 2 = 1) {X A : Subgroup (MulAut T)} {g : MulAut T}
+theorem s1614e3_row11_rk (_hT : ∀ t : T, t ^ 2 = 1) {X A : Subgroup (MulAut T)} {g : MulAut T}
     (h : S16n9bTwo X A g) (hrk : rk ↥(commSub ⊤ A) = 3) : rk T = 6 := by
   have h1 : rk ↥(commSub ⊤ A ⊔ (commSub ⊤ A).map g.toMonoidHom) +
       rk ↥(commSub ⊤ A ⊓ (commSub ⊤ A).map g.toMonoidHom) =
@@ -62,7 +64,7 @@ theorem s1614e3_row11_commute (hT : ∀ t : T, t ^ 2 = 1) {X A : Subgroup (MulAu
     (hrkT : rk T = 6) {t : MulAut T} (htX : t ∈ X) (ht2 : t * t = 1) (ht1 : t ≠ 1)
     (E : Subgroup (MulAut T)) (hEX : E ≤ X) (hE : IsElemAbelianOfRank 7 2 ↥E) :
     ∃ e ∈ E, e ≠ 1 ∧ e * t = t * e := by
-  haveI : Finite (MulAut T) := MulEquiv.finite_left
+  have : Finite (MulAut T) := MulEquiv.finite_left
   have ht2' : t ^ 2 = 1 := by rw [pow_two]; exact ht2
   have hallfix : ∀ a : MulAut T, (∀ y ∈ commSub ⊤ A, a y = y) →
       (∀ y ∈ (commSub ⊤ A).map g.toMonoidHom, a y = y) → a = 1 := by
@@ -127,7 +129,7 @@ theorem s1614e3_row11_commute (hT : ∀ t : T, t ^ 2 = 1) {X A : Subgroup (MulAu
     rw [hP7]; omega
   have hE49 : Nat.card E = 7 ^ 2 := s1614e3_row11_card_of_elemAbelian hE
   have hEpow : ∀ x ∈ E, x ^ 7 = 1 := s1614e3_row11_pow_seven_eq_one hE
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨x, hxX, hxle⟩ :=
     CFSG.RankThree.PartOne.K133H.exists_conj_le_of_sylow hPX hEX hEpow hord
   have hEP : E ≤ P := by
@@ -145,7 +147,7 @@ theorem s1614e3_row11_commute (hT : ∀ t : T, t ^ 2 = 1) {X A : Subgroup (MulAu
     rw [hP49, hE49]
   have hAne : ∃ a ∈ A, a ≠ 1 := by
     have h1 : 1 < Nat.card A := by rw [hA7]; norm_num
-    haveI : Nontrivial ↥A := Finite.one_lt_card_iff_nontrivial.1 h1
+    have : Nontrivial ↥A := Finite.one_lt_card_iff_nontrivial.1 h1
     exact (Subgroup.nontrivial_iff_exists_ne_one A).1 inferInstance
   obtain ⟨a, haA, ha1⟩ := hAne
   have hAt : A.map (MulAut.conj t).toMonoidHom = A.map (MulAut.conj g).toMonoidHom :=

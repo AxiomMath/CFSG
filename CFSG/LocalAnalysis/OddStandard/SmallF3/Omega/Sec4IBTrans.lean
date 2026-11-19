@@ -28,6 +28,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
       TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp g.2]
     exact h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IT_map (g : OGroup Q) (fr : Sec4IFrame Q) (v : Fin 7 → ZMod 2) :
     sec4IT (fr.map g) v = g * sec4IT fr v * g⁻¹ := by
   apply sec4I_ogroup_ext (fr.map g)
@@ -47,6 +48,7 @@ theorem sec4IT_map (g : OGroup Q) (fr : Sec4IFrame Q) (v : Fin 7 → ZMod 2) :
   rw [sec4IT_apply_basis, hb]
   exact hR.symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_sec4IB0_map (g : OGroup Q) (fr : Sec4IFrame Q) (x : ProjOrth Q) :
     x ∈ sec4IB0 (fr.map g) ↔ (toProj Q g)⁻¹ * x * toProj Q g ∈ sec4IB0 fr := by
   rw [mem_sec4IB0_iff, mem_sec4IB0_iff]

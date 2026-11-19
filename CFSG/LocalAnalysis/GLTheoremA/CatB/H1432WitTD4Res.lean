@@ -95,7 +95,7 @@ private theorem twistedGroup_witness
     ∃ V E : Subgroup (twistedGroup σ), V ≠ ⊥ ∧ IsPGroup 2 V ∧
       E ≤ Subgroup.normalizer (V : Set (twistedGroup σ)) ∧ IsElemAbelian 3 E ∧
         Nat.card E = 3 ^ 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ι := WitG2.iota3 K
   have hι : ∀ n, σ (ι n) = ι n := fun n => RingHom.congr_fun (Subsingleton.elim (σ.comp ι) ι) n
   have hθr : IsRoot d4 θ₄ := RootOps.isRootB_iff.1 (by decide +kernel)
@@ -171,16 +171,16 @@ private theorem twistedGroup_witness
 
 theorem td4Res_holds :
     TD4Res := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : Nat.card (GaloisField 3 3) = 3 ^ 3 := GaloisField.card 3 3 (by norm_num)
   have hσq : ∀ c : GaloisField 3 3, frobenius (GaloisField 3 3) 3 c = c ^ 3 := fun c => by
     rw [frobenius_def]
   obtain ⟨e⟩ :=
     CFSG.LocalAnalysis.UniqueFourCatalog.nonempty_derivedCentralQuotient_equiv_twistedGroup
       (by norm_num) hK hσq
-  haveI : Finite (Module.End (GaloisField 3 3) (RootModule d4 (GaloisField 3 3))) :=
+  have : Finite (Module.End (GaloisField 3 3) (RootModule d4 (GaloisField 3 3))) :=
     Module.finite_of_finite (GaloisField 3 3)
-  haveI : Finite TD4Model := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite TD4Model := Finite.of_equiv _ e.symm.toEquiv
   exact hasTwoLocalWitness_of_mulEquiv_exists e
     (twistedGroup_witness (sigma_three_of_card hK hσq) (hK.trans (by norm_num)))
 

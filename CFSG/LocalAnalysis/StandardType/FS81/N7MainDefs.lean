@@ -92,7 +92,7 @@ theorem fix_iff (x : X) : S.ρ x *ᵥ nmE0 = nmE0 ↔ S.ρ x ∈ evenFix0 7 := b
       simp [nmE0]
     · have hsymm : σ.symm i ≠ 0 :=
         fun h => hi (by rw [← Equiv.apply_symm_apply σ i, h, hσ0])
-      simp [nmE0, hsymm, Ne.symm hsymm, hi, Ne.symm hi]
+      simp [nmE0, hsymm, hi]
 
 end N7MSetup
 

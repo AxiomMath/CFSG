@@ -27,6 +27,7 @@ variable [Finite G] [CharP K 2]
 private theorem x_mul_Z_comm' (hs : Sit M Q Z X x) {z : G} (hz : z ∈ Z) : x * z = z * x :=
   mul_inv_eq_iff_eq_mul.mp (hs.x_cent (smith_1_12 hs) z hz)
 
+omit [CharP K 2] in
 theorem caseII_of_nf (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x) (Tx : XAct M₀ x)
     (hP1 : Cs Tx ≤ Submodule.span K {e | e ∈ Cs Tx ∧ RootPt M₀ e})
     (hNF : ∀ w ∈ Z, w ≠ 1 → ¬ IsConj x (x * w)) : CaseII Q Z x := by
@@ -71,6 +72,7 @@ end CaseII
 section Frame
 variable [Finite G] [CharP K 2]
 
+omit [CharP K 2] in
 private theorem transvGL_comm_tInv1' (i j : Fin 6) (hij : i ≠ j) (hi : 2 ≤ i.val) (hj : 2 ≤ j.val)
     (c : K) : transvGL K i j hij c * tInv1 K = tInv1 K * transvGL K i j hij c := by
   apply Units.ext
@@ -84,6 +86,7 @@ private theorem transvGL_comm_tInv1' (i j : Fin 6) (hij : i ≠ j) (hi : 2 ≤ i
   simp only [add_mul, mul_add, mul_one, one_mul, h1, h2, add_zero]
   abel
 
+omit [Finite G] [CharP K 2] in
 theorem phi_eq_of_mul_mem_Q {B : Subgroup G} {ψ : M₀.E ≃ₗ[K] Cube K}
     {φ : Lgen M (LB M Q B) →* (Cube K ≃ₗ[K] Cube K)}
     (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K)) {s : Lgen M (LB M Q B)}

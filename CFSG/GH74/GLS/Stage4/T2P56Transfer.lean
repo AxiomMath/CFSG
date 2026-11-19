@@ -49,7 +49,7 @@ theorem hasSylowIso_quotient_iff {X : Type} [Group X] [Finite X] (N : Subgroup X
       intro x hx y hy hxy
       have h1 : x⁻¹ * y ∈ N := QuotientGroup.eq.1 hxy
       have h2 : x⁻¹ * y ∈ (S : Subgroup X) := (S : Subgroup X).mul_mem ((S : Subgroup X).inv_mem hx) hy
-      have := eq_one_of_mem_of_odd hN S.isPGroup' h2 h1
+      have := eq_one_of_mem_of_odd hN S.isPGroup h2 h1
       exact inv_mul_eq_one.1 this
     rw [Sylow.coe_mapSurjective]
     exact ⟨sdwEquivMapOfInjOn _ _ hinj⟩

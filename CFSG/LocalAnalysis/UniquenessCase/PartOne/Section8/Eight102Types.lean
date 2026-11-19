@@ -18,6 +18,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC6S846 (SigmaStd rhoL)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem barImage_map_conj {L B : Subgroup G} (hBL : B ≤ L) (l : ↥L) :
     barImage L (B.map (MulAut.conj (l : G)).toMonoidHom) =
       (barImage L B).map (MulAut.conj (uc22p21cPi L l)).toMonoidHom := by
@@ -50,6 +51,7 @@ private theorem barImage_map_conj {L B : Subgroup G} (hBL : B ≤ L) (l : ↥L) 
           (MulAut.conj (uc22p21cPi L l)).toMonoidHom := (Subgroup.map_map _ _ _).symm
     _ = (barImage L B).map (MulAut.conj (uc22p21cPi L l)).toMonoidHom := rfl
 
+omit [Finite G] in
 private theorem card_sup_pCoreOf_of_card_three {L X : Subgroup G} (hXL : X ≤ L)
     (hX3 : IsPGroup 3 X) (hXc : Nat.card X = 3) :
     Nat.card ↥(X ⊔ pCoreOf 2 L) = 3 * Nat.card (pCoreOf 2 L) := by
@@ -61,7 +63,8 @@ private theorem card_sup_pCoreOf_of_card_three {L X : Subgroup G} (hXL : X ≤ L
         (CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 L)) hdisj,
       hXc, Nat.mul_comm]
 
-private theorem le_sup_pCoreOf_of_barImage_eq {L X Y : Subgroup G} (hXL : X ≤ L) (hYL : Y ≤ L)
+omit [Finite G] in
+private theorem le_sup_pCoreOf_of_barImage_eq {L X Y : Subgroup G} (_hXL : X ≤ L) (hYL : Y ≤ L)
     (hbar : barImage L X = barImage L Y) : Y ≤ X ⊔ pCoreOf 2 L := by
   intro y hy
   have hybar : uc22p21cPi L ⟨y, hYL hy⟩ ∈ barImage L Y :=
@@ -81,7 +84,7 @@ private theorem le_sup_pCoreOf_of_barImage_eq {L X Y : Subgroup G} (hXL : X ≤ 
 private theorem not_dvd_index_subgroupOf_of_card_three {L X H : Subgroup G} (hXH : X ≤ H)
     (hXc : Nat.card X = 3) (hHcard : Nat.card ↥H = 3 * Nat.card (pCoreOf 2 L)) :
     ¬ 3 ∣ (X.subgroupOf H).index := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   intro hdvd
   have hmul := Subgroup.card_mul_index (X.subgroupOf H)
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hXH).toEquiv, hXc, hHcard] at hmul
@@ -97,7 +100,7 @@ private theorem exists_conj_of_barImage_eq_of_card_three {L X Y : Subgroup G}
     (hXL : X ≤ L) (hYL : Y ≤ L) (hX3 : IsPGroup 3 X) (hY3 : IsPGroup 3 Y)
     (hXc : Nat.card X = 3) (hYc : Nat.card Y = 3) (hbar : barImage L X = barImage L Y) :
     ∃ l ∈ L, Y = X.map (MulAut.conj l).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hNL : pCoreOf 2 L ≤ L := Subgroup.map_subtype_le _
   have hXH : X ≤ X ⊔ pCoreOf 2 L := le_sup_left
   have hYH : Y ≤ X ⊔ pCoreOf 2 L := le_sup_pCoreOf_of_barImage_eq hXL hYL hbar

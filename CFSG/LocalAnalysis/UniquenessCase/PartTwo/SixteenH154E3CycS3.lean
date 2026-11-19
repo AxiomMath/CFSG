@@ -20,7 +20,7 @@ private theorem s16h_e3_card_two_eq {M : Type*} [Group M] {A : Subgroup M}
   exact Subtype.ext_iff.mp (hay.trans hby.symm)
 
 private theorem s16h_e3_prime_ne_two (D : Data G) {V₀ V L : Subgroup G}
-    (hV : IsElemAbelian 2 V) {p : ℕ} (hp : p.Prime)
+    (hV : IsElemAbelian 2 V) {p : ℕ} (_hp : p.Prime)
     (hLp : IsCyclicOrd ↥(lBar V₀ V hV L) p)
     (hχ : ¬ ∀ n ∈ Mbar D.M V₀ V hV,
       n ∈ normalizer ((lBar V₀ V hV L : Subgroup _) : Set _) →

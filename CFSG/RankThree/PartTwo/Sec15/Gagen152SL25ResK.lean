@@ -101,21 +101,21 @@ theorem le_normalizer_of_cover_of_perfect {c : G} {K D X : Subgroup G}
     exact hperf.commutator_eq_top
   have hJC : J ≤ C := hJθ.trans (Subgroup.map_subtype_le _)
   have hJsolv : Group.IsSolvable ↥J := by
-    haveI : Group.IsSolvable ↥(aschbacherSolvableCore 3 ↥C) :=
+    have : Group.IsSolvable ↥(aschbacherSolvableCore 3 ↥C) :=
       (solvable_prime_complement_core_characterization (H := ↥C) Nat.prime_three).1
     have hJsub : J.subgroupOf C ≤ aschbacherSolvableCore 3 ↥C := by
       intro x hx
       obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.mp (hJθ (Subgroup.mem_subgroupOf.mp hx))
       have hyx' : y = x := Subtype.ext hyx
       simpa [hyx'] using hy
-    haveI : Group.IsSolvable ↥(J.subgroupOf C) :=
+    have : Group.IsSolvable ↥(J.subgroupOf C) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJsub)
         (Subgroup.inclusion_injective hJsub)
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hJC).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hJC).symm.injective
   have hJsolvX : Group.IsSolvable ↥(J.subgroupOf X) := by
-    haveI : Group.IsSolvable ↥J := hJsolv
+    have : Group.IsSolvable ↥J := hJsolv
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hJX).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hJX).injective
@@ -124,11 +124,11 @@ theorem le_normalizer_of_cover_of_perfect {c : G} {K D X : Subgroup G}
     have hq : q ∈ (J.subgroupOf X).map π := by rw [hJmap]; exact Subgroup.mem_top q
     obtain ⟨j, hj, hje⟩ := Subgroup.mem_map.mp hq
     exact ⟨⟨j, hj⟩, hje⟩
-  haveI : Group.IsSolvable (↥X ⧸ θX) := by
-    haveI : Group.IsSolvable ↥(J.subgroupOf X) := hJsolvX
+  have : Group.IsSolvable (↥X ⧸ θX) := by
+    have : Group.IsSolvable ↥(J.subgroupOf X) := hJsolvX
     exact Group.isSolvable_of_surjective (f := π.comp (J.subgroupOf X).subtype) hsurj
-  haveI : Group.IsPerfect (↥X ⧸ θX) := hperf
-  haveI : Nontrivial (↥X ⧸ θX) := hnt
+  have : Group.IsPerfect (↥X ⧸ θX) := hperf
+  have : Nontrivial (↥X ⧸ θX) := hnt
   exact Group.IsPerfect.not_isSolvable (↥X ⧸ θX) inferInstance
 
 theorem ResCtx.le_normalizer_of_cover (h : ResCtx A c L M X B b d Lb p P e) {K : Subgroup G}
@@ -165,7 +165,7 @@ theorem pCoreOf_le_theta_of_eq_sup {K T : Subgroup G} (hTK : T ≤ K)
     (hK : K = T ⊔ inSubgroup (aschbacherSolvableCore 3) K) :
     CFSG.Open.pCoreOf 2 T ≤ inSubgroup (aschbacherSolvableCore 3) K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let θ : Subgroup ↥K := aschbacherSolvableCore 3 ↥K
   let π : ↥K →* (↥K ⧸ θ) := QuotientGroup.mk' θ
   let inc : ↥T →* ↥K := Subgroup.inclusion hTK
@@ -195,7 +195,7 @@ theorem pCoreOf_le_theta_of_eq_sup {K T : Subgroup G} (hTK : T ≤ K)
     have hbase : IsPGroup 2 (Q.map φ) := IsPGroup.map (p := 2) hQ2 φ
     simpa [P] using hbase
   have hPsolv : Group.IsSolvable ↥P := by
-    haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
+    have : Group.IsNilpotent ↥P := hP2.isNilpotent
     exact IsNilpotent.to_isSolvable
   let M : Subgroup ↥K := P.comap π
   have hθM : θ ≤ M := by
@@ -230,12 +230,12 @@ theorem pCoreOf_le_theta_of_eq_sup {K T : Subgroup G} (hTK : T ≤ K)
   obtain ⟨hθsolv, -, hθ3, hmax, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥K) Nat.prime_three
   have hMsolv : Group.IsSolvable ↥M := by
-    haveI : Group.IsSolvable ↥θ := hθsolv
-    haveI : Group.IsSolvable ↥(θ.subgroupOf M) :=
+    have : Group.IsSolvable ↥θ := hθsolv
+    have : Group.IsSolvable ↥(θ.subgroupOf M) :=
       Group.isSolvable_of_isSolvable_injective
         (f := (Subgroup.subgroupOfEquivOfLe hθM).toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hθM).injective
-    haveI : Group.IsSolvable ↥P := hPsolv
+    have : Group.IsSolvable ↥P := hPsolv
     refine Group.isSolvable_of_ker_le_range (f := Subgroup.inclusion hθM) (g := g) ?_
     rw [hgker, Subgroup.inclusion_range]
   have hP3 : ¬ 3 ∣ Nat.card ↥P := by

@@ -78,8 +78,8 @@ theorem exists_conj_of_sylow {G : Type*} [Group G] [Finite G] {L V : Subgroup G}
     ∃ σ : G ≃* G, ∃ m < p, ∃ t₁ ∈ V.map σ.toMonoidHom,
       x ^ m ∈ L.map σ.toMonoidHom ∧ x ^ m * t₁ * (x ^ m)⁻¹ ≠ t₁ := by
   obtain ⟨g, m, hm, hgm⟩ := exists_conj_pow hx hpi hyk
-  refine ⟨MulAut.conj g⁻¹, m, hm, g⁻¹ * t * g, ⟨t, ht, by simp [MulAut.conj_apply]⟩,
-    ⟨y, hy, by simp [MulAut.conj_apply, hgm]⟩, ?_⟩
+  refine ⟨MulAut.conj g⁻¹, m, hm, g⁻¹ * t * g, ⟨t, ht, by simp⟩,
+    ⟨y, hy, by simp [hgm]⟩, ?_⟩
   rw [← hgm]
   intro he
   apply hyt

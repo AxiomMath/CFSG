@@ -24,7 +24,7 @@ theorem config_4B : ∃ β ξ η δ : alternatingGroup (Fin 8),
 theorem hasLine_4B (hL : F5Local G a z) : HasLine a z .k4B .k3A .k3A := by
   obtain ⟨E⟩ := A8Emb.nonempty hL
   obtain ⟨β, ξ, η, δ, hβ, hξ, hη, hβξ, h3, h1, hδ, hβδ, hηδ, hξη, h3', h1', hξηδ⟩ := config_4B
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have o1 : orderOf (E.φ β * E.φ η) = 3 := by
     rw [← map_mul, E.orderOf_φ]; exact orderOf_eq_prime h3 h1
   have o2 : orderOf (E.φ β * (E.φ ξ * E.φ η)) = 3 := by

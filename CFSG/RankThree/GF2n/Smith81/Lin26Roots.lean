@@ -111,7 +111,7 @@ theorem Ctx.sup_QB_comm_inf_mem (hc : Ctx M Q Z B) {g d : G} (hg : g ∈ Q ⊔ Q
         rw [e]
         exact (Z ⊔ B).mul_mem ((Subgroup.mem_normalizer_iff.mp haN _).mp (hb d hd)) (ha d hd)
       one_mem' := ⟨Subgroup.one_mem _, fun d _ => by
-        simp only [commutatorElement_def]; simpa using (Z ⊔ B).one_mem⟩
+        simp only [commutatorElement_def]; simp⟩
       inv_mem' := by
         rintro a ⟨haN, ha⟩
         refine ⟨Subgroup.inv_mem _ haN, fun d hd => ?_⟩

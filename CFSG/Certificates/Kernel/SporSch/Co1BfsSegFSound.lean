@@ -60,7 +60,7 @@ theorem bfsK_of_seg {F : Nat → Nat → Nat} {ng cap N R : Nat} {P PAR LAB W S 
         rw [Nat.succ_mul] at hle ⊢; omega
       rw [hf, bfsRunK_of_seg _ _ _ _ hne, e, Nat.succ_mul]
   have htail : bfsRunK F P PAR LAB W ng cap (0 + 1) N N = N := by
-    rw [bfsRunK_succ_eq, if_neg (fun h => Nat.lt_irrefl N h.1)]
+    rw [bfsRunK_succ_eq, ite_eq_right (fun h => Nat.lt_irrefl N h.1)]
   have hfin : bfsRunK F P PAR LAB W ng cap (N + 1) 0 1 = N := by
     have e1 : N + 1 - N = 0 + 1 := by omega
     rw [hrun m (Nat.le_refl m), hmK, hcN, e1, htail]

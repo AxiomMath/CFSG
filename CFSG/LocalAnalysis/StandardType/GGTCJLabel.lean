@@ -261,14 +261,14 @@ theorem tcjLabel_ggHasLabel_canonLabel {X : Type} [Group X] {lab : LargeEvenLabe
 theorem tcj_component_hasLabel {S : Type} [Group S] [Finite S]
     (p : ℕ) (hp : p.Prime)
     (hp2 : p ≠ 2) (lab : LargeEvenLabel) (α : MulAut S) (K : Subgroup S)
-    (hlab : LargeEvenInLambda2 lab) (hcen : Subgroup.center S = ⊥) (hin : InnDiagKind S lab α)
+    (_hlab : LargeEvenInLambda2 lab) (hcen : Subgroup.center S = ⊥) (hin : InnDiagKind S lab α)
     (hα : α ^ p = 1) (hK : CFSG.Assembly.IsComponentOf K (ggFixSub α)) :
     ∃ labJ0 : LargeEvenLabel, LargeEvenInLambda2 labJ0 ∧
       HasLabel ↥K (fun l : GLALabel => l = labJ0) := by
   obtain ⟨hcomm, labK, hlabK, hraw⟩ := hin
   obtain ⟨R, hR, I, F, hsimpleR, hnaR, θ, -⟩ :=
     CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw
-  haveI : IsSimpleGroup R := hsimpleR
+  have : IsSimpleGroup R := hsimpleR
   let e : S ≃* R :=
     (((QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot).symm).trans θ
   have hsimpleS : IsSimpleGroup S := e.isSimpleGroup

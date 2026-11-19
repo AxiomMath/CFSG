@@ -43,10 +43,10 @@ theorem wordProd_eq_wv {n : Nat} (g : Nat → Equiv.Perm (Fin n)) (r : List (Nat
     cases b
     · have h1 : ¬ (0 : Int) < -((i : Int) + 1) := by omega
       have h2 : (-(-((i : Int) + 1))).toNat - 1 = i := by omega
-      simp [lv, letterOf, h1, h2]
+      simp [lv, letterOf]
     · have h1 : (0 : Int) < (i : Int) + 1 := by omega
       have h2 : ((i : Int) + 1).toNat - 1 = i := by omega
-      simp [lv, letterOf, h1, h2]
+      simp [lv, letterOf, h1]
 
 section Alpha
 
@@ -56,7 +56,7 @@ noncomputable def vP (k : Nat) : Pv :=
 
 theorem coe_vP : ∀ k < 7, ((vP k : Pv) : Equiv.Perm (Fin 245520)) = gI sgen OPV.D k := by
   intro k hk
-  rw [vP, dif_pos hk]
+  rw [vP, dite_eq_left hk]
 
 theorem wv_vP {w : List Int} (hw : Lm 7 w) :
     wv (fun k => ((vP k : Pv) : Equiv.Perm (Fin 245520))) w = wv (gI sgen OPV.D) w :=
@@ -97,9 +97,9 @@ theorem coe_toPv_wordG : ∀ {w : List Int}, Lm 7 w →
     congr 1
     unfold presLetter lv toPv
     by_cases hp : 0 < z
-    · rw [if_pos hp, if_pos hp, presHom_presGen _ _ _ (by rw [generatorCount_eq]; omega),
+    · rw [ite_eq_left hp, ite_eq_left hp, presHom_presGen _ _ _ (by rw [generatorCount_eq]; omega),
         coe_vP _ (by omega), show (z - 1).toNat = z.toNat - 1 by omega]
-    · rw [if_neg hp, if_neg hp, map_inv, presHom_presGen _ _ _ (by rw [generatorCount_eq]; omega),
+    · rw [ite_eq_right hp, ite_eq_right hp, map_inv, presHom_presGen _ _ _ (by rw [generatorCount_eq]; omega),
         InvMemClass.coe_inv, coe_vP _ (by omega), show (-z - 1).toNat = (-z).toNat - 1 by omega]
 
 theorem gI79_eq : gI sgen OPV.D 79 = evalS alphaWordA := by

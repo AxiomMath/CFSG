@@ -20,10 +20,12 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
   map_one' := Outside.conjAut_one _ _
   map_mul' a b := Outside.conjAut_mul _ a.2 b.2 (mul_mem a.2 b.2)
 
+omit [Finite G] in
 theorem z4iPsi_apply_coe (g : ↥(ctxNQ t tau x₁ x₂ rho)) (q : ↥(ctxQ t tau x₁ x₂ rho)) :
     ((z4iPsi t tau x₁ x₂ rho g q : ↥(ctxQ t tau x₁ x₂ rho)) : G) = (g : G) * q * (g : G)⁻¹ :=
   rfl
 
+omit [Finite G] in
 theorem z4iPsi_eq_one_iff (g : ↥(ctxNQ t tau x₁ x₂ rho)) :
     z4iPsi t tau x₁ x₂ rho g = 1 ↔ (g : G) ∈ ctxCQ t tau x₁ x₂ rho := by
   constructor
@@ -44,11 +46,11 @@ theorem z4iPsi_eq_one_iff (g : ↥(ctxNQ t tau x₁ x₂ rho)) :
     show (z4iPsi t tau x₁ x₂ rho g) q = q
     apply Subtype.ext
     rw [z4iPsi_apply_coe]
-    change (g : G) * (q : G) * (g : G)⁻¹ = (q : G)
     have hcomm : (q : G) * (g : G) = (g : G) * (q : G) :=
       Subgroup.mem_centralizer_iff.mp h (q : G) q.2
     rw [← hcomm, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite G] in
 theorem ctxKI_le_NQ (t tau x₁ x₂ rho : G) :
     ctxKI t tau x₁ x₂ rho ≤ ctxNQ t tau x₁ x₂ rho :=
   fun _ hk => hk.2.1
@@ -60,6 +62,7 @@ theorem ctxKI_le_NQ (t tau x₁ x₂ rho : G) :
 @[expose] def z4iV (t tau x₁ x₂ rho : G) : Subgroup ↥(ctxQ t tau x₁ x₂ rho) :=
   (fourGrp x₁ x₂).subgroupOf (ctxQ t tau x₁ x₂ rho)
 
+omit [Finite G] in
 theorem z4i_relIndex_eq_card (t tau x₁ x₂ rho : G) :
     (ctxCQ t tau x₁ x₂ rho).relIndex (ctxKI t tau x₁ x₂ rho) =
       Nat.card (z4iPsiK t tau x₁ x₂ rho).range := by
@@ -134,7 +137,7 @@ theorem z4i_tauBar_ne_one (hz : Ctx4Z t L S x₁ x₂ lam rho tau) : hz.z4iTauBa
   intro h
   apply hz.z4i_tau_not_mem_C
   exact (z4iPsi_eq_one_iff ⟨tau, hz.z4i_tau_mem_NQ⟩).mp
-    (by change z4iPsi t tau x₁ x₂ rho ⟨tau, hz.z4i_tau_mem_NQ⟩ = 1; exact h)
+    (by exact h)
 
 theorem z4i_card_V (hz : Ctx4Z t L S x₁ x₂ lam rho tau) :
     Nat.card (z4iV t tau x₁ x₂ rho) = 4 := by
@@ -216,7 +219,6 @@ theorem z4i_psi_fixY (hz : Ctx4Z t L S x₁ x₂ lam rho tau) (g : ↥(ctxNQ t t
   apply Subtype.ext
   change ((z4iPsi t tau x₁ x₂ rho g q : ↥(ctxQ t tau x₁ x₂ rho)) : G) = (q : G)
   rw [z4iPsi_apply_coe]
-  change (g : G) * (q : G) * (g : G)⁻¹ = (q : G)
   have hq2 : (q : G) ^ 2 = 1 := by
     have := congrArg (fun x : ↥(ctxQ t tau x₁ x₂ rho) => (x : G)) hq
     simpa using this

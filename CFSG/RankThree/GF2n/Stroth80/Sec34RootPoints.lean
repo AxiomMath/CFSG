@@ -136,9 +136,9 @@ theorem mem_Nsub {x : M₀.E} (hx : x ∈ P.R) {y : M₀.E} :
   simp only [Nsub, hx, dite_true]
   exact Iff.rfl
 
-theorem far_hom {x y : M₀.E} (hx : x ∈ P.R) (hy : y ∈ P.R) (hxy : M₀.B x y = 0)
+theorem far_hom {x y : M₀.E} (hx : x ∈ P.R) (_hy : y ∈ P.R) (hxy : M₀.B x y = 0)
     (hyD : y ∉ P.D x) (a b a' b' : K) (hdet : a * b' - b * a' ≠ 0)
-    (hu : a • x + b • y ∈ P.R) (hw : a' • x + b' • y ∈ P.R) :
+    (hu : a • x + b • y ∈ P.R) (_hw : a' • x + b' • y ∈ P.R) :
     a' • x + b' • y ∉ P.D (a • x + b • y) := by
   intro hw'
   have huD : a • x + b • y ∈ P.D (a • x + b • y) := P.mem_D _ hu
@@ -238,7 +238,7 @@ theorem Nsub_smul {x : M₀.E} (hx : x ∈ P.R) (c : K) (hc : c ≠ 0) :
 
 theorem no_rootPlane3 (U : Submodule K M₀.E) (hU : Module.finrank K U = 3)
     (hUs : ∀ u ∈ U, M₀.Qf u = 0) (hUR : ∀ u ∈ U, u ≠ 0 → u ∈ P.R) : False := by
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   have hBU : ∀ u ∈ U, ∀ v ∈ U, M₀.B u v = 0 := by
     intro u hu v hv
     have h := M₀.Qf_add u v
@@ -619,7 +619,7 @@ theorem span_singleton_le_of_mem {p : Submodule K M₀.E} {v : M₀.E} (h : v �
 
 theorem finrank_span_pair {a b : M₀.E} (ha : a ≠ 0) (hb : b ∉ Submodule.span K {a}) :
     Module.finrank K ↥(Submodule.span K {a} ⊔ Submodule.span K {b}) = 2 := by
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   have hb0 : b ≠ 0 := fun h => hb (by rw [h]; exact Submodule.zero_mem _)
   have hd : Disjoint (Submodule.span K {a}) (Submodule.span K {b}) :=
     (Submodule.disjoint_span_singleton' hb0).mpr hb
@@ -632,7 +632,7 @@ theorem finrank_span_pair {a b : M₀.E} (ha : a ≠ 0) (hb : b ∉ Submodule.sp
 theorem span_sup_eq_Nsub (hH : ∀ w ∈ P.R, Module.finrank K (P.Nsub w) ≤ 2) {x z : M₀.E}
     (hx : x ∈ P.R) (hzN : z ∈ P.Nsub x) (hzx : z ∉ Submodule.span K {x}) :
     Submodule.span K {x} ⊔ Submodule.span K {z} = P.Nsub x := by
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   have hxN : x ∈ P.Nsub x := (P.mem_Nsub hx).mpr ⟨P.mem_D x hx, Or.inr hx⟩
   have hle : Submodule.span K {x} ⊔ Submodule.span K {z} ≤ P.Nsub x :=
     sup_le (span_singleton_le_of_mem hxN) (span_singleton_le_of_mem hzN)
@@ -649,10 +649,10 @@ theorem false_of_Nsub_big
       M₀.B x c' = 0 → c' ∉ P.D x → c' ∈ Submodule.span K {x} ⊔ Submodule.span K {c})
     (hdim : 5 ≤ Module.finrank K M₀.E)
     {x : M₀.E} (hx : x ∈ P.R) (hbig : ¬ P.Nsub x ≤ Submodule.span K {x}) : False := by
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   have hx0 : x ≠ 0 := P.R_ne x hx
   have hxN : x ∈ P.Nsub x := (P.mem_Nsub hx).mpr ⟨P.mem_D x hx, Or.inr hx⟩
-  obtain ⟨z₀, hz₀N, hz₀⟩ := SetLike.not_le_iff_exists.mp hbig
+  obtain ⟨z₀, hz₀N, hz₀⟩ := IsConcreteLE.not_le_iff_exists.mp hbig
   obtain ⟨c, hcR, hxc, hcD⟩ := P.far_exists x hx
   have hcx : M₀.B c x = 0 := by
     rw [Tim79.QuadModel.B_comm c x, hxc, neg_zero]

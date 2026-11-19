@@ -22,7 +22,7 @@ section Generic
 variable [Finite K]
 
 theorem sec33_exists_sylow_rootCenter_of_invol {n i e : ℕ} (h : BenderType K n i e) {x : K}
-    (hx : x * x = 1) (hx1 : x ≠ 1) : ∃ Q : Sylow 2 K, x ∈ rootCenter (Q : Subgroup K) := by
+    (hx : x * x = 1) (_hx1 : x ≠ 1) : ∃ Q : Sylow 2 K, x ∈ rootCenter (Q : Subgroup K) := by
   obtain ⟨Q, hQ⟩ := exists_sylow_mem_of_mul_self hx
   obtain ⟨t, hc⟩ := h.exists_benderCore Q
   exact ⟨Q, hc.mem_rootCenter_of_mul_self hQ hx⟩
@@ -42,9 +42,9 @@ theorem sec33_exists_mem_smul_eq_of_ne {n i e : ℕ} (h : BenderType K n i e) {Q
   refine ⟨p₂ * p₁⁻¹, (Q : Subgroup K).mul_mem hp₂ ((Q : Subgroup K).inv_mem hp₁), ?_⟩
   rw [← mul_smul, show p₂ * p₁⁻¹ * (p₁ * t) = p₂ * t by group]
 
-theorem sec33_partner_unique {n i : ℕ} (h : BenderType K n i 1) {m : ℕ} (hm : Odd m)
+theorem sec33_partner_unique {n i : ℕ} (h : BenderType K n i 1) {m : ℕ} (_hm : Odd m)
     (hT : Sec33DihTrans K m) {S : Sylow 2 K} {a b x : K} (ha : a ∈ rootCenter (S : Subgroup K))
-    (hb : b ∈ rootCenter (S : Subgroup K)) (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hx : x * x = 1)
+    (hb : b ∈ rootCenter (S : Subgroup K)) (ha1 : a ≠ 1) (_hb1 : b ≠ 1) (hx : x * x = 1)
     (hx1 : x ≠ 1) (hxS : x ∉ (S : Subgroup K)) (hax : (a * x) ^ m = 1) (hbx : (b * x) ^ m = 1) :
     a = b := by
   have haS : a ∈ (S : Subgroup K) := rootCenter_le _ ha
@@ -75,7 +75,7 @@ theorem sec33_partner_unique {n i : ℕ} (h : BenderType K n i 1) {m : ℕ} (hm 
     simpa using (borel (S : Subgroup K)).inv_mem h1
   have hgS : g ∈ (S : Subgroup K) := by
     have hP : IsPGroup 2 (zpowers g) :=
-      IsPGroup.to_le Qx.isPGroup' ((Subgroup.zpowers_le).mpr hgx')
+      IsPGroup.to_le Qx.isPGroup ((Subgroup.zpowers_le).mpr hgx')
     have h1 : g ∈ zpowers g ⊓ normalizer (S : Set K) :=
       ⟨Subgroup.mem_zpowers g, hgB⟩
     rw [hP.inf_normalizer_sylow S] at h1
@@ -106,7 +106,7 @@ theorem sec33_eq_one_of_sq_of_pow {g : K} (hg : g * g = 1) {m : ℕ} (hm : Odd m
   exact hgm
 
 theorem sec33_partner_exists {n i : ℕ} (h : BenderType K n i 1) {m : ℕ} (hm : Odd m)
-    (hT : Sec33DihTrans K m) (hne : ∃ a x : K, a * a = 1 ∧ x * x = 1 ∧ a ≠ x ∧ (a * x) ^ m = 1)
+    (_hT : Sec33DihTrans K m) (hne : ∃ a x : K, a * a = 1 ∧ x * x = 1 ∧ a ≠ x ∧ (a * x) ^ m = 1)
     {P P' : Sylow 2 K} (hPP : P ≠ P') {x : K} (hx : x ∈ rootCenter (P' : Subgroup K))
     (hx1 : x ≠ 1) :
     ∃ a ∈ rootCenter (P : Subgroup K), a ≠ 1 ∧ (a * x) ^ m = 1 := by
@@ -194,7 +194,7 @@ theorem sec33_partner_exists {n i : ℕ} (h : BenderType K n i 1) {m : ℕ} (hm 
 omit [Finite K] in
 theorem sec33_orderOf_mul_invol {m : ℕ} (hm : m.Prime) {a x : K} (hax : a ≠ x) (hx : x * x = 1)
     (hp : (a * x) ^ m = 1) : orderOf (a * x) = m := by
-  haveI : Fact m.Prime := ⟨hm⟩
+  have : Fact m.Prime := ⟨hm⟩
   refine orderOf_eq_prime hp fun h1 => hax ?_
   have : a = x⁻¹ := eq_inv_of_mul_eq_one_left h1
   rw [this]
@@ -245,7 +245,7 @@ theorem sec33_exists_centralizes_conj_of_invert {m : ℕ} (hm : m.Prime) (hodd :
       omega
     have hzu : u * z = z * u := (Commute.pow_left (show Commute c u from hcu)
       (orderOf c / 2)).symm.eq
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hP := hinvol z hzz hz1
     have huC : u ∈ centralizer ({z} : Set K) := Subgroup.mem_centralizer_singleton_iff.mpr hzu
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hP) ⟨u, huC⟩
@@ -341,6 +341,7 @@ theorem sec33_dihTrans_of_data {m : ℕ} (hm : m.Prime) (hodd : Odd m)
       _ = x' := hcx
 
 
+omit [Finite K] in
 theorem sec33_mem_smul_sylow_iff {p : ℕ} [Fact p.Prime] {P : Sylow p K} {k z : K} :
     z ∈ ((k • P : Sylow p K) : Subgroup K) ↔ k⁻¹ * z * k ∈ (P : Subgroup K) := by
   rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem, ← map_inv,
@@ -349,7 +350,7 @@ theorem sec33_mem_smul_sylow_iff {p : ℕ} [Fact p.Prime] {P : Sylow p K} {k z :
 theorem sec33_g1_of_cyclic {m : ℕ} (hm : m.Prime) (hodd : Odd m)
     (hcyc : ∀ A : Subgroup K, Odd (Nat.card A) → A ≠ ⊥ → ∃ T : Subgroup K, A ≤ T ∧ IsCyclic T) :
     ∀ u v : K, orderOf u = m → orderOf v = m → ∃ g : K, g * u * g⁻¹ ∈ zpowers v := by
-  haveI : Fact m.Prime := ⟨hm⟩
+  have : Fact m.Prime := ⟨hm⟩
   intro u v hu hv
   have hzp : ∀ w : K, orderOf w = m → IsPGroup m (zpowers w) := fun w hw =>
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hw, pow_one])
@@ -360,7 +361,7 @@ theorem sec33_g1_of_cyclic {m : ℕ} (hm : m.Prime) (hodd : Odd m)
     rw [← hg, sec33_mem_smul_sylow_iff, show g⁻¹ * (g * u * g⁻¹) * g = u by group]
     exact hPu (Subgroup.mem_zpowers u)
   have hPvodd : Odd (Nat.card (Pv : Subgroup K)) := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card.mp Pv.isPGroup')
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card.mp Pv.isPGroup)
     rw [hk]
     exact Odd.pow hodd
   have hPvne : (Pv : Subgroup K) ≠ ⊥ := by
@@ -427,7 +428,7 @@ theorem sec33_dihTrans_type1 {n : ℕ} (h : BenderType K n 1 1) : Sec33DihTrans 
 
 theorem sec33_exists_dih_type1 {n : ℕ} (h : BenderType K n 1 1) :
     ∃ a x : K, a * a = 1 ∧ x * x = 1 ∧ a ≠ x ∧ (a * x) ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card K := by
     rw [h.card_eq]
     exact three_dvd_linear_card n
@@ -474,6 +475,7 @@ theorem sec33_type2_cyclic {n : ℕ} (h : BenderType K n 2 1) :
   obtain ⟨T, hAT, hT, -⟩ := h.suzuki_odd_subgroup hA hA1
   exact ⟨T, hAT, hT⟩
 
+omit [Finite K] in
 theorem sec33_five_dvd_sz {n : ℕ} (h : BenderType K n 2 1) : 5 ∣ (2 ^ n) ^ 2 + 1 := by
   rcases h.cases' with ⟨hi, -, -⟩ | ⟨-, -, a, -, hn⟩ | ⟨hi, -, -⟩
   · omega
@@ -482,7 +484,7 @@ theorem sec33_five_dvd_sz {n : ℕ} (h : BenderType K n 2 1) : 5 ∣ (2 ^ n) ^ 2
     omega
   · omega
 
-theorem sec33_g2_five {n : ℕ} (h : BenderType K n 2 1) {a x : K} (ha : a * a = 1) (hx : x * x = 1)
+theorem sec33_g2_five {n : ℕ} (h : BenderType K n 2 1) {a x : K} (_ha : a * a = 1) (hx : x * x = 1)
     (hax : a ≠ x) (hp : (a * x) ^ 5 = 1) :
     ∀ w ∈ zpowers (a * x), w ≠ 1 → ∃ k : K, k * (a * x) * k⁻¹ = w := by
   classical
@@ -588,7 +590,7 @@ theorem sec33_dihTrans_type2 {n : ℕ} (h : BenderType K n 2 1) : Sec33DihTrans 
 
 theorem sec33_exists_dih_type2 {n : ℕ} (h : BenderType K n 2 1) :
     ∃ a x : K, a * a = 1 ∧ x * x = 1 ∧ a ≠ x ∧ (a * x) ^ 5 = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hdvd : 5 ∣ Nat.card K := by
     rw [h.card_eq]
     exact (sec33_five_dvd_sz h).mul_right _
@@ -684,12 +686,12 @@ theorem sec33_type_match {J : Type} [Group J] [Finite J] {f n j i : ℕ} (hJ : B
         have : 1 < 2 ^ f := Nat.one_lt_two_pow (by omega)
         nlinarith
       omega
-    obtain ⟨y, hyP, hyc⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨y, hyP, hyc⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hyc' : ¬ ∀ p ∈ (P : Subgroup J), p * y = y * p := fun h' =>
       hyc (mem_rootCenter_iff.mpr ⟨hyP, h'⟩)
     push Not at hyc'
     obtain ⟨p, hpP, hpy⟩ := hyc'
-    have hp2 : IsPGroup 2 ((P : Subgroup J).map φ) := P.isPGroup'.map φ
+    have hp2 : IsPGroup 2 ((P : Subgroup J).map φ) := P.isPGroup.map φ
     obtain ⟨Q, hQ⟩ := hp2.exists_le_sylow
     obtain ⟨tK, hcK⟩ := hK.exists_benderCore Q
     have hQZ : rootCenter (Q : Subgroup K) = (Q : Subgroup K) :=
@@ -737,7 +739,7 @@ theorem sec33_exists_sylow_centralizes [Finite K] {n i e : ℕ}
   have hbB : b ∈ borel (S : Subgroup K) :=
     (sup_le (le_borel _) ((fixCartan_le_cartan _ _).trans (cartan_le_borel _ _))) hbC
   have hb2 : orderOf b = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [sq]; exact hb) hb1
   exact hcS.center_of_involution b hbB hb2
 
@@ -772,7 +774,7 @@ theorem sec33_bender_root_le {n i : ℕ} (h : BenderType K n i 1) (hi : i = 1 �
   have hbB : b ∈ borel (S : Subgroup K) :=
     (sup_le (le_borel _) ((fixCartan_le_cartan _ _).trans (cartan_le_borel _ _))) hbC
   have hb2 : orderOf b = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [sq]; exact hT₁ b hb) hb1
   have hbR : b ∈ rootCenter (S : Subgroup K) := hcS.center_of_involution b hbB hb2
   have hxS : x ∉ (S : Subgroup K) := by

@@ -50,7 +50,7 @@ theorem exists_inv_mul_map_mul_eq_HSL_frob
     rw [pow_two, AlgEquiv.mul_apply] at h
     rw [← FiniteField.natCard_extension (k := K) (p := 2) (n := 2)] at h
     have hx : x ^ Nat.card L = x := by
-      letI := Fintype.ofFinite L
+      let := Fintype.ofFinite L
       simpa only [Nat.card_eq_fintype_card] using FiniteField.pow_card x
     exact h.trans hx
   obtain ⟨c, hc⟩ := CFSG.StandardType.TwE6CorootCore.exists_map_eq_mul_nSL_of_conj_HSL
@@ -76,7 +76,7 @@ theorem exists_inv_mul_map_mul_eq_HSL_frob
     simp only [Matrix.SpecialLinearGroup.coe_mul, coe_WSL, coe_uSL, coe_vSL]
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-      first | rfl | linear_combination htwo | linear_combination (-1 : L) * htwo
+      first | linear_combination htwo | linear_combination (-1 : L) * htwo
   have hFP : Matrix.SpecialLinearGroup.map Fr P = P * eqpW := by
     simpa only [P, hW] using hFQ
   have hB : B = MulAut.conj Q (HSL ζ) := by

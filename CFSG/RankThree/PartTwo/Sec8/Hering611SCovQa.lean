@@ -21,7 +21,7 @@ namespace CFSG.RankThree.PartTwo.Sec8.Hering611
     show a * b * q * (a * b)⁻¹ * q⁻¹ ∈ Zh
     rw [e, hc]
     exact Zh.mul_mem (hb q) (ha q)
-  one_mem' := fun q => by simpa using Zh.one_mem
+  one_mem' := fun q => by simp
   inv_mem' := by
     intro a ha q
     have hz : (a * q * a⁻¹ * q⁻¹)⁻¹ ∈ Subgroup.center P :=
@@ -56,6 +56,7 @@ private theorem mk_comm_iff {G : Type*} [Group G] (N : Subgroup G) [N.Normal] (a
   simp only [QuotientGroup.mk_mul, QuotientGroup.mk_inv]
   rw [mul_inv_eq_one, mul_inv_eq_iff_eq_mul]
 
+omit [Finite P] in
 private theorem mem_covW_iff_mem_center [Zh.Normal] (hZc : Zh ≤ Subgroup.center P) (p : P) :
     p ∈ covW Zh hZc ↔ (p : P ⧸ Zh) ∈ Subgroup.center (P ⧸ Zh) := by
   rw [mem_covW, Subgroup.mem_center_iff]
@@ -66,11 +67,13 @@ private theorem mem_covW_iff_mem_center [Zh.Normal] (hZc : Zh ≤ Subgroup.cente
   · intro hc q
     exact (mk_comm_iff Zh p q).mp (hc (q : P ⧸ Zh)).symm
 
+omit [Finite P] in
 private theorem covQ_card_quot (h : CoverP P σ Zh) : Nat.card (P ⧸ Zh) = 27 := by
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup Zh
   rw [h.card_P, h.card_Z] at h1
   omega
 
+omit [Finite P] in
 private theorem covQ_nonab [Zh.Normal] (h : CoverP P σ Zh) :
     ∃ a b : P ⧸ Zh, a * b ≠ b * a := by
   obtain ⟨x, y, hxy⟩ := h.nonab
@@ -80,6 +83,7 @@ private theorem conj_eq_of_mem_center {G : Type*} [Group G] {z : G}
     (hz : z ∈ Subgroup.center G) (p : G) : p * z * p⁻¹ = z := by
   rw [Subgroup.mem_center_iff.mp hz p, mul_inv_cancel_right]
 
+omit [Finite P] in
 theorem Zh_le_covW (h : CoverP P σ Zh) : Zh ≤ covW Zh h.central := by
   intro z hz
   rw [mem_covW]
@@ -91,8 +95,9 @@ theorem Zh_le_covW (h : CoverP P σ Zh) : Zh ≤ covW Zh h.central := by
   rw [e]
   exact Zh.one_mem
 
+omit [Finite P] in
 theorem covW_card (h : CoverP P σ Zh) : Nat.card (covW Zh h.central) = 9 := by
-  haveI : Zh.Normal := Subgroup.normal_of_le_center h.central
+  have : Zh.Normal := Subgroup.normal_of_le_center h.central
   have hZ := CFSG.Quasithin.SzN31.card_center_eq_three_of_card_27 (covQ_card_quot h)
     (covQ_nonab h)
   have hidx : (covW Zh h.central).index = 9 := by
@@ -108,19 +113,22 @@ theorem covW_card (h : CoverP P σ Zh) : Nat.card (covW Zh h.central) = 9 := by
   rw [hidx, h.card_P] at h2
   omega
 
+omit [Finite P] in
 theorem commutator_mem_covW (h : CoverP P σ Zh) (x y : P) :
     x * y * x⁻¹ * y⁻¹ ∈ covW Zh h.central := by
-  haveI : Zh.Normal := Subgroup.normal_of_le_center h.central
+  have : Zh.Normal := Subgroup.normal_of_le_center h.central
   rw [mem_covW_iff_mem_center]
   simpa only [QuotientGroup.mk_mul, QuotientGroup.mk_inv] using
     CFSG.Quasithin.SzN31.SmD6Grp.commutator_mem_center (covQ_card_quot h) (covQ_nonab h)
       (x : P ⧸ Zh) (y : P ⧸ Zh)
 
+omit [Finite P] in
 theorem pow_three_mem_covW (h : CoverP P σ Zh) (x : P) : x ^ 3 ∈ covW Zh h.central := by
-  haveI : Zh.Normal := Subgroup.normal_of_le_center h.central
+  have : Zh.Normal := Subgroup.normal_of_le_center h.central
   rw [mem_covW_iff_mem_center, QuotientGroup.mk_pow]
   exact CFSG.Quasithin.SzN31.SmD6Grp.cube_mem_center (covQ_card_quot h) (covQ_nonab h) _
 
+omit [Finite P] in
 theorem conj_mem_covW (h : CoverP P σ Zh) {w : P} (hw : w ∈ covW Zh h.central) (p : P) :
     p * w * p⁻¹ ∈ covW Zh h.central := by
   rw [mem_covW]
@@ -132,6 +140,7 @@ theorem conj_mem_covW (h : CoverP P σ Zh) {w : P} (hw : w ∈ covW Zh h.central
   rw [e, conj_eq_of_mem_center (h.central hz) p]
   exact hz
 
+omit [Finite P] in
 theorem sigma_mem_covW (h : CoverP P σ Zh) {w : P} (hw : w ∈ covW Zh h.central) :
     σ w ∈ covW Zh h.central := by
   rw [mem_covW]

@@ -33,9 +33,9 @@ theorem normal_on (N : Subgroup G) : ((t.On N).subgroupOf N).Normal := by
   have hDnNorm : Dn.Normal := t.normal_Dn N
   let On : Subgroup ↥N := (CFSG.pPrimeCore 3 ↥Dn).map Dn.subtype
   have hOnNormal : On.Normal := by
-    haveI : Dn.Normal := hDnNorm
+    have : Dn.Normal := hDnNorm
     have hc : (CFSG.pPrimeCore 3 ↥Dn).Characteristic := CFSG.pPrimeCore_characteristic
-    haveI := hc
+    have := hc
     exact ConjAct.normal_of_characteristic_of_normal (H := Dn)
   have hOnMap : On.map N.subtype = t.On N := by
     let e : ↥Dn ≃* ↥D := Subgroup.subgroupOfEquivOfLe hDN
@@ -75,6 +75,7 @@ theorem le_normalizer_sol_on (N : Subgroup G) :
 variable {N : Subgroup G} {O S : Subgroup G} {Γ : Type*} [Group Γ] [Finite Γ]
   {π : ↥N →* Γ} {Ō Ā : Subgroup Γ}
 
+omit [Finite Γ] in
 private lemma sol_quotient_eq_bot (hS : S = sol O) (hSO : S ≤ O) (hON : O ≤ N)
     (hŌ : Ō = (O.subgroupOf N).map π) (hker : π.ker = S.subgroupOf N) : sol Ō = ⊥ := by
   classical
@@ -122,6 +123,7 @@ private lemma sol_quotient_eq_bot (hS : S = sol O) (hSO : S ≤ O) (hON : O ≤ 
   rw [sol_eq_bot_iff, ← hmap, ← subgroupOf_sol O, ← hS, Subgroup.map_eq_bot_iff]
   exact le_of_eq hgker.symm
 
+omit [Finite G] [Finite Γ] in
 private lemma range_comp_inclusion {U : Subgroup G} {L : Subgroup Γ}
     (hUN : U ≤ N) (hπU : (U.subgroupOf N).map π = L) :
     (π.comp (Subgroup.inclusion hUN)).range = L := by
@@ -135,6 +137,7 @@ private lemma range_comp_inclusion {U : Subgroup G} {L : Subgroup Γ}
       exact ⟨⟨x, hx⟩, rfl⟩
   rw [MonoidHom.range_eq_map, ← Subgroup.map_map, hincl, hπU]
 
+omit [Finite Γ] in
 private lemma le_normalizer_image_of_invariant {U : Subgroup G} {X : Subgroup ↥U}
     (hĀ : Ā = (t.Ky.subgroupOf N).map π) (hUN : U ≤ N) (hKN : t.Ky ≤ N)
     (hUK : t.Ky ≤ Subgroup.normalizer (U : Set G))
@@ -158,6 +161,7 @@ private lemma le_normalizer_image_of_invariant {U : Subgroup G} {X : Subgroup �
     rw [Subgroup.normalizerMonoidHom_apply_apply_coe]
   rw [heq, map_mul, map_mul, map_inv]
 
+omit [Finite Γ] in
 private lemma ky_le_normalizer_U {U : Subgroup G} {L : Subgroup Γ}
     (hĀ : Ā = (t.Ky.subgroupOf N).map π) (hUN : U ≤ N) (hKN : t.Ky ≤ N)
     (hAS : CFSG.SignalizerFunctorTheorem.Nonsolvable.IsASimple Ā L)
@@ -185,6 +189,7 @@ private lemma ky_le_normalizer_U {U : Subgroup G} {L : Subgroup Γ}
     Subgroup.mem_subgroupOf.mp hmem
   simpa using hxU
 
+omit [Finite Γ] in
 private lemma S_maximal {U X : Subgroup G} {L : Subgroup Γ}
     (hĀ : Ā = (t.Ky.subgroupOf N).map π) (hUN : U ≤ N) (hKN : t.Ky ≤ N)
     (hUK : t.Ky ≤ Subgroup.normalizer (U : Set G))
@@ -242,6 +247,7 @@ private lemma S_maximal {U X : Subgroup G} {L : Subgroup Γ}
     rw [heq]
     exact X.mul_mem hwX (hSX hdiffS)
 
+omit [Finite G] [Finite Γ] in
 private lemma commutator_U_not_le {U : Subgroup G} {L : Subgroup Γ}
     (hUN : U ≤ N) (hπU : (U.subgroupOf N).map π = L) (hker : π.ker = S.subgroupOf N)
     (hAS : CFSG.SignalizerFunctorTheorem.Nonsolvable.IsASimple Ā L) : ¬ ⁅U, U⁆ ≤ S := by
@@ -265,6 +271,7 @@ private lemma commutator_U_not_le {U : Subgroup G} {L : Subgroup Γ}
   exact hxy ((Subgroup.mem_centralizer_iff.mp
     (Subgroup.commutator_eq_bot_iff_le_centralizer.mp h4 hx)) y hy).symm
 
+omit [Finite Γ] in
 private lemma U_facts {U : Subgroup G} {L : Subgroup Γ}
     (hĀ : Ā = (t.Ky.subgroupOf N).map π) (hUN : U ≤ N) (hKN : t.Ky ≤ N)
     (hUL : U.subgroupOf N = L.comap π) (hker : π.ker = S.subgroupOf N)
@@ -333,9 +340,9 @@ private lemma pCore_two_le {U : Subgroup G} {L J : Subgroup Γ}
     intro h
     rw [h] at hT2
     have hJ2 : IsPGroup 2 ↥J := hT2.to_le hJleL
-    haveI : Group.IsNilpotent ↥J := IsPGroup.isNilpotent hJ2
-    haveI : Group.IsSolvable ↥J := inferInstance
-    haveI : IsSimpleGroup ↥J := hJsimple
+    have : Group.IsNilpotent ↥J := IsPGroup.isNilpotent hJ2
+    have : Group.IsSolvable ↥J := inferInstance
+    have : IsSimpleGroup ↥J := hJsimple
     exact hJnc (isMulCommutative_iff.mpr
       (IsSimpleGroup.comm_iff_isSolvable.mpr inferInstance))
   have hTbar_bot : Tbar = ⊥ := by
@@ -382,6 +389,7 @@ private lemma commutator_U_Ky_le {U : Subgroup G}
       _ ≤ _ := Subgroup.map_mono h4
   exact h1.trans (hQle.trans hO2)
 
+omit [Finite Γ] in
 private lemma commutator_L_A_eq_bot {U : Subgroup G} {L : Subgroup Γ}
     (hUN : U ≤ N) (hKN : t.Ky ≤ N) (hĀ : Ā = (t.Ky.subgroupOf N).map π)
     (hπU : (U.subgroupOf N).map π = L) (hker : π.ker = S.subgroupOf N)
@@ -498,7 +506,7 @@ private lemma Ō_eq_bot {O : Subgroup G} {zbar : Γ} (hŌNormal : Ō.Normal)
       x ∈ Subgroup.centralizer (kOf Ō : Set Γ) := by
     intro x hx
     rw [hgen] at hx
-    haveI : (Subgroup.centralizer (kOf Ō : Set Γ)).Normal := hCnormal
+    have : (Subgroup.centralizer (kOf Ō : Set Γ)).Normal := hCnormal
     have hle : Subgroup.normalClosure ((Subgroup.zpowers zbar : Subgroup Γ) : Set Γ) ≤
         Subgroup.centralizer (kOf Ō : Set Γ) :=
       Subgroup.normalClosure_le_normal (by
@@ -526,7 +534,8 @@ private lemma Ō_eq_bot {O : Subgroup G} {zbar : Γ} (hŌNormal : Ō.Normal)
   rw [hdisj] at hxi
   exact hxi
 
-private lemma map_Ky_le_normalizer_map_On (hON : O ≤ N) (hKN : t.Ky ≤ N)
+omit [Finite Γ] in
+private lemma map_Ky_le_normalizer_map_On (hON : O ≤ N) (_hKN : t.Ky ≤ N)
     (hONormal : (O.subgroupOf N).Normal) :
     (t.Ky.subgroupOf N).map π ≤ Subgroup.normalizer ((O.subgroupOf N).map π : Set Γ) := by
   rw [Subgroup.le_normalizer_iff]
@@ -541,6 +550,7 @@ private lemma map_Ky_le_normalizer_map_On (hON : O ≤ N) (hKN : t.Ky ≤ N)
   show π (k * o * k⁻¹) = π k * π o * (π k)⁻¹
   rw [map_mul, map_mul, map_inv]
 
+omit [Finite Γ] in
 private lemma map_zpowers_subgroupOf {z : G} (hzn : z ∈ N) (hZgen : t.Z = Subgroup.zpowers z) :
     (t.Z.subgroupOf N).map π = Subgroup.zpowers (π ⟨z, hzn⟩) := by
   have hzp : (t.Z.subgroupOf N) = Subgroup.zpowers (⟨z, hzn⟩ : ↥N) := by
@@ -554,6 +564,7 @@ private lemma map_zpowers_subgroupOf {z : G} (hzn : z ∈ N) (hZgen : t.Z = Subg
       exact ⟨n, congrArg Subtype.val hn⟩
   rw [hzp, MonoidHom.map_zpowers]
 
+omit [Finite G] [Finite Γ] in
 private lemma le_of_map_eq_bot (hbot : (O.subgroupOf N).map π = ⊥)
     (hker : π.ker = S.subgroupOf N) (hON : O ≤ N) (hSN : S ≤ N) : O ≤ S := by
   have h1 : O.subgroupOf N ≤ S.subgroupOf N := by
@@ -585,7 +596,7 @@ theorem On_le_sol (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
   let SN : Subgroup ↥N := S.subgroupOf N
   have hSNNormal : SN.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSN).mpr hNS
-  letI : SN.Normal := hSNNormal
+  let : SN.Normal := hSNNormal
   let Γ := ↥N ⧸ SN
   let π : ↥N →* Γ := QuotientGroup.mk' SN
   let Ō : Subgroup Γ := (O.subgroupOf N).map π

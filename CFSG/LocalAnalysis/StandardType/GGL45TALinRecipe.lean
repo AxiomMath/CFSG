@@ -140,9 +140,9 @@ theorem exists_frobPow_of_dvd [Finite k] {p n : ℕ} (hp : p.Prime) (hk : Nat.ca
     (hpn : p ∣ n) (hn : 1 ≤ n) :
     ∃ τ : k ≃+* k, (∀ a, τ a = a ^ 2 ^ (n / p)) ∧ τ ^ p = 1 ∧ τ ≠ 1 := by
   classical
-  haveI := Fintype.ofFinite k
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP k 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hk])
+  have := Fintype.ofFinite k
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP k 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hk])
   have hτ : ∀ a : k, iterateFrobeniusEquiv k 2 (n / p) a = a ^ 2 ^ (n / p) := fun a => rfl
   refine ⟨iterateFrobeniusEquiv k 2 (n / p), hτ, ?_, fun h1 => ?_⟩
   · ext a
@@ -172,7 +172,7 @@ theorem exists_frobPow_of_dvd [Finite k] {p n : ℕ} (hp : p.Prime) (hk : Nat.ca
 
 private theorem dvd_q₀_sub_one {p n : ℕ} (hp : p.Prime) (hpn : p ∣ n)
     (hq : (p : ℤ) ∣ 2 ^ n - 1) : (p : ℤ) ∣ ((2 ^ (n / p) : ℕ) : ℤ) - 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [← ZMod.intCast_zmod_eq_zero_iff_dvd] at hq ⊢
   push_cast at hq ⊢
   have h1 : ((2 : ZMod p) ^ (n / p)) ^ p = (2 : ZMod p) ^ (n / p) := ZMod.pow_card _
@@ -210,7 +210,7 @@ theorem ggL45TorusHRaw_linear_case2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {la
   obtain ⟨σ, hσ, hσp, hσ1⟩ := exists_field_of_orderOf (by omega) hp hf hford
   have hpn : p ∣ lab.n := by
     obtain ⟨hcard, -⟩ := card_ringAut_and_isCyclic Nat.prime_two k hk
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     rw [← hcard, ← orderOf_eq_prime hσp hσ1]
     exact orderOf_dvd_natCard σ
   have hn1 : 1 ≤ lab.n := by
@@ -220,7 +220,7 @@ theorem ggL45TorusHRaw_linear_case2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {la
     exact lt_irrefl _ h1
   have hn3 : 3 ≤ lab.n := hp3.trans (Nat.le_of_dvd (by omega) hpn)
   obtain ⟨τ, hτ, hτp, hτ1⟩ := exists_frobPow_of_dvd (k := k) hp hk hpn hn1
-  haveI : IsCyclic (k ≃+* k) := (card_ringAut_and_isCyclic Nat.prime_two k hk).2
+  have : IsCyclic (k ≃+* k) := (card_ringAut_and_isCyclic Nat.prime_two k hk).2
   obtain ⟨j, hj, hσj⟩ := ggL45NtAutAsm_exists_pow_of_cyclic hp hσp hτp hσ1 hτ1
   obtain ⟨j', -, hjj'⟩ := Nat.exists_mul_mod_eq_one_of_coprime (k := p) (n := j)
     (hp.coprime_iff_not_dvd.mpr hj).symm hp.one_lt
@@ -231,8 +231,8 @@ theorem ggL45TorusHRaw_linear_case2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {la
   have hσj' : σ ^ j' = τ := by
     rw [hσj, ← pow_mul, pow_eq_pow_mod _ hτp, hjj', pow_one]
   have hchar : CharP k 2 := by
-    haveI := Fintype.ofFinite k
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := Fintype.ofFinite k
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (f := lab.n) (by rw [← Nat.card_eq_fintype_card, hk])
   have hk8 : 8 ≤ Nat.card k := by
     rw [hk]

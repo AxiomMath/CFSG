@@ -126,7 +126,7 @@ theorem exists_agree {rs : Array (Array ℕ)} {base : Array ℕ} {m : ℕ} {e : 
 @[expose] def memBkt (n : ℕ) (B : Array (List (Array ℕ))) (a : Array ℕ) : Bool :=
   (B[bucketIdx n a]!).any (eqA n a)
 
-@[expose] def centFilter (n : ℕ) (base : Array ℕ) (gR : Array (Array ℕ)) (r s : Array ℕ) : Bool :=
+@[expose] def centFilter (_n : ℕ) (base : Array ℕ) (gR : Array (Array ℕ)) (r s : Array ℕ) : Bool :=
   allLt gR.size fun l => allLt base.size fun m =>
     r[s[(gR[l]!)[base[m]!]!]!]! == (gR[l]!)[r[s[base[m]!]!]!]!
 

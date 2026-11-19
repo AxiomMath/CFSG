@@ -16,8 +16,8 @@ theorem s13_outAbelian_of_isU3_even {X : Type} [Group X] [Finite X] {n : ℕ}
     (hq : CFSG.Open.IsQuasisimple X) (hU : IsU3 X n) (heven : Even n) :
     ∀ σ τ : MulAut X, ∃ y : X, σ * τ * σ⁻¹ * τ⁻¹ = MulAut.conj y := by
   obtain ⟨N, hNn, hInn, hcyc, -, hev⟩ := UCK.u3OutShape X n (uc22p22d_isSU3_of_isU3 hq hU)
-  haveI : N.Normal := hNn
-  haveI : IsCyclic (MulAut X ⧸ N) := hcyc
+  have : N.Normal := hNn
+  have : IsCyclic (MulAut X ⧸ N) := hcyc
   have hNeq : N = (MulAut.conj : X →* MulAut X).range := le_antisymm (hev heven) hInn
   intro σ τ
   have hmem : σ * τ * σ⁻¹ * τ⁻¹ ∈ N := by
@@ -52,8 +52,8 @@ theorem s13_mem_Lp_sup_Sp_of_inner {M : Subgroup G} {p : ℕ} (hp : p.Prime) (hp
       barImage M (F13.Lp M p ⊔ F13.Sp M p) := by
     rw [s13_barImage_sup (s13_Lp_le M p) (s13_Sp_le M p), hab]
     exact Subgroup.mul_mem_sup ha'E hb'S
-  haveI : ((F13.Lp M p).subgroupOf M).Normal := s13_Lp_normal M p
-  haveI : ((F13.Sp M p).subgroupOf M).Normal := s13_Sp_normal M p
+  have : ((F13.Lp M p).subgroupOf M).Normal := s13_Lp_normal M p
+  have : ((F13.Sp M p).subgroupOf M).Normal := s13_Sp_normal M p
   have hnormal : ((F13.Lp M p ⊔ F13.Sp M p).subgroupOf M).Normal := by
     rw [Subgroup.subgroupOf_sup (s13_Lp_le M p) (s13_Sp_le M p)]
     infer_instance

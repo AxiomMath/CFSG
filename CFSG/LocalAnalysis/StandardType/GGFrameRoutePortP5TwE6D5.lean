@@ -35,7 +35,7 @@ theorem kernelRoots_rootCharHom_zeta_pow {L : Type} [Field L] {ζ : Lˣ} (hζ : 
     (w : X3) : kernelRoots (rootCharHom (τ := Tag.E6) fun i => ζ ^ (w i).val) = kerRoots w := by
   rw [CFSG.LieType.AlgebraicGroups.kernelRoots_rootCharHom, kerRoots]
   ext α
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   exact and_congr_right fun _ => rootChar_zeta_pow_eq_one_iff hζ w α
 
 theorem largeEvenMarking_twD5_of_lieModel {D : Type} [Group D] (hD : CFSG.IsQuasisimple D)

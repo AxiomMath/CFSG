@@ -29,7 +29,7 @@ private lemma cs6Root_ne_zero (i : Fin 6) : cs6Root i ≠ 0 := by
 private lemma cs6Alpha_castSucc (i : Fin 6) (j : Fin 5) :
     cs6Alpha i j.castSucc = (CartanMatrix.E 6 i j.succ : ZMod 3) := by
   simp only [cs6Alpha, Fin.val_castSucc]
-  rw [dif_pos j.isLt]
+  rw [dite_eq_left j.isLt]
   exact congrArg (fun k : Fin 6 => (CartanMatrix.E 6 i k : ZMod 3))
     (Fin.ext (by simp [Fin.succ]))
 
@@ -88,7 +88,7 @@ theorem cs6_chart_linear [Finite V] (h : Fin 6 → V) (α : Fin 6 → Module.Dua
     ∃ θ : V ≃ₗ[ZMod 3] CS6E, θ x' = cs6X ∧ (∀ i, θ (h i) = cs6Root i) ∧
       ∀ i v, ggDepAdot (cs6Alpha i) (θ v) = α i v := by
   classical
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hdim : Module.finrank (ZMod 3) V = 6 := by
     have hpow := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := V)
     rw [Nat.card_zmod] at hpow

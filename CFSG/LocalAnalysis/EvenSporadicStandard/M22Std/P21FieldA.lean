@@ -52,20 +52,24 @@ variable {S : Type*} [AddCommGroup S] [Module (ZMod 2) S] [Finite S]
 @[expose] def K (g : S →ₗ[ZMod 2] S) : Subalgebra (ZMod 2) (Module.End (ZMod 2) S) :=
   Algebra.adjoin (ZMod 2) {g}
 
+omit [Finite S] in
 theorem mem_K_iff (g : S →ₗ[ZMod 2] S) (a : Module.End (ZMod 2) S) :
     a ∈ K g ↔ ∃ p : Polynomial (ZMod 2), Polynomial.aeval g p = a := by
   unfold K
   rw [Algebra.adjoin_singleton_eq_range_aeval]
   exact Iff.rfl
 
+omit [Finite S] in
 theorem g_mem_K (g : S →ₗ[ZMod 2] S) : g ∈ K g := Algebra.self_mem_adjoin_singleton _ g
 
+omit [Finite S] in
 theorem K_commute (g : S →ₗ[ZMod 2] S) {a b : Module.End (ZMod 2) S} (ha : a ∈ K g)
     (hb : b ∈ K g) : a * b = b * a := by
   obtain ⟨p, rfl⟩ := (mem_K_iff g a).1 ha
   obtain ⟨q, rfl⟩ := (mem_K_iff g b).1 hb
   rw [← map_mul, ← map_mul, mul_comm]
 
+omit [Finite S] in
 theorem commute_aeval (g : S →ₗ[ZMod 2] S) {u : Module.End (ZMod 2) S} (hu : u * g = g * u)
     (p : Polynomial (ZMod 2)) : u * Polynomial.aeval g p = Polynomial.aeval g p * u := by
   induction p using Polynomial.induction_on' with
@@ -82,6 +86,7 @@ theorem commute_aeval (g : S →ₗ[ZMod 2] S) {u : Module.End (ZMod 2) S} (hu :
       | succ n ih => rw [pow_succ, ← mul_assoc, ih, mul_assoc, hu, ← mul_assoc]
     rw [← mul_assoc, hc, mul_assoc, hn, mul_assoc]
 
+omit [Finite S] in
 theorem commute_of_mem_K (g : S →ₗ[ZMod 2] S) {a u : Module.End (ZMod 2) S} (ha : a ∈ K g)
     (hu : u * g = g * u) : u * a = a * u := by
   obtain ⟨p, rfl⟩ := (mem_K_iff g a).1 ha
@@ -90,6 +95,7 @@ theorem commute_of_mem_K (g : S →ₗ[ZMod 2] S) {a u : Module.End (ZMod 2) S} 
 @[expose] def Irr (g : S →ₗ[ZMod 2] S) : Prop :=
   Nontrivial S ∧ ∀ W : Submodule (ZMod 2) S, (∀ w ∈ W, g w ∈ W) → W = ⊥ ∨ W = ⊤
 
+omit [Finite S] in
 theorem injective_of_mem_K {g : S →ₗ[ZMod 2] S} (hg : Irr g) {a : Module.End (ZMod 2) S}
     (ha : a ∈ K g) (h0 : a ≠ 0) : Function.Injective a := by
   have hcomm : a * g = g * a := K_commute g ha (g_mem_K g)
@@ -103,6 +109,7 @@ theorem injective_of_mem_K {g : S →ₗ[ZMod 2] S} (hg : Irr g) {a : Module.End
   · exact LinearMap.ker_eq_bot.1 h
   · exact absurd (LinearMap.ker_eq_top.1 h) h0
 
+omit [Finite S] in
 theorem card_K {g : S →ₗ[ZMod 2] S} (hg : Irr g) : Nat.card (K g) = Nat.card S := by
   obtain ⟨hnt, hinvW⟩ := hg
   obtain ⟨s₀, hs₀⟩ := exists_ne (0 : S)
@@ -133,6 +140,7 @@ theorem card_K {g : S →ₗ[ZMod 2] S} (hg : Irr g) : Nat.card (K g) = Nat.card
     · exact LinearMap.range_eq_top.1 h
   exact Nat.card_congr (Equiv.ofBijective ev ⟨hinj, hsurj⟩)
 
+omit [Finite S] in
 theorem mem_K_of_commute {g : S →ₗ[ZMod 2] S} (hg : Irr g) {u : Module.End (ZMod 2) S}
     (hu : u * g = g * u) : u ∈ K g := by
   obtain ⟨hnt, hinvW⟩ := hg
@@ -220,7 +228,7 @@ noncomputable abbrev fieldK {g : S →ₗ[ZMod 2] S} (hg : Irr g) : Field (K g) 
 theorem ringAut_eq_one_of_sq {g : S →ₗ[ZMod 2] S} (hg : Irr g)
     (he : Odd (Module.finrank (ZMod 2) S)) (σ : K g ≃+* K g) (hσ : ∀ a, σ (σ a) = a) (a : K g) :
     σ a = a := by
-  letI : Field (K g) := fieldK hg
+  let : Field (K g) := fieldK hg
   have hfinEnd : Finite (Module.End (ZMod 2) S) :=
     Finite.of_injective (fun f : Module.End (ZMod 2) S => (f : S → S)) DFunLike.coe_injective
   have hfinK : Finite (K g) := Finite.of_injective (fun a : K g => (a : Module.End (ZMod 2) S))
@@ -272,6 +280,7 @@ theorem exists_ringAut_conj {g : S →ₗ[ZMod 2] S} (τ : S ≃ₗ[ZMod 2] S)
   ext v
   simp
 
+omit [Finite S] in
 theorem algEquiv_ext_of_apply_g {g : S →ₗ[ZMod 2] S} (σ₁ σ₂ : K g ≃ₐ[ZMod 2] K g)
     (h : σ₁ ⟨g, g_mem_K g⟩ = σ₂ ⟨g, g_mem_K g⟩) : σ₁ = σ₂ := by
   ext a

@@ -372,7 +372,7 @@ theorem IsLeviFamily.ne_zero {P : Subgroup Y} {d : ℕ} {L : Fin d → Subgroup 
     have hSP : (S : Subgroup Y) ≤ P :=
       (Subgroup.le_normalizer : (S : Subgroup Y) ≤ normalizer (S : Set Y)).trans hSlt.le
     have hle : (S : Subgroup Y) ≤ Opp 2 P :=
-      CFSG.le_pElementSubgroup_of_isPGroup Nat.prime_two S.isPGroup' hSP
+      CFSG.le_pElementSubgroup_of_isPGroup Nat.prime_two S.isPGroup hSP
     rwa [hOpp, le_bot_iff] at hle
   have htop : Subgroup.normalizer (S : Set Y) = ⊤ := by
     change Subgroup.normalizer ((S : Subgroup Y) : Set Y) = ⊤

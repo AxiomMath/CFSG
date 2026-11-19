@@ -30,7 +30,7 @@ theorem mem_closure_prime_powers_of_squarefree {G : Type*} [Group G] [Finite G] 
       have hord : orderOf (x ^ (n / p)) = p := orderOf_pow_orderOf_div hn0 hp_dvd
       have hmem : x ^ (n / p) ∈ H := by
         refine Subgroup.subset_closure ⟨?_, by rw [hord]; exact hp_prime⟩
-        simpa using Subgroup.zpow_mem (Subgroup.mem_zpowers x) ((n / p : ℕ) : ℤ)
+        simp
       have hle : Subgroup.zpowers (x ^ (n / p)) ≤ H := Subgroup.zpowers_le.mpr hmem
       rw [← hord, ← Nat.card_zpowers]
       exact Subgroup.card_dvd_of_le hle
@@ -56,8 +56,8 @@ theorem orderOf_squarefree_of_forall_sylow_square {G : Type*} [Group G] [Finite 
   have hpc : p ∣ Nat.card C :=
     (dvd_trans (dvd_mul_right p p) hp2).trans (Subgroup.orderOf_dvd_natCard C hc)
   obtain ⟨P, hPcard, hPnc⟩ := hP p hp hpc
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative ↥C := hC
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative ↥C := hC
   have hdiv : p ^ 2 ∣ orderOf (⟨c, hc⟩ : ↥C) := by
     simpa [pow_two, Subgroup.orderOf_mk] using hp2
   let y : ↥C := ⟨c, hc⟩ ^ (orderOf (⟨c, hc⟩ : ↥C) / p ^ 2)
@@ -65,8 +65,8 @@ theorem orderOf_squarefree_of_forall_sylow_square {G : Type*} [Group G] [Finite 
   have hzcyc : IsPGroup p (Subgroup.zpowers y) :=
     IsPGroup.of_card (n := 2) (by rw [Nat.card_zpowers, hyord])
   obtain ⟨Q, hQ⟩ := hzcyc.exists_le_sylow
-  have hPn : (P : Subgroup ↥C).Normal := Subgroup.normal_of_comm (P : Subgroup ↥C)
-  haveI huniq : Unique (Sylow p ↥C) := Sylow.unique_of_normal P hPn
+  have hPn : (P : Subgroup ↥C).Normal := Subgroup.normal_of_isMulCommutative (P : Subgroup ↥C)
+  have huniq : Unique (Sylow p ↥C) := Sylow.unique_of_normal P hPn
   have hQP : Q = P := Subsingleton.elim Q P
   rw [hQP] at hQ
   have heq : Subgroup.zpowers y = (P : Subgroup ↥C) :=

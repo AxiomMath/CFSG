@@ -23,7 +23,7 @@ open scoped commutatorElement
     have : e₁ * (y₁ * e₂ * y₁⁻¹) * (y₁ * y₂) = (e₁ * y₁) * (e₂ * y₂) := by group
     rw [this]
     exact mul_mem hX₁ hX₂
-  one_mem' := ⟨one_mem R, 1, one_mem E, by simpa using one_mem X⟩
+  one_mem' := ⟨one_mem R, 1, one_mem E, by simp⟩
   inv_mem' := by
     rintro y ⟨hy, e, he, hX⟩
     refine ⟨inv_mem hy, y⁻¹ * e⁻¹ * y, ?_, ?_⟩
@@ -62,7 +62,7 @@ variable {G : Type*} [Group G]
       group
     rw [sec39d_key_comm_mul, hc]
     exact mul_mem (hy₁ u hu) (hy₂ u hu)
-  one_mem' := ⟨one_mem S, fun u _ => by simpa using one_mem V⟩
+  one_mem' := ⟨one_mem S, fun u _ => by simp⟩
   inv_mem' := by
     rintro y ⟨hyS, hy⟩
     refine ⟨inv_mem hyS, fun u hu => ?_⟩
@@ -84,6 +84,7 @@ section Key2
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem lin39d_exists_ne_one {H : Subgroup G} (h : 1 < Nat.card H) : ∃ z ∈ H, z ≠ 1 := by
   by_contra hno
   push Not at hno

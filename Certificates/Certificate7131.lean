@@ -51,7 +51,7 @@ theorem foldl_set_other (f : Perm (Fin 6) → Perm (Fin 6)) :
   | cons c L ih =>
     intro t k hk
     rw [List.foldl_cons, ih _ _ fun a ha => hk a (List.mem_cons_of_mem _ ha)]
-    simp [Array.set!, Array.getElem?_setIfInBounds, hk c List.mem_cons_self]
+    simp [Array.set!, hk c List.mem_cons_self]
 
 theorem foldl_set_mem (f : Perm (Fin 6) → Perm (Fin 6)) :
     ∀ (L : List (Perm (Fin 6))) (t : Array (Perm (Fin 6))), t.size = 46656 →
@@ -70,7 +70,7 @@ theorem foldl_set_mem (f : Perm (Fin 6) → Perm (Fin 6)) :
         · exact absurd h haL
       subst hac
       rw [foldl_set_other f L _ _ fun b hb hba => haL (by rwa [← permKey_inj hba])]
-      simp [Array.set!, Array.getElem?_setIfInBounds, ht, permKey_lt]
+      simp [Array.set!, ht, permKey_lt]
 
 theorem flat_apply (p : Perm (Fin 6)) (i : Fin 6) : flat p i = p i := tabOf_getD p i
 

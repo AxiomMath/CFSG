@@ -3,7 +3,7 @@ module
 public import CFSG.Timmesfeld.RankOne.Defs
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.PSL2CoprimeSylowCyclic
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Card
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
@@ -154,7 +154,7 @@ theorem isCyclic_sylow_psl2 {n : ℕ} (hn : 2 ≤ n) (r : ℕ) [hr : Fact r.Prim
   rcases Nat.lt_or_ge n 3 with hn3 | hn3
   ·
     obtain rfl : n = 2 := by omega
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 R.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 R.isPGroup
     have hdvd : r ^ k ∣ 60 := by
       rw [← hk, ← card_psl2_four]
       exact Subgroup.card_subgroup_dvd_card _

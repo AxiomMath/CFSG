@@ -139,7 +139,8 @@ theorem P9_C4a_rank_eq (hK : Nat.card K = 4) {E : Type*} [Group E]
     rw [← hcard, hcardE, hcardK]
   exact Nat.pow_right_injective (by norm_num : 2 ≤ 3) h3
 
-theorem P9_C4a_sc_rotRange (hK : Nat.card K = 4) {E : Type*} [Group E]
+omit [Finite K] in
+theorem P9_C4a_sc_rotRange (_hK : Nat.card K = 4) {E : Type*} [Group E]
     (ρ : E →* (V ≃ₗ[ZMod 2] V)) (F : (V0 × (Fin t → K)) ≃ₗ[ZMod 2] V)
     (hrange : ρ.range = (P9rotV F).range)
     (hsc : ∀ g : V ≃ₗ[ZMod 2] V, (∀ e : E, g * ρ e = ρ e * g) → g ^ 3 = 1 → g ∈ ρ.range) :

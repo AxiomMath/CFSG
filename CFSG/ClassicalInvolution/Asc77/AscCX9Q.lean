@@ -142,7 +142,7 @@ theorem actW_mul_self (h6 : Layer6Twin p f) (hyp : Hyp25 p f Ω K K' W S R R' z 
   set E := Subgroup.zpowers x with hE
   have hEA : E ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G) :=
     Subgroup.zpowers_le.mpr hxA
-  have hE2 : IsPGroup 2 E := S.isPGroup'.to_le (hEA.trans inf_le_left)
+  have hE2 : IsPGroup 2 E := S.isPGroup.to_le (hEA.trans inf_le_left)
   have hEb : E ≤ Subgroup.centralizer ({w} : Set G) := Subgroup.zpowers_le.mpr hx
   set lam := layerHom (exactLayer Ω w) E fun e he => conjSub_exactLayer hΩ.conjInvariant (hEb he)
     with hlam
@@ -184,7 +184,7 @@ theorem good_iff_actW (h6 : Layer6Twin p f) (hyp : Hyp25 p f Ω K K' W S R R' z 
     set F := Subgroup.closure ({w, x} : Set G) with hF
     have hFA : F ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G) :=
       closure_pair_le hwA hxA
-    have hF2 : IsPGroup 2 F := S.isPGroup'.to_le (hFA.trans inf_le_left)
+    have hF2 : IsPGroup 2 F := S.isPGroup.to_le (hFA.trans inf_le_left)
     have hFb : F ≤ Subgroup.centralizer ({w} : Set G) :=
       closure_pair_le (Subgroup.mem_centralizer_singleton_iff.mpr rfl) hx
     have hzF : z ∈ Subgroup.centralizer (F : Set G) := by

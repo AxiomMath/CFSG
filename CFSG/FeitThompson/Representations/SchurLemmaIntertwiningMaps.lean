@@ -47,9 +47,9 @@ theorem finrank_intertwiningMap_of_isIrreducible [IsAlgClosed k]
     finrank k (ρ.IntertwiningMap σ) = if Nonempty (ρ.Equiv σ) then 1 else 0 := by
   by_cases h : Nonempty (ρ.Equiv σ)
   · obtain ⟨e⟩ := h
-    rw [if_pos ⟨e⟩, ← (intertwiningMapCongrRight ρ e).finrank_eq,
+    rw [ite_eq_left ⟨e⟩, ← (intertwiningMapCongrRight ρ e).finrank_eq,
       IsIrreducible.finrank_intertwiningMap_self]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have : IsEmpty (ρ.Equiv σ) := not_nonempty_iff.mp h
     exact finrank_zero_of_subsingleton
 

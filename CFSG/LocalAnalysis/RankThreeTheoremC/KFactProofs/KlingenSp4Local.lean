@@ -32,7 +32,7 @@ theorem exists_siegel_data {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {Y : Type} [
   have hqdvd : Nat.card (Y ⧸ K) ∣ 2 := card_quotient_dvd_two_of_psp4 hp2 K hC ψ
   refine ⟨hqdvd, ?_⟩
   have hTK : (T : Subgroup Y) ≤ K := by
-    refine le_of_isPGroup_of_not_dvd_card_quotient K T.isPGroup' fun hdvd => hp2 ?_
+    refine le_of_isPGroup_of_not_dvd_card_quotient K T.isPGroup fun hdvd => hp2 ?_
     exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp (hdvd.trans hqdvd)
   obtain ⟨ι, hι, hrange, hTι⟩ := exists_embedding ψ T hTK
   subst hrange
@@ -42,7 +42,7 @@ theorem exists_siegel_data {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {Y : Type} [
     (autCent_xS p hp2)
   refine ⟨(xS p).U.map ι, hdata, hmod, ?_, fun hp3 => ?_⟩
   · intro hle
-    obtain ⟨x, hxN, hxT⟩ := SetLike.not_le_iff_exists.mp
+    obtain ⟨x, hxN, hxT⟩ := IsConcreteLE.not_le_iff_exists.mp
       (not_normalizer_xS_le_normalizer_projUnipotent p hp2 (projUnipotent 2 (ZMod p)) rfl)
     refine hxT ?_
     have h1 : ι x ∈ Subgroup.normalizer (((xS p).U.map ι : Subgroup Y) : Set Y) ⊓ ι.range := by
@@ -60,7 +60,7 @@ theorem exists_siegel_data {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {Y : Type} [
 
 theorem kFactKlingenFiveLocal_holds : KFactKlingenFiveLocal := by
   intro p _ hp5 d hd Y _ _ K hK he hC T B Y₀ hBT hB hBc hY₀ hne
-  haveI := hK
+  have := hK
   obtain ⟨e⟩ := he
   have hp2 : p ≠ 2 := by omega
   have hdSp : IsSpFourIndex p d := by
@@ -81,7 +81,7 @@ theorem kFactKlingenLocal_inSitu_spFour : ∀ (p : ℕ) [Fact p.Prime], p ≠ 2 
         B ≤ T → IsElemAbelian p B → Nat.card B = p ^ 3 →
         GLBWeakCore p (T : Subgroup Y) ≤ Y₀ → Y₀ ≠ ⊤ → A3pInSitu p (T : Subgroup Y) B Y₀ := by
   intro p _ hp2 d hd Y _ _ K hK he hC T B Y₀ hBT hB hBc hY₀ hne
-  haveI := hK
+  have := hK
   obtain ⟨e⟩ := he
   obtain ⟨ψ⟩ := nonempty_mulEquiv_psp4 hp2 (statedClassicalModel_of_spFourIndex d hd e)
   obtain ⟨-, U, hdata, hmod, -⟩ := exists_siegel_data hp2 K hC ψ T
@@ -95,7 +95,7 @@ theorem kFactKlingenThreeLocal_spFour : ∀ (d : TauCeti.ValidLieTypeIndex), IsS
         A9InSitu (T : Subgroup Y) B Y₀ ∧ Nat.card (T : Subgroup Y) = 3 ^ 4 ∧
           Nat.card (centerOf (T : Subgroup Y)) = 3 := by
   intro d hd Y _ _ _ K hK he hC T B Y₀ hBT hB hBc hY₀ hne _
-  haveI := hK
+  have := hK
   obtain ⟨e⟩ := he
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   obtain ⟨ψ⟩ := nonempty_mulEquiv_psp4 hp2 (statedClassicalModel_of_spFourIndex d hd e)

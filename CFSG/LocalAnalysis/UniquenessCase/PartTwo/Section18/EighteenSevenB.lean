@@ -50,7 +50,7 @@ theorem oUpperTwo_not_le_conj_of_p_dvd (h : Hyp18 D V₀ V p L) (hSg : UC6S846.S
     {H : Subgroup G} (hHM : H ≤ D.M) (hp : p ∣ Nat.card H) :
     ∀ g : G, g ∉ D.M → ¬ S17.oUpperTwo H ≤ CFSG.Quasithin.conjSubgroup D.M g := by
   intro g hg hle
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥H) p hp
   have hxp : orderOf (x : G) = p := by rw [Subgroup.orderOf_coe, hx]
   have hxodd : Odd (orderOf (x : G)) := by
@@ -104,7 +104,7 @@ theorem eighteen_one_four_max (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
   · rw [htop, top_add]
     exact le_top
   set i := (fIndexMax Δ).toNat with hi
-  have hieq : fIndexMax Δ = (i : ℕ∞) := (ENat.coe_toNat htop).symm
+  have hieq : fIndexMax Δ = (i : ℕ∞) := (ENat.natCast_toNat htop).symm
   have hF : ∀ H ∈ Δ, InFSq i H := fIndexMax_le_iff.1 hieq.le
   rw [hieq]
   by_contra hlt
@@ -137,7 +137,7 @@ theorem eighteen_one_four_max (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
     (TwelveTwentyTwo.isPGroup_T D).to_le (E3.wClos_le 0 D.T)
   have hex : ∃ H ∈ Δ, ¬ H ≤ normalizer (E3.wClos V 0 D.T : Set G) := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hN0 (uc22p22p_le_of_uniqueMax hΔU ⟨E3.wClos V 0 D.T, hW0, hW02, rfl⟩
       (iSup₂_le fun H hH => hc H hH))
   obtain ⟨H, hH, hHN⟩ := hex
@@ -148,7 +148,7 @@ theorem eighteen_one_four_max (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
   rw [Subgroup.commutator_comm] at hC
   have hR : CFSG.Quasithin.twoResidual H ≤ centralizer (E3.cClos V i D.T : Set G) :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.1 hC
-  obtain ⟨g, hgN, hgM⟩ := SetLike.not_le_iff_exists.1 hNi
+  obtain ⟨g, hgN, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 hNi
   apply hO2 H hH g hgM
   rw [oUpperTwo_eq_twoResidual]
   exact TwelveTwentyTwo.le_conjSubgroup_of_le_centralizer_cClos h.hyp125 hV₀ (by omega) hR hgN

@@ -35,8 +35,8 @@ private theorem heisY_mul_apply (M : Matrix (Fin 6) (Fin 6) Ω) (k l : Fin 6) :
   have h42 : (4 : Fin 6) + 2 = 0 := by decide
   simp only [heisY, Matrix.mul_apply, of_apply, ite_mul, one_mul, zero_mul]
   rw [Finset.sum_eq_single (k + 4)
-    (fun b _ hb => if_neg fun h => hb (by rw [h, add_assoc, h24, add_zero])) (by simp),
-    if_pos (by rw [add_assoc, h42, add_zero])]
+    (fun b _ hb => ite_eq_right fun h => hb (by rw [h, add_assoc, h24, add_zero])) (by simp),
+    ite_eq_left (by rw [add_assoc, h42, add_zero])]
 
 theorem heisX_mul_heisY {ω : Ω} (hω : ω ^ 3 = 1) : heisX ω * heisY = ω • (heisY * heisX ω) := by
   ext k l

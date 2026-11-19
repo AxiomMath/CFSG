@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma y6b_mem_sup_invol {K : Subgroup G} {u : G} (hu : u * u = 1)
     (hK : ∀ k ∈ K, k * u = u * k) {x : G} :
     x ∈ K ⊔ zpowers u ↔ ∃ k ∈ K, x = k ∨ x = k * u := by
@@ -210,7 +211,7 @@ theorem y6b_E_sq (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) {x
   have hfa : Commute f a := y6b_comm_F_unit c hH hRT hf a ha
   rw [← pow_two, hfa.mul_pow 2, y54_F_sq hH f hf, y6b_unit_sq c hRT a ha, mul_one]
 
-theorem y6b_E_le_T (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
+theorem y6b_E_le_T (c : Ctx5 G L) (_hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
     y6bE c ≤ c.s.T := by
   rw [y6bE, y6bE16]
   apply sup_le

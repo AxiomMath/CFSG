@@ -69,7 +69,7 @@ theorem f112sl_mulAut_eq_conj_of_mem_borel {n : ℕ} (hn : 2 ≤ n)
     ∃ u ∈ psl2UpperUnipotentSubgroup (GaloisField 2 n),
       σ = MulAut.conj u := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 n
   let U : Subgroup (PSL2 K) := psl2UpperUnipotentSubgroup K
   let B : Subgroup (PSL2 K) := psl2Borel K
@@ -86,7 +86,7 @@ theorem f112sl_mulAut_eq_conj_of_mem_borel {n : ℕ} (hn : 2 ≤ n)
         exact U.mul_mem h hx
       simpa using hmem
     · rw [Subgroup.card_map_of_injective (f := σ.toMonoidHom) σ.injective]
-  haveI hInn : (MulAut.conj : PSL2 K →* MulAut (PSL2 K)).range.Normal :=
+  have hInn : (MulAut.conj : PSL2 K →* MulAut (PSL2 K)).range.Normal :=
     burnsideAut_inn_normal (PSL2 K)
   obtain ⟨c, hc, f, hf, hcf⟩ :=
     Subgroup.mem_sup_of_normal_left.mp (burnsideAut_psl2_aut_mem σ)
@@ -166,7 +166,7 @@ theorem f112sl_mulAut_eq_conj_of_mem_borel {n : ℕ} (hn : 2 ≤ n)
       (psl2_center_eq_bot) (by simpa [map_pow] using h2)
   have hxU' : x ∈ U := by
     by_contra hxnot
-    haveI hUN : (U.subgroupOf B).Normal :=
+    have hUN : (U.subgroupOf B).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer
         (le_of_eq (psl2UpperUnipotent_normalizer_eq_borel K).symm)
     let πB : ↥B →* ↥B ⧸ (U.subgroupOf B) := QuotientGroup.mk' _
@@ -511,7 +511,7 @@ theorem f112sl_mem_sup_of_normalized {L1 L2 S : Subgroup H}
     have h1 : MulAut.congr e (ρ ⟨t, htP⟩) = MulAut.conj u := hσconj
     have h2 : (MulAut.congr e).symm (MulAut.conj u) = MulAut.conj x0 := by
       ext z
-      simp [MulAut.congr_apply, MulAut.conj_apply, x0]
+      simp [MulAut.conj_apply, x0]
     calc ρ ⟨t, htP⟩ = (MulAut.congr e).symm (MulAut.congr e (ρ ⟨t, htP⟩)) :=
           (MulEquiv.symm_apply_apply (MulAut.congr e) _).symm
       _ = (MulAut.congr e).symm (MulAut.conj u) := by rw [h1]

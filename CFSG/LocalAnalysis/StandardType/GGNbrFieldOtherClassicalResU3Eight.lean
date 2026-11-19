@@ -77,7 +77,7 @@ theorem ggTorusLiftFix_U3Eight
     rw [ggInduced_pow ψ hxψ 3 l, hfp]
     rfl
   have h₀K : UnitaryFieldData 2 3 K := TableBU.unitaryFieldData_of_card hK (by norm_num)
-  haveI : CharP K 2 := h₀K.charP
+  have : CharP K 2 := h₀K.charP
   have hNK := TableBUE.gu_subset_normalizer (d := 3) h₀K
   have hK3 := ggCenterKp_u3Three hK (by norm_num) L' ψ hψ hker hperf
   obtain ⟨f', hf', u', hu', -, hxe⟩ :=
@@ -163,8 +163,8 @@ theorem ggTorusNoLineFieldComp_U3Eight
   classical
   intro L' _ _ ψ hψ hker hperf A hAe hAind _ hcard3 _
   have h₀K : UnitaryFieldData 2 3 K := TableBU.unitaryFieldData_of_card hK (by norm_num)
-  haveI : CharP K 2 := h₀K.charP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h₀K.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNK := TableBUE.gu_subset_normalizer (d := 3) h₀K
   have hK3 := ggCenterKp_u3Three hK (by norm_num) L' ψ hψ hker hperf
   obtain ⟨J, S, hJI, -, hNJ, hgen, hSall⟩ := hcyc hs hna
@@ -205,7 +205,7 @@ theorem ggTorusNoLineFieldComp_U3Eight
     Nat.prime_three (by norm_num) hψ hker hperf hA₀e hA₀I
   have hAA₀ : ¬ A ≤ A₀ := fun hle =>
     absurd hcard3 (not_le.mpr (lt_of_le_of_lt (Subgroup.card_le_of_le hle) hA₀lt))
-  obtain ⟨b, hbA, hbA₀⟩ := SetLike.not_le_iff_exists.mp hAA₀
+  obtain ⟨b, hbA, hbA₀⟩ := IsConcreteLE.not_le_iff_exists.mp hAA₀
   have hxI : Ind ⟨b, hbA⟩ ∉ I₈ := fun h => hbA₀ ((hmem ⟨b, hbA⟩).mpr ((hIJ _).mp h))
   obtain ⟨f', hf', u', hu', hf'3, hxe⟩ :=
     exists_eq_conj_field_U3Eight hconj hnorm hcyc hs hna (hIndcl _) hxI (hIndp _)
@@ -213,7 +213,7 @@ theorem ggTorusNoLineFieldComp_U3Eight
   obtain ⟨σ, hσf⟩ := exists_induced hf'
   have hσ3 : orderOf σ = 3 :=
     (orderOf_eq_of_induced (d := 3) (by norm_num) (by norm_num) hK hσf).trans hf'3
-  haveI : Finite H₈ := Finite.of_injective
+  have : Finite H₈ := Finite.of_injective
     (fun x : H₈ => ((x : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K))
     (fun x y hxy => Subtype.ext (Units.ext hxy))
   obtain ⟨α, -, hα⟩ := exists_cover_of_sections π₈ (QuotientGroup.mk'_surjective _)
@@ -383,7 +383,7 @@ theorem fieldKLevel_U3Eight
   intro hs hna
   have hnorm := ggRawFieldNorm_of_central hce hin hs hna
   have h₀K : UnitaryFieldData 2 3 K := TableBU.unitaryFieldData_of_card hK (by norm_num)
-  haveI : CharP K 2 := h₀K.charP
+  have : CharP K 2 := h₀K.charP
   refine ⟨(hin hs hna).2.2.1, 0, ?_, ggTorusLiftFix_U3Eight hK hcy hc hnorm hs hna, ?_,
     ggTorusNoLineFieldComp_U3Eight hK hcy hc hnorm hs hna⟩
   · exact TypeA.ggTorusLift_zero

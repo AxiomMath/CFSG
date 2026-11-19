@@ -27,7 +27,7 @@ structure LeviFactor (F : Type) [Field F] (m : ℕ) (S : Set (Fin TwistTag.E6.ta
       ι h ∈ (rootDiagUnitHom TwistTag.E6.tag F).range
 
 private theorem conj_mul_of_commute {G : Type*} [Group G] {d h t g : G}
-    (htg : Commute t g) (hth : Commute t h) :
+    (htg : Commute t g) (_hth : Commute t h) :
     d * (h * t) * g * (d * (h * t))⁻¹ = d * (h * g * h⁻¹) * d⁻¹ := by
   have he : d * (h * t) * g * (d * (h * t))⁻¹ = d * h * (t * g * t⁻¹) * h⁻¹ * d⁻¹ := by
     group

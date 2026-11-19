@@ -121,7 +121,7 @@ theorem planeGen_e6_of_isotropic_plane {q : TauCeti.PrimePower}
   have hKq1 : Nat.card K % 3 = 1 := by rw [hKq]; exact hq
   have hE6 : IsE6Index (TauCeti.LieTypeIndex.E6 q) := ⟨q, rfl⟩
   have hcomm : IsMulCommutative E₀ := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard
   have hE₀el : IsElemAbelian 3 E₀ := ⟨hcomm, hexp⟩
   set E : Subgroup (MulAut (Cat ⟨.E6 q, hv⟩)) :=
@@ -192,7 +192,7 @@ theorem exists_planeGen_of_large_E6 {q : TauCeti.PrimePower}
     have hcard₀ : Nat.card E₀ = 3 ^ 2 := by
       rw [← hcardP, ← hmap, Subgroup.card_map_of_injective e.injective]
     have hcomm : IsMulCommutative E₀ := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard₀
     have hE₀el : IsElemAbelian 3 E₀ := ⟨hcomm, hexp⟩
     refine ⟨E₀.map (MulAut.conj : Cat ⟨.E6 q, hv⟩ →* MulAut (Cat ⟨.E6 q, hv⟩)), ?_,
@@ -211,7 +211,7 @@ theorem exists_planeGen_of_large_E6 {q : TauCeti.PrimePower}
         rw [hcardn]
         exact le_trans (Nat.pow_le_pow_right (by norm_num) (by norm_num)) hcard) hdiag
     have hEnel : IsElemAbelian 3 En := hĒnel.mono hEnle
-    haveI : CFSG.IsElementaryAbelian 3 En := hEnel.isElementaryAbelian
+    have : CFSG.IsElementaryAbelian 3 En := hEnel.isElementaryAbelian
     have hgen : Subgroup.closure (fixUnion En) = ⊤ :=
       ExcWideThree.e6_fieldPlanes_three ExcOuterLeOne.subfieldMaximalAllThree_E6 hK3 En hEncard
         hEnnot

@@ -24,7 +24,7 @@ private theorem perfectInLayer_of_fix_eq {S : Type*} [Group S] {β : MulAut S} {
     (hJq : CFSG.IsQuasisimple J) (hsol : Group.IsSolvable (↥N ⧸ J.subgroupOf N)) :
     PerfectInLayer β := by
   subst hfix
-  haveI := hJn
+  have := hJn
   exact LieSemisimple.perfectInLayer_of_normal_quasisimple hJN hJq hsol
 
 
@@ -51,8 +51,8 @@ theorem perfectInLayer_twistedEntrywiseAut_one (t : TwistTag) {K : Type} [Field 
     (Subgroup.normal_subgroupOf_iff hJN).2 fun h k hh hk => hnormal' _ _ hh hk
   have hJq : CFSG.IsQuasisimple ↥J := by
     let eJ : ↥J ≃* graphFixedRootGroup t K σ.toRingHom := Subgroup.subgroupOfEquivOfLe hC0A
-    haveI := hs
-    haveI : IsSimpleGroup ↥J := eJ.isSimpleGroup
+    have := hs
+    have : IsSimpleGroup ↥J := eJ.isSimpleGroup
     have hncJ : ∃ x y : ↥J, x * y ≠ y * x := by
       obtain ⟨x, y, hxy⟩ := hnc
       refine ⟨eJ.symm x, eJ.symm y, fun h => hxy ?_⟩

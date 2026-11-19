@@ -13,8 +13,8 @@ theorem ggSporKRest_generating_of_closure {K : Type} [Group K] [Finite K] {p : �
     (hT : ∀ z ∈ T, ∃ g : K, ∃ y ∈ (S : Subgroup K), g⁻¹ * x₀ * g = y ∧
       z ∈ Subgroup.centralizer ({y} : Set K))
     (hgen : Subgroup.closure ((S : Set K) ∪ T) = ⊤) : SporKRestGenerating p x := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : MulAction.IsPretransitive K (Sylow p K) :=
+  have : Fact p.Prime := ⟨hp⟩
+  let : MulAction.IsPretransitive K (Sylow p K) :=
     Sylow.isPretransitive_of_finite (p := p) (G := K)
   intro Y hY hctrl
   obtain ⟨S', hS'Y⟩ := hY
@@ -28,7 +28,7 @@ theorem ggSporKRest_generating_of_closure {K : Type} [Group K] [Finite K] {p : �
     change x ∈ (((c • S' : Sylow p K) : Set K)) ↔
       x ∈ (((S' : Subgroup K).map a.toMonoidHom) : Set K)
     rw [Sylow.coe_smul, Subgroup.coe_map]
-    simp only [Set.mem_smul_set, Set.mem_image, MulAut.conj_apply]
+    simp only [Set.mem_smul_set, Set.mem_image]
     constructor <;> rintro ⟨y, hy, hyx⟩ <;> exact ⟨y, hy, hyx⟩
   have hSY₁ : (S : Subgroup K) ≤ Y.map a.toMonoidHom := by
     rw [hS]

@@ -224,7 +224,7 @@ theorem Lg_le_stabSub_V1n : Lg n ≤ stabSub (V1n n) := by
   change pairVec ((A : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ a)
       (((dualGLn n A : GL (Fin n) (ZMod 2)) : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ b) ∈
       V1n n ↔ pairVec a b ∈ V1n n
-  simp only [mem_V1n, pairVec, toAdd_ofAdd, ofAdd_eq_one]
+  simp only [mem_V1n, pairVec, ofAdd_eq_one]
   exact GL_mulVec_eq_zero_iff (dualGLn n A) b
 
 theorem Lg_le_stabSub_V2n : Lg n ≤ stabSub (V2n n) := by
@@ -235,7 +235,7 @@ theorem Lg_le_stabSub_V2n : Lg n ≤ stabSub (V2n n) := by
   change pairVec ((A : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ a)
       (((dualGLn n A : GL (Fin n) (ZMod 2)) : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ b) ∈
       V2n n ↔ pairVec a b ∈ V2n n
-  simp only [mem_V2n, pairVec, toAdd_ofAdd, ofAdd_eq_one]
+  simp only [mem_V2n, pairVec, ofAdd_eq_one]
   exact GL_mulVec_eq_zero_iff A a
 
 private theorem pairActN_mul_swapN_not_mem_stabSub (hn : 0 < n) (A : GL (Fin n) (ZMod 2)) :
@@ -250,7 +250,7 @@ private theorem pairActN_mul_swapN_not_mem_stabSub (hn : 0 < n) (A : GL (Fin n) 
       pairVec ((A : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ 0)
         (((dualGLn n A : GL (Fin n) (ZMod 2)) : Matrix (Fin n) (Fin n) (ZMod 2)) *ᵥ
           Pi.single i 1) from rfl] at hmem
-  simp only [Matrix.mulVec_zero, mem_V1n, pairVec, toAdd_ofAdd, ofAdd_eq_one] at hmem
+  simp only [Matrix.mulVec_zero, mem_V1n, pairVec, ofAdd_eq_one] at hmem
   have hzero : (Pi.single i 1 : Fin n → ZMod 2) = 0 :=
     (GL_mulVec_eq_zero_iff (dualGLn n A) _).mp hmem
   have h3 : (1 : ZMod 2) = 0 := by simpa using congrFun hzero i

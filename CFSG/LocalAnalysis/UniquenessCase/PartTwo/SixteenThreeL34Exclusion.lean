@@ -42,9 +42,9 @@ theorem s15_eq_one_of_l34_component_rank_nine
   dsimp only at hrest
   obtain ⟨htN0, hfield, hcentral⟩ := hrest
   obtain ⟨F, hFfield, hFfin, hFchar, hFcard, π, hπsurj, hπker, B, hB⟩ := hfield
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
-  letI : CharP F 2 := hFchar
+  let : Field F := hFfield
+  let : Finite F := hFfin
+  let : CharP F 2 := hFchar
   let S : Set (Subgroup (MulAut W)) :=
     {X | ∃ φ ∈ A, X = H.map (MulAut.conj φ).toMonoidHom}
   have hS1 : 1 < S.ncard := by

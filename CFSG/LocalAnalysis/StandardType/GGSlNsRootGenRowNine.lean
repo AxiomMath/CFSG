@@ -16,7 +16,7 @@ private theorem recipeLinear_rootGenAvoidKG_rowNine {d : ℕ} (hd : 2 ≤ d) {Q 
     LargeEvenRecipeLinear d (2 ^ 1) fun R _ I F =>
       Q R I F ∧ ∃ r, GGTorusLift 3 r R ∧ GGTorusRootGenAvoidKG 3 r R I := by
   obtain ⟨K, _, _, hK, hQ⟩ := h
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   refine ⟨K, inferInstance, inferInstance, hK, hQ, 0,
     TypeA.ggTorusLift_of_mulEquiv (TypeA.recipeEquiv d K)
       (TypeA.ggTorusLift_zero (TypeA.two_dvd_card_projectiveSL hd)),

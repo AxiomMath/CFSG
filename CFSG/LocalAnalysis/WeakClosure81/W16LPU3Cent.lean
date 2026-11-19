@@ -60,7 +60,7 @@ theorem w16l_eq_diagG_of_commute_Sig01 (hs : 2 ≤ s) {g : unitarySU 2 s F 3}
     simpa [tvM_apply, a₀] using e
   have hMfull : M = Matrix.diagonal ![M 0 0, M 0 0, M 2 2] := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply, h01, hoff]
+    fin_cases i <;> fin_cases j <;> simp [h01, hoff]
   have hunit : (M.map h.bar)ᵀ * M = 1 := by
     have h := ((mem_unitarySU_iff h).mp g.2).2
     simpa [hMdef] using h

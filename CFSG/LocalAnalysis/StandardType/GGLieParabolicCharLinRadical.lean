@@ -223,7 +223,7 @@ theorem radical_normal (W : Submodule F (Fin n → F)) :
   have hcoe : ((g * u * g⁻¹ : stabilizer W) : SpecialLinearGroup (Fin n) F) =
       (g : SpecialLinearGroup (Fin n) F) * (u : SpecialLinearGroup (Fin n) F) *
         ((g : SpecialLinearGroup (Fin n) F))⁻¹ := by
-    simp [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp [Subgroup.coe_mul]
   rw [hcoe]
   exact radical_conj_mem g.2 hu
 

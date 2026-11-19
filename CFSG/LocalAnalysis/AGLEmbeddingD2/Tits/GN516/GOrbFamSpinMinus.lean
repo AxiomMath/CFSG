@@ -23,11 +23,11 @@ local instance finite_spinGroup_quadMinus_spinMinus {F : Type} [Field F] [Finite
 private theorem cartanB_ne_zero_iff {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
     cartanB m i j ≠ 0 ↔ i.val + 1 = j.val ∨ j.val + 1 = i.val := by
   unfold cartanB
-  simp only [Matrix.of_apply, if_neg hij]
+  simp only [Matrix.of_apply, ite_eq_right hij]
   by_cases h : i.val + 1 = j.val ∨ j.val + 1 = i.val
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     split_ifs <;> simp [h]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp [h]
 
 private theorem minusDatum_cartan_path {n : ℕ} {F : Type} [Field F] {b c : F}
@@ -75,7 +75,7 @@ private theorem edgeCond_of_succ {n : ℕ} {F : Type} [Field F] [Finite F] [Char
 theorem edgeCond_spinMinus {n : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (hn : 4 ≤ n)
     (H : Fin (minusDatum n hirr).rank → Subgroup (spinGroup (quadMinus n F b c)))
-    (hrank : 3 ≤ (minusDatum n hirr).rank) (u v : Fin (minusDatum n hirr).rank)
+    (_hrank : 3 ≤ (minusDatum n hirr).rank) (u v : Fin (minusDatum n hirr).rank)
     (hadj : (TauCeti.diagramGraph (minusDatum n hirr).cartan).Adj u v) :
     Core.EdgeCond (minusDatum n hirr) H u v := by
   obtain ⟨hne, hc⟩ := (minusDatum n hirr).isFiniteType.diagramGraph_adj_iff.1 hadj

@@ -29,7 +29,7 @@ variable {Ω : Type} [Group Ω] {S B N D K : Subgroup Ω} {x : Ω}
 private theorem commute_of_mem_B_of_mem_center_map [Finite Ω] (hcfg : Cfg173 3 S B N D K x)
     (hZ : Nat.card (Subgroup.center ↥S) ∣ 3) {a z : Ω} (ha : a ∈ B)
     (hz : z ∈ (Subgroup.center ↥S).map S.subtype) : a * z = z * a := by
-  haveI : S.Normal := hcfg.normal
+  have : S.Normal := hcfg.normal
   have hBN : B ≤ Subgroup.normalizer (S : Set Ω) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top
@@ -40,11 +40,11 @@ private theorem commute_of_mem_B_of_mem_center_map [Finite Ω] (hcfg : Cfg173 3 
   · rw [Subgroup.card_eq_one.mp h1, Subgroup.mem_bot] at hz
     rw [hz]
     simp
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic ↥((Subgroup.center ↥S).map S.subtype) := isCyclic_of_prime_card h3
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic ↥((Subgroup.center ↥S).map S.subtype) := isCyclic_of_prime_card h3
   have hcardAut : Nat.card (MulAut ↥((Subgroup.center ↥S).map S.subtype)) = 2 := by
     rw [IsCyclic.card_mulAut, h3, Nat.totient_prime Nat.prime_three]
-  haveI : (Subgroup.center ↥S).Characteristic := Subgroup.centerCharacteristic
+  have : (Subgroup.center ↥S).Characteristic := Subgroup.centerCharacteristic
   have hBZ : B ≤ Subgroup.normalizer
       ((Subgroup.center ↥S).map S.subtype : Set Ω) :=
     hBN.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
@@ -80,10 +80,10 @@ private theorem center_map_le_B [Finite Ω] (hcfg : Cfg173 3 S B N D K x)
   rcases (Nat.dvd_prime Nat.prime_three).1 hZScard with h1 | h3
   · rw [Subgroup.card_eq_one.mp h1]
     exact bot_le
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic ↥((Subgroup.center ↥S).map S.subtype) := isCyclic_of_prime_card h3
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic ↥((Subgroup.center ↥S).map S.subtype) := isCyclic_of_prime_card h3
   have hZSel : IsElemAbelian 3 ((Subgroup.center ↥S).map S.subtype) := by
-    haveI : CommGroup ↥((Subgroup.center ↥S).map S.subtype) := IsCyclic.commGroup
+    have : CommGroup ↥((Subgroup.center ↥S).map S.subtype) := IsCyclic.commGroup
     refine ⟨inferInstance, fun z hz => ?_⟩
     have hd : orderOf z ∣ 3 := by
       rw [← h3]
@@ -127,6 +127,7 @@ section E6
 
 variable [Finite Ω] {F : Type} [Field F] [Finite F]
 
+omit [Finite Ω] [Finite F] in
 private theorem pi_conj_WSL (M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F))
     (ψ : Fin Tag.E6.rank → (Matrix.SpecialLinearGroup (Fin 2) F →* ↥S))
     (hψ : ∀ i g, ((M.π (ψ i g) : ↥(adjointGroup Tag.E6 F)) : ModGL Tag.E6 F) =
@@ -150,6 +151,7 @@ private theorem pi_conj_WSL (M : S172DModel S B (adjointGroup Tag.E6 F) (hatGrou
     show ((rootDiagUnit Tag.E6 c)⁻¹)⁻¹ = rootDiagUnit Tag.E6 c from rfl,
     rootDiagUnit_conj_weylElt_one c i]
 
+omit [Finite Ω] [Finite F] in
 private theorem pi_commutator_eq_torus (M : S172DModel S B (adjointGroup Tag.E6 F)
       (hatGroup Tag.E6 F))
     (ψ : Fin Tag.E6.rank → (Matrix.SpecialLinearGroup (Fin 2) F →* ↥S))
@@ -173,6 +175,7 @@ private theorem pi_commutator_eq_torus (M : S172DModel S B (adjointGroup Tag.E6 
   rw [h2, hbsπ, hψ i WSL, simpleRootSL2_WSL]
   group
 
+omit [Finite F] in
 private theorem commutator_WSL_mem_B (hcfg : Cfg173 3 S B N D K x)
     (M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F))
     (hZ : Nat.card (Subgroup.center ↥S) ∣ 3)
@@ -187,7 +190,7 @@ private theorem commutator_WSL_mem_B (hcfg : Cfg173 3 S B N D K x)
     (i : Fin Tag.E6.rank) (b : ↥B) :
     (b : Ω) * ((ψ i WSL : ↥S) : Ω) * (b : Ω)⁻¹ * (((ψ i WSL : ↥S) : Ω))⁻¹ ∈ B := by
   have hZSB : (Subgroup.center ↥S).map S.subtype ≤ B := center_map_le_B hcfg hZ
-  haveI : S.Normal := hcfg.normal
+  have : S.Normal := hcfg.normal
   have hBN : B ≤ Subgroup.normalizer (S : Set Ω) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top

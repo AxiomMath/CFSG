@@ -14,10 +14,11 @@ section Odd
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_center_of_isCyclic_normal (hperf : commutator G = ⊤) (T : Subgroup G) [T.Normal]
     [IsCyclic T] : T ≤ Subgroup.center G := by
   let e := IsCyclic.mulAutMulEquiv T
-  letI : CommGroup (MulAut T) := e.toMonoidHom.commGroupOfInjective e.injective
+  let : CommGroup (MulAut T) := e.toMonoidHom.commGroupOfInjective e.injective
   have h := Abelianization.commutator_subset_ker (MulAut.conjNormal : G →* MulAut T)
   rw [hperf] at h
   intro x hx
@@ -51,9 +52,9 @@ theorem eq_bot_of_normal_of_odd (hperf : commutator G = ⊤)
   | _ n ih =>
   intro N hNn hcard hodd
   by_contra hne
-  haveI := hNn
-  haveI : Group.IsSolvable N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ (hcard ▸ hodd)
-  haveI : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).2 hne
+  have := hNn
+  have : Group.IsSolvable N := CFSG.FeitThompson.isSolvable_of_odd_natCard _ (hcard ▸ hodd)
+  have : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).2 hne
   have hlt : (⁅N, N⁆ : Subgroup G) < N := by
     rw [← N.range_subtype, MonoidHom.range_eq_map, ← Subgroup.map_commutator,
       Subgroup.map_subtype_lt_map_subtype]
@@ -72,7 +73,7 @@ theorem eq_bot_of_normal_of_odd (hperf : commutator G = ⊤)
     exact commutatorElement_eq_one_iff_mul_comm.mp h1
   have hn1 : n ≠ 1 := fun h1 => hne (Subgroup.eq_bot_of_card_eq N (hcard.trans h1))
   obtain ⟨ℓ, hℓ, hℓn⟩ := Nat.exists_prime_and_dvd hn1
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hℓ2 : ℓ ≠ 2 := by
     rintro rfl
     exact (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr hℓn)
@@ -81,8 +82,8 @@ theorem eq_bot_of_normal_of_odd (hperf : commutator G = ⊤)
   have hzT : (x : G) ∈ torsionSub N hab ℓ := ⟨x.2, by rw [← hzo]; exact pow_orderOf_eq_one _⟩
   have hTp : IsPGroup ℓ (torsionSub N hab ℓ) := fun y => ⟨1, Subtype.ext (by simpa using y.2.2)⟩
   obtain ⟨P, hTP⟩ := hTp.exists_le_sylow
-  haveI : IsCyclic P := hcyc ℓ hℓ2 P
-  haveI : IsCyclic (torsionSub N hab ℓ) := Subgroup.isCyclic_of_le hTP
+  have : IsCyclic P := hcyc ℓ hℓ2 P
+  have : IsCyclic (torsionSub N hab ℓ) := Subgroup.isCyclic_of_le hTP
   have hzc : (x : G) ∈ Subgroup.center G :=
     le_center_of_isCyclic_normal hperf (torsionSub N hab ℓ) hzT
   have h1 : (x : G) = 1 :=

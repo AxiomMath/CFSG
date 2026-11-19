@@ -61,11 +61,13 @@ variable {hc : Ctx M Q Z B} {t : G} {K : Type} [Field K] [Finite K]
     Multiplicative (Fin 2 ⊕ Fin 2 → K)}
   {u : Fin 2 ⊕ Fin 2 → K}
 
+omit [Finite K] in
 theorem perp_mem_QB91 (P : Pts91 hc t E φ ψ u) {y : ↥(Vt M (LB M Q B) B Z t)}
     (h : polar (quadPlus 2 K) u (secVec ψ y) = 0) : (y : G) ∈ QB B := by
   obtain ⟨w, hw, hwv⟩ := (P.perp (secVec ψ y)).mpr h
   exact mem_of_secVec_eq hc.Z_le_QB.1 ψ hw.2 hwv
 
+omit [Finite K] in
 theorem perp_mem_QB_conj91 (ht : t ∈ LB M Q B) (P : Pts91 hc t E φ ψ u)
     (r : ↥(Rt M (LB M Q B) t)) (hrX : (φ r : GL (Fin 2 ⊕ Fin 2) K) ∈
       StatedOmega (StatedQuadPlus 2 K)) {y : ↥(Vt M (LB M Q B) B Z t)}
@@ -411,8 +413,8 @@ theorem step93One_of (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
   have hs5 := hs.toSec5
   have ht : t ∈ LB M Q B := hs5.mem
   obtain ⟨K, fK, finK, hch, E, hn, φ, ψ, u, P⟩ := HS9.exists_pts91 h34 hs
-  haveI := hn
-  haveI : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
+  have := hn
+  have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
   have hq4 : 4 ≤ Nat.card K := by
     rw [P.card]
     exact hc.hyp.q4

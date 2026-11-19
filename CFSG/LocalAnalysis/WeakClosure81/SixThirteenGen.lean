@@ -56,6 +56,7 @@ theorem exists_inCalO1_of_commutator_ne_bot {M V₀ V H S A K : Subgroup G}
 
 variable {M V₀ V : Subgroup G}
 
+omit [Finite G] in
 theorem mBar_bot_eq_mParam_autI {M V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : normalizer (V : Set G) = M) :
     mBar M ⊥ V hV = E3.mParam (autI hV ⊤) := by

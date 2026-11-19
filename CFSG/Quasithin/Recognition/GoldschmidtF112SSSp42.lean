@@ -84,7 +84,7 @@ theorem normalizer_S6T_le :
     have hS' : ∀ x ∈ (S : Subgroup S6), x ≠ 1 → ∃ g : S6, g * x * g⁻¹ ∉ (S : Subgroup S6) := by
       rw [hS]
       exact S6T_moved
-    have hbot := eq_bot_of_normal_two S hS' (S6G1 ⊓ S6G2) (by rw [← hS]; exact S.isPGroup')
+    have hbot := eq_bot_of_normal_two S hS' (S6G1 ⊓ S6G2) (by rw [← hS]; exact S.isPGroup)
     have := card_S6T
     rw [hbot, Subgroup.card_bot] at this
     omega

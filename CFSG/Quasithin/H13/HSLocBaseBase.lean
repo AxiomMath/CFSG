@@ -22,9 +22,9 @@ theorem mem_hs100B : hs100B ∈ hs100P := by
   unfold hs100P
   exact Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)
 
-@[expose] noncomputable def ga : PG := ⟨hs100A, mem_hs100A⟩
+noncomputable def ga : PG := ⟨hs100A, mem_hs100A⟩
 
-@[expose] noncomputable def gb : PG := ⟨hs100B, mem_hs100B⟩
+noncomputable def gb : PG := ⟨hs100B, mem_hs100B⟩
 
 theorem size_hs100Arr (k : ℕ) : (hs100Arr k).size = 100 := by
   simp [hs100Arr, CFSG.Monster.B.Fischer.hexTable3]
@@ -90,7 +90,7 @@ theorem T_wAB {w : List ℕ} (hw : ∀ l ∈ w, l < 4) :
   · intro q hq
     rw [img_tabW AB w hq, act_wAB ABOK_ab hw hq]
 
-@[expose] noncomputable def gensOf (ws : List (List ℕ)) : List PG := ws.map (wAB ga gb)
+noncomputable def gensOf (ws : List (List ℕ)) : List PG := ws.map (wAB ga gb)
 
 theorem subSpec_words {ws : List (List ℕ)}
     (hws : ∀ w ∈ ws, ∀ l ∈ w, l < 4) {cap N : ℕ} (h : subEnumOK 100 B100 N cap (tabsOf ws) = true) :
@@ -107,11 +107,11 @@ theorem subSpec_words {ws : List (List ℕ)}
       simp [gensOf, List.getD_eq_getElem?_getD, ht']
     rw [e1, e2, ← T_wAB hw, img_T]
 
-@[expose] noncomputable def Sg : Subgroup PG := Subgroup.closure {x | x ∈ gensOf sWords}
+noncomputable def Sg : Subgroup PG := Subgroup.closure {x | x ∈ gensOf sWords}
 
-@[expose] noncomputable def S5g : Subgroup PG := Subgroup.closure {x | x ∈ gensOf s5Words}
+noncomputable def S5g : Subgroup PG := Subgroup.closure {x | x ∈ gensOf s5Words}
 
-@[expose] noncomputable def Mg : Subgroup PG := Subgroup.closure {x | x ∈ gensOf mWords}
+noncomputable def Mg : Subgroup PG := Subgroup.closure {x | x ∈ gensOf mWords}
 
 theorem sWords_lt : ∀ w ∈ sWords, ∀ l ∈ w, l < 4 := by decide +kernel
 

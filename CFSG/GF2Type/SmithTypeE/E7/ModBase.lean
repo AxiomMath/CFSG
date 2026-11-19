@@ -29,13 +29,13 @@ theorem forIn_false_aux (p : ℕ → Bool) (L : List ℕ) (hL : ∃ i ∈ L, p i
     simp at hi
   | cons a as ih =>
     by_cases ha : p a = false
-    · simp only [List.forIn_cons, ha, Bool.not_false, if_true]
+    · simp only [List.forIn_cons, ha, Bool.not_false, ite_true]
       rfl
     · have ha' : p a = true := by simpa using ha
       obtain ⟨i, hi, hpi⟩ := hL
       rcases List.mem_cons.mp hi with rfl | hi'
       · exact absurd (ha'.symm.trans hpi) (by simp)
-      · simp only [List.forIn_cons, ha', Bool.not_true, Bool.false_eq_true, if_false]
+      · simp only [List.forIn_cons, ha', Bool.not_true, Bool.false_eq_true, ite_false]
         exact ih ⟨i, hi', hpi⟩
 
 theorem allLoop_spec {n : ℕ} {p : ℕ → Bool} (h : mf7All n p = true) {i : ℕ} (hi : i < n) :
@@ -238,7 +238,7 @@ theorem int_code {A B : Array ℕ} {DA DB : Mf7Span} (hA : A.size = 32) (hB : B.
   have hI' := hI
   simp only [mf7IntOK] at hI'
   have hc := allLoop_spec hI' hd
-  simp only [e1, e2, ne_eq, bne_self_eq_false, Bool.false_or, Bool.or_eq_true, beq_iff_eq,
+  simp only [e1, e2, bne_self_eq_false, Bool.false_or, Bool.or_eq_true, beq_iff_eq,
     Bool.and_eq_true] at hc
   rcases hc with h0 | ⟨hcom, hw⟩
   · exact Or.inl h0
@@ -484,7 +484,7 @@ theorem pair_rel_sym7
 
 theorem int_rel_sym7
     {k l : Nat} (hk : k < 365211) (hl : l < 365211)
-    (hkl : k ≠ l) {c c' : Nat} (hc : c < 2 ^ 32) (hc' : c' < 2 ^ 32)
+    (hkl : k ≠ l) {c c' : Nat} (hc : c < 2 ^ 32) (_hc' : c' < 2 ^ 32)
     (h : applyCols (tvCols k) c ^^^ c = applyCols (tvCols l) c' ^^^ c') :
     applyCols (tvCols k) c ^^^ c = 0 ∨
       ((∀ e < 2 ^ 32, applyCols (tvCols k) (applyCols (tvCols l) e) =

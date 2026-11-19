@@ -10,7 +10,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.FieldTheory.Finite.Extension
@@ -158,8 +158,8 @@ theorem natCard_eq_pow_three_of_order_three (σ : K ≃+* K) (hσ3 : σ ^ 3 = 1)
   set G : Subgroup (K ≃+* K) := Subgroup.zpowers σ with hG
   have : Fintype K := Fintype.ofFinite K
   have hcardG : Nat.card G = 3 := by rw [hG, Nat.card_zpowers, hord]
-  haveI : Finite G := Nat.finite_of_card_ne_zero (by rw [hcardG]; norm_num)
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Finite G := Nat.finite_of_card_ne_zero (by rw [hcardG]; norm_num)
+  have : Fintype G := Fintype.ofFinite G
   refine ⟨FixedPoints.subfield G K, fun x => ?_, ?_⟩
   · change x ∈ MulAction.fixedPoints G K ↔ _
     rw [MulAction.mem_fixedPoints]
@@ -182,6 +182,7 @@ theorem natCard_eq_pow_three_of_order_three (σ : K ≃+* K) (hσ3 : σ ^ 3 = 1)
 
 
 
+omit [Finite K] in
 theorem pow_card_sq_eq_self [CharP K 2] (F : Subfield K) [Finite F] {M : Matrix (Fin 2) (Fin 2) K}
     (hdet : M.det = 1) (hτF : M.trace ∈ F) (ht0 : M.trace ≠ 0) :
     M ^ (Nat.card F) ^ 2 = M := by
@@ -208,7 +209,7 @@ theorem pow_card_sq_eq_self [CharP K 2] (F : Subfield K) [Finite F] {M : Matrix 
     rw [hdet] at h1
     have h2 : M.trace • M + M.trace • M = 0 := by
       rw [← add_smul, CharTwo.add_self_eq_zero, zero_smul]
-    simp only [Algebra.algebraMap_eq_smul_one, smul_mul_assoc, one_mul, one_smul, sq]
+    simp only [Algebra.algebraMap_eq_smul_one, smul_mul_assoc, one_mul, sq]
     rw [h1]
     calc M.trace • M - (1 : K) • (1 : Matrix (Fin 2) (Fin 2) K) + M.trace • M + 1
         = M.trace • M + M.trace • M := by rw [one_smul]; abel
@@ -273,7 +274,7 @@ theorem false_of_fixed_trace [CharP K 2] {b : ℕ} (hb : b = padicValNat 3 (Nat.
   classical
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨F, hF, hcard⟩ := natCard_eq_pow_three_of_order_three σ hσ3 hσ1
-  haveI : Finite F := Finite.of_injective (Subfield.subtype F) Subtype.val_injective
+  have : Finite F := Finite.of_injective (Subfield.subtype F) Subtype.val_injective
   set N := Nat.card F with hN
   have hτF : M.trace ∈ F := (hF _).2 hτ
   have h3b : 3 ≤ 3 ^ b := by

@@ -254,7 +254,7 @@ theorem exists_scalar_lift_of_exclusion
         orderOf_dvd_iff_pow_eq_one.mp hxm, one_mul]
     · rw [← hρa', ← Subgroup.orderOf_mk a' ha'H]
       exact orderOf_map_dvd ρ _
-  have hRh2 : IsPGroup r (rightConjugate Rg g⁻¹) := (R.isPGroup'.map H.subtype).map _
+  have hRh2 : IsPGroup r (rightConjugate Rg g⁻¹) := (R.isPGroup.map H.subtype).map _
   have hRhH : rightConjugate Rg g⁻¹ ≤ H := fun w hw => by
     rw [mem_rightConjugate_iff', inv_inv] at hw
     have := H.mul_mem (H.mul_mem hgH ((Subgroup.map_subtype_le _) hw)) (H.inv_mem hgH)

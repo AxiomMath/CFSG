@@ -22,7 +22,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (Outer inner equivalence)
 section Aut
 
 theorem finite_mulAut (X : Type*) [Group X] [Finite X] : Finite (MulAut X) :=
-  Finite.of_injective (fun e : MulAut X => (e : X → X)) fun a b h => MulEquiv.ext (congrFun h)
+  Finite.of_injective (fun e : MulAut X => (e : X → X)) fun _a _b h => MulEquiv.ext (congrFun h)
 
 theorem card_mulAut_eq_of_center_bot {X : Type*} [Group X] [Finite X]
     (hc : Subgroup.center X = ⊥) : Nat.card (MulAut X) = Nat.card (Outer X) * Nat.card X := by

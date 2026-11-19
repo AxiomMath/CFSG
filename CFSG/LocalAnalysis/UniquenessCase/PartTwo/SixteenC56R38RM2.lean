@@ -40,7 +40,7 @@ private theorem card_map_eq_of_inf_ker_eq_bot {M H : Type*} [Group M] [Group H] 
 private theorem card_le_pow_of_pRank_le {M : Subgroup G} {p r : ℕ} (hp : p.Prime)
     (h : CFSG.Open.pRank p M ≤ r) {A : Subgroup ↥M} (hA : IsElemAbelian p A) :
     Nat.card A ≤ p ^ r := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hA.isPGroup.exists_card_eq
   have hAM : A.map M.subtype ≤ M := fun x ⟨y, _, hy⟩ => hy ▸ y.2
   have hcard : Nat.card (A.map M.subtype) = p ^ k := by
@@ -70,8 +70,8 @@ theorem r16_38_m2Gap_holds
     R16_38_m2Gap D := by
   classical
   intro hSg h1219 h21 h22 h61 hext h5 h76 h614 V₀ V L hV hS hc n hn g hO _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hm : Case1633 D V₀ V hV L 2 := Or.inl ⟨hc, rfl⟩
   obtain ⟨S, hSω, hSK⟩ := exists_omegaModel_of_case1633 hm
   have hK : Nat.card S.K = 4 := by rw [hSK]; norm_num

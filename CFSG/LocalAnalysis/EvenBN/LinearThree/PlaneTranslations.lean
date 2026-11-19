@@ -352,9 +352,9 @@ theorem exists_involution (h : NaturalAffine Γ) :
     refine ⟨⟨⟨u₁, hUP u₁.2⟩, 1, fun h' => hu₁1 ?_⟩⟩
     have h'' : (u₁ : Γ) = 1 := congrArg Subtype.val h'
     exact Subtype.ext h''
-  have hZ : Nontrivial (Subgroup.center (P : Subgroup Γ)) := P.isPGroup'.center_nontrivial
+  have hZ : Nontrivial (Subgroup.center (P : Subgroup Γ)) := P.isPGroup.center_nontrivial
   have h2Z : 2 ∣ Nat.card (Subgroup.center (P : Subgroup Γ)) := by
-    obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp (P.isPGroup'.to_subgroup (Subgroup.center _))
+    obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp (P.isPGroup.to_subgroup (Subgroup.center _))
     have h1 : 1 < Nat.card (Subgroup.center (P : Subgroup Γ)) :=
       Finite.one_lt_card_iff_nontrivial.mpr hZ
     rw [hm] at h1 ⊢

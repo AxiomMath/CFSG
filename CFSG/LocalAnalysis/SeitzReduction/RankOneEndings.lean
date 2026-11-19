@@ -313,7 +313,7 @@ theorem false_of_ending (hGold : Goldschmidt1974) {L : Subgroup G} {f : ℕ} {t 
     hconjt _ (mul_mem (mem_sup_left hu) (mem_sup_right (mem_zpowers t))) fun h =>
       htU (by simpa using mul_mem (inv_mem hu) h)
   obtain ⟨S, hSc⟩ := hSyl
-  have hSp : IsPGroup 2 (W ⊔ T : Subgroup G) := hSc ▸ S.isPGroup'
+  have hSp : IsPGroup 2 (W ⊔ T : Subgroup G) := hSc ▸ S.isPGroup
   have hSidx : ¬ 2 ∣ (W ⊔ T).index := hSc ▸ S.not_dvd_index
   have := hVn
   exact not_exists_normal_index_two hst.nonab
@@ -331,7 +331,7 @@ theorem false_of_gms41 (hGold : Goldschmidt1974) {L : Subgroup G} {f : ℕ} {t :
     (hSyl : ∃ S : Sylow 2 G, (S : Subgroup G) = W ⊔ T) : False := by
   have hWp : IsPGroup 2 W := by
     obtain ⟨S, hSc⟩ := hSyl
-    exact (hSc ▸ S.isPGroup' : IsPGroup 2 (W ⊔ T : Subgroup G)).to_le le_sup_left
+    exact (hSc ▸ S.isPGroup : IsPGroup 2 (W ⊔ T : Subgroup G)).to_le le_sup_left
   have hUW := hUW'.trans hW'W
   exact false_of_ending hGold hS hSyl hTW hUW hWU htW (not_conj_mem_of_card hGold hS hWp hcent)
     (not_conj_of_homocyclic hGold hS hUW hTW hWU hW'ab hUW' hΩ' h℧' hWW' hTW')
@@ -344,7 +344,7 @@ theorem false_of_gms43_of_no_involution (hGold : Goldschmidt1974) {L : Subgroup 
     (hinv : ∀ y ∈ W ⊔ T, y * y = 1 → y ∈ W ⊔ zpowers t) : False := by
   have hWp : IsPGroup 2 W := by
     obtain ⟨S, hSc⟩ := hSyl
-    exact (hSc ▸ S.isPGroup' : IsPGroup 2 (W ⊔ T : Subgroup G)).to_le le_sup_left
+    exact (hSc ▸ S.isPGroup : IsPGroup 2 (W ⊔ T : Subgroup G)).to_le le_sup_left
   have hWU : W ≤ centralizer ((T ⊓ L : Subgroup G) : Set G) := fun w hw =>
     mem_centralizer_iff.mpr fun u hu => hWab u (hUW hu) w hw
   have hcent : ∀ w ∈ W, w * w = 1 →
@@ -445,7 +445,7 @@ theorem exists_sylow_of_no_involution (hGold : Goldschmidt1974) {L : Subgroup G}
     have hle : W ⊔ T ⊔ zpowers z ≤ normalizer ((T ⊓ L ⊔ zpowers t : Subgroup G) : Set G) :=
       sup_le hsyl.le (zpowers_le.mpr hzV)
     have hp' : IsPGroup 2 (W ⊔ T ⊔ zpowers z : Subgroup G) :=
-      S.isPGroup'.to_le (sup_le hPS (zpowers_le.mpr hzS))
+      S.isPGroup.to_le (sup_le hPS (zpowers_le.mpr hzS))
     have heq := hsyl.eq_of_le le_sup_left hle hp'
     exact hzP (heq ▸ mem_sup_right (mem_zpowers z))
 

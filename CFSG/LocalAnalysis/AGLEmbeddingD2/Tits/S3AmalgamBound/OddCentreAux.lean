@@ -31,7 +31,7 @@ theorem sylow_facts {Y : Type} [Group Y] [Finite Y]
     (hZ3 : Nat.card (Subgroup.center Y) = 3)
     (hS : (Nat.card (Y ⧸ Subgroup.center Y)).factorization 3 = 2) (P₁ : Sylow 3 Y) :
     Subgroup.center Y ≤ (P₁ : Subgroup Y) ∧ Nat.card (P₁ : Subgroup Y) = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZp : IsPGroup 3 (Subgroup.center Y) := by
     rw [IsPGroup.iff_card]; exact ⟨1, by rw [hZ3]; simp⟩
   refine ⟨IsPGroup.le_sylow_of_normal hZp P₁, ?_⟩
@@ -45,7 +45,7 @@ theorem sylow_facts {Y : Type} [Group Y] [Finite Y]
 theorem orderOf_eq_three_of_mem_center {Y : Type} [Group Y] [Finite Y]
     (hZ3 : Nat.card (Subgroup.center Y) = 3) {z : Y} (hz : z ∈ Subgroup.center Y) (hz1 : z ≠ 1) :
     orderOf z = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : z ^ 3 = 1 := by
     have := pow_card_eq_one' (G := Subgroup.center Y) (x := ⟨z, hz⟩)
     rw [hZ3] at this
@@ -58,7 +58,7 @@ theorem center_le_of_elemAbelian {Y : Type} [Group Y] [Finite Y] [Group.IsPerfec
     {E : Subgroup Y} (hE : IsElemAbelian 3 E) (hE9 : Nat.card E = 9) :
     Subgroup.center Y ≤ E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEp : IsPGroup 3 E := by
     rw [IsPGroup.iff_card]; exact ⟨2, by rw [hE9]; norm_num⟩
   obtain ⟨P₁, hEP⟩ := hEp.exists_le_sylow
@@ -102,7 +102,7 @@ theorem center_le_of_elemAbelian {Y : Type} [Group Y] [Finite Y] [Group.IsPerfec
       _ = e' * z'' * (e * z') := by group
   have hidx : ¬ 3 ∣ (P₁ : Subgroup Y).index := Sylow.not_dvd_index P₁
   have hmem := central_mem_commutator_of_perfect (P₁ : Subgroup Y) hz (hZP hz) hzo hidx
-  haveI : IsMulCommutative ↥(P₁ : Subgroup Y) :=
+  have : IsMulCommutative ↥(P₁ : Subgroup Y) :=
     ⟨⟨fun a b => Subtype.ext (hcomm a a.2 b b.2)⟩⟩
   rw [commutator_eq_bot, Subgroup.mem_bot] at hmem
   exact hz1 (congrArg Subtype.val hmem)
@@ -139,7 +139,7 @@ theorem no_order_nine {Y : Type} [Group Y] [Finite Y] [Group.IsPerfect Y]
     (y : Y) : orderOf y ≠ 9 := by
   classical
   intro hy9
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Z := Subgroup.center Y with hZdef
   set π : Y →* Y ⧸ Z := QuotientGroup.mk' Z with hπ
   have hyp : IsPGroup 3 (Subgroup.zpowers y) := by
@@ -155,7 +155,7 @@ theorem no_order_nine {Y : Type} [Group Y] [Finite Y] [Group.IsPerfect Y]
     have h' : Nat.card ↥P = Nat.card Pb * Nat.card Z := h
     rw [hP27, hZ3] at h'
     omega
-  have hPbp : IsPGroup 3 Pb := P₁.isPGroup'.map π
+  have hPbp : IsPGroup 3 Pb := P₁.isPGroup.map π
   have hel' := hel Pb hPbp hPb9
   obtain ⟨g, hgN, hgx⟩ := hg Pb hPbp hPb9
   have hcube : ∀ x ∈ P, x ^ 3 ∈ Z := by

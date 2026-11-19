@@ -29,7 +29,7 @@ theorem quotient_equiv_perm_of_hom_fin3 {H : Type*} [Group H] [Finite H]
     (f : H →* Equiv.Perm (Fin 3)) {t : H} (ht : f t ≠ 1) (ht2 : t * t = 1) :
     Nonempty (H ⧸ f.ker ≃* Equiv.Perm (Fin 2)) ∨ Nonempty (H ⧸ f.ker ≃* Equiv.Perm (Fin 3)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf (f t) = 2 := by
     refine orderOf_eq_prime ?_ ht
     rw [pow_two, ← map_mul, ht2, map_one]
@@ -62,7 +62,7 @@ theorem quotient_equiv_perm_of_mulAut {H : Type*} [Group H] [Finite H] {A : Type
     (ht : ρ t ≠ 1) (ht2 : t * t = 1) :
     Nonempty (H ⧸ ρ.ker ≃* Equiv.Perm (Fin 2)) ∨ Nonempty (H ⧸ ρ.ker ≃* Equiv.Perm (Fin 3)) := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hA' : Fintype.card A = 4 := by rw [← Nat.card_eq_fintype_card, hA]
   have hΩ : Fintype.card {a : A // a ≠ 1} = 3 := by
     rw [Fintype.card_subtype_compl, Fintype.card_subtype_eq, hA']

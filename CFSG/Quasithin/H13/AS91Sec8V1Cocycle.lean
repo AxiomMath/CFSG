@@ -100,13 +100,13 @@ theorem IsRightCocycle.eq_of_eqOn {D F : ↥Γ → W11} (hD : IsRightCocycle Γ 
   let K : Subgroup ↥Γ :=
     { carrier := {s | D s = F s}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [hD, hF, ha, hb]
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         rw [hD.map_one, hF.map_one]
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [hD.map_inv, hF.map_inv, ha] }
   have hle : Subgroup.closure T ≤ K := (Subgroup.closure_le K).2 h
   rw [hT] at hle

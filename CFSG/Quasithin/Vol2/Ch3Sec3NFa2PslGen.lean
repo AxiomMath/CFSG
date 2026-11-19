@@ -60,7 +60,7 @@ theorem psl2GenT_pow_coe (n : ℕ) :
   | succ n ih =>
     rw [pow_succ, Matrix.SpecialLinearGroup.coe_mul, ih]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [psl2GenT, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+    fin_cases i <;> fin_cases j <;> simp [psl2GenT, Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 theorem psl2GenT_transvection (h : (0 : Fin 2) ≠ 1) (n : ℕ) :
     Matrix.SpecialLinearGroup.transvection h (n : F) = psl2GenT F ^ n := by
@@ -68,7 +68,7 @@ theorem psl2GenT_transvection (h : (0 : Fin 2) ≠ 1) (n : ℕ) :
   rw [psl2GenT_pow_coe]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
+    simp [Matrix.SpecialLinearGroup.transvection_coe]
 
 theorem psl2GenTransvection_10 (h : (1 : Fin 2) ≠ 0) (n : ℕ) :
     Matrix.SpecialLinearGroup.transvection h (-(n : F)) =
@@ -79,7 +79,7 @@ theorem psl2GenTransvection_10 (h : (1 : Fin 2) ≠ 0) (n : ℕ) :
   simp only [psl2GenS, Matrix.SpecialLinearGroup.coe_mk, Matrix.adjugate_fin_two]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply, Matrix.mul_apply,
+    simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.mul_apply,
       Fin.sum_univ_two]
 
 theorem psl2GenT_transvection_mem (hcast : ∀ c : F, ∃ n : ℕ, (n : F) = c)

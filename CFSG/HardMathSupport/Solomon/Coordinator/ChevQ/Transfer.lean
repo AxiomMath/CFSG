@@ -19,9 +19,11 @@ variable {X : Type} [Group X] [Finite X]
     ↥B →* MulAut ↥K :=
   K.normalizerMonoidHom.comp (Subgroup.inclusion hBN)
 
+omit [Finite X] in
 theorem coe_actK {K B : Subgroup X} (hBN : B ≤ Subgroup.normalizer (K : Set X)) (b : ↥B)
     (x : ↥K) : ((actK hBN b x : ↥K) : X) = (b : X) * (x : X) * (b : X)⁻¹ := rfl
 
+omit [Finite X] in
 theorem ker_actK {K B : Subgroup X} (hBN : B ≤ Subgroup.normalizer (K : Set X)) :
     (actK hBN).ker = (Subgroup.centralizer (K : Set X)).subgroupOf B := by
   ext b
@@ -34,6 +36,7 @@ theorem ker_actK {K B : Subgroup X} (hBN : B ≤ Subgroup.normalizer (K : Set X)
   exact (MonoidHom.mem_ker (f := K.normalizerMonoidHom)
     (x := Subgroup.inclusion hBN b)).symm.trans h2
 
+omit [Finite X] in
 theorem isElemAbelian_range_actK {p : ℕ} {K B : Subgroup X} (hB : IsElemAbelian p B)
     (hBN : B ≤ Subgroup.normalizer (K : Set X)) : IsElemAbelian p (actK hBN).range := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => ?_⟩
@@ -49,6 +52,7 @@ theorem isElemAbelian_range_actK {p : ℕ} {K B : Subgroup X} (hB : IsElemAbelia
     have : x ^ p = 1 := Subtype.ext (hB.2 x x.2)
     rw [this, map_one]
 
+omit [Finite X] in
 theorem card_range_actK {K B : Subgroup X} (hBN : B ≤ Subgroup.normalizer (K : Set X)) :
     Nat.card B = Nat.card (B ⊓ Subgroup.centralizer (K : Set X) : Subgroup X) *
       Nat.card (actK hBN).range := by
@@ -61,6 +65,7 @@ theorem card_range_actK {K B : Subgroup X} (hBN : B ≤ Subgroup.normalizer (K :
   rw [h2] at h1
   exact h1.symm
 
+omit [Finite X] in
 theorem card_ker_actK {K B : Subgroup X} (hBN : B ≤ Subgroup.normalizer (K : Set X)) :
     Nat.card (actK hBN).ker = Nat.card (B ⊓ Subgroup.centralizer (K : Set X) : Subgroup X) := by
   rw [ker_actK hBN, inf_comm, ← Subgroup.inf_subgroupOf_right]

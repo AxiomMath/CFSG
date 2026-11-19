@@ -22,6 +22,7 @@ section Model
 
 variable {n e : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem slConjugation_toGL (g u : Matrix.SpecialLinearGroup (Fin n) K) :
     CatalogueBHigherLinearAction.slConjugation n K (Matrix.SpecialLinearGroup.toGL g) u =
       g * u * g⁻¹ := by
@@ -71,7 +72,7 @@ theorem up34C2Inn_AHigh_holds : Up34Chev2Inn FamAHigh := by
     obtain ⟨-, K, _, _, hK, ⟨e0⟩⟩ := (lieModel_classical_iff (by decide)).mp hm
     rw [hp] at hK
     let e' : S ≃* LinearFlag.projectiveSL (r + 1) K := e0.trans (statedProjSLEquiv_c2 (r + 1) K)
-    haveI : Finite (LinearFlag.projectiveSL (r + 1) K) := Finite.of_equiv S e'.toEquiv
+    have : Finite (LinearFlag.projectiveSL (r + 1) K) := Finite.of_equiv S e'.toEquiv
     have hpump' := hpump.of_congr e'
     rw [CFSG.RankThree.PartTwo.KFacts.congr_mulAutConj] at hpump'
     exact not_up34Pumpup_conj_psl CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput

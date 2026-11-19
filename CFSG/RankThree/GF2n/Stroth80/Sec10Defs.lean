@@ -30,14 +30,17 @@ omit [Finite G] in
 @[expose] def Good103 (M Q Z B : Subgroup G) (t : G) : Prop :=
   Good101 M Q Z B t ∧ Vt M (LB M Q B) B Z t = (Q ⊓ QB (Subgroup.zpowers t)) ⊔ Z
 
+omit [Finite G] in
 theorem Good101.mem_LB {t : G} (h : Good101 M Q Z B t) : t ∈ LB M Q B := by
   unfold LB
   exact Subgroup.mem_sup_right ⟨h.2.2.2.1, h.2.1⟩
 
+omit [Finite G] in
 theorem Sec10Hyp.toSec5 {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n) {t : G}
     (ht : t ∈ LB M Q B) (htQ : t ∉ Q) : Sec5Hyp hc n t :=
   ⟨H.width, H.n_gt, H.noA2, H.gen, ht, htQ⟩
 
+omit [Finite G] in
 theorem SLlike.exists_SLMNat {hc : Ctx M Q Z B} {t : G} (h : SLlike hc t) :
     ∃ m : ℕ, 2 ≤ m ∧ SLMNat hc t m := by
   obtain ⟨m, hm, h | ⟨hm2, hsp⟩⟩ := h
@@ -46,22 +49,25 @@ theorem SLlike.exists_SLMNat {hc : Ctx M Q Z B} {t : G} (h : SLlike hc t) :
     obtain ⟨K, fK, finK, hK, hrep⟩ := hsp
     exact ⟨2, le_rfl, K, fK, finK, hK, NaturalRep.sp_one_to_sl_two hrep⟩
 
+omit [Finite G] in
 theorem SLMNat.toSLNat {hc : Ctx M Q Z B} {t : G} {m : ℕ} (h : SLMNat hc t m) (hm : 2 ≤ m) :
     SLNat hc t := by
   obtain ⟨K, fK, finK, hK, hrep⟩ := h
   exact ⟨K, fK, finK, hK, m, hm, hrep⟩
 
+omit [Finite G] in
 theorem Sec10Hyp.slLike {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n) {t : G}
     (ht : Good101 M Q Z B t) : SLlike hc t := by
   rcases H.alt t ht.mem_LB ht.2.2.1 with h | h
   · exact absurd h ht.2.2.2.2
   · exact h
 
+omit [Finite G] in
 theorem SLMNat.card_Vt {hc : Ctx M Q Z B} {t : G} {m : ℕ} (h : SLMNat hc t m) :
     Nat.card ↥(Vt M (LB M Q B) B Z t) = Nat.card Z ^ (m + 1) := by
   obtain ⟨K, fK, finK, hK, hrep⟩ := h
   obtain ⟨φ, -, -, -, hN, ψ, -⟩ := hrep
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h1 : Nat.card (↥(Vt M (LB M Q B) B Z t) ⧸
       Z.subgroupOf (Vt M (LB M Q B) B Z t)) = Nat.card K ^ m := by
     rw [Nat.card_congr ψ.toEquiv, Nat.card_congr Multiplicative.toAdd,
@@ -75,6 +81,7 @@ theorem SLMNat.card_Vt {hc : Ctx M Q Z B} {t : G} {m : ℕ} (h : SLMNat hc t m) 
   rw [h1, h2, hK] at h3
   rw [h3, pow_succ]
 
+omit [Finite G] in
 theorem SLMNat.unique {hc : Ctx M Q Z B} {t : G} {m m' : ℕ} (h : SLMNat hc t m)
     (h' : SLMNat hc t m') : m = m' := by
   have hq : 2 ≤ Nat.card Z := by
@@ -85,6 +92,7 @@ theorem SLMNat.unique {hc : Ctx M Q Z B} {t : G} {m m' : ℕ} (h : SLMNat hc t m
   have := Nat.pow_right_injective hq e
   omega
 
+omit [Finite G] in
 private theorem mul_mem_conj_LB_iff (hc : Ctx M Q Z B) {t y m : G} (hy : y ∈ Q) (hm : m ∈ M) :
     t * y ∈ conjSubgroup m (LB M Q B) ↔ t ∈ conjSubgroup m (LB M Q B) := by
   have hyL : y ∈ conjSubgroup m (LB M Q B) := by
@@ -93,22 +101,26 @@ private theorem mul_mem_conj_LB_iff (hc : Ctx M Q Z B) {t y m : G} (hy : y ∈ Q
     exact sec39_Q_le_LB (by simpa using h)
   exact (conjSubgroup m (LB M Q B)).mul_mem_cancel_right hyL
 
+omit [Finite G] in
 theorem Rt_mul_of_mem_Q (hc : Ctx M Q Z B) {t y : G} (hy : y ∈ Q) :
     Rt M (LB M Q B) (t * y) = Rt M (LB M Q B) t :=
   iSup_congr fun _ => iSup_congr fun hm =>
     iSup_congr_Prop (mul_mem_conj_LB_iff hc hy hm) fun _ => rfl
 
+omit [Finite G] in
 theorem Vt_mul_of_mem_Q (hc : Ctx M Q Z B) {t y : G} (hy : y ∈ Q) :
     Vt M (LB M Q B) B Z (t * y) = Vt M (LB M Q B) B Z t :=
   congrArg (Z ⊔ ·) <| iSup_congr fun _ => iSup_congr fun hm =>
     iSup_congr_Prop (mul_mem_conj_LB_iff hc hy hm) fun _ => rfl
 
+omit [Finite G] in
 theorem Ctx.CN_mul_of_mem_Q (hc : Ctx M Q Z B) {t y : G} (hy : y ∈ Q) :
     hc.CN (t * y) = hc.CN t := by
   ext r
   change r ∈ CNt M (LB M Q B) B Z (t * y) ↔ r ∈ CNt M (LB M Q B) B Z t
   simp only [CNt, Rt_mul_of_mem_Q hc hy, Vt_mul_of_mem_Q hc hy]
 
+omit [Finite G] in
 theorem SLMNat.mul_of_mem_Q {hc : Ctx M Q Z B} {t y : G} {m : ℕ} (hy : y ∈ Q) :
     SLMNat hc (t * y) m ↔ SLMNat hc t m := by
   unfold SLMNat

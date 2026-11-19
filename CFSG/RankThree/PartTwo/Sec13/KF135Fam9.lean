@@ -24,7 +24,7 @@ theorem card_outer_dvd_two_of_le {S : Type} [Group S] [Finite S]
 
 theorem card_SL_four_three :
     Nat.card (Matrix.SpecialLinearGroup (Fin 4) (GaloisField 3 1)) = 12130560 := by
-  haveI : Fintype (GaloisField 3 1) := Fintype.ofFinite _
+  have : Fintype (GaloisField 3 1) := Fintype.ofFinite _
   have hq : Fintype.card (GaloisField 3 1) = 3 := by
     rw [Fintype.card_eq_nat_card, GaloisField.card 3 1 (by norm_num), pow_one]
   rw [Matrix.card_SL_field, hq]

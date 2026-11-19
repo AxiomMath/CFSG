@@ -32,10 +32,10 @@ theorem key_matrix (A : Matrix (Fin 4) (Fin 4) (ZMod 2))
 end GL4Native
 
 theorem gl4_stronglyReal (x t : GL (Fin 4) (ZMod 2))
-    (ht : t ^ 2 = 1) (hxt : t * x * t⁻¹ = x⁻¹) (hx : Odd (orderOf x)) :
+    (_ht : t ^ 2 = 1) (hxt : t * x * t⁻¹ = x⁻¹) (hx : Odd (orderOf x)) :
     orderOf x = 1 ∨ orderOf x = 3 ∨ orderOf x = 5 := by
   have hcard : Nat.card (GL (Fin 4) (ZMod 2)) = 20160 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h := Matrix.card_GL_field (𝔽 := ZMod 2) (n := 4)
     rw [ZMod.card] at h
     rw [h]
@@ -85,8 +85,8 @@ theorem orderOf_mem_of_finrank_le_four {U : Type}
     (hhg : h * g * h⁻¹ = g⁻¹) (hg : Odd (orderOf g)) :
     orderOf g = 1 ∨ orderOf g = 3 ∨ orderOf g = 5 := by
   obtain ⟨m, hm⟩ : ∃ m, m = 4 - Module.finrank (ZMod 2) U := ⟨_, rfl⟩
-  letI hM : Module (ZMod 2) (Fin m → ZMod 2) := Pi.module (Fin m) (fun _ => ZMod 2) (ZMod 2)
-  letI : Module.Free (ZMod 2) (Fin m → ZMod 2) := Module.Free.pi _ _
+  let hM : Module (ZMod 2) (Fin m → ZMod 2) := Pi.module (Fin m) (fun _ => ZMod 2) (ZMod 2)
+  let : Module.Free (ZMod 2) (Fin m → ZMod 2) := Module.Free.pi _ _
   have hE : Module.finrank (ZMod 2) (U × (Fin m → ZMod 2)) = 4 := by
     rw [Module.finrank_prod, Module.finrank_fin_fun]
     omega
@@ -155,10 +155,10 @@ theorem odd_inverted_of_offender {V : Type}
     simpa [hainv, hA2] using this
   have hxinv : ∀ w, x (x⁻¹ w) = w := fun w => by
     have := congrArg (fun T : V ≃ₗ[ZMod 2] V => T w) (mul_inv_cancel x)
-    simpa using this
+    simp
   have hxinv' : ∀ w, x⁻¹ (x w) = w := fun w => by
     have := congrArg (fun T : V ≃ₗ[ZMod 2] V => T w) (inv_mul_cancel x)
-    simpa using this
+    simp
   let T : V →ₗ[ZMod 2] V := (x : V →ₗ[ZMod 2] V) - LinearMap.id
   have hTv : ∀ v, T v = x v - v := fun v => by simp [T]
   let W : Submodule (ZMod 2) V := LinearMap.range T

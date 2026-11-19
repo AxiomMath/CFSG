@@ -17,7 +17,7 @@ variable {Hh : Type} [Group Hh] [Finite Hh]
 
 theorem orderOf_mk_pPrimeCore {c : Hh} (hc : orderOf c = 3) :
     orderOf (QuotientGroup.mk' (CFSG.pPrimeCore 3 Hh) c) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 Hh) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card
   refine orderOf_eq_prime ?_ ?_
@@ -33,7 +33,7 @@ theorem orderOf_mk_pPrimeCore {c : Hh} (hc : orderOf c = 3) :
 theorem exists_pow_isPGroup_thirteen (K : Subgroup Hh) [K.Normal] {x : Hh}
     (hx : orderOf (QuotientGroup.mk' K x) = 13) :
     ∃ y ∈ Subgroup.zpowers x, IsPGroup 13 (Subgroup.zpowers y) ∧ y ∉ K := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hdvd : 13 ∣ orderOf x := by
     rw [← hx]
     exact orderOf_map_dvd (QuotientGroup.mk' K) x
@@ -75,15 +75,16 @@ theorem mem_of_pow_eq_one_of_not_dvd_index {Q : Type} [Group Q] [Finite Q] (J : 
   have h4 : orderOf (QuotientGroup.mk x : Q ⧸ J) = 1 := Nat.eq_one_of_dvd_coprimes hcop h2 h3
   exact (QuotientGroup.eq_one_iff x).mp (orderOf_eq_one_iff.mp h4)
 
+omit [Finite Hh] in
 theorem relIndex_eq_card_map (K V : Subgroup Hh) [K.Normal] :
     K.relIndex V = Nat.card (V.map (QuotientGroup.mk' K)) := by
   have h1 := Subgroup.index_ker ((QuotientGroup.mk' K).domRestrict V)
   have hker : ((QuotientGroup.mk' K).domRestrict V).ker = K.subgroupOf V := by
     ext v
-    simp [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, QuotientGroup.eq_one_iff]
+    simp [Subgroup.mem_subgroupOf]
   have hrange : ((QuotientGroup.mk' K).domRestrict V).range = V.map (QuotientGroup.mk' K) := by
     ext y
-    simp [MonoidHom.mem_range, Subgroup.mem_map]
+    simp [Subgroup.mem_map]
   rw [hker, hrange] at h1
   exact h1
 
@@ -93,7 +94,7 @@ theorem exists_lift_normalizer_zpowers {H₀ : Subgroup Hh} (hH₀ : IsStronglyP
       Subgroup (Hh ⧸ CFSG.pPrimeCore 3 Hh)) : Set (Hh ⧸ CFSG.pPrimeCore 3 Hh))) :
     ∃ h : Hh, h ∈ H₀ ∧ h ∈ normalizer ((Subgroup.zpowers c : Subgroup Hh) : Set Hh) ∧
       QuotientGroup.mk' (CFSG.pPrimeCore 3 Hh) h = n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 Hh) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card
   have hc3' : c ^ 3 = 1 := by
@@ -126,7 +127,7 @@ theorem exists_simple_normal_of_stronglyPEmbedded {Q : Type} [Group Q] [Finite Q
     (hY : IsStronglyPEmbedded 3 Y) :
     ∃ J : Subgroup Q, J.Normal ∧ IsSimpleGroup ↥J ∧ (∃ a b : ↥J, a * b ≠ b * a) ∧
       CFSG.Open.pRank 3 (⊤ : Subgroup ↥J) = 1 ∧ centralizer (J : Set Q) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hs, hnab, hn, hc⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar Nat.prime_three hO hY
   have h3 : 3 ∣ Nat.card (CFSG.generalizedFitting Q) := by
     by_contra h

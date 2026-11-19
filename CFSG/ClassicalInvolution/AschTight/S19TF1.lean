@@ -180,7 +180,7 @@ theorem exists_conj_of_mem_S (hFL : FactFL) (hd : Sec19DataT p f K z S W L t V) 
   obtain ⟨-, -, -, -, -, -, hcyc, -, h4⟩ :=
     (hypOmegaMod_of_tightD hd.tight).exists_data_of_mem_USet hp2 hU
   obtain ⟨u, huU, huu⟩ := exists_mul_self_eq_of_isCyclic hI inf_le_left hcyc
-    (S.isPGroup'.to_le (inf_le_right.trans hd.hWS)) h4
+    (S.isPGroup.to_le (inf_le_right.trans hd.hWS)) h4
   have hzU : IsUniqueInvolution (K ⊓ W) z :=
     ⟨⟨hI.mem, hzW⟩, hI.ne_one, hI.sq, fun y hy hy2 => hI.unique y hy.1 hy2⟩
   have hsK : (s : G) ∈ Subgroup.normalizer (K : Set G) :=
@@ -225,10 +225,10 @@ theorem exists_conj_of_mem_S (hFL : FactFL) (hd : Sec19DataT p f K z S W L t V) 
     calc u * t * (u * t) = u * (t * u) * t := by group
       _ = u * u * (t * t) := by rw [← hut]; group
       _ = z := by rw [huu, hd.invL.sq, mul_one]
-  have hx2 : IsPGroup 2 (Subgroup.zpowers x) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxS)
+  have hx2 : IsPGroup 2 (Subgroup.zpowers x) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxS)
   have hxK : x ∈ centralizerModOdd ⊤ K := S19B.mem_centralizerModOdd_K hd hxS hx.1.1.2
   have hu2 : IsPGroup 2 (Subgroup.zpowers u) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (hd.hWS huU.2))
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr (hd.hWS huU.2))
   have huKx := mem_perfectResidualOf_of_cStar hd0 hx2 hxK huU.1
     (Subgroup.mem_centralizer_singleton_iff.mpr hux) hu2
   have huY : (⟨u, Subgroup.mem_centralizer_singleton_iff.mpr hux⟩ :

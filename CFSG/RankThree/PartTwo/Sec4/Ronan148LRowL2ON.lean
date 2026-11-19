@@ -186,7 +186,7 @@ theorem rowU3_ON {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
     [Group.IsPerfect Y] (_hsub : (Y.subgroupOf (Sec4.autFix σ)).IsSubnormal) {m : ℕ}
     (hmo : Odd m) (hm1 : 1 < m) (π : Y →* projSU 3 2 m) (hπ : Function.Surjective π)
     (_hker : Nat.Coprime (Nat.card π.ker) 3) : False := by
-  haveI := hs
+  have := hs
   have hZ := RonanK429H.center_eq_bot_of_simple_nonab hna
   have hout := RonanK429H.not_three_dvd_outer_of_mulEquiv eS inputs47Core_outON
   obtain ⟨s, rfl⟩ := cubeInner_of_not_three_dvd_card_outer hout σ hσ3
@@ -204,7 +204,7 @@ theorem rowU3_ON {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
   have hs1 : s ≠ 1 := by
     rintro rfl
     exact hσ1 (map_one _)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle : Y ≤ Subgroup.centralizer ({s} : Set S) := by
     rw [← RonanK429H.autFix_conj]
     exact hYC

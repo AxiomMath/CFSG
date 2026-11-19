@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22s213_pRank_barInf_of_prime {L : Subgroup G} (hq : CFSG.Open.IsQuasisimple (Bar2 L))
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hZ : ¬ r ∣ Nat.card (center (Bar2 L))) :
     CFSG.Open.pRank r (⊤ : Subgroup (BarInf L)) = CFSG.Open.pRank r L := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨e⟩ := uc22p21k_barInf_equiv hq
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt e,
     CFSG.SectionRank.pRank_quotient_eq (center (Bar2 L)) hZ, pRank_bar2_eq_of_odd hr hr2]
@@ -31,7 +31,7 @@ theorem uc22s213_four_le_pRank_of_commute {H : Type} [Group H] [Finite H] {A B :
     {r : ℕ} (hr : r.Prime) (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     (hZ : ¬ r ∣ Nat.card (center ↥A)) (hA : 2 ≤ CFSG.Open.pRank r A)
     (hB : 2 ≤ CFSG.Open.pRank r B) : 4 ≤ CFSG.Open.pRank r (⊤ : Subgroup H) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨E, hEA, hEel, hEcard⟩ := CFSG.SectionRank.exists_pRank hr.one_lt A
   obtain ⟨F, hFB, hFel, hFcard⟩ := CFSG.SectionRank.exists_pRank hr.one_lt B
   have hcEF : ∀ a ∈ E, ∀ b ∈ F, a * b = b * a := fun a ha b hb => hcomm a (hEA ha) b (hFB hb)

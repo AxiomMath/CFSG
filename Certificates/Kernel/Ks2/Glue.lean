@@ -264,7 +264,7 @@ theorem listK_spec {i q : Nat} (h : listK i q = true) :
   simp only [Raw.Orb.bAnd_eq, Bool.and_eq_true] at h
   obtain ⟨h1, h2, h3, h4⟩ := h
   refine ⟨h1, h2, h3, fun hq => ?_⟩
-  rw [Raw.Orb.bIf_eq, if_pos (Nat.blt_eq.mpr hq)] at h4
+  rw [Raw.Orb.bIf_eq, ite_eq_left (Nat.blt_eq.mpr hq)] at h4
   exact Nat.blt_eq.mp h4
 
 theorem cG_ex (q : Nat) : ∃ γ : Equiv.Perm (Fin 820),
@@ -398,13 +398,13 @@ theorem wK_spec {i k : Nat} (hi : i < 3) (hk : isV k = true) :
   rcases (by
     by_cases e0 : Nat.beq k 0 = true
     · exact Or.inl (Nat.eq_of_beq_eq_true e0)
-    · rw [if_neg e0] at hk
+    · rw [ite_eq_right e0] at hk
       by_cases e2 : Nat.beq k 2 = true
       · exact Or.inr (Or.inl (Nat.eq_of_beq_eq_true e2))
-      · rw [if_neg e2] at hk
+      · rw [ite_eq_right e2] at hk
         by_cases e5 : Nat.beq k 5 = true
         · exact Or.inr (Or.inr (Or.inl (Nat.eq_of_beq_eq_true e5)))
-        · rw [if_neg e5] at hk
+        · rw [ite_eq_right e5] at hk
           exact Or.inr (Or.inr (Or.inr (Nat.eq_of_beq_eq_true hk))) :
       k = 0 ∨ k = 2 ∨ k = 5 ∨ k = 7) with rfl | rfl | rfl | rfl
   · refine ⟨1, ?_, one_mem _, by group⟩
@@ -449,7 +449,7 @@ theorem xK_spec {i : Nat} (hi : i < 3) :
   simp only [Raw.Orb.bAnd_eq, Bool.and_eq_true] at h3
   obtain ⟨a1, a2, a3, a4⟩ := h3
   refine ⟨Nat.le_of_ble_eq_true a1, Nat.blt_eq.mp a2, a3, fun hr => ?_⟩
-  rw [Raw.Orb.bIf_eq, if_pos (Nat.blt_eq.mpr hr)] at a4
+  rw [Raw.Orb.bIf_eq, ite_eq_left (Nat.blt_eq.mpr hr)] at a4
   exact Nat.blt_eq.mp a4
 
 theorem XL_mono {i : Nat} (hi : i < 3) : ∀ a b, xS i ≤ a → a < b → b < xE i → XL a < XL b := by

@@ -187,11 +187,11 @@ variable {E : Type*} [Group E]
 def fixedSubgroupOf (θ : MulAut E) : Subgroup E where
   carrier := {x | θ x = x}
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   one_mem' := map_one θ
   inv_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 end Fixed
@@ -294,13 +294,13 @@ theorem model_mulAut_five_free (E : Subgroup ModelGrp) : ¬ 5 ∣ Nat.card (MulA
       { carrier := {x | x * x = 1}
         mul_mem' := by
           intro a b ha hb
-          simp only [Set.mem_setOf_eq] at ha hb ⊢
+          simp only [Set.mem_ofPred_eq] at ha hb ⊢
           rw [mul_assoc, ← mul_assoc b a b, hcomm b a, mul_assoc a b b, ← mul_assoc, ha, hb,
             one_mul]
         one_mem' := mul_one 1
         inv_mem' := by
           intro a ha
-          simp only [Set.mem_setOf_eq] at ha ⊢
+          simp only [Set.mem_ofPred_eq] at ha ⊢
           rw [← mul_inv_rev, ha, inv_one] }
     have hΩ : Nat.card Ω % 5 = 1 := by
       refine hcount1 (fun x => x * x = 1) (fun x => ?_) (mul_one 1)
@@ -395,7 +395,7 @@ theorem model_mulAut_five_free (E : Subgroup ModelGrp) : ¬ 5 ∣ Nat.card (MulA
       · simp [ψ, hx, hy, h.2 (iff_of_true hx hy)]
       · simp [ψ, hx, hy, mt h.1 (by tauto)]
       · simp [ψ, hx, hy, mt h.1 (by tauto)]
-      · simp only [ψ, hx, hy, h.2 (iff_of_false hx hy), if_true, if_false]
+      · simp only [ψ, hx, hy, h.2 (iff_of_false hx hy), ite_true, ite_false]
         decide
     have hψpow : ∀ (r : ModelGrp) (u : ZMod 2), ψ (r ^ u.val) = u * ψ r := by
       intro r u

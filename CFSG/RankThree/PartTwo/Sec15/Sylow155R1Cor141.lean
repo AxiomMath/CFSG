@@ -36,11 +36,11 @@ private theorem conjNormal_eq_one_iff {Q : Type*} [Group Q] {N : Subgroup Q} [N.
 
 private theorem center_eq_bot_of_isComponent {Q : Type*} [Group Q] {Yc : Subgroup Q}
     (hYc : CFSG.IsComponent Yc) (hs : IsSimpleGroup ↥Yc) : Subgroup.center ↥Yc = ⊥ := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥Yc) with h | h
   · exact h
   · exfalso
-    haveI : Nontrivial (↥Yc ⧸ Subgroup.center ↥Yc) := hYc.1.2.1.toNontrivial
+    have : Nontrivial (↥Yc ⧸ Subgroup.center ↥Yc) := hYc.1.2.1.toNontrivial
     obtain ⟨q, hq⟩ := exists_ne (1 : ↥Yc ⧸ Subgroup.center ↥Yc)
     induction q using QuotientGroup.induction_on with
     | H x => exact hq ((QuotientGroup.eq_one_iff x).mpr (h ▸ Subgroup.mem_top x))
@@ -59,11 +59,13 @@ private theorem odd_orderOf_of_mem_pPrimeCoreOf_two {K : Subgroup G} {g : G}
     have := (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mp hc
     omega)
 
+omit [Finite G] in
 private theorem centralizer_le_res1C (A L : Subgroup G) :
-    Subgroup.centralizer (A : Set G) ≤ Res1C A L := fun x hx =>
+    Subgroup.centralizer (A : Set G) ≤ Res1C A L := fun _x hx =>
   Subgroup.mem_centralizer_iff.mpr fun b hb =>
     Subgroup.mem_centralizer_iff.mp hx b (Subgroup.mem_inf.mp hb).1
 
+omit [Finite G] in
 private theorem conj_mem_pCoreOf {M : Subgroup G} {m v : G} (hm : m ∈ M)
     (hv : v ∈ CFSG.Open.pCoreOf 2 M) : m * v * m⁻¹ ∈ CFSG.Open.pCoreOf 2 M :=
   (Subgroup.mem_normalizer_iff.mp (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M hm) v).mp hv
@@ -117,6 +119,7 @@ theorem res1_eq_one_of_mem_of_centralizes (h1 : Sec4.Item4_1LargePrime)
       (by rwa [Subgroup.orderOf_coe]) ⟨u, huΘ, rfl⟩
   exact Subtype.ext hval
 
+omit [Finite G] in
 private theorem res1_comm_point {A L : Subgroup G} {c : G} (hcA : c ∈ A)
     {c' x : ↥(Res1C A L)} (hc' : (c' : G) = c)
     (hx : (x : G) ∈ Subgroup.centralizer (A : Set G)) :
@@ -214,7 +217,7 @@ theorem res1_layerOddPreimage_eq_of_autSolv (h1 : Sec4.Item4_1LargePrime)
   set E₀ := layerOddPreimage H with hE₀def
   have hY' := hY
   obtain ⟨hhyp, -, -, ⟨hYcomp, hcY, -⟩, -⟩ := hY'
-  haveI hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
+  have hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
   set C := Res1C A L with hCdef
   set π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥C) with hπdef
   let ρ : Res1Q A L →* MulAut ↥Yc := MulAut.conjNormal
@@ -264,7 +267,7 @@ theorem res1_comm_of_autFix {A L : Subgroup G} {c : G} (hS : Sec14Std G A c L)
     (((delta_le _).trans ((Sylow155S.sup_le_u155 hE hRP).trans inf_le_left)).trans (delta_le M))
   have hY' := hY
   obtain ⟨hhyp, -, -, ⟨hYcomp, hcY, -⟩, -⟩ := hY'
-  haveI hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
+  have hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
   set C := Res1C A L with hCdef
   set π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥C) with hπdef
   let ρ : Res1Q A L →* MulAut ↥Yc := MulAut.conjNormal
@@ -381,7 +384,7 @@ theorem res1_pPrimeCoreOf_le_of_comm (h1 : Sec4.Item4_1LargePrime)
   have hHO : H ≤ Subgroup.normalizer (O : Set G) := le_normalizer_pPrimeCoreOf 2 H
   have hY' := hY
   obtain ⟨hhyp, -, -, ⟨hYcomp, -, -⟩, -⟩ := hY'
-  haveI hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
+  have hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
   set π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L)) with hπdef
   let ρ : Res1Q A L →* MulAut ↥Yc := MulAut.conjNormal
   have hCRO : R ⊓ Subgroup.centralizer (A : Set G) ≤ Subgroup.centralizer (O : Set G) := by

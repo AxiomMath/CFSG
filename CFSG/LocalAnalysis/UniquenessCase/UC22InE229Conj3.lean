@@ -73,7 +73,7 @@ theorem uc22ine229c3_index_le_three {M Y : Subgroup G} (hY : Y ∈ calC M) {q : 
   by_contra hlt
   push Not at hlt
   set N : Subgroup E := (normalizer (Y : Set G)).subgroupOf E with hN
-  letI : Fintype (↥E ⧸ N) := Fintype.ofFinite _
+  let : Fintype (↥E ⧸ N) := Fintype.ofFinite _
   have hcard : Fintype.card (Fin 4) ≤ Fintype.card (↥E ⧸ N) := by
     rw [Fintype.card_fin, ← Nat.card_eq_fintype_card]
     exact hlt

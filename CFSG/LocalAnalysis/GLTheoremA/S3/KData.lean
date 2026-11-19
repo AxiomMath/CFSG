@@ -17,7 +17,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (inner)
 
 @[expose] def KDAmbSolv (p : ℕ) : Prop :=
   ∀ i : TauCeti.CFSGIndex, ambiguousChev p i → ∀ α : MulAut i.Group, α ^ p = 1 → α ≠ 1 →
-    IsSolvable ↥(fixSubgroup α)
+    Group.IsSolvable ↥(fixSubgroup α)
 
 @[expose] def KDChevInner (p : ℕ) : Prop :=
   ∀ (S : Type) [Group S] [Finite S], IsSimpleGroup S → (∃ a b : S, a * b ≠ b * a) →

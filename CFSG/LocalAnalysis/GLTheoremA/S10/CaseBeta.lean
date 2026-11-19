@@ -32,15 +32,15 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
 theorem not_mem_zpowers_symm {x a : G} (hx3 : x ^ 3 = 1) (hx : x ≠ 1) (ha3 : a ^ 3 = 1) (ha : a ≠ 1)
     (hax : a ∉ Subgroup.zpowers x) : x ∉ Subgroup.zpowers a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hxa
   have hle : Subgroup.zpowers x ≤ Subgroup.zpowers a := Subgroup.zpowers_le.2 hxa
   have hcard : Nat.card (Subgroup.zpowers a) ≤ Nat.card (Subgroup.zpowers x) := by
     rw [Nat.card_zpowers, Nat.card_zpowers, orderOf_eq_prime hx3 hx, orderOf_eq_prime ha3 ha]
   exact hax (Subgroup.eq_of_le_of_card_ge hle hcard ▸ Subgroup.mem_zpowers a)
 
-theorem fieldOn_b_U (hc : S10Ctx G 3) (hin : Lemma105Inputs G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
-    {b : G} (h : Cfg 3 B x L b) (hU : CaseU G 3 B x L b) : FieldOn 3 b L :=
+theorem fieldOn_b_U (_hc : S10Ctx G 3) (_hin : Lemma105Inputs G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
+    {b : G} (_h : Cfg 3 B x L b) (hU : CaseU G 3 B x L b) : FieldOn 3 b L :=
   hU.field
 
 private theorem casebeta_chev2_u4eight {S : Type} [Group S] (h : catalogIs S S9.isU4eight) :
@@ -70,7 +70,7 @@ private theorem casebeta_chev2_u4eight {S : Type} [Group S] (h : catalogIs S S9.
   · simp [S9.isU4eight, onLie] at hi
 
 theorem Ipart_Ja_eq (hc : S10Ctx G 3) (hin : Lemma105Inputs G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
-    {b : G} (h : Cfg 3 B x L b) (hU : CaseU G 3 B x L b) {a : G} (ha : a ∈ Dgrp b x) (hax : a ∉ Subgroup.zpowers x)
+    {b : G} (h : Cfg 3 B x L b) (_hU : CaseU G 3 B x L b) {a : G} (ha : a ∈ Dgrp b x) (hax : a ∉ Subgroup.zpowers x)
     (hJ : catalogIs (PSimple 3 (Jpart 3 (Ipart 3 L b) a)) S9.isU4eight)
     (hsingle : GLAPComponent 3 (cx a) (Jpart 3 (Ipart 3 L b) a)) {d : G} (hd : d ∈ Dgrp b x)
     (hdf : FieldOn 3 d (Jpart 3 (Ipart 3 L b) a)) :
@@ -141,7 +141,7 @@ theorem beta_y2 (hc : S10Ctx G 3) (hin : BetaInputs G 3) {B : Subgroup G} {x : G
     (h : Cfg 3 B x L b) (hU : CaseU G 3 B x L b) {a : G} (ha : a ∈ Dgrp b x) (hax : a ∉ Subgroup.zpowers x)
     (hJ : catalogIs (PSimple 3 (Jpart 3 (Ipart 3 L b) a)) S9.isU4eight)
     (hsingle : GLAPComponent 3 (cx a) (Jpart 3 (Ipart 3 L b) a))
-    (hfield : ∃ d ∈ Dgrp b x, FieldOn 3 d (Jpart 3 (Ipart 3 L b) a)) {y : G} (hyB : y ∈ B)
+    (hfield : ∃ d ∈ Dgrp b x, FieldOn 3 d (Jpart 3 (Ipart 3 L b) a)) {y : G} (_hyB : y ∈ B)
     (hyI : y ∈ Ipart 3 L b) (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1) (hyIc : IsCentralIn 3 y (Ipart 3 L b))
     (hyL : IsCentralIn 3 y L) (hyJ : IsCentralIn 3 y (Jpart 3 (Ipart 3 L b) a)) :
     GLAPComponent 3 (L ⊓ cx y) (layerC 3 L y) ∧ catalogIs (PSimple 3 (layerC 3 L y)) S9.isU3eight ∧
@@ -163,7 +163,7 @@ theorem beta_y2 (hc : S10Ctx G 3) (hin : BetaInputs G 3) {B : Subgroup G} {x : G
 theorem Ky_single_gen (hc : S10Ctx G 3) (hin : BetaInputs G 3) {B : Subgroup G} {z y : G} {M : Subgroup G}
     (hBmax : GLAIsBmax 3 B) (hzB : z ∈ B) (hyB : y ∈ B) (hy1 : y ≠ 1)
     (hM : GLAPComponent 3 (cx z) M) (hBM : B ≤ Subgroup.normalizer (M : Set G))
-    (hMt : catalogIs (PSimple 3 M) S9.isU4eight)
+    (_hMt : catalogIs (PSimple 3 M) S9.isU4eight)
     (hKzy : GLAPComponent 3 (M ⊓ cx y) (layerC 3 M y))
     (hKzyt : catalogIs (PSimple 3 (layerC 3 M y)) S9.isU3eight) :
     GLAPComponent 3 (cx y) (closureIn (layerC 3 M y) (GLAPLayer 3 (cx y))) ∧
@@ -250,7 +250,7 @@ theorem Ky_single_gen (hc : S10Ctx G 3) (hin : BetaInputs G 3) {B : Subgroup G} 
 
 theorem beta_Ky_single (hc : S10Ctx G 3) (hin : BetaInputs G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
     {b : G} (h : Cfg 3 B x L b) (hU : CaseU G 3 B x L b) {a : G} (ha : a ∈ Dgrp b x)
-    (hax : a ∉ Subgroup.zpowers x) (hJ : catalogIs (PSimple 3 (Jpart 3 (Ipart 3 L b) a)) S9.isU4eight)
+    (_hax : a ∉ Subgroup.zpowers x) (hJ : catalogIs (PSimple 3 (Jpart 3 (Ipart 3 L b) a)) S9.isU4eight)
     (hsingle : GLAPComponent 3 (cx a) (Jpart 3 (Ipart 3 L b) a)) {y : G} (hyB : y ∈ B) (hy1 : y ≠ 1)
     (hKxy : GLAPComponent 3 (L ⊓ cx y) (layerC 3 L y)) (hKxyt : catalogIs (PSimple 3 (layerC 3 L y)) S9.isU3eight)
     (hKay : GLAPComponent 3 (Jpart 3 (Ipart 3 L b) a ⊓ cx y) (layerC 3 (Jpart 3 (Ipart 3 L b) a) y))
@@ -287,7 +287,7 @@ private theorem beta_inf_core_le {H C : Subgroup G} (hHC : H ≤ C) :
   intro x hx
   exact ⟨⟨x, hx.1⟩, hle ((Subgroup.mem_subgroupOf).2 hx), rfl⟩
 
-theorem beta_Ky_eq (hc : S10Ctx G 3) {L : Subgroup G} {b : G} {a : G}
+theorem beta_Ky_eq (_hc : S10Ctx G 3) {L : Subgroup G} {b : G} {a : G}
     {y : G} (hKy : GLAPComponent 3 (cx y) (closureIn (layerC 3 L y) (GLAPLayer 3 (cx y))))
     (hKy' : GLAPComponent 3 (cx y) (closureIn (layerC 3 (Jpart 3 (Ipart 3 L b) a) y) (GLAPLayer 3 (cx y))))
     (hLle : layerC 3 L y ≤ closureIn (layerC 3 L y) (GLAPLayer 3 (cx y)))
@@ -338,9 +338,9 @@ theorem beta_field (hc : S10Ctx G 3) (hin : BetaInputs G 3) {B : Subgroup G} {x 
     (hsingle : GLAPComponent 3 (cx a) (Jpart 3 (Ipart 3 L b) a))
     (hfield : ∃ d ∈ Dgrp b x, FieldOn 3 d (Jpart 3 (Ipart 3 L b) a)) {y : G} (hyB : y ∈ B) (hy3 : y ^ 3 = 1)
     (hy1 : y ≠ 1) (hyL : IsCentralIn 3 y L) (hyJ : IsCentralIn 3 y (Jpart 3 (Ipart 3 L b) a))
-    (hKxy : GLAPComponent 3 (L ⊓ cx y) (layerC 3 L y)) (hKxyt : catalogIs (PSimple 3 (layerC 3 L y)) S9.isU3eight)
-    (hKay : GLAPComponent 3 (Jpart 3 (Ipart 3 L b) a ⊓ cx y) (layerC 3 (Jpart 3 (Ipart 3 L b) a) y))
-    (hKayt : catalogIs (PSimple 3 (layerC 3 (Jpart 3 (Ipart 3 L b) a) y)) S9.isU3eight) :
+    (_hKxy : GLAPComponent 3 (L ⊓ cx y) (layerC 3 L y)) (_hKxyt : catalogIs (PSimple 3 (layerC 3 L y)) S9.isU3eight)
+    (_hKay : GLAPComponent 3 (Jpart 3 (Ipart 3 L b) a ⊓ cx y) (layerC 3 (Jpart 3 (Ipart 3 L b) a) y))
+    (_hKayt : catalogIs (PSimple 3 (layerC 3 (Jpart 3 (Ipart 3 L b) a) y)) S9.isU3eight) :
     FieldOn 3 a (layerC 3 L y) ∧ FieldOn 3 x (layerC 3 (Jpart 3 (Ipart 3 L b) a) y) := by
   obtain ⟨hDB, hDel, hDc⟩ := dgrp_facts hc h
   have hS := sstar_triple h.star

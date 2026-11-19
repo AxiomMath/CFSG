@@ -93,7 +93,7 @@ private theorem pointsDetermined_restrict_top {H : Type*} [Group H] {Δ : Set (S
 theorem transvectionHyp_restrict_top {H : Type*} [Group H] {Δ : Set (Subgroup H)}
     (h : TransvectionHyp H Δ) (h4 : ∀ A ∈ Δ, 4 ≤ Nat.card A) :
     TransvectionHyp ↥(⊤ : Subgroup H) (restrict Δ ⊤) := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   refine ⟨inferInstance, isTransvectionClass_restrict_top h.cls,
     pointsDetermined_restrict_top h.points, ?_, ?_, ?_⟩
   · rw [eq_bot_iff]
@@ -122,7 +122,7 @@ theorem transvectionHyp_restrict_top {H : Type*} [Group H] {Δ : Set (Subgroup H
 theorem RootSetup.transvectionHyp (h : RootSetup X Δ f) (hPts : Tim90Points)
     (hrank : ∃ A ∈ Δ, ∃ B ∈ Δ, A ≠ B ∧ ⁅A, B⁆ = ⊥) :
     TransvectionHyp (quotY X) (quotDelta X Δ) := by
-  haveI : Finite (quotY X) := inferInstance
+  have : Finite (quotY X) := inferInstance
   refine ⟨inferInstance, h.isTransvectionClass_quot, ?_, h.center_quot, ?_, ?_⟩
   · refine hPts (quotY X) (quotDelta X Δ) h.isTransvectionClass_quot ?_ ?_
     · intro A' hA' B' hB'
@@ -164,6 +164,7 @@ private theorem su_oddCentralSplit
   exact hsplit.of_mulEquiv (CFSG.LieType.Universal.Unitary.equivStatedSU
     (p := 2) (f := f) hF m).symm
 
+omit [Finite K] in
 private theorem range_sup_center_eq_top {X : Subgroup K} {S : Type} [Group S]
     {Φ : S →* quotY X} (hΦ : Function.Surjective Φ) {Ψ₀ : S →* ↥X}
     (hΨ₀ : (quotMap X).comp Ψ₀ = Φ) :
@@ -335,7 +336,7 @@ private theorem isSUImage_of_transvectionData
     (Unitary.rootDatum hF m).rootGroup (unitaryLongRoot m (by omega))
   let Γ : Set (Subgroup ↥(Unitary.SU (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) m)) :=
     Set.range fun g => conjSub T g
-  haveI : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
   have hT2 : IsPGroup 2 T := by
     have hγ : CFSG.LieType.Universal.Unitary.toStd m (unitaryLongRoot m (by omega)) ≠ 0 := by
       rw [toStd_unitaryLongRoot]

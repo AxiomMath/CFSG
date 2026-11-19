@@ -114,7 +114,7 @@ theorem rationalLieType_layer_triality {n₁ : ModGL τ L} {π : Equiv.Perm (Fin
         twistedFixedPoints n (Units.map (entrywiseHom (iterateFrobenius L ℓ f))) →
       RationalLieType ℓ P
 
-theorem swapLayerRL_generic (hf : 1 ≤ f) (hq : ℓ = 2 ∨ 5 ≤ ℓ ^ f)
+theorem swapLayerRL_generic (hf : 1 ≤ f) (_hq : ℓ = 2 ∨ 5 ≤ ℓ ^ f)
     (σ : Equiv.Perm (Fin Tag.D4.rank))
     (hE : ∃ n₂ : ModGL Tag.E6 L, Acts n₂ σ ∧ E6Fix (ℓ := ℓ) f n₂ ∧
       RationalLieType ℓ (fixE6 ℓ f n₂))

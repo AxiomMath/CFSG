@@ -151,9 +151,9 @@ theorem le_card_fi24EB : 4096 ≤ Nat.card fi24EB := by
   have hpar : ∀ (S : P) (b : Bool), (if b = true then bbar 0 else 1) * bP S.1 ∈ JR ↔ b = true := by
     intro S b
     cases b
-    · rw [if_neg Bool.false_ne_true, one_mul]
+    · rw [ite_eq_right Bool.false_ne_true, one_mul]
       exact iff_of_false (hodd S.1 S.2) Bool.false_ne_true
-    · rw [if_pos rfl, Subgroup.mul_mem_iff_of_index_two index_JR]
+    · rw [ite_eq_left rfl, Subgroup.mul_mem_iff_of_index_two index_JR]
       exact iff_of_true (iff_of_false (bbar_not_mem_JR 0) (hodd S.1 S.2)) rfl
   have hgB : ∀ p : P × Bool, (if p.2 = true then bbar 0 else 1) * bP p.1.1 ∈ fi24EB := by
     rintro ⟨S, b⟩
@@ -183,7 +183,7 @@ end Rel
 
 section E
 
-@[expose] noncomputable def fi24E : Subgroup CFSG.Sporadic.Fi24.J := fi24EB.comap jR
+noncomputable def fi24E : Subgroup CFSG.Sporadic.Fi24.J := fi24EB.comap jR
 
 theorem mem_fi24E_iff {g : CFSG.Sporadic.Fi24.J} : g ∈ fi24E ↔ jR g ∈ fi24EB := Iff.rfl
 

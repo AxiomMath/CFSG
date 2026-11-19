@@ -150,9 +150,9 @@ theorem exists_dual_cocycle_section_of_mulEquiv {X : Type} [Group X] {W : Type} 
   have hexp : ∀ w : ↥I, w ^ 2 = 1 := fun w => Subtype.ext (by simpa using hW (w : W))
   obtain ⟨M', hM'add, hM'mod, hM'fin, θM, ρM, q, hqsurj, hqρ, hqZ, hperf, hθM, hqker⟩ :=
     s16sp_module_data_of_cover hexp hZH hcommH π hπ ρQ β hβs hβk hβe
-  letI : AddCommGroup M' := hM'add
-  letI : Module (ZMod 2) M' := hM'mod
-  letI : Finite M' := hM'fin
+  let : AddCommGroup M' := hM'add
+  let : Module (ZMod 2) M' := hM'mod
+  let : Finite M' := hM'fin
   obtain ⟨⟨zW, hzI0⟩, hzWne⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hIC
   let z : ↥I := ⟨zW, hzI0.1⟩
   have hzZ : z ∈ Z := Subgroup.mem_subgroupOf.mpr hzI0
@@ -173,7 +173,7 @@ theorem exists_dual_cocycle_section_of_mulEquiv {X : Type} [Group X] {W : Type} 
       · exact absurd ⟨ψ, hz'⟩ h
     exact hzMne ((Module.forall_dual_apply_eq_zero_iff (ZMod 2) _).mp h0)
   obtain ⟨ψ, hψz⟩ := hex
-  haveI : Module.Free (ZMod 2) M' := Module.Free.of_divisionRing _ _
+  have : Module.Free (ZMod 2) M' := Module.Free.of_divisionRing _ _
   obtain ⟨s, hs⟩ :=
     LinearMap.exists_rightInverse_of_surjective q (LinearMap.range_eq_top.mpr hqsurj)
   have hsq : ∀ x, q (s x) = x := fun x => LinearMap.congr_fun hs x

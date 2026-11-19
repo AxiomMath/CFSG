@@ -45,8 +45,8 @@ theorem borel_case_impossible {H : Type} [Group H] [Finite H]
     (hBn : B = Subgroup.normalizer (P : Set H) ⊓ I) : False := by
   have hhyp' : ThreeTenHyp I D P Y p d := hhyp
   obtain ⟨hp, hp2, hd, hd2, hdp, hI, hD, hDne, hP, hYlt, hγ, hN⟩ := hhyp
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hPI : P ≤ I := p_sylow_le_of_oPPrimeHull_eq hp hI hP
   have hInormal : I.Normal := normal_of_oPPrimeHull_eq hI
   have hdvdI : d ∣ Nat.card ↥I :=

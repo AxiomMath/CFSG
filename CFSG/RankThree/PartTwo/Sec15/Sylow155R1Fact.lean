@@ -32,7 +32,7 @@ theorem mem_zpowers_of_commute_of_maximal {M : Type} [Group M] [Finite M] (N : S
   have hBtilde_central : B.map (QuotientGroup.mk' N) ≤ Subgroup.center (M ⧸ N) :=
     (Subgroup.map_mono hBZ).trans
       (Subgroup.map_center_le_center (QuotientGroup.mk'_surjective N))
-  haveI hBnorm : (B.map (QuotientGroup.mk' N)).Normal :=
+  have hBnorm : (B.map (QuotientGroup.mk' N)).Normal :=
     Subgroup.normal_of_le_center hBtilde_central
   have hAtilde_eq : A.map (QuotientGroup.mk' N) =
       B.map (QuotientGroup.mk' N) ⊔ Subgroup.zpowers (QuotientGroup.mk' N a) := by
@@ -85,7 +85,7 @@ theorem mem_zpowers_of_commute_of_maximal {M : Type} [Group M] [Finite M] (N : S
 private theorem isPGroup_center_of_isComponent_three {X : Type*} [Group X] [Finite X]
     (hO : CFSG.pPrimeCore 3 X = ⊥) {L : Subgroup X} (hL : CFSG.IsComponent L) :
     IsPGroup 3 (Subgroup.center ↥L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle : (Subgroup.center ↥L).map L.subtype ≤ CFSG.pCore 3 X :=
     (CFSG.LocalCores.center_component_le_center_layer hL).trans
       (CFSG.WholeGroup.center_layer_le_pCore_of_pPrimeCore_eq_bot 3 hO)
@@ -97,7 +97,7 @@ theorem isSimple_pRank_one_of_unique_three {Q : Type} [Group Q] [Finite Q]
     (hAt : IsPGroup 3 At) {x : Q} (hxA : x ∈ At) (hxY : x ∈ Y) (hx1 : x ≠ 1) (hx3 : x ^ 3 = 1)
     (hR1 : ∀ y ∈ Y, y * x = x * y → y ^ 3 = 1 → y ∈ Subgroup.zpowers x) :
     IsSimpleGroup ↥Y ∧ CFSG.Open.pRank 3 (⊤ : Subgroup ↥Y) = 1 ∧ ∃ a b : ↥Y, a * b ≠ b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := exists_isCyclic_sylow hAt hxA hxY hx1 hx3 hR1
   have hx'3 : (⟨x, hxY⟩ : ↥Y) ^ 3 = 1 := Subtype.ext (by simpa using hx3)
   have hx'1 : (⟨x, hxY⟩ : ↥Y) ≠ 1 := fun h => hx1 (congrArg Subtype.val h)
@@ -151,7 +151,7 @@ theorem isSimple_rankOne_of_component
     (hBY : (B.subgroupOf C).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥C)) ⊓ Yc = ⊥) :
     IsSimpleGroup ↥Yc ∧ Sec18.IsRankOneType189 ↥Yc := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hT : TheoremFourHyp G := h.toTheoremFourHyp
   have hFE := (hT.partTwoF_eq_partTwoE h.partTwoS_eq).1
   have hA : A ∈ partTwoF G := h.mem_partTwoF
@@ -230,7 +230,7 @@ theorem isSimple_rankOne_of_component
     have hEq : E.map C.subtype = A := hA.2.1 _ (hE.map _) hAEm
     rw [← hEq]
     exact (Subgroup.comap_map_eq_self_of_injective C.subtype_injective E).symm
-  haveI hYnormal : Yc.Normal := normal_of_unique_isComponent hB'ab hB'9 hBZ hmaxC hYc
+  have hYnormal : Yc.Normal := normal_of_unique_isComponent hB'ab hB'9 hBZ hmaxC hYc
   obtain ⟨c', hc'Y, hc'c⟩ := Subgroup.mem_map.mp hcY
   have hc'c' : (c' : G) = c := hc'c
   have hc'A : c' ∈ A.subgroupOf C := Subgroup.mem_subgroupOf.mpr (by rw [hc'c']; exact hcA)
@@ -273,7 +273,7 @@ theorem isSimple_rankOne_of_component
     CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot 3
   obtain ⟨hsimple, hrank, hnab⟩ :=
     isSimple_pRank_one_of_unique_three hO hYc hAt3 hxA hc'Y hx1 hx3 hR1
-  haveI := hsimple
+  have := hsimple
   obtain ⟨i, ⟨e⟩⟩ : Assembly.InCatalog ↥Yc :=
     KCore.KGroupAllSimple.catalogue_self (C := Assembly.InCatalog)
       Assembly.inCatalog_isoInvariant hY4.kGroup

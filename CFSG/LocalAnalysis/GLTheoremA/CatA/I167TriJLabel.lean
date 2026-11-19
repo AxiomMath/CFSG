@@ -84,7 +84,7 @@ private theorem exists_label_isOmMA_aux1 {S : Type} [Group S] {n : ℕ} (hn : 6 
       | _ => simp [onLie] at hi
   · omega
 
-private theorem exists_label_isOmMA_aux2 {lab : GLALabel} {n : ℕ} (hn : 6 ≤ n)
+private theorem exists_label_isOmMA_aux2 {lab : GLALabel} {n : ℕ} (_hn : 6 ≤ n)
     (hP : CFSG.StandardType.markTag lab = .POmegaMinus ∧ CFSG.StandardType.markRank lab = n ∧
       CFSG.StandardType.markChar lab = 2 ∧ CFSG.StandardType.markDeg lab = 1) :
     (canonLabel lab).tag = .twD ∧ (canonLabel lab).rank = n := by
@@ -92,9 +92,9 @@ private theorem exists_label_isOmMA_aux2 {lab : GLALabel} {n : ℕ} (hn : 6 ≤ 
   cases tg <;>
     simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
       CFSG.StandardType.markChar, CFSG.StandardType.markDeg, canonLabel] at hP ⊢ <;>
-    (try split_ifs at hP ⊢) <;> simp_all <;> omega
+    (try split_ifs at hP ⊢) <;> simp_all
 
-private theorem exists_label_isOmPA_aux1 {lab : GLALabel} {n k : ℕ} (hn : 5 ≤ n) (hk : 1 ≤ k)
+private theorem exists_label_isOmPA_aux1 {lab : GLALabel} {n k : ℕ} (hn : 5 ≤ n) (_hk : 1 ≤ k)
     (hP : CFSG.StandardType.markTag lab = .POmegaPlus ∧ CFSG.StandardType.markRank lab = n ∧
       CFSG.StandardType.markChar lab = 2 ∧ CFSG.StandardType.markDeg lab = k) :
     ((canonLabel lab).tag = .A ∧ 3 ≤ (canonLabel lab).rank) ∨
@@ -103,9 +103,9 @@ private theorem exists_label_isOmPA_aux1 {lab : GLALabel} {n k : ℕ} (hn : 5 �
   cases tg <;>
     simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
       CFSG.StandardType.markChar, CFSG.StandardType.markDeg, canonLabel] at hP ⊢ <;>
-    (try split_ifs at hP ⊢) <;> simp_all <;> omega
+    (try split_ifs at hP ⊢) <;> simp_all
 
-private theorem exists_label_isOmPA_aux2 {lab : GLALabel} {k : ℕ} (hk : 1 ≤ k)
+private theorem exists_label_isOmPA_aux2 {lab : GLALabel} {k : ℕ} (_hk : 1 ≤ k)
     (hP : CFSG.StandardType.markTag lab = .PSL ∧ CFSG.StandardType.markRank lab = 4 ∧
       CFSG.StandardType.markChar lab = 2 ∧ CFSG.StandardType.markDeg lab = k) :
     ((canonLabel lab).tag = .A ∧ 3 ≤ (canonLabel lab).rank) ∨
@@ -114,7 +114,7 @@ private theorem exists_label_isOmPA_aux2 {lab : GLALabel} {k : ℕ} (hk : 1 ≤ 
   cases tg <;>
     simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
       CFSG.StandardType.markChar, CFSG.StandardType.markDeg, canonLabel] at hP ⊢ <;>
-    (try split_ifs at hP ⊢) <;> simp_all <;> omega
+    (try split_ifs at hP ⊢) <;> simp_all
 
 private theorem exists_label_isOmPA_aux3 {S : Type} [Group S] {k : ℕ} (hk : 1 ≤ k) (hk1 : k ≠ 1)
     (h : catalogIs S (isLnA 4 (2 ^ k))) : CFSG.Blueprint.LieModel S .PSL 4 2 k := by
@@ -222,7 +222,7 @@ private theorem exists_label_isOmPA_aux5 {X : Type} [Group X] (hq : CFSG.Open.Is
 
 
 theorem exists_label_isOmPA {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimple X) {n k : ℕ} (hodd : Odd n)
-    (hn : 3 ≤ n) (hk : 1 ≤ k) (hk1 : k = 1 → 5 ≤ n)
+    (_hn : 3 ≤ n) (hk : 1 ≤ k) (hk1 : k = 1 → 5 ≤ n)
     (h : catalogIs (X ⧸ Subgroup.center X) (isOmPA n (2 ^ k))) :
     ∃ lab : GLALabel, HasLabel X (fun l : GLALabel => l = lab) ∧
       (((canonLabel lab).tag = .A ∧ 3 ≤ (canonLabel lab).rank) ∨

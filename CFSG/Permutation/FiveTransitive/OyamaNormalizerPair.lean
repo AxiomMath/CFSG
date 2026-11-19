@@ -72,7 +72,7 @@ theorem exists_pair_in_normalizer
       subst x
       exact mem_fixedPoints.mp hv ⟨a,ha⟩
   obtain ⟨S,hAS⟩ := exists_sylow_containing H A
-    (P.isPGroup'.map (stabilizer G b).subtype) hAH
+    (P.isPGroup.map (stabilizer G b).subtype) hAH
   let B := (S:Subgroup H).map H.subtype
   have hBfix:fixedPoints B X={u,v} := pair_sylow_fixed hcond u v huv S
   have hAfix:Nat.card (fixedPoints A X)=6 := (hcond.2.1 b P).1
@@ -81,7 +81,7 @@ theorem exists_pair_in_normalizer
     intro he
     rw [he,hBfix,Nat.card_coe_set_eq,Set.ncard_pair huv] at hAfix
     omega
-  have hB:IsPGroup 2 B := S.isPGroup'.map H.subtype
+  have hB:IsPGroup 2 B := S.isPGroup.map H.subtype
   let T := B ⊓ Subgroup.normalizer (A:Set G)
   have hAT:A<T := lt_inf_normalizer B A hB hAB
   have hT:IsPGroup 2 T := hB.of_injective

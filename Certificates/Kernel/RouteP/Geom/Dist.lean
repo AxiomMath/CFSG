@@ -20,7 +20,7 @@ noncomputable abbrev mTree : Tree := treeBFS degree 0 (mTabs ()) #[0, 1]
 
 theorem hmLv : ∀ l ∈ (#[0, 1] : Array Nat), l < 2 := by
   intro l hl
-  simp only [Array.mem_toArray, List.mem_cons, List.not_mem_nil, or_false] at hl
+  simp only [List.mem_toArray, List.mem_cons, List.not_mem_nil, or_false] at hl
   omega
 
 theorem mem01 : (0 : Nat) ∈ (#[0, 1] : Array Nat) ∧ (1 : Nat) ∈ (#[0, 1] : Array Nat) := by simp
@@ -50,7 +50,7 @@ theorem mMin : ∀ P : Nat → Prop, P 0 → (∀ x, P x → ∀ l ∈ (#[0, 1] 
   have heL : ∀ (z : ℤ) (x : Nat), ¬ x < 920808 → eL NWP KAP KBP z x = x := by
     intro z x hx
     unfold eL
-    rw [if_neg hx]
+    rw [ite_eq_right hx]
   intro P hP0 hP y hy
   have hy' : y < 920808 := of_decide_eq_true hy
   refine hmin P hP0 (fun N hN z hz => ?_) y hy' (hall y hy')
@@ -91,8 +91,8 @@ theorem mTree_facts : CFSG.Perm.TreeFacts 920808 mTree #[0, 1] mQ 0 :=
 
 theorem letterPerm_lab {a : Nat} (ha : a < 2) : letterPerm mQ 2 (Int.ofNat a + 1) = mQ a := by
   unfold letterPerm
-  simp only [Int.ofNat_eq_coe]
-  rw [if_pos (by constructor <;> omega)]
+  simp only [Int.ofNat_eq_natCast]
+  rw [ite_eq_left (by constructor <;> omega)]
   congr 1
   omega
 
@@ -117,12 +117,12 @@ theorem loop_word_of (T : Tree)
       have e : twStep T a (w, k) =
           ForInStep.yield (w ++ [Int.ofNat (ap T.lab k) + 1], ap T.par k) := by
         unfold twStep
-        rw [if_pos h0]
+        rw [ite_eq_left h0]
       rw [e]
       refine Eq.trans ?_ (ih.trans ?_)
       · rfl
       · conv_rhs => rw [CFSG.Perm.treeG.eq_def]
-        rw [dif_pos ⟨h0, hp⟩]
+        rw [dite_eq_left ⟨h0, hp⟩]
         simp only [wordG, List.map_append, List.prod_append, List.map_cons, List.map_nil,
           List.prod_cons, List.prod_nil, mul_one, mul_assoc]
         rw [letterPerm_lab hl2]
@@ -130,7 +130,7 @@ theorem loop_word_of (T : Tree)
       subst this
       have e : twStep T a (w, 0) = ForInStep.done (w, 0) := by
         unfold twStep
-        rw [if_neg h0]
+        rw [ite_eq_right h0]
       rw [e, CFSG.Perm.treeG_zero, mul_one]
       try rfl
 

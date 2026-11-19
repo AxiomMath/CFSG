@@ -231,7 +231,7 @@ theorem exists_two_lift_subgroup [Finite F] {R : Subgroup (projectiveSL 3 F)}
     obtain ⟨P, hP'⟩ := hP.exists_le_sylow
     have hPS : P = S := Subsingleton.elim P S
     exact ⟨⟨h, hh⟩, hPS ▸ hP' (Subgroup.mem_zpowers _), rfl⟩
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map _
   have hS'Rh : S' ≤ Rh := by
     rintro _ ⟨s, -, rfl⟩
     exact s.2
@@ -297,11 +297,10 @@ theorem transvection_mem_radU {i : Fin 3} (hi : i ≠ 2) (c : F) :
 theorem transvection_eq_lev {i j : Fin 3} (hij : i ≠ j) (hi : i ≠ 2) (hj : j ≠ 2) (c : F) :
     ∃ A : SpecialLinearGroup (Fin 2) F, lev F A = SpecialLinearGroup.transvection hij c := by
   fin_cases i <;> fin_cases j
-  all_goals first
+  all_goals try first
     | exact absurd rfl hij
     | exact absurd rfl hi
     | exact absurd rfl hj
-    | skip
   · refine ⟨SpecialLinearGroup.transvection (show (0 : Fin 2) ≠ 1 by decide) c, ?_⟩
     apply Subtype.ext
     rw [lev_val]

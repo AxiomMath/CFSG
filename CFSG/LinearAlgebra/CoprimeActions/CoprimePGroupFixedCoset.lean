@@ -16,7 +16,7 @@ theorem natCard_coset (R : Subgroup X) (x : X) : Nat.card (Coset R x) = Nat.card
   apply Nat.card_congr
   exact
     { toFun := fun y => ⟨y.1 * x⁻¹, y.2⟩
-      invFun := fun r => ⟨r.1 * x, by simpa using r.2⟩
+      invFun := fun r => ⟨r.1 * x, by simp⟩
       left_inv := fun y => Subtype.ext (by simp)
       right_inv := fun r => Subtype.ext (by simp) }
 
@@ -35,8 +35,8 @@ theorem exists_fixed {p : ℕ} [Fact p.Prime] [Finite B] [Finite X]
     (hR : ∀ b, ∀ r ∈ R, ρ b r ∈ R) (hp : ¬ p ∣ Nat.card R)
     (x : X) (hx : ∀ b, ρ b x * x⁻¹ ∈ R) :
     ∃ y : X, y * x⁻¹ ∈ R ∧ ∀ b, ρ b y = y := by
-  letI := cosetAction ρ R hR x hx
-  haveI : Finite (Coset R x) := Subtype.finite
+  let := cosetAction ρ R hR x hx
+  have : Finite (Coset R x) := Subtype.finite
   have h := hB.card_modEq_card_fixedPoints (Coset R x)
   rw [natCard_coset] at h
   have hne : Nat.card (fixedPoints B (Coset R x)) ≠ 0 := by

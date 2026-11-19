@@ -23,8 +23,8 @@ theorem eq_of_subnormal_sup_isPGroup {H J R : Subgroup Y} (hJ : ⁅J, J⁆ = J)
         rw [hJR]; exact le_sup_right
     have hMK' : M = K := ih hJ hMR
     subst hMK'
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent ↥R := hR.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent ↥R := hR.isNilpotent
     have h1 := CFSG.Quasithin.perfectCore_le_of_sup_solvable hle hnormal hJR inferInstance
     rw [CFSG.Quasithin.perfectCore_eq_self_of_perfect hJ] at h1
     exact le_antisymm hle h1
@@ -69,6 +69,7 @@ theorem image_injective {A A' : Subgroup Y} (hsn : CFSG.Open.IsSubnormal A ⊤) 
   rw [h1, perfectCore_sup_eq hQp hsn' hp'] at h2
   exact h2.symm
 
+omit [Finite Y] in
 theorem conj_mem_map_of_characteristic' {X : Subgroup Y} {D : Subgroup X} [hD : D.Characteristic]
     {g : Y} (hg : g ∈ normalizer (X : Set Y)) {x : Y} (hx : x ∈ D.map X.subtype) :
     g * x * g⁻¹ ∈ D.map X.subtype := by
@@ -80,6 +81,7 @@ theorem conj_mem_map_of_characteristic' {X : Subgroup Y} {D : Subgroup X} [hD : 
     exact Subgroup.mem_map_of_mem _ hy
   · rw [Subgroup.coe_subtype, Subgroup.normalizerMonoidHom_apply_apply_coe]
 
+omit [Finite Y] in
 theorem map_pCore_le_of_isSubnormal {K : Subgroup Y} (hK : K.IsSubnormal) :
     (CFSG.pCore 2 K).map K.subtype ≤ CFSG.pCore 2 Y := by
   have key : ∀ {X Z : Subgroup Y}, X ≤ Z → Z ≤ normalizer (X : Set Y) →
@@ -107,6 +109,7 @@ theorem map_pCore_le_of_isSubnormal {K : Subgroup Y} (hK : K.IsSubnormal) :
   | step X Z hXZ hZ hN ih =>
     exact (key hXZ ((Subgroup.normal_subgroupOf_iff_le_normalizer hXZ).mp hN)).trans ih
 
+omit [Finite Y] in
 theorem pCore_eq_subgroupOf {A : Subgroup Y} (hsn : CFSG.Open.IsSubnormal A ⊤) :
     CFSG.pCore 2 ↥A = (CFSG.pCore 2 Y).subgroupOf A := by
   apply le_antisymm
@@ -136,6 +139,7 @@ noncomputable def barIso {A : Subgroup Y} (hsn : CFSG.Open.IsSubnormal A ⊤) :
   exact (QuotientGroup.quotientMulEquivOfEq hker.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective ψ hψ)
 
+omit [Finite Y] in
 theorem isComponent_image {A : Subgroup Y} (hsn : CFSG.Open.IsSubnormal A ⊤)
     (hq : CFSG.Open.IsQuasisimple (↥A ⧸ CFSG.pCore 2 ↥A)) :
     CFSG.IsComponent (A.map (QuotientGroup.mk' (CFSG.pCore 2 Y))) := by
@@ -143,7 +147,7 @@ theorem isComponent_image {A : Subgroup Y} (hsn : CFSG.Open.IsSubnormal A ⊤)
   exact CFSG.Quasithin.A3.subnormal_top_iff.mp
     (CFSG.Quasithin.A3.subnormal_top_map (QuotientGroup.mk'_surjective _) hsn)
 
-theorem exists_elemAbelian_of_commute {Z : Type*} [Group Z] [Finite Z] {q a b : ℕ} (hq : q.Prime)
+theorem exists_elemAbelian_of_commute {Z : Type*} [Group Z] [Finite Z] {q a b : ℕ} (_hq : q.Prime)
     {F F' : Subgroup Z} (hFel : IsElemAbelian q F) (hF'el : IsElemAbelian q F')
     (hFc : Nat.card F = q ^ a) (hF'c : Nat.card F' = q ^ b)
     (hcomm : ∀ x ∈ F, ∀ y ∈ F', x * y = y * x) (hint : F ⊓ F' = ⊥) :
@@ -207,7 +211,7 @@ theorem rank_add_of_ne {A A' E E' : Subgroup Y} {q a b : ℕ} (hq : q.Prime) (hq
     (hEc : Nat.card E = q ^ a) (hE'c : Nat.card E' = q ^ b) :
     ∃ W : Subgroup Y, IsElemAbelian q W ∧ Nat.card W = q ^ (a + b) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let π : Y →* Y ⧸ CFSG.pCore 2 Y := QuotientGroup.mk' (CFSG.pCore 2 Y)
   have hker : IsPGroup 2 π.ker := by rw [QuotientGroup.ker_mk']; exact CFSG.pCore_isPGroup
   have hAc := isComponent_image hsn hqs

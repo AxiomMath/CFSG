@@ -68,7 +68,6 @@ theorem actAll_of_R {m X : Nat}
   unfold actAll
   rw [all_range_swap, I, pfilter_all, List.all_nil, Bool.true_and]
   refine pall_mono 12 4 (fun x hx => ?_) TL (pidn 12 4) actAllF
-  try dsimp only
   unfold actF at hx
   rw [Bool.or_eq_true] at hx ⊢
   rcases hx with hx | hx

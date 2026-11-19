@@ -252,7 +252,7 @@ theorem frameGroupOf_three_single :
       by_cases h : r = i
       · subst h
         simp
-      · simp [Pi.single_apply, h]
+      · simp [h]
 
 theorem card_frameGroupOf_three (hK : PiField π p f K) (hq : ModThree π (p ^ f))
     {b : Fin 3 → Fin 3 → K} (hb : IsUnit (colMat b)) : Nat.card (frameGroupOf 3 b) = 9 := by

@@ -142,7 +142,7 @@ theorem ru2A_table : ∃ X : ℕ → Equiv.Perm (Fin 4060), (∀ i, X i ∈ ruS)
     fun i hi j hj => x_inj hT0 hT1 hcov hinv hk hi hj,
     x_comm hT0 hT1 hgen hin hcov hinv hrow hk,
     fun i hi j hj => x_prod hT0 hT1 hgen hin hcov hinv hrow hk hi hj,
-    fun x hx h2 h92 => x_cover hT0 hT1 hgen hin hcov hinv hk hx h2 h92⟩
+    fun x hx h2 h92 => x_cover hT0 hT1 hgen hcov hx h2 h92⟩
 
 end CertificateChecks.KernelB45.C260394
 

@@ -1332,11 +1332,9 @@ theorem exists_mem_longInvSwap_centralizer_swap (hS : Sec4Setting G Ω) (hαβ :
     rcases hv with rfl | rfl | rfl
     · rw [swap_apply_left]
       first
-        | exact iff_of_false (fun h => hxy' h.symm) (fun h => hxz' h)
         | exact iff_of_false (fun h => hxy' (Subtype.ext h).symm) (fun h => hxz' (Subtype.ext h))
     · rw [swap_apply_right]
       first
-        | exact iff_of_false (fun h => hxy' h) (fun h => hyz' h)
         | exact iff_of_false (fun h => hxy' (Subtype.ext h)) (fun h => hyz' (Subtype.ext h))
     · rw [swap_apply_of_ne_of_ne hxz'.symm hyz'.symm]
   have hcard := C.card_holtDelta_eq hr

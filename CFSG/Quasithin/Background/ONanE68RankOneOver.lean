@@ -86,7 +86,7 @@ theorem normal_odd_eq_bot {Y : Subgroup S} (P : Sylow 2 S) (hPY : (P : Subgroup 
       (Subgroup.le_normalizer_of_normal) hRodd
   have key : ∀ x : Y, x ∈ R → (x : S) ∈ (P : Subgroup S) → x = 1 := by
     intro x hxR hxP
-    obtain ⟨m, hm⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨(x : S), hxP⟩
+    obtain ⟨m, hm⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨(x : S), hxP⟩
     rw [Subgroup.orderOf_mk, Subgroup.orderOf_coe] at hm
     have hd : orderOf x ∣ Nat.card R := by
       have := orderOf_dvd_natCard (⟨x, hxR⟩ : R)

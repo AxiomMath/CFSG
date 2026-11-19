@@ -85,9 +85,9 @@ theorem nsLT2_component_label_of_order_three {N : ℕ} {F : Type} [Field F] [Fin
   have hsq := squarefree_minpoly_glA hpk hA
   have hcls : h0 = X - C 1 ∨ h0 = X ^ 2 + X + 1 :=
     nsLT2_primary_factor_classification hF hg hmem
-  haveI : Fact (Irreducible h0) :=
+  have : Fact (Irreducible h0) :=
     ⟨CFSG.RankThree.PartOne.KCPrimary.irreducible_of_mem_primaryFactors hmem⟩
-  haveI : Finite (AdjoinRoot h0) := Module.finite_of_finite F
+  have : Finite (AdjoinRoot h0) := Module.finite_of_finite F
   have hcardE : Nat.card (AdjoinRoot h0) = 2 ^ h0.natDegree :=
     CFSG.HardMathSupport.Curtis.Coordinator.natCard_adjoinRoot_of_card_eq_two hF
       (CFSG.RankThree.PartOne.KCPrimary.irreducible_of_mem_primaryFactors hmem)

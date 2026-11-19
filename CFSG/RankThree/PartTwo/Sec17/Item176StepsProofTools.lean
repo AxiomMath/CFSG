@@ -130,7 +130,7 @@ theorem hasCommOfZ_of_sylow {X : Type*} [Group X] [Finite X]
     exact Subgroup.zpow_mem_zpowers w k
   · rw [Ne, commutatorElement_eq_one_iff_mul_comm]
     exact hxy
-  · refine P.isPGroup'.to_le ?_
+  · refine P.isPGroup.to_le ?_
     rw [Subgroup.closure_le]
     intro z hz
     rcases hz with rfl | rfl
@@ -225,7 +225,7 @@ theorem exists_isPGroup_map_eq {K : Type*} [Group K] [Finite K] {p : ℕ} [Fact 
   set P' : Sylow p ↥F := P.mapSurjective hfs with hP'
   have htop : (P' : Subgroup ↥F) = ⊤ :=
     P'.maximal_isPGroup.eq_of_le (hF.of_equiv Subgroup.topEquiv.symm) le_top
-  refine ⟨(P : Subgroup ↥W).map W.subtype, P.isPGroup'.map _, ?_⟩
+  refine ⟨(P : Subgroup ↥W).map W.subtype, P.isPGroup.map _, ?_⟩
   apply le_antisymm
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩
     exact w.2

@@ -30,7 +30,7 @@ theorem ggR4Meet_split {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : 
       ∃ z : G, z ∈ L ∧ z ∈ Bs ∧ z ≠ 1 ∧ z ^ 3 = 1 ∧
         L ⊓ Subgroup.centralizer (D : Set G) = L ⊓ Subgroup.centralizer ({z} : Set G) := by
   have hp3 : Nat.Prime 3 := hCfg.tableB_facts.1
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hSstar : LargeEvenSStar 3 B x L := hCfg.1.2.2.2.2.2.2.1
   have hxne1 : x ≠ 1 := hSstar.2.2.1
   have hBsEA : IsElemAbelian 3 Bs := hCfg.tableB_facts.2.1

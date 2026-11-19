@@ -107,7 +107,7 @@ theorem mem_center_of_comm_xh
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, c.orderOf_xh, pow_one])
   obtain ⟨P, hP⟩ := hp.exists_le_sylow
   have hPcard : Nat.card P = 5 := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp P.isPGroup
     have hdvd : 5 ^ k ∣ 743178240 := hk ▸ c.card_H ▸ Subgroup.card_subgroup_dvd_card _
     have hz5 : Nat.card (Subgroup.zpowers c.xh) = 5 := by
       rw [Nat.card_zpowers, c.orderOf_xh]

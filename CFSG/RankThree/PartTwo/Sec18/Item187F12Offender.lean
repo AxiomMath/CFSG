@@ -14,6 +14,7 @@ open CFSG.HardMathSupport.Solomon.UniquenessMaximal (centerOf tripleOf)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isElemTwo_of_le_of_isElemAbelian {E D : Subgroup G}
     (hE : CFSG.Open.IsElemAbelian 2 E) (hDE : D ≤ E) : Sec3.IsElemTwo D :=
   ⟨fun a ha b hb => (isElemTwo_of_isElemAbelian hE).1 a (hDE ha) b (hDE hb),
@@ -30,6 +31,7 @@ private theorem pRank_eq_of_card {S Q E : Subgroup G} (hQS : Q ≤ S) (hEQ : E �
   exact le_antisymm (CFSG.SectionRank.pRank_mono hp hQS)
     (CFSG.SectionRank.le_pRank hp hEQ hE hcard)
 
+omit [Finite G] in
 private theorem jG_one_le_of_le {S Q : Subgroup G} (hQS : Q ≤ S)
     (hrank : CFSG.pRank 2 Q = CFSG.pRank 2 S) : Sec3.jG Q 1 ≤ Sec3.jG S 1 := by
   unfold Sec3.jG
@@ -37,6 +39,7 @@ private theorem jG_one_le_of_le {S Q : Subgroup G} (hQS : Q ≤ S)
   obtain ⟨hAQ, hA2, hcard⟩ := Sec3.mem_famG.mp hA
   exact Sec3.mem_famG.mpr ⟨hAQ.trans hQS, hA2, by rw [hcard, hrank]⟩
 
+omit [Finite G] in
 private theorem jG_one_ge_of_forall {S Q : Subgroup G}
     (hrank : CFSG.pRank 2 Q = CFSG.pRank 2 S)
     (hall : ∀ A : Subgroup G, A ∈ Sec3.famG S 1 → A ≤ Q) : Sec3.jG S 1 ≤ Sec3.jG Q 1 := by
@@ -131,7 +134,7 @@ private theorem exists_offender_aux (h186 : Item186H) (hX : MinCex A M H c X)
       2 ^ (CFSG.pRank 2 S - 1) ≤ Nat.card E ∧
       ¬ E ≤ X ⊓ Subgroup.centralizer (Wsub X S : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnot1
     obtain ⟨E0, hE0⟩ := Item181ThreeProof.exists_mem_famG_zero S
     obtain ⟨hE0S, hE02, hE0card⟩ := Sec3.mem_famG.mp hE0
@@ -172,8 +175,8 @@ private theorem exists_offender_aux (h186 : Item186H) (hX : MinCex A M H c X)
 section Certified
 
 
-theorem MinCex.exists_offender (h1812 : Item181_2) (h184 : Item184_1) (h186 : Item186H)
-    (hX : MinCex A M H c X) (hsol : Group.IsSolvable ↥X) (h5 : 5 ∣ Nat.card X)
+theorem MinCex.exists_offender (_h1812 : Item181_2) (_h184 : Item184_1) (h186 : Item186H)
+    (hX : MinCex A M H c X) (_hsol : Group.IsSolvable ↥X) (_h5 : 5 ∣ Nat.card X)
     (hbad : BadCase A M H X) :
     ∃ E : Subgroup G, E ≤ CFSG.Open.pCoreOf 2 (H ⊓ M) ∧ CFSG.Open.IsElemAbelian 2 E ∧
       ¬ E ≤ X ⊓ Subgroup.centralizer (Wsub X (CFSG.Open.pCoreOf 2 (H ⊓ M)) : Set G) ∧

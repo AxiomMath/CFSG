@@ -112,7 +112,7 @@ private lemma blockSLToProj_injective (E : Type) [Field E] (a : ℕ) (ha : 2 ≤
   simp
 
 theorem prime_dvd_card_statedProj_statedSL {E : Type} [Field E] [Finite E] {a p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (ha : 2 ≤ a) (h2 : (2 : E) = 0)
+    (_hp : p.Prime) (_hp2 : p ≠ 2) (ha : 2 ≤ a) (h2 : (2 : E) = 0)
     (hdvd : p ∣ Nat.card E ^ 2 - 1) : p ∣ Nat.card (StatedProj (StatedSL a E)) := by
   have hcard : Nat.card (StatedSL 2 E) = Nat.card E * (Nat.card E ^ 2 - 1) :=
     CFSG.Open.StatedAPI.card_statedSL_two E
@@ -159,11 +159,11 @@ private lemma blockSUToProj_injective (E : Type) [Field E] [Finite E] (f a : ℕ
       (by omega) ((X : GL (Fin 2) E) : Matrix (Fin 2) (Fin 2) E) x y
     rw [hmat] at h
     rw [← h]
-    simp only [Matrix.scalar_apply, Matrix.diagonal, blockIdx_val, Fin.ext_iff]
+    simp only [Matrix.scalar_apply, Matrix.diagonal, Fin.ext_iff]
     by_cases hxy : x = y
     · subst hxy; simp
     · have : ¬ (0 + x.val = 0 + y.val) := fun h' => hxy (Fin.ext (by omega))
-      simp [hxy, this]
+      simp
   have hdet : ((X : GL (Fin 2) E) : Matrix (Fin 2) (Fin 2) E).det = 1 :=
     (mem_SUid.mp X.2).1
   have hc2 : (c : E) * (c : E) = 1 := by
@@ -181,7 +181,7 @@ private lemma blockSUToProj_injective (E : Type) [Field E] [Finite E] (f a : ℕ
 
 theorem prime_dvd_card_statedProj_statedSU {E : Type} [Field E] [Finite E]
     {f a p : ℕ} [Fact (Nat.Prime 2)] [CharP E 2]
-    (hp : p.Prime) (hp2 : p ≠ 2) (ha : 2 ≤ a)
+    (_hp : p.Prime) (_hp2 : p ≠ 2) (ha : 2 ≤ a)
     (hE : Nat.card E = (2 ^ f) ^ 2) (hdvd : p ∣ (2 ^ f) ^ 2 - 1) :
     p ∣ Nat.card (StatedProj (StatedSU a (2 ^ f) E)) := by
   have hcard : Nat.card (Su E 2 f 2) = 2 ^ f * ((2 ^ f) ^ 2 - 1) := by
@@ -309,12 +309,12 @@ private lemma dvd_card_quotient_center_heldSU_two
     (hdvdE' : p ∣ (2 ^ (nf * dd)) ^ 2 - 1) :
     p ∣ Nat.card (heldSU 2 E τ' hτ' ⧸
       Subgroup.center (heldSU 2 E τ' hτ')) := by
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   obtain ⟨e2⟩ := nonempty_quotientCenter_heldSU_two_equiv_statedProj
     (p := 2) (k := nf * dd) (Q := 2 ^ (nf * dd)) rfl hEcard2 hτ'm
   have hFcard : Nat.card ↥(CFSG.LieType.Steinberg.fixedSubfield E 2 (nf * dd)) =
       2 ^ (nf * dd) := CFSG.LieType.Steinberg.card_fixedSubfield hEcard2
-  haveI : CharP ↥(CFSG.LieType.Steinberg.fixedSubfield E 2 (nf * dd)) 2 :=
+  have : CharP ↥(CFSG.LieType.Steinberg.fixedSubfield E 2 (nf * dd)) 2 :=
     CFSG.ComponentClassification.RankTwoClassical.charP_fixedSubfield hEcard2
   have h2F : (2 : ↥(CFSG.LieType.Steinberg.fixedSubfield E 2 (nf * dd))) = 0 :=
     CharP.cast_eq_zero _ 2
@@ -348,9 +348,9 @@ private lemma false_of_solvable_heldSU_three_two
     (hτ'2 : ∀ x, τ' x = x ^ 2) (hE4 : Nat.card E = 4)
     (hquot : Nonempty (J ⧸ Subgroup.center J ≃*
       heldSU 3 E τ' hτ' ⧸ Subgroup.center (heldSU 3 E τ' hτ'))) : False := by
-  haveI := hsimple
+  have := hsimple
   obtain ⟨e⟩ := hquot
-  haveI : Group.IsSolvable (heldSU 3 E τ' hτ' ⧸
+  have : Group.IsSolvable (heldSU 3 E τ' hτ' ⧸
       Subgroup.center (heldSU 3 E τ' hτ')) :=
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.isSolvable_quot_heldSU_three_two
       τ' hτ' hτ'2 hE4
@@ -370,10 +370,10 @@ private lemma dvd_card_quotient_center_of_heldSU
     (hquot : Nonempty (R ⧸ Subgroup.center R ≃*
       heldSU a E τ' hτ' ⧸ Subgroup.center (heldSU a E τ' hτ'))) :
     p ∣ Nat.card (R ⧸ Subgroup.center R) := by
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   have hEtwo : Nat.card E = 2 ^ (2 * (nf * dd)) := by
     rw [hEcard2, ← pow_mul, show (nf * dd) * 2 = 2 * (nf * dd) by ring]
-  haveI : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * (nf * dd))
+  have : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * (nf * dd))
     (by rw [← Nat.card_eq_fintype_card]; exact hEtwo)
   obtain ⟨e⟩ := hquot
   rw [Nat.card_congr e.toEquiv]
@@ -426,10 +426,10 @@ private lemma dvd_card_quotient_center_of_heldSL_unitary_alt
     {R : Type*} [Group R]
     (hquot : Nonempty (R ⧸ Subgroup.center R ≃* StatedProj (StatedSL b E))) :
     p ∣ Nat.card (R ⧸ Subgroup.center R) := by
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   have hEtwo : Nat.card E = 2 ^ (nf * (2 * e₀)) := by
     rw [hEcard, ← pow_mul]
-  haveI : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := nf * (2 * e₀))
+  have : CharP E 2 := charP_of_card_eq_prime_pow (p := 2) (f := nf * (2 * e₀))
     (by rw [← Nat.card_eq_fintype_card]; exact hEtwo)
   have h2E : (2 : E) = 0 := CharP.cast_eq_zero E 2
   have hdvdE : p ∣ Nat.card E ^ 2 - 1 := by
@@ -491,16 +491,16 @@ private lemma unitary_component_setup {p nf N : ℕ} {K : Type} [Field K] [Finit
   exact ⟨J', J'', hJ', ⟨eJJ⟩, hcard'', hJ''GU, hs, hord⟩
 
 theorem ggK1A_core_dvd {p nf N d : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
-    (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1) (hd : d = ggMultOrd p nf)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1) (_hd : d = ggMultOrd p nf)
     {xhat : ↥(LargeEvenSLGroup (Fin N) K)} (hxp : xhat ^ p = 1) {m : List ℕ}
-    (hm : GGK1AMultOf p nf N false K (xhat : GL (Fin N) K) m) :
+    (_hm : GGK1AMultOf p nf N false K (xhat : GL (Fin N) K) m) :
     GGK1Dvd p (LargeEvenProj (LargeEvenSLGroup (Fin N) K))
       (MulAut.conj (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K) xhat)) := by
   intro J hJ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := nf)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := nf)
     (by rw [← Nat.card_eq_fintype_card]; exact hK)
   have h2K : (2 : K) = 0 := CharP.cast_eq_zero K 2
   obtain ⟨J', J'', hJ', hJ''SL, ⟨eJJ⟩, hcard''⟩ :=
@@ -517,9 +517,9 @@ theorem ggK1A_core_dvd {p nf N d : ℕ} {K : Type} [Field K] [Finite K]
     orderOf_cast_ne_zero hp hp2 hxhat_pow
   obtain ⟨a, E, hEf, hEalg, hEfin, ha, ⟨eJ''⟩⟩ :=
     held_linear_components_unconditional (xhat : GL (Fin N) K) hs hord J'' hJ''
-  letI : Field E := hEf
-  letI : Algebra K E := hEalg
-  letI : Finite E := hEfin
+  let : Field E := hEf
+  let : Algebra K E := hEalg
+  let : Finite E := hEfin
   have hpJ'' : p ∣ Nat.card (J'' ⧸ Subgroup.center J'') :=
     dvd_card_quotient_center_of_heldSL hp hp2 ha h2K hK hdvd ⟨eJ''⟩
   have hpquot : p ∣ Nat.card (J ⧸ Subgroup.center J) := by
@@ -528,19 +528,19 @@ theorem ggK1A_core_dvd {p nf N d : ℕ} {K : Type} [Field K] [Finite K]
   exact dvd_card_of_dvd_card_quotient_center hpquot
 
 theorem ggK1A_uni_core_dvd {p nf N d : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = (2 ^ nf) ^ 2)
-    (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1) (hd : d = ggMultOrd p nf)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = (2 ^ nf) ^ 2)
+    (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1) (_hd : d = ggMultOrd p nf)
     {xhat : ↥(LargeEvenSUGroup (Fin N) K (2 ^ nf))} (hxp : xhat ^ p = 1) {m : List ℕ}
-    (hm : GGK1AMultOf p nf N true K (xhat : GL (Fin N) K) m) :
+    (_hm : GGK1AMultOf p nf N true K (xhat : GL (Fin N) K) m) :
     GGK1Dvd p (LargeEvenProj (LargeEvenSUGroup (Fin N) K (2 ^ nf)))
       (MulAut.conj (LargeEvenProjMk (LargeEvenSUGroup (Fin N) K (2 ^ nf)) xhat)) := by
   intro J hJ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = 2 ^ (2 * nf) := by
     rw [hK, show (2 ^ nf) ^ 2 = 2 ^ (nf * 2) from (pow_mul 2 nf 2).symm,
       show nf * 2 = 2 * nf by ring]
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * nf)
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * nf)
     (by rw [← Nat.card_eq_fintype_card, hK2])
   let τ : K ≃+* K := CFSG.LieType.BorelTits.unitaryInvolution K 2 nf
   have hτ : ∀ x, τ (τ x) = x := CFSG.LieType.BorelTits.unitaryInvolution_involutive hK
@@ -555,12 +555,12 @@ theorem ggK1A_uni_core_dvd {p nf N d : ℕ} {K : Type} [Field K] [Finite K]
   have hpJ'' : p ∣ Nat.card (J'' ⧸ Subgroup.center J'') := by
     rcases hHeld with ⟨a, dd, E, hEf, hEfin, τ', hτ', ha, hτ'Q, hEcard, ⟨e⟩⟩ |
       ⟨b, e₀, E, hEf, hEfin, hb, hEcard, ⟨eL⟩⟩
-    · letI : Field E := hEf
-      letI : Finite E := hEfin
+    · let : Field E := hEf
+      let : Finite E := hEfin
       exact dvd_card_quotient_center_of_heldSU_alt τ' hτ' hp hp2 ha hEcard hτ'Q hdvdQ
         hJ''GU.2.2.2 ⟨e⟩
-    · letI : Field E := hEf
-      letI : Finite E := hEfin
+    · let : Field E := hEf
+      let : Finite E := hEfin
       exact dvd_card_quotient_center_of_heldSL_unitary_alt hp hp2 hb hEcard hdvdQ ⟨eL⟩
   have hpquot : p ∣ Nat.card (J ⧸ Subgroup.center J) := by
     rw [Nat.card_congr eJJ.symm.toEquiv, hcard'']

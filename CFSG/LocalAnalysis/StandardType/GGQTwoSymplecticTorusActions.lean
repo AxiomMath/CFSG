@@ -66,12 +66,13 @@ theorem exists_conj_longBlock_of_full_frame
   funext j
   by_cases hji : j = i
   · subst j
-    rw [if_pos rfl, hg', if_pos rfl]
+    rw [ite_eq_left rfl, hg', ite_eq_left rfl]
     have h := congrArg (fun T : Matrix.SpecialLinearGroup (Fin 2) K =>
       (T : Matrix (Fin 2) (Fin 2) K)) (WSL_conj_pow_val hK hdet hM (k i g))
     simpa only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_pow, coe_mkSL] using h
-  · rw [if_neg hji, hg', if_neg hji]
+  · rw [ite_eq_right hji, hg', ite_eq_right hji]
 
+omit [Finite K] in
 theorem exists_conj_permSp_of_full_frame
     {E : Subgroup (StatedSp n K)} {A₀ : StatedSp n K}
     {M : Matrix (Fin 2) (Fin 2) K} {k : Fin n → ↥E →* Multiplicative (ZMod 3)}
@@ -125,6 +126,7 @@ theorem permSp_mem_normalizer_of_full_frame
   exact g'.property
 
 
+omit [Finite K] in
 theorem eq_one_of_permSp_frame_centralizes
     {E : Subgroup (StatedSp n K)} {A₀ : StatedSp n K}
     {M : Matrix (Fin 2) (Fin 2) K} {k : Fin n → ↥E →* Multiplicative (ZMod 3)}
@@ -144,7 +146,7 @@ theorem eq_one_of_permSp_frame_centralizes
     obtain ⟨g', hg', heq⟩ := exists_conj_permSp_of_full_frame hframe hsurj π g
     have hgg : g' = g := Subtype.ext (heq.symm.trans (hcen g g.property))
     have h1 : k i g = α := by simpa using hg i
-    have h2 : k (π.symm i) g = 1 := by simpa only [if_neg hne] using hg (π.symm i)
+    have h2 : k (π.symm i) g = 1 := by simpa only [ite_eq_right hne] using hg (π.symm i)
     have h := hg' i
     rw [hgg, h1, h2] at h
     exact (show α ≠ 1 by decide +kernel) h

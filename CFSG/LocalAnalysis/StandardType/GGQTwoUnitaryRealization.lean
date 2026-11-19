@@ -226,8 +226,8 @@ theorem exists_frame_of_marking_twA_full
   rw [CFSG.Assembly.LargeEvenRawDatumLegacy, htag] at hraw
   rw [hn1] at hraw
   obtain ⟨K, hfield, hfin, hKcard, hQc⟩ := hraw
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   obtain ⟨-, -, θ, hpred'⟩ := hQc
   obtain ⟨-, hN, h3I⟩ := hpred'
   let hU : UnitaryFieldData 2 1 K := TableBU.unitaryFieldData_of_card hKcard (by norm_num)
@@ -283,8 +283,8 @@ theorem exists_frame_of_marking_twA_heart
   rw [CFSG.Assembly.LargeEvenRawDatumLegacy, htag] at hraw
   rw [hn1] at hraw
   obtain ⟨K, hfield, hfin, hKcard, hQc⟩ := hraw
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   obtain ⟨-, -, θ, hpred'⟩ := hQc
   obtain ⟨-, hN, h3I⟩ := hpred'
   let hU : UnitaryFieldData 2 1 K := TableBU.unitaryFieldData_of_card hKcard (by norm_num)

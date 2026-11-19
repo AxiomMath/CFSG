@@ -168,7 +168,7 @@ theorem exists_elemAbelian_fixed_fieldActor {f : ℕ} (hf : 1 ≤ f) (K : Type) 
       (∀ x ∈ E, fieldActor (t := TwistTag.E6) σ η x = x) ∧
       Nat.card B ≤ p * Nat.card E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK2 : Nat.card K = 2 ^ (2 * f) := by rw [hK, ← pow_mul, Nat.mul_comm]
   have hcord : orderOf η = p := orderOf_eq_prime hηp hη1
   have hoddp : Odd p := hp.odd_of_ne_two hp2
@@ -176,9 +176,9 @@ theorem exists_elemAbelian_fixed_fieldActor {f : ℕ} (hf : 1 ≤ f) (K : Type) 
     fixSubfield_card_of_odd hf hK η (by rw [hcord]; exact hoddp)
   rw [hcord] at hpdvd hKfix
   have hfdiv : 1 ≤ f / p := Nat.div_pos (Nat.le_of_dvd (by omega) hpdvd) hp.pos
-  haveI : Finite (fixSubfield η) :=
+  have : Finite (fixSubfield η) :=
     Finite.of_injective (Subtype.val : fixSubfield η → K) Subtype.val_injective
-  haveI : CharP (fixSubfield η) 2 := Subfield.charP (fixSubfield η) 2
+  have : CharP (fixSubfield η) 2 := Subfield.charP (fixSubfield η) 2
   have hσfix : ∀ c : ↥(fixSubfield η), fixSubfieldRestrict σ η c = c ^ (2 ^ (f / p)) := by
     refine fixSubfieldRestrict_eq_pow hKfix hoddp ?_
     intro c
@@ -222,7 +222,7 @@ theorem exists_elemAbelian_fixed_fieldActor {f : ℕ} (hf : 1 ≤ f) (K : Type) 
         _ ≤ p * Nat.card E₀ := Nat.mul_le_mul_left p hE₀card
 
 private theorem mem_range_of_eq_conj {C G : Type} [Group C] [Group G] (χ : C →* G)
-    (hχ : Function.Injective χ) {G₀ : Subgroup G} (hrange : χ.range = G₀)
+    (_hχ : Function.Injective χ) {G₀ : Subgroup G} (hrange : χ.range = G₀)
     (hcent : Subgroup.centralizer (G₀ : Set G) = ⊥) {y : G} {α : MulAut C}
     (hα : ∀ u, χ (α u) = y * χ u * y⁻¹) {h : C} (hh : α = MulAut.conj h) : y ∈ χ.range := by
   have hc : (χ h)⁻¹ * y ∈ Subgroup.centralizer (G₀ : Set G) := by
@@ -250,7 +250,7 @@ theorem exists_centralizing_elemAbelian_of_not_three {G : Type} [Group G] [Finit
   classical
   have hpp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hpres : GGPresentsG0 G₀ (ggU .twistedE6 n f).D .twistedE6 n f ψ := hS.presents
   have hrange : ψ.range = G₀ := hS.range_eq
   have hf : 1 ≤ f := hpres.1.1.2.1

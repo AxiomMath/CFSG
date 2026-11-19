@@ -45,7 +45,7 @@ theorem reeGamma_F4_simple_model {b : ℕ} (hb : 1 ≤ b) (k : Type) [Field k] [
   obtain ⟨-, hsimp⟩ := CFSG.LieType.Simplicity.fam_2f4_simplicity (h := hrel)
   have hZ : Subgroup.center ↥(ReeTag.F4.reeGamma k b) = ⊥ :=
     ReeTag.large_Ree_fixed_group_center_trivial b k hk
-  haveI : Nontrivial ↥(ReeTag.F4.reeGamma k b) := hsimp.toNontrivial
+  have : Nontrivial ↥(ReeTag.F4.reeGamma k b) := hsimp.toNontrivial
   exact ⟨hsimp, exists_noncomm_of_center_bot hZ,
     Or.inr (Or.inr (Or.inl ⟨rfl, by decide, hrel⟩))⟩
 
@@ -72,9 +72,9 @@ theorem u42Layer_reeGammaFieldAut_F4 {a b : ℕ} (F : Type) [Field F] [Finite F]
           (ReeTag.F4.reeGamma F a).subtype =
         (ReeTag.F4.reeGamma (fixSubfield σ) b).map (baseChangeGL (fixSubfield σ).subtype)) :
     U42Layer (ReeTag.F4.reeGammaFieldAut F a σ) False := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP ↥(fixSubfield σ) ReeTag.F4.prime :=
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP ↥(fixSubfield σ) ReeTag.F4.prime :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hk
   obtain ⟨eC⟩ := nonempty_fixSubgroup_reeGammaFieldAut_equiv σ hfix
@@ -83,7 +83,7 @@ theorem u42Layer_reeGammaFieldAut_F4 {a b : ℕ} (F : Type) [Field F] [Finite F]
     have hk2 : Nat.card ↥(fixSubfield σ) = 2 := by simpa using hk
     obtain ⟨c⟩ := nonempty_commutator_reeGamma_tits hk2
     obtain ⟨cc⟩ := nonempty_commutator_mulEquiv eC
-    haveI : Nontrivial titsD := titsD_simple.toNontrivial
+    have : Nontrivial titsD := titsD_simple.toNontrivial
     exact u42Layer_of_fixed_commutator_equiv _ (cc.trans c) titsD_simple
       (exists_noncomm_of_center_bot titsD_center) not_catalogIs_u4two_titsD
   · obtain ⟨hsimp, hnab, hX⟩ :=
@@ -120,7 +120,7 @@ theorem u42Layer_reeGamma_F4 {a : ℕ} (ha : 1 ≤ a) (F : Type) [Field F] [Fini
     [CharP F ReeTag.F4.prime] (hK : Nat.card F = 2 ^ (2 * a + 1))
     (β' : MulAut ↥(ReeTag.F4.reeGamma F a)) (hβ3 : β' ^ 3 = 1)
     (hβinn : β' ∉ inner ↥(ReeTag.F4.reeGamma F a)) : U42Layer β' False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, β, hβord, hxβ⟩ := exists_conj_mul_reeGammaFieldAut_of_not_inner ha F hK β' hβ3 hβinn
   obtain ⟨g, hg⟩ := CFSG.RankThree.PartOne.RF4.largeRee_fieldAut_coset_conj a hK Nat.prime_three
     β hβord β' hβ3 ⟨x, hxβ⟩
@@ -166,7 +166,7 @@ theorem u42Out_reeF4 : U42OuterAt FamReeF4 := by
       have h := ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
       simpa only [TauCeti.LieTypeIndex.inStandardRange_iff] using h
     obtain ⟨F, _, _, _, hFcard, ⟨e'⟩⟩ := exists_equiv_reeGamma_F4 hR
-    haveI : Finite ↥(ReeTag.F4.reeGamma F m) := Finite.of_equiv S e'.toEquiv
+    have : Finite ↥(ReeTag.F4.reeGamma F m) := Finite.of_equiv S e'.toEquiv
     have hβ3 : MulAut.congr e' α ^ 3 = 1 := by rw [← map_pow, hp.1, map_one]
     have hβinn : MulAut.congr e' α ∉ inner ↥(ReeTag.F4.reeGamma F m) := fun hin =>
       not_mem_range_conj_of_not_mem_innAutDerived hα

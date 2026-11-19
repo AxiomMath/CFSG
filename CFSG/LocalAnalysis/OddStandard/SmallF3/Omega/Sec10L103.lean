@@ -101,7 +101,7 @@ theorem asc82Lemma103_of (h102 : Asc82Lemma102) (hb : Asc82Basic10)
   have hcyc : ∀ P : Subgroup G, IsSylow2Of P (centralizer (L : Set G)) → IsCyclic P := by
     intro P hP
     obtain ⟨Q, hQ⟩ := hP.exists_sylow
-    haveI : IsCyclic ↥(Q : Subgroup ↥(centralizer (L : Set G))) :=
+    have : IsCyclic ↥(Q : Subgroup ↥(centralizer (L : Set G))) :=
       h102 G t L h.toSec10Setting Q
     rw [← hQ]
     exact isCyclic_of_surjective

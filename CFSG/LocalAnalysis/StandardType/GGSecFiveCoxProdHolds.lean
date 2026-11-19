@@ -58,12 +58,12 @@ private theorem p10_label_le_three_reindex {κ : Type*} (N : CoxeterMatrix κ)
   rw [CoxeterMatrix.reindex_apply]
   exact h (e.symm i) (e.symm j) (fun hh => hij (e.symm.injective hh))
 
-private theorem p10_le_three_A (m : ℕ) (i j : Fin m) (hij : i ≠ j) :
+private theorem p10_le_three_A (m : ℕ) (i j : Fin m) (_hij : i ≠ j) :
     (CoxeterMatrix.A m).M i j ≤ 3 := by
   simp only [CoxeterMatrix.A, Matrix.of_apply]
   split_ifs <;> omega
 
-private theorem p10_le_three_D (n : ℕ) (i j : Fin n) (hij : i ≠ j) :
+private theorem p10_le_three_D (n : ℕ) (i j : Fin n) (_hij : i ≠ j) :
     (ggCoxeterMatrixD n).M i j ≤ 3 := by
   rw [ggCoxeterMatrixD_apply]
   split_ifs <;> omega
@@ -217,7 +217,7 @@ private theorem p10_generic {I : Type} [Fintype I] [DecidableEq I]
   have hTmσ : Tm σ = a • ρ - σ := by
     show (Sρ * Sσ) σ = _
     rw [Module.End.mul_apply, hSσ, hSρ]
-    simp only [map_sub, map_smul, hn2σ, hn1ρ, hn1σ, hn2ρ, smul_eq_mul]
+    simp only [map_sub, map_smul, hn2σ, hn1σ, smul_eq_mul]
     module
   have hspan_mem : ∀ x : I → ℤ,
       weylAction hC t x - x ∈ Submodule.span ℤ ({ρ, σ} : Set (I → ℤ)) := by
@@ -296,7 +296,6 @@ private theorem p10_generic {I : Type} [Fintype I] [DecidableEq I]
           refine ⟨ha0, ?_⟩
           have h := hb
           rw [hBρσ] at h
-          push_cast at h
           have : (b : ℚ) = 0 := by nlinarith
           exact_mod_cast this
         · refine ⟨?_, hb0⟩
@@ -307,7 +306,6 @@ private theorem p10_generic {I : Type} [Fintype I] [DecidableEq I]
             linarith
           have h := ha
           rw [hBρσ] at h
-          push_cast at h
           have : (a : ℚ) = 0 := by nlinarith
           exact_mod_cast this
       have hT2ρ' : Tm (Tm ρ) = ρ := by rw [hT2ρ, hab0.1, hab0.2]; module
@@ -331,13 +329,11 @@ private theorem p10_generic {I : Type} [Fintype I] [DecidableEq I]
       have h1b : b * a = 1 := by rw [mul_comm]; exact h1
       have hT3ρ : Tm (Tm (Tm ρ)) = ρ := by
         rw [hT2ρ', map_add, map_neg, map_smul, hTmρ, hTmσ]
-        simp only [h1, h1b, smul_sub, smul_smul, one_smul, zero_smul, neg_smul, neg_neg,
-          sub_self, sub_zero, add_zero, zero_add, neg_sub]
+        simp only [h1, h1b, smul_sub, smul_smul, one_smul, zero_smul, sub_self, sub_zero, neg_sub]
         simp
       have hT3σ : Tm (Tm (Tm σ)) = σ := by
         rw [hT2σ', map_smul, hTmρ]
-        simp only [h1, smul_sub, smul_smul, one_smul, zero_smul, neg_smul, neg_neg, mul_one,
-          one_mul, mul_neg, neg_mul, sub_self, sub_zero, add_zero, zero_add, neg_sub]
+        simp only [h1, smul_sub, smul_smul, one_smul, zero_smul, neg_smul, neg_mul, sub_self]
         simp
       have hfixρ : weylAction hC (t ^ 3) ρ = ρ := by
         rw [map_pow, ht]
@@ -476,7 +472,7 @@ private theorem p10_symmetrizer_B_ne_three (n : ℕ) (hn : 2 ≤ n)
               simp
               omega
             simp only [CartanMatrix.B, Matrix.of_apply]
-            rw [if_neg hne, if_pos hsucc, if_pos hlast]
+            rw [ite_eq_right hne, ite_eq_left hsucc, ite_eq_left hlast]
           have hA2 : CartanMatrix.B n ⟨m, hm⟩ ⟨m - 1, hm'lt⟩ = -1 := by
             have hne : (⟨m, hm⟩ : Fin n) ≠ ⟨m - 1, hm'lt⟩ := by
               intro h
@@ -490,7 +486,7 @@ private theorem p10_symmetrizer_B_ne_three (n : ℕ) (hn : 2 ≤ n)
               simp
               omega
             simp only [CartanMatrix.B, Matrix.of_apply]
-            rw [if_neg hne, if_neg hnot, if_pos hsucc]
+            rw [ite_eq_right hne, ite_eq_right hnot, ite_eq_left hsucc]
           have hd := p10_symmetrizer_double_of_entry hFT hA1 hA2
           rw [hd, hprev]
         · left
@@ -504,7 +500,7 @@ private theorem p10_symmetrizer_B_ne_three (n : ℕ) (hn : 2 ≤ n)
               simp
               omega
             simp only [CartanMatrix.B, Matrix.of_apply]
-            rw [if_neg hne, if_pos hsucc, if_neg hlast]
+            rw [ite_eq_right hne, ite_eq_left hsucc, ite_eq_right hlast]
           have hA2 : CartanMatrix.B n ⟨m, hm⟩ ⟨m - 1, hm'lt⟩ = -1 := by
             have hne : (⟨m, hm⟩ : Fin n) ≠ ⟨m - 1, hm'lt⟩ := by
               intro h
@@ -518,7 +514,7 @@ private theorem p10_symmetrizer_B_ne_three (n : ℕ) (hn : 2 ≤ n)
               simp
               omega
             simp only [CartanMatrix.B, Matrix.of_apply]
-            rw [if_neg hne, if_neg hnot, if_pos hsucc]
+            rw [ite_eq_right hne, ite_eq_right hnot, ite_eq_left hsucc]
           have he := p10_symmetrizer_eq_of_entry_one hFT hA1 hA2
           rw [← he, hprev]
   have hi_cases : symmetrizer hFT i = d0 ∨ symmetrizer hFT i = 2 * d0 := by
@@ -664,8 +660,8 @@ private theorem p10_F4_reindex {ι : Type} (e : Fin 4 ≃ ι)
 
 theorem ggSecFiveCoxProdInput_holds : GGSecFiveCoxProdInput := by
   intro ι M hM hnotG2 i j g h
-  haveI : Finite ι := ggIsWeylMatrix_finite hM
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Finite ι := ggIsWeylMatrix_finite hM
+  have : Fintype ι := Fintype.ofFinite ι
   classical
   rcases hM with ⟨n, e, hn, hA | ⟨hn2, hB⟩ | ⟨hn4, hD⟩⟩ | ⟨e, hE6⟩ | ⟨e, hE7⟩ |
     ⟨e, hE8⟩ | ⟨e, hF4⟩ | ⟨e, hG2Eq⟩

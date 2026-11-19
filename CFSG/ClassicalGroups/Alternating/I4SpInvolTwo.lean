@@ -83,7 +83,7 @@ theorem exists_orthogonal_not_mem_span (B : BilinForm K N) {Y : Submodule K N}
   have hnle : ¬ LinearMap.ker f ≤ Submodule.span K {(⟨b, hb⟩ : Y)} := fun hle => by
     have := Submodule.finrank_mono hle
     omega
-  obtain ⟨w, hw, hwS⟩ := SetLike.not_le_iff_exists.mp hnle
+  obtain ⟨w, hw, hwS⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
   refine ⟨w, w.2, hw, fun s hs => hwS ?_⟩
   rw [Submodule.mem_span_singleton]
   exact ⟨s, Subtype.ext hs.symm⟩

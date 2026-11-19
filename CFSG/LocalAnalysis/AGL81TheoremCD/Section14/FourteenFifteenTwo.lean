@@ -34,7 +34,7 @@ theorem not_isSylowOf (hK : KNormalAt M) (hS : KSylowTwoNotLeAt M)
     (h : HypCGen G M q E H) {T : Subgroup G}
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T (H ⊓ M)) :
     ¬ CFSG.ABGLocalTools.IsSylowOf 2 T H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hTH
   have hTK : CFSG.ABGLocalTools.IsSylowOf 2 (T ⊓ kSub q M H) (kSub q M H) :=
     CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer hTH (kSub_le q M H) (hK q E H h)
@@ -47,7 +47,7 @@ variable {M : Subgroup G}
 
 theorem fourteenFifteenTwoAt_of (hN : FourteenFifteenNormAt M) (hK : KNormalAt M)
     (hS : KSylowTwoNotLeAt M) : FourteenFifteenTwoAt M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro q E H hdata hEK hmax T hT
   refine ⟨?_, HypCGen.not_isSylowOf hK hS hdata hT⟩
   exact CFSG.ABGLocalTools.isSylowOf_of_normalizer_inf_le hT

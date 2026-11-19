@@ -278,7 +278,7 @@ theorem alternatingGroup_le_range_a10Hom (c : Ctx82E3 D)
 private lemma mem_L_of_orderOf_eq_three (c : Ctx82E3 D)
     (hPL : ∀ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 P D.M → P ≤ c.L)
     {x : ↥D.M} (hx : orderOf x = 3) : (x : G) ∈ c.L := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hzp : IsPGroup 3 (Subgroup.zpowers x) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx]; norm_num)
   obtain ⟨Q, hQle⟩ := hzp.exists_le_sylow (G := ↥D.M)
@@ -360,7 +360,7 @@ variable {c : Ctx82E3 D}
 
 theorem le_L_of_isSylowOf (F : A10Frame c) {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) : P ≤ c.L := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨k, hkM, hconj⟩ := hP.exists_mem_conj F.sylow
   intro x hx
   have hx'' : k⁻¹ * (k * x * k⁻¹) * k ∈ P := by
@@ -494,7 +494,7 @@ theorem exists_conj_map_A (F : A10Frame c) :
       (MulAut.conj ((g⁻¹ : alternatingGroup (Fin 10)) : Equiv.Perm (Fin 10))).toMonoidHom.comp
         (alternatingGroup (Fin 10)).subtype := by
     ext x
-    simp [MulAut.conj_apply]
+    simp
   have hmap := congrArg (Subgroup.map (alternatingGroup (Fin 10)).subtype) hg
   rw [Subgroup.map_map, hcomp, ← Subgroup.map_map, hBmap] at hmap
   rw [← Subgroup.map_map]

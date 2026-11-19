@@ -75,6 +75,7 @@ theorem eq_one_or_eq_t_of_mem_K {g : X} (hg : g ∈ A.K) : g = 1 ∨ g = t := by
   rw [h3, ← Nat.card_coe_set_eq, SetLike.coe_sort_coe, C.card_K] at h1
   omega
 
+omit [Finite X] in
 theorem commute_k {r : X} (hr : r ∈ A.R) : C.k * r = r * C.k := by
   have hc : C.k * r * C.k⁻¹ * r⁻¹ ∈ A.K ⊓ L := by
     refine Subgroup.mem_inf.mpr ⟨(ψX_eq_one_iff (mul_mem (mul_mem (mul_mem C.k_mem hr.1)

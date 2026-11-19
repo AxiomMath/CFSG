@@ -35,10 +35,10 @@ theorem natIrred_statedOmegaPlus_two91 {K : Type} [Field K] [Finite K] [CharP K 
     simp [a] at h1
   have hae : polar (quadPlus 2 K) (plusPair K (0 : Fin 2)).e a = 0 := by
     rw [plusPair_e, polar_single_inl_quadPlus]
-    simp [a, Pi.single_apply]
+    simp [a]
   have haf : polar (quadPlus 2 K) (plusPair K (0 : Fin 2)).f a = 0 := by
     rw [plusPair_f, polar_single_inr_quadPlus]
-    simp [a, Pi.single_apply]
+    simp [a]
   have hW : ∀ u w : Fin 2 ⊕ Fin 2 → K, ∀ x ∈ S, eichler (quadPlus 2 K) u w x ∈ S := by
     intro u w x hx
     let g : Gom (quadPlus 2 K) :=
@@ -51,12 +51,13 @@ theorem natIrred_statedOmegaPlus_two91 {K : Type} [Field K] [Finite K] [CharP K 
   exact submodule_eq_bot_or_top_of_eichler_invariant (plusPair K (0 : Fin 2)).Q_e
     (plusPair K (0 : Fin 2)).Q_f (plusPair K (0 : Fin 2)).polar_ef hQ ha0 hae haf hW
 
+omit [Finite G] in
 theorem sec9VtIrred91 {hc : Ctx M Q Z B} {n : ℕ} {t : G} (hs : Sec9Hyp hc n t)
     {U : Subgroup G} (hZU : Z ≤ U) (hUV : U ≤ Vt M (LB M Q B) B Z t)
     (hRU : ∀ r ∈ Rt M (LB M Q B) t, ∀ u ∈ U, r * u * r⁻¹ ∈ U) :
     U = Z ∨ U = Vt M (LB M Q B) B Z t := by
   obtain ⟨K, fK, finK, hK, hrep⟩ := hs.plus4
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have h4 : 4 ≤ Nat.card K := hK ▸ hc.hyp.q4
@@ -67,6 +68,7 @@ theorem sec9VtIrred91 {hc : Ctx M Q Z B} {n : ℕ} {t : G} (hs : Sec9Hyp hc n t)
 theorem comm_Q91 (hc : Ctx M Q Z B) {x y : G} (hx : x ∈ Q) (hy : y ∈ Q) : ⁅x, y⁆ ∈ Z :=
   hc.hyp.toHyp79.comm_mem_V hx hy
 
+omit [Finite G] in
 theorem zconj91 (hc : Ctx M Q Z B) {g : G} (hg : g ∈ M) {z : G} (hz : z ∈ Z) :
     g * z * g⁻¹ ∈ Z :=
   (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 hg) z).mp hz
@@ -156,6 +158,7 @@ theorem card_le_prod91 {V X Y : Subgroup G} (h : ∀ v ∈ V, ∃ x ∈ X, ∃ y
   calc Nat.card ↥V ≤ Nat.card (↥X × ↥Y) := Nat.card_le_card_of_injective f hf
     _ = Nat.card ↥X * Nat.card ↥Y := Nat.card_prod _ _
 
+omit [Finite G] in
 theorem nu_mul91 {V W : Subgroup G} (s : G) (hWV : ∀ w ∈ W, ∀ v ∈ V, w * v = v * w)
     (hν : ∀ w ∈ W, ⁅s, w⁆ ∈ V) {a b : G} (ha : a ∈ W) (hb : b ∈ W) :
     ⁅s, a * b⁆ = ⁅s, a⁆ * ⁅s, b⁆ :=

@@ -21,7 +21,7 @@ section Cover
 theorem ggSp_split {m f : ℕ} (hm : 2 ≤ m) (hf : 2 ≤ f) (E : Type) [Group E] [Finite E]
     (π : E →* (ggU .PSp m f).K) (hπ : Function.Surjective π)
     (hcen : π.ker ≤ Subgroup.center E) : ∃ σ : (ggU .PSp m f).K →* E, ∀ g, π (σ g) = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have h4 : 4 ≤ Nat.card (GaloisField 2 f) := by
     rw [hK]
@@ -30,7 +30,7 @@ theorem ggSp_split {m f : ℕ} (hm : 2 ≤ m) (hf : 2 ≤ f) (E : Type) [Group E
   let Z := CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.spScalars m (GaloisField 2 f)
   have hZc : Z ≤ Subgroup.center (StatedSp m (GaloisField 2 f)) :=
     CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.spScalars_le_center
-  haveI : Group.IsPerfect (StatedSp m (GaloisField 2 f)) :=
+  have : Group.IsPerfect (StatedSp m (GaloisField 2 f)) :=
     CFSG.LieType.Steinberg.CentralExt.SpClosed.isPerfect_statedSp' (Or.inl h4)
   exact CFSG.LieType.Steinberg.CentralExt.CoverAssembly.exists_section_of_cover_and_coprime
     (p := 2) (θ := QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective _)
@@ -45,7 +45,7 @@ theorem ggSpinMinus_split {n f : ℕ} (hn : 4 ≤ n) (hf : 2 ≤ f) (E : Type) [
     (π : E →* (ggU .POmegaMinus n f).K) (hπ : Function.Surjective π)
     (hcen : π.ker ≤ Subgroup.center E) :
     ∃ σ : (ggU .POmegaMinus n f).K →* E, ∀ g, π (σ g) = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have h4 : 4 ≤ Nat.card (GaloisField 2 f) := by
     rw [hK]
@@ -90,7 +90,7 @@ theorem nonempty_mulEquiv_statedSp_of_hasLabel {G : Type} [Group G] [Finite G] {
       GGHasLabel ⟨.C, m, f⟩ (↥X ⧸ Subgroup.center ↥X)) :
     Nonempty (↥X ≃* StatedSp m (GaloisField 2 f)) := by
   obtain ⟨ψ, -, hker, hrange⟩ := ggCentralImage_PSp_of_hasLabel hX hm hf h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcent : Subgroup.center (ggU .PSp m f).K = ⊥ :=
     CFSG.ClassicalGroups.Symplectic.center_statedSp_eq_bot_of_charP_two (m := m)
       (F := GaloisField 2 f) (by omega)
@@ -106,7 +106,7 @@ theorem nonempty_mulEquiv_spinMinus_of_hasLabel {G : Type} [Group G] [Finite G] 
     Nonempty (↥X ≃*
       spinGroup (quadMinus n (GaloisField 2 f) (minusCoeffs 2 f).1 (minusCoeffs 2 f).2)) := by
   obtain ⟨ψ, -, hker, hrange⟩ := ggCentralImage_POmegaMinus_of_hasLabel hX hn hf h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcent : Subgroup.center (ggU .POmegaMinus n f).K = ⊥ :=
     CFSG.RankThree.PartOne.CTP.center_spinGroup_quadMinus_eq_bot (F := GaloisField 2 f)
       (n := n) hn (minusCoeffs_irr 2 f)

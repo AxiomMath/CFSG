@@ -14,8 +14,11 @@ variable {X : Type*} [Group X] (C : Config X) [hN : C.A.Normal]
 theorem mul_ev (g : X) (v : Co) : g * C.ev v = C.ev (C.act g⁻¹ v) * g := by
   rw [ev_act, inv_inv]; group
 
+omit hN in
 theorem uv_inv : C.uv⁻¹ = C.uv := inv_eq_of_mul_eq_one_right (by rw [← pow_two, C.huv2])
+omit hN in
 theorem t_inv : C.t⁻¹ = C.t := inv_eq_of_mul_eq_one_right (by rw [← pow_two, C.ht2])
+omit hN in
 theorem u_inv : C.u⁻¹ = C.u := inv_eq_of_mul_eq_one_right (by rw [← pow_two, C.hu2])
 
 theorem uv_mul_ev (v : Co) : C.uv * C.ev v = C.ev (fuv v) * C.uv := by rw [mul_ev, act_uv_inv]
@@ -42,6 +45,7 @@ theorem conj_mul_ev_of {s g : X} {va : Co} (h : s⁻¹ * g * s = C.ev va * g) (c
     (s * C.ev c)⁻¹ * g * (s * C.ev c) = C.ev (-c + va + C.act g⁻¹ c) * g := by
   rw [← C.ev_conj_ev_mul c va g, ← h]; group
 
+omit hN in
 theorem ev_cancel {a b : Co} {g : X} (h : C.ev a * g = C.ev b * g) : a = b :=
   C.ev_injective (mul_right_cancel h)
 
@@ -152,7 +156,7 @@ omit hCA in
 theorem K_normal : C.K.Normal := ⟨fun k hk g => by simpa using C.conj_mem_K hk g⁻¹⟩
 
 theorem K_le (P : Sylow 2 X) : C.K ≤ P := by
-  haveI := C.K_normal
+  have := C.K_normal
   exact (C.K_isPGroup hCA).le_sylow_of_normal P
 
 omit hCA
@@ -216,6 +220,7 @@ theorem mem_A_of_mem_T {τ : X} (hτ : τ ∈ C.A ⊔ Subgroup.closure {C.uv, C.
 
 omit hCA
 
+omit hN in
 theorem ev_two_nsmul_mem_E (v : Co) :
     C.ev (2 • v) ∈ Subgroup.closure {C.x ^ 2, C.y ^ 2, C.uv, C.t} := by
   have h1 : C.ev (0, 2, 0) = C.x ^ 2 := by simp [ev, show (2 : ZMod 4).val = 2 from rfl]
@@ -346,10 +351,13 @@ theorem mem_K_of_fix {k : X} (h1 : C.act k (1, 0, 0) = (1, 0, 0))
   intro v hv
   rw [om_decomp v hv, act_add, act_add, act_nsmul, act_nsmul, act_nsmul, h1, h2, h3]
 
+omit hN in
 theorem uv_mem_T : C.uv ∈ C.A ⊔ Subgroup.closure {C.uv, C.t, C.u} :=
   Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
+omit hN in
 theorem t_mem_T : C.t ∈ C.A ⊔ Subgroup.closure {C.uv, C.t, C.u} :=
   Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
+omit hN in
 theorem u_mem_T : C.u ∈ C.A ⊔ Subgroup.closure {C.uv, C.t, C.u} :=
   Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
 
@@ -402,7 +410,7 @@ theorem sylow_eq (P : Sylow 2 X) (hTP : C.A ⊔ Subgroup.closure {C.uv, C.t, C.u
     (P : Subgroup X) = (C.A ⊔ Subgroup.closure {C.uv, C.t, C.u}) ⊔ C.K := by
   refine le_antisymm (fun g hg => ?_) (sup_le hTP (C.K_le hCA P))
   have h2 : ∀ h ∈ (P : Subgroup X), ∃ n : ℕ, h ^ 2 ^ n = 1 := fun h hh => by
-    obtain ⟨n, hn⟩ := P.isPGroup' ⟨h, hh⟩
+    obtain ⟨n, hn⟩ := P.isPGroup ⟨h, hh⟩
     exact ⟨n, by simpa using congrArg Subtype.val hn⟩
   obtain ⟨τ, hτ, hgτ⟩ := C.exists_mul_mem_K (h2 g hg) (h2 _ (mul_mem hg (hTP C.u_mem_T)))
   rw [show g = g * τ * τ⁻¹ by group]

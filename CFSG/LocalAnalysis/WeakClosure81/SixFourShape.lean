@@ -31,7 +31,7 @@ theorem exists_sr_eq_of_mul_self_eq_one {m : ℕ} (hm : Odd m) {z : DihedralGrou
 
 theorem nat_card_le_two_of_isElemAbelian_dihedral {m : ℕ} (hm : Odd m)
     {E : Subgroup (DihedralGroup m)} (hE : IsElemAbelian 2 E) : Nat.card E ≤ 2 := by
-  haveI : NeZero m := ⟨hm.pos.ne'⟩
+  have : NeZero m := ⟨hm.pos.ne'⟩
   by_cases hbot : E = ⊥
   · rw [hbot, Subgroup.card_bot]; norm_num
   · obtain ⟨x, hx1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hbot
@@ -67,7 +67,7 @@ theorem nat_card_le_two_of_isElemAbelian_dihedral {m : ℕ} (hm : Odd m)
       intro h
       exact hx1 (Subtype.ext (by simp [hxi, h]))
     have hord : orderOf (DihedralGroup.sr i) = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (by rw [pow_two]; exact DihedralGroup.sr_mul_self i) hxne
     calc Nat.card E ≤ Nat.card (Subgroup.zpowers (DihedralGroup.sr i)) :=
           Subgroup.card_le_of_le hle
@@ -274,6 +274,7 @@ section Transport
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G} {K : Subgroup G}
 
+omit [Finite G] in
 theorem eq_sup_of_coe_eq_mul {K U B : Subgroup G}
     (h : (K : Set G) = (B : Set G) * (U : Set G)) : K = U ⊔ B := by
   apply le_antisymm
@@ -289,11 +290,13 @@ theorem eq_sup_of_coe_eq_mul {K U B : Subgroup G}
       have : b ∈ (B : Set G) * (U : Set G) := ⟨b, hb, 1, U.one_mem, mul_one b⟩
       rwa [← h] at this
 
+omit [Finite G] in
 theorem conjSubgroup_subgroupOf (H : Subgroup G) (w : ↥(LOf V g)) :
     conjSubgroup (H.subgroupOf (LOf V g)) w = (conjSubgroup H (w : G)).subgroupOf (LOf V g) := by
   ext y
   simp only [mem_conjSubgroup_iff, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
 
+omit [Finite G] in
 theorem map_conjSubgroup_of_hom {G' : Type} [Group G'] (f : G →* G')
     (A : Subgroup G) (x : G) :
     conjSubgroup (A.map f) (f x) = (conjSubgroup A x).map f := by
@@ -317,6 +320,7 @@ theorem map_conjSubgroup_of_hom {G' : Type} [Group G'] (f : G →* G')
     rw [mem_conjSubgroup_iff] at hb
     exact Subgroup.mem_map.2 ⟨x * b * x⁻¹, hb, by rw [map_mul, map_mul, map_inv]⟩
 
+omit [Finite G] in
 theorem sup_subgroupOf_eq_of_map_eq [hK : (K.subgroupOf (LOf V g)).Normal]
     {X Y : Subgroup ↥(LOf V g)}
     (h : X.map (QuotientGroup.mk' (K.subgroupOf (LOf V g))) =
@@ -364,7 +368,7 @@ theorem isElemAbelian_map_subgroupOf (h : Hyp64 n M V₀ V g)
       (QuotientGroup.mk' (K.subgroupOf (LOf V g)))) :=
   IsElemAbelian.map (h.elemAbelian.subgroupOf (LOf V g)) _
 
-theorem map_subgroupOf_sup_eq_top (h : Hyp64 n M V₀ V g)
+theorem map_subgroupOf_sup_eq_top (_h : Hyp64 n M V₀ V g)
     [hK : (K.subgroupOf (LOf V g)).Normal] :
     (V.subgroupOf (LOf V g)).map (QuotientGroup.mk' (K.subgroupOf (LOf V g))) ⊔
         ((conjSubgroup V g).subgroupOf (LOf V g)).map
@@ -413,7 +417,7 @@ theorem relIndex_two_of_dihedral (h : Hyp64 n M V₀ V g)
     (UOf M V g).relIndex V = 2 := by
   obtain ⟨m, hm, ⟨e⟩⟩ := hdi
   let L := LOf V g
-  haveI : (K.subgroupOf L).Normal := hK
+  have : (K.subgroupOf L).Normal := hK
   let π : ↥L →* (↥L ⧸ (K.subgroupOf L)) := QuotientGroup.mk' (K.subgroupOf L)
   let A : Subgroup (↥L ⧸ (K.subgroupOf L)) := (V.subgroupOf L).map π
   have hAcard : Nat.card A = (UOf M V g).relIndex V :=
@@ -452,7 +456,7 @@ theorem swapHyp_of_dihedral (h : Hyp64 n M V₀ V g)
   have hgen : GenHyp M V g := genHyp_of_dihedral (hK := hK) h hKset hdi
   obtain ⟨m, hm, ⟨e⟩⟩ := hdi
   let L := LOf V g
-  haveI : (K.subgroupOf L).Normal := hK
+  have : (K.subgroupOf L).Normal := hK
   let π : ↥L →* (↥L ⧸ (K.subgroupOf L)) := QuotientGroup.mk' (K.subgroupOf L)
   let A : Subgroup (↥L ⧸ (K.subgroupOf L)) := (V.subgroupOf L).map π
   let Bq : Subgroup (↥L ⧸ (K.subgroupOf L)) := ((conjSubgroup V g).subgroupOf L).map π
@@ -502,7 +506,7 @@ theorem swapHyp_of_dihedral (h : Hyp64 n M V₀ V g)
     exact h2
   exact swapHyp_of_sup_eq_and_mem h hgen hrel w.2 hwK hw2
 
-@[expose] def DihedralShape (M V₀ V : Subgroup G) (g : G) : Prop :=
+@[expose] def DihedralShape (M _V₀ V : Subgroup G) (g : G) : Prop :=
   ∃ K : Subgroup G, ∃ _ : (K.subgroupOf (LOf V g)).Normal,
     (K : Set G) = ((BOf M V g : Subgroup G) : Set G) *
       ((UOf M V g : Subgroup G) : Set G) ∧

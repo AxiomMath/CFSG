@@ -420,7 +420,7 @@ private theorem nonempty_mulEquiv_hol_of_card_twenty {X : Type*} [Group X] [Fini
     have := Subgroup.card_mul_index (S : Subgroup X)
     rw [hS4, hX] at this
     omega
-  obtain ⟨P, hPn, hP, hcompl, hfaith⟩ := exists_normal_five_complement h2 S.isPGroup' hidx
+  obtain ⟨P, hPn, hP, hcompl, hfaith⟩ := exists_normal_five_complement h2 S.isPGroup hidx
   have := hPn
   let e0 := SemidirectProduct.mulEquivSubgroup hcompl
   have hinj : Function.Injective (P.normalizerMonoidHom.comp

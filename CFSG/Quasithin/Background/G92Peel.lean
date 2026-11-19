@@ -23,18 +23,21 @@ section Basic
 
 variable (F : Frame V ι)
 
+omit [Finite V] in
 theorem Rsp_x_inv (i j : ι) : ∀ v ∈ Rsp F i, F.x j v ∈ Rsp F i := by
   by_cases hji : j = i
   · subst hji
     exact peel_T_x F j (fun s _ => Submodule.mem_top)
   · exact commSp_invariant (F.xx j i hji) (fun s _ => Submodule.mem_top)
 
+omit [Finite V] in
 theorem Rsp_a_inv (i j : ι) : ∀ v ∈ Rsp F i, F.a j v ∈ Rsp F i := by
   by_cases hji : j = i
   · subst hji
     exact peel_T_a F j (fun s _ => Submodule.mem_top) (fun s _ => Submodule.mem_top)
   · exact commSp_invariant (F.xa i j (Ne.symm hji)).symm (fun s _ => Submodule.mem_top)
 
+omit [Finite V] in
 theorem Rsp_fpf (i : ι) : ∀ v ∈ Rsp F i, F.x i v = v → v = 0 := by
   intro v hv hxv
   have h := peel_fix_T F i (S := ⊤) (fun s _ => Submodule.mem_top)
@@ -42,13 +45,15 @@ theorem Rsp_fpf (i : ι) : ∀ v ∈ Rsp F i, F.x i v = v → v = 0 := by
   rw [h] at hmem
   exact (Submodule.mem_bot (ZMod 2)).1 hmem
 
+omit [Finite V] in
 theorem Rsp_ne_bot {i : ι} (h : F.x i ≠ 1) : Rsp F i ≠ ⊥ := by
   refine commSp_ne_bot ?_
   by_contra hcon
   push Not at hcon
   exact h (LinearEquiv.ext fun v => hcon v Submodule.mem_top)
 
-theorem Wsp_le_Rsp (i : ι) : Wsp F i ≤ Rsp F i := fun w hw => (mem_fixSp.1 hw).1
+omit [Finite V] in
+theorem Wsp_le_Rsp (i : ι) : Wsp F i ≤ Rsp F i := fun _w hw => (mem_fixSp.1 hw).1
 
 theorem fix_Rsp_of_fix_Wsp {i j : ι} (hji : j ≠ i) (hW : ∀ w ∈ Wsp F i, F.x j w = w) :
     ∀ t ∈ Rsp F i, F.x j t = t := by
@@ -61,6 +66,7 @@ theorem fix_Rsp_of_fix_Wsp {i j : ι} (hji : j ≠ i) (hW : ∀ w ∈ Wsp F i, F
     exact this
   exact fix_sup hW (fix_map (F.xx j i hji) hW) t ht'
 
+omit [Finite V] in
 theorem Nb_symm {i j : ι} (hij : i ≠ j) (h : Nb F i j) : Nb F j i := by
   by_contra hcon
   unfold Nb at hcon h
@@ -81,6 +87,7 @@ theorem Nb_symm {i j : ι} (hij : i ≠ j) (h : Nb F i j) : Nb F j i := by
     abel
   rw [hrew, map_sub, comm_apply (F.xx j i hij.symm) c, hxc]
 
+omit [Finite V] in
 theorem Nb_of_Nw {i j : ι} (h : Nw F i j) : Nb F i j := by
   obtain ⟨w, hw, hne⟩ := h
   exact ⟨w, Wsp_le_Rsp F i hw, hne⟩
@@ -102,10 +109,12 @@ open Classical in
 @[expose] noncomputable def JW (i : ι) : Finset ι :=
   (Finset.univ.erase i).filter (fun j => Nw F i j)
 
+omit [Finite V] in
 theorem mem_JW {i j : ι} : j ∈ JW F i ↔ j ≠ i ∧ Nw F i j := by
   classical
   simp [JW]
 
+omit [Finite V] in
 theorem not_mem_JW_self (i : ι) : i ∉ JW F i := by
   simp [mem_JW]
 
@@ -193,6 +202,7 @@ structure PrimeShape (F : Frame V ι) (i₁ : ι) : Prop where
 
 variable {F}
 
+omit [Finite V] [Fintype ι] in
 theorem PrimeShape.p_cases {i₁ : ι} (h : PrimeShape F i₁) (j : ι) :
     F.p j = 3 ∨ (j = i₁ ∧ F.p j = 5) := by
   by_cases hj : j = i₁
@@ -202,11 +212,13 @@ theorem PrimeShape.p_cases {i₁ : ι} (h : PrimeShape F i₁) (j : ι) :
     · exact Or.inr ⟨rfl, h5⟩
   · exact Or.inl (h.three j hj)
 
+omit [Finite V] [Fintype ι] in
 theorem PrimeShape.p_cases' {i₁ : ι} (h : PrimeShape F i₁) (j : ι) : F.p j = 3 ∨ F.p j = 5 := by
   rcases h.p_cases j with h3 | ⟨-, h5⟩
   · exact Or.inl h3
   · exact Or.inr h5
 
+omit [Finite V] [Fintype ι] in
 theorem PrimeShape.p_eq_three_of_g_eq_two {i₁ : ι} (h : PrimeShape F i₁) {j : ι}
     (hg : gFun (F.p j) = 2) : F.p j = 3 := by
   rcases h.p_cases j with h3 | ⟨-, h5⟩
@@ -266,10 +278,13 @@ variable {F}
 
 @[expose] noncomputable def Bf (F : Frame V ι) (i : ι) : Finset ι := insert i (JW F i)
 
+omit [Finite V] in
 theorem mem_Bf_self (i : ι) : i ∈ Bf F i := Finset.mem_insert_self _ _
 
+omit [Finite V] in
 theorem Bf_of_mem_JW {i j : ι} (h : j ∈ JW F i) : j ∈ Bf F i := Finset.mem_insert_of_mem h
 
+omit [Finite V] in
 theorem sum_Bf (i : ι) : ∑ j ∈ Bf F i, gFun (F.p j) = gFun (F.p i) + ∑ j ∈ JW F i, gFun (F.p j) :=
   Finset.sum_insert (not_mem_JW_self F i)
 
@@ -390,7 +405,7 @@ theorem finrank_sup_of_supIndep {κ : Type*} [DecidableEq κ] (s : Finset κ)
     (U : κ → Submodule (ZMod 2) V) (h : s.SupIndep U) :
     Module.finrank (ZMod 2) (s.sup U : Submodule (ZMod 2) V) =
       ∑ k ∈ s, Module.finrank (ZMod 2) (U k) := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   induction s using Finset.induction_on with
   | empty => simp
   | insert a s ha ih =>
@@ -422,7 +437,7 @@ theorem blockData (hx1 : ∀ i, F.x i ≠ 1)
     (hdim : Module.finrank (ZMod 2) V = ∑ j, gFun (F.p j)) {i₁ : ι} (hP : PrimeShape F i₁) :
     BlockData F (Bf F) := by
   classical
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hblock_eq : ∀ i, ∀ j ∈ Bf F i, Bf F j = Bf F i := by
     intro i j hj
     rcases Finset.mem_insert.1 hj with h | hj'

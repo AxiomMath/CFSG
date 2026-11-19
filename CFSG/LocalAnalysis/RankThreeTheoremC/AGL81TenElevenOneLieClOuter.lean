@@ -18,11 +18,11 @@ theorem false_of_index_of_forall_mem (hLL : ⁅L, L⁆ = L)
     (hC3 : ¬ 3 ∣ Nat.card (centralizer (L : Set Y)))
     (hmem : ∀ u : Y, (∃ k : ℕ, u ^ 3 ^ k = 1) → u ∈ L ⊔ centralizer (L : Set Y))
     (hN : ∃ N : Subgroup Y, N.Normal ∧ N.index = 3) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨N, hNn, hNi⟩ := hN
   have hcard : Nat.card (Y ⧸ N) = 3 := hNi
   have hcomm : ∀ a b : Y ⧸ N, a * b = b * a := by
-    haveI := isCyclic_of_prime_card hcard
+    have := isCyclic_of_prime_card hcard
     exact fun a b => (IsCyclic.commGroup (α := Y ⧸ N)).mul_comm a b
   have hmk : ∀ g : Y, g ∈ N ↔ (g : Y ⧸ N) = 1 := fun g => (QuotientGroup.eq_one_iff g).symm
   have hLN : L ≤ N := by
@@ -44,7 +44,7 @@ theorem false_of_index_of_forall_mem (hLL : ⁅L, L⁆ = L)
     · exact absurd (h ▸ h2) hC3
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 Y))
   have hPN : (P : Subgroup Y) ≤ N := fun u hu => by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨u, hu⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨u, hu⟩
     exact sup_le hLN hCN (hmem u ⟨k, by simpa using congrArg Subtype.val hk⟩)
   have h3 := Subgroup.index_dvd_of_le hPN
   rw [hNi] at h3

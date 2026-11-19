@@ -35,8 +35,8 @@ theorem card_inf_and_pow_three_of_linThree {q : TauCeti.PrimePower}
     {d : TauCeti.ValidLieTypeIndex} (hq3 : q.p = 3) (hq1 : q.exponent = 1) (hd : d.1 = .A 2 q)
     {K : Subgroup Y} [K.Normal] (e : ↥K ≃* (TauCeti.CFSGIndex.lie d).Group) (R : Sylow 3 Y) :
     Nat.card ↥((R : Subgroup Y) ⊓ K) = 27 ∧ ∀ u ∈ (R : Subgroup Y) ⊓ K, u ^ 3 = 1 := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hv⟩ := d
   change x = _ at hd
   subst hd
@@ -50,7 +50,7 @@ theorem card_inf_and_pow_three_of_linThree {q : TauCeti.PrimePower}
   obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := GaloisField q.p q.exponent) q.p
     (n := 3) (by norm_num)
   have hSp : IsPGroup 3 (projUnitriangular 3 (GaloisField q.p q.exponent)) := by
-    have h := S.isPGroup'
+    have h := S.isPGroup
     rw [hS] at h
     exact hq3 ▸ h
   have hSi : ¬ 3 ∣ (projUnitriangular 3 (GaloisField q.p q.exponent)).index := by
@@ -85,6 +85,7 @@ section Solvable
 
 variable {Y I₀ : Type} [Group Y] [Finite Y] [Group I₀] [Finite I₀]
 
+omit [Finite Y] in
 theorem commute_of_le_sup_of_symThree (σ : I₀ →* Y)
     (f : I₀ ⧸ CFSG.pCore 2 I₀ ≃* Equiv.Perm (Fin 3)) {K : Subgroup Y} [K.Normal]
     (hKC : K ⊓ centralizer (K : Set Y) = ⊥)
@@ -93,7 +94,7 @@ theorem commute_of_le_sup_of_symThree (σ : I₀ →* Y)
       centralizer (K : Set Y)) :
     ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x := by
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   set J := (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ with hJdef
   have hb : IsSymThreeOrSUThreeTwo (I₀ ⧸ CFSG.pCore 2 I₀) := Or.inl ⟨f⟩
   have hJJ : ∀ a ∈ J, ∀ b ∈ J, a * b * a⁻¹ * b⁻¹ ∈ C := by
@@ -138,10 +139,10 @@ section Certified
 theorem threeFourSolvThreeLinThree_holds : ThreeFourSolvThreeLinThree := by
   intro q d hq3 hq1 hd Y _ _ K Y₀ E R I₀ _ _ σ hK hKX hZ _ hrkC hC hcomp hER hE hEc hcore hO2
     hker hσY hσs hb hcond hdir
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hK
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   have hKC := CFSG.QuasithinUnique.RankOneRecog.inf_centralizer_eq_bot_of_center_eq_bot hZ
   have hrkC' : CFSG.Open.pRank 3 C ≤ 1 := by
     rwa [CFSG.SectionRank.pRank_coe_eq_openPRank] at hrkC
@@ -166,7 +167,7 @@ theorem threeFourSolvThreeLinThree_holds : ThreeFourSolvThreeLinThree := by
   by_cases hs3 : ¬ Nonempty (I₀ ⧸ CFSG.pCore 2 I₀ ≃* Equiv.Perm (Fin 3))
   · have hA : ∀ Q : Subgroup (MulAut ↥K), IsPGroup 3 Q → Nat.card Q ≤ 27 := by
       intro Q hQ
-      haveI := CFSG.GH74.KGroups.L33.finite_mulAut e'
+      have := CFSG.GH74.KGroups.L33.finite_mulAut e'
       have hdvd : Nat.card Q ∣ 11232 := by
         rw [← CFSG.GH74.KGroups.L33.card_mulAut e']
         exact Subgroup.card_subgroup_dvd_card Q
@@ -234,12 +235,12 @@ theorem threeFourSolvThreeLinThree_holds : ThreeFourSolvThreeLinThree := by
     calc y₀ = y₀ ^ 3 * (y₀ * y₀)⁻¹ := by group
       _ = 1 := by rw [hy₀3, h3]; group
   obtain ⟨hXs, ⟨a, b, hab⟩, -⟩ := linThree_catalog_facts Nat.prime_three hq3 hq1 hd
-  haveI : IsSimpleGroup ↥K := (MulEquiv.isSimpleGroup_congr eK).2 hXs
+  have : IsSimpleGroup ↥K := (MulEquiv.isSimpleGroup_congr eK).2 hXs
   have hnab : ∃ a b : ↥K, a * b ≠ b * a :=
     ⟨eK.symm a, eK.symm b, fun h => hab (by simpa using congrArg eK h)⟩
   have hKnle : ¬ K ≤ Y₀ := by
     refine hcomp K ?_ le_rfl
-    haveI : Group.IsPerfect ↥K := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top ↥K hnab⟩
+    have : Group.IsPerfect ↥K := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top ↥K hnab⟩
     exact ⟨le_top, IsSubnormal.step le_top inferInstance (IsSubnormal.refl ⊤),
       CFSG.ComponentClassification.Quasisimple.simple_of_perfect ↥K⟩
   obtain ⟨N, hNH, hNp, hHN, hCN⟩ := threeFourTwoLinThree_inf Nat.prime_three (by norm_num) hq3
@@ -376,7 +377,7 @@ theorem threeFourSolvThreeLinThree_holds : ThreeFourSolvThreeLinThree := by
       have := hcz g (hTJ g g.2) _ hx'
       calc (g : Y) * x = ((g : Y) * x * (g : Y)⁻¹) * g := by group
         _ = x * g := by rw [this]
-    haveI : J'.Normal := Subgroup.normal_of_le_center hJ'c
+    have : J'.Normal := Subgroup.normal_of_le_center hJ'c
     have hJ'card : Nat.card J' = 3 := by
       rw [hJ', Nat.card_congr (Subgroup.subgroupOfEquivOfLe hJT).toEquiv, hcardz]
     have hq : Nat.card (↥T ⧸ J') = 3 ^ 2 := by
@@ -384,7 +385,7 @@ theorem threeFourSolvThreeLinThree_holds : ThreeFourSolvThreeLinThree := by
       rw [hT27, hJ'card] at h1
       omega
     intro u hu w hw
-    have hc := IsPGroup.commutative_of_card_eq_prime_sq (p := 3) hq
+    have hc := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hq).is_comm.comm
       ((⟨u, hu⟩ : ↥T) : ↥T ⧸ J') ((⟨w, hw⟩ : ↥T) : ↥T ⧸ J')
     have h1 : ((⟨u, hu⟩ * ⟨w, hw⟩ * (⟨u, hu⟩ : ↥T)⁻¹ * (⟨w, hw⟩ : ↥T)⁻¹ : ↥T) :
         ↥T ⧸ J') = 1 := by

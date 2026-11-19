@@ -76,7 +76,7 @@ theorem closure_quadSet_of_isA2 (hK : Nat.card K = 2) (hA2 : QuadGenTwoA2)
 theorem d4GraphPlanesTwo_of (hG2 : PairGenTwoG2) (hA2 : QuadGenTwoA2) : D4GraphPlanesTwo := by
   intro K _ _ hK2 E hE hc hout hG
   classical
-  haveI : CFSG.IsElementaryAbelian 3 ↥E := hE
+  have : CFSG.IsElementaryAbelian 3 ↥E := hE
   have hchar : ringChar K = 2 := ringChar_eq_two_of_card_two hK2
   have hinj := conj_injective_D4 (K := K)
   obtain ⟨β, hβE, hβout⟩ : ∃ β ∈ E, β ∉ innerAut (adjointGroup Tag.D4 K) := by

@@ -20,6 +20,7 @@ open CFSG.Assembly (IsElemAbelian)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem omega_conj_mem_sup {L B : Subgroup G} (hBL : B ≤ L) {y : G} (hy : y ∈ L)
     (hyN : QuotientGroup.mk' (CFSG.pCore 2 ↥L) (⟨y, hy⟩ : ↥L) ∈ Subgroup.normalizer
       (((B.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) : Subgroup _) : Set _))

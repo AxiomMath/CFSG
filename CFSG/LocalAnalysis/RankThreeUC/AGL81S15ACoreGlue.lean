@@ -37,7 +37,7 @@ theorem sylow_le_iff_card {U : Type*} [CommGroup U] [Finite U] [IsCyclic U] {r :
       have h4 := (padicValNat_dvd_iff_le (p := r) (Nat.card_pos (α := U)).ne').1 h3
       omega
     ·
-      haveI : IsCyclic μ := Subgroup.isCyclic μ
+      have : IsCyclic μ := Subgroup.isCyclic μ
       obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := μ)
       have hord : orderOf g = r ^ a := by
         rw [orderOf_eq_card_of_forall_mem_zpowers hg, hμ]

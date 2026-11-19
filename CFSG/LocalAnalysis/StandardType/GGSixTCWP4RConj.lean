@@ -47,7 +47,7 @@ theorem componentOrbitLength_conj (g : WeylGroup τ) (ρ : Equiv.Perm (Fin τ.ra
   unfold componentOrbitLength
   congr 1
   ext s
-  simp only [Set.mem_setOf_eq, tch_iterate_image]
+  simp only [Set.mem_ofPred_eq, tch_iterate_image]
   constructor
   · rintro ⟨hpos, h⟩
     exact ⟨hpos, Set.image_injective.2 (MulAction.injective g) h⟩

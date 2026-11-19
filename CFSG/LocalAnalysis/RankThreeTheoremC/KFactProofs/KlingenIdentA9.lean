@@ -60,7 +60,7 @@ theorem commute_of_isPGroup_of_orbit {α : Type*} [Finite α] {p : ℕ} [hpF : F
     rcases Nat.lt_or_ge m 1 with h0 | h1
     · have hm0 : m = 0 := by omega
       rw [hm0, pow_zero] at hm
-      haveI : Subsingleton ρ.range := (Nat.card_eq_one_iff_unique.mp hm).1
+      have : Subsingleton ρ.range := (Nat.card_eq_one_iff_unique.mp hm).1
       exact isCyclic_of_subsingleton
     · have hm1' : m = 1 := by omega
       rw [hm1', pow_one] at hm
@@ -71,7 +71,7 @@ theorem commute_of_isPGroup_of_orbit {α : Type*} [Finite α] {p : ℕ} [hpF : F
     exact congrArg Subtype.val this
   have h := congrArg (fun σ : Equiv.Perm O => (σ ⟨a, MulAction.mem_orbit_self a⟩ : α)) hcomm
   simp only [ρ, MulAction.toPermHom_apply, Equiv.Perm.coe_mul, Function.comp_apply,
-    MulAction.toPerm_apply, MulAction.orbit.coe_smul, Subgroup.mk_smul, Equiv.Perm.smul_def] at h
+    MulAction.toPerm_apply] at h
   exact h
 
 end KlingenIdentA9Aux
@@ -113,12 +113,12 @@ theorem klingenIdentAltAt_three : @KlingenIdentAltAt 3 ⟨Nat.prime_three⟩ := 
     centralizer_eq_bot_of_forall_mem hp hp2 hred.core_eq_bot hKn hmem hZ
   set eK : K ≃* alternatingGroup (Fin 9) :=
     (QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)).trans eA
-  haveI := hKn
+  have := hKn
   obtain ⟨φ, hφ, -⟩ :=
     CFSG.AGLEmbedding.exists_embedding_alternating K eK hC
   obtain ⟨E, D, L, hER, hEcard, hEexp, hEZ, -, -, -, -, -, hLC, -, ek, hSL⟩ := hkl
   obtain ⟨z, hz1⟩ : ∃ z : Subgroup.center E, z ≠ 1 := by
-    haveI : Finite (Subgroup.center E) :=
+    have : Finite (Subgroup.center E) :=
       Nat.finite_of_card_ne_zero (by rw [hEZ]; norm_num)
     have : Nontrivial (Subgroup.center E) := by
       rw [← Finite.one_lt_card_iff_nontrivial, hEZ]

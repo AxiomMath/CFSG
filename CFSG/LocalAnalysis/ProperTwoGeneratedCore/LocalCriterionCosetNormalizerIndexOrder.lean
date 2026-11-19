@@ -65,7 +65,7 @@ theorem supplied_sylow_in_overgroup_of_index_eq (N D H : Subgroup G)
     change ((S : Subgroup N).map (Subgroup.inclusion hNH)).map H.subtype = _
     rw [Subgroup.map_map]
     rfl
-  have hpA : IsPGroup p A := S.isPGroup'.map (Subgroup.inclusion hNH)
+  have hpA : IsPGroup p A := S.isPGroup.map (Subgroup.inclusion hNH)
   have hAindex : A.index = (S : Subgroup N).index * N.relIndex H := by
     change ((S : Subgroup N).map (Subgroup.inclusion hNH)).index = _
     rw [(S : Subgroup N).index_map_of_injective (Subgroup.inclusion_injective hNH),
@@ -84,7 +84,7 @@ theorem supplied_sylow_in_ambient_of_index_eq (N D H : Subgroup G)
     ∃ R : Sylow p G,
       (R : Subgroup G) = (S : Subgroup N).map N.subtype := by
   obtain ⟨R, hR⟩ := supplied_sylow_in_overgroup_of_index_eq N D H hNH hDH Q hQ heq S
-  have hpR := R.isPGroup'.map H.subtype
+  have hpR := R.isPGroup.map H.subtype
   have hnot : ¬ p ∣ ((R : Subgroup H).map H.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact (Fact.out : p.Prime).not_dvd_mul R.not_dvd_index hH

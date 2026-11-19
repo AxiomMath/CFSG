@@ -30,6 +30,7 @@ theorem s15_Eleven_n_le {V M : Subgroup G} {i : ℕ} {g : G} {A B : Subgroup G} 
   have h4 := hcfg.mQuot_B
   omega
 
+omit [Finite G] in
 theorem s15_Eleven_sq {V : Subgroup G} (hV : IsElemAbelian 2 V) {v : G} (hv : v ∈ V) :
     v * v = 1 := by
   have := hV.2 v hv
@@ -61,7 +62,7 @@ theorem s15_Eleven_supp_card_ge (D : Data G) {V₀ V L : Subgroup G} (h : Hyp154
     have hcard : (wConjG D.M V₀ V hV L g).ncard = s15 D.M V₀ V hV L :=
       s15_Glue3_wConjG_ncard D h.hyp151 hV g
     have hdiff : 1 < (wConjG D.M V₀ V hV L g \ S).ncard := by
-      rw [Set.ncard_diff hS]
+      rw [Set.ncard_sdiff hS]
       omega
     obtain ⟨Y₁, Y₂, hY₁, hY₂, hY₁₂⟩ := (Set.one_lt_ncard_iff (Set.toFinite _)).1 hdiff
     obtain ⟨X₁, ⟨x₁, hx₁, rfl⟩, rfl⟩ := mem_wConjG.1 hY₁.1

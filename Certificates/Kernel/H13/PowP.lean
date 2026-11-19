@@ -17,9 +17,9 @@ theorem pow8_unpackM (p : ℕ) : ∀ k, CFSG.Quasithin.H13.O3Cert.pow8 (unpackM 
     rw [CFSG.Quasithin.H13.O3Cert.pow8, pow8_unpackM p k, mul8_unpackM]
     rfl
 
-theorem powP_lt (p : ℕ) : ∀ k, powP p k < 2 ^ 64
+theorem powP_lt (p : ℕ) : ∀ _k, powP p _k < 2 ^ 64
   | 0 => oneP_lt
-  | k + 1 => mulP_lt p _
+  | _k + 1 => mulP_lt p _
 
 theorem pow8_beq_one (p k : ℕ) :
     (CFSG.Quasithin.H13.O3Cert.pow8 (unpackM p) k == one8) = (powP p k == oneP) := by

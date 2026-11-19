@@ -107,7 +107,7 @@ theorem card_orbit_cases (hm : M24Out G E t) {x : ↥E} (hx : x ≠ 1) :
 theorem centSub_zpowers_eq_stabilizer (hm : M24Out G E t) (x : ↥E) :
     @Quasithin.centSub ↥E (commGroupOfM24Out hm) (Subgroup.zpowers x) =
       stabilizer (MulAut ↥E) x := by
-  letI := commGroupOfM24Out hm
+  let := commGroupOfM24Out hm
   ext g
   rw [Quasithin.mem_centSub, MulAction.mem_stabilizer_iff]
   constructor
@@ -121,7 +121,7 @@ theorem centSub_zpowers_eq_stabilizer (hm : M24Out G E t) (x : ↥E) :
 theorem XE_invariant_eq_bot_or_top (hm : M24Out G E t) (U : Subgroup ↥E)
     (hU : ∀ g ∈ S44.XE E, ∀ u ∈ U, g u ∈ U) : U = ⊥ ∨ U = ⊤ := by
   classical
-  haveI : Finite ↥E := finite_E_of_m24Out hm
+  have : Finite ↥E := finite_E_of_m24Out hm
   obtain ⟨y, hy1, hyt, hc1, hc2, hcover⟩ := exists_two_orbits hm
   set t' : ↥E := ⟨t, hm.t_mem⟩ with ht'
   have ht1 : t' ≠ 1 := fun h => hm.t_ne_one (congrArg Subtype.val h)
@@ -197,7 +197,7 @@ theorem XE_invariant_eq_bot_or_top (hm : M24Out G E t) (U : Subgroup ↥E)
 
 theorem isIrrOn_XE (hm : M24Out G E t) :
     @QuasithinUnique.Setup.X1.IsIrrOn ↥E (commGroupOfM24Out hm) (S44.XE E) := by
-  letI := commGroupOfM24Out hm
+  let := commGroupOfM24Out hm
   refine ⟨⟨⟨1, ⟨t, hm.t_mem⟩, fun h => hm.t_ne_one (congrArg Subtype.val h).symm⟩⟩, ?_⟩
   intro U hU
   exact XE_invariant_eq_bot_or_top hm U hU

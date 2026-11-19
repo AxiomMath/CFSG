@@ -59,7 +59,7 @@ theorem burnsideC56_fin_hyps (hι : Function.Injective ι) (hκ : Function.Injec
   · intro T₀' hne hle hHN
     rw [hC'] at hle ⊢
     set Y := T₀'.comap ι with hYdef
-    have hY : Y.map ι = T₀' := burnsideC56_tr_eq_map_comap hι hle
+    have hY : Y.map ι = T₀' := burnsideC56_tr_eq_map_comap hle
     have hYC : Y ≤ CH := burnsideC56_tr_comap_le hι hle
     set T₀ := Y.map H.subtype with hT₀def
     have hT₀C : T₀ ≤ Λ ⊓ H := by

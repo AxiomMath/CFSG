@@ -16,9 +16,11 @@ variable {F : Type} [Field F] [Finite F]
   zero_mem' := fun x _ => herm_zero_right σ x
   smul_mem' := fun c y hy x hx => by rw [herm_smul_right, hy x hx, mul_zero]
 
+omit [Finite F] in
 theorem mem_horth {σ : F ≃+* F} {W : Submodule F (Fin 4 → F)} {y : Fin 4 → F} :
     y ∈ horth σ W ↔ ∀ x ∈ W, herm σ x y = 0 := Iff.rfl
 
+omit [Finite F] in
 private theorem horth_herm_sum_left {ι : Type*} [Fintype ι] (σ : F ≃+* F) (s : ι → F)
     (v : ι → Fin 4 → F) (y : Fin 4 → F) :
     herm σ (∑ j, s j • v j) y = ∑ j, σ (s j) * herm σ (v j) y := by
@@ -30,7 +32,8 @@ private theorem horth_herm_sum_left {ι : Type*} [Fintype ι] (σ : F ≃+* F) (
   refine Finset.sum_congr rfl fun i _ => ?_
   ring
 
-theorem card_mul_card_horth {σ : F ≃+* F} (hσ : IsUnitaryInvolution σ)
+omit [Finite F] in
+theorem card_mul_card_horth {σ : F ≃+* F} (_hσ : IsUnitaryInvolution σ)
     (W : Submodule F (Fin 4 → F)) :
     Nat.card ↥W * Nat.card ↥(horth σ W) = Nat.card (Fin 4 → F) := by
   let b : Module.Basis (Fin (Module.finrank F ↥W)) F ↥W := Module.finBasis F ↥W

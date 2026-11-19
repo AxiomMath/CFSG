@@ -19,7 +19,7 @@ theorem sigmaB_decomp {S Zc : Subgroup Γ} (hZc : ∀ k ∈ Zc, ∀ g : Γ, g * 
     {g : Γ} (hg : g ∈ Subgroup.normalizer ((S ⊔ Zc : Subgroup Γ) : Set Γ))
     {s : Γ} (hs : s ∈ S) :
     ∃ s' ∈ S, ∃ k ∈ Zc, g * s * g⁻¹ = s' * k := by
-  haveI : Zc.Normal := ⟨fun n hn x => by rw [sigmaB_conj_mem hZc hn x]; exact hn⟩
+  have : Zc.Normal := ⟨fun n hn x => by rw [sigmaB_conj_mem hZc hn x]; exact hn⟩
   have hmem : g * s * g⁻¹ ∈ S ⊔ Zc :=
     (Subgroup.mem_set_normalizer_iff.mp hg s).mp ((le_sup_left : S ≤ S ⊔ Zc) hs)
   obtain ⟨s', hs', k, hk, e⟩ := Subgroup.mem_sup_of_normal_right.mp hmem
@@ -36,7 +36,7 @@ theorem sigmaB_psi_one_of_comm {S : Subgroup Γ} {z : Γ} {Ψ : ↥S →* Multip
     intro y
     obtain ⟨t, ht⟩ := hΨ.surj (Multiplicative.ofAdd y)
     have hy : Multiplicative.toAdd (Ψ t) = y := by simp [ht]
-    rw [← hy, hΨ.form c t, if_pos (hc t)]
+    rw [← hy, hΨ.form c t, ite_eq_left (hc t)]
   have hx : Multiplicative.toAdd (Ψ c) = 0 := sigmaB_symp_nondeg _ h0
   simpa using congrArg Multiplicative.ofAdd hx
 
@@ -81,7 +81,7 @@ theorem actsAs_unique {S : Subgroup Γ} {z : Γ} {Zc : Subgroup Γ}
     _ = φ' w := by rw [hw]
 
 theorem actsAs_one {S : Subgroup Γ} {z : Γ} {Zc : Subgroup Γ} {Ψ : ↥S →* Multiplicative Sp4.V4}
-    (hS : Q8D8Facts S z) (hΨ : PsiSpec S z Ψ) (hZc : ∀ k ∈ Zc, ∀ g : Γ, g * k = k * g) :
+    (_hS : Q8D8Facts S z) (hΨ : PsiSpec S z Ψ) (hZc : ∀ k ∈ Zc, ∀ g : Γ, g * k = k * g) :
     ActsAs S Zc Ψ 1 (AddEquiv.refl _) := by
   intro s s' k hk h
   have h1 : (s' : Γ)⁻¹ * (s : Γ) = k := by
@@ -123,7 +123,7 @@ theorem actsAs_mul {S : Subgroup Γ} {z : Γ} {Zc : Subgroup Γ}
 
 theorem actsAs_refl_iff {S : Subgroup Γ} {z : Γ} {Zc : Subgroup Γ}
     {Ψ : ↥S →* Multiplicative Sp4.V4}
-    (hS : Q8D8Facts S z) (hΨ : PsiSpec S z Ψ) (hZc : ∀ k ∈ Zc, ∀ g : Γ, g * k = k * g)
+    (_hS : Q8D8Facts S z) (hΨ : PsiSpec S z Ψ) (hZc : ∀ k ∈ Zc, ∀ g : Γ, g * k = k * g)
     (hz : z ∈ Zc) {g : Γ} (hg : g ∈ Subgroup.normalizer ((S ⊔ Zc : Subgroup Γ) : Set Γ))
     {φ : Sp4.V4 ≃+ Sp4.V4} (h : ActsAs S Zc Ψ g φ) :
     φ = AddEquiv.refl _ ↔ ∀ s ∈ S, g * s * g⁻¹ * s⁻¹ ∈ Zc := by

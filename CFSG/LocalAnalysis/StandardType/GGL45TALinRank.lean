@@ -25,7 +25,7 @@ theorem card_fixedLifts_le (S : LinSetting p q₀ d k K ψ E) {x₀ : GL (Fin d)
     Nat.card {x : GL (Fin d) k //
       S.IsLift x ∧ Matrix.GeneralLinearGroup.map S.τ.toRingHom x = x} ≤ p ^ (d / p) := by
   classical
-  haveI : NeZero p := ⟨S.hp.ne_zero⟩
+  have : NeZero p := ⟨S.hp.ne_zero⟩
   set k₀ := FQ.fixF S.τ with hk₀
   set ι₀ : GL (Fin d) k₀ →* GL (Fin d) k := Matrix.GeneralLinearGroup.map k₀.subtype with hι₀
   have hι₀inj : Function.Injective ι₀ := FQ.glMap_subtype_injective S.τ
@@ -33,7 +33,7 @@ theorem card_fixedLifts_le (S : LinSetting p q₀ d k K ψ E) {x₀ : GL (Fin d)
   let L0 : Set (GL (Fin d) k₀) := {A | S.IsLift (ι₀ A)}
   have hdesc : ∀ x : L₀, ∃ A ∈ L0, ι₀ A = x.1 := fun x => by
     obtain ⟨A, hA⟩ := FQ.exists_descend S.τ x.1 x.2.2
-    exact ⟨A, by simp only [L0, Set.mem_setOf_eq]; rw [hA]; exact x.2.1, hA⟩
+    exact ⟨A, by simp only [L0, Set.mem_ofPred_eq]; rw [hA]; exact x.2.1, hA⟩
   have hcomm : ∀ A ∈ L0, ∀ B ∈ L0, A * B = B * A := fun A hA B hB =>
     hι₀inj (by rw [map_mul, map_mul]; exact S.isLift_comm hA hB)
   have hpow : ∀ A ∈ L0, A ^ p = 1 := fun A hA => hι₀inj (by rw [map_pow, hA.1, map_one])
@@ -43,7 +43,7 @@ theorem card_fixedLifts_le (S : LinSetting p q₀ d k K ψ E) {x₀ : GL (Fin d)
     refine ⟨Subtype.ext (by simp [ω₀, hω.pow_eq_one]), fun l hl => hω.dvd_of_pow_eq_one l ?_⟩
     have := congrArg Subtype.val hl
     simpa [ω₀] using this
-  haveI : Finite L0 := Set.toFinite L0
+  have : Finite L0 := Set.toFinite L0
   obtain ⟨P, hP⟩ := TypeA.PGLTor.exists_conj_diagonal hω₀ L0 hcomm hpow
   set P' : GL (Fin d) k := ι₀ P with hP'
   have hP'fix : Matrix.GeneralLinearGroup.map S.τ.toRingHom P' = P' := FQ.glMap_subtype_fixed S.τ P

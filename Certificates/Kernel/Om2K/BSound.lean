@@ -25,7 +25,7 @@ theorem neAt_sound {a b p : Nat} (h : neAt a b p = true) : NeAt a b := by
   unfold neAt at h
   obtain ⟨hlt, hne⟩ := (bAnd_iff _ _).1 h
   refine ⟨p, Nat.blt_eq.mp hlt, fun heq => ?_⟩
-  rw [SporSch.LyLoop.bIf_eqP, if_pos (Nat.beq_eq.mpr heq)] at hne
+  rw [SporSch.LyLoop.bIf_eqP, ite_eq_left (Nat.beq_eq.mpr heq)] at hne
   cases hne
 
 theorem lhOK_sound {G A AI R : Nat → Nat} {ng h : Nat} (hc : lhOK G A AI R ng h = true) :
@@ -170,7 +170,7 @@ theorem rootOK_sound {E RT : Nat → Nat} {nE a : Nat} (h : rootOK E RT nE a = t
   obtain ⟨hlt, hb⟩ := (bAnd_iff _ _).1 h
   refine ⟨Nat.blt_eq.mp hlt, fun h13 => ?_⟩
   rw [SporSch.LyLoop.bIf_eqP] at hb
-  rw [if_pos (Nat.beq_eq.mpr h13)] at hb
+  rw [ite_eq_left (Nat.beq_eq.mpr h13)] at hb
   exact Nat.eq_of_beq_eq_true hb
 
 theorem q8Row_sound {E RT PR Lg LgI : Nat → Nat} {nL nR : Nat} {withR : Bool} {a : Nat}
@@ -264,12 +264,12 @@ theorem oNodeOK_sound {m : Nat} (h : oNodeOK m = true) :
   rw [SporSch.LyLoop.bIf_eqP] at h
   refine ⟨hcA, hcB, ?_, ?_⟩
   · intro hm0
-    rw [if_pos (Nat.beq_eq.mpr hm0)] at h
+    rw [ite_eq_left (Nat.beq_eq.mpr hm0)] at h
     rw [bAnd_iff] at h
     obtain ⟨hA, hB⟩ := h
     exact ⟨Nat.eq_of_beq_eq_true hA, Nat.eq_of_beq_eq_true hB⟩
   · intro hm0
-    rw [if_neg (fun hq => hm0 (Nat.beq_eq.mp hq))] at h
+    rw [ite_eq_right (fun hq => hm0 (Nat.beq_eq.mp hq))] at h
     rw [bAnd_iff] at h
     obtain ⟨hpar, h⟩ := h
     rw [bAnd_iff] at h
@@ -285,15 +285,15 @@ theorem oDistOK_sound {m : Nat} (h : oDistOK m = true) :
   intro m' hm' hm
   have hh := allN_spec h m' hm'
   rw [SporSch.LyLoop.bIf_eqP] at hh
-  rw [if_pos (Nat.blt_eq.mpr hm)] at hh
+  rw [ite_eq_left (Nat.blt_eq.mpr hm)] at hh
   simp only [SporSch.LyLoop.strictB_eqB] at hh
   rw [SporSch.LyLoop.bIf_eqP] at hh
   by_cases hb : fld(BD.OD (Nat.add (Nat.mul 24 m) m'), 0, 1) = 0
   · left
-    rw [if_pos (Nat.beq_eq.mpr hb)] at hh
+    rw [ite_eq_left (Nat.beq_eq.mpr hb)] at hh
     exact neAt_sound hh
   · right
-    rw [if_neg (fun hq => hb (Nat.beq_eq.mp hq))] at hh
+    rw [ite_eq_right (fun hq => hb (Nat.beq_eq.mp hq))] at hh
     exact neAt_sound hh
 
 theorem sgOK_sound {m : Nat} (h : sgOK m = true) :
@@ -309,11 +309,11 @@ theorem sgOK_sound {m : Nat} (h : sgOK m = true) :
   refine ⟨hc, ?_, ?_⟩
   · intro hf
     have hf' : Nat.div m 2 = 0 := hf
-    rw [if_pos (Nat.beq_eq.mpr hf')] at h
+    rw [ite_eq_left (Nat.beq_eq.mpr hf')] at h
     exact Nat.eq_of_beq_eq_true h
   · intro hf
     have hf' : Nat.div m 2 ≠ 0 := hf
-    rw [if_neg (fun hq => hf' (Nat.beq_eq.mp hq))] at h
+    rw [ite_eq_right (fun hq => hf' (Nat.beq_eq.mp hq))] at h
     rw [bAnd_iff] at h
     obtain ⟨h1, h⟩ := h
     rw [bAnd_iff] at h
@@ -334,31 +334,31 @@ theorem crOK_sound {CR E : Nat → Nat} {i : Nat} (h : crOK CR E i = true) :
     · left
       exact hb0
     · right
-      rw [if_neg (fun hq => hb0 (Nat.beq_eq.mp hq))] at hA
+      rw [ite_eq_right (fun hq => hb0 (Nat.beq_eq.mp hq))] at hA
       rw [bAnd_iff] at hA
       obtain ⟨hlt, hne⟩ := hA
       refine ⟨fld(CR i, 4, 511), Nat.blt_eq.mp hlt, fun heq => ?_⟩
       rw [SporSch.LyLoop.bIf_eqP] at hne
-      rw [if_pos (Nat.beq_eq.mpr heq)] at hne
+      rw [ite_eq_left (Nat.beq_eq.mpr heq)] at hne
       cases hne
   · rw [SporSch.LyLoop.bIf_eqP] at hB
     by_cases hb13 : fld(CR i, 13, 1) = 0
     · left
-      rw [if_pos (Nat.beq_eq.mpr hb13)] at hB
+      rw [ite_eq_left (Nat.beq_eq.mpr hb13)] at hB
       rw [bAnd_iff] at hB
       obtain ⟨hlt, hne⟩ := hB
       refine ⟨fld(CR i, 14, 511), Nat.blt_eq.mp hlt, fun heq => ?_⟩
       rw [SporSch.LyLoop.bIf_eqP] at hne
-      rw [if_pos (Nat.beq_eq.mpr heq)] at hne
+      rw [ite_eq_left (Nat.beq_eq.mpr heq)] at hne
       cases hne
-    · rw [if_neg (fun hq => hb13 (Nat.beq_eq.mp hq))] at hB
+    · rw [ite_eq_right (fun hq => hb13 (Nat.beq_eq.mp hq))] at hB
       rw [SporSch.LyLoop.bIf_eqP] at hB
       by_cases hb23 : fld(CR i, 23, 1) = 0
       · right; left
-        rw [if_pos (Nat.beq_eq.mpr hb23)] at hB
+        rw [ite_eq_left (Nat.beq_eq.mpr hb23)] at hB
         exact ⟨fld(CR i, 24, 3), Nat.lt_succ_of_le Nat.and_le_right, Nat.eq_of_beq_eq_true hB⟩
       · right; right
-        rw [if_neg (fun hq => hb23 (Nat.beq_eq.mp hq))] at hB
+        rw [ite_eq_right (fun hq => hb23 (Nat.beq_eq.mp hq))] at hB
         obtain ⟨hne, hall⟩ := (bAnd_iff _ _).1 hB
         exact ⟨neAt_sound hne, fun l hl => Nat.eq_of_beq_eq_true (allN_spec hall l hl)⟩
 

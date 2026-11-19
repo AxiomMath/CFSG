@@ -129,8 +129,7 @@ theorem cent_sq6 (ι : Fin 4 ↪ Fin 6) {x : AEQ 6}
         rintro rfl
         exact heq (w.perm.injective (hab.trans hbc.symm))
       rcases ha with rfl | rfl <;> rcases hb with rfl | rfl <;> rcases hc with rfl | rfl <;>
-        first | rfl | exact absurd rfl heq | exact absurd rfl hcb | exact absurd rfl hpq |
-          exact absurd rfl hpq.symm
+        first | rfl | exact absurd rfl heq | exact absurd rfl hcb
   have hinv : ∀ y, y ∉ Set.range ι → w.perm (w.perm y) = y := by
     intro y hy
     have h1 := hpres y hy
@@ -176,9 +175,9 @@ theorem cent_sq6 (ι : Fin 4 ↪ Fin 6) {x : AEQ 6}
     rw [mul_vec]
     by_cases hy : y ∈ Set.range ι
     · obtain ⟨i, rfl⟩ := hy
-      rw [hsymm', if_pos ⟨i, rfl⟩]
+      rw [hsymm', ite_eq_left ⟨i, rfl⟩]
       exact CharTwo.add_self_eq_zero _
-    · rw [if_neg hy, hsymm y hy]
+    · rw [ite_eq_right hy, hsymm y hy]
       exact hc y hy
   have hu1 : (w * w).perm = 1 := by
     rw [mul_perm]
@@ -193,18 +192,18 @@ theorem cent_sq6 (ι : Fin 4 ↪ Fin 6) {x : AEQ 6}
       refine Wr.ext (funext fun y => ?_) hu1
       rw [hu]
       by_cases hy : y ∈ Set.range ι
-      · rw [if_pos hy]; rfl
-      · rw [if_neg hy, hc0]; rfl
+      · rw [ite_eq_left hy]; rfl
+      · rw [ite_eq_right hy, hc0]; rfl
     rw [← map_mul, this, map_one]
   · right
     have : w * w = zOf ι * allOnes 6 := by
       refine Wr.ext (funext fun y => ?_) (hu1.trans (by rw [mul_perm, zOf_perm, one_mul]; rfl))
       rw [hu, mul_vec, zOf_vec_apply]
       by_cases hy : y ∈ Set.range ι
-      · rw [if_pos hy, if_pos hy]
+      · rw [ite_eq_left hy, ite_eq_left hy]
         show (0 : ZMod 2) = 1 + 1
         decide
-      · rw [if_neg hy, if_neg hy, hc1]
+      · rw [ite_eq_right hy, ite_eq_right hy, hc1]
         show (1 : ZMod 2) = 0 + 1
         decide
     rw [← map_mul, this, map_mul, mkQ_allOnes, mul_one]

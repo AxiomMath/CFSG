@@ -28,7 +28,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.ASVolI.ChF.ExceptionalRoots
 theorem burnsideF4m_A42_F4_oPPrime_le {K : Type} [Field K] [Finite K] [CharP K F4.prime]
     {a : ℕ} (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     oPPrime 2 (Pg K a ⟨1, by decide⟩) ≤ perfectCore (Pg K a ⟨1, by decide⟩) := by
-  haveI : Finite (Gm K a) := finite_gm K a
+  have : Finite (Gm K a) := finite_gm K a
   have hUle : Ug K a ≤ perfectCore (Pg K a ⟨1, by decide⟩) := fun u hu =>
     (CFSG.Quasithin.H13.Sec53F.ReeF4.mem_perfectCore_subgroupOf
       (CFSG.Quasithin.H13.Sec53F.ReeF4.reeLocalParabolic_le_reeGamma _) u).2
@@ -48,13 +48,13 @@ variable {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 
 theorem burnsideF4m_A42_core_F4 [Finite E] (hyp : HypF_4_4 .F4tw 2 f Gp M₁ M₂) (hf : 3 ≤ f)
     (hodd : Odd Gp.index) : burnsideF4m_Core1 Gp M₁ := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨chart, hm⟩ := hyp.lie_amalgam
   obtain ⟨K, fK, finK, charK, a, ha, hKsc, marking, h2, -, -, -⟩ :=
     burnsideF4gF4Inv_chart_data hf chart
   have hK : Nat.card K = 2 ^ (2 * a + 1) := hKsc
-  haveI : CharP K F4.prime := inferInstanceAs (CharP K 2)
-  haveI : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hK
+  have : CharP K F4.prime := inferInstanceAs (CharP K 2)
+  have : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hK
   obtain ⟨Φ, hΦ⟩ := burnsideF4gF4Inv_exists_iso ha hK marking
   have hGM1 : Gp ⊓ M₁ = (Pg K a ⟨1, by decide⟩).map (Gp.subtype.comp Φ.toMonoidHom) := by
     rw [hm.2.1, h2, hΦ _ _ (burnsideF4gF4Inv_mem_P₁_iff hK), burnsideF4gF4Inv_Pg_one_eq hK,
@@ -116,7 +116,7 @@ theorem burnsideF4m_A42_kinds (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (hodd 
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) i)
           (amalgamMap ((burnsideF4d_bOne β ε).comp (burnsideF4m_psi θ h1))
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) j) := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   rcases hk with ⟨rfl, hf⟩ | ⟨rfl, hf⟩ | ⟨rfl, hf⟩ | ⟨rfl, hf⟩ | ⟨rfl, rfl⟩
   · exact burnsideF4m_A42_G2 hyp hf hodd (burnsideF4m_core12_G2 hyp.amalgam hf).1
   · exact burnsideF4m_A42_D4 hyp hf hodd (burnsideF4m_core12_D4 hyp.amalgam hf).1
@@ -162,7 +162,7 @@ theorem burnsideF4m_F_4_42_odd_of_rest (hrest : burnsideF4m_A42Rest)
 
 theorem burnsideF4m_F_4_42_of_rest (h38 : F_4_38) (hrest : burnsideF4m_A42Rest) : F_4_42 := by
   intro κ f E _ Gp M₁ M₂ Y _ β M _ ε z hyp hL43 hL3
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   obtain ⟨T₀, hT₀⟩ := burnsideF4ja_exists_isSylowOf (MiOne β ε ⊓ MiTwo β ε)
   exact burnsideF4m_F_4_42_odd_of_rest hrest hyp hL43 hL3
     (h38 κ f E Gp M₁ M₂ Y β M ε z hyp hL43 T₀ hT₀).2.2

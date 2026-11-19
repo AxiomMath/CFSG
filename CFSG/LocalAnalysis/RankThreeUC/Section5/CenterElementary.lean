@@ -24,7 +24,7 @@ theorem center_sq_eq_one {X : Type} [Group X] [Finite X] (S : Subgroup X)
   have hfc : frattini S = Subgroup.center S := Subgroup.map_injective hinj h2.symm
   have hsq : ∀ x : S, x ^ 2 ∈ Subgroup.center S := fun x => by
     rw [← hfc]
-    haveI : Fact (IsPGroup 2 S) := ⟨hS⟩
+    have : Fact (IsPGroup 2 S) := ⟨hS⟩
     exact CFSG.pth_power_mem_frattini_of_isPGroup (p := 2) x
   have hcomm : ∀ x y : S, ⁅x, y⁆ ^ 2 = 1 := fun x y => by
     have hz : ⁅x, y⁆ ∈ Subgroup.center S := by

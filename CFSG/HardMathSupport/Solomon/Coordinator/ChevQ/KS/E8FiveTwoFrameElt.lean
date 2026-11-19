@@ -36,7 +36,7 @@ theorem closingFrame_twisted {K : Type} [Field K] [Finite K] (hK : 5 ∣ Nat.car
       D.g * rootDiagUnit TwClass.e8Ten.tag (Pi.mulSingle (⟨4, by decide⟩ :
         Fin TwClass.e8Ten.tag.rank) ζ) * D.g⁻¹) :
     ClosingFrameAt z (frameIn (TwClass.e8Ten.X₁ D ⊔ TwClass.e8Ten.X₂ D)) := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set i₁ : Fin TwClass.e8Ten.tag.rank := ⟨4, by decide⟩ with hi₁
   set a : Fin TwClass.e8Ten.tag.rank → D.Lˣ := Pi.mulSingle i₁ ζ with ha
   have hchar : ∀ α : Fin TwClass.e8Ten.tag.rank → ℤ, rootChar a α = ζ ^ (α i₁) := by
@@ -107,15 +107,15 @@ theorem closingFrame_twisted {K : Type} [Field K] [Finite K] (hK : 5 ∣ Nat.car
     exact Subgroup.mem_centralizer_singleton_iff.1 (hsup hy')
   · refine nonsolvable_frameIn hle ?_
     intro hs
-    haveI := hs
-    haveI h2 : Group.IsSolvable ↥(TwClass.e8Ten.X₂ D) :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective
+    have := hs
+    have h2 : Group.IsSolvable ↥(TwClass.e8Ten.X₂ D) :=
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective
         (le_sup_right : TwClass.e8Ten.X₂ D ≤ TwClass.e8Ten.X₁ D ⊔ TwClass.e8Ten.X₂ D))
     obtain ⟨hperf, -, a₀, b₀, hab⟩ := hq3.2
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a₀
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b₀
-    haveI : Nontrivial ↥(TwClass.e8Ten.X₂ D) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
-    exact (IsSolvable.commutator_lt_top_of_nontrivial
+    have : Nontrivial ↥(TwClass.e8Ten.X₂ D) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial
       (↥(TwClass.e8Ten.X₂ D))).ne hperf.commutator_eq_top
   · have h3 : 3 ≤ Nat.card K := by
       have h1 : 1 < Nat.card K := Finite.one_lt_card

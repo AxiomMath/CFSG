@@ -44,7 +44,7 @@ theorem ggTorusTorData_of_centralLift_rootCoordinates
     rw [map_pow, map_one]
     apply Multiplicative.toAdd.injective
     change m • (Multiplicative.toAdd (l z) : ZMod m) = 0
-    simp [nsmul_eq_mul, ZMod.natCast_self]
+    simp [nsmul_eq_mul]
   have hφpow : ∀ a : Fin N → μ, φ a ^ m = 1 := by
     intro a
     rw [← map_pow, show a ^ m = 1 by funext k; exact hμ (a k), map_one]

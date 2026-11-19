@@ -48,7 +48,7 @@ theorem s16c7_le_pCoreOf {N M : Subgroup G} (hNM : N ≤ M)
 
 theorem s16c7_pCoreOf_le_of_isSylowOf [Finite G] {T M : Subgroup G}
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T M) : pCoreOf 2 M ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := hT.exists_sylow_eq_subgroupOf
   have hle : CFSG.pCore 2 ↥M ≤ (S : Subgroup ↥M) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥M)).le_sylow_of_normal S

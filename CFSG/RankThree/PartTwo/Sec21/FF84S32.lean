@@ -14,6 +14,7 @@ open CFSG.GH74.GLS.Balance (IsSylowIn)
 section Helpers
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem closure_pair_eq_sup (x y : G) :
     Subgroup.closure ({x, y} : Set G) = Subgroup.zpowers x ⊔ Subgroup.zpowers y := by
   apply le_antisymm
@@ -24,6 +25,7 @@ theorem closure_pair_eq_sup (x y : G) :
   · exact sup_le (Subgroup.zpowers_le.2 (Subgroup.subset_closure (by simp)))
       (Subgroup.zpowers_le.2 (Subgroup.subset_closure (by simp)))
 
+omit [Finite G] in
 theorem mem_Nor_closure_pair {x y g : G} (hgx : g ∈ Nor (Subgroup.zpowers x))
     (hgy : g ∈ Nor (Subgroup.zpowers y)) : g ∈ Nor (Subgroup.closure ({x, y} : Set G)) := by
   have key : ∀ g : G, g ∈ Nor (Subgroup.zpowers x) → g ∈ Nor (Subgroup.zpowers y) →
@@ -50,6 +52,7 @@ theorem mem_Nor_closure_pair {x y g : G} (hgx : g ∈ Nor (Subgroup.zpowers x))
   have := key g⁻¹ (inv_mem hgx) (inv_mem hgy) _ hk
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem Cen_eq_CenS_zpowers (x : G) : Cen x = CenS (Subgroup.zpowers x) := by
   ext g
   constructor
@@ -63,6 +66,7 @@ theorem Cen_eq_CenS_zpowers (x : G) : Cen x = CenS (Subgroup.zpowers x) := by
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_iff.1 hg x (Subgroup.mem_zpowers x)).symm
 
+omit [Finite G] in
 theorem mem_Nor_Cen_of_Nor_zpowers {x g : G} (hg : g ∈ Nor (Subgroup.zpowers x)) :
     g ∈ Nor (Cen x) := by
   have key : ∀ g : G, g ∈ Nor (Subgroup.zpowers x) → ∀ y ∈ Cen x, g * y * g⁻¹ ∈ Cen x := by
@@ -75,9 +79,10 @@ theorem mem_Nor_Cen_of_Nor_zpowers {x g : G} (hg : g ∈ Nor (Subgroup.zpowers x
   have := key g⁻¹ (inv_mem hg) _ hy
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem Opp3_conj_of_nor (K : Subgroup G) {h : G} (hh : h ∈ Nor K) :
     ∀ m ∈ Opp 3 K, h * m * h⁻¹ ∈ Opp 3 K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro m hm
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 hm
   let α : MulAut K := K.normalizerMonoidHom ⟨h, hh⟩
@@ -91,6 +96,7 @@ theorem Opp3_conj_of_nor (K : Subgroup G) {h : G} (hh : h ∈ Nor K) :
     simp
   exact h5
 
+omit [Finite G] in
 theorem mem_Nor_Opp3_of_Nor {K : Subgroup G} {g : G} (hg : g ∈ Nor K) : g ∈ Nor (Opp 3 K) := by
   rw [Subgroup.mem_normalizer_iff]
   intro m
@@ -98,6 +104,7 @@ theorem mem_Nor_Opp3_of_Nor {K : Subgroup G} {g : G} (hg : g ∈ Nor K) : g ∈ 
   have := Opp3_conj_of_nor K (inv_mem hg) _ hm
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem conj_mem_O3 {X : Subgroup G} {y : G} (hy : ∀ x ∈ X, y * x * y⁻¹ ∈ X) :
     ∀ g ∈ O3 X, y * g * y⁻¹ ∈ O3 X := by
   intro g hg
@@ -173,14 +180,15 @@ theorem nor_K0_le_nor_c (h : FF84Sec3 b L B b₁ b₂) :
   have h2 := K0_conj_c h (inv_mem hn)
   exact M2_mem_nor_zpowers n (b₁ * b₂) h1 h2
 
-theorem Cen_le_nor_c (x : G) : Cen x ≤ Nor (Subgroup.zpowers x) := fun g hg =>
+omit [Finite G] in
+theorem Cen_le_nor_c (x : G) : Cen x ≤ Nor (Subgroup.zpowers x) := fun _g hg =>
   mem_nor_zpowers_of_conj (Or.inl (mem_Cen_iff.1 hg))
 
 theorem S2_final (hQ : LemmaQ) (h : FF84Sec3 b L B b₁ b₂)
     (hX : Opp 3 (Cen b) = ⊥) (hZ : Subgroup.center L = ⊥) :
     setMul (Opp 3 (Cen (b₁ * b₂))) (Nor (Subgroup.closure {b, b₁ * b₂})) =
       Nor (Subgroup.zpowers (b₁ * b₂)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHeq := S2_H_eq hQ h hX hZ
   obtain ⟨hsylP, -⟩ := S2_Sylow_H h
   set S := Opp 3 (Cen (b₁ * b₂)) with hS

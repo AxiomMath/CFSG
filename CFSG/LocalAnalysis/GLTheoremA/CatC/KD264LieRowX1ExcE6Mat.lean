@@ -61,7 +61,7 @@ theorem map_M2 {S : Type*} [CommRing S] (f : R →+* S) : (M2 : Matrix (Fin 2) (
 theorem map_Tm {S : Type*} [CommRing S] (f : R →+* S) :
     (Tm : Matrix (Fin 6) (Fin 6) R).map f = Tm := by
   ext i j
-  simp only [Tm, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply,
+  simp only [Tm, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply,
     Matrix.map_apply]
   generalize blkEquiv.symm i = a
   generalize blkEquiv.symm j = b
@@ -74,6 +74,7 @@ section Centralizer
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem blkM_comm_Tm (A : Matrix (Fin 4) (Fin 4) K) : blkM A * Tm = Tm * blkM A := by
   simp only [blkM, Tm, ← map_mul, Matrix.fromBlocks_multiply, Matrix.mul_zero, Matrix.zero_mul,
     add_zero, zero_add, Matrix.mul_one, Matrix.one_mul]
@@ -143,7 +144,7 @@ theorem blk_conj_mem {g : SL(6, K)}
     rw [Matrix.det_fromBlocks_zero₂₁] at h1
     rw [← h1]
     have : (e.symm (g : Matrix (Fin 6) (Fin 6) K)).det = 1 := by
-      rw [he, Matrix.reindexAlgEquiv_symm, Matrix.det_reindexAlgEquiv, g.2]
+      rw [he, Matrix.symm_reindexAlgEquiv, Matrix.det_reindexAlgEquiv, g.2]
     exact this
   have hAu : IsUnit A.det := IsUnit.of_mul_eq_one D.det hdet
   have hdet' : (A * (h : Matrix (Fin 4) (Fin 4) K) * A⁻¹).det = 1 := by
@@ -160,6 +161,7 @@ theorem blk_conj_mem {g : SL(6, K)}
   refine ⟨?_, trivial, trivial, trivial⟩
   rw [Matrix.mul_assoc, Matrix.mul_assoc, Matrix.nonsing_inv_mul _ hAu, Matrix.mul_one]
 
+omit [CharP K 2] in
 theorem blk_commute (h : SL(4, K)) :
     ((blk h : SL(6, K)) : Matrix (Fin 6) (Fin 6) K) * Tm = Tm * (blk h : Matrix (Fin 6) (Fin 6) K) :=
   blkM_comm_Tm _
@@ -223,7 +225,7 @@ theorem omSL_ne_one : (omSL : SL(4, K)) ≠ 1 := by
   simp [om4, RingHom.mapMatrix_apply] at h2
 
 theorem three_dvd_card_sl4 : 3 ∣ Nat.card SL(4, K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h : orderOf (omSL : SL(4, K)) = 3 := orderOf_eq_prime omSL_pow_three omSL_ne_one
   rw [← h]
   exact orderOf_dvd_natCard _

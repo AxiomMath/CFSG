@@ -18,8 +18,10 @@ variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
   Subgroup.closure {x | ∃ R ∈ DSet Ω W, ∃ R' ∈ DSet Ω W, R' ∈ KPerp Ω R ∧
     ∃ u u' : G, IsUniqueInvolution R u ∧ IsUniqueInvolution R' u' ∧ x = u * u'}
 
+omit [Finite G] in
 private theorem perpA_self_mem (K : Subgroup G) : K ∈ KPerp Ω K := Set.mem_insert _ _
 
+omit [Finite G] in
 private theorem perpA_isSylow_self (h : EndHyp Ω) {K : Subgroup G} (hK : K ∈ Ω) :
     IsSylow2In K K :=
   ⟨le_rfl, h.thmD.two K hK, fun _ hV' _ hKV' => le_antisymm hV' hKV'⟩
@@ -171,7 +173,7 @@ private theorem perpA_comm_of_not_mem_kperp (h : EndHyp Ω) {W : Subgroup G} (hW
       _ = (u * u') * s := (mul_assoc _ _ _).symm
   obtain ⟨t0, ht0T, ht0⟩ : ∃ t0 ∈ T, t0 ∉ T ⊓ W := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : T ≤ T ⊓ W := fun x hx => hcon x hx
     have := Subgroup.card_le_of_le hle
     omega
@@ -181,7 +183,7 @@ private theorem perpA_comm_of_not_mem_kperp (h : EndHyp Ω) {W : Subgroup G} (hW
     Subgroup.mem_inf.mpr ⟨ht0T, by rw [hC, Subgroup.mem_centralizer_singleton_iff]; exact hx0.symm⟩
   have hcardK : 4 < Nat.card ↥(T ⊓ C) := by
     by_contra hle
-    push_neg at hle
+    push Not at hle
     have heq : T ⊓ W = T ⊓ C := Subgroup.eq_of_le_of_card_ge hHC (by omega)
     exact ht0 (heq ▸ ht0C)
   have hdvd : Nat.card ↥(T ⊓ C) ∣ Nat.card T := Subgroup.card_dvd_of_le inf_le_left
@@ -214,6 +216,7 @@ private theorem perpA_mem_kperp_iff (h : EndHyp Ω) {K J : Subgroup G} (hK : K �
         exact (TC.mem_omegaNbr_iff h.thmD.hyp h.thmD.two).mpr
           ⟨hJ, hJK, AscL62.le_normalizer_of_commutes hc.symm⟩
 
+omit [Finite G] in
 private theorem perpA_commutes_conjSub {K L : Subgroup G} (n : G) (hKL : Commutes K L) :
     Commutes (conjSub n K) (conjSub n L) := by
   intro x hx y hy
@@ -279,7 +282,7 @@ private theorem perpA_kperp_subset_dSet (h : EndHyp Ω)
 private theorem perpA_exists_not_mem (h : EndHyp Ω) {W : Subgroup G} (hW : W ∈ WSet Ω)
     {A : Subgroup G} (hA : A ∈ DSet Ω W) : ∃ r ∈ A, r ∉ W := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : A ≤ W := fun r hr => hcon r hr
   have hAΩ : A ∈ Ω := (h.mem_dSet_iff.mp hA).1
   have hA8 : Nat.card A = 8 := h.card_eq_eight hAΩ
@@ -311,7 +314,7 @@ private theorem perpA_inv_mul_mem_W (h : EndHyp Ω) {W : Subgroup G} (hW : W ∈
   have hcard1 : ((fun w => r * w) '' ((A ⊓ W : Subgroup G) : Set G)).ncard = 4 := by
     rw [Set.ncard_image_of_injective _ (mul_right_injective r), hHc]
   have hcard2 : (((A : Subgroup G) : Set G) \ ((A ⊓ W : Subgroup G) : Set G)).ncard = 4 := by
-    rw [Set.ncard_diff hHA (Set.toFinite _), hAc, hHc]
+    rw [Set.ncard_sdiff hHA (Set.toFinite _), hAc, hHc]
   have heq : (fun w => r * w) '' ((A ⊓ W : Subgroup G) : Set G) =
       ((A : Subgroup G) : Set G) \ ((A ⊓ W : Subgroup G) : Set G) :=
     Set.eq_of_subset_of_ncard_le hrH (by omega) (Set.toFinite _)
@@ -342,7 +345,7 @@ private theorem perpA_conj_ab {Q : Type*} [Group Q] {a b : Q} (ha : a * a = 1) (
 
 private theorem perpA_conjSub_le (h : EndHyp Ω) {W : Subgroup G} (hW : W ∈ WSet Ω)
     {A B : Subgroup G} (hA : A ∈ DSet Ω W) (hB : B ∈ DSet Ω W)
-    {r₀ l₀ : G} (hr₀ : r₀ ∈ A) (hr₀W : r₀ ∉ W) (hl₀ : l₀ ∈ B) (hl₀W : l₀ ∉ W)
+    {r₀ l₀ : G} (hr₀ : r₀ ∈ A) (hr₀W : r₀ ∉ W) (hl₀ : l₀ ∈ B) (_hl₀W : l₀ ∉ W)
     (hcube : (Asc77.Thompson.piG W r₀ * Asc77.Thompson.piG W l₀) ^ 3 = 1)
     (hr2 : Asc77.Thompson.piG W r₀ * Asc77.Thompson.piG W r₀ = 1)
     (hl2 : Asc77.Thompson.piG W l₀ * Asc77.Thompson.piG W l₀ = 1) :
@@ -480,6 +483,7 @@ theorem dSet_le_centralizer_vW (h : EndHyp Ω) {W : Subgroup G} (hW : W ∈ WSet
   Subgroup.closure {x | ∃ J ∈ KPerp Ω K, ∃ u u' : G, IsUniqueInvolution K u ∧
     IsUniqueInvolution J u' ∧ x = u * u'}
 
+omit [Finite G] in
 private theorem perpAV_gen {Ω : Set (Subgroup G)} {K J : Subgroup G} (hJ : J ∈ KPerp Ω K)
     {u u' : G} (hu : IsUniqueInvolution K u) (hu' : IsUniqueInvolution J u') :
     u * u' ∈ perpAV Ω K :=

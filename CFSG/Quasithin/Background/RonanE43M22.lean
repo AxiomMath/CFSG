@@ -22,7 +22,7 @@ theorem e43_M22 (V : Type) [CommGroup V] [Finite V] (ρ : G →* MulAut V)
     (hZ : ∀ g : G, ∀ z ∈ Subgroup.center ↥L, g * (z : G) * g⁻¹ = (z : G)) :
     aParam ρ.range ≤ 3 := by
   classical
-  haveI hK : L.Normal := normal_of_generalizedFitting hLF
+  have hK : L.Normal := normal_of_generalizedFitting hLF
   have hLT : L ⊔ T = ⊤ := sup_eq_top_of_index_le_two hT (index_le_two_of_M22 hLF hLq h)
   set Z : Subgroup G := (Subgroup.center ↥L).map L.subtype with hZdef
   have hZc : Z ≤ Subgroup.center G := by
@@ -30,7 +30,7 @@ theorem e43_M22 (V : Type) [CommGroup V] [Finite V] (ρ : G →* MulAut V)
     rw [Subgroup.mem_center_iff]
     intro g
     exact mul_inv_eq_iff_eq_mul.mp (hZ g z hz)
-  haveI hZn : Z.Normal := ⟨fun n hn g => by
+  have hZn : Z.Normal := ⟨fun n hn g => by
     have : g * n * g⁻¹ = n := by
       have := Subgroup.mem_center_iff.mp (hZc hn) g
       rw [this]

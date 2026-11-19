@@ -121,7 +121,7 @@ theorem three_le_pRank_centralizer_of_extraspecial [Fact p.Prime] {Q Z : Subgrou
     have h5 : p ^ 4 ≤ p ^ 2 := h4 ▸ hCcard
     have h6 : p ^ 2 < p ^ 4 := Nat.pow_lt_pow_right hp1 (by norm_num)
     omega
-  obtain ⟨c, hcC, hcE₁⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨c, hcC, hcE₁⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   obtain ⟨hcQ, hcx⟩ := Subgroup.mem_inf.1 hcC
   have hcx' : c * x = x * c := Subgroup.mem_centralizer_singleton_iff.1 hcx
   set E : Subgroup S := Subgroup.closure ((E₁ : Set S) ∪ {c}) with hE

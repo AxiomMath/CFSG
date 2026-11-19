@@ -47,14 +47,14 @@ theorem sp62_centralizer_eq_bot (hLoc : KFactSp62CfgLocal) (hS : Setting G)
     (hd : AGL81CfgData 3 P M H Q K) {d : TauCeti.ValidLieTypeIndex} (hdK : IsSpSixTwoIndex d)
     (eK : Nonempty (K ≃* CatGroup d)) :
     Subgroup.centralizer (K : Set (H ⧸ primeComplementCore (G := H) 3)) = ⊥ := by
-  haveI := sp62_normal hd
+  have := sp62_normal hd
   obtain ⟨⟨E, hEK, hE, hEc⟩, hZ, -⟩ := hLoc _ K d hdK inferInstance eK
   set O := primeComplementCore (G := H) 3 with hO
   set C := Subgroup.centralizer (K : Set (H ⧸ O)) with hCdef
   have hC3 : Nat.Coprime 3 (Nat.card C) := by
     rw [Nat.Prime.coprime_iff_not_dvd Nat.prime_three]
     intro h3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' 3 h3
     have hc' : orderOf (c : H ⧸ O) = 3 := by rw [Subgroup.orderOf_coe]; exact hc
     have hcE : (c : H ⧸ O) ∉ E := fun hcE => by
@@ -77,7 +77,7 @@ theorem sp62_top_and_card (hLoc : KFactSp62CfgLocal) (hS : Setting G)
     (hd : AGL81CfgData 3 P M H Q K) {d : TauCeti.ValidLieTypeIndex} (hdK : IsSpSixTwoIndex d)
     (eK : Nonempty (K ≃* CatGroup d)) :
     K = ⊤ ∧ Nat.card (H ⧸ primeComplementCore (G := H) 3) = 1451520 := by
-  haveI := sp62_normal hd
+  have := sp62_normal hd
   have hC := sp62_centralizer_eq_bot hLoc hS hd hdK eK
   have hKtop := ((hLoc _ K d hdK inferInstance eK).2.2 hC).1
   refine ⟨hKtop, ?_⟩
@@ -108,7 +108,7 @@ section Image
 
 theorem sp62_commutator_le_of_relIndex_le_two {X : Type*} [Group X] [Finite X] {N A : Subgroup X}
     (hNA : N ≤ A) (hAN : A ≤ normalizer (N : Set X)) (h2 : N.relIndex A ≤ 2) : ⁅A, A⁆ ≤ N := by
-  haveI : (N.subgroupOf A).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNA).mpr hAN
+  have : (N.subgroupOf A).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNA).mpr hAN
   have hcard : Nat.card (↥A ⧸ N.subgroupOf A) = N.relIndex A := (Subgroup.index_eq_card _).symm
   have hpos : 0 < Nat.card (↥A ⧸ N.subgroupOf A) := Nat.card_pos
   have hcomm : IsMulCommutative (↥A ⧸ N.subgroupOf A) := by
@@ -143,6 +143,7 @@ theorem sp62_eq_of_perfect {X : Type} [Group X] [Finite X] {T Y₀ V₀ I : Subg
 variable {P : Sylow 3 G} {M H Q : Subgroup G}
   {K : Subgroup (H ⧸ primeComplementCore (G := H) 3)}
 
+omit [Finite G] in
 theorem sp62_card_dvd_image
     (hC : Subgroup.centralizer (K : Set (H ⧸ primeComplementCore (G := H) 3)) = ⊥)
     {I₀ : Subgroup G} (hI₀H : I₀ ≤ H) {T : Type*} [Group T] (f : ↥I₀ →* T)
@@ -169,8 +170,8 @@ theorem sp62_inSitu (hLoc : KFactSp62CfgLocal) (hS : Setting G)
       (Rb : Subgroup (H ⧸ primeComplementCore (G := H) 3)) =
         (R.subgroupOf H).map (QuotientGroup.mk' (primeComplementCore (G := H) 3)) ∧
       Sp62InSitu (Rb : Subgroup (H ⧸ primeComplementCore (G := H) 3)) (d1X0 3 M H) V₀ := by
-  haveI := sp62_normal hd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := sp62_normal hd
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := primeComplementCore (G := H) 3 with hO
   obtain ⟨H₁, R₁, he⟩ := hd.escape
   obtain ⟨R, hQR, hRM, hR, -⟩ := exists_isSylowIn_of_isAGLQ he hd.base hd.le_H
@@ -190,7 +191,7 @@ theorem sp62_inSitu (hLoc : KFactSp62CfgLocal) (hS : Setting G)
     refine CFSG.SectionRank.le_pRank (by norm_num) hle
       (CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map 3 hE' _) ?_
     rw [Subgroup.card_map_of_injective (MulAut.conj g).injective, hE'c]
-  rw [if_pos hrank] at hcore
+  rw [ite_eq_left hrank] at hcore
   have hC := sp62_centralizer_eq_bot hLoc hS hd hdK eK
   have hKtop := (sp62_top_and_card hLoc hS hd hdK eK).1
   have hne : d1X0 3 M H ≠ ⊤ := fun h => hd.not_le_X0 (by rw [h]; exact le_top)
@@ -212,8 +213,8 @@ theorem sp62_sylow_lift (hLoc : KFactSp62CfgLocal) (hS : Setting G)
       Nat.card ((I₀.subgroupOf H).map (QuotientGroup.mk' (primeComplementCore (G := H) 3)))) :
     ∃ R₀ J : Subgroup G, R₀ ≤ I₀ ∧ IsPGroup 3 R₀ ∧ Nat.card R₀ = 3 ^ 4 ∧ J ≤ R₀ ∧
       IsElemAbelian 3 J ∧ Nat.card J = 3 ^ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := sp62_normal hd
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := sp62_normal hd
   set O := primeComplementCore (G := H) 3 with hO
   have hcop : Nat.Coprime 3 (Nat.card O) := primeComplementCore_coprime 3
   have hH5 := sp62_not_dvd_card hLoc hS hd hdK eK
@@ -222,7 +223,7 @@ theorem sp62_sylow_lift (hLoc : KFactSp62CfgLocal) (hS : Setting G)
   set R₀ := (S : Subgroup ↥I₀).map I₀.subtype with hR₀
   have hR₀I : R₀ ≤ I₀ := Subgroup.map_subtype_le _
   have hR₀H : R₀ ≤ H := hR₀I.trans hI₀H
-  have hR₀p : IsPGroup 3 R₀ := S.isPGroup'.map _
+  have hR₀p : IsPGroup 3 R₀ := S.isPGroup.map _
   have hcardR₀S : Nat.card R₀ = Nat.card (S : Subgroup ↥I₀) :=
     Subgroup.card_map_of_injective I₀.subtype_injective
   have hI81 : 3 ^ 4 ∣ Nat.card I₀ := by
@@ -247,7 +248,7 @@ theorem sp62_sylow_lift (hLoc : KFactSp62CfgLocal) (hS : Setting G)
   have hRbp : IsPGroup 3 Rb := hR₀Hp.map _
   obtain ⟨S₂, hRbS₂⟩ := hRbp.exists_le_sylow
   have hS₂ : (S₂ : Subgroup (H ⧸ O)) = Rb := by
-    obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp S₂.isPGroup'
+    obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp S₂.isPGroup
     have hm5 : m < 5 := by
       by_contra hm5
       push Not at hm5
@@ -284,13 +285,13 @@ theorem sp62_omegaEight (hLoc : KFactSp62CfgLocal) (hLevi : KFactBlockLeviU42)
     (hD2 : CFSG.AGLEmbeddingD2.NoXBlockFor G) (h98 : AGL81NineEightFour G) (hS : Setting G)
     (hd : AGL81CfgData 3 P M H Q K) {L : Subgroup G} (hL : IsWeakSBlock M (pCoreOf 2 H) L)
     {I₀ : Subgroup G} (hI₀ : I₀ ∈ cZero (H ⊓ L)) (hI₀c : IsTwoPrimeComponent I₀ I₀)
-    (hN : H ⊓ L ≤ normalizer (I₀ : Set G)) {dK dJ : TauCeti.ValidLieTypeIndex}
+    (_hN : H ⊓ L ≤ normalizer (I₀ : Set G)) {dK dJ : TauCeti.ValidLieTypeIndex}
     (hdK : IsSpSixTwoIndex dK) (hdJ : IsUFourTwoIndex dJ) (eK : Nonempty (K ≃* CatGroup dK))
     (f : ↥I₀ →* CatGroup dJ) (hf : Function.Surjective f)
     (hker : (d1PlusCore 3 H K).subgroupOf I₀ ≤ f.ker) :
     (∃ d4 : TauCeti.ValidLieTypeIndex, IsOmegaMinusTwoIndex 4 d4 ∧
       Nonempty (barM M L ≃* CatGroup d4)) ∧ ¬ 3 ∣ Nat.card (Subgroup.center ↥(barM M L)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := primeComplementCore (G := H) 3 with hO
   set π := QuotientGroup.mk' O with hπ
   obtain ⟨H₁, R₁, he⟩ := hd.escape
@@ -385,7 +386,7 @@ theorem sp62_omegaEight (hLoc : KFactSp62CfgLocal) (hLevi : KFactBlockLeviU42)
       intro h
       exact hH5 (h.trans ((card_barM_dvd hPiM).trans (Subgroup.card_dvd_of_le hPiH)))
     have hQ81 := Q'.pow_dvd_card_of_pow_dvd_card h81
-    obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp Q'.isPGroup'
+    obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp Q'.isPGroup
     have hmdvd : Nat.card (Q' : Subgroup ↥(blockParabolic M (pCoreOf 2 H) L)) ∣
         Nat.card (blockParabolic M (pCoreOf 2 H) L) := Subgroup.card_subgroup_dvd_card _
     rw [hm] at hQ81 hmdvd ⊢

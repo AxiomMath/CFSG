@@ -11,7 +11,7 @@ open Subgroup
 
 variable {G : Type} [Group G] {Bs : Subgroup G} {t : G} {E₂ J₀ : Subgroup G}
 
-theorem elementary_subgroupOf (hE : E₂ ≤ Bs) (h : CFSG.IsElementaryAbelian 2 ↥E₂) :
+theorem elementary_subgroupOf (_hE : E₂ ≤ Bs) (h : CFSG.IsElementaryAbelian 2 ↥E₂) :
     CFSG.IsElementaryAbelian 2 ↥(E₂.subgroupOf Bs) := by
   refine CFSG.IsElementaryAbelian.two_of_forall_mul_self ?_ ?_
   · intro a ha b hb

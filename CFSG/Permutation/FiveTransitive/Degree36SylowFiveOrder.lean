@@ -28,7 +28,7 @@ theorem card_eq_five
   have hQcard : Nat.card Q = Nat.card S := Nat.card_congr
     ((S : Subgroup (fixingSubgroup P s)).equivMapOfInjective
       (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm
-  have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQne : Q ≠ ⊥ := fun h => hS (hQcard.symm.trans (Subgroup.card_eq_one.mpr h))
   have hfixeq : (sylowFixedPoints X P s S : Set X) = fixedPoints Q X :=
     FixedNormalizerAction.fixed_eq Q

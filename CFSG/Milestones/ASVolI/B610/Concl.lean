@@ -94,6 +94,7 @@ theorem burnsideB610_mem_pCoreOf_of_two {H T M V : Subgroup G} (hMP : MinParabol
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hk, one_zpow]
   exact burnsideB610_le_of_isSylowTwoOf_normal hsyl hCQ hzC hz2 (Subgroup.mem_zpowers c)
 
+omit [Finite G] in
 theorem burnsideB610_map_conj_mul_of_mem_normalizer {S : Subgroup G} {x a : G}
     (ha : a ∈ Subgroup.normalizer (S : Set G)) :
     S.map (MulAut.conj (x * a)).toMonoidHom = S.map (MulAut.conj x).toMonoidHom := by
@@ -251,7 +252,7 @@ theorem burnsideB610_isSylowTwoOf_join {H T M V L : Subgroup G} (hV : IsElemAbel
   obtain ⟨P', hP'⟩ := hSsub.exists_le_sylow
   set P : Subgroup G := (P' : Subgroup ↥Y).map Y.subtype with hPdef
   have hPY : P ≤ Y := Subgroup.map_subtype_le _
-  have hP2 : IsPGroup 2 P := P'.isPGroup'.map Y.subtype
+  have hP2 : IsPGroup 2 P := P'.isPGroup.map Y.subtype
   have hSP : S ≤ P := by
     intro s hs
     exact ⟨⟨s, hSY hs⟩, hP' (Subgroup.mem_subgroupOf.mpr hs), rfl⟩

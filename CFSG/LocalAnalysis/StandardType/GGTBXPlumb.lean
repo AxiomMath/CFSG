@@ -34,9 +34,9 @@ inductive GGTBTorRowAt (p : ℕ) (lab : LargeEvenLabel) :
       GGTBTorRowAt p lab (lab.rank - 1 - ggTorEnn p lab) (ggTorM lab) lab.rank
         (CartanMatrix.A lab.rank) (CoxeterMatrix.A lab.rank)
   | e6Three : lab.tag = .E6 → p = 3 → 3 ∣ ggTorM lab →
-      GGTBTorRowAt p lab 5 (ggTorM lab) 6 CartanMatrix.E₆ CoxeterMatrix.E₆
+      GGTBTorRowAt p lab 5 (ggTorM lab) 6 (CartanMatrix.E 6) CoxeterMatrix.E₆
   | e8Three : lab.tag = .E8 → p = 3 →
-      GGTBTorRowAt p lab (8 - ggTorEnn 3 lab) (ggTorME8 lab) 8 CartanMatrix.E₈ CoxeterMatrix.E₈
+      GGTBTorRowAt p lab (8 - ggTorEnn 3 lab) (ggTorME8 lab) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈
   | aInd : (lab.tag = .A ∨ lab.tag = .twA) → ¬ p ∣ lab.rank + 1 → p ∣ ggTorM lab →
       GGTBTorRowAt p lab (lab.rank - ggTorEnn p lab) (ggTorM lab) lab.rank
         (CartanMatrix.A lab.rank) (CoxeterMatrix.A lab.rank)
@@ -206,7 +206,7 @@ private lemma l05nPlB1_weyl_B {n : ℕ} (hn : 1 ≤ n) : GGIsWeylMatrix (Coxeter
     have hBA : CoxeterMatrix.B 1 = CoxeterMatrix.A 1 := by
       apply CoxeterMatrix.ext
       ext i j
-      fin_cases i <;> fin_cases j <;> decide
+      fin_cases i; fin_cases j; decide
     exact Or.inl ⟨1, Equiv.refl _, le_rfl,
       Or.inl (hBA.trans (l05nPlB1_coxeter_reindex_refl _))⟩
   · have hn2 : 2 ≤ n := by omega

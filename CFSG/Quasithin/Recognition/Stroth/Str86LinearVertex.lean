@@ -50,6 +50,7 @@ variable {H U L N : Subgroup G} {m : ℕ}
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn hstep.1
   (Ch3z.chiefAut H L N).subtype.comp (Ch3z.chiefHom hHL hHN)
 
+omit [Finite G] in
 theorem l2ChiefSectionAction_apply (hstep : IsChiefStep H U L N)
     (hE : IsElemAbelian 2 (Ch3z.chiefMod L N)) (h : ↥H) :
     letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
@@ -113,6 +114,7 @@ theorem l2ChiefSectionSL2Action_apply (hstep : IsChiefStep H U L N) (hUH : U ≤
   exact (CFSG.RankThree.FFModules.autRep (Ch3z.chiefMod L N)).comp
     (l2ChiefSectionSL2Action hstep hUH hE e)
 
+omit [Finite G] in
 theorem l2ChiefSectionAction_eq_chiefPsi (hstep : IsChiefStep H U L N)
     (hE : IsElemAbelian 2 (Ch3z.chiefMod L N)) (h : ↥H) :
     letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
@@ -130,8 +132,8 @@ theorem l2ChiefSectionRep_apply (hstep : IsChiefStep H U L N) (hUH : U ≤ H)
     letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
     l2ChiefSectionRep hstep hUH hE e g (Additive.ofMul w) =
       Additive.ofMul (l2ChiefSectionSL2Action hstep hUH hE e g w) := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   change (CFSG.RankThree.FFModules.autRep (Ch3z.chiefMod L N))
       (l2ChiefSectionSL2Action hstep hUH hE e g) (Additive.ofMul w) = _
   exact CFSG.RankThree.FFModules.autRep_apply (E := Ch3z.chiefMod L N)
@@ -145,8 +147,8 @@ theorem l2ChiefSectionRep_apply_mk (hstep : IsChiefStep H U L N) (hUH : U ≤ H)
     letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
     l2ChiefSectionRep hstep hUH hE e (e (QuotientGroup.mk h)) (Additive.ofMul w) =
       Additive.ofMul (l2ChiefSectionAction hstep hE h w) := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   rw [l2ChiefSectionRep_apply, l2ChiefSectionSL2Action_apply, MulEquiv.symm_apply_apply,
     l2ChiefSectionQuotAction_mk]
 
@@ -156,8 +158,8 @@ theorem l2ChiefSectionRep_irreducible (hstep : IsChiefStep H U L N) (hUH : U ≤
     letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
     letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
     (l2ChiefSectionRep hstep hUH hE e).IsIrreducible := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   have hHL : H ≤ Subgroup.normalizer (L : Set G) := D14.le_normalizer_of_isNormalIn hstep.2.1
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn hstep.1
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := (hstep.1.1.trans hUH).trans hHL
@@ -219,8 +221,8 @@ theorem l2ChiefSectionRep_nontrivial (hstep : IsChiefStep H U L N) (hUH : U ≤ 
     letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
     letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
     ∃ g, l2ChiefSectionRep hstep hUH hE e g ≠ 1 := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   have hHL : H ≤ Subgroup.normalizer (L : Set G) := D14.le_normalizer_of_isNormalIn hstep.2.1
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn hstep.1
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := (hstep.1.1.trans hUH).trans hHL
@@ -246,7 +248,7 @@ theorem l2ChiefSectionRep_nontrivial (hstep : IsChiefStep H U L N) (hUH : U ≤ 
     (Ch3z.chiefHom_eq_one_iff hHL hHN hNL ⟨h, hh⟩).1 hσc
   exact hne (hcent.2.2 n hn)
 
-theorem exists_l2ChiefSectionRep (hm2 : 2 ≤ m) (hL2 : IsL2Quot m (oTwoQuot ↥H))
+theorem exists_l2ChiefSectionRep (_hm2 : 2 ≤ m) (hL2 : IsL2Quot m (oTwoQuot ↥H))
     (hU : IsPGroup 2 U) (hUH : U ≤ H)
     (hstep : IsChiefStep H U L N) (hnc : ¬ IsCentralStep H L N) :
     letI _cg : CommGroup (Ch3z.chiefMod L N) :=
@@ -262,8 +264,8 @@ theorem exists_l2ChiefSectionRep (hm2 : 2 ≤ m) (hL2 : IsL2Quot m (oTwoQuot ↥
             Additive.ofMul
               (l2ChiefSectionAction hstep (isElemAbelian_chiefMod hstep hUH hU) h w)) := by
   let hE := isElemAbelian_chiefMod hstep hUH hU
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   obtain ⟨e₀⟩ := hL2
   let e : oTwoQuot ↥H ≃* SL(2, GaloisField 2 m) :=
     e₀.trans (CFSG.CGT.Timmesfeld75.pslMulEquivSL (F := GaloisField 2 m))
@@ -286,10 +288,10 @@ theorem l2ChiefSectionRep_sq_card_fixSub (hm2 : 2 ≤ m) (hstep : IsChiefStep H 
       (Subgroup.zpowers (e (QuotientGroup.mk ⟨t, htH⟩)))) ^ 2 =
       Nat.card (Additive (Ch3z.chiefMod L N)) := by
   classical
-  haveI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
-  haveI : Fact (l2ChiefSectionRep hstep hUH hE e).IsIrreducible :=
+  have : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  have : Fact (l2ChiefSectionRep hstep hUH hE e).IsIrreducible :=
     ⟨l2ChiefSectionRep_irreducible hstep hUH hE e⟩
   set W := Additive (Ch3z.chiefMod L N)
   set ρ := l2ChiefSectionRep hstep hUH hE e
@@ -364,10 +366,10 @@ theorem l2ChiefSectionRep_sq_le_card (hm2 : 2 ≤ m)
     (hnc : ¬ IsCentralStep H L N) :
     (2 ^ m) ^ 2 ≤ Nat.card (Additive (Ch3z.chiefMod L N)) := by
   classical
-  haveI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
-  haveI : Fact (l2ChiefSectionRep hstep hUH hE e).IsIrreducible :=
+  have : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  have : Fact (l2ChiefSectionRep hstep hUH hE e).IsIrreducible :=
     ⟨l2ChiefSectionRep_irreducible hstep hUH hE e⟩
   have hnt : ∃ g, l2ChiefSectionRep hstep hUH hE e g ≠ 1 :=
     l2ChiefSectionRep_nontrivial hstep hUH hE e hnc
@@ -377,6 +379,7 @@ theorem l2ChiefSectionRep_sq_le_card (hm2 : 2 ≤ m)
   exact CFSG.Timmesfeld.Bridge.RootMany.sq_le_card_of_irreducible hm hF
     (l2ChiefSectionRep hstep hUH hE e) hnt
 
+omit [Finite G] in
 theorem l2Sylow_sq_mem (hm2 : 2 ≤ m) (hL2 : IsL2Quot m (oTwoQuot ↥H))
     (T : Sylow 2 (oTwoQuot ↥H)) :
     (∀ x ∈ (T : Subgroup (oTwoQuot ↥H)), x * x = 1) ∧

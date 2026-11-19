@@ -15,6 +15,7 @@ open CFSG.Blueprint.Chevalley
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V]
   {h : Fin 6 → V} {α : Fin 6 → Dual (ZMod 3) V}
 
+omit [Finite V] in
 theorem apply_mem_span_range_of_mem_e6Weyl (hα : ∀ i, α i (h i) = 2)
     {g : V ≃ₗ[ZMod 3] V} (hg : g ∈ e6Weyl hα) {v : V}
     (hv : v ∈ Submodule.span (ZMod 3) (Set.range h)) :
@@ -72,7 +73,7 @@ theorem mem_of_mem_e6Weyl_of_apply_eq_of_card_six
   have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun a b h => LinearEquiv.ext (by simpa using congrFun h))
-  haveI : Fintype ↥(e6Weyl hα) := Fintype.ofFinite _
+  have : Fintype ↥(e6Weyl hα) := Fintype.ofFinite _
   have hgstab : (⟨g, hg⟩ : ↥(e6Weyl hα)) ∈ MulAction.stabilizer (e6Weyl hα) x := by
     rw [MulAction.mem_stabilizer_iff]
     simpa [Subgroup.smul_def, LinearEquiv.smul_def] using hgx

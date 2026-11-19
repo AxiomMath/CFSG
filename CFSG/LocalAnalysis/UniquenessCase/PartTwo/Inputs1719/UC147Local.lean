@@ -199,7 +199,7 @@ theorem le_M_of_section_seven (c : Ctx147 D L n r p A X B R)
     rw [sup_comm]
     exact CFSG.section10_sylow_sup_normal_of_p_quotient_eq_top hQp Y
   have hYgM : Y.map H.subtype ≤ D.M := by
-    have hYgp : IsPGroup 7 ↥(Y.map H.subtype) := Y.isPGroup'.map H.subtype
+    have hYgp : IsPGroup 7 ↥(Y.map H.subtype) := Y.isPGroup.map H.subtype
     have hEY' : E ≤ Y.map H.subtype := by
       intro x hx
       exact Subgroup.mem_map.mpr ⟨⟨x, hEH hx⟩, hEY hx, rfl⟩

@@ -103,7 +103,7 @@ theorem coprime_action_plane_fixed_generated_eq_top {actor : Type u} {acted : Ty
     rw [hsylow member] at hmem
     exact hmem
   let : MulDistribMulAction actor subgroup := invariantSubgroupAction subgroup hinvariant
-  have : Group.IsNilpotent subgroup := sylow.isPGroup'.isNilpotent
+  have : Group.IsNilpotent subgroup := sylow.isPGroup.isNilpotent
   have hsubgroupComplement : ¬prime ∣ Nat.card subgroup :=
     fun hdiv => hcomplement (hdiv.trans (Subgroup.card_subgroup_dvd_card subgroup))
   have htop := solvable_action_plane_fixed_generated_eq_top prime hprime hpower hcard hsubgroupComplement

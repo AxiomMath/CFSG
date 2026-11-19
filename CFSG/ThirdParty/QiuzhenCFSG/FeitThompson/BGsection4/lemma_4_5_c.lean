@@ -21,7 +21,7 @@ public theorem CFSG.lemma_4_5_c {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact
   let Z2 : Subgroup R := Subgroup.upperCentralSeries R 2
   let Ω : Subgroup Z2 := omega₁ (G := ↥Z2) (p := p)
   obtain ⟨A, hA_normal, hAcard, hAelem⟩ := lemma_4_5_a (R := R) (p := p) hpodd hncyc
-  letI : A.Normal := hA_normal
+  let : A.Normal := hA_normal
   have hp_one_lt : 1 < p := (Fact.out : Nat.Prime p).one_lt
   have hA_not_cyclic : ¬ IsCyclic A := by
     intro hAcyc
@@ -38,14 +38,14 @@ public theorem CFSG.lemma_4_5_c {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact
       (by decide : 1 ≤ 2)
   have hZcard : Nat.card Z = p := by
     simpa using hZcard_pow
-  letI : Z.Normal := hZ_normal
+  let : Z.Normal := hZ_normal
   have hZ_le_center : Z ≤ Subgroup.center R :=
     normal_subgroup_card_eq_prime_le_center (G := R) (p := p) (N := Z) hZcard
   let q : R →* R ⧸ Z := QuotientGroup.mk' Z
   let Abar : Subgroup (R ⧸ Z) := A.map q
   have hAbar_normal : Abar.Normal := by
     simpa [Abar, q] using (QuotientGroup.map_normal Z A)
-  letI : Abar.Normal := hAbar_normal
+  let : Abar.Normal := hAbar_normal
   let qA : A →* Abar := q.subgroupMap A
   have hqA_surj : Function.Surjective qA := MonoidHom.subgroupMap_surjective q A
   have hqA_range_top : qA.range = ⊤ := by
@@ -78,7 +78,7 @@ public theorem CFSG.lemma_4_5_c {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact
     have hmul : p * Nat.card Abar = p * p := by
       simpa [pow_two, mul_assoc, mul_left_comm, mul_comm] using htmp.symm
     exact Nat.eq_of_mul_eq_mul_left (Fact.out : Nat.Prime p).pos hmul
-  letI : Fact (IsPGroup p (R ⧸ Z)) := ⟨(Fact.out : IsPGroup p R).to_quotient Z⟩
+  let : Fact (IsPGroup p (R ⧸ Z)) := ⟨(Fact.out : IsPGroup p R).to_quotient Z⟩
   have hAbar_le_center : Abar ≤ Subgroup.center (R ⧸ Z) :=
     normal_subgroup_card_eq_prime_le_center (G := R ⧸ Z) (p := p) (N := Abar) hAbar_card
   have hA_le_Z2 : A ≤ Z2 := by
@@ -115,7 +115,7 @@ public theorem CFSG.lemma_4_5_c {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact
     exact hA_not_cyclic hAcyc
   have hΩ_not_cyclic : ¬ IsCyclic Ω := by
     intro hΩcyc
-    letI : IsCyclic Ω := hΩcyc
+    let : IsCyclic Ω := hΩcyc
     have hA2cyc : IsCyclic A2 := Subgroup.isCyclic_of_le hA2_le_Ω
     exact hA2_not_cyclic hA2cyc
   have hΩ_exp_dvd : Monoid.exponent Ω ∣ p := by
@@ -130,14 +130,14 @@ public theorem CFSG.lemma_4_5_c {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact
     exact one_lt_pow₀ hp_one_lt two_ne_zero
   have hΩ_card_gt_one : 1 < Nat.card Ω := lt_of_lt_of_le hA2_card_gt_one (Subgroup.card_le_of_le hA2_le_Ω)
   have hΩ_nontrivial : Nontrivial Ω := Finite.one_lt_card_iff_nontrivial.mp hΩ_card_gt_one
-  letI : Nontrivial Ω := hΩ_nontrivial
+  let : Nontrivial Ω := hΩ_nontrivial
   have hZ2_p : IsPGroup p Z2 := (Fact.out : IsPGroup p R).to_subgroup Z2
   have hΩ_p : IsPGroup p Ω := hZ2_p.to_subgroup Ω
   obtain ⟨n, hn, hΩ_card⟩ := hΩ_p.nontrivial_iff_card.mp hΩ_nontrivial
   have hp_dvd_cardΩ : p ∣ Nat.card Ω := by
     rw [hΩ_card]
     exact dvd_pow_self p (Nat.ne_of_gt hn)
-  letI : Fintype Ω := Fintype.ofFinite Ω
+  let : Fintype Ω := Fintype.ofFinite Ω
   have hp_dvd_cardΩ_f : p ∣ Fintype.card Ω := by
     simpa [Nat.card_eq_fintype_card] using hp_dvd_cardΩ
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card (G := Ω) p hp_dvd_cardΩ_f

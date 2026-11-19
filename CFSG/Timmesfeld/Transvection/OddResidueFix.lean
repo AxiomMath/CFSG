@@ -148,7 +148,7 @@ theorem IsMaxFrame.conjSub_eq_of_mem_frameResidue [Finite H] (hΔ : IsTransvecti
     (hgl : ∀ C ∈ Δ, C ≠ P k → Commuting (P k) C → g ∈ lineStab Δ (P k) C) {X : Subgroup H}
     (hX : X ∈ frameResidue Δ P Q i) : conjSub X g = X := by
   classical
-  letI : Fintype ↥(rankTwoResidue Δ P Q k i) := Fintype.ofFinite _
+  let : Fintype ↥(rankTwoResidue Δ P Q k i) := Fintype.ofFinite _
   have hGQ : IsQuadrangle (residueAdj Δ P Q k i) :=
     hF.isQuadrangle_residueAdj hΔ hpts hML k i
   let a : ↥(rankTwoResidue Δ P Q k i) := ⟨P k, hF.toIsFrame.memP_rankTwoResidue_left k i⟩
@@ -181,8 +181,8 @@ theorem IsMaxFrame.commute_of_pow_two_pow_eq_one (h : TransvectionHyp H Δ)
     (hge : g ^ 2 ^ e = 1) {Y : Subgroup H} (hY : Y ∈ rankTwoResidue Δ P Q k i) {y : H}
     (hy : y ∈ Y) : Commute g y := by
   classical
-  haveI : Finite H := h.finite
-  letI : Fintype ↥(rankTwoResidue Δ P Q k i) := Fintype.ofFinite _
+  have : Finite H := h.finite
+  let : Fintype ↥(rankTwoResidue Δ P Q k i) := Fintype.ofFinite _
   have hnsi : ¬ IsSmallFrame Δ P Q i := hF.not_isSmallFrame_of_ne h hML hq hik.symm hns
   have hO : IsQuadrangleOfOrder (residueAdj Δ P Q k i) (Nat.card (P i) ^ 2)
       (Nat.card (P i) ^ 3) :=
@@ -223,8 +223,8 @@ theorem IsMaxFrame.ncard_rankTwoResidue_not_commuting_eq (h : TransvectionHyp H 
     (hns : ¬ IsSmallFrame Δ P Q k) {i : Fin r} (hik : i ≠ k) :
     {X | X ∈ rankTwoResidue Δ P Q k i ∧ ¬ Commuting X (P k)}.ncard = Nat.card (P k) ^ 7 := by
   classical
-  haveI : Finite H := h.finite
-  letI : Fintype ↥(rankTwoResidue Δ P Q k i) := Fintype.ofFinite _
+  have : Finite H := h.finite
+  let : Fintype ↥(rankTwoResidue Δ P Q k i) := Fintype.ofFinite _
   have hnsi : ¬ IsSmallFrame Δ P Q i := hF.not_isSmallFrame_of_ne h hML hq hik.symm hns
   have hO : IsQuadrangleOfOrder (residueAdj Δ P Q k i) (Nat.card (P i) ^ 2)
       (Nat.card (P i) ^ 3) :=
@@ -271,8 +271,8 @@ theorem IsMaxFrame.mem_lineOf_of_conjSub_eq (h : TransvectionHyp H Δ) (hML : Me
     (hX : X ∈ rankTwoResidue Δ P Q k i) (hXP : ¬ Commuting X (P k))
     (hXg : conjSub X g = X) : X ∈ lineOf Δ (P k) (Q k) := by
   classical
-  haveI : Finite H := h.finite
-  letI : Fintype ↥(rankTwoResidue Δ P Q k i) := Fintype.ofFinite _
+  have : Finite H := h.finite
+  let : Fintype ↥(rankTwoResidue Δ P Q k i) := Fintype.ofFinite _
   have hnsi : ¬ IsSmallFrame Δ P Q i := hF.not_isSmallFrame_of_ne h hML hq hik.symm hns
   have hO : IsQuadrangleOfOrder (residueAdj Δ P Q k i) (Nat.card (P i) ^ 2)
       (Nat.card (P i) ^ 3) :=

@@ -28,7 +28,7 @@ theorem sec83up_main (h34 : Stroth34Statement) (h53 : Stroth53Statement)
     {s : G} (hsR : s ∈ Rt M (LB M Q B) t) (hsc : ∀ ρ ∈ Rt M (LB M Q B) t, ⁅s, ρ⁆ ∈ Q) :
     Nat.card ↥(Ut Q Z s) ≤ Nat.card Z ^ (2 * m + 1) := by
   classical
-  haveI := hpts.charP
+  have := hpts.charP
   have h8 : Sec8Hyp hc n t := ⟨hs, m, hpts.two_le, hpts.spMNat⟩
   have hrR : r ∈ Rt M (LB M Q B) t := hr.mem
   have hrM : r ∈ M := hc.Rt_le_M t hrR
@@ -64,7 +64,7 @@ theorem sec83up_main (h34 : Stroth34Statement) (h53 : Stroth53Statement)
     ⟨hZQ, fun x hx y hy => hc.hyp.toHyp79.comm_mem_V hx hy,
       fun x hx => hc.hyp.toHyp79.sq_mem_V hx, hnormQ, hnormZ⟩
   obtain ⟨Md, _, _, κ, hκ⟩ := exists_sectionModule hSec
-  haveI : Finite Md := hκ.finite
+  have : Finite Md := hκ.finite
   obtain ⟨ε, hε1, hεR⟩ := exists_comm_endo hc hRM hκ (hRM hsR) (fun ρ hρ => by
     rw [← commutatorElement_inv]
     exact Q.inv_mem (hsc ρ⁻¹ ((Rt M (LB M Q B) t).inv_mem hρ)))
@@ -223,7 +223,7 @@ theorem sec83up_main (h34 : Stroth34Statement) (h53 : Stroth53Statement)
   have hmd := natCard_eq_of_isSecMod hZQ hκ
   have hsW := natCard_secSub_mul hZQ hκ hZW hWQ
   obtain ⟨-, hN, -⟩ := hpts.act
-  haveI := hN
+  have := hN
   have hchi' := card_mul_card_of_isChiIso he hWQ (sec39_Z_le_Vt : Z ≤ Vt M (LB M Q B) B Z t)
   have hrk := AddSubgroup.card_ker_mul_card_range ε
   have hkle : Nat.card ↥(secSub κ (Wt Q (Vt M (LB M Q B) B Z t))) ≤ Nat.card ↥ε.ker :=
@@ -253,7 +253,7 @@ theorem sec83up_R_trivial (h53 : Stroth53Statement)
     ∀ ρ ∈ Rt M (LB M Q B) t, ∀ w ∈ Wt Q (Vt M (LB M Q B) B Z t),
       ⁅ρ, w⁆ ∈ Sec8W1 M Q Z B t r := by
   classical
-  haveI := hpts.charP
+  have := hpts.charP
   have h8 : Sec8Hyp hc n t := ⟨hs, m, hpts.two_le, hpts.spMNat⟩
   have hrR : r ∈ Rt M (LB M Q B) t := hr.mem
   have hRM : Rt M (LB M Q B) t ≤ M := hc.Rt_le_M t
@@ -285,7 +285,7 @@ theorem sec83up_R_trivial (h53 : Stroth53Statement)
     ⟨hW₁W, fun x hx y hy => hZW₁ (hc.hyp.toHyp79.comm_mem_V (hWQ hx) (hWQ hy)),
       fun x hx => hZW₁ (hc.hyp.toHyp79.sq_mem_V (hWQ hx)), hnormW, hnormW1⟩
   obtain ⟨Y₂, _, _, κ, hκ⟩ := exists_sectionModule hSec
-  haveI : Finite Y₂ := hκ.finite
+  have : Finite Y₂ := hκ.finite
   have hcardY : Nat.card Y₂ ≤ Nat.card K := by
     have h1 := natCard_eq_of_isSecMod hW₁W hκ
     rw [hWc] at h1

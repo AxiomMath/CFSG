@@ -59,10 +59,10 @@ theorem s16e_two_cfg2 (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) (h127 : R
       (lBar_conj_eq_of_s15_eq_one hs (actTil_mem_barSub V₀ V hV hm (hMs₀ hm)))
   have hnorm := s15_T7_barSub_le_normalizer_lStar D hh hMN
   obtain ⟨e⟩ := s16e_two_lStar_equiv D h1217 hh hV
-  haveI : IsSimpleGroup ↥(lBar V₀ V hV L) := hF.simple
-  haveI : IsSimpleGroup ↥(lStar D.M V₀ V hV L) := e.isSimpleGroup
-  haveI : Group.IsPerfect ↥(lBar V₀ V hV L) := Subgroup.isPerfect_iff.2 hF.perfect
-  haveI : Group.IsPerfect ↥(lStar D.M V₀ V hV L) :=
+  have : IsSimpleGroup ↥(lBar V₀ V hV L) := hF.simple
+  have : IsSimpleGroup ↥(lStar D.M V₀ V hV L) := e.isSimpleGroup
+  have : Group.IsPerfect ↥(lBar V₀ V hV L) := Subgroup.isPerfect_iff.2 hF.perfect
+  have : Group.IsPerfect ↥(lStar D.M V₀ V hV L) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   exact ⟨s15_Infra_vtil_sq_eq_one _ V hV,
     fun x hx => Subgroup.mem_normalizer_iff_map_conj_eq.1 (hnorm hx), inferInstance,

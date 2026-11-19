@@ -45,8 +45,8 @@ theorem chev_or_alt (hZJ : KFactZJFactorizationAny) (hS : Setting G) {M : Subgro
     (hEL : img M (GLBPrimeCore 3 M) E ≤ L) :
     IsChevTwo ↥L ∨ ∃ n : ℕ, Nonempty (↥L ≃* alternatingGroup (Fin n)) := by
   classical
-  haveI h3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have h3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O := GLBPrimeCore 3 M with hOdef
   set R : Subgroup G := Y ⊓ O with hRdef
   set H : Subgroup G := normalizer (R : Set G) ⊓ M with hHdef
@@ -82,7 +82,7 @@ theorem chev_or_alt (hZJ : KFactZJFactorizationAny) (hS : Setting G) {M : Subgro
   have hcoreH : CFSG.pPrimeCore 3 ↥H = θ.ker := by
     apply le_antisymm
     · have hmap : (CFSG.pPrimeCore 3 ↥H).map θ = ⊥ := by
-        haveI : (CFSG.pPrimeCore 3 ↥H).Normal := CFSG.pPrimeCore_normal
+        have : (CFSG.pPrimeCore 3 ↥H).Normal := CFSG.pPrimeCore_normal
         refine hcore _ (Subgroup.Normal.map inferInstance θ hθs) ?_
         exact Nat.Coprime.coprime_dvd_right (Subgroup.card_map_dvd _ _) CFSG.pPrimeCore_coprime_card
       rwa [Subgroup.map_eq_bot_iff] at hmap
@@ -178,7 +178,7 @@ theorem chev_or_alt (hZJ : KFactZJFactorizationAny) (hS : Setting G) {M : Subgro
   obtain ⟨J, hJn, hJc, hJL, hJp, -, hJcore⟩ :=
     exists_pComponent_normal Nat.prime_three hLHcomp hLHn hLHz hpL
   have hJ0 : ¬ 3 ∣ Nat.card (⁅J, (CFSG.pPrimeCore 3 ↥J).map J.subtype⁆ : Subgroup ↥H) := by
-    haveI : ((CFSG.pPrimeCore 3 ↥J).map J.subtype).Normal := by
+    have : ((CFSG.pPrimeCore 3 ↥J).map J.subtype).Normal := by
       rw [hJcore]; infer_instance
     have hle : ⁅J, (CFSG.pPrimeCore 3 ↥J).map J.subtype⁆ ≤ (CFSG.pPrimeCore 3 ↥J).map J.subtype :=
       Subgroup.commutator_le_right _ _
@@ -223,7 +223,7 @@ theorem chev_or_alt (hZJ : KFactZJFactorizationAny) (hS : Setting G) {M : Subgro
       rw [← hJL] at hqLH
       obtain ⟨j, hjJ, hj⟩ := hqLH
       have hjc := hcover hjJ
-      haveI : (CFSG.pPrimeCore 3 ↥H).Normal := CFSG.pPrimeCore_normal
+      have : (CFSG.pPrimeCore 3 ↥H).Normal := CFSG.pPrimeCore_normal
       obtain ⟨n, hn, o, ho, rfl⟩ := mem_sup_of_normal_right.mp hjc
       have hθo : θ o = 1 := by
         have : o ∈ θ.ker := hcoreH ▸ ho

@@ -60,6 +60,7 @@ theorem centralizer_conjIM_canonicalRep_eq (v : WeylGroup .F4) :
         (MulAut.conj (canonicalRep (coxeterSystem .F4) Ω v)).toMonoidHom :=
   centralizer_conjIM_eq _ (canonicalRep_mem_adjointGroup (coxeterSystem .F4) Ω v)
 
+omit [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem centralizer_C3Levi_eq_of_isAlgClosed :
     Subgroup.centralizer (C3Levi Ω : Set (adjointGroup .F4 Ω)) =
       ShortPairStabilizer.UA Ω rootR ⊔ ShortPairStabilizer.UA Ω (-rootR) := by

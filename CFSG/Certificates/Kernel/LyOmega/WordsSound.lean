@@ -16,6 +16,7 @@ open CFSG.KC.LyOm
 open CFSG.Sporadic.Th (wordG)
 open CFSG.Sporadic.Fi23 (slpG slpG_eq)
 
+set_option exponentiation.threshold 147852 in
 theorem lcanon_eq {X Y : ℕ} (hX : LCanon 12 111 111 X) (hY : LCanon 12 111 111 Y)
     (h : bigM X = bigM Y) : X = Y := by
   have hl : ∀ i < 111, ∀ j < 111, X / 2 ^ (12 * 111 * i + 12 * j) % 2 ^ 12 =
@@ -73,7 +74,7 @@ theorem slpLet_sound (vals : List (ℕ × ℕ)) (j : ℕ) (P : ℕ → G)
       R (slpLet C A B Bi vals j z).2 (letG (seedL a b) P j z)⁻¹ := by
   by_cases h1 : z = 1
   · subst h1
-    simp only [slpLet, letG, seedL, if_true]
+    simp only [slpLet, letG, seedL, ite_true]
     norm_num
     exact ⟨hA, hAi⟩
   by_cases hm1 : z = -1
@@ -87,16 +88,16 @@ theorem slpLet_sound (vals : List (ℕ × ℕ)) (j : ℕ) (P : ℕ → G)
     norm_num
     exact ⟨hB, hBi⟩
   by_cases ha : z.natAbs ≤ 2
-  · simp only [slpLet, letG, seedL, if_neg h1, if_neg hm1, if_neg h2, if_pos ha]
+  · simp only [slpLet, letG, seedL, ite_eq_right h1, ite_eq_right hm1, ite_eq_right h2, ite_eq_left ha]
     exact ⟨hBi, by rw [inv_inv]; exact hB⟩
   by_cases hj : z.natAbs - 3 < j
   · by_cases hz : 0 < z
-    · simp only [slpLet, letG, if_neg h1, if_neg hm1, if_neg h2, if_neg ha, if_pos hj, if_pos hz]
+    · simp only [slpLet, letG, ite_eq_right h1, ite_eq_right hm1, ite_eq_right h2, ite_eq_right ha, ite_eq_left hj, ite_eq_left hz]
       exact hv _ hj
-    · simp only [slpLet, letG, if_neg h1, if_neg hm1, if_neg h2, if_neg ha, if_pos hj, if_neg hz,
+    · simp only [slpLet, letG, ite_eq_right h1, ite_eq_right hm1, ite_eq_right h2, ite_eq_right ha, ite_eq_left hj, ite_eq_right hz,
         inv_inv]
       exact ⟨(hv _ hj).2, (hv _ hj).1⟩
-  · simp only [slpLet, letG, if_neg h1, if_neg hm1, if_neg h2, if_neg ha, if_neg hj, inv_one]
+  · simp only [slpLet, letG, ite_eq_right h1, ite_eq_right hm1, ite_eq_right h2, ite_eq_right ha, ite_eq_right hj, inv_one]
     exact ⟨hone, hone⟩
 
 include hmul in

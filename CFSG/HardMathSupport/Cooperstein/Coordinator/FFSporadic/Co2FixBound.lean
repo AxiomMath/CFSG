@@ -110,10 +110,10 @@ theorem fixN_conj (g x : H) : fixN ρ (g * x * g⁻¹) = fixN ρ x := by
     rw [map_mul, map_mul, map_inv, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply]
   refine (Finset.card_nbij' (fun i => ρ g i) (fun i => (ρ g)⁻¹ i) ?_ ?_ ?_ ?_).symm
   · intro i hi
-    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hi ⊢
+    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hi ⊢
     rw [e, h2, hi]
   · intro i hi
-    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hi ⊢
+    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hi ⊢
     rw [e] at hi
     apply (ρ g).injective
     rw [hi, h1]
@@ -125,7 +125,7 @@ theorem fixN_conj (g x : H) : fixN ρ (g * x * g⁻¹) = fixN ρ x := by
 theorem card_dvd_sum (K : Subgroup H) [Fintype K] :
     Fintype.card K ∣ ∑ k : K, fixN ρ k := by
   classical
-  letI : MulAction K α := MulAction.compHom α (ρ.comp K.subtype)
+  let : MulAction K α := MulAction.compHom α (ρ.comp K.subtype)
   have hb := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group K α
   have e : ∀ k : K, Fintype.card (MulAction.fixedBy α k) = fixN ρ k := by
     intro k
@@ -153,9 +153,9 @@ theorem no_e256 (hα : Fintype.card α = 2300) (E : Subgroup H) [Fintype E]
     (hsq : ∀ x ∈ E, x * x = 1) (hfix : ∀ x ∈ E, x ≠ 1 → fixN ρ x = 140 ∨ fixN ρ x = 52) :
     False := by
   classical
-  letI : CommGroup E := { (inferInstance : Group E) with
+  let : CommGroup E := { (inferInstance : Group E) with
     mul_comm := fun a b => Subtype.ext (hcomm _ a.2 _ b.2) }
-  letI : Module (ZMod 2) (Additive E) := AddCommGroup.zmodModule (n := 2) fun x => by
+  let : Module (ZMod 2) (Additive E) := AddCommGroup.zmodModule (n := 2) fun x => by
     change Additive.ofMul (Additive.toMul x ^ 2) = Additive.ofMul 1
     rw [sq]
     exact congrArg Additive.ofMul (Subtype.ext (hsq _ (Additive.toMul x).2))
@@ -176,26 +176,26 @@ theorem no_e256 (hα : Fintype.card α = 2300) (E : Subgroup H) [Fintype E]
       have hA : (1 : E) ∉ A := by
         simp only [A, Finset.mem_filter, Finset.mem_univ, true_and, h2300]
         decide
-      rw [if_neg hA, if_pos rfl, h2300]
+      rw [ite_eq_right hA, ite_eq_left rfl, h2300]
       norm_num
     · have hne : (h : H) ≠ 1 := fun e => h1 (Subtype.ext e)
       rcases hfix _ h.2 hne with e | e
       · have hA : h ∈ A := by
           simp only [A, Finset.mem_filter, Finset.mem_univ, true_and, hcE]
           exact e
-        rw [if_pos hA, if_neg h1, hcE, e]
+        rw [ite_eq_left hA, ite_eq_right h1, hcE, e]
         norm_num
       · have hA : h ∉ A := by
           simp only [A, Finset.mem_filter, Finset.mem_univ, true_and, hcE, e]
           decide
-        rw [if_neg hA, if_neg h1, hcE, e]
+        rw [ite_eq_right hA, ite_eq_right h1, hcE, e]
         norm_num
   have hsum : ∀ S : Finset E, (1 : E) ∈ S → (∑ h ∈ S, (c h : ℤ)) =
       52 * S.card + 88 * (S.filter (· ∈ A)).card + 2248 := by
     intro S hS
     rw [Finset.sum_congr rfl fun h _ => hc h, Finset.sum_add_distrib, Finset.sum_add_distrib,
       ← Finset.mul_sum, ← Finset.mul_sum, Finset.sum_boole, Finset.sum_boole,
-      Finset.filter_eq' S 1, if_pos hS, Finset.card_singleton, Finset.sum_const, nsmul_eq_mul]
+      Finset.filter_eq' S 1, ite_eq_left hS, Finset.card_singleton, Finset.sum_const, nsmul_eq_mul]
     push_cast
     ring
   have hburn : ∀ K : Subgroup E, ((Finset.univ.filter (· ∈ K)).card : ℤ) ∣
@@ -264,14 +264,14 @@ theorem no_e256 (hα : Fintype.card α = 2300) (E : Subgroup H) [Fintype E]
       have e0 : (Finset.univ.filter (· ∈ K)).card = (Finset.univ.filter (· ∉ K)).card := by
         refine Finset.card_nbij' (· * v) (· * v) ?_ ?_ ?_ ?_
         · intro h hh
-          simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq, hmemK] at hh ⊢
+          simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq, hmemK] at hh ⊢
           change f (Additive.ofMul h + Additive.ofMul v) ≠ 0
           rw [map_add]
           change fv f h + fv f v ≠ 0
           rw [hh, hv]
           decide
         · intro h hh
-          simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq, hmemK] at hh ⊢
+          simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq, hmemK] at hh ⊢
           change f (Additive.ofMul h + Additive.ofMul v) = 0
           rw [map_add]
           change fv f h + fv f v = 0
@@ -287,7 +287,7 @@ theorem no_e256 (hα : Fintype.card α = 2300) (E : Subgroup H) [Fintype E]
       rw [Finset.card_univ, hcard] at e1
       omega
     have hKb := hburn K
-    rw [hsum _ (by simpa using K.one_mem), hcardK] at hKb
+    rw [hsum _ (by simp), hcardK] at hKb
     have hKA : (Finset.univ.filter (· ∈ K)).filter (· ∈ A) = A.filter (fun h => fv f h = 0) := by
       ext h
       simp [hmemK, and_comm]

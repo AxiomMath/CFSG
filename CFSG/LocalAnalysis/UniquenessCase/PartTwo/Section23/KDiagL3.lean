@@ -158,7 +158,7 @@ theorem eq_of_projStabilizer_eq [Finite K] [CharP K 2] {W W' : Submodule K (Fin 
     (hW : 1 ≤ finrank K W ∧ finrank K W < 3)
     (hW' : 1 ≤ finrank K W' ∧ finrank K W' < 3)
     (h : projStabilizer W = projStabilizer W') : W = W' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (maximal_parabolics (K := K) (n := 3) 2 (by norm_num)).2.1
     (bot_lt_and_lt_top_of_finrank hW.1 hW.2)
     (bot_lt_and_lt_top_of_finrank hW'.1 hW'.2) h
@@ -167,7 +167,7 @@ theorem eq_flagSpace_of_le_projUpperTriangular [Finite K] [CharP K 2]
     {W : Submodule K (Fin 3 → K)} (h0 : ⊥ < W) (htop : W < ⊤)
     (h : projUpperTriangular 3 K ≤ projStabilizer W) :
     W = flagSpace 3 K 1 ∨ W = flagSpace 3 K 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e, he1, he3, heq⟩ :=
     eq_projStabilizer_of_isCoatom (isCoatom_projStabilizer h0 htop) h
   have hdimF : 1 ≤ finrank K (flagSpace 3 K e) ∧ finrank K (flagSpace 3 K e) < 3 := by
@@ -188,9 +188,9 @@ theorem kDiag_projectiveSL [Finite K] [CharP K 2] :
         Subgroup.normalizer (P : Set (projectiveSL 3 K)) →
       ∀ x ∈ P, θ x ∈ P := by
   intro θ hθ S hSθ P hP hSP x hx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSP' : (S : Subgroup (projectiveSL 3 K)) ≤ P :=
-    IsParabolicTwo.le_of_le_normalizer hP S.isPGroup' hSP
+    IsParabolicTwo.le_of_le_normalizer hP S.isPGroup hSP
   have hNS : Subgroup.normalizer (S : Set (projectiveSL 3 K)) ≤ P :=
     hP.normalizer_le S hSP'
   have hSmap : Subgroup.map (θ : projectiveSL 3 K →* projectiveSL 3 K)
@@ -241,11 +241,11 @@ theorem kDiag_projectiveSL [Finite K] [CharP K 2] :
   have hcomp : ((MulAut.conj (x₀⁻¹) : projectiveSL 3 K →* projectiveSL 3 K)).comp
       (MulAut.conj x₀ : projectiveSL 3 K →* projectiveSL 3 K) = MonoidHom.id _ := by
     ext z
-    simp [MulAut.conj_apply, mul_assoc]
+    simp
   have hcomp' : ((MulAut.conj x₀ : projectiveSL 3 K →* projectiveSL 3 K)).comp
       (MulAut.conj (x₀⁻¹) : projectiveSL 3 K →* projectiveSL 3 K) = MonoidHom.id _ := by
     ext z
-    simp [MulAut.conj_apply, mul_assoc]
+    simp
   have hNmap : Subgroup.map (MulAut.conj (x₀⁻¹) : projectiveSL 3 K →* projectiveSL 3 K)
       (Subgroup.normalizer (S : Set (projectiveSL 3 K))) = projUpperTriangular 3 K := by
     rw [hx₀]
@@ -396,16 +396,16 @@ theorem kDiag_of_isL3 {n : ℕ} {X : Type} [Group X] [Finite X] (hX : IsL3 X n) 
     CFSG.Blueprint.LieModel.statedClassicalModel hX' ht
   rw [CFSG.Open.StatedClassicalModel] at hmodel
   obtain ⟨hadm, K, hfield, hfinite, hcard, ⟨e₀⟩⟩ := hmodel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : Fintype K := Fintype.ofFinite K
   rw [CFSG.Open.StatedLieAdmissible] at hadm
   have hn1 : 1 ≤ n := hadm.2.1
   have hEven : Fintype.card K % 2 = 0 := by
     rw [Fintype.card_eq_nat_card, hcard]
     exact Nat.mod_eq_zero_of_dvd (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 := FiniteField.even_card_iff_char_two.mpr hEven
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   exact kDiag_transport
     (e := e₀.trans
       ((CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 K).symm.trans

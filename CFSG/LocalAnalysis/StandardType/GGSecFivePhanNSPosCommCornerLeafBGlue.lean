@@ -49,7 +49,7 @@ theorem ggNSPosPF3C_lift_mul_eq_smul (h : GGNSLocalHyp 3 B Bs K f 6 ψ) {b₁ b�
     intro hz_eq
     have hdet := Matrix.GeneralLinearGroup.det_ne_zero (ggNSPosPF_commutator g₁ g₂)
     rw [hz, hz_eq, zero_smul] at hdet
-    simpa using hdet
+    simp at hdet
   refine ⟨Units.mk0 z hz0, ?_⟩
   have hcomm : ggNSPosPF_commutator g₁ g₂ * (g₂ * g₁) = g₁ * g₂ := by
     unfold ggNSPosPF_commutator

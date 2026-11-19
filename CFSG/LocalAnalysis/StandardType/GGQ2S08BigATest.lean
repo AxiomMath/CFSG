@@ -85,7 +85,7 @@ private theorem ggQ2s08at_xV_ne_zero {G : Type} [Group G] {Bs L : Subgroup G} {x
       exact sub_eq_zero.mp h2
     have hle := LinearMap.finrank_le_finrank_of_injective hinj
     have hle' : Fintype.card M.Λ + 1 ≤ Fintype.card M.Λ := by
-      simpa [hdim, Module.finrank_fintype_fun_eq_card] using hle
+      simp [hdim, Module.finrank_fintype_fun_eq_card] at hle
     omega
   obtain ⟨u, hu, hu0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hker
   have hfix : ∀ i, ggLin (p := 3) M.model (M.simple i) u = u := by
@@ -126,7 +126,7 @@ private theorem ggQ2s08at_A_adj (m : ℕ) {i j : Fin m} (hij : i ≠ j)
     (h : (j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ)) :
     CoxeterMatrix.A m i j = 3 := by
   simp only [CoxeterMatrix.A, Matrix.of_apply]
-  rw [if_neg hij, if_pos h]
+  rw [ite_eq_right hij, ite_eq_left h]
 
 private theorem ggQ2s08at_cartan_of_coxeter_three {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     (M : GGQ2LDatum 3 Bs L x) {i j : M.Λ} (hij : i ≠ j) (h : M.coxeter i j = 3) :
@@ -447,8 +447,8 @@ theorem ggQ2s08_bigA_test (hKG : GGReflClassLargeThree) [Finite G] (M : GGQ2LDat
       rw [hbot] at hmem
       have h1 : eW k = 1 := Subgroup.mem_bot.mp hmem
       exact eW.injective (by rw [h1, map_one])
-    haveI : Nontrivial K' := (Subgroup.nontrivial_iff_ne_bot K').mpr hK'ne
-    haveI : K'.Normal := Subgroup.Normal.map hKnormal eW.toMonoidHom eW.surjective
+    have : Nontrivial K' := (Subgroup.nontrivial_iff_ne_bot K').mpr hK'ne
+    have : K'.Normal := Subgroup.Normal.map hKnormal eW.toMonoidHom eW.surjective
     have halt : alternatingGroup (Fin (lab.rank + 1)) ≤ K' :=
       Equiv.Perm.alternatingGroup_le_of_normal (α := Fin (lab.rank + 1))
         (by rw [Nat.card_fin]; omega) (ntN := inferInstance)

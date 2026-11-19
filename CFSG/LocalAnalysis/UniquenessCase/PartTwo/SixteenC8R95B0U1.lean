@@ -35,9 +35,9 @@ theorem r95_not_hasL32Quot_of_stronglyEmbedded {K : Type} [Group K] [Finite K]
     {E : Subgroup K} (hE : HasL32Quot E) : False := by
   classical
   obtain ⟨Qm, hQm, π, hπ, hm⟩ := hE
-  letI : Group Qm := hQm
-  haveI : Finite Qm := Finite.of_surjective π hπ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Group Qm := hQm
+  have : Finite Qm := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm27 : LieModel Qm .PSL 2 7 1 :=
     CFSG.LocalAnalysis.ComponentInitial.PSL3_two_PSL2_seven_paired_isomorphism Qm hm
   have hX : CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData.IsLThreeTwo Qm :=
@@ -76,7 +76,7 @@ theorem r95_not_hasL32Quot_of_stronglyEmbedded {K : Type} [Group K] [Finite K]
       S (hSE S) hR2 hR1 hRS
   let B : Subgroup K := Subgroup.normalizer ((S : Subgroup K) : Set K)
   let r : ℕ := ((S : Subgroup K).subgroupOf B).index
-  haveI : ((S : Subgroup K).subgroupOf B).Normal :=
+  have : ((S : Subgroup K).subgroupOf B).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.le_normalizer)).mpr le_rfl
   have hr_notdvd : ¬ 2 ∣ r := by
     intro h
@@ -131,7 +131,7 @@ theorem r95_not_hasL32Quot_of_stronglyEmbedded {K : Type} [Group K] [Finite K]
     have hxinv : (x : K)⁻¹ ∈ (S : Subgroup K) := (S : Subgroup K).inv_mem hxS
     exact (S : Subgroup K).mul_mem hxS
       ((Subgroup.mem_normalizer_iff.mp hngB (x : K)⁻¹).1 hxinv)
-  obtain ⟨m, hm⟩ := S.isPGroup' ⟨(c_E : K), hc'S⟩
+  obtain ⟨m, hm⟩ := S.isPGroup ⟨(c_E : K), hc'S⟩
   have hc'm : c' ^ (2 ^ m) = 1 := by
     have hE1 : c_E ^ (2 ^ m) = 1 := by
       apply Subtype.ext
@@ -148,7 +148,7 @@ theorem r95_not_hasL32Quot_of_stronglyEmbedded {K : Type} [Group K] [Finite K]
   have hc'N : c' ∈ N := by
     rw [hc']
     exact N.mul_mem (N.mul_mem (N.mul_mem haN hbN) (N.inv_mem haN)) (N.inv_mem hbN)
-  haveI : (V.subgroupOf N).Normal :=
+  have : (V.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.le_normalizer)).mpr le_rfl
   let qq : ↥N →* (↥N ⧸ V.subgroupOf N) := QuotientGroup.mk' (V.subgroupOf N)
   let sN : ↥N := ⟨s, hsN⟩
@@ -178,7 +178,7 @@ theorem r95_not_hasL32Quot_of_stronglyEmbedded {K : Type} [Group K] [Finite K]
   have hc'eq : qq cN = qq gN := by
     have h_eq : cN = aN * bN * aN⁻¹ * bN⁻¹ := by
       ext
-      simpa [cN, aN, bN, hc']
+      simp [cN, aN, bN, hc']
     calc qq cN = qq (aN * bN * aN⁻¹ * bN⁻¹) := by rw [h_eq]
       _ = qq aN * qq bN * (qq aN)⁻¹ * (qq bN)⁻¹ := by simp only [map_mul, map_inv]
       _ = qq sN * qq gN * (qq sN)⁻¹ * (qq gN)⁻¹ := by rw [hqq_a, hqq_b]

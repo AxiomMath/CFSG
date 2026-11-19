@@ -73,7 +73,7 @@ theorem map_ctxPL_eq_klein (ha : Ctx4A t L S x₁ x₂ lam rho tau) (σ : Sig4 t
   let P' := (ctxPL t tau x₁ x₂).subgroupOf (ctxLO t tau x₁ x₂)
   let N := P'.map σ.φ
   have hPle : ctxPL t tau x₁ x₂ ≤ ctxLO t tau x₁ x₂ := (normal_ctxPL ha).1
-  haveI hN : N.Normal := Subgroup.Normal.map (subgroupOf_ctxPL_normal ha) σ.φ σ.surj
+  have hN : N.Normal := Subgroup.Normal.map (subgroupOf_ctxPL_normal ha) σ.φ σ.surj
   have hno_three : ∀ c ∈ N, c ^ 3 = 1 → c = 1 := by
     intro c hcN hc3
     by_contra hc1

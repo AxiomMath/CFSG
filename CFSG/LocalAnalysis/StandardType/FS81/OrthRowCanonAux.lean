@@ -16,8 +16,9 @@ open QuadraticMap Module CFSG.Open CFSG.Assembly
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem maps_planeSpan_of_commute_rot {p : V × V} (hp : MinusPair Q p.1 p.2)
-    {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
+    {g : V ≃ₗ[ZMod 2] V} (_hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hcomm : Commute g (rot Q p.1 p.2)) :
     ∀ y ∈ planeSpan p, g y ∈ planeSpan p := by
   intro y hy
@@ -28,8 +29,9 @@ theorem maps_planeSpan_of_commute_rot {p : V × V} (hp : MinusPair Q p.1 p.2)
   rw [map_sub, hgrot]
   exact rot_sub_mem_span hp (g x)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_pow_of_commute_rot_of_plane {p : V × V} (hp : MinusPair Q p.1 p.2)
-    {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
+    {g : V ≃ₗ[ZMod 2] V} (_hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hcomm : Commute g (rot Q p.1 p.2))
     (hgP : ∀ y ∈ planeSpan p, g y ∈ planeSpan p) :
     ∃ k : ℕ, ∀ y ∈ planeSpan p, g y = ((rot Q p.1 p.2) ^ k) y := by
@@ -79,6 +81,7 @@ theorem exists_pow_of_commute_rot_of_plane {p : V × V} (hp : MinusPair Q p.1 p.
       rw [h]
     rw [hg1, hg2, pow_two, LinearEquiv.mul_apply, hrot2]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem centralizer_torus_le_of_commute_rot {l : List (V × V)} (hl : IsFrame Q l)
     {c : V ≃ₗ[ZMod 2] V} (hc : c ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hcomm : ∀ p ∈ l, Commute c (rot Q p.1 p.2)) :
@@ -140,7 +143,7 @@ theorem centralizer_torus_le_of_commute_rot {l : List (V × V)} (hl : IsFrame Q 
       rw [hrot_fix k]
 
 theorem centralizer_torus_eq_self_of_frame {l : List (V × V)} (hl : IsFrame Q l)
-    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
+    (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hfull : finrank (ZMod 2) V = 2 * l.length) :
     Subgroup.centralizer (torus Q l : Set (V ≃ₗ[ZMod 2] V)) ⊓
       ⁅TauCeti.QuadraticMap.orthogonalGroup Q, TauCeti.QuadraticMap.orthogonalGroup Q⁆ =

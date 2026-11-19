@@ -60,7 +60,7 @@ theorem Ctx12.exists_conj_eq [IsSimpleGroup G] (c : Ctx12 p f K z S W L t) :
   have htW : g * z * g⁻¹ ∈ Subgroup.centralizer (W : Set G) := by
     rw [← e]
     exact Subgroup.mem_centralizer_iff.mpr fun w hw => c.ab w hw t (c.data.leW c.data.memT)
-  obtain ⟨n, hn, hnz⟩ := Sec7.control_centralizer_of_weaklyClosed (S.isPGroup'.to_le hd.hWS)
+  obtain ⟨n, hn, hnz⟩ := Sec7.control_centralizer_of_weaklyClosed (S.isPGroup.to_le hd.hWS)
     c.weaklyClosed hzW htW
   exact ⟨n, mem_normalizer_iff_conjSub_eq.mp hn, hnz.trans e.symm⟩
 

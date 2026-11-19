@@ -11,6 +11,7 @@ open Subgroup Equiv Equiv.Perm
 
 variable {G : Type} [Group G] [Finite G] {z : G} {ι : Perm (Fin 10) →* G}
 
+omit [Finite G] in
 theorem mul_liftS8_mul_self {x : G}
     {π : ↥(centralizer ({x} : Set G)) →* Perm (Fin 10)} (hOS : OneSided z ι x π)
     {ρ : Perm (Fin 8)} (hρ2 : ρ * ρ = 1) :
@@ -25,6 +26,7 @@ theorem mul_liftS8_mul_self {x : G}
       _ = 1 := by rw [hτ2, hL2, mul_one]]
   rw [map_one]
 
+omit [Finite G] in
 theorem isConj_of_card_cycleType_and_kappa {x : G}
     {π : ↥(centralizer ({x} : Set G)) →* Perm (Fin 10)} (hOS : OneSided z ι x π)
     {κ : ↥(centralizer ({x} : Set G)) →* ℤˣ} (hκ : Retraction z x κ)
@@ -36,6 +38,7 @@ theorem isConj_of_card_cycleType_and_kappa {x : G}
   exact isConj_of_retraction hOS.sec hκ.self
     (isConj_of_card_cycleType_eq hπc2 hπc'2 hcard) hκc
 
+omit [Finite G] in
 theorem isConj_x_mul_liftS8_of_involutions (hC : CentData z ι) (hN : NoSwapConj z ι) {x : G}
     {π : ↥(centralizer ({x} : Set G)) →* Perm (Fin 10)} (hOS : OneSided z ι x π)
     {κ : ↥(centralizer ({x} : Set G)) →* ℤˣ} (hκ : Retraction z x κ)
@@ -94,6 +97,7 @@ theorem isConj_x_mul_liftS8_of_involutions (hC : CentData z ι) (hN : NoSwapConj
   rw [← hcval, ← hc'val]
   exact hconj
 
+omit [Finite G] in
 theorem not_isConj_z_ι_of_card_cycleType_eq_three (hC : CentData z ι) (hN : NoSwapConj z ι)
     {x : G} {π : ↥(centralizer ({x} : Set G)) →* Perm (Fin 10)} (hOS : OneSided z ι x π)
     {κ : ↥(centralizer ({x} : Set G)) →* ℤˣ} (hκ : Retraction z x κ) {σ : Perm (Fin 10)}
@@ -114,6 +118,7 @@ theorem not_isConj_z_ι_of_card_cycleType_eq_three (hC : CentData z ι) (hN : No
     rwa [liftS8_r₁'] at h
   exact (hN r₁ ⟨0, 1, by decide, rfl⟩).1 hz1
 
+omit [Finite G] in
 theorem not_isConj_z_ι_of_card_cycleType_eq_five (hC : CentData z ι) (hN : NoSwapConj z ι)
     {x : G} {π : ↥(centralizer ({x} : Set G)) →* Perm (Fin 10)} (hOS : OneSided z ι x π)
     {κ : ↥(centralizer ({x} : Set G)) →* ℤˣ} (hκ : Retraction z x κ) {σ : Perm (Fin 10)}
@@ -137,6 +142,7 @@ theorem not_isConj_z_ι_of_card_cycleType_eq_five (hC : CentData z ι) (hN : NoS
     rw [← liftS8_r₃', cycleType_liftS8, card_cycleType_r₃']
   exact not_isConj_z_ι_of_card_cycleType_eq_three hC hN hOS hκ hr₃2 hcard₃ hz3
 
+omit [Finite G] in
 theorem not_isConj_z_ι (hC : CentData z ι) (hN : NoSwapConj z ι) {x : G}
     {π : ↥(centralizer ({x} : Set G)) →* Perm (Fin 10)} (hOS : OneSided z ι x π)
     {κ : ↥(centralizer ({x} : Set G)) →* ℤˣ} (hκ : Retraction z x κ) (σ : Perm (Fin 10)) :

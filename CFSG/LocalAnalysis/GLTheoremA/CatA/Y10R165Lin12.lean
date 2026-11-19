@@ -29,6 +29,7 @@ namespace LinEngine
 variable {F V : Type} [Field F] [AddCommGroup V] [Module F V] [FiniteDimensional F V]
 variable {p : ℕ}
 
+omit [FiniteDimensional F V] in
 private theorem exists_three_ne_bot_blockSpace_sorted (A : Subgroup (V ≃ₗ[F] V)) [Fintype A]
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
@@ -60,7 +61,7 @@ open LinEngine
 
 theorem concl165Avoid_specialLinear (F : Type) [Field F] [Fintype F] (n d p q : ℕ)
     (hcard : Fintype.card F = 2 ^ n) (hp : p.Prime) (hp2 : p ≠ 2)
-    (hq : q.Prime) (hq2 : q ≠ 2) (hqp : q ≠ p)
+    (hq : q.Prime) (_hq2 : q ≠ 2) (_hqp : q ≠ p)
     (hm0 : 2 ≤ CFSG.LocalAnalysis.GLTheoremA.rk2Ord p n)
     (hd : 3 * CFSG.LocalAnalysis.GLTheoremA.rk2Ord p n ≤ d)
     (hsmall : 2 ≤ n ∨ 3 ≤ CFSG.LocalAnalysis.GLTheoremA.rk2Ord p n)
@@ -72,9 +73,9 @@ theorem concl165Avoid_specialLinear (F : Type) [Field F] [Fintype F] (n d p q : 
     (h3 : 3 ≤ CFSG.Open.pRank p A) :
     Concl165Avoid (SpecialLinearGroup F V) p q A (Subgroup.center (SpecialLinearGroup F V)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (SpecialLinearGroup F V) := by
-    haveI : Finite (V ≃ₗ[F] V) := finite_linearEquiv_self
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (SpecialLinearGroup F V) := by
+    have : Finite (V ≃ₗ[F] V) := finite_linearEquiv_self
     exact Subtype.finite
   have hn1 : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with h0 | h0
@@ -82,8 +83,8 @@ theorem concl165Avoid_specialLinear (F : Type) [Field F] [Fintype F] (n d p q : 
       rw [h0] at hm0
       simp [CFSG.LocalAnalysis.GLTheoremA.rk2Ord] at hm0
     · exact h0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := by
     have h2 : ringChar F = 2 := by
       rw [FiniteField.even_card_iff_char_two, hcard]
       exact Nat.dvd_iff_mod_eq_zero.mp (dvd_pow_self 2 (Nat.pos_iff_ne_zero.mp hn1))
@@ -105,8 +106,8 @@ theorem concl165Avoid_specialLinear (F : Type) [Field F] [Fintype F] (n d p q : 
   have hAdet : Agl ≤ LinearEquiv.det.ker := by
     rintro x ⟨a, -, rfl⟩
     exact MonoidHom.mem_ker.mpr a.2
-  haveI : Finite ↥Agl := Subtype.finite
-  haveI : Fintype ↥Agl := Fintype.ofFinite ↥Agl
+  have : Finite ↥Agl := Subtype.finite
+  have : Fintype ↥Agl := Fintype.ofFinite ↥Agl
   obtain ⟨t, ht⟩ := exists_blockRep (A := Agl) (p := p) hp
   set SLgl : Subgroup (V ≃ₗ[F] V) :=
     (⊤ : Subgroup (SpecialLinearGroup F V)).map SpecialLinearGroup.toLinearEquiv with hSLgldef
@@ -163,12 +164,12 @@ theorem sl165EngineFamA_holds : SL165EngineFamA := by
   classical
   let e : ↥(StatedSL d F) ≃* SpecialLinearGroup F (Fin d → F) :=
     statedSLEquivSpecialLinearGroup d F
-  haveI : Finite ((Fin d → F) ≃ₗ[F] (Fin d → F)) := by
+  have : Finite ((Fin d → F) ≃ₗ[F] (Fin d → F)) := by
     infer_instance
   have hmodel : Concl165Avoid (SpecialLinearGroup F (Fin d → F)) p q
       (Ã.map e.toMonoidHom) (Subgroup.center (SpecialLinearGroup F (Fin d → F))) := by
     refine concl165Avoid_specialLinear F n d p q hcard hp hp2 hq hq2 hqp hm0 hd hsmall
-      hqdiv (V := Fin d → F) (by simp [Module.finrank_fin_fun]) (Ã.map e.toMonoidHom) ?_ ?_ ?_
+      hqdiv (V := Fin d → F) (by simp) (Ã.map e.toMonoidHom) ?_ ?_ ?_
     · exact hÃe.map e.toMonoidHom
     · rw [← CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt e,
         CFSG.LocalAnalysis.GLTheoremB.pRank_map_eq_of_injective hp.one_lt e.toMonoidHom
@@ -184,7 +185,7 @@ theorem sl165EngineFamA_holds : SL165EngineFamA := by
       rw [← CFSG.Assembly.LowTwoRank.map_center_eq_statedScalars d F,
         Subgroup.map_center_eq (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL d F)]
     rw [h1]
-    simpa using (Subgroup.map_center_eq e)
+    simp
   have hmodel' : Concl165Avoid (SpecialLinearGroup F (Fin d → F)) p q
       (Ã.map e.toMonoidHom)
       (((StatedScalars (Fin d) F).subgroupOf (StatedSL d F)).map e.toMonoidHom) := by

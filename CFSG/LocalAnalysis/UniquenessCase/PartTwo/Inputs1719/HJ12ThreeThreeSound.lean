@@ -86,7 +86,7 @@ theorem hjLookup_eq {r : Array Nat} (hr : r ∈ HJ12.hjT1Invs ()) :
   exact hjLookup_map hr
 
 theorem hjRows_invs {x : MulAut W12} {r : Array Nat}
-    (hx : x ∈ hjT1) (hxr : RowsOf x r) (hsq : x ^ 2 = 1) (hne : x ≠ 1)
+    (_hx : x ∈ hjT1) (hxr : RowsOf x r) (hsq : x ^ 2 = 1) (hne : x ≠ 1)
     (hrmem : r ∈ CFSG.GF2Type.Smith1979.GammaU.Enum.enumGrp
       (HJ12.hj_t0Words.map wordR ++ [hjTauc])) :
     r ∈ HJ12.hjT1Invs () ∧ Nat.card (fixV (Subgroup.zpowers x)) = (fixCodes r).length := by
@@ -304,7 +304,7 @@ theorem hjPureTripleCheck_spec {x y z : Array Nat}
   have hok := h x hx y hy z hz
   have hind' : ([CFSG.GammaU.Native.idR, x, y,
       CFSG.GammaU.Native.mulR x y].contains z) = false := hind
-  simp only [HJ12.hjTripleOK, HJ12.hjMixedSpan, Bool.and_eq_true, List.any_eq_true] at hok ⊢
+  simp only [HJ12.hjTripleOK, HJ12.hjMixedSpan] at hok ⊢
   simp_all
 
 theorem row_mem_enum_of_rows {u : MulAut W12} {w : Array Nat}
@@ -361,12 +361,12 @@ theorem hjCommR_of_commute {x y : MulAut W12} {rx ry : Array Nat}
 
 theorem exists_rows_triple
     {A : Subgroup (MulAut W12)} {x y z : MulAut W12} {rx ry rz : Array Nat}
-    (hAle : A ≤ hjT1) (hxA : x ∈ A) (hyA : y ∈ A) (hzA : z ∈ A)
+    (_hAle : A ≤ hjT1) (hxA : x ∈ A) (hyA : y ∈ A) (hzA : z ∈ A)
     (hxr : RowsOf x rx) (hyr : RowsOf y ry) (hzr : RowsOf z rz)
     (hxcan : rx.size = 12 ∧ ∀ a ∈ rx, a < 4096)
     (hycan : ry.size = 12 ∧ ∀ a ∈ ry, a < 4096)
     (hzcan : rz.size = 12 ∧ ∀ a ∈ rz, a < 4096)
-    (hxsq : x ^ 2 = 1) (hysq : y ^ 2 = 1) (hzsq : z ^ 2 = 1)
+    (hxsq : x ^ 2 = 1) (hysq : y ^ 2 = 1) (_hzsq : z ^ 2 = 1)
     (hxy : x * y = y * x) (hxz : x * z = z * x) (hyz : y * z = z * y)
     (hx1 : x ≠ 1) (hyNot : y ∉ Subgroup.zpowers x)
     (hzNot : z ∉ Subgroup.zpowers x ⊔ Subgroup.zpowers y) :

@@ -13,7 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 public theorem s16h_e3_exists_inner_of_odd_isL3 {Y : Type} [Group Y] [Finite Y] (h : IsL3 Y 1)
     (φ : MulAut Y) (hodd : Odd (orderOf φ)) :
     ∃ y : Y, ∀ z : Y, φ z = y * z * y⁻¹ := by
-  haveI hs : IsSimpleGroup Y :=
+  have hs : IsSimpleGroup Y :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.isSimpleGroup_of_isL3 h
   let conj : Y →* MulAut Y := MulAut.conj
   have hker : conj.ker = Subgroup.center Y := by
@@ -115,7 +115,7 @@ private lemma s16h_e3_map_commSub_of_normalizes {W : Type} [CommGroup W]
     change g (x w * w⁻¹) ∈ commSub (⊤ : Subgroup W) L
     have hconj : g * x * g⁻¹ ∈ L := hg x hx
     have hgx : g (x w) = (g * x * g⁻¹) (g w) := by
-      simp [MulAut.mul_apply, MulAut.conj_apply]
+      simp [MulAut.mul_apply]
     rw [map_mul, map_inv, hgx]
     exact Subgroup.subset_closure ⟨g * x * g⁻¹, hconj, g w, trivial, rfl⟩
   exact h hu
@@ -152,7 +152,7 @@ public theorem s16h_e3_l3_mult_seven_core {W : Type} [CommGroup W] [Finite W]
             (π k : Matrix (Fin 3) (Fin 3) (ZMod 2)).transpose)) :
     7 ∣ Nat.card ↥π.range := by
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W))
       (fun f g h => MulEquiv.ext (congrFun h))
   let K : Subgroup (MulAut W) :=
@@ -162,20 +162,20 @@ public theorem s16h_e3_l3_mult_seven_core {W : Type} [CommGroup W] [Finite W]
     ⟨hk.1, Subgroup.centralizer_le_normalizer (L : Set (MulAut W))
       (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr le_sup_left) hk.2)⟩
   have hYle : Y ≤ normalizer (L : Set (MulAut W)) := inf_le_right
-  letI : MulAction ↥Y ↥(irrSet L) := s16h_e3_irrSetAction Y hYle
-  haveI : Finite ↥Y := Subtype.finite
-  haveI : Finite ↥(irrSet L) := Subtype.finite
+  let : MulAction ↥Y ↥(irrSet L) := s16h_e3_irrSetAction Y hYle
+  have : Finite ↥Y := Subtype.finite
+  have : Finite ↥(irrSet L) := Subtype.finite
   have htrans' : ∀ a b : ↥(irrSet L), ∃ h : ↥Y, h • a = b := by
     intro a b
     obtain ⟨g, hgY, hgmap⟩ := htrans a.1 a.2 b.1 b.2
     exact ⟨⟨g, hgY⟩, Subtype.ext hgmap.symm⟩
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   let Q : Sylow 7 ↥Y := Classical.choice (inferInstance : Nonempty (Sylow 7 ↥Y))
   have hcardpow : Nat.card ↥(irrSet L) = 7 ^ 1 := by rw [hcard, pow_one]
   have htransQ : ∀ a b : ↥(irrSet L), ∃ g ∈ (Q : Subgroup ↥Y), g • a = b :=
     CFSG.Quasithin.St84.sylow_pretransitive_of_card_prime_pow_sylow (p := 7) (k := 1)
       hcardpow htrans' Q
-  haveI : Fintype ↥(irrSet L) := Fintype.ofFinite _
+  have : Fintype ↥(irrSet L) := Fintype.ofFinite _
   have hcardF : Fintype.card ↥(irrSet L) = 7 := by
     rw [← Nat.card_eq_fintype_card, hcard]
   obtain ⟨a, b, hab⟩ := Fintype.exists_pair_of_one_lt_card (α := ↥(irrSet L))
@@ -188,7 +188,7 @@ public theorem s16h_e3_l3_mult_seven_core {W : Type} [CommGroup W] [Finite W]
         congrArg (fun e : Equiv.Perm ↥(irrSet L) => e a) h1
     rw [hcab] at h2
     exact hab h2.symm
-  obtain ⟨m, hm⟩ := Q.isPGroup'.exists_card_eq
+  obtain ⟨m, hm⟩ := Q.isPGroup.exists_card_eq
   have hordc_dvd : orderOf c ∣ 7 ^ m := by
     have h1 : orderOf (⟨c, hcQ⟩ : ↥(Q : Subgroup ↥Y)) ∣ Nat.card ↥(Q : Subgroup ↥Y) :=
       orderOf_dvd_natCard _
@@ -485,8 +485,8 @@ public theorem s16h_e3_l3_mult_seven_cycle {W : Type} [CommGroup W] [Finite W]
   have hcard : Nat.card ↥(irrSet L) = 7 := s16h_e3_irrSet_L3_card_seven_of_coord F.u_eq.symm C
   have h7 : 7 ∣ Nat.card ↥π.range :=
     s16h_e3_l3_mult_seven_core F hL C htrans hcard π hπ
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI : Finite ↥π.range := Subtype.finite
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Finite ↥π.range := Subtype.finite
   obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' (G := ↥π.range) 7 h7
   rw [Subgroup.orderOf_mk] at hxord
   obtain ⟨k, hk⟩ := MonoidHom.mem_range.mp x.2

@@ -46,6 +46,7 @@ theorem thetaU_ker (hF : Nat.card F = p ^ 2) :
   exact Subtype.ext (hc y)
 
 
+omit [CharP F p] in
 theorem exists_scU_of_central (hp2 : p ≠ 2) (hF : Nat.card F = p ^ 2) {A : ↥(GU2Stated (p ^ 1) F)}
     (hcen : ∀ B : ↥(GU2Stated (p ^ 1) F), A * B = B * A) (hSU : ∃ c d : ↥(StatedSU 2 (p ^ 1) F),
       QuatPair c d) :
@@ -108,6 +109,7 @@ theorem exists_scU_of_central (hp2 : p ≠ 2) (hF : Nat.card F = p ^ 2) {A : ↥
   exact hY
 
 
+omit [Finite F] in
 theorem blockzero_F (h2 : (2 : F) ≠ 0) {g : Matrix (Fin 3) (Fin 3) F}
     (h : g * CFSG.RankThree.Classical.negNegOneDiag F = CFSG.RankThree.Classical.negNegOneDiag F * g) :
     g 0 2 = 0 ∧ g 1 2 = 0 ∧ g 2 0 = 0 ∧ g 2 1 = 0 := by
@@ -115,13 +117,14 @@ theorem blockzero_F (h2 : (2 : F) ≠ 0) {g : Matrix (Fin 3) (Fin 3) F}
   have e12 := congrFun (congrFun h 1) 2
   have e20 := congrFun (congrFun h 2) 0
   have e21 := congrFun (congrFun h 2) 1
-  simp [CFSG.RankThree.Classical.negNegOneDiag, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply] at e02 e12 e20 e21
+  simp [CFSG.RankThree.Classical.negNegOneDiag, Matrix.mul_apply, Matrix.diagonal_apply] at e02 e12 e20 e21
   refine ⟨?_, ?_, ?_, ?_⟩
   · exact (mul_eq_zero.mp (by linear_combination e02 : (2 : F) * g 0 2 = 0)).resolve_left h2
   · exact (mul_eq_zero.mp (by linear_combination e12 : (2 : F) * g 1 2 = 0)).resolve_left h2
   · exact (mul_eq_zero.mp (by linear_combination -e20 : (2 : F) * g 2 0 = 0)).resolve_left h2
   · exact (mul_eq_zero.mp (by linear_combination -e21 : (2 : F) * g 2 1 = 0)).resolve_left h2
 
+omit [Finite F] in
 theorem comm_diag3 {g : Matrix (Fin 3) (Fin 3) F}
     (h02 : g 0 2 = 0) (h12 : g 1 2 = 0) (h20 : g 2 0 = 0) (h21 : g 2 1 = 0) (u v : F) :
     g * !![u, 0, 0; 0, u, 0; 0, 0, v] = !![u, 0, 0; 0, u, 0; 0, 0, v] * g := by
@@ -129,13 +132,13 @@ theorem comm_diag3 {g : Matrix (Fin 3) (Fin 3) F}
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three, h02, h12, h20, h21] <;> ring
 
+omit [Finite F] [CharP F p] in
 theorem matU_blkU_scU (hF : Nat.card F = p ^ 2) (a : Fˣ) (ha : (a : F) ^ (p + 1) = 1) :
     matU (Lemma41aU3.blkU (uniData hF) (scU a ha)) = !![(a : F), 0, 0; 0, (a : F), 0; 0, 0, ((a : F) ^ 2)⁻¹] := by
   rw [matU_blkU hF]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Lemma41aL3.blkMat, scU, coe_scF, Matrix.scalar_apply, Matrix.det_fin_two, Matrix.diagonal_apply,
-      sq, mul_inv]
+    simp [Lemma41aL3.blkMat, scU, coe_scF, Matrix.scalar_apply, sq]
 
 
 theorem f3_core_uni (hp4 : p % 4 = 1) (hF : Nat.card F = p ^ 2) {U : Subgroup (PSU3F p F)}
@@ -191,7 +194,7 @@ theorem f3_core_uni (hp4 : p % 4 = 1) (hF : Nat.card F = p ^ 2) {U : Subgroup (P
       CFSG.RankThree.Classical.negNegOneDiag F := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [CFSG.RankThree.Classical.negNegOneDiag, RingEquiv.mapMatrix_apply, Matrix.diagonal_apply]
+      simp [CFSG.RankThree.Classical.negNegOneDiag, RingEquiv.mapMatrix_apply]
   have hconj : (g : Matrix (Fin 3) (Fin 3) F) * CFSG.RankThree.Classical.negNegOneDiag F *
       ((g⁻¹ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
       CFSG.RankThree.Classical.negNegOneDiag F * Matrix.scalar (Fin 3) c0 := by
@@ -201,8 +204,8 @@ theorem f3_core_uni (hp4 : p % 4 = 1) (hF : Nat.card F = p ^ 2) {U : Subgroup (P
   have htr : c0 = 1 := by
     have h1 := congrArg Matrix.trace hconj
     rw [Matrix.trace_units_conj] at h1
-    simp [CFSG.RankThree.Classical.negNegOneDiag, Matrix.trace_fin_three, Matrix.scalar_apply,
-      Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply] at h1
+    simp [CFSG.RankThree.Classical.negNegOneDiag, Matrix.scalar_apply,
+      Fin.sum_univ_three] at h1
     exact h1.symm
   have hcomm : (g : Matrix (Fin 3) (Fin 3) F) * CFSG.RankThree.Classical.negNegOneDiag F =
       CFSG.RankThree.Classical.negNegOneDiag F * (g : Matrix (Fin 3) (Fin 3) F) := by
@@ -220,7 +223,7 @@ theorem f3_core_uni (hp4 : p % 4 = 1) (hF : Nat.card F = p ^ 2) {U : Subgroup (P
       rw [hform x, hφ1]
       have : (RingEquiv.refl F).mapMatrix (((x : Phan.Su F p 1 3) : GL (Fin 3) F).1) =
           ((x : Phan.Su F p 1 3) : GL (Fin 3) F).1 := by
-        ext i j; simp [RingEquiv.mapMatrix_apply]
+        ext i j; simp
       rw [this]
     obtain ⟨y, hy⟩ := CFSG.ClassicalInvolution.Disconnected.AschTight.S19K.uni_inner hcard' hp2
       le_rfl (thetaU hF) (thetaU_surjective hF) (thetaU_ker hF) hα hform0 hiso hαα
@@ -276,6 +279,7 @@ theorem f3_core_uni (hp4 : p % 4 = 1) (hF : Nat.card F = p ^ 2) {U : Subgroup (P
           rfl
 
 
+omit [CharP F p] in
 theorem exists_scU_of_mem_center (hp2 : p ≠ 2) (hF : Nat.card F = p ^ 2)
     {U : Subgroup (PSU3F p F)} (hU : SpecialSylowU hF U) {b : PSU3F p F}
     (hb1 : b ∈ Subgroup.centralizer (E2P.zOf U : Set (PSU3F p F)))
@@ -307,7 +311,7 @@ theorem f3_psu {X : Type} [Group X] [Finite X] {K S : Subgroup X}
     ∀ b ∈ cenZ K S ⊓ Subgroup.centralizer (cenZ K S : Set X), Odd (orderOf b) →
       u * b * u⁻¹ = b⁻¹ := by
   obtain ⟨F, _, _, hF, e, U₀, hU₀, hmap⟩ := exists_equiv_special_u (p := p) (by omega) hK hS
-  haveI : CharP F p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := p) (f := 1)
+  have : CharP F p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := p) (f := 1)
     (by simpa using hF)
   have h := f3At_special_u hp4 hF hU₀
   rw [← hmap] at h

@@ -16,14 +16,15 @@ variable {𝒮 : Set (V →+ V)}
 
 include hp hA hpK hρ
 
+omit hρ in
 theorem eq_one_of_supported_of_fixed (hmax : IsMaxElem β ρ p 𝒮) (H : Hyperplane A p)
     (g : V ≃ₗ[K] V) (hg : ∀ x y, β (g x) (g y) = β x y) (hgp : ∀ v, (g ^ p) v = v)
     (hgA : ∀ a v, g (ρ a v) = ρ a (g v)) (hg𝒮 : ∀ s ∈ 𝒮, ∀ v, g (s v) = s (g v))
     (hgW : ∀ i : Option (Hyperplane A p), i ≠ some H → ∀ v ∈ weightFamily (p := p) ρ i, g v = v)
     {v₀ : V} (hv₀ : v₀ ∈ weightSpace ρ H.1) (hv₀0 : v₀ ≠ 0) (hfix : g v₀ = v₀) : g = 1 := by
   classical
-  haveI : Fintype (Hyperplane A p) := Fintype.ofFinite _
-  obtain ⟨a, ha, -⟩ := eq_rho_of_supported β ρ hp hA hpK hρ hmax H g hg hgp hgA hg𝒮 hgW
+  have : Fintype (Hyperplane A p) := Fintype.ofFinite _
+  obtain ⟨a, ha, -⟩ := eq_rho_of_supported β ρ hp hA hpK hmax H g hg hgp hgA hg𝒮 hgW
   have haH : a ∈ H.1 := by
     by_contra h
     exact hv₀0 (eq_zero_of_mem_weightSpace_of_fixed ρ hp hA hpK h hv₀ ((ha v₀).trans hfix))

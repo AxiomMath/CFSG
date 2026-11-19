@@ -20,7 +20,7 @@ theorem EGeom.EUniData.le_QB_iff (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) 
     (hB' : Ctx M Q Z B') (hC' : Ctx M Q Z C') {gB gC : V ≃ₗ[K] V} (hgB : d.IsPt B' gB)
     (hgC : d.IsPt C' gC) {n : ℕ} (hcard : Nat.card ↥(Q ⊓ QB B') = Nat.card Z ^ (n + 1))
     (hW : Nat.card (Wsp (Submodule.span K {p₀}) U₀) ≤ Nat.card K ^ n)
-    (hK : Nat.card K = Nat.card Z) (hp₀ : p₀ ≠ 0) (hU : ∀ u ∈ U₀, u p₀ = p₀) :
+    (hK : Nat.card K = Nat.card Z) (_hp₀ : p₀ ≠ 0) (hU : ∀ u ∈ U₀, u p₀ = p₀) :
     C' ≤ QB B' ↔ gB⁻¹ (gC p₀) ∈ Wsp (Submodule.span K {p₀}) U₀ := by
   have hWmap : Wsp (Submodule.span K {gB p₀}) (conjSub gB U₀) =
       (Wsp (Submodule.span K {p₀}) U₀).map (gB : V →ₗ[K] V) := by
@@ -57,6 +57,7 @@ theorem EGeom.EUniData.le_QB_iff (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) 
         ⟨hne, (hmemW (gC p₀)).mpr hmem⟩
       exact hQ.2
 
+omit [Finite K] in
 theorem EGeom.EUniData.le_normalizer_iff (hg : GlobalModelData M Q Z γ M₀)
     (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {B' C' : Subgroup G} (hB' : Ctx M Q Z B')
     (hC' : Ctx M Q Z C') {gB gC : V ≃ₗ[K] V} (hgB : d.IsPt B' gB) (hgC : d.IsPt C' gC)
@@ -74,6 +75,8 @@ theorem EGeom.EUniData.le_normalizer_iff (hg : GlobalModelData M Q Z γ M₀)
   rw [Ctx.le_normalizer_iff_comm hB' hC', d.comm_iff_beta hg hB' hC' hgB hgC hlam hform, key,
     neg_eq_zero]
 
+omit [Finite K] in
+omit [Finite G] in
 theorem EGeom.EUniData.exists_ctx_with_class (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀)
     (hB : Ctx M Q Z B) (hp₀ : p₀ ≠ 0) {B' : Subgroup G} {gB : V ≃ₗ[K] V} (hgB : d.IsPt B' gB)
     {g : V ≃ₗ[K] V} (hg : g ∈ Γ) :

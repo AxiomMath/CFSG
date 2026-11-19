@@ -67,7 +67,7 @@ theorem cs_eq_of_fixed (h : Hyp ρ V Z) {b : K} (hb : b ∈ (V : Subgroup K)) (h
     hne (hg ▸ Sylow.smul_eq_iff_mem_normalizer.2 hgn)
   have hbN : b ∈ normalizer (W : Set K) := Sylow.smul_eq_iff_mem_normalizer.1 hbW
   have hmem : b ∈ (V : Subgroup K) ⊓ normalizer (W : Set K) := ⟨hb, hbN⟩
-  rw [V.isPGroup'.inf_normalizer_sylow W] at hmem
+  rw [V.isPGroup.inf_normalizer_sylow W] at hmem
   exact hb1 (h.ti hgn b hb (hg ▸ hmem.2))
 
 theorem cs_dvd (h : Hyp ρ V Z) : 4 ∣ Nat.card (Sylow 2 K) - 1 := by

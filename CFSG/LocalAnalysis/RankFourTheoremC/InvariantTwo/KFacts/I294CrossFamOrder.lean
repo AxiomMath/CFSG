@@ -60,7 +60,7 @@ variable {p : ℕ} [hp : Fact p.Prime] {K : Type*} [Field K] [Finite K]
 theorem padicValNat_card_GL {n e : ℕ} (hp2 : Odd p) (hpK : ¬ p ∣ Nat.card K) (he : 0 < e)
     (hpe : ∀ j : ℕ, p ∣ Nat.card K ^ j - 1 ↔ e ∣ j) (hne : n / e < p) :
     padicValNat p (Nat.card (GL (Fin n) K)) = (n / e) * padicValNat p (Nat.card K ^ e - 1) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hq1 : 1 < Nat.card K := Finite.one_lt_card
   have hcard : Fintype.card K = Nat.card K := (Nat.card_eq_fintype_card).symm
   set q := Nat.card K with hq
@@ -83,12 +83,12 @@ theorem padicValNat_card_GL {n e : ℕ} (hp2 : Odd p) (hpK : ¬ p ∣ Nat.card K
     · exact one_ne_zero
   have hprod : ∏ i ∈ range n, (q ^ n - q ^ i) =
       ∏ i ∈ range n, (if i < n then q ^ n - q ^ i else 1) :=
-    Finset.prod_congr rfl fun i hi => by rw [if_pos (Finset.mem_range.1 hi)]
+    Finset.prod_congr rfl fun i hi => by rw [ite_eq_left (Finset.mem_range.1 hi)]
   rw [hprod, padicValNat_prod_range hne0]
   have hsum : ∑ i ∈ range n, padicValNat p (if i < n then q ^ n - q ^ i else 1) =
       ∑ i ∈ range n, padicValNat p (q ^ (n - i) - 1) :=
     Finset.sum_congr rfl fun i hi => by
-      rw [if_pos (Finset.mem_range.1 hi)]
+      rw [ite_eq_left (Finset.mem_range.1 hi)]
       exact hterm i hi
   rw [hsum, sum_range_sub_eq_sum_Ioc (fun j => padicValNat p (q ^ j - 1)) n]
   have hval : ∀ j ∈ Ioc 0 n, padicValNat p (q ^ j - 1) =

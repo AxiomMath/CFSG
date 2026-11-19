@@ -20,6 +20,7 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem r40_comm_le_iff (g : G) {A B A' B' : Subgroup G}
     (hA : A.map (MulAut.conj g).toMonoidHom = A') (hB : B.map (MulAut.conj g).toMonoidHom = B') :
     ⁅A', B'⁆ ≤ A' ⊓ B' ↔ ⁅A, B⁆ ≤ A ⊓ B := by
@@ -27,6 +28,7 @@ private theorem r40_comm_le_iff (g : G) {A B A' B' : Subgroup G}
   rw [← Subgroup.map_commutator, ← Subgroup.map_inf_eq _ _ _ (MulAut.conj g).injective,
     Subgroup.map_le_map_iff_of_injective (MulAut.conj g).injective]
 
+omit [Finite G] in
 private theorem r40_comm_eq_bot_iff (g : G) {A B A' B' : Subgroup G}
     (hA : A.map (MulAut.conj g).toMonoidHom = A') (hB : B.map (MulAut.conj g).toMonoidHom = B') :
     ⁅A', B'⁆ = ⊥ ↔ ⁅A, B⁆ = ⊥ := by
@@ -34,11 +36,13 @@ private theorem r40_comm_eq_bot_iff (g : G) {A B A' B' : Subgroup G}
   rw [← Subgroup.map_commutator]
   exact Subgroup.map_eq_bot_iff_of_injective _ (MulAut.conj g).injective
 
+omit [Finite G] in
 private theorem r40_map_Zv_tau {i j : ℤ} (k : ℤ) (h : i + 2 * k = j) :
     (t.Zv i).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom = t.Zv j := by
   subst h
   exact map_qv_tau_pow i k
 
+omit [Finite G] in
 private theorem r40_map_Gv {c : ℤ} {y : G}
     (hGw : ∀ u w : ℤ, (t.Gw u w).map (MulAut.conj y).toMonoidHom = t.Gw (2 * c - w) (2 * c - u))
     (i : ℤ) : (t.Gv i).map (MulAut.conj y).toMonoidHom = t.Gv (2 * c - i) := by
@@ -46,31 +50,37 @@ private theorem r40_map_Gv {c : ℤ} {y : G}
   rwa [show t.Gw i i = t.Gv i from win_self i,
     show t.Gw (2 * c - i) (2 * c - i) = t.Gv (2 * c - i) from win_self _] at h
 
+omit [Finite G] in
 private theorem r40_isMaxArc_idx {u u' : ℤ} {n : ℕ} (h : t.IsMaxArc u n) (hu : u = u') :
     t.IsMaxArc u' n := by
   subst hu
   exact h
 
+omit [Finite G] in
 private theorem r40_isFixRadius_idx {v v' : ℤ} {b : ℕ} (h : t.IsFixRadius v b) (hv : v = v') :
     t.IsFixRadius v' b := by
   subst hv
   exact h
 
+omit [Finite G] in
 private theorem r40_Zv_le_Gw {i u w u' w' : ℤ} (h : t.Zv i ≤ t.Gw u w) (hu : u = u')
     (hw : w = w') : t.Zv i ≤ t.Gw u' w' := by
   subst hu hw
   exact h
 
+omit [Finite G] in
 private theorem r40_not_le_Gv {i j j' : ℤ} (h : ¬ t.Zv i ≤ t.Gv j) (hj : j = j') :
     ¬ t.Zv i ≤ t.Gv j' := by
   subst hj
   exact h
 
+omit [Finite G] in
 private theorem r40_pCore_eq_bot {u w u' w' : ℤ} (h : pCoreOf 2 (t.Gw u w) = ⊥) (hu : u = u')
     (hw : w = w') : pCoreOf 2 (t.Gw u' w') = ⊥ := by
   subst hu hw
   exact h
 
+omit [Finite G] in
 private theorem r40_isFixRadius_reflect {c : ℤ} {y : G}
     (hGw : ∀ u w : ℤ, (t.Gw u w).map (MulAut.conj y).toMonoidHom = t.Gw (2 * c - w) (2 * c - u))
     (hZ : ∀ i : ℤ, (t.Zv i).map (MulAut.conj y).toMonoidHom = t.Zv (2 * c - i))
@@ -95,7 +105,7 @@ private theorem r40_card_pCoreOf {a f : ℕ} (hfr : Frame L1 L2 S a f)
   subst hw
   have h1 := Track.IsMaxArc.card_omegaOneCenterOf t hfr h (e := u) (Or.inl rfl)
   have h2 := Track.IsMaxArc.card_pCoreOf_le t hfr h (e := u) (Or.inl rfl)
-  rw [if_neg hu] at h1 h2
+  rw [ite_eq_right hu] at h1 h2
   have heq : omegaOneCenterOf (pCoreOf 2 (t.Gw u (u + n))) = pCoreOf 2 (t.Gw u (u + n)) :=
     Subgroup.eq_of_le_of_card_ge (A4.omegaOneCenterOf_le _) (by rw [h1]; exact h2)
   refine ⟨heq ▸ h1, fun X hXQ hX hXK => le_antisymm hXQ ?_⟩
@@ -111,6 +121,7 @@ private theorem r40_numbers {a f : ℕ}
   obtain ⟨v, hv⟩ := hb₁
   omega
 
+omit [Finite G] in
 private theorem r40_hwlog {ε c : ℤ} {m : ℕ} (hc : ε + 1 = 2 * c) (h : t.IsMaxArc ε (2 * m))
     (hb : ¬ t.IsMaxArc (ε + 1) (2 * m)) :
     ∀ k : ℤ, pCoreOf 2 (t.Gw (2 * k - 2 * m) (2 * k)) = ⊥ := by

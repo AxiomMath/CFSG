@@ -62,7 +62,7 @@ theorem enumOK_letters {ws : List (List (ℕ × ℕ))} {L : List (List ℕ)}
   intro w hw l hl
   simpa using h.1.1.1 w hw l hl
 
-theorem enumOK_nodup {ws : List (List (ℕ × ℕ))} (hv : ∀ w ∈ ws, swapsOK n w = true)
+theorem enumOK_nodup {ws : List (List (ℕ × ℕ))} (_hv : ∀ w ∈ ws, swapsOK n w = true)
     {L : List (List ℕ)} (h : enumOK n (ws.map (swapsArr n)) L = true) :
     (L.map (wordArr n (ws.map (swapsArr n)))).Nodup := by
   have h' := h

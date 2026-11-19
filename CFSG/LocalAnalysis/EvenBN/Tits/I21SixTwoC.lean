@@ -87,22 +87,30 @@ variable {G : Type} [Group G] [Finite G] {t u x u₀ : G} {P T : Subgroup G}
 
 include hsh
 
+omit [Finite G] in
 theorem shape_x_order : orderOf x = 4 := by simpa using hsh.ord_x
 
+omit [Finite G] in
 theorem shape_x_sq : x ^ 2 = u ^ 2 := by simpa using hsh.z_eq
 
+omit [Finite G] in
 theorem shape_x_pow_four : x ^ 4 = 1 := by
   rw [← shape_x_order hsh]; exact pow_orderOf_eq_one x
 
+omit [Finite G] in
 theorem shape_u₀_pow_four : u₀ ^ 4 = 1 := by
   rw [← hsh.ord_u]; exact pow_orderOf_eq_one u₀
 
+omit [Finite G] in
 theorem shape_t_mem : t ∈ T := by rw [hsh.T_eq]; exact subset_closure (by simp)
 
+omit [Finite G] in
 theorem shape_x_mem : x ∈ T := by rw [hsh.T_eq]; exact subset_closure (by simp)
 
+omit [Finite G] in
 theorem shape_u₀_mem : u₀ ∈ T := by rw [hsh.T_eq]; exact subset_closure (by simp)
 
+omit [Finite G] in
 theorem shape_D_normal {p d : G} (hp : p ∈ P) (hd : d ∈ closure ({t, x} : Set G)) :
     p * d * p⁻¹ ∈ closure ({t, x} : Set G) := by
   rw [← hsh.D_eq] at hd ⊢
@@ -121,6 +129,7 @@ theorem shape_D_normal {p d : G} (hp : p ∈ P) (hd : d ∈ closure ({t, x} : Se
     rw [e]
     exact inv_mem ha
 
+omit [Finite G] in
 theorem shape_u₀_not_mem (h : SecTwoHyp G t u) : u₀ ∉ zpowers x := by
   intro hmem
   have hD : zpowers x ≤ closure ({t, x} : Set G) := (zpowers_le).mpr (subset_closure (by simp))
@@ -131,15 +140,18 @@ theorem shape_u₀_not_mem (h : SecTwoHyp G t u) : u₀ ∉ zpowers x := by
     rw [hi', ← pow_mul, mul_comm, pow_mul, h.z_sq, one_pow]
   exact h.z_ne_one (hsh.sq_u.symm.trans this)
 
+omit [Finite G] in
 theorem shape_q_sq (h : SecTwoHyp G t u) : (t * u₀) ^ 2 = x ^ 2 := by
   rw [(show Commute t u₀ from hsh.comm_ut.symm).mul_pow, h.t_sq, one_mul, hsh.sq_u,
     shape_x_sq hsh]
 
+omit [Finite G] in
 theorem shape_q_conj : (t * u₀) * x * (t * u₀)⁻¹ = x⁻¹ := by
   calc (t * u₀) * x * (t * u₀)⁻¹ = t * (u₀ * x * u₀⁻¹) * t⁻¹ := by group
     _ = t * x * t⁻¹ := by rw [mul_inv_eq_iff_eq_mul.mpr hsh.comm_ux]
     _ = x⁻¹ := hsh.inv_x
 
+omit [Finite G] in
 theorem shape_q_not_mem (h : SecTwoHyp G t u) : t * u₀ ∉ zpowers x := by
   intro hmem
   obtain ⟨k, hk⟩ := mem_zpowers_iff.mp hmem
@@ -150,6 +162,7 @@ theorem shape_q_not_mem (h : SecTwoHyp G t u) : t * u₀ ∉ zpowers x := by
   rw [← shape_x_sq hsh, pow_two]
   exact inv_eq_iff_mul_eq_one.mp h1
 
+omit [Finite G] in
 theorem shape_t_q_comm : t * (t * u₀) = (t * u₀) * t := by
   calc t * (t * u₀) = t * (u₀ * t) := by rw [hsh.comm_ut]
     _ = (t * u₀) * t := by rw [mul_assoc]
@@ -164,6 +177,7 @@ variable {G : Type} [Group G] [Finite G] {t u x u₀ : G} {P T : Subgroup G}
 
 include h hP hRP hsh
 
+omit hsh in
 theorem shape_z_conj {g : G} (hg : g ∈ P) : g * u ^ 2 * g⁻¹ = u ^ 2 :=
   mul_inv_eq_iff_eq_mul.mpr (h.z_mem_center hP hRP hg)
 
@@ -194,7 +208,7 @@ theorem shape_action_t {m : G} (hmP : m ∈ P) (hmT : m ∉ T) :
     · apply h.sq_ne
       have h3 : m * t * m⁻¹ = u ^ 2 := by rw [hi', hxz]
       have h4 : m * t = u ^ 2 * m := mul_inv_eq_iff_eq_mul.mp h3
-      have h5 : m * u ^ 2 = u ^ 2 * m := mul_inv_eq_iff_eq_mul.mp (shape_z_conj h hP hRP hsh hmP)
+      have h5 : m * u ^ 2 = u ^ 2 * m := mul_inv_eq_iff_eq_mul.mp (shape_z_conj h hP hRP hmP)
       exact (mul_left_cancel (h4.trans h5.symm)).symm
   · obtain ⟨i, hi, rfl⟩ := exists_pow_lt_of_mem_zpowers (by norm_num) hx4' hρ
     refine ⟨i, ?_, hg⟩
@@ -231,7 +245,7 @@ theorem shape_action_x {m : G} (hmP : m ∈ P) :
   have hD : m * x * m⁻¹ ∈ closure ({t, x} : Set G) :=
     shape_D_normal hsh hmP (subset_closure (by simp))
   have hsq : (m * x * m⁻¹) ^ 2 = x ^ 2 := by
-    rw [conj_pow, hxz]; exact shape_z_conj h hP hRP hsh hmP
+    rw [conj_pow, hxz]; exact shape_z_conj h hP hRP hmP
   rcases D_cases hsh.inv_x h.t_sq hD with hg | ⟨ρ, hρ, hg⟩
   · obtain ⟨i, hi, hi'⟩ := exists_pow_lt_of_mem_zpowers (by norm_num) hx4' hg
     rw [hi', ← pow_mul] at hsq
@@ -250,7 +264,7 @@ theorem shape_action_u₀ {m : G} (hmP : m ∈ P) :
   have hu₀4' := shape_u₀_pow_four hsh
   have hmem : m * u₀ * m⁻¹ ∈ zpowers u₀ := hsh.U_norm m hmP u₀ (mem_zpowers u₀)
   have hsq : (m * u₀ * m⁻¹) ^ 2 = u₀ ^ 2 := by
-    rw [conj_pow, hsh.sq_u]; exact shape_z_conj h hP hRP hsh hmP
+    rw [conj_pow, hsh.sq_u]; exact shape_z_conj h hP hRP hmP
   obtain ⟨i, hi, hi'⟩ := exists_pow_lt_of_mem_zpowers (by norm_num) hu₀4' hmem
   rw [hi', ← pow_mul] at hsq
   have h1 : (i * 2) % 4 = 2 % 4 := (pow_eq_pow_iff_of_orderOf_four hsh.ord_u).mp hsq
@@ -259,7 +273,7 @@ theorem shape_action_u₀ {m : G} (hmP : m ∈ P) :
   · left; rw [hi', pow_one]
   · right; rw [hi', inv_eq_pow_three hu₀4']
 
-theorem shape_action_q {m : G} (hmP : m ∈ P) {ε : ℕ} (hε : ε % 2 = 1)
+theorem shape_action_q {m : G} (_hmP : m ∈ P) {ε : ℕ} (hε : ε % 2 = 1)
     (hmt : m * t * m⁻¹ = x ^ ε * t) (hmu : m * u₀ * m⁻¹ = u₀ ∨ m * u₀ * m⁻¹ = u₀⁻¹) :
     ∃ κ : ℕ, κ % 2 = 1 ∧ m * (t * u₀) * m⁻¹ = x ^ κ * (t * u₀) := by
   have e : m * (t * u₀) * m⁻¹ = (m * t * m⁻¹) * (m * u₀ * m⁻¹) := by group
@@ -273,7 +287,7 @@ theorem shape_action_q {m : G} (hmP : m ∈ P) {ε : ℕ} (hε : ε % 2 = 1)
     have hqP : t * u₀ ∈ P := mul_mem (hsh.T_le (shape_t_mem hsh)) (hsh.T_le (shape_u₀_mem hsh))
     have hzq : (t * u₀) * x ^ 2 = x ^ 2 * (t * u₀) := by
       rw [shape_x_sq hsh]
-      exact mul_inv_eq_iff_eq_mul.mp (shape_z_conj h hP hRP hsh hqP)
+      exact mul_inv_eq_iff_eq_mul.mp (shape_z_conj h hP hRP hqP)
     calc m * (t * u₀) * m⁻¹ = (m * t * m⁻¹) * (m * u₀ * m⁻¹) := e
       _ = x ^ ε * t * (u₀ * x ^ 2) := by rw [hmt, hu, hu']
       _ = x ^ ε * ((t * u₀) * x ^ 2) := by group
@@ -290,7 +304,7 @@ open Subgroup CFSG.Open CFSG.LocalAnalysis.EvenBN.Tits.I21.SixTwoC
 
 variable {G : Type} [Group G] [Finite G] {t u x : G}
 
-theorem sec622_six_two_c (h : SecTwoHyp G t u) {L : Subgroup G} (hLn : L.Normal)
+theorem sec622_six_two_c (h : SecTwoHyp G t u) {L : Subgroup G} (_hLn : L.Normal)
     (htL : t ∉ L) {P : Subgroup G} (hP : IsPGroup 2 P) (hRP : secTwoR t u ≤ P)
     (hPL : (P ⊓ L).relIndex P = 2) {T : Subgroup G} {x u₀ : G}
     (hsh : TwoGroupShape P t (u ^ 2) 3 x u₀ T) (hTP : T ≠ P)

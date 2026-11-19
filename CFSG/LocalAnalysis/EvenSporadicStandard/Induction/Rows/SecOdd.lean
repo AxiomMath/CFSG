@@ -19,7 +19,7 @@ theorem not_twoSubgroupsAbelian_of_sylow_le {Q : Type} [Group Q] [Finite Q] {M :
   intro h
   obtain ⟨x, hx, y, hy, hxy⟩ := hS
   have hP : IsPGroup 2 ↥((S : Subgroup Q).subgroupOf M) :=
-    S.isPGroup'.of_injective (Subgroup.subgroupOfEquivOfLe hSM).toMonoidHom
+    S.isPGroup.of_injective (Subgroup.subgroupOfEquivOfLe hSM).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hSM).injective
   have := h _ hP ⟨x, hSM hx⟩ (mem_subgroupOf.2 hx) ⟨y, hSM hy⟩ (mem_subgroupOf.2 hy)
   exact hxy (congrArg Subtype.val this)

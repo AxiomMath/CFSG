@@ -74,13 +74,13 @@ theorem sp_two_le_of_shortRoot {m g : ℕ}
 theorem exists_shortRoot_psuFour_two {Jb : Type} [Group Jb] [Finite Jb]
     (hJ : LieModel (Jb ⧸ Subgroup.center Jb) .PSU 4 2 1)
     {rb : Jb ⧸ Subgroup.center Jb} {Vb : Subgroup (Jb ⧸ Subgroup.center Jb)}
-    (hPos : RCKPosShort Jb rb Vb) (hrb : rb ≠ 1) :
+    (hPos : RCKPosShort Jb rb Vb) (_hrb : rb ≠ 1) :
     ∃ (β : Fin (ggU .PSU 4 1).D.rank → ℤ) (R : Subgroup Jb),
       β ∈ (ggU .PSU 4 1).D.roots ∧ ¬ GGLongRoot (ggU .PSU 4 1).D β ∧
         2 • β ∉ (ggU .PSU 4 1).D.roots ∧
           CFSG.StandardType.S2MathFi1035Pos.GGRootVia (ggU .PSU 4 1) ⊤ R β ∧
             rb ∈ R.map (QuotientGroup.mk' (Subgroup.center Jb)) := by
-  obtain ⟨t', m, g, β, R, htag, hg1, hβ, hlong, h2β, hvia, hrb⟩ := hPos
+  obtain ⟨t', m, g, β, R, htag, hg1, hβ, hlong, h2β, hvia, _hrb⟩ := hPos
   have hvia' := hvia
   obtain ⟨φ, hφrange, hφker, u, huR⟩ := hvia
   have hTag : GGPosTag t' := by
@@ -92,7 +92,7 @@ theorem exists_shortRoot_psuFour_two {Jb : Type} [Group Jb] [Finite Jb]
       simp only [ggU, lieUniversal]
     rw [hK, CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.card_statedSp_two]
     have hF : Nat.card (GaloisField 2 1) = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       rw [GaloisField.card 2 1 (by norm_num : (1 : ℕ) ≠ 0)]
       norm_num
     rw [hF]
@@ -121,7 +121,7 @@ theorem exists_shortRoot_psuFour_two {Jb : Type} [Group Jb] [Finite Jb]
       have hle : Nat.card Jb ≤ 720 := Nat.le_of_dvd (by norm_num) hdvd
       have hmul := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center Jb)
       rw [hcardq] at hmul
-      haveI : Nonempty ↥(Subgroup.center Jb) := ⟨⟨1, Subgroup.one_mem _⟩⟩
+      have : Nonempty ↥(Subgroup.center Jb) := ⟨⟨1, Subgroup.one_mem _⟩⟩
       have hge : 25920 ≤ Nat.card Jb := by
         rw [hmul]
         exact Nat.le_mul_of_pos_right 25920 Nat.card_pos
@@ -145,7 +145,7 @@ theorem exists_shortRoot_psuFour_two {Jb : Type} [Group Jb] [Finite Jb]
   subst t'
   subst m
   subst g
-  exact ⟨β, R, hβ, hlong, h2β, hvia', hrb⟩
+  exact ⟨β, R, hβ, hlong, h2β, hvia', _hrb⟩
 
 theorem rckSpSiegel_of_shortAt_model
     {Jb : Type} [Group Jb] [Finite Jb] {m : ℕ} (hm : 3 ≤ m)
@@ -190,14 +190,14 @@ theorem rckSpSiegel_of_shortAt_model
       simp only [ggU, lieUniversal]
     rw [hK, CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.card_statedSp_two]
     have hF : Nat.card (GaloisField 2 1) = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       rw [GaloisField.card 2 1 (by norm_num : (1 : ℕ) ≠ 0)]
       norm_num
     rw [hF]
     norm_num
   have hSpLower : 720 < Nat.card ↥(StatedSp m (GaloisField 2 1)) := by
     have hKsp : Nat.card (GaloisField 2 1) = 2 ^ 1 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       rw [GaloisField.card 2 1 (by norm_num : (1 : ℕ) ≠ 0)]
     have hcard := CFSG.RankThree.GF2n.Smith81.Insp.KFact.card_statedSp_eq_ordBC
       (K := GaloisField 2 1) (f := 1) le_rfl hKsp m
@@ -245,7 +245,7 @@ theorem rckSpSiegel_of_shortAt_model
     have hm2 : m = 2 := (Prod.mk.inj h).1
     omega
   have hKspCard : Nat.card (GaloisField 2 1) = 2 ^ 1 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [GaloisField.card 2 1 (by norm_num : (1 : ℕ) ≠ 0)]
   have hSCquot : StatedClassicalModel
       (↥(StatedSp m (GaloisField 2 1)) ⧸

@@ -326,7 +326,7 @@ theorem isDihedral_inf_Jx {x : G} {T : Subgroup G} {q : ℕ}
     intro a ha
     have ha' : π (a : ↥(Jx x)) = 1 := ha
     have hO : (a : ↥(Jx x)) ∈ pPrimeCore 2 ↥(Jx x) := (QuotientGroup.eq_one_iff _).1 ha'
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Q.isPGroup' a
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Q.isPGroup a
     have hd1 : orderOf (a : ↥(Jx x)) ∣ Nat.card ↥(pPrimeCore 2 ↥(Jx x)) :=
       Subgroup.orderOf_dvd_natCard _ hO
     have hd2 : orderOf (a : ↥(Jx x)) = 2 ^ k := (Subgroup.orderOf_coe a).trans hk

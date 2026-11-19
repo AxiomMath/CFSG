@@ -18,9 +18,11 @@ namespace KuHyp
 
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem H_le_kuN (h : KuHyp G T M H P z) : H ≤ kuN P H :=
   h.H_le_normalizer_kuA
 
+omit [Finite G] in
 theorem T_le_kuN (h : KuHyp G T M H P z) : T ≤ kuN P H :=
   h.tH.trans h.H_le_kuN
 

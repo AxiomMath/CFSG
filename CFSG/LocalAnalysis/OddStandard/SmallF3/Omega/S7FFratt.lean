@@ -25,7 +25,7 @@ theorem s7f_mem_normalizer_of_conj_le [Finite G] {H : Subgroup G} {c : G}
 
 theorem s7f_eq_one_of_mem_oddCore [Finite G] {E K : Subgroup G} (hE : IsPGroup 2 E) {x : G}
     (hxE : x ∈ E) (hxO : x ∈ oddCoreIn K) : x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : ¬ 2 ∣ Nat.card (oddCoreIn K) := fun h2 =>
     (Nat.not_even_iff_odd.mpr (odd_card_oddCoreIn K)) (even_iff_two_dvd.mpr h2)
   exact Subgroup.disjoint_def.mp (TauCeti.disjoint_of_not_dvd_natCard_of_isPGroup hodd hE) hxO hxE

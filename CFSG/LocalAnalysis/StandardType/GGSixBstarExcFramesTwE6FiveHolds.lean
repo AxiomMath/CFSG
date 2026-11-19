@@ -23,7 +23,7 @@ theorem twistedE6FiveRefFrame_holds : TwistedE6FiveRefFrame := by
   intro f hf h5
   obtain ⟨ζK, hζ, g₀, T, ι₀, hζKord, hg₀C, hι₀, hbase, hTcomm, hrangeT, htors, hcardT, hcent,
     haut⟩ := exists_fiveLangFrame_aut hf h5
-  letI modulePi : Module (ZMod 5) (Fin 6 → ZMod 5) := inferInstance
+  let modulePi : Module (ZMod 5) (Fin 6 → ZMod 5) := inferInstance
   have hXel : IsElemAbelian 5 ι₀.range :=
     @NoOffE8Five.isElemAbelian_range_of_module 5 (Fact.mk Nat.prime_five)
       (Fin 6 → ZMod 5) ↥(graphFixedRootGroup TwistTag.E6
@@ -49,9 +49,9 @@ theorem twistedE6FiveSCUnique_holds : TwistedE6FiveSCUnique := by
   intro f hf h5 A A' hA hA4 hSC hA' hA4' hSC'
   obtain ⟨ζK, hζ, g₀, T, ι₀, hζKord, hg₀C, hι₀, hbase, hTcomm, hrangeT, htors, hcardT, hcent,
     haut⟩ := exists_fiveLangFrame_aut hf h5
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : NeZero (5 : ℕ) := ⟨by norm_num⟩
-  letI modulePi : Module (ZMod 5) (Fin 6 → ZMod 5) := inferInstance
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : NeZero (5 : ℕ) := ⟨by norm_num⟩
+  let modulePi : Module (ZMod 5) (Fin 6 → ZMod 5) := inferInstance
   have hXel : IsElemAbelian 5 ι₀.range :=
     @NoOffE8Five.isElemAbelian_range_of_module 5 (Fact.mk Nat.prime_five)
       (Fin 6 → ZMod 5) ↥(graphFixedRootGroup TwistTag.E6

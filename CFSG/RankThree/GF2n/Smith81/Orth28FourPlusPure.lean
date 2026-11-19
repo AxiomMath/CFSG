@@ -119,8 +119,8 @@ theorem pure3_update_eq {v : Fin 3 → Fin 2 → K} (hv : ∀ l, v l ≠ 0) {i j
       rw [Function.update_of_ne this]
     have hwR := hrest i (Or.inl rfl)
     have hw'R := hrest j (Or.inr rfl)
-    simp only [if_true] at hwR
-    rw [if_neg hij.symm] at hw'R
+    simp only [ite_true] at hwR
+    rw [ite_eq_right hij.symm] at hw'R
     rw [hwR, hw'R, hRx] at e1
     simp only [hxi, hxj, Function.update_self, Function.update_of_ne hij,
       Function.update_of_ne hij.symm] at e1

@@ -34,7 +34,7 @@ theorem wt_le {k : ℕ} (e : Coords k) : wt e ≤ k := by
 
 theorem card_support {n : ℕ} (v : Fin (n + 1) → ZMod 3) :
     (support v).card = wt (fun i : Fin n => v i.succ) := by
-  rw [support, Fin.card_filter_univ_succ, if_neg (by simp)]
+  rw [support, Fin.card_filter_univ_succ, ite_eq_right (by simp)]
   simp [wt]
 
 theorem card_initSeg {n k : ℕ} (hk : k ≤ n) : (initSeg n k).card = k := by
@@ -140,9 +140,9 @@ theorem prod_support_mul_self {n : ℕ} {v : Fin (n + 1) → ZMod 3}
   rw [← Finset.prod_mul_distrib]
   refine Finset.prod_eq_one fun x _ => ?_
   by_cases hx : x ∈ S
-  · rw [if_pos hx]
+  · rw [ite_eq_left hx]
     exact mul_self_of_ne_zero ((hmemS x).mp hx).2
-  · rw [if_neg hx]
+  · rw [ite_eq_right hx]
     rfl
 
 theorem mem_iff_ne_zero_of_card {n : ℕ} {S : Finset (Fin (n + 1))}
@@ -161,8 +161,8 @@ theorem prod_support_eq_prod_succ {n : ℕ} {v : Fin (n + 1) → ZMod 3}
     {S : Finset (Fin (n + 1))} (h0S : (0 : Fin (n + 1)) ∉ S)
     (hS : ∀ x, x ∈ S ↔ x ≠ 0) :
     (∏ x, (if x ∈ S then v x else 1)) = ∏ i : Fin n, v i.succ := by
-  rw [Fin.prod_univ_succ (n := n), if_neg h0S, one_mul]
-  exact Finset.prod_congr rfl fun i _ => if_pos ((hS _).mpr (Fin.succ_ne_zero i))
+  rw [Fin.prod_univ_succ (n := n), ite_eq_right h0S, one_mul]
+  exact Finset.prod_congr rfl fun i _ => ite_eq_left ((hS _).mpr (Fin.succ_ne_zero i))
 
 theorem sign_isSign {n : ℕ} {v : Fin (n + 1) → ZMod 3}
     {S : Finset (Fin (n + 1))} {j₀ : Fin (n + 1)} {P : ZMod 3}
@@ -171,19 +171,19 @@ theorem sign_isSign {n : ℕ} {v : Fin (n + 1) → ZMod 3}
   intro x
   unfold sign
   by_cases hx : x = 0
-  · rw [if_pos hx]
+  · rw [ite_eq_left hx]
     by_cases hv : v 0 = 0
-    · rw [if_pos hv]; exact Or.inl rfl
-    · rw [if_neg hv]; exact eq_one_or_of_ne_zero hv
-  · rw [if_neg hx]
+    · rw [ite_eq_left hv]; exact Or.inl rfl
+    · rw [ite_eq_right hv]; exact eq_one_or_of_ne_zero hv
+  · rw [ite_eq_right hx]
     have h1 : (if x ∈ S then v x else 1) = 1 ∨ (if x ∈ S then v x else 1) = -1 := by
       by_cases hxS : x ∈ S
-      · rw [if_pos hxS]; exact eq_one_or_of_ne_zero ((hmemS x).mp hxS).2
-      · rw [if_neg hxS]; exact Or.inl rfl
+      · rw [ite_eq_left hxS]; exact eq_one_or_of_ne_zero ((hmemS x).mp hxS).2
+      · rw [ite_eq_right hxS]; exact Or.inl rfl
     have h2 : (if x = j₀ then P else 1) = 1 ∨ (if x = j₀ then P else 1) = -1 := by
       by_cases hxj : x = j₀
-      · rw [if_pos hxj]; exact hP
-      · rw [if_neg hxj]; exact Or.inl rfl
+      · rw [ite_eq_left hxj]; exact hP
+      · rw [ite_eq_right hxj]; exact Or.inl rfl
     rcases h1 with h1 | h1 <;> rcases h2 with h2 | h2 <;> rw [h1, h2] <;> decide
 
 theorem prod_sign {n : ℕ} {v : Fin (n + 1) → ZMod 3}
@@ -193,27 +193,27 @@ theorem prod_sign {n : ℕ} {v : Fin (n + 1) → ZMod 3}
     ∏ i : Fin n, sign v S j₀ P i.succ = 1 := by
   have e : ∏ i : Fin n, sign v S j₀ P i.succ =
       ∏ x : Fin (n + 1), ((if x ∈ S then v x else 1) * (if x = j₀ then P else 1)) := by
-    rw [Fin.prod_univ_succ (n := n), if_neg h0S, if_neg (Ne.symm hj₀0), one_mul, one_mul]
+    rw [Fin.prod_univ_succ (n := n), ite_eq_right h0S, ite_eq_right (Ne.symm hj₀0), one_mul, one_mul]
     exact Finset.prod_congr rfl fun i _ => by
       unfold sign
-      rw [if_neg (Fin.succ_ne_zero i)]
+      rw [ite_eq_right (Fin.succ_ne_zero i)]
   rw [e, Finset.prod_mul_distrib, ← hP, Finset.prod_ite_eq' Finset.univ j₀,
-    if_pos (Finset.mem_univ _), hPP]
+    ite_eq_left (Finset.mem_univ _), hPP]
 
 theorem sign_mul_apply_of_ne_zero {n : ℕ} {v : Fin (n + 1) → ZMod 3}
     {S : Finset (Fin (n + 1))} {j₀ : Fin (n + 1)} {P : ZMod 3}
     (hmemS : ∀ i, i ∈ S ↔ i ≠ 0 ∧ v i ≠ 0) {x : Fin (n + 1)} (hx : x ≠ 0) :
     sign v S j₀ P x * v x = if x ∈ S then (if x = j₀ then P else 1) else 0 := by
   unfold sign
-  rw [if_neg hx]
+  rw [ite_eq_right hx]
   by_cases hxS : x ∈ S
-  · rw [if_pos hxS, if_pos hxS]
+  · rw [ite_eq_left hxS, ite_eq_left hxS]
     have hv : v x ≠ 0 := ((hmemS x).mp hxS).2
     calc (v x * (if x = j₀ then P else 1)) * v x
         = (v x * v x) * (if x = j₀ then P else 1) := by ring
       _ = 1 * (if x = j₀ then P else 1) := by rw [mul_self_of_ne_zero hv]
       _ = _ := one_mul _
-  · rw [if_neg hxS, if_neg hxS]
+  · rw [ite_eq_right hxS, ite_eq_right hxS]
     have hv : v x = 0 := by
       by_contra h
       exact hxS ((hmemS x).mpr ⟨hx, h⟩)
@@ -223,10 +223,10 @@ theorem sign_mul_apply_zero {n : ℕ} {v : Fin (n + 1) → ZMod 3}
     {S : Finset (Fin (n + 1))} {j₀ : Fin (n + 1)} {P : ZMod 3} :
     sign v S j₀ P 0 * v 0 = if decide (v 0 = 0) then 0 else 1 := by
   unfold sign
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
   by_cases hv : v 0 = 0
-  · rw [if_pos hv, hv, mul_zero, if_pos (by simp)]
-  · rw [if_neg hv, if_neg (by simpa using hv)]
+  · rw [ite_eq_left hv, hv, mul_zero, ite_eq_left (by simp)]
+  · rw [ite_eq_right hv, ite_eq_right (by simpa using hv)]
     exact mul_self_of_ne_zero hv
 
 theorem sign_mul_apply_eq_rep_of_ne_zero {n k : ℕ} (hkle : k ≤ n)
@@ -243,10 +243,10 @@ theorem sign_mul_apply_eq_rep_of_ne_zero {n k : ℕ} (hkle : k ≤ n)
   have hiy : σ (σ.symm i) = i := Equiv.apply_symm_apply σ i
   rw [sign_mul_apply_of_ne_zero hmemS hy]
   unfold evenN0Rep
-  rw [if_neg hi]
+  rw [ite_eq_right hi]
   by_cases hyS : σ.symm i ∈ S
   · have hiT : i ∈ T := hiy ▸ (hσS _).mp hyS
-    rw [if_pos hyS, if_pos ((hmemT i).mp hiT).2]
+    rw [ite_eq_left hyS, ite_eq_left ((hmemT i).mp hiT).2]
     by_cases hyj : σ.symm i = j₀
     · have hlast : σ j₀ = Fin.last n := hj₀S (hyj ▸ hyS)
       have hi_last : i = Fin.last n := by rw [← hiy, hyj, hlast]
@@ -254,9 +254,9 @@ theorem sign_mul_apply_eq_rep_of_ne_zero {n k : ℕ} (hkle : k ≤ n)
         have hle : (i : ℕ) ≤ k := ((hmemT i).mp hiT).2
         have hval : (i : ℕ) = n := by rw [hi_last]; simp
         omega
-      rw [if_pos hyj, if_pos (by rw [hi_last]; simp)]
+      rw [ite_eq_left hyj, ite_eq_left (by rw [hi_last]; simp)]
       exact hPeps hk
-    · rw [if_neg hyj, if_neg]
+    · rw [ite_eq_right hyj, ite_eq_right]
       intro hval
       have hi_last : i = Fin.last n := Fin.ext (by simpa using hval)
       have hk : k = n := by
@@ -264,7 +264,7 @@ theorem sign_mul_apply_eq_rep_of_ne_zero {n k : ℕ} (hkle : k ≤ n)
         omega
       exact hyj (by rw [hi_last, ← hj₀n hk, Equiv.symm_apply_apply])
   · have hiT : i ∉ T := fun h => hyS ((hσS _).mpr (hiy.symm ▸ h))
-    rw [if_neg hyS, if_neg]
+    rw [ite_eq_right hyS, ite_eq_right]
     intro hle
     have h1 : 1 ≤ (i : ℕ) := Nat.one_le_iff_ne_zero.mpr fun h => hi (Fin.ext h)
     exact hiT ((hmemT i).mpr ⟨h1, hle⟩)
@@ -279,8 +279,8 @@ theorem exists_mulVec_eq_rep_zero (v : Fin 1 → ZMod 3) :
     fin_cases i
     dsimp only [s]
     by_cases hv : v 0 = 0
-    · rw [if_pos hv]; exact Or.inl rfl
-    · rw [if_neg hv]; exact eq_one_or_of_ne_zero hv
+    · rw [ite_eq_left hv]; exact Or.inl rfl
+    · rw [ite_eq_right hv]; exact eq_one_or_of_ne_zero hv
   · rw [spMat_mulVec]
     funext i
     have hi : i = 0 := Fin.ext (by
@@ -290,10 +290,10 @@ theorem exists_mulVec_eq_rep_zero (v : Fin 1 → ZMod 3) :
     dsimp only [s]
     rw [show ((1 : Equiv.Perm (Fin 1))).symm 0 = 0 from rfl]
     by_cases hv : v 0 = 0
-    · rw [if_pos hv, hv, mul_zero]
+    · rw [ite_eq_left hv, hv, mul_zero]
       unfold evenN0Rep
       simp
-    · rw [if_neg hv, mul_self_of_ne_zero hv]
+    · rw [ite_eq_right hv, mul_self_of_ne_zero hv]
       unfold evenN0Rep
       simp [hv]
 

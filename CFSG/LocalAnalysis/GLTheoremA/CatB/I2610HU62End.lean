@@ -175,7 +175,7 @@ theorem not_catalogIs_isL2prime_of_quot_u62 {L : Type} [Group L] [Finite L]
   have hπker : π.ker ≤ Subgroup.center L := by
     rw [show π.ker = (QuotientGroup.mk' (Subgroup.center L)).ker from rfl,
       QuotientGroup.ker_mk']
-  haveI hSsimple : IsSimpleGroup S := hL.2
+  have hSsimple : IsSimpleGroup S := hL.2
   let βbar : MulAut S :=
     CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom L β
   have hβbar_apply : ∀ k : L, βbar (QuotientGroup.mk k) = QuotientGroup.mk (β k) := fun k =>

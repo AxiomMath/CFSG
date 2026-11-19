@@ -72,7 +72,7 @@ theorem card_PL_wPL2 (c : Ctx82E3 D)
     (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     Nat.card ↥(P ⊓ c.L) = 3 ^ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPL : CFSG.ABGLocalTools.IsSylowOf 3 (P ⊓ c.L) c.L :=
     hP.inf_of_le_normalizer c.hyp81.1 c.le_normalizer_L
   rw [hPL.card_eq, factorization_card_L_wPL2 c hON]
@@ -97,7 +97,7 @@ theorem PL_image_data_wPL2
       (∀ z ∈ (Q : Subgroup c.Lbar),
         (∀ g ∈ (Q : Subgroup c.Lbar), g * z = z * g) → z ∈ Subgroup.center c.Lbar) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
   let PL : Subgroup ↥c.L := (P ⊓ c.L).subgroupOf c.L
@@ -135,7 +135,7 @@ theorem mem_center_lbar_iff_wPL2
     QuotientGroup.mk (s := CFSG.Open.pCore 2 ↥c.L) ⟨a, ha.2⟩ ∈ Subgroup.center c.Lbar ↔
       a ∈ zSub P c.L := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
   change π ⟨a, ha.2⟩ ∈ Subgroup.center c.Lbar ↔ a ∈ zSub P c.L
@@ -205,7 +205,7 @@ theorem card_centralizer_of_card_three_pow_five_wPL2 {Q : Type*} [Group Q] [Fini
     (hg : g ∉ Subgroup.center Q) :
     Nat.card (Subgroup.centralizer ({g} : Set Q)) = 81 := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hidx_le : (Subgroup.centralizer ({g} : Set Q)).index ≤ 3 :=
     CFSG.HardMathSupport.Solomon.Coordinator.c25_index_centralizer_le hZ hcomm g
   have hidx_dvd : (Subgroup.centralizer ({g} : Set Q)).index ∣ 3 ^ 5 := by
@@ -230,7 +230,7 @@ theorem card_centralizer_of_card_three_pow_five_wPL2 {Q : Type*} [Group Q] [Fini
     interval_cases i
     · rw [hi] at hidx_ne
       norm_num at hidx_ne
-    · simpa [hi] using rfl
+    · simp [hi]
   have hmul := Subgroup.card_mul_index (Subgroup.centralizer ({g} : Set Q))
   rw [hidx, hcard] at hmul
   norm_num at hmul ⊢
@@ -242,7 +242,7 @@ theorem card_inf_centralizer_PL_wPL2
     (ha : a ∈ P ⊓ c.L) (haZ : a ∉ zSub P c.L) :
     Nat.card ↥((P ⊓ c.L) ⊓ Subgroup.centralizer ({a} : Set G)) = 81 := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
   let PL : Subgroup ↥c.L := (P ⊓ c.L).subgroupOf c.L
@@ -413,7 +413,7 @@ theorem map_P_eq_map_PL_wPL2
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     (P.subgroupOf D.M).map (phiOf_wPL2 c) = ((P ⊓ c.L).subgroupOf D.M).map (phiOf_wPL2 c) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
   let A : Subgroup (MulAut c.Lbar) := (P.subgroupOf D.M).map (phiOf_wPL2 c)
@@ -530,7 +530,7 @@ theorem modCen_centralizes_PL_wPL2 (c : Ctx82E3 D)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     ∀ x ∈ P ⊓ modCenOf_wPL2 c, ∀ y ∈ P ⊓ c.L, x * y = y * x := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
   intro x hx y hy
@@ -695,7 +695,7 @@ theorem exists_conj_zpowers_of_mem_wPL2
     (hy : y ∈ P ⊓ c.L) (hy3 : orderOf y = 3) (hyZ : y ∉ zSub P c.L) :
     ∃ l ∈ c.L, l * e * l⁻¹ = y ∨ l * e * l⁻¹ = y⁻¹ := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup G := CFSG.Open.pCoreOf 2 c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L)
   have hPdisjO : P ⊓ O = ⊥ := by
@@ -827,7 +827,7 @@ theorem exists_conj_zpowers_of_mem_wPL2
   have hzk3 : orderOf (k * x * k⁻¹) = 3 := by
     simpa [MulAut.conj_apply, hx3] using (MulAut.conj (k : G)).orderOf_eq x
   have hzpow : (k * x * k⁻¹) ^ m = k * x ^ m * k⁻¹ := by
-    simpa [MulAut.conj_apply] using (map_zpow (MulAut.conj (k : G)).toMonoidHom x m)
+    simp
   have hzy : y = (k * x * k⁻¹) ^ m := by
     rw [hzpow]
     rw [hm]
@@ -844,7 +844,7 @@ theorem exists_conj_zpowers_of_mem_wPL2
   have hklL : k * l ∈ c.L := c.L.mul_mem hkL l.2
   have hconj_eq : (k * l) * e * (k * l)⁻¹ = k * x * k⁻¹ := by
     dsimp only [x]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_inv]
     group
   rcases hcases with hzy_eq | hzy_inv
   · exact ⟨k * l, hklL, Or.inl (by rw [hconj_eq]; exact hzy_eq.symm)⟩
@@ -855,14 +855,14 @@ theorem exists_conj_zpowers_of_mem_wPL2
     rw [hconj_eq, hz_eq_inv]
 
 theorem pcore_centralizer_le_theta_P1'
-    (hK2 : K2ONanCentralizer) (hK6 : K6ONanClasses) (c : Ctx82E3 D)
+    (_hK2 : K2ONanCentralizer) (hK6 : K6ONanClasses) (c : Ctx82E3 D)
     (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
     {e : G} (he : e ∈ P ⊓ c.L) (he3 : orderOf e = 3) (heZ : e ∉ zSub P c.L) :
     CFSG.ABGLocalTools.IsSylowOf 3 (P ⊓ cenOf_wPL2 e) (cenOf_wPL2 e) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hy, hy3, hyZ, hTy, -⟩ :=
     exists_sylow_centralizer_of_gamma' hK6 c hON h7 hP hNZ e he he3 heZ
   have hcardP : Nat.card ↥(P ⊓ cenOf_wPL2 e) = Nat.card ↥(P ⊓ cenOf_wPL2 y) :=

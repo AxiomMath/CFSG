@@ -24,10 +24,10 @@ private theorem eltsH_gen_unpack {A B : Nat}
   unfold genArr lc
   cases h : Nat.beq l 0
   · have hl : l ≠ 0 := fun e => by subst e; simp at h
-    rw [if_neg hl]
+    rw [ite_eq_right hl]
     exact hB.symm
   · have hl : l = 0 := Nat.eq_of_beq_eq_true h
-    rw [if_pos hl]
+    rw [ite_eq_left hl]
     exact hA.symm
 
 private theorem eltsH_xwOf (D : CH) (i : Fin 3) : (ofCH D).xwOf i = D.xw.getD i [] := by
@@ -205,7 +205,7 @@ private theorem eltsH_F_eq {u v : Nat} (hu : u < D.nV) (hv : v < D.nV)
 end Main
 
 theorem covHA_sound {cs : List Char} {D : CH} (hp : parseH cs = some D)
-    (hxw : D.xw.length = 3) (hwords : D.words.length = D.nV)
+    (_hxw : D.xw.length = 3) (hwords : D.words.length = D.nV)
     (hletters : ∀ w ∈ D.words, ∀ l ∈ w, l < 3) {P : List ℕ} {nV0 A B : ℕ}
     (hA : hsStrongArrs[0]! = CFSG.KS.Raw.unpack 3850 12 A)
     (hB : hsStrongArrs[1]! = CFSG.KS.Raw.unpack 3850 12 B)

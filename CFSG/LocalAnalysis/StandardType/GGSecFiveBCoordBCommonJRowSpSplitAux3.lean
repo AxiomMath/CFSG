@@ -29,7 +29,7 @@ open CFSG.LieType.Universal.Symplectic.SpExtras (mat mat_apply mat_injective)
 
 theorem ggCommonJSpSplit_component_block {K : Type} [Field K] [Finite K] {f p r : ℕ}
     (hK : Nat.card K = 2 ^ f) (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ f - 1)
-    (hr : 3 ≤ r) {ζ : Kˣ} (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1)
+    (_hr : 3 ≤ r) {ζ : Kˣ} (hζo : orderOf ζ = p) (hζ : ζ ^ p = 1)
     (f₀ : Fin r → Multiplicative (ZMod p)) {J : Subgroup (StatedSp r K)}
     (hJ : CFSG.Assembly.IsComponentOf J
       (Subgroup.centralizer ({TableBSymp.spTorusSp (m := r) hζ f₀} : Set (StatedSp r K)))) :
@@ -48,10 +48,10 @@ theorem ggCommonJSpSplit_component_block {K : Type} [Field K] [Finite K] {f p r 
               (f₀ i = lam → g i = c) ∧ (f₀ i = lam⁻¹ → g i = c⁻¹)))) := by
   classical
   have hpodd : Odd p := hp.odd_of_ne_two hp2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hK
   have hK2 : Nat.card K ≠ 2 := by
     intro h2
@@ -219,7 +219,7 @@ theorem ggCommonJSpSplit_component_block {K : Type} [Field K] [Finite K] {f p r 
       rcases (hsupp_iff a).mp ha with ⟨i, -, hi⟩ | ⟨i, -, hi⟩
       · exact ⟨⟨i, hi⟩⟩
       · exact ⟨⟨i, hi⟩⟩
-    haveI := hne
+    have := hne
     have hpos : 0 < m := by
       show 0 < Nat.card {i : Fin r // f₀ i = lam ∨ f₀ i = lam⁻¹}
       exact Nat.card_pos
@@ -448,7 +448,7 @@ theorem ggCommonJSpSplit_component_block {K : Type} [Field K] [Finite K] {f p r 
       have h2 : diagSpEntry t a0 = 1 := by
         have h := congrArg (fun M : Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K => M a0 a0) hbε
         rw [hbm, hεv, Matrix.diagonal_mul_diagonal] at h
-        simp only [Matrix.diagonal_apply, if_pos rfl] at h
+        simp only [Matrix.diagonal_apply] at h
         rw [ha0, mul_one] at h
         exact h
       rcases hsupp0 a0 ha0 with h | h
@@ -457,13 +457,13 @@ theorem ggCommonJSpSplit_component_block {K : Type} [Field K] [Finite K] {f p r 
     · obtain ⟨d, mm, E, hEfield, hEfin, hd, hEcard, hrank, hdeg, ⟨eiso⟩⟩ :=
         blockGroup_iso_Sp_linear b hbSp (ggTBJSpB_odd_orderOf_diagSp t) hε he1 hstar
           (fun h => hstar_ne h.symm) hεsum
-      letI : Field E := hEfield
-      letI : Fintype E := hEfin
+      let : Field E := hEfield
+      let : Fintype E := hEfin
       have hEpow : Nat.card E = 2 ^ (f * d) := by
         rw [Nat.card_eq_fintype_card, hEcard]
         have hK' : Fintype.card K = 2 ^ f := by rw [← Nat.card_eq_fintype_card]; exact hK
         rw [hK', pow_mul]
-      letI : CharP E 2 := charP_two_of_card hEpow
+      let : CharP E 2 := charP_two_of_card hEpow
       have hcompJ : IsComponentOf (J.subgroupOf Gε) ⊤ := by
         have hC₀ : (J.subgroupOf Gε).map Gε.subtype = J := by
           rw [Subgroup.subgroupOf_map_subtype, inf_of_le_left hJε'.1]
@@ -507,14 +507,14 @@ theorem ggCommonJSpSplit_component_block {K : Type} [Field K] [Finite K] {f p r 
         ext i j
         by_cases hij : i = j
         · subst hij
-          simp only [Matrix.diagonal_apply, if_pos rfl, Matrix.one_apply]
+          simp only [Matrix.diagonal_apply, Matrix.one_apply]
           rcases i with k | k
-          · simp only [Pi.pow_apply, if_true]
+          · simp only [Pi.pow_apply, ite_true]
             rw [diagSpEntry_inl, ← Units.val_pow_eq_pow_val, ht_pow k, Units.val_one]
-          · simp only [Pi.pow_apply, if_true]
+          · simp only [Pi.pow_apply, ite_true]
             rw [diagSpEntry_inr, ← Units.val_pow_eq_pow_val, inv_pow, ht_pow k, inv_one,
               Units.val_one]
-        · simp [Matrix.diagonal_apply, Matrix.one_apply, hij]
+        · simp [hij]
       have hpqK' : p ∣ Nat.card Kˣ := by
         rw [Nat.card_units]; exact hpqK
       have hpow : ∀ s ∈ ({b} : Set (GL (Fin r ⊕ Fin r) K)), ∃ c : K,

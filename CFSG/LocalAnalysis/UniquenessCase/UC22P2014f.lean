@@ -91,8 +91,8 @@ theorem uc22p2014f_exists_fixed_of_isBNPair {X : Type} [Group X] [Finite X] {B N
     (hBY : B ≤ Y) (hY : Y ≠ ⊤) (φ : MulAut X) (hφ : ∃ k : ℕ, φ ^ (p ^ k) = 1)
     (hφU : U.map φ.toMonoidHom = U) : ∃ w ∉ Y, w⁻¹ * φ w ∈ B := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hconj : ∀ (K : Subgroup X) (a b : X), K.map (MulAut.conj (b * a)).toMonoidHom =
       (K.map (MulAut.conj a).toMonoidHom).map (MulAut.conj b).toMonoidHom := fun K a b => by
     rw [Subgroup.map_map]
@@ -160,13 +160,13 @@ theorem uc22p2014f_exists_fixed {X : Type} [Group X] [Finite X] {B₀ N₀ : Sub
     (φ : MulAut X) (hφ : ∃ k : ℕ, φ ^ (p ^ k) = 1)
     (hφU : (U : Subgroup X).map φ.toMonoidHom = U) :
     ∃ w ∉ Y, w⁻¹ * φ w ∈ normalizer ((U : Subgroup X) : Set X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U₀, hU₀B, hU₀n, hU₀p, hU₀i, -, hU₀H, -⟩ := hBN.split
   have hsyl₀ : IsSylowTwoOf U₀ ⊤ := ⟨le_top, hU₀p, by
     change ¬ 2 ∣ U₀.relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     exact hU₀i⟩
-  have hsyl : IsSylowTwoOf (U : Subgroup X) ⊤ := ⟨le_top, U.isPGroup', by
+  have hsyl : IsSylowTwoOf (U : Subgroup X) ⊤ := ⟨le_top, U.isPGroup, by
     change ¬ 2 ∣ (U : Subgroup X).relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     exact U.not_dvd_index⟩
@@ -176,7 +176,7 @@ theorem uc22p2014f_exists_fixed {X : Type} [Group X] [Finite X] {B₀ N₀ : Sub
       (N₀.map (MulAut.conj c).toMonoidHom) :=
     burnsideI2BN_map hBN _ (MulAut.conj c).surjective
       (by rw [(MonoidHom.ker_eq_bot_iff _).2 hfinj]; exact bot_le)
-  haveI : (cartan (B₀.map (MulAut.conj c).toMonoidHom)
+  have : (cartan (B₀.map (MulAut.conj c).toMonoidHom)
       (N₀.map (MulAut.conj c).toMonoidHom)).Normal := hBN'.normal_inter
   obtain ⟨S, hS⟩ := burnsideI2BN_exists_isBNPair (burnsideI2BN_toPre hBN')
   have hUB : (U : Subgroup X) ≤ B₀.map (MulAut.conj c).toMonoidHom := by
@@ -186,11 +186,11 @@ theorem uc22p2014f_exists_fixed {X : Type} [Group X] [Finite X] {B₀ N₀ : Sub
     rw [hc, ← Subgroup.map_equiv_normalizer_eq U₀ (MulAut.conj c)]
     exact Subgroup.map_mono ((Subgroup.normal_subgroupOf_iff_le_normalizer hU₀B).1 hU₀n)
   have hNU := uc22k108bn_normalizer_eq Nat.prime_two hBN' hUB
-    ((Subgroup.normal_subgroupOf_iff_le_normalizer hUB).2 hBU) U.isPGroup' U.not_dvd_index
+    ((Subgroup.normal_subgroupOf_iff_le_normalizer hUB).2 hBU) U.isPGroup U.not_dvd_index
   have hBUH : B₀.map (MulAut.conj c).toMonoidHom ≤ (U : Subgroup X) ⊔
       (B₀.map (MulAut.conj c).toMonoidHom ⊓ N₀.map (MulAut.conj c).toMonoidHom) := by
     rw [hc, ← Subgroup.map_inf_eq _ _ _ hfinj, ← Subgroup.map_sup, hU₀H]
-  obtain ⟨w, hw, hwB⟩ := uc22p2014f_exists_fixed_of_isBNPair hS U.isPGroup' hUB hNU hBUH hp hp2
+  obtain ⟨w, hw, hwB⟩ := uc22p2014f_exists_fixed_of_isBNPair hS U.isPGroup hUB hNU hBUH hp hp2
     (by rw [← hNU]; exact hUY) hY φ hφ hφU
   exact ⟨w, hw, by rw [hNU]; exact hwB⟩
 

@@ -26,11 +26,11 @@ theorem letterPerm_mem_lvlGroup {G : Type*} [Group G] (π : ℕ → G) {starts :
   unfold letterPerm
   by_cases hpos : 0 < l
   · have hc : 0 < l ∧ (l - 1).toNat < m := ⟨hpos, by omega⟩
-    rw [if_pos hc]
+    rw [ite_eq_left hc]
     exact gs_mem_lvlGroup π (by omega) (by omega)
   · have hneg : l < 0 := by omega
     have hc : l < 0 ∧ (-l - 1).toNat < m := ⟨hneg, by omega⟩
-    rw [if_neg (fun h => hpos h.1), if_pos hc]
+    rw [ite_eq_right (fun h => hpos h.1), ite_eq_left hc]
     exact Subgroup.inv_mem _ (gs_mem_lvlGroup π (by omega) (by omega))
 
 theorem y332Starts_le : ∀ i < 8, y332Starts[i + 1]! ≤ 71 := by decide

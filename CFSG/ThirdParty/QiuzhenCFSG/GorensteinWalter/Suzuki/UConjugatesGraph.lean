@@ -154,7 +154,7 @@ private lemma stabilizer_base_eq_normalizer (c : CentralizerSetup G) :
     exact Subgroup.mem_normalizer_iff_map_conj_eq.mp hg
 
 private lemma hhat_ne_top
-    (hmin : IsMinimalCounterexample G)
+    (_hmin : IsMinimalCounterexample G)
     (c : CentralizerSetup G) (d : FirstCaseCountData c) :
     c.Hhat ≠ ⊤ := by
   intro htop

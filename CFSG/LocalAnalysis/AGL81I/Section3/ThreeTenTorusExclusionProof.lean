@@ -255,7 +255,7 @@ private theorem torusSL_ne_one {u : (ZMod p)ˣ} (hu : u ≠ 1) (k : Fin 3) : tor
   obtain ⟨l, hl⟩ : ∃ l : Fin 3, l ≠ k := ⟨k + 1, by fin_cases k <;> decide⟩
   have h' := congrArg
     (fun g : SpecialLinearGroup (Fin 3) (ZMod p) => (g : Matrix (Fin 3) (Fin 3) (ZMod p)) l l) h
-  simp only [torusSL_coe, diagonal_apply_eq, torusVec, if_neg hl,
+  simp only [torusSL_coe, diagonal_apply_eq, torusVec, ite_eq_right hl,
     Matrix.SpecialLinearGroup.coe_one, one_apply_eq] at h'
   exact hu (Units.ext h')
 
@@ -277,7 +277,7 @@ private theorem transvection_commute_torusSL (u : (ZMod p)ˣ)
   simp only [add_mul, mul_add, Matrix.add_apply, mul_diagonal, diagonal_mul, single_apply]
   split_ifs with h
   · obtain ⟨rfl, rfl⟩ := h
-    simp only [torusVec, if_neg hik, if_neg hjk, one_apply_ne t.hij]
+    simp only [torusVec, ite_eq_right hik, ite_eq_right hjk, one_apply_ne t.hij]
     ring
   · rcases eq_or_ne a b with rfl | hab
     · simp

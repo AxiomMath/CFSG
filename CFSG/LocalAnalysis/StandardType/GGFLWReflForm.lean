@@ -31,12 +31,12 @@ private lemma l6w1_smul_cancel {p : ℕ} [Fact p.Prime] {T : Type} [AddCommGroup
       _ = 0 := smul_zero _
   exact hc hc0
 
-theorem ggFLW_isRefl_form {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {T : Type} [AddCommGroup T]
+theorem ggFLW_isRefl_form {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {T : Type} [AddCommGroup T]
     [Module (ZMod p) T] {t : T ≃ₗ[ZMod p] T} (ht : ZS.IsRefl p t) :
     ∃ (c : T) (β : Module.Dual (ZMod p) T), c ≠ 0 ∧ β c = 2 ∧ ∀ v, t v = v - β v • c := by
   let f : T →ₗ[ZMod p] T := (t : T →ₗ[ZMod p] T) - LinearMap.id
   have hfin : Module.finrank (ZMod p) ↥f.range = 1 := ht.2
-  haveI : Module.Free (ZMod p) ↥f.range := Module.Free.of_divisionRing (ZMod p) ↥f.range
+  have : Module.Free (ZMod p) ↥f.range := Module.Free.of_divisionRing (ZMod p) ↥f.range
   obtain ⟨c0, hc0ne, hspan0⟩ := (finrank_eq_one_iff' (K := ZMod p) (V := ↥f.range)).mp hfin
   have hc : (c0 : T) ≠ 0 := fun h => hc0ne (Subtype.ext h)
   have h_range : f.range = Submodule.span (ZMod p) {(c0 : T)} := by

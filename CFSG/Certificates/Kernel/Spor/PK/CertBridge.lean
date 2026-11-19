@@ -68,10 +68,10 @@ private theorem evalCodes_eq_schreierWordValue (S : List (Equiv.Perm (Fin n))) {
     by_cases h : z.natAbs - 1 < j
     · rw [decodeWord_cons_of_lt j z w h, evalCodes, ih]
       by_cases hz : 0 < z
-      · simp only [hz, decide_true, if_true, schreierWordValue_cons_positive]
+      · simp only [hz, decide_true, ite_true, schreierWordValue_cons_positive]
         have e : z.toNat - 1 = z.natAbs - 1 := by omega
         rw [e, hT ⟨z.natAbs - 1, by omega⟩ h]
-      · simp only [hz, decide_false, if_false, schreierWordValue_cons_negative]
+      · simp only [hz, decide_false, ite_false, schreierWordValue_cons_negative]
         have e : (-z).toNat - 1 = z.natAbs - 1 := by omega
         rw [e, hT ⟨z.natAbs - 1, by omega⟩ h]
     · rw [decodeWord_cons_of_not_lt j z w h, evalCodes, ih]
@@ -140,7 +140,7 @@ theorem certificate_words (hn : 1 ≤ n) (gens : List (Equiv.Perm (Fin n)))
 private theorem mem_rawOf_strong (hn : 1 ≤ n) (F : Nat → Nat → Nat) (NL : Nat) {k : Nat}
     (bs : Vector (Fin n) k) (hbs : bs.toList.Nodup) (s : Equiv.Perm (Fin n)) :
     s ∈ (rawOf n hn F NL bs hbs).strong.toList ↔ ∃ l < NL, permOf n (F l) = s := by
-  simp only [rawOf, Vector.toList_ofFn, List.mem_ofFn, Set.mem_range]
+  simp only [rawOf, Vector.toList_ofFn, List.mem_ofFn]
   constructor
   · rintro ⟨i, hi⟩
     exact ⟨i.val, i.isLt, hi⟩

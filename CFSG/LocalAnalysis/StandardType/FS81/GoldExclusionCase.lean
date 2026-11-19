@@ -63,7 +63,7 @@ theorem goldExclusionSylow_layer_case {X : Type} [Group X] [Finite X] {A M : Sub
     rw [hPm] at h1
     exact Subgroup.mem_inf.2 ⟨by simpa using Subgroup.mem_subgroupOf.1 h1,
       mul_mem (mul_mem hrM htM) (inv_mem hrM)⟩
-  · exact (P.isPGroup').to_le inf_le_left
+  · exact (P.isPGroup).to_le inf_le_left
   · exact odd_relIndex_of_sylow_subgroupOf Pm hPm hT₀def hTR inf_le_right
   · intro hRT
     apply hn2

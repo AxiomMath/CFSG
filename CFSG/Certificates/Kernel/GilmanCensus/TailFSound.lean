@@ -267,7 +267,7 @@ theorem idxIK_nodup (v : List Int) : ∀ (l : List (List Int)) (m k : Nat) (hk :
       rw [beq_eq_false_iff_ne]
       intro e
       exact hnd.1 (e ▸ hmem)
-    simp only [idxIK, hne, Bool.false_eq_true, if_false]
+    simp only [idxIK, hne, Bool.false_eq_true, ite_false]
     rw [idxIK_nodup v l (m + 1) k (by simpa using hk) hnd.2 hv']
     congr 1
     omega

@@ -20,6 +20,7 @@ section GenericLayer
 
 variable {A : Type} [Group A] [Finite A]
 
+omit [Finite A] in
 theorem layer_map_auto_eq (α : A ≃* A) : (CFSG.layer A).map α.toMonoidHom = CFSG.layer A :=
   (Subgroup.characteristic_iff_map_eq.mp CFSG.LocalCores.layer_characteristic) α
 
@@ -83,17 +84,17 @@ end GenericLayer
 theorem layer_eq_top_of_isOmegaPlus_two {q k : ℕ} (hq : 4 ≤ q) (hk : q = 2 ^ k) {X : Type}
     [Group X] (h : IsOmegaPlus 2 q X) : layer X = ⊤ := by
   obtain ⟨K, _, _, hK, ⟨eB⟩⟩ := h
-  haveI : CharP K 2 := charP_two_of_natCard_pow_two (hK.trans hk)
+  have : CharP K 2 := charP_two_of_natCard_pow_two (hK.trans hk)
   have hK4 : 4 ≤ Nat.card K := hK ▸ hq
   obtain ⟨e4⟩ := statedOmega_plus_four_nonempty_equiv K hK4
   have hSL : layer ↥(StatedSL 2 K) = ⊤ :=
     CFSG.WholeGroup.layer_eq_top_of_isQuasisimple (statedSL_quasisimple_of_card 2 K le_rfl hK4)
   exact layer_eq_top_of_mulEquiv (eB.trans e4).symm (layer_prod_eq_top hSL hSL)
 
-theorem layer_eq_top_of_isOmegaMinus_two {q k : ℕ} (hq : 4 ≤ q) (hk : q = 2 ^ k) {X : Type}
+theorem layer_eq_top_of_isOmegaMinus_two {q k : ℕ} (_hq : 4 ≤ q) (hk : q = 2 ^ k) {X : Type}
     [Group X] (h : IsOmegaMinus 2 q X) : layer X = ⊤ := by
   obtain ⟨K, _, _, hK, b, c, hirr, ⟨eB⟩⟩ := h
-  haveI : CharP K 2 := charP_two_of_natCard_pow_two (hK.trans hk)
+  have : CharP K 2 := charP_two_of_natCard_pow_two (hK.trans hk)
   exact layer_eq_top_of_mulEquiv eB.symm
     (CFSG.WholeGroup.layer_eq_top_of_isQuasisimple
       (statedOmega_minus_quasisimple_of_two_le K (le_refl 2) hirr))
@@ -102,6 +103,7 @@ section Ysub
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t : G}
 
+omit [Finite G] in
 theorem Q_conj_mem_of (hc : Ctx M Q Z B) {m q : G} (hm : m ∈ M) (hq : q ∈ Q) :
     m * q * m⁻¹ ∈ Q :=
   (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 hm) q).mp hq
@@ -138,7 +140,7 @@ theorem Q_le_thY (hc : Ctx M Q Z B) (ht : t ∈ LB M Q B) : Q ≤ thY hc t := by
   rw [hid]
   exact Q.mul_mem hq (Q_conj_mem_of hc hxM (Q.inv_mem hq))
 
-theorem thY_normal (hc : Ctx M Q Z B) (ht : t ∈ LB M Q B)
+theorem thY_normal (hc : Ctx M Q Z B) (_ht : t ∈ LB M Q B)
     (hP1 : ∀ s ∈ Lgen M (LB M Q B), ∀ x ∈ E1Xpre M Q B t, s * x * s⁻¹ ∈ E1Xpre M Q B t) :
     ∀ s ∈ Lgen M (LB M Q B), ∀ y ∈ thY hc t, s * y * s⁻¹ ∈ thY hc t := by
   intro s hs y hy
@@ -150,6 +152,7 @@ theorem thY_normal (hc : Ctx M Q Z B) (ht : t ∈ LB M Q B)
   rw [hid]
   exact Q_conj_mem_of hc ((Lgen_le_H0 hc hs).1) (hy.2 _ hx')
 
+omit [Finite G] in
 theorem phi_comm_iff_mem (AM : ActionModel M Q Z) {g h : G} (hg : g ∈ H0 M Z)
     (hh : h ∈ H0 M Z) : AM.φ ⟨g, hg⟩ * AM.φ ⟨h, hh⟩ = AM.φ ⟨h, hh⟩ * AM.φ ⟨g, hg⟩ ↔
       ⁅g, h⁆ ∈ Q := by
@@ -183,6 +186,7 @@ section Phi
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t : G}
 
+omit [Finite G] in
 theorem E1Xpre_le_Rt (hc : Ctx M Q Z B) (ht : t ∈ LB M Q B) :
     E1Xpre M Q B t ≤ Rt M (LB M Q B) t := by
   refine sup_le (Subgroup.commutator_le.mpr fun a ha b hb => ?_) (hc.Q_le_Rt ht)
@@ -223,6 +227,7 @@ theorem thY_phi_mem_cent (hc : Ctx M Q Z B) (AM : ActionModel M Q Z) {y : G}
   have hy0 : y ∈ H0 M Z := Lgen_le_H0 hc hy.1
   exact ((phi_comm_iff_mem AM hy0 x.2).mpr (hy.2 x.1 (Subgroup.mem_subgroupOf.mp hx))).symm
 
+omit [Finite G] in
 theorem card_actImage_mul (AM : ActionModel M Q Z) {N' : Subgroup G} (hN'H : N' ≤ H0 M Z)
     (hQN : Q ≤ N') : Nat.card (AM.actImage N') * Nat.card Q = Nat.card N' := by
   have hQH : Q ≤ H0 M Z := hQN.trans hN'H
@@ -261,6 +266,7 @@ theorem card_actImage_nt (hc : Ctx M Q Z B) (ht : t ∈ LB M Q B) (hH : E1Hyp M 
   rw [hH.case.2.1] at h
   exact Nat.eq_of_mul_eq_mul_right Nat.card_pos (h.trans (mul_comm _ _))
 
+omit [Finite G] in
 theorem Vsp_isTS (AM : ActionModel M Q Z) {V : Submodule AM.K AM.M₀.E}
     {β : AM.M₀.E →ₗ[AM.K] AM.M₀.E} (hβ : BetaProps AM.S V β)
     (hβq : ∀ c : AM.K, ∃ x : ↥(H0 M Z), ∀ e, AM.φ x e = e + c • β e)
@@ -331,6 +337,7 @@ theorem lemmaC_concl (hLC : LemmaCStatement) (hNK : E1NaturalKStatement) (hLine 
     exact (hLC AM.K hK4 AM.S hE8 AM.glob.hyperbolic (AM.Vsp hc t)
       (Vsp_isTS AM hβ hβq hV4 hE8) hV4 _ hXg).2 b c' hirr c hnat
 
+omit [Finite G] in
 theorem eq_of_actImage_eq (AM : ActionModel M Q Z) {N' N'' : Subgroup G}
     (h1 : N' ≤ H0 M Z) (h2 : N'' ≤ H0 M Z) (hQ' : Q ≤ N') (hQ'' : Q ≤ N'')
     (h : AM.actImage N' = AM.actImage N'') : N' = N'' := by
@@ -350,6 +357,7 @@ theorem eq_of_actImage_eq (AM : ActionModel M Q Z) {N' N'' : Subgroup G}
     exact B.mul_mem hxB (hQB hyQ)
   exact le_antisymm (key N' N'' h1 h2 hQ'' h.le) (key N'' N' h2 h1 hQ' h.ge)
 
+omit [Finite G] in
 theorem conjSubgroup_eq_of_normal {A : Subgroup G} {S : Subgroup G}
     (hS : ∀ s ∈ S, ∀ a ∈ A, s * a * s⁻¹ ∈ A) {s : G} (hs : s ∈ S) :
     conjSubgroup s A = A := by
@@ -366,8 +374,9 @@ theorem conjSubgroup_eq_of_normal {A : Subgroup G} {S : Subgroup G}
     rw [inv_inv] at h'
     exact h'
 
+omit [Finite G] in
 theorem quotSat_nilpotent_of_line (hc : Ctx M Q Z B) (AM : ActionModel M Q Z) {A : Subgroup G}
-    (hA : A ≤ H0 M Z) (hQA : Q ≤ A) {β : AM.M₀.E →ₗ[AM.K] AM.M₀.E}
+    (hA : A ≤ H0 M Z) (_hQA : Q ≤ A) {β : AM.M₀.E →ₗ[AM.K] AM.M₀.E}
     (hββ : ∀ e, β (β e) = 0)
     (hline : ∀ a (ha : a ∈ A), ∃ c : AM.K, ∀ e, AM.φ ⟨a, hA ha⟩ e = e + c • β e) :
     QuotSat A Q (fun W _ => Group.IsNilpotent W) := by
@@ -394,14 +403,14 @@ theorem quotSat_nilpotent_of_line (hc : Ctx M Q Z B) (AM : ActionModel M Q Z) {A
         have h2 := map_commutatorElement (QuotientGroup.mk' (Q.subgroupOf A)) x y
         rw [h1] at h2
         exact h2.symm
-  haveI : IsMulCommutative (A ⧸ Q.subgroupOf A) := ⟨⟨hcommQ⟩⟩
+  have : IsMulCommutative (A ⧸ Q.subgroupOf A) := ⟨⟨hcommQ⟩⟩
   exact inferInstance
 
 theorem exists_sylow_of_card_eq {K : Type} [Field K] [Finite K] [CharP K 2]
     (T : Subgroup ↥(StatedSL 2 K)) (hT : Nat.card T = Nat.card K) :
     ∃ P : Sylow 2 ↥(StatedSL 2 K), P.toSubgroup = T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hq : Nat.card K = 2 ^ (m : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -442,7 +451,7 @@ theorem exists_conj_ne (hc : Ctx M Q Z B) (ht : t ∈ LB M Q B) (hH : E1Hyp M Q 
     (hNL : Nt M (LB M Q B) t ≤ LB M Q B) :
     ∃ s ∈ Lgen M (LB M Q B), conjSubgroup s (Nt M (LB M Q B) t) ≠ Nt M (LB M Q B) t := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hNH : Nt M (LB M Q B) t ≤ H0 M Z := fun n hn =>
     Lgen_le_H0 hc (le_Lgen_self M (LB M Q B) (hNL hn))
   have hββ : ∀ e, β (β e) = 0 := fun e => hβ.kills _ (hβ.range e)
@@ -490,9 +499,10 @@ theorem eq_of_T_eq {K' : Type} [Field K'] {E' : Type} [AddCommGroup E'] [Module 
     rw [← h2]
     exact Subgroup.mem_subgroupOf.mp hd
 
+omit [Finite G] in
 theorem actImage_mono (AM : ActionModel M Q Z) {A B : Subgroup G} (h : A ≤ B) :
     AM.actImage A ≤ AM.actImage B :=
-  Subgroup.map_mono (fun x hx => h hx)
+  Subgroup.map_mono (fun _x hx => h hx)
 
 theorem actImage_thY_eq_of_alt (hc : Ctx M Q Z B) (ht : t ∈ LB M Q B) (hH : E1Hyp M Q Z B t)
     (hF : M1FittingTrivialStatement) (hKF6 : SL2RootStatement)
@@ -590,7 +600,7 @@ theorem quotSat_thY_SL (hc : Ctx M Q Z B) (AM : ActionModel M Q Z)
     (hsurj : AM.actImage (thY hc t) = Cgrp AM (E1Xpre M Q B t)) :
     QuotSat (thY hc t) Q (IsSLModel 2 (Nat.card Z)) := by
   have hYH : thY hc t ≤ H0 M Z := fun y hy => Lgen_le_H0 hc (thY_le_Lgen hc hy)
-  haveI hnorm : (Q.subgroupOf (thY hc t)).Normal :=
+  have hnorm : (Q.subgroupOf (thY hc t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer fun y hy => hc.hyp.Q_normal.2 (hYH hy).1
   let f0 : ↥(thY hc t) →* (AM.M₀.E ≃ₗ[AM.K] AM.M₀.E) :=
     AM.φ.comp (Subgroup.inclusion hYH)
@@ -655,6 +665,7 @@ section LayerSetup
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem H0_normal_conj (hc : Ctx M Q Z B) {s a : G} (hs : s ∈ M) (ha : a ∈ H0 M Z) :
     s * a * s⁻¹ ∈ H0 M Z := by
   have ha2 : a ∈ Subgroup.centralizer (Z : Set G) := ha.2
@@ -669,8 +680,9 @@ theorem H0_normal_conj (hc : Ctx M Q Z B) {s a : G} (hs : s ∈ M) (ha : a ∈ H
     _ = s * (a * (s⁻¹ * z * s⁻¹⁻¹)) * s⁻¹ := by rw [hc1]
     _ = s * a * s⁻¹ * z := by group
 
+omit [Finite G] in
 theorem conj_H0_eq (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) : conjSubgroup m (H0 M Z) = H0 M Z :=
-  conjSubgroup_eq_of_normal (fun s hs a ha => H0_normal_conj hc hs ha) hm
+  conjSubgroup_eq_of_normal (fun _s hs _a ha => H0_normal_conj hc hs ha) hm
 
 end LayerSetup
 
@@ -678,6 +690,7 @@ section LayerAut
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem Q_normal_subgroupOf_H0 (hc : Ctx M Q Z B) : (Q.subgroupOf (H0 M Z)).Normal :=
   Subgroup.normal_subgroupOf_of_le_normalizer fun _ hx => hc.hyp.Q_normal.2 hx.1
 
@@ -685,6 +698,7 @@ theorem Q_normal_subgroupOf_H0 (hc : Ctx M Q Z B) : (Q.subgroupOf (H0 M Z)).Norm
     Subgroup (↥(H0 M Z) ⧸ Q.subgroupOf (H0 M Z)) :=
   (S.subgroupOf (H0 M Z)).map (QuotientGroup.mk' (Q.subgroupOf (H0 M Z)))
 
+omit [Finite G] in
 theorem mem_barA (M Q Z : Subgroup G) [(Q.subgroupOf (H0 M Z)).Normal] {S : Subgroup G}
     {a : ↥(H0 M Z) ⧸ Q.subgroupOf (H0 M Z)} :
     a ∈ barA M Q Z S ↔ ∃ x : ↥(H0 M Z), (x : G) ∈ S ∧
@@ -700,9 +714,11 @@ theorem mem_barA (M Q Z : Subgroup G) [(Q.subgroupOf (H0 M Z)).Normal] {S : Subg
 @[expose] def eH (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) : ↥(H0 M Z) ≃* ↥(H0 M Z) :=
   ((MulAut.conj m).subgroupMap (H0 M Z)).trans (MulEquiv.subgroupCongr (conj_H0_eq hc hm))
 
+omit [Finite G] in
 theorem eH_coe (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) (x : ↥(H0 M Z)) :
     ((eH hc hm x : ↥(H0 M Z)) : G) = m * (x : G) * m⁻¹ := rfl
 
+omit [Finite G] in
 theorem eH_map (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) :
     (Q.subgroupOf (H0 M Z)).map (eH hc hm).toMonoidHom = Q.subgroupOf (H0 M Z) := by
   ext y
@@ -728,6 +744,7 @@ theorem eH_map (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) :
     (↥(H0 M Z) ⧸ Q.subgroupOf (H0 M Z)) ≃* (↥(H0 M Z) ⧸ Q.subgroupOf (H0 M Z)) :=
   QuotientGroup.congr (Q.subgroupOf (H0 M Z)) (Q.subgroupOf (H0 M Z)) (eH hc hm) (eH_map hc hm)
 
+omit [Finite G] in
 theorem autA_mk [(Q.subgroupOf (H0 M Z)).Normal] (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M)
     (x : ↥(H0 M Z)) :
     autA hc hm (QuotientGroup.mk x) = QuotientGroup.mk (eH hc hm x) :=
@@ -739,7 +756,7 @@ section LayerAssembly
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {t : G}
 
-theorem barA_Lgen_normal [(Q.subgroupOf (H0 M Z)).Normal] (hc : Ctx M Q Z B) :
+theorem barA_Lgen_normal [(Q.subgroupOf (H0 M Z)).Normal] (_hc : Ctx M Q Z B) :
     (barA M Q Z (Lgen M (LB M Q B))).Normal := by
   refine ⟨fun n hn a => ?_⟩
   obtain ⟨x, hx, rfl⟩ := mem_barA M Q Z |>.mp hn
@@ -751,6 +768,7 @@ theorem barA_Lgen_normal [(Q.subgroupOf (H0 M Z)).Normal] (hc : Ctx M Q Z B) :
   refine ⟨y * x * y⁻¹, hxy, ?_⟩
   simp [map_mul, map_inv]
 
+omit [Finite G] in
 theorem barA_normal_of [(Q.subgroupOf (H0 M Z)).Normal] {S : Subgroup G}
     (hS : ∀ s ∈ Lgen M (LB M Q B), ∀ x ∈ S, s * x * s⁻¹ ∈ S) :
     ((barA M Q Z S).subgroupOf (barA M Q Z (Lgen M (LB M Q B)))).Normal := by
@@ -763,10 +781,12 @@ theorem barA_normal_of [(Q.subgroupOf (H0 M Z)).Normal] {S : Subgroup G}
   rw [← hzx, ← hgn]
   simp [map_mul, map_inv]
 
+omit [Finite G] in
 theorem barA_mono [(Q.subgroupOf (H0 M Z)).Normal] {S T : Subgroup G} (h : S ≤ T) :
     barA M Q Z S ≤ barA M Q Z T :=
-  Subgroup.map_mono (fun x hx => h hx)
+  Subgroup.map_mono (fun _x hx => h hx)
 
+omit [Finite G] in
 theorem layer_barA_of_quot [(Q.subgroupOf (H0 M Z)).Normal] {S : Subgroup G} (hS : S ≤ H0 M Z)
     [(Q.subgroupOf S).Normal] (hq : CFSG.layer (↥S ⧸ Q.subgroupOf S) = ⊤) :
     CFSG.layer ↥(barA M Q Z S) = ⊤ := by
@@ -775,6 +795,7 @@ theorem layer_barA_of_quot [(Q.subgroupOf (H0 M Z)).Normal] {S : Subgroup G} (hS
     (MonoidHom.ofInjective (quotIncl_injective (Q := Q) hS)).trans (MulEquiv.subgroupCongr hr)
   exact layer_eq_top_of_mulEquiv e hq
 
+omit [Finite G] in
 theorem layer_barA_sub [(Q.subgroupOf (H0 M Z)).Normal] {S : Subgroup G} (hS : S ≤ H0 M Z)
     [(Q.subgroupOf S).Normal] (hq : CFSG.layer (↥S ⧸ Q.subgroupOf S) = ⊤)
     {N : Subgroup (↥(H0 M Z) ⧸ Q.subgroupOf (H0 M Z))} (hle : barA M Q Z S ≤ N) :
@@ -935,7 +956,7 @@ open CFSG.ComponentClassification.RankTwoClassical.ORigid in
 theorem centreTriv_statedOmega_minus_two {K : Type} [Field K] [Finite K] [CharP K 2]
     {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     CentreTriv ↥(StatedOmega (StatedQuadMinus 2 K b c)) := by
-  haveI := isSimpleGroup_statedOmega_quadMinus_of_two_le (le_refl 2) hirr
+  have := isSimpleGroup_statedOmega_quadMinus_of_two_le (le_refl 2) hirr
   intro w hw
   by_contra hne
   have hcen : Subgroup.center ↥(StatedOmega (StatedQuadMinus 2 K b c)) ≠ ⊥ := fun h => by
@@ -1097,13 +1118,13 @@ end Assembly2
 theorem centreTriv_of_isOmegaPlus_two {q k : ℕ} (hq : 4 ≤ q) (hk : q = 2 ^ k) {W : Type}
     [Group W] (h : IsOmegaPlus 2 q W) : CentreTriv W := by
   obtain ⟨K, _, _, hK, ⟨eB⟩⟩ := h
-  haveI : CharP K 2 := charP_two_of_natCard_pow_two (hK.trans hk)
+  have : CharP K 2 := charP_two_of_natCard_pow_two (hK.trans hk)
   exact centreTriv_of_mulEquiv eB (centreTriv_statedOmega_plus_two (hK ▸ hq))
 
-theorem centreTriv_of_isOmegaMinus_two {q k : ℕ} (hq : 4 ≤ q) (hk : q = 2 ^ k) {W : Type}
+theorem centreTriv_of_isOmegaMinus_two {q k : ℕ} (_hq : 4 ≤ q) (hk : q = 2 ^ k) {W : Type}
     [Group W] (h : IsOmegaMinus 2 q W) : CentreTriv W := by
   obtain ⟨K, _, _, hK, b, c, hirr, ⟨eB⟩⟩ := h
-  haveI : CharP K 2 := charP_two_of_natCard_pow_two (hK.trans hk)
+  have : CharP K 2 := charP_two_of_natCard_pow_two (hK.trans hk)
   exact centreTriv_of_mulEquiv eB (centreTriv_statedOmega_minus_two hirr)
 
 theorem theoremR_of (hLC : LemmaCStatement) (hKF6 : SL2RootStatement)
@@ -1120,14 +1141,14 @@ theorem theoremR_of (hLC : LemmaCStatement) (hKF6 : SL2RootStatement)
   have hNY : Nt M (LB M Q B) t ≤ thY hc t := Nt_le_thY hc ht hNL AM hβr hβn
   obtain ⟨βC, hβC, -, -, hdich⟩ := lemmaC_concl hLC hNK hLine hH AM
   have hββC : ∀ e, βC (βC e) = 0 := fun e => hβC.kills _ (hβC.range e)
-  haveI := Q_normal_subgroupOf_H0 hc
+  have := Q_normal_subgroupOf_H0 hc
   rcases hdich with hline | hnon
   · exact (case_line_false hc ht hH hF AM hββC hline hP1 hNY).elim
   · obtain ⟨ψ⟩ := hnon
     have hsurj := actImage_thY_eq_of_alt hc ht hH hF hKF6 hNL hP1 AM hβ hβn hNY ψ
     have hYSL : QuotSat (thY hc t) Q (IsSLModel 2 (Nat.card Z)) := quotSat_thY_SL hc AM ψ hsurj
     obtain ⟨hNYi, hYSLp⟩ := hYSL
-    haveI := hNYi
+    have := hNYi
     have hYl : CFSG.layer (↥(thY hc t) ⧸ Q.subgroupOf (thY hc t)) = ⊤ :=
       layer_eq_top_of_isSLModel_two hq4 hYSLp
     have hXpair : QuotSat (E1Xpre M Q B t) Q (fun W _ => CFSG.layer W = ⊤) := by
@@ -1145,12 +1166,12 @@ theorem theoremR_of (hLC : LemmaCStatement) (hKF6 : SL2RootStatement)
     obtain ⟨hNXi, hXlay⟩ := hXpair
     obtain ⟨hNXc, hXc⟩ := hXcent
     have hinf : thY hc t ⊓ E1Xpre M Q B t = Q := by
-      haveI := hNXc
+      have := hNXc
       exact thY_inf_eq hc ht hXc
     have hLBle : LB M Q B ≤ thY hc t ⊔ E1Xpre M Q B t :=
       hLB6.le.trans (sup_le_sup hNY inf_le_right)
     have hsup : thY hc t ⊔ E1Xpre M Q B t = Lgen M (LB M Q B) := by
-      haveI := hNXi
+      have := hNXi
       exact thY_sup_eq hc ht hP1 hLBle hH.cent hXlay hYl
     exact ⟨thY hc t, Q_le_thY hc ht, thY_le_Lgen hc, thY_normal hc ht hP1, hinf, hsup,
       fun y hy x hx => ((mem_thY hc).mp hy).2 x hx, ⟨hNYi, hYSLp⟩⟩

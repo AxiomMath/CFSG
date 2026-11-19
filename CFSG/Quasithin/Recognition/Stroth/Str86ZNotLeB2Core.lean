@@ -43,13 +43,13 @@ theorem eq_of_commutator_le_of_fixedPointFree [Finite G] {Q Z : Subgroup G} {ω 
     (hinv : ∀ z ∈ Q, z ∈ Subgroup.centralizer (Q : Set G) → z ^ 2 = 1 → z ∈ Z)
     (hcomm : ∀ x ∈ Q, ⁅x, ω⁆ ∈ Z) (hfree : ∀ z ∈ Z, ⁅z, ω⁆ = 1 → z = 1) : Q = Z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set φ := commutatorHom hZQ hZc hcomm with hφ
   have hker : φ.ker = ⊥ := by
     by_contra hne
-    haveI : Group.IsNilpotent ↥Q := hQ.isNilpotent
+    have : Group.IsNilpotent ↥Q := hQ.isNilpotent
     have hcen := Group.IsNilpotent.inf_center_ne_bot_of_normal (H := φ.ker) hne
-    haveI : Finite ↥(φ.ker ⊓ Subgroup.center ↥Q) := Subtype.finite
+    have : Finite ↥(φ.ker ⊓ Subgroup.center ↥Q) := Subtype.finite
     have h2 : IsPGroup 2 ↥(φ.ker ⊓ Subgroup.center ↥Q) := hQ.to_subgroup _
     obtain ⟨u, hu⟩ : ∃ u : ↥(φ.ker ⊓ Subgroup.center ↥Q), orderOf u = 2 := by
       have hnt : Nontrivial ↥(φ.ker ⊓ Subgroup.center ↥Q) :=
@@ -124,10 +124,10 @@ private theorem inf_conj_mul_iff {R A Z : Subgroup G} (hZR : Z ≤ R) (hcomm : �
   have h' := R.mul_mem h (R.inv_mem hz')
   rwa [mul_inv_cancel_right] at h'
 
-theorem inf_conj_eq_iInf_of_transitive {H B S Q R A Z : Subgroup G} (hBH : B ≤ H) (hSB : S ≤ B)
+theorem inf_conj_eq_iInf_of_transitive {H B S Q R A Z : Subgroup G} (_hBH : B ≤ H) (hSB : S ≤ B)
     (hQS : Q ≤ S) (hHQ : H ≤ Subgroup.normalizer (Q : Set G))
     (htrans : ∀ g ∈ H, g ∉ B → ∀ g' ∈ H, g' ∉ B → ∃ s ∈ S, (s * g)⁻¹ * g' ∈ B)
-    (hBR : B ≤ Subgroup.normalizer (R : Set G)) (hAR : A ≤ R)
+    (hBR : B ≤ Subgroup.normalizer (R : Set G)) (_hAR : A ≤ R)
     (hAQ : ∀ s ∈ S, ∃ a ∈ A, a⁻¹ * s ∈ Q) (hZR : Z ≤ R)
     (hHZ : H ≤ Subgroup.normalizer (Z : Set G)) (hcomm : ⁅R, A⁆ ≤ Z)
     {g : G} (hg : g ∈ H) (hgB : g ∉ B) :

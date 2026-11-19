@@ -195,7 +195,7 @@ theorem uni_GU_facts {d n : ℕ} {F : Type} [Field F] [Finite F] (hF : Nat.card 
         Subgroup.normalizer (↑(LargeEvenSUGroup (Fin d) F (2 ^ n)) : Set (GL (Fin d) F)) ∧
       LargeEvenScalars (Fin d) F ≤ MGU n d F ∧
       LargeEvenSUGroup (Fin d) F (2 ^ n) ≤ MGU n d F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with h0 | hpos
     · subst h0
@@ -203,9 +203,9 @@ theorem uni_GU_facts {d n : ℕ} {F : Type} [Field F] [Finite F] (hF : Nat.card 
       rw [hF] at hlt
       norm_num at hlt
     · exact hpos
-  haveI hUFD : UnitaryFieldData 2 n F :=
+  have hUFD : UnitaryFieldData 2 n F :=
     ⟨Nat.prime_two, hn1, by rw [hF, ← pow_mul, Nat.mul_comm n 2]⟩
-  haveI hCharP : CharP F 2 := hUFD.charP
+  have hCharP : CharP F 2 := hUFD.charP
   have hMGU : MGU n d F = guSubgroup n d F := by
     rw [MGU]
     exact le_antisymm ((Subgroup.closure_le _).mpr (fun _ hA => hA)) Subgroup.subset_closure
@@ -253,7 +253,7 @@ theorem lin_model_facts {d n : ℕ} {F : Type} [Field F] [Finite F] (hF : Nat.ca
         ⁅A, u⁆ ∈ LargeEvenScalars (Fin d) F) → A ∈ LargeEvenScalars (Fin d) F) ∧
       Subgroup.center (LargeEvenProj (LargeEvenSLGroup (Fin d) F)) = ⊥ ∧
       Odd (Nat.card (LargeEvenProjMk (LargeEvenSLGroup (Fin d) F)).ker) := by
-  haveI hPerf : Group.IsPerfect ↥(LargeEvenSLGroup (Fin d) F) := by
+  have hPerf : Group.IsPerfect ↥(LargeEvenSLGroup (Fin d) F) := by
     rw [largeEvenSLGroup_eq_statedSL]
     exact CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le hd F
   have hb : ∀ A : GL (Fin d) F, (∀ u ∈ LargeEvenSLGroup (Fin d) F,
@@ -286,11 +286,11 @@ theorem uni_model_facts {d n : ℕ} {F : Type} [Field F] [Finite F] (hF : Nat.ca
         ⁅A, u⁆ ∈ LargeEvenScalars (Fin d) F) → A ∈ LargeEvenScalars (Fin d) F) ∧
       Subgroup.center (LargeEvenProj (LargeEvenSUGroup (Fin d) F (2 ^ n))) = ⊥ ∧
       Odd (Nat.card (LargeEvenProjMk (LargeEvenSUGroup (Fin d) F (2 ^ n))).ker) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hUFD : UnitaryFieldData 2 n F :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hUFD : UnitaryFieldData 2 n F :=
     ⟨Nat.prime_two, hn, by rw [hF, ← pow_mul, Nat.mul_comm n 2]⟩
-  haveI hCharP : CharP F 2 := hUFD.charP
-  haveI hPerf : Group.IsPerfect ↥(LargeEvenSUGroup (Fin d) F (2 ^ n)) := by
+  have hCharP : CharP F 2 := hUFD.charP
+  have hPerf : Group.IsPerfect ↥(LargeEvenSUGroup (Fin d) F (2 ^ n)) := by
     have hnq : (d, 2 ^ n) ≠ (3, 2) := by
       intro h
       simp only [Prod.mk.injEq] at h

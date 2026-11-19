@@ -145,7 +145,7 @@ theorem hasDihedralSylowTwo_sec19X_quot [IsSimpleGroup G] (hstar : C19_11aTmp p 
       rw [hσ, hρ, ← map_inv, ← map_mul, ← map_mul, ← map_mul, hπ1]
       simpa using hK1
     exact eq_inv_of_mul_eq_one_left h
-  have hV2 : IsPGroup 2 V := S.isPGroup'.to_le (hDT.leW.trans hd.hWS)
+  have hV2 : IsPGroup 2 V := S.isPGroup.to_le (hDT.leW.trans hd.hWS)
   obtain ⟨k, hk⟩ := hV2.exists_card_eq
   have hV4 : 4 ≤ Nat.card V := ef.four
   have hk2 : 2 ≤ k := by

@@ -58,7 +58,7 @@ theorem le_centralizer_three {P : Sylow 3 G} (hin : PPointThreeInputs) (hS : D1G
   have hxQ : x ∈ (P : Subgroup G) ⊓ centralizer ({x} : Set G) :=
     ⟨h.mem, mem_centralizer_singleton_iff.2 rfl⟩
   have hQP : (P : Subgroup G) ⊓ centralizer ({x} : Set G) ≤ (P : Subgroup G) := inf_le_left
-  have hPQ := eq_of_isPGroup_of_le_of_normalizer P.isPGroup' hQP (fun g hgP hgN => by
+  have hPQ := eq_of_isPGroup_of_le_of_normalizer P.isPGroup hQP (fun g hgP hgN => by
     refine ⟨hgP, ?_⟩
     set L : Subgroup G := (zpowers x).map (MulAut.conj g).toMonoidHom with hL
     have hLQ : L ≤ (P : Subgroup G) ⊓ centralizer ({x} : Set G) := by
@@ -90,7 +90,7 @@ theorem le_centralizer_three {P : Sylow 3 G} (hin : PPointThreeInputs) (hS : D1G
           _ = g * x⁻¹ * g := by rw [h1]
           _ = (g * x⁻¹ * g⁻¹) * (g * g) := by group
           _ = x * (g * g) := by rw [h2]
-      obtain ⟨j, hj⟩ := P.isPGroup' ⟨g, hgP⟩
+      obtain ⟨j, hj⟩ := P.isPGroup ⟨g, hgP⟩
       have hgj : g ^ (3 ^ j) = 1 := by simpa using congrArg Subtype.val hj
       obtain ⟨k, hk⟩ : Odd (3 ^ j) := Odd.pow (by decide)
       have hgk : (g ^ 2) ^ k = g⁻¹ := by

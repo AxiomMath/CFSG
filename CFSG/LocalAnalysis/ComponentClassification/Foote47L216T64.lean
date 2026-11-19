@@ -252,7 +252,7 @@ private theorem three_le_rank_centralizer_of_le_upper
       intro a ha
       exact mem_centralizer_singleton_iff.mp ha.2
   · obtain ⟨e, heE, hei⟩ : ∃ e ∈ E, e ∉ linearKernel F16 := by
-      simpa only [SetLike.le_def, not_forall, exists_prop] using hEi
+      simpa only [_root_.IsConcreteLE.le_iff, not_forall, exists_prop] using hEi
     by_cases hhi : h ∈ linearKernel F16
     · by_cases heh : e * h = h * e
       · exact three_le_rank_of_eight hE

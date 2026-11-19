@@ -266,7 +266,7 @@ theorem not_isSylowOf_of_normal
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨L, -, hL, hPL, hL5⟩ := exists_isL2OrA7_of_isSylowOf hO hP hcP hnP H hH hPH
   have hSL : (S : Subgroup G) ⊓ L ≤ P :=
-    (hPL.eq_of_le (le_inf hPS hPL.le) inf_le_right (S.isPGroup'.to_le inf_le_left)).le
+    (hPL.eq_of_le (le_inf hPS hPL.le) inf_le_right (S.isPGroup.to_le inf_le_left)).le
   have heven : Even (Nat.card L) := by
     obtain ⟨a, -, ⟨e⟩⟩ := hP
     refine even_iff_two_dvd.mpr ((?_ : 2 ∣ Nat.card P).trans (card_dvd_of_le hPL.le))
@@ -295,7 +295,7 @@ theorem not_isSylowOf_of_normal
   have hQC' : IsSylowOf 2 Q (centralizer (L : Set G)) := by
     have hT : IsSylowOf 2 (S : Subgroup G) ⊤ := by
       rw [isSylowOf_iff, relIndex_top_right]
-      exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+      exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
     have h := hT.inf_of_le_normalizer le_top (normalizer_eq_top_iff.mpr hCn).ge
     rwa [hSC] at h
   obtain ⟨K, hKC, hK, hQK, hK5⟩ := exists_isL2OrA7_of_isSylowOf hO hQ hcQ hnQ _ hCn hQC'

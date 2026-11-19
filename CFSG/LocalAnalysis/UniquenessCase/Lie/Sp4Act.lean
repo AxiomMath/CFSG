@@ -148,7 +148,7 @@ theorem uc22pwI2_dvd_of_rho_pow [Finite K] {n e m' m k : ℕ} (hm' : Odd m') (hn
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
       omega
-    haveI : Nontrivial Kˣ := Finite.one_lt_card_iff_nontrivial.mp hcard
+    have : Nontrivial Kˣ := Finite.one_lt_card_iff_nontrivial.mp hcard
     obtain ⟨a, ha⟩ := exists_ne (1 : Kˣ)
     have h1 := h ![a, 1]
     rw [uc22pwI2Rho_pow_odd] at h1

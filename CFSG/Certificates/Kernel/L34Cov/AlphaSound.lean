@@ -74,12 +74,11 @@ theorem lift_eq_corr (x y : Fin 2 → G) (h₀ : (x 0)⁻¹ * y 0 ∈ center G)
       have c₀ := comm_of_inv_mul_mem_center h₀
       have c₁ := comm_of_inv_mul_mem_center h₁
       fin_cases j <;> cases b <;> simp (config := { decide := true }) only [Fin.zero_eta,
-        Fin.mk_one, Fin.isValue, ↓reduceIte, Bool.false_eq_true, zpow_zero, mul_one,
+        Fin.mk_one, Fin.isValue, ↓reduceIte, zpow_zero, mul_one,
         zpow_one, zpow_neg_one, mul_inv_rev, inv_inv, mul_inv_cancel_left]
       all_goals first
         | exact inv_eq_conj_of_comm c₀
         | exact inv_eq_conj_of_comm c₁
-        | group
     rw [hm, map_mul, map_mul, hl, ih, expOf_cons, expOf_cons]
     exact rearr h₀ h₁ _ _ _ _ _ _
 

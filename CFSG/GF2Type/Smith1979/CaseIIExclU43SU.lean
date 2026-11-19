@@ -35,7 +35,7 @@ theorem scalar_mem_stated (c : Kˣ) (hc : (c : K) ^ 4 = 1) :
       rw [show (c : K) ^ 3 * (c : K) = (c : K) ^ 4 by ring]
       exact hc
     simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_map,
-      Matrix.diagonal_mul_diagonal, h3, Pi.one_def]
+      Matrix.diagonal_mul_diagonal, h3]
 
 theorem scalar_comm (c : Kˣ) (g : GL (Fin 4) K) :
     Matrix.GeneralLinearGroup.scalar (Fin 4) c * g =
@@ -70,7 +70,7 @@ theorem stateψ_eq_one_iff {X : Type} [Group X] (e : X ≃* StatedProj (StatedSU
 
 theorem two_ne_zero_of_card_nine [Finite K] (hK : Nat.card K = 9) : (2 : K) ≠ 0 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card] at hK
   obtain ⟨p, hchar, n, hpp, hcard⟩ := FiniteField.card' K
   rw [hK] at hcard
@@ -88,7 +88,7 @@ theorem two_ne_zero_of_card_nine [Finite K] (hK : Nat.card K = 9) : (2 : K) ≠ 
 
 theorem exists_sqrt_neg_one [Finite K] (hK : Nat.card K = 9) : ∃ i : K, i * i = -1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hsq : IsSquare (-1 : K) := by
     rw [FiniteField.isSquare_neg_one_iff, ← Nat.card_eq_fintype_card, hK]
     norm_num

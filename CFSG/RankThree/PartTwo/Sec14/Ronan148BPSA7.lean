@@ -31,8 +31,8 @@ theorem isSolvable_stabilizer {α : Type*} [Finite α] (s : Set α) (hs : Nat.ca
     · have := congrArg (fun p : Perm s × Perm ↥(sᶜ : Set α) => ((p.2 ⟨x, hx⟩ : ↥(sᶜ : Set α)) : α))
         hgh
       simpa [φ₂, SMul.smul_stabilizer_def, Perm.smul_def] using this
-  haveI := Equiv.Perm.isSolvable hs
-  haveI := Equiv.Perm.isSolvable hsc
+  have := Equiv.Perm.isSolvable hs
+  have := Equiv.Perm.isSolvable hsc
   exact Group.isSolvable_of_isSolvable_injective hφ
 
 theorem pretransitive_or_le_stabilizer {α : Type*} {M : Subgroup (Perm α)} (s : Set α) (b : α)
@@ -307,7 +307,7 @@ theorem sigGenConcl_of_eNine {P K Q D : Subgroup (alternatingGroup (Fin 7))}
         intro x _
         obtain ⟨y, hy, hyx⟩ := hA x.2
         rwa [← ι_injective hyx]
-      haveI : K.Normal := Subgroup.normalizer_eq_top_iff.mp hN
+      have : K.Normal := Subgroup.normalizer_eq_top_iff.mp hN
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with h | h
       · exfalso
         have := hh.three
@@ -328,8 +328,8 @@ theorem sigGenConcl_of_eNine {P K Q D : Subgroup (alternatingGroup (Fin 7))}
         have := hh.three
         rw [Subgroup.card_bot] at this
         norm_num at this
-      haveI : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hK1
-      haveI := hh.perf
+      have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hK1
+      have := hh.perf
       exact Group.IsPerfect.not_isSolvable K hKs
   subst hK
   have h1 := mem_signalizers hP vOne_le_alt card_vOne

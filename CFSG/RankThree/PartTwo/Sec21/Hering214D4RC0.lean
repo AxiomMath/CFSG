@@ -26,7 +26,7 @@ theorem eInvFour_C0_of_reflectsE (P : D4Par n F σ) (hn : 2 ≤ n) (hev : Even n
   by_cases hin : Ē ≤ (MulAut.conj : C0 σ →* MulAut (C0 σ)).range
   ·
     obtain ⟨x, ε₁, hε₁, ε₂, hε₂, h1, h2, hnorm, hfix, hinv⟩ := hR
-    haveI : IsMulCommutative ↥Ē := hE3.1
+    have : IsMulCommutative ↥Ē := hE3.1
     have hinj := conj_injective_C0 σ n P.one_le P.card P.frob
     obtain ⟨g₁, hg₁⟩ := hin hε₁
     obtain ⟨g₂, hg₂⟩ := hin hε₂

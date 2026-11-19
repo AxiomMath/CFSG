@@ -84,7 +84,7 @@ theorem rowFinal_gen (hKSML3 : KSML3) {M T : Subgroup G} {T₁ T₂ : Subgroup �
     (h28 : Row1528 G M T T₁ T₂) :
     RowFinal G M T T₁ T₂ := by
   have hLN := hLN_of_rows_gen ctx.gn ctx.pair ctx.rank_N₁ ctx.rank_N₂ h25 h27
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h7 : 7 ∈ sigmaM G M := by rw [h25.1]; exact rfl
   obtain ⟨Ls, hLs, -⟩ := exists_yComponent_dvd_ctx_gen kWiel_holds
     (kHupAt_odd (by norm_num) (by norm_num)) ctx h7

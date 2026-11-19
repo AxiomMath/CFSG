@@ -101,7 +101,7 @@ theorem exists_eq_flagMap_stdFlag {F : ℕ → Submodule K (ι → K)} (hF : Mon
       exact (hsA k).sub ((hℓ a k).mpr a.2)
   let Mw : Matrix ι ι K := Matrix.of fun c a => w a c
   have hunit : IsUnit Mw := by
-    rw [← Matrix.linearIndependent_cols_iff_isUnit]
+    rw [← Matrix.linearIndependent_col_iff_isUnit]
     have hc : Mw.col = fun a => (bas (e a) : ι → K) := by
       funext a
       ext c

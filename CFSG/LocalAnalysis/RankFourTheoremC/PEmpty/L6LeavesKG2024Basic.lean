@@ -79,7 +79,7 @@ theorem isSimpleSection_bot {A : Type} [Group A] [Finite A] {Y : Subgroup A}
   have hab : ∃ x y : ↥Y, x * y ≠ y * x := by
     by_contra hcon
     push Not at hcon
-    letI : CommGroup ↥Y := { (inferInstance : Group ↥Y) with mul_comm := hcon }
+    let : CommGroup ↥Y := { (inferInstance : Group ↥Y) with mul_comm := hcon }
     have hprime := IsSimpleGroup.prime_card (α := ↥Y)
     have e1 := hprime.eq_one_or_self_of_dvd p hpY
     have e2 := hprime.eq_one_or_self_of_dvd 3 h3

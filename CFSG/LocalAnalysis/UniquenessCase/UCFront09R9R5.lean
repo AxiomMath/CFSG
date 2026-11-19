@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem opp_eq_L9_and_isSylowOf (D : Data G) {Y W N S : Subgroup G} (hY : Y ∈ calY2Star9 D)
     (hYW : Y ≤ W) (hWM : W ≤ D.M) (hN : N ∈ calMOf W) (hNM : N ≠ D.M) (hS : IsSylowOf 2 S Y) :
     Opp 3 Y = L9 Y W ∧ IsSylowOf 2 S W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYmax : Maximal (· ∈ calY2_9 D) Y := hY
   have hSW : S ≤ W := hS.le.trans hYW
   obtain ⟨Q, hQ⟩ := (hS.isPGroup.comap_subtype (K := W)).exists_le_sylow

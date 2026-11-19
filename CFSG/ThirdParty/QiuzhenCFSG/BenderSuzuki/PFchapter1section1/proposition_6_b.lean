@@ -98,7 +98,7 @@ private theorem proposition_6_b_H_decomp
         exact (Subgroup.subgroupOf_sup hA1.Q_le_H hA1.D_le_H).symm
       _ = H.subgroupOf H := by rw [hA1.Q_sup_D]
       _ = ⊤ := (Subgroup.subgroupOf_eq_top).2 le_rfl
-  haveI : QH.Normal := hA1.Q_normal_in_H
+  have : QH.Normal := hA1.Q_normal_in_H
   have hhH : hH ∈ QH ⊔ DH := by
     rw [hQH_top]
     trivial
@@ -349,7 +349,7 @@ private theorem proposition_6_b_exists_fixed_ne_two
   let pa : Fixed := ⟨a, ha⟩
   let pb : Fixed := ⟨b, hb⟩
   let f : Fin 2 → Fixed := fun i => if i = 0 then pa else pb
-  letI : Fintype Fixed := Fintype.ofFinite Fixed
+  let : Fintype Fixed := Fintype.ofFinite Fixed
   have hsurj : Function.Surjective f := by
     intro p
     rcases hcover p with hp | hp

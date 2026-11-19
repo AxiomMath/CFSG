@@ -40,7 +40,7 @@ theorem exists_conj_proj_of_mem_innAutDerived_statedSp {p r ℓ f : ℕ} {K : Ty
   exact ⟨x, by rw [← ht, ← hx], hxp⟩
 
 theorem commute_of_conj_proj_commute {r : ℕ} {K : Type} [Field K] [Finite K] (hr : 2 ≤ r)
-    {x y : StatedSp r K} (hx : x ^ 3 = 1) (hy : y ^ 3 = 1)
+    {x y : StatedSp r K} (_hx : x ^ 3 = 1) (hy : y ^ 3 = 1)
     (h : Commute (MulAut.conj (proj r K x)) (MulAut.conj (proj r K y))) : Commute x y := by
   have hZc : (proj r K).ker ≤ Subgroup.center (StatedSp r K) := by
     rw [SymplecticHigher.ker_proj]
@@ -62,13 +62,13 @@ section Eight
 variable {r : ℕ} {K : Type} [Field K] [Finite K]
 
 private theorem charP_two_of_card_eq_eight (hK8 : Nat.card K = 8) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact charP_of_card_eq_prime_pow (p := 2) (f := 3)
     (by rw [Fintype.card_eq_nat_card, hK8]; norm_num)
 
 private theorem three_ne_zero_of_card_eq_eight (hK8 : Nat.card K = 8) : (3 : K) ≠ 0 := by
-  haveI := charP_two_of_card_eq_eight hK8
+  have := charP_two_of_card_eq_eight hK8
   intro h
   have hd : 2 ∣ 3 := (CharP.cast_eq_zero_iff K 2 3).1 h
   norm_num at hd
@@ -84,7 +84,7 @@ theorem eq_X_sub_one_or_X_sq_add_X_add_one_of_mem_primaryFactors (hK8 : Nat.card
   · exact Or.inl hX
   · right
     have hdvd2 := CFSG.AGLEmbedding.ToralCensus.dvd_X_sq_add_X_add_one hirr hmon hdvd hX
-    haveI : CharP K 2 := charP_two_of_card_eq_eight hK8
+    have : CharP K 2 := charP_two_of_card_eq_eight hK8
     exact CFSG.AGLEmbedding.ToralCensus.eq_of_dvd_of_natDegree_eq_two
       (CFSG.RankThree.PartOne.KFOUT3.irreducible_quad (by rw [hK8]; norm_num))
       CFSG.AGLEmbedding.ToralCensus.monic_X_sq_add_X_add_one (dvd_refl _)
@@ -153,9 +153,9 @@ theorem exists_component_eq_fixed_or_unitary (hK8 : Nat.card K = 8) (hr : 2 ≤ 
   have hZc : (proj r K).ker ≤ Subgroup.center (StatedSp r K) := by
     rw [SymplecticHigher.ker_proj]
     exact SymplecticHigher.spScalars_le_center
-  haveI : Finite ↥(reciprocalOrbits (spEnd x)) :=
+  have : Finite ↥(reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
-  haveI : Fintype ↥(reciprocalOrbits (spEnd x)) := Fintype.ofFinite _
+  have : Fintype ↥(reciprocalOrbits (spEnd x)) := Fintype.ofFinite _
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   have hcomp := components_conj_of_orbit_family (proj r K) SymplecticHigher.proj_surjective hZc x
     (fun O : ↥(reciprocalOrbits (spEnd x)) => spSupported x (O : Set K[X]))
@@ -176,7 +176,7 @@ theorem exists_component_eq_fixed_or_unitary (hK8 : Nat.card K = 8) (hr : 2 ≤ 
     have hhX : h = X - 1 := by simpa using hmem
     subst hhX
     obtain ⟨φ, -⟩ := blocks.fixedFactor hh
-    haveI : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
+    have : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
       Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot H.squarefree hh)
     obtain ⟨s, hs, ⟨e⟩⟩ :=
       CFSG.RankThree.PartOne.KCSpIsotypic.exists_mulEquiv_sesqUnitaryGroup_statedSp
@@ -185,7 +185,7 @@ theorem exists_component_eq_fixed_or_unitary (hK8 : Nat.card K = 8) (hr : 2 ≤ 
     have hs1 : 1 ≤ s := by
       have := Module.finrank_pos (R := K) (M := primaryComponent (spEnd x) (X - 1))
       omega
-    haveI : Group.IsPerfect ↥(StatedSp s K) :=
+    have : Group.IsPerfect ↥(StatedSp s K) :=
       (CFSG.LieType.Universal.Symplectic.isQuasisimple s K hs1
         (Or.inl (Or.inr (by rw [hK8]; norm_num)))).1
     have hperf : Group.IsPerfect ↥(spSupported x {X - 1}) :=
@@ -208,9 +208,9 @@ theorem exists_mem_spSupported_commute_of_commute (blocks : SpPrimaryBlocks ℓ 
     ∃ yO ∈ spSupported x (O : Set K[X]),
       ∀ g ∈ spSupported x (O : Set K[X]), Commute (yO⁻¹ * y) g := by
   classical
-  haveI : Finite ↥(reciprocalOrbits (spEnd x)) :=
+  have : Finite ↥(reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
-  haveI : Fintype ↥(reciprocalOrbits (spEnd x)) := Fintype.ofFinite _
+  have : Fintype ↥(reciprocalOrbits (spEnd x)) := Fintype.ofFinite _
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   let H : ↥(reciprocalOrbits (spEnd x)) → Subgroup (StatedSp r K) :=
     fun O => spSupported x (O : Set K[X])
@@ -258,6 +258,7 @@ section InnerCase
 
 variable {r : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem spSupported_singleton_eq_bot_of_not_mem {h : K[X]} {x : StatedSp r K}
     (H : AltPrimaryData (spForm r K) (spLin r K x))
     (hX : h ∉ primaryFactors (spEnd x)) :
@@ -290,7 +291,7 @@ theorem exists_conj_subgroupStabRestrict_of_fixedComponent (hK8 : Nat.card K = 8
   classical
   have h3 := three_ne_zero_of_card_eq_eight (K := K) hK8
   have H : AltPrimaryData (spForm r K) (spLin r K x) := altPrimaryData_spLin h3 hx3
-  haveI : Nontrivial ↥T := CFSG.LocalCores.isQuasisimple_nontrivial
+  have : Nontrivial ↥T := CFSG.LocalCores.isQuasisimple_nontrivial
     (CFSG.Fischer.Classification.Recognition.localCores_isQuasisimple hT.2.2)
   have hTne : T ≠ ⊥ := T.nontrivial_iff_ne_bot.mp inferInstance
   have hAne : spSupported x {X - 1} ≠ ⊥ := by
@@ -329,7 +330,7 @@ theorem exists_conj_subgroupStabRestrict_of_fixedComponent (hK8 : Nat.card K = 8
     subst ht
     apply Subtype.ext
     rw [CFSG.GroupActions.subgroupStabRestrict_apply]
-    simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+    simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv]
     simpa only [map_mul, map_inv] using congrArg (proj r K) (hconj_eq g hg)
 
 theorem centerQuotientHom_mem_innAutDerived_of_fixedComponent (hK8 : Nat.card K = 8)
@@ -375,6 +376,7 @@ section UnitaryBlock
 
 variable {r : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem unitaryComponent_conjLaw {E W : Type*} [Field E] [AddCommGroup W] [Module E W]
     {σ : E →+* E} {Hf : W →ₛₗ[σ] W →ₗ[E] E} {A : Subgroup (StatedSp r K)}
     {T0 : Subgroup (StatedProj (StatedSp r K))}
@@ -404,8 +406,7 @@ private theorem unitaryComponent_conjLaw {E W : Type*} [Field E] [AddCommGroup W
       rw [show φ ⟨y_h, hy_h_mem⟩ = g from hg.symm]
       apply Subtype.ext
       rw [Subgroup.coe_inclusion, sesqSUConj_apply]
-      simp only [Subgroup.coe_inclusion, Subgroup.coe_mul, Subgroup.coe_inv,
-        Subgroup.coe_mk]
+      simp only [Subgroup.coe_inclusion, Subgroup.coe_mul, Subgroup.coe_inv]
     rw [hψ_spec (sesqSUConj (B := Hf) g s), hψ_spec s, h1]
     rfl
   have hy_conj : y * ψ s * y⁻¹ = y_h * ψ s * y_h⁻¹ := by
@@ -415,10 +416,11 @@ private theorem unitaryComponent_conjLaw {E W : Type*} [Field E] [AddCommGroup W
       _ = y_h * ψ s * y_h⁻¹ := by rw [hc.mul_inv_cancel]
   apply Subtype.ext
   rw [CFSG.GroupActions.subgroupStabRestrict_apply]
-  simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+  simp only [MulAut.conj_apply]
   rw [hπ' s, hπ' (sesqSUConj (B := Hf) g s), hψ_conj]
   simpa only [map_mul, map_inv] using congrArg (proj r K) hy_conj
 
+omit [Finite K] in
 private theorem unitaryBlock_perfect {E W : Type} [Field E] [AddCommGroup W] [Module E W]
     [FiniteDimensional E W] {f : ℕ} {hE : UnitaryFieldData 2 f E}
     {Hf : W →ₛₗ[hE.bar] W →ₗ[E] E} {A : Subgroup (StatedSp r K)}
@@ -434,10 +436,10 @@ private theorem unitaryBlock_perfect {E W : Type} [Field E] [AddCommGroup W] [Mo
       apply Subtype.ext
       apply Units.ext
       exact (CFSG.RankThree.PartOne.KCUnitary.End_commute_of_finrank_le_one hle _ _).eq
-    haveI : IsMulCommutative ↥(sesqUnitaryGroup Hf) := ⟨⟨hUcomm⟩⟩
+    have : IsMulCommutative ↥(sesqUnitaryGroup Hf) := ⟨⟨hUcomm⟩⟩
     have hUbot : commutator ↥(sesqUnitaryGroup Hf) = ⊥ := by
       rw [commutator_eq_bot_iff_center_eq_top, Subgroup.center_eq_top]
-    haveI : IsMulCommutative ↥A :=
+    have : IsMulCommutative ↥A :=
       ⟨⟨fun a b => φ.injective (by
         rw [map_mul, map_mul]
         exact hUcomm (φ a) (φ b))⟩⟩
@@ -511,11 +513,11 @@ private theorem centerQuotientHom_mem_innAutDerived_of_unitaryComponent_literal
       exact CFSG.AGLEmbedding.ToralCensus.natDegree_X_sq_add_X_add_one
     omega
   subst hd1
-  haveI : CharP K 2 := charP_two_of_card_eq_eight hK8
-  haveI : Fact (Irreducible (h : K[X])) :=
+  have : CharP K 2 := charP_two_of_card_eq_eight hK8
+  have : Fact (Irreducible (h : K[X])) :=
     ⟨CFSG.RankThree.PartOne.KFOUT3.irreducible_quad (K := K) (by rw [hK8]; norm_num)⟩
-  haveI : Finite (AdjoinRoot (h : K[X])) := hE.finite
-  haveI : FiniteDimensional (AdjoinRoot (h : K[X])) (primaryComponent (spEnd x) (h : K[X])) :=
+  have : Finite (AdjoinRoot (h : K[X])) := hE.finite
+  have : FiniteDimensional (AdjoinRoot (h : K[X])) (primaryComponent (spEnd x) (h : K[X])) :=
     Module.Basis.finiteDimensional_of_finite basis
   obtain ⟨hm2, hperf⟩ := unitaryBlock_perfect (hE := hE) (Hf := Hf) φ hHf hHfl
     (by norm_num : 3 ≤ 3 * 1) hTne
@@ -653,7 +655,7 @@ theorem symplecticCompAlgEight_holds : SymplecticCompAlgEight := by
   · exact centerQuotientHom_mem_innAutDerived_of_unitaryComponent hK8 hr ha3 hy3 hcomm blocks
       J hJ hJuni hxstab
 
-theorem lieCompAlg_symplectic : LieCompAlg isSymplecticIdx := fun d hd hf =>
+theorem lieCompAlg_symplectic : LieCompAlg isSymplecticIdx := fun _d hd hf =>
   compAlgAt_psp symplecticCompAlgEight_holds hd hf
 
 end Assembly

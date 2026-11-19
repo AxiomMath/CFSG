@@ -113,7 +113,7 @@ section Wiring
 theorem item187_holds_of (h1812 : Item181_2) (h1813 : Item181_3) (h184 : Item184_1)
     (h1842 : Item184_2) (h186 : Item186H) : Item187 :=
   item187_of_five_case h1812 h1813 h184 h1842 h186
-    (fun G _ _ A M H c X hX hs h5 =>
+    (fun _G _ _ _A _M _H _c _X hX hs h5 =>
       MinCex.false_of_isSolvable_of_five_dvd h1812 h1813 h184 h186 hX hs h5)
 
 end Wiring

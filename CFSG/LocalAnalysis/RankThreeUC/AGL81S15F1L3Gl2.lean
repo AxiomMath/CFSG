@@ -23,8 +23,7 @@ theorem mul_self_fin_two (X : Matrix (Fin 2) (Fin 2) F) :
     X * X = X.trace • X - X.det • (1 : Matrix (Fin 2) (Fin 2) F) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.trace_fin_two, Matrix.det_fin_two, Matrix.mul_apply, Fin.sum_univ_two,
-      Matrix.one_apply] <;> ring
+    simp [Matrix.trace_fin_two, Matrix.det_fin_two, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
 
 theorem one_add_pow_of_mul_self_eq_zero {R : Type*} [Ring R] {N : R} (hN : N * N = 0) (k : ℕ) :
     (1 + N) ^ k = 1 + k • N := by
@@ -51,7 +50,7 @@ theorem false_of_conj_pow_two (h7 : (7 : F) ≠ 0) {x y : GL (Fin 2) F} (hx7 : x
     simpa [hX] using this
   have htr : X.trace = (X * X).trace := by
     have h := congrArg (fun g : GL (Fin 2) F => ((g : Matrix (Fin 2) (Fin 2) F)).trace) hxy
-    simp only [Units.val_mul, Units.val_pow_eq_pow_val, pow_two] at h
+    simp only [Units.val_mul, pow_two] at h
     rw [← hX] at h
     rw [← h, Matrix.trace_mul_cycle, Units.inv_mul, one_mul]
   rw [trace_mul_self_fin_two, hdet] at htr
@@ -66,7 +65,7 @@ theorem false_of_conj_pow_two (h7 : (7 : F) ≠ 0) {x y : GL (Fin 2) F} (hx7 : x
     have hNN : N * N = 0 := by
       rw [hN, sub_mul, mul_sub, mul_one, one_mul, hsq]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply] <;> ring
+      fin_cases i <;> fin_cases j <;> simp <;> ring
     have hX7 : X ^ 7 = 1 := by
       have := congrArg (fun g : GL (Fin 2) F => (g : Matrix (Fin 2) (Fin 2) F)) hx7
       simpa [hX] using this
@@ -90,7 +89,7 @@ theorem false_of_conj_pow_two (h7 : (7 : F) ≠ 0) {x y : GL (Fin 2) F} (hx7 : x
         _ = (-1 : F) • (X * X) - X := by rw [sub_mul, smul_mul_assoc, one_mul]
         _ = 1 := by
           rw [hsq, smul_sub, smul_smul]
-          simp only [neg_mul, one_mul, neg_neg, one_smul, neg_smul, smul_neg]
+          simp only [neg_mul, one_mul, neg_neg, one_smul, neg_smul]
           abel
     have hx3 : x ^ 3 = 1 := by
       refine Units.ext ?_
@@ -106,7 +105,7 @@ theorem false_of_conj_pow_two (h7 : (7 : F) ≠ 0) {x y : GL (Fin 2) F} (hx7 : x
 
 theorem two_ne_zero_of_odd_card [Finite F] (hodd : ¬ 2 ∣ Nat.card F) : (2 : F) ≠ 0 := by
   intro h
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h2 : ringChar F = 2 := by
     have : ringChar F ∣ 2 := (CharP.cast_eq_zero_iff F (ringChar F) 2).mp (by exact_mod_cast h)
     exact (Nat.prime_dvd_prime_iff_eq (CharP.char_is_prime F _) Nat.prime_two).mp this
@@ -132,7 +131,7 @@ theorem polarize (A B : Matrix (Fin 2) (Fin 2) F) :
       ((A * B).trace - A.trace * B.trace) • (1 : Matrix (Fin 2) (Fin 2) F) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.trace_fin_two, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;> ring
+    simp [Matrix.trace_fin_two, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
 
 theorem mul_eq_trace_smul {e g : Matrix (Fin 2) (Fin 2) F} (hee : e * e = e) (htr : e.trace = 1)
     (hc : g * e = e * g) : e * g = (e * g).trace • e := by

@@ -257,7 +257,7 @@ theorem mem_inf_fr (h2 : (2 : F) ≠ 0) (x : Fin 3 ⊕ Fin 3 ⊕ Unit → F) :
     rw [mk7_eta x]
     have : x (.inr (.inl 1)) = -x (.inl 1) := by linear_combination b1
     have : x (.inr (.inl 2)) = -x (.inl 2) := by linear_combination b2
-    simp [x0, y0, z0, *]
+    simp only [Fin.isValue, neg_zero, mk7_x1, mk7_x2, x0, hx, y0, b1, b2, z0]
   · rintro ⟨a, b, rfl⟩
     simp [neg_mk7]
 

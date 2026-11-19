@@ -132,7 +132,7 @@ private theorem rckp4_commutator
   exact h
 
 private theorem rckp4_pair
-    (n : ℕ) (hadm : StatedLieAdmissible .F4 n 2 1) :
+    (n : ℕ) (_hadm : StatedLieAdmissible .F4 n 2 1) :
     ∃ (β : Fin (Tag.rank .F4) → ℤ)
       (x : ↥(adjointGroup .F4 (GaloisField 2 1)))
       (V : Subgroup ↥(adjointGroup .F4 (GaloisField 2 1))),
@@ -144,7 +144,7 @@ private theorem rckp4_pair
           (((f4Datum (GaloisField 2 1)).rootGroup β :
             Subgroup ↥(adjointGroup .F4 (GaloisField 2 1))) : Set _)) ∧
         ∀ v ∈ V, v ≠ 1 → ∃ j, v = j * x * j⁻¹ := by
-  haveI : Finite ↥(adjointGroup .F4 (GaloisField 2 1)) :=
+  have : Finite ↥(adjointGroup .F4 (GaloisField 2 1)) :=
     CFSG.StandardType.LieKnownR2.OddCenter.finite_ggU (n := 0) (by decide)
       (show StatedLieAdmissible .F4 0 2 1 from ⟨Nat.prime_two, le_refl 1, rfl⟩)
   let F : CFSG.LieType.Chevalley.RootOperatorFamily .F4 :=

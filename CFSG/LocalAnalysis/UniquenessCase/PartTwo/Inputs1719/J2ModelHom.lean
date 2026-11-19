@@ -65,7 +65,7 @@ theorem exists_conj_eq_permTwoA
     ∃ g ∈ P, g * (z : Equiv.Perm (Fin 315)) * g⁻¹ = permTwoA := by
   classical
   have hT : CFSG.QuasithinUnique.IsSylowTwoOf (T : Subgroup P) ⊤ :=
-    CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.2 ⟨T.isPGroup', T.not_dvd_index⟩
+    CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.2 ⟨T.isPGroup, T.not_dvd_index⟩
   have hz2c : ∀ t ∈ (T : Subgroup P), z * z * t = t * (z * z) := by
     intro t ht
     rw [mul_assoc, hzc t ht, ← mul_assoc, hzc t ht, mul_assoc]
@@ -207,7 +207,7 @@ theorem exists_center_facts {Y : Type} [Group Y] [Finite Y] (K : Subgroup Y) (hK
     intro s hs
     rw [Subgroup.mem_normalizer_iff]
     intro x
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     constructor
     · rintro ⟨hxS, hxK⟩
       exact ⟨S.mul_mem (S.mul_mem hs hxS) (S.inv_mem hs), hKn.conj_mem x hxK s⟩

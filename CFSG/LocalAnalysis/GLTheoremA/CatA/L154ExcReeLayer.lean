@@ -81,9 +81,9 @@ theorem l154_ree_layer {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
       (Nonempty (Matrix.SpecialLinearGroup (Fin 2) K ≃* ↥T) ∨
         Nonempty (CFSG.Blueprint.suzukiGroup a K ≃* ↥T)) := by
   classical
-  haveI : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag K) :=
+  have : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag K) :=
     CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   rw [CFSG.HardMathSupport.Dickson.SuzukiReeB.fixSubgroup_conj] at hT
   have hperf : ⁅T, T⁆ = T := glaPComponent_perfect hT
   have hne : T ≠ ⊥ := CFSG.HardMathSupport.Solomon.LocalBalance.glaPComponent_ne_bot hT
@@ -91,10 +91,10 @@ theorem l154_ree_layer {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
   rcases CFSG.LocalAnalysis.GLTheoremB.MovingAround.Claims1116b.largeRee_layer_typed ha hK hp hp3 s
     hs with hsolv | ⟨N, hNC, hCN, -, hty⟩
   · exfalso
-    haveI : Group.IsPerfect ↥T := Subgroup.isPerfect_iff.2 hperf
-    haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hne
-    haveI := hsolv
-    haveI : Group.IsSolvable ↥T :=
+    have : Group.IsPerfect ↥T := Subgroup.isPerfect_iff.2 hperf
+    have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hne
+    have := hsolv
+    have : Group.IsSolvable ↥T :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hTC)
         (Subgroup.inclusion_injective hTC)
     exact Group.IsPerfect.not_isSolvable ↥T inferInstance

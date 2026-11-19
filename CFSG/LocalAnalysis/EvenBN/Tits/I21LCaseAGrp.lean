@@ -12,6 +12,7 @@ section Grp
 
 variable {Y : Type*} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem caseA_normal_of_comm {J K : Subgroup Y} (hJK : J ≤ K)
     (hcomm : ∀ a b : Y, a * b * a⁻¹ * b⁻¹ ∈ J) : K.Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -29,6 +30,7 @@ theorem caseA_index_two_or_four (J : Subgroup Y) [J.Normal] {t : Y} (ht2 : t * t
   have h0 : J.index ≠ 0 := Subgroup.index_ne_zero_of_finite
   omega
 
+omit [Finite Y] in
 theorem caseA_index_le_two {J P : Subgroup Y} (hJ : Nat.card J = 360) (hP : Nat.card P = 720)
     (h4 : J.index ≤ 4) : P.index ≤ 2 := by
   have h1 := Subgroup.card_mul_index J
@@ -39,7 +41,7 @@ theorem caseA_index_le_two {J P : Subgroup Y} (hJ : Nat.card J = 360) (hP : Nat.
 
 theorem caseA_card_sylow_inf (P : Subgroup Y) [P.Normal] (hP : Nat.card P = 720)
     (hidx : P.index ≤ 2) (S : Sylow 2 Y) : Nat.card ↥((S : Subgroup Y) ⊓ P) = 16 := by
-  obtain ⟨a, ha⟩ := (S.isPGroup'.to_inf_left (K := P)).exists_card_eq
+  obtain ⟨a, ha⟩ := (S.isPGroup.to_inf_left (K := P)).exists_card_eq
   have ha4 : a ≤ 4 := by
     by_contra hlt
     have h1 : 2 ^ 5 ∣ 2 ^ a := pow_dvd_pow 2 (by omega)
@@ -78,7 +80,7 @@ theorem caseA_p3 (J : Subgroup Y) [J.Normal] (e : J ≃* alternatingGroup (Fin 6
     ∀ S : Sylow 2 Y, t ∈ S → ∀ g : Y, g * t * g⁻¹ ∈ S →
       ∃ s ∈ S, s * t * s⁻¹ = g * t * g⁻¹ := by
   obtain ⟨hP, hD, -⟩ := pgl9_sylow J e hC ht2 htJ hpgl
-  haveI : (J ⊔ zpowers t).Normal := caseA_normal_of_comm le_sup_left hcomm
+  have : (J ⊔ zpowers t).Normal := caseA_normal_of_comm le_sup_left hcomm
   intro S hS g hg
   have hs2 : (g * t * g⁻¹) * (g * t * g⁻¹) = 1 := by
     calc (g * t * g⁻¹) * (g * t * g⁻¹) = g * (t * t) * g⁻¹ := by group
@@ -92,7 +94,7 @@ theorem caseA_p3 (J : Subgroup Y) [J.Normal] (e : J ≃* alternatingGroup (Fin 6
     rw [h1]
     exact (J ⊔ zpowers t).mul_mem (mem_sup_left (hcomm g t)) (mem_sup_right (mem_zpowers t))
   obtain ⟨d, hd, hdt⟩ := hD ((S : Subgroup Y) ⊓ (J ⊔ zpowers t)) inf_le_right
-    (S.isPGroup'.to_inf_left) (caseA_card_sylow_inf _ hP hidx S)
+    (S.isPGroup.to_inf_left) (caseA_card_sylow_inf _ hP hidx S)
     ⟨hS, mem_sup_right (mem_zpowers t)⟩ (g * t * g⁻¹) ⟨hg, hsP⟩ hsJ hs2
   exact ⟨d, hd.1, hdt⟩
 
@@ -102,7 +104,7 @@ theorem caseA_elemAb_le_eight (J : Subgroup Y) [J.Normal] (e : J ≃* alternatin
     (hidx : (J ⊔ zpowers t).index ≤ 2) :
     ∀ F : Subgroup Y, (∀ f ∈ F, f * f = 1) → Nat.card F ≤ 8 := by
   obtain ⟨-, -, hF⟩ := pgl9_sylow J e hC ht2 htJ hpgl
-  haveI : (J ⊔ zpowers t).Normal := caseA_normal_of_comm le_sup_left hcomm
+  have : (J ⊔ zpowers t).Normal := caseA_normal_of_comm le_sup_left hcomm
   intro F hF2
   have h4 : Nat.card ↥((J ⊔ zpowers t) ⊓ F) ≤ 4 :=
     hF _ inf_le_left fun f hf => hF2 f hf.2

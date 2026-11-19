@@ -177,7 +177,7 @@ theorem ctx_cent_W (h : Ctx0 t L S x₁ x₂ lam rho) (hi : CtxIdxFacts t L S x�
   · intro w hw
     rw [Subgroup.mem_centralizer_iff]
     intro a ha
-    haveI : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
+    have : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
     exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ctxW t x₁ x₂) ⟨w, hw⟩)
 
 theorem W_le_norm_base (h : Ctx0 t L S x₁ x₂ lam rho) :
@@ -198,6 +198,7 @@ theorem W_le_norm_base (h : Ctx0 t L S x₁ x₂ lam rho) :
     rw [e]
     exact hb
 
+omit [Finite G] in
 theorem rho_lam_norm_base (hm : CtxLModelFacts L x₁ x₂ lam rho) :
     rho ∈ normalizer ((baseGrp x₁ x₂ : Subgroup G) : Set G) ∧
       lam ∈ normalizer ((baseGrp x₁ x₂ : Subgroup G) : Set G) := by

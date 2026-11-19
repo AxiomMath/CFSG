@@ -366,7 +366,7 @@ theorem diagonal {CU A U : Subgroup G} (hXA : X ⊓ centralizer ({t} : Set G) = 
           group
     have hVU : ¬ V ≤ U := by
       intro hle
-      obtain ⟨c, hcA, hcU⟩ := SetLike.not_le_iff_exists.1 hA6
+      obtain ⟨c, hcA, hcU⟩ := IsConcreteLE.not_le_iff_exists.1 hA6
       obtain ⟨e, he, b, hb, hceb⟩ := d.exists_decomp hXA hCUN hCUt hA3 hcA
       have hδbA := d.delta_mem_A hXA hb
       have hδbV : b * (t * b * t⁻¹) ∈ V := (hmemV _).2 ⟨b, hb, rfl⟩
@@ -462,7 +462,7 @@ theorem rootAxis_A_le_commutator {U A : Subgroup H} {s : SL₂ K →* H} {d : K�
     rw [hS.vec_add _ (inv_mem hz) _ hsz, hS.vec_conj M z hz, eq_neg_of_add_eq_zero_left h2,
       hzv] at hw0
     have h3 := congrFun hw0 0
-    simp [M, Matrix.mulVec, dotProduct, Fin.sum_univ_two] at h3
+    simp [M] at h3
 
 variable {G : Type*} [Group G]
 

@@ -59,7 +59,7 @@ theorem two_pow_pred_add_self (n : ℕ) :
     · simp
     · simp
     · have h : ((-1 : ℤˣ) * -1) = 1 := by decide
-      rw [h, if_pos rfl, if_neg (by decide), ← ofAdd_add, two_pow_pred_add_self]
+      rw [h, ite_eq_left rfl, ite_eq_right (by decide), ← ofAdd_add, two_pow_pred_add_self]
       rfl
 
 theorem signZ_one (n : ℕ) : signZ n 1 = 1 := map_one _
@@ -68,7 +68,7 @@ theorem signZ_neg_one (n : ℕ) :
     signZ n (-1) = Multiplicative.ofAdd ((2 ^ (n - 1) : ℕ) : ZMod (2 ^ n)) := by
   show (if (-1 : ℤˣ) = 1 then (1 : Multiplicative (ZMod (2 ^ n))) else
     Multiplicative.ofAdd ((2 ^ (n - 1) : ℕ) : ZMod (2 ^ n))) = _
-  exact if_neg (by decide)
+  exact ite_eq_right (by decide)
 
 @[expose] def sumL4 (n : ℕ) : Multiplicative (Fin 4 → ZMod (2 ^ n)) →* Multiplicative (ZMod (2 ^ n))
     where
@@ -189,7 +189,7 @@ theorem cHat_zpow (n : ℕ) (k : ℤ) :
 
 theorem exists_eq_nsmul_zL4 {n : ℕ} (hn : 2 ≤ n) {x : ZMod (2 ^ n)} (hx : 4 * x = 0) :
     ∃ j : ℕ, x = j • zL4 n := by
-  haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+  have : NeZero (2 ^ n) := ⟨by positivity⟩
   have hx' : ((4 * x.val : ℕ) : ZMod (2 ^ n)) = 0 := by
     rw [Nat.cast_mul, ZMod.natCast_zmod_val]
     exact_mod_cast hx

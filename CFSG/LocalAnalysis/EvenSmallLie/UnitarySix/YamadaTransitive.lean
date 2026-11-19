@@ -285,7 +285,6 @@ theorem omegaSet_eq_of_not_caseFour (h : Setting G L D t) (hiv : ¬ CaseFour D t
     obtain ⟨e, he, het⟩ := hne
     have hc1 : (omegaSet D t).ncard = 1 := by
       first
-        | exact hcard
         | exact Set.ncard_eq_one.2 hcard
     obtain ⟨a, ha⟩ := Set.ncard_eq_one.1 hc1
     have h1 : t ∈ ({a} : Set G) := ha ▸ t_mem_omega

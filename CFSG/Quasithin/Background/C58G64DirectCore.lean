@@ -10,7 +10,7 @@ open CFSG.QuasithinUnique CFSG.Quasithin.G11
 
 private instance instFiniteGLVCore {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V] :
     Finite (GLV V) :=
-  Finite.of_injective (fun g : GLV V => (g : V → V)) (fun a b h => LinearEquiv.ext (congrFun h))
+  Finite.of_injective (fun g : GLV V => (g : V → V)) (fun _a _b h => LinearEquiv.ext (congrFun h))
 
 theorem closure_pair_core {G : Type*} [Group G] {x y : G} (hxy : Commute x y)
     (hx3 : x ^ 3 = 1) (hy3 : y ^ 3 = 1) :
@@ -55,7 +55,7 @@ theorem not_isCyclic_core {G : Type*} [Group G] [Finite G] {E : Subgroup G}
     (hE3 : ∀ e ∈ E, e ^ 3 = 1) {x y : G} (hxE : x ∈ E) (hyE : y ∈ E)
     (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1)
     (hne : Subgroup.zpowers x ≠ Subgroup.zpowers y) : ¬ IsCyclic ↥E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hc
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥E)
   have hg3 : g ^ 3 = 1 := Subtype.ext (by simpa using hE3 g.1 g.2)

@@ -26,7 +26,7 @@ theorem card_two_subgroup_inn_dvd_eight {K : Type} [Field K] [Finite K] (hK : Na
   have hcinj := conj_injective_psl2 K
   have hodd : IsOddPrimePower (Nat.card K) := ⟨3, 6, Nat.prime_three, ⟨1, rfl⟩, by norm_num, hK⟩
   have hPSL : Nat.card (PSL2 K) = 8 * 24213735 := by
-    rw [CFSG.GorensteinWalter.psl2_card_formula K hodd, hK] <;> norm_num
+    rw [CFSG.GorensteinWalter.psl2_card_formula K hodd, hK]; norm_num
   have hmap : (Q.comap (MulAut.conj : PSL2 K →* MulAut (PSL2 K))).map
       (MulAut.conj : PSL2 K →* MulAut (PSL2 K)) = Q := by
     rw [Subgroup.map_comap_eq, inf_eq_right.mpr hQI]
@@ -44,7 +44,7 @@ theorem card_two_subgroup_inn_dvd_eight {K : Type} [Field K] [Finite K] (hK : Na
       simpa using h
     refine ⟨k, Subtype.ext (hcinj ?_)⟩
     simpa [map_pow] using h1
-  haveI : Finite (Q.comap (MulAut.conj : PSL2 K →* MulAut (PSL2 K))) := inferInstance
+  have : Finite (Q.comap (MulAut.conj : PSL2 K →* MulAut (PSL2 K))) := inferInstance
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hpg
   have hdvd := Subgroup.card_subgroup_dvd_card (Q.comap (MulAut.conj : PSL2 K →* MulAut (PSL2 K)))
   rw [hn, hPSL] at hdvd
@@ -82,7 +82,7 @@ theorem card_mod_three_of_fpf {M : Type*} [Group M] {R : Subgroup M} [Finite R] 
     (hβ3 : β ^ 3 = 1) (hβR : ∀ r ∈ R, β * r * β⁻¹ ∈ R)
     (hfix : ∀ r ∈ R, β * r * β⁻¹ = r → r = 1) : Nat.card R % 3 = 1 := by
   classical
-  haveI := Fintype.ofFinite R
+  have := Fintype.ofFinite R
   let f : Function.End R := fun r => ⟨β * (r : M) * β⁻¹, hβR (r : M) r.2⟩
   have hpow : ∀ (n : ℕ) (r : R), ((f^[n] r : R) : M) = β ^ n * (r : M) * (β ^ n)⁻¹ := by
     intro n

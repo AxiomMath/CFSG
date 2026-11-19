@@ -168,7 +168,7 @@ theorem uniTypeOneW_nonComm
     rw [show (2 ^ n) ^ 2 - 1 = (2 ^ n + 1) * (2 ^ n - 1) by
       simpa [mul_comm] using (Nat.sq_sub_sq (2 ^ n) 1)]
     exact dvd_mul_right _ _
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨ε, hεp, haeq⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.T173S.exists_eq_X_sub_C_of_mem_primaryFactors hp hpdvd hxpow
       (h := a.1.1) (by
@@ -248,7 +248,7 @@ theorem uniTypeOneW_nonComm
         _ = (M.mat ⟨d, hsetup.d_mem⟩ * Mb) * s := by rw [mul_assoc]
         _ = s * (M.mat ⟨d, hsetup.d_mem⟩ * Mb) := (hscentral _).symm
     exact hnc (mul_left_cancel h1)
-  haveI : Nonempty (Fin N) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin N) := ⟨⟨0, by omega⟩⟩
   have hζp : ζ ^ p = 1 := by
     have hpow := congrArg (fun X : GL (Fin N) K => X ^ p) hconj
     have hconjpow : ∀ k : ℕ, (Mb * D * Mb⁻¹) ^ k = Mb * D ^ k * Mb⁻¹ := by
@@ -259,7 +259,7 @@ theorem uniTypeOneW_nonComm
     have hcommS : Commute (Matrix.GeneralLinearGroup.scalar (Fin N) ζ) D :=
       (commute_iff_eq _ _).mpr (Matrix.GeneralLinearGroup.scalar_commute ζ D)
     have hL : (Mb * D * Mb⁻¹) ^ p = 1 := by
-      simpa [hDpow] using hconjpow p
+      simp [hDpow]
     have hR : (Matrix.GeneralLinearGroup.scalar (Fin N) ζ * D) ^ p =
         Matrix.GeneralLinearGroup.scalar (Fin N) (ζ ^ p) := by
       rw [hcommS.mul_pow, map_pow, hDpow, mul_one]
@@ -271,8 +271,8 @@ theorem uniTypeOneW_nonComm
         simpa only [Matrix.GeneralLinearGroup.coe_scalar] using congrArg Units.val hab
       exact Units.ext (Matrix.scalar_inj.mp h1)
     exact hinj (by simpa using hpow.symm)
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hζprim : IsPrimitiveRoot ζ p :=
     IsPrimitiveRoot.iff_orderOf.mpr (orderOf_eq_prime hζp hζne)
   have hMD : Mb * D = Matrix.GeneralLinearGroup.scalar (Fin N) ζ * D * Mb := by
@@ -301,8 +301,8 @@ theorem uniTypeOneW_nonComm
         ext i j
         by_cases hij : i = j
         · subst hij
-          simp [Matrix.diagonal, Matrix.one_apply, Matrix.smul_apply, Units.ne_zero ζ]
-        · simp [Matrix.diagonal, Matrix.one_apply, Matrix.smul_apply, hij]
+          simp [Matrix.diagonal, Matrix.smul_apply, Units.ne_zero ζ]
+        · simp [Matrix.diagonal, Matrix.smul_apply, hij]
       simpa [Units.val_mul, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
         hdiaginv, Matrix.smul_mul, Matrix.one_mul] using hval
     have hvec : (D : Matrix (Fin N) (Fin N) K).mulVec
@@ -391,8 +391,8 @@ theorem uniTypeOneW_nonComm
       exact eq_one_of_perfect_of_comm hFq.1 (fun a b => Subtype.ext (hcommF a.1 a.2 b.1 b.2))
         (MonoidHom.id ↥F) g
     obtain ⟨u, v, huv⟩ := hFq.2.2
-    haveI : Subsingleton ↥F := ⟨fun x y => by rw [htriv x, htriv y]⟩
-    haveI : Subsingleton (↥F ⧸ Subgroup.center ↥F) := inferInstance
+    have : Subsingleton ↥F := ⟨fun x y => by rw [htriv x, htriv y]⟩
+    have : Subsingleton (↥F ⧸ Subgroup.center ↥F) := inferInstance
     exact huv (Subsingleton.elim (u * v) (v * u))
   obtain ⟨gF, hgF, hgF_non⟩ := hex_nonscalar
   have hgF_sesq : gF ∈ sesqSpecialUnitaryGroup (idForm h N) :=

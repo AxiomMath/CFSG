@@ -55,9 +55,9 @@ private theorem cibOrder_eq_one_iff {f p : ℕ} :
   rw [orderOf_eq_one_iff, ← ZMod.natCast_eq_zero_iff (2 ^ f - 1) p,
     Nat.cast_sub Nat.one_le_two_pow, Nat.cast_one, sub_eq_zero]
 
-private theorem cibFixCard_one {p : ℕ} (hp : p.Prime) (R : ℕ) :
+private theorem cibFixCard_one {p : ℕ} (_hp : p.Prime) (R : ℕ) :
     GGFixCard p (1 : Equiv.Perm (Fin R)) = p ^ R := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨_hp.ne_zero⟩
   unfold GGFixCard
   have h : Nat.card {z : Fin R → ZMod p // ∀ i, z ((1 : Equiv.Perm (Fin R)) i) = z i} =
       Nat.card (Fin R → ZMod p) :=
@@ -66,7 +66,7 @@ private theorem cibFixCard_one {p : ℕ} (hp : p.Prime) (R : ℕ) :
 
 private theorem cibFixCard_gamma {p : ℕ} (hp : p.Prime) :
     p ^ 4 ≤ GGFixCard p (Equiv.swap (0 : Fin 6) 5 * Equiv.swap 2 4) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   unfold GGFixCard
   let g : (Fin 4 → ZMod p) →
       {z : Fin 6 → ZMod p //
@@ -133,9 +133,9 @@ theorem ggInnDiagU_mem_range_E6
     {n f : ℕ} (hadm : GGKnownAdm .E6 n f) {p : ℕ} (hp : p.Prime)
     (hp3 : p ≠ 3 ∨ ¬ 3 ∣ Nat.card (GaloisField 2 f) - 1) {c : GGAutU .E6 n f}
     (hcp : c ^ p = 1) (hc : GGInnDiagU .E6 n f c) : c ∈ (ggPsiU .E6 n f).range := by
-  haveI : Finite (ggU .E6 n f).K := ggU_finite_exc (Or.inr (Or.inl rfl)) hadm
-  haveI : Finite (GGAutU .E6 n f) := GGSFCore.finite_ggAutU
-  haveI hN : ((ggPsiU .E6 n f).range).Normal := GGSFCore.normal_range_ggPsiU .E6 n f
+  have : Finite (ggU .E6 n f).K := ggU_finite_exc (Or.inr (Or.inl rfl)) hadm
+  have : Finite (GGAutU .E6 n f) := GGSFCore.finite_ggAutU
+  have hN : ((ggPsiU .E6 n f).range).Normal := GGSFCore.normal_range_ggPsiU .E6 n f
   obtain ⟨-, hker, ⟨hcomm, -⟩, hcent⟩ := ggKnownSetting_autU hadm
   exact ExcFrames.mem_range_of_innerDiag_E6 hp hp3 (ggPsiU .E6 n f) hker hcomm hcent
     (cibMem_normalizer hN c) hcp hc
@@ -145,10 +145,10 @@ theorem ggInnDiagU_mem_range_twistedE6
     (hp : p.Prime) (hp2 : p ≠ 2) (h3 : ¬ (p = 3 ∧ 3 ∣ 2 ^ f + 1))
     {c : GGAutU .twistedE6 n f} (hcp : c ^ p = 1) (hc : GGInnDiagU .twistedE6 n f c) :
     c ∈ (ggPsiU .twistedE6 n f).range := by
-  haveI : Finite (ggU .twistedE6 n f).K :=
+  have : Finite (ggU .twistedE6 n f).K :=
     ggU_finite_exc (Or.inr (Or.inr (Or.inr (Or.inr rfl)))) hadm
-  haveI : Finite (GGAutU .twistedE6 n f) := GGSFCore.finite_ggAutU
-  haveI hN : ((ggPsiU .twistedE6 n f).range).Normal :=
+  have : Finite (GGAutU .twistedE6 n f) := GGSFCore.finite_ggAutU
+  have hN : ((ggPsiU .twistedE6 n f).range).Normal :=
     GGSFCore.normal_range_ggPsiU .twistedE6 n f
   obtain ⟨⟨hadm', -⟩, hker, ⟨hcomm, -⟩, hcent⟩ := ggKnownSetting_autU hadm
   exact ExcFrames.mem_range_of_innerDiag_twistedE6 hp hp2 hadm'.2.1 h3 (ggPsiU .twistedE6 n f)

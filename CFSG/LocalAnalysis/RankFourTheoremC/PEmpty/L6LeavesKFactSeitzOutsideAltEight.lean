@@ -182,7 +182,7 @@ theorem isMultiplyPretransitive_Hp : MulAction.IsMultiplyPretransitive Hp (Fin 8
     simp
 
 theorem alternatingGroup_le_Hp : alternatingGroup (Fin 8) ≤ Hp := by
-  haveI : MulAction.IsPreprimitive Hp (Fin 8) :=
+  have : MulAction.IsPreprimitive Hp (Fin 8) :=
     MulAction.isPreprimitive_of_is_two_pretransitive isMultiplyPretransitive_Hp
   have h3 : (c3 3 4 5).IsThreeCycle :=
     isThreeCycle_swap_mul_swap_same (a := (3 : Fin 8)) (b := 4) (c := 5) (by decide)
@@ -205,7 +205,7 @@ theorem card_alt_eight : Nat.card (alternatingGroup (Fin 8)) = 20160 := by
 
 theorem isPGroup_three_of_card_nine {E : Subgroup (alternatingGroup (Fin 8))}
     (hE : Nat.card E = 9) : IsPGroup 3 E ∧ ¬ 3 ∣ E.index := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨IsPGroup.of_card (n := 2) (by rw [hE]; norm_num), ?_⟩
   have h := Subgroup.card_mul_index E
   rw [hE, card_alt_eight] at h
@@ -215,7 +215,7 @@ theorem isPGroup_three_of_card_nine {E : Subgroup (alternatingGroup (Fin 8))}
 
 theorem closure_hset_alt_eight {E : Subgroup (alternatingGroup (Fin 8))} (hE : Nat.card E = 9) :
     Subgroup.closure (hset 3 E) = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hE3, hEi⟩ := isPGroup_three_of_card_nine hE
   obtain ⟨hE03, hE0i⟩ := isPGroup_three_of_card_nine card_E₀
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (alternatingGroup (Fin 8))

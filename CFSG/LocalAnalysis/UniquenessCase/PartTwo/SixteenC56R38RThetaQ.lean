@@ -16,7 +16,7 @@ namespace OmegaModel
 variable {W : Type} [CommGroup W] (S : OmegaModel W)
 
 private theorem finite_mulAut_ThetaQ (S : OmegaModel W) : Finite (MulAut W) := by
-  haveI : Finite W :=
+  have : Finite W :=
     Finite.of_injective (S.e : W → Multiplicative (OmI → S.K)) S.e.injective
   exact Finite.of_injective (fun g : MulAut W => (g : W → W)) DFunLike.coe_injective
 
@@ -67,8 +67,8 @@ theorem exists_subgroup_card_nine_centralizer_factor (hK : Nat.card S.K = 4)
     (haω : a ∉ S.omega) :
     ∃ Q : Subgroup (MulAut W), Q ≤ E ∧ Nat.card Q = 3 ^ 2 ∧
       ∀ x ∈ Q, ∀ u ∈ S.factor 1, x * u = u * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut W) := finite_mulAut_ThetaQ S
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut W) := finite_mulAut_ThetaQ S
   have hEp : IsPGroup 3 E := hE.isPGroup
   have hΩ0 : S.omega = S.factor 0 ⊔ S.factor 1 := by
     rw [omega_eq_omega0_of_card S (by rw [hΩ, hK]; norm_num), ← factor_sup]

@@ -39,6 +39,7 @@ section Fixed
 
 variable {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
 
+omit [Finite K] in
 private theorem canonicalRep_orbitReflection_mem_normalizer_of_ne
     {a : Fin TwistTag.E6.foldedTag.rank} (ha : a ≠ a2) :
     canonicalRep (coxeterSystem TwistTag.E6.tag) K (TwistTag.E6.orbitReflection a) ∈

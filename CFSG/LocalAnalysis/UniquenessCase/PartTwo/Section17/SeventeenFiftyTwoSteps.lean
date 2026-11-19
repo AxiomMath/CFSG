@@ -34,7 +34,7 @@ theorem pRank_le_one_of_rootLineShape_of_not_dvd (hT : LieOddRankChev) {K : Type
     (hshape : IsU4 K n ∨ IsSp4 K n ∨ IsG2 K n) (hp : p.Prime) (hp2 : p ≠ 2)
     (hm : ¬ p ∣ 2 ^ n - 1) (hpl : ¬ p ∣ 2 ^ n + 1) : pRank p (⊤ : Subgroup K) ≤ 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsq : ¬ p ∣ (2 ^ n) ^ 2 - 1 := by
     intro hd
     have hfac : (2 ^ n) ^ 2 - 1 = (2 ^ n + 1) * (2 ^ n - 1) := by
@@ -99,7 +99,7 @@ theorem pRank_le_one_of_rootLineShape_of_not_dvd (hT : LieOddRankChev) {K : Type
       omega
     · have he : CFSG.LocalAnalysis.RankThreeUC.S15.eM (2 ^ n) p = 3 ∨
           CFSG.LocalAnalysis.RankThreeUC.S15.eM (2 ^ n) p = 4 := by omega
-      rcases he with h | h <;> rw [h] <;> norm_num
+      rcases he with h | h <;> rw [h]
   · have hS : StatedClassicalModel (K ⧸ center K) .PSp 2 2 n :=
       (LieModel.classical_iff (by decide)).mp (LieModel.quotient_center hZ hSp4)
     have hrank := uc22p20w_pRank_psp hT hq hS hp hp2
@@ -116,7 +116,7 @@ theorem pRank_le_one_of_rootLineShape_of_not_dvd (hT : LieOddRankChev) {K : Type
     have hrank := uc22p20w_pRank_g2 hT hq hn hG2' hp hp2
     rw [hrank]
     unfold rkG2
-    simp only [heS1, if_false]
+    simp only [heS1, ite_false]
     split_ifs <;> omega
 
 theorem pRank_of_dvd_add_one (hT : LieOddRankChev) {K : Type} [Group K] [Finite K]
@@ -125,7 +125,7 @@ theorem pRank_of_dvd_add_one (hT : LieOddRankChev) {K : Type} [Group K] [Finite 
     (IsSp4 K n ∨ IsG2 K n → pRank p (⊤ : Subgroup K) = 2) ∧
       (IsU4 K n → pRank p (⊤ : Subgroup K) = 3) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQ2dvd : p ∣ (2 ^ n) ^ 2 - 1 := by
     have hfac : (2 ^ n) ^ 2 - 1 = (2 ^ n + 1) * (2 ^ n - 1) := by
       simpa using Nat.sq_sub_sq (2 ^ n) 1
@@ -168,7 +168,7 @@ theorem Ctx17_42.not_dvd_two_pow_sub_one {D : Data G} {V₀ V L X : Subgroup G} 
     ¬ p ∣ 2 ^ n - 1 := by
   intro hdvd
   have hp : p.Prime := (D.sig_prime p ctx.p_mem).1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hns : ¬ Group.IsSolvable ↥D.M :=
     CFSG.LocalAnalysis.UniquenessCase.UC6S846.not_solvable_of_mem_calC ctx.mem_calC
   have hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M :=
@@ -187,8 +187,8 @@ theorem Ctx17_42.false_of_two_le_pRank_inf_centralizer {D : Data G} {V₀ V L X 
     (hRr : 2 ≤ pRank r R) (hrank : 2 ≤ pRank p (D.M ⊓ centralizer (R : Set G))) : False := by
   have hp : p.Prime := (D.sig_prime p ctx.p_mem).1
   have hp2 : p ≠ 2 := (D.sig_prime p ctx.p_mem).2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hns : ¬ Group.IsSolvable ↥D.M :=
     CFSG.LocalAnalysis.UniquenessCase.UC6S846.not_solvable_of_mem_calC ctx.mem_calC
   have hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M :=

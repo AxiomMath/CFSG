@@ -38,17 +38,17 @@ private lemma qtwoDB37_scalar_mul {m : ℕ} {a i j k : Fin m} (hia : i ≠ a) (h
   rcases eq_or_ne k a with hka | hka
   · have hki : ¬(k = i) := fun h => hia (h.symm.trans hka)
     have hkj : ¬(k = j) := fun h => hja (h.symm.trans hka)
-    rw [if_pos (Or.inl hka), if_pos (Or.inl hka), if_neg (fun h => h.elim hki hkj)]
+    rw [ite_eq_left (Or.inl hka), ite_eq_left (Or.inl hka), ite_eq_right (fun h => h.elim hki hkj)]
     decide
   · rcases eq_or_ne k i with hki | hki
     · have hkj : ¬(k = j) := fun h => hij (hki.symm.trans h)
-      rw [if_neg (fun h => h.elim hka hkj), if_pos (Or.inr hki), if_pos (Or.inl hki)]
+      rw [ite_eq_right (fun h => h.elim hka hkj), ite_eq_left (Or.inr hki), ite_eq_left (Or.inl hki)]
       decide
     · rcases eq_or_ne k j with hkj | hkj
-      · rw [if_pos (Or.inr hkj), if_neg (fun h => h.elim hka hki), if_pos (Or.inr hkj)]
+      · rw [ite_eq_left (Or.inr hkj), ite_eq_right (fun h => h.elim hka hki), ite_eq_left (Or.inr hkj)]
         decide
-      · rw [if_neg (fun h => h.elim hka hkj), if_neg (fun h => h.elim hka hki),
-          if_neg (fun h => h.elim hki hkj)]
+      · rw [ite_eq_right (fun h => h.elim hka hkj), ite_eq_right (fun h => h.elim hka hki),
+          ite_eq_right (fun h => h.elim hki hkj)]
         decide
 
 private theorem qtwoDB37_dSign_mul {m : ℕ} {a i j : Fin m} (hia : i ≠ a) (hja : j ≠ a)
@@ -66,17 +66,17 @@ private lemma qtwoDB37_scalar_ab {m : ℕ} {a b k i : Fin m} (hab : a ≠ b) (hk
   rcases eq_or_ne i a with hia | hia
   · have hib : ¬(i = b) := fun h => hab (hia.symm.trans h)
     have hik : ¬(i = k) := fun h => hka (h.symm.trans hia)
-    rw [if_neg (fun h => h.elim hib hik), if_pos (Or.inl hia), if_pos (Or.inl hia)]
+    rw [ite_eq_right (fun h => h.elim hib hik), ite_eq_left (Or.inl hia), ite_eq_left (Or.inl hia)]
     decide
   · rcases eq_or_ne i b with hib | hib
     · have hik : ¬(i = k) := fun h => hkb (h.symm.trans hib)
-      rw [if_pos (Or.inl hib), if_neg (fun h => h.elim hia hik), if_pos (Or.inr hib)]
+      rw [ite_eq_left (Or.inl hib), ite_eq_right (fun h => h.elim hia hik), ite_eq_left (Or.inr hib)]
       decide
     · rcases eq_or_ne i k with hik | hik
-      · rw [if_pos (Or.inr hik), if_pos (Or.inr hik), if_neg (fun h => h.elim hia hib)]
+      · rw [ite_eq_left (Or.inr hik), ite_eq_left (Or.inr hik), ite_eq_right (fun h => h.elim hia hib)]
         decide
-      · rw [if_neg (fun h => h.elim hib hik), if_neg (fun h => h.elim hia hik),
-          if_neg (fun h => h.elim hia hib)]
+      · rw [ite_eq_right (fun h => h.elim hib hik), ite_eq_right (fun h => h.elim hia hik),
+          ite_eq_right (fun h => h.elim hia hib)]
         decide
 
 private theorem qtwoDB37_dSign_ab {m : ℕ} {a b k : Fin m} (hab : a ≠ b) (hka : k ≠ a)
@@ -93,27 +93,27 @@ private lemma qtwoDB37_scalar_pair {m : ℕ} {T : Finset (Fin m)} {i j k : Fin m
   have hji : j ≠ i := (Finset.mem_erase.mp hj).1
   have hjT : j ∈ T := (Finset.mem_erase.mp hj).2
   have hmem : k ∈ (T.erase i).erase j ↔ k ≠ j ∧ k ≠ i ∧ k ∈ T := by
-    simp only [Finset.mem_erase, and_assoc]
+    simp only [Finset.mem_erase]
   by_cases hkT : k ∈ T
   · by_cases hki : k = i
     · have hnot : k ∉ (T.erase i).erase j := by rw [hmem]; tauto
-      rw [if_pos hkT, if_pos (Or.inl hki), if_neg hnot]
+      rw [ite_eq_left hkT, ite_eq_left (Or.inl hki), ite_eq_right hnot]
       decide
     · by_cases hkj : k = j
       · have hnot : k ∉ (T.erase i).erase j := by rw [hmem]; tauto
-        rw [if_pos hkT, if_pos (Or.inr hkj), if_neg hnot]
+        rw [ite_eq_left hkT, ite_eq_left (Or.inr hkj), ite_eq_right hnot]
         decide
       · have hmem' : k ∈ (T.erase i).erase j := by rw [hmem]; tauto
-        rw [if_pos hkT, if_neg (fun h => h.elim hki hkj), if_pos hmem']
+        rw [ite_eq_left hkT, ite_eq_right (fun h => h.elim hki hkj), ite_eq_left hmem']
         decide
   · have hnot : k ∉ (T.erase i).erase j := by rw [hmem]; tauto
-    rw [if_neg hkT,
-      if_neg (fun h => h.elim (fun hki' => hkT (hki' ▸ hi)) (fun hkj' => hkT (hkj' ▸ hjT))),
-      if_neg hnot]
+    rw [ite_eq_right hkT,
+      ite_eq_right (fun h => h.elim (fun hki' => hkT (hki' ▸ hi)) (fun hkj' => hkT (hkj' ▸ hjT))),
+      ite_eq_right hnot]
     decide
 
 theorem ggQTwoDUnit_dEven_fix_mem {m : ℕ} (hm : 4 ≤ m) {a b c : Fin m} (hab : a ≠ b)
-    (hca : c ≠ a) (hcb : c ≠ b) (H : Subgroup (DVec m ≃ₗ[ZMod 3] DVec m))
+    (_hca : c ≠ a) (hcb : c ≠ b) (H : Subgroup (DVec m ≃ₗ[ZMod 3] DVec m))
     (hperm : ∀ σ : Equiv.Perm (Fin m), σ c = c → dPerm m σ ∈ H)
     (hsa : ∀ k : Fin m, k ≠ a → k ≠ b → k ≠ c → dSign m a k ∈ H)
     (hsb : ∀ k : Fin m, k ≠ a → k ≠ b → k ≠ c → dSign m b k ∈ H)

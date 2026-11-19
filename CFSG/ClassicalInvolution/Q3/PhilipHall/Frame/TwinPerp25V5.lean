@@ -64,7 +64,7 @@ include Λ
 theorem P_le : R ⊔ R' ≤ layerX Ω c := sup_le Λ.R_le Λ.R'_le
 
 theorem P_two : IsPGroup 2 ↥(R ⊔ R') :=
-  S.isPGroup'.to_le (sup_le Λ.hyp.hR.2.2 Λ.hyp.hR'.2.2)
+  S.isPGroup.to_le (sup_le Λ.hyp.hR.2.2 Λ.hyp.hR'.2.2)
 
 theorem RR'_comm : Commutes R R' := by
   obtain ⟨t', h⟩ := T7T.exists_hyp25T Λ.hyp

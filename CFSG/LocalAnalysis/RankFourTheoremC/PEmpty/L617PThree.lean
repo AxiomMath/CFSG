@@ -53,13 +53,13 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
 
 open CFSG.LocalAnalysis.RankThreeTheoremC (SmallRankPlane) in
 theorem p65_covering_of_le_core' (hS : Situation G p P M) (hx : Point P M x)
-    (hz : Central P z) {f : ℕ} (hf : f.Prime) (hfp : f ≠ p) {F : Subgroup G}
+    (hz : Central P z) {f : ℕ} (hf : f.Prime) (_hfp : f ≠ p) {F : Subgroup G}
     (hF : IsMaxFInvariantIn f (zpowers x ⊔ zpowers z) M F) (hFD : F ≤ rankThreePrimeCore p M) :
     Open.pRank p (P : Subgroup G) ≤ Open.pRank p (M ⊓ normalizer (F : Set G)) ∧
       ∀ m ∈ M, ∃ d ∈ rankThreePrimeCore p M, ∃ n ∈ M ⊓ normalizer (F : Set G), m = d * n := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : Fact f.Prime := ⟨hf⟩
   set B : Subgroup G := zpowers x ⊔ zpowers z with hBdef
   set D : Subgroup G := rankThreePrimeCore p M with hDdef
   have hpl : SmallRankPlane p (P : Subgroup G) x z := plane_of_central hS hx hz
@@ -83,7 +83,7 @@ theorem p65_covering_of_le_core' (hS : Situation G p P M) (hx : Point P M x)
       rw [normalizer_eq_top_iff.mpr inferInstance]
       exact le_top
     obtain ⟨S, hSsyl, -, hPS⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing
-      hprime hf P.isPGroup' hD3 hPD bot_le hbotf hPbot
+      hprime hf P.isPGroup hD3 hPD bot_le hbotf hPbot
     obtain ⟨c, hc, hFc⟩ := CFSG.Goldschmidt.G310.exists_conj_of_invariant_sylows
       hprime hf hbotp hD3 bot_le hSsyl hFsyl bot_le bot_le
     have hcM : c ∈ M := hDM (mem_inf.mp hc).1
@@ -119,7 +119,7 @@ theorem p65_exists_isMax' {B F : Subgroup G} {f : ℕ} (hF : IsFInvariantIn f B 
 theorem p65_mSideAB (hKB : KFactP65Multi)
     (hS : Situation G p P M) (hx : Point P M x) (hz : Central P z)
     (hAB : HasPrimeConstraint (G := ↥M) p ∨ ¬ UniquePComponent p M)
-    {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (hfp : f ≠ p) {F : Subgroup G}
+    {f : ℕ} (hf : f.Prime) (_hf2 : f ≠ 2) (hfp : f ≠ p) {F : Subgroup G}
     (hF : IsMaxFInvariantIn f (zpowers x ⊔ zpowers z) M F) :
     Open.pRank p (P : Subgroup G) ≤ Open.pRank p (M ⊓ normalizer (F : Set G)) ∧
     ((∀ m ∈ M, ∃ d ∈ rankThreePrimeCore p M, ∃ n ∈ M ⊓ normalizer (F : Set G), m = d * n) ∨
@@ -245,7 +245,7 @@ theorem stronglyEmbedded_three_of_global (hG : Global G) (h313 : GL83NormalEleme
     have hkey : ∀ x ∈ (P₃ : Subgroup G), x ≠ 1 → x ^ 3 = 1 →
         normalizer ((zpowers x : Subgroup G) : Set G) ≤ M₃ := by
       intro x hxP hx1 hx3
-      have hC3 := three_le_pRank_inf_centralizer h313 P₃.isPGroup' hP4 hxP hx3
+      have hC3 := three_le_pRank_inf_centralizer h313 P₃.isPGroup hP4 hxP hx3
       have hCM : centralizer ({x} : Set G) ≤ M₃ := by
         by_contra hCM
         exact hP ⟨x, hPM hxP, orderOf_eq_prime hx3 hx1,
@@ -312,7 +312,7 @@ theorem L617P.le_pRank_three {p : ℕ} (hp : p.Prime) {B N Y : Subgroup G} {z : 
     {T E : Subgroup G} (hTY : T ≤ Y) (hT3 : Nat.card T = 3)
     (hcjT : ∀ b ∈ B, L617P.cj T b ≤ E) (hEab : ∀ u ∈ E, ∀ v ∈ E, u * v = v * u) :
     p ≤ Open.pRank 3 E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzN : z ∈ normalizer (N : Set G) := hBN hzB
   obtain ⟨t, ht3, hTt⟩ := L617P.exists_zpowers_eq hT3
   have htT : t ∈ T := hTt ▸ mem_zpowers t
@@ -487,7 +487,7 @@ theorem L617P.exists_three_subgroup' {p : ℕ} (hp : p.Prime) {B N Y : Subgroup 
 theorem exists_threeCore (hG : D1Global G) (h3 : 3 ∈ GLBBetaFour G) {E : Subgroup G}
     (hE : IsPGroup 3 E) : ∃ (P₃ : Sylow 3 G) (M₃ : Subgroup G), D1Local 3 P₃ M₃ ∧
       E ≤ (P₃ : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P₃, hEP₃⟩ := hE.exists_le_sylow
   obtain ⟨Y, hY, hWY⟩ := (hG.pre 3 h3).2 P₃
   obtain ⟨L, hYL, hL⟩ := CFSG.PreuniquenessRankFour.Helpers.exists_maximal_twoLocal hY
@@ -495,9 +495,9 @@ theorem exists_threeCore (hG : D1Global G) (h3 : 3 ∈ GLBBetaFour G) {E : Subgr
 
 theorem exists_three_through {M F : Subgroup G} (hF : IsPGroup 3 F) (hFM : F ≤ M) :
     ∃ R : Subgroup G, IsPGroup 3 R ∧ R ≤ M ∧ F ≤ R ∧ Open.pRank 3 M ≤ Open.pRank 3 R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := (hF.comap_subtype (K := M)).exists_le_sylow
-  refine ⟨(Q : Subgroup M).map M.subtype, Q.isPGroup'.map _, Subgroup.map_subtype_le _, ?_, ?_⟩
+  refine ⟨(Q : Subgroup M).map M.subtype, Q.isPGroup.map _, Subgroup.map_subtype_le _, ?_, ?_⟩
   · intro f hf
     exact ⟨⟨f, hFM hf⟩, hQ (by simpa [Subgroup.mem_subgroupOf] using hf), rfl⟩
   · rw [pRank_map_subtype (by norm_num), (CFSG.SectionRank.pRank_sylow Q).1,
@@ -507,9 +507,9 @@ theorem stepL617PrimeTop_of_three (h313 : GL83NormalElementaryRankFour)
     (h1 : KFactSingleComponentThreeRank) (h65 : StepP65OddAB) : StepL617PrimeTop := by
   intro G _ _ p P M x z hS hx hz H S hopt hEq Y hY hq hzY
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpl := plane_of_central hS hx hz
   have hB3 : IsPGroup p (zpowers x ⊔ zpowers z : Subgroup G) :=
     IsPGroup.of_card (n := 2) hpl.card_eq

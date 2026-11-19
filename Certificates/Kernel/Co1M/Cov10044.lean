@@ -46,7 +46,7 @@ theorem testBit_eq44 (x j : Nat) : x.testBit j = Nat.beq (Nat.land (Nat.shiftRig
   have h : Nat.land (Nat.shiftRight x j) 1 = (x >>> j) % 2 := Nat.and_one_is_mod _
   rw [h]
   rcases Nat.mod_two_eq_zero_or_one (x >>> j) with h2 | h2 <;>
-    simp [h2, Nat.testBit, Nat.one_and_eq_mod_two] <;> rfl
+    simp [h2, Nat.testBit, Nat.one_and_eq_mod_two]; rfl
 
 theorem fold_eq44 (x : Nat) :
     ∀ n, (List.range n).foldl (fun acc j => acc ^^ x.testBit j) false = parR44 x n

@@ -31,7 +31,7 @@ theorem sylow_card_le_five
   by_cases hS : Nat.card S = 1
   · omega
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (sylowFixedPoints X P s S : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   have hF : Nat.card (fixedPoints Q X) = 5 := by
     rw [← hfixeq]

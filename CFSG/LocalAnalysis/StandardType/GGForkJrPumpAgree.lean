@@ -23,7 +23,7 @@ theorem ggReflection_eq_of_agree_mod {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {B
     (hz₁ : ∀ b : ↥Bs, (b : G) ∈ Z → r₁ b = b) (hz₂ : ∀ b : ↥Bs, (b : G) ∈ Z → r₂ b = b)
     (hmod : ∀ b : ↥Bs, ((r₁ b : ↥Bs) : G)⁻¹ * ((r₂ b : ↥Bs) : G) ∈ Z) : r₁ = r₂ := by
   obtain ⟨V, _, _, ⟨ι⟩⟩ := exists_ggLinData (p := p) hBs
-  haveI : Finite V := Finite.of_equiv _ (Additive.ofMul.trans ι.toEquiv)
+  have : Finite V := Finite.of_equiv _ (Additive.ofMul.trans ι.toEquiv)
   obtain ⟨x₁, f₁, hf₁x₁, hT₁⟩ := exists_of_ggIsReflection ι h₁
   obtain ⟨x₂, f₂, hf₂x₂, hT₂⟩ := exists_of_ggIsReflection ι h₂
   obtain ⟨hx₁, -⟩ := ne_zero_of_apply_eq_two hp2 hf₁x₁

@@ -32,7 +32,7 @@ theorem not_two_dvd_index_caseI : ¬ 2 ∣ Rs.index := by
   have hEq : Rs = (P : Subgroup G) := by
     by_contra hne
     have hlt : Rs < (P : Subgroup G) := lt_of_le_of_ne hP hne
-    have : Group.IsNilpotent (↥(P : Subgroup G)) := P.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (↥(P : Subgroup G)) := P.isPGroup.isNilpotent
     have hproper : Rs.subgroupOf (P : Subgroup G) < ⊤ := by
       rw [lt_top_iff_ne_top]
       intro htop
@@ -60,7 +60,7 @@ theorem not_two_dvd_index_caseI : ¬ 2 ∣ Rs.index := by
     have hQn := hR.normalizes_Qs hπ hI hfix hnorm
     have hnNc : (n : G) ∈ c.Nc := c.mem_Nc.2 (fun q => hQn q)
     have hT2 : IsPGroup 2 (Rs ⊔ zpowers (n : G) : Subgroup G) :=
-      P.isPGroup'.to_le (sup_le hP (zpowers_le.2 hnP))
+      P.isPGroup.to_le (sup_le hP (zpowers_le.2 hnP))
     have hTN : (Rs ⊔ zpowers (n : G) : Subgroup G) ≤ c.Nc :=
       sup_le hR.le_Nc (zpowers_le.2 hnNc)
     have := hR.max _ hT2 hTN le_sup_left

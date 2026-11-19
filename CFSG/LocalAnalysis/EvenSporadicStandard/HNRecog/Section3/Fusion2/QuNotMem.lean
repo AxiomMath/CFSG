@@ -75,13 +75,13 @@ private lemma card_centralizer_extraspecial {H : Type*} [Group H] [Finite H]
   rw [hindex, hcard] at hmain
   omega
 
-theorem a_not_mem_Qz {G : Type} [Group G] {a u : G} (ha : a ^ 2 = 1) (hu : u ^ 2 = 1) (ha1 : a ≠ 1)
-    (hu1 : u ≠ 1) (hau : a ≠ u) (hcomm : a * u = u * a)
+theorem a_not_mem_Qz {G : Type} [Group G] {a u : G} (_ha : a ^ 2 = 1) (_hu : u ^ 2 = 1) (ha1 : a ≠ 1)
+    (hu1 : u ≠ 1) (hau : a ≠ u) (_hcomm : a * u = u * a)
     (hC : IsExtraspecialPlusByA5WrTwo ↥(Gx u)) (hX : IsShapeTwoTwoTimesTwoFourA5 ↥(Gxy a u)) :
     a ∉ Qz u := by
   intro haQ
   obtain ⟨Q, hQ, hQW, hQz⟩ := exists_Qz_eq hC
-  haveI : Q.Normal := hQ
+  have : Q.Normal := hQ
   have hExtQ : CFSG.IsExtraspecial 2 ↥Q := hQW.plus.1
   have hQcard : Nat.card Q = 2 ^ 9 := by
     have hc := hQW.plus.2.1
@@ -108,7 +108,7 @@ theorem a_not_mem_Qz {G : Type} [Group G] {a u : G} (ha : a ^ 2 = 1) (hu : u ^ 2
     rw [hQz, ← Nat.card_congr (Subgroup.equivMapOfInjective Q (Gx u).subtype
       Subtype.coe_injective).toEquiv]
     exact hQcard
-  haveI : Finite ↥(Qz u) := Nat.finite_of_card_ne_zero (by rw [hQzcard]; norm_num)
+  have : Finite ↥(Qz u) := Nat.finite_of_card_ne_zero (by rw [hQzcard]; norm_num)
   have hcent_card : Nat.card (Subgroup.center ↥(Qz u)) = 2 := hExtQz.center_order_p
   have hu_center : (⟨u, huQz⟩ : ↥(Qz u)) ∈ Subgroup.center ↥(Qz u) := by
     rw [Subgroup.mem_center_iff]
@@ -128,7 +128,7 @@ theorem a_not_mem_Qz {G : Type} [Group G] {a u : G} (ha : a ^ 2 = 1) (hu : u ^ 2
     exact hau (by simpa using congrArg (fun t : ↥(Qz u) => (t : G)) heq)
   have hcommQz : _root_.commutator ↥(Qz u) ≤ Subgroup.center ↥(Qz u) := by
     rw [← Subgroup.Normal.quotient_commutative_iff_commutator_le]
-    haveI := hExtQz.quotient_elementary_abelian
+    have := hExtQz.quotient_elementary_abelian
     infer_instance
   have hcent_card' := card_centralizer_extraspecial hcent_card hcommQz hQzcard ha_not_cent
   have hLmap : Qz u ⊓ Gx a =

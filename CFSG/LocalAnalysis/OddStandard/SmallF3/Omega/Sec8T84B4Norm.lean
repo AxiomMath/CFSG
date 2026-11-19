@@ -83,6 +83,7 @@ theorem zpowers_t_cases (hctx : Sec8Ctx G t L S z g B) {s : G} (hs : s ∈ zpowe
     rw [← h3, h]
     simp
 
+omit [Finite G] in
 theorem mem_cent_A_of {c : G} (hct : c * t = t * c) (hcB : ∀ b ∈ B, c * b = b * c) :
     c ∈ centralizer (Asub8 t B : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -176,12 +177,12 @@ theorem rhoG_conj_odd (F : Sec8T84Base) (hE : Sec8E G t L S z g B E)
     rw [hconj, h]
 
 theorem rhoG_conj_mem_Abar (F : Sec8T84Base) (hE : Sec8E G t L S z g B E)
-    (hnorm : ∀ h ∈ autIn (centralizer ({t} : Set G)) B, ∀ a ∈ autIn L B,
-      h * a * h⁻¹ ∈ autIn L B)
+    (hnorm : ∀ h ∈ autIn (centralizer ({t} : Set G)) B, ∀ _a ∈ autIn L B,
+      h * _a * h⁻¹ ∈ autIn L B)
     {x : G} (hx : x ∈ normalizer (E : Set G) ⊓ centralizer ({t} : Set G))
-    {a : MulAut ↥E} (ha : a ∈ Abar hE) : rhoG hE x * a * (rhoG hE x)⁻¹ ∈ Abar hE :=
+    {_a : MulAut ↥E} (ha : _a ∈ Abar hE) : rhoG hE x * _a * (rhoG hE x)⁻¹ ∈ Abar hE :=
   conj_mem_of_forall_odd (Abar_equiv_A6 F hE)
-    (fun a ha hodd => rhoG_conj_odd F hE hnorm hx ha hodd) a ha
+    (fun _a ha hodd => rhoG_conj_odd F hE hnorm hx ha hodd) _a ha
 
 end B89
 

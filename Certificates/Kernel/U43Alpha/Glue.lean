@@ -28,7 +28,7 @@ open CFSG.KC.Enum CFSG.KC.U43Inv CFSG.KC.U43Out CFSG.KS CFSG.KS.Raw CFSG.KS.Raw.
 
 theorem fpt_eq (g : Gp) {q : ℕ} (hq : q < 820) : fpt g q = (g ⟨q, hq⟩ : ℕ) := by
   unfold fpt
-  rw [dif_pos hq]
+  rw [dite_eq_left hq]
 
 theorem fpt_lt (g : Gp) {q : ℕ} (hq : q < 820) : fpt g q < 820 := by
   rw [fpt_eq g hq]
@@ -260,14 +260,13 @@ theorem fix_not {l : ℕ} (hl : l < 4) {n : Gp} (h2 : n * n = 1) (hc : ∀ j < 4
       labOf (L l) (f x) = labOf (L l) (f y) := by
     intro x hx y hy hl'
     have := orbPart_conn ho (fun z => labOf (L l) (f z) = labOf (L l) (f x)) (fun z hz j hj => by
-      change labOf (L l) (f (pg 10 1023 (KS l j) z)) = _ ↔ labOf (L l) (f z) = _
       rw [hfg j hj z hz, orbPart_inv ho (hf z hz) hj]) hx hy hl' rfl
     exact this.symm
   have hcls : ∀ i < NB l, (cls 820 (labOf (L l)) i).card = szOf (SZ l) i := fun i hi =>
     orbPart_card ho hi
   have hnb : ∀ x < 820, labOf (L l) x < NB l := fun x hx => orbPart_lab_lt ho hx
   by_cases h3 : l < 3
-  · have hsum := card_fix_eq_sum hf hff hfix
+  · have hsum := card_fix_eq_sum hfix
     have himg : (fixS 820 f).image (labOf (L l)) ⊆ Finset.range (NB l) := by
       intro i hi
       obtain ⟨x, hx, rfl⟩ := Finset.mem_image.1 hi

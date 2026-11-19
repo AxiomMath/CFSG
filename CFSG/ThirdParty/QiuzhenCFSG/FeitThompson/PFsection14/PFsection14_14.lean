@@ -362,10 +362,10 @@ public theorem section14_supportedOn_dadeTransform_of_CFon_subset
       exact hg ⟨a, ha1, r, hr, hconj⟩
     have hzero : α ⟨a, hAL a ha⟩ = 0 := hα.2 ⟨a, hAL a ha⟩ (by simpa using ha1)
     unfold Section2.dadeTransform
-    rw [dif_pos hgA]
+    rw [dite_eq_left hgA]
     simpa [a] using hzero
   · unfold Section2.dadeTransform
-    rw [dif_neg hgA]
+    rw [dite_eq_right hgA]
 
 public theorem section14_supportedOn_tau_of_CFon_a1Set_tildeA1
     {G : Type u} [Group G] [Finite G]
@@ -407,8 +407,8 @@ public theorem section14_CFon_a1Set_sub_conjugate_of_puncturedInducedFamily
     Section2.CFOn L (Section8.a1Set H)
       (χ - Section1.conjugateCharacter χ) := by
   classical
-  letI : Fintype L := Fintype.ofFinite L
-  haveI : (H.subgroupOf L).Normal :=
+  let : Fintype L := Fintype.ofFinite L
+  have : (H.subgroupOf L).Normal :=
     Section12.section16MFSubgroup_subgroupOf_normal hMF
   have hχchar : Section1.IsCharacter χ := by
     rcases (hS χ).mp hχ with ⟨θ, hθirr, _hθne, rfl⟩
@@ -455,8 +455,8 @@ public theorem section14_CFon_a1Set_scaled_combo_of_puncturedInducedFamily
     (hχ : χ ∈ S) (hψ : ψ ∈ S) :
     Section2.CFOn L (Section8.a1Set H) ((ψ 1) • χ - (χ 1) • ψ) := by
   classical
-  letI : Fintype L := Fintype.ofFinite L
-  haveI : (H.subgroupOf L).Normal :=
+  let : Fintype L := Fintype.ofFinite L
+  have : (H.subgroupOf L).Normal :=
     Section12.section16MFSubgroup_subgroupOf_normal hMF
   have hχchar : Section1.IsCharacter χ := by
     rcases (hS χ).mp hχ with ⟨θ, hθirr, _hθne, rfl⟩
@@ -552,7 +552,7 @@ public theorem section14_coherentExtension_subsetSum_of_hypothesis52WithRData
     {χ : Section1.ClassFunction L} (hχ : χ ∈ S) :
     Section5.isSubsetSumOf (R ⟨χ, hχ⟩) (τ₁ χ) := by
   classical
-  letI : Fintype L := Fintype.ofFinite L
+  let : Fintype L := Fintype.ofFinite L
   rcases h52 with ⟨hsetup, h52a, h52b, h52c, h52d, h52e⟩
   let X : S := ⟨χ, hχ⟩
   have hχbar : Section1.conjugateCharacter χ ∈ S := by
@@ -628,7 +628,7 @@ public theorem section14_coherentExtension_conjugate_of_hypothesis52WithRData
     Section1.conjugateCharacter (τ₁ χ) =
       τ₁ (Section1.conjugateCharacter χ) := by
   classical
-  letI : Fintype L := Fintype.ofFinite L
+  let : Fintype L := Fintype.ofFinite L
   rcases h52 with ⟨hsetup, h52a, h52b, h52c, h52d, h52e⟩
   let X : S := ⟨χ, hχ⟩
   have hχbar : Section1.conjugateCharacter χ ∈ S := by
@@ -1148,7 +1148,7 @@ public theorem section14_theorem_14_14_orthogonality_source_bridge
         _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hNotation, _hDadeDiff,
         _hZeroDegree, _hConjIndex, _hConjBetaTau, hChoice,
         hMin, _hTypePTauS, _hTypePTauT⟩
-    letI : IsMinCE G := hMin
+    let : IsMinCE G := hMin
     rcases h143 with
       ⟨hLmax, _hUnorm, hHMF, hTypeI, hDadeL, hPunctL, _h52L, hExtL,
         hφmem, _hφirr, _hφdeg, _hβS, _hβT, _hβL, hDadeNotationL⟩
@@ -1305,7 +1305,7 @@ public theorem section14_theorem_14_14_family_orthogonality_source_bridge
       _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hNotation, _hDadeDiff,
       _hZeroDegree, _hConjIndex, _hConjBetaTau, hChoice,
       hMin, _hTypePTauS, _hTypePTauT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases h143 with
     ⟨hLmax, _hUnorm, hHMF, hTypeI, hDadeL, hPunctL, _h52L, hExtL,
       _hφmem, _hφirr, _hφdeg, _hβS, _hβT, _hβL, hDadeNotationL⟩
@@ -1420,7 +1420,7 @@ public theorem section14_theorem_14_14_pf79_delta_odd_source_bridge
       _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hNotation, _hDadeDiff,
       _hZeroDegree, _hConjIndex, _hConjBetaTau, hChoice,
       hMin, _hTypePTauS, _hTypePTauT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases h143 with
     ⟨hLmax, _hUnorm, hHMF, hTypeI, hDadeL, hPunctL, _h52bL, hExtL,
       hφmem, hφirr, hφdeg, _hβS, _hβT, hβL, hDadeNotationL⟩
@@ -1487,8 +1487,8 @@ public theorem section14_theorem_14_14_pf79_delta_odd_source_bridge
         τM₁ (Section1.conjugateCharacter ψ) :=
     section14_coherentExtension_conjugate_of_hypothesis52WithRData
       h52pkgM hExtM hIrrM hψmem hτMdiff_skew
-  letI : Fintype L := Fintype.ofFinite L
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype L := Fintype.ofFinite L
+  let : Fintype M := Fintype.ofFinite M
   have hLfullNotation :
       Section7.inducedFamilyNotation (H.subgroupOf L)
         (insert (Section7.principalInducedCharacter L H) Lfam) := by
@@ -1830,7 +1830,7 @@ public theorem section14_theorem_14_14_pf79_nonzero_source_bridge
       _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hNotation, _hDadeDiff,
       _hZeroDegree, _hConjIndex, _hConjBetaTau, hChoice,
       hMin, _hTypePTauS, _hTypePTauT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases h143 with
     ⟨hLmax, _hUnorm, hHMF, hTypeI, hDadeL, hPunctL, _h52L, hExtL,
       hφmem, hφirr, hφdeg, _hβS, _hβT, hβL, hDadeNotationL⟩
@@ -2260,7 +2260,7 @@ public theorem section14_typeI_core_ltr_beta_tau_virtual
   let βinput : Section1.ClassFunction L := Section7.theorem_7_8_betaInput L H ζ
   have hCFOn : Section2.CFOn L (Section12.typeIASet L H) βinput := by
     rcases h76 with ⟨_hHL76, hHnorm, _h71, hAeq, _hT⟩
-    haveI : (H.subgroupOf L).Normal := hHnorm
+    have : (H.subgroupOf L).Normal := hHnorm
     rcases h78 with
       ⟨_hHL78, _hST, hpunctured, _hcoherent, _hν, hζS, _hζ, hdegζ⟩
     rcases (hpunctured ζ).mp hζS with ⟨θζ, _hθζ, _hθζne, hζeq⟩
@@ -2566,7 +2566,7 @@ public theorem section14_coherent_FTtype1_core_ltr_projection_norm_of_coefficien
     simpa [← Mfam.sum_attach] using
       Section7.theorem_7_8_b_degree_sum_identity h76M h78M
   have he_nat_pos : 0 < K.relIndex M := by
-    haveI : (K.subgroupOf M).FiniteIndex := inferInstance
+    have : (K.subgroupOf M).FiniteIndex := inferInstance
     have hrel : K.relIndex M ≠ 0 := by
       simpa [Subgroup.relIndex] using
         (Subgroup.FiniteIndex.index_ne_zero (H := K.subgroupOf M))
@@ -2719,7 +2719,7 @@ public theorem section14_coherent_FTtype1_core_ltr_beta_coeff_of_scaled_combo_ze
       Section1.scalarProduct_smul_right] at hzero
     simpa [A, C, hψ_star, hη_star, mul_comm, mul_left_comm, mul_assoc] using hzero
   have hrel_ne : (K.relIndex M : ℂ) ≠ 0 := by
-    haveI : (K.subgroupOf M).FiniteIndex := inferInstance
+    have : (K.subgroupOf M).FiniteIndex := inferInstance
     have hrel : K.relIndex M ≠ 0 := by
       simpa [Subgroup.relIndex] using
         (Subgroup.FiniteIndex.index_ne_zero (H := K.subgroupOf M))
@@ -2775,7 +2775,7 @@ public theorem section14_coherent_FTtype1_core_ltr_scaled_combo_zero_source_brid
       _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hNotation, _hDadeDiff,
       _hZeroDegree, _hConjIndex, _hConjBetaTau, hChoice,
       hMin, _hTypePTauS, _hTypePTauT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases h143 with
     ⟨hLmax, _hUnorm, hHMF, hTypeI, hDadeL, hPunctL, _h52L, _hExtL,
       hφmem, _hφirr, hφdeg, _hβS, _hβT, hβL, hDadeNotationL⟩
@@ -2916,7 +2916,7 @@ public theorem section14_coherent_FTtype1_core_ltr_remainder_coefficient_source_
       _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hNotation, _hDadeDiff,
       _hZeroDegree, _hConjIndex, _hConjBetaTau, _hChoice,
       hMin, _hTypePTauS, _hTypePTauT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hLside :
       section14_typeI_core_ltr_sideData L H Lfam τL τL₁ φ βL :=
     section14_typeI_core_ltr_sideData_of_hypothesis_14_3
@@ -3034,7 +3034,7 @@ public theorem section14_coherent_FTtype1_core_ltr_scaled_combo_zero_source_brid
       _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hNotation, _hDadeDiff,
       _hZeroDegree, _hConjIndex, _hConjBetaTau, hChoice,
       hMin, _hTypePTauS, _hTypePTauT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   rcases h143 with
     ⟨hLmax, _hUnorm, hHMF, hTypeI, hDadeL, hPunctL, _h52L, hExtL,
       hφmem, _hφirr, _hφdeg, _hβS, _hβT, _hβL, hDadeNotationL⟩
@@ -3259,7 +3259,7 @@ public theorem section14_coherent_FTtype1_core_ltr_source_bridge
       (Section12.typeIASet L H) L H RL LfullFam Lfam τL τL₁ φ
       h76L hDadeAgreeL h78L hhalfL a r hdecomp
   have hrel_pos : 0 < H.relIndex L := by
-    haveI : (H.subgroupOf L).FiniteIndex := inferInstance
+    have : (H.subgroupOf L).FiniteIndex := inferInstance
     have hrel : H.relIndex L ≠ 0 := by
       simpa [Subgroup.relIndex] using
         (Subgroup.FiniteIndex.index_ne_zero (H := H.subgroupOf L))
@@ -3307,7 +3307,7 @@ public theorem section14_theorem_14_14_M_branch_estimate_source_bridge
       _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hNotation, _hDadeDiff,
       _hZeroDegree, _hConjIndex, _hConjBetaTau, _hChoice,
       hMin, _hTypePTauS, _hTypePTauT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hLside :
       section14_typeI_core_ltr_sideData L H Lfam τL τL₁ φ βL :=
     section14_typeI_core_ltr_sideData_of_hypothesis_14_3
@@ -3416,7 +3416,7 @@ public theorem section14_theorem_14_14_L_branch_estimate_source_bridge
       _hUcard, hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hNotation,
       _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       _hChoice, hMin, _hTypePTauS, _hTypePTauT⟩
-  letI : IsMinCE G := hMin
+  let : IsMinCE G := hMin
   have hLside :
       section14_typeI_core_ltr_sideData L H Lfam τL τL₁ φ βL :=
     section14_typeI_core_ltr_sideData_of_hypothesis_14_3

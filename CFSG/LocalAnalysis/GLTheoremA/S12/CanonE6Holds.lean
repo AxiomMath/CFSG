@@ -21,6 +21,7 @@ variable {p : ℕ} [Fact p.Prime] {S : Type} [Group S]
     simp only [toAdd_mul, ZMod.val_add]
     rw [← pow_eq_pow_mod _ hx, pow_add]
 
+omit [Fact (Nat.Prime p)] in
 theorem card_multiplicative_zmod : Nat.card (Multiplicative (ZMod p)) = p := by
   rw [Nat.card_congr (Multiplicative.toAdd : Multiplicative (ZMod p) ≃ ZMod p), Nat.card_zmod]
 
@@ -101,7 +102,7 @@ theorem exists_elemAbelian_pow_of_commuting_sl2 {k : ℕ} (c : SL(2, F)) (hcp : 
     have hs3 : s ^ p = 1 := funext fun i => pow_prime_eq_one_of_multiplicative_zmod (s i)
     rw [← map_pow, hs3, map_one]
   · rw [← Nat.card_congr (MonoidHom.ofInjective hΦ).toEquiv, Nat.card_pi]
-    simp [card_multiplicative_zmod]
+    simp
   · intro N hN
     rw [hΦdef, MonoidHom.noncommPiCoprod_range]
     refine iSup_le fun i => ?_
@@ -170,7 +171,7 @@ theorem exists_adjointGroup_equiv_of_label_E6 {Γ : Type} [Group Γ] {J : Subgro
     · exact absurd h (by decide)
     · exact absurd h (by simp)
   obtain ⟨-, K, iF, iFin, hK, ⟨e⟩⟩ := hC
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := 2) hK
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := 2) hK
   let eZ : AdjointQuotient Tag.E6 K ≃* ↥(adjointGroup Tag.E6 K) :=
     (QuotientGroup.quotientMulEquivOfEq (center_adjointGroup_eq_bot (τ := Tag.E6) (K := K))).trans
       QuotientGroup.quotientBot
@@ -188,7 +189,7 @@ theorem e6FourLocal5_holds : E6FourLocal5 := by
     show eA (ι i A) * eA (ι j B) = eA (ι j B) * eA (ι i A)
     rw [← map_mul, ← map_mul, hc i j hij A B]
   obtain ⟨w, -, hw⟩ := TwE6FourRankAux.exists_sq_add_add_one (F := K) (by rw [hK]; norm_num)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨E, hEel, hEcard, hEN⟩ := exists_elemAbelian_pow_of_commuting_sl2 (p := 5) (c5Mat w)
     (c5Mat_pow_five hw) (c5Mat_ne_one w) ψ hψ hψc
   have hU0' : U.map eA.toMonoidHom ≠ ⊥ := fun h =>

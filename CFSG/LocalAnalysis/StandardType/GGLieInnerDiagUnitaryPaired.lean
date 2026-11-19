@@ -272,7 +272,7 @@ theorem ggLinearOn_unitaryBlock_paired {f n : ℕ} {K : Type} [Field K]
     (hpair : ¬ dualPoly h.bar (a : K[X]) = a)
     (hTq : CFSG.Open.IsQuasisimple ↥(unitaryBlockComponent h
       (x := Matrix.GeneralLinearGroup.toLin (A : GL (Fin n) K)) (a : K[X])))
-    (hstab : primeFormConjHom h (idGram K n) B ∈ CFSG.GroupActions.subgroupStabAut
+    (_hstab : primeFormConjHom h (idGram K n) B ∈ CFSG.GroupActions.subgroupStabAut
       (unitaryBlockComponent h (x := Matrix.GeneralLinearGroup.toLin (A : GL (Fin n) K))
         (a : K[X]))) :
     GGLinearOn (unitaryBlockComponent h
@@ -284,7 +284,7 @@ theorem ggLinearOn_unitaryBlock_paired {f n : ℕ} {K : Type} [Field K]
     Matrix.GeneralLinearGroup.toLin (A : GL (Fin n) K)
   let Y : LinearMap.GeneralLinearGroup K (Fin n → K) :=
     Matrix.GeneralLinearGroup.toLin (B : GL (Fin n) K)
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have H : UnitaryPrimaryData h.bar (idForm h n) x :=
     CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns.I1433.UnitaryBlocks.primaryData_toLin'
       h A.2 Nat.prime_three (by norm_num) hA3
@@ -306,10 +306,10 @@ theorem ggLinearOn_unitaryBlock_paired {f n : ℕ} {K : Type} [Field K]
   let E := AdjoinRoot (a : K[X])
   let W := primaryComponent (x : Module.End K (Fin n → K)) (a : K[X])
   let m0 := primaryMultiplicity (x : Module.End K (Fin n → K)) (a : K[X]) - 1
-  haveI : Module.Finite K E := (monic_of_mem_primaryFactors a.2).finite_adjoinRoot
-  haveI : Finite K := h.finite
-  haveI : Finite E := Module.finite_of_finite K
-  haveI : CharP E 2 :=
+  have : Module.Finite K E := (monic_of_mem_primaryFactors a.2).finite_adjoinRoot
+  have : Finite K := h.finite
+  have : Finite E := Module.finite_of_finite K
+  have : CharP E 2 :=
     charP_of_injective_algebraMap (algebraMap K E).injective 2
   have hcardE : Nat.card E = 2 ^ (2 * (f * (a : K[X]).natDegree)) :=
     natCard_adjoinRoot h

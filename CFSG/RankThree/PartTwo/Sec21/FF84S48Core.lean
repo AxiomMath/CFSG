@@ -16,6 +16,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem two_three_one {w : G} {k : ℕ} (h2 : w ^ 2 ^ k = 1) (h3 : w ^ 3 = 1) : w = 1 := by
   have hd1 : orderOf w ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one h2
   have hd2 : orderOf w ∣ 3 := orderOf_dvd_of_pow_eq_one h3
@@ -23,6 +24,7 @@ private theorem two_three_one {w : G} {k : ℕ} (h2 : w ^ 2 ^ k = 1) (h3 : w ^ 3
   have : orderOf w ∣ 1 := hcop ▸ Nat.dvd_gcd hd1 hd2
   exact orderOf_eq_one_iff.1 (Nat.dvd_one.1 this)
 
+omit [Finite G] in
 theorem E_cen_2sub {b c : G} (hE3 : ∀ w ∈ Subgroup.closure ({b, c} : Set G), w ^ 3 = 1)
     (hD : Cen (b * c) ≤ Nor (Subgroup.closure ({b, c} : Set G))) {V : Subgroup G}
     (hV : IsPGroup 2 V) (hVD : V ≤ Cen (b * c)) (hb : b ∈ Nor V) : V ≤ Cen b ⊓ Cen c := by
@@ -57,6 +59,7 @@ theorem E_cen_2sub {b c : G} (hE3 : ∀ w ∈ Subgroup.closure ({b, c} : Set G),
       _ = b * (c * x) := by rw [mul_assoc]
   exact mul_left_cancel this
 
+omit [Finite G] in
 theorem hD_conj {x y m : G} (hD : Cen (x * y) ≤ Nor (Subgroup.closure ({x, y} : Set G))) :
     Cen ((m * x * m⁻¹) * (m * y * m⁻¹)) ≤
       Nor (Subgroup.closure ({m * x * m⁻¹, m * y * m⁻¹} : Set G)) := by
@@ -67,6 +70,7 @@ theorem hD_conj {x y m : G} (hD : Cen (x * y) ≤ Nor (Subgroup.closure ({x, y} 
   rw [e, ← conjBy_cen, mem_conjBy_iff] at hg
   exact hg
 
+omit [Finite G] in
 theorem mem_closure_pair_comm {b c a : G} (hbc : b * c = c * b)
     (ha : a ∈ Subgroup.closure ({b, c} : Set G)) : ∃ i j : ℤ, a = b ^ i * c ^ j := by
   have hcomm : ∀ i j : ℤ, c ^ j * b ^ i = b ^ i * c ^ j := fun i j =>
@@ -93,14 +97,17 @@ theorem mem_closure_pair_comm {b c a : G} (hbc : b * c = c * b)
     rw [zpow_neg, zpow_neg] at this
     exact this
 
+omit [Finite G] in
 theorem zpow_emod3 {c : G} (hc : c ^ 3 = 1) (k : ℤ) : c ^ k = c ^ (k % 3) := by
   conv_lhs => rw [← Int.emod_add_mul_ediv k 3, zpow_add, zpow_mul]
   have : c ^ (3 : ℤ) = 1 := by exact_mod_cast hc
   rw [this, one_zpow, mul_one]
 
+omit [Finite G] in
 theorem zpow_eq_of_mod {c : G} (hc : c ^ 3 = 1) {i j : ℤ} (h : j % 3 = i % 3) : c ^ j = c ^ i := by
   rw [zpow_emod3 hc j, zpow_emod3 hc i, h]
 
+omit [Finite G] in
 theorem comm_of_comm_zpow {z x : G} (hz : z ^ 3 = 1) {k : ℤ} (hk : ¬ (3 : ℤ) ∣ k)
     (h : x * z ^ k = z ^ k * x) : x * z = z * x := by
   have h1 : z ^ k ∈ Subgroup.centralizer ({x} : Set G) :=
@@ -120,6 +127,7 @@ theorem comm_of_comm_zpow {z x : G} (hz : z ^ 3 = 1) {k : ℤ} (hk : ¬ (3 : ℤ
       rw [h4]; exact Subgroup.pow_mem _ h1 2
   exact (Subgroup.mem_centralizer_singleton_iff.1 h2).symm
 
+omit [Finite G] in
 theorem cen_inv (c : G) : Cen c⁻¹ = Cen c := by
   ext x
   rw [Subgroup.mem_centralizer_singleton_iff, Subgroup.mem_centralizer_singleton_iff]
@@ -130,11 +138,13 @@ theorem cen_inv (c : G) : Cen c⁻¹ = Cen c := by
   · intro h
     exact (Commute.inv_right (show Commute x c from h)).eq
 
+omit [Finite G] in
 theorem nor_inf {H K : Subgroup G} {g : G} (hH : g ∈ Nor H) (hK : g ∈ Nor K) : g ∈ Nor (H ⊓ K) := by
   rw [Subgroup.mem_normalizer_iff] at hH hK ⊢
   intro x
   rw [Subgroup.mem_inf, Subgroup.mem_inf, hH x, hK x]
 
+omit [Finite G] in
 theorem isEA_of (p : ℕ) {E : Subgroup G} (hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
     (hp : ∀ x ∈ E, x ^ p = 1) : IsElementaryAbelian p E := by
   have hH : ∀ a : E, a ^ p = 1 := fun a => Subtype.ext (by simpa using hp a a.2)
@@ -169,28 +179,38 @@ variable {b c n : G} {B X U : Subgroup G} (d : CoreData b c n B X U)
 
 include d
 
+omit [Finite G] in
 theorem hUX : U ≤ X := d.hXb ▸ inf_le_left
 
+omit [Finite G] in
 theorem hUb : U ≤ Cen b := d.hXb ▸ inf_le_right
 
+omit [Finite G] in
 theorem hbN : b ∈ Nor X := d.hBX d.hbB
 
+omit [Finite G] in
 theorem hcN : c ∈ Nor X := d.hBX d.hcB
 
+omit [Finite G] in
 theorem c3 : c ^ 3 = 1 := d.hB3 c d.hcB
 
+omit [Finite G] in
 theorem b3 : b ^ 3 = 1 := d.hB3 b d.hbB
 
+omit [Finite G] in
 theorem bcomm : b * c = c * b := d.hBcomm b d.hbB c d.hcB
 
+omit [Finite G] in
 theorem nor_inf_cen {x : G} (hx : x ∈ B) : B ≤ Nor (X ⊓ Cen x) := by
   intro g hg
   refine nor_inf (d.hBX hg) ?_
   exact Subgroup.le_normalizer
     (Subgroup.mem_centralizer_singleton_iff.2 (d.hBcomm g hg x hx))
 
+omit [Finite G] in
 theorem hBU : B ≤ Nor U := d.hXb ▸ d.nor_inf_cen d.hbB
 
+omit [Finite G] in
 theorem cbb_gen {c' : G} (hc'B : c' ∈ B) (hD : Cen (b * c') ≤ Nor (Subgroup.closure ({b, c'} : Set G))) :
     X ⊓ Cen (b * c') = U ⊓ Cen c' := by
   apply le_antisymm
@@ -221,13 +241,16 @@ theorem cbb_gen {c' : G} (hc'B : c' ∈ B) (hD : Cen (b * c') ≤ Nor (Subgroup.
       _ = b * (c' * x) := by rw [hc'']
       _ = b * c' * x := by rw [mul_assoc]
 
+omit [Finite G] in
 theorem cbb1 : X ⊓ Cen (b * c) = U ⊓ Cen c :=
   d.cbb_gen d.hcB d.hD1
 
+omit [Finite G] in
 theorem cbb2 : X ⊓ Cen (b * c⁻¹) = U ⊓ Cen c := by
   have := d.cbb_gen (c' := c⁻¹) (inv_mem d.hcB) d.hD2
   rwa [cen_inv] at this
 
+omit [Finite G] in
 theorem hW : EA2 (X ⊓ Cen c) ∧ Nat.card ↥(X ⊓ Cen c) ≤ 16 := by
   set W := X ⊓ Cen c with hWdef
   have hnB : ∀ g ∈ B, n⁻¹ * g * n ∈ B := fun g hg => by
@@ -264,8 +287,8 @@ theorem sup_bound : X ≤ U ⊔ (X ⊓ Cen c) := by
   have hEcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x := fun x hx y hy =>
     d.hBcomm x (hEB hx) y (hEB hy)
   have hE3 : ∀ x ∈ E, x ^ 3 = 1 := fun x hx => d.hB3 x (hEB hx)
-  haveI : IsElementaryAbelian 3 E := isEA_of 3 hEcomm hE3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsElementaryAbelian 3 E := isEA_of 3 hEcomm hE3
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbE : b ∈ E := Subgroup.subset_closure (by simp)
   have hcE : c ∈ E := Subgroup.subset_closure (by simp)
   have h9 : 9 ≤ Nat.card E := by

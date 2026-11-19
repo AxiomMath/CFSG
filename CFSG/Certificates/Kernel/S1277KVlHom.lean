@@ -17,7 +17,7 @@ theorem mul_val_add (w : ℕ) (a b : ZMod 2) : w * (a + b).val = w * a.val ^^^ w
   have hb := ZMod.val_lt b
   generalize a.val = x at ha ⊢
   generalize b.val = y at hb ⊢
-  interval_cases x <;> interval_cases y <;> simp [Nat.xor_self]
+  interval_cases x <;> interval_cases y <;> simp
 
 variable {φ : ℕ → ℕ} {u : List ℕ}
 

@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G] {V H E J : Subgroup G}
 
+omit [Finite G] in
 theorem commConjSup_le_centralizer (V H E : Subgroup G) :
     commConjSup V H E ≤ Subgroup.centralizer (V : Set G) := by
   rw [commConjSup]
@@ -26,7 +27,7 @@ theorem SevenNineConfig.barSub_eq_zpowers (h : Hyp73 V H E J) {X : Type} [Group 
     {Yb Zb : Subgroup X} (hc : SevenNineConfig L (barSub (kSub V H E) φ V) p Yb Zb) {v : G}
     (hvV : v ∈ V) (hvJ : v ∉ J) :
     barSub (kSub V H E) φ V = Subgroup.zpowers (φ ⟨v, le_kSub h.mem hvV⟩) := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have htV : φ ⟨v, le_kSub h.mem hvV⟩ ∈ barSub (kSub V H E) φ V :=
     mem_barSub.mpr ⟨⟨v, le_kSub h.mem hvV⟩, hvV, rfl⟩
   have ht1 : φ ⟨v, le_kSub h.mem hvV⟩ ≠ 1 := by
@@ -40,6 +41,7 @@ theorem SevenNineConfig.barSub_eq_zpowers (h : Hyp73 V H E J) {X : Type} [Group 
     exact ht1 (Subgroup.zpowers_eq_bot.mp hbot)
   omega
 
+omit [Finite G] in
 theorem SevenNineCompl.barSub_eq {X : Type} [Group X] {φ : ↥(kSub V H E) →* X}
     (hφ : IsBarMap (kSub V H E) J φ) {Yb : Subgroup X} {v : G} {P : Subgroup G}
     (hP : SevenNineCompl (kSub V H E) J φ Yb v P) :
@@ -63,6 +65,7 @@ theorem SevenNineCompl.barSub_eq {X : Type} [Group X] {φ : ↥(kSub V H E) →*
   calc barSub K φ P = barSub K φ Y := hYP.symm
     _ = Yb := barSub_barPre hφ Yb
 
+omit [Finite G] in
 theorem SevenNineCompl.injective {X : Type} [Group X] {φ : ↥(kSub V H E) →* X}
     (hφ : IsBarMap (kSub V H E) J φ) {Yb : Subgroup X} {v : G} {P : Subgroup G}
     (hP : SevenNineCompl (kSub V H E) J φ Yb v P) {x y : ↥(kSub V H E)} (hx : (x : G) ∈ P)
@@ -83,6 +86,7 @@ theorem SevenNineCompl.injective {X : Type} [Group X] {φ : ↥(kSub V H E) →*
     simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using hone
   exact Subtype.ext (inv_mul_eq_one.mp hxy')
 
+omit [Finite G] in
 theorem SevenNineCompl.card_barSub_of_le {X : Type} [Group X] {φ : ↥(kSub V H E) →* X}
     (hφ : IsBarMap (kSub V H E) J φ) {Yb : Subgroup X} {v : G} {P : Subgroup G}
     (hP : SevenNineCompl (kSub V H E) J φ Yb v P) {A : Subgroup G} (hA : A ≤ P) :
@@ -110,6 +114,7 @@ theorem SevenNineCompl.card_barSub_of_le {X : Type} [Group X] {φ : ↥(kSub V H
     _ = (⊥ : Subgroup G).relIndex A := by rw [hbot]
     _ = Nat.card A := Subgroup.relIndex_bot_left A
 
+omit [Finite G] in
 theorem SevenNineCompl.isElemAbelian {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) J φ) {L : Subgroup X} {p : ℕ}
     {Yb Zb : Subgroup X} (hc : SevenNineConfig L (barSub (kSub V H E) φ V) p Yb Zb) {v : G}

@@ -26,7 +26,7 @@ theorem testBit_ptBits (m : Nat) : ∀ (L : List Nat) (a : Nat),
   | p :: L, a + 1 => by
     rw [ptBits_cons]
     have e : ((bif m.testBit p then 1 else 0) + 2 * ptBits m L) / 2 = ptBits m L := by
-      cases m.testBit p <;> simp <;> omega
+      cases m.testBit p <;> simp; omega
     rw [Nat.testBit_succ, e, testBit_ptBits m L a]
     simp
 
@@ -111,10 +111,10 @@ theorem countP_range_split (p q : Nat → Bool) (i₀ : Nat) (hp : ∀ a, p a = 
       simp only [List.countP_singleton, hm]
       by_cases h1 : i₀ < m
       · have h2 : i₀ < m + 1 := by omega
-        simp only [h1, h2, if_true]
+        simp only [h1, h2, ite_true]
         omega
       · have h2 : ¬ i₀ < m + 1 := by omega
-        simp only [h1, h2, if_false]
+        simp only [h1, h2, ite_false]
         omega
 
 @[expose] def cntB (n x : Nat) : Nat := (List.range n).countP fun a => x.testBit a
@@ -129,7 +129,7 @@ theorem cntB_land_pred {n x : Nat} (hx : x ≠ 0) (hn : x < 2 ^ n) :
     exact absurd h0 (by simp)
   unfold cntB
   rw [countP_range_split (fun a => x.testBit a) (fun a => (x &&& (x - 1)).testBit a) i₀
-    (fun a => ?_) (by rw [hb]; simp), if_pos hi]
+    (fun a => ?_) (by rw [hb]; simp), ite_eq_left hi]
   rw [hb]
   by_cases h : a = i₀
   · subst h
@@ -182,7 +182,7 @@ theorem meetCard_eq {pts P : List Nat} (hpts : uPts () = pts.toArray) (hlen : pt
   have ha' : a < 693 := List.mem_range.mp ha
   have e : ∀ k < 891, inPlane k a = (P.getD k 0).testBit a := fun k hk => by
     rw [hP k hk, testBit_ptBits, hlen]
-    simp only [inPlane, maskArr_get hk, hpts, CFSG.SmithL6.Kernel.get0, List.toList_toArray]
+    simp only [inPlane, maskArr_get hk, hpts, CFSG.SmithL6.Kernel.get0]
     simp [ha']
   rw [Nat.testBit_and, e i hi, e j hj, Bool.and_comm]
 

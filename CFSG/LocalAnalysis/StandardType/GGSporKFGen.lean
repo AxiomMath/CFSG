@@ -40,11 +40,11 @@ private theorem gkp_pCore_map_isPGroup {X : Type*} [Group X] (p : ℕ) (H : Subg
     IsPGroup p ((CFSG.pCore p H).map H.subtype) :=
   (CFSG.pCore_isPGroup (G := H) (p := p)).map H.subtype
 
-private theorem gkp_c_mem_pCore_map {X : Type*} [Group X] {p : ℕ} (hp : p.Prime)
+private theorem gkp_c_mem_pCore_map {X : Type*} [Group X] {p : ℕ} (_hp : p.Prime)
     {H : Subgroup X} {c : X} (hcH : c ∈ H) (hc : orderOf c = p)
     (hccent : ∀ g ∈ H, g * c = c * g) :
     c ∈ (CFSG.pCore p H).map H.subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   let cH : ↥H := ⟨c, hcH⟩
   have hord : orderOf cH = p := by
     rw [Subgroup.orderOf_mk c hcH, hc]
@@ -64,14 +64,14 @@ private theorem gkp_pCore_map_le_sylow {X : Type*} [Group X] [Finite X] {p : ℕ
     {H S : Subgroup X} (hSp : IsPGroup p S)
     (hScard : Nat.card S = p ^ (Nat.card X).factorization p) (hSH : S ≤ H) :
     (CFSG.pCore p H).map H.subtype ≤ S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Sx : Sylow p X := Sylow.ofCard S hScard
   have hcoeeq : (Sx : Subgroup X) = S := Sylow.coe_ofCard S hScard
   have hPleH : (CFSG.pCore p H).map H.subtype ≤ H := Subgroup.map_subtype_le _
   let P' : Subgroup ↥H := CFSG.pCore p H
   let S' : Subgroup ↥H := S.subgroupOf H
   have hS'p : IsPGroup p S' := hSp.comap_subtype
-  haveI : P'.Normal := CFSG.pCore_normal (G := ↥H) (p := p)
+  have : P'.Normal := CFSG.pCore_normal (G := ↥H) (p := p)
   have hP'p : IsPGroup p P' := CFSG.pCore_isPGroup (G := ↥H) (p := p)
   have hsup' : IsPGroup p ↥(S' ⊔ P') :=
     IsPGroup.to_sup_of_normal_right (p := p) (G := ↥H) (H := S') (K := P') hS'p hP'p
@@ -94,7 +94,7 @@ private theorem gkp_isExtraspecialPGroup {X : Type} [Group X] [Finite X] {p : �
     (hQcent : Q ⊓ Subgroup.centralizer (Q : Set X) = Subgroup.zpowers c)
     (hc : orderOf c = p) :
     CFSG.IsExtraspecialPGroup p ↥Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hzOf : CFSG.GH74.GLS.Bg.zOf Q = Subgroup.zpowers c := hQcent
   refine CFSG.GH74.GLS.Stage2.Bender.Thm1.isExtraspecial_of_extraG hp hQp hQexp
     (show CFSG.GH74.GLS.Stage2.Bender.Thm1.ExtraG p Q from ⟨?_, ?_⟩)
@@ -133,13 +133,13 @@ private theorem gkp_commutator_le_zpowers {G : Type} [Group G] [Finite G] {p : �
     (hSp : IsPGroup p S) (hSc : S ≤ Subgroup.centralizer ({c} : Set G))
     (hQS : Q ≤ S) (hQn : S ≤ Subgroup.normalizer (Q : Set G))
     (hScard : Nat.card S = p ^ (Nat.card G).factorization p)
-    (hQexp : ∀ q ∈ Q, q ^ p = 1) (hQcomm : ⁅Q, Q⁆ = Subgroup.zpowers c)
-    (hQcent : Q ⊓ Subgroup.centralizer (Q : Set G) = Subgroup.zpowers c)
+    (_hQexp : ∀ q ∈ Q, q ^ p = 1) (hQcomm : ⁅Q, Q⁆ = Subgroup.zpowers c)
+    (_hQcent : Q ⊓ Subgroup.centralizer (Q : Set G) = Subgroup.zpowers c)
     (hirr : ∀ R : Subgroup G, Subgroup.zpowers c ≤ R → R ≤ Q →
       (∀ h ∈ Subgroup.centralizer ({c} : Set G) ⊓ Subgroup.normalizer (Q : Set G),
         ∀ r ∈ R, h * r * h⁻¹ ∈ R) → R = Subgroup.zpowers c ∨ R = Q) :
     ⁅BMOpCent p c, Q⁆ ≤ Subgroup.zpowers c := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H : Subgroup G := Subgroup.centralizer ({c} : Set G) with hH
   set P : Subgroup G := BMOpCent p c with hP
   have hPdef : P = (CFSG.pCore p H).map H.subtype := by rw [hP, hH, BMOpCent]
@@ -218,7 +218,7 @@ private theorem gkp_commutator_le_zpowers {G : Type} [Group G] [Finite G] {p : �
         rw [← hπker, MonoidHom.mem_ker]; exact hmem
       exact (hZwmem _).mp hqZ
     exact hQnotle hle
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   have hmeet : N ⊓ Subgroup.center (W ⧸ Zw) ≠ ⊥ :=
     CFSG.GroupTheory.CoprimeActionSupport.NormalPSubgroupMeetsCenter.inf_center_ne_bot
       hEp N hNne
@@ -341,14 +341,14 @@ private theorem gkp_centralizer_le_of_normal {G : Type} [Group G] [Finite G] {p 
     (hp : p.Prime) {c : G} (hc : orderOf c = p) {S Q : Subgroup G}
     (hSp : IsPGroup p S) (hScard : Nat.card S = p ^ (Nat.card G).factorization p)
     (hSc : S ≤ Subgroup.centralizer ({c} : Set G))
-    (hQS : Q ≤ S) (hQn : S ≤ Subgroup.normalizer (Q : Set G))
+    (hQS : Q ≤ S) (_hQn : S ≤ Subgroup.normalizer (Q : Set G))
     (hQcomm : ⁅Q, Q⁆ = Subgroup.zpowers c)
-    (hQcent : Q ⊓ Subgroup.centralizer (Q : Set G) = Subgroup.zpowers c)
+    (_hQcent : Q ⊓ Subgroup.centralizer (Q : Set G) = Subgroup.zpowers c)
     (hCS : S ⊓ Subgroup.centralizer (Q : Set G) = Subgroup.zpowers c)
     (hQnH : ∀ h ∈ Subgroup.centralizer ({c} : Set G), ∀ q ∈ Q, h * q * h⁻¹ ∈ Q)
     (hg1 : LargeEvenPPrimeCore p ↥(Subgroup.centralizer ({c} : Set G)) = ⊥) :
     Subgroup.centralizer ({c} : Set G) ⊓ Subgroup.centralizer (Q : Set G) ≤ Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H : Subgroup G := Subgroup.centralizer ({c} : Set G) with hH
   set D : Subgroup G := H ⊓ Subgroup.centralizer (Q : Set G) with hD
   have hcH : c ∈ H := by
@@ -479,7 +479,7 @@ theorem bmPCentralF1At_F4At_of_pLocal {G : Type} [Group G] [Finite G] {p : ℕ} 
     (hg1 : LargeEvenPPrimeCore p ↥(Subgroup.centralizer ({c} : Set G)) = ⊥)
     (hno : ∀ C : Subgroup G, ¬ LargeEvenPComponent p (Subgroup.centralizer ({c} : Set G)) C) :
     BMPCentralF1At p c ∧ BMPCentralF4At p c := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H : Subgroup G := Subgroup.centralizer ({c} : Set G) with hH
   set P : Subgroup G := BMOpCent p c with hP
   have hPdef : P = (CFSG.pCore p H).map H.subtype := by rw [hP, hH, BMOpCent]

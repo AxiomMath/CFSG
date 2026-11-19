@@ -19,7 +19,7 @@ theorem largeEvenMarking_of_central_surj {A B : Type*} [Group A] [Group B] (g : 
     LargeEvenMarking B (fun lab _ _ I _ θ => tag lab ∧ ∀ j, PB j → ∃ φ ∈ I,
       LargeEvenInduces θ (relB j) φ) := by
   have hperf : Group.IsPerfect A := ⟨hA⟩
-  haveI : Group.IsPerfect A := hperf
+  have : Group.IsPerfect A := hperf
   have hB : commutator B = ⊤ := (Group.IsPerfect.ofSurjective hg).commutator_eq_top
   have hcomap : (Subgroup.center B).comap g = Subgroup.center A :=
     CFSG.LocalCores.comap_center_eq_of_perfect hperf g hg hker

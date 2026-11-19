@@ -66,7 +66,7 @@ theorem one_le_pRank_of_isPGroup_of_ne_bot (hp : p.Prime) {H : Subgroup G} (hH :
 theorem le_glbCore_one_of_ne_bot (hp : p.Prime) (T : Sylow p G) (hT : (T : Subgroup G) ≠ ⊥) :
     (T : Subgroup G) ≤ GLBCore p 1 (T : Subgroup G) := by
   have h1 : 1 ≤ Open.pRank p (T : Subgroup G) :=
-    one_le_pRank_of_isPGroup_of_ne_bot hp T.isPGroup' hT
+    one_le_pRank_of_isPGroup_of_ne_bot hp T.isPGroup hT
   have h := RankThreeCoreUniqueness.Helpers.gamma_normalizer_le 1 p (T : Subgroup G)
     (T : Subgroup G) le_rfl h1
   exact Subgroup.le_normalizer.trans h
@@ -76,7 +76,7 @@ theorem mem_glbCore_one_of_conj_mem (hp : p.Prime) (T : Sylow p G) {t g : G}
     g ∈ GLBCore p 1 (T : Subgroup G) := by
   have hT : (T : Subgroup G) ≠ ⊥ := fun h => ht1 (Subgroup.mem_bot.mp (h ▸ ht))
   have hTΓ := le_glbCore_one_of_ne_bot hp T hT
-  have hpt : IsPGroup p (Subgroup.zpowers t) := T.isPGroup'.to_le (Subgroup.zpowers_le.mpr ht)
+  have hpt : IsPGroup p (Subgroup.zpowers t) := T.isPGroup.to_le (Subgroup.zpowers_le.mpr ht)
   refine RankThreeCoreUniqueness.Helpers.normalizer_closure_transporter_mem 1 p hp _
     (RankThreeCoreUniqueness.Helpers.gamma_rank_normalizer_le_overgroup 1 p hp T _ hTΓ le_rfl)
     (Subgroup.zpowers t) hpt (Subgroup.zpowers_le.mpr (hTΓ ht))

@@ -76,7 +76,7 @@ theorem ggF4ThreeSylowNormalInput_holds :
   have hmap_le : (S_R : Subgroup _) ≤ (S_N : Subgroup N).map ι := by
     rw [hS_R_coe]
     exact Subgroup.map_mono hP0_SN
-  have hmap_p : IsPGroup 3 ((S_N : Subgroup N).map ι) := S_N.isPGroup'.map ι
+  have hmap_p : IsPGroup 3 ((S_N : Subgroup N).map ι) := S_N.isPGroup.map ι
   have hmap_eq : (S_N : Subgroup N).map ι = (S_R : Subgroup _) :=
     (S_R.maximal_isPGroup.2 hmap_p hmap_le).antisymm hmap_le
   have hSN_le_N : (S_N : Subgroup N) ≤ Subgroup.normalizer (A : Set N) := by

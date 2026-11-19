@@ -141,7 +141,7 @@ private noncomputable def ggKGTs_pi
     apply ggKGTs_conj_injective F
     dsimp only
     rw [ggKGTs_pick_spec, Subgroup.coe_one, ggKGTs_conj_one]
-    simp only [Pi.zero_apply, zpow_zero, Pi.one_apply]
+    simp only [Pi.zero_apply, zpow_zero]
     exact rootDiagUnit_one
   map_add' y y' := by
     change Additive.ofMul (ggKGTs_pick hK hσ hp hp5 hpq F hv ζ hζ (y + y')) =
@@ -178,7 +178,7 @@ private theorem ggKGTs_pi_surjective
     (hv : F.v = 1) (ζ : (AlgebraicClosure K)ˣ) (hζ : IsPrimitiveRoot ζ p) :
     Function.Surjective (ggKGTs_pi hK hσ hp hp5 hpq F hv ζ hζ) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   intro e
   let Ψ : ↥E →* ModGL TwistTag.E6.tag (AlgebraicClosure K) :=
     { toFun := fun x => F.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))
@@ -282,7 +282,6 @@ private theorem ggKGTs_normalizer_data
           by group
       _ = k⁻¹ * yhat e * k := by rw [h1]
       _ = yhat e := by
-          change k⁻¹ * yhat e * k = yhat e
           rw [mul_assoc, ← hcomm', ← mul_assoc, inv_mul_cancel, one_mul]
   · have he : ((Additive.toMul (ggKGTs_pi hK hσ hp hp5 hpq F hv ζ hζ y) : ↥E) :
         twistedE6RootGroup K σ) ∈ E :=
@@ -386,7 +385,7 @@ private theorem ggKGTs_modAct_eq
       (((ggKGEp_mat4 V).mulVec (ggKGTs_liftZ x)) i : ZMod p) := by
   simp only [ggKGTs_modAct, ggKGTs_liftZ, Matrix.mulVec, Matrix.map_apply, dotProduct]
   push_cast
-  exact Finset.sum_congr (M := ZMod p) rfl fun j _ => by simp [ZMod.natCast_zmod_val]
+  exact Finset.sum_congr (M := ZMod p) rfl fun j _ => by simp
 
 private noncomputable def ggKGTs_pibar
     {K : Type} [Field K] [Finite K] {σ : K ≃+* K} {n : ℕ} {p : ℕ}
@@ -404,7 +403,7 @@ private theorem ggKGTs_pibar_bijective
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ 2 ^ n - 1) (F : TwE6Frame K σ n p E)
     (hv : F.v = 1) (ζ : (AlgebraicClosure K)ˣ) (hζ : IsPrimitiveRoot ζ p) :
     Function.Bijective (ggKGTs_pibar hK hσ hp hp5 hpq F hv ζ hζ) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   constructor
   · intro x x' h
     have h' : ggKGTs_pi hK hσ hp hp5 hpq F hv ζ hζ (ggKGTs_liftZ x) =
@@ -450,7 +449,7 @@ private theorem ggKGTs_pibar_modAct
           twistedE6RootGroup K σ) * w₀⁻¹,
         (Subgroup.mem_normalizer_iff.mp hN _).mp
           (ggKGTs_pibar hK hσ hp hp5 hpq F hv ζ hζ x).2⟩ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   apply Subtype.ext
   dsimp only [ggKGTs_pibar]
   have h1 : ggKGTs_pi hK hσ hp hp5 hpq F hv ζ hζ
@@ -478,13 +477,13 @@ private theorem ggKGTs_fix_count
     Nat.card {x : Fin 4 → ZMod p //
       ((ggKGEp_mat4 V).map (Int.castRingHom (ZMod p))).mulVec x = x} = p ^ (4 - 1) := by
   change Nat.card {x : Fin 4 → ZMod p // ggKGTs_modAct V x = x} = p ^ (4 - 1)
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hbij := ggKGTs_pibar_bijective hK hσ hp hp5 hpq F hv ζ hζ
   let eE : (Fin 4 → ZMod p) ≃ ↥E := Equiv.ofBijective _ hbij
   have heE : ∀ x, eE x = ggKGTs_pibar hK hσ hp hp5 hpq F hv ζ hζ x := fun x => rfl
   have hcardE : Nat.card ↥E = p ^ 4 := by
     rw [← Nat.card_congr eE]
-    simp [Nat.card_fun, Nat.card_zmod]
+    simp
   have hfixeq : Nat.card {x : Fin 4 → ZMod p // ggKGTs_modAct V x = x} =
       Nat.card {e : ↥E // w₀ * ((e : ↥E) : twistedE6RootGroup K σ) * w₀⁻¹ =
         ((e : ↥E) : twistedE6RootGroup K σ)} := by
@@ -515,13 +514,13 @@ theorem ggKGTwE6_latticeAt_sub
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ 2 ^ n - 1) (F : TwE6Frame K σ n p E)
     (hv : F.v = 1) : GGKGLatticeAt p E := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
   obtain ⟨ζu, hζu⟩ :=
     CFSG.LieType.SeitzGeneration.exists_primitiveRoot_units (L := AlgebraicClosure K) (ℓ := 2)
       (by norm_num) hp (by omega)

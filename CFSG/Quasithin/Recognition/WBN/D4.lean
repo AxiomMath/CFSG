@@ -151,10 +151,10 @@ theorem invertsByWeyl_d4
     InvertsByWeyl (CFSG.Quasithin.H13.F431.D4q.Struct.Pst0 σ)
       (CFSG.Quasithin.H13.F431.D4q.Struct.Pst1 σ) m := by
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hK3
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hU : IsPGroup 2 (CFSG.Quasithin.H13.F431.D4q.Struct.Ust σ) := (d4_sylow σ).2.1
   have hUn : ((CFSG.Quasithin.H13.F431.D4q.Struct.Ust σ).subgroupOf
       (CFSG.Quasithin.H13.F431.D4q.Struct.Pst0 σ ⊓
@@ -180,9 +180,9 @@ theorem allInvertsByWeyl_d4
     (CFSG.LieType.Steinberg.CentralExt.GriessNative.chevalley_of_lieModel hY (by decide)).2
   obtain ⟨-, K, hF, hFin, σ, hK, hσ, ⟨e⟩⟩ :=
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_triality_model hChev
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  let : Field K := hF
+  let : Finite K := hFin
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   exact InvertsByWeyl.of_isYAmalgamPair
     (CFSG.Quasithin.F112R.St84.isYAmalgamPair_d4 σ hf hK hσ)
     (invertsByWeyl_d4 σ hf hK hσ hm) e hYam

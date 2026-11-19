@@ -29,12 +29,12 @@ theorem s16t3_simple_and_mult (hGA : CFSG.Open.GriessAllModelsStatement)
 private theorem s16t3_four_le_pRank_statedSL {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) {n : ℕ} (hn : 8 ≤ n) :
     4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (StatedSL n K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime (p := 2) (by rw [← Nat.card_eq_fintype_card]; exact hK)
   have hKunits : Nat.card Kˣ = 1 := by rw [Nat.card_units, hK]
-  haveI : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp (by rw [hKunits])
+  have : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp (by rw [hKunits])
   have hscal : StatedScalars (Fin n) K = ⊥ := by
     unfold StatedScalars
     rw [Subgroup.eq_bot_iff_forall]
@@ -53,12 +53,12 @@ private theorem s16t3_four_le_pRank_statedSL {K : Type} [Field K] [Finite K]
 private theorem s16t3_four_le_pRank_statedSp {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) {m : ℕ} (hm : 4 ≤ m) :
     4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (StatedSp m K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime (p := 2) (by rw [← Nat.card_eq_fintype_card]; exact hK)
   have hKunits : Nat.card Kˣ = 1 := by rw [Nat.card_units, hK]
-  haveI : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp (by rw [hKunits])
+  have : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp (by rw [hKunits])
   have hscal : StatedScalars (Fin m ⊕ Fin m) K = ⊥ := by
     unfold StatedScalars
     rw [Subgroup.eq_bot_iff_forall]
@@ -84,32 +84,32 @@ theorem ThreeRankShape.four_le_pRank {W : Type} [CommGroup W] [Finite W]
     {L : Subgroup (MulAut W)} (hS : ThreeRankShape L) : 4 ≤ CFSG.Open.pRank 3 L := by
   obtain ⟨n, hn | hn | hn | hn | hn⟩ := hS
   · obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hn.1
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     rw [s16t3_pRank_eq_top_of_mulEquiv e]
     exact s16t3_four_le_pRank_statedSL (by simpa using hKcard) (by omega)
   · obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hn.1
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     rw [s16t3_pRank_eq_top_of_mulEquiv e]
     exact s16t3_four_le_pRank_statedSp (by simpa using hKcard) (by omega)
   · obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hn.1
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     rw [s16t3_pRank_eq_top_of_mulEquiv e]
-    haveI : CharP K 2 := by
-      haveI : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := by
+      have : Fintype K := Fintype.ofFinite K
       exact charP_of_card_eq_prime (p := 2)
         (by rw [← Nat.card_eq_fintype_card]; simpa using hKcard)
     exact
       CFSG.RankThree.PartTwo.Sec19.Census194.RonanC194.OmegaEven.four_le_pRank_three_omegaPlus
         (K := K) (n := n / 2) (by omega)
   · obtain ⟨-, K, hKf, hKfin, b, c, hKcard, -, ⟨e⟩⟩ := hn.1
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     rw [s16t3_pRank_eq_top_of_mulEquiv e]
-    haveI : CharP K 2 := by
-      haveI : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := by
+      have : Fintype K := Fintype.ofFinite K
       exact charP_of_card_eq_prime (p := 2)
         (by rw [← Nat.card_eq_fintype_card]; simpa using hKcard)
     exact
@@ -149,7 +149,7 @@ private theorem s16t3_pRank_le_M_of_exists_cover (h : S16gRowCtx D V₀ V L hV)
       exact ⟨hgY, hYle hgY, hYs hgY, congrArg Subtype.val h1⟩
     · rintro ⟨-, -, h, h1⟩
       exact Subtype.ext h1
-  haveI : N.Normal := MonoidHom.normal_ker φ
+  have : N.Normal := MonoidHom.normal_ker φ
   have hNsolv : Group.IsSolvable ↥N := by
     rw [hNker]
     have hle : (Y ⊓ F11.CTilde D.M V₀ V).subgroupOf Y ≤ CFSG.solvableRadical ↥Y := by
@@ -157,7 +157,7 @@ private theorem s16t3_pRank_le_M_of_exists_cover (h : S16gRowCtx D V₀ V L hV)
       obtain ⟨z, hz, hzx⟩ := hCY (Subgroup.mem_subgroupOf.mp hx)
       have hzx' : z = x := Subtype.ext hzx
       exact hzx' ▸ hz
-    haveI := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := ↥Y)
+    have := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := ↥Y)
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   have hperfY : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hperf
@@ -192,7 +192,7 @@ private theorem s16t3_pRank_le_M_of_exists_cover (h : S16gRowCtx D V₀ V L hV)
     obtain ⟨k, hk⟩ := hN2.exists_card_eq
     intro h3
     exact absurd (Nat.prime_three.dvd_of_dvd_pow (hk ▸ h3)) (by norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hquot := CFSG.SectionRank.pRank_quotient_eq (p := 3) N hNdvd
   have hpEqL : CFSG.Open.pRank 3 (lBar V₀ V hV L)
       = CFSG.Open.pRank 3 (⊤ : Subgroup ↥(lBar V₀ V hV L)) :=

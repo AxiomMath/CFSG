@@ -14,10 +14,10 @@ theorem prime_dvd_card_mulAut_of_card_six {S : Type} [Group S] [Finite S] (hS : 
   by_contra h
   simp only [not_or] at h
   obtain ⟨h2, h3⟩ := h
-  haveI : Fintype S := Fintype.ofFinite S
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fintype S := Fintype.ofFinite S
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   have hq5 : 5 ≤ q := by
     have h2q : 2 ≤ q := hq.two_le
     have h4 : q ≠ 4 := by

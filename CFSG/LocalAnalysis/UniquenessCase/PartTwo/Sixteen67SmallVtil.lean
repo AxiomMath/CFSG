@@ -36,7 +36,7 @@ theorem commutator_mem_of_fixed_mod {Hh : Type} [Group Hh] [Finite Hh] {W V₀ :
     exact hS _ (hS _ hh)
   have hcnW : c ∈ normalizer (W : Set Hh) := hcn W hcW
   have hcnV : c ∈ normalizer (V₀ : Set Hh) := hcn V₀ hcV₀
-  haveI hNorm : (V₀.subgroupOf W).Normal := by
+  have hNorm : (V₀.subgroupOf W).Normal := by
     refine ⟨fun n hn g => ?_⟩
     have h1 : (g : Hh) * n * (g : Hh)⁻¹ = n := by
       have := comm_of_isElemAbelian hW g.2 n.2
@@ -101,7 +101,7 @@ theorem commutator_mem_of_fixed_mod {Hh : Type} [Group Hh] [Finite Hh] {W V₀ :
 theorem exists_orderOf_three_of_stronglyPEmbedded {H M : Subgroup G}
     (hse : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 ((H ⊓ M).subgroupOf H)) :
     ∃ c : G, c ∈ H ∧ c ∈ M ∧ orderOf c = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card (H ⊓ M : Subgroup G) := by
     have h1 := hse.2.1
     rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (inf_le_left : H ⊓ M ≤ H)).toEquiv] at h1

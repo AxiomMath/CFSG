@@ -61,7 +61,7 @@ lemma CFSG.card_not_dvd_sylow_eq_bot
     C.toSubgroup = ⊥ := by
   contrapose hp
   have h : p ∣ Nat.card C := by
-    rcases IsPGroup.iff_card.mp C.isPGroup' with ⟨n, hn⟩
+    rcases IsPGroup.iff_card.mp C.isPGroup with ⟨n, hn⟩
     rw [hn]
     refine dvd_pow_self p ?_
     contrapose hp
@@ -284,7 +284,7 @@ lemma CFSG.pGroup_fix_nonzero_vector
               simp_all only [Subgroup.subtype_apply]
               exact left) g)
         }
-      obtain ⟨y, hy1⟩ : ∃ y : H, y ∉ M := SetLike.exists_not_mem_of_ne_top M (CovBy.ne' hM1).symm rfl
+      obtain ⟨y, hy1⟩ : ∃ y : H, y ∉ M := SetLike.exists_notMem_of_ne_top M (CovBy.ne' hM1).symm rfl
       have hy2 : y ^ (ringChar F) ∈ M := h_idx.symm ▸ Subgroup.pow_index_mem M y
       let : Nontrivial ↥φ.toSubmodule := by
         obtain ⟨v, hv1, hv2⟩ := ih (M.map H.subtype) (by rw [Subgroup.card_subtype, hM])
@@ -766,7 +766,7 @@ public theorem CFSG.theorem_2_6_b
           let Q : Sylow q N := Classical.choice Sylow.nonempty
           by_cases hnormQ : Subgroup.normalizer (Q : Set N) = ⊤
           · have hQ_normal : (Q : Subgroup N).Normal := Subgroup.normalizer_eq_top_iff.mp hnormQ
-            have hQ_le_pCore : (Q : Subgroup N) ≤ pCore q N := le_sSup ⟨hQ_normal, Q.isPGroup'⟩
+            have hQ_le_pCore : (Q : Subgroup N) ≤ pCore q N := le_sSup ⟨hQ_normal, Q.isPGroup⟩
             have hQ_ne_bot : (Q : Subgroup N) ≠ ⊥ := Sylow.ne_bot_of_dvd_card Q hq_dvd
             refine ⟨q, hq_prime, ?_⟩
             intro hbot
@@ -812,7 +812,7 @@ public theorem CFSG.theorem_2_6_b
               exact le_rfl
             have hQH_p : IsPGroup q QH := by
               simpa [QH] using
-                Q.isPGroup'.of_equiv
+                Q.isPGroup.of_equiv
                   (Subgroup.subgroupOfEquivOfLe (H := (Q : Subgroup N)) (K := H) hQ_le_H).symm
             have hQH_center : QH ≤ Subgroup.center H := by
               by_cases hchar0 : ringChar F = 0
@@ -825,7 +825,7 @@ public theorem CFSG.theorem_2_6_b
                 exact setLike_mul_comm (s := (⊤ : Subgroup H)) trivial trivial
               · have : Fact (Nat.Prime (ringChar F)) := ringChar_prime hchar0
                 have hQH_disj_C : Disjoint QH (C : Subgroup H) :=
-                  IsPGroup.disjoint_of_ne q (ringChar F) hq_ne_char QH (C : Subgroup H) hQH_p C.isPGroup'
+                  IsPGroup.disjoint_of_ne q (ringChar F) hq_ne_char QH (C : Subgroup H) hQH_p C.isPGroup
                 intro x hx
                 rw [Subgroup.mem_center_iff]
                 intro y
@@ -1197,7 +1197,7 @@ public theorem CFSG.theorem_2_6_b
         refine Module.charP_end (R := F') (M := V') (p := q) ?_
         obtain ⟨w, hw⟩ := exists_ne (0 : V')
         refine ⟨w, ?_⟩
-        rw [Ideal.torsionOf_eq_bot_iff_of_noZeroSMulDivisors]
+        rw [Ideal.torsionOf_eq_bot_iff_of_isTorsionFree]
         exact hw
       have : ExpChar (Module.End F' V') q := ExpChar.prime hq1
       have hcomm_qpow : ∀ c ∈ commutator G, c ^ q = 1 := by
@@ -1259,7 +1259,7 @@ public theorem CFSG.theorem_2_6_b
       obtain ⟨W, hcomplUW⟩ := exists_isCompl U
       have hU_fix_C (y : C) : ∀ u : U, ρ' y u = u := by
         obtain ⟨a, ha, hdet⟩ := hU_data y
-        obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.mp C.isPGroup') y
+        obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.mp C.isPGroup) y
         have hy_pow : (y : G) ^ orderOf y = 1 := by
           exact congrArg Subtype.val (pow_orderOf_eq_one y)
         have hpow : (rhoU y) ^ orderOf y = 1 := by
@@ -1279,7 +1279,7 @@ public theorem CFSG.theorem_2_6_b
         exact congrArg Subtype.val hu
       have hQ_fix_C (y : C) : ∀ z : V' ⧸ U, rhoQ y z = z := by
         obtain ⟨a, ha, hdet⟩ := hQ_data y
-        obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.mp C.isPGroup') y
+        obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.mp C.isPGroup) y
         have hy_pow : (y : G) ^ orderOf y = 1 := by
           exact congrArg Subtype.val (pow_orderOf_eq_one y)
         have hpow : (rhoQ y) ^ orderOf y = 1 := by

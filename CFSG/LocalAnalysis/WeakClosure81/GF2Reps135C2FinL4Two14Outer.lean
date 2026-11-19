@@ -78,8 +78,8 @@ theorem pivChk_outer_fourteen : ∀ k < 64,
 
 theorem outerRankFour_fourteen : OuterRankFour 14 := by
   intro V _ _ _ hV ρ hirr B hB τ d hdd hdy
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hV]; norm_num)
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [hV]; norm_num)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   obtain ⟨e, he⟩ := classify_fourteen hV hirr
   obtain ⟨k, hk, hkB⟩ := exists_uSL_of_isUpperGL hB
   have hM : ∀ s < 6, ∀ v, e (ρ (genN s) v) = l4Gen14 s *ᵥ e v := fun s hs v => by

@@ -58,11 +58,12 @@ private theorem prime_dvd_card_of_glaPComponent' {X J : Subgroup G} (hp : p.Prim
   rw [Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   exact (chev_mem_glaPPrimeCoreOf_iff hjX).1 (hJO (Subgroup.mem_subgroupOf.1 hj))
 
+omit [Finite G] in
 private theorem centralizes_of_centMod_of_isQuasisimple' {K : Subgroup G} {g : G}
     (hq : CFSG.Open.IsQuasisimple ↥K) (hne : GLAPPrimeCore p ↥K ≠ ⊤)
     (hg : g ∈ Subgroup.normalizer (K : Set G)) (hc : CentMod p K g) :
     g ∈ Subgroup.centralizer (K : Set G) := by
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   have hOZ : GLAPPrimeCore p ↥K ≤ Subgroup.center ↥K :=
     le_center_of_normal_of_isQuasisimple hq inferInstance hne
   let σ : ↥K →* ↥K := (Subgroup.normalizerMonoidHom (H := K)) ⟨g, hg⟩
@@ -89,6 +90,7 @@ private theorem centralizes_of_centMod_of_isQuasisimple' {K : Subgroup G} {g : G
     simpa only [hσ, MonoidHom.id_apply] using this
   exact (mul_inv_eq_iff_eq_mul.mp hval).symm
 
+omit [Finite G] in
 private theorem chevAut_inv_apply_mk {K : Subgroup G} {b : G}
     (hbK' : b⁻¹ ∈ Subgroup.normalizer (K : Set G)) {q q' : PQuot p K}
     (h : indRel p K b q q') :
@@ -157,6 +159,7 @@ private theorem map_conj_eq_self_of_mem_normalizer {S : Type} [Group S] {K : Sub
     · show c * (c⁻¹ * x * c) * c⁻¹ = x
       group
 
+omit [Finite G] in
 private theorem exists_conj_chevAut {K : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G)) (hin : InducesInnerMod p K g) :
     ∃ y : PSimple p K, MulAut.conj y = chevAut p K ⟨g, hg⟩ := by
@@ -179,8 +182,8 @@ private theorem exists_xy_chevAut (hS : Shape15Cfg p L J E d) (hbE : b ∈ E)
     (hOut G p L J E d d hS hS.d_mem).resolve_right hshape
   obtain ⟨x, hx⟩ := exists_conj_chevAut hdN hind
   obtain ⟨y, hy⟩ := exists_conj_chevAut hbN hinb
-  haveI : Group.IsPerfect ↥L := hS.qs.1
-  haveI hperf : Group.IsPerfect (PQuot p L) :=
+  have : Group.IsPerfect ↥L := hS.qs.1
+  have hperf : Group.IsPerfect (PQuot p L) :=
     Group.IsPerfect.ofSurjective (f := pQuotHom p L) (pQuotHom_surjective p L)
   have hcen : Subgroup.center (PSimple p L) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot (G := PQuot p L)
@@ -231,6 +234,7 @@ private theorem exists_xy_chevAut (hS : Shape15Cfg p L J E d) (hbE : b ∈ E)
     rwa [hfixx] at h
   exact ⟨x, y, hx1, hxp, hyp, hcomm, hx, hy, hJ'comp⟩
 
+omit [Finite G] in
 private theorem chevTransfer_map_conj {K J : Subgroup G} {c : G}
     (hcK : c ∈ Subgroup.normalizer (K : Set G)) (hJK : J ≤ K) {y : PSimple p K}
     (hy : MulAut.conj y = chevAut p K ⟨c, hcK⟩) :
@@ -318,9 +322,9 @@ private theorem injective_pSimpleMapOfSurjective {A B : Type} [Group A] [Finite 
     (hA : CFSG.Open.IsQuasisimple (A ⧸ GLAPPrimeCore p A))
     (hB : CFSG.Open.IsQuasisimple (B ⧸ GLAPPrimeCore p B)) :
     Function.Injective (pSimpleMapOfSurjective hp g hg) := by
-  haveI : IsSimpleGroup ((A ⧸ GLAPPrimeCore p A) ⧸ Subgroup.center (A ⧸ GLAPPrimeCore p A)) :=
+  have : IsSimpleGroup ((A ⧸ GLAPPrimeCore p A) ⧸ Subgroup.center (A ⧸ GLAPPrimeCore p A)) :=
     hA.2
-  haveI : IsSimpleGroup ((B ⧸ GLAPPrimeCore p B) ⧸ Subgroup.center (B ⧸ GLAPPrimeCore p B)) :=
+  have : IsSimpleGroup ((B ⧸ GLAPPrimeCore p B) ⧸ Subgroup.center (B ⧸ GLAPPrimeCore p B)) :=
     hB.2
   rw [← MonoidHom.ker_eq_bot_iff]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (pSimpleMapOfSurjective hp g hg).ker with h | h
@@ -337,8 +341,8 @@ private theorem injective_pSimpleMapOfSurjective {A B : Type} [Group A] [Finite 
       rw [← MonoidHom.mem_ker, h]; trivial
     rw [h1, h2]
 
-private theorem exists_equiv_chevTransfer (hS : Shape15Cfg p L J E d) (hbE : b ∈ E)
-    (hdN : d ∈ Subgroup.normalizer (L : Set G)) (hbN : b ∈ Subgroup.normalizer (L : Set G))
+private theorem exists_equiv_chevTransfer (hS : Shape15Cfg p L J E d) (_hbE : b ∈ E)
+    (_hdN : d ∈ Subgroup.normalizer (L : Set G)) (hbN : b ∈ Subgroup.normalizer (L : Set G))
     (hbJ : b ∈ Subgroup.normalizer (J : Set G)) {x y : PSimple p L}
     (hy : MulAut.conj y = chevAut p L ⟨b, hbN⟩)
     (hJ'comp : GLAPComponent p (Subgroup.centralizer ({x} : Set (PSimple p L)))
@@ -422,8 +426,7 @@ private theorem exists_equiv_chevTransfer (hS : Shape15Cfg p L J E d) (hbE : b �
 end Helpers
 
 theorem redSimple_holds : RedSimple := by
-  intro hMT F hOut hSM
-  intro G _ _ p L J E d b hS hbE hcat hshape hinb
+  intro hMT F hOut hSM G _ _ p L J E d b hS hbE hcat hshape hinb
   have hdN : d ∈ Subgroup.normalizer (L : Set G) := hS.normalizes hS.d_mem
   have hbN : b ∈ Subgroup.normalizer (L : Set G) := hS.normalizes hbE
   obtain ⟨x, y, hx1, hxp, hyp, hcomm, hx, hy, hJ'comp⟩ :=
@@ -439,8 +442,7 @@ theorem redSimple_holds : RedSimple := by
   exact ⟨hbJ, hMT G (PSimple p L) p J (chevTransfer p L J) b y e hperf hbJ he hinnJ'⟩
 
 theorem redSimpleNorm_holds : RedSimpleNorm := by
-  intro F hOut hSNM
-  intro G _ _ p L J E d b hS hbE hcat hshape hinb
+  intro F hOut hSNM G _ _ p L J E d b hS hbE hcat hshape hinb
   have hdN : d ∈ Subgroup.normalizer (L : Set G) := hS.normalizes hS.d_mem
   have hbN : b ∈ Subgroup.normalizer (L : Set G) := hS.normalizes hbE
   obtain ⟨x, y, hx1, hxp, hyp, hcomm, -, hy, hJ'comp⟩ :=

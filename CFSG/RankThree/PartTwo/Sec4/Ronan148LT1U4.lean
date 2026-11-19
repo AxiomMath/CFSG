@@ -45,8 +45,8 @@ theorem u4Odd_caseA {n : ℕ} (h : UnitaryFieldData 2 n L) (hn : 2 ≤ n) {ω : 
     (hs : (K₂.subgroupOf (unitarySU 2 n L 4 ⊓
       Subgroup.centralizer {diagU ![ω, ω, ω, 1]})).IsSubnormal)
     (h3 : ¬ 3 ∣ Nat.card K₂) : K₂ = ⊥ := by
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hperf : Group.IsPerfect K₂ := Subgroup.isPerfect_iff.mpr hKp
   have hωL3 : (ω : L) ^ 3 = 1 := by rw [← Units.val_pow_eq_pow_val, hω3, Units.val_one]
   have hωL1 : (ω : L) ≠ 1 := fun e => hω1 (Units.ext e)
@@ -96,7 +96,7 @@ theorem u4Odd_caseB {n : ℕ} (h : UnitaryFieldData 2 n L) (hn : 2 ≤ n) {ω : 
     (hs : (K₂.subgroupOf (unitarySU 2 n L 4 ⊓
       Subgroup.centralizer {diagU (dvecD0 ω)})).IsSubnormal)
     (h3 : ¬ 3 ∣ Nat.card K₂) : K₂ = ⊥ := by
-  haveI := h.finite
+  have := h.finite
   have hperf : Group.IsPerfect K₂ := Subgroup.isPerfect_iff.mpr hKp
   have hω1' : ω⁻¹ ≠ 1 := fun e => hω1 (inv_eq_one.mp e)
   have hl2 : ∀ j : Fin 4, j ≠ 2 → dvecD0 ω 2 ≠ dvecD0 ω j := by
@@ -147,9 +147,9 @@ theorem u4Odd_caseC {n : ℕ} (h : UnitaryFieldData 2 n L) (hn : 2 ≤ n) {ω : 
     (hω2 : ω ≠ ω⁻¹) {K₂ : Subgroup (GL (Fin 4) L)}
     (hC : K₂ ≤ centC n L ω) (hKp : ⁅K₂, K₂⁆ = K₂)
     (hs : (K₂.subgroupOf (centC n L ω)).IsSubnormal) (h3 : ¬ 3 ∣ Nat.card K₂) : K₂ = ⊥ := by
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP h.fixedField 2 :=
+  have := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP h.fixedField 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq h.card_fixedField
   have hM : blkSU2 n L ⊔ blkSU2L n L ≤ centC n L ω :=
     sup_le (blkSU2_le_centC h ω) (blkSU2L_le_centC h ω)
@@ -226,8 +226,8 @@ theorem u4Odd_caseC {n : ℕ} (h : UnitaryFieldData 2 n L) (hn : 2 ≤ n) {ω : 
   have hZ₂ : Subgroup.center (blkSU2L n L) = ⊥ := by
     obtain ⟨φ⟩ := nonempty_blkSU2L_mulEquiv h
     exact center_eq_bot_of_mulEquiv φ Sec19.Item19Res2Proof.center_sl2_eq_bot
-  haveI hX : IsSimpleGroup (blkSU2 n L) := isSimpleGroup_of_isQuasisimple_center hqN₁ hZ₁
-  haveI hY : IsSimpleGroup (blkSU2L n L) := isSimpleGroup_of_isQuasisimple_center hqN₂ hZ₂
+  have hX : IsSimpleGroup (blkSU2 n L) := isSimpleGroup_of_isQuasisimple_center hqN₁ hZ₁
+  have hY : IsSimpleGroup (blkSU2L n L) := isSimpleGroup_of_isQuasisimple_center hqN₂ hZ₂
   have h3q : 3 ∣ 2 ^ n * ((2 ^ n) ^ 2 - 1) :=
     Dvd.dvd.mul_left (Res419Two.three_dvd_two_pow_sq_sub_one n) _
   let eH : ↥H ≃* ↥K₂ :=
@@ -252,8 +252,8 @@ theorem u4OddInner_noSz {n : ℕ} (hodd : Odd n) (hn2' : 2 ≤ n) {S : Type} [Gr
     (hY : Y ≤ Sec4.autFix (MulAut.conj x))
     (hsub : (Y.subgroupOf (Sec4.autFix (MulAut.conj x))).IsSubnormal) (hp : Group.IsPerfect ↥Y)
     (h3Y : ¬ 3 ∣ Nat.card Y) : Y = ⊥ := by
-  haveI := hp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hp
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := hodd.pos
   have hxK : ∀ k ∈ Y, x * k = k * x := by
     intro k hk
@@ -397,7 +397,7 @@ section Row
 
 theorem kT1_seven_SU4 (n : ℕ) (hn : 1 ≤ n) : RowOf143 (projSU 4 2 n) := by
   intro S _ _ hs hna ⟨eS⟩ h3S
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set q : PrimePower := ⟨2, n, Nat.prime_two, hn⟩ with hqdef
   have hv : (LieTypeIndex.twistedA 3 q).Valid := valid_twistedA (by norm_num) (by omega)
   let eX := (Census.typeTwistedAGroupEquivProjSU 3 q hv).symm
@@ -409,7 +409,7 @@ theorem kT1_seven_SU4 (n : ℕ) (hn : 1 ≤ n) : RowOf143 (projSU 4 2 n) := by
   refine row143_of_inner_kgroup hs hna
     (fun P _ hPp _ => le_inner_of_perfect_outSolvable hOut P hPp)
     fun β hβ Y hY hsn _ hp h3Y => ?_
-  haveI := hp
+  have := hp
   rcases Nat.eq_or_lt_of_le hn with rfl | hn2
   · have hU1 : UnitaryFieldData 2 1 (GaloisField 2 (2 * 1)) :=
       ⟨Nat.prime_two, le_rfl, GaloisField.card 2 (2 * 1) (by norm_num)⟩
@@ -426,7 +426,7 @@ theorem kT1_seven_SU4 (n : ℕ) (hn : 1 ≤ n) : RowOf143 (projSU 4 2 n) := by
       have h2 : Nat.card Y ∣ 3 ^ 4 * (2 ^ 6 * 5 ^ 1) := by norm_num; exact h1
       exact hcop.dvd_of_dvd_mul_left h2
     have hpf := RonanK429H.primeFactors_card_le_two_of_dvd Nat.prime_two (by norm_num) hdvd
-    haveI := RonanK429H.subsingleton_of_isPerfect_of_card_primeFactors hpf
+    have := RonanK429H.subsingleton_of_isPerfect_of_card_primeFactors hpf
     exact Subgroup.eq_bot_of_subsingleton Y
   by_cases hβ1 : β = 1
   · subst hβ1

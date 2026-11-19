@@ -68,7 +68,7 @@ private def dihedralImage {Γ : Type*} [Group Γ] {m : ℕ} (ρ a : Γ) :
 theorem nonempty_mulEquiv_dihedral {Γ : Type*} [Group Γ] {a b : Γ} {m : ℕ} (hm : 3 ≤ m)
     (ha : a * a = 1) (hb : b * b = 1) (hab : orderOf (a * b) = m) :
     Nonempty (↥(Subgroup.closure ({a, b} : Set Γ)) ≃* DihedralGroup m) := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   obtain ⟨ρ, hρ⟩ : ∃ ρ : Γ, a * b = ρ := ⟨_, rfl⟩
   have ha' : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha
   have hb' : b⁻¹ = b := inv_eq_of_mul_eq_one_right hb

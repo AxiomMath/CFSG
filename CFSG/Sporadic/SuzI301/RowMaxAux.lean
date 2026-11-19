@@ -154,7 +154,7 @@ private theorem exists_mem_normalizer {S : Subgroup (Equiv.Perm (Fin 1782))} (hS
     refine lt_top_iff_ne_top.2 fun htop => hne fun r hr => ?_
     have h1 : (⟨r, hr⟩ : S) ∈ Q' := htop ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 h1
-  obtain ⟨y, hyN, hyQ⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q' hlt)
+  obtain ⟨y, hyN, hyQ⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q' hlt)
   refine ⟨y, y.2, Subgroup.mem_normalizer_fintype fun q hq => ?_,
     fun h => hyQ (Subgroup.mem_subgroupOf.2 h)⟩
   have h1 := (Subgroup.mem_normalizer_iff.1 hyN ⟨q, hQS hq⟩).1 (Subgroup.mem_subgroupOf.2 hq)

@@ -157,7 +157,7 @@ theorem inEFor_compSup [Finite G] {X T J : Subgroup G} {n : ℕ} (hn : 1 ≤ n)
     rw [hnormbot, inf_top_eq]
   have hJsub : J.IsSubnormal :=
     Subgroup.IsSubnormal.trans hJ.le hJ.2.1.isSubnormal hR.1.isSubnormal
-  haveI : Finite (MulAut (↥J ⧸ (⊥ : Subgroup G).subgroupOf J)) := quotFiniteMulAut _
+  have : Finite (MulAut (↥J ⧸ (⊥ : Subgroup G).subgroupOf J)) := quotFiniteMulAut _
   have hsimple : IsSimpleGroup (↥J ⧸ (⊥ : Subgroup G).subgroupOf J) :=
     (MulEquiv.isSimpleGroup_congr (botQuotEquiv J)).mp hJ.simple
   have hnab : ∃ a b : ↥J ⧸ (⊥ : Subgroup G).subgroupOf J, a * b ≠ b * a :=

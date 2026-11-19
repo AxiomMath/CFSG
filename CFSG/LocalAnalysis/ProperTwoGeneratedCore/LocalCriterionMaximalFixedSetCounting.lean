@@ -40,8 +40,8 @@ theorem maximal_two_fixed_points_is_ambient_sylow
     ∃ R : Sylow p G, (R : Subgroup G) = P := by
   obtain ⟨R, hPR⟩ := hP.exists_le_sylow
   obtain ⟨_, hRfixed⟩ := odd_prime_overgroup_two_fixed_points
-    H P (R : Subgroup G) p hp hodd hP R.isPGroup' hPR hfixed
-  exact ⟨R, hmax _ R.isPGroup' hPR (by omega)⟩
+    H P (R : Subgroup G) p hp hodd hP R.isPGroup hPR hfixed
+  exact ⟨R, hmax _ R.isPGroup hPR (by omega)⟩
 
 theorem ambient_sylow_pointFixedSet_card_eq
     (H : Subgroup G) (p : ℕ) (hp : p.Prime) (P R : Sylow p G) :
@@ -104,7 +104,7 @@ theorem point_sylow_is_ambient_of_two_fixed_points
   let : Fact p.Prime := ⟨hp⟩
   have hi := (two_fixed_points_point_indices_prime_to H P p hp hodd hP hfixed).2 a
   let U := (R : Subgroup (rightCosetStabilizer H a)).map (rightCosetStabilizer H a).subtype
-  have hUp : IsPGroup p U := R.isPGroup'.map (rightCosetStabilizer H a).subtype
+  have hUp : IsPGroup p U := R.isPGroup.map (rightCosetStabilizer H a).subtype
   have hUi : ¬ p ∣ U.index := by
     rw [(R : Subgroup (rightCosetStabilizer H a)).index_map_of_injective
       (rightCosetStabilizer H a).subtype_injective, Subgroup.range_subtype]

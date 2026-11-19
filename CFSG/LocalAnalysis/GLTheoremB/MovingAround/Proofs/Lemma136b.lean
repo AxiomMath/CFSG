@@ -21,7 +21,7 @@ theorem commute_of_bar {G : Type} [Group G] [Finite G] {M H : Subgroup G} {x y :
       QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) (⟨y, hyM⟩ : ↥M) *
         QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) (⟨x, hxM⟩ : ↥M)) :
     x * y = y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set a := QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) (⟨x, hxM⟩ : ↥M) with ha
   set b := QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) (⟨y, hyM⟩ : ↥M) with hb
   set c : G := x⁻¹ * y⁻¹ * x * y with hc
@@ -63,7 +63,7 @@ theorem barX_piOf_le_piStar {G : Type} [Group G] [Finite G] {M D : Subgroup G} {
 
 @[expose] def P1GLift : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G}
-    (h : Cex134 G m 3 B M E A D T L) (b : ↥M), (b : G) ∈ B →
+    (_h : Cex134 G m 3 B M E A D T L) (b : ↥M), (b : G) ∈ B →
     QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) b ≠ 1 →
     (∀ y ∈ barX 3 M D ⊔ barX 3 M (Lstarsub D L),
       QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) b * y = y * QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) b) →
@@ -79,7 +79,7 @@ theorem barX_piOf_le_piStar {G : Type} [Group G] [Finite G] {M D : Subgroup G} {
 
 @[expose] def P1GCore : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G}
-    (h : Cex134 G m 3 B M E A D T L) (b : ↥M), (b : G) ∈ B →
+    (_h : Cex134 G m 3 B M E A D T L) (b : ↥M), (b : G) ∈ B →
     QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) b ≠ 1 →
     (∀ y ∈ barX 3 M D ⊔ barX 3 M (Lstarsub D L),
       QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) b * y = y * QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) b) →
@@ -97,7 +97,7 @@ theorem p1BarInput_of_inputs (h135 : Lemma135_iStatement) (hLift : P1GLift) (hCo
       ((barX 3 M D ⊔ barX 3 M (Lstarsub D L) : Subgroup (↥M ⧸ GLAPPrimeCore 3 ↥M)) :
         Set (↥M ⧸ GLAPPrimeCore 3 ↥M)), y ≠ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hne ((Subgroup.eq_bot_iff_forall _).2 hc)
   obtain ⟨hyB, hyC⟩ := Subgroup.mem_inf.1 hy
   obtain ⟨b, hbB, rfl⟩ := (mem_barX_iff 3 y).1 hyB

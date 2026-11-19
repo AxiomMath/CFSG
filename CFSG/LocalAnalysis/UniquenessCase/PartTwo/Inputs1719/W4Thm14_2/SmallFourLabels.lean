@@ -112,7 +112,7 @@ private theorem exists_frobPair {n : ℕ} (hF : Fintype.card F = 2 ^ 2)
       exact hmem
   have hWne : W.toSubmodule ≠ ⊥ := by
     intro hbot
-    haveI hnt : Nontrivial ↥W.toSubmodule := (X7.isIrreducible_iff W.toRepresentation |>.mp hW).1
+    have hnt : Nontrivial ↥W.toSubmodule := (X7.isIrreducible_iff W.toRepresentation |>.mp hW).1
     rw [hbot] at hnt
     exact not_subsingleton_iff_nontrivial.mpr hnt (by infer_instance)
   have hMne : M ≠ ⊥ := by
@@ -122,6 +122,7 @@ private theorem exists_frobPair {n : ℕ} (hF : Fintype.card F = 2 ^ 2)
     exact hWne (le_bot_iff.mp hle)
   exact descent hF ρ₀ hirr M hG hΦ hMne
 
+omit [Fintype F] [CharP F 2] in
 private theorem dT_self_eq_scalarElement {c : Fˣ} (hc : c ^ 3 = 1) :
     X7a.dT c c = LinearFlag.scalarElement c hc := by
   apply Subtype.ext
@@ -132,7 +133,7 @@ private theorem dT_self_eq_scalarElement {c : Fˣ} (hc : c ^ 3 = 1) :
   have hinv : (c * c)⁻¹ = c := inv_eq_of_mul_eq_one_right hcc
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [X7a.dTMat, Matrix.scalar_apply, Matrix.one_apply, hinv]
+    simp [X7a.dTMat, Matrix.scalar_apply, hinv]
 
 private theorem tensorRep_dT_self (hF : Fintype.card F = 2 ^ 2) {a b : Fin 2 → Bool}
     {c : Fˣ} (hc : c ^ 3 = 1) :
@@ -221,6 +222,7 @@ private theorem tensorRep_dT_self (hF : Fintype.card F = 2 ^ 2) {a b : Fin 2 →
   rw [Matrix.sub_mulVec, sub_eq_zero] at h
   exact h
 
+omit [Fintype F] in
 private theorem sub_rep_eq_smul {n : ℕ} {R : SL(3, F) →* Matrix (Fin n) (Fin n) F}
     {a b : Fin 2 → Bool} (W : Subrepresentation (matRep R))
     (eW : Representation.Equiv W.toRepresentation (matRep (tensorRep (F := F) F a b)))
@@ -240,6 +242,7 @@ private theorem sub_rep_eq_smul {n : ℕ} {R : SL(3, F) →* Matrix (Fin n) (Fin
   have h4 : (matRep R g) (w : Fin n → F) = s • (w : Fin n → F) := congrArg Subtype.val h3
   simpa only [X7.matRep_apply] using h4
 
+omit [Fintype F] [CharP F 2] in
 private theorem matRep_eq_one_of_span {n : ℕ} {R : SL(3, F) →* Matrix (Fin n) (Fin n) F}
     {Y Y' : Subrepresentation (matRep R)} (htop : Y.toSubmodule ⊔ Y'.toSubmodule = ⊤)
     {g : SL(3, F)}
@@ -255,6 +258,7 @@ private theorem matRep_eq_one_of_span {n : ℕ} {R : SL(3, F) →* Matrix (Fin n
   have h2 : R g *ᵥ z = z := hY' ⟨z, hz⟩
   rw [h1, h2]
 
+omit [Fintype F] [CharP F 2] in
 private theorem eq_zero_of_fixed_of_smul_ne_one {n : ℕ}
     {R : SL(3, F) →* Matrix (Fin n) (Fin n) F}
     {Y Y' : Subrepresentation (matRep R)} (htop : Y.toSubmodule ⊔ Y'.toSubmodule = ⊤)
@@ -381,6 +385,7 @@ private theorem finrank_eq_two_mul_of_frobPair {n : ℕ} (hF : Fintype.card F = 
   rw [hbot, finrank_bot, add_zero, htop', h1, h2] at hsum
   omega
 
+omit [Fintype F] [Finite U] in
 private lemma rep_eq_one_of_matMap_eq_one {n : ℕ}
     {ρ : Representation (ZMod 2) SL(3, F) U} (bas : Module.Basis (Fin n) (ZMod 2) U)
     {x : SL(3, F)}
@@ -398,6 +403,7 @@ private lemma rep_eq_one_of_matMap_eq_one {n : ℕ}
     exact h0
   exact (LinearMap.toMatrix bas bas).injective h3
 
+omit [Fintype F] [Finite U] in
 private lemma eq_zero_of_rep_fixed {n : ℕ}
     {ρ : Representation (ZMod 2) SL(3, F) U} (bas : Module.Basis (Fin n) (ZMod 2) U)
     {x : SL(3, F)}

@@ -22,7 +22,7 @@ set_option linter.unusedSectionVars false
 theorem reeG2Char3Export_of_lieQ (hb : LieOrderBridge) (hQ : YS08.LieQ.LieQConstrainedInner 3) :
     ReeG2Char3Export := by
   intro S _ _ hs hna idx hF h3 he β hβ hβ1
-  haveI := hs
+  have := hs
   obtain ⟨d, hv⟩ := idx
   cases d with
   | reeG2 m =>
@@ -52,7 +52,7 @@ set_option linter.unusedSectionVars false
 theorem lieCompsOn_suzukiReeTits {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) :
     LieCompsOn p .suzukiReeTits := by
   intro S _ _ hs hna idx hF he β hβ hβ1 _
-  haveI := hs
+  have := hs
   obtain ⟨d, hv⟩ := idx
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega

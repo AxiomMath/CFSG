@@ -33,7 +33,7 @@ theorem e6Dep_chart {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V]
       (∀ i : Fin 6, ε (h i) = (e6DepPt ()).vec (e6DepH i)) ∧
       (∀ (i : Fin 6) w, α i w = (e6DepPt ()).dot ((e6DepPt ()).vec (e6DepF i)) (ε w)) ∧
       ε x = (e6DepPt ()).vec [0, 0, 0, 0, 0, 1] := by
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   obtain ⟨g, hg, i, hgi⟩ := Fintype.not_linearIndependent_iff.mp hfr.dep
   have hkey : ∀ k : Fin 6, (∑ j : Fin 6, g j * (CartanMatrix.E 6 k j : ZMod 3)) = 0 := by
     intro k
@@ -125,7 +125,7 @@ theorem e6Dep_chart {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V]
     rw [Module.Basis.equivFun_self b j j']
     by_cases h : j = j'
     · subst h; simp
-    · rw [if_neg h, Pi.single_eq_of_ne (Ne.symm h)]
+    · rw [ite_eq_right h, Pi.single_eq_of_ne (Ne.symm h)]
   have hαb_eval : ∀ (i : Fin 6) (j : Fin 6),
       α i (b j) = ((e6DepPt ()).vec (e6DepF i)) j := by
     intro i j
@@ -163,7 +163,7 @@ theorem e6Dep_chart {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V]
       funext j; fin_cases j <;> decide
   · intro i w
     have hw : w = ∑ j : Fin 6, b.equivFun w j • b j := by
-      simpa [Module.Basis.equivFun_apply] using (b.sum_repr w).symm
+      simp [Module.Basis.equivFun_apply]
     conv_lhs => rw [hw]
     rw [map_sum, Pt.dot]
     simp only [map_smul, smul_eq_mul]

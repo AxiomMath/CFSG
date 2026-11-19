@@ -30,7 +30,7 @@ open CFSG.KC.Ord CFSG.KC.LQT.P CFSG.KC.LQT.S
 @[expose] noncomputable def anyLL (l : List (List Nat)) (f : List Nat → Bool) : Bool :=
   List.rec (motive := fun _ => Bool) false (fun x _ ih => orB (f x) ih) l
 
-@[expose] noncomputable def c4041 (X1 U0 D2 : Nat) (TL w2 : List Nat) (cent : List (List Nat)) :
+@[expose] noncomputable def c4041 (_X1 U0 D2 : Nat) (_TL w2 : List Nat) (cent : List (List Nat)) :
     Bool := allBs
   [allL w2 (fun w => andB (slOK (snd20 w)) (Nat.beq (mulK (fst20 w) (cofK (snd20 w))) (snd20 w))),
    allLL cent (fun e => allLL cent fun e2 => impB (commK (headL e) (headL e2))

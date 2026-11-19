@@ -24,9 +24,9 @@ open scoped commutatorElement
 theorem ccompOK_f (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) :
     CCompOK 5 fJ := by
   obtain ⟨hcomm, -, -, -, hC, hcardI, -, hder, -⟩ := CFSG.Sporadic.HNOddCore.ctuc_hn_five_centralizer_perfect_factor
-  haveI hsimple : IsSimpleGroup ↥IJ :=
+  have hsimple : IsSimpleGroup ↥IJ :=
     (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity IJ 3 5 1 CFSG.RankThree.PartOne.HNB.model_IJ).2
-  haveI : Finite ↥IJ := Nat.finite_of_card_ne_zero (by rw [hcardI]; norm_num)
+  have : Finite ↥IJ := Nat.finite_of_card_ne_zero (by rw [hcardI]; norm_num)
   have hLC : IJ ≤ Subgroup.centralizer ({fJ} : Set ↥JH) := fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.2 (hcomm fJ (Subgroup.mem_zpowers _) x hx).symm
   have hnp : ¬ (Nat.card ↥IJ).Prime := by
@@ -42,7 +42,7 @@ theorem ccompOK_f (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge)
   have hT : CTypeOK 5 ↥IJ :=
     ctypeOK_of_card hb hcardI (by norm_num) (by norm_num)
       (by simp only [Nat.primeFactorsList_ofNat]; decide +kernel) (by decide) (by decide)
-  haveI : Finite ↥JH := by
+  have : Finite ↥JH := by
     have : Nat.card ↥JH ≠ 0 := by rw [card_JH]; norm_num
     exact Nat.finite_of_card_ne_zero this
   refine ccompOK_of_shapeRkAt (Good := fun T _ => CTypeOK 5 T) (Rk := fun _ _ => True)
@@ -61,7 +61,7 @@ theorem ccompOK_f (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge)
 
 theorem ccompOK_JH (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) (k : ↥JH)
     (hk5 : orderOf k = 5) : CCompOK 5 k := by
-  haveI : Finite JH := by
+  have : Finite JH := by
     have : Nat.card JH ≠ 0 := by rw [card_JH]; norm_num
     exact Nat.finite_of_card_ne_zero this
   by_cases h5A : ∃ e : ℕ, IsConj k (fJ ^ e)

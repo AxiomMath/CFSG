@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16c1G43_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   intro x y h

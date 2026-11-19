@@ -20,7 +20,7 @@ theorem k37Rest₁₅_holds
   intro X _ _ K E S hs hO
   exfalso
   obtain ⟨s, hs3, ⟨e⟩⟩ := hO
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hs.quasi.2.1
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hs.quasi.2.1
   refine k37R_false_of_four_le_localRank hs (Y := K) ?_
   cases s
   case Co1 =>

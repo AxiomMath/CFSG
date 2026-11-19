@@ -24,8 +24,10 @@ variable {F : Type*} [Field F] {E : Type*} [Group E]
     (g : M ≃ₗ[F] M) : Prop :=
   ∃ β : MulAut E, ∀ e m, g (MonoidAlgebra.of F E e • m) = MonoidAlgebra.of F E (β e) • g m
 
-theorem Norm.one : Norm (F := F) E (M := M) 1 := ⟨1, fun e m => rfl⟩
+omit [IsScalarTower F F[E] M] in
+theorem Norm.one : Norm (F := F) E (M := M) 1 := ⟨1, fun _e _m => rfl⟩
 
+omit [IsScalarTower F F[E] M] in
 theorem Norm.mul {g h : M ≃ₗ[F] M} (hg : Norm (F := F) E g) (hh : Norm (F := F) E h) :
     Norm (F := F) E (g * h) := by
   obtain ⟨β, hβ⟩ := hg
@@ -34,6 +36,7 @@ theorem Norm.mul {g h : M ≃ₗ[F] M} (hg : Norm (F := F) E g) (hh : Norm (F :=
   rw [LinearEquiv.mul_apply, hγ, hβ]
   rfl
 
+omit [IsScalarTower F F[E] M] in
 theorem Norm.inv {g : M ≃ₗ[F] M} (hg : Norm (F := F) E g) : Norm (F := F) E g⁻¹ := by
   obtain ⟨β, hβ⟩ := hg
   refine ⟨β⁻¹, fun e m => ?_⟩
@@ -41,6 +44,7 @@ theorem Norm.inv {g : M ≃ₗ[F] M} (hg : Norm (F := F) E g) : Norm (F := F) E 
   simp at this
   simp [← this]
 
+omit [IsScalarTower F F[E] M] in
 theorem Norm.pow {g : M ≃ₗ[F] M} (hg : Norm (F := F) E g) (n : ℕ) : Norm (F := F) E (g ^ n) := by
   induction n with
   | zero => simpa using Norm.one
@@ -160,7 +164,7 @@ theorem tw_isAtom {g : M ≃ₗ[F] M} (hg : Norm (F := F) E g) {S : Submodule F[
 
 @[expose] def twEquiv {g : M ≃ₗ[F] M} (hg : Norm (F := F) E g) {S S2 : Submodule F[E] M}
     (ψ : S ≃ₗ[F[E]] S2) : tw g hg S ≃ₗ[F[E]] tw g hg S2 :=
-  LinearEquiv.ofLinear (twMap hg ψ.toLinearMap) (twMap hg ψ.symm.toLinearMap)
+  LinearEquiv.ofLinearMap (twMap hg ψ.toLinearMap) (twMap hg ψ.symm.toLinearMap)
     (by ext y; simp [twMap]) (by ext y; simp [twMap])
 
 theorem caseA [IsAlgClosed F] [FiniteDimensional F M] {T : M ≃ₗ[F] M} (hT : Norm (F := F) E T)
@@ -193,12 +197,12 @@ theorem caseA [IsAlgClosed F] [FiniteDimensional F M] {T : M ≃ₗ[F] M} (hT : 
     rw [e, hf, ← hτ2]
   have hι : (S.subtype.restrictScalars F) ∈ U := fun x s => rfl
   have hUnt : Nontrivial U := by
-    haveI := IsSimpleModule.nontrivial F[E] S
+    have := IsSimpleModule.nontrivial F[E] S
     obtain ⟨s, hs⟩ := exists_ne (0 : S)
     refine ⟨⟨⟨_, hι⟩, 0, fun h => hs ?_⟩⟩
     have := congrArg (fun u : U => (u : S →ₗ[F] M) s) h
     simpa using this
-  haveI : FiniteDimensional F S :=
+  have : FiniteDimensional F S :=
     Module.Finite.of_injective (S.subtype.restrictScalars F) Subtype.val_injective
   have hfd : FiniteDimensional F U := inferInstance
   let Θ' : Module.End F U := Θ.restrict hU
@@ -253,8 +257,8 @@ theorem iSupIndep_of_noniso {R : Type*} [Ring R] {N : Type*} [AddCommGroup N] [M
     by_contra hne'
     have hij' : isotypicComponent R N (W i) = isotypicComponent R N (W j) :=
       congrArg Subtype.val hij
-    haveI := hs i
-    haveI := hs j
+    have := hs i
+    have := hs j
     have hle : W i ≤ isotypicComponent R N (W j) := hij' ▸ (W i).le_isotypicComponent
     obtain ⟨e⟩ := isIsotypicOfType_submodule_iff.mp
       (IsIsotypicOfType.isotypicComponent R N (W j)) (W i) hle
@@ -281,7 +285,7 @@ theorem abstract_simple [IsAlgClosed F] [FiniteDimensional F M] [IsSemisimpleMod
     (hTn : Norm (F := F) E T) (hfix : ∀ m, T m = m → m = 0)
     (hjoint : ∀ N : Submodule F[E] M, (∀ m ∈ N, T m ∈ N) → N = ⊥ ∨ N = ⊤) :
     IsSimpleModule F[E] M := by
-  haveI : NeZero r := ⟨hr.ne_zero⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
   have htop : (⊤ : Submodule F[E] M) ≠ ⊥ := top_ne_bot
   obtain ⟨S, -, hS⟩ :=
     (IsSemisimpleModule.eq_bot_or_exists_simple_le (⊤ : Submodule F[E] M)).resolve_left htop
@@ -360,12 +364,12 @@ theorem abstract_simple [IsAlgClosed F] [FiniteDimensional F M] [IsSemisimpleMod
     exact hv
   have h0 : (W 0).restrictScalars F ≠ ⊥ := by
     intro h
-    haveI := IsSimpleModule.nontrivial F[E] S
+    have := IsSimpleModule.nontrivial F[E] S
     obtain ⟨s, hs⟩ := exists_ne (0 : S)
     have hmem : (s : M) ∈ (W 0).restrictScalars F := by
       change (s : M) ∈ W 0
       simp only [W, mem_tw]
-      simpa using s.2
+      simp
     rw [h] at hmem
     exact hs (Subtype.ext (by simpa using hmem))
   obtain ⟨v, hv0, hv⟩ :=
@@ -382,19 +386,19 @@ open scoped MonoidAlgebra
 theorem restriction_irreducible {F : Type*} [Field F] [IsAlgClosed F]
     {E : Type*} [Group E] [Finite E]
     {V : Type*} [AddCommGroup V] [Module F V] [FiniteDimensional F V] [Nontrivial V]
-    (σ : Representation F E V) {r : ℕ} (hr : r.Prime) (hrF : (r : F) ≠ 0)
+    (σ : Representation F E V) {r : ℕ} (hr : r.Prime) (_hrF : (r : F) ≠ 0)
     (hcard : (Nat.card E : F) ≠ 0)
     (T : V ≃ₗ[F] V) (hT : T ^ r = 1)
     (hfix : LinearMap.ker ((T : V →ₗ[F] V) - LinearMap.id) = ⊥)
-    (α : MulAut E) (hα : α ^ r = 1)
+    (α : MulAut E) (_hα : α ^ r = 1)
     (hcov : ∀ e : E, (T : V →ₗ[F] V) * σ e = σ (α e) * (T : V →ₗ[F] V))
     (hjoint : ∀ W : Submodule F V, (∀ e : E, W ≤ W.comap (σ e)) →
       W ≤ W.comap (T : V →ₗ[F] V) → W = ⊥ ∨ W = ⊤) :
     σ.IsIrreducible := by
-  haveI : NeZero (Nat.card E : F) := ⟨hcard⟩
-  haveI : IsSemisimpleModule F[E] σ.asModule :=
+  have : NeZero (Nat.card E : F) := ⟨hcard⟩
+  have : IsSemisimpleModule F[E] σ.asModule :=
     (Representation.isSemisimpleRepresentation_iff_isSemisimpleModule_asModule σ).1 inferInstance
-  haveI : Nontrivial σ.asModule := σ.asModuleEquiv.toEquiv.nontrivial
+  have : Nontrivial σ.asModule := σ.asModuleEquiv.toEquiv.nontrivial
   let ι := σ.asModuleEquiv
   let T' : σ.asModule ≃ₗ[F] σ.asModule := ι.trans (T.trans ι.symm)
   have hT'apply : ∀ m, ι (T' m) = T (ι m) := fun m => by simp [T']

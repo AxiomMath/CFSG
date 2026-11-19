@@ -103,6 +103,7 @@ private lemma sup_perpW_eq_top (hq : q.polarBilin.Nondegenerate) (hV : finrank (
   refine Submodule.eq_top_of_disjoint W orthW ?_ hd
   rw [hV, hW2, finrank_perpW hq hV hW2]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma mem_perpW_of_mem {H : Subgroup (orthogonalGroup q)}
     (hHW : ∀ h ∈ H, ∀ w ∈ W, (h : V ≃ₗ[ZMod 2] V) w ∈ W) {h : H} {u : V} (hu : u ∈ orthW) :
     ((h : orthogonalGroup q) : V ≃ₗ[ZMod 2] V) u ∈ orthW := by
@@ -176,7 +177,7 @@ private lemma perm_three_dichotomy {S : Type*} [Fintype S] (hS : Fintype.card S 
         ((Nat.prime_three.coprime_iff_not_dvd).mpr h3).symm
       exact hcop.dvd_mul_right.mp (by simpa using hKdvd)
     have hp : IsPGroup 2 K := IsPGroup.of_card_dvd_pow (p := 2) (n := 1) (by simpa using h2)
-    letI : MulAction K S :=
+    let : MulAction K S :=
       { smul := fun k s => (k : Equiv.Perm S) s
         one_smul := fun s => rfl
         mul_smul := fun k l s => rfl }
@@ -212,10 +213,10 @@ private lemma exists_no_fixed_on_W {H : Subgroup (orthogonalGroup q)}
     ∃ h₀ : H, (∀ w ∈ W, w ≠ 0 → (h₀ : V ≃ₗ[ZMod 2] V) w ≠ w) ∧
       h₀ ^ 3 ∈ fixW hHW := by
   classical
-  haveI : Fintype V := Fintype.ofEquiv (Basis.ofVectorSpaceIndex (ZMod 2) V → ZMod 2)
+  have : Fintype V := Fintype.ofEquiv (Basis.ofVectorSpaceIndex (ZMod 2) V → ZMod 2)
     (Basis.ofVectorSpace (ZMod 2) V).equivFun.symm.toEquiv
   let S := {v : V // v ∈ W ∧ v ≠ 0}
-  haveI : Fintype S := Subtype.fintype _
+  have : Fintype S := Subtype.fintype _
   have hScard : Fintype.card S = 3 := by
     have hWcard : Nat.card W = 4 := by
       rw [Module.natCard_eq_pow_finrank (K := ZMod 2), hW2, Nat.card_zmod]
@@ -233,7 +234,7 @@ private lemma exists_no_fixed_on_W {H : Subgroup (orthogonalGroup q)}
       exact ⟨⟨0, rfl⟩, fun x => Subtype.ext (by simpa using x.2)⟩
     have hW4 : Fintype.card W = 4 := by rwa [Nat.card_eq_fintype_card] at hWcard
     rw [hcompl, h1, hW4]
-  letI : MulAction H S :=
+  let : MulAction H S :=
     { smul := fun h v => ⟨(h : V ≃ₗ[ZMod 2] V) v.1, hHW h h.2 v.1 v.2.1,
         fun hv => v.2.2 ((h : V ≃ₗ[ZMod 2] V).map_eq_zero_iff.mp hv)⟩
       one_smul := fun v => Subtype.ext rfl
@@ -266,6 +267,7 @@ private lemma exists_no_fixed_on_W {H : Subgroup (orthogonalGroup q)}
       exact congrArg Subtype.val (hs (φ h) ⟨h, rfl⟩)
     exact s.2.2 (hfix s.1 h1)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma eichler_mem_fixW {H : Subgroup (orthogonalGroup q)}
     (hHW : ∀ h ∈ H, ∀ w ∈ W, (h : V ≃ₗ[ZMod 2] V) w ∈ W)
     {a u : V} (ha : q a = 0) (hau : polar q a u = 0) (haU : a ∈ orthW) (huU : u ∈ orthW)
@@ -293,6 +295,7 @@ private lemma natCard_dvd_factorial_of_injective {G S : Type*} [Group G] [Finite
   rw [hcardrange, Nat.card_perm, hS] at h
   exact h
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma fixW_normal {H : Subgroup (orthogonalGroup q)}
     (hHW : ∀ h ∈ H, ∀ w ∈ W, (h : V ≃ₗ[ZMod 2] V) w ∈ W) : (fixW hHW).Normal := by
   refine ⟨fun x hx h => ?_⟩
@@ -313,7 +316,7 @@ private lemma three_mul_card_fixW_dvd {H : Subgroup (orthogonalGroup q)}
     (hfix : ∀ v : V, (∀ h : H, (h : V ≃ₗ[ZMod 2] V) v = v) → v = 0) :
     3 * Nat.card (fixW hHW) ∣ Nat.card H := by
   classical
-  haveI := fixW_normal hHW
+  have := fixW_normal hHW
   obtain ⟨h₀, hfix0, h03⟩ := exists_no_fixed_on_W hW2 hHW hfix
   have h0not : h₀ ∉ fixW hHW := by
     obtain ⟨w1, w2, hli, hspan⟩ := exists_pair_of_finrank_eq_two hW2
@@ -336,6 +339,7 @@ private lemma three_mul_card_fixW_dvd {H : Subgroup (orthogonalGroup q)}
   rw [hcard, hk]
   exact Dvd.intro k (by ring)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma span_le_orthogonal_self {s : Set V}
     (h : ∀ x ∈ s, ∀ y ∈ s, polar q x y = 0) :
     Submodule.span (ZMod 2) s ≤
@@ -361,6 +365,7 @@ private lemma span_le_orthogonal_self {s : Set V}
   · intro r u v hu hv h1
     rw [polar_smul_left, h1, smul_zero]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma q_eq_zero_of_mem_span {s : Set V} (hq0 : ∀ x ∈ s, q x = 0)
     (h : ∀ x ∈ s, ∀ y ∈ s, polar q x y = 0) {x : V}
     (hx : x ∈ Submodule.span (ZMod 2) s) : q x = 0 := by
@@ -374,6 +379,7 @@ private lemma q_eq_zero_of_mem_span {s : Set V} (hq0 : ∀ x ∈ s, q x = 0)
   · intro c u hu hu0
     rw [map_smul_zmod2, hu0, mul_zero]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma le_orthogonal_self_of_q_eq_zero {T : Submodule (ZMod 2) V}
     (hT : ∀ x ∈ T, q x = 0) : T ≤ LinearMap.BilinForm.orthogonal q.polarBilin T := by
   intro x hx
@@ -583,10 +589,12 @@ private def V0 (q : QuadraticForm (ZMod 2) V) (W : Submodule (ZMod 2) V) (a b : 
   LinearMap.BilinForm.orthogonal q.polarBilin W ⊓
     LinearMap.BilinForm.orthogonal q.polarBilin (Submodule.span (ZMod 2) {a, b})
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma mem_V0_iff {a b x : V} :
     x ∈ V0 q W a b ↔ x ∈ orthW ∧ polar q a x = 0 ∧ polar q b x = 0 := by
   rw [V0, Submodule.mem_inf, mem_orthogonal_span_pair_iff]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma decomp_mem_V0 {a b x : V} (hab : polar q a b = 1) (hx : x ∈ orthW)
     (haU : a ∈ orthW) (hbU : b ∈ orthW) :
     x + polar q x b • a + polar q x a • b ∈ V0 q W a b := by
@@ -602,13 +610,15 @@ private lemma decomp_mem_V0 {a b x : V} (hab : polar q a b = 1) (hx : x ∈ orth
       polar_comm q b x]
     exact zmod2_add_self _
 
-private lemma eq_smul_add_smul_add_decomp {a b x : V} (hab : polar q a b = 1) (hx : x ∈ orthW)
-    (haU : a ∈ orthW) (hbU : b ∈ orthW) :
+omit [FiniteDimensional (ZMod 2) V] in
+private lemma eq_smul_add_smul_add_decomp {a b x : V} (_hab : polar q a b = 1) (_hx : x ∈ orthW)
+    (_haU : a ∈ orthW) (_hbU : b ∈ orthW) :
     polar q x b • a + polar q x a • b + (x + polar q x b • a + polar q x a • b) = x := by
   rw [show polar q x b • a + polar q x a • b + (x + polar q x b • a + polar q x a • b) =
     x + (polar q x b • a + polar q x b • a) + (polar q x a • b + polar q x a • b) from by abel]
   rw [vec_add_self, vec_add_self, add_zero, add_zero]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma orthW_eq_sup_span_pair_V0 {a b : V} (hab : polar q a b = 1)
     (haU : a ∈ orthW) (hbU : b ∈ orthW) :
     orthW = Submodule.span (ZMod 2) {a, b} ⊔ V0 q W a b := by
@@ -628,6 +638,7 @@ private lemma orthW_eq_sup_span_pair_V0 {a b : V} (hab : polar q a b = 1)
     · exact haU
     · exact hbU
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma inf_span_pair_V0 {a b : V} (hab : polar q a b = 1) :
     Submodule.span (ZMod 2) {a, b} ⊓ V0 q W a b = ⊥ := by
   rw [eq_bot_iff]
@@ -640,19 +651,18 @@ private lemma inf_span_pair_V0 {a b : V} (hab : polar q a b = 1) :
   have h2 : polar q b (s • a + t • b) = 0 := hy3
   have ht : t = 0 := by
     have h := h1
-    simp only [polar_add_right, polar_smul_right, polar_self_eq_zero, hab, smul_zero, add_zero,
-      zero_add, smul_eq_mul, mul_one, mul_zero] at h
+    simp only [polar_add_right, polar_smul_right, polar_self_eq_zero, hab, zero_add, smul_eq_mul, mul_one, mul_zero] at h
     exact h
   have hs : s = 0 := by
     have h := h2
     simp only [polar_add_right, polar_smul_right, polar_self_eq_zero, polar_comm q b a, hab,
-      smul_zero, add_zero, zero_add, smul_eq_mul, mul_one, mul_zero] at h
+      add_zero, smul_eq_mul, mul_one, mul_zero] at h
     exact h
   rw [hs, ht, zero_smul, zero_smul, add_zero]
 
 private lemma finrank_V0 {a b : V} (hab : polar q a b = 1) (hV : finrank (ZMod 2) V = 6)
     (hq : q.polarBilin.Nondegenerate) (hW2 : finrank (ZMod 2) W = 2)
-    (hWq : ∀ w ∈ W, w ≠ 0 → q w = 1) (haU : a ∈ orthW) (hbU : b ∈ orthW)
+    (_hWq : ∀ w ∈ W, w ≠ 0 → q w = 1) (haU : a ∈ orthW) (hbU : b ∈ orthW)
     (hli : LinearIndependent (ZMod 2) ![a, b]) : finrank (ZMod 2) (V0 q W a b) = 2 := by
   have hsup : orthW = Submodule.span (ZMod 2) {a, b} ⊔ V0 q W a b :=
     orthW_eq_sup_span_pair_V0 hab haU hbU
@@ -661,6 +671,7 @@ private lemma finrank_V0 {a b : V} (hab : polar q a b = 1) (hV : finrank (ZMod 2
     finrank_perpW hq hV hW2] at hsum
   omega
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma orthW_eq_span_four {a b c d : V} (hab : polar q a b = 1)
     (haU : a ∈ orthW) (hbU : b ∈ orthW)
     (hV0 : Submodule.span (ZMod 2) {c, d} = V0 q W a b) :
@@ -671,12 +682,14 @@ private lemma orthW_eq_span_four {a b c d : V} (hab : polar q a b = 1)
   simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff]
   tauto
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma q_add_add (x y z : V) :
     q (x + y + z) = q x + q y + q z + polar q x y + polar q x z + polar q y z := by
   rw [show x + y + z = x + (y + z) from by abel]
   rw [map_add_eq, map_add_eq, polar_add_right]
   ring
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma q_add_add_add (w x y z : V) :
     q (w + x + y + z) = q w + q x + q y + q z + polar q w x + polar q w y + polar q w z +
       polar q x y + polar q x z + polar q y z := by
@@ -684,6 +697,7 @@ private lemma q_add_add_add (w x y z : V) :
   rw [q_add_add, map_add_eq, polar_add_right, polar_add_right]
   ring
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma q_combination_aniso {a b c d : V} (hqa : q a = 0) (hqb : q b = 0)
     (hqc : q c = 1) (hqd : q d = 1) (hcd : polar q c d = 1) (hab : polar q a b = 1)
     (hac : polar q a c = 0) (had : polar q a d = 0) (hbc : polar q b c = 0)
@@ -691,9 +705,10 @@ private lemma q_combination_aniso {a b c d : V} (hqa : q a = 0) (hqb : q b = 0)
     q (α • a + β • b + s • c + t • d) = α * β + s + t + s * t := by
   rw [q_add_add_add]
   simp only [map_smul_zmod2, polar_smul_left, polar_smul_right, smul_eq_mul, hqa, hqb, hqc, hqd,
-    hab, hac, had, hbc, hbd, hcd, mul_one, mul_zero, zero_mul, add_zero, zero_add]
+    hab, hac, had, hbc, hbd, hcd, mul_one, mul_zero, add_zero, zero_add]
   ring
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma q_combination_hyp {a b c d : V} (hqa : q a = 0) (hqb : q b = 0)
     (hqc : q c = 0) (hqd : q d = 0) (hcd : polar q c d = 1) (hab : polar q a b = 1)
     (hac : polar q a c = 0) (had : polar q a d = 0) (hbc : polar q b c = 0)
@@ -701,7 +716,7 @@ private lemma q_combination_hyp {a b c d : V} (hqa : q a = 0) (hqb : q b = 0)
     q (α • a + β • b + s • c + t • d) = α * β + s * t := by
   rw [q_add_add_add]
   simp only [map_smul_zmod2, polar_smul_left, polar_smul_right, smul_eq_mul, hqa, hqb, hqc, hqd,
-    hab, hac, had, hbc, hbd, hcd, mul_one, mul_zero, zero_mul, add_zero, zero_add]
+    hab, hac, had, hbc, hbd, hcd, mul_one, mul_zero, add_zero, zero_add]
   ring
 
 private lemma zmod2_add_add_mul_eq_zero {s t : ZMod 2} (h : s + t + s * t = 0) :
@@ -731,6 +746,7 @@ private lemma zmod2_one_add_eq_one {x : ZMod 2} (h : 1 + x = 1) : x = 0 := by
   revert x
   decide
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma mem_cover_singular_aniso {a b c d x : V} (hqa : q a = 0) (hqb : q b = 0)
     (hqc : q c = 1) (hqd : q d = 1) (hcd : polar q c d = 1) (hab : polar q a b = 1)
     (hac : polar q a c = 0) (had : polar q a d = 0) (hbc : polar q b c = 0)
@@ -786,10 +802,11 @@ private lemma mem_cover_singular_aniso {a b c d x : V} (hqa : q a = 0) (hqb : q 
       rw [hx4]
       simp
     · rw [hα, hβ, hs, ht] at hx4
-      simp only [one_smul, zero_smul, add_zero] at hx4
+      simp only [one_smul] at hx4
       rw [hx4]
       simp
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma mem_cover_nonsingular_hyp {a b c d x : V} (hqa : q a = 0) (hqb : q b = 0)
     (hqc : q c = 0) (hqd : q d = 0) (hcd : polar q c d = 1) (hab : polar q a b = 1)
     (hac : polar q a c = 0) (had : polar q a d = 0) (hbc : polar q b c = 0)
@@ -822,7 +839,7 @@ private lemma mem_cover_nonsingular_hyp {a b c d x : V} (hqa : q a = 0) (hqb : q
   · have hst1 : s * t = 1 := by simpa [hα, hβ] using hq1
     obtain ⟨hs, ht⟩ := zmod2_mul_eq_one hst1
     rw [hα, hβ, hs, ht] at hx4
-    simp only [zero_smul, one_smul, add_zero] at hx4
+    simp only [zero_smul, one_smul] at hx4
     rw [hx4]
     simp
   · have hst1 : s * t = 1 := by simpa [hα, hβ] using hq1
@@ -838,20 +855,21 @@ private lemma mem_cover_nonsingular_hyp {a b c d x : V} (hqa : q a = 0) (hqb : q
     rcases zmod2_eq_zero_or_eq_one s with hs | hs <;>
       rcases zmod2_eq_zero_or_eq_one t with ht | ht
     · rw [hα, hβ, hs, ht] at hx4
-      simp only [one_smul, zero_smul, mul_zero, add_zero] at hx4
+      simp only [one_smul, zero_smul, add_zero] at hx4
       rw [hx4]
       simp
     · rw [hα, hβ, hs, ht] at hx4
-      simp only [one_smul, zero_smul, mul_zero, add_zero] at hx4
+      simp only [one_smul, zero_smul, add_zero] at hx4
       rw [hx4]
       simp
     · rw [hα, hβ, hs, ht] at hx4
-      simp only [one_smul, zero_smul, mul_zero, add_zero] at hx4
+      simp only [one_smul, zero_smul, add_zero] at hx4
       rw [hx4]
       simp
     · rw [hs, ht, mul_one] at hst0
       exact absurd hst0 (by decide)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma eq_one_of_fixes_singular_aniso {H : Subgroup (orthogonalGroup q)}
     {a b c d : V} {h : H}
     (hY : ∀ h : H, (∀ u ∈ orthW, (h : V ≃ₗ[ZMod 2] V) u = u) → h = 1)
@@ -929,6 +947,7 @@ private lemma eq_one_of_fixes_singular_aniso {H : Subgroup (orthogonalGroup q)}
   · intro r u hu hu'
     rw [map_smul, hu']
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma eq_one_of_fixes_nonsingular_hyp {H : Subgroup (orthogonalGroup q)}
     {a b c d : V} {h : H}
     (hY : ∀ h : H, (∀ u ∈ orthW, (h : V ≃ₗ[ZMod 2] V) u = u) → h = 1)
@@ -1048,17 +1067,17 @@ private lemma card_dvd_120_aniso {H : Subgroup (orthogonalGroup q)} {a b c d : V
     (haU : a ∈ orthW) (hbU : b ∈ orthW) :
     Nat.card H ∣ Nat.factorial 5 := by
   classical
-  haveI : Fintype V := Fintype.ofEquiv (Basis.ofVectorSpaceIndex (ZMod 2) V → ZMod 2)
+  have : Fintype V := Fintype.ofEquiv (Basis.ofVectorSpaceIndex (ZMod 2) V → ZMod 2)
     (Basis.ofVectorSpace (ZMod 2) V).equivFun.symm.toEquiv
-  haveI : Fintype (V → V) := inferInstance
-  haveI : Fintype (V ≃ₗ[ZMod 2] V) :=
+  have : Fintype (V → V) := inferInstance
+  have : Fintype (V ≃ₗ[ZMod 2] V) :=
     Fintype.ofInjective (fun e : V ≃ₗ[ZMod 2] V => (e : V → V))
       (fun e1 e2 h => LinearEquiv.ext (fun x => congrFun h x))
-  haveI : Fintype (orthogonalGroup q) := Subtype.fintype _
-  haveI : Fintype H := Subtype.fintype _
+  have : Fintype (orthogonalGroup q) := Subtype.fintype _
+  have : Fintype H := Subtype.fintype _
   let S := {x : V // x ∈ orthW ∧ x ≠ 0 ∧ q x = 0}
-  haveI : Fintype S := Subtype.fintype _
-  letI : MulAction H S :=
+  have : Fintype S := Subtype.fintype _
+  let : MulAction H S :=
     { smul := fun h v => ⟨(h : V ≃ₗ[ZMod 2] V) v.1,
         mem_perpW_of_mem hHW v.2.1,
         fun hv => v.2.2.1 ((h : V ≃ₗ[ZMod 2] V).map_eq_zero_iff.mp hv),
@@ -1120,17 +1139,17 @@ private lemma card_dvd_720_hyp {H : Subgroup (orthogonalGroup q)} {a b c d : V}
     (haU : a ∈ orthW) (hbU : b ∈ orthW) :
     Nat.card H ∣ Nat.factorial 6 := by
   classical
-  haveI : Fintype V := Fintype.ofEquiv (Basis.ofVectorSpaceIndex (ZMod 2) V → ZMod 2)
+  have : Fintype V := Fintype.ofEquiv (Basis.ofVectorSpaceIndex (ZMod 2) V → ZMod 2)
     (Basis.ofVectorSpace (ZMod 2) V).equivFun.symm.toEquiv
-  haveI : Fintype (V → V) := inferInstance
-  haveI : Fintype (V ≃ₗ[ZMod 2] V) :=
+  have : Fintype (V → V) := inferInstance
+  have : Fintype (V ≃ₗ[ZMod 2] V) :=
     Fintype.ofInjective (fun e : V ≃ₗ[ZMod 2] V => (e : V → V))
       (fun e1 e2 h => LinearEquiv.ext (fun x => congrFun h x))
-  haveI : Fintype (orthogonalGroup q) := Subtype.fintype _
-  haveI : Fintype H := Subtype.fintype _
+  have : Fintype (orthogonalGroup q) := Subtype.fintype _
+  have : Fintype H := Subtype.fintype _
   let S := {x : V // x ∈ orthW ∧ q x = 1}
-  haveI : Fintype S := Subtype.fintype _
-  letI : MulAction H S :=
+  have : Fintype S := Subtype.fintype _
+  let : MulAction H S :=
     { smul := fun h v => ⟨(h : V ≃ₗ[ZMod 2] V) v.1, mem_perpW_of_mem hHW v.2.1,
         by rw [CFSG.ClassicalGroups.Orthogonal.map_of_mem (h : orthogonalGroup q).2, v.2.2]⟩
       one_smul := fun v => Subtype.ext rfl
@@ -1181,6 +1200,7 @@ private lemma card_dvd_720_hyp {H : Subgroup (orthogonalGroup q)} {a b c d : V}
       _ = 6 := by simp
   exact dvd_trans h1 (Nat.factorial_dvd_factorial h2)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma three_dvd_card_fixW_of_eichler_nonsingular {H : Subgroup (orthogonalGroup q)}
     (hHW : ∀ h ∈ H, ∀ w ∈ W, (h : V ≃ₗ[ZMod 2] V) w ∈ W)
     {a b c : V} (hqa : q a = 0) (hqb : q b = 0) (hab : polar q a b = 1)
@@ -1216,15 +1236,15 @@ private lemma nine_dvd_card_fixW_of_eichler_hyperbolic {H : Subgroup (orthogonal
     (hEbc : (⟨eichler q b c, eichler_mem_orthogonalGroup q b c⟩ : orthogonalGroup q) ∈ H) :
     9 ∣ Nat.card (fixW hHW) := by
   classical
-  haveI : Fintype V := Fintype.ofEquiv (Basis.ofVectorSpaceIndex (ZMod 2) V → ZMod 2)
+  have : Fintype V := Fintype.ofEquiv (Basis.ofVectorSpaceIndex (ZMod 2) V → ZMod 2)
     (Basis.ofVectorSpace (ZMod 2) V).equivFun.symm.toEquiv
-  haveI : Fintype (V → V) := inferInstance
-  haveI : Fintype (V ≃ₗ[ZMod 2] V) :=
+  have : Fintype (V → V) := inferInstance
+  have : Fintype (V ≃ₗ[ZMod 2] V) :=
     Fintype.ofInjective (fun e : V ≃ₗ[ZMod 2] V => (e : V → V))
       (fun e1 e2 h => LinearEquiv.ext (fun x => congrFun h x))
-  haveI : Fintype (orthogonalGroup q) := Subtype.fintype _
-  haveI : Fintype H := Subtype.fintype _
-  haveI : Fintype (fixW hHW) := Subtype.fintype _
+  have : Fintype (orthogonalGroup q) := Subtype.fintype _
+  have : Fintype H := Subtype.fintype _
+  have : Fintype (fixW hHW) := Subtype.fintype _
   have hτorth : eichler q a c * eichler q b d ∈ orthogonalGroup q :=
     mul_mem (eichler_mem_orthogonalGroup q a c) (eichler_mem_orthogonalGroup q b d)
   have hρorth : eichler q a d * eichler q b c ∈ orthogonalGroup q :=
@@ -1337,21 +1357,21 @@ theorem false_of_anisotropicPlane (hq : q.polarBilin.Nondegenerate)
       have hcd1 : polar q c d = 1 := zmod2_eq_one_of_ne_zero hcdne
       have hd'V0 : (if q d = 0 then d else d + c) ∈ V0 q W a b := by
         by_cases hq0 : q d = 0
-        · rw [if_pos hq0]; exact hdV0
-        · rw [if_neg hq0]; exact Submodule.add_mem _ hdV0 hcV0
+        · rw [ite_eq_left hq0]; exact hdV0
+        · rw [ite_eq_right hq0]; exact Submodule.add_mem _ hdV0 hcV0
       have hd'q : q (if q d = 0 then d else d + c) = 0 := by
         by_cases hq0 : q d = 0
-        · rw [if_pos hq0]; exact hq0
+        · rw [ite_eq_left hq0]; exact hq0
         · have hqd1 : q d = 1 := by
             rcases zmod2_eq_zero_or_eq_one (q d) with h | h
             · exact absurd h hq0
             · exact h
-          rw [if_neg hq0, map_add_eq, hqd1, hcq, polar_comm q d c, hcd1]
+          rw [ite_eq_right hq0, map_add_eq, hqd1, hcq, polar_comm q d c, hcd1]
           decide
       have hcd'1 : polar q c (if q d = 0 then d else d + c) = 1 := by
         by_cases hq0 : q d = 0
-        · rw [if_pos hq0]; exact hcd1
-        · rw [if_neg hq0, polar_add_right, hcd1, polar_self_eq_zero, add_zero]
+        · rw [ite_eq_left hq0]; exact hcd1
+        · rw [ite_eq_right hq0, polar_add_right, hcd1, polar_self_eq_zero, add_zero]
       have hd'U : (if q d = 0 then d else d + c) ∈ orthW := (mem_V0_iff.mp hd'V0).1
       have hd'a : polar q a (if q d = 0 then d else d + c) = 0 := (mem_V0_iff.mp hd'V0).2.1
       have hd'b : polar q b (if q d = 0 then d else d + c) = 0 := (mem_V0_iff.mp hd'V0).2.2

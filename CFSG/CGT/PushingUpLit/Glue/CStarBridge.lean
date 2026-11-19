@@ -89,6 +89,6 @@ theorem characteristicCoreStar_eq_cStarIn [Finite G] (T : Subgroup G) :
       le_iSup_of_le B (le_iSup_of_le ⟨hB0, hBS, hBc⟩ le_rfl)
 
 theorem isSylowOf_top [Finite G] (T : Sylow 2 G) : IsSylowOf 2 (T : Subgroup G) ⊤ := by
-  refine ⟨le_top, T.isPGroup', ?_⟩
+  refine ⟨le_top, T.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact T.not_dvd_index

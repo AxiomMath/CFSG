@@ -19,8 +19,8 @@ theorem ggFixLine_form_degenerate {p N : ℕ} [Fact p.Prime] {V : Type} [AddComm
     (hB : ∀ g ∈ ggFixLineQ S, ∀ u v, B (g u) (g v) = B u v) :
     ∃ w : ↥(ggFixLineT r s), w ≠ 0 ∧ ∀ u : ↥(ggFixLineT r s), B w u = 0 := by
   classical
-  haveI : Finite ι := S.finite_family
-  haveI : Module.Finite (ZMod p) V := ggFixLine_finite s S.s_refl S.fix_H
+  have : Finite ι := S.finite_family
+  have : Module.Finite (ZMod p) V := ggFixLine_finite s S.s_refl S.fix_H
   let T : Submodule (ZMod p) V := ggFixLineT r s
   let R : Submodule (ZMod p) V := Submodule.span (ZMod p) (Set.range h)
   obtain ⟨_, hspan_le, _, _⟩ := ggFixLine_T_props S

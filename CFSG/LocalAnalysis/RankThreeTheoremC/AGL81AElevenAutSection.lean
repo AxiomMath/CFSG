@@ -154,7 +154,7 @@ theorem not_smallAutomizer_of_prime_sylow {p : ℕ} [Fact p.Prime] {K : Type} [G
     rw [Nat.card_zpowers, hc, pow_one]
   obtain ⟨T, hle⟩ := IsPGroup.exists_le_sylow hcyc
   have hcT : c ∈ (T : Subgroup K) := hle (Subgroup.mem_zpowers c)
-  obtain ⟨n, hn⟩ := IsPGroup.exists_card_eq T.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.exists_card_eq T.isPGroup
   have hpdvd : p ∣ Nat.card T := by
     have h := Subgroup.orderOf_dvd_natCard (T : Subgroup K) hcT
     rwa [hc] at h
@@ -187,7 +187,7 @@ theorem not_smallAutomizer_of_prime_sylow {p : ℕ} [Fact p.Prime] {K : Type} [G
 
 theorem not_smallAutomizer_alternatingGroup_eleven_seven :
     ¬ SmallAutomizer 7 (alternatingGroup (Fin 11)) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hsq : ¬ 7 ^ 2 ∣ Nat.card (alternatingGroup (Fin 11)) := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
     norm_num
@@ -197,7 +197,7 @@ theorem not_smallAutomizer_alternatingGroup_eleven_seven :
 
 theorem not_smallAutomizer_alternatingGroup_eleven_eleven :
     ¬ SmallAutomizer 11 (alternatingGroup (Fin 11)) := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hsq : ¬ 11 ^ 2 ∣ Nat.card (alternatingGroup (Fin 11)) := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
     norm_num
@@ -210,17 +210,17 @@ theorem not_surjective_of_mulEquiv_alternatingGroup_eleven {q : ℕ} (hq : q.Pri
     (hr : CFSG.Open.pRank q (⊤ : Subgroup V) ≤ 3) (A : Subgroup (MulAut V))
     {K : Type} [Group K] (e : K ≃* alternatingGroup (Fin 11)) (φ : ↥A →* K) :
     ¬ Function.Surjective φ := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Finite K := Finite.of_equiv (alternatingGroup (Fin 11)) e.symm.toEquiv
+  have : Fact q.Prime := ⟨hq⟩
+  have : Finite K := Finite.of_equiv (alternatingGroup (Fin 11)) e.symm.toEquiv
   intro hφ
   by_cases hq7 : q = 7
-  · haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
     have hpq : 11 ≠ q := by rw [hq7]; norm_num
     have hS : SmallAutomizer 11 K :=
       smallAutomizer_of_surjective (p := 11) (q := q) (by norm_num) hpq
         (automizerBound_holds (by norm_num) hq hpq) (hasSmallLinearModel hq2 hV hr) A φ hφ
     exact not_smallAutomizer_alternatingGroup_eleven_eleven (SmallAutomizer.of_mulEquiv e hS)
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hpq : 7 ≠ q := Ne.symm hq7
     have hS : SmallAutomizer 7 K :=
       smallAutomizer_of_surjective (p := 7) (q := q) (by norm_num) hpq

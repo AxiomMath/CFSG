@@ -15,7 +15,7 @@ theorem not_surv1_of_pRank_three {G : Type} [Group G] [Finite G] {H K M : Subgro
     (hnab : ∃ a b : ↥(E2.star M H K), a * b ≠ b * a)
     (h3 : 3 ∣ Nat.card ↥(E2.star M H K))
     (hrank : CFSG.Open.pRank 3 H ≤ 1) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJ2 : IsPGroup 2 ((kerIn M H).subgroupOf H) := by
     rw [hJ]
     exact isPGroup_pCoreOf_two H

@@ -102,11 +102,11 @@ theorem un_residual {p f : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) (hf : 0 < f)
     rw [e', hcτ]
   have hdata := polarity_rankOne_data hθpol hc₀ hc₀f hKC
   have hBsolv' : Group.IsSolvable ↥(polB D θ) := by
-    haveI := hBsolv
+    have := hBsolv
     let f₀ : ↥(polB D θ) →* ↥D.B :=
       ((foldFix θ).subtype.comp (polB D θ).subtype).codRestrict D.B
         fun g => (mem_polB g.1).1 g.2
-    exact solvable_of_solvable_injective (f := f₀) fun a b hab =>
+    exact Group.isSolvable_of_isSolvable_injective (f := f₀) fun a b hab =>
       Subtype.ext (Subtype.ext (congrArg (fun z : ↥D.B => (z : X)) hab))
   have h2 : (2 : k) ≠ 0 := un_two_ne_zero hp2
   have h3 : (3 : k) ≠ 0 := by
@@ -124,12 +124,12 @@ theorem un_residual {p f : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) (hf : 0 < f)
       rw [mem_foldFix]
       exact theta_rho_fixed ρ τ ε κ hτρ (t : k) (tauHat_phi ε hκt hw0 hεw h2 F hF N))
   obtain ⟨S, hSn, hSperf, hSsolv⟩ := exists_residual ↥(foldFix θ)
-  haveI := hSn
+  have := hSn
   have hperfΨ : ⁅Ψ.range, Ψ.range⁆ = Ψ.range := by
-    haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
+    have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
       CFSG.LinearGroups.special_linear_dimension_two_perfect
         (exists_finset_card_four_subfield hp5 F)
-    haveI : Group.IsPerfect Ψ.range := Group.IsPerfect.range _
+    have : Group.IsPerfect Ψ.range := Group.IsPerfect.range _
     exact Subgroup.isPerfect_iff.1 inferInstance
   have hΨS : Ψ.range ≤ S := perfect_le_of_solvable_quotient hperfΨ S hSsolv
   let a : ↥F := ⟨2, show ε 2 = 2 from map_ofNat ε 2⟩

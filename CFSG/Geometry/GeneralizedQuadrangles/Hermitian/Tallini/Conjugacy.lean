@@ -71,6 +71,7 @@ theorem ptPerp_neighborSet_eq (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
       simp
     · exact le_of_eq (dist_eq_two_of_adj_of_adj_of_ne hP hz.symm hw hzw)
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem eq_of_adj_of_adj_of_adj (hP : IsGeneralizedPolygon Γ 4) {L M v w : V}
     (hLv : Γ.Adj L v) (hMv : Γ.Adj M v) (hLw : Γ.Adj L w) (hMw : Γ.Adj M w)
     (hvw : v ≠ w) : L = M := by
@@ -131,7 +132,7 @@ theorem isHypLine_ptPerp (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
   have htrace : ptPerp Γ c (starLine Γ c x y) = traceSet Γ x y :=
     ptPerp_starLine_eq_traceSet hP hT c hx hxy4
   have htrace_card : (traceSet Γ x y).ncard = t + 1 := by
-    rw [ncard_trace hP hxy4, hdeg x, if_pos hx]
+    rw [ncard_trace hP hxy4, hdeg x, ite_eq_left hx]
   have ht : 2 ≤ t := two_le_t hP hT c hdeg
   have h2 : 1 < (traceSet Γ x y).ncard := by
     rw [htrace_card]
@@ -156,7 +157,7 @@ theorem not_isNonabsPlane_of_isAbsPlane (hP : IsGeneralizedPolygon Γ 4) (hT : I
   have h1 := hO.2 L hL1
   rw [Set.inter_eq_left.mpr hsub] at h1
   have hNcard : (Γ.neighborSet L).ncard = s + 1 := by
-    rw [SimpleGraph.ncard_neighborSet, hdeg L, if_neg (by rw [hL1]; decide)]
+    rw [SimpleGraph.ncard_neighborSet, hdeg L, ite_eq_right (by rw [hL1]; decide)]
   have hs : 2 ≤ s := two_le_s hP hT c hdeg
   omega
 
@@ -255,7 +256,7 @@ theorem ncard_inter_ptPerp_singleton_of_isStarPlane (hP : IsGeneralizedPolygon �
           subst z'
           rw [SimpleGraph.dist_comm]
           exact le_of_eq hz.1
-    rw [hEq, ncard_trace hP hpu4, hdeg p, if_pos hp]
+    rw [hEq, ncard_trace hP hpu4, hdeg p, ite_eq_left hp]
   · exact ncard_inter_ovoid_ptPerp hP hT c hdeg hnon.2 hp hpX
 
 theorem isStarLine_inter_ptPerp_singleton_of_isStarPlane (hP : IsGeneralizedPolygon Γ 4)
@@ -426,7 +427,7 @@ theorem disjoint_of_ptPerp_subset (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick
     have h1 := hX.2.2 K hK
     rw [Set.inter_eq_left.mpr hsub] at h1
     have hNcard : (Γ.neighborSet K).ncard = s + 1 := by
-      rw [SimpleGraph.ncard_neighborSet, hdeg K, if_neg (by rw [hK]; decide)]
+      rw [SimpleGraph.ncard_neighborSet, hdeg K, ite_eq_right (by rw [hK]; decide)]
     have hs : 2 ≤ s := two_le_s hP hT c hdeg
     omega
   have hLhyp : IsHypLine Γ c L :=
@@ -661,7 +662,6 @@ theorem subset_of_isConjPlane (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     have hpV : p ∈ V := by
       apply hVsub
       right
-      change p ∈ ptPerp Γ c M
       exact hNp
     have hpab : ¬ IsStarCollinear Γ c p a b := by
       rintro ⟨S, hS, hpS, haS, hbS⟩
@@ -688,7 +688,6 @@ theorem subset_of_isConjPlane (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     have hzV : z ∈ V := by
       apply hVsub
       right
-      change z ∈ ptPerp Γ c M
       exact hz
     rwa [hVY] at hzV
 

@@ -21,8 +21,8 @@ theorem burnsideI16h_h1Dim_eq {G V : Type} [Group G] [AddCommGroup V] [Module (Z
   have hpos : Nat.card (groupCohomology (Rep.of ρ) 1) ≠ 0 := by
     rw [h]
     positivity
-  haveI : Finite (groupCohomology (Rep.of ρ) 1) := Nat.finite_of_card_ne_zero hpos
-  haveI : Module.Finite (ZMod 2) (groupCohomology (Rep.of ρ) 1) := Module.Finite.of_finite
+  have : Finite (groupCohomology (Rep.of ρ) 1) := Nat.finite_of_card_ne_zero hpos
+  have : Module.Finite (ZMod 2) (groupCohomology (Rep.of ρ) 1) := Module.Finite.of_finite
   have h2 := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := groupCohomology (Rep.of ρ) 1)
   rw [Nat.card_zmod] at h2
   unfold h1Dim
@@ -54,11 +54,11 @@ theorem burnsideI16h_p4 :
     rw [burnsideI16h_h1Dim_eq]
     have := j3 (a := n) hcard (by omega)
       (CFSG.Open.ASVolIRegistered.binaryNaturalSL_matrixRep 3 _)
-    exact this.trans (if_neg (by omega))
+    exact this.trans (ite_eq_right (by omega))
   · rw [burnsideI16h_h1Dim_eq]
     have := j3 (F := ZMod 2) (a := 1) (by rw [ZMod.card, pow_one]) (by norm_num)
       (CFSG.Open.ASVolIRegistered.binaryNaturalSL_matrixRep 3 (ZMod 2))
-    exact this.trans (if_pos rfl)
+    exact this.trans (ite_eq_left rfl)
 
 theorem burnsideI16h_p6 :
     h1Dim (slNaturalRep 4 (ZMod 2)) = 0 ∧ h1Dim (slNaturalRep 5 (ZMod 2)) = 0 := by
@@ -79,9 +79,9 @@ theorem burnsideI16h_p7 :
   intro V _ _ ρ hρ hdim
   obtain ⟨-, -, -, -, -, -, j7⟩ :=
     CFSG.Quasithin.JonesParshall.natural_binary_first_cohomology_sector.{0, 0}
-  haveI : Module.Finite (ZMod 2) V :=
+  have : Module.Finite (ZMod 2) V :=
     Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   rw [burnsideI16h_h1Dim_eq]
   exact j7 (MulEquiv.refl _) hρ hdim
 
@@ -165,10 +165,10 @@ theorem burnsideI16h_p1 :
   have h6 := burnsideI16h_altNatural CFSG.Quasithin.SteinbergCB.I16.coords6
   have h7 := burnsideI16h_altNatural CFSG.Quasithin.SteinbergCB.I16.coords7
   have h8 := burnsideI16h_altNatural CFSG.Quasithin.SteinbergCB.I16.coords8
-  haveI := burnsideI16h_alt_finite CFSG.Quasithin.SteinbergCB.I16.coords5
-  haveI := burnsideI16h_alt_finite CFSG.Quasithin.SteinbergCB.I16.coords6
-  haveI := burnsideI16h_alt_finite CFSG.Quasithin.SteinbergCB.I16.coords7
-  haveI := burnsideI16h_alt_finite CFSG.Quasithin.SteinbergCB.I16.coords8
+  have := burnsideI16h_alt_finite CFSG.Quasithin.SteinbergCB.I16.coords5
+  have := burnsideI16h_alt_finite CFSG.Quasithin.SteinbergCB.I16.coords6
+  have := burnsideI16h_alt_finite CFSG.Quasithin.SteinbergCB.I16.coords7
+  have := burnsideI16h_alt_finite CFSG.Quasithin.SteinbergCB.I16.coords8
   refine ⟨?_, ?_, ?_, ?_, CFSG.Quasithin.SteinbergCB.I16.projective_alternatingNatural_five h5⟩
   · rw [burnsideI16h_h1Dim_eq]
     exact CFSG.Quasithin.SteinbergCB.I16.finrank_H1_alternatingNatural_five h5
@@ -188,8 +188,8 @@ theorem burnsideI16h_faithful_of_simple {G V : Type} [Group G] [IsSimpleGroup G]
   · exfalso
     have htriv : ∀ g, ρ g = 1 := fun g => MonoidHom.mem_ker.1 (h ▸ Subgroup.mem_top g)
     have hpos : 0 < Module.finrank (ZMod 2) V := by omega
-    haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos hpos
-    haveI : Nontrivial V := Module.finrank_pos_iff.1 hpos
+    have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos hpos
+    have : Nontrivial V := Module.finrank_pos_iff.1 hpos
     obtain ⟨v, hv⟩ : ∃ v : V, v ≠ 0 := exists_ne 0
     let U : Subrepresentation ρ :=
       { toSubmodule := Submodule.span (ZMod 2) {v}
@@ -214,11 +214,11 @@ theorem burnsideI16h_p8 :
       (ρ : Representation (ZMod 2) (alternatingGroup (Fin 7)) V),
       ρ.IsIrreducible → Module.finrank (ZMod 2) V = 4 → h1Dim ρ = 0 := by
   intro V _ _ ρ hρ hdim
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) :=
     alternatingGroup.isSimpleGroup (by simp)
   have hinj := burnsideI16h_faithful_of_simple ρ hρ (by omega)
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   rw [burnsideI16h_h1Dim_eq]
   exact CFSG.Quasithin.SteinbergCB.I16.finrank_H1_faithful_alt7 (MulEquiv.refl _) hinj hdim
 
@@ -229,13 +229,13 @@ theorem burnsideI16h_p9 :
           h1Dim ρ = 0 := by
   intro G _ _ hG V _ _ ρ hinj hirr hdim
   obtain ⟨-, hcard, -⟩ := hG
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic (Subgroup.center G) := isCyclic_of_prime_card hcard
-  haveI : IsCyclic (Multiplicative (ZMod 3)) := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic (Subgroup.center G) := isCyclic_of_prime_card hcard
+  have : IsCyclic (Multiplicative (ZMod 3)) := inferInstance
   let e : Subgroup.center G ≃* Multiplicative (ZMod 3) :=
     mulEquivOfCyclicCardEq (by rw [hcard]; exact (Nat.card_zmod 3).symm)
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   rw [burnsideI16h_h1Dim_eq]
   exact CFSG.Quasithin.SteinbergCB.I16.finrank_H1_faithful_center e hinj hirr
     (by rw [hdim]; norm_num)
@@ -336,6 +336,7 @@ variable (K : Type) [Field K] [CharP K 2]
   map_add' y y' := by
     refine Prod.ext (by simp) (Prod.ext rfl (Prod.ext rfl (by simp)))
 
+omit [CharP K 2] in
 theorem burnsideI16h_zπ_ι (y : (Fin 3 → K) × (Fin 3 → K)) :
     burnsideI16h_zπ K (burnsideI16h_zι K y) = y := rfl
 
@@ -369,6 +370,7 @@ theorem burnsideI16h_zπ_ker {x : quasithinZorn K} (hx : x.1 + x.2.2.2 = 0)
     rw [toAdd_mul, map_add]
     rfl
 
+omit [CharP K 2] in
 theorem burnsideI16h_secHom_eq_one {m : ↥(CFSG.Quasithin.zornO0 K)}
     (hm : (m : Multiplicative (quasithinZorn K)) ∈ CFSG.Quasithin.zornR K) : burnsideI16h_secHom K m = 1 := by
   obtain ⟨c, hc⟩ := hm
@@ -489,10 +491,12 @@ variable (K : Type) [Field K] [CharP K 2] [Algebra (ZMod 2) K]
       (CFSG.Quasithin.zornO0 K)) ≃+ (Fin 3 → K) × (Fin 3 → K) :=
   (MulEquiv.toAdditive (burnsideI16h_secEquiv K)).trans (AddEquiv.additiveMultiplicative _)
 
+omit [Algebra (ZMod 2) K] in
 theorem burnsideI16h_coord_mk (m : ↥(CFSG.Quasithin.zornO0 K)) :
     burnsideI16h_coordEquiv K (Additive.ofMul (QuotientGroup.mk m)) =
       burnsideI16h_zπ K (Multiplicative.toAdd (m : Multiplicative (quasithinZorn K))) := rfl
 
+omit [CharP K 2] [Algebra (ZMod 2) K] in
 theorem burnsideI16h_cayley_fix_line {g : quasithinZorn K ≃ₗ[K] quasithinZorn K}
     (hg : g ∈ CFSG.Quasithin.Explicit.cayleyGroup K) (c : K) :
     g ((c, 0, 0, c) : quasithinZorn K) = (c, 0, 0, c) := by
@@ -500,12 +504,14 @@ theorem burnsideI16h_cayley_fix_line {g : quasithinZorn K ≃ₗ[K] quasithinZor
     simp [CFSG.Quasithin.Explicit.cayleyOne]
   rw [h, map_smul, hg.1]
 
+omit [Algebra (ZMod 2) K] in
 theorem burnsideI16h_zornR_le : CFSG.Quasithin.zornR K ≤ CFSG.Quasithin.zornO0 K := by
   rintro x ⟨c, hc⟩
   show (Multiplicative.toAdd x).1 + (Multiplicative.toAdd x).2.2.2 = 0
   rw [hc]
   exact CharTwo.add_self_eq_zero c
 
+omit [CharP K 2] [Algebra (ZMod 2) K] in
 theorem burnsideI16h_act_sec {Γ : Subgroup (quasithinZorn K ≃ₗ[K] quasithinZorn K)}
     (hΓ : Γ ≤ CFSG.Quasithin.Explicit.cayleyGroup K) (g : ↥Γ)
     {m : Multiplicative (quasithinZorn K)} (hm : m ∈ CFSG.Quasithin.zornO0 K) :
@@ -516,6 +522,7 @@ theorem burnsideI16h_act_sec {Γ : Subgroup (quasithinZorn K ≃ₗ[K] quasithin
     ((g : quasithinZorn K ≃ₗ[K] quasithinZorn K) (Multiplicative.toAdd m)).2.2.2 = 0
   exact h1.trans h2
 
+omit [CharP K 2] [Algebra (ZMod 2) K] in
 theorem burnsideI16h_act_line {Γ : Subgroup (quasithinZorn K ≃ₗ[K] quasithinZorn K)}
     (hΓ : Γ ≤ CFSG.Quasithin.Explicit.cayleyGroup K) (g : ↥Γ)
     {m : Multiplicative (quasithinZorn K)} (hm : m ∈ CFSG.Quasithin.zornR K) :
@@ -526,6 +533,7 @@ theorem burnsideI16h_act_line {Γ : Subgroup (quasithinZorn K ≃ₗ[K] quasithi
   rw [hc]
   exact burnsideI16h_cayley_fix_line K (hΓ g.2) c
 
+omit [Algebra (ZMod 2) K] in
 theorem burnsideI16h_g2_range :
     ((quasithinG2 K).subtype.comp (commutator ↥(quasithinG2 K)).subtype).range =
       ⁅CFSG.Quasithin.Explicit.cayleyGroup K, CFSG.Quasithin.Explicit.cayleyGroup K⁆ := by
@@ -544,6 +552,7 @@ theorem burnsideI16h_zE_rep (γ : ↥(commutator ↥(quasithinG2 K))) (x : zornT
       burnsideI16h_zπ K (((γ : ↥(quasithinG2 K)) : quasithinZorn K ≃ₗ[K] quasithinZorn K)
         (x : quasithinZorn K)) := rfl
 
+omit [Algebra (ZMod 2) K] in
 theorem burnsideI16h_cayley_coord {g : quasithinZorn K ≃ₗ[K] quasithinZorn K}
     (hg : g ∈ CFSG.Quasithin.Explicit.cayleyGroup K) {x y : quasithinZorn K}
     (hx : x.1 + x.2.2.2 = 0) (hy : y.1 + y.2.2.2 = 0)
@@ -563,6 +572,7 @@ theorem burnsideI16h_cayley_coord {g : quasithinZorn K ≃ₗ[K] quasithinZorn K
   rw [map_sub, sub_eq_zero] at h2
   exact h2
 
+omit [Algebra (ZMod 2) K] in
 theorem burnsideI16h_g2_mem_cayley (g : ↥(quasithinG2 K)) :
     (g : quasithinZorn K ≃ₗ[K] quasithinZorn K) ∈ CFSG.Quasithin.Explicit.cayleyGroup K := by
   rw [← burnsideI16h_g2_eq_cayley]
@@ -619,20 +629,22 @@ section G2Finite
 
 variable (K : Type) [Field K] [Finite K] [Algebra (ZMod 2) K]
 
+omit [Field K] [Algebra (ZMod 2) K] in
 theorem burnsideI16h_zorn_finite : Finite (quasithinZorn K) := by
   unfold quasithinZorn
   infer_instance
 
+omit [Algebra (ZMod 2) K] in
 theorem burnsideI16h_g2_finite : Finite ↥(quasithinG2 K) := by
-  haveI := burnsideI16h_zorn_finite K
-  haveI : Finite (quasithinZorn K → quasithinZorn K) := inferInstance
+  have := burnsideI16h_zorn_finite K
+  have : Finite (quasithinZorn K → quasithinZorn K) := inferInstance
   refine Finite.of_injective (fun g : ↥(quasithinG2 K) =>
     ((g : quasithinZorn K ≃ₗ[K] quasithinZorn K) : quasithinZorn K → quasithinZorn K))
     (fun a b h => Subtype.ext (LinearEquiv.coe_injective h))
 
 theorem burnsideI16h_g2_module_finite : Finite (zornTraceZero K ⧸ zornLine K) := by
-  haveI := burnsideI16h_zorn_finite K
-  haveI : Finite (zornTraceZero K) := Subtype.finite
+  have := burnsideI16h_zorn_finite K
+  have : Finite (zornTraceZero K) := Subtype.finite
   exact Quotient.finite _
 
 end G2Finite
@@ -651,9 +663,9 @@ theorem burnsideI16h_p5 :
   refine ⟨?_, ?_⟩
   · rw [burnsideI16h_h1Dim_eq]
     exact j4 hcard hn (burnsideI16h_sp4_isModel _)
-  · haveI := burnsideI16h_g2_finite (GaloisField 2 n)
-    haveI := burnsideI16h_g2_module_finite (GaloisField 2 n)
-    haveI : Finite ↥(commutator ↥(quasithinG2 (GaloisField 2 n))) := Subtype.finite
+  · have := burnsideI16h_g2_finite (GaloisField 2 n)
+    have := burnsideI16h_g2_module_finite (GaloisField 2 n)
+    have : Finite ↥(commutator ↥(quasithinG2 (GaloisField 2 n))) := Subtype.finite
     rw [burnsideI16h_h1Dim_eq]
     exact j5 hcard hn (burnsideI16h_g2_isModel _)
 
@@ -673,7 +685,7 @@ theorem burnsideI16h_exists_quad_ext {K : Type} [Field K] {b c : K}
     · intro s hs
       apply hirr s
       simpa using hs
-  haveI : Fact (Irreducible (X ^ 2 + C b * X + C c : K[X])) := ⟨hirr'⟩
+  have : Fact (Irreducible (X ^ 2 + C b * X + C c : K[X])) := ⟨hirr'⟩
   refine ⟨AdjoinRoot (X ^ 2 + C b * X + C c : K[X]), inferInstance, inferInstance,
     AdjoinRoot.root _, ?_, ?_⟩
   · rw [PowerBasis.finrank (AdjoinRoot.powerBasis hirr'.ne_zero)]
@@ -690,10 +702,12 @@ open CFSG.Quasithin CFSG.Quasithin.JonesParshall
 variable {K : Type} [Field K] [Fintype K] [CharP K 2]
   {F : Type} [Field F] [Fintype F] [Algebra K F] [CharP F 2]
 
+omit [CharP K 2] [Fintype F] in
 theorem burnsideI16h_sig_alg {n : ℕ} (hK : Fintype.card K = 2 ^ n) (k : K) :
     sig n (algebraMap K F k) = algebraMap K F k := by
   rw [sig_apply, ← map_pow, ← hK, FiniteField.pow_card]
 
+omit [CharP K 2] in
 theorem burnsideI16h_sig_fixed {n : ℕ} (hK : Fintype.card K = 2 ^ n) (hn : 1 ≤ n) {x : F}
     (hx : sig n x = x) : ∃ k : K, algebraMap K F k = x := by
   classical
@@ -724,6 +738,7 @@ theorem burnsideI16h_sig_fixed {n : ℕ} (hK : Fintype.card K = 2 ^ n) (hn : 1 �
 
 variable {b c : K}
 
+omit [CharP K 2] in
 theorem burnsideI16h_sig_omega {n : ℕ} (hK : Fintype.card K = 2 ^ n) (hn : 1 ≤ n) {ω : F}
     (hω : ω ^ 2 + algebraMap K F b * ω + algebraMap K F c = 0)
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) : sig n ω = ω + algebraMap K F b := by
@@ -768,6 +783,7 @@ variable {K F : Type} [Field K] [Fintype K] [CharP K 2] [Field F] [Fintype F] [A
 @[expose] noncomputable def burnsideI16h_coordMap (ω : F) : (K × K) →ₗ[K] F :=
   (Algebra.linearMap K F).coprod (LinearMap.toSpanSingleton K F ω)
 
+omit [Fintype K] [CharP K 2] [Fintype F] [CharP F 2] in
 theorem burnsideI16h_coordMap_apply (ω : F) (u v : K) :
     burnsideI16h_coordMap ω (u, v) = algebraMap K F u + algebraMap K F v * ω := by
   simp [burnsideI16h_coordMap, Algebra.smul_def]
@@ -1037,19 +1053,19 @@ theorem burnsideI16h_H_x : burnsideI16h_H S (Pi.single (Sum.inl 0) 1) =
     !![(1 : F), 0; 0, 0] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [burnsideI16h_H, burnsideI16h_hmat, burnsideI16h_zf, Pi.single_apply]
+    simp [burnsideI16h_H, burnsideI16h_hmat, burnsideI16h_zf]
 
 theorem burnsideI16h_H_y : burnsideI16h_H S (Pi.single (Sum.inr (Sum.inl 0)) 1) =
     !![(0 : F), 0; 0, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [burnsideI16h_H, burnsideI16h_hmat, burnsideI16h_zf, Pi.single_apply]
+    simp [burnsideI16h_H, burnsideI16h_hmat, burnsideI16h_zf]
 
 theorem burnsideI16h_H_u : burnsideI16h_H S (Pi.single (Sum.inr (Sum.inr 0)) 1) =
     !![(0 : F), 1; 1, 0] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [burnsideI16h_H, burnsideI16h_hmat, burnsideI16h_zf, Pi.single_apply]
+    simp [burnsideI16h_H, burnsideI16h_hmat, burnsideI16h_zf]
 
 theorem burnsideI16h_Θ_injective : Function.Injective (burnsideI16h_Θ S) := by
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -1113,11 +1129,11 @@ theorem burnsideI16h_comm_le_of_card {G : Type} [Group G] (O R : Subgroup G) [Fi
       Finite.of_injective (Subgroup.inclusion hRO) (Subgroup.inclusion_injective hRO)
     have hpos : 0 < Nat.card R := Nat.card_pos
     exact (Nat.eq_of_mul_eq_mul_left hpos (by rw [h]; ring))
-  haveI : N.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : N.Normal := Subgroup.normal_of_index_eq_two hidx
   have hQcard : Nat.card (O ⧸ N) = 2 := by rw [← Subgroup.index_eq_card, hidx]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsCyclic (O ⧸ N) := isCyclic_of_prime_card hQcard
-  letI : CommGroup (O ⧸ N) := IsCyclic.commGroup
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsCyclic (O ⧸ N) := isCyclic_of_prime_card hQcard
+  let : CommGroup (O ⧸ N) := IsCyclic.commGroup
   rw [Subgroup.commutator_le]
   intro x hx y hy
   have : ((⟨x, hx⟩ : O) * ⟨y, hy⟩ * (⟨x, hx⟩ : O)⁻¹ * (⟨y, hy⟩ : O)⁻¹) ∈ N := by
@@ -1149,6 +1165,7 @@ theorem burnsideI16h_perfect : commutator SL(2, F) = ⊤ := by
 noncomputable abbrev burnsideI16h_O : Subgroup ((burnsideI16h_OI → K) ≃ₗ[K] (burnsideI16h_OI → K)) :=
   TauCeti.QuadraticMap.orthogonalGroup (CFSG.LieType.Universal.Spin.quadMinus 2 K S.b S.c)
 
+omit [CharP K 2] in
 theorem burnsideI16h_finite_linEquiv : Finite ((burnsideI16h_OI → K) ≃ₗ[K] (burnsideI16h_OI → K)) :=
   Finite.of_injective (fun g : (burnsideI16h_OI → K) ≃ₗ[K] (burnsideI16h_OI → K) =>
     (g : (burnsideI16h_OI → K) → (burnsideI16h_OI → K))) DFunLike.coe_injective
@@ -1159,8 +1176,8 @@ theorem burnsideI16h_range_le : (burnsideI16h_Θ S).range ≤ burnsideI16h_O S :
 
 theorem burnsideI16h_card_O :
     Nat.card (burnsideI16h_O S) = 2 * Nat.card SL(2, F) := by
-  haveI : Finite K := Finite.of_fintype K
-  haveI : Finite F := Finite.of_fintype F
+  have : Finite K := Finite.of_fintype K
+  have : Finite F := Finite.of_fintype F
   have hO : (Nat.card (burnsideI16h_O S) : ℤ) =
       2 * (Nat.card K : ℤ) ^ (1 * (1 + 1)) * ((Nat.card K : ℤ) ^ (1 + 1) + 1) *
         ∏ i ∈ Finset.Icc 1 1, (((Nat.card K : ℤ) ^ 2) ^ i - 1) :=
@@ -1240,7 +1257,7 @@ variable {K F : Type} [Field K] [Fintype K] [CharP K 2] [Field F] [Fintype F] [A
 
 theorem burnsideI16h_range_eq :
     (burnsideI16h_Θ S).range = ⁅burnsideI16h_O S, burnsideI16h_O S⁆ := by
-  haveI := burnsideI16h_finite_linEquiv (K := K)
+  have := burnsideI16h_finite_linEquiv (K := K)
   have hinj := burnsideI16h_Θ_injective S
   apply le_antisymm
   · have h1 : (burnsideI16h_Θ S).range =
@@ -1308,15 +1325,15 @@ theorem burnsideI16h_p3a :
       h1Dim (orthMinusRep (GaloisField 2 n) b c) = 0 := by
   intro n hn b c hirr
   obtain ⟨-, j2, -⟩ := CFSG.Quasithin.JonesParshall.natural_binary_first_cohomology_sector.{0, 0}
-  letI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hK : Fintype.card (GaloisField 2 n) = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 n (by omega)
   obtain ⟨F, _, _, ω, hrank, hω⟩ := burnsideI16h_exists_quad_ext hirr
-  haveI : Module.Finite (GaloisField 2 n) F := Module.finite_of_finrank_pos (by rw [hrank]; norm_num)
-  haveI : Finite F := Module.finite_of_finite (GaloisField 2 n)
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_injective_algebraMap (algebraMap (GaloisField 2 n) F).injective 2
+  have : Module.Finite (GaloisField 2 n) F := Module.finite_of_finrank_pos (by rw [hrank]; norm_num)
+  have : Finite F := Module.finite_of_finite (GaloisField 2 n)
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_injective_algebraMap (algebraMap (GaloisField 2 n) F).injective 2
   let S : burnsideI16h_Setup (GaloisField 2 n) F := ⟨n, b, c, hn, hK, ω, hω, hirr, hrank⟩
   have hbof := burnsideI16h_bof S
   rw [burnsideI16h_h1Dim_eq]
@@ -1337,10 +1354,10 @@ theorem burnsideI16h_p3b :
         (orthMinusRep (ZMod 2) b c).asModule := by
   intro b c hirr
   obtain ⟨F, _, _, ω, hrank, hω⟩ := burnsideI16h_exists_quad_ext hirr
-  haveI : Module.Finite (ZMod 2) F := Module.finite_of_finrank_pos (by rw [hrank]; norm_num)
-  haveI : Finite F := Module.finite_of_finite (ZMod 2)
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) F).injective 2
+  have : Module.Finite (ZMod 2) F := Module.finite_of_finrank_pos (by rw [hrank]; norm_num)
+  have : Finite F := Module.finite_of_finite (ZMod 2)
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_injective_algebraMap (algebraMap (ZMod 2) F).injective 2
   let S : burnsideI16h_Setup (ZMod 2) F :=
     ⟨1, b, c, le_refl 1, by rw [ZMod.card, pow_one], ω, hω, hirr, hrank⟩
   have hbof := burnsideI16h_bof S

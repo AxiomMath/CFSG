@@ -23,18 +23,18 @@ theorem findAll_nodup (p : ℕ → Bool) :
   | n + 1, acc, h, hge => by
     refine findAll_nodup p n _ ?_ ?_
     · by_cases hp : p n = true
-      · rw [if_pos hp]
+      · rw [ite_eq_left hp]
         exact List.nodup_cons.2 ⟨fun hm => by have := hge n hm; omega, h⟩
-      · rw [if_neg hp]
+      · rw [ite_eq_right hp]
         exact h
     · intro a ha
       by_cases hp : p n = true
-      · rw [if_pos hp] at ha
+      · rw [ite_eq_left hp] at ha
         rcases List.mem_cons.1 ha with rfl | ha
         · exact le_refl _
         · have := hge a ha
           omega
-      · rw [if_neg hp] at ha
+      · rw [ite_eq_right hp] at ha
         have := hge a ha
         omega
 

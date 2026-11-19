@@ -150,7 +150,7 @@ private lemma l02qj9_linConjAut_eq_one_scalar {d : ℕ} (hd : 2 ≤ d) {K : Type
           have hji : ¬ j = i := fun h => hij h.symm
           simp [Matrix.scalar_apply, hji]
         · have hil : ¬ i = l := fun h => hli h.symm
-          simp [Matrix.single_apply, hil]
+          simp [hil]
       rw [hsum, add_zero]
       by_cases hjk : j = k
       · rw [hjk]
@@ -226,12 +226,12 @@ theorem q2Lin_commutative_fullPreimage {d : ℕ} (hd : 2 ≤ d) {K : Type} [Fiel
   apply Subtype.ext
   exact CFSG.LocalAnalysis.GorensteinLyons.commute_of_mem_comap_map
     (fun a ha b hb => by
-      haveI : IsMulCommutative ↥V := hV
+      have : IsMulCommutative ↥V := hV
       exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥V) (⟨b, hb⟩ : ↥V)))
     (TableB.linConjAut (Fin d) K) (linConjAut_ker_le_center hd) x.2 y.2
 
 private lemma l02qj9_pairing_pdiv {d p : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hd : 2 ≤ d) (hpd : p ∣ d) (hK : ¬ p ∣ Nat.card K - 1)
+    (hp : p.Prime) (hd : 2 ≤ d) (_hpd : p ∣ d) (hK : ¬ p ∣ Nat.card K - 1)
     {x y : GL (Fin d) K} {c : Kˣ}
     (hxy : x * y = Matrix.GeneralLinearGroup.scalar (Fin d) c * (y * x))
     {μ : Kˣ} (hxp : x ^ p = Matrix.GeneralLinearGroup.scalar (Fin d) μ) :
@@ -246,7 +246,7 @@ private lemma l02qj9_pairing_pdiv {d p : ℕ} {K : Type} [Field K] [Finite K]
         1 * (Matrix.GeneralLinearGroup.det x * Matrix.GeneralLinearGroup.det y) by
       rw [h.symm, one_mul])
   have hcp : c ^ p = 1 := by
-    letI : Bracket (GL (Fin d) K) (GL (Fin d) K) := commutatorElement
+    let : Bracket (GL (Fin d) K) (GL (Fin d) K) := commutatorElement
     have hcomm : ⁅x, y⁆ = Matrix.GeneralLinearGroup.scalar (Fin d) c := by
       rw [commutatorElement_def, hxy]; group
     have hcx : Commute x ⁅x, y⁆ := by
@@ -258,7 +258,7 @@ private lemma l02qj9_pairing_pdiv {d p : ℕ} {K : Type} [Field K] [Finite K]
     rw [hxp, hcommμ, hcomm] at hpow
     have hscalar : Matrix.GeneralLinearGroup.scalar (Fin d) (c ^ p) = 1 := by
       rw [map_pow]; exact hpow
-    haveI : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero hd0⟩⟩
+    have : Nonempty (Fin d) := ⟨⟨0, Nat.pos_of_ne_zero hd0⟩⟩
     apply Units.ext
     have hmat : Matrix.scalar (Fin d) ((c ^ p : Kˣ) : K) = Matrix.scalar (Fin d) (1 : K) := by
       have h := congrArg (fun u : GL (Fin d) K => (u : Matrix (Fin d) (Fin d) K)) hscalar
@@ -267,7 +267,7 @@ private lemma l02qj9_pairing_pdiv {d p : ℕ} {K : Type} [Field K] [Finite K]
       exact h
     exact Matrix.scalar_inj.mp hmat
   have hcK : c ^ (Nat.card K - 1) = 1 := by
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     have h := FiniteField.pow_card_sub_one_eq_one (c : K) (Units.ne_zero c)
     rw [Nat.card_eq_fintype_card]
     apply Units.ext
@@ -297,7 +297,7 @@ theorem ggBstarAbelianPreimageJLin_comm_of_not_dvd {d p : ℕ} (hp : p.Prime) {K
   · have hd : 2 ≤ d := by omega
     have hcommM : f (a : GL (Fin d) K) * f (b : GL (Fin d) K) =
         f (b : GL (Fin d) K) * f (a : GL (Fin d) K) := by
-      haveI : IsMulCommutative M := hM.1
+      have : IsMulCommutative M := hM.1
       exact congrArg Subtype.val
         (mul_comm' (⟨f (a : GL (Fin d) K), a.2⟩ : M)
           ⟨f (b : GL (Fin d) K), b.2⟩)

@@ -37,9 +37,9 @@ theorem walkP_eq' (P : List ℕ) : ∀ n w k, Nat.rec (motive := fun _ => Nat �
     change strictN (Nat.land w 15) _ = _
     rw [strictN_eq, land15, walkPn]
     by_cases hw : w % 16 = 0
-    · rw [if_pos hw, hw]
+    · rw [ite_eq_left hw, hw]
       rfl
-    · rw [if_neg hw, beq_false hw]
+    · rw [ite_eq_right hw, beq_false hw]
       change strictN _ _ = _
       rw [strictN_eq, shr4, walkP_eq' P n]
       rfl
@@ -59,9 +59,9 @@ theorem wordOK_eq' (nG : ℕ) : ∀ n w, Nat.rec (motive := fun _ => Nat → Boo
     change strictB (Nat.land w 15) _ = _
     rw [strictB_eq', land15, wordOKn]
     by_cases hw : w % 16 = 0
-    · rw [if_pos hw, hw]
+    · rw [ite_eq_left hw, hw]
       rfl
-    · rw [if_neg hw, beq_false hw]
+    · rw [ite_eq_right hw, beq_false hw]
       change Bool.rec (motive := fun _ => Bool) false _ (Nat.ble (w % 16) nG) = _
       rw [shr4, wordOK_eq' nG n]
       cases hb : Nat.ble (w % 16) nG
@@ -85,9 +85,9 @@ theorem sWn_mem {gg : ℕ → G} {nG : ℕ} {S : Subgroup G} (hgg : ∀ g < nG, 
     rw [wordOKn] at h
     rw [sWn]
     by_cases hw : w % 16 = 0
-    · rw [if_pos hw]
+    · rw [ite_eq_left hw]
       exact S.one_mem
-    · rw [if_neg hw] at h ⊢
+    · rw [ite_eq_right hw] at h ⊢
       obtain ⟨hl, h⟩ := Bool.and_eq_true_iff.1 h
       have := of_decide_eq_true hl
       exact S.mul_mem (sWn_mem hgg n _ h) (hgg _ (by omega))
@@ -102,17 +102,16 @@ theorem walkPn_conj {f : ℕ → G} {Pl : List ℕ} {gg : ℕ → G} {nG nU : �
     rw [wordOKn] at h
     rw [walkPn, sWn]
     by_cases hw : w % 16 = 0
-    · rw [if_pos hw, if_pos hw]
+    · rw [ite_eq_left hw, ite_eq_left hw]
       exact ⟨hk, by simp⟩
-    · rw [if_neg hw] at h ⊢
-      rw [if_neg hw]
+    · rw [ite_eq_right hw] at h ⊢
+      rw [ite_eq_right hw]
       obtain ⟨hl, h⟩ := Bool.and_eq_true_iff.1 h
       have := of_decide_eq_true hl
       obtain ⟨h1, h2⟩ := hP (w % 16 - 1) (by omega) k hk
       obtain ⟨h3, h4⟩ := walkPn_conj hP n (w / 16) _ h1 h
       refine ⟨h3, ?_⟩
       rw [h4]
-      change _ * f (fld(getL Pl (w % 16 - 1), Nat.mul 12 k, 4095)) * _ = _
       rw [h2]
       group
 
@@ -145,8 +144,9 @@ variable {C : Dat} {b w : ℕ → G} (hM : Model C b w) (h0 : w 0 = 1)
   (hUinj : ∀ u < nU, ∀ v < nU, U u = U v → u = v)
 include hM h0 hinj hU hU0 hUinj
 
+omit hU in
 theorem repSub_eq {tA : ℕ → Prop} {nG : ℕ} {Pl : List ℕ} {n : ℕ → ℕ} {gs St : ℕ → ℕ → List ℕ}
-    {r a : ℕ} (hr : RepOK C b w tA U nU nG Pl n gs St r a) (hr1 : 1 ≤ r) :
+    {r a : ℕ} (hr : RepOK C b w tA U nU nG Pl n gs St r a) (_hr1 : 1 ≤ r) :
     (repSub C b w (gs r a) : Set G) = el C.d b w '' {x | x ∈ 0 :: (St r a).map U} ∧
       Nat.card (repSub C b w (gs r a)) = 2 ^ r := by
   have hnd : (0 :: (St r a).map U).Nodup := by
@@ -162,16 +162,17 @@ theorem repSub_eq {tA : ℕ → Prop} {nG : ℕ} {Pl : List ℕ} {n : ℕ → �
   have hmem : ∀ x ∈ 0 :: (St r a).map U, x ∈ spanL C (gs r a) := by
     intro x hx
     rcases List.mem_cons.1 hx with rfl | hx
-    · exact zero_mem_spanL hM _
+    · exact zero_mem_spanL _
     · obtain ⟨k, hk, rfl⟩ := List.mem_map.1 hx
       exact (hr.smem k hk).2
   obtain ⟨h1, h2⟩ := closure_el_eq hM h0 hinj hr.lt hr.comm hr.sq hnd hlen hmem
   exact ⟨h1, by rw [repSub, h2, hr.len]⟩
 
+omit hU in
 theorem mem_repSub {tA : ℕ → Prop} {nG : ℕ} {Pl : List ℕ} {n : ℕ → ℕ} {gs St : ℕ → ℕ → List ℕ}
     {r a : ℕ} (hr : RepOK C b w tA U nU nG Pl n gs St r a) (hr1 : 1 ≤ r) {z : G} :
     z ∈ repSub C b w (gs r a) ↔ z = 1 ∨ ∃ k ∈ St r a, el C.d b w (U k) = z := by
-  have := (repSub_eq hM h0 hinj hU hU0 hUinj hr hr1).1
+  have := (repSub_eq hM h0 hinj hU0 hUinj hr hr1).1
   rw [← SetLike.mem_coe, this]
   constructor
   · rintro ⟨x, hx, rfl⟩
@@ -183,6 +184,7 @@ theorem mem_repSub {tA : ℕ → Prop} {nG : ℕ} {Pl : List ℕ} {n : ℕ → �
     · exact ⟨0, List.mem_cons_self, el_zero _ _ _ h0⟩
     · exact ⟨U k, List.mem_cons_of_mem _ (List.mem_map_of_mem hk), rfl⟩
 
+omit hU in
 theorem ext_of_coords {tA : ℕ → Prop} {A : Set G}
     (hA2 : ∀ z < 2 ^ (C.d + 7), tA z → el C.d b w z * el C.d b w z = 1 → el C.d b w z ≠ 1 →
       el C.d b w z ∈ A)
@@ -255,14 +257,14 @@ theorem ext_of_coords {tA : ℕ → Prop} {A : Set G}
     refine ⟨hr4', a', ha', sWn gg 8 wd, sWn_mem hgg 8 wd hwd, ?_, ?_⟩
     · intro z hz
       rw [mem_map_conj]
-      rcases (mem_repSub hM h0 hinj hU hU0 hUinj hr hr1).1 hz with rfl | ⟨k, hk, rfl⟩
+      rcases (mem_repSub hM h0 hinj hU0 hUinj hr hr1).1 hz with rfl | ⟨k, hk, rfl⟩
       · simp
       · obtain ⟨k'', hk'', rfl⟩ := hsub k hk
         rw [(hconj k'' hk'').2]
-        refine (mem_repSub hM h0 hinj hU hU0 hUinj hr' (by omega)).2 (Or.inr ⟨k'', hk'', ?_⟩)
+        refine (mem_repSub hM h0 hinj hU0 hUinj hr' (by omega)).2 (Or.inr ⟨k'', hk'', ?_⟩)
         group
     · rw [mem_map_conj, ← hku, (hconj k' hk').2]
-      refine (mem_repSub hM h0 hinj hU hU0 hUinj hr' (by omega)).2 (Or.inr ⟨k', hk', ?_⟩)
+      refine (mem_repSub hM h0 hinj hU0 hUinj hr' (by omega)).2 (Or.inr ⟨k', hk', ?_⟩)
       group
 
 theorem card_le_of_coords {tA : ℕ → Prop} {A : Set G}
@@ -277,9 +279,9 @@ theorem card_le_of_coords {tA : ℕ → Prop} {A : Set G}
     (hrep : ∀ r, 1 ≤ r → r ≤ 4 → ∀ a < n r, RepOK C b w tA U nU nG Pl n gs St r a)
     {E : Subgroup G} (hE : Good (elSub hM h0) A E) (hcE : el C.d b w (U 0) ∈ E) :
     Nat.card E ≤ 16 := by
-  have hR := fun r hr1 hr4 a ha => repSub_eq hM h0 hinj hU hU0 hUinj (hrep r hr1 hr4 a ha) hr1
+  have hR := fun r hr1 hr4 a ha => repSub_eq hM h0 hinj hU0 hUinj (hrep r hr1 hr4 a ha) hr1
   have hcR : ∀ r, 1 ≤ r → r ≤ 4 → ∀ a < n r, el C.d b w (U 0) ∈ repSub C b w (gs r a) :=
-    fun r hr1 hr4 a ha => (mem_repSub hM h0 hinj hU hU0 hUinj (hrep r hr1 hr4 a ha) hr1).2
+    fun r hr1 hr4 a ha => (mem_repSub hM h0 hinj hU0 hUinj (hrep r hr1 hr4 a ha) hr1).2
       (Or.inr ⟨0, (hrep r hr1 hr4 a ha).shead, rfl⟩)
   have hR1 : repSub C b w (gs 1 0) = Subgroup.zpowers (el C.d b w (U 0)) := by
     have hr := hrep 1 le_rfl (by omega) 0 hn1
@@ -303,7 +305,7 @@ theorem card_le_of_coords {tA : ℕ → Prop} {A : Set G}
   refine card_le_of_ext hA (fun r a => repSub C b w (gs r a)) n hn1 hR1
     (fun r hr1 hr4 a ha => (hR r hr1 hr4 a ha).2) hcR ?_ hE hcE
   intro r hr1 hr4 a ha y hy hyy hyc hyR hyA
-  exact ext_of_coords hM h0 hinj hU hU0 hUinj hA2 hgg hP hn5 hrep hr1 hr4 ha hy hyy hyc hyR hyA
+  exact ext_of_coords hM h0 hinj hU0 hUinj hA2 hgg hP hn5 hrep hr1 hr4 ha hy hyy hyc hyR hyA
 
 end Asm
 

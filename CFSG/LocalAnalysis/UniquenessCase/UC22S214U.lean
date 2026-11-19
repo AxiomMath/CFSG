@@ -64,6 +64,7 @@ theorem ch214_odd_card {B : Subgroup G} {n : ℕ} (h : piSet B = etaSet n) : Odd
   have h1 : 1 ≤ 2 ^ n := Nat.one_le_two_pow
   omega
 
+omit [Finite G] in
 theorem ch214_eq_one_of_sq {B : Subgroup G} (hB : Odd (Nat.card B)) {b : G} (hb : b ∈ B)
     (h : b ^ 2 = 1) : b = 1 := by
   have h2 : b ^ Nat.card B = 1 := congrArg Subtype.val (pow_card_eq_one' (x := (⟨b, hb⟩ : B)))
@@ -71,6 +72,7 @@ theorem ch214_eq_one_of_sq {B : Subgroup G} (hB : Odd (Nat.card B)) {b : G} (hb 
   rw [(Nat.coprime_two_left.2 hB).gcd_eq_one] at h3
   exact orderOf_eq_one_iff.1 (Nat.dvd_one.1 h3)
 
+omit [Finite G] in
 theorem ch214_eq_one {T B : Subgroup G} (hT : IsPGroup 2 T) (hB : Odd (Nat.card B)) {x : G}
     (hxB : x ∈ B) (hxT : x ∈ T) : x = 1 := by
   obtain ⟨k, hk⟩ := hT ⟨x, hxT⟩
@@ -80,6 +82,7 @@ theorem ch214_eq_one {T B : Subgroup G} (hT : IsPGroup 2 T) (hB : Odd (Nat.card 
   rw [(Nat.Coprime.pow_left k (Nat.coprime_two_left.2 hB)).gcd_eq_one] at h3
   exact orderOf_eq_one_iff.1 (Nat.dvd_one.1 h3)
 
+omit [Finite G] in
 theorem ch214_conj_eq {T B : Subgroup G} (hT : IsPGroup 2 T) (hB : Odd (Nat.card B)) {x t : G}
     (hxB : x ∈ B) (hxT : x ∈ normalizer (T : Set G)) (htT : t ∈ T)
     (htB : t ∈ normalizer (B : Set G)) : t * x * t⁻¹ = x := by
@@ -93,10 +96,12 @@ theorem ch214_conj_eq {T B : Subgroup G} (hT : IsPGroup 2 T) (hB : Odd (Nat.card
     simpa [mul_assoc] using this
   rw [← h4, mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem ch214_le_oPi {B : Subgroup G} {α : Set ℕ} (h : piSet B ⊆ α) : B ≤ oPi α B :=
   le_iSup₂_of_le (f := fun (N : Subgroup G) (_ : N ≤ B ∧ (N.subgroupOf B).Normal ∧ piSet N ⊆ α) => N)
     B ⟨le_rfl, by rw [Subgroup.subgroupOf_self]; infer_instance, h⟩ le_rfl
 
+omit [Finite G] in
 theorem ch214_le_normalizer_of_odd {T B₀ : Subgroup G} {n : ℕ} (hn : Odd n)
     (hpi : piSet B₀ = etaSet n) (hα : AlphaCond T B₀ n) : B₀ ≤ normalizer (T : Set G) :=
   (ch214_le_oPi (α := {p | p.Prime ∧ p ∣ 2 ^ n - 1}) (by rw [hpi]; exact fun p hp => hp)).trans
@@ -145,12 +150,12 @@ theorem ch214_inv_of_not_powTwo (D : Data G) {B₀ : Subgroup G} {n : ℕ} (hn :
       rw [hpi]
       exact ⟨hp, hpd.trans hdvd⟩
     exact this.2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥B₀) p hpB
   have hxo : orderOf (x : G) = p := by rw [Subgroup.orderOf_coe, hx]
   have hzle : zpowers (x : G) ≤ B₀ := Subgroup.zpowers_le.2 x.2
   have hN : ((zpowers (x : G)).subgroupOf B₀).Normal := by
-    haveI : IsMulCommutative B₀ := hab
+    have : IsMulCommutative B₀ := hab
     rw [Subgroup.normal_subgroupOf_iff hzle]
     intro a k ha hk
     rw [setLike_mul_comm (s := B₀) hk (hzle ha), mul_inv_cancel_right]

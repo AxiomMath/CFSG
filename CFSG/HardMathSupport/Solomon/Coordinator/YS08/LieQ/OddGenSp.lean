@@ -16,6 +16,7 @@ section SpGen
 
 variable {r : ℕ} {F : Type} [Field F] [Finite F] {q : ℕ} [Fact q.Prime] [CharP F q]
 
+omit [Finite F] in
 theorem spForm_eq_paired (u v : Fin r ⊕ Fin r → F) :
     (spForm r F).β u v = pairedSympForm F r u v := by
   rw [spForm_β]
@@ -24,10 +25,12 @@ theorem spForm_eq_paired (u v : Fin r ⊕ Fin r → F) :
 @[expose] noncomputable def spUrad (W : Submodule F (Fin r ⊕ Fin r → F)) : Subgroup (StatedSp r F) :=
   flagKernel (natRep (StatedSp r F)) (isoCompletion (spForm r F) (oneStep W) 1)
 
+omit [Finite F] in
 theorem spUrad_isPGroup (W : Submodule F (Fin r ⊕ Fin r → F)) : IsPGroup q (spUrad W) :=
   isPGroup_flagKernel (natRep (StatedSp r F)) q (natRep_injective _)
     (isoCompletion_zero (oneStep_zero W) 1) (isoCompletion_top (oneStep_zero W) 1)
 
+omit [Finite F] in
 theorem stabilizer_le_normalizer_spUrad {W : Submodule F (Fin r ⊕ Fin r → F)} :
     SymplecticFlag.stabilizer r F W ≤ Subgroup.normalizer (spUrad W : Set (StatedSp r F)) := by
   refine le_trans ?_ (flagStab_le_normalizer_flagKernel (natRep (StatedSp r F)) _)
@@ -46,6 +49,7 @@ theorem stabilizer_le_normalizer_spUrad {W : Submodule F (Fin r ⊕ Fin r → F)
     rw [natRep_apply]
     exact hmem
 
+omit [Finite F] in
 theorem spForm_single_inl (i : Fin r) (v : Fin r ⊕ Fin r → F) :
     (spForm r F).β (Pi.single (Sum.inl i) 1) v = v (Sum.inr i) := by
   rw [spForm_β, dotProduct_spJ_mulVec]
@@ -54,16 +58,18 @@ theorem spForm_single_inl (i : Fin r) (v : Fin r ⊕ Fin r → F) :
     simp [Pi.single_apply]
   have h2 : (Pi.single (Sum.inl i) (1 : F) : Fin r ⊕ Fin r → F) ∘ Sum.inr = 0 := by
     funext j
-    simp [Pi.single_apply]
+    simp
   rw [h1, h2, zero_dotProduct, sub_zero, single_dotProduct, one_mul]
   rfl
 
+omit [Finite F] in
 theorem isTotallyIsotropic_spFlag {d : ℕ} (hdr : d ≤ r) :
     (spForm r F).IsTotallyIsotropic (SymplecticFlag.flag r F d) := by
   intro x hx w hw
   rw [spForm_eq_paired]
   exact (SymplecticHigher.isCompleteIsotropicFlag_flag (r := r) (K := F)).2.2 d hdr w hw x hx
 
+omit [Finite F] in
 theorem exists_smul_of_mem_spScalars {g : StatedSp r F} (hg : g ∈ SymplecticHigher.spScalars r F) :
     ∃ c : F, ∀ v, natRep (StatedSp r F) g v = c • v := by
   rw [Subgroup.mem_subgroupOf, StatedScalars, MonoidHom.mem_range] at hg
@@ -73,6 +79,7 @@ theorem exists_smul_of_mem_spScalars {g : StatedSp r F} (hg : g ∈ SymplecticHi
   ext x
   simp [Matrix.mulVec_diagonal]
 
+omit [Finite F] in
 theorem exists_mem_spUrad_flag (hr : 2 ≤ r) {d : ℕ} (hd : 1 ≤ d) (hdr : d ≤ r) :
     ∃ g ∈ spUrad (SymplecticFlag.flag r F d), g ∉ SymplecticHigher.spScalars r F := by
   set i0 : Fin r := ⟨0, by omega⟩ with hi0
@@ -89,7 +96,7 @@ theorem exists_mem_spUrad_flag (hr : 2 ≤ r) {d : ℕ} (hd : 1 ≤ d) (hdr : d 
       have h2 := congrArg Fin.val this
       simp [hi0] at h2
       omega
-    simp [hx, Pi.single_apply, this]
+    simp [hx, this]
   have hβ1 : (spForm r F).β x w2 = 0 := by
     rw [hx, spForm_single_inl]
     simp [hw2]
@@ -128,7 +135,7 @@ theorem twoParabolics_PSp (hr : 2 ≤ r) : TwoParabolics q (StatedProj (StatedSp
     refine ⟨1, ?_⟩
     have : (MulAut.conj (1 : StatedProj (StatedSp r F))).toMonoidHom = MonoidHom.id _ := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [this, Subgroup.map_id]
   obtain ⟨U₀, hU₀⟩ := hB
   have hUB : (U₀ : Subgroup (StatedProj (StatedSp r F))) ≤ SymplecticFlag.projBorel r F :=

@@ -18,7 +18,7 @@ open CFSG.Open CFSG.LieType.BorelTits
         h ∈ pCoreOf q (Subgroup.normalizer (Q : Set S))
 
 theorem LieQConstrainedInner.of_lieQConstrained {q : ℕ} (hL : LieQConstrained q) :
-    LieQConstrainedInner q := fun S _ _ hS hnab hChev Q hQ hQp =>
+    LieQConstrainedInner q := fun _S _ _ hS hnab hChev _Q hQ hQp =>
   lieQConstrained_inner hL hS hnab hChev hQ hQp
 
 theorem lieQConstrained_of_families {q : ℕ} [Fact q.Prime]
@@ -27,7 +27,7 @@ theorem lieQConstrained_of_families {q : ℕ} [Fact q.Prime]
     (hRR : ∀ (S : Type) [Group S] [Finite S], IsSimpleGroup S → (∃ a b : S, a * b ≠ b * a) →
       IsChevOfChar q S → RadRigid q S) : LieQConstrained q := by
   intro H _ _ S hSn hS hnab hChev hC Q hQS hQ hQp
-  haveI := hSn
+  have := hSn
   exact lieQ_of_radRigid S (hBT ↥S hS hnab hChev) (hRR ↥S hS hnab hChev) hC hQS hQ hQp
 
 theorem lieQConstrainedInner_of_families {q : ℕ} [Fact q.Prime]
@@ -44,7 +44,7 @@ theorem borelTits_of_constrainedInner {q : ℕ} (hq : q.Prime) (hL : LieQConstra
     A ≤ Subgroup.normalizer (K : Set Y) → IsMaxInvSub A K q Q → ¬ Q ≤ centerIn K →
     ∀ y ∈ K, y ∈ Subgroup.centralizer (Q : Set Y) → y ∈ centerIn K ⊔ Q := by
   intro hKq hChev hAK hmax hQc y hyK hyC
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨hQK, hQp, hAQ, hmaxQ⟩ := hmax
   let Γ : Subgroup (MulAut ↥K) :=
     (A.subgroupOf (Subgroup.normalizer (K : Set Y))).map K.normalizerMonoidHom
@@ -121,7 +121,7 @@ theorem borelTits_of_constrainedInner {q : ℕ} (hq : q.Prime) (hL : LieQConstra
     rw [hbot, Subgroup.mem_bot] at h1
     have : (⟨x, hQK hx⟩ : ↥K) ∈ Z := (QuotientGroup.eq_one_iff _).1 h1
     exact ⟨⟨x, hQK hx⟩, this, rfl⟩
-  haveI := hKq.2
+  have := hKq.2
   obtain ⟨a, b, hab⟩ :=
     ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian ↥K hKq
   set yb : ↥K ⧸ Z := π ⟨y, hyK⟩ with hyb

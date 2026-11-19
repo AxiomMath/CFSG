@@ -35,7 +35,7 @@ private theorem tptc_linear_of_typeA_rawDatum {lab : LargeEvenLabel} {r f : ℕ}
   · dsimp only [LargeEvenRawDatum] at hraw
     exact hraw
   · dsimp only [LargeEvenRawDatum] at hraw
-    rw [if_pos rfl] at hraw
+    rw [ite_eq_left rfl] at hraw
     simpa using hraw
 
 private theorem tptc_ggDiagUnit_eq_toGL {K : Type} [Field K] {m : ℕ}
@@ -83,7 +83,7 @@ theorem ggI1PairRankOn_TypeA_cop
   classical
   obtain ⟨hAtag, hr3, hn2, hpdvd, hlabJeq⟩ := hP.1
   have hnotdvd : ¬ p ∣ labL.rank + 1 := hP.2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hperfL, lab, hlab, hraw⟩ := hmark
   have hhasLab : GGHasLabel lab (L ⧸ Subgroup.center L) := by
     unfold GGHasLabel
@@ -92,7 +92,7 @@ theorem ggI1PairRankOn_TypeA_cop
     exact ⟨θ⟩
   have hlabL_eq : labL = ⟨.A, labL.rank, labL.n⟩ := by
     obtain ⟨tag, r, f⟩ := labL
-    simp only [LargeEvenLabel.mk.injEq] at hAtag
+    simp only at hAtag
     subst hAtag
     rfl
   have hhL' : GGHasLabel ⟨.A, labL.rank, labL.n⟩ (L ⧸ Subgroup.center L) := hlabL_eq ▸ hhL
@@ -103,7 +103,7 @@ theorem ggI1PairRankOn_TypeA_cop
   have hrawLin := tptc_linear_of_typeA_rawDatum hcases hraw
   obtain ⟨K, _, _, hKcard, hQR⟩ := hrawLin
   obtain ⟨-, -, θ, hIndInn⟩ := hQR
-  haveI : CharP K 2 := CFSG.LargeExtraspecial.DW.charP_two_of_card_eq hKcard
+  have : CharP K 2 := CFSG.LargeExtraspecial.DW.charP_two_of_card_eq hKcard
   let ψbar : L ⧸ Subgroup.center L ≃* projectiveSL (labL.rank + 1) K :=
     θ.trans (TypeA.recipeEquiv (labL.rank + 1) K)
   let ψ : L →* projectiveSL (labL.rank + 1) K :=

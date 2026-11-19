@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G] {t z z₁ : G} {ι : Elem2 6 →* G} {z
 
 private def gElt (t n : G) : G := n * t * n⁻¹ * t⁻¹
 
+omit [Finite G] in
 private lemma map_conj_closure_le {s : Set G} {m : G} {B : Subgroup G}
     (h : ∀ x ∈ s, m * x * m⁻¹ ∈ B) :
     (Subgroup.closure s).map (MulAut.conj m).toMonoidHom ≤ B := by
@@ -23,6 +24,7 @@ private lemma map_conj_closure_le {s : Set G} {m : G} {B : Subgroup G}
     rintro _ ⟨x, hx, rfl⟩
     simpa [MulAut.conj_apply] using h x hx)
 
+omit [Finite G] in
 private lemma conj_mem_closure_of {s : Set G} {m : G} {B : Subgroup G}
     (h : ∀ x ∈ s, m * x * m⁻¹ ∈ B) {b : G} (hb : b ∈ Subgroup.closure s) :
     m * b * m⁻¹ ∈ B := by
@@ -31,6 +33,7 @@ private lemma conj_mem_closure_of {s : Set G} {m : G} {B : Subgroup G}
     hle (Subgroup.mem_map.mpr ⟨b, hb, rfl⟩)
   simpa [MulAut.conj_apply] using hmem
 
+omit [Finite G] in
 private lemma inf_centralizer_t_eq_bot {U : Subgroup G}
     (hD2 : HData2 G t z z₁ ι zv R0 F)
     (hU : U ≤ Mgrp z) (hn : ∀ m ∈ Mgrp z, ∀ u ∈ U, m * u * m⁻¹ ∈ U)
@@ -53,6 +56,7 @@ private lemma inf_centralizer_t_eq_bot {U : Subgroup G}
         (inf_le_left : U ⊓ Subgroup.centralizer ({t} : Set G) ≤ U))
   exact eq_bot_of_odd_normal_centralizer hD2 hW hWn hWo
 
+omit [Finite G] in
 private lemma inf_centralizer_conj_t_eq_bot {U : Subgroup G} {n t' : G}
     (hUn : ∀ u ∈ U, n⁻¹ * u * n ∈ U)
     (h : U ⊓ Subgroup.centralizer ({t'} : Set G) = ⊥) :

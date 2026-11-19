@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem card_barImage_of_isPGroup {L X : Subgroup G} (hXL : X ≤ L) {s : ℕ} (hs : s.Prime)
     (hs2 : s ≠ 2) (hX : IsPGroup s X) : Nat.card (barImage L X) = Nat.card X := by
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   have hsN : ¬ s ∣ Nat.card ↥(CFSG.pCore 2 ↥L) :=
     CFSG.Quasithin.H13.NQTerm.not_dvd_card_pCore_two_of_ne (K := ↥L) hs hs2
   have h := CFSG.GroupTheory.CoprimeTransport.card_map_mk_eq_of_isPGroup
@@ -33,7 +33,7 @@ theorem card_barImage_of_isPGroup {L X : Subgroup G} (hXL : X ≤ L) {s : ℕ} (
 private theorem nonempty_barImage_mulEquiv {L X : Subgroup G} (hXL : X ≤ L) {s : ℕ}
     (hs : s.Prime) (hs2 : s ≠ 2) (hX : IsPGroup s X) :
     Nonempty (↥X ≃* ↥(barImage L X)) := by
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   have hsN : ¬ s ∣ Nat.card ↥(CFSG.pCore 2 ↥L) :=
     CFSG.Quasithin.H13.NQTerm.not_dvd_card_pCore_two_of_ne (K := ↥L) hs hs2
   have hinj : Function.Injective
@@ -104,7 +104,7 @@ theorem isElemAbelian_barImage_iff {L X : Subgroup G} (hXL : X ≤ L) {s : ℕ} 
 theorem eq_of_barImage_eq {L P X Y : Subgroup G} (hPL : P ≤ L) {s : ℕ} (hs : s.Prime)
     (hs2 : s ≠ 2) (hP : IsPGroup s P) (hXP : X ≤ P) (hYP : Y ≤ P)
     (h : barImage L X = barImage L Y) : X = Y := by
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   have hsN : ¬ s ∣ Nat.card ↥(CFSG.pCore 2 ↥L) :=
     CFSG.Quasithin.H13.NQTerm.not_dvd_card_pCore_two_of_ne (K := ↥L) hs hs2
   let ι : ↥P →* ↥L :=
@@ -144,8 +144,9 @@ theorem eq_of_barImage_eq {L P X Y : Subgroup G} (hPL : P ≤ L) {s : ℕ} (hs :
     _ = (Y.subgroupOf P).map P.subtype := by rw [hXY]
     _ = Y := Subgroup.map_subgroupOf_eq_of_le hYP
 
-theorem exists_barImage_eq {L P : Subgroup G} (hPL : P ≤ L) {s : ℕ} (hs : s.Prime) (hs2 : s ≠ 2)
-    (hP : IsPGroup s P) {Y : Subgroup (Bar2 L)} (hY : Y ≤ barImage L P) :
+omit [Finite G] in
+theorem exists_barImage_eq {L P : Subgroup G} (_hPL : P ≤ L) {s : ℕ} (_hs : s.Prime) (_hs2 : s ≠ 2)
+    (_hP : IsPGroup s P) {Y : Subgroup (Bar2 L)} (hY : Y ≤ barImage L P) :
     ∃ X : Subgroup G, X ≤ P ∧ barImage L X = Y := by
   refine ⟨barPreimage L Y ⊓ P, inf_le_right, le_antisymm ?_ ?_⟩
   · calc barImage L (barPreimage L Y ⊓ P) ≤ barImage L (barPreimage L Y) :=
@@ -159,7 +160,7 @@ theorem exists_barImage_eq {L P : Subgroup G} (hPL : P ≤ L) {s : ℕ} (hs : s.
 
 theorem isPGroup_barImage_of_isSylowOf {L P : Subgroup G} {s : ℕ} (hs : s.Prime)
     (hP : IsSylowOf s P L) : IsPGroup s (barImage L P) ∧ ¬ s ∣ (barImage L P).index := by
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   obtain ⟨Q, hQ⟩ := hP.exists_sylow_eq_subgroupOf
   have hbar : barImage L P =
       (Sylow.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥L)) Q :
@@ -169,15 +170,15 @@ theorem isPGroup_barImage_of_isSylowOf {L P : Subgroup G} {s : ℕ} (hs : s.Prim
     exact (Sylow.coe_mapSurjective (f := QuotientGroup.mk' (CFSG.pCore 2 ↥L))
       (QuotientGroup.mk'_surjective _) Q).symm
   rw [hbar]
-  exact ⟨(Sylow.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥L)) Q).isPGroup',
+  exact ⟨(Sylow.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥L)) Q).isPGroup,
     (Sylow.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥L)) Q).not_dvd_index⟩
 
 theorem pRank_centralizer_barImage {L X : Subgroup G} (hXL : X ≤ L) {s r : ℕ} (hs : s.Prime)
     (hs2 : s ≠ 2) (hX : IsPGroup s X) (hr : r.Prime) (hr2 : r ≠ 2) :
     Open.pRank r (⊤ ⊓ centralizer (barImage L X : Set (Bar2 L))) =
       Open.pRank r (L ⊓ centralizer (X : Set G)) := by
-  haveI : Fact s.Prime := ⟨hs⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact s.Prime := ⟨hs⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hsN : ¬ s ∣ Nat.card ↥(CFSG.pCore 2 ↥L) :=
     CFSG.Quasithin.H13.NQTerm.not_dvd_card_pCore_two_of_ne (K := ↥L) hs hs2
   have hrN : ¬ r ∣ Nat.card ↥(CFSG.pCore 2 ↥L) :=
@@ -215,7 +216,7 @@ theorem barImage_inf_centralizer_eq {L X : Subgroup G} (hXL : X ≤ L) {s : ℕ}
     (hs : s.Prime) (hs2 : s ≠ 2) (hX : IsPGroup s X) :
     barImage L (L ⊓ centralizer (X : Set G)) =
       ⊤ ⊓ centralizer (barImage L X : Set (Bar2 L)) := by
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   have hsN : ¬ s ∣ Nat.card ↥(CFSG.pCore 2 ↥L) :=
     CFSG.Quasithin.H13.NQTerm.not_dvd_card_pCore_two_of_ne (K := ↥L) hs hs2
   have hsub : (L ⊓ centralizer (X : Set G)).subgroupOf L =
@@ -252,6 +253,7 @@ theorem barImage_derInf8_eq {L C : Subgroup G} (hCL : C ≤ L) {Cb : Subgroup (B
     ((F08.DerInf8 C).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) from rfl, hJsub]
   exact h
 
+omit [Finite G] in
 private theorem nonempty_bar2_equiv_of_barImage_eq {L J : Subgroup G} {Jb : Subgroup (Bar2 L)}
     (hJL : J ≤ L) (hJb : barImage L J = Jb) : Nonempty (Bar2 J ≃* Bar2 Jb) := by
   let ι : ↥J →* ↥L :=

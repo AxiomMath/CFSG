@@ -128,11 +128,11 @@ theorem dPD_conj_t (j : Fin 6) :
   have hl := ((tabRep_dP j).comp (tabRep_dP 5)).comp (tabRep_letInv j)
   by_cases h4 : j.val = 4
   · right
-    rw [if_pos (by simpa using h4)] at hj
+    rw [ite_eq_left (by simpa using h4)] at hj
     apply Subtype.ext
     exact (hl.beq_iff (tabRep_letInv 5)).1 hj
   · left
-    rw [if_neg (by simpa using h4)] at hj
+    rw [ite_eq_right (by simpa using h4)] at hj
     apply Subtype.ext
     exact (hl.beq_iff (tabRep_dP 5)).1 hj
 

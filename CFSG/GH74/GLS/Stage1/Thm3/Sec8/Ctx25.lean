@@ -66,6 +66,7 @@ theorem transfer8 (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ 
   · refine ⟨g, hgY, fun x hxS hxv => ?_⟩
     exact (hgC x ⟨hxS, Subgroup.mem_centralizer_singleton_iff.2 hxv⟩).1
 
+omit [Finite G] in
 theorem orderOf_conj' (c w : G) : orderOf (c * w * c⁻¹) = orderOf w := by
   have h1 := orderOf_injective (MulAut.conj c).toMonoidHom (MulAut.conj c).injective w
   have e : (MulAut.conj c).toMonoidHom w = c * w * c⁻¹ := by simp

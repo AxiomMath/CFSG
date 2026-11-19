@@ -68,7 +68,7 @@ theorem exists_lift_of_quot {N : Subgroup M} [N.Normal] (hN : ¬ 3 ∣ Nat.card 
     exact ⟨⟨u, hu, hy⟩, rfl⟩
   obtain ⟨R, hAR⟩ := (hA.comap_subtype (K := Q)).exists_le_sylow
   set R' := (R : Subgroup Q).map Q.subtype with hR'
-  have hR'3 : IsPGroup 3 R' := R.isPGroup'.map Q.subtype
+  have hR'3 : IsPGroup 3 R' := R.isPGroup.map Q.subtype
   have hAR' : A ≤ R' := fun x hx => ⟨⟨x, hAQ hx⟩, hAR hx, rfl⟩
   have htop : (R.mapSurjective hψ : Subgroup P₃) = ⊤ :=
     ((R.mapSurjective hψ).maximal_isPGroup.eq_of_ge (hP₃3.to_subgroup ⊤) le_top).symm

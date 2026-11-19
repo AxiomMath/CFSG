@@ -21,6 +21,7 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem oddC_Lv_zero_le_centralizer
     (hZL : L1 ≤ centralizer (t.Zv 0 : Set G)) :
     t.Lv 0 ≤ centralizer (t.Zv 0 : Set G) := by
@@ -50,6 +51,7 @@ private theorem oddC_mem_Zv_neg_one {a f : ℕ}
   rw [t.Zv_eq]
   exact Subgroup.subset_closure ⟨⟨hxQ, hxc⟩, hx2⟩
 
+omit [Finite G] in
 private theorem oddC_commutator_mem_Zv_and_commute {b : ℤ} (hb : 2 ≤ b)
     (hZ0 : t.Zv 0 ≤ t.Gw (-b) b) {x y : G} (hx : x ∈ t.Zv 0)
     (hy : y ∈ t.Zv (-b)) :
@@ -86,6 +88,7 @@ private theorem oddC_pCoreOf_Gw_le_centralizer {a f : ℕ}
   exact (t.le_Lv hfr (pCoreOf_isPGroup 2 _) hG0).trans
     (t.oddC_Lv_zero_le_centralizer hZL)
 
+omit [Finite G] in
 private theorem oddC_Zv_neg_one_inf_centralizer {a f : ℕ} (hfr : Frame L1 L2 S a f)
     (hC0 : t.Zv 1 ⊓ centralizer (L2 : Set G) = ⊥) :
     t.Zv (-1) ⊓ centralizer (t.Lv (-1) : Set G) = ⊥ := by
@@ -97,11 +100,11 @@ private theorem oddC_Zv_neg_one_inf_centralizer {a f : ℕ} (hfr : Frame L1 L2 S
     rwa [t.Gv_one, t.Lv_one] at h
   have hZmap : (t.Zv (-1)).map (MulAut.conj (t.edgeElt 2)).toMonoidHom = t.Zv 1 := by
     have h := t.map_Zv_edgeElt 2 (-1)
-    rw [if_pos (by norm_num : Even (2 : ℤ)), show (2 : ℤ) + (-1) = 1 by norm_num] at h
+    rw [ite_eq_left (by norm_num : Even (2 : ℤ)), show (2 : ℤ) + (-1) = 1 by norm_num] at h
     exact h
   have hLmap : (t.Lv (-1)).map (MulAut.conj (t.edgeElt 2)).toMonoidHom = t.Lv 1 := by
     have h := t.map_qv_edgeElt (F₁ := L1 ⊔ Q1 L1 L2 S) (F₂ := L2 ⊔ Q2 L1 L2 S) hP1 hP2 2 (-1)
-    rw [if_pos (by norm_num : Even (2 : ℤ)), show (2 : ℤ) + (-1) = 1 by norm_num] at h
+    rw [ite_eq_left (by norm_num : Even (2 : ℤ)), show (2 : ℤ) + (-1) = 1 by norm_num] at h
     exact h
   have hle : (t.Zv (-1) ⊓ centralizer (t.Lv (-1) : Set G)).map
       (MulAut.conj (t.edgeElt 2)).toMonoidHom ≤ ⊥ := by

@@ -61,11 +61,11 @@ theorem quotCenter_mulEquiv_of_surj {G G' : Type} [Group G] [Group G'] (hq : IsQ
 theorem isQuasisimple_of_surj {G G' : Type} [Group G] [Group G'] (hq : IsQuasisimple G)
     (ψ : G →* G') (hψ : Function.Surjective ψ) (hk : ∀ x, ψ x = 1 → x ∈ Subgroup.center G) :
     IsQuasisimple G' := by
-  haveI : Group.IsPerfect G := ⟨hq.1⟩
-  haveI : Group.IsPerfect G' := Group.IsPerfect.ofSurjective (f := ψ) hψ
+  have : Group.IsPerfect G := ⟨hq.1⟩
+  have : Group.IsPerfect G' := Group.IsPerfect.ofSurjective (f := ψ) hψ
   refine ⟨Group.IsPerfect.commutator_eq_top, ?_⟩
   obtain ⟨e⟩ := quotCenter_mulEquiv_of_surj hq ψ hψ hk
-  haveI := hq.2
+  have := hq.2
   exact e.symm.isSimpleGroup
 
 theorem isComponentOf_map_mulEquiv {G G' : Type} [Group G] [Group G'] {K X : Subgroup G}

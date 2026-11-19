@@ -160,7 +160,7 @@ theorem sp4_smul_single_mem_fixSub_of_torus_le_normalizer (a : Kˣ) (ha1 : a ≠
     have hc : (diagSp4TorusHomFun (sp4TorusParam i a) (Sum.inl i) - 1) *
         (diagSp4TorusHomFun (sp4TorusParam i a) (Sum.inl i) - ((a⁻¹ : Kˣ) : K)) ≠ 0 := by
       rw [diagSp4TorusHomFun_sp4TorusParam_inl]
-      simp only [if_pos rfl]
+      simp only
       exact mul_ne_zero (sub_ne_zero.mpr ha1K) (sub_ne_zero.mpr haaK)
     have hother : ∀ x, x ≠ Sum.inl i →
         (diagSp4TorusHomFun (sp4TorusParam i a) x - 1) *
@@ -169,11 +169,11 @@ theorem sp4_smul_single_mem_fixSub_of_torus_le_normalizer (a : Kˣ) (ha1 : a ≠
       · rw [diagSp4TorusHomFun_sp4TorusParam_inl]
         by_cases hm : m = i
         · subst hm; exact absurd rfl hx
-        · simp only [if_neg hm]; rw [sub_self, zero_mul]
+        · simp only [ite_eq_right hm]; rw [sub_self, zero_mul]
       · rw [diagSp4TorusHomFun_sp4TorusParam_inr]
         by_cases hm : m = i
         · subst hm; simp
-        · simp only [if_neg hm]; rw [sub_self, zero_mul]
+        · simp only [ite_eq_right hm]; rw [sub_self, zero_mul]
     exact smul_single_mem_of_diagonal_mulVec_mem
       (diagSp4TorusHomFun (sp4TorusParam i a)) 1 ((a⁻¹ : Kˣ) : K) (Sum.inl i)
       hc hother hdW hw
@@ -186,7 +186,7 @@ theorem sp4_smul_single_mem_fixSub_of_torus_le_normalizer (a : Kˣ) (ha1 : a ≠
     have hc : (diagSp4TorusHomFun (sp4TorusParam i a) (Sum.inr i) - 1) *
         (diagSp4TorusHomFun (sp4TorusParam i a) (Sum.inr i) - (a : K)) ≠ 0 := by
       rw [diagSp4TorusHomFun_sp4TorusParam_inr]
-      simp only [if_pos rfl]
+      simp only
       exact mul_ne_zero (sub_ne_zero.mpr ha1K') (sub_ne_zero.mpr haaK')
     have hother : ∀ x, x ≠ Sum.inr i →
         (diagSp4TorusHomFun (sp4TorusParam i a) x - 1) *
@@ -195,11 +195,11 @@ theorem sp4_smul_single_mem_fixSub_of_torus_le_normalizer (a : Kˣ) (ha1 : a ≠
       · rw [diagSp4TorusHomFun_sp4TorusParam_inl]
         by_cases hm : m = i
         · subst hm; simp
-        · simp only [if_neg hm]; rw [sub_self, zero_mul]
+        · simp only [ite_eq_right hm]; rw [sub_self, zero_mul]
       · rw [diagSp4TorusHomFun_sp4TorusParam_inr]
         by_cases hm : m = i
         · subst hm; exact absurd rfl hx
-        · simp only [if_neg hm]; rw [sub_self, zero_mul]
+        · simp only [ite_eq_right hm]; rw [sub_self, zero_mul]
     exact smul_single_mem_of_diagonal_mulVec_mem
       (diagSp4TorusHomFun (sp4TorusParam i a)) 1 (a : K) (Sum.inr i)
       hc hother hdW hw
@@ -243,12 +243,12 @@ theorem sp4_single_swap_mem_of_single_mem_of_inv_torus {t : StatedSp 2 K}
       rintro (m | m) hx
       · rw [diagSp4TorusHomFun_sp4TorusParam_inl, hpartner]
         by_cases hm : m = i
-        · subst hm; simp only [if_pos rfl]; exact haaK
-        · simp only [if_neg hm]; exact Ne.symm ha1K'
+        · subst hm; simp only; exact haaK
+        · simp only [ite_eq_right hm]; exact Ne.symm ha1K'
       · rw [diagSp4TorusHomFun_sp4TorusParam_inr, hpartner]
         by_cases hm : m = i
         · subst hm; exact absurd rfl hx
-        · simp only [if_neg hm]; exact Ne.symm ha1K'
+        · simp only [ite_eq_right hm]; exact Ne.symm ha1K'
     have htwist'' : Matrix.diagonal (diagSp4TorusHomFun s) *ᵥ
         (mat t *ᵥ Pi.single (Sum.inl i) 1) =
         diagSp4TorusHomFun s (Sum.inr i) • (mat t *ᵥ Pi.single (Sum.inl i) 1) := by
@@ -260,7 +260,7 @@ theorem sp4_single_swap_mem_of_single_mem_of_inv_torus {t : StatedSp 2 K}
     have hbase : Pi.single (Sum.inl i) 1 ≠ (0 : Fin 2 ⊕ Fin 2 → K) := by
       intro h
       have := congrFun h (Sum.inl i)
-      simpa using this
+      simp at this
     have hcoeff : (mat t *ᵥ Pi.single (Sum.inl i) 1) (Sum.inr i) ≠ 0 := by
       intro h0
       have hzero : mat t *ᵥ Pi.single (Sum.inl i) 1 = 0 := by
@@ -294,11 +294,11 @@ theorem sp4_single_swap_mem_of_single_mem_of_inv_torus {t : StatedSp 2 K}
       · rw [diagSp4TorusHomFun_sp4TorusParam_inl, hpartner]
         by_cases hm : m = i
         · subst hm; exact absurd rfl hx
-        · simp only [if_neg hm]; exact Ne.symm ha1K
+        · simp only [ite_eq_right hm]; exact Ne.symm ha1K
       · rw [diagSp4TorusHomFun_sp4TorusParam_inr, hpartner]
         by_cases hm : m = i
-        · subst hm; simp only [if_pos rfl]; exact haaK'
-        · simp only [if_neg hm]; exact Ne.symm ha1K
+        · subst hm; simp only; exact haaK'
+        · simp only [ite_eq_right hm]; exact Ne.symm ha1K
     have htwist'' : Matrix.diagonal (diagSp4TorusHomFun s) *ᵥ
         (mat t *ᵥ Pi.single (Sum.inr i) 1) =
         diagSp4TorusHomFun s (Sum.inl i) • (mat t *ᵥ Pi.single (Sum.inr i) 1) := by
@@ -310,7 +310,7 @@ theorem sp4_single_swap_mem_of_single_mem_of_inv_torus {t : StatedSp 2 K}
     have hbase : Pi.single (Sum.inr i) 1 ≠ (0 : Fin 2 ⊕ Fin 2 → K) := by
       intro h
       have := congrFun h (Sum.inr i)
-      simpa using this
+      simp at this
     have hcoeff : (mat t *ᵥ Pi.single (Sum.inr i) 1) (Sum.inl i) ≠ 0 := by
       intro h0
       have hzero : mat t *ᵥ Pi.single (Sum.inr i) 1 = 0 := by
@@ -346,11 +346,11 @@ theorem eq_bot_of_torus_le_normalizer_of_inv [Finite K] [CharP K 2] (hK : 4 ≤ 
   classical
   have hKeven : Even (Nat.card K) := by
     rw [even_iff_two_dvd]
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact (CharP.cast_eq_zero_iff K 2 (Fintype.card K)).mp
       (FiniteField.cast_card_eq_zero K)
-  haveI : Nontrivial Kˣ := by
+  have : Nontrivial Kˣ := by
     rw [← Finite.one_lt_card_iff_nontrivial, Nat.card_units]
     omega
   obtain ⟨a, ha1⟩ := exists_ne (1 : Kˣ)
@@ -375,7 +375,7 @@ theorem eq_bot_of_torus_le_normalizer_of_inv [Finite K] [CharP K 2] (hK : 4 ≤ 
   have hEvenV : Even (Nat.card (Fin 2 ⊕ Fin 2 → K)) := by
     rw [natCard_vec]
     exact hKeven.pow_of_ne_zero (by norm_num)
-  letI : MulAction R (Fin 2 ⊕ Fin 2 → K) := vecMulAction R
+  let : MulAction R (Fin 2 ⊕ Fin 2 → K) := vecMulAction R
   obtain ⟨w, hwne, hwfix⟩ := exists_fixed_ne (G := R) hR hEvenV
     (0 : Fin 2 ⊕ Fin 2 → K) (by
       intro r
@@ -384,7 +384,6 @@ theorem eq_bot_of_torus_le_normalizer_of_inv [Finite K] [CharP K 2] (hK : 4 ≤ 
   have hwW : w ∈ fixSub R := by
     rw [mem_fixSub]
     intro r hr
-    change mat r *ᵥ w = w
     exact hwfix ⟨r, hr⟩
   obtain ⟨c, hc⟩ : ∃ c : Fin 2 ⊕ Fin 2, w c ≠ 0 := by
     by_contra h
@@ -405,7 +404,7 @@ theorem eq_bot_of_torus_le_normalizer_of_inv [Finite K] [CharP K 2] (hK : 4 ≤ 
     have hRplane : ∀ g ∈ R, ∀ v, OnPlane j v → OnPlane j (mat g *ᵥ v) := by
       intro g hg v hv
       exact onPlane_of_fixes hij (fun u hu => hfixP g hg u hu) hv
-    letI : MulAction R {v : Fin 2 ⊕ Fin 2 → K // OnPlane j v} :=
+    let : MulAction R {v : Fin 2 ⊕ Fin 2 → K // OnPlane j v} :=
       planeMulAction R j hRplane
     have hEvenJ : Even (Nat.card {v : Fin 2 ⊕ Fin 2 → K // OnPlane j v}) := by
       rw [natCard_onPlane]

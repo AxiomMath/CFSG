@@ -40,15 +40,15 @@ theorem isSolvable_of_autI_card_three {K S M V : Subgroup G} {hV : IsElemAbelian
   have hYN : Y ≤ Subgroup.normalizer (V : Set G) := hYK.trans hKN
   have hker : Y ⊓ Subgroup.centralizer (V : Set G) ≤ kerIn M K :=
     (inf_le_inf_right _ hYK).trans hCK
-  haveI hJ : Group.IsSolvable ↥(kerIn M K) := isSolvable_kerIn hmin
-  haveI h1 : Group.IsSolvable ↥(Y ⊓ Subgroup.centralizer (V : Set G)) :=
+  have hJ : Group.IsSolvable ↥(kerIn M K) := isSolvable_kerIn hmin
+  have h1 : Group.IsSolvable ↥(Y ⊓ Subgroup.centralizer (V : Set G)) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hker)
   have hrange : (convHom hV Y hYN).range = C := by rw [range_convHom, hYC]
-  haveI h2 : Group.IsSolvable ↥(convHom hV Y hYN).range := by
+  have h2 : Group.IsSolvable ↥(convHom hV Y hYN).range := by
     rw [hrange]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : IsCyclic ↥C := isCyclic_of_prime_card hC3
-    letI := IsCyclic.commGroup (α := ↥C)
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : IsCyclic ↥C := isCyclic_of_prime_card hC3
+    let := IsCyclic.commGroup (α := ↥C)
     exact inferInstance
   refine Group.isSolvable_of_ker_le_range
     (Subgroup.inclusion (inf_le_left : Y ⊓ Subgroup.centralizer (V : Set G) ≤ Y))
@@ -129,12 +129,12 @@ theorem not_le_normalizer_R₁_sup {K S M V T : Subgroup G} (hmin : MinParabolic
 
 theorem not_le_centralizer_sup_pGroup {K V R Y : Subgroup G} {hV : IsElemAbelian 2 V}
     (hKN : K ≤ Subgroup.normalizer (V : Set G)) (hRK : R ≤ K) (hR2 : IsPGroup 2 ↥R)
-    {C : Subgroup (MulAut (IntMod V hV))} (hC3 : Nat.card C = 3) (hYK : Y ≤ K)
+    {C : Subgroup (MulAut (IntMod V hV))} (hC3 : Nat.card C = 3) (_hYK : Y ≤ K)
     (hYC : autI hV Y = C) : ¬ Y ≤ Subgroup.centralizer (V : Set G) ⊔ R := by
   intro hYM
   have hRCv : R ≤ Subgroup.normalizer (Subgroup.centralizer (V : Set G) : Set G) :=
     fun g hg => B6.le_normalizer_centralizer hKN (hRK hg)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨φ, hφ⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) 3 (by rw [hC3])
   have hφY : (φ : MulAut (IntMod V hV)) ∈ autI hV Y := hYC ▸ φ.2
   obtain ⟨g, hgY, hg⟩ := (mem_autI hV).1 hφY

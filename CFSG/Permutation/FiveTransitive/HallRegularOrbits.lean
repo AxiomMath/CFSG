@@ -18,23 +18,21 @@ variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 @[expose] def regularFourSet (a b : G) (x : X) : Set X :=
   {x, a • x, b • x, (a * b) • x}
 
+omit [Finite G] [Fintype X] in
 private theorem smul_exceptionalSet_eq_of_commutes
     (a b g : G) (hga : Commute g a) (hgb : Commute g b) :
     g • exceptionalSet (X := X) a b = exceptionalSet (X := X) a b := by
   have ha : g • MulAction.fixedBy X a = MulAction.fixedBy X a := by
-    change g • MulAction.fixedBy X a = MulAction.fixedBy X a
     exact MulAction.fixedBy_mem_fixedBy_of_commute hga.symm
   have hb : g • MulAction.fixedBy X b = MulAction.fixedBy X b := by
-    change g • MulAction.fixedBy X b = MulAction.fixedBy X b
     exact MulAction.fixedBy_mem_fixedBy_of_commute hgb.symm
   have hab : g • MulAction.fixedBy X (a * b) =
       MulAction.fixedBy X (a * b) := by
-    change g • MulAction.fixedBy X (a * b) =
-      MulAction.fixedBy X (a * b)
     exact MulAction.fixedBy_mem_fixedBy_of_commute
       (hga.mul_right hgb).symm
   simp only [exceptionalSet, Set.smul_set_union, ha, hb, hab]
 
+omit [Finite G] [Fintype X] in
 private theorem smul_not_mem_exceptionalSet_of_commutes
     (a b g : G) (hga : Commute g a) (hgb : Commute g b)
     {x : X} (hx : x ∉ exceptionalSet (X := X) a b) :
@@ -46,8 +44,9 @@ private theorem smul_not_mem_exceptionalSet_of_commutes
   rw [← hcompl]
   exact Set.smul_mem_smul_set hx
 
+omit [Finite G] [Fintype X] in
 theorem regularFourSet_subset_compl_exceptionalSet
-    (a b : G) (haTwo : a ^ 2 = 1) (hbTwo : b ^ 2 = 1)
+    (a b : G) (_haTwo : a ^ 2 = 1) (_hbTwo : b ^ 2 = 1)
     (hab : Commute a b) (y : X)
     (hy : y ∉ exceptionalSet (X := X) a b) :
     regularFourSet a b y ⊆ (exceptionalSet (X := X) a b)ᶜ := by
@@ -65,6 +64,7 @@ theorem regularFourSet_subset_compl_exceptionalSet
       ((Commute.refl a).mul_left hab.symm)
       (hab.mul_left (Commute.refl b)) hy
 
+omit [Finite G] [Fintype X] in
 theorem regularFourSet_ncard_of_not_mem_exceptionalSet
     (a b : G) (haTwo : a ^ 2 = 1) (hbTwo : b ^ 2 = 1)
     (hab : Commute a b) (x : X)
@@ -84,8 +84,9 @@ theorem regularFourSet_ncard_of_not_mem_exceptionalSet
     simp [exceptionalSet, h]
   exact regular_four_set_ncard a b haTwo hbTwo hab x hxa hxb hxc
 
+omit [Finite G] [Fintype X] in
 theorem first_smul_mem_regularFourSet
-    (a b : G) (haTwo : a ^ 2 = 1) (hab : Commute a b)
+    (a b : G) (haTwo : a ^ 2 = 1) (_hab : Commute a b)
     (y z : X) (hz : z ∈ regularFourSet a b y) :
     a • z ∈ regularFourSet a b y := by
   have haa (w : X) : a • (a • w) = w := by
@@ -102,6 +103,7 @@ theorem first_smul_mem_regularFourSet
   · exact Or.inr (Or.inr (Or.inr (habAct y)))
   · exact Or.inr (Or.inr (Or.inl (haab y)))
 
+omit [Finite G] [Fintype X] in
 theorem second_smul_mem_regularFourSet
     (a b : G) (hbTwo : b ^ 2 = 1) (hab : Commute a b)
     (y z : X) (hz : z ∈ regularFourSet a b y) :
@@ -126,6 +128,7 @@ theorem second_smul_mem_regularFourSet
   · exact Or.inl (hbb y)
   · exact Or.inr (Or.inl (hbab y))
 
+omit [Finite G] in
 private theorem regularFourSet_eq_of_mem
     (a b : G) (haTwo : a ^ 2 = 1) (hbTwo : b ^ 2 = 1)
     (hab : Commute a b) (y z : X)
@@ -152,6 +155,7 @@ private theorem regularFourSet_eq_of_mem
     regularFourSet_ncard_of_not_mem_exceptionalSet
         a b haTwo hbTwo hab y hy]
 
+omit [Finite G] [Fintype X] in
 private theorem orbit_ncard_smul_eq_of_commutes
     (C : Subgroup G) (g : G)
     (hcomm : ∀ k : C, Commute (k : G) g) (x : X) :
@@ -177,6 +181,7 @@ private theorem orbit_ncard_smul_eq_of_commutes
   rw [horbit, ← Set.image_smul (a := g) (t := MulAction.orbit C x)]
   exact Set.ncard_image_of_injective _ (MulAction.injective g)
 
+omit [Finite G] [Fintype X] in
 private theorem reference_orbit_ncard_eq
     (a b : G) (y z : X)
     (hz : z ∈ regularFourSet a b y) :
@@ -235,6 +240,7 @@ private def regularOrbitUnion (a b : G) (y : X) : Set X :=
     (MulAction.orbit (hallCentralizer (X := X) a b) (b • y) ∪
       MulAction.orbit (hallCentralizer (X := X) a b) ((a * b) • y))
 
+omit [Finite G] [Fintype X] in
 private theorem compl_exceptionalSet_eq_regularOrbitUnion
     (a b : G) (haTwo : a ^ 2 = 1) (hbTwo : b ^ 2 = 1)
     (hab : Commute a b) (y : X)
@@ -291,6 +297,7 @@ private theorem compl_exceptionalSet_eq_regularOrbitUnion
         (hcommA k) (hcommB k)
         (hrefRegular ((a * b) • y) (by simp [regularFourSet]))
 
+omit [Finite G] [Fintype X] in
 theorem regular_orbit_ncard_eq
     (a b : G) (y : X)
     (hconnect : ∀ x : X, x ∉ exceptionalSet (X := X) a b →

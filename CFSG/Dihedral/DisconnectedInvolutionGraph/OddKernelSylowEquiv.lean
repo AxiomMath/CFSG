@@ -25,7 +25,7 @@ theorem odd_kernel_sylow_equiv (hom : G →* K) (hsurjective : Function.Surjecti
   have hinjective : Function.Injective targetHom := by
     intro first second hequal
     exact odd_kernel_two_subgroup_injective hom hodd (sylow : Subgroup G)
-      sylow.isPGroup' (congrArg Subtype.val hequal)
+      sylow.isPGroup (congrArg Subtype.val hequal)
   have hsurjectiveTarget : Function.Surjective targetHom := by
     intro target
     have hmem : target.val ∈ (sylow : Subgroup G).map hom := by

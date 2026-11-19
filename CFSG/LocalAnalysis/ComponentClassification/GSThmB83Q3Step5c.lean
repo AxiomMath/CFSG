@@ -244,7 +244,7 @@ theorem exists_v' (hq : h.IsQ3) (hF : Cat8.Q3Facts) :
     have h2 := d.card_R hF.simple hF.inner
     rw [h1] at h2
     omega
-  obtain ⟨v, -, -, -, hvE, hvb⟩ := d.exists_v hq hF U.isPGroup' hRU hne
+  obtain ⟨v, -, -, -, hvE, hvb⟩ := d.exists_v hq hF U.isPGroup hRU hne
   exact ⟨v, hvE, hvb⟩
 
 theorem conj_b_mem (hq : h.IsQ3) (hF : Cat8.Q3Facts) {e : X} (he : e ∈ d.E0) {g : X}

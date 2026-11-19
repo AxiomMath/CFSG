@@ -124,7 +124,7 @@ private theorem rckJB123_parabolic_act_scalar
 
 theorem rckHB_mem_normalizer_of_conj
     (τ : Tag) (K : Type) [Field K] [Finite K] [CharP K 2] {i₀ : Fin τ.rank}
-    (hd : RootCentExc.HighRootData τ (highRoot τ) i₀) {g : ModGL τ K} (hg : g ∈ adjointGroup τ K)
+    (_hd : RootCentExc.HighRootData τ (highRoot τ) i₀) {g : ModGL τ K} (hg : g ∈ adjointGroup τ K)
     {x : ModGL τ K} (hx : x ∈ rootSubgroup τ K (highRoot τ)) (hx1 : x ≠ 1)
     (hgx : g * x * g⁻¹ ∈ rootSubgroup τ K (highRoot τ)) :
     g ∈ Subgroup.normalizer (rootSubgroup τ K (highRoot τ) : Set (ModGL τ K)) := by
@@ -136,7 +136,7 @@ theorem rckHB_mem_normalizer_of_conj
 
 theorem rckHB_normalizer_act_scalar
     (τ : Tag) (K : Type) [Field K] [Finite K] [CharP K 2] {i₀ : Fin τ.rank}
-    (hd : RootCentExc.HighRootData τ (highRoot τ) i₀) {g : ModGL τ K} (hg : g ∈ adjointGroup τ K)
+    (_hd : RootCentExc.HighRootData τ (highRoot τ) i₀) {g : ModGL τ K} (hg : g ∈ adjointGroup τ K)
     (hN : g ∈ Subgroup.normalizer (rootSubgroup τ K (highRoot τ) : Set (ModGL τ K))) :
     ∃ s : Kˣ, ∀ c : K, g * pinnedX τ K (highRoot τ) c * g⁻¹ = pinnedX τ K (highRoot τ) (s * c) := by
   have hP : g ∈ parabolicSubgroup τ K (Jθ τ) := by

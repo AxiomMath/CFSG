@@ -101,7 +101,7 @@ theorem reeF4NormalizerMaximal_of_caseTwoInvariant
     rwa [pRank_subgroupOf 5 hPK] at this
   have hKT : K ⊔ (T : Subgroup Y) = ⊤ :=
     ambient_sup_eq_top hC (hAut ↥K d hd hiso) hrk' T h3
-  have hp : IsPGroup 5 ↥((T : Subgroup Y) ⊓ K) := T.isPGroup'.to_inf_left
+  have hp : IsPGroup 5 ↥((T : Subgroup Y) ⊓ K) := T.isPGroup.to_inf_left
   have hidx : ¬ 5 ∣ ((T : Subgroup Y) ⊓ K).relIndex K := not_dvd_relIndex_inf_sylow K T
   let P : Sylow 5 ↥K := (hp.comap_subtype (K := K)).toSylow hidx
   have hP : (P : Subgroup ↥K) = ((T : Subgroup Y) ⊓ K).subgroupOf K := rfl

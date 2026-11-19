@@ -42,7 +42,7 @@ theorem isSquare_neg_iff_zmod5 {a : ZMod 5} : IsSquare (-a) ↔ IsSquare a := by
 theorem centerSignSet_mem (k : ℕ) (ε π : Bool) (v : Fin (k + 1) → ZMod 5) :
     v ∈ centerSignSet k ε π ↔
       fiveForm k ε v v ≠ 0 ∧ (IsSquare (fiveForm k ε v v) ↔ π = true) := by
-  simp only [centerSignSet, Set.mem_setOf_eq]
+  simp only [centerSignSet, Set.mem_ofPred_eq]
 
 theorem centerBasis_mem_span (k : ℕ) (ε π : Bool) (hk : 4 ≤ k) (i : Fin (k + 1)) :
     Pi.single i (1 : ZMod 5) ∈ Submodule.span (ZMod 5) (centerSignSet k ε π) := by
@@ -211,7 +211,7 @@ theorem eq_one_or_eq_neg_one_of_mem_center_fiveReflectionGroup (k : ℕ) (ε π 
       simpa only [map_mul, fiveGLIso_fiveReflOf] using h
     have hrefl_self : fiveReflO k ε v v = -v := by
       have hvQ' : fiveQ k ε v ≠ 0 := by rwa [fiveQ_apply]
-      letI : Invertible (fiveQ k ε v) := invertibleOfNonzero hvQ'
+      let : Invertible (fiveQ k ε v) := invertibleOfNonzero hvQ'
       rw [fiveReflO, reflect_eq_reflection]
       exact TauCeti.QuadraticMap.reflection_apply_self (fiveQ k ε) v
     have hxg : fiveReflO k ε v (gL v) = -(gL v) := by
@@ -221,7 +221,7 @@ theorem eq_one_or_eq_neg_one_of_mem_center_fiveReflectionGroup (k : ℕ) (ε π 
         _ = gL (-v) := by rw [hrefl_self]
         _ = -(gL v) := map_neg gL v
     have hvQ' : fiveQ k ε v ≠ 0 := by rwa [fiveQ_apply]
-    letI : Invertible (fiveQ k ε v) := invertibleOfNonzero hvQ'
+    let : Invertible (fiveQ k ε v) := invertibleOfNonzero hvQ'
     let c : ZMod 5 := ⅟(fiveQ k ε v) * polar (fiveQ k ε) v (gL v)
     have hxg' : gL v - c • v = -(gL v) := by
       rw [fiveReflO, reflect_eq_reflection, TauCeti.QuadraticMap.reflection_apply] at hxg
@@ -347,7 +347,7 @@ theorem eq_one_or_eq_neg_one_of_mem_center_fiveReflectionGroup (k : ℕ) (ε π 
     calc x = (2 : ZMod 5)⁻¹ • ((2 : ZMod 5) • x) := by
           rw [smul_smul, inv_mul_cancel₀ (by decide : (2 : ZMod 5) ≠ 0), one_smul]
       _ = 0 := by rw [h2x, smul_zero]
-  haveI : Invertible (2 : ZMod 5) := invertibleOfNonzero (by decide : (2 : ZMod 5) ≠ 0)
+  have : Invertible (2 : ZMod 5) := invertibleOfNonzero (by decide : (2 : ZMod 5) ≠ 0)
   let B : LinearMap.BilinForm (ZMod 5) (Fin (k + 1) → ZMod 5) :=
     QuadraticMap.polarBilin (fiveQ k ε)
   have hB_apply : ∀ x y, B x y = polar (fiveQ k ε) x y := by

@@ -156,6 +156,7 @@ section Gens
 
 variable {p : ℕ} {V : Type*} [CommGroup V] [Fintype V] [DecidableEq V]
 
+omit [Fintype V] [DecidableEq V] in
 theorem mulLeft_pow_apply (v : V) (n : ℕ) (x : V) : ((Equiv.mulLeft v) ^ n) x = v ^ n * x := by
   induction n with
   | zero => simp
@@ -180,7 +181,7 @@ theorem alt_le_of_card_le (hcard : Nat.card V ≤ p) :
 omit [DecidableEq V] in
 theorem zpowers_eq_of_mem (hp : p.Prime) (hexp : ∀ v : V, v ^ p = 1) {y z : V}
     (hz : z ∈ Subgroup.zpowers y) (hz1 : z ≠ 1) : Subgroup.zpowers z = Subgroup.zpowers y := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hy1 : y ≠ 1 := by
     rintro rfl
     rw [Subgroup.zpowers_one_eq_bot, Subgroup.mem_bot] at hz
@@ -208,15 +209,18 @@ open Classical in
       rw [mul_assoc]
       exact Subgroup.mul_mem_cancel_left _ (Subgroup.mem_zpowers u)))
 
+omit [Fintype V] [DecidableEq V] in
 theorem ptr_apply_of_mem {u x v : V} (hv : v * x⁻¹ ∈ Subgroup.zpowers u) : ptr u x v = u * v := by
   unfold ptr
   rw [ofSubtype_apply_of_mem (a := v) _ hv]
   simp
 
+omit [Fintype V] [DecidableEq V] in
 theorem ptr_apply_of_not_mem {u x v : V} (hv : v * x⁻¹ ∉ Subgroup.zpowers u) : ptr u x v = v := by
   unfold ptr
   exact ofSubtype_apply_of_not_mem _ hv
 
+omit [Fintype V] [DecidableEq V] in
 theorem ptr_pow_apply (u x : V) (n : ℕ) (v : V) :
     ((ptr u x) ^ n) v = if v * x⁻¹ ∈ Subgroup.zpowers u then u ^ n * v else v := by
   induction n with
@@ -230,6 +234,7 @@ theorem ptr_pow_apply (u x : V) (n : ℕ) (v : V) :
       rw [ptr_apply_of_mem hv', ← mul_assoc, ← pow_succ']
     · exact ptr_apply_of_not_mem hv
 
+omit [Fintype V] [DecidableEq V] in
 theorem ptr_comm (u x : V) {h : V} (hh : h ∈ Subgroup.zpowers u) (v : V) :
     ptr u x (h * v) = h * ptr u x v := by
   by_cases hv : v * x⁻¹ ∈ Subgroup.zpowers u
@@ -243,7 +248,7 @@ theorem ptr_comm (u x : V) {h : V} (hh : h ∈ Subgroup.zpowers u) (v : V) :
 
 theorem ptr_mem_hypGens (hp : p.Prime) (hp2 : p ≠ 2) (hexp : ∀ v : V, v ^ p = 1)
     (hcard : Nat.card V ≤ p ^ 2) {u : V} (hu : u ≠ 1) (x : V) : ptr u x ∈ hypGens p V := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   refine ⟨mem_alternatingGroup.2 (sign_eq_one_of_pow (hp.odd_of_ne_two hp2) ?_),
     Subgroup.zpowers u, ?_, fun h hh v => ptr_comm u x hh v⟩
   · ext v
@@ -283,7 +288,7 @@ theorem c3_mem_closure_base (hp : p.Prime) (hp2 : p ≠ 2) (hexp : ∀ v : V, v 
 theorem alt_le_base (hp : p.Prime) (hp2 : p ≠ 2) (hexp : ∀ v : V, v ^ p = 1)
     (hcard1 : p < Nat.card V) (hcard : Nat.card V ≤ p ^ 2) :
     alternatingGroup V ≤ Subgroup.closure (hypGens p V) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hnc : ∀ a b c : V, b * a⁻¹ ≠ 1 → c * a⁻¹ ∉ Subgroup.zpowers (b * a⁻¹) →
       c3 a b c ∈ Subgroup.closure (hypGens p V) := by
     intro a b c hu hw
@@ -341,7 +346,7 @@ variable {p : ℕ} {V : Type*} [CommGroup V]
 theorem pow_not_mem [Finite V] (hp : p.Prime) (hexp : ∀ v : V, v ^ p = 1) {H : Subgroup V} {u : V}
     (hu : u ∉ H) {d : ℕ} (hd0 : 0 < d) (hdp : d < p) : u ^ d ∉ H := by
   intro hd
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hu1 : u ≠ 1 := fun h => hu (h ▸ H.one_mem)
   have hz1 : u ^ d ≠ 1 := by
     intro h
@@ -404,6 +409,7 @@ variable [Fintype V] [DecidableEq V]
     (hH : H.index = p) {u : V} (hu : u ∉ H) : Perm ↥H →* Perm V :=
   (Equiv.permCongrHom (decompEquiv hp hexp hH hu)).toMonoidHom.comp (prodHom ↥H (Fin p))
 
+omit [DecidableEq V] in
 theorem iota_apply (hp : p.Prime) (hexp : ∀ v : V, v ^ p = 1) {H : Subgroup V}
     (hH : H.index = p) {u : V} (hu : u ∉ H) (σ : Perm ↥H) (h : ↥H) (j : Fin p) :
     iota hp hexp hH hu σ (u ^ (j : ℕ) * (h : V)) = u ^ (j : ℕ) * ((σ h : ↥H) : V) := by
@@ -415,6 +421,7 @@ theorem iota_apply (hp : p.Prime) (hexp : ∀ v : V, v ^ p = 1) {H : Subgroup V}
   rw [Equiv.permCongr_apply, Equiv.symm_apply_apply]
   rfl
 
+omit [DecidableEq V] in
 theorem iota_apply_coe (hp : p.Prime) (hexp : ∀ v : V, v ^ p = 1) {H : Subgroup V}
     (hH : H.index = p) {u : V} (hu : u ∉ H) (σ : Perm ↥H) (h : ↥H) :
     iota hp hexp hH hu σ (h : V) = ((σ h : ↥H) : V) := by
@@ -426,15 +433,16 @@ theorem iota_apply_coe (hp : p.Prime) (hexp : ∀ v : V, v ^ p = 1) {H : Subgrou
   one_mem' := by simp
   mul_mem' := by
     intro a b ha hb x
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [mul_assoc, ha, hb, mul_assoc]
   inv_mem' := by
     intro a ha x
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     have := ha (a⁻¹ * x)
     rw [mul_inv_cancel_left] at this
     rw [this, inv_mul_cancel_left]
 
+omit [Fintype V] [DecidableEq V] in
 theorem mem_commSub {f : Perm V} {v : V} : v ∈ commSub f ↔ ∀ x, f (v * x) = v * f x := Iff.rfl
 
 theorem iota_mem_hypGens (hp : p.Prime) (hexp : ∀ v : V, v ^ p = 1) {H : Subgroup V}
@@ -550,7 +558,7 @@ theorem le_of_supp_hyperplane (hp : p.Prime) (hp2 : p ≠ 2) (hexp : ∀ v : V, 
     (hIH : alternatingGroup ↥H ≤ Subgroup.closure (hypGens p ↥H))
     {g : Perm V} (hg : g ∈ alternatingGroup V) (hgH : ∀ v, v ∉ H → g v = v) :
     g ∈ Subgroup.closure (hypGens p V) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   set T := Subgroup.closure (hypGens p V) with hT
   have hp3 : 3 ≤ p := by
     have := hp.two_le
@@ -823,7 +831,7 @@ theorem alt_le_step {V : Type*} [CommGroup V] [Fintype V] [DecidableEq V] (hp : 
       alternatingGroup ↥H ≤ Subgroup.closure (hypGens p ↥H)) :
     alternatingGroup V ≤ Subgroup.closure (hypGens p V) := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hdvd : p ^ (t - 1) ∣ Nat.card V := by
     rw [hcard]; exact pow_dvd_pow p (Nat.sub_le t 1)
   have hidx : ∀ K : Subgroup V, Nat.card K = p ^ (t - 1) → K.index = p := by
@@ -893,7 +901,7 @@ theorem core_alt_le (hp : p.Prime) (hp2 : p ≠ 2) :
   induction n using Nat.strong_induction_on with
   | _ n ih =>
     intro V _ _ _ hn hexp
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     have hpg : IsPGroup p V := fun v => ⟨1, by rw [pow_one]; exact hexp v⟩
     obtain ⟨t, ht⟩ := IsPGroup.iff_card.1 hpg
     rcases Nat.lt_or_ge t 2 with ht2 | ht2
@@ -929,20 +937,20 @@ theorem orbit_alt_mem (hp : p.Prime) (hp2 : p ≠ 2) (B : Subgroup (Perm Ω))
       (X.subgroupOf B).index ≤ p → (∀ x ∈ X, f * x = x * f) → f ∈ T) :
     g ∈ T := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   set St : Subgroup ↥B := MulAction.stabilizer ↥B i with hSt
   have hcommB : ∀ a b : ↥B, a * b = b * a := fun a b => Subtype.ext (hBc a a.2 b b.2)
-  haveI hnorm : St.Normal := ⟨fun n hn g => by
+  have hnorm : St.Normal := ⟨fun n hn g => by
     have : g * n * g⁻¹ = n := by rw [hcommB g n, mul_inv_cancel_right]
     rw [this]; exact hn⟩
   set V := ↥B ⧸ St with hV
-  letI : CommGroup V := { (inferInstance : Group V) with
+  let : CommGroup V := { (inferInstance : Group V) with
     mul_comm := by
       intro a b
       induction a using QuotientGroup.induction_on with | H a => ?_
       induction b using QuotientGroup.induction_on with | H b => ?_
       rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hcommB a b] }
-  letI : Fintype V := Fintype.ofFinite V
+  let : Fintype V := Fintype.ofFinite V
   have hexpV : ∀ v : V, v ^ p = 1 := by
     intro v
     induction v using QuotientGroup.induction_on with | H b => ?_
@@ -1048,7 +1056,7 @@ end Orbit
 theorem input23_9_holds : Lemma129k.Input23_9 := by
   intro p k n hp hp2 B hB hk i _ g hg
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   set B' : Subgroup (Perm (Fin n)) := B.map (alternatingGroup (Fin n)).subtype with hB'
   have hmem : (g : Perm (Fin n)) ∈ (CFSG.Open.GLBCore p (k - 1) B).map (alternatingGroup (Fin n)).subtype := by
     refine orbit_alt_mem hp hp2 B' ?_ ?_ i g.2 ?_ _ ?_
@@ -1110,16 +1118,18 @@ variable {p : ℕ} {Ω : Type} [Fintype Ω] [DecidableEq Ω]
   one_mem' := fun _ _ => rfl
   mul_mem' := by
     intro a b ha hb x hx
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [Perm.mul_apply, hb x hx, ha x hx]
   inv_mem' := by
     intro a ha x hx
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [Perm.inv_eq_iff_eq]
     exact (ha x hx).symm
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem mem_fixOut {S : Set Ω} {f : Perm Ω} : f ∈ fixOut S ↔ ∀ x, x ∉ S → f x = x := Iff.rfl
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem fixOut_mono {S S' : Set Ω} (h : S ⊆ S') : fixOut S ≤ fixOut S' :=
   fun _ hf x hx => hf x (fun h' => hx (h h'))
 
@@ -1128,17 +1138,19 @@ theorem fixOut_mono {S S' : Set Ω} (h : S ⊆ S') : fixOut S ≤ fixOut S' :=
   one_mem' := fun _ => Iff.rfl
   mul_mem' := by
     intro a b ha hb z
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [Perm.mul_apply, hb z, ha (b z)]
   inv_mem' := by
     intro a ha z
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     have h := ha (a⁻¹ z)
     simp only [Perm.coe_inv, Equiv.apply_symm_apply] at h ⊢
     exact h.symm
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem mem_setStab {T : Set Ω} {f : Perm Ω} : f ∈ setStab T ↔ ∀ z, z ∈ T ↔ f z ∈ T := Iff.rfl
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem fixOut_le_setStab {S T : Set Ω} (h : ∀ z ∈ T, z ∉ S) : fixOut S ≤ setStab T := by
   intro f hf z
   constructor
@@ -1150,6 +1162,7 @@ theorem fixOut_le_setStab {S T : Set Ω} (h : ∀ z ∈ T, z ∉ S) : fixOut S �
     rw [f.injective h1] at hz
     exact hz
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem fixOut_le_setStab_self (S : Set Ω) : fixOut S ≤ setStab S := by
   intro f hf z
   constructor
@@ -1163,9 +1176,10 @@ theorem fixOut_le_setStab_self (S : Set Ω) : fixOut S ≤ setStab S := by
     rw [hf z hz] at hfz
     exact hz hfz
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem setStab_sdiff {A B : Set Ω} {f : Perm Ω} (hA : f ∈ setStab A) (hB : f ∈ setStab B) :
     f ∈ setStab (A \ B) := fun z => by
-  simp only [Set.mem_diff]
+  simp only [Set.mem_sdiff]
   rw [hA z, hB z]
 
 theorem card_mul_le_card_sup {G : Type*} [Group G] [Finite G] (H K : Subgroup G)
@@ -1210,10 +1224,10 @@ theorem sup_step (hp : p.Prime) {R : Subgroup (Perm Ω)} {S O : Finset Ω} {k j 
       E ≤ Subgroup.centralizer (R : Set (Perm Ω)) ∧ E ≤ fixOut (S : Set Ω) ∧
       (∀ y, ∃ T : Finset Ω, y ∈ T ∧ T.card ≤ p ^ k ∧ E ≤ setStab (T : Set Ω)) ∧
       ∃ e : ℕ, Nat.card E = p ^ e ∧ e' + j ≤ e := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hdisj : ∀ z ∈ (O : Set Ω), z ∉ ((S \ O : Finset Ω) : Set Ω) := by
     intro z hz hz'
-    rw [Finset.coe_sdiff, Set.mem_diff] at hz'
+    rw [Finset.coe_sdiff, Set.mem_sdiff] at hz'
     exact hz'.2 hz
   have hE'O : E' ≤ setStab (O : Set Ω) := hE'fix.trans (fixOut_le_setStab hdisj)
   have hGO : G ≤ setStab (O : Set Ω) := hGfix.trans (fixOut_le_setStab_self _)
@@ -1235,7 +1249,7 @@ theorem sup_step (hp : p.Prime) {R : Subgroup (Perm Ω)} {S O : Finset Ω} {k j 
   refine ⟨E' ⊔ G, sup_le hE'alt hGalt, hE'el.sup_of_commute hGel hcomm, sup_le hE'c hGc,
     sup_le (hE'fix.trans (fixOut_mono ?_)) (hGfix.trans (fixOut_mono ?_)), ?_, ?_⟩
   · intro z hz
-    rw [Finset.coe_sdiff, Set.mem_diff] at hz
+    rw [Finset.coe_sdiff, Set.mem_sdiff] at hz
     exact hz.1
   · intro z hz
     exact hOS hz
@@ -1253,7 +1267,7 @@ theorem sup_step (hp : p.Prime) {R : Subgroup (Perm Ω)} {S O : Finset Ω} {k j 
         intro z
         by_cases hz : z ∈ (O : Set Ω)
         · have hbz : b z ∈ (O : Set Ω) := (hGO hb z).1 hz
-          simp only [Set.mem_diff]
+          simp only [Set.mem_sdiff]
           exact ⟨fun h => absurd hz h.2, fun h => absurd hbz h.2⟩
         · rw [hGfix hb z hz]
   · have hpg : IsPGroup p ↥(E' ⊔ G) := (hE'el.sup_of_commute hGel hcomm).isPGroup
@@ -1269,12 +1283,14 @@ theorem sup_step (hp : p.Prime) {R : Subgroup (Perm Ω)} {S O : Finset Ω} {k j 
 @[expose] def resO (O : Finset Ω) (f : Perm Ω) (hf : ∀ y, f y ∈ O ↔ y ∈ O) : Perm Ω :=
   ofSubtype (f.subtypePerm (p := (· ∈ O)) hf)
 
+omit [Fintype Ω] in
 theorem resO_apply_mem {O : Finset Ω} {f : Perm Ω} (hf : ∀ y, f y ∈ O ↔ y ∈ O) {y : Ω}
     (hy : y ∈ O) : resO O f hf y = f y := by
   unfold resO
   rw [ofSubtype_apply_of_mem (a := y) _ hy]
   simp
 
+omit [Fintype Ω] in
 theorem resO_apply_not_mem {O : Finset Ω} {f : Perm Ω} (hf : ∀ y, f y ∈ O ↔ y ∈ O) {y : Ω}
     (hy : y ∉ O) : resO O f hf y = y := by
   unfold resO
@@ -1316,7 +1332,7 @@ theorem exists_E (hp : p.Prime) (hp2 : p ≠ 2) (R : Subgroup (Perm Ω))
         (∀ y, ∃ T : Finset Ω, y ∈ T ∧ T.card ≤ p ^ k ∧ E ≤ setStab (T : Set Ω)) ∧
         ∃ e : ℕ, Nat.card E = p ^ e ∧ k * (m - m % p) ≤ p ^ k * e := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hodd : Odd p := hp.odd_of_ne_two hp2
   intro m
@@ -1627,7 +1643,7 @@ open GL83 GL83.PiGen in
 theorem input23_5_holds : Lemma129e.Input23_5 := by
   intro p n k hp hp2 hpn hk1 hkn K _ _ φ B _ hBel horb1 _
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   set R : Subgroup (Perm (Fin n)) := (B.map φ.toMonoidHom).map (alternatingGroup (Fin n)).subtype
     with hR
@@ -1778,6 +1794,7 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremB CFSG.HardMathSupport.Solomon.Coordi
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_deltaTwo {p : ℕ} {X D : Subgroup G} (hDX : D ≤ X) (hD : IsElemAbelian p D) :
     D ≤ Subgroup.normalizer ((Lemma129.deltaTwo X D : Subgroup G) : Set G) := by
   intro d hd

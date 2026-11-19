@@ -415,7 +415,7 @@ theorem orb4_not_all_commute {R : Subgroup G} (hR : IsQ8 R) {v a b : G} (hv : v 
     exact hra.inv_right.mul_right h2
   exact h3.eq.symm
 
-theorem orb4_d4_cases {u u' z y y' : G} (huu' : u * u' = u' * u) (hz : u * u = z) (hz' : u' * u' = z)
+theorem orb4_d4_cases {u u' z y y' : G} (_huu' : u * u' = u' * u) (hz : u * u = z) (hz' : u' * u' = z)
     (hz2 : z * z = 1) (hz1 : z ≠ 1)
     (hy : y = 1 ∨ y = u ∨ y = u * u ∨ y = u * u * u)
     (hy' : y' = 1 ∨ y' = u' ∨ y' = u' * u' ∨ y' = u' * u' * u')
@@ -584,7 +584,7 @@ theorem orb4_center_pair {Ra Rb : Subgroup G} (hcomm : Commutes Ra Rb) (hqa : Is
   · left; rw [h, h', hz, hz']; exact hz2
 
 theorem orb4_comm4_id {a b c d : G} (hab : Commute a b) (had : Commute a d) (hbc : Commute b c)
-    (hbd : Commute b d) (hcd : Commute c d) (hac : Commute a c) :
+    (hbd : Commute b d) (hcd : Commute c d) (_hac : Commute a c) :
     ((a * b) * (c * d)) * (b * d) = ((b * b) * (d * d)) * (a * c) := by
   calc (a * b) * (c * d) * (b * d) = (a * c) * (b * d) * (b * d) := by
         rw [hbc.mul_mul_mul_comm a d]

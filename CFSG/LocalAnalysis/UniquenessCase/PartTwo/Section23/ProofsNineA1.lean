@@ -44,7 +44,7 @@ theorem s23_9_A1_of (D : Data G) (Ch : Choice2011 G) (h53 : S23_5_3 D Ch) :
   have hrmem : r ∈ piSet c.B0 := by
     rw [c.hpi]
     exact ⟨hrp, hrdvd⟩
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   obtain ⟨b, hborder⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B0) r hrmem.2
   have hbB0 : (b : G) ∈ c.B0 := b.2
   have hborder' : orderOf (b : G) = r := by rw [Subgroup.orderOf_coe, hborder]
@@ -53,7 +53,7 @@ theorem s23_9_A1_of (D : Data G) (Ch : Choice2011 G) (h53 : S23_5_3 D Ch) :
     intro hbC
     rcases h53 h1930 c' (by simpa [c'] using c.hpi) with hbot | ⟨h2, _⟩
     · have hbint : (b : G) ∈ c'.B ⊓ Subgroup.centralizer (D.Z : Set G) :=
-        ⟨by simpa [c'] using hbB0, hbC⟩
+        ⟨by simp [c'], hbC⟩
       rw [hbot, Subgroup.mem_bot] at hbint
       have h1 : orderOf (b : G) = 1 := by rw [hbint, orderOf_one]
       rw [hborder'] at h1

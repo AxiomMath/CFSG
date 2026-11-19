@@ -133,8 +133,8 @@ theorem ggTwE6InnerDiagInput_holds :
   obtain ⟨U, hUne, hUpgrp, hAU⟩ := hU2
   obtain ⟨n, K, hfld, hfin, hn, h3, hKcard, θ, hθI⟩ :=
     TwE6KG7.exists_recipe_of_marking hmark
-  letI : Field K := hfld
-  letI : Finite K := hfin
+  let : Field K := hfld
+  let : Finite K := hfin
   let ψ : X →* TwE6Delta.RecipeR K n :=
     θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
   let ρ : MulAut X →* MulAut (TwE6Delta.RecipeR K n) := ggInducedAut θ

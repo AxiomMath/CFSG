@@ -103,7 +103,7 @@ theorem mask_S {X : ℕ → ℕ} (hX : ∀ l, X l < 2 ^ 16) (n k n' : ℕ) (p : 
     show 16 * k + (16 * q + r) = 16 * (q + k) + r by ring, testBit_S hX _ _ _ hr,
     testBit_S hP _ _ _ hr]
   cases hp : p q <;> by_cases h1 : q + k < n <;> by_cases h2 : q < n' <;>
-    simp [hp, h1, h2, t65535 hr]
+    simp [h1, h2, t65535 hr]
 
 theorem MCOL_eq : MCOL = S (fun l => cond (l % 4 == 0) 65535 0) 32 := by
   simp only [S, sum_range_succ, sum_range_zero]
@@ -192,7 +192,7 @@ theorem fold3_S {C : ℕ → ℕ} (hC : ∀ l, C l < 2 ^ 16) :
   have e1 : S (fun l => if l < 16 then C l + 2 * C (32 + l) else C l) 16 =
       S C 16 + 2 * S (fun l => C (32 + l)) 16 := by
     rw [S_mul, S_add_fun]
-    exact S_congr fun l hl => by rw [if_pos hl]
+    exact S_congr fun l hl => by rw [ite_eq_left hl]
   have e2 : S (fun l => (fun l => if l < 16 then C l + 2 * C (32 + l) else C l) (16 + l)) 16 =
       S (fun l => C (16 + l)) 16 :=
     S_congr fun l _ => by simp
@@ -273,10 +273,10 @@ theorem XF_le {c : List ℕ} (h : canon4 c = true) (l : ℕ) : XF c l ≤ 2 := b
     omega
 
 theorem XF_lo {c : List ℕ} {i : ℕ} (h : i < 16) : XF c i = c.getD i 0 / 3 := by
-  rw [XF, if_pos h]
+  rw [XF, ite_eq_left h]
 
 theorem XF_hi (c : List ℕ) (i : ℕ) : XF c (16 + i) = c.getD i 0 % 3 := by
-  rw [XF, if_neg (by omega), Nat.add_sub_cancel_left]
+  rw [XF, ite_eq_right (by omega), Nat.add_sub_cancel_left]
 
 theorem lanes_lo {c : List ℕ} (hl : c.length = 16) :
     lanes (c.map fun e => e / 3) = S (XF c) 16 := by
@@ -333,17 +333,17 @@ theorem lane_eq {m n : List ℕ} {l : ℕ} (hl : l < 32) :
     (if l < 16 then cv (XF m) (XF n) l + 2 * cv (XF m) (XF n) (32 + l) else cv (XF m) (XF n) l) % 3 =
       XF (mul4 m n) l := by
   by_cases h : l < 16
-  · rw [if_pos h, XF_lo h, getD_mul4 m n h, ent_f, div_f]
+  · rw [ite_eq_left h, XF_lo h, getD_mul4 m n h, ent_f, div_f]
     have e1 : ¬ 32 + l < 16 := by omega
     have e2 : ¬ 32 + l < 32 := by omega
-    simp only [cv, if_pos h, e1, e2, if_false, Nat.add_sub_cancel_left, sum_range_succ,
+    simp only [cv, ite_eq_left h, e1, e2, ite_false, Nat.add_sub_cancel_left, sum_range_succ,
       sum_range_zero, XF_hi]
     simp (disch := omega) only [XF_lo]
     ring_nf
   · obtain ⟨l', rfl⟩ : ∃ l', l = 16 + l' := ⟨l - 16, by omega⟩
     have hl' : l' < 16 := by omega
-    rw [if_neg h, XF_hi, getD_mul4 m n hl', ent_f, mod_f]
-    simp only [cv, h, hl, if_false, if_true, Nat.add_sub_cancel_left, sum_range_succ, sum_range_zero,
+    rw [ite_eq_right h, XF_hi, getD_mul4 m n hl', ent_f, mod_f]
+    simp only [cv, h, hl, ite_false, ite_true, Nat.add_sub_cancel_left, sum_range_succ, sum_range_zero,
       XF_hi]
     simp (disch := omega) only [XF_lo]
     ring_nf
@@ -428,26 +428,26 @@ theorem letDF {A : ℕ → ℕ} (hA : lettersF A = true) (l : ℕ) : DatF (lette
     ⟨canon4_letterCode s, Nat.eq_of_beq_eq_true (h4 s hs)⟩
   unfold letP
   by_cases hl : l < 3
-  · rw [Nat.blt_eq.mpr hl, cond_true]
+  · rw [Nat.blt_eq.mpr hl, _root_.Bool.cond_true]
     exact hs l (by omega)
   · have hb : Nat.blt l 3 = false := by
       cases hq : Nat.blt l 3
       · rfl
       · exact absurd (Nat.blt_eq.mp hq) hl
-    rw [hb, cond_false]
+    rw [hb, Bool.cond_false]
     have e : letterCode l = letterCode 3 := by
       unfold letterCode
-      rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
       rfl
     rw [e]
     exact hs 3 (by omega)
 
 theorem foldDF {A : ℕ → ℕ} (hA : lettersF A = true) :
-    ∀ (w : List ℕ) (acc : List ℕ) (C : ℕ), DatF acc C →
-      DatF (w.foldl (fun c l => mul4 c (letterCode l)) acc)
-        (w.foldl (fun c l => MF c (letP A l)) C)
+    ∀ (w : List ℕ) (_acc : List ℕ) (_C : ℕ), DatF _acc _C →
+      DatF (w.foldl (fun c l => mul4 c (letterCode l)) _acc)
+        (w.foldl (fun c l => MF c (letP A l)) _C)
   | [], _, _, h => h
-  | l :: w, acc, C, h => foldDF hA w _ _ (mulDF h (letDF hA l))
+  | l :: w, _acc, _C, h => foldDF hA w _ _ (mulDF h (letDF hA l))
 
 theorem wordDF {A : ℕ → ℕ} (hA : lettersF A = true) (w : List ℕ) :
     DatF (wordCode w) (wordF A w) :=

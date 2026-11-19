@@ -23,6 +23,7 @@ private def hypCol (e u f u' : OmI → K) : OmI → OmI → K :=
 private def hypMat (e u f u' : OmI → K) : Matrix OmI OmI K :=
   Matrix.of fun i j => hypCol e u f u' j i
 
+omit [Field K] in
 private theorem hypMat_col (e u f u' : OmI → K) (j : OmI) :
     (hypMat e u f u').col j = hypCol e u f u' j := rfl
 
@@ -111,13 +112,13 @@ theorem exists_singular_orth_not_mem [CharP K 2] {e₀ : OmI → K} (he₀ : e�
       simp
     · rw [pol_eq]
       simp only [Sum.elim_inl, Sum.elim_inr, Matrix.cons_val_zero, Matrix.cons_val_one,
-        hx.1, hx.2, mul_zero, zero_mul, add_zero, zero_add]
+        hx.1, hx.2, mul_zero, add_zero, zero_add]
       rw [mul_comm (e₀ (Sum.inr 0)) (e₀ (Sum.inr 1))]
       exact CharTwo.add_self_eq_zero _
     · intro t ht
       have h1 := congrFun ht (Sum.inl 0)
       have h2 := congrFun ht (Sum.inl 1)
-      simp only [Sum.elim_inl, Sum.elim_inr, Matrix.cons_val_zero, Matrix.cons_val_one,
+      simp only [Sum.elim_inl, Matrix.cons_val_zero, Matrix.cons_val_one,
         Pi.smul_apply, smul_eq_mul, hx.1, hx.2, mul_zero] at h1 h2
       exact he₀ (by
         funext i
@@ -127,7 +128,7 @@ theorem exists_singular_orth_not_mem [CharP K 2] {e₀ : OmI → K} (he₀ : e�
       simp
     · rw [pol_eq]
       simp only [Sum.elim_inl, Sum.elim_inr, Matrix.cons_val_zero, Matrix.cons_val_one,
-        mul_zero, zero_mul, add_zero, zero_add]
+        zero_mul, add_zero]
       rw [mul_comm (e₀ (Sum.inl 1)) (e₀ (Sum.inl 0))]
       exact CharTwo.add_self_eq_zero _
     · intro t ht

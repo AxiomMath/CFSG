@@ -101,6 +101,7 @@ variable (hp : p.Prime) (hA : ∀ a : A, a ^ p = 1) (hpK : (p : K) ≠ 0)
 @[expose] noncomputable def involLin (I : Finset (Hyperplane A p)) : V →ₗ[K] V :=
   LinearMap.id - (2 : K) • projI ρ I
 
+omit [Finite A] in
 theorem involLin_apply (I : Finset (Hyperplane A p)) (v : V) :
     involLin ρ I v = v - (2 : K) • projI ρ I v :=
   rfl

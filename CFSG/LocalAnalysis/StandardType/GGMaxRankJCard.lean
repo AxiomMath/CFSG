@@ -25,16 +25,16 @@ private theorem pjc_sum_smul_single {p : ℕ} (x : Fin 8 → ZMod p) :
 private theorem pjc_card_of_datum {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {Bs X : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     (ι : Additive ↥Bs ≃+ V) (h : Fin 8 → V) (α : Fin 8 → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     (hsep : ∀ b : ↥Bs, (∀ i, α i (ι (Additive.ofMul b)) = 0) ↔
       (b : G) ∈ Subgroup.centralizer (X : Set G)) :
     Nat.card Bs = p ^ 8 * Nat.card ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI hBsfin : Finite ↥Bs := inferInstance
-  haveI : Finite (Additive ↥Bs) := Finite.of_equiv ↥Bs (Equiv.refl ↥Bs)
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Fintype V := Fintype.ofFinite V
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have hBsfin : Finite ↥Bs := inferInstance
+  have : Finite (Additive ↥Bs) := Finite.of_equiv ↥Bs (Equiv.refl ↥Bs)
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Fintype V := Fintype.ofFinite V
   let F : V →ₗ[ZMod p] (Fin 8 → ZMod p) := LinearMap.pi fun i => α i
   have hF_apply : ∀ v i, F v i = α i v := by
     intro v i
@@ -75,7 +75,7 @@ private theorem pjc_card_of_datum {G : Type} [Group G] [Finite G] {p : ℕ} [Fac
       _ = M.mulVec (∑ j, (C.mulVec w) j • Pi.single j (1 : ZMod p)) := by
             conv_rhs => rw [← Matrix.mulVecLin_apply]
             rw [map_sum]
-            simp [Matrix.mulVecLin_apply, map_smul]
+            simp [map_smul]
       _ = M.mulVec (C.mulVec w) := by
             congr 1
             exact pjc_sum_smul_single (C.mulVec w)

@@ -50,7 +50,7 @@ theorem mem_fixedVectors_c₀_iff {s : SL(2, K)} (hs : IsCubeRootBlock s)
       blockMatrix (fun i => ((s ^ (Multiplicative.toAdd v i).val : SL(2, K)) :
         Matrix (Fin 2) (Fin 2) K)) := by
     rw [Subgroup.subtype_apply, c₀_apply hs v, coe_block]
-  simp only [fixedVectors, Set.mem_setOf_eq]
+  simp only [fixedVectors, Set.mem_ofPred_eq]
   rw [hm]
   constructor
   · intro h i
@@ -99,16 +99,16 @@ private theorem fixedVectors_c₀_eq_common_iff_mp {s : SL(2, K)} (hs : IsCubeRo
     intro j
     by_cases hj : j = i
     · rw [hj, hi]
-      simp [blockVec, Pi.single_apply]
+      simp [blockVec]
     · have h0 : blockVec (Pi.single (Sum.inl i) (1 : K) : Fin 3 ⊕ Fin 3 → K) j = 0 := by
         funext a
-        fin_cases a <;> simp [blockVec, Pi.single_apply, hj]
+        fin_cases a <;> simp [blockVec, hj]
       rw [h0]
       simp
   have hne : (Pi.single (Sum.inl i) (1 : K) : Fin 3 ⊕ Fin 3 → K) ≠ 0 := by
     intro hzero
     have h1 := congrFun hzero (Sum.inl i)
-    simpa [Pi.single_eq_same] using h1
+    simp [Pi.single_eq_same] at h1
   have hmem : (Pi.single (Sum.inl i) (1 : K) : Fin 3 ⊕ Fin 3 → K) ∈
       ({0} : Set (Fin 3 ⊕ Fin 3 → K)) := by
     rw [← heq]

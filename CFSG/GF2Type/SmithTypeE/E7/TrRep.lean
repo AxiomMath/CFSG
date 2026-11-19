@@ -229,7 +229,7 @@ theorem rhoMod_repElt_decode (hj : j < 7) (x : ℕ) :
     have hk' := rep_idx_lt hj k hk
     simp only [Function.comp_apply]
     unfold tvElt
-    rw [dif_pos hk']
+    rw [dite_eq_left hk']
     exact rhoMod_tvP ⟨k, hk'⟩
   rw [e]
   exact prod_tvEquiv_decode _ (rep_idx_lt hj) x
@@ -335,7 +335,7 @@ theorem not_totallySingular (hj : j = 2 ∨ j = 6) {q : QuadraticForm (ZMod 2) V
   simp only [Bool.and_eq_true, decide_eq_true_eq] at h
   obtain ⟨-, hany⟩ := h
   have hjc : (j == 2 || j == 6) = true := by rcases hj with rfl | rfl <;> decide
-  rw [if_pos hjc] at hany
+  rw [ite_eq_left hjc] at hany
   obtain ⟨i, hi, hfi⟩ := List.any_eq_true.1 hany
   have hi' : i < 75735 := List.mem_range.1 hi
   let ii : Fin 75735 := ⟨i, hi'⟩

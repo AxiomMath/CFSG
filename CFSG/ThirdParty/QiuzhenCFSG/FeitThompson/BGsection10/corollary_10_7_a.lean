@@ -41,7 +41,7 @@ public theorem CFSG.section10_sylow_normalizer_ne_top_of_ne_bot
   rcases (haveI := hPnormal; IsSimpleGroup.eq_bot_or_eq_top_of_normal (P : Subgroup G)) with hPbot | hPtop
   · exact hPne hPbot
   · exact section10_global_pSubgroup_proper_of_min_ce (G := G)
-      (p := p.val) P.isPGroup' hPtop
+      (p := p.val) P.isPGroup hPtop
 
 omit [Finite G] [IsMinCE G] in
 public theorem CFSG.section10_normalizer_map_subtype_eq_of_map_eq
@@ -146,7 +146,7 @@ public theorem CFSG.section10_sylow_subgroupOf_normalizer_isHall
   · intro q hq_dvd
     have hPsubp : IsPGroup p.val Psub := by
       change IsPGroup p.val ((P : Subgroup G).subgroupOf N)
-      exact P.isPGroup'.of_equiv
+      exact P.isPGroup.of_equiv
         (Subgroup.subgroupOfEquivOfLe hP_le_N).symm
     exact section8_isPiSubgroup_singleton_of_isPGroup hPsubp q hq_dvd
   · intro q hq_mem hq_dvd_index
@@ -176,7 +176,7 @@ private theorem CFSG.section10_sylow_le_ambientDerived_normalizer
     change ((P : Subgroup G).subgroupOf M).map M.subtype = (P : Subgroup G)
     exact Subgroup.map_subgroupOf_eq_of_le (G := G) (H := (P : Subgroup G)) (K := M) hP_le_M
   have hp_dvd_P : p.val ∣ Nat.card (P : Subgroup G) := by
-    rcases P.isPGroup'.card_eq_or_dvd with hcard | hdiv
+    rcases P.isPGroup.card_eq_or_dvd with hcard | hdiv
     · exact False.elim (hPne ((Subgroup.card_eq_one (H := (P : Subgroup G))).mp hcard))
     · exact hdiv
   have hpM : p ∈ subgroupPrimeSet M := by

@@ -24,12 +24,12 @@ private theorem kuL2_carrier {q' : TauCeti.PrimePower}
     IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.A 1 q', hv⟩).Group ∧
       Nat.card (TauCeti.CFSGIndex.lie ⟨.A 1 q', hv⟩).Group =
         q'.card * (q'.card ^ 2 - 1) / Nat.gcd 2 (q'.card - 1) := by
-  haveI : Fact q'.p.Prime := ⟨q'.prime_p⟩
+  have : Fact q'.p.Prime := ⟨q'.prime_p⟩
   have hK : Nat.card (GaloisField q'.p q'.exponent) = q'.card := by
     rw [TauCeti.PrimePower.card_def]
     exact GaloisField.card q'.p q'.exponent q'.exponent_pos.ne'
   let ePSL := CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q' hv
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin (1 + 1))
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin (1 + 1))
       (GaloisField q'.p q'.exponent)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [hK]; exact hq4)
   refine ⟨ePSL.isSimpleGroup, ?_⟩
@@ -56,7 +56,7 @@ theorem catL2eight_simple_card {S : Type} [Group S] [Finite S]
       · simp [S10.isL2eight, onLie] at hi
       · have hq : q.card = 8 := hi
         obtain ⟨hs, hc⟩ := kuL2_carrier hv (by rw [hq]; norm_num)
-        haveI := hs
+        have := hs
         refine ⟨e.isSimpleGroup, ?_⟩
         rw [Nat.card_congr e.toEquiv, hc, hq]
         norm_num

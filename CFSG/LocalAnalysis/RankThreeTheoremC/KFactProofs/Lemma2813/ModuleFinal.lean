@@ -105,7 +105,7 @@ theorem offender_to_Sbar {M : Type} [AddCommGroup M] [Finite M] [DistribMulActio
 
 theorem mf_τ_τ (g : GL32) : L32Insp.τ (L32Insp.τ g) = g := by
   have h := congrArg (fun f : MulAut GL32 => f g) L32Insp.τ_mul_τ
-  simpa using h
+  simp
 
 theorem mf_mem_map_τ (H : Subgroup GL32) (x : GL32) :
     x ∈ H.map L32Insp.τ.toMonoidHom ↔ L32Insp.τ x ∈ H := by
@@ -154,7 +154,7 @@ theorem mf_commSub_tw (H : Subgroup GL32) :
   unfold commSub
   congr 1
   ext x
-  simp only [Set.mem_setOf_eq, Subgroup.mem_map]
+  simp only [Set.mem_ofPred_eq, Subgroup.mem_map]
   constructor
   · rintro ⟨g, hg, m, rfl⟩
     exact ⟨L32Insp.τ g, ⟨g, hg, rfl⟩, m, rfl⟩

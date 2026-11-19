@@ -76,10 +76,10 @@ private theorem outerSubThree_fieldActor_triD4 {f : ℕ} (hf : 1 ≤ f) {K : Typ
     [Finite K] (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f)) :
     OuterSubThree .trialityD4 0 f (fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) := by
   classical
-  haveI := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
   have hk : Nat.card (fixSubfield σ) = 3 ^ f :=
     CFSG.RankThree.PartOne.KGD.card_fixSubfield_cube Nat.prime_three hf hK σ hσ
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hZ : Subgroup.center (adjointGroup Tag.G2 (fixSubfield σ)) = ⊥ :=
     center_adjointGroup_eq_bot
   have hm : LieModel ↥(adjointGroup Tag.G2 (fixSubfield σ)) .G2 0 3 f :=
@@ -99,7 +99,7 @@ theorem outerSubThree_triD4_graphFixed {f : ℕ} (hf : 1 ≤ f) {K : Type} [Fiel
     (hout : β ∉ inner ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) :
     OuterSubThree .trialityD4 0 f (fixSubgroup β) := by
   classical
-  haveI := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
   exact three_of_classes_gen hf hK σ hσ (fun γ => OuterSubThree .trialityD4 0 f (fixSubgroup γ))
     (fun ε γ h => outerSubThree_of_conj ε γ h) (fun γ h => (outerSubThree_inv_iff γ).1 h)
     (outerSubThree_fieldActor_triD4 hf hK σ hσ)
@@ -125,8 +125,8 @@ theorem lieOuterThreeAt_triD4 :
   have hσ : ∀ c, σ c = c ^ (3 ^ f) := hσ₀
   have hK3 : Nat.card K = (3 ^ f) ^ 3 := hK
   let E : P ≃* graphFixedRootGroup TwistTag.D4 K σ.toRingHom := e.symm
-  haveI := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
-  haveI : CharP K 3 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have := CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have : CharP K 3 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_three (by omega) (by rw [hK3, ← pow_mul, mul_comm] : Nat.card K = 3 ^ (3 * f))
   refine outerSubThree_congr E ?_
   have hφ3 : MulAut.congr E ψ ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]

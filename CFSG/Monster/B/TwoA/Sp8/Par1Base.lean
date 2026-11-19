@@ -16,7 +16,7 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Spin CFSG.Monster.SpinLattice
   CFSG.Monster.B CFSG.Monster.VisQuot CFSG.Monster.ScalarKernel CFSG.Monster.B.Co2
   CFSG.Monster.B.TwoA
 
-@[expose] def cE : Ehat := ⟨cQ, cQ_mem_Ehat⟩
+def cE : Ehat := ⟨cQ, cQ_mem_Ehat⟩
 
 theorem psiW_cE :
     psiW cE = Unitary.sigmaW := by
@@ -32,7 +32,7 @@ theorem psiW_cE :
   change phi0 (coordOf (rMinus 0 2)) = pairCls 0 2 0
   rw [phi0_coordOf_rMinus (by decide), pairCls, pairVec_zero]
 
-@[expose] def sigLine :
+def sigLine :
 
     Submodule (ZMod 2) (Wv v0) := Submodule.span (ZMod 2) {Unitary.sigmaW}
 
@@ -88,9 +88,9 @@ theorem EU_sigLine :
     · exact xhat_mem_EU
     · exact mem_EU_of (e := cE) (by rw [psiW_cE]; exact sigmaW_mem_sigLine)
 
-@[expose] def P1 : Subgroup Dfull := Jhat ⊓ Subgroup.centralizer {cQ}
+def P1 : Subgroup Dfull := Jhat ⊓ Subgroup.centralizer {cQ}
 
-@[expose] def N1 : Subgroup Dfull := Ehat ⊓ Subgroup.centralizer {cQ}
+def N1 : Subgroup Dfull := Ehat ⊓ Subgroup.centralizer {cQ}
 
 theorem P1_le_Jhat : P1 ≤ Jhat := inf_le_left
 
@@ -126,7 +126,7 @@ theorem wFix_sigLine :
     · exact map_zero _
     · exact h
 
-@[expose] def p1Proj :
+def p1Proj :
     P1 →* Unitary.Usig :=
   (MulEquiv.subgroupCongr wFix_sigLine).toMonoidHom.comp
     ((zuProj sigLine).comp (MulEquiv.subgroupCongr P1_eq_ZU).toMonoidHom)
@@ -206,12 +206,12 @@ theorem pCore_two_eq_bot_of_odd {G X : Type*} [Group G] [Finite G] [MulAction G 
 instance N1_subgroupOf_normal :
     (N1.subgroupOf P1).Normal := ker_p1Proj ▸ p1Proj.normal_ker
 
-@[expose] def p1QuotEquiv :
+def p1QuotEquiv :
     P1 ⧸ N1.subgroupOf P1 ≃* Unitary.Usig :=
   (QuotientGroup.quotientMulEquivOfEq ker_p1Proj.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective p1Proj p1Proj_surjective)
 
-@[expose, instance_reducible] def jConj : MulAction Jhat Dfull :=
+@[instance_reducible] def jConj : MulAction Jhat Dfull :=
   MulAction.compHom Dfull ((MulAut.conj (G := Dfull)).comp Jhat.subtype)
 
 theorem sigLine_orth_orth :

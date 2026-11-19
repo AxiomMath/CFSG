@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {H : Type*} [Group H] [Finite H]
 
+omit [Finite H] in
 private theorem s16c11_routefg_card_coe_mul_mul_card_inf (C N : Subgroup H) :
     Nat.card ((C : Set H) * (N : Set H)) * Nat.card (C ⊓ N : Subgroup H) =
       Nat.card C * Nat.card N := by
@@ -69,6 +70,7 @@ theorem s16c11_padicValNat_card_le_of_set_mul {X C N : Subgroup H}
     _ = padicValNat p (Nat.card ↥C) + padicValNat p (Nat.card ↥N) :=
         padicValNat.mul Nat.card_pos.ne' Nat.card_pos.ne'
 
+omit [Finite H] in
 theorem s16c11_not_isCyclic_of_exponent {p : ℕ} (hp : p.Prime) {P : Subgroup H}
     (hexp : ∀ x ∈ P, x ^ p = 1) (hcard : p ^ 2 ∣ Nat.card ↥P) : ¬ IsCyclic ↥P := by
   intro hcyc
@@ -87,7 +89,7 @@ theorem s16c11_le_of_normal_pGroup_of_set_mul {p : ℕ} (hp : p.Prime) (hp2 : p 
     {S P X C N : Subgroup H} (hS : IsPGroup 2 ↥S) (hP : IsPGroup p ↥P)
     (hSP : S ≤ normalizer (P : Set H)) (hX : X = P ⊔ S)
     (hfac : (X : Set H) = (C : Set H) * (N : Set H)) (hCP : C ⊓ P = ⊥) : P ≤ N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPX : P ≤ X := by rw [hX]; exact le_sup_left
   have hSX : S ≤ X := by rw [hX]; exact le_sup_right
   have hCX : C ≤ X := by
@@ -170,7 +172,7 @@ theorem s16c11_le_of_normal_pGroup_of_set_mul {p : ℕ} (hp : p.Prime) (hp2 : p 
   let Q' : Subgroup H := (Q : Subgroup ↥N).map N.subtype
   have hQ'leN : Q' ≤ N := Subgroup.map_subtype_le _
   have hQ'X : Q' ≤ X := hQ'leN.trans hNX
-  have hQ'grp : IsPGroup p ↥Q' := Q.isPGroup'.map N.subtype
+  have hQ'grp : IsPGroup p ↥Q' := Q.isPGroup.map N.subtype
   have hQ'card : Nat.card ↥Q' = p ^ padicValNat p (Nat.card ↥N) := by
     rw [show Q' = (Q : Subgroup ↥N).map N.subtype from rfl,
       Subgroup.card_map_of_injective N.subtype_injective, Sylow.card_eq_multiplicity Q,

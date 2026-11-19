@@ -303,6 +303,7 @@ theorem exists_conj_normalizer_of_perm (hN : Odd (Nat.card N)) (T : Subgroup G) 
   rw [hMn] at hfix
   exact mem_normalizer_iff_conjSub_eq.mpr hfix
 
+omit [Finite G] in
 theorem E187C.exists_conj_normalizer_of (hc : ConjInvariant Ω)
     (hexc : ∀ {K L : Subgroup G}, K ∈ Ω → L ∈ Ω →
       K.map (QuotientGroup.mk' N) = L.map (QuotientGroup.mk' N) → ∃ n ∈ N, L = conjSub n K)
@@ -404,6 +405,7 @@ theorem exists_lift_USet (hp : p ≠ 2) (hΩ' : HypOmegaMod p f (quotFamily Ω N
   exact E187C.exists_lift_USet_of (fun hU => hΩ'.exists_data_of_mem_USet hp hU)
     (fun hK hJ hA h4 hAK hAJ => hΩ'.eq_of_le_of_le hK hJ hA h4 hAK hAJ) hN hJ hUb hUbJ
 
+omit [Finite G] in
 theorem E187C.exists_conj_omegaStarNbr_of
     (hlift : ∀ {J : Subgroup G} {Ub : Subgroup (G ⧸ N)}, J ∈ Ω → Ub ∈ USet (quotFamily Ω N) →
       Ub ≤ J.map (QuotientGroup.mk' N) →

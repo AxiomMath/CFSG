@@ -36,7 +36,7 @@ theorem normalizer_ne_top_of_isPGroup_two [IsSimpleGroup G] (hnab : ∃ a b : G,
 theorem Endings.Setting.isPGroup {L T : Subgroup G} {f : ℕ} {t : G}
     (hS : Endings.Setting G L f t T) : IsPGroup 2 T := by
   obtain ⟨P, hP⟩ := hS.sylow
-  have h1 : IsPGroup 2 (T.subgroupOf (normalizer (zpowers t : Set G))) := hP ▸ P.isPGroup'
+  have h1 : IsPGroup 2 (T.subgroupOf (normalizer (zpowers t : Set G))) := hP ▸ P.isPGroup
   exact h1.of_equiv (subgroupOfEquivOfLe hS.le_normalizer)
 
 theorem psl2_gmsHasRegularNormal_of_setting (hGold : Goldschmidt1974)

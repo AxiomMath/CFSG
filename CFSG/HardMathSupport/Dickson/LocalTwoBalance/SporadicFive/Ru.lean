@@ -89,7 +89,6 @@ theorem sporadicTwoBalanceFive_Ru :
     change g ∈ (Q : Subgroup ↥ruP) ↔ _
     rw [hQ, Subgroup.mem_subgroupOf]
   have hQc : Nat.card Q = 5 ^ 3 := by
-    change Nat.card (Q : Subgroup ↥ruP) = _
     rw [hQ, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA0P).toEquiv, hA0card]
     norm_num
   have hzQ : (⟨ruFiveLine 0, hz0P⟩ : ↥ruP) ∈ Q := (hQmem _).2 hz0A

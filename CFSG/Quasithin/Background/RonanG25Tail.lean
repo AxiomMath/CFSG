@@ -4,7 +4,7 @@ public import CFSG.Quasithin.Background.RonanG25Odd
 public import CFSG.Quasithin.Background.RonanG25Small
 public import CFSG.Quasithin.Background.RonanG25Calc
 public import CFSG.Quasithin.Background.G2SL2
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.LinearAlgebra.Projectivization.PSL.PSL2
 public import Mathlib.Order.CompletePartialOrder
 
@@ -134,10 +134,10 @@ theorem sl2_normal_bot_or_top [CharP F 2] (hF : 4 ≤ Nat.card F)
     rw [← MonoidHom.ker_eq_bot_iff, QuotientGroup.ker_mk', hcen]
   have hsurjp := QuotientGroup.mk'_surjective
     (Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F))
-  haveI : (N.map (QuotientGroup.mk'
+  have : (N.map (QuotientGroup.mk'
       (Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F)))).Normal :=
     Subgroup.Normal.map inferInstance _ hsurjp
-  haveI := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hF
+  have := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hF
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk'
       (Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F)))) with h | h
   · left
@@ -152,7 +152,7 @@ theorem tail_chiefStep [CharP F 2] (π : ↥X →* Matrix.GeneralLinearGroup (Fi
     (hsurj : ∀ M : Matrix.SpecialLinearGroup (Fin 2) F, ∃ x : ↥X,
       ((π x : Matrix.GeneralLinearGroup (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) =
         (M : Matrix (Fin 2) (Fin 2) F))
-    (hQK : Q ≤ tailK π) (hQlt : Q < tailK π) (hKinv : Inv X (tailK π)) :
+    (_hQK : Q ≤ tailK π) (hQlt : Q < tailK π) (hKinv : Inv X (tailK π)) :
     ChiefStep X Q (tailK π) := by
   refine ⟨hQlt, hQn, hKinv, ?_, ?_⟩
   · intro y hy z hz
@@ -320,6 +320,7 @@ theorem tail_big (hF : 2 < Nat.card F) (hQX : Q ≤ X) (hQn : ∀ x ∈ X, ∀ q
     exists_chain_odd hKX hKinv hXinv hKinv hodd
   exact ChainCounts.trans h1 h2
 
+omit [CharP F 2] in
 theorem tail_small (hF : Nat.card F = 2) (hQX : Q ≤ X)
     (hQn : ∀ x ∈ X, ∀ q ∈ Q, x * q * x⁻¹ ∈ Q)
     (π : ↥X →* Matrix.GeneralLinearGroup (Fin 2) F)
@@ -333,7 +334,7 @@ theorem tail_small (hF : Nat.card F = 2) (hQX : Q ≤ X)
     unfold Subgroup.relIndex
     rw [hsub, Subgroup.index_ker]
   have hGL : Nat.card (Matrix.GeneralLinearGroup (Fin 2) F) = 6 := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hc : Fintype.card F = 2 := by
       rw [← Nat.card_eq_fintype_card]
       exact hF

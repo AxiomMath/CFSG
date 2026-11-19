@@ -26,11 +26,11 @@ theorem y7c_gl3_small_central (hE : IsGL3Ext E N) (hW : E ≤ normalizer (W : Se
     E ≤ centralizer (W : Set G) := by
   obtain ⟨_, hsec⟩ := hE
   obtain ⟨hNn, he⟩ := hsec
-  haveI := hNn
+  have := hNn
   obtain ⟨e⟩ := he
-  haveI : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
+  have : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
     CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
-  haveI : IsSimpleGroup (↥E ⧸ N.subgroupOf E) := e.isSimpleGroup
+  have : IsSimpleGroup (↥E ⧸ N.subgroupOf E) := e.isSimpleGroup
   let ρ : ↥E →* MulAut ↥W := W.normalizerMonoidHom.comp (Subgroup.inclusion hW)
   have hρ_apply : ∀ y : ↥E, ρ y = W.normalizerMonoidHom (Subgroup.inclusion hW y) :=
     fun _ => rfl
@@ -72,7 +72,7 @@ theorem y7c_gl3_small_central (hE : IsGL3Ext E N) (hW : E ≤ normalizer (W : Se
 theorem y7c_gl3_card_ge_eight (hE : IsGL3Ext E N) (hW : E ≤ normalizer (W : Set G))
     (hN : N ≤ centralizer (W : Set G)) (hWe : IsElemAbelian 2 W) (hne : W ≠ ⊥)
     (hfix : centIn W E = ⊥) : 8 ≤ Nat.card W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWp : IsPGroup 2 ↥W := fun g => ⟨1, by
     apply Subtype.ext
     simpa using hWe.2 (g : G) g.2⟩
@@ -99,7 +99,7 @@ theorem y7c_gl3_card_ge_eight (hE : IsGL3Ext E N) (hW : E ≤ normalizer (W : Se
   have hbot : W ≤ ⊥ := by rw [← hfix]; exact hWle
   exact hne (eq_bot_iff.mpr hbot)
 
-theorem y7c_gl3_irreducible (hE : IsGL3Ext E N) (hW : E ≤ normalizer (W : Set G))
+theorem y7c_gl3_irreducible (hE : IsGL3Ext E N) (_hW : E ≤ normalizer (W : Set G))
     (hN : N ≤ centralizer (W : Set G)) (hcard : Nat.card W = 8) (hfix : centIn W E = ⊥)
     {W' : Subgroup G} (hW'W : W' ≤ W) (hW'E : E ≤ normalizer (W' : Set G)) :
     W' = ⊥ ∨ W' = W := by

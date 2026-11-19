@@ -57,7 +57,7 @@ theorem le_normalizer_and_exists_isComponentOf_of_plane
     exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr hKeq
   ·
     have hepow : e ^ p = 1 := hApow e heA
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have horder_e : orderOf e = p := orderOf_eq_prime hepow he1
     have hcard_zp : Nat.card (Subgroup.zpowers e) = p := by
       rw [Nat.card_zpowers, horder_e]

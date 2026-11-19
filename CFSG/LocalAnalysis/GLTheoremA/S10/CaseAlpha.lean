@@ -92,6 +92,7 @@ structure AlphaKData (p : ℕ) (B : Subgroup G) (x : G) (L : Subgroup G) (b a : 
   K_U6 : p = 3 → ∀ m k : ℕ, 3 ≤ m → Odd m → catalogIs (PSimple 3 (Jpart p (Ipart p L b) a)) (isU6n m) →
     ¬ catalogIs (PSimple 3 K) (isL2n k)
 
+omit [Finite G] in
 theorem AlphaData.toK {B : Subgroup G} {x : G} {L : Subgroup G} {b a : G} {E₀ F : Subgroup G} {y : G}
     {E K : Subgroup G} (hd : AlphaData p B x L b a E₀ F y E K) : AlphaKData p B x L b a y E K :=
   ⟨hd.E₀_B (hd.F_E₀ hd.y_F), hd.y_ne, innDiagOn_mono hd.F_innJ (Subgroup.zpowers_le.2 hd.y_F), hd.E_def, by
@@ -116,7 +117,7 @@ theorem alpha_E0 {B : Subgroup G} {x : G} {L : Subgroup G} {b : G} (hA : CaseA p
 private theorem caseAlpha_card_eq_mul {p : ℕ} (hp : p.Prime) {E A : Subgroup G}
     (hel : IsElemAbelian p E) (hAE : A ≤ E) (hle : Nat.card E ≤ p * Nat.card A) (hne : A ≠ E) :
     Nat.card E = p * Nat.card A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := (isPGroup_of_isElemAbelian hel).exists_card_eq
   have hdvd : Nat.card A ∣ p ^ k := by
     rw [← hk]
@@ -137,7 +138,7 @@ private theorem caseAlpha_inf_eq_zpowers {p : ℕ} (hp : p.Prime) {E A D : Subgr
     (hel : IsElemAbelian p E) (hAE : A ≤ E) (hDE : D ≤ E) (hDc : Nat.card D = p ^ 2)
     (hEA : Nat.card E = p * Nat.card A) (hDA : ¬ D ≤ A) (haA : a ∈ A) (haD : a ∈ D) (ha1 : a ≠ 1) :
     A ⊓ D = Subgroup.zpowers a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hApos : 0 < Nat.card A := Nat.card_pos
   have hnorm : D ≤ Subgroup.normalizer (A : Set G) := fun g hg =>
     Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.2 fun h hh =>
@@ -259,7 +260,7 @@ private theorem casealpha_zpowers_inf_eq_bot {p : ℕ} (hp : p.Prime) {E : Subgr
     (hel : IsElemAbelian p E) {x a : G} (hxE : x ∈ E) (haE : a ∈ E)
     (hxa : Subgroup.zpowers x ≠ Subgroup.zpowers a) :
     Subgroup.zpowers x ⊓ Subgroup.zpowers a = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [eq_bot_iff]
   rintro g ⟨h1, h2⟩
   rw [Subgroup.mem_bot]
@@ -336,7 +337,7 @@ theorem hyperplanes_complement {p : ℕ} (hp : p.Prime) {E₀ Dx Da D : Subgroup
 
 theorem alpha_F (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b a : G}
     (h : Cfg p B x L b) (ac : AlphaCtx G p B x L b a) {E₀ : Subgroup G} (hE₀B : E₀ ≤ B)
-    (hE₀el : IsElemAbelian p E₀) (hDE₀ : Dgrp b x ≤ E₀) (hE₀l : GLAPLayer p (L ⊓ cs E₀) ≠ ⊥) :
+    (hE₀el : IsElemAbelian p E₀) (hDE₀ : Dgrp b x ≤ E₀) (_hE₀l : GLAPLayer p (L ⊓ cs E₀) ≠ ⊥) :
     ∃ F : Subgroup G, F ≤ E₀ ∧ InnDiagOn p F L ∧ InnDiagOn p F (Jpart p (Ipart p L b) a) ∧
       F ⊓ Dgrp b x = ⊥ ∧ F ⊔ Dgrp b x = E₀ := by
   obtain ⟨Dx, hDxE, hDxL, hDxc, hDxD⟩ := alpha_Dx hc hin h hE₀B hE₀el hDE₀
@@ -356,6 +357,7 @@ theorem alpha_base (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {x
   obtain ⟨F, hFE, hFL, hFJ, hF1, hF2⟩ := alpha_F hc hin h ac hB hel hD hl
   exact ⟨E₀, F, ⟨hB, hel, hD, hl, hmax, hcard, hFE, hFL, hFJ, hF1, hF2⟩⟩
 
+omit [Finite G] in
 private theorem casealpha_mem_centralizer_iff (T : Subgroup G) (g : G) :
     g ∈ Subgroup.centralizer (T : Set G) ↔ T ≤ cx g := by
   rw [Subgroup.mem_centralizer_iff]
@@ -365,6 +367,7 @@ private theorem casealpha_mem_centralizer_iff (T : Subgroup G) (g : G) :
   · intro hT t ht
     exact Subgroup.mem_centralizer_singleton_iff.1 (hT ht)
 
+omit [Finite G] in
 private theorem alpha_conj_mem_cx {b e g : G} (he : e * b = b * e) (hg : g * b = b * g) :
     (e * g * e⁻¹) * b = b * (e * g * e⁻¹) := by
   have he' : e⁻¹ * b = b * e⁻¹ := by
@@ -379,6 +382,7 @@ private theorem alpha_conj_mem_cx {b e g : G} (he : e * b = b * e) (hg : g * b =
     _ = (b * e) * g * e⁻¹ := by rw [he]
     _ = b * (e * g * e⁻¹) := by group
 
+omit [Finite G] in
 private theorem alpha_normalizer_inf_cx {X : Subgroup G} {b e : G}
     (he : e ∈ Subgroup.normalizer (X : Set G)) (hcomm : e * b = b * e) :
     e ∈ Subgroup.normalizer ((X ⊓ cx b : Subgroup G) : Set G) := by
@@ -479,7 +483,7 @@ theorem alpha_E0_eq_IsE0 (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgroup
   exact le_sup_right
 
 theorem alpha_split_F {p : ℕ} (hc : S10Ctx G p) {B : Subgroup G} {x : G} {L : Subgroup G} {b : G}
-    (h : Cfg p B x L b) {E₀ F : Subgroup G} (hE₀B : E₀ ≤ B) (hF1 : F ⊓ Dgrp b x = ⊥)
+    (h : Cfg p B x L b) {E₀ F : Subgroup G} (hE₀B : E₀ ≤ B) (_hF1 : F ⊓ Dgrp b x = ⊥)
     (hF2 : F ⊔ Dgrp b x = E₀) {y₀ : G} (hy₀ : y₀ ∈ E₀) (hy₀D : y₀ ∉ Dgrp b x) :
     ∃ f ∈ F, f ≠ 1 ∧ ∃ d ∈ Dgrp b x, y₀ = f * d ∧ Ipart p L b ⊓ cx y₀ = Ipart p L b ⊓ cx f ∧
       Dgrp b x ⊔ Subgroup.zpowers f = Dgrp b x ⊔ Subgroup.zpowers y₀ := by
@@ -537,7 +541,7 @@ private theorem alpha_card_le_center_pquot {I H : Subgroup G} (hHI : H ≤ I)
     (hcomm : ∀ h ∈ H, ∀ i ∈ I, h * i = i * h) (hH3 : ∀ h ∈ H, h ^ 3 = 1) :
     Nat.card H ≤ Nat.card (Subgroup.center (PQuot 3 I)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 ↥I)) := CFSG.pPrimeCore_coprime_card
   have hn3 : ¬ 3 ∣ Nat.card (GLAPPrimeCore 3 ↥I) := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 hcop
   set H' : Subgroup ↥I := H.subgroupOf I with hH'
@@ -619,6 +623,7 @@ theorem alpha_U62_rank (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgroup G
     _ ≤ 3 ^ GLATwoLocalRank 3 G := hrank
     _ = Nat.card B := hBcard.symm
 
+omit [Finite G] in
 private theorem alpha_le_normalizer_of_abelian {B A D : Subgroup G}
     (hcomm : ∀ u ∈ B, ∀ v ∈ B, u * v = v * u) (hA : A ≤ B) (hD : D ≤ B) :
     D ≤ Subgroup.normalizer (A : Set G) := fun d hd =>
@@ -629,7 +634,7 @@ private theorem alpha_exists_compl {B D : Subgroup G} {y : G} (hBel : IsElemAbel
     (hDc : Nat.card D = 3 ^ 2) (hyB : y ∈ B) (hyD : y ∉ D) :
     ∃ A : Subgroup G, A ≤ B ∧ y ∈ A ∧ A ⊓ D = ⊥ ∧ A ⊔ D = B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : ∀ u ∈ B, ∀ v ∈ B, u * v = v * u := fun u hu v hv => isElemAbelian_commute hBel hu hv
   have hy1 : y ≠ 1 := fun h1 => hyD (h1 ▸ Subgroup.one_mem D)
   have hy3 : y ^ 3 = 1 := hBel.2 y hyB
@@ -650,7 +655,7 @@ private theorem alpha_exists_compl {B D : Subgroup G} {y : G} (hBel : IsElemAbel
   by_contra hne
   obtain ⟨c, hcB, hcn⟩ : ∃ c ∈ B, c ∉ A ⊔ D := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hne (le_antisymm (sup_le hAB hDB) fun c hc => hall c hc)
   have hc3 : c ^ 3 = 1 := hBel.2 c hcB
   have hc1 : c ≠ 1 := fun h1 => hcn (h1 ▸ Subgroup.one_mem _)
@@ -824,11 +829,12 @@ private theorem y9xC_U6_I (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgrou
     exact ⟨m', hodd', rfl, (hin.i91u6 (cx a) (Jpart 3 (Ipart 3 L b) a) d (Ipart 3 L b) m' hJc hd3 hdF hI hodd').1 hJU6⟩
   · exact (y9xC_td4_u6 hin.l105.l103.dist hm hT hJU6).elim
 
+omit [Finite G] in
 private theorem y9xC_card_sup {p : ℕ} (hp : p.Prime) {E₀ F D : Subgroup G} {y : G}
     (hel : IsElemAbelian p E₀) (hDE : D ≤ E₀) (hDc : Nat.card D = p ^ 2) (hFE : F ≤ E₀)
     (hF : F ⊓ D = ⊥) (hyF : y ∈ F) (hy1 : y ≠ 1) :
     Nat.card (D ⊔ Subgroup.zpowers y : Subgroup G) = p ^ 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hyE : y ∈ E₀ := hFE hyF
   have hyN : y ∈ Subgroup.normalizer (D : Set G) :=
     Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.2 fun d hd =>
@@ -846,12 +852,14 @@ private theorem y9xC_card_sup {p : ℕ} (hp : p.Prime) {E₀ F D : Subgroup G} {
   rw [h1]
   ring
 
+omit [Finite G] in
 private theorem y9xC_exists_comp {X : Subgroup G} {p : ℕ} (hne : GLAPLayer p X ≠ ⊥) :
     ∃ K : Subgroup G, GLAPComponent p X K := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact hne (le_bot_iff.1 (show GLAPLayer p X ≤ ⊥ from sSup_le fun K hK => absurd hK (hcon K)))
 
+omit [Finite G] in
 private theorem y9xC_conj_cs {E : Subgroup G} {t : G} (ht : ∀ e ∈ E, e * t = t * e) {k : G}
     (hk : k ∈ Subgroup.centralizer (E : Set G)) :
     t * k * t⁻¹ ∈ Subgroup.centralizer (E : Set G) := by
@@ -870,6 +878,7 @@ private theorem y9xC_conj_cs {E : Subgroup G} {t : G} (ht : ∀ e ∈ E, e * t =
     _ = t * k * (t⁻¹ * e) := by rw [h3]
     _ = t * k * t⁻¹ * e := by group
 
+omit [Finite G] in
 private theorem y9xC_normalizer_cs {E : Subgroup G} {g : G} (hg : ∀ e ∈ E, e * g = g * e) :
     g ∈ Subgroup.normalizer ((Subgroup.centralizer (E : Set G) : Subgroup G) : Set G) := by
   have hg' : ∀ e ∈ E, e * g⁻¹ = g⁻¹ * e := by
@@ -887,6 +896,7 @@ private theorem y9xC_normalizer_cs {E : Subgroup G} {g : G} (hg : ∀ e ∈ E, e
     have := y9xC_conj_cs hg' hk
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem y9x_normalizer_inf {A B : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hB : g ∈ Subgroup.normalizer (B : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -922,6 +932,7 @@ private theorem y9xC_layer_mono (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : S
   calc GLAPLayer p (L ⊓ cs E₀) = GLAPLayer p ((L ⊓ cs E) ⊓ cs E₀) := by rw [hEq]
     _ ≤ GLAPLayer p (L ⊓ cs E) := hbal
 
+omit [Finite G] in
 private theorem y9x_mem_centralizer_iff (T : Subgroup G) (g : G) :
     g ∈ Subgroup.centralizer (T : Set G) ↔ T ≤ cx g := by
   rw [Subgroup.mem_centralizer_iff]
@@ -931,6 +942,7 @@ private theorem y9x_mem_centralizer_iff (T : Subgroup G) (g : G) :
   · intro hT t ht
     exact Subgroup.mem_centralizer_singleton_iff.1 (hT ht)
 
+omit [Finite G] in
 private theorem y9x_cs_sup (A B : Subgroup G) :
     Subgroup.centralizer ((A ⊔ B : Subgroup G) : Set G) =
       Subgroup.centralizer (A : Set G) ⊓ Subgroup.centralizer (B : Set G) := by
@@ -943,6 +955,7 @@ private theorem y9x_cs_sup (A B : Subgroup G) :
   · rintro ⟨hA, hB⟩
     exact sup_le hA hB
 
+omit [Finite G] in
 private theorem y9x_cs_zpowers (y : G) :
     Subgroup.centralizer ((Subgroup.zpowers y : Subgroup G) : Set G) = cx y := by
   ext g
@@ -957,13 +970,13 @@ private theorem y9xC_generic (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subg
     ∃ (E₀ F : Subgroup G) (y : G) (E K : Subgroup G), AlphaData p B x L b a E₀ F y E K := by
   classical
   have hp : p.Prime := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E₀, F, hbase⟩ := alpha_base hc hin h ac
   obtain ⟨hDB, hDel, hDc⟩ := dgrp_facts hc h
   have hBel := B_el h
   have hFne : ∃ y ∈ F, y ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hF : F = ⊥ := eq_bot_iff.2 fun g hg => Subgroup.mem_bot.2 (hcon g hg)
     have hE₀D : E₀ = Dgrp b x := by
       have := hbase.F_sup
@@ -1052,7 +1065,7 @@ private theorem y9xC_route (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgro
     ∃ (E₀ F : Subgroup G) (y : G) (E K : Subgroup G), AlphaData 3 B x L b a E₀ F y E K := by
   classical
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (3 : ℕ).Prime := ⟨hp⟩
+  have : Fact (3 : ℕ).Prime := ⟨hp⟩
   have hdist := hin.l105.l103.dist
   obtain ⟨hDB, hDel, hDc⟩ := dgrp_facts hc h
   have hBel := B_el h
@@ -1196,6 +1209,7 @@ theorem alpha_yEK (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {x 
     exact y9xC_route hc hin h ac (n := n) (Or.inr ⟨hodd, hn1, hn⟩)
   exact y9xC_generic hc hin h ac hG hU
 
+omit [Finite G] in
 private theorem casealpha_closureIn_le {I H Z : Subgroup G} (hI : I ≤ Z)
     (hH : H ≤ Subgroup.normalizer (Z : Set G)) : closureIn I H ≤ Z := by
   unfold closureIn
@@ -1203,6 +1217,7 @@ private theorem casealpha_closureIn_le {I H Z : Subgroup G} (hI : I ≤ Z)
   rintro _ ⟨i, hi, rfl⟩
   exact (Subgroup.mem_normalizer_iff.1 (hH hh) i).1 (hI hi)
 
+omit [Finite G] in
 private theorem casealpha_le_closureIn (I : Subgroup G) {H : Subgroup G} (h1 : (1 : G) ∈ H) :
     I ≤ closureIn I H := by
   intro i hi
@@ -1210,11 +1225,13 @@ private theorem casealpha_le_closureIn (I : Subgroup G) {H : Subgroup G} (h1 : (
   exact (le_iSup₂ (f := fun g (_ : g ∈ H) => I.map (MulAut.conj g).toMonoidHom) (1 : G) h1)
     (Subgroup.mem_map.2 ⟨i, hi, by simp⟩)
 
+omit [Finite G] in
 private theorem casealpha_closureIn_mono {I H H' : Subgroup G} (h : H ≤ H') :
     closureIn I H ≤ closureIn I H' := by
   unfold closureIn
   exact iSup₂_le fun g hg => le_iSup₂_of_le g (h hg) le_rfl
 
+omit [Finite G] in
 private theorem casealpha_conj_closureIn_of_mem {I H : Subgroup G} {g : G} (hg : g ∈ H) :
     closureIn I H ≤ (closureIn I H).comap (MulAut.conj g).toMonoidHom := by
   unfold closureIn
@@ -1226,6 +1243,7 @@ private theorem casealpha_conj_closureIn_of_mem {I H : Subgroup G} {g : G} (hg :
   exact (le_iSup₂ (f := fun k (_ : k ∈ H) => I.map (MulAut.conj k).toMonoidHom) (g * h)
     (H.mul_mem hg hh)) (Subgroup.mem_map.2 ⟨i, hi, rfl⟩)
 
+omit [Finite G] in
 private theorem casealpha_le_normalizer_closureIn (I H : Subgroup G) :
     H ≤ Subgroup.normalizer ((closureIn I H : Subgroup G) : Set G) := by
   intro g hg
@@ -1238,6 +1256,7 @@ private theorem casealpha_le_normalizer_closureIn (I H : Subgroup G) :
     have := casealpha_conj_closureIn_of_mem (H.inv_mem hg) hk
     simpa [MulAut.conj_apply, mul_assoc] using this
 
+omit [Finite G] in
 private theorem casealpha_conj_closureIn {I H : Subgroup G} {g : G}
     (hI : ∀ i ∈ I, g * i * g⁻¹ ∈ I) (hH : ∀ h ∈ H, g * h * g⁻¹ ∈ H) :
     closureIn I H ≤ (closureIn I H).comap (MulAut.conj g).toMonoidHom := by
@@ -1250,6 +1269,7 @@ private theorem casealpha_conj_closureIn {I H : Subgroup G} {g : G}
   exact (le_iSup₂ (f := fun k (_ : k ∈ H) => I.map (MulAut.conj k).toMonoidHom) (g * h * g⁻¹)
     (hH h hh)) (Subgroup.mem_map.2 ⟨(MulAut.conj g).toMonoidHom i, hI i hi, rfl⟩)
 
+omit [Finite G] in
 private theorem casealpha_normalizer_closureIn {I H : Subgroup G} {g : G}
     (hI : g ∈ Subgroup.normalizer (I : Set G)) (hH : g ∈ Subgroup.normalizer (H : Set G)) :
     g ∈ Subgroup.normalizer ((closureIn I H : Subgroup G) : Set G) := by
@@ -1267,6 +1287,7 @@ private theorem casealpha_normalizer_closureIn {I H : Subgroup G} {g : G}
       (fun h hh => (Subgroup.mem_normalizer_iff.1 hH' h).1 hh) hk
     simpa [MulAut.conj_apply, mul_assoc] using this
 
+omit [Finite G] in
 private theorem casealpha_closureIn_eq_iSup (I H : Subgroup G) :
     closureIn I H = ⨆ g ∈ H, GLBConj g I := by
   apply le_antisymm
@@ -1278,6 +1299,7 @@ private theorem casealpha_closureIn_eq_iSup (I H : Subgroup G) :
     refine le_iSup₂_of_le g⁻¹ (H.inv_mem hg) (le_of_eq ?_)
     simp [GLBConj]
 
+omit [Finite G] in
 private theorem casealpha_normalizer_inf {A B : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hB : g ∈ Subgroup.normalizer (B : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -1285,6 +1307,7 @@ private theorem casealpha_normalizer_inf {A B : Subgroup G} {g : G}
   intro k
   rw [Subgroup.mem_inf, Subgroup.mem_inf, hA k, hB k]
 
+omit [Finite G] in
 private theorem casealpha_cs_sup (A B : Subgroup G) :
     Subgroup.centralizer ((A ⊔ B : Subgroup G) : Set G) =
       Subgroup.centralizer (A : Set G) ⊓ Subgroup.centralizer (B : Set G) := by
@@ -1297,6 +1320,7 @@ private theorem casealpha_cs_sup (A B : Subgroup G) :
   · rintro ⟨hA, hB⟩
     exact sup_le hA hB
 
+omit [Finite G] in
 private theorem casealpha_cs_zpowers (y : G) :
     Subgroup.centralizer ((Subgroup.zpowers y : Subgroup G) : Set G) = cx y := by
   ext g
@@ -1308,7 +1332,7 @@ private theorem casealpha_dgrp_eq {p : ℕ} (hp : p.Prime) {D : Subgroup G} (hDe
     (hDc : Nat.card D = p ^ 2) {a x : G} (ha : a ∈ D) (hx : x ∈ D) (ha1 : a ≠ 1) (hx1 : x ≠ 1)
     (hxa : Subgroup.zpowers x ≠ Subgroup.zpowers a) :
     D = Subgroup.zpowers a ⊔ Subgroup.zpowers x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hza : Subgroup.zpowers a ≤ D := Subgroup.zpowers_le.2 ha
   have hzx : Subgroup.zpowers x ≤ D := Subgroup.zpowers_le.2 hx
   have hnorm : Subgroup.zpowers x ≤ Subgroup.normalizer ((Subgroup.zpowers a : Subgroup G) : Set G) :=
@@ -1339,6 +1363,7 @@ private theorem casealpha_component_ne_bot {p : ℕ} {X L : Subgroup G} (h : GLA
       Subgroup.center ↥(⊥ : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X))) := inferInstance
   exact (not_subsingleton_iff_nontrivial.2 inferInstance) hss
 
+omit [Finite G] in
 private theorem casealpha_cs_zpowers' (z : G) : cs (Subgroup.zpowers z) = cx z :=
   casealpha_cs_zpowers z
 
@@ -1350,12 +1375,14 @@ private theorem casealpha_layer_cz_le {p : ℕ} (hp : p.Prime) (hLB : LBalanceAt
   rw [sup_eq_left.2 (Subgroup.zpowers_le.2 hzX)]
   exact hXK
 
+omit [Finite G] in
 private theorem casealpha_cs_pair (a y : G) :
     Subgroup.centralizer ((Subgroup.zpowers a ⊔ Subgroup.zpowers y : Subgroup G) : Set G) =
       cx a ⊓ cx y := by
   rw [casealpha_cs_sup (Subgroup.zpowers a) (Subgroup.zpowers y), casealpha_cs_zpowers a,
     casealpha_cs_zpowers y]
 
+omit [Finite G] in
 private theorem casealpha_layer_le (p : ℕ) (X : Subgroup G) : GLAPLayer p X ≤ X :=
   sSup_le fun _ hK => hK.1
 
@@ -1415,7 +1442,7 @@ theorem y9xD_of_G2 (hd : CatDistinctAt)
       omega
     exact Or.inl ⟨q.exponent, hn, TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩, ⟨hp2, rfl⟩, ⟨eS.trans e⟩⟩
   ·
-    haveI hsimple : IsSimpleGroup (PQuot 3 I) :=
+    have hsimple : IsSimpleGroup (PQuot 3 I) :=
       isSimple_of_catalogIs_twistedA ⟨TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩, trivial, ⟨e⟩⟩
     have hz : Subgroup.center (PQuot 3 I) = ⊥ := hd.u33_center (PQuot 3 I) q hv hq3 ⟨e⟩
     let eS : PSimple 3 I ≃* PQuot 3 I :=
@@ -1433,14 +1460,14 @@ theorem alpha_not_U33 (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgroup G}
     ¬ catalogIs (PSimple 3 (Ipart 3 L b)) isU33 := by
   intro hU
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEB, hEel, hEcard, hDE, hEne⟩ := ac.caseA
   obtain ⟨-, -, hDcard⟩ := dgrp_facts hc h
   have hlt : Dgrp b x < E := lt_of_le_of_ne hDE fun e => by
     have h1 := hDcard
     rw [e, hEcard] at h1
     norm_num at h1
-  obtain ⟨y, hyE, hyD⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨y, hyE, hyD⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hyB : y ∈ B := hEB hyE
   have hy1 : y ≠ 1 := fun e => hyD (e ▸ Subgroup.one_mem _)
   have hy3 : y ^ 3 = 1 := hEel.2 y hyE
@@ -1476,15 +1503,18 @@ theorem alpha_I_G2n (hc : S10Ctx G 3) (hin : AlphaInputs G 3) {B : Subgroup G} {
   · exact ⟨n, hn1, hn, hz⟩
   · exact absurd hU (alpha_not_U33 hc hin h ac)
 
+omit [Finite G] in
 private theorem y9x_layer_le (p : ℕ) (X : Subgroup G) : GLAPLayer p X ≤ X :=
   sSup_le fun _ hK => hK.1
 
+omit [Finite G] in
 private theorem y9xA_layer_sn (p : ℕ) (X : Subgroup G) : IsSubnormal (GLAPLayer p X) X :=
   IsSubnormal.step (y9x_layer_le p X)
     ((Subgroup.normal_subgroupOf_iff_le_normalizer (y9x_layer_le p X)).2
       (fun _ hg => mem_normalizer_glaPLayer (Subgroup.le_normalizer hg)))
     (IsSubnormal.refl X)
 
+omit [Finite G] in
 private theorem y9x_closureIn_le {I H Z : Subgroup G} (hI : I ≤ Z)
     (hH : H ≤ Subgroup.normalizer (Z : Set G)) : closureIn I H ≤ Z := by
   unfold closureIn
@@ -1492,12 +1522,14 @@ private theorem y9x_closureIn_le {I H Z : Subgroup G} (hI : I ≤ Z)
   rintro _ ⟨i, hi, rfl⟩
   exact (Subgroup.mem_normalizer_iff.1 (hH hh) i).1 (hI hi)
 
+omit [Finite G] in
 private theorem y9x_cs_pair (a y : G) :
     Subgroup.centralizer ((Subgroup.zpowers a ⊔ Subgroup.zpowers y : Subgroup G) : Set G) =
       cx a ⊓ cx y := by
   rw [y9x_cs_sup (Subgroup.zpowers a) (Subgroup.zpowers y), y9x_cs_zpowers a,
     y9x_cs_zpowers y]
 
+omit [Finite G] in
 private theorem y9x_le_closureIn (I : Subgroup G) {H : Subgroup G} (h1 : (1 : G) ∈ H) :
     I ≤ closureIn I H := by
   intro i hi
@@ -1505,6 +1537,7 @@ private theorem y9x_le_closureIn (I : Subgroup G) {H : Subgroup G} (h1 : (1 : G)
   exact (le_iSup₂ (f := fun g (_ : g ∈ H) => I.map (MulAut.conj g).toMonoidHom) (1 : G) h1)
     (Subgroup.mem_map.2 ⟨i, hi, by simp⟩)
 
+omit [Finite G] in
 private theorem y9x_conj_closureIn_of_mem {I H : Subgroup G} {g : G} (hg : g ∈ H) :
     closureIn I H ≤ (closureIn I H).comap (MulAut.conj g).toMonoidHom := by
   unfold closureIn
@@ -1516,6 +1549,7 @@ private theorem y9x_conj_closureIn_of_mem {I H : Subgroup G} {g : G} (hg : g ∈
   exact (le_iSup₂ (f := fun k (_ : k ∈ H) => I.map (MulAut.conj k).toMonoidHom) (g * h)
     (H.mul_mem hg hh)) (Subgroup.mem_map.2 ⟨i, hi, rfl⟩)
 
+omit [Finite G] in
 private theorem y9x_le_normalizer_closureIn (I H : Subgroup G) :
     H ≤ Subgroup.normalizer ((closureIn I H : Subgroup G) : Set G) := by
   intro g hg
@@ -1723,6 +1757,7 @@ private theorem y9xB_isBmaxIn {p : ℕ} (hp : p.Prime) {B : Subgroup G} {x : G} 
   rw [hrk]
   exact (sstar_triple h.star).1.2.1
 
+omit [Finite G] in
 private theorem y9xB_normalizer_iSup (𝒞 : Set (Subgroup G)) {g : G}
     (hg1 : ∀ M ∈ 𝒞, GLBConj g⁻¹ M ∈ 𝒞) (hg2 : ∀ M ∈ 𝒞, GLBConj g M ∈ 𝒞) :
     g ∈ Subgroup.normalizer ((⨆ M ∈ 𝒞, M : Subgroup G) : Set G) := by
@@ -1747,6 +1782,7 @@ private theorem y9xB_normalizer_iSup (𝒞 : Set (Subgroup G)) {g : G}
     have e : g⁻¹ * (g * w * g⁻¹) * g⁻¹⁻¹ = w := by group
     rwa [e] at hw'
 
+omit [Finite G] in
 private theorem y9x_closureIn_eq_iSup (I H : Subgroup G) :
     closureIn I H = ⨆ g ∈ H, GLBConj g I := by
   apply le_antisymm
@@ -1772,7 +1808,7 @@ private theorem y9x_zpowers_inf_eq_bot {p : ℕ} (hp : p.Prime) {E : Subgroup G}
     (hel : IsElemAbelian p E) {x a : G} (hxE : x ∈ E) (haE : a ∈ E)
     (hxa : Subgroup.zpowers x ≠ Subgroup.zpowers a) :
     Subgroup.zpowers x ⊓ Subgroup.zpowers a = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [eq_bot_iff]
   rintro g ⟨h1, h2⟩
   rw [Subgroup.mem_bot]
@@ -1797,7 +1833,7 @@ private theorem y9x_dgrp_eq {p : ℕ} (hp : p.Prime) {D : Subgroup G} (hDel : Is
     (hDc : Nat.card D = p ^ 2) {a x : G} (ha : a ∈ D) (hx : x ∈ D) (ha1 : a ≠ 1) (hx1 : x ≠ 1)
     (hxa : Subgroup.zpowers x ≠ Subgroup.zpowers a) :
     D = Subgroup.zpowers a ⊔ Subgroup.zpowers x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hza : Subgroup.zpowers a ≤ D := Subgroup.zpowers_le.2 ha
   have hzx : Subgroup.zpowers x ≤ D := Subgroup.zpowers_le.2 hx
   have hnorm : Subgroup.zpowers x ≤ Subgroup.normalizer ((Subgroup.zpowers a : Subgroup G) : Set G) :=
@@ -1823,7 +1859,7 @@ theorem alpha_Kay_norm_gen (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgro
   intro M hM
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : IsElemAbelian p B := B_el h
   have hBcomm : ∀ g ∈ B, ∀ g' ∈ B, g * g' = g' * g := fun g hg g' hg' =>
     isElemAbelian_commute hBel hg hg'
@@ -2019,6 +2055,7 @@ theorem alpha_Kay_norm (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G
       x ∈ Subgroup.normalizer (M : Set G) :=
   alpha_Kay_norm_gen hc hin h ac hd.toK
 
+omit [Finite G] in
 private theorem y9x_cs_zpowers' (z : G) : cs (Subgroup.zpowers z) = cx z :=
   y9x_cs_zpowers z
 
@@ -2141,6 +2178,7 @@ private theorem y9xC_Kay_comps (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Su
     rwa [inf_eq_left.2 hK_ay_le, inf_eq_right.2 hY_le] at this
   exact glaPComponent_of_isSubnormal' hp hsub2 hM
 
+omit [Finite G] in
 private theorem y9xC_closureIn_self {J : Subgroup G} {y : G}
     (hy : y ∈ Subgroup.normalizer (J : Set G)) : closureIn J (Subgroup.zpowers y) = J :=
   le_antisymm (y9x_closureIn_le le_rfl (Subgroup.zpowers_le.2 hy)) (y9x_le_closureIn J (Subgroup.one_mem _))
@@ -2160,7 +2198,7 @@ theorem alpha_Kay_acts (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G
   classical
   intro M hM
   have hp : p.Prime := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := hc.ctx.odd
   have ha : a ∈ Dgrp b x := ac.mem
   have ha1 : a ≠ 1 := fun h1 => ac.not_x (h1 ▸ Subgroup.one_mem _)
@@ -2366,7 +2404,7 @@ theorem alpha_Kay_single_of_norm (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : 
   have hK_ne : K ≠ ⊥ := casealpha_component_ne_bot hd.K_comp
   obtain ⟨M₀, hM₀⟩ : ∃ M₀, M₀ ∈ 𝒞 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hle : K ≤ ⊥ := (casealpha_le_closureIn K (H := GLAPLayer p (Subgroup.centralizer
       (((Subgroup.zpowers a ⊔ Subgroup.zpowers y : Subgroup G)) : Set G))) (Subgroup.one_mem _)).trans
       (hKF ▸ iSup₂_le fun M hM => absurd hM (hne M))
@@ -2398,7 +2436,7 @@ theorem alpha_Kxy_norm (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G
   have hk := hd.toK
   have hp : p.Prime := hc.ctx.prime
   have hp2 : p ≠ 2 := hc.ctx.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : IsElemAbelian p B := B_el h
   have hBcomm : ∀ g ∈ B, ∀ g' ∈ B, g * g' = g' * g := fun g hg g' hg' =>
     isElemAbelian_commute hBel hg hg'
@@ -3192,7 +3230,7 @@ theorem Ky_shape_core (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G}
     exact ha3'
   have hcyc : GLBConj a (GLBConj a (GLBConj a L₁)) = L₁ := by
     rw [gLBConj_gLBConj, gLBConj_gLBConj]
-    simp only [ha3a, ha3s, gLBConj_one]
+    simp only [ha3a, gLBConj_one]
   have hcl : ∀ e ∈ Subgroup.zpowers a, GLBConj e L₁ = L₁ ∨ GLBConj e L₁ = GLBConj a L₁ ∨
       GLBConj e L₁ = GLBConj a (GLBConj a L₁) := by
     intro e he
@@ -3311,7 +3349,7 @@ theorem Ky_shape_norm (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G}
     exact ha3
   have hcyc : GLBConj a K₃ = K₁ := by
     rw [e3, e2, gLBConj_gLBConj, gLBConj_gLBConj]
-    simp only [ha3a, ha3s, gLBConj_one]
+    simp only [ha3a, gLBConj_one]
   have hm_fix : ∀ g ∈ (B ⊓ Subgroup.normalizer (K₁ : Set G) : Subgroup G),
       GLBConj g (K₁ ⊔ K₂ ⊔ K₃) = K₁ ⊔ K₂ ⊔ K₃ := by
     rintro g ⟨hgB, hgN⟩
@@ -3344,6 +3382,7 @@ theorem Ky_shape (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {x :
     (∀ M : Subgroup G, GLAPComponent 3 (cx y) M → M ≤ Ky → M = K₁ ∨ M = K₂ ∨ M = K₃) ∧
     K₁ ≤ J ⊔ centModSubgroup 3 K₁ ∧ K₂ ≤ J ⊔ centModSubgroup 3 K₂ ∧ K₃ ≤ J ⊔ centModSubgroup 3 K₃
 
+omit [Finite G] in
 private theorem y9x_closureIn_mono {I H H' : Subgroup G} (h : H ≤ H') :
     closureIn I H ≤ closureIn I H' := by
   unfold closureIn
@@ -3392,6 +3431,7 @@ private theorem y9x_comp_mem {K₁ K₂ K₃ : Subgroup G} {y : G}
   simp only [h𝒞, Set.mem_insert_iff, Set.mem_singleton_iff] at hC
   exact hC
 
+omit [Finite G] in
 private theorem y9x_conj_closed {S : Set (Subgroup G)} {a y : G}
     (ha : ∀ C ∈ S, GLBConj a C ∈ S) (hai : ∀ C ∈ S, GLBConj a⁻¹ C ∈ S)
     (hy : ∀ C ∈ S, GLBConj y C ∈ S) (hyi : ∀ C ∈ S, GLBConj y⁻¹ C ∈ S) :
@@ -3598,7 +3638,7 @@ structure YCore (G : Type) [Group G] [Finite G] (p : ℕ) (X K₁ K₂ K₃ Y : 
   hY : Y = K₁ ⊔ K₂ ⊔ K₃
   hYX : Y ≤ X
 
-private theorem y9xE_R_normal {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup G} (C : YCore G p X K₁ K₂ K₃ Y) {u : G} (hu : u ∈ Y) {r : G}
+private theorem y9xE_R_normal {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup G} (_C : YCore G p X K₁ K₂ K₃ Y) {u : G} (hu : u ∈ Y) {r : G}
     (hr : r ∈ GLAPPrimeCoreOf p Y) : u * r * u⁻¹ ∈ GLAPPrimeCoreOf p Y := by
   have hn : Y ≤ Subgroup.normalizer (GLAPPrimeCoreOf p Y : Set G) := le_normalizer_glaPPrimeCoreOf p Y
   exact (Subgroup.mem_normalizer_iff.1 (hn hu) r).1 hr
@@ -3623,6 +3663,7 @@ private def y9xE_N {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup G} (C : YCore G p X 
     rw [inv_inv] at h1
     exact h1
 
+omit [Finite G] in
 private theorem y9xE_core_le {p : ℕ} {H M : Subgroup G} (hMH : M ≤ H)
     (hn : (M.subgroupOf H).Normal) (hcop : Nat.Coprime p (Nat.card M)) : M ≤ GLAPPrimeCoreOf p H := by
   intro x hx
@@ -3787,7 +3828,7 @@ private theorem y9xE_i183_elem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (A D J :
     (hne0 : ∃ C₁ ∈ 𝒞, ∃ C₂ ∈ 𝒞, C₁ ≠ C₂) :
     ∀ C ∈ 𝒞, ∀ m ∈ C, ∃ j ∈ J, ∃ n ∈ centModSubgroup p C, m = j * n := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set X : Subgroup G := Subgroup.centralizer (A : Set G) with hXdef
   have hAX : ∀ a ∈ A, ∀ x ∈ X, a * x = x * a := fun a ha x hx =>
     Subgroup.mem_centralizer_iff.1 hx a ha
@@ -3879,11 +3920,11 @@ private theorem y9xE_i183_elem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (A D J :
 open CFSG.ComponentClassification CFSG.HardMathSupport.Solomon.Coordinator in
 open scoped Pointwise in
 private theorem y9xE_cov {B : Subgroup G} {x : G} {L : Subgroup G}
-    {b a : G} (h : Cfg 3 B x L b) (ac : AlphaCtx G 3 B x L b a) {E₀ F : Subgroup G} {y : G}
+    {b a : G} (_h : Cfg 3 B x L b) (ac : AlphaCtx G 3 B x L b a) {E₀ F : Subgroup G} {y : G}
     {E K : Subgroup G} (hc : S10Ctx G 3) (hin : AlphaInputs G 3) (hd : AlphaData 3 B x L b a E₀ F y E K)
     (hkay : AlphaKay 3 x a y K) (K₁ K₂ K₃ : Subgroup G)
     (c1 : GLAPComponent 3 (cx y) K₁) (c2 : GLAPComponent 3 (cx y) K₂) (c3 : GLAPComponent 3 (cx y) K₃)
-    (n12 : K₁ ≠ K₂) (n13 : K₁ ≠ K₃) (n23 : K₂ ≠ K₃)
+    (n12 : K₁ ≠ K₂) (_n13 : K₁ ≠ K₃) (_n23 : K₂ ≠ K₃)
     (hKy : Kf 3 K (Subgroup.zpowers y) = K₁ ⊔ K₂ ⊔ K₃) (e2 : K₂ = GLBConj a K₁) (e3 : K₃ = GLBConj a K₂) :
     ∀ k ∈ K₁, ∃ j ∈ Kf 3 K (Subgroup.zpowers a ⊔ Subgroup.zpowers y), ∃ n ∈ centModSubgroup 3 K₁,
       k = j * n := by
@@ -4019,7 +4060,7 @@ private theorem y9xE_cov {B : Subgroup G} {x : G} {L : Subgroup G}
   intro k hk
   exact hcov_elem K₁ (by simp [h𝒞]) k hk
 
-private theorem y9xE_normalizes_R {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup G} (C : YCore G p X K₁ K₂ K₃ Y)
+private theorem y9xE_normalizes_R {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup G} (_C : YCore G p X K₁ K₂ K₃ Y)
     {g : G} (hg : g ∈ Subgroup.normalizer (Y : Set G)) :
     GLBConj g (GLAPPrimeCoreOf p Y) = GLAPPrimeCoreOf p Y := by
   have hY : GLBConj g Y = Y := mem_normalizer_iff_gLBConj_eq.1 hg
@@ -4077,7 +4118,7 @@ private noncomputable abbrev y9xE_iota {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup 
 private theorem y9xE_N_le_Y {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup G} (C : YCore G p X K₁ K₂ K₃ Y) :
     y9xE_N C ≤ Y := fun _ hg => hg.1
 
-private def y9xE_Cl {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup G} (C : YCore G p X K₁ K₂ K₃ Y) (k : G) (hk : k ∈ Y) :
+private def y9xE_Cl {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup G} (C : YCore G p X K₁ K₂ K₃ Y) (k : G) (_hk : k ∈ Y) :
     Subgroup G where
   carrier := {h | h ∈ Y ∧ ⁅h, k⁆ ∈ GLAPPrimeCoreOf p Y}
   one_mem' := ⟨Y.one_mem, by simp⟩
@@ -4156,7 +4197,7 @@ private theorem y9xE_iota_eq_one_iff {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup G}
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   rfl
 
-private noncomputable abbrev y9xE_pi1 {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup G} (C : YCore G p X K₁ K₂ K₃ Y) :
+private noncomputable abbrev y9xE_pi1 {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup G} (_C : YCore G p X K₁ K₂ K₃ Y) :
     ↥K₁ →* PSimple p K₁ :=
   (QuotientGroup.mk' (Subgroup.center (PQuot p K₁))).comp (QuotientGroup.mk' (GLAPPrimeCore p ↥K₁))
 
@@ -4178,6 +4219,7 @@ private theorem y9xE_K1_R {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup G} (C : YCore
   CFSG.LocalAnalysis.GLTheoremB.glaPPrimeCoreOf_inf_eq_of_isSubnormal C.hp
     (isSubnormal_of_le_of_le C.c1.2.1 (y9xE_le1 C) C.hYX)
 
+omit [Finite G] in
 private theorem y9xE_mem_coreOf_iff {p : ℕ} {L : Subgroup G} (x : ↥L) :
     (x : G) ∈ GLAPPrimeCoreOf p L ↔ x ∈ GLAPPrimeCore p ↥L := by
   unfold GLAPPrimeCoreOf
@@ -4250,6 +4292,7 @@ private theorem y9xE_key_iff {p : ℕ} {X K₁ K₂ K₃ Y : Subgroup G} (C : YC
       exact h1
     exact h2
 
+omit [Finite G] in
 private theorem y9xE_mk_center_iff {p : ℕ} {L : Subgroup G} (k : ↥L) :
     (QuotientGroup.mk k : PQuot p L) ∈ Subgroup.center (PQuot p L) ↔
       ∀ l : ↥L, (l * k)⁻¹ * (k * l) ∈ GLAPPrimeCore p ↥L := by
@@ -4311,7 +4354,7 @@ private noncomputable def y9xE_eJ {p : ℕ} (J : Subgroup G) [Fact p.Prime] :
 
 private theorem y9xE_center_quot_bot {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisimple Q) :
     Subgroup.center (Q ⧸ Subgroup.center Q) = ⊥ := by
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (Q ⧸ Subgroup.center Q)) with h | h
   · exact h
   · exfalso
@@ -4355,12 +4398,12 @@ private theorem y9xE_T_le_N {p : ℕ} {X X' K₁ K₂ K₃ Y : Subgroup G} (C : 
     GLAPPrimeCoreOf p J ≤ y9xE_N C := by
   classical
   obtain ⟨hJX', hJsn, -, hmin⟩ := hJ
-  haveI hsimpleQ : IsSimpleGroup (y9xE_Q C) :=
+  have hsimpleQ : IsSimpleGroup (y9xE_Q C) :=
     (MulEquiv.isSimpleGroup_congr (y9xE_Psi C)).mpr (y9xE_PSimple_simple C)
-  haveI : Nontrivial (y9xE_Q C) := hsimpleQ.toNontrivial
+  have : Nontrivial (y9xE_Q C) := hsimpleQ.toNontrivial
   let TJ : Subgroup ↥J := GLAPPrimeCore p ↥J
   have hFn : (TJ.map (y9xE_psiJ C hJY)).Normal := Subgroup.Normal.map inferInstance _ hsurj
-  haveI := hFn
+  have := hFn
   have hψN : ∀ j : ↥J, y9xE_psiJ C hJY j = 1 ↔ (j : G) ∈ y9xE_N C := by
     intro j
     show QuotientGroup.mk' ((y9xE_N C).subgroupOf Y) (Subgroup.inclusion hJY j) = 1 ↔ _
@@ -4453,16 +4496,16 @@ private theorem y9xE_ker_psiJ {p : ℕ} {X X' K₁ K₂ K₃ Y : Subgroup G} (C 
     rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
     rfl
   have hQ := isQuasisimple_pQuot_of_glaPComponent C.hp hJ
-  haveI hsimpleQ : IsSimpleGroup (y9xE_Q C) :=
+  have hsimpleQ : IsSimpleGroup (y9xE_Q C) :=
     (MulEquiv.isSimpleGroup_congr (y9xE_Psi C)).mpr (y9xE_PSimple_simple C)
-  haveI : Nontrivial (y9xE_Q C) := hsimpleQ.toNontrivial
+  have : Nontrivial (y9xE_Q C) := hsimpleQ.toNontrivial
   ext x
   rw [MonoidHom.mem_ker]
   constructor
   · intro hx
     let A : Subgroup (PQuot p J) :=
       ((y9xE_psiJ C hJY).ker).map (QuotientGroup.mk' (GLAPPrimeCore p ↥J))
-    haveI hAn : A.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
+    have hAn : A.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
     have hAc : A ≤ Subgroup.center (PQuot p J) := by
       by_cases hAtop : A = ⊤
       · exfalso
@@ -4531,7 +4574,7 @@ private theorem y9xE_e_formula {p : ℕ} {X X' K₁ K₂ K₃ Y : Subgroup G} (C
     y9xE_e C hJ hJY hsurj (QuotientGroup.mk (QuotientGroup.mk j : PQuot p J)) =
       QuotientGroup.mk (QuotientGroup.mk k : PQuot p K₁) := by
   classical
-  haveI : Fact p.Prime := ⟨C.hp⟩
+  have : Fact p.Prime := ⟨C.hp⟩
   unfold y9xE_e
   rw [MulEquiv.trans_apply, MulEquiv.trans_apply]
   have h1 : (y9xE_eJ J) (QuotientGroup.mk (QuotientGroup.mk j : PQuot p J)) = (QuotientGroup.mk j) := rfl
@@ -4595,7 +4638,7 @@ private theorem y9xE_iso_core {p : ℕ} {X X' K₁ K₂ K₃ Y : Subgroup G} (C 
       g ∈ Subgroup.normalizer (K₁ : Set G) → g ∈ Subgroup.normalizer (Y : Set G) →
         IsoPresAct p g J K₁ e ∧ IsoPresAct p g K₁ J e.symm := by
   classical
-  haveI : Fact p.Prime := ⟨C.hp⟩
+  have : Fact p.Prime := ⟨C.hp⟩
   have hsurj := y9xE_psiJ_surj C hJY hcov
   refine ⟨y9xE_e C hJ hJY hsurj, fun g hgJ hgK hgY => ?_⟩
   have hform := y9xE_e_formula C hJ hJY hsurj
@@ -4682,7 +4725,7 @@ theorem Ky_shape_iso (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} 
   subst hp3
   obtain ⟨K₁, K₂, K₃, c1, c2, c3, n12, n13, n23, hKy, e2, e3, hcl, -, -, -⟩ := hsh
   have hp : Nat.Prime 3 := hc.ctx.prime
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hyE : y ∈ E := by rw [hd.E_def]; exact Subgroup.mem_sup_right (Subgroup.mem_zpowers y)
   have haE : a ∈ E := by rw [hd.E_def]; exact Subgroup.mem_sup_left ac.mem
   have hyE0 : y ∈ E₀ := hd.F_E₀ hd.y_F
@@ -4711,6 +4754,7 @@ theorem Ky_shape_iso (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} 
   obtain ⟨e, he⟩ := y9xE_iso_core C hkay.Kay_single hJle hcov
   exact ⟨K₁, K₂, K₃, c1, c2, c3, n12, n13, n23, hKy, e2, e3, hcl, e, fun g hgJ hgK hgY => he g hgJ hgK hgY⟩
 
+omit [Finite G] in
 private theorem y9xE_gLBConj_cx {d y : G} (hd : d * y = y * d) : GLBConj d (cx y) = cx y := by
   have h := CFSG.LocalAnalysis.GLTheoremB.centralizer_singleton_gLBConj d y
   have e : d⁻¹ * y * d = y := by
@@ -4732,7 +4776,7 @@ theorem Ky_a'_exists (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} 
         a' ∈ Subgroup.normalizer (M : Set G) := by
   classical
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨hc.ctx.prime⟩
+  have : Fact (Nat.Prime 3) := ⟨hc.ctx.prime⟩
   obtain ⟨K₁, K₂, K₃, c1, c2, c3, n12, n13, n23, hKy, e2, e3, hcl, -⟩ := hsh
   obtain ⟨hDB, hDel, hDc⟩ := dgrp_facts hc h
   have ha : a ∈ Dgrp b x := ac.mem
@@ -4815,24 +4859,25 @@ private theorem y9xE_chev_congr {S T : Type} [Group S] [Group T] (e : S ≃* T)
   · exact Or.inl ⟨i, hi, ⟨e.symm.trans f⟩⟩
   · exact Or.inr ⟨i, hi, ⟨e.symm.trans f⟩⟩
 
-private theorem y9xE_conj_iso (p : ℕ) (hp : p.Prime) (L : Subgroup G) (a : G) :
+omit [Finite G] in
+private theorem y9xE_conj_iso (p : ℕ) (_hp : p.Prime) (L : Subgroup G) (a : G) :
     ∃ ψ : PSimple p L ≃* PSimple p (GLBConj a L), ∀ g : G, a * g = g * a → ∀ s s' : PSimple p L,
       indRelS p L g s s' ↔ indRelS p (GLBConj a L) g (ψ s) (ψ s') := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   let e : ↥L ≃* ↥(GLBConj a L) :=
     Subgroup.equivMapOfInjective L (MulAut.conj a⁻¹).toMonoidHom (MulAut.conj a⁻¹).injective
   have he : ∀ l : ↥L, ((e l : ↥(GLBConj a L)) : G) = a⁻¹ * (l : G) * a := by
     intro l
     change (MulAut.conj a⁻¹) (l : G) = _
-    simp [MulAut.conj_apply]
+    simp
   have hmap : Subgroup.map e.toMonoidHom (GLAPPrimeCore p ↥L) = GLAPPrimeCore p ↥(GLBConj a L) :=
     CFSG.pPrimeCore_map_iso p e
   let ζ : PQuot p L ≃* PQuot p (GLBConj a L) :=
     QuotientGroup.congr (GLAPPrimeCore p ↥L) (GLAPPrimeCore p ↥(GLBConj a L)) e hmap
   let ψ : PSimple p L ≃* PSimple p (GLBConj a L) :=
     QuotientGroup.congr (Subgroup.center (PQuot p L)) (Subgroup.center (PQuot p (GLBConj a L))) ζ
-      (by simpa using map_center_eq ζ)
+      (by simp)
   have hζ : ∀ l : ↥L, ζ (QuotientGroup.mk l) = QuotientGroup.mk (e l) := fun l => rfl
   have hψ : ∀ q : PQuot p L, ψ (QuotientGroup.mk q) = QuotientGroup.mk (ζ q) := fun q => rfl
   have hinv : ∀ m : ↥(GLBConj a L), ((e.symm m : ↥L) : G) = a * (m : G) * a⁻¹ := by
@@ -4884,12 +4929,14 @@ private theorem y9xE_conj_iso (p : ℕ) (hp : p.Prime) (L : Subgroup G) (a : G) 
       rw [hψ, ζ.apply_symm_apply]
       exact hr'
 
+omit [Finite G] in
 private theorem y9xE_conj_iso' (p : ℕ) (hp : p.Prime) (L L' : Subgroup G) (a : G) (hL' : L' = GLBConj a L) :
     ∃ ψ : PSimple p L ≃* PSimple p L', ∀ g : G, a * g = g * a → ∀ s s' : PSimple p L,
       indRelS p L g s s' ↔ indRelS p L' g (ψ s) (ψ s') := by
   subst hL'
   exact y9xE_conj_iso p hp L a
 
+omit [Finite G] in
 private theorem y9xE_indRel_congr {p : ℕ} (L : Subgroup G) {g g' : G}
     (h : ∀ l ∈ L, g⁻¹ * l * g = g'⁻¹ * l * g') : indRel p L g = indRel p L g' := by
   funext q q'
@@ -4900,6 +4947,7 @@ private theorem y9xE_indRel_congr {p : ℕ} (L : Subgroup G) {g g' : G}
   · rintro ⟨l, l', hl, hl', he⟩
     exact ⟨l, l', hl, hl', by rw [he]; exact (h (l : G) l.2).symm⟩
 
+omit [Finite G] in
 private theorem y9xE_isoPresAct_of_iff {p : ℕ} {J K : Subgroup G} {g : G} (e : PSimple p J ≃* PSimple p K)
     (h : ∀ s s' : PSimple p J, indRelS p J g s s' ↔ indRelS p K g (e s) (e s')) :
     IsoPresAct p g J K e ∧ IsoPresAct p g K J e.symm :=
@@ -4907,6 +4955,7 @@ private theorem y9xE_isoPresAct_of_iff {p : ℕ} {J K : Subgroup G} {g : G} (e :
     fun t t' ht => (h (e.symm t) (e.symm t')).2 (by
       rw [MulEquiv.apply_symm_apply, MulEquiv.apply_symm_apply]; exact ht)⟩
 
+omit [Finite G] in
 private theorem y9x_conj_closureIn {I H : Subgroup G} {g : G}
     (hI : ∀ i ∈ I, g * i * g⁻¹ ∈ I) (hH : ∀ h ∈ H, g * h * g⁻¹ ∈ H) :
     closureIn I H ≤ (closureIn I H).comap (MulAut.conj g).toMonoidHom := by
@@ -4919,6 +4968,7 @@ private theorem y9x_conj_closureIn {I H : Subgroup G} {g : G}
   exact (le_iSup₂ (f := fun k (_ : k ∈ H) => I.map (MulAut.conj k).toMonoidHom) (g * h * g⁻¹)
     (hH h hh)) (Subgroup.mem_map.2 ⟨(MulAut.conj g).toMonoidHom i, hI i hi, rfl⟩)
 
+omit [Finite G] in
 private theorem y9x_normalizer_closureIn {I H : Subgroup G} {g : G}
     (hI : g ∈ Subgroup.normalizer (I : Set G)) (hH : g ∈ Subgroup.normalizer (H : Set G)) :
     g ∈ Subgroup.normalizer ((closureIn I H : Subgroup G) : Set G) := by
@@ -4950,7 +5000,7 @@ theorem Ky_a'_nonInn (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} 
   classical
   subst hp3
   have hp3 : Nat.Prime 3 := hc.ctx.prime
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   obtain ⟨K₁, K₂, K₃, c1, c2, c3, n12, n13, n23, hKy, e2, e3, hcl, e, he⟩ := hsh
   obtain ⟨hDB, hDel, hDc⟩ := dgrp_facts hc h
   have ha : a ∈ Dgrp b x := ac.mem
@@ -5059,6 +5109,7 @@ theorem Ky_a' (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {x : G}
   exact ⟨a', ha'D, ha'a, fun M hM hMle =>
     ⟨hnorm M hM hMle, Ky_a'_nonInn hc hin h ac hd hkay hp3 hsh hBN ha'D ha'a hnorm M hM hMle⟩⟩
 
+omit [Finite G] in
 private theorem y9xF_gLBConj_mono (g : G) {H K : Subgroup G} (h : H ≤ K) :
     GLBConj g H ≤ GLBConj g K :=
   Subgroup.map_mono h
@@ -5076,7 +5127,7 @@ theorem Ky_comp_in_Ki (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G}
   classical
   subst hp3
   have hcp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha1 : a ≠ 1 := fun h1 => ac.not_x (h1 ▸ Subgroup.one_mem _)
   have ha'1 : a' ≠ 1 := fun h1 => ha'a (h1 ▸ Subgroup.one_mem _)
   obtain ⟨-, hDel, hDc⟩ := dgrp_facts hc h
@@ -5148,7 +5199,7 @@ theorem Ky_comp_in_Ki (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G}
   have hK_ne : K ≠ ⊥ := y9x_component_ne_bot hd.K_comp
   obtain ⟨L₀, hL₀⟩ : ∃ L₀ : Subgroup G, L₀ ∈ 𝒞 := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hKle : K ≤ Kf 3 K (Subgroup.zpowers a' ⊔ Subgroup.zpowers y) :=
       y9x_le_closureIn K (Subgroup.one_mem _)
     rw [hKF] at hKle
@@ -5197,7 +5248,7 @@ theorem Ky_comp_in_Ki (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G}
     exact (y9xF_gLBConj_mono g hL₀Y).trans hgY.le
   have hN₀ : ∃ N₀ : Subgroup G, N₀ ∈ 𝒞₁ := by
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hbot : (⨆ N ∈ 𝒞₁, N) ≤ ⊥ := iSup₂_le fun N hN => absurd hN (hne N)
     exact hL₀ne (le_bot_iff.1 (hL₀_le_sup.trans hbot))
   obtain ⟨N₀, hN₀⟩ := hN₀
@@ -5215,6 +5266,7 @@ theorem Ky_comp_in_Ki (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G}
     exact (hsing N hN).le
   exact ⟨L₀, hL₀X, N₀, hN₀c, hN₀Y, hL₀N₀⟩
 
+omit [Finite G] in
 private theorem y9xF_le_core_self {p : ℕ} {M : Subgroup G} (hM : Nat.Coprime p (Nat.card M)) :
     M ≤ GLAPPrimeCoreOf p M := by
   have htop : (⊤ : Subgroup ↥M) ≤ GLAPPrimeCore p ↥M := by
@@ -5226,7 +5278,7 @@ private theorem y9xF_le_core_self {p : ℕ} {M : Subgroup G} (hM : Nat.Coprime p
 private theorem y9xF_no_common {p : ℕ} (hp : p.Prime) {X C M L L' : Subgroup G}
     (hMc : GLAPComponent p X M) (hLc : GLAPComponent p C L) (hL'c : GLAPComponent p C L')
     (hne : L ≠ L') (hML : M ≤ L) (hML' : M ≤ L') : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcomm : ⁅L, L'⁆ ≤ GLAPPrimeCoreOf p C :=
     CFSG.HardMathSupport.Solomon.LocalBalance.commutator_le_gLAPPrimeCore_of_ne hp hLc hL'c hne
   have hMC : M ≤ GLAPPrimeCoreOf p C := by
@@ -5317,6 +5369,7 @@ private theorem y9xG_core_inf_le {p : ℕ} (hp : p.Prime) {J X : Subgroup G} (hX
   refine le_glaPPrimeCoreOf_of_le_normalizer inf_le_right (fun z hz => ?_) hcop
   exact y9x_normalizer_inf (hJN (hXJ hz)) (Subgroup.le_normalizer hz)
 
+omit [Finite G] in
 private theorem y9xG_decomp {I J O : Subgroup G} (hIJ : I ≤ J)
     (hJN : J ≤ Subgroup.normalizer (O : Set G)) {x : G} (hx : x ∈ I ⊔ O) :
     ∃ i ∈ I, ∃ o ∈ O, x = i * o := by
@@ -5341,6 +5394,7 @@ private theorem y9xG_decomp {I J O : Subgroup G} (hIJ : I ≤ J)
   obtain ⟨i, hi, o, ho, he⟩ := hle hx
   exact ⟨i, hi, o, ho, he⟩
 
+omit [Finite G] in
 private theorem y9xG_kc {I J O : Subgroup G} (hIJ : I ≤ J) (hJN : J ≤ Subgroup.normalizer (O : Set G))
     (hsup : I ⊔ O = J) {g : G} (hgO : g ∈ Subgroup.normalizer (O : Set G))
     (hgI : ∀ i ∈ I, g * i = i * g) {n : G} (hn : n ∈ J) :
@@ -5356,18 +5410,20 @@ private theorem y9xG_kc {I J O : Subgroup G} (hIJ : I ≤ J) (hJN : J ≤ Subgro
   rw [hcalc]
   exact (Subgroup.mem_normalizer_iff.1 (hJN (hIJ hi)) _).1 hco
 
+omit [Finite G] in
 private theorem y9xG_mem_cx_iff {h y : G} : h ∈ cx y ↔ Commute h y :=
   Subgroup.mem_centralizer_singleton_iff
 
+omit [Finite G] in
 private theorem y9xG_conj_comm {g h y : G} (hg : Commute g y) (hh : Commute h y) :
     Commute (g * h * g⁻¹) y :=
   (hg.mul_left hh).mul_left hg.inv_left
 
+omit [Finite G] in
 private theorem y9xG_normalizer_cx {a y : G} (hay : Commute a y) :
     a ∈ Subgroup.normalizer ((cx y : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
   intro h
-  change h ∈ cx y ↔ a * h * a⁻¹ ∈ cx y
   rw [y9xG_mem_cx_iff, y9xG_mem_cx_iff]
   exact ⟨fun hc => y9xG_conj_comm hay hc,
     fun hc => by simpa [mul_assoc] using y9xG_conj_comm hay.inv_left hc⟩
@@ -5382,7 +5438,7 @@ theorem alpha_a'_lt (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {
   intro hI
   obtain ⟨M, hM, haM⟩ := hcomps
   have hp : p.Prime := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : IsElemAbelian p B := B_el h
   have haD : a ∈ Dgrp b x := ac.mem
   have ha1 : a ≠ 1 := fun h1 => ac.not_x (h1 ▸ Subgroup.one_mem _)
@@ -5472,6 +5528,7 @@ private theorem y9xG_L_uniq {p : ℕ} (hp : p.Prime) {X I₀ N : Subgroup G}
   have h2 : barX p X N ≤ barX p X I₀ := barX_mono (X := X) p hNI
   exact glaPComponent_unique hN hI₀ (le_antisymm h2 h1)
 
+omit [Finite G] in
 private theorem y9xG_le_layer {X L : Subgroup G} {p : ℕ} (h : GLAPComponent p X L) : L ≤ GLAPLayer p X := by
   unfold GLAPLayer
   exact le_sSup h
@@ -5486,7 +5543,7 @@ theorem alpha_a'_inn (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} 
   classical
   obtain ⟨M, hM, haM⟩ := hcomps
   have hp : p.Prime := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : IsElemAbelian p B := B_el h
   have ha'D : a' ∈ Dgrp b x := ac'.mem
   have ha'1 : a' ≠ 1 := fun h1 => ac'.not_x (h1 ▸ Subgroup.one_mem _)
@@ -5542,7 +5599,7 @@ private theorem y9xG_fieldOn_x {p : ℕ} (hc : S10Ctx G p) (hin : AlphaInputs G 
     (hFd : FieldOn p d (Jpart p (Ipart p L b) a)) :
     FieldOn p x (Jpart p (Ipart p L b) a) := by
   have hp : p.Prime := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hDel, hDc⟩ := dgrp_facts hc h
   have hJ : Jpart p (Ipart p L b) a ≤ cx a := Jpart_le_cx h ha
   have hch : IsChevSimple 2 (PSimple p (Jpart p (Ipart p L b) a)) := hIS.2
@@ -5558,7 +5615,7 @@ private theorem y9xG_fieldOn_x {p : ℕ} (hc : S10Ctx G p) (hin : AlphaInputs G 
 private theorem y9xG_not_mem_zpowers {p : ℕ} (hp : p.Prime) {D : Subgroup G} (hDel : IsElemAbelian p D)
     {x a : G} (hx : x ∈ D) (ha : a ∈ D) (hx1 : x ≠ 1) (ha1 : a ≠ 1) (hax : a ∉ Subgroup.zpowers x) :
     x ∉ Subgroup.zpowers a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hxa
   have hz : Subgroup.zpowers x = Subgroup.zpowers a :=
     y9x_zpowers_eq hp (orderOf_eq_prime (hDel.2 a ha) ha1) (hDel.2 x hx) hxa hx1
@@ -5573,7 +5630,7 @@ theorem alpha_a'_U6 (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {
   subst hp3
   classical
   have hp : Nat.Prime 3 := hc.ctx.prime
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hS := sstar_triple h.star
   have hBel : IsElemAbelian 3 B := hS.1.1
   have hxB : x ∈ B := hS.2.1.1
@@ -5621,7 +5678,7 @@ theorem Ky_norm_a' (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {x
   classical
   intro M hM
   have hp : p.Prime := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := (sstar_triple h.star).2.1.2.1
   have ha'1 : a' ≠ 1 := fun h1 => ha'a (h1 ▸ Subgroup.one_mem _)
   have hBel : IsElemAbelian p B := B_el h
@@ -5674,7 +5731,7 @@ theorem Ky_norm_a' (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {x
         alpha_a'_U6 hc hin h ac hd ac'⟩
     exact alpha_Kay_norm_gen hc hin h ac' hk' M hM
 
-theorem Ky_contra (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {x : G} {L : Subgroup G}
+theorem Ky_contra (hc : S10Ctx G p) (_hin : AlphaInputs G p) {B : Subgroup G} {x : G} {L : Subgroup G}
     {b a : G} (h : Cfg p B x L b) (ac : AlphaCtx G p B x L b a) {E₀ F : Subgroup G} {y : G}
     {E K : Subgroup G} (hd : AlphaData p B x L b a E₀ F y E K) (hkay : AlphaKay p x a y K) {a' : G}
     (ha'D : a' ∈ Dgrp b x) (ha'a : a' ∉ Subgroup.zpowers a)
@@ -5685,7 +5742,7 @@ theorem Ky_contra (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {x 
   classical
   obtain ⟨M, hM, haM⟩ := hcomps
   have hp : p.Prime := hc.ctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have ha : a ∈ Dgrp b x := ac.mem
   have hS := sstar_triple h.star
   have hx1 : x ≠ 1 := hS.2.1.2.1
@@ -5771,7 +5828,7 @@ theorem Ky_single (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {x 
 theorem alpha_Ky_sub (hc : S10Ctx G p) (hin : AlphaInputs G p) {B : Subgroup G} {x : G} {L : Subgroup G}
     {b a : G} (h : Cfg p B x L b) (ac : AlphaCtx G p B x L b a) {E₀ F : Subgroup G} {y : G}
     {E K : Subgroup G} (hd : AlphaData p B x L b a E₀ F y E K) (hkay : AlphaKay p x a y K)
-    (hKy : GLAPComponent p (cx y) (Kf p K (Subgroup.zpowers y))) :
+    (_hKy : GLAPComponent p (cx y) (Kf p K (Subgroup.zpowers y))) :
     GLAPComponent p (Kf p K (Subgroup.zpowers y) ⊓ cx x) (Kf p K (Subgroup.zpowers x ⊔ Subgroup.zpowers y)) ∧
       GLAPComponent p (Kf p K (Subgroup.zpowers y) ⊓ cx a) (Kf p K (Subgroup.zpowers a ⊔ Subgroup.zpowers y)) ∧
       GLAPLayer p (Kf p K (Subgroup.zpowers x ⊔ Subgroup.zpowers y) ⊓ cx a) ≠ ⊥ := by

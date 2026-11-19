@@ -104,12 +104,12 @@ variable [Finite G]
 open scoped Classical in
 theorem sigmaSignalizerOn_eq_sigmaSignalizer {M : Subgroup G} {a : G} (ha : a ∈ sigmaCore M)
     (ha1 : a ≠ 1) : sigmaSignalizerOn M a = sigmaSignalizer a := by
-  rw [sigmaSignalizerOn, if_pos ⟨ha, ha1⟩]
+  rw [sigmaSignalizerOn, ite_eq_left ⟨ha, ha1⟩]
 
 open scoped Classical in
 theorem sigmaSignalizerOn_eq_bot {M : Subgroup G} {a : G} (ha : a ∉ sigmaCore M) :
     sigmaSignalizerOn M a = ⊥ := by
-  rw [sigmaSignalizerOn, if_neg fun h => ha h.1]
+  rw [sigmaSignalizerOn, ite_eq_right fun h => ha h.1]
 
 theorem signalizer_splitting_of_notMem {M : Subgroup G} {a : G}
     (haS : a ∉ sigmaCore M) (hle : centralizer ({a} : Set G) ≤ M) :

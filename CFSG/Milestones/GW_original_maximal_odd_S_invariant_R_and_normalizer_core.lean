@@ -9,8 +9,8 @@ namespace CFSG.Milestones
 open DihedralBlueprint
 
 theorem gw_original_maximal_odd_s_invariant_r_and_normalizer_core (G : Type) [Group G] [Finite G] [IsSimpleGroup G]
-    (hnonab : ∃ a b : G, a * b ≠ b * a) (d : OriginalData G)
-    (hs : d.Stationarity) (hc : d.CanonicalNormalizers) : d.MaximalOddKernel := by
+    (_hnonab : ∃ a b : G, a * b ≠ b * a) (d : OriginalData G)
+    (_hs : d.Stationarity) (hc : d.CanonicalNormalizers) : d.MaximalOddKernel := by
   refine ⟨?_, d.normalizer_oddCore hc, d.centralizer_le_normalizer,
     d.normalizer_ne_top, ?_, d.strict_overgroup_quotients hc,
     d.normalizer_eq_centralizer_or_coordinates hc⟩

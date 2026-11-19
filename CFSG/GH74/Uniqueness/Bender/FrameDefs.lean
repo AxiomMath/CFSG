@@ -58,7 +58,6 @@ variable (hU : UnitaryFieldData p f E) (v : Fin 3 → (Fin 3 → E))
     rw [Units.inv_mul, Matrix.one_mulVec] at h2
     rw [eq_inv_smul_iff₀ hc0]
     first
-      | exact h2
       | exact h2.symm
 
 @[expose] def frameMonoSU : Subgroup (gramSU hU (1 : Matrix (Fin 3) (Fin 3) E)) where

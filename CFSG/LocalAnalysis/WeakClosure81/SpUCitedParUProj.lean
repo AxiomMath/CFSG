@@ -22,10 +22,10 @@ theorem uCited_rootParabolic_proj {f : ℕ} (h : UnitaryFieldData 2 f K) (hr : 2
       ((uCitedRoot h r ε (Pi.single (Sum.inl (⟨1, by omega⟩ : Fin r)) (1 : K))).map
         (hypProj h r ε))
       ((uCitedPar h r ε).map (hypProj h r ε)) 2 := by
-  haveI : Finite ↥(hypSU h r ε) := inferInstance
+  have : Finite ↥(hypSU h r ε) := inferInstance
   obtain ⟨T, hT⟩ :=
     (unitary_order_and_Sylow (p := 2) (r := r) (ε := ε) h (by omega) hε).2.1
-  have hU : IsPGroup 2 ↥(hypUnitriangular h r ε) := hT ▸ T.isPGroup'
+  have hU : IsPGroup 2 ↥(hypUnitriangular h r ε) := hT ▸ T.isPGroup
   have hR : IsPGroup 2
       ↥(uCitedRoot h r ε (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin r)) (1 : K))) :=
     IsPGroup.to_le hU (uCited_root_le_unipotent h ⟨0, by omega⟩)

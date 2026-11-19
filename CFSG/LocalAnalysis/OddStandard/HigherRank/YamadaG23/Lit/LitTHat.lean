@@ -14,16 +14,16 @@ variable {X : Type} [Group X] [Finite X] {Z A : Subgroup X} [Z.Normal]
 
 theorem lit_solvable_litC (h : LitCtx Z A) : Group.IsSolvable ↥(litC Z A) := by
   have hA : A ≤ litC Z A := lit_A_le_litC h
-  haveI hAn : (A.subgroupOf (litC Z A)).Normal := by
+  have hAn : (A.subgroupOf (litC Z A)).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hA]
     intro a c ha hc
     rw [mem_litC] at hc
     exact (Subgroup.mem_normalizer_iff.mp hc.1 a).mp ha
-  haveI hsolA : Group.IsSolvable ↥(A.subgroupOf (litC Z A)) := by
-    haveI : Group.IsNilpotent ↥(A.subgroupOf (litC Z A)) :=
+  have hsolA : Group.IsSolvable ↥(A.subgroupOf (litC Z A)) := by
+    have : Group.IsNilpotent ↥(A.subgroupOf (litC Z A)) :=
       (h.isPGroup_A.of_equiv (Subgroup.subgroupOfEquivOfLe hA).symm).isNilpotent
     infer_instance
-  haveI hsolQ : Group.IsSolvable (↥(litC Z A) ⧸ A.subgroupOf (litC Z A)) := by
+  have hsolQ : Group.IsSolvable (↥(litC Z A) ⧸ A.subgroupOf (litC Z A)) := by
     apply CFSG.FeitThompson.isSolvable_of_odd_natCard _
     refine Nat.not_even_iff_odd.mp (fun he => h.sylow ?_)
     exact even_iff_two_dvd.mp he
@@ -34,21 +34,21 @@ theorem lit_solvable_litC (h : LitCtx Z A) : Group.IsSolvable ↥(litC Z A) := b
 theorem lit_T_solvable (h : LitCtx Z A) {T : Subgroup X}
     (hT : IsQuotIso T (T ⊓ litC Z A) ↥blockStab) : Group.IsSolvable ↥T := by
   obtain ⟨_, φ, hsurj, hker⟩ := hT
-  haveI hsolC : Group.IsSolvable ↥(litC Z A) := lit_solvable_litC h
-  haveI hinf : Group.IsSolvable ↥(T ⊓ litC Z A) :=
+  have hsolC : Group.IsSolvable ↥(litC Z A) := lit_solvable_litC h
+  have hinf : Group.IsSolvable ↥(T ⊓ litC Z A) :=
     Group.isSolvable_of_surjective
       (f := (Subgroup.subgroupOfEquivOfLe
         (inf_le_right : T ⊓ litC Z A ≤ litC Z A)).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe
         (inf_le_right : T ⊓ litC Z A ≤ litC Z A)).surjective
-  haveI hker_sol : Group.IsSolvable ↥φ.ker := by
+  have hker_sol : Group.IsSolvable ↥φ.ker := by
     rw [hker]
     exact Group.isSolvable_of_surjective
       (f := (Subgroup.subgroupOfEquivOfLe
         (inf_le_left : T ⊓ litC Z A ≤ T)).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe
         (inf_le_left : T ⊓ litC Z A ≤ T)).symm.surjective
-  haveI : Group.IsSolvable ↥blockStab := lit_isSolvable_blockStab
+  have : Group.IsSolvable ↥blockStab := lit_isSolvable_blockStab
   refine Group.isSolvable_of_ker_le_range φ.ker.subtype φ ?_
   rw [Subgroup.range_subtype]
 

@@ -52,7 +52,7 @@ private theorem ggCommonJOmPlusTwo_hcomp {K : Type} [Field K] [Finite K] [CharP 
       rw [show PlaneRaw.label (.orthogonal 1) (.zero S) =
           (if Even S.card then (⟨.D, S.card + 1, 1⟩ : LargeEvenLabel)
             else ⟨.twD, S.card + 1, 1⟩) from rfl]
-      rw [if_neg hodd, hsupp, Nat.sub_add_cancel hm1]
+      rw [ite_eq_right hodd, hsupp, Nat.sub_add_cancel hm1]
     refine Or.inr ⟨hsparse, ⟨⟨.twD, m, 1⟩, rfl, ?_, ?_⟩⟩
     · rw [← hlabel]; exact hlab.1
     · rw [← hlabel]; exact hlab.2.1
@@ -62,7 +62,7 @@ theorem ggSecFiveBNativeRow_omPlusTwo {K : Type} [Field K] [Finite K] {m : ℕ} 
     GGSecFiveBNativeRow (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K (m + 1)))) 3 m
       (fun lab => lab = ⟨.twA, m - 1, 1⟩) (fun lab => lab = ⟨.twD, m, 1⟩) := by
   classical
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LieType.BorelTits.charP_of_natCard_eq (p := 2) (f := 1) (by simpa using hK)
   obtain ⟨α⟩ := CommonJOmPlusTwo.ggCommonJOmPlusTwo_equiv (K := K) hK hme
   refine GGSecFiveBNativeRow.of_mulEquiv α ?_
@@ -78,7 +78,7 @@ theorem ggSecFiveBNativeRow_omPlusTwo {K : Type} [Field K] [Finite K] {m : ℕ} 
 theorem ggSecFiveBNativeSparseRow_omPlusTwo {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     GGSecFiveBNativeSparseRow (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K 5))) 3 4 := by
   classical
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LieType.BorelTits.charP_of_natCard_eq (p := 2) (f := 1) (by simpa using hK)
   obtain ⟨α⟩ := CommonJOmPlusTwo.ggCommonJOmPlusTwo_equiv (K := K) hK (m := 4) (by norm_num)
   refine GGSecFiveBNativeSparseRow.of_mulEquiv α ?_

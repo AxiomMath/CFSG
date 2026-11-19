@@ -37,7 +37,7 @@ theorem mulVec_pow_shift {m : ℕ} {Xm Ym : Matrix (Fin m) (Fin m) K} {κ : K}
   | succ k ih =>
     calc Xm *ᵥ (Ym ^ (k + 1) *ᵥ v) = Xm *ᵥ (Ym *ᵥ (Ym ^ k *ᵥ v)) := by
           rw [pow_succ']
-          simp only [Matrix.mulVec_mulVec, Matrix.mul_assoc]
+          simp only [Matrix.mulVec_mulVec]
       _ = (Xm * Ym) *ᵥ (Ym ^ k *ᵥ v) := by simp only [Matrix.mulVec_mulVec, Matrix.mul_assoc]
       _ = κ • (Ym *ᵥ (Xm *ᵥ (Ym ^ k *ᵥ v))) := by
           rw [hXY, Matrix.smul_mulVec]

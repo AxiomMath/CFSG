@@ -20,6 +20,7 @@ open CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo.Sec4 CFSG.RankThree.PartTwo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem exists_eq_mul_pow_mul_pow {F L : Subgroup G} {c x : G}
     (hFeq : F = Subgroup.zpowers c ⊔ (F ⊓ L)) (hc3 : c ^ 3 = 1) (hx3 : x ^ 3 = 1)
     (hFc : ∀ a ∈ F, ∀ b ∈ F, a * b = b * a) (hxFN : ∀ t ∈ F, x * t * x⁻¹ ∈ F) {a : G}
@@ -47,6 +48,7 @@ private theorem pow_three_mul_pow_mul {B : Subgroup G} {c y b : G}
   rw [h1, (hcb.mul_right hcy').mul_pow, hcj, one_mul, hds,
     Sec16.Proof1617.mul_conj_mul_conj_eq_one hBc hBe hB9 hyB hy3 hb, one_mul, hy3]
 
+omit [Finite G] in
 private theorem commutator_mem_of_mul {L : Subgroup G} {b b' w w' : G} (hb : b ∈ L) (hb' : b' ∈ L)
     (hw : w ∈ Subgroup.normalizer (L : Set G)) (hw' : w' ∈ Subgroup.normalizer (L : Set G))
     (hww' : w * w' = w' * w) : b * w * (b' * w') * (b * w)⁻¹ * (b' * w')⁻¹ ∈ L := by

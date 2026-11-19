@@ -26,11 +26,11 @@ private lemma w135c2_omfMOrb_spIsSign_ite_two {m : ℕ} (a b : Fin m) {e e' : �
   change (if x = a then e else if x = b then e' else 1) = 1 ∨
     (if x = a then e else if x = b then e' else 1) = -1
   by_cases hx : x = a
-  · rw [if_pos hx]; exact he
-  · rw [if_neg hx]
+  · rw [ite_eq_left hx]; exact he
+  · rw [ite_eq_right hx]
     by_cases hx' : x = b
-    · rw [if_pos hx']; exact he'
-    · rw [if_neg hx']; exact Or.inl rfl
+    · rw [ite_eq_left hx']; exact he'
+    · rw [ite_eq_right hx']; exact Or.inl rfl
 
 open CFSG.StandardType in
 private lemma w135c2_omfMOrb_spIsSign_ite_three {m : ℕ} (a b d : Fin m) {e e' e'' : ℤ}
@@ -41,14 +41,14 @@ private lemma w135c2_omfMOrb_spIsSign_ite_three {m : ℕ} (a b d : Fin m) {e e' 
   change (if x = a then e else if x = b then e' else if x = d then e'' else 1) = 1 ∨
     (if x = a then e else if x = b then e' else if x = d then e'' else 1) = -1
   by_cases hx : x = a
-  · rw [if_pos hx]; exact he
-  · rw [if_neg hx]
+  · rw [ite_eq_left hx]; exact he
+  · rw [ite_eq_right hx]
     by_cases hx' : x = b
-    · rw [if_pos hx']; exact he'
-    · rw [if_neg hx']
+    · rw [ite_eq_left hx']; exact he'
+    · rw [ite_eq_right hx']
       by_cases hx'' : x = d
-      · rw [if_pos hx'']; exact he''
-      · rw [if_neg hx'']; exact Or.inl rfl
+      · rw [ite_eq_left hx'']; exact he''
+      · rw [ite_eq_right hx'']; exact Or.inl rfl
 
 private lemma w135c2_omfMOrb_swap_eval {l : ℕ} (a last c : Fin l) (s v : Fin l → ℤ)
     (h1 : c ≠ a) (h2 : c ≠ last) :
@@ -127,14 +127,14 @@ private lemma w135c2_omfMOrb_fix_weylAction {m : ℕ} {v : Fin m → ℤ} {t : F
   by_cases ht : t.val + 1 < m
   · have hr := omqnfRealizes_simple_of_lt ht (ofStdB m v)
     rw [hr]
-    simp only [omqMinusSimple, dif_pos ht] at h
+    simp only [omqMinusSimple, dite_eq_left ht] at h
     rw [toStdB_ofStdB]
     funext b
     have h' := congrFun h b
     simpa [omqSignedActZ] using h'
   · have hr := omqnfRealizes_simple_of_not_lt ht (ofStdB m v)
     rw [hr]
-    simp only [omqMinusSimple, dif_neg ht] at h
+    simp only [omqMinusSimple, dite_eq_right ht] at h
     rw [toStdB_ofStdB]
     funext b
     have h' := congrFun h b
@@ -181,22 +181,22 @@ private lemma w135c2_omfMOrb_geTwo_val_z {l : ℕ} {z p q last : Fin l} {v : Fin
     rw [w135c2_omfMOrb_swap_eval_left z last 1 v, Pi.one_apply, one_mul, hv_l]
   · change omqSignedActZ (Equiv.swap z last) (spSgn p) v z = 0
     rw [w135c2_omfMOrb_swap_eval_left z last (spSgn p) v, spSgn,
-      if_neg (Ne.symm hpl), one_mul, hv_l]
+      ite_eq_right (Ne.symm hpl), one_mul, hv_l]
   · change omqSignedActZ (Equiv.swap p last) (1 : Fin l → ℤ) v z = 1
     rw [w135c2_omfMOrb_swap_eval p last z 1 v hzp hzl, Pi.one_apply, one_mul, hv_z]
   · change omqSignedActZ (Equiv.swap p last) (spSgn z) v z = -1
-    rw [w135c2_omfMOrb_swap_eval p last z (spSgn z) v hzp hzl, spSgn, if_pos rfl,
+    rw [w135c2_omfMOrb_swap_eval p last z (spSgn z) v hzp hzl, spSgn, ite_eq_left rfl,
       hv_z, mul_one]
   · change omqSignedActZ (Equiv.swap q last) (1 : Fin l → ℤ) v z = 1
     rw [w135c2_omfMOrb_swap_eval q last z 1 v hzq hzl, Pi.one_apply, one_mul, hv_z]
   · change omqSignedActZ (Equiv.swap q last) (spSgn z) v z = -1
-    rw [w135c2_omfMOrb_swap_eval q last z (spSgn z) v hzq hzl, spSgn, if_pos rfl,
+    rw [w135c2_omfMOrb_swap_eval q last z (spSgn z) v hzq hzl, spSgn, ite_eq_left rfl,
       hv_z, mul_one]
   · change omqSignedActZ (Equiv.swap q last)
       (fun b : Fin l => if b = z then -1 else if b = p then -1 else 1) v z = -1
     rw [w135c2_omfMOrb_swap_eval q last z
       (fun b : Fin l => if b = z then -1 else if b = p then -1 else 1) v hzq hzl,
-      if_pos rfl, hv_z, mul_one]
+      ite_eq_left rfl, hv_z, mul_one]
 
 open CFSG.StandardType in
 private lemma w135c2_omfMOrb_geTwo_val_p {l : ℕ} {z p q last : Fin l} {v : Fin l → ℤ}
@@ -210,22 +210,22 @@ private lemma w135c2_omfMOrb_geTwo_val_p {l : ℕ} {z p q last : Fin l} {v : Fin
       one_mul, hv_p]
   · change omqSignedActZ (Equiv.swap z last) (spSgn p) v p = -1
     rw [w135c2_omfMOrb_swap_eval z last p (spSgn p) v (Ne.symm hzp) hpl, spSgn,
-      if_pos rfl, hv_p, mul_one]
+      ite_eq_left rfl, hv_p, mul_one]
   · change omqSignedActZ (Equiv.swap p last) (1 : Fin l → ℤ) v p = 0
     rw [w135c2_omfMOrb_swap_eval_left p last 1 v, Pi.one_apply, one_mul, hv_l]
   · change omqSignedActZ (Equiv.swap p last) (spSgn z) v p = 0
     rw [w135c2_omfMOrb_swap_eval_left p last (spSgn z) v, spSgn,
-      if_neg (Ne.symm hzl), one_mul, hv_l]
+      ite_eq_right (Ne.symm hzl), one_mul, hv_l]
   · change omqSignedActZ (Equiv.swap q last) (1 : Fin l → ℤ) v p = 1
     rw [w135c2_omfMOrb_swap_eval q last p 1 v hpq hpl, Pi.one_apply, one_mul, hv_p]
   · change omqSignedActZ (Equiv.swap q last) (spSgn z) v p = 1
     rw [w135c2_omfMOrb_swap_eval q last p (spSgn z) v hpq hpl, spSgn,
-      if_neg (Ne.symm hzp), one_mul, hv_p]
+      ite_eq_right (Ne.symm hzp), one_mul, hv_p]
   · change omqSignedActZ (Equiv.swap q last)
       (fun b : Fin l => if b = z then -1 else if b = p then -1 else 1) v p = -1
     rw [w135c2_omfMOrb_swap_eval q last p
       (fun b : Fin l => if b = z then -1 else if b = p then -1 else 1) v hpq hpl,
-      if_neg (Ne.symm hzp), if_pos rfl, hv_p, mul_one]
+      ite_eq_right (Ne.symm hzp), ite_eq_left rfl, hv_p, mul_one]
 
 open CFSG.StandardType in
 private lemma w135c2_omfMOrb_geTwo_val_last {l : ℕ} {z p q last : Fin l} {v : Fin l → ℤ}
@@ -237,23 +237,23 @@ private lemma w135c2_omfMOrb_geTwo_val_last {l : ℕ} {z p q last : Fin l} {v : 
   · change omqSignedActZ (Equiv.swap z last) (1 : Fin l → ℤ) v last = 1
     rw [w135c2_omfMOrb_swap_eval_right z last 1 v, Pi.one_apply, one_mul, hv_z]
   · change omqSignedActZ (Equiv.swap z last) (spSgn p) v last = 1
-    rw [w135c2_omfMOrb_swap_eval_right z last (spSgn p) v, spSgn, if_neg hzp,
+    rw [w135c2_omfMOrb_swap_eval_right z last (spSgn p) v, spSgn, ite_eq_right hzp,
       one_mul, hv_z]
   · change omqSignedActZ (Equiv.swap p last) (1 : Fin l → ℤ) v last = 1
     rw [w135c2_omfMOrb_swap_eval_right p last 1 v, Pi.one_apply, one_mul, hv_p]
   · change omqSignedActZ (Equiv.swap p last) (spSgn z) v last = 1
     rw [w135c2_omfMOrb_swap_eval_right p last (spSgn z) v, spSgn,
-      if_neg (Ne.symm hzp), one_mul, hv_p]
+      ite_eq_right (Ne.symm hzp), one_mul, hv_p]
   · change omqSignedActZ (Equiv.swap q last) (1 : Fin l → ℤ) v last = 1
     rw [w135c2_omfMOrb_swap_eval_right q last 1 v, Pi.one_apply, one_mul, hv_q]
   · change omqSignedActZ (Equiv.swap q last) (spSgn z) v last = 1
     rw [w135c2_omfMOrb_swap_eval_right q last (spSgn z) v, spSgn,
-      if_neg (Ne.symm hzq), one_mul, hv_q]
+      ite_eq_right (Ne.symm hzq), one_mul, hv_q]
   · change omqSignedActZ (Equiv.swap q last)
       (fun b : Fin l => if b = z then -1 else if b = p then -1 else 1) v last = 1
     rw [w135c2_omfMOrb_swap_eval_right q last
       (fun b : Fin l => if b = z then -1 else if b = p then -1 else 1) v,
-      if_neg (Ne.symm hzq), if_neg (Ne.symm hpq), one_mul, hv_q]
+      ite_eq_right (Ne.symm hzq), ite_eq_right (Ne.symm hpq), one_mul, hv_q]
 
 open CFSG.StandardType in
 private lemma w135c2_omfMOrb_geTwo_horb {l : ℕ} (z p q last : Fin l) (v : Fin l → ℤ) :
@@ -287,12 +287,12 @@ private theorem w135c2_omfMOrb_seven_flag_ge_two {n : ℕ} (hn : 5 ≤ n) {j : �
   have hpl : p ≠ last := by intro h; simp [p, last] at h; omega
   have hql : q ≠ last := by intro h; simp [q, last] at h; omega
   let v : Fin (n - 1) → ℤ := omqMinusFlag (n - 1) j
-  have hv_z : v z = 1 := by simp only [v, omqMinusFlag, z]; rw [if_pos (by omega)]
-  have hv_p : v p = 1 := by simp only [v, omqMinusFlag, p]; rw [if_pos (by omega)]
-  have hv_q : v q = 1 := by simp only [v, omqMinusFlag, q]; rw [if_pos (by omega)]
-  have hv_l : v last = 0 := by simp only [v, omqMinusFlag, last]; rw [if_neg (by omega)]
+  have hv_z : v z = 1 := by simp only [v, omqMinusFlag, z]; rw [ite_eq_left (by omega)]
+  have hv_p : v p = 1 := by simp only [v, omqMinusFlag, p]; rw [ite_eq_left (by omega)]
+  have hv_q : v q = 1 := by simp only [v, omqMinusFlag, q]; rw [ite_eq_left (by omega)]
+  have hv_l : v last = 0 := by simp only [v, omqMinusFlag, last]; rw [ite_eq_right (by omega)]
   have hs2l : (fun a : Fin (n - 1) => if n ≤ a.val + 3 then -1 else 1) last = -1 := by
-    simp only [last]; rw [if_pos]; omega
+    simp only [last]; rw [ite_eq_left]; omega
   exact ⟨w135c2_omfMOrb_geTwoPts z p q last v,
     w135c2_omfMOrb_inj_of_vals_zp _ z p
       (w135c2_omfMOrb_geTwo_val_z hzp hzq hzl hpl hv_z hv_l)
@@ -324,16 +324,16 @@ private lemma w135c2_omfMOrb_one_val_z {l : ℕ} {z p w last : Fin l} {v : Fin l
       one_mul, hv_z]
   · change omqSignedActZ (Equiv.swap p last) (spSgn z) v z = -1
     rw [w135c2_omfMOrb_swap_eval p last z (spSgn z) v hzp hzl, spSgn,
-      if_pos rfl, hv_z, mul_one]
+      ite_eq_left rfl, hv_z, mul_one]
   · change omqSignedActZ (Equiv.swap z last) (1 : Fin l → ℤ) v z = 0
     rw [w135c2_omfMOrb_swap_eval_left z last 1 v, Pi.one_apply, one_mul, hv_l]
   · change omqSignedActZ (Equiv.swap z last) (spSgn p) v z = 0
     rw [w135c2_omfMOrb_swap_eval_left z last (spSgn p) v, spSgn,
-      if_neg (Ne.symm hpl), one_mul, hv_l]
+      ite_eq_right (Ne.symm hpl), one_mul, hv_l]
   · change omqSignedActZ (Equiv.swap p w) (1 : Fin l → ℤ) v z = 1
     rw [w135c2_omfMOrb_swap_eval p w z 1 v hzp hzw, Pi.one_apply, one_mul, hv_z]
   · change omqSignedActZ (Equiv.swap p w) (spSgn z) v z = -1
-    rw [w135c2_omfMOrb_swap_eval p w z (spSgn z) v hzp hzw, spSgn, if_pos rfl,
+    rw [w135c2_omfMOrb_swap_eval p w z (spSgn z) v hzp hzw, spSgn, ite_eq_left rfl,
       hv_z, mul_one]
   · change omqSignedActZ (Equiv.swap z w) (1 : Fin l → ℤ) v z = 0
     rw [w135c2_omfMOrb_swap_eval_left z w 1 v, Pi.one_apply, one_mul, hv_w]
@@ -349,18 +349,18 @@ private lemma w135c2_omfMOrb_one_val_p {l : ℕ} {z p w last : Fin l} {v : Fin l
     rw [w135c2_omfMOrb_swap_eval_left p last 1 v, Pi.one_apply, one_mul, hv_l]
   · change omqSignedActZ (Equiv.swap p last) (spSgn z) v p = 0
     rw [w135c2_omfMOrb_swap_eval_left p last (spSgn z) v, spSgn,
-      if_neg (Ne.symm hzl), one_mul, hv_l]
+      ite_eq_right (Ne.symm hzl), one_mul, hv_l]
   · change omqSignedActZ (Equiv.swap z last) (1 : Fin l → ℤ) v p = 1
     rw [w135c2_omfMOrb_swap_eval z last p 1 v (Ne.symm hzp) hpl, Pi.one_apply,
       one_mul, hv_p]
   · change omqSignedActZ (Equiv.swap z last) (spSgn p) v p = -1
     rw [w135c2_omfMOrb_swap_eval z last p (spSgn p) v (Ne.symm hzp) hpl, spSgn,
-      if_pos rfl, hv_p, mul_one]
+      ite_eq_left rfl, hv_p, mul_one]
   · change omqSignedActZ (Equiv.swap p w) (1 : Fin l → ℤ) v p = 0
     rw [w135c2_omfMOrb_swap_eval_left p w 1 v, Pi.one_apply, one_mul, hv_w]
   · change omqSignedActZ (Equiv.swap p w) (spSgn z) v p = 0
     rw [w135c2_omfMOrb_swap_eval_left p w (spSgn z) v, spSgn,
-      if_neg (Ne.symm hzw), one_mul, hv_w]
+      ite_eq_right (Ne.symm hzw), one_mul, hv_w]
   · change omqSignedActZ (Equiv.swap z w) (1 : Fin l → ℤ) v p = 1
     rw [w135c2_omfMOrb_swap_eval z w p 1 v (Ne.symm hzp) hpw, Pi.one_apply,
       one_mul, hv_p]
@@ -377,18 +377,18 @@ private lemma w135c2_omfMOrb_one_val_w {l : ℕ} {z p w last : Fin l} {v : Fin l
       one_mul, hv_w]
   · change omqSignedActZ (Equiv.swap p last) (spSgn z) v w = 0
     rw [w135c2_omfMOrb_swap_eval p last w (spSgn z) v (Ne.symm hpw) hwl, spSgn,
-      if_neg (Ne.symm hzw), one_mul, hv_w]
+      ite_eq_right (Ne.symm hzw), one_mul, hv_w]
   · change omqSignedActZ (Equiv.swap z last) (1 : Fin l → ℤ) v w = 0
     rw [w135c2_omfMOrb_swap_eval z last w 1 v (Ne.symm hzw) hwl, Pi.one_apply,
       one_mul, hv_w]
   · change omqSignedActZ (Equiv.swap z last) (spSgn p) v w = 0
     rw [w135c2_omfMOrb_swap_eval z last w (spSgn p) v (Ne.symm hzw) hwl, spSgn,
-      if_neg (Ne.symm hpw), one_mul, hv_w]
+      ite_eq_right (Ne.symm hpw), one_mul, hv_w]
   · change omqSignedActZ (Equiv.swap p w) (1 : Fin l → ℤ) v w = 1
     rw [w135c2_omfMOrb_swap_eval_right p w 1 v, Pi.one_apply, one_mul, hv_p]
   · change omqSignedActZ (Equiv.swap p w) (spSgn z) v w = 1
     rw [w135c2_omfMOrb_swap_eval_right p w (spSgn z) v, spSgn,
-      if_neg (Ne.symm hzp), one_mul, hv_p]
+      ite_eq_right (Ne.symm hzp), one_mul, hv_p]
   · change omqSignedActZ (Equiv.swap z w) (1 : Fin l → ℤ) v w = 1
     rw [w135c2_omfMOrb_swap_eval_right z w 1 v, Pi.one_apply, one_mul, hv_z]
 
@@ -403,18 +403,18 @@ private lemma w135c2_omfMOrb_one_val_last {l : ℕ} {z p w last : Fin l} {v : Fi
     rw [w135c2_omfMOrb_swap_eval_right p last 1 v, Pi.one_apply, one_mul, hv_p]
   · change omqSignedActZ (Equiv.swap p last) (spSgn z) v last = 1
     rw [w135c2_omfMOrb_swap_eval_right p last (spSgn z) v, spSgn,
-      if_neg (Ne.symm hzp), one_mul, hv_p]
+      ite_eq_right (Ne.symm hzp), one_mul, hv_p]
   · change omqSignedActZ (Equiv.swap z last) (1 : Fin l → ℤ) v last = 1
     rw [w135c2_omfMOrb_swap_eval_right z last 1 v, Pi.one_apply, one_mul, hv_z]
   · change omqSignedActZ (Equiv.swap z last) (spSgn p) v last = 1
-    rw [w135c2_omfMOrb_swap_eval_right z last (spSgn p) v, spSgn, if_neg hzp,
+    rw [w135c2_omfMOrb_swap_eval_right z last (spSgn p) v, spSgn, ite_eq_right hzp,
       one_mul, hv_z]
   · change omqSignedActZ (Equiv.swap p w) (1 : Fin l → ℤ) v last = 0
     rw [w135c2_omfMOrb_swap_eval p w last 1 v (Ne.symm hpl) (Ne.symm hwl), Pi.one_apply,
       one_mul, hv_l]
   · change omqSignedActZ (Equiv.swap p w) (spSgn z) v last = 0
     rw [w135c2_omfMOrb_swap_eval p w last (spSgn z) v (Ne.symm hpl) (Ne.symm hwl), spSgn,
-      if_neg (Ne.symm hzl), one_mul, hv_l]
+      ite_eq_right (Ne.symm hzl), one_mul, hv_l]
   · change omqSignedActZ (Equiv.swap z w) (1 : Fin l → ℤ) v last = 0
     rw [w135c2_omfMOrb_swap_eval z w last 1 v (Ne.symm hzl) (Ne.symm hwl), Pi.one_apply,
       one_mul, hv_l]
@@ -449,14 +449,14 @@ private theorem w135c2_omfMOrb_seven_flag_one {n : ℕ} (hn : 5 ≤ n) :
   have hpl : p ≠ last := by intro h; simp [p, last] at h; omega
   have hwl : w ≠ last := by intro h; simp [w, last] at h; omega
   let v : Fin (n - 1) → ℤ := omqMinusFlag (n - 1) 1
-  have hv_z : v z = 1 := by simp only [v, omqMinusFlag, z]; rw [if_pos (by omega)]
-  have hv_p : v p = 1 := by simp only [v, omqMinusFlag, p]; rw [if_pos (by omega)]
-  have hv_w : v w = 0 := by simp only [v, omqMinusFlag, w]; rw [if_neg (by omega)]
-  have hv_l : v last = 0 := by simp only [v, omqMinusFlag, last]; rw [if_neg (by omega)]
+  have hv_z : v z = 1 := by simp only [v, omqMinusFlag, z]; rw [ite_eq_left (by omega)]
+  have hv_p : v p = 1 := by simp only [v, omqMinusFlag, p]; rw [ite_eq_left (by omega)]
+  have hv_w : v w = 0 := by simp only [v, omqMinusFlag, w]; rw [ite_eq_right (by omega)]
+  have hv_l : v last = 0 := by simp only [v, omqMinusFlag, last]; rw [ite_eq_right (by omega)]
   have hs2l : (fun a : Fin (n - 1) => if n ≤ a.val + 3 then -1 else 1) last = -1 := by
-    simp only [last]; rw [if_pos]; omega
+    simp only [last]; rw [ite_eq_left]; omega
   have hsw : (fun a : Fin (n - 1) => if n ≤ a.val + 3 then -1 else 1) w = -1 := by
-    simp only [w]; rw [if_pos]; omega
+    simp only [w]; rw [ite_eq_left]; omega
   have huw := w135c2_omfMOrb_one_val_w hzp hzw hpw hwl hv_w hv_p hv_z
   exact ⟨w135c2_omfMOrb_onePts z p w last v,
     w135c2_omfMOrb_inj_of_vals_zpw _ z p w
@@ -528,7 +528,7 @@ private theorem w135c2_omfMOrb_seven_cube {n : ℕ} (hn : 5 ≤ n) :
   have hpl : p ≠ last := by intro h; simp [p, last] at h; omega
   have hql : q ≠ last := by intro h; simp [q, last] at h; omega
   have hs2l : (fun a : Fin (n - 1) => if n ≤ a.val + 3 then -1 else 1) last = -1 := by
-    simp only [last]; rw [if_pos]; omega
+    simp only [last]; rw [ite_eq_left]; omega
   exact ⟨w135c2_omfMOrb_cubePts z p q,
     w135c2_omfMOrb_inj_of_vals_zpq _ z p q
       (w135c2_omfMOrb_cube_val_z z p q)

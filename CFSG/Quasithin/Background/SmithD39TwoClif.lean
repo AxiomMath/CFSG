@@ -740,7 +740,7 @@ theorem exists_noncyclic_of_range {Γ G : Type*} [Group Γ] [Finite Γ] [Group G
   refine ⟨P, ?_, ?_, ?_⟩
   · rw [hP]
     exact (Subgroup.map_le_range _ _).trans (by rw [Subgroup.range_subtype])
-  · exact (S.isPGroup'.map _).map _
+  · exact (S.isPGroup.map _).map _
   · intro hc
     have e1 := (S : Subgroup ↥P₀).equivMapOfInjective P₀.subtype P₀.subtype_injective
     have e2 := ((S : Subgroup ↥P₀).map P₀.subtype).equivMapOfInjective K.subtype

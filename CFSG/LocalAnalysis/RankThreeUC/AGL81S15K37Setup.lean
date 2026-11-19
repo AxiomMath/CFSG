@@ -19,6 +19,7 @@ section Aut
 
 variable {K S : Subgroup X}
 
+omit [Finite X] in
 theorem normalizerMonoidHom_of_mem {k : X} (hk : k ∈ K)
     (hkN : k ∈ Subgroup.normalizer (K : Set X)) :
     K.normalizerMonoidHom ⟨k, hkN⟩ = MulAut.conj ⟨k, hk⟩ :=
@@ -26,9 +27,11 @@ theorem normalizerMonoidHom_of_mem {k : X} (hk : k ∈ K)
     rw [Subgroup.normalizerMonoidHom_apply_apply_coe, MulAut.conj_apply]
     rfl)
 
+omit [Finite X] in
 theorem isPGroup_autIm (hS : IsPGroup 2 S) : IsPGroup 2 (autIm S K) :=
   (hS.comap_subtype (K := Subgroup.normalizer (K : Set X))).map _
 
+omit [Finite X] in
 theorem mem_normalizer_autIm {g : X} (hgK : g ∈ Subgroup.normalizer (K : Set X))
     (hgS : g ∈ Subgroup.normalizer (S : Set X)) :
     K.normalizerMonoidHom ⟨g, hgK⟩ ∈
@@ -47,6 +50,7 @@ theorem mem_normalizer_autIm {g : X} (hgK : g ∈ Subgroup.normalizer (K : Set X
     · rw [map_mul, map_mul, map_inv, hy]
       group
 
+omit [Finite X] in
 theorem le_centralizer_of_autIm_eq_bot (hSN : S ≤ Subgroup.normalizer (K : Set X))
     (h : autIm S K = ⊥) : S ≤ Subgroup.centralizer (K : Set X) := by
   intro s hs
@@ -62,12 +66,12 @@ namespace K37Setting
 variable {K E S : Subgroup X}
 
 theorem le_normalizer_K (h : K37Setting X K E S) : E ≤ Subgroup.normalizer (K : Set X) := by
-  haveI := h.normal
+  have := h.normal
   rw [Subgroup.normalizer_eq_top]
   exact le_top
 
 theorem S_le_normalizer_K (h : K37Setting X K E S) : S ≤ Subgroup.normalizer (K : Set X) := by
-  haveI := h.normal
+  have := h.normal
   rw [Subgroup.normalizer_eq_top]
   exact le_top
 
@@ -127,7 +131,7 @@ theorem conj_mem_normalizer_autIm (h : K37Setting X K E S) {k : X} (hk : k ∈ K
     MulAut.conj (⟨k, hk⟩ : ↥K) ∈
       Subgroup.normalizer ((autIm S K : Subgroup (MulAut ↥K)) : Set (MulAut ↥K)) := by
   have hkN : k ∈ Subgroup.normalizer (K : Set X) := by
-    haveI := h.normal
+    have := h.normal
     rw [Subgroup.normalizer_eq_top]
     trivial
   rw [← normalizerMonoidHom_of_mem hk hkN]
@@ -149,7 +153,7 @@ theorem exists_comm_not_mem (h : K37Setting X K E S)
     rw [Subgroup.coe_pow, h.elem.2 m m.2, Subgroup.coe_one])
   have hcard : Nat.card E = 3 ^ 2 := by rw [h.card]; norm_num
   have h3 : ¬ 3 ∣ Nat.card S := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := h.two.exists_card_eq
     rw [hn]
     intro h3

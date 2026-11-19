@@ -125,7 +125,7 @@ theorem ggRootNormInner_of_map_surjective {U X : Type} [Group U] [Group X] [Fini
     (hker : π.ker ≤ Subgroup.center U) (hodd : Odd (Nat.card π.ker))
     (hX : Subgroup.center X = ⊥) {R : Subgroup U} (hR : IsPGroup 2 R)
     (h : GGRootNormInner (R.map π)) : GGRootNormInner R := by
-  haveI : Finite X := Finite.of_surjective π hπ
+  have : Finite X := Finite.of_surjective π hπ
   have hcenter_le : Subgroup.center U ≤ π.ker := by
     intro z hz
     rw [MonoidHom.mem_ker]
@@ -196,7 +196,7 @@ theorem ggRootNoCentralAt_top_of_map_surjective {U X : Type} [Group U] [Group X]
     (hodd : Odd (Nat.card π.ker)) {R : Subgroup U} (hR : IsPGroup 2 R)
     (h : GGRootNoCentralAt (⊤ : Subgroup X) (R.map π)) :
     GGRootNoCentralAt (⊤ : Subgroup U) R := by
-  haveI : Finite X := Finite.of_surjective π hπ
+  have : Finite X := Finite.of_surjective π hπ
   intro A B hRA hAB hBp hNA hNB hcomm
   simp only [top_inf_eq] at hBp hNA hNB hcomm
   have hN : (Subgroup.normalizer (R : Set U)).map π =
@@ -249,7 +249,7 @@ theorem pCoreOf_normalizer_le_of_map_surjective {U X : Type} [Group U] [Group X]
     (hodd : Odd (Nat.card π.ker)) {R Q : Subgroup U} (hR : IsPGroup 2 R) (hQ : IsPGroup 2 Q)
     (h : pCoreOf 2 (Subgroup.normalizer ((R.map π : Subgroup X) : Set X)) ≤ Q.map π) :
     pCoreOf 2 (Subgroup.normalizer (R : Set U)) ≤ Q := by
-  haveI : Finite X := Finite.of_surjective π hπ
+  have : Finite X := Finite.of_surjective π hπ
   have hN : (Subgroup.normalizer (R : Set U)).map π =
       Subgroup.normalizer ((R.map π : Subgroup X) : Set X) := by
     have h1 := map_normalizer_eq_range_inf_normalizer_map (ψ := π) hker hodd hR

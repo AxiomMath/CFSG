@@ -15,13 +15,13 @@ variable {W : Type} [CommGroup W] [Finite W]
 
 theorem w16g_isElemAbelianOfRank_one_of_card {p : ℕ} (hp : p.Prime) {X : Type*} [Group X]
     [Finite X] (hcard : Nat.card X = p) : IsElemAbelianOfRank p 1 X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨mulEquivOfPrimeCardEq hcard ?_⟩
   simp [Nat.card_eq_fintype_card]
 
 theorem w16g_isElemAbelianOfRank_one_iff {p : ℕ} (hp : p.Prime) {X : Type*} [Group X]
     [Finite X] : IsElemAbelianOfRank p 1 X ↔ Nat.card X = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   constructor
   · rintro ⟨e⟩
     rw [Nat.card_congr e.toEquiv]

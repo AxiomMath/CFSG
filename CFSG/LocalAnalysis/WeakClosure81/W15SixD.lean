@@ -64,6 +64,7 @@ namespace IsMinPair156
 
 variable {M V₀ H S A X : Subgroup G}
 
+omit [Finite G] in
 theorem toPairAt (h : IsMinPair156 M V₀ H S A X) : IsPairAt M X A :=
   h.pair.toPairAt
 
@@ -118,7 +119,7 @@ theorem normal_inf_ker (h : IsMinPair156 M V₀ H S A X) {T : Subgroup G} (hT : 
     exact this.2
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer (inf_le_left.trans hT.le)).2 hXN
 
-theorem odd_relIndex_inf_ker (h : IsMinPair156 M V₀ H S A X) {T : Subgroup G}
+theorem odd_relIndex_inf_ker (_h : IsMinPair156 M V₀ H S A X) {T : Subgroup G}
     (hT : IsSylowIn 2 T X) : Odd ((T ⊓ kerMOf M X).relIndex (kerMOf M X)) := by
   have hK : IsSylowIn 2 (T ⊓ kerMOf M X) (kerMOf M X) :=
     hT.inf_normal (kerMOf_le_group M X) (normal_subgroupOf_kerMOf M X)

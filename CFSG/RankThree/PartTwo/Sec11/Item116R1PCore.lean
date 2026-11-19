@@ -20,7 +20,7 @@ theorem residueR1PCore_of_five (hP2b : Item116P2b) (hP2c : Item116P2c) (h45 : Se
     (h5 : FiveCaseCore) : ResidueR1PCore := by
   intro G _ _ A c L a R Y d h hT hR1 hbot
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hD8, n, hnW, hnc, hnd, hna⟩ := hR1
   have hs := h.toSec11Std hT
   have hAe := h.mem_partTwoF.1
@@ -133,9 +133,9 @@ theorem residueR1PCore_of_five (hP2b : Item116P2b) (hP2c : Item116P2c) (h45 : Se
     commutator_le_theta_of_map_commutator_eq_bot hK₁H hK₂H (by rw [himg₁, himg₂]; exact hcomm)
   have hinfθ : (K₁ ⊔ thetaCent a) ⊓ (K₂ ⊔ thetaCent a) = thetaCent a :=
     inf_sup_theta_eq hK₁H hK₂H (by rw [himg₁, himg₂]; exact hinf)
-  haveI hN₁ : ((thetaCent a).subgroupOf K₁).Normal :=
+  have hN₁ : ((thetaCent a).subgroupOf K₁).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hK₁H.trans hHθ)
-  haveI hN₂ : ((thetaCent a).subgroupOf K₂).Normal :=
+  have hN₂ : ((thetaCent a).subgroupOf K₂).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hK₂H.trans hHθ)
   have hsimp₁ : IsSimpleGroup (K₁ ⧸ (thetaCent a).subgroupOf K₁) :=
     isSimple_quotient_of_map_eq hK₁H himg₁ (isSimpleGroup_of_component_center_bot hc1 hZ1)

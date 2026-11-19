@@ -106,7 +106,7 @@ theorem exists_centralizer_lift [Finite M] [Finite Q] (π : M →* Q) (hπ : Fun
     obtain ⟨P, hSP⟩ := hpy.exists_le_sylow
     refine ⟨P, fun x => ⟨fun hx => hSP hx, fun hx => ?_⟩⟩
     have hPM : IsPGroup 5 ((P : Subgroup ↥H).map H.subtype) :=
-      P.isPGroup'.of_surjective (H.subtype.subgroupMap _) (H.subtype.subgroupMap_surjective _)
+      P.isPGroup.of_surjective (H.subtype.subgroupMap _) (H.subtype.subgroupMap_surjective _)
     have hcard := card_le_five_of_isPGroup π hP hg
       (T := (P : Subgroup ↥H).map H.subtype)
       (by rintro _ ⟨z, _, rfl⟩; exact z.2) hPM

@@ -84,7 +84,7 @@ theorem five_le_card_gamma_of_E6_three
     {G : Type} [Group G] [Finite G]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp 3 B Bs x L D J y K)
-    {lab : LargeEvenLabel} (hΛ : LargeEvenInLambda2 lab)
+    {lab : LargeEvenLabel} (_hΛ : LargeEvenInLambda2 lab)
     (hHas : GGHasLabel lab (K ⧸ Subgroup.center K))
     (htag : lab.tag = .E6) (h3 : 3 ∣ 2 ^ lab.n - 1)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G)) :

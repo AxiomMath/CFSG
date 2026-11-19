@@ -358,7 +358,7 @@ theorem exists_conj_eq_mul_of_residual_E (hset : SeitzSetting G L)
           LinearPilot.conj_inv_mem_centralizer_self_iff.2 hgtC
         set P : Subgroup G := (S : Subgroup G).map (MulAut.conj g).toMonoidHom ⊓
           normalizer (L : Set G) with hP
-        have hP2 : IsPGroup 2 P := (S.isPGroup'.map _).to_inf_left
+        have hP2 : IsPGroup 2 P := (S.isPGroup.map _).to_inf_left
         set B : Subgroup (MulAut C) := ((P.subgroupOf (normalizer (L : Set G))).map
           (E6Pilot.normalizerAut e)) with hB
         have hB2 : IsPGroup 2 B :=

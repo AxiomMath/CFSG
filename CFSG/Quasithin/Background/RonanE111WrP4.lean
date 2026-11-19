@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem wr_pPower_finset {p : ℕ} {Y' : Subgroup G} (s : Finset (Subgroup G))
     (hp : ∀ V ∈ s, ∀ x ∈ V, ∃ k : ℕ, x ^ p ^ k ∈ Y')
     (hcomm : ∀ V ∈ s, ∀ V' ∈ s, V ≠ V' → ∀ x ∈ V, ∀ y ∈ V', x * y = y * x) :

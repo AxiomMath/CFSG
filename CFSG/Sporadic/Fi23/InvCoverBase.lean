@@ -115,11 +115,11 @@ theorem rep_ptT (k : ℕ) : Rep 31671 (ptT k) (conjPt k) := by
   unfold treeActTab
   rw [ap_ofFn _ hm, UInt32.toNat_ofNat', Nat.mod_eq_of_lt hlt, h]
 
-@[expose] noncomputable def d1 : J := conjPt 1
+noncomputable def d1 : J := conjPt 1
 
-@[expose] noncomputable def c39 : J := conjPt 39
+noncomputable def c39 : J := conjPt 39
 
-@[expose] noncomputable def t2 : J := d * d1 * c39
+noncomputable def t2 : J := d * d1 * c39
 
 noncomputable abbrev XBT : Table := compT 31671 (dTab orb) (ptT 1)
 
@@ -191,7 +191,7 @@ theorem mem_orbit_iff_mem_D23
   · rintro ⟨g, rfl⟩
     exact ⟨ConjAct.toConjAct g, by rw [toConjAct_smul_eq]⟩
 
-@[expose] noncomputable def ptD : Fin 31671 ≃ D23 :=
+noncomputable def ptD : Fin 31671 ≃ D23 :=
   ptEquiv.trans (Equiv.subtypeEquivRight mem_orbit_iff_mem_D23)
 
 theorem ptD_val (i : Fin 31671) : (ptD i : J) = conjPt i.val := rfl

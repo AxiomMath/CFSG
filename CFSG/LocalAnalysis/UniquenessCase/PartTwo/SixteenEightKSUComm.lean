@@ -16,6 +16,7 @@ open CFSG.ClassicalGroups.Unitary CFSG.LieType.Universal.Unitary CFSG.LieType.Bo
 
 variable {K : Type} [Field K] [Finite K] {n : ℕ}
 
+omit [Finite K] in
 private theorem s16k_prod_update₂ {ι : Type} [Fintype ι] [DecidableEq ι] {i j : ι}
     (hij : i ≠ j) (c d : K) :
     ∏ k, Function.update (Function.update (1 : ι → K) i c) j d k = c * d := by
@@ -30,17 +31,19 @@ private noncomputable def s16k_diagGL (d : Fin n → K) (hd : ∀ i, d i ≠ 0) 
   Matrix.GeneralLinearGroup.mkOfDetNeZero (Matrix.diagonal d)
     (by rw [Matrix.det_diagonal]; exact Finset.prod_ne_zero_iff.mpr fun i _ => hd i)
 
+omit [Finite K] in
 private theorem s16k_diagGL_val (d : Fin n → K) (hd : ∀ i, d i ≠ 0) :
     ((s16k_diagGL d hd : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = Matrix.diagonal d :=
   Matrix.GeneralLinearGroup.val_mkOfDetNeZero _ _
 
 private theorem s16k_pow_three_eq_one (hK : Nat.card K = 4) (x : K) (hx : x ≠ 0) :
     x ^ 3 = 1 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have h := FiniteField.pow_card_sub_one_eq_one x hx
   rw [← Nat.card_eq_fintype_card, hK] at h
   simpa using h
 
+omit [Finite K] in
 private theorem s16k_single_eq_smul (i : Fin n) (x : K) :
     (Pi.single i x : Fin n → K) = x • (Pi.single i (1 : K) : Fin n → K) := by
   ext j
@@ -48,7 +51,8 @@ private theorem s16k_single_eq_smul (i : Fin n) (x : K) :
   · subst hj; simp
   · simp [Pi.single_eq_of_ne hj]
 
-private theorem s16k_diagGL_mem_statedSU (hK : Nat.card K = 4) (d : Fin n → K)
+omit [Finite K] in
+private theorem s16k_diagGL_mem_statedSU (_hK : Nat.card K = 4) (d : Fin n → K)
     (hd : ∀ i, d i ≠ 0) (hd3 : ∀ i, d i ^ 3 = 1) (hprod : ∏ i, d i = 1) :
     s16k_diagGL d hd ∈ StatedSU n 2 K := by
   refine Subgroup.subset_closure ⟨?_, ?_⟩
@@ -63,10 +67,10 @@ private theorem s16k_diagGL_mem_statedSU (hK : Nat.card K = 4) (d : Fin n → K)
 private theorem s16k_transvection_swap (hK : Nat.card K = 4) {i j : Fin n} (hij : i ≠ j) :
     ∃ A ∈ StatedSU n 2 K,
       (A : Matrix (Fin n) (Fin n) K) *ᵥ Pi.single i (1 : K) = Pi.single j (1 : K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nonempty (Fin n) := ⟨i⟩
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nonempty (Fin n) := ⟨i⟩
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
       rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   have hF : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
@@ -98,7 +102,7 @@ theorem s16k_addCommutantScalar_statedSU {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 4) {n : ℕ} (hn : 3 ≤ n) : AddCommutantScalar (StatedSU n 2 K) := by
   intro f hf
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Kˣ)
   have hcu : Nat.card Kˣ = 3 := by rw [Nat.card_units, hK]
   have hgord : orderOf g = 3 := by rw [orderOf_eq_card_of_forall_mem_zpowers hg, hcu]
@@ -128,11 +132,11 @@ theorem s16k_addCommutantScalar_statedSU {K : Type} [Field K] [Finite K]
     let d : Fin n → K := Function.update (Function.update (1 : Fin n → K) j ω) k ω⁻¹
     have hdj : d j = ω := by
       dsimp only [d]
-      rw [Function.update_apply, if_neg hjk, Function.update_apply, if_pos rfl]
+      rw [Function.update_apply, ite_eq_right hjk, Function.update_apply, ite_eq_left rfl]
     have hdi : d i = 1 := by
       dsimp only [d]
-      rw [Function.update_apply, if_neg (Ne.symm hki), Function.update_apply,
-        if_neg (Ne.symm hji)]
+      rw [Function.update_apply, ite_eq_right (Ne.symm hki), Function.update_apply,
+        ite_eq_right (Ne.symm hji)]
       rfl
     have hd0 : ∀ m, d m ≠ 0 := by
       intro m
@@ -195,7 +199,7 @@ theorem s16k_addCommutantScalar_statedSU {K : Type} [Field K] [Finite K]
       let d : Fin n → K := Function.update (Function.update (1 : Fin n → K) i x) k x⁻¹
       have hdi : d i = x := by
         dsimp only [d]
-        rw [Function.update_apply, if_neg hik, Function.update_apply, if_pos rfl]
+        rw [Function.update_apply, ite_eq_right hik, Function.update_apply, ite_eq_left rfl]
       have hd0 : ∀ m, d m ≠ 0 := by
         intro m
         dsimp only [d]
@@ -245,6 +249,7 @@ theorem s16k_addCommutantScalar_statedSU {K : Type} [Field K] [Finite K]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [hhom i (v i), hdiag i, hceq i, smul_smul, smul_smul, mul_comm (v i) c]
 
+omit [Finite K] in
 private theorem s16k_conjTr_mem_statedSU {σ : K ≃+* K} (hσ : ∀ x : K, σ x = x ^ 2)
     {A : GL (Fin n) K} (hA : A ∈ StatedSU n 2 K) :
     conjTr σ (A : Matrix (Fin n) (Fin n) K) * (A : Matrix (Fin n) (Fin n) K) = 1 := by
@@ -268,9 +273,9 @@ theorem s16k_normalizer_statedSU_unitary {K : Type} [Field K] [Finite K]
     (hg : g ∈ Subgroup.normalizer (StatedSU n 2 K : Set (Matrix.GeneralLinearGroup (Fin n) K))) :
     ((g : Matrix (Fin n) (Fin n) K).map (fun x => x ^ 2))ᵀ *
       (g : Matrix (Fin n) (Fin n) K) = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
       rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   have hF : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
@@ -353,7 +358,7 @@ theorem s16k_normalizer_statedSU_unitary {K : Type} [Field K] [Finite K]
     rw [hHc, h0, zero_smul, Matrix.zero_mul] at h1
     have h2 : (0 : K) = 1 := by
       have h3 := congrFun (congrFun h1 i0) i0
-      simpa using h3
+      simp at h3
     exact one_ne_zero h2.symm
   have hconjH : conjTr (unitaryInvolution K 2 1) H = H := by
     have hconjS : conjTr (unitaryInvolution K 2 1) S = G := by

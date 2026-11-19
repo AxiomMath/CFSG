@@ -19,7 +19,7 @@ open CFSG.Open CFSG.HardMathSupport.Dickson.I271
 open CFSG.RankThree.PartOne CFSG.Sporadic.HeldB in
 theorem kFactNineThreeNoTwoAt_he :
     KFactNineThreeNoTwoAt 7 (.sporadic .He) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨⟨hQP, -, hQcard, hQexp⟩, -⟩ := R3E_He_full_seven_centralizer_structures
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.He.nonempty_mulEquiv
   have hZ : Subgroup.center heP = ⊥ := autModel_center_eq_bot heAutModel
@@ -40,11 +40,11 @@ theorem kFactNineThreeNoTwoAt_he :
 open CFSG.ONSchreier CFSG.RankThree.Native in
 theorem kFactNineThreeNoTwoAt_onan :
     KFactNineThreeNoTwoAt 7 (.sporadic .ONan) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.ON.nonempty_mulEquiv
   have hD := on7_sevenModel
   have hZ : Subgroup.center Pv = ⊥ := by
-    haveI : IsSimpleGroup Pv := @MulEquiv.isSimpleGroup Pv _ Blueprint.NativeSporadic.ON _
+    have : IsSimpleGroup Pv := @MulEquiv.isSimpleGroup Pv _ Blueprint.NativeSporadic.ON _
       CFSG.Sporadic.ON.isSimpleGroup_ON onEquivPv.symm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Pv) with h | h
     · exact h

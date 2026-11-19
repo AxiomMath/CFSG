@@ -430,7 +430,7 @@ theorem caseCheck_true : caseCheck dVb (CFSG.KS.PEnumRC.recParArr VbKT.cnt VbKT.
       obtain ⟨i, -, j, ⟨hj, -⟩, rfl⟩ := hp
       exact hj
     simp only [Function.comp_apply, beq_iff_eq]
-    rw [cent5Of_tb sz hTY c0 tT hE (hTY _ hp1) (hTY _ hp2)]
+    rw [cent5Of_tb hTY c0 tT hE (hTY _ hp1) (hTY _ hp2)]
     exact hsol.2 p hp
 
 end CertificateChecks.KernelHSStd.U43Vb

@@ -64,7 +64,7 @@ theorem exists_normalizer_conj_eq_of_ti_of_irred (hVL : V ≤ L)
     ∃ h ∈ normalizer (L : Set X), h * x * h⁻¹ = y := by
   obtain ⟨a₀, ha₀, ha₀1⟩ : ∃ a ∈ V, a ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hkV
     rw [mem_normalizer_iff]
     intro n
@@ -254,7 +254,7 @@ theorem sec717_exists_bar_move (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hy
   have hLH : L ≤ H0 M Z := fun x hx => hc.Rt_le_H0 t (hCNR (hL.2.1 hx))
   have hbL : bar M Q L ≤ bar M Q (H0 M Z) := bar_mono' hLH
   have hbZ : bar M Q Z0 ≤ bar M Q (H0 M Z) := bar_mono' (hZ0.le.trans (hc.Rt_le_H0 t))
-  obtain ⟨k, hk, hkN⟩ := SetLike.not_le_iff_exists.mp hmove
+  obtain ⟨k, hk, hkN⟩ := IsConcreteLE.not_le_iff_exists.mp hmove
   have hkH : k ∈ H0 M Z := (mem_inf.mp hk).1
   have hkV : k ∉ normalizer (Z0 : Set G) := fun h => hkN (mem_inf.mpr ⟨hkH, h⟩)
   have hkM : k ∈ M := (mem_inf.mp hkH).1

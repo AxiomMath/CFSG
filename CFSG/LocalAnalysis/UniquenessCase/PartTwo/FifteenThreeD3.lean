@@ -21,7 +21,7 @@ theorem s15_Three_O1a_of_alt_core (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 
     (hperf : s15KNatPerf ↥(lBar V₀ V hV L) (lStar D.M V₀ V hV L) (wStar D.M V₀ V hV L))
     (hA : UC22.IsAlt ↥(lBar V₀ V hV L) 6 ∨ UC22.IsAlt ↥(lBar V₀ V hV L) 7 ∨
       IsLn ↥(lBar V₀ V hV L) 4 1)
-    (hsig : D.sig = {3}) (hV0 : mSub V₀ ≤ 2) (hT : RTable137)
+    (_hsig : D.sig = {3}) (_hV0 : mSub V₀ ≤ 2) (hT : RTable137)
     (hAbs : RAbsIrr153) (hTor : RTorus3_153) (h1217 : R1217 D)
     (hrk : 3 ≤ CFSG.Open.pRank 3 D.M ∧
       CFSG.Open.pRank 3 D.M - 1 ≤

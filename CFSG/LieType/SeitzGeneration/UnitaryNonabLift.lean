@@ -49,7 +49,7 @@ theorem coe_pow_eq_smul_one_of_piSUn_p (hn : 0 < n) {x : unitarySU ℓ f K n}
   rw [hc', zero_smul, Matrix.mul_zero] at h1
   simpa using congrFun (congrFun h1 ⟨0, hn⟩) ⟨0, hn⟩
 
-theorem exists_psu_lift_pair_p (h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hn : 0 < n)
+theorem exists_psu_lift_pair_p (_h : UnitaryFieldData ℓ f K) (hp : p.Prime) (hn : 0 < n)
     (E : Subgroup (StatedProj (StatedSU n (ℓ ^ f) K)))
     (hcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hexp : ∀ a ∈ E, a ^ p = 1)
     (hcard : Nat.card E = p ^ 2) :

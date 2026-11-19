@@ -160,6 +160,7 @@ theorem commutator_range_le_pi_orthLeviBlockZ (hd : OrthCuts r d) (hr : 3 ≤ r)
     rw [hbot] at hmem
     exact hmem
 
+omit [Finite K] [CharP K 2] in
 theorem pi_orthLeviBlockZ_le :
     Subgroup.pi Set.univ (orthLeviBlockZ K r d b c) ≤
       Subgroup.pi Set.univ (orthLeviBlock K r d b c) := by
@@ -225,7 +226,7 @@ theorem orthResDer_isQuasisimple_center (hirr : ∀ t : K, t ^ 2 + b * t + c ≠
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     exact ⟨n, by rw [Nat.card_eq_fintype_card, hn]⟩
   obtain ⟨hsimple, hna, -⟩ := orthResDer_facts (K := K) (b := b) (c := c) hK hm1 hirr
-  haveI := hsimple
+  have := hsimple
   exact orthMinus_isQuasisimple_of_simple hna
 
 end LeviData
@@ -233,7 +234,7 @@ end LeviData
 theorem leviInnOnPW_orthMinus (p : ℕ) [OddPrime p]
     (hGA : GriessAllModelsStatement) : LeviInnOnPW p (IsLieOf IdxTwistedD) := by
   intro Y _ _ L P hCP hC hLn _ _ hrk
-  haveI := hLn
+  have := hLn
   have hZ : OddCenterRest := oddCenterRest_of_griess hGA
   obtain ⟨dI, hdI, ⟨e⟩⟩ := id hC
   obtain ⟨K, _, _, _, b, c, r, s, d, ρ, hr, hirr, hcuts, hρ, -⟩ :=

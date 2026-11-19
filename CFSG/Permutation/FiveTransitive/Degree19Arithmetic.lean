@@ -44,10 +44,10 @@ namespace CFSG
 
 namespace FiveTransitive.Degree19
 
-@[expose] abbrev SeventeenNormalizerRatio :=
+abbrev SeventeenNormalizerRatio :=
   ↥(Nat.divisors 16)
 
-@[expose] abbrev NineteenNormalizerRatio :=
+abbrev NineteenNormalizerRatio :=
   ↥(Nat.divisors 18)
 
 @[expose] def stabilizerFactorArithmeticPredicate
@@ -71,13 +71,13 @@ theorem stabilizer_factor_arithmetic :
     ∀ a : Fin 12,
       ∀ b : Fin 6,
         stabilizerFactorArithmeticPredicate a b := by
-  letI (a : Fin 12)
+  let (a : Fin 12)
       (b : Fin 6) :
       Decidable
         (stabilizerFactorArithmeticPredicate a b) := by
     dsimp only [stabilizerFactorArithmeticPredicate]
     infer_instance
-  letI : Decidable
+  let : Decidable
       (∀ a : Fin 12,
         ∀ b : Fin 6,
           stabilizerFactorArithmeticPredicate a b) :=

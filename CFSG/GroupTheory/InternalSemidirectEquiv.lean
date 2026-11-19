@@ -138,7 +138,7 @@ theorem semidirectProduct_congr_left {N₁ G₁ N₂ G₂ : Type*} [Group N₁] 
     (h : ∀ g : G₁, MulEquiv.trans (φ₁ g) fn = fn.trans (φ₂ (fg g))) (p : N₁ ⋊[φ₁] G₁) :
     (SemidirectProduct.congr fn fg h p).left = fn p.left := by
   have hp : p = SemidirectProduct.inl p.left * SemidirectProduct.inr p.right := by
-    simpa using (SemidirectProduct.mk_eq_inl_mul_inr p.right p.left)
+    simp
   conv_lhs => rw [hp]
   rw [map_mul, semidirectProduct_congr_inl, semidirectProduct_congr_inr,
     SemidirectProduct.mul_left]
@@ -149,7 +149,7 @@ theorem semidirectProduct_congr_right {N₁ G₁ N₂ G₂ : Type*} [Group N₁]
     (h : ∀ g : G₁, MulEquiv.trans (φ₁ g) fn = fn.trans (φ₂ (fg g))) (p : N₁ ⋊[φ₁] G₁) :
     (SemidirectProduct.congr fn fg h p).right = fg p.right := by
   have hp : p = SemidirectProduct.inl p.left * SemidirectProduct.inr p.right := by
-    simpa using (SemidirectProduct.mk_eq_inl_mul_inr p.right p.left)
+    simp
   conv_lhs => rw [hp]
   rw [map_mul, semidirectProduct_congr_inl, semidirectProduct_congr_inr,
     SemidirectProduct.mul_right]
@@ -160,7 +160,7 @@ theorem semidirectProduct_congr_mem_ker_iff {Q N : Subgroup G} {Q' N' : Subgroup
     (θQ : ↥Q ≃* ↥Q') (θN : ↥N ≃* ↥N')
     (hagree : ∀ (x : G) (hxQ : x ∈ Q) (hxN : x ∈ N), (θQ ⟨x, hxQ⟩ : G') = θN ⟨x, hxN⟩)
     (hback : ∀ n : ↥N, (θN n : G') ∈ Q' → (n : G) ∈ Q)
-    (h : ∀ (n : ↥N) (q : ↥Q) (hq : (n : G) * q * (n : G)⁻¹ ∈ Q),
+    (_h : ∀ (n : ↥N) (q : ↥Q) (hq : (n : G) * q * (n : G)⁻¹ ∈ Q),
       ((θQ ⟨(n : G) * q * (n : G)⁻¹, hq⟩ : ↥Q') : G') =
         (θN n : G') * (θQ q : G') * (θN n : G')⁻¹)
     (hcongr : ∀ n : ↥N, (conjHom Q N hN n).trans θQ =
@@ -301,8 +301,8 @@ theorem exists_mulEquiv_sup_glue_of_normal {Q N : Subgroup G} {Q' N' : Subgroup 
     ∃ ζ : ↥(Q ⊔ N) ≃* ↥(Q' ⊔ N'),
       (∀ q : ↥Q, (ζ ⟨q, Subgroup.mem_sup_left q.2⟩ : G') = θQ q) ∧
       (∀ n : ↥N, (ζ ⟨n, Subgroup.mem_sup_right n.2⟩ : G') = θN n) := by
-  haveI := hQ
-  haveI := hQ'
+  have := hQ
+  have := hQ'
   exact exists_mulEquiv_sup_glue (Subgroup.le_normalizer_of_normal (H := Q))
     (Subgroup.le_normalizer_of_normal (H := Q')) θQ θN hagree hback
     (fun n q _ => h n q)

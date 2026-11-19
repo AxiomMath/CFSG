@@ -30,7 +30,7 @@ private theorem w16g_dot_add_left {X : Subgroup (MulAut W)}
     (lam : s13IsoComps X → Additive ↥X →+ ZMod 3) (u v w : ↥X) :
     w16g_dot lam (u * v) w = w16g_dot lam u w + w16g_dot lam v w := by
   classical
-  haveI : Fintype ↥(s13IsoComps X) := Fintype.ofFinite _
+  have : Fintype ↥(s13IsoComps X) := Fintype.ofFinite _
   simp only [w16g_dot, finsum_eq_sum_of_fintype]
   rw [← Finset.sum_add_distrib]
   exact Finset.sum_congr rfl fun U _ => by rw [ofMul_mul, map_add, add_mul]
@@ -39,7 +39,7 @@ private theorem w16g_dot_add_right {X : Subgroup (MulAut W)}
     (lam : s13IsoComps X → Additive ↥X →+ ZMod 3) (u v w : ↥X) :
     w16g_dot lam u (v * w) = w16g_dot lam u v + w16g_dot lam u w := by
   classical
-  haveI : Fintype ↥(s13IsoComps X) := Fintype.ofFinite _
+  have : Fintype ↥(s13IsoComps X) := Fintype.ofFinite _
   simp only [w16g_dot, finsum_eq_sum_of_fintype]
   rw [← Finset.sum_add_distrib]
   exact Finset.sum_congr rfl fun U _ => by rw [ofMul_mul, map_add, mul_add]
@@ -48,7 +48,7 @@ private theorem w16g_dot_one_left {X : Subgroup (MulAut W)}
     (lam : s13IsoComps X → Additive ↥X →+ ZMod 3) (v : ↥X) :
     w16g_dot lam (1 : ↥X) v = 0 := by
   classical
-  haveI : Fintype ↥(s13IsoComps X) := Fintype.ofFinite _
+  have : Fintype ↥(s13IsoComps X) := Fintype.ofFinite _
   simp [w16g_dot, ofMul_one]
 
 private theorem w16g_dot_inv_left {X : Subgroup (MulAut W)}
@@ -67,7 +67,7 @@ private theorem w16g_dot_conj (h : HAb A X Q t 3)
   classical
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fintype ↥(s13IsoComps X) := Fintype.ofFinite _
+  have : Fintype ↥(s13IsoComps X) := Fintype.ofFinite _
   obtain ⟨σ, c, -, hσcoord⟩ := exists_monomial h.hW hp3 hp32 h.hXe hl
     (fun x hx => h.hXA t h.htA x hx)
     (fun x hx => by simpa using h.hXA t⁻¹ (A.inv_mem h.htA) x hx)
@@ -88,14 +88,16 @@ private theorem w16g_dot_conj (h : HAb A X Q t 3)
           (lam U (Additive.ofMul u) * lam U (Additive.ofMul v)) := by ring
     _ = lam U (Additive.ofMul u) * lam U (Additive.ofMul v) := by rw [hc, one_mul]
 
+omit [Finite W] in
 private theorem w16g_mem_supp_zpowers_iff {X : Subgroup (MulAut W)}
     {lam : s13IsoComps X → Additive ↥X →+ ZMod 3} (hl : IsCoord X 3 lam) (x : ↥X)
     (U : s13IsoComps X) :
     (U : Subgroup W) ∈ s13Supp X (Subgroup.zpowers (x : MulAut W)) ↔
       lam U (Additive.ofMul x) ≠ 0 := by
-  simp only [s13Supp, Set.mem_setOf_eq, U.2, true_and]
+  simp only [s13Supp, Set.mem_ofPred_eq, U.2, true_and]
   exact (coord_ne_zero_iff hl x U).symm
 
+omit [Finite W] in
 private theorem w16g_commSub_zpowers_eq_bot_iff {U : Subgroup W} {z : MulAut W} :
     commSub U (Subgroup.zpowers z) = ⊥ ↔ z ∈ centSub U := by
   rw [commSub_eq_bot_iff]
@@ -114,13 +116,13 @@ private theorem w16g_supp_zpowers_inv_le (h : HAb A X Q t 3)
     (hyinv : t * (y : MulAut W) * t⁻¹ = (y : MulAut W)⁻¹) :
     s13Supp X (Subgroup.zpowers (y : MulAut W)) ⊆ s13Supp X Q := by
   classical
-  haveI : Finite (Subgroup W) := w16g_finite_subgroups
+  have : Finite (Subgroup W) := w16g_finite_subgroups
   have hcost : rk ↥(commSub (commSub ⊤ Q) (Subgroup.zpowers t)) = 3 := by
     have h1 := (cost_commSub_Q h).1
     have h2 := w16g_three_rk_eq_six h he
     omega
   have hQmap1 : Q.map (MulAut.conj (1 : MulAut W)).toMonoidHom = Q := by
-    rw [show MulAut.conj (1 : MulAut W) = 1 from by ext w; simp [MulAut.conj_apply]]
+    rw [show MulAut.conj (1 : MulAut W) = 1 from by ext w; simp]
     exact Subgroup.map_id Q
   have ht1 : (1 : MulAut W) * t * 1⁻¹ = t := by simp
   have hcost' : rk ↥(commSub (commSub ⊤ (Q.map (MulAut.conj (1 : MulAut W)).toMonoidHom))
@@ -186,8 +188,8 @@ private theorem w16g_three_dot_eq_zero_of_inv (h : HAb A X Q t 3)
     ∀ q : ↥X, (q : MulAut W) ∈ Q → q ≠ 1 → ∀ y : ↥X,
       t * (y : MulAut W) * t⁻¹ = (y : MulAut W)⁻¹ → w16g_dot lam q y = 0 := by
   classical
-  haveI : Finite (Subgroup W) := w16g_finite_subgroups
-  haveI : Fintype ↥(s13IsoComps X) := Fintype.ofFinite _
+  have : Finite (Subgroup W) := w16g_finite_subgroups
+  have : Fintype ↥(s13IsoComps X) := Fintype.ofFinite _
   intro q hqQ hq1 y hyinv
   by_contra hdot
   have hzpeq : s13Supp X (Subgroup.zpowers (q : MulAut W)) = s13Supp X Q := by
@@ -206,7 +208,7 @@ private theorem w16g_three_dot_eq_zero_of_inv (h : HAb A X Q t 3)
     exact congrArg (s13Supp X)
       (Subgroup.eq_of_le_of_card_ge hzple (by rw [hQ3, hcard3]))
   let E : Set ↥(s13IsoComps X) := {U | (U : Subgroup W) ∈ s13Supp X Q}
-  haveI : Fintype ↥E := Fintype.ofFinite _
+  have : Fintype ↥E := Fintype.ofFinite _
   have hEimage : (Subtype.val : ↥(s13IsoComps X) → Subgroup W) '' E =
       s13Supp X Q := by
     ext U
@@ -325,7 +327,7 @@ theorem w16g_three_orth_core (h : HAb A X Q t 3)
     ∀ q : ↥X, (q : MulAut W) ∈ Q → ∀ x : ↥X,
       ∑ᶠ U : ↥(s13IsoComps X), lam U (Additive.ofMul q) * lam U (Additive.ofMul x) = 0 := by
   classical
-  haveI : Finite (Subgroup W) := w16g_finite_subgroups
+  have : Finite (Subgroup W) := w16g_finite_subgroups
   intro q hqQ x
   by_cases hq1 : q = 1
   · subst hq1

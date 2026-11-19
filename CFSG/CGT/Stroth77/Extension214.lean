@@ -49,8 +49,7 @@ theorem t320_uvM_restr {m : ℕ} (hm : 3 ≤ m) :
   intro r c
   fin_cases r <;> fin_cases c <;>
     simp [Type120.uvM, Type120.uvA, Type120.tM, Type120.ρM, Type320.uvM, Type320.uvA,
-      Type320.tM, Type320.ρM, ofCols_apply, diag4, Matrix.mul_diagonal, Matrix.diagonal_mul,
-      Matrix.mul_apply, Fin.sum_univ_three, Type120.k,
+      Type320.tM, Type320.ρM, ofCols_apply, diag4, Matrix.mul_apply, Fin.sum_univ_three, Type120.k,
       h2m, h2m1] <;>
     first
     | ring1
@@ -85,8 +84,7 @@ theorem t320_tM_restr {m : ℕ} (hm : 3 ≤ m) :
   intro r c
   fin_cases r <;> fin_cases c <;>
     simp [Type120.uvA, Type120.tM, Type120.ρM, Type320.uvA, Type320.tM, Type320.ρM,
-      ofCols_apply, diag4, Matrix.mul_diagonal, Matrix.diagonal_mul,
-      Matrix.mul_apply, Fin.sum_univ_three, Type120.k, h2m, h2m1] <;>
+      ofCols_apply, diag4, Matrix.mul_apply, Fin.sum_univ_three, Type120.k, h2m, h2m1] <;>
     first
     | ring1
     | linear_combination (128*N^2) * hG3
@@ -113,9 +111,7 @@ theorem t320_uM_restr {m : ℕ} (hm : 3 ≤ m) :
   refine MatEq.of_witness (W := !![0, -16*N, -16*N; 0, 0, 0; 0, 0, 0]) ?_
   intro r c
   fin_cases r <;> fin_cases c <;>
-    simp [Type120.uM, Type320.uM, uMat, ofCols_apply, diag4, Matrix.mul_diagonal,
-      Matrix.diagonal_mul,
-      Matrix.mul_apply, Fin.sum_univ_three,
+    simp [Type120.uM, Type320.uM, uMat, ofCols_apply, diag4, Matrix.mul_apply, Fin.sum_univ_three,
       Type120.k, h2m, h2m1] <;>
     ring1
 
@@ -127,8 +123,7 @@ theorem t320_ρM_restr {m : ℕ} (hm : 3 ≤ m) :
   refine MatEq.of_witness (W := 0) ?_
   intro r c
   fin_cases r <;> fin_cases c <;>
-    simp [Type120.ρM, Type320.ρM, ofCols_apply, diag4, Matrix.mul_diagonal, Matrix.diagonal_mul,
-      Matrix.mul_apply, Fin.sum_univ_three]
+    simp [Type120.ρM, Type320.ρM, ofCols_apply, diag4, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem t320_k_pos {m : ℕ} (hm : 3 ≤ m) (i : Fin 3) : 1 ≤ (StrothTypeIndex.t320 m hm).k i := by
   fin_cases i <;> simp [StrothTypeIndex.k, Type32x.k] <;> omega
@@ -170,8 +165,7 @@ theorem parityTorus_rho_t320 {m : ℕ} (hm : 3 ≤ m) (y : Torus (StrothTypeInde
     Torus.ofInt_eq_zsmul_gens, parityTorus_zsmul_gens, parityTorus_zsmul_gens]
   have h4 : (4 : ZMod 2) = 0 := by decide
   funext r
-  fin_cases r <;> simp [rhoBar300, Type320.ρM, ofCols_mulVec, h4, sub_eq_add_neg,
-    ZMod.neg_eq_self_mod_two]
+  fin_cases r <;> simp [rhoBar300, Type320.ρM, ofCols_mulVec, h4, ZMod.neg_eq_self_mod_two]
 
 theorem t320_rho_a {m : ℕ} (hm : 3 ≤ m) :
     (StrothTypeIndex.t320 m hm).action.φρ (gen (StrothTypeIndex.t320 m hm).k 1) =
@@ -352,10 +346,9 @@ theorem profile4_t120_aux {m : ℕ} (hm : 1 ≤ m) {i F G : ℤ} (h : Type120.Da
     intro r
     rw [Int.modEq_iff_dvd]
     fin_cases r <;>
-      simp [Type120.k, Type120.uM, uMat, ofCols_mulVec, hN, h2m, h2m1] <;>
+      simp [Type120.k, Type120.uM, uMat, ofCols_mulVec, hN, h2m, h2m1];
       first
       | exact ⟨16*G*y + 16*G*z + x + 36*y + 36*z, by ring1⟩
-      | exact ⟨0, by ring1⟩
   · intro x y z
     rw [tw_eq_ofInt, tw_eq_ofInt, SigmaFourAction.φρ, matAct_ofInt, hρ,
       Torus.ofInt_eq_ofInt_iff]
@@ -369,13 +362,11 @@ theorem profile4_t120_aux {m : ℕ} (hm : 1 ≤ m) {i F G : ℤ} (h : Type120.Da
   · refine ⟨-8 * G - 19, 1, -1, ?_⟩
     rw [SigmaFourAction.φuv]
     refine matAct_gen_of _ _ 0 _ _ _ ?_ ?_ ?_ <;> rw [huv] <;>
-      simp [Type120.uvM, ofCols_apply, ofCols_mulVec,
-        -Matrix.mulVec_mulVec] <;> ring1
+      simp [Type120.uvM, ofCols_apply, -Matrix.mulVec_mulVec]; ring1
   · refine ⟨64 * G ^ 2 + 296 * G + 342, -20 * G - 48, 8 * G + 19, ?_⟩
     rw [SigmaFourAction.φuv]
     refine matAct_gen_of _ _ 1 _ _ _ ?_ ?_ ?_ <;> rw [huv] <;>
-      simp [Type120.uvM, Type120.uvA, ofCols_apply, ofCols_mulVec,
-        -Matrix.mulVec_mulVec] <;> ring1
+      simp [Type120.uvM, Type120.uvA, ofCols_apply, -Matrix.mulVec_mulVec] <;> ring1
   · refine ⟨-768 * G ^ 3 - 6592 * G ^ 2 - 18284 * G - 16530, -960 * G ^ 2 - 4544 * G - 5377,
       96 * G ^ 2 + 464 * G + 560, ?_⟩
     rw [SigmaFourAction.φuv]
@@ -385,13 +376,11 @@ theorem profile4_t120_aux {m : ℕ} (hm : 1 ≤ m) {i F G : ℤ} (h : Type120.Da
   · refine ⟨-8 * G - 15, 1, 2, ?_⟩
     rw [SigmaFourAction.φt]
     refine matAct_gen_of _ _ 0 _ _ _ ?_ ?_ ?_ <;> rw [ht] <;>
-      simp [Type120.tM, ofCols_apply, ofCols_mulVec,
-        -Matrix.mulVec_mulVec] <;> ring1
+      simp [Type120.tM, ofCols_apply, -Matrix.mulVec_mulVec]; ring1
   · refine ⟨32 * G ^ 2 + 76 * G, -28 * G - 67, -32 * G - 76, ?_⟩
     rw [SigmaFourAction.φt]
     refine matAct_gen_of _ _ 1 _ _ _ ?_ ?_ ?_ <;> rw [ht] <;>
-      simp [Type120.tM, ofCols_apply, ofCols_mulVec,
-        -Matrix.mulVec_mulVec] <;> ring1
+      simp [Type120.tM, ofCols_apply, -Matrix.mulVec_mulVec] <;> ring1
   · refine ⟨64 * G ^ 2 + 264 * G + 266, -8 * G - 19, -28 * G - 67, ?_⟩
     rw [SigmaFourAction.φt]
     refine matAct_gen_of _ _ 2 _ _ _ ?_ ?_ ?_ <;> rw [ht] <;>
@@ -400,33 +389,27 @@ theorem profile4_t120_aux {m : ℕ} (hm : 1 ≤ m) {i F G : ℤ} (h : Type120.Da
   · refine ⟨-1, 0, 0, ?_⟩
     rw [SigmaFourAction.φu]
     refine matAct_gen_of _ _ 0 _ _ _ ?_ ?_ ?_ <;> rw [hu] <;>
-      simp [Type120.uM, uMat, ofCols_apply, ofCols_mulVec,
-        -Matrix.mulVec_mulVec] <;> ring1
+      simp [Type120.uM, uMat, ofCols_apply, -Matrix.mulVec_mulVec]
   · refine ⟨-16 * G - 36, 0, 0, ?_⟩
     rw [SigmaFourAction.φu]
     refine matAct_gen_of _ _ 1 _ _ _ ?_ ?_ ?_ <;> rw [hu] <;>
-      simp [Type120.uM, uMat, ofCols_apply, ofCols_mulVec,
-        -Matrix.mulVec_mulVec] <;> ring1
+      simp [Type120.uM, uMat, ofCols_apply, -Matrix.mulVec_mulVec]; ring1
   · refine ⟨-16 * G - 36, 0, 0, ?_⟩
     rw [SigmaFourAction.φu]
     refine matAct_gen_of _ _ 2 _ _ _ ?_ ?_ ?_ <;> rw [hu] <;>
-      simp [Type120.uM, uMat, ofCols_apply, ofCols_mulVec,
-        -Matrix.mulVec_mulVec] <;> ring1
+      simp [Type120.uM, uMat, ofCols_apply, -Matrix.mulVec_mulVec]; ring1
   · refine ⟨1, 0, 0, ?_⟩
     rw [SigmaFourAction.φρ]
     refine matAct_gen_of _ _ 0 _ _ _ ?_ ?_ ?_ <;> rw [hρ] <;>
-      simp [Type120.ρM, ofCols_apply, ofCols_mulVec,
-        -Matrix.mulVec_mulVec] <;> ring1
+      simp [Type120.ρM, ofCols_apply, -Matrix.mulVec_mulVec]
   · refine ⟨0, 0, 0, ?_⟩
     rw [SigmaFourAction.φρ]
     refine matAct_gen_of _ _ 1 _ _ _ ?_ ?_ ?_ <;> rw [hρ] <;>
-      simp [Type120.ρM, ofCols_apply, ofCols_mulVec,
-        -Matrix.mulVec_mulVec] <;> ring1
+      simp [Type120.ρM, ofCols_apply, -Matrix.mulVec_mulVec]
   · refine ⟨-2, -1, -1, ?_⟩
     rw [SigmaFourAction.φρ]
     refine matAct_gen_of _ _ 2 _ _ _ ?_ ?_ ?_ <;> rw [hρ] <;>
-      simp [Type120.ρM, ofCols_apply, ofCols_mulVec,
-        -Matrix.mulVec_mulVec] <;> ring1
+      simp [Type120.ρM, ofCols_apply, -Matrix.mulVec_mulVec]
 
 theorem profile4_t120 {m : ℕ} (hm : 3 ≤ m) :
     Profile4 (StrothTypeIndex.t120 m hm).k (StrothTypeIndex.t120 m hm).action.φuv

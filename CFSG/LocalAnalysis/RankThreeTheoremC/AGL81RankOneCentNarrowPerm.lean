@@ -14,7 +14,7 @@ theorem narrowGamma_eq_top_of_cgFacts {p : ℕ} (hp : p.Prime) {X K : Type} [Gro
     (hs : Subgroup.closure ({s₁, s₂} : Set X) = ⊤) (he : e ^ p = 1) (hf : f ^ p = 1)
     (hef : e * f = f * e) (he1 : e ≠ 1) (hfe : ∀ k < p, f ≠ e ^ k) (h₁ : s₁ * e = e * s₁)
     (h₂ : s₂ * f = f * s₂) (T : Sylow p K) : narrowGamma p (T : Subgroup K) = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfz : f ∉ Subgroup.zpowers e := by
     classical
     intro hfz

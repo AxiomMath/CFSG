@@ -185,7 +185,7 @@ theorem exists_sThree_pair_of_center_three {Y : Type} [Group Y] [Finite Y] {K S 
     rw [← map_pow, hS4 s hs, map_one]
   obtain ⟨H₀, H₁, hH₀, hH₁, hgen⟩ := exists_sThree_pair_of_faithful e₀ hC' hS' hS4'
   have hZS : Z ⊓ S = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨k, hk⟩ := hS.2.1.exists_card_eq
     rw [hZcard, hk]
     exact Nat.Coprime.pow_right _ (by norm_num)

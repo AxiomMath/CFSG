@@ -91,7 +91,7 @@ private theorem ggLieDP_map_conj_rootSubgroup
         (MulAut.conj (canonicalRep (coxeterSystem τ) GGL w)).toMonoidHom =
       rootSubgroup τ GGL (w • δ) := by
   have h2 : (2 : GGL) = 0 := by
-    haveI : CharP GGL 2 := inferInstance
+    have : CharP GGL 2 := inferInstance
     exact_mod_cast CharP.cast_eq_zero GGL 2
   ext x
   constructor
@@ -144,11 +144,11 @@ theorem isSteinbergEnd_ggPhi
       diagramAt (langTag .twistedE6) GGL TwistTag.E6 rfl *
         Units.map (entrywiseHom (ggFrobT f)) g *
         (diagramAt (langTag .twistedE6) GGL TwistTag.E6 rfl)⁻¹
-    simp only [twistHom, MonoidHom.comp_apply, MulAut.conj_apply]
+    simp only [twistHom]
     rfl
 
 theorem ggLie_frobRootMap_eq_on_roots
-    {t : StatedLieTag} (ht : t = .E6 ∨ t = .F4 ∨ t = .twistedE6) {f : ℕ} (hf : 1 ≤ f)
+    {t : StatedLieTag} (ht : t = .E6 ∨ t = .F4 ∨ t = .twistedE6) {f : ℕ} (_hf : 1 ≤ f)
     (hΦ : IsSteinbergEnd (langTag t) GGL (2 ^ f) (ggPhi t f)) (w : WeylGroup (langTag t))
     (g : ModGL (langTag t) GGL) (hg : g ∈ adjointGroup (langTag t) GGL)
     (hlang : ggPhi t f g = g * canonicalRep (coxeterSystem (langTag t)) GGL w)

@@ -68,9 +68,9 @@ theorem e6ToralLangSetupH360_holds : E6ToralLangSetupH360 := by
 
 theorem twE6ToralLangSetupH360_holds : TwE6ToralLangSetupH360 := by
   intro n K _ _ hn hKcard h3 σ hσ ε wd wb hwd3 hwd1 hwb3 Fr hFr g hg hn0 htorus Kc hKc hnorm
-  haveI hcharK : CharP K 2 :=
+  have hcharK : CharP K 2 :=
     CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hKcard, pow_mul])
-  haveI hcharL : CharP (AlgebraicClosure K) 2 :=
+  have hcharL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨S, a, D, -, hT, hap, -, h1, -⟩ :=
     nonempty_twE6ToralLangComp n K hn hKcard h3 σ hσ ε wd wb hwd3 hwd1 hwb3 Fr hFr g hg hn0

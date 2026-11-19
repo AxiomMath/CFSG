@@ -45,14 +45,14 @@ theorem lemmaJ_finrank_map_add_inf_ker {M : Type} [AddCommGroup M] [Module K M]
   have hker : LinearMap.ker (A.domRestrict W) =
       Submodule.comap W.subtype (LinearMap.ker A ⊓ W) := by
     ext x
-    simp [LinearMap.mem_ker, Submodule.mem_comap, Submodule.mem_inf]
+    simp [LinearMap.mem_ker, Submodule.mem_comap]
   rw [hrange, hker, (Submodule.comapSubtypeEquivOfLe
     (inf_le_right : LinearMap.ker A ⊓ W ≤ W)).finrank_eq] at hfin
   exact hfin
 
 theorem lemmaJ_coeff_eq_zero (S : QSpace K) {V : Submodule K S.E} {β : S.E →ₗ[K] S.E}
     (hβ : BetaProps S V β) (h8 : Module.finrank K S.E = 8) (hV4 : Module.finrank K V = 4)
-    (T : S.E →ₗ[K] S.E) (hTβ : ∀ e, T (β e) = β (T e))
+    (T : S.E →ₗ[K] S.E) (_hTβ : ∀ e, T (β e) = β (T e))
     (hrk : Module.finrank K (V.map (T - 1)) ≤ 1)
     {c : K} (hT2 : ∀ e, T (T e) = e + c • β e) : c = 0 := by
   have h2 : (2 : K) = 0 := lemmaJ_two_eq_zero S h8
@@ -275,9 +275,9 @@ theorem lemmaJ (S : QSpace K) {V : Submodule K S.E} {β : S.E →ₗ[K] S.E}
       exact (hFmem x).mp hx
     constructor
     · simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, smul_eq_mul,
-        hvN, hbNx x hx, smul_zero, mul_zero, zero_add, add_zero]
+        hvN, hbNx x hx, mul_zero, add_zero]
     · simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, smul_eq_mul,
-        hvβ, hbβx, smul_zero, mul_zero, zero_add, add_zero]
+        hvβ, hbβx, mul_zero, add_zero]
   have hL2 : ∀ x ∈ F, ∀ w ∈ V ⊔ Submodule.span K {b},
       S.B x (N w) = 0 ∧ S.B x (β w) = 0 := by
     intro x hx w hw

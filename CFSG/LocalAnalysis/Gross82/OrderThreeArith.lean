@@ -21,7 +21,7 @@ theorem false_of_card_fixedSubgroup_dvd (hLie : LieOrderFormulasInput) {K : Type
     (hC : Nat.card (fixedSubgroup α) ∣ a)
     (hlt : padicValNat 3 a + padicValNat 3 (lieOrderDivisor t n (s ^ 3)) <
       padicValNat 3 (lieOrderNumerator t n (s ^ 3))) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hcard, -⟩ := hLie K t n ℓ f hadm hmodel
   rw [hs] at hcard
   have hPdvd : 3 ^ (Nat.card K).factorization 3 ∣ a := by
@@ -85,17 +85,17 @@ private lemma padicValNat_three_pow_two_mul_sub_one {s i : ℕ} (hs : 2 ≤ s) (
     omega
   rw [hp]
   by_cases he : Even i
-  · rw [if_pos he]
+  · rw [ite_eq_left he]
     exact padicValNat_three_sq_sub_one_of_not_dvd_add hsi
       (by have h := pow_mod_three_of_mod_two_even hs3 he; omega)
-  · rw [if_neg he]
+  · rw [ite_eq_right he]
     exact padicValNat_three_sq_sub_one_of_not_dvd_sub hsi
       (by have h := pow_mod_three_of_mod_two_odd hs3 (Nat.not_even_iff_odd.mp he); omega)
 
 theorem padicValNat_three_lieOrder_psl_sq_eq_psu {s n : ℕ} (hs : 2 ≤ s) (h3 : 3 ∣ s + 1) :
     padicValNat 3 (lieOrderNumerator .PSL n (s ^ 2)) =
       padicValNat 3 (lieOrderNumerator .PSU n s) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hs3 : s % 3 = 2 := by omega
   have hs0 : s ≠ 0 := by omega
   have hs20 : s ^ 2 ≠ 0 := pow_ne_zero _ hs0

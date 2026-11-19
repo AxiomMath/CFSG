@@ -99,6 +99,7 @@ theorem snd_eq_zero_of_tElt_mem_K {p : Tc} (h : tElt K p ∈ K.K) : p.2 = 0 := b
     ((act_tElt_eq_dact K p _).symm.trans (hfix _ (by decide)))
     ((act_tElt_eq_dact K p _).symm.trans (hfix _ (by decide)))
 
+omit [K.A.Normal] in
 theorem centralizer_A_le_K : Subgroup.centralizer (K.A : Set X) ≤ K.K := by
   apply Subgroup.centralizer_le
   rintro _ ⟨v, -, rfl⟩
@@ -147,8 +148,8 @@ theorem arch76Lemma2_index_two_core (hρodd : Odd (orderOf K.ρ)) {C : Subgroup 
       ((∃ a : Co, 2 • a = va) ∧ ∃ b : Co, 2 • b = fρ va) ∨
         ((∃ a : Co, 2 • a = va + δ₁) ∧ ∃ b : Co, 2 • b = fρ va + δ₂)) :
     (P : Subgroup X) = C ⊔ Subgroup.closure {K.uv, K.t, K.u} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hCn : C.Normal := by rw [← hCA]; infer_instance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hCn : C.Normal := by rw [← hCA]; infer_instance
   have hCP : C ≤ P := (IsPGroup.of_card_dvd_pow hC).le_sylow_of_normal P
   have hmemC : ∀ {g : X}, g ∈ C ↔ ∀ v, g * K.ev v = K.ev v * g := by
     intro g
@@ -182,7 +183,7 @@ theorem arch76Lemma2_index_two_core (hρodd : Odd (orderOf K.ρ)) {C : Subgroup 
       exact (Nat.card_pos (α := C)).ne' (by rw [hm])
     omega
   have hCK : C ≤ K.K := hCA ▸ centralizer_A_le_K K
-  haveI : K.K.Normal := K.K_normal
+  have : K.K.Normal := K.K_normal
   have hK2 : IsPGroup 2 K.K := by
     rintro ⟨k, hk⟩
     have hkk : k * k ∈ C := hCA ▸ mul_self_mem_centralizer_of_mem_K K hk
@@ -201,7 +202,7 @@ theorem arch76Lemma2_index_two_core (hρodd : Odd (orderOf K.ρ)) {C : Subgroup 
   have hPTK : (P : Subgroup X) ≤ (K.A ⊔ Subgroup.closure {K.uv, K.t, K.u}) ⊔ K.K := by
     intro g hg
     have h2 : ∀ h ∈ (P : Subgroup X), ∃ n : ℕ, h ^ 2 ^ n = 1 := fun h hh => by
-      obtain ⟨n, hn⟩ := P.isPGroup' ⟨h, hh⟩
+      obtain ⟨n, hn⟩ := P.isPGroup ⟨h, hh⟩
       exact ⟨n, by simpa using congrArg Subtype.val hn⟩
     obtain ⟨τ, hτ, hgτ⟩ := K.exists_mul_mem_K (h2 g hg) (h2 _ (mul_mem hg (hTP K.u_mem_T)))
     rw [show g = g * τ * τ⁻¹ by group]
@@ -210,7 +211,7 @@ theorem arch76Lemma2_index_two_core (hρodd : Odd (orderOf K.ρ)) {C : Subgroup 
   · refine le_antisymm (hPTK.trans (sup_le (sup_le (hAC.trans le_sup_left) le_sup_right)
       (hKC.trans le_sup_left))) (sup_le hCP hDP)
   exfalso
-  obtain ⟨k₀, hk₀, hk₀C⟩ := SetLike.not_le_iff_exists.mp hKC
+  obtain ⟨k₀, hk₀, hk₀C⟩ := IsConcreteLE.not_le_iff_exists.mp hKC
   have hidx : (C.subgroupOf K.K).index = 2 := by
     have h1 := (C.subgroupOf K.K).card_mul_index
     rw [show Nat.card (C.subgroupOf K.K) = Nat.card C from
@@ -228,7 +229,7 @@ theorem arch76Lemma2_index_two_core (hρodd : Odd (orderOf K.ρ)) {C : Subgroup 
     intro k hk hkC
     have h := (Subgroup.mul_mem_iff_of_index_two hidx (a := (⟨k₀, hk₀⟩ : K.K)⁻¹)
       (b := ⟨k, hk⟩)).mpr (by
-        simp only [Subgroup.mem_subgroupOf, InvMemClass.coe_inv, inv_mem_iff]
+        simp only [Subgroup.mem_subgroupOf, inv_mem_iff]
         exact iff_of_false hk₀C hkC)
     simpa [Subgroup.mem_subgroupOf] using h
   have hρ3 : K.ρ * K.ρ * K.ρ = 1 := rho_cube_eq_one K hρodd (n := 7) (by rw [hCA]; exact hC)

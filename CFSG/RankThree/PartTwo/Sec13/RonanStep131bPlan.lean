@@ -103,7 +103,7 @@ structure YCfg (G : Type) [Group G] [Finite G] (A : Subgroup G) (c : G) (L : Sub
       (haveI : (solvableRadical Y).Normal := Subgroup.normal_sSup _ fun _ hN => hN.1;
         Nonempty (Y ⧸ solvableRadical Y ≃* CFSG.Blueprint.NativeSporadic.M12)) → False
 
-theorem step131bSLTwoInEUOdd_of_pieces (hS : PieceStruct) (h1 : PieceLevel1)
+theorem step131bSLTwoInEUOdd_of_pieces (_hS : PieceStruct) (h1 : PieceLevel1)
     (hA7 : PieceA7M22) (hHJ : PieceHJ) (hL3 : PieceL3) (hL227 : PieceL227)
     (hM12 : PieceM12) : Step131bSLTwoInEUOdd := by
   intro G _ _ A c L hD hSL hSU E hEle hEe hE27 hEC hEL hodd

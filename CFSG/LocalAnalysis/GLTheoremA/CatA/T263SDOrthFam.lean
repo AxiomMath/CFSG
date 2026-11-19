@@ -17,6 +17,7 @@ section Famsel
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Finite K] [CharP K 2] in
 theorem sdo_nontrivial_of_threeSingular
     (hT : ∃ U : Submodule K V, Module.finrank K U = 3 ∧ ∀ u ∈ U, Q u = 0) : Nontrivial V := by
   obtain ⟨U, hU, -⟩ := hT
@@ -27,7 +28,7 @@ theorem sdo_nontrivial_of_threeSingular
 theorem sdo_center_orthDerived (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     (hT : ∃ U : Submodule K V, Module.finrank K U = 3 ∧ ∀ u ∈ U, Q u = 0) :
     Subgroup.center ↥(orthDerived Q) = ⊥ := by
-  haveI := sdo_nontrivial_of_threeSingular hT
+  have := sdo_nontrivial_of_threeSingular hT
   obtain ⟨-, hcen, -⟩ := CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT
   rw [eq_bot_iff]
   intro z hz
@@ -104,7 +105,7 @@ theorem famSelOrth_holds : FamSelOrth := by
   intro p hp hp2 K _ _ _ V _ _ _ Q hQ hT hK3
   refine sdo_famSel_of_elements p (sdo_center_orthDerived hQ hT) ?_
   intro g hgp hg1 B hB Y hYc hY2 hYB hne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf g = p := orderOf_eq_prime hgp hg1
   have hpl : p ≠ ringChar K := by
     rw [ringChar.eq K 2]

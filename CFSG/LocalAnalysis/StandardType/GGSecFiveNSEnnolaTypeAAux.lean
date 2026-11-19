@@ -14,10 +14,10 @@ theorem ggNEA_dot_sub_sub_eq_zero {k : ℕ} {a b p q : Fin k}
       (Pi.single p 1 - Pi.single q 1) = 0 := by
   rw [sub_eq_add_neg, ← Pi.single_neg, sub_eq_add_neg, ← Pi.single_neg,
     ggDDot_single_add_single]
-  simp [Pi.single_apply, hap, haq, hbp, hbq, Ne.symm hap, Ne.symm haq, Ne.symm hbp, Ne.symm hbq]
+  simp [hap, haq, hbp, hbq]
 
 theorem ggNEA_ggDReflect_comm_of_dot {k : ℕ} {γ γ' : Fin k → ℤ}
-    (hγ : ggDDot γ γ = 2) (hγ' : ggDDot γ' γ' = 2) (h : ggDDot γ γ' = 0) (u : Fin k → ℤ) :
+    (_hγ : ggDDot γ γ = 2) (_hγ' : ggDDot γ' γ' = 2) (h : ggDDot γ γ' = 0) (u : Fin k → ℤ) :
     ggDReflect γ (ggDReflect γ' u) = ggDReflect γ' (ggDReflect γ u) := by
   have h1 : ggDDot (ggDReflect γ' u) γ = ggDDot u γ := by
     rw [ggDDot_comm (ggDReflect γ' u) γ, ggDDot_ggDReflect, h, mul_zero, sub_zero,

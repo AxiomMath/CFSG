@@ -148,14 +148,14 @@ theorem enumW_spec {cap m : ℕ} {ws : List (List ℕ)} (h : enumW cap m ws = tr
     apply le_antisymm
     · rw [genOf, closure_le]
       rintro _ ⟨x, hx, rfl⟩
-      simp only [Set.mem_setOf_eq, Array.mem_toArray, tabsW] at hx
+      simp only [Set.mem_ofPred_eq, List.mem_toArray, tabsW] at hx
       obtain ⟨w, hw, rfl⟩ := List.mem_map.1 hx
       rw [htp w hw]
       exact subset_closure ⟨w, hw, rfl⟩
     · rw [closure_le]
       rintro _ ⟨w, hw, rfl⟩
       refine subset_closure ⟨tabW w, ?_, htp w hw⟩
-      simp only [Set.mem_setOf_eq, Array.mem_toArray, tabsW]
+      simp only [Set.mem_ofPred_eq, List.mem_toArray, tabsW]
       exact List.mem_map.mpr ⟨w, hw, rfl⟩
   refine ⟨?_, ?_⟩
   · rw [← hgen]

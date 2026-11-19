@@ -126,7 +126,7 @@ theorem aact (dt : Data) (L : Nat) (V : Array (Nat × Int)) (w : AW) (s : Cache)
     ((aAct dt L V w).run s).1 = ForInStep.done (some (some w), ()) ∧
       AStep dt L V s ((aAct dt L V w).run s).2 := by
   unfold aAct
-  simp only [StateT.run_bind]
+  simp only
   split
   · rename_i h1
     rw [StateT.run_bind]
@@ -237,7 +237,7 @@ theorem amid (dt : Data) (J L K : Nat) (b : Nat × Int) (i : Nat) (st : Option (
     obtain ⟨h1, h2⟩ := h
     simp only at h1 h2
     cases h1
-    rw [if_pos hs]
+    rw [ite_eq_left hs]
     exact ⟨rfl, sg, hf, h2, rfl⟩
 
 theorem aouter (dt : Data) (J L K : Nat) (b : Nat × Int) (st : Option (Option AW) × Unit)
@@ -278,7 +278,7 @@ theorem aouter (dt : Data) (J L K : Nat) (b : Nat × Int) (st : Option (Option A
     obtain ⟨h1, sg, h0, h2, h3⟩ := h
     simp only at h1 h2 h3
     cases h1
-    rw [if_pos hs]
+    rw [ite_eq_left hs]
     exact ⟨rfl, i, sg, hf, h0, h2, h3⟩
 
 @[expose] def aWit (dt : Data) (J L K : Nat) : Option AW :=

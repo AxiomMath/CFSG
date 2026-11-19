@@ -25,7 +25,7 @@ theorem fuse_aux {S : Sylow 2 G} {K₁ R₁ R₂ : Subgroup G} {y : G}
     ∃ k ∈ K₁, ∃ κ ∈ R₂, k * y * k⁻¹ = κ * y ∧ k * y * k⁻¹ ∈ (S : Subgroup G) ∧
       ∀ r ∈ R₂, r * (k * y * k⁻¹) = (k * y * k⁻¹) * r := by
   have hy2 : IsPGroup 2 (Subgroup.zpowers y) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hyS)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hyS)
   have hn : ∀ r ∈ R₂, y * r * y⁻¹ ∈ R₂ := by
     intro r hr
     rw [← hR₂S] at hr ⊢
@@ -121,7 +121,7 @@ omit h h11 in
 theorem exists_orderOf_eq {S : Sylow 2 G} {a : G} (ha : a ∈ (S : Subgroup G)) :
     ∃ e : ℕ, orderOf a = 2 ^ e := by
   obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf (p := 2) (G := ↥(S : Subgroup G))).mp
-    S.isPGroup' ⟨a, ha⟩
+    S.isPGroup ⟨a, ha⟩
   exact ⟨m, by simpa using hm⟩
 
 omit h11 in

@@ -49,7 +49,7 @@ private theorem isElemAbelian_of_injOn185 {H Y : Type} [Group H] [Group Y] {p : 
 private theorem lift185 {K : Subgroup G} {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2)
     {E : Subgroup (K ⧸ CFSG.pCore 2 K)} (hE : IsElemAbelian p E) :
     ∃ P : Subgroup G, P ≤ K ∧ IsElemAbelian p P ∧ Nat.card P = Nat.card E := by
-  haveI : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hE.isPGroup
   set N : Subgroup K := CFSG.pCore 2 K with hN
   set F : Subgroup K := E.comap (QuotientGroup.mk' N) with hF
@@ -175,6 +175,7 @@ private theorem cube_mul185 {X : Type} [Group X] {t s u : X} (hu : u ∈ Subgrou
     _ = t * (t * t * s * s) * s := by rw [key]
     _ = t ^ 3 * s ^ 3 := by simp only [pow_three, mul_assoc]
 
+omit [Finite G] in
 private theorem quotAct_mul185 (K : Subgroup G) {g h : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G)) (hh : h ∈ Subgroup.normalizer (K : Set G))
     (hgh : g * h ∈ Subgroup.normalizer (K : Set G)) :
@@ -182,11 +183,13 @@ private theorem quotAct_mul185 (K : Subgroup G) {g h : G}
   have e : (⟨g * h, hgh⟩ : Subgroup.normalizer (K : Set G)) = ⟨g, hg⟩ * ⟨h, hh⟩ := rfl
   rw [e, map_mul]
 
+omit [Finite G] in
 private theorem quotAct_one185 (K : Subgroup G)
     {h : (1 : G) ∈ Subgroup.normalizer (K : Set G)} : quotAct K ⟨1, h⟩ = 1 := by
   have e : (⟨1, h⟩ : Subgroup.normalizer (K : Set G)) = 1 := rfl
   rw [e, map_one]
 
+omit [Finite G] in
 private theorem quotAct_inv185 (K : Subgroup G) {g : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G)) (hgi : g⁻¹ ∈ Subgroup.normalizer (K : Set G)) :
     quotAct K ⟨g⁻¹, hgi⟩ = (quotAct K ⟨g, hg⟩)⁻¹ := by
@@ -215,12 +218,14 @@ private noncomputable def preimAct185 (K B : Subgroup G)
     rw [quotAct_inv185 K ha2]
     exact T.inv_mem ha3
 
+omit [Finite G] in
 private theorem mem_preimAct185 {K B : Subgroup G}
     {T : Subgroup (MulAut (K ⧸ CFSG.pCore 2 K))} {g : G} :
     g ∈ preimAct185 K B T ↔
       g ∈ B ∧ ∃ hg : g ∈ Subgroup.normalizer (K : Set G), quotAct K ⟨g, hg⟩ ∈ T :=
   Iff.rfl
 
+omit [Finite G] in
 private theorem preimAct_conj185 {K B S : Subgroup G}
     {T : Subgroup (MulAut (K ⧸ CFSG.pCore 2 K))} (hT : T.Normal)
     (hSK : S ≤ Subgroup.normalizer (K : Set G)) (hSB : S ≤ Subgroup.normalizer (B : Set G))
@@ -240,6 +245,7 @@ private theorem preimAct_conj185 {K B S : Subgroup G}
   rw [quotAct_mul185 K hsv hsi, quotAct_mul185 K hsN hvN, quotAct_inv185 K hsN]
   exact hT.conj_mem _ hvT _
 
+omit [Finite G] in
 private theorem le_normalizer_preimAct185 {K B S : Subgroup G}
     {T : Subgroup (MulAut (K ⧸ CFSG.pCore 2 K))} (hT : T.Normal)
     (hSK : S ≤ Subgroup.normalizer (K : Set G)) (hSB : S ≤ Subgroup.normalizer (B : Set G)) :
@@ -254,12 +260,12 @@ private theorem le_normalizer_preimAct185 {K B S : Subgroup G}
 
 theorem rankHyp_of_mem {A M : Subgroup G} (h : Sec18Std G A M) {K : Subgroup G}
     (hK : K ∈ oTwoComponentsIn M) : RankHyp (K ⧸ CFSG.pCore 2 K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pCore 2 K).Normal := CFSG.pCore_normal
   have hKM : K ≤ M := CFSG.RankThree.PartTwo.le_of_mem_oTwoComponentsIn hK
   have hMtop : M ≠ ⊤ := by
-    haveI : IsSimpleGroup G := h.isSimpleGroup
+    have : IsSimpleGroup G := h.isSimpleGroup
     exact ne_top_of_pCoreOf_ne_bot h.nonabelian
       (pCoreOf_ne_bot_of_isMaximalTwoLocal h.mem_scriptM.1)
   have hKtop : K ≠ ⊤ := by
@@ -276,7 +282,7 @@ theorem rankHyp_of_mem {A M : Subgroup G} (h : Sec18Std G A M) {K : Subgroup G}
       exact h27.trans (by norm_num)
     exact (pow_le_pow_iff_right₀ (by norm_num)).mp hle
   · intro p hp hp3
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     refine pRank_le_of_lift185 (k := 2) (by omega) ?_
     intro j P hPK hP hPj
     have hsq : Nat.card P ≤ p ^ 2 := card_le_sq_of_le_M h hp hp3 (hPK.trans hKM) hP
@@ -285,7 +291,7 @@ theorem rankHyp_of_mem {A M : Subgroup G} (h : Sec18Std G A M) {K : Subgroup G}
       exact hsq
     exact (pow_le_pow_iff_right₀ (by omega)).mp hle
 
-theorem faithful_B {A M : Subgroup G} (h : Sec18Std G A M) {K B S : Subgroup G}
+theorem faithful_B {A M : Subgroup G} (_h : Sec18Std G A M) {K B S : Subgroup G}
     (hK : K ∈ oTwoComponentsIn M) (hBS : B ≤ S) (hSK : S ≤ Subgroup.normalizer (K : Set G))
     (hSB : S ≤ Subgroup.normalizer (B : Set G))
     (hirr : Sec21.IsIrreducibleOn (Sec4.autIn S B))
@@ -316,7 +322,7 @@ theorem faithful_B {A M : Subgroup G} (h : Sec18Std G A M) {K B S : Subgroup G}
 theorem exists_elemAbelian_of_inner {X : Type} [Group X] [Finite X] {D : Subgroup (MulAut X)}
     (hD : IsElemAbelian 3 D) (h9 : Nat.card D = 9) (hDi : D ≤ innerAut X) :
     ∃ E : Subgroup X, IsElemAbelian 3 E ∧ 9 ≤ Nat.card E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDc : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hD.1.is_comm.comm (⟨a, ha⟩ : D) ⟨b, hb⟩)
   set T : Subgroup X := D.comap (MulAut.conj : X →* MulAut X) with hT
@@ -400,7 +406,7 @@ theorem exists_elemAbelian_of_inner {X : Type} [Group X] [Finite X] {D : Subgrou
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hΩp
   have hm2 : 2 ≤ m := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     rw [hm] at h9le
     interval_cases m <;> norm_num at h9le
   have hdvd9 : 3 ^ 2 ∣ Nat.card f.ker := by
@@ -415,16 +421,16 @@ theorem exists_elemAbelian_of_inner {X : Type} [Group X] [Finite X] {D : Subgrou
     apply Subtype.ext
     exact h
   refine ⟨Q.map (T.subtype.comp f.ker.subtype), hQe.map _, ?_⟩
-  rw [Subgroup.card_map_of_injective hι, hQ] <;> norm_num
+  rw [Subgroup.card_map_of_injective hι, hQ]; norm_num
 
 theorem exists_nine_of_leafF1 (hF1 : LeafF1) {A M : Subgroup G} (h : Sec18Std G A M)
     {K B S : Subgroup G} (hK : K ∈ oTwoComponentsIn M) (hBe : IsElemAbelian 3 B)
-    (hB9 : Nat.card B = 9) (hBM : B ≤ M) (hSK : S ≤ Subgroup.normalizer (K : Set G))
-    (hSB : S ≤ Subgroup.normalizer (B : Set G)) (hSM : S ≤ M) (hBS : B ≤ S)
+    (hB9 : Nat.card B = 9) (_hBM : B ≤ M) (hSK : S ≤ Subgroup.normalizer (K : Set G))
+    (hSB : S ≤ Subgroup.normalizer (B : Set G)) (_hSM : S ≤ M) (hBS : B ≤ S)
     (hirr : Sec21.IsIrreducibleOn (Sec4.autIn S B))
     (hnc : ∃ b ∈ B, ∃ k ∈ K, b * k * b⁻¹ * k⁻¹ ∉ CFSG.Open.pCoreOf 2 M) :
     ∃ E ≤ K, IsElemAbelian 3 E ∧ 9 ≤ Nat.card E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   have hBN : B ≤ Subgroup.normalizer (K : Set G) := hBS.trans hSK
   have hfaith := faithful_B h hK hBS hSK hSB hirr hnc
@@ -447,7 +453,7 @@ theorem exists_nine_of_leafF1 (hF1 : LeafF1) {A M : Subgroup G} (h : Sec18Std G 
     fun g hg => (mem_preimAct185.mp hg).1
   obtain ⟨d, hdmem, hd1⟩ : ∃ d ∈ actImage K B ⊓ innerAut (K ⧸ CFSG.pCore 2 K), d ≠ 1 := by
     by_contra hcon'
-    push_neg at hcon'
+    push Not at hcon'
     exact hLeaf ((Subgroup.eq_bot_iff_forall (H := _)).mpr hcon')
   obtain ⟨b, hbN, hbB, hbd⟩ := mem_actImage hdmem.1
   have hbV : b ∈ preimAct185 K B (innerAut (K ⧸ CFSG.pCore 2 K)) :=

@@ -46,7 +46,7 @@ theorem GL83GenericPrimeThreeA6ShapeI.holds :
   subst hp3
   obtain ⟨hxP, hlo, -, -⟩ := hgen
   obtain ⟨-, hx1, hx3, -, -⟩ := hlo
-  exact fun hwc => le_centralizer_of_lineWeaklyClosed_three P.isPGroup' hxP hx3 hx1 hwc
+  exact fun hwc => le_centralizer_of_lineWeaklyClosed_three P.isPGroup hxP hx3 hx1 hwc
 
 theorem GL83GenericPrimeThreeA6Lemma43.of_S (hVI : GL83GenericPrimeThreeA6ShapeVI G)
     (h : GL83GenericPrimeThreeA6Lemma43S G) : GL83GenericPrimeThreeA6Lemma43 G := by

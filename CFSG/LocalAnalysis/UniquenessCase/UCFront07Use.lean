@@ -27,7 +27,7 @@ theorem R77E2_of_R77 (D : Data G) (h : R77 D) : R77E2 D := by
   refine h p (D.sig_prime p hp).1 hp2 hsp r hr hr2 hrσ E hEM
     (CFSG.RankThreeEvenClassification.Helpers.isElemAbelian_isPGroup r E hEel) (fun hcyc => ?_)
     hEel.2 (by rw [hab, Subgroup.commutator_bot_left]) h2 (Or.inr (Or.inl ?_))
-  · haveI := hcyc
+  · have := hcyc
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := E)
     have hle : Nat.card E ≤ r := by
       rw [← orderOf_eq_card_of_forall_mem_zpowers hg]
@@ -67,7 +67,7 @@ theorem five_le_of_mem_uniqueFourSigma {M : Subgroup G} {p : ℕ} (hp : p ∈ un
 
 @[expose] def Sec7Core4.ofSetup4 (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G)
     {p : ℕ} (hp : p ∈ uniqueFourSigma S.M) (hsp : IsStronglyPEmbedded p S.M)
-    (h3 : 3 ∉ uniqueFourBeta G) : Sec7Core4 G :=
+    (_h3 : 3 ∉ uniqueFourBeta G) : Sec7Core4 G :=
   Sec7Core4.ofSetup4Any hS hU S hp hsp
 
 end CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7

@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pCore_le_sylow_of_mem_calC {D : Data G} {L : Subgroup G} (hL : L ∈ calC D.M) :
     CFSG.pCore 2 ↥L ≤ (D.T ⊓ L).subgroupOf L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22r_fo_sylow_inf
     (K := D.M) (H := L) D.sylowM hL.1
   have hQeq : (Q : Subgroup ↥L) = (D.T ⊓ L).subgroupOf L :=
@@ -38,7 +38,7 @@ theorem pRank_normalizerQuotient_le_pRank_cartan {D : Data G} {L C : Subgroup G}
         (Subgroup.normalizerQuotient ((D.T ⊓ L).subgroupOf L))) ≤
       CFSG.Open.pRank r C := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set T0 : Subgroup G := D.T ⊓ L with hT0
   set N : Subgroup ↥L := T0.subgroupOf L with hN
   set Nrm : Subgroup ↥L := Subgroup.normalizer (N : Set ↥L) with hNrm
@@ -121,7 +121,7 @@ theorem isSylowTwoOf_sylowBar2 {D : Data G} {L : Subgroup G} (hL : L ∈ calC D.
     CFSG.QuasithinUnique.IsSylowTwoOf
       (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22r_fo_sylow_inf
     (K := D.M) (H := L) D.sylowM hL.1
   have hQeq : (Q : Subgroup ↥L) = (D.T ⊓ L).subgroupOf L :=
@@ -133,7 +133,7 @@ theorem isSylowTwoOf_sylowBar2 {D : Data G} {L : Subgroup G} (hL : L ∈ calC D.
     rw [Sylow.coe_mapSurjective, hQeq]
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hcoe]
-    exact Q'.isPGroup'
+    exact Q'.isPGroup
   · rw [← hcoe]
     rw [← Subgroup.relIndex_top_right (((Q' : Subgroup (Bar2 L)).subgroupOf ⊤)),
       ← Subgroup.subgroupOf_self (H := (⊤ : Subgroup (Bar2 L))),

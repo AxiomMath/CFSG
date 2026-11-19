@@ -41,7 +41,7 @@ theorem rckSU3_centralizes_of_partner {X Y : Type} [Group X] [Group Y] (G₀ K :
 
 theorem rckNC_two_lt_compRank
     {X : Type} [Group X] [Finite X] {t : StatedLieTag} {n f : ℕ} {ψ : (ggU t n f).K →* X}
-    {p : ℕ} {G₀ A B₁ D J L R Rm K : Subgroup X} {e : X} (ht : GGExcFive t)
+    {p : ℕ} {G₀ A B₁ D J L R Rm K : Subgroup X} {e : X} (_ht : GGExcFive t)
     (hcfg : RCKRPConfig t n f ψ p G₀ A B₁ D J L R Rm K e) (hKJ : K ≠ J)
     {θ : ↥G₀ →* ModGL (langTag t) GGL} {A' : Subgroup (ModGL (langTag t) GGL)}
     {η : ↥G₀ →* ModGL (langTag t) GGL} {E' : Subgroup (ModGL (langTag t) GGL)}
@@ -57,7 +57,7 @@ theorem rckNC_two_lt_compRank
   unfold RCKRPConfig at hcfg'
   obtain ⟨-, -, hp, hp2, -, hB1A, hDB1, hDcard, hAN, -, -, hB1J, hB1card, -, -, -, -, -, -, -,
     -, -, -, -, -, -, -, -, -, -, -, -, -⟩ := hcfg'
-  haveI hKperf : Group.IsPerfect ↥K := ⟨hKqs.1⟩
+  have hKperf : Group.IsPerfect ↥K := ⟨hKqs.1⟩
   have hp0 : 0 < p := hp.pos
   have hJK : J ≤ K := hJcomp.1.trans inf_le_left
   obtain ⟨β, hβ⟩ := rckSU3_exists_span_basis (componentRoots (rootCharHom a) i) hrk
@@ -66,7 +66,7 @@ theorem rckNC_two_lt_compRank
     (mem_twistedTorusOf.1 (hEt (hpaE b))).1
   have hpap : ∀ b : ↥B₁, pa b ^ p = 1 := fun b => hEel.2 (pa b) (hpaE b)
   obtain ⟨hVfin, hVcard⟩ := rckSU3_pow_eq_one (F := GGL) hp0
-  haveI : Finite {u : GGLˣ // u ^ p = 1} := hVfin
+  have : Finite {u : GGLˣ // u ^ p = 1} := hVfin
   let F : ↥B₁ → (Fin 2 → {u : GGLˣ // u ^ p = 1}) := fun b j =>
     ⟨rckRootVal (pa b) (β j), rckSU3_rootVal_pow (hpaT b) (hpap b) (β j)⟩
   have hF : ∀ b b' : ↥B₁, F b = F b' →

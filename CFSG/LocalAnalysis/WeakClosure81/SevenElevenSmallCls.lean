@@ -61,7 +61,7 @@ theorem fusionOddCore_le_center_or_isSymTransposition (hCore : OddTranspositionC
     (hS : Nat.card (barSub (kSub V H E) φ V) = 2) :
     fusionOddCore X ≤ Subgroup.center X ∨
       ∃ n : ℕ, ∀ s ∈ barSub (kSub V H E) φ V, s ≠ 1 → IsSymTransposition X n s := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   by_cases hOZ : fusionOddCore X ≤ Subgroup.center X
   · exact Or.inl hOZ
   · right
@@ -109,7 +109,7 @@ theorem seven_eleven_small_cls (hCore : OddTranspositionCoreInputSCCls)
     (hS : Nat.card (barSub (kSub V H E) φ V) = 2) :
     (∀ u ∈ dSet V H E, ∀ v ∈ dSet V H E, ∃ k ∈ kSub V H E, u = k * v * k⁻¹) ∧
       SevenElevenSmallAltCls X (barSub (kSub V H E) φ V) := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have hJK : pCoreOf 2 (kSub V H E) ≤ kSub V H E :=
     CFSG.LieType.BorelTits.pCoreOf_le (r := 2) (kSub V H E)
   refine ⟨exists_conj_dSet_of_card_eq_two h.toHyp73 h.transitive hJK hφ hS, ?_⟩

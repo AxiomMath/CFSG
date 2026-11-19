@@ -76,7 +76,7 @@ theorem exists_config137_of_sylow
   have hB'9 : Nat.card ((A ⊓ L).subgroupOf L) = 9 := by
     rw [← h9]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBL).toEquiv
-  have hS3 : IsPGroup 3 (S : Subgroup L) := S.isPGroup'
+  have hS3 : IsPGroup 3 (S : Subgroup L) := S.isPGroup
   have hBaut : Nat.card (Sec4.autIn ⊤
       (((A ⊓ L).subgroupOf L).map (QuotientGroup.mk' (aschbacherSolvableCore 3 L)))) = 6 := by
     obtain ⟨e⟩ := nonempty_autIn_zpowers_sup_equiv hc3 hcL hLc hBL hBp
@@ -186,7 +186,7 @@ theorem step1914MoreSM12_of_gen
   have hQ3 : IsPGroup 3 (((E ⊔ A) ⊓ L).subgroupOf L) :=
     (hctx.isPGroup_sup.to_le inf_le_left).comap_subtype
   obtain ⟨S, hQS⟩ := hQ3.exists_le_sylow
-  have hS3 : IsPGroup 3 (S : Subgroup L) := S.isPGroup'
+  have hS3 : IsPGroup 3 (S : Subgroup L) := S.isPGroup
   have hAbS : (A ⊓ L).subgroupOf L ≤ S :=
     (Subgroup.subgroupOf_mono L (inf_le_inf_right L le_sup_right)).trans hQS
   have hEbS : (E ⊓ L).subgroupOf L ≤ S :=

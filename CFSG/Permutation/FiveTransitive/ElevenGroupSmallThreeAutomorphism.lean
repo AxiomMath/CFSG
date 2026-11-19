@@ -32,7 +32,7 @@ theorem nine_not_dvd_card
         exact a.val.injective (hh.trans (map_one a.val).symm) }
   have hfree (a : S) (q : C) (ha : a • q = q) : a = 1 := by
     let A := Subgroup.zpowers a
-    have hA : IsPGroup 3 A := S.isPGroup'.to_subgroup A
+    have hA : IsPGroup 3 A := S.isPGroup.to_subgroup A
     have hfix : ∀ b : A, b • q.val = q.val := by
       intro b
       have hstab : a ∈ stabilizer S q.val := congrArg Subtype.val ha

@@ -105,8 +105,8 @@ private theorem sylow_seven_centralizer_card_dvd_forty_two_of_support_twenty_one
     Nat.card
         (Subgroup.centralizer (S : Set P)) ∣ 42 := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  letI : IsCyclic S :=
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
   obtain ⟨u, huRaw⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
@@ -336,7 +336,7 @@ theorem five_point_stabilizer_card_ne_four_thousand_ninety_six
       ¬7 ∣ Nat.card (fixingSubgroup P s) := by
     rw [hHcard]
     norm_num
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let S : Sylow 7 P := Sylow.nonempty.some
   have hScard : Nat.card S = 7 := by
     rw [S.card_eq_multiplicity, hPcard,
@@ -350,9 +350,9 @@ theorem five_point_stabilizer_card_ne_four_thousand_ninety_six
       Nat.factorization_eq_zero_of_not_dvd
         (by norm_num)]
     norm_num
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   let C : Subgroup P :=
     Subgroup.centralizer (S : Set P)
@@ -424,9 +424,9 @@ theorem five_point_stabilizer_card_ne_four_thousand_ninety_six
   have hrDvd : r ∣ 6 := by
     change C.relIndex N ∣ 6
     rwa [hrEq]
-  letI : (S : Subgroup P).IsFiniteRelIndex C :=
+  let : (S : Subgroup P).IsFiniteRelIndex C :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hcPos : 0 < c :=
     Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero
@@ -476,7 +476,7 @@ theorem five_point_stabilizer_card_ne_four_thousand_ninety_six
     all_goals omega
   have hP3 :
       MulAction.IsMultiplyPretransitive P X 3 := by
-    letI :
+    let :
         MulAction.IsMultiplyPretransitive P X 5 :=
       hP5
     exact MulAction.isMultiplyPretransitive_of_le

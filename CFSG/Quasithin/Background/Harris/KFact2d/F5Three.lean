@@ -42,6 +42,7 @@ theorem card_leviC_three : Nat.card (leviC 3) = 48 := by
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem exists_sylow_of_isSylowTwoOf' {K S : Subgroup X} (h : IsSylowTwoOf S K) :
     ∃ P : Sylow 2 ↥K, (P : Subgroup ↥K) = S.subgroupOf K := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

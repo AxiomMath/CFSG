@@ -112,14 +112,14 @@ private theorem dispAux_kacGeneric {lab : LargeEvenLabel} (hlabn : lab.n = 1)
 private theorem dispAux_classical {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {lab : LargeEvenLabel} (hS : GGQTwoSetting 3 B Bs x L D J)
     (hxL : x ∈ L) (hperf : commutator ↥L = ⊤)
-    (hraw : LargeEvenRawDatum lab (fun R _ I F => IsSimpleGroup R ∧
+    (hraw : LargeEvenRawDatum lab (fun R _ I _F => IsSimpleGroup R ∧
       (∃ a b : R, a * b ≠ b * a) ∧
       ∃ θ : ↥L ⧸ Subgroup.center ↥L ≃* R, GGLabQTwo 3 lab ∧
         Bs ≤ Subgroup.normalizer (L : Set G) ∧
         ∀ b ∈ Bs, ∃ φ ∈ I, LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ))
     (hAll : LargeEvenLabelAll lab fun R _ _ _ => GGCenterPrime 3 R) : False := by
-  obtain ⟨R, hR, I, F, hQ⟩ := largeEvenRawDatum_exists (hAll _ hraw)
-  letI := hR
+  obtain ⟨R, hR, I, _F, hQ⟩ := largeEvenRawDatum_exists (hAll _ hraw)
+  let := hR
   obtain ⟨hQ0, hCP⟩ := hQ
   obtain ⟨-, -, θ, -⟩ := hQ0
   exact (dispAux_centerPrime_contra θ hperf (dispAux_three_dvd_center hS hxL) hCP).elim
@@ -127,15 +127,15 @@ private theorem dispAux_classical {G : Type} [Group G] [Finite G] {B Bs : Subgro
 theorem lup8g_rank_contra {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {lab : LargeEvenLabel} (hS : GGQTwoSetting 3 B Bs x L D J)
     (hperf : commutator ↥L = ⊤)
-    (hraw : LargeEvenRawDatum lab (fun R _ I F => IsSimpleGroup R ∧
+    (hraw : LargeEvenRawDatum lab (fun R _ I _F => IsSimpleGroup R ∧
       (∃ a b : R, a * b ≠ b * a) ∧
       ∃ θ : ↥L ⧸ Subgroup.center ↥L ≃* R, GGLabQTwo 3 lab ∧
         Bs ≤ Subgroup.normalizer (L : Set G) ∧
         ∀ b ∈ Bs, ∃ φ ∈ I, LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ))
     (hAll : LargeEvenLabelAll lab fun R _ I _ => ∀ X : Subgroup (MulAut R),
       (X : Set (MulAut R)) ⊆ I → IsElemAbelian 3 X → Nat.card X < 3 ^ 3) : False := by
-  obtain ⟨R, hR, I, F, hQ⟩ := largeEvenRawDatum_exists (hAll _ hraw)
-  letI := hR
+  obtain ⟨R, hR, I, _F, hQ⟩ := largeEvenRawDatum_exists (hAll _ hraw)
+  let := hR
   obtain ⟨hQ0, hbound⟩ := hQ
   obtain ⟨-, -, θ, hP⟩ := hQ0
   obtain ⟨-, -, hact⟩ := hP
@@ -148,9 +148,9 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Ree
 
 private theorem dispAux_titsThreeRank :
     TableBExcSmallRest.GGTitsThreeRankInput := by
-  haveI : Fact (Nat.card (ZMod 2) = 2) := ⟨Nat.card_zmod 2⟩
-  haveI : Finite (reeFixed ReeTag.F4 (ZMod 2) 0) := by
-    haveI : Finite (ModGL ReeTag.F4.tag (ZMod 2)) := finite_modGL
+  have : Fact (Nat.card (ZMod 2) = 2) := ⟨Nat.card_zmod 2⟩
+  have : Finite (reeFixed ReeTag.F4 (ZMod 2) 0) := by
+    have : Finite (ModGL ReeTag.F4.tag (ZMod 2)) := finite_modGL
     have : Finite (adjointGroup ReeTag.F4.tag (ZMod 2)) := Subtype.finite
     exact Subtype.finite
   intro E hE
@@ -273,8 +273,8 @@ theorem lup8g_dispatch_label
     rw [hlabE] at hraw
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeChevalley] at hraw
     obtain ⟨K, hKf, hKfin, hKcard, -, -, θ, -, -, -⟩ := hraw
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     have hK2 : Nat.card K = 2 := by simpa using hKcard
     exact (dispAux_centerPrime_contra θ hperf (dispAux_three_dvd_center hS hxL)
       (ggCenterPrime_recipe_E6_two hK2 Nat.prime_three)).elim
@@ -285,9 +285,9 @@ theorem lup8g_dispatch_label
     rw [hlabE] at hraw
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeChevalley] at hraw
     obtain ⟨K, hKf, hKfin, hKcard, -, -, θ, -, -, -⟩ := hraw
-    letI : Field K := hKf
-    letI : Finite K := hKfin
-    haveI : CharP K 2 := charP_two_of_card hKcard
+    let : Field K := hKf
+    let : Finite K := hKfin
+    have : CharP K 2 := charP_two_of_card hKcard
     exact (dispAux_centerPrime_contra θ hperf (dispAux_three_dvd_center hS hxL)
       (ExcSplitL.ggCenterPrime_recipe_E7 (f := 1) le_rfl hKcard Nat.prime_three
         (by norm_num))).elim
@@ -298,9 +298,9 @@ theorem lup8g_dispatch_label
     rw [hlabE] at hraw
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeChevalley] at hraw
     obtain ⟨K, hKf, hKfin, hKcard, -, -, θ, -, -, -⟩ := hraw
-    letI : Field K := hKf
-    letI : Finite K := hKfin
-    haveI : CharP K 2 := charP_two_of_card hKcard
+    let : Field K := hKf
+    let : Finite K := hKfin
+    have : CharP K 2 := charP_two_of_card hKcard
     exact (dispAux_centerPrime_contra θ hperf (dispAux_three_dvd_center hS hxL)
       (ExcSplitL.ggCenterPrime_recipe_E8 Nat.prime_three (by norm_num))).elim
   case F4 =>
@@ -310,9 +310,9 @@ theorem lup8g_dispatch_label
     rw [hlabE] at hraw
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeChevalley] at hraw
     obtain ⟨K, hKf, hKfin, hKcard, -, -, θ, -, -, -⟩ := hraw
-    letI : Field K := hKf
-    letI : Finite K := hKfin
-    haveI : CharP K 2 := charP_two_of_card hKcard
+    let : Field K := hKf
+    let : Finite K := hKfin
+    have : CharP K 2 := charP_two_of_card hKcard
     exact (dispAux_centerPrime_contra θ hperf (dispAux_three_dvd_center hS hxL)
       (ExcSplitL.ggCenterPrime_recipe_F4 Nat.prime_three (by norm_num))).elim
   case twE6 =>

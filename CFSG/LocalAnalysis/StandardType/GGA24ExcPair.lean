@@ -75,7 +75,7 @@ private theorem a24x_two_qs_false {p : ℕ} [Fact p.Prime] {X : Type} [Group X] 
     ⟨fun a b => Subtype.ext (by
       rw [eq_of_isComponentOf_of_ggTPNOnlyComp honly (hfix ▸ a.2) (hc a.1 a.2),
           eq_of_isComponentOf_of_ggTPNOnlyComp honly (hfix ▸ b.2) (hc b.1 b.2)])⟩
-  haveI : Subsingleton {i : Fin D.orbits.length // D.orbits[i].qs = true} :=
+  have : Subsingleton {i : Fin D.orbits.length // D.orbits[i].qs = true} :=
     ⟨fun x y => f.symm.injective (Subsingleton.elim (f.symm x) (f.symm y))⟩
   have hle : Fintype.card {i : Fin D.orbits.length // D.orbits[i].qs = true} ≤ 1 :=
     Fintype.card_le_one_iff_subsingleton.mpr inferInstance
@@ -116,7 +116,7 @@ theorem ggA24ExcPairRK_holds
   obtain ⟨⟨hp3, hlabJ⟩, hpair⟩ := hr
   subst hp3
   subst hlabJ
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨D, hDval, ha, hb, hc, he⟩ := ggTPNExcKac_datum hBS hd hΛX hpair hhX
   have hfix : ggFixSub σ = ggAutFixedSubgroup σ := a24x_fixSub_eq σ
   have hJfix : IsComponentOf J (ggFixSub σ) := by

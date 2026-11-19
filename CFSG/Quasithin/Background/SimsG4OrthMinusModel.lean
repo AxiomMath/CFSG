@@ -207,7 +207,7 @@ theorem eq_smul_of_twistRep_uSL [CharP F 2] {σ : F →+* F} (hinv : ∀ x, σ (
     have h01 := congrFun (congrFun h 0) 1
     have h00 := congrFun (congrFun h 0) 0
     simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at h01 h00
+      Matrix.empty_val', Matrix.cons_val_fin_one] at h01 h00
     exact ⟨by linear_combination h01, by linear_combination h00⟩
   have hd0 : d = 0 := by
     have h := (e 1).1
@@ -279,7 +279,7 @@ theorem span_twistRep_orbit_eq_top [CharP F 2] {σ : F →+* F} (hinv : ∀ x, �
       Matrix.mul_fin_two, Matrix.mul_fin_two]
     have h10 : (X : Matrix (Fin 2) (Fin 2) F) 1 0 = σ x := (twistedForm_entry X.2 0 1).symm
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Subfield.smul_def, ← hx, h10] <;> ring
+    fin_cases i <;> fin_cases j <;> simp [Subfield.smul_def, ← hx, h10]; ring
   rw [hdec]
   exact Submodule.add_mem _ (Submodule.add_mem _ (Submodule.smul_mem _ _ hE)
     (Submodule.smul_mem _ _ hJ)) hl
@@ -308,19 +308,19 @@ theorem polarBilin_nondegenerate (Q : QuadraticForm K W)
 
 @[expose] def coordEquiv {F₀ : Type} [Field F₀] (e : K ≃+* F₀) (ι : Type) :
     (ι → K) ≃ₛₗ[(e : K →+* F₀)] (ι → F₀) where
-  toFun v i := e (v i)
-  invFun v i := e.symm (v i)
-  map_add' v w := funext fun i => map_add e _ _
-  map_smul' c v := funext fun i => map_mul e _ _
-  left_inv v := funext fun i => e.symm_apply_apply _
-  right_inv v := funext fun i => e.apply_symm_apply _
+  toFun v _i := e (v _i)
+  invFun v _i := e.symm (v _i)
+  map_add' _v _w := funext fun _i => map_add e _ _
+  map_smul' _c _v := funext fun _i => map_mul e _ _
+  left_inv _v := funext fun _i => e.symm_apply_apply _
+  right_inv _v := funext fun _i => e.apply_symm_apply _
 
 theorem quadMinus_coordEquiv {F₀ : Type} [Field F₀] (e : K ≃+* F₀) (b c : K)
     (v : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K) :
     CFSG.LieType.Universal.Spin.quadMinus 2 F₀ (e b) (e c) (coordEquiv e _ v) =
       e (CFSG.LieType.Universal.Spin.quadMinus 2 K b c v) := by
   rw [CFSG.LieType.Universal.Spin.quadMinus_apply, CFSG.LieType.Universal.Spin.quadMinus_apply]
-  simp [coordEquiv, map_add, map_mul, map_sum, map_pow]
+  simp [coordEquiv, map_add, map_mul, map_pow]
 
 theorem exists_sl2_model [Finite K] [CharP K 2] (Q : QuadraticForm K W)
     (hdim : finrank K W = 4) (hnd : ∀ x, (∀ y, polar Q x y = 0) → x = 0)

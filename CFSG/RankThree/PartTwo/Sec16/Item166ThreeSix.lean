@@ -44,6 +44,7 @@ theorem card_le_of_factorization_le {p : ℕ} [Fact p.Prime] {S P R P' : Subgrou
   rw [hb, ha]
   exact pow_le_pow_right' hp.one_le hb_le_a
 
+omit [Finite G] in
 theorem le_perpOf_of_le_of_isPGroup {Z E Q T : Subgroup G} (hQ : IsPGroup 2 Q)
     (hEQ : E ≤ Subgroup.normalizer (Q : Set G)) (hTZ : T ≤ Z)
     (hTE : T ≤ Subgroup.normalizer (E : Set G)) (hTQ : T ≤ Q) : T ≤ perpOf Z E := by
@@ -68,11 +69,13 @@ theorem le_perpOf_of_le_of_isPGroup {Z E Q T : Subgroup G} (hQ : IsPGroup 2 Q)
     exact Q.mul_mem htQ h3
   exact hcore ⟨hcommE, hcommQ⟩
 
+omit [Finite G] in
 theorem perpOf_inf_le (Z Z' E : Subgroup G) : perpOf Z E ⊓ Z' ≤ perpOf Z' E := by
   intro z hz
   obtain ⟨-, hzE, hzc⟩ := mem_perpOf_iff.mp hz.1
   exact mem_perpOf_iff.mpr ⟨hz.2, hzE, hzc⟩
 
+omit [Finite G] in
 theorem perpOf_le_normalizer (Z E : Subgroup G) :
     perpOf Z E ≤ Subgroup.normalizer (E : Set G) := fun _ hz =>
   (mem_perpOf_iff.mp hz).2.1
@@ -92,7 +95,7 @@ theorem exists_sylow_perpOf {A Z E : Subgroup G} (hA : IsPGroup 3 A)
   have htop : (⊤ : Subgroup ↥(perpOf Z E)).map (perpOf Z E).subtype = perpOf Z E := by
     simpa using Subgroup.subgroupOf_map_subtype (⊤ : Subgroup G) (perpOf Z E)
   refine ⟨(P : Subgroup ↥(perpOf Z E)).map (perpOf Z E).subtype,
-    Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_, hAP⟩
+    Subgroup.map_subtype_le _, P.isPGroup.map _, ?_, hAP⟩
   have hrel : ((P : Subgroup ↥(perpOf Z E)).map (perpOf Z E).subtype).relIndex
       (perpOf Z E) = (P : Subgroup ↥(perpOf Z E)).index := by
     have h := Subgroup.relIndex_map_map_of_injective

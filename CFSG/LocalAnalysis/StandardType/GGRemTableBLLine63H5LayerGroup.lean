@@ -14,7 +14,7 @@ variable {G : Type*} [Group G]
 theorem isQuasisimple_not_comm {H : Type*} [Group H] (hH : CFSG.Assembly.IsQuasisimple H) :
     ¬ ∀ a b : H, a * b = b * a := by
   intro hc
-  haveI : IsSimpleGroup (H ⧸ Subgroup.center H) := hH.2
+  have : IsSimpleGroup (H ⧸ Subgroup.center H) := hH.2
   obtain ⟨x, y, hxy⟩ := exists_pair_ne (H ⧸ Subgroup.center H)
   have h1 : ∀ z : H ⧸ Subgroup.center H, z = 1 := by
     intro z
@@ -39,14 +39,14 @@ theorem eq_of_isComponentOf_of_isQuasisimple {N E : Subgroup G} (hN : IsComponen
     (hE : CFSG.Assembly.IsQuasisimple ↥E) : N = E := by
   obtain ⟨hNE, hsub, hNq⟩ := hN
   have h1 : (N.subgroupOf E).IsSubnormal := hsub.subgroupOf
-  haveI : IsSimpleGroup (↥E ⧸ Subgroup.center ↥E) := hE.2
+  have : IsSimpleGroup (↥E ⧸ Subgroup.center ↥E) := hE.2
   have h2 := h1.quotient (K := Subgroup.center ↥E)
   rcases Subgroup.IsSubnormal.eq_bot_or_top_of_isSimpleGroup inferInstance h2 with h3 | h3
   · exfalso
     rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at h3
     refine isQuasisimple_not_comm hNq fun a b => ?_
     have h4 : ((⟨(a : G), hNE a.2⟩ : ↥E)) ∈ Subgroup.center ↥E :=
-      h3 (by simpa [Subgroup.mem_subgroupOf] using a.2)
+      h3 (by simp [Subgroup.mem_subgroupOf])
     have h5 := Subgroup.mem_center_iff.mp h4 ⟨(b : G), hNE b.2⟩
     exact Subtype.ext (congrArg (fun x : ↥E => (x : G)) h5.symm)
   · have hdec : ∀ g : ↥E, ∃ n ∈ N.subgroupOf E, n⁻¹ * g ∈ Subgroup.center ↥E := by
@@ -86,19 +86,19 @@ theorem not_isComponentOf_layer_of_commuting {C N₁ N₂ : Subgroup G} (h₁ : 
 
 theorem isQuasisimple_not_isSolvable {H : Type*} [Group H] (hH : CFSG.Assembly.IsQuasisimple H) :
     ¬ Group.IsSolvable H := by
-  haveI : IsSimpleGroup (H ⧸ Subgroup.center H) := hH.2
-  haveI : Nontrivial H := by
+  have : IsSimpleGroup (H ⧸ Subgroup.center H) := hH.2
+  have : Nontrivial H := by
     obtain ⟨x, y, hxy⟩ := exists_pair_ne (H ⧸ Subgroup.center H)
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective x
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective y
     refine ⟨x, y, fun h => hxy ?_⟩
     rw [h]
-  haveI : Group.IsPerfect H := ⟨hH.1⟩
+  have : Group.IsPerfect H := ⟨hH.1⟩
   exact Group.IsPerfect.not_isSolvable H
 
 theorem false_of_isComponentOf_of_isSolvable {C J : Subgroup G} (hC : Group.IsSolvable ↥C)
     (hJ : IsComponentOf J C) : False := by
-  haveI : Group.IsSolvable ↥J := solvable_of_solvable_injective (Subgroup.inclusion_injective hJ.1)
+  have : Group.IsSolvable ↥J := Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJ.1)
   exact isQuasisimple_not_isSolvable hJ.2.2 inferInstance
 
 end CFSG.StandardType.Line63.H5

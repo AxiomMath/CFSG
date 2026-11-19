@@ -396,7 +396,7 @@ theorem false_of_a10_pushing_up (hK10 : A10NoV4Offender)
     (B2F.isPGroup_autI hV hS2 hSN) (autI_mono hV hAL) hBc hB27 hBT
   have hAoffL : Aoff ≤ autI hV (oResidual 2 X) := hAoffS.trans hTL
   have hAoff4 : Nat.card Aoff ≤ 4 := (Subgroup.card_le_of_le hAoffS).trans hT4
-  haveI : IsSimpleGroup (alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup (by simp)
   obtain ⟨hcq⟩ := nonempty_centerQuotient_equiv_of_simple hFFhyp.2.1 this e1
   have hlt := hK10 (IntMod (W315 X) hV) (fun v => IntMod.sq_eq_one v) (autI hV ⊤)
     (autI hV (oResidual 2 X)) Aoff hFFhyp ⟨hcq⟩ hAoffL hA1 hAe hAoff4

@@ -61,11 +61,11 @@ theorem spF2QTorus_holds :
       Nat.card F = 2 → 3 ≤ s →
         ∃ Q : Subgroup (StatedSp s F), IsElemAbelian 3 Q ∧ 3 ≤ CFSG.Open.pRank 3 Q := by
   intro s F hField hFinite hChar hcard hs
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   classical
-  haveI : Finite (StatedSp s F) := Subtype.finite
+  have : Finite (StatedSp s F) := Subtype.finite
   let idx : Fin 3 → Fin s := fun i => ⟨i.val, by have := i.isLt; omega⟩
   have hidx : Function.Injective idx := by
     intro i j h

@@ -210,12 +210,12 @@ theorem generating_of_cl {t y₁ y₂ g₁ g₂ s o : List ℕ} {M C R : List (L
       · have hb : Nat.blt (k / 2) 4 = true := by
           rw [Nat.blt_eq]
           exact h4
-        rw [hb, cond_true] at hj
+        rw [hb, _root_.Bool.cond_true] at hj
         exact Or.inl (Subgroup.mem_centralizer_singleton_iff.2 (comm_of (oM _) o1 hj))
       · have hb : Nat.blt (k / 2) 4 = false := by
           rw [Bool.eq_false_iff, ne_eq, Nat.blt_eq]
           exact h4
-        rw [hb, cond_false] at hj
+        rw [hb, Bool.cond_false] at hj
         exact Or.inr (Subgroup.mem_centralizer_singleton_iff.2 (comm_of (oM _) o2 hj))
     have hinv' := eqw (okW_append (oM _) (oM _)) okW_nil hinv
     rw [wJ_append, wJ_nil, mul_eq_one_iff_eq_inv] at hinv'

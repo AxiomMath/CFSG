@@ -104,7 +104,7 @@ theorem kF611J3_of (h45 : Sec4.Item4_5) (hJ3 : J3TwoLocalInput) : KF611J3 := by
   have hDodd := kernel_odd hbig hAe hA27 hdA hAK hAdec hKd
   obtain ⟨a, haAL, ha1⟩ : ∃ a ∈ A ⊓ L, a ≠ 1 := by
     have h1 : 1 < Nat.card (A ⊓ L : Subgroup G) := by rw [hF.card_inf_L h45]; norm_num
-    haveI : Nontrivial (A ⊓ L : Subgroup G) := Finite.one_lt_card_iff_nontrivial.mp h1
+    have : Nontrivial (A ⊓ L : Subgroup G) := Finite.one_lt_card_iff_nontrivial.mp h1
     obtain ⟨a, ha⟩ := exists_ne (1 : (A ⊓ L : Subgroup G))
     exact ⟨a, a.2, fun h => ha (Subtype.ext h)⟩
   have haA : a ∈ A := haAL.1
@@ -133,8 +133,8 @@ theorem kF611J3_of (h45 : Sec4.Item4_5) (hJ3 : J3TwoLocalInput) : KF611J3 := by
         fun p hp => Subgroup.mem_centralizer_singleton_iff.mpr (hPc p hp),
         hEP (mk_mem_imageSub (x := ⟨a, haK⟩) haAL), h360⟩
   obtain ⟨Vb, hVb⟩ := hJ.pair
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAcomm : ∀ x ∈ A, ∀ z ∈ A, x * z = z * x := fun x hx z hz => hF.comm_of_mem hx hz
   have hcA := hF.c_mem
   have hc3 : c ^ 3 = 1 := hF.c_pow_three

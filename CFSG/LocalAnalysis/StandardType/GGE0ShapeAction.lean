@@ -48,7 +48,7 @@ theorem connected_model_action
     (Subgroup.commutator_le_self _).trans (inf_le_right.trans
       (Subgroup.commutator_le_self S.D.model))
   let G := ↥S.D.model
-  haveI : Finite G := S.finite
+  have : Finite G := S.finite
   let J : Subgroup G := R.subgroupOf S.D.model
   let E' : Subgroup G := E.subgroupOf S.D.model
   have hJmap : J.map S.D.model.subtype = R := Subgroup.map_subgroupOf_eq_of_le hRle
@@ -66,7 +66,7 @@ theorem connected_model_action
   have hdvd : 2 ∣ Nat.card ↥J := hdvdZ.trans (Subgroup.card_quotient_dvd_card _)
   have hker : familyKernel (fun _ : Unit => b) = rootCharKernel b := by
     ext α
-    simp only [familyKernel, rootCharKernel, Set.mem_setOf_eq]
+    simp only [familyKernel, rootCharKernel, Set.mem_ofPred_eq]
     exact ⟨fun h => ⟨h.1, h.2 ()⟩, fun h => ⟨h.1, fun _ => h.2⟩⟩
   have hE_Nmod : E ≤ Subgroup.normalizer (R : Set (ModGL .E6 L)) := by
     intro g hg

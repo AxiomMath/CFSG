@@ -45,9 +45,9 @@ theorem cutHom_mem_center (hI1 : ∀ i ∈ I, 1 ≤ i) {α : MulAut (StatedSp r 
 
 include hI htI in
 theorem cutHom_commute (hI1 : ∀ i ∈ I, 1 ≤ i) {α₁ α₂ : MulAut (StatedSp r K)}
-    (hn₁ : SpNormFix hI htI α₁) (hn₂ : SpNormFix hI htI α₂) {g₁ g₂ : flagStabilizer r K I}
+    (hn₁ : SpNormFix hI htI α₁) (_hn₂ : SpNormFix hI htI α₂) {g₁ g₂ : flagStabilizer r K I}
     (hα₁ : ∀ x, α₁ x = (g₁ : StatedSp r K) * fieldSp r K 1 x * (g₁ : StatedSp r K)⁻¹)
-    (hα₂ : ∀ x, α₂ x = (g₂ : StatedSp r K) * fieldSp r K 1 x * (g₂ : StatedSp r K)⁻¹) {b : ℕ}
+    (_hα₂ : ∀ x, α₂ x = (g₂ : StatedSp r K) * fieldSp r K 1 x * (g₂ : StatedSp r K)⁻¹) {b : ℕ}
     (hb : b ∈ I) :
     spFlagCutHom hI (spFlagPrev_mem I b) hb g₁ * spFlagCutHom hI (spFlagPrev_mem I b) hb g₂ =
       spFlagCutHom hI (spFlagPrev_mem I b) hb g₂ * spFlagCutHom hI (spFlagPrev_mem I b) hb g₁ := by

@@ -73,7 +73,7 @@ private theorem eq_E6_of_ggLabelIso {lab : LargeEvenLabel}
     (h : GGLabelIso lab ⟨.E6, 0, 1⟩) : lab = ⟨.E6, 0, 1⟩ := by
   obtain ⟨t, l, n⟩ := lab
   unfold GGLabelIso at h
-  simp only [LargeEvenLabel.mk.injEq, reduceCtorEq, false_and, and_false, or_false, false_or]
+  simp only [LargeEvenLabel.mk.injEq, reduceCtorEq, false_and, and_false, or_false]
     at h ⊢
   exact h
 
@@ -132,11 +132,11 @@ theorem ggHalfRowDataInput_holds :
           (by unfold LargeEvenInLambda2; norm_num) hHas hlab)
     subst hlab'
     obtain ⟨K, hF, hfin, hK, bf, cf, hbc, hq⟩ := hraw
-    letI : Field K := hF
-    letI : Finite K := hfin
+    let : Field K := hF
+    let : Finite K := hfin
     obtain ⟨-, -, θ, hP, -⟩ := hq
     obtain ⟨hBN, hB⟩ := hP
-    haveI : Group.IsPerfect ↥K' := ⟨hperf⟩
+    have : Group.IsPerfect ↥K' := ⟨hperf⟩
     have hZ : Subgroup.center ↥K' = ⊥ :=
       HalfRowData.center_eq_bot_of_pomegaMinus_two
         (statedClassicalModel_of_mulEquiv' θ.symm
@@ -156,18 +156,18 @@ theorem ggHalfRowDataInput_holds :
           (by unfold LargeEvenInLambda2; norm_num) hHas hlab)
     subst hlab'
     obtain ⟨K, hF, hfin, hK, hq⟩ := hraw
-    letI : Field K := hF
-    letI : Finite K := hfin
+    let : Field K := hF
+    let : Finite K := hfin
     obtain ⟨-, -, θ, hP, hM⟩ := hq
     obtain ⟨hBN, hB⟩ := hP
-    haveI : Group.IsPerfect ↥K' := ⟨hperf⟩
+    have : Group.IsPerfect ↥K' := ⟨hperf⟩
     have hZ : Subgroup.center ↥K' = ⊥ :=
       ggSixE6A24_center_eq_bot ↥K' hperf (MarkedModel.of_mulEquiv θ.symm hM)
     refine ⟨hZ, ?_⟩
     intro b hb
     obtain ⟨φ, hφI, hφ⟩ := hB b hb
     have hK2 : Nat.card K = 2 := by simpa using hK
-    haveI : Subsingleton Kˣ := subsingleton_units_of_card_eq_two hK2
+    have : Subsingleton Kˣ := subsingleton_units_of_card_eq_two hK2
     obtain ⟨r, hr⟩ :=
       chevIDImage_subset_inn_of_subsingleton
         (LargeEvenChevH (LargeEvenCartanE 6) K false) hφI

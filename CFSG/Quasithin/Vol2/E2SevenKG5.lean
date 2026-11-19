@@ -207,7 +207,7 @@ theorem kgL3Eps_holds :
       rw [Nat.card_of_subsingleton (1 : ↥(SK : Subgroup ↥K))] at h1
       omega
     set Sg : Subgroup ↥K := (SK : Subgroup ↥K) with hSg
-    have hSg2 : IsPGroup 2 ↥Sg := SK.isPGroup'
+    have hSg2 : IsPGroup 2 ↥Sg := SK.isPGroup
     have hZnt : Nontrivial ↥(Subgroup.center ↥Sg) := hSg2.center_nontrivial
     obtain ⟨k, hk0, hk⟩ := (hSg2.to_subgroup (Subgroup.center ↥Sg)).nontrivial_iff_card.mp hZnt
     have hdvd : 2 ∣ Nat.card ↥(Subgroup.center ↥Sg) := hk ▸ dvd_pow_self 2 hk0.ne'

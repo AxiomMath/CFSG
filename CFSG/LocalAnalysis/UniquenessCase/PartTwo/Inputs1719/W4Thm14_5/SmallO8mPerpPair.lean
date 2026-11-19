@@ -66,7 +66,7 @@ theorem mul_conj_eq {G : Type*} [Group G] (ρ : Representation (ZMod 2) G W)
 
 @[expose] noncomputable def repEquiv {G : Type*} [Group G] (ρ : Representation (ZMod 2) G W)
     (n : G) : W ≃ₗ[ZMod 2] W :=
-  LinearEquiv.ofLinear (ρ n) (ρ n⁻¹)
+  LinearEquiv.ofLinearMap (ρ n) (ρ n⁻¹)
     (by rw [← Module.End.mul_eq_comp, ← map_mul, mul_inv_cancel, map_one]; rfl)
     (by rw [← Module.End.mul_eq_comp, ← map_mul, inv_mul_cancel, map_one]; rfl)
 
@@ -105,7 +105,7 @@ def InU (b c : K) (x : Vm 4 K) : Prop :=
 
 theorem inU_minusVec {i : Fin (4 - 1)} (hi : i ≠ 2) (s : Bool) : InU b c (minusVec 4 i s) := by
   refine ⟨fun r => ?_, fun p => polar_minusVec_planeVec 4 b c i s p⟩
-  rw [polar_minusVec_minusVec, if_neg fun h => hi h.1]
+  rw [polar_minusVec_minusVec, ite_eq_right fun h => hi h.1]
 
 theorem InU.add {x y : Vm 4 K} (hx : InU b c x) (hy : InU b c y) : InU b c (x + y) :=
   ⟨fun r => by rw [polar_add_left, hx.1 r, hy.1 r, add_zero],
@@ -201,7 +201,7 @@ theorem eichler_minusVec_mem {i : Fin (4 - 1)} (hi : i ≠ 2) (s : Bool) {w : Vm
     · subst hmi
       by_cases hrs : r = s
       · subst hrs
-        refine ⟨by rw [polar_smul_right, polar_minusVec_minusVec, if_neg (by simp), smul_zero],
+        refine ⟨by rw [polar_smul_right, polar_minusVec_minusVec, ite_eq_right (by simp), smul_zero],
           ?_⟩
         rw [eichler_smul_self (quadMinus_minusVec 4 b c m r)]
         exact one_mem H
@@ -209,7 +209,7 @@ theorem eichler_minusVec_mem {i : Fin (4 - 1)} (hi : i ≠ 2) (s : Bool) {w : Vm
         subst hr
         rw [Bool.not_not, polar_comm, hiw, zero_smul]
         exact zero_mem _
-    · exact ⟨by rw [polar_smul_right, polar_minusVec_minusVec, if_neg fun h => hmi h.1.symm,
+    · exact ⟨by rw [polar_smul_right, polar_minusVec_minusVec, ite_eq_right fun h => hmi h.1.symm,
         smul_zero], hlong hmi hm2 hi r s _⟩
   have hsum := sum_mem fun m (_ : m ∈ Finset.univ) =>
     sum_mem fun r (_ : r ∈ Finset.univ) => hterm m r
@@ -234,7 +234,7 @@ theorem exists_mem_apply_eq_smul {u : Vm 4 K} (hu : InU b c u)
     rw [ht, polar_comm]
     exact hmr
   have hone : polar (quadMinus 4 K b c) (minusVec 4 m (!r)) (minusVec 4 m r) = 1 := by
-    rw [polar_minusVec_minusVec, if_pos ⟨rfl, rfl⟩]
+    rw [polar_minusVec_minusVec, ite_eq_left ⟨rfl, rfl⟩]
   refine ⟨eichler (quadMinus 4 K b c) (minusVec 4 m (!r)) (t⁻¹ • (t • minusVec 4 m r - u)), ?_,
     m, hm2, r, t, ht0, ?_⟩
   · refine eichler_minusVec_mem hirr hlong hm2 (!r)
@@ -323,9 +323,9 @@ theorem longRoot_mem_fixB {i j : Fin (4 - 1)} (hij : i ≠ j) (hi : i ≠ 2) (hj
   refine ⟨fun r => ?_, fun p => ?_⟩
   · refine (minusFrame 4 b c).spinAction_longRoot_of_polar hij s t a ?_ ?_
     · change polar _ (minusVec 4 2 r) (minusVec 4 i s) = 0
-      rw [polar_minusVec_minusVec, if_neg fun h => hi h.1.symm]
+      rw [polar_minusVec_minusVec, ite_eq_right fun h => hi h.1.symm]
     · change polar _ (minusVec 4 2 r) (minusVec 4 j t) = 0
-      rw [polar_minusVec_minusVec, if_neg fun h => hj h.1.symm]
+      rw [polar_minusVec_minusVec, ite_eq_right fun h => hj h.1.symm]
   · exact (minusFrame 4 b c).spinAction_longRoot_of_polar hij s t a
       (polar_planeVec_minusVec 4 b c p i s) (polar_planeVec_minusVec 4 b c p j t)
 
@@ -543,7 +543,7 @@ theorem alpha_longRoot_mem_longN {i j : Fin (4 - 1)} (hij : i ≠ j) (hi : i ≠
       (((inU_minusVec hi s).smul a).map hr hre hrp) ?_ ?_
     · rw [map_of_mem hr, quadMinus_minusVec]
     · rw [polar_map_of_mem hr, polar_smul_right, polar_minusVec_minusVec,
-        if_neg fun h => hij h.1.symm, smul_zero]
+        ite_eq_right fun h => hij h.1.symm, smul_zero]
   obtain ⟨n, hn, hn'⟩ := hmem
   rw [← hπ] at hn'
   rwa [← CFSG.AGLEmbeddingD2.SquareSpinMinus.spinAction_injective hirr hn']
@@ -605,12 +605,12 @@ theorem apply_minusVec_eq {r : Vm 4 K ≃ₗ[K] Vm 4 K} (hr2 : r * r = 1)
         if k = m ∧ u = !v then 1 else 0 := fun k m u v => polar_minusVec_minusVec 4 b c k m u v
   have h1 := apply_eq_of_commute_eichler (r := r) (u := minusVec 4 i' true) (w := minusVec 4 i s)
     (x := minusVec 4 i' false) (quadMinus_minusVec 4 b c i' true) (quadMinus_minusVec 4 b c i s)
-    (by rw [hpol, if_neg fun h => hii' h.1.symm]) (by rw [hpol, if_pos ⟨rfl, rfl⟩])
-    (by rw [hpol, if_neg fun h => hii' h.1.symm]) (hc hii' hi hi' s true)
+    (by rw [hpol, ite_eq_right fun h => hii' h.1.symm]) (by rw [hpol, ite_eq_left ⟨rfl, rfl⟩])
+    (by rw [hpol, ite_eq_right fun h => hii' h.1.symm]) (hc hii' hi hi' s true)
   have h2 := apply_eq_of_commute_eichler (r := r) (u := minusVec 4 i' false) (w := minusVec 4 i s)
     (x := minusVec 4 i' true) (quadMinus_minusVec 4 b c i' false) (quadMinus_minusVec 4 b c i s)
-    (by rw [hpol, if_neg fun h => hii' h.1.symm]) (by rw [hpol, if_pos ⟨rfl, rfl⟩])
-    (by rw [hpol, if_neg fun h => hii' h.1.symm]) (hc hii' hi hi' s false)
+    (by rw [hpol, ite_eq_right fun h => hii' h.1.symm]) (by rw [hpol, ite_eq_left ⟨rfl, rfl⟩])
+    (by rw [hpol, ite_eq_right fun h => hii' h.1.symm]) (hc hii' hi hi' s false)
   set l := polar (quadMinus 4 K b c) (r (minusVec 4 i' false)) (minusVec 4 i' true)
   set μ := polar (quadMinus 4 K b c) (r (minusVec 4 i' false)) (minusVec 4 i s)
   have hμ : μ = 0 := by

@@ -76,7 +76,7 @@ private theorem heisTorusFun_mid {k : Fin (n / 2)} {mid : Fin n}
   have hσ : unitaryInvolution F 2 1 c = c ^ 2 := by
     rw [unitaryInvolution_apply]
     norm_num
-  rw [heisTorusFun, if_neg h1, if_neg h2, if_pos hrev, hσ, pow_two]
+  rw [heisTorusFun, ite_eq_right h1, ite_eq_right h2, ite_eq_left hrev, hσ, pow_two]
   exact mul_div_cancel_left₀ c hc
 
 private theorem tFun_last_mid {k : Fin (n / 2)} (hlast : ¬ k.val + 1 < n / 2)

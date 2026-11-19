@@ -50,7 +50,7 @@ theorem coprime_kernel_lifts_pSubgroup_map {Source Target : Type*} [Group Source
   have himageTop : Subgroup.map rm (sourceSylow : Subgroup pre) = ⊤ := by
     rw [← Sylow.coe_mapSurjective hrmSurj, hsourceSylow, htargetTop]
   let lift := Subgroup.map pre.subtype (sourceSylow : Subgroup pre)
-  have hlift : IsPGroup prime lift := sourceSylow.isPGroup'.map pre.subtype
+  have hlift : IsPGroup prime lift := sourceSylow.isPGroup.map pre.subtype
   have himage : Subgroup.map f lift = T := by
     have hmapped := congrArg (Subgroup.map T.subtype) himageTop
     rw [Subgroup.map_map, ← MonoidHom.range_eq_map, T.subtype_range] at hmapped

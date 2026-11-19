@@ -36,7 +36,7 @@ theorem le_of_forall_inf_centralizer_le_of_equiv
   obtain ⟨P₀, hP₀⟩ := hRsyl.exists_sylow_eq_subgroupOf
   set π := QuotientGroup.mk' (pPrimeCore 2 ↥M) with hπ
   set P := P₀.mapSurjective (QuotientGroup.mk'_surjective (pPrimeCore 2 ↥M)) with hP
-  have hP2 : IsPGroup 2 ((S ⊓ L).subgroupOf M) := hP₀ ▸ P₀.isPGroup'
+  have hP2 : IsPGroup 2 ((S ⊓ L).subgroupOf M) := hP₀ ▸ P₀.isPGroup
   have hinj : Function.Injective (π.subgroupMap ((S ⊓ L).subgroupOf M)) := fun x y hxy =>
     Subtype.ext (GSThmB.OddQuot.injOn_of_isPGroup hP2 x.2 y.2 (congrArg Subtype.val hxy))
   have hPcoe : (P : Subgroup (M ⧸ pPrimeCore 2 M)) = ((S ⊓ L).subgroupOf M).map π := by

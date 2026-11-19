@@ -52,7 +52,7 @@ theorem ggTBJ_sp_cover_block_automizers {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 
         GGTorusWeylElt p A n) ∧
       A ≤ (MulAut.conj : L' →* MulAut L').range := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζ, ν, Θ, J₀, hζo, hνinj, hνrange, hνtorus, hAmap, hJmap,
       hJ₀, hcount_core, hWeyl⟩ := ggTBJ_sp_inner_model hp hp2 hpq ψ₀ A hA y hy hJ hcount
   let f₀ : Fin m → Multiplicative (ZMod p) := Θ.symm ⟨y, hy⟩
@@ -70,7 +70,7 @@ theorem ggTBJ_sp_cover_block_automizers {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     exact hy1 hyone
   have hK4 : 4 ≤ Nat.card K := by
     have h2 : 2 ≤ Nat.card K := by
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     have h3 : 3 ≤ p := by

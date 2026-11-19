@@ -43,7 +43,7 @@ include hφ in
 theorem exists_conj_perm_rankOne {t : SL2 (GaloisField 2 2)} (ht : t ^ 5 = 1)
     (σ : Equiv.Perm (Fin 4)) :
     ∃ n ∈ ψ.range, ∀ i, n * ψ (φ i t) * n⁻¹ = ψ (φ (σ i) t) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨w, hw⟩ := exists_weyl_perm σ
   obtain ⟨m, hm⟩ := e6Isogeny_surjective (GaloisField 2 2)
     ⟨canonicalRep (coxeterSystem Tag.E6) (GaloisField 2 2) w,
@@ -87,7 +87,7 @@ theorem markedRankOne_isogeny
     ∀ k s, ((e6Isogeny (GaloisField 2 2) (markedRankOne rho k s) :
       ↥(adjointGroup Tag.E6 (GaloisField 2 2))) : ModGL Tag.E6 (GaloisField 2 2)) =
         rootSL2 Tag.E6 (GaloisField 2 2) (e6NativeGamma k) s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro k s
   fin_cases k
   · exact e6Isogeny_slToE6Sc_blockSL2_gamma 0 s

@@ -25,7 +25,7 @@ theorem padicValNat_card_eq_of_normalizer_le {p : ℕ} [Fact p.Prime] {K L : Sub
     exact hLK y.2
   let T'' : Subgroup ↥K := T'.subgroupOf K
   have hT''p : IsPGroup p T'' :=
-    (T.isPGroup'.map L.subtype).comap_subtype (K := K)
+    (T.isPGroup.map L.subtype).comap_subtype (K := K)
   obtain ⟨S, hT''S⟩ := hT''p.exists_le_sylow
   have hT''eqS : T'' = S := by
     by_contra hne
@@ -37,11 +37,11 @@ theorem padicValNat_card_eq_of_normalizer_le {p : ℕ} [Fact p.Prime] {K L : Sub
       intro h
       rw [Subgroup.subgroupOf_eq_top] at h
       exact hne (le_antisymm h hT''S).symm
-    haveI : Finite ↥S := inferInstance
-    haveI : Group.IsNilpotent ↥S := IsPGroup.isNilpotent S.isPGroup'
+    have : Finite ↥S := inferInstance
+    have : Group.IsNilpotent ↥S := IsPGroup.isNilpotent S.isPGroup
     have hnc : NormalizerCondition ↥S := Group.normalizerCondition_of_isNilpotent
     have hlt : P < Subgroup.normalizer P := hnc P hPtop
-    obtain ⟨n, hnN, hnP⟩ := SetLike.not_le_iff_exists.mp hlt.not_ge
+    obtain ⟨n, hnN, hnP⟩ := IsConcreteLE.not_le_iff_exists.mp hlt.not_ge
     have hnN' : (n : ↥K) ∈ Subgroup.normalizer T'' := by
       have h : n ∈ (Subgroup.normalizer T'').subgroupOf (S : Subgroup ↥K) := by
         rwa [Subgroup.subgroupOf_normalizer_eq hT''S]
@@ -54,7 +54,7 @@ theorem padicValNat_card_eq_of_normalizer_le {p : ℕ} [Fact p.Prime] {K L : Sub
     have hnT'' : (n : ↥K) ∉ T'' := fun h => hnP (Subgroup.mem_subgroupOf.mpr h)
     have hnL : (n : ↥K).1 ∈ L := hN _ (n : ↥K).2 (by simpa only [T'] using hnN'')
     let M : Subgroup ↥K := Subgroup.normalizer T'' ⊓ (S : Subgroup ↥K)
-    have hMp : IsPGroup p M := S.isPGroup'.to_le inf_le_right
+    have hMp : IsPGroup p M := S.isPGroup.to_le inf_le_right
     have hnM : (n : ↥K) ∈ M := ⟨hnN', n.2⟩
     let A : Subgroup ↥L := (M.map K.subtype).comap L.subtype
     have hAp : IsPGroup p A :=
@@ -89,7 +89,7 @@ theorem exists_conj_mem_of_card_eq {p : ℕ} [Fact p.Prime] {K T₀ : Subgroup G
     (hTK : T₀ ≤ K) (hcard : Nat.card ↥T₀ = p ^ padicValNat p (Nat.card ↥K)) {t : G} (htK : t ∈ K)
     (ht : orderOf t = p) : ∃ g ∈ K, g⁻¹ * t * g ∈ T₀ := by
   classical
-  haveI : Finite ↥K := inferInstance
+  have : Finite ↥K := inferInstance
   let tK : ↥K := ⟨t, htK⟩
   have ht_order : orderOf tK = p := by
     have h1 : orderOf t = orderOf tK := orderOf_injective K.subtype K.subtype_injective tK
@@ -102,7 +102,7 @@ theorem exists_conj_mem_of_card_eq {p : ℕ} [Fact p.Prime] {K T₀ : Subgroup G
   let T : Sylow p ↥K := Sylow.ofCard (T₀.subgroupOf K) (by
     rw [Nat.factorization_def _ (Fact.out : p.Prime)]
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTK).toEquiv, hcard])
-  haveI : Finite (Sylow p ↥K) := T.finite_of_finiteIndex
+  have : Finite (Sylow p ↥K) := T.finite_of_finiteIndex
   obtain ⟨h, hh⟩ := MulAction.exists_smul_eq ↥K Q T
   have htQ : tK ∈ Q := hQ (Subgroup.mem_zpowers tK)
   have hmem : MulAut.conj h • tK ∈ MulAut.conj h • (Q : Subgroup ↥K) :=
@@ -121,7 +121,7 @@ theorem exists_commute_of_card_not_dvd {p : ℕ} [Fact p.Prime] {C : Set G} [Fin
     (hρ : orderOf ρ = p) (hcl : ∀ x ∈ C, ρ * x * ρ⁻¹ ∈ C) (hcard : ¬ p ∣ Nat.card ↥C) :
     ∃ x ∈ C, ρ * x = x * ρ := by
   classical
-  haveI : Fintype ↥C := Fintype.ofFinite _
+  have : Fintype ↥C := Fintype.ofFinite _
   have hcard' : ¬ p ∣ Fintype.card ↥C := by
     rwa [Nat.card_eq_fintype_card] at hcard
   have hρp : ρ ^ p = 1 := by simpa [hρ] using pow_orderOf_eq_one ρ
@@ -193,7 +193,7 @@ theorem card_sup_zpowers_of_commute {L : Subgroup G} [Finite L] {g : G} (hpos : 
       exact (Subgroup.zpowers g).mul_mem hh2 ((Subgroup.zpowers g).inv_mem hh1)
     have hz1 : l2⁻¹ * l1 = 1 := by
       rw [IsOfFinOrder.mem_zpowers_iff_mem_range_orderOf (orderOf_pos_iff.mp hpos)] at hzP
-      simp only [Finset.mem_coe, Finset.mem_image] at hzP
+      simp only [Finset.mem_image] at hzP
       obtain ⟨k, hkrange, hkg⟩ := hzP
       have hklt : k < orderOf g := Finset.mem_range.mp hkrange
       by_cases hk : orderOf g ∣ k

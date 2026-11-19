@@ -18,7 +18,7 @@ private theorem s888_conj_diff {X : Type} [Group X] {V : Subgroup X} {W : Fin 4 
     (i : Fin 4) (w : Fin 4 → X) (hw : ∀ k, w k ∈ W k) :
     (ρ i * (w 0 * w 1 * w 2 * w 3) * (ρ i)⁻¹) * (w 0 * w 1 * w 2 * w 3)⁻¹ =
       (ρ i * w i * (ρ i)⁻¹) * (w i)⁻¹ := by
-  letI : CommGroup V := { (inferInstance : Group V) with
+  let : CommGroup V := { (inferInstance : Group V) with
     mul_comm := fun a b => Subtype.ext (hVcomm a.1 a.2 b.1 b.2) }
   let wv : Fin 4 → V := fun k => ⟨w k, hle k (hw k)⟩
   let q : V →* V :=
@@ -51,7 +51,7 @@ private theorem s888_prod_eq_one {X : Type} [Group X] {V : Subgroup X} {W : Fin 
     {ρ : Fin 4 → X} (hVcomm : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a)
     (hle : ∀ i, W i ≤ V)
     (hrho_mem : ∀ i, ρ i ∈ normalizer (V : Set X))
-    (hrho_inv : ∀ i, ∀ w ∈ W i, ρ i * w * (ρ i)⁻¹ ∈ W i)
+    (_hrho_inv : ∀ i, ∀ w ∈ W i, ρ i * w * (ρ i)⁻¹ ∈ W i)
     (hrho_triv : ∀ i j, i ≠ j → ∀ w ∈ W j, ρ i * w = w * ρ i)
     (hrho_fpf : ∀ i, ∀ w ∈ W i, w ≠ 1 → ρ i * w * (ρ i)⁻¹ ≠ w)
     (i : Fin 4) (d : Fin 4 → X) (hd : ∀ k, d k ∈ W k)
@@ -96,7 +96,7 @@ theorem card_V_of_planes {X : Type} [Group X] [Finite X] {V : Subgroup X}
     have hd : ∀ k, d k ∈ W k := fun k =>
       (W k).mul_mem (w k).2 ((W k).inv_mem (w' k).2)
     have hprod : d 0 * d 1 * d 2 * d 3 = 1 := by
-      letI : CommGroup V := { (inferInstance : Group V) with
+      let : CommGroup V := { (inferInstance : Group V) with
         mul_comm := fun a b => Subtype.ext (hVcomm a.1 a.2 b.1 b.2) }
       let wv : Fin 4 → V := fun k => ⟨w k, hle k (w k).2⟩
       let wv' : Fin 4 → V := fun k => ⟨w' k, hle k (w' k).2⟩

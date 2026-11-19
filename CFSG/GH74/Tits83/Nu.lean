@@ -199,12 +199,12 @@ noncomputable def nu' (i : ℤ) (u : G) : G := by
 theorem nu_of_not_mem {i : ℤ} {u : G} (h : ¬(u ∈ T.U i ∧ u ≠ 1)) : T.nu i u = 1 := by
   classical
   simp only [nu]
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
 theorem nu'_of_not_mem {i : ℤ} {u : G} (h : ¬(u ∈ T.U i ∧ u ≠ 1)) : T.nu' i u = 1 := by
   classical
   simp only [nu']
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
 @[expose] noncomputable def mu (i : ℤ) (u : G) : G := T.nu i u * u * T.nu' i u
 
@@ -213,7 +213,7 @@ theorem isMu_nu {i : ℤ} {u : G} (hu : u ∈ T.U i) (hu1 : u ≠ 1) :
   classical
   have h : u ∈ T.U i ∧ u ≠ 1 := ⟨hu, hu1⟩
   simp only [nu, nu']
-  rw [dif_pos h, dif_pos h]
+  rw [dite_eq_left h, dite_eq_left h]
   exact ⟨(Classical.choose_spec (T.moufang i u hu hu1)).1,
     (Classical.choose_spec (Classical.choose_spec (T.moufang i u hu hu1)).2).1,
     (Classical.choose_spec (Classical.choose_spec (T.moufang i u hu hu1)).2).2⟩
@@ -298,7 +298,7 @@ theorem nu_ne_one (hn : 3 ≤ n) {i : ℤ} {u : G} (hu : u ∈ T.U i) (hu1 : u �
   exact hu1 (T.eq_one_of_mem_normalizer hn hu (by
     simpa [hUi] using Subgroup.le_normalizer hu))
 
-theorem isMu_fst_eq (hn : 3 ≤ n) {i : ℤ} {u v w v' w' : G} (hu : u ∈ T.U i)
+theorem isMu_fst_eq (hn : 3 ≤ n) {i : ℤ} {u v w v' w' : G} (_hu : u ∈ T.U i)
     (h : T.IsMu i u v w) (h' : T.IsMu i u v' w') : v = v' := by
   have hmap : ((T.U (i + n)).map (MulAut.conj u).toMonoidHom).map
       (MulAut.conj v).toMonoidHom = T.U i := by
@@ -344,7 +344,7 @@ theorem isMu_fst_eq (hn : 3 ≤ n) {i : ℤ} {u v w v' w' : G} (hu : u ∈ T.U i
   exact (mul_inv_eq_one.mp hone).symm
 
 theorem isMu_unique (hn : 3 ≤ n) {i : ℤ} {u v w v' w' : G} (hu : u ∈ T.U i)
-    (hu1 : u ≠ 1) (h : T.IsMu i u v w) (h' : T.IsMu i u v' w') : v = v' ∧ w = w' := by
+    (_hu1 : u ≠ 1) (h : T.IsMu i u v w) (h' : T.IsMu i u v' w') : v = v' ∧ w = w' := by
   refine ⟨T.isMu_fst_eq hn hu h h', ?_⟩
   have h1 := h.inv
   have h2 := h'.inv
@@ -474,17 +474,17 @@ theorem nu_shift (hn : 3 ≤ n) (s i : ℤ) (u : G) :
   · have h' : u ∈ (T.shift s).U i ∧ u ≠ 1 := by
       simpa [shift_U] using h
     simp only [nu]
-    rw [dif_pos h', dif_pos h]
+    rw [dite_eq_left h', dite_eq_left h]
     have htrans : T.IsMu (i + s) u
         (Classical.choose ((T.shift s).moufang i u h'.1 h'.2))
         (Classical.choose
           (Classical.choose_spec ((T.shift s).moufang i u h'.1 h'.2)).2) :=
       (T.isMu_shift_iff s i u _ _).1 (isMu_choose (T.shift s) h'.1 h'.2)
-    simpa [nu, dif_pos h] using
+    simpa [nu, dite_eq_left h] using
       (T.isMu_unique hn h.1 h.2 htrans (T.isMu_nu h.1 h.2)).1
   · have h' : ¬(u ∈ (T.shift s).U i ∧ u ≠ 1) := by
       simpa [shift_U] using h
-    simp only [nu, dif_neg h', dif_neg h]
+    simp only [nu, dite_eq_right h', dite_eq_right h]
 
 theorem nu_refl (hn : 3 ≤ n) (c i : ℤ) (u : G) :
     (T.refl c).nu i u = T.nu (c - i) u := by
@@ -492,17 +492,17 @@ theorem nu_refl (hn : 3 ≤ n) (c i : ℤ) (u : G) :
   · have h' : u ∈ (T.refl c).U i ∧ u ≠ 1 := by
       simpa [refl_U] using h
     simp only [nu]
-    rw [dif_pos h', dif_pos h]
+    rw [dite_eq_left h', dite_eq_left h]
     have htrans : T.IsMu (c - i) u
         (Classical.choose ((T.refl c).moufang i u h'.1 h'.2))
         (Classical.choose
           (Classical.choose_spec ((T.refl c).moufang i u h'.1 h'.2)).2) :=
       (T.isMu_refl_iff c i u _ _).1 (isMu_choose (T.refl c) h'.1 h'.2)
-    simpa [nu, dif_pos h] using
+    simpa [nu, dite_eq_left h] using
       (T.isMu_unique hn h.1 h.2 htrans (T.isMu_nu h.1 h.2)).1
   · have h' : ¬(u ∈ (T.refl c).U i ∧ u ≠ 1) := by
       simpa [refl_U] using h
-    simp only [nu, dif_neg h', dif_neg h]
+    simp only [nu, dite_eq_right h', dite_eq_right h]
 
 theorem exists_moves_shift (s : ℤ) : ∃ g : G, T.Moves g (· + 2 * s) := by
   obtain ⟨u, hu, hu1⟩ := Subgroup.exists_mem_ne_one_of_ne_bot (T.ne_bot s)

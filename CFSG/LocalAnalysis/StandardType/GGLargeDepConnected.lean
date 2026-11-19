@@ -19,25 +19,25 @@ private theorem l04fD1_cartanA_entry (m : ℕ) (i j : Fin m) :
   rfl
 
 private lemma l04fD1_cartanA_eq_two (m : ℕ) (i : Fin m) : CartanMatrix.A m i i = 2 := by
-  rw [l04fD1_cartanA_entry, if_pos rfl]
+  rw [l04fD1_cartanA_entry, ite_eq_left rfl]
 
 private lemma l04fD1_cartanA_adj_up {m : ℕ} (i j : Fin m) (hij : j.val = i.val + 1) :
     CartanMatrix.A m j i = -1 := by
   rw [l04fD1_cartanA_entry]
-  rw [if_neg (by intro hh; have hv := congrArg Fin.val hh; omega),
-    if_pos (Or.inr (by omega))]
+  rw [ite_eq_right (by intro hh; have hv := congrArg Fin.val hh; omega),
+    ite_eq_left (Or.inr (by omega))]
 
 private lemma l04fD1_cartanA_adj_down {m : ℕ} (i j : Fin m) (hij : j.val = i.val + 1) :
     CartanMatrix.A m i j = -1 := by
   rw [l04fD1_cartanA_entry]
-  rw [if_neg (by intro hh; have hv := congrArg Fin.val hh; omega),
-    if_pos (Or.inl (by omega))]
+  rw [ite_eq_right (by intro hh; have hv := congrArg Fin.val hh; omega),
+    ite_eq_left (Or.inl (by omega))]
 
 private lemma l04fD1_cartanA_zero_up {m : ℕ} (i j : Fin m) (hij : j.val = i.val + 2) :
     CartanMatrix.A m i j = 0 := by
   rw [l04fD1_cartanA_entry]
-  rw [if_neg (by intro hh; have hv := congrArg Fin.val hh; omega),
-    if_neg (by intro hh; rcases hh with hh | hh <;> omega)]
+  rw [ite_eq_right (by intro hh; have hv := congrArg Fin.val hh; omega),
+    ite_eq_right (by intro hh; rcases hh with hh | hh <;> omega)]
 
 private lemma l04fD1_two_ne_zero {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {h : Fin (N - 1) → V} {α : Fin (N - 1) → Module.Dual (ZMod p) V}

@@ -28,7 +28,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def centralizerInJ (M H B : Subgroup G) : Subgroup G :=
   Subgroup.centralizer (B : Set G) ⊓ jSub M H
 
-@[expose] def TwelveTenFinalA (M H Q : Subgroup G) (p : ℕ) : Prop :=
+@[expose] def TwelveTenFinalA (M _H Q : Subgroup G) (p : ℕ) : Prop :=
   ∃ E D : Subgroup G,
     E ≤ Q ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 2 ∧
       rankThreeGamma 1 p E ≤ M ∧
@@ -37,7 +37,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem seven_dvd_card_of_isL3TwoPow_one {X : Type} [Group X] [Finite X]
     (h : IsL3TwoPow 1 X) : 7 ∣ Nat.card X := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := h
   rw [Nat.card_congr e.toEquiv]
   rw [CFSG.OrderReductions.LinearOrders.card_projectiveSpecialLinear (GaloisField 2 1) 3
@@ -50,6 +50,7 @@ theorem seven_dvd_card_of_quotient_isL3TwoPow_one {Y : Type} [Group Y] [Finite Y
     (N : Subgroup Y) [N.Normal] (h : IsL3TwoPow 1 (Y ⧸ N)) : 7 ∣ Nat.card Y :=
   (seven_dvd_card_of_isL3TwoPow_one h).trans (Subgroup.card_quotient_dvd_card N)
 
+omit [Finite G] in
 theorem dvd_card_inf_map_conj_of_dvd_centralizer
     {M J E : Subgroup G} {x : G} (hJM : J ≤ M)
     (hN : Subgroup.normalizer (E : Set G) ≤ M)

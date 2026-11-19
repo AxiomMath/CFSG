@@ -20,13 +20,13 @@ theorem normalizer_le_narrowGamma_jFour
     {K : Type} [Group K] [Finite K] (e : K ≃* (TauCeti.CFSGIndex.sporadic .J4).Group)
     (T : Sylow 11 K) :
     normalizer ((T : Subgroup K) : Set K) ≤ RankOneCent.narrowGamma 11 (T : Subgroup K) := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   let eKJ : K ≃* CFSG.Sporadic.J4.J :=
     e.trans ((CFSG.Sporadic.Bridge.J4.nonempty_mulEquiv.some).symm.trans
       (CFSG.Sporadic.J4.seedEquiv CFSG.Sporadic.J4.j4Facts.mat))
-  haveI hfinJ : Finite CFSG.Sporadic.J4.J := Finite.of_equiv K eKJ.toEquiv
+  have hfinJ : Finite CFSG.Sporadic.J4.J := Finite.of_equiv K eKJ.toEquiv
   obtain ⟨Ψ, hΨ⟩ := @exists_mulEquiv_map_eq_sylow CFSG.Sporadic.J4.J K (Subgroup.toGroup _)
-    hfinJ _ eKJ.symm 11 _ (T : Subgroup K) T.isPGroup' T.not_dvd_index
+    hfinJ _ eKJ.symm 11 _ (T : Subgroup K) T.isPGroup T.not_dvd_index
     CFSG.Sporadic.J4Schreier.Q11Sylow
   have hT : (T : Subgroup K) =
       (CFSG.Sporadic.J4Schreier.Q11Sylow : Subgroup _).map Ψ.symm.toMonoidHom := by
@@ -45,7 +45,7 @@ theorem isSolvable_of_narrowGamma_le_jFour
     (hZ : center K = ⊥) (T : Sylow 11 K) {K₁ : Subgroup K}
     (hΓ : RankOneCent.narrowGamma 11 (T : Subgroup K) ≤ K₁) (hK₁ : K₁ ≠ ⊤) :
     Group.IsSolvable K₁ := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hC : centralizer ((⊤ : Subgroup K) : Set K) = ⊥ := by
     rw [Subgroup.coe_top, Subgroup.centralizer_univ, hZ]
   obtain ⟨-, -, hmax, -, -, -, -, hsolv, -⟩ :=
@@ -84,13 +84,13 @@ theorem kFactTenFourteenTwoA5GammaJFour_of_excluded
       · exact absurd h (by decide)
       · exact h
     subst hp11
-    haveI := isSolvable_of_narrowGamma_le_jFour e hZ T hΓ hK₁
-    haveI : Group.IsSolvable J :=
+    have := isSolvable_of_narrowGamma_le_jFour e hZ T hΓ hK₁
+    have : Group.IsSolvable J :=
       Group.isSolvable_of_isSolvable_injective (inclusion_injective hJs.le)
-    haveI : Group.IsPerfect J :=
+    have : Group.IsPerfect J :=
       (CFSG.LocalAnalysis.EvenBN.Common.isPerfect_subgroup_iff_commutator_eq J).mpr hJp
-    haveI : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot _).2 hJ1
-    have hlt := IsSolvable.commutator_lt_of_ne_bot (G := J) (H := ⊤) top_ne_bot
+    have : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot _).2 hJ1
+    have hlt := Group.IsSolvable.commutator_lt_of_ne_bot (G := J) (H := ⊤) top_ne_bot
     rw [show ⁅(⊤ : Subgroup J), ⊤⁆ = ⊤ from
       (inferInstance : Group.IsPerfect J).commutator_eq_top] at hlt
     exact lt_irrefl _ hlt

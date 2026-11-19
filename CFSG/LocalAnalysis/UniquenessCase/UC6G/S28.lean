@@ -19,8 +19,8 @@ variable {G : Type} [Group G] [Finite G] {Dat : Data G}
 theorem moduleData_uc6 (Dat : Data G) :
     CFSG.Open.IsKGroup ↥Dat.M ∧ IsPGroup 2 (CFSG.pCore 2 ↥Dat.M) ∧
       centralizer ((CFSG.pCore 2 ↥Dat.M : Subgroup ↥Dat.M) : Set ↥Dat.M) ≤ CFSG.pCore 2 ↥Dat.M := by
-  haveI := Dat.standing.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Dat.standing.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMtop : Dat.M ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top Dat.standing.nonab Dat.maxLocal.1
   refine ⟨Dat.standing.kProper.isKGroup Dat.M hMtop, CFSG.LieType.BorelTits.pCore_isPGroup 2, ?_⟩
@@ -71,9 +71,9 @@ theorem M_le_normalizer_U : m.M ≤ normalizer (m.U : Set G) := fun _ hg =>
 theorem six28b (hK : UCK.K47) (h69 : R6_9 Dat) (h626 : m.C626)
     (h627 : m.C627) : m.C628b := by
   intro p hp hdvdU'
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hpr : p.Prime := (Dat.sig_prime _ hp).1
-  haveI : Fact p.Prime := ⟨hpr⟩
+  have : Fact p.Prime := ⟨hpr⟩
   have hp2 : p ≠ 2 := (Dat.sig_prime p hp).2
   have hpne : p ≠ m.r := fun h => m.hrσ (h ▸ hp)
   have hdvdU : p ∣ Nat.card m.U := by rw [m.card_U]; exact hdvdU'
@@ -132,11 +132,11 @@ theorem six28b (hK : UCK.K47) (h69 : R6_9 Dat) (h626 : m.C626)
   have hcomm : ⁅m.Z, Q⁆ = Q :=
     commutator_eq_of_fixedPointFree_uc6 hZgen hQab.1 hQZ hQfix
   obtain ⟨hMg, hQ₀, hchar⟩ := moduleData_uc6 Dat
-  haveI hQ₀n : (CFSG.pCore 2 ↥m.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have hQ₀n : (CFSG.pCore 2 ↥m.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   have hQ' := isElemAbelian_subgroupOf_uc6 hQM hQab
   by_cases hQc : IsCyclic ↥Q
   ·
-    haveI hU'n : (m.U.subgroupOf m.M).Normal :=
+    have hU'n : (m.U.subgroupOf m.M).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer m.U_le_M).2 m.M_le_normalizer_U
     have htop : (⊤ : Subgroup ↥m.M).map m.M.subtype = m.M := by
       rw [← MonoidHom.range_eq_map]
@@ -163,7 +163,7 @@ theorem six28b (hK : UCK.K47) (h69 : R6_9 Dat) (h626 : m.C626)
         (normalizer_le_normalizer_omegaCenter p P
           ((mem_normalizer_subgroupOf_iff_uc6 hPM).1 hy))
     have hQc' : IsCyclic ↥(Q.subgroupOf m.M) := by
-      haveI := hQc
+      have := hQc
       exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hQM).symm.toMonoidHom
         (MulEquiv.surjective _)
     have hZN' : m.Z.subgroupOf m.M ≤

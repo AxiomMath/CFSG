@@ -89,7 +89,7 @@ theorem ExtremalObstruction.mem_of_inf_ne_bot_of_not_isMulCommutative {p : ℕ} 
     (hzD : z ∈ D) (hzc : z ∈ centralizer ((P : Subgroup G) : Set G)) (hzp : z ^ p = 1) :
     z ∈ E := by
   have : Fact p.Prime := ⟨hp⟩
-  obtain ⟨y, hyS, hyc, hyord⟩ := exists_mem_inf_centralizer_of_ne_bot P.isPGroup' hPE hSE
+  obtain ⟨y, hyS, hyc, hyord⟩ := exists_mem_inf_centralizer_of_ne_bot P.isPGroup hPE hSE
   have hyp : y ^ p = 1 := by rw [← hyord]; exact pow_orderOf_eq_one y
   have hyZ := hext.mem_center_of_mem_centralizer_sylow hp hp2 hD hyS.1 hyc hyp
   have hzZ := hext.mem_center_of_mem_centralizer_sylow hp hp2 hD (hext.obstruction.2.1 hzD) hzc hzp
@@ -109,7 +109,7 @@ theorem ExtremalObstruction.mem_of_inf_ne_bot {p : ℕ} {P : Sylow p G} {M D : S
     (hzp : z ^ p = 1) : z ∈ E := by
   have : Fact p.Prime := ⟨hp⟩
   by_cases hD : IsMulCommutative D
-  · exact central_mem_of_isolated_plane P.isPGroup' hPE hSE
+  · exact central_mem_of_isolated_plane P.isPGroup hPE hSE
       (hext.isIsolatedPlane_of_isMulCommutative hp hD) hPD hzD hz1 hzc
   · exact hext.mem_of_inf_ne_bot_of_not_isMulCommutative hp hp2 hD hPE hSE hzD hzc hzp
 

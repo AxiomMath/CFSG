@@ -36,7 +36,7 @@ theorem frame_omega_eq_pow {a : Fin Tag.F4.rank → Lˣ} {ω : Lˣ} {k : Fin Tag
     ∃ m : ℕ, ψ (diagSL3 (fun _ => ω) (omega_det hω3)) = rootDiagUnit Tag.F4 a ^ m := by
   classical
   have hord : orderOf ω = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hω3 hω1
   set l : Fin 3 → Lˣ := fun _ => ω with hl
   have hl1 : l 0 * l 1 * l 2 = 1 := omega_det hω3
@@ -276,7 +276,7 @@ theorem f4EightStruct_lang {K : Type} [Group K] [Finite K]
   have hq8 : S.D.q = 8 := by rw [hq, hcardK]; norm_num
   have hpL : ((3 : ℕ) : AlgebraicClosure (GaloisField 2 3)) ≠ 0 :=
     LieSemisimple.natCast_ne_zero_algebraicClosure Nat.prime_three hpK
-  haveI : CharP (AlgebraicClosure (GaloisField 2 3)) 2 := inferInstance
+  have : CharP (AlgebraicClosure (GaloisField 2 3)) 2 := inferInstance
   set ι' : K →* ModGL Tag.F4 (AlgebraicClosure (GaloisField 2 3)) := ι.comp e.toMonoidHom with hι'
   have hinj' : Function.Injective ι' := hinj.comp e.injective
   have hrange' : ι'.range = S.Γ := by

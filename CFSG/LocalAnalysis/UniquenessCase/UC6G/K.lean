@@ -20,7 +20,7 @@ theorem hr : m.r.Prime := m.d.prime
 theorem Z_le_K : m.Z ≤ m.K := fun z hz =>
   subset_closure ⟨1, m.M.one_mem, z, hz, by simp⟩
 
-theorem Z_le_M : m.Z ≤ m.M := fun z hz => m.R_le_M (m.hZ.le hz)
+theorem Z_le_M : m.Z ≤ m.M := fun _z hz => m.R_le_M (m.hZ.le hz)
 
 theorem K_le_M : m.K ≤ m.M := by
   refine (closure_le _).2 ?_

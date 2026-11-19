@@ -1700,7 +1700,7 @@ theorem ncard_wordOrbit_rep (k : Fin 7) :
   have hset : {y : X3 | ∃ l : List (Fin Tag.E6.rank), applyWord l (reps k) = y}
       = ↑((n1b_orbData k).map (fun p => p.1)).toFinset := by
     ext y
-    simp only [Set.mem_setOf_eq, Finset.mem_coe, List.mem_toFinset]
+    simp only [Set.mem_ofPred_eq, Finset.mem_coe, List.mem_toFinset]
     constructor
     · rintro ⟨l, rfl⟩
       induction l with

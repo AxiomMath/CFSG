@@ -96,7 +96,7 @@ public theorem secondCase_linear_minimalInvariant_punctured_card
       have hw1 : w = 1 := Set.mem_singleton_iff.mp hw
       subst w
       exact MulAction.mem_fixedPoints.mpr (by intro x; simp)
-  have hXp : IsPGroup p X := IsPGroup.of_card (n := 1) (by simpa [hXcard])
+  have hXp : IsPGroup p X := IsPGroup.of_card (n := 1) (by simp [hXcard])
   have hmod := hXp.card_modEq_card_fixedPoints W
   have hfixedCard : Nat.card (MulAction.fixedPoints X W) = 1 := by
     rw [hfixed]

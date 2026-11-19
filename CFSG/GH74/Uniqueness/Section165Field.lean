@@ -63,7 +63,7 @@ theorem not_fixed_of_dvd
   ·
     have hBT : Bender.BenderType ↥H' k 1 1 := Bender.BenderType.linear k hk2 e
     set V : Subgroup ↥H' := (Q₀ : Subgroup ↥F).subgroupOf H' with hV
-    have hV2 : IsPGroup 2 V := Q₀.isPGroup'.comap_subtype
+    have hV2 : IsPGroup 2 V := Q₀.isPGroup.comap_subtype
     have hzV : (⟨z', hzH⟩ : ↥H') ∈ V := mem_subgroupOf.mpr hzQ
     have hV1 : V ≠ ⊥ := by
       intro hbot

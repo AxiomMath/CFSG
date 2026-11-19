@@ -35,6 +35,7 @@ theorem mem_of_pelt {P M : Subgroup G} (hP : IsPGroup p P) (hPM : P ≤ M)
   rw [hj0, pow_zero, Subgroup.relIndex_eq_one] at hj
   exact hj (Subgroup.mem_sup_left (Subgroup.mem_zpowers y))
 
+omit [Finite G] hp in
 theorem isSylowOf_mono {P H K : Subgroup G} (h : IsSylowOf p P H) (hPK : P ≤ K) (hKH : K ≤ H) :
     IsSylowOf p P K := by
   refine ⟨hPK, h.2.1, ?_⟩

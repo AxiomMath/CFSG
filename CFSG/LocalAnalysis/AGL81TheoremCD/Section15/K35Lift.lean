@@ -45,7 +45,7 @@ theorem card_closure_eq {P : Type*} [Group P] [Finite P] (hp : p.Prime) (H : Fin
     (t : Fin r → P) (hcomm : ∀ i j, i ≠ j → ∀ a ∈ H i, ∀ b ∈ H j, Commute a b)
     (htH : ∀ i, t i ∈ H i) (htp : ∀ i, t i ^ p = 1) (hnc : ∀ i, ∃ h ∈ H i, ¬ Commute (t i) h) :
     Nat.card (closure (Set.range t)) = p ^ r := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hord : ∀ i, orderOf (t i) = p := fun i => orderOf_eq_prime (htp i) fun h1 => by
     obtain ⟨g, -, hg⟩ := hnc i
     exact hg (by rw [h1]; exact Commute.one_left g)
@@ -106,7 +106,7 @@ theorem exists_elemAbelian_fixed_of_hom {L Q : Type*} [Group L] [Finite L] [Grou
     {α : MulAut L} {β : MulAut Q} (hαβ : ∀ x, π (α x) = β (π x)) (h : FixedBlocks p β r) :
     ∃ F : Subgroup L, IsElemAbelian p F ∧ p ^ r ≤ Nat.card F ∧ ∀ x ∈ F, α x = x := by
   classical
-  haveI : Finite Q := Finite.of_surjective π hπ
+  have : Finite Q := Finite.of_surjective π hπ
   obtain ⟨Hb, tb, hcomm, hfix, ht, htp, hnc⟩ := h
   have hαZ : ∀ i, ∀ w ∈ (Hb i).comap π, α w * w⁻¹ ∈ center L := fun i w hw => hker (by
     rw [MonoidHom.mem_ker, map_mul, map_inv, hαβ, hfix i _ (Subgroup.mem_comap.1 hw),
@@ -137,9 +137,9 @@ theorem exists_elemAbelian_fixed_of_hom {L Q : Type*} [Group L] [Finite L] [Grou
     exact (mul_inv_eq_iff_eq_mul.1 (hcent i j hij _ (hs i) _
       (Subgroup.commutator_le_self _ (hs j)))).symm
   have hAcomm : ∀ a b : ↥(closure (Set.range s)), a * b = b * a := by
-    haveI := isMulCommutative_closure hscomm
+    have := isMulCommutative_closure hscomm
     exact fun a b => mul_comm' a b
-  letI : CommGroup ↥(closure (Set.range s)) :=
+  let : CommGroup ↥(closure (Set.range s)) :=
     { (inferInstance : Group ↥(closure (Set.range s))) with mul_comm := hAcomm }
   have hAfix : closure (Set.range s) ≤ MonoidHom.eqLocus (α : L →* L) (MonoidHom.id L) :=
     (closure_le _).2 (by
@@ -164,7 +164,7 @@ theorem exists_elemAbelian_fixed_of_hom {L Q : Type*} [Group L] [Finite L] [Grou
     | one => exact one_pow p
     | mul a b ha hb iha ihb =>
         have hab : Commute a b := by
-          haveI := isMulCommutative_closure htbcomm
+          have := isMulCommutative_closure htbcomm
           exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : closure (Set.range tb)) ⟨b, hb⟩)
         rw [hab.mul_pow, iha, ihb, one_mul]
     | inv a ha iha => rw [inv_pow, iha, inv_one]
@@ -193,7 +193,7 @@ theorem le_pRank_of_fixedBlocks {X : Type*} [Group X] [Finite X] (hp : p.Prime) 
     {y : X} (hy : y ∈ normalizer (K : Set X))
     (h : FixedBlocks p (onCenterQuotient (K.normalizerMonoidHom ⟨y, hy⟩)) r) :
     r ≤ pRank p (K ⊓ centralizer {y}) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨F, hF, hcard, hfix⟩ := exists_elemAbelian_fixed_of_hom hp
     (QuotientGroup.mk' (center K)) (QuotientGroup.mk'_surjective _)
     (by rw [QuotientGroup.ker_mk']) (fun x => (onCenterQuotient_apply_mk _ x).symm) h

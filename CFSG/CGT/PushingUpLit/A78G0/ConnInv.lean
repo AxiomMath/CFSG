@@ -40,7 +40,7 @@ theorem exists_conj_L {x : G} (hx : x ∈ V) :
   rw [inv_inv]
   by_cases hz1 : z = 1
   · exact Or.inr (Or.inl (by rw [← hdec, hz1, one_mul]; exact hz₂))
-  · exact Or.inr (Or.inr (by rw [← hdec]; exact h.pair.utype_of_decomp h.hZ hz hz₂ hz1 hz₂1))
+  · exact Or.inr (Or.inr (by rw [← hdec]; exact h.pair.utype_of_decomp hz hz₂ hz1 hz₂1))
 
 theorem not_conj_of_mem_V {u z : G} (huV : u ∈ V) (huZ : u ∉ Z) (hz : z ∈ Z) (c : G) :
     c * z * c⁻¹ ≠ u := by

@@ -16,7 +16,7 @@ namespace LinCase
 theorem linto_isSylowOf_map {M Λ : Type} [Group M] [Group Λ] [Finite M] [Finite Λ]
     (π : M →* Λ) (hπ : Function.Surjective π) (hker : Odd (Nat.card π.ker)) {R : Subgroup M}
     (hR : IsSylowOf 2 R ⊤) : IsSylowOf 2 (R.map π) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRcard : Nat.card R = 2 ^ (Nat.card M).factorization 2 := by
     have h := hR.card_eq
     rwa [Subgroup.card_top] at h

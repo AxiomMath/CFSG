@@ -41,9 +41,9 @@ private theorem P_le_normalizer_A : h.P ≤ Subgroup.normalizer (h.A : Set G) :=
 private theorem pow_three_mem_A_of_mem_P (hP : Nat.card h.P = 81) {t : G} (htP : t ∈ h.P) :
     t ^ 3 ∈ h.A := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let N : Subgroup ↥h.P := h.A.subgroupOf h.P
-  haveI : N.Normal :=
+  have : N.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h.A_le).mpr P_le_normalizer_A
   have hcardN : Nat.card ↥N = 27 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe h.A_le).toEquiv, h.card_A]
@@ -115,11 +115,11 @@ private theorem mem_A_of_mem_Abar_of_mem_P (hP : Nat.card h.P = 81) {t : G} (htP
 
 private theorem card_inf_normalizer_eq_eighty_one (hP : Nat.card h.P = 81)
     (hNA : Subgroup.normalizer (h.A : Set G) ≤ D.M) {S : Subgroup G}
-    (hS : IsPGroup 3 S) (hAS : h.A ≤ S)
+    (hS : IsPGroup 3 S) (_hAS : h.A ≤ S)
     (hlt : h.A < S ⊓ Subgroup.normalizer (h.A : Set G)) :
     Nat.card ↥(S ⊓ Subgroup.normalizer (h.A : Set G)) = 81 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let Q : Subgroup G := S ⊓ Subgroup.normalizer (h.A : Set G)
   have hQ3 : IsPGroup 3 Q := hS.to_inf_left
   have hQM : Q ≤ D.M := (inf_le_right : Q ≤ Subgroup.normalizer (h.A : Set G)).trans hNA
@@ -151,7 +151,7 @@ private theorem card_inf_normalizer_eq_eighty_one (hP : Nat.card h.P = 81)
     have hpow := Nat.pow_le_pow_right (by norm_num : 0 < 3) h3le
     norm_num at hpow
     omega
-  interval_cases n <;> norm_num at hQlt hQle ⊢
+  interval_cases n; norm_num at hQlt hQle ⊢
 
 end Case811Sylow
 
@@ -166,7 +166,7 @@ private theorem tbar_mem_normalizer_Abar {t : G} (htP : t ∈ h.P) :
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   let tL : ↥c.L := ⟨t, h.P_le_L htP⟩
-  haveI : N.Normal := CFSG.pCore_normal
+  have : N.Normal := CFSG.pCore_normal
   have hN2 : IsPGroup 2 N := CFSG.pCore_isPGroup
   have hN3 : ¬ 3 ∣ Nat.card N :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup (p := 2) (q := 3) hN2 Fact.out (by norm_num)
@@ -312,7 +312,7 @@ theorem forall_ne_zero_of_commute_of_l62 (hCA : K7L6TwoCentA) (hlie : IsLie811 c
     have hcard := congrArg (fun K : Subgroup G => Nat.card K) hEq
     rw [h.card_A, hP] at hcard
     norm_num at hcard
-  obtain ⟨t, htP, htA⟩ := SetLike.exists_of_lt hAP
+  obtain ⟨t, htP, htA⟩ := _root_.IsConcreteLE.exists_of_lt hAP
   obtain ⟨σ, ε, hε, hsig⟩ := s.exists_signed_perm_of_mem_P htP
   let tbar : c.Lbar := QuotientGroup.mk' (CFSG.Open.pCore 2 ↥c.L) ⟨t, h.P_le_L htP⟩
   let Tf : (Fin 3 → ZMod 3) → (Fin 3 → ZMod 3) := fun u i => ε i * u (σ i)
@@ -347,7 +347,7 @@ private theorem exists_conj_maps_of_l62 (hP : Nat.card h.P = 81)
       (S ⊓ Subgroup.normalizer (h.A : Set G)).map (MulAut.conj k⁻¹).toMonoidHom = h.P ∧
         h.A.map (MulAut.conj k⁻¹).toMonoidHom = h.A := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let Q : Subgroup G := S ⊓ Subgroup.normalizer (h.A : Set G)
   have hQM : Q ≤ D.M := (inf_le_right : Q ≤ Subgroup.normalizer (h.A : Set G)).trans hNA
   have hQ3 : IsPGroup 3 Q := hS.to_inf_left
@@ -365,6 +365,7 @@ private theorem exists_conj_maps_of_l62 (hP : Nat.card h.P = 81)
   · exact h.elemAbelian.map _
   · rw [Subgroup.card_map_of_injective (MulAut.conj k⁻¹).injective, h.card_A]
 
+omit [Finite G] in
 private theorem commute_conj_of_mem_centralizer {x : G} {S Q P : Subgroup G} {k : G}
     (hSx : S ≤ Subgroup.centralizer ({x} : Set G)) (hQS : Q ≤ S)
     (hQmap : Q.map (MulAut.conj k⁻¹).toMonoidHom = P) :
@@ -390,7 +391,7 @@ theorem good_of_lt_normalizer_of_l62 (hCA : K7L6TwoCentA) (hlie : IsLie811 c.Lba
     (hSx : S ≤ Subgroup.centralizer ({x} : Set G))
     (hlt : h.A < S ⊓ Subgroup.normalizer (h.A : Set G)) : GoodPoint D.M x := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let Q : Subgroup G := S ⊓ Subgroup.normalizer (h.A : Set G)
   obtain ⟨k, hkM, hQmap, hA_map⟩ := exists_conj_maps_of_l62 hP hNA hS hAS hlt
   let x' : G := k⁻¹ * x * k

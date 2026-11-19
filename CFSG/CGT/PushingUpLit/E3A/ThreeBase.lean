@@ -13,13 +13,13 @@ theorem le_sylow_of_le_normalizer {G : Type*} [Group G] (S : Sylow 2 G) {K : Sub
     (hK : IsPGroup 2 K) (h : K ≤ Subgroup.normalizer ((S : Subgroup G) : Set G)) :
     K ≤ (S : Subgroup G) :=
   le_sup_left.trans
-    (S.maximal_isPGroup.eq_of_ge (hK.to_sup_of_normal_right' S.isPGroup' h) le_sup_right).le
+    (S.maximal_isPGroup.eq_of_ge (hK.to_sup_of_normal_right' S.isPGroup h) le_sup_right).le
 
 theorem le_sylow_of_normalizes {G : Type*} [Group G] (S : Sylow 2 G) {K : Subgroup G}
     (hK : IsPGroup 2 K) (h : (S : Subgroup G) ≤ Subgroup.normalizer (K : Set G)) :
     K ≤ (S : Subgroup G) :=
   le_sup_right.trans
-    (S.maximal_isPGroup.eq_of_ge (S.isPGroup'.to_sup_of_normal_right' hK h) le_sup_left).le
+    (S.maximal_isPGroup.eq_of_ge (S.isPGroup.to_sup_of_normal_right' hK h) le_sup_left).le
 
 theorem exists_central_of_normalizes {G : Type*} [Group G] [Finite G] {S K : Subgroup G}
     (hS : IsPGroup 2 S)
@@ -140,7 +140,7 @@ theorem W_le_center_sylow {M X : Subgroup G} {a : G} (h : Hyp3 G M X) (hb : Blk3
     rw [hM]
     exact Subgroup.le_normalizer
   have hSQ : (S : Subgroup G) ≤ pCoreOf 2 M := by
-    refine le_pCoreOf_of_normalized hSM (fun m hm x hx => ?_) S.isPGroup'
+    refine le_pCoreOf_of_normalized hSM (fun m hm x hx => ?_) S.isPGroup
     rw [hM] at hm
     exact (Subgroup.mem_normalizer_iff.1 hm x).1 hx
   intro w hw
@@ -162,8 +162,8 @@ theorem false_of_sylowCenterTwo {R X : Subgroup G} {a : G}
     have := h.W_normalized ((Subgroup.normalizer (R : Set G)).inv_mem (hSM hs)) hw
     simpa [mul_assoc] using this
   have hWS : pCoreOf 2 X ≤ (S : Subgroup G) := le_sylow_of_normalizes S (isPGroup_pCoreOf' X) hSW
-  obtain ⟨u, huW, hu1, huc⟩ := exists_central_of_normalizes S.isPGroup' hWS hb.W_ne_bot hSW
-  obtain ⟨v, hvR, hv1, hvc⟩ := exists_central_of_normalizes S.isPGroup' hRS hR1 hSM
+  obtain ⟨u, huW, hu1, huc⟩ := exists_central_of_normalizes S.isPGroup hWS hb.W_ne_bot hSW
+  obtain ⟨v, hvR, hv1, hvc⟩ := exists_central_of_normalizes S.isPGroup hRS hR1 hSM
   rcases hZ S u v (hWS huW) (hRS hvR) huc hvc with h1 | h1 | h1
   · exact hu1 h1
   · exact hv1 h1

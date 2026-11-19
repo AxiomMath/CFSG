@@ -98,7 +98,7 @@ private theorem fiveSL_pow_five [CharP k 2] {ω : k} (hω : ω * ω + ω + 1 = 0
     rw [sq]
     simp only [fiveM, Matrix.mul_fin_three]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp <;> grind
+    fin_cases i <;> fin_cases j <;> simp; grind
   have h4 : fiveM ω ^ 4 = !![ω, 1, 0; 1, 0, 0; 0, 0, 1] := by
     rw [show fiveM ω ^ 4 = fiveM ω ^ 2 * fiveM ω ^ 2 by rw [← pow_add], h2]
     simp only [Matrix.mul_fin_three]
@@ -107,7 +107,7 @@ private theorem fiveSL_pow_five [CharP k 2] {ω : k} (hω : ω * ω + ω + 1 = 0
   rw [pow_succ, h4]
   simp only [fiveM, Matrix.mul_fin_three, Matrix.one_fin_three]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> grind
+  fin_cases i <;> fin_cases j <;> simp; grind
 
 private theorem proj_fiveSL_ne_one [CharP k 2] (ω : k) : proj 3 k (fiveSL ω) ≠ 1 := by
   intro h

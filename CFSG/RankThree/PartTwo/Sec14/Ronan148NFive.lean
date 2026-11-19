@@ -15,12 +15,13 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec14
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_of_pow_three_pow_eq_one148 {J R : Subgroup G}
     (hRJ : R ≤ Subgroup.normalizer (J : Set G)) (hR : Nat.Coprime 3 (Nat.card R)) {z j : G}
     (hj : j ∈ J) (hr : j⁻¹ * z ∈ R) {k : ℕ} (hz : z ^ (3 ^ k) = 1) : z ∈ J := by
   set NJ := Subgroup.normalizer (J : Set G) with hNJ
   have hJN : J ≤ NJ := Subgroup.le_normalizer
-  haveI : (J.subgroupOf NJ).Normal := Subgroup.normal_in_normalizer
+  have : (J.subgroupOf NJ).Normal := Subgroup.normal_in_normalizer
   set π := QuotientGroup.mk' (J.subgroupOf NJ) with hπ
   have hjN : j ∈ NJ := hJN hj
   have hrN : j⁻¹ * z ∈ NJ := hRJ hr
@@ -116,7 +117,7 @@ section Five
 
 theorem step148RankFiveSol_holds : Ronan148M.Step148RankFiveSol := by
   intro G _ _ A c L h Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ hF hA hXJ
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R := pPrimeCoreOf 3 Y with hRdef
   set X := deltaZero A (lB A) Y with hXdef

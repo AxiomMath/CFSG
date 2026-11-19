@@ -29,7 +29,7 @@ theorem case_other (hKD : KDCo3Cat) (h : CentConfig X a b E Fus) {L : Subgroup X
   have hQ : ExcQuot (↥L ⧸ center ↥L) := ExcQuot.of_catalogue hcat
   have hF : FixLarge ↥L := fixLarge_of_excQuot hQ
   have hLn : L.Normal := h.normal_of_fixLarge hL hEL hF
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   obtain ⟨N, hNn, hNidx, hN⟩ :=
     exists_normal_of_cover L hperf hQ.card_mulAut_dvd hQ.center_eq_bot
   have haN : a ∉ N := by
@@ -44,7 +44,7 @@ theorem case_other (hKD : KDCo3Cat) (h : CentConfig X a b E Fus) {L : Subgroup X
     obtain ⟨hw2, _hw1, hD⟩ := h.fus w hFw
     obtain ⟨k, hk, hact⟩ := (hN w).mp hwN
     exact false_of_fus_inner L hZ hQ hw2 hk hact hD
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   exact transferWitness_of_normal N h.a_sq haN hidx hFus
 
 end Certified

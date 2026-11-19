@@ -233,7 +233,7 @@ lemma map_conj_shift : Subgroup.map (MulAut.conj (shift e)).toMonoidHom D = D :=
     exact (hconj d).2 hd
   · intro d hd
     refine ⟨(shift e)⁻¹ * d * shift e, (hconj _).1 (by group; exact hd), ?_⟩
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     group
 
 noncomputable def shiftConj : MulAut ↥D :=

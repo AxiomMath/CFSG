@@ -57,7 +57,7 @@ theorem coe_hessRho2y (h3 : (3 : K) ≠ 0) :
   rw [hessRho2y, Units.val_mul, Units.val_mul, coe_hessRho2, coe_hessT]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, hessTMat, Matrix.diagonal, hessQ, hessY]
+    simp [Matrix.mul_apply, hessTMat, Matrix.diagonal, hessQ, hessY]
 
 theorem hessRho2_mem_omegaGL (h3 : (3 : K) ≠ 0) :
     hessRho2 h3 ∈ omegaGL (1 : Matrix (Fin 3) (Fin 3) K) :=
@@ -110,6 +110,7 @@ theorem eq_of_dvd_pow_mul_pow {a b i j : ℕ} (ha : a.Prime) (hb : b.Prime)
   · exact Or.inl ((Nat.prime_dvd_prime_iff_eq hp.out ha).mp (hp.out.dvd_of_dvd_pow h))
   · exact Or.inr ((Nat.prime_dvd_prime_iff_eq hp.out hb).mp (hp.out.dvd_of_dvd_pow h))
 
+omit hp in
 theorem natCast_ne_zero_of {n : ℕ} (h : ¬ p ∣ n) : (n : K) ≠ 0 := by
   intro h0
   exact h ((CharP.cast_eq_zero_iff K p n).mp h0)

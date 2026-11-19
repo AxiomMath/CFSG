@@ -258,7 +258,7 @@ theorem Sp62Block.exists_large_of_elem {x : G} {E Y : Subgroup G}
   have hET : E ≤ (T : Subgroup D).map D.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hEC]
     exact Subgroup.map_mono hT
-  refine ⟨(T : Subgroup D).map D.subtype, Subgroup.map_subtype_le _, T.isPGroup'.map _,
+  refine ⟨(T : Subgroup D).map D.subtype, Subgroup.map_subtype_le _, T.isPGroup.map _,
     card_le_card_map_sylow T hY3 hYC, ?_⟩
   exact CFSG.SectionRank.le_pRank (by norm_num) hET hE hEc
 

@@ -31,7 +31,7 @@ theorem invNormalizer_of_isSpor_m11 {X : Type} [Group X]
     (h : CFSG.LocalAnalysis.UniquenessCase.UC22.IsSpor X .M11) : InvNormalizer 3 X := by
   obtain ⟨e⟩ := h
   let e' : NativeSporadic.M11 ≃* X := e.symm
-  haveI : Finite X := Finite.of_equiv NativeSporadic.M11 e'.toEquiv
+  have : Finite X := Finite.of_equiv NativeSporadic.M11 e'.toEquiv
   exact invNormalizer_m11.of_mulEquiv e'
 
 end CFSG.LocalAnalysis.UniquenessCase.UC6

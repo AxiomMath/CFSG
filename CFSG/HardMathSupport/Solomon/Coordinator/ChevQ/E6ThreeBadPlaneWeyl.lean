@@ -97,7 +97,7 @@ variable {K : Type} [Field K]
 
 theorem e6PW_exists_torV (h3 : ω ^ 3 = 1) (h1 : ω ≠ 1) {b : Fin Tag.E6.rank → Kˣ}
     (hb : ∀ i, b i ^ 3 = 1) : ∃ x : Fin Tag.E6.rank → ZMod 3, torV ω x = b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hprim : IsPrimitiveRoot ω 3 := IsPrimitiveRoot.iff_orderOf.2 (orderOf_eq_prime h3 h1)
   choose m hm3 hm using fun i =>
     hprim.eq_pow_of_mem_rootsOfUnity ((mem_rootsOfUnity 3 (b i)).2 (hb i))

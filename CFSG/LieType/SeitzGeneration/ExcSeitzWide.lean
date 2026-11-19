@@ -249,13 +249,13 @@ open TauCeti (PrimePower LieTypeIndex)
 in
 theorem seitzExcOuterWideE7_of_subfieldMaximalAll (h : SubfieldMaximalAll .E7) :
     SeitzExcOuterWideForAt IsE7Index
-      (fun d p => 5 ≤ p ∧ ∃ q : PrimePower, d = LieTypeIndex.E7 q ∧ True) :=
+      (fun d _p => 5 ≤ _p ∧ ∃ q : PrimePower, d = LieTypeIndex.E7 q ∧ True) :=
   seitzExcOuterWideFive_of_fieldAutData (c := LieTypeIndex.E7) (X := fun _ => True)
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 LieTypeIndex.characteristic_E7
     (fun _ _ _ => CFSG.AGLEmbedding.SeitzEqTwo.conj_injective_adjointGroup)
     fun _ _ _ _ hp hp5 hpK =>
       fieldAutData_E_of_subfieldMaximalAll .E7 (Or.inr (Or.inl rfl))
-        (fun _ _ _ σ p hp hp3 hσp => entrywiseFixedGroup_E7_eq_of_pow σ hp hp3 hσp) h hp hp5 hpK
+        (fun _ _ _ σ _p hp hp3 hσp => entrywiseFixedGroup_E7_eq_of_pow σ hp hp3 hσp) h hp hp5 hpK
 
 open TauCeti (PrimePower LieTypeIndex) 
 in

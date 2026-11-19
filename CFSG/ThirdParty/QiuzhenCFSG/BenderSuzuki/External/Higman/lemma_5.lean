@@ -45,7 +45,7 @@ private theorem lemma5_irreducible_AEval_isSimple
         (∀ v : V, v ∈ W → T v ∈ W) →
         W = ⊥ ∨ W = ⊤) :
     IsSimpleModule (Polynomial F2) (Module.AEval' (R := F2) T.toLinearMap) := by
-  letI : Nontrivial (Module.AEval' (R := F2) T.toLinearMap) := ‹Nontrivial V›
+  let : Nontrivial (Module.AEval' (R := F2) T.toLinearMap) := ‹Nontrivial V›
   rw [isSimpleModule_iff]
   refine
     { toNontrivial := inferInstance
@@ -96,8 +96,8 @@ private theorem lemma5_irreducible_field_coordinates
       (Module.natCard_eq_pow_finrank (K := F2) (V := V))
   have hsimple := lemma5_irreducible_AEval_isSimple T hT_irreducible
   obtain ⟨I, hI, ⟨e⟩⟩ := isSimpleModule_iff_quot_maximal.mp hsimple
-  letI : I.IsMaximal := hI
-  letI : Field (Polynomial F2 ⧸ I) := Ideal.Quotient.field I
+  let : I.IsMaximal := hI
+  let : Field (Polynomial F2 ⧸ I) := Ideal.Quotient.field I
   let eF2 : V ≃ₗ[F2] Polynomial F2 ⧸ I :=
     (Module.AEval'.of T.toLinearMap).trans (e.restrictScalars F2)
   have hQcard : Nat.card (Polynomial F2 ⧸ I) = 2 ^ m := by
@@ -261,7 +261,7 @@ public theorem lemma5_irreducible_card_of_order
         (∀ x : V, x ∈ A → T x ∈ A) → A = ⊥ ∨ A = ⊤)
     (n : ℕ) (hn : 2 ≤ n) (hT_order : orderOf T = 2 ^ n - 1) :
     Nat.card V = 2 ^ n := by
-  letI : Nontrivial V := by
+  let : Nontrivial V := by
     rw [← not_subsingleton_iff_nontrivial]
     intro hsub
     have hT_one : T = 1 := by
@@ -499,7 +499,7 @@ private theorem lemma5_conjugate_eigenbasis
       Module.finrank K (K ⊗[F2] V) = m :=
     (Module.finrank_baseChange
       (R := K) (S := F2) (M' := V)).trans hVfinrank
-  letI : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
+  let : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
   let u : Module.Basis (Fin m) K (K ⊗[F2] V) :=
     basisOfLinearIndependentOfCardEqFinrank huv_li
       (by simp [htensor_finrank])
@@ -513,8 +513,7 @@ private theorem lemma5_conjugate_eigenbasis
   have heval_T (k : Fin m) (x : K ⊗[F2] V) :
       eval k ((T.baseChange F2 K V V) x) =
         (sigma ^ (k : ℕ)) lambda * eval k x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
         have hv :
             T v = coordinates (lambda * coordinates.symm v) := by
@@ -693,11 +692,9 @@ public theorem lemma5_lowerCentralBracket_interfaces
       (x y : BinaryGaloisField m ⊗[F2]
         Additive (LowerCentralFactor H 0)) :
       bracketK (xiK x) (xiK y) = SK (bracketK x y) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
-        induction y using TensorProduct.induction_on with
-        | zero => simp
+        induction y using TensorProduct.inductionOn with
         | tmul b w =>
             have ha : a ⊗ₜ[F2] v = a • (1 ⊗ₜ[F2] v) := by
               rw [TensorProduct.smul_tmul']
@@ -741,11 +738,9 @@ public theorem lemma5_lowerCentralBracket_interfaces
       (x y : BinaryGaloisField m ⊗[F2]
         Additive (LowerCentralFactor H 0)) :
       bracketK x y = bracketK y x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
-        induction y using TensorProduct.induction_on with
-        | zero => simp
+        induction y using TensorProduct.inductionOn with
         | tmul b w =>
             have ha : a ⊗ₜ[F2] v = a • (1 ⊗ₜ[F2] v) := by
               rw [TensorProduct.smul_tmul']
@@ -766,8 +761,7 @@ public theorem lemma5_lowerCentralBracket_interfaces
   have hbracketK_self
       (x : BinaryGaloisField m ⊗[F2]
         Additive (LowerCentralFactor H 0)) : bracketK x x = 0 := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
         have ha : a ⊗ₜ[F2] v = a • (1 ⊗ₜ[F2] v) := by
           rw [TensorProduct.smul_tmul']
@@ -1139,7 +1133,7 @@ private theorem lemma5_square_map_normal_form_field_core
       1 < Nat.card (Additive (LowerCentralFactor H 1)) := by
     rw [Nat.card_congr Additive.toMul, hL2_card]
     exact one_lt_pow₀ (by norm_num : 1 < (2 : ℕ)) (by omega)
-  letI : Nontrivial (Additive (LowerCentralFactor H 1)) :=
+  let : Nontrivial (Additive (LowerCentralFactor H 1)) :=
     Finite.one_lt_card_iff_nontrivial.mp hL2_card_gt
   obtain ⟨bracket, _hbracket_mk, _hbracket_equivariant,
       _hbracket_self, hbracket_span⟩ :=
@@ -1167,7 +1161,7 @@ private theorem lemma5_square_map_normal_form_field_core
       simp
     exact top_ne_bot htop_bot
   obtain ⟨v, hv⟩ := hL1_exists
-  letI : Nontrivial (Additive (LowerCentralFactor H 0)) :=
+  let : Nontrivial (Additive (LowerCentralFactor H 0)) :=
     ⟨⟨v, 0, hv⟩⟩
   let T : Additive (LowerCentralFactor H 0) ≃ₗ[F2]
       Additive (LowerCentralFactor H 0) :=
@@ -1318,8 +1312,7 @@ private theorem lemma5_no_scalarExtension_copy
   have heval_coord (i : Fin (Module.finrank F2 K))
       (j : Fin (Module.finrank F2 V2)) (x : K ⊗[F2] V2) :
       c.repr (eval i x) j = tb.repr x (i, j) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
         simp [heval_tmul, tb, b, c, mul_comm]
     | add x y hx hy =>
@@ -1333,8 +1326,7 @@ private theorem lemma5_no_scalarExtension_copy
   have heval_action (i : Fin (Module.finrank F2 K))
       (x : K ⊗[F2] V2) :
       eval i (S.baseChange F2 K V2 V2 x) = S (eval i x) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
         simp [heval_tmul, S, LinearEquiv.baseChange_tmul]
     | add x y hx hy =>
@@ -1591,11 +1583,9 @@ private theorem lemma5_square_formula_candidate
     simp only [CharTwo.two_eq_zero, zero_smul]
   have hbracketK_symm (x y : E) :
       bracketK x y = bracketK y x := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
-        induction y using TensorProduct.induction_on with
-        | zero => simp
+        induction y using TensorProduct.inductionOn with
         | tmul b w =>
             have ha : a ⊗ₜ[F2] v = a • (1 ⊗ₜ[F2] v) := by
               rw [TensorProduct.smul_tmul']
@@ -1614,8 +1604,7 @@ private theorem lemma5_square_formula_candidate
         simp only [map_add, LinearMap.add_apply]
         rw [hx, hy]
   have hbracketK_self (x : E) : bracketK x x = 0 := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
         have ha : a ⊗ₜ[F2] v = a • (1 ⊗ₜ[F2] v) := by
           rw [TensorProduct.smul_tmul']
@@ -1630,11 +1619,9 @@ private theorem lemma5_square_formula_candidate
           hadd_self_F (bracketK x y)
   have hbracketK_equivariant (x y : E) :
       bracketK (xiK x) (xiK y) = SK (bracketK x y) := by
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a v =>
-        induction y using TensorProduct.induction_on with
-        | zero => simp
+        induction y using TensorProduct.inductionOn with
         | tmul b w =>
             have ha : a ⊗ₜ[F2] v = a • (1 ⊗ₜ[F2] v) := by
               rw [TensorProduct.smul_tmul']

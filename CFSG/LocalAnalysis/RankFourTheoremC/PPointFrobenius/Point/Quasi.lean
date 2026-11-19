@@ -189,6 +189,7 @@ theorem pt_Kx_isComponent [Fact p.Prime] (hs : PtSchurBound) (hG : FrobGlobal G)
     obtain ⟨φ⟩ := pt_Kx_equiv hs hG hl hD
     exact CFSG.Open.IsQuasisimple.of_mulEquiv φ hD.red.component.2.2
 
+omit [Finite G] in
 private theorem pt_isComponent_subgroupOf {L C : Subgroup G} (h : IsComponentOf L C) :
     CFSG.IsComponent (L.subgroupOf C) := by
   rw [CFSG.isComponent_iff_open]
@@ -211,7 +212,7 @@ theorem pt_component_eq [Fact p.Prime] (hs : PtSchurBound) (hG : FrobGlobal G)
   · have h := Subgroup.subgroupOf_inj.mp heq
     rwa [inf_of_le_left hJC, inf_of_le_left hJxC] at h
   · exfalso
-    haveI : IsCyclic ↥(centralizer (K : Set (RedCent p x))) := hD.isCyclic
+    have : IsCyclic ↥(centralizer (K : Set (RedCent p x))) := hD.isCyclic
     let φ : ↥J →* RedCent p x :=
       (QuotientGroup.mk' (primeComplementCore (G := centralizer ({x} : Set G)) p)).comp
         (Subgroup.inclusion hJC)
@@ -254,7 +255,7 @@ theorem pt_component_eq [Fact p.Prime] (hs : PtSchurBound) (hG : FrobGlobal G)
       CFSG.FeitThompson.isSolvable_of_odd_natCard _ (pt_primeCore_odd hG hl)
     have : Group.IsSolvable ↥J :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJO)
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
     have : Nontrivial ↥J := (QuotientGroup.mk_surjective (s := Subgroup.center ↥J)).nontrivial
     have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
     exact Group.IsPerfect.not_isSolvable ↥J inferInstance

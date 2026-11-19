@@ -64,7 +64,7 @@ structure Twist4 (K : Fin 3 → ℕ) (aV aW aU aR aV' aW' aU' aR' : Torus K →+
   R1 : aR' (gen K 1) = aR (gen K 1)
   R2 : aR' (gen K 2) = aR (gen K 2)
 
-theorem dev_gen0_of_agreeB4 {X aX dX : Torus K →+ Torus K} (h : AgreeB4 K (aX + dX) aX) :
+theorem dev_gen0_of_agreeB4 {_X aX dX : Torus K →+ Torus K} (h : AgreeB4 K (aX + dX) aX) :
     dX (gen K 0) = 0 := by
   have h0 := h.1
   rw [AddMonoidHom.add_apply] at h0
@@ -94,10 +94,10 @@ theorem pivots_idx4 (hK : ∀ j, 1 ≤ K j) (hK1 : 2 ≤ K 1) (hK2 : 2 ≤ K 2)
   have sW := isSmallDev_of_agreeB4 hK hK1 hK2 hW
   have sU := isSmallDev_of_agreeB4 hK hK1 hK2 hU
   have sR := isSmallDev_of_agreeB4 hK hK1 hK2 hR
-  have dV0 := dev_gen0_of_agreeB4 (X := aV) hV
-  have dW0 := dev_gen0_of_agreeB4 (X := aW) hW
-  have dU0 := dev_gen0_of_agreeB4 (X := aU) hU
-  have dR0 := dev_gen0_of_agreeB4 (X := aR) hR
+  have dV0 := dev_gen0_of_agreeB4 (_X := aV) hV
+  have dW0 := dev_gen0_of_agreeB4 (_X := aW) hW
+  have dU0 := dev_gen0_of_agreeB4 (_X := aU) hU
+  have dR0 := dev_gen0_of_agreeB4 (_X := aR) hR
   have L := linRels_of h ha sV sW sU sR
   obtain ⟨v0, v1, v2, hv1⟩ := exists_tw hK (sV.two_zsmul (gen K 1))
   obtain ⟨v3, v4, v5, hv2⟩ := exists_tw hK (sV.two_zsmul (gen K 2))
@@ -141,15 +141,14 @@ theorem pivots_idx4 (hK : ∀ j, 1 ≤ K j) (hK1 : 2 ≤ K 1) (hK2 : 2 ≤ K 2)
   have e18 := L.uv_comm_u (gen K 2)
   have e19 := L.t_u (gen K 1)
   have e20 := L.t_u (gen K 2)
-  simp only [fV0, fV1, fV2, fW0, fW1, fW2, fU0, fU1, fU2, fR0, fR1, fR2, map_add, map_zsmul,
+  simp only [fV1, fV2, fW1, fW2, fU1, fU2, fR0, fR1, fR2, map_add, map_zsmul,
     dV0, dW0, dU0, dR0, hv1, hv2, hw1, hw2, hu1, hu2, hr1, hr2, hP.nV, hP.nW, hP.nU, hP.nR,
     smul_zero, smul_add, t1, t0, add_zero, zero_add, tw_add] at e1 e2 e3 e4 e5 e6 e7 e8 e9 e10
-  simp only [fV0, fV1, fV2, fW0, fW1, fW2, fU0, fU1, fU2, fR0, fR1, fR2, map_add, map_zsmul,
+  simp only [fV0, fV1, fV2, fW1, fW2, fU0, fU1, fU2, fR0, fR1, fR2, map_add, map_zsmul,
     dV0, dW0, dU0, dR0, hv1, hv2, hw1, hw2, hu1, hu2, hr1, hr2, hP.nV, hP.nW, hP.nU, hP.nR,
     smul_zero, smul_add, t1, t0, add_zero, zero_add, tw_add] at e11 e12 e13 e14 e15 e16 e17 e18
-  simp only [fV0, fV1, fV2, fW0, fW1, fW2, fU0, fU1, fU2, fR0, fR1, fR2, map_add, map_zsmul,
-    dV0, dW0, dU0, dR0, hv1, hv2, hw1, hw2, hu1, hu2, hr1, hr2, hP.nV, hP.nW, hP.nU, hP.nR,
-    smul_zero, smul_add, t1, t0, add_zero, zero_add, tw_add] at e19 e20
+  simp only [fV0, fV1, fV2, fW1, fW2, fU1, fU2, map_add, map_zsmul,
+    dV0, dW0, dU0, hv1, hv2, hw1, hw2, hu1, hu2, hP.nV, hP.nW, hP.nU, smul_zero, smul_add, t1, t0, add_zero, zero_add, tw_add] at e19 e20
   rw [tw_eq_zero_iff hK] at e1 e2 e3 e4 e7 e8 e9 e10 e11 e12
   rw [tw_eq_iff hK] at e5 e6 e13 e14 e15 e16 e17 e18 e19 e20
   obtain ⟨e1a, e1b, e1c⟩ := e1
@@ -253,7 +252,7 @@ theorem final_idx4 (hK : ∀ j, 1 ≤ K j) (hK1 : 2 ≤ K 1) (hK2 : 2 ≤ K 2)
     rw [basisChangeEquiv_conj hε (by assumption), add_eq_left] <;>
     simp only [fV0, fV1, fV2, fW0, fW1, fW2, fU0, fU1, fU2, fR0, fR1, fR2, map_add, map_zsmul,
       dV0, dW0, dU0, dR0, hv1, hv2, hw1, hw2, hu1, hu2, hr1, hr2, hP.nV, hP.nW, hP.nU, hP.nR,
-      ε0, ε1, ε2, smul_zero, smul_add, t1, t0, add_zero, zero_add, tw_add, map_zero] <;>
+      ε0, ε1, ε2, smul_zero, t1, t0, add_zero, zero_add, tw_add, map_zero] <;>
     first
     | done
     | (rw [tw_eq_zero_iff hK]; refine ⟨?_, ?_, ?_⟩ <;> omega)
@@ -265,16 +264,14 @@ theorem final_idx4 (hK : ∀ j, 1 ≤ K j) (hK1 : 2 ≤ K 1) (hK2 : 2 ≤ K 2)
     rw [basisChangeEquiv_conj hε (by assumption)] <;>
     first
     | (rw [add_right_inj]
-       simp only [fV0, fV1, fV2, fW0, fW1, fW2, fU0, fU1, fU2, fR0, fR1, fR2, map_add,
-         map_zsmul, dV0, dW0, dU0, dR0, hv1, hv2, hw1, hw2, hu1, hu2, hr1, hr2, hP.nV, hP.nW,
-         hP.nU, hP.nR, ε0, ε1, ε2, smul_zero, smul_add, t1, t0, add_zero, zero_add, tw_add,
-         map_zero]
+       simp only [fV1, fV2, fW1, fW2, map_add,
+         map_zsmul, hv1, hv2, hw1, hw2, hP.nV, hP.nW,
+         ε0, ε1, ε2, smul_zero, t1, t0, add_zero, zero_add, tw_add]
        rw [tw_eq_iff hK]
        refine ⟨?_, ?_, ?_⟩ <;> omega)
     | (rw [add_eq_left]
-       simp only [fV0, fV1, fV2, fW0, fW1, fW2, fU0, fU1, fU2, fR0, fR1, fR2, map_add,
-         map_zsmul, dV0, dW0, dU0, dR0, hv1, hv2, hw1, hw2, hu1, hu2, hr1, hr2, hP.nV, hP.nW,
-         hP.nU, hP.nR, ε0, ε1, ε2, smul_zero, smul_add, t1, t0, add_zero, zero_add, tw_add,
+       simp only [fV0, fW0, fU0, fU1, fU2, fR0, fR1, fR2, map_add,
+         map_zsmul, dV0, dW0, dU0, dR0, hu1, hu2, hr1, hr2, hP.nU, hP.nR, ε0, ε1, ε2, smul_zero, t1, t0, add_zero, zero_add, tw_add,
          map_zero]
        first
        | done
@@ -298,9 +295,9 @@ theorem classify_idx4 (hK : ∀ j, 1 ≤ K j) (hK1 : 2 ≤ K 1) (hK2 : 2 ≤ K 2
     pivots_idx4 hK hK1 hK2 ha hP h hV hW hU hR
   exact final_idx4 hK hK1 hK2 hP hT (isSmallDev_of_agreeB4 hK hK1 hK2 hV)
     (isSmallDev_of_agreeB4 hK hK1 hK2 hW) (isSmallDev_of_agreeB4 hK hK1 hK2 hU)
-    (isSmallDev_of_agreeB4 hK hK1 hK2 hR) (dev_gen0_of_agreeB4 (X := aV) hV)
-    (dev_gen0_of_agreeB4 (X := aW) hW) (dev_gen0_of_agreeB4 (X := aU) hU)
-    (dev_gen0_of_agreeB4 (X := aR) hR) hv1 hv2 hw1 hw2 hu1 hu2 hr1 hr2
+    (isSmallDev_of_agreeB4 hK hK1 hK2 hR) (dev_gen0_of_agreeB4 (_X := aV) hV)
+    (dev_gen0_of_agreeB4 (_X := aW) hW) (dev_gen0_of_agreeB4 (_X := aU) hU)
+    (dev_gen0_of_agreeB4 (_X := aR) hR) hv1 hv2 hw1 hw2 hu1 hu2 hr1 hr2
 
 @[expose] def AgreeB2 (K : Fin 3 → ℕ) (X Y : Torus K →+ Torus K) : Prop :=
   X ((2 : ℤ) • gen K 0) = Y ((2 : ℤ) • gen K 0) ∧ X (gen K 1) = Y (gen K 1) ∧
@@ -338,7 +335,7 @@ structure Twist2 (K : Fin 3 → ℕ) (aV aW aU aR aV' aW' aU' aR' : Torus K →+
   R1 : aR' (gen K 1) = aR (gen K 1)
   R2 : aR' (gen K 2) = aR (gen K 2)
 
-theorem dev_gen12_of_agreeB2 {X aX dX : Torus K →+ Torus K} (h : AgreeB2 K (aX + dX) aX) :
+theorem dev_gen12_of_agreeB2 {_X aX dX : Torus K →+ Torus K} (h : AgreeB2 K (aX + dX) aX) :
     dX (gen K 1) = 0 ∧ dX (gen K 2) = 0 := by
   have h1 := h.2.1
   have h2 := h.2.2
@@ -362,10 +359,10 @@ theorem pivots_idx2 (hK : ∀ j, 1 ≤ K j) (hK0 : 2 ≤ K 0)
   have sW := isSmallDev_of_agreeB2 hK hK0 hW
   have sU := isSmallDev_of_agreeB2 hK hK0 hU
   have sR := isSmallDev_of_agreeB2 hK hK0 hR
-  obtain ⟨dV1, dV2⟩ := dev_gen12_of_agreeB2 (X := aV) hV
-  obtain ⟨dW1, dW2⟩ := dev_gen12_of_agreeB2 (X := aW) hW
-  obtain ⟨dU1, dU2⟩ := dev_gen12_of_agreeB2 (X := aU) hU
-  obtain ⟨dR1, dR2⟩ := dev_gen12_of_agreeB2 (X := aR) hR
+  obtain ⟨dV1, dV2⟩ := dev_gen12_of_agreeB2 (_X := aV) hV
+  obtain ⟨dW1, dW2⟩ := dev_gen12_of_agreeB2 (_X := aW) hW
+  obtain ⟨dU1, dU2⟩ := dev_gen12_of_agreeB2 (_X := aU) hU
+  obtain ⟨dR1, dR2⟩ := dev_gen12_of_agreeB2 (_X := aR) hR
   have L := linRels_of h ha sV sW sU sR
   obtain ⟨v0, v1, v2, hv⟩ := exists_tw hK (sV.two_zsmul (gen K 0))
   obtain ⟨w0, w1, w2, hw⟩ := exists_tw hK (sW.two_zsmul (gen K 0))
@@ -395,9 +392,9 @@ theorem pivots_idx2 (hK : ∀ j, 1 ≤ K j) (hK0 : 2 ≤ K 0)
   have e8 := L.t_rho (gen K 0)
   have e9 := L.uv_comm_u (gen K 0)
   have e10 := L.t_u (gen K 0)
-  simp only [fV0, fV1, fV2, fW0, fW1, fW2, fU0, fU1, fU2, fR0, fR1, fR2, map_add, map_zsmul,
+  simp only [fV0, fV1, fV2, fW0, fU0, fU1, fU2, fR0, fR1, fR2, map_add, map_zsmul,
     dV1, dV2, dW1, dW2, dU1, dU2, dR1, dR2, hv, hw, hu, hr, hP.nV, hP.nW, hP.nU, hP.nR,
-    smul_zero, smul_add, t1, t0, add_zero, zero_add, tw_add] at e1 e2 e3 e4 e5 e6 e7 e8 e9 e10
+    smul_zero, smul_add, t1, t0, add_zero, tw_add] at e1 e2 e3 e4 e5 e6 e7 e8 e9 e10
   rw [tw_eq_zero_iff hK] at e1 e2 e4 e5 e6
   rw [tw_eq_iff hK] at e3 e7 e8 e9 e10
   obtain ⟨e1a, e1b, e1c⟩ := e1
@@ -469,7 +466,7 @@ theorem final_idx2 (hK : ∀ j, 1 ≤ K j) (hK0 : 2 ≤ K 0)
     rw [basisChangeEquiv_conj hε (by assumption), add_eq_left] <;>
     simp only [fV0, fV1, fV2, fW0, fW1, fW2, fU0, fU1, fU2, fR0, fR1, fR2, map_add, map_zsmul,
       dV1, dV2, dW1, dW2, dU1, dU2, dR1, dR2, hv, hw, hu, hr, hP.nV, hP.nW, hP.nU, hP.nR,
-      ε0, ε1, ε2, smul_zero, smul_add, t1, t0, add_zero, zero_add, tw_add, map_zero] <;>
+      ε0, ε1, ε2, smul_zero, t1, t0, add_zero, zero_add, tw_add, map_zero] <;>
     first
     | done
     | (rw [tw_eq_zero_iff hK]; refine ⟨?_, ?_, ?_⟩ <;> omega)
@@ -481,16 +478,14 @@ theorem final_idx2 (hK : ∀ j, 1 ≤ K j) (hK0 : 2 ≤ K 0)
     rw [basisChangeEquiv_conj hε (by assumption)] <;>
     first
     | (rw [add_right_inj]
-       simp only [fV0, fV1, fV2, fW0, fW1, fW2, fU0, fU1, fU2, fR0, fR1, fR2, map_add,
-         map_zsmul, dV1, dV2, dW1, dW2, dU1, dU2, dR1, dR2, hv, hw, hu, hr, hP.nV, hP.nW,
-         hP.nU, hP.nR, ε0, ε1, ε2, smul_zero, smul_add, t1, t0, add_zero, zero_add, tw_add,
-         map_zero]
+       simp only [fV0, fW0, fU0, map_add,
+         map_zsmul, hv, hw, hu, hP.nV, hP.nW,
+         hP.nU, ε0, ε1, ε2, smul_zero, t1, add_zero, zero_add, tw_add]
        rw [tw_eq_iff hK]
        refine ⟨?_, ?_, ?_⟩ <;> omega)
     | (rw [add_eq_left]
-       simp only [fV0, fV1, fV2, fW0, fW1, fW2, fU0, fU1, fU2, fR0, fR1, fR2, map_add,
-         map_zsmul, dV1, dV2, dW1, dW2, dU1, dU2, dR1, dR2, hv, hw, hu, hr, hP.nV, hP.nW,
-         hP.nU, hP.nR, ε0, ε1, ε2, smul_zero, smul_add, t1, t0, add_zero, zero_add, tw_add,
+       simp only [fV1, fV2, fW1, fW2, fU1, fU2, fR0, fR1, fR2, map_add,
+         map_zsmul, dV1, dV2, dW1, dW2, dU1, dU2, dR1, dR2, hr, hP.nR, ε0, ε1, ε2, smul_zero, t1, t0, add_zero, zero_add, tw_add,
          map_zero]
        first
        | done
@@ -511,10 +506,10 @@ theorem classify_idx2 (hK : ∀ j, 1 ≤ K j) (hK0 : 2 ≤ K 0)
   obtain ⟨dU, rfl⟩ : ∃ d, U = aU + d := ⟨U - aU, (add_sub_cancel_hom U aU).symm⟩
   obtain ⟨dR, rfl⟩ : ∃ d, R = aR + d := ⟨R - aR, (add_sub_cancel_hom R aR).symm⟩
   obtain ⟨q, w1, r1, r2, hv, hw, hu, hr⟩ := pivots_idx2 hK hK0 ha hP h hV hW hU hR
-  obtain ⟨dV1, dV2⟩ := dev_gen12_of_agreeB2 (X := aV) hV
-  obtain ⟨dW1, dW2⟩ := dev_gen12_of_agreeB2 (X := aW) hW
-  obtain ⟨dU1, dU2⟩ := dev_gen12_of_agreeB2 (X := aU) hU
-  obtain ⟨dR1, dR2⟩ := dev_gen12_of_agreeB2 (X := aR) hR
+  obtain ⟨dV1, dV2⟩ := dev_gen12_of_agreeB2 (_X := aV) hV
+  obtain ⟨dW1, dW2⟩ := dev_gen12_of_agreeB2 (_X := aW) hW
+  obtain ⟨dU1, dU2⟩ := dev_gen12_of_agreeB2 (_X := aU) hU
+  obtain ⟨dR1, dR2⟩ := dev_gen12_of_agreeB2 (_X := aR) hR
   exact final_idx2 hK hK0 hP hT (isSmallDev_of_agreeB2 hK hK0 hV)
     (isSmallDev_of_agreeB2 hK hK0 hW) (isSmallDev_of_agreeB2 hK hK0 hU)
     (isSmallDev_of_agreeB2 hK hK0 hR) dV1 dV2 dW1 dW2 dU1 dU2 dR1 dR2 hv hw hu hr

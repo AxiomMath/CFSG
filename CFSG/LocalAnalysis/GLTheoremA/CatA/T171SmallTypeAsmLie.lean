@@ -70,11 +70,11 @@ theorem t171SmallTypeFact_of_lie
   | lie dd =>
     obtain ⟨d0, hv⟩ := dd
     change d0.characteristic = 2 at hi
-    haveI : Finite (TauCeti.CFSGIndex.lie ⟨d0, hv⟩).Group :=
+    have : Finite (TauCeti.CFSGIndex.lie ⟨d0, hv⟩).Group :=
       (CFSG.Assembly.lie_finite_simple ⟨d0, hv⟩).1
-    haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨d0, hv⟩).Group :=
+    have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨d0, hv⟩).Group :=
       (CFSG.Assembly.lie_finite_simple ⟨d0, hv⟩).2
-    haveI : Nontrivial (TauCeti.CFSGIndex.lie ⟨d0, hv⟩).Group := IsSimpleGroup.toNontrivial
+    have : Nontrivial (TauCeti.CFSGIndex.lie ⟨d0, hv⟩).Group := IsSimpleGroup.toNontrivial
     have hIso0 : Nonempty (↥L ⧸ Subgroup.center ↥L ≃*
         (TauCeti.CFSGIndex.lie ⟨d0, hv⟩).Group) :=
       HStdList.centerQuot_equiv_of_pSimple hcfg.qs f

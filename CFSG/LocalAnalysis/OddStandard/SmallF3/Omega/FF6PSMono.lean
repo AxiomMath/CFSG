@@ -21,6 +21,7 @@ private instance ffOutFF6PSMono_decD8 : DecidablePred (· ∈ ffD8p) := fun σ =
 private theorem ffOutFF6PSMono_pow4 : ∀ σ : Equiv.Perm (Fin 5), σ ∈ ffD8p → σ ^ 4 = 1 := by
   decide +kernel
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffOutFF6PSMono_rho_eq_of_toProj_eq (fr : PFrame Q (Option (Fin 5)) ffC)
     {a b : ↥(ffMonoP fr)}
     (h : toProj Q (a : OGroup Q) = toProj Q (b : OGroup Q)) :
@@ -55,8 +56,8 @@ theorem ffD8p_self_normalizing {σ : Equiv.Perm (Fin 5)}
   revert σ
   decide +kernel
 
-theorem ff6p_normalizer_mono (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = 1) (h2 : 2 ≤ Module.finrank (ZMod 3) V)
+theorem ff6p_normalizer_mono (hQ : Q.Nondegenerate) (_hdim : Module.finrank (ZMod 3) V = 6)
+    (_hsgn : quadSign Q = 1) (h2 : 2 ≤ Module.finrank (ZMod 3) V)
     (fr : PFrame Q (Option (Fin 5)) ffC) {x : ProjSim Q}
     (hxP : (ffP1p hQ fr).map (ffSimOmegaAct hQ h2 x).toMonoidHom = ffP1p hQ fr)
     (hxB : (ffB1p hQ fr).map (ffSimOmegaAct hQ h2 x).toMonoidHom = ffB1p hQ fr) :

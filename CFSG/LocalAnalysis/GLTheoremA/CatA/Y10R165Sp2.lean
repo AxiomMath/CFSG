@@ -83,12 +83,13 @@ theorem finrank_fixedByEnd_blockEnd (hp : p.Prime) (hpF : (p : F) ≠ 0)
 private theorem exists_three_of_three_le_card {α : Type*} [Finite α] (h : 3 ≤ Nat.card α) :
     ∃ a b c : α, a ≠ b ∧ a ≠ c ∧ b ≠ c := by
   classical
-  haveI := Fintype.ofFinite α
+  have := Fintype.ofFinite α
   have h3 : Fintype.card (Fin 3) ≤ Fintype.card α := by simpa using h
   obtain ⟨f⟩ := Function.Embedding.nonempty_of_card_le h3
   refine ⟨f 0, f 1, f 2, ?_, ?_, ?_⟩ <;>
     (intro hc; have := f.injective hc; revert this; decide)
 
+omit [FiniteDimensional F V] in
 theorem exists_three_ne_bot_blockSpace (hp : p.Prime) (hpF : (p : F) ≠ 0)
     (hA : IsElemAbelian p A) (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
     [Finite (V ≃ₗ[F] V)] {k : ℕ} (hk : Nat.card ↥A = p ^ k)
@@ -117,13 +118,16 @@ def pointwiseStab (H : Subgroup (V ≃ₗ[F] V)) (U : Submodule F V) : Subgroup 
       simpa using (hg u hu).symm
     exact ((g : ↥H) : V ≃ₗ[F] V).injective h1
 
+omit [FiniteDimensional F V] in
 @[simp] theorem mem_pointwiseStab {H : Subgroup (V ≃ₗ[F] V)} {U : Submodule F V}
     {g : ↥H} : g ∈ pointwiseStab H U ↔ ∀ u ∈ U, (g : V ≃ₗ[F] V) u = u := Iff.rfl
 
+omit [FiniteDimensional F V] in
 theorem pointwiseStab_mono {H : Subgroup (V ≃ₗ[F] V)} {U₁ U₂ : Submodule F V} (h : U₁ ≤ U₂) :
     pointwiseStab H U₂ ≤ pointwiseStab H U₁ :=
   fun _ hg _ hu => hg _ (h hu)
 
+omit [FiniteDimensional F V] in
 theorem conj_pointwiseStab_mem {U : Submodule F V} {A₀ : Subgroup (V ≃ₗ[F] V)}
     (hAU : ∀ a ∈ A₀, ∀ u ∈ U, a u ∈ U) {a : V ≃ₗ[F] V} (ha : a ∈ A₀)
     {g : V ≃ₗ[F] V} (hg : ∀ u ∈ U, g u = u) :
@@ -133,6 +137,7 @@ theorem conj_pointwiseStab_mem {U : Submodule F V} {A₀ : Subgroup (V ≃ₗ[F]
   simp only [LinearEquiv.mul_apply, hg _ hU]
   simp
 
+omit [FiniteDimensional F V] in
 theorem le_normalizer_pointwiseStab {H : Subgroup (V ≃ₗ[F] V)} {U : Submodule F V}
     {A₀ : Subgroup (V ≃ₗ[F] V)} (hAH : A₀ ≤ H) (hAU : ∀ a ∈ A₀, ∀ u ∈ U, a u ∈ U) :
     (⊤ : Subgroup ↥A₀).map (Subgroup.inclusion hAH) ≤
@@ -201,6 +206,7 @@ theorem pointwiseStab_le_centralizer_blockEnd (hp : p.Prime) (hpF : (p : F) ≠ 
       blockEnd_apply_of_ker A hp hpF hA t ht D hr, map_add, hg _ hmem]
   rw [LHS, RHS]
 
+omit [FiniteDimensional F V] in
 theorem blockEnd_mem_pointwiseStab (hp : p.Prime) (hpF : (p : F) ≠ 0)
     (hA : IsElemAbelian p A) (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
     {H : Subgroup (V ≃ₗ[F] V)} (htH : ∀ D, blockEnd A hp hpF hA t ht D ∈ H)
@@ -208,13 +214,15 @@ theorem blockEnd_mem_pointwiseStab (hp : p.Prime) (hpF : (p : F) ≠ 0)
     (⟨blockEnd A hp hpF hA t ht E, htH E⟩ : ↥H) ∈ pointwiseStab H (blockSpace A D.1) :=
   fun _ hv => blockEnd_apply_of_mem_block A hp hpF hA t ht (D := E) (E := D) (Ne.symm hDE) hv
 
+omit [FiniteDimensional F V] in
 theorem orderOf_blockEnd (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1) {D : Hyperplane A p}
     (hD : blockSpace A D.1 ≠ ⊥) : orderOf (blockEnd A hp hpF hA t ht D) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact orderOf_eq_prime (blockEnd_pow A hp hpF hA t ht D)
     (fun h => hD (eq_one_of_blockEnd_eq_one A hp hpF hA t ht h))
 
+omit [FiniteDimensional F V] in
 theorem dvd_card_pointwiseStab (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
     {H : Subgroup (V ≃ₗ[F] V)} (htH : ∀ D, blockEnd A hp hpF hA t ht D ∈ H)

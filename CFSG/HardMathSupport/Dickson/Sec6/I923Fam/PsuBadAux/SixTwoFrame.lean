@@ -58,7 +58,7 @@ theorem frameEmb_cframe_sigma (i₀ : Fin (m + 1)) (Y : Matrix (Fin m) (Fin m) K
   rw [frameEmb_cframe_apply]
   have hinj : ∀ x y : Fin m, i₀.succAbove x = i₀.succAbove y ↔ x = y := fun x y =>
     Fin.succAbove_right_inj
-  simp only [hinj, Finset.sum_ite_eq, Finset.mem_univ, if_true, mul_ite, mul_one, mul_zero,
+  simp only [hinj, Finset.sum_ite_eq, Finset.mem_univ, ite_true, mul_ite, mul_one, mul_zero,
     ite_mul, one_mul, zero_mul]
   by_cases hab : a = b
   · subst hab; simp
@@ -93,11 +93,11 @@ theorem frameEmb_commute_dmat (i₀ : Fin (m + 1)) (ν μ : K) (Y : Matrix (Fin 
   · have hz : frameEmb h (cframe i₀) Y k l = 0 := by
       by_cases hk : k = i₀
       · have hl : l ≠ i₀ := fun hl => hkl ⟨fun _ => hl, fun _ => hk⟩
-        rw [hk, frameEmb_cframe_left, if_neg (Ne.symm hl)]
+        rw [hk, frameEmb_cframe_left, ite_eq_right (Ne.symm hl)]
       · have hl : l = i₀ := by
           by_contra hl
           exact hkl ⟨fun h' => absurd h' hk, fun h' => absurd h' hl⟩
-        rw [hl, frameEmb_cframe_right, if_neg hk]
+        rw [hl, frameEmb_cframe_right, ite_eq_right hk]
     rw [hz]
     simp
 
@@ -105,8 +105,8 @@ theorem entry_eq_zero_left {ν μ : K} (hνμ : ν ≠ μ) (i₀ : Fin (m + 1))
     {W : Matrix (Fin (m + 1)) (Fin (m + 1)) K} (hW : W * dmat i₀ ν μ = dmat i₀ ν μ * W)
     (b : Fin m) : W i₀ (i₀.succAbove b) = 0 := by
   have h1 := congrFun (congrFun hW i₀) (i₀.succAbove b)
-  simp only [dmat, Matrix.mul_diagonal, Matrix.diagonal_mul, if_pos, Fin.succAbove_ne, if_neg,
-    not_false_eq_true, if_true] at h1
+  simp only [dmat, Matrix.mul_diagonal, Matrix.diagonal_mul, ite_eq_left, Fin.succAbove_ne, ite_eq_right,
+    not_false_eq_true] at h1
   have h2 : W i₀ (i₀.succAbove b) * (ν - μ) = 0 := by linear_combination h1
   rcases mul_eq_zero.1 h2 with h3 | h3
   · exact h3
@@ -116,8 +116,8 @@ theorem entry_eq_zero_right {ν μ : K} (hνμ : ν ≠ μ) (i₀ : Fin (m + 1))
     {W : Matrix (Fin (m + 1)) (Fin (m + 1)) K} (hW : W * dmat i₀ ν μ = dmat i₀ ν μ * W)
     (a : Fin m) : W (i₀.succAbove a) i₀ = 0 := by
   have h1 := congrFun (congrFun hW (i₀.succAbove a)) i₀
-  simp only [dmat, Matrix.mul_diagonal, Matrix.diagonal_mul, if_pos, Fin.succAbove_ne, if_neg,
-    not_false_eq_true, if_true] at h1
+  simp only [dmat, Matrix.mul_diagonal, Matrix.diagonal_mul, ite_eq_left, Fin.succAbove_ne, ite_eq_right,
+    not_false_eq_true] at h1
   have h2 : W (i₀.succAbove a) i₀ * (μ - ν) = 0 := by linear_combination h1
   rcases mul_eq_zero.1 h2 with h3 | h3
   · exact h3
@@ -132,12 +132,12 @@ theorem eq_smul_frameEmb_of_commute {ν μ : K} (hνμ : ν ≠ μ) (i₀ : Fin 
   ext k l
   obtain hk | ⟨a, hk⟩ := Fin.eq_self_or_eq_succAbove i₀ k <;>
   obtain hl | ⟨b, hl⟩ := Fin.eq_self_or_eq_succAbove i₀ l
-  · rw [hk, hl, Matrix.smul_apply, frameEmb_cframe_left, if_pos rfl]
+  · rw [hk, hl, Matrix.smul_apply, frameEmb_cframe_left, ite_eq_left rfl]
     simp
-  · rw [hk, hl, Matrix.smul_apply, frameEmb_cframe_left, if_neg (Fin.succAbove_ne i₀ b).symm,
+  · rw [hk, hl, Matrix.smul_apply, frameEmb_cframe_left, ite_eq_right (Fin.succAbove_ne i₀ b).symm,
       entry_eq_zero_left hνμ i₀ hW b]
     simp
-  · rw [hk, hl, Matrix.smul_apply, frameEmb_cframe_right, if_neg (Fin.succAbove_ne i₀ a),
+  · rw [hk, hl, Matrix.smul_apply, frameEmb_cframe_right, ite_eq_right (Fin.succAbove_ne i₀ a),
       entry_eq_zero_right hνμ i₀ hW a]
     simp
   · rw [hk, hl, Matrix.smul_apply, frameEmb_cframe_sigma, Matrix.smul_apply, Matrix.submatrix_apply]

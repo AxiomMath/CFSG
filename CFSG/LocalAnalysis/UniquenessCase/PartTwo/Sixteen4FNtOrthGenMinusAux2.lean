@@ -11,15 +11,15 @@ open scoped CFSG.Decide.Bounded
 
 theorem w183MinusNormOneVec {m : ℕ} {K : Type} [Field K] (b c : K) :
     StatedQuadMinus (m + 2) K b c (Pi.single (Sum.inr (Sum.inr 0)) (1 : K)) = 1 := by
-  simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, Pi.single_apply]
+  simp [StatedQuadMinus]
 
 theorem w183MapStatedQuadMinus {K L : Type} [Field K] [Field L] (e : K ≃+* L)
     (n : ℕ) (b c : K) (v : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2) → K) :
     e (StatedQuadMinus n K b c v) =
       StatedQuadMinus n L (e b) (e c)
         (w183PiEquiv e (Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2)) v) := by
-  simp only [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, map_sum, map_add, map_mul,
-    map_pow, map_ofNat, w183PiEquiv_apply]
+  simp only [StatedQuadMinus, map_sum, map_add, map_mul,
+    map_pow, w183PiEquiv_apply]
 
 theorem w183MapQuadMinusPolar {K L : Type} [Field K] [Field L] (e : K ≃+* L)
     (n : ℕ) (b c : K) (u v : Fin (n - 1) ⊕ (Fin (n - 1) ⊕ Fin 2) → K) :

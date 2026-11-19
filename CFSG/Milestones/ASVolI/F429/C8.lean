@@ -22,7 +22,7 @@ theorem burnsideF429_oTwoRes_mono {A B : Subgroup G} (h : A ≤ B) : oTwoRes A �
 theorem burnsideF429_perfectCore_le_oTwoRes [Finite G] (P : Subgroup G) :
     perfectCore P ≤ oTwoRes P := by
   have hOP : oTwoRes P ≤ P := oTwoRes_le P
-  haveI hN : ((oTwoRes P).subgroupOf P).Normal := ⟨fun n hn k => by
+  have hN : ((oTwoRes P).subgroupOf P).Normal := ⟨fun n hn k => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hc : (k : G) * n * (k : G)⁻¹ ∈ (oTwoRes P).map (MulAut.conj (k : G)).toMonoidHom :=
       ⟨n, hn, rfl⟩
@@ -38,7 +38,7 @@ theorem burnsideF429_perfectCore_le_oTwoRes [Finite G] (P : Subgroup G) :
     intro q
     induction q using QuotientGroup.induction_on with
     | H x =>
-      haveI : Finite ↥P := inferInstance
+      have : Finite ↥P := inferInstance
       obtain ⟨n, hn⟩ : ∃ n : ℕ, 0 < n ∧ (x : ↥P) ^ n = 1 :=
         ⟨orderOf x, orderOf_pos x, pow_orderOf_eq_one x⟩
       obtain ⟨k, m, hm, hkm⟩ := Nat.exists_eq_two_pow_mul_odd (orderOf_pos x).ne'
@@ -48,10 +48,10 @@ theorem burnsideF429_perfectCore_le_oTwoRes [Finite G] (P : Subgroup G) :
       rw [← Subgroup.coe_pow, ← pow_mul, ← hkm, pow_orderOf_eq_one]
       rfl
   have hsolv : Group.IsSolvable (↥P ⧸ (oTwoRes P).subgroupOf P) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := hp.isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := hp.isNilpotent
     infer_instance
-  obtain ⟨n, hn⟩ := (isSolvable_def (G := ↥P ⧸ (oTwoRes P).subgroupOf P)).1 hsolv
+  obtain ⟨n, hn⟩ := (Group.isSolvable_def (G := ↥P ⧸ (oTwoRes P).subgroupOf P)).1 hsolv
   intro x hx
   have h2 := perfectCore_le_derivedSeriesOf P n hx
   rw [derivedSeriesOf_eq_map_derivedSeries] at h2

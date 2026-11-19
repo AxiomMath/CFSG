@@ -87,7 +87,7 @@ theorem exists_hom_GL_two_of_stable {Γ : Type*} [Group Γ] {K E : Type*} [Field
     (hstab : ∀ g, ∀ w ∈ W, ρ g w ∈ W) :
     ∃ f : Γ →* Matrix.GeneralLinearGroup (Fin 2) K, ∀ g, f g = 1 ↔ ∀ w ∈ W, ρ g w = w := by
   classical
-  haveI : Module.Finite K W := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite K W := Module.finite_of_finrank_pos (by omega)
   let b : Module.Basis (Fin 2) K W := Module.finBasisOfFinrankEq K W hW
   let R : Γ →* Module.End K W :=
     { toFun := fun g => (ρ g : E →ₗ[K] E).restrict (hstab g)

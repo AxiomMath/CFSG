@@ -25,7 +25,7 @@ variable (V : Type) [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
 theorem six_dvd_card (h3 : 3 ≤ finrank (ZMod 2) V) : 6 ∣ Nat.card (V ≃ₗ[ZMod 2] V) := by
   classical
-  haveI : FiniteDimensional (ZMod 2) V := Module.finite_iff_finite.mpr inferInstance
+  have : FiniteDimensional (ZMod 2) V := Module.finite_iff_finite.mpr inferInstance
   let b := Module.finBasis (ZMod 2) V
   let e : Matrix.GeneralLinearGroup (Fin (finrank (ZMod 2) V)) (ZMod 2) ≃*
       (V ≃ₗ[ZMod 2] V) :=
@@ -36,16 +36,16 @@ theorem six_dvd_card (h3 : 3 ≤ finrank (ZMod 2) V) : 6 ∣ Nat.card (V ≃ₗ[
 
 theorem isSimpleGroup_linearEquiv (h3 : 3 ≤ finrank (ZMod 2) V) :
     IsSimpleGroup (V ≃ₗ[ZMod 2] V) := by
-  haveI : FiniteDimensional (ZMod 2) V := Module.finite_iff_finite.mpr inferInstance
-  haveI := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_top_of_three_le (V := V) h3
+  have : FiniteDimensional (ZMod 2) V := Module.finite_iff_finite.mpr inferInstance
+  have := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_top_of_three_le (V := V) h3
   exact (Subgroup.topEquiv (G := V ≃ₗ[ZMod 2] V)).symm.isSimpleGroup
 
 theorem exists_noncomm (h3 : 3 ≤ finrank (ZMod 2) V) :
     ∃ a b : V ≃ₗ[ZMod 2] V, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI := isSimpleGroup_linearEquiv V h3
-  letI : CommGroup (V ≃ₗ[ZMod 2] V) :=
+  have := isSimpleGroup_linearEquiv V h3
+  let : CommGroup (V ≃ₗ[ZMod 2] V) :=
     { (inferInstance : Group (V ≃ₗ[ZMod 2] V)) with mul_comm := hcon }
   have hprime := IsSimpleGroup.prime_card (α := V ≃ₗ[ZMod 2] V)
   have h6 := six_dvd_card V h3
@@ -62,10 +62,12 @@ section Affine
 
 variable (V : Type) [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem linearHom_surjective :
     Function.Surjective (AffineEquiv.linearHom (k := ZMod 2) (P₁ := V)) := fun L =>
   ⟨L.toAffineEquiv, rfl⟩
 
+omit [Finite V] in
 theorem mem_ker_linearHom_iff (f : V ≃ᵃ[ZMod 2] V) :
     f ∈ (AffineEquiv.linearHom (k := ZMod 2) (P₁ := V)).ker ↔
       ∃ w : V, f = AffineEquiv.constVAdd (ZMod 2) V w := by
@@ -80,6 +82,7 @@ theorem mem_ker_linearHom_iff (f : V ≃ᵃ[ZMod 2] V) :
   · rintro ⟨w, rfl⟩
     exact LinearEquiv.ext fun _ => rfl
 
+omit [Finite V] in
 theorem conj_constVAdd (f : V ≃ᵃ[ZMod 2] V) (w : V) :
     f * AffineEquiv.constVAdd (ZMod 2) V w * f⁻¹ =
       AffineEquiv.constVAdd (ZMod 2) V (f.linear w) := by
@@ -92,8 +95,8 @@ theorem conj_constVAdd (f : V ≃ᵃ[ZMod 2] V) (w : V) :
 theorem aff_section (h3 : 3 ≤ finrank (ZMod 2) V) :
     S622IsSimpleSection (⊤ : Subgroup (V ≃ᵃ[ZMod 2] V))
       (AffineEquiv.linearHom (k := ZMod 2) (P₁ := V)).ker := by
-  haveI : FiniteDimensional (ZMod 2) V := Module.finite_iff_finite.mpr inferInstance
-  haveI := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_top_of_three_le (V := V) h3
+  have : FiniteDimensional (ZMod 2) V := Module.finite_iff_finite.mpr inferInstance
+  have := CFSG.LargeExtraspecial.S45Q.isSimpleGroup_top_of_three_le (V := V) h3
   have hn : ∃ a b : ↥(⊤ : Subgroup (V ≃ₗ[ZMod 2] V)), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := exists_noncomm V h3
     exact ⟨⟨a, trivial⟩, ⟨b, trivial⟩, fun h => hab (congrArg Subtype.val h)⟩
@@ -115,7 +118,8 @@ def permHom : (V ≃ᵃ[ZMod 2] V) →* Equiv.Perm V where
   map_one' := rfl
   map_mul' _ _ := rfl
 
-theorem permHom_injective : Function.Injective (permHom V) := fun f g h =>
+omit [Finite V] in
+theorem permHom_injective : Function.Injective (permHom V) := fun _f _g h =>
   AffineEquiv.ext fun x => congrArg (fun e : Equiv.Perm V => e x) h
 
 noncomputable def affToPerm {Ω : Type} (ι : V → Ω) (hι : Function.Injective ι) :
@@ -126,17 +130,20 @@ noncomputable def affToPerm {Ω : Type} (ι : V → Ω) (hι : Function.Injectiv
 
 variable {V} {Ω : Type} {ι : V → Ω} (hι : Function.Injective ι)
 
+omit [Finite V] in
 theorem affToPerm_injective : Function.Injective (affToPerm V ι hι) := by
   classical
   unfold affToPerm
   exact (Equiv.Perm.extendDomainHom_injective _).comp (permHom_injective V)
 
+omit [Finite V] in
 theorem affToPerm_apply_ι (f : V ≃ᵃ[ZMod 2] V) (v : V) :
     affToPerm V ι hι f (ι v) = ι (f v) := by
   classical
   unfold affToPerm
   exact Equiv.Perm.extendDomain_apply_image (f.toEquiv) (Equiv.ofInjective ι hι) v
 
+omit [Finite V] in
 theorem affToPerm_apply_out (f : V ≃ᵃ[ZMod 2] V) {x : Ω} (hx : ∀ v, ι v ≠ x) :
     affToPerm V ι hι f x = x := by
   classical

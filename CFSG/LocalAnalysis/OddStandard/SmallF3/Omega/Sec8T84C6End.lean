@@ -30,7 +30,7 @@ private lemma pow_eq_self_of_sq_eq_one {X : Type*} [Group X] {a : X} (h2 : a * a
 
 theorem HCtx.comm_A_P (hA5 : Sec8T84FactA5) (S : HCtx E B u A H) (O : OddNormal H P) :
     ∀ a ∈ A, ∀ p ∈ P, a * p = p * a := by
-  haveI := O.finite
+  have := O.finite
   exact A_comm_P S.A_iso (fun a ha p hp => O.norm a (S.A_H ha) p hp) (S.comm_P O)
     (HCtx.card_P_dvd hA5 S O)
 
@@ -39,7 +39,7 @@ theorem HCtx.exists_fix_not_mem (hA5 : Sec8T84FactA5) (hInv : Sec8T84FactInv)
     {a₀ : MulAut ↥E} (ha₀ : a₀ ∈ A) (h1 : a₀ ≠ 1) (h2 : a₀ * a₀ = 1) :
     ∃ y : ↥E, (u * a₀) y = y ∧ ∀ h ∈ H, ∀ b : ↥E, (b : G) ∈ B → h b ≠ y := by
   classical
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [S.hE.2]; norm_num)
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [S.hE.2]; norm_num)
   by_contra hcon
   push Not at hcon
   have hmem : ∀ y : ↥E, (u * a₀) y = y → (y : G) ∈ B ∧ a₀ y = y := by

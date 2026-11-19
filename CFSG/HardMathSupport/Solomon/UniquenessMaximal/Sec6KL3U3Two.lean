@@ -281,7 +281,7 @@ theorem not_hasElemSection3_four_heis (H : HeisData M X P w F)
     rw [heisR, MonoidHom.map_closure]
     congr 1
     ext z
-    simp [Set.image_pair]
+    simp
   have hab : mk X * mk P = mk P * mk X := by
     rw [← map_mul, ← map_mul]
     show (QuotientGroup.mk (X * P) : M ⧸ Z) = QuotientGroup.mk (P * X)

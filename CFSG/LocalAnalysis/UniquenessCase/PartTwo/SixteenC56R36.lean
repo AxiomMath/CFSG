@@ -57,7 +57,7 @@ theorem exists_noncyclic_normalizer_of_perfect_bar (D : Data G) {p : ℕ} (hpp :
     (hpker : p ∣ Nat.card (F11.CTilde D.M ⊥ V)) :
     ∃ X : Subgroup G, X ≤ D.M ⊓ normalizer (U : Set G) ∧ IsPGroup p X ∧ ¬ IsCyclic X := by
   classical
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   let N : Subgroup G := D.M ⊓ normalizer (U : Set G)
   have hNst : N ≤ stabTil ⊥ V :=
     le_stabTil (inf_le_left.trans hP.le_normalizer) (inf_le_left.trans hP.le_normalizer₀)
@@ -102,7 +102,7 @@ theorem exists_noncyclic_normalizer_of_perfect_bar (D : Data G) {p : ℕ} (hpp :
       (⟨(g : G), Subgroup.mem_inf.2 ⟨hgM, hgnorm⟩⟩ : ↥N)) = h
     rw [hx]
     exact hgact
-  haveI : Group.IsPerfect ↥P₀ := hperf
+  have : Group.IsPerfect ↥P₀ := hperf
   have hker_eq : (ψ.rangeRestrict).ker = (F11.CTilde D.M ⊥ V).subgroupOf N := by
     rw [MonoidHom.ker_rangeRestrict]
     ext c

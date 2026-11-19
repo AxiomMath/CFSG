@@ -23,6 +23,7 @@ section Model
 variable {Z : Type} [Group Z] [Finite Z]
 variable {π : Bool} {p f : ℕ} {Kf : Type} [Field Kf]
 
+omit [Finite Z] in
 theorem congr_pow_form (φ : Z ≃* projImage (slPi π 3 (p ^ f) Kf)) {h₀ : GL (Fin 3) Kf} {l : Kfˣ}
     {σ : MulAut Z}
     (hσ : ∀ m, (MulAut.congr φ σ m : ProjGenLinGroup (Fin 3) Kf) =
@@ -34,6 +35,7 @@ theorem congr_pow_form (φ : Z ≃* projImage (slPi π 3 (p ^ f) Kf)) {h₀ : GL
   intro m
   rw [map_pow, mulAut_pow_coe hσ n m, ← map_pow, conj_pow_gl, diagE_pow]
 
+omit [Finite Z] in
 theorem mem_range_conj_of_cube (hKf : PiField π p f Kf)
     (φ : Z ≃* projImage (slPi π 3 (p ^ f) Kf)) {h₀ : GL (Fin 3) Kf}
     (hh₀ : h₀ ∈ glPi π 3 (p ^ f) Kf) {t u : Kfˣ}
@@ -49,6 +51,7 @@ theorem mem_range_conj_of_cube (hKf : PiField π p f Kf)
   ext m
   rw [hτ m, ht, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, hx]
 
+omit [Finite Z] in
 theorem congr_apply_apply {X : Type} [Group X] (φ : Z ≃* X) (σ : MulAut Z) (z : Z) :
     MulAut.congr φ σ (φ z) = φ (σ z) := by
   show φ (σ (φ.symm (φ z))) = φ (σ z)

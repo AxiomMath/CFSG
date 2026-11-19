@@ -10,6 +10,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 private theorem gamma_common_of_orbit {x c b' d : G} (hb' : b' ∈ orb2A a x)
     (hbd : b' ∈ orb2A a d) {S : Set G} (horb : IsConjOrbit (Gx x) S) (hdS : d ∈ S)
     (hcS : c ∈ S) : (orb2A a x ∩ orb2A a c).Nonempty := by
@@ -23,6 +24,7 @@ private theorem gamma_common_of_orbit {x c b' d : G} (hb' : b' ∈ orb2A a x)
   · have h := gamma_orb2A_conj k hbd
     rwa [hkd] at h
 
+omit [Finite G] in
 private theorem gamma_mem_orb2A_of_mem_sBase {x b' d : G} (H : GammaHyps a z)
     (hx : IsConj a x) (hb' : b' ∈ orb2A a x) (hbase : d ∈ sBase x b') : b' ∈ orb2A a d := by
   have hparts : IsConj x d ∧ IsConj x (b' * d) ∧ d ≠ x ∧ d ≠ x * b' := by
@@ -38,6 +40,7 @@ private theorem gamma_mem_orb2A_of_mem_sBase {x b' d : G} (H : GammaHyps a z)
       _ = d * b' := by rw [H.inv_a hb'.1]
   exact ⟨hb'.1, hbd_A.trans hconj⟩
 
+omit [Finite G] in
 private theorem gamma_row_twoB {x b' d : G} (H : GammaHyps a z) (hx : IsConj a x)
     (hb' : b' ∈ orb2A a x) (hd : d ∈ sSet x z b' 1) : d ∈ orb2B a z x ∧ b' ∈ orb2A a d := by
   have hd' : d ∈ sBase x b' ∧ IsConj z (x * d) := by
@@ -51,6 +54,7 @@ private theorem gamma_row_twoB {x b' d : G} (H : GammaHyps a z) (hx : IsConj a x
   exact ⟨⟨(gamma_isConj_iff hx d).mp hparts.1, hd'.2⟩,
     gamma_mem_orb2A_of_mem_sBase H hx hb' hd'.1⟩
 
+omit [Finite G] in
 private theorem gamma_row_4A {x b' d : G} (H : GammaHyps a z) (hx : IsConj a x)
     (hb' : b' ∈ orb2A a x) (hd : d ∈ sSet x z b' 3) : d ∈ orb4A a z x ∧ b' ∈ orb2A a d := by
   have hd' : d ∈ sBase x b' ∧ IsConj z ((x * d) ^ 2) := by
@@ -64,6 +68,7 @@ private theorem gamma_row_4A {x b' d : G} (H : GammaHyps a z) (hx : IsConj a x)
   exact ⟨⟨(gamma_isConj_iff hx d).mp hparts.1, hd'.2⟩,
     gamma_mem_orb2A_of_mem_sBase H hx hb' hd'.1⟩
 
+omit [Finite G] in
 theorem gamma_common (H : GammaHyps a z) {x c : G} (hx : IsConj a x) (hc : IsConj a c)
     (he : Even (orderOf (x * c))) : (orb2A a x ∩ orb2A a c).Nonempty := by
   have hcv : c ∈ tab5Base x := ⟨(gamma_isConj_iff hx c).mpr hc, he⟩

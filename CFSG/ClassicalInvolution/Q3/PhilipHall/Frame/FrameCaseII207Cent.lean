@@ -169,7 +169,7 @@ theorem oddCore_le_oddX {L : Subgroup G} (hLX : L ≤ sec20X (CoreAssembly.conjC
     (hXN : sec20X (CoreAssembly.conjClass K) z K K' ≤ Subgroup.normalizer (L : Set G)) :
     oddCoreOf L ≤ oddCoreOf (sec20X (CoreAssembly.conjClass K) z K K') :=
   le_oddCoreOf_of_normalizes ((oddCoreOf_le_self L).trans hLX)
-    (fun x hx => mem_normalizer_oddCore_of_mem_normalizer (hXN hx)) (oddCoreOf_odd_natCard L)
+    (fun _x hx => mem_normalizer_oddCore_of_mem_normalizer (hXN hx)) (oddCoreOf_odd_natCard L)
 
 theorem cmoX_mem (hC : Frame203Cent) {x : G}
     (hxX : x ∈ sec20X (CoreAssembly.conjClass K) z K K')

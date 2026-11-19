@@ -320,7 +320,7 @@ private theorem foldOr_dl {m g v : ℕ} (hg : g < m) (hv : v < 2 ^ 7) :
   · have h1 : t < 7 * m := by omega
     have h2 : t - 7 * g = t % 7 := by omega
     simp [hq, h1, h2, show t ≥ 7 * g by omega]
-  · simp only [hq, if_false, Nat.zero_testBit, Bool.and_false]
+  · simp only [hq, ite_false, Nat.zero_testBit, Bool.and_false]
     by_cases hge : t ≥ 7 * g
     · rw [testBit_lt_pow hv (by omega), Bool.and_false]
     · simp [hge]
@@ -350,8 +350,8 @@ private theorem actM_dl (ε : Eps) {i g v : ℕ} (hi : i < 7) (hg : g < mOf ε) 
   refine foldOr_congr fun h hh => ?_
   rw [blkN_dl hv]
   by_cases e : h = permIdx ε i g
-  · rw [if_pos e, if_pos (by rw [e]; exact (perm_facts ε hi hg).2)]
-  · rw [if_neg e, if_neg, actE_zero ε hi]
+  · rw [ite_eq_left e, ite_eq_left (by rw [e]; exact (perm_facts ε hi hg).2)]
+  · rw [ite_eq_right e, ite_eq_right, actE_zero ε hi]
     intro e'
     exact e (by rw [← e']; exact ((perm_facts ε hi hh).2).symm)
 

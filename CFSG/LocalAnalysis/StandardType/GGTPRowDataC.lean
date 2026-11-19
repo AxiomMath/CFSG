@@ -13,10 +13,10 @@ theorem ggTPRowData_C {n : ℕ} {Y : Type} [Group Y] (hY : GGHasLabel ⟨.C, 6, 
     GGTPRowDatum Y := by
   simp only [GGHasLabel, LargeEvenRawDatum, LargeEvenRecipeSymplectic] at hY
   obtain ⟨K, hField, hFinite, hKcard, hYiso⟩ := hY
-  letI := hField
-  letI := hFinite
+  let := hField
+  let := hFinite
   have hchar : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     refine charP_of_card_eq_prime_pow (R := K) (p := 2) (f := n) ?_
     rw [← Nat.card_eq_fintype_card]
     exact hKcard

@@ -32,7 +32,7 @@ theorem exists_le_or_le (u : U4X D L K n) {H₁ H₂ : Subgroup G} (hH₁ : D.T 
     ∃ X : Subgroup G, X ≤ D.M ∧ D.T ≤ X ∧ (X ≤ H₁ ∨ X ≤ H₂) ∧
       Nat.card X ∣ (2 ^ n - 1) * Nat.card D.T ∧ (b : G) ∈ normalizer (X : Set G) ∧
       x₀ * x₁⁻¹ ∈ barImage D.M X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hcomm, hinf, -, -, -, hXn, -⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   have hT := u4x_isSylowOf_barImage (p := 2) D.sylowM
   have hβ : x₀ * x₁ ∈ normalizer (barImage D.M D.T : Set (Bar2 D.M)) :=
@@ -79,7 +79,7 @@ theorem exists_le_or_le (u : U4X D L K n) {H₁ H₂ : Subgroup G} (hH₁ : D.T 
   have hmT : (m : G) ∉ D.T := fun hmT =>
     hy1 (u4x_eq_one_of_isPGroup hT.isPGroup (hm ▸ uc22p21c_mem_barImage.2 ⟨m, hmT, rfl⟩)
       u.prime_r u.r_ne_two hyr)
-  have hlt : D.T < barPreimage D.M W := SetLike.lt_iff_le_and_exists.2 ⟨hTX, (m : G), hmX, hmT⟩
+  have hlt : D.T < barPreimage D.M W := IsConcreteLE.lt_iff_le_and_exists.2 ⟨hTX, (m : G), hmX, hmT⟩
   obtain ⟨a, ha⟩ := D.sylowM.isPGroup.exists_card_eq
   have hsol : Group.IsSolvable ↥(barPreimage D.M W) :=
     TauCeti.isSolvable_of_card_dvd_prime_pow_mul_prime_pow (a := a) (b := 1) Nat.prime_two

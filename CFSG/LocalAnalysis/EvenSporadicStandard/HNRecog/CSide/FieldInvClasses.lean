@@ -22,11 +22,11 @@ theorem cSideFacts_inv_classes :
         Nat.card ↥(S 0) = 150 ∧ Nat.card ↥(S 1) = 120 := by
   intro C _ Q hQn hE hI
   have hC : WeakHyp C Q := WeakHyp.of_cIrreducible hE hI
-  haveI : Finite C := hC.finite
-  haveI : Finite Q := hC.finite_Q
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  have : Finite C := hC.finite
+  have : Finite Q := hC.finite_Q
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hC.isExtraspecialPGroup
-  haveI : Finite (Additive (Abelianization Q)) := by
+  have : Finite (Additive (Abelianization Q)) := by
     change Finite (Q ⧸ _root_.commutator Q)
     infer_instance
   obtain ⟨S⟩ := hC.nonempty_setup

@@ -67,10 +67,10 @@ theorem exists_psl2_of_dihedral_centralizers
   have hnt : Nontrivial ↥(T : Subgroup X) :=
     ⟨⟨t0, ht0T⟩, 1, fun h1 => ht01 (congrArg Subtype.val h1)⟩
   have hcenter : Nontrivial ↥(Subgroup.center ↥(T : Subgroup X)) :=
-    IsPGroup.center_nontrivial T.isPGroup'
+    IsPGroup.center_nontrivial T.isPGroup
   obtain ⟨c, hc⟩ : ∃ c : ↥(Subgroup.center ↥(T : Subgroup X)), orderOf c = 2 := by
     refine exists_prime_orderOf_dvd_card' 2 ?_
-    have hP : IsPGroup 2 ↥(Subgroup.center ↥(T : Subgroup X)) := T.isPGroup'.to_subgroup _
+    have hP : IsPGroup 2 ↥(Subgroup.center ↥(T : Subgroup X)) := T.isPGroup.to_subgroup _
     rcases hP.card_eq_or_dvd with h1 | h1
     · exfalso
       have := Finite.one_lt_card_iff_nontrivial.mpr hcenter

@@ -39,6 +39,7 @@ theorem commute_zpowers_zu (hzu : z * u = u * z) : ∀ a ∈ zpowers z, ∀ b �
   obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.mp hb
   exact ((Commute.zpow_right (Commute.zpow_left (hzu : Commute z u) i) j)).eq
 
+omit [Finite G] in
 theorem mem_UU_iff (hz2 : z * z = 1) (hu2 : u * u = 1) (hzu : z * u = u * z) {a : G} :
     a ∈ UU z u ↔ a = 1 ∨ a = z ∨ a = u ∨ a = z * u := by
   constructor
@@ -70,6 +71,7 @@ theorem mem_NN_of_conj {g : G} (hz : g * z * g⁻¹ ∈ UU z u) (hu : g * u * g�
 omit [Finite G] in
 theorem conj_mul' (g a b : G) : g * (a * b) * g⁻¹ = (g * a * g⁻¹) * (g * b * g⁻¹) := by group
 
+omit [Finite G] in
 theorem exists_perm_rep (hz2 : z * z = 1) (hu2 : u * u = 1) (hzu : z * u = u * z) {w x : G}
     (hwz : w * z * w⁻¹ = z) (hwu : w * u * w⁻¹ = u * z) (hxz : x * z * x⁻¹ = u)
     (hxu : x * u * x⁻¹ = z * u) {a b : G} (ha : a ∈ UU z u) (hb : b ∈ UU z u) (ha1 : a ≠ 1)
@@ -91,11 +93,10 @@ theorem exists_perm_rep (hz2 : z * z = 1) (hu2 : u * u = 1) (hzu : z * u = u * z
       _ = u := by rw [hz2, one_mul]
   rw [mem_UU_iff hz2 hu2 hzu] at ha hb
   rcases ha with ha | ha | ha | ha <;> rcases hb with hb | hb | hb | hb
-  all_goals first
+  all_goals try first
     | exact absurd ha ha1
     | exact absurd hb hb1
     | exact absurd (ha.trans hb.symm) hab
-    | skip
   · refine ⟨1, Or.inl rfl, ?_, ?_⟩ <;> simp [ha, hb]
   · refine ⟨w, Or.inr (Or.inl rfl), ?_, ?_⟩
     · rw [ha]; exact hwz

@@ -1701,7 +1701,7 @@ theorem stmt13_8_1_GH_root :
     CFSG.GH74.QTGen4.Leaves.ASCF4.asc48_F4_holds
   have d_Stmt4_3_2_F4 : CFSG.Quasithin.H13.Stmt4_3_2_F4 :=
     CFSG.Quasithin.H13.Ch4.stmt4_3_2_of_rest_F4 (hC48 := d_ASC48Statement)
-      (hM2223 := d_Insp436M22M23) (h134 := d_AS_C_1_34_corr_F4) (hZ := d_Gap437Sp4Z)
+      (hM2223 := d_Insp436M22M23) (h134 := d_AS_C_1_34_corr_F4) (_hZ := d_Gap437Sp4Z)
   have d_AsB51 : CFSG.Quasithin.AsB51 := CFSG.Quasithin.B5.asB51_holds
   have d_Stmt5_1_2_F4 : CFSG.Quasithin.H13.Stmt5_1_2_F4 :=
     CFSG.Quasithin.H13.stmt5_1_2_of_asB51_F4 (h331 := d_Stmt3_3_1_F4) (h51 := d_AsB51)
@@ -1868,15 +1868,15 @@ theorem stmt13_8_1_GH_root :
       (h432 := d_Stmt4_3_2_F4) (h510 := d_Stmt5_1_10_F4) (h521 := d_Stmt5_2_1_F4)
       (hL2 := d_Stmt5_2_L2_F4) (hLie := d_Stmt5_2_L2Lie_F4)
   have d_Stmt5_2_6_L2K_rank2_F4 : CFSG.Quasithin.H13.Stmt5_2_6_L2K_rank2_F4 :=
-    CFSG.Quasithin.H13.stmt5_2_6_L2K_rank2_of_F4 (h331 := d_Stmt3_3_1_F4)
-      (hRL := d_RankOneListedFacts) (hF11 := d_StmtF11_5_2_F4) (hbor := d_Stmt5_2_6_borel_F4)
+    CFSG.Quasithin.H13.stmt5_2_6_L2K_rank2_of_F4 (_h331 := d_Stmt3_3_1_F4)
+      (hRL := d_RankOneListedFacts) (_hF11 := d_StmtF11_5_2_F4) (_hbor := d_Stmt5_2_6_borel_F4)
       (h524 := d_Stmt5_2_4_F4) (h510 := d_Stmt5_1_10_F4) (h38 := d_A38ForSQTKCat)
-      (hU3 := d_FactU3Cover) (hC58 := d_TheoremC58) (h317 := d_AS317Sylow) (h512 := d_Stmt5_1_2_F4)
+      (hU3 := d_FactU3Cover) (_hC58 := d_TheoremC58) (_h317 := d_AS317Sylow) (_h512 := d_Stmt5_1_2_F4)
   have d_Stmt5_2_6_tr_F4 : CFSG.Quasithin.H13.Stmt5_2_6_tr_F4 :=
     CFSG.Quasithin.H13.stmt5_2_6_tr_of_F4 (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact)
       (hF := d_RankOneListedFacts) (hF11 := d_StmtF11_5_2_F4) (hbor := d_Stmt5_2_6_borel_F4)
       (h524 := d_Stmt5_2_4_F4) (h510 := d_Stmt5_1_10_F4) (h38 := d_A38ForSQTKCat)
-      (hU3 := d_FactU3Cover) (hC58 := d_TheoremC58) (h317 := d_AS317Sylow) (h512 := d_Stmt5_1_2_F4)
+      (hU3 := d_FactU3Cover) (_hC58 := d_TheoremC58) (_h317 := d_AS317Sylow) (_h512 := d_Stmt5_1_2_F4)
       (hrk2 := d_Stmt5_2_6_L2K_rank2_F4)
   have d_Stmt5_2_6_F4 : CFSG.Quasithin.H13.Stmt5_2_6_F4 :=
     CFSG.Quasithin.H13.stmt5_2_6_of_F4 (h331 := d_Stmt3_3_1_F4) (hR := d_L2RankOneSylowFact)

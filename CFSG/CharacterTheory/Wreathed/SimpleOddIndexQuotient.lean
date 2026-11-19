@@ -107,7 +107,7 @@ theorem cyclic_Sylow_two_index_two {G : Type u} [Group G] [Finite G]
   let f := MonoidHom.transferSylow S hcenter
   have hrestriction : Function.Bijective (f.domRestrict (S : Subgroup G)) := by
     rw [MonoidHom.transferSylow_domRestrict_eq_pow]
-    exact (S.isPGroup'.powEquiv' S.not_dvd_index).bijective
+    exact (S.isPGroup.powEquiv' S.not_dvd_index).bijective
   have hsurj : Function.Surjective f := by
     intro x
     obtain ⟨s, hs⟩ := hrestriction.surjective x
@@ -247,7 +247,7 @@ theorem Sylow_le_normal_of_odd_index {G : Type u} [Group G] [Finite G]
   let Q := S.mapSurjective (QuotientGroup.mk'_surjective N)
   have hQ : (Q : Subgroup (G ⧸ N)) = ⊥ := by
     apply (Subgroup.eq_bot_iff_card _).mpr
-    exact Q.isPGroup'.card_eq_or_dvd.resolve_right (fun h => hindex.not_two_dvd_nat
+    exact Q.isPGroup.card_eq_or_dvd.resolve_right (fun h => hindex.not_two_dvd_nat
       ((Subgroup.index_eq_card N).symm ▸ h.trans (Subgroup.card_subgroup_dvd_card _)))
   rw [Sylow.coe_mapSurjective, Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hQ
   exact hQ
@@ -441,7 +441,7 @@ theorem odd_subgroup_inf_Sylow_eq_bot {G : Type u} [Group G] [Finite G]
     (R : Subgroup G) (hR : Odd (Nat.card R)) (S : Sylow 2 G) :
     R ⊓ (S : Subgroup G) = ⊥ := by
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   apply disjoint_iff.mp
   apply Subgroup.disjoint_of_coprime_natCard
   rw [hk]

@@ -70,7 +70,7 @@ theorem NFix_conj_mem_sylow (hΦ : D.Φ = Units.map (entrywiseHom Fr)) (S₀ : S
     exact NFix_conj_mem_twistedTorusOf hy hs'T
   have hzΓ : y * (s' : ModGL τ L) * y⁻¹ ∈ D.Γ := model_conj_mem_Γ D hyM s'.2
   set z : D.Γ := ⟨y * (s' : ModGL τ L) * y⁻¹, hzΓ⟩ with hz
-  obtain ⟨k, hk⟩ := S₀.isPGroup' ⟨s', hs'S⟩
+  obtain ⟨k, hk⟩ := S₀.isPGroup ⟨s', hs'S⟩
   have hs'k : (s' : ModGL τ L) ^ p ^ k = 1 := by
     have := congrArg Subtype.val hk
     simpa using congrArg Subtype.val this
@@ -112,6 +112,7 @@ theorem exists_nfix_lift (hq : 2 ≤ q) (hFr : ∀ c, Fr c = c ^ q) {w : WeylGro
   have : a ∈ (NFixToWeyl D.n Fr).range := by rw [hr]; exact ha
   exact this
 
+omit [Fact (Nat.Prime p)] in
 theorem nfix_fpf_of_weyl (y : NFix D.n Fr) (v : WeylGroup τ) (hy : NFixToWeyl D.n Fr y = v)
     {S : Subgroup (ModGL τ L)} (hST : S ≤ D.torus)
     (hfpf : ∀ β : Fin τ.rank → Lˣ, rootDiagUnit τ β ∈ D.torus → rootDiagUnit τ β ^ p = 1 →
@@ -124,6 +125,7 @@ theorem nfix_fpf_of_weyl (y : NFix D.n Fr) (v : WeylGroup τ) (hy : NFixToWeyl D
   rw [NFix_conj_rootDiagUnit y β, hy] at hxy
   exact hfpf β hxT hxp (rootDiagUnit_injective hxy)
 
+omit [IsAlgClosed L] in
 theorem nfixToWeyl_dc (ya yb yc yd : NFix D.n Fr) :
     NFixToWeyl D.n Fr ⁅⁅ya, yb⁆, ⁅yc, yd⁆⁆ =
       ⁅⁅NFixToWeyl D.n Fr ya, NFixToWeyl D.n Fr yb⁆,
@@ -164,6 +166,7 @@ theorem normalizerMovesLines_of_nfix_dc (hq : 2 ≤ q) (hFr : ∀ c, Fr c = c ^ 
     (commutator_mem_Γ D (hM ya) (hM yb)) (commutator_mem_Γ D (hM yc) (hM yd)) hfp
   exact exists_mem_normalizer_move_of_ambient hnΓ hnN hmove
 
+omit [Fact (Nat.Prime p)] in
 theorem nfix_fpf_of_weyl2 (y₁ y₂ : NFix D.n Fr) (v₁ v₂ : WeylGroup τ)
     (hy₁ : NFixToWeyl D.n Fr y₁ = v₁) (hy₂ : NFixToWeyl D.n Fr y₂ = v₂)
     {S : Subgroup (ModGL τ L)} (hST : S ≤ D.torus)

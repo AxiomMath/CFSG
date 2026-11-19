@@ -239,7 +239,7 @@ variable {G : Type} [Group G]
 theorem card_le_nine_of_isPGroup {X : Type} [Group X] [Finite X]
     (hL : IsLThreeFour (X ⧸ GLAPPrimeCore 3 X)) {R : Subgroup X} (hR : IsPGroup 3 R) :
     Nat.card R ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : ¬ 3 ∣ Nat.card (GLAPPrimeCore 3 X) := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1
     (CFSG.HardMathSupport.Solomon.LocalBalance.coprime_card_gLAPPrimeCore_aux 3 X)
   rw [← card_map_mk_of_isPGroup hN hR]
@@ -327,7 +327,7 @@ theorem fusion_core {K A₀ : Subgroup G} (hL : IsLThreeFour (barOf 3 K)) (hA₀
     (hA₀el : IsElemAbelian 3 A₀) (hA₀9 : Nat.card A₀ = 9) {x y : G} (hx : x ∈ A₀) (hx1 : x ≠ 1)
     (hy : y ∈ A₀) (hy1 : y ≠ 1) :
     ∃ n ∈ K, n ∈ Subgroup.normalizer (A₀ : Set G) ∧ n⁻¹ * x * n = y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := GLAPPrimeCore 3 ↥K
   set π := QuotientGroup.mk' N
   have hN : ¬ 3 ∣ Nat.card N := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1
@@ -437,7 +437,7 @@ theorem cfg_of (h1111 : Lemma1111Statement) (h119 : Lemma119Statement) (h1112 : 
 
 theorem exists_sub_nine {L : Subgroup G} (hL : IsLThreeFour (barOf 3 L)) :
     ∃ Q : Subgroup G, Q ≤ L ∧ IsPGroup 3 Q ∧ Nat.card Q = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : 3 ^ 2 ∣ Nat.card L := by
     have h2 : Nat.card (barOf 3 L) ∣ Nat.card L := Subgroup.card_quotient_dvd_card _
     rw [CFSG.HardMathSupport.Solomon.UniquenessMaximal.card_eq_of_isLThreeFour hL] at h2
@@ -451,7 +451,7 @@ theorem eq_of_glaPComponent {X L J : Subgroup G} {b : G} (hL : GLAPComponent 3 X
     (hsyl : IsSylowIn 3 (centBar 3 X L) (Subgroup.zpowers b)) (hb3 : b ^ 3 = 1)
     (hJ : GLAPComponent 3 X J) {Q : Subgroup G} (hQJ : Q ≤ J) (hQ3 : IsPGroup 3 Q)
     (hQ9 : Nat.card Q = 9) : J = L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hne
   have hLs := (CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent
     Nat.prime_three).1 hL
@@ -509,12 +509,14 @@ theorem le_normalizer_of_sylow {X L : Subgroup G} {b : G} (hL : GLAPComponent 3 
 
 variable {M E A K : Subgroup G} {a : G}
 
+omit [Finite G] in
 theorem Cfg.ha3 (c : Cfg M E A K a) : a ^ 3 = 1 := c.hAel.2 a c.ha
 
 theorem Cfg.cg_le_normalizer (c : Cfg M E A K a) : Cg a ≤ Subgroup.normalizer (K : Set G) := by
   obtain ⟨Q, hQK, hQ3, hQ9⟩ := exists_sub_nine c.hL
   exact le_normalizer_of_sylow c.hK c.hsyl c.ha3 hQK hQ3 hQ9
 
+omit [Finite G] in
 theorem Cfg.exists_conj (c : Cfg M E A K a) {a₁ : G} (ha₁A : a₁ ∈ A) (ha₁A0 : a₁ ∉ E ⊓ A) :
     ∃ g : G, Subgroup.zpowers a₁ = GLBConj g (Subgroup.zpowers a) ∧ Cg a₁ = GLBConj g (Cg a) := by
   have ha₁1 : a₁ ≠ 1 := fun h1 => ha₁A0 (h1 ▸ (E ⊓ A).one_mem)
@@ -549,6 +551,7 @@ section CompInput
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_mul_of_mem_sup {H N : Subgroup G} (hHN : H ≤ Subgroup.normalizer (N : Set G))
     {x : G} (hx : x ∈ H ⊔ N) : ∃ h ∈ H, ∃ n ∈ N, h * n = x := by
   have hx' : x ∈ ((H ⊔ N : Subgroup G) : Set G) := hx
@@ -556,6 +559,7 @@ theorem exists_mul_of_mem_sup {H N : Subgroup G} (hHN : H ≤ Subgroup.normalize
   obtain ⟨h, hh, n, hn, rfl⟩ := hx'
   exact ⟨h, hh, n, hn, rfl⟩
 
+omit [Finite G] in
 theorem exists_pow_mul {O : Subgroup G} {w o : G} (hw : w ∈ Subgroup.normalizer (O : Set G))
     (ho : o ∈ O) (n : ℕ) : ∃ o' ∈ O, (w * o) ^ n = w ^ n * o' := by
   induction n with
@@ -570,7 +574,7 @@ theorem exists_pow_mul {O : Subgroup G} {w o : G} (hw : w ∈ Subgroup.normalize
 theorem pCoreOf_two_sup_le {X K₁ : Subgroup G} (hK₁ : GLAPComponent 3 X K₁)
     (hL : IsLThreeFour (barOf 3 K₁)) :
     pCoreOf 2 (K₁ ⊔ GLAPPrimeCoreOf 3 X) ≤ GLAPPrimeCoreOf 3 X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := GLAPPrimeCoreOf 3 X with hOdef
   set Y := K₁ ⊔ O with hYdef
   set W := pCoreOf 2 Y with hWdef
@@ -601,8 +605,8 @@ theorem pCoreOf_two_sup_le {X K₁ : Subgroup G} (hK₁ : GLAPComponent 3 X K₁
       obtain ⟨hnV, hnK⟩ := Subgroup.mem_inf.1 hn
       exact Subgroup.mem_inf.2 ⟨hVn _ (Subgroup.mem_sup_left g.2) _ hnV,
         K₁.mul_mem (K₁.mul_mem g.2 hnK) (K₁.inv_mem g.2)⟩
-    haveI := (CFSG.HardMathSupport.Solomon.UniquenessMaximal.isSimpleGroup_of_isLThreeFour hL).1
-    haveI := hUn.map π (QuotientGroup.mk'_surjective _)
+    have := (CFSG.HardMathSupport.Solomon.UniquenessMaximal.isSimpleGroup_of_isLThreeFour hL).1
+    have := hUn.map π (QuotientGroup.mk'_surjective _)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((U.subgroupOf K₁).map π) with h | h
     · intro u hu
       have hu' : (⟨u, (Subgroup.mem_inf.1 hu).2⟩ : ↥K₁) ∈ U.subgroupOf K₁ :=
@@ -670,6 +674,7 @@ section ChiefA
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_pCoreOf_two {M H : Subgroup G} (hHM : H ≤ M) :
     H ≤ Subgroup.normalizer ((pCoreOf 2 M : Subgroup G) : Set G) := by
   intro x hx
@@ -682,6 +687,7 @@ theorem le_normalizer_pCoreOf_two {M H : Subgroup G} (hHM : H ≤ M) :
     have e : x⁻¹ * (x * t * x⁻¹) * x⁻¹⁻¹ = t := by group
     rwa [e] at this
 
+omit [Finite G] in
 theorem mem_normalizer_inf' {H₁ H₂ : Subgroup G} {x : G} (h₁ : x ∈ Subgroup.normalizer (H₁ : Set G))
     (h₂ : x ∈ Subgroup.normalizer (H₂ : Set G)) :
     x ∈ Subgroup.normalizer ((H₁ ⊓ H₂ : Subgroup G) : Set G) := by
@@ -690,6 +696,7 @@ theorem mem_normalizer_inf' {H₁ H₂ : Subgroup G} {x : G} (h₁ : x ∈ Subgr
   rw [Subgroup.mem_inf, Subgroup.mem_inf, Subgroup.mem_normalizer_iff.1 h₁ y,
     Subgroup.mem_normalizer_iff.1 h₂ y]
 
+omit [Finite G] in
 theorem le_normalizer_commutator {B H₁ H₂ : Subgroup G}
     (h₁ : B ≤ Subgroup.normalizer (H₁ : Set G)) (h₂ : B ≤ Subgroup.normalizer (H₂ : Set G)) :
     B ≤ Subgroup.normalizer ((⁅H₁, H₂⁆ : Subgroup G) : Set G) := by
@@ -701,6 +708,7 @@ theorem le_normalizer_commutator {B H₁ H₂ : Subgroup G}
   have e₂ : H₂.map (MulAut.conj y⁻¹).toMonoidHom = H₂ := mem_normalizer_iff_gLBConj_eq.1 (h₂ hy)
   rw [e₁, e₂]
 
+omit [Finite G] in
 theorem mem_normalizer_subgroupOf {K S : Subgroup G} {n : ↥K}
     (hn : (n : G) ∈ Subgroup.normalizer (S : Set G)) :
     n ∈ Subgroup.normalizer ((S.subgroupOf K : Subgroup ↥K) : Set ↥K) := by
@@ -717,7 +725,7 @@ theorem Cfg.core_le (c : Cfg M E A K a) : GLAPPrimeCoreOf 3 K ≤ GLAPPrimeCoreO
 theorem Cfg.bar_A0 (c : Cfg M E A K a) :
     IsElemAbelian 3 (((E ⊓ A).subgroupOf K).map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥K))) ∧
       Nat.card (((E ⊓ A).subgroupOf K).map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥K))) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hel : IsElemAbelian 3 ((E ⊓ A).subgroupOf K) :=
     (c.hAel.mono (inf_le_right : E ⊓ A ≤ A)).subgroupOf K
   have hN : ¬ 3 ∣ Nat.card (GLAPPrimeCore 3 ↥K) := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1
@@ -729,7 +737,7 @@ theorem Cfg.bar_A0 (c : Cfg M E A K a) :
 theorem Cfg.chiefA (c : Cfg M E A K a) :
     ⁅(pCoreOf 2 M ⊓ Subgroup.centralizer ({a} : Set G) : Subgroup G), A⁆ ≤
       GLAPPrimeCoreOf 3 (Cg a) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R := pCoreOf 2 M ⊓ Subgroup.centralizer ({a} : Set G) with hRdef
   set A₀ := E ⊓ A with hA₀def
   have hCN := c.cg_le_normalizer
@@ -793,6 +801,7 @@ section Constr
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_mem_core {p : ℕ} {K : Subgroup G} {y o : G} (hy : y ∈ Subgroup.normalizer (K : Set G))
     (ho : o ∈ GLAPPrimeCoreOf p K) : y * o * y⁻¹ ∈ GLAPPrimeCoreOf p K := by
   have h := glaPPrimeCoreOf_gLBConj p y⁻¹ K
@@ -800,6 +809,7 @@ theorem conj_mem_core {p : ℕ} {K : Subgroup G} {y o : G} (hy : y ∈ Subgroup.
   rw [h, mem_gLBConj]
   simpa [mul_assoc] using ho
 
+omit [Finite G] in
 theorem commutatorElement_mul_mul {x y c d : G} (hcy : Commute c y) (hdx : Commute d x)
     (hcd : Commute c d) : ⁅x * c, y * d⁆ = ⁅x, y⁆ := by
   rw [commutatorElement_def, commutatorElement_def]
@@ -827,7 +837,7 @@ theorem Cfg.centBar_conj (c : Cfg M E A K a) {y z : G} (hy : y ∈ Cg a)
 
 theorem Cfg.centBar_le (c : Cfg M E A K a) :
     centBar 3 (Cg a) K ≤ GLAPPrimeCoreOf 3 (Cg a) ⊔ Subgroup.zpowers a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Z := centBar 3 (Cg a) K with hZdef
   have hZC : Z ≤ Cg a := inf_le_right
   have haZ : Subgroup.zpowers a ≤ Z := c.hsyl.1
@@ -873,6 +883,7 @@ theorem Cfg.centBar_le (c : Cfg M E A K a) :
   rw [Subgroup.map_sup, hP₀def, Subgroup.subgroupOf_map_subtype] at h3
   exact sup_le_sup hcore inf_le_left h3
 
+omit [Finite G] in
 theorem perfect_le_core_of_le_sup {a : G} {J : Subgroup G} (hperf : ⁅J, J⁆ = J)
     (hJ : J ≤ GLAPPrimeCoreOf 3 (Cg a) ⊔ Subgroup.zpowers a) : J ≤ GLAPPrimeCoreOf 3 (Cg a) := by
   set O := GLAPPrimeCoreOf 3 (Cg a)
@@ -900,7 +911,7 @@ theorem perfect_le_core_of_le_sup {a : G} {J : Subgroup G} (hperf : ⁅J, J⁆ =
 
 theorem Cfg.layer_eq_bot (c : Cfg M E A K a) {e : G} (he : e ∈ E ⊓ A) (he1 : e ≠ 1) :
     GLAPLayer 3 (Subgroup.centralizer ({e, a} : Set G)) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X := Subgroup.centralizer ({e, a} : Set G) with hXdef
   have key : ∀ J : Subgroup G, GLAPComponent 3 X J → False := by
     intro J hJ
@@ -1014,6 +1025,7 @@ section Chief
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barAut_of_mem {K : Subgroup G} {k : G} (hk : k ∈ K) :
     barAut 3 K ⟨k, Subgroup.le_normalizer hk⟩ =
       MulAut.conj (QuotientGroup.mk ⟨k, hk⟩ : barOf 3 K) := by
@@ -1024,6 +1036,7 @@ theorem barAut_of_mem {K : Subgroup G} {k : G} (hk : k ∈ K) :
       ← QuotientGroup.mk_mul]
     rfl
 
+omit [Finite G] in
 theorem centralizer_gLBConj (g : G) (B : Subgroup G) :
     Subgroup.centralizer ((GLBConj g B : Subgroup G) : Set G) =
       GLBConj g (Subgroup.centralizer (B : Set G)) := by
@@ -1050,7 +1063,7 @@ theorem Cfg.chief_core (c : Cfg M E A K a) {S B : Subgroup G} (hSC : S ≤ Cg a)
     (hS : ¬ 3 ∣ Nat.card S) (hBC : B ≤ Cg a) (hB : IsElemAbelian 3 B)
     (hBS : B ≤ Subgroup.normalizer (S : Set G)) :
     S ≤ K ⊔ GLAPPrimeCoreOf 3 (Cg a) ⊔ Subgroup.centralizer (B : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := GLAPPrimeCoreOf 3 (Cg a) with hOdef
   have hCN := c.cg_le_normalizer
   have hfac := CFSG.SignalizerFunctor.Helpers.coprime_normalized_commutator_factorization 3

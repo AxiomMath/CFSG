@@ -15,11 +15,11 @@ theorem aut_mul_conj_mul_inv (α : MulAut K) (x : K) :
     α * MulAut.conj x * α⁻¹ = MulAut.conj (α x) := by
   ext z
   simp only [MulAut.mul_apply, MulAut.inv_apply, MulAut.conj_apply, map_mul, map_inv,
-    MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+    MulEquiv.apply_symm_apply]
 
 theorem baseGrp_comm {x₁ x₂ lam : K} (h : WreathRel x₁ x₂ lam) {u v : K}
     (hu : u ∈ baseGrp x₁ x₂) (hv : v ∈ baseGrp x₁ x₂) : u * v = v * u := by
-  haveI : IsMulCommutative (baseGrp x₁ x₂) := h.baseGrp_eq.1
+  have : IsMulCommutative (baseGrp x₁ x₂) := h.baseGrp_eq.1
   exact congrArg Subtype.val (mul_comm' (⟨u, hu⟩ : baseGrp x₁ x₂) ⟨v, hv⟩)
 
 theorem wr_lam_sq {x₁ x₂ lam : K} (h : WreathRel x₁ x₂ lam) : lam * lam = 1 := by

@@ -26,6 +26,7 @@ theorem mulAut_pow_fix {X : Type*} [Group X] {α : MulAut X} {e : X} (h : α e =
   | zero => simp
   | succ k ih => rw [pow_succ, MulAut.mul_apply, h, ih]
 
+omit [Finite G] in
 theorem rho_fix_of_generator {L B : Subgroup G} {b₀ : G} (hbN : b₀ ∈ normalizer (L : Set G))
     (hBN : B ≤ normalizer (L : Set G)) (hgen : ∀ b ∈ B, ∃ k : ℕ, b₀ ^ k = b) {Eb : Subgroup (Bar2 L)}
     (hEb : ∀ e ∈ Eb, rhoL L ⟨b₀, hbN⟩ e = e) :
@@ -37,6 +38,7 @@ theorem rho_fix_of_generator {L B : Subgroup G} {b₀ : G} (hbN : b₀ ∈ norma
   rw [hm, map_pow]
   exact mulAut_pow_fix (hEb e he) k
 
+omit [Finite G] in
 theorem mem_map_conj_iff {H : Subgroup G} (g w : G) :
     w ∈ H.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * w * g ∈ H := by
   simp only [Subgroup.mem_map, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
@@ -46,6 +48,7 @@ theorem mem_map_conj_iff {H : Subgroup G} (g w : G) :
   · intro h
     exact ⟨g⁻¹ * w * g, h, by group⟩
 
+omit [Finite G] in
 theorem normalizer_map_conj_le {A M : Subgroup G} (g : G) (h : normalizer (A : Set G) ≤ M) :
     normalizer ((A.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G) ≤
       M.map (MulAut.conj g).toMonoidHom := by

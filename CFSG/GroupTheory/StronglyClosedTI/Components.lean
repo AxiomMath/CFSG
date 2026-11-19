@@ -41,6 +41,7 @@ theorem exists_mem_inf_ne_one (hL : CFSG.layer X = ⊤)
     rw [orderOf_one] at hs2
     exact absurd hs2 (by norm_num)
 
+omit [Finite X] in
 theorem not_le_of_isComponent {A : Subgroup X} (hA2 : ∀ a ∈ A, a * a = 1) {K : Subgroup X}
     (hK : CFSG.IsComponent K) : ¬ K ≤ A := by
   intro hKA
@@ -114,7 +115,7 @@ theorem isComponent_top [Nontrivial X] (hL : CFSG.layer X = ⊤) (hZ : center X 
     CFSG.IsComponent (⊤ : Subgroup X) := by
   have hex : ∃ K : Subgroup X, CFSG.IsComponent K := by
     by_contra h
-    push_neg at h
+    push Not at h
     have := CFSG.LocalCores.layer_eq_bot_of_forall h
     rw [hL] at this
     exact top_ne_bot this

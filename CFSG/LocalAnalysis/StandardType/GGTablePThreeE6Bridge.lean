@@ -9,7 +9,7 @@ namespace CFSG.StandardType.TablePThreeKG
 
 open CFSG CFSG.Assembly
 
-theorem exists_component_of_induced {X : Type} [Group X] [Finite X] (hX : commutator X = ⊤)
+theorem exists_component_of_induced {X : Type} [Group X] [Finite X] (_hX : commutator X = ⊤)
     {R : Type} [Group R] (θ : X ⧸ Subgroup.center X ≃* R) (δ : MulAut X) {M : Subgroup R}
     (hM : IsComponentOf M (ggAutFixedSubgroup (ggInducedAut θ δ))) :
     ∃ K : Subgroup X, IsComponentOf K (ggAutFixedSubgroup δ) ∧

@@ -26,12 +26,13 @@ structure Nine3Seed (V T A K S X : Subgroup G) (p : ℕ) : Prop where
   mem : X ∈ calP V
   comm : ¬ X ≤ E1.tauOf K K A
 
+omit [Finite G] in
 private theorem nine3_card_mul {S X K : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hS : IsPGroup 2 S) (hX : IsPGroup p X) (hSK : S ≤ K) (hXK : X ≤ K)
     (hKSX : (K : Set G) = (S : Set G) * (X : Set G)) :
     Nat.card ↥K = Nat.card ↥S * Nat.card ↥X := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS' : IsPGroup 2 (S.subgroupOf K) := hS.comap_subtype
   have hX' : IsPGroup p (X.subgroupOf K) := hX.comap_subtype
   have hdisj' : Disjoint (S.subgroupOf K) (X.subgroupOf K) :=
@@ -56,10 +57,10 @@ theorem nine3_extract (h9 : Hyp9 V T) (hA : IsGConj V A) (hAT : A ≤ T)
     (hK : K ∈ calPMTA V T A) :
     ∃ (p : ℕ) (S X : Subgroup G), Nine3Seed V T A K S X p := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hKE, X, hXP, hKX⟩ := hK
   obtain ⟨p', hp', hp'2, hXp', -, -, -⟩ := id hXP
-  haveI : Fact p'.Prime := ⟨hp'⟩
+  have : Fact p'.Prime := ⟨hp'⟩
   obtain ⟨i, hKM, htau, hS, hcase⟩ := hKE
   have hSK : T ⊓ K ≤ K := inf_le_right
   have hXK : X ≤ K := by
@@ -72,7 +73,7 @@ theorem nine3_extract (h9 : Hyp9 V T) (hA : IsGConj V A) (hAT : A ≤ T)
   obtain ⟨b, hb⟩ := hS.isPGroup.exists_card_eq
   have hcard : Nat.card ↥K = 2 ^ b * p' ^ a := by rw [hKcard, ha, hb]
   have hsolv : Group.IsSolvable ↥K := by
-    haveI : Fintype ↥K := Fintype.ofFinite ↥K
+    have : Fintype ↥K := Fintype.ofFinite ↥K
     refine CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       (p := 2) (q := p') (a := b) (b := a) Nat.prime_two hp' (Ne.symm hp'2) ?_
     rw [← Nat.card_eq_fintype_card, hcard]
@@ -81,14 +82,14 @@ theorem nine3_extract (h9 : Hyp9 V T) (hA : IsGConj V A) (hAT : A ≤ T)
     have hrad : CFSG.solvableRadical ↥K = ⊤ := by
       refine top_le_iff.mp (le_sSup ?_)
       exact ⟨inferInstance, inferInstance⟩
-    haveI : Subsingleton (↥K ⧸ CFSG.solvableRadical ↥K) := by
+    have : Subsingleton (↥K ⧸ CFSG.solvableRadical ↥K) := by
       rw [hrad]
       exact QuotientGroup.subsingleton_quotient_top
-    haveI : Subsingleton ↥L :=
+    have : Subsingleton ↥L :=
       ⟨fun a b => Subtype.ext
         (Subsingleton.elim (a : ↥K ⧸ CFSG.solvableRadical ↥K)
           (b : ↥K ⧸ CFSG.solvableRadical ↥K))⟩
-    haveI : Subsingleton (↥L ⧸ Subgroup.center ↥L) := by
+    have : Subsingleton (↥L ⧸ Subgroup.center ↥L) := by
       refine ⟨fun a b => ?_⟩
       obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center ↥L) a
       obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center ↥L) b
@@ -101,7 +102,7 @@ theorem nine3_extract (h9 : Hyp9 V T) (hA : IsGConj V A) (hAT : A ≤ T)
     · exact False.elim (hETwo_false h.1)
   have hEOne' := hEOne
   obtain ⟨p, hp, hp2, hoTwo, hne, hcommEq, -⟩ := hEOne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpp : p = p' := by
     let Qb := ↥K ⧸ CFSG.pCore 2 ↥K
     let C : Subgroup Qb := CFSG.pCore p Qb

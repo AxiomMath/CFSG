@@ -105,9 +105,9 @@ theorem hasCleanFullClassBMember_statedProj_suid
     HasCleanFullClassBMember (StatedProj (SUid (unitaryInvolution K 3 1) n)) := by
   have h2 : (2 : K) ≠ 0 := two_ne_zero_of_charP_ne_two (K := K) (p := 3) (by norm_num)
   have hF : Nat.card K = (3 ^ 1) ^ 2 := by rw [hK]; norm_num
-  haveI hHfin : Finite (Su K 3 1 n) := inferInstance
-  haveI hQfin : Finite (StatedProj (SUid (unitaryInvolution K 3 1) n)) := inferInstance
-  haveI hXfin : Finite (Su K 3 1 4) := inferInstance
+  have hHfin : Finite (Su K 3 1 n) := inferInstance
+  have hQfin : Finite (StatedProj (SUid (unitaryInvolution K 3 1) n)) := inferInstance
+  have hXfin : Finite (Su K 3 1 4) := inferInstance
   have hX : BlockData (Su K 3 1 4) :=
     BlockData.of_mulEquiv (MulEquiv.subgroupCongr (SUid_eq_statedSU hF 4).symm)
       (blockData_statedSU hGA hK (Or.inl rfl))
@@ -130,9 +130,9 @@ theorem hasCleanFullClassBMember_psu
     [Finite K] (hK : Nat.card K = 9) {n : ℕ} (hn : 5 ≤ n)
     [IsSimpleGroup (StatedProj (StatedSU n 3 K))] :
     HasCleanFullClassBMember (StatedProj (StatedSU n 3 K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 3 := charP_of_card_eq_prime_pow (f := 2)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 3 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   have hF : Nat.card K = (3 ^ 1) ^ 2 := by rw [hK]; norm_num
   have key : ∀ S : Subgroup (GL (Fin n) K), SUid (unitaryInvolution K 3 1) n = S →
@@ -150,7 +150,7 @@ theorem hasCleanFullClassBMember_of_lieModel_psu
   unfold CFSG.Open.StatedClassicalModel at hcm
   obtain ⟨-, K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hcm
   have hK : Nat.card K = 9 := by simpa using hKcard
-  haveI : IsSimpleGroup (StatedProj (StatedSU n 3 K)) := e.symm.isSimpleGroup
+  have : IsSimpleGroup (StatedProj (StatedSU n 3 K)) := e.symm.isSimpleGroup
   exact HasCleanFullClassBMember.of_mulEquiv e.symm (hasCleanFullClassBMember_psu hGA hK hn)
 
 end Assembly

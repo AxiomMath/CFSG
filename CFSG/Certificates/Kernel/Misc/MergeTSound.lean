@@ -81,7 +81,7 @@ theorem rel_step {s : Bool × Array Nat} {s' : Bool × List Nat} (hr : Rel s s')
     congr 1
     funext l
     rw [CFSG.KS.Raw.Orb.nIf_eq]
-    simp [Nat.beq_eq_true_eq]
+    simp
 
 theorem rel_fold : ∀ (L : List (Nat × Nat × Nat)) {s : Bool × Array Nat} {s' : Bool × List Nat},
     Rel s s' → Rel (L.foldl (mergeStep n G) s) (L.foldl (mergeStepK n w GP kG) s')

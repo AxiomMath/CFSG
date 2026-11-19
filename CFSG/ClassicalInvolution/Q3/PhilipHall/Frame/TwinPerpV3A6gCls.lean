@@ -31,7 +31,7 @@ theorem perm_decide : ∀ (A : Matrix (Fin 3) (Fin 3) (ZMod 2)) (b : Fin 3 → Z
   have r1 := permDec_row_of_modPi _ 1 (by decide) (by unfold ModPi; decide) A b h1
   have r2 := permDec_row_of_modPi _ 2 (by decide) (by unfold ModPi; decide) A b h2
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [r0, r1, r2, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [r0, r1, r2]
 
 theorem modPi_comp {f g : Fin 8 → ZMod 2} (h : ModPi f g) (e : Equiv.Perm (Fin 8)) :
     ModPi (fun i => f (e i)) (fun i => g (e i)) := by
@@ -91,8 +91,8 @@ theorem cover3_excl {G : Type*} [Group G] {A H₁ H₂ H₃ : Subgroup G}
       · exact Or.inr (hno a ha h h2)
     · exact Or.inl h
     · exact Or.inr h
-  obtain ⟨x, hxA, hx2⟩ := SetLike.not_le_iff_exists.mp hn₂
-  obtain ⟨y, hyA, hy3⟩ := SetLike.not_le_iff_exists.mp hn₃
+  obtain ⟨x, hxA, hx2⟩ := IsConcreteLE.not_le_iff_exists.mp hn₂
+  obtain ⟨y, hyA, hy3⟩ := IsConcreteLE.not_le_iff_exists.mp hn₃
   have hx3 : x ∈ H₃ := (h23 x hxA).resolve_left hx2
   have hy2 : y ∈ H₂ := (h23 y hyA).resolve_right hy3
   rcases h23 (x * y) (A.mul_mem hxA hyA) with h | h

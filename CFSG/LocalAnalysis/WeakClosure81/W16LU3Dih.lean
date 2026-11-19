@@ -40,7 +40,7 @@ theorem w16l_inverts_of_dihedral_complement {G : Type*} [Group G] {A N D H : Sub
   classical
   let N' : Subgroup A := N.subgroupOf A
   let D' : Subgroup A := D.subgroupOf A
-  haveI hN' : N'.Normal := hN
+  have hN' : N'.Normal := hN
   have hDA : D ≤ A := by rw [← hsup]; exact le_sup_right
   have hNA : N ≤ A := by rw [← hsup]; exact le_sup_left
   have hsup' : D' ⊔ N' = ⊤ := by

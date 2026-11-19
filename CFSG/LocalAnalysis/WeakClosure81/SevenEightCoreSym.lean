@@ -12,11 +12,13 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem seven_eight_core_sym_relIndex_conjSubgroup_eq (A B : Subgroup G) (k : G) :
     (conjSubgroup A k).relIndex (conjSubgroup B k) = A.relIndex B := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.relIndex_map_map_of_injective A B (MulAut.conj k⁻¹).injective
 
+omit [Finite G] in
 private theorem seven_eight_core_sym_relIndex_eq_two {V H E J L : Subgroup G}
     (h : Hyp78 V H E J L) (hV2 : J.relIndex V = 2) {U : Subgroup G}
     (hU : U ∈ omegaSet V H E) : J.relIndex U = 2 := by
@@ -104,6 +106,7 @@ private theorem seven_eight_core_sym_pow_two_odd {n : ℕ} (h : Odd (2 ^ n)) : n
       exact even_two_mul (2 ^ k)
     exact absurd he (Nat.not_even_iff_odd.2 h)
 
+omit [Finite G] in
 theorem Hyp78.commutator_le_of_forall_commutator_mem {V H E J L N : Subgroup G}
     (h : Hyp78 V H E J L) (hV2 : J.relIndex V = 2) (hNK : N ≤ kSub V H E)
     (hNnorm : kSub V H E ≤ Subgroup.normalizer (N : Set G)) {v : G} (hv : v ∈ V) (hvJ : v ∉ J)
@@ -193,7 +196,7 @@ theorem Hyp78.commutator_le_of_forall_commutator_mem {V H E J L N : Subgroup G}
 theorem Hyp78.not_le_pCoreOf {V H E J L : Subgroup G} (h : Hyp78 V H E J L) :
     ¬ V ≤ pCoreOf 2 L := by
   intro hVleO
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have hKleH : kSub V H E ≤ H := kSub_le_of_forall_le h.omega_le
   have hLleH : L ≤ H := h.le_kSub.trans hKleH
   have hO2 : IsPGroup 2 (pCoreOf 2 L) :=
@@ -248,6 +251,7 @@ theorem Hyp78.not_le_pCoreOf {V H E J L : Subgroup G} (h : Hyp78 V H E J L) :
   rw [hset, Set.ncard_singleton] at h4
   omega
 
+omit [Finite G] in
 private theorem seven_eight_core_sym_exists_pi {V H E J L : Subgroup G}
     (h : Hyp78 V H E J L) :
     ∃ π : ↥L →* Equiv.Perm (Fin 3), Function.Surjective π ∧
@@ -261,10 +265,12 @@ private noncomputable def seven_eight_core_sym_piOf {V H E J L : Subgroup G}
     (h : Hyp78 V H E J L) : ↥L →* Equiv.Perm (Fin 3) :=
   Classical.choose (seven_eight_core_sym_exists_pi h)
 
+omit [Finite G] in
 private theorem seven_eight_core_sym_piOf_surjective {V H E J L : Subgroup G}
     (h : Hyp78 V H E J L) : Function.Surjective (seven_eight_core_sym_piOf h) :=
   (Classical.choose_spec (seven_eight_core_sym_exists_pi h)).1
 
+omit [Finite G] in
 private theorem seven_eight_core_sym_piOf_ker {V H E J L : Subgroup G}
     (h : Hyp78 V H E J L) (k : ↥L) :
     seven_eight_core_sym_piOf h k = 1 ↔ (k : G) ∈ pCoreOf 2 L :=
@@ -272,15 +278,15 @@ private theorem seven_eight_core_sym_piOf_ker {V H E J L : Subgroup G}
 
 private noncomputable def seven_eight_core_sym_v0Of {V H E J L : Subgroup G}
     (h : Hyp78 V H E J L) : G :=
-  Classical.choose (SetLike.not_le_iff_exists.mp h.not_le_pCoreOf)
+  Classical.choose (IsConcreteLE.not_le_iff_exists.mp h.not_le_pCoreOf)
 
 private theorem seven_eight_core_sym_v0Of_mem_V {V H E J L : Subgroup G}
     (h : Hyp78 V H E J L) : seven_eight_core_sym_v0Of h ∈ V :=
-  (Classical.choose_spec (SetLike.not_le_iff_exists.mp h.not_le_pCoreOf)).1
+  (Classical.choose_spec (IsConcreteLE.not_le_iff_exists.mp h.not_le_pCoreOf)).1
 
 private theorem seven_eight_core_sym_v0Of_not_mem {V H E J L : Subgroup G}
     (h : Hyp78 V H E J L) : seven_eight_core_sym_v0Of h ∉ pCoreOf 2 L :=
-  (Classical.choose_spec (SetLike.not_le_iff_exists.mp h.not_le_pCoreOf)).2
+  (Classical.choose_spec (IsConcreteLE.not_le_iff_exists.mp h.not_le_pCoreOf)).2
 
 private noncomputable def seven_eight_core_sym_t0Of {V H E J L : Subgroup G}
     (h : Hyp78 V H E J L) : Equiv.Perm (Fin 3) :=
@@ -450,7 +456,7 @@ private theorem seven_eight_core_sym_pow_three_of_case_B {V H E J L : Subgroup G
     (hw : w ∈ conjSubgroup V x) (hwJ : w ∉ J) :
     (w * u) ^ 3 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have hUΩ : U ∈ omegaSet V H E := hU.1
   have hUleL : U ≤ L := hU.2
   have hKleH : kSub V H E ≤ H := kSub_le_of_forall_le h.omega_le
@@ -554,7 +560,7 @@ theorem Hyp78.forall_commute_or_forall_pow_three {V H E J L : Subgroup G}
       (∀ x ∈ pCoreOf 2 L, ∀ u ∈ U, u ∉ J → ∀ w ∈ conjSubgroup V x, w ∉ J →
         (w * u) ^ 3 = 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have hLnormO : L ≤ Subgroup.normalizer (pCoreOf 2 L : Set G) :=
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L
   have hO2 : IsPGroup 2 (pCoreOf 2 L) :=
@@ -645,7 +651,7 @@ theorem Hyp78.exists_pow_three_eq_one {V H E J L : Subgroup G} (h : Hyp78 V H E 
     ∃ U ∈ omegaWithin V H E L, ∃ u ∈ U, u ∉ J ∧
       ∀ x ∈ pCoreOf 2 L, ∀ w ∈ conjSubgroup V x, w ∉ J → (w * u) ^ 3 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   let P : Subgroup ↥L :=
     (Subgroup.zpowers (seven_eight_core_sym_t0Of h)).comap (seven_eight_core_sym_piOf h)
   let L0 : Subgroup G := P.map L.subtype
@@ -672,7 +678,7 @@ theorem Hyp78.exists_pow_three_eq_one {V H E J L : Subgroup G} (h : Hyp78 V H E 
     push Not at hcon
     exact hLnotle (by rw [← h.generated]; exact iSup_le fun U => iSup_le fun hU => hcon U hU)
   obtain ⟨U, hU, hUnleL0⟩ := hex
-  obtain ⟨u, hu, huL0⟩ := SetLike.not_le_iff_exists.mp hUnleL0
+  obtain ⟨u, hu, huL0⟩ := IsConcreteLE.not_le_iff_exists.mp hUnleL0
   have huL : u ∈ L := hU.2 hu
   have hup : seven_eight_core_sym_piOf h ⟨u, huL⟩ ≠ 1 ∧
       seven_eight_core_sym_piOf h ⟨u, huL⟩ ≠ seven_eight_core_sym_t0Of h := by

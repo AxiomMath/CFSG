@@ -274,7 +274,7 @@ theorem exists_noncyclic_of_noncyclic_quot {p : ℕ} [Fact p.Prime] {L : Subgrou
     obtain ⟨z, hz, rfl⟩ := hy
     exact ⟨⟨z, hz⟩, rfl⟩
   refine ⟨((P : Subgroup H).map H.subtype).map L.subtype, Subgroup.map_subtype_le _,
-    (P.isPGroup'.map _).map _, fun hc => hPnc ?_⟩
+    (P.isPGroup.map _).map _, fun hc => hPnc ?_⟩
   have e := ((P : Subgroup H).equivMapOfInjective H.subtype H.subtype_injective).trans
     (((P : Subgroup H).map H.subtype).equivMapOfInjective L.subtype L.subtype_injective)
   exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective

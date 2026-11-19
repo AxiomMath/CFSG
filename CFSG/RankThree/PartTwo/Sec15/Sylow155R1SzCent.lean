@@ -12,9 +12,10 @@ open CFSG CFSG.RankThree.S4Free CFSG.ABGLocalTools
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isPGroup_three_of_pow_three {A : Subgroup G} (hA3 : ∀ a ∈ A, a ^ 3 = 1) :
     IsPGroup 3 ↥A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [IsPGroup.iff_orderOf]
   intro a
   have h3 : a ^ 3 = 1 := Subtype.ext (by simpa using hA3 a a.2)
@@ -38,6 +39,7 @@ private def conjAut (H : Subgroup G) {a : G} (ha : a ∈ Subgroup.normalizer (H 
   right_inv h := Subtype.ext (by simp [mul_assoc])
   map_mul' x y := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 private theorem conjAut_pow (H : Subgroup G) {a : G} (ha : a ∈ Subgroup.normalizer (H : Set G))
     (n : ℕ) (h : ↥H) : (((conjAut H ha) ^ n) h : G) = a ^ n * h * (a ^ n)⁻¹ := by
   induction n generalizing h with
@@ -60,6 +62,7 @@ private noncomputable def pPrimeQuotAut (X : Type*) [Group X] :
     induction x using QuotientGroup.induction_on with
     | H x => rfl
 
+omit [Finite G] in
 private theorem exists_quotAut {H : Subgroup G} {a : G}
     (ha : a ∈ Subgroup.normalizer (H : Set G)) (ha3 : a ^ 3 = 1) :
     ∃ σ : MulAut (↥H ⧸ pPrimeCore 2 ↥H), σ ^ 3 = 1 ∧
@@ -85,7 +88,7 @@ theorem layerOddPreimage_le_centralizer_of_szSections {H A : Subgroup G}
       A ≤ Subgroup.normalizer (S : Set G) → S ≤ Subgroup.centralizer (A : Set G)) :
     layerOddPreimage H ≤ Subgroup.centralizer (A : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O : Subgroup ↥H := pPrimeCore 2 ↥H with hO
   let π : ↥H →* ↥H ⧸ O := QuotientGroup.mk' O
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective O
@@ -113,7 +116,7 @@ theorem layerOddPreimage_le_centralizer_of_szSections {H A : Subgroup G}
   have hsyl : ∀ ℓ : ℕ, ℓ.Prime → ℓ ≠ 2 → ∃ R : Subgroup G,
       IsSylowOf ℓ R (layerOddPreimage H) ∧ R ≤ Subgroup.centralizer (A : Set G) := by
     intro ℓ hℓ hℓ2
-    haveI : Fact ℓ.Prime := ⟨hℓ⟩
+    have : Fact ℓ.Prime := ⟨hℓ⟩
     have hK3 : ¬ 3 ∣ Nat.card (layerOddPreimage H) :=
       fun h => hH3 (h.trans (Subgroup.card_dvd_of_le hE0H))
     obtain ⟨R, hR, -, hAR⟩ := exists_invariant_isSylowOf_ge_of_coprime Nat.prime_three hℓ
@@ -127,7 +130,7 @@ theorem layerOddPreimage_le_centralizer_of_szSections {H A : Subgroup G}
       IsSylowOf ℓ ((R.subgroupOf H).map π) (layer (↥H ⧸ O)) ∧
         R ≤ Subgroup.centralizer (A : Set G) ∧ R ≤ H := by
     intro ℓ hℓ hℓ2
-    haveI : Fact ℓ.Prime := ⟨hℓ⟩
+    have : Fact ℓ.Prime := ⟨hℓ⟩
     obtain ⟨R, hR, hRC⟩ := hsyl ℓ hℓ hℓ2
     have h1 : IsSylowOf ℓ (R.subgroupOf H) ((layerOddPreimage H).subgroupOf H) := by
       rw [← isSylowOf_map_subtype_iff H, Subgroup.map_subgroupOf_eq_of_le (hR.le.trans hE0H),

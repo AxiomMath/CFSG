@@ -144,7 +144,7 @@ theorem V0_eq_closure : V0 = Subgroup.closure (v0Gen '' Set.Iio (gV0 ()).size) :
   · rw [Subgroup.closure_le]
     rintro _ ⟨j, hj, rfl⟩
     obtain ⟨hlt, hj'⟩ := h2 j hj
-    rw [SetLike.mem_coe, v0Gen, ysp, dif_pos hlt]
+    rw [SetLike.mem_coe, v0Gen, ysp, dite_eq_left hlt]
     exact yamakiSp_mem_V0 hj'
 
 end Gens
@@ -306,7 +306,7 @@ theorem eq_A0_of_isE64 :
   intro B hBS hB
   obtain ⟨hcomm, hsq, hcard⟩ := hB
   suffices hle : B ≤ A0 from Subgroup.eq_of_le_of_card_ge hle (by rw [card_A0, hcard])
-  rw [SetLike.le_def]
+  rw [_root_.IsConcreteLE.le_iff]
   by_contra hnot
   push Not at hnot
   obtain ⟨b, hbB, hbA⟩ := hnot
@@ -481,9 +481,9 @@ theorem pCore_E0 : CFSG.pCore 2 ↥E0 = V0.subgroupOf E0 := by
   apply le_antisymm
   · apply sSup_le
     rintro K ⟨hKn, hKp⟩
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; norm_num)
-    haveI : (K.map ψ).Normal := hKn.map ψ hψ
+    have : (K.map ψ).Normal := hKn.map ψ hψ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.map ψ) with h | h
     · rw [← hker]
       intro k hk

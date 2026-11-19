@@ -314,6 +314,7 @@ private theorem isPGroup_quotient_commutator {X O : Subgroup Q}
     rw [hxe, map_mul, hcq, one_mul]
   exact IsPGroup.of_surjective hN2 φ hφ
 
+omit [Finite Q] in
 private theorem subsingleton_quotient_commutator_of_odd_generated {X Y : Subgroup Q}
     [(⁅X, X⁆.subgroupOf X).Normal] (hgen : X = S17.oUpperTwo Y)
     (hp : IsPGroup 2 (↥X ⧸ (⁅X, X⁆).subgroupOf X)) :
@@ -374,6 +375,7 @@ private theorem subsingleton_quotient_commutator_of_odd_generated {X Y : Subgrou
   rw [ha, hb]
 
 
+omit [Finite Q] in
 private theorem commutator_eq_self_of_odd_generated {X O Y : Subgroup Q}
     (hgen : X = S17.oUpperTwo Y)
     (hsup : ⁅X, X⁆ ⊔ (X ⊓ O) = X) (hO : IsPGroup 2 ↥O) :

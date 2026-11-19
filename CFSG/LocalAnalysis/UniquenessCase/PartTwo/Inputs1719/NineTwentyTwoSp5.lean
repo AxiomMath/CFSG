@@ -35,6 +35,7 @@ variable {G : Type} [Group G] [Finite G]
   ∀ (X : Type) [Group X] [Finite X], LieModel X .PSL 3 5 1 →
     ∀ N : Subgroup X, N ≠ ⊤ → ¬ IsStronglyPEmbedded 5 N
 
+omit [Finite G] in
 private theorem I9_eq_PPrimeCoreIn (H : Subgroup G) : I9 H = PPrimeCoreIn 3 H := rfl
 
 private theorem not_le_M_of_hyp97 {D : Data G} {Y H D₃ S : Subgroup G}
@@ -56,6 +57,7 @@ private theorem five_dvd_card_inf_of_isAlt {D : Data G} {Y H D₃ S : Subgroup G
   refine h5X.trans (Subgroup.card_dvd_of_le ?_)
   exact le_inf (opp_le_L9 Y H) ((opp_le_self 3 Y).trans hY.1.1.1)
 
+omit [Finite G] in
 private theorem subgroupOf_inf_I9_normal {Y H : Subgroup G} (hYH : Y ≤ H) :
     ((L9 Y H ⊓ I9 H).subgroupOf (L9 Y H)).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left]

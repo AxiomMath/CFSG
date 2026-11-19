@@ -55,7 +55,7 @@ theorem exists_permHom {H : Type*} [Group H] {X : Type*} (act : H → X → X)
 theorem eq_alternatingGroup_of_card {n : ℕ} (H : Subgroup (Equiv.Perm (Fin n)))
     (hH : 2 * Nat.card H = n.factorial) : H = alternatingGroup (Fin n) := by
   apply Equiv.Perm.eq_alternatingGroup_of_index_eq_two
-  haveI : Nonempty ↥H := ⟨⟨1, H.one_mem⟩⟩
+  have : Nonempty ↥H := ⟨⟨1, H.one_mem⟩⟩
   have hcard : Nat.card (Equiv.Perm (Fin n)) = n.factorial := by
     rw [Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
   have hpos : 0 < Nat.card H := Nat.card_pos
@@ -69,15 +69,15 @@ theorem eq_alternatingGroup_of_card {n : ℕ} (H : Subgroup (Equiv.Perm (Fin n))
 theorem normal_pGroup_eq_bot_of_simple {S : Type*} [Group S] [Finite S] [IsSimpleGroup S]
     (hnc : ∃ a b : S, a * b ≠ b * a) (K : Subgroup S) (hK : K.Normal) (h2 : IsPGroup 2 K) :
     K = ⊥ := by
-  haveI : K.Normal := hK
+  have : K.Normal := hK
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with h | h
   · exact h
   · exfalso
     rw [h] at h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hS : IsPGroup 2 S := h2.of_equiv Subgroup.topEquiv
     obtain ⟨a, b, hab⟩ := hnc
-    haveI : Nontrivial S := ⟨a, b, fun h => hab (by rw [h])⟩
+    have : Nontrivial S := ⟨a, b, fun h => hab (by rw [h])⟩
     have hcen : Nontrivial (Subgroup.center S) := hS.center_nontrivial
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with hc | hc
     · obtain ⟨⟨x, hx⟩, hx1⟩ := exists_ne (1 : Subgroup.center S)
@@ -97,7 +97,7 @@ theorem perm5_normal_two_eq_bot (K : Subgroup (Equiv.Perm (Fin 5))) (hK : K.Norm
       rw [Subgroup.normal_subgroupOf_iff inf_le_right]
       intro h k hh hk
       exact ⟨hK.conj_mem h hh.1 k, A.mul_mem (A.mul_mem hk hh.2) (A.inv_mem hk)⟩
-    haveI : IsSimpleGroup ↥A := alternatingGroup.isSimpleGroup_five
+    have : IsSimpleGroup ↥A := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((K ⊓ A).subgroupOf A) with hbot | htop
     · rw [Subgroup.eq_bot_iff_forall]
       intro x hx
@@ -113,7 +113,7 @@ theorem perm5_normal_two_eq_bot (K : Subgroup (Equiv.Perm (Fin 5))) (hK : K.Norm
           rw [htop]; exact Subgroup.mem_top _
         rw [Subgroup.mem_subgroupOf] at hxA
         exact (Subgroup.mem_inf.mp hxA).1
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hA2 : IsPGroup 2 ↥A := h2.to_le hAK
       obtain ⟨m, hm⟩ := (IsPGroup.iff_card (p := 2) (G := ↥A)).mp hA2
       have hAcard : Nat.card ↥A = 60 := by
@@ -154,7 +154,7 @@ theorem ker_eq_of_counts {X K : Type*} [Group X] [Finite X] [Group K] (p : X →
     (E : Subgroup X) (hE : E ≤ p.ker) {a b : ℕ} (ha : a ≤ Nat.card E)
     (hb : b ≤ Nat.card p.range) (hX : Nat.card X ≤ a * b) :
     E = p.ker ∧ Nat.card E = a ∧ Nat.card p.range = b := by
-  haveI : Nonempty X := ⟨1⟩
+  have : Nonempty X := ⟨1⟩
   have hquot : Nat.card (X ⧸ p.ker) = Nat.card p.range :=
     Nat.card_congr (QuotientGroup.quotientKerEquivRange p).toEquiv
   have hkerX : Nat.card p.ker * Nat.card p.range = Nat.card X := by
@@ -189,7 +189,7 @@ theorem ker_eq_of_counts {X K : Type*} [Group X] [Finite X] [Group K] (p : X →
 theorem mem_of_card_le_length {Γ : Type*} [Group Γ] (Q : Subgroup Γ) [Finite Q] (l : List Γ)
     (hnd : l.Nodup) (hl : ∀ x ∈ l, x ∈ Q) (hc : Nat.card Q ≤ l.length) : ∀ q ∈ Q, q ∈ l := by
   classical
-  haveI : Fintype Q := Fintype.ofFinite Q
+  have : Fintype Q := Fintype.ofFinite Q
   intro q hq
   let t : Finset Γ := (Finset.univ : Finset Q).map (Function.Embedding.subtype (· ∈ Q))
   have htcard : t.card = Nat.card Q := by

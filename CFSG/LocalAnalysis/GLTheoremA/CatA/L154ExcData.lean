@@ -405,7 +405,7 @@ theorem excUntw_tag_of_marking {p : ℕ} {Ω : Type} [Group Ω] {S : Subgroup Ω
     (hlab : Y10F.HasLabel (PQuot p S) (· = lab)) (hQ : catalogIs (PSimple p S) l154ExcUntw) :
     lab.tag = .G2 ∨ lab.tag = .F4 ∨ lab.tag = .E6 ∨ lab.tag = .E7 ∨ lab.tag = .E8 := by
   obtain ⟨hperf, hsimple⟩ := Y10F.hasLabel_isQuasisimple hlab
-  haveI : IsSimpleGroup (PSimple p S) := hsimple
+  have : IsSimpleGroup (PSimple p S) := hsimple
   exact excUntw_tag_of_hasLabel ggLabelRigidInput_holds this
     (exists_mul_ne_mul_centerQuot_of_perfect hperf inferInstance) hQ
     (Y10F.hasLabel_centerQuot hlab)
@@ -460,11 +460,11 @@ theorem excUntw_marking_data {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) {Ω : Typ
   obtain ⟨θ, w, σ, hσ, hwx, hσy⟩ := excUntw_normalize hr θ₀ hφx hf hu hord hix hiy
   obtain ⟨e, k, φx, φy, h, T, he, hKe, hT, hh, hhp, hfix, hbc, hk, hφx', hφy, hindx, hindy⟩ :=
     excUntw_data_of_induces hp hn hK (hInn.1 (Subgroup.mem_zpowers x)) hF.1 hxp hxy θ w σ hσ hwx hσy
-  haveI : Group.IsPerfect (PQuot p S) := ⟨hperf⟩
-  haveI : Group.IsPerfect (PSimple p S) :=
+  have : Group.IsPerfect (PQuot p S) := ⟨hperf⟩
+  have : Group.IsPerfect (PSimple p S) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center (PQuot p S)))
       (QuotientGroup.mk'_surjective _)
-  haveI : Group.IsPerfect ↥(adjointGroup τ K) :=
+  have : Group.IsPerfect ↥(adjointGroup τ K) :=
     Group.IsPerfect.ofSurjective (f := θ.toMonoidHom) θ.surjective
   exact ⟨τ, K, instF, instFin, e, k, θ, φx, φy, h, T, hτ, charP_two_of_card hK, he, hKe, hT,
     Group.IsPerfect.commutator_eq_top, hh, hhp, hfix, hbc, hk, hφx', hφy, hindx, hindy⟩

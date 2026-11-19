@@ -77,7 +77,7 @@ theorem d38_qstar_pair
     rw [hfixVL]
     exact three_add_rk_le_of_binaryNaturalSz inf_le_left hBN
   by_contra hnot
-  obtain ⟨a, haA, haV⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨a, haA, haV⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   have hperm : ∀ b ∈ A, (b ∈ stabSub V ∧ b ∈ stabSub (V.map t.toMonoidHom)) ∨
       (V.map b.toMonoidHom = V.map t.toMonoidHom ∧
         (V.map t.toMonoidHom).map b.toMonoidHom = V) := by

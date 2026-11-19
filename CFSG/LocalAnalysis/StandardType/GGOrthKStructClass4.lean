@@ -31,7 +31,7 @@ theorem ggOrthKStruct_class4 {G : Type} [Group G] [Finite G] {Bs K : Subgroup G}
     {ψ : SpecialLinearGroup (Fin (n + 1)) F2 →* G} {x : G}
     (hψ : GGHalfTorusFrame Bs K (halfTorus n) ψ) (hk : (n + 1) / 2 = 4)
     (hprod : Bs = (halfTorus n).map ψ ⊔ (Bs ⊓ Subgroup.centralizer (K : Set G)))
-    (Φ : (Fin ((n + 1) / 2) → Multiplicative (ZMod 3)) ≃* ↥(halfTorus n)) (hΦ : IsTorusCoord n Φ)
+    (Φ : (Fin ((n + 1) / 2) → Multiplicative (ZMod 3)) ≃* ↥(halfTorus n)) (_hΦ : IsTorusCoord n Φ)
     (hup : ∀ σ ∈ ggAutomizer K Bs, ∃ h ∈ spSignedGroup ((n + 1) / 2) 3, InducesSigned K ψ Φ σ h)
     (hlow : ∀ h ∈ spSignedGroup ((n + 1) / 2) 3, ∃ σ ∈ ggAutomizer K Bs, InducesSigned K ψ Φ σ h)
     (hx : x ∈ Bs) (a : Fin ((n + 1) / 2) → Multiplicative (ZMod 3)) (c : G)

@@ -46,13 +46,13 @@ theorem om_le (p : Fin 100) : r32 OM p ≤ 1 := rowBitK_sound om_parts.1 p p.2
 
 theorem om_fix {σ : Equiv.Perm (Fin 100)} (h : ∀ p : Fin 100, r32 OM (σ p) = Nat.xor (r32 OM p) 0)
     (p : Fin 100) : σ p ∈ omSet ↔ p ∈ omSet := by
-  simp only [omSet, Set.mem_setOf_eq]
+  simp only [omSet, Set.mem_ofPred_eq]
   have e : Nat.xor (r32 OM p) 0 = r32 OM p := Nat.xor_zero _
   rw [h p, e]
 
 theorem om_swap {σ : Equiv.Perm (Fin 100)} (h : ∀ p : Fin 100, r32 OM (σ p) = Nat.xor (r32 OM p) 1)
     (p : Fin 100) : σ p ∈ omSet ↔ p ∉ omSet := by
-  simp only [omSet, Set.mem_setOf_eq]
+  simp only [omSet, Set.mem_ofPred_eq]
   rw [h p]
   have := om_le p
   rcases (by omega : r32 OM p = 0 ∨ r32 OM p = 1) with e | e <;> rw [e] <;> decide

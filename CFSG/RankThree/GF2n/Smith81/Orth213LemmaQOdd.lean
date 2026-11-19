@@ -60,8 +60,8 @@ theorem exists_odd_pow_eq_one_of_aeval {K A : Type*} [Field K] [CharP K 2] [Ring
 theorem derivative_cubic (K : Type*) [Field K] [CharP K 2] (t : K) :
     derivative ((X + 1) * (X ^ 2 + C t * X + 1) : K[X]) = X ^ 2 + C (t + 1) := by
   have h2 : (2 : K[X]) = 0 := CharTwo.two_eq_zero
-  simp only [derivative_mul, derivative_add, derivative_X, derivative_one, derivative_pow,
-    derivative_C, derivative_X_pow, map_add, map_one]
+  simp only [derivative_mul, derivative_X, derivative_one, derivative_pow,
+    derivative_C, map_add, map_one]
   have h2' : (C ((2 : ℕ) : K) : K[X]) = 0 := by
     rw [Nat.cast_ofNat, CharTwo.two_eq_zero, C_0]
   simp only [h2', zero_mul, zero_add, add_zero, mul_one, Nat.reduceSub, pow_one, one_mul]
@@ -90,7 +90,7 @@ theorem exists_odd_pow_eq_one_of_cubic (K : Type*) [Field K] [CharP K 2] {V : Ty
   have hφ : ∀ e : V ≃ₗ[K] V, ∀ v, φ e v = e v := fun e v => rfl
   have hS : aeval (φ S) ((X ^ 2 + C t * X + 1) * (X + 1) : K[X]) = 0 := by
     ext v
-    simp only [map_mul, map_add, map_pow, aeval_X, aeval_C, map_one, Module.End.mul_apply,
+    simp only [map_mul, map_add, aeval_X, aeval_C, map_one, Module.End.mul_apply,
       LinearMap.add_apply, LinearMap.zero_apply, Module.End.one_apply, pow_two,
       Module.algebraMap_end_apply, hφ]
     have hv := h v

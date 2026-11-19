@@ -28,14 +28,14 @@ variable {G : Type} [Group G] [Finite G]
       (IsL3EpsOdd17 X q ∧ 3 < q))
 
 theorem shapeIndex_of_gt {q : ℕ} (h : 9 < q) : shapeIndex q = 1 := by
-  simp only [shapeIndex, h, if_true]
+  simp only [shapeIndex, h, ite_true]
 
 theorem shapeIndex_of_eq {q : ℕ} (h : q = 9) : shapeIndex q = 3 := by
   subst h
-  simp only [shapeIndex, lt_irrefl, if_false, if_true]
+  simp only [shapeIndex, lt_irrefl, ite_false, ite_true]
 
 theorem shapeIndex_of_le {q : ℕ} (h : ¬ 9 < q) (h9 : q ≠ 9) : shapeIndex q = 2 := by
-  simp only [shapeIndex, h, if_false, h9, if_false]
+  simp only [shapeIndex, h, ite_false, h9, ite_false]
 
 theorem one_le_shapeIndex (q : ℕ) : 1 ≤ shapeIndex q := by
   unfold shapeIndex
@@ -282,7 +282,7 @@ theorem cFAutInFGroup_of_oddShape {Q : Type} [Group Q] [Finite Q] (S : Subgroup 
 
 theorem compFactorAutInF_of_oddShape {G : Type} [Group G] [Finite G] {H S : Subgroup G} {q : ℕ}
     (hSH : S ≤ H) (hS2 : IsPGroup 2 S) (hodd : Odd q) (hq3 : 3 < q)
-    (hshape : ∀ (Y : Subgroup G), Y ≤ H → ∀ hY : (Y.subgroupOf H).Normal,
+    (hshape : ∀ (Y : Subgroup G), Y ≤ H → ∀ _hY : (Y.subgroupOf H).Normal,
       ∀ X : Subgroup (↥H ⧸ Y.subgroupOf H), X.Normal → X ≠ ⊥ →
         (∀ N : Subgroup (↥H ⧸ Y.subgroupOf H), N.Normal → N ≤ X → N = ⊥ ∨ N = X) →
         ¬ IsMulCommutative X →
@@ -293,7 +293,7 @@ theorem compFactorAutInF_of_oddShape {G : Type} [Group G] [Finite G] {H S : Subg
     (hrankAll : CFSG.ComponentClassification.GSThmB.CFL2Rank)
     (h411 : W4Lem4_11Prime) :
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.CompFactorAutInF (shapeIndex q) H S := by
-  intro Y hY hYn
+  intro Y _hY hYn
   let S' : Subgroup (↥H ⧸ Y.subgroupOf H) :=
     (S.subgroupOf H).map (QuotientGroup.mk' (Y.subgroupOf H))
   have hS'2 : IsPGroup 2 S' := by
@@ -301,12 +301,12 @@ theorem compFactorAutInF_of_oddShape {G : Type} [Group G] [Finite G] {H S : Subg
       hS2.of_equiv (Subgroup.subgroupOfEquivOfLe hSH).symm
     exact IsPGroup.map h1 (QuotientGroup.mk' (Y.subgroupOf H))
   exact cFAutInFGroup_of_oddShape S' hS'2 hodd hq3 (fun X hX hXne hmin hnc L hL =>
-    hshape Y hY hYn X hX hXne hmin hnc L hL) h410 hrank57 hrankAll h411
+    hshape Y _hY hYn X hX hXne hmin hnc L hL) h410 hrank57 hrankAll h411
 
 @[expose] def HasOddComponentShapes (Q : Type) [Group Q] [Finite Q] (q : ℕ) : Prop :=
-  ∀ (Y : Subgroup Q) (hY : Y.Normal) (X : Subgroup (Q ⧸ Y)) (hXn : X.Normal) (hXne : X ≠ ⊥)
-    (hXmin : ∀ N : Subgroup (Q ⧸ Y), N.Normal → N ≤ X → N = ⊥ ∨ N = X)
-    (hXnc : ¬ IsMulCommutative X),
+  ∀ (Y : Subgroup Q) (_hY : Y.Normal) (X : Subgroup (Q ⧸ Y)) (_hXn : X.Normal) (_hXne : X ≠ ⊥)
+    (_hXmin : ∀ N : Subgroup (Q ⧸ Y), N.Normal → N ≤ X → N = ⊥ ∨ N = X)
+    (_hXnc : ¬ IsMulCommutative X),
     ∀ L : Subgroup (Q ⧸ Y), CFSG.Open.IsComponentOf L X → OddComponentShape q ↥L
 
 theorem compFactorAutInF_of_hasOddComponentShapes {Q : Type} [Group Q] [Finite Q]
@@ -323,7 +323,7 @@ theorem compFactorAutInF_of_hasOddComponentShapes {Q : Type} [Group Q] [Finite Q
   exact hshape (Y.subgroupOf ⊤) hY
 
 @[expose] def Gap17_13_structure (D : Data G)
-    (V₀ V L : Subgroup G) (r q : ℕ) (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (V₀ V L : Subgroup G) (r q : ℕ) (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   ∀ H ∈ Delta17_12 D (fundPred q) r q L,
     (∃ K : Subgroup (Bar2 H),
       CFSG.IsComponent K ∧

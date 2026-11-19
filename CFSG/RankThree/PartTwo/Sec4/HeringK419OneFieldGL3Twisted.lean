@@ -143,7 +143,7 @@ theorem not_isType419_of_twisted_gl3 {E : Type} [Field E] [Finite E]
       ∃ z : Eˣ, ρ' p = Matrix.GeneralLinearGroup.scalar (Fin 3) z := fun p hp => hker p hp
   have hcomm' : ∀ p : commutator T, ρ' p * A = A * ρ' p := fun p => hPA p p.2
   by_cases h3 : (3 : E) = 0
-  · haveI : CharP E 3 :=
+  · have : CharP E 3 :=
       (CharP.charP_iff_prime_eq_zero Nat.prime_three).mpr (by exact_mod_cast h3)
     exact not_isType419_of_commute_gl3_char3 hP' ρ' hρ' hK hs hZ π' hπ' hker' A c hA3 hAn hcomm'
   · exact not_isType419_of_commute_gl3 h3 hP' ρ' hρ' hK hs hZ π' hπ' hker' A c hA3 hAn hcomm'

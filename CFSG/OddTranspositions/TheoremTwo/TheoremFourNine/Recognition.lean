@@ -19,11 +19,11 @@ theorem not_A5_le_of_isDihedralOrder {Y : Type} [Group Y] {d : ℕ} (hY : IsDihe
     {X : Subgroup Y} (hX : Nonempty (X ≃* alternatingGroup (Fin 5))) : False := by
   obtain ⟨k, -, hk, ⟨φ⟩⟩ := hY
   obtain ⟨eX⟩ := hX
-  haveI : NeZero k := ⟨by omega⟩
-  haveI := CFSG.GH74.GLS.IVK.Lifted.isSolvable_dihedral' k
-  haveI : Group.IsSolvable Y := solvable_of_solvable_injective (f := φ.toMonoidHom) φ.injective
-  haveI : Group.IsSolvable (alternatingGroup (Fin 5)) :=
-    solvable_of_solvable_injective (f := eX.symm.toMonoidHom) eX.symm.injective
+  have : NeZero k := ⟨by omega⟩
+  have := CFSG.GH74.GLS.IVK.Lifted.isSolvable_dihedral' k
+  have : Group.IsSolvable Y := Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective
+  have : Group.IsSolvable (alternatingGroup (Fin 5)) :=
+    Group.isSolvable_of_isSolvable_injective (f := eX.symm.toMonoidHom) eX.symm.injective
   have hc := (IsSimpleGroup.comm_iff_isSolvable (G := alternatingGroup (Fin 5))).mpr
     inferInstance
   have hnc : ¬ ∀ a b : alternatingGroup (Fin 5), a * b = b * a := by decide +kernel
@@ -34,8 +34,8 @@ theorem l2Field_K25 : L2Field K25 := by
 
 theorem ringAut_K25_cases (σ : K25 ≃+* K25) : σ = 1 ∨ σ = frob25 := by
   classical
-  haveI : Finite (K25 ≃+* K25) := Nat.finite_of_card_ne_zero (by rw [card_ringAut]; norm_num)
-  letI := Fintype.ofFinite (K25 ≃+* K25)
+  have : Finite (K25 ≃+* K25) := Nat.finite_of_card_ne_zero (by rw [card_ringAut]; norm_num)
+  let := Fintype.ofFinite (K25 ≃+* K25)
   by_contra h
   push Not at h
   have h1 : (1 : K25 ≃+* K25) ≠ frob25 := frob25_ne_one.symm
@@ -48,6 +48,7 @@ theorem ringAut_K25_cases (σ : K25 ≃+* K25) : σ = 1 ∨ σ = frob25 := by
     rw [← hs]; exact Finset.card_le_univ _
   rw [card_ringAut] at this; omega
 
+omit [Finite G] in
 theorem eq_of_conjNormal_eq {L : Subgroup G} [L.Normal]
     (hCL : Subgroup.centralizer (L : Set G) = ⊥) {g h : G}
     (hgh : (MulAut.conjNormal g : MulAut L) = MulAut.conjNormal h) : g = h := by
@@ -156,7 +157,7 @@ theorem isO4Minus5Pair_of_mulEquiv_psl225 {L : Subgroup G} [hLn : L.Normal] (hL2
       MulEquiv.apply_symm_apply]
   let fg : (K25 ≃+* K25) →* G :=
     { toFun := fun σ => if σ = 1 then 1 else d
-      map_one' := if_pos rfl
+      map_one' := ite_eq_left rfl
       map_mul' := by
         intro σ τ
         rcases ringAut_K25_cases σ with rfl | rfl <;> rcases ringAut_K25_cases τ with rfl | rfl
@@ -165,7 +166,7 @@ theorem isO4Minus5Pair_of_mulEquiv_psl225 {L : Subgroup G} [hLn : L.Normal] (hL2
         · simp [frob25_ne_one]
         · rw [frob25_mul_self]; simp [frob25_ne_one, hd2] }
   have hfg1 : fg 1 = 1 := map_one fg
-  have hfgf : fg frob25 = d := if_neg frob25_ne_one
+  have hfgf : fg frob25 = d := ite_eq_right frob25_ne_one
   let fn : PSL225 →* G := L.subtype.comp ψ.symm.toMonoidHom
   have hcompat : ∀ σ, fn.comp (psl2FieldAut K25 σ).toMonoidHom =
       (MulAut.conj (fg σ)).toMonoidHom.comp fn := by

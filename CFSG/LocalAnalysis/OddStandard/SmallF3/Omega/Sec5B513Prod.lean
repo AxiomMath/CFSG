@@ -11,7 +11,7 @@ variable {G : Type} [Group G]
 
 private lemma sec5b513_prod_mul {K₃ K₄ : Subgroup G}
     (hcomm : ∀ a ∈ K₃, ∀ b ∈ K₄, a * b = b * a)
-    {a a' : G} (ha : a ∈ K₃) (ha' : a' ∈ K₃) {b b' : G} (hb : b ∈ K₄) (hb' : b' ∈ K₄) :
+    {a a' : G} (_ha : a ∈ K₃) (ha' : a' ∈ K₃) {b b' : G} (hb : b ∈ K₄) (_hb' : b' ∈ K₄) :
     (a * b) * (a' * b') = (a * a') * (b * b') := by
   rw [mul_assoc a b (a' * b'), ← mul_assoc b a' b', (hcomm a' ha' b hb).symm,
     mul_assoc a' b b', ← mul_assoc a a' (b * b')]

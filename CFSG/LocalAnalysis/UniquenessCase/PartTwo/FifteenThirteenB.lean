@@ -223,7 +223,7 @@ theorem s15_Thirteen_k_eq_one_of_three_mem (D : Data G) (hSg : UC6S846.SigmaStd 
     (h1219 : D.sig = D.sig1) (h3 : 3 ∈ D.sig) : D.k = 1 := by
   have hsp := hSg.sig1_sp 3 (h1219 ▸ h3)
   unfold Data.k RankThreeUC.kParam
-  rw [if_pos hsp]
+  rw [ite_eq_left hsp]
 
 theorem s15_Thirteen_mbar_primes (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup G}
     (h : Hyp154 D V₀ V L) (hV : IsElemAbelian 2 V) (hL : barSub V₀ V hV L ≠ ⊥)
@@ -282,7 +282,7 @@ theorem s15_Thirteen_mbar_primes (D : Data G) (h1217 : R1217 D) {V₀ V L : Subg
       omega
     obtain ⟨e, heE, he1⟩ := (Subgroup.bot_or_exists_ne_one E).resolve_left hEne
     have hord_e : orderOf (e : MulAut (vStar D.M V₀ V hV L)) = p := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       rw [orderOf_coe]
       exact orderOf_eq_prime (hEel.2 e heE) he1
     obtain ⟨-, hsup⟩ := fifteen_two_directSum D h1217 h.hyp151 hV hL
@@ -322,7 +322,7 @@ theorem s15_Thirteen_gamma_two (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : 
       obtain ⟨p, hp⟩ := hSg.nonempty
       have hpp := D.sig_prime p hp
       have hpf := h.hyp151.hyp125.pairFacts
-      haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+      have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
         WeakClosure81.cTilde_subgroupOf_normal hV hpf.le_normalizer hpf.le_normalizer₀
       have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 h127 h.hyp151.hyp125
       obtain ⟨-, h1p⟩ := h1111 V₀ V hH11 p hp

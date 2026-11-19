@@ -340,7 +340,7 @@ theorem r10_K (H : R10Hyp R Z X Y t ρ) {y : G} (hy : y ∈ Y) (hyZ : y ∉ Z) {
     (hx' : x' ∈ X) : ∃ x ∈ X, x ∉ Z ∧ x * (t * (x' * y)) = (t * (x' * y)) * x := by
   obtain ⟨x₁, hx₁X, hx₁Z⟩ : ∃ x₁ ∈ X, x₁ ∉ Z := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : X ≤ Z := fun a ha => hcon a ha
     have := Subgroup.card_le_of_le hle
     rw [H.sl.card_X, H.sl.card_Z] at this

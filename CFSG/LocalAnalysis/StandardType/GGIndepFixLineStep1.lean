@@ -17,7 +17,7 @@ theorem ggFixLine_finite {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [M
     {ι : Type} [Finite ι] (s : ι → (V ≃ₗ[ZMod p] V)) (hs : ∀ i, GGLinRefl (s i)) {x : V}
     (hfix : ggLinFix (Set.range s) = Submodule.span (ZMod p) {x}) : Module.Finite (ZMod p) V := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   let φ : V →ₗ[ZMod p] (ι → V) :=
     { toFun := fun v i => s i v - v
       map_add' := fun u v => by
@@ -57,7 +57,7 @@ theorem ggFixLine_finite {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [M
   choose y hy_mem hy_ne using hy
   have hspan : ∀ i, ggLinMove (s i) = Submodule.span (ZMod p) {y i} := by
     intro i
-    haveI : FiniteDimensional (ZMod p) ↥(ggLinMove (s i)) := hfin_move i
+    have : FiniteDimensional (ZMod p) ↥(ggLinMove (s i)) := hfin_move i
     symm
     refine Submodule.eq_of_le_of_finrank_eq ?_ ?_
     · rw [Submodule.span_le, Set.singleton_subset_iff]
@@ -75,7 +75,7 @@ theorem ggFixLine_finite {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [M
     change (fun i => s i v - v) ∈ W
     have hdecomp : ∀ i, ∃ a : ZMod p, a • y i = s i v - v := by
       intro i
-      have hmem : s i v - v ∈ ggLinMove (s i) := ⟨v, by simp [ggLinMove]⟩
+      have hmem : s i v - v ∈ ggLinMove (s i) := ⟨v, by simp⟩
       rw [hspan i] at hmem
       exact Submodule.mem_span_singleton.mp hmem
     choose a ha using hdecomp
@@ -93,16 +93,16 @@ theorem ggFixLine_finite {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [M
     exact Submodule.sum_mem _ fun i _ =>
       Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
   have hrange_fin : Module.Finite (ZMod p) ↥(LinearMap.range φ) := by
-    haveI : FiniteDimensional (ZMod p) ↥W := hWfin
+    have : FiniteDimensional (ZMod p) ↥W := hWfin
     exact Submodule.finiteDimensional_of_le hrange_le
   have htop : (⊤ : Submodule (ZMod p) V).FG := by
-    haveI : Module.Finite (ZMod p) ↥(LinearMap.range φ) := hrange_fin
+    have : Module.Finite (ZMod p) ↥(LinearMap.range φ) := hrange_fin
     refine Submodule.fg_of_fg_map_of_fg_inf_ker φ ?_ ?_
     · rw [Submodule.map_top]
       exact Submodule.FG.of_finite
     · rw [top_inf_eq, hker, hfix]
       exact Submodule.fg_span (Set.finite_singleton x)
-  haveI : Module.Finite (ZMod p) ↥(⊤ : Submodule (ZMod p) V) :=
+  have : Module.Finite (ZMod p) ↥(⊤ : Submodule (ZMod p) V) :=
     Module.Finite.iff_fg.mpr htop
   exact Module.Finite.equiv (Submodule.topEquiv)
 
@@ -117,21 +117,21 @@ private lemma l6f1_exists_neighbor (m : ℕ) (hm : 2 ≤ m) (i : Fin m) :
   · refine ⟨⟨(i : ℕ) + 1, h⟩, ?_, ?_⟩
     · intro hji
       have := congrArg Fin.val hji
-      simp only [Fin.val_mk] at this
+      simp only at this
       omega
     · rw [l6f1_cartanA_entry]
-      rw [if_neg (by intro hji; have := congrArg Fin.val hji; simp only [Fin.val_mk] at this; omega),
-          if_pos (Or.inr rfl)]
+      rw [ite_eq_right (by intro hji; have := congrArg Fin.val hji; simp only at this; omega),
+          ite_eq_left (Or.inr rfl)]
   · have hi : (i : ℕ) + 1 = m := by omega
     have hpos : 1 ≤ (i : ℕ) := by omega
     refine ⟨⟨(i : ℕ) - 1, by omega⟩, ?_, ?_⟩
     · intro hji
       have := congrArg Fin.val hji
-      simp only [Fin.val_mk] at this
+      simp only at this
       omega
     · rw [l6f1_cartanA_entry]
-      rw [if_neg (by intro hji; have := congrArg Fin.val hji; simp only [Fin.val_mk] at this; omega),
-          if_pos (Or.inl (by simp only [Fin.val_mk]; omega))]
+      rw [ite_eq_right (by intro hji; have := congrArg Fin.val hji; simp only at this; omega),
+          ite_eq_left (Or.inl (by simp only; omega))]
 
 private lemma l6f1_z_ne_zero {p N : ℕ} [Fact p.Prime] (hN : 2 ≤ N)
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] {h : Fin (N - 1) → V}
@@ -213,7 +213,7 @@ private lemma l6f1_inf_eq_span {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 
         exact Finset.sum_congr rfl fun k _ => mul_comm _ _
       rw [hr i z, hzi, zero_smul, sub_zero]
 
-theorem ggFixLine_fix_bounds {p N : ℕ} [Fact p.Prime] (hp : p ≠ 2) (hN : 5 ≤ N) (hpN : p ∣ N)
+theorem ggFixLine_fix_bounds {p N : ℕ} [Fact p.Prime] (_hp : p ≠ 2) (hN : 5 ≤ N) (hpN : p ∣ N)
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] [Module.Finite (ZMod p) V]
     (hV : Module.finrank (ZMod p) V ≤ N) {h : Fin (N - 1) → V}
     {α : Fin (N - 1) → Module.Dual (ZMod p) V} {r : Fin (N - 1) → (V ≃ₗ[ZMod p] V)}
@@ -244,12 +244,12 @@ theorem ggFixLine_fix_bounds {p N : ℕ} [Fact p.Prime] (hp : p ≠ 2) (hN : 5 �
     exact Submodule.subset_span (Set.mem_singleton z)
   have hzF : z ∈ F := (Submodule.mem_inf.mp hz_inf).2
   have hFpos : 0 < Module.finrank (ZMod p) ↥F := by
-    haveI : Nontrivial ↥F := by
+    have : Nontrivial ↥F := by
       refine ⟨⟨⟨z, hzF⟩, 0, ?_⟩⟩
       intro h
       exact hz_ne (congrArg Subtype.val h)
-    haveI : Module.Finite (ZMod p) ↥F := by
-      haveI : Module.Finite (ZMod p) ↥(⊤ : Submodule (ZMod p) V) :=
+    have : Module.Finite (ZMod p) ↥F := by
+      have : Module.Finite (ZMod p) ↥(⊤ : Submodule (ZMod p) V) :=
         Module.Finite.equiv (Submodule.topEquiv.symm)
       exact Submodule.finiteDimensional_of_le (le_top : F ≤ ⊤)
     exact Module.finrank_pos
@@ -266,7 +266,7 @@ theorem ggFixLine_fix_bounds {p N : ℕ} [Fact p.Prime] (hp : p ≠ 2) (hN : 5 �
   have hFle : Module.finrank (ZMod p) ↥F ≤ 2 := by omega
   exact ⟨hFpos, hFle⟩
 
-theorem ggFixLine_split {p N : ℕ} [Fact p.Prime] (hp : p ≠ 2) (hN : 5 ≤ N) (hpN : p ∣ N)
+theorem ggFixLine_split {p N : ℕ} [Fact p.Prime] (_hp : p ≠ 2) (hN : 5 ≤ N) (hpN : p ∣ N)
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] [Module.Finite (ZMod p) V]
     (hV : Module.finrank (ZMod p) V ≤ N) {h : Fin (N - 1) → V}
     {α : Fin (N - 1) → Module.Dual (ZMod p) V} {r : Fin (N - 1) → (V ≃ₗ[ZMod p] V)}
@@ -335,7 +335,7 @@ theorem ggFixLine_split {p N : ℕ} [Fact p.Prime] (hp : p ≠ 2) (hN : 5 ≤ N)
       omega
     rw [htop]
 
-theorem ggFixLine_invariant_line {p N : ℕ} [Fact p.Prime] (hp : p ≠ 2) (hN : 5 ≤ N)
+theorem ggFixLine_invariant_line {p N : ℕ} [Fact p.Prime] (_hp : p ≠ 2) (hN : 5 ≤ N)
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] {h : Fin (N - 1) → V}
     {α : Fin (N - 1) → Module.Dual (ZMod p) V} {r : Fin (N - 1) → (V ≃ₗ[ZMod p] V)}
     (hind : LinearIndependent (ZMod p) h)
@@ -396,7 +396,7 @@ theorem ggFixLine_invariant_line {p N : ℕ} [Fact p.Prime] (hp : p ≠ 2) (hN :
     have hcomp : LinearIndependent (ZMod p) (h ∘ ![i, j]) :=
       hind.comp ![i, j] (by
         intro a b hab
-        fin_cases a <;> fin_cases b <;> simp_all [hji])
+        fin_cases a <;> fin_cases b <;> simp_all)
     convert hcomp using 1
     ext t
     fin_cases t <;> rfl

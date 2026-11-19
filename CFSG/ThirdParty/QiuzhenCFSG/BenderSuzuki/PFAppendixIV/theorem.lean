@@ -314,7 +314,7 @@ private theorem isZGroup_of_odd_subgroup_of_frobenius_complement
     intro p hp P
     exact isCyclic_of_odd_regular_pSubgroup
       (H := K) (R := R0R) (P := (P : Subgroup R0R))
-        hp hR0Rodd hregularR0R P.isPGroup'
+        hp hR0Rodd hregularR0R P.isPGroup
   let e : R0R ≃* R0 := Subgroup.subgroupOfEquivOfLe hR0le
   let : IsZGroup R0R := hZR0R
   exact IsZGroup.of_injective (f := e.symm.toMonoidHom) e.symm.injective
@@ -1508,7 +1508,7 @@ private theorem chiefFactor_le_centerModulo_preimage_appendixIV
   let : Q2bar.Normal := by
     dsimp [Q2bar]
     infer_instance
-  obtain ⟨a, haQ2, haQ3⟩ := SetLike.exists_of_lt hchief.lt
+  obtain ⟨a, haQ2, haQ3⟩ := _root_.IsConcreteLE.exists_of_lt hchief.lt
   let a1 : Q1 := ⟨a, hQ2le haQ2⟩
   have ha1Q2sub : a1 ∈ Q2sub := haQ2
   have hma_mem : QuotientGroup.mk' K a1 ∈ Q2bar :=
@@ -1841,7 +1841,7 @@ private theorem isPGroup_of_nilpotent_center_isPGroup_appendixIV
     Section6.nilpotent_normal_inf_center_ne_bot (P : Subgroup G) hPne
   have hdisj : Disjoint (P : Subgroup G) (Subgroup.center G) :=
     IsPGroup.disjoint_of_ne q p hqne
-      (P : Subgroup G) (Subgroup.center G) P.isPGroup' hcenter
+      (P : Subgroup G) (Subgroup.center G) P.isPGroup hcenter
   exact hinter hdisj.eq_bot
 private theorem feitSibley_step1_strict_center_core
     {G : Type u} [Group G] [Finite G] (d : FeitSibleyData G)
@@ -4102,7 +4102,7 @@ private theorem feitSibley_step3_base_degree_data_core
     else 0
   have hdegOf (chi : ClassFunction d.H) (hchi : chi ∈ chars) :
       0 < degOf chi ∧ degree chi = (degOf chi : Complex) := by
-    simpa only [degOf, dif_pos hchi] using
+    simpa only [degOf, dite_eq_left hchi] using
       (Classical.choose_spec
         (Section6.theorem_6_6_positive_degree_nat_of_irreducible
           ((hchars chi).mp hchi).1))
@@ -6146,7 +6146,7 @@ private theorem feitSibley_step6_union_coherence_of_normalized_core
     · subst chi
       rw [hai1] at hrel ⊢
       norm_num at hrel ⊢
-    · rw [if_neg heq] at hrel
+    · rw [ite_eq_right heq] at hrel
       linear_combination hrel
   have huTX (chi : X) :
       scalarProduct G u (TX (chi : ClassFunction d.H)) =
@@ -7372,7 +7372,7 @@ private theorem sylow_map_subtype_of_normalizer_le_appendixIV
       _ = p ^ (Nat.card L).factorization p := hPcard
   have hPmapP : IsPGroup p Pmap := by
     have hPp : IsPGroup p ((P : Subgroup L).map L.subtype) :=
-      P.isPGroup'.map L.subtype
+      P.isPGroup.map L.subtype
     rw [hP] at hPp
     simpa [Pmap] using hPp
   have hnotidx : ¬ p ∣ Pmap.index := by
@@ -7437,7 +7437,7 @@ private theorem FeitSibleyData.QInG_card_coprime_index_appendixIV
             (f := d.Q.subtype) d.Q.subtype_injective)
       _ = p ^ (Nat.card d.Q).factorization p := P.card_eq_multiplicity
   have hPH0P : IsPGroup p PH0 := by
-    exact P.isPGroup'.map d.Q.subtype
+    exact P.isPGroup.map d.Q.subtype
   have hpDcop : Nat.Coprime p (Nat.card d.D) :=
     Nat.Coprime.of_dvd_left hpQcard' d.card_Q_coprime_card_D
   have hPH0notidx : ¬ p ∣ PH0.index := by
@@ -7494,7 +7494,7 @@ private theorem FeitSibleyData.QInG_card_coprime_index_appendixIV
       rw [← hpre, hmapbot]
       ext x
       simp
-    rcases SetLike.not_le_iff_exists.mp hnotle with ⟨x, hxPG, hxBot⟩
+    rcases IsConcreteLE.not_le_iff_exists.mp hnotle with ⟨x, hxPG, hxBot⟩
     have hxne : x ≠ 1 := by simpa using hxBot
     have hconjPG : g * x * g⁻¹ ∈ PG :=
       (Subgroup.mem_normalizer_iff.mp hg x).1 hxPG
@@ -8992,10 +8992,10 @@ private theorem step8_X_weighted_degree_sum_scalarProduct
     intro i j
     by_cases hij : i = j
     · subst j
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact scalarProduct_irreducibleCharacter_self
         ((hXchar (i : ClassFunction L)).1 i.2).1
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       exact scalarProduct_irreducibleCharacter_eq_zero_of_ne
         ((hXchar (i : ClassFunction L)).1 i.2).1
         ((hXchar (j : ClassFunction L)).1 j.2).1

@@ -35,7 +35,7 @@ theorem bar_Z0_subgroupOf_ne_bot [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n
     Subgroup.map_mono (f := QuotientGroup.mk' (Q.subgroupOf M))
       (Subgroup.subgroupOf_mono M hZ0H)
   have hZbne : bar M Q Z0 ≠ ⊥ := bar_Z0_ne_bot_of_mem_notQ hc hs hZ0
-  haveI : Nontrivial ↥(bar M Q Z0) := (Subgroup.nontrivial_iff_ne_bot _).mpr hZbne
+  have : Nontrivial ↥(bar M Q Z0) := (Subgroup.nontrivial_iff_ne_bot _).mpr hZbne
   have hlt : 1 < Nat.card ↥(bar M Q Z0) := Finite.one_lt_card
   intro hbot
   have h1 : Nat.card ↥((bar M Q Z0).subgroupOf (bar M Q (H0 M Z))) = 1 := by

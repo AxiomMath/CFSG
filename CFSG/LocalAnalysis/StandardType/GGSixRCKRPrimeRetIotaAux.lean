@@ -131,9 +131,9 @@ theorem rckIo_isRoot_of_nonneg_iform_eq_two_E6 :
         rw [hrefl]
         by_cases hj : j = i
         · subst hj
-          simp only [Pi.sub_apply, Pi.smul_apply, Pi.single_apply, if_true, smul_eq_mul, mul_one]
+          simp only [Pi.sub_apply, Pi.smul_apply, Pi.single_apply, ite_true, smul_eq_mul, mul_one]
           omega
-        · simp [Pi.single_apply, hj, hu0 j]
+        · simp [hj, hu0 j]
       have hv2 : iform (reflect Tag.E6 i u) (reflect Tag.E6 i u) = 2 := by
         rw [iform_reflect, hu2]
       have hvsum : ∑ j, reflect Tag.E6 i u j = (n : ℤ) - k := by
@@ -241,7 +241,7 @@ theorem rckIo_L_single {τ : Tag} (β : Fin Tag.E6.rank → Fin τ.rank → ℤ)
   rw [rckIo_L, Finset.sum_eq_single c]
   · simp
   · intro b _ hb
-    simp [Pi.single_apply, hb]
+    simp [hb]
   · intro h
     exact absurd (Finset.mem_univ c) h
 
@@ -270,7 +270,7 @@ theorem rckIo_iform_E6_eq
     (u v : Fin Tag.E6.rank → ℤ) :
     (CFSG.LieType.Steinberg.Adjoint.iform (τ := Tag.E6) u v) =
       ∑ i, ∑ j, u i * Tag.E6.cartan i j * v j := by
-  simp only [iform, rckIo_symmetrizedCartan_eq_E6, Finset.mul_sum]
+  simp only [iform, rckIo_symmetrizedCartan_eq_E6]
 
 theorem rckIo_L_iform {τ : Tag}
     {β : Fin Tag.E6.rank → Fin τ.rank → ℤ}
@@ -339,7 +339,7 @@ theorem rckIo_sum_single {κ : Type} [Fintype κ] [DecidableEq κ] (n : κ → �
   rw [Finset.sum_apply, Finset.sum_eq_single i]
   · simp
   · intro j _ hj
-    simp [Pi.single_apply, hj]
+    simp [hj]
   · intro h
     exact absurd (Finset.mem_univ i) h
 

@@ -29,7 +29,7 @@ theorem fam_split_exists_hom
     (hΨ : componentRoots χ i = frameRoots σ) (π : Equiv.Perm (Fin ν))
     (hπ : ∀ a b, a ≠ b → (S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
       (componentRoots χ i)] (σ a b) = σ (π a) (π b))
-    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (he : 0 < e) (hq : S.D.q = r ^ e) :
+    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (_he : 0 < e) (hq : S.D.q = r ^ e) :
     ∃ σQ : L ≃+* L,
       (∀ c, σQ c = c ^ (r ^ (e * componentOrbitLength S.ρ (componentRoots χ i)))) ∧
       ∃ f : SL(ν, ↥(fixSubfield σQ)) →* ModGL τ L,
@@ -40,9 +40,9 @@ theorem fam_split_exists_hom
   classical
   obtain ⟨hs0, hs, hmin⟩ := fam_componentOrbitLength_spec S hρ i
   set s := componentOrbitLength S.ρ (componentRoots χ i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : NeZero s := ⟨hs0.ne'⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨σQ, hσQ⟩ := exists_ringEquiv_frob (L := L) r (e * s)
   have hσc : ∀ c, σQ c = c ^ (r ^ (e * s)) := fun c => by
     have h1 : σQ c = iterateFrobenius L r (e * s) c := by

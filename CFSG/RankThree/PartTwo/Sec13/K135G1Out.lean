@@ -21,7 +21,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (Outer inner)
 
 theorem g1o_aut_eq_one_of_card_lt {Q : Type*} [Group Q] [Finite Q] {p : ℕ} (hp : p.Prime)
     (hQ : Nat.card Q < p) (α : MulAut Q) (hα : α ^ p = 1) : α = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hA : IsPGroup p (Subgroup.zpowers α) := by
     intro g
     refine ⟨1, ?_⟩
@@ -92,8 +92,8 @@ lemma g1o_mk_four_of_closure {G : Type*} [Group G] {N : Subgroup G} [N.Normal]
 theorem g1o_card_frattini_quotient_le_four {G : Type*} [Group G] [Finite G] (hG : IsPGroup 2 G)
     {a b : G} (hab : Subgroup.closure ({a, b} : Set G) = ⊤) :
     Nat.card (G ⧸ frattini G) ≤ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 G) := ⟨hG⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 G) := ⟨hG⟩
   have hsq : ∀ q : G ⧸ frattini G, q * q = 1 := by
     intro q
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
@@ -188,13 +188,13 @@ theorem g1o_lift_of_V_le_inn {I : Type} [Group I] [Finite I] (hQ : IsQuasisimple
         MulAut (I ⧸ Subgroup.center I)) (centerQuotMulAut I f s) =
         centerQuotMulAut I f * MulAut.conj s * (centerQuotMulAut I f)⁻¹ := by
       ext x
-      simp [MulAut.conj_apply, MulAut.mul_apply, map_mul, map_inv, MulAut.apply_inv_self]
+      simp [MulAut.conj_apply, MulAut.mul_apply, map_mul, map_inv]
     rw [hconj]
     exact hVn _ hs
 
 theorem kFactG1_of_outTwo (hOT : KFactOutTwo) : KFactG1 := by
   intro I _ _ hQ hL p hp hp7 f hf V hV1 hV2 hVn hVc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnab : ∃ a b : I ⧸ Subgroup.center I, a * b ≠ b * a := hQ.2.2
   obtain ⟨a, haV, b, hbV, hVab⟩ := hOT (I ⧸ Subgroup.center I) hQ.2.1 hnab hL V hV2
   refine g1o_lift_of_V_le_inn hQ f V hV1 hV2 hVn ?_

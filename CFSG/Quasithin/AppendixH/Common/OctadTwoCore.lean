@@ -17,7 +17,7 @@ theorem pCoreOf_octStab {O : Finset (Fin 24)} (hO : IsOctad O) :
   have hKO : K ≤ H := octFix_le_octStab O
   have hcardO : Nat.card ↥O = 8 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_coe, hO.1]
-  haveI : Nontrivial ↥O :=
+  have : Nontrivial ↥O :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hcardO]; norm_num)
   change pCoreOf 2 H = K
   apply le_antisymm
@@ -41,7 +41,7 @@ theorem pCoreOf_octStab {O : Finset (Fin 24)} (hO : IsOctad O) :
         Subgroup.Normal.map (CFSG.pCore_normal (G := H) (p := 2)) ψ hψ
       have hsimple : IsSimpleGroup ↥(alternatingGroup ↥O) :=
         alternatingGroup.isSimpleGroup (α := ↥O) (by rw [hcardO]; norm_num)
-      letI : ((pCore 2 H).map ψ).Normal := hmapn
+      let : ((pCore 2 H).map ψ).Normal := hmapn
       rcases hsimple.eq_bot_or_eq_top_of_normal ((pCore 2 H).map ψ) with hbot | htop
       · intro x hx
         have hx1 : ψ x = 1 := by

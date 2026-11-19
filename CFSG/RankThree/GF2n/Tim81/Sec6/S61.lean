@@ -84,9 +84,9 @@ theorem card_conj_Pc_inf_kOf (h : RootHyp M V) (hS : Sec45Shape M V H h₀) :
     Nat.card ↥(conjSubgroup h₀ (Pc M V) ⊓ kOf V H) * Nat.card V ^ 2 =
       Nat.card ↥(Pc M V) := by
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hXH : conjSubgroup h₀ (Pc M V) ≤ H := by
     rw [hS.hH]
     exact le_sup_right
@@ -110,11 +110,11 @@ theorem Sec45Shape.Pc_inf_conj_le_xOf {H : Subgroup G} {g : G} (h : RootHyp M V)
     (hSg : Sec45Shape M V H g) :
     Pc M V ⊓ conjSubgroup g (Pc M V) ≤ Tim79a.xOf V H := by
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hSg.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hW := hSg.isElemAbelian h
-  letI := moduleOfElemAbelian hW
+  let := moduleOfElemAbelian hW
   refine le_trans (inf_le_inf (le_refl (Pc M V))
     (le_sup_right : conjSubgroup g (Pc M V) ≤ Tim79a.xOf V H ⊔ conjSubgroup g (Pc M V))) ?_
   exact RootHyp.inf_Pc_sup_conj_le_xOf h hSg.Pc_le hSg.le_pCore hSg.hH hSg.not_le
@@ -153,6 +153,7 @@ private theorem card_inf_Pc_conj (h : RootHyp M V) {H : Subgroup G} {g : G}
   rw [hEq] at hcard
   exact hcard
 
+omit [Finite G] in
 private theorem card_kOf_eq_card_secMod {H : Subgroup G}
     (hW_le_K : Tim79a.xOf V H ≤ kOf V H)
     (hWcard : Nat.card (Tim79a.xOf V H) = Nat.card V ^ 4)
@@ -176,16 +177,16 @@ variable {H : Subgroup G} {h₀ : G}
 theorem card_kOf_mul {g : G} (h : RootHyp M V) (hSg : Sec45Shape M V H g) :
     Nat.card ↥(kOf V H) * Nat.card V ^ 6 = Nat.card ↥(Pc M V) ^ 2 := by
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hSg.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hW_le_K : Tim79a.xOf V H ≤ kOf V H := h.xOf_le_kOf hSg.Pc_le hSg.le_pCore
   have hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H) := hSg.quotModHyp h
-  haveI hnorm : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
+  have hnorm : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
   have hmod : Module (ZMod 2) (SecMod hs) := SecMod.module hs hw.sq_mem
-  letI := hmod
+  let := hmod
   have hW := hSg.isElemAbelian h
-  letI := moduleOfElemAbelian hW
+  let := moduleOfElemAbelian hW
   have hPKW : Nat.card ↥(Pc M V ⊓ kOf V H ⊓ Tim79a.xOf V H) = Nat.card V ^ 3 := by
     rw [show Pc M V ⊓ kOf V H ⊓ Tim79a.xOf V H = Pc M V ⊓ Tim79a.xOf V H by
       rw [inf_assoc, inf_eq_right.mpr hW_le_K], hSg.card_inf_Pc_xOf h]
@@ -248,14 +249,14 @@ theorem card_kOf_mul {g : G} (h : RootHyp M V) (hSg : Sec45Shape M V H g) :
 theorem exists_card_Pc (h : RootHyp M V) (hS : Sec45Shape M V H h₀) :
     ∃ k : ℕ, Nat.card ↥(Pc M V) = Nat.card V ^ (2 * k + 5) := by
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hW_le_K : Tim79a.xOf V H ≤ kOf V H := h.xOf_le_kOf hS.Pc_le hS.le_pCore
   have hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H) := hS.quotModHyp h
-  haveI hnorm : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
+  have hnorm : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
   have hmod : Module (ZMod 2) (SecMod hs) := SecMod.module hs hw.sq_mem
-  letI := hmod
+  let := hmod
   obtain ⟨k, φ, -⟩ := hw.natSum hs hmod
   have hFcard : Nat.card F = Nat.card V ^ 2 := by
     rw [Nat.card_eq_fintype_card, hl, hw.card_V, ← pow_mul]

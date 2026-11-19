@@ -31,7 +31,7 @@ noncomputable def rankTwoVertexFintype (R : RankTwoSystem X n) [Fintype X] : Fin
 theorem faithfulSMul_of_faithfulOnBuilding (R : RankTwoSystem X n) :
     letI : MulAction X R.Vertex := rtsMulAction R
     FaithfulSMul X R.Vertex := by
-  letI : MulAction X R.Vertex := rtsMulAction R
+  let : MulAction X R.Vertex := rtsMulAction R
   refine ⟨fun {a b} hab => ?_⟩
   classical
     have hg : ∀ v : R.Vertex, (b⁻¹ * a) • v = v := by
@@ -63,7 +63,7 @@ noncomputable instance rankTwoGraphDecidableRel (R : RankTwoSystem X n) :
 theorem rtsGraphAction (R : RankTwoSystem X n) :
     letI := rtsMulAction R
     GraphAction X R.graph := by
-  letI := rtsMulAction R
+  let := rtsMulAction R
   refine ⟨fun g a b => ?_⟩
   exact rankTwoAction_adj g a b
 
@@ -119,8 +119,8 @@ theorem rankTwoSystem_moufang (R : RankTwoSystem X n) :
     letI := rtsMulAction R
     haveI := rtsGraphAction R
     MoufangCondition X R.graph n := by
-  letI := rtsMulAction R
-  haveI := rtsGraphAction R
+  let := rtsMulAction R
+  have := rtsGraphAction R
   intro p hp y y' hy hy' hyn hy'n
   let l : List R.Vertex := (List.range (n + 1)).map p
   have hl : IsGLSPath R.graph l := by

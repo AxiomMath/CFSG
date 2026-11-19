@@ -30,7 +30,7 @@ theorem exists_pj (hQ0 : ⇑Q = Q₀) (hQ : (polarBilin Q).Nondegenerate)
   have hsq : ∀ g : ↥(TauCeti.QuadraticMap.orthogonalGroup Q),
       g ^ 2 ∈ commutator ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := fun g =>
     mem_commutator_of_coe_mem (by simpa using hsq' (g : (ι → F) ≃ₗ[F] (ι → F)) g.2)
-  haveI : Nontrivial (ι → F) := by
+  have : Nontrivial (ι → F) := by
     obtain ⟨T, hT3, -⟩ := hT
     refine Module.nontrivial_of_finrank_pos (R := F) ?_
     have := Submodule.finrank_le T
@@ -101,7 +101,7 @@ theorem sylowIso_orthogonal_even {F : Type} [Field F] [Finite F] {p : ℕ} [Fact
     (hε : (ε = 1 ∧ IsPlusType Q) ∨ (ε = -1 ∧ IsMinusType Q)) :
     SylowIso p ↥(TauCeti.QuadraticMap.orthogonalGroup Q) (StatedSp (orthN p n F ε) F) := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   intro P
   have hp1 : Odd p := (Fact.out : p.Prime).odd_of_ne_two hp2
   have hpK' : ¬ p ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
@@ -110,12 +110,12 @@ theorem sylowIso_orthogonal_even {F : Type} [Field F] [Finite F] {p : ℕ} [Fact
   by_cases hc : (p : ℤ) ∣ (Nat.card F : ℤ) ^ n + ε
   · have hN : orthN p n F ε = n - 1 := by
       unfold orthN
-      rw [if_pos hc]
+      rw [ite_eq_left hc]
     rw [hN]
     exact c2 (c3.resolve_left (not_not.2 hc))
   · have hN : orthN p n F ε = n := by
       unfold orthN
-      rw [if_neg hc]
+      rw [ite_eq_right hc]
     rw [hN]
     exact c1 hc
 
@@ -128,7 +128,7 @@ theorem sylowIso_projOmega {F : Type} [Field F] [Finite F] {ι : Type} [Fintype 
     SylowIso p (StatedProj (StatedOmega Q₀)) (StatedSp (orthN p n F ε) F) := by
   obtain ⟨pj, hsurj, hker, hsq⟩ := exists_pj hQ0 hQ hT
   have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := by
-    haveI : Finite (ι → F) := inferInstance
+    have : Finite (ι → F) := inferInstance
     exact Finite.of_injective (fun g : ↥(TauCeti.QuadraticMap.orthogonalGroup Q) =>
       ((g : (ι → F) ≃ₗ[F] (ι → F)) : (ι → F) → (ι → F)))
       (fun a b h => Subtype.ext (LinearEquiv.coe_injective (by simpa using h)))
@@ -151,7 +151,7 @@ theorem orth_pair_transfer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} (h
     (hEc : Nat.card E = p ^ 2) :
     ∃ y₁ y₂ : StatedProj (StatedOmega Q₀'), Commute y₁ y₂ ∧ y₁ ^ p = 1 ∧ y₂ ^ p = 1 ∧
       ∀ i j : ℤ, y₁ ^ i * y₂ ^ j = 1 → (p : ℤ) ∣ i ∧ (p : ℤ) ∣ j := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpF' : ¬ p ∣ Nat.card F' := by
     intro h
     apply hpF

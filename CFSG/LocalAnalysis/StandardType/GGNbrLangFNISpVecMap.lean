@@ -56,7 +56,7 @@ theorem spForm_vecMap {K : Type} [Field K] {n : ℕ} (σ : K ≃+* K) (v w : Fin
     rcases i with i | i <;> rcases j with j | j <;>
       by_cases hij : i = j <;>
         simp [J, CFSG.ClassicalInvolution.Models.SymplecticPairs.gram, Matrix.fromBlocks,
-          Matrix.one_apply, hij]
+          hij]
   rw [spForm_apply, spForm_apply, ← vecMap_mulVec_of_map_eq σ hgram w]
   exact (RingHom.map_dotProduct (σ : K →+* K) v (J *ᵥ w)).symm
 

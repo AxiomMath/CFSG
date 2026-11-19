@@ -108,11 +108,11 @@ theorem commute_of_isPGroup_sup {V W W' : Subgroup G} (hV : IsElemAbelian 2 V)
     have hLproper : conjSubgroup V a ⊓ Subgroup.normalizer (conjSubgroup V b : Set G) <
         conjSubgroup V a :=
       lt_of_le_of_ne inf_le_left fun h => hWle ((le_of_eq h.symm).trans inf_le_right)
-    obtain ⟨v, hvA, hvL⟩ := SetLike.exists_of_lt hLproper
+    obtain ⟨v, hvA, hvL⟩ := _root_.IsConcreteLE.exists_of_lt hLproper
     have hLbproper : conjSubgroup V b ⊓ Subgroup.normalizer (conjSubgroup V a : Set G) <
         conjSubgroup V b :=
       lt_of_le_of_ne inf_le_left fun h => hW'le ((le_of_eq h.symm).trans inf_le_right)
-    obtain ⟨x, hxB', hxLb⟩ := SetLike.exists_of_lt hLbproper
+    obtain ⟨x, hxB', hxLb⟩ := _root_.IsConcreteLE.exists_of_lt hLbproper
     have hg : conjSubgroup (conjSubgroup V a) g ≠ conjSubgroup V a := by
       intro heq
       apply hWle
@@ -124,6 +124,7 @@ theorem commute_of_isPGroup_sup {V W W' : Subgroup G} (hV : IsElemAbelian 2 V)
     exact absurd (hconj ▸ hP)
       (not_isPGroup_sup_of_odd hW2 hTIW hg hU hvA hvU (hconj ▸ hxB') hxB)
 
+omit [Finite G] in
 theorem conjSubgroup_le_conjClosure (Z H : Subgroup G) {h : G} (hh : h ∈ H) :
     conjSubgroup Z h ≤ conjClosure Z H := by
   intro x hx
@@ -131,6 +132,7 @@ theorem conjSubgroup_le_conjClosure (Z H : Subgroup G) {h : G} (hh : h ∈ H) :
   have h := mem_conjClosure (H.inv_mem hh) hx
   simpa [mul_assoc] using h
 
+omit [Finite G] in
 theorem conjSubgroup_le_of_le {A H : Subgroup G} (hAH : A ≤ H) {h : G} (hh : h ∈ H) :
     conjSubgroup A h ≤ H := by
   intro x hx
@@ -219,6 +221,7 @@ theorem eight_two {V H T U : Subgroup G} (hV : IsElemAbelian 2 V)
           _ = conjSubgroup (conjSubgroup V h) y⁻¹ := by rw [← hyeq]
           _ = conjSubgroup V (h * y⁻¹) := by rw [conjSubgroup_conjSubgroup]⟩ hUH'
 
+omit [Finite G] in
 theorem eq_one_of_odd_orderOf_of_mem_isPGroup {Q : Subgroup G} (hQ : IsPGroup 2 Q) {x : G}
     (hx : x ∈ Q) (hodd : Odd (orderOf x)) : x = 1 := by
   obtain ⟨k, hk⟩ := CFSG.CGT.Timmesfeld75.exists_orderOf_eq_two_pow_of_mem hQ hx
@@ -255,6 +258,7 @@ theorem commute_of_le_normalizer_of_le_normalizer {V W W' : Subgroup G}
   · exact CFSG.CGT.Timmesfeld75.elemAbelian_mul_comm (isElemAbelian_conjSubgroup' hV a) hu
       (he ▸ hv)
 
+omit [Finite G] in
 theorem conjSubgroup_le_pCoreOf_of_isCalH0 {V H : Subgroup G} (hH0 : IsCalH0 V H) {h : G}
     (hh : h ∈ H) : conjSubgroup V h ≤ pCoreOf 2 H := by
   have hhN : h ∈ Subgroup.normalizer (pCoreOf 2 H : Set G) :=
@@ -414,7 +418,7 @@ theorem eight_four_one {V H T : Subgroup G} (hV : IsElemAbelian 2 V)
             have hproper : conjSubgroup V h ⊓ Subgroup.normalizer (W : Set G) <
                 conjSubgroup V h :=
               lt_of_le_of_ne inf_le_left fun hh' => hnotle ((le_of_eq hh'.symm).trans inf_le_right)
-            obtain ⟨x', hx'1, hx'2⟩ := SetLike.exists_of_lt hproper
+            obtain ⟨x', hx'1, hx'2⟩ := _root_.IsConcreteLE.exists_of_lt hproper
             have hx'B : x' ∉ bSub W g' := by simpa [bSub, hconj'] using hx'2
             have hodd : Odd (orderOf (x * x')) :=
               odd_orderOf_mul hW2 hTIW hUnVne hxW hxU' (hconj' ▸ hx'1) hx'B

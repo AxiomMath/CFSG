@@ -126,7 +126,7 @@ theorem shapeRkAt'_fi22_of_inverted
     (hA : TabBThreeACard) {s d : NativeSporadic.B} (hs : orderOf s = 3) (hd : BabyInv 0 d)
     (hinv : d * s * d⁻¹ = s⁻¹) :
     ShapeRkAt' 3 IsFi22 (fun (T : Type) [Group T] => True) s := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨v, w, hw, hvw⟩ := tabBThree_typeThree_of_inverted hs hd hinv
   have hQ := (native_order_three_common_neighbors_exact_3510.1 v w hw).2.2.2.2.2
   have hcard : Nat.card (Subgroup.centralizer ({clabelS v * clabelS w} : Set Shat)) ≤

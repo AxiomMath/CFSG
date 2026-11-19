@@ -23,7 +23,7 @@ theorem perm_eq_one_of_conj_fix {m : ℕ} (p : Fin m) (σ : Equiv.Perm (Fin m))
     have e1 : (Equiv.swap p i)⁻¹ p = i := by
       rw [Equiv.swap_inv, Equiv.swap_apply_left]
     have e2 : (Equiv.swap p i * σ * (Equiv.swap p i)⁻¹) p = Equiv.swap p i (σ i) := by
-      simp [Equiv.Perm.mul_apply, e1]
+      simp [Equiv.Perm.mul_apply]
     rw [e2] at h1
     have h3 : σ i = Equiv.swap p i p := by
       have := congrArg (Equiv.swap p i) h1
@@ -135,7 +135,7 @@ theorem natBlock_core_bot {H Q E : Subgroup (MulAut V)} {U : Subgroup V} {e : �
     rw [hk, hK, this]
   have hchar : CharP K 2 := by
     obtain ⟨p, hp⟩ := CharP.exists K
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨n, hpp, hcard⟩ := FiniteField.card K p
     have hdvd : p ∣ 2 ^ e := by
       rw [← hK, Nat.card_eq_fintype_card, hcard]
@@ -187,6 +187,7 @@ section Blocks
 variable {V : Type} [CommGroup V] [Finite V] {X T M : Subgroup (MulAut V)}
   {𝓗 : Finset (Subgroup (MulAut V))}
 
+omit [Finite V] in
 theorem BlkCtx.ffJ_le_normalizer_block (h : BlkCtx X T M 𝓗) {H : Subgroup (MulAut V)} (hH : H ∈ 𝓗) :
     ffJ X ≤ Subgroup.normalizer (H : Set (MulAut V)) := by
   rw [h.ffJ_eq]

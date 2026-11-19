@@ -107,7 +107,7 @@ theorem layer (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zpowers u))
   have hodd : Odd (Nat.card (classicalInvolutionOddCore ↥(coreHull Ω u))) :=
     CFSG.ComponentClassification.OddCore.odd_card ↥(coreHull Ω u)
   obtain ⟨hmap, M', hM', hUM', hUU⟩ :=
-    TwinThmEW.lift_USet (Ω := hullFam Ω u) hΦ hΩL hodd S₁.isPGroup' hUb (hPb ▸ hUbP)
+    TwinThmEW.lift_USet (Ω := hullFam Ω u) hΦ hΩL hodd S₁.isPGroup hUb (hPb ▸ hUbP)
   have hM'N : M'.map π = N := by
     have h1 : M'.map π ∈ TwinDisc.secFam Ω u := map_mem_quotFamily hM'
     have h2 : Ub ≤ M'.map π := by

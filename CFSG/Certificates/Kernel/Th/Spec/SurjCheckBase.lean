@@ -10,14 +10,14 @@ namespace CFSG.KC.Th.Spec
 open CFSG.KC.Th CFSG.KC.Th.BigS CFSG.KC.Th.SurjS CFSG.Sporadic.Th CFSG.Sporadic.Th.Native
   CFSG.Sporadic.Bridge.Th
 
-@[expose] def regMat (RB : ℕ → ℕ) (l : ℕ × Bool) : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
+def regMat (RB : ℕ → ℕ) (l : ℕ × Bool) : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
   pkMat (RB (if l.2 then l.1 + 1 else l.1 + 9))
 
-@[expose] def wordMatFrom (RB : ℕ → ℕ) (M : Matrix (Fin 248) (Fin 248) (ZMod 2))
+def wordMatFrom (RB : ℕ → ℕ) (M : Matrix (Fin 248) (Fin 248) (ZMod 2))
     (w : List (ℕ × Bool)) : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
   w.foldl (fun N l => N * regMat RB l) M
 
-@[expose] def wordMat (RB : ℕ → ℕ) (w : List (ℕ × Bool)) : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
+def wordMat (RB : ℕ → ℕ) (w : List (ℕ × Bool)) : Matrix (Fin 248) (Fin 248) (ZMod 2) :=
   wordMatFrom RB 1 w
 
 private theorem scAndB {a b : Bool} : andB a b = true ↔ a = true ∧ b = true := by
@@ -125,7 +125,7 @@ theorem relProd_spec {RB : ℕ → ℕ} {c rm tm0 tm1 tm2 tm3 tm4 tm5 tm6 tm7 up
         have := hl _ (List.getElem_mem hlt)
         split_ifs <;> omega
       show pkMat (mulB c rm _ _) = _
-      rw [pkMat_mulB K, ih (by omega), hb n hlt, scLetMat hx, scLettCode, List.take_succ,
+      rw [pkMat_mulB K, ih (by omega), hb n hlt, scLetMat hx, scLettCode, List.take_add_one,
         List.getElem?_eq_getElem hlt]
       simp only [wordMatFrom, List.foldl_append, Option.toList_some, List.foldl_cons,
         List.foldl_nil]

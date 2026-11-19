@@ -15,6 +15,7 @@ open scoped MatrixGroups
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem fixed_primitive_cube_root {σ : F ≃+* F} (hσ : orderOf σ = 3) {ω : F}
     (hω : IsPrimitiveRoot ω 3) : σ ω = ω := by
   have h3 : σ ^ 3 = 1 := hσ ▸ pow_orderOf_eq_one σ
@@ -43,6 +44,7 @@ theorem fixed_primitive_cube_root {σ : F ≃+* F} (hσ : orderOf σ = 3) {ω : 
       exact hω.ne_one (by norm_num) this
     exact hne hσ3
 
+omit [Finite F] in
 theorem perm_conj_tbar {i j i' j' : Fin 3} (hij : i ≠ j) (hij' : i' ≠ j') (y : F)
     (hm : (!![0, 0, 1; 1, 0, 0; 0, 1, 0] : Matrix (Fin 3) (Fin 3) F) * (1 + Matrix.single i j y) *
       !![0, 1, 0; 0, 0, 1; 1, 0, 0] = 1 + Matrix.single i' j' y) :
@@ -66,6 +68,7 @@ theorem perm_conj_tbar {i j i' j' : Fin 3} (hij : i ≠ j) (hij' : i' ≠ j') (y
   rw [coe_permSL]
   exact hm
 
+omit [Finite F] in
 theorem perm_conj_01 (y : F) :
     proj 3 F permSL * tbar h01 y * (proj 3 F permSL)⁻¹ =
       tbar (show (1 : Fin 3) ≠ 2 by decide) y := by
@@ -75,6 +78,7 @@ theorem perm_conj_01 (y : F) :
     simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.single_apply, Matrix.one_apply,
       Matrix.vecMul, dotProduct]
 
+omit [Finite F] in
 theorem perm_conj_12 (y : F) :
     proj 3 F permSL * tbar (show (1 : Fin 3) ≠ 2 by decide) y * (proj 3 F permSL)⁻¹ =
       tbar (show (2 : Fin 3) ≠ 0 by decide) y := by
@@ -105,7 +109,7 @@ theorem a2ThreeHeisGen_holds : A2ThreeHeisGen := by
   obtain ⟨α, hα0, hασ, hΔ⟩ : ∃ α : F, α ≠ 0 ∧ σ α = α ∧ α ^ 3 + (lam : F) ≠ 0 := by
     by_cases h1 : (1 : F) ^ 3 + lam ≠ 0
     · exact ⟨1, one_ne_zero, map_one σ, h1⟩
-    · push_neg at h1
+    · push Not at h1
       refine ⟨γ, hγ0, hγσ, fun h2 => hγ3 ?_⟩
       linear_combination h2 - h1
   have hΔσ : σ (α ^ 3 + (lam : F))⁻¹ = (α ^ 3 + (lam : F))⁻¹ := by

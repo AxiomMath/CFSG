@@ -114,7 +114,7 @@ theorem uc22pwsu3_lift_preserves [Finite S] {α : S →* X} {M : ℕ} (hM : Odd 
     (hker : ∀ x ∈ α.ker, x ^ M = 1) (hcent : α.ker ≤ center S) {U : Subgroup S} (hU : IsPGroup 2 U)
     {ψ : MulAut X} {ψ' : MulAut S} (hψ' : ∀ s, α (ψ' s) = ψ (α s))
     (hψ : ∀ x, x ∈ U.map α ↔ ψ x ∈ U.map α) : ∀ x, x ∈ U ↔ ψ' x ∈ U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : ∀ x ∈ U, ψ' x ∈ U := by
     intro x hx
     have hαx : ψ (α x) ∈ U.map α := (hψ _).1 ⟨x, hx, rfl⟩
@@ -173,7 +173,7 @@ theorem uc22pwr1_datum_push [Finite S] {n : ℕ} (hn : 1 ≤ n) {α : S →* X}
   · exact hTodd.of_dvd_nat (Subgroup.card_map_dvd T α)
   · exact (map_mono hTN).trans (uc22pwsu3_map_normalizer_le α U)
   · intro p hp hpd
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := T) p (hη p hp hpd)
     have hxo : orderOf (x : S) = p := (Subgroup.orderOf_coe x).trans hx
     have hne : α (x : S) ≠ 1 := by
@@ -260,13 +260,14 @@ theorem uc22pwsu3_commutator_eq_top (hn : 2 < n) (hF : Nat.card F = (2 ^ n) ^ 2)
     have h1 : 2 ^ n = 2 := (Prod.mk.inj h).2
     have h2 : 2 ^ 3 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
     omega
-  haveI := CFSG.LieType.Steinberg.CentralExt.SUOdd.isPerfect_statedSU_odd (p := 2) (f := n) hF
+  have := CFSG.LieType.Steinberg.CentralExt.SUOdd.isPerfect_statedSU_odd (p := 2) (f := n) hF
     (n := 3) le_rfl hq
-  haveI : Group.IsPerfect (SU (unitaryInvolution F 2 n) 3) :=
+  have : Group.IsPerfect (SU (unitaryInvolution F 2 n) 3) :=
     Group.IsPerfect.ofSurjective (f := (equivStatedSU hF 3).symm.toMonoidHom)
       (equivStatedSU hF 3).symm.surjective
   exact Group.IsPerfect.commutator_eq_top
 
+omit [Finite F] [CharP F 2] in
 theorem uc22pwsu3_scalar_mem_center {ι : Type} [Fintype ι] [DecidableEq ι] (H : Subgroup (GL ι F))
     {x : H} (hx : x ∈ (StatedScalars ι F).subgroupOf H) : x ∈ center H := by
   have hx' : (x : GL ι F) ∈ StatedScalars ι F := Subgroup.mem_subgroupOf.1 hx
@@ -282,7 +283,7 @@ theorem uc22pwsu3_exists_cover
     [Finite X] (hq : CFSG.Open.IsQuasisimple X) (e : X ⧸ center X ≃* StatedProj (StatedSU 3 (2 ^ n) F)) :
     ∃ α : SU (unitaryInvolution F 2 n) 3 →* X, Function.Surjective α ∧
       α.ker ≤ center (SU (unitaryInvolution F 2 n) 3) ∧ ∀ x ∈ α.ker, x ^ (2 ^ n + 1) = 1 := by
-  haveI : Finite (SU (unitaryInvolution F 2 n) 3) := inferInstance
+  have : Finite (SU (unitaryInvolution F 2 n) 3) := inferInstance
   let ρ : SU (unitaryInvolution F 2 n) 3 →* X ⧸ center X :=
     e.symm.toMonoidHom.comp ((QuotientGroup.mk' _).comp (equivStatedSU hF 3).toMonoidHom)
   have hρ : Function.Surjective ρ :=
@@ -330,7 +331,7 @@ theorem uc22pwr1_concl_of_isSU3G
       uc22pwlie_Gal (U : Subgroup X) E ψ := by
   obtain ⟨-, hU3⟩ := hSU
   obtain ⟨-, K, hKf, hKfin, hK, ⟨e₁⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hU3 (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two (n := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
+  have : CharP K 2 := uc22pwlie_charP_two (n := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
   have hn1 : 1 ≤ n := by omega
   obtain ⟨α, hα, hαc, hαk⟩ := uc22pwsu3_exists_cover hn hK hq e₁
   have hU₀ := uc22pwsu3X_isPGroup hK

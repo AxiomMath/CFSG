@@ -59,7 +59,7 @@ theorem autoGoal_of_plus {X : Type} [Group X] [Finite X] {K M : Subgroup X} [hKn
     (¬ 2 ∣ M.index → IsElemAbelian 3 (P : Subgroup X) ∧ Nat.card (P : Subgroup X) = 9 ∧
         ∀ x ∈ (P : Subgroup X), ∀ y ∈ (P : Subgroup X), x ≠ 1 → y ≠ 1 →
           ∃ n ∈ Subgroup.normalizer ((P : Subgroup X) : Set X), n * x * n⁻¹ = y) := by
-  have hP3 : IsPGroup 3 (P : Subgroup X) := P.isPGroup'
+  have hP3 : IsPGroup 3 (P : Subgroup X) := P.isPGroup
   have hsup : K ⊔ M = ⊤ := sup_eq_top_of_stronglyEmbedded hM P hPM hK3
   have hΓle := gammaCore_le_inf hM hPM K ((P : Subgroup X) ⊓ K) inf_le_left
   obtain ⟨hΓlt, hΓmax, hrows⟩ := hconc

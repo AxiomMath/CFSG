@@ -26,14 +26,14 @@ theorem exists_inj_projOmegaPlus {K : Type} [Group K] [Finite K] (h4 : catalogIs
   have hsc : StatedClassicalModel K .POmegaPlus 4 q.p q.exponent :=
     hm.statedClassicalModel (by decide)
   obtain ⟨-, K₀, _, _, hK₀, ⟨eK⟩⟩ := hsc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K₀ := Fintype.ofFinite K₀
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K₀ := Fintype.ofFinite K₀
   have hK₀' : Nat.card K₀ = 2 ^ q.exponent := by rw [hK₀, hp2]
-  haveI : CharP K₀ 2 := charP_of_card_eq_prime_pow (f := q.exponent)
+  have : CharP K₀ 2 := charP_of_card_eq_prime_pow (f := q.exponent)
     (by rw [← Nat.card_eq_fintype_card, hK₀'])
   let k : Subfield K₀ := ⊥
   have hk2 : Nat.card ↥k = 2 := Subfield.card_bot K₀ 2
-  haveI : Finite ↥k := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite ↥k := Nat.finite_of_card_ne_zero (by omega)
   let eKG : K ≃* matrixProjectiveDerived (coordinateQuadPlus 4 K₀) :=
     eK.trans (statedProjectiveReindexEquiv (plusIndexEquiv 4) (quadPlus 4 K₀) (coe_quadPlus 4 K₀))
   let e2 : matrixProjectiveDerived (coordinateQuadPlus 4 ↥k) ≃*
@@ -63,7 +63,7 @@ theorem d4big_rank3 {K : Type} [Group K] [Finite K] (h4 : catalogIs K isD4any)
     ∃ E W : Subgroup K, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 3 ∧ IsPGroup 2 W ∧ W ≠ ⊥ ∧
       E ≤ Subgroup.normalizer (W : Set K) := by
   obtain ⟨ψ, hψ⟩ := exists_inj_projOmegaPlus h4 hn
-  haveI : Finite (CFSG.PGLModel.projOmegaPlus 4 (GaloisField 2 1)) :=
+  have : Finite (CFSG.PGLModel.projOmegaPlus 4 (GaloisField 2 1)) :=
     Finite.of_injective ψ hψ
   obtain ⟨E, W, hE, hEc, hW2, hWne, hEW⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.D4XF.exists_E27_of_three_le_twoLocalPrimeRank

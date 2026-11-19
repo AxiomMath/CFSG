@@ -53,7 +53,7 @@ private theorem p6b_card_modEq {Q : Type*} [AddCommGroup Q] [Module (ZMod 2) Q] 
     (hU : ∀ u ∈ U, x u ∈ U) (K : Submodule (ZMod 2) Q) (hK : ∀ v : Q, v ∈ K ↔ v ∈ U ∧ x v = v) :
     Nat.card U ≡ Nat.card K [MOD p] := by
   classical
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Fintype U := Fintype.ofFinite U
   let f : Function.End U := fun u => ⟨x u, hU u u.2⟩
   have hf : f ^ p ^ n = 1 := by
     refine funext fun u => Subtype.ext ?_
@@ -73,7 +73,7 @@ theorem card_invariant_cases {Q : Type*} [AddCommGroup Q] [Module (ZMod 2) Q] [F
     (hQ : Nat.card Q = 2 ^ 8) (x : Q ≃ₗ[ZMod 2] Q) (hx5 : x ^ 5 = 1)
     (hfix : ∀ v : Q, x v = v → v = 0) (U : Submodule (ZMod 2) Q) (hU : ∀ u ∈ U, x u ∈ U) :
     Nat.card U = 1 ∨ Nat.card U = 2 ^ 4 ∨ Nat.card U = 2 ^ 8 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hbot : Nat.card (⊥ : Submodule (ZMod 2) Q) = 1 := by simp
   have h5 : Nat.card U ≡ 1 [MOD 5] := by
     rw [← hbot]
@@ -114,7 +114,7 @@ theorem trivial_of_commuting_involution {Q : Type*} [AddCommGroup Q] [Module (ZM
     have h := congrArg (fun g : Q ≃ₗ[ZMod 2] Q => g v) htx
     simp only [LinearEquiv.mul_apply] at h
     rw [h, htv]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : Nat.card U ≡ Nat.card K [MOD 2] :=
     p6b_card_modEq t 2 1 (by simpa using ht2) U hUt K hK
   have hKU : K ≤ U := fun v hv => hv.1

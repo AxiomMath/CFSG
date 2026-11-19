@@ -108,7 +108,7 @@ theorem commute_of_stronglyEmbedded {M : Subgroup X}
   · have hsN : s ∈ N := mem_of_sq_eq_one_of_odd_index hNodd hs2
     have htN : t ∈ N := mem_of_sq_eq_one_of_odd_index hNodd ht2
     set π := QuotientGroup.mk' (K.subgroupOf N)
-    have hPN : IsPGroup 2 ((P.subgroupOf N).map π) := (P.isPGroup'.comap_subtype).map π
+    have hPN : IsPGroup 2 ((P.subgroupOf N).map π) := (P.isPGroup.comap_subtype).map π
     obtain ⟨PQ, hPQ⟩ := hPN.exists_le_sylow
     have hsQ : π ⟨s, hsN⟩ ∈ (PQ : Subgroup (N ⧸ K.subgroupOf N)) :=
       hPQ ⟨⟨s, hsN⟩, mem_subgroupOf.mpr hs, rfl⟩

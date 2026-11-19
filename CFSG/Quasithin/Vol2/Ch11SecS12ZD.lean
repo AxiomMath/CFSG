@@ -134,7 +134,7 @@ theorem exists_eq_of_commute {X Y : Matrix (Fin 2) (Fin 2) F}
   · refine ⟨Y 0 0 - Y 0 1 / X 0 1 * X 0 0, Y 0 1 / X 0 1, ?_⟩
     ext i j
     fin_cases i <;> fin_cases j <;> simp <;> field_simp <;>
-      first | ring1 | linear_combination e00 | linear_combination -e00 |
+      first | linear_combination e00 | linear_combination -e00 |
         linear_combination -e01 - e00 | linear_combination e01 + e00 |
         linear_combination e01 | linear_combination -e01
 

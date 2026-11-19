@@ -64,7 +64,7 @@ private lemma l02qj2_three_ne_zero {k : Type} [Field k] {ω : k} (hω : ω ^ 3 =
 
 private lemma l02qj2_exists_omega (k : Type) [Field k] [Finite k] (h3 : 3 ∣ Nat.card k - 1) :
     ∃ ω : kˣ, (ω : k) ^ 3 = 1 ∧ (ω : k) ≠ 1 := by
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have hcard : Nat.card kˣ = Nat.card k - 1 := Nat.card_units k
   have hdvd : 3 ∣ Nat.card kˣ := by rw [hcard]; exact h3
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' 3 hdvd
@@ -80,7 +80,7 @@ private lemma l02qj2_exists_omega (k : Type) [Field k] [Finite k] (h3 : 3 ∣ Na
 private lemma l02qj2_pow_cube (k : Type) [Field k] [Finite k] (h3 : 3 ∣ Nat.card k - 1)
     (x : kˣ) (hx : x ^ ((Nat.card k - 1) / 3) = 1) : ∃ t : kˣ, t ^ 3 = x := by
   classical
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   have hcard : Nat.card kˣ = Nat.card k - 1 := Nat.card_units k
   obtain ⟨ξ, hξ⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := kˣ)
   have htop : Subgroup.zpowers ξ = ⊤ := by

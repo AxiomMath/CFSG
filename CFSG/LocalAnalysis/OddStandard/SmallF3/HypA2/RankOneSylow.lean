@@ -14,8 +14,8 @@ theorem rankOne_sylow_dihedral {K : Type} [Group K] [Finite K] (hK : IsQuasisimp
     (hO : oddCore K = ⊥) (hev : Even (Nat.card K)) (hr : CFSG.pRank 2 K ≤ 1) :
     center K ≠ ⊥ ∧ ∃ n : ℕ, 2 ≤ n ∧ ∃ P : Sylow 2 (K ⧸ center K),
       Nonempty (↥(P : Subgroup (K ⧸ center K)) ≃* DihedralGroup (2 ^ (n - 1))) := by
-  haveI h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hperf : Group.IsPerfect K := hK.1
+  have h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hperf : Group.IsPerfect K := hK.1
   obtain ⟨T, r, hr3, ⟨eT⟩⟩ := exists_quaternion_sylow hperf hev hr
   let m : ℕ := 2 ^ (r - 2)
   have hm : 2 ≤ m := by
@@ -65,7 +65,7 @@ theorem rankOne_sylow_dihedral {K : Type} [Group K] [Finite K] (hK : IsQuasisimp
       exact hcenter_mem
     exact ht_ne_one (Subgroup.mem_bot.mp ht_bot)
   let ZK : Subgroup K := center K
-  haveI hZK_normal : ZK.Normal := by
+  have hZK_normal : ZK.Normal := by
     change (center K).Normal
     infer_instance
   have hZK_pgroup : IsPGroup 2 ZK := by

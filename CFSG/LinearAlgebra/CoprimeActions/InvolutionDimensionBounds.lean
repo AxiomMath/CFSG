@@ -13,13 +13,13 @@ open CFSG.LinearAlgebra CFSG.LocalAnalysis.RankThreeUC.BinaryRepresentations Mod
 variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
 
 @[expose] noncomputable def toEquivHom (ρ : Representation (ZMod 2) G V) : G →* (V ≃ₗ[ZMod 2] V) where
-  toFun g := LinearEquiv.ofLinear (ρ g) (ρ g⁻¹)
+  toFun g := LinearEquiv.ofLinearMap (ρ g) (ρ g⁻¹)
     (by ext v; rw [LinearMap.comp_apply, ← rho_mul_apply]; simp)
     (by ext v; rw [LinearMap.comp_apply, ← rho_mul_apply]; simp)
-  map_one' := by ext v; simp [LinearEquiv.ofLinear_apply]
+  map_one' := by ext v; simp [LinearEquiv.coe_ofLinearMap]
   map_mul' g h := by
     ext v
-    simp only [LinearEquiv.ofLinear_apply, LinearEquiv.mul_apply, rho_mul_apply]
+    simp only [LinearEquiv.coe_ofLinearMap, LinearEquiv.mul_apply, rho_mul_apply]
 
 theorem toEquivHom_apply (ρ : Representation (ZMod 2) G V) (g : G) (v : V) :
     toEquivHom ρ g v = ρ g v := by simp [toEquivHom]
@@ -54,9 +54,9 @@ theorem finrank_commSpace_le_two_mul [Module.Finite (ZMod 2) V]
     (X : Subgroup G) (hX : Nat.card X = p) (t : G) (ht : orderOf t = 2)
     (hinv : ∀ x ∈ X, t * x * t⁻¹ = x⁻¹) :
     finrank (ZMod 2) (commSpace ρ X) ≤ 2 * finrank (ZMod 2) (commSpace ρ (Subgroup.zpowers t)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hX]; exact hp.ne_zero)
-  haveI : IsCyclic X := isCyclic_of_prime_card hX
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hX]; exact hp.ne_zero)
+  have : IsCyclic X := isCyclic_of_prime_card hX
   obtain ⟨x, hx⟩ := IsCyclic.exists_generator (α := X)
   have hxp : (x : G) ^ p = 1 := by
     have := pow_card_eq_one' (G := X) (x := x)

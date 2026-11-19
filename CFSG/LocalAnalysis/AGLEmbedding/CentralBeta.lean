@@ -144,7 +144,7 @@ theorem isCyclic_inf_centralizer_of_not_mem_of_center (h : ReducedNongeneration 
   have hp := h.prime
   by_contra hnc
   obtain ⟨F, hF, hFel, hFcard⟩ := exists_isElemAbelian_card_sq_of_two_le_pRank hp
-    (two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (R.isPGroup'.to_le inf_le_left) hnc)
+    (two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (R.isPGroup.to_le inf_le_left) hnc)
   obtain ⟨t, ⟨htR, htK⟩, ht, -⟩ := exists_mem_sylow_inf_component hp h.ne_two h.core_eq_bot R hK
   have hFC : F ≤ Subgroup.centralizer (K : Set X) := hF.trans inf_le_right
   have htF : t ∉ F := by

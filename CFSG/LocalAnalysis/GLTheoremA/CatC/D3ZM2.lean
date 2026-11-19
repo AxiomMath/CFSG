@@ -41,10 +41,10 @@ theorem d3_fourgroup_false {n : ℕ} (hK : Nat.card K = 3 ^ n) {t : MulAut (D4Mo
     (hA1 : A ≠ ⊥) (hAt : ∀ a ∈ A, t a = a) (hA₀ : ∀ a ∈ A, y₀ * a * y₀⁻¹ = a)
     (hA₁ : ∀ a ∈ A, y₁ * a * y₁⁻¹ = a) : False := by
   classical
-  haveI := charP_three_of_card hK
+  have := charP_three_of_card hK
   have hn : 1 ≤ n := one_le_of_card_field hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (D4Model K) := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (D4Model K) := inferInstance
   have hBT := holds_D4Model_three hK hn
   have hAp : IsPGroup 3 A := fun a => ⟨1, by
     apply Subtype.ext

@@ -20,7 +20,7 @@ variable {S : Type} [Group S] {ψ : ↥(kGenIn V H) →* S} {ρ : ↥H →* MulA
   {R Sy : Subgroup S} {e : ℕ}
 
 private theorem wc85fx_map_rho_barSub (D : RootData V H T S ψ ρ R Sy e) {a : G} (ha : a ∈ H)
-    {A : Subgroup G} (hA : A ≤ kGenIn V H) :
+    {A : Subgroup G} (_hA : A ≤ kGenIn V H) :
     Subgroup.map (ρ ⟨a, ha⟩).toMonoidHom (barSub (kGenIn V H) ψ A) =
       barSub (kGenIn V H) ψ (conjSubgroup A a⁻¹) := by
   classical
@@ -48,7 +48,7 @@ private theorem wc85fx_map_rho_barSub (D : RootData V H T S ψ ρ R Sy e) {a : G
     refine mem_map.mpr ⟨ψ ⟨a⁻¹ * (k : G) * a, hk'K⟩,
       mem_barSub.mpr ⟨_, hk', rfl⟩, ?_⟩
     exact D.act ⟨a, ha⟩ ⟨a⁻¹ * (k : G) * a, hk'K⟩ k
-      (by simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group)
+      (by simp only [Subgroup.coe_inv]; group)
 
 private theorem wc85fx_eq_one_of_mem_center_of_sq_eq_one {Y : Type} [Group Y] [Finite Y]
     (hodd : Odd (Nat.card (Subgroup.center Y))) {z : Y}
@@ -67,6 +67,7 @@ private theorem wc85fx_eq_one_of_mem_center_of_sq_eq_one {Y : Type} [Group Y] [F
     · omega
   exact orderOf_eq_one_iff.mp h1
 
+omit [Finite G] in
 private theorem wc85fx_barSub_mem_center_iff {K N : Subgroup G} {Y : Type} [Group Y]
     {φ : ↥K →* Y} (hφ : IsBarMap K N φ) (k : ↥K) :
     φ k ∈ Subgroup.center Y ↔ (k : G) ∈ centerPre K (N : Set G) := by
@@ -114,8 +115,8 @@ theorem wc85fx_conjSubgroup_eq_of_barSub_eq (D : RootData V H T S ψ ρ R Sy e) 
       barSub (kGenIn V H) ψ (conjSubgroup V a')) :
     conjSubgroup V a = conjSubgroup V a' := by
   obtain ⟨X₀, hX₀grp, φ₀, hφ₀⟩ := exists_barMap_eCent D.hyp D.eq_sup
-  letI := hX₀grp
-  haveI : Finite X₀ := Finite.of_surjective φ₀ hφ₀.surjective
+  let := hX₀grp
+  have : Finite X₀ := Finite.of_surjective φ₀ hφ₀.surjective
   have hts : TailSetup V H T φ₀ := ⟨D.hyp, D.eq_sup, hφ₀⟩
   have hle : φ₀.ker ≤ ψ.ker := by
     intro k hk
@@ -164,7 +165,7 @@ theorem wc85fx_exists_conjSubgroup_le_T_barSub_eq (D : RootData V H T S ψ ρ R 
     {X : Subgroup S} (hX : X ∈ rootGroupsIn R Sy) :
     ∃ a : G, a ∈ H ∧ conjSubgroup V a ≤ T ∧
       barSub (kGenIn V H) ψ (conjSubgroup V a) = X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨s, hs⟩ := hX.1
   obtain ⟨k, hk⟩ := D.surj s
   have hkH : (k : G) ∈ H := (kGenIn_le_H D.hyp.le_H) k.2

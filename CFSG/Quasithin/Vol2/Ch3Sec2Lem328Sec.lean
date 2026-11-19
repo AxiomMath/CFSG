@@ -39,7 +39,7 @@ theorem exists_isSylowTwoOf_ge {H P : Subgroup (MulAut V)} (hPH : P ≤ H) (hP :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP' : IsPGroup 2 ↥(P.subgroupOf H) := hP.comap_of_injective H.subtype H.subtype_injective
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
-  refine ⟨(Q : Subgroup ↥H).map H.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, ?_⟩,
+  refine ⟨(Q : Subgroup ↥H).map H.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_⟩,
     fun x hx => ⟨⟨x, hPH hx⟩, hQ hx, rfl⟩⟩
   have : ((Q : Subgroup ↥H).map H.subtype).subgroupOf H = (Q : Subgroup ↥H) :=
     Subgroup.comap_map_eq_self_of_injective H.subtype_injective _

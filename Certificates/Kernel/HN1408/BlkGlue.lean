@@ -46,11 +46,11 @@ theorem blkMapOK_of {k B T L : Nat} (hT : Cn T) (hL : canonK k 4 (mask 4) (k * 4
   rw [CFSG.KC.BfsPin.strictB_app, CFSG.KC.BfsPin.strictB_app] at h1
   rw [bget hp, tap hT hp, bget (tlt hT hp)]
   by_cases hb : pg 4 (mask 4) B p < k
-  · rw [if_pos hb, lap hL hb]
+  · rw [ite_eq_left hb, lap hL hb]
     rw [show Nat.blt (pg 4 (mask 4) B p) k = true from Nat.blt_eq.mpr hb] at h1
     simp only [beq_iff_eq]
     exact Nat.eq_of_beq_eq_true h1
-  · rw [if_neg hb]
+  · rw [ite_eq_right hb]
     rw [show Nat.blt (pg 4 (mask 4) B p) k = false from
       Bool.eq_false_iff.2 fun h => hb (Nat.blt_eq.mp h)] at h1
     simpa using Nat.le_of_ble_eq_true h1

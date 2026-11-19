@@ -14,6 +14,7 @@ section Helpers
 
 variable {G : Type} [Group G] [Finite G] (X : Subgroup G)
 
+omit [Finite G] in
 theorem mem_centralizer_subgroupOf {L : Subgroup G} (hLX : L ≤ X) (b : X) :
     b ∈ Subgroup.centralizer ((L.subgroupOf X : Subgroup X) : Set X) ↔ (b : G) ∈ Subgroup.centralizer (L : Set G) := by
   rw [Subgroup.mem_centralizer_iff, Subgroup.mem_centralizer_iff]
@@ -26,6 +27,7 @@ theorem mem_centralizer_subgroupOf {L : Subgroup G} (hLX : L ≤ X) (b : X) :
     have hl : (l' : G) ∈ L := Subgroup.mem_subgroupOf.1 hl'
     simpa only [Subgroup.coe_mul] using h _ hl
 
+omit [Finite G] in
 theorem mem_zpowers_subgroupOf (x b : X) : b ∈ Subgroup.zpowers x ↔ (b : G) ∈ Subgroup.zpowers (x : G) := by
   constructor
   · rintro ⟨n, rfl⟩
@@ -34,6 +36,7 @@ theorem mem_zpowers_subgroupOf (x b : X) : b ∈ Subgroup.zpowers x ↔ (b : G) 
     refine ⟨n, Subtype.ext ?_⟩
     simpa using hn
 
+omit [Finite G] in
 theorem isElemAbelian_subgroupOf {p : ℕ} {B : Subgroup G} (hBX : B ≤ X) (hB : IsElemAbelian p B) :
     IsElemAbelian p (B.subgroupOf X) :=
   (isElemAbelian_map_subtype X).1 (by rw [Subgroup.map_subgroupOf_eq_of_le hBX]; exact hB)
@@ -85,6 +88,7 @@ section Maxg
 
 variable {G : Type} [Group G] [Finite G] (X : Subgroup G)
 
+omit [Finite G] in
 theorem maxG_subgroupOf {p : ℕ} {B : Subgroup G} (hBX : B ≤ X) (hmax : S171.MaxG p B) :
     S171.MaxG p (B.subgroupOf X) := by
   intro E U hE hU hU0 hEN
@@ -109,6 +113,7 @@ section Rest
 
 variable {G : Type} [Group G] [Finite G] (X : Subgroup G)
 
+omit [Finite G] in
 theorem inducesInnerMod_of_subgroupOf {p : ℕ} {L : Subgroup G} (hLX : L ≤ X) (b : X)
     (h : InducesInnerMod p (L.subgroupOf X) b) : InducesInnerMod p L (b : G) := by
   obtain ⟨l, hl, hy⟩ := h
@@ -132,6 +137,7 @@ theorem glaPComponent_subgroupOf_iff {p : ℕ} (hp : p.Prime) {L D K : Subgroup 
   rw [hM, hK] at h
   exact h.symm
 
+omit [Finite G] in
 theorem commutator_le_centralizer_of_subgroupOf {T B L : Subgroup G} (hTX : T ≤ X) (hBX : B ≤ X) (hLX : L ≤ X)
     (h : (⁅T.subgroupOf X, B.subgroupOf X⁆ : Subgroup X) ≤
       Subgroup.centralizer ((L.subgroupOf X : Subgroup X) : Set X)) :
@@ -143,7 +149,8 @@ theorem commutator_le_centralizer_of_subgroupOf {T B L : Subgroup G} (hTX : T �
   obtain ⟨c', hc', rfl⟩ := Subgroup.mem_map.1 hc
   exact (mem_centralizer_subgroupOf X hLX c').1 (h hc')
 
-theorem le_normalizer_subgroupOf' {A C : Subgroup G} (hAX : A ≤ X) (hCX : C ≤ X)
+omit [Finite G] in
+theorem le_normalizer_subgroupOf' {A C : Subgroup G} (_hAX : A ≤ X) (hCX : C ≤ X)
     (h : A ≤ Subgroup.normalizer (C : Set G)) :
     A.subgroupOf X ≤ Subgroup.normalizer ((C.subgroupOf X : Subgroup X) : Set X) := by
   intro b hb
@@ -151,7 +158,8 @@ theorem le_normalizer_subgroupOf' {A C : Subgroup G} (hAX : A ≤ X) (hCX : C �
   rw [Subgroup.map_subgroupOf_eq_of_le hCX]
   exact h (Subgroup.mem_subgroupOf.1 hb)
 
-theorem le_centralizer_singleton_subgroupOf {A : Subgroup G} {x : G} (hAX : A ≤ X) (hxX : x ∈ X)
+omit [Finite G] in
+theorem le_centralizer_singleton_subgroupOf {A : Subgroup G} {x : G} (_hAX : A ≤ X) (hxX : x ∈ X)
     (h : A ≤ Subgroup.centralizer ({x} : Set G)) :
     A.subgroupOf X ≤ Subgroup.centralizer ({(⟨x, hxX⟩ : X)} : Set X) := by
   intro b hb
@@ -160,18 +168,21 @@ theorem le_centralizer_singleton_subgroupOf {A : Subgroup G} {x : G} (hAX : A �
   apply Subtype.ext
   simpa only [Subgroup.coe_mul] using hb'
 
+omit [Finite G] in
 theorem extremalType_subgroupOf_iff {p : ℕ} {L : Subgroup G} (hLX : L ≤ X) :
     S171.ExtremalType p (L.subgroupOf X) ↔ S171.ExtremalType p L := by
   unfold S171.ExtremalType
   exact and_congr Iff.rfl (exists_congr fun n => and_congr Iff.rfl
     (or_congr (catalogIs_pSimple_subgroupOf X hLX).symm (catalogIs_pSimple_subgroupOf X hLX).symm))
 
+omit [Finite G] in
 theorem catalogIs_center_subgroupOf_iff {L : Subgroup G} (hLX : L ≤ X) {Q : TauCeti.CFSGIndex → Prop} :
     catalogIs (↥(L.subgroupOf X) ⧸ Subgroup.center ↥(L.subgroupOf X)) Q ↔
       catalogIs (↥L ⧸ Subgroup.center ↥L) Q := by
   let e : ↥(L.subgroupOf X) ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLX
   exact catalogIs_congr (QuotientGroup.congr _ _ e (Subgroup.map_center_eq e))
 
+omit [Finite G] in
 theorem glaStdSubPre_subgroupOf_iff {p : ℕ} {B L D K : Subgroup G} {x : G} (hxX : x ∈ X) (hBX : B ≤ X) (hLX : L ≤ X)
     (hDX : D ≤ X) (hKX : K ≤ X) :
     CFSG.Open.GLAStdSubPre p (B.subgroupOf X) ⟨x, hxX⟩ (L.subgroupOf X) (D.subgroupOf X) (K.subgroupOf X) ↔
@@ -181,6 +192,7 @@ theorem glaStdSubPre_subgroupOf_iff {p : ℕ} {B L D K : Subgroup G} {x : G} (hx
     Subgroup.map_subgroupOf_eq_of_le hDX, Subgroup.map_subgroupOf_eq_of_le hKX] at h
   exact h.symm
 
+omit [Finite G] in
 theorem zpowers_subgroupOf_eq {β : G} (hβX : β ∈ X) :
     (Subgroup.zpowers β).subgroupOf X = Subgroup.zpowers (⟨β, hβX⟩ : X) := by
   ext g
@@ -192,6 +204,7 @@ section Small
 
 variable {G : Type} [Group G] [Finite G] (X : Subgroup G)
 
+omit [Finite G] in
 theorem commutator_subgroupOf_map {T B : Subgroup G} (hTX : T ≤ X) (hBX : B ≤ X) :
     (⁅T.subgroupOf X, B.subgroupOf X⁆ : Subgroup X).map X.subtype = ⁅T, B⁆ := by
   rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hTX, Subgroup.map_subgroupOf_eq_of_le hBX]
@@ -207,6 +220,7 @@ theorem glaSmall_iff_of_mulEquiv {Ω H : Type} [Group Ω] [Group H] {K' : Subgro
     · exact Or.inl ⟨F, hF, hfin, hcard, hf.map fun f => e.trans f⟩
     · exact Or.inr (hf.map fun f => e.trans f)
 
+omit [Finite G] in
 theorem exists_glaStdSubPre_subgroupOf {p : ℕ} {B L : Subgroup G} {x : G} (hxX : x ∈ X) (hBX : B ≤ X) (hLX : L ≤ X)
     (h : ∃ D K : Subgroup G, CFSG.Open.GLAStdSubPre p B x L D K) :
     ∃ D K : Subgroup X, CFSG.Open.GLAStdSubPre p (B.subgroupOf X) ⟨x, hxX⟩ (L.subgroupOf X) D K := by
@@ -215,6 +229,7 @@ theorem exists_glaStdSubPre_subgroupOf {p : ℕ} {B L : Subgroup G} {x : G} (hxX
   have hKX : K ≤ X := ((hpre.2.2.2.2.2.1.1).trans inf_le_left).trans hLX
   exact ⟨D.subgroupOf X, K.subgroupOf X, (glaStdSubPre_subgroupOf_iff X hxX hBX hLX hDX hKX).2 hpre⟩
 
+omit [Finite G] in
 theorem small_subgroupOf {p : ℕ} {B L : Subgroup G} {x : G} (hxX : x ∈ X) (hBX : B ≤ X) (hLX : L ≤ X)
     (hsmall : ∀ D K : Subgroup G, CFSG.Open.GLAStdSubPre p B x L D K → CFSG.Assembly.LargeEvenSmall K) :
     ∀ D K : Subgroup X, CFSG.Open.GLAStdSubPre p (B.subgroupOf X) ⟨x, hxX⟩ (L.subgroupOf X) D K →
@@ -225,6 +240,7 @@ theorem small_subgroupOf {p : ℕ} {B L : Subgroup G} {x : G} (hxX : x ∈ X) (h
   have h3 := hsmall _ _ h2
   exact (glaSmall_iff_of_mulEquiv (Subgroup.equivMapOfInjective K' X.subtype X.subtype_injective)).2 h3
 
+omit [Finite G] in
 theorem exists_T_subgroupOf {T B L : Subgroup G} {x : G} (hxX : x ∈ X) (hTX : T ≤ X) (hBX : B ≤ X) (hLX : L ≤ X)
     (hTN : T ≤ Subgroup.normalizer (L : Set G)) (hTC : T ≤ Subgroup.centralizer ({x} : Set G))
     (hT2 : IsPGroup 2 T) (hBT : B ≤ Subgroup.normalizer (T : Set G)) (hne : (⁅T, B⁆ : Subgroup G) ≠ ⊥) :

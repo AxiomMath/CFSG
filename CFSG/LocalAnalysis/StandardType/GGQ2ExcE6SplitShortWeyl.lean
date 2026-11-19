@@ -192,7 +192,7 @@ theorem e6SplitWeyl_mem_e6SplitComponent (hS : E6SplitLangTwo S) {c : Finset (Ex
     rw [← hPperf]
     exact Subgroup.commutator_mono hle hle
   have hψWSL : ψ (WSL, WSL) = e6SplitWeyl L i := by
-    rw [hψ_apply, e6SplitWeyl, if_neg (by rw [hshort]; simp)]
+    rw [hψ_apply, e6SplitWeyl, ite_eq_right (by rw [hshort]; simp)]
   have : e6SplitWeyl L i ∈ P := by
     rw [← hψWSL]
     exact Subgroup.mem_map.2 ⟨(WSL, WSL), hWSL_mem_K, rfl⟩

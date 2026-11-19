@@ -39,7 +39,7 @@ theorem Nine3Config.not_comm_ae {Y : Type} [Group Y] {c a e a' v : Y}
 
 theorem Nine3Config.orderOf_ae {Y : Type} [Group Y] {c a e a' v : Y}
     (h : Nine3Config c a e a' v) : orderOf (a * e) = 3 ∧ orderOf (e * a') = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨orderOf_eq_prime h.pow_ae ?_, orderOf_eq_prime h.pow_ea' ?_⟩
   · intro h1
     apply h.not_comm_ae

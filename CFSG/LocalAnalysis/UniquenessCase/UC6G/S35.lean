@@ -22,9 +22,9 @@ theorem sylow_cyclic_of_pRank_eq_one (h625 : m.C625) (hodd : Odd m.r) :
     ∀ S : Sylow m.r ↥m.K, IsCyclic ↥S := by
   intro S
   by_contra hnc
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   obtain ⟨B, hBel, hBcard⟩ :=
-    CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two hodd S.isPGroup' hnc
+    CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two hodd S.isPGroup hnc
   set E : Subgroup G := (B.map (S : Subgroup ↥m.K).subtype).map m.K.subtype with hE
   have hE_le : E ≤ m.K := Subgroup.map_subtype_le _
   have hEel : IsElemAbelian m.r E := by

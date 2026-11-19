@@ -22,6 +22,7 @@ variable {K U V H : Type} [Field K] [CharP K 2] [Finite K]
   [FiniteDimensional K V] [Group H]
   {Q : QuadraticForm K U} {Q' : QuadraticForm K V}
 
+omit [Finite K] in
 theorem exists_vector_cover_position
     (ρ : H →* (U ≃ₗ[K] U)) (hρinj : Function.Injective ρ)
     (hρrange : ρ.range = orthDerived Q)
@@ -91,6 +92,7 @@ variable {K V : Type} [Field K] [CharP K 2] [Finite K]
   [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {n : ℕ}
 
+omit [Finite K] in
 theorem exists_spinPlus_root_position (hn : 4 ≤ n)
     (hQ : (polarBilin Q).Nondegenerate) (hdim : finrank K V = 2 * n)
     (hplus : IsPlusType Q) (F : Frame Q) :

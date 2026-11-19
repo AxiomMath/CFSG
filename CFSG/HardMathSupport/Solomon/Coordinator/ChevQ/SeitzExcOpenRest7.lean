@@ -325,8 +325,8 @@ noncomputable def QE7Sylow : Sylow 3 (WeylGroup Tag.E7) :=
 
 theorem exists_conj_mem_QE7 (x : WeylGroup Tag.E7) (hx : ∃ k : ℕ, x ^ 3 ^ k = 1) :
     ∃ g : WeylGroup Tag.E7, g * x * g⁻¹ ∈ QE7 := by
-  haveI := finite_WE7
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_WE7
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hx
   have hP : IsPGroup 3 (Subgroup.zpowers x) := by
     rintro ⟨g, hg⟩
@@ -506,9 +506,9 @@ theorem e7_cube_stab_conj {L : Type} [Field L] (A : Subgroup (Fin Tag.E7.rank �
     {y : WeylGroup Tag.E7} (hy : ∀ a ∈ A, ∀ v, rootChar a (y • v) = rootChar a v) (hy1 : y ≠ 1) :
     ∃ g : WeylGroup Tag.E7, y = g * e7w3 * g⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
-  haveI := finite_WE7
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have := finite_WE7
   obtain ⟨a₀, ha₀A, ha₀1⟩ : ∃ a ∈ A, a ≠ 1 := by
     by_contra h
     push Not at h
@@ -552,7 +552,7 @@ theorem e7_cube_stab_conj {L : Type} [Field L] (A : Subgroup (Fin Tag.E7.rank �
   have hempty : {s | ∃ α ∈ rootKernel (col a1) ∩ rootKernel (col a2) ∩ rootKernel (col a3),
       s = rootReflection α} = (∅ : Set (WeylGroup Tag.E7)) := by
     ext s
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     rintro ⟨α, ⟨⟨⟨hα, h1⟩, ⟨-, h2⟩⟩, ⟨-, h3'⟩⟩, -⟩
     obtain ⟨a, haA, hane⟩ := hreg α hα
     exact hane (hcl _ (hk α a1 ha1 h1) (hk α a2 ha2 h2) (hk α a3 ha3 h3') haA)
@@ -1130,9 +1130,9 @@ theorem e8_cube_stab_conj {L : Type} [Field L] (A : Subgroup (Fin Tag.E8.rank �
     {y : WeylGroup Tag.E8} (hy : ∀ a ∈ A, ∀ v, rootChar a (y • v) = rootChar a v) (hy1 : y ≠ 1) :
     ∃ g : WeylGroup Tag.E8, y = g * e8c0 * g⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
-  haveI := finite_WE8
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have := finite_WE8
   obtain ⟨a₀, ha₀A, ha₀1⟩ : ∃ a ∈ A, a ≠ 1 := by
     by_contra h
     push Not at h
@@ -1176,7 +1176,7 @@ theorem e8_cube_stab_conj {L : Type} [Field L] (A : Subgroup (Fin Tag.E8.rank �
   have hempty : {s | ∃ α ∈ rootKernel (col a1) ∩ rootKernel (col a2) ∩ rootKernel (col a3),
       s = rootReflection α} = (∅ : Set (WeylGroup Tag.E8)) := by
     ext s
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
     rintro ⟨α, ⟨⟨⟨hα, h1⟩, ⟨-, h2⟩⟩, ⟨-, h3'⟩⟩, -⟩
     obtain ⟨a, haA, hane⟩ := hreg α hα
     exact hane (hcl _ (hk α a1 ha1 h1) (hk α a2 ha2 h2) (hk α a3 ha3 h3') haA)
@@ -1353,9 +1353,9 @@ theorem hyperGen_of_lines_of_kills {τ : Tag} (hkill : LangPlaneKillsRoot τ) {K
   have hFgen : HyperGen 3 ⊤ F := by
     have : Fintype K := Fintype.ofFinite K
     obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
-    haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-    haveI : CharP K (ringChar K) := ringChar.charP K
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (ringChar K).Prime := ⟨hℓ⟩
+    have : CharP K (ringChar K) := ringChar.charP K
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hrp : ringChar K ≠ 3 := by
       intro h3
       apply hK3
@@ -1633,7 +1633,7 @@ theorem e8ToralNegTwistRest_of_rest (h : E8NegCThreeRest) :
 
 theorem e7NegCThreeRest_of_lineRest (h : E7NegCLineRest) : E7NegCThreeRest := by
   intro K _ _ hK hs E₀ hE₀ hc hN D hreg hD
-  haveI : IsSimpleGroup ↥(adjointGroup Tag.E7 K) :=
+  have : IsSimpleGroup ↥(adjointGroup Tag.E7 K) :=
     isSimpleGroup_adjointGroup_of_isQuasisimple
       (CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e7 K)
   obtain ⟨σ, hσ, hlines⟩ := h K hK hs E₀ hE₀ hc hN D hreg hD
@@ -1641,7 +1641,7 @@ theorem e7NegCThreeRest_of_lineRest (h : E7NegCLineRest) : E7NegCThreeRest := by
 
 theorem e8NegCThreeRest_of_lineRest (h : E8NegCLineRest) : E8NegCThreeRest := by
   intro K _ _ hK hs E₀ hE₀ hc hN D hreg hD
-  haveI : IsSimpleGroup ↥(adjointGroup Tag.E8 K) :=
+  have : IsSimpleGroup ↥(adjointGroup Tag.E8 K) :=
     isSimpleGroup_adjointGroup_of_isQuasisimple (CFSG.LieType.Steinberg.Adjoint.isQuasisimple_e8 K)
   obtain ⟨σ, hσ, hlines⟩ := h K hK hs E₀ hE₀ hc hN D hreg hD
   exact hyperGen_of_lines_of_kills langPlaneKillsRoot_E8 (by omega) hE₀ hc D hσ hlines

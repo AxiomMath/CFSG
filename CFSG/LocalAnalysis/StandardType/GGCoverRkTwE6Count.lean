@@ -66,9 +66,9 @@ theorem not_three_dvd_relIndex_automizer_twE6
   classical
   let R := TwE6Delta.RecipeR K n
   let G := MulAut R
-  haveI : Finite R := by dsimp [R]; exact TwE6Delta.finite_recipeR hK
-  haveI : Fintype R := Fintype.ofFinite R
-  haveI : Finite G := by dsimp [G]; infer_instance
+  have : Finite R := by dsimp [R]; exact TwE6Delta.finite_recipeR hK
+  have : Fintype R := Fintype.ofFinite R
+  have : Finite G := by dsimp [G]; infer_instance
   obtain ⟨D, X, hGood, hDH, hHnum, hH3R, hXH, hXcard, hXcent, hXnotInn, -⟩ :=
     exists_langFrame_recipeR n hn hK h3
   have hAH : A ≤ D.H := by
@@ -265,7 +265,7 @@ theorem not_three_dvd_relIndex_automizer_twE6
     have hle : D.H.map (MulAut.conj γ).toMonoidHom ≤ D.H := by
       rintro _ ⟨x, hx, rfl⟩
       have happ : (MulAut.conj γ).toMonoidHom x = γ * x * γ⁻¹ := by
-        simpa [MulAut.conj_apply]
+        simp [MulAut.conj_apply]
       rw [happ]
       exact D.H.mul_mem (D.H.mul_mem hγH hx) (D.H.inv_mem hγH)
     exact Subgroup.eq_of_le_of_card_ge hle

@@ -402,7 +402,7 @@ theorem inF_one_of_dihedral_frobenius {r p : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
   have hzn : Subgroup.zpowers (g⁻¹ * t * g) = T := by
     rw [hTeq, CFSG.Quasithin.conjSubgroup, MonoidHom.map_zpowers]
     congr 1
-    simp [MulAut.conj_apply]
+    simp
   let t' : Q := g⁻¹ * t * g
   let b' : Q := g⁻¹ * b * g
   have ht' : orderOf t' = 2 := by
@@ -421,9 +421,9 @@ theorem inF_one_of_dihedral_frobenius {r p : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
   have hRmap : R.map (MulAut.conj g⁻¹).toMonoidHom = R :=
     Subgroup.Normal.map_conj_eq (H := R) g⁻¹
   have hb'eq : (MulEquiv.toMonoidHom (MulAut.conj g⁻¹)) b = b' := by
-    simp [b', MulAut.conj_apply]
+    simp [b']
   have ht'eq : (MulEquiv.toMonoidHom (MulAut.conj g⁻¹)) t = t' := by
-    simp [t', MulAut.conj_apply]
+    simp [t']
   have hcomm' : ⁅R, Subgroup.zpowers b'⁆ = R := by
     have h := congrArg (Subgroup.map (MulAut.conj g⁻¹).toMonoidHom) hcomm
     rw [Subgroup.map_commutator, MonoidHom.map_zpowers, hb'eq, hRmap] at h

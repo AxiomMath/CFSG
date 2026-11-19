@@ -32,10 +32,10 @@ private lemma wcru_blockSel_mul {F : Type*} [Field F] {m l k : ℕ} (hkl : k ≤
   simp only [CFSG.ClassicalInvolution.Phan.blockSel_apply]
   have hj : j.val < l := lt_of_lt_of_le j.isLt hkl
   rw [Finset.sum_eq_single (⟨j.val, hj⟩ : Fin l)]
-  · simp [CFSG.ClassicalInvolution.Phan.blockSel_apply]
+  · simp
   · intro b _ hb
     have hbj : b.val ≠ j.val := fun h => hb (Fin.ext h)
-    simp [CFSG.ClassicalInvolution.Phan.blockSel_apply, hbj]
+    simp [hbj]
   · simp
 
 private lemma wcru_rank_vecMulVec_eq_one {F : Type*} [Field F] {m : ℕ} {u w : Fin m → F}
@@ -118,7 +118,7 @@ theorem rank_permSU_swap_sub_one {n : ℕ} {F₀ : Type} [Field F₀] [CharP F�
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.sub_apply, Matrix.vecMulVec_apply, Matrix.permMatrixHom_apply,
-        PEquiv.toMatrix_toPEquiv_apply, Pi.single_apply, Equiv.swap_apply_def,
+        Equiv.swap_apply_def,
         CharTwo.neg_eq]
   rw [hM]
   have hu : (![1, 1, 0] : Fin 3 → F₀) ≠ 0 := by

@@ -174,7 +174,7 @@ theorem odd_orderOf_conjugate_mul {t : G} (ht : Isolated t)
         _ = (r ^ k * r) * (r ^ k * t) := by rw [hmoveInv]
         _ = (r ^ k * r * r ^ k) * t := by simp only [mul_assoc]
         _ = r ^ (k + 1 + k) * t := by rw [← pow_succ, ← pow_add]
-        _ = r ^ m * t := by rw [hmk]; congr 2 <;> omega
+        _ = r ^ m * t := by rw [hmk]; congr 2; omega
     have hconj : (r ^ k * g) * t * (r ^ k * g)⁻¹ = u := by
       calc
         (r ^ k * g) * t * (r ^ k * g)⁻¹ =
@@ -558,6 +558,7 @@ end AbelianSylow
 
 section NormalOvergroup
 
+omit [Fintype G] in
 theorem odd_card_sup_of_le_normalizer {A B : Subgroup G}
     (hBA : B ≤ Subgroup.normalizer (A : Set G))
     (hA : Odd (Nat.card A)) (hB : Odd (Nat.card B)) :
@@ -589,6 +590,7 @@ theorem odd_card_sup_of_le_normalizer {A B : Subgroup G}
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup A', hA']
   exact hquot.mul hA
 
+omit [Fintype G] in
 private theorem odd_card_finset_sup {ι : Type*} (s : Finset ι) (A : ι → Subgroup G)
     (hnormal : ∀ i ∈ s, (A i).Normal)
     (hodd : ∀ i ∈ s, Odd (Nat.card (A i))) :

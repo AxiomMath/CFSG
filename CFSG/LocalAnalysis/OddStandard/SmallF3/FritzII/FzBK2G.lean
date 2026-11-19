@@ -69,7 +69,7 @@ section Chart
 
 variable {G : Type} [Group G] {P : Subgroup G} {C : FzbCoding P} {c : Bool} {q s lam : G}
 
-theorem fzb_alpha_act (hE : FzbExact C c q s lam) {w u : ℕ} (hw : w < 16) (hu : u < 64) :
+theorem fzb_alpha_act (hE : FzbExact C c q s lam) {w u : ℕ} (_hw : w < 16) (hu : u < 64) :
     fzbAlpha q s lam w * C.dec u * (fzbAlpha q s lam w)⁻¹ = C.dec ((modl c ()).act w u) ∧
       (modl c ()).act w u < 64 := by
   obtain ⟨hlam_eq, hlam_lt⟩ :=

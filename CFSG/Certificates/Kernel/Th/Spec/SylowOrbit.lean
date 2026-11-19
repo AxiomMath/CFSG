@@ -45,7 +45,7 @@ theorem block_le (hk : constsOK c rm tm0 tm1 tm2 tm3 tm4 tm5 tm6 tm7 up dg ONE =
     (htn : blkTo BL b ≤ n) (hb : BlockOK RB rm PR n p BL b) :
     p ^ (blkTo BL b - blkFr BL b) * Nat.card (pcSub J RB PR (blkTo BL b) n) ≤
       Nat.card (pcSub J RB PR (blkFr BL b) n) := by
-  haveI : Finite (GL (Fin 248) (ZMod 2)) := inferInstance
+  have : Finite (GL (Fin 248) (ZMod 2)) := inferInstance
   obtain ⟨PT, TC, SC, SS, hPT0, hbase, htree, hsort, hsc⟩ := hb
   have hfix := baseFixed_spec hbase
   have hgood := tree_spec htree
@@ -113,7 +113,7 @@ theorem pow_le_card_pcSub (hk : constsOK c rm tm0 tm1 tm2 tm3 tm4 tm5 tm6 tm7 up
     (hR : ∀ k < n, RegIn (⊤ : Subgroup J) RB (regAt PR k)) (hbl : blocksOK BL nb n = true)
     (hblk : ∀ b < nb, BlockOK RB rm PR n p BL b) :
     p ^ n ≤ Nat.card (pcSub J RB PR 0 n) := by
-  haveI : Finite (GL (Fin 248) (ZMod 2)) := inferInstance
+  have : Finite (GL (Fin 248) (ZMod 2)) := inferInstance
   have hok : andB (Nat.blt (nat_lit 0) (blkAcc BL nb))
       (Nat.beq (Nat.sub (blkAcc BL nb) (nat_lit 1)) n) = true := hbl
   obtain ⟨hok1, hok2⟩ := CFSG.KC.Th.Spec.Dce.andB_iff.1 hok
@@ -150,7 +150,7 @@ theorem pow_le_card_pcSub (hk : constsOK c rm tm0 tm1 tm2 tm3 tm4 tm5 tm6 tm7 up
   have h := step nb le_rfl hfin.1
   rw [hfin.2] at h
   have h1 : 0 < Nat.card (pcSub J RB PR n n) := by
-    haveI : Nonempty (pcSub J RB PR n n) := ⟨1⟩
+    have : Nonempty (pcSub J RB PR n n) := ⟨1⟩
     exact Nat.card_pos
   calc p ^ n = p ^ n * 1 := (Nat.mul_one _).symm
     _ ≤ p ^ n * Nat.card (pcSub J RB PR n n) := Nat.mul_le_mul_left _ h1

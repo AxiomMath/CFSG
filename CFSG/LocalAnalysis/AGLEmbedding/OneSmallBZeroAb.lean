@@ -104,7 +104,7 @@ theorem D1OneSmallData.false_of_ab_of_sizes_of_exotic
     have := Nat.one_lt_pow (by norm_num : 2 ≠ 0) hp.one_lt
     omega
   obtain ⟨x, hxP, hxN, hxR, hxz⟩ := hd.exists_moving_elt hz hB0
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hxP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hxP⟩
   have hxk : x ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hpdvd : p ∣ (fusionSet R z).ncard := p_dvd_ncard_fusionSet hzp hxN hxk hxR
     (fun y hy hyz hyk => hd.mem_of_mem_normalizer_of_commute hB0 hy hyz hyk)

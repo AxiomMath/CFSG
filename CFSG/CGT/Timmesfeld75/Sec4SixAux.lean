@@ -75,7 +75,7 @@ theorem sylow_centralizes_of_card_two_pow (N : Subgroup Y) [N.Normal] {m : ℕ}
     MulAction.compHom N ((MulAut.conjNormal : Y →* MulAut N).comp (P : Subgroup Y).subtype)
   have hsmul : ∀ (p : (P : Subgroup Y)) (x : N), ((p • x : N) : Y) = (p : Y) * x * (p : Y)⁻¹ :=
     fun p x => MulAut.conjNormal_apply (p : Y) x
-  have hmod := (P.isPGroup').card_modEq_card_fixedPoints N
+  have hmod := (P.isPGroup).card_modEq_card_fixedPoints N
   let F : Subgroup Y := N ⊓ Subgroup.centralizer ((P : Subgroup Y) : Set Y)
   have hFle : F ≤ N := inf_le_left
   have hFcard : Nat.card (MulAction.fixedPoints (P : Subgroup Y) N) = Nat.card F := by

@@ -65,9 +65,9 @@ theorem card_cls_f {x : ℕ} (hx : x < N) : (cls N lab (lab (f x))).card = (cls 
   have key : ∀ y < N, (cls N lab (lab y)).card ≤ (cls N lab (lab (f y))).card := by
     intro y hy
     refine card_le_card_of_injOn f (fun z hz => ?_) (fun a ha b hb e => ?_)
-    · simp only [cls, coe_filter, Set.mem_setOf_eq, mem_range] at hz ⊢
+    · simp only [cls, coe_filter, Set.mem_ofPred_eq, mem_range] at hz ⊢
       exact ⟨hf z hz.1, hlab z hz.1 y hy hz.2⟩
-    · simp only [cls, coe_filter, Set.mem_setOf_eq, mem_range] at ha hb
+    · simp only [cls, coe_filter, Set.mem_ofPred_eq, mem_range] at ha hb
       rw [← hff a ha.1, ← hff b hb.1, e]
   have h1 := key x hx
   have h2 := key (f x) (hf x hx)
@@ -76,6 +76,7 @@ theorem card_cls_f {x : ℕ} (hx : x < N) : (cls N lab (lab (f x))).card = (cls 
 
 omit hlab in
 include hfix in
+omit hf hff in
 theorem card_fix_eq_sum :
     (fixS N f).card = ∑ i ∈ (fixS N f).image lab, (cls N lab i).card := by
   rw [card_eq_sum_card_image lab]

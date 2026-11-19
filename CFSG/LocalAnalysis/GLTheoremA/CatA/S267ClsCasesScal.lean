@@ -34,7 +34,7 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] {τ : K 
 theorem glEquiv_scalar_apply (c : Kˣ) (v : ι → K) :
     glEquiv (Matrix.GeneralLinearGroup.scalar ι c) v = (c : K) • v := by
   rw [glEquiv_apply]
-  simp [Matrix.GeneralLinearGroup.scalar, Matrix.smul_mulVec, Matrix.one_mulVec]
+  simp [Matrix.GeneralLinearGroup.scalar]
 
 theorem scalarGL_mul_comm (c : Kˣ) (g : GL ι K) :
     Matrix.GeneralLinearGroup.scalar ι c * g = g * Matrix.GeneralLinearGroup.scalar ι c := by
@@ -106,7 +106,7 @@ theorem concA_of_weights_scal (hp : p.Prime) [hSn : S.Normal] (hB : IsElemAbelia
           centGL {(ModelGen.semiMap Dat.A Dat.σ).toAddMonoidHom}) ≠ ⊥)) :
     S267ConcA p S B := by
   classical
-  haveI : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
+  have : Fintype (Hyperplane ↥Aε p) := Fintype.ofFinite _
   set ρ := glRep Aε with hρdef
   set U := wtU Aε I with hUdef
   set W := wtW Aε I with hWdef

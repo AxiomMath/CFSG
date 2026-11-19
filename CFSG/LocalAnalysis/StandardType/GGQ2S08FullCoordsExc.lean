@@ -37,15 +37,15 @@ namespace CFSG.StandardType
 
 theorem ggQ2_fullCoords_E7 {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     (M : GGQ2LDatum 3 Bs L x) (hx : M.xV ∉ M.coSpan) (e : Fin 7 ≃ M.Λ)
-    (hC : ∀ i j, M.cartan (e i) (e j) = CartanMatrix.E₇ i j) :
+    (hC : ∀ i j, M.cartan (e i) (e j) = (CartanMatrix.E 7) i j) :
     ∃ κ : M.V ≃ₗ[ZMod 3] TestLin.Vn 8, κ M.xV = e7FullX ∧
       ∀ k v, κ (ggLin (p := 3) M.model (M.simple (e k)) (κ.symm v)) = e7FullS k v := by
   have hρ : Function.Surjective M.rootMap := by
     refine ggQ2LDatum_rootMap_surjective M
-      (isUnit_cartan_det_of_reindex M e CartanMatrix.E₇ hC ?_)
-    rw [show CartanMatrix.E₇.map (Int.castRingHom (ZMod 3)) =
-        (Int.castRingHom (ZMod 3)).mapMatrix CartanMatrix.E₇ from rfl]
-    rw [← RingHom.map_det (Int.castRingHom (ZMod 3)) CartanMatrix.E₇,
+      (isUnit_cartan_det_of_reindex M e (CartanMatrix.E 7) hC ?_)
+    rw [show (CartanMatrix.E 7).map (Int.castRingHom (ZMod 3)) =
+        (Int.castRingHom (ZMod 3)).mapMatrix (CartanMatrix.E 7) from rfl]
+    rw [← RingHom.map_det (Int.castRingHom (ZMod 3)) (CartanMatrix.E 7),
       CartanMatrix.E_det (by norm_num : 3 ≤ 7)]
     exact isUnit_iff_ne_zero.mpr (by decide)
   have hQP : ∀ y : Option (Fin 7) → ZMod 3, e7RootQ (e7Rec y) = y := by
@@ -60,14 +60,14 @@ theorem ggQ2_fullCoords_E7 {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     fin_cases a <;> decide +kernel
   have hQx : e7RootQ e7FullX = Pi.single none 1 := by decide +kernel
   have hQS : ∀ k : Fin 7, e7RootQ.comp (e7FullS k).toLinearMap =
-      (rootCoordReflLin CartanMatrix.E₇ k).comp e7RootQ := by
+      (rootCoordReflLin (CartanMatrix.E 7) k).comp e7RootQ := by
     intro k
     apply linearMap_eq_of_basis
     intro a
     fin_cases k <;> fin_cases a <;> decide +kernel
   obtain ⟨P, hPx, hPS⟩ :=
-    coordsData e7RootQ e7Rec e7FullX e7FullS CartanMatrix.E₇ hQP hPQ hQx hQS
-  exact ggQ2LDatum_coords_of_root M hρ hx e CartanMatrix.E₇ hC P e7FullX e7FullS hPx hPS
+    coordsData e7RootQ e7Rec e7FullX e7FullS (CartanMatrix.E 7) hQP hPQ hQx hQS
+  exact ggQ2LDatum_coords_of_root M hρ hx e (CartanMatrix.E 7) hC P e7FullX e7FullS hPx hPS
 
 @[expose] def e8β : Fin 8 → TestLin.Vn 8 :=
   ![![2, 1, 1, 1, 1, 1, 1, 2], ![1, 1, 0, 0, 0, 0, 0, 0], ![2, 1, 0, 0, 0, 0, 0, 0],
@@ -106,15 +106,15 @@ theorem ggQ2_fullCoords_E7 {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
 
 theorem ggQ2_fullCoords_E8 {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     (M : GGQ2LDatum 3 Bs L x) (hx : M.xV ∉ M.coSpan) (e : Fin 8 ≃ M.Λ)
-    (hC : ∀ i j, M.cartan (e i) (e j) = CartanMatrix.E₈ i j) :
+    (hC : ∀ i j, M.cartan (e i) (e j) = (CartanMatrix.E 8) i j) :
     ∃ κ : M.V ≃ₗ[ZMod 3] TestLin.Vn 9, κ M.xV = e8FullX ∧
       ∀ k v, κ (ggLin (p := 3) M.model (M.simple (e k)) (κ.symm v)) = e8FullS k v := by
   have hρ : Function.Surjective M.rootMap := by
     refine ggQ2LDatum_rootMap_surjective M
-      (isUnit_cartan_det_of_reindex M e CartanMatrix.E₈ hC ?_)
-    rw [show CartanMatrix.E₈.map (Int.castRingHom (ZMod 3)) =
-        (Int.castRingHom (ZMod 3)).mapMatrix CartanMatrix.E₈ from rfl]
-    rw [← RingHom.map_det (Int.castRingHom (ZMod 3)) CartanMatrix.E₈,
+      (isUnit_cartan_det_of_reindex M e (CartanMatrix.E 8) hC ?_)
+    rw [show (CartanMatrix.E 8).map (Int.castRingHom (ZMod 3)) =
+        (Int.castRingHom (ZMod 3)).mapMatrix (CartanMatrix.E 8) from rfl]
+    rw [← RingHom.map_det (Int.castRingHom (ZMod 3)) (CartanMatrix.E 8),
       CartanMatrix.E_det (by norm_num : 3 ≤ 8)]
     exact isUnit_iff_ne_zero.mpr (by decide)
   have hQP : ∀ y : Option (Fin 8) → ZMod 3, e8RootQ (e8Rec y) = y := by
@@ -129,14 +129,14 @@ theorem ggQ2_fullCoords_E8 {G : Type} [Group G] {Bs L : Subgroup G} {x : G}
     fin_cases a <;> decide +kernel
   have hQx : e8RootQ e8FullX = Pi.single none 1 := by decide +kernel
   have hQS : ∀ k : Fin 8, e8RootQ.comp (e8FullS k).toLinearMap =
-      (rootCoordReflLin CartanMatrix.E₈ k).comp e8RootQ := by
+      (rootCoordReflLin (CartanMatrix.E 8) k).comp e8RootQ := by
     intro k
     apply linearMap_eq_of_basis
     intro a
     fin_cases k <;> fin_cases a <;> decide +kernel
   obtain ⟨P, hPx, hPS⟩ :=
-    coordsData e8RootQ e8Rec e8FullX e8FullS CartanMatrix.E₈ hQP hPQ hQx hQS
-  exact ggQ2LDatum_coords_of_root M hρ hx e CartanMatrix.E₈ hC P e8FullX e8FullS hPx hPS
+    coordsData e8RootQ e8Rec e8FullX e8FullS (CartanMatrix.E 8) hQP hPQ hQx hQS
+  exact ggQ2LDatum_coords_of_root M hρ hx e (CartanMatrix.E 8) hC P e8FullX e8FullS hPx hPS
 
 @[expose] def f4α : Fin 4 → TestLin.Vn 4 :=
   ![![0, 1, 2, 0], ![0, 0, 1, 2], ![0, 0, 0, 1], ![2, 1, 1, 1]]

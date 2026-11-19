@@ -126,7 +126,7 @@ theorem weaklyClosed_center_map (hφ : Function.Surjective φ) (hker : Odd (Nat.
     (h : ∀ Z₀ : Subgroup A, Z₀ ≤ centerOf (R : Subgroup A) → WeaklyClosedIn (R : Subgroup A) Z₀)
     (Z : Subgroup B) (hZ : Z ≤ centerOf ((R : Subgroup A).map φ)) :
     WeaklyClosedIn ((R : Subgroup A).map φ) Z := by
-  have hR := R.isPGroup'
+  have hR := R.isPGroup
   obtain ⟨Z₀, hZ₀def⟩ : ∃ Z₀ : Subgroup A, Z₀ = Z.comap φ ⊓ (R : Subgroup A) := ⟨_, rfl⟩
   have hZ₀C : Z₀ ≤ centerOf (R : Subgroup A) := by
     rw [hZ₀def]
@@ -182,7 +182,7 @@ theorem weaklyClosed_center_comap (hker : Odd (Nat.card φ.ker)) (R : Sylow 2 A)
       WeaklyClosedIn ((R : Subgroup A).map φ) Z)
     (Z₀ : Subgroup A) (hZ₀ : Z₀ ≤ centerOf (R : Subgroup A)) :
     WeaklyClosedIn (R : Subgroup A) Z₀ := by
-  have hR := R.isPGroup'
+  have hR := R.isPGroup
   have hZ₀R : Z₀ ≤ (R : Subgroup A) := hZ₀.trans inf_le_left
   refine ⟨hZ₀R, fun g hg => ?_⟩
   have hZ := h (Z₀.map φ) ((Subgroup.map_mono hZ₀).trans (map_centerOf_le φ _))
@@ -202,7 +202,7 @@ theorem IsQGroupData.map_of_oddKernel {R : Sylow 2 A} {K : Subgroup A} (h : IsQG
     IsQGroupData (R.mapSurjective hφ) (K.map φ) := by
   have : Finite B := Finite.of_surjective φ hφ
   have : K.Normal := h.normal
-  have hR := R.isPGroup'
+  have hR := R.isPGroup
   have hkerK : φ.ker ≤ K := le_of_odd_of_two_pow_index K h.index_eq_two_pow φ.ker hker
   have hsurj := φ.subgroupMap_surjective K
   have hoddK := odd_card_ker_subgroupMap φ hker K
@@ -232,7 +232,7 @@ include hφ hker in
 theorem IsQGroupData.comap_of_oddKernel {R' : Sylow 2 B} {K : Subgroup B} (h : IsQGroupData R' K)
     (R : Sylow 2 A) (hRR : (R : Subgroup A).map φ = R') : IsQGroupData R (K.comap φ) := by
   have : Finite B := Finite.of_surjective φ hφ
-  have hR := R.isPGroup'
+  have hR := R.isPGroup
   have hmap : (K.comap φ).map φ = K := Subgroup.map_comap_eq_self_of_surjective hφ K
   have hsurj : Function.Surjective ((MulEquiv.subgroupCongr hmap).toMonoidHom.comp
       (φ.subgroupMap (K.comap φ))) :=

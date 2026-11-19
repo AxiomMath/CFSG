@@ -211,7 +211,7 @@ theorem eight_dvd_card_of_odd_index [Finite E] {d s : E} (hd4 : orderOf d = 4) (
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hπs : Function.Surjective (QuotientGroup.mk' (CFSG.pPrimeCore 2 E)) :=
     QuotientGroup.mk'_surjective _
-  have hPp : IsPGroup 2 (P : Subgroup E) := P.isPGroup'
+  have hPp : IsPGroup 2 (P : Subgroup E) := P.isPGroup
   have hinjP : Set.InjOn (QuotientGroup.mk' (CFSG.pPrimeCore 2 E)) (P : Subgroup E) :=
     injOn_mk_of_isPGroup hPp
   set Pbar : Sylow 2 (E ⧸ CFSG.pPrimeCore 2 E) := P.mapSurjective hπs with hPbardef
@@ -219,7 +219,7 @@ theorem eight_dvd_card_of_odd_index [Finite E] {d s : E} (hd4 : orderOf d = 4) (
       (P : Subgroup E).map (QuotientGroup.mk' (CFSG.pPrimeCore 2 E)) := rfl
   have hPbarL : (Pbar : Subgroup (E ⧸ CFSG.pPrimeCore 2 E)) ≤ L := by
     intro x hx
-    obtain ⟨k, hk⟩ := Pbar.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := Pbar.isPGroup ⟨x, hx⟩
     exact mem_of_pow_two_pow_eq_one hLi (by simpa using congrArg Subtype.val hk)
   have hPcard : Nat.card (P : Subgroup E) = 8 := by
     obtain ⟨eD⟩ := MatrixFourGroupNormalizer.generatedDihedral_equiv d s hd4
@@ -253,7 +253,7 @@ theorem pgl_case
   have hπker : (QuotientGroup.mk' (CFSG.pPrimeCore 2 E)).ker = CFSG.pPrimeCore 2 E :=
     QuotientGroup.ker_mk' _
   have hOodd : Odd (Nat.card (CFSG.pPrimeCore 2 E)) := odd_card_pPrimeCore
-  have hPp : IsPGroup 2 (P : Subgroup E) := P.isPGroup'
+  have hPp : IsPGroup 2 (P : Subgroup E) := P.isPGroup
   have hdP : d ∈ (P : Subgroup E) := hP ▸ Subgroup.mem_sup_left (Subgroup.mem_zpowers d)
   have hsP : s ∈ (P : Subgroup E) := hP ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers s)
   have hVP : (Subgroup.zpowers (d * d) ⊔ Subgroup.zpowers s : Subgroup E) ≤ P := by
@@ -270,7 +270,7 @@ theorem pgl_case
       (P : Subgroup E).map (QuotientGroup.mk' (CFSG.pPrimeCore 2 E)) := rfl
   have hPbarL : (Pbar : Subgroup (E ⧸ CFSG.pPrimeCore 2 E)) ≤ L := by
     intro x hx
-    obtain ⟨k, hk⟩ := Pbar.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := Pbar.isPGroup ⟨x, hx⟩
     exact mem_of_pow_two_pow_eq_one hLi (by simpa using congrArg Subtype.val hk)
   have hPcard : Nat.card (P : Subgroup E) = 8 := by
     obtain ⟨eD⟩ := MatrixFourGroupNormalizer.generatedDihedral_equiv d s hd4

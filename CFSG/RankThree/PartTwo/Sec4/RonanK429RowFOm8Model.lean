@@ -46,7 +46,7 @@ theorem subsingleton_units_gf2 : Subsingleton (GaloisField 2 1)ˣ := by
 
 theorem statedScalars_gf2_eq_bot {ι : Type} [Fintype ι] [DecidableEq ι] :
     StatedScalars ι (GaloisField 2 1) = ⊥ := by
-  haveI := subsingleton_units_gf2
+  have := subsingleton_units_gf2
   rw [eq_bot_iff]
   intro x hx
   rw [StatedScalars, MonoidHom.mem_range] at hx

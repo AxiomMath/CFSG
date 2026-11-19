@@ -122,7 +122,7 @@ theorem img_pre (F : ElemFrame P E K) {S : Finset Vec4} (h0 : 0 ∈ S)
     refine mem_img.mpr ⟨e, ⟨e, rfl, ?_⟩, by rw [he]; rfl⟩
     rw [he]; exact hv
 
-theorem relIndex_eq_card_img (F : ElemFrame P E K) {X : Subgroup G} (hKX : K ≤ X) (hXE : X ≤ E) :
+theorem relIndex_eq_card_img (F : ElemFrame P E K) {X : Subgroup G} (_hKX : K ≤ X) (hXE : X ≤ E) :
     K.relIndex X = (img F X).card := by
   classical
   let ψ : ↥X →* Multiplicative Vec4 := F.φ.comp (Subgroup.inclusion hXE)
@@ -136,7 +136,7 @@ theorem relIndex_eq_card_img (F : ElemFrame P E K) {X : Subgroup G} (hKX : K ≤
   have hrange : (ψ.range : Set (Multiplicative Vec4)) =
       Multiplicative.ofAdd '' (img F X : Set Vec4) := by
     ext z
-    simp only [SetLike.mem_coe, MonoidHom.mem_range, Set.mem_image, Finset.mem_coe, mem_img]
+    simp only [SetLike.mem_coe, MonoidHom.mem_range, Set.mem_image, mem_img]
     constructor
     · rintro ⟨x, rfl⟩
       exact ⟨Multiplicative.toAdd (F.φ (Subgroup.inclusion hXE x)),
@@ -156,7 +156,7 @@ theorem exists_mul_inv_mem_of_mem_sup {T Q P : Subgroup G} (hTP : T ≤ P)
     (Subgroup.mem_normalizer_iff.mp (hQP (hTP ht)) q).mp hq
   let QT : Subgroup G :=
     { carrier := {p | ∃ t ∈ T, p * t⁻¹ ∈ Q}
-      one_mem' := ⟨1, T.one_mem, by simpa using Q.one_mem⟩
+      one_mem' := ⟨1, T.one_mem, by simp⟩
       mul_mem' := by
         rintro p₁ p₂ ⟨t₁, ht₁, h₁⟩ ⟨t₂, ht₂, h₂⟩
         refine ⟨t₁ * t₂, T.mul_mem ht₁ ht₂, ?_⟩
@@ -172,7 +172,7 @@ theorem exists_mul_inv_mem_of_mem_sup {T Q P : Subgroup G} (hTP : T ≤ P)
   have hle : T ⊔ Q ≤ QT := by
     refine sup_le ?_ ?_
     · intro t ht
-      exact ⟨t, ht, by simpa using Q.one_mem⟩
+      exact ⟨t, ht, by simp⟩
     · intro q hq
       exact ⟨1, T.one_mem, by simpa using hq⟩
   intro s hs

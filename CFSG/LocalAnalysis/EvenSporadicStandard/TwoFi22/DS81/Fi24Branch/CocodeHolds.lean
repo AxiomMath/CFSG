@@ -16,8 +16,8 @@ theorem cocodeFacts_holds :
   noOffender := noOffender_holds
   exists_z := exists_z_holds
   data := fun G _ _ E t z hm hz => by
-    letI := commGroupOfM24Out hm
-    haveI := finite_E_of_m24Out hm
+    let := commGroupOfM24Out hm
+    have := finite_E_of_m24Out hm
     obtain ⟨e, he, hez, het⟩ := exists_equiv_std hm hz
     refine CocodeX.toCocodeData hm hz (CocodeX.of_map e ?_)
     rw [he, hez, het]

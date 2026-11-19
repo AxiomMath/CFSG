@@ -245,7 +245,7 @@ theorem su3_facts {K : Type} [Field K] [Finite K] {m : ℕ} (hodd : Odd m)
     (∀ t : StatedSU 3 (2 ^ (3 * m)) K, (∃ k : ℕ, t ^ 2 ^ k = 1) → t ^ 2 ^ 2 = 1) ∧
       ¬ 5 ∣ Nat.card (StatedSU 3 (2 ^ (3 * m)) K) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := 3 * m * 2) (by have := hodd.pos; omega) (by rw [hK, ← pow_mul])
   refine ⟨gl3_sub_pow_four _, ?_⟩
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 (3 * m) K :=
@@ -285,7 +285,7 @@ theorem false_of_psu3 {G : Type} [Group G] [Finite G] {Y W : Subgroup G} (hWY : 
     change _ = Subgroup.closure _
     congr 1
     ext A
-    simp only [Set.mem_setOf_eq, Units.ext_iff, Matrix.GeneralLinearGroup.val_det_apply,
+    simp only [Set.mem_ofPred_eq, Units.ext_iff, Matrix.GeneralLinearGroup.val_det_apply,
       Units.val_one]
   have hproj : projSU 3 2 (3 * m) = H.map Matrix.ProjGenLinGroup.mk := rfl
   obtain ⟨hexpH, h5H⟩ := su3_facts hodd hFc

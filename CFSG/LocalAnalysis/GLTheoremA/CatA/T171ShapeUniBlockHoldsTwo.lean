@@ -138,12 +138,12 @@ theorem innDiagOn_of_uniJSelfDualModel_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠
   obtain ⟨F, instF, finF, hFcard, ⟨eSL⟩⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.exists_quot_heldSU_two_equiv_psl
       τ hτ hτk hEcard
-  letI : Field F := instF
-  letI : Finite F := finF
+  let : Field F := instF
+  let : Finite F := finF
   have hheld : heldSU 2 E τ hτ = StatedSU 2 (2 ^ k) E :=
     CFSG.LieType.SemisimpleCentralizers.Held.hct_heldSU_eq_statedSU (a := 2) (Q := 2 ^ k) hτk
   rw [hheld] at eSL
-  haveI : CharP E 2 := hE.charP
+  have : CharP E 2 := hE.charP
   have hcenterTriv : Subgroup.center (StatedSU 2 (2 ^ k) E) = ⊥ :=
     CFSG.ComponentClassification.RankTwoClassical.center_statedSU_two_eq_bot hEcard
   have hscalTriv : (StatedScalars (Fin 2) E).subgroupOf (StatedSU 2 (2 ^ k) E) = ⊥ :=

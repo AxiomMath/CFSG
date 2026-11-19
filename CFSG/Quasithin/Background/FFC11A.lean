@@ -70,7 +70,7 @@ theorem noOddCoverSL2 (L H : Type) [Group L] [Group H] [Finite L] (hL : CFSG.Ope
     have h1 : e (f u) = 1 := (MulEquiv.map_eq_one_iff (specialLinearGroupEquivStatedSL 2 K).symm).1 hu
     exact (MulEquiv.map_eq_one_iff e).1 h1
   have hcyc : IsCyclic ↥((P : Subgroup L).map g) :=
-    CFSG.LinearAlgebra.even_SL2_odd_prime_subgroups_cyclic hp2 _ (P.isPGroup'.map g)
+    CFSG.LinearAlgebra.even_SL2_odd_prime_subgroups_cyclic hp2 _ (P.isPGroup.map g)
   have hker : (g.subgroupMap (P : Subgroup L)).ker ≤ Subgroup.center ↥(P : Subgroup L) := by
     intro u hu
     rw [Subgroup.mem_center_iff]

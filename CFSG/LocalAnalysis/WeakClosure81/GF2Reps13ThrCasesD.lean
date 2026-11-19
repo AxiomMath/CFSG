@@ -15,7 +15,7 @@ variable {W : Type} [CommGroup W] [Finite W]
 private theorem w16g_iso_pOnePlusTwo {p : ℕ} {X Y : Type} [Group X] [Group Y]
     (e : X ≃* Y) (h : IsPOnePlusTwo p X) : IsPOnePlusTwo p Y := by
   obtain ⟨hX, hc, hp⟩ := h
-  haveI : CFSG.IsExtraspecial p X := hX
+  have : CFSG.IsExtraspecial p X := hX
   refine ⟨isExtraspecial_of_mulEquiv e.symm, ?_, ?_⟩
   · rw [← Nat.card_congr e.toEquiv]; exact hc
   · intro y
@@ -38,7 +38,7 @@ private theorem w16g_card_isZ3_81 {X : Type} [Group X]
     (h : IsZ3TimesPOnePlusTwo X ∨ IsZ3WrZ3 X) : Nat.card X = 81 := by
   rcases h with h | h
   · obtain ⟨H, hinstH, hP, ⟨e⟩⟩ := h
-    letI := hinstH
+    let := hinstH
     have hcardH : Nat.card H = 27 := by rw [hP.2.1]; norm_num
     have hcardZ : Nat.card (Multiplicative (ZMod 3)) = 3 := by
       rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]

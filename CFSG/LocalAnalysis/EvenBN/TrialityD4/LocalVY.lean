@@ -237,7 +237,7 @@ theorem isPGroup_yamadaR₁ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : IsPGroup 2 (d.S.map L.subtype : Subgroup G) := by
     obtain ⟨P, hP⟩ := d.exists_sylow_eq_S
-    exact (hP ▸ P.isPGroup').map _
+    exact (hP ▸ P.isPGroup).map _
   exact (LieType.BorelTits.pCoreOf_isPGroup 2 _).to_sup_of_normal_left' hS
     ((h.S_le_normalizer_tV d).trans (le_normalizer_yamadaC₁ d t))
 

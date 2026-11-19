@@ -69,7 +69,7 @@ theorem ggSpNbr_apriori_sp (hLB : GGLBalanceInput) (hJp : GGStdSubPrimeInput) {G
   have hnormK' : Bs ≤ Subgroup.normalizer (K' : Set G) := hmarkK'.le_normalizer
   have hC := ggSpNbr_inf_centralizer_eq_zpowers hLB hJp hcfg hOp hInn hNoTr hN hK'
   have hyorder : orderOf y' = p := by
-    haveI : Fact p.Prime := Fact.mk hp
+    have : Fact p.Prime := Fact.mk hp
     exact orderOf_eq_prime (hK'.1.1.1.2 y' hK'.1.2.1) hK'.1.2.2.1
   have hcentK' : Nat.card ↥(Bs ⊓ Subgroup.centralizer (K' : Set G)) ≤ p := by
     rw [hC, Nat.card_zpowers, hyorder]
@@ -101,7 +101,7 @@ theorem ggSpNbr_apriori_F4 (hLB : GGLBalanceInput) (hJp : GGStdSubPrimeInput)
     (ggSpConfig_rank_orders ggSpLiftInput_holds ggInnerDiagMpInput_holds hcfg hInn hN).1
   have hC := ggSpNbr_inf_centralizer_eq_zpowers hLB hJp hcfg hOp hInn hNoTr hN hK'
   have hyorder : orderOf y' = p := by
-    haveI : Fact p.Prime := Fact.mk hp
+    have : Fact p.Prime := Fact.mk hp
     exact orderOf_eq_prime (hK'.1.1.1.2 y' hK'.1.2.1) hK'.1.2.2.1
   have hceq : Nat.card ↥(Bs ⊓ Subgroup.centralizer (K' : Set G)) = p := by
     rw [hC, Nat.card_zpowers, hyorder]

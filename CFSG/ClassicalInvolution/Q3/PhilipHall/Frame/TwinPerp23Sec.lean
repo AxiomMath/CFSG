@@ -41,7 +41,7 @@ theorem p23_q8Section (h : PerpHypS n Y R S t) {c : Y} (hc : c * c = 1) :
 theorem centralizer_ne_top (h : PerpHypS n Y R S t) {c : Y} (hc1 : c ≠ 1) :
     Subgroup.centralizer ({c} : Set Y) ≠ ⊤ := by
   have hC := CoreData.of_S h.core
-  haveI := hC.simple
+  have := hC.simple
   have hbot := CFSG.ClassicalInvolution.centralizer_genFittingFStar_eq_bot hC.nonab
   intro htop
   apply hc1

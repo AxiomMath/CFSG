@@ -30,7 +30,7 @@ private theorem isPrimitivePrimeDivisor_three_two : IsPrimitivePrimeDivisor 3 2 
 
 private theorem nonab_of_pow_two_dvd {T : Type} [Group T] [Finite T] (hT : IsSimpleGroup T)
     {n : ℕ} (hn : 2 < n) (h : 2 ^ n ∣ Nat.card T) : ∃ a b : T, a * b ≠ b * a := by
-  haveI := hT.toNontrivial
+  have := hT.toNontrivial
   have hpos : 0 < Nat.card T := Nat.card_pos
   have hle : 2 ^ n ≤ Nat.card T := Nat.le_of_dvd hpos h
   have h2lt : 2 < 2 ^ n := by
@@ -41,7 +41,7 @@ private theorem nonab_of_pow_two_dvd {T : Type} [Group T] [Finite T] (hT : IsSim
   have hcomm : ∀ a b : T, a * b = b * a := fun a b => by
     by_contra hab
     exact hnab ⟨a, b, hab⟩
-  haveI : IsMulCommutative T := IsMulCommutative.mk (Std.Commutative.mk hcomm)
+  have : IsMulCommutative T := IsMulCommutative.mk (Std.Commutative.mk hcomm)
   exact Nat.not_prime_of_dvd_of_lt h2 (by norm_num) (h2lt.trans_le hle)
     (Group.is_simple_iff_prime_card.mp hT)
 
@@ -57,7 +57,7 @@ private theorem exists_orderOf_of_profile {T : Type} [Group T] [Finite T] {N N�
     (hk2 : 2 ≤ k) (hk6 : k ≠ 6) (hZ : Z k) :
     ∃ t : T, ∀ (d : ℕ) (g : GL (Fin d) (ZMod 2)), orderOf g = orderOf t → k ≤ d := by
   obtain ⟨p, hp, hdvd⟩ := exists_ppd_dvd_of_profile hcard hprof hk2 hk6 hZ
-  haveI : Fact p.Prime := ⟨hp.prime⟩
+  have : Fact p.Prime := ⟨hp.prime⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' p hdvd
   exact ⟨t, fun d g hg => le_of_orderOf_eq_ppd hp (by omega) g (hg.trans ht)⟩
 
@@ -72,7 +72,7 @@ private theorem isPrimitivePrimeDivisor_nineteen_eighteen : IsPrimitivePrimeDivi
 theorem leviData_l2 {T : Type} [Group T] [Finite T] {n : ℕ} (h : IsL2 T n) (hn : 2 < n) :
     LeviData T n := by
   have hB : CFSG.Blueprint.LieModel T .PSL 2 2 n := h
-  haveI := uc22p22r_lieModel_isSimple_classical (Or.inl rfl) hB
+  have := uc22p22r_lieModel_isSimple_classical (Or.inl rfl) hB
   have hX := CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hB
   have hcard : Nat.card T = ordA 1 (2 ^ n) := (card_statedClassicalModel_two hX).1 rfl
   have hprof := profile_ordA (n := 1) (f := n) (by norm_num) (by omega)
@@ -104,7 +104,7 @@ theorem leviData_l2 {T : Type} [Group T] [Finite T] {n : ℕ} (h : IsL2 T n) (hn
 theorem leviData_l3 {T : Type} [Group T] [Finite T] {n : ℕ} (h : IsL3 T n) (hn : 2 < n) :
     LeviData T n := by
   have hB : CFSG.Blueprint.LieModel T .PSL 3 2 n := h
-  haveI := uc22p22r_lieModel_isSimple_classical (Or.inl rfl) hB
+  have := uc22p22r_lieModel_isSimple_classical (Or.inl rfl) hB
   have hX := CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hB
   have hcard : Nat.card T = ordA 2 (2 ^ n) := (card_statedClassicalModel_two hX).1 rfl
   have hprof := profile_ordA (n := 2) (f := n) (by norm_num) (by omega)
@@ -131,7 +131,7 @@ theorem leviData_l3 {T : Type} [Group T] [Finite T] {n : ℕ} (h : IsL3 T n) (hn
 theorem leviData_u3 {T : Type} [Group T] [Finite T] {n : ℕ} (h : IsU3 T n) (hn : 2 < n) :
     LeviData T n := by
   have hB : CFSG.Blueprint.LieModel T .PSU 3 2 n := h
-  haveI := uc22p22r_lieModel_isSimple_classical (Or.inr (Or.inl rfl)) hB
+  have := uc22p22r_lieModel_isSimple_classical (Or.inr (Or.inl rfl)) hB
   have hX := CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hB
   have hcard : Nat.card T = ordTwistedA 2 (2 ^ n) := (card_statedClassicalModel_two hX).2.1 rfl
   have hprof := profile_ordTwistedA (n := 2) (g := n) (by norm_num) (by omega)
@@ -162,7 +162,7 @@ theorem leviData_u3 {T : Type} [Group T] [Finite T] {n : ℕ} (h : IsU3 T n) (hn
 theorem leviData_sp4 {T : Type} [Group T] [Finite T] {n : ℕ} (h : IsSp4 T n) (hn : 2 < n) :
     LeviData T n := by
   have hB : CFSG.Blueprint.LieModel T .PSp 2 2 n := h
-  haveI := uc22p22r_lieModel_isSimple_classical (Or.inr (Or.inr (Or.inl rfl))) hB
+  have := uc22p22r_lieModel_isSimple_classical (Or.inr (Or.inr (Or.inl rfl))) hB
   have hX := CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hB
   have hcard : Nat.card T = ordBC 2 (2 ^ n) := (card_statedClassicalModel_two hX).2.2.1 rfl
   have hprof := profile_ordBC (n := 2) (f := n) (by omega)
@@ -185,7 +185,7 @@ theorem leviData_sz
     (hSz : ∀ (X : Type) [Group X] (f : ℕ), IsSz X f → Nat.card X = CFSG.Open.ordSuzuki (2 ^ f))
     {T : Type} [Group T] [Finite T] {n : ℕ} (h : IsSz T n) (hn : 2 < n) : LeviData T n := by
   have hB : CFSG.Blueprint.LieModel T .twistedB2 0 2 n := h
-  haveI := uc22p22r_lieModel_isSimple_twistedB2 hB
+  have := uc22p22r_lieModel_isSimple_twistedB2 hB
   have hcard : Nat.card T = CFSG.Open.ordSuzuki (2 ^ n) := hSz T n h
   have hprof := profile_ordSuzuki (f := n) (by omega)
   have hq2 : (2 ^ n) ^ 2 ∣ Nat.card T := by
@@ -223,7 +223,7 @@ theorem exists_orderOf_u3_three {T : Type} [Group T] [Finite T] (h : IsU3 T 3) :
   have hdvd : 19 ∣ Nat.card T := by
     rw [hcard]
     exact (hprof.prim 19 18 isPrimitivePrimeDivisor_nineteen_eighteen (by norm_num)).mpr hz
-  haveI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 19) := ⟨by norm_num⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 19 hdvd
   exact ⟨t, fun d g hg => le_of_orderOf_eq_ppd isPrimitivePrimeDivisor_nineteen_eighteen
     (by norm_num) g (hg.trans ht)⟩

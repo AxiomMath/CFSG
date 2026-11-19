@@ -11,6 +11,7 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private lemma plh_inf_eq_bot_of_point_not_le {a Y : Submodule K (Fin 4 → K)}
     (ha : finrank K a = 1) (h : ¬ a ≤ Y) : Y ⊓ a = ⊥ := by
   by_contra hne

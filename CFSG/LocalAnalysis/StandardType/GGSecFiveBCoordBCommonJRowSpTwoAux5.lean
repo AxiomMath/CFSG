@@ -143,10 +143,10 @@ theorem ggCommonJSpTwo_sparse {K : Type} [Field K] [Finite K] (hK : Nat.card K =
           Subgroup.zpowers (spPlaneTorus 4 ζ f) ∧
         7 ∣ Nat.card K' := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by simpa using hK)
-  haveI : NeZero (4 : ℕ) := ⟨by norm_num⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by simpa using hK)
+  have : NeZero (4 : ℕ) := ⟨by norm_num⟩
   have hsparse_keep : GGCoordSparse f := hsparse
   obtain ⟨i₀, hi₀⟩ := hsparse
   have hfi₀ : f i₀ ≠ 1 := by
@@ -176,7 +176,6 @@ theorem ggCommonJSpTwo_sparse {K : Type} [Field K] [Finite K] (hK : Nat.card K =
     exact Nat.pow_right_injective (by norm_num) h
   subst hfexp
   have hdim : 6 ≤ CFSG.RankThree.PartOne.spFixedDim (spPlaneTorus 4 ζ f) := by
-    change 6 ≤ CFSG.RankThree.PartOne.spFixedDim (spPlaneTorus 4 ζ f)
     exact sparse_fixedDim_ge_six (ζ := ζ) (f := f) hf hsparse_keep blocks
   obtain ⟨hFq, hFc⟩ :=
     SympMinus.sympMinusZ_fixedFactor_isComponent (p := 3) (m := 4) Nat.prime_three

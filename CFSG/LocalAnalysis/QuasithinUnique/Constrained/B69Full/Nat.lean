@@ -108,7 +108,7 @@ theorem nonempty_mulEquiv_sl2_of_binaryNatural {H : Subgroup (MulAut V)} {U Z : 
       ⟨⟨(Multiplicative.ofAdd w : Multiplicative (Fin 2 → K)), trivial⟩, rfl⟩
     obtain ⟨u, hu⟩ := hβs (QuotientGroup.mk m)
     have hfixV : ((π γ : ↥H) : MulAut V) (u : V) = (u : V) := by
-      rw [hγ] <;> rfl
+      rw [hγ]; rfl
     have hu' : ((π γ : ↥H) : MulAut V) (u : V) ∈ U := by
       rw [hfixV]
       exact u.2
@@ -136,12 +136,12 @@ theorem nonempty_mulEquiv_sl2_of_binaryNatural {H : Subgroup (MulAut V)} {U Z : 
       have hw := key _ hγ w
       rw [specialLinearGroupEquivStatedSL_coe] at hw
       exact hw
-    rw [hA] <;> exact map_one _
+    rw [hA]; exact map_one _
   have hψ : Function.Bijective (π.comp (specialLinearGroupEquivStatedSL 2 K).toMonoidHom) :=
     ⟨hπinj.comp (specialLinearGroupEquivStatedSL 2 K).injective,
       hπs.comp (specialLinearGroupEquivStatedSL 2 K).surjective⟩
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (GaloisField 2 e) := Fintype.ofFinite (GaloisField 2 e)
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (GaloisField 2 e) := Fintype.ofFinite (GaloisField 2 e)
   have hcard : Fintype.card K = Fintype.card (GaloisField 2 e) := by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, hK, GaloisField.card 2 e (by omega)]
   have hiso : Matrix.SpecialLinearGroup (Fin 2) K ≃* ↥H :=

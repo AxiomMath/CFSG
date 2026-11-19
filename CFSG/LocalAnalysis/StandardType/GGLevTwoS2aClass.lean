@@ -75,7 +75,7 @@ theorem levTwoS2a_form_eq_zero_of_disjoint (n : ℕ) (hn : 1 ≤ n) {β γ : Fin
     form (isFiniteType_A n) (toRat β) (toRat γ) = 0 := by
   obtain ⟨κ, hκpos, hκ⟩ := levTwoS2a_form_coord n hn
   rw [hκ β γ, levTwoS2a_dot_root_root n hβ hγ]
-  rw [if_neg hac, if_neg hbd, if_neg had, if_neg hbc]
+  rw [ite_eq_right hac, ite_eq_right hbd, ite_eq_right had, ite_eq_right hbc]
   ring
 
 def levTwoS2a_inFibre (n p : ℕ) (c : Fin n → ZMod p) (a : Fin (n+1)) (β : Fin n → ℤ) : Prop :=
@@ -94,7 +94,7 @@ theorem levTwoS2a_inFibre_step (n : ℕ) (hn : 1 ≤ n) (p : ℕ) (hp : p.Prime)
       levTwoS2a_D n p c c' = levTwoS2a_D n p c d' := by
     have := hγ
     rw [levTwoS2a_Phi_fibre n hn p hp hp2 c Φ h] at this
-    simpa only [Set.mem_setOf_eq] using this
+    simpa only [Set.mem_ofPred_eq] using this
   obtain ⟨c', d', hcd, hγc, hDcd⟩ := hγE
   have hmeet : a' = c' ∨ a' = d' ∨ b' = c' ∨ b' = d' := by
     by_contra hc
@@ -133,10 +133,10 @@ theorem levTwoS2a_single_sub_single {n : ℕ} {a b c d : Fin (n+1)} (hab : a ≠
     simpa [Pi.sub_apply, Pi.single_apply, hab, Ne.symm hab] using congrFun h b
   constructor
   · by_contra hc
-    rw [if_neg hc] at ha
+    rw [ite_eq_right hc] at ha
     split_ifs at ha <;> omega
   · by_contra hd
-    rw [if_neg hd] at hb
+    rw [ite_eq_right hd] at hb
     split_ifs at hb <;> omega
 
 theorem levTwoS2a_inFibre_conflict {n p : ℕ} {c : Fin n → ZMod p} {a b : Fin (n+1)}
@@ -161,7 +161,7 @@ theorem levTwoS2a_exists_large_fibre (n : ℕ) (hn : 1 ≤ n) (p : ℕ) (hp : p.
       levTwoS2a_D n p c a = levTwoS2a_D n p c b := by
     have := hβΦ
     rw [levTwoS2a_Phi_fibre n hn p hp hp2 c Φ h] at this
-    simpa only [Set.mem_setOf_eq] using this
+    simpa only [Set.mem_ofPred_eq] using this
   obtain ⟨B, b0, hBb0, hβc, hDBb0⟩ := hβE
   refine ⟨B, ⟨b0, hBb0.symm, hDBb0.symm⟩, ?_⟩
   intro a ha
@@ -217,7 +217,7 @@ theorem levTwoS2a_fibre_card_ge (n : ℕ) (hn : 1 ≤ n) (p : ℕ) (hp : p.Prime
         levTwoS2a_D n p c a = levTwoS2a_D n p c b := by
       have := hβΦ
       rw [levTwoS2a_Phi_fibre n hn p hp hp2 c Φ h] at this
-      simpa only [Set.mem_setOf_eq] using this
+      simpa only [Set.mem_ofPred_eq] using this
     have hDaB : levTwoS2a_D n p c a = levTwoS2a_D n p c B :=
       huniq a ⟨b, hab.symm, hD.symm⟩
     have hDbB : levTwoS2a_D n p c b = levTwoS2a_D n p c B :=

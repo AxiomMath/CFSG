@@ -183,7 +183,7 @@ theorem blockHasThree_of_three_dvd_card_range {M S L : Subgroup G} (hLM : L ≤ 
   push Not at hyC
   obtain ⟨_, ⟨m, hm, rfl⟩, hne'⟩ := hyC
   refine ⟨y, y.2, ?_, m, Subgroup.mem_subgroupOf.mp hm, fun hQ => hne' ?_⟩
-  · exact (P.isPGroup'.map (Subgroup.subtype _)).to_le
+  · exact (P.isPGroup.map (Subgroup.subtype _)).to_le
       (Subgroup.zpowers_le.mpr (Subgroup.mem_map_of_mem (Subgroup.subtype _) hyP))
   · have h1 := (mk_eq_one_iff_coe_mem_pCoreOf
       ((Subgroup.inclusion hAM y) * m * (Subgroup.inclusion hAM y)⁻¹ * m⁻¹)).mpr hQ

@@ -21,7 +21,7 @@ private lemma pslX_pow_three (K : Type) [Field K] : (pslX K) ^ 3 = 1 := by
   rw [pow_three']
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [pslX, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+    simp [pslX, Matrix.mul_apply, Fin.sum_univ_two]
 
 private def pslXGL (K : Type) [Field K] : GL (Fin 2) K :=
   Matrix.GeneralLinearGroup.mkOfDetNeZero (pslX K) (by rw [pslX_det]; exact one_ne_zero)

@@ -91,9 +91,8 @@ theorem classify_t111 (V W U R : Torus (Type321.k) →+ Torus (Type321.k))
   have eR' := endo_ofInt_vec_Idx2R R hR0' hR1 hR2
   have c1 : xV = 0 := by
     have r := DFunLike.congr_fun hrels.uv_sq (gen (Type321.k) 0)
-    simp only [AddMonoidHom.comp_apply, AddMonoidHom.id_apply, gen_zero_eq_ofInt_Idx2R, eV', eW',
-      eU', eR', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
-      Matrix.tail_cons, one_mul, zero_mul, add_zero, zero_add, Torus.ofInt_eq_ofInt_iff] at r
+    simp only [AddMonoidHom.comp_apply, AddMonoidHom.id_apply, gen_zero_eq_ofInt_Idx2R, eV', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
+      Matrix.tail_cons, one_mul, zero_mul, add_zero, Torus.ofInt_eq_ofInt_iff] at r
     have r0 := Int.ModEq.dvd (r 0)
     have r1 := Int.ModEq.dvd (r 1)
     have r2 := Int.ModEq.dvd (r 2)
@@ -108,9 +107,9 @@ theorem classify_t111 (V W U R : Torus (Type321.k) →+ Torus (Type321.k))
   subst xV
   have c2 : xW = 0 := by
     have r := DFunLike.congr_fun hrels.t_sq (gen (Type321.k) 0)
-    simp only [AddMonoidHom.comp_apply, AddMonoidHom.id_apply, gen_zero_eq_ofInt_Idx2R, eV', eW',
-      eU', eR', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
-      Matrix.tail_cons, one_mul, zero_mul, add_zero, zero_add, Torus.ofInt_eq_ofInt_iff] at r
+    simp only [AddMonoidHom.comp_apply, AddMonoidHom.id_apply, gen_zero_eq_ofInt_Idx2R, eW',
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
+      Matrix.tail_cons, one_mul, zero_mul, add_zero, Torus.ofInt_eq_ofInt_iff] at r
     have r0 := Int.ModEq.dvd (r 0)
     have r1 := Int.ModEq.dvd (r 1)
     have r2 := Int.ModEq.dvd (r 2)
@@ -125,8 +124,7 @@ theorem classify_t111 (V W U R : Torus (Type321.k) →+ Torus (Type321.k))
   subst xW
   have c3 : xR = 0 := by
     have r := DFunLike.congr_fun hrels.rho_cube (gen (Type321.k) 0)
-    simp only [AddMonoidHom.comp_apply, AddMonoidHom.id_apply, gen_zero_eq_ofInt_Idx2R, eV', eW',
-      eU', eR', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
+    simp only [AddMonoidHom.comp_apply, AddMonoidHom.id_apply, gen_zero_eq_ofInt_Idx2R, eR', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
       Matrix.tail_cons, one_mul, zero_mul, add_zero, zero_add, Torus.ofInt_eq_ofInt_iff] at r
     have r0 := Int.ModEq.dvd (r 0)
     have r1 := Int.ModEq.dvd (r 1)
@@ -142,8 +140,7 @@ theorem classify_t111 (V W U R : Torus (Type321.k) →+ Torus (Type321.k))
   subst xR
   have c4 : zU = yU := by
     have r := DFunLike.congr_fun hrels.u_sq (gen (Type321.k) 0)
-    simp only [AddMonoidHom.comp_apply, AddMonoidHom.id_apply, gen_zero_eq_ofInt_Idx2R, eV', eW',
-      eU', eR', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
+    simp only [AddMonoidHom.comp_apply, AddMonoidHom.id_apply, gen_zero_eq_ofInt_Idx2R, eU', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
       Matrix.tail_cons, one_mul, zero_mul, add_zero, zero_add, Torus.ofInt_eq_ofInt_iff] at r
     have r0 := Int.ModEq.dvd (r 0)
     have r1 := Int.ModEq.dvd (r 1)
@@ -159,8 +156,7 @@ theorem classify_t111 (V W U R : Torus (Type321.k) →+ Torus (Type321.k))
   subst zU
   have c5 : yR = yU := by
     have r := DFunLike.congr_fun hrels.u_rho (gen (Type321.k) 0)
-    simp only [AddMonoidHom.comp_apply, AddMonoidHom.id_apply, gen_zero_eq_ofInt_Idx2R, eV', eW',
-      eU', eR', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
+    simp only [AddMonoidHom.comp_apply, AddMonoidHom.id_apply, gen_zero_eq_ofInt_Idx2R, eU', eR', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
       Matrix.tail_cons, one_mul, zero_mul, add_zero, zero_add, Torus.ofInt_eq_ofInt_iff] at r
     have r0 := Int.ModEq.dvd (r 0)
     have r1 := Int.ModEq.dvd (r 1)
@@ -176,8 +172,8 @@ theorem classify_t111 (V W U R : Torus (Type321.k) →+ Torus (Type321.k))
   subst yR
   have c6 : (yV + zV + zW) % 2 = 0 ∧ yW = zV := by
     have r := DFunLike.congr_fun hrels.uv_rho (gen (Type321.k) 0)
-    simp only [AddMonoidHom.comp_apply, AddMonoidHom.id_apply, gen_zero_eq_ofInt_Idx2R, eV', eW',
-      eU', eR', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
+    simp only [AddMonoidHom.comp_apply, gen_zero_eq_ofInt_Idx2R, eV', eW',
+      eR', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
       Matrix.tail_cons, one_mul, zero_mul, add_zero, zero_add, Torus.ofInt_eq_ofInt_iff] at r
     have r0 := Int.ModEq.dvd (r 0)
     have r1 := Int.ModEq.dvd (r 1)
@@ -194,8 +190,7 @@ theorem classify_t111 (V W U R : Torus (Type321.k) →+ Torus (Type321.k))
   subst yW
   have c8 : (yV + zV + xU) % 2 = 1 := by
     have r := DFunLike.congr_fun hrels.uv_comm_u (gen (Type321.k) 0)
-    simp only [AddMonoidHom.comp_apply, AddMonoidHom.id_apply, gen_zero_eq_ofInt_Idx2R, eV', eW',
-      eU', eR', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
+    simp only [AddMonoidHom.comp_apply, gen_zero_eq_ofInt_Idx2R, eV', eU', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
       Matrix.tail_cons, one_mul, zero_mul, add_zero, zero_add, Torus.ofInt_eq_ofInt_iff] at r
     have r0 := Int.ModEq.dvd (r 0)
     have r1 := Int.ModEq.dvd (r 1)
@@ -221,9 +216,9 @@ theorem classify_t111 (V W U R : Torus (Type321.k) →+ Torus (Type321.k))
   rcases bxU with hxU | hxU <;> subst xU
   ·
     refine Or.inr ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> intro i <;> fin_cases i <;>
-      (rw [Int.modEq_iff_dvd]; norm_num [Type321.k] <;> (try ring_nf) <;> omega)
+      (rw [Int.modEq_iff_dvd]; norm_num [Type321.k]; try (try ring_nf); try omega)
   ·
     refine Or.inl ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> intro i <;> fin_cases i <;>
-      (rw [Int.modEq_iff_dvd]; norm_num [Type321.k] <;> (try ring_nf) <;> omega)
+      (rw [Int.modEq_iff_dvd]; norm_num [Type321.k]; try (try ring_nf); try omega)
 
 end CFSG.CGT.Stroth77

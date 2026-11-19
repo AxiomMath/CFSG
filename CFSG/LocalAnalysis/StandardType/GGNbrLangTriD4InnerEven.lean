@@ -168,7 +168,7 @@ theorem ggNbrLangAxisInnerOn_t3Even (hsub : GGNbrSubcomponentInput) (hKG : GGTri
         Subgroup.centralizer ({r} : Set R) := by
       rw [← hr]
       ext y
-      simp only [ggAutFixedSubgroup, Set.mem_setOf_eq, Subgroup.mem_centralizer_singleton_iff,
+      simp only [ggAutFixedSubgroup, Subgroup.mem_centralizer_singleton_iff,
         MulAut.conj_apply]
       constructor
       · intro h
@@ -193,15 +193,15 @@ theorem ggNbrLangAxisInnerOn_t3Even (hsub : GGNbrSubcomponentInput) (hKG : GGTri
     rcases hICR r hr1 hr3 Q hQr with
       ⟨E, hEfield, hEfin, m, hm, hEcard, heQ⟩ | ⟨E, hEfield, hEfin, m, hm, hEcard, heQ⟩
     · left
-      letI : Field E := hEfield
-      letI : Finite E := hEfin
+      let : Field E := hEfield
+      let : Finite E := hEfin
       obtain ⟨eQ⟩ := heQ
       let eJQ : (↥J ⧸ Subgroup.center ↥J) ≃* (↥Q ⧸ Subgroup.center ↥Q) :=
         QuotientGroup.congr _ _ e (Subgroup.map_center_eq e)
       exact ⟨E, hEfield, hEfin, m, hm, hEcard, ⟨eJQ.trans eQ⟩⟩
     · right
-      letI : Field E := hEfield
-      letI : Finite E := hEfin
+      let : Field E := hEfield
+      let : Finite E := hEfin
       obtain ⟨eQ⟩ := heQ
       let eJQ : (↥J ⧸ Subgroup.center ↥J) ≃* (↥Q ⧸ Subgroup.center ↥Q) :=
         QuotientGroup.congr _ _ e (Subgroup.map_center_eq e)

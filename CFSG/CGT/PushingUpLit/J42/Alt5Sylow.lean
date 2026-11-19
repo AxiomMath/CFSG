@@ -99,11 +99,11 @@ theorem exists_sylow_eq_TOf_alt (hT : TightData S) (hQe : QElem S) (hR : RSmall 
   refine ⟨P, ?_⟩
   by_contra hne
   have hlt : TOf M (w * r) ≠ (P : Subgroup G) := fun h => hne h.symm
-  obtain ⟨n, hnP, hnT, hnN⟩ := exists_mem_normalizer_of_lt P.isPGroup' hP hlt
+  obtain ⟨n, hnP, hnT, hnN⟩ := exists_mem_normalizer_of_lt P.isPGroup hP hlt
   have hnM : n ∈ M := S.normalizer_TOf_le_M hT hQe hw hr hcard hnN
   have hU : (P : Subgroup G) ⊓ M = TOf M (w * r) :=
     S.eq_TOf_of_le_alt hT hQe hR hA hw hr hcard hKM inf_le_right
-      (isPGroup_of_le P.isPGroup' inf_le_left) (le_inf hP (TOf_le_M M _))
+      (isPGroup_of_le P.isPGroup inf_le_left) (le_inf hP (TOf_le_M M _))
   exact hnT (hU ▸ Subgroup.mem_inf.2 ⟨hnP, hnM⟩)
 
 end SolCfg

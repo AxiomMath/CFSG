@@ -32,11 +32,11 @@ private noncomputable def hyperG (ω : F) : Matrix (Fin 2) (Fin 2) F := !![0, 1 
 private noncomputable def hyperM (ω : F) (a : Fˣ) : Matrix (Fin 2) (Fin 2) F :=
   hyperP ω * hypD a * (hyperP ω)⁻¹
 
-private theorem hyperP_det {ω : F} (h1ω : 1 + ω ≠ 0) : (hyperP ω).det = 1 + ω := by
+private theorem hyperP_det {ω : F} (_h1ω : 1 + ω ≠ 0) : (hyperP ω).det = 1 + ω := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   have h : hyperP ω = !![1, 1; 1, ω] := rfl
   rw [h, Matrix.det_fin_two]
-  simp [Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp [Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one]
   linear_combination -h2
 
 private theorem hyperP_star_mul {φ : F →+* F} {ω : F} (hω0 : ω ≠ 0) (hφ : φ ω = ω⁻¹) :
@@ -45,10 +45,12 @@ private theorem hyperP_star_mul {φ : F →+* F} {ω : F} (hω0 : ω ≠ 0) (hφ
   fin_cases i <;> fin_cases j <;>
     simp [hyperP, hyperG, Matrix.mul_apply, Fin.sum_univ_two, hφ, hω0, CharTwo.add_self_eq_zero]
 
+omit [CharP F 2] in
 private theorem mul_inv_cancel_mul {x y : F} (hx : x ≠ 0) : x * y * x⁻¹ = y := by
   rw [← div_eq_mul_inv]
   exact mul_div_cancel_left₀ _ hx
 
+omit [CharP F 2] in
 private theorem hypD_star_mul_hyperG {φ : F →+* F} {ω : F} {a : Fˣ}
     (ha : φ (a : F) = (a : F)) :
     ((hypD a).map φ)ᵀ * hyperG ω * hypD a = hyperG ω := by
@@ -60,24 +62,25 @@ private theorem hypD_star_mul_hyperG {φ : F →+* F} {ω : F} {a : Fˣ}
   rw [hD]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [hypD, hyperG, Matrix.diagonal_apply, Matrix.mul_apply, Fin.sum_univ_two,
-      Units.val_inv_eq_inv_val]
+    simp [hypD, hyperG, Matrix.diagonal_apply, Matrix.mul_apply, Units.val_inv_eq_inv_val]
   all_goals
     first
-    | rfl
     | exact mul_inv_cancel_mul (x := (a : F)) a.ne_zero
     | simpa using mul_inv_cancel_mul (x := ((a : F))⁻¹) (inv_ne_zero a.ne_zero)
 
+omit [CharP F 2] in
 private theorem conj_cancel_inv_mul {P D : Matrix (Fin 2) (Fin 2) F} (hP : P⁻¹ * P = 1) :
     P⁻¹ * (P * D * P⁻¹) * P = D := by
   calc P⁻¹ * (P * D * P⁻¹) * P = (P⁻¹ * P) * D * (P⁻¹ * P) := by noncomm_ring
     _ = D := by rw [hP, one_mul, mul_one]
 
+omit [CharP F 2] in
 private theorem conj_mul_conj {P D D' : Matrix (Fin 2) (Fin 2) F} (hP : P⁻¹ * P = 1) :
     (P * D * P⁻¹) * (P * D' * P⁻¹) = P * (D * D') * P⁻¹ := by
   calc (P * D * P⁻¹) * (P * D' * P⁻¹) = P * D * (P⁻¹ * P) * D' * P⁻¹ := by noncomm_ring
     _ = P * (D * D') * P⁻¹ := by rw [hP]; noncomm_ring
 
+omit [CharP F 2] in
 private theorem star_conj_unitary {P D G : Matrix (Fin 2) (Fin 2) F} {φ : F →+* F}
     (hPinv' : P * P⁻¹ = 1) (hPG : (P.map φ)ᵀ * P = G)
     (hDG : (D.map φ)ᵀ * G * D = G) :
@@ -94,14 +97,17 @@ private theorem star_conj_unitary {P D G : Matrix (Fin 2) (Fin 2) F} {φ : F →
     _ = (((P⁻¹).map φ)ᵀ * (P.map φ)ᵀ) * (P * P⁻¹) := by noncomm_ring
     _ = 1 := by rw [hstar, hPinv', mul_one]
 
+omit [CharP F 2] in
 private theorem hyperM_mul {ω : F} (hP : (hyperP ω)⁻¹ * hyperP ω = 1) (a b : Fˣ) :
     hyperM ω a * hyperM ω b = hyperM ω (a * b) := by
   rw [hyperM, hyperM, hyperM, conj_mul_conj hP, hypD_mul]
 
+omit [CharP F 2] in
 private theorem hyperM_one {ω : F} (hP : hyperP ω * (hyperP ω)⁻¹ = 1) : hyperM ω 1 = 1 := by
   rw [hyperM, hypD_one, mul_one]
   exact hP
 
+omit [CharP F 2] in
 private theorem det_hyperM {ω : F} (hdet : IsUnit (hyperP ω).det) (a : Fˣ) :
     (hyperM ω a).det = 1 := by
   have hpp : (hyperP ω).det * ((hyperP ω)⁻¹).det = 1 := by
@@ -116,6 +122,7 @@ private theorem hyperM_unitary {φ : F →+* F} {ω : F} (hdet : IsUnit (hyperP 
   star_conj_unitary (Matrix.mul_nonsing_inv _ hdet)
     (hyperP_star_mul hω0 hφ) (hypD_star_mul_hyperG ha)
 
+omit [CharP F 2] in
 private theorem hyperM_injective {ω : F} (hdet : IsUnit (hyperP ω).det) :
     Function.Injective (hyperM ω) := by
   intro a b hab
@@ -238,7 +245,7 @@ private theorem eq_one_of_mem_center [CharP L 2] {q0 : ℕ} (hq0 : Nat.card K = 
     have h := hYU.2.2
     have h00 := congrFun (congrFun h 0) 0
     rw [Matrix.GeneralLinearGroup.coe_scalar] at h00
-    simp [Matrix.scalar_apply, Matrix.diagonal_apply] at h00
+    simp [Matrix.scalar_apply] at h00
     rwa [pow_succ]
   have hc3 : c ^ 3 = 1 := by
     have h : c ^ 3 * c ^ 3 = 1 := by
@@ -313,7 +320,7 @@ private lemma exists_unitary_root {F : Type} [Field F] [Finite F] [CharP F 2] {f
 
 private lemma exists_unitary_psi {F : Type} [Field F] [Finite F] [CharP F 2] {f q : ℕ}
     (hdvd' : q ∣ 2 ^ f - 1) {ωu : Fˣ} (hω0 : (ωu : F) ≠ 0)
-    (hωinv : (ωu : F) ^ (2 ^ f) = ((ωu : F))⁻¹)
+    (_hωinv : (ωu : F) ^ (2 ^ f) = ((ωu : F))⁻¹)
     (hdet : IsUnit (hyperP (ωu : F)).det)
     {φ : F →+* F} (hφdef : ∀ c : F, φ c = c ^ 2 ^ f)
     (hφω : φ (ωu : F) = ((ωu : F))⁻¹) :
@@ -409,7 +416,7 @@ private lemma exists_fixSubgroup_embedding {L : Type} [Field L] {F : Subfield L}
           simp only [map_mul, map_inv]⟩⟩
       map_one' := Subtype.ext (by simp)
       map_mul' := fun Z W => Subtype.ext (by
-        simp only [Subtype.coe_mk, Subgroup.coe_mul, map_mul]
+        simp only [Subgroup.coe_mul, map_mul]
         group) }
   have hΨinj : Function.Injective Ψ := by
     intro Z W hZW
@@ -529,16 +536,16 @@ theorem exists_elemAbelian_pRank_three_of_fixSubgroup_unitary
       ∃ Y ∈ unitarySet (ℓ ^ f) 6, Matrix.SpecialLinearGroup.toGL X =
         Matrix.SpecialLinearGroup.toGL H * Y * (Matrix.SpecialLinearGroup.toGL H)⁻¹)
     {J : Type*} [Group J] [Finite J] (ρ : ↥(fixSubgroup Φ') →* J)
-    (hρ : Function.Surjective ρ)
+    (_hρ : Function.Surjective ρ)
     (hc : ∀ z ∈ ρ.ker, ∀ u : ↥(fixSubgroup Φ'), z * u = u * z)
     (hk : Nat.card ρ.ker ∣ 6) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hdvd : q ∣ Nat.card K - 1) :
     ∃ F : Subgroup J, IsElemAbelian q F ∧ 3 ≤ CFSG.Open.pRank q F := by
   subst hℓ2
   classical
-  haveI : NeZero q := ⟨hq.ne_zero⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero q := ⟨hq.ne_zero⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hdvd' : q ∣ 2 ^ f - 1 := by rw [hK] at hdvd; exact hdvd
   obtain ⟨hf1, h2f⟩ := one_le_f_and_two_le_pow hK
   set F : Subfield L := (iterateFrobenius L 2 (2 * f)).eqLocusField (RingHom.id L) with hFdef
@@ -551,11 +558,11 @@ theorem exists_elemAbelian_pRank_three_of_fixSubgroup_unitary
     rw [hq0sq, ← CFSG.RankThree.Classical2.natCard_setOf_pow_eq_self (Ω := L) (ℓ := 2)
       (by omega : 2 * f ≠ 0)]
     exact Nat.card_congr (Equiv.subtypeEquivRight hF2)
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by
+  have : Finite F := Nat.finite_of_card_ne_zero (by
     rw [hFcard]
     exact (pow_pos (pow_pos (by norm_num) f) 2).ne')
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * f) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * f) (by
     rw [← Nat.card_eq_fintype_card, hFcard, hq0sq])
   obtain ⟨ωu, hωpow, hωne, hω0, hωinv, h1ω, hdet⟩ :=
     exists_unitary_root (F := F) hFcard h2f
@@ -574,7 +581,7 @@ theorem exists_elemAbelian_pRank_three_of_fixSubgroup_unitary
   obtain ⟨ψ, hψinj⟩ := exists_unitary_psi (F := F) hdvd' hω0 hωinv hdet hφdef hφω
   obtain ⟨Ψ, hΨinj, hΨsurj⟩ :=
     exists_fixSubgroup_embedding (F := F) hFmem hFcard hfix
-  haveI hFfin : Finite ↥(fixSubgroup Φ') := Finite.of_surjective Ψ hΨsurj
+  have hFfin : Finite ↥(fixSubgroup Φ') := Finite.of_surjective Ψ hΨsurj
   let ψJ : (Fin 3 → rootsOfUnity q F) →* ↥(fixSubgroup Φ') := Ψ.comp ψ
   have hψJinj : Function.Injective ψJ := hΨinj.comp hψinj
   have hEcard : Nat.card ↥(ψJ.range) = q ^ 3 := by

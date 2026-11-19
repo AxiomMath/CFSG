@@ -17,9 +17,9 @@ theorem c8k_amax_le_q {Γ : Type} [Group Γ] [Finite Γ] {B S C₀ : Subgroup Γ
     (hwB : centralizer ({w} : Set Γ) ≤ B) {A : Subgroup Γ} (hA : IsMaxElemAbelian S A) :
     A ≤ CFSG.pCore 2 Γ := by
   by_contra hAQ
-  obtain ⟨a, haA, haQ⟩ := SetLike.not_le_iff_exists.mp hAQ
+  obtain ⟨a, haA, haQ⟩ := IsConcreteLE.not_le_iff_exists.mp hAQ
   obtain ⟨W, hWn, hWe, hWq, hWc, hwW⟩ := c8k_exists_W conf.sylow conf.char2 hw hw2 hwc
-  obtain ⟨e, heO, hez⟩ := SetLike.not_le_iff_exists.mp
+  obtain ⟨e, heO, hez⟩ := IsConcreteLE.not_le_iff_exists.mp
     (fun h : O ≤ Z => by simpa [nat.index] using Subgroup.relIndex_eq_one.mpr h)
   have ha2 : a ^ 2 = 1 := hA.2.1.2 a haA
   have haO : a ∉ O := by
@@ -64,7 +64,7 @@ theorem c8k_exists_char_normal_of_amax {Γ : Type} [Group Γ] [Finite Γ] {S : S
     (hS : IsSylowIn 2 S ⊤) (hS1 : S ≠ ⊥)
     (hA : ∀ A : Subgroup Γ, IsMaxElemAbelian S A → A ≤ CFSG.pCore 2 Γ) :
     ∃ C : Subgroup Γ, C ≠ ⊥ ∧ C ≤ S ∧ (C.subgroupOf S).Characteristic ∧ C.Normal := by
-  haveI : (CFSG.pCore 2 Γ).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 Γ).Normal := CFSG.pCore_normal
   have hQS : CFSG.pCore 2 Γ ≤ S :=
     hS.le_of_normal le_top inferInstance CFSG.pCore_isPGroup
   have hJQ : thompsonJ S ≤ CFSG.pCore 2 Γ := iSup₂_le fun A hA' => hA A hA'

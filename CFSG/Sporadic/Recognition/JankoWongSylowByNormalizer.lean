@@ -19,7 +19,7 @@ theorem card_eq_pow_factorization_of_normalizer_le {G : Type*} [Group G] [Finite
   · rw [hWeq]
     exact P.card_eq_multiplicity
   · exfalso
-    have hnil : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup.isNilpotent
     have hlt : W.subgroupOf P < ⊤ :=
       lt_top_iff_ne_top.mpr fun h => hWeq (le_antisymm hWP (subgroupOf_eq_top.mp h))
     have hgrow := Group.normalizerCondition_of_isNilpotent _ hlt
@@ -27,7 +27,7 @@ theorem card_eq_pow_factorization_of_normalizer_le {G : Type*} [Group G] [Finite
     obtain ⟨⟨g, hgP⟩, hgN, hgW⟩ := IsConcreteLE.exists_of_lt hgrow
     have hRP : W ⊔ zpowers g ≤ P := sup_le hWP (zpowers_le.mpr hgP)
     have hRB : W ⊔ zpowers g ≤ B := sup_le hWB (zpowers_le.mpr (hN hgN))
-    have hcard := hmax _ hRB (P.isPGroup'.to_le hRP)
+    have hcard := hmax _ hRB (P.isPGroup.to_le hRP)
     exact hgW (eq_of_le_of_card_ge le_sup_left hcard ▸ mem_sup_right (mem_zpowers g))
 
 end CFSG.Sporadic.Recognition.JankoWong

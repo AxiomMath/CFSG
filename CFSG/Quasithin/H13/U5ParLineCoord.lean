@@ -30,7 +30,7 @@ private theorem blkA_mul_of_mem_u5LnStab {g g' : hypSU h 2 1} (hg' : g' ∈ u5Ln
   have hf : ∀ a : Fin 2, mat g' (.inr (.inr a)) (.inl j) = 0 := fun a =>
     CFSG.ASVolI.burnsideF429a_mat_eq_zero_of_mem_u5LnStab hg' _ _
       (by simp [CFSG.ASVolI.burnsideF429a_lev])
-  simp only [hz, hf, mul_zero, Finset.sum_const_zero, zero_add, add_zero, blkA,
+  simp only [hz, hf, mul_zero, Finset.sum_const_zero, add_zero, blkA,
     Matrix.of_apply]
 
 private theorem blkA_one :
@@ -158,7 +158,7 @@ theorem Yof_conj_of_mem_u5LnStab {g v : hypSU h 2 1} (hg : g ∈ u5LnStab h)
 theorem isHerm_iff_map_frob {h : UnitaryFieldData 2 f K}
     (Y : Matrix (Fin 2) (Fin 2) K) :
     IsHerm h Y ↔ Y.map (· ^ 2 ^ f) = Y.transpose := by
-  haveI := h.charP
+  have := h.charP
   have hmap : Y.map h.bar = Y.map (· ^ 2 ^ f) := by
     ext i j
     rw [Matrix.map_apply, Matrix.map_apply, UnitaryFieldData.bar_apply]
@@ -192,9 +192,9 @@ theorem Vsub_irreducible (R : Subgroup (hypSU h 2 1)) (hR : R ≤ Vsub h)
       lev (A : Matrix (Fin 2) (Fin 2) K) (by simp) * r *
         (lev (A : Matrix (Fin 2) (Fin 2) K) (by simp))⁻¹ ∈ R) :
     R = ⊥ ∨ R = Vsub h := by
-  haveI := h.charP
-  haveI := h.finite
-  letI : Fintype K := Fintype.ofFinite K
+  have := h.charP
+  have := h.finite
+  let : Fintype K := Fintype.ofFinite K
   by_cases hbot : R = ⊥
   · exact Or.inl hbot
   right

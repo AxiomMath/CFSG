@@ -37,6 +37,7 @@ private lemma w172_cls_mem_sup_comm {G : Type*} [Group G] {H K : Subgroup G}
       calc h⁻¹ * k⁻¹ = k⁻¹ * h⁻¹ := hcomm h⁻¹ (H.inv_mem hh) k⁻¹ (K.inv_mem hk)
         _ = (h * k)⁻¹ := (mul_inv_rev h k).symm
 
+omit [Finite W] in
 private lemma w172_cls_maxsub {p : ℕ} (hp : p.Prime) {A K M : Subgroup (LGL 2 W)}
     (hK : K.relIndex A = p) (hKM : K ≤ M) (hMA : M ≤ A) (hne : M ≠ K) : M = A := by
   have h1 := Subgroup.relIndex_mul_relIndex K M A hKM hMA
@@ -49,6 +50,7 @@ private lemma w172_cls_maxsub {p : ℕ} (hp : p.Prime) {A K M : Subgroup (LGL 2 
     Nat.eq_of_mul_eq_mul_left hp.pos (by rw [mul_one]; exact h1)
   exact le_antisymm hMA (Subgroup.relIndex_eq_one.mp h2)
 
+omit [Finite W] in
 private lemma w172_cls_decomp {p : ℕ} (hp : p.Prime) {A K : Subgroup (LGL 2 W)}
     {z c : LGL 2 W} (hAcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hAK : K ≤ A) (hzA : z ∈ A)
     (hsup : A = K ⊔ Subgroup.zpowers z) (hc : c ∈ A) (hz : z ^ p = 1) :
@@ -65,6 +67,7 @@ private lemma w172_cls_decomp {p : ℕ} (hp : p.Prime) {A K : Subgroup (LGL 2 W)
     rw [zpow_eq_zpow_emod' (x := z) j hz, ← hi, zpow_natCast]
   exact ⟨k, hk, i, by rw [← hkw, ← hj, hzpow]⟩
 
+omit [Finite W] in
 private lemma w172_cls_commutator_fixes {Y : Subgroup (LGL 2 W)} {U : Submodule (ZMod 2) W}
     (hUY : ∀ y ∈ Y, ∀ u ∈ U, y u ∈ U) {g x : LGL 2 W} (hgY : g ∈ Y) (hxY : x ∈ Y)
     (hcomm : ∀ u ∈ U, g (x u) = x (g u)) :
@@ -84,6 +87,7 @@ private lemma w172_cls_commutator_fixes {Y : Subgroup (LGL 2 W)} {U : Submodule 
   rw [hxinv, show x (x⁻¹ u) = u from x.apply_symm_apply u,
     show g (g⁻¹ u) = u from g.apply_symm_apply u]
 
+omit [Finite W] in
 private lemma w172_cls_ZY {Y : Subgroup (LGL 2 W)} :
     (⁅Y, Y⁆ : Subgroup (LGL 2 W)) ≤ Y := by
   rw [Subgroup.commutator_le]
@@ -91,6 +95,7 @@ private lemma w172_cls_ZY {Y : Subgroup (LGL 2 W)} :
   rw [commutatorElement_def]
   exact Y.mul_mem (Y.mul_mem (Y.mul_mem hg hh) (Y.inv_mem hg)) (Y.inv_mem hh)
 
+omit [Finite W] in
 private lemma w172_cls_central {Y : Subgroup (LGL 2 W)}
     (hcl : (⁅⁅Y, Y⁆, Y⁆ : Subgroup (LGL 2 W)) = ⊥) :
     ∀ z ∈ (⁅Y, Y⁆ : Subgroup (LGL 2 W)), ∀ y ∈ Y, y * z = z * y := by
@@ -99,6 +104,7 @@ private lemma w172_cls_central {Y : Subgroup (LGL 2 W)}
     Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcl
   exact Subgroup.mem_centralizer_iff.mp (hle hz) y hy
 
+omit [Finite W] in
 private lemma w172_cls_comm {Y : Subgroup (LGL 2 W)}
     (hcl : (⁅⁅Y, Y⁆, Y⁆ : Subgroup (LGL 2 W)) = ⊥) :
     ∀ a ∈ (⁅Y, Y⁆ : Subgroup (LGL 2 W)), ∀ b ∈ (⁅Y, Y⁆ : Subgroup (LGL 2 W)),
@@ -106,6 +112,7 @@ private lemma w172_cls_comm {Y : Subgroup (LGL 2 W)}
   intro a ha b hb
   exact w172_cls_central hcl b hb a (w172_cls_ZY ha)
 
+omit [Finite W] in
 private lemma w172_cls_exp {p : ℕ} {Y : Subgroup (LGL 2 W)} (hexp : ∀ y ∈ Y, y ^ p = 1) :
     ∀ a ∈ (⁅Y, Y⁆ : Subgroup (LGL 2 W)), a ^ p = 1 :=
   fun a ha => hexp a (w172_cls_ZY ha)
@@ -153,9 +160,9 @@ private lemma w172_cls_finset_sup_finrank {ι : Type*} [DecidableEq ι]
 private lemma w172_cls_good {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {Y : Subgroup (LGL 2 W)} (hexp : ∀ y ∈ Y, y ^ p = 1)
     (hcl : (⁅⁅Y, Y⁆, Y⁆ : Subgroup (LGL 2 W)) = ⊥)
-    (hne : (⁅Y, Y⁆ : Subgroup (LGL 2 W)) ≠ ⊥)
-    (hZ : ∀ z ∈ Y, (∀ y ∈ Y, y * z = z * y) → z ∈ (⁅Y, Y⁆ : Subgroup (LGL 2 W)))
-    {a : ℕ} (hcard : Nat.card Y = p ^ a * Nat.card (⁅Y, Y⁆ : Subgroup (LGL 2 W)))
+    (_hne : (⁅Y, Y⁆ : Subgroup (LGL 2 W)) ≠ ⊥)
+    (_hZ : ∀ z ∈ Y, (∀ y ∈ Y, y * z = z * y) → z ∈ (⁅Y, Y⁆ : Subgroup (LGL 2 W)))
+    {a : ℕ} (_hcard : Nat.card Y = p ^ a * Nat.card (⁅Y, Y⁆ : Subgroup (LGL 2 W)))
     (hUY : ∀ (κ : {κ : Subgroup (LGL 2 W) // W172Hyp p (⁅Y, Y⁆) κ}),
       ∀ y ∈ Y, ∀ u ∈ w172X (⁅Y, Y⁆) κ.1, y u ∈ w172X (⁅Y, Y⁆) κ.1)
     (κ : {κ : Subgroup (LGL 2 W) // W172Hyp p (⁅Y, Y⁆) κ}) :
@@ -273,9 +280,9 @@ private lemma w172_cls_good {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
 private lemma w172_cls_kappa_moves {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {Y : Subgroup (LGL 2 W)} (hexp : ∀ y ∈ Y, y ^ p = 1)
     (hcl : (⁅⁅Y, Y⁆, Y⁆ : Subgroup (LGL 2 W)) = ⊥)
-    (hne : (⁅Y, Y⁆ : Subgroup (LGL 2 W)) ≠ ⊥)
-    (hZ : ∀ z ∈ Y, (∀ y ∈ Y, y * z = z * y) → z ∈ (⁅Y, Y⁆ : Subgroup (LGL 2 W)))
-    {a : ℕ} (hcard : Nat.card Y = p ^ a * Nat.card (⁅Y, Y⁆ : Subgroup (LGL 2 W)))
+    (_hne : (⁅Y, Y⁆ : Subgroup (LGL 2 W)) ≠ ⊥)
+    (_hZ : ∀ z ∈ Y, (∀ y ∈ Y, y * z = z * y) → z ∈ (⁅Y, Y⁆ : Subgroup (LGL 2 W)))
+    {a : ℕ} (_hcard : Nat.card Y = p ^ a * Nat.card (⁅Y, Y⁆ : Subgroup (LGL 2 W)))
     (hUY : ∀ (κ : {κ : Subgroup (LGL 2 W) // W172Hyp p (⁅Y, Y⁆) κ}),
       ∀ y ∈ Y, ∀ u ∈ w172X (⁅Y, Y⁆) κ.1, y u ∈ w172X (⁅Y, Y⁆) κ.1)
     (κ : {κ : Subgroup (LGL 2 W) // W172Hyp p (⁅Y, Y⁆) κ})
@@ -338,8 +345,8 @@ private lemma w172_cls_kappa_moves {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
 private lemma w172_cls_card_not_mem {Y R : Subgroup (LGL 2 W)} (hR : R ≤ Y) :
     Nat.card {y : Y // (y : LGL 2 W) ∉ R} = Nat.card Y - Nat.card R := by
   classical
-  haveI : Fintype Y := Fintype.ofFinite Y
-  haveI : Fintype R := Fintype.ofFinite R
+  have : Fintype Y := Fintype.ofFinite Y
+  have : Fintype R := Fintype.ofFinite R
   rw [Nat.card_eq_fintype_card,
     Fintype.card_subtype_compl (p := fun y : Y => (y : LGL 2 W) ∈ R)]
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
@@ -387,7 +394,7 @@ theorem w172_cls_exists_moving {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     rcases lt_or_eq_of_le hp.two_le with h | h
     · exact h
     · exact absurd h.symm hp2
-  haveI : Fintype {κ : Subgroup (LGL 2 W) // W172Hyp p Z κ} := Fintype.ofFinite _
+  have : Fintype {κ : Subgroup (LGL 2 W) // W172Hyp p Z κ} := Fintype.ofFinite _
   have hUY : ∀ (κ : {κ : Subgroup (LGL 2 W) // W172Hyp p Z κ}),
       ∀ y ∈ Y, ∀ u ∈ w172X Z κ.1, y u ∈ w172X Z κ.1 := by
     intro κ y hy u hu
@@ -596,7 +603,7 @@ theorem w172_cls_exists_moving {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     · intro h3
       omega
   · have ha3 : 3 ≤ a := by omega
-    haveI : Fintype Y := Fintype.ofFinite Y
+    have : Fintype Y := Fintype.ofFinite Y
     have hcop : Nat.Coprime 2 p := by
       rw [Nat.coprime_comm]
       exact hp.coprime_iff_not_dvd.mpr (fun hd => by

@@ -25,9 +25,9 @@ theorem flip7_ne_zero {e : Coords 8} (he : e ≠ 0) : flip7 e ≠ 0 := by
   have := congrFun h i
   by_cases hi : i = 7
   · subst hi
-    simp only [flip7, if_true, Pi.zero_apply, neg_eq_zero] at this
+    simp only [flip7, ite_true, Pi.zero_apply, neg_eq_zero] at this
     exact this
-  · simp only [flip7, hi, if_false, Pi.zero_apply] at this
+  · simp only [flip7, hi, ite_false, Pi.zero_apply] at this
     exact this
 
 set_option maxRecDepth 100000 in
@@ -64,9 +64,9 @@ theorem negLastB_prod (B : Basis3 G 8) (e : Coords 8) :
   funext i
   by_cases hi : i = 7
   · subst hi
-    simp only [negLastB, flip7, if_true]
+    simp only [negLastB, flip7, ite_true]
     exact inv_pow_val (B.ord 7) (e 7)
-  · simp only [negLastB, flip7, hi, if_false]
+  · simp only [negLastB, flip7, hi, ite_false]
 
 @[expose] def negLast (B : Basis3 G 8) : Basis3 G 8 where
   b := B.negLastB
@@ -97,7 +97,7 @@ theorem negLast_line (B : Basis3 G 8) (e : Coords 8) : B.negLast.line e = B.line
 
 theorem negLast_b_of_ne (B : Basis3 G 8) {i : Fin 8} (hi : i ≠ 7) : B.negLast.b i = B.b i := by
   show B.negLastB i = B.b i
-  rw [negLastB, if_neg hi]
+  rw [negLastB, ite_eq_right hi]
 
 theorem negLast_span (B : Basis3 G 8) : B.negLast.span = B.span := by
   apply le_antisymm
@@ -115,7 +115,7 @@ theorem negLast_span (B : Basis3 G 8) : B.negLast.span = B.span := by
       have h := B.negLast.b_mem_span 7
       have : B.negLast.b 7 = (B.b 7)⁻¹ := by
         show B.negLastB 7 = _
-        rw [negLastB, if_pos rfl]
+        rw [negLastB, ite_eq_left rfl]
       rw [this] at h
       simpa using B.negLast.span.inv_mem h
     · rw [← B.negLast_b_of_ne hi]
@@ -129,7 +129,7 @@ theorem negLast_adapted {B : Basis3 G 8} {b₀ : G} {K E : Subgroup G} (hB : Ada
   · subst h7
     have : B.negLast.b 7 = (B.b 7)⁻¹ := by
       show B.negLastB 7 = _
-      rw [negLastB, if_pos rfl]
+      rw [negLastB, ite_eq_left rfl]
     rw [this]
     exact K.inv_mem (hB.2.2 7 hi)
   · rw [B.negLast_b_of_ne h7]

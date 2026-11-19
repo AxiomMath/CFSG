@@ -67,10 +67,10 @@ theorem runL_unfold (eT : EnumData) (s : LfSt) (h : ℕ) :
   unfold lOuter
   dsimp only
   by_cases hc : h < s.2.1.size
-  · rw [if_pos hc, if_pos hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
     dsimp only [pure]
     rw [lInner_eq]
-  · rw [if_neg hc, if_neg hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]
     rfl
 
 variable {eT : EnumData} {O Pa La W : ℕ → ℕ} {cnt : ℕ}
@@ -115,7 +115,7 @@ theorem linv_push {c : ℕ} {s : LfSt} (hO : ∀ i < cnt, O i < eT.El.size)
     · have := hinj c hc w hw e
       subst this
       simp
-    · rw [if_neg e, hseen w hw]
+    · rw [ite_eq_right e, hseen w hw]
       have : w ≠ c := fun h => e (by rw [h])
       simp only [decide_eq_decide]
       omega
@@ -156,12 +156,12 @@ theorem lrow_replay (hO : ∀ i < cnt, O i < eT.El.size)
     rcases hact h (by omega) j (by omega) with ⟨hm, hi⟩ | ⟨hm, hw0⟩
     · rw [hm, hi, Bool.true_and]
       by_cases hw : W (locSteps.size * h + j) < c
-      · rw [if_pos hw] at hne hle hmono ⊢
+      · rw [ite_eq_left hw] at hne hle hmono ⊢
         rw [hs.seen _ (by omega), decide_eq_true hw]
         exact ih (j + 1) c s (by omega) hhc h2 hs ht hne hle
-      · rw [if_neg hw] at hne hle hmono ⊢
+      · rw [ite_eq_right hw] at hne hle hmono ⊢
         by_cases hn : W (locSteps.size * h + j) = c ∧ Pa c = h ∧ La c = j
-        · rw [if_pos hn] at hne hle hmono ⊢
+        · rw [ite_eq_left hn] at hne hle hmono ⊢
           obtain ⟨hwc, hpc, hlc⟩ := hn
           have hcN : c < cnt := Nat.lt_of_lt_of_le (Nat.lt_succ_self c)
             (Nat.le_trans (orbRowK_mono h n (j + 1) (c + 1) hne) hle)
@@ -177,11 +177,11 @@ theorem lrow_replay (hO : ∀ i < cnt, O i < eT.El.size)
             · rw [hpc, hlc]
               exact hm
             · rw [hpc, hlc, hi, hwc]
-        · rw [if_neg hn] at hne
+        · rw [ite_eq_right hn] at hne
           exact absurd rfl hne
     · rw [hm, Bool.false_and]
       simp only [Bool.false_eq_true, ↓reduceIte]
-      rw [hw0, if_pos (by omega)] at hne hle ⊢
+      rw [hw0, ite_eq_left (by omega)] at hne hle ⊢
       exact ih (j + 1) c s (by omega) hhc h2 hs ht hne hle
 
 theorem lrun_replay (hO : ∀ i < cnt, O i < eT.El.size)
@@ -204,18 +204,18 @@ theorem lrun_replay (hO : ∀ i < cnt, O i < eT.El.size)
     rw [orbRunK_succ] at hr hmono
     rw [runL_unfold, hs.qsz]
     by_cases hc : h < c
-    · rw [if_pos hc] at hr hmono ⊢
+    · rw [ite_eq_left hc] at hr hmono ⊢
       by_cases h0 : orbRowK W Pa La locSteps.size h locSteps.size 0 c = 0
-      · rw [if_pos h0] at hr
+      · rw [ite_eq_left h0] at hr
         omega
-      · rw [if_neg h0] at hr hmono
+      · rw [ite_eq_right h0] at hr hmono
         have hle : orbRowK W Pa La locSteps.size h locSteps.size 0 c ≤ cnt :=
           hr ▸ orbRunK_mono fuel (h + 1) _ (by omega)
         rw [hs.q h hc]
         obtain ⟨hs', ht'⟩ := lrow_replay hO hinj hact locSteps.size 0 c s (by omega) hc h2 hs ht
           h0 hle
         exact ih (h + 1) _ _ hle (Nat.le_trans h2 (orbRowK_mono h _ _ _ h0)) hs' ht' hr
-    · rw [if_neg hc] at hr ⊢
+    · rw [ite_eq_right hc] at hr ⊢
       subst hr
       exact ⟨hs, ht⟩
 
@@ -241,7 +241,7 @@ theorem locForest_of_K (hcnt : 2 ≤ cnt) (hO : ∀ i < cnt, O i < eT.El.size)
         · have := hinj 0 (by omega) w hw e0
           subst this
           simp
-        · rw [if_neg e1, if_neg e0]
+        · rw [ite_eq_right e1, ite_eq_right e0]
           have : w ≠ 0 := fun h => e0 (by rw [h])
           have : w ≠ 1 := fun h => e1 (by rw [h])
           simp only [Bool.false_eq, decide_eq_false_iff_not]
@@ -313,10 +313,10 @@ theorem runP_unfold (eT : EnumData) (s : PSt) (h : ℕ) :
   unfold pOuter
   dsimp only
   by_cases hc : h < s.2.1.size
-  · rw [if_pos hc, if_pos hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
     dsimp only [pure]
     rw [pInner_eq]
-  · rw [if_neg hc, if_neg hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]
     rfl
 
 variable {A B : ℕ → ℕ}
@@ -406,12 +406,12 @@ theorem prow_replay (hinj : ∀ a < cnt, ∀ b < cnt, A a = A b → B a = B b �
     rcases hact h (by omega) j (by omega) with ⟨hma, hmb, hia, hib⟩ | ⟨hm, hw0⟩
     · rw [hma, hmb, hia, hib, Bool.true_and, Bool.true_and]
       by_cases hw : W (locSteps.size * h + j) < c
-      · rw [if_pos hw] at hne hle hmono ⊢
+      · rw [ite_eq_left hw] at hne hle hmono ⊢
         rw [hs.seen _ (by omega), decide_eq_true hw]
         exact ih (j + 1) c s (by omega) hhc h1 hs ht hne hle
-      · rw [if_neg hw] at hne hle hmono ⊢
+      · rw [ite_eq_right hw] at hne hle hmono ⊢
         by_cases hn : W (locSteps.size * h + j) = c ∧ Pa c = h ∧ La c = j
-        · rw [if_pos hn] at hne hle hmono ⊢
+        · rw [ite_eq_left hn] at hne hle hmono ⊢
           obtain ⟨hwc, hpc, hlc⟩ := hn
           have hcN : c < cnt := Nat.lt_of_lt_of_le (Nat.lt_succ_self c)
             (Nat.le_trans (orbRowK_mono h n (j + 1) (c + 1) hne) hle)
@@ -430,11 +430,11 @@ theorem prow_replay (hinj : ∀ a < cnt, ∀ b < cnt, A a = A b → B a = B b �
               exact hmb
             · rw [hpc, hlc, hia, hwc]
             · rw [hpc, hlc, hib, hwc]
-        · rw [if_neg hn] at hne
+        · rw [ite_eq_right hn] at hne
           exact absurd rfl hne
     · rw [hm, Bool.false_and]
       simp only [Bool.false_eq_true, ↓reduceIte]
-      rw [hw0, if_pos (by omega)] at hne hle ⊢
+      rw [hw0, ite_eq_left (by omega)] at hne hle ⊢
       exact ih (j + 1) c s (by omega) hhc h1 hs ht hne hle
 
 theorem prun_replay (hinj : ∀ a < cnt, ∀ b < cnt, A a = A b → B a = B b → a = b)
@@ -457,18 +457,18 @@ theorem prun_replay (hinj : ∀ a < cnt, ∀ b < cnt, A a = A b → B a = B b �
     rw [orbRunK_succ] at hr hmono
     rw [runP_unfold, hs.qsz]
     by_cases hc : h < c
-    · rw [if_pos hc] at hr hmono ⊢
+    · rw [ite_eq_left hc] at hr hmono ⊢
       by_cases h0 : orbRowK W Pa La locSteps.size h locSteps.size 0 c = 0
-      · rw [if_pos h0] at hr
+      · rw [ite_eq_left h0] at hr
         omega
-      · rw [if_neg h0] at hr hmono
+      · rw [ite_eq_right h0] at hr hmono
         have hle : orbRowK W Pa La locSteps.size h locSteps.size 0 c ≤ cnt :=
           hr ▸ orbRunK_mono fuel (h + 1) _ (by omega)
         rw [hs.q h hc]
         obtain ⟨hs', ht'⟩ := prow_replay hinj hact locSteps.size 0 c s (by omega) hc h1 hs ht
           h0 hle
         exact ih (h + 1) _ _ hle (Nat.le_trans h1 (orbRowK_mono h _ _ _ h0)) hs' ht' hr
-    · rw [if_neg hc] at hr ⊢
+    · rw [ite_eq_right hc] at hr ⊢
       subst hr
       exact ⟨hs, ht⟩
 

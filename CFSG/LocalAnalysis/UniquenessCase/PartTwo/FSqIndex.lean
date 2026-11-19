@@ -49,7 +49,7 @@ theorem fIndexMax_le_iff [Finite G] {Δ : Set (Subgroup G)} {i : ℕ} :
 
 theorem inFSq_toNat_fIndex [Finite G] {H : Subgroup G} (h : fIndex H ≠ ⊤) :
     WeakClosure81.InFSq (fIndex H).toNat H :=
-  fIndex_le_iff.mp (le_of_eq (ENat.coe_toNat h).symm)
+  fIndex_le_iff.mp (le_of_eq (ENat.natCast_toNat h).symm)
 
 theorem le_fIndexMax {Δ : Set (Subgroup G)} {H : Subgroup G} (hH : H ∈ Δ) :
     fIndex H ≤ fIndexMax Δ := by

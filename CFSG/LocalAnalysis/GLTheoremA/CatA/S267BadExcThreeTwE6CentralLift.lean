@@ -71,11 +71,11 @@ theorem exists_twistedE6Sc_mulEquiv {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : �
   have hk4 : 4 ≤ Nat.card K := by
     rw [hK]
     nlinarith
-  haveI : Finite ↥(CFSG.LieType.Steinberg.Minuscule.e6Data_valid.minGroup K) := by
+  have : Finite ↥(CFSG.LieType.Steinberg.Minuscule.e6Data_valid.minGroup K) := by
     have : Finite (Module.End K (Fin CFSG.LieType.Steinberg.Minuscule.e6Data.d →₀ K)) :=
       Module.finite_of_finite K
     infer_instance
-  haveI : Finite ↥S := Subtype.finite
+  have : Finite ↥S := Subtype.finite
   have hrange : (e6IsogenyFixed σ.toRingHom).range = twistedE6RootGroup K σ := by
     rw [range_e6IsogenyFixed σ.toRingHom hθθ hk4]
     exact (finite_fixed_root_group_perfect TwistTag.E6 hℓ hf K hK σ.toRingHom hσ').2.2.1
@@ -104,7 +104,7 @@ theorem exists_twistedE6Sc_mulEquiv {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : �
   have hcL : πL.ker ≤ Subgroup.center ↥S := by
     rw [hkerL]
     exact ker_chevQuotHom_le_center_twE6 hcore
-  haveI hperf' : Group.IsPerfect ↥S := Subgroup.isPerfect_iff.2 hperf
+  have hperf' : Group.IsPerfect ↥S := Subgroup.isPerfect_iff.2 hperf
   obtain ⟨φ, hφ, hφs⟩ := CFSG.LieType.SemisimpleCentralizers.HeldLang.exists_surjective_lift πU πL
     hU hL hcL hperf' fun E _ _ π' hπ' hc =>
       CFSG.LieType.Steinberg.CentralExt.TwistedE6Closed.twistedE6_exists_section_of_central
@@ -120,7 +120,7 @@ theorem exists_twistedE6Sc_mulEquiv {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : �
     have hp3 : IsPGroup 3 (Subgroup.center ↥S) :=
       CFSG.LocalAnalysis.GLTheoremB.MovingAround.SchurFacts.isPGroup_center_of_glaPPrimeCore_eq_bot
         Nat.prime_three hcore
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hp3
     have hk0 : k ≠ 0 := by
       rintro rfl
@@ -196,7 +196,7 @@ private theorem exists_lift_through_central {G E X : Type} [Group G] [Group E] [
     · exact Subgroup.mem_center_iff.mp (hcen h2) (w : E × G).1
     · show (w : E × G).2 * (y : E × G).2 = (y : E × G).2 * (w : E × G).2
       rw [h1, mul_one, one_mul]
-  haveI : Finite ↥P := Subtype.finite
+  have : Finite ↥P := Subtype.finite
   obtain ⟨s, hs⟩ := hsec ↥P q hq hqc
   refine ⟨(MonoidHom.fst E G).comp (P.subtype.comp s), fun g => ?_⟩
   have h1 : π (s g : E × G).1 = ρ (s g : E × G).2 := (s g).2
@@ -208,8 +208,8 @@ private theorem commute_of_mem_center_of_card_three {Ω : Type} [Group Ω] {S : 
     (hS : S.Normal) (h3 : Nat.card (Subgroup.center ↥S) = 3) {b : Ω} (hb3 : b ^ 3 = 1) {z : ↥S}
     (hz : z ∈ Subgroup.center ↥S) : b * (z : Ω) = (z : Ω) * b := by
   classical
-  haveI := hS
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hS
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set β : MulAut ↥S := MulAut.conjNormal b with hβ
   have hβapp : ∀ w : ↥S, ((β w : ↥S) : Ω) = b * w * b⁻¹ := fun w => MulAut.conjNormal_apply b w
   have hβc : ∀ w ∈ Subgroup.center ↥S, β w ∈ Subgroup.center ↥S := fun w hw => by
@@ -269,7 +269,7 @@ private theorem pow_three_of_mem_center_twE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (h
   by_cases hZ : Subgroup.center ↥S = ⊥
   · rw [hZ, Subgroup.mem_bot] at hz
     rw [hz, one_pow]
-  · haveI : Finite ↥S := Subtype.finite
+  · have : Finite ↥S := Subtype.finite
     have h3Z := card_center_eq_three hℓ hℓ2 hf h3 hK σ hσ hperf hcore hZ e
     have h1 := pow_card_eq_one' (G := Subgroup.center ↥S) (x := ⟨z, hz⟩)
     rw [h3Z] at h1
@@ -303,10 +303,10 @@ private theorem exists_lifts_twE6 {K : Type} [Field K] [Finite K] {ℓ f : ℕ} 
       ∀ g y, ρt g * ιt y = ιt y * ρt g := by
   classical
   obtain ⟨hQ5, hQ9⟩ := five_le_pow_of_three_dvd (Fact.out : ℓ.Prime) hℓ2 hf h3
-  haveI : Finite ↥S := Subtype.finite
-  haveI : Finite (fixQ K ℓ f) := Subtype.finite
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin 2) (fixQ K ℓ f)) := Subtype.finite
-  haveI : Finite (SU (unitaryInvolution K ℓ f) 6) := Subtype.finite
+  have : Finite ↥S := Subtype.finite
+  have : Finite (fixQ K ℓ f) := Subtype.finite
+  have : Finite (Matrix.SpecialLinearGroup (Fin 2) (fixQ K ℓ f)) := Subtype.finite
+  have : Finite (SU (unitaryInvolution K ℓ f) 6) := Subtype.finite
   let π : ↥S →* ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) :=
     e.toMonoidHom.comp (chevQuotHom 3 S)
   have hπ : Function.Surjective π := e.surjective.comp (chevQuotHom_surjective 3 S)
@@ -331,7 +331,7 @@ private theorem exists_lifts_twE6 {K : Type} [Field K] [Finite K] {ℓ f : ℕ} 
       CFSG.LieType.Steinberg.CentralExt.SL2Closed.sl2_exists_section_of_central
         (by rw [hcardQ]; exact hQ5) (by rw [hcardQ]; exact hQ9) hπ' hc)
     (rootSL2Q K ℓ f)
-  haveI : Group.IsPerfect (Su K ℓ f 6) :=
+  have : Group.IsPerfect (Su K ℓ f 6) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_SUid
       (CFSG.ClassicalGroups.Unitary.isUnitaryInvolution_unitaryInvolution hK) (by norm_num)
       fun h => absurd h (by norm_num)
@@ -481,8 +481,8 @@ theorem commute_of_mem_comap_twE6Phi {K : Type} [Field K] [Finite K] {ℓ f : �
     {s : ↥S} (hs : s ∈ (twE6Phi hK hf hζ hσζ P hP (by norm_num) hc hct φ).range.comap
       (e.toMonoidHom.comp (chevQuotHom 3 S))) : b * (s : Ω) = (s : Ω) * b := by
   classical
-  haveI : Finite ↥S := Subtype.finite
-  haveI := hS
+  have : Finite ↥S := Subtype.finite
+  have := hS
   obtain ⟨hQ5, -⟩ := five_le_pow_of_three_dvd (Fact.out : ℓ.Prime) hℓ2 hf h3
   obtain ⟨ρt, ιt, hρt, hιt, hcomm⟩ := exists_lifts_twE6 hK hf hℓ2 h3 hζ hσζ P hP hcore e
   obtain ⟨Λ, hΛ, hdec⟩ := comap_twE6Phi_decomp hK hf hζ hσζ P hP hc hct φ hcore e ρt ιt hρt hιt
@@ -505,7 +505,7 @@ theorem commute_of_mem_comap_twE6Phi {K : Type} [Field K] [Finite K] {ℓ f : �
     rw [h] at h1
     calc b * (g : Ω) = b * (g : Ω) * b⁻¹ * b := by group
       _ = (g : Ω) * b := by rw [← h1]
-  haveI : Group.IsPerfect (Su K ℓ f 6) :=
+  have : Group.IsPerfect (Su K ℓ f 6) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_SUid
       (CFSG.ClassicalGroups.Unitary.isUnitaryInvolution_unitaryInvolution hK) (by norm_num)
       fun h => absurd h (by norm_num)
@@ -524,9 +524,9 @@ theorem commute_of_mem_comap_twE6Phi {K : Type} [Field K] [Finite K] {ℓ f : �
     show unitaryInvolution K ℓ f (δ a) = δ a
     rw [← ringEquiv_comm_of_finite (unitaryInvolution K ℓ f) δ a, ha']
   let δQ : fixQ K ℓ f →+* fixQ K ℓ f := δ.toRingHom.restrict _ _ hδQ
-  haveI : Finite (fixQ K ℓ f) := Subtype.finite
+  have : Finite (fixQ K ℓ f) := Subtype.finite
   have hcardQ : Nat.card (fixQ K ℓ f) = ℓ ^ f := CFSG.LieType.Steinberg.card_fixedSubfield hK
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (fixQ K ℓ f)) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (fixQ K ℓ f)) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card _ (by omega)
   have hψρ : ∀ g, fieldActor (unitaryInvolution K ℓ f) δ (rootSL2Q K ℓ f g) =
       rootSL2Q K ℓ f (Matrix.SpecialLinearGroup.map δQ g) := fun g => by

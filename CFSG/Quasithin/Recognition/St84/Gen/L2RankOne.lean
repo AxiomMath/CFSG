@@ -80,13 +80,13 @@ private theorem commutator_mem_utri_of_mem_borel {F : Type} [Field F] [Finite F]
   let B : Subgroup SL(2, F) := borel F
   have hUB : utri F ≤ B := utri_le_borel
   have hTB : torus F ≤ B := torus_le_borel
-  haveI : Subgroup.Normal ((utri F).subgroupOf B) :=
+  have : Subgroup.Normal ((utri F).subgroupOf B) :=
     Subgroup.normal_subgroupOf_of_le_normalizer (hLE := borel_le_normalizer_utri)
   have hsup : (utri F).subgroupOf B ⊔ (torus F).subgroupOf B = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hUB hTB]
     change (utri F ⊔ torus F).subgroupOf (borel F) = ⊤
     rw [← borel_eq_sup, Subgroup.subgroupOf_self]
-  haveI : IsMulCommutative (torus F) := (isCyclic_torus (F := F)).isMulCommutative
+  have : IsMulCommutative (torus F) := (isCyclic_torus (F := F)).isMulCommutative
   have hcomm := Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
     (N := (utri F).subgroupOf B) (H := (torus F).subgroupOf B) hsup
   have haB : a ∈ B := ha
@@ -131,8 +131,8 @@ theorem isRankOneSylow_of_isL2Quot {K : Type*} [Group K] [Finite K] {f : ℕ} (h
   obtain ⟨e⟩ := h
   have hf0 : f ≠ 0 := by omega
   have hcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f hf0
-  haveI : CharP (GaloisField 2 f) 2 := by
-    haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  have : CharP (GaloisField 2 f) 2 := by
+    have : Fintype (GaloisField 2 f) := Fintype.ofFinite _
     exact charP_of_card_eq_prime_pow (p := 2) (f := f) (by
       rw [← Nat.card_eq_fintype_card, hcard])
   have hSL : IsRankOneSylow (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=

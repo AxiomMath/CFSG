@@ -46,7 +46,7 @@ private theorem exists_mul_zpow_of_mem_sup_oddCore {G : Type} [Group G] {H : Sub
   have hXH : X ≤ H := sup_le hOH (Subgroup.zpowers_le.mpr htH)
   have hXnorm : X ≤ Subgroup.normalizer (O : Set G) :=
     hXH.trans (CFSG.ClassicalInvolution.Balance.normalizer_oddCoreIn H)
-  haveI : (O.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXnorm
+  have : (O.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXnorm
   have hsup : (O.subgroupOf X) ⊔ ((zpowers t).subgroupOf X) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hOX hZX]
     exact Subgroup.subgroupOf_self X
@@ -65,7 +65,7 @@ theorem sec10_zStar [Finite G] {H : Subgroup G} {t : G} (htH : t ∈ H) (ht1 : t
     (ht2 : t * t = 1)
     (hiso : ∀ h ∈ H, (h * t * h⁻¹) * t = t * (h * t * h⁻¹) → h * t * h⁻¹ = t) :
     ∀ h ∈ H, h * t * h⁻¹ * t⁻¹ ∈ oddCoreIn H := by
-  haveI : Fintype ↥H := Fintype.ofFinite ↥H
+  have : Fintype ↥H := Fintype.ofFinite ↥H
   have ht1' : (⟨t, htH⟩ : ↥H) ≠ 1 := by
     intro h1
     exact ht1 (by simpa using congrArg Subtype.val h1)
@@ -107,7 +107,7 @@ theorem sec10_zStar_decomp [Finite G] {H : Subgroup G} {t : G} (htH : t ∈ H) (
     have hOH : O ≤ H := CFSG.ClassicalInvolution.Balance.oddCoreIn_le H
     have hOodd : Odd (Nat.card O) := CFSG.ClassicalInvolution.Balance.odd_card_oddCoreIn H
     have htord : orderOf t = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (by rw [pow_two]; exact ht2) ht1
     let u : G := h * t * h⁻¹
     let v : G := u * t⁻¹

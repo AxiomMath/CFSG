@@ -16,6 +16,7 @@ private theorem liftS8_mul_self_of_mul_self {ρ : Perm (Fin 8)} (hρ : ρ * ρ =
     liftS8 ρ * liftS8 ρ = 1 := by
   rw [← map_mul, hρ, map_one]
 
+omit [Finite G] in
 theorem CentData.of_twist (hC : CentData z ι) {ι' : Perm (Fin 10) →* G}
     (h1 : ∀ σ, sign σ = 1 → ι' σ = ι σ) (h2 : ∀ σ, sign σ = -1 → ι' σ = z * ι σ) :
     CentData z ι' := by
@@ -28,6 +29,7 @@ theorem CentData.of_twist (hC : CentData z ι) {ι' : Perm (Fin 10) →* G}
   rw [heq]
   exact hC''
 
+omit [Finite G] in
 theorem pairOrder_z_ι (hC : CentData z ι) {σ : Perm (Fin 10)} (hσ : σ * σ = 1) :
     pairOrder z (ι σ) = N10 (Multiset.card σ.cycleType) := by
   rw [pairOrder, hC.card_inf_centralizer σ, two_mul_card_centralizer_perm_ten hσ]

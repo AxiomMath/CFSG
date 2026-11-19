@@ -90,10 +90,10 @@ theorem ggSixA6InsideSpKnown_of_core (h : Core) : GGSixA6InsideSpKnown := by
   intro X _ _ n G₀ B L D J x hn hX hZ hBG hBe hB4 hLG hLc hx1 hcyc hpre hA6
   obtain ⟨⟨-, -, -, -⟩, K, _, _, hK, ⟨e⟩⟩ := hX.statedClassicalModel (by decide)
   have hK2 : Nat.card K = 2 := by simpa using hK
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two le_rfl hK
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   let eR : ↥G₀ ≃* LargeEvenProj (LargeEvenSpGroup K n) :=
     ((QuotientGroup.quotientBot.symm).trans
       (QuotientGroup.quotientMulEquivOfEq hZ.symm)).trans e

@@ -35,7 +35,7 @@ theorem simpleBender_borel_preimage_sylow_regular [Finite L] [Finite F]
   have hfb : Function.Surjective fb := f.subgroupComap_surjective B hf
   let Q : Sylow 2 B := R.mapSurjective hfb
   let A : Subgroup L := (R : Subgroup (B.comap f)).map (B.comap f).subtype
-  have hA : IsPGroup 2 A := R.isPGroup'.map (B.comap f).subtype
+  have hA : IsPGroup 2 A := R.isPGroup.map (B.comap f).subtype
   have himage : A.map f = (Q : Subgroup B).map B.subtype := by
     change ((R : Subgroup (B.comap f)).map (B.comap f).subtype).map f =
       ((R.mapSurjective hfb : Sylow 2 B) : Subgroup B).map B.subtype

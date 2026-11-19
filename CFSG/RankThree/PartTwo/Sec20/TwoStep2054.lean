@@ -128,6 +128,7 @@ private theorem mul_comm_of_conj_comm {P : Type*} [Group P] (hZ : Subgroup.cente
     rw [h, inv_mul_cancel]
   exact (inv_mul_eq_one.mp (eq_one_of_conj_eq_one hZ h1)).symm
 
+omit [Finite G] in
 private theorem conj_mem_pCoreOf_of_mem {K M : Subgroup G}
     (hMK : M ≤ Subgroup.normalizer (K : Set G))
     (hMO : M ≤ Subgroup.normalizer ((CFSG.Open.pCoreOf 2 K : Subgroup G) : Set G))
@@ -145,7 +146,7 @@ private theorem conj_mem_pCoreOf_of_mem {K M : Subgroup G}
   exact h1
 
 private theorem mem_of_two_elem_comm {M N T K : Subgroup G} {c : G} {n : ℕ} (hn : Odd n)
-    (hTsyl : CFSG.ABGLocalTools.IsSylowOf 2 T M) (hKM : K ≤ M)
+    (hTsyl : CFSG.ABGLocalTools.IsSylowOf 2 T M) (_hKM : K ≤ M)
     (hMK : M ≤ Subgroup.normalizer (K : Set G))
     (hMO : M ≤ Subgroup.normalizer ((CFSG.Open.pCoreOf 2 K : Subgroup G) : Set G))
     (hcK : c ∈ K) (hc : orderOf c = 3) {Q : Subgroup G} (hQT : Q ≤ T)

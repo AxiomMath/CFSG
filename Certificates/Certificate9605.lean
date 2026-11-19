@@ -71,7 +71,7 @@ theorem certificate9605 : rlLyCheck (opsP 5 111) NativeSporadic.LySeed1 NativeSp
     eq_of_rel HL hR (by rw [hlen]; decide) (vldL LyBS.vB), facts_of_rel HL hR hlen, h0, h1,
     hwf, hlin]
   unfold certN at hc
-  simp only [Bool.and_eq_true, decide_eq_true_eq, and_assoc, and_true, true_and] at hc ⊢
+  simp only [Bool.and_eq_true, decide_eq_true_eq, and_assoc, and_true] at hc ⊢
   exact ⟨hc.1, hc.2.1, hc.2.2, hlen5, by decide, hels', hstab⟩
 
 end Certificates

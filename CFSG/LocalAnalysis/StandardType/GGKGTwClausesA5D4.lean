@@ -99,8 +99,8 @@ theorem kgL1_clause_tw (hCore : TwE6RootAs.TwE6CorootCore) {n : ℕ} {K : Type} 
       ∃ E : Subgroup R, GGLayerOf (ggRFix ψ {(c : MulAut L')}) E := by
   intro c hc
   obtain ⟨β, hβroot, hβ⟩ := hF.aut.corootPt hc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have hchar : ringChar K = 2 := ringChar.eq K 2
   have hne : ζ ≠ 1 := by
     intro h1
@@ -145,8 +145,8 @@ theorem kgD4_clause_tw (hD4 : GGTwE6D4LayerInput) {n : ℕ} (hn : 1 ≤ n) {K : 
       ∃ l : L', ψ l ∈ Ev ∧ MulAut.conj l ∈ Subgroup.normalizer (A : Set (MulAut L')) ∧
         MulAut.conj l * (a : MulAut L') * (MulAut.conj l)⁻¹ ≠ (a : MulAut L') := by
   obtain ⟨α, β, hα, hβ, hαβ, ha, hb⟩ := hF.aut.corootOrth hab
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have hne : ζ ≠ 1 := by
     intro h1
     rw [h1, orderOf_one] at hζo
@@ -227,7 +227,7 @@ theorem kgD4_clause_tw (hD4 : GGTwE6D4LayerInput) {n : ℕ} (hn : 1 ≤ n) {K : 
     change Θ (ψ l₀) ∈ E
     rw [hl₀]
     exact hjE
-  · haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hF.aut.card_eq]; norm_num)
+  · have : Finite A := Nat.finite_of_card_ne_zero (by rw [hF.aut.card_eq]; norm_num)
     exact conj_mem_normalizer l₀ hexists
   · intro hcontra
     let m1 : ModGL TwistTag.E6.tag K :=

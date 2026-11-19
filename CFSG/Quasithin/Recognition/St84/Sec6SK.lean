@@ -18,7 +18,7 @@ variable {V G : Type*} [Group G] [MulAction G V] {Γ : SimpleGraph V} {s : ℕ}
 theorem transitive_of_cover {v x y : V} {A B : Subgroup G}
     (hx : Γ.Adj v x) (hy : Γ.Adj v y) (hxy : x ≠ y)
     (h3 : 3 ≤ (Γ.neighborSet v).ncard)
-    (hA : A ≤ MulAction.stabilizer G v) (hB : B ≤ MulAction.stabilizer G v)
+    (_hA : A ≤ MulAction.stabilizer G v) (_hB : B ≤ MulAction.stabilizer G v)
     (hAt : ∀ a b : V, Γ.Adj v a → a ≠ x → Γ.Adj v b → b ≠ x → ∃ g ∈ A, g • a = b)
     (hBt : ∀ a b : V, Γ.Adj v a → a ≠ y → Γ.Adj v b → b ≠ y → ∃ g ∈ B, g • a = b) :
     ∀ a b : V, Γ.Adj v a → Γ.Adj v b → ∃ g ∈ A ⊔ B, g • a = b := by
@@ -309,8 +309,8 @@ theorem exists_isSKMax_above {U : Subgroup G} (hU : X.IsSK U) :
     finite_of_le_stabilizer X.hyp (H := A)
       (X.arcStab_le_Gi_of_between (by norm_num : (0 : ℤ) ≤ 1)
         (by norm_num : (1 : ℤ) ≤ 2))
-  haveI : Finite ↥A := hAfin
-  haveI : Finite (Subgroup ↥A) :=
+  have : Finite ↥A := hAfin
+  have : Finite (Subgroup ↥A) :=
     Finite.of_injective (fun H : Subgroup ↥A => (H : Set ↥A)) (by
       intro H K h
       exact Subgroup.ext (fun x => by
@@ -328,7 +328,7 @@ theorem exists_isSKMax_above {U : Subgroup G} (hU : X.IsSK U) :
   refine ⟨V, ⟨hVS.1, ?_⟩, hVS.2⟩
   intro W hW hVW
   have hWS : W ∈ S := ⟨hW, hVS.2.trans hVW⟩
-  haveI : Finite ↥(X.normGi W 0) :=
+  have : Finite ↥(X.normGi W 0) :=
     finite_of_le_stabilizer X.hyp (H := X.normGi W 0) (X.normGi_le_Gi W 0)
   have hcardV : Nat.card (X.normGi V 0) ≤ Nat.card (X.normGi W 0) :=
     Subgroup.card_le_of_le hVW
@@ -363,7 +363,7 @@ theorem isSylowTwoOf_inf_edgeSylow {A : Subgroup G} (i : ℤ) (hKA : X.K ≤ A)
       (by rw [disjoint_iff, inf_comm]; exact hKinf)
     rw [hsupP, mul_comm] at h
     exact h
-  haveI : Finite ↥(A ⊓ X.edgeSylow i) :=
+  have : Finite ↥(A ⊓ X.edgeSylow i) :=
     finite_of_le_stabilizer X.hyp (H := A ⊓ X.edgeSylow i)
       (inf_le_left.trans (hA.trans inf_le_left))
   have hrel : (A ⊓ X.edgeSylow i).relIndex A = Nat.card ↥X.K := by
@@ -609,7 +609,7 @@ theorem QT_ne_bot (hGT : Even (Nat.card X.GT)) : X.QT ≠ ⊥ := by
   exact (Nat.not_even_iff_odd.mpr X.odd_card_K) hGT
 
 theorem isSK_QT (hGT : Even (Nat.card X.GT)) (hs : IsSingularity Γ G s)
-    (hodd : Odd s) (h5 : 5 ≤ s)
+    (hodd : Odd s) (_h5 : 5 ≤ s)
     (hX : ¬ RightTransitive Γ G (X.line.arc 0 s).vert 0 s) : X.IsSK X.QT := by
   classical
   obtain ⟨m, hm, hreg⟩ := X.exists_isMaxReg hs hodd hX
@@ -722,7 +722,7 @@ theorem isSK_QT (hGT : Even (Nat.card X.GT)) (hs : IsSingularity Γ G s)
 theorem IsSKMax.noCharNormal {U : Subgroup G} (hU : X.IsSKMax U) :
     NoCharNormal (X.skP U) (X.normGi U 0) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro C hCP hCne hCchar hM0norm
   let M : Subgroup G := Subgroup.normalizer (U : Set G)
   let P : Subgroup G := X.skP U
@@ -741,7 +741,7 @@ theorem IsSKMax.noCharNormal {U : Subgroup G} (hU : X.IsSKMax U) :
     rw [X.arcStab_eq_inf (by norm_num : (0 : ℤ) ≤ 2)]
     exact le_inf hC_G0 hC_G2
   have hCnormP : Subgroup.normalizer (P : Set G) ≤ Subgroup.normalizer (C : Set G) := by
-    haveI : (C.subgroupOf P).Characteristic := hCchar
+    have : (C.subgroupOf P).Characteristic := hCchar
     have hmap : (C.subgroupOf P).map P.subtype = C := Subgroup.map_subgroupOf_eq_of_le hCP
     have h := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (H := P) (K := C.subgroupOf P)
@@ -798,11 +798,11 @@ theorem IsSKMax.noCharNormal {U : Subgroup G} (hU : X.IsSKMax U) :
     F7.isSylowTwoOf_mono_right hSylM₀ hPN₀ hN₀M₀
   have hPnormalN₀ : (P.subgroupOf N₀).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer inf_le_left
-  haveI : Finite ↥N₀ := finite_of_le_stabilizer X.hyp (H := N₀) inf_le_right
+  have : Finite ↥N₀ := finite_of_le_stabilizer X.hyp (H := N₀) inf_le_right
   have hSylG₀ : IsSylowTwoOf P (X.Gi 0) := by
     refine F7.isSylowTwoOf_of_relIndex hPG0 hSylM₀.2.1 ?_
     by_contra h2dvd
-    haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+    have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
     obtain ⟨Q, hQ, hPQ⟩ := exists_isSylowTwoOf_ge_of_finite (J := X.Gi 0)
       hSylM₀.2.1 hPG0
     have hPneQ : P ≠ Q := by
@@ -810,7 +810,7 @@ theorem IsSKMax.noCharNormal {U : Subgroup G} (hU : X.IsSKMax U) :
       have hdvd : 2 ∣ Q.relIndex (X.Gi 0) := heq ▸ h2dvd
       exact hQ.2.2 hdvd
     have hPQlt : P < Q := lt_of_le_of_ne hPQ hPneQ
-    haveI : Finite ↥Q :=
+    have : Finite ↥Q :=
       finite_of_le_stabilizer X.hyp (H := Q) hQ.1
     have hQnil : Group.IsNilpotent ↥Q := hQ.2.1.isNilpotent
     have hnc : NormalizerCondition ↥Q := Group.normalizerCondition_of_isNilpotent
@@ -818,7 +818,7 @@ theorem IsSKMax.noCharNormal {U : Subgroup G} (hU : X.IsSKMax U) :
       rw [lt_top_iff_ne_top]
       intro htop
       exact not_le_of_gt hPQlt (Subgroup.subgroupOf_eq_top.mp htop)
-    obtain ⟨y, hyN, hyP⟩ := SetLike.exists_of_lt (hnc (P.subgroupOf Q) hsub_lt)
+    obtain ⟨y, hyN, hyP⟩ := _root_.IsConcreteLE.exists_of_lt (hnc (P.subgroupOf Q) hsub_lt)
     have hxQ : (y : G) ∈ Q := y.2
     have hxN : (y : G) ∈ Subgroup.normalizer (P : Set G) := by
       have hyN' : y ∈ (Subgroup.normalizer (P : Set G)).subgroupOf Q := by
@@ -849,7 +849,7 @@ theorem IsSKMax.noCharNormal {U : Subgroup G} (hU : X.IsSKMax U) :
       Subgroup.relIndex_mul_relIndex P X.S (X.Gi 0) hPS hSylS.1
     have hodd : ¬ 2 ∣ P.relIndex X.S := fun hd =>
       F7.isSylowTwoOf_odd_relIndex hSylG₀ (h1 ▸ hd.mul_right _)
-    haveI : Finite ↥X.S := finite_of_le_stabilizer X.hyp (H := X.S) hSylS.1
+    have : Finite ↥X.S := finite_of_le_stabilizer X.hyp (H := X.S) hSylS.1
     obtain ⟨k, hk⟩ := hSylS.2.1.index (P.subgroupOf X.S)
     have hk0 : k = 0 := by
       by_contra hk0
@@ -878,7 +878,7 @@ theorem IsSKMax.noCharNormal {U : Subgroup G} (hU : X.IsSKMax U) :
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi 1)
   have hQ1normSub : ((X.Q 1).subgroupOf (X.Gi 1)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQ1normal
-  haveI : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
+  have : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
   have hL1eq : X.L 1 = X.Q 1 := by
     refine le_antisymm ?_ ?_
     · rw [Setup.L, CFSG.Quasithin.oTwoPrime, Subgroup.closure_le]
@@ -896,18 +896,18 @@ theorem IsSKMax.noCharNormal {U : Subgroup G} (hU : X.IsSKMax U) :
     exact le_sSup (show (⊤ : Subgroup ↥(X.L 1)) ∈ CFSG.normalPSubgroups 2 ↥(X.L 1) from
       ⟨inferInstance, hL1p.to_subgroup ⊤⟩)
   obtain ⟨e⟩ := (X.hyp.isLocL2_oTwoPrime (X.vert 1)).quot
-  haveI : Subsingleton (↥(X.L 1) ⧸ CFSG.pCore 2 ↥(X.L 1)) := by
+  have : Subsingleton (↥(X.L 1) ⧸ CFSG.pCore 2 ↥(X.L 1)) := by
     rw [hpcTop]
     exact QuotientGroup.subsingleton_quotient_top
-  haveI : Subsingleton (PSL(2, GaloisField 2 (nOf Γ (X.vert 1)))) :=
+  have : Subsingleton (PSL(2, GaloisField 2 (nOf Γ (X.vert 1)))) :=
     e.toEquiv.symm.subsingleton
-  haveI : Nontrivial (PSL(2, GaloisField 2 (nOf Γ (X.vert 1)))) := SL2Simple.PSL_nontrivial
+  have : Nontrivial (PSL(2, GaloisField 2 (nOf Γ (X.vert 1)))) := SL2Simple.PSL_nontrivial
   exact not_subsingleton (PSL(2, GaloisField 2 (nOf Γ (X.vert 1)))) inferInstance
 
 
 theorem IsSKMax.noCharNormal_of_le {U H : Subgroup G} (hU : X.IsSKMax U)
-    (hPH : X.skP U ≤ H)
-    (hHM : H ≤ X.normGi U 0) (hMK : X.normGi U 0 = H ⊔ X.K) :
+    (_hPH : X.skP U ≤ H)
+    (_hHM : H ≤ X.normGi U 0) (hMK : X.normGi U 0 = H ⊔ X.K) :
     NoCharNormal (X.skP U) H := by
   classical
   intro C hCP hCne hCchar hHnorm
@@ -915,7 +915,7 @@ theorem IsSKMax.noCharNormal_of_le {U H : Subgroup G} (hU : X.IsSKMax U)
   let A : Subgroup G := X.normGi U 0 ⊓ X.Gi 1
   have hC_P : C ≤ P := hCP
   have hCnormP : Subgroup.normalizer (P : Set G) ≤ Subgroup.normalizer (C : Set G) := by
-    haveI : (C.subgroupOf P).Characteristic := hCchar
+    have : (C.subgroupOf P).Characteristic := hCchar
     have hmap : (C.subgroupOf P).map P.subtype = C := Subgroup.map_subgroupOf_eq_of_le hCP
     have h := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (H := P) (K := C.subgroupOf P)
@@ -932,8 +932,6 @@ theorem IsSKMax.noCharNormal_of_le {U H : Subgroup G} (hU : X.IsSKMax U)
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     change conjSub k A = A
     rw [show A = X.normGi U 0 ⊓ X.Gi 1 from rfl, conjSub_inf]
-    change conjSub k (X.normGi U 0) ⊓ conjSub k (X.Gi 1) =
-      X.normGi U 0 ⊓ X.Gi 1
     rw [conjSub_eq_of_mem hkG1,
       show X.normGi U 0 = Subgroup.normalizer (U : Set G) ⊓ X.Gi 0 from rfl,
       conjSub_inf, conjSub_eq_of_mem hkU0.1, conjSub_eq_of_mem hkU0.2]

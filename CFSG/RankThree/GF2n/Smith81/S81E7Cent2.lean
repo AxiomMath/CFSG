@@ -12,6 +12,7 @@ open CFSG.LieType.Steinberg.Minuscule CFSG.Blueprint.Chevalley CFSG.SeitzReducti
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem unit_apply_inv_apply (u : (Module.End K (V K))ˣ) (w : V K) :
     (u : Module.End K (V K)) (((u⁻¹ : (Module.End K (V K))ˣ) : Module.End K (V K)) w) = w := by
   rw [← Module.End.mul_apply, Units.mul_inv, Module.End.one_apply]
@@ -23,16 +24,17 @@ theorem exists_idx0_perp_pr_neg_one : ∃ a ∈ idx0, ∃ β ∈ Perp, pr a β =
   obtain ⟨β, hβ, hpa, -⟩ := adjD_iff.1 hb
   exact ⟨a, ha, β, hβ, hpa⟩
 
+omit [Finite K] in
 theorem xu_one_single_perp {β : Fin (Tag.rank .E7) → ℤ} (hβ : β ∈ Perp) {a : Fin e7Data.d}
     (h : pr a β = -1) :
     ((e7Data_valid.xu K β 1 : (Module.End K (V K))ˣ) : Module.End K (V K)) (Finsupp.single a 1) =
       Finsupp.single a 1 + Finsupp.single (shift β a) 1 := by
   have hβ' : IsRoot .E7 β ∧ MinData.toWeight β ⬝ᵥ theta = 0 := hβ
-  rw [e7Data_valid.xu_apply, rootOp_single (K := K) hβ'.1 a, if_pos h, one_smul]
+  rw [e7Data_valid.xu_apply, rootOp_single (K := K) hβ'.1 a, ite_eq_left h, one_smul]
 
 theorem Lam_faithful_V0 {l : (Module.End K (V K))ˣ} (hl : l ∈ Lam K)
     (h : ∀ v ∈ V0 K, (l : Module.End K (V K)) v = v) : l = 1 := by
-  haveI : IsSimpleGroup (Lam K) := isSimpleGroup_Lam
+  have : IsSimpleGroup (Lam K) := isSimpleGroup_Lam
   obtain ⟨N, hNdef⟩ : ∃ N : Subgroup (Lam K), ∀ x : Lam K, x ∈ N ↔
       ∀ v ∈ V0 K, ((x : (Module.End K (V K))ˣ) : Module.End K (V K)) v = v :=
     ⟨{ carrier := {x | ∀ v ∈ V0 K, ((x : (Module.End K (V K))ˣ) : Module.End K (V K)) v = v}
@@ -52,7 +54,7 @@ theorem Lam_faithful_V0 {l : (Module.End K (V K))ˣ} (hl : l ∈ Lam K)
          have hid := unit_apply_inv_apply (x : (Module.End K (V K))ˣ) v
          rw [Subgroup.coe_inv]
          exact hw.symm.trans hid }, fun x => Iff.rfl⟩
-  haveI hNn : N.Normal := ⟨fun n hn g => by
+  have hNn : N.Normal := ⟨fun n hn g => by
     rw [hNdef] at hn ⊢
     intro v hv
     have hgv := Lam_stabilizes_V0 ((Lam K).inv_mem g.2) hv

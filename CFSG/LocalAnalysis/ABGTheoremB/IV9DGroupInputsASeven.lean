@@ -26,8 +26,8 @@ theorem a7t_centralizer_certificate : ∀ y : A₇, y * a7t = a7t * y →
     (y * a7a * y⁻¹ = a7a ∨ y * a7a * y⁻¹ = a7a ^ 2) ∧
       (y * a7a ^ 2 * y⁻¹ = a7a ∨ y * a7a ^ 2 * y⁻¹ = a7a ^ 2) := by
   intro y
-  simp only [mul_inv_eq_iff_eq_mul, Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_inv, Subgroup.coe_one]
-  simp only [← CFSG.GorensteinWalter.PermTable.enc_inj, CFSG.GorensteinWalter.PermTable.enc_mul, CFSG.GorensteinWalter.PermTable.enc_pow, CFSG.GorensteinWalter.PermTable.enc_one, CFSG.GorensteinWalter.PermTable.enc_a7a,
+  simp only [mul_inv_eq_iff_eq_mul, Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_pow]
+  simp only [← CFSG.GorensteinWalter.PermTable.enc_inj, CFSG.GorensteinWalter.PermTable.enc_mul, CFSG.GorensteinWalter.PermTable.enc_pow, CFSG.GorensteinWalter.PermTable.enc_a7a,
     CFSG.GorensteinWalter.PermTable.enc_a7t]
   have hm := CFSG.GorensteinWalter.PermTable.enc_mem_permutations (y : Equiv.Perm (Fin 7))
   generalize CFSG.GorensteinWalter.PermTable.enc (y : Equiv.Perm (Fin 7)) = l at hm ⊢

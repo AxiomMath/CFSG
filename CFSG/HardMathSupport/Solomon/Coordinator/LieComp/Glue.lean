@@ -11,13 +11,13 @@ open CFSG.Open
 
 private theorem nontrivial_of_isQuasisimple {K : Type*} [Group K] (h : IsQuasisimple K) :
     Nontrivial K := by
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := h.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := h.2
   exact (QuotientGroup.mk_surjective (s := Subgroup.center K)).nontrivial
 
 private theorem false_of_isQuasisimple_of_isSolvable {K : Type*} [Group K]
     (h : IsQuasisimple K) (hs : Group.IsSolvable K) : False := by
-  haveI := nontrivial_of_isQuasisimple h
-  haveI : Group.IsPerfect K := ⟨h.1⟩
+  have := nontrivial_of_isQuasisimple h
+  have : Group.IsPerfect K := ⟨h.1⟩
   exact Group.IsPerfect.not_isSolvable K hs
 
 private theorem mul_comm_of_components_ne {G : Type*} [Group G] [Finite G] {C K L : Subgroup G}
@@ -47,7 +47,7 @@ theorem component_mem_named_factors {G : Type*} [Group G] [Finite G] {C : Subgro
     (hperf : ∀ P : Subgroup G, P ≤ C → commutator ↥P = ⊤ → P ≤ ⨆ i, F i)
     {K : Subgroup G} (hK : IsComponentOf K C) : ∃ i, K = F i := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hKle : K ≤ ⨆ i, F i := hperf K hK.1 hK.2.2.1
   have hcent : (⨆ i, F i) ≤ Subgroup.centralizer (K : Set G) := by
     refine iSup_le fun i y hy => ?_
@@ -59,7 +59,7 @@ theorem component_mem_named_factors {G : Type*} [Group G] [Finite G] {C : Subgro
     have hb : (b : G) ∈ Subgroup.centralizer (K : Set G) := hcent (hKle b.2)
     rw [Subgroup.mem_centralizer_iff] at hb
     exact Subtype.ext (hb a a.2)
-  haveI : Group.IsSolvable ↥K := isSolvable_of_comm hcomm
+  have : Group.IsSolvable ↥K := _root_.Group.isSolvable_of_comm hcomm
   exact false_of_isQuasisimple_of_isSolvable hK.2.2 inferInstance
 
 end CFSG.HardMathSupport.Solomon.Coordinator.LieComp

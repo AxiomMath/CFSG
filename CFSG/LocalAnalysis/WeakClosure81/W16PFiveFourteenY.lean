@@ -20,7 +20,7 @@ private theorem w16_y_kerIn_top_eq_normalCore {Γ : Type*} [Group Γ] (K : Subgr
     CFSG.Quasithin.kerIn K ⊤ = K.normalCore := by
   ext x
   simp only [CFSG.Quasithin.kerIn, Subgroup.mem_mk, Subgroup.mem_top, forall_true_left,
-    Subgroup.normalCore, Set.mem_setOf_eq]
+    Subgroup.normalCore]
 
 theorem Hyp167.inf_kerMOf_eq (hB : Asc80ThmB) (hS : Std15 G)
     (hX : Hyp167 M V₀ V U S H g X T)
@@ -53,7 +53,7 @@ theorem Hyp167.inf_kerMOf_eq (hB : Asc80ThmB) (hS : Std15 G)
     have haY : a ∈ Y := kerMOf_le_group M Y haKer
     have haX : a ∈ X := hYX haY
     have haA : a ∈ conjSubgroup V g := hDA haD
-    obtain ⟨y, hyY, hyM⟩ := SetLike.not_le_iff_exists.1 hYM
+    obtain ⟨y, hyY, hyM⟩ := IsConcreteLE.not_le_iff_exists.1 hYM
     have hyX : y ∈ X := hYX hyY
     have hconj : y⁻¹ * a * y ∈ kerMOf M Y := by
       simpa using conj_mem_kerMOf (Y.inv_mem hyY) haKer

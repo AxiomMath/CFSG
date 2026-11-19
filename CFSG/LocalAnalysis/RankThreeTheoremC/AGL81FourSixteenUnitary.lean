@@ -76,7 +76,7 @@ theorem false_of_twistedA_card_four (p : ℕ) [OddPrime p]
     have h2 : 2 ^ f = 2 ^ 2 := by rw [← hqc, hq4]; norm_num
     exact Nat.pow_right_injective le_rfl h2
   subst hf
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have ht1 : 1 ≤ t := (hI.le t hI.mem).1
   have hr : 1 ≤ t + s := by omega
   have hn3 : 3 ≤ 2 * (t + s) + ε := by omega
@@ -95,7 +95,7 @@ theorem false_of_twistedA_card_four (p : ℕ) [OddPrime p]
     obtain ⟨x, hx⟩ := hΦs β
     have hcK : Nat.card (K ≃+* K) = 2 * 2 :=
       (card_ringAut_and_isCyclic Nat.prime_two K h.card).1
-    haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcK]; norm_num)
+    have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcK]; norm_num)
     have hx4 : x ^ 4 ∈ ψ.ker := by
       rw [MonoidHom.mem_ker, map_pow]
       have := pow_card_eq_one' (G := K ≃+* K) (x := ψ x)

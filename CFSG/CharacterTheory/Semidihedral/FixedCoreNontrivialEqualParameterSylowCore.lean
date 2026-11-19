@@ -47,7 +47,7 @@ theorem exists_core_centralizer (h : EqualParameterData G t s₀ d d₁ J p f F 
       (Subgroup.centralizer (Q₁ : Set G)).subtype ≤ Subgroup.centralizer (Q₁ : Set G) :=
     Subgroup.map_subtype_le _
   have hS2 : IsPGroup 2 ((S' : Subgroup (Subgroup.centralizer (Q₁ : Set G))).map
-      (Subgroup.centralizer (Q₁ : Set G)).subtype) := S'.isPGroup'.map _
+      (Subgroup.centralizer (Q₁ : Set G)).subtype) := S'.isPGroup.map _
   have hQ1 : Q₁ ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hcard

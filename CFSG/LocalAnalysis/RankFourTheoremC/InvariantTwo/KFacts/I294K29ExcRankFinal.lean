@@ -23,12 +23,12 @@ section E8
 theorem crossRankE8FiveFour_of_cover (h : E8FiveFourCover) : CrossRankE8FiveFour := by
   intro q hv h4
   refine ExcRank.crossRankAtPrime_of_model fun hp hp5 hdp => ?_
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   obtain ⟨φ⟩ := CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
     (GaloisField q.p q.exponent) hK
-  haveI : Finite (adjointGroup Tag.E8 (GaloisField q.p q.exponent)) :=
+  have : Finite (adjointGroup Tag.E8 (GaloisField q.p q.exponent)) :=
     generated_group_finite Tag.E8 _
   have h4' : orderOf ((Nat.card (GaloisField q.p q.exponent) : ℕ) : ZMod 5) = 4 := by
     rw [hK]; exact h4

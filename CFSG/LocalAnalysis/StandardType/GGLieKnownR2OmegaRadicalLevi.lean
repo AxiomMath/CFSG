@@ -34,21 +34,21 @@ private theorem levi_key_e1 {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     {Q : QuadraticForm K V} {P P' : HypPair Q} (h : P.Orth P') :
     eichler Q P'.e P.f P.e = P.e - P'.e := by
   rw [eichler_apply P'.Q_e (levi_cross_fe h)]
-  simp only [h.ee, P.polar_ef, P.Q_f, zero_mul, add_zero, zero_smul, one_smul, sub_zero]
+  simp only [h.ee, P.polar_ef, P.Q_f, zero_mul, add_zero, zero_smul, one_smul]
 
 private theorem levi_key_e2 {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     {Q : QuadraticForm K V} {P P' : HypPair Q} (h : P.Orth P') :
     eichler Q P'.e P.f P'.e = P'.e := by
   rw [eichler_apply P'.Q_e (levi_cross_fe h)]
   simp only [P'.polar_ee, levi_cross_fe h, P.Q_f, zero_mul, add_zero,
-    zero_smul, one_smul, sub_zero]
+    zero_smul, sub_zero]
 
 private theorem levi_key_f3 {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     {Q : QuadraticForm K V} {P P' : HypPair Q} (h : P.Orth P') :
     eichler Q P'.e P.f P'.f = P'.f + P.f := by
   rw [eichler_apply P'.Q_e (levi_cross_fe h)]
   simp only [P'.polar_fe, polar_comm Q P'.f P.f, h.ff, P.Q_f, zero_mul, add_zero,
-    zero_smul, one_smul, zero_add, sub_zero]
+    zero_smul, one_smul, sub_zero]
 
 private theorem levi_key_f4 {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     {Q : QuadraticForm K V} {P P' : HypPair Q} (h : P.Orth P') [CharP K 2] :
@@ -65,8 +65,7 @@ private theorem levi_apply_e1 {K V : Type} [Field K] [AddCommGroup V] [Module K 
     orthSiegelLevi Q P P' P.e = P'.e := by
   rw [orthSiegelLevi, LinearEquiv.mul_apply, levi_key_e1 h, eichler_apply P.Q_e h.ef]
   simp only [polar_sub_left, P.polar_ee, levi_cross_ee h, h.ef, P'.polar_ef, P'.Q_f,
-    zero_mul, add_zero, zero_smul, one_smul, zero_sub, sub_zero, neg_smul,
-    CharTwo.sub_eq_add, CharTwo.neg_eq, add_zero, zero_add]
+    zero_mul, add_zero, zero_smul, one_smul, CharTwo.sub_eq_add, add_zero, zero_add]
   have hh : P.e - P'.e - P.e = -P'.e := by abel
   rw [hh, levi_neg_eq (K := K)]
 
@@ -74,8 +73,8 @@ private theorem levi_apply_e2 {K V : Type} [Field K] [AddCommGroup V] [Module K 
     {Q : QuadraticForm K V} {P P' : HypPair Q} (h : P.Orth P') [CharP K 2] :
     orthSiegelLevi Q P P' P'.e = P.e + P'.e := by
   rw [orthSiegelLevi, LinearEquiv.mul_apply, levi_key_e2 h, eichler_apply P.Q_e h.ef]
-  simp only [P.polar_ee, levi_cross_ee h, h.ef, P'.polar_ef, P'.Q_f, zero_mul, add_zero,
-    zero_smul, one_smul, zero_add, sub_zero, zero_sub]
+  simp only [levi_cross_ee h, P'.polar_ef, P'.Q_f, zero_mul, add_zero,
+    zero_smul, one_smul]
   rw [sub_eq_add_neg, levi_neg_eq (K := K), add_comm]
 
 private theorem levi_apply_f2 {K V : Type} [Field K] [AddCommGroup V] [Module K V]
@@ -89,7 +88,7 @@ private theorem levi_g_e {K V : Type} [Field K] [AddCommGroup V] [Module K V]
   rw [orthSiegelLevi, LinearEquiv.mul_apply, levi_key_e1 h, eichler_apply P.Q_e h.ef]
   rw [polar_sub_left, polar_sub_left, P.polar_ee, levi_cross_ee h, h.ef, P'.polar_ef]
   simp only [P'.Q_f, zero_mul, add_zero, zero_smul, one_smul, zero_sub, sub_zero,
-    neg_smul, neg_one_smul, neg_neg]
+    neg_smul]
   module
 
 private theorem levi_A2 {K V : Type} [Field K] [AddCommGroup V] [Module K V]
@@ -179,7 +178,7 @@ private theorem levi_cube {K V : Type} [Field K] [AddCommGroup V] [Module K V]
           hA2, mul_one, hB2]
 
 theorem orthSiegelLevi_mem_elementary {K V : Type} [Field K] [AddCommGroup V] [Module K V]
-    {Q : QuadraticForm K V} {P P' : HypPair Q} (h : P.Orth P') :
+    {Q : QuadraticForm K V} {P P' : HypPair Q} (_h : P.Orth P') :
     orthSiegelLevi Q P P' ∈ elementaryGroup Q := by
   rw [orthSiegelLevi]
   exact Subgroup.mul_mem _ (eichler_mem_elementaryGroup Q P.e P'.f)
@@ -191,7 +190,7 @@ theorem orthSiegelLevi_apply_e {K V : Type} [Field K] [AddCommGroup V] [Module K
   ⟨levi_apply_e1 h, levi_apply_e2 h⟩
 
 theorem orthSiegelLevi_fixes_W {K V : Type} [Field K] [AddCommGroup V] [Module K V]
-    {Q : QuadraticForm K V} {P P' : HypPair Q} (h : P.Orth P') {w : V}
+    {Q : QuadraticForm K V} {P P' : HypPair Q} (_h : P.Orth P') {w : V}
     (hw : w ∈ siegelW Q P.e P'.e P.f P'.f) :
     orthSiegelLevi Q P P' w = w := by
   rw [siegelW, LinearMap.BilinForm.mem_orthogonal_iff] at hw

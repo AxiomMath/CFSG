@@ -16,12 +16,14 @@ private noncomputable def n2_quotient_alt5_equiv (c : Ctx45 p G D)
     (G ⧸ Wker G) ≃* ↥(alternatingGroup (Fin 5)) :=
   (QuotientGroup.quotientMulEquivOfEq hker).trans c.alt5.some
 
+omit [Finite G] in
 private lemma n2_eta_kernel {A : Type} [Group A] (η₁ : A →* Equiv.Perm (Fin 5))
     (hη₁ : Function.Injective η₁) (ι : (G ⧸ Wker G) ≃* A) :
     (η₁.comp (ι.toMonoidHom.comp (QuotientGroup.mk' (Wker G)))).ker = Wker G := by
   rw [MonoidHom.ker_comp_of_injective _ _ hη₁,
     MonoidHom.ker_comp_of_injective _ _ ι.injective, QuotientGroup.ker_mk']
 
+omit [Finite G] in
 private lemma n2_eta_range {A : Type} [Group A] (η₁ : A →* Equiv.Perm (Fin 5))
     (ι : (G ⧸ Wker G) ≃* A) :
     (η₁.comp (ι.toMonoidHom.comp (QuotientGroup.mk' (Wker G)))).range = η₁.range := by
@@ -29,18 +31,21 @@ private lemma n2_eta_range {A : Type} [Group A] (η₁ : A →* Equiv.Perm (Fin 
     ι.surjective.comp (QuotientGroup.mk'_surjective (Wker G))
   rw [MonoidHom.range_comp, MonoidHom.range_eq_top.mpr hsurj, MonoidHom.range_eq_map]
 
+omit [Finite G] in
 private lemma n2_psi_surjective {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
     (f : CFSG.Quasithin.G6.coreMod 5 ≃* Multiplicative W)
     (π : ↥(Xof G) →* Multiplicative W) (hπ : Function.Surjective π) :
     Function.Surjective (f.symm.toMonoidHom.comp π) :=
   f.symm.surjective.comp hπ
 
+omit [Finite G] in
 private lemma n2_psi_kernel {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
     (f : CFSG.Quasithin.G6.coreMod 5 ≃* Multiplicative W)
     (π : ↥(Xof G) →* Multiplicative W) :
     (f.symm.toMonoidHom.comp π).ker = π.ker :=
   MonoidHom.ker_comp_of_injective π f.symm.toMonoidHom f.symm.injective
 
+omit [Finite G] in
 private lemma n2_psi_equivariant {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
     {A : Type} [Group A] (φ : (G ⧸ Wker G) →* (W ≃ₗ[ZMod 2] W))
     (π : ↥(Xof G) →* Multiplicative W)
@@ -72,9 +77,9 @@ theorem n2_xDelta5 (hSymp : SympData) (c : Ctx45 p G D)
     (hker : Wker G = CFSG.pPrimeCore 3 G) : XDelta5 G := by
   obtain ⟨W, hWadd, hWmod, hWfin, φ, π, hW, hφ, hπs, hπk, hπe, h0, hd⟩ :=
     r24_module hSymp c hker
-  letI := hWadd
-  letI := hWmod
-  letI := hWfin
+  let := hWadd
+  let := hWmod
+  let := hWfin
   let ι : (G ⧸ Wker G) ≃* ↥(alternatingGroup (Fin 5)) := n2_quotient_alt5_equiv c hker
   let ρ : ↥(alternatingGroup (Fin 5)) →* (W ≃ₗ[ZMod 2] W) := φ.comp ι.symm.toMonoidHom
   have hρι : ∀ γ, ρ (ι γ) = φ γ := fun γ => by simp [ρ]

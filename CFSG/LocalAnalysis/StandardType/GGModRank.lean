@@ -67,7 +67,7 @@ private theorem linearIndependent_rat_of_zmod_linearIndependent {p : ℕ} (hp : 
   have hrel : ∑ j ∈ s, g j • w j = 0 := by
     funext a
     have hthis := congrFun hg a
-    simp only [Finset.sum_apply, Pi.smul_apply, Pi.zero_apply, smul_eq_mul] at hthis
+    simp only [Finset.sum_apply, Pi.smul_apply, Pi.zero_apply] at hthis
     simp only [Finset.sum_apply, Pi.smul_apply, Pi.zero_apply, smul_eq_mul]
     exact_mod_cast (show ((∑ j ∈ s, g j * w j a : ℤ) : ℚ) = 0 by
       push_cast
@@ -87,7 +87,6 @@ private theorem linearIndependent_rat_of_zmod_linearIndependent {p : ℕ} (hp : 
     funext a
     have hthis := congrFun (congrArg (fun v : n → ℤ => fun a => (v a : ZMod p)) hrel') a
     simp only [Finset.sum_apply, Pi.smul_apply, Pi.zero_apply, smul_eq_mul] at hthis ⊢
-    push_cast
     simpa using hthis
   have hex : ∃ j ∈ s, (g' j : ZMod p) ≠ 0 := by
     by_contra hcon
@@ -108,13 +107,13 @@ private theorem rank_map_zmod_le_rank_map_rat {p : ℕ} (hp : p.Prime)
     {m n : Type*} [Fintype m] [Fintype n] [DecidableEq n] (X : Matrix m n ℤ) :
     (X.map (Int.castRingHom (ZMod p))).rank ≤ (X.map (Int.castRingHom ℚ)).rank := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Xp := X.map (Int.castRingHom (ZMod p))
   let Xq := X.map (Int.castRingHom ℚ)
   let s : Set (m → ZMod p) := Set.range Xp.col
   let W : Submodule (ZMod p) (m → ZMod p) := Submodule.span (ZMod p) s
-  haveI hfinW : Module.Finite (ZMod p) W := by
-    haveI : Module.Finite (ZMod p) (m → ZMod p) := inferInstance
+  have hfinW : Module.Finite (ZMod p) W := by
+    have : Module.Finite (ZMod p) (m → ZMod p) := inferInstance
     exact Module.Finite.of_injective W.subtype W.subtype_injective
   let k := Module.finrank (ZMod p) W
   obtain ⟨f, hf_mem, _hf_span, hf_ind⟩ :=

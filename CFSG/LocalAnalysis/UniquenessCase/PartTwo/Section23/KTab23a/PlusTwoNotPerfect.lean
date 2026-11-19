@@ -100,7 +100,7 @@ private lemma quadPlus_comp_sw0 {K : Type} [Field K] (v : Fin 2 ⊕ Fin 2 → K)
 
 private lemma quadPlus_comp_sw1 {K : Type} [Field K] (v : Fin 2 ⊕ Fin 2 → K) :
     StatedQuadPlus 2 K (v ∘ sw1) = StatedQuadPlus 2 K v := by
-  simp [StatedQuadPlus, sw1, Fin.sum_univ_two, Equiv.swap_apply_def, mul_comm, add_comm]
+  simp [StatedQuadPlus, sw1, Fin.sum_univ_two, Equiv.swap_apply_def, add_comm]
 
 private lemma permGLι_mem_orthGroup {K : Type} [Field K] {σ : Equiv.Perm (Fin 2 ⊕ Fin 2)}
     (hσ : ∀ v : Fin 2 ⊕ Fin 2 → K,
@@ -154,11 +154,11 @@ private lemma card_statedOmega_plus_two_dvd {K : Type} [Field K] [Finite K]
 theorem commutator_statedOmega_plus_two_ne_top {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) :
     commutator ↥(StatedOmega (StatedQuadPlus 2 K)) ≠ ⊤ := by
-  haveI : Nontrivial ↥(StatedOmega (StatedQuadPlus 2 K)) := by
+  have : Nontrivial ↥(StatedOmega (StatedQuadPlus 2 K)) := by
     rw [Subgroup.nontrivial_iff_exists_ne_one]
     exact ⟨⁅permGLι (Fin 2 ⊕ Fin 2) K sw0, permGLι (Fin 2 ⊕ Fin 2) K sw1⁆,
       commutator_permGLι_mem_statedOmega, commutator_permGLι_sw_ne_one⟩
-  haveI : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 K)) :=
+  have : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 K)) :=
     CFSG.GH74.GLS.IVK.GHInv.isSolvable_of_card_dvd_two_pow_mul_three_pow
       (card_statedOmega_plus_two_dvd hK)
   exact (Group.IsSolvable.commutator_lt_top_of_nontrivial

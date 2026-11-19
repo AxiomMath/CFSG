@@ -22,12 +22,12 @@ theorem matrix_eq_smul_one_of_commute_sl2 (M : Matrix (Fin 2) (Fin 2) F)
   have hC := congrFun (congrFun h2 0) 0
   have hD := congrFun (congrFun h2 1) 0
   simp [Matrix.mul_apply, Fin.sum_univ_two] at hA hB hC hD
-  have hM10 : M 1 0 = 0 := by first | linear_combination hA | linear_combination -hA
-  have hM11 : M 1 1 = M 0 0 := by first | linear_combination hB | linear_combination -hB
-  have hM01 : M 0 1 = 0 := by first | linear_combination hC | linear_combination -hC
+  have hM10 : M 1 0 = 0 := by first | linear_combination hA
+  have hM11 : M 1 1 = M 0 0 := by first | linear_combination hB
+  have hM01 : M 0 1 = 0 := by first | linear_combination hC
   refine ⟨M 0 0, ?_⟩
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply, hM10, hM11, hM01]
+  fin_cases i <;> fin_cases j <;> simp [hM10, hM11, hM01]
 
 theorem neg_one_of_sq_eq_one_sl2 (h2 : (2 : F) ≠ 0) {A : Matrix (Fin 2) (Fin 2) F}
     (hdet : A.det = 1) (hsq : A * A = 1) (hne : A ≠ 1) : A = -1 := by
@@ -42,27 +42,24 @@ theorem neg_one_of_sq_eq_one_sl2 (h2 : (2 : F) ≠ 0) {A : Matrix (Fin 2) (Fin 2
     apply h2
     first
       | linear_combination -e00 - hdet + (A 0 0) * hps
-      | linear_combination e00 - hdet + (A 0 0) * hps
-      | linear_combination -e00 + hdet + (A 0 0) * hps
-      | linear_combination e00 + hdet + (A 0 0) * hps
   · have hA01 : A 0 1 = 0 := by
       have h : A 0 1 * (A 0 0 + A 1 1) = 0 := by
-        first | linear_combination e01 | linear_combination -e01
+        first | linear_combination e01
       exact (mul_eq_zero.mp h).resolve_right hps
     have hA10 : A 1 0 = 0 := by
       have h : A 1 0 * (A 0 0 + A 1 1) = 0 := by
-        first | linear_combination e10 | linear_combination -e10
+        first | linear_combination e10
       exact (mul_eq_zero.mp h).resolve_right hps
     rw [hA01, hA10] at e00 e11 hdet
     have hsq00 : A 0 0 * A 0 0 = 1 := by
-      first | linear_combination e00 | linear_combination -e00
+      first | linear_combination e00
     have hdiag : A 1 1 = A 0 0 := by
       have h0 : A 0 0 ≠ 0 := by
         intro h0
         rw [h0] at hsq00
         norm_num at hsq00
       have h : A 0 0 * (A 1 1 - A 0 0) = 0 := by
-        first | linear_combination hdet - hsq00 | linear_combination hsq00 - hdet
+        first | linear_combination hdet - hsq00
       have h' := (mul_eq_zero.mp h).resolve_left h0
       linear_combination h'
     have hp : (A 0 0 - 1) * (A 0 0 + 1) = 0 := by linear_combination hsq00
@@ -105,17 +102,17 @@ theorem isSquare_det_of_commute_of_sq_eq_neg_one (h2 : (2 : F) ≠ 0)
   have hps : p + s = 0 := by
     by_contra hne
     have hq : q = 0 := by
-      have : q * (p + s) = 0 := by first | linear_combination a01 | linear_combination -a01
+      have : q * (p + s) = 0 := by first | linear_combination a01
       exact (mul_eq_zero.mp this).resolve_right hne
     have hr : r = 0 := by
-      have : r * (p + s) = 0 := by first | linear_combination a10 | linear_combination -a10
+      have : r * (p + s) = 0 := by first | linear_combination a10
       exact (mul_eq_zero.mp this).resolve_right hne
     have hps' : p * s = 1 := by
       rw [hq, hr] at ha
-      first | linear_combination ha | linear_combination -ha
+      first | linear_combination ha
     have hp2 : p * p = -1 := by
       rw [hq, hr] at a00
-      first | linear_combination a00 | linear_combination -a00
+      first | linear_combination a00
     have hp0 : p ≠ 0 := by
       intro h0
       rw [h0] at hp2
@@ -123,19 +120,19 @@ theorem isSquare_det_of_commute_of_sq_eq_neg_one (h2 : (2 : F) ≠ 0)
     have : p * (p + s) = 0 := by linear_combination hp2 + hps'
     exact hne ((mul_eq_zero.mp this).resolve_left hp0)
   have hqr : q * r = -1 - p * p := by
-    first | linear_combination a00 | linear_combination -a00
+    first | linear_combination a00
   have K2 : q * (x - v) = y * (p - s) := by
-    first | linear_combination c01 | linear_combination -c01
+    first | linear_combination c01
   have K3 : r * (x - v) = u * (p - s) := by
     first | linear_combination c10 | linear_combination -c10
   have E1 : y * r = q * u := by
-    first | linear_combination c00 | linear_combination -c00
+    first | linear_combination c00
   have H1 : y * (x + v) = 0 := by
-    first | linear_combination h01 | linear_combination -h01
+    first | linear_combination h01
   have H2 : u * (x + v) = 0 := by
-    first | linear_combination h10 | linear_combination -h10
+    first | linear_combination h10
   have H3 : x * x = v * v := by
-    first | linear_combination h00 - h11 | linear_combination h11 - h00
+    first | linear_combination h00 - h11
   by_cases hxv : x + v = 0
   ·
     have hv : v = -x := by linear_combination hxv

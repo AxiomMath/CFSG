@@ -43,6 +43,7 @@ theorem q13b_cent_t (h : Q13Om t L S x₁ x₂ lam rho tau om) {𝒮 : Subgroup 
     𝒮 ⊓ centralizer ({t} : Set G) = S :=
   c17_cent_eq h.c11.toCtx10 h𝒮 (h.c11.S_le_U.trans hU)
 
+omit [Finite G] in
 theorem q13b_mem_closure_pair {a b x : G} (ha : a * a = 1) (hb : b * b = 1)
     (hab : a * b = b * a) (hx : x ∈ closure ({a, b} : Set G)) :
     x = 1 ∨ x = a ∨ x = b ∨ x = a * b := by
@@ -64,6 +65,7 @@ theorem q13b_mem_closure_pair {a b x : G} (ha : a * a = 1) (hb : b * b = 1)
     rcases hx with rfl | rfl | rfl | rfl <;>
       simp only [inv_one, hai, hbi, mul_inv_rev, hab.symm, true_or, or_true]
 
+omit [Finite G] in
 theorem q13b_mem_zpowers_sq {z x : G} (hz : z * z = 1) (hx : x ∈ zpowers z) :
     x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -78,8 +80,8 @@ theorem q13b_mem_zpowers_sq {z x : G} (hz : z * z = 1) (hx : x ∈ zpowers z) :
 
 theorem q13b_normal_meets_center {𝒮 F : Subgroup G} (h𝒮 : IsPGroup 2 𝒮) (hF : NormalIn F 𝒮)
     (hne : F ≠ ⊥) : ∃ c ∈ F, c ≠ 1 ∧ c ∈ 𝒮 ⊓ centralizer ((𝒮 : Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥𝒮 := IsPGroup.isNilpotent h𝒮
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥𝒮 := IsPGroup.isNilpotent h𝒮
   let F' : Subgroup ↥𝒮 := F.subgroupOf 𝒮
   have hF'normal : F'.Normal := by
     refine ⟨fun n hn g => ?_⟩

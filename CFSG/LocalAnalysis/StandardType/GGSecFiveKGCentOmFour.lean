@@ -151,7 +151,7 @@ private theorem plusSemiReflection_plusVec_flip0 {K : Type} [Field K] [CharP K 2
       rw [add_left_comm, h2, add_zero]
     · show _ = plusVec 4 K 0 false
       rw [← add_assoc, h2, zero_add]
-  · rw [plusSemiReflection_plusVec hn (fun h => hm h), flip0, if_neg hm]
+  · rw [plusSemiReflection_plusVec hn (fun h => hm h), flip0, ite_eq_right hm]
 
 theorem spinAction_plusSemi_of_conj_xr {K : Type} [Field K] [CharP K 2] {c : Sp8 K →* Sp8 K}
     {ε : Bool}
@@ -161,7 +161,7 @@ theorem spinAction_plusSemi_of_conj_xr {K : Type} [Field K] [CharP K 2] {c : Sp8
       plusSemi (by norm_num) ε 1 (spinAction (quadPlus 4 K) k y) := by
   cases ε
   · have hc : c = MonoidHom.id (Sp8 K) := Triality.ext_xr fun δ hδ b => by
-      rw [hcA δ hδ b, if_neg Bool.false_ne_true, MonoidHom.id_apply]
+      rw [hcA δ hδ b, ite_eq_right Bool.false_ne_true, MonoidHom.id_apply]
     rw [hc, MonoidHom.id_apply, plusSemi_false_one, plusSemi_false_one]
   · have hhom : (spinAction (quadPlus 4 K)).comp c =
         (MulAut.conj (plusSemiReflection (K := K) (n := 4) (by norm_num))).toMonoidHom.comp
@@ -169,7 +169,7 @@ theorem spinAction_plusSemi_of_conj_xr {K : Type} [Field K] [CharP K 2] {c : Sp8
       refine Triality.ext_xr fun δ hδ b => ?_
       obtain ⟨i, j, s, t, hij, hstd, -⟩ := exists_eq_fromStd hδ
       rw [MonoidHom.comp_apply, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
-        MulAut.conj_apply, hcA δ hδ b, if_pos rfl,
+        MulAut.conj_apply, hcA δ hδ b, ite_eq_left rfl,
         xr_eq_longRoot hij (toStdD_refl0_of_eq hij hstd) b, xr_eq_longRoot hij hstd b,
         RootCentOmega.spinAction_longRoot_eq_eichler,
         RootCentOmega.spinAction_longRoot_eq_eichler,

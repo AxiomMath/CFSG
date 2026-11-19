@@ -148,11 +148,11 @@ private theorem fin_eq (w : Nat) {T d : List Nat} (hT : ∀ t ∈ T, t < 2 ^ w)
   rw [tkv_digits hd]
   by_cases h : d = []
   · subst h
-    simp only [curOf_nil, if_true, List.append_nil]
+    simp only [curOf_nil, ite_true, List.append_nil]
     show T.length + (encL w T <<< 16) = _
     rw [lineVal_eq, Nat.shiftLeft_eq, Nat.mul_comm]
   · have hc : curOf d = decVal d + 1 := by simp [curOf, h]
-    rw [hc, if_neg h]
+    rw [hc, ite_eq_right h]
     show (T.length + 1) + ((encL w T ||| (decVal d <<< (w * T.length))) <<< 16) = _
     rw [lor_shiftLeft_eq_add (encL_lt w T hT), Nat.shiftLeft_eq, lineVal_eq, encL_append_singleton]
     simp [Nat.mul_comm]
@@ -163,7 +163,7 @@ private theorem splitOn_cons_self (cs : List Nat) :
 
 private theorem splitOn_cons_ne {c : Nat} (hc : c ≠ 10) {cs f : List Nat} {r : List (List Nat)}
     (h : cs.splitOn 10 = f :: r) : (c :: cs).splitOn 10 = (c :: f) :: r := by
-  rw [List.splitOn_cons_eq_ite_modifyHead, if_neg (by simpa using hc), h]
+  rw [List.splitOn_cons_eq_ite_modifyHead, ite_eq_right (by simpa using hc), h]
   rfl
 
 private theorem pkR_main (w : Nat) : ∀ (cs d T : List Nat) (ne : Bool) (first : List Nat)
@@ -207,7 +207,7 @@ private theorem pkR_main (w : Nat) : ∀ (cs d T : List Nat) (ne : Bool) (first 
         rw [pkR_space]
         by_cases hd0 : d = []
         · subst hd0
-          rw [curOf_nil, if_pos rfl]
+          rw [curOf_nil, ite_eq_left rfl]
           have key := ih [] T true f' r' hs' hf' (by simp) hT ht2
           rw [curOf_nil] at key
           rw [key, tkv_append_space, tkv_nil]
@@ -228,7 +228,7 @@ private theorem pkR_main (w : Nat) : ∀ (cs d T : List Nat) (ne : Bool) (first 
               encL w T + decVal d * 2 ^ (w * T.length) := by
             rw [hcur, Nat.add_sub_cancel]
             exact lor_shiftLeft_eq_add (encL_lt w T hT)
-          rw [if_neg (by rw [hcur]; omega), e, key]
+          rw [ite_eq_right (by rw [hcur]; omega), e, key]
           simp [tkv_append_space, tkv_digits hd, hd0, List.append_assoc]
       · have hdig : 48 ≤ c ∧ c ≤ 57 := by omega
         rw [splitOn_cons_ne h10 hs'] at hs
@@ -262,18 +262,18 @@ private theorem mem_splitOn_spec (a : Nat) :
     obtain ⟨f, r, hs⟩ := List.exists_cons_of_ne_nil (List.splitOn_ne_nil a xs)
     rw [List.splitOn_cons_eq_ite_modifyHead] at h
     by_cases hx : (x == a) = true
-    · rw [if_pos hx] at h
+    · rw [ite_eq_left hx] at h
       rcases List.mem_cons.1 h with rfl | h'
       · exact ⟨List.nil_sublist _, by simp⟩
       · obtain ⟨h1, h2⟩ := mem_splitOn_spec a xs t h'
         exact ⟨h1.cons x, h2⟩
-    · rw [if_neg hx, hs] at h
+    · rw [ite_eq_right hx, hs] at h
       have hmem : ∀ u ∈ f :: r, u.Sublist xs ∧ a ∉ u :=
         fun u hu => mem_splitOn_spec a xs u (hs ▸ hu)
       simp only [List.modifyHead, List.mem_cons] at h
       rcases h with rfl | h'
       · obtain ⟨h1, h2⟩ := hmem f List.mem_cons_self
-        refine ⟨h1.cons₂ x, ?_⟩
+        refine ⟨h1.cons_cons x, ?_⟩
         simp only [List.mem_cons, not_or]
         exact ⟨fun h => hx (by simp [h]), h2⟩
       · obtain ⟨h1, h2⟩ := hmem t (List.mem_cons_of_mem _ h')
@@ -287,11 +287,11 @@ private theorem length_filter_splitOn_le (a : Nat) : ∀ l : List Nat,
     obtain ⟨f, r, hs⟩ := List.exists_cons_of_ne_nil (List.splitOn_ne_nil a xs)
     rw [List.splitOn_cons_eq_ite_modifyHead]
     by_cases hx : (x == a) = true
-    · rw [if_pos hx]
+    · rw [ite_eq_left hx]
       simp only [List.filter_cons, List.isEmpty_nil, Bool.not_true, Bool.false_eq_true,
         ↓reduceIte, List.length_cons]
       omega
-    · rw [if_neg hx, hs]
+    · rw [ite_eq_right hx, hs]
       rw [hs] at ih
       have h1 : (r.filter fun t => !t.isEmpty).length ≤
           ((f :: r).filter fun t => !t.isEmpty).length := by
@@ -325,8 +325,7 @@ private theorem foldl_parse : ∀ (ts : List (List Nat)), (∀ t ∈ ts, t ≠ [
     have ih := foldl_parse ts (fun u hu => hts u (List.mem_cons_of_mem _ hu))
     by_cases ht : t = []
     · subst ht
-      simp only [List.map_cons, List.foldl_cons, isEmpty_strL, List.isEmpty_nil, if_true,
-        List.filter_cons, Bool.not_true, Bool.false_eq_true, ↓reduceIte]
+      simp only [List.map_cons, List.foldl_cons, isEmpty_strL, List.isEmpty_nil, List.filter_cons, Bool.not_true, Bool.false_eq_true, ↓reduceIte]
       exact ih a
     · have hd := hts t List.mem_cons_self ht
       have hne : t.isEmpty = false := by simpa using ht
@@ -382,7 +381,7 @@ private theorem tkv_lt_of_ble {B : Nat} {d : List Nat} (hd : ∀ c ∈ d, 48 ≤
   rw [tkv_digits hd] at hx
   by_cases hd0 : d = []
   · simp [hd0] at hx
-  · rw [if_neg hd0, List.mem_singleton] at hx
+  · rw [ite_eq_right hd0, List.mem_singleton] at hx
     subst hx
     have hcur : curOf d = decVal d + 1 := by simp [curOf, hd0]
     rw [hcur] at h

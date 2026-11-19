@@ -131,12 +131,12 @@ theorem countK {b j : ℕ} (hb : b < 5) :
     Finset.sum_add_distrib, Finset.sum_comm, T]
   congr 1
   · by_cases hj : j = 0
-    · simp only [hj, if_true, Finset.card_filter]
-    · simp only [hj, if_false, Finset.sum_const_zero, ite_self]
+    · simp only [hj, ite_true, Finset.card_filter]
+    · simp only [hj, ite_false, Finset.sum_const_zero, ite_self]
   · refine Finset.sum_congr rfl fun c _ => ?_
     by_cases hj : pi b c = j
-    · simp only [hj, if_true, cnt, Finset.card_filter]
-    · simp only [hj, if_false, Finset.sum_const_zero, ite_self]
+    · simp only [hj, ite_true, cnt, Finset.card_filter]
+    · simp only [hj, ite_false, Finset.sum_const_zero, ite_self]
 
 theorem range_split (Φ : ℕ → Prop) [DecidablePred Φ] :
     ((Finset.range (2 ^ 22)).filter Φ).card =

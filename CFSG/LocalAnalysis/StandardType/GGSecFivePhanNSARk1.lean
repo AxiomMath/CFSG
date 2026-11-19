@@ -37,7 +37,7 @@ open CFSG.ClassicalInvolution.Models CFSG.LieType.Steinberg
 
 open scoped MatrixGroups
 
-private lemma ggPhanNSARk1Aux_le_three_A (m : ℕ) (i j : Fin m) (hij : i ≠ j) :
+private lemma ggPhanNSARk1Aux_le_three_A (m : ℕ) (i j : Fin m) (_hij : i ≠ j) :
     (CoxeterMatrix.A m).M i j ≤ 3 := by
   simp only [CoxeterMatrix.A, Matrix.of_apply]
   split_ifs <;> omega
@@ -171,14 +171,14 @@ theorem ggSecFiveRk1PhanA_of_nonSplit
     rw [hM, CoxeterMatrix.reindex_apply]
     exact ggPhanNSARk1Aux_le_three_A m (σ.symm i) (σ.symm j)
       (fun h => hij (σ.symm.injective h))
-  haveI : Finite ι := ggIsWeylMatrix_finite hpres.1
+  have : Finite ι := ggIsWeylMatrix_finite hpres.1
   have hconn : GGSimplyLacedConnected M := ggSimplyLacedConnected_of_weyl hpres.1 hle3
   obtain ⟨K, hKfield, hKfin, hKchar, f, n, ψ, hKcard, hn4, hker, hrange, hpf, hpos, hlab⟩ :=
     hNS G p B Bs x L D J 𝒦 hcfg hns ι M e hpres htypeA hbig X hX hXs
   unfold GGTableBPosSU at hpos
   obtain ⟨ε, hεrefl, hεlevi⟩ := hpos
   have hn2 : 2 ≤ n := by omega
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   let a : Fin n := ⟨0, by omega⟩
   let b : Fin n := ⟨1, by omega⟩
   have hab : a ≠ b := by
@@ -213,7 +213,7 @@ theorem ggSecFiveRk1PhanA_of_nonSplit
   have hblockMap_inj : Function.Injective blockMap := blockEmb_injective (by omega)
   have hφ : Function.Injective (blockMap.comp eSL.toMonoidHom) :=
     hblockMap_inj.comp eSL.injective
-  haveI : CharP (fixedSubfield K 2 f) 2 := inferInstance
+  have : CharP (fixedSubfield K 2 f) 2 := inferInstance
   have hθ₀inj : Function.Injective θ₀ :=
     PsiDiag.injective_comp_of_ker_le_center (blockMap.comp eSL.toMonoidHom) hφ ψ hker
   have hrangeθ₀ : θ₀.range = ggRankOneIn X Bs r₀ := by
@@ -261,7 +261,7 @@ theorem ggSecFiveRk1PhanAInput_of_nsKGPos
     exact ggPhanNSARk1Aux_le_three_A m (σ.symm i) (σ.symm j)
       (fun h => hij (σ.symm.injective h))
   intro hbig X hX r hrA hrC
-  haveI : Finite ι := ggIsWeylMatrix_finite hpres.1
+  have : Finite ι := ggIsWeylMatrix_finite hpres.1
   have hconn : GGSimplyLacedConnected M := ggSimplyLacedConnected_of_weyl hpres.1 hle3
   by_cases hXs : GGSplitLie p X
   · exfalso
@@ -300,7 +300,7 @@ theorem ggSecFiveRk1PhanAInput_of_nsKGPos
     obtain ⟨φ, hφinj, hφrange⟩ := ggPhanNSARk1Aux_exists_sl2_range_rankOne hMod i₁
     let θ : Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f) →* G :=
       (MulAut.conj g).toMonoidHom.comp (ψ.comp φ)
-    haveI hchar : CharP (GaloisField 2 f) 2 := inferInstance
+    have hchar : CharP (GaloisField 2 f) 2 := inferInstance
     have hψφinj : Function.Injective (ψ.comp φ) :=
       PsiDiag.injective_comp_of_ker_le_center φ hφinj ψ hker
     have hθinj : Function.Injective θ := (MulAut.conj g).injective.comp hψφinj

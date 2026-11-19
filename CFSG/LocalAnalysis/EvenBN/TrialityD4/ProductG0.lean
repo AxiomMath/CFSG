@@ -16,6 +16,7 @@ namespace ProductG0Aux
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_subgroupOf_diagonalHom {A B : Subgroup G} {t : G}
     (hA : ⁅A, Aᵍ[t]⁆ = ⊥) (hB : ⁅B, Bᵍ[t]⁆ = ⊥) (hAB : A ≤ B) :
     (A.subgroupOf B).map (diagonalHom B t hB) = (diagonalHom A t hA).range := by
@@ -26,6 +27,7 @@ theorem map_subgroupOf_diagonalHom {A B : Subgroup G} {t : G}
   · rintro ⟨⟨a, ha⟩, rfl⟩
     exact ⟨⟨a, hAB ha⟩, ha, rfl⟩
 
+omit [Finite G] in
 theorem range_diagonalHom_le_sup {A : Subgroup G} {t : G} (hA : ⁅A, Aᵍ[t]⁆ = ⊥) :
     (diagonalHom A t hA).range ≤ A ⊔ Aᵍ[t] := by
   rintro _ ⟨a, rfl⟩
@@ -37,6 +39,7 @@ theorem isPerfect_of_injective {H K : Type*} [Group H] [Group K] (f : H →* K)
     ⟨MonoidHom.rangeRestrict_injective_iff.2 hf, f.rangeRestrict_surjective⟩
   exact Group.IsPerfect.ofSurjective (f := (e.symm : f.range →* H)) e.symm.surjective
 
+omit [Finite G] in
 theorem eq_sup_of_range_eq {A T₁ T₂ : Subgroup G} {t : G} (hA : ⁅A, Aᵍ[t]⁆ = ⊥)
     (hinj : Function.Injective (diagonalHom A t hA)) (h₁ : T₁ ≤ A) (h₂ : T₂ ≤ A)
     (hr : (diagonalHom A t hA).range = (T₁.subgroupOf A).map (diagonalHom A t hA) ⊔
@@ -53,12 +56,14 @@ theorem eq_sup_of_range_eq {A T₁ T₂ : Subgroup G} {t : G} (hA : ⁅A, Aᵍ[t
   rw [← subgroupOf_sup h₁ h₂] at hb
   exact hb
 
+omit [Finite G] in
 theorem map_conj_inv_le {K : Subgroup G} {g : G} (hg : g ∈ K) {A : Subgroup G} (hA : A ≤ K) :
     Aᵍ[g] ≤ K := by
   rintro _ ⟨a, ha, rfl⟩
   change g⁻¹ * a * g⁻¹⁻¹ ∈ K
   exact mul_mem (mul_mem (inv_mem hg) (hA ha)) (by rw [inv_inv]; exact hg)
 
+omit [Finite G] in
 theorem map_conj_inv_le_of_centralizer {L : Subgroup G} {t : G}
     (htL : t ∈ centralizer (L : Set G)) : Lᵍ[t] ≤ L := by
   rintro _ ⟨l, hl, rfl⟩
@@ -73,6 +78,7 @@ namespace DiagonalPair
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {q f : ℕ} {t : G}
 
+omit [Finite G] in
 theorem commutator_sup_eq_bot {d : TrialityD4Data L q} (X : DiagonalPair d t)
     (htL : t ∈ centralizer (L : Set G)) (ht : t * t = 1) :
     ⁅X.A₁ ⊔ X.A₂, (X.A₁ ⊔ X.A₂)ᵍ[t]⁆ = ⊥ := by
@@ -107,13 +113,13 @@ theorem range_and_isPerfect (h : Setup G L f t) {d : TrialityD4Data L (2 ^ f)} (
     rw [MonoidHom.range_eq_map, ← Subgroup.subgroupOf_self (X.A₁ ⊔ X.A₂),
       Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.map_sup, hmap₁, hmap₂,
       X.range₁, X.range₂, h5]
-  · haveI : Group.IsPerfect ↥X.A₁ := by
-      haveI : Group.IsPerfect (diagonalHom X.A₁ t X.comm₁).range := by
+  · have : Group.IsPerfect ↥X.A₁ := by
+      have : Group.IsPerfect (diagonalHom X.A₁ t X.comm₁).range := by
         rw [Subgroup.isPerfect_iff, X.range₁]
         exact h6₁
       exact ProductG0Aux.isPerfect_of_injective _ X.injective₁
-    haveI : Group.IsPerfect ↥X.A₂ := by
-      haveI : Group.IsPerfect (diagonalHom X.A₂ t X.comm₂).range := by
+    have : Group.IsPerfect ↥X.A₂ := by
+      have : Group.IsPerfect (diagonalHom X.A₂ t X.comm₂).range := by
         rw [Subgroup.isPerfect_iff, X.range₂]
         exact h6₂
       exact ProductG0Aux.isPerfect_of_injective _ X.injective₂
@@ -127,6 +133,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ} {t : G}
 
 namespace ProductG0Aux
 
+omit [Finite G] in
 theorem A₁_eq_sup {d : TrialityD4Data L (2 ^ f)} (hf : 2 ≤ f) (X : DiagonalPair d t)
     (htt : t * t = 1) (htL : t ∈ centralizer (L : Set G)) :
     X.A₁ = X.P₀ ⊔ X.P₀ᵍ[uG d] := by
@@ -141,6 +148,7 @@ theorem A₁_eq_sup {d : TrialityD4Data L (2 ^ f)} (hf : 2 ≤ f) (X : DiagonalP
   rw [h1, hdiag]
   exact h4.1
 
+omit [Finite G] in
 theorem A₂_eq_sup {d : TrialityD4Data L (2 ^ f)} (hf : 2 ≤ f) (X : DiagonalPair d t)
     (htt : t * t = 1) (htL : t ∈ centralizer (L : Set G)) :
     X.A₂ = X.P₀ ⊔ X.P₀ᵍ[vG d] := by

@@ -157,7 +157,7 @@ theorem commute_of_oddBarConj_eq_conj {K R : Subgroup G}
   have hsR : s ∈ Rs := by
     have hp : IsPGroup 2 ↥(zpowers s ⊔ Rs) :=
       (isPGroup_two_zpowers_of_sq_eq_one (by rw [sq]; exact hs2)).to_sup_of_normal_right'
-        Rsyl.isPGroup' (zpowers_le.mpr hsN)
+        Rsyl.isPGroup (zpowers_le.mpr hsN)
     have h : zpowers s ⊔ Rs = Rs := Rsyl.maximal_isPGroup.eq_of_ge hp le_sup_right
     rw [← h]
     exact mem_sup_left (mem_zpowers s)
@@ -172,7 +172,7 @@ theorem commute_of_oddBarConj_eq_conj {K R : Subgroup G}
       mul_inv_cancel_right]
   have hyaR : (⟨y * a * y⁻¹, (mem_normalizer_iff.mp hyK a).mp a.2⟩ : ↥K) ∈ (R₁ : Subgroup K) :=
     (hmemR _).mpr ((mem_normalizer_iff.mp hyR a).mp ((hmemR a).mp ha))
-  have h2 := eq_one_of_mk_eq_one_of_isPGroup R₁.isPGroup' (mul_mem hyaR (inv_mem ha))
+  have h2 := eq_one_of_mk_eq_one_of_isPGroup R₁.isPGroup (mul_mem hyaR (inv_mem ha))
     (by rw [map_mul, map_inv, h1, mul_inv_cancel])
   rw [mul_inv_eq_one] at h2
   exact congrArg Subtype.val h2
@@ -240,7 +240,7 @@ theorem exists_mem_coreActionKernel_of_card_four {K R E : Subgroup G}
   have hinj : Function.Injective (ρ.comp (R₁ : Subgroup K).subtype) := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
     intro a ha
-    exact Subtype.ext (eq_one_of_mk_eq_one_of_isPGroup R₁.isPGroup' a.2 ha)
+    exact Subtype.ext (eq_one_of_mk_eq_one_of_isPGroup R₁.isPGroup a.2 ha)
   have hRs4 : Nat.card Rs = 4 := by
     have hr : (ρ.comp (R₁ : Subgroup K).subtype).range = Rs := by
       rw [MonoidHom.range_comp, range_subtype, hRsc]

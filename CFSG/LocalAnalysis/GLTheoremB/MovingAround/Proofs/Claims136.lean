@@ -60,6 +60,7 @@ section Delta
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem localDeltaTwoIn_le {X D : Subgroup G} {d : G} (hd : d ∈ D) (hd1 : d ≠ 1) :
     localDeltaTwoIn X D ≤ X := by
   intro x hx
@@ -67,6 +68,7 @@ theorem localDeltaTwoIn_le {X D : Subgroup G} {d : G} (hd : d ∈ D) (hd1 : d �
   have h := (Subgroup.mem_iInf.1 (Subgroup.mem_iInf.1 (Subgroup.mem_iInf.1 hx d) hd) hd1)
   exact ((CFSG.LieType.BorelTits.pCoreOf_le 2 _) h).1
 
+omit [Finite G] in
 theorem commutator_le_of_barX_le_centralizer {p : ℕ} {X K S : Subgroup G} (hKX : K ≤ X)
     (hSX : S ≤ X)
     (h : barX p X S ≤ Subgroup.centralizer (barX p X K : Set (↥X ⧸ GLAPPrimeCore p ↥X))) :
@@ -92,6 +94,7 @@ theorem commutator_le_of_barX_le_centralizer {p : ℕ} {X K S : Subgroup G} (hKX
   rw [e]
   exact (mem_gLAPPrimeCoreOf_iff p X _).2 ⟨Subtype.prop _, hmem⟩
 
+omit [Finite G] in
 theorem centBar_le_inf (p : ℕ) (D K : Subgroup G) : centBar p D K ≤ D ⊓ centBar p ⊤ K := by
   intro x hx
   unfold centBar at hx ⊢
@@ -152,7 +155,7 @@ theorem alt_of_component {G : Type} [Group G] [Finite G] (hI : Input19_16Three) 
     (hB : IsEkIn 3 k X B) (hBK : B ≤ Subgroup.normalizer (K : Set G)) (hcent : centBar 3 B K = ⊥)
     (hnb : ¬ IsCompLocallyOTwoBalanced 3 k B K) :
     Lemma136c.Alt19_16 3 k (barOf 3 K) (autBar 3 B K) := by
-  haveI : Finite (barOf 3 K) := by unfold barOf; infer_instance
+  have : Finite (barOf 3 K) := by unfold barOf; infer_instance
   have hq : CFSG.Open.IsQuasisimple (barOf 3 K) :=
     CFSG.HardMathSupport.Solomon.LocalBalance.isQuasisimple_quot_of_component Nat.prime_three hK
   have hO : GLAPPrimeCore 3 (barOf 3 K) = ⊥ := glaPPrimeCore_quotient_eq_bot Nat.prime_three
@@ -169,7 +172,7 @@ theorem iiHard_of_inputs' (hI191 : Lemma129.Input19_1_two) (hI1916 : Input19_16T
   unfold Lemma136c.IIHardCases at hCase
   unfold Lemma136c.CentralizerFStarFact at hF
   intro G _ _ m B M E A D T L h hN d hd hd1 hfix
-  haveI : IsSimpleGroup G := h.standing.simple
+  have : IsSimpleGroup G := h.standing.simple
   obtain ⟨b, B1, hPD, hsetup⟩ := hRed G m h hN hd hd1 hfix
   have hs := hsetup
   obtain ⟨-, ⟨r, hr, hEk⟩, hS1Δ, hS1P, hS1C, hred⟩ := hsetup
@@ -226,6 +229,7 @@ theorem isSubnormal_sSup {X : Subgroup G} (S : Set (Subgroup G))
       exact Subgroup.comap_mono (le_sSup hK)
   rwa [h3]
 
+omit [Finite G] in
 theorem centralizer_pair (b d : G) :
     Subgroup.centralizer ({b, d} : Set G) =
       Subgroup.centralizer ({b} : Set G) ⊓ Subgroup.centralizer ({d} : Set G) := by
@@ -233,6 +237,7 @@ theorem centralizer_pair (b d : G) :
   simp only [Subgroup.mem_inf, Subgroup.mem_centralizer_iff, Set.mem_insert_iff,
     Set.mem_singleton_iff, forall_eq_or_imp, forall_eq]
 
+omit [Finite G] in
 theorem glaPComponent_conj_of_mem {p : ℕ} {M L : Subgroup G} (hL : GLAPComponent p M L) {g : G}
     (hg : g ∈ M) : GLAPComponent p M (GLBConj g L) := by
   have := glaPComponent_gLBConj hL g
@@ -261,7 +266,7 @@ theorem exists_glaPComponent_lift {p : ℕ} (hp : p.Prime) {M H : Subgroup G} (h
 
 theorem isSimpleGroup_of_alt7 {Y : Type*} [Group Y] (e : Y ≃* alternatingGroup (Fin 7)) :
     IsSimpleGroup Y := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
   exact e.isSimpleGroup
 
 theorem card_of_alt7 {Y : Type*} [Group Y] (e : Y ≃* alternatingGroup (Fin 7)) :
@@ -271,7 +276,7 @@ theorem card_of_alt7 {Y : Type*} [Group Y] (e : Y ≃* alternatingGroup (Fin 7))
 
 theorem glaPPrimeCore_eq_bot_of_alt7 {Y : Type*} [Group Y] [Finite Y]
     (e : Y ≃* alternatingGroup (Fin 7)) : GLAPPrimeCore 3 Y = ⊥ := by
-  haveI := isSimpleGroup_of_alt7 e
+  have := isSimpleGroup_of_alt7 e
   refine (CFSG.pPrimeCore_eq_bot_iff).2 ?_
   intro K _ hcop
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with h | h
@@ -282,7 +287,7 @@ theorem glaPPrimeCore_eq_bot_of_alt7 {Y : Type*} [Group Y] [Finite Y]
 
 theorem glaPComponent_self_of_alt7 {Q : Type*} [Group Q] [Finite Q] {Y : Subgroup Q}
     (e : ↥Y ≃* alternatingGroup (Fin 7)) : GLAPComponent 3 Y Y := by
-  haveI := isSimpleGroup_of_alt7 e
+  have := isSimpleGroup_of_alt7 e
   have hO : GLAPPrimeCore 3 ↥Y = ⊥ := glaPPrimeCore_eq_bot_of_alt7 e
   have htop : (Y.subgroupOf Y).map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥Y)) = ⊤ := by
     rw [Subgroup.subgroupOf_self]
@@ -297,15 +302,15 @@ theorem glaPComponent_self_of_alt7 {Q : Type*} [Group Q] [Finite Q] {Y : Subgrou
     rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hJsn inferInstance with h0 | h0
     · subst h0
       rw [htop, Subgroup.bot_subgroupOf, Subgroup.map_bot] at heq
-      haveI : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-      haveI : Nontrivial ↥(alternatingGroup (Fin 7)) := IsSimpleGroup.toNontrivial
-      haveI : Nontrivial (↥Y ⧸ GLAPPrimeCore 3 ↥Y) := eQ.toEquiv.nontrivial
+      have : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+      have : Nontrivial ↥(alternatingGroup (Fin 7)) := IsSimpleGroup.toNontrivial
+      have : Nontrivial (↥Y ⧸ GLAPPrimeCore 3 ↥Y) := eQ.toEquiv.nontrivial
       exact bot_ne_top heq
     · exact hJ.ne h0
 
 theorem glaPPrimeCoreOf_le_of_barX_alt7 {M H : Subgroup G} (hHM : H ≤ M)
     (e : ↥(barX 3 M H) ≃* alternatingGroup (Fin 7)) : GLAPPrimeCoreOf 3 H ≤ GLAPPrimeCoreOf 3 M := by
-  haveI := isSimpleGroup_of_alt7 e
+  have := isSimpleGroup_of_alt7 e
   have hNH : GLAPPrimeCoreOf 3 H ≤ H := Subgroup.map_subtype_le _
   have hNbar : barX 3 M (GLAPPrimeCoreOf 3 H) ≤ barX 3 M H := barX_mono_of_le 3 hNH
   have hnorm : barX 3 M H ≤ Subgroup.normalizer
@@ -366,8 +371,8 @@ theorem core_le_of_comp_inf {M L' C J : Subgroup G} (hL' : GLAPComponent 3 M L')
 theorem twoPrimeComp_of_glaPComponent' {X Js : Subgroup G} (hJs : GLAPComponent 3 X Js)
     (hcore : GLAPPrimeCoreOf 3 Js ≤ pCoreOf 2 Js) :
     IsTwoPrimeComp X Js ∧ CFSG.pCore 2 ↥Js = GLAPPrimeCore 3 ↥Js := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp3 : Nat.Prime 3 := by norm_num
   have hJX : Js ≤ X := hJs.1
   have hsn : IsSubnormal Js X := hJs.2.1
@@ -480,6 +485,7 @@ theorem isSubnormal_of_comp_inf_centralizer (h912 : Lemma912Statement) {m : ℕ}
   have hTP3 := h912 G m 3 h.standing B M h.bOne h.pre rfl b hbB hb1 J hTP2
   exact ⟨hTP3.1, hTP3.2.1⟩
 
+omit [Finite G] in
 theorem glaPLayer_conj (g : G) (X : Subgroup G) :
     GLAPLayer 3 (GLBConj g X) = GLBConj g (GLAPLayer 3 X) := by
   refine gLBConj_eq_of_forall_ge (F := GLAPLayer 3) (fun g H => ?_) g X
@@ -488,11 +494,13 @@ theorem glaPLayer_conj (g : G) (X : Subgroup G) :
   rw [← Subgroup.map_le_iff_le_comap]
   exact le_sSup (glaPComponent_gLBConj hJ g)
 
+omit [Finite G] in
 theorem gLBConj_inf (g : G) (X Y : Subgroup G) :
     GLBConj g (X ⊓ Y) = GLBConj g X ⊓ GLBConj g Y := by
   ext z
   simp only [mem_gLBConj, Subgroup.mem_inf]
 
+omit [Finite G] in
 theorem gLBConj_iSup₂ (y : G) (D : Subgroup G) (F : G → Subgroup G) :
     GLBConj y (⨆ g ∈ D, F g) = ⨆ g ∈ D, GLBConj y (F g) := by
   unfold GLBConj
@@ -506,7 +514,7 @@ theorem p1GLift_of_inputs (h912 : Lemma912Statement) (hO2 : Cex134_O2Statement)
     (hcomp : Sec13_compStatement) : Lemma136b.P1GLift := by
   intro G _ _ m B M E A D T L h b hbB hb1 hbc d hdD _ _ K hK
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨hLc, -⟩ := hcomp h.toSec13 h.hL
   have hLM : L ≤ M := hLc.1
   have hDA : D ≤ A := h.hD.1
@@ -764,8 +772,8 @@ theorem exists_klein {X : Type} [Group X] [Finite X] (e : X ≃* ↥Alt7) (σ : 
       rw [hσ1]
       ext k
       simp [mem_fixSub]
-    haveI := isSimpleGroup_of_alt7 e
-    haveI hN : (pCoreOf 2 (fixSub σ)).Normal := by
+    have := isSimpleGroup_of_alt7 e
+    have hN : (pCoreOf 2 (fixSub σ)).Normal := by
       constructor
       intro n hn g
       have hg : g ∈ fixSub σ := by rw [hfix]; exact Subgroup.mem_top g
@@ -920,6 +928,7 @@ section IIHardTools
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barAut_eq_conj {L : Subgroup G} {l : G} (hl : l ∈ L)
     (hlN : l ∈ Subgroup.normalizer (L : Set G)) :
     barAut 3 L ⟨l, hlN⟩ = MulAut.conj (QuotientGroup.mk (⟨l, hl⟩ : ↥L) : barOf 3 L) := by
@@ -933,7 +942,7 @@ theorem barAut_eq_conj {L : Subgroup G} {l : G} (hl : l ∈ L)
 
 theorem eq_one_of_mem_core_of_isPGroup {L P : Subgroup G} (hP : IsPGroup 3 ↥P) {x : G}
     (hxP : x ∈ P) (hxO : x ∈ GLAPPrimeCoreOf 3 L) : x = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hP) ⟨x, hxP⟩
   have hk' : orderOf x = 3 ^ k := (Subgroup.orderOf_coe (⟨x, hxP⟩ : ↥P)).trans hk
   have hdvd : orderOf x ∣ Nat.card ↥(GLAPPrimeCoreOf 3 L) := by
@@ -1004,7 +1013,7 @@ theorem mem_pCoreOf_of_image {L H : Subgroup G} (hHL : H ≤ L)
       Subgroup.normalizer (W : Set (barOf 3 L)))
     {y : G} (hyH : y ∈ H) (hyW : (QuotientGroup.mk (⟨y, hHL hyH⟩ : ↥L) : barOf 3 L) ∈ W) :
     y ∈ pCoreOf 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup G := H ⊓ (W.comap (QuotientGroup.mk' (GLAPPrimeCore 3 ↥L))).map L.subtype
     with hQ
   have hmemQ : ∀ z : G, z ∈ Q ↔ ∃ hz : z ∈ H,
@@ -1062,6 +1071,7 @@ theorem mem_pCoreOf_of_image {L H : Subgroup G} (hHL : H ≤ L)
   exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hQH hQn hQ2
     ((hmemQ y).2 ⟨hyH, hyW⟩)
 
+omit [Finite G] in
 theorem mk_mem_fixSub_of_comm {L : Subgroup G} {g : G} (hgN : g ∈ Subgroup.normalizer (L : Set G))
     {z : G} (hzL : z ∈ L) (hz : g * z = z * g) :
     (QuotientGroup.mk (⟨z, hzL⟩ : ↥L) : barOf 3 L) ∈ fixSub (barAut 3 L ⟨g, hgN⟩) := by
@@ -1106,7 +1116,7 @@ theorem T_facts : CFSG.LocalAnalysis.GLTheoremB.S7.T ≤ alternatingGroup (Fin 7
 
 theorem two_le_pRank_of_alt7 {L : Subgroup G} (e : barOf 3 L ≃* alternatingGroup (Fin 7)) :
     2 ≤ CFSG.Open.pRank 3 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hTA, hTel, hTc⟩ := T_facts
   set T' : Subgroup (barOf 3 L) :=
     (CFSG.LocalAnalysis.GLTheoremB.S7.T.subgroupOf (alternatingGroup (Fin 7))).map
@@ -1132,7 +1142,7 @@ theorem exists_bd_complement {L B P : Subgroup G} (eL : barOf 3 L ≃* alternati
       (∀ hb : b ∈ Subgroup.normalizer (L : Set G), barAut 3 L ⟨b, hb⟩ = barAut 3 L ⟨d, hdN⟩) ∧
       c ∉ Subgroup.zpowers b ∧ Subgroup.zpowers c ⊓ Subgroup.zpowers b = ⊥ ∧
       Subgroup.zpowers c ⊔ Subgroup.zpowers b = B ⊓ L ∧ (∀ y ∈ B ⊓ L, y * d = d * y) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := Subgroup.normalizer (L : Set G) with hNdef
   set ρ : ↥N →* Equiv.Perm (Fin 7) :=
     (CFSG.LocalAnalysis.GLTheoremB.S7.permOfAut eL).comp (barAut 3 L) with hρ
@@ -1253,7 +1263,7 @@ theorem exists_bd_complement {L B P : Subgroup G} (eL : barOf 3 L ≃* alternati
 
 theorem card_eq_pow_pRank3 {E : Subgroup G} (hE : IsElemAbelian 3 E) :
     Nat.card ↥E = 3 ^ CFSG.Open.pRank 3 E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEp : IsPGroup 3 ↥E := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 g.1 g.2)⟩
   obtain ⟨m, hm⟩ := hEp.exists_card_eq
   rw [CFSG.HardMathSupport.Solomon.LocalBalance.pRank_eq_of_card Nat.prime_three hE hm, hm]
@@ -1301,8 +1311,8 @@ theorem iiHardReduction_of_inputs (hP95 : Prop95) (h111 : Prop111Statement)
     (h91 : Lemma91ii) (h912 : Lemma912Statement) : Lemma136c.IIHardReduction := by
   intro G _ _ m B M E A D T L h hN d hd hd1 hfix
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hLc, -⟩ := hcomp h.toSec13 h.hL
   have hLM : L ≤ M := hLc.1
   have hLsn : IsSubnormal L M := hLc.2.1
@@ -1673,8 +1683,8 @@ theorem iiHardReduction_of_inputs (hP95 : Prop95) (h111 : Prop111Statement)
   · exact hS1S.trans (inf_le_right.trans ((CFSG.LieType.BorelTits.pCoreOf_le 2 _).trans inf_le_right))
 
 @[expose] def IIHardCaseAlt : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G} (h : Cex134 G m 3 B M E A D T L)
-    (hN : D ≤ Subgroup.normalizer (L : Set G)) {d : G} (hd : d ∈ D) (hd1 : d ≠ 1),
+  ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G} (_h : Cex134 G m 3 B M E A D T L)
+    (hN : D ≤ Subgroup.normalizer (L : Set G)) {d : G} (hd : d ∈ D) (_hd1 : d ≠ 1),
     pCoreOf 2 (fixSub (barAut 3 L ⟨d, hN hd⟩)) ≠ ⊥ →
     ∀ (b : G) (B1 : Subgroup G), Lemma136c.IIHardPrinted B L D hN hd b B1 →
     Lemma136c.IIHardSetupData B L D d (Lemma136c.bStarOf B L D b) (Lemma136c.s1Of B L D d b B1) →
@@ -1686,8 +1696,8 @@ theorem iiHardReduction_of_inputs (hP95 : Prop95) (h111 : Prop111Statement)
       ¬ ∃ m' r' : ℕ, Lemma136c.Alt19_16a 3 r (barOf 3 K) (autBar 3 (Lemma136c.bStarOf B L D b) K) m' r'
 
 @[expose] def IIHardCaseLie : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G} (h : Cex134 G m 3 B M E A D T L)
-    (hN : D ≤ Subgroup.normalizer (L : Set G)) {d : G} (hd : d ∈ D) (hd1 : d ≠ 1),
+  ∀ (G : Type) [Group G] [Finite G] (m : ℕ) {B M E A D T L : Subgroup G} (_h : Cex134 G m 3 B M E A D T L)
+    (hN : D ≤ Subgroup.normalizer (L : Set G)) {d : G} (hd : d ∈ D) (_hd1 : d ≠ 1),
     pCoreOf 2 (fixSub (barAut 3 L ⟨d, hN hd⟩)) ≠ ⊥ →
     ∀ (b : G) (B1 : Subgroup G), Lemma136c.IIHardPrinted B L D hN hd b B1 →
     Lemma136c.IIHardSetupData B L D d (Lemma136c.bStarOf B L D b) (Lemma136c.s1Of B L D d b B1) →

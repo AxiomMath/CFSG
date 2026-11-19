@@ -385,7 +385,7 @@ theorem exists_two_subgroup_of_thetaHull {L U X : Subgroup G} (hUL : U ≤ L) (h
   obtain ⟨S, hSD, hS0⟩ :=
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
       3 2 Nat.prime_three Nat.prime_two X _ hX hXN hcop h2
-  exact ⟨_, hS0, S.isPGroup'.map _, hSD⟩
+  exact ⟨_, hS0, S.isPGroup.map _, hSD⟩
 
 theorem isSylowOf_inf_of_le_normalizer {Q C Y : Subgroup G} (hQ : IsSylowOf 3 Q C)
     (hQY : Q ≤ Subgroup.normalizer (Y : Set G)) (hYC : Y ≤ C) : IsSylowOf 3 (Q ⊓ Y) Y := by

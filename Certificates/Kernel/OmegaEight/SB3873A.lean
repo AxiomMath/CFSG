@@ -44,7 +44,7 @@ theorem genK : Gen mulK sGens 65536 := sMul_eqK ▸ sGen
 
 theorem chi_homK : ∀ a < 65536, ∀ c < 65536,
     (chiS 65536)[mulK a c]! = ((chiS 65536)[a]! ^^ (chiS 65536)[c]!) := fun _ ha _ hc =>
-  chi_mul ΦK mulK_zero invOK_K sGens_lt genK kill_chi ha hc
+  chi_mul ΦK mulK_zero sGens_lt genK kill_chi ha hc
 
 theorem t1KillC_of {k m z : ℕ} {n5 : Bool} (hw : wOK k m = true) (hl : lOK k = true)
     (hconj : conjOK k m z 0 65536 = true) (hz : z < 65536) (hzχ : (chiS 65536)[z]! = false)

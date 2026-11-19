@@ -23,6 +23,7 @@ variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L Y₀ : Subg
 section Certificates
 
 
+omit [Finite G] in
 theorem e3core_exists_hom_img148 {Y X : Subgroup G} [(ker148 A Y).Normal] (hX : X ≤ Y) :
     ∃ φ : ↥X →* ↥(img148 A Y X), Function.Surjective φ := by
   have hXYA : X ≤ Y ⊔ A := hX.trans le_sup_left
@@ -105,7 +106,7 @@ theorem E3two_dvd_of_equiv {Γ M : Type} [Group Γ] [Group M] (e : Γ ≃* M)
 
 theorem E3two_three_dvd_of_pRank_two {X : Type} [Group X] [Finite X]
     (h : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X)) : 3 ∣ Nat.card X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, -, -, hE⟩ := CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank h
   have hd : Nat.card E ∣ Nat.card X := Subgroup.card_subgroup_dvd_card E
   rw [hE] at hd
@@ -264,7 +265,7 @@ theorem case148One_of_lemmaE
     {Y : Subgroup G} (h148 : Item148 A (lB A)) (hd : LemmaEData A c L Y₀ Y) :
     Case148One A (lB A) Y := by
   have hAY : A ≤ Subgroup.normalizer (Y : Set G) := hd.mem.2
-  letI := ker148_normal hAY
+  let := ker148_normal hAY
   obtain ⟨hnorm, hcases⟩ := (item148_iff A (lB A)).mp h148 Y hd.mem
   rcases hcases with h1 | h2 | h3 | h4 | h5 | h6 | h7
   · exact h1

@@ -18,7 +18,7 @@ variable {G : Type*} [Group G] [Finite G]
 theorem pPrimeCore_coprime_card_any (p : ℕ) (Y : Type*) [Group Y] [Finite Y] :
     Nat.Coprime p (Nat.card (CFSG.pPrimeCore p Y)) := by
   refine Nat.coprime_of_dvd fun q hq hqp hqn => ?_
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hle : CFSG.pPrimeCore p Y ≤ CFSG.pPrimeCore q Y :=
     sSup_le_sSup fun K hK => ⟨hK.1, Nat.Coprime.coprime_dvd_left hqp hK.2⟩
   exact (Nat.Prime.coprime_iff_not_dvd hq).1 CFSG.pPrimeCore_coprime_card
@@ -104,6 +104,7 @@ theorem isQuasisimple_pQuot_any {p : ℕ} {X L : Subgroup G} (hL : GLAPComponent
       (QuotientGroup.quotientKerEquivOfSurjective (barMap p hL.1)
         (barMap_surjective hL.1))).symm hL.2.2.1.2.2
 
+omit [Finite G] in
 theorem pQuot_one_subsingleton (L : Subgroup G) : Subsingleton (PQuot 1 L) := by
   have h : GLAPPrimeCore 1 ↥L = ⊤ :=
     top_le_iff.1 (le_sSup ⟨inferInstance, Nat.coprime_one_left _⟩)
@@ -112,15 +113,16 @@ theorem pQuot_one_subsingleton (L : Subgroup G) : Subsingleton (PQuot 1 L) := by
   exact QuotientGroup.subsingleton_quotient_top
 
 theorem not_glaPComponent_one {X L : Subgroup G} : ¬ GLAPComponent 1 X L := fun hL => by
-  haveI := pQuot_one_subsingleton L
-  haveI := isQuasisimple_nontrivial (isQuasisimple_pQuot_any hL)
+  have := pQuot_one_subsingleton L
+  have := isQuasisimple_nontrivial (isQuasisimple_pQuot_any hL)
   exact not_subsingleton _ ‹_›
 
+omit [Finite G] in
 theorem indAut_mem_inner_iff_any {p : ℕ} {L : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (PQuot p L)) {g : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) :
     indAut p L g hg ∈ inner (PSimple p L) ↔ InducesInnerMod p L g := by
-  haveI : Group.IsPerfect (PQuot p L) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p L) := ⟨hq.1⟩
   have key : chevAut p L ⟨g, hg⟩ ∈ inner (PSimple p L) ↔ InducesInnerMod p L g := by
     rw [inducesInnerMod_iff_barAut_mem_inner hg]
     constructor

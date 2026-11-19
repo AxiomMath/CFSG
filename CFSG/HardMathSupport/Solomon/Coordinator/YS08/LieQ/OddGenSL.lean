@@ -58,6 +58,7 @@ variable {n : ℕ} {F : Type} [Field F] [Finite F] {q : ℕ} [Fact q.Prime] [Cha
       rw [this] at h3
       exact h3
 
+omit [Finite F] in
 theorem slUrad_isPGroup (W : Submodule F (Fin n → F)) : IsPGroup q (slUrad W) := by
   rw [IsPGroup.iff_orderOf]
   intro g
@@ -103,6 +104,7 @@ theorem slUrad_isPGroup (W : Submodule F (Fin n → F)) : IsPGroup q (slUrad W) 
   · exact ⟨0, by simp [h]⟩
   · exact ⟨1, by simp [h]⟩
 
+omit [Finite F] in
 theorem mulVec_mem_of_mem_stabilizer {W : Submodule F (Fin n → F)}
     {g : SpecialLinearGroup (Fin n) F} (hg : g ∈ LinearFlag.stabilizer W) {w : Fin n → F}
     (hw : w ∈ W) : (g : Matrix (Fin n) (Fin n) F) *ᵥ w ∈ W := by
@@ -111,6 +113,7 @@ theorem mulVec_mem_of_mem_stabilizer {W : Submodule F (Fin n → F)}
   rw [LinearFlag.mem_stabilizer.1 hg] at hmem
   exact hmem
 
+omit [Finite F] in
 theorem conj_mem_slUrad {W : Submodule F (Fin n → F)} {g : SpecialLinearGroup (Fin n) F}
     (hg : g ∈ LinearFlag.stabilizer W) {u : SpecialLinearGroup (Fin n) F} (hu : u ∈ slUrad W) :
     g * u * g⁻¹ ∈ slUrad W := by
@@ -139,6 +142,7 @@ theorem conj_mem_slUrad {W : Submodule F (Fin n → F)} {g : SpecialLinearGroup 
     have h2 := hu2 _ hBw
     rw [hcoe, ← mulVec_mulVec, ← mulVec_mulVec, h2, mulVec_mulVec, hgg, one_mulVec]
 
+omit [Finite F] in
 theorem stabilizer_le_normalizer_slUrad {W : Submodule F (Fin n → F)} :
     LinearFlag.stabilizer W ≤
       Subgroup.normalizer (slUrad W : Set (SpecialLinearGroup (Fin n) F)) := by
@@ -151,6 +155,7 @@ theorem stabilizer_le_normalizer_slUrad {W : Submodule F (Fin n → F)} :
     have := conj_mem_slUrad (inv_mem hg) h2
     simpa [mul_assoc] using this
 
+omit [Finite F] in
 theorem transvection_mem_slUrad {d : ℕ} {i j : Fin n} (hij : i ≠ j) (hid : (i : ℕ) < d)
     (hdj : d ≤ (j : ℕ)) (b : F) :
     Matrix.SpecialLinearGroup.transvection hij b ∈ slUrad (LinearFlag.flagSpace n F d) := by
@@ -162,18 +167,20 @@ theorem transvection_mem_slUrad {d : ℕ} {i j : Fin n} (hij : i ≠ j) (hid : (
     rw [LinearFlag.mem_flagSpace]
     intro k hk
     have : k ≠ i := fun h => by subst h; omega
-    simp [Pi.single_apply, this]
+    simp [this]
   · rw [hc, add_mulVec, one_mulVec, Matrix.single_mulVec_eq]
     have hwj : w j = 0 := (LinearFlag.mem_flagSpace.1 hw) j hdj
     rw [hwj, mul_zero, zero_smul, add_zero]
 
+omit [Finite F] in
 theorem transvection_notMem_scalars {i j : Fin n} (hij : i ≠ j) :
     Matrix.SpecialLinearGroup.transvection hij (1 : F) ∉ LinearFlag.scalars n F := by
   rintro ⟨c, -, hc⟩
   have h1 := congrFun (congrFun hc i) j
   rw [Matrix.SpecialLinearGroup.transvection_coe] at h1
-  simp [Matrix.scalar_apply, Matrix.diagonal_apply_ne _ hij, hij] at h1
+  simp [Matrix.scalar_apply, hij] at h1
 
+omit [Finite F] in
 theorem map_slUrad_ne_bot {d : ℕ} (hd : 1 ≤ d) (hdn : d < n) :
     (slUrad (LinearFlag.flagSpace n F d)).map (LinearFlag.proj n F) ≠ ⊥ := by
   intro hbot
@@ -187,6 +194,7 @@ theorem map_slUrad_ne_bot {d : ℕ} (hd : 1 ≤ d) (hdn : d < n) :
   have := hbot _ ⟨_, hmem, rfl⟩
   exact transvection_notMem_scalars hij (LinearFlag.proj_eq_one_iff.1 this)
 
+omit [Finite F] in
 theorem flagSpace_bot_lt_lt_top {d : ℕ} (hd : 1 ≤ d) (hdn : d < n) :
     ⊥ < LinearFlag.flagSpace n F d ∧ LinearFlag.flagSpace n F d < ⊤ := by
   have hfin := LinearFlag.finrank_flagSpace (n := n) (K := F) (i := d) hdn.le
@@ -206,7 +214,7 @@ theorem twoParabolics_projectiveSL (hn : 3 ≤ n) :
     have : (MulAut.conj (1 : LinearFlag.projectiveSL n F) :
         LinearFlag.projectiveSL n F →* LinearFlag.projectiveSL n F) = MonoidHom.id _ := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [this, Subgroup.map_id]
   obtain ⟨U₀, hU₀⟩ := hB
   have hUB : (U₀ : Subgroup (LinearFlag.projectiveSL n F)) ≤ LinearFlag.projUpperTriangular n F :=

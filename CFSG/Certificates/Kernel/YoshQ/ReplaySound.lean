@@ -105,7 +105,7 @@ theorem tabN_congr {x y : Nat} (h : x % 2 ^ (n * w) = y % 2 ^ (n * w)) : tabN n 
   unfold tabN
   rw [h]
 
-theorem hkey_of_fields {m : Nat} (hw : w ≤ 32) {T : Table} {x : Nat}
+theorem hkey_of_fields {m : Nat} (_hw : w ≤ 32) {T : Table} {x : Nat}
     (hT : ∀ i < m, (T[i]!).toNat = pg w (mask w) x i) :
     (hkey m T).toNat = hkeyK m w (mask w) x := by
   have step : ∀ i < m, ∀ a : UInt64,

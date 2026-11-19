@@ -87,7 +87,7 @@ theorem eq_one_of_mem_of_isComplement {G : Type} [Group G] {N P : Subgroup G}
   simpa using this
 
 theorem pPrime_mem_core_of_central_sylow {p : ℕ} [hp : Fact p.Prime] [Finite Y] {C S : Subgroup Y}
-    (hS : IsPGroup p ↥S) (hSC : S ≤ C) (hcent : ∀ s ∈ S, ∀ c ∈ C, s * c = c * s)
+    (hS : IsPGroup p ↥S) (_hSC : S ≤ C) (hcent : ∀ s ∈ S, ∀ c ∈ C, s * c = c * s)
     (hall : ∀ R : Subgroup Y, R ≤ C → IsPGroup p ↥R → R ≤ S) :
     ∀ c ∈ C, ¬ p ∣ orderOf c → c ∈ GLAPPrimeCoreOf p C := by
   classical
@@ -164,7 +164,7 @@ theorem pPrime_mem_core_of_central_sylow {p : ℕ} [hp : Fact p.Prime] [Finite Y
       (((MonoidHom.transferSylow P hnorm).ker).pow_mem hn _)
   have h4 : s ^ orderOf cc ∈ (P : Subgroup ↥C) := (P : Subgroup ↥C).pow_mem hs _
   have hsm : s ^ orderOf cc = 1 := eq_one_of_mem_of_isComplement hcomp h3 h4
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨s, hs⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨s, hs⟩
   have hk' : s ^ (p ^ k) = 1 := by
     have := congrArg (fun z : ↥(P : Subgroup ↥C) => (z : ↥C)) hk
     simpa using this
@@ -174,7 +174,7 @@ theorem pPrime_mem_core_of_central_sylow {p : ℕ} [hp : Fact p.Prime] [Finite Y
   show c ∈ (CFSG.pPrimeCore p ↥C).map C.subtype
   exact Subgroup.mem_map.2 ⟨n, hNle hn, by rw [Subgroup.coe_subtype]; exact hnY⟩
 
-theorem isPGroup_subgroupOf_of_le {p : ℕ} {A B : Subgroup Y} (hA : IsPGroup p ↥A) (hAB : A ≤ B) :
+theorem isPGroup_subgroupOf_of_le {p : ℕ} {A B : Subgroup Y} (hA : IsPGroup p ↥A) (_hAB : A ≤ B) :
     IsPGroup p ↥(A.subgroupOf B) := by
   intro g
   obtain ⟨k, hk⟩ := hA ⟨(g : ↥(A.subgroupOf B)).1.1, (g : ↥(A.subgroupOf B)).2⟩
@@ -228,7 +228,7 @@ theorem cz_centralizer {p : ℕ} [hp : Fact p.Prime] [Finite Y] {O Q : Subgroup 
     exact hq⟩
   let Qh : Subgroup Y := Q.map (MulAut.conj h⁻¹).toMonoidHom
   have hconj : ∀ x : Y, (MulAut.conj h⁻¹).toMonoidHom x = h⁻¹ * x * h := fun x => by
-    simp [MulAut.conj_apply]
+    simp
   have hQhW : Qh ≤ W := by
     rintro _ ⟨x, hx, rfl⟩
     rw [hconj]
@@ -322,8 +322,7 @@ theorem layerOf_normal : (layerOf Y).Normal := by
   intro n hn g
   have key : layerOf Y ≤ (layerOf Y).comap (MulAut.conj g).toMonoidHom := by
     apply sSup_le
-    intro K hK
-    intro k hk
+    intro K hK k hk
     have hK' := isComponent_conj_top hK g
     have hmem : (MulAut.conj g).toMonoidHom k ∈ K.map (MulAut.conj g).toMonoidHom :=
       ⟨k, hk, rfl⟩
@@ -384,7 +383,7 @@ theorem le_normalizer_of_conj {S T : Subgroup Y} (h : ∀ w ∈ T, ∀ y ∈ S, 
 
 theorem le_normalizer_glaPPrimeCoreOf (p : ℕ) (W : Subgroup Y) :
     W ≤ Subgroup.normalizer (GLAPPrimeCoreOf p W : Set Y) :=
-  fun w hw => CFSG.LocalAnalysis.GLTheoremA.normalizer_le_normalizer_glaPPrimeCoreOf p W
+  fun _w hw => CFSG.LocalAnalysis.GLTheoremA.normalizer_le_normalizer_glaPPrimeCoreOf p W
     (Subgroup.le_normalizer hw)
 
 theorem core_inf_sup_le {p : ℕ} [hp : Fact p.Prime] [Finite Y] {L : Subgroup Y} [hL : L.Normal]
@@ -774,7 +773,7 @@ theorem X_le_of_layer {p : ℕ} [hp : Fact p.Prime] [Finite Y] {C0 X Q : Subgrou
       ∀ k ∈ K, ∀ x ∈ X, k * x = x * k) :
     X ≤ C0 := by
   classical
-  haveI hLn : (layerOf Y).Normal := layerOf_normal
+  have hLn : (layerOf Y).Normal := layerOf_normal
   let L0 : Subgroup Y := sSup {K : Subgroup Y | CFSG.Open.IsComponentOf K ⊤ ∧ K ≤ C0}
   let L1 : Subgroup Y := sSup {K : Subgroup Y | CFSG.Open.IsComponentOf K ⊤ ∧ ¬ K ≤ C0}
   have hL0C : L0 ≤ C0 := sSup_le (fun K hK => hK.2)
@@ -801,8 +800,7 @@ theorem X_le_of_layer {p : ℕ} [hp : Fact p.Prime] [Finite Y] {C0 X Q : Subgrou
     intro K hK k hk y hy
     have hcent : L1 ≤ Subgroup.centralizer (K : Set Y) := by
       apply sSup_le
-      intro K' hK'
-      intro y' hy'
+      intro K' hK' y' hy'
       rw [Subgroup.mem_centralizer_iff]
       intro k' hk'
       have hne : K ≠ K' := by
@@ -812,8 +810,7 @@ theorem X_le_of_layer {p : ℕ} [hp : Fact p.Prime] [Finite Y] {C0 X Q : Subgrou
     exact (Subgroup.mem_centralizer_iff.1 (hcent hy)) k hk
   have hcentL0 : L0 ≤ Subgroup.centralizer (L1 : Set Y) := by
     apply sSup_le
-    intro K hK
-    intro k hk
+    intro K hK k hk
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
     exact (hK1 K hK k hk y hy).symm
@@ -824,8 +821,7 @@ theorem X_le_of_layer {p : ℕ} [hp : Fact p.Prime] [Finite Y] {C0 X Q : Subgrou
     intro j hj x hx
     have hle : L0 ≤ L0.comap (MulAut.conj j).toMonoidHom := by
       apply sSup_le
-      intro K hK
-      intro k hk
+      intro K hK k hk
       rw [Subgroup.mem_comap]
       have hcomp : CFSG.Open.IsComponentOf (K.map (MulAut.conj j).toMonoidHom) ⊤ :=
         isComponent_conj_top hK.1 j
@@ -892,8 +888,7 @@ theorem X_le_of_layer {p : ℕ} [hp : Fact p.Prime] [Finite Y] {C0 X Q : Subgrou
   have hXW : X ≤ Subgroup.centralizer (L1 : Set Y) := by
     have hcent : L1 ≤ Subgroup.centralizer (X : Set Y) := by
       apply sSup_le
-      intro K hK
-      intro y hy
+      intro K hK y hy
       rw [Subgroup.mem_centralizer_iff]
       intro h hh
       exact (hXcomm K hK.1 hK.2 y hy h hh).symm

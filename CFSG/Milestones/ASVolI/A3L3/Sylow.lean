@@ -63,7 +63,7 @@ theorem burnsideA315y_exists_sylow_le {Γ : Type} [Group Γ] [Finite Γ] {C Q : 
     exact ⟨⟨q, hQC hq⟩, hP (Subgroup.mem_subgroupOf.mpr hq), rfl⟩
   · rintro _ ⟨s, -, rfl⟩
     exact s.2
-  · exact P.isPGroup'.map C.subtype
+  · exact P.isPGroup.map C.subtype
   · have h1 : ((P : Subgroup ↥C).map C.subtype).subgroupOf C = (P : Subgroup ↥C) := by
       rw [← Subgroup.comap_subtype]
       exact Subgroup.comap_map_eq_self_of_injective C.subtype_injective _
@@ -182,7 +182,7 @@ theorem data_Db_Da (zh_val : (zh : GL (Fin 3) F) = negDiag3 F)
     blkMat_mul, burnsideA315y_qb_mul_qa]
   simp
 
-theorem data_mem_C1 (zh_val : (zh : GL (Fin 3) F) = negDiag3 F) (two_ne : (2 : F) ≠ 0)
+theorem data_mem_C1 (zh_val : (zh : GL (Fin 3) F) = negDiag3 F) (_two_ne : (2 : F) ≠ 0)
     {g : ↥Γ} {A : Matrix (Fin 2) (Fin 2) F}
     (hg : ((g : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = blkMat A 1) (hA : A.det = 1) :
     g ∈ burnsideA315y_C1 Γ zh := by

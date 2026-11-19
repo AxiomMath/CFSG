@@ -18,7 +18,7 @@ section Rows
 theorem rowOfH2_suz : RowOfH2 (Spor .Suz) := by
   obtain ⟨b⟩ : Nonempty (Blueprint.NativeSporadic.Carrier .Suz ≃* Spor .Suz) :=
     CFSG.Sporadic.Bridge.Suz.nonempty_mulEquiv
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .Suz) :=
+  have : Finite (Blueprint.NativeSporadic.Carrier .Suz) :=
     Finite.of_equiv _ CFSG.Sporadic.SuzOddCore.suzEquivM.symm.toEquiv
   have hout : ¬ 3 ∣ Nat.card (Outer (Blueprint.NativeSporadic.Carrier .Suz)) := by
     rw [CFSG.Sporadic.SuzOddCore.outer_carrier_suz.1]
@@ -35,7 +35,7 @@ theorem rowOfH2_suz : RowOfH2 (Spor .Suz) := by
 theorem rowOfH2_ly : RowOfH2 (Spor .Ly) := by
   obtain ⟨b⟩ : Nonempty (Blueprint.NativeSporadic.Carrier .Ly ≃* Spor .Ly) :=
     CFSG.Sporadic.Bridge.Ly.nonempty_mulEquiv
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
+  have : Finite (Blueprint.NativeSporadic.Carrier .Ly) := Nat.finite_of_card_ne_zero (by
     show Nat.card Blueprint.NativeSporadic.Ly ≠ 0
     rw [CFSG.Sporadic.Ly.card_Ly]
     norm_num)

@@ -75,7 +75,7 @@ theorem Ctx.exists_nat_data (h34 : Stroth34Statement) (h310 : Stroth310Statement
   rcases h310 G M Q Z B hc n hs.width hs.n_gt hs.noA2 hs.gen t hs.mem hs.notQ with
     hRL | ⟨K, fK, finK, hK, hfam⟩
   · exact absurd hRL hR
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hq4 : 4 ≤ Nat.card K := hK ▸ hc.hyp.q4
@@ -88,16 +88,16 @@ theorem Ctx.exists_nat_data (h34 : Stroth34Statement) (h310 : Stroth310Statement
       have hspnat : SpNat hc t := ⟨K, fK, finK, hK, m, hm2, hnat⟩
       obtain ⟨φ, hφ, hker, hact⟩ := hnat
       obtain ⟨-, hn, ψ, hψ⟩ := hact
-      haveI := hn
+      have := hn
       refine ⟨K, fK, finK, inferInstance, hK, Fin m ⊕ Fin m, inferInstance, inferInstance,
         ⟨Sum.inl ⟨0, by omega⟩⟩, StatedSp m K, φ, addCommutantScalar_statedSp, hφ, hker, hn, ψ,
         hψ, ?_⟩
       obtain ⟨r, hr, -, hgen⟩ := hc.exists_hypPlane_sp h34 (stroth310Root_of_34 h34) hs hspnat
       exact ⟨r, hr, hgen⟩
-  · haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  · have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
     obtain ⟨φ, hφ, hker, hact⟩ := hnat
     obtain ⟨-, hn, ψ, hψ⟩ := hact
-    haveI := hn
+    have := hn
     have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]; omega
     by_cases hm2 : m = 2
@@ -111,10 +111,10 @@ theorem Ctx.exists_nat_data (h34 : Stroth34Statement) (h310 : Stroth310Statement
     · exact hc.natDataSO_of_orth h34 hs hnotQB hK (ElemMatrixIso.plus (by omega))
         (nondegenerate_polarBilin_quadPlus m K) h3
         (addCommutantScalar_statedOmegaPlus (by omega)) φ hφ hker ψ hψ
-  · haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  · have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     obtain ⟨φ, hφ, hker, hact⟩ := hnat
     obtain ⟨-, hn, ψ, hψ⟩ := hact
-    haveI := hn
+    have := hn
     have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
       rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum,
         Fintype.card_fin, Fintype.card_fin]; omega

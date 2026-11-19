@@ -19,7 +19,7 @@ private theorem c2slomqmw9_entry_zero_generator {n : ℕ} (hn : 4 ≤ n) {K : Ty
         x = (minusFrame n b c).longTorus (succ_ne_of_lt n hj) true false a ∧
         mat n x (Sum.inl ⟨0, by omega⟩) (Sum.inl ⟨0, by omega⟩) = (a : K)) ∨
       (j.val ≠ 0 ∧ mat n x (Sum.inl ⟨0, by omega⟩) (Sum.inl ⟨0, by omega⟩) = 1) := by
-  haveI := fact_shortField hirr
+  have := fact_shortField hirr
   by_cases hj : j.val + 1 < n - 1
   · rw [minusTorus_of_lt n hirr hj] at hx
     obtain ⟨a, rfl⟩ := hx
@@ -64,9 +64,9 @@ theorem omq_omMinus_label_of_single {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K
       (cc = Nat.card Kˣ → μ ⟨0, by omega⟩ = 1) ∧
       (cc < Nat.card Kˣ → μ ⟨0, by omega⟩ = 0) := by
   classical
-  haveI := fact_shortField hirr
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
+  have := fact_shortField hirr
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
   let m0 : Fin (n - 1) := ⟨0, by omega⟩
   have hk0 : m0.val + 1 < n - 1 := by show 0 + 1 < n - 1; omega
   have hχmul : ∀ a ∈ (SmallO8mCurtis.curtisDatum n hn hirr).H,

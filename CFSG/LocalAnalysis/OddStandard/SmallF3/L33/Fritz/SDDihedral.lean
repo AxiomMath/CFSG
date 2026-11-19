@@ -48,6 +48,7 @@ private theorem psiHom_injective (A : SDData t L) : Function.Injective (psiHom A
   apply Subtype.ext
   exact A.eq_of_ψ_eq r.2 s.2 (congrArg Subtype.val h)
 
+omit [Finite X] in
 private theorem psiHom_surjective (A : SDData t L) : Function.Surjective (psiHom A) := by
   rintro ⟨σ, hσ⟩
   obtain ⟨r, hr, hrσ⟩ := A.exists_mem_R_ψ_eq hσ

@@ -56,8 +56,8 @@ theorem s16nt_row_g2
     (hUc : commSub U L = U) (hZ : Z ≤ fixV L) (h : G2NaturalDerived L U Z 1) :
     3 * rk ↥Z ≤ rk ↥U := by
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hK2 : Nat.card K = 2 := by rw [hKcard, pow_one]
   have : Fintype K := Fintype.ofFinite K
   have hKf2 : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card, hK2]
@@ -123,7 +123,7 @@ private theorem w183_isIrreducible_of_forall_submodule {G V : Type*} [Group G]
     [AddCommGroup V] [Module (ZMod 2) V] [Nontrivial V] (ρ : Representation (ZMod 2) G V)
     (h : ∀ U : Submodule (ZMod 2) V, (∀ g, ∀ u ∈ U, ρ g u ∈ U) → U = ⊥ ∨ U = ⊤) :
     ρ.IsIrreducible := by
-  haveI : Nontrivial (Subrepresentation ρ) := by
+  have : Nontrivial (Subrepresentation ρ) := by
     refine ⟨⊥, ⊤, fun h' => ?_⟩
     obtain ⟨x, y, hxy⟩ := (inferInstance : Nontrivial V)
     have h1 : (⊥ : Subrepresentation ρ).toSubmodule = (⊤ : Subrepresentation ρ).toSubmodule :=
@@ -150,11 +150,11 @@ theorem s16nt_row_a7 [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulA
       map_one' := by
         simp only [map_one]
         ext v i
-        simp [Matrix.mulVecLin_apply]
+        simp
       map_mul' := fun γ δ => by
         simp only [map_mul]
         ext v i
-        simp [Matrix.mulVecLin_apply, Matrix.mulVec_mulVec] }
+        simp }
   have hlift_inj : Function.Injective (altLift7 : ↥(alternatingGroup (Fin 7)) →*
       ↥(alternatingGroup (Fin 8))) := by
     intro a b hab
@@ -201,7 +201,7 @@ theorem s16nt_row_a7 [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulA
       (ρ := Representation.dual ρ) (MulEquiv.refl (FFModel.a7Four α).Gam) hdinj hdim
     simp [h]
   have hDcov : S16BoundCover (FFModel.a7Four α) 0 := by
-    haveI : Finite (FFModel.a7Four α).Gam := by
+    have : Finite (FFModel.a7Four α).Gam := by
       change Finite ↥(alternatingGroup (Fin 7))
       infer_instance
     exact s16nt_cover_of_h1_model hDact e ρ hρ hH1
@@ -213,18 +213,18 @@ theorem s16nt_row_a7 [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulA
 
 theorem w183_cover_nat_tripleA6Six {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4)
     (Γ₀ : Subgroup (Matrix.GeneralLinearGroup (Fin 3) K))
-    (hdet : ∀ g ∈ Γ₀,
+    (_hdet : ∀ g ∈ Γ₀,
       (((g : Matrix.GeneralLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)).det = 1)
     (hhat : IsHat ↥Γ₀ ↥(alternatingGroup (Fin 6)))
-    (hcen : ∀ g ∈ Subgroup.center ↥Γ₀, ∃ c : K,
+    (_hcen : ∀ g ∈ Subgroup.center ↥Γ₀, ∃ c : K,
       (((g : ↥Γ₀) : Matrix.GeneralLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) = c • 1) :
     S16BoundCover (FFModel.nat Γ₀) 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hF : Fintype.card K = 2 ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hK]; norm_num
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2) hF
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   refine s16nt_cover_of_h1 (Γ := Γ₀) (c := 0) ?_
   have hrep : ∀ (g : ↥Γ₀) (w : Multiplicative (Fin 3 → K)),
       w183_natActHom Γ₀ g w =
@@ -243,8 +243,8 @@ theorem w183_cover_nat_tripleA6Six {K : Type} [Field K] [Finite K] (hK : Nat.car
     simpa [s16ntNatRep, Matrix.mulVecLin] using h1
   have eH : ↥Γ₀ ≃* ↥H := MonoidHom.ofInjective hφinj
   obtain ⟨hQ, hcard, hquot⟩ := hhat
-  haveI : Group.IsPerfect ↥Γ₀ := by
-    first | exact hQ.1 | exact Group.isPerfect_def.mpr hQ.1
+  have : Group.IsPerfect ↥Γ₀ := by
+    first | exact hQ.1
   have hperf : Group.IsPerfect ↥H :=
     Group.IsPerfect.ofSurjective (f := (eH : ↥Γ₀ →* ↥H)) eH.surjective
   have hcenter : Nat.card (Subgroup.center ↥H) = 3 := by
@@ -321,7 +321,7 @@ theorem w183_cover_nat_tripleA6Six {K : Type} [Field K] [Finite K] (hK : Nat.car
         (M' := Fin 3 → K)).mp h3
     exact inv_inj.mp (hρinj h1)
   have hdimV : Module.finrank (ZMod 2) (Fin 3 → K) = 6 := by
-    haveI : Module.Finite (ZMod 2) (Fin 3 → K) := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) (Fin 3 → K) := Module.Finite.of_finite
     have h1 : Nat.card (Fin 3 → K) = 2 ^ Module.finrank (ZMod 2) (Fin 3 → K) := by
       have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Fin 3 → K)
       rwa [Nat.card_zmod] at h
@@ -334,9 +334,9 @@ theorem w183_cover_nat_tripleA6Six {K : Type} [Field K] [Finite K] (hK : Nat.car
   have hdim6 : Module.finrank (ZMod 2) (Module.Dual (ZMod 2) (Fin 3 → K)) = 6 := by
     rw [Subspace.dual_finrank_eq (K := ZMod 2) (V := Fin 3 → K)]
     exact hdimV
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic (Subgroup.center ↥Γ₀) := isCyclic_of_prime_card hcard
-  haveI : IsCyclic (Multiplicative (ZMod 3)) := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic (Subgroup.center ↥Γ₀) := isCyclic_of_prime_card hcard
+  have : IsCyclic (Multiplicative (ZMod 3)) := inferInstance
   let e : Subgroup.center ↥Γ₀ ≃* Multiplicative (ZMod 3) :=
     mulEquivOfCyclicCardEq (by rw [hcard]; exact (Nat.card_zmod 3).symm)
   have hdualirr : (Representation.dual (s16ntNatRep Γ₀)).IsIrreducible :=
@@ -349,8 +349,8 @@ theorem s16nt_row_a6 [Finite W] (hW2 : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulA
     {U Z : Subgroup W} (hUc : commSub U L = U) (hZ : Z ≤ fixV L) (h : TripleA6Six L U Z) :
     3 * rk ↥Z ≤ rk ↥U := by
   obtain ⟨K, hKf, hKfin, Γ₀, hKcard, hdet, hhat, hcen, hreal⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hcov : S16BoundCover (FFModel.nat Γ₀) 0 :=
     w183_cover_nat_tripleA6Six hKcard Γ₀ hdet hhat hcen
   have hmod : Nat.card (FFModel.nat Γ₀).Mod = 2 ^ 6 := by

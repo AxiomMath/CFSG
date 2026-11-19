@@ -15,8 +15,8 @@ theorem center_eq_bot_of_k4a_hyp (Y : Type) [Group Y] [Finite Y]
     (hq : IsQuasisimple Y) (hodd : Odd (Nat.card (center Y)))
     (hmodel : LieModel (Y ⧸ center Y) .PSL 2 3 3) :
     center Y = ⊥ := by
-  haveI : Group.IsPerfect Y := hq.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect Y := hq.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GaloisField 3 3) 3 3
     (by norm_num) (by rw [GaloisField.card 3 3 (by norm_num)]) hmodel
   let π : Y →* CFSG.AGLEmbedding.PSL2GF 3 3 :=
@@ -39,7 +39,7 @@ theorem card_eq_of_k4a_hyp (Y : Type) [Group Y] [Finite Y]
     (hmodel : LieModel (Y ⧸ center Y) .PSL 2 3 3) :
     Nat.card Y = 2 ^ 2 * 3 ^ 3 * 7 * 13 := by
   have hZ : Subgroup.center Y = ⊥ := center_eq_bot_of_k4a_hyp Y hq hodd hmodel
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GaloisField 3 3) 3 3
     (by norm_num) (by rw [GaloisField.card 3 3 (by norm_num)]) hmodel
   have hY : Nat.card Y = Nat.card (CFSG.AGLEmbedding.PSL2GF 3 3) := by
@@ -56,7 +56,7 @@ theorem card_mulAut_eq_of_k4a_hyp (Y : Type) [Group Y] [Finite Y]
     (hmodel : LieModel (Y ⧸ center Y) .PSL 2 3 3) :
     Nat.card (MulAut Y) = 6 * Nat.card Y := by
   have hZ : Subgroup.center Y = ⊥ := center_eq_bot_of_k4a_hyp Y hq hodd hmodel
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GaloisField 3 3) 3 3
     (by norm_num) (by rw [GaloisField.card 3 3 (by norm_num)]) hmodel
   let φ : Y ≃* CFSG.AGLEmbedding.PSL2GF 3 3 :=
@@ -73,7 +73,7 @@ theorem commutator_mem_innAut_of_k4a_hyp (Y : Type) [Group Y] [Finite Y]
     (hmodel : LieModel (Y ⧸ center Y) .PSL 2 3 3) (φ ψ : MulAut Y) :
     φ * ψ * φ⁻¹ * ψ⁻¹ ∈ innAut Y := by
   have hZ : Subgroup.center Y = ⊥ := center_eq_bot_of_k4a_hyp Y hq hodd hmodel
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GaloisField 3 3) 3 3
     (by norm_num) (by rw [GaloisField.card 3 3 (by norm_num)]) hmodel
   let iso : Y ≃* CFSG.AGLEmbedding.PSL2GF 3 3 :=

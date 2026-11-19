@@ -638,7 +638,7 @@ theorem normalizer_wClos_le_of_scalar_torus
   obtain ⟨U, hJU⟩ := hJp.exists_le_sylow
   let ιH : H →* A := Subgroup.inclusion hHA
   let UA : Subgroup A := (U : Subgroup H).map ιH
-  have hUAp : IsPGroup 2 UA := U.isPGroup'.map ιH
+  have hUAp : IsPGroup 2 UA := U.isPGroup.map ιH
   have hPα_le_UA : P.map α ≤ UA := by
     rintro _ ⟨w, hw, rfl⟩
     have hwφJ : φ w ∈ (P.map φ) := Subgroup.mem_map_of_mem φ hw
@@ -654,7 +654,7 @@ theorem normalizer_wClos_le_of_scalar_torus
   let Y : Subgroup G := S.map D.M.subtype
   have hSp : IsPGroup 2 S :=
     show IsPGroup 2 ((R : Subgroup K).map K.subtype) from
-      (Sylow.isPGroup' R).map K.subtype
+      (Sylow.isPGroup R).map K.subtype
   have hYp : IsPGroup 2 Y := hSp.map D.M.subtype
   have hYM : Y ≤ D.M := Subgroup.map_subtype_le S
   have hP_le_S : P ≤ S := by

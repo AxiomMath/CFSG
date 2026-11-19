@@ -24,12 +24,12 @@ theorem invGo_code_pow {gens E : List ℕ} (hE : EnumCert gens E) {g : V₀ ≃�
     have hk := Subgroup.pow_mem (codeSubgroup gens) hg k
     rw [invGo_succ, ← hE.code_mul hk hg, ← pow_succ]
     by_cases hc : hE.code (g ^ (k + 1)) = Code.one
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       have h1 : g ^ (k + 1) = 1 :=
         hE.eq_of_code_eq (Subgroup.pow_mem _ hg _) (Subgroup.one_mem _) (by rw [hc, hE.code_one])
       have e : g ^ k = g⁻¹ := eq_inv_of_mul_eq_one_left (by rw [← pow_succ]; exact h1)
       rw [e]
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       have hj0 : j ≠ 0 := by
         rintro rfl
         apply hc

@@ -11,6 +11,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {E : Subgroup G} {t z : G}
 
+omit [Finite G] in
 theorem zpowers_le_O2In_Cz (c : Core4 E t z) : zpowers z ≤ TwoFi22.O2In (Cz z) := by
   have hz2 : orderOf z = 2 := orderOf_eq_prime c.klein.z_sq c.klein.z_ne
   refine TwoB.le_O2In (V := zpowers z) (H := Cz z)
@@ -33,7 +34,7 @@ theorem O2In_Cz_le_R (c : Core4 E t z) : TwoFi22.O2In (Cz z) ≤ Rg t z := by
   have hQnormal : ((TwoFi22.O2In (Cz z)).subgroupOf (Cz z)).Normal :=
     TwoB.normal_subgroupOf_O2In (Cz z)
   have hC_le_normQ : Cz z ≤ normalizer (TwoFi22.O2In (Cz z) : Set G) := by
-    letI : ((TwoFi22.O2In (Cz z)).subgroupOf (Cz z)).Normal := hQnormal
+    let : ((TwoFi22.O2In (Cz z)).subgroupOf (Cz z)).Normal := hQnormal
     exact Subgroup.le_normalizer_of_normal_subgroupOf (TwoB.O2In_le (Cz z))
   have hR_normQ : Rg t z ≤ normalizer (TwoFi22.O2In (Cz z) : Set G) :=
     hRC.trans hC_le_normQ
@@ -69,7 +70,7 @@ theorem O2In_Cz_le_R (c : Core4 E t z) : TwoFi22.O2In (Cz z) ≤ Rg t z := by
     have hx' : (⟨x, hx⟩ : ↥T) ∈ (Rg t z).subgroupOf T := by
       rw [htop]; exact Subgroup.mem_top _
     rwa [Subgroup.mem_subgroupOf] at hx'
-  haveI : Group.IsNilpotent ↥T := hT2.isNilpotent
+  have : Group.IsNilpotent ↥T := hT2.isNilpotent
   obtain ⟨n, hnN, hnR⟩ := IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent (G := ↥T) ((Rg t z).subgroupOf T) hlt)
   have hn_RQ : (n : G) ∈ Rg t z ⊔ TwoFi22.O2In (Cz z) := by
@@ -119,12 +120,13 @@ structure O2CData (t z : G) : Prop where
   normal_le : ∀ Q : Subgroup G, Q ≤ Cz z → (∀ c ∈ Cz z, ∀ q ∈ Q, c * q * c⁻¹ ∈ Q) →
     IsPGroup 2 ↥Q → Q ≤ Rg t z
 
+omit [Finite G] in
 theorem o2cData_of_eq (c : Core4 E t z) (h : TwoFi22.O2In (Cz z) = Rg t z) : O2CData t z := by
   have hQnormal : ((TwoFi22.O2In (Cz z)).subgroupOf (Cz z)).Normal :=
     TwoB.normal_subgroupOf_O2In (Cz z)
   have hC_le_normR : Cz z ≤ normalizer (Rg t z : Set G) := by
     have hC_le_normQ : Cz z ≤ normalizer (TwoFi22.O2In (Cz z) : Set G) := by
-      letI : ((TwoFi22.O2In (Cz z)).subgroupOf (Cz z)).Normal := hQnormal
+      let : ((TwoFi22.O2In (Cz z)).subgroupOf (Cz z)).Normal := hQnormal
       exact Subgroup.le_normalizer_of_normal_subgroupOf (TwoB.O2In_le (Cz z))
     rwa [h] at hC_le_normQ
   refine ⟨h, ?_, ?_, ?_⟩
@@ -133,13 +135,14 @@ theorem o2cData_of_eq (c : Core4 E t z) (h : TwoFi22.O2In (Cz z) = Rg t z) : O2C
       _ = zpowers z := c.jr.cent_R
       _ ≤ Rg t z := Subgroup.zpowers_le.mpr (c.jr.V_le_R z_mem_Vtz)
   · intro Q' hQ'C hQ'n hQ'2
-    haveI : (Q'.subgroupOf (Cz z)).Normal := by
+    have : (Q'.subgroupOf (Cz z)).Normal := by
       refine ⟨fun n hn g => ?_⟩
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact hQ'n (g : G) g.2 (n : G) hn
     have hle := TwoB.le_O2In hQ'C (inferInstance) hQ'2
     rwa [h] at hle
 
+omit [Finite G] in
 theorem isCharacteristicP_of_O2C_eq (c : Core4 E t z) (h : TwoFi22.O2In (Cz z) = Rg t z) :
     CFSG.IsCharacteristicP 2 ↥(Cz z) := by
   apply TwoB.isCharacteristicP_of_isTwoConstrained

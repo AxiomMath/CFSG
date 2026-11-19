@@ -42,11 +42,11 @@ private theorem conjNormal_moves {L T : Subgroup H} [L.Normal] {a : H} (hTL : T 
     commutatorElement_def]
   group
 
-private theorem conjNormal_abelian {L T : Subgroup H} [L.Normal] {a : H} (hTL : T ≤ L)
+private theorem conjNormal_abelian {L T : Subgroup H} [L.Normal] {a : H} (_hTL : T ≤ L)
     (hab : IsMulCommutative ↥(T ⊓ Subgroup.centralizer ({a} : Set H))) :
     IsMulCommutative ↥(T.subgroupOf L ⊓ fixSub (MulAut.conjNormal (H := L) a)) := by
   rw [fixSub_conjNormal]
-  haveI : IsMulCommutative ↥(T ⊓ Subgroup.centralizer ({a} : Set H)) := hab
+  have : IsMulCommutative ↥(T ⊓ Subgroup.centralizer ({a} : Set H)) := hab
   have hcomm : IsMulCommutative
       ↥((T ⊓ Subgroup.centralizer ({a} : Set H)).comap L.subtype) :=
     Subgroup.comap_injective_isMulCommutative (T ⊓ Subgroup.centralizer ({a} : Set H))
@@ -118,7 +118,7 @@ theorem model_transport {G₀ : Type} [Group G₀] (hG : ModelGen G₀) [Finite 
     (hab : IsMulCommutative ↥(T ⊓ Subgroup.centralizer ({a} : Set H)))
     (hTnc : ¬ IsMulCommutative ↥T) :
     T ⊔ (L ⊓ Subgroup.centralizer ({a} : Set H)) = L := by
-  haveI := hLn
+  have := hLn
   have h1 := modelHyp_conjNormal hT ha ha3 hnc hidx hab hTnc
   have h2 := ModelGen.congr ψ hG (MulAut.conjNormal (H := L) a) (T.subgroupOf L) h1
   exact sup_of_conjNormal hT.le h2

@@ -27,7 +27,7 @@ theorem t263CI_layer_ne_bot_of_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω
     (hEnorm : ∀ c ∈ FP.fixSub (indAut p S b hb), ∀ x ∈ E, c * x * c⁻¹ ∈ E) (hpE : p ∣ Nat.card ↥E) :
     GLAPLayer p (S ⊓ Subgroup.centralizer ({b} : Set Ω)) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Xs : Subgroup ↥S := (S ⊓ Subgroup.centralizer ({b} : Set Ω)).subgroupOf S with hXs
   set Xb : Subgroup (PSimple p S) := Xs.map (chevQuotHom p S) with hXb
   have hX : FR.SubfieldGrp (indAut p S b hb) Xb := FR.fieldOn_lift hp hp2 hb hbp

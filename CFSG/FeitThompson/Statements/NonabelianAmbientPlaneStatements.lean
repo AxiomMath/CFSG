@@ -56,9 +56,9 @@ theorem mem_conjSubgroup' {Y : Subgroup G} {g x : G} :
     x ∈ conjSubgroup Y g ↔ g * x * g⁻¹ ∈ Y := by
   rw [conjSubgroup_eq]
   simp only [Subgroup.mem_map]
-  refine ⟨?_, fun h => ⟨g * x * g⁻¹, h, by simp only [MulAut.conj_apply, MonoidHom.coe_coe]; group⟩⟩
+  refine ⟨?_, fun h => ⟨g * x * g⁻¹, h, by simp only [MulAut.conj_apply, _root_.MonoidHom.coe_ofClass]; group⟩⟩
   rintro ⟨y, hy, rfl⟩
-  simpa only [MulAut.conj_apply, MonoidHom.coe_coe, mul_assoc, inv_mul_cancel, mul_one,
+  simpa only [MulAut.conj_apply, _root_.MonoidHom.coe_ofClass, mul_assoc, inv_mul_cancel, mul_one,
     mul_inv_cancel_left] using hy
 
 theorem coe_conjSubgroup' (Y : Subgroup G) (g : G) :

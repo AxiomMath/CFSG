@@ -252,7 +252,7 @@ theorem exists_sylow_le_stabU :
   have hu0 := transport_col_ne_zero h hR
   obtain ⟨g₀, hg₀, hg₀1⟩ := exists_mem_eichU_ne_one h hR
   have : Nontrivial S := ⟨⟨⟨g₀, hS hg₀⟩, 1, fun h' => hg₀1 (congrArg Subtype.val h')⟩⟩
-  have hSp : IsPGroup 2 S := S.isPGroup'
+  have hSp : IsPGroup 2 S := S.isPGroup
   have := hSp.center_nontrivial
   obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center S)
   set Zm : Matrix (Fin (2 * 1 + ε)) (Fin (2 * 1 + ε)) K :=

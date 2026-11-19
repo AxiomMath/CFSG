@@ -16,10 +16,11 @@ noncomputable def hdRo7CLCoordAux_subgroupOfEquiv (Bs X : Subgroup G) :
     ↥((Bs ⊓ X).subgroupOf X) ≃* ↥(Bs ⊓ X) where
   toFun x := ⟨((x : ↥X) : G), Subgroup.mem_subgroupOf.mp x.2⟩
   invFun x := ⟨⟨(x : G), x.2.2⟩, Subgroup.mem_subgroupOf.mpr x.2⟩
-  left_inv x := Subtype.ext (Subtype.ext rfl)
-  right_inv x := Subtype.ext rfl
-  map_mul' x y := Subtype.ext rfl
+  left_inv _x := Subtype.ext (Subtype.ext rfl)
+  right_inv _x := Subtype.ext rfl
+  map_mul' _x _y := Subtype.ext rfl
 
+omit [Finite G] in
 lemma hdRo7CLCoordAux_card_subgroupOf (Bs X : Subgroup G) :
     Nat.card ↥((Bs ⊓ X).subgroupOf X) = Nat.card ↥(Bs ⊓ X) :=
   Nat.card_congr (hdRo7CLCoordAux_subgroupOfEquiv Bs X).toEquiv
@@ -38,6 +39,7 @@ lemma hdRo7CLCoordAux_card_subgroupOf (Bs X : Subgroup G) :
         ∀ f f', (g : G) * (τ f : G) * (g : G)⁻¹ = (τ f' : G) →
           ∀ i, Multiplicative.toAdd (f' (π i)) = ε i * Multiplicative.toAdd (f i)
 
+omit [Finite G] in
 lemma hdRo7CLCoordAux_signedData_of_signedEltSC {p : ℕ} {B Bs X : Subgroup G}
     (hBs : GGBstar p B Bs) (hZ : Subgroup.center X = ⊥)
     (hnorm : Bs ≤ Subgroup.normalizer (X : Set G))
@@ -108,7 +110,7 @@ theorem hdRo7CLCoordAux_card_inf_ge (p : ℕ) (B Bs : Subgroup G) (x : G) (L D J
     (hinner : ∀ b ∈ Bs, ∃ x ∈ L, ∀ y ∈ L, b * y * b⁻¹ = x * y * x⁻¹) :
     p ^ 3 ≤ Nat.card ↥(Bs ⊓ L) := by
   have hp : Nat.Prime p := hH.1.tableB_facts.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsplit := card_ggBstar_split hH.1.2.1 hZL hBsN hinner
   have hCeq : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x :=
     hdRo7CLCoordAux_bstar_centralizer_eq hH

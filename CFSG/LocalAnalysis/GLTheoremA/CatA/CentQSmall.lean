@@ -14,7 +14,7 @@ open scoped commutatorElement
 private theorem solvable_of_card_pow_pow {P : Type*} [Group P] [Finite P] {p q a b : ℕ}
     (hp : p.Prime) (hq : q.Prime) (hpq : p ≠ q) (h : Nat.card P = p ^ a * q ^ b) :
     Group.IsSolvable P := by
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype P := Fintype.ofFinite P
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow hp hq hpq
     (by rw [← Nat.card_eq_fintype_card, h])
 
@@ -58,8 +58,8 @@ theorem centCompQuasi_card168 {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
   apply centCompQuasi_of_noPerfect
   intro P hPC hperf
   by_contra hPne
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
-  haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hperf
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
+  have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hperf
   have hCtop : Subgroup.centralizer ({x} : Set S) ≠ ⊤ := by
     intro htop
     apply hx1
@@ -84,7 +84,7 @@ theorem centCompQuasi_card168 {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     intro h
     rw [h] at hmul
     have h2 : P.index = 2 := by omega
-    haveI : P.Normal := Subgroup.normal_of_index_eq_two h2
+    have : P.Normal := Subgroup.normal_of_index_eq_two h2
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal P with h | h
     · exact hPne h
     · exact hPtop h
@@ -95,8 +95,8 @@ theorem seven_elt_centralizes {S : Type} [Group S] [Finite S] {R : Subgroup S} {
     (hn : ∀ r ∈ R, a * r * a⁻¹ ∈ R ∧ a⁻¹ * r * a ∈ R) :
     ∀ r ∈ R, r * a = a * r := by
   classical
-  haveI : Fintype ↥R := Fintype.ofFinite ↥R
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fintype ↥R := Fintype.ofFinite ↥R
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let σ : Equiv.Perm ↥R :=
     { toFun := fun r => ⟨a * r * a⁻¹, (hn r r.2).1⟩
       invFun := fun r => ⟨a⁻¹ * r * a, (hn r r.2).2⟩
@@ -184,8 +184,8 @@ theorem not_seven_dvd_card_cent_u33 {S : Type} [Group S] [Finite S] (hS : IsSimp
     (hx : x ^ 3 = 1) (hx1 : x ≠ 1) :
     ¬ 7 ∣ Nat.card (Subgroup.centralizer ({x} : Set S)) := by
   intro h7
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a', ha'⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.centralizer ({x} : Set S))) 7 h7
   set a : S := (a' : S) with ha_def
@@ -247,8 +247,8 @@ theorem centCompQuasi_u33 {S : Type} [Group S] [Finite S] [hS : IsSimpleGroup S]
     (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) (hc : Nat.card S = 6048) {x : S}
     (hx : x ^ 3 = 1) (hx1 : x ≠ 1) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) :
     CentCompQuasi S x r := by
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv S e.toEquiv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv S e.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf x = 3 := orderOf_eq_prime hx hx1
   by_cases hr3 : r = 3
   · subst hr3

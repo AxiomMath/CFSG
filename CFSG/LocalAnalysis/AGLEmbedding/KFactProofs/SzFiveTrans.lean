@@ -186,7 +186,7 @@ theorem card_sylow_inf (hK : Sz32Normal K) (R : Sylow 5 X) :
   have hKn := hK.normal
   apply le_antisymm
   · have hp : IsPGroup 5 (((R : Subgroup X) ⊓ K).subgroupOf K) :=
-      (R.isPGroup'.to_inf_left).comap_subtype
+      (R.isPGroup.to_inf_left).comap_subtype
     obtain ⟨S, hS⟩ := hp.exists_le_sylow
     calc Nat.card ((R : Subgroup X) ⊓ K : Subgroup X)
         = Nat.card (((R : Subgroup X) ⊓ K).subgroupOf K) :=

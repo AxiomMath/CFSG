@@ -228,7 +228,7 @@ theorem finite_closure_of_satisfiesG23Words {X : Type*} [Group X] (ρ : Fin 6 �
     congr 1
     ext x
     simp [φ, PresentedGroup.toGroup.of]
-  haveI : Finite φ.range := Finite.of_surjective _ φ.rangeRestrict_surjective
+  have : Finite φ.range := Finite.of_surjective _ φ.rangeRestrict_surjective
   rw [← hrange]
   exact this
 
@@ -244,7 +244,7 @@ theorem nonempty_mulEquiv_adjointG2_of_six {X : Type*} [Group X] (ε : Fin 6 →
     (hε : SatisfiesG23Words ε) (hne : ∃ i, ε i ≠ 1) :
     Nonempty (↥(Subgroup.closure (Set.range ε)) ≃* Ghat) := by
   set S := Subgroup.closure (Set.range ε) with hS
-  haveI : Finite S := finite_closure_of_satisfiesG23Words ε hε
+  have : Finite S := finite_closure_of_satisfiesG23Words ε hε
   let ε' : Fin 6 → S := fun i => ⟨ε i, Subgroup.subset_closure (Set.mem_range_self i)⟩
   have htop : Subgroup.closure (Set.range ε') = ⊤ := closure_range_codRestrict ε
   have hε' : SatisfiesG23Words ε' := by
@@ -291,8 +291,8 @@ theorem leafType_three_of_equiv_adjointG2 {T : Type} [Group T] (e : T ≃* Ghat)
     simp [Nat.factorial] at hcardT
   · by_contra hc
     push Not at hc
-    haveI := hsimp
-    letI : CommGroup T := { (inferInstance : Group T) with mul_comm := hc }
+    have := hsimp
+    let : CommGroup T := { (inferInstance : Group T) with mul_comm := hc }
     have hp := IsSimpleGroup.prime_card (α := T)
     rw [hcardT] at hp
     norm_num at hp

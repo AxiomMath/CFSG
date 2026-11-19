@@ -44,7 +44,7 @@ theorem s16c4v1e3_rMV_ge_five (S : s16c4v1_Sit D V L hV) (hstd : s16c4v1e3_Std D
       intro x hxU
       have hvec : s16c4v1_vec S x.val = S.F.vec (mkTil (v1Sub D.M ⊥ V hV L) V hV x) := by
         unfold s16c4v1_vec
-        rw [dif_pos x.val_mem,
+        rw [dite_eq_left x.val_mem,
           show IntMod.mk hV ⟨x.val, x.val_mem⟩ = x from Subtype.ext rfl]
       show herm S.F.σ (S.F.vec (mkTil (v1Sub D.M ⊥ V hV L) V hV x))
         (S.F.vec (mkTil (v1Sub D.M ⊥ V hV L) V hV x)) = 0

@@ -203,12 +203,12 @@ theorem isSimpleGroup_pairSide (hc : titsFiveCheck () = true) :
   have hRU : rU ∈ Rsub (lLocalData ()) lGens := by
     apply Subgroup.subset_closure
     simp only [Certificates.MaxD2Perm.rWs, lLocalData, wordVal, lGens_eq, List.map_cons,
-      List.map_nil, List.getD_cons_zero, List.getD_cons_succ]
+      List.map_nil]
     exact List.mem_cons.2 (Or.inl (mul_one rU).symm)
   have hRV : rV ∈ Rsub (lLocalData ()) lGens := by
     apply Subgroup.subset_closure
     simp only [Certificates.MaxD2Perm.rWs, lLocalData, wordVal, lGens_eq, List.map_cons,
-      List.map_nil, List.getD_cons_zero, List.getD_cons_succ]
+      List.map_nil]
     exact List.mem_cons.2 (Or.inr (List.mem_cons.2 (Or.inl (mul_one rV).symm)))
   have hl' : lRep ∈ Gsub (D := lLocalData ()) lGens := lRep_mem hpair
   have hconj : ∀ s ∈ lGens, ∃ g ∈ Gsub (D := lLocalData ()) lGens,
@@ -257,7 +257,7 @@ theorem solvableOrSimpleDerived_of_pairP_le (hc : titsFiveCheck () = true)
   have hG : pairG pairData titsS = titsD := titsD_eq_closure_titsS.symm
   by_cases hYN : Y ≤ pairN pairData titsS
   · refine SolvableOrSimpleDerived.of_isSolvable ?_
-    haveI := isSolvable_pairN hpair
+    have := isSolvable_pairN hpair
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hYN)
       (Subgroup.inclusion_injective hYN)
   · obtain ⟨y, hyY, hyN⟩ := Set.not_subset.1 hYN
@@ -278,7 +278,7 @@ theorem solvableOrSimpleDerived_of_pairP_le (hc : titsFiveCheck () = true)
       have hYeq : Y = (pairSide pairData titsS 0).map (MulAut.conj a).toMonoidHom :=
         eq_map_conj_of_maximal haG (pairSide_maximal hc) hLY hYG hY
       obtain ⟨hsimple, hperf⟩ := isSimpleGroup_pairSide hc
-      haveI := hsimple
+      have := hsimple
       have hcardL : Nat.card ↥(pairSide pairData titsS 0) = 7800 :=
         card_pairSide hS hSide (k := 0) (by simp [pairData])
       let e : ↥(pairSide pairData titsS 0) ≃* ↥Y :=
@@ -305,7 +305,7 @@ theorem ggSeitzExcTitsFiveInput_holds :
   subst hd'
   obtain ⟨e⟩ := CFSG.Sporadic.Schreier.Tits.titsModelEquiv K 2 1
     (CFSG.RankThree.PartOne.CTP.reeTitsModel_tits ⟨hv, he⟩)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hc : titsFiveCheck () = true := Certificates.certificate465004
   obtain ⟨hpair, -, -, -⟩ := titsFiveCheck_parts hc
   obtain ⟨hInv, hP, -, -, -, -, -, -⟩ := pairCheck_parts hpair

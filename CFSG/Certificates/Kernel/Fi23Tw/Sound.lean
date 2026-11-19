@@ -64,7 +64,7 @@ theorem nthL_eq : ∀ (L : List Nat) (i : Nat), nthL L i = L.getD i 0
     | zero => rfl
     | succ i =>
       have h1 : Nat.beq (i + 1) 0 = false := rfl
-      rw [h1, if_neg (by decide)]
+      rw [h1, ite_eq_right (by decide)]
       change nthL L i = L.getD i 0
       exact nthL_eq L i
 
@@ -98,11 +98,11 @@ theorem rowK_spec {G : Nat → Nat} {A a i : Nat} :
       simp only [bitB_eq, Nat.add_zero, List.getD_cons_zero] at h1 ⊢
       change A.testBit (135 * i + j) = cmK G a b ∧ A.testBit (135 * j + i) = cmK G a b
       by_cases hc : cmK G a b = true
-      · rw [if_pos hc, Bool.and_eq_true] at h1
+      · rw [ite_eq_left hc, Bool.and_eq_true] at h1
         change A.testBit (135 * i + j) = true ∧ A.testBit (135 * j + i) = true at h1
         rw [hc]
         exact h1
-      · rw [if_neg hc, Bool.and_eq_true] at h1
+      · rw [ite_eq_right hc, Bool.and_eq_true] at h1
         change (!A.testBit (135 * i + j)) = true ∧ (!A.testBit (135 * j + i)) = true at h1
         rw [Bool.eq_false_iff.2 hc]
         simpa using h1
@@ -164,7 +164,7 @@ theorem twLoop_spec {A : Nat} : ∀ (n m : Nat) (P : List Nat), twLoop A n m P =
           bAnd(Bool.not (twB A m), twLoop A n (Nat.succ m) (e :: P'))) = true at h
       rw [bIf_eq, bAnd_eq, bAnd_eq, hl] at h
       by_cases he : Nat.beq (e % 32768) m = true
-      · rw [if_pos he, Bool.and_eq_true] at h
+      · rw [ite_eq_left he, Bool.and_eq_true] at h
         have hem : e % 32768 = m := Nat.eq_of_beq_eq_true he
         obtain ⟨h1, h2⟩ := h
         obtain ⟨ihP, ih⟩ := twLoop_spec n (m + 1) P' h2
@@ -183,7 +183,7 @@ theorem twLoop_spec {A : Nat} : ∀ (n m : Nat) (P : List Nat), twLoop A n m P =
               rcases List.mem_cons.1 he' with rfl | he'
               · omega
               · exact ⟨e', he', h'⟩
-      · rw [if_neg he, Bool.and_eq_true, Bool.not_eq_true'] at h
+      · rw [ite_eq_right he, Bool.and_eq_true, Bool.not_eq_true'] at h
         have hem : e % 32768 ≠ m := fun h' => he (by rw [h']; exact Nat.beq_refl m)
         obtain ⟨h1, h2⟩ := h
         obtain ⟨ihP, ih⟩ := twLoop_spec n (m + 1) (e :: P') h2
@@ -319,7 +319,7 @@ theorem keyK_spec {P : List Nat} (h : keyK P = true) : ∀ p ∈ P, ∀ q ∈ P,
         rotB p q, true), _) = true at hQ
       rw [bAnd_eq, bIf_eq, Bool.and_eq_true] at hQ
       rcases List.mem_cons.1 hq' with rfl | hq'
-      · rw [if_pos (by rw [high_eq, high_eq, hk]; exact Nat.beq_refl _)] at hQ
+      · rw [ite_eq_left (by rw [high_eq, high_eq, hk]; exact Nat.beq_refl _)] at hQ
         exact hQ.1
       · exact ih hQ.2 q' hq' hk
   have ho : ∀ L : List Nat, List.rec (motive := fun _ => Bool) true (fun p _ ih => bAnd(
@@ -449,9 +449,9 @@ theorem tgK_spec {G : Nat → Nat} {w F g : List Nat} (h : tgK G w F g = true) :
     · have h5 := h4.1
       rw [← bitB_eq]
       by_cases hc : cmK G a (g.getD 0 0) = true
-      · rw [if_pos hc] at h5
+      · rw [ite_eq_left hc] at h5
         rw [h5, hc]
-      · rw [if_neg hc, Bool.not_eq_true'] at h5
+      · rw [ite_eq_right hc, Bool.not_eq_true'] at h5
         rw [h5, Bool.eq_false_iff.2 hc]
     · exact ih h4.2 a ha
 
@@ -497,7 +497,7 @@ theorem sepB_spec {G : Nat → Nat} {r P : Nat} : ∀ {ws : List Nat},
     · refine ⟨a, List.mem_cons_self, fun h2 => ?_⟩
       rw [h2] at h1
       cases P.testBit a <;> simp at h1
-    · rw [if_neg h1] at h
+    · rw [ite_eq_right h1] at h
       obtain ⟨b, hb, h2⟩ := sepB_spec h
       exact ⟨b, List.mem_cons_of_mem a hb, h2⟩
 

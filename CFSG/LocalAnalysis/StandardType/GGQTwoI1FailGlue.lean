@@ -94,14 +94,14 @@ private theorem ggQ2cv_card_x {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.
 private theorem ggQ2cv_card_Bs {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {Bs L : Subgroup G} {x : G} (M : GGQ2LDatum p Bs L x) :
     Nat.card ↥Bs = p ^ Module.finrank (ZMod p) M.V := by
-  haveI hE : Finite (Additive ↥Bs) :=
+  have hE : Finite (Additive ↥Bs) :=
     Finite.of_injective (Additive.ofMul.symm : Additive ↥Bs → ↥Bs)
       Additive.ofMul.symm.injective
-  haveI : Finite M.V :=
+  have : Finite M.V :=
     Finite.of_injective (M.model.toEquiv.symm : M.V → Additive ↥Bs)
       M.model.toEquiv.symm.injective
-  haveI : Fintype M.V := Fintype.ofFinite M.V
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : Fintype M.V := Fintype.ofFinite M.V
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hcard : Nat.card ↥Bs = Nat.card M.V :=
     Nat.card_congr (Additive.ofMul.trans M.model.toEquiv)
   rw [hcard, Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod p), ZMod.card]
@@ -131,10 +131,10 @@ private theorem ggQ2cv_finrank_sup {G : Type} [Group G] {p : ℕ} [Fact p.Prime]
     (hx : M.xV ∉ M.coSpan)
     (hsup : M.coSpan ⊔ Submodule.span (ZMod p) {M.xV} = ⊤) :
     Module.finrank (ZMod p) M.V = Module.finrank (ZMod p) M.coSpan + 1 := by
-  haveI hfdH : FiniteDimensional (ZMod p) M.coSpan := by
+  have hfdH : FiniteDimensional (ZMod p) M.coSpan := by
     rw [GGQ2LDatum.coSpan]
     exact Module.Finite.span_of_finite (ZMod p) (Set.finite_range M.coroot)
-  haveI hfdS : FiniteDimensional (ZMod p) (Submodule.span (ZMod p) {M.xV}) :=
+  have hfdS : FiniteDimensional (ZMod p) (Submodule.span (ZMod p) {M.xV}) :=
     Module.Finite.span_of_finite (ZMod p) (Set.finite_singleton M.xV)
   have hx0 : M.xV ≠ 0 := fun h => hx (h ▸ M.coSpan.zero_mem)
   have hdisj : M.coSpan ⊓ Submodule.span (ZMod p) {M.xV} = ⊥ := by
@@ -230,7 +230,7 @@ theorem ggQ2_cav_of_tableB (hF : GGQ2CavOfTBFull) (hH : GGQ2CavOfTBHeart)
     (hT : GGQ2TableBI1Fail) {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G}
     {x : G} {L D J : Subgroup G} (hS : GGQTwoSetting p B Bs x L D J) (hp : p = 3)
     (hI1 : ¬ GGQTwoI1 Bs D J) : 4 ∣ Nat.card (ggAutomizer J Bs) := by
-  haveI : Fact p.Prime := ⟨by rw [hp]; exact Nat.prime_three⟩
+  have : Fact p.Prime := ⟨by rw [hp]; exact Nat.prime_three⟩
   obtain ⟨labL, hlab, hTB, hmark, M, hweyl, hshape, hlast⟩ := hT hS hp hI1
   rcases hshape with hFull | hA | hB | hC | hD
   · exact hF hS hp ⟨labL, hlab, hmark, by
@@ -285,7 +285,7 @@ theorem ggQ2_i1FailInput_of_pieces (hLB : GGLBalanceInput) (hP : GGStdSubPrimeIn
     (hE : GGQ2ReflEInput) (hK : GGQ2ReflKInput) (hR : GGQ2ReflRestOutInput) :
     GGQ2I1FailInput := by
   intro G _ _ p B Bs x L D J hS hp hI1
-  haveI : Fact p.Prime := ⟨by rw [hp]; exact Nat.prime_three⟩
+  have : Fact p.Prime := ⟨by rw [hp]; exact Nat.prime_three⟩
   have hCav := ggQ2_cav_of_tableB hF hH hT hS hp hI1
   have hx := ggQ2_x_mem_Bs hS
   have hmove : GGQ2ReflMoveX p B Bs x L D J :=

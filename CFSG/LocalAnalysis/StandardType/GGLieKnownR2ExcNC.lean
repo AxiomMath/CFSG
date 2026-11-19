@@ -44,7 +44,7 @@ theorem rootNoCentral_highRoot_exc
         rw [hyh]
         group
       exact hfpf y (Subgroup.mem_inf.mp hy').1 (by rw [h1]; exact (Uθ τ K).one_mem)
-    haveI : Finite (ModGL τ K) := finite_modGL
+    have : Finite (ModGL τ K) := finite_modGL
     exact noCentral_of_fixedPoint_odd hodd hhN hfix
   rcases hτ with rfl | rfl | rfl | rfl
   · exact key .E6 (Link.E6_exists_odd_fpf K)

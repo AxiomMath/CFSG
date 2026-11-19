@@ -77,7 +77,7 @@ theorem conjAut_zpowers (g t : MulAut V) :
 
 private theorem isElemAbelian_map {p : ℕ} {X Y : Type*} [Group X] [Group Y] (f : X →* Y)
     {E : Subgroup X} (h : IsElemAbelian p E) : IsElemAbelian p (E.map f) := by
-  haveI : IsMulCommutative E := h.1
+  have : IsMulCommutative E := h.1
   refine ⟨inferInstance, fun x hx => ?_⟩
   obtain ⟨y, hy, rfl⟩ := hx
   rw [← map_pow, h.2 y hy, map_one]
@@ -454,7 +454,7 @@ theorem isTwoCentralVec_iff_of_mem {M : Subgroup (MulAut V)} {g : MulAut V} (hg 
     · intro s' hs'
       obtain ⟨s, hs, hsg⟩ := hs'
       rw [← hsg]
-      simpa [MulAut.conj_apply, MulAut.mul_apply, MulAut.inv_apply_self, hfix s hs]
+      simp [MulAut.conj_apply, MulAut.mul_apply, hfix s hs]
 
 theorem twoResidual_eq_self_of_isPerfect {G : Type*} [Group G] [Finite G] {H : Subgroup G}
     (h : Group.IsPerfect ↥H) : twoResidual H = H := by
@@ -462,9 +462,9 @@ theorem twoResidual_eq_self_of_isPerfect {G : Type*} [Group G] [Finite G] {H : S
   intro x hx
   rw [mem_twoResidual_iff]
   intro N hNH hHN hpow
-  haveI hK : (N.subgroupOf H).Normal :=
+  have hK : (N.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNH).mpr hHN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsPGroup 2 (↥H ⧸ N.subgroupOf H) := by
     intro q
     obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (N.subgroupOf H) q
@@ -473,9 +473,9 @@ theorem twoResidual_eq_self_of_isPerfect {G : Type*} [Group G] [Finite G] {H : S
     rw [← map_pow (QuotientGroup.mk' (N.subgroupOf H)) y (2 ^ k),
       QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
     simpa [Subgroup.mem_subgroupOf] using hk
-  haveI : Group.IsPerfect (↥H ⧸ N.subgroupOf H) := inferInstance
-  haveI hNil : Group.IsNilpotent (↥H ⧸ N.subgroupOf H) := hP.isNilpotent
-  haveI : Subsingleton (↥H ⧸ N.subgroupOf H) := by
+  have : Group.IsPerfect (↥H ⧸ N.subgroupOf H) := inferInstance
+  have hNil : Group.IsNilpotent (↥H ⧸ N.subgroupOf H) := hP.isNilpotent
+  have : Subsingleton (↥H ⧸ N.subgroupOf H) := by
     rw [← not_nontrivial_iff_subsingleton]
     intro hnt
     exact Group.IsPerfect.not_isNilpotent (↥H ⧸ N.subgroupOf H) hNil

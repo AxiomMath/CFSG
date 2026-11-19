@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem inf_centralizer_ne_bot_of_normalized {P W : Subgroup G} (hP : IsPGroup 2 P)
     (hWP : W ≤ P) (hnorm : P ≤ Subgroup.normalizer (W : Set G)) (hW : W ≠ ⊥) :
     W ⊓ Subgroup.centralizer (P : Set G) ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Group.IsNilpotent P := hP.isNilpotent
   have hnormal : (W.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnorm
   have hne : W.subgroupOf P ≠ ⊥ := by
@@ -53,10 +53,12 @@ theorem eSub15_le_iHull15 (hS : Std15 G) (h : Cex15 M V₀ V U S) (hP : Hyp1510 
     eSub15 V₀ P H ≤ iHull15 V₀ U H :=
   conjClosure_mono (hP.inf_centralizer_le_v1Sub15 hS h) le_rfl
 
+omit [Finite G] in
 theorem eSub15_le (hP : Hyp1510 V₀ V U S H P) : eSub15 V₀ P H ≤ H :=
-  conjClosure_le fun k hk z hz =>
+  conjClosure_le fun _k hk _z hz =>
     H.mul_mem (H.mul_mem hk (hP.V₀_le_H (Subgroup.mem_inf.1 hz).1)) (H.inv_mem hk)
 
+omit [Finite G] in
 theorem le_normalizer_eSub15 (V₀ P H : Subgroup G) :
     H ≤ normalizer (eSub15 V₀ P H : Set G) := le_normalizer_conjClosure _ _
 

@@ -60,7 +60,6 @@ theorem t158Inn_isChevTwo_of_isU3eight {T : Type} [Group T] (h : catalogIs T S9.
     obtain ⟨d, hv⟩ := j
     simp only [S9.isU3eight, onLie] at hi
     simp only [onLie]
-    change d.characteristic = 2
     split at hi
     · rename_i q
       rw [TauCeti.LieTypeIndex.characteristic_twistedA]
@@ -163,7 +162,7 @@ theorem t158Inn_char_eq_two {Ω : Type} [Group Ω] [Finite Ω] {X K J : Subgroup
     (hU : catalogIs (PSimple 3 J) S9.isU3eight) (d : TauCeti.ValidLieTypeIndex)
     (e : PSimple 3 K ≃* (TauCeti.CFSGIndex.lie d).Group) : d.1.characteristic = 2 := by
   obtain ⟨hsimple, hna⟩ := chev_pSimple_simple_nonabelian Nat.prime_three hK
-  haveI := hsimple
+  have := hsimple
   by_contra h2
   have hr : d.1.characteristic.Prime := up7a8_char_prime d.1
   have hχ : IsChevSimple d.1.characteristic (PSimple 3 K) :=
@@ -191,7 +190,7 @@ theorem t158Inn_char2_index
     ∃ d : TauCeti.ValidLieTypeIndex, d.1.characteristic = 2 ∧
       Nonempty (PSimple 3 K ≃* (TauCeti.CFSGIndex.lie d).Group) := by
   obtain ⟨hsimple, hna⟩ := chev_pSimple_simple_nonabelian Nat.prime_three hK
-  haveI := hsimple
+  have := hsimple
   obtain ⟨i, ⟨eS⟩⟩ := hcat
   cases i with
   | cyclic r hr =>
@@ -234,7 +233,7 @@ theorem t158Inn_tri_eight {Ω : Type} [Group Ω] [Finite Ω] {S L : Subgroup Ω}
     (hU : catalogIs (PSimple 3 L) S9.isU3eight) :
     catalogIs (PSimple 3 S) isD4Eight ∨ catalogIs (PSimple 3 S) isTD4Eight := by
   obtain ⟨hsimple, hna⟩ := chev_pSimple_simple_nonabelian Nat.prime_three hSc
-  haveI := hsimple
+  have := hsimple
   have hxp : IsPGroup 3 (Subgroup.zpowers x) := isPGroup_zpowers_of_pow_eq_one hx3
   have hα3 : (chevAut 3 S ⟨x, hxN⟩) ^ 3 = 1 := chevAut_pow_eq_one 3 S hxN hx3
   have hJ' := glaPComponent_chevTransfer Nat.prime_three hxN hxp hL

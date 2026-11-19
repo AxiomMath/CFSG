@@ -70,7 +70,7 @@ theorem isSolvable_of_isCyclic_sylow_two' {K : Type*} [Group K] [Finite K] (P : 
   have hs1 : Group.IsSolvable (CFSG.pPrimeCore 2 K) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   have : (CFSG.pPrimeCore 2 K).Normal := hnormal
   have hs2 : Group.IsSolvable (K ⧸ CFSG.pPrimeCore 2 K) := by
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     have hq : IsPGroup 2 (K ⧸ CFSG.pPrimeCore 2 K) :=
       IsPGroup.of_card (n := n) (by rw [← Subgroup.index_eq_card, hindex, hn])
     have := hq.isNilpotent

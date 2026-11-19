@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c1_G47_embed {L E K : Subgroup G} (hLE : L ≤ normalizer (E : Set G))
     (hK : ∀ x ∈ L, x ∈ K ↔ ∀ e ∈ E, x * e = e * x) {w w' : G} (hw : w ∈ L) (hw' : w' ∈ L)
     (hww : w * w = 1) (hw'w' : w' * w' = 1) {n : ℕ} (hn : ∀ j : ℕ, (w * w') ^ j ∈ K ↔ n ∣ j) :

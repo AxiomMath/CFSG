@@ -17,7 +17,7 @@ theorem mem_of_normal_of_sylow {G : Type*} [Group G] [Finite G] {D M : Subgroup 
     (hDn : ∀ c d : G, d ∈ D → c * d * c⁻¹ ∈ D) (hMD : M ≤ D) (hM : IsPGroup 2 M)
     (hidx : ¬ 2 ∣ M.index) {g : G} (hg : ∃ k : ℕ, g ^ 2 ^ k = 1) : g ∈ D := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hg
   have hgp : IsPGroup 2 (Subgroup.zpowers g) := by
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 (orderOf_dvd_of_pow_eq_one hk)
@@ -48,7 +48,7 @@ theorem shape_index_sup_eq_two (S : Shape G F₁ F₂) : (S.I₁ ⊔ S.I₂).ind
 
 theorem shape_card_sup [Finite G] (S : Shape G F₁ F₂) :
     Nat.card ↥(S.I₁ ⊔ S.I₂) * 2 = Nat.card ↥S.I₁ * Nat.card ↥S.I₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := (CFSG.GroupTheory.card_sup_mul_card_inf_of_commute S.I₁ S.I₂ S.comm).1
   have h2 : Nat.card ↥(S.I₁ ⊓ S.I₂) = 2 := by
     rw [S.inter, Nat.card_zpowers]
@@ -73,7 +73,7 @@ theorem Shape.false_of_normal_odd_two (S : Shape G F₁ F₂) (h₁ : Nat.card F
     (hOodd : Odd (Nat.card O)) (hDO : ∀ g ∈ D, ∃ k : ℕ, g ^ 2 ^ k ∈ O) (hMD : M ≤ D)
     (hM2 : IsPGroup 2 M) (hM : 64 ≤ Nat.card M) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hG := shape_card_g23 S h₁ h₂
   obtain ⟨m, hm⟩ := hM2.exists_card_eq
   have hMdvd : Nat.card M ∣ 576 := hG ▸ Subgroup.card_subgroup_dvd_card M

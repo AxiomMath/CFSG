@@ -476,7 +476,7 @@ theorem false_of_cover_data {G : Type} [Group G] [Finite G] {m : ℕ}
   set P : Subgroup H := (R : Subgroup ↥(K ⊓ π.ker)).map (K ⊓ π.ker).subtype with hP
   have hPC : P ≤ K ⊓ π.ker := Subgroup.map_subtype_le _
   have hCK : K ⊓ π.ker ≤ K := inf_le_left
-  have hP2 : IsPGroup 2 P := R.isPGroup'.map _
+  have hP2 : IsPGroup 2 P := R.isPGroup.map _
   set KG : Subgroup G := K.map H.subtype with hKG
   set CG : Subgroup G := (K ⊓ π.ker).map H.subtype with hCG
   set PG : Subgroup G := P.map H.subtype with hPG

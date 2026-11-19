@@ -48,9 +48,9 @@ theorem sec63_mem_powSub [Finite G] {R U : Subgroup G} {y : G} {e : ℕ} (hU2 : 
     (hU : IsCyclic ↥U) (hUR : U ≤ R) (hy : orderOf y = 2) (hyU : y ∈ U) (he : e = 2 ∨ e = 4)
     (hcard : 2 * e ≤ Nat.card U) : y ∈ sec63PowSub R e := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hU2
-  haveI : IsCyclic ↥U := hU
+  have : IsCyclic ↥U := hU
   obtain ⟨γ, hγ⟩ := IsCyclic.exists_generator (α := ↥U)
   have htop : Subgroup.zpowers γ = ⊤ := by
     rw [eq_top_iff]
@@ -122,9 +122,9 @@ theorem sec63_eq_of_char_cyclic [Finite G] {T R Q : Subgroup G} {y : G} (hT : Is
       apply hyne
       calc y = a⁻¹ * (a * y * a⁻¹) * a := by group
         _ = 1 := by rw [← hz, h]; group
-    haveI : IsCyclic ↥Q := hQ
-    haveI : Finite ↥Q := Subtype.finite
-    haveI : Fintype ↥Q := Fintype.ofFinite ↥Q
+    have : IsCyclic ↥Q := hQ
+    have : Finite ↥Q := Subtype.finite
+    have : Fintype ↥Q := Fintype.ofFinite ↥Q
     set ys : ↥Q := ⟨y, hyQ⟩ with hysdef
     set zs : ↥Q := ⟨z, hzQ⟩ with hzsdef
     have hys2 : ys ^ 2 = 1 := by
@@ -170,9 +170,9 @@ theorem sec63_eq_of_char_cyclic [Finite G] {T R Q : Subgroup G} {y : G} (hT : Is
       exact Subgroup.mem_top _
     simpa using Subgroup.mem_subgroupOf.mp this
   have hlt : R.subgroupOf T < ⊤ := lt_of_le_of_ne le_top hneTop
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥T := Subtype.finite
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥T := Subtype.finite
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
   have hltN : R.subgroupOf T < normalizer (R.subgroupOf T) :=
     (Group.normalizerCondition_of_isNilpotent (G := ↥T)) (R.subgroupOf T) hlt
   have hex : ∃ a : ↥T, a ∈ normalizer (R.subgroupOf T) ∧ a ∉ R.subgroupOf T := by
@@ -197,7 +197,7 @@ theorem sec63_rank_of_power [Finite G] {T R U : Subgroup G} {y : G} {e : ℕ} (h
   have hU2 : IsPGroup 2 U := hT.to_le (hUR.trans hRT)
   have hyQ : y ∈ sec63PowSub R e := sec63_mem_powSub hU2 hU hUR hy hyU he hcard
   have hQcyc : IsCyclic ↥(sec63PowSub R e) := by
-    haveI : IsCyclic ↥U := hU
+    have : IsCyclic ↥U := hU
     exact Subgroup.isCyclic_of_le (sec63PowSub_le hpow)
   have hRT' : R = T :=
     sec63_eq_of_char_cyclic hT hRT hy hyQ hQcyc hcent

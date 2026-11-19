@@ -16,6 +16,7 @@ section Counting
 
 variable {S : Type} [Group S] [Finite S] [Group.IsPerfect S]
 
+omit [Finite S] in
 theorem card_hopfCover_eq_mul :
     Nat.card (HopfCover S) = Nat.card (hopfMultiplier S) * Nat.card S := by
   have h := Subgroup.card_ker_mul_card_range (hopfCoverMap S)
@@ -43,6 +44,7 @@ theorem exists_hopfLift {E : Type} [Group E] [Finite E] [Group.IsPerfect E] (p :
     perfect_central_kernel_quotient_of_hopf_multiplier p hp hC
   exact ⟨h, hsurj, hlift, hmap⟩
 
+omit [Finite S] [Group.IsPerfect S] in
 theorem ker_le_hopfMultiplier {E : Type} [Group E] {p : E →* S} {h : HopfCover S →* E}
     (hh : p.comp h = hopfCoverMap S) : h.ker ≤ hopfMultiplier S := by
   intro x hx
@@ -51,7 +53,7 @@ theorem ker_le_hopfMultiplier {E : Type} [Group E] {p : E →* S} {h : HopfCover
 
 theorem card_hopfMultiplier_eq_mul {E : Type} [Group E] [Finite E] [Group.IsPerfect E] (p : E →* S)
     (hp : Function.Surjective p) {h : HopfCover S →* E} (hsurj : Function.Surjective h)
-    (hh : p.comp h = hopfCoverMap S) :
+    (_hh : p.comp h = hopfCoverMap S) :
     Nat.card (hopfMultiplier S) = Nat.card h.ker * Nat.card p.ker := by
   have hS : 0 < Nat.card S := Nat.card_pos
   have e1 := card_hopfCover_eq_mul (S := S)
@@ -112,7 +114,7 @@ theorem exists_surj_kernel_not_three_dvd (p : Q →* S) (hp : Function.Surjectiv
     exact Subgroup.card_dvd_of_le hTM
   have hT3 : ¬ 3 ∣ Nat.card T := by
     intro h3T
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3T
     have hx4 : (x : HopfCover S) ^ 4 = 1 := x.2.2
     have hd : orderOf (x : HopfCover S) ∣ 4 := orderOf_dvd_iff_pow_eq_one.2 hx4

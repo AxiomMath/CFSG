@@ -80,10 +80,10 @@ theorem D1ConstrainedWeakBlockGeFive.toSolv3 (hK5 : KFactBlockSylowThreeAut)
       have := hext.ne_two
       omega
     have hPL := le_normalizer_of_isPGroup_ge_five hS.rank hfact.out hp5 hM.1.1
-      hL.toIsTwoPrimeComponent P.isPGroup' hext.sylow_le
+      hL.toIsTwoPrimeComponent P.isPGroup hext.sylow_le
     have hN : Subgroup.normalizer ((pCoreOf 2 H : Subgroup G) : Set G) = H :=
       hext.toD1Escape.normalizer_twoCore_H
-    have hfaith := inf_preimage_centralizer_eq_bot_of_weakBlock hext.ne_two P.isPGroup' hL hN
+    have hfaith := inf_preimage_centralizer_eq_bot_of_weakBlock hext.ne_two P.isPGroup hL hN
       hext.sylow_le hPL hz.orderOf_eq hzP hz.uniq hCH (hph.twoCore_M_le hph.twoCore_inf)
     have hsyl := not_dvd_index_inf_of_sylow_top P hPL
     have hMtop : M ≠ ⊤ := fun hMt => hph.not_le (hMt ▸ le_top)
@@ -92,7 +92,7 @@ theorem D1ConstrainedWeakBlockGeFive.toSolv3 (hK5 : KFactBlockSylowThreeAut)
         _).isCatalogGroup_center_quotient hL.component
     have hpb := dvd_card_barM_of_faithful hOut hfact.out hp5 hz.pRank_eq hext.sylow_le hPL
       hL.component hcat hfaith
-    have hzL : z ∈ L := mem_of_dvd_card_of_sylow P.isPGroup' hPL hzP hz.orderOf_eq hz.uniq hsyl
+    have hzL : z ∈ L := mem_of_dvd_card_of_sylow P.isPGroup hPL hzP hz.orderOf_eq hz.uniq hsyl
       (hpb.trans (card_barM_dvd hL.le))
     exact h hS p hp hp3 P M hM H hext hfact z hz hlayer Pbar zbar E C hEn e hdata hstr hcon hph hzP
       hCH huniq hNH T hTN hT2 hTidx hPT hST hchar L hL hPL hfaith hsyl hzL

@@ -33,6 +33,7 @@ theorem he42pl_mem_lineSet {L₁ L₂ : Subgroup L} {M : Finset (L ⧸ L₁)} :
     M ∈ lineSet L₁ L₂ ↔ ∃ ℓ : L ⧸ L₂, pts L₁ L₂ ℓ = M := by
   simp [lineSet]
 
+omit [Finite L] in
 theorem he42pl_inc_iff_pt (L₁ L₂ : Subgroup L) (x y : L) :
     Inc L₁ L₂ (x : L ⧸ L₁) (y : L ⧸ L₂) ↔ ∃ a ∈ L₂, ((y * a : L) : L ⧸ L₁) = (x : L ⧸ L₁) := by
   constructor
@@ -49,6 +50,7 @@ theorem he42pl_inc_iff_pt (L₁ L₂ : Subgroup L) (x y : L) :
     rw [e]
     exact L₂.inv_mem ha
 
+omit [Finite L] in
 theorem he42pl_inc_iff_line (L₁ L₂ : Subgroup L) (x y : L) :
     Inc L₁ L₂ (x : L ⧸ L₁) (y : L ⧸ L₂) ↔ ∃ l ∈ L₁, ((x * l : L) : L ⧸ L₂) = (y : L ⧸ L₂) := by
   constructor
@@ -65,6 +67,7 @@ theorem he42pl_inc_iff_line (L₁ L₂ : Subgroup L) (x y : L) :
     rw [e]
     exact L₁.inv_mem hl
 
+omit [Finite L] in
 theorem he42pl_inc_iff_exists (L₁ L₂ : Subgroup L) (x y : L) :
     Inc L₁ L₂ (x : L ⧸ L₁) (y : L ⧸ L₂) ↔ ∃ l₁ ∈ L₁, ∃ l₂ ∈ L₂, x * l₁ = y * l₂ := by
   constructor
@@ -81,6 +84,7 @@ theorem he42pl_inc_iff_exists (L₁ L₂ : Subgroup L) (x y : L) :
     rw [e]
     exact L₂.inv_mem hl₂
 
+omit [Finite L] in
 theorem he42pl_card_range_coset (A B : Subgroup L) (x : L) :
     Nat.card (Set.range fun a : A => ((x * (a : L) : L) : L ⧸ B)) = (A ⊓ B).relIndex A := by
   have hwd : ∀ a b : A, QuotientGroup.leftRel ((A ⊓ B).subgroupOf A) a b →
@@ -147,6 +151,7 @@ theorem he42pl_card_lines_thru {L₁ L₂ : Subgroup L} (h5 : (L₁ ⊓ L₂).re
   rw [← Set.ncard_coe_finset, ← Nat.card_coe_set_eq, hset, he42pl_card_range_coset L₁ L₂ x]
   exact h5
 
+omit [Finite L] in
 theorem he42pl_exists_line {L₁ L₂ : Subgroup L}
     (hcov : ∀ g : L, ∃ h ∈ L₁, ∃ m ∈ L₂, ∃ h' ∈ L₁, g = h * m * h') (p q : L ⧸ L₁) :
     ∃ ℓ : L ⧸ L₂, Inc L₁ L₂ p ℓ ∧ Inc L₁ L₂ q ℓ := by
@@ -162,6 +167,7 @@ theorem he42pl_exists_line {L₁ L₂ : Subgroup L}
   rw [e]
   exact hh'
 
+omit [Finite L] in
 theorem he42pl_eq_line {L₁ L₂ : Subgroup L}
     (huniq : ∀ h ∈ L₁, ∀ g ∈ L₂, g ∉ L₁ → ∀ l ∈ L₁, ∀ m ∈ L₂, g * l = h * m → h ∈ L₂)
     {p q : L ⧸ L₁} (hpq : p ≠ q) {ℓ ℓ' : L ⧸ L₂} (hp : Inc L₁ L₂ p ℓ) (hq : Inc L₁ L₂ q ℓ)
@@ -248,7 +254,7 @@ theorem he42pl_card_of_incidence {P Q : Type} [Fintype P] [Fintype Q] (Inc' : P 
     omega
   have hsum : (Finset.univ.erase p₀).card = 20 := by
     rw [hcover, Finset.card_biUnion hdisj, Finset.sum_congr rfl hterm, Finset.sum_const, h4,
-      smul_eq_mul] <;> norm_num
+      smul_eq_mul]
   have hpos : 0 < (Finset.univ : Finset P).card := Finset.card_pos.2 ⟨p₀, Finset.mem_univ _⟩
   have herase := Finset.card_erase_of_mem (Finset.mem_univ p₀)
   rw [← Finset.card_univ]

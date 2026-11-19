@@ -10,7 +10,7 @@ namespace CFSG.Quasithin.H13.L8211G
 variable {X Y : Type} [Group X] [Group Y]
 
 theorem comap_pCore_eq_of_surj {f : X →* Y}
-    (hf : Function.Surjective f) (hk : f.ker ≤ CFSG.pCore 2 X)
+    (_hf : Function.Surjective f) (hk : f.ker ≤ CFSG.pCore 2 X)
     (hmap : (CFSG.pCore 2 X).map f = CFSG.pCore 2 Y) :
     (CFSG.pCore 2 Y).comap f = CFSG.pCore 2 X := by
   ext x
@@ -55,7 +55,7 @@ theorem card_quot_eq_two_pow {V : Type} [Group V] [Finite V] (W : Subgroup V) {a
 theorem nonempty_mulEquiv_fin_of_card_two_pow {Q : Type} [CommGroup Q] [Finite Q]
     (hQ : ∀ q : Q, q ^ 2 = 1) {n : ℕ} (hcard : Nat.card Q = 2 ^ n) :
     Nonempty (Q ≃* Multiplicative (Fin n → ZMod 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (p := 2) (W := Q)
     (fun a b => mul_comm a b) hQ hcard
 

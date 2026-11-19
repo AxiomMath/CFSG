@@ -81,7 +81,7 @@ theorem exists_sylow_eight_swaps :
       swap 0 1 ∈ P ∧ swap 2 3 ∈ P ∧ swap 4 5 ∈ P ∧ swap 6 7 ∈ P ∧
       (∀ q ∈ P, (∀ p ∈ P, q * p = p * q) → q = 1 ∨ q = ρ₄') := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup (Perm (Fin 8)) := centralizer ({ρ₄'} : Set (Perm (Fin 8)))
   have hcardC : Nat.card C = 2 ^ 7 * 3 := by
     dsimp only [C]
@@ -104,7 +104,7 @@ theorem exists_sylow_eight_swaps :
       simp only [k, Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
       rcases hx with rfl | rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl | rfl <;>
         exact (commute_iff_eq _ _).2 (by decide)
-    haveI : IsMulCommutative B := Subgroup.isMulCommutative_closure hcomm
+    have : IsMulCommutative B := Subgroup.isMulCommutative_closure hcomm
     have hsq : ∀ x ∈ B, x ^ 2 = 1 := by
       intro x hx
       change x ∈ Subgroup.closure k at hx
@@ -148,7 +148,7 @@ theorem exists_sylow_eight_swaps :
       Nat.factorization_eq_zero_of_not_dvd (by norm_num : ¬ 2 ∣ 3), add_zero]
   have hPpg : IsPGroup 2 P := by
     dsimp only [P]
-    exact S.isPGroup'.map C.subtype
+    exact S.isPGroup.map C.subtype
   have hcardP : Nat.card P = 2 ^ 7 := by
     dsimp only [P]
     rw [Subgroup.card_map_of_injective C.subtype_injective]
@@ -174,7 +174,7 @@ theorem exists_sylow_eight_swaps :
         intro h
         have hc := card_cycleType_ρ₄'
         rw [h] at hc
-        simpa using hc
+        simp at hc
       exact (CFSG.OddStandard.AltStdSmall.eq_of_mem_center_sylow_sym (n := 8)
         (by norm_num) (by norm_num) hPpg (hcardP ▸ dvd_refl _) hρP hq hρcommP hqcomm
         hρ1 hq1).symm
@@ -216,7 +216,7 @@ theorem comm_of_comm_swaps {q₁ q₂ : Perm (Fin 8)}
 theorem z2_comm {P : Subgroup (Perm (Fin 8))} (h01 : swap 0 1 ∈ P) (h23 : swap 2 3 ∈ P)
     (h45 : swap 4 5 ∈ P) (h67 : swap 6 7 ∈ P)
     (hZ : ∀ q ∈ P, (∀ p ∈ P, q * p = p * q) → q = 1 ∨ q = ρ₄')
-    {q₁ q₂ : Perm (Fin 8)} (hq₁ : q₁ ∈ P) (hq₂ : q₂ ∈ P)
+    {q₁ q₂ : Perm (Fin 8)} (_hq₁ : q₁ ∈ P) (_hq₂ : q₂ ∈ P)
     (hc₁ : ∀ q ∈ P, IsCentralIn P ⁅q₁, q⁆) (hc₂ : ∀ q ∈ P, IsCentralIn P ⁅q₂, q⁆) :
     q₁ * q₂ = q₂ * q₁ := by
   have hρsupp : ρ₄'.support.card = 8 := by decide

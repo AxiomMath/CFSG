@@ -226,7 +226,7 @@ theorem card_Ebar_inf_centralizer_eq_eight {yb : Jbar} (hy : orderOf yb = 11) :
     Nat.card ↥(Ebar.subgroupOf Jbar ⊓ Subgroup.centralizer ({yb} : Set Jbar)) = 8 := by
   have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨f, -, hker⟩ := CFSG.ComponentClassification.BMCase.jbar_exact_sequence
-  haveI : (Ebar.subgroupOf Jbar).Normal := hker ▸ f.normal_ker
+  have : (Ebar.subgroupOf Jbar).Normal := hker ▸ f.normal_ker
   have hmod := card_modEq_card_inf_centralizer (Ebar.subgroupOf Jbar) hy
   rw [natCard_Ebar_subgroupOf] at hmod
   have h2 := two_mul_card_Ebar_inf_centralizer_le yb.2 (by rw [Subgroup.orderOf_coe]; exact hy)

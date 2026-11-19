@@ -14,12 +14,14 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem le_normalizer_inf_of_le_normalizer {H K X : Subgroup G}
     (hXH : X ≤ Subgroup.normalizer (H : Set G))
     (hXK : X ≤ Subgroup.normalizer (K : Set G)) :
     X ≤ Subgroup.normalizer ((H ⊓ K : Subgroup G) : Set G) :=
   (le_inf hXH hXK).trans Subgroup.inf_normalizer_le_normalizer_inf
 
+omit [Finite G] in
 private theorem card_map_eq_card_of_inf_ker_bot {G' : Type} [Group G'] {f : G →* G'}
     (H : Subgroup G) (hH : H ⊓ f.ker = ⊥) :
     Nat.card (H.map f) = Nat.card H := by
@@ -96,7 +98,7 @@ theorem rhoK_cartan_inner (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
     (hb : b ∈ DL) (hbK : b ∈ Subgroup.normalizer (K : Set G)) :
     ∃ y : Bar2 K, UC6S846.rhoL K ⟨b, hbK⟩ = MulAut.conj y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := sylowImage_isSylow hK hKn
   let q := QuotientGroup.mk' (CFSG.pCore 2 ↥K)
   let TK : Subgroup G := D.T ⊓ K
@@ -173,7 +175,7 @@ theorem rhoK_cartan_inner (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
     exact Nat.Coprime.pow_right k (Nat.coprime_two_right.mpr hA₀odd)
   have hHcard : Nat.card H = 2 ^ m - 1 := by
     rw [card_map_eq_card_of_inf_ker_bot (A₀.subgroupOf K) ?_, hcardA₀sub, hA₀card]
-    simpa only [q, QuotientGroup.ker_mk'] using Subgroup.inf_eq_bot_of_coprime hcop
+    simpa only [q, QuotientGroup.ker_mk'] using (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hfix : ∀ h ∈ H, θ h * h⁻¹ ∈ (S : Subgroup (Bar2 K)) := by
     intro h hh
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp hh
@@ -210,7 +212,7 @@ theorem exists_F (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
         K ⊓ Subgroup.normalizer (D.T : Set G) ∧
       F ⊓ K ≠ ⊥ ∧ F ≤ c.N ∧ F ≤ D.M ∧ F ≤ Subgroup.normalizer (D.T : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Astar : Subgroup G := K ⊓ Subgroup.normalizer (D.T : Set G)
   let TK : Subgroup G := D.T ⊓ K
   have hT2 : IsPGroup 2 D.T := CFSG.ABGLocalTools.IsSylowOf.isPGroup D.sylowG
@@ -360,7 +362,7 @@ theorem exists_hall_D_centralizing_F (D : Data G) (Ch : Choice2011 G) (h4 : S23_
       (D.T ⊓ K) ⊔ D' = CFSG.Quasithin.borelOf K D.T ∧
       D' ≤ Subgroup.centralizer (F : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Astar : Subgroup G := K ⊓ Subgroup.normalizer (D.T : Set G)
   let TK : Subgroup G := D.T ⊓ K
   let BK : Subgroup G := CFSG.Quasithin.borelOf K D.T

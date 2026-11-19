@@ -126,9 +126,9 @@ theorem size_piMasks (hp : pmcols.size = ambDim fs) :
       funext x
       have hx := congrFun h x
       by_cases h0 : r = 0
-      · rw [if_pos h0] at hx ⊢
+      · rw [ite_eq_left h0] at hx ⊢
         exact hx.symm
-      · rw [if_neg h0] at hx ⊢
+      · rw [ite_eq_right h0] at hx ⊢
         rw [bitF_zero] at hx
         exact hx.symm
     · have hz : ambDF fs i j r = 0 := ambDF_eq_zero_of_lt fs i j (by omega)
@@ -158,7 +158,7 @@ theorem ambDF_zero (fs : List FK) (i j : Fin 4) : ambDF fs i j 0 = 1 := by
       simp [Finset.card_eq_zero]
     rw [this, Finset.sum_singleton]
     unfold ambZ
-    simp only [Finset.notMem_empty, if_false]
+    simp only [Finset.notMem_empty, ite_false]
     exact kronDep_one
   ext x y
   simp [ambDF, h, Matrix.submatrix_apply, Matrix.one_apply]
@@ -271,7 +271,7 @@ theorem list_range_map_sum {α : Type*} [AddCommMonoid α] (g : ℕ → α) (m :
       Finset.sum_range_succ]; simp
 
 theorem elemMasks_size (fs : List FK) (i j : Fin 4) : (elemMasks fs i j).size = ambDim fs :=
-  (toMat_foldl_add (fun r => tabD fs i j r) (fun r => tab_size _) (List.range (fs.length + 1))
+  (toMat_foldl_add (fun _r => tabD fs i j _r) (fun _r => tab_size _) (List.range (fs.length + 1))
     (MCols.zero (ambDim fs)) (size_zero _)).1
 
 theorem toMat_elemMasks (fs : List FK) (i j : Fin 4) :

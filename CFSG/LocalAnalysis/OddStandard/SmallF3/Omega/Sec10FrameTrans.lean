@@ -31,7 +31,7 @@ variable {G : Type} [Group G] {L : Subgroup G}
       (QP45.originalSubgroup.mul_mem (QP45.originalSubgroup.mul_mem
         (QP45.originalSubgroup.inv_mem ha) hp) ha)
     refine ⟨y, hy, ?_⟩
-    simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+    simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
       MulAut.conj_apply, h]
     group
 

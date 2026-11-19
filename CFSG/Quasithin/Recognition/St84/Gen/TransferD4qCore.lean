@@ -31,17 +31,19 @@ private theorem d4q_commutator_eq_centerOf {L1 L2 S : Subgroup H} {f : ℕ}
   exact CFSG.Quasithin.H13.commutator_eq_centerOf_of_isSpecialPow (p := 2) (q := 2 ^ f)
     (w := 4) (by norm_num) h2 hd.special_left
 
+omit [Finite H] in
 private theorem d4q_card_centerOf_right {L1 L2 S : Subgroup H} {f : ℕ}
     (hd : D4qLocalData L1 L2 S f) :
     Nat.card (centerOf (pCoreOf 2 L2)) = 2 ^ (2 * f) := by
   obtain ⟨F, hFld, hFintype, hFcard, α, hα, hker, hnat⟩ := hd.nat_right
-  letI := hFld
-  letI := hFintype
+  let := hFld
+  let := hFintype
   have h := card_centerOf_of_isNatSecOf_bot hnat
   rw [h, Nat.card_eq_fintype_card, hFcard, ← pow_mul]
   congr 1
   ring
 
+omit [Finite H] in
 private theorem d4q_commutator_pCoreOf_le_self (E : Subgroup H) :
     ⁅pCoreOf 2 E, oTwoPrime E⁆ ≤ pCoreOf 2 E :=
   Subgroup.le_normalizer_iff_commutator_le_left.mp
@@ -237,6 +239,7 @@ theorem f112ll_d4q_indec_left {L1 L2 S : Subgroup H} {m n f : ℕ} (hF : F112Hyp
     exact h'
   · exact h.trans hQeq
 
+omit [Finite H] in
 private theorem d4q_nat_right_transfer {L1 L2 S : Subgroup H} {f : ℕ}
     (hd : D4qLocalData (oTwoPrime (f112saP1' L1 L2 S)) (oTwoPrime (f112saP2' L1 L2 S))
       (S ⊓ f112saK L1 L2 S) f) :
@@ -246,9 +249,9 @@ private theorem d4q_nat_right_transfer {L1 L2 S : Subgroup H} {f : ℕ}
         IsNatSecOf (oTwoPrime (f112saP2' L1 L2 S))
           (centerOf (pCoreOf 2 (oTwoPrime (f112saP2' L1 L2 S)))) ⊥ α := by
   obtain ⟨F, hFld, hFintype, hFcard, α, hα, hker, hnat⟩ := hd.nat_right
-  letI := hFld
-  letI := hFintype
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := hFld
+  let := hFintype
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ⟨F, hFld, charP_of_card_eq_prime_pow (p := 2) (f := f) hFcard, α, hα, hker, hnat⟩
 
 private theorem d4q_gen_left_transfer {L1 L2 S : Subgroup H} {f : ℕ}

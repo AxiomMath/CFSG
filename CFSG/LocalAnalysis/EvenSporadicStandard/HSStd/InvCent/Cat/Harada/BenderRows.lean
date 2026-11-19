@@ -171,7 +171,7 @@ theorem card_centralizer_U34 {G : Type} [Group G] [Finite G]
 
 theorem noZ2S5L216_holds : NoZ2S5L216 := by
   intro G _ _ S hSn hS hcent t ht hder ⟨ζ⟩
-  haveI := hSn
+  have := hSn
   obtain ⟨r, hr, h⟩ := card_centralizer_L216 hS hcent ht
     (fun c hc => hder (sq_mem_centralizerDerived_of_equiv ζ hc))
   have h240 := card_centralizer_of_equiv ζ
@@ -179,7 +179,7 @@ theorem noZ2S5L216_holds : NoZ2S5L216 := by
 
 theorem noZ2S5U34_holds : NoZ2S5U34 := by
   intro G _ _ S hSn hS hcent t ht hder ⟨ζ⟩
-  haveI := hSn
+  have := hSn
   obtain ⟨r, hr, h⟩ := card_centralizer_U34 hS hcent ht
     (fun c hc => hder (sq_mem_centralizerDerived_of_equiv ζ hc))
   have h240 := card_centralizer_of_equiv ζ
@@ -187,7 +187,7 @@ theorem noZ2S5U34_holds : NoZ2S5U34 := by
 
 theorem noTwoCfgL216_holds : NoTwoCfgL216 := by
   intro G _ _ S hSn hS hcent t v J h hder
-  haveI := hSn
+  have := hSn
   have htop : centralizer ({t} : Set G) ≠ ⊤ := centralizer_singleton_ne_top hcent h.t_ne_one
   obtain ⟨r, hr, hc⟩ := card_centralizer_L216 hS hcent h.ht
     (fun c hc => hder (h.sq_mem_centralizerDerived htop hc))
@@ -196,7 +196,7 @@ theorem noTwoCfgL216_holds : NoTwoCfgL216 := by
 
 theorem noTwoCfgU34_holds : NoTwoCfgU34 := by
   intro G _ _ S hSn hS hcent t v J h hder
-  haveI := hSn
+  have := hSn
   have htop : centralizer ({t} : Set G) ≠ ⊤ := centralizer_singleton_ne_top hcent h.t_ne_one
   obtain ⟨r, hr, hc⟩ := card_centralizer_U34 hS hcent h.ht
     (fun c hc => hder (h.sq_mem_centralizerDerived htop hc))

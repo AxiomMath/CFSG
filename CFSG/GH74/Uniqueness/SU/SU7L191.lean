@@ -116,7 +116,7 @@ theorem lemma191 : Lemma191Stmt := by
         have e : s⁻¹ * s' = (x * s)⁻¹ * (x * s') := by group
         rw [e]
         exact (Tsub S U).mul_mem ((Tsub S U).inv_mem h') h
-  obtain ⟨g, hgT, hgc⟩ := Gen.thompson_two hH.simple hH.nonab S.isPGroup'
+  obtain ⟨g, hgT, hgc⟩ := Gen.thompson_two hH.simple hH.nonab S.isPGroup
     (Sylow.not_dvd_index S) hJ.T_normal hsS hsT hss hcov
   have hs'2 : (g⁻¹ * s * g) * (g⁻¹ * s * g) = 1 := by
     calc g⁻¹ * s * g * (g⁻¹ * s * g) = g⁻¹ * (s * s) * g := by group

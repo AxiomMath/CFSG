@@ -68,7 +68,7 @@ theorem GGResHyp.false_of_rankFive_lineJDatum_of_card_ge_eightyone
       3 ^ 4 ≤ Nat.card (ggGamma J hN).range) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcfg : GGConfig 3 B Bs x L D J := hH.1
   have hmark : GGInnerDiagOnLabel
       (fun _ lab => lab.tag = .twA ∧ lab.rank = 5 ∧ 3 ∣ ggTorM lab) 3 Bs J := by
@@ -94,7 +94,7 @@ theorem GGResHyp.card_range_eq_twentyseven_or_ge_eightyone
     Nat.card (ggGamma J hN).range = 27 ∨
       3 ^ 4 ≤ Nat.card (ggGamma J hN).range := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hperfJ, lab, hΛ, hraw⟩ := hMark
   obtain ⟨tag, r, n⟩ := lab
   obtain ⟨R0, _, I0, F0, hQ0⟩ := largeEvenRawDatum_exists hraw
@@ -109,8 +109,8 @@ theorem GGResHyp.card_range_eq_twentyseven_or_ge_eightyone
   have hraw0 := hraw
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨F, hFfield, hFfinite, hFcard, hQ⟩ := hraw
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
+  let : Field F := hFfield
+  let : Finite F := hFfinite
   obtain ⟨_hsimple, _hnonab, θ, hP⟩ := hQ
   obtain ⟨hS, hN0, hBsI⟩ := hP
   let A0 : Subgroup (MulAut ↥J) := (ggGamma J hN0).range
@@ -193,7 +193,7 @@ theorem GGResHyp.false_of_rankFive_lineJDatum_q_gt_two
         3 ∣ 2 ^ lab.n + 1 ∧ lab.n ≠ 1) 3 Bs J) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hMark27 : GGInnerDiagOnLabel
       (fun _ lab => lab.tag = .twA ∧ lab.rank = 5 ∧ 3 ∣ 2 ^ lab.n + 1) 3 Bs J := by
     refine largeEvenMarking_mono (fun lab R _ I F θ hP => ?_) hMark
@@ -202,9 +202,9 @@ theorem GGResHyp.false_of_rankFive_lineJDatum_q_gt_two
   obtain ⟨F, hFfield, hFfinite, n, hn2, hpq, hFcard, θ, φ, hU, A, ρ, hN, hAGU, hAiso,
     hφs, hφker, hφcomp, hAprime, hAproj, hYact, hρ⟩ :=
     GGInnerDiagOnLabel.exists_SU6_cover_actors hMark
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  haveI : CharP F 2 := hU.charP
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  have : CharP F 2 := hU.charP
   have hperfJ : commutator ↥J = ⊤ := hMark.1
   let Ab : Subgroup (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin 6) F (2 ^ n)))) :=
     (ggBeta J θ hN).range
@@ -378,14 +378,14 @@ theorem GGResHyp.false_of_rankFive_lineJDatum_q_eq_two
     (hMark : GGInnerDiagOnLabel (fun _ lab => lab = ⟨.twA, 5, 1⟩) 3 Bs J) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let hN : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
   obtain ⟨F, hFfield, hFfinite, hF4, hU, θ, φ, hφ1, hrange, hφk, A, hAGU, hAN,
     hAprime, hAproj, ρ, hmk, hActs, _hTrue⟩ :=
     GGResHyp.exists_redUnitarySixTwoActors hH hMark hN
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  haveI : CharP F 2 := hU.charP
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  have : CharP F 2 := hU.charP
   have hANu : ∀ b, A b ∈ Subgroup.normalizer
       (unitarySU 2 1 F 6 : Set (GL (Fin 6) F)) := fun b => hAN b
   have hActsEq : ∀ b s,
@@ -413,7 +413,7 @@ theorem GGResHyp.false_of_rankFive_lineJDatum_q_eq_two
   have hXnormal : X.Normal := by
     rw [hXeq]
     exact redL_normal (L := J)
-  haveI : X.Normal := hXnormal
+  have : X.Normal := hXnormal
   have hBsbar : CFSG.Open.IsElemAbelian 3 Bsbar := isElemAbelian_redB hN hBs
   have hSCbar : ∀ g ∈ Subgroup.centralizer (Bsbar : Set (RedGrp J)), g ^ 3 = 1 →
       g ∈ Bsbar := redSC hN hBs hSC
@@ -647,7 +647,7 @@ theorem GGResHyp.false_of_compatible_unitary_marking_rank_ge_three_of_card_le_ei
       (fun _ lab => lab.tag = .twA ∧ 3 ∣ 2 ^ lab.n + 1 ∧ 3 ≤ lab.rank) 3 Bs J)
     (hsmall : Nat.card (ggAutomizer J Bs) ≤ 8) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hperfJ, lab, hΛ, hraw⟩ := hMark
   obtain ⟨tag, r, n⟩ := lab
   have hn : 1 ≤ n := hΛ.1
@@ -685,8 +685,8 @@ theorem GGResHyp.false_of_compatible_unitary_marking_rank_ge_three_of_card_le_ei
   have hraw0 := hraw
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨F, hFfield, hFfinite, hFcard, hQ⟩ := hraw
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
+  let : Field F := hFfield
+  let : Finite F := hFfinite
   obtain ⟨_hsimple, _hnonab, θ, hP⟩ := hQ
   obtain ⟨hS, hN, hBsI⟩ := hP
   let d : ℕ := r + 1
@@ -805,7 +805,7 @@ theorem GGResHyp.exists_A2_label_of_compatible_unitary_marking
     ∃ lab : LargeEvenLabel, LargeEvenInLambda2 lab ∧ ggResLineJLabel .A2 lab ∧
       GGHasLabel lab (J ⧸ Subgroup.center J) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hperfJ, lab, hΛ, hraw⟩ := hMark
   obtain ⟨tag, r, n⟩ := lab
   obtain ⟨R0, _, I0, F0, hQ0⟩ := largeEvenRawDatum_exists hraw

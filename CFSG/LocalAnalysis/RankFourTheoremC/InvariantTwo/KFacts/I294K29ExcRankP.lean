@@ -25,7 +25,7 @@ theorem typeCover_of_typeCoverP {τ : Tag} {p n q : ℕ} (hp : p.Prime) (h : Typ
     TypeCover τ p n q := by
   classical
   intro L _ _ hL a ha w hw
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpL : (p : L) ≠ 0 := by
     intro h0
     have h1 : ringChar L ∣ p := (CharP.cast_eq_zero_iff L (ringChar L) p).1 h0
@@ -33,8 +33,8 @@ theorem typeCover_of_typeCoverP {τ : Tag} {p n q : ℕ} (hp : p.Prime) (h : Typ
     · exact hL ((Nat.prime_dvd_prime_iff_eq hq hp).1 h1)
     · rw [hq] at h1
       exact hp.ne_zero (Nat.eq_zero_of_zero_dvd h1)
-  haveI : NeZero (p : L) := ⟨hpL⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  have : NeZero (p : L) := ⟨hpL⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   let ζu : Lˣ := (hζ.isUnit hp.ne_zero).unit
   have hζu : (ζu : L) = ζ := IsUnit.unit_spec _
   have hord : orderOf ζu = p := by

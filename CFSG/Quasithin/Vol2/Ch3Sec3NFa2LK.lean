@@ -403,7 +403,7 @@ theorem A2Cfg.pCoreOf_K_le_TC (h37 : A37ForSQTKCat) (h38 : A38ForSQTKCat)
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K)
     exact sup_le (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 K)
       (hK'N.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 K))
-  exact h1.trans c.N0_le_TC
+  exact h1.trans CFSG.Quasithin.H13.NFa2.A2Cfg.N0_le_TC
 
 structure KCtx (c : A2Cfg G T M L D H K q) (t : G) : Prop where
   tT : t ∈ T

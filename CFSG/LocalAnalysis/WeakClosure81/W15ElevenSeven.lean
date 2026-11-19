@@ -51,8 +51,8 @@ theorem mem_qSub15_of_commutator_mem
     (c : Cfg1511 M V₀ V U S H P Q₀ p) (hX : XData15 V₀ U H Q₀ p X v) {t : G}
     (ht : t ∈ tSub15 M V₀ V U P) (hK : ∀ k ∈ kHull15 V₀ H, ⁅k, t⁆ ∈ iHull15 V₀ U H) :
     t ∈ qSub15 M V₀ V U H P := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨c.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hIN : H ≤ normalizer (iHull15 V₀ U H : Set G) :=
     Hyp1510.le_normalizer_iHull15 V₀ U H
   have hKH : kHull15 V₀ H ≤ H := c.hyp.kHull15_le

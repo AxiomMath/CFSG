@@ -35,12 +35,12 @@ theorem le_normalizer_of_forward (E C : Subgroup G) (h : ∀ e ∈ E, ∀ c ∈ 
 
 theorem exists_central_involution {H : Subgroup G} [Finite G] (hH2 : IsPGroup 2 H) (hH : H ≠ ⊥) :
     ∃ z ∈ H, z ≠ 1 ∧ z * z = 1 ∧ ∀ y ∈ H, z * y = y * z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial H := (Subgroup.nontrivial_iff_ne_bot H).2 hH
-  haveI := hH2.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial H := (Subgroup.nontrivial_iff_ne_bot H).2 hH
+  have := hH2.center_nontrivial
   have hdvd : 2 ∣ Nat.card (Subgroup.center H) := by
     obtain ⟨k, hk⟩ := (hH2.to_subgroup (Subgroup.center H)).exists_card_eq
-    haveI : Nontrivial (Subgroup.center H) := inferInstance
+    have : Nontrivial (Subgroup.center H) := inferInstance
     have h1 : 1 < Nat.card (Subgroup.center H) := Finite.one_lt_card
     rw [hk] at h1 ⊢
     have hk0 : k ≠ 0 := by rintro rfl; simp at h1
@@ -182,7 +182,7 @@ theorem third_of_prod_eq_one_aux {M : Type*} [CommGroup M] (hsq : ∀ w : M, w *
 theorem third_of_prod_eq_one {H : Subgroup G}
     (hex : ∀ x ∈ H, x * x = 1 ∧ ∀ y ∈ H, x * y = y * x) {x y z : G} (hx : x ∈ H) (hy : y ∈ H)
     (hz : z ∈ H) (h : x * y * z = 1) : z = x * y := by
-  letI := commGroupOfComm H fun a ha b hb => (hex a ha).2 b hb
+  let := commGroupOfComm H fun a ha b hb => (hex a ha).2 b hb
   have hsq : ∀ w : H, w * w = 1 := fun w => Subtype.ext (hex w w.2).1
   have h' : (⟨x, hx⟩ : H) * ⟨y, hy⟩ * ⟨z, hz⟩ = 1 := Subtype.ext h
   exact congrArg Subtype.val (third_of_prod_eq_one_aux hsq h')
@@ -267,7 +267,7 @@ theorem min_invariant_conj_eq [Finite G] {E H : Subgroup G} (hE : IsElemAbelian 
       _ = (e * (e * u * e⁻¹) * e⁻¹) * (e * (e * (b * u * b⁻¹) * e⁻¹) * e⁻¹) := by group
       _ = _ := by rw [hφu, hφQ]
   rw [hS] at Ng_u
-  letI := commGroupOfComm H fun a ha b hb => (hex a ha).2 b hb
+  let := commGroupOfComm H fun a ha b hb => (hex a ha).2 b hb
   have hsq : ∀ w : H, w * w = 1 := fun w => Subtype.ext (hex w w.2).1
   have hfin : (⟨u, hu⟩ : H) * ⟨e * (b * u * b⁻¹) * e⁻¹, hRH⟩ *
       ((⟨u, hu⟩ * ⟨e * u * e⁻¹, hPH⟩) * (⟨b * u * b⁻¹, hQH⟩ * ⟨e * (b * u * b⁻¹) * e⁻¹, hRH⟩)) = 1 :=

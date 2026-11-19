@@ -100,11 +100,10 @@ theorem exists_dconj_neg_aux (b : Kˣ) (A : SL2 K) (Y : Matrix (Fin 2) (Fin 2) K
   have e11 := congrFun (congrFun hY 1) 1
   simp only [gm, Matrix.add_apply, Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply,
     Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
-    Matrix.cons_val_fin_one, Matrix.head_cons, Matrix.zero_apply] at e00 e01 e10 e11
+    Matrix.cons_val_fin_one, Matrix.zero_apply] at e00 e01 e10 e11
   have h1 : dconj (-1) (dconj b⁻¹ Y₁ * A) = (HSL (-1) * A) * dconj (-1) Y₁ := by
     refine SL2_ext ?_ ?_ ?_ ?_ <;>
-      simp [coe_dconj, coe_HSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply,
-        Fin.sum_univ_two, y00, y01, y10, y11]
+      simp [coe_dconj, coe_HSL, y00, y01, y10, y11]
     · linear_combination (-((b : K))⁻¹) * e00 +
         (2 * (A : Matrix (Fin 2) (Fin 2) K) 0 0 * Y 0 0 + (A : Matrix (Fin 2) (Fin 2) K) 0 1 * Y 1 0) * hCb
     · linear_combination ((b : K))⁻¹ * e01 +
@@ -118,7 +117,7 @@ theorem exists_dconj_neg_aux (b : Kˣ) (A : SL2 K) (Y : Matrix (Fin 2) (Fin 2) K
     _ = HSL (-1) * A := by group
 
 
-theorem exists_anticomm (hK2 : (2 : K) ≠ 0) (g : Matrix (Fin 2) (Fin 2) K) (hdet : g.det ≠ 0)
+theorem exists_anticomm (_hK2 : (2 : K) ≠ 0) (g : Matrix (Fin 2) (Fin 2) K) (hdet : g.det ≠ 0)
     (hsq : ∃ l : K, g * g = l • (1 : Matrix (Fin 2) (Fin 2) K))
     (hns : ¬ ∃ μ : K, g = μ • (1 : Matrix (Fin 2) (Fin 2) K)) :
     ∃ Y : Matrix (Fin 2) (Fin 2) K, Y.det = -1 ∧ Y * g + g * Y = 0 := by
@@ -144,14 +143,14 @@ theorem exists_anticomm (hK2 : (2 : K) ≠ 0) (g : Matrix (Fin 2) (Fin 2) K) (hd
     · by_cases hc : c = 0
       · subst hb; subst hc
         refine ⟨!![0, 1; 1, 0], by simp [Matrix.det_fin_two], ?_⟩
-        ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
+        ext i j; fin_cases i <;> fin_cases j <;> simp
       · subst hb
         refine ⟨!![1, -2 * a / c; 0, -1], by simp [Matrix.det_fin_two], ?_⟩
         ext i j; fin_cases i <;> fin_cases j <;>
-          simp [Matrix.mul_apply, Fin.sum_univ_two] <;> field_simp <;> ring
+          simp <;> field_simp <;> ring
     · refine ⟨!![1, 0; -2 * a / b, -1], by simp [Matrix.det_fin_two], ?_⟩
       ext i j; fin_cases i <;> fin_cases j <;>
-        simp [Matrix.mul_apply, Fin.sum_univ_two] <;> field_simp <;> ring
+        simp <;> field_simp <;> ring
   · exfalso
     have hb : b = 0 := by
       have : b * (a + d) = 0 := by linear_combination e01

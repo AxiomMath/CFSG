@@ -320,7 +320,7 @@ private theorem commute_of_mem_sylow (zf : ZFacts hC z) (hH : Th91Hyp D hC)
       group
     rw [h2]
     exact Subgroup.mul_mem _ h1 hlL
-  obtain ⟨k, hk⟩ := T.isPGroup' ⟨_, hcT⟩
+  obtain ⟨k, hk⟩ := T.isPGroup ⟨_, hcT⟩
   have hk' : (((a * b)⁻¹ * (b * a) : Halpha D hC.alpha) : G) ^ 2 ^ k = 1 := by
     have := congrArg (fun x : (T : Subgroup (Halpha D hC.alpha)) => ((x : Halpha D hC.alpha) : G))
       hk
@@ -376,7 +376,7 @@ private theorem exists_ne_mem_sylow (zf : ZFacts hC z) (hH : Th91Hyp D hC)
       rw [hte]
       exact he2
     have htt : (t : G) * t = 1 := by
-      obtain ⟨k, hk⟩ := T.isPGroup' ⟨_, Subgroup.mul_mem _ htT htT⟩
+      obtain ⟨k, hk⟩ := T.isPGroup ⟨_, Subgroup.mul_mem _ htT htT⟩
       refine zf.eq_one (t * t).2 httL
         (fun h hh => congrArg Subtype.val (Subgroup.mem_center_iff.mp httZ ⟨h, hh⟩).symm)
         ⟨k, ?_⟩
@@ -440,7 +440,7 @@ private theorem sylow_inter (zf : ZFacts hC z) (hH : Th91Hyp D hC) (hzD : z ∉ 
   refine ⟨hXstar, ?_, ?_⟩
   · intro x hx y hy hxy
     have hc : Commute x y :=
-      hC.setup.oddT.commute_of_isPGroup (T.isPGroup'.map _) hx.2 hy.2 hx.1 hy.1
+      hC.setup.oddT.commute_of_isPGroup (T.isPGroup.map _) hx.2 hy.2 hx.1 hy.1
     have hl : z * x * (z * y) = x * y := by
       rw [(zf.comm x (hTGH hx.1)).symm.mul_mul_mul_comm, zf.sq, one_mul]
     have hlL : x * y ∈ CFSG.Quasithin.pResidualOf 2 (Halpha D hC.alpha) :=
@@ -557,7 +557,7 @@ private theorem not_mem_closure (zf : ZFacts hC z) (hzD : z ∉ D) (S : Sylow 2 
     intro y hy
     have hyΔ : n * y * n⁻¹ ∈ (S : Set G) ∩ D := (hn y).mp (hY hy).1
     refine Subgroup.subset_closure ((mem_block_or_DalphaStar_of_commute hC (mem_blockClass_self _)
-      hC.d_mem_alpha hyΔ.2 (hC.setup.oddT.commute_of_isPGroup S.isPGroup' hC.hd hyΔ.2 huS
+      hC.d_mem_alpha hyΔ.2 (hC.setup.oddT.commute_of_isPGroup S.isPGroup hC.hd hyΔ.2 huS
         hyΔ.1)).resolve_left fun hyα => (hY hy).2 ?_)
     have hβ' : (fun x => n⁻¹ * x * n⁻¹⁻¹) '' hC.alpha ∈ blockClass hC.alpha :=
       mem_blockClass_iff.mpr ⟨n⁻¹, rfl⟩
@@ -619,13 +619,13 @@ private theorem false_of_ncard_eq_three (zf : ZFacts hC z) (hH : Th91Hyp D hC) (
       ·
         have hdH : d ∈ Halpha D hC.alpha := Subgroup.subset_closure
           ((mem_block_or_DalphaStar_of_commute hC (mem_blockClass_self _) hC.d_mem_alpha hd.2
-            (hC.setup.oddT.commute_of_isPGroup S.isPGroup' hC.hd hd.2 huS
+            (hC.setup.oddT.commute_of_isPGroup S.isPGroup hC.hd hd.2 huS
               hd.1)).resolve_left hdα)
         have hTK : (T : Subgroup (Halpha D hC.alpha)) ≤
             (S : Subgroup G).comap (Halpha D hC.alpha).subtype :=
           fun t ht => hTS (Subgroup.mem_map_of_mem _ ht)
         have hdT : (⟨d, hdH⟩ : Halpha D hC.alpha) ∈ (T : Subgroup (Halpha D hC.alpha)) := by
-          rw [T.maximal_isPGroup.eq_of_le S.isPGroup'.comap_subtype hTK]
+          rw [T.maximal_isPGroup.eq_of_le S.isPGroup.comap_subtype hTK]
           exact hd.1
         have hdX : d ∈ X := hX ▸ ⟨Subgroup.mem_map_of_mem _ hdT, hd.2⟩
         rw [hXeq] at hdX
@@ -650,7 +650,7 @@ private theorem false_of_ncard_eq_three (zf : ZFacts hC z) (hH : Th91Hyp D hC) (
   have hcomm : (([hC.d, v, w, z * v * w].toFinset : Finset G) : Set G).Pairwise Commute := by
     rw [hFΔ]
     intro a ha b hb _
-    exact hC.setup.oddT.commute_of_isPGroup S.isPGroup' ha.2 hb.2 ha.1 hb.1
+    exact hC.setup.oddT.commute_of_isPGroup S.isPGroup ha.2 hb.2 ha.1 hb.1
   have hfix := conj_noncommProd_eq hcomm (n := n) fun x hx => by
     have hx' : x ∈ (([hC.d, v, w, z * v * w].toFinset : Finset G) : Set G) := hx
     rw [hFΔ] at hx'
@@ -662,7 +662,7 @@ private theorem false_of_ncard_eq_three (zf : ZFacts hC z) (hH : Th91Hyp D hC) (
     simp only [List.map_id, List.prod_cons, List.prod_nil, mul_one]
     rw [← mul_assoc v, zf.mul_mul_mul_eq (hXH v hvX) (hXH w hwX)
       (hC.setup.oddT.mul_self_eq_one (hXD v hvX)) (hC.setup.oddT.mul_self_eq_one (hXD w hwX))
-      (hC.setup.oddT.commute_of_isPGroup S.isPGroup' (hXD v hvX) (hXD w hwX)
+      (hC.setup.oddT.commute_of_isPGroup S.isPGroup (hXD v hvX) (hXD w hwX)
         (hTS (hX ▸ hvX).1) (hTS (hX ▸ hwX).1))]
   rw [hprod] at hfix
   have hpu : ∀ e ∈ D, Commute e hC.d → Commute (hC.d * z) e := by
@@ -704,7 +704,7 @@ private theorem false_of_not_mem (zf : ZFacts hC z) (hH : Th91Hyp D hC) (hzD : z
   set X : Set G := (TG : Set G) ∩ D with hX
   obtain ⟨hXstar, hX3, hblock⟩ := zf.sylow_inter hH hzD T hX
   have hTGH : TG ≤ Halpha D hC.alpha := Subgroup.map_subtype_le _
-  have hTGp : IsPGroup 2 TG := T.isPGroup'.map _
+  have hTGp : IsPGroup 2 TG := T.isPGroup.map _
   have hvX : v ∈ X := ⟨Subgroup.mem_map_of_mem _ (hvT (Subgroup.mem_zpowers _)), hvD⟩
   have hβX : β ⊆ X := hblock β hβ v hvβ hvX
   have hαc : ∀ a ∈ hC.alpha, ∀ b ∈ hC.alpha, Commute a b := by
@@ -760,11 +760,11 @@ private theorem false_of_not_mem (zf : ZFacts hC z) (hH : Th91Hyp D hC) (hzD : z
   have hγXβ : γ ⊆ X \ β := fun y hy =>
     ⟨hblock γ hγ w hwγ hwX hy, hdisj hγ hβ hwγ hwβ y hy⟩
   have hXβcard : (X \ β).ncard = X.ncard - hC.alpha.ncard := by
-    rw [Set.ncard_diff hβX, hb hβ]
+    rw [Set.ncard_sdiff hβX, hb hβ]
   have hβle : hC.alpha.ncard ≤ X.ncard := hb hβ ▸ Set.ncard_le_ncard hβX
   have hγle : hC.alpha.ncard ≤ (X \ β).ncard := hb hγ ▸ Set.ncard_le_ncard hγXβ
   have hrest : ((X \ β) \ γ).ncard = (X \ β).ncard - hC.alpha.ncard := by
-    rw [Set.ncard_diff hγXβ, hb hγ]
+    rw [Set.ncard_sdiff hγXβ, hb hγ]
   have h3b : 3 * hC.alpha.ncard ≤ X.ncard := by
     rcases ((X \ β) \ γ).eq_empty_or_nonempty with he | ⟨w', ⟨hw'X, hw'β⟩, hw'γ⟩
     ·

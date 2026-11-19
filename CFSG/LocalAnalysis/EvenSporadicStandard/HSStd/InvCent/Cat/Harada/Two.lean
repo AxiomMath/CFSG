@@ -19,7 +19,7 @@ theorem catHaradaTwoAS_of_parts (hleaf : FivePumpLeaf) (h4 : CatCentFour)
     (hM12 : NoTwoCfgM12) : CatHaradaTwoAS := by
   intro G _ _ S hSn hS hnab hcat hcent t v ht hv J hJ hdisj hcomm hC hCv hCtv
   have h : TwoCfg t v J := ⟨ht, hv, hJ, hdisj, hcomm, hC, hCv, hCtv⟩
-  haveI := hSn
+  have := hSn
   rcases fivePumpOutcome_two hleaf h4 hSn hS hnab hcat hcent h with ⟨m, hm, hm7, ⟨θ⟩⟩ | hnon
   · exact alt_arm_two hSn hcent h hm hm7 θ (derived_le_of_two h4 hSn hS hnab hcat hcent h)
   · have hder := derived_le_of_two h4 hSn hS hnab hcat hcent h

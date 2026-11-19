@@ -1294,7 +1294,7 @@ private theorem D_min_of_card_two {V : Type} [CommGroup V] [Finite V]
       have : Nat.card D = 1 := by rw [h]; simp
       omega
     · intro U hUne hUinv hUle
-      obtain ⟨u, hu, hu1⟩ := SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hUne)
+      obtain ⟨u, hu, hu1⟩ := _root_.IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr hUne)
       have hnt : Nontrivial ↥U :=
         ⟨⟨⟨u, hu⟩, ⟨1, U.one_mem⟩, fun h => hu1 (by simpa using congrArg Subtype.val h)⟩⟩
       have h1 : 1 < Nat.card U := Finite.one_lt_card
@@ -1395,7 +1395,7 @@ private theorem isIrrSec_of_isIrrSec_sup_abstract {V : Type} [CommGroup V] [Fini
     have hL : L ⊔ A = L := by rw [hAbot, sup_bot_eq]
     rw [hL] at hirr
     exact hirr
-  · obtain ⟨a, ha, ha1⟩ := SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hAbot)
+  · obtain ⟨a, ha, ha1⟩ := _root_.IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr hAbot)
     have ha1' : a ≠ 1 := fun h => ha1 (by simp [h])
     have ha2 : a * a = 1 := by simpa [pow_two] using hA.2 a ha
     have hXa : IsMinInv L (X.map a.toMonoidHom) := IsMinInv.map (a := a) hX (hAL ha)

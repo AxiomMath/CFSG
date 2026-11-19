@@ -62,7 +62,7 @@ theorem mem_cenIn {U : Subgroup V} {g : P} : g ∈ cenIn ρ U ↔ ∀ u ∈ U, �
 
 theorem mem_commIn {c : P} {U : Subgroup V} {w : V} :
     w ∈ commIn ρ c U ↔ ∃ u ∈ U, ρ c u * u⁻¹ = w := by
-  simp [commIn, Subgroup.mem_map, MonoidHom.div_apply, div_eq_mul_inv]
+  simp [commIn, Subgroup.mem_map, div_eq_mul_inv]
 
 theorem fixIn_le (K : Subgroup P) (U : Subgroup V) : fixIn ρ K U ≤ U := fun _ h => h.1
 
@@ -73,7 +73,7 @@ theorem le_fixer_of_mem_fixIn {K : Subgroup P} {U : Subgroup V} {u : V}
     (hu : u ∈ fixIn ρ K U) : K ≤ fixer ρ u := fun g hg => hu.2 g hg
 
 theorem mem_fixIn_of_le_fixer {K : Subgroup P} {U : Subgroup V} {u : V} (hu : u ∈ U)
-    (h : K ≤ fixer ρ u) : u ∈ fixIn ρ K U := ⟨hu, fun g hg => h hg⟩
+    (h : K ≤ fixer ρ u) : u ∈ fixIn ρ K U := ⟨hu, fun _g hg => h hg⟩
 
 theorem mem_stabIn_of [Finite V] {g : P} {U : Subgroup V} (h : ∀ u ∈ U, ρ g u ∈ U) :
     g ∈ stabIn ρ U := by
@@ -174,14 +174,17 @@ variable [Finite P] [Finite V] {L A S L₀ : Subgroup P} {U : Subgroup V}
   (hgen : ∀ W : Subgroup V, W ≤ U → L ≤ stabIn ρ W → fixIn ρ A U ≤ W → W = U)
 
 include hS hAS in
+omit [Finite P] in
 theorem A_le_L : A ≤ L := (le_sup_left.trans hAS).trans hS.1
 
 include hS hAS in
+omit [Finite P] in
 theorem conjSub_A_le {g : P} (hg : g ∈ L) : B6.conjSub g A ≤ L := by
   have := (B6.conjSub g).monotone (A_le_L hS hAS)
   rwa [conjSub_eq_self (Subgroup.le_normalizer hg)] at this
 
 include hS hAS hmin in
+omit [Finite P] in
 theorem le_of_gen {g c : P} (hg : g ∈ L) (hcA : c ∈ A) (hc : c ∉ B6.conjSub g L₀)
     {K : Subgroup P} (h1 : B6.conjSub g A ≤ K) (h2 : c ∈ K) (h3 : pCoreOf 2 L ≤ K) : L ≤ K := by
   have hAL := A_le_L hS hAS
@@ -200,6 +203,7 @@ theorem le_of_gen {g c : P} (hg : g ∈ L) (hcA : c ∈ A) (hc : c ∉ B6.conjSu
   exact sup_le (sup_le h1 (Subgroup.zpowers_le.mpr h2)) h3
 
 include hS hAS hmin hUL hO hquad hgen in
+omit [Finite P] in
 theorem sup_commIn_eq {g c : P} (hg : g ∈ L) (hcA : c ∈ A) (hc : c ∉ B6.conjSub g L₀) :
     fixIn ρ (B6.conjSub g A) U ⊔ commIn ρ c U = U := by
   have hAL := A_le_L hS hAS
@@ -241,16 +245,17 @@ theorem sup_commIn_eq {g c : P} (hg : g ∈ L) (hcA : c ∈ A) (hc : c ∉ B6.co
   exact (hLW hg x).mp (Subgroup.mem_sup_left hgx)
 
 include hS hAS hmin hO in
+omit [Finite V] [Finite P] in
 theorem mem_fixIn_L {g c : P} (hg : g ∈ L) (hcA : c ∈ A) (hc : c ∉ B6.conjSub g L₀) {y : V}
     (hy : y ∈ fixIn ρ (B6.conjSub g A) U) (hcy : ρ c y = y) : y ∈ fixIn ρ L U :=
   mem_fixIn_of_le_fixer hy.1 (le_of_gen hS hAS hmin hg hcA hc (le_fixer_of_mem_fixIn hy) hcy
-    fun o ho => hO ho y hy.1)
+    fun _o ho => hO ho y hy.1)
 
 include hS hAS hmin hUL hO hquad hgen in
 theorem card_eq (hAO : ¬ A ≤ pCoreOf 2 L) :
     Nat.card U * Nat.card (fixIn ρ L U) = Nat.card (fixIn ρ A U) * Nat.card (fixIn ρ A U) := by
   have hAL := A_le_L hS hAS
-  obtain ⟨a, haA, haO⟩ := SetLike.not_le_iff_exists.mp hAO
+  obtain ⟨a, haA, haO⟩ := IsConcreteLE.not_le_iff_exists.mp hAO
   obtain ⟨g, hg, hga⟩ := hmin.exists_not_mem_conjSub hS hAS (hAS (Subgroup.mem_sup_left haA)) haO
   have h := sup_commIn_eq hS hAS hmin hUL hO hquad hgen hg haA hga
   have hU1 : fixIn ρ (B6.conjSub g A) U ⊔ fixIn ρ A U = U := by
@@ -304,7 +309,7 @@ theorem mem_of_comm_mem (hAO : ¬ A ≤ pCoreOf 2 L) {c : P} (hcA : c ∈ A)
   have hAL := A_le_L hS hAS
   set f : V →* V := (ρ c).toMonoidHom / MonoidHom.id V with hf
   have hfx : ∀ v, f v = ρ c v * v⁻¹ := fun v => by
-    simp [hf, MonoidHom.div_apply, div_eq_mul_inv]
+    simp [hf, div_eq_mul_inv]
   set D := fixIn ρ L U with hD
   set X := fixIn ρ A U with hX
   set K := (D.comap f) ⊓ U with hK
@@ -357,7 +362,7 @@ theorem relIndex_mul_card_fixIn_le (hnt : ¬ A ≤ cenIn ρ U) :
     (A ⊓ cenIn ρ U).relIndex A * Nat.card (fixIn ρ A U) ≤ Nat.card U := by
   have hAL := A_le_L hS hAS
   have hAO : ¬ A ≤ pCoreOf 2 L := fun h => hnt (h.trans hO)
-  obtain ⟨a, haA, hac⟩ := SetLike.not_le_iff_exists.mp hnt
+  obtain ⟨a, haA, hac⟩ := IsConcreteLE.not_le_iff_exists.mp hnt
   rw [mem_cenIn] at hac
   push Not at hac
   obtain ⟨x₀, hx₀U, hx₀a⟩ := hac

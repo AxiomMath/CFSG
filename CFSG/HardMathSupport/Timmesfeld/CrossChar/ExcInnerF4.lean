@@ -134,7 +134,7 @@ theorem dvd_sub_one_or_dvd_add_one_of_degCount_F4 {p q : ℕ} (hp : p.Prime) (hp
   have h30 := le_thirty_of_degCount_pos (τ := Tag.F4) (e := e) (by simp) (by omega)
   have he0 : e ≠ 0 := he ▸ orderOf_natCast_ne_zero hp hpq
   have h1 : 1 ≤ e := Nat.pos_of_ne_zero he0
-  interval_cases e <;> first | exact absurd hcnt (by decide) | skip
+  interval_cases e <;> try exact absurd hcnt (by decide)
   · left
     simpa using (dvd_pow_sub_one_iff_orderOf (d := 1) hq he).2 dvd_rfl
   · right

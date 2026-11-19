@@ -10,6 +10,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.LocalAnalysis.RankThree
 
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H E : Subgroup G} {k : ℕ}
 
+omit [Finite G] in
 theorem starImg_xSub (p : ℕ) (M H : Subgroup G) :
     starImg p H (xSub p M H) = centralizer (kStar p M H : Set (StarGroup p H)) := by
   unfold xSub CFSG.AGLEmbedding.d1PlusCore starImg
@@ -34,7 +35,7 @@ theorem sSup_le_centralizer_sSup {X : Type*} [Group X] [Finite X] (A : Subgroup 
 
 private theorem inf_sup_le_of_normal_right {X : Type*} [Group X] {K B D : Subgroup X}
     (hK : K.Normal) (hDB : D ≤ B) : B ⊓ (K ⊔ D) ≤ (B ⊓ K) ⊔ D := by
-  letI := hK
+  let := hK
   intro x hx
   have hxK : x ∈ K ⊔ D := hx.2
   change x ∈ (↑(K ⊔ D) : Set X) at hxK

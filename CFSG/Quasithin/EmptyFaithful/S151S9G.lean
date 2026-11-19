@@ -33,7 +33,7 @@ theorem centMaxProp_ruP :
     CentMaxProp ↥ruP := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S₀ : Subgroup ↥ruP := (ruSylow : Subgroup ↥ruP) with hS₀
-  have hS₀2 : IsPGroup 2 ↥S₀ := ruSylow.isPGroup'
+  have hS₀2 : IsPGroup 2 ↥S₀ := ruSylow.isPGroup
   have hS₀i : ¬ 2 ∣ S₀.index := ruSylow.not_dvd_index
   have hz2 : orderOf ruZ' = 2 := by
     rw [← Subgroup.orderOf_coe]

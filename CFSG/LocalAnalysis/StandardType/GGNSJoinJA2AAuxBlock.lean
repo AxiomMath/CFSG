@@ -87,16 +87,16 @@ theorem nsJA2_false_of_solvable_blockSU_two_one
     (hufd : UnitaryFieldData 2 1 K) (hS1 : 1 ≤ S.card) (hS : S.card ≤ 3)
     (hJq : CFSG.Assembly.IsQuasisimple ↥J)
     (hiJ : J ≤ (TableBUE.blockSU (K := K) (n := 1) S).map ψ) : False := by
-  haveI : Group.IsSolvable ↥((TableBUE.blockSU (K := K) (n := 1) S).map ψ) :=
+  have : Group.IsSolvable ↥((TableBUE.blockSU (K := K) (n := 1) S).map ψ) :=
     WitSU.isSolvable_map_blockSU_two_one hufd ψ hS1 hS
   have hJsolv : Group.IsSolvable ↥J :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hiJ)
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJq.2
-  haveI : Nontrivial ↥J := by
-    haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := IsSimpleGroup.toNontrivial
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJq.2
+  have : Nontrivial ↥J := by
+    have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := IsSimpleGroup.toNontrivial
     exact Function.Surjective.nontrivial
       (QuotientGroup.mk'_surjective (Subgroup.center ↥J))
-  haveI : Group.IsPerfect ↥J := Group.IsPerfect.mk hJq.1
+  have : Group.IsPerfect ↥J := Group.IsPerfect.mk hJq.1
   exact (Group.IsPerfect.not_isSolvable (G := ↥J) hJsolv).elim
 
 theorem nsJA2_exists_triple
@@ -122,7 +122,7 @@ theorem nsJA2_exists_triple
     have heB : e ∈ Bs := hDleBs he
     have hδe : δ e = δwit e heB := by
       simp only [δ]
-      exact dif_pos heB
+      exact dite_eq_left heB
     rw [hδe]
     exact Classical.choose_spec (nsJA2Cover_mem_suPairs h.card
       (Classical.choose_spec (hd e heB)).1 (Classical.choose_spec (hd e heB)).2)
@@ -137,7 +137,7 @@ theorem nsJA2_exists_triple
   have hiJ' : J ≤ Y := hiJ
   have hmem : i ∈ P := LinTorus.self_mem_diagClass (D : Set G) δ i
   by_cases hP2 : P.card ≤ 2
-  · haveI : Nontrivial (Fin (m + 1)) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  · have : Nontrivial (Fin (m + 1)) := Fin.nontrivial_iff_two_le.mpr (by omega)
     obtain ⟨a, b, hab, hPsub⟩ := nsJA2_exists_pair_of_card_le_two hmem hP2
     have hYpair : Y ≤ (ggSuPairBlock K 2 f (m + 1) a b).map ψ := by
       simpa [Y, ψ'] using nsJA2Cover_map_blockSU_le_pairBlock h.card ψ hPsub

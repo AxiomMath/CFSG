@@ -105,7 +105,7 @@ theorem outer_params (hK : Nat.card K = 2 ^ n)
   have hbij : Function.Bijective B := (Module.End.isUnit_iff B).1 hBu
   let φ' : MulAut ↥L := (X1.conjAut L hb).trans (MulAut.conj g0⁻¹)
   have hφ'x : ∀ x, φ' x = g0⁻¹ * X1.conjAut L hb x * g0 := fun x => by
-    simp [φ', MulAut.conj_apply]
+    simp [φ']
   have hf1 : ∀ x : ↥L, D.f (X1.conjAut L hb x) = psiAut L eS hb (D.f x) := by
     intro x
     rw [hDf, hDf, psiAut_mk]
@@ -124,7 +124,7 @@ theorem outer_params (hK : Nat.card K = 2 ^ n)
     rw [e1, e1, hφ'x, map_mul, map_mul]
     have e2 : ρ g0 (ρ g0⁻¹ (B v)) = B v := by
       have := congrArg (fun T : Module.End k (Fin m → k) => T (B v)) hρg1
-      simpa using this
+      simp
     show ρ g0⁻¹ (ρ (X1.conjAut L hb s) (ρ g0 (ρ g0⁻¹ (B v)))) = ρ g0⁻¹ (B (ρ s v))
     rw [e2]
     have := congrArg (fun T : Module.End k (Fin m → k) => T v) (hBρ s)

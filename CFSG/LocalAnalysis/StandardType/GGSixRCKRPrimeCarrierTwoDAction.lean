@@ -29,7 +29,7 @@ theorem rckTwoD_torus_conj_inner
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   let s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   let P := outerOrbitFamily S hT i hs hmin
   let H := rootSpan τ L (componentRoots (rootCharHom a) i)
   let F : ModGL τ L →* ModGL τ L := iterHom S.D.step s

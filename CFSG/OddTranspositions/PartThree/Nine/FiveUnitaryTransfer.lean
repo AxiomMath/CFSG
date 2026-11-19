@@ -327,6 +327,7 @@ private theorem sylow_map_le_centralizer (hL : UnitaryCentralizerData hC T S U n
   rw [hL.centralizer_eq]
   exact le_sup_left
 
+omit [Finite G] in
 private theorem inter_subset_component (hU : DeltaSetup hC T S U)
     (hL : UnitaryCentralizerData hC T S U n L L₀)
     (hΓ : Γ = {d | Reach ((Subgroup.centralizer (L : Set G) : Set G) ∩ D) hC.d d}) :
@@ -343,6 +344,7 @@ private theorem inter_subset_component (hU : DeltaSetup hC T S U)
     (Subgroup.mem_centralizer_iff.mp hU.d_mem_centralizer z hz).symm
   exact reach_of_commute (hD' _ (d_mem_inter hU)) (hD' _ hδ) ((Commute.refl _).mul_right huz)
 
+omit [Finite G] in
 private theorem conj_mem_component (hU : DeltaSetup hC T S U)
     (hL : UnitaryCentralizerData hC T S U n L L₀)
     (hΓ : Γ = {d | Reach ((Subgroup.centralizer (L : Set G) : Set G) ∩ D) hC.d d}) {g : G}
@@ -366,7 +368,7 @@ private theorem conj_mem_of_forall (hV : IsTranslationSubgroup hC S U Y V n) {g 
   · exact fun v hv => hle ⟨v, hv, rfl⟩
   · rintro _ ⟨v, hv, rfl⟩
     exact conj_mem_commutator_of_forall hYg v (hV.le_commutator hv)
-  · exact (S.isPGroup'.to_le hV.le_sylow).map _
+  · exact (S.isPGroup.to_le hV.le_sylow).map _
   · intro z hz
     refine ⟨g⁻¹ * z * g, hV.le (hUg z hz), ?_⟩
     show g * (g⁻¹ * z * g) * g⁻¹ = z
@@ -570,7 +572,7 @@ private theorem mem_sylow_map_of_mem_of_le
     (hcS : c ∈ (S : Subgroup G)) (hcH : c ∈ Halpha D hC.alpha) :
     c ∈ (T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype := by
   have hP : IsPGroup 2 ((S : Subgroup G).subgroupOf (Halpha D hC.alpha)) :=
-    S.isPGroup'.comap_subtype
+    S.isPGroup.comap_subtype
   have hTP : (T : Subgroup (Halpha D hC.alpha)) ≤
       (S : Subgroup G).subgroupOf (Halpha D hC.alpha) := fun t ht => hTgS ⟨t, ht, rfl⟩
   have hc' : (⟨c, hcH⟩ : Halpha D hC.alpha) ∈ (S : Subgroup G).subgroupOf (Halpha D hC.alpha) :=
@@ -967,8 +969,8 @@ theorem normal (hH : Th91Hyp D hC) (h3 : Conclusion9_3 D hC)
   have hXN : Subgroup.centralizer ((S : Set G) ∩ D) ⊔ V ≤
       Subgroup.normalizer ((S : Set G) ∩ D) := sup_le hBN hVN
   have hTgp : IsPGroup 2 ((T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype) :=
-    T.isPGroup'.map _
-  have hVp : IsPGroup 2 V := S.isPGroup'.to_le hV.le_sylow
+    T.isPGroup.map _
+  have hVp : IsPGroup 2 V := S.isPGroup.to_le hV.le_sylow
   have hVTg : V ≤ Subgroup.normalizer
       (((T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype : Subgroup G) :
         Set G) := fun v hv => mem_normalizer_of_forall_conj_mem (hL.sylow_normal v (hVN hv))
@@ -1063,7 +1065,7 @@ theorem sylow_eq_sup (hH : Th91Hyp D hC)
   have hTgS : (T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype ≤ S := by
     have hp : IsPGroup 2 ((T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype ⊔
         (S : Subgroup G) : Subgroup G) :=
-      (T.isPGroup'.map _).to_sup_of_normal_left' S.isPGroup' fun s hs =>
+      (T.isPGroup.map _).to_sup_of_normal_left' S.isPGroup fun s hs =>
         mem_normalizer_of_forall_conj_mem (hL.sylow_normal s (hSN hs))
     exact le_sup_left.trans (S.maximal_isPGroup.2 hp le_sup_right)
   have hdecomp : ∀ s ∈ (S : Subgroup G), ∃ v ∈ V, ∃ c ∈ (S : Subgroup G),
@@ -1138,10 +1140,10 @@ theorem sylow_eq_sup (hH : Th91Hyp D hC)
       fun h => (QuotientGroup.eq_one_iff _).mpr (hinnρ c h)⟩
   have : Finite (MulAut ↥J) :=
     Finite.of_injective (fun f : MulAut ↥J => (f : ↥J → ↥J)) DFunLike.coe_injective
-  have hCSp : IsPGroup 2 ↥CS := S.isPGroup'.to_le inf_le_left
+  have hCSp : IsPGroup 2 ↥CS := S.isPGroup.to_le inf_le_left
   obtain ⟨PA, hPA⟩ :=
     (hCSp.of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective).exists_le_sylow
-  have hπPA : IsPGroup 2 ((PA : Subgroup (MulAut ↥J)).map π) := PA.isPGroup'.map π
+  have hπPA : IsPGroup 2 ((PA : Subgroup (MulAut ↥J)).map π) := PA.isPGroup.map π
   obtain ⟨Ŝ, hŜ⟩ := hπPA.exists_le_sylow
   have := hJB.isCyclic_sylow_outer Ŝ
   have hcycPA : IsCyclic ((PA : Subgroup (MulAut ↥J)).map π) :=
@@ -1161,7 +1163,7 @@ theorem sylow_eq_sup (hH : Th91Hyp D hC)
   set c₀' : ↥CS := ⟨c₀, hc₀S, Subgroup.mem_centralizer_singleton_iff.mpr hc₀u.eq⟩ with hc₀'
   obtain ⟨α₀, hα₀2, hα₀out⟩ := exists_outer_involution_of_benderType hJB
   obtain ⟨γ, -, hγ⟩ := CFSG.GH74.GLS.Bg.Thompson.exists_conj_into_sylow (p := 2)
-    (le_top : Subgroup.zpowers α₀ ≤ ⊤) (isPGroup_zpowers_of_mul_self hα₀2) le_top PA.isPGroup'
+    (le_top : Subgroup.zpowers α₀ ≤ ⊤) (isPGroup_zpowers_of_mul_self hα₀2) le_top PA.isPGroup
     (by rw [Subgroup.relIndex_top_right]; exact PA.not_dvd_index)
   have hα₁PA : γ⁻¹ * α₀ * γ ∈ PA := hγ α₀ (Subgroup.mem_zpowers α₀)
   have hα₁2 : (γ⁻¹ * α₀ * γ) * (γ⁻¹ * α₀ * γ) = 1 := by
@@ -1204,7 +1206,7 @@ theorem sylow_eq_sup (hH : Th91Hyp D hC)
       _ = z * g := by group
   have hRj : IsPGroup 2
       ((PA : Subgroup (MulAut ↥J)).comap (MulAut.conj : ↥J →* MulAut ↥J)) :=
-    PA.isPGroup'.comap_of_ker_isPGroup _ (by rw [hker]; exact IsPGroup.of_bot)
+    PA.isPGroup.comap_of_ker_isPGroup _ (by rw [hker]; exact IsPGroup.of_bot)
   have hR'le : (R' : Subgroup ↥J) ≤
       (PA : Subgroup (MulAut ↥J)).comap (MulAut.conj : ↥J →* MulAut ↥J) := by
     intro r hr
@@ -1328,7 +1330,7 @@ theorem sylow_eq_sup (hH : Th91Hyp D hC)
       exact Subgroup.mul_mem _ (Subgroup.mem_sup_right hbv)
         (Subgroup.mem_sup_left (by simpa using h1))
   obtain ⟨N, hN, hcycN, -, hbN⟩ | ⟨g, hgQ, -, hgC⟩ :=
-    CFSG.GH74.GLS.Bg.Thompson.thompson_transfer_1515 (p := 2) S.isPGroup' S.not_dvd_index
+    CFSG.GH74.GLS.Bg.Thompson.thompson_transfer_1515 (p := 2) S.isPGroup S.not_dvd_index
       (fun t ht q hq => hnorm.2.2.1 t (hSN ht) q hq) hcycS hbS hbQ
       (fun g k hgk => hzS g _ (by rw [pow_mul, pow_two]; exact Subgroup.pow_mem _ hb2 k) hgk)
       (fun g hg _ => hcosets _ hg (by
@@ -1484,7 +1486,7 @@ theorem inter_commutator_eq (hH : Th91Hyp D hC)
     rw [← hze, inv_mul_cancel_left]
     exact Subgroup.mem_sup_right (hV.le hz)
   have hnot : hC.d ∉ commutator G :=
-    not_mem_commutator_of_forall S.isPGroup' S.not_dvd_index hWS
+    not_mem_commutator_of_forall S.isPGroup S.not_dvd_index hWS
       (fun t ht => hnorm.2.1 t (hSN ht)) huS hcard.2.2 hu2 hgen hconj
   refine ⟨le_antisymm ?_ (le_inf hWS hWK), hnot⟩
   rintro x ⟨hxS, hxK⟩

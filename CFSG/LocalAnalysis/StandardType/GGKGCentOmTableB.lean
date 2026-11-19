@@ -86,7 +86,7 @@ theorem spinAction_fix_of_commute_twShortRoot [Finite F] [CharP F 2] {n : ℕ}
   rw [spinMatrix_mulVec] at hAe hAf
   have hν : ν = 1 := by
     have hp := polar_spinAction (quadMinus n F b c) h (eVec n i) (fVec n i)
-    rw [hAe, hAf, polar_smul_left, polar_smul_right, polar_eVec_fVec, if_pos rfl] at hp
+    rw [hAe, hAf, polar_smul_left, polar_smul_right, polar_eVec_fVec, ite_eq_left rfl] at hp
     have h2 : ν ^ 2 = 1 ^ 2 := by rw [one_pow, pow_two]; simpa [smul_eq_mul] using hp
     exact CharTwo.sq_injective h2
   subst hν
@@ -257,7 +257,7 @@ theorem exists_torus_coord [Finite F] [CharP F 2] {G : Type} [Group G] [Finite G
   rw [minusVec_false] at hμ'
   have hμμ : μ * μ' = 1 := by
     have hp' := polar_spinAction (quadMinus 4 F b c) h (eVec 4 k) (fVec 4 k)
-    rw [hμ, hμ', polar_smul_left, polar_smul_right, polar_eVec_fVec, if_pos rfl] at hp'
+    rw [hμ, hμ', polar_smul_left, polar_smul_right, polar_eVec_fVec, ite_eq_left rfl] at hp'
     simpa [smul_eq_mul, mul_comm] using hp'
   have hother : ∀ l, l ≠ k → spinAction _ h (eVec 4 l) = eVec 4 l ∧
       spinAction _ h (fVec 4 l) = fVec 4 l := by

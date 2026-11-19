@@ -23,6 +23,7 @@ variable {A : Subgroup G} {c : G} {L Y₁ Y₂ S : Subgroup G} {b : G} {Lb : Sub
 
 namespace Conf683
 
+omit [Finite G] in
 private theorem odd_orderOf_of_pow_three {j : G} (hj : ∃ k : ℕ, j ^ 3 ^ k = 1) :
     Odd (orderOf j) := by
   obtain ⟨k, hk⟩ := hj
@@ -41,12 +42,14 @@ private theorem omegaOneCenterOf_le_thompsonJ (S : Subgroup G) :
         (CFSG.Quasithin.A4.omegaOneCenterOf_le_centerOf S hz)) s hs)
     (CFSG.Quasithin.A4.sq_eq_one_of_mem_omegaOneCenterOf hz)
 
+omit [Finite G] in
 private theorem oPrimeResidualOf_three_le_of_forall {X H : Subgroup G}
     (h : ∀ x ∈ X, (∃ k : ℕ, x ^ 3 ^ k = 1) → x ∈ H) :
     oPrimeResidualOf 3 X ≤ H := by
   rw [CFSG.GH74.GLS.IVK.Proofs2.Ivk47ab.oPrimeResidualOf_eq_closure' 3 X]
   exact (Subgroup.closure_le H).mpr fun x hx => h x hx.1 hx.2
 
+omit [Finite G] in
 private theorem oPrimeResidualOf_three_le_of_sup {K D P : Subgroup G}
     (hDK : D ≤ K) (hPK : P ≤ K) (hKDP : K ≤ D ⊔ P)
     (hDP : D ≤ Subgroup.normalizer (P : Set G))
@@ -54,7 +57,7 @@ private theorem oPrimeResidualOf_three_le_of_sup {K D P : Subgroup G}
     oPrimeResidualOf 3 K ≤ D := by
   classical
   let Dk : Subgroup ↥K := D.subgroupOf K
-  haveI hDkNormal : Dk.Normal :=
+  have hDkNormal : Dk.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hDK).mpr hKD
   apply oPrimeResidualOf_three_le_of_forall
   intro x hxK hx3
@@ -143,7 +146,7 @@ theorem le_normalizer_thompsonJ₁ (h : Conf683 A c L Y₁ Y₂ S b Lb) :
     rw [hbot, Subgroup.card_bot] at h4
     norm_num at h4
   have hZne : Z ≠ ⊥ := hZne'
-  haveI : Nontrivial ↥Z := (Subgroup.nontrivial_iff_ne_bot Z).mpr hZne
+  have : Nontrivial ↥Z := (Subgroup.nontrivial_iff_ne_bot Z).mpr hZne
   obtain ⟨u, hu1⟩ := exists_ne (1 : ↥Z)
   have huU : (u : G) ∈ Quasithin.omegaOneCenterOf Q₁ := hZ_U u.2
   have hune : b * (u : G) * b⁻¹ * (u : G)⁻¹ ≠ 1 := by
@@ -173,12 +176,12 @@ private theorem eq_of_not_le_pCoreOf (h : Conf683 A c L Y₁ Y₂ S b Lb)
   let Dk : Subgroup ↥Y₂ := D.subgroupOf Y₂
   have hDY₂ : D ≤ Y₂ := (le_of_eq hD).trans inf_le_right
   have hDY₁ : D ≤ Y₁ := (le_of_eq hD).trans inf_le_left
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (↥Y₂ ⧸ CFSG.pCore 2 ↥Y₂) := e.isSimpleGroup
+  have : IsSimpleGroup (↥Y₂ ⧸ CFSG.pCore 2 ↥Y₂) := e.isSimpleGroup
   have hDkNormal : Dk.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hDY₂).mpr hDN
-  haveI : (Dk.map (QuotientGroup.mk' Pk)).Normal :=
+  have : (Dk.map (QuotientGroup.mk' Pk)).Normal :=
     hDkNormal.map _ (QuotientGroup.mk'_surjective Pk)
   have himg_ne : Dk.map (QuotientGroup.mk' Pk) ≠ ⊥ := by
     intro hbot
@@ -452,7 +455,7 @@ private theorem c_not_centralizes_pCoreOf_sup (h : Conf683 A c L Y₁ Y₂ S b L
 private theorem card_le_four_mul_card (h : Conf683 A c L Y₁ Y₂ S b Lb)
     {R R₁ R₂ V X : Subgroup G} (hR : R = CFSG.Open.pCoreOf 2 (Y₂ ⊔ S)) (hR₁R : R₁ ≤ R)
     (hV : V = S ⊓ Subgroup.centralizer ({b} : Set G))
-    (hRlt : R₂ < R₁) (hX₁ : X ≤ R₁)
+    (_hRlt : R₂ < R₁) (hX₁ : X ≤ R₁)
     (hX : X = (R₁ ⊓ Subgroup.centralizer (V : Set G)) ⊔ R₂) :
     Nat.card R₁ ≤ 4 * Nat.card X := by
   classical

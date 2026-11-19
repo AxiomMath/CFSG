@@ -67,14 +67,14 @@ theorem kfO8_model (b c : 𝔽₂) (hbc : ∀ s : 𝔽₂, s ^ 2 + b * s + c ≠
     tailOmegaEquiv (minusTailIsometry 4 𝔽₂ 1 1) (coe_quadMinus 4 𝔽₂ 1 1)
       (commutator_orthogonalGroup_quadMinus (by norm_num) kfO8_hirr)
   refine ⟨⟨(e1.trans e2).trans e3⟩, ?_⟩
-  haveI := isSimpleGroup_statedProj_statedOmega_quadMinus (n := 4) (b := (1 : 𝔽₂)) (c := 1)
+  have := isSimpleGroup_statedProj_statedOmega_quadMinus (n := 4) (b := (1 : 𝔽₂)) (c := 1)
     (by norm_num) kfO8_hirr
   exact MulEquiv.isSimpleGroup e1
 
 private theorem kfParO8_notFive_oTwoP (H : Type) [Group H] [Finite H] :
     ¬ 5 ∣ Nat.card (Sec4.oTwoP 3 H) := by
   intro h5
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 5 h5
   have hy3 : (QuotientGroup.mk' (CFSG.pCore 2 H)) (y : H) ∈ CFSG.pCore 3 (H ⧸ CFSG.pCore 2 H) :=
     y.2
@@ -101,13 +101,13 @@ private theorem kfParO8_notFive_oTwoP (H : Type) [Group H] [Finite H] :
 
 private theorem kfParO8_sylow_top {X : Type} [Group X] [Finite X] (T : Sylow 2 X) :
     IsSylowOf 2 (T : Subgroup X) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
-  exact ⟨le_top, T.isPGroup', by rw [Subgroup.relIndex_top_right]; exact T.not_dvd_index⟩
+  exact ⟨le_top, T.isPGroup, by rw [Subgroup.relIndex_top_right]; exact T.not_dvd_index⟩
 
 private theorem kfParO8_conj_eq_one {X : Type} [Group X] [Finite X] [IsSimpleGroup X]
     (h2 : 2 ^ 12 ∣ Nat.card X) (x : X) (hx : MulAut.conj x = 1) : x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxc : x ∈ Subgroup.center X := by
     rw [Subgroup.mem_center_iff]
     intro g
@@ -119,7 +119,7 @@ private theorem kfParO8_conj_eq_one {X : Type} [Group X] [Finite X] [IsSimpleGro
   · exfalso
     have hdvd : 2 ∣ Nat.card X := (Dvd.intro_left _ (by norm_num : 2 ^ 12 = 2 * 2 ^ 11)).trans h2
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 2 hdvd
-    haveI : (Subgroup.zpowers y).Normal := ⟨fun n hn g => by
+    have : (Subgroup.zpowers y).Normal := ⟨fun n hn g => by
       have hc := Subgroup.mem_center_iff.1 (h ▸ Subgroup.mem_top n) g
       rwa [hc, mul_inv_cancel_right]⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.zpowers y) with h' | h'
@@ -158,7 +158,7 @@ theorem kfParO8_of_data {X : Type} [Group X] [Finite X] (hd : KFParO8Data X)
   set Yh : Subgroup (MulAut X) := (Sec4.oTwoP 3 ↥H).map H.subtype with hYh
   have hYhH : Yh ≤ H := Subgroup.map_subtype_le _
   have hHrange : H ≤ ψ.range := by rintro _ ⟨p, hp, rfl⟩; exact ⟨p, rfl⟩
-  haveI hOn : (Sec4.oTwoP 3 ↥H).Normal := by
+  have hOn : (Sec4.oTwoP 3 ↥H).Normal := by
     unfold Sec4.oTwoP
     infer_instance
   have hYhN : ∀ h ∈ H, ∀ z ∈ Yh, h * z * h⁻¹ ∈ Yh := by
@@ -215,7 +215,7 @@ theorem kfPar_O8m {X : Type} [Group X] [Finite X]
   obtain ⟨b, c, hbc, ⟨e₁⟩⟩ := hX
   obtain ⟨⟨e₂⟩, hsimple⟩ := kfO8_model b c hbc
   let e : X ≃* ↥kfO8G0 := e₁.trans e₂
-  haveI : IsSimpleGroup X := MulEquiv.isSimpleGroup e₁
+  have : IsSimpleGroup X := MulEquiv.isSimpleGroup e₁
   have h2 : 2 ^ 12 ∣ Nat.card X := by
     rw [Nat.card_congr e.toEquiv]
     exact kfO8_two_pow_dvd

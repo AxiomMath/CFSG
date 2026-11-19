@@ -123,9 +123,9 @@ private theorem CFSG.section11_A_isPGroup
     {M A0 A : Subgroup G} {p : Nat.Primes} {P : Sylow p.val M}
     (h11 : section11Data M A0 A p P) :
     IsPGroup p.val A := by
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases h11.A_rank_two with ⟨_hAcard, hAelem⟩
-  letI : IsElementaryAbelian p.val A := hAelem
+  let : IsElementaryAbelian p.val A := hAelem
   exact IsElementaryAbelian.isPGroup p.val A
 
 omit [IsMinCE G] in
@@ -145,7 +145,7 @@ public theorem CFSG.section11_coprime_A_of_isPiSubgroup_sigma
 
 public theorem CFSG.section11_solvable_of_le_maximal
     {M H : Subgroup G} (hM : M ∈ section9MaximalSubgroups G) (hHM : H ≤ M) :
-    IsSolvable H := by
+    Group.IsSolvable H := by
   have hHproper : H ≠ ⊤ := by
     intro hHtop
     exact hM.1 (top_unique (by simpa [hHtop] using hHM))
@@ -159,8 +159,8 @@ public theorem CFSG.section11_le_normalizer_map_of_isInvariant
     IsInvariant (↥A) (↥H) K →
     A ≤ Subgroup.normalizer (K.map H.subtype : Set G) := by
   intro hKinv
-  haveI : Subgroup.Normalizes A H := ⟨hAH⟩
-  letI : IsInvariant (↥A) (↥H) K := hKinv
+  have : Subgroup.Normalizes A H := ⟨hAH⟩
+  let : IsInvariant (↥A) (↥H) K := hKinv
   refine subgroup_le_normalizer_of_conj_mem (K.map H.subtype) A ?_
   intro a x hx
   rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
@@ -223,7 +223,7 @@ private theorem CFSG.section11_isInvariant_subgroupOf_of_le_normalizer
     (_hKH : K ≤ H) :
     haveI : Subgroup.Normalizes A H := ⟨hAH⟩
     IsInvariant (↥A) (↥H) (K.subgroupOf H) := by
-  haveI : Subgroup.Normalizes A H := ⟨hAH⟩
+  have : Subgroup.Normalizes A H := ⟨hAH⟩
   refine ⟨?_⟩
   intro a x
   change ((x : H) : G) ∈ K ↔ ((a : G) * ((x : H) : G) * (a : G)⁻¹) ∈ K
@@ -233,7 +233,7 @@ private theorem CFSG.section11_sylow_of_hall_singleton
     {H : Type*} [Group H] [Finite H] {q : Nat.Primes} (R : Subgroup H)
     (hRHall : IsHallSubgroup ({q} : Set Nat.Primes) R) :
     ∃ Q : Sylow q.val H, (Q : Subgroup H) = R := by
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   have hRπ : IsPiSubgroup (G := H) ({q} : Set Nat.Primes) R :=
     hRHall.p_in_pi_of_p_dvd_card
   have hRp : IsPGroup q.val R :=
@@ -318,10 +318,10 @@ public theorem CFSG.corollary_11_2_a
         (Subgroup.inf_normalizer_le_normalizer_inf :
           Subgroup.normalizer (K : Set G) ⊓ Subgroup.normalizer (Kg : Set G) ≤
             Subgroup.normalizer ((K ⊓ Kg : Subgroup G) : Set G))
-  haveI : Subgroup.Normalizes A K := ⟨hA_norm_K⟩
-  haveI : Subgroup.Normalizes A Kg := ⟨hA_norm_Kg⟩
-  haveI : Subgroup.Normalizes A J := ⟨hA_norm_J⟩
-  have hsolvJ : IsSolvable J :=
+  have : Subgroup.Normalizes A K := ⟨hA_norm_K⟩
+  have : Subgroup.Normalizes A Kg := ⟨hA_norm_Kg⟩
+  have : Subgroup.Normalizes A J := ⟨hA_norm_J⟩
+  have hsolvJ : Group.IsSolvable J :=
     section11_solvable_of_le_maximal h11.maximal (hJ_le_K.trans hK_le_M)
   have hcopJ : Nat.Coprime (Nat.card A) (Nat.card J) :=
     section11_coprime_A_of_isPiSubgroup_sigma h11 hJσ
@@ -360,7 +360,7 @@ public theorem CFSG.corollary_11_2_a
     simpa [R0G] using
       section11_le_normalizer_map_of_isInvariant
         (A := A) (H := J) (K := R0sub) hA_norm_J hR0inv
-  have hsolvK : IsSolvable K :=
+  have hsolvK : Group.IsSolvable K :=
     section11_solvable_of_le_maximal h11.maximal hK_le_M
   have hcopK : Nat.Coprime (Nat.card A) (Nat.card K) :=
     section11_coprime_A_of_isPiSubgroup_sigma h11 hKσ
@@ -395,7 +395,7 @@ public theorem CFSG.corollary_11_2_a
     have hxQ1 : (⟨x, hR0G_le_K hx⟩ : K) ∈ (Q1 : Subgroup K) := by
       simpa [hQ1eq] using hxR1
     exact Subgroup.mem_map.mpr ⟨⟨x, hR0G_le_K hx⟩, hxQ1, rfl⟩
-  have hsolvKg : IsSolvable Kg :=
+  have hsolvKg : Group.IsSolvable Kg :=
     section11_solvable_of_le_maximal (section11_maximal_conjBy h11.maximal g) hKg_le_Mg
   have hcopKg : Nat.Coprime (Nat.card A) (Nat.card Kg) :=
     section11_coprime_A_of_isPiSubgroup_sigma h11 hKgσ

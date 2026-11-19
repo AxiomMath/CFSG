@@ -173,7 +173,7 @@ theorem ree_exists_hall_torus
     | false =>
       right
       rw [hp3]
-      simp only [Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       rw [Nat.sub_add_cancel (three_pow_succ_le_q k hk)]
     | true =>
       left

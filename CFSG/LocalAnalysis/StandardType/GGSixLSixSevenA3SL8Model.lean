@@ -31,10 +31,10 @@ theorem rootMat_apply_of_card_two (hK : Nat.card K = 2) {g : K[X]} [Fact (Irredu
       rcases h01 ((1 : K) + 1) with h | h
       · exact h
       · exfalso
-        exact one_ne_zero ((add_left_cancel_iff (a := (1 : K))).mp (by simpa using h))
+        exact one_ne_zero ((add_left_cancel_iff (a := (1 : K))).mp (by simp at h))
     rw [← one_add_one_eq_two]
     exact h11
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   have hgen : (rootPB g).gen = AdjoinRoot.root g := by
     rw [rootPB, AdjoinRoot.powerBasis_gen]
   have hgd : g.natDegree = 2 := by
@@ -83,18 +83,18 @@ theorem rootMat_apply_of_card_two (hK : Nat.card K = 2) {g : K[X]} [Fact (Irredu
   rcases hb01 with hb | hb <;> rcases ha01 with ha | ha
   · have hb' : (b : ℕ) + 1 ≠ (rootPB g).dim := by omega
     have ha' : (a : ℕ) ≠ (b : ℕ) + 1 := by omega
-    rw [if_neg hb', if_neg ha']
+    rw [ite_eq_right hb', ite_eq_right ha']
     simp [hb, ha]
   · have hb' : (b : ℕ) + 1 ≠ (rootPB g).dim := by omega
     have ha' : (a : ℕ) = (b : ℕ) + 1 := by omega
-    rw [if_neg hb', if_pos ha']
+    rw [ite_eq_right hb', ite_eq_left ha']
     simp [hb, ha]
   · have hb' : (b : ℕ) + 1 = (rootPB g).dim := by omega
-    rw [if_pos hb']
-    simp [hb, ha, hgc0, hgc1, CharTwo.neg_eq]
+    rw [ite_eq_left hb']
+    simp [hb, ha, hgc0, CharTwo.neg_eq]
   · have hb' : (b : ℕ) + 1 = (rootPB g).dim := by omega
-    rw [if_pos hb']
-    simp [hb, ha, hgc0, hgc1, CharTwo.neg_eq]
+    rw [ite_eq_left hb']
+    simp [hb, ha, hgc1, CharTwo.neg_eq]
 
 end Companion
 
@@ -102,6 +102,7 @@ section Model
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 lemma omMat_apply (c : ZMod 2 →+* K) (a : Fin 4) (x y : Fin 2) (b cc : Fin 4) :
     c (GGA3.omMat a.val (finProdFinEquiv (b, x)) (finProdFinEquiv (cc, y))) =
       if b = cc then (if b = a then (if x.val = 0 ∧ y.val = 0 then 0 else 1)
@@ -160,15 +161,15 @@ theorem exists_hom_eq_nsSL {n e s r : ℕ} (hn : n = 8) (he : e = 2) (hs : s = 4
             (ε.symm (Sum.inl (x, σe b))) (ε.symm (Sum.inl (y, σe cc))) = _
         simp only [SLNS.nsMat, Matrix.submatrix_apply, Equiv.apply_symm_apply]
         rw [SLNS.nsCore, Matrix.fromBlocks_apply₁₁, Matrix.blockDiagonal_apply]
-        simp only [Prod.snd, Prod.fst, Equiv.apply_eq_iff_eq, σe, Equiv.ofBijective_apply,
+        simp only [σe, Equiv.ofBijective_apply,
           hσ.eq_iff]
       rw [hL, hR, omMat_apply c ⟨a, ha⟩ x y b cc]
       by_cases hbc : b = cc
-      · rw [if_pos hbc, if_pos hbc]
+      · rw [ite_eq_left hbc, ite_eq_left hbc]
         by_cases hba : b = ⟨a, ha⟩
         · simp [hba, hCa]
         · simp [hba, Matrix.one_apply]
-      · rw [if_neg hbc, if_neg hbc]
+      · rw [ite_eq_right hbc, ite_eq_right hbc]
     · exact j'.elim0
   · exact j.elim0
 

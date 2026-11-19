@@ -32,7 +32,7 @@ theorem exists_subgroup
   let _ : CommGroup Q := IsCyclic.commGroup
   have hQp : IsPGroup 2 Q := by
     rw [← hS]
-    exact S.isPGroup'.map (fixingSubgroup G (fixedPoints Q X)).subtype
+    exact S.isPGroup.map (fixingSubgroup G (fixedPoints Q X)).subtype
   have hIp : IsPGroup 2 (Inside Q) := hQp.comap_subtype
   have hIC : Inside Q ≤ (Subgroup.centralizer (Q : Set G)).subgroupOf (Normalizer Q) := by
     intro q hq

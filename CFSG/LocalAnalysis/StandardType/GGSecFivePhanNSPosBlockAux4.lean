@@ -16,7 +16,7 @@ open scoped MatrixGroups
 theorem ggNSPosPB2_map_mem_hyperplane {K : Type} [Field K] [Finite K] [CharP K 2] {f n : ℕ}
     {p : ℕ} {G : Type} [Group G] [Finite G]
     {B Bs : Subgroup G} {ψ : Su K 2 f n →* G} (h : GGNSLocalHyp p B Bs K f n ψ)
-    (hd : GGActsDiagonally (p := 2) (f := f) ψ Bs) (a b : Fin n) (hab : a ≠ b)
+    (hd : GGActsDiagonally (p := 2) (f := f) ψ Bs) (a b : Fin n) (_hab : a ≠ b)
     (r : MulAut ↥Bs)
     (hr : ∀ s : ↥Bs, ((r s : ↥Bs) : G) =
       ψ (ggPermSU (Equiv.swap a b)) * (s : G) * (ψ (ggPermSU (Equiv.swap a b)))⁻¹)
@@ -189,13 +189,13 @@ theorem ggNSPosPB2_pow_mem_block {K : Type} [Field K] [Finite K] [CharP K 2] {f 
     · exact hja' hja
   by_cases hij' : i = j
   · subst hij'
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have hiab : i ≠ a ∧ i ≠ b := by
       rcases hij with h | h
       · exact h
       · exact h
     rw [hp_diag i hiab.1 hiab.2, hdiag i hiab.1 hiab.2]
-  · rw [if_neg hij', hp_off i j hij' h1 h2]
+  · rw [ite_eq_right hij', hp_off i j hij' h1 h2]
 
 theorem ggNSPosPB2_pow_eq_one_of_diag {K : Type} [Field K] [Finite K] [CharP K 2] {f n p : ℕ}
     {t : Su K 2 f n} {d : Fin n → K}
@@ -216,7 +216,7 @@ theorem ggNSPosPB2_twoElt_mem_map {K : Type} [Field K] [Finite K] [CharP K 2] {f
     {y : G} (hy : y ∈ ψ.range ⊓ Subgroup.centralizer (ggHyperplane Bs r : Set G))
     {k : ℕ} (hyk : y ^ (2 ^ k) = 1) :
     y ∈ (ggSuPairBlock K 2 f n a b).map ψ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨hyR, hyC⟩ := Subgroup.mem_inf.mp hy
   obtain ⟨x, rfl⟩ := MonoidHom.mem_range.mp hyR
   have hx2 : x ^ (2 ^ k) ∈ Subgroup.center (Su K 2 f n) :=

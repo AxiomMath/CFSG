@@ -51,8 +51,8 @@ theorem plumbing {Γ U : Type} [Group Γ] [Group U] [Finite U] [MulDistribMulAct
       ∀ (γ : Γ) (u : U), Multiplicative.toAdd (β (γ • u)) =
         (α₂ (α₀ γ) : Matrix (Fin 2) (Fin 2) F4).mulVec (Multiplicative.toAdd (β u))) := by
   classical
-  letI : CommGroup U := { ‹Group U› with mul_comm := hcomm }
-  haveI : Z.Normal := Subgroup.normal_of_comm Z
+  let : CommGroup U := { ‹Group U› with mul_comm := hcomm }
+  have : Z.Normal := Subgroup.normal_of_isMulCommutative Z
   let φ : Γ → (U ⧸ Z) →* (U ⧸ Z) := fun γ =>
     QuotientGroup.map Z Z (MulDistribMulAction.toMonoidHom U γ) (fun z hz => hZfix γ z hz)
   have hφ : ∀ (γ : Γ) (u : U), φ γ (QuotientGroup.mk u) = QuotientGroup.mk (γ • u) :=
@@ -66,7 +66,7 @@ theorem plumbing {Γ U : Type} [Group Γ] [Group U] [Finite U] [MulDistribMulAct
     exact ⟨u, by simp only [mkW, hu]; rfl⟩
   have hmkW_zero : ∀ u : U, mkW u = 0 ↔ u ∈ Z := fun u => QuotientGroup.eq_one_iff u
   have hmkW_eq : ∀ u u' : U, mkW u = mkW u' ↔ u⁻¹ * u' ∈ Z := fun u u' => QuotientGroup.eq
-  letI actΓ : DistribMulAction Γ (Additive (U ⧸ Z)) :=
+  let actΓ : DistribMulAction Γ (Additive (U ⧸ Z)) :=
     { smul := fun γ w => Additive.ofMul (φ γ (Additive.toMul w))
       one_smul := fun w => by
         obtain ⟨u, rfl⟩ := hmkW_surj w
@@ -86,18 +86,18 @@ theorem plumbing {Γ U : Type} [Group Γ] [Group U] [Finite U] [MulDistribMulAct
     have := Z.inv_mem (htriv γ hγ u)
     simpa [_root_.mul_inv_rev, hcomm] using this
   obtain ⟨instA, hinstA⟩ := exists_A5_action α₀ hs hk
-  letI := instA
+  let := instA
   have h2nsmul : ∀ w : Additive (U ⧸ Z), (2 : ℕ) • w = 0 := fun w => by
     obtain ⟨u, rfl⟩ := hmkW_surj w
     rw [two_nsmul, ← hmkW_mul, hexp, hmkW_one]
-  letI : Module (ZMod 2) (Additive (U ⧸ Z)) := AddCommGroup.zmodModule h2nsmul
+  let : Module (ZMod 2) (Additive (U ⧸ Z)) := AddCommGroup.zmodModule h2nsmul
   have hsc : ∀ (g : A5) (c : ZMod 2) (w : Additive (U ⧸ Z)), g • c • w = c • g • w := by
     intro g c w
     have e1 : ∀ x : Additive (U ⧸ Z), c • x = c.val • x := fun x => by
       rw [← Nat.cast_smul_eq_nsmul (ZMod 2) c.val x, ZMod.natCast_zmod_val]
     rw [e1, e1]
     exact ((DistribSMul.toAddMonoidHom (Additive (U ⧸ Z)) g).map_nsmul c.val w)
-  haveI : SMulCommClass A5 (ZMod 2) (Additive (U ⧸ Z)) := ⟨hsc⟩
+  have : SMulCommClass A5 (ZMod 2) (Additive (U ⧸ Z)) := ⟨hsc⟩
   have hsimple : IsSimpleMod (Additive (U ⧸ Z)) := by
     intro S hS
     let K : Subgroup U :=
@@ -168,7 +168,7 @@ theorem plumbing {Γ U : Type} [Group Γ] [Group U] [Finite U] [MulDistribMulAct
     obtain ⟨w, hw⟩ := hf (Multiplicative.toAdd x)
     obtain ⟨u, rfl⟩ := hmkW_surj w
     exact ⟨u, by show Multiplicative.ofAdd (f (mkW u)) = x; rw [hw]; rfl⟩
-  letI instEW : AddCommGroup ↥(evenWeight 5) := AddSubgroup.toAddCommGroup _
+  let instEW : AddCommGroup ↥(evenWeight 5) := AddSubgroup.toAddCommGroup _
   rcases classify hsimple hact' with ⟨φ, hφ⟩ | ⟨ω, hωc, hωs, hωc16⟩
   · left
     refine ⟨mkβ (X := ↥(evenWeight 5)) φ.toAddMonoidHom, hβsurj (X := ↥(evenWeight 5)) _ φ.surjective,

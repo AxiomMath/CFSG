@@ -22,7 +22,7 @@ theorem exists_sylow_quotient_mulEquiv {L : Type*} [Group L] [Finite L] (Z : Sub
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply, QuotientGroup.mk'_apply,
       QuotientGroup.eq_one_iff] at hx
     rw [Subgroup.mem_bot]
-    obtain ⟨k, hk⟩ := P.isPGroup' x
+    obtain ⟨k, hk⟩ := P.isPGroup x
     have h1 : orderOf (x : L) ∣ 2 ^ k :=
       orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hk)
     have h2 : orderOf (x : L) ∣ Nat.card Z := Subgroup.orderOf_dvd_natCard Z hx
@@ -75,7 +75,7 @@ theorem not_isCyclic_sylow_two {G : Type*} [Group G] [Finite G] [IsSimpleGroup G
         exact absurd (Nat.le_of_dvd (by norm_num) this) (by norm_num)
       exact hns (CFSG.FeitThompson.isSolvable_of_odd_natCard G hodd)
   refine ⟨hcyc, ?_⟩
-  obtain ⟨k, hk⟩ := Q.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := Q.isPGroup.exists_card_eq
   rw [hk]
   rcases Nat.lt_or_ge k 2 with hk2 | hk2
   · exfalso

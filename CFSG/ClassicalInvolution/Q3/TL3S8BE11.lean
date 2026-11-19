@@ -35,7 +35,7 @@ theorem mem_centralizerModOdd_of_mem_centralizer {c : G} (hcS : c ∈ (S : Subgr
   refine ⟨Subgroup.mem_top c, hcL, mem_normalizer_oddCoreOf_of_mem_normalizer hcL,
     fun l hl => ?_⟩
   exact Sec6Gen.centSylow hd.tight.hypGen hd.memL hRL
-    (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hcS))
+    (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hcS))
     (fun y hy => mem_normalizer_iff_conjSub_eq.mp ((Subgroup.zpowers_le.mpr hcL) hy))
     (fun r hr v hv => Subgroup.mem_centralizer_iff.mp ((Subgroup.zpowers_le.mpr hc) hv) r hr)
     l hl c (Subgroup.mem_zpowers c)

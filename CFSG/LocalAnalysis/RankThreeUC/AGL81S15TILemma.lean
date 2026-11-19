@@ -133,7 +133,7 @@ theorem tiPair_le_normalizer_sup {K P Q : Subgroup G} (hPK : P ≤ K)
     · rw [mem_comap]
       have hw := tiPair_commutator_mem hPK hP hQ tiQ hv.1 hv.2 haP
       have h1 : (MulAut.conj a).toMonoidHom v = v * (v⁻¹ * a * v * a⁻¹) := by
-        simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+        simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
         group
       rw [h1]
       exact mul_mem (mem_sup_right hv) (mem_sup_left hw)
@@ -157,7 +157,7 @@ theorem normalizer_of_TI_pair {H A B : Subgroup G} (hH : IsPGroup 2 H) (hAH : A 
     fun h hh x hx hx1 hc => tiPair_mem_normalizer_of_commute hTIB (hKH hh) hx hx1 hc
   by_cases hBA : B ≤ normalizer (A : Set G)
   · exact sup_le le_normalizer hBA
-  obtain ⟨b, hbB, hbA⟩ := SetLike.not_le_iff_exists.mp hBA
+  obtain ⟨b, hbB, hbA⟩ := IsConcreteLE.not_le_iff_exists.mp hBA
   have hAB : ∀ x ∈ A, x ∈ B → x = 1 := by
     intro x hxA hxB
     by_contra hx1

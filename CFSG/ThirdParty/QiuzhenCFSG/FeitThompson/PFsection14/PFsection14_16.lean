@@ -820,7 +820,7 @@ public theorem section14_tauL1_phi_diff_conjugate_betaL_tau_scalar_of_hypothesis
   have hφchar : Section1.IsCharacter φ :=
     Section12.isCharacter_of_isIrreducibleCharacterOnGroup hφirr
   have hrel_ne : (H.relIndex L : ℂ) ≠ 0 := by
-    haveI : (H.subgroupOf L).FiniteIndex := inferInstance
+    have : (H.subgroupOf L).FiniteIndex := inferInstance
     have hrel : H.relIndex L ≠ 0 := by
       simpa [Subgroup.relIndex] using
         (Subgroup.FiniteIndex.index_ne_zero (H := H.subgroupOf L))
@@ -844,7 +844,7 @@ public theorem section14_tauL1_phi_diff_conjugate_betaL_tau_scalar_of_hypothesis
     have hne : Section1.conjugateCharacter φ ≠ φ := by
       intro h
       exact hφ_ne_bar h.symm
-    rw [if_neg hne] at hraw
+    rw [ite_eq_right hne] at hraw
     simpa [hφbar_one_div] using hraw
   have hβdiff_right :
       Section1.scalarProduct G (τL βL)
@@ -901,7 +901,7 @@ public theorem section14_hypothesis_14_10_data_of_hypothesis_14_3
       _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT, _hNotation, _hDadeDiff,
       _hZeroDegree, _hConjIndex, _hConjBetaTau, hChoice,
       hMin, _hFourSixS, _hFourSixT⟩
-  haveI : IsMinCE G := hMin
+  have : IsMinCE G := hMin
   rcases h143 with
     ⟨hLmax, hNormUleL, hHMF, hTypeI, hDadeL, hPunctL,
       h52L, hExtL, hφmem, hφirr, hφdeg, _hβS, _hβT,
@@ -998,7 +998,7 @@ public theorem section14_theorem_14_16_case_b_l_support_coherence_source_bridge
       _hUcard, _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT,
       _hNotation, _hDadeDiff, _hZeroDegree, _hConjIndex, _hConjBetaTau,
       _hChoice, hMin, _hFourSixS, _hFourSixT⟩
-  haveI : IsMinCE G := hMin
+  have : IsMinCE G := hMin
   rcases heta with
     ⟨ωNat0, ηNat0, μ, ν, μsum, νsum, δ, δ', σ, hnotation, hηFin⟩
   have hnotation_saved := hnotation

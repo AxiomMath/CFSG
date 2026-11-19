@@ -122,7 +122,7 @@ theorem natCard_pCore_eq_of_isNilpotent_sigmaCore [IsSimpleGroup G]
   have : ((P : Subgroup ↥S)).Characteristic := P.characteristic_of_normal hPnormal
   have hmapn : ((P : Subgroup ↥S).map S.subtype).Normal :=
     normal_map_subtype_of_characteristic S _
-  have hmapp : IsPGroup q ↥((P : Subgroup ↥S).map S.subtype) := P.isPGroup'.map _
+  have hmapp : IsPGroup q ↥((P : Subgroup ↥S).map S.subtype) := P.isPGroup.map _
   have hmapc : Nat.card ↥((P : Subgroup ↥S).map S.subtype)
       = q ^ (Nat.card ↥L).factorization q := by
     rw [Subgroup.card_subtype, P.card_eq_multiplicity,

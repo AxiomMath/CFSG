@@ -129,7 +129,7 @@ theorem two_local_lift {G : Type} [Group G] [Finite G] {J D : Subgroup G} (hD : 
     (hw : I1430TwoLocal (PQuot 3 J) r) :
     r + 2 ≤ GLATwoLocalRank 3 G + CFSG.Open.pRank 3 (Subgroup.center (PQuot 3 J)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   obtain ⟨U, E₀, hU, hU2, hEU, hE₀, hE₀card⟩ := hw
   set π : ↥J →* PQuot 3 J := QuotientGroup.mk' (GLAPPrimeCore 3 ↥J) with hπ

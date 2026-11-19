@@ -13,6 +13,7 @@ variable {G : Type*} [Group G] {K : Type*} [Field K] [Finite K] [CharP K 2]
   {D : D4Datum G K} {X : Type*} [AddCommGroup X] [Module K X] {ρ : Representation K G X}
   {C : Finset (Fin 4 → ZMod (Nat.card Kˣ))} {σ : ZMod (Nat.card Kˣ)}
 
+omit [Finite K] [CharP K 2] in
 theorem rootOp_ne_mem (hC : IsSmallClass (Nat.card Kˣ) σ C)
     {a : Fin 4 → ZMod (Nat.card Kˣ)} (ha : a ∈ C) {α : Fin 4 → ℤ} (hα : IsD4Root α)
     (h1 : a + castW (Nat.card Kˣ) α ∈ C) :
@@ -20,7 +21,7 @@ theorem rootOp_ne_mem (hC : IsSmallClass (Nat.card Kˣ) σ C)
   have h1' : a + (1 : ZMod (Nat.card Kˣ)) • castW (Nat.card Kˣ) α ∈ C := by
     simpa using h1
   have hne : (1 : ZMod (Nat.card Kˣ)) ≠ 0 := by
-    haveI := hC.nontrivial
+    have := hC.nontrivial
     exact one_ne_zero
   rcases hC.step a ha α hα 1 hne h1' with h | h
   · have hσ : a + σ • castW (Nat.card Kˣ) α ∈ C := by simpa [h] using h1'
@@ -97,7 +98,7 @@ private theorem odd_choose_two_pred_card_units (hK : 8 ≤ Nat.card K) :
 theorem rootOp_mul_of_odd {α : Fin 4 → ℤ} (hα : IsD4Root α) {i j : ℕ}
     (hij : i + j ≤ Nat.card Kˣ) (hodd : Odd ((i + j).choose i)) :
     rootOp D ρ α i * rootOp D ρ α j = rootOp D ρ α (i + j) := by
-  rw [rootOp_mul D ρ α hα i j, if_pos hij,
+  rw [rootOp_mul D ρ α hα i j, ite_eq_left hij,
     natCast_eq_one_of_odd_of_two_eq_zero hodd CharTwo.two_eq_zero, one_smul]
 
 theorem rootOp_card_eq_zero (hK : 4 ≤ Nat.card K)
@@ -251,7 +252,7 @@ private theorem rootOp_sub_pow_apply_eq_zero {l : ℕ}
   have hαnot : a + (1 : ZMod (Nat.card Kˣ)) • castW (Nat.card Kˣ) α ∉ C := by
     intro hmem
     have h1ne0 : (1 : ZMod (Nat.card Kˣ)) ≠ 0 := by
-      haveI := hC.nontrivial
+      have := hC.nontrivial
       exact one_ne_zero
     rcases hC.step a ha α hα 1 h1ne0 hmem with h | h
     · exact h1ne h
@@ -282,7 +283,7 @@ private theorem rootOp_sub_pow_apply_eq_zero {l : ℕ}
 
 private theorem rootOp_pred_card_apply_eq_zero (hN3 : 3 ≤ Nat.card Kˣ)
     (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥)
-    {a : Fin 4 → ZMod (Nat.card Kˣ)} (ha : a ∈ C) {α : Fin 4 → ℤ} (hα : IsD4Root α)
+    {a : Fin 4 → ZMod (Nat.card Kˣ)} (_ha : a ∈ C) {α : Fin 4 → ℤ} (hα : IsD4Root α)
     {x : X} (hx : x ∈ D.wtSpace ρ a)
     (h2not : a + (2 : ZMod (Nat.card Kˣ)) • castW (Nat.card Kˣ) α ∉ C)
     (hodd : Odd ((Nat.card Kˣ - 1).choose 2)) :
@@ -301,6 +302,7 @@ private theorem rootOp_pred_card_apply_eq_zero (hN3 : 3 ≤ Nat.card Kˣ)
   have h2x : rootOp D ρ α 2 x = 0 := rootOp_apply_eq_zero hCw hα hx h2not
   rw [← hA, Module.End.mul_apply, h2x, map_zero]
 
+omit [CharP K 2] in
 private theorem rootOp_apply_eq_zero_of_ne_pm (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥)
     (hC : IsSmallClass (Nat.card Kˣ) σ C)
     {a : Fin 4 → ZMod (Nat.card Kˣ)} (ha : a ∈ C) {α : Fin 4 → ℤ} (hα : IsD4Root α)
@@ -413,6 +415,7 @@ theorem rho_x_eq_of_eight_le (hK : 8 ≤ Nat.card K)
   simp only [LinearMap.smul_apply, LinearMap.add_apply, Module.End.one_apply]
   exact rootOp_sum_eq_of_small_class hK hCw hl hC hα c ha hx
 
+omit [Finite K] [CharP K 2] in
 theorem card_units_eq_three (hK : Nat.card K = 4) : Nat.card Kˣ = 3 := by
   rw [Nat.card_units, hK]
 
@@ -449,12 +452,12 @@ theorem rootOp_one_mul_one (hK : Nat.card K = 4) {α : Fin 4 → ℤ} (hα : IsD
   have hcoef : (((1 + 1).choose 1 : ℕ) : K) = 0 := by
     norm_num
     exact CharTwo.two_eq_zero
-  rw [rootOp_mul D ρ α hα 1 1, if_pos (by omega), hcoef, zero_smul]
+  rw [rootOp_mul D ρ α hα 1 1, ite_eq_left (by omega), hcoef, zero_smul]
 
 theorem rootOp_two_mul_two (hK : Nat.card K = 4) {α : Fin 4 → ℤ} (hα : IsD4Root α) :
     rootOp D ρ α 2 * rootOp D ρ α 2 = 0 := by
   have hN := card_units_eq_three (K := K) hK
-  rw [rootOp_mul D ρ α hα 2 2, if_neg (by omega), zero_smul]
+  rw [rootOp_mul D ρ α hα 2 2, ite_eq_right (by omega), zero_smul]
 
 theorem rho_x_eq_of_card_eq_four (hK : Nat.card K = 4)
     (hCw : ∀ a, a ∈ C ↔ D.wtSpace ρ a ≠ ⊥)

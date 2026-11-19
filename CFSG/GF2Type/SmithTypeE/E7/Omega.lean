@@ -24,7 +24,7 @@ noncomputable def F :
 
 theorem plusForm_F (v : Fin n ⊕ Fin n → ZMod 2) :
     timmesfeldPlusForm n (F n v) = StatedQuadPlus n (ZMod 2) v := by
-  simp only [timmesfeldPlusForm, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, F]
+  simp only [timmesfeldPlusForm, StatedQuadPlus, F]
   rfl
 
 noncomputable def toGL :
@@ -128,7 +128,7 @@ theorem exists_noncomm_of_fstar_centralizer {M : Type} [Group M] [Finite M] [IsS
     ∃ a b : M, a * b ≠ b * a := by
   by_contra hcomm
   push Not at hcomm
-  letI : CommGroup M := { ‹Group M› with mul_comm := fun a b => hcomm a b }
+  let : CommGroup M := { ‹Group M› with mul_comm := fun a b => hcomm a b }
   have hp : (Nat.card M).Prime := IsSimpleGroup.prime_card
   have hdvd1 : Nat.card (generalizedFitting (Subgroup.centralizer ({t} : Set M))) ∣
       Nat.card (Subgroup.centralizer ({t} : Set M)) := Subgroup.card_subgroup_dvd_card _

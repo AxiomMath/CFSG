@@ -24,7 +24,7 @@ theorem s16h_e3_CycTwoP3M4A_pCoreOf_elemAbelian
     (hW : ¬ ∀ w ∈ wSub V₀ V hV L, w ≠ 1 →
       UniqueMax D.M (D.M ⊓ centralizer ({w} : Set G))) :
     IsElemAbelianOfRank 3 3 ↥(pCoreOf 3 (Mbar D.M V₀ V hV)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hPle, hPn, hPsyl, hPgrp, hPabel⟩ :=
     s16h_e3_CycTwoP3M4AA1AA_normal_sylow_elemAbelian D S hr3 hσ hV h hc hp hLp hχ hs2 hres hp3 hm hW
   have hle : P ≤ pCoreOf 3 (Mbar D.M V₀ V hV) :=

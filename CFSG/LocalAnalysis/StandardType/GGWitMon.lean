@@ -43,7 +43,7 @@ private def wMon_subgroup {p : ℕ} [Fact p.Prime] {U : Type} [AddCommGroup U] [
       have hrepr : c i₂ • f.equivFun (f i₁) = c i₁ • f.equivFun (f i₂) := by
         simpa using congrArg f.equivFun hrel
       have heval := congrArg (fun x : Fin n → ZMod p => x i₁) hrepr
-      simp [Pi.smul_apply, Module.Basis.equivFun_self, smul_eq_mul, Ne.symm hne] at heval
+      simp [Pi.smul_apply, smul_eq_mul, Ne.symm hne] at heval
       exact hc i₂ heval
     intro k
     obtain ⟨i, hi⟩ := (Finite.injective_iff_surjective).mp hinj k
@@ -111,7 +111,7 @@ private theorem wMon_val_ne_neg_one {p : ℕ} (ζ : (ZMod p)ˣ) (h3 : 3 ≤ orde
 
 theorem wit_gmmn_mon {p : ℕ} [Fact p.Prime] {U : Type} [AddCommGroup U] [Module (ZMod p) U]
     {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) U) (hn : 3 ≤ n) (i₀ i₁ : Fin n) (ζ : (ZMod p)ˣ)
-    (m : ℕ) (h01 : i₀ ≠ i₁) (hm : 3 ≤ m) (hζ : orderOf ζ = m) :
+    (m : ℕ) (_h01 : i₀ ≠ i₁) (hm : 3 ≤ m) (hζ : orderOf ζ = m) :
     WitMON p (gmmn p f i₀ i₁ ζ) := by
   have h3 : 3 ≤ orderOf ζ := by rw [hζ]; exact hm
   have hle : gmmn p f i₀ i₁ ζ ≤ wMon_subgroup f := by
@@ -137,7 +137,7 @@ theorem wit_gmmn_mon {p : ℕ} [Fact p.Prime] {U : Type} [AddCommGroup U] [Modul
 
 theorem wit_g2mmn_mon {p : ℕ} [Fact p.Prime] {U : Type} [AddCommGroup U] [Module (ZMod p) U]
     {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) U) (hn : 3 ≤ n) (i₀ i₁ : Fin n) (ζ : (ZMod p)ˣ)
-    (m : ℕ) (h01 : i₀ ≠ i₁) (hm : 2 ≤ m) (hζ : orderOf ζ = 2 * m) :
+    (m : ℕ) (_h01 : i₀ ≠ i₁) (hm : 2 ≤ m) (hζ : orderOf ζ = 2 * m) :
     WitMON p (g2mmn p f i₀ i₁ ζ) := by
   have h3 : 3 ≤ orderOf ζ := by rw [hζ]; omega
   have hle : g2mmn p f i₀ i₁ ζ ≤ wMon_subgroup f := by

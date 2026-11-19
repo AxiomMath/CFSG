@@ -115,7 +115,7 @@ theorem quasisimple_outer_solvable_fix_unitary {ρ : SL(ν, L) →* ModGL τ L}
         ((MulAut.conj H).injective (congrArg Subtype.val hYZ)), fun X => by
           obtain ⟨Y, hY⟩ := hΘsurj X X.2
           exact ⟨Y, Subtype.ext hY⟩⟩
-  haveI : Group.IsSolvable (Outer ↥(StatedSU ν (ℓ ^ f) F)) :=
+  have : Group.IsSolvable (Outer ↥(StatedSU ν (ℓ ^ f) F)) :=
     outer_solvable_statedSU hν hνq hf hFcard
   exact ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv e₂ (hbig hνq).1,
     solvable_of_equiv (e₁.trans e₂)⟩
@@ -140,11 +140,11 @@ theorem quasisimple_outer_solvable_fixedRoot_unitary {τ : Tag} {K : Type} [Fiel
     CFSG.IsQuasisimple ↥(fixedRoot D (frameRoots r)) ∧
       Group.IsSolvable (Outer ↥(fixedRoot D (frameRoots r))) := by
   classical
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨p, hpK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hpp, hcard⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hcard' : Nat.card K = p ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hFr : ∀ c, D.Fr c = c ^ (p ^ (m : ℕ)) := fun c => by rw [D.hFr, hcard']
   have hnm : nW D ∈ monomialSubgroup τ D.L := canonicalRep_mem_monomialSubgroup D.L w

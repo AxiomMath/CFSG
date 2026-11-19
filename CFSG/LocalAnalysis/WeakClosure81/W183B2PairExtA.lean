@@ -16,6 +16,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem w183b2_pq_inf_left {P Q M₁ M₂ K : Subgroup G} (hQ : Q ≤ M₂)
     (hK : (K : Set G) = ((Q ⊓ M₁ : Subgroup G) : Set G) * ((P ⊓ M₂ : Subgroup G) : Set G)) :
     P ⊓ K = P ⊓ M₂ := by
@@ -45,6 +46,7 @@ theorem w183b2_pq_inf_left {P Q M₁ M₂ K : Subgroup G} (hQ : Q ≤ M₂)
     have hxT : x ∈ (P ⊓ M₂ : Subgroup G) := Subgroup.mem_inf.mpr ⟨hxP, hxM₂⟩
     exact ⟨1, h1A, x, hxT, one_mul x⟩
 
+omit [Finite G] in
 theorem w183b2_pq_inf_right {P Q M₁ M₂ K : Subgroup G} (hP : P ≤ M₁)
     (hK : (K : Set G) = ((Q ⊓ M₁ : Subgroup G) : Set G) * ((P ⊓ M₂ : Subgroup G) : Set G)) :
     Q ⊓ K = Q ⊓ M₁ := by

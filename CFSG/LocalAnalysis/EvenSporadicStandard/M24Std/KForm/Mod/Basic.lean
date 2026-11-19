@@ -28,7 +28,7 @@ theorem even_natCard_inf_centralizer [Finite G] {t : G} (ht : t * t = 1) {L : Su
     (hL : ∀ x ∈ L, t * x * t⁻¹ ∈ L) (hev : Even (Nat.card L)) :
     Even (Nat.card ↥(L ⊓ centralizer ({t} : Set G))) := by
   classical
-  haveI : Fintype L := Fintype.ofFinite L
+  have : Fintype L := Fintype.ofFinite L
   let A : Subgroup G := L ⊓ centralizer ({t} : Set G)
   let f : L → L := fun x => ⟨t * x * t⁻¹, hL x x.2⟩
   have hf : Function.Involutive f := by
@@ -47,7 +47,7 @@ theorem even_natCard_inf_centralizer [Finite G] {t : G} (ht : t * t = 1) {L : Su
     (by simpa using hc2)
   have hfixcard : Fintype.card (Function.fixedPoints c) = c.supportᶜ.card :=
     Fintype.card_of_finset' c.supportᶜ (fun x => by
-      simp [Equiv.Perm.mem_support, Function.mem_fixedPoints_iff, Function.IsFixedPt])
+      simp [Equiv.Perm.mem_support, Function.IsFixedPt])
   let e : ↥A ≃ Function.fixedPoints c :=
     { toFun := fun x => ⟨⟨x.1, x.2.1⟩, by
         apply Subtype.ext
@@ -100,11 +100,11 @@ private theorem four_dvd_natCard_inf_centralizer_of_isPerfect_aux {K : Type*} [G
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord]; simp)
   obtain ⟨S, hS⟩ := hpg.exists_le_sylow
   have hz'S : z' ∈ (S : Subgroup X) := hS (mem_zpowers z')
-  haveI hnt : Nontrivial (S : Subgroup X) :=
+  have hnt : Nontrivial (S : Subgroup X) :=
     ⟨⟨⟨z', hz'S⟩, 1, fun h => hz'1 (congrArg Subtype.val h)⟩⟩
   let A : Subgroup K := X ⊓ centralizer ({z} : Set K)
   let CT : Subgroup X := (S : Subgroup X) ⊓ centralizer ({z'} : Set X)
-  have hCTpg : IsPGroup 2 CT := S.isPGroup'.to_le inf_le_left
+  have hCTpg : IsPGroup 2 CT := S.isPGroup.to_le inf_le_left
   have hcardA : Nat.card (A.subgroupOf X) = Nat.card A :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
   have hCTle : CT ≤ A.subgroupOf X := by
@@ -121,7 +121,7 @@ private theorem four_dvd_natCard_inf_centralizer_of_isPerfect_aux {K : Type*} [G
   obtain ⟨j, hj⟩ := hCTpg.exists_card_eq
   have hjle : j ≤ 1 := by
     by_contra hj1
-    push_neg at hj1
+    push Not at hj1
     have h4dvd : 4 ∣ Nat.card A := by
       have h1 : 2 ^ 2 ∣ 2 ^ j := pow_dvd_pow 2 hj1
       rw [show (2 : ℕ) ^ 2 = 4 by norm_num] at h1
@@ -154,7 +154,7 @@ private theorem four_dvd_natCard_inf_centralizer_of_isPerfect_aux {K : Type*} [G
   have hCTeq : CT = zpowers z' :=
     (Subgroup.eq_of_le_of_card_ge hzpw_le
       (by simp [hCTeq2, Nat.card_zpowers, hord])).symm
-  haveI : Nontrivial (Subgroup.center (S : Subgroup X)) := S.isPGroup'.center_nontrivial
+  have : Nontrivial (Subgroup.center (S : Subgroup X)) := S.isPGroup.center_nontrivial
   obtain ⟨c, hc1⟩ := exists_ne (1 : Subgroup.center (S : Subgroup X))
   have hcz : ((c : S) : X) = z' := by
     have hccent : ((c : S) : X) ∈ CT := by
@@ -174,7 +174,6 @@ private theorem four_dvd_natCard_inf_centralizer_of_isPerfect_aux {K : Type*} [G
     exact c.2
   have hSle : (S : Subgroup X) ≤ centralizer ({z'} : Set X) := by
     intro s hs
-    change s ∈ centralizer ({z'} : Set X)
     rw [Subgroup.mem_centralizer_singleton_iff]
     have hcomm := Subgroup.mem_center_iff.1 hzcen ⟨s, hs⟩
     exact congrArg Subtype.val hcomm
@@ -203,9 +202,9 @@ theorem normal_two_group_eq_bot_or_center [Finite G] {t : G} (ht : t * t = 1) (h
   by_cases hW1 : W = ⊥
   · exact Or.inl hW1
   right
-  haveI hntW : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).2 hW1
+  have hntW : Nontrivial W := (Subgroup.nontrivial_iff_ne_bot W).2 hW1
   by_cases htW : t ∈ W
-  · haveI : Nontrivial (Subgroup.center W) := hW.center_nontrivial
+  · have : Nontrivial (Subgroup.center W) := hW.center_nontrivial
     obtain ⟨c, hc1⟩ := exists_ne (1 : Subgroup.center W)
     have hct : (c : W) = ⟨t, htW⟩ := by
       have hcomm : t * (c : W).1 = (c : W).1 * t := by

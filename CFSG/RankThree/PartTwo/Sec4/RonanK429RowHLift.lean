@@ -14,20 +14,23 @@ section Quot
 
 variable {A B : Type} [Group A] [Group B] [Finite A]
 
+omit [Finite A] in
 theorem map_pCore_two_le (f : A →* B) (hf : Function.Surjective f) :
     (CFSG.pCore 2 A).map f ≤ CFSG.pCore 2 B := by
   apply le_sSup
   refine ⟨Subgroup.Normal.map inferInstance f hf, ?_⟩
   exact (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 A)).map f
 
+omit [Finite A] in
 theorem comap_pCore_two_le (f : A →* B) (hker : IsPGroup 2 f.ker) :
     (CFSG.pCore 2 B).comap f ≤ CFSG.pCore 2 A := by
   apply le_sSup
   refine ⟨Subgroup.Normal.comap inferInstance f, ?_⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact IsPGroup.comap_of_ker_isPGroup (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 B)) f
     hker
 
+omit [Finite A] in
 theorem isType429_quot_of_surjective (f : A →* B) (hf : Function.Surjective f)
     (hker : IsPGroup 2 f.ker) (h : IsType429 (B ⧸ CFSG.pCore 2 B)) :
     IsType429 (A ⧸ CFSG.pCore 2 A) := by
@@ -53,6 +56,7 @@ section Central
 
 variable {G G' : Type} [Group G] [Group G'] [Finite G]
 
+omit [Finite G] in
 theorem commutatorElement_mul_central {a b z w : G} (hz : z ∈ Subgroup.center G)
     (hw : w ∈ Subgroup.center G) : ⁅a * z, b * w⁆ = ⁅a, b⁆ := by
   have hz' := Subgroup.mem_center_iff.mp hz
@@ -64,11 +68,12 @@ theorem commutatorElement_mul_central {a b z w : G} (hz : z ∈ Subgroup.center 
     _ = a * b * a⁻¹ * (a * w * a⁻¹) * (b * w)⁻¹ := by rw [hzy]; group
     _ = ⁅a, b⁆ := by rw [hwg a, commutatorElement_def]; group
 
+omit [Finite G] in
 theorem Good429.map_of_central (φ : G →* G') (hφ : Function.Surjective φ)
     (hZ : φ.ker ≤ Subgroup.center G) (h2 : IsPGroup 2 φ.ker) {C : Subgroup G}
     (hC : φ.ker ≤ C) (h : Good429 C) : Good429 (C.map φ) := by
   intro K hKC hKp hKs hT
-  haveI := hKp
+  have := hKp
   set Kt : Subgroup G := K.comap φ with hKt
   have hKtC : Kt ≤ C := by
     intro x hx
@@ -89,7 +94,7 @@ theorem Good429.map_of_central (φ : G →* G') (hφ : Function.Surjective φ)
     obtain ⟨y, hy, hyx⟩ := hφx
     refine ⟨y, hy, y⁻¹ * x, ?_, by group⟩
     rw [MonoidHom.mem_ker, map_mul, map_inv, hyx, inv_mul_cancel]
-  haveI hK1p : Group.IsPerfect K1 := by
+  have hK1p : Group.IsPerfect K1 := by
     rw [Subgroup.isPerfect_iff]
     refine le_antisymm (Subgroup.commutator_le_self K1) ?_
     rw [hK1, Subgroup.commutator_le]

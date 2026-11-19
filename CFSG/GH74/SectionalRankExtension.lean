@@ -22,12 +22,12 @@ theorem SectionalTwoRankLE.of_normal {G : Type*} [Group G] [Finite G] (N : Subgr
     if h : q ∈ P.map (QuotientGroup.mk' N) then Classical.choose (Subgroup.mem_map.1 h) else 1
   have hlift_mem : ∀ q (hq : q ∈ P.map (QuotientGroup.mk' N)), lift q ∈ P := by
     intro q hq
-    simp only [lift, dif_pos hq]
+    simp only [lift, dite_eq_left hq]
     exact (Classical.choose_spec (Subgroup.mem_map.1 hq)).1
   have hlift_mk : ∀ q (hq : q ∈ P.map (QuotientGroup.mk' N)),
       (QuotientGroup.mk' N) (lift q) = q := by
     intro q hq
-    simp only [lift, dif_pos hq]
+    simp only [lift, dite_eq_left hq]
     exact (Classical.choose_spec (Subgroup.mem_map.1 hq)).2
   have hPN : Subgroup.closure ((s.image N.subtype : Finset G) : Set G) = P ⊓ N := by
     have h := congrArg (Subgroup.map N.subtype) hsP
@@ -97,7 +97,7 @@ theorem SectionalTwoRankLE.of_normal {G : Type*} [Group G] [Finite G] (N : Subgr
 theorem SectionalTwoRankLE.quotient_of_sup_eq_top {X : Type*} [Group X] [Finite X]
     (N : Subgroup X) [N.Normal] {T : Subgroup X} {r : ℕ} (hT : SectionalTwoRankLE T r)
     (hsup : T ⊔ N = ⊤) : SectionalTwoRankLE (X ⧸ N) r := by
-  haveI : Finite T := inferInstance
+  have : Finite T := inferInstance
   refine SectionalTwoRankLE.of_surjective ((QuotientGroup.mk' N).comp T.subtype) ?_ hT
   intro q
   obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective N q
@@ -159,7 +159,7 @@ theorem SectionalTwoRankLE.prod {A B : Type*} [Group A] [Group B] [Finite A] [Fi
 theorem SectionalTwoRankLE.of_isCyclic {G : Type*} [Group G] (hG : IsCyclic G) :
     SectionalTwoRankLE G 1 := by
   intro P _
-  haveI : IsCyclic P := isCyclic_of_injective P.subtype P.subtype_injective
+  have : IsCyclic P := isCyclic_of_injective P.subtype P.subtype_injective
   obtain ⟨g, hg⟩ := isCyclic_iff_exists_zpowers_eq_top.mp (inferInstance : IsCyclic P)
   refine ⟨{(g : G)}, by simp, ?_⟩
   have h := congrArg (Subgroup.map P.subtype) hg
@@ -175,7 +175,7 @@ theorem SectionalTwoRankLE.specialLinearGroup (K : Type*) [Field K] [Finite K] (
     SectionalTwoRankLE (Matrix.SpecialLinearGroup (Fin 2) K) 2 := by
   classical
   intro P hP
-  haveI : Finite P := inferInstance
+  have : Finite P := inferInstance
   have hPinv : CFSG.ComponentClassification.AschbacherToolkit.AtMostOneInvolution P := by
     intro s t hs ht
     have hs2 : ((s : Matrix.SpecialLinearGroup (Fin 2) K)) ^ 2 = 1 := by
@@ -203,7 +203,7 @@ theorem SectionalTwoRankLE.specialLinearGroup (K : Type*) [Field K] [Finite K] (
     rw [MonoidHom.map_zpowers, Subgroup.map_top, Subgroup.range_subtype] at h
     rw [Finset.coe_singleton, ← Subgroup.zpowers_eq_closure]
     exact h
-  · haveI : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
+  · have : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
     set g₁ : P := e.symm (QuaternionGroup.a (1 : ZMod (2 * 2 ^ (n - 2)))) with hg₁
     set g₂ : P := e.symm (QuaternionGroup.xa 0) with hg₂
     have hgen := CFSG.ComponentClassification.AschbacherToolkit.quaternion_closure_generators

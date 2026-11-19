@@ -20,7 +20,7 @@ theorem hdRo7SULCoordAux_card_inf_geCfg
     (hrow : GGHdRo7SULabL p L) :
     p ^ 3 ≤ Nat.card ↥(Bs ⊓ L) := by
   obtain ⟨hp, hBsE, hxBs, hLx, h4⟩ := GGConfig.tableB_facts hH.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, hp3, -, -⟩ := hdRo7SULCoordAux_rowDataCfg hH hrow
   obtain ⟨-, -, -, -, -, -, hSStar, -⟩ := hH.1.1
   have hxne : x ≠ 1 := hSStar.2.2.1
@@ -69,7 +69,7 @@ theorem hdRo7SULCoordAux_permDataCfg
     hdRo7SULCoordAux_markingDataCfg hH hRig hrow
   obtain ⟨-, -, hp3, -, -⟩ := hdRo7SULCoordAux_rowDataCfg hH hrow
   have hp : Nat.Prime p := by rw [hp3]; exact Nat.prime_three
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBsE : IsElemAbelian p Bs := hH.1.2.1.2.1
   have hBsSC : ∀ z ∈ Subgroup.centralizer (Bs : Set G), z ^ p = 1 → z ∈ Bs :=
     hH.1.2.1.2.2.2

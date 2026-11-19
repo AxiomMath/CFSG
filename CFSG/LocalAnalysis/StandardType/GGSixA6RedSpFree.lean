@@ -60,7 +60,7 @@ theorem ggA6_sp_freeShape {F : Type} [Field F] {V : Type} [AddCommGroup V] [Modu
   have hodd₁ : Odd (Nat.card A₁) := by
     rw [← Nat.card_congr eA.toEquiv]
     exact hodd
-  haveI : Group.IsNilpotent ↥A := hnil
+  have : Group.IsNilpotent ↥A := hnil
   have hnil₁ : Group.IsNilpotent ↥A₁ := Group.nilpotent_of_mulEquiv eA
   have hA₁le : A₁ ≤ TauCeti.BilinForm.isometryGroup (B.restrict V₁) :=
     Subgroup.map_subtype_le A_L

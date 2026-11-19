@@ -29,7 +29,7 @@ theorem exists_normalizing_conj_of_weakly_closed (P : Sylow 2 G) {E : Subgroup G
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C : Subgroup G := centralizer ({y} : Set G) with hC
   have hEC : E ≤ C := fun w hw => Subgroup.mem_centralizer_singleton_iff.2 (hEc w hw y hy)
-  have hEp : IsPGroup 2 E := (P.isPGroup').to_le hEP
+  have hEp : IsPGroup 2 E := (P.isPGroup).to_le hEP
   have hgEC : ∀ w ∈ E, g * w * g⁻¹ ∈ C := by
     intro w hw
     rw [hC, Subgroup.mem_centralizer_singleton_iff]
@@ -38,7 +38,7 @@ theorem exists_normalizing_conj_of_weakly_closed (P : Sylow 2 G) {E : Subgroup G
       _ = y * (g * w * g⁻¹) := by rw [← hg]; group
   have hE' : IsPGroup 2 (E.subgroupOf C) := hEp.of_equiv (Subgroup.subgroupOfEquivOfLe hEC).symm
   obtain ⟨Q, hQ⟩ := hE'.exists_le_sylow
-  have hQp : IsPGroup 2 (Q.map C.subtype) := Q.isPGroup'.map C.subtype
+  have hQp : IsPGroup 2 (Q.map C.subtype) := Q.isPGroup.map C.subtype
   obtain ⟨c, hc⟩ := exists_conj_le_sylow_two P hQp
   have hcE : ∀ w ∈ E, c * w * c⁻¹ ∈ (P : Subgroup G) := by
     intro w hw

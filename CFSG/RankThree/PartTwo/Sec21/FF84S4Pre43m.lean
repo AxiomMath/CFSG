@@ -29,7 +29,7 @@ theorem Tstar_B_inv (hA : A8Model L) (h : FF84Sec4 b L B K b₁ b₂)
 theorem tstar_cen_bb₁ (h23 : FF84_2_3) (hA : A8Model L)
     (h : FF84Sec4 b L B K b₁ b₂) (hC : CommTheta b b₁ b₂) {V : Subgroup G}
     (hV : IsSylowOf 2 V (Opp 3 (Cen b))) : Op 2 (Nor V) ⊓ Cen (b * b₁) ≤ V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rintro w ⟨hwT, hwD⟩
   have hb : w * b = b * w :=
     W_comm_E h23 hA h hC (FF79.L41.Op_isPGroup _) (fun t ht β hβ => Tstar_B_inv hA h hV t ht β hβ)
@@ -39,7 +39,7 @@ theorem tstar_cen_bb₁ (h23 : FF84_2_3) (hA : A8Model L)
 theorem tstar_cen_bb₁sq (h23 : FF84_2_3) (hA : A8Model L)
     (h : FF84Sec4 b L B K b₁ b₂) (hC : CommTheta b b₁ b₂) {V : Subgroup G}
     (hV : IsSylowOf 2 V (Opp 3 (Cen b))) : Op 2 (Nor V) ⊓ Cen (b * b₁ ^ 2) ≤ V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨θ, hθ⟩ := exists_thM hA h
   obtain ⟨x, hxL, hx⟩ := exists_inv_b₁ hA h hθ
   have hXL : Opp 3 (Cen b) ≤ CenS L := X_le_cenS_L h.hyp hA

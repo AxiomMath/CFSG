@@ -17,6 +17,7 @@ section Bar
 
 variable {X X' : Type} [Group X] [Finite X] [Group X']
 
+omit [Finite X] in
 private theorem map_le_normalizer_map (φ : X →* X') {K H : Subgroup X}
     (hH : H ≤ Subgroup.normalizer (K : Set X)) :
     H.map φ ≤ Subgroup.normalizer ((K.map φ : Subgroup X') : Set X') :=

@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {x₁ x₂ t a b c : G} {Wp F P M₂ M₃ U : Subgroup G}
 
+omit [Finite G] in
 private theorem fzc_sy3_F_cov (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U) {v : G}
     (hv2F : v ^ 2 ∈ F) (hv2W : v ^ 2 ∉ Wp) :
     ∀ f ∈ F, ∃ k : ℕ, f * (v ^ k)⁻¹ ∈ Wp := by
@@ -28,6 +29,7 @@ private theorem fzc_sy3_F_cov (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M�
       rw [h]
       exact Wp.mul_mem hw (Wp.inv_mem hw')
 
+omit [Finite G] in
 private theorem fzc_sy3_M₃_cov (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U) {v : G}
     (hvM₃ : v ∈ M₃) (hvF : v ∉ F) :
     ∀ g ∈ M₃, ∃ k : ℕ, g * (v ^ k)⁻¹ ∈ Wp := by
@@ -73,7 +75,7 @@ theorem fzc_sy3_rank_P (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U) : 
   intro X hXP
   by_cases hXW : X ≤ Wp
   · exact hs.Wp_rank X hXW
-  obtain ⟨x, hxX, hxW⟩ := SetLike.not_le_iff_exists.mp hXW
+  obtain ⟨x, hxX, hxW⟩ := IsConcreteLE.not_le_iff_exists.mp hXW
   have hPU : P ≤ U := hs.chain.2.2.1
   have hx2 : x ^ 2 ∈ Wp := (hs.P_elem).1 x (hXP hxX)
   have hx2E : x ^ 2 ∉ baseGrp x₁ x₂ := hs.sq_notE x (hPU (hXP hxX)) hxW hx2
@@ -105,7 +107,7 @@ theorem fzc_sy3_rank_M₃ (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U)
   intro X hX
   by_cases hXF : X ≤ F
   · exact fzc_sy3_rank_P hs X (hXF.trans hs.chain.2.1)
-  obtain ⟨v, hvX, hvF⟩ := SetLike.not_le_iff_exists.mp hXF
+  obtain ⟨v, hvX, hvF⟩ := IsConcreteLE.not_le_iff_exists.mp hXF
   have hFP : F ≤ P := hs.chain.2.1
   have hPU : P ≤ U := hs.chain.2.2.1
   have hvM₃ : v ∈ M₃ := hX hvX

@@ -13,12 +13,12 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.HardMathSupport.Solomon.LocalB
   carrier := {q | v q = q}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 @[expose] def U4Hyp {Q : Type} [Group Q] (v : MulAut Q) : Prop :=
@@ -48,7 +48,7 @@ instance innerAut_normal (Q : Type) [Group Q] : (innerAut Q).Normal := by
 theorem le_glaPrimeCoreOf_of_normal {M : Type} [Group M] [Finite M] {H D : Subgroup M}
     (hDH : D ≤ H) (hnorm : ∀ h ∈ H, ∀ d ∈ D, h * d * h⁻¹ ∈ D) (hcop : Nat.Coprime 3 (Nat.card D)) :
     D ≤ GLAPPrimeCoreOf 3 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let D' : Subgroup H := D.subgroupOf H
   have hn : D'.Normal := by
     constructor
@@ -75,7 +75,7 @@ theorem glaPrimeCoreOf_normalized {M : Type} [Group M] (Y : Subgroup M) :
 
 theorem coprime_card_glaPrimeCoreOf {M : Type} [Group M] [Finite M] (Y : Subgroup M) :
     Nat.Coprime 3 (Nat.card (GLAPPrimeCoreOf 3 Y)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h := CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥Y)
   have : Nat.card (GLAPPrimeCoreOf 3 Y) = Nat.card (GLAPPrimeCore 3 ↥Y) :=
     Subgroup.card_map_of_injective Subtype.val_injective
@@ -85,7 +85,7 @@ theorem coprime_card_glaPrimeCoreOf {M : Type} [Group M] [Finite M] (Y : Subgrou
 theorem isPGroup_two_of_index {M : Type} [Group M] [Finite M] (I X C : Subgroup M) [I.Normal]
     (hIX : I ≤ X) (hA : GLAPPrimeCoreOf 3 (I ⊓ C) = ⊥) {a b : ℕ} (hO : I.index = 2 ^ a * 3 ^ b) :
     IsPGroup 2 (GLAPPrimeCoreOf 3 (X ⊓ C)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set N := GLAPPrimeCoreOf 3 (X ⊓ C) with hN
   have hNYC : N ≤ X ⊓ C := Subgroup.map_subtype_le _
   have hNC : N ≤ C := le_trans hNYC inf_le_right

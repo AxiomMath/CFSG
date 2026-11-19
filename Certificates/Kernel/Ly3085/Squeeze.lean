@@ -55,14 +55,12 @@ theorem F1_all
       intro i j hij
       unfold subO
       apply disjoint_orbits
-      fin_cases i <;> fin_cases j <;> first | exact absurd hij (by decide) | skip
-      all_goals simp only [Fin.isValue, Fin.val_zero, Fin.val_one, Fin.val_two, repOp_zero]
+      fin_cases i <;> fin_cases j <;> try exact absurd hij (by decide)
+      all_goals simp only [repOp_zero]
       all_goals first
         | rw [repOp_pos (by decide)]
-        | skip
-      all_goals first
+      all_goals try first
         | rw [repOp_pos (by decide)]
-        | skip
       · exact hne _ (by omega)
       · exact hne _ (by omega)
       · exact hne _ (by omega)

@@ -53,7 +53,7 @@ theorem u0_mem_u0Span : u0 (K := K) m ∈ u0Span (K := K) m :=
 theorem herm_u0_u0 (hm : 2 ≤ m) [CharP K 2] :
     herm σ (u0 (K := K) m) (u0 (K := K) m) = 0 := by
   have h01 : (0 : Fin m) ≠ 1 := fin_zero_ne_one hm
-  simp [u0, herm_add_left, herm_add_right, herm_single_left, herm_single_right,
+  simp [u0, herm_add_right, herm_single_right,
     Pi.single_eq_of_ne h01, Pi.single_eq_of_ne h01.symm, CharTwo.add_self_eq_zero]
 
 theorem u0Span_le_u0Perp (hm : 2 ≤ m) [CharP K 2] :
@@ -70,6 +70,7 @@ theorem u0Span_le_u0Perp (hm : 2 ≤ m) [CharP K 2] :
 @[expose] def tailIdx (hm : 2 ≤ m) (j : Fin (m - 2)) : Fin m :=
   ⟨j.1 + 2, by have := j.2; omega⟩
 
+omit [NeZero m] in
 theorem tailIdx_injective (hm : 2 ≤ m) : Function.Injective (tailIdx hm) := by
   intro j k h
   apply Fin.ext
@@ -97,16 +98,19 @@ theorem tailIdx_ne_one (hm : 2 ≤ m) (j : Fin (m - 2)) : tailIdx hm j ≠ 1 := 
     funext j
     rfl
 
+omit [NeZero m] in
 @[simp] theorem tailProj_apply (hm : 2 ≤ m) (v : Fin m → K) (j : Fin (m - 2)) :
     tailProj (K := K) hm v j = v (tailIdx hm j) := rfl
 
 @[expose] noncomputable def tailVec (hm : 2 ≤ m) (w : Fin (m - 2) → K) : Fin m → K :=
   ∑ j : Fin (m - 2), w j • Pi.single (tailIdx hm j) (1 : K)
 
+omit [NeZero m] in
 theorem herm_sum_right {ι : Type*} (x : Fin m → K) (s : Finset ι) (f : ι → Fin m → K) :
     herm σ x (∑ i ∈ s, f i) = ∑ i ∈ s, herm σ x (f i) :=
   map_sum (hermL σ x) f s
 
+omit [NeZero m] in
 theorem herm_sum_left {ι : Type*} (s : Finset ι) (f : ι → Fin m → K) (y : Fin m → K) :
     herm σ (∑ i ∈ s, f i) y = ∑ i ∈ s, herm σ (f i) y := by
   classical
@@ -114,6 +118,7 @@ theorem herm_sum_left {ι : Type*} (s : Finset ι) (f : ι → Fin m → K) (y :
   | empty => simp
   | insert a s ha ih => rw [Finset.sum_insert ha, Finset.sum_insert ha, herm_add_left, ih]
 
+omit [NeZero m] in
 theorem tailVec_apply_of_ne (hm : 2 ≤ m) {w : Fin (m - 2) → K} {i : Fin m}
     (hi : ∀ j : Fin (m - 2), tailIdx hm j ≠ i) : tailVec (K := K) hm w i = 0 := by
   rw [tailVec, Finset.sum_apply]
@@ -121,6 +126,7 @@ theorem tailVec_apply_of_ne (hm : 2 ≤ m) {w : Fin (m - 2) → K} {i : Fin m}
   intro j _
   simp only [Pi.smul_apply, Pi.single_eq_of_ne (hi j).symm, smul_zero]
 
+omit [NeZero m] in
 theorem tailProj_tailVec (hm : 2 ≤ m) (w : Fin (m - 2) → K) :
     tailProj (K := K) hm (tailVec (K := K) hm w) = w := by
   funext j
@@ -145,6 +151,7 @@ theorem tailVec_mem_u0Perp [CharP K 2] (hm : 2 ≤ m) (w : Fin (m - 2) → K) :
     u0_eq_zero_of_ne (tailIdx_ne_zero hm j) (tailIdx_ne_one hm j)
   rw [h, map_zero, zero_mul, mul_zero]
 
+omit [NeZero m] in
 theorem herm_tailVec (hm : 2 ≤ m) (w w' : Fin (m - 2) → K) :
     herm σ (tailVec (K := K) hm w) (tailVec (K := K) hm w') = herm σ w w' := by
   rw [tailVec, tailVec, herm_sum_left]
@@ -152,13 +159,13 @@ theorem herm_tailVec (hm : 2 ≤ m) (w w' : Fin (m - 2) → K) :
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [herm_sum_right]
   rw [Finset.sum_eq_single j]
-  · simp [herm_smul_left, herm_smul_right, herm_single_left, herm_single_right]
+  · simp [herm_smul_right, herm_single_right]
     ring
   · intro k _ hkj
     have hne : tailIdx hm j ≠ tailIdx hm k := by
       intro h
       exact hkj (tailIdx_injective hm h.symm)
-    simp [herm_smul_left, herm_smul_right, herm_single_left, herm_single_right,
+    simp [herm_smul_right, herm_single_right,
       Pi.single_eq_of_ne hne.symm]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
@@ -207,6 +214,7 @@ theorem tailProj_u0 (hm : 2 ≤ m) :
   rw [tailProj_apply, u0]
   simp [Pi.single_eq_of_ne (tailIdx_ne_zero hm j), Pi.single_eq_of_ne (tailIdx_ne_one hm j)]
 
+omit [NeZero m] in
 theorem tailProj_single_tailIdx (hm : 2 ≤ m) (j : Fin (m - 2)) :
     tailProj (K := K) hm (Pi.single (tailIdx hm j) (1 : K)) = Pi.single j 1 := by
   funext k
@@ -393,6 +401,7 @@ theorem herm_perpQuotEquiv [CharP K 2] (hm : 3 ≤ m) (x y : u0Perp σ m) :
 @[expose] def perp (σ : K ≃+* K) (e : Fin m → K) : Submodule K (Fin m → K) :=
   LinearMap.ker (hermL σ e)
 
+omit [NeZero m] in
 @[simp] theorem mem_perp {e v : Fin m → K} :
     v ∈ perp σ e ↔ herm σ e v = 0 :=
   Iff.rfl
@@ -402,6 +411,7 @@ theorem herm_perpQuotEquiv [CharP K 2] (hm : 3 ≤ m) (x y : u0Perp σ m) :
 @[expose] def spanVecPerp (σ : K ≃+* K) (e : Fin m → K) : Submodule K (perp σ e) :=
   (spanVec e).comap (perp σ e).subtype
 
+omit [NeZero m] in
 theorem spanVec_le_perp [CharP K 2] {e : Fin m → K} (he : herm σ e e = 0) :
     spanVec e ≤ perp σ e := by
   rw [spanVec, Submodule.span_le]
@@ -573,17 +583,20 @@ theorem exists_eQuotEquiv_isometry [CharP K 2] (hσ : IsUnitaryInvolution σ) (h
   exact ⟨eQuotEquivOfSmul (σ := σ) hm g hge,
     herm_eQuotEquivOfSmul (σ := σ) hm g hge⟩
 
+omit [NeZero m] in
 theorem tv_smul_eq_self_of_herm_eq_zero (hσ : IsUnitaryInvolution σ) {e v : Fin m → K}
     (hev : herm σ e v = 0) (hv : herm σ v v = 0) {c : K} (hc : c + σ c = 0) :
     tv hσ.invol hv hc • e = e := by
   rw [tv_smul, herm_eq_zero_comm σ hσ.invol hev, mul_zero, zero_smul, add_zero]
 
+omit [NeZero m] in
 theorem tv_mem_perp (hσ : IsUnitaryInvolution σ) {e v : Fin m → K}
     (hev : herm σ e v = 0) (hv : herm σ v v = 0) {c : K} (hc : c + σ c = 0)
     {x : Fin m → K} (hx : x ∈ perp σ e) : tv hσ.invol hv hc • x ∈ perp σ e := by
   rw [mem_perp] at hx ⊢
   rw [tv_smul, herm_add_right, herm_smul_right, hx, hev, mul_zero, add_zero]
 
+omit [NeZero m] in
 theorem tv_induced_quot (hσ : IsUnitaryInvolution σ) {e v : Fin m → K}
     (hev : herm σ e v = 0) (hv : herm σ v v = 0) {c : K} (hc : c + σ c = 0)
     (x : perp σ e) :

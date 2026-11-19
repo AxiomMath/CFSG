@@ -190,14 +190,14 @@ theorem rootCertB_spec {M : Matrix (Fin n) (Fin n) ℤ} {rows : List (List ℤ)}
     | zero =>
       intro k hk hd
       have := hw k hk
-      simp only [witAt, hd, Bool.and_eq_true, decide_eq_true_eq, if_true, beq_iff_eq] at this
+      simp only [witAt, hd, Bool.and_eq_true, decide_eq_true_eq, ite_true, beq_iff_eq] at this
       obtain ⟨⟨hi, -⟩, he⟩ := this
       rw [he, unitL_eq ⟨_, hi⟩]
       exact unit_mem_orbitIter M 0 _
     | succ d ih =>
       intro k hk hd
       have := hw k hk
-      simp only [witAt, hd, Bool.and_eq_true, decide_eq_true_eq, Nat.add_one_ne_zero, if_false,
+      simp only [witAt, hd, Bool.and_eq_true, decide_eq_true_eq, Nat.add_one_ne_zero, ite_false,
         beq_iff_eq, Nat.add_right_cancel_iff] at this
       obtain ⟨⟨hi, -⟩, ⟨hpd, hp⟩, he⟩ := this
       rw [he, reflL_eq M ⟨_, hi⟩ (hlen _ (List.getD_eq_getElem _ _ hp ▸ List.getElem_mem hp))]

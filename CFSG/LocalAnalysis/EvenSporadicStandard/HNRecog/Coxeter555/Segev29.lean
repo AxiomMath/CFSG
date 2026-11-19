@@ -81,7 +81,7 @@ theorem card_klein : Nat.card klein = 4 := by
 theorem klein_le_range : klein ≤ psi.range := by
   intro g hg
   have hg' : g ∈ kleinList := hg
-  simp only [kleinList, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hg'
+  simp only [kleinList, List.mem_cons, List.not_mem_nil, or_false] at hg'
   rcases hg' with rfl | rfl | rfl | rfl
   · exact one_mem _
   · exact ⟨lx, psi_lx⟩
@@ -93,7 +93,7 @@ theorem le_card_range_psi : 660 ≤ Nat.card psi.range := by
     have h := Subgroup.card_dvd_of_le klein_le_range
     rwa [card_klein] at h
   have h3 : 3 ∣ Nat.card psi.range := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hmem : (permA * permX * permA * permY) ^ 2 ∈ psi.range :=
       ⟨(la * lx * la * ly) ^ 2, by rw [map_pow, map_mul, map_mul, map_mul, psi_la, psi_lx, psi_ly]⟩
     have hord : orderOf ((permA * permX * permA * permY) ^ 2) = 3 :=
@@ -101,14 +101,14 @@ theorem le_card_range_psi : 660 ≤ Nat.card psi.range := by
     have h := Subgroup.orderOf_dvd_natCard _ hmem
     rwa [hord] at h
   have h5 : 5 ∣ Nat.card psi.range := by
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have hmem : permA * permX ∈ psi.range := ⟨la * lx, by rw [map_mul, psi_la, psi_lx]⟩
     have hord : orderOf (permA * permX) = 5 :=
       orderOf_eq_prime (by decide +kernel) (by decide +kernel)
     have h := Subgroup.orderOf_dvd_natCard _ hmem
     rwa [hord] at h
   have h11 : 11 ∣ Nat.card psi.range := by
-    haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
     have hmem : psi lw ∈ psi.range := ⟨lw, rfl⟩
     have hord : orderOf (psi lw) = 11 := by
       rw [psi_lw]
@@ -201,7 +201,7 @@ theorem segev29_unfolded (H : Type*) [Group H] (a x y : H)
     rw [hyω, ← sq, ha2, orderOf_one] at hay
     norm_num at hay
   have hord : orderOf ω = 11 := by
-    haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
     exact orderOf_eq_prime h11 hω1
   have ha' : a ∈ Subgroup.closure ({a, x, y} : Set H) := Subgroup.subset_closure (by simp)
   have hx' : x ∈ Subgroup.closure ({a, x, y} : Set H) := Subgroup.subset_closure (by simp)

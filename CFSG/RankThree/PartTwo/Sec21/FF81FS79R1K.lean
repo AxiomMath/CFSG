@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pPrimeCore_top_quotient_eq_bot :
     CFSG.pPrimeCore 3 (↥(⊤ : Subgroup G) ⧸ (CFSG.pPrimeCore 3 G).subgroupOf ⊤) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let e : G ⧸ CFSG.pPrimeCore 3 G ≃* ↥(⊤ : Subgroup G) ⧸ (CFSG.pPrimeCore 3 G).subgroupOf ⊤ :=
     QuotientGroup.congr (G' := CFSG.pPrimeCore 3 G) (H' := (CFSG.pPrimeCore 3 G).subgroupOf ⊤)
       Subgroup.topEquiv.symm (by
@@ -34,7 +34,7 @@ theorem pPrimeCore_top_quotient_eq_bot :
 theorem coprime_card_of_pow_mem {Z O : Subgroup G} (hZc : Nat.Coprime 3 (Nat.card Z))
     (hO : ∀ o ∈ O, ∃ m : ℕ, Nat.Coprime 6 m ∧ o ^ m ∈ Z) : Nat.Coprime 3 (Nat.card O) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.Prime.coprime_iff_not_dvd Nat.prime_three]
   intro hd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥O) 3 hd
@@ -47,7 +47,7 @@ theorem coprime_card_of_pow_mem {Z O : Subgroup G} (hZc : Nat.Coprime 3 (Nat.car
 
 theorem kf_fs79Prop2OneK_of (hKF1 : FF84KF1) (hKS : FF84KSOut) : KF_FS79Prop2OneK := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro G _ _ hK
   refine (prop2OneAt_iff G).mpr fun b t c J h => ?_
   set Z : Subgroup G := CFSG.pPrimeCore 3 G with hZdef

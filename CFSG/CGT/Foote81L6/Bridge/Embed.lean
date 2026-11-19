@@ -153,7 +153,7 @@ theorem embed'_injective : Function.Injective D.embed' := by
     have h₂ := congrFun h 1
     have h₃ := congrFun h 2
     simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Pi.one_apply,
-      Matrix.head_cons, Matrix.cons_val, Matrix.tail_cons] at h₁ h₂ h₃
+      Matrix.head_cons, Matrix.tail_cons] at h₁ h₂ h₃
     rw [← map_one D.ι] at h₁ h₂ h₃
     rw [D.ι_injective h₁, D.ι_injective h₂, D.ι_injective h₃]
     rfl
@@ -175,7 +175,7 @@ theorem det_embed' (a : PHat n) :
   rw [embed'_apply, Units.val_mul, det_mul, Units.val_pow_eq_pow_val, det_pow, det_τGL, one_pow,
     mul_one, blk, blk3, SLnThreeLocal.coe_blockDiagGL, det_blockDiagonal, Fin.prod_univ_three]
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
-    Matrix.cons_val, Matrix.tail_cons, det_ι]
+    Matrix.tail_cons, det_ι]
   rw [PHat.det, neg_one_pow_val_add, neg_one_pow_val_add]
 
 theorem det_embed (a : PHat n) :
@@ -240,7 +240,7 @@ theorem embed_mem_statedScalars_iff (hn : 3 ≤ n) {a : PHat n} :
       have h₂ := congrFun h 1
       have h₃ := congrFun h 2
       simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-        Matrix.head_cons, Matrix.cons_val, Matrix.tail_cons] at h₁ h₂ h₃
+        Matrix.head_cons, Matrix.tail_cons] at h₁ h₂ h₃
       have e12 : a₁ = a₂ := D.ι_injective (Units.ext (h₁.trans h₂.symm))
       have e13 : a₁ = a₃ := D.ι_injective (Units.ext (h₁.trans h₃.symm))
       subst e12 e13

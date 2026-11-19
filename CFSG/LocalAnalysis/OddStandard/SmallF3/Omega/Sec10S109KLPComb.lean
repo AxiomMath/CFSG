@@ -110,7 +110,7 @@ theorem kl_no_hyperplane (p : (Fin 5 → ZMod 2) → Prop)
     ∀ v, IsEvenVec v → p v := by
   have hev0 : IsEvenVec (0 : Fin 5 → ZMod 2) := by simp [IsEvenVec]
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨v1, hv1, hn1⟩ := hcon
   obtain ⟨w0, hw0, hnw0⟩ : ∃ w0, vecWeight w0 = 2 ∧ ¬ p w0 := by
     rcases even_weight_cases_five v1 hv1 with h0 | h02 | h04

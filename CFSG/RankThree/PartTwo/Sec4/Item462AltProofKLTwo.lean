@@ -30,7 +30,7 @@ theorem outer_case_false {X : Type} [Group X] [Finite X] {K : Type} [Field K] [F
       rw [Subgroup.mem_center_iff]
       intro g
       have h := congrArg (fun φ : MulAut X => φ g) hx
-      simp only [map_one, MulAut.conj_apply, MulAut.one_apply] at h
+      simp only [MulAut.conj_apply, MulAut.one_apply] at h
       have h' : x * g * x⁻¹ = g := h
       rw [mul_inv_eq_iff_eq_mul] at h'
       exact h'.symm
@@ -59,10 +59,10 @@ theorem outer_case_false {X : Type} [Group X] [Finite X] {K : Type} [Field K] [F
     simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using this
   have hnt : Nontrivial C := by
     obtain ⟨a, b, hab⟩ := hqs.2.2
-    haveI : Nontrivial (C ⧸ Subgroup.center C) :=
+    have : Nontrivial (C ⧸ Subgroup.center C) :=
       nontrivial_of_ne a b (fun h => hab (by rw [h]))
     exact (QuotientGroup.mk'_surjective (Subgroup.center C)).nontrivial
-  haveI : Group.IsPerfect C := hqs.1
+  have : Group.IsPerfect C := hqs.1
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hqs hNnorm with htop | hle
   ·
     have hmem : ∀ c : C, MulAut.conj (c : X) ∈ W := by
@@ -76,7 +76,7 @@ theorem outer_case_false {X : Type} [Group X] [Finite X] {K : Type} [Field K] [F
       apply Subtype.ext
       apply hconj_inj
       exact congrArg Subtype.val hab
-    haveI := hWs
+    have := hWs
     have hsolv : Group.IsSolvable C := Group.isSolvable_of_isSolvable_injective (f := φ) hφ
     exact Group.IsPerfect.not_isSolvable C hsolv
   ·
@@ -94,7 +94,7 @@ theorem outer_case_false {X : Type} [Group X] [Finite X] {K : Type} [Field K] [F
       have hr1 : r = 1 := congrArg Subtype.val hz
       rw [← hr, hr1, map_one]
     apply hVnc
-    haveI : Subsingleton V :=
+    have : Subsingleton V :=
       ⟨fun a b => Subtype.ext ((hV1 _ a.2).trans (hV1 _ b.2).symm)⟩
     exact isCyclic_of_subsingleton
 
@@ -106,7 +106,7 @@ theorem conj_injective_of_mulEquiv {X : Type} [Group X] {K : Type} [Field K] [Fi
     rw [Subgroup.mem_center_iff]
     intro g
     have h := congrArg (fun φ : MulAut X => φ g) hx
-    simp only [map_one, MulAut.conj_apply, MulAut.one_apply] at h
+    simp only [MulAut.conj_apply, MulAut.one_apply] at h
     have h' : x * g * x⁻¹ = g := h
     rw [mul_inv_eq_iff_eq_mul] at h'
     exact h'.symm
@@ -199,7 +199,7 @@ theorem kLTwoCentralizer_holds :
     have hα3 : (MulAut.congr e β) ^ 3 = 1 := by rw [← map_pow, hβ3', map_one]
     have hfield := isField_of_pow_three_of_not_inner hα3 hout'
     obtain ⟨σ, hσ, -⟩ := exists_fixed_iff_of_isField hfield hα3
-    haveI : Finite (GaloisField p f ≃+* GaloisField p f) :=
+    have : Finite (GaloisField p f ≃+* GaloisField p f) :=
       Nat.finite_of_card_ne_zero (by rw [card_ringAut_eq hp hf hcard]; omega)
     have h3f : 3 ∣ f := by
       have h1 := orderOf_dvd_natCard σ

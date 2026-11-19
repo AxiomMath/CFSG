@@ -263,7 +263,7 @@ theorem caseTwo_core (D : OuterFiveData P Z φ)
         push Not at hlt
         exact ha1 ((Nat.Prime.pow_dvd_iff_le_factorization hpp hpos).mpr hlt)
       · exact (Nat.Prime.pow_dvd_iff_le_factorization hpp hpos).mp ha
-    have hSp : IsPGroup p S := S'.isPGroup'.map _
+    have hSp : IsPGroup p S := S'.isPGroup.map _
     have hSidx : ¬ p ∣ S.relIndex M := by
       have h1 : S.subgroupOf M = (S' : Subgroup M) := by
         rw [hS]; exact Subgroup.comap_map_eq_self_of_injective M.subtype_injective _

@@ -195,7 +195,7 @@ theorem uniNormModel_holds : UniNormModel := by
       · exact hp3 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).mp (hp.dvd_of_dvd_pow hd3))
     exact shapeModelNormAt_of_not_dvd_card hp (by rw [hcardR]; exact hnot72)
   ·
-    haveI : CharP K 2 := hdata.charP
+    have : CharP K 2 := hdata.charP
     have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
     obtain ⟨τ, hτq, hτ⟩ := exists_frob_equiv (K := K) hK
     let H : Subgroup (GL (Fin N) K) := unitarySU 2 n K N

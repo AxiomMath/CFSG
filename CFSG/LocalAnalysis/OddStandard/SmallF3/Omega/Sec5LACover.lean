@@ -21,9 +21,9 @@ theorem sec5la_centralizes_of_mem_normalizer {G : Type} [Group G] [Finite G] {L 
     (hwN : w ∈ normalizer (L : Set G)) (hwz : w ∈ centralizer ({z} : Set G))
     (hw6 : Nat.Coprime (orderOf w) 6) : w ∈ centralizer (L : Set G) := by
   obtain ⟨V, i1, i2, i3, Q, hQ, φ, hφ⟩ := t5_exists_cover hS hL
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   obtain ⟨e, he⟩ := t5_exists_model hL hφ
   have hzL : z ∈ L := by
     obtain ⟨_, K, hzK, hKle, _⟩ := hz

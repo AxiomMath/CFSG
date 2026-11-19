@@ -134,7 +134,6 @@ theorem dsearchM_spec (hA : ChainArrays Q O S base W) (hF : ChainCheckFacts n O 
       apply Finset.sum_le_sum
       intro k hk
       rw [Finset.mem_range] at hk
-      beta_reduce
       rcases (K.filter fun c => key c = k).eq_empty_or_nonempty with he | ⟨c0, hc0⟩
       · rw [he, Finset.card_empty]
         exact Nat.zero_le _

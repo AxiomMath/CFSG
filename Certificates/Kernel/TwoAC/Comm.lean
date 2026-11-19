@@ -53,13 +53,13 @@ theorem spin_of_forest {S SA SB : List Nat} {k : ℕ} (hSA : stripMat S * aM = s
   · obtain ⟨hlt, he⟩ := hr (by omega)
     rw [he, rho]
     by_cases h0 : codeAt TwoAC.Fb t.val = 8740
-    · rw [if_pos h0, if_pos (by omega)]
-    · rw [if_neg h0, if_neg (by omega)]
+    · rw [ite_eq_left h0, ite_eq_left (by omega)]
+    · rw [ite_eq_right h0, ite_eq_right (by omega)]
   · obtain ⟨hlt, he⟩ := hc (by omega)
     rw [he, ← rowMul]
     by_cases h0 : codeAt TwoAC.Fb t.val % 2 = 0
-    · rw [if_pos h0, h0, Dm, if_pos rfl, hSA, stripMat_row]
-    · rw [if_neg h0, Dm, if_neg h0, hSB, stripMat_row]
+    · rw [ite_eq_left h0, h0, Dm, ite_eq_left rfl, hSA, stripMat_row]
+    · rw [ite_eq_right h0, Dm, ite_eq_right h0, hSB, stripMat_row]
   · exfalso
     obtain ⟨hlt, -⟩ := hc (by omega)
     omega
@@ -145,11 +145,11 @@ theorem roots_comb {M : MatB} (hMa : M * aM = aM * M) (hMb : M * bM = bM * M) :
       (fun j : Fin 7 => (vrow (rowOf TwoAC.V0 j.val), vrow (rowOf TwoAC.V1 j.val))) :=
     rowsNZ_sound TwoAC.indep
   have hp0 : rho 0 0 ᵥ* M ∈ kerL (stripMat TwoAC.th0) := by
-    rw [mem_kerL, Matrix.vecMul_vecMul, h0.eq, ← Matrix.vecMul_vecMul, rho, if_pos rfl,
+    rw [mem_kerL, Matrix.vecMul_vecMul, h0.eq, ← Matrix.vecMul_vecMul, rho, ite_eq_left rfl,
       mem0 0 (by norm_num), Matrix.zero_vecMul]
   have hp1 : rho 0 1 ᵥ* M ∈ kerL (stripMat TwoAC.th1) := by
     rw [mem_kerL, Matrix.vecMul_vecMul, h1.eq, ← Matrix.vecMul_vecMul, rho,
-      if_neg one_ne_zero, mem1 0 (by norm_num), Matrix.zero_vecMul]
+      ite_eq_right one_ne_zero, mem1 0 (by norm_num), Matrix.zero_vecMul]
   have hd : finrank (ZMod 2) (kerL (stripMat TwoAC.th0)) +
       finrank (ZMod 2) (kerL (stripMat TwoAC.th1)) ≤ 7 := by
     have := ker0_dim
@@ -169,9 +169,9 @@ theorem roots_comb {M : MatB} (hMa : M * aM = aM * M) (hMb : M * bM = bM * M) :
   simp only [Pi.smul_apply]
   by_cases hi : i = 0
   · subst hi
-    simp only [rho, if_pos rfl] at e0 ⊢
+    simp only [rho] at e0 ⊢
     exact e0.symm
-  · simp only [rho, if_neg hi, if_neg one_ne_zero] at e1 ⊢
+  · simp only [rho, ite_eq_right hi, ite_eq_right one_ne_zero] at e1 ⊢
     exact e1.symm
 
 @[expose] noncomputable def tauL (u v : Vec) (D : MatB) : MatB →ₗ[ZMod 2] Vec where
@@ -319,7 +319,7 @@ theorem commutant : ∃ T₁ T₂ : MatB, T₁.rank ≤ 1 ∧ T₂.rank ≤ 78 �
   calc M = stripMat TwoAC.Binv * (stripMat TwoAC.Bv * M) := by rw [← mul_assoc, hBi, one_mul]
     _ = _ := by
       rw [hBM]
-      simp only [Matrix.mul_add, Matrix.mul_smul, ← mul_assoc, hBi, one_mul, mul_one]
+      simp only [Matrix.mul_add, Matrix.mul_smul, ← mul_assoc, hBi, one_mul]
       rfl
 
 theorem twoAC_fact : TwoACFact mA mB :=

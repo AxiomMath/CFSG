@@ -17,7 +17,7 @@ private theorem fzc_eq_or_eq_or_eq_or_eq_of_card_four {V : Type*} [Finite V]
     (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d) (w : V) :
     w = a ∨ w = b ∨ w = c ∨ w = d := by
   classical
-  letI : Fintype V := Fintype.ofFinite V
+  let : Fintype V := Fintype.ofFinite V
   have hsub : ({a, b, c, d} : Finset V) ⊆ Finset.univ := Finset.subset_univ _
   have hcard : ({a, b, c, d} : Finset V).card = 4 := by
     rw [Finset.card_eq_four]
@@ -58,13 +58,13 @@ private theorem fzc_mul_inv_mem_of_quot_eq {W Q : Subgroup G}
 
 theorem fzc_sy3_rho_cosets [Finite G] {W Q : Subgroup G} {rho : G} (hWQ : W ≤ Q)
     (hcard : Nat.card Q = 4 * Nat.card W) (hnrm : ∀ q ∈ Q, ∀ w ∈ W, q * w * q⁻¹ ∈ W)
-    (hsq : ∀ q ∈ Q, q ^ 2 ∈ W) (hcomm : ∀ a ∈ Q, ∀ b ∈ Q, ⁅a, b⁆ ∈ W)
+    (_hsq : ∀ q ∈ Q, q ^ 2 ∈ W) (_hcomm : ∀ a ∈ Q, ∀ b ∈ Q, ⁅a, b⁆ ∈ W)
     (hrQ : ∀ q ∈ Q, rho * q * rho⁻¹ ∈ Q) (hrW : ∀ w ∈ W, rho * w * rho⁻¹ ∈ W)
     (hrho : rho ^ 3 = 1) (hfpf : ∀ q ∈ Q, rho * q * rho⁻¹ * q⁻¹ ∈ W → q ∈ W)
     {x : G} (hx : x ∈ Q) (hxW : x ∉ W) :
     ∀ q ∈ Q, q ∈ W ∨ q * x⁻¹ ∈ W ∨ q * (rho * x * rho⁻¹)⁻¹ ∈ W ∨
       q * (rho⁻¹ * x * rho)⁻¹ ∈ W := by
-  haveI hWnorm : (W.subgroupOf Q).Normal := ⟨fun n hn g => by
+  have hWnorm : (W.subgroupOf Q).Normal := ⟨fun n hn g => by
     simp only [Subgroup.mem_subgroupOf] at hn ⊢
     exact hnrm (g : G) g.2 (n : G) hn⟩
   have hrWinv : ∀ w ∈ W, rho⁻¹ * w * rho ∈ W := by
@@ -80,8 +80,8 @@ theorem fzc_sy3_rho_cosets [Finite G] {W Q : Subgroup G} {rho : G} (hWQ : W ≤ 
     have hW'card : Nat.card (W.subgroupOf Q) = Nat.card W :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hWQ).toEquiv
     have hlag := Subgroup.card_eq_card_quotient_mul_card_subgroup (W.subgroupOf Q)
-    haveI : Nonempty ↥W := ⟨⟨1, W.one_mem⟩⟩
-    haveI : Finite ↥W := inferInstance
+    have : Nonempty ↥W := ⟨⟨1, W.one_mem⟩⟩
+    have : Finite ↥W := inferInstance
     have hWpos : 0 < Nat.card W := Nat.card_pos
     have h : Nat.card (↥Q ⧸ W.subgroupOf Q) * Nat.card (W.subgroupOf Q) =
         4 * Nat.card (W.subgroupOf Q) := by

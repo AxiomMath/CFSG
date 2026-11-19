@@ -65,6 +65,7 @@ theorem le_spFixedFactor_of_isComponentOf (hK : Nat.card K = 2) (hζo : IsPrimit
 
 end JFIX
 
+omit [Finite K] [CharP K 2] in
 theorem exists_eq_closure_pair (hζo : IsPrimitiveRoot ζ 3) {D : Subgroup (StatedSp n K)}
     (hDE : D ≤ E) (hD : Nat.card D = 9) {c : Fin F.s → ZMod 3} (hcD : F.tor c ∈ D)
     {i₀ : Fin F.s} (hc : c i₀ ≠ 0) :
@@ -86,7 +87,7 @@ theorem exists_eq_closure_pair (hζo : IsPrimitiveRoot ζ 3) {D : Subgroup (Stat
   have hex : ∃ y ∈ D, y ∉ Subgroup.zpowers (F.tor c) := by
     by_contra h
     push Not at h
-    haveI : Finite ↥(Subgroup.zpowers (F.tor c)) :=
+    have : Finite ↥(Subgroup.zpowers (F.tor c)) :=
       Nat.finite_of_card_ne_zero (by rw [hcard3]; norm_num)
     have hle : Nat.card D ≤ Nat.card (Subgroup.zpowers (F.tor c)) :=
       Subgroup.card_le_of_le h

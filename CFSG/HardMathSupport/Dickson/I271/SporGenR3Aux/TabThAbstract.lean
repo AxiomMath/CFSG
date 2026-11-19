@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -52,9 +52,9 @@ variable {C : Type*} [Group C] [Finite C]
 theorem normal_of_simple_not_dvd_factorial (E : Subgroup C) [IsSimpleGroup ↥E]
     (hn : ¬ Nat.card ↥E ∣ (E.index).factorial) : E.Normal := by
   classical
-  haveI : Fintype C := Fintype.ofFinite C
-  haveI : Finite (C ⧸ E) := inferInstance
-  haveI : Fintype (C ⧸ E) := Fintype.ofFinite _
+  have : Fintype C := Fintype.ofFinite C
+  have : Finite (C ⧸ E) := inferInstance
+  have : Fintype (C ⧸ E) := Fintype.ofFinite _
   have hker : E.normalCore = (MulAction.toPermHom C (C ⧸ E)).ker := Subgroup.normalCore_eq_ker E
   by_cases h : E.normalCore = ⊥
   · exfalso
@@ -139,7 +139,7 @@ theorem isPGroup_three_of_small_central {Z : Subgroup C} [Z.Normal] {s : C}
     (hsZ : s ∈ Z) (hs3 : orderOf s = 3) (hsc : ∀ c : C, c * s = s * c)
     (hcard : Nat.card Z < 18)
     (hO : ∀ N : Subgroup C, N.Normal → Nat.Coprime 3 (Nat.card N) → N = ⊥) : IsPGroup 3 Z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hnot
   obtain ⟨q, hq, hqd, hq3⟩ : ∃ q, q.Prime ∧ q ∣ Nat.card Z ∧ q ≠ 3 := by
     by_contra h'
@@ -148,7 +148,7 @@ theorem isPGroup_three_of_small_central {Z : Subgroup C} [Z.Normal] {s : C}
     rw [IsPGroup.iff_card]
     exact ⟨(Nat.card Z).primeFactorsList.length,
       Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' fun {d} hp hd => h' d hp hd⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨P⟩ : Nonempty (Sylow q Z) := inferInstance
   have hs'3 : orderOf (⟨s, hsZ⟩ : Z) = 3 := by rwa [Subgroup.orderOf_mk]
   have hs'c : ∀ g : Z, g * ⟨s, hsZ⟩ = ⟨s, hsZ⟩ * g := fun g => Subtype.ext (hsc g)

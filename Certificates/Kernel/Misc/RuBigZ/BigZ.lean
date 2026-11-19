@@ -174,7 +174,7 @@ theorem mem_of_mAp {o r : Nat} {P : Nat → Nat} {ws : List (List Int)}
     (hP : ∀ i < r, PtR (apP (P (o + i))) (wG (ws.getD i []))) (hv : EBasis (vOf ws r))
     {f : Nat → Nat} {g : Equiv.Perm (Fin 4060)} (hg : g ∈ ruP) (hf : PtR f g) {m : Nat}
     (h : ∀ b < 4, f b = mAp P o r m b) : g ∈ refSub (vOf ws r) := by
-  have e := eq_of_pts bF hbsJ hg (mProd_mem bF hbsJ (wGv_mem ws) m r) hf (ptR_mAp m hP) h
+  have e := eq_of_pts bF hbsJ hg (mProd_mem (wGv_mem ws) m r) hf (ptR_mAp m hP) h
   rw [refSub_eq hv, e, mProd_eq_eElt m (comm_of_eb (v := fun i => wG (ws.getD i [])) hv)]
   exact eElt_mem hv _
 

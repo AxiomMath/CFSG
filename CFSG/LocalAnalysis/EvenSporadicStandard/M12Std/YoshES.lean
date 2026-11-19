@@ -101,7 +101,7 @@ structure ESFacts (E : NEmb e₀ d α k) : Prop where
   ZS : ∀ z ∈ SG E, (∀ s ∈ SG E, z * s = s * z) → z = 1 ∨ z = cG e₀
   ZE : ∀ z ∈ EG E, (∀ s ∈ EG E, z * s = s * z) → z = 1 ∨ z = cG e₀
 
-theorem img_sq_comm (E : NEmb e₀ d α k) {K : Subgroup (Equiv.Perm (Fin 16))} (hK : K ≤ NG α k)
+theorem img_sq_comm (E : NEmb e₀ d α k) {K : Subgroup (Equiv.Perm (Fin 16))} (_hK : K ≤ NG α k)
     (hsq : ∀ x ∈ K, x * x = 1 ∨ x * x = wp α k (swN cWord))
     (hcomm : ∀ x ∈ K, ∀ y ∈ K, ⁅x, y⁆ = 1 ∨ ⁅x, y⁆ = wp α k (swN cWord)) :
     (∀ x ∈ img E K, x * x = 1 ∨ x * x = cG e₀) ∧

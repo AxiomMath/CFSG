@@ -387,7 +387,7 @@ private theorem l4_permMatrix_apply (σ : Equiv.Perm (Fin 4)) (i j : Fin 4) :
   · subst h
     simp
   · have h' : ¬ j = σ i := fun e => h e.symm
-    simp [h, h']
+    simp [h]
 
 private theorem l4_permMatrix_mul_D {ω : K} (σ : Equiv.Perm (Fin 4)) (e : Fin 4 → ℕ) :
     σ.permMatrix K * l4D ω e = l4D ω (fun i => e (σ i)) * σ.permMatrix K := by
@@ -484,7 +484,7 @@ private theorem l4_inj {ω : K} (hω : ω ^ 3 = 1) (hω1 : ω ≠ 1) (v : Fin 3 
   apply l4_mod_of_pow_eq hω hω1
   have hi := congrFun (congrFun hm i) i
   have hi0 := congrFun (congrFun hm 0) 0
-  simp [l4D, Matrix.scalar_apply, Matrix.diagonal_mul_diagonal] at hi hi0
+  simp [l4D, Matrix.scalar_apply] at hi hi0
   exact mul_right_cancel₀ (Units.ne_zero u) (hi.trans hi0.symm)
 
 private theorem l4_t_ne {ω : K} (hω : ω ^ 3 = 1) (v : Fin 3 → ZMod 3) :
@@ -501,8 +501,7 @@ private theorem l4_t_ne {ω : K} (hω : ω ^ 3 = 1) (v : Fin 3 → ZMod 3) :
       (g : Matrix (Fin 4) (Fin 4) K)) hu
     simpa [l4gD_val, l4gP_val, Matrix.GeneralLinearGroup.coe_scalar] using this
   have h10 := congrFun (congrFun hm 1) 0
-  simp [l4D, Matrix.scalar_apply, Matrix.diagonal_mul_diagonal, l4_permMatrix_apply,
-    l4τ_one_zero] at h10
+  simp [l4D, Matrix.scalar_apply, l4τ_one_zero] at h10
 
 private theorem l4_pow_three {ω : K} (hω : ω ^ 3 = 1) (i : Fin 3) : l4z hω i ^ 3 = 1 := by
   apply Subtype.ext

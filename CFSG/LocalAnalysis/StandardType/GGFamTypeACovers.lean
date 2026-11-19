@@ -28,10 +28,10 @@ private theorem famTypeACover_twistKindM_eq_inner_of_compRank_eq_one
   by_cases hin : twistInner (componentRoots χ i)
       ((ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength ρ (componentRoots χ i)])
   · unfold twistKindM
-    rw [if_pos hin]
+    rw [ite_eq_left hin]
   · unfold twistKindM
-    rw [if_neg hin, if_neg (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
-      if_neg (fun h => by omega), if_neg (fun h => by omega)]
+    rw [ite_eq_right hin, ite_eq_right (by rintro (⟨h, _⟩ | ⟨h, _⟩) <;> omega),
+      ite_eq_right (fun h => by omega), ite_eq_right (fun h => by omega)]
 
 theorem fam_exists_slCover_rankOne
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
@@ -60,8 +60,8 @@ theorem fam_exists_slCover_rankOne
       (famTypeACover_twistKindM_eq_inner_of_compRank_eq_one (ρ := S.ρ) i h1)
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := fam_exists_untwist S hρ i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hrL : ringChar L = r := ringChar.eq L r
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   obtain ⟨hfinK, hKcard⟩ := finite_card_fixSubfield (L := L) (r := r) (n := e * s)
@@ -110,13 +110,13 @@ theorem fam_exists_slCover_rankOne
       exact hQ4
   · exfalso
     have hKle : Nat.card (fixSubfield σ) ≤ 3 := by rw [hKcard]; omega
-    haveI : Group.IsSolvable SL(2, ↥(fixSubfield σ)) :=
+    have : Group.IsSolvable SL(2, ↥(fixSubfield σ)) :=
       isSolvable_specialLinear_two_of_card_le_three hKle
-    haveI : Group.IsSolvable ↥(componentRootSpan (fixSubfield σ) χ i) :=
+    have : Group.IsSolvable ↥(componentRootSpan (fixSubfield σ) χ i) :=
       Group.isSolvable_of_isSolvable_injective (f := eSL.symm.toMonoidHom) eSL.symm.injective
-    haveI : Group.IsSolvable ↥f.range :=
+    have : Group.IsSolvable ↥f.range :=
       Group.isSolvable_of_surjective (f := f.rangeRestrict) f.rangeRestrict_surjective
-    haveI : Group.IsSolvable ↥(rationalComponentM S.ρ S.Γ χ i) :=
+    have : Group.IsSolvable ↥(rationalComponentM S.ρ S.Γ χ i) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hf1)
     exact CFSG.HardMathSupport.Solomon.Coordinator.LieComp.not_isSolvable_of_isQuasisimple
       hQS inferInstance
@@ -141,8 +141,8 @@ theorem fam_exists_slCover_splitFrame
   classical
   obtain ⟨hs0, -, -⟩ := fam_componentOrbitLength_spec S hρ i
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   set s := componentOrbitLength S.ρ (componentRoots χ i) with hsdef
   have hrL : ringChar L = r := ringChar.eq L r
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ := fam_split_exists_hom S hρ i hν hψ hΨ π hπ
@@ -193,17 +193,17 @@ theorem fam_not_unitaryFrame_three_two
     hr hchar he hq
   obtain ⟨hfin, -, hc216⟩ := stdUnitary_fixSubgroup (ν := ν) hr hes σQ hσc hν
   have hcard := hc216 h32
-  haveI := hfin
-  haveI := Fintype.ofFinite
+  have := hfin
+  have := Fintype.ofFinite
     ↥(CFSG.RankThree.Classical2.fixSubgroup (stdUnitaryEquiv (ν := ν) σQ))
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       ↥(CFSG.RankThree.Classical2.fixSubgroup (stdUnitaryEquiv (ν := ν) σQ)) :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       (p := 2) (q := 3) (a := 3) (b := 3) Nat.prime_two Nat.prime_three (by norm_num)
       (by rw [← Nat.card_eq_fintype_card, hcard]; norm_num)
-  haveI : Group.IsSolvable ↥f.range :=
+  have : Group.IsSolvable ↥f.range :=
     Group.isSolvable_of_surjective (f := f.rangeRestrict) f.rangeRestrict_surjective
-  haveI : Group.IsSolvable ↥(rationalComponentM S.ρ S.Γ χ i) :=
+  have : Group.IsSolvable ↥(rationalComponentM S.ρ S.Γ χ i) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hf1)
   exact CFSG.HardMathSupport.Solomon.Coordinator.LieComp.not_isSolvable_of_isQuasisimple
     hQS inferInstance
@@ -230,8 +230,8 @@ theorem fam_exists_suCover_unitaryFrame
   classical
   obtain ⟨hs0, -, -⟩ := fam_componentOrbitLength_spec S hρ i
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   set s := componentOrbitLength S.ρ (componentRoots χ i) with hsdef
   have hes : 0 < e * s := Nat.mul_pos he hs0
   have hrL : ringChar L = r := ringChar.eq L r
@@ -256,7 +256,7 @@ theorem fam_exists_suCover_unitaryFrame
     exact congrArg Subtype.val hc
   obtain ⟨F, hFcard, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.two_suN_exists_equiv hr hes σQ hσc hν
-  haveI : Finite ↥F := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥F := Nat.finite_of_card_ne_zero (by
     rw [hFcard]
     exact (pow_pos (pow_pos hr.pos _) 2).ne')
   let g' : ↥(StatedSU ν (r ^ (e * s)) F) →*

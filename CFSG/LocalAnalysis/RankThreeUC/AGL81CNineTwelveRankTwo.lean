@@ -20,12 +20,12 @@ open scoped commutatorElement
 
 private theorem card_GL_dvd_card_GL_two {p : ℕ} (hp : p.Prime) {k : ℕ} (hk : k ≤ 2) :
     Nat.card (GL (Fin k) (ZMod p)) ∣ Nat.card (GL (Fin 2) (ZMod p)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   interval_cases k
   · rw [CFSG.SectionRank.Ccomm.card_GL_zmod 0, CFSG.SectionRank.Ccomm.card_GL_zmod 2]
     simp
   · rw [CFSG.SectionRank.Ccomm.card_GL_zmod 1, CFSG.SectionRank.Ccomm.card_GL_zmod 2]
-    have h1 : (∏ i : Fin 1, (p ^ 1 - p ^ (i : ℕ))) = p - 1 := by simp [Fin.prod_univ_one]
+    have h1 : (∏ i : Fin 1, (p ^ 1 - p ^ (i : ℕ))) = p - 1 := by simp
     have h2 : (∏ i : Fin 2, (p ^ 2 - p ^ (i : ℕ))) = (p ^ 2 - 1) * (p ^ 2 - p) := by
       simp [Fin.prod_univ_two]
     rw [h1, h2]
@@ -38,9 +38,9 @@ theorem card_dvd_card_GL_two_of_coprime {X : Type} [Group X] [Finite X] {p : ℕ
     (hp2 : p ≠ 2) (hC : centralizer (CFSG.pCore p X : Set X) ≤ CFSG.pCore p X)
     (hrk : CFSG.Open.pRank p (CFSG.pCore p X) ≤ 2) {S : Subgroup X}
     (hS : Nat.Coprime (Nat.card S) p) : Nat.card S ∣ Nat.card (GL (Fin 2) (ZMod p)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let P : Subgroup X := CFSG.pCore p X
-  haveI hPnorm : P.Normal := CFSG.pCore_normal
+  have hPnorm : P.Normal := CFSG.pCore_normal
   have hPp : IsPGroup p ↥P := CFSG.pCore_isPGroup
   let σ : ↥S →* MulAut ↥P := (MulAut.conjNormal (H := P)).comp S.subtype
   have hσdvd : ∀ s : ↥S, orderOf (σ s) ∣ Nat.card S := fun s =>
@@ -51,7 +51,7 @@ theorem card_dvd_card_GL_two_of_coprime {X : Type} [Group X] [Finite X] {p : ℕ
     CFSG.RankThree.PartTwo.Sec13.CritProof.exists_isThompsonCritical_omega (P := ↥P) (p := p)
       hp2 hPp
   let D : Subgroup ↥P := CFSG.RankThree.PartTwo.Sec13.CritProof.omegaOneIn p C
-  haveI : D.Characteristic := hDchar
+  have : D.Characteristic := hDchar
   have hDp : IsPGroup p ↥D := hPp.to_subgroup D
   have hDexp' : ∀ x : ↥D, x ^ p = 1 := fun x => by
     apply Subtype.ext
@@ -135,7 +135,7 @@ theorem card_dvd_card_GL_two_of_coprime {X : Type} [Group X] [Finite X] {p : ℕ
       Nat.Coprime.of_dvd_left (orderOf_dvd_natCard s) hS
     exact orderOf_eq_one_iff.mp
       (Nat.eq_one_of_dvd_coprimes (hcop_s.pow_right m) dvd_rfl hsdvd)
-  haveI : IsMulCommutative (↥D ⧸ frattini ↥D) :=
+  have : IsMulCommutative (↥D ⧸ frattini ↥D) :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := frattini ↥D)).mpr (by
       rw [hfratt])
   have hWcomm : ∀ a b : ↥D ⧸ frattini ↥D, a * b = b * a := fun a b => mul_comm' a b

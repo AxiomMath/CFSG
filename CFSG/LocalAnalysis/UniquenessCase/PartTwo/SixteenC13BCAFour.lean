@@ -51,7 +51,7 @@ theorem s16c13bcA_exists_noncyclic_fixing {T : Type} [CommGroup T] [Finite T] {p
     (hFY : ∀ f ∈ F, Y.map f.toMonoidHom = Y) (hY : Nat.card Y < p ^ 2) {n : T} (hn : n ∈ Y) :
     ∃ P : Subgroup (MulAut T), P ≤ F ∧ ¬ IsCyclic P ∧ ∀ f ∈ P, f n = n := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hFp : IsPGroup p F := fun g => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hF.2 g g.2)⟩
@@ -116,7 +116,7 @@ theorem s16c13bcA_case168_4_two (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
   have hrank := s16c1610_three_le_pRank_mBar_of_four D hx h61 h127 hc.setting.hyp16 hV h4 hpσ
   have hcore := s16n9b_case4_pcore D hV hc hpp (by norm_num : 1 < 2) hL
   obtain ⟨ι, hι, Y, hind, hinj, hsup, hcard, hrk, hperm, hsurj⟩ := s16n9b_case4_data hS
-  letI := hι
+  let := hι
   obtain ⟨F, hFX, hFel, hFcard, hFY, -⟩ := s16n9b_case4_kernel
     (s15_Infra_vtil_sq_eq_one ⊥ V hV) hp37 (by norm_num) hL hcore hrank hind hinj hsup hcard hrk
     hperm hsurj

@@ -20,7 +20,7 @@ private theorem exists_Rt_of_three_factors [(Q.subgroupOf M).Normal]
     (h1 : IsQSNormalIn X₁ (bar M Q (Lgen M (LB M Q B))))
     (h2 : IsQSNormalIn X₂ (bar M Q (Lgen M (LB M Q B))))
     (h3 : IsQSNormalIn X₃ (bar M Q (Lgen M (LB M Q B)))) :
-    ∃ (t : ↥M) (c₂ : IsComponent X₂) (c₃ : IsComponent X₃),
+    ∃ (t : ↥M) (_c₂ : IsComponent X₂) (_c₃ : IsComponent X₃),
       (t : G) ∈ LB M Q B ∧ (t : G) ∉ Q ∧
         X₂ ≤ bar M Q (Rt M (LB M Q B) (t : G)) ∧
         X₃ ≤ bar M Q (Rt M (LB M Q B) (t : G)) := by

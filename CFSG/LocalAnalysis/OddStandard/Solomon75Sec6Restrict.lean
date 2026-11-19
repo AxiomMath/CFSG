@@ -30,15 +30,18 @@ theorem modOddCard_eq_of_covers {D K : Subgroup X} (hDK : D ≤ K)
 private theorem restr_odd_card (L : Subgroup X) : Odd (Nat.card (pPrimeCoreOf 2 L)) :=
   odd_card_oddCoreOf L
 
+omit [Finite X] in
 private theorem restr_conj_mem {S : Subgroup X} {c h : X} (hc : c ∈ normalizer (S : Set X))
     (hh : h ∈ S) : c * h * c⁻¹ ∈ S :=
   (Subgroup.mem_normalizer_iff.1 hc h).1 hh
 
+omit [Finite X] in
 private theorem restr_conj_inv_mem {S : Subgroup X} {c h : X} (hc : c ∈ normalizer (S : Set X))
     (hh : h ∈ S) : c⁻¹ * h * c ∈ S := by
   have := restr_conj_mem (Subgroup.inv_mem _ hc) hh
   rwa [inv_inv] at this
 
+omit [Finite X] in
 private theorem restr_comm_mem {O : Subgroup X} {a b s : X} (hs : s ∈ normalizer (O : Set X))
     (ha : a ∈ normalizer (O : Set X)) (hm : b⁻¹ * a ∈ O) (has : a * s = s * a) :
     ⁅b, s⁆ ∈ O := by
@@ -52,6 +55,7 @@ private theorem restr_comm_mem {O : Subgroup X} {a b s : X} (hs : s ∈ normaliz
   rw [e]
   exact restr_conj_mem ha (O.mul_mem (O.inv_mem hm) (restr_conj_mem hs hm))
 
+omit [Finite X] in
 private theorem restr_isSubnormal_inf {K D D' H : Subgroup X} (hHD : H ≤ D) (hHD' : H ≤ D')
     (hK : (K.subgroupOf D).IsSubnormal) : ((K ⊓ D').subgroupOf H).IsSubnormal := by
   have h1 : (K ⊓ D').subgroupOf H = (K.subgroupOf D).comap (Subgroup.inclusion hHD) := by
@@ -95,9 +99,10 @@ private theorem restr_pPrimeCoreOf_le {F K : Subgroup X} (hFK : F ≤ K)
   exact ⟨Subgroup.inclusion hFK a, (QuotientGroup.eq_one_iff (Subgroup.inclusion hFK a)).1 h2,
     rfl⟩
 
+omit [Finite X] in
 private theorem restr_mem_centralizerSection_of_le_cen {K G : Subgroup X} {v : X}
     (hvK : v ∈ normalizer (K : Set X)) (hvO : v ∈ normalizer (pPrimeCoreOf 2 K : Set X))
-    (hGK : G ≤ K) (hGv : G ≤ cen v) (hcov : G.subgroupOf K ⊔ pPrimeCore 2 ↥K = ⊤) :
+    (_hGK : G ≤ K) (hGv : G ≤ cen v) (hcov : G.subgroupOf K ⊔ pPrimeCore 2 ↥K = ⊤) :
     v ∈ centralizerSection K (pPrimeCoreOf 2 K) := by
   have hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨hvK, hvO, fun k hk => ?_⟩
@@ -427,29 +432,33 @@ theorem sSup_eq_sup_iSup_restrict {H : Subgroup X} {g : X} {P : Subgroup X → P
     (sup_le (le_sup_of_le_right (le_iSup₂_of_le L hL le_rfl)) (le_sup_of_le_left hOL))
 
 theorem modOddCard_iSup_restrict {H : Subgroup X} {g : X} {P : Subgroup X → Prop}
-    (hP : ∀ L, P L → IsPCompIn 2 H L) (hg2 : g ^ 2 = 1)
-    (hgP : ∀ L, P L → g ∈ centralizerSection L (pPrimeCoreOf 2 L)) :
-    modOddCard (⨆ (L : Subgroup X) (_ : P L), oTwoPrimeOf (L ⊓ cen g)) =
-      modOddCard (sSup {L | P L}) :=
+    (hP : ∀ _L, P _L → IsPCompIn 2 H _L) (hg2 : g ^ 2 = 1)
+    (hgP : ∀ _L, P _L → g ∈ centralizerSection _L (pPrimeCoreOf 2 _L)) :
+    modOddCard (⨆ (_L : Subgroup X) (_ : P _L), oTwoPrimeOf (_L ⊓ cen g)) =
+      modOddCard (sSup {_L | P _L}) :=
   modOddCard_eq_of_covers
-    (iSup₂_le fun L hL =>
-      ((oTwoPrimeOf_le _).trans inf_le_left).trans (le_sSup (s := {L | P L}) hL))
+    (iSup₂_le fun _L hL =>
+      ((oTwoPrimeOf_le _).trans inf_le_left).trans (le_sSup (s := {_L | P _L}) hL))
     (sSup_eq_sup_iSup_restrict hP hg2 hgP)
 
+omit [Finite X] in
 private theorem restr_sec6KComp_isPCompIn {n : ℕ} {H L : Subgroup X} (hL : Sec6KComp X n H L) :
     IsPCompIn 2 H L := by
   rcases hL with ⟨⟨u, hu⟩, -⟩ | ⟨hM, -⟩
   · exact hu.2.2.1
   · exact hM.1
 
+omit [Finite X] in
 private theorem restr_sq_eq_one {g : X} (hg : orderOf g = 2) : g ^ 2 = 1 := by
   rw [← hg]
   exact pow_orderOf_eq_one g
 
+omit [Finite X] in
 private theorem restr_le_sec6K {n : ℕ} {H L : Subgroup X} (hL : Sec6KComp X n H L) :
     L ≤ Sec6K X n H :=
   le_sSup (s := {L | Sec6KComp X n H L}) hL
 
+omit [Finite X] in
 private theorem restr_le_sec6M {n : ℕ} {H M : Subgroup X} (hM : Sec6MComp X n H M) :
     M ≤ Sec6M X n H :=
   le_sSup (s := {M | Sec6MComp X n H M}) hM
@@ -461,6 +470,7 @@ private theorem restr_iSup_le_K {n : ℕ} {t g : X} (h51 : Sec6Lemma51 X n) (hg 
   refine (iSup₂_le fun L hL => ?_).trans (h51.sub g hg (cen t ⊓ cen g) inf_le_right).1
   exact restr_le_sec6K (sec6KComp_restrict hL (restr_sq_eq_one hg) (hgS L hL))
 
+omit [Finite X] in
 private theorem restr_iSup_le_Kt {n : ℕ} {t g : X} :
     (⨆ (L : Subgroup X) (_ : Sec6KComp X n (cen t) L), oTwoPrimeOf (L ⊓ cen g)) ≤
       Sec6K X n (cen t) :=

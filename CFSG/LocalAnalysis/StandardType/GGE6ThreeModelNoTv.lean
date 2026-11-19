@@ -72,15 +72,15 @@ private theorem exists_matrix (u : WeylGroup .E6) :
 
 private theorem card_X : Nat.card X = 3 ^ 5 := by
   rw [Nat.card_pi]
-  simp [Nat.card_zmod]
+  simp
 
-theorem not_isTransvection_hypE6 (c : ZMod 3) (hc : c ≠ 0) (u : WeylGroup .E6)
+theorem not_isTransvection_hypE6 (c : ZMod 3) (_hc : c ≠ 0) (u : WeylGroup .E6)
     (t : NoOffRest.hypE6 →+ NoOffRest.hypE6)
     (ht : ∀ x : NoOffRest.hypE6, ((t x : NoOffRest.hypE6) : Fin Tag.E6.rank → ZMod 3) =
       c • adAct .E6 3 u (x : Fin Tag.E6.rank → ZMod 3))
     (hfix : Nat.card {x : NoOffRest.hypE6 // t x = x} * 3 = Nat.card NoOffRest.hypE6)
     (hN : ∀ x : NoOffRest.hypE6, t (t x - x) = t x - x) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨M, hM1, hM2⟩ := exists_matrix u
   let Bhom : X →+ (Fin Tag.E6.rank → ZMod 3) := (Matrix.vecMulLinear C5).toAddMonoidHom
   have hBhom : ∀ x : X, Bhom x = x ᵥ* C5 := fun x => rfl

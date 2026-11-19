@@ -42,7 +42,7 @@ theorem letter_pt (hS : S.size = kS) (hb : ∀ j < kS, S[j]! = unpack n w (PS j)
       have : (0 : Int) < (k : Int) := by omega
       exact this
     have e1 : letterA S (rawInvs n S) (Int.ofNat k) = S[k - 1]! := by
-      simp only [letterA, hpos, if_true]
+      simp only [letterA, hpos, ite_true]
       rfl
     have e2 : letP PS PSI (Int.ofNat k) = PS (k - 1) := rfl
     rw [e1, e2, hb _ (by omega), CFSG.KS.Raw.Orb.unpack_get hy]
@@ -55,7 +55,7 @@ theorem letter_pt (hS : S.size = kS) (hb : ∀ j < kS, S[j]! = unpack n w (PS j)
       have := Int.negSucc_lt_zero k
       omega
     have e1 : letterA S (rawInvs n S) (Int.negSucc k) = (rawInvs n S)[k]! := by
-      simp only [letterA, hneg, if_false]
+      simp only [letterA, hneg, ite_false]
       congr 1
     have e2 : letP PS PSI (Int.negSucc k) = PSI k := rfl
     have hP := hp k hkk
@@ -133,7 +133,7 @@ theorem intsSK_parse : ∀ (ts : List (List Char)) (xs : List Int), intsSK ts = 
           unfold String.toInt? at hx
           unfold String.toInt! String.Slice.toInt!
           rw [hx]
-        simp only [Bool.false_eq_true, if_false, ht]
+        simp only [Bool.false_eq_true, ite_false, ht]
 
 theorem parseInts_eq {l : List Char} {xs : List Int} (h : intsSK (tokK l) = some xs) :
     CFSG.YGroups.ModelNative.parseInts (String.ofList l) = xs := by

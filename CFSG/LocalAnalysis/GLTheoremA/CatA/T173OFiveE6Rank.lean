@@ -33,7 +33,7 @@ private theorem uSL_zero {K : Type} [Field K] : uSL (0 : K) = 1 := by
 private theorem uSL_one_ne_one_of_field {K : Type} [Field K] : uSL (1 : K) ≠ 1 := by
   intro h
   have h01 := congrArg (fun g : SL2 K => (g : Matrix (Fin 2) (Fin 2) K) 0 1) h
-  simpa [coe_uSL] using h01
+  simp [coe_uSL] at h01
 
 theorem isElemAbelian_unipotent {K : Type} [Field K] [CharP K 2] :
     IsElemAbelian 2 (Subgroup.closure (Set.range (uSL : K → SL2 K))) := by
@@ -79,7 +79,7 @@ private theorem pow_three_eq_one_of_card_dvd_three {H : Type} [Group H] [Finite 
     (h : Nat.card H ∣ 3) (z : H) : z ^ 3 = 1 := by
   have hz := pow_card_eq_one' (x := z)
   obtain h1 | h3 := (Nat.dvd_prime Nat.prime_three).1 h
-  · haveI : Subsingleton H := (Nat.card_eq_one_iff_unique.1 h1).1
+  · have : Subsingleton H := (Nat.card_eq_one_iff_unique.1 h1).1
     exact Subsingleton.elim _ _
   · rwa [h3] at hz
 
@@ -87,6 +87,7 @@ private theorem pow_three_eq_one_of_card_dvd_three {H : Type} [Group H] [Finite 
 variable {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω} {x : Ω} {F : Type} [Field F] [Finite F]
 
 
+omit [Finite F] in
 private theorem rootDiagUnit_conj_mem_simpleRootRange
     (i j : Fin Tag.E6.rank) {ζ : Fˣ} {y : ModGL Tag.E6 F}
     (hy : y ∈ (simpleRootSL2 Tag.E6 F j).range) :
@@ -117,6 +118,7 @@ private theorem rootDiagUnit_conj_mem_simpleRootRange
       rw [h]
       exact Subgroup.inv_mem _ ihy
 
+omit [Finite F] in
 private theorem rootDiagUnit_conj_mem_unipotent
     (i : Fin Tag.E6.rank) {ζ : Fˣ} {y : ModGL Tag.E6 F}
     (hy : y ∈ Subgroup.closure (Set.range (xUnit Tag.E6 F (0 : Fin Tag.E6.rank)))) :
@@ -144,6 +146,7 @@ private theorem rootDiagUnit_conj_mem_unipotent
       rw [h]
       exact Subgroup.inv_mem _ ihy
 
+omit [Finite Ω] [Finite F] in
 private theorem pi_conj_eq_hatAut
     {M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F)}
     {a : Fin Tag.E6.rank → Fˣ} {t : ↥S}
@@ -163,17 +166,18 @@ private theorem pi_conj_eq_hatAut
           (rootDiagUnit Tag.E6 a)⁻¹ := by rw [ht]
     _ = _ := by rw [coe_hatAut_apply]
 
+omit [Finite Ω] in
 private theorem commute_torusLift
     [CharP F 2] (hq : 4 ≤ Nat.card F)
     {M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F)}
-    {ζ : Fˣ} (hζ : orderOf ζ = 3)
+    {ζ : Fˣ} (_hζ : orderOf ζ = 3)
     {ψ : Fin Tag.E6.rank → (SL2 F →* ↥S)}
     (hψ : ∀ i g, ((M.π (ψ i g) : ↥(adjointGroup Tag.E6 F)) : ModGL Tag.E6 F) =
       simpleRootSL2 Tag.E6 F i g)
     (i j : Fin Tag.E6.rank) :
     ψ i (HSL ζ) * ψ j (HSL ζ) = ψ j (HSL ζ) * ψ i (HSL ζ) := by
   classical
-  haveI : Group.IsPerfect (SL2 F) :=
+  have : Group.IsPerfect (SL2 F) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F hq
   by_cases hij : i = j
   · rw [hij]
@@ -216,6 +220,7 @@ private theorem commute_torusLift
       = (ψ i (HSL ζ) * ψ j (HSL ζ) * (ψ i (HSL ζ))⁻¹) * ψ i (HSL ζ) := by group
     _ = ψ j (HSL ζ) * ψ i (HSL ζ) := by rw [hconj]
 
+omit [Finite Ω] in
 private theorem isElemAbelian_torusLift
     [CharP F 2] (hq : 4 ≤ Nat.card F)
     {M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F)}
@@ -264,6 +269,7 @@ theorem isElemAbelian_torusLift_sup_center
   · intro a _ z hz
     exact Subgroup.mem_center_iff.1 hz a
 
+omit [Finite Ω] [Finite F] in
 private theorem map_torusLift_eq
     {M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F)}
     {ζ : Fˣ}
@@ -291,6 +297,7 @@ private theorem map_torusLift_eq
           Set.range fun i => ψ i (HSL ζ)) := MonoidHom.map_closure _ _
     _ = e6TorusThree F ζ := by rw [himg, e6TorusThree]
 
+omit [Finite Ω] in
 theorem card_torusLift_sup_center
     {M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F)}
     {ζ : Fˣ} (hζ : orderOf ζ = 3)
@@ -338,6 +345,7 @@ abbrev unipotentSL2 (F : Type) [Field F] : Subgroup (SL2 F) :=
 noncomputable abbrev unipotentRoot (F : Type) [Field F] : Subgroup (ModGL Tag.E6 F) :=
   Subgroup.closure (Set.range (xUnit Tag.E6 F (0 : Fin Tag.E6.rank)))
 
+omit [Finite F] in
 theorem map_unipotentSL2_eq_unipotentRoot :
     (unipotentSL2 F).map (simpleRootSL2 Tag.E6 F 0) = unipotentRoot F := by
   rw [unipotentRoot, unipotentSL2, MonoidHom.map_closure]
@@ -349,6 +357,7 @@ theorem map_unipotentSL2_eq_unipotentRoot :
   · rintro ⟨c, rfl⟩
     exact ⟨uSL c, ⟨c, rfl⟩, simpleRootSL2_uSL 0 c⟩
 
+omit [Finite F] in
 theorem mem_unipotent_lift_of_twoElement
     [CharP F 2] (hZ : Nat.card (Subgroup.center ↥S) ∣ 3)
     {M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F)}
@@ -405,6 +414,7 @@ theorem mem_unipotent_lift_of_twoElement
   rw [hs_eq]
   exact Subgroup.mem_map_of_mem ψ hu
 
+omit [Finite F] in
 theorem conj_mem_unipotent_of_torusLift
     [CharP F 2] (hZ : Nat.card (Subgroup.center ↥S) ∣ 3)
     {M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F)}
@@ -449,6 +459,7 @@ theorem conj_mem_unipotent_of_torusLift
     (fun g => hψ 0 g) hsπ hs2
   simpa [s] using Subgroup.mem_map_of_mem S.subtype hmem
 
+omit [Finite Ω] [Finite F] in
 theorem unipotent_lift_ne_bot [CharP F 2]
     {M : S172DModel S B (adjointGroup Tag.E6 F) (hatGroup Tag.E6 F)}
     {ψ : Fin Tag.E6.rank → (SL2 F →* ↥S)}

@@ -148,7 +148,7 @@ theorem false_of_caseThreeKFact_of_red {G : Type} [Group G] [Finite G] {p : ℕ}
   have hRK : (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ≤
       K ⊔ Subgroup.centralizer (K : Set (H ⧸ primeComplementCore (G := H) p)) := by
     intro x hx
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Rbar.isPGroup') ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Rbar.isPGroup) ⟨x, hx⟩
     refine mem_sup_centralizer_of_pow hp hOut (n := n) ?_
     have h1 := pow_orderOf_eq_one
       (⟨x, hx⟩ : (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)))

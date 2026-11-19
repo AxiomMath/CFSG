@@ -59,6 +59,7 @@ private theorem pgls_genFittingFStar_equivMap {Q Y : Type*} [Group Q] [Group Y] 
 
 section Shape
 
+omit [Finite G] in
 theorem exists_mulEquiv_img_quot {H E K : Subgroup G} (M : ModDataE H E)
     (hK : H ⊓ Subgroup.centralizer (E : Set G) = K) :
     Nonempty ((↥H ⧸ (K.subgroupOf H).normalCore) ≃* ↥(M.img H)) := by
@@ -88,12 +89,12 @@ theorem hyp66Shape_of_quotEquiv {H : Subgroup G} (hH : Shape185 H) {Y : Type} [G
   have hNn : ((relPPrimeCore 3 H).subgroupOf H).Normal :=
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_normal
       (p := 3) (by norm_num) H
-  haveI := hNn
+  have := hNn
   rcases h512 with ⟨p, e', hp, hp5, he, HQ⟩ |
     ⟨p, f, hp, hp5, hcase⟩ | ⟨-, HPGL⟩ | hfour
   · obtain ⟨X, instX, hPX, ⟨eF⟩⟩ :=
       exists_mulEquiv_genFittingFStar_of_hasQuotShape hNn HQ
-    haveI : Finite X := Finite.of_injective eF.symm eF.symm.injective
+    have : Finite X := Finite.of_injective eF.symm eF.symm.injective
     obtain ⟨eF'⟩ := pgls_genFittingFStar_equivMap e
     have hY : F6.IsL2 p e' ↥(genFittingFStar Y) :=
       CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv (eF.symm.trans eF') hPX
@@ -101,16 +102,16 @@ theorem hyp66Shape_of_quotEquiv {H : Subgroup G} (hH : Shape185 H) {Y : Type} [G
   · rcases hcase with ⟨h3, h4, HQ⟩ | ⟨h3, h4, HQ⟩
     · obtain ⟨X, instX, hPX, ⟨eF⟩⟩ :=
         exists_mulEquiv_genFittingFStar_of_hasQuotShape hNn HQ
-      haveI : Finite X := Finite.of_injective eF.symm eF.symm.injective
+      have : Finite X := Finite.of_injective eF.symm eF.symm.injective
       obtain ⟨eF'⟩ := pgls_genFittingFStar_equivMap e
       have hSocle : Socle185Shape X :=
         Or.inr (Or.inl ⟨p, f, hp, hp5, Or.inl ⟨h3, h4, hPX⟩⟩)
-      haveI : IsSimpleGroup X := hSocle.isSimpleGroup
+      have : IsSimpleGroup X := hSocle.isSimpleGroup
       have hnab : ∃ a b : X, a * b ≠ b * a := hSocle.exists_not_commute
       have hq : CFSG.Open.IsQuasisimple X := pgls_isQuasisimple_of_isSimpleGroup hnab
       have hqY : CFSG.Open.IsQuasisimple ↥(genFittingFStar Y) :=
         CFSG.Open.IsQuasisimple.of_mulEquiv (eF'.symm.trans eF) hq
-      haveI : IsSimpleGroup ↥(genFittingFStar Y) :=
+      have : IsSimpleGroup ↥(genFittingFStar Y) :=
         MulEquiv.isSimpleGroup (eF'.symm.trans eF)
       have hnabY : ∃ a b : ↥(genFittingFStar Y), a * b ≠ b * a := by
         obtain ⟨a, b, hab⟩ := hnab
@@ -136,16 +137,16 @@ theorem hyp66Shape_of_quotEquiv {H : Subgroup G} (hH : Shape185 H) {Y : Type} [G
         (QuotientGroup.quotientBot.trans (eF'.symm.trans eF))⟩
     · obtain ⟨X, instX, hPX, ⟨eF⟩⟩ :=
         exists_mulEquiv_genFittingFStar_of_hasQuotShape hNn HQ
-      haveI : Finite X := Finite.of_injective eF.symm eF.symm.injective
+      have : Finite X := Finite.of_injective eF.symm eF.symm.injective
       obtain ⟨eF'⟩ := pgls_genFittingFStar_equivMap e
       have hSocle : Socle185Shape X :=
         Or.inr (Or.inl ⟨p, f, hp, hp5, Or.inr ⟨h3, h4, hPX⟩⟩)
-      haveI : IsSimpleGroup X := hSocle.isSimpleGroup
+      have : IsSimpleGroup X := hSocle.isSimpleGroup
       have hnab : ∃ a b : X, a * b ≠ b * a := hSocle.exists_not_commute
       have hq : CFSG.Open.IsQuasisimple X := pgls_isQuasisimple_of_isSimpleGroup hnab
       have hqY : CFSG.Open.IsQuasisimple ↥(genFittingFStar Y) :=
         CFSG.Open.IsQuasisimple.of_mulEquiv (eF'.symm.trans eF) hq
-      haveI : IsSimpleGroup ↥(genFittingFStar Y) :=
+      have : IsSimpleGroup ↥(genFittingFStar Y) :=
         MulEquiv.isSimpleGroup (eF'.symm.trans eF)
       have hnabY : ∃ a b : ↥(genFittingFStar Y), a * b ≠ b * a := by
         obtain ⟨a, b, hab⟩ := hnab
@@ -163,7 +164,7 @@ theorem hyp66Shape_of_quotEquiv {H : Subgroup G} (hH : Shape185 H) {Y : Type} [G
       exact ⟨(QuotientGroup.quotientMulEquivOfEq hcenterY).trans
         (QuotientGroup.quotientBot.trans (eF'.symm.trans eF))⟩
   · obtain ⟨X, instX, φ, hφs, hφk, hPGLX⟩ := HPGL
-    haveI : Finite X := Finite.of_surjective φ hφs
+    have : Finite X := Finite.of_surjective φ hφs
     have hker : φ.ker = (relPPrimeCore 3 H).subgroupOf H := by
       ext k
       rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
@@ -193,6 +194,7 @@ section Images
 
 variable {H E : Subgroup G}
 
+omit [Finite G] in
 theorem img_inf_centralizer_eq (M : ModDataE H E) {w : G} (hw : w ∈ E) :
     M.img (H ⊓ Subgroup.centralizer ({w} : Set G)) =
       centralizerOn (M.img H) (Submodule.span (ZMod 2) {M.ι w}) := by
@@ -230,7 +232,7 @@ theorem exists_order_three (M : ModDataE H E) {S : Subgroup G} (hSH : S ≤ H)
     (h3 : 3 ∣ Nat.card ↥(M.img S)) :
     ∃ P : Subgroup G, P ≤ S ∧ Nat.card ↥P = 3 ∧ Nat.card ↥(M.img P) = 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardS : 3 ∣ Nat.card ↥S := by
     rw [M.card_img hSH] at h3
     exact h3.trans (Subgroup.relIndex_dvd_card (H := Subgroup.centralizer (E : Set G)) (K := S))
@@ -257,7 +259,7 @@ theorem img_normalizer_eq (M : ModDataE H E) {P : Subgroup G} (hPH : P ≤ H)
     M.img (H ⊓ Subgroup.normalizer (P : Set G)) =
       M.img H ⊓ Subgroup.normalizer ((M.img P : Subgroup (LGL 2 M.W)) : Set (LGL 2 M.W)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply le_antisymm
   · intro r hr
     exact ⟨M.img_mono inf_le_left hr,
@@ -415,11 +417,12 @@ theorem img_normalizer_eq (M : ModDataE H E) {P : Subgroup G} (hPH : P ≤ H)
 
 end Images
 
+omit [Finite G] in
 theorem normalizer_le_conj_of_stronglyEmbedded {M : Subgroup G}
     (hM : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 M) (g : G) {P : Subgroup G}
     (hP : P ≠ ⊥) (hP3 : IsPGroup 3 P) (hPM : P ≤ conjSubgroup M g) :
     Subgroup.normalizer (P : Set G) ≤ conjSubgroup M g := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact (CFSG.RankThree.PartOne.IsStronglyPEmbedded.conj hM g⁻¹).normalizer_le hP hP3 hPM
 
 namespace Ctx188
@@ -456,7 +459,7 @@ theorem exists_vector_conj (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ 
 theorem false_of_le_conj (x : Ctx188 D V₀ V H i j) (M : ModDataE H (eOmegaZ H D.T)) {g : G}
     (hg : Gam183 V H (eOmegaZ H D.T) i g) (hH : H ≤ conjSubgroup D.M g) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMg : conjSubgroup D.M g = Subgroup.normalizer (conjSubgroup V g : Set G) := by
     rw [← x.hyp.setting.normalizer_eq, E3.conjSubgroup_normalizer]
   have hnorm : H ≤ Subgroup.normalizer (vInH V H g : Set G) := by

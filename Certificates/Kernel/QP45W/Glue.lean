@@ -62,7 +62,7 @@ theorem conj_mem {h : Equiv.Perm (Fin 45)} (hh : h ∈ QP45.originalSubgroup) :
   rw [orig_eq] at hh
   induction hh using Subgroup.closure_induction with
   | mem g hg =>
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false, tab_eq] at hg
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false, tab_eq] at hg
     rcases hg with rfl | rfl
     · exact conj_of_conjT x45_val ch21296_conjX
     · exact conj_of_conjT pinY ch21296_conjY

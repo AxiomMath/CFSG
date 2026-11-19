@@ -42,7 +42,7 @@ theorem torus_conj_spTrans {K : Type} [Field K] {m : ℕ} (i : Fin m) (l : Kˣ) 
 open CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl in
 theorem torus_pow_card_sub_one {K : Type} [Field K] [Finite K] {m : ℕ} (i : Fin m) (l : Kˣ) :
     (torusHom (Pi.mulSingle i l) ^ (Nat.card K - 1) : StatedSp m K) = 1 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hl : l ^ (Nat.card K - 1) = 1 := by
     apply Units.ext
     rw [Units.val_pow_eq_pow_val, Units.val_one, Nat.card_eq_fintype_card]
@@ -166,7 +166,7 @@ theorem spHomTriv_h_pow {m : ℕ} {K : Type} [Field K] [Finite K] (i : Fin m) (l
 
 theorem spHomTriv_card (K : Type) [Field K] [Finite K] [CharP K 2] :
     ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = 2 ^ f := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   refine ⟨n, ?_, ?_⟩
   · have := n.pos

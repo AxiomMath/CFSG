@@ -33,7 +33,7 @@ theorem nonempty_mulEquiv_matrixOrthogonal_of_fixedClosure_le {K : Type} [Group 
     Nonempty (↥Y ≃* ↥(matrixOrthogonal Q0)) := by
   have hF : Nat.card (ZMod 2) = 2 := by simp
   have hinj : Function.Injective (proj 4 (ZMod 2)) :=
-    CFSG.RankThree.PartOne.proj_injective_sp (f := 1) (by simpa using hF) le_rfl (by omega)
+    CFSG.RankThree.PartOne.proj_injective_sp (f := 1) (by simp) le_rfl (by omega)
   let φ : StatedSp 4 (ZMod 2) ≃* K :=
     (MulEquiv.ofBijective (proj 4 (ZMod 2)) ⟨hinj, proj_surjective⟩).trans e.symm
   have hin : ∀ α : MulAut K, ∃ k : K, α = MulAut.conj k := by
@@ -78,7 +78,7 @@ theorem ggSeitzExcSpEightOvergroupInput_holds : GGSeitzExcSpEightOvergroupInput 
   obtain ⟨e''⟩ := SpEight.nonempty_mulEquiv_statedProj_zmod_two (by simpa using hF) e'
   obtain ⟨c⟩ := SpEight.nonempty_mulEquiv_matrixOrthogonal_of_fixedClosure_le e'' E hE hcard hne
     hDY hY
-  haveI := SpEight.isSimpleGroup_commutator_matrixOrthogonal
+  have := SpEight.isSimpleGroup_commutator_matrixOrthogonal
   let c' := SylowOvergroup.commutatorEquiv c
   exact ⟨c'.isSimpleGroup,
     LieModel.of_mulEquiv c'.symm SpEight.lieModel_commutator_matrixOrthogonal⟩

@@ -80,14 +80,14 @@ private theorem ggStB_sylow_conj {G : Type*} [Group G] {G₀ P Q : Subgroup G} [
     (hP : IsPGroup 2 P) (hQ : IsPGroup 2 Q) (hPG : P ≤ G₀) (hQG : Q ≤ G₀)
     (hPi : ¬ 2 ∣ (P.subgroupOf G₀).index) (hQi : ¬ 2 ∣ (Q.subgroupOf G₀).index) :
     ∃ g ∈ G₀, Q = P.map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP' : IsPGroup 2 (P.subgroupOf G₀) :=
     hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPG).symm
   have hQ' : IsPGroup 2 (Q.subgroupOf G₀) :=
     hQ.of_equiv (Subgroup.subgroupOfEquivOfLe hQG).symm
   let P' : Sylow 2 G₀ := hP'.toSylow hPi
   let Q' : Sylow 2 G₀ := hQ'.toSylow hQi
-  haveI : Finite (Sylow 2 G₀) := Sylow.finite_of_finiteIndex P'
+  have : Finite (Sylow 2 G₀) := Sylow.finite_of_finiteIndex P'
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G₀ P' Q'
   refine ⟨g, g.2, ?_⟩
   have hcoe : (Q.subgroupOf G₀ : Subgroup G₀) =
@@ -116,7 +116,7 @@ private theorem ggStB_sylow_posUnipotent
     (hext : SteinbergExtras D n H) (hBU : BruhatExtras D H)
     (hX : ∀ γ ∈ D.roots, IsPGroup 2 (D.rootGroup γ))
     (hT : Nat.Coprime 2 (Nat.card (⨆ i, H i : Subgroup K)))
-    {G : Type*} [Group G] (ψ : K →* G) (hker : ψ.ker ≤ Subgroup.center K) :
+    {G : Type*} [Group G] (ψ : K →* G) (_hker : ψ.ker ≤ Subgroup.center K) :
     IsPGroup 2 ((posUnipotent D).map ψ) ∧
       ¬ 2 ∣ (((posUnipotent D).map ψ).subgroupOf ψ.range).index := by
   refine ⟨(isPGroup_posUnipotent_two hext hX).map ψ, ?_⟩
@@ -163,7 +163,7 @@ private theorem ggStB_step1
     ∃ g ∈ ψ.range,
       ((posUnipotent D).map ψ).map (MulAut.conj (g * m)).toMonoidHom = (posUnipotent D).map ψ := by
   have hSU := ggStB_sylow_posUnipotent hct hext hBU hX hT ψ hker
-  haveI : Finite ↥ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+  have : Finite ↥ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   let P : Subgroup G := (posUnipotent D).map ψ
   let Q : Subgroup G := P.map (MulAut.conj m).toMonoidHom
   have hPle : P ≤ ψ.range := Subgroup.map_le_range ψ (posUnipotent D)
@@ -218,7 +218,7 @@ private theorem ggStB_step2
       ((negUnipotent D).map ψ).map (MulAut.conj ((ψ v)⁻¹ * m₁)).toMonoidHom =
         (negUnipotent D).map ψ := by
   have hSU := ggStB_sylow_posUnipotent hct hext hBU hX hT ψ hker
-  haveI : Finite ↥ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+  have : Finite ↥ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   obtain ⟨w₀, hw₀⟩ := exists_forall_isRightDescent (D := D)
   let P : Subgroup G := (posUnipotent D).map ψ
   let N : Subgroup G := (negUnipotent D).map ψ
@@ -762,7 +762,7 @@ private theorem ggStB_simple_roots
   classical
   have hodd : Nat.Coprime 2 (Nat.card ψ.ker) :=
     ggStB_odd_card_ker hct hext hBU hT ψ hker
-  haveI := finite_group D.isFiniteType
+  have := finite_group D.isFiniteType
   obtain ⟨w₀, hmax⟩ := Finite.exists_max fun w : (coxeterMatrix D.isFiniteType).Group =>
     (coxeterMatrix D.isFiniteType).toCoxeterSystem.length w
   have hw₀ : ∀ i, ((coxeterMatrix D.isFiniteType).toCoxeterSystem).IsRightDescent w₀ i :=
@@ -862,7 +862,7 @@ private theorem ggStB_weyl_reps
     (hX : ∀ γ ∈ D.roots, IsPGroup 2 (D.rootGroup γ))
     (hT : Nat.Coprime 2 (Nat.card (⨆ i, H i : Subgroup K)))
     {G : Type*} [Group G] (ψ : K →* G) (hker : ψ.ker ≤ Subgroup.center K)
-    {x : G} (hx : x ∈ Subgroup.normalizer (ψ.range : Set G))
+    {x : G} (_hx : x ∈ Subgroup.normalizer (ψ.range : Set G))
     {π : Fin D.rank → Fin D.rank}
     (hπ : ∀ i,
       ((D.rootGroup (Pi.single i 1)).map ψ).map (MulAut.conj x).toMonoidHom =
@@ -925,11 +925,11 @@ private theorem ggStB_all_roots
     {H : Fin D.rank → Subgroup K}
     (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
       (weylAction D.isFiniteType) D.roots D.rootGroup n H)
-    (hext : SteinbergExtras D n H) (hBU : BruhatExtras D H)
-    (hX : ∀ γ ∈ D.roots, IsPGroup 2 (D.rootGroup γ))
-    (hT : Nat.Coprime 2 (Nat.card (⨆ i, H i : Subgroup K)))
-    {G : Type*} [Group G] (ψ : K →* G) (hker : ψ.ker ≤ Subgroup.center K)
-    {x : G} (hx : x ∈ Subgroup.normalizer (ψ.range : Set G))
+    (hext : SteinbergExtras D n H) (_hBU : BruhatExtras D H)
+    (_hX : ∀ γ ∈ D.roots, IsPGroup 2 (D.rootGroup γ))
+    (_hT : Nat.Coprime 2 (Nat.card (⨆ i, H i : Subgroup K)))
+    {G : Type*} [Group G] (ψ : K →* G) (_hker : ψ.ker ≤ Subgroup.center K)
+    {x : G} (_hx : x ∈ Subgroup.normalizer (ψ.range : Set G))
     {π : Fin D.rank → Fin D.rank}
     (hπ : ∀ i,
       ((D.rootGroup (Pi.single i 1)).map ψ).map (MulAut.conj x).toMonoidHom =
@@ -1004,7 +1004,7 @@ private theorem ggStB_all_roots
   intro γ' hγ'
   have hcases : (∃ w i, γ' = weylAction D.isFiniteType w (Pi.single i 1)) ∨
       (∃ w i, i ∈ D.divisible ∧ γ' = 2 • weylAction D.isFiniteType w (Pi.single i 1)) := by
-    simpa only [CFSG.LieType.RootSystem.roots, Set.mem_union, Set.mem_setOf_eq] using hγ'
+    simpa only [CFSG.LieType.RootSystem.roots, Set.mem_union, Set.mem_ofPred_eq] using hγ'
   rcases hcases with ⟨w, i, he⟩ | ⟨w, i, _, he⟩
   · subst he
     exact hfirst w i
@@ -1024,7 +1024,7 @@ theorem exists_rootAdmissible_mul {K : Type*} [Group K] [Finite K] {D : Universa
     {G : Type*} [Group G] (ψ : K →* G) (hker : ψ.ker ≤ Subgroup.center K)
     {m : G} (hm : m ∈ Subgroup.normalizer (ψ.range : Set G)) :
     ∃ g ∈ ψ.range, GGRootAdmissible D ψ (m * g) := by
-  haveI : Finite ↥ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+  have : Finite ↥ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   have hminv : m⁻¹ ∈ Subgroup.normalizer (ψ.range : Set G) := inv_mem hm
   obtain ⟨g₁, hg₁, h1⟩ := ggStB_step1 hct hext hBU hX hT ψ hker hminv
   have hm₁ : g₁ * m⁻¹ ∈ Subgroup.normalizer (ψ.range : Set G) :=

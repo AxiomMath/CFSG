@@ -43,7 +43,7 @@ theorem faithful_pGroup_frattini_action_kernel_isPGroup
     ext member
     exact congrArg (fun equivalence : MulAut source => equivalence member) hequalAction
   have hquotientFaithful := faithful_coprime_pGroup_action_on_frattini_quotient
-    otherPrime sylow.isPGroup' hcoprime hfaithfulSylow
+    otherPrime sylow.isPGroup hcoprime hfaithfulSylow
   have hscalarTrivial : ∀ scalar : (sylow : Subgroup hom.ker), scalar = 1 := by
     intro scalar
     apply hquotientFaithful

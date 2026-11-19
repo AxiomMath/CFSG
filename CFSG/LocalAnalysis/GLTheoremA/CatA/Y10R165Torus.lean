@@ -20,7 +20,7 @@ variable {G : Type*} [Group G] {F : Type*} [Field F]
 theorem sl2_sq_eq_one_of_commute_sl2Upper_one (h2 : ringChar F = 2)
     {A : SL(2, F)} (hA : A * CFSG.RankThree.CentralCover.sl2Upper (1 : F) =
       CFSG.RankThree.CentralCover.sl2Upper (1 : F) * A) : A ^ 2 = 1 := by
-  haveI : CharP F 2 := ringChar.of_eq h2
+  have : CharP F 2 := ringChar.of_eq h2
   have h2' : (2 : F) = 0 := CharP.cast_eq_zero F 2
   set B : Matrix (Fin 2) (Fin 2) F := (A : Matrix (Fin 2) (Fin 2) F) with hB
   have hdet : B.det = 1 := A.2
@@ -36,8 +36,8 @@ theorem sl2_sq_eq_one_of_commute_sl2Upper_one (h2 : ringChar F = 2)
   have h01 : B 0 0 = B 1 1 := by
     have h := congrFun (congrFun hmul 0) 1
     simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val',
-      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val',
-      Matrix.cons_val_fin_one, Matrix.head_fin_const, Matrix.cons_val_two] at h
+      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
+      Matrix.cons_val_fin_one] at h
     simp only [mul_one, one_mul] at h
     exact add_right_cancel (by rwa [add_comm (B 0 1) (B 1 1)] at h)
   have hBform : B = !![B 0 0, B 0 1; 0, B 0 0] := by
@@ -63,7 +63,7 @@ theorem sl2_sq_eq_one_of_commute_sl2Upper_one (h2 : ringChar F = 2)
   rw [hAsl2, pow_two, ← CFSG.RankThree.CentralCover.sl2Upper_add,
     CharTwo.add_self_eq_zero, CFSG.RankThree.CentralCover.sl2Upper_zero]
 
-theorem exists_orderOf_sl2_of_card_add_one [Finite F] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem exists_orderOf_sl2_of_card_add_one [Finite F] {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hpd : p ∣ Nat.card F + 1) :
     ∃ h : SL(2, F), orderOf h = p := by
   have hfac : Nat.card F ^ 2 - 1 = (Nat.card F + 1) * (Nat.card F - 1) := by
@@ -85,7 +85,7 @@ private theorem closure_range_le_centralizer {k : ℕ} {ψ : Fin k → (SL(2, F)
   exact Subgroup.mem_centralizer_singleton_iff.2 (hx i)
 
 theorem exists_elemAbelian_of_commuting_sl2 [Finite F] [Finite G] {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (h2 : ringChar F = 2) (hpd : p ∣ Nat.card F + 1) (h : SL(2, F))
+    (hp2 : p ≠ 2) (h2 : ringChar F = 2) (_hpd : p ∣ Nat.card F + 1) (h : SL(2, F))
     (hh : orderOf h = p) :
     ∀ {k : ℕ} (φ : Fin k → (SL(2, F) →* G)), (∀ i, Function.Injective (φ i)) →
     (∀ i j, i ≠ j → ∀ A B : SL(2, F), φ i A * φ j B = φ j B * φ i A) →
@@ -189,7 +189,7 @@ theorem le_pRank_of_commuting_sl2 [Finite F] [Finite G] {p : ℕ} (hp : p.Prime)
 
 end Engine
 
-theorem eS_two_pow_eq_one {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpd : p ∣ 2 ^ n + 1) :
+theorem eS_two_pow_eq_one {p n : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hpd : p ∣ 2 ^ n + 1) :
     eS (2 ^ n) p = 1 := by
   have : Fact p.Prime := ⟨hp⟩
   have h0 : ((2 ^ n + 1 : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 hpd
@@ -232,7 +232,7 @@ section Classical
 
 theorem i165TorusRankLower_classical (hG : CFSG.Open.GriessAllModelsStatement)
     (K : Type) [Group K] [Finite K] (lab : GLALabel) (p : ℕ) (hK : Rk2IsLabel K lab)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hZ : ¬ p ∣ Nat.card (Subgroup.center K))
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hZ : ¬ p ∣ Nat.card (Subgroup.center K))
     (hpd : p ∣ 2 ^ lab.n + 1) (hn2 : 2 ≤ lab.n)
     (htag : lab.tag = .B ∨ lab.tag = .C ∨ (lab.tag = .D ∧ Even lab.rank)) :
     i165TorusRank lab ≤ CFSG.Open.pRank p (⊤ : Subgroup K) := by
@@ -278,7 +278,7 @@ theorem i165TorusRankLower_classical (hG : CFSG.Open.GriessAllModelsStatement)
     have hcond : ¬ (2 ∣ 2 * l ∧ ¬ 2 ∣ l) := by
       rintro ⟨-, h⟩
       exact h hev.two_dvd
-    rw [if_neg hcond, Nat.div_one]
+    rw [ite_eq_right hcond, Nat.div_one]
 
 end Classical
 
@@ -291,7 +291,7 @@ private theorem le_pRank_of_adjoint_model {K : Type} [Group K] [Finite K] {p : �
     (hZ : ¬ p ∣ Nat.card (Subgroup.center K)) {k : ℕ}
     (hk : k ≤ CFSG.Open.pRank p (⊤ : Subgroup (CFSG.Blueprint.Chevalley.adjointGroup τ F))) :
     k ≤ CFSG.Open.pRank p (⊤ : Subgroup K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hquot : CFSG.Open.pRank p (⊤ : Subgroup (K ⧸ Subgroup.center K)) =
       CFSG.Open.pRank p (⊤ : Subgroup K) :=
     CFSG.SectionRank.pRank_quotient_eq (Subgroup.center K) hZ
@@ -316,9 +316,9 @@ theorem i165TorusRankLower_exceptional
       lieModel_of_markedModel_F4 hF4 hM
     obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
       hM'.chevalleyExceptionalModel (by decide : StatedLieTag.F4 ∈ CFSG.Blueprint.chevalleyExceptionalTags)
-    letI : Field F := hFld
-    letI : Finite F := hFin
-    haveI : CharP F 2 :=
+    let : Field F := hFld
+    let : Finite F := hFin
+    have : CharP F 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         Nat.prime_two hn1 hFcard
     have h2 : ringChar F = 2 := ringChar.eq F 2
@@ -339,9 +339,9 @@ theorem i165TorusRankLower_exceptional
       lieModel_of_markedModel_E7 hE7 hM
     obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
       hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E7 ∈ CFSG.Blueprint.chevalleyExceptionalTags)
-    letI : Field F := hFld
-    letI : Finite F := hFin
-    haveI : CharP F 2 :=
+    let : Field F := hFld
+    let : Finite F := hFin
+    have : CharP F 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         Nat.prime_two hn1 hFcard
     have h2 : ringChar F = 2 := ringChar.eq F 2
@@ -362,9 +362,9 @@ theorem i165TorusRankLower_exceptional
       lieModel_of_markedModel_E8 hE8 hM
     obtain ⟨-, F, hFld, hFin, hFcard, ⟨φ⟩⟩ :=
       hM'.chevalleyExceptionalModel (by decide : StatedLieTag.E8 ∈ CFSG.Blueprint.chevalleyExceptionalTags)
-    letI : Field F := hFld
-    letI : Finite F := hFin
-    haveI : CharP F 2 :=
+    let : Field F := hFld
+    let : Finite F := hFin
+    have : CharP F 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         Nat.prime_two hn1 hFcard
     have h2 : ringChar F = 2 := ringChar.eq F 2

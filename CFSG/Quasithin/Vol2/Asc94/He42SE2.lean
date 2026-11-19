@@ -64,12 +64,12 @@ private theorem he42s2_eq_of_sq_eq_one_sylow {X : Type*} [Group X] [Finite X] {S
     {x y : X} (hx : x ∈ S) (hy : y ∈ S) (hx2 : x ^ 2 = 1) (hy2 : y ^ 2 = 1)
     (hx1 : x ≠ 1) (hy1 : y ≠ 1) : x = y := by
   rcases hS with hcyc | ⟨r, -, ⟨e⟩⟩
-  · haveI := hcyc
+  · have := hcyc
     exact congrArg Subtype.val
       (he42s2_eq_of_sq_eq_one_cyclic (C := S) (x := ⟨x, hx⟩) (y := ⟨y, hy⟩)
         (Subtype.ext (by simpa using hx2)) (Subtype.ext (by simpa using hy2))
         (fun h => hx1 (congrArg Subtype.val h)) (fun h => hy1 (congrArg Subtype.val h)))
-  · haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  · have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
     have hx' : e ⟨x, hx⟩ ^ 2 = 1 := by
       rw [← map_pow, show (⟨x, hx⟩ : S) ^ 2 = 1 from Subtype.ext (by simpa using hx2), map_one]
     have hy' : e ⟨y, hy⟩ ^ 2 = 1 := by
@@ -83,16 +83,16 @@ private theorem he42s2_eq_of_sq_eq_one_sylow {X : Type*} [Group X] [Finite X] {S
 
 theorem false_of_stronglyEmbedded {X : Type*} [Group X] [Finite X]
     (H : Subgroup X) (hH : fusionStronglyEmbedded H) (hsimple : IsSimpleGroup ↥H)
-    (E : Subgroup X) (hEH : E ≤ H) (hEcard : Nat.card E = 4) (hEsq : ∀ e ∈ E, e * e = 1)
+    (E : Subgroup X) (_hEH : E ≤ H) (hEcard : Nat.card E = 4) (hEsq : ∀ e ∈ E, e * e = 1)
     (U W : Subgroup X) (hU : U ≠ ⊥) (hU2 : IsPGroup 2 U) (hUH : U ≤ H) (hWH : W ≤ H)
     (hWU : W ≤ Subgroup.normalizer (U : Set X)) (hW : ¬ Group.IsSolvable ↥W) : False := by
   rcases CFSG.Open.bender_strongly_embedded_normal_series X H hH with hcase |
     ⟨M, N, hMn, hNn, hMNn, hMN, hModd, hNodd, hB⟩
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hEp : IsPGroup 2 E := IsPGroup.of_card (n := 2) (hEcard.trans (by norm_num))
     obtain ⟨S, hES⟩ := hEp.exists_le_sylow
-    haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hEcard]; norm_num)
+    have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hEcard]; norm_num)
     obtain ⟨z', hz'⟩ := exists_ne (1 : E)
     obtain ⟨z, hzE, hz1⟩ : ∃ z ∈ E, z ≠ 1 :=
       ⟨z', z'.2, fun h => hz' (Subtype.ext h)⟩
@@ -110,11 +110,11 @@ theorem false_of_stronglyEmbedded {X : Type*} [Group X] [Finite X]
     have hle : orderOf z ≤ 2 := Nat.le_of_dvd (by norm_num) (orderOf_dvd_of_pow_eq_one hz2)
     omega
   ·
-    haveI := hMn
-    haveI := hNn
-    haveI := hMNn
-    haveI : (N.subgroupOf H).Normal := hNn.subgroupOf H
-    haveI : (M.subgroupOf H).Normal := hMn.subgroupOf H
+    have := hMn
+    have := hNn
+    have := hMNn
+    have : (N.subgroupOf H).Normal := hNn.subgroupOf H
+    have : (M.subgroupOf H).Normal := hMn.subgroupOf H
     have hHN : H ≤ N := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf H) with hbot | htop
       · exfalso
@@ -187,12 +187,12 @@ theorem false_of_stronglyEmbedded {X : Type*} [Group X] [Finite X]
     have hsolv : Group.IsSolvable ↥((W.subgroupOf H).map ψ) :=
       CFSG.Quasithin.H13.Cor332.twoLocalsSolvable_of_fusionIsBenderGroup hB ((U.subgroupOf H).map ψ)
         ((W.subgroupOf H).map ψ) hÛne hÛ2 hWn
-    haveI := hsolv
+    have := hsolv
     have hWHsolv : Group.IsSolvable ↥(W.subgroupOf H) :=
       Group.isSolvable_of_isSolvable_injective
         (f := (Subgroup.equivMapOfInjective (W.subgroupOf H) ψ hψ).toMonoidHom)
         (Subgroup.equivMapOfInjective (W.subgroupOf H) ψ hψ).injective
-    haveI := hWHsolv
+    have := hWHsolv
     exact hW (Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hWH).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hWH).symm.injective)

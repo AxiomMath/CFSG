@@ -22,8 +22,8 @@ variable {G : Type} [Group G] [Finite G]
 theorem r911_of (h63 : CFSG.CGT.PushingUpLit.CGT6.AschbacherSixThreeCore) (D : Data G)
     (h640 : UC6.R6_40_1 D) : R911 D := by
   intro Y hY hX
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := D.standing.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.standing.simple
   have hXY : Opp 3 Y ≤ Y := opp_le_self 3 Y
   have hYX : Y ≤ normalizer (Opp 3 Y : Set G) := le_normalizer_opp_self 3 Y
   have hR : pCoreOf 2 Y ≠ ⊥ := by

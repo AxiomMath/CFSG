@@ -14,7 +14,7 @@ open Matrix K21bUniProof K21bPtsProof
 variable {F : Type} [Field F]
 
 theorem card_eq_two_pow [Finite F] [CharP F 2] : ∃ n : ℕ, 1 ≤ n ∧ Nat.card F = 2 ^ n := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   exact ⟨n, n.pos, by rw [Nat.card_eq_fintype_card]; exact hn⟩
 
@@ -99,7 +99,7 @@ theorem card_psl_three [Finite F] [CharP F 2] :
       _ = q ^ 3 * m := Nat.mul_div_cancel_left _ hgpos
 
 theorem isSylowOf_U0P [Finite F] [CharP F 2] : CFSG.ABGLocalTools.IsSylowOf 2 (U0P F) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, ?_, ?_⟩
   · obtain ⟨n, -, hq⟩ := card_eq_two_pow (F := F)

@@ -28,11 +28,11 @@ theorem uni_blockOn_mulVec_of_zero (N : Matrix (Fin I.card) (Fin I.card) F) {v :
   rw [Finset.sum_eq_single j]
   · by_cases hj : j ∈ I
     · rw [hv j hj, mul_zero]
-    · rw [blockOn_apply_not_mem I N (Or.inl hj), if_pos rfl, one_mul]
+    · rw [blockOn_apply_not_mem I N (Or.inl hj), ite_eq_left rfl, one_mul]
   · intro k _ hkj
     by_cases hk : k ∈ I
     · rw [hv k hk, mul_zero]
-    · rw [blockOn_apply_not_mem I N (Or.inr hk), if_neg (Ne.symm hkj), zero_mul]
+    · rw [blockOn_apply_not_mem I N (Or.inr hk), ite_eq_right (Ne.symm hkj), zero_mul]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
@@ -195,7 +195,7 @@ theorem uni_exists_uniBlk_of_mem (hf : Odd f) (D : primeFormUnitary h (oneGram F
       rw [(hI k).1 hk] at hmem
       have hw := (uni_mem_V_iff D hD d _).1 (apply_mem_primaryComponent hcomm hmem) j
       have hjk' : j ≠ k := fun h' => hj (h' ▸ hk)
-      rw [hent, if_neg hjk']
+      rw [hent, ite_eq_right hjk']
       have h2 : (((D : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) j j - d) *
           ((t6psuh_toLinSU h n g : LinearMap.GeneralLinearGroup F (Fin n → F)) :
             Module.End F (Fin n → F)) (Pi.single k 1) j = 0 := by
@@ -225,8 +225,8 @@ theorem uni_block_isComponent (D : primeFormUnitary h (oneGram F n))
     CFSG.Open.IsComponentOf ((t6psub_block D i).map
         (QuotientGroup.mk' (normOneScalars h (gramSU h (oneGram F n)) n)))
       (fixSubgroup (primeFormConjHom h (oneGram F n) D)) := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin n) F) :=
+  have := h.finite
+  have : Finite (GL (Fin n) F) :=
     Finite.of_injective (fun g : GL (Fin n) F => (g : Matrix (Fin n) (Fin n) F)) Units.val_injective
   have hq := isQuasisimple_open (u6r_block_quasisimple D H i)
   have hn : (((t6psub_block D i).map
@@ -309,7 +309,7 @@ theorem uni_theta_uniBlk_injective (hf : f = 1 ∨ f = 3) (hn : 3 ≤ n) (h3 : �
         Matrix (Fin n) (Fin n) F) j₀ j₀ =
           ((Matrix.GeneralLinearGroup.scalar (Fin n) c : GL (Fin n) F) :
             Matrix (Fin n) (Fin n) F) j₀ j₀ := by rw [hU0]
-    rw [uniBlk_apply_off h I M (Or.inl hj₀), if_pos rfl, Matrix.GeneralLinearGroup.coe_scalar,
+    rw [uniBlk_apply_off h I M (Or.inl hj₀), ite_eq_left rfl, Matrix.GeneralLinearGroup.coe_scalar,
       Matrix.scalar_apply, diagonal_apply_eq] at e
     exact Units.val_eq_one.mp e.symm
   apply uniBlk_injective h I
@@ -325,8 +325,8 @@ theorem uni_inner_component (hf : f = 1 ∨ f = 3) (hn : 3 ≤ n) (h3 : ¬ 3 ∣
     ∃ I : Finset (Fin n), (∃ j, j ∉ I) ∧ (∃ j, j ∈ I) ∧
       L = (blockSU h I.card).map ((uniTheta h hf hn h3).comp (uniBlk h I)) := by
   classical
-  haveI := h.finite
-  haveI : Finite (GL (Fin n) F) :=
+  have := h.finite
+  have : Finite (GL (Fin n) F) :=
     Finite.of_injective (fun g : GL (Fin n) F => (g : Matrix (Fin n) (Fin n) F)) Units.val_injective
   have hD3' : (D : GL (Fin n) F) ^ 3 = 1 := by rw [← Subgroup.coe_pow, hD3, Subgroup.coe_one]
   have H : UnitaryPrimaryData h.bar (idForm h n) (t6psub_toLin D) :=

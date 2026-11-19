@@ -525,8 +525,8 @@ theorem exists_twoD_export_pinned
         S.D.step (z * (x : ModGL τ L) * z⁻¹) = z * (D.F x : ModGL τ L) * z⁻¹ := by
   classical
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have := hchar
   obtain ⟨v, hv, hmaps, hpos, hG, m, hm, ε, hε⟩ :=
     exists_graphTwist_labelled S hT i hkind h5
   obtain ⟨z, D, hDe, hDθ, hRC, hDs, hzZ, hF⟩ := exists_twoD_export_of_graph S hτ hT i hq he

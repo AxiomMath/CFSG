@@ -24,14 +24,14 @@ theorem isHomocyclicRank2_centralizer (hp : p.Prime) {A : Subgroup X} (hAn : A.N
     (hirr : ∀ B : Subgroup X, B ≤ A → Nat.card B = p → ¬ B.Normal) :
     IsHomocyclicRank2 p ↥(centralizer (A : Set X)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let K : Subgroup X := centralizer (A : Set X)
   have hKn : K.Normal := by
     change (centralizer (A : Set X)).Normal
     infer_instance
   have hAK : A ≤ K := by
     intro a ha
-    haveI : IsMulCommutative ↥A := hA.1
+    have : IsMulCommutative ↥A := hA.1
     rw [Subgroup.mem_centralizer_iff]
     intro b hb
     exact congrArg Subtype.val (mul_comm' (⟨b, hb⟩ : ↥A) (⟨a, ha⟩ : ↥A))
@@ -61,7 +61,7 @@ theorem isHomocyclicRank2_centralizer (hp : p.Prime) {A : Subgroup X} (hAn : A.N
       rw [hx1, hy1]
     exact hKne (Subgroup.eq_bot_of_subsingleton K)
   have ha : 1 ≤ a := Nat.one_le_iff_ne_zero.mpr ha0
-  haveI hKcomm : IsMulCommutative ↥K :=
+  have hKcomm : IsMulCommutative ↥K :=
     IsMulCommutative.of_comm (fun x y => Subtype.ext (hKab x x.2 y y.2))
   let φ : ↥K →* ↥K :=
     { toFun := fun x => x ^ (p ^ (a - 1))
@@ -154,6 +154,7 @@ theorem isHomocyclicRank2_centralizer (hp : p.Prime) {A : Subgroup X} (hAn : A.N
   exact ⟨a, ha, hhom⟩
 
 
+omit [Finite X] in
 theorem isSLType_quotient_of_map_eq_statedSL [Fact p.Prime] {V : Subgroup X}
     (ρ : X →* GL (Fin 2) (ZMod p)) (hρV : V.map ρ = CFSG.Open.StatedSL 2 (ZMod p)) :
     IsSLType 2 (ZMod p) (↥V ⧸ ρ.ker.subgroupOf V) := by
@@ -163,7 +164,7 @@ theorem isSLType_quotient_of_map_eq_statedSL [Fact p.Prime] {V : Subgroup X}
     rfl
   have hrange : ψ.range = CFSG.Open.StatedSL 2 (ZMod p) := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype, hρV]
-  haveI : (ρ.ker.subgroupOf V).Normal :=
+  have : (ρ.ker.subgroupOf V).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (by
       rw [Subgroup.normalizer_eq_top]
       exact le_top)
@@ -179,10 +180,10 @@ theorem isExtNotation_SL_homocyclic_of_mulEquiv {Y₁ Y₂ : Type} [Group Y₁] 
     (h : IsExtNotation (fun B _ => IsSLType 2 (ZMod p) B) (fun B _ => IsHomocyclicRank2 p B) Y₁) :
     IsExtNotation (fun B _ => IsSLType 2 (ZMod p) B) (fun B _ => IsHomocyclicRank2 p B) Y₂ := by
   obtain ⟨N, hN, hB, hA, hns⟩ := h
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   let N' : Subgroup Y₂ := N.map (e : Y₁ →* Y₂)
   have hN' : N'.Normal := hN.map (e : Y₁ →* Y₂) e.surjective
-  haveI : N'.Normal := hN'
+  have : N'.Normal := hN'
   have hB' : IsHomocyclicRank2 p ↥N' := by
     obtain ⟨n, hn, ⟨f⟩⟩ := hB
     exact ⟨n, hn, ⟨(Subgroup.equivMapOfInjective N (e : Y₁ →* Y₂) e.injective).symm.trans f⟩⟩
@@ -220,14 +221,14 @@ theorem rankTwo_structure (hp : p.Prime) (hp5 : 5 ≤ p)
       ⁅closure {x : X | orderOf x = p}, closure {x : X | orderOf x = p}⁆ =
         closure {x : X | orderOf x = p} := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : A.Normal := hAn
+  have : Fact p.Prime := ⟨hp⟩
+  have : A.Normal := hAn
   have hp2 : p ≠ 2 := by omega
   let S : Set X := {x : X | orderOf x = p}
   let V : Subgroup X := closure S
   let K : Subgroup X := centralizer (A : Set X)
   have hVn : V.Normal := closure_orderOf_normal (X := X) p
-  haveI : V.Normal := hVn
+  have : V.Normal := hVn
   have hKn : K.Normal := by
     change (centralizer (A : Set X)).Normal
     infer_instance
@@ -237,7 +238,7 @@ theorem rankTwo_structure (hp : p.Prime) (hp5 : 5 ≤ p)
     mem_of_mem_centralizer_of_pow_eq_one hp hrk hA hAc hz hzp
   have hAK : A ≤ K := by
     intro a ha
-    haveI : IsMulCommutative ↥A := hA.1
+    have : IsMulCommutative ↥A := hA.1
     rw [Subgroup.mem_centralizer_iff]
     intro b hb
     exact congrArg Subtype.val (mul_comm' (⟨b, hb⟩ : ↥A) (⟨a, ha⟩ : ↥A))
@@ -259,7 +260,7 @@ theorem rankTwo_structure (hp : p.Prime) (hp5 : 5 ≤ p)
   have hKV : K ≤ V := hKc.trans (Subgroup.commutator_le_left V V)
   have hirr : ∀ B : Subgroup X, B ≤ A → Nat.card B = p → ¬ B.Normal := by
     intro B hBA hB hBn
-    haveI : B.Normal := hBn
+    have : B.Normal := hBn
     exact (not_le_normalizer_of_card_eq_prime hp hAn hA hAc hK hV hBA hB)
       (by rw [Subgroup.normalizer_eq_top]; exact le_top)
   have hhom : IsHomocyclicRank2 p ↥K :=
@@ -290,7 +291,7 @@ theorem rankTwo_structure (hp : p.Prime) (hp5 : 5 ≤ p)
   have hns : ¬ ∃ H : Subgroup ↥V, H.Normal ∧
       (ρ.ker.subgroupOf V) ⊓ H = ⊥ ∧ (ρ.ker.subgroupOf V) ⊔ H = ⊤ := by
     rintro ⟨H, hH, hinf, hsup⟩
-    haveI : H.Normal := hH
+    have : H.Normal := hH
     have hHbot : H = ⊥ := by
       rw [Subgroup.eq_bot_iff_forall]
       intro h hhH

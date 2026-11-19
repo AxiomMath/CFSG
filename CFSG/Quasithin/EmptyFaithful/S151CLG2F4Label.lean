@@ -113,7 +113,7 @@ theorem rankTwoParG_model_f4_labelled
       LeviDataSL (2 * a + 1) (P 0) ∧ LeviDataSz (2 * a + 1) (P 1) := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hchar : CharP K 2 := inferInstanceAs (CharP K F4.prime)
+  have hchar : CharP K 2 := inferInstanceAs (CharP K F4.prime)
   have hU₀ : IsSylowTwoOf
       ((F4.reeFixedPosUnipotent K a).subgroupOf (F4.reeGamma K a)) ⊤ :=
     (CFSG.QuasithinUnique.Vol2Native.L239.Lie.F4.largeRee_named_covers a K hK).1
@@ -164,7 +164,7 @@ theorem rankTwoParG_model_f4_labelled
       · rw [h0]
         simp [f4OrbitIndex, h10, Equiv.swap_apply_left]
       · rw [h1]
-        simp [f4OrbitIndex, h10, Equiv.swap_apply_right]
+        simp [f4OrbitIndex, Equiv.swap_apply_right]
   set Q : Fin 2 → Subgroup ↥(F4.reeGamma K a) := fun j =>
     (F4.reeParabolic K a {f4Index j}).subgroupOf (F4.reeGamma K a) with hQdef
   set P : Fin 2 → Subgroup ↥(F4.reeGamma K a) := fun j =>
@@ -197,7 +197,7 @@ theorem rankTwoParG_model_f4_labelled
       rwa [hfin] at hsw
   have hL0 : LeviDataSL (2 * a + 1) (P 0) := by
     have hj : f4OrbitIndex (0 : Fin 2) = ⟨0, by decide⟩ := f4OrbitIndex_zero
-    haveI : IsSimpleGroup ↥(rankOneGroupOne K a) := (isSimpleGroup_rankOneGroupOne ha hK).1
+    have : IsSimpleGroup ↥(rankOneGroupOne K a) := (isSimpleGroup_rankOneGroupOne ha hK).1
     obtain ⟨g, hg, hker⟩ := ree_levi_hom (K := K) (a := a) hUp (f4OrbitIndex 0)
       (M := rankOneGroupOne K a) (by rw [hj]; exact h0eq)
       (isSimpleGroup_rankOneGroupOne ha hK).2
@@ -212,7 +212,7 @@ theorem rankTwoParG_model_f4_labelled
     exact hker
   have hL1 : LeviDataSz (2 * a + 1) (P 1) := by
     have hj : f4OrbitIndex (1 : Fin 2) = ⟨1, by decide⟩ := f4OrbitIndex_one
-    haveI : IsSimpleGroup ↥(rankOneGroupTwo K a) := (isSimpleGroup_rankOneGroupTwo ha hK).1
+    have : IsSimpleGroup ↥(rankOneGroupTwo K a) := (isSimpleGroup_rankOneGroupTwo ha hK).1
     obtain ⟨g, hg, hker⟩ := ree_levi_hom (K := K) (a := a) hUp (f4OrbitIndex 1)
       (M := rankOneGroupTwo K a) (by rw [hj]; exact h1eq)
       (isSimpleGroup_rankOneGroupTwo ha hK).2
@@ -236,7 +236,7 @@ theorem rankTwoParG_f4_labelled
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_largeRee_model hY
   subst hfa
   obtain ⟨P₀, hP₀, hSL, hSz⟩ := rankTwoParG_model_f4_labelled (K := K) ha hK
-  haveI : Finite (ModGL F4.tag K) := finite_modGL
+  have : Finite (ModGL F4.tag K) := finite_modGL
   have hU₀ : IsSylowTwoOf
       ((F4.reeFixedPosUnipotent K a).subgroupOf (F4.reeGamma K a)) ⊤ :=
     (CFSG.QuasithinUnique.Vol2Native.L239.Lie.F4.largeRee_named_covers a K hK).1

@@ -31,7 +31,6 @@ private lemma card_fixedPoints_a11 (u : alternatingGroup (Fin 11)) :
     Nat.card (Function.fixedPoints (u : Equiv.Perm (Fin 11))) =
       11 - (u : Equiv.Perm (Fin 11)).support.card := by
   rw [Nat.card_eq_fintype_card]
-  change Fintype.card (Function.fixedPoints (u : Equiv.Perm (Fin 11))) = _
   rw [Equiv.Perm.card_fixedPoints, Equiv.Perm.sum_cycleType, Fintype.card_fin]
 
 private def fixedNine (u : alternatingGroup (Fin 11))
@@ -240,7 +239,7 @@ private lemma sixPointPerfect_card (h9 : (σ : Equiv.Perm (Fin 11)) 9 = 9)
     (hs : (σ : Equiv.Perm (Fin 11)).support.card = 3) :
     Nat.card (sixPointPerfect (σ := σ) h9 h10) = 360 := by
   have hFcard := card_sixPointFinset (σ := σ) h9 h10 hs
-  haveI : Nontrivial ↥(sixPointFinset h9 h10) :=
+  have : Nontrivial ↥(sixPointFinset h9 h10) :=
     Fintype.one_lt_card_iff_nontrivial.mp (by rw [Fintype.card_coe, hFcard]; norm_num)
   have hcardEq : Nat.card (sixPointPerfect (σ := σ) h9 h10) =
       Nat.card ↥(alternatingGroup ↥(sixPointFinset h9 h10)) := by
@@ -266,10 +265,10 @@ private lemma sixPointPerfect_perfect (h9 : (σ : Equiv.Perm (Fin 11)) 9 = 9)
     ⁅sixPointPerfect (σ := σ) h9 h10, sixPointPerfect (σ := σ) h9 h10⁆ =
       sixPointPerfect (σ := σ) h9 h10 := by
   have hFcard := card_sixPointFinset (σ := σ) h9 h10 hs
-  haveI : Group.IsPerfect ↥(alternatingGroup ↥(sixPointFinset h9 h10)) :=
+  have : Group.IsPerfect ↥(alternatingGroup ↥(sixPointFinset h9 h10)) :=
     ⟨commutator_alternatingGroup_eq_top (by
       rw [Nat.card_eq_fintype_card, Fintype.card_coe, hFcard]; norm_num)⟩
-  letI : Group.IsPerfect ↥(sixPointPerfect (σ := σ) h9 h10) := by
+  let : Group.IsPerfect ↥(sixPointPerfect (σ := σ) h9 h10) := by
     dsimp only [sixPointPerfect]
     exact Group.IsPerfect.range (sixPointHom h9 h10)
   exact Subgroup.commutator_eq_self
@@ -523,9 +522,9 @@ private lemma exists_even_correction (h9τ : (τ : Equiv.Perm (Fin 11)) 9 = 9)
   classical
   let Xτ := Function.fixedPoints (τ : Equiv.Perm (Fin 11))
   have hX4' : 4 ≤ Nat.card Xτ := hX4
-  haveI : MulAction.IsMultiplyPretransitive (alternatingGroup Xτ) Xτ (Nat.card Xτ - 2) :=
+  have : MulAction.IsMultiplyPretransitive (alternatingGroup Xτ) Xτ (Nat.card Xτ - 2) :=
     alternatingGroup.isMultiplyPretransitive Xτ
-  haveI : MulAction.IsMultiplyPretransitive (alternatingGroup Xτ) Xτ 2 :=
+  have : MulAction.IsMultiplyPretransitive (alternatingGroup Xτ) Xτ 2 :=
     MulAction.isMultiplyPretransitive_of_le (m := 2) (n := Nat.card Xτ - 2)
       (by omega) (Nat.sub_le _ _)
   let aτ : Xτ := fixedNine τ h9τ

@@ -28,14 +28,14 @@ theorem card_sq_eq_card_sq_bar {G : Type} [Group G] [Finite G] {S : Sylow 2 G} {
     congr 1
     exact Subtype.ext w.2.2
   · intro w w' h
-    have := escapingMk_injOn_twoGroup S.isPGroup' (a := ⟨w.1, hSz w.2.1⟩) (b := ⟨w'.1, hSz w'.2.1⟩)
+    have := escapingMk_injOn_twoGroup S.isPGroup (a := ⟨w.1, hSz w.2.1⟩) (b := ⟨w'.1, hSz w'.2.1⟩)
       w.2.1 w'.2.1 (congrArg Subtype.val h)
     have h2 := congrArg (fun a : Subgroup.centralizer ({z} : Set G) => (a : G)) this
     exact Subtype.ext h2
   · rintro ⟨v, ⟨w, hw, rfl⟩, hv⟩
     have hw' : (w : G) ∈ (S : Subgroup G) := Subgroup.mem_subgroupOf.mp hw
     refine ⟨⟨w, hw', ?_⟩, rfl⟩
-    have h := escapingMk_injOn_twoGroup S.isPGroup' (a := w ^ 2) (b := y)
+    have h := escapingMk_injOn_twoGroup S.isPGroup (a := w ^ 2) (b := y)
       (by simpa using (S : Subgroup G).pow_mem hw' 2) hy (by rw [map_pow]; exact hv)
     simpa using congrArg Subtype.val h
 
@@ -72,7 +72,7 @@ theorem caseIUnitaryOuterExcluded : CaseIUnitaryOuterExcluded := by
   rw [CFSG.BenderSuzuki.External.hallSylowSubgroupOfNormal_coe, hT] at hmodel
   have hS : UnitaryOuter.OuterSetting (EscapingQuotient z) J (escapingSylowImage S z)
       (escapingBar z) (2 ^ n) :=
-    { isPGroup := hT ▸ T.isPGroup'
+    { isPGroup := hT ▸ T.isPGroup
       zb_mem := ⟨escapingSelf z, Subgroup.mem_subgroupOf.mpr hz.1, rfl⟩
       zb_central := fun x => (hq.commute_bar x).eq
       zb_not_mem := hzJ
@@ -100,7 +100,7 @@ theorem caseIUnitaryOuterExcluded : CaseIUnitaryOuterExcluded := by
     ⟨⟨r, Subgroup.mem_subgroupOf.mpr hr.1, rfl⟩, hrJ⟩
   have hu1 : escapingMk z r ≠ 1 := by
     intro h1
-    have h := escapingMk_injOn_twoGroup S.isPGroup' (a := r) (b := 1) hr.1
+    have h := escapingMk_injOn_twoGroup S.isPGroup (a := r) (b := 1) hr.1
       (Subgroup.one_mem _) (by rw [h1, map_one])
     have h2 := hr.2.1
     rw [show (r : G) = 1 from congrArg Subtype.val h, orderOf_one] at h2

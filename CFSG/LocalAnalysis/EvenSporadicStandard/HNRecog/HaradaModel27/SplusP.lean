@@ -33,7 +33,7 @@ theorem isPGroup_R0 : IsPGroup 2 (wordSubgroupP nWords1) :=
 
 theorem splusFact_P (hP : Nat.card ↥P1408 = 177408000) (hlift : liftOK = true) :
     SplusFact pZ := by
-  haveI : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Finite ↥P1408 := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   obtain ⟨ψ, -, hker, hno⟩ := exists_noLift_pZ hP hlift
   exact splusFact_of_noLiftV4 pZ_mem_R0 isPGroup_R0 hker hno
 

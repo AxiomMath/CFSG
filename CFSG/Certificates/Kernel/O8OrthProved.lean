@@ -269,7 +269,7 @@ theorem rankParAux_spec : ∀ (vs sp : List ℕ) (S : ℕ → Prop) (b : Bool),
       obtain ⟨c, h1, h2⟩ := rankParAux_spec vs sp (fun a => S a ∨ a = v) b hS' hvs'
         (fun x => by rw [hsp x, InSp.insert_of_mem hin])
       refine ⟨c, ?_, ?_⟩
-      · rw [rankParAux, if_pos hc, h1]
+      · rw [rankParAux, ite_eq_left hc, h1]
       · rw [h2, spanF_congr (fun x => InSp.insert_of_mem hin)]
     · have hn : ¬ InSp S v := fun h => hc (by simpa using (hsp v).2 h)
       obtain ⟨c, h1, h2⟩ := rankParAux_spec vs (sp ++ sp.map (· ^^^ v)) (fun a => S a ∨ a = v)
@@ -285,9 +285,9 @@ theorem rankParAux_spec : ∀ (vs sp : List ℕ) (S : ℕ → Prop) (b : Bool),
             · exact Or.inl h
             · exact Or.inr ⟨x ^^^ v, (hsp _).2 h, xor_xor_cancel x v⟩)
       refine ⟨c + 1, ?_, ?_⟩
-      · rw [rankParAux, if_neg hc, h1]
+      · rw [rankParAux, ite_eq_right hc, h1]
         cases b <;> rcases Nat.mod_two_eq_zero_or_one c with h | h <;>
-          simp [h, Nat.succ_mod_two_eq_one_iff, Nat.succ_mod_two_eq_zero_iff]
+          simp [h, Nat.succ_mod_two_eq_one_iff]
       · rw [h2, card_spanF_insert hS hv hn, pow_succ]
         ring
 
@@ -357,8 +357,8 @@ theorem dRec_succ (C j P : ℕ) : dRec C (j + 1) P =
     else 1 + dRec C j (P ||| redF P (colAt C j ^^^ 2 ^ j) 6 <<< (6 * lead6
       (redF P (colAt C j ^^^ 2 ^ j) 6)))) = _
   by_cases h : redF P (colAt C j ^^^ 2 ^ j) 6 = 0
-  · rw [if_pos h, if_pos (by rw [h]; rfl)]
-  · rw [if_neg h, if_neg (fun h' => h (Nat.eq_of_beq_eq_true h'))]
+  · rw [ite_eq_left h, ite_eq_left (by rw [h]; rfl)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (Nat.eq_of_beq_eq_true h'))]
 
 @[expose] def PivOK (P : ℕ) : Prop :=
   ∀ t < 6, fget P t 6 = 0 ∨ ((fget P t 6).testBit t = true ∧ fget P t 6 < 2 ^ (t + 1))
@@ -462,7 +462,7 @@ theorem fget_lor_shl {P r l : ℕ} (hl0 : fget P l 6 = 0) (hr : r < 64) (t : ℕ
   have hr' : r < 2 ^ 6 := hr
   by_cases ht : t = l
   · subst ht
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have h0 : P.testBit (t * 6 + i) = (decide (i < 6) && P.testBit (t * 6 + i)) ∨ ¬ i < 6 := by
       by_cases hi : i < 6
       · left
@@ -478,7 +478,7 @@ theorem fget_lor_shl {P r l : ℕ} (hl0 : fget P l 6 = 0) (hr : r < 64) (t : ℕ
     · rw [Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le hr' (Nat.pow_le_pow_right (by omega)
         (by omega : 6 ≤ i)))]
       simp [hi]
-  · rw [if_neg ht, testBit_fget]
+  · rw [ite_eq_right ht, testBit_fget]
     by_cases hi : i < 6
     · rcases Nat.lt_or_gt_of_ne ht with htl | htl
       · have : ¬ (t * 6 + i ≥ 6 * l) := by omega
@@ -576,10 +576,10 @@ theorem dRec_spec (C : ℕ) : ∀ n ≤ 6, ∀ (P : ℕ) (S : ℕ → Prop), Piv
                 exact InSp.zero
               · apply InSp.of_mem
                 refine ⟨t, ht, ?_⟩
-                rw [hF t, if_neg htl]
+                rw [hF t, ite_eq_right htl]
             · apply InSp.of_mem
               refine ⟨l, hl6, ?_⟩
-              rw [hF l, if_pos rfl]
+              rw [hF l, ite_eq_left rfl]
         intro x
         rw [e1, InSp.insert_swap hr2, InSp.insert_iff, InSp.insert_iff, hsp, hsp]
       rw [dRec_spec C n (by omega) _ (fun a => S a ∨ a = v) hP' hS' hsp',
@@ -815,7 +815,6 @@ theorem candR_spec {q : ℕ → Bool} {Q : ℕ} (hq : QBind q Q) {cs : List ℕ}
                 Nat.xor (fget (bfTab Q) (colAt (packL cs) n) (nat_lit 64))
                   (maskN (nat_lit 64)))))).testBit c = _
     rw [strictN_eq]
-    beta_reduce
     rw [nIf_eq, pw2_eq, pw2_eq, hb, beq_toNat_one, colAt_packL hcs]
     refine ⟨Nat.lt_of_le_of_lt Nat.and_le_left h1, fun c hc => ?_⟩
     rw [testBit_land, h2 c hc, List.range_succ, List.all_append]
@@ -827,13 +826,13 @@ theorem candR_spec {q : ℕ → Bool} {Q : ℕ} (hq : QBind q Q) {cs : List ℕ}
     · rename_i h
       rw [hbt, List.all_cons, List.all_nil, Bool.and_true, h]
       generalize bfG q (cs.getD n 0) c = b
-      cases b <;> simp [Bool.and_assoc]
+      cases b <;> simp
     · rename_i h
       rw [testBit_nxor, hbt, testBit_mask64, List.all_cons, List.all_nil, Bool.and_true]
       simp only [Bool.not_eq_true] at h
       rw [h]
       generalize bfG q (cs.getD n 0) c = b
-      cases b <;> simp [hc, Bool.and_assoc]
+      cases b <;> simp [hc]
 
 theorem lowBit_spec : ∀ w : Nat, w ≠ 0 → ∃ k, w &&& (w ^^^ (w - 1)) = 2 ^ k ∧
     w.testBit k = true ∧ ∀ i < k, w.testBit i = false
@@ -948,7 +947,7 @@ theorem wSumF_spec (g : Nat → Nat) : ∀ n w s, w < 2 ^ 64 → (∀ i < 64 - n
           simp [hk0]
         · simp [hc]
       rw [hstep, ih, Finset.sum_congr rfl hsplit, Finset.sum_add_distrib, Finset.sum_ite_eq,
-        if_pos (Finset.mem_range.2 hk064)]
+        ite_eq_left (Finset.mem_range.2 hk064)]
       omega
 
 theorem wordFold_sum (g : Nat → Nat) (w s : Nat) (hw : w < 2 ^ 64) :
@@ -1116,10 +1115,10 @@ theorem leaf_ok {C : List ℕ} (hl : C.length = 6) (hc : ∀ x ∈ C, x < 64)
   · cases hi : isInvol C
     · simp
     · rw [hdc, hi] at h
-      simp only [if_true, Bool.false_eq_true, if_false] at h
+      simp only [ite_true, Bool.false_eq_true, ite_false] at h
       have : Nat.beq (fixCount C) 16 = true := by
         by_contra hne
-        rw [if_neg hne] at h
+        rw [ite_eq_right hne] at h
         exact absurd h (by decide)
       simp [Nat.eq_of_beq_eq_true this]
   · simp

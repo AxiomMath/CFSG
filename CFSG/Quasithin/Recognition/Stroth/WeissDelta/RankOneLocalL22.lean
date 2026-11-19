@@ -26,19 +26,19 @@ variable {m : ℕ} (hm : 2 ≤ m)
 
 abbrev L2K (m : ℕ) : Type := GaloisField 2 m
 private theorem exists_conj_borel_eq_psl2Borel (hm : 2 ≤ m) :
-    ∃ (U B : Subgroup (PSL2MatrixGroup (L2K m))) (hU : Nat.card U = 2 ^ m),
+    ∃ (U B : Subgroup (PSL2MatrixGroup (L2K m))) (_hU : Nat.card U = 2 ^ m),
       RankOneData (PSL2MatrixGroup (L2K m)) U B ∧
         ∃ x : PSL2MatrixGroup (L2K m),
           psl2Borel (L2K m) = B.map (MulAut.conj x).toMonoidHom := by
   classical
   have hKcard : Nat.card (L2K m) = 2 ^ m := GaloisField.card 2 m (by omega)
   obtain ⟨U, B, hdata, hUcard⟩ := CFSG.Quasithin.Stroth.rankOneData_psl2 m hm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let t : ↥(⊤ : Subgroup (PSL2MatrixGroup (L2K m))) ≃* PSL2MatrixGroup (L2K m) := Subgroup.topEquiv
   let U' : Subgroup ↥(⊤ : Subgroup (PSL2MatrixGroup (L2K m))) := U.map t.symm.toMonoidHom
   let B' : Subgroup ↥(⊤ : Subgroup (PSL2MatrixGroup (L2K m))) := B.map t.symm.toMonoidHom
   have hdata' : RankOneData ↥(⊤ : Subgroup (PSL2MatrixGroup (L2K m))) U' B' := hdata.map t.symm
-  letI : Fintype (ℙ (L2K m) (Fin 2 → (L2K m))) := Fintype.ofFinite _
+  let : Fintype (ℙ (L2K m) (Fin 2 → (L2K m))) := Fintype.ofFinite _
   have hcardModel : Fintype.card (ℙ (L2K m) (Fin 2 → (L2K m))) = 1 + Nat.card U' := by
     have hline : Nat.card (ℙ (L2K m) (Fin 2 → (L2K m))) = 2 ^ m + 1 := by
       rw [Projectivization.card_of_finrank_two (L2K m) (Fin 2 → (L2K m)) (by simp), hKcard]
@@ -108,7 +108,7 @@ theorem exists_l2Setup {X Ω : Type} [Group X] [Finite X] [Fintype Ω]
     (hΩ : Fintype.card Ω = 2 ^ m + 1) :
     Nonempty (L2Setup X Ω N m) := by
   classical
-  letI : N.Normal := hN
+  let : N.Normal := hN
   have hKcard : Nat.card (L2K m) = 2 ^ m := GaloisField.card 2 m (by omega)
   let L := linearPointAction_psl2 (K := (L2K m)) hKcard
   obtain ⟨U_d, B_d, hUcard_d, hdata_d, x₀, hB₀⟩ := exists_conj_borel_eq_psl2Borel (m := m) hm
@@ -129,7 +129,7 @@ theorem exists_l2Setup {X Ω : Type} [Group X] [Finite X] [Fintype Ω]
       rw [← hbot]
       exact (e.symm u).2
     exact Subgroup.mem_bot.mp hmem
-  haveI : Nonempty Ω := Fintype.card_pos_iff.mp (by rw [hΩ]; positivity)
+  have : Nonempty Ω := Fintype.card_pos_iff.mp (by rw [hΩ]; positivity)
   let ω₀ : Ω := Classical.arbitrary Ω
   have hcardN : Fintype.card Ω = 1 + Nat.card (U_d.map e.symm.toMonoidHom) := by
     rw [Subgroup.card_map_of_injective e.symm.injective, hΩ, hUcard_d]
@@ -140,11 +140,11 @@ theorem exists_l2Setup {X Ω : Type} [Group X] [Finite X] [Fintype Ω]
     have hcomp : (MulAut.conj x₀⁻¹).toMonoidHom.comp (MulAut.conj x₀).toMonoidHom =
         MonoidHom.id (PSL2MatrixGroup (L2K m)) := by
       ext b
-      simp [MulAut.conj_apply, mul_assoc]
+      simp
     rw [hB₀, Subgroup.map_map, hcomp, Subgroup.map_id]
-  haveI : MulAction.IsPreprimitive X Ω :=
+  have : MulAction.IsPreprimitive X Ω :=
     MulAction.isPreprimitive_of_is_two_pretransitive h2
-  haveI : MulAction.IsQuasiPreprimitive X Ω := inferInstance
+  have : MulAction.IsQuasiPreprimitive X Ω := inferInstance
   have hfixed : MulAction.fixedPoints N Ω ≠ ⊤ := by
     intro htop
     apply hNbot
@@ -155,11 +155,11 @@ theorem exists_l2Setup {X Ω : Type} [Group X] [Finite X] [Fintype Ω]
     intro x
     have hx : x ∈ MulAction.fixedPoints N Ω := by rw [htop]; exact Set.mem_univ x
     simpa using hx ⟨n, hn⟩
-  haveI : MulAction.IsPretransitive N Ω :=
+  have : MulAction.IsPretransitive N Ω :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal (N := N) hfixed
-  haveI h2P : MulAction.IsMultiplyPretransitive (PSL2MatrixGroup (L2K m))
+  have h2P : MulAction.IsMultiplyPretransitive (PSL2MatrixGroup (L2K m))
       (ℙ (L2K m) (Fin 2 → (L2K m))) 2 := L.isMultiplyPretransitive
-  haveI : MulAction.IsPretransitive (PSL2MatrixGroup (L2K m))
+  have : MulAction.IsPretransitive (PSL2MatrixGroup (L2K m))
       (ℙ (L2K m) (Fin 2 → (L2K m))) :=
     MulAction.isPretransitive_of_is_two_pretransitive
   let a_d : ℙ (L2K m) (Fin 2 → (L2K m)) := x₀⁻¹ • psl2ProjectiveInfinity (L2K m)
@@ -219,7 +219,7 @@ theorem exists_l2Setup {X Ω : Type} [Group X] [Finite X] [Fintype Ω]
     have hU₀2 : IsPGroup 2 U₀ := by
       change IsPGroup 2 (psl2UpperUnipotentSubgroup (L2K m))
       rw [← hS]
-      exact S.isPGroup'
+      exact S.isPGroup
     exact hU₀2.map e.symm.toMonoidHom
   have hUcard : Nat.card U = 2 ^ m := by
     rw [Subgroup.card_map_of_injective e.symm.injective, L.card_U]
@@ -228,7 +228,7 @@ theorem exists_l2Setup {X Ω : Type} [Group X] [Finite X] [Fintype Ω]
   have hTcard : Nat.card T = 2 ^ m - 1 := by
     rw [Subgroup.card_map_of_injective e.symm.injective, L.card_T]
   have hTcyc : IsCyclic T := by
-    haveI : IsCyclic T₀ := L.isCyclic
+    have : IsCyclic T₀ := L.isCyclic
     let eT : T₀ ≃* T := Subgroup.equivMapOfInjective T₀ e.symm.toMonoidHom
       e.symm.injective
     exact isCyclic_of_surjective eT.toMonoidHom eT.surjective
@@ -319,7 +319,7 @@ theorem exists_borel_conj (S : L2Setup X Ω N m) (ω : Ω) :
 theorem card_fixed_le_two (S : L2Setup X Ω N m) {t : ↥N} (ht : t ≠ 1) :
     Nat.card {x : Ω // t • x = x} ≤ 2 := by
   classical
-  letI : Fintype (ℙ (L2K m) (Fin 2 → (L2K m))) := Fintype.ofFinite _
+  let : Fintype (ℙ (L2K m) (Fin 2 → (L2K m))) := Fintype.ofFinite _
   let f : {x : Ω // t • x = x} →
       {y : ℙ (L2K m) (Fin 2 → (L2K m)) // S.e t • y = y} := fun x =>
     ⟨S.theta x.1, by
@@ -330,7 +330,7 @@ theorem card_fixed_le_two (S : L2Setup X Ω N m) {t : ↥N} (ht : t ≠ 1) :
   have hte : S.e t ≠ 1 := by
     intro h
     exact ht (S.e.injective (by simpa using h))
-  haveI : Finite {y : ℙ (L2K m) (Fin 2 → (L2K m)) // S.e t • y = y} :=
+  have : Finite {y : ℙ (L2K m) (Fin 2 → (L2K m)) // S.e t • y = y} :=
     Finite.of_injective (fun y => y.1) Subtype.val_injective
   exact (Nat.card_le_card_of_injective f hf).trans
     (CFSG.GorensteinWalter.psl2_fixedPoint_card_le_two (L2K m) (S.e t) hte)
@@ -352,8 +352,8 @@ theorem eq_two_of_fixed (S : L2Setup X Ω N m) [Fintype Ω] {t : ↥N} (ht : t �
     have hf : Function.Injective f := by
       intro i j hij
       fin_cases i <;> fin_cases j <;> simp [f] at hij ⊢ <;> tauto
-    haveI : Finite Ω := Finite.of_fintype Ω
-    haveI : Finite {y : Ω // t • y = y} :=
+    have : Finite Ω := Finite.of_fintype Ω
+    have : Finite {y : Ω // t • y = y} :=
       Finite.of_injective (fun y => y.1) Subtype.val_injective
     simpa using Nat.card_le_card_of_injective f hf
   omega

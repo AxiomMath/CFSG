@@ -65,7 +65,7 @@ private theorem gu2a_exists_between (X : Submodule F (Fin 6 → F)) (m : ℕ) :
       refine lt_of_le_of_ne hSX fun h => ?_
       rw [h] at hdim
       omega
-    obtain ⟨v, hvX, hvS⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨v, hvX, hvS⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hS' : S ⊔ Submodule.span F {v} ≤ X :=
       sup_le hSX (Submodule.span_le.mpr (Set.singleton_subset_iff.mpr hvX))
     have hfin := gu2a_finrank_sup_span hvS

@@ -21,7 +21,7 @@ open CFSG
 namespace CFSG.BenderSuzuki
 namespace PFchapter1section3
 
-open PFchapter1section1 PFAppendixIII MatrixGroups
+open PFchapter1section1 PFAppendixIII _root_.CFSG.BenderSuzuki.MatrixGroups
 open PFchapter1section2
 open scoped LinearAlgebra.Projectivization
 
@@ -751,7 +751,7 @@ private theorem lemma_4_Q0_card_ge_four
                             S ⊔ Q1 = Q)) :
     4 ≤ Nat.card Q0 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E0, hE0card, hE0sq⟩ :=
     TwoRankAtLeastTwo.exists_subgroup hsec.hA.A3
   have hE0p : IsPGroup 2 E0 := by
@@ -1155,7 +1155,7 @@ private theorem lemma_4_psl2_matrix_group_obligation
   have hLtwo : MulAction.IsMultiplyPretransitive L ΩL 2 := by
     rw [MulAction.is_two_pretransitive_iff]
     intro a b c d hab hcd
-    letI : MulAction.IsPretransitive L ΩL := inferInstance
+    let : MulAction.IsPretransitive L ΩL := inferInstance
     rcases MulAction.exists_smul_eq L a αL with ⟨la, hla⟩
     rcases MulAction.exists_smul_eq L c αL with ⟨lc, hlc⟩
     have hla_b : la • b ≠ αL := by
@@ -1635,8 +1635,8 @@ private theorem lemma_4_psl2_matrix_group_obligation
       exact hthreeL
     exact ((External.huppert_blackburn_XI_3_6 k
       (Nat.pos_of_ne_zero hk)).2 hthreeSuzuki).elim
-  · letI : Field E := hEfield
-    letI : Finite E := hEfinite
+  · let : Field E := hEfield
+    let : Finite E := hEfinite
     let eModel : L ≃* ProjectiveSpecialUnitaryMatrixGroup J :=
       (Subgroup.topEquiv : (⊤ : Subgroup L) ≃* L).symm.trans eL
     rcases External.huppert_II_10_12
@@ -1661,9 +1661,9 @@ private theorem lemma_4_psl2_matrix_group_obligation
       apply Subtype.ext
       have hmap := congrArg eModel hxsqL
       simpa [xL] using hmap
-    letI : IsMulCommutative R :=
+    let : IsMulCommutative R :=
       lemma_4_isMulCommutative_of_forall_sq_one hRsq
-    letI : CommGroup R := IsMulCommutative.instCommGroup
+    let : CommGroup R := IsMulCommutative.instCommGroup
     have hcommbot : commutator R = ⊥ :=
       (commutator_eq_bot_iff_center_eq_top (G := R)).2
         CommGroup.center_eq_top

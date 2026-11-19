@@ -33,7 +33,7 @@ theorem ThLocalIn.eq_bot_or_eq_A_of_le (W : ThLocalIn L S A B z) {Y : Subgroup G
     refine le_antisymm hYA ?_
     intro a' ha'
     by_cases h1 : a' = 1
-    · simpa [h1] using Y.one_mem
+    · simp [h1]
     · obtain ⟨m, hmL, hmA, hmz⟩ := W.trans a' ha' h1
       have hmN : m ∈ normalizer (A : Set G) := by
         have hinv : m⁻¹ ∈ normalizer (A : Set G) :=

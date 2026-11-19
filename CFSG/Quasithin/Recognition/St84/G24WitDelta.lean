@@ -77,10 +77,10 @@ private theorem phiY_mapsTo_M2 : ∀ x ∈ M2, phiY x ∈ M2 := by
   rw [Subgroup.mem_subgroupOf, coe_phiY]
   exact G2q.entrywise_mem_parabolicSubgroup (ρ := frobeniusF4) hx
 
-private noncomputable def phiM1 (hM : Facts) : MulAut ↥M1 :=
+private noncomputable def phiM1 (_hM : Facts) : MulAut ↥M1 :=
   mulAutRestrict M1 phiY (map_eq_of_mapsTo phiY phiY_mapsTo_M1)
 
-private noncomputable def phiM2 (hM : Facts) : MulAut ↥M2 :=
+private noncomputable def phiM2 (_hM : Facts) : MulAut ↥M2 :=
   mulAutRestrict M2 phiY (map_eq_of_mapsTo phiY phiY_mapsTo_M2)
 
 private theorem coe_phiM1 (hM : Facts) (x : ↥M1) :
@@ -150,8 +150,7 @@ private structure WitFacts where
 
 private theorem witFacts : WitFacts := by
   have h := CFSG.Quasithin.St84.wit_check
-  simp only [G24Wit.witCheck, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq, and_assoc,
-    e1P, e1Pi, e2P, e2Pi, eA1, eA1i, eA2, eA2i, beP, bePi, alP, alPi, cs] at h
+  simp only [G24Wit.witCheck, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq, and_assoc] at h
   obtain ⟨hA, hB, hC, hD, hE, hF, hG, hH, hI, hJ, hK, hL, _⟩ := h
   exact ⟨hA, hB, hC, hD, hE, hF, hG, hH, hI, hJ, hK, hL⟩
 
@@ -698,7 +697,7 @@ private theorem toMat_csPi (hM : Facts) (s : Fin 4) (t : Fin 3) :
     toMat 14 (((cs.getD s.val (#[], #[])).2).getD t.val one14) =
       (((toGL (cY s t))⁻¹ : GL (Fin 14) F4) : Matrix (Fin 14) (Fin 14) F4) := by
   rw [cs_getD s, cocImgs]
-  simp only [cocImgs]
+  simp only
   rw [getD_toArray_map (f := fun u : ℕ => mulArr 14 (eA2i.getD u one14)
       (evalPInv e2Pi ((e2Coc.getD s.val []).getD u [])))
       (l := List.range 3) (i := t.val) (d := one14) (e := 0) t.isLt]

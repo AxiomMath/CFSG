@@ -83,14 +83,14 @@ theorem kgLangS1E_J0_model_E6
               (ψ (QuotientGroup.mk j') : ModGL .E6 k) = y * ψ (QuotientGroup.mk j) * y⁻¹ := by
   classical
   let R := LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K₁ false)
-  letI : Group R := QuotientGroup.Quotient.group
+  let : Group R := QuotientGroup.Quotient.group
     (Subgroup.center (↥(LargeEvenChevH (LargeEvenCartanE 6) K₁ false)))
   let I : Set (MulAut R) := LargeEvenChevIDImage (LargeEvenCartanE 6) K₁
     (LargeEvenChevH (LargeEvenCartanE 6) K₁ false)
   let F : Set (MulAut R) := LargeEvenChevFieldImage (LargeEvenCartanE 6) K₁
     (LargeEvenChevH (LargeEvenCartanE 6) K₁ false)
   let F₀ : ModGL .E6 L →* ModGL .E6 L := frobTwistGL .E6 L 2 e 1
-  haveI hcharK : CharP K₁ 2 := charP_two_of_card hK₁
+  have hcharK : CharP K₁ 2 := charP_two_of_card hK₁
   have hstab : ∀ g ∈ adjointGroup .E6 L, F₀ g ∈ adjointGroup .E6 L := by
     intro g hg
     show frobTwistGL .E6 L 2 e 1 g ∈ adjointGroup .E6 L
@@ -100,7 +100,7 @@ theorem kgLangS1E_J0_model_E6
     CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 K₁
   obtain ⟨eQ⟩ := centerQuot_chevGroup_equiv K₁ .E6
   have hRsimple : IsSimpleGroup R := by
-    haveI : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E6 K₁) := hq₁.2.1
+    have : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E6 K₁) := hq₁.2.1
     exact eQ.isSimpleGroup
   have hRnab : ∃ a b : R, a * b ≠ b * a :=
     kgLangS1EModelE6Aux_nonabelian eQ.symm hq₁.2.2
@@ -243,7 +243,7 @@ theorem kgLangS1E_J0_model_E6
   have hq_k : CFSG.IsQuasisimple ↥(adjointGroup .E6 k) :=
     CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 k
   have hCs : IsSimpleGroup ↥C := by
-    haveI : IsSimpleGroup (↥(adjointGroup .E6 k) ⧸
+    have : IsSimpleGroup (↥(adjointGroup .E6 k) ⧸
         Subgroup.center ↥(adjointGroup .E6 k)) := hq_k.2.1
     exact (eC.trans ebot.symm).isSimpleGroup
   have hCna : ∃ a b : ↥C, a * b ≠ b * a :=

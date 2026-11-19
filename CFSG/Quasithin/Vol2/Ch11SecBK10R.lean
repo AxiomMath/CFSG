@@ -102,7 +102,7 @@ theorem isSylowTwoOf_hyp (h : UnitaryFieldData 2 f K) :
   have : Finite K := h.finite
   obtain ⟨-, -, -, -, ⟨Q, hQ⟩, -, -⟩ := unitary_order_and_Sylow h (r := 1) (ε := 1) le_rfl le_rfl
   rw [← hQ]
-  refine ⟨le_top, Q.isPGroup', ?_⟩
+  refine ⟨le_top, Q.isPGroup, ?_⟩
   change ¬ 2 ∣ (Q : Subgroup (hypPSU h 1 1)).relIndex ⊤
   rw [Subgroup.relIndex_top_right]
   exact Q.not_dvd_index

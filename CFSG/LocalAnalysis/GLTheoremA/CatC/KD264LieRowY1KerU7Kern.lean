@@ -26,7 +26,7 @@ theorem scalar_val (c : Kˣ) :
     ((Matrix.GeneralLinearGroup.scalar (Fin 7) c : GL (Fin 7) K) :
       Matrix (Fin 7) (Fin 7) K) = Matrix.scalar (Fin 7) (c : K) := by
   ext i j
-  simp [Matrix.GeneralLinearGroup.scalar, Matrix.scalar_apply, Matrix.one_apply]
+  simp [Matrix.GeneralLinearGroup.scalar, Matrix.scalar_apply]
 
 theorem scalar_three_eq_one {x : GL (Fin 7) K} (hx : x ∈ StatedScalars (Fin 7) K)
     (hdet : (x : Matrix (Fin 7) (Fin 7) K).det = 1) (h3 : x ^ 3 = 1) : x = 1 := by
@@ -68,7 +68,7 @@ theorem scalar_InH0_eq_one {g : GL (Fin 7) K}
     (sumEq7.symm (Sum.inr 0)) (sumEq7.symm (Sum.inr 0))
     (by simp [sumEq7_symm_inr_val]) (by simp [sumEq7_symm_inr_val])
   rw [scalar_val] at hb
-  simp only [Matrix.scalar_apply, Matrix.diagonal_apply_eq, if_true] at hb
+  simp only [Matrix.scalar_apply, Matrix.diagonal_apply_eq, ite_true] at hb
   apply Units.ext
   rw [scalar_val, hb, Units.val_one, map_one]
 
@@ -94,7 +94,7 @@ theorem commute_of_piU (h : UnitaryFieldData p f K) {x y : ↥(StatedSU 7 (p ^ f
     simp [mul_assoc]
   have hpow : (x * y * x⁻¹) ^ 3 = 1 := by
     have e : (x * y * x⁻¹) ^ 3 = x * y ^ 3 * x⁻¹ := by
-      simp only [pow_succ, pow_zero, one_mul, mul_assoc, mul_inv_cancel_left, inv_mul_cancel_left]
+      simp only [pow_succ, pow_zero, one_mul, mul_assoc, inv_mul_cancel_left]
     rw [e, hy]
     simp
   have h5 : c ^ 3 * y ^ 3 = 1 := by
@@ -139,8 +139,8 @@ theorem kerConcl_of_blockU (h : UnitaryFieldData p f K) (hQ : 3 ∣ p ^ f - 1)
       ((g : GL (Fin 7) K) : Matrix (Fin 7) (Fin 7) K) * D0 K =
         D0 K * ((g : GL (Fin 7) K) : Matrix (Fin 7) (Fin 7) K)) :
     KerConcl (P'.map (piU p f K)) := by
-  haveI : Finite K := h.finite
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Finite K := h.finite
+  have : Fact p.Prime := ⟨h.prime⟩
   refine ⟨F'.map (piU p f K), Subgroup.map_mono hF'P, ?_, ?_⟩
   · rw [card_map_eq_of_injOn (piU p f K) F' (fun x hx h' => piU_inj_pow3 h (hP3 x (hF'P hx)) h')]
     exact hF'card

@@ -192,11 +192,11 @@ private theorem twE6ScTableZ_aux
       Nat.prime_three (by norm_num) Nat.prime_five (by norm_num) (Or.inl le_rfl) hmon
       (twistedE6InndiagConj K σ h) (h : ModGL TwistTag.E6.tag K) h.2 (twistedE6InndiagConj_apply h)
       (by rw [← Subgroup.coe_pow, hh3]; rfl) (fun h' => hh1 (Subtype.ext h'))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (f := n * 2) (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have h3L : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.natCast_ne_zero_of_ringChar_ne
@@ -276,10 +276,10 @@ private theorem twE6ScTableZ_aux
     norm_num at h8
   obtain ⟨hSUfin, hSUquasi, -⟩ :=
     stdUnitary_fixSubgroup (ν := 3) Nat.prime_two (f := 3 * n) (by omega) σQ hσQ (by norm_num)
-  haveI : Finite ↥(CFSG.RankThree.Classical2.fixSubgroup (stdUnitaryEquiv (ν := 3) σQ)) := hSUfin
+  have : Finite ↥(CFSG.RankThree.Classical2.fixSubgroup (stdUnitaryEquiv (ν := 3) σQ)) := hSUfin
   have hSUperf : Group.IsPerfect ↥(CFSG.RankThree.Classical2.fixSubgroup
       (stdUnitaryEquiv (ν := 3) σQ)) := (hSUquasi hνQ).1
-  haveI : Group.IsPerfect ↥(CFSG.RankThree.Classical2.fixSubgroup
+  have : Group.IsPerfect ↥(CFSG.RankThree.Classical2.fixSubgroup
       (stdUnitaryEquiv (ν := 3) σQ)) := hSUperf
   have hfrange : f.range = Ri := le_antisymm (hfperf hSUperf) (by rw [hRidef]; exact hfR)
   have hfrange' : f.range = Jbar.map ι := by rw [hfrange, hJbarR]

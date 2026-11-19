@@ -110,7 +110,7 @@ theorem exists_conj_transv_ch611 (hE : ∀ u : E, u ^ 2 = 1) {x : E} (hx : x ≠
     tauto
   have hcc : c * c = 1 := by rw [← pow_two, hE]
   obtain ⟨f, hf1, hf0⟩ : ∃ f : E → E, (∀ u, μ u → f u = u * c) ∧ (∀ u, ¬ μ u → f u = u) :=
-    ⟨fun u => if μ u then u * c else u, fun u hu => if_pos hu, fun u hu => if_neg hu⟩
+    ⟨fun u => if μ u then u * c else u, fun u hu => ite_eq_left hu, fun u hu => ite_eq_right hu⟩
   have hff : ∀ u, f (f u) = u := by
     intro u
     by_cases hu : μ u

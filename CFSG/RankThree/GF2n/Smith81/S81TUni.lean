@@ -28,11 +28,11 @@ theorem rootOp_mem_supported {okD : Rt → Prop} {inL : Fin e7Data.d → Prop} (
   intro b hb
   rw [rootOp_apply hα]
   by_cases h1 : pr b α = 1
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     apply hw
     intro hin
     exact hb ((hcl α hα hok b h1).1 hin)
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
 
 theorem single_mem_RangeL {S : List Rt} (hS : SOrth S) {okD : Rt → Prop}
     {inL : Fin e7Data.d → Prop} (hSok : ∀ β ∈ S, okD β) (hcl : ClosedL okD inL)
@@ -63,7 +63,7 @@ theorem heis_sub_mem {S : List Rt} (hS : SOrth S) {okD : Rt → Prop} {inL : Fin
       obtain ⟨hμL, hμperp⟩ := hμ
       rw [rootOp_single hα]
       by_cases hpr : pr μ α = -1
-      · rw [if_pos hpr]
+      · rw [ite_eq_left hpr]
         have hν1 : pr (shift α μ) α = 1 := pr_shift_self hα hpr
         have hνL : inL (shift α μ) :=
           (hcl α hα hok (shift α μ) hν1).1 (by rw [shift_neg_shift hα hpr]; exact hμL)
@@ -73,7 +73,7 @@ theorem heis_sub_mem {S : List Rt} (hS : SOrth S) {okD : Rt → Prop} {inL : Fin
         · rw [hpν β hβ]; exact hA.1 β hβ
         · obtain ⟨β, hβ, h1⟩ := hA.2
           exact ⟨β, hβ, by rw [hpν β hβ]; exact h1⟩
-      · rw [if_neg hpr]
+      · rw [ite_eq_right hpr]
         exact zero_mem _
     · rw [map_zero]; exact zero_mem _
     · intro x y _ _ hx hy
@@ -102,7 +102,7 @@ theorem fix_heis_le {S : List Rt} (hS : SOrth S) {okD : Rt → Prop} {inL : Fin 
     have hν1 : pr (shift (rt k) μ) (rt k) = 1 := pr_shift_self hrk hkpr
     have h1 := congrArg (fun x : V K => x (shift (rt k) μ)) h0
     simp only [Finsupp.zero_apply] at h1
-    rw [rootOp_apply hrk, if_pos hν1, shift_neg_shift hrk hkpr] at h1
+    rw [rootOp_apply hrk, ite_eq_left hν1, shift_neg_shift hrk hkpr] at h1
     have hNw : (NOp K S w) μ = 0 := by
       rw [NOp_eq, LinearMap.sub_apply, Module.End.one_apply, Finsupp.sub_apply,
         tOp_apply_of_no_top hS.1 w μ (fun β hβ => by rw [hμperp β hβ]; norm_num), sub_self]
@@ -122,7 +122,7 @@ theorem tOp_single_perp {S : List Rt} (hS : ∀ β ∈ S, IsRoot .E7 β) {a : Fi
     have hE : e7Data.rootOp K β (Finsupp.single a t) = 0 := by
       have e : (Finsupp.single a t : V K) = t • Finsupp.single a 1 := by
         rw [Finsupp.smul_single, smul_eq_mul, mul_one]
-      rw [e, map_smul, rootOp_single hβ, if_neg (by rw [h β (List.mem_cons_self ..)]; norm_num),
+      rw [e, map_smul, rootOp_single hβ, ite_eq_right (by rw [h β (List.mem_cons_self ..)]; norm_num),
         smul_zero]
     rw [tOp_cons, Module.End.mul_apply, ih (fun γ hγ => hS γ (List.mem_cons_of_mem _ hγ))
       (fun γ hγ => h γ (List.mem_cons_of_mem _ hγ)), LinearMap.add_apply, Module.End.one_apply, hE,
@@ -162,7 +162,7 @@ theorem cov_of_star2 {S : List Rt} (hS : SOrth S) {okD : Rt → Prop} {inL : Fin
         rw [Finsupp.smul_single, smul_eq_mul, mul_one]
       have e2 : (Finsupp.single μ t : V K) = t • Finsupp.single μ 1 := by
         rw [Finsupp.smul_single, smul_eq_mul, mul_one]
-      rw [e, map_smul, rootOp_single hrk, if_pos hμ'pr, shift_shift_neg hrk hμ1, e2]
+      rw [e, map_smul, rootOp_single hrk, ite_eq_left hμ'pr, shift_shift_neg hrk hμ1, e2]
   have hu' := (Finsupp.mem_supported' K u).1 hu
   have hsum : u = ∑ μ ∈ u.support, Finsupp.single μ (u μ) := by
     conv_lhs => rw [← Finsupp.sum_single u]

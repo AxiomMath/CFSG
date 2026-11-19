@@ -16,7 +16,7 @@ theorem decomp_Y_of_base (h : F5Base a z) {w x : G} (hw : IsConj z w) (hx : IsCo
     ∀ y ∈ Gxy w x, ∃ u ∈ derivedOf (Gxy w x), y = u ∨ y = w * u ∨ y = x * u ∨ y = w * x * u := by
   rw [Gxy_comm w x]
   intro y hy
-  haveI : Finite G := h.finite
+  have : Finite G := h.finite
   have hcomm : w * x = x * w := h.mul_comm (Or.inr hw) (Or.inl hx) (Or.inr hwx)
   have hxmem : x ∈ Gx w := mem_Gx.2 hcomm
   have hwx' : IsConj w (x * w) := by
@@ -71,12 +71,12 @@ theorem decomp_Y_of_base (h : F5Base a z) {w x : G} (hw : IsConj z w) (hx : IsCo
       rw [hkc] at hk'
       exact hk'.symm
     have hcard1 : Nat.card ↥(S i) = 1 := by
-      haveI : Subsingleton ↥(S i) := ⟨fun a b => by
+      have : Subsingleton ↥(S i) := ⟨fun a b => by
         apply Subtype.ext
         have ha : (a : G) = c := by simpa [hSsing] using a.2
         have hb : (b : G) = c := by simpa [hSsing] using b.2
         rw [ha, hb]⟩
-      haveI : Nonempty ↥(S i) := ⟨⟨c, hi⟩⟩
+      have : Nonempty ↥(S i) := ⟨⟨c, hi⟩⟩
       exact Nat.card_unique
     by_cases hi0 : i = 0
     · rw [hi0] at hcard1
@@ -102,7 +102,7 @@ theorem decomp_Y_of_base (h : F5Base a z) {w x : G} (hw : IsConj z w) (hx : IsCo
   have hu_mem : ∀ i, u i ∈ Y := by
     intro i
     fin_cases i
-    · simpa [u] using Y.one_mem
+    · simp [u]
     · simpa [u] using hwY
     · simpa [u] using hxY
     · simpa [u] using hwxY
@@ -146,10 +146,6 @@ theorem decomp_Y_of_base (h : F5Base a z) {w x : G} (hw : IsConj z w) (hx : IsCo
       | exact absurd hij.symm hw_ne_x
       | exact absurd hij hwx_ne_one
       | exact absurd hij.symm hwx_ne_one
-      | exact absurd hij hwx_ne_w
-      | exact absurd hij.symm hwx_ne_w
-      | exact absurd hij hwx_ne_x
-      | exact absurd hij.symm hwx_ne_x
   have hw_sq : w * w = 1 := by
     simpa [pow_two, h.orderOf_eq_two (Or.inr hw)] using pow_orderOf_eq_one w
   have hx_sq : x * x = 1 := by

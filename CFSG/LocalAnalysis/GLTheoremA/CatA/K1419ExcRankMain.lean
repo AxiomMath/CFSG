@@ -35,7 +35,7 @@ section Main
 
 theorem l3u3Rank_center_eq_bot (hF : L3U3Facts) {X : Type} [Group X] [Finite X] (h : L3U3 X) :
     Subgroup.center X = ⊥ := by
-  haveI := l3u3Plumb_isSimpleGroup h
+  have := l3u3Plumb_isSimpleGroup h
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h0 | h0
   · exact h0
   · exfalso

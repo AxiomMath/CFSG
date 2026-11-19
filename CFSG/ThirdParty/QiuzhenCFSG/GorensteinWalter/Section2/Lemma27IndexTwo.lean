@@ -46,7 +46,7 @@ public theorem sylow_le_of_normal_odd_index_local_27
   let pi : Q →* Q ⧸ L := QuotientGroup.mk' L
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmapP : IsPGroup 2 ((P : Subgroup Q).map pi) :=
-    P.isPGroup'.map pi
+    P.isPGroup.map pi
   rcases IsPGroup.iff_card.mp hmapP with ⟨n, hn⟩
   have hcard_dvd : Nat.card ((P : Subgroup Q).map pi) ∣ Nat.card (Q ⧸ L) :=
     Subgroup.card_subgroup_dvd_card ((P : Subgroup Q).map pi)
@@ -177,7 +177,6 @@ public theorem exists_normal_index_two_of_card_eq_two_mul_odd
   have hfix_empty : ∀ x : G, x ∉ Function.fixedPoints σ := by
     intro x hx
     have hx' : g * x = x := by
-      change g * x = x
       exact hx
     have hg1 : g = 1 :=
       mul_right_cancel (a := g) (b := x) (c := 1) (hx'.trans (one_mul x).symm)
@@ -273,7 +272,7 @@ public theorem t_mem_N_of_mem_twoResidualOf_of_index_two_part
     {G : Type u} [Group G] [Finite G]
     (M : Subgroup G) {t : G} (htM : t ∈ M) (ht : IsInvolution t)
     (hO2 : t ∈ twoResidualOf M)
-    {N : Subgroup (↥M)} (hN : N.Normal) (h4 : 4 ∣ Nat.card N)
+    {N : Subgroup (↥M)} (hN : N.Normal) (_h4 : 4 ∣ Nat.card N)
     (hNindex : ¬ 4 ∣ N.index) :
     t ∈ N.map M.subtype := by
   classical
@@ -315,11 +314,11 @@ public theorem t_mem_N_of_mem_twoResidualOf_of_index_two_part
         by_contra hnotodd
         have hEven : Even m := Nat.not_odd_iff_even.mp hnotodd
         rcases hEven with ⟨k, hk⟩
-        have h4 : 4 ∣ N.index := by
+        have _h4 : 4 ∣ N.index := by
           rw [hm, hk]
           use k
           ring
-        exact hNindex h4
+        exact hNindex _h4
       have hprod' : (N.subgroupOf M₂).index * 2 = 2 * m := by
         calc
           (N.subgroupOf M₂).index * 2 =

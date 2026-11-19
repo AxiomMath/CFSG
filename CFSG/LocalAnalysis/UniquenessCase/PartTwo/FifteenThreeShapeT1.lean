@@ -60,7 +60,7 @@ theorem isDirectProdOfConj_of_mulEquiv {X K N : Subgroup Γ} {X' K' N' : Subgrou
     (h : IsDirectProdOfConj X' K' N') : IsDirectProdOfConj X K N := by
   obtain ⟨h1, h2, h3, h4⟩ := h
   have hK'X' : K' ≤ X' := by
-    have h1' := h1 K' ⟨1, N'.one_mem, by ext x; simp [Subgroup.mem_map, MulAut.conj_apply]⟩
+    have h1' := h1 K' ⟨1, N'.one_mem, by ext x; simp [Subgroup.mem_map]⟩
     exact h1'
   have hcorr : ∀ {n : Γ} {n' : Δ}, ConjIntertwines θ n n' →
       Corr θ (K.map (MulAut.conj n).toMonoidHom) (K'.map (MulAut.conj n').toMonoidHom) := by

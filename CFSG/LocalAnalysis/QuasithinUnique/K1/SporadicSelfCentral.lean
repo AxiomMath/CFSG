@@ -17,7 +17,7 @@ theorem exists_sylow_le_containing {X : Type} [Group X] [Finite X] (H F : Subgro
   refine ⟨(R : Subgroup H).map H.subtype, Subgroup.map_subtype_le _, fun f hf => ?_, ?_⟩
   · exact ⟨⟨f, hFH hf⟩, hR (Subgroup.mem_subgroupOf.mpr hf), rfl⟩
   · rw [isSylowTwoOf_top_iff]
-    refine ⟨R.isPGroup'.map H.subtype, ?_⟩
+    refine ⟨R.isPGroup.map H.subtype, ?_⟩
     rw [Subgroup.index_map_subtype]
     intro hd
     rcases (Nat.Prime.dvd_mul Nat.prime_two).mp hd with h | h

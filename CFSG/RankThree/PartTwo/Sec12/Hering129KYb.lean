@@ -216,7 +216,7 @@ theorem eq_or_eq_sq_of_mem {F : Type} [Field F] (h3 : (3 : F) ≠ 0)
 theorem three_ne_zero_of_not_dvd {F : Type} [Field F] [Finite F] (h3 : ¬ 3 ∣ Nat.card F) :
     (3 : F) ≠ 0 := by
   intro h
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨n, hp, hcard⟩ := FiniteField.card F (ringChar F)
   have hdvd : ringChar F ∣ 3 := by
     rw [← CharP.cast_eq_zero_iff F (ringChar F) 3]
@@ -248,7 +248,7 @@ theorem card_le_three_of_isElemAbelian_sl2 {F : Type} [Field F] [Finite F]
     calc Nat.card E ≤ Nat.card (Subgroup.zpowers g) := Subgroup.card_le_of_le hle
       _ = orderOf g := Nat.card_zpowers g
       _ ≤ 3 := orderOf_le_of_pow_eq_one (by norm_num) hg3
-  · push_neg at hex
+  · push Not at hex
     rw [(Subgroup.eq_bot_iff_forall E).2 hex, Subgroup.card_bot]
     norm_num
 

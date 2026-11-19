@@ -296,7 +296,7 @@ theorem mem_yamadaR₃_of_conj_eq (h : Setup G L f t) (d : TrialityD4Data L (2 ^
   have h591 := h.yamada_5_9_1 d hlay
   have h592 := h.yamada_5_9_2 d hlay
   have h593 := h.yamada_5_9_3 d hlay
-  refine (h.mem_inf_normalizer_iff d hNH h561 h562 (yamadaW₁_le_yamadaD₁ d)
+  refine (h.mem_inf_normalizer_iff d hNH h561 (yamadaW₁_le_yamadaD₁ d)
     (h.yamadaR₅_le_normalizer_yamadaW₁ d hNH h561 h562 h591 h592 h593)).2 ⟨mem_sup_left hx, ?_⟩
   rw [show t * x * t * x⁻¹ = t * (x * t * x⁻¹) by group, e, ← mul_assoc, ← mul_assoc,
     h.t_mul_t, one_mul]
@@ -323,9 +323,9 @@ theorem exists_mul_mem_yamadaC₁ (h : Setup G L f t) (d : TrialityD4Data L (2 ^
   obtain ⟨n, hn, v, hv, rfl⟩ := h.exists_mul_of_mem_yamadaD₁ d h561 h562 hδ
   obtain ⟨n', hn', rfl⟩ := hn
   obtain ⟨w₁, hw₁, w₂, hw₂, rfl⟩ := d.exists_mul_conj_u_of_mem_D hn'
-  obtain ⟨x₁, hx₁Q, v₁, hv₁, hx₁t⟩ := h.exists_mem_yamadaQ₅_conj_eq d hNH h561 h562 h591 h592 h593
+  obtain ⟨x₁, hx₁Q, v₁, hv₁, hx₁t⟩ := h.exists_mem_yamadaQ₅_conj_eq d h561 h562 h591 h592 h593
     (D_le_yamadaD₁ d t (hD w₁ hw₁))
-  obtain ⟨x₂, hx₂Q, v₂, hv₂, hx₂t⟩ := h.exists_mem_yamadaQ₅_conj_eq d hNH h561 h562 h591 h592 h593
+  obtain ⟨x₂, hx₂Q, v₂, hv₂, hx₂t⟩ := h.exists_mem_yamadaQ₅_conj_eq d h561 h562 h591 h592 h593
     (D_le_yamadaD₁ d t (hD w₂ hw₂))
   have hx₁C : x₁ ∈ yamadaC₅ d t := hCQ ▸ hx₁Q
   have hx₂C : x₂ ∈ yamadaC₅ d t := hCQ ▸ hx₂Q

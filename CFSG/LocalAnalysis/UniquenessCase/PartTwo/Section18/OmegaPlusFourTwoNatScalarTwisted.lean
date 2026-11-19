@@ -39,7 +39,7 @@ theorem toAddMap_congr_stdMapEquiv {K L : Type} [Field K] [Field L] (φ : K ≃+
     toAddMap (MulAut.congr (Sp4Inf.stdMapEquiv φ) g) v =
       fun i => φ (toAddMap g (fun j => φ.symm (v j)) i) := by
   simp only [toAddMap, MulAut.congr_apply, MulEquiv.trans_apply, stdMapEquiv_symm_apply,
-    Sp4Inf.stdMapEquiv_apply, MulEquiv.symm_apply_apply, Function.comp_apply]
+    Sp4Inf.stdMapEquiv_apply]
 
 theorem toAddMap_congrHom_omegaModel {V : Type} [CommGroup V] (S : OmegaModel V)
     (g : MulAut V) (v : OmI → S.K) :

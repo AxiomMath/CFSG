@@ -46,7 +46,7 @@ theorem ggU62_facts {G : Type} [Group G] [Finite G] {L : Subgroup G} (hperf : co
   have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 K :=
     ⟨Nat.prime_two, le_rfl, by norm_num [hK4]⟩
-  haveI : CharP K 2 := hU.charP
+  have : CharP K 2 := hU.charP
   have hdiv : 3 ∣ 2 ^ 1 + 1 := by norm_num
   have hn : 6 ≤ 6 := le_rfl
   have hcov := LineU.unitaryCoverOddAt_six_two K hK4

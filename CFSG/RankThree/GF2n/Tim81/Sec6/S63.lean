@@ -32,6 +32,7 @@ private theorem stmt63_n_eq {q n n₀ : ℕ} (hq : 1 < q)
   have hmn : 2 * n + 1 = 2 * n₀ + 1 := Nat.pow_right_injective hq h
   omega
 
+omit [Finite G] in
 private theorem mem_normalizer_kOf_of_commutator_mem {H : Subgroup G} {u : G}
     (huH : ∀ x ∈ H, ⁅u, x⁆ ∈ kOf V H) (hu2 : u * u = 1) :
     u ∈ Subgroup.normalizer (kOf V H : Set G) := by
@@ -378,9 +379,9 @@ theorem Sec6Hyp.stmt63 (hS : Sec6Hyp M V) (h61 : Sec6.Stmt61b M V) : ∀ n : ℕ
         hy'H' hy'U' hy'V_ne hP_central hP_central' hP_split hKU'_le
       exact stmt63_step4_false hS hSH hP_central hP_split hCU_eq
     · obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hSH.shape
-      letI := hField
-      letI := hFintype
-      letI := hCharP
+      let := hField
+      let := hFintype
+      let := hCharP
       have hWcard : Nat.card (Tim79a.xOf V (hOf M V g)) = Nat.card V ^ 4 := by
         rw [hw.card_W, hw.card_V, ← pow_mul]
         congr 1

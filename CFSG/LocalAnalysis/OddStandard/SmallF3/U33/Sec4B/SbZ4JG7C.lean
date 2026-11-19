@@ -33,9 +33,9 @@ namespace Ctx4Z
 theorem z4j_false (hG : Sec4Glob G) (hz : Ctx4Z t L S x₁ x₂ lam rho tau)
     (hsyl : IsSylowIn 2 (ctxQ t tau x₁ x₂ rho) (ctxCQ t tau x₁ x₂ rho))
     (hrel : (ctxCQ t tau x₁ x₂ rho).relIndex (ctxKI t tau x₁ x₂ rho) = 1) : False := by
-  haveI : IsSimpleGroup G := hG.simple
+  have : IsSimpleGroup G := hG.simple
   obtain ⟨Ng, hN⟩ := hz.z4i_exists_odd hsyl
-  haveI := hz.z4i_normal_N hN
+  have := hz.z4i_normal_N hN
   obtain ⟨V', v₁, v₂, hV⟩ := hz.data_V
   have hVQ : V' ≤ ctxQ t tau x₁ x₂ rho := by rw [hV.2.2.1]; exact le_sup_right
   have hH := hz.z4jHData hN hV (hVQ hV.2.2.2.2.2.2.1) (hVQ hV.2.2.2.2.2.2.2.1) hrel
@@ -44,7 +44,7 @@ theorem z4j_false (hG : Sec4Glob G) (hz : Ctx4Z t L S x₁ x₂ lam rho tau)
   have hodd : Odd (Nat.card (hz.z4iSub Ng)) := by
     rw [hz.z4i_card_sub hN.le_NQ]; exact hN.odd
   have hQ2 : IsPGroup 2 (hz.z4iSub (ctxQ t tau x₁ x₂ rho)) :=
-    IsPGroup.of_card (n := 6) (by rw [hz.z4i_card_sub hz.z4i_Q_le_NQ, hz.card_Q] <;> norm_num)
+    IsPGroup.of_card (n := 6) (by rw [hz.z4i_card_sub hz.z4i_Q_le_NQ, hz.card_Q])
   obtain ⟨Vc, hVc, hQVc, -⟩ := S4B.z4j_exists_lift_max hodd hQ2 (hH.Vh_isPGroup hMh hMc)
     ((hH.Q_le_Mc hMh hMc).trans (S4B.Mc_le_zjVh _ _ _ _))
     (fun P h hle => hH.Vh_maximal hMh hMc h hle)
@@ -67,15 +67,15 @@ theorem z4j_false (hG : Sec4Glob G) (hz : Ctx4Z t L S x₁ x₂ lam rho tau)
   have hσ2 := z4j_mul_sq_of_comm hH.t_l.symm hH.l_sq hH.t_sq
   have hVgi : ¬ 2 ∣ (Vc.map (ctxNQ t tau x₁ x₂ rho).subtype).index :=
     S4B.z4j_stageF hVc hVsub (S4B.Mc_le_zjVh _ _ _ _) hnormV (hH.V_le_commutator_Vh hMh hMc)
-      hH.card_V (hH.V_elem_ab hMh hMc)
+      hH.card_V (hH.V_elem_ab)
       (fun W hW hWn hWd hW4 hWe => hH.V_unique hMh hMc hW hWn hWd hW4 hWe)
       (hH.cent_V_Vh hMh hMc)
       (Subgroup.mul_mem _ (S4B.l_mem_zjVh _ _ _ _) (S4B.t_mem_zjVh _ _ _ _)) hσ2
       (hH.lt_not_mem_McTT hMh hMc) hT hTlt
       (fun u hu hu2 hTu huK => hH.T_invol_coset hMh hMc (hz.z4j_class hN) hu hu2 hTu huK)
       (hH.card_cent_Vh_lt hMh hMc) (fun g R hR hRc => hz.z4j_bound_conj g hR hRc)
-  have hgold := S4B.z4j_gold_lift hz.z4j_nonabelian hVc (hH.Vq_le_Vh hMh hMc)
-    (by rw [hH.card_Vh hMh hMc, hH.card_Vq hMh hMc] <;> norm_num) hVgi
+  have hgold := S4B.z4j_gold_lift hz.z4j_nonabelian hVc (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJData.Vq_le_Vh)
+    (by rw [hH.card_Vh hMh hMc, hH.card_Vq hMh hMc]) hVgi
     (T := hz.z4jT (Ng := Ng)) hT (S4B.t_mem_zjVh _ _ _ _) (hH.t_not_mem_Vq hMh hMc) hH.t_sq hTt
     (fun g P hP hPc hPi => hz.z4j_card_syl_cent g hP hPc hPi)
   have hVL : fourGrp x₁ x₂ ≤ ctxNQ t tau x₁ x₂ rho :=
@@ -98,7 +98,7 @@ theorem z4j_false (hG : Sec4Glob G) (hz : Ctx4Z t L S x₁ x₂ lam rho tau)
             (Subgroup.mem_sup_right (Subgroup.subset_closure (by simp)))
         have hinv := (hz.z4j_class hN).invol _ hTm
         exact S4B.z4j_d17_lift hVc hVsub (fun g _ v hv => hH.normal_V g v hv) hH.card_V
-          (hH.V_elem_ab hMh hMc) htV
+          (hH.V_elem_ab) htV
           (fun g P hP hPc hP128 => hz.z4j_conj_onto_S g hP hPc hP128)
           (fun V'' hV''S hn h4 he ht => hz.z4j_count17 hV''S hn h4 he ht)
           (T := hz.z4jT (Ng := Ng)) hT

@@ -29,7 +29,7 @@ theorem isCyclic_of_stronglyEmbedded {G : Type} [Group G] [Finite G] {M H : Subg
   have hP₁M : P₁.map H.subtype ≤ H ⊓ M := by
     rintro _ ⟨_, ⟨y, -, rfl⟩, rfl⟩
     exact y.2
-  have hP₁3 : IsPGroup 3 P₁ := Q.isPGroup'.map ι
+  have hP₁3 : IsPGroup 3 P₁ := Q.isPGroup.map ι
   have hP₁ne : P₁.map H.subtype ≠ ⊥ := by
     intro h
     have : Nat.card (P₁.map H.subtype) = 1 := by rw [h, Subgroup.card_bot]
@@ -190,7 +190,7 @@ theorem sup_normalizer_eq_top {Y : Type} [Group Y] [Finite Y] {K : Subgroup Y} [
   have hAP₀ : A ≤ P₀ := by
     intro a ha
     exact ⟨⟨a, hAK ha⟩, hAP ha, rfl⟩
-  have hP₀3 : IsPGroup 3 P₀ := P.isPGroup'.map _
+  have hP₀3 : IsPGroup 3 P₀ := P.isPGroup.map _
   have hP₀c : IsCyclic ↥P₀ := hcyc P₀ hP₀3
   have hNP : Subgroup.normalizer (P₀ : Set Y) ≤ Subgroup.normalizer (A : Set Y) := by
     intro g hg

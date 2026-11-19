@@ -10,11 +10,11 @@ namespace CFSG
 
 theorem exists_cartan_in_borel_of_central_comap {L X : Type} [Group L] [Finite L] [Group X] [Finite X]
     {e : L →* X} (hsurj : Function.Surjective e)
-    (hker : e.ker ≤ Subgroup.center L) (hker2 : IsPGroup 2 e.ker)
+    (_hker : e.ker ≤ Subgroup.center L) (hker2 : IsPGroup 2 e.ker)
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     {T₀ U₀ : Subgroup X} (hT₀ : T₀ ≤ Subgroup.normalizer (U₀ : Set X))
     (hT₀ab : ∀ a ∈ T₀, ∀ b ∈ T₀, a * b = b * a)
-    (hT₀pi : IsPiSubgroup {p : Nat.Primes | (p : ℕ) ≠ 2} T₀)
+    (_hT₀pi : IsPiSubgroup {p : Nat.Primes | (p : ℕ) ≠ 2} T₀)
     (hr : 3 ≤ CFSG.Open.pRank q T₀) :
     ∃ H : Subgroup L, H ≤ Subgroup.normalizer (U₀.comap e : Set L) ∧
       IsPiSubgroup {p : Nat.Primes | (p : ℕ) ≠ 2} H ∧
@@ -22,7 +22,7 @@ theorem exists_cartan_in_borel_of_central_comap {L X : Type} [Group L] [Finite L
   classical
   let H₀ : Subgroup L := T₀.comap e
   let π : Set Nat.Primes := {p : Nat.Primes | (p : ℕ) ≠ 2}
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let g : ↥H₀ →* T₀ := (e.comp H₀.subtype).codRestrict T₀ (fun x => x.2)
   have hg : Function.Surjective g := by
     intro t
@@ -44,7 +44,7 @@ theorem exists_cartan_in_borel_of_central_comap {L X : Type} [Group L] [Finite L
     rw [hker_g]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hker_le).toEquiv
   have hK2 : IsPGroup 2 (e.ker.subgroupOf H₀) := hker2.comap_subtype (K := H₀)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardker2 : Nat.card (e.ker.subgroupOf H₀) = Nat.card e.ker :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hker_le).toEquiv
   have hqker : ¬ q ∣ Nat.card g.ker := by
@@ -53,9 +53,9 @@ theorem exists_cartan_in_borel_of_central_comap {L X : Type} [Group L] [Finite L
     rw [hk]
     intro hdvd
     exact hq2 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).mp (hq.dvd_of_dvd_pow hdvd))
-  haveI : Group.IsSolvable ↥(e.ker.subgroupOf H₀) :=
+  have : Group.IsSolvable ↥(e.ker.subgroupOf H₀) :=
     CFSG.Quasithin.Vol2.Ch11.SecF.isSolvable_of_isPGroup_two' hK2
-  haveI : Group.IsSolvable T₀ :=
+  have : Group.IsSolvable T₀ :=
     Group.isSolvable_of_comm (fun a b => Subtype.ext (hT₀ab a a.2 b b.2))
   have hsolv : Group.IsSolvable ↥H₀ := by
     refine Group.isSolvable_of_ker_le_range

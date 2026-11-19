@@ -48,7 +48,7 @@ private theorem e6lf_stdZRoots_eq_range_rootD :
 
 private noncomputable def e6lf_f2EquivZMod : ZMod 2 ≃+* F2 :=
   RingEquiv.ofBijective (algebraMap (ZMod 2) F2 : ZMod 2 →+* F2) (by
-    haveI : Fintype F2 := Fintype.ofFinite F2
+    have : Fintype F2 := Fintype.ofFinite F2
     rw [Fintype.bijective_iff_injective_and_card]
     refine ⟨RingHom.injective (algebraMap (ZMod 2) F2), ?_⟩
     have h1 : Fintype.card F2 = 2 := by
@@ -141,7 +141,7 @@ private theorem e6lf_fixes_single
 
 private theorem e6lf_torusGroup_F2 :
     torusGroup Tag.E6 F2 = ⊥ := by
-  haveI : Fintype F2 := Fintype.ofFinite F2
+  have : Fintype F2 := Fintype.ofFinite F2
   rw [torusGroup, Subgroup.closure_eq_bot_iff]
   rintro _ ⟨⟨i, t⟩, rfl⟩
   have hcard : Nat.card F2 = 2 := by

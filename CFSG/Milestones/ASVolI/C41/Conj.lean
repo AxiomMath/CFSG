@@ -29,7 +29,7 @@ theorem burnsideC41b_conjCoord_spec {W : Subgroup G} (e : ↥W ≃* Multiplicati
       g⁻¹ ∈ W := by
     rw [h1, ← huv]
     exact v.2
-  rw [dif_pos hmem]
+  rw [dite_eq_left hmem]
   have h2 : (⟨_, hmem⟩ : ↥W) = v := by
     apply Subtype.ext
     show g * ((e.symm (Multiplicative.ofAdd (Multiplicative.toAdd (e u))) : ↥W) : G) * g⁻¹ =

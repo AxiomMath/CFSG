@@ -11,6 +11,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem LB_conjSubgroup (M Q B : Subgroup G) {g : G}
     (hQ : ∀ m ∈ M, conjSubgroup m Q = Q) (hg : g ∈ M) :
     LB M Q (conjSubgroup g B) = conjSubgroup g (LB M Q B) := by
@@ -19,6 +20,7 @@ theorem LB_conjSubgroup (M Q B : Subgroup G) {g : G}
     conjSubgroup_eq_self_iff.mpr (Subgroup.le_normalizer hg)
   rw [QB_conj, conjSubgroup_sup', conjSubgroup_inf, hQ g hg, hM]
 
+omit [Finite G] in
 theorem HS9.goodPt_conj_of_mem (M Q B Y : Subgroup G) {g : G}
     (hQ : ∀ m ∈ M, conjSubgroup m Q = Q) (hg : g ∈ M)
     (hY : conjSubgroup g Y = Y) :

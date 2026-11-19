@@ -61,7 +61,7 @@ theorem ggSecFiveCompatPhanA_of_marks
     rw [hM, CoxeterMatrix.reindex_apply]
     simp only [CoxeterMatrix.A, Matrix.of_apply]
     split_ifs <;> omega
-  haveI : Finite ι := ggIsWeylMatrix_finite hpres.1
+  have : Finite ι := ggIsWeylMatrix_finite hpres.1
   have hconn : GGSimplyLacedConnected M := ggSimplyLacedConnected_of_weyl hpres.1 hle3
   have hAH : ggAutomizerJoin L Bs 𝒦 ≤ ggAutomizer (L ⊔ ⨆ K ∈ 𝒦, K) Bs :=
     ggAutomizerJoin_le_ggAutomizer L Bs 𝒦
@@ -74,9 +74,9 @@ theorem ggSecFiveCompatPhanA_of_marks
     CFSG.LieType.Universal.card_galoisField_two_mul 2 f hf1
   obtain ⟨K_L, hKf, hKfin, hKchar, f_L, d, ψL, hKLcard, hd4, hkerL, hrangeL, hpL, hpos, -⟩ :=
     hNS G p B Bs x L D J 𝒦 hcfg hns ι M e hpres ⟨m, σ, hm, hM⟩ hbig L (Or.inl rfl) hns
-  letI : Field K_L := hKf
-  letI : Finite K_L := hKfin
-  letI : CharP K_L 2 := hKchar
+  let : Field K_L := hKf
+  let : Finite K_L := hKfin
+  let : CharP K_L 2 := hKchar
   have hf1L : 1 ≤ f_L := by
     rcases Nat.eq_zero_or_pos f_L with h | h
     · exfalso
@@ -119,8 +119,8 @@ theorem ggSecFiveCompatPhanA_of_marks
     CFSG.LieType.Universal.card_galoisField_two_mul 2 f_L hf1L
   obtain ⟨βd, γd, modeld, hblockd⟩ :=
     SelectedRoot.exists_selectedModel_PSU_block (F := GaloisField 2 (2 * f_L)) hFL hd4
-  haveI : Fintype K_L := Fintype.ofFinite K_L
-  haveI : Fintype (GaloisField 2 (2 * f_L)) := Fintype.ofFinite _
+  have : Fintype K_L := Fintype.ofFinite K_L
+  have : Fintype (GaloisField 2 (2 * f_L)) := Fintype.ofFinite _
   let eL : K_L ≃+* GaloisField 2 (2 * f_L) := FiniteField.ringEquivOfCardEq (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hKLcard, hFL])
   have heL : ∀ c, eL (unitaryInvolution K_L 2 f_L c) =

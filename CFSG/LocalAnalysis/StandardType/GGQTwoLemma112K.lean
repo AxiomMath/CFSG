@@ -27,7 +27,7 @@ theorem GGQ2Lin.root_eq_zero_of_fix {p : ℕ} [Fact p.Prime] (hp : p = 3) (D : G
       v ∈ Submodule.span (ZMod p) {xV}) :
     ∀ j : {k // k ≠ D.a}, D.root j xV = 0 := by
   have h2ne : (2 : ZMod p) ≠ 0 := by
-    haveI : CharP (ZMod p) 3 := by
+    have : CharP (ZMod p) 3 := by
       rw [← hp]
       infer_instance
     exact two_ne_zero_of_charP_three
@@ -55,7 +55,7 @@ theorem GGQ2Lin.coroot_not_mem_span_of_fix {p : ℕ} [Fact p.Prime] (hp : p = 3)
       v ∈ Submodule.span (ZMod p) {xV}) (j : {k // k ≠ D.a}) :
     D.coroot j ∉ Submodule.span (ZMod p) {xV} := by
   have h2ne : (2 : ZMod p) ≠ 0 := by
-    haveI : CharP (ZMod p) 3 := by
+    have : CharP (ZMod p) 3 := by
       rw [← hp]
       infer_instance
     exact two_ne_zero_of_charP_three
@@ -206,7 +206,7 @@ theorem GGQ2Lin.exists_scalar_of_commute {p : ℕ} [Fact p.Prime] (hp : p = 3) (
       f (g v) - g (f v) ∈ Submodule.span (ZMod p) {xV}) :
     ∃ c : ZMod p, ∀ v : D.V, f v - c • v ∈ Submodule.span (ZMod p) {xV} := by
   have h2ne : (2 : ZMod p) ≠ 0 := by
-    haveI : CharP (ZMod p) 3 := by
+    have : CharP (ZMod p) 3 := by
       rw [← hp]
       infer_instance
     exact two_ne_zero_of_charP_three

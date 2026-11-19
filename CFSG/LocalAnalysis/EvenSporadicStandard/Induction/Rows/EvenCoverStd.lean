@@ -47,7 +47,7 @@ theorem isCyclic_sylow_of_cover (thm24_1 : Sol78Thm24_1Use) (hlie : Hyp.OddLieCo
   have hrS : CFSG.pRank 2 ↥(S : Subgroup ↥(centralizer (L : Set G))) ≤ 1 :=
     (Hyp.pRank_two_le_of_injective (S : Subgroup ↥(centralizer (L : Set G))).subtype
       (S : Subgroup ↥(centralizer (L : Set G))).subtype_injective).trans hr
-  rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup' hrS with hc | hq
+  rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup hrS with hc | hq
   · exact hc
   · exfalso
     have hfs := fStarSimple_top G hnonab

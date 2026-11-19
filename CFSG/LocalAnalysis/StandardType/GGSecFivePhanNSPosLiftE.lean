@@ -48,8 +48,7 @@ private theorem ggNSPosLE_induces_inv {G : Type} [Group G] {K : Type} [Field K] 
     change g * (g⁻¹ * (x : GL (Fin n) K) * g) * g⁻¹ = (x : GL (Fin n) K)
     group
   refine ⟨x', ?_, ?_⟩
-  · change (x' : GL (Fin n) K) = g⁻¹ * (x : GL (Fin n) K) * (g⁻¹)⁻¹
-    rw [inv_inv]
+  · rw [inv_inv]
   · rw [hyx] at hby
     rw [show (b⁻¹)⁻¹ = b from inv_inv b]
     rw [← hby]
@@ -67,7 +66,7 @@ private theorem ggNSPosLE_commutator_mem_center {G : Type} [Group G] [Finite G] 
   obtain ⟨z, hz⟩ := ggNSPosPF_commutator_scalar h hb₁ hb₂ h₁ h₂
   apply Units.ext
   rw [Units.val_mul, Units.val_mul, hz]
-  simp [Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul, Matrix.mul_one]
+  simp
 
 private theorem ggNSPosLE_lift_pow_scalar {G : Type} [Group G] [Finite G] {p : ℕ}
     {B Bs : Subgroup G} {K : Type} [Field K] [Finite K] [CharP K 2] {f n : ℕ}

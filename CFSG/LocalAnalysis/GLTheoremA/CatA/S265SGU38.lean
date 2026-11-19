@@ -28,7 +28,7 @@ private theorem exists_big_elem_abelian_pow {Ω : Type} [Group Ω] [Finite Ω] {
     (hE : 3 ^ k * Nat.card ↥(E₀ ⊓ Subgroup.centralizer (S : Set Ω)) ≤ Nat.card E₀) :
     ∃ E : Subgroup Ω, IsElemAbelian 3 E ∧ E ≤ S ⊔ Subgroup.zpowers x ∧
       3 ^ (k + 1) ≤ Nat.card E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hCz : Subgroup.zpowers x ≤ Subgroup.center Ω :=
     Subgroup.zpowers_le.2 (Subgroup.mem_center_iff.2 hxc)
   have hCN : Subgroup.zpowers x ≤ Subgroup.normalizer (E₀ : Set Ω) :=
@@ -97,7 +97,7 @@ theorem qsF3U38_of_t171 (hShape : T171.T171ShapeFact) (hNoAct : T171Sh.TwE6NoAct
     QSF3U38 := by
   intro Ω _ _ S B T x D K h hU hB
   have cfg := h.cfg
-  haveI : Nontrivial (PSimple 3 K) := (isSimple_of_isU3eight hU).toNontrivial
+  have : Nontrivial (PSimple 3 K) := (isSimple_of_isU3eight hU).toNontrivial
   have hKc := (h.nlAct (T123C.dvd_card_of_nontrivial_pSimple Nat.prime_three inferInstance)).comp
   have hChev : IsChevSimple 2 (PSimple 3 K) := isChevTwo_of_isU3eight hU
   obtain ⟨β, hβB, hβD, hni⟩ := SG.exists_not_innDiagOn_of_u38 h hU hB

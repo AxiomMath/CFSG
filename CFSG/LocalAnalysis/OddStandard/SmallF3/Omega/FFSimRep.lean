@@ -44,8 +44,7 @@ private lemma ff_eval_two {W : Type} [AddCommGroup W] [Module (ZMod 3) W]
       = R (x • b i) + R (y • b j) + polar R (x • b i) (y • b j) :=
     QuadraticMap.map_add R (x • b i) (y • b j)
   rw [h1, R.map_smul x (b i), R.map_smul y (b j)]
-  simp only [polar_smul_left, polar_smul_right, hp, smul_zero, zero_add, add_zero,
-    smul_eq_mul, pow_two]
+  simp only [polar_smul_left, polar_smul_right, hp, smul_eq_mul, pow_two]
   ring
 
 private lemma ff_basis_pair_independent {W : Type} [AddCommGroup W] [Module (ZMod 3) W]
@@ -87,7 +86,7 @@ private lemma ff_pair_of_common {W : Type} [AddCommGroup W] [Module (ZMod 3) W]
 theorem ff_exists_eq_of_nondegenerate {W : Type} [AddCommGroup W] [Module (ZMod 3) W]
     [FiniteDimensional (ZMod 3) W] {R : QuadraticForm (ZMod 3) W} (hR : R.Nondegenerate)
     (h2 : 2 ≤ Module.finrank (ZMod 3) W) {d : ZMod 3} (hd : d ≠ 0) : ∃ w : W, R w = d := by
-  haveI : Invertible (2 : ZMod 3) := invertibleOfNonzero (by decide)
+  have : Invertible (2 : ZMod 3) := invertibleOfNonzero (by decide)
   have hB : R.polarBilin.Nondegenerate :=
     (QuadraticMap.nondegenerate_polar_iff (Q := R)).mpr hR
   obtain ⟨b, horth⟩ := LinearMap.BilinForm.exists_orthogonal_basis
@@ -103,7 +102,7 @@ theorem ff_exists_pair_eq_of_nondegenerate {W : Type} [AddCommGroup W] [Module (
     [FiniteDimensional (ZMod 3) W] {R : QuadraticForm (ZMod 3) W} (hR : R.Nondegenerate)
     (h3 : 3 ≤ Module.finrank (ZMod 3) W) {d : ZMod 3} (hd : d ≠ 0) :
     ∃ w₁ w₂ : W, R w₁ = d ∧ R w₂ = d ∧ LinearIndependent (ZMod 3) ![w₁, w₂] := by
-  haveI : Invertible (2 : ZMod 3) := invertibleOfNonzero (by decide)
+  have : Invertible (2 : ZMod 3) := invertibleOfNonzero (by decide)
   have hB : R.polarBilin.Nondegenerate :=
     (QuadraticMap.nondegenerate_polar_iff (Q := R)).mpr hR
   obtain ⟨b, horth⟩ := LinearMap.BilinForm.exists_orthogonal_basis

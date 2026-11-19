@@ -53,11 +53,9 @@ theorem card_dualSixFun_self {I : ZMod m × ZMod m} (h : (dualSix I).Nodup) :
   obtain ⟨i, j⟩ := I
   simp only at h1 h2 h3
   fin_cases k <;> simp [Prod.ext_iff] <;> first
-    | exact fun h => h1 h.symm
     | exact fun h _ => h1 h.symm
     | exact fun h => h3 h.symm
     | exact fun h _ => h3 h.symm
-    | exact fun _ h => h2 h.symm
     | exact fun h => h2 h.symm
 
 theorem card_dualSixFun_diag {r : ZMod m} (h3 : 3 * r ≠ 0) :

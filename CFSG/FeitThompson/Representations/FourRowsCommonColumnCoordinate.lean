@@ -137,19 +137,19 @@ theorem exists_signedPermVec_isNormalTri (hr : r ≤ d) {u : Fin d → ℤ} (hu 
   have hpos : ∀ k : Fin d, r ≤ (k : ℕ) →
       signedPermVec σ ε u k = 0 ∨ signedPermVec σ ε u k = 1 := by
     intro k hk
-    rw [heq, enumCandidate_apply, if_neg (fun h => absurd (hSlt k h) (by omega))]
+    rw [heq, enumCandidate_apply, ite_eq_right (fun h => absurd (hSlt k h) (by omega))]
     by_cases hkn : k ∈ enumNewIdx d r (3 - #S) <;> simp [hkn]
   have hdown : ∀ k k' : Fin d, r ≤ (k : ℕ) → (k : ℕ) < (k' : ℕ) →
       signedPermVec σ ε u k' ≠ 0 → signedPermVec σ ε u k ≠ 0 := by
     intro k k' hk hkk' hk'
     rw [heq, enumCandidate_apply] at hk' ⊢
-    rw [if_neg (fun h => absurd (hSlt k h) (by omega))]
+    rw [ite_eq_right (fun h => absurd (hSlt k h) (by omega))]
     have hk'S : k' ∉ S := fun h => absurd (hSlt k' h) (by omega)
-    rw [if_neg hk'S, zero_add] at hk'
+    rw [ite_eq_right hk'S, zero_add] at hk'
     have hk'N : k' ∈ enumNewIdx d r (3 - #S) := by
-      by_contra h; rw [if_neg h] at hk'; exact hk' rfl
+      by_contra h; rw [ite_eq_right h] at hk'; exact hk' rfl
     rw [mem_enumNewIdx] at hk'N
-    rw [if_pos (mem_enumNewIdx.mpr ⟨hk, by omega⟩), zero_add]
+    rw [ite_eq_left (mem_enumNewIdx.mpr ⟨hk, by omega⟩), zero_add]
     exact one_ne_zero
   obtain ⟨L, hL, hLeq⟩ := exists_isNormalTri_labVec3_eq (r := r) hw3 hpos hdown
   exact ⟨σ, ε, L, hσfix, hσge, hεlt, hεsign, hL, hLeq⟩
@@ -179,12 +179,12 @@ theorem padVec_castLE (h : d ≤ d') (u : Fin d → ℤ) (k : Fin d) :
     padVec d' u (Fin.castLE h k) = u k := by
   rw [padVec_apply]
   have hlt : ((Fin.castLE h k : Fin d') : ℕ) < d := k.2
-  rw [dif_pos hlt]
+  rw [dite_eq_left hlt]
   congr 1
 
 theorem padVec_eq_zero {u : Fin d → ℤ} {k' : Fin d'} (hk : d ≤ (k' : ℕ)) :
     padVec d' u k' = 0 := by
-  rw [padVec_apply, dif_neg (by omega)]
+  rw [padVec_apply, dite_eq_right (by omega)]
 
 theorem padVec_dotProduct (h : d ≤ d') (u v : Fin d → ℤ) :
     padVec d' u ⬝ᵥ padVec d' v = u ⬝ᵥ v := by
@@ -198,12 +198,12 @@ theorem padVec_dotProduct (h : d ≤ d') (u v : Fin d → ℤ) :
     rw [dotProduct, ← Fin.sum_univ_eq_sum_range f d]
     refine Finset.sum_congr rfl fun k _ => ?_
     rw [hf]
-    simp only [dif_pos k.2]
+    simp only [dite_eq_left k.2]
   rw [h1, h2]
   refine (Finset.sum_subset (Finset.range_subset_range.mpr h) fun i _ hi => ?_).symm
   rw [Finset.mem_range] at hi
   rw [hf]
-  simp only [dif_neg (show ¬ i < d by omega), mul_zero]
+  simp only [dite_eq_right (show ¬ i < d by omega), mul_zero]
 
 theorem IsGramArray.padVec (h : d ≤ d') {b : Fin m → Fin n → Fin d → ℤ} (hb : IsGramArray b) :
     IsGramArray (fun i j => padVec d' (b i j)) := by
@@ -214,14 +214,14 @@ theorem IsGramArray.padVec (h : d ≤ d') {b : Fin m → Fin n → Fin d → ℤ
   · exact hb.dotProduct_col hik j
   · exact hb.dotProduct_eq_zero hik hjl
 
-theorem padVec_labVec3 (h : d ≤ d') {L : ℤ × ℤ × ℤ} (hL : LabBounded d L) :
+theorem padVec_labVec3 (_h : d ≤ d') {L : ℤ × ℤ × ℤ} (hL : LabBounded d L) :
     padVec d' (labVec3 d L) = labVec3 d' L := by
   obtain ⟨⟨-, hL1⟩, ⟨-, hL2⟩, ⟨-, hL3⟩⟩ := hL
   funext k'
   by_cases hk : (k' : ℕ) < d
-  · rw [padVec_apply, dif_pos hk, labVec3_apply, labVec3_apply, labVec_apply, labVec_apply,
+  · rw [padVec_apply, dite_eq_left hk, labVec3_apply, labVec3_apply, labVec_apply, labVec_apply,
       labVec_apply, labVec_apply, labVec_apply, labVec_apply]
-  · rw [padVec_apply, dif_neg hk]
+  · rw [padVec_apply, dite_eq_right hk]
     exact (labVec3_eq_zero_of_le (r := d) hL1 hL2 hL3 (by omega)).symm
 
 end Transport
@@ -232,9 +232,11 @@ variable {ι : Type*} [DecidableEq ι] [Fintype ι]
 
 def sharedSignedCoord (u : ι → ℤ) (a : ι) : ι → ℤ := Pi.single a (u a)
 
+omit [Fintype ι] in
 theorem sharedSignedCoord_apply (u : ι → ℤ) (a c : ι) :
     sharedSignedCoord u a c = (Pi.single a (u a) : ι → ℤ) c := (rfl)
 
+omit [Fintype ι] in
 theorem isSignedCoordVec_sharedSignedCoord {u : ι → ℤ} {a : ι} (ha : u a = 1 ∨ u a = -1) :
     IsSignedCoordVec (sharedSignedCoord u a) :=
   isSignedCoordVec_single ha
@@ -250,14 +252,14 @@ section SameLine
 variable {ι μ ν : Type*} [DecidableEq ι] [Fintype ι] [DecidableEq μ] [DecidableEq ν]
 
 theorem IsGramArray.dotProduct_sharedSignedCoord_eq_zero_or_one [Nontrivial μ] [Nontrivial ν]
-    {b : μ → ν → ι → ℤ} (hb : IsGramArray b) {i₁ i₂ i₃ : μ} (h12 : i₁ ≠ i₂) (h13 : i₁ ≠ i₃)
-    (j : ν) {a : ι} (ha : Function.support (b i₁ j) ∩ Function.support (b i₂ j) = {a})
+    {b : μ → ν → ι → ℤ} (hb : IsGramArray b) {i₁ i₂ i₃ : μ} (_h12 : i₁ ≠ i₂) (h13 : i₁ ≠ i₃)
+    (j : ν) {a : ι} (_ha : Function.support (b i₁ j) ∩ Function.support (b i₂ j) = {a})
     (ha1 : b i₁ j a = 1 ∨ b i₁ j a = -1) :
     b i₃ j ⬝ᵥ sharedSignedCoord (b i₁ j) a = if b i₃ j a = 0 then 0 else 1 := by
   rw [dotProduct_sharedSignedCoord]
   by_cases h0 : b i₃ j a = 0
-  · rw [if_pos h0, h0, zero_mul]
-  · rw [if_neg h0]
+  · rw [ite_eq_left h0, h0, zero_mul]
+  · rw [ite_eq_right h0]
     have hsign : 0 ≤ b i₃ j a * b i₁ j a :=
       hb.mul_nonneg (i := i₃) (j := j) (k := i₁) (l := j) (by simp [Ne.symm h13]) (Or.inr rfl) a
     have h3 : b i₃ j a = 1 ∨ b i₃ j a = -1 :=
@@ -284,9 +286,9 @@ theorem labVec3_apply_eq_sign {L : ℤ × ℤ × ℤ} (h1 : L.1.natAbs < L.2.1.n
     labVec3 d L k = a.sign := by
   rw [labVec3_apply, labVec_apply, labVec_apply, labVec_apply]
   rcases ha with rfl | rfl | rfl
-  · rw [if_pos hk, if_neg (by omega), if_neg (by omega), add_zero, add_zero]
-  · rw [if_neg (by omega), if_pos hk, if_neg (by omega), add_zero, zero_add]
-  · rw [if_neg (by omega), if_neg (by omega), if_pos hk, zero_add, zero_add]
+  · rw [ite_eq_left hk, ite_eq_right (by omega), ite_eq_right (by omega), add_zero, add_zero]
+  · rw [ite_eq_right (by omega), ite_eq_left hk, ite_eq_right (by omega), add_zero, zero_add]
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left hk, zero_add, zero_add]
 
 theorem labDot_ne_neg_one_of_mul_nonneg {L M : ℤ × ℤ × ℤ}
     (hL1 : L.1.natAbs < L.2.1.natAbs) (hL2 : L.2.1.natAbs < L.2.2.natAbs)
@@ -297,9 +299,9 @@ theorem labDot_ne_neg_one_of_mul_nonneg {L M : ℤ × ℤ × ℤ}
     labDot a b ≠ -1 := by
   intro h
   rw [labDot] at h
-  have hne : a ≠ b := by intro hc; rw [if_pos hc] at h; omega
-  rw [if_neg hne] at h
-  have hab : a = -b := by by_contra hc; rw [if_neg hc] at h; omega
+  have hne : a ≠ b := by intro hc; rw [ite_eq_left hc] at h; omega
+  rw [ite_eq_right hne] at h
+  have hab : a = -b := by by_contra hc; rw [ite_eq_right hc] at h; omega
   have ha0 : a ≠ 0 := by rintro rfl; exact hne (by omega)
   have hled : a.natAbs ≤ d := by
     obtain ⟨⟨-, e1⟩, ⟨-, e2⟩, ⟨-, e3⟩⟩ := hLb
@@ -549,7 +551,7 @@ theorem no_defect_extension_of_normalized (hd : 10 ≤ d) {t : ℕ}
   · exact triDot_of_dotProduct hbdZ hbdV hZ' hV' (hb.dotProduct_col (Ne.symm h24) j')
   · exact triDot_of_dotProduct hbdZ hbdW hZ' hW' (hb.dotProduct_col (Ne.symm h34) j')
 
-theorem no_defect_extension (hn : 2 ≤ n) (hd : 10 ≤ d) {t : ℕ}
+theorem no_defect_extension (_hn : 2 ≤ n) (hd : 10 ≤ d) {t : ℕ}
     (ht : t = 1 ∨ t = 2 ∨ t = 3 ∨ t = 4)
     {b : Fin m → Fin n → Fin d → ℤ} (hb : IsGramArray b) {i₁ i₂ i₃ i₄ : Fin m}
     (h12 : i₁ ≠ i₂) (h13 : i₁ ≠ i₃) (h14 : i₁ ≠ i₄) (h23 : i₂ ≠ i₃) (h24 : i₂ ≠ i₄)
@@ -673,7 +675,7 @@ theorem dotProduct_sharedSignedCoord_eq_one_of_four_rows (hm : 4 ≤ m) (hn : 2 
   have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr (by omega)
   have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
   rw [hb.dotProduct_sharedSignedCoord_eq_zero_or_one h12 h13 j ha ha1,
-    if_neg (hb.mem_support_of_four_rows hn h12 h13 h14 h23 h24 h34 j ha)]
+    ite_eq_right (hb.mem_support_of_four_rows hn h12 h13 h14 h23 h24 h34 j ha)]
 
 theorem exists_sharedSignedCoord_dotProduct_eq_one (hm : 4 ≤ m) (hn : 2 ≤ n)
     {b : Fin m → Fin n → Fin d → ℤ} (hb : IsGramArray b) {i₁ i₂ i₃ i₄ : Fin m}

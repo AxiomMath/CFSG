@@ -12,13 +12,13 @@ namespace CFSG.StandardType
 open CFSG CFSG.Assembly CFSG.Open
 open CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag (proj)
 
-theorem ggK1C_centreless_inner {nf r : ℕ} (hnf : 1 ≤ nf) (hr : 1 ≤ r) {K : Type} [Field K]
+theorem ggK1C_centreless_inner {nf r : ℕ} (_hnf : 1 ≤ nf) (_hr : 1 ≤ r) {K : Type} [Field K]
     [Finite K] (hK : Nat.card K = 2 ^ nf) :
     (∀ z : LargeEvenProj (LargeEvenSpGroup K r), (∀ g, g * z = z * g) → z = 1) ∧
       ∀ φ ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K r))
           (LargeEvenGSpSet K r), ∃ s : LargeEvenProj (LargeEvenSpGroup K r),
         φ = MulAut.conj s := by
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   refine ⟨?_, ?_⟩
   · intro z hz

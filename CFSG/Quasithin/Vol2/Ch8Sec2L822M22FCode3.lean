@@ -48,8 +48,8 @@ theorem six6iii_img_m22f
     ∀ X : Subgroup G, X ≤ M → X ≤ Subgroup.normalizer (V : Set G) → Nat.card (autOn X V) = 3 →
       ∀ k : ℕ, IsChiefSeriesFrom X V V k → 3 ≤ k := by
   intro X hXM hXN hcard k hk
-  letI : CommGroup ↥V := commGroupOfElemAbelian hV
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : CommGroup ↥V := commGroupOfElemAbelian hV
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥(autOn X V)) 3 (by rw [hcard])
   have hτ3 : orderOf (t : MulAut ↥V) = 3 := (Subgroup.orderOf_coe t).trans ht
   have hτX : (t : MulAut ↥V) ∈ autOn X V := t.2

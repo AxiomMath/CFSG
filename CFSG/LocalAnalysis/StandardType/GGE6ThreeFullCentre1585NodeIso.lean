@@ -42,7 +42,7 @@ theorem coker_equiv_nodeCoker
     rw [show ρ.frobLinear.toLinearMap (ρ.nodeMap (Pi.single i 1)) =
         ρ.frobLinear (ρ.nodeMap (Pi.single i 1)) from rfl]
     rw [ρ.frob_nodes i, hperm i]
-    simpa only [map_smul, ε]
+    simp only [map_smul, ε]
 
   have hcomm_single : ∀ (i : Fin ρ.row.diagram.marks.length) (x : ℤ),
       ρ.frobLinear.toLinearMap (ρ.nodeMap (Pi.single i x)) =
@@ -53,7 +53,7 @@ theorem coker_equiv_nodeCoker
       by_cases h : j = i
       · subst h
         simp
-      · simp [Pi.single_apply, h]
+      · simp [h]
     rw [hx]
     simp only [map_smul, smul_smul]
     rw [hcomm_basis i, hperm i]
@@ -98,7 +98,7 @@ theorem coker_equiv_nodeCoker
       rw [LinearMap.mem_range] at hy
       obtain ⟨z, hz⟩ := hy
       rw [LinearMap.mem_range]
-      exact ⟨z, by simpa [LinearMap.comp_apply, hz, hvy]⟩
+      exact ⟨z, by simp [LinearMap.comp_apply, hz, hvy]⟩
     · intro hv
       rw [LinearMap.mem_range] at hv
       obtain ⟨z, hz⟩ := hv

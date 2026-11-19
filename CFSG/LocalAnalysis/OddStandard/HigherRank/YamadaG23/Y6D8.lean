@@ -65,7 +65,7 @@ private lemma y6_pow_inj (hu : orderOf u = 4) {i j : Fin 4}
   apply Fin.ext
   exact pow_injOn_Iio_orderOf (x := u) (by rw [hu]; exact i.2) (by rw [hu]; exact j.2) h
 
-private lemma y6_no_pow_eq_pow_mul_t (hu : orderOf u = 4) (ht : orderOf t = 2)
+private lemma y6_no_pow_eq_pow_mul_t (hu : orderOf u = 4) (_ht : orderOf t = 2)
     (hinv : t * u * t⁻¹ = u⁻¹) {i j : ℕ} (h : u ^ i = u ^ j * t) : False := by
   have htmem : t ∈ zpowers u := by
     have h1 : t = (u ^ j)⁻¹ * u ^ i := by

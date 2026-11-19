@@ -81,7 +81,7 @@ theorem conj_eq_of_mem_conjStab {K M : Subgroup Y} (hK : K ∈ Φ) (hM : M ∈ a
   by_cases he : conjSub t M = M
   · exact hw.conj_eq he
   have hMQ : IsPGroup 2 ↥(M ⊔ Q) := by
-    haveI := h.normal
+    have := h.normal
     exact IsPGroup.to_sup_of_normal_right (h.isPGroup M hMΦ) h.two
   have hMtle : conjSub t M ≤ M ⊔ Q := by
     have := conjSub_mono (n := t) (le_sup_left : M ≤ M ⊔ Q)

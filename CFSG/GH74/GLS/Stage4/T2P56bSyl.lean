@@ -20,7 +20,7 @@ theorem t2P56_sylow_shape {X : Type*} [Group X] [Finite X] (U : Subgroup X)
     (S : Sylow 2 X) (hUS : U ≤ (S : Subgroup X)) :
     (∃ n : ℕ, 2 ≤ n ∧ Nonempty (↥(S : Subgroup X) ≃* DihedralGroup (2 ^ (n - 1)))) ∨
       (∃ n : ℕ, 4 ≤ n ∧ Nonempty (↥(S : Subgroup X) ≃* SemidihedralGroup n)) := by
-  have hP : IsPGroup 2 ↥(S : Subgroup X) := S.isPGroup'
+  have hP : IsPGroup 2 ↥(S : Subgroup X) := S.isPGroup
   let V : Subgroup ↥(S : Subgroup X) := U.subgroupOf (S : Subgroup X)
   have hVab : ∀ a b : ↥(S : Subgroup X), a ∈ V → b ∈ V → a * b = b * a := by
     intro a b ha hb
@@ -81,7 +81,7 @@ theorem t2P56_not_dihedral {X : Type} [Group X] [Finite X] {F : Type} [Field F] 
   obtain ⟨Q₀⟩ : Nonempty (Sylow 2 ↥K) := inferInstance
   set Q : Subgroup X := (Q₀ : Subgroup ↥K).map K.subtype with hQ
   have hQK : Q ≤ K := Subgroup.map_subtype_le _
-  have hQp : IsPGroup 2 ↥Q := Q₀.isPGroup'.map K.subtype
+  have hQp : IsPGroup 2 ↥Q := Q₀.isPGroup.map K.subtype
   have hQcard : Nat.card ↥Q = 2 ^ (Nat.card ↥K).factorization 2 := by
     rw [hQ, Subgroup.card_map_of_injective K.subtype_injective]
     exact Q₀.card_eq_multiplicity
@@ -194,7 +194,7 @@ theorem t2P56_prep {n : ℕ}
   have hεeq : ε₂ = ε₁ := by
     have h12 : ε₁ ≡ ε₂ [ZMOD 4] := hq₁.symm.trans hq₂
     unfold Int.ModEq at h12
-    rcases hε₁ with h | h <;> rcases hε₂ with h' | h' <;> rw [h, h'] at h12 ⊢ <;> first | rfl | omega
+    rcases hε₁ with h | h <;> rcases hε₂ with h' | h' <;> rw [h, h'] at h12 ⊢ <;> omega
   have hm₁ : Nat.card ↥(H ⊓ K₁) % 4 = 2 := by
     have h1 := hcard₁
     have h2 := hq₁

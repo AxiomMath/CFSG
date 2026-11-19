@@ -60,7 +60,7 @@ public theorem CFSG.theorem_14_4_unique_N
   have hNXne_top : Subgroup.normalizer (X : Set G) ≠ ⊤ := by
     intro hNtop
     have hXnormal : X.Normal := Subgroup.normalizer_eq_top_iff.mp hNtop
-    letI : IsSimpleGroup G := IsMinCE.simple
+    let : IsSimpleGroup G := IsMinCE.simple
     rcases hXnormal.eq_bot_or_eq_top with hXbot | hXtop
     · exact hXne hXbot
     · exact hXne_top hXtop
@@ -95,7 +95,7 @@ public theorem CFSG.theorem_14_4_unique_N
     rw [Set.disjoint_left] at hσdisLM
     exact hσdisLM hqσ hqσL
   let Ωx : Type _ := {L : Subgroup G // L ∈ section14MsigmaElement x}
-  haveI : Nontrivial Ωx := Finite.one_lt_card_iff_nontrivial.mp hcard
+  have : Nontrivial Ωx := Finite.one_lt_card_iff_nontrivial.mp hcard
   obtain ⟨Lsub, hLsub_ne⟩ := exists_ne (⟨M, hM⟩ : Ωx)
   let L : Subgroup G := Lsub.1
   have hL : L ∈ section14MsigmaElement x := Lsub.2
@@ -169,7 +169,7 @@ public theorem CFSG.theorem_14_4_unique_N
     · have hnorm_proper : Subgroup.normalizer (M : Set G) ≠ ⊤ := by
         intro hnorm_top
         have hMnormal : M.Normal := Subgroup.normalizer_eq_top_iff.mp hnorm_top
-        letI : IsSimpleGroup G := IsMinCE.simple
+        let : IsSimpleGroup G := IsMinCE.simple
         rcases (haveI := hMnormal; IsSimpleGroup.eq_bot_or_eq_top_of_normal M) with hMbot | hMtop
         · have hqM : q.val ∣ Nat.card M := hqσ.1
           have hq_one : q.val ∣ 1 := by simpa [hMbot] using hqM
@@ -202,7 +202,7 @@ public theorem CFSG.theorem_14_4_unique_N
       have htop : section10MsigmaSubgroup N ⊔ T = ⊤ := hTcomp.symm.sup_eq_top
       have : (⟨u, huN⟩ : N) ∈ (⊤ : Subgroup N) := by simp
       simp [htop]
-    haveI : (section10MsigmaSubgroup N).Normal := inferInstance
+    have : (section10MsigmaSubgroup N).Normal := inferInstance
     rcases (Subgroup.mem_sup_of_normal_left
         (s := section10MsigmaSubgroup N) (t := T) (x := (⟨u, huN⟩ : N))).1 huTop with
       ⟨rN, hrNσ, mN, hmT, hrm⟩
@@ -458,7 +458,7 @@ private theorem CFSG.section14_nonsingleton_member_data
   have hNXne_top : Subgroup.normalizer (X : Set G) ≠ ⊤ := by
     intro hNtop
     have hXnormal : X.Normal := Subgroup.normalizer_eq_top_iff.mp hNtop
-    letI : IsSimpleGroup G := IsMinCE.simple
+    let : IsSimpleGroup G := IsMinCE.simple
     rcases hXnormal.eq_bot_or_eq_top with hXbot | hXtop
     · exact hXne hXbot
     · exact hXne_top hXtop
@@ -493,7 +493,7 @@ private theorem CFSG.section14_nonsingleton_member_data
     rw [Set.disjoint_left] at hσdisLM
     exact hσdisLM hqσ hqσL
   let Ωx : Type _ := {L : Subgroup G // L ∈ section14MsigmaElement x}
-  haveI : Nontrivial Ωx := Finite.one_lt_card_iff_nontrivial.mp hcard
+  have : Nontrivial Ωx := Finite.one_lt_card_iff_nontrivial.mp hcard
   obtain ⟨Lsub, hLsub_ne⟩ := exists_ne (⟨M, hM⟩ : Ωx)
   let L : Subgroup G := Lsub.1
   have hL : L ∈ section14MsigmaElement x := Lsub.2
@@ -567,7 +567,7 @@ private theorem CFSG.section14_nonsingleton_member_data
     · have hnorm_proper : Subgroup.normalizer (M : Set G) ≠ ⊤ := by
         intro hnorm_top
         have hMnormal : M.Normal := Subgroup.normalizer_eq_top_iff.mp hnorm_top
-        letI : IsSimpleGroup G := IsMinCE.simple
+        let : IsSimpleGroup G := IsMinCE.simple
         rcases (haveI := hMnormal; IsSimpleGroup.eq_bot_or_eq_top_of_normal M) with hMbot | hMtop
         · have hqM : q.val ∣ Nat.card M := hqσ.1
           have hq_one : q.val ∣ 1 := by simpa [hMbot] using hqM
@@ -606,7 +606,7 @@ private theorem CFSG.section14_nonsingleton_member_data
       have htop : section10MsigmaSubgroup N ⊔ T = ⊤ := hTcomp.symm.sup_eq_top
       have : (⟨u, huN⟩ : N) ∈ (⊤ : Subgroup N) := by simp
       simp [htop]
-    haveI : (section10MsigmaSubgroup N).Normal := inferInstance
+    have : (section10MsigmaSubgroup N).Normal := inferInstance
     rcases (Subgroup.mem_sup_of_normal_left
         (s := section10MsigmaSubgroup N) (t := T) (x := (⟨u, huN⟩ : N))).1 huTop with
       ⟨rN, hrNσ, mN, hmT, hrm⟩
@@ -957,7 +957,7 @@ private theorem CFSG.section14_nonsingleton_member_data
         have htop : section10MsigmaSubgroup N ⊔ T = ⊤ := hTcomp.symm.sup_eq_top
         have : (⟨c, hcN⟩ : N) ∈ (⊤ : Subgroup N) := by simp
         simp [htop]
-      haveI : (section10MsigmaSubgroup N).Normal := inferInstance
+      have : (section10MsigmaSubgroup N).Normal := inferInstance
       rcases (Subgroup.mem_sup_of_normal_left
           (s := section10MsigmaSubgroup N) (t := T) (x := (⟨c, hcN⟩ : N))).1 hcTop with
         ⟨rN, hrNσ, mN, hmT, hrm⟩
@@ -1104,9 +1104,9 @@ private theorem CFSG.section14_nonsingleton_member_data
     have hA_M : A ∈ section12RankTwoElementaryAbelianIn p M :=
       section12_rankTwo_mono hA inf_le_left
     by_contra hp_not_sigma_M
-    letI : Fact p.val.Prime := ⟨p.2⟩
+    let : Fact p.val.Prime := ⟨p.2⟩
     have hAelem := section12_rankTwo_elementary hA_M
-    haveI : IsElementaryAbelian p.val A := hAelem.2
+    have : IsElementaryAbelian p.val A := hAelem.2
     have hprank_ge : 2 ≤ primeRank p.val M := by
       let A' : Subgroup M := A.subgroupOf M
       have hA'p : IsPGroup p.val A' :=

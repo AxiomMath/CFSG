@@ -92,7 +92,7 @@ theorem exists_ne_of_card [Finite k] {q : ℕ} (hk : Nat.card k = q ^ 2)
   have hq : 2 ≤ q := two_le_of_card hk
   by_contra! h
   classical
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have hdeg : (Polynomial.X ^ q - Polynomial.X : Polynomial k).natDegree = q := by
     have h1 : (Polynomial.X : Polynomial k).natDegree <
         (Polynomial.X ^ q : Polynomial k).natDegree := by

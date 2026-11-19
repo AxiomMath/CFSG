@@ -39,7 +39,7 @@ theorem normal_eq_top_of_index_le {E S : Type} [Group E] [Finite E] [Group S] [F
     [IsSimpleGroup S] (hS : Nat.factorial 9 < Nat.card S) (hE : commutator E = ⊤) (θ : E →* S)
     (hθ : Function.Surjective θ) (hker : IsPGroup 2 θ.ker) (C : Subgroup E) [C.Normal]
     (hC : C.index ≤ Nat.factorial 9) : C = ⊤ := by
-  haveI : Group.IsPerfect E := Group.isPerfect_def.mpr hE
+  have : Group.IsPerfect E := Group.isPerfect_def.mpr hE
   by_cases hCθ : C ≤ θ.ker
   · exfalso
     have hφ : Function.Surjective (QuotientGroup.lift C θ hCθ) := by
@@ -49,14 +49,14 @@ theorem normal_eq_top_of_index_le {E S : Type} [Group E] [Finite E] [Group S] [F
     have h1 : Nat.card S ≤ Nat.card (E ⧸ C) := Nat.card_le_card_of_surjective _ hφ
     have h2 : Nat.card (E ⧸ C) ≤ Nat.factorial 9 := hC
     exact absurd (lt_of_lt_of_le hS (le_trans h1 h2)) (lt_irrefl _)
-  · obtain ⟨c0, hc0C, hc0⟩ := SetLike.not_le_iff_exists.mp hCθ
+  · obtain ⟨c0, hc0C, hc0⟩ := IsConcreteLE.not_le_iff_exists.mp hCθ
     have hne : C.map θ ≠ ⊥ := by
       intro hbot
       apply hc0
       have hmem : θ c0 ∈ C.map θ := Subgroup.mem_map_of_mem θ hc0C
       rw [hbot, Subgroup.mem_bot] at hmem
       exact MonoidHom.mem_ker.mpr hmem
-    haveI : (C.map θ).Normal := Subgroup.Normal.map ‹C.Normal› θ hθ
+    have : (C.map θ).Normal := Subgroup.Normal.map ‹C.Normal› θ hθ
     have htop : C.map θ = ⊤ :=
       (IsSimpleGroup.eq_bot_or_eq_top_of_normal (C.map θ)).resolve_left hne
     have hcov : ∀ x : E, ∃ c ∈ C, θ c = θ x := by
@@ -287,8 +287,8 @@ theorem solvable_pi_of_fintype {ι : Type} [Fintype ι] {G : ι → Type} [∀ i
   exact Subgroup.mem_bot.mp (h2 h1)
 
 theorem solvable_normalizer_inf {Y : Type} [Group Y] [Finite Y] {ι : Type} [Fintype ι]
-    {Gs : Subgroup Y} {X : ι → Subgroup Y} (h : SimpleFactors Gs X) {π : ι → ↥Gs →* Y}
-    (hπ : IsProj Gs X π) (V : Subgroup Y) (hVG : V ≤ Gs) (hV2 : ∀ v ∈ V, v * v = 1)
+    {Gs : Subgroup Y} {X : ι → Subgroup Y} (_h : SimpleFactors Gs X) {π : ι → ↥Gs →* Y}
+    (hπ : IsProj Gs X π) (V : Subgroup Y) (_hVG : V ≤ Gs) (hV2 : ∀ v ∈ V, v * v = 1)
     (hBor : ∀ i, ∀ P : Subgroup Y, P ≤ X i → P ≠ ⊥ → IsPGroup 2 P →
       Group.IsSolvable ↥(Subgroup.normalizer ((P.subgroupOf (X i) : Subgroup ↥(X i)) :
         Set ↥(X i))))
@@ -325,7 +325,7 @@ theorem solvable_normalizer_inf {Y : Type} [Group Y] [Finite Y] {ι : Type} [Fin
   have hsolv : ∀ i, Group.IsSolvable ↥(N i) := fun i => by
     rw [hN i]
     exact hBor i (Vi i) (by intro y hy; exact hViX i y hy) (hViNe i) (hViP i)
-  haveI hpi : Group.IsSolvable (∀ i, ↥(N i)) :=
+  have hpi : Group.IsSolvable (∀ i, ↥(N i)) :=
     solvable_pi_of_fintype (G := fun i => ↥(N i)) hsolv
   obtain ⟨A, hA⟩ : ∃ A : Subgroup Y, A = Subgroup.normalizer (V : Set Y) ⊓ Gs := ⟨_, rfl⟩
   rw [← hA]
@@ -362,7 +362,7 @@ theorem solvable_normalizer_inf {Y : Type} [Group Y] [Finite Y] {ι : Type} [Fin
     intro a i
     rw [hN i, Subgroup.mem_normalizer_iff]
     intro g
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
     exact hcore a i (g : Y)
   obtain ⟨ρ, hρ⟩ : ∃ ρ : ↥A →* (∀ i, ↥(N i)),
       ∀ a i, (((ρ a i : ↥(N i)) : ↥(X i)) : Y) = π i (ιA a) :=
@@ -495,7 +495,7 @@ theorem beta_facts (hBorel : BorelRankOneSolvableStatement)
     have hsimp : IsSimpleGroup (StatedProj (StatedSL 2 K)) :=
       CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K le_rfl (Or.inr (by omega))
         (Or.inr (by omega))
-    haveI := hsimp
+    have := hsimp
     have hHs : IsSimpleGroup H := φ.isSimpleGroup
     exact ⟨Or.inl ⟨2, m, le_rfl, hm, hc⟩, hHs,
       fun P hP hP2 => hBorel H (Or.inl ⟨m, hm2, hc⟩) P hP hP2⟩
@@ -520,7 +520,7 @@ theorem beta_facts (hBorel : BorelRankOneSolvableStatement)
       rw [← hfa]
       exact hKc
     have hsz := (CFSG.LieType.Ree.suzuki_simple (a := a) (K := K) ha hK').2.2
-    haveI := hsz
+    have := hsz
     have hHs : IsSimpleGroup H := φ.isSimpleGroup
     have hodd : Odd m := ⟨a, hfa⟩
     have h3 : 3 ≤ m := by omega
@@ -602,7 +602,7 @@ theorem simpleFactors_solvable_normalizer_of_mulEquiv {A B : Type} [Group A] [Gr
       e.symm (g : B) ∈ Subgroup.normalizer ((R.comap e.toMonoidHom : Subgroup A) : Set A) := by
     intro g
     rw [hN]
-    exact Subgroup.mem_comap.mpr (by simpa using g.2)
+    exact Subgroup.mem_comap.mpr (by simp)
   let f : ↥(Subgroup.normalizer (R : Set B)) →*
       ↥(Subgroup.normalizer ((R.comap e.toMonoidHom : Subgroup A) : Set A)) :=
     { toFun := fun g => ⟨e.symm (g : B), hmem g⟩
@@ -698,7 +698,7 @@ theorem simpleFactors_of_beta
     intro i hi
     rcases hXcov i with h | h
     · exact h
-    · haveI := hXn i
+    · have := hXn i
       exact absurd (eq_bot_of_normalTwoComplement Gs hO2 hO (X i) h) hi
   have hleS : ∀ i : Fin r, (X i).map Gs.subtype ≤ Gs := by
     intro i y hy
@@ -735,13 +735,13 @@ theorem simpleFactors_of_beta
   ·
     intro i
     have hs := (beta_facts hBorel (hcovi i.1 i.2) (hZ i.1)).2.1
-    haveI := hs
+    have := hs
     have he := (Subgroup.equivMapOfInjective (X i.1) Gs.subtype Gs.subtype_injective).symm
     exact he.isSimpleGroup
   ·
     intro i
     have hs := (beta_facts hBorel (hcovi i.1 i.2) (hZ i.1)).2.1
-    haveI := hs
+    have := hs
     obtain ⟨hcomm, -⟩ := hcovi i.1 i.2
     obtain ⟨a, b, hab⟩ := simpleFactors_exists_noncomm hcomm
     refine ⟨Gs.subtype a.1, Subgroup.mem_map.mpr ⟨a.1, a.2, rfl⟩, Gs.subtype b.1,

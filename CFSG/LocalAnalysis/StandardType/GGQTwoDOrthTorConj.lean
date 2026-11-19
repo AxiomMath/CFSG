@@ -198,17 +198,17 @@ theorem OrthFrameCore.exists_std_conj [Fact p.Prime] (hF : Nat.card Φ.F = 2)
       rw [plh_zmod_sign_three hp3]
       by_cases h : σ⁻¹ j ∈ S
       · have hne : Multiplicative.toAdd (g (σ⁻¹ j)) ≠ 0 := (hS (σ⁻¹ j)).mp h
-        rw [if_neg hne, if_pos h]
+        rw [ite_eq_right hne, ite_eq_left h]
       · have h0 : Multiplicative.toAdd (g (σ⁻¹ j)) = 0 := by
           by_contra hne
           exact h ((hS _).mpr hne)
-        rw [if_pos h0, if_neg h]
+        rw [ite_eq_left h0, ite_eq_right h]
     rw [hwj, plh_toAdd_torStd]
     by_cases h : σ⁻¹ j ∈ S
     · have hj : a₀ ≤ j.val := htj.mp (hmem.mp h)
-      rw [if_pos h, if_neg (by omega)]
+      rw [ite_eq_left h, ite_eq_right (by omega)]
     · have hj : ¬ a₀ ≤ j.val := fun ha => h (hmem.mpr (htj.mpr ha))
-      rw [if_neg h, if_pos (by omega)]
+      rw [ite_eq_right h, ite_eq_left (by omega)]
   obtain ⟨μ, hμ, hμw⟩ := Φ.exists_realize hF hw
   refine ⟨a₀, μ, w, by dsimp only [a₀]; exact Nat.sub_le _ _, hμ, hw, hμw, ?_⟩
   rw [← hg, hμw g, hwg]

@@ -20,7 +20,7 @@ theorem cPrevIdx_ne_cLastIdx {r : ℕ} (hr : 2 ≤ r) :
     cPrevIdx r hr ≠ cLastIdx r hr := by
   intro h
   have hval := congrArg Fin.val h
-  simp only [cPrevIdx, cLastIdx, Fin.val_mk] at hval
+  simp only at hval
   omega
 
 private theorem long_last_of_comp_su3Chord
@@ -68,12 +68,12 @@ private theorem commute_short_of_hasFrameImages
   have hne_i : i ≠ cLastIdx r hr := by
     intro h
     have hval := congrArg Fin.val h
-    simp only [cLastIdx, Fin.val_mk] at hval
+    simp only at hval
     omega
   have hne_s : (⟨i.val + 1, hk⟩ : Fin (2 * r / 2)) ≠ cLastIdx r hr := by
     intro h
     have hval := congrArg Fin.val h
-    simp only [cLastIdx, Fin.val_mk] at hval
+    simp only at hval
     omega
   have hθA : ∀ A, θ A ∈ residueGroup Δ P Q (cLastIdx r hr) := by
     intro A

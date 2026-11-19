@@ -24,6 +24,7 @@ structure IsPlaneDecomp (Q : QuadraticForm F V) (Bb : Subgroup ↥(orthDerived Q
     ∀ b ∈ Bb, ∃ m : ℕ, ∀ x ∈ U j, (b : V ≃ₗ[F] V) x = ((g : V ≃ₗ[F] V) ^ m) x
   apply_of_perp : ∀ b ∈ Bb, ∀ x ∈ N, x ∈ polarPerp Q (⨆ j, U j) → (b : V ≃ₗ[F] V) x = x
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem IsPlaneDecomp.nil {N : Submodule F V} (h : ∀ b ∈ Bb, ∀ x ∈ N, (b : V ≃ₗ[F] V) x = x) :
     IsPlaneDecomp Q Bb N (Fin.elim0 : Fin 0 → Submodule F V) where
   finrank_eq j := j.elim0
@@ -35,6 +36,7 @@ theorem IsPlaneDecomp.nil {N : Submodule F V} (h : ∀ b ∈ Bb, ∀ x ∈ N, (b
   exists_gen j := j.elim0
   apply_of_perp b hb x hx _ := h b hb x hx
 
+omit [Finite F] [CharP F 2] in
 theorem regOn_inf_polarPerp {N P : Submodule F V} (hN : RegOn Q N) (hP : RegOn Q P) (hPN : P ≤ N) :
     RegOn Q (N ⊓ polarPerp Q P) := by
   intro u hu h
@@ -51,6 +53,7 @@ theorem regOn_inf_polarPerp {N P : Submodule F V} (hN : RegOn Q N) (hP : RegOn Q
   rw [QuadraticMap.polar_add_right, h b ⟨hbN, hb⟩, add_zero, QuadraticMap.polar_comm]
   exact mem_polarPerp_iff.1 hu.2 a ha
 
+omit [Finite F] [CharP F 2] in
 theorem finrank_add_finrank_inf_polarPerp {N P : Submodule F V} (hP : RegOn Q P) (hPN : P ≤ N) :
     Module.finrank F P + Module.finrank F ↥(N ⊓ polarPerp Q P) = Module.finrank F N := by
   have hcompl := isCompl_polarPerp (nondegenerate_of_regOn hP)
@@ -63,6 +66,7 @@ theorem finrank_add_finrank_inf_polarPerp {N P : Submodule F V} (hP : RegOn Q P)
   rw [h1, h2, finrank_bot, add_zero] at h3
   omega
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem apply_mem_polarPerp {P : Submodule F V}
     (hP : ∀ b ∈ Bb, ∀ y ∈ P, (b : V ≃ₗ[F] V) y ∈ P) {b : ↥(orthDerived Q)} (hb : b ∈ Bb) {x : V}
     (hx : x ∈ polarPerp Q P) : (b : V ≃ₗ[F] V) x ∈ polarPerp Q P := by
@@ -71,11 +75,12 @@ theorem apply_mem_polarPerp {P : Submodule F V}
   have hb' : b⁻¹ ∈ Bb := Bb.inv_mem hb
   have h1 : (b : V ≃ₗ[F] V) (((b⁻¹ : ↥(orthDerived Q)) : V ≃ₗ[F] V) y) = y := by
     have := congrArg (fun z : ↥(orthDerived Q) => (z : V ≃ₗ[F] V) y) (mul_inv_cancel b)
-    simpa using this
+    simp
   rw [← h1, TauCeti.QuadraticMap.polar_apply_of_mem_orthogonalGroup
     (orthDerived_le_orthogonalGroup b.2)]
   exact hx _ (hP _ hb' y hy)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneDecomp.cons_aux1 {N P : Submodule F V} {r : ℕ} {U' : Fin r → Submodule F V}
     (hU' : IsPlaneDecomp Q Bb (N ⊓ polarPerp Q P) U') :
     ∀ i j, i ≠ j → ∀ x ∈ (Fin.cons P U' : Fin (r + 1) → Submodule F V) i,
@@ -98,6 +103,7 @@ private theorem IsPlaneDecomp.cons_aux1 {N P : Submodule F V} {r : ℕ} {U' : Fi
       simp only [Fin.cons_succ] at hx hy
       exact hU'.perp k l (fun h => hij (by rw [h])) x hx y hy
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneDecomp.cons_aux2 {P : Submodule F V} {r : ℕ} {U' : Fin r → Submodule F V} :
     (⨆ j : Fin (r + 1), (Fin.cons P U' : Fin (r + 1) → Submodule F V) j) = P ⊔ ⨆ j, U' j := by
   apply le_antisymm
@@ -109,6 +115,7 @@ private theorem IsPlaneDecomp.cons_aux2 {P : Submodule F V} {r : ℕ} {U' : Fin 
     · simpa using le_iSup (Fin.cons P U' : Fin (r + 1) → Submodule F V) 0
     · simpa using le_iSup (Fin.cons P U' : Fin (r + 1) → Submodule F V) i.succ
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneDecomp.cons_aux3 {N P : Submodule F V} {r : ℕ} {U' : Fin r → Submodule F V}
     (hP2 : Module.finrank F P = 2) (hU' : IsPlaneDecomp Q Bb (N ⊓ polarPerp Q P) U') :
     ∀ j, Module.finrank F ((Fin.cons P U' : Fin (r + 1) → Submodule F V) j) = 2 := by
@@ -117,6 +124,7 @@ private theorem IsPlaneDecomp.cons_aux3 {N P : Submodule F V} {r : ℕ} {U' : Fi
   | zero => rw [Fin.cons_zero]; exact hP2
   | succ i => rw [Fin.cons_succ]; exact hU'.finrank_eq i
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneDecomp.cons_aux4 {N P : Submodule F V} {r : ℕ} {U' : Fin r → Submodule F V}
     (hPreg : RegOn Q P) (hU' : IsPlaneDecomp Q Bb (N ⊓ polarPerp Q P) U') :
     ∀ j, (QuadraticMap.polarBilin (Q.comp ((Fin.cons P U' : Fin (r + 1) → Submodule F V) j).subtype)).Nondegenerate := by
@@ -125,6 +133,7 @@ private theorem IsPlaneDecomp.cons_aux4 {N P : Submodule F V} {r : ℕ} {U' : Fi
   | zero => rw [Fin.cons_zero]; exact nondegenerate_of_regOn hPreg
   | succ i => rw [Fin.cons_succ]; exact hU'.nondeg i
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneDecomp.cons_aux5 {N P : Submodule F V} {r : ℕ} {U' : Fin r → Submodule F V}
     (hPm : ¬ IsPlusType (Q.comp P.subtype)) (hU' : IsPlaneDecomp Q Bb (N ⊓ polarPerp Q P) U') :
     ∀ j, ¬ IsPlusType (Q.comp ((Fin.cons P U' : Fin (r + 1) → Submodule F V) j).subtype) := by
@@ -133,6 +142,7 @@ private theorem IsPlaneDecomp.cons_aux5 {N P : Submodule F V} {r : ℕ} {U' : Fi
   | zero => rw [Fin.cons_zero]; exact hPm
   | succ i => rw [Fin.cons_succ]; exact hU'.not_isPlusType i
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem IsPlaneDecomp.cons {N P : Submodule F V} {r : ℕ} {U' : Fin r → Submodule F V}
     (hU' : IsPlaneDecomp Q Bb (N ⊓ polarPerp Q P) U') (hPN : P ≤ N) (hP2 : Module.finrank F P = 2)
     (hPreg : RegOn Q P) (hPm : ¬ IsPlusType (Q.comp P.subtype))

@@ -37,7 +37,7 @@ theorem coe_sylowMap (hι : Function.Injective ι) (hidx : ¬ 3 ∣ ι.range.ind
 theorem exists_conj_le_map (hι : Function.Injective ι) (hidx : ¬ 3 ∣ ι.range.index)
     (Q₀ : Sylow 3 X) {E : Subgroup S} (hE : IsPGroup 3 E) :
     ∃ g : S, E.map (MulAut.conj g).toMonoidHom ≤ (Q₀ : Subgroup X).map ι := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hEP⟩ := hE.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq S P (sylowMap hι hidx Q₀)
   refine ⟨g, ?_⟩
@@ -52,7 +52,7 @@ theorem hconj_of_embedding (hι : Function.Injective ι) (hidx : ¬ 3 ∣ ι.ran
       ∃ g : X, E.map (MulAut.conj g).toMonoidHom ≤ D.A0)
     {E : Subgroup S} (hE : IsElemAbelian 3 E) :
     ∃ g : S, E.map (MulAut.conj g).toMonoidHom ≤ (D.map ι hι).A0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q₀⟩ : Nonempty (Sylow 3 X) := inferInstance
   have hp : IsPGroup 3 E := fun x => ⟨1, by
     apply Subtype.ext
@@ -90,7 +90,7 @@ theorem isCyclic_center_sylow_of_embedding (hι : Function.Injective ι)
     (hidx : ¬ 3 ∣ ι.range.index)
     (hcen : ∀ P : Sylow 3 X, IsCyclic ↥(Subgroup.center ↥(P : Subgroup X)))
     (P' : Sylow 3 S) : IsCyclic ↥(Subgroup.center ↥(P' : Subgroup S)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q₀⟩ : Nonempty (Sylow 3 X) := inferInstance
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq S (sylowMap hι hidx Q₀) P'
   have h1 : (P' : Subgroup S) = (Q₀ : Subgroup X).map ((MulAut.conj g).toMonoidHom.comp ι) := by
@@ -106,7 +106,7 @@ theorem three_le_pRank_sylow_of_embedding (hι : Function.Injective ι)
     (hidx : ¬ 3 ∣ ι.range.index)
     (hrk : ∀ P : Sylow 3 X, 3 ≤ CFSG.Open.pRank 3 (P : Subgroup X))
     (P' : Sylow 3 S) : 3 ≤ CFSG.Open.pRank 3 (P' : Subgroup S) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q₀⟩ : Nonempty (Sylow 3 X) := inferInstance
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq S (sylowMap hι hidx Q₀) P'
   have h1 : (P' : Subgroup S) = (Q₀ : Subgroup X).map ((MulAut.conj g).toMonoidHom.comp ι) := by
@@ -172,7 +172,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {p : ℕ}
 theorem data421_of_embedding (hp : p.Prime) (hp5 : 5 ≤ p) (hpF : p ∣ Nat.card F + 1)
     {S : Type} [Group S] [Finite S] (ι : ↥(SpI F) →* S) (hι : Function.Injective ι)
     (hidx : ¬ 3 ∣ ι.range.index) : Data421 S p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h4 : 4 ≤ Nat.card F := by
     have := Nat.le_of_dvd (by omega) hpF
     omega

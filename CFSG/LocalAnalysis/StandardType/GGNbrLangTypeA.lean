@@ -276,7 +276,7 @@ theorem ggNbrLangTorusAxisOn_typeASplit (hframe : GGTypeASplitFrameInput) :
         fun _ hgr b₀ hb₀ hb₀I => ?_⟩
       exact lang_axis_of_linear hframe hC hN hperf (by omega) hF hpn hpd θ hgr b₀ hb₀ hb₀I
     · subst hl
-      simp only [LargeEvenRawDatum, ↓reduceIte] at hraw ⊢
+      simp only at hraw ⊢
       obtain ⟨F, _, _, hF, hs, hna, θ, hPθ⟩ := hraw
       refine ⟨F, inferInstance, inferInstance, hF, hs, hna, θ, hPθ,
         fun _ hgr b₀ hb₀ hb₀I => ?_⟩

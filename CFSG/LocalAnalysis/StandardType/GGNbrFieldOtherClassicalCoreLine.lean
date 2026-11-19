@@ -169,7 +169,7 @@ theorem ggTorusNoLineFieldComp_of_fixDataKX {p : ℕ} {Kp : ℕ → Prop} (hp : 
       le_trans (Nat.pow_le_pow_right hp.pos (Nat.zero_le 1)) hcard1
     obtain ⟨W, h1, h2⟩ := hin L' ψ hψ hker hperf A hAe hind hc1 hcard3 hsc
     exact ⟨W, h1, fun hN' a₀ ha₀ hne _ hcl => h2 hN' a₀ ha₀ hne hcl⟩
-  · obtain ⟨b, hbA, hbA₀⟩ := SetLike.not_le_iff_exists.mp hAA₀
+  · obtain ⟨b, hbA, hbA₀⟩ := IsConcreteLE.not_le_iff_exists.mp hAA₀
     set x : MulAut R := Ind ⟨b, hbA⟩ with hx
     have hxcl : x ∈ Subgroup.closure (I ∪ F) := hIndcl _
     have hxI : x ∉ I := fun h => hbA₀ ((hmem ⟨b, hbA⟩).mpr ((hIJ _).mp h))
@@ -332,7 +332,7 @@ theorem ggFixDataKX_conj {p : ℕ} {Kp : ℕ → Prop} {R : Type} [Group R]
     { toFun := fun g => ⟨u⁻¹ (g : R), (ggFixDer_conj_mem f u (g : R)).1 g.2⟩
       invFun := fun k => ⟨u (k : R), by
         rw [ggFixDer_conj_mem]
-        simpa using k.2⟩
+        simp⟩
       left_inv := fun g => Subtype.ext (by simp)
       right_inv := fun k => Subtype.ext (by simp)
       map_mul' := fun g k => Subtype.ext (by simp) }

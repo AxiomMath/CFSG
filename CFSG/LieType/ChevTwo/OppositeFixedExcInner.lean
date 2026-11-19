@@ -28,7 +28,7 @@ private theorem map_congr_le_range_conj {K K' : Type} [Group K] [Group K'] (e : 
 
 theorem oppositeFixedInner_of_mulEquiv {K K' : Type} [Group K] [Group K'] (e : K ≃* K')
     (h : OppositeFixedInner K') : OppositeFixedInner K :=
-  fun p hp hp2 R hR hRinn Q =>
+  fun p hp hp2 _R hR hRinn Q =>
     oppositeFixedAt_of_map_congr e
       (h p hp hp2 _ (hR.map _) (map_congr_le_range_conj e hRinn) (Q.map e.toMonoidHom))
 

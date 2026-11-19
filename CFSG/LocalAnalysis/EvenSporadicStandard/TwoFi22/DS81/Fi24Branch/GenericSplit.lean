@@ -9,7 +9,7 @@ namespace CFSG.EvenSporadicStandard.TwoFi22.DS81.Fi24Branch
 
 open Subgroup
 
-theorem split_of_complete {G : Type*} [Group G] {J K O : Subgroup G} (hKJ : K ≤ J) (hOK : O ≤ K)
+theorem split_of_complete {G : Type*} [Group G] {J K O : Subgroup G} (_hKJ : K ≤ J) (_hOK : O ≤ K)
     (hKn : ∀ j ∈ J, ∀ k ∈ K, j * k * j⁻¹ ∈ K) (hOn : ∀ j ∈ J, ∀ o ∈ O, j * o * j⁻¹ ∈ O)
     {X : Type*} [Group X] (π : ↥K →* X) (hπ : Function.Surjective π)
     (hker : π.ker = O.subgroupOf K) (hcenter : Subgroup.center X = ⊥)

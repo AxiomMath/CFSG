@@ -55,6 +55,7 @@ theorem uc22p22u_mul_pow_of_commutator {H : Type*} [Group H] {x y c : H} (hyx : 
         rw [hch, pow_add c, pow_succ y n]
         simp only [mul_assoc]
 
+omit [Finite G] in
 theorem uc22p22u_omega1p_exponent {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Subgroup G}
     (hR : IsPGroup p R) (hcl : ⁅⁅R, R⁆, R⁆ = ⊥) : ∀ x ∈ F11.Omega1p p R, x ^ p = 1 := by
   have _ := hR
@@ -139,7 +140,7 @@ theorem uc22p22u_card_le_pow_pRank {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Y :
     (hexp : ∀ y ∈ Y, y ^ p = 1) (hcl : ⁅⁅Y, Y⁆, Y⁆ = ⊥) (hY' : Nat.card ↥⁅Y, Y⁆ ≤ p) (hne : Y ≠ ⊥) :
     Nat.card Y ≤ p ^ (2 * CFSG.Open.pRank p Y - 1) := by
   have _ := hp2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   obtain ⟨E, hEY, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank hp1 Y
   set m := CFSG.Open.pRank p Y
@@ -170,9 +171,9 @@ theorem uc22p22u_card_le_pow_pRank {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Y :
   have hZE : Z ≤ E := fun z hz =>
     hmax z hz.1 fun e he => (mem_centralizer_iff.1 hz.2 e (hEY he)).symm
   have hpZ : p ≤ Nat.card Z := by
-    haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).2 hne
+    have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).2 hne
     have hYp : IsPGroup p ↥Y := fun y => ⟨1, Subtype.ext (by simpa using hexp y y.2)⟩
-    haveI := hYp.center_nontrivial
+    have := hYp.center_nontrivial
     obtain ⟨⟨z, hzc⟩, hz1⟩ := exists_ne (1 : Subgroup.center ↥Y)
     have hzZ : (z : G) ∈ Z := ⟨z.2, mem_centralizer_iff.2 fun g hg =>
       congrArg Subtype.val (Subgroup.mem_center_iff.1 hzc ⟨g, hg⟩)⟩
@@ -256,8 +257,8 @@ theorem uc22p22u_exists_noncyclic_critical {p : ℕ} (hp : p.Prime) (hp2 : p ≠
     [Finite Q] (hQ : IsPGroup p Q) (hnc : ¬ IsCyclic Q) :
     ∃ D : Subgroup Q, D.Characteristic ∧ ¬ IsCyclic ↥D ∧ (∀ x ∈ D, x ^ p = 1) ∧
       ⁅D, (⊤ : Subgroup Q)⁆ ≤ D ⊓ centralizer (D : Set Q) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Nontrivial Q := Nontrivial.of_not_isCyclic hnc
+  have : Fact p.Prime := ⟨hp⟩
+  have : Nontrivial Q := Nontrivial.of_not_isCyclic hnc
   obtain ⟨D, hDc, hD1, hDexp, hDZ, htors, -⟩ := CFSG.SectionRank.Ccomm.supercritical_witness hp2 hQ
   refine ⟨D, hDc, fun hDcyc => ?_, hDexp, hDZ⟩
   have hdvd : Nat.card D ∣ p := by
@@ -267,7 +268,7 @@ theorem uc22p22u_exists_noncyclic_critical {p : ℕ} (hp : p.Prime) (hp2 : p ≠
     rcases (Nat.dvd_prime hp).1 hdvd with h | h
     · exact absurd (Subgroup.eq_bot_of_card_eq D h) hD1
     · exact h
-  haveI : Fact (IsPGroup p Q) := ⟨hQ⟩
+  have : Fact (IsPGroup p Q) := ⟨hQ⟩
   have hDcen : D ≤ Subgroup.center Q := CFSG.normal_subgroup_card_eq_prime_le_center D hDcard
   obtain ⟨S, -, hScard, hS⟩ := CFSG.lemma_4_5_a hp2 hnc
   have hSel : IsElemAbelian p S := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.2 hS
@@ -286,8 +287,8 @@ theorem uc22p22u_exists_noncyclic_critical {p : ℕ} (hp : p.Prime) (hp2 : p ≠
 theorem uc22p22u_exists_elemAbelian_sq {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Subgroup G}
     (hR : IsPGroup p R) (hnc : ¬ IsCyclic ↥R) :
     ∃ E : Subgroup G, E ≤ R ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p ↥R) := ⟨hR⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p ↥R) := ⟨hR⟩
   obtain ⟨S, -, hScard, hS⟩ := CFSG.lemma_4_5_a (R := ↥R) hp2 hnc
   have hSel : IsElemAbelian p S := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.2 hS
   refine ⟨S.map R.subtype, Subgroup.map_subtype_le S, hSel.map R.subtype, ?_⟩

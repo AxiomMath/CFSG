@@ -24,13 +24,13 @@ theorem forall_le_qSub15_of_card_X_eq_pow_three
     (hcard : Nat.card ↥X = p ^ 3) :
     ∀ A ∈ elemFamilyIn 2 (tSub15 M V₀ V U P), A ≤ qSub15 M V₀ V U H P := by
   intro A hA
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hp2 : p ≠ 2 := c.p_ne_two
-  haveI : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
-  haveI := c.isExtraspecial_quot hX hcard
+  have : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
+  have := c.isExtraspecial_quot hX hcard
   have hN3 : Nat.card (↥Q₀ ⧸ (iHull15 V₀ U H).subgroupOf Q₀) = p ^ 3 :=
     (c.card_quot_eq_card_X hX).trans hcard
-  haveI : Finite (↥Q₀ ⧸ (iHull15 V₀ U H).subgroupOf Q₀) := inferInstance
+  have : Finite (↥Q₀ ⧸ (iHull15 V₀ U H).subgroupOf Q₀) := inferInstance
   obtain ⟨ρ, hρact, hρker⟩ := c.exists_action_tSub15 hX
   obtain ⟨x, z, g, hH, hCz, -⟩ := hX.heis hcard
   let z' : ↥Q₀ := ⟨z, hX.le hH.z_mem⟩
@@ -84,7 +84,7 @@ theorem forall_le_qSub15_of_card_X_eq_pow_three
       index_ker_le_two_of_isExtraspecial hp2 hN3 ρA hAcomm hAsq hall
     have hI2 := c.card_iHull15_le_mul_card_inf_centralizer hX hA hAT ρ hρker hindex
     by_contra hAQ
-    obtain ⟨a, haA, haQ⟩ := SetLike.not_le_iff_exists.mp hAQ
+    obtain ⟨a, haA, haQ⟩ := IsConcreteLE.not_le_iff_exists.mp hAQ
     have haa : a * a = 1 := by
       have h := congrArg (fun y : ↥A => (y : G)) (hAsq ⟨a, haA⟩)
       simpa using h
@@ -142,7 +142,7 @@ theorem forall_le_qSub15_of_card_X_eq_pow_three
       hI (hTN hvT) hvv
     rw [hX.commutator_eq] at hfree
     have h4 := c.four_le_card_v1Sub15 hX hcard
-    haveI : Nonempty ↥(iHull15 V₀ U H ⊓ centralizer (A : Set G)) := ⟨1⟩
+    have : Nonempty ↥(iHull15 V₀ U H ⊓ centralizer (A : Set G)) := ⟨1⟩
     have hs : 0 < Nat.card ↥(iHull15 V₀ U H ⊓ centralizer (A : Set G)) := Nat.card_pos
     have h4s : 4 * Nat.card ↥(iHull15 V₀ U H ⊓ centralizer (A : Set G)) ≤
         Nat.card ↥(iHull15 V₀ U H) := by
@@ -219,7 +219,7 @@ theorem forall_le_qSub15_of_card_X_eq_pow_three
     have hindex4 : (ρ.comp (Subgroup.inclusion hAT)).ker.index ≤ 4 :=
       index_ker_le_four_of_isExtraspecial hp2 hN3 ρA hAcomm hAsq
     have hI4 := c.card_iHull15_le_mul_card_inf_centralizer hX hA hAT ρ hρker hindex4
-    haveI : Nonempty ↥(iHull15 V₀ U H ⊓ centralizer ({(a₀ : G)} : Set G)) := ⟨1⟩
+    have : Nonempty ↥(iHull15 V₀ U H ⊓ centralizer ({(a₀ : G)} : Set G)) := ⟨1⟩
     have hs₀pos : 0 < Nat.card ↥(iHull15 V₀ U H ⊓ centralizer ({(a₀ : G)} : Set G)) :=
       Nat.card_pos
     have hI16 : Nat.card ↥(iHull15 V₀ U H) ≤ 16 := by

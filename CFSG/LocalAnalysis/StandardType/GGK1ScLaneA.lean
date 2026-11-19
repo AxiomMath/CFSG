@@ -35,9 +35,9 @@ theorem largeEvenLabelAll_centerPrime_clA
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeLinear] at hQ ⊢
     obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
     refine ⟨K, i1, i2, hK, hQR, ?_⟩
-    letI := i1
-    letI := i2
-    haveI : CharP K 2 := charP_two_of_card hK
+    let := i1
+    let := i2
+    have : CharP K 2 := charP_two_of_card hK
     have hpd : ¬ (p ∣ r + 1 ∧ p ∣ Nat.card K - 1) := by
       rw [hK]
       intro h
@@ -48,8 +48,8 @@ theorem largeEvenLabelAll_centerPrime_clA
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeUnitary] at hQ ⊢
     obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
     refine ⟨K, i1, i2, hK, hQR, ?_⟩
-    letI := i1
-    letI := i2
+    let := i1
+    let := i2
     have hdq : (r + 1, 2 ^ n) ≠ (3, 2) := by
       intro he
       have h1 : r + 1 = 3 := congrArg Prod.fst he
@@ -68,9 +68,9 @@ theorem largeEvenLabelAll_centerPrime_clA
     dsimp only [LargeEvenRecipeLinear] at hQ ⊢
     obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
     refine ⟨K, i1, i2, hK, hQR, ?_⟩
-    letI := i1
-    letI := i2
-    haveI : CharP K 2 := charP_two_of_card hK
+    let := i1
+    let := i2
+    have : CharP K 2 := charP_two_of_card hK
     have hpd : ¬ (p ∣ 4 ∧ p ∣ Nat.card K - 1) :=
       fun h => ggK1ScLane_not_dvd_four hp hp2 h.1
     exact ggCenterPrime_linear_gcd (d := 4) (by norm_num) hp hp2 hpd
@@ -82,11 +82,11 @@ theorem largeEvenLabelAll_centerPrime_clA
       dsimp only [LargeEvenRecipeLinear] at hQ ⊢
       obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
       refine ⟨K, i1, i2, hK, hQR, ?_⟩
-      letI := i1
-      letI := i2
+      let := i1
+      let := i2
       have hK' : Nat.card K = 2 ^ (2 * n) := by
         rw [hK, ← pow_mul, Nat.mul_comm]
-      haveI : CharP K 2 := charP_two_of_card hK'
+      have : CharP K 2 := charP_two_of_card hK'
       have hpd : ¬ (p ∣ 2 ∧ p ∣ Nat.card K - 1) :=
         fun h => ggK1ScLane_not_dvd_two hp hp2 h.1
       exact ggCenterPrime_linear_gcd (d := 2) (by norm_num) hp hp2 hpd
@@ -95,8 +95,8 @@ theorem largeEvenLabelAll_centerPrime_clA
       dsimp only [LargeEvenRecipeUnitary] at hQ ⊢
       obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
       refine ⟨K, i1, i2, hK, hQR, ?_⟩
-      letI := i1
-      letI := i2
+      let := i1
+      let := i2
       have hdq : (4, 2 ^ n) ≠ (3, 2) :=
         fun he => absurd (congrArg Prod.fst he) (by norm_num)
       have hpd : ¬ (p ∣ 4 ∧ p ∣ 2 ^ n + 1) :=

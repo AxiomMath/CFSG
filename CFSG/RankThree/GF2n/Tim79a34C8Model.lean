@@ -63,7 +63,7 @@ theorem c8_exists_common_dual {n : ℕ} {F : Type} [Field F] [CharP F 2] (hF : N
   · exact ⟨z₁, haz₁, hxz₁, h1⟩
 
 theorem c8_no_const_quad {n : ℕ} {F : Type} [Field F] [CharP F 2] (hn : 3 ≤ n)
-    (hF : Nat.card F = 2) {a : Fin n ⊕ Fin n → F} (ha : a ≠ 0) (s : (Fin n ⊕ Fin n → F) → F)
+    (_hF : Nat.card F = 2) {a : Fin n ⊕ Fin n → F} (ha : a ≠ 0) (s : (Fin n ⊕ Fin n → F) → F)
     (c : F)
     (hs : ∀ x y, spForm a x = 0 → spForm a y = 0 → s (x + y) = s x + s y + spForm x y)
     (hconst : ∀ x, spForm a x = 0 → (∀ l : F, x ≠ l • a) → s x = c) : False := by
@@ -133,6 +133,7 @@ section Helpers
 
 variable {n : ℕ} {F : Type} [Field F] [CharP F 2]
 
+omit [CharP F 2] in
 theorem c8_cong_mulVec {a x y : Fin n ⊕ Fin n → F}
     (M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) (hM : M *ᵥ a = a) (h : C8Cong a x y) :
     C8Cong a (M *ᵥ x) (M *ᵥ y) := by
@@ -140,6 +141,7 @@ theorem c8_cong_mulVec {a x y : Fin n ⊕ Fin n → F}
   refine ⟨c, ?_⟩
   rw [hc, Matrix.mulVec_add, Matrix.mulVec_smul, hM]
 
+omit [CharP F 2] in
 theorem c8_gam_apply (x y u : Fin n ⊕ Fin n → F) :
     (spTrans x 1 * spTrans y 1) *ᵥ u =
       u + spForm y u • y + (spForm x u + spForm y u * spForm x y) • x := by
@@ -152,11 +154,13 @@ theorem c8_gam_x {x y : Fin n ⊕ Fin n → F} (hxy : spForm x y = 1) :
   rw [c8_gam_apply, hyx, hxy, spForm_self]
   linear_combination (norm := module) vec_add_self x
 
+omit [CharP F 2] in
 theorem c8_gam_y {x y : Fin n ⊕ Fin n → F} (hxy : spForm x y = 1) :
     (spTrans x 1 * spTrans y 1) *ᵥ y = x + y := by
   rw [c8_gam_apply, spForm_self, hxy]
   module
 
+omit [CharP F 2] in
 theorem c8_gam_a {a x y : Fin n ⊕ Fin n → F} (hax : spForm a x = 0) (hay : spForm a y = 0) :
     (spTrans x 1 * spTrans y 1) *ᵥ a = a := by
   rw [c8_gam_apply, spForm_eq_zero_comm hax, spForm_eq_zero_comm hay]
@@ -174,13 +178,11 @@ theorem c8_cycle {x y : Fin n ⊕ Fin n → F} (hxy : spForm x y = 1) (p : Fin n
   set q := (spTrans x 1 * spTrans y 1) *ᵥ p with hqdef
   have e1 : spForm y q = spForm x p := by
     rw [hq]
-    simp only [spForm_add_right, spForm_smul_right', spForm_self, hyx, mul_zero, zero_add,
-      mul_one, add_zero]
+    simp only [spForm_add_right, spForm_smul_right', spForm_self, hyx, mul_zero, mul_one, add_zero]
     linear_combination (spForm y p) * h2
   have e2 : spForm x q + spForm y q * spForm x y = spForm y p := by
     rw [e1, hxy, mul_one, hq]
-    simp only [spForm_add_right, spForm_smul_right', spForm_self, hxy, mul_zero, zero_add,
-      mul_one, add_zero]
+    simp only [spForm_add_right, spForm_smul_right', spForm_self, hxy, mul_zero, mul_one, add_zero]
     linear_combination (spForm x p) * h2
   rw [c8_gam_apply x y q, e2, e1]
   linear_combination (norm := module) vec_add_self q
@@ -248,7 +250,7 @@ end Helpers
 theorem c8_schur {n : ℕ} {F : Type} [Field F] [CharP F 2] (hn : 3 ≤ n)
     (hF : Nat.card F = 2)
     {a : Fin n ⊕ Fin n → F} (ha : a ≠ 0) (φ : (Fin n ⊕ Fin n → F) → (Fin n ⊕ Fin n → F))
-    (hφE : ∀ u, spForm a u = 0 → spForm a (φ u) = 0)
+    (_hφE : ∀ u, spForm a u = 0 → spForm a (φ u) = 0)
     (hφadd : ∀ u u', spForm a u = 0 → spForm a u' = 0 → C8Cong a (φ (u + u')) (φ u + φ u'))
     (hφa : C8Cong a (φ a) 0)
     (hφγ : ∀ x y, spForm a x = 0 → spForm a y = 0 → spForm x y = 1 → ∀ u, spForm a u = 0 →
@@ -283,7 +285,7 @@ theorem c8_schur {n : ℕ} {F : Type} [Field F] [CharP F 2] (hn : 3 ≤ n)
   by_cases hcase : ∀ u, spForm a u = 0 → C8Cong a (φ u) 0
   · exact Or.inl hcase
   · right
-    push_neg at hcase
+    push Not at hcase
     obtain ⟨x₀, hx₀a, hx₀⟩ := hcase
     have hx₀F : ∀ c : F, x₀ ≠ c • a := fun c h => hx₀ (by rw [h]; exact hφc c)
     have hx₀φ : C8Cong a (φ x₀) x₀ := (hdich x₀ hx₀a hx₀F).resolve_left hx₀
@@ -291,7 +293,7 @@ theorem c8_schur {n : ℕ} {F : Type} [Field F] [CharP F 2] (hn : 3 ≤ n)
     by_cases hu : ∃ c : F, u = c • a
     · obtain ⟨c, rfl⟩ := hu
       exact C8Cong.trans (hφc c) (C8Cong.symm (Exists.intro c (by rw [zero_add])))
-    · push_neg at hu
+    · push Not at hu
       rcases hdich u hua hu with h0 | h1
       · exfalso
         have hz0 : spForm a (x₀ + u) = 0 := by
@@ -315,7 +317,7 @@ theorem c8_schur {n : ℕ} {F : Type} [Field F] [CharP F 2] (hn : 3 ≤ n)
           have hx00 : C8Cong a x₀ 0 := C8Cong.trans (C8Cong.symm (C8Cong.trans hφu h')) h0
           obtain ⟨d, hd⟩ := hx00
           exact hx₀F d (by rw [hd, zero_add])
-        · push_neg at hzF
+        · push Not at hzF
           rcases hdich (x₀ + u) hz0 hzF with hz1 | hz2
           · have hx00 : C8Cong a x₀ 0 := C8Cong.trans (C8Cong.symm hφz) hz1
             obtain ⟨d, hd⟩ := hx00
@@ -341,8 +343,7 @@ private theorem c8_conj_transvection {n : ℕ} {F : Type} [Field F] [CharP F 2]
   have hyx : spForm y x = -1 := by rw [spForm_comm, hxy]
   refine Matrix.ext_iff_mulVec.2 fun v => ?_
   rw [← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec]
-  simp only [spTrans_mulVec, one_mul, spForm_add_left, spForm_add_right, spForm_smul_left',
-    spForm_smul_right', spForm_self, hxy, hyx]
+  simp only [spTrans_mulVec, one_mul, spForm_add_left, spForm_add_right, spForm_smul_right', spForm_self, hxy, hyx]
   linear_combination (norm := module) (spForm x v + spForm y v) • two_smul_vec_eq_zero x
 
 theorem c8_commutator_lift {n : ℕ} {F : Type} [Field F] [CharP F 2] {a x y : Fin n ⊕ Fin n → F}

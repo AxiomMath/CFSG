@@ -30,6 +30,7 @@ private lemma filter_apply_ne_of_fix {α : Ω} (hα : σ α = α)
   simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_erase]
   exact ⟨fun hx => ⟨fun h => hx (h ▸ hα), trivial⟩, fun hx => hfix x hx.1⟩
 
+omit [Fintype Ω] [DecidableEq Ω] in
 private lemma apply_apply_eq_of_mem_centralizer {g : Perm Ω}
     (hg : g ∈ Subgroup.centralizer {σ}) (a : Ω) : g (σ a) = σ (g a) := by
   have hcomm := Subgroup.mem_centralizer_singleton_iff.mp hg
@@ -37,6 +38,7 @@ private lemma apply_apply_eq_of_mem_centralizer {g : Perm Ω}
     _ = (σ * g) a := by rw [hcomm]
     _ = σ (g a) := rfl
 
+omit [Fintype Ω] [DecidableEq Ω] in
 private lemma isMultiplyPretransitive_two_of_transitive {K : Subgroup (Perm Ω)}
     (htrans : ∀ a b : Ω, ∃ g ∈ K, g a = b)
     (hstab : ∀ a b d : Ω, b ≠ a → d ≠ a → ∃ g ∈ K, g a = a ∧ g b = d) :

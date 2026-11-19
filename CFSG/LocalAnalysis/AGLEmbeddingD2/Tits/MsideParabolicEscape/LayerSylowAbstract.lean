@@ -71,7 +71,7 @@ theorem exists_sylow_ge {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime
   have hX' : IsPGroup p (X.subgroupOf Y) :=
     hX.of_equiv (Subgroup.subgroupOfEquivOfLe hXY).symm
   obtain ⟨Q, hQ⟩ := hX'.exists_le_sylow
-  refine ⟨(Q : Subgroup ↥Y).map Y.subtype, ?_, ?_, (Q.isPGroup').map _, ?_⟩
+  refine ⟨(Q : Subgroup ↥Y).map Y.subtype, ?_, ?_, (Q.isPGroup).map _, ?_⟩
   · intro e he
     exact ⟨⟨e, hXY he⟩, hQ (show (⟨e, hXY he⟩ : ↥Y) ∈ X.subgroupOf Y from he), rfl⟩
   · rintro _ ⟨y, -, rfl⟩
@@ -94,13 +94,13 @@ theorem sylow_mod_of_maximal {M : Type} [Group M] [Finite M] (D L U A : Subgroup
         A ≤ Subgroup.normalizer (P : Set M)) :
     ¬ 2 ∣ (((U.map (QuotientGroup.mk' D)) ⊓ (L.map (QuotientGroup.mk' D))).subgroupOf
       (L.map (QuotientGroup.mk' D))).index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : M →* M ⧸ D := QuotientGroup.mk' D with hπ
   have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective D
   have hker : π.ker = D := QuotientGroup.ker_mk' D
   set Ub : Subgroup (M ⧸ D) := U.map π with hUb
   set Lb : Subgroup (M ⧸ D) := L.map π with hLb
-  haveI : Lb.Normal := Subgroup.Normal.map ‹L.Normal› π hsurj
+  have : Lb.Normal := Subgroup.Normal.map ‹L.Normal› π hsurj
   intro heven
   have hUb2 : IsPGroup 2 Ub := hU2.map π
   obtain ⟨Tb, hUbT, hTbS, hTb2, hTbidx⟩ := exists_sylow_ge (p := 2) hUb2 (le_sup_left : Ub ≤ Ub ⊔ Lb)
@@ -155,7 +155,7 @@ theorem sylow_mod_of_maximal {M : Type} [Group M] [Finite M] (D L U A : Subgroup
   have hUSh : U ≤ Sh := fun u hu => hUbT ⟨u, hu, rfl⟩
   have hSh3 : ¬ 3 ∣ Nat.card Sh := by
     intro h3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥Sh) 3 h3
     have hx3 : x ^ 3 = 1 := hx ▸ pow_orderOf_eq_one x
     have hπx : π (x : M) ∈ Tb := x.2

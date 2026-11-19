@@ -39,8 +39,8 @@ theorem three_subgroup_mod (N : Subgroup G) (x y z : G) (hx : ∀ n ∈ N, x * n
   rwa [e2] at h8
 
 theorem commutator_eq_one_on {E : Type*} [AddCommGroup E] (A B : E ≃+ E) (V W : AddSubgroup E)
-    (hAW : ∀ w ∈ W, A w ∈ W) (hAW' : ∀ w ∈ W, A.symm w ∈ W)
-    (hBW : ∀ w ∈ W, B w ∈ W) (hBW' : ∀ w ∈ W, B.symm w ∈ W)
+    (_hAW : ∀ w ∈ W, A w ∈ W) (hAW' : ∀ w ∈ W, A.symm w ∈ W)
+    (_hBW : ∀ w ∈ W, B w ∈ W) (hBW' : ∀ w ∈ W, B.symm w ∈ W)
     (hAV : ∀ v ∈ V, A v = v) (hBV : ∀ v ∈ V, B v = v)
     (hAd : ∀ w ∈ W, A w - w ∈ V) (hBd : ∀ w ∈ W, B w - w ∈ V) (w : E) (hw : w ∈ W) :
     A (B (A.symm (B.symm w))) = w := by
@@ -246,11 +246,11 @@ theorem exists_sylow_two_of_normalizer_le {H T : Subgroup X} (hT : IsPGroup 2 T)
     (hmax : ∀ S : Subgroup X, S ≤ H → IsPGroup 2 S → T ≤ S → S ≤ T)
     (hN : Subgroup.normalizer (T : Set X) ≤ H) :
     ∃ P : Sylow 2 X, P.toSubgroup = T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hTP⟩ := hT.exists_le_sylow
   refine ⟨P, le_antisymm ?_ hTP⟩
   by_contra hne
-  haveI : Group.IsNilpotent ↥P.toSubgroup := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥P.toSubgroup := P.isPGroup.isNilpotent
   have hNC : NormalizerCondition ↥P.toSubgroup := Group.normalizerCondition_of_isNilpotent
   have hK : T.subgroupOf P.toSubgroup < ⊤ := by
     rw [lt_top_iff_ne_top]
@@ -261,7 +261,7 @@ theorem exists_sylow_two_of_normalizer_le {H T : Subgroup X} (hT : IsPGroup 2 T)
       rw [htop]
       exact Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp hmem
-  obtain ⟨y, hyN, hyK⟩ := SetLike.exists_of_lt (hNC _ hK)
+  obtain ⟨y, hyN, hyK⟩ := _root_.IsConcreteLE.exists_of_lt (hNC _ hK)
   have hyT : (y : X) ∉ T := fun h => hyK (Subgroup.mem_subgroupOf.mpr h)
   have hyP : (y : X) ∈ P.toSubgroup := y.2
   have hyNorm : (y : X) ∈ Subgroup.normalizer (T : Set X) := by
@@ -282,7 +282,7 @@ theorem exists_sylow_two_of_normalizer_le {H T : Subgroup X} (hT : IsPGroup 2 T)
     sup_le hTP (Subgroup.zpowers_le.mpr hyP)
   have hSH : T ⊔ Subgroup.zpowers (y : X) ≤ H :=
     sup_le hTH (Subgroup.zpowers_le.mpr hyH)
-  have hpS : IsPGroup 2 ↥(T ⊔ Subgroup.zpowers (y : X)) := P.isPGroup'.to_le hSP
+  have hpS : IsPGroup 2 ↥(T ⊔ Subgroup.zpowers (y : X)) := P.isPGroup.to_le hSP
   have hSle : T ⊔ Subgroup.zpowers (y : X) ≤ T :=
     hmax _ hSH hpS le_sup_left
   have hyS : (y : X) ∈ T ⊔ Subgroup.zpowers (y : X) :=

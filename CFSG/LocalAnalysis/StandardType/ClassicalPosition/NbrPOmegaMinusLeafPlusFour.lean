@@ -34,7 +34,7 @@ private theorem nbrpmmx_stdSylow_eq_upperUnipotent {F : Type*} [Field F] :
 private theorem nbrpmmx_eq_top_of_stdSylow_le {F : Type*} [Field F]
     {A : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)} (hperf : commutator ↥A = ⊤)
     (hU : CFSG.Quasithin.SL2Sylow.stdSylow F ≤ A) : A = ⊤ := by
-  haveI : Group.IsPerfect ↥A := ⟨hperf⟩
+  have : Group.IsPerfect ↥A := ⟨hperf⟩
   by_cases hle : A ≤ CFSG.Quasithin.SL2Sylow.borel F
   · exfalso
     have hne1 : CFSG.Quasithin.SL2Sylow.upperElt (1 : F) ≠ 1 := by
@@ -43,11 +43,11 @@ private theorem nbrpmmx_eq_top_of_stdSylow_le {F : Type*} [Field F]
         apply CFSG.Quasithin.SL2Sylow.upperElt_injective
         rw [h, CFSG.Quasithin.SL2Sylow.upperElt_zero]
       exact one_ne_zero h0
-    haveI : Nontrivial ↥A :=
+    have : Nontrivial ↥A :=
       (Subgroup.nontrivial_iff_exists_ne_one A).mpr
         ⟨CFSG.Quasithin.SL2Sylow.upperElt (1 : F),
           hU (CFSG.Quasithin.SL2Sylow.upperElt_mem_stdSylow 1), hne1⟩
-    haveI : Group.IsSolvable ↥A :=
+    have : Group.IsSolvable ↥A :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
         (Subgroup.inclusion_injective hle)
     exact Group.IsPerfect.not_isSolvable ↥A inferInstance
@@ -74,7 +74,7 @@ private theorem nbrpmmx_eq_top_of_conj_stdSylow_le {F : Type*} [Field F]
     {A : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)} (hperf : commutator ↥A = ⊤)
     (v : Matrix.SpecialLinearGroup (Fin 2) F)
     (hU : ∀ x ∈ CFSG.Quasithin.SL2Sylow.stdSylow F, v * x * v⁻¹ ∈ A) : A = ⊤ := by
-  haveI : Group.IsPerfect ↥A := ⟨hperf⟩
+  have : Group.IsPerfect ↥A := ⟨hperf⟩
   let e : Matrix.SpecialLinearGroup (Fin 2) F ≃* Matrix.SpecialLinearGroup (Fin 2) F :=
     MulAut.conj v⁻¹
   have hU1 : CFSG.Quasithin.SL2Sylow.stdSylow F ≤ A.map e.toMonoidHom := by
@@ -83,7 +83,7 @@ private theorem nbrpmmx_eq_top_of_conj_stdSylow_le {F : Type*} [Field F]
     show (MulAut.conj v⁻¹) (v * x * v⁻¹) = x
     rw [MulAut.conj_apply]
     group
-  haveI : Group.IsPerfect ↥(A.map e.toMonoidHom) :=
+  have : Group.IsPerfect ↥(A.map e.toMonoidHom) :=
     Group.IsPerfect.map (H := A) (f := e.toMonoidHom)
   have hmap : A.map e.toMonoidHom = ⊤ :=
     nbrpmmx_eq_top_of_stdSylow_le (A := A.map e.toMonoidHom)
@@ -112,7 +112,7 @@ local notation "rk" f:max e:max =>
   Module.finrank (GaloisField 2 f) (LinearMap.range (Matrix.toLin' e))
 
 
-theorem nbrpmmx_plus_four (n f : ℕ) (hf : 1 ≤ f) (ι : (ggU .PSL 2 f).K →* UK n f)
+theorem nbrpmmx_plus_four (n f : ℕ) (_hf : 1 ≤ f) (ι : (ggU .PSL 2 f).K →* UK n f)
     (hιcent : ∀ y, ι y ∈ Subgroup.center (UK n f) → y ∈ Subgroup.center (ggU .PSL 2 f).K)
     (β : Fin (ggU .PSL 2 f).D.rank → ℤ) (hβ : β ∈ (ggU .PSL 2 f).D.roots)
     (u : (ggU .PSL 2 f).K) (J' : Subgroup (UK n f)) (hperf : commutator ↥J' = ⊤)
@@ -136,10 +136,10 @@ theorem nbrpmmx_plus_four (n f : ℕ) (hf : 1 ≤ f) (ι : (ggU .PSL 2 f).K →*
     exact Subgroup.mem_bot.mp hyc
   have hHperf : commutator ↥H = ⊤ := by
     have e : ↥H ≃* ↥(H.map ι) := Subgroup.equivMapOfInjective H ι hιinj
-    haveI : Group.IsPerfect ↥(H.map ι) := by
+    have : Group.IsPerfect ↥(H.map ι) := by
       rw [hmap]
       exact ⟨hperf⟩
-    haveI : Group.IsPerfect ↥H :=
+    have : Group.IsPerfect ↥H :=
       Group.IsPerfect.ofSurjective (f := (e.symm : ↥(H.map ι) →* ↥H))
         (EquivLike.surjective e.symm)
     exact Group.IsPerfect.commutator_eq_top (G := ↥H)

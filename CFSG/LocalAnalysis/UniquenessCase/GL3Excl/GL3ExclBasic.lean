@@ -11,7 +11,7 @@ open Matrix CFSG.RepresentationTheory
 open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 open CFSG.Open (StatedSL)
 
-@[expose] def GL3Excl : Prop :=
+@[expose] def _root_.CFSG.LocalAnalysis.UniquenessCase.GL3Excl : Prop :=
   ∀ (r p : ℕ) [Fact r.Prime], (r = 7 ∧ p = 3 ∨ r = 31 ∧ p = 5) →
     ∀ W H : Subgroup (GL (Fin 3) (ZMod r)), IsIrreducibleMatrixRep W.subtype → H ≤ W →
       IsStronglyPEmbedded p (H.subgroupOf W) → ¬ r ∣ Nat.card H →
@@ -89,7 +89,7 @@ theorem dvd_card_of_statedSL_le {r : ℕ} [Fact r.Prime] {W H : Subgroup (GL (Fi
     rw [hu, transvection, add_mulVec, one_mulVec, single_mulVec, Pi.single_eq_of_ne h01.symm,
       mul_zero]
     funext m
-    simp [Function.update_apply]
+    simp
   have huH : u ∈ H := hstab u huW (by rw [hfix]; exact Submodule.mem_span_singleton_self _)
   have hdvd := Subgroup.orderOf_dvd_natCard H huH
   rwa [orderOf_eq_prime hur hu1] at hdvd

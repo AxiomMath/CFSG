@@ -76,8 +76,8 @@ theorem tcCard_le_of_perfect_action {X : Type} [Group X] [Finite X] {p : ℕ} (h
     (hn : B ≤ Subgroup.normalizer (J : Set X)) {m e : ℕ}
     (hm : Nat.card (MulAut (↥J ⧸ Subgroup.center ↥J)) = m) (he : ∀ k, p ^ k ∣ m → k ≤ e) :
     Nat.card B ≤ Nat.card ↥(B ⊓ Subgroup.centralizer (J : Set X)) * p ^ e := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect ↥J := hJ
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥J := hJ
   set ψ : ↥B →* MulAut (↥J ⧸ Subgroup.center ↥J) :=
     (actCenterQuot J).comp (Subgroup.inclusion hn) with hψ
   have hker : ψ.ker ≤ (B ⊓ Subgroup.centralizer (J : Set X)).subgroupOf B := by

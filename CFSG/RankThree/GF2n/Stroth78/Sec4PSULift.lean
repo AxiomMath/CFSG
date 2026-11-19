@@ -24,7 +24,7 @@ namespace Sec4PSU
 
 theorem exists_lift_oddOrderClosure {X : Type*} [Group X] [Finite X]
     (hZ : Odd (Nat.card (Subgroup.center X)))
-    {Y : Subgroup X} {d : X} (hdY : d ∈ Y) (hd : d * d = 1)
+    {Y : Subgroup X} {d : X} (_hdY : d ∈ Y) (hd : d * d = 1)
     {W₁ : Subgroup (X ⧸ Subgroup.center X)}
     (hW₁ : W₁ ≤ ⁅⁅Y.map (QuotientGroup.mk' (Subgroup.center X)) ⊓
         Subgroup.centralizer {QuotientGroup.mk' (Subgroup.center X) d},

@@ -23,7 +23,7 @@ theorem uc22ine229k_exists_kernel {M Y : Subgroup G} (hY : IsSubnormal Y M) {p :
       Nat.card B) :
     ∃ B₀ : Subgroup G, B₀ ≤ B ∧ IsElemAbelian p B₀ ∧ Nat.card B₀ = p ^ 2 ∧
       ∀ b ∈ B₀, ∀ y ∈ Y, b * y * b⁻¹ * y⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let BN : Subgroup ↥(normalizer (Y : Set G)) := B.subgroupOf (normalizer (Y : Set G))
   let φ : ↥BN →* MulAut (Bar2 Y) := (UC6S846.rhoL Y).comp BN.subtype
   have hφrange : φ.range = BN.map (UC6S846.rhoL Y) := by
@@ -66,7 +66,7 @@ theorem uc22ine229k_card_le_of_not_dvd_simple (hOut : RankThreeTheoremC.KFactOut
     [Group K] [Finite K] (hs : IsSimpleGroup K) (hnab : ∃ a b : K, a * b ≠ b * a)
     (hcat : IsCatalogGroup K) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpK : ¬ p ∣ Nat.card K)
     {R : Subgroup (MulAut K)} (hR : IsElemAbelian p R) : Nat.card R ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrank : CFSG.Open.pRank p (⊤ : Subgroup K) ≤ 0 := by
     obtain ⟨E, -, -, hE⟩ := CFSG.SectionRank.exists_pRank hp.one_lt (⊤ : Subgroup K)
     by_contra hne
@@ -109,8 +109,8 @@ private theorem exists_inner_index_le_three {X : Type} [Group X] [Finite X] {n :
     ∃ R₀ : Subgroup (MulAut X), R₀ ≤ R ∧ R₀ ≤ (MulAut.conj : X →* MulAut X).range ∧
       Nat.card R ≤ 3 * Nat.card R₀ := by
   obtain ⟨N, hNn, -, hcyc, -, hev⟩ := UCK.u3OutShape X n hX
-  haveI := hNn
-  haveI : IsCyclic (MulAut X ⧸ N) := hcyc
+  have := hNn
+  have : IsCyclic (MulAut X ⧸ N) := hcyc
   let f : ↥R →* MulAut X ⧸ N := (QuotientGroup.mk' N).comp R.subtype
   have hpow : ∀ r : ↥R, r ^ 3 = 1 := fun r => Subtype.ext (by simpa using hR.2 r.1 r.2)
   have hrange : Nat.card f.range ≤ 3 := by
@@ -142,7 +142,7 @@ theorem uc22ine229k_card_le_of_even {X : Type} [Group X] [Finite X] {n : ℕ} (h
 theorem uc22ine229k_card_le_of_even_not_dvd {X : Type} [Group X] [Finite X] {n : ℕ}
     (hX : IsSU3 X n) (hn : Even n) (h3 : ¬ 3 ∣ Nat.card X) {R : Subgroup (MulAut X)}
     (hR : IsElemAbelian 3 R) : Nat.card R ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R₀, hR₀R, hR₀inn, hcard⟩ := exists_inner_index_le_three hX hn hR
   have hR₀1 : Nat.card R₀ = 1 := by
     obtain ⟨k, hk⟩ := (hR.mono hR₀R).isPGroup.exists_card_eq
@@ -161,7 +161,7 @@ theorem uc22ine229k_card_map_le_nine (hKA : UCK.U3ThreeRank) {M Y : Subgroup G}
     (hOp : F10.OpRes 3 M = M) {A : Subgroup G} (hAM : A ≤ M) (hAel : IsElemAbelian 3 A) :
     Nat.card ((A.subgroupOf (normalizer (Y : Set G))).map (UC6S846.rhoL Y)) ≤ 3 ^ 2 := by
   obtain ⟨Nsub, hNn, -, hcyc, hR⟩ := hKA (Bar2 Y) n hX
-  haveI := hNn
+  have := hNn
   have hgen := UC6S846.closure_pPrime_map (UC6S846.rhoL Y) _
     (UC6S846.closure_pPrime_subgroupOf hN (p := 3) hOp)
   refine hR _ ?_ ((hAel.subgroupOf _).map _)

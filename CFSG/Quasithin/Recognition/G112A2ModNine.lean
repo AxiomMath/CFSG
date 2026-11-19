@@ -174,8 +174,7 @@ theorem nine_clause_semi {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite
   exact nine_clause_of_model Γ ψ hV hQ hsurj ht2 hT' hv₁ hr
 
 theorem g112A2OpenConcl9_holds : G112A2OpenConcl9 := by
-  intro V _ _ _ B Γ v₁ W X X₀ hH hN
-  intro t ht hr _ _
+  intro V _ _ _ B Γ v₁ W X X₀ hH hN t ht hr _ _
   have ht2 : t * t = 1 := hH.X_sq t ht
   have htΓ : t ∈ Γ := hH.X_le ht
   have hv₁ : v₁ ≠ 0 := hH.point

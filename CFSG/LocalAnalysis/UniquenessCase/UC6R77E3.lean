@@ -37,7 +37,7 @@ theorem exists_card_le_pow_mul_card_inf_centralizer {p r : ℕ} [hr : Fact r.Pri
     (G := P) hle hMn (fun x hx y hy => commutator_mem_commutator hx hy)
     (fun x hx => by rw [hexp x hx]; exact one_mem _)
     hPX (fun g hg => P65N2.normalizer_le_normalizer_commutator X (hPX hg))
-  haveI : Finite W := Module.finite_of_finite (ZMod r)
+  have : Finite W := Module.finite_of_finite (ZMod r)
   refine ⟨Module.finrank (ZMod r) W, ?_, ?_⟩
   · rw [hs.card_eq hle, Module.natCard_eq_pow_finrank (K := ZMod r) (V := W), Nat.card_zmod]
   have hrK : ((p : ℕ) : ZMod r) ≠ 0 := by
@@ -60,7 +60,7 @@ theorem exists_card_le_pow_mul_card_inf_centralizer {p r : ℕ} [hr : Fact r.Pri
     have h3 : ρ a (π y) = π y := LinearEquiv.congr_fun h1 (π y)
     rw [h3] at h2
     exact h2
-  haveI : Finite ((P65N2.actEquiv ρ).comp (inclusion (le_refl P))).range :=
+  have : Finite ((P65N2.actEquiv ρ).comp (inclusion (le_refl P))).range :=
     Finite.of_surjective _ (MonoidHom.rangeRestrict_surjective _)
   refine P65N2.card_le_of_range (P65N2.actEquiv ρ) le_rfl hker ?_
   refine CFSG.RankThree.PartOne.LIT.card_le_pow_finrank_sub hp hrK _ ?_ ?_
@@ -112,6 +112,7 @@ end Bounds
 
 section Normalizers
 
+omit [Finite G] in
 theorem centralizer_le_normalizer_zpowers (w : G) :
     centralizer ({w} : Set G) ≤ normalizer (zpowers w : Set G) := by
   have h : centralizer ({w} : Set G) = centralizer (zpowers w : Set G) := by
@@ -119,6 +120,7 @@ theorem centralizer_le_normalizer_zpowers (w : G) :
   rw [h]
   exact centralizer_le_normalizer _
 
+omit [Finite G] in
 theorem mem_normalizer_sup {A B : Subgroup G} {g : G} (hA : g ∈ normalizer (A : Set G))
     (hB : g ∈ normalizer (B : Set G)) : g ∈ normalizer ((A ⊔ B : Subgroup G) : Set G) := by
   rw [mem_normalizer_iff_map_conj_eq] at hA hB ⊢
@@ -150,7 +152,7 @@ theorem rankThreeGamma_le_of_forall_normalizer_zpowers_le {p r : ℕ} [Fact p.Pr
     (hA : IsPGroup r A) {c : G} (hcA : c ∈ centralizer (A : Set G)) (hc : orderOf c = p)
     (h : ∀ y ∈ A, y ≠ 1 → normalizer (zpowers y : Set G) ≤ M) : rankThreeGamma 1 r A ≤ M := by
   refine hM.rankThreeGamma_one_le hA fun L hLA hLcard => ?_
-  haveI : IsCyclic L := isCyclic_of_prime_card (p := r) hLcard
+  have : IsCyclic L := isCyclic_of_prime_card (p := r) hLcard
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := L)
   have hgo : orderOf (g : G) = r := by
     rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers hg, hLcard]
@@ -176,8 +178,8 @@ theorem exists_hyperplane_centralizes_noncentral {p : ℕ} [hp : Fact p.Prime] {
     ∃ H : Subgroup G, H ≤ P ∧ Nat.card H * p = Nat.card P ∧
       ∃ u ∈ X, (∀ h ∈ H, h * u = u * h) ∧ ∃ y ∈ X, u * y ≠ y * u := by
   classical
-  haveI : CFSG.IsElementaryAbelian p P := hPel.isElementaryAbelian
-  haveI : Nontrivial P := by
+  have : CFSG.IsElementaryAbelian p P := hPel.isElementaryAbelian
+  have : Nontrivial P := by
     obtain ⟨x, hx, hx1⟩ := (bot_or_exists_ne_one P).resolve_left hP1
     exact ⟨⟨⟨x, hx⟩, 1, fun h => hx1 (congrArg Subtype.val h)⟩⟩
   let _ : MulDistribMulAction P X := Subgroup.conjMulDistribMulActionOfLeNormalizer P X hPX
@@ -210,7 +212,7 @@ variable {r : ℕ} [hr : Fact r.Prime] {E : Subgroup G}
 
 theorem nonempty_mulAut_mulEquiv_GL_pow (hE : IsElemAbelian r E) {n : ℕ}
     (hEcard : Nat.card E = r ^ n) : Nonempty (MulAut E ≃* GL (Fin n) (ZMod r)) := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   obtain ⟨φ⟩ := CFSG.Sporadic.RuSchreier.ru_nonempty_mulEquiv_of_elementary (p := r)
     (fun a b : E => mul_comm' a b) (fun a => Subtype.ext (by simpa using hE.2 a a.2)) hEcard
   exact ⟨(MulAut.congr φ).trans (CFSG.Sporadic.RuSchreier.ruMulAutEquivGL n)⟩
@@ -235,7 +237,7 @@ theorem isCyclic_of_mulAut_three {p : ℕ} [Fact p.Prime] (hpr : p ≠ r) (hpr1 
     (hE : IsElemAbelian r E) (hEcard : Nat.card E = r ^ 3) {B : Subgroup (MulAut E)}
     (hB : IsPGroup p B) : IsCyclic B := by
   obtain ⟨e⟩ := nonempty_mulAut_mulEquiv_GL_pow hE hEcard
-  haveI := CFSG.SectionRank.OddCover.isCyclic_of_isPGroup_GL_three (k := ZMod r) (r := p)
+  have := CFSG.SectionRank.OddCover.isCyclic_of_isPGroup_GL_three (k := ZMod r) (r := p)
     (by
       rw [Nat.card_zmod]
       exact fun h => hpr ((Nat.prime_dvd_prime_iff_eq Fact.out hr.out).1 h))

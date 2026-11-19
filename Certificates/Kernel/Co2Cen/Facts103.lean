@@ -23,9 +23,9 @@ theorem scan_none {CF : ℕ → ℕ} {T k : ℕ}
   have hb : Nat.beq (mulV (elemAt CF k) T) (mulV T (elemAt CF k)) = true := by
     rw [← MatP_mulV, ← MatP_mulV] at hc
     rw [MatP_inj' (mulV_lt _ _) (mulV_lt _ _) hc, Nat.beq_refl]
-  rw [implK_eq, hb, if_pos rfl, bIf_eq'] at h
+  rw [implK_eq, hb, ite_eq_left rfl, bIf_eq'] at h
   have hf : scFlag 0 = false := by decide
-  rw [hf, if_neg Bool.false_ne_true] at h
+  rw [hf, ite_eq_right Bool.false_ne_true] at h
   unfold scRank at h
   have hr : scRk 0 = 0 := by decide
   simp only [letB_eq, hr, andK_eq, notK_eq, Nat.beq_refl, Bool.not_true, Bool.false_and,

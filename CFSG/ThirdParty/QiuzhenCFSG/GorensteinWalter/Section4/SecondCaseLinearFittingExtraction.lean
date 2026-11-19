@@ -102,7 +102,7 @@ private theorem exists_p_element_prime_order_image_of_nontrivial
   let e₁ := padicValNat p m₁
   have hdec1 : m₁ = p ^ e₁ * m₁' := by
     rw [show p ^ e₁ * m₁' = m₁' * p ^ e₁ by rw [mul_comm]]
-    simpa [e₁, m₁'] using (Nat.pow_padicValNat_mul_divMaxPow p m₁)
+    simp [e₁, m₁']
   have he1pos : 0 < e₁ := by
     have hdiv : p ∣ p ^ e₁ := by
       change p ∣ m₁ at hpdvd
@@ -119,7 +119,7 @@ private theorem exists_p_element_prime_order_image_of_nontrivial
     exact Nat.not_dvd_divMaxPow hp.one_lt hm_ne0
   have hdec : m = p ^ padicValNat p m * m₀ := by
     rw [show p ^ padicValNat p m * m₀ = m₀ * p ^ padicValNat p m by rw [mul_comm]]
-    simpa [m₀] using (Nat.pow_padicValNat_mul_divMaxPow p m)
+    simp [m₀]
   -- m₁' divides m₀
   have hm1p_dvd_m0 : m₁' ∣ m₀ := by
     have hm1dvd_m : m₁ ∣ m := by
@@ -127,7 +127,7 @@ private theorem exists_p_element_prime_order_image_of_nontrivial
     have hm1p_dvd_m : m₁' ∣ m := by
       have h : m₁' ∣ m₁ := by
         rw [hdec1]
-        simpa [mul_comm] using (dvd_mul_right m₁' (p ^ e₁))
+        simp
       exact h.trans hm1dvd_m
     exact divMaxPow_dvd_of_coprime_dvd p m₁' m
       ((Nat.Prime.coprime_iff_not_dvd hp).mpr (by
@@ -297,7 +297,7 @@ public theorem secondCase_fitting_fieldProjection_pElement
       orderOf (⟨a₀, ha₀F⟩ : ↥F) = orderOf a₀ :=
         (orderOf_injective F.subtype F.subtype_injective (⟨a₀, ha₀F⟩ : ↥F)).symm
       _ = orderOf a := by
-        simpa [a₀] using (orderOf_injective N'.subtype N'.subtype_injective a)
+        simp [a₀]
       _ = p ^ k := hk
   have hPa₀ : IsPGroup p (Subgroup.zpowers (⟨a₀, ha₀F⟩ : ↥F)) := by
     rcases hord_a₀F with ⟨k, hk⟩
@@ -328,7 +328,7 @@ public theorem secondCase_fitting_fieldProjection_pElement
       rw [← hcq]
       simpa [mul_assoc] using hconj
   have hPp : IsPGroup p P := by
-    simpa [P] using (Q.isPGroup'.map F.subtype : IsPGroup p ((Q : Subgroup (↥F)).map F.subtype))
+    simpa [P] using (Q.isPGroup.map F.subtype : IsPGroup p ((Q : Subgroup (↥F)).map F.subtype))
   have ha₀P : a₀ ∈ P := by
     refine Subgroup.mem_map.mpr ⟨⟨a₀, ha₀F⟩, ?_, rfl⟩
     exact hQle (Subgroup.mem_zpowers (⟨a₀, ha₀F⟩ : ↥F))

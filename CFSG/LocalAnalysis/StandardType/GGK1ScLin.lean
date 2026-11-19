@@ -19,9 +19,9 @@ theorem ggCenterPrime_linear_gcd
     {K : Type} [Field K] [Finite K] [CharP K 2] {d p : ℕ}
     (hd : 1 ≤ d) (hp : p.Prime) (hp2 : p ≠ 2) (hpd : ¬ (p ∣ d ∧ p ∣ Nat.card K - 1)) :
     GGCenterPrime p (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, hF⟩ : ∃ f : ℕ, Nat.card K = 2 ^ f := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     exact ⟨n, by rw [Nat.card_eq_fintype_card]; exact hn⟩
   obtain ⟨m, rfl⟩ : ∃ m, d = m + 1 := ⟨d - 1, by omega⟩
@@ -45,7 +45,7 @@ theorem ggCenterPrime_linear_gcd
       rw [← map_mul, ← map_mul, Subgroup.mem_center_iff.mp hz w]
     rw [SlNsRootGen.center_projectiveSL_eq_bot_charTwo, Subgroup.mem_bot] at hz'
     exact (TypeA.recipeEquiv (m + 1) K).injective (by simpa using hz')
-  haveI : Finite (LargeEvenSLGroup (Fin (m + 1)) K) := Finite.of_injective
+  have : Finite (LargeEvenSLGroup (Fin (m + 1)) K) := Finite.of_injective
     (fun x : LargeEvenSLGroup (Fin (m + 1)) K =>
       ((x : GL (Fin (m + 1)) K) : Matrix (Fin (m + 1)) (Fin (m + 1)) K))
     (fun x y hxy => Subtype.ext (Units.ext hxy))

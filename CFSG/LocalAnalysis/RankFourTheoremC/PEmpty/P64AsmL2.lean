@@ -61,9 +61,9 @@ theorem exists_psl2_transitive {K : Type} [Field K] [Finite K] {p : ℕ} [Fact p
     ∃ U : Subgroup (PSL2 K), IsElemAbelian p U ∧ Nat.card U = p ^ p ∧
       ∀ a ∈ U, a ≠ 1 → ∀ b ∈ U, b ≠ 1 →
         ∃ g ∈ normalizer (U : Set (PSL2 K)), g * a * g⁻¹ ∈ zpowers b := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcardF : Fintype.card K = p ^ p := by rw [← Nat.card_eq_fintype_card, hK]
-  haveI : CharP K p := charP_of_card_eq_prime_pow (f := p) hcardF
+  have : CharP K p := charP_of_card_eq_prime_pow (f := p) hcardF
   have hp0 : (p : K) = 0 := CharP.cast_eq_zero K p
   have hinj := CFSG.RankThree.PartTwo.Sec8.Item82OneProof.psl2UpperUnipotentHom_injective' (K := K)
   refine ⟨psl2UpperUnipotentSubgroup K, ?_, ?_, ?_⟩
@@ -91,14 +91,14 @@ theorem exists_psl2_transitive {K : Type} [Field K] [Finite K] {p : ℕ} [Fact p
     obtain ⟨s, hs0, c, hc0, hsc⟩ := P64Free.exists_sq_mul_eq_cast_mul hp2 hcardF hα hβ
     refine ⟨psl2QuotientMap K (sl2Diag hs0), psl2Diag_mem_normalizer hs0, ?_⟩
     rw [psl2_conj_sl2Diag hs0 α, hsc]
-    haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+    have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
     have hcv : ZMod.castHom (dvd_refl p) K c = ((c.val : ℕ) : K) := by
       rw [ZMod.castHom_apply, ZMod.cast_eq_val]
     rw [hcv, ← sl2UpperUnipotent_pow, map_pow]
     exact Subgroup.pow_mem _ (mem_zpowers _) _
 
 theorem transitive_map_injective {G H : Type*} [Group G] [Group H] (φ : G →* H)
-    (hφ : Function.Injective φ) {U : Subgroup G}
+    (_hφ : Function.Injective φ) {U : Subgroup G}
     (hU : ∀ a ∈ U, a ≠ 1 → ∀ b ∈ U, b ≠ 1 →
       ∃ g ∈ normalizer (U : Set G), g * a * g⁻¹ ∈ zpowers b) :
     ∀ a ∈ U.map φ, a ≠ 1 → ∀ b ∈ U.map φ, b ≠ 1 →
@@ -131,7 +131,7 @@ theorem exists_transitive_of_L2pp {Z : Type} [Group Z] [Finite Z] {p : ℕ} (hp 
     ∃ Q₀ : Subgroup Z, Q₀ ≤ (Q : Subgroup Z) ∧ IsElemAbelian p Q₀ ∧ Nat.card Q₀ = p ^ p ∧
       ∀ a ∈ Q₀, a ≠ 1 → ∀ b ∈ Q₀, b ≠ 1 →
         ∃ g ∈ normalizer (Q₀ : Set Z), g * a * g⁻¹ ∈ zpowers b := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hL
   obtain ⟨U, hUel, hUcard, hUT⟩ := exists_psl2_transitive hp2 hK
   let φ : PSL(2, K) →* Z := L.subtype.comp e.symm.toMonoidHom

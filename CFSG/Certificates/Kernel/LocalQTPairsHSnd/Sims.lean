@@ -109,7 +109,7 @@ private theorem sims_w (hn : n ≤ 32) (S : List ℕ) : ∀ {prev : List ℕ} {C
     by_cases e : σ = 1
     · subst e
       simp
-    · rw [if_neg fun h => e (P.code_inj hn h)]
+    · rw [ite_eq_right fun h => e (P.code_inj hn h)]
       simp [e]
   | prev, lv :: C, hC, h, hR => by
     change CFSG.KC.Ord.andB (P.allL S fun s => P.impB

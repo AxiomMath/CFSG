@@ -47,6 +47,7 @@ private theorem exists_conj_t0_eq_of_mem_RG (hF1 : F1Prop) (hF1M : F1MProp) (hF2
   obtain ⟨c, hc⟩ := _root_.isConj_iff.mp hconj
   exact ⟨(c : G), c.2, by simpa using congrArg Subtype.val hc⟩
 
+omit [Finite G] in
 private theorem oddOrderClosure_centralizer_eq_map {r c : G}
     (hrc : c * D.t0 * c⁻¹ = r) :
     CFSG.GroupTheory.oddOrderClosure (centralizer ({r} : Set G)) =
@@ -170,7 +171,7 @@ theorem oddOrderClosure_centralizer_eq_AG (hF1 : F1Prop) (hF1M : F1MProp) (hF2 :
     rw [h] at hzsub
     exact z_ne_one D hF1 (congrArg Subtype.val (Subgroup.mem_bot.mp hzsub))
   have hAle : D.AG ≤ CFSG.GroupTheory.oddOrderClosure (centralizer ({r} : Set G)) := by
-    haveI : ((D.AG ⊓ CFSG.GroupTheory.oddOrderClosure
+    have : ((D.AG ⊓ CFSG.GroupTheory.oddOrderClosure
         (centralizer ({r} : Set G))).subgroupOf D.AG).Normal := hnormal
     rcases hSimple.eq_bot_or_eq_top_of_normal
       ((D.AG ⊓ CFSG.GroupTheory.oddOrderClosure

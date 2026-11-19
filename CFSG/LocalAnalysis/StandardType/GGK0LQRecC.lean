@@ -204,8 +204,8 @@ private theorem lqRecC_model_of_surj
     (hperfSp : commutator (StatedSp 3 ↥(fixSubfield σ)) = ⊤) :
     StatedClassicalModel (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) .PSp 3 2 N := by
-  haveI : Finite ↥(fixSubfield σ) := hfin
-  haveI : Fintype ↥(fixSubfield σ) := Fintype.ofFinite ↥(fixSubfield σ)
+  have : Finite ↥(fixSubfield σ) := hfin
+  have : Fintype ↥(fixSubfield σ) := Fintype.ofFinite ↥(fixSubfield σ)
   have hNpos : 0 < N := by
     by_contra h
     rw [Nat.eq_zero_of_not_pos h, pow_zero] at hKcard
@@ -258,9 +258,9 @@ theorem lq_rec_C
     ⟨v, _, hr, _⟩ | ⟨v, J, hJ, hroots, _, _⟩
   · omega
   · obtain ⟨σ, hfin, hcard, f, hf1, hker, hf2⟩ := exists_inner_cover S hT i hinner
-    haveI : Finite ↥(fixSubfield σ) := hfin
-    haveI : Fintype ↥(fixSubfield σ) := Fintype.ofFinite ↥(fixSubfield σ)
-    haveI : CharP ↥(fixSubfield σ) 2 :=
+    have : Finite ↥(fixSubfield σ) := hfin
+    have : Fintype ↥(fixSubfield σ) := Fintype.ofFinite ↥(fixSubfield σ)
+    have : CharP ↥(fixSubfield σ) 2 :=
       ((fixSubfield σ).subtype.charP_iff (fixSubfield σ).subtype_injective 2).2 inferInstance
     have hKcard : Nat.card ↥(fixSubfield σ) = 2 ^ N := by rw [hcard, hN]
     have hNpos : 0 < N := by
@@ -271,7 +271,7 @@ theorem lq_rec_C
       omega
     have hperfSp : commutator (StatedSp 3 ↥(fixSubfield σ)) = ⊤ :=
       (spFactorFacts_holds ↥(fixSubfield σ) 3 (by norm_num)
-        (by simp [← Nat.card_eq_fintype_card, hKcard])).perfect
+        (by simp [← Nat.card_eq_fintype_card])).perfect
     obtain ⟨Ψ0, hk0, hr0⟩ := lqRecC_cover_levi hJ hNpos hKcard
     obtain ⟨Ψ, hΨk, hΨr0⟩ := lqRecC_spRange_smul v hk0 hr0
     have hcomp : componentRootSpan (fixSubfield σ) (rootCharHom a) i =

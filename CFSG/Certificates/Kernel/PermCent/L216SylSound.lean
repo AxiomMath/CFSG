@@ -63,10 +63,8 @@ theorem phiR_conj_norm (H : Subgroup G) {a b s : G} (hs : ∀ c ∈ H, s * c * s
   carrier := {g | ∀ x, P (g * x * g⁻¹) ↔ P x}
   one_mem' := fun x => by simp
   mul_mem' := fun {a b} ha hb x => by
-    change P (a * b * x * (a * b)⁻¹) ↔ P x
     rw [show a * b * x * (a * b)⁻¹ = a * (b * x * b⁻¹) * a⁻¹ by group, ha, hb]
   inv_mem' := fun {a} ha x => by
-    change P (a⁻¹ * x * a⁻¹⁻¹) ↔ P x
     rw [← ha, show a * (a⁻¹ * x * a⁻¹⁻¹) * a⁻¹ = x by group]
 
 theorem conj_inv_mem (H : Subgroup G) [Finite H] {s : G} (hs : ∀ c ∈ H, s * c * s⁻¹ ∈ H) :
@@ -221,8 +219,7 @@ theorem elT_mem : ∀ s ∈ elT.map ev, s ∈ TS := by
   have h2 : a2C ∈ K := mul_mem (mul_mem hs h1) h3
   have h3' : a3C ∈ K := mul_mem (mul_mem hs h2) h3
   refine productsC_mem K facC ?_ x hx
-  simp only [facC, List.mem_cons, List.not_mem_nil, or_false, forall_eq_or_imp, forall_eq,
-    IsEmpty.forall_iff, implies_true, and_true]
+  simp only [facC, List.mem_cons, List.not_mem_nil, or_false, forall_eq_or_imp, forall_eq]
   exact ⟨⟨one_mem K, ht⟩, ⟨one_mem K, h1⟩, ⟨one_mem K, h2⟩, ⟨one_mem K, h3'⟩,
     ⟨one_mem K, hs, mul_mem hs hs, mul_mem (mul_mem hs hs) hs⟩⟩
 
@@ -241,7 +238,7 @@ theorem TS_mem : ∀ x ∈ TS, x ∈ elT.map ev := by
 theorem TS_le : TS ≤ QA.originalSubgroup := by
   rw [TS, closure_le]
   intro x hx
-  simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+  simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl
   · exact QP_le (wordC_mem _)
   · rw [QA_eq]

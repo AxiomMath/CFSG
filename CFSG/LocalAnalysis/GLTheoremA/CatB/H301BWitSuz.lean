@@ -18,9 +18,9 @@ theorem witSuzCover_holds : CoverTwoRankAttained .Suz 4 := by
   simp only [S8.sporIs] at hi
   subst hi
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Suz.nonempty_mulEquiv
-  haveI hNat : IsSimpleGroup CFSG.Blueprint.NativeSporadic.Suz :=
+  have hNat : IsSimpleGroup CFSG.Blueprint.NativeSporadic.Suz :=
     CFSG.Sporadic.Suz.isSimpleGroup_Suz
-  haveI : IsSimpleGroup TauCeti.SporadicName.Suz.Group :=
+  have : IsSimpleGroup TauCeti.SporadicName.Suz.Group :=
     @MulEquiv.isSimpleGroup _ _ _ _ hNat b.symm
   obtain ⟨eX⟩ := nonempty_mulEquiv_suzX
   let φ : H →* suzX := (e.trans eX).toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center H))

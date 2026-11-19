@@ -245,14 +245,14 @@ theorem false_of_isPGroup
       Subgroup.centralizer_le hFCU hc
     exact hFCU (Bender35.inf_centralizer_le_generalizedFitting C ⟨hc, hc'⟩)
   obtain ⟨PG, hS₀PG⟩ := hS₀p.exists_le_sylow
-  have hPGH : (PG : Subgroup G) ≤ H := hζ _ hS₀PG PG.isPGroup'
+  have hPGH : (PG : Subgroup G) ≤ H := hζ _ hS₀PG PG.isPGroup
   have hPG1 : (PG : Subgroup G) ≠ ⊥ := fun h => hU1 (le_bot_iff.mp (h ▸ hUS₀.trans hS₀PG))
   have hndPG : ¬ p * Nat.card PG ∣ Nat.card H := by
     intro hdvd
     rw [PG.card_eq_multiplicity, ← pow_succ'] at hdvd
     exact Nat.pow_succ_factorization_not_dvd Nat.card_pos.ne' hp
       (hdvd.trans (Subgroup.card_subgroup_dvd_card H))
-  have hNZ := (hG.normalizer_zj_eq hHco hp hp2 hF hPGH PG.isPGroup' hPG1 hndPG).2
+  have hNZ := (hG.normalizer_zj_eq hHco hp hp2 hF hPGH PG.isPGroup hPG1 hndPG).2
   have hUPG : (U : Set G) ⊆ (PG : Subgroup G) := fun u hu => hS₀PG (hUS₀ hu)
   have hxU : conjSubset x (U : Set G) ⊆ (PG : Subgroup G) := by
     rintro _ ⟨u, hu, rfl⟩

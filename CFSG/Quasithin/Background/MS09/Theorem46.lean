@@ -15,8 +15,8 @@ namespace Th46
 
 theorem exists_fix_ne_one [Finite V] (hV : ∀ v : V, v ^ 2 = 1) {N : Subgroup P}
     (hN : IsPGroup 2 N) (hV1 : (⊤ : Subgroup V) ≠ ⊥) : fixIn ρ N ⊤ ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction ↥N V := MulAction.compHom V (ρ.comp N.subtype)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction ↥N V := MulAction.compHom V (ρ.comp N.subtype)
   have hcong := hN.card_modEq_card_fixedPoints V
   have hV2 : IsPGroup 2 V := fun v => ⟨1, by simpa using hV v⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hV2
@@ -114,6 +114,7 @@ variable [Finite P] [Finite V] {S M : Subgroup P} (hmp : MinParabolic (⊤ : Sub
   (hnt : ¬ (⊤ : Subgroup P) ≤ cenIn ρ ⊤)
 
 include hnt in
+omit [Finite P] [Finite V] in
 theorem top_ne_bot : (⊤ : Subgroup V) ≠ ⊥ := by
   intro h
   apply hnt
@@ -123,6 +124,7 @@ theorem top_ne_bot : (⊤ : Subgroup V) ≠ ⊥ := by
   rw [this, map_one]
 
 omit [Finite V] in
+omit [Finite P] in
 theorem conjSub_top (g : P) : B6.conjSub g (⊤ : Subgroup P) = ⊤ :=
   conjSub_eq_self (Subgroup.le_normalizer (Subgroup.mem_top g))
 
@@ -135,9 +137,10 @@ theorem cenIn_top_normal : (cenIn ρ (⊤ : Subgroup V)).Normal :=
     simp⟩
 
 include hmp hV hirr hnt in
+omit [Finite V] hV hirr in
 theorem fixIn_ne_top {Q : Subgroup P} (hQ : IsSylowTwoOf Q ⊤) : fixIn ρ Q ⊤ ≠ ⊤ := by
   intro htop
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨h, -, rfl⟩ := isSylowTwoOf_exists_conj hmp.isSylow hQ
   have hM := (MS09.MinParabolic.isUniqueMaxSub hmp).conjSub h
   rw [conjSub_top] at hM
@@ -171,7 +174,7 @@ theorem stabIn_fixIn_le {h : P} : stabIn ρ (fixIn ρ (B6.conjSub h S) ⊤) ≤ 
   · intro hstab
     rcases hirr _ hstab.ge with h1 | h1
     · exact exists_fix_ne_one hV hQ.2.1 (top_ne_bot hnt) h1
-    · exact fixIn_ne_top hmp hV hirr hnt hQ h1
+    · exact fixIn_ne_top hmp hnt hQ h1
 
 include hmp hV hirr hnt in
 theorem exists_step {A : Subgroup P} (hA : IsPGroup 2 A)
@@ -179,7 +182,7 @@ theorem exists_step {A : Subgroup P} (hA : IsPGroup 2 A)
     (hAc : ¬ A ≤ cenIn ρ ⊤) :
     ∃ D : Subgroup P, D < A ∧ A ⊓ cenIn ρ ⊤ ≤ D ∧
       D.relIndex A * Nat.card (fixIn ρ A ⊤) ≤ Nat.card (fixIn ρ D ⊤) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV1 := top_ne_bot hnt
   have hO2n : (pCoreOf 2 (⊤ : Subgroup P)).Normal := Subgroup.normalizer_eq_top_iff.mp
     (top_le_iff.mp (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (⊤ : Subgroup P)))
@@ -212,7 +215,7 @@ theorem exists_step {A : Subgroup P} (hA : IsPGroup 2 A)
     fun W hWU hLW hXW => le_antisymm hWU (lClosure_le hLW (hCX.trans hXW))
   have hntU : ¬ A ≤ cenIn ρ U := by
     intro hAU
-    obtain ⟨x, hxL, hxL₀⟩ := SetLike.exists_of_lt hmax.lt
+    obtain ⟨x, hxL, hxL₀⟩ := _root_.IsConcreteLE.exists_of_lt hmax.lt
     have hxA : B6.conjSub x A ≤ cenIn ρ U := by
       intro a' ha' u hu
       have hu' : (ρ x)⁻¹ u ∈ U := by

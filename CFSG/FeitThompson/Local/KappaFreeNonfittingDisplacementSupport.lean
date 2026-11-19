@@ -55,7 +55,7 @@ theorem odd_of_prime_dvd_of_odd {n q : ℕ} (hodd : Odd n) (hq : q.Prime) (hdvd 
 theorem isCyclic_sylow_of_elementaryAbelianPRank_le_one {X : Type*} [Group X] [Finite X] {q : ℕ}
     (hq : q.Prime) (hqodd : Odd q) (hrank : elementaryAbelianPRank q X ≤ 1) (S : Sylow q X) :
     IsCyclic ↥(S : Subgroup X) :=
-  isCyclic_of_elementaryAbelianPRank_le_one hq hqodd S.isPGroup'
+  isCyclic_of_elementaryAbelianPRank_le_one hq hqodd S.isPGroup
     ((elementaryAbelianPRank_subgroup_le hq.one_lt _).trans hrank)
 
 theorem FTS_kappa_free_nonfitting_displacement_support

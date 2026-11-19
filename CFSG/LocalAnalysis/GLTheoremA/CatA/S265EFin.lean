@@ -21,7 +21,7 @@ section Pure
 
 private theorem s265e_fin_commutator_le_inner {Y : Type} [Group Y] (hY : IsCyclic (Outer Y)) :
     commutator (MulAut Y) ≤ inner Y := by
-  haveI := hY
+  have := hY
   have hc : ∀ a b : Outer Y, a * b = b * a := isMulCommutative_iff.1 inferInstance
   rw [commutator_def, Subgroup.commutator_le]
   intro g _ h _
@@ -44,8 +44,8 @@ private theorem s265e_fin_center_suzuki {X : Type} [Group X] {f : ℕ}
   obtain ⟨-, hnt, hsimp⟩ := CFSG.LieType.Ree.suzuki_simple (K := K) ha hK'
   obtain ⟨x, y, hxy⟩ := HDesc.exists_noncomm_of_commutator_eq_top
     (CFSG.LieType.Ree.suzuki_perfect (K := K) ha hK').1
-  haveI := hsimp
-  haveI := e.isSimpleGroup
+  have := hsimp
+  have := e.isSimpleGroup
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h | h
   · exact h
   · exfalso
@@ -92,7 +92,7 @@ theorem s265e_fin_f4 {X : Type} [Group X] [Finite X] (hS : ReeTitsModel X .twist
   have ha : a = 2 := by omega
   subst ha
   have hF' : Nat.card F = 2 ^ (2 * 2 + 1) := by simpa using hF
-  haveI : CharP F F4.prime :=
+  have : CharP F F4.prime :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by norm_num) hF
   obtain ⟨eΓ⟩ := hiso 2 F rfl hF ⟨e'⟩
@@ -109,7 +109,7 @@ theorem s265e_fin_f4 {X : Type} [Group X] [Finite X] (hS : ReeTitsModel X .twist
     exact Subgroup.mem_bot.2 (eΓ.injective (by rw [hmem, map_one]))
   have hcyc : IsCyclic (Outer X) := by
     obtain ⟨hcycΓ, -⟩ := CFSG.AGLEmbedding.outer_reeGamma (a := 2) (K := F) (by norm_num) hF'
-    haveI := hcycΓ
+    have := hcycΓ
     exact isCyclic_of_surjective (CFSG.ComponentClassification.OuterAutomorphisms.equivalence eΓ).symm.toMonoidHom
       (CFSG.ComponentClassification.OuterAutomorphisms.equivalence eΓ).symm.surjective
   have hAinn : A ≤ inner X :=

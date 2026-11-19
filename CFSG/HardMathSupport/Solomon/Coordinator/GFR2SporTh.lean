@@ -187,7 +187,7 @@ private theorem no_subnormal_1080_of_data {G : Type*} [Group G] [Finite G] {s : 
   by_cases h5 : 5 ∣ Nat.card C
   swap
   · exact h5 ((by norm_num : 5 ∣ 1080).trans (hK ▸ Subgroup.card_dvd_of_le hKC))
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) 5 h5
   have hu5 : orderOf (u : G) = 5 := by rw [Subgroup.orderOf_coe]; exact hu
   have huC : (u : G) ∈ C := u.2
@@ -208,7 +208,7 @@ private theorem no_subnormal_1080_of_data {G : Type*} [Group G] [Finite G] {s : 
     have heC : (e : G) ∈ C := hE'C heE
     have hes : (e : G) * s = s * (e : G) := Subgroup.mem_centralizer_singleton_iff.1 heC
     have hcomm : ∀ x y : ↥(E.map C.subtype), x * y = y * x :=
-      IsPGroup.commutative_of_card_eq_prime_sq (p := 5) (by rw [hE'card]; norm_num)
+      (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 5) (by rw [hE'card]; norm_num)).is_comm.comm
     have hle : E.map C.subtype ≤ C ⊓ Subgroup.centralizer ({(e : G)} : Set G) := by
       refine le_inf hE'C fun x hx => ?_
       rw [Subgroup.mem_centralizer_singleton_iff]
@@ -314,8 +314,8 @@ theorem sporNoPumpup_Th
     (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges) : SporNoPumpup .Th := by
   let φ : (TauCeti.CFSGIndex.sporadic .Th).Group ≃* ↥CFSG.Sporadic.Th.J :=
     (hbr .Th).some.symm.trans thEquivJ
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .Th).Group := Finite.of_equiv _ φ.symm.toEquiv
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .Th).Group :=
+  have : Finite (TauCeti.CFSGIndex.sporadic .Th).Group := Finite.of_equiv _ φ.symm.toEquiv
+  have : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .Th).Group :=
     @MulEquiv.isSimpleGroup _ _ _ _ (CFSG.Sporadic.Th.Kernel.isSimpleGroup_Th th_kernel_facts)
       (hbr .Th).some.symm
   have hN : NoSubnormal1080 (TauCeti.CFSGIndex.sporadic .Th).Group :=

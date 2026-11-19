@@ -77,7 +77,6 @@ theorem support_card_eq_eight_of_comm_sym (hn8 : 8 ≤ Fintype.card α) (hn9 : F
   rw [hm] at hdvd hsl hn8 hn9
   have hk4 : k ≤ 4 := by omega
   interval_cases m <;> interval_cases k <;> first
-    | rfl
     | omega
     | (exfalso; revert hdvd; decide)
 

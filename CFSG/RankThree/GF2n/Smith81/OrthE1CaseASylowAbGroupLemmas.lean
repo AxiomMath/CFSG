@@ -11,13 +11,13 @@ open scoped Pointwise
 theorem exists_conj_mem_of_index_odd {H : Type} [Group H] [Finite H] (P : Subgroup H)
     (hP : IsPGroup 2 P) (hodd : ¬ 2 ∣ P.index) (r : H) (hr : r ^ 2 = 1) :
     ∃ g : H, g⁻¹ * r * g ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ : IsPGroup 2 (Subgroup.zpowers r) := by
     refine IsPGroup.of_card_dvd_pow (n := 1) ?_
     rw [Nat.card_zpowers, pow_one]
     exact orderOf_dvd_of_pow_eq_one hr
   obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow hZ
-  haveI : Finite (Sylow 2 H) :=
+  have : Finite (Sylow 2 H) :=
     Finite.of_injective (fun T : Sylow 2 H => (T : Set H)) SetLike.coe_injective
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq H Q (hP.toSylow hodd)
   have hrQ : r ∈ (Q : Subgroup H) := hQ (Subgroup.mem_zpowers r)
@@ -62,7 +62,7 @@ theorem relIndex_le_two_of_hom {G H : Type} [Group G] [Group H] (S R : Subgroup 
 
 theorem card_eq_two_pow_of_isPGroup {H : Type} [Group H] [Finite H] (P : Subgroup H)
     (hP : IsPGroup 2 P) : ∃ a : ℕ, Nat.card P = 2 ^ a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact IsPGroup.iff_card.mp hP
 
 theorem two_pow_eq_of_odd_mul {a e m c : ℕ} (hm : Odd m) (hc : Odd c)

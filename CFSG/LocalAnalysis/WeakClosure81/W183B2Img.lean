@@ -17,10 +17,12 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V] {Y : Subgrou
 @[expose] def imgOf (ψ : ↥Y →* G') (A : Subgroup (LGL 2 V)) : Subgroup G' :=
   (A.subgroupOf Y).map ψ
 
+omit [Finite V] in
 private theorem w183b2img_mem_imgOf {ψ : ↥Y →* G'} {C : Subgroup (LGL 2 V)} {t : LGL 2 V}
     (ht : t ∈ C) (hY : t ∈ Y) : ψ ⟨t, hY⟩ ∈ imgOf ψ C :=
   Subgroup.mem_map.mpr ⟨⟨t, hY⟩, show (⟨t, hY⟩ : ↥Y) ∈ C.subgroupOf Y from ht, rfl⟩
 
+omit [Finite V] in
 private theorem w183b2img_subgroupOf_le_subgroupOf_iff {A B : Subgroup (LGL 2 V)}
     (hA : A ≤ Y) : A.subgroupOf Y ≤ B.subgroupOf Y ↔ A ≤ B := by
   constructor
@@ -30,6 +32,7 @@ private theorem w183b2img_subgroupOf_le_subgroupOf_iff {A B : Subgroup (LGL 2 V)
   · intro h
     exact Subgroup.subgroupOf_mono Y h
 
+omit [Finite V] in
 private theorem w183b2img_cj_le {A : Subgroup (LGL 2 V)} (hA : A ≤ Y) {y : LGL 2 V}
     (hy : y ∈ Y) : cj y A ≤ Y := by
   intro x hx
@@ -37,6 +40,7 @@ private theorem w183b2img_cj_le {A : Subgroup (LGL 2 V)} (hA : A ≤ Y) {y : LGL
   obtain ⟨a, ha, rfl⟩ := hx
   exact Y.mul_mem (Y.mul_mem hy (hA ha)) (Y.inv_mem hy)
 
+omit [Finite V] in
 private theorem w183b2img_subgroupOf_cj {A : Subgroup (LGL 2 V)} (hA : A ≤ Y) {y : LGL 2 V}
     (hy : y ∈ Y) :
     (cj y A).subgroupOf Y =
@@ -94,18 +98,21 @@ private theorem w183b2img_isElemAbelian_mulEquiv_iff {G H : Type*} [Group G] [Gr
       have h2 : e ((e.symm a : ↥E) ^ 2) = e 1 := congrArg e h1
       rwa [map_pow, map_one, e.apply_symm_apply] at h2
 
+omit [Finite V] in
 theorem imgOf_le_iff {ψ : ↥Y →* G'} (hψ : Function.Injective ψ) {A B : Subgroup (LGL 2 V)}
-    (hA : A ≤ Y) (hB : B ≤ Y) : imgOf ψ A ≤ imgOf ψ B ↔ A ≤ B := by
+    (hA : A ≤ Y) (_hB : B ≤ Y) : imgOf ψ A ≤ imgOf ψ B ↔ A ≤ B := by
   rw [imgOf, imgOf]
   exact (Subgroup.map_le_map_iff_of_injective hψ).trans
     (w183b2img_subgroupOf_le_subgroupOf_iff hA)
 
+omit [Finite V] in
 theorem imgOf_card {ψ : ↥Y →* G'} (hψ : Function.Injective ψ) {A : Subgroup (LGL 2 V)}
     (hA : A ≤ Y) : Nat.card (imgOf ψ A) = Nat.card A := by
   rw [imgOf]
   rw [← Nat.card_congr (Subgroup.equivMapOfInjective (A.subgroupOf Y) ψ hψ).toEquiv]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA).toEquiv
 
+omit [Finite V] in
 theorem imgOf_cj (ψ : ↥Y →* G') {A : Subgroup (LGL 2 V)} (hA : A ≤ Y) {y : LGL 2 V}
     (hy : y ∈ Y) :
     imgOf ψ (cj y A) = (imgOf ψ A).map (MulAut.conj (ψ ⟨y, hy⟩)).toMonoidHom := by
@@ -118,6 +125,7 @@ theorem imgOf_cj (ψ : ↥Y →* G') {A : Subgroup (LGL 2 V)} (hA : A ≤ Y) {y 
   rw [w183b2img_subgroupOf_cj hA hy]
   rw [Subgroup.map_map, Subgroup.map_map, hcomp]
 
+omit [Finite V] in
 private theorem w183b2img_mem_normalizer_imgOf_iff {ψ : ↥Y →* G'}
     (hψ : Function.Injective ψ) {B : Subgroup (LGL 2 V)} (hB : B ≤ Y) {x : LGL 2 V}
     (hx : x ∈ Y) :
@@ -136,6 +144,7 @@ private theorem w183b2img_mem_normalizer_imgOf_iff {ψ : ↥Y →* G'}
   · intro hm
     exact (imgOf_cj ψ hB hx).symm.trans (congrArg (imgOf ψ) hm)
 
+omit [Finite V] in
 theorem imgOf_normalizer_le_iff {ψ : ↥Y →* G'} (hψ : Function.Injective ψ)
     {A B : Subgroup (LGL 2 V)} (hA : A ≤ Y) (hB : B ≤ Y) :
     imgOf ψ A ≤ Subgroup.normalizer (imgOf ψ B : Set G') ↔
@@ -146,6 +155,7 @@ theorem imgOf_normalizer_le_iff {ψ : ↥Y →* G'} (hψ : Function.Injective ψ
     ← Subgroup.subgroupOf_normalizer_eq hB]
   exact w183b2img_subgroupOf_le_subgroupOf_iff hA
 
+omit [Finite V] in
 theorem imgOf_isElemAbelian_iff {ψ : ↥Y →* G'} (hψ : Function.Injective ψ)
     {A : Subgroup (LGL 2 V)} (hA : A ≤ Y) :
     IsElemAbelian 2 (imgOf ψ A) ↔ IsElemAbelian 2 A := by
@@ -153,6 +163,7 @@ theorem imgOf_isElemAbelian_iff {ψ : ↥Y →* G'} (hψ : Function.Injective ψ
       (Subgroup.equivMapOfInjective (A.subgroupOf Y) ψ hψ),
     w183b2img_isElemAbelian_mulEquiv_iff (Subgroup.subgroupOfEquivOfLe hA)]
 
+omit [Finite V] in
 theorem imgOf_sup_inf {ψ : ↥Y →* G'} (hψ : Function.Injective ψ) {A B : Subgroup (LGL 2 V)}
     (hA : A ≤ Y) (hB : B ≤ Y) :
     imgOf ψ (A ⊔ B) = imgOf ψ A ⊔ imgOf ψ B ∧ imgOf ψ (A ⊓ B) = imgOf ψ A ⊓ imgOf ψ B := by
@@ -163,20 +174,23 @@ theorem imgOf_sup_inf {ψ : ↥Y →* G'} (hψ : Function.Injective ψ) {A B : S
         Subgroup.comap_inf A B Y.subtype,
       Subgroup.map_inf _ _ _ hψ, ← imgOf, ← imgOf]
 
+omit [Finite V] in
 private theorem w183b2img_relIndex_imgOf {ψ : ↥Y →* G'} (hψ : Function.Injective ψ)
-    {S L : Subgroup (LGL 2 V)} (hSL : S ≤ L) (hL : L ≤ Y) :
+    {S L : Subgroup (LGL 2 V)} (_hSL : S ≤ L) (hL : L ≤ Y) :
     (imgOf ψ S).relIndex (imgOf ψ L) = S.relIndex L := by
   rw [imgOf, imgOf,
     Subgroup.relIndex_map_map_of_injective (S.subgroupOf Y) (L.subgroupOf Y) hψ,
     Subgroup.relIndex_subgroupOf (H := S) (K := L) (L := Y) hL]
 
+omit [Finite V] in
 theorem imgOf_mOfG {ψ : ↥Y →* G'} (hψ : Function.Injective ψ) {A B : Subgroup (LGL 2 V)}
     (hA : A ≤ Y) (hBA : B ≤ A) : mOfG (imgOf ψ A) (imgOf ψ B) = mOfG A B := by
   change Nat.log 2 ((imgOf ψ B).relIndex (imgOf ψ A)) = Nat.log 2 (B.relIndex A)
   rw [w183b2img_relIndex_imgOf hψ hBA hA]
 
+omit [Finite V] in
 private theorem w183b2img_imgOf_inf_normalizer {ψ : ↥Y →* G'} (hψ : Function.Injective ψ)
-    {A B : Subgroup (LGL 2 V)} (hA : A ≤ Y) (hB : B ≤ Y) :
+    {A B : Subgroup (LGL 2 V)} (_hA : A ≤ Y) (hB : B ≤ Y) :
     imgOf ψ A ⊓ Subgroup.normalizer ((imgOf ψ B : Subgroup G') : Set G') =
       imgOf ψ (A ⊓ Subgroup.normalizer (B : Set (LGL 2 V))) := by
   apply le_antisymm
@@ -206,6 +220,7 @@ private noncomputable def w183b2img_barEquiv (ψ : ↥Y →* G') (hψ : Function
   QuotientGroup.congr (CFSG.pCore 2 ↥X) (CFSG.pCore 2 ↥(imgOf ψ X)) e
     (CFSG.pCore_map_iso 2 e)
 
+omit [Finite V] in
 theorem w183b2img_pairQuotOK_iff {ψ : ↥Y →* G'} (hψ : Function.Injective ψ)
     {X : Subgroup (LGL 2 V)} (hX : X ≤ Y) (k₁ k₂ : ℕ) :
     PairQuotOK k₁ k₂ (imgOf ψ X) ↔ PairQuotOK k₁ k₂ X := by
@@ -224,6 +239,7 @@ theorem w183b2img_pairQuotOK_iff {ψ : ↥Y →* G'} (hψ : Function.Injective �
   unfold PairQuotOK
   rw [hp, hcard, hdih]
 
+omit [Finite V] in
 theorem pairViolation_of_imgOf {ψ : ↥Y →* G'} (hψ : Function.Injective ψ)
     {A : Subgroup (LGL 2 V)} (hA : A ≤ Y) {y : LGL 2 V} (hy : y ∈ Y) :
     PairViolation (imgOf ψ A) (ψ ⟨y, hy⟩) → PairViolation A y := by
@@ -282,6 +298,7 @@ theorem pairViolation_of_imgOf {ψ : ↥Y →* G'} (hψ : Function.Injective ψ)
       rw [e1, e2, hsup]
       exact (w183b2img_pairQuotOK_iff hψ (sup_le hA hcj) _ _).mpr hpv)
 
+omit [Finite V] in
 theorem isSylowIn_imgOf {ψ : ↥Y →* G'} (hψ : Function.Injective ψ) {T : Subgroup (LGL 2 V)}
     (hT : IsSylowIn 2 T Y) : IsSylowIn 2 (imgOf ψ T) ψ.range := by
   refine ⟨?_, ?_, ?_⟩
@@ -296,6 +313,7 @@ theorem isSylowIn_imgOf {ψ : ↥Y →* G'} (hψ : Function.Injective ψ) {T : S
       Subgroup.relIndex_top_right]
     exact hT.not_dvd_relIndex
 
+omit [Finite V] in
 theorem exists_eq_imgOf (ψ : ↥Y →* G') {B : Subgroup G'} (hB : B ≤ ψ.range) :
     ∃ A : Subgroup (LGL 2 V), A ≤ Y ∧ imgOf ψ A = B := by
   refine ⟨(B.comap ψ).map Y.subtype, Subgroup.map_subtype_le _, ?_⟩
@@ -305,24 +323,29 @@ theorem exists_eq_imgOf (ψ : ↥Y →* G') {B : Subgroup G'} (hB : B ≤ ψ.ran
     Subgroup.comap_map_eq_self_of_injective (f := Y.subtype) Y.subtype_injective (B.comap ψ)]
   exact Subgroup.map_comap_eq_self hB
 
+omit [Finite V] in
 theorem imgOf_mono (ψ : ↥Y →* G') {A B : Subgroup (LGL 2 V)} (h : A ≤ B) :
     imgOf ψ A ≤ imgOf ψ B :=
   Subgroup.map_mono (Subgroup.subgroupOf_mono Y h)
 
+omit [Finite V] in
 theorem imgOf_le_range (ψ : ↥Y →* G') (A : Subgroup (LGL 2 V)) : imgOf ψ A ≤ ψ.range := by
   rw [imgOf, ← Subgroup.map_top ψ]
   exact Subgroup.map_mono le_top
 
+omit [Finite V] in
 theorem apply_mem_imgOf (ψ : ↥Y →* G') {A : Subgroup (LGL 2 V)} {t : LGL 2 V} (ht : t ∈ A)
     (hY : t ∈ Y) : ψ ⟨t, hY⟩ ∈ imgOf ψ A :=
   w183b2img_mem_imgOf ht hY
 
+omit [Finite V] in
 private theorem w183b2img_imgOf_inj_of_le {ψ : ↥Y →* G'} (hψ : Function.Injective ψ)
     {A B : Subgroup (LGL 2 V)} (hA : A ≤ Y) (hB : B ≤ Y) (h : imgOf ψ A = imgOf ψ B) :
     A = B :=
   le_antisymm ((imgOf_le_iff hψ hA hB).mp (le_of_eq h))
     ((imgOf_le_iff hψ hB hA).mp (le_of_eq h.symm))
 
+omit [Finite V] in
 private theorem w183b2img_imgOf_conjSubgroup {ψ : ↥Y →* G'} {P : Subgroup (LGL 2 V)}
     (hP : P ≤ Y) {g : LGL 2 V} (hg : g ∈ Y) :
     imgOf ψ (conjSubgroup P g) = conjSubgroup (imgOf ψ P) (ψ ⟨g, hg⟩) := by
@@ -334,11 +357,13 @@ private theorem w183b2img_imgOf_conjSubgroup {ψ : ↥Y →* G'} {P : Subgroup (
   have hsub : (⟨g⁻¹, hg'⟩ : ↥Y) = (⟨g, hg⟩ : ↥Y)⁻¹ := Subtype.ext rfl
   rw [hsub, map_inv]
 
+omit [Finite V] in
 private theorem w183b2img_conjSubgroup_le {P : Subgroup (LGL 2 V)} (hP : P ≤ Y)
     {g : LGL 2 V} (hg : g ∈ Y) : conjSubgroup P g ≤ Y := by
   rw [show conjSubgroup P g = cj g⁻¹ P from rfl]
   exact w183b2img_cj_le hP (Y.inv_mem hg)
 
+omit [Finite V] in
 private theorem w183b2img_isMaxParabolicMod_imgOf {ψ : ↥Y →* G'} (hψ : Function.Injective ψ)
     {N L P : Subgroup (LGL 2 V)} (hL : L ≤ Y) (h : IsMaxParabolicMod N L P) :
     IsMaxParabolicMod (imgOf ψ N) (imgOf ψ L) (imgOf ψ P) := by
@@ -386,6 +411,7 @@ private theorem w183b2img_isMaxParabolicMod_imgOf {ψ : ↥Y →* G'} (hψ : Fun
       exact Subgroup.mem_map.mpr ⟨l, Subgroup.mem_subgroupOf.mpr
         (hSnorm (Subgroup.mem_inf.mpr ⟨hlL, hlnorm⟩)), rfl⟩
 
+omit [Finite V] in
 theorem imgOf_actsOnDynkin {ψ : ↥Y →* G'} (hψ : Function.Injective ψ) {L : Subgroup (LGL 2 V)}
     (hL : L ≤ Y) {t : LGL 2 V} (ht : t ∈ Y) (h : ActsOnDynkinMod ⊥ L t) :
     ActsOnDynkinMod ⊥ (imgOf ψ L) (ψ ⟨t, ht⟩) := by

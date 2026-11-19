@@ -23,7 +23,7 @@ namespace Proof155P
 theorem theta_w155_eq_and_mem_comp3In {A M W : Subgroup G} {LB : Subgroup G → Subgroup G}
     [(ker148 A M).Normal] (hWM : W ≤ M) (hWsub : CFSG.Open.IsSubnormal W M)
     (hWΔ : W ≤ delta A LB M) (hWsubΔ : CFSG.Open.IsSubnormal W (delta A LB M))
-    (hWp : Group.IsPerfect ↥W) (hsol : IsSolvable ↥(W ⊓ pPrimeCoreOf 3 M))
+    (hWp : Group.IsPerfect ↥W) (hsol : Group.IsSolvable ↥(W ⊓ pPrimeCoreOf 3 M))
     (htype : Nonempty (↥(img148 A M W) ≃* alternatingGroup (Fin 5)) ∨
       (Sec4.IsTripleCover ↥(img148 A M W) (alternatingGroup (Fin 6)) ∧
         CFSG.IsQuasisimple ↥(img148 A M W))) :
@@ -34,7 +34,7 @@ theorem theta_w155_eq_and_mem_comp3In {A M W : Subgroup G} {LB : Subgroup G → 
   obtain ⟨hNn, hN3, -⟩ := inf_pPrimeCoreOf_facts hWM
   set K : Subgroup ↥W := (W ⊓ pPrimeCoreOf 3 M).subgroupOf W with hKdef
   have hKsol : Group.IsSolvable ↥K := by
-    haveI : Group.IsSolvable ↥(W ⊓ pPrimeCoreOf 3 M) := hsol
+    have : Group.IsSolvable ↥(W ⊓ pPrimeCoreOf 3 M) := hsol
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe
         (inf_le_left : W ⊓ pPrimeCoreOf 3 M ≤ W)).toMonoidHom)
@@ -78,7 +78,7 @@ theorem theta_w155_eq_and_mem_comp3In {A M W : Subgroup G} {LB : Subgroup G → 
     refine CFSG.RankThree.PartTwo.Sec17.Proof171Steps.oPrimeResidual_eq_top_of_mulEquiv e ?_
     rcases htype with ⟨⟨φ⟩⟩ | ⟨hT, -⟩
     · refine CFSG.RankThree.PartTwo.Sec17.Proof171Steps.oPrimeResidual_eq_top_of_mulEquiv φ ?_
-      haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+      have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
         alternatingGroup.isSimpleGroup (by simp)
       refine CFSG.RankThree.PartTwo.Sec17.Proof171Steps.oPrimeResidual_eq_top_of_isSimpleGroup ?_
       rw [nat_card_alternatingGroup, Nat.card_fin]
@@ -90,7 +90,7 @@ theorem theta_w155_eq_and_mem_comp3In {A M W : Subgroup G} {LB : Subgroup G → 
   exact ⟨hmemθ, hoRes⟩
 
 theorem w155_quot_facts {A M W : Subgroup G} [(ker148 A M).Normal] (hWM : W ≤ M)
-    (hWp : Group.IsPerfect ↥W)
+    (_hWp : Group.IsPerfect ↥W)
     (hθ : inSubgroup (aschbacherSolvableCore 3) W = W ⊓ pPrimeCoreOf 3 M)
     (hq2 : CFSG.IsQuasisimple (↥W ⧸ CFSG.pCore 2 ↥W))
     (htype : Nonempty (↥(img148 A M W) ≃* alternatingGroup (Fin 5)) ∨

@@ -124,7 +124,7 @@ private theorem exists_common_diag {Ω : Type} [Field Ω] [IsAlgClosed Ω] (h3 :
 private theorem frame_conj_scalar {Ω : Type} [Field Ω] {ψ : SL(6, Ω) →* ModGL Tag.E6 Ω}
     {σ' : Fin 6 → Fin 6 → Fin Tag.E6.rank → ℤ} (hψ : IsSLFrame ψ σ') (M : GL (Fin 6) Ω)
     (h : ∀ Y, ψ (conjSLn M Y) = ψ Y) : ∃ c : Ω, (M : Matrix (Fin 6) (Fin 6) Ω) = c • 1 := by
-  haveI : Group.IsPerfect SL(6, Ω) :=
+  have : Group.IsPerfect SL(6, Ω) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect (by norm_num)
   have hid : conjSLn M = MonoidHom.id SL(6, Ω) :=
     CFSG.LieType.Steinberg.eq_of_comp_eq_of_isPerfect

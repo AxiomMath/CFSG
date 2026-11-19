@@ -150,35 +150,35 @@ theorem nestH : NestP chainH := nestP_of (by decide +kernel)
 
 theorem T_ge : 2 ^ 21 ≤ Nat.card (clvl chainT 0) := by
   have h := chain_ge (D := chainT) (m := 4) (o := 0) (by norm_num) (by norm_num)
-    (fun i hi => by unfold chOf; rw [if_pos (by omega)])
-    (fun i hi => by unfold lvOf; rw [if_pos (by omega)]; omega) (by decide) (by decide) nestT
+    (fun i hi => by unfold chOf; rw [ite_eq_left (by omega)])
+    (fun i hi => by unfold lvOf; rw [ite_eq_left (by omega)]; omega) (by decide) (by decide) nestT
   have e : ∏ l ∈ Finset.Ico 0 4, chainT.sizes.getD l 0 = 2 ^ 21 := by decide +kernel
   rwa [e] at h
 
 theorem A_ge : 2 ^ 21 * 27 ≤ Nat.card (clvl chainA 0) := by
   have h := chain_ge (D := chainA) (m := 4) (o := 4) (by norm_num) (by norm_num)
-    (fun i hi => by unfold chOf; rw [if_neg (by omega), if_pos (by omega)])
-    (fun i hi => by unfold lvOf; rw [if_pos (by omega)]; omega) (by decide) (by decide) nestA
+    (fun i hi => by unfold chOf; rw [ite_eq_right (by omega), ite_eq_left (by omega)])
+    (fun i hi => by unfold lvOf; rw [ite_eq_left (by omega)]; omega) (by decide) (by decide) nestA
   have e : ∏ l ∈ Finset.Ico 0 4, chainA.sizes.getD l 0 = 2 ^ 21 * 27 := by decide +kernel
   rwa [e] at h
 
 theorem B_ge : 2 ^ 21 * 9 ≤ Nat.card (clvl chainB 0) := by
   have h := chain_ge (D := chainB) (m := 4) (o := 8) (by norm_num) (by norm_num)
-    (fun i hi => by unfold chOf; rw [if_neg (by omega), if_neg (by omega), if_pos (by omega)])
-    (fun i hi => by unfold lvOf; rw [if_pos (by omega)]; omega) (by decide) (by decide) nestB
+    (fun i hi => by unfold chOf; rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left (by omega)])
+    (fun i hi => by unfold lvOf; rw [ite_eq_left (by omega)]; omega) (by decide) (by decide) nestB
   have e : ∏ l ∈ Finset.Ico 0 4, chainB.sizes.getD l 0 = 2 ^ 21 * 9 := by decide +kernel
   rwa [e] at h
 
 theorem H_ge : Nat.card J ≤ Nat.card (clvl chainH 0) := by
   have h := chain_ge (D := chainH) (m := 6) (o := 12) (by norm_num) (by norm_num)
-    (fun i hi => by unfold chOf; rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)])
-    (fun i hi => by unfold lvOf; rw [if_neg (by omega)]; omega) (by decide) (by decide) nestH
+    (fun i hi => by unfold chOf; rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)])
+    (fun i hi => by unfold lvOf; rw [ite_eq_right (by omega)]; omega) (by decide) (by decide) nestH
   have e : ∏ l ∈ Finset.Ico 0 6, chainH.sizes.getD l 0 = Nat.card J := by
     rw [card_J]
     decide +kernel
   rwa [e] at h
 
-theorem clvl_le_closure {D : ChainData} {ls : List ℕ} (h0 : D.starts[0]! = 0)
+theorem clvl_le_closure {D : ChainData} {ls : List ℕ} (_h0 : D.starts[0]! = 0)
     (hls : ∀ k < D.starts[1]!, D.sel[k]! ∈ ls) :
     clvl D 0 ≤ Subgroup.closure {g | ∃ l ∈ ls, g = LL (Int.ofNat (l + 3))} := by
   refine lvlGroup_le (cgs D) _ fun k _ hk2 => Subgroup.subset_closure ?_

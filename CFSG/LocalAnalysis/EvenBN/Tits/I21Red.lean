@@ -88,8 +88,6 @@ theorem centralizer_mk_le {t : Y} (ht : t * t = 1) :
   have hg : t⁻¹ * (g * t * g⁻¹) ∈ K := by
     rw [← QuotientGroup.eq_one_iff (N := K), QuotientGroup.mk_mul, QuotientGroup.mk_mul,
       QuotientGroup.mk_mul, QuotientGroup.mk_inv, QuotientGroup.mk_inv]
-    change (QuotientGroup.mk t : Y ⧸ K)⁻¹ * ((QuotientGroup.mk g) * QuotientGroup.mk t *
-      (QuotientGroup.mk g)⁻¹) = 1
     rw [hy, mul_assoc (QuotientGroup.mk t : Y ⧸ K), mul_inv_cancel, mul_one, inv_mul_cancel]
   obtain ⟨m, hm, hmg⟩ := secTwo_exists_mem_centralizer hK ht hg
   refine ⟨m * g, hmg, ?_⟩

@@ -55,7 +55,7 @@ private theorem l05nK42_refl_shape
     (∃ i, σ = 1 ∧ c i = -1 ∧ ∀ j, j ≠ i → c j = 1) ∨
       ∃ i j, i ≠ j ∧ σ = Equiv.swap i j ∧ c i * c j = 1 ∧ ∀ k, k ≠ i → k ≠ j → c k = 1 := by
   classical
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_basis b
+  have : Module.Finite (ZMod p) V := Module.Finite.of_basis b
   have hp : p.Prime := Fact.out
   have htwo : (2 : ZMod p) ≠ 0 := by
     intro h
@@ -80,7 +80,7 @@ private theorem l05nK42_refl_shape
     rw [hrb i, map_smul, hrb (σ i), smul_smul] at h
     have h' := congrArg (fun v => b.equivFun v i) h
     simp only [map_smul, Pi.smul_apply, Module.Basis.equivFun_self, ↓reduceIte, smul_eq_mul] at h'
-    rw [if_neg hne, mul_zero] at h'
+    rw [ite_eq_right hne, mul_zero] at h'
     exact zero_ne_one h'
   have hcσ : ∀ i, c (σ i) = c i := by
     intro i
@@ -105,7 +105,7 @@ private theorem l05nK42_refl_shape
     have h' := congrArg (fun v => b.equivFun v i) h0
     simp only [map_sub, map_smul, Pi.sub_apply, Pi.smul_apply, Module.Basis.equivFun_self,
       ↓reduceIte, smul_eq_mul, map_zero, Pi.zero_apply] at h'
-    rw [if_neg hi, mul_zero, sub_zero] at h'
+    rw [ite_eq_right hi, mul_zero, sub_zero] at h'
     exact one_ne_zero h'
   have hbk_mem : ∀ k, σ k = k → c k = -1 → b k ∈ LinearMap.range T := by
     intro k hk hck
@@ -226,13 +226,13 @@ private lemma l05nK42_diagMap_apply
     funext j
     rw [Module.Basis.equivFun_self, Pi.single_apply]
     by_cases h : k = j
-    · rw [if_pos h, if_pos h.symm]
-    · rw [if_neg h, if_neg (fun hh => h hh.symm)]
+    · rw [ite_eq_left h, ite_eq_left h.symm]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h hh.symm)]
   rw [hk]
   funext j
   by_cases h : j = k
   · subst h; rfl
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 private lemma l05nK42_ext_basis
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -392,7 +392,7 @@ private lemma l05nK42_conj_S
       · rw [hk, Equiv.swap_apply_left]; simp
       · by_cases hk' : k = j
         · rw [hk', Equiv.swap_apply_right]; simp [eq_comm]
-        · rw [Equiv.swap_apply_of_ne_of_ne hk hk', if_neg hk', if_neg hk]
+        · rw [Equiv.swap_apply_of_ne_of_ne hk hk', ite_eq_right hk', ite_eq_right hk]
     rw [hcoef]
   · rw [inv_eq_of_mul_eq_one_right (l05nK42_Tm_mul_self b i j)]
     apply l05nK42_ext_basis (b := b)
@@ -416,13 +416,13 @@ private lemma l05nK42_conj_S
       · rw [hk, Equiv.swap_apply_left]; simp
       · by_cases hk' : k = j
         · rw [hk', Equiv.swap_apply_right]; simp [eq_comm]
-        · rw [Equiv.swap_apply_of_ne_of_ne hk hk', if_neg hk', if_neg hk]
+        · rw [Equiv.swap_apply_of_ne_of_ne hk hk', ite_eq_right hk', ite_eq_right hk]
     rw [hd, hsw]
     simp only [smul_smul]
     by_cases hki : k = i
     · simp [hki]
     · by_cases hkj : k = j
-      · by_cases hji : j = i <;> simp [hki, hkj, hji]
+      · by_cases hji : j = i <;> simp [hkj, hji]
       · simp [hki, hkj]
 
 end Cat
@@ -590,7 +590,7 @@ private lemma l05nK42_graph_connected
         · simp [hk]
       exact (Submodule.span_le.mpr hK) hspan
     rw [Module.Basis.equivFun_self] at hzero
-    simp [hj] at hzero
+    simp at hzero
 
 end Graph
 
@@ -677,13 +677,13 @@ private lemma l05nK42_tw_swap₁ {p : ℕ} {n : ℕ} {i j k m : Fin n}
     simp [l05nK42_tw]
   · by_cases hmj : m = j
     · rw [hmj, Equiv.swap_apply_right]
-      simp [l05nK42_tw, hij, Ne.symm hij, hik, Ne.symm hik, hjk, Ne.symm hjk]
+      simp [l05nK42_tw, hij, Ne.symm hij, hik, hjk]
     · by_cases hmk : m = k
       · rw [hmk, show Equiv.swap i j k = k from
             Equiv.swap_apply_of_ne_of_ne (Ne.symm hik) (Ne.symm hjk)]
         simp [l05nK42_tw]
       · rw [show Equiv.swap i j m = m from Equiv.swap_apply_of_ne_of_ne hmi hmj]
-        simp [l05nK42_tw, hmi, Ne.symm hmi, hmj, Ne.symm hmj, hmk, Ne.symm hmk]
+        simp [l05nK42_tw, hmi, hmj, hmk]
 
 private lemma l05nK42_tw_mul_swap {p : ℕ} {n : ℕ} {i j k m : Fin n}
     (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) :
@@ -691,16 +691,16 @@ private lemma l05nK42_tw_mul_swap {p : ℕ} {n : ℕ} {i j k m : Fin n}
       = l05nK42_tw (p := p) i k m := by
   by_cases hmi : m = i
   · rw [hmi, Equiv.swap_apply_left, Equiv.swap_apply_left]
-    simp [l05nK42_tw, hij, Ne.symm hij, hik, Ne.symm hik, hjk, Ne.symm hjk]
+    simp [l05nK42_tw, hij, hik, Ne.symm hik, Ne.symm hjk]
   · by_cases hmj : m = j
     · rw [hmj, Equiv.swap_apply_right,
         show Equiv.swap j k i = i from Equiv.swap_apply_of_ne_of_ne hij hik]
-      simp [l05nK42_tw, hij, Ne.symm hij, hjk, Ne.symm hjk]
+      simp [l05nK42_tw, hij, Ne.symm hij, hjk]
     · by_cases hmk : m = k
       · rw [hmk, show Equiv.swap i j k = k from
               Equiv.swap_apply_of_ne_of_ne (Ne.symm hik) (Ne.symm hjk),
             Equiv.swap_apply_right]
-        simp [l05nK42_tw, hik, Ne.symm hik, hjk, Ne.symm hjk]
+        simp [l05nK42_tw, Ne.symm hik, Ne.symm hjk]
       · rw [show Equiv.swap i j m = m from Equiv.swap_apply_of_ne_of_ne hmi hmj,
             show Equiv.swap j k m = m from Equiv.swap_apply_of_ne_of_ne hmj hmk]
         simp [l05nK42_tw, hmi, hmj, hmk]
@@ -711,11 +711,11 @@ private lemma l05nK42_tw_product_sign
       (if k = i then -1 else 1 : ZMod p) * (if k = j then -1 else 1) := by
   rw [l05nK42_tw]
   by_cases hki : k = i
-  · rw [if_pos (Or.inl hki), if_pos hki, if_neg (fun h => hij (hki ▸ h))]
+  · rw [ite_eq_left (Or.inl hki), ite_eq_left hki, ite_eq_right (fun h => hij (hki ▸ h))]
     ring
   · by_cases hkj : k = j
-    · rw [if_pos (Or.inr hkj), if_neg hki, if_pos hkj]; ring
-    · rw [if_neg (fun h => h.elim hki hkj), if_neg hki, if_neg hkj]; ring
+    · rw [ite_eq_left (Or.inr hkj), ite_eq_right hki, ite_eq_left hkj]; ring
+    · rw [ite_eq_right (fun h => h.elim hki hkj), ite_eq_right hki, ite_eq_right hkj]; ring
 
 private lemma l05nK42_conj_Tp_Tp
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -736,7 +736,7 @@ private lemma l05nK42_conj_Tp_Tm
   apply l05nK42_ext_basis (b := b)
   intro m
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply]
-  simp only [l05nK42_Tp_apply, l05nK42_Tm_apply_tw, map_smul, smul_smul]
+  simp only [l05nK42_Tp_apply, l05nK42_Tm_apply_tw, map_smul]
   rw [l05nK42_swap_conj hij hjk hik]
   rw [l05nK42_tw_swap₁ hij hjk hik]
 
@@ -891,7 +891,7 @@ private lemma l05nK42_monomial_pair_unique
     have heq : c₁ i • b (σ₁ i) = c₂ i • b (σ₂ i) := by rw [← h1 i, h2 i]
     have h := congrArg (fun v => b.equivFun v (σ₁ i)) heq
     simp only [map_smul, Pi.smul_apply, smul_eq_mul, Module.Basis.equivFun_self] at h
-    rw [if_neg (show ¬ (σ₂ i = σ₁ i) from fun hh => hne (congrArg Fin.val hh.symm))] at h
+    rw [ite_eq_right (show ¬ (σ₂ i = σ₁ i) from fun hh => hne (congrArg Fin.val hh.symm))] at h
     simp at h
     rcases hc1 i with hc | hc
     · rw [hc] at h; exact one_ne_zero h
@@ -1032,7 +1032,7 @@ private lemma l05nK42_Tp_eq_Tm_mul_SS
     {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) {i j : Fin n} (hij : i ≠ j) :
     l05nK42_Tp b i j = l05nK42_Tm b i j * l05nK42_S b j * l05nK42_S b i := by
   rw [← l05nK42_Tp_mul_SS b hij]
-  simp only [mul_assoc, l05nK42_S_mul_self, mul_one, one_mul]
+  simp only [mul_assoc, l05nK42_S_mul_self, mul_one]
 
 private lemma l05nK42_both_of_Gamma_of_S
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -1085,8 +1085,8 @@ private lemma l05nK42_monomial_mem_of_S_permMap
     rcases hc i with hci | hci
     · have hni : σ i ∉ s := by
         rw [hmem i, hci]; exact fun h => l05nK42_one_ne_neg_one hp2 h
-      rw [hci, if_neg hni, one_smul]
-    · rw [hci, if_pos ((hmem i).mpr hci)]
+      rw [hci, ite_eq_right hni, one_smul]
+    · rw [hci, ite_eq_left ((hmem i).mpr hci)]
   rw [hDeq]
   exact A.mul_mem hDmem (hP σ)
 
@@ -1095,10 +1095,10 @@ private lemma l05nK42_tw_swap₂ {p : ℕ} {n : ℕ} {i j k m : Fin n}
     l05nK42_tw (p := p) i j (Equiv.swap j k m) = l05nK42_tw (p := p) i k m := by
   by_cases hmj : m = j
   · rw [hmj, Equiv.swap_apply_left]
-    simp [l05nK42_tw, hij, Ne.symm hij, hik, Ne.symm hik, hjk, Ne.symm hjk]
+    simp [l05nK42_tw, Ne.symm hij, Ne.symm hik, hjk, Ne.symm hjk]
   · by_cases hmk : m = k
     · rw [hmk, Equiv.swap_apply_right]
-      simp [l05nK42_tw, hjk, Ne.symm hjk, hik, Ne.symm hik]
+      simp [l05nK42_tw, Ne.symm hik]
     · by_cases hmi : m = i
       · rw [hmi, show Equiv.swap j k i = i from Equiv.swap_apply_of_ne_of_ne hij hik]
         simp [l05nK42_tw]
@@ -1118,13 +1118,13 @@ private lemma l05nK42_tw_mul_tw {p : ℕ} {n : ℕ} {i j k m : Fin n}
     l05nK42_tw (p := p) i j m * l05nK42_tw (p := p) j k m = l05nK42_tw (p := p) i k m := by
   by_cases hmi : m = i
   · rw [hmi]
-    simp [l05nK42_tw, hij, Ne.symm hij, hik, Ne.symm hik]
+    simp [l05nK42_tw, hij, hik]
   · by_cases hmj : m = j
     · rw [hmj]
-      simp [l05nK42_tw, hij, Ne.symm hij, hjk, Ne.symm hjk]
+      simp [l05nK42_tw, Ne.symm hij, hjk]
     · by_cases hmk : m = k
       · rw [hmk]
-        simp [l05nK42_tw, hik, Ne.symm hik, hjk, Ne.symm hjk]
+        simp [l05nK42_tw, Ne.symm hik, Ne.symm hjk]
       · simp [l05nK42_tw, hmi, hmj, hmk]
 
 private lemma l05nK42_tw_conj_tm_coeff {p : ℕ} {n : ℕ} {i j k m : Fin n}
@@ -1259,7 +1259,7 @@ private lemma l05nK42_Tm_mem_PDsub
 private lemma l05nK42_mem_PDsub
     {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
-    (A : Subgroup (V ≃ₗ[ZMod p] V)) (hirr : ZS.AbsIrred p A)
+    (A : Subgroup (V ≃ₗ[ZMod p] V)) (_hirr : ZS.AbsIrred p A)
     (hgen : A = Subgroup.closure {r | r ∈ A ∧ GGLinRefl r})
     (hmon : ∀ a ∈ A, ∃ (σ : Equiv.Perm (Fin n)) (c : Fin n → ZMod p),
       (∀ i, c i = 1 ∨ c i = -1) ∧ ∀ i, a (b i) = c i • b (σ i))
@@ -1369,7 +1369,7 @@ private lemma l05nK42_E_pair
   by_cases hka : k = a
   · rw [hka]; simp [l05nK42_tw, Finset.mem_insert, ha]
   · by_cases hkb : k = b'
-    · rw [hkb]; simp [l05nK42_tw, Finset.mem_insert, hb, hab, Ne.symm hab]
+    · rw [hkb]; simp [l05nK42_tw, Finset.mem_insert, hb, Ne.symm hab]
     · by_cases hkt : k ∈ t'
       · simp [l05nK42_tw, Finset.mem_insert, hkt, hka, hkb]
       · simp [l05nK42_tw, Finset.mem_insert, hkt, hka, hkb]
@@ -1377,11 +1377,11 @@ private lemma l05nK42_E_pair
 private lemma l05nK42_diag_mem_of_prod
     {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) (A : Subgroup (V ≃ₗ[ZMod p] V))
-    (hD : ∀ k l, k ≠ l → l05nK42_D2 b k l ∈ A)
-    (s : Finset (Fin n)) (hsprod : ∏ k ∈ s, (-1 : ZMod p) = 1) :
+    (hD : ∀ _k l, _k ≠ l → l05nK42_D2 b _k l ∈ A)
+    (s : Finset (Fin n)) (hsprod : ∏ _k ∈ s, (-1 : ZMod p) = 1) :
     ZS.diagMap p b (l05nK42_du (p := p) s) ∈ A := by
   classical
-  have H : ∀ m, (∀ k, k < m → ∀ t : Finset (Fin n), t.card = k →
+  have H : ∀ m, (∀ _k, _k < m → ∀ t : Finset (Fin n), t.card = _k →
         (∏ x ∈ t, (-1 : ZMod p)) = 1 →
         ZS.diagMap p b (l05nK42_du (p := p) t) ∈ A) →
       ∀ t : Finset (Fin n), t.card = m → (∏ x ∈ t, (-1 : ZMod p)) = 1 →
@@ -1409,7 +1409,7 @@ private lemma l05nK42_diag_mem_of_prod
           have h1 : t'.card + 1 = (t.erase a).card := Finset.card_erase_add_one hb_erase
           have h2 : (t.erase a).card + 1 = t.card := Finset.card_erase_add_one ha
           omega
-        have hprod' : ∏ k ∈ t', (-1 : ZMod p) = 1 := by
+        have hprod' : ∏ _k ∈ t', (-1 : ZMod p) = 1 := by
           have ha_ins : a ∉ insert b' t' := by simp [Finset.mem_insert, hab, ha']
           have h := htprod
           rw [ht_eq, Finset.prod_insert ha_ins, Finset.prod_insert hb''] at h
@@ -1474,8 +1474,8 @@ private lemma l05nK42_monomial_mem_of_D2_Tp
     rcases hc i with hci | hci
     · have hni : σ i ∉ s := by
         rw [hmem i, hci]; exact fun h => l05nK42_one_ne_neg_one hp2 h
-      rw [hci, if_neg hni, one_smul]
-    · rw [hci, if_pos ((hmem i).mpr hci)]
+      rw [hci, ite_eq_right hni, one_smul]
+    · rw [hci, ite_eq_left ((hmem i).mpr hci)]
   rw [hDeq]
   exact A.mul_mem hDmem (hP σ)
 
@@ -1490,7 +1490,7 @@ private lemma l05nK42_eps_self
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) (A : Subgroup (V ≃ₗ[ZMod p] V))
     (i : Fin n) : l05nK42_eps b A i i = 1 := by
-  rw [l05nK42_eps, if_pos]
+  rw [l05nK42_eps, ite_eq_left]
   rw [l05nK42_Tp_self]; exact A.one_mem
 
 private lemma l05nK42_eps_mul_self
@@ -1530,7 +1530,7 @@ private lemma l05nK42_eps_mul
     · have h3 : l05nK42_Tp b i k ∈ A := by
         rw [← l05nK42_conj_Tp_Tp b hij hjk hik]
         exact A.mul_mem (A.mul_mem h1 h2) h1
-      rw [if_pos h3, if_pos h1, if_pos h2]; ring
+      rw [ite_eq_left h3, ite_eq_left h1, ite_eq_left h2]; ring
     · have h2' : l05nK42_Tm b j k ∈ A := by
         rcases hall j k with h | h
         · exact absurd h h2
@@ -1539,7 +1539,7 @@ private lemma l05nK42_eps_mul
         rw [← l05nK42_conj_Tp_Tm b hij hjk hik]
         exact A.mul_mem (A.mul_mem h1 h2') h1
       have h3 : l05nK42_Tp b i k ∉ A := fun h => hno i k hik ⟨h, hpik⟩
-      rw [if_neg h3, if_pos h1, if_neg h2]; ring
+      rw [ite_eq_right h3, ite_eq_left h1, ite_eq_right h2]; ring
   · have h1' : l05nK42_Tm b i j ∈ A := by
       rcases hall i j with h | h
       · exact absurd h h1
@@ -1549,7 +1549,7 @@ private lemma l05nK42_eps_mul
         rw [← l05nK42_conj_Tm_Tp b hij hjk hik]
         exact A.mul_mem (A.mul_mem h1' h2) h1'
       have h3 : l05nK42_Tp b i k ∉ A := fun h => hno i k hik ⟨h, hpik⟩
-      rw [if_neg h3, if_neg h1, if_pos h2]; ring
+      rw [ite_eq_right h3, ite_eq_right h1, ite_eq_left h2]; ring
     · have h2' : l05nK42_Tm b j k ∈ A := by
         rcases hall j k with h | h
         · exact absurd h h2
@@ -1557,7 +1557,7 @@ private lemma l05nK42_eps_mul
       have h3 : l05nK42_Tp b i k ∈ A := by
         rw [← l05nK42_conj_Tm_Tm b hij hjk hik]
         exact A.mul_mem (A.mul_mem h1' h2') h1'
-      rw [if_pos h3, if_neg h1, if_neg h2]; ring
+      rw [ite_eq_left h3, ite_eq_right h1, ite_eq_right h2]; ring
 
 private lemma l05nK42_eps_eq_d
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -1581,7 +1581,7 @@ private lemma l05nK42_eps_eq_d
         rw [hmain, l05nK42_eps_symm b A i z, l05nK42_eps_symm b A j z]
 
 private lemma l05nK42_d_swap_eq
-    {p : ℕ} {n : ℕ} {i j : Fin n} (hij : i ≠ j) {d : Fin n → ZMod p} (hd : d i = d j)
+    {p : ℕ} {n : ℕ} {i j : Fin n} (_hij : i ≠ j) {d : Fin n → ZMod p} (hd : d i = d j)
     (l : Fin n) : d (Equiv.swap i j l) = d l := by
   by_cases hli : l = i
   · rw [hli, Equiv.swap_apply_left, hd]
@@ -1590,7 +1590,7 @@ private lemma l05nK42_d_swap_eq
     · rw [Equiv.swap_apply_of_ne_of_ne hli hlj]
 
 private lemma l05nK42_d_swap_tw
-    {p : ℕ} {n : ℕ} {i j : Fin n} (hij : i ≠ j) {d : Fin n → ZMod p}
+    {p : ℕ} {n : ℕ} {i j : Fin n} (_hij : i ≠ j) {d : Fin n → ZMod p}
     (hd : d i = - d j) (l : Fin n) :
     d (Equiv.swap i j l) * l05nK42_tw (p := p) i j l = d l := by
   by_cases hli : l = i
@@ -1608,7 +1608,7 @@ private lemma l05nK42_d_swap_tw
 private lemma l05nK42_Tp_fixes_sum
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) (d : Fin n → ZMod p) {i j : Fin n}
-    (hij : i ≠ j) (hd : ∀ l, d (Equiv.swap i j l) = d l) :
+    (_hij : i ≠ j) (hd : ∀ l, d (Equiv.swap i j l) = d l) :
     l05nK42_Tp b i j (∑ k, d k • b k) = ∑ k, d k • b k := by
   rw [map_sum]
   simp only [map_smul, l05nK42_Tp_apply]
@@ -1621,7 +1621,7 @@ private lemma l05nK42_Tp_fixes_sum
 private lemma l05nK42_Tm_fixes_sum
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) (d : Fin n → ZMod p) {i j : Fin n}
-    (hij : i ≠ j) (hd : ∀ l, d (Equiv.swap i j l) * l05nK42_tw (p := p) i j l = d l) :
+    (_hij : i ≠ j) (hd : ∀ l, d (Equiv.swap i j l) * l05nK42_tw (p := p) i j l = d l) :
     l05nK42_Tm b i j (∑ k, d k • b k) = ∑ k, d k • b k := by
   rw [map_sum]
   simp only [map_smul, l05nK42_Tm_apply_tw, smul_smul]
@@ -1657,7 +1657,7 @@ private lemma l05nK42_no_pair_contra
   have hd_swap_eq : ∀ {i j : Fin n}, i ≠ j → l05nK42_Tp b i j ∈ A →
       ∀ l, d (Equiv.swap i j l) = d l := by
     intro i j hij hTp l
-    have he : l05nK42_eps b A i j = 1 := by rw [l05nK42_eps, if_pos hTp]
+    have he : l05nK42_eps b A i j = 1 := by rw [l05nK42_eps, ite_eq_left hTp]
     have hdi : d i = d j := by
       have h1 : d i * d j = 1 := by rw [← hd_eq i j, he]
       calc d i = d i * 1 := (mul_one _).symm
@@ -1670,7 +1670,7 @@ private lemma l05nK42_no_pair_contra
       ∀ l, d (Equiv.swap i j l) * l05nK42_tw (p := p) i j l = d l := by
     intro i j hij hTm l
     have he : l05nK42_eps b A i j = -1 := by
-      rw [l05nK42_eps, if_neg (fun h => hno i j hij ⟨h, hTm⟩)]
+      rw [l05nK42_eps, ite_eq_right (fun h => hno i j hij ⟨h, hTm⟩)]
     have h1 : d i * d j = -1 := by rw [← hd_eq i j, he]
     have hdi : d i = - d j := by
       calc d i = d i * 1 := (mul_one _).symm
@@ -1683,8 +1683,7 @@ private lemma l05nK42_no_pair_contra
   have hv_coord : b.equivFun v z = 1 := by
     change b.equivFun (∑ k, d k • b k) z = 1
     rw [map_sum, Finset.sum_apply]
-    simp only [map_smul, Pi.smul_apply, Module.Basis.equivFun_self, smul_eq_mul,
-      Pi.single_apply]
+    simp only [map_smul, Pi.smul_apply, Module.Basis.equivFun_self, smul_eq_mul]
     rw [Finset.sum_eq_single z]
     · simp [hdz]
     · intro k _ hk; simp [hk]
@@ -1752,7 +1751,7 @@ private lemma l05nK42_no_pair_contra
       rw [← hc1, ← hc2, smul_smul, smul_smul, mul_comm]
     have hcoord := congrArg (fun w => b.equivFun w z) heq
     simp only [map_smul, Pi.smul_apply, smul_eq_mul, Module.Basis.equivFun_self] at hcoord
-    simp [hzz', Ne.symm hzz'] at hcoord
+    simp [Ne.symm hzz'] at hcoord
     exact hc2_ne hcoord
 
 end SignedClass

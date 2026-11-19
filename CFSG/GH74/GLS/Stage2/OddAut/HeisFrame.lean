@@ -102,7 +102,7 @@ theorem heis_frame (ξ : K) (hξ1 : ξ ≠ 1) (hξ3 : ξ ^ 3 = 1) (x y : Matrix 
     have hcol : B.col = vs := by
       funext j i
       simp [hB, Matrix.col_apply]
-    rw [← Matrix.linearIndependent_cols_iff_isUnit, hcol]
+    rw [← Matrix.linearIndependent_col_iff_isUnit, hcol]
     exact hli
   refine ⟨B, μ, hBu, hμ0, ?_⟩
   ext i j

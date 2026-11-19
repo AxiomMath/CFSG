@@ -271,7 +271,7 @@ theorem fixR_sound (Q P : Nat → Bool) (X : Nat → Nat) : ∀ n,
   | 0 => ⟨rfl, fun _ => rfl⟩
   | n + 1 => by
     obtain ⟨ih1, ih2⟩ := fixR_sound Q P X n
-    simp only [natRec_succ_t84]
+    simp only
     rw [List.range_succ, List.filter_append, List.length_append, ← ih1]
     cases hq : Q (X n)
     · refine ⟨by simp [hq], fun H => ih2 fun t ht => H t (Nat.lt_succ_of_lt ht)⟩

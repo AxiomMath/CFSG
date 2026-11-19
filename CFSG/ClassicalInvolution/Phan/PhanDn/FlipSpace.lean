@@ -480,10 +480,10 @@ theorem isFlipflopSub_span_stdE :
   if (i : ℕ) + 1 < n then stdE (K := K) i else stdF (K := K) i
 
 theorem stdAlt_of_lt {i : Fin n} (h : (i : ℕ) + 1 < n) : stdAlt (K := K) i = stdE i := by
-  rw [stdAlt, if_pos h]
+  rw [stdAlt, ite_eq_left h]
 
 theorem stdAlt_of_not_lt {i : Fin n} (h : ¬ (i : ℕ) + 1 < n) : stdAlt (K := K) i = stdF i := by
-  rw [stdAlt, if_neg h]
+  rw [stdAlt, ite_eq_right h]
 
 theorem stdAlt_inr_eq_zero_of_mem_span {u : Fin n ⊕ Fin n → K}
     (hu : u ∈ Submodule.span K (Set.range (stdAlt (K := K) (n := n)))) {i : Fin n}

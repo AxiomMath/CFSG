@@ -19,7 +19,7 @@ theorem sec64_core [Finite G] (hout : Asc82Outside) {T H : Subgroup G} {x y : G}
     (c : Sec64Cfg T H x y) (halt : Sec64Tri T H y) : Sec64Out T H y := by
   by_cases hTR : T ≤ centralizer ({y} : Set G)
   · exact sec64_case_eq c halt hTR
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let U : Subgroup G := T ⊓ centralizer ({y} : Set G) ⊓ H
     have hUT : U ≤ T := fun u hu => (Subgroup.mem_inf.mp (Subgroup.mem_inf.mp hu).1).1
     have hpg : IsPGroup 2 ↥U := c.isPGroup.to_le hUT

@@ -34,6 +34,7 @@ abbrev Qt (Y₀ : Subgroup E) : Type := E ⧸ Y₀
 
 abbrev Vsec (Y₀ Y₁ : Subgroup E) : Type := ↥(Vq Y₀ Y₁)
 
+omit [Finite E] in
 theorem mem_Vq {Y₀ Y₁ : Subgroup E} {q : Qt Y₀} : q ∈ Vq Y₀ Y₁ ↔ ∃ y ∈ Y₁, (y : Qt Y₀) = q := by
   unfold Vq
   rw [Subgroup.mem_map]
@@ -43,6 +44,7 @@ theorem mem_Vq {Y₀ Y₁ : Subgroup E} {q : Qt Y₀} : q ∈ Vq Y₀ Y₁ ↔ �
   · rintro ⟨y, hy, rfl⟩
     exact ⟨y, hy, rfl⟩
 
+omit [Finite E] in
 theorem Vsec_sq (Y₀ Y₁ : Subgroup E) (hE2 : ∀ x : E, x ^ 2 = 1) (x : Vsec Y₀ Y₁) :
     x ^ 2 = 1 := by
   obtain ⟨q, hq⟩ := x
@@ -52,6 +54,7 @@ theorem Vsec_sq (Y₀ Y₁ : Subgroup E) (hE2 : ∀ x : E, x ^ 2 = 1) (x : Vsec 
   rw [← QuotientGroup.mk_pow, hE2 y]
   rfl
 
+omit [Finite E] in
 theorem mk_eq_one_of_mem {Y₀ : Subgroup E} {x : E} (hx : x ∈ Y₀) : (x : Qt Y₀) = 1 :=
   (QuotientGroup.eq_one_iff x).mpr hx
 
@@ -67,11 +70,13 @@ theorem mk_eq_one_of_mem {Y₀ : Subgroup E} {x : E} (hx : x ∈ Y₀) : (x : Qt
       have hgx : g (g.symm x) = x := MulEquiv.apply_symm_apply g x
       refine ⟨g.symm x, (hg.2 (g.symm x)).mpr (by rw [hgx]; exact hx), hgx⟩)
 
+omit [Finite E] in
 theorem gQ_mk {Y₀ Y₁ : Subgroup E} {g : MulAut E} {hg : g ∈ stabY Y₀ Y₁} (x : E) :
     gQ g hg (x : Qt Y₀) = ((g x : E) : Qt Y₀) := by
   unfold gQ
   rw [QuotientGroup.congr_mk]
 
+omit [Finite E] in
 theorem map_Vq_eq {Y₀ Y₁ : Subgroup E} {g : MulAut E} (hg : g ∈ stabY Y₀ Y₁) :
     (Vq Y₀ Y₁).map (gQ g hg : Qt Y₀ →* Qt Y₀) = Vq Y₀ Y₁ := by
   ext q
@@ -93,9 +98,11 @@ theorem map_Vq_eq {Y₀ Y₁ : Subgroup E} {g : MulAut E} (hg : g ∈ stabY Y₀
     Vsec Y₀ Y₁ ≃* Vsec Y₀ Y₁ :=
   (MulEquiv.subgroupMap (gQ g hg) (Vq Y₀ Y₁)).trans (MulEquiv.subgroupCongr (map_Vq_eq hg))
 
+omit [Finite E] in
 theorem gV_coe {Y₀ Y₁ : Subgroup E} {g : MulAut E} (hg : g ∈ stabY Y₀ Y₁) (x : Vsec Y₀ Y₁) :
     ((gV g hg x : Vsec Y₀ Y₁) : Qt Y₀) = gQ g hg (x : Qt Y₀) := rfl
 
+omit [Finite E] in
 theorem exists_mk_of_Vsec {Y₀ Y₁ : Subgroup E} (x : Vsec Y₀ Y₁) :
     ∃ y ∈ Y₁, ((y : E) : Qt Y₀) = (x : Qt Y₀) :=
   mem_Vq.mp x.2

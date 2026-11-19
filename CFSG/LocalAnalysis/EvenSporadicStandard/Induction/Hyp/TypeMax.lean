@@ -45,7 +45,7 @@ theorem cyclic_sylow_of_std (thm24_1 : Sol78Thm24_1Use) (hN : FStarSimple N)
   have hrP : CFSG.pRank 2 ↥(P : Subgroup ↥(centralizer (A : Set H))) ≤ 1 :=
     (pRank_two_le_of_injective (P : Subgroup ↥(centralizer (A : Set H))).subtype
       (Subgroup.subtype_injective _)).trans hrk
-  rcases isCyclic_or_genQuaternion_of_pRank_le_one P.isPGroup' hrP with hc | hq
+  rcases isCyclic_or_genQuaternion_of_pRank_le_one P.isPGroup hrP with hc | hq
   · exact hc
   · exact (hlie H N hN (thm24_1 H N hN hord A hA ⟨P, hq⟩) A hA hcov).elim
 

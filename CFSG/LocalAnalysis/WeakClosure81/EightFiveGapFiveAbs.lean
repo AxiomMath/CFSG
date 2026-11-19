@@ -72,7 +72,7 @@ theorem gap5_fusionOddCore_char {X : Type} [Group X] [Finite X] :
       ∀ a : MulAut X, ∀ q ∈ fusionOddCore X, a q ∈ fusionOddCore X := by
   refine ⟨CFSG.EvenSporadicStandard.Fin76b.odd_natCard_fusionOddCore X, ?_⟩
   intro a q hq
-  haveI hmap : ((fusionOddCore X).map a.toMonoidHom).Normal :=
+  have hmap : ((fusionOddCore X).map a.toMonoidHom).Normal :=
     (fusionOddCore_normal X).map a.toMonoidHom a.surjective
   have hcard : Nat.card ((fusionOddCore X).map a.toMonoidHom) = Nat.card (fusionOddCore X) :=
     Subgroup.card_map_of_injective (f := a.toMonoidHom) a.injective
@@ -115,7 +115,7 @@ theorem gap5_abstract {X : Type} [Group X] [Finite X] {S Z₁ : Subgroup X} {r :
       (∀ x, ψ x = 1 ↔ x ∈ Z₁) ∧ IsSymGp Y 6 := by
   obtain ⟨n, hn⟩ := hn
   have hZc : Z₁ ≤ Subgroup.center X := hAct.le_center
-  haveI hZnormal : Z₁.Normal := Subgroup.normal_of_le_center hZc
+  have hZnormal : Z₁.Normal := Subgroup.normal_of_le_center hZc
   let ψ : X →* X ⧸ Z₁ := QuotientGroup.mk' Z₁
   have hψs : Function.Surjective ψ := QuotientGroup.mk'_surjective Z₁
   have hψk : ∀ x, ψ x = 1 ↔ x ∈ Z₁ := fun x => QuotientGroup.eq_one_iff x

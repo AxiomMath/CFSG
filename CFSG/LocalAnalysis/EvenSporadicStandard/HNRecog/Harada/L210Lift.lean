@@ -14,6 +14,7 @@ open Subgroup CFSG.EvenSporadicStandard.HNRecog.HaradaLA
 variable {G : Type} [Group G] [Finite G] {t z z₁ : G} {ι : Elem2 6 →* G} {zv : V6}
   {R0 F : Subgroup G} (h : Setting25 G t z z₁ ι zv R0 F)
 
+omit [Finite G] in
 private lemma zpowers_subgroupOf_Mgrp_le_center (z : G) :
     (zpowers z).subgroupOf (Mgrp z) ≤ Subgroup.center ↥(Mgrp z) := by
   intro x hx
@@ -58,7 +59,7 @@ private theorem central_extension_perfect
       ⁅⁅D.comap π, D.comap π⁆, ⁅D.comap π, D.comap π⁆⁆ = ⁅D.comap π, D.comap π⁆ := by
   set Dt : Subgroup H := D.comap π with hDt
   set Y0 : Subgroup H := ⁅Dt, Dt⁆ with hY0
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   have hmem_c : ∀ y : ↥Dt, ⁅(y : H), t⁆ ∈ Z := by
     intro y
     rw [commutatorElement_def, ← hker, MonoidHom.mem_ker]
@@ -124,9 +125,9 @@ theorem noA5_Aq (hF : Facts210 G t z) :
       (∀ d ∈ D, d * wq h = wq h * d) → IsEmpty (↥D ≃* alternatingGroup (Fin 5)) := by
   intro D _hDnorm hDcent
   refine ⟨fun e => ?_⟩
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
-  haveI : Group.IsPerfect ↥D :=
+  have : Group.IsPerfect ↥D :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) (MulEquiv.surjective e.symm)
   have hDperf : ⁅D, D⁆ = D := Subgroup.commutator_eq_self
   let Z : Subgroup ↥(Mgrp z) := (zpowers z).subgroupOf (Mgrp z)

@@ -234,7 +234,7 @@ theorem exists_commutator_eq_zpowers_of_isSylowOf (h131 : Item131) (hspor : Spor
   have hLN : A ⊔ L ≤ Subgroup.normalizer (L : Set G) :=
     sup_le h.le_normalizer Subgroup.le_normalizer
   obtain ⟨Q, hQ⟩ := hP.inf_of_le_normalizer le_sup_right hLN
-  have hS3 : IsPGroup 3 (Q : Subgroup L) := Q.isPGroup'
+  have hS3 : IsPGroup 3 (Q : Subgroup L) := Q.isPGroup
   set Ps : Sylow 3 (L ⧸ aschbacherSolvableCore 3 L) :=
     Q.mapSurjective (QuotientGroup.mk'_surjective _) with hPsdef
   have hPs : (Ps : Subgroup _) =

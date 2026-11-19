@@ -134,7 +134,7 @@ private theorem e6TwoT31_a5LeviBaseChange_fixed
         (FiniteField.Extension.frob F2 2 5).toRingEquiv.toRingHom d' = d') :
     ∃ d₀ : E6Pilot.a5Levi F2,
       E6Pilot.a5LeviBaseChange (algebraMap F2 (FiniteField.Extension F2 2 5)) d₀ = d' := by
-  haveI : CharP (FiniteField.Extension F2 2 5) 2 :=
+  have : CharP (FiniteField.Extension F2 2 5) 2 :=
     charP_of_injective_algebraMap
       (algebraMap F2 (FiniteField.Extension F2 2 5)).injective 2
   obtain ⟨A, hA⟩ := E6Pilot.slToA5Levi_surjective d'
@@ -189,7 +189,7 @@ private theorem e6TwoT31_descent_a5Levi
 
 theorem centralizer_e6TwoT31 :
     Subgroup.centralizer ({e6TwoT31} : Set EC) = Subgroup.zpowers e6TwoT31 ⊔ sTheta := by
-  haveI : CharP (FiniteField.Extension F2 2 5) 2 :=
+  have : CharP (FiniteField.Extension F2 2 5) 2 :=
     charP_of_injective_algebraMap
       (algebraMap F2 (FiniteField.Extension F2 2 5)).injective 2
   have ht₀ : (e6TwoT31 : ModGL .E6 F2) ∈ rootSpan .E6 F2 (EPilot.perpRoots .E6) := by
@@ -381,8 +381,8 @@ theorem centralizer_e6TwoT31 :
 theorem e6TwoCentT31_holds :
     E6TwoCentT31 := by
   intro t ht_lE ht_order
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
-  haveI hFin : Finite EC := finite_EC
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have hFin : Finite EC := finite_EC
   have hlE_cent : lE ≤ Subgroup.centralizer (sTheta : Set EC) := by
     intro x hx
     refine Subgroup.mem_centralizer_iff.2 fun y hy => ?_

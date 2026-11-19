@@ -11,6 +11,7 @@ open Module
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private lemma act_eq_of_mem_adjoin {γ δ p : V →ₗ[ZMod 2] V}
     (hcomm : Commute δ γ) (hp : Commute γ p) {u : V} (hpu : p u = δ u) :
     ∀ w ∈ Submodule.span (ZMod 2) (Set.range fun i : Fin 5 => (γ ^ (i : ℕ)) u),

@@ -131,10 +131,10 @@ theorem exists_sylow_le [Finite G] (hyp : Asc03Hyp G z) :
   obtain ⟨P, hP⟩ := hT₀p.exists_le_sylow
   have hPeq : T₀ = (P : Subgroup G) := by
     by_contra hne
-    obtain ⟨x, hxP, hxT, hxN⟩ := exists_mem_normalizer_not_mem P.isPGroup' hP hne
+    obtain ⟨x, hxP, hxT, hxN⟩ := exists_mem_normalizer_not_mem P.isPGroup hP hne
     have hxH := hnorm x hxN
     have hxp : IsPGroup 2 ↥(zpowers x) :=
-      P.isPGroup'.to_le ((Subgroup.zpowers_le).2 hxP)
+      P.isPGroup.to_le ((Subgroup.zpowers_le).2 hxP)
     have hS : IsPGroup 2 ↥(T₀ ⊔ zpowers x) :=
       hT₀p.to_sup_of_normal_left' hxp ((Subgroup.zpowers_le).2 hxN)
     have hSH : T₀ ⊔ zpowers x ≤ ascH z := sup_le hT₀H ((Subgroup.zpowers_le).2 hxH)

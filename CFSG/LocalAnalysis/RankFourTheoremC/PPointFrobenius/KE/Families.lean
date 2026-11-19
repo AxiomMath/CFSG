@@ -35,7 +35,7 @@ theorem ke_glbCore_eq_top_of_innerExFive (hS : SeitzInnerExFive) {K : Type} [Gro
     (h3 : 3 ≤ Open.pRank p (T : Subgroup K)) : GLBCore p 1 (T : Subgroup K) = ⊤ := by
   have hp2 : p ≠ 2 := by omega
   have : Fact p.Prime := ⟨hp⟩
-  have : Fact (IsPGroup p (T : Subgroup K)) := ⟨T.isPGroup'⟩
+  have : Fact (IsPGroup p (T : Subgroup K)) := ⟨T.isPGroup⟩
   have hnc : ¬ IsCyclic (T : Subgroup K) :=
     CFSG.Goldschmidt.Sec82.not_isCyclic_of_two_le_pRank hp (by omega)
   obtain ⟨E, -, hEcard, hEel⟩ := CFSG.lemma_4_5_a hp2 hnc

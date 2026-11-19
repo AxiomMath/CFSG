@@ -122,7 +122,7 @@ theorem false_of_oddLie_card (hGLS : GLS3OddLieAutComponentsInput) (hO : LieOrde
 theorem exists_inner_fixedComponent {Y : Type} [Group Y] [Finite Y] {N' : Subgroup Y}
     (hN : FStarSimple N') (hidx : N'.index ≤ 2) {L' : Subgroup Y} (hsol : SolStd L')
     (hq : CFSG.IsQuasisimple ↥L') (hev : Even (Nat.card ↥(center ↥L'))) :
-    ∃ (z : Y) (hz : z ∈ N') (σ : MulAut ↥N') (D : Subgroup ↥(fixedSubgroup σ)),
+    ∃ (z : Y) (_hz : z ∈ N') (σ : MulAut ↥N') (D : Subgroup ↥(fixedSubgroup σ)),
       L' ≤ N' ∧ orderOf z = 2 ∧ z ∈ centralizer (L' : Set Y) ∧ orderOf σ = 2 ∧
         σ ∈ (MulAut.conj : ↥N' →* MulAut ↥N').range ∧ IsComponent D ∧ Nonempty (↥D ≃* ↥L') := by
   have hNn : N'.Normal := hN.normal
@@ -176,7 +176,7 @@ theorem catalogU62_of_inputs
     ⟨n, k, -, hk5, -, -, -, ⟨eA⟩⟩ | ⟨hodd, -⟩ | ⟨-, hout, -⟩ | ⟨s, ⟨es⟩⟩
   ·
     exfalso
-    haveI : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.2 (by omega)
     have hk : Nat.card (↥D ⧸ center ↥D) = k.factorial / 2 := by
       rw [Nat.card_congr eA.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     exact factorial_div_two_ne_u62 k (hk.symm.trans hDcard)
@@ -251,7 +251,7 @@ theorem catalogE62_of_inputs
   rcases catalog_fixed_component hGLS hEI hEO hna hcat hσ hD with
     ⟨n, k, -, hk5, -, -, -, ⟨eA⟩⟩ | ⟨hodd, -⟩ | ⟨-, hout, -⟩ | ⟨s, ⟨es⟩⟩
   · exfalso
-    haveI : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.2 (by omega)
     have hk : Nat.card (↥D ⧸ center ↥D) = k.factorial / 2 := by
       rw [Nat.card_congr eA.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     exact factorial_div_two_ne_e62 k (hk.symm.trans hDcard)

@@ -58,7 +58,7 @@ theorem solvable_characteristic_two_three_free_thompson_factorization [Group.IsS
     rw [pCoreOf_top]
     exact inf_le_right.trans hchar
   have hT : IsSylowTwoOf (T : Subgroup G) ⊤ := by
-    refine ⟨le_top, T.isPGroup', ?_⟩
+    refine ⟨le_top, T.isPGroup, ?_⟩
     change ¬ 2 ∣ (T : Subgroup G).relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     exact T.not_dvd_index

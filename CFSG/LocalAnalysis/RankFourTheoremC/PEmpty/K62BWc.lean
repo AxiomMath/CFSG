@@ -14,9 +14,11 @@ variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x z : Y}
 @[expose] def omega1 (p : ℕ) (P : Subgroup Y) (C : ComponentIndex Y) : Subgroup Y :=
   Subgroup.closure {a : Y | a ∈ P ⊓ C.1 ∧ a ^ p = 1}
 
+omit [Finite Y] in
 theorem omega1_le (p : ℕ) (P : Subgroup Y) (C : ComponentIndex Y) : omega1 p P C ≤ P ⊓ C.1 :=
   (Subgroup.closure_le _).2 fun _ ha => ha.1
 
+omit [Finite Y] in
 theorem map_conj_omega1 (p : ℕ) {g : Y} (hg : g ∈ P) (C : ComponentIndex Y) :
     (omega1 p P C).map (MulAut.conj g).toMonoidHom = omega1 p P (cjComp g C) := by
   unfold omega1
@@ -42,6 +44,7 @@ theorem map_conj_omega1 (p : ℕ) {g : Y} (hg : g ∈ P) (C : ComponentIndex Y) 
     · simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       group
 
+omit [Finite Y] in
 theorem fixed_cjComp_iff {g : Y} (hg : g ∈ P) (C : ComponentIndex Y) :
     Fixed P (cjComp g C) ↔ Fixed P C := by
   have key : ∀ (D : ComponentIndex Y) (k : Y), k ∈ P → Fixed P D → Fixed P (cjComp k D) := by
@@ -62,18 +65,18 @@ theorem Cfg.omega1_eq_zpowers (h : Cfg p P x z) {C : ComponentIndex Y}
     ∃ a₀ : Y, a₀ ∈ P ⊓ C.1 ∧ orderOf a₀ = p ∧ omega1 p P C = zpowers a₀ := by
   classical
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set A : Subgroup Y := P ⊓ C.1 with hA
   have hAp : IsPGroup p A := h.isPGroup.to_le inf_le_left
   have hAne : A ≠ ⊥ := h.inf_comp_ne_bot C
-  haveI : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).2 hAne
+  have : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot A).2 hAne
   obtain ⟨m, hm, hmcard⟩ := hAp.nontrivial_iff_card.mp inferInstance
   have hdvd : p ∣ Nat.card A := hmcard ▸ dvd_pow_self p hm.ne'
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := A) p hdvd
   set a₀ : Y := (w : Y) with ha₀
   have hord : orderOf a₀ = p := (Subgroup.orderOf_coe w).trans hw
   have ha₀A : a₀ ∈ A := w.2
-  haveI : Fintype ↥A := Fintype.ofFinite _
+  have : Fintype ↥A := Fintype.ofFinite _
   have hle := IsCyclic.card_pow_eq_one_le (α := ↥A) (n := p) hp.pos
   have hwp : w ^ p = 1 := hw ▸ pow_orderOf_eq_one w
   have hsub : (Set.range fun k : Fin p => w ^ (k : ℕ)) ⊆ {a : ↥A | a ^ p = 1} := by

@@ -48,7 +48,7 @@ theorem isElemAbelian_card_closure_rotOrthDerived [FiniteDimensional (ZMod 2) V]
     (hperp : ∀ i j, i ≠ j → PairPerp Q (a i, b i) (a j, b j)) :
     IsElemAbelian 3 (Subgroup.closure (Set.range fun i => rotOrthDerived Q (hp i))) ∧
       Nat.card (Subgroup.closure (Set.range fun i => rotOrthDerived Q (hp i))) = 3 ^ m := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   have hl : IsFrame Q (List.ofFn fun i => (a i, b i)) := isFrame_ofFn hp hperp
   have himage : (orthDerived Q).subtype '' Set.range (fun i => rotOrthDerived Q (hp i)) =
       rotSet Q (List.ofFn fun i => (a i, b i)) := by

@@ -44,7 +44,7 @@ theorem eq_one_of_odd_of_centralizes_sl2 {f : ℕ} (hf : 2 ≤ f)
     exact (mem_sylowCenter.mp hy).2 x hx
   obtain ⟨r, hr, hαr⟩ := Omega.exists_eq_conj_of_abelian hSE hcard hab α
     (fun x hx => hc x (hR ▸ hx))
-  obtain ⟨j, hj⟩ := R.isPGroup' ⟨r, hr⟩
+  obtain ⟨j, hj⟩ := R.isPGroup ⟨r, hr⟩
   have hrj : r ^ 2 ^ j = 1 := by simpa using congrArg Subtype.val hj
   have hα2 : α ^ 2 ^ j = 1 := by rw [hαr, ← map_pow, hrj, map_one]
   have h1 : orderOf α ∣ 2 ^ j := orderOf_dvd_of_pow_eq_one hα2

@@ -140,7 +140,7 @@ theorem exists_order_four_normalized {F : Type*} [Field F] [Finite F]
     ∃ a ∈ (Q : Subgroup SL(2, F)), orderOf a = 4 ∧
       ∀ y ∈ (Q : Subgroup SL(2, F)), y * a * y⁻¹ ∈ zpowers a := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have : Group.IsNilpotent ↥(Q : Subgroup SL(2, F)) := Q.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(Q : Subgroup SL(2, F)) := Q.isPGroup.isNilpotent
   obtain ⟨H, hHcard, hHn⟩ :=
     Group.IsNilpotent.exists_normal_card_eq_of_dvd_card (G := ↥(Q : Subgroup SL(2, F))) h4
   set H' : Subgroup SL(2, F) := H.map (Q : Subgroup SL(2, F)).subtype with hH'

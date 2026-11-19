@@ -49,15 +49,15 @@ theorem lf_tail_facts {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Fiel
         g ∉ statedProjectiveSubspaceStabilizer Q0 (F i) ∧
           ∀ j : Fin r, j ≠ i → g ∈ statedProjectiveSubspaceStabilizer Q0 (F j) := by
   have hpos : 0 < finrank K A := by rcases hm with h | h <;> omega
-  haveI : FiniteDimensional K A := Module.finite_of_finrank_pos hpos
-  haveI : Nontrivial A := Module.nontrivial_of_finrank_pos hpos
+  have : FiniteDimensional K A := Module.finite_of_finrank_pos hpos
+  have : Nontrivial A := Module.nontrivial_of_finrank_pos hpos
   obtain ⟨a₀, ha₀⟩ := exists_ne (0 : A)
-  haveI : Finite A := Module.finite_of_finite K
-  haveI : Finite (lkGL r K A) := Finite.of_injective
+  have : Finite A := Module.finite_of_finite K
+  have : Finite (lkGL r K A) := Finite.of_injective
     (fun g : lkGL r K A => (g : ((Fin r ⊕ Fin r → K) × A) → (Fin r ⊕ Fin r → K) × A))
     DFunLike.coe_injective
-  haveI : Finite (orthElementaryGroup (quadTail r qA)) := inferInstance
-  haveI : Finite (lkQ r qA) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
+  have : Finite (orthElementaryGroup (quadTail r qA)) := inferInstance
+  have : Finite (lkQ r qA) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   have hPhiPi : ∀ i : Fin r, (statedProjectiveSubspaceStabilizer Q0 (F i)).map
       (tailProjEquiv ψ hQ hE).toMonoidHom = lkPi r qA i := by
     intro i
@@ -85,7 +85,7 @@ theorem parabolicPair_lfMinus {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K
     (commutator_orthogonalGroup_quadMinus hn hirr)
     (tailModelFlag_eq_map (minusTailIsometry n K b c) fun _ => rfl)
     (anisotropic_minusTailForm hirr) (Or.inr finrank_fin_two_fun)
-  haveI : Finite (lfMinusModel n K b c) := hfin
+  have : Finite (lfMinusModel n K b c) := hfin
   have hBle : ∀ i : Fin (n - 1),
       statedProjectiveFlagStabilizer (StatedQuadMinus n K b c)
           (OrthogonalTail.tailModelFlag (n - 1) K (Fin 2)) ≤
@@ -127,9 +127,9 @@ theorem pairData_of_statedPOmegaMinus {C : Type} [Group C] {n f : ℕ} (hn : 4 �
     (Or.inr rfl) n 2 f hmc
   obtain ⟨-, K, hK, hfin, hcard, b, c, hirr, ⟨e⟩⟩ := hmc
   have hB := hBI K hcard b c hirr
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   exact pairData_of_mulEquiv e (parabolicPair_lfMinus hn hirr hB)
 

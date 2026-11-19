@@ -65,6 +65,7 @@ variable [Fact (smallCheck () = true)]
 
 @[expose] noncomputable def phi : locC →* Equiv.Perm (Fin 63) := toPerm63.comp sixAction
 
+omit [Fact (smallCheck = true)] in
 theorem phi_mem (c : locC) : phi c ∈ G6 := by
   have h : sixAction c ∈ sixAction.range := ⟨c, rfl⟩
   rw [sixAction_range] at h
@@ -138,6 +139,7 @@ theorem cK_mem {g : ℕ} (hg : g < 2) : ((cK g : locC) : Equiv.Perm (Fin 2300)) 
   · exact Subgroup.subset_closure (Set.mem_insert _ _)
   · exact Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)
 
+omit [Fact (smallCheck = true)] in
 theorem fld_one_lt (r o : ℕ) : fld(r, o, 1) < 2 := by
   have := Nat.and_le_right (n := Nat.shiftRight r o) (m := 1)
   change Nat.shiftRight r o &&& 1 < 2
@@ -232,6 +234,7 @@ theorem exists_L : ∀ c ∈ G6 ⊓ Subgroup.centralizer {X}, ∃ i < 2160, ∃ 
     (fun i hi j hj e => incr_perm_inj hinc hi hj (hr i hi) (e ▸ hr j hj)) card_C c hc
   exact ⟨i, hi, kk i, hkK i hi, uu i, hu i hi, hr i hi, e⟩
 
+omit [Fact (smallCheck = true)] in
 theorem ker_cent {y : locC} (hy : phi y = 1) (hyd : Commute (y : Equiv.Perm (Fin 2300))
     (permOfArr 2300 (i301D ()))) : (y : Equiv.Perm (Fin 2300)) = 1 ∨
       (y : Equiv.Perm (Fin 2300)) = locZ := by

@@ -43,8 +43,8 @@ theorem fixesPair_catA (hp : p.Prime) (hp2 : p ≠ 2)
     (e : L ≃* (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group) (hne : ¬ (p = 3 ∧ IsLThreeTwo L))
     {α : MulAut L} (hα : α ∉ inner L) (hαp : α ^ p = 1) : FixesIndepPair p α := by
   classical
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : CharP (GaloisField q.p q.exponent) 2 := CharP.congr q.p hq2
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : CharP (GaloisField q.p q.exponent) 2 := CharP.congr q.p hq2
   have hrange := (TauCeti.LieTypeIndex.inStandardRange_iff _).1
     ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
   have hr1 : 1 ≤ r := hrange.1

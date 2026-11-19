@@ -27,8 +27,8 @@ theorem exists_mem_centralizer_perpLevi_E7_two (hF : Nat.card F = 2) :
     ∃ y : ↥(adjointGroup .E7 F),
       y ∈ Subgroup.centralizer (perpLevi .E7 F : Set ↥(adjointGroup .E7 F)) ∧
         y ^ 3 = 1 ∧ y ∉ perpLevi .E7 F := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   obtain ⟨X, hXJ, hcyc, hX⟩ :=
     CFSG.SeitzReduction.E6Pilot.exists_nonsplit_le_subgroupOf_highRootSL2 (τ := .E7) (K := F)

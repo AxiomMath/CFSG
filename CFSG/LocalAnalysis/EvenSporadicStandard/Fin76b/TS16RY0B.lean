@@ -86,7 +86,7 @@ theorem S16Model.of_class {X : Type*} [Group X] [Finite X] {t₀ β₀ : X} (h�
       _ = t₀ * β' := by rw [hβ']; group
   have hβ'3 : orderOf β' = 3 := by
     have h1 := MulEquiv.orderOf_eq (MulAut.conj g⁻¹) β
-    have h2 : (MulAut.conj g⁻¹) β = β' := by simp [MulAut.conj_apply, hβ']
+    have h2 : (MulAut.conj g⁻¹) β = β' := by simp [hβ']
     rw [h2, hβ3] at h1
     exact h1
   obtain ⟨c, hc⟩ := exists_conj_order_three (C := ↥(centralizer ({t₀} : Set X))) hcard

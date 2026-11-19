@@ -69,13 +69,13 @@ theorem alpha_ap {x : ℕ} (hx : x < 245520) : ap (orbitData ()).alpha x = tab O
   ((CertificateChecks.KernelSpor.ON2.natTab_TR
     (CertificateChecks.KernelSpor.ON2.orb_tabs CertificateChecks.KernelSpor.ON2.mvAll
       CertificateChecks.KernelSpor.ON2.ordAll CertificateChecks.KernelSpor.ON2.sortAll).1
-    fun i hi => (tabs_lt hi).1).2 x hx).1
+    fun _i hi => (tabs_lt hi).1).2 x hx).1
 
 theorem beta_ap {x : ℕ} (hx : x < 245520) : ap (orbitData ()).beta x = tab ONW.B x :=
   ((CertificateChecks.KernelSpor.ON2.natTab_TR
     (CertificateChecks.KernelSpor.ON2.orb_tabs CertificateChecks.KernelSpor.ON2.mvAll
       CertificateChecks.KernelSpor.ON2.ordAll CertificateChecks.KernelSpor.ON2.sortAll).2
-    fun i hi => (tabs_lt hi).2).2 x hx).1
+    fun _i hi => (tabs_lt hi).2).2 x hx).1
 
 theorem QL_lt' : ∀ x ∈ QL, x < 245520 := CFSG.KS.PC.QL_lt chain_hyp
 

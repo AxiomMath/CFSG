@@ -37,7 +37,7 @@ private theorem form_toRat_twE6Alpha (v : Fin (Tag.rank .F4) → ℤ) :
   rw [Finset.sum_eq_single twE6Last]
   · simp [toRat_apply, mul_comm]
   · intro l _ hl
-    rw [if_neg hl]
+    rw [ite_eq_right hl]
     ring
   · intro h
     exact absurd (Finset.mem_univ twE6Last) h
@@ -94,7 +94,7 @@ private theorem linIndepPair_of_last_eq_zero
 private theorem teGen_normal_eq_top_or_le_center {Q : Type} [Group Q] (hQ : CFSG.IsQuasisimple Q)
     {N : Subgroup Q} (hN : N.Normal) : N = ⊤ ∨ N ≤ Subgroup.center Q := by
   obtain ⟨hperf, hs, -⟩ := hQ
-  haveI : (N.map (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
+  have : (N.map (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
     hN.map _ (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (N.map (QuotientGroup.mk' (Subgroup.center Q))) with h | h

@@ -264,8 +264,8 @@ theorem exists_fixed_diagTorusU {m k : ℕ} (hm : Nat.Coprime m 3) (hk : k = 1 �
       (cycThree ^ k * diagUnits w₀ w₁ w₂)⁻¹ = _
     rw [hX, glAut_diagUnits, conj_diagUnits_eq']
     rcases hk with rfl | rfl
-    · rw [if_pos rfl, pow_one, cycThree_conj_diagUnits]
-    · rw [if_neg (by norm_num), cycThree_sq_conj_diagUnits']
+    · rw [ite_eq_left rfl, pow_one, cycThree_conj_diagUnits]
+    · rw [ite_eq_right (by norm_num), cycThree_sq_conj_diagUnits']
   set t : unitarySU 2 f F 3 := ⟨_, diagUnits_mem_unitarySU (hU := hU) hlN⟩ with ht
   have htT : t ∈ torusSU f F m :=
     ⟨lam, lam⁻¹, 1, hlm, by rw [inv_pow, hlm, inv_one], one_pow _, rfl⟩
@@ -285,11 +285,11 @@ theorem exists_fixed_diagTorusU {m k : ℕ} (hm : Nat.Coprime m 3) (hk : k = 1 �
     have hlm' : (lam : F) ^ m = 1 := by rw [← Units.val_pow_eq_pow_val, hlm, Units.val_one]
     rcases hk with rfl | rfl
     · have h1 := hθd t lam lam⁻¹ 1 rfl
-      rw [if_pos rfl, hρ1] at h1
+      rw [ite_eq_left rfl, hρ1] at h1
       have h2 := hθd (θ t) 1 (ρ' lam) (ρ' lam⁻¹) h1
-      rw [if_pos rfl, hρ1] at h2
+      rw [ite_eq_left rfl, hρ1] at h2
       have h3 := hθd (θ (θ t)) (ρ' (ρ' lam⁻¹)) 1 (ρ' (ρ' lam)) h2
-      rw [if_pos rfl, hρ1, hρ3', hρ3'] at h3
+      rw [ite_eq_left rfl, hρ1, hρ3', hρ3'] at h3
       refine ⟨lam * (ρ' (ρ' lam⁻¹)), lam⁻¹ * ρ' lam, ρ' lam⁻¹ * ρ' (ρ' lam), ?_,
         Subtype.ext h3, ?_⟩
       · rw [hN, Subgroup.coe_mul, Subgroup.coe_mul, h1, h2]
@@ -304,11 +304,11 @@ theorem exists_fixed_diagTorusU {m k : ℕ} (hm : Nat.Coprime m 3) (hk : k = 1 �
         · rw [div_eq_mul_inv, div_eq_mul_inv, e1, mul_comm]
         · rw [div_eq_mul_inv, div_eq_mul_inv, mul_comm, e2, mul_comm]
     · have h1 := hθd t lam lam⁻¹ 1 rfl
-      rw [if_neg (by norm_num), hρ1] at h1
+      rw [ite_eq_right (by norm_num), hρ1] at h1
       have h2 := hθd (θ t) (ρ' lam⁻¹) 1 (ρ' lam) h1
-      rw [if_neg (by norm_num), hρ1] at h2
+      rw [ite_eq_right (by norm_num), hρ1] at h2
       have h3 := hθd (θ (θ t)) 1 (ρ' (ρ' lam)) (ρ' (ρ' lam⁻¹)) h2
-      rw [if_neg (by norm_num), hρ1, hρ3', hρ3'] at h3
+      rw [ite_eq_right (by norm_num), hρ1, hρ3', hρ3'] at h3
       refine ⟨lam * ρ' lam⁻¹, lam⁻¹ * ρ' (ρ' lam), ρ' lam * ρ' (ρ' lam⁻¹), ?_,
         Subtype.ext h3, ?_⟩
       · rw [hN, Subgroup.coe_mul, Subgroup.coe_mul, h1, h2]

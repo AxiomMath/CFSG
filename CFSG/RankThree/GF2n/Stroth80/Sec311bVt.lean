@@ -14,7 +14,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
-theorem Ctx.comm_T_Q_mem_Vt (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B)
+theorem Ctx.comm_T_Q_mem_Vt (hc : Ctx M Q Z B) {t : G} (_ht : t ∈ LB M Q B)
     {x : G} (hxL : x ∈ LB M Q B)
     (hK1 : ∀ w ∈ Wt Q (Vt M (LB M Q B) B Z t), ⁅x, w⁆ ∈ Z) {a : G} (ha : a ∈ Q) :
     ⁅x, a⁆ ∈ Vt M (LB M Q B) B Z t := by

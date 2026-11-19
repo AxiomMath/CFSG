@@ -91,8 +91,8 @@ theorem glaPComponent_map_subtype {p : ℕ} (hp : p.Prime) {S : Subgroup Ω} {Y 
 theorem mem_centralizer_of_centMod_quasisimple {p : ℕ} (hp : p.Prime) {M : Subgroup Ω}
     (hq : CFSG.Open.IsQuasisimple ↥M) (hpM : p ∣ Nat.card ↥M) {x : Ω} (hc : CentMod p M x) :
     x ∈ Subgroup.centralizer (M : Set Ω) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect ↥M := ⟨hq.1⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥M := ⟨hq.1⟩
   have hcore : GLAPPrimeCore p ↥M ≤ Subgroup.center ↥M := by
     refine le_center_of_normal_of_isQuasisimple hq (GLAPPrimeCore.normal p _) fun htop => ?_
     have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥M)) := CFSG.pPrimeCore_coprime_card
@@ -123,6 +123,7 @@ theorem mem_centralizer_of_centMod_quasisimple {p : ℕ} (hp : p.Prime) {M : Sub
   calc m * x = x * m * x⁻¹ * x := by rw [h2]
     _ = x * m := by group
 
+omit [Finite Ω] in
 theorem cs_zpowers (g : Ω) : cs (Subgroup.zpowers g) = cx g := by
   rw [Subgroup.zpowers_eq_closure]
   exact Subgroup.centralizer_closure {g}
@@ -199,6 +200,7 @@ section Blocks
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem fixSub_normalizerMonoidHom {S : Subgroup Ω} (g : ↥(Subgroup.normalizer (S : Set Ω))) :
     fixSub (S.normalizerMonoidHom g) = (S ⊓ cx (g : Ω)).subgroupOf S := by
   ext s
@@ -216,6 +218,7 @@ theorem fixSub_normalizerMonoidHom {S : Subgroup Ω} (g : ↥(Subgroup.normalize
     rw [hcoe, ← h]
     group
 
+omit [Finite Ω] in
 theorem centerQuotientHom_normalizerMonoidHom_mem {S : Subgroup Ω} (s : ↥S) :
     centerQuotientHom ↥S (S.normalizerMonoidHom ⟨s, Subgroup.le_normalizer s.2⟩) =
       MulAut.conj (QuotientGroup.mk' (Subgroup.center ↥S) s) := by
@@ -327,7 +330,7 @@ theorem blockFact_inner {p : ℕ} (hp : p.Prime) {S D : Subgroup Ω} {x : Ω} (h
       exact hM'd
     have hxc := mem_centralizer_of_centMod_quasisimple hp hMq
       (hMd'.trans (Subgroup.card_quotient_dvd_card _)) hc
-    haveI : Group.IsPerfect ↥M' := ⟨hM'.2.2.1⟩
+    have : Group.IsPerfect ↥M' := ⟨hM'.2.2.1⟩
     have h1 := (Mo.mem_centralizer_map_iff (K := M') inferInstance ⟨x, hxD⟩).1 hxc
     rw [hM'm] at h1
     exact haM h1
@@ -341,8 +344,8 @@ theorem blockFact_field {p : ℕ} (hp : p.Prime) {S D : Subgroup Ω} {x x' : Ω}
     (hlay : GLAPLayer p (S ⊓ cs D) ≠ ⊥) :
     ∃ P M : Subgroup Ω, GLAPComponent p (S ⊓ cs D) P ∧ GLAPComponent p (S ⊓ cx x') M ∧
       P ≤ M ∧ ¬ CentMod p M x := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect ↥S := ⟨hSq.1⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥S := ⟨hSq.1⟩
   set π := QuotientGroup.mk' (Subgroup.center ↥S) with hπdef
   have hπk : ∀ s : ↥S, π s = 1 → s ∈ Subgroup.center ↥S := fun s hs =>
     (QuotientGroup.eq_one_iff s).1 hs
@@ -480,8 +483,8 @@ theorem blockFact_of_models
       Type167At p T J → InnerBlockAt p T ∧ FieldBlockAt p T) : T123C.BlockFact := by
   intro p Ω _ _ S B K₁ D₁ D x y hp hp2 hSn hSq htype hK₁ hB hBN hSC hxB hx1 hyB hBS hyc hD₁ hD₁K
     hD hxD hE3 hlay
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect ↥S := ⟨hSq.1⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥S := ⟨hSq.1⟩
   have hpK₁ : p ∣ Nat.card K₁ := by
     by_contra hnd
     apply S12.glaPPrimeCore_ne_top_of_glaPComponent hK₁

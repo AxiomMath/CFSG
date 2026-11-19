@@ -24,6 +24,7 @@ variable (c : SixCtx T L) (pd : PermData)
 
 @[expose] def subS : Subgroup X := T ⊓ (pd.E.comap c.θ).map (nL T L).subtype
 
+omit [Finite X] in
 theorem mem_subS (hTL : T ≤ nL T L) {t : X} :
     t ∈ c.subS pd ↔ ∃ ht : t ∈ T, c.θ ⟨t, hTL ht⟩ ∈ pd.E := by
   constructor
@@ -32,8 +33,10 @@ theorem mem_subS (hTL : T ≤ nL T L) {t : X} :
   · rintro ⟨ht, hE⟩
     exact ⟨ht, ⟨⟨t, hTL ht⟩, hE, rfl⟩⟩
 
+omit [Finite X] in
 theorem subS_le : c.subS pd ≤ T := inf_le_left
 
+omit [Finite X] in
 theorem theta_eq_one_of_mem_gnC {g : X} (hg : g ∈ nL T L) (hgC : g ∈ gnC T) :
     c.θ ⟨g, hg⟩ = 1 := by
   rw [c.hθ1]
@@ -42,6 +45,7 @@ theorem theta_eq_one_of_mem_gnC {g : X} (hg : g ∈ nL T L) (hgC : g ∈ gnC T) 
   group
 
 include c in
+omit [Finite X] in
 theorem eq_one_of_mem_center {z : X ⧸ gnC T} (hz : z ∈ L) (hc : ∀ l ∈ L, z * l = l * z) :
     z = 1 := by
   have hsimp : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
@@ -128,6 +132,7 @@ theorem theta_eq_one_of_mem_pCore (hX : GNSetting X T) (hTL : T ≤ nL T L) {q :
       exact absurd ((Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3')) (by decide)
     exact h4 (by rw [← hk]; decide)
 
+omit [Finite X] in
 theorem inf_gnC_le_subS (hTL : T ≤ nL T L) : T ⊓ gnC T ≤ c.subS pd := by
   rintro t ⟨ht, htC⟩
   refine (c.mem_subS pd hTL).2 ⟨ht, ?_⟩
@@ -142,7 +147,7 @@ theorem pCoreOf_le_subS (hX : GNSetting X T) (hTL : T ≤ nL T L) :
   exact pd.E.one_mem
 
 theorem baum_le_subS (hX : GNSetting X T) (hTL : T ≤ nL T L) (hD : c.img T = pd.D) :
-    baum T ≤ c.subS pd := fun g hg =>
+    baum T ≤ c.subS pd := fun _g hg =>
   (c.mem_subS pd hTL).2 ⟨hg.1, c.theta_mem_E_of_mem_baum pd hX hTL hD hg⟩
 
 theorem baum_subS (hX : GNSetting X T) (hTL : T ≤ nL T L) (hD : c.img T = pd.D) :
@@ -165,6 +170,7 @@ theorem omegaOneCenterOf_le_subS (hX : GNSetting X T) (hTL : T ≤ nL T L) (hD :
     ⟨Subgroup.mem_inf.2 ⟨hZS hx.1, Subgroup.mem_centralizer_iff.2 fun y hy => ?_⟩, hx.2⟩
   exact Subgroup.mem_centralizer_iff.1 hx.1.2 y (c.subS_le pd hy)
 
+omit [Finite X] in
 theorem img_subS (hTL : T ≤ nL T L) (hD : c.img T = pd.D) : c.img (c.subS pd) = pd.E := by
   apply le_antisymm
   · rintro _ ⟨⟨t, ht'⟩, ht, rfl⟩

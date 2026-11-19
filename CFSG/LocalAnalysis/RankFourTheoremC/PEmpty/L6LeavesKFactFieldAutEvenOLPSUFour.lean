@@ -19,7 +19,7 @@ namespace OLPSUFour
 theorem natCard_gl_fin {F : Type*} [Field F] [Finite F] (a : ℕ) :
     Nat.card (GL (Fin a) F) = ∏ i : Fin a, (Nat.card F ^ a - Nat.card F ^ (i : ℕ)) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   rw [Matrix.card_GL_field, Nat.card_eq_fintype_card (α := F)]
 
 theorem padicValNat_three_two_pow_sub_one {m : ℕ} (h : m % 6 = 2 ∨ m % 6 = 4) :
@@ -40,7 +40,7 @@ theorem padicValNat_three_card_gl_one {F : Type*} [Field F] [Finite F] {m : ℕ}
 theorem padicValNat_three_card_gl_two {F : Type*} [Field F] [Finite F] {m : ℕ}
     (hm : m % 6 = 2 ∨ m % 6 = 4) (hX : Nat.card F = 2 ^ m) :
     padicValNat 3 (Nat.card (GL (Fin 2) F)) = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hm2 : 2 ≤ 2 ^ m := calc
     2 = 2 ^ 1 := (pow_one 2).symm
     _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) (by omega)
@@ -61,7 +61,7 @@ theorem padicValNat_three_card_gl_two {F : Type*} [Field F] [Finite F] {m : ℕ}
 
 theorem four_le_padicValNat_numerator_PSU_four :
     4 ≤ padicValNat 3 (lieOrderNumerator .PSU 4 (2 ^ 1)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h : lieOrderNumerator .PSU 4 (2 ^ 1) = 2 ^ 6 * (3 * 9 * 15) := by decide
   have hne : lieOrderNumerator .PSU 4 (2 ^ 1) ≠ 0 := by rw [h]; norm_num
   exact (padicValNat_dvd_iff_le hne).mp (by rw [h]; norm_num)
@@ -79,12 +79,12 @@ theorem twoLocalWhen_PSU_four : TwoLocalWhen .PSU (fun n f₀ => n = 4 ∧ f₀ 
     · exact absurd ht (by decide)
   have hfp : f = p := by rw [hf, mul_one]
   have hp6 := OLThreeAdic.prime_mod_six hp hp5
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, F, hF, hFfin, hFcard, ⟨e⟩⟩ := hcl0
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hFcard' : Fintype.card F = 2 ^ (2 * f) := by
     rw [← Nat.card_eq_fintype_card, hFcard, ← pow_mul, mul_comm]
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
   have hX : Nat.card F = 2 ^ (2 * p) := by rw [hFcard, ← pow_mul, mul_comm, hfp]
   have hm : (2 * p) % 6 = 2 ∨ (2 * p) % 6 = 4 := by omega
   have hGL0 := OLPSUFour.padicValNat_three_card_gl_zero (F := F)

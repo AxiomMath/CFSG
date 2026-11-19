@@ -141,7 +141,7 @@ private lemma l02qq2lr_linConjAut_eq_one_scalar {d : ℕ} (hd : 2 ≤ d) {K : Ty
           have hji : ¬ j = i := fun h => hij h.symm
           simp [Matrix.scalar_apply, hji]
         · have hil : ¬ i = l := fun h => hli h.symm
-          simp [Matrix.single_apply, hil]
+          simp [hil]
       rw [hsum, add_zero]
       by_cases hjk : j = k
       · rw [hjk]
@@ -215,7 +215,7 @@ private lemma l02qq2lr_orderOf_linConjAut_odd {N p n : ℕ} {K : Type} [Field K]
   have hgp : (g ^ p) ^ (2 ^ n - 1) = 1 := by
     rw [← hc, ← map_pow]
     have hcunit : c ^ (2 ^ n - 1) = 1 := by
-      haveI : Fintype Kˣ := Fintype.ofFinite Kˣ
+      have : Fintype Kˣ := Fintype.ofFinite Kˣ
       have hcard : Fintype.card Kˣ = 2 ^ n - 1 := by
         rw [← Nat.card_eq_fintype_card, Nat.card_units, hK]
       have := pow_card_eq_one (x := c)
@@ -247,7 +247,7 @@ theorem q2RToral_tagA {N n p : ℕ} (hN : 2 ≤ N) (hn : 1 ≤ n) (hp : p.Prime)
         α (QuotientGroup.mk j) = QuotientGroup.mk j') :
     Q2LinearLift M := by
   classical
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   obtain ⟨g_u, hgu⟩ := hAI u hu
   have hgodd : Odd (orderOf g_u) :=
     l02qq2lr_orderOf_linConjAut_odd hN hn hK hgu hou hp hp2
@@ -265,7 +265,7 @@ theorem q2RToral_tagA {N n p : ℕ} (hN : 2 ≤ N) (hn : 1 ≤ n) (hp : p.Prime)
   have hguH : g_u ∈ H := by
     change TableB.linConjAut (Fin N) K g_u ∈ A
     rw [← hgu]; exact hu
-  haveI : IsMulCommutative H := hHcomm
+  have : IsMulCommutative H := hHcomm
   let Cc : Subgroup (GL (Fin N) K) := Subgroup.centralizer ({g_u} : Set (GL (Fin N) K))
   have hHle : H ≤ Cc := by
     intro h hh
@@ -346,7 +346,7 @@ theorem q2RLevel_fieldTwo : Q2RLevel .fieldTwo := by
   have hN : 2 ≤ l + 1 := by omega
   have hnot : ¬ (3 ∣ l + 1 ∧ 3 ∣ 2 ^ 1 - 1) := by
     rintro ⟨-, h2⟩
-    exact hp.not_dvd_one (by simpa using h2)
+    exact hp.not_dvd_one (by simp at h2)
   intro Qc hQc
   dsimp only [LargeEvenRawDatum] at hQc ⊢
   obtain ⟨K, i1, i2, hK, hq⟩ := hQc

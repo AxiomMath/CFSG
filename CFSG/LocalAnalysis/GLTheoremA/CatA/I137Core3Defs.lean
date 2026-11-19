@@ -62,49 +62,40 @@ theorem list93three_cases {Q₀ : Type} [Group Q₀] (h : catalogIs Q₀ (S9.isL
   · refine ⟨⟨d, hv⟩, ⟨e⟩, ?_⟩
     rcases hi with h | h | h | h | h | h | h | h | h
     · cases d <;> simp only [S9.isD4two, onLie] at h
-      all_goals first | exact h.elim | skip
       rename_i n q
       obtain rfl : n = 4 := by
         rcases n with _ | _ | _ | _ | _ | n <;> simp_all
       exact Or.inl ⟨q, rfl, by simpa using h⟩
     · cases d <;> simp only [S9.isSp4eight, onLie] at h
-      all_goals first | exact h.elim | skip
       rename_i n q
       obtain rfl : n = 2 := by
         rcases n with _ | _ | _ | n <;> simp_all
       exact Or.inr (Or.inl ⟨q, rfl, by simpa using h⟩)
     · cases d <;> simp only [S9.isG2eight, onLie] at h
-      all_goals first | exact h.elim | skip
       rename_i q
       exact Or.inr (Or.inr (Or.inl ⟨q, rfl, h⟩))
     · cases d <;> simp only [S9.isU4eight, onLie] at h
-      all_goals first | exact h.elim | skip
       rename_i n q
       obtain rfl : n = 3 := by
         rcases n with _ | _ | _ | _ | n <;> simp_all
       exact Or.inr (Or.inr (Or.inr (Or.inl ⟨q, rfl, by simpa using h⟩)))
     · cases d <;> simp only [S9.isU6two, onLie] at h
-      all_goals first | exact h.elim | skip
       rename_i n q
       obtain rfl : n = 5 := by
         rcases n with _ | _ | _ | _ | _ | _ | n <;> simp_all
       exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨q, rfl, by simpa using h⟩))))
     · cases d <;> simp only [S9.isTD4two, onLie] at h
-      all_goals first | exact h.elim | skip
       rename_i q
       exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨q, rfl, h⟩)))))
     · cases d <;> simp only [S9.isReeF48, onLie] at h
-      all_goals first | exact h.elim | skip
       exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl (by subst h; rfl)))))))
     · cases d <;> simp only [S9.isL3char2, onLie] at h
-      all_goals first | exact h.elim | skip
       rename_i n q
       obtain rfl : n = 2 := by
         rcases n with _ | _ | _ | n <;> simp_all
       exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl
         ⟨q, rfl, by simpa using h⟩)))))))
     · cases d <;> simp only [S9.isU3char2, onLie] at h
-      all_goals first | exact h.elim | skip
       rename_i n q
       obtain rfl : n = 2 := by
         rcases n with _ | _ | _ | n <;> simp_all

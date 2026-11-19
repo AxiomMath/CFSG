@@ -28,7 +28,7 @@ private theorem commute_conj_of_mem_pCore (hC : HypothesisC D)
     Commute ((q : G) * (v : G) * (q : G)⁻¹) (c : G) := by
   let H := Halpha D hC.alpha
   let Q := CFSG.pCore 2 H
-  haveI : Q.Normal := CFSG.pCore_normal
+  have : Q.Normal := CFSG.pCore_normal
   have hvD : (v : G) ∈ D := DalphaStar_subset hC.isBlock_alpha hv
   have hv2 : v * v = 1 := Subtype.ext (hC.setup.oddT.mul_self_eq_one hvD)
   have hc2 : c * c = 1 := Subtype.ext (hC.setup.oddT.mul_self_eq_one hcD)
@@ -91,7 +91,7 @@ private theorem mem_blockLine_cimg (hC : HypothesisC D) {β : Set G}
 
 private theorem exists_cimg_eq_of_mul_mem_pCore (h : MainHyp hC) {β δ : Set G}
     (hβ : β ∈ Dalpha D hC.alpha) (hδ : δ ∈ Dalpha D hC.alpha)
-    (hδβ : δ ∈ Dalpha D β) {v w : Halpha D hC.alpha}
+    (_hδβ : δ ∈ Dalpha D β) {v w : Halpha D hC.alpha}
     (hvβ : (v : G) ∈ β) (hwδ : (w : G) ∈ δ)
     (hwv : w * v ∈ CFSG.pCore 2 (Halpha D hC.alpha)) :
     ∃ q ∈ CFSG.pCore 2 (Halpha D hC.alpha), cimg (q : G) β = δ := by
@@ -109,7 +109,7 @@ private theorem exists_cimg_eq_of_mul_mem_pCore (h : MainHyp hC) {β δ : Set G}
 
 private theorem false_of_mul_not_mem_pCore (h : MainHyp hC) {β δ : Set G}
     (hβ : β ∈ Dalpha D hC.alpha) (hδ : δ ∈ Dalpha D hC.alpha)
-    (hδline : δ ∈ blockLine D hC.alpha β) (hδβ : δ ≠ β)
+    (hδline : δ ∈ blockLine D hC.alpha β) (_hδβ : δ ≠ β)
     (hδDβ : δ ∈ Dalpha D β) {v w : Halpha D hC.alpha}
     (hvβ : (v : G) ∈ β) (hwδ : (w : G) ∈ δ)
     (hwv : w * v ∉ CFSG.pCore 2 (Halpha D hC.alpha)) : False := by
@@ -153,8 +153,7 @@ theorem blockLine_eq (h : MainHyp hC) {β : Set G} (hβ : β ∈ Dalpha D hC.alp
       mem_Dalpha_of_mem_blockLine hC.isBlock_alpha.subset hβ hδ hδα
     by_cases hδβ : δ = β
     · refine Or.inr ⟨1, ?_, ?_⟩
-      · simpa using Subgroup.mem_map_of_mem (Halpha D hC.alpha).subtype
-          (Subgroup.one_mem (CFSG.pCore 2 (Halpha D hC.alpha)))
+      · simp
       · change cimg 1 β = δ
         rw [cimg_one]
         exact hδβ.symm

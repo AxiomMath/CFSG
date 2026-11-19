@@ -195,6 +195,7 @@ theorem L_le_normal_gen {N : Subgroup P} [N.Normal] {r : ℕ} (hr2 : 2 ≤ r) (h
   have h1 := lcs_eq_bot_of_card (p := 3) (d.m - r) (P ⧸ N) (d.hP.to_quotient N) hQ (by omega)
   exact lcs_le_of_quotient_eq_bot N h1
 
+omit [Finite P] d in
 theorem comm_mem_center_iff (x g : P) :
     ⁅x, g⁆ ∈ Subgroup.center P ↔ (x : P ⧸ Subgroup.center P) * (g : P ⧸ Subgroup.center P) =
       (g : P ⧸ Subgroup.center P) * (x : P ⧸ Subgroup.center P) := by
@@ -214,11 +215,11 @@ theorem mem_Dp {g : P} : g ∈ d.Dp ↔ ∀ w ∈ d.L (d.m - 4), ⁅g, w⁆ ∈ 
   rw [Dp, Subgroup.mem_comap, Subgroup.mem_centralizer_iff]
   constructor
   · intro h w hw
-    rw [d.comm_mem_center_iff]
+    rw [MB.comm_mem_center_iff]
     have := h _ (Subgroup.mem_map_of_mem _ hw)
     simpa only [QuotientGroup.mk'_apply] using this.symm
   · rintro h _ ⟨w, hw, rfl⟩
-    have := (d.comm_mem_center_iff g w).mp (h w hw)
+    have := (MB.comm_mem_center_iff g w).mp (h w hw)
     simpa only [QuotientGroup.mk'_apply] using this.symm
 
 theorem Dp_ne_top : d.Dp ≠ ⊤ := by
@@ -256,7 +257,7 @@ def Kp (a : P) : Subgroup P :=
 omit hAZ in
 theorem mem_Kp {a u : P} : u ∈ d.Kp a ↔ u ∈ d.L 1 ∧ ⁅a, u⁆ ∈ Subgroup.center P := by
   rw [Kp, Subgroup.mem_inf, Subgroup.mem_comap, Subgroup.mem_centralizer_singleton_iff,
-    d.comm_mem_center_iff]
+    MB.comm_mem_center_iff]
   simp only [QuotientGroup.mk'_apply]
   exact and_congr_right fun _ => eq_comm
 
@@ -280,10 +281,10 @@ theorem Kp_normal (a : P) : (d.Kp a).Normal := by
   rw [hcen _ hz g]
   exact hz
 
-theorem Kp_eq_H {a : P} (haD : ∃ w ∈ d.L (d.m - 3), a * w ≠ w * a) (haD' : a ∉ d.Dp) :
+theorem Kp_eq_H {a : P} (_haD : ∃ w ∈ d.L (d.m - 3), a * w ≠ w * a) (haD' : a ∉ d.Dp) :
     d.Kp a = d.L (d.m - 3) := by
   have hm := d.hm
-  haveI : (d.Kp a).Normal := d.Kp_normal hAZ a
+  have : (d.Kp a).Normal := d.Kp_normal hAZ a
   have hHK : d.L (d.m - 3) ≤ d.Kp a := by
     intro w hw
     rw [d.mem_Kp]
@@ -487,7 +488,7 @@ theorem abelian_of_AZ : ∀ p ∈ d.L 1, ∀ q ∈ d.L 1, p * q = q * p := by
     have : a ∈ D := by rw [h]; trivial
     rw [hD, Subgroup.mem_centralizer_iff] at this
     exact hne (this w hw).symm
-  obtain ⟨a, haD0, haD'⟩ := d.exists_not_mem_both D d.Dp hDtop d.Dp_ne_top
+  obtain ⟨a, haD0, haD'⟩ := CFSG.HardMathSupport.Lang.E6Descent.MB.exists_not_mem_both D d.Dp hDtop d.Dp_ne_top
   have haD : ∃ w ∈ d.L (d.m - 3), a * w ≠ w * a := by
     rw [hD, Subgroup.mem_centralizer_iff] at haD0
     push Not at haD0
@@ -590,7 +591,7 @@ theorem derived_abelian : ∀ m : ℕ, 4 ≤ m → ∀ (P : Type u) [Group P] [F
       have hq' : (q : P ⧸ Subgroup.center P) ∈
           (⊤ : Subgroup (P ⧸ Subgroup.center P)).lowerCentralSeries 1 := by
         rw [← hmap]; exact Subgroup.mem_map_of_mem _ hq
-      exact (d.comm_mem_center_iff p q).mpr (ihQ _ hp' _ hq')
+      exact (MB.comm_mem_center_iff p q).mpr (ihQ _ hp' _ hq')
     exact d.abelian_of_AZ hAZ
 
 end CFSG.HardMathSupport.Lang.E6Descent

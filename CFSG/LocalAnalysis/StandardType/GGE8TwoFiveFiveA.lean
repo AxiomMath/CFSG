@@ -395,10 +395,10 @@ private theorem e8f5a_torus_le_rootSpan
         ∏ k, f k ^ (E.det * (if k = j then 1 else 0)) from
       Finset.prod_congr rfl fun k _ => by rw [hsum k]]
     rw [Finset.prod_eq_single j]
-    · rw [if_pos rfl, mul_one]
+    · rw [ite_eq_left rfl, mul_one]
       exact hf j
     · intro k _ hk
-      rw [if_neg hk, mul_zero, zpow_zero]
+      rw [ite_eq_right hk, mul_zero, zpow_zero]
     · intro hj
       exact absurd (Finset.mem_univ j) hj
   have hb : b = ∏ i, (fun j => c i ^ corootPair (β i) (Pi.single j 1)) := by
@@ -429,7 +429,7 @@ private theorem e8f5a_torus_le_rootSpan
 private theorem e8f5a_j2_sl5_center_card {L : Type} [Field L] [IsAlgClosed L]
     (h5 : (5 : L) ≠ 0) :
     Nat.card ↥(Subgroup.center (Matrix.SpecialLinearGroup (Fin 5) L)) = 5 := by
-  haveI : NeZero ((5 : ℕ) : L) := ⟨h5⟩
+  have : NeZero ((5 : ℕ) : L) := ⟨h5⟩
   have hroot : Nat.card ↥(rootsOfUnity 5 L) = 5 :=
     HasEnoughRootsOfUnity.natCard_rootsOfUnity L 5
   calc Nat.card ↥(Subgroup.center (Matrix.SpecialLinearGroup (Fin 5) L))
@@ -456,7 +456,7 @@ private theorem e8f5a_j2_center_map_eq
     rw [MonoidHom.mem_ker, hε] at hmem
     have h0 : (ε : L) * 1 = 0 :=
       pinnedX_injective τ L (σ 0 1) (hmem.trans (pinnedX_zero τ L (σ 0 1)).symm)
-    exact Units.ne_zero ε (by simpa using h0)
+    exact Units.ne_zero ε (by simp at h0)
   apply le_antisymm
   · rintro z ⟨y, hy, rfl⟩
     have hyψ : (y : ModGL τ L) ∈ ψ.range := by rw [hrange]; exact y.2
@@ -486,7 +486,7 @@ private theorem e8f5a_j2_component_center_dvd
     {L : Type} [Field L] [IsAlgClosed L]
     (S : LangSetup Tag.E8 L 5) {a : Fin Tag.E8.rank → Lˣ} (h : E8TwoFiveSetup S a)
     (i : KernelComponent (rootCharHom a))
-    (h2 : 2 ≤ compRank (componentRoots (rootCharHom a) i))
+    (_h2 : 2 ≤ compRank (componentRoots (rootCharHom a) i))
     (hn : (componentRoots (rootCharHom a) i).ncard =
       compRank (componentRoots (rootCharHom a) i) *
         (compRank (componentRoots (rootCharHom a) i) + 1))
@@ -676,7 +676,7 @@ private theorem e8f5a_j2_finalize {G : Type*} [Group G] {F : G →* G} {S₁ S�
         rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZle₁).toEquiv] at h1
       exact (Nat.dvd_antisymm hdvd hcard₁).symm
     have hZeq₁ : (S₁ ⊓ S₂).subgroupOf S₁ = Subgroup.center ↥S₁ := by
-      haveI : Finite ↥(Subgroup.center ↥S₁) :=
+      have : Finite ↥(Subgroup.center ↥S₁) :=
         Nat.finite_of_card_ne_zero (by rw [hcard₁_eq]; norm_num)
       exact Subgroup.eq_of_le_of_card_ge hZle₁ (by rw [hZ'card, hcard₁_eq])
     have hu₁Z : u₁ ∈ S₁ ⊓ S₂ := by
@@ -696,7 +696,7 @@ private theorem e8f5a_j2_finalize {G : Type*} [Group G] {F : G →* G} {S₁ S�
         rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZle₂).toEquiv] at h1
       exact (Nat.dvd_antisymm hdvd hcard₂).symm
     have hZeq₂ : (S₁ ⊓ S₂).subgroupOf S₂ = Subgroup.center ↥S₂ := by
-      haveI : Finite ↥(Subgroup.center ↥S₂) :=
+      have : Finite ↥(Subgroup.center ↥S₂) :=
         Nat.finite_of_card_ne_zero (by rw [hcard₂_eq]; norm_num)
       exact Subgroup.eq_of_le_of_card_ge hZle₂ (by rw [hZ'card₂, hcard₂_eq])
     have hu₂Z : u₂ ∈ S₁ ⊓ S₂ := by
@@ -711,7 +711,7 @@ private theorem e8f5a_j2_finalize {G : Type*} [Group G] {F : G →* G} {S₁ S�
       have h' := orderOf_dvd_iff_pow_eq_one.1 h
       simpa using congrArg Subtype.val h'
     have hZeq_zp : S₁ ⊓ S₂ = Subgroup.zpowers d := by
-      haveI : Finite ↥(S₁ ⊓ S₂) := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
+      have : Finite ↥(S₁ ⊓ S₂) := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
       symm
       apply Subgroup.eq_of_le_of_card_ge
       · rw [Subgroup.zpowers_le]; exact hdZ
@@ -846,7 +846,7 @@ private theorem e8f5a_exists_frame
           (S.ρ : (Fin Tag.E8.rank → ℤ) → _)^[componentOrbitLength S.ρ
             (componentRoots (rootCharHom a) i)] (σ x y) = σ (π y) (π x) := by
   have h2L : ((2 : ℕ) : L) = 0 := by simpa [h.1] using S.hqpow.2
-  haveI : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2L
+  have : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2L
   have hpL : ((5 : ℕ) : L) ≠ 0 := by
     intro h5
     have hdvd := (CharP.cast_eq_zero_iff L 2 5).1 h5
@@ -902,7 +902,7 @@ private theorem e8f5a_i_frame_injective_aux
     rw [MonoidHom.mem_ker, hε] at hmem
     have h0 : (ε : L) * 1 = 0 :=
       pinnedX_injective Tag.E8 L (σ 0 1) (hmem.trans (pinnedX_zero Tag.E8 L (σ 0 1)).symm)
-    exact Units.ne_zero ε (by simpa using h0)
+    exact Units.ne_zero ε (by simp at h0)
   have hker_le_center : ψ.ker ≤
       Subgroup.center (Matrix.SpecialLinearGroup (Fin 5) L) := by
     intro Y hY
@@ -932,7 +932,7 @@ private theorem e8f5a_i_frame_injective_aux
     rcases (Nat.dvd_prime Nat.prime_five).1 hcard_dvd with h1 | h5
     · exact absurd h1 hcard_ne1
     · exact h5
-  haveI : Finite ↥(Subgroup.center (Matrix.SpecialLinearGroup (Fin 5) L)) :=
+  have : Finite ↥(Subgroup.center (Matrix.SpecialLinearGroup (Fin 5) L)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard_center]; norm_num)
   have hker_eq_center : ψ.ker = Subgroup.center (Matrix.SpecialLinearGroup (Fin 5) L) :=
     Subgroup.eq_of_le_of_card_ge hker_le_center (by rw [hcard_center, hcard_ker])
@@ -1243,7 +1243,7 @@ theorem e8TwoFive_kernelA_centralizer_le
   rw [hR]
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i₁
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i₁) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   have hs2 : s = 2 := e8f5a_orbitLength_two S h hA i₁
   obtain ⟨H, θ, hHperf, hθS, hθfix, hθonto⟩ := e8f5a_unitary_fixed S h hA hrk hcard hkind
   set P := outerOrbitFamily S hT i₁ hs hmin with hP
@@ -1270,7 +1270,7 @@ private theorem e8f5a_j4_injective_of_cover
     (hperf : Group.IsPerfect C) (hcard : Nat.card (Subgroup.center C) ∣ 5)
     {d : R} (hdZ : d ∈ Subgroup.center R) (hd1 : d ≠ 1) :
     Function.Injective g := by
-  haveI : Group.IsPerfect C := hperf
+  have : Group.IsPerfect C := hperf
   have hZle : Subgroup.center R ≤ Subgroup.map g (Subgroup.center C) :=
     le_of_eq (CFSG.RankThree.PartOne.Sec66T.center_eq_map_of_perfect g hsurj hker)
   rw [← MonoidHom.ker_eq_bot_iff, Subgroup.eq_bot_iff_forall]
@@ -1319,8 +1319,8 @@ private theorem e8f5a_j4_cover
   classical
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
   have hs2 : s = 2 := hsdef.trans horb
   have hes : 0 < e * s := Nat.mul_pos he hs0
@@ -1351,7 +1351,7 @@ private theorem e8f5a_j4_cover
   obtain ⟨F, hFcard, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.two_suN_exists_equiv (ν := 5) hr hes σQ hσc
       (by norm_num)
-  haveI : Finite ↥F := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥F := Nat.finite_of_card_ne_zero (by
     rw [hFcard]
     exact (pow_pos (pow_pos hr.pos _) 2).ne')
   let g' : ↥(CFSG.Open.StatedSU 5 (r ^ (e * s)) F) →*
@@ -1401,7 +1401,7 @@ private theorem e8f5a_rationalComponent_equiv
   obtain ⟨K, hKfield, hKfin, f, hf1, hKcard, hKq, hKchar, hne32, hperf, hZcard, g, hgsurj,
     hgker⟩ :=
     e8f5a_j4_cover S h.2.1 h.1 i₁ horb hψ hΨ π hπ
-  haveI : Finite K := hKfin
+  have : Finite K := hKfin
   have hring : ringChar L ^ f = 2 ^ 2 := by rw [hKq, h.1, horb]
   have hKcard' : Nat.card K = (2 ^ 2) ^ 2 := by
     rw [hring] at hKcard
@@ -1585,7 +1585,7 @@ theorem e8TwoFive_plane_centralizer_comm
     (S : LangSetup Tag.E8 L 5) {a : Fin Tag.E8.rank → Lˣ} (h : E8TwoFiveSetup S a)
     (hA : E8TwoFiveKernelA S.ρ (rootCharHom a)) {b : Fin Tag.E8.rank → Lˣ}
     (hbT : rootDiagUnit Tag.E8 b ∈ S.D.torus) (hbΓ : rootDiagUnit Tag.E8 b ∈ S.Γ)
-    (hb5 : ∀ i, b i ^ 5 = 1)
+    (_hb5 : ∀ i, b i ^ 5 = 1)
     (hdisj : ∀ β ∈ kernelRoots (rootCharHom a), rootChar b β ≠ 1) :
     IsMulCommutative ↥(S.Γ ⊓ Subgroup.centralizer {rootDiagUnit Tag.E8 a} ⊓
       Subgroup.centralizer {rootDiagUnit Tag.E8 b}) := by

@@ -26,6 +26,7 @@ private theorem one_add_pow_two_pow_of_add_self {A : Type*} [Ring A] (h2 : ∀ x
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem secSub_smul_mem {R P I : Subgroup G} {Md : Type} [AddCommGroup Md]
     [DistribMulAction ↥R Md] {κ : ↥P →* Multiplicative Md} (hκ : IsSecMod R P I Md κ)
     (hP : ∀ r ∈ R, ∀ x ∈ P, r * x * r⁻¹ ∈ P) {U : Subgroup G}
@@ -416,7 +417,7 @@ theorem sec715_comm_Wt_mem_Z (h34 : Stroth34Statement) (h52a : Stroth52aStatemen
   have hSec := sec7ctr_secHyp hc hRM
   have hP := hSec.normP
   obtain ⟨Md, iA, iD, κ, hκ⟩ := exists_sectionModule hSec
-  haveI : Finite Md := hκ.finite
+  have : Finite Md := hκ.finite
   obtain ⟨ε, hε, hεR⟩ := exists_comm_endo hc hRM hκ hwM hwR
   set T : AddSubgroup Md := (secSub κ (Wt Q (Vt M (LB M Q B) B Z t))).map ε with hT
   have hTV : T ≤ secSub κ (Vt M (LB M Q B) B Z t) := by

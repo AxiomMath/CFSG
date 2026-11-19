@@ -105,7 +105,7 @@ theorem mul_mem (h : HeisShape p Q Q₀ Q₁) {a b : X} (ha : a ∈ Q₀) (hb : 
 
 private theorem comm_left (h : HeisShape p Q Q₀ Q₁) {a a' : X} (ha : a ∈ Q₀) (ha' : a' ∈ Q₀) :
     a * a' = a' * a := by
-  haveI := h.cyc
+  have := h.cyc
   have := (IsCyclic.isMulCommutative (α := Q₀)).is_comm.comm ⟨a, ha⟩ ⟨a', ha'⟩
   exact congrArg Subtype.val this
 
@@ -154,8 +154,8 @@ theorem pow_eq_one_iff (h : HeisShape p Q Q₀ Q₁) {a b : X} (ha : a ∈ Q₀)
 theorem ncard_pow_eq_one_le [Fact p.Prime] [Finite X] (h : HeisShape p Q Q₀ Q₁) :
     {q : X | q ∈ Q ∧ q ^ p = 1}.ncard ≤ p ^ 4 := by
   classical
-  haveI : Fintype Q₀ := Fintype.ofFinite _
-  haveI := h.cyc
+  have : Fintype Q₀ := Fintype.ofFinite _
+  have := h.cyc
   have hp : 0 < p := (Fact.out : p.Prime).pos
   have hΩ : {a : X | a ∈ Q₀ ∧ a ^ p = 1}.ncard ≤ p := by
     have h1 : {a : X | a ∈ Q₀ ∧ a ^ p = 1} = Subtype.val '' {a : Q₀ | a ^ p = 1} := by

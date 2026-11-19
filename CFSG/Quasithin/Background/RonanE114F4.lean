@@ -71,8 +71,8 @@ theorem hasQuotPair_2F4 (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     large_Ree_opposite_simple_blocks_generate_rank_one_model ha hK
   have hs₀ := isSimpleGroup_rankOneGroupOne ha hK
   have hs₁ := isSimpleGroup_rankOneGroupTwo ha hK
-  haveI := hs₀.1
-  haveI := hs₁.1
+  have := hs₀.1
+  have := hs₁.1
   obtain ⟨⟨g₀, hg₀, hk₀⟩, hM₀⟩ := F4.levi_hom ha hK ⟨0, by decide⟩
     (M := rankOneGroupOne K a) h0eq hs₀.2
   obtain ⟨⟨g₁, hg₁, hk₁⟩, hM₁⟩ := F4.levi_hom ha hK ⟨1, by decide⟩

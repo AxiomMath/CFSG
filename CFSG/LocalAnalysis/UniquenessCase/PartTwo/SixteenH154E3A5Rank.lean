@@ -154,7 +154,7 @@ theorem s16h_e3_a5_involution_rank {W : Type} [CommGroup W] [Finite W]
     {X L L' T : Subgroup (MulAut W)} {U U' : Subgroup W} (F : s16h_E3Frame X L L' T U U')
     (hL : IsAlt ↥L 5)
     (hsum : SumOfNat (fun H V Z => AlternatingNatural H V Z 5) L U ⊥ 3)
-    {τ : MulAut W} (hτ : τ ∈ X) (h2 : τ ^ 2 = 1) (h1 : τ ≠ 1) :
+    {τ : MulAut W} (hτ : τ ∈ X) (_h2 : τ ^ 2 = 1) (h1 : τ ≠ 1) :
     8 ≤ Nat.card ↥(commSub (⊤ : Subgroup W) (Subgroup.zpowers τ)) := by
   classical
   have hexp : ∀ w : W, w ^ 2 = 1 := F.exp2
@@ -217,8 +217,8 @@ theorem s16h_e3_a5_involution_rank {W : Type} [CommGroup W] [Finite W]
         exact mul_inv_eq_one.mp hu'
       have hmemU' : (u : W) ∈ U' := by
         have h1 : τ (u : W) ∈ U' := by
-          have h2 := Subgroup.mem_map_of_mem τ.toMonoidHom u.2
-          rwa [hUsw] at h2
+          have _h2 := Subgroup.mem_map_of_mem τ.toMonoidHom u.2
+          rwa [hUsw] at _h2
         rwa [htu] at h1
       have hbot : (u : W) ∈ (⊥ : Subgroup W) := by
         rw [← F.inf_eq]

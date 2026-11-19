@@ -14,10 +14,12 @@ open Subgroup CFSG CFSG.LocalAnalysis.GorensteinLyons
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem orderOf_conj_eq (g z : G) : orderOf (g * z * g⁻¹) = orderOf z := by
   have h := MulEquiv.orderOf_eq (MulAut.conj g) z
   rwa [MulAut.conj_apply] at h
 
+omit [Finite G] in
 theorem conjugate_one_eq (A : Subgroup G) : conjugate A 1 = A := by
   ext x
   simp [mem_conjugate_iff_conj_mem]
@@ -63,7 +65,7 @@ theorem ti_of_bigCenter {Y : Subgroup G} (hY : IsCyclic Y) (hY2 : IsPGroup 2 Y) 
   by_cases hbot : Y ⊓ conjugate Y g = ⊥
   · exact Or.inr hbot
   left
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK2 : IsPGroup 2 (Y ⊓ conjugate Y g : Subgroup G) := hY2.to_le inf_le_left
   have hgt : 1 < Nat.card (Y ⊓ conjugate Y g : Subgroup G) := by
     rw [Subgroup.one_lt_card_iff_ne_bot]
@@ -89,7 +91,7 @@ theorem ti_of_bigCenter {Y : Subgroup G} (hY : IsCyclic Y) (hY2 : IsPGroup 2 Y) 
 theorem exists_order_four_of_isCyclic {Y : Subgroup G} (hY : IsCyclic Y) (hY2 : IsPGroup 2 Y)
     (h8 : 8 ≤ Nat.card Y) {z : G} (hzY : z ∈ Y) (hz2 : orderOf z = 2) :
     ∃ x ∈ Y, orderOf x = 4 ∧ x ^ 2 = z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hY2
   have hn2 : 2 ≤ n := by
     by_contra hlt
@@ -121,9 +123,10 @@ theorem exists_order_four_of_isCyclic {Y : Subgroup G} (hY : IsCyclic Y) (hY2 : 
     rw [orderOf_pow_of_dvd two_ne_zero h2dvd, hx4]
   exact ⟨x, hxY, hx4, involution_eq_of_isCyclic hY hzY (Y.pow_mem hxY 2) hz2 hx22⟩
 
+omit [Finite G] in
 theorem centralizer_le_normalizer_fz (z : G) :
     centralizer ({z} : Set G) ≤ normalizer ((Fz z : Subgroup G) : Set G) := by
-  haveI : (generalizedFitting ↥(Hz z)).Characteristic :=
+  have : (generalizedFitting ↥(Hz z)).Characteristic :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := ↥(Hz z))).1
   exact (Subgroup.le_normalizer).trans
     (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic

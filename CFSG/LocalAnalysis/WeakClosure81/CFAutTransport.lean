@@ -82,7 +82,7 @@ theorem inFGroup_quot_of_normal_simple {N : Type} [Group N] [Finite N]
   let e : ↥L ≃* ↥Lbar := MulEquiv.ofBijective f ⟨hf_inj, hf_surj⟩
   have hLbar_normal : Lbar.Normal :=
     Subgroup.Normal.map inferInstance mk (QuotientGroup.mk'_surjective C)
-  haveI : Lbar.Normal := hLbar_normal
+  have : Lbar.Normal := hLbar_normal
   have hsimple_bar : IsSimpleGroup ↥Lbar := e.isSimpleGroup_congr.mp hsimple
   have hnab_bar : ∃ a b : ↥Lbar, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
@@ -163,7 +163,7 @@ theorem cFAutInFGroup_of_shape {Q : Type} [Group Q] [Finite Q] (S : Subgroup Q) 
     exact sup_le inf_le_right Subgroup.le_normalizer
   have hLq : Lq.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (show L ≤ N from le_sup_right)).mpr hNL
-  haveI : Lq.Normal := hLq
+  have : Lq.Normal := hLq
   have hKq2 : IsPGroup 2 Kq := by
     have h1 : IsPGroup 2 ↥(S ⊓ Subgroup.normalizer (L : Set Q)) := hS2.to_le inf_le_left
     let e : ↥Kq ≃* ↥(S ⊓ Subgroup.normalizer (L : Set Q)) :=
@@ -207,7 +207,7 @@ theorem cFAutInFGroup_of_shape {Q : Type} [Group Q] [Finite Q] (S : Subgroup Q) 
       exact congrArg Subtype.val (hc yN hyLq)
   have hCn : ((F12.autC S L).subgroupOf N).Normal :=
     hCeq ▸ Subgroup.normal_centralizer
-  haveI : ((F12.autC S L).subgroupOf N).Normal := hCn
+  have : ((F12.autC S L).subgroupOf N).Normal := hCn
   have hres := inFGroup_quot_of_normal_simple (N := ↥N) (L := Lq) (K := Kq)
     (C := (F12.autC S L).subgroupOf N) (m := m) hCeq hsimpleLq hperfLq hKq2 hsup
     hshapeLq hK
@@ -224,7 +224,7 @@ theorem compFactorAutInF_of_shape {G : Type} [Group G] [Finite G] {H S : Subgrou
           IsL2 ↥L m ∨ IsSz ↥L m)
     (hK : K_L2SzAutRank) : CompFactorAutInF m H S := by
   intro Y hY hYn
-  haveI := hYn
+  have := hYn
   let S' : Subgroup (↥H ⧸ Y.subgroupOf H) :=
     (S.subgroupOf H).map (QuotientGroup.mk' (Y.subgroupOf H))
   have hS'2 : IsPGroup 2 S' := by
@@ -235,9 +235,9 @@ theorem compFactorAutInF_of_shape {G : Type} [Group G] [Finite G] {H S : Subgrou
     hshape Y hY hYn X hX hXne hmin hnc L hL) hK
 
 abbrev HasComponentShapes (Q : Type) [Group Q] [Finite Q] (m : ℕ) : Prop :=
-  ∀ (Y : Subgroup Q) (hY : Y.Normal) (X : Subgroup (Q ⧸ Y)) (hXn : X.Normal) (hXne : X ≠ ⊥)
-    (hXmin : ∀ N : Subgroup (Q ⧸ Y), N.Normal → N ≤ X → N = ⊥ ∨ N = X)
-    (hXnc : ¬ IsMulCommutative X),
+  ∀ (Y : Subgroup Q) (_hY : Y.Normal) (X : Subgroup (Q ⧸ Y)) (_hXn : X.Normal) (_hXne : X ≠ ⊥)
+    (_hXmin : ∀ N : Subgroup (Q ⧸ Y), N.Normal → N ≤ X → N = ⊥ ∨ N = X)
+    (_hXnc : ¬ IsMulCommutative X),
     ∀ L : Subgroup (Q ⧸ Y), CFSG.Open.IsComponentOf L X → IsL2 ↥L m ∨ IsSz ↥L m
 
 theorem hasComponentShapes_of_mulEquiv {Q Q' : Type} [Group Q] [Finite Q] [Group Q']

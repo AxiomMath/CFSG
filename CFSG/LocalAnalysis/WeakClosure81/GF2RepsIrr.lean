@@ -206,11 +206,11 @@ theorem quadTrivial_iSup {ι : Sort*} {X : ι → Subgroup (MulAut W)} (hX : ∀
 theorem quadTrivial_biSup_conj {L : Subgroup (MulAut W)} (hL : commutator ↥L = ⊤)
     (Y : Subgroup (MulAut W)) :
     QuadTrivial (⨆ φ ∈ Y, L.map (MulAut.conj φ).toMonoidHom) := by
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hL
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hL
   refine quadTrivial_iSup (X := fun φ => ⨆ (_ : φ ∈ Y), L.map (MulAut.conj φ).toMonoidHom)
     (fun φ => ?_)
   refine quadTrivial_iSup (X := fun (_ : φ ∈ Y) => L.map (MulAut.conj φ).toMonoidHom) (fun _ => ?_)
-  haveI : Group.IsPerfect (L.map (MulAut.conj φ).toMonoidHom) :=
+  have : Group.IsPerfect (L.map (MulAut.conj φ).toMonoidHom) :=
     Group.IsPerfect.map (MulAut.conj φ).toMonoidHom
   exact quadTrivial_of_commutator_eq_top (Group.isPerfect_def.mp inferInstance)
 

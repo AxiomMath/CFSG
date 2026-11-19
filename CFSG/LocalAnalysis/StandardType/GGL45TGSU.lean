@@ -124,7 +124,7 @@ theorem commutator_su (hd : 3 ≤ d) (hn : 2 ≤ n) :
       h.card_eq_sq hd (pair_ne hn))
 
 include h in
-theorem mem_scalars_of_commute_su (hd : 3 ≤ d) (c : GL (Fin d) K)
+theorem mem_scalars_of_commute_su (_hd : 3 ≤ d) (c : GL (Fin d) K)
     (hc : ∀ g ∈ LargeEvenSUGroup (Fin d) K (2 ^ n), Commute c g) :
     c ∈ LargeEvenScalars (Fin d) K :=
   TableBUE.mem_scalars_of_commute h
@@ -132,6 +132,7 @@ theorem mem_scalars_of_commute_su (hd : 3 ≤ d) (c : GL (Fin d) K)
     fun g hg => (hc g hg).eq
 
 include h in
+omit h in
 theorem map_mem_su (σ : K ≃+* K) {g : GL (Fin d) K}
     (hg : g ∈ LargeEvenSUGroup (Fin d) K (2 ^ n)) :
     Matrix.GeneralLinearGroup.map σ.toRingHom g ∈ LargeEvenSUGroup (Fin d) K (2 ^ n) := by
@@ -304,8 +305,8 @@ theorem exists_cover_unitary
       (F := K) (p := 2) (f := n) h.card_eq_sq (by omega) hd (Nat.not_even_iff_odd.mpr ho)
       (pair_ne hn) hπ hcen
 
-theorem exists_semilin_of_pElt [Finite K] (hd : 3 ≤ d) (hn : 2 ≤ n) {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) {α : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)))}
+theorem exists_semilin_of_pElt [Finite K] (hd : 3 ≤ d) (hn : 2 ≤ n) {p : ℕ} (_hp : p.Prime)
+    (_hp2 : p ≠ 2) {α : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)))}
     (hα : GGL45IsPElt p α) :
     ∃ g ∈ CU h d, ∃ (σ : K ≃+* K) (m : ℕ), σ ^ p ^ m = 1 ∧
       ∀ a b : LargeEvenSUGroup (Fin d) K (2 ^ n),

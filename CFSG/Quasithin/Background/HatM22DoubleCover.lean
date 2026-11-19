@@ -47,7 +47,7 @@ theorem isCyclic_ker_of_perfect
     intro x hx
     show CFSG.Quasithin.HM22.hatM22Q (f x) = 1
     rw [MonoidHom.mem_ker.mp hx, map_one]
-  haveI : IsCyclic ↥(g.ker) := hcyc
+  have : IsCyclic ↥(g.ker) := hcyc
   exact Subgroup.isCyclic_of_le hle
 
 theorem exists_mulEquiv_over_hatM22Γ₀
@@ -58,6 +58,6 @@ theorem exists_mulEquiv_over_hatM22Γ₀
     (hcard : Nat.card π.ker = 2) (hcard' : Nat.card π'.ker = 2) :
     ∃ θ : C ≃* C', ∀ c, π' (θ c) = π c :=
   CFSG.GroupTheory.exists_mulEquiv_comp_eq_of_card_ker_eq_two hC hC' π π' hπ hπ' hker hker'
-    hcard hcard' (fun D _ _ hD f hf hker => isCyclic_ker_of_perfect hD f hf hker)
+    hcard hcard' (fun _D _ _ hD f hf hker => isCyclic_ker_of_perfect hD f hf hker)
 
 end CFSG.Quasithin.HatM22

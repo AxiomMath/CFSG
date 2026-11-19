@@ -28,7 +28,7 @@ private theorem exists_normalizing_conj_LB [(Q.subgroupOf M).Normal] (hc : Ctx M
     ∃ z : M, QuotientGroup.mk' (Q.subgroupOf M) z ∈
         Subgroup.normalizer (bar M Q (LB M Q B) : Set (Mbar M Q)) ∧
       ((z : G) * s * (z : G)⁻¹)⁻¹ * (g * s * g⁻¹) ∈ Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsLB : s ∈ LB M Q B := (Subgroup.mem_inf.mp (cfg.centre.1 hsZ0)).1
   have hsM : s ∈ M := hc.LB_le_M hsLB
   have hgsM : g * s * g⁻¹ ∈ M := M.mul_mem (M.mul_mem hgM hsM) (M.inv_mem hgM)
@@ -84,7 +84,7 @@ private theorem exists_normalizing_conj_LB [(Q.subgroupOf M).Normal] (hc : Ctx M
 
 theorem step95Choice_holds : Step95ChoiceStatement := by
   intro G _ _ M Q Z B hc n t Z0 cfg
-  haveI hQN : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have hQN : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   obtain ⟨s, hsZ0, g, hgM, hgs, hgsZ⟩ := cfg.hnsc
   obtain ⟨z, hzNbar, hq⟩ := exists_normalizing_conj_LB hc cfg hsZ0 hgM hgs
   have hzN : (z : G) ∈ Subgroup.normalizer (LB M Q B : Set G) :=

@@ -273,7 +273,7 @@ theorem sandwich_R0Y (B : Set (Subgroup HY)) (N : Subgroup HY)
     have hcard := card_le_of_avoid4 hNle hNn hR0N hD
     have : N.relIndex T0Y ≤ 6 := hidx.trans hfix
     nlinarith
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨k0, hk0, hk0M⟩ := hall
     by_cases hnone : ∀ k < 3, fuse0 k ∉ M
     ·
@@ -291,7 +291,7 @@ theorem sandwich_R0Y (B : Set (Subgroup HY)) (N : Subgroup HY)
       have hcard := card_le_of_avoid1 hNle hNn hR0N hD
       have : N.relIndex T0Y ≤ 6912 := hidx.trans hfix
       nlinarith
-    · push_neg at hnone
+    · push Not at hnone
       obtain ⟨k1, hk1, hk1M⟩ := hnone
       have huniq : ∀ k < 3, fuse0 k ∈ M → k = k1 := by
         intro k hk hkM

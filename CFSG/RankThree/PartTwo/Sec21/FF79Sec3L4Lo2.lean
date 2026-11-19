@@ -17,8 +17,8 @@ variable {H : Type} [Group H] [Finite H]
 
 theorem isSylowOf_top_sylow {G : Type} [Group G] [Finite G] (P : Sylow 3 G) :
     IsSylowOf 3 (P : Subgroup G) ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 P.not_dvd_index
 
@@ -111,8 +111,7 @@ theorem ap_of_struct_K (hO : FF79KLemmaOP) {β : MulAut H} {K L : Subgroup H}
       apFix β (layer H) := by
     ext h
     simp only [apFix, Subgroup.mem_map, MonoidHom.eqLocus, Subgroup.mem_inf,
-      MulEquiv.coe_toMonoidHom,
-      MonoidHom.id_apply, Subgroup.subtype_apply]
+      Subgroup.subtype_apply]
     constructor
     · rintro ⟨l, hl, rfl⟩
       exact ⟨l.2, congrArg Subtype.val hl⟩
@@ -124,7 +123,7 @@ theorem ap_of_struct_K (hO : FF79KLemmaOP) {β : MulAut H} {K L : Subgroup H}
     Subgroup.map_subgroupOf_eq_of_le hS.K_le
   have hAb : HasAbelianSylow3 ↥(layer H) := by
     obtain ⟨S, hSL, hSyl, hcomm⟩ := hS.absyl
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hp : IsPGroup 3 (S.subgroupOf (layer H)) := hSyl.2.1.comap_subtype
     have hnd : ¬ 3 ∣ (S.subgroupOf (layer H)).index := fun hd => by
       have := Nat.Coprime.eq_one_of_dvd hSyl.2.2 hd

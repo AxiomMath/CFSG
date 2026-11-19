@@ -189,7 +189,7 @@ theorem s16c1_431_not_le_conj {D : Data G} (h22 : R1622 D) (h41 : R16_41 D)
   have hU2 : ∀ x ∈ U, x = 1 ∨ x = v' := by
     intro x hx
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 hx
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have horder : orderOf v' = 2 := orderOf_eq_prime hv'2 hv'ne
     have hmod : v' ^ (k % (2 : ℤ)) = v' ^ k := by
       simpa [horder] using zpow_mod_orderOf v' k
@@ -224,7 +224,7 @@ theorem s16c1_431_not_le_conj {D : Data G} (h22 : R1622 D) (h41 : R16_41 D)
       by_contra hnot
       exact hXne (le_bot_iff.1 fun x hx => by
         rcases hU2 x (hXU hx) with h1 | h2
-        · simpa [h1]
+        · simp [h1]
         · exact absurd (h2 ▸ hx) hnot)
     have hXUeq : X = U := le_antisymm hXU (Subgroup.zpowers_le.mpr hv'X)
     rw [hXUeq]
@@ -241,6 +241,7 @@ theorem s16c1_431_not_le_conj {D : Data G} (h22 : R1622 D) (h41 : R16_41 D)
   rw [hbot, Subgroup.mem_bot] at hmem
   exact hgv'ne hmem
 
+omit [Finite G] in
 private theorem s16c1_relIndex_inf_preBarSub_eq_card_barSub {M X V₀ V : Subgroup G}
     {hV : IsElemAbelian 2 V} (hXM : X ≤ M) (hX : X ≤ stabTil V₀ V) :
     (X ⊓ preBarSub M V₀ V hV ⊥).relIndex X = Nat.card (barSub V₀ V hV X) := by

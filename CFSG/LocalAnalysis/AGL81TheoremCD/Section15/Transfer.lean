@@ -50,7 +50,7 @@ theorem gnSetting_of_noXBlockFor (hS : StandingGen G)
     (hX : CFSG.AGLEmbeddingD2.NoXBlockFor G) {M T : Subgroup G}
     (hM : rankThreeIsMaxTwoLocal M) (hT : CFSG.ABGLocalTools.IsSylowOf 2 T M) :
     GNSetting ↥M (T.subgroupOf M) := by
-  haveI := hS.simple
+  have := hS.simple
   have hMtop : M ≠ ⊤ :=
     CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top hS.nonab M hM.1
   exact CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.gnSetting_of_subgroup hS.kProper hMtop

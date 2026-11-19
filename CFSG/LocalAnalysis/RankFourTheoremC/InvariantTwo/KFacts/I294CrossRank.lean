@@ -14,6 +14,7 @@ section Elementary
 
 variable {G : Type*} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem card_inf_mul_card_map (E N : Subgroup G) [N.Normal] :
     Nat.card (E ⊓ N : Subgroup G) * Nat.card (E.map (QuotientGroup.mk' N)) = Nat.card E := by
   set f : E →* G ⧸ N := (QuotientGroup.mk' N).comp E.subtype with hf
@@ -39,6 +40,7 @@ theorem exists_card_eq_pow_of_isElemAbelian [Fact p.Prime] {E : Subgroup G}
     (hE : IsElemAbelian p E) : ∃ m : ℕ, Nat.card E = p ^ m :=
   exists_card_eq_pow_of_forall_pow_eq_one hE.2
 
+omit [Finite G] in
 theorem crossRank_isElemAbelian_of_le {E F : Subgroup G} (hE : IsElemAbelian p E) (hFE : F ≤ E) :
     IsElemAbelian p F := by
   have := hE.1
@@ -46,6 +48,7 @@ theorem crossRank_isElemAbelian_of_le {E F : Subgroup G} (hE : IsElemAbelian p E
   apply Subtype.ext
   exact setLike_mul_comm (hFE a.2) (hFE b.2)
 
+omit [Finite G] in
 theorem crossRank_isElemAbelian_subgroupOf {E : Subgroup G} (hE : IsElemAbelian p E) (L : Subgroup G) :
     IsElemAbelian p (E.subgroupOf L) := by
   have := hE.1
@@ -59,6 +62,7 @@ theorem crossRank_isElemAbelian_subgroupOf {E : Subgroup G} (hE : IsElemAbelian 
     have := hE.2 (y : G) hy
     simpa using this
 
+omit [Finite G] in
 theorem exists_isElemAbelian_subgroupOf {E : Subgroup G} (hE : IsElemAbelian p E)
     (L : Subgroup G) :
     ∃ F : Subgroup L, IsElemAbelian p F ∧ Nat.card F = Nat.card (E ⊓ L : Subgroup G) ∧
@@ -100,7 +104,7 @@ theorem exists_conj_mem_of_sylow_abelian [Fact p.Prime]
     rw [← hg, Sylow.smul_def, Sylow.pointwise_smul_def]
     have := Subgroup.smul_mem_pointwise_smul y (MulAut.conj g) (P₁ : Subgroup G) hyP₁
     simpa [MulAut.smul_def, MulAut.conj_apply] using this
-  haveI : IsMulCommutative (P₂ : Subgroup G) := hab P₂
+  have : IsMulCommutative (P₂ : Subgroup G) := hab P₂
   let Ω : Subgroup G :=
     { carrier := {z | z ∈ (P₂ : Subgroup G) ∧ z ^ p = 1}
       mul_mem' := by
@@ -133,7 +137,7 @@ theorem isMulCommutative_sylow_of_mulEquiv {G' : Type*} [Group G'] (e : G ≃* G
     (h : ∀ R : Sylow p G', IsMulCommutative (R : Subgroup G')) [Fact p.Prime] (P : Sylow p G) :
     IsMulCommutative (P : Subgroup G) := by
   let R : Sylow p G' := Sylow.mapSurjective (f := e.toMonoidHom) e.surjective P
-  haveI : IsMulCommutative (R : Subgroup G') := h R
+  have : IsMulCommutative (R : Subgroup G') := h R
   refine ⟨⟨fun a b => ?_⟩⟩
   apply Subtype.ext
   have ha : e (a : G) ∈ (R : Subgroup G') := ⟨a, a.2, rfl⟩
@@ -146,7 +150,7 @@ theorem isMulCommutative_sylow_of_mulEquiv_isCyclic {G' : Type*} [Group G'] (e :
     (h : ∀ R : Sylow p G', IsCyclic (R : Subgroup G')) [Fact p.Prime] (P : Sylow p G) :
     IsMulCommutative (P : Subgroup G) :=
   isMulCommutative_sylow_of_mulEquiv e (fun R => by
-    haveI := h R
+    have := h R
     exact ⟨⟨fun a b => IsCyclic.commGroup.mul_comm a b⟩⟩) P
 
 theorem three_le_pRank_centralizer_of_sylow_abelian [Fact p.Prime]
@@ -163,7 +167,7 @@ theorem three_le_pRank_centralizer_of_sylow_abelian [Fact p.Prime]
     rw [← hk, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hx, one_zpow]
   obtain ⟨P, hP⟩ := hzp.exists_le_sylow
   have hxP : x ∈ (P : Subgroup G) := hP (Subgroup.mem_zpowers x)
-  haveI : IsMulCommutative (P : Subgroup G) := hab P
+  have : IsMulCommutative (P : Subgroup G) := hab P
   have hrk := (CFSG.SectionRank.pRank_sylow P).1
   have hPC : (P : Subgroup G) ≤ centralizer ({x} : Set G) := by
     intro z hz
@@ -238,7 +242,7 @@ theorem false_of_cross_core [Fact p.Prime] (L : Subgroup X) [L.Normal]
       refine ⟨(g : X) * x * (g : X)⁻¹, hgE, ?_⟩
       simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
       group
-    haveI : IsMulCommutative E' := hE'a.1
+    have : IsMulCommutative E' := hE'a.1
     have hE'C : E' ≤ centralizer ({x} : Set X) := by
       intro z hz
       rw [Subgroup.mem_centralizer_singleton_iff]

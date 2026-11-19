@@ -214,7 +214,7 @@ theorem card_centralizer_E64_of_not_mem_T₀ (hm : m = 2) {E : Subgroup G} (hE :
     {u : G} (hu : u ∈ T) (huN : u ∈ normalizer (E : Set G)) (hu0 : u ∉ D.T₀) (hu2 : u * u = 1) :
     Nat.card ↥(E ⊓ centralizer ({u} : Set G)) = 2 ^ 3 := by
   classical
-  haveI := D.finite_A
+  have := D.finite_A
   have hut := D.mul_t_mem_T₁_of_mem_normalizer hE hu hu0 huN
   have hAE := D.A_le_E64 hm hE
   have hAA : IsFourIn D.A D.A := D.repU_eq_A hm ▸ D.isFourIn_repU
@@ -236,7 +236,7 @@ theorem card_centralizer_E64_of_not_mem_T₀ (hm : m = 2) {E : Subgroup G} (hE :
     fun x hx => conj_mem_map_conj hx
   have hinj := wreathDiag_injective hc hd u hXY
   have hPeq : E ⊓ (D.B₀ ⊔ D.B₁) = (E ⊓ D.B₀) ⊔ (E ⊓ D.B₀).map (MulAut.conj u).toMonoidHom := by
-    haveI : Finite ↥(E ⊓ (D.B₀ ⊔ D.B₁)) := Nat.finite_of_card_ne_zero (by rw [hP.2.2]; norm_num)
+    have : Finite ↥(E ⊓ (D.B₀ ⊔ D.B₁)) := Nat.finite_of_card_ne_zero (by rw [hP.2.2]; norm_num)
     have hle : (E ⊓ D.B₀) ⊔ (E ⊓ D.B₀).map (MulAut.conj u).toMonoidHom ≤ E ⊓ (D.B₀ ⊔ D.B₁) :=
       sup_le (inf_le_inf_left _ le_sup_left) (le_inf hV'E (hV'B.trans D.B₀t_le_B₀B₁))
     have h16 : Nat.card ↥((E ⊓ D.B₀) ⊔ (E ⊓ D.B₀).map (MulAut.conj u).toMonoidHom) = 4 * 4 := by
@@ -294,7 +294,7 @@ theorem card_centralizer_E64_of_not_mem_T₀ (hm : m = 2) {E : Subgroup G} (hE :
         exact ⟨⟨v, hv⟩, rfl⟩
     · exact sup_le (inf_le_inf_right _ hAE) hrange
   have hCA2 : Nat.card ↥(D.A ⊓ centralizer ({u} : Set G)) = 2 := by
-    haveI : Finite ↥(D.A ⊓ centralizer ({u} : Set G)) :=
+    have : Finite ↥(D.A ⊓ centralizer ({u} : Set G)) :=
       Finite.of_injective _ (inclusion_injective inf_le_left)
     have hA4 : Nat.card ↥D.A = 4 := by simp [D.card_A, hm]
     have hdvd : Nat.card ↥(D.A ⊓ centralizer ({u} : Set G)) ∣ 4 :=

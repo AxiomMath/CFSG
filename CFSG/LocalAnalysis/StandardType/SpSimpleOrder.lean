@@ -24,7 +24,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {m : ℕ}
 theorem isSimpleGroup_statedSp (hm : 3 ≤ m) : IsSimpleGroup (StatedSp m F) := by
   have hF : (Infinite F ∨ 4 ≤ Nat.card F) ∨ (Nat.card F = 3 ∧ 2 ≤ m) ∨
       (Nat.card F = 2 ∧ 3 ≤ m) := by
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     obtain ⟨k, -, hk⟩ := FiniteField.card F 2
     have hcard : Nat.card F = 2 ^ (k : ℕ) := by
       rw [Nat.card_eq_fintype_card, hk]
@@ -46,7 +46,7 @@ theorem isSimpleGroup_statedSp (hm : 3 ≤ m) : IsSimpleGroup (StatedSp m F) := 
       CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot (n := m) (K := F)]
   let e : StatedSp m F ⧸ Subgroup.center (StatedSp m F) ≃* StatedSp m F :=
     (QuotientGroup.quotientMulEquivOfEq hcenter).trans QuotientGroup.quotientBot
-  haveI := hsimple
+  have := hsimple
   exact e.symm.isSimpleGroup
 
 theorem twentySeven_dvd_card_statedSp (hm : 3 ≤ m) : 27 ∣ Nat.card (StatedSp m F) := by

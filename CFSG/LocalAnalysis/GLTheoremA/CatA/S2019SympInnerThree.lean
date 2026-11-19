@@ -35,6 +35,7 @@ private theorem map_commutator_mulEquiv {G H : Type*} [Group G] [Group H] (e : G
   rw [commutator_def, commutator_def, Subgroup.map_commutator, Subgroup.map_top,
     (MonoidHom.range_eq_top (f := e.toMonoidHom)).2 e.surjective]
 
+omit [NeZero r] in
 theorem exists_three_of_modelThree {R : Type*} [Field R]
     {W : Submodule K (Fin r ⊕ Fin r → K)} [Module R W]
     {Γ : Subgroup (LinearMap.GeneralLinearGroup R W)}
@@ -100,6 +101,7 @@ theorem exists_three_of_modelThree {R : Type*} [Field R]
     rw [sq, Module.End.mul_apply, hsub ⟨v, hv⟩, hsub, ← Module.End.mul_apply, ← sq, hq,
       LinearMap.zero_apply, Submodule.coe_zero]
 
+omit [NeZero r] in
 theorem exists_three_of_modelThree_top {R : Type*} [Field R]
     {W : Submodule K (Fin r ⊕ Fin r → K)} [Module R W] {A : Subgroup (StatedSp r K)}
     (φ : A ≃* LinearMap.GeneralLinearGroup R W)
@@ -130,12 +132,12 @@ variable {r : ℕ} {K : Type} [Field K] [NeZero r]
 private theorem false_of_isQuasisimple_of_isSolvable'' {G : Type*} [Group G]
     (h : CFSG.IsQuasisimple G) (hs : Group.IsSolvable G) : False := by
   obtain ⟨hp, -, a, b, hab⟩ := h
-  haveI : Nontrivial G := by
+  have : Nontrivial G := by
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
     refine ⟨a * b, b * a, fun h => hab ?_⟩
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, h]
-  haveI := hp
+  have := hp
   exact Group.IsPerfect.not_isSolvable G hs
 
 private theorem exists_ne_zero_sq_ne_one'' {F : Type*} [Field F] [Finite F] (hF : 4 ≤ Nat.card F) :
@@ -143,7 +145,7 @@ private theorem exists_ne_zero_sq_ne_one'' {F : Type*} [Field F] [Finite F] (hF 
   classical
   by_contra h
   push Not at h
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hsub : (Finset.univ : Finset F) ⊆ {0, 1, -1} := by
     intro l _
     by_cases hl : l = 0
@@ -156,7 +158,7 @@ private theorem exists_ne_zero_sq_ne_one'' {F : Type*} [Field F] [Finite F] (hF 
 
 private theorem nine_le_card_of_ne_three {F : Type*} [Field F] [Finite F] [CharP F 3]
     (h : Nat.card F ≠ 3) : 9 ≤ Nat.card F := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 3
   rw [Nat.card_eq_fintype_card, hn] at h ⊢
   have hn2 : 2 ≤ (n : ℕ) := by
@@ -167,6 +169,7 @@ private theorem nine_le_card_of_ne_three {F : Type*} [Field F] [Finite F] [CharP
 
 variable {ℓ f p : ℕ} {x : StatedSp r K} {a : StatedProj (StatedSp r K)}
 
+omit [NeZero r] in
 theorem spBlockThree_fixed [Finite K] [CharP K 3] (blocks : SpPrimaryBlocks ℓ f p x a)
     (hsq : Squarefree (minpoly K (spEnd x))) (hX1 : (X - 1 : K[X]) ∈ primaryFactors (spEnd x))
     (hq : CFSG.IsQuasisimple ↥⁅spSupported x {X - 1}, spSupported x {X - 1}⁆) :
@@ -177,7 +180,7 @@ theorem spBlockThree_fixed [Finite K] [CharP K 3] (blocks : SpPrimaryBlocks ℓ 
   let B₁ := (spForm r K).restrict W
   have hB₁ : B₁.IsAlt := fun z => spForm_isAlt (z : Fin r ⊕ Fin r → K)
   have hBn : B₁.Nondegenerate := blocks.fixed_nondegenerate
-  haveI : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hX1)
+  have : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hX1)
   obtain ⟨n, b, hfin, hb⟩ := CFSG.RankThree.PartOne.KCAlternating.exists_isSymplecticBasis hB₁ hBn
   obtain ⟨s, hs, ⟨e⟩⟩ :=
     CFSG.RankThree.PartOne.KCSpIsotypic.exists_mulEquiv_sesqUnitaryGroup_statedSp hB₁ hBn
@@ -187,13 +190,13 @@ theorem spBlockThree_fixed [Finite K] [CharP K 3] (blocks : SpPrimaryBlocks ℓ 
     have := Module.finrank_pos (R := K) (M := W)
     omega
   have hK3 : 3 ≤ Nat.card K := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨m, -, hm⟩ := FiniteField.card K 3
     rw [Nat.card_eq_fintype_card, hm]
     exact le_trans (by norm_num) (Nat.pow_le_pow_right (by norm_num) m.pos)
   obtain ⟨hbll, hbrr, hblr⟩ := hb
   let i0 : Fin n := ⟨0, by omega⟩
-  have hvw : B₁ (b (Sum.inl i0)) (b (Sum.inr i0)) = 1 := by rw [hblr, if_pos rfl]
+  have hvw : B₁ (b (Sum.inl i0)) (b (Sum.inr i0)) = 1 := by rw [hblr, ite_eq_left rfl]
   have hM : SpBlock.ModelThree (sesqUnitaryGroup B₁) := by
     by_cases h9 : 9 ≤ Nat.card K
     · obtain ⟨l, hl, hl2⟩ := exists_ne_zero_sq_ne_one'' (by omega : 4 ≤ Nat.card K)
@@ -209,7 +212,7 @@ theorem spBlockThree_fixed [Finite K] [CharP K 3] (blocks : SpPrimaryBlocks ℓ 
         have hcard : Nat.card (spSupported x {X - 1}) = 2 ^ 3 * 3 ^ 1 := by
           rw [Nat.card_congr (φ.trans e).toEquiv, SymplecticFlag.card_statedSp, hK]
           norm_num [Finset.Icc_self]
-        haveI : Group.IsSolvable (spSupported x {X - 1}) :=
+        have : Group.IsSolvable (spSupported x {X - 1}) :=
           isSolvable_of_card_primeFactors_le_two (by
             rw [hcard, Nat.primeFactors_mul (by norm_num) (by norm_num),
               Nat.primeFactors_prime_pow (by norm_num) Nat.prime_two,
@@ -222,8 +225,8 @@ theorem spBlockThree_fixed [Finite K] [CharP K 3] (blocks : SpPrimaryBlocks ℓ 
       have hqs := CFSG.LieType.Universal.Symplectic.isQuasisimple n K hn1
         (Or.inr (Or.inl ⟨hK, hn2⟩))
       have hperf : ⁅sesqUnitaryGroup B₁, sesqUnitaryGroup B₁⁆ = sesqUnitaryGroup B₁ := by
-        haveI := hqs.1
-        haveI : Group.IsPerfect ↥(sesqUnitaryGroup B₁) :=
+        have := hqs.1
+        have : Group.IsPerfect ↥(sesqUnitaryGroup B₁) :=
           Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
         rw [← Subgroup.map_subtype_commutator, Group.IsPerfect.commutator_eq_top,
           Subgroup.map_top, Subgroup.range_subtype]
@@ -232,8 +235,8 @@ theorem spBlockThree_fixed [Finite K] [CharP K 3] (blocks : SpPrimaryBlocks ℓ 
       exact SpBlock.modelThree_alt_two hB₁ hperf hvw (v' := b (Sum.inl i1))
         (w' := b (Sum.inr i1)) (hbll i0 i1)
         (by rw [← LinearMap.IsAlt.neg hB₁ (b (Sum.inl i1)) (b (Sum.inr i0)), hblr,
-          if_neg h01.symm, neg_zero])
-        (by rw [hblr, if_pos rfl])
+          ite_eq_right h01.symm, neg_zero])
+        (by rw [hblr, ite_eq_left rfl])
   obtain ⟨P, hPA, hP3, hP9, hPZ, hPq⟩ :=
     exists_three_of_modelThree (R := K) φ (fun g v hv => hφ g ⟨v, hv⟩) hM
   refine ⟨P, hPA, hP3, hP9, hPZ, fun u hu hcent hcube => ?_⟩
@@ -272,7 +275,7 @@ open CFSG.RankThree.PartOne.KCUnitary (blockApply blockApply_mem blockApply_bloc
 private theorem gl_comm_of_le_one' {E : Type*} [Field E] {m : ℕ} (hm : m ≤ 1)
     (g g' : GL (Fin m) E) : g * g' = g' * g := by
   apply Units.ext
-  haveI : Subsingleton (Fin m) := Fin.subsingleton_iff_le_one.2 hm
+  have : Subsingleton (Fin m) := Fin.subsingleton_iff_le_one.2 hm
   ext i j
   rw [Units.val_mul, Units.val_mul, Matrix.mul_apply, Matrix.mul_apply,
     Fintype.sum_subsingleton _ i, Fintype.sum_subsingleton _ i, Subsingleton.elim j i, mul_comm]
@@ -283,6 +286,7 @@ private theorem nine_le_of_dvd_sub_one {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
   have : p ∣ 2 := hdvd
   exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 this)
 
+omit [NeZero r] in
 theorem spBlockThree_paired [Finite K] [CharP K 3] [FiniteDimensional K (Fin r ⊕ Fin r → K)]
     (blocks : SpPrimaryBlocks ℓ f p x a) (hp : p.Prime) (hp2 : p ≠ 2)
     (h : primaryFactors (spEnd x)) (hne : (h : K[X]) ≠ reciprocalPolynomial (h : K[X]))
@@ -291,9 +295,9 @@ theorem spBlockThree_paired [Finite K] [CharP K 3] [FiniteDimensional K (Fin r �
     SpBlockThree (spSupported x {(h : K[X]), reciprocalPolynomial (h : K[X])}) := by
   have P := blocks.paired h hne
   obtain ⟨φ, hφ1, hφ2⟩ := P.factor
-  haveI : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
-  haveI : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
-  haveI : CharP (AdjoinRoot (h : K[X])) 3 :=
+  have : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
+  have : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
+  have : CharP (AdjoinRoot (h : K[X])) 3 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot (h : K[X]))).injective 3
   obtain ⟨ψ⟩ := P.matrixFactor
   have hm : 2 ≤ primaryMultiplicity (spEnd x) (h : K[X]) := by
@@ -361,6 +365,7 @@ theorem spBlockThree_paired [Finite K] [CharP K 3] [FiniteDimensional K (Fin r �
       ← sq, hGi, LinearMap.zero_apply, Submodule.coe_zero, map_zero, LinearMap.zero_apply]
   · exact sq_apply_eq_zero_of_not_mem huA hk (by simp [hkh, hks]) hw
 
+omit [NeZero r] in
 theorem spBlockThree_selfDual [Finite K] [CharP K 3] [FiniteDimensional K (Fin r ⊕ Fin r → K)]
     (blocks : SpPrimaryBlocks ℓ f p x a) (hp : p.Prime) (hp2 : p ≠ 2)
     (h : primaryFactors (spEnd x)) (hX : (h : K[X]) ≠ X - 1)
@@ -368,9 +373,9 @@ theorem spBlockThree_selfDual [Finite K] [CharP K 3] [FiniteDimensional K (Fin r
     (hnc : ¬ ∀ g ∈ spSupported x {(h : K[X])}, ∀ g' ∈ spSupported x {(h : K[X])},
       g * g' = g' * g) :
     SpBlockThree (spSupported x {(h : K[X])}) := by
-  haveI : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
-  haveI : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
-  haveI : CharP (AdjoinRoot (h : K[X])) 3 :=
+  have : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
+  have : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
+  have : CharP (AdjoinRoot (h : K[X])) 3 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot (h : K[X]))).injective 3
   obtain ⟨d, -, hdvd, σ, -, -, -, -, -, hE, hbar, Hf, hHs, -, ⟨η, hη0, hη, -⟩, ⟨e, he⟩, φ, hφ⟩ :=
     (blocks.selfDual h hX hsd).exists_half
@@ -384,7 +389,7 @@ theorem spBlockThree_selfDual [Finite K] [CharP K 3] [FiniteDimensional K (Fin r
       intro F F'
       apply (LinearMap.toMatrixAlgEquiv e).injective
       rw [map_mul, map_mul]
-      haveI : Subsingleton (Fin (primaryMultiplicity (spEnd x) (h : K[X]))) :=
+      have : Subsingleton (Fin (primaryMultiplicity (spEnd x) (h : K[X]))) :=
         Fin.subsingleton_iff_le_one.2 (by omega)
       ext i j
       rw [Matrix.mul_apply, Matrix.mul_apply, Fintype.sum_subsingleton _ i,
@@ -396,8 +401,8 @@ theorem spBlockThree_selfDual [Finite K] [CharP K 3] [FiniteDimensional K (Fin r
       rw [map_mul, map_mul]
       exact Subtype.ext h1
     exact congrArg Subtype.val (φ.injective h2')
-  haveI : Finite hE.fixedField := Finite.of_injective _ Subtype.val_injective
-  haveI : CharP hE.fixedField 3 := inferInstance
+  have : Finite hE.fixedField := Finite.of_injective _ Subtype.val_injective
+  have : CharP hE.fixedField 3 := inferInstance
   have hE₀9 : 9 ≤ Nat.card hE.fixedField := by
     refine nine_le_card_of_ne_three fun h3 => ?_
     rw [UnitaryFieldData.card_fixedField, pow_mul] at h3
@@ -413,10 +418,10 @@ theorem spBlockThree_selfDual [Finite K] [CharP K 3] [FiniteDimensional K (Fin r
   set i₀ : Fin (primaryMultiplicity (spEnd x) (h : K[X])) := ⟨0, by omega⟩
   set i₁ : Fin (primaryMultiplicity (spEnd x) (h : K[X])) := ⟨1, by omega⟩
   have h01 : i₀ ≠ i₁ := by simp [i₀, i₁, Fin.ext_iff]
-  have h00 : Hf (e i₀) (e i₀) = 1 := by rw [he, if_pos rfl]
-  have h11 : Hf (e i₁) (e i₁) = 1 := by rw [he, if_pos rfl]
-  have h01' : Hf (e i₀) (e i₁) = 0 := by rw [he, if_neg h01]
-  have h10' : Hf (e i₁) (e i₀) = 0 := by rw [he, if_neg h01.symm]
+  have h00 : Hf (e i₀) (e i₀) = 1 := by rw [he, ite_eq_left rfl]
+  have h11 : Hf (e i₁) (e i₁) = 1 := by rw [he, ite_eq_left rfl]
+  have h01' : Hf (e i₀) (e i₁) = 0 := by rw [he, ite_eq_right h01]
+  have h10' : Hf (e i₁) (e i₀) = 0 := by rw [he, ite_eq_right h01.symm]
   have h2E : (2 : AdjoinRoot (h : K[X])) ≠ 0 := by
     intro h0
     have h3 : (3 : AdjoinRoot (h : K[X])) = 0 := by
@@ -424,17 +429,14 @@ theorem spBlockThree_selfDual [Finite K] [CharP K 3] [FiniteDimensional K (Fin r
     have : (1 : AdjoinRoot (h : K[X])) = 0 := by linear_combination h3 - h0
     exact one_ne_zero this
   have hvv : Hf (e i₀ + μ • e i₁) (e i₀ + μ • e i₁) = 0 := by
-    simp only [map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, map_smul,
-      smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
+    simp only [map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
     linear_combination hμ
   have hww : Hf ((2 : AdjoinRoot (h : K[X]))⁻¹ • (e i₀ - μ • e i₁))
       ((2 : AdjoinRoot (h : K[X]))⁻¹ • (e i₀ - μ • e i₁)) = 0 := by
-    simp only [map_sub, map_smulₛₗ, LinearMap.sub_apply, LinearMap.smul_apply, map_smul,
-      smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
+    simp only [map_sub, map_smulₛₗ, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
     linear_combination (hE.bar (2 : AdjoinRoot (h : K[X]))⁻¹ * (2 : AdjoinRoot (h : K[X]))⁻¹) * hμ
   have hvw : Hf (e i₀ + μ • e i₁) ((2 : AdjoinRoot (h : K[X]))⁻¹ • (e i₀ - μ • e i₁)) = 1 := by
-    simp only [map_add, map_sub, map_smulₛₗ, LinearMap.add_apply, LinearMap.sub_apply,
-      LinearMap.smul_apply, map_smul, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
+    simp only [map_add, map_sub, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
     field_simp
     linear_combination -hμ
   have hM := SpBlock.modelThree_herm hHs hvv hww hvw hE.fixedField
@@ -457,6 +459,7 @@ section Main
 
 variable {r : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem sq_eq_one_of_mem_ker_proj' [NeZero r] {s : StatedSp r K}
     (hs : s ∈ (proj r K).ker) : s ^ 2 = 1 := by
   rw [SymplecticHigher.ker_proj] at hs
@@ -468,11 +471,11 @@ theorem s2019FixCentralizes_conj_proj_sp_three {f : ℕ} (hf : 1 ≤ f) (hK : Na
     (hr : 1 ≤ r) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (x : StatedSp r K)
     (hx : x ^ p = 1) (hx1 : x ≠ 1) : S2019FixCentralizes p (MulAut.conj (proj r K x)) := by
   classical
-  haveI : NeZero r := ⟨by omega⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 3 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have : NeZero r := ⟨by omega⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite K
+  have : CharP K 3 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   intro L hL T hT hLT
   have hperf : ⁅L, L⁆ = L := CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hL
   have hle := CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.perfectInLayer_conj_sp
@@ -500,7 +503,7 @@ theorem s2019FixCentralizes_conj_proj_sp_three {f : ℕ} (hf : 1 ≤ f) (hK : Na
     rw [CharP.cast_eq_zero_iff K 3] at h
     exact hp3 ((Nat.prime_dvd_prime_iff_eq Nat.prime_three hp).mp h).symm
   have hsq := (altPrimaryData_spLin hpK hx).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd x)) :=
+  have : Finite (reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   have hp3' : 3 ≤ p := by have := hp.two_le; omega
@@ -524,10 +527,10 @@ theorem s2019FixCentralizes_conj_proj_sp_three {f : ℕ} (hf : 1 ≤ f) (hK : Na
       exact (hc a ha b hb).symm
     obtain ⟨-, -, a, b, hab⟩ := hOq
     apply hab
-    haveI : Subsingleton ↥⁅spSupported x (O : Set K[X]), spSupported x (O : Set K[X])⁆ := by
+    have : Subsingleton ↥⁅spSupported x (O : Set K[X]), spSupported x (O : Set K[X])⁆ := by
       rw [hbot]
       infer_instance
-    haveI : Subsingleton (↥⁅spSupported x (O : Set K[X]), spSupported x (O : Set K[X])⁆ ⧸
+    have : Subsingleton (↥⁅spSupported x (O : Set K[X]), spSupported x (O : Set K[X])⁆ ⧸
       Subgroup.center ↥⁅spSupported x (O : Set K[X]), spSupported x (O : Set K[X])⁆) :=
       Quotient.instSubsingletonQuotient _
     exact Subsingleton.elim _ _
@@ -561,7 +564,7 @@ theorem s2019SympInner_three : S2019SympInner (· = 3) := by
   change q = 3 at hq3
   subst hq3
   obtain ⟨⟨-, hf, hn, -⟩, K, _, _, hK, ⟨e⟩⟩ := hG
-  haveI : Finite G := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite G := Finite.of_equiv _ e.toEquiv.symm
   refine s2019FixCentralizes_of_congr hp e (MulAut.conj a) ?_
   rw [CFSG.ComponentClassification.OuterAutomorphisms.congr_conj]
   have hea : (e a) ^ p = 1 := by rw [← map_pow, ha, map_one]

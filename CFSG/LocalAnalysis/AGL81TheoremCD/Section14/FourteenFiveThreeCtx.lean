@@ -52,8 +52,8 @@ theorem exists_ctx {M H E Q J : Subgroup G} (hpre : PreambleTypes M) (hK : KNorm
 private lemma not_isSolvable_alternatingGroup_eleven :
     ¬ Group.IsSolvable (alternatingGroup (Fin 11)) := by
   intro hsol
-  haveI := hsol
-  haveI : Group.IsSolvable ℤˣ := Group.isSolvable_of_comm fun a b => mul_comm a b
+  have := hsol
+  have : Group.IsSolvable ℤˣ := Group.isSolvable_of_comm fun a b => mul_comm a b
   exact Equiv.Perm.not_isSolvable (Fin 11) (by rw [Cardinal.mk_fin]; norm_num)
     (Group.isSolvable_of_ker_le_range (alternatingGroup (Fin 11)).subtype Equiv.Perm.sign
       (by rw [Subgroup.range_subtype]; exact le_rfl))
@@ -79,9 +79,9 @@ theorem pPrimeCore_map_le (c : Ctx G M H E Q) :
     (CFSG.pPrimeCore 3 ↥(kSub 3 M H)).map (kSub 3 M H).subtype ≤ M :=
   c.choice.hypCGen.pPrimeCore_map_le c.kNormal
 
-theorem not_three_dvd_card_pPrimeCore (c : Ctx G M H E Q) :
+theorem not_three_dvd_card_pPrimeCore (_c : Ctx G M H E Q) :
     ¬ 3 ∣ Nat.card ↥(CFSG.pPrimeCore 3 ↥(kSub 3 M H)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card
 
 theorem mem_M_iff (x : ↥(kSub 3 M H)) : (x : G) ∈ M ↔ c.φ x ∈ a11TwoSetStab 9 10 := by
@@ -111,7 +111,7 @@ theorem E_le (c : Ctx G M H E Q) : E ≤ kSub 3 M H ⊓ M :=
   le_inf (c.choice.E_le_kSub c.caseTwo) c.choice.hypCGen.E_le_M
 
 theorem orderOf_φ {x : ↥(kSub 3 M H)} (hx : orderOf (x : G) = 3) : orderOf (c.φ x) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxK : orderOf x = 3 := by rw [← Subgroup.orderOf_coe]; exact hx
   have hx3 : x ^ 3 = 1 := by
     have h := pow_orderOf_eq_one x
@@ -130,7 +130,7 @@ theorem map_φ_centralizer {U : Subgroup G} (hUK : U ≤ kSub 3 M H) (hU : IsPGr
       Subgroup.centralizer
         (((U.subgroupOf (kSub 3 M H)).map c.φ : Subgroup (alternatingGroup (Fin 11))) :
           Set (alternatingGroup (Fin 11))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hU' : IsPGroup 3 (U.subgroupOf (kSub 3 M H)) := hU.comap_subtype
   have hcen : Subgroup.centralizer ((U.subgroupOf (kSub 3 M H) : Set ↥(kSub 3 M H))) =
       (Subgroup.centralizer (U : Set G)).subgroupOf (kSub 3 M H) := by
@@ -196,7 +196,7 @@ theorem map_φ_inf_centralizer {U : Subgroup G} (hUK : U ≤ kSub 3 M H) (hU : I
 theorem map_φ_centralizer_singleton {x : G} (hxK : x ∈ kSub 3 M H) (hx : orderOf x = 3) :
     ((Subgroup.centralizer ({x} : Set G)).subgroupOf (kSub 3 M H)).map c.φ =
       Subgroup.centralizer ({c.φ ⟨x, hxK⟩} : Set (alternatingGroup (Fin 11))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hU : IsPGroup 3 (Subgroup.zpowers x) := by
     rw [IsPGroup.iff_card]
     exact ⟨1, by rw [Nat.card_zpowers, hx]; norm_num⟩
@@ -216,7 +216,7 @@ theorem map_φ_inf_centralizer_singleton {x : G} (hxK : x ∈ kSub 3 M H) (hx : 
     ((M ⊓ Subgroup.centralizer ({x} : Set G)).subgroupOf (kSub 3 M H)).map c.φ =
       a11TwoSetStab 9 10 ⊓
         Subgroup.centralizer ({c.φ ⟨x, hxK⟩} : Set (alternatingGroup (Fin 11))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hU : IsPGroup 3 (Subgroup.zpowers x) := by
     rw [IsPGroup.iff_card]
     exact ⟨1, by rw [Nat.card_zpowers, hx]; norm_num⟩
@@ -232,10 +232,10 @@ theorem map_φ_inf_centralizer_singleton {x : G} (hxK : x ∈ kSub 3 M H) (hx : 
   rw [hcen, c.map_φ_inf_centralizer hUK hU, hgen, MonoidHom.map_zpowers,
     Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
 
-theorem not_isSolvable_M (c : Ctx G M H E Q) : ¬ IsSolvable ↥M := by
+theorem not_isSolvable_M (c : Ctx G M H E Q) : ¬ Group.IsSolvable ↥M := by
   rintro hsol
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsSolvable ↥M := hsol
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsSolvable ↥M := hsol
   rcases c.mbar with h | h | h
   · obtain ⟨e⟩ := h
     exact Equiv.Perm.not_isSolvable (Fin 9) (by rw [Cardinal.mk_fin]; norm_num)

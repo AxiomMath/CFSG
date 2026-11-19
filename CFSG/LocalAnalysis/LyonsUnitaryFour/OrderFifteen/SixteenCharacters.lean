@@ -18,7 +18,7 @@ noncomputable instance sixteenVector_addChar_fintype : Fintype (AddChar SixteenV
 theorem card_sixteenVector : Fintype.card SixteenVector = 16 := rfl
 
 theorem card_addChar_sixteenVector : Fintype.card (AddChar SixteenVector ℂ) = 16 := by
-  convert AddChar.card_eq (α := SixteenVector) <;> rfl
+  convert AddChar.card_eq (α := SixteenVector); rfl
 
 section Coordinates
 

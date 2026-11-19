@@ -46,7 +46,7 @@ structure ExceptionalTowers : Prop where
 theorem almostSimplePartA_of_inputs (hT : ExceptionalTowers) (hLin : LinearOuterResidual)
     (hUni : UnitaryOuterResidual) : AlmostSimplePartA := by
   intro p hp hp2 X _ _ L _ hs hnab hcat hnalt hC hE
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨i, ⟨e⟩⟩ := hcat
   have hrkL : RankLE2 p ↥L := rankLE2_of_subgroup L hE
   have key : OutTowerAt ↥L p ∨ (∀ x : X, (∃ k : ℕ, x ^ (p ^ k) = 1) → x ∈ L) := by

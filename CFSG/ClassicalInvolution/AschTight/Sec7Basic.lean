@@ -48,7 +48,7 @@ theorem exists_conj_le_of_isSylow2In [Finite G] {P Y U : Subgroup G} (hP : IsSyl
     (hU : IsPGroup 2 U) (hUY : U ≤ Y) : ∃ y ∈ Y, U ≤ conjSub y P := by
   obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow (hP.2.1.comap_subtype (K := Y))
   have hPQ : (Q : Subgroup ↥Y).map Y.subtype = P :=
-    hP.2.2 _ (Subgroup.map_subtype_le _) (Q.isPGroup'.map _) fun x hx =>
+    hP.2.2 _ (Subgroup.map_subtype_le _) (Q.isPGroup.map _) fun x hx =>
       ⟨⟨x, hP.1 hx⟩, hQ (show (⟨x, hP.1 hx⟩ : ↥Y) ∈ P.subgroupOf Y from
         Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   obtain ⟨Q', hQ'⟩ := IsPGroup.exists_le_sylow (hU.comap_subtype (K := Y))

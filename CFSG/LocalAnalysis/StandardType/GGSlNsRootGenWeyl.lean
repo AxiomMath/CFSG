@@ -23,7 +23,7 @@ theorem root_pow_neg_val {K : Type} [Field K] {g : K[X]} [Fact (Irreducible g)] 
   by_cases ha : a = 0
   · subst ha
     simp
-  · rw [ZMod.neg_val, if_neg ha]
+  · rw [ZMod.neg_val, ite_eq_right ha]
     rw [pow_sub₀ (AdjoinRoot.root g) hζ0 (le_of_lt (ZMod.val_lt a)), hζ, one_mul]
 
 section Swap
@@ -97,7 +97,7 @@ theorem exists_swap_mem_pairBlock [CharP K 2] (ε : Fin n ≃ (Fin (rootPB g).di
     (hC : (rootMat g).det = 1) (hCp : rootMat g ^ p = 1) (i j : Fin s) :
     ∃ w ∈ pairBlock g ε i j, ∀ t : Fin s → ZMod p,
       w * torusSL ε hC hCp (ofAdd t) * w⁻¹ = torusSL ε hC hCp (ofAdd (swapMap i j t)) := by
-  haveI : CharP (AdjoinRoot g) 2 :=
+  have : CharP (AdjoinRoot g) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot g)).injective 2
   exact ⟨swapSL g ε i j, swapSL_mem_pairBlock g ε i j, fun t => swapSL_conj g ε hCp i j t⟩
 
@@ -117,6 +117,7 @@ theorem frobAlgEquiv_apply (x : AdjoinRoot g) :
 
 variable {p : ℕ} [NeZero p] [Fact p.Prime]
 
+omit [NeZero p] [Fact (Nat.Prime p)] in
 theorem frobAlgEquiv_root (hζ : AdjoinRoot.root g ^ p = 1) (hpK : p ∣ Nat.card K + 1) :
     frobAlgEquiv g (AdjoinRoot.root g) = (AdjoinRoot.root g)⁻¹ := by
   rw [frobAlgEquiv_apply]
@@ -127,6 +128,7 @@ theorem frobAlgEquiv_root (hζ : AdjoinRoot.root g ^ p = 1) (hpK : p ∣ Nat.car
     rwa [pow_succ] at h1
   exact eq_inv_of_mul_eq_one_right (by rw [mul_comm]; exact h2)
 
+omit [NeZero p] [Fact (Nat.Prime p)] in
 theorem frobAlgEquiv_apply_apply (hζ : AdjoinRoot.root g ^ p = 1)
     (hpK : p ∣ Nat.card K + 1) (x : AdjoinRoot g) :
     frobAlgEquiv g (frobAlgEquiv g x) = x := by
@@ -151,12 +153,13 @@ variable {K : Type} [Field K] [Fintype K] (g : K[X]) [Fact (Irreducible g)] {n s
 
 theorem negTau_apply_self (i : Fin s) :
     negTau g i i = frobAlgEquiv g := by
-  rw [negTau, Function.update_apply, if_pos rfl]
+  rw [negTau, Function.update_apply, ite_eq_left rfl]
 
 theorem negTau_apply_of_ne {i m : Fin s} (hm : m ≠ i) :
     negTau g i m = AlgEquiv.refl := by
-  rw [negTau, Function.update_apply, if_neg hm]
+  rw [negTau, Function.update_apply, ite_eq_right hm]
 
+omit [NeZero p] [Fact (Nat.Prime p)] in
 theorem negTau_apply_apply (hζ : AdjoinRoot.root g ^ p = 1)
     (hpK : p ∣ Nat.card K + 1) (i m : Fin s) (x : AdjoinRoot g) :
     negTau g i m (negTau g i m x) = x := by
@@ -177,6 +180,7 @@ theorem negMove_apply (i : Fin s)
     negMove g i x = (fun m => negTau g i m (x.1 m), x.2) :=
   rfl
 
+omit [NeZero p] [Fact (Nat.Prime p)] in
 theorem negMove_negMove (hζ : AdjoinRoot.root g ^ p = 1)
     (hpK : p ∣ Nat.card K + 1) (i : Fin s)
     (x : (Fin s → AdjoinRoot g) × (Fin r → K)) :
@@ -196,6 +200,7 @@ theorem frameForm_negMat (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r
   rw [frameForm_apply, negMat, LinearMap.toMatrix'_mulVec]
   simp
 
+omit [NeZero p] [Fact (Nat.Prime p)] in
 theorem negMat_mul_self (hζ : AdjoinRoot.root g ^ p = 1)
     (hpK : p ∣ Nat.card K + 1) (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r)
     (i : Fin s) : negMat g ε i * negMat g ε i = 1 := by
@@ -205,6 +210,7 @@ theorem negMat_mul_self (hζ : AdjoinRoot.root g ^ p = 1)
   rw [LinearMap.comp_apply, frameForm_negMat]
   exact negMove_negMove g hζ hpK i x
 
+omit [NeZero p] [Fact (Nat.Prime p)] in
 theorem negMat_det [CharP K 2] (hζ : AdjoinRoot.root g ^ p = 1)
     (hpK : p ∣ Nat.card K + 1) (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r)
     (i : Fin s) : (negMat g ε i).det = 1 :=
@@ -228,7 +234,7 @@ theorem frameCoords_negMove_of_notMem (ε : Fin n ≃ (Fin (rootPB g).dim × Fin
   · rw [frameCoords_apply, frameCoords_apply, negMove_apply]
     simp [ha']
 
-theorem negMove_single_basis (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r)
+theorem negMove_single_basis (_ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r)
     (i : Fin s) {c : Fin (rootPB g).dim} {m : Fin s} (hm : m ≠ i) :
     negMove g i ((Pi.single m ((rootPB g).basis c), 0) :
       (Fin s → AdjoinRoot g) × (Fin r → K)) =
@@ -286,11 +292,13 @@ theorem negMat_apply_of_notMem
   rw [← h1, frameCoords_negMove_of_notMem g ε i ha, hy, LinearEquiv.apply_symm_apply]
   simp [Pi.single_apply]
 
+omit [NeZero p] [Fact (Nat.Prime p)] in
 theorem negSL_mul_self [CharP K 2] (hζ : AdjoinRoot.root g ^ p = 1)
     (hpK : p ∣ Nat.card K + 1) (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r)
     (i : Fin s) : negSL g hζ hpK ε i * negSL g hζ hpK ε i = 1 :=
   Subtype.ext (negMat_mul_self g hζ hpK ε i)
 
+omit [NeZero p] [Fact (Nat.Prime p)] in
 theorem negSL_mem_zeroBlock [CharP K 2] (hζ : AdjoinRoot.root g ^ p = 1)
     (hpK : p ∣ Nat.card K + 1) (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r)
     (i : Fin s) : negSL g hζ hpK ε i ∈ zeroBlock g ε i := by
@@ -308,6 +316,7 @@ theorem negSL_mem_zeroBlock [CharP K 2] (hζ : AdjoinRoot.root g ^ p = 1)
     rw [h2]
     simp [Pi.single_apply]
 
+omit [Fact (Nat.Prime p)] in
 theorem negMove_torusAct (hζ : AdjoinRoot.root g ^ p = 1)
     (hpK : p ∣ Nat.card K + 1) (i : Fin s) (t : Fin s → ZMod p)
     (x : (Fin s → AdjoinRoot g) × (Fin r → K)) :
@@ -325,9 +334,10 @@ theorem negMove_torusAct (hζ : AdjoinRoot.root g ^ p = 1)
       exact root_pow_neg_val hζ (t i)
     rw [negTau_apply_self]
     rw [map_mul, map_pow, frobAlgEquiv_root g hζ hpK, inv_pow, hneg]
-  · rw [negTau_apply_of_ne g hm, negMap, Function.update_apply, if_neg hm]
+  · rw [negTau_apply_of_ne g hm, negMap, Function.update_apply, ite_eq_right hm]
     rfl
 
+omit [Fact (Nat.Prime p)] in
 theorem negMat_mul_nsMat (hζ : AdjoinRoot.root g ^ p = 1)
     (hpK : p ∣ Nat.card K + 1) (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r)
     (i : Fin s) (t : Fin s → ZMod p) :
@@ -341,6 +351,7 @@ theorem negMat_mul_nsMat (hζ : AdjoinRoot.root g ^ p = 1)
     torusAct g (fun m => (negMap i t m).val) x
   rw [negMove_torusAct g hζ hpK, negMove_negMove g hζ hpK]
 
+omit [Fact (Nat.Prime p)] in
 theorem negSL_conj [CharP K 2] (hC : (rootMat g).det = 1) (hCp : rootMat g ^ p = 1)
     (hζ : AdjoinRoot.root g ^ p = 1) (hpK : p ∣ Nat.card K + 1)
     (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r) (i : Fin s)
@@ -369,7 +380,7 @@ theorem exists_neg_mem_zeroBlock [Finite K] [CharP K 2] [Fact p.Prime]
     (hζ : AdjoinRoot.root g ^ p = 1) (hpK : p ∣ Nat.card K + 1) (i : Fin s) :
     ∃ w ∈ zeroBlock g ε i, ∀ t : Fin s → ZMod p,
       w * torusSL ε hC hCp (ofAdd t) * w⁻¹ = torusSL ε hC hCp (ofAdd (negMap i t)) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   exact ⟨negSL g hζ hpK ε i, negSL_mem_zeroBlock g hζ hpK ε i,
     fun t => negSL_conj g hC hCp hζ hpK ε i t⟩
 

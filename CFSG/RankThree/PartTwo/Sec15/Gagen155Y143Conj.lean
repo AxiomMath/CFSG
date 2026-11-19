@@ -21,6 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace Gagen155Y143
 
+omit [Finite G] in
 private theorem exists_mul_zpow_of_mem_sup_of_centralizes {B : Subgroup G} {u x : G}
     (hu : ∀ b ∈ B, u * b = b * u) (hx : x ∈ B ⊔ Subgroup.zpowers u) :
     ∃ b ∈ B, ∃ k : ℤ, b * u ^ k = x := by
@@ -53,7 +54,7 @@ theorem eq_one_of_conj_eq_mul {A L : Subgroup G} {c : G} (hR : Sec15R G A c L)
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Subgroup.centralizer (B : Set G)))))
     {g : ↥Yc} (hg : g * x * g⁻¹ = x * z) : z = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := Subgroup.centralizer (B : Set G)
   let N : Subgroup C := CFSG.pPrimeCore 3 C
   have hAab : CFSG.Assembly.IsElemAbelian 3 A := hR.mem_partTwoF.1

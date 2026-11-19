@@ -142,14 +142,14 @@ theorem omegaSevenInvolData_holds : OmegaSevenInvolData := by
   intro S _ _ hm σ hσ
   have hmodel := hm.statedClassicalModel (by decide)
   obtain ⟨hadm, K, hField, hFinite, hKcard, hE⟩ := hmodel
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   obtain ⟨e⟩ := hE
   have hK : Nat.card K = 3 := by rw [hKcard, pow_one]
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hFcard : Fintype.card K = 3 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
-  haveI : CharP K 3 := charP_of_card_eq_prime hFcard
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : CharP K 3 := charP_of_card_eq_prime hFcard
   have h2 : (2 : K) ≠ 0 :=
     CharP.cast_ne_zero_of_ne_of_prime K (p := 3) (q := 2) (by decide) (by decide)
   let P := StatedProj (StatedOmega (StatedQuadOdd 3 K))

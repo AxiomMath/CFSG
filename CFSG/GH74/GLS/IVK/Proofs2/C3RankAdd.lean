@@ -24,7 +24,7 @@ theorem exists_normalized_sylow_two {G : Type} [Group G] [Finite G] (E B : Subgr
   obtain ⟨P, hP⟩ := hB'p.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 2 ↥E)
     (not_dvd_card_sylow 2 ↥E)
   refine ⟨(P : Subgroup ↥E).map E.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
-  · exact P.isPGroup'.map E.subtype
+  · exact P.isPGroup.map E.subtype
   · rw [Subgroup.card_map_of_injective E.subtype_injective]
     exact P.card_eq_multiplicity.symm
   · intro b hb e he
@@ -273,7 +273,7 @@ theorem exists_big_elemAbelian {G : Type} [Group G] [Finite G] (K B : Subgroup G
 
 theorem pRank_CxK_add_two_le_of_isIL2Pair_L29
     {G : Type} [Group G] [Finite G] {x : G} {K : Subgroup G}
-    (hxK : IsIL2Pair x K)
+    (_hxK : IsIL2Pair x K)
     (hL : HasL2Model (kBar K) (fun q => q = 9)) :
     pRank 2 ↥(CxK x K) + 2 ≤ pRank 2 G := by
   obtain ⟨B, hBle, hBea, hBcard⟩ := exists_elemAbelian_card_pRank (CxK x K)

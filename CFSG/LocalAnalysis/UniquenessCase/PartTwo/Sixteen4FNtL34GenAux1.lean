@@ -12,8 +12,9 @@ open scoped CharTwo
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem w183_exists_omega (hK : Nat.card K = 4) : ∃ ω : K, ω ^ 2 + ω + 1 = 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hex : ∃ x : K, x ≠ 0 ∧ x ≠ 1 := by
     by_contra h
@@ -48,17 +49,17 @@ theorem w183_exists_omega (hK : Nat.card K = 4) : ∃ ω : K, ω ^ 2 + ω + 1 = 
 theorem w183_cover_omega (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     ∀ a : K, a = 0 ∨ a = 1 ∨ a = ω ∨ a = ω + 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  have hω0 : ω ≠ 0 := by intro h; rw [h] at hω; simpa using hω
+  have hω0 : ω ≠ 0 := by intro h; rw [h] at hω; simp at hω
   have hω1 : ω ≠ 1 := by
     intro h; rw [h] at hω
-    have : (1 : K) = 0 := by simpa [CharTwo.add_self_eq_zero] using hω
+    have : (1 : K) = 0 := by simp [CharTwo.add_self_eq_zero] at hω
     exact one_ne_zero this
   have hωω1 : ω ≠ ω + 1 := by
     intro h
     have h' : (0 : K) = 1 := by
-      have h2 : ω + 0 = ω + 1 := by simpa using h
+      have h2 : ω + 0 = ω + 1 := by simp at h
       exact add_left_cancel h2
     exact one_ne_zero h'.symm
   have h0ω1 : (0 : K) ≠ ω + 1 := by
@@ -96,56 +97,50 @@ abbrev w183_Pm : Matrix (Fin 3) (Fin 3) K := !![0, 1, 0; 0, 0, 1; 1, 0, 0]
 
 abbrev w183_Bm (ω : K) : Matrix (Fin 3) (Fin 3) K := !![1, 1, ω; 0, 1, 1; 0, 1, 0]
 
+omit [Finite K] in
 theorem w183_Pm_det : (w183_Pm (K := K)).det = 1 := by
   rw [w183_Pm, Matrix.det_fin_three]; simp
 
+omit [Finite K] in
 theorem w183_Bm_det (ω : K) : (w183_Bm ω).det = 1 := by
   rw [w183_Bm, Matrix.det_fin_three]; simp
 
+omit [Finite K] in
 theorem w183_Pm_cube : (w183_Pm (K := K)) ^ 3 = 1 := by
   rw [w183_Pm]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ]
 
+omit [Finite K] in
 theorem w183_Bm_cube (ω : K) (hω : ω ^ 2 = ω + 1) : (w183_Bm ω) ^ 3 = 1 := by
   have hω2 : ω * ω = ω + 1 := by rw [← pow_two, hω]
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
-    try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ]
     try ring_nf
     try simp
-    try rfl
 
+omit [Finite K] in
 private theorem w183_hP2 (ω : K) (hω : ω ^ 2 = ω + 1) :
     w183_Pm ^ 2 = (!![0, 0, 1; 1, 0, 0; 0, 1, 0] : Matrix (Fin 3) (Fin 3) K) := by
   have hω2 : ω * ω = ω + 1 := by rw [← pow_two, hω]
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
-    try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
-    try ring_nf
-    try simp
-    try rfl
+    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ]
 
+omit [Finite K] in
 private theorem w183_hB2 (ω : K) (hω : ω ^ 2 = ω + 1) :
     w183_Bm ω ^ 2 = (!![1, ω, ω + 1; 0, 0, 1; 0, 1, 1] : Matrix (Fin 3) (Fin 3) K) := by
   have hω2 : ω * ω = ω + 1 := by rw [← pow_two, hω]
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
-    try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
-    try ring_nf
-    try simp
-    try rfl
+    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ]
 
+omit [Finite K] in
 private theorem w183_hA1 (ω : K) (hω : ω ^ 2 = ω + 1) :
     w183_Pm ^ 2 * w183_Bm ω * w183_Pm * w183_Bm ω ^ 2 =
       (!![0, 1, 1; ω, ω, 1; 1, ω + 1, ω] : Matrix (Fin 3) (Fin 3) K) := by
@@ -154,13 +149,13 @@ private theorem w183_hA1 (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, hω2]
     try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
+    try simp only [hω]
     try ring_nf
     try simp
-    try rfl
 
+omit [Finite K] in
 private theorem w183_hA1s (ω : K) (hω : ω ^ 2 = ω + 1) :
     (!![0, 1, 1; ω, ω, 1; 1, ω + 1, ω] : Matrix (Fin 3) (Fin 3) K) *
         !![0, 1, 1; ω, ω, 1; 1, ω + 1, ω] =
@@ -169,13 +164,13 @@ private theorem w183_hA1s (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, hω2]
     try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
+    try simp only [hω]
     try ring_nf
     try simp
-    try rfl
 
+omit [Finite K] in
 private theorem w183_hA3 (ω : K) (hω : ω ^ 2 = ω + 1) :
     w183_Pm ^ 2 * w183_Bm ω = (!![0, 1, 0; 1, 1, ω; 0, 1, 1] : Matrix (Fin 3) (Fin 3) K) := by
   have hω2 : ω * ω = ω + 1 := by rw [← pow_two, hω]
@@ -183,13 +178,9 @@ private theorem w183_hA3 (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
-    try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
-    try ring_nf
-    try simp
-    try rfl
+    simp [Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [Finite K] in
 private theorem w183_hA3c (ω : K) (hω : ω ^ 2 = ω + 1) :
     (!![0, 1, 0; 1, 1, ω; 0, 1, 1] : Matrix (Fin 3) (Fin 3) K) *
         !![0, 1, 0; 1, 1, ω; 0, 1, 1] * !![0, 1, 0; 1, 1, ω; 0, 1, 1] =
@@ -198,13 +189,11 @@ private theorem w183_hA3c (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
-    try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, hω2]
     try ring_nf
     try simp
-    try rfl
 
+omit [Finite K] in
 private theorem w183_hE1 (ω : K) (hω : ω ^ 2 = ω + 1) :
     w183_Bm ω * (!![ω + 1, 1, ω + 1; ω, ω, ω; ω + 1, 1, 1] : Matrix (Fin 3) (Fin 3) K) =
       (!![0, 1, ω + 1; 1, ω + 1, ω + 1; ω, ω, ω] : Matrix (Fin 3) (Fin 3) K) := by
@@ -212,13 +201,13 @@ private theorem w183_hE1 (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
+    simp [Matrix.mul_apply, Fin.sum_univ_three]
     try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
+    try simp only [hω]
     try ring_nf
     try simp
-    try rfl
 
+omit [Finite K] in
 private theorem w183_hE2 (ω : K) (hω : ω ^ 2 = ω + 1) :
     (!![0, 1, ω + 1; 1, ω + 1, ω + 1; ω, ω, ω] : Matrix (Fin 3) (Fin 3) K) *
         !![1, ω, 0; ω, ω + 1, ω + 1; 0, ω, ω + 1] =
@@ -227,13 +216,13 @@ private theorem w183_hE2 (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, hω2]
     try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
+    try simp only [hω]
     try ring_nf
     try simp
-    try rfl
 
+omit [Finite K] in
 private theorem w183_hE3 (ω : K) (hω : ω ^ 2 = ω + 1) :
     (!![ω, ω, 1; 0, 1, 0; 1, 1, 0] : Matrix (Fin 3) (Fin 3) K) * w183_Pm =
       (!![1, ω, ω; 0, 0, 1; 0, 1, 1] : Matrix (Fin 3) (Fin 3) K) := by
@@ -241,13 +230,9 @@ private theorem w183_hE3 (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
-    try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
-    try ring_nf
-    try simp
-    try rfl
+    simp [Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [Finite K] in
 private theorem w183_hE4 (ω : K) (hω : ω ^ 2 = ω + 1) :
     (!![1, ω, ω; 0, 0, 1; 0, 1, 1] : Matrix (Fin 3) (Fin 3) K) * w183_Bm ω =
       (!![1, 1, 0; 0, 1, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) K) := by
@@ -255,13 +240,9 @@ private theorem w183_hE4 (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
-    try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
-    try ring_nf
-    try simp
-    try rfl
+    simp [Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [Finite K] in
 theorem w183_word1mat (ω : K) (hω : ω ^ 2 = ω + 1) :
     w183_Bm ω * (w183_Pm ^ 2 * w183_Bm ω * w183_Pm * w183_Bm ω ^ 2) ^ 2 *
         (w183_Pm ^ 2 * w183_Bm ω) ^ 3 * w183_Pm * w183_Bm ω =
@@ -272,6 +253,7 @@ theorem w183_word1mat (ω : K) (hω : ω ^ 2 = ω + 1) :
         !![0, 1, 0; 1, 1, ω; 0, 1, 1] by rw [pow_succ, pow_two]]
   rw [w183_hA3c ω hω, w183_hE1 ω hω, w183_hE2 ω hω, w183_hE3 ω hω, w183_hE4 ω hω]
 
+omit [Finite K] in
 private theorem w183_hC1 (ω : K) (hω : ω ^ 2 = ω + 1) :
     w183_Pm * w183_Bm ω ^ 2 = (!![0, 0, 1; 0, 1, 1; 1, ω, ω + 1] : Matrix (Fin 3) (Fin 3) K) := by
   have hω2 : ω * ω = ω + 1 := by rw [← pow_two, hω]
@@ -279,13 +261,9 @@ private theorem w183_hC1 (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
-    try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
-    try ring_nf
-    try simp
-    try rfl
+    simp [Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [Finite K] in
 private theorem w183_hC1s (ω : K) (hω : ω ^ 2 = ω + 1) :
     (!![0, 0, 1; 0, 1, 1; 1, ω, ω + 1] : Matrix (Fin 3) (Fin 3) K) *
         !![0, 0, 1; 0, 1, 1; 1, ω, ω + 1] =
@@ -294,13 +272,13 @@ private theorem w183_hC1s (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
+    simp [Matrix.mul_apply, Fin.sum_univ_three]
     try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
+    try simp only [hω]
     try ring_nf
     try simp
-    try rfl
 
+omit [Finite K] in
 private theorem w183_hD1 (ω : K) (hω : ω ^ 2 = ω + 1) :
     w183_Pm ^ 2 * w183_Bm ω ^ 2 * w183_Pm * w183_Bm ω =
       (!![1, 0, ω; ω + 1, 0, 0; 1, 1, ω] : Matrix (Fin 3) (Fin 3) K) := by
@@ -309,13 +287,13 @@ private theorem w183_hD1 (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
+    simp [Matrix.mul_apply, Fin.sum_univ_three]
     try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
+    try simp only [hω]
     try ring_nf
     try simp
-    try rfl
 
+omit [Finite K] in
 private theorem w183_hD1s (ω : K) (hω : ω ^ 2 = ω + 1) :
     (!![1, 0, ω; ω + 1, 0, 0; 1, 1, ω] : Matrix (Fin 3) (Fin 3) K) *
         !![1, 0, ω; ω + 1, 0, 0; 1, 1, ω] =
@@ -324,13 +302,13 @@ private theorem w183_hD1s (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, hω2]
     try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
+    try simp only [hω]
     try ring_nf
     try simp
-    try rfl
 
+omit [Finite K] in
 private theorem w183_hF1 (ω : K) (hω : ω ^ 2 = ω + 1) :
     w183_Bm ω * (!![1, ω, ω + 1; 1, ω + 1, ω; ω + 1, ω + 1, 1] : Matrix (Fin 3) (Fin 3) K) =
       (!![1, 0, ω + 1; ω, 0, ω + 1; 1, ω + 1, ω] : Matrix (Fin 3) (Fin 3) K) := by
@@ -338,13 +316,13 @@ private theorem w183_hF1 (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
+    simp [Matrix.mul_apply, Fin.sum_univ_three]
     try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
+    try simp only [hω]
     try ring_nf
     try simp
-    try rfl
 
+omit [Finite K] in
 private theorem w183_hF2 (ω : K) (hω : ω ^ 2 = ω + 1) :
     (!![1, 0, ω + 1; ω, 0, ω + 1; 1, ω + 1, ω] : Matrix (Fin 3) (Fin 3) K) *
         !![ω + 1, ω, 1; ω + 1, 0, 1; 0, ω, 1] =
@@ -353,13 +331,13 @@ private theorem w183_hF2 (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, hω2]
     try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
+    try simp only [hω]
     try ring_nf
     try simp
-    try rfl
 
+omit [Finite K] in
 private theorem w183_hF3 (ω : K) (hω : ω ^ 2 = ω + 1) :
     (!![ω + 1, ω + 1, ω; 1, ω, 1; 1, 1, 0] : Matrix (Fin 3) (Fin 3) K) * w183_Pm =
       (!![ω, ω + 1, ω + 1; 1, 1, ω; 0, 1, 1] : Matrix (Fin 3) (Fin 3) K) := by
@@ -367,13 +345,9 @@ private theorem w183_hF3 (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
-    try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
-    try ring_nf
-    try simp
-    try rfl
+    simp [Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [Finite K] in
 private theorem w183_hF4 (ω : K) (hω : ω ^ 2 = ω + 1) :
     (!![ω, ω + 1, ω + 1; 1, 1, ω; 0, 1, 1] : Matrix (Fin 3) (Fin 3) K) * w183_Bm ω ^ 2 =
       (!![ω, 0, 1; 1, 0, 0; 0, 1, 0] : Matrix (Fin 3) (Fin 3) K) := by
@@ -382,13 +356,13 @@ private theorem w183_hF4 (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, hω2]
     try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
+    try simp only [hω]
     try ring_nf
     try simp
-    try rfl
 
+omit [Finite K] in
 private theorem w183_hF5 (ω : K) (hω : ω ^ 2 = ω + 1) :
     (!![ω, 0, 1; 1, 0, 0; 0, 1, 0] : Matrix (Fin 3) (Fin 3) K) * w183_Pm =
       (!![1, ω, 0; 0, 1, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) K) := by
@@ -396,13 +370,9 @@ private theorem w183_hF5 (ω : K) (hω : ω ^ 2 = ω + 1) :
   ext i j
   fin_cases i <;> fin_cases j
   all_goals
-    simp [Matrix.mul_apply, Fin.sum_univ_three, pow_succ, Matrix.one_apply, hω, hω2]
-    try ring_nf
-    try simp only [hω, hω2, pow_succ, one_mul, mul_one]
-    try ring_nf
-    try simp
-    try rfl
+    simp [Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [Finite K] in
 theorem w183_word2mat (ω : K) (hω : ω ^ 2 = ω + 1) :
     w183_Bm ω * (w183_Pm * w183_Bm ω ^ 2) ^ 2 *
         (w183_Pm ^ 2 * w183_Bm ω ^ 2 * w183_Pm * w183_Bm ω) ^ 2 *

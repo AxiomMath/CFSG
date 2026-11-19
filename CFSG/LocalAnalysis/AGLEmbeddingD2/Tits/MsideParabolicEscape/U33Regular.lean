@@ -101,7 +101,7 @@ theorem linearIndependent_orbit (ν : Matrix (Fin 3) (Fin 3) F) (hν3 : ν ^ 3 =
 theorem exists_vec_of_sq_ne_zero (ν : Matrix (Fin 3) (Fin 3) F) (h : ν ^ 2 ≠ 0) :
     ∃ w : Fin 3 → F, (ν ^ 2).mulVec w ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply h
   ext i j
   have := congrFun (hcon (Pi.single j 1)) i
@@ -160,14 +160,14 @@ theorem smul_combo_eq_zero (ν : Matrix (Fin 3) (Fin 3) F) (hν3 : ν ^ 3 = 0) (
   have f4 : ν * ν = ν ^ 2 := (pow_two ν).symm
   have e2 : (p0 • (1 : Matrix (Fin 3) (Fin 3) F) + p1 • ν + p2 • ν ^ 2) * ν ^ 2 =
       p0 • ν ^ 2 := by
-    simp [add_mul, smul_mul_assoc, f1, f2]
+    simp [add_mul, f1, f2]
   have hp0 : p0 = 0 := by
     rw [h, zero_mul] at e2
     by_contra hne
     exact hν2 ((smul_eq_zero.mp e2.symm).resolve_left hne)
   rw [hp0, zero_smul, zero_add] at h
   have e1 : (p1 • ν + p2 • ν ^ 2) * ν = p1 • ν ^ 2 := by
-    simp [add_mul, smul_mul_assoc, f3, f4]
+    simp [add_mul, f3, f4]
   have hp1 : p1 = 0 := by
     rw [h, zero_mul] at e1
     by_contra hne

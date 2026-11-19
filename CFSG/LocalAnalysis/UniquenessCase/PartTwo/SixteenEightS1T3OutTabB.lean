@@ -16,7 +16,7 @@ theorem s16t3_not_three_dvd_outer_b {X : Type} [Group X] [Finite X]
   have hn3 : 3 ≤ n := s16k_three_le_of_isSLn hq hX
   have hS : CFSG.Open.StatedClassicalModel X .PSL n 2 1 := by
     obtain ⟨K, hF, hfin, hcard, ⟨e⟩⟩ := hX
-    letI : Field K := hF
+    let : Field K := hF
     have hK2 : Nat.card K = 2 := by simpa using hcard
     obtain ⟨f⟩ := s15k_jp_projEquiv hK2 (StatedSL n K)
     exact ⟨⟨Nat.prime_two, le_rfl, by omega,

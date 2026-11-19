@@ -49,7 +49,7 @@ theorem card_le_three_of_injective_cyclic {C X : Type*} [Group C] [Group X] [Fin
     (hX : IsCyclic X) (f : C →* X) (hf : Function.Injective f) (hC : ∀ c : C, c ^ 3 = 1) :
     Nat.card C ≤ 3 := by
   classical
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   have h1 : Nat.card C ≤ Nat.card {a : X // a ^ 3 = 1} :=
     Nat.card_le_card_of_injective (fun c => ⟨f c, by rw [← map_pow, hC c, map_one]⟩)
       fun a b h => hf (congrArg Subtype.val h)

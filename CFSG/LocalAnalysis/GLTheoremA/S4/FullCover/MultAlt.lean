@@ -24,7 +24,7 @@ theorem listedMultiplierBoundAt_alternating (p n : ℕ) (hn : 5 ≤ n) :
     ListedMultiplierBoundAt p (.alternating n hn) := by
   intro hi Q _ _ hQ π hπ hker hZ hne
   have hdvd := card_center_dvd_hopfMultiplier_of_cover hQ π hπ hker
-  haveI : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial (Subgroup.center Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   rcases hi with ((⟨rfl, rfl | rfl⟩ | ⟨rfl, rfl⟩) | ⟨rfl, rfl | rfl⟩)
   · rw [(CFSG.Alternating.Multipliers.hopfMultiplier_alternatingGroup_five).2] at hdvd
     exact absurd (pGroup_card_of_dvd Nat.prime_three hZ inferInstance hdvd).1 (by norm_num)

@@ -35,7 +35,7 @@ private theorem he42ti_normalizer_of_conj (S : HeSetup G) {n x : G} (hn : n ∈ 
     (hx : x ∈ S.B) (hx1 : x ≠ 1) (hnx : n * x * n⁻¹ ∈ S.B) :
     n ∈ normalizer (S.B : Set G) := by
   have hxZ : x ∈ S.A ⊓ S.A' := hx.1
-  have hxc : S.g.val * S.m x = S.m x * S.g.val := ((S.hD.mem_B_iff S.hxN S.hxa S.hx3).1 hx).2
+  have hxc : S.g.val * S.m x = S.m x * S.g.val := ((S.hD.mem_B_iff S.hxN S.hxa).1 hx).2
   have hMne : S.m x ≠ 0 := by
     intro h0
     apply hx1
@@ -48,15 +48,15 @@ private theorem he42ti_normalizer_of_conj (S : HeSetup G) {n x : G} (hn : n ∈ 
     rw [hP, hQ]
     exact S.hD.hT.m_conj S.N S.hD.hK.norm ⟨n, hn⟩ hy
   have hnxc : S.g.val * (P.val * S.m x * Q.valᵀ) = (P.val * S.m x * Q.valᵀ) * S.g.val := by
-    have h := ((S.hD.mem_B_iff S.hxN S.hxa S.hx3).1 hnx).2
+    have h := ((S.hD.mem_B_iff S.hxN S.hxa).1 hnx).2
     rwa [hmc x hxZ] at h
-  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hxa S.hx3
+  have hg3 : S.g ^ 3 = 1 := S.hD.g_pow_three S.hxN S.hx3
   have hg1 : S.g ≠ 1 := S.hD.g_ne_one S.hxN S.hxa S.hx3
   have hgc := he42ti_gl2_cent S.g P Q hg3 hg1
   apply Subgroup.mem_normalizer_fintype
   intro y hy
-  have hyc := (S.hD.mem_B_iff S.hxN S.hxa S.hx3).1 hy
-  apply (S.hD.mem_B_iff S.hxN S.hxa S.hx3).2
+  have hyc := (S.hD.mem_B_iff S.hxN S.hxa).1 hy
+  apply (S.hD.mem_B_iff S.hxN S.hxa).2
   refine ⟨S.hD.mem_Z_conj hn hyc.1, ?_⟩
   rw [hmc y hyc.1]
   exact hgc (S.m x) (S.m y) hMne hxc hnxc hyc.2
@@ -66,7 +66,7 @@ private theorem he42ti_normalizer_of_centralizer (S : HeSetup G) (h427 : Open427
     c ∈ normalizer (S.B : Set G) := by
   have h427' : ∀ c : G, c * S.a = S.a * c → c ∈ normalizer (S.B : Set G) := h427
   have hg1 : S.g ≠ 1 := S.hD.g_ne_one S.hxN S.hxa S.hx3
-  obtain ⟨b, hb, hbm⟩ := S.hD.exists_b S.hxN S.hxa S.hx3
+  obtain ⟨b, hb, hbm⟩ := S.hD.exists_b S.hxN S.hxa
   have hbm' : S.m b = S.g.val := hbm
   have hb1 : b ≠ 1 := by
     rintro rfl
@@ -77,7 +77,7 @@ private theorem he42ti_normalizer_of_centralizer (S : HeSetup G) (h427 : Open427
     apply hg1
     apply Units.ext
     rw [Units.val_one, ← hbm', S.hD.ham]
-  obtain ⟨r, -, hrB, hra, hrb⟩ := S.hD.exists_rot_B S.hxN S.hxa S.hx3 hb hb1 hba hbm'
+  obtain ⟨r, -, hrB, hra, hrb⟩ := S.hD.exists_rot_B S.hxN S.hxa S.hx3 hb hbm'
   have hrB' : r ∈ normalizer (S.B : Set G) := hrB
   have hBel := S.hD.B_elems S.hxN S.hxa S.hx3 hb hb1 hba
   have hback : ∀ c' : G, r⁻¹ * c' * r ∈ normalizer (S.B : Set G) →

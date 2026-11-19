@@ -37,7 +37,7 @@ private lemma transvection_conj_sub (f : V →ₗ[ZMod 2] V) (φ : Dual (ZMod 2)
   rw [LinearMap.sub_apply, LinearMap.comp_apply, LinearMap.comp_apply,
     transvection_symm, transvection_toLin]
   simp only [LinearMap.add_apply, LinearMap.id_apply, LinearMap.smulRight_apply,
-    LinearMap.comp_apply, map_add, map_smul, h, smul_zero, add_zero]
+    LinearMap.comp_apply, map_add, map_smul]
   abel
 
 private lemma conjSub_apply (f : V →ₗ[ZMod 2] V) (φ : Dual (ZMod 2) V) {w : V}
@@ -85,7 +85,7 @@ private lemma exists_smulRight_of_range_le_span {r : V →ₗ[ZMod 2] V} {u : V}
 
 private lemma exists_mem_notMem_span_of_card_lt [FiniteDimensional (ZMod 2) V]
     {U : Submodule (ZMod 2) V} {s : Finset V}
-    (hs : ∀ x ∈ s, x ∈ U) (hcard : s.card < finrank (ZMod 2) U) :
+    (_hs : ∀ x ∈ s, x ∈ U) (hcard : s.card < finrank (ZMod 2) U) :
     ∃ v ∈ U, v ∉ Submodule.span (ZMod 2) (s : Set V) := by
   by_contra hcon
   push Not at hcon
@@ -236,7 +236,7 @@ private lemma coord_self (b : Basis (Fin 4) (ZMod 2) V) (i : Fin 4) :
 
 private lemma coord_of_ne (b : Basis (Fin 4) (ZMod 2) V) {i j : Fin 4} (h : i ≠ j) :
     b.coord i (b j) = 0 := by
-  rw [Module.Basis.coord_apply, Module.Basis.repr_self_apply b j i, if_neg (Ne.symm h)]
+  rw [Module.Basis.coord_apply, Module.Basis.repr_self_apply b j i, ite_eq_right (Ne.symm h)]
 
 private lemma neg_eq_self_zmod2 (a : ZMod 2) : -a = a := by
   have h : a + a = 0 := zmod_two_add_self a
@@ -252,8 +252,7 @@ private lemma conjSub_E01 (b : Basis (Fin 4) (ZMod 2) V) (j : Fin 4) (hj0 : j �
   classical
   rw [transvection_conj_sub]
   ext x
-  simp [E, LinearMap.smulRight_apply, Module.Basis.coord_apply, Module.Basis.repr_self_apply,
-    Ne.symm hj0, Ne.symm hj1]
+  simp [E, LinearMap.smulRight_apply, Module.Basis.coord_apply, Ne.symm hj0]
 
 private lemma conjSub_E0j (b : Basis (Fin 4) (ZMod 2) V) (i j : Fin 4) (hi0 : i ≠ 0)
     (hij : i ≠ j) :
@@ -262,8 +261,7 @@ private lemma conjSub_E0j (b : Basis (Fin 4) (ZMod 2) V) (i j : Fin 4) (hi0 : i 
   classical
   rw [transvection_conj_sub]
   ext x
-  simp [E, LinearMap.smulRight_apply, Module.Basis.coord_apply, Module.Basis.repr_self_apply,
-    hi0, hij]
+  simp [E, LinearMap.smulRight_apply, Module.Basis.coord_apply, hij]
 
 
 private noncomputable def swap01 (b : Basis (Fin 4) (ZMod 2) V) : V ≃ₗ[ZMod 2] V :=
@@ -278,7 +276,7 @@ private lemma swap01_symm (b : Basis (Fin 4) (ZMod 2) V) : (swap01 b).symm = swa
 
 private lemma swap01_apply (b : Basis (Fin 4) (ZMod 2) V) (i : Fin 4) :
     swap01 b (b i) = b (Equiv.swap (0 : Fin 4) 1 i) := by
-  simpa [swap01] using Module.Basis.equiv_apply b i b (Equiv.swap (0 : Fin 4) 1)
+  simp [swap01]
 
 private lemma conj_swap_E01 (b : Basis (Fin 4) (ZMod 2) V) :
     (swap01 b).toLinearMap ∘ₗ E b 0 1 ∘ₗ (swap01 b).symm.toLinearMap = E b 1 0 := by
@@ -289,7 +287,7 @@ private lemma conj_swap_E01 (b : Basis (Fin 4) (ZMod 2) V) :
   simp only [LinearEquiv.coe_toLinearMap]
   rw [swap01_apply, LinearMap.smulRight_apply, map_smul, swap01_apply,
     LinearMap.smulRight_apply]
-  fin_cases i <;> simp [E, coord_self, coord_of_ne, Equiv.swap_apply_def]
+  fin_cases i <;> simp [Equiv.swap_apply_def]
 
 private lemma conjSub_E10_Ei0 (b : Basis (Fin 4) (ZMod 2) V) (i : Fin 4)
     (hi0 : i ≠ 0) (hi1 : i ≠ 1) :
@@ -299,7 +297,7 @@ private lemma conjSub_E10_Ei0 (b : Basis (Fin 4) (ZMod 2) V) (i : Fin 4)
   classical
   rw [transvection_conj_sub]
   ext x
-  simp [E, LinearMap.smulRight_apply, coord_self, coord_of_ne, hi0, hi1]
+  simp [E, LinearMap.smulRight_apply, hi0]
 
 private abbrev OffDiag := {ij : Fin 4 × Fin 4 // ij.1 ≠ ij.2}
 
@@ -387,7 +385,7 @@ private lemma offDiag_mem (b : Basis (Fin 4) (ZMod 2) V)
   have h32 : E b 3 2 ∈ W := hEij 3 2 (by decide) (by decide) (by decide)
   rintro ⟨⟨i, j⟩, hij⟩
   fin_cases i <;> fin_cases j <;>
-    simp_all [hE01, hE02, hE03, hE10, hE20, hE30, h12, h13, h21, h23, h31, h32]
+    simp_all
   all_goals exact (hij rfl).elim
 
 private lemma card_ge_of_nilpotent [FiniteDimensional (ZMod 2) V]
@@ -473,7 +471,7 @@ private lemma exists_nilpotent_of_eigen {W : AddSubgroup (Module.End (ZMod 2) V)
       rw [hψr, hψ0]
       simp
     exact ⟨ψ, v, hψne, hv, hψv, by rw [← hψr]; exact hrW⟩
-  · obtain ⟨y, hyrange, hyspan⟩ := SetLike.not_le_iff_exists.1 hle
+  · obtain ⟨y, hyrange, hyspan⟩ := IsConcreteLE.not_le_iff_exists.1 hle
     obtain ⟨x, rfl⟩ := hyrange
     obtain ⟨φ, hφy, hφv⟩ := CFSG.EvenSporadicStandard.ThStd.exists_dual_one_of_notMem
       (p := Submodule.span (ZMod 2) ({v} : Set V)) (v := r x) hyspan
@@ -486,8 +484,7 @@ private lemma exists_nilpotent_of_eigen {W : AddSubgroup (Module.End (ZMod 2) V)
       rw [transvection_conj_sub f φ hφv0]
       ext z
       simp [r, LinearMap.smulRight_apply, LinearMap.sub_apply, LinearMap.smul_apply,
-        map_sub, map_smul, hfv, hφv0, smul_add, add_smul, smul_smul, mul_comm,
-        mul_left_comm, mul_assoc]
+        map_sub, map_smul, hfv, hφv0, smul_smul, mul_comm]
       rw [sub_eq_add_neg, neg_eq_self_zmod2, ← add_smul]
     have hψne : φ.comp r ≠ 0 := by
       intro hψ0

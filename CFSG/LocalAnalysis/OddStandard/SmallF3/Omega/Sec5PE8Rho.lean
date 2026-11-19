@@ -19,7 +19,7 @@ theorem sec5pe8_act_eq_one (hAut : Sec5PE8AutStatement) {X : Type} [Group X] [Fi
         sec5g_pi Tb ⟨tb, Subgroup.subset_normalClosure htb⟩ * c →
       Nat.Coprime (orderOf c) 6 → sec5op_act Tb g c = c) :
     sec5op_act Tb g = 1 := by
-  haveI : Finite (Sec5GBar Tb) := inferInstance
+  have : Finite (Sec5GBar Tb) := inferInstance
   obtain ⟨P, hPimg, hD8, -, -, hshape⟩ := hout
   set tb' : Sec5GBar Tb := sec5g_pi Tb ⟨tb, Subgroup.subset_normalClosure htb⟩ with htb'
   have htb'mem : tb' ∈ (P : Subgroup (Sec5GBar Tb)) := by

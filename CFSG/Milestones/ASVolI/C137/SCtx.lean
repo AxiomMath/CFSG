@@ -68,8 +68,10 @@ theorem hQR : pCoreOf 2 X ≤ pCoreOf 2 P := by
     (h.hPX.le.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 X))
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 X)
 
+omit [Finite G] in
 theorem hRX : pCoreOf 2 P ≤ X := (CFSG.LieType.BorelTits.pCoreOf_le 2 P).trans h.hPX.le
 
+omit h in
 theorem hR2 : IsPGroup 2 (pCoreOf 2 P) := isPGroup_pCoreOf_two_gc P
 
 theorem hUR : U ≤ pCoreOf 2 P := (C124.le_pCoreOf_of_reduced h.hred).trans h.hQR
@@ -87,14 +89,17 @@ theorem hOLC : pCoreOf 2 L ≤ centralizer (U : Set G) :=
 omit [Finite G] in
 theorem hLN : L ≤ normalizer (U : Set G) := h.hLX.trans h.hXN
 
+omit [Finite G] in
 theorem card_U : Nat.card U = 64 := burnsideC137_card_U h.hs h.hU
 
+omit [Finite G] in
 theorem hU1 : U ≠ ⊥ := by
   intro hb
   have h1 := h.card_U
   rw [hb, Subgroup.card_bot] at h1
   omega
 
+omit [Finite G] in
 theorem hVL : ⁅U, L⁆ ≠ ⊥ := by
   rw [h.hUL]
   exact h.hU1
@@ -179,6 +184,7 @@ theorem exists_L {x : G} (hx : x ∈ X) : ∃ l ∈ L, l⁻¹ * x ∈ centralize
   rw [this]
   exact hc
 
+omit [Finite G] in
 theorem convI_eq {x l : G} (hx : x ∈ X) (hl : l ∈ L) (hc : l⁻¹ * x ∈ centralizer (U : Set G)) :
     convI h.hU ⟨x, h.hXN hx⟩ = convI h.hU ⟨l, h.hLN hl⟩ := by
   have hN : l⁻¹ * x ∈ normalizer (U : Set G) :=
@@ -199,7 +205,7 @@ theorem autI_X : autI h.hU X = autI h.hU L := by
 theorem autR_pow {φ : MulAut (IntMod U h.hU)} (hφ : φ ∈ autI h.hU (pCoreOf 2 P)) :
     ∃ k : ℕ, φ ^ 2 ^ k = 1 := by
   obtain ⟨y, hy, rfl⟩ := (mem_autI h.hU).1 hφ
-  obtain ⟨j, hj⟩ := h.hR2 ⟨(y : G), hy⟩
+  obtain ⟨j, hj⟩ := CFSG.ASVolI.burnsideC137_SCtx.hR2 ⟨(y : G), hy⟩
   refine ⟨j, ?_⟩
   have hj' : (y : G) ^ 2 ^ j = 1 := by simpa using congrArg Subtype.val hj
   have : convI h.hU (y ^ 2 ^ j) = 1 := by

@@ -11,7 +11,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 private lemma l05nTM_finRotate_last {N : ℕ} (hN : 2 ≤ N) :
     (finRotate (N - 1)) (⟨N - 2, by omega⟩ : Fin (N-1)) = ⟨0, by omega⟩ := by
   ext
-  simp only [finRotate_apply, Fin.val_add, Fin.val_mk, Fin.val_zero]
+  simp only [finRotate_apply, Fin.val_add]
   norm_num
   have h : N - 2 + 1 = N - 1 := by omega
   rw [h, Nat.mod_self]
@@ -37,7 +37,7 @@ private lemma l05nTM_dot_step {p N : ℕ} (c : Fin (N-1)) (hc : c.val + 3 ≤ N)
     rw [l05nTM_alpha_coeff c j hk, hσ]
     have hu : l05nTMu v ⟨j.val + 1, by have := j.isLt; omega⟩ = v j := by
       simp only [l05nTMu]
-      rw [if_neg (by simp : ¬ (j.val + 1 = 0))]
+      rw [ite_eq_right (by simp : ¬ (j.val + 1 = 0))]
       rfl
     rw [hu]
 
@@ -61,24 +61,23 @@ private lemma l05nTM_rec {p N : ℕ} (v : GGTWE p N) (c : Fin (N-1)) (hc1 : 1 �
   have hc1lt : c.val < N - 1 := c.isLt
   have hcp1 : c.val + 1 < N - 1 := by omega
   have hcm1 : c.val - 1 < N - 1 := by omega
-  simp only [dif_pos hc1lt, dif_pos hcp1, dif_pos hcm1] at hsum
-  rw [if_neg (by omega : ¬ c.val = 0)] at hsum
+  simp only [dite_eq_left hc1lt, dite_eq_left hcp1, dite_eq_left hcm1] at hsum
+  rw [ite_eq_right (by omega : ¬ c.val = 0)] at hsum
   have hu1 : l05nTMu v ⟨c.val, hc1lt⟩ = v ⟨c.val - 1, by omega⟩ := by
     simp only [l05nTMu]
-    rw [if_neg (by omega : ¬ c.val = 0)]
-    try rfl
+    rw [ite_eq_right (by omega : ¬ c.val = 0)]
   have hu2 : l05nTMu v ⟨c.val + 1, hcp1⟩ = v ⟨c.val, by omega⟩ := by
     simp only [l05nTMu]
-    rw [if_neg (by omega : ¬ c.val + 1 = 0)]
+    rw [ite_eq_right (by omega : ¬ c.val + 1 = 0)]
     try rfl
   have hu3 : l05nTMu v ⟨c.val - 1, hcm1⟩ =
       (if 2 ≤ c.val then v ⟨c.val - 2, by omega⟩ else 0) := by
     by_cases h2 : 2 ≤ c.val
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       simp only [l05nTMu]
-      rw [if_neg (by omega : ¬ c.val - 1 = 0)]
+      rw [ite_eq_right (by omega : ¬ c.val - 1 = 0)]
       rfl
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       have hzero : c.val - 1 = 0 := by omega
       rw [show (⟨c.val - 1, hcm1⟩ : Fin (N-1)) = ⟨0, by omega⟩ from Fin.ext hzero]
       simp [l05nTMu]
@@ -98,7 +97,7 @@ private lemma l05nTM_dot_zero {p N : ℕ} (hN : 5 ≤ N) (v : GGTWE p N) :
     · simp [ggTWα, hbN]
     · have hb1 : ¬ (b.val + 1 = 0) := by omega
       have hb2 : ¬ (b.val + 2 = 0 ∨ b.val = 0) := by omega
-      simp [ggTWα, hbN, hb0, hb1, hb2]
+      simp [ggTWα, hbN, hb0]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 private lemma l05nTM_ends_coord {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) (v : GGTWE p N)
@@ -116,9 +115,9 @@ private lemma l05nTM_ends_coord {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) (v : G
     | one =>
       intro hk hm
       have hJ : ggTWInJ N .ends 1 := by simp [ggTWInJ]; omega
-      have hrec := l05nTM_rec v ⟨1, hm⟩ (by simp) (by simp only [Fin.val_mk]; omega) (hv ⟨1, hm⟩ hJ)
-      simp only [Fin.val_mk] at hrec
-      rw [if_neg (by omega : ¬ 2 ≤ (1:ℕ))] at hrec
+      have hrec := l05nTM_rec v ⟨1, hm⟩ (by simp) (by simp only; omega) (hv ⟨1, hm⟩ hJ)
+      simp only at hrec
+      rw [ite_eq_right (by omega : ¬ 2 ≤ (1:ℕ))] at hrec
       have h0 : v ⟨0, by omega⟩ = ((0 : ZMod p) + 1) * v i0 := by simp [i0]
       rw [h0] at hrec
       linear_combination -hrec
@@ -127,16 +126,15 @@ private lemma l05nTM_ends_coord {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) (v : G
       have hn : n < N - 1 := by omega
       have hn1 : n + 1 < N - 1 := by omega
       have hJ : ggTWInJ N .ends (n+2) := by simp [ggTWInJ]; omega
-      have hrec := l05nTM_rec v ⟨n+2, hm⟩ (by simp) (by simp only [Fin.val_mk]; omega)
+      have hrec := l05nTM_rec v ⟨n+2, hm⟩ (by simp) (by simp only; omega)
         (hv ⟨n+2, hm⟩ hJ)
-      simp only [Fin.val_mk] at hrec
+      simp only at hrec
       rw [show (⟨(n+2) - 1, by omega⟩ : Fin (N-1)) = ⟨n+1, hn1⟩ from Fin.ext (by simp)] at hrec
       rw [show (⟨(n+2) - 2, by omega⟩ : Fin (N-1)) = ⟨n, hn⟩ from Fin.ext (by simp)] at hrec
-      rw [if_pos (by omega : 2 ≤ n+2)] at hrec
+      rw [ite_eq_left (by omega : 2 ≤ n+2)] at hrec
       rw [ih1 (by omega) hn1, ih0 (by omega) hn] at hrec
       push_cast at hrec ⊢
       linear_combination -hrec
-      all_goals (push_cast; ring)
   have hklt : k.val < N - 1 := k.isLt
   exact hnat k.val hk hklt
 
@@ -154,9 +152,9 @@ private lemma l05nTM_adj_coord {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) (v : GG
     | one =>
       intro hk hm
       have hJ : ggTWInJ N .adj 1 := by simp [ggTWInJ]; omega
-      have hrec := l05nTM_rec v ⟨1, hm⟩ (by simp) (by simp only [Fin.val_mk]; omega) (hv ⟨1, hm⟩ hJ)
-      simp only [Fin.val_mk] at hrec
-      rw [if_neg (by omega : ¬ 2 ≤ (1:ℕ))] at hrec
+      have hrec := l05nTM_rec v ⟨1, hm⟩ (by simp) (by simp only; omega) (hv ⟨1, hm⟩ hJ)
+      simp only at hrec
+      rw [ite_eq_right (by omega : ¬ 2 ≤ (1:ℕ))] at hrec
       have h0 : v ⟨0, by omega⟩ = 0 := by
         have hdot := hv ⟨0, by omega⟩ (by simp [ggTWInJ]; omega)
         rw [l05nTM_dot_zero hN v] at hdot
@@ -168,16 +166,14 @@ private lemma l05nTM_adj_coord {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) (v : GG
       have hn : n < N - 1 := by omega
       have hn1 : n + 1 < N - 1 := by omega
       have hJ : ggTWInJ N .adj (n+2) := by simp [ggTWInJ]; omega
-      have hrec := l05nTM_rec v ⟨n+2, hm⟩ (by simp) (by simp only [Fin.val_mk]; omega)
+      have hrec := l05nTM_rec v ⟨n+2, hm⟩ (by simp) (by simp only; omega)
         (hv ⟨n+2, hm⟩ hJ)
-      simp only [Fin.val_mk] at hrec
+      simp only at hrec
       rw [show (⟨(n+2) - 1, by omega⟩ : Fin (N-1)) = ⟨n+1, hn1⟩ from Fin.ext (by simp)] at hrec
       rw [show (⟨(n+2) - 2, by omega⟩ : Fin (N-1)) = ⟨n, hn⟩ from Fin.ext (by simp)] at hrec
-      rw [if_pos (by omega : 2 ≤ n+2)] at hrec
+      rw [ite_eq_left (by omega : 2 ≤ n+2)] at hrec
       rw [ih1 (by omega) hn1, ih0 (by omega) hn] at hrec
-      push_cast at hrec ⊢
       linear_combination -hrec
-      all_goals (push_cast; ring)
   have hklt : k.val < N - 1 := k.isLt
   exact hnat k.val hk hklt
 
@@ -188,7 +184,7 @@ theorem ggTW_model_iso {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) {V : Type} [Add
     ∃ θ : V ≃ₗ[ZMod p] GGTWE p N, θ x = ggTWx p N ∧ (∀ i, θ (h i) = ggTWh p N i) ∧
       ∀ i v, α i v = ggTWdot (ggTWα p N i) (θ v) := by
 
-  haveI : FiniteDimensional (ZMod p) V :=
+  have : FiniteDimensional (ZMod p) V :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; omega)
   have hinj : Function.Injective (l05nTMψ (p := p) (N := N) h x) := l05nTM_ψ_inj hN hF
   have hfin : Module.finrank (ZMod p) (Fin (N - 1) → ZMod p) = Module.finrank (ZMod p) V := by
@@ -199,8 +195,8 @@ theorem ggTW_model_iso {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) {V : Type} [Add
     LinearMap.linearEquivOfInjective_apply hinj hfin w
   refine ⟨e.symm, ?_, ?_, ?_⟩
   · rw [LinearEquiv.symm_apply_eq, he, l05nTM_x_single hN, l05nTMψ_single]
-    rw [dif_pos (show (⟨N - 2, by omega⟩ : Fin (N - 1)).val + 2 = N by
-      simp only [Fin.val_mk]; omega)]
+    rw [dite_eq_left (show (⟨N - 2, by omega⟩ : Fin (N - 1)).val + 2 = N by
+      simp only; omega)]
   · intro i
     rw [LinearEquiv.symm_apply_eq, he]
     by_cases hi : i.val = 0
@@ -211,7 +207,7 @@ theorem ggTW_model_iso {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) {V : Type} [Add
   · intro i v
     rw [← l05nTM_alpha_ψ hF i (e.symm v), ← he (e.symm v), LinearEquiv.apply_symm_apply]
 
-theorem ggTW_fixedJ {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 ≤ N)
+theorem ggTW_fixedJ {p N : ℕ} [Fact p.Prime] (_hpN : p ∣ N) (hN : 5 ≤ N)
     (pos : GGTWPos) (v : GGTWE p N)
     (hv : ∀ c : Fin (N - 1), ggTWInJ N pos c.val → ggTWdot (ggTWα p N c) v = 0) :
     ∃ lam mu : ZMod p, v = lam • ggTWx p N + mu • ggTWz p N pos := by
@@ -227,8 +223,8 @@ theorem ggTW_fixedJ {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 ≤ N)
     · have hcoord := l05nTM_ends_coord hN v hv j hj
       rw [hcoord]
       simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]
-      rw [ggTWx, ggTWz, if_neg hj]
-      simp [if_neg hj]
+      rw [ggTWx, ggTWz, ite_eq_right hj]
+      simp [ite_eq_right hj]
       ring
   | adj =>
     refine ⟨v ⟨N-2, by omega⟩, v ⟨N-3, by omega⟩, ?_⟩
@@ -244,7 +240,7 @@ theorem ggTW_fixedJ {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N) (hN : 5 ≤ N)
       · have hzero : v j = 0 := l05nTM_adj_coord hN v hv j (by omega)
         rw [hzero]
         simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul]
-        rw [ggTWx, ggTWz, if_neg hjL, if_neg hjK]
+        rw [ggTWx, ggTWz, ite_eq_right hjL, ite_eq_right hjK]
         ring
 
 end CFSG.StandardType

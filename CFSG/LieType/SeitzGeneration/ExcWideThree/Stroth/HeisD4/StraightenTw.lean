@@ -324,6 +324,7 @@ section HeisM
 
 variable {L : Type} [Field L] [IsAlgClosed L]
 
+omit [IsAlgClosed L] in
 theorem image_twNeg_familyKernel {ι : Type} (a : ι → Fin Tag.E6.rank → Lˣ) :
     (fun α => twNeg • permLattice twE6Rho α) '' familyKernel a = familyKernel a := by
   simp only [twNeg_smul_perm]
@@ -334,6 +335,7 @@ theorem image_twNeg_familyKernel {ι : Type} (a : ι → Fin Tag.E6.rank → Lˣ
   · intro hβ
     exact ⟨-β, neg_mem_familyKernel a hβ, neg_neg β⟩
 
+omit [IsAlgClosed L] in
 theorem map_twFrobE6_heisM {Fr : L →+* L} (hFr : Function.Surjective Fr) (v : WeylGroup Tag.E6)
     (a : Fin Tag.E6.rank → Lˣ)
     (himg : (fun α => v • permLattice twE6Rho α) '' familyKernel (fun _ : Unit => a) =
@@ -356,11 +358,13 @@ theorem map_twFrobE6_heisM {Fr : L →+* L} (hFr : Function.Surjective Fr) (v : 
   rw [hT, hS]
   rfl
 
+omit [IsAlgClosed L] in
 theorem map_twFrobE6_negNeg_heisM {Fr : L →+* L} (hFr : Function.Surjective Fr)
     (a : Fin Tag.E6.rank → Lˣ) :
     (heisM a).map (twFrobE6 (canonicalRep (coxeterSystem Tag.E6) L twNeg) Fr) = heisM a :=
   map_twFrobE6_heisM hFr twNeg a (image_twNeg_familyKernel _)
 
+omit [IsAlgClosed L] in
 theorem map_twFrobE6_heisM_of_mem {Fr : L →+* L} (hFr : Function.Surjective Fr)
     {a : Fin Tag.E6.rank → Lˣ} {c₀ : ModGL Tag.E6 L} (hc₀ : c₀ ∈ heisM a) :
     (heisM a).map (twFrobE6 (c₀ * canonicalRep (coxeterSystem Tag.E6) L twNeg) Fr) =
@@ -380,16 +384,18 @@ variable {L : Type} [Field L] [IsAlgClosed L]
 
 @[expose] def diagramMapE6 (L : Type) [Field L] : ModGL Tag.E6 L := diagramMap TwistTag.E6 L
 
+omit [IsAlgClosed L] in
 theorem twistHomE6_apply (Fr : L →+* L) (g : ModGL Tag.E6 L) :
     twistHomE6 Fr g = diagramMapE6 L * Units.map (entrywiseHom Fr) g * (diagramMapE6 L)⁻¹ :=
   twistHom_apply (t := TwistTag.E6) Fr g
 
+omit [IsAlgClosed L] in
 theorem frobTwistGL_diagramMapE6 {ℓ : ℕ} [Fact ℓ.Prime] [CharP L ℓ] (f : ℕ) (n g : ModGL Tag.E6 L) :
     frobTwistGL Tag.E6 L ℓ f (n * diagramMapE6 L) g = twFrobE6 n (iterateFrobenius L ℓ f) g := by
   rw [frobTwistGL_apply, twFrobE6_apply, twistHomE6_apply]
   group
 
-theorem iterateFrobenius_surjective {ℓ : ℕ} [Fact ℓ.Prime] [CharP L ℓ] (f : ℕ) (hf : 1 ≤ f) :
+theorem iterateFrobenius_surjective {ℓ : ℕ} [Fact ℓ.Prime] [CharP L ℓ] (f : ℕ) (_hf : 1 ≤ f) :
     Function.Surjective (iterateFrobenius L ℓ f) := fun y => by
   obtain ⟨x, hx⟩ := IsAlgClosed.exists_pow_nat_eq y (pow_pos (Fact.out : ℓ.Prime).pos f)
   exact ⟨x, by rw [iterateFrobenius_def, hx]⟩
@@ -445,7 +451,7 @@ theorem isRoot_permLattice_twE6Rho_symm {v : Fin Tag.E6.rank → ℤ} (hv : IsRo
 
 theorem units_map_iterateFrobenius {ℓ : ℕ} [Fact ℓ.Prime] [CharP L ℓ] (f : ℕ) (x : Lˣ) :
     Units.map (iterateFrobenius L ℓ f).toMonoidHom x = x ^ (ℓ ^ f) :=
-  Units.ext (by simp [iterateFrobenius_def])
+  Units.ext (by simp)
 
 theorem inv_pow_eq_pow_two_mul {x : Lˣ} (hx : x ^ 3 = 1) (n : ℕ) : (x ^ n)⁻¹ = x ^ (2 * n) := by
   refine inv_eq_of_mul_eq_one_right ?_
@@ -966,11 +972,11 @@ theorem twFrame_straighten {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ3 : ℓ ≠ 3) 
           Commute v (baseChangeGL (algebraMap K (AlgebraicClosure K))
             (F.g₂ : ModGL TwistTag.E6.tag K)) := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   have hFrEq : F.Fr = iterateFrobenius (AlgebraicClosure K) ℓ f :=
     RingHom.ext fun c => by rw [F.hFr c, iterateFrobenius_def]
@@ -995,11 +1001,11 @@ theorem twFrame_card_mod_three {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ3 : ℓ ≠
     {E : Subgroup (MulAut (twistedE6RootGroup K σ))} (hE : CFSG.IsElementaryAbelian 3 E)
     (F : TwE6HeisenbergFrame K σ (ℓ ^ f) E) : ((ℓ ^ f : ℕ) : ZMod 3) = -1 := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) ℓ :=
+  have : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
   have hFrEq : F.Fr = iterateFrobenius (AlgebraicClosure K) ℓ f :=
     RingHom.ext fun c => by rw [F.hFr c, iterateFrobenius_def]

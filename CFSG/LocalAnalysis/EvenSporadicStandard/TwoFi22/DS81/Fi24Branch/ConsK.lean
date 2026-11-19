@@ -12,6 +12,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {E : Subgroup G} {t z : G}
 
+omit [Finite G] in
 theorem Kg_le_Cz (t z : G) : Kg t z ≤ Cz z := fun _ hk => mem_Cz.mpr (mem_Kg.mp hk).2
 
 theorem kDataC (c : Core1 E t z) :
@@ -63,10 +64,11 @@ theorem kDataC (c : Core1 E t z) :
     have h := hlat U₀ hVU0 hU0O hInv0
     rwa [Subgroup.card_subtype (Cz z) U] at h
   · obtain ⟨X, hX, π, hπs, hπk, hXU⟩ := c.kdata.quot
-    letI : Group X := hX
+    let : Group X := hX
     obtain ⟨π', hπ's, hπ'k⟩ := quot_subgroupOf hKD π hπs hπk
     exact ⟨X, hX, π', hπ's, hπ'k, hXU⟩
 
+omit [Finite G] in
 theorem y0Data (c : Core0 E t z) : ∃ Y0 : Subgroup ↥(Cz z), Y0Data Y0 := by
   obtain ⟨Y, hYN, hYp, hYc⟩ := c.cocode.exists_perfect
   have hYD : Y ≤ Cz z := hYN.trans (CNz_le_Cz E z)

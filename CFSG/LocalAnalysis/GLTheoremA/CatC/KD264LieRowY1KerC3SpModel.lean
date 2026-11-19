@@ -34,9 +34,8 @@ theorem Bsp_apply (v w : (Fin 3 ⊕ Fin 3) → K) :
     Bsp K v w = ∑ i : Fin 3, (v (Sum.inl i) * w (Sum.inr i) - v (Sum.inr i) * w (Sum.inl i)) := by
   simp only [Bsp, Matrix.toBilin'_apply, Fintype.sum_sum_type, Jm_ll, Jm_lr, Jm_rl, Jm_rr,
     mul_zero, zero_mul, Finset.sum_const_zero, add_zero, zero_add]
-  simp only [ite_mul, zero_mul, one_mul, neg_mul, Finset.sum_ite_eq, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true, Finset.sum_neg_distrib, ite_mul, mul_ite, mul_one, mul_neg,
-    mul_zero, Finset.sum_const_zero, zero_add, add_zero, sub_eq_add_neg]
+  simp only [ite_mul, zero_mul, neg_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true, Finset.sum_neg_distrib, ite_mul, mul_ite, mul_one, mul_neg,
+    mul_zero, sub_eq_add_neg]
   rw [Finset.sum_add_distrib, Finset.sum_neg_distrib]
 
 theorem Bsp_halt : ∀ v : (Fin 3 ⊕ Fin 3) → K, Bsp K v v = 0 := by

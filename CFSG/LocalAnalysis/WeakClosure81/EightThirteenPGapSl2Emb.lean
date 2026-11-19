@@ -55,12 +55,12 @@ private lemma wcgaps2_exists_diag_mul_unitriangular {F : Type} [Field F]
 
 private theorem wcgaps2_oTwoMod_bot_eq_bot {M : Type} [Group M] [Finite M] {K : Subgroup M}
     [IsSimpleGroup ↥K] (hcard : Nat.card K = 60) : oTwoMod (⊥ : Subgroup M) K = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [eq_bot_iff, oTwoMod]
   refine iSup₂_le ?_
   intro W hW
   obtain ⟨-, hWK, hWnorm, hWpow⟩ := hW
-  haveI : (W.subgroupOf K).Normal := hWnorm
+  have : (W.subgroupOf K).Normal := hWnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (W.subgroupOf K) with h | h
   · rw [Subgroup.subgroupOf_eq_bot, disjoint_iff] at h
     rw [inf_eq_left.mpr hWK] at h
@@ -93,7 +93,7 @@ theorem centralKData_of_sl2_embedding {G : Type} [Group G]
     (hT : ∀ l : Fˣ, ι (slTwoDiag l) ∈ normalizer (S : Set G)) :
     CentralKData S A := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU₂card : Nat.card (unitriangular 2 F) = 4 := by
     rw [card_unitriangular (K := F) 2, hF]
     norm_num
@@ -117,11 +117,11 @@ theorem centralKData_of_sl2_embedding {G : Type} [Group G]
     decide
   have hG₂card : Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) = 60 := by
     rw [Nat.card_congr e.toEquiv, hA₅card]
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (α := Fin 5) (by simp)
-  haveI hG₂simple : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) := e.isSimpleGroup
+  have hG₂simple : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) := e.isSimpleGroup
   have eK : Matrix.SpecialLinearGroup (Fin 2) F ≃* ↥ι.range := MonoidHom.ofInjective hι
-  haveI hKsimple : IsSimpleGroup ↥ι.range := eK.symm.isSimpleGroup
+  have hKsimple : IsSimpleGroup ↥ι.range := eK.symm.isSimpleGroup
   have hKcard : Nat.card ι.range = 60 := by
     rw [← Nat.card_congr eK.toEquiv]
     exact hG₂card

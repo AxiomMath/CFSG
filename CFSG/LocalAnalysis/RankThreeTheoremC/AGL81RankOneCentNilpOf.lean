@@ -23,11 +23,11 @@ theorem StepThreeGroup.prime {p : ℕ} {K : Type*} [Group K] (h : StepThreeGroup
 theorem kFactStepThreeCentNilp_of_centSylow (h5 : KFactStepThreeCentSylow) :
     KFactStepThreeCentNilp := by
   intro p A _ _ K S hKn hC hK hS
-  haveI : Fact p.Prime := ⟨hK.prime⟩
+  have : Fact p.Prime := ⟨hK.prime⟩
   obtain ⟨P⟩ : Nonempty (Sylow p ↥(Subgroup.centralizer (S : Set A))) := inferInstance
   refine CFSG.hasNormalPComplement_of_sylow_le_center_normalizer p P fun x hx => ?_
   refine ⟨Subgroup.le_normalizer hx, Subgroup.mem_centralizer_iff.2 fun y _ => ?_⟩
-  obtain ⟨n, hn⟩ := P.isPGroup' ⟨x, hx⟩
+  obtain ⟨n, hn⟩ := P.isPGroup ⟨x, hx⟩
   have hxn : (x : A) ^ (p ^ n) = 1 := by
     have h := congrArg (fun g : ↥(P : Subgroup ↥(Subgroup.centralizer (S : Set A))) =>
       ((g : ↥(Subgroup.centralizer (S : Set A))) : A)) hn

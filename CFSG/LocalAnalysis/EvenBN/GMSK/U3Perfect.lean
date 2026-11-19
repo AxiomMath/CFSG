@@ -25,13 +25,13 @@ theorem eq_bot_of_isPerfect_of_le_normalizer_of_lieModel_PSU3 {X : Type} [Group 
   have hKB : K ≤ Subgroup.normalizer ((Q : Subgroup X) : Set X) :=
     hKD.trans (CFSG.RankThree.GF2n.Tim78.normalizer_le_of_fusionStronglyEmbedded hSE
       (hDQ.trans Subgroup.le_normalizer) hEven)
-  haveI := CFSG.QuasithinUnique.Unc25G2.BenderBorel.isSolvable_normalizer_of_sup_cyclic
-    Q.isPGroup' hD'c hsup
-  haveI : Group.IsSolvable K :=
+  have := CFSG.QuasithinUnique.Unc25G2.BenderBorel.isSolvable_normalizer_of_sup_cyclic
+    Q.isPGroup hD'c hsup
+  have : Group.IsSolvable K :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hKB)
-  haveI := hK
+  have := hK
   by_contra hne
-  haveI : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hne
+  have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hne
   exact Group.IsPerfect.not_isSolvable K inferInstance
 
 end CFSG.LocalAnalysis.EvenBN.GMSK

@@ -85,7 +85,7 @@ theorem outer_involution_fixed_cases {K : Subgroup G} [K.Normal] (hKB : IsBender
     (L'.equivMapOfInjective K.subtype K.subtype_injective)).trans (MulEquiv.subgroupCongr hL'eq)
   have hL''ns : ¬ Group.IsSolvable L'' := fun h => hLns (by
     have := h
-    exact solvable_of_surjective (f := e₀.toMonoidHom) e₀.surjective)
+    exact Group.isSolvable_of_surjective (f := e₀.toMonoidHom) e₀.surjective)
   have hL''n : L''.Normal := by
     refine ⟨fun l hl c => ?_⟩
     rw [hL'', Subgroup.mem_subgroupOf] at hl ⊢
@@ -109,7 +109,7 @@ theorem outer_involution_fixed_cases {K : Subgroup G} [K.Normal] (hKB : IsBender
       apply hL''ns
       have : Group.IsSolvable (PSL2Model 1) :=
         CFSG.SignalizerFunctorTheorem.CatalogBridge.isSolvable_psl2_galoisField_two_one
-      have : Group.IsSolvable F := solvable_of_surjective (f := eF.symm.toMonoidHom)
+      have : Group.IsSolvable F := Group.isSolvable_of_surjective (f := eF.symm.toMonoidHom)
         eF.symm.surjective
       infer_instance
     have : IsSimpleGroup (PSL2Model m) :=

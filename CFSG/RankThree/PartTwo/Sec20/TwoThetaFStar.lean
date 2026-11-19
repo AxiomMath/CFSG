@@ -169,7 +169,7 @@ section Certificates
 
 theorem kF207ThetaTwo : KF207ThetaTwo := by
   intro G _ _ Θ L hΘK h3 hrank hLΘ hLL ⟨e⟩
-  haveI : Group.IsPerfect ↥L := by
+  have : Group.IsPerfect ↥L := by
     refine ⟨?_⟩
     apply Subgroup.map_injective L.subtype_injective
     rw [commutator_def, Subgroup.map_commutator, ← MonoidHom.range_eq_map,
@@ -184,7 +184,7 @@ theorem kF207ThetaTwo : KF207ThetaTwo := by
   have hrankY : ∀ p : ℕ, p.Prime → 5 ≤ p →
       CFSG.Open.pRank p (⊤ : Subgroup (↥Θ ⧸ CFSG.pCore 2 ↥Θ)) ≤ 2 := by
     intro p hp hp5
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hN : ¬ p ∣ Nat.card (CFSG.pCore 2 ↥Θ) := by
       obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).mp (CFSG.pCore_isPGroup (p := 2) (G := ↥Θ))
       intro hd

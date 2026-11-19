@@ -194,7 +194,7 @@ theorem HarCoreData.normalizer_fixes_t [Finite G] (D : HarCoreData t z S Eg T T'
     · exact absurd (even_iff_two_dvd.mp he) hodd
     · exact ho
   obtain ⟨k, hk⟩ := hm_odd
-  haveI : (S.subgroupOf N).Normal := Subgroup.normal_in_normalizer
+  have : (S.subgroupOf N).Normal := Subgroup.normal_in_normalizer
   have hm_mem : n ^ m ∈ S := by
     have h := Subgroup.pow_index_mem (S.subgroupOf N) (⟨n, hn⟩ : N)
     rw [Subgroup.mem_subgroupOf] at h

@@ -54,7 +54,7 @@ theorem hasNoncommPair {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {a : ℕ} (ha : 
     CFSG.RankThree.PartOne.StrongP.HasNoncommPair p G := by
   have hp := (Fact.out : p.Prime)
   have hodd : Odd p := hp.odd_of_ne_two hp2
-  haveI : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
+  have : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
   obtain ⟨σ, hσ⟩ : ∃ σ : Equiv.Perm (Fin r), orderOf σ = p := by
     refine exists_prime_orderOf_dvd_card' p ?_
     rw [Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]
@@ -112,7 +112,7 @@ theorem hasNoncommPair {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {a : ℕ} (ha : 
     have hnorm : F.A τ ∈ Subgroup.normalizer (F.T.range : Set G) := by
       rw [Subgroup.mem_normalizer_iff]
       intro z
-      simp only [SetLike.mem_coe, MonoidHom.mem_range]
+      simp only [MonoidHom.mem_range]
       constructor
       · rintro ⟨d, rfl⟩
         exact ⟨d ∘ ⇑((τ : Equiv.Perm (Fin r))⁻¹), (F.A_conj τ d).symm⟩
@@ -143,7 +143,7 @@ theorem wcOn {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) [Finite G] {a : ℕ} (ha :
     have := (Nat.Prime.dvd_factorial hp).1 h
     omega
   rw [hfac, add_zero] at hcard
-  haveI : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
+  have : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
   have hT : Nat.card (Fin r → Multiplicative (ZMod (p ^ a))) =
       p ^ (Nat.card G).factorization p := by
     rw [hcard, Nat.card_pi, Finset.prod_const, Finset.card_univ, Fintype.card_fin,
@@ -154,7 +154,7 @@ theorem wcOn {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) [Finite G] {a : ℕ} (ha :
     simp [hcard]
   by_cases hr1 : r = 1
   · subst hr1
-    haveI : IsCyclic (Fin 1 → Multiplicative (ZMod (p ^ a))) :=
+    have : IsCyclic (Fin 1 → Multiplicative (ZMod (p ^ a))) :=
       isCyclic_of_surjective (MulEquiv.funUnique (Fin 1) (Multiplicative (ZMod (p ^ a)))).symm
         (MulEquiv.funUnique (Fin 1) (Multiplicative (ZMod (p ^ a)))).symm.surjective
     exact wcOn_of_range_cyclic F.T F.T_injective hT

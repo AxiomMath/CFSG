@@ -79,14 +79,14 @@ theorem wordsT_spec : ∀ (xs : List Nat) (c i : Nat), wordsT wo wd nl xs c i = 
 
 theorem getElem!_mid {pre rest : List Nat} {y : Nat} {p : Nat} (hp : pre.length = p) :
     (pre ++ y :: rest).toArray[p]! = y := by
-  rw [List.getElem!_toArray, getElem!_pos _ p (by (try simp) <;> omega), List.getElem_append_right
+  rw [List.getElem!_toArray, getElem!_pos _ p (by (try simp); omega), List.getElem_append_right
     (by omega)]
   simp [hp]
 
 theorem getElem!_mid' {pre w rest : List Nat} {p t : Nat} (hp : pre.length = p) (ht : t < w.length) :
     (pre ++ (w ++ rest)).toArray[p + t]! = w[t] := by
-  rw [List.getElem!_toArray, getElem!_pos _ (p + t) (by (try simp) <;> omega), List.getElem_append_right
-    (by omega), List.getElem_append_left (by (try simp) <;> omega)]
+  rw [List.getElem!_toArray, getElem!_pos _ (p + t) (by (try simp); omega), List.getElem_append_right
+    (by omega), List.getElem_append_left (by (try simp); omega)]
   congr 1
   omega
 
@@ -120,7 +120,7 @@ theorem splitWords_spec (L : List Nat) : ∀ (m c : Nat) (pre : List Nat) (f : N
       intro t h1 h2
       simp only [List.getElem_map, List.getElem_range]
       have ht : t < (wlist wo wd c).length := h2
-      have e : pre.length + 1 + t = (pre ++ [wo (c + 1) - wo c]).length + t := by (try simp) <;> omega
+      have e : pre.length + 1 + t = (pre ++ [wo (c + 1) - wo c]).length + t := by (try simp)
       rw [e, hL, List.cons_append, ← List.singleton_append, ← List.append_assoc]
       exact getElem!_mid' rfl ht
     rw [splitWords]

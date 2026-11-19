@@ -19,7 +19,7 @@ theorem four_dvd_of_no_index_two [Finite G] (h2 : 2 ∣ Nat.card G)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra h4
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 2 G))
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hS1 : 2 ∣ Nat.card S := by
     have := S.pow_dvd_card_of_pow_dvd_card (n := 1) (by rw [pow_one]; exact h2)
     rwa [pow_one] at this

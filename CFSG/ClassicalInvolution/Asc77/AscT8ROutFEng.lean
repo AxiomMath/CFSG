@@ -111,7 +111,7 @@ theorem eq_of_mem_conj_sylow_gen (hΩ : HypOmegaGen Ω)
     apply hzt
     have h' : n⁻¹ * (n * z * n⁻¹) * n = n⁻¹ * (n * t * n⁻¹) * n := by rw [h]
     simpa [mul_assoc] using h'
-  have hPpg : IsPGroup 2 ↥(conjSylow n S : Sylow 2 G) := (conjSylow n S).isPGroup'
+  have hPpg : IsPGroup 2 ↥(conjSylow n S : Sylow 2 G) := (conjSylow n S).isPGroup
   rcases hfs hzP' with ⟨hzR, hzT⟩ | ⟨hzR, hzT⟩ <;>
     rcases hfs htP' with ⟨htR, htT⟩ | ⟨htR, htT⟩
   ·

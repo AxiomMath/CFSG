@@ -27,7 +27,7 @@ private theorem a8ka_vecMul_blk_zero (v : Fin 4 → ZMod 7) (M : M3) :
     vecMul v (blk M) 0 = v 0 := by
   change (∑ j : Fin 4, v j * blk M j 0) = v 0
   rw [Fin.sum_univ_succ, Fin.sum_univ_three]
-  simp only [a8ka_blk_zero_zero, a8ka_blk_succ_zero, a8ka_blk_zero_succ, a8ka_blk_succ_succ]
+  simp only [a8ka_blk_zero_zero, a8ka_blk_succ_zero]
   ring
 
 private theorem a8ka_vecMul_blk_succ (v : Fin 4 → ZMod 7) (M : M3) (i : Fin 3) :
@@ -36,7 +36,7 @@ private theorem a8ka_vecMul_blk_succ (v : Fin 4 → ZMod 7) (M : M3) (i : Fin 3)
   rw [Fin.sum_univ_succ]
   rw [Fin.sum_univ_three]
   rw [Fin.sum_univ_three]
-  simp only [a8ka_blk_zero_zero, a8ka_blk_succ_zero, a8ka_blk_zero_succ, a8ka_blk_succ_succ]
+  simp only [a8ka_blk_zero_succ, a8ka_blk_succ_succ]
   ring
 
 private theorem a8ka_vecMul_blk (j : ZMod 7) (f : Fin 3 → ZMod 7) (M : M3) :
@@ -338,7 +338,7 @@ theorem ggA8Nbr_kAut {G : Type} [Group G] {Bs K : Subgroup G} {y : G} (hy : y �
         let b : ↥Bs := φ.symm xb
         have hφb : (φ b : G) = g * x * g⁻¹ := by
           have h := congrArg (fun z : ↥Bs => (z : G)) (φ.apply_symm_apply xb)
-          simpa [b, xb] using h
+          simp [b, xb]
         have hfb := hforward_eq b
         have heq : (b : G) = x := by
           exact mul_left_cancel (mul_right_cancel (hfb.trans hφb))

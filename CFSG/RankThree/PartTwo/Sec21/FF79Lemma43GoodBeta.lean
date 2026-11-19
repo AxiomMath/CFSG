@@ -34,6 +34,7 @@ theorem s43_cenS_of {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b 
     · exact s43_mem_cen h2
   exact (s43_cen_comm (this hx)).symm
 
+omit [Finite G] in
 theorem s43_gen {z b₁ b₂ : G} (h1 : z * (b₁ * b₂) = (b₁ * b₂) * z)
     (h2 : z * (b₁ ^ 2 * b₂) = (b₁ ^ 2 * b₂) * z) : z * b₁ = b₁ * z ∧ z * b₂ = b₂ * z := by
   have c1 : Commute z (b₁ * b₂) := h1
@@ -47,7 +48,7 @@ theorem s43_gen {z b₁ b₂ : G} (h1 : z * (b₁ * b₂) = (b₁ * b₂) * z)
 
 theorem s43_beta_gamma {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b J B b₁ b₂) :
     (b₁ * b₂) ^ 3 = 1 ∧ orderOf (b₁ ^ 2 * b₂) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hb₁3, hb₂3, hb₁b₂, hK1, -, -⟩ := sec4_facts h4
   have hc : Commute b₁ b₂ := hb₁b₂
   refine ⟨by rw [hc.mul_pow, hb₁3, hb₂3, one_mul], ?_⟩

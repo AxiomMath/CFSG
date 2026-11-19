@@ -47,7 +47,7 @@ theorem k326_hypotheses {p : ℕ} (hp : p ∈ c.sig)
           Subgroup.centralizer ({a} : Set (↥H ⧸ CFSG.pPrimeCore 3 ↥H)) ≤
           ((H ⊓ c.S.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥H)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥H := CFSG.pPrimeCore 3 ↥H
   let X := ↥H ⧸ O
   let π : ↥H →* X := QuotientGroup.mk' O
@@ -80,7 +80,7 @@ theorem k326_hypotheses {p : ℕ} (hp : p ∈ c.sig)
   have hinj : Function.Injective (π.comp (t.P.subgroupOf H).subtype) :=
     CFSG.GroupTheory.SteinbergBS.injective_mk'_comp_subtype (p := 3) (N := O)
       hOnotdvd hPH3
-  haveI : Nontrivial ↥(t.d.A 0) :=
+  have : Nontrivial ↥(t.d.A 0) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [t.d.card_A 0]; norm_num)
   obtain ⟨a₀, ha₀ne⟩ := exists_ne (1 : ↥(t.d.A 0))
   let a₀G : G := a₀

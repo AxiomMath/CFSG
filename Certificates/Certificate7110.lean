@@ -25,7 +25,7 @@ theorem certificate7110 :
     intro y hy
     rw [T23.len] at hy
     rw [fixTab_get T23X.tab y (by simp [hMd]; omega)]
-    simp [fixMasks, List.getD_eq_getElem?_getD, List.getElem?_take, hy]
+    simp [fixMasks, List.getD_eq_getElem?_getD, hy]
   have hmem : ∀ x ∈ inv23s2, actC23s2 x = actM (T23.Md.getD (inv23s2.idxOf x) []) :=
     fun x hx => T23.actC_mem hx
   have hA := forallGreedyAll_fixT T23X.gtabs (by rw [T23.len]; exact T23X.rowsLen) pos23s2_eq

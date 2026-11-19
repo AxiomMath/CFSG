@@ -162,7 +162,7 @@ theorem exists_mulEquiv_le_centralizer_of_conj_eq_mul {G : Type} [Group G] [Fini
     rw [← card_map_of_injective hφ'₀, h1, hU₀def, card_map_of_injective hφ, hW₁def,
       card_map_of_injective (MulAut.conj c).injective]
   have hWp : IsPGroup 2 W := by
-    obtain ⟨k, hk⟩ := UC.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := UC.isPGroup.exists_card_eq
     exact IsPGroup.of_card (hWcard.trans hk)
   have hWidx : ¬ 2 ∣ W.index := by
     have h1 := W.card_mul_index

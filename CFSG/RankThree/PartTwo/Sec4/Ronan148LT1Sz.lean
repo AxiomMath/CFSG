@@ -102,7 +102,7 @@ theorem eq_bot_of_comps_noSz (hb : LieOrderBridge) {S : Type} [Group S] [Finite 
 theorem false_of_dvd_of_noElt {S : Type} [Group S] [Finite S] {β : MulAut S} {p : ℕ}
     (hp : p.Prime) (hno : ∀ g : S, β g = g → g ^ p = 1 → g = 1) {J : Subgroup S}
     (hJ : CFSG.Open.IsComponentOf J (fixSubgroup β)) (hpJ : p ∣ Nat.card J) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p hpJ
   have hgJ : ((g : S) ∈ fixSubgroup β) := hJ.1 g.2
   have h1 : (g : S) = 1 := hno g hgJ (by rw [← Subgroup.coe_pow, ← hg, pow_orderOf_eq_one]; rfl)

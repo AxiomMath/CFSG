@@ -22,7 +22,7 @@ private theorem nmh_eq_zero_of_nmSgn_mulVec {C : Finset (Fin 8)} {w : Coords 8}
   have hc := congrFun h j
   rw [nmSgn_mulVec] at hc
   change (if j ∈ C then -w j else w j) = w j at hc
-  rw [if_pos hj] at hc
+  rw [ite_eq_left hj] at hc
   exact nmh_eq_zero_of_neg_eq_self hc.symm
 
 private theorem nmh_nmSgn_mulVec_of_eq_zero {B C : Finset (Fin 8)} {w : Coords 8}
@@ -31,9 +31,9 @@ private theorem nmh_nmSgn_mulVec_of_eq_zero {B C : Finset (Fin 8)} {w : Coords 8
   rw [nmSgn_mulVec]
   change (if j ∈ B then -w j else w j) = w j
   by_cases hj : j ∈ B
-  · rw [if_pos hj, hw j (hB hj)]
+  · rw [ite_eq_left hj, hw j (hB hj)]
     exact neg_zero
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
 
 private theorem nmh_mem_v_fix
     {g g' y t M : Matrix (Fin 8) (Fin 8) (ZMod 3)} {A₀ : Finset (Fin 8)}

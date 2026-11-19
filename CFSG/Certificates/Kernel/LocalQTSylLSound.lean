@@ -57,12 +57,12 @@ theorem eltK_loop {n : ℕ} (hn : n ≤ 32) (H : Subgroup (Perm (Fin n))) (B : L
         exact P.beq_iff.2 hb
       have hm : ∀ σ τ : Perm (Fin n), P.mul n (codeP σ) (codeP τ) = codeP (σ * τ) :=
         P.code_mul hn
-      rw [if_pos hb, h1, getK_codes, hm, ← Subgroup.coe_mul]
+      rw [ite_eq_left hb, h1, getK_codes, hm, ← Subgroup.coe_mul]
       exact ih _ _
     · have h1 : Nat.beq (Nat.mod (m / 2 ^ j) 2) 1 = false := by
         rw [Nat.testBit_eq_decide_div_mod_eq, decide_eq_true_eq] at hb
         exact Bool.eq_false_iff.2 fun h => hb (P.beq_iff.1 h)
-      rw [if_neg hb, h1]
+      rw [ite_eq_right hb, h1]
       exact ih _ _
 
 theorem lst_codes (B : List S24) {BC : List ℕ}

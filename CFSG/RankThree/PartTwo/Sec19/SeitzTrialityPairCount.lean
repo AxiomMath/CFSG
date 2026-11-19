@@ -57,9 +57,9 @@ theorem exists_partner_of_free {M : Type*} [Group M] [Finite M] {z u : M}
     (hfree : ∀ m : M, (m * z * m⁻¹) * u ≠ u * (m * z * m⁻¹)) :
     ∃ m : M, (m * z * m⁻¹) * z = z * (m * z * m⁻¹) ∧ m * z * m⁻¹ ∉ Subgroup.zpowers z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Ω := orbit (ConjAct M) z
-  haveI : Finite Ω := Set.toFinite _
+  have : Finite Ω := Set.toFinite _
   have hu_fix : Nat.card (fixedPoints (Subgroup.zpowers (ConjAct.toConjAct u)) Ω) = 0 := by
     rw [Nat.card_eq_zero]
     left
@@ -84,14 +84,14 @@ theorem exists_partner_of_free {M : Type*} [Group M] [Finite M] {z u : M}
       rw [mem_stabilizer_iff, ConjAct.smul_def]
       simp
     exact Subtype.ext (mem_stabilizer_iff.1 (hle g.2))
-  haveI : Finite Fz := Finite.of_injective (fun p : Fz => p.1) Subtype.val_injective
+  have : Finite Fz := Finite.of_injective (fun p : Fz => p.1) Subtype.val_injective
   have hpos : 0 < Nat.card Fz := Nat.card_pos_iff.2 ⟨⟨⟨_, hzmem⟩⟩, inferInstance⟩
   have h3 : 3 ≤ Nat.card Fz := by
     have := (Nat.modEq_zero_iff_dvd.1 hFz3)
     obtain ⟨k, hk⟩ := this
     omega
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hord : orderOf z = 3 := orderOf_eq_prime hz3 hz1
   have hzi : z⁻¹ ≠ z := by
     intro h

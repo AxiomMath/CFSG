@@ -29,12 +29,12 @@ theorem root8_aux {n : ℕ} {β : MulAut ↥(alternatingGroup (Fin n))} (hβ : �
     (hJ8 : IsAltPType 3 J₂ 8) :
     ∃ s : Finset (Fin n), s.card = 8 ∧ J₂ = (alternatingGroup.ofSubtype s).range := by
   classical
-  haveI : Nontrivial ↥J₂ := AltDown.nontrivial_of_glaPComponent Nat.prime_three hJ₂
-  haveI : Group.IsPerfect ↥J₂ := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ₂)
+  have : Nontrivial ↥J₂ := AltDown.nontrivial_of_glaPComponent Nat.prime_three hJ₂
+  have : Group.IsPerfect ↥J₂ := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ₂)
   have hne : J₂ ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot J₂).1 inferInstance
   have hcardJ : ∀ (m : ℕ), (↥J₂ ≃* ↥(alternatingGroup (Fin m))) → 5 ≤ m → m = 8 := by
     intro m f hm5
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin m)) :=
+    have : IsSimpleGroup ↥(alternatingGroup (Fin m)) :=
       alternatingGroup.isSimpleGroup (by simpa using hm5)
     obtain ⟨g⟩ := AltDown.nonempty_pSimple_equiv Nat.prime_three hJ₂
       (alternatingGroup.center_eq_bot (by simp; omega)) f
@@ -46,7 +46,7 @@ theorem root8_aux {n : ℕ} {β : MulAut ↥(alternatingGroup (Fin n))} (hβ : �
         h8 (Subgroup.map_center_eq h8)).trans
         ((QuotientGroup.quotientMulEquivOfEq hZ8).trans QuotientGroup.quotientBot)
     have hc := Nat.card_congr (g.symm.trans g8).toEquiv
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
     rw [nat_card_alternatingGroup, nat_card_alternatingGroup, Nat.card_fin, Nat.card_fin] at hc
     have hm2 : 2 ∣ m.factorial := Nat.dvd_factorial (by norm_num) (by omega)
     have h82 : 2 ∣ (8 : ℕ).factorial := Nat.dvd_factorial (by norm_num) (by norm_num)
@@ -70,9 +70,9 @@ theorem root8_aux {n : ℕ} {β : MulAut ↥(alternatingGroup (Fin n))} (hβ : �
       ext x
       simp [CFSG.HardMathSupport.Solomon.Coordinator.mem_fixSubgroup]
     rw [htop] at hJ₂
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin n)) :=
+    have : IsSimpleGroup ↥(alternatingGroup (Fin n)) :=
       alternatingGroup.isSimpleGroup (by simpa using hn5)
-    haveI : IsSimpleGroup ↥(⊤ : Subgroup ↥(alternatingGroup (Fin n))) :=
+    have : IsSimpleGroup ↥(⊤ : Subgroup ↥(alternatingGroup (Fin n))) :=
       Subgroup.topEquiv.isSimpleGroup
     have hJtop : J₂ = ⊤ := AltDown.eq_of_isSubnormal_of_isSimpleGroup hJ₂.2.1 hne
     have hn8 : n = 8 := hcardJ n ((MulEquiv.subgroupCongr hJtop).trans Subgroup.topEquiv) hn5
@@ -86,9 +86,9 @@ theorem root8_aux {n : ℕ} {β : MulAut ↥(alternatingGroup (Fin n))} (hβ : �
     set s : Finset (Fin n) := ((x : Equiv.Perm (Fin n)).support)ᶜ with hs
     obtain ⟨eF⟩ := AltDown.nonempty_range_ofSubtype_equiv s s.card rfl
     have hm5 : 5 ≤ s.card := h24 _ s.card eF hJF
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin s.card)) :=
+    have : IsSimpleGroup ↥(alternatingGroup (Fin s.card)) :=
       alternatingGroup.isSimpleGroup (by simpa using hm5)
-    haveI : IsSimpleGroup ↥(alternatingGroup.ofSubtype s).range := eF.isSimpleGroup
+    have : IsSimpleGroup ↥(alternatingGroup.ofSubtype s).range := eF.isSimpleGroup
     have hFC : (alternatingGroup.ofSubtype s).range ≤ fixSubgroup (MulAut.conj x) := fun k hk =>
       AltDown.mem_fixSubgroup_conj.2 (Subtype.ext (AltDown.commute_of_mem_range_ofSubtype_compl hk).eq)
     have hJeq := AltDown.eq_of_isSubnormal_of_isSimpleGroup

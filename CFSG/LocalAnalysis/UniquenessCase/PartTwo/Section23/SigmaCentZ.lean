@@ -24,6 +24,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def SigmaCentZ (D : Data G) (Ch : Choice2011 G) : Prop :=
   H1930 D → ∀ _ : Ctx23L D Ch, ∀ p ∈ D.sig, Opp p D.M ≤ Subgroup.centralizer (D.Z : Set G)
 
+omit [Finite G] in
 private theorem isCyclic_quotient_of_sup_zpowers {M C : Subgroup G}
     (hC_normal : (C.subgroupOf M).Normal) {m : G} (hm : m ∈ M)
     (hgen : ∀ x ∈ M, ∃ k : ℤ, x * (m ^ k)⁻¹ ∈ C) :
@@ -31,7 +32,7 @@ private theorem isCyclic_quotient_of_sup_zpowers {M C : Subgroup G}
   classical
   let R₁ : Subgroup ↥M := C.subgroupOf M
   let R₂ : Subgroup ↥M := (Subgroup.zpowers m).subgroupOf M
-  haveI : R₁.Normal := hC_normal
+  have : R₁.Normal := hC_normal
   have hsup : R₁ ⊔ R₂ = ⊤ := by
     rw [eq_top_iff]
     intro x _
@@ -52,6 +53,7 @@ private theorem isCyclic_quotient_of_sup_zpowers {M C : Subgroup G}
       (Subgroup.isCyclic_zpowers m)
   exact quotient_isCyclic_of_sup_cyclic_right hsup hR₂cyc
 
+omit [Finite G] in
 private theorem closure_pPrime_eq_top_of_opRes_eq_top {M : Subgroup G} {p : ℕ} (hp : p.Prime)
     (h : F10.OpRes p M = M) :
     Subgroup.closure {y : ↥M | ¬ p ∣ orderOf y} = ⊤ := by
@@ -61,10 +63,11 @@ private theorem closure_pPrime_eq_top_of_opRes_eq_top {M : Subgroup G} {p : ℕ}
   rw [← hres, CFSG.GH74.GLS.oResidual]
   congr 1
   ext y
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [Nat.coprime_comm]
   exact (hp.coprime_iff_not_dvd (n := orderOf y)).symm
 
+omit [Finite G] in
 private theorem mem_C_of_orderOf_eq_prime_pow {M C : Subgroup G}
     (hC_normal : (C.subgroupOf M).Normal)
     (hcyc : IsCyclic (↥M ⧸ C.subgroupOf M)) {p : ℕ}
@@ -72,7 +75,7 @@ private theorem mem_C_of_orderOf_eq_prime_pow {M C : Subgroup G}
     (hp : p.Prime) {x : G} (hxM : x ∈ M) {k : ℕ} (hxord : orderOf x = p ^ k) :
     x ∈ C := by
   let N : Subgroup ↥M := C.subgroupOf M
-  letI : N.Normal := hC_normal
+  let : N.Normal := hC_normal
   have hxk : (⟨x, hxM⟩ : ↥M) ^ (p ^ k) = 1 := by
     have ha : orderOf (⟨x, hxM⟩ : ↥M) = p ^ k := by
       rw [← Subgroup.orderOf_coe, hxord]
@@ -94,7 +97,7 @@ private theorem mem_centralizer_of_mem_C (D : Data G) (Ch : Choice2011 G) (h1930
     x ∈ Subgroup.centralizer (D.Z : Set G) := by
   classical
   obtain ⟨hp, -⟩ := D.sig_prime p hpσ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : p ∈ D.sig1 := (h6 h1930 c) ▸ hpσ
   have hsp' := hsp p hp1
   by_contra hxnot
@@ -111,7 +114,7 @@ private theorem mem_centralizer_of_mem_C (D : Data G) (Ch : Choice2011 G) (h1930
   have hCMZ_normal_C : ((D.M ⊓ Subgroup.centralizer (D.Z : Set G)).subgroupOf C).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCMZ_le_C).mpr (hC_le_M.trans hM_le_NCMZ)
   let N_C : Subgroup ↥C := (D.M ⊓ Subgroup.centralizer (D.Z : Set G)).subgroupOf C
-  letI : N_C.Normal := hCMZ_normal_C
+  let : N_C.Normal := hCMZ_normal_C
   let π : ↥C →* ↥C ⧸ N_C := QuotientGroup.mk' N_C
   have hxnotN : (⟨x, hxC⟩ : ↥C) ∉ N_C := by
     intro hxN
@@ -175,7 +178,7 @@ theorem sigmaCentZ_of (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch) (h638 :
     SigmaCentZ D Ch := by
   intro h1930 c p hpσ
   obtain ⟨hp, hp2⟩ := D.sig_prime p hpσ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨C, hCMZ_le_C, hC_le_M, hC_normal, hrel, hgenM⟩ := hZ h1930 c
   obtain ⟨m, hm, hgenM⟩ := hgenM
   have hOp : F10.OpRes p D.M = D.M := h638 p hp hp2 (Or.inl hpσ)
@@ -196,7 +199,7 @@ theorem le_centralizer_Z_of_perfect (D : Data G) (Ch : Choice2011 G) (h4 : S23_4
     (h1930 : H1930 D) (c : Ctx23L D Ch) {K : Subgroup G} (hKM : K ≤ D.M) (hK : ⁅K, K⁆ = K) :
     K ≤ Subgroup.centralizer (D.Z : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hUZ, -, hMN⟩ := h4 h1930 c
   have hMNZ : D.M ≤ Subgroup.normalizer (D.Z : Set G) := hUZ ▸ hMN
   have hT_CGZ : D.T ≤ Subgroup.centralizer (D.Z : Set G) :=
@@ -212,7 +215,7 @@ theorem le_centralizer_Z_of_perfect (D : Data G) (Ch : Choice2011 G) (h4 : S23_4
       Subgroup.inf_normalizer_le_normalizer_inf
   have hCMZn : ((D.M ⊓ Subgroup.centralizer (D.Z : Set G)).subgroupOf D.M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr hM_le_NCMZ
-  haveI := hCMZn
+  have := hCMZn
   have hTodd : Odd (D.T.relIndex D.M) :=
     Nat.not_even_iff_odd.mp fun he =>
       (CFSG.ABGLocalTools.isSylowOf_iff.mp D.sylowM).2.2 (even_iff_two_dvd.mp he)

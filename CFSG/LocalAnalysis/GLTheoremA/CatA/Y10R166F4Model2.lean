@@ -23,7 +23,7 @@ variable {F : Type} [Field F] [Finite F]
 theorem exists_q_zeta {n : ℕ} (hF : Nat.card F = 2 ^ n) (hn : 2 ≤ n) :
     ∃ (q : ℕ) (ζ : Fˣ), q.Prime ∧ q ≠ 2 ∧ orderOf ζ = q ∧ q ∣ 2 ^ n - 1 := by
   obtain ⟨q, hq, hq2, hqd⟩ := CFSG.Quasithin.exists_odd_prime_dvd_two_pow_sub_one hn
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hpq : q ∣ Nat.card F - 1 := by rw [hF]; exact hqd
   obtain ⟨ζ, hζ⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := F) (p := q) hpq
   exact ⟨q, ζ, hq, hq2, hζ, hqd⟩

@@ -425,7 +425,7 @@ theorem false_of_tauType (hGold : Asc76X.GoldschmidtTheoremA) (hGs : IsSimpleGro
       g4 ^ i * ((g' * g') * w * (g' * g')⁻¹) * (g4 ^ i)⁻¹ by group, hg2w, e2]
   have hg₂2 : g₂ ^ 2 ^ a = 1 := by
     rw [hg₂def, ← pow_mul, mul_comm, ← hgm, pow_orderOf_eq_one]
-  have hEp : IsPGroup 2 E := S.isPGroup'.to_le hES
+  have hEp : IsPGroup 2 E := S.isPGroup.to_le hES
   have hZp : IsPGroup 2 (zpowers g₂) := by
     obtain ⟨t, -, ht⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hg₂2)
     exact IsPGroup.of_card (n := t) (by rw [Nat.card_zpowers, ht])

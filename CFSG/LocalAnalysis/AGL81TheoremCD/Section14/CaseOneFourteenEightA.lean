@@ -42,7 +42,7 @@ private theorem centerQuotient_surjective {J B : Subgroup G}
           (Subgroup.inclusion (inf_le_left :
             J ⊓ Subgroup.centralizer (B : Set G) ≤ J)))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let D : Subgroup G := (CFSG.pPrimeCore 3 ↥J).map J.subtype
   let πJ : ↥J →* threeStar J := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J)
   let πZ : threeStar J →* threeStar J ⧸ Subgroup.center (threeStar J) :=
@@ -91,7 +91,7 @@ theorem not_isPSolvable_inf_centralizer {J B : Subgroup G}
     (hcomm : ⁅B, J⁆ ≤ (CFSG.pPrimeCore 3 ↥J).map J.subtype) :
     ¬ CFSG.HallHigman.IsPSolvable 3 ↥(J ⊓ Subgroup.centralizer (B : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hsolv
   let φ : ↥(J ⊓ Subgroup.centralizer (B : Set G)) →*
       threeStar J ⧸ Subgroup.center (threeStar J) :=
@@ -117,6 +117,7 @@ theorem not_isPSolvable_inf_centralizer {J B : Subgroup G}
   exact CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.not_isPSolvable_of_simple
     hq.2.1 hnc h3 himg
 
+omit [Finite G] in
 private theorem three_dvd_card_centerQuotient_of_isSL34Star {J : Subgroup G}
     (h : IsSL34Star J) :
     3 ∣ Nat.card (threeStar J ⧸ Subgroup.center (threeStar J)) := by
@@ -325,7 +326,7 @@ private theorem not_isCyclic_inf_centralizer_of_plane
       (Subgroup.center ↥Q).map Q.subtype⁆ ≠ ⊥) :
     ¬ IsCyclic ↥(P ⊓ Subgroup.centralizer ({x} : Set G)) := by
   intro hcyc
-  haveI : IsCyclic ↥(P ⊓ Subgroup.centralizer ({x} : Set G)) := hcyc
+  have : IsCyclic ↥(P ⊓ Subgroup.centralizer ({x} : Set G)) := hcyc
   have hder := commutator_normalizer_le_centralizer
     (P ⊓ Subgroup.centralizer ({x} : Set G))
   have hQJcent : Q ⊓ J ≤ Subgroup.centralizer ({x} : Set G) := by
@@ -507,7 +508,7 @@ theorem CaseOneCtx.exists_sylow_D_le_centralizer
   set A : Subgroup G := (Subgroup.center ↥Q).map Q.subtype with hAdef
   have hp_prime : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1
   have hp2 : p ≠ 2 := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_odd p hp.1
-  haveI : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
   have hDcop : ¬ 3 ∣ Nat.card D := by
     have hcard : Nat.card D = Nat.card (CFSG.pPrimeCore 3 ↥M) :=
       Subgroup.card_map_of_injective M.subtype_injective
@@ -549,7 +550,7 @@ theorem pRank_sup_le_of_sylow_le {p : ℕ} (hp : p.Prime) {D C P : Subgroup G}
     (hCD : C ≤ Subgroup.normalizer (D : Set G))
     (hP : CFSG.ABGLocalTools.IsSylowOf p P D) (hPC : P ≤ C) :
     CFSG.Open.pRank p (D ⊔ C) ≤ CFSG.Open.pRank p C := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   obtain ⟨S, hS, hPS⟩ :=
     CFSG.RankThree.PartOne.exists_isSylowOf_ge (p := p) (K := C) (Q := P) hPC hP.isPGroup
   have hSC : S ≤ C := hS.le
@@ -581,7 +582,7 @@ theorem not_sq_dvd_card_mulAut_of_elem {V : Type*} [Group V] [Finite V] {k p : �
     (hcomm : ∀ a b : V, a * b = b * a) (hpow : ∀ a : V, a ^ 3 = 1)
     (hcard : Nat.card V = 3 ^ k) (hk : k ≤ 3) (hp : p.Prime) (hp5 : 5 ≤ p) :
     ¬ p ^ 2 ∣ Nat.card (MulAut V) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary
     (p := 3) hcomm hpow hcard
   rw [CFSG.SectionRank.Ccomm.card_mulAut_eq_card_GL e,
@@ -655,7 +656,7 @@ private theorem ker_conjNormal_le_sup {X : Type*} [Group X] [Finite X]
     have hmem : c ∈ CFSG.pPrimeCore 3 ↥M := by
       have h1 : π c = 1 := by
         rw [show c = (xM * ⟨b, hbM⟩ * xM⁻¹) * ⟨b, hbM⟩⁻¹ from rfl, map_mul, hqeq]
-        simpa using mul_inv_cancel (π ⟨b, hbM⟩)
+        simp
       rw [← hπker]
       exact MonoidHom.mem_ker.mpr h1
     have hinv : c⁻¹ ∈ CFSG.pPrimeCore 3 ↥M := (CFSG.pPrimeCore 3 ↥M).inv_mem hmem
@@ -679,7 +680,7 @@ private theorem center_omega_data {X : Type*} [Group X] [Finite X] {K : Subgroup
       3 ∣ Nat.card (CFSG.Quasithin.centerOf K) := by
   have hHnorm : (CFSG.Quasithin.centerOf K).Normal :=
     @CFSG.Quasithin.A1c.centerOf_normal X _ K hKn
-  haveI : (CFSG.Quasithin.centerOf K).Normal := hHnorm
+  have : (CFSG.Quasithin.centerOf K).Normal := hHnorm
   have hHdvd : 3 ∣ Nat.card (CFSG.Quasithin.centerOf K) := by
     have hKnt : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot K).mpr hKne
     have hcNt : Nontrivial ↥(Subgroup.center ↥K) :=
@@ -830,7 +831,7 @@ private theorem exists_centralizing_order_three
       (CFSG.Quasithin.centerOf (CFSG.pCore 3 (threeStar M)))) :
     ∃ z ∈ Z₀, orderOf z = 3 ∧
       threeStarImg M Q ≤ Subgroup.centralizer ({z} : Set (threeStar M)) := by
-  haveI : (CFSG.Quasithin.centerOf (CFSG.pCore 3 (threeStar M))).Normal := hHnorm
+  have : (CFSG.Quasithin.centerOf (CFSG.pCore 3 (threeStar M))).Normal := hHnorm
   have hPbar : IsPGroup 3 (threeStarImg M Q) := by
     rw [threeStarImg]
     exact (c.choice.sylow.isPGroup.comap_subtype (K := M)).map
@@ -897,7 +898,7 @@ theorem CaseOneCtx.fourteenEight_two
     rw [hKdef]
     exact CFSG.pCore_isPGroup (p := 3) (G := threeStar M)
   obtain ⟨Z₀, hZ₀norm, -, hZ₀ea, hZ₀mem, hHdvd⟩ := center_omega_data hKn hKne hKp
-  haveI : Z₀.Normal := hZ₀norm
+  have : Z₀.Normal := hZ₀norm
   have hHnorm : (CFSG.Quasithin.centerOf K).Normal :=
     @CFSG.Quasithin.A1c.centerOf_normal (threeStar M) _ K hKn
   have hHdvd' : 3 ∣ Nat.card (CFSG.Quasithin.centerOf K) := hHdvd

@@ -99,7 +99,7 @@ private theorem zmodProdHom_injective {G : Type*} [Group G] (a b : G) (m : ℕ) 
         exact disjoint_iff.mpr h⟩
   intro x y hxy
   have hgxy := hxy
-  simp only [zmodProdHom, MonoidHom.comp_apply, g] at hgxy
+  simp only [zmodProdHom, MonoidHom.comp_apply] at hgxy
   exact (MulEquiv.prodMultiplicative (ZMod m) (ZMod m)).injective (hg hgxy)
 
 private theorem zmodProdHom_range {G : Type*} [Group G] (a b : G) (m : ℕ) [NeZero m]

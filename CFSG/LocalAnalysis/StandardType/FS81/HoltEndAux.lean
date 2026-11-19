@@ -38,7 +38,7 @@ open CFSG.Open CFSG.Assembly CFSG.StandardType CFSG.Blueprint
 theorem fs81Hl_not_solvable_of_commutator_top {L : Type*} [Group L] [Nontrivial L]
     (h : commutator L = ⊤) : ¬ Group.IsSolvable L := by
   intro hsol
-  letI : Group.IsPerfect L := Group.isPerfect_def.mpr h
+  let : Group.IsPerfect L := Group.isPerfect_def.mpr h
   exact Group.IsPerfect.not_isSolvable L hsol
 
 theorem fs81Hl_sylow2In_sylow {G : Type} [Group G] [Finite G] {Y S : Subgroup G} {t : G}
@@ -51,14 +51,14 @@ theorem fs81Hl_sylow2In_sylow {G : Type} [Group G] [Finite G] {Y S : Subgroup G}
     have hlt : S < (P : Subgroup G) := lt_of_le_of_ne hSP (Ne.symm hne)
     have hgrowth :=
       CFSG.ProperTwoGeneratedCore.LocalCriterionMaximalPrime.pSubgroup_lt_normalizer_intersection
-        2 Nat.prime_two S (P : Subgroup G) P.isPGroup' hlt
+        2 Nat.prime_two S (P : Subgroup G) P.isPGroup hlt
     obtain ⟨x, hx, hxS⟩ := Set.exists_of_ssubset hgrowth
     have hxP : x ∈ (P : Subgroup G) := (Subgroup.mem_inf.mp hx).1
     have hxN : x ∈ Subgroup.normalizer (S : Set G) := (Subgroup.mem_inf.mp hx).2
     have hxtS : x * t * x⁻¹ ∈ S := (Subgroup.mem_normalizer_iff.mp hxN t).mp htS
     have hxY : x ∈ Y := hconj x (hSyl.1 hxtS)
     have h2 : IsPGroup 2 (S ⊔ Subgroup.zpowers x : Subgroup G) :=
-      P.isPGroup'.to_le (sup_le hSP (Subgroup.zpowers_le.mpr hxP))
+      P.isPGroup.to_le (sup_le hSP (Subgroup.zpowers_le.mpr hxP))
     have hEq : S ⊔ Subgroup.zpowers x = S :=
       hSyl.2.2 (S ⊔ Subgroup.zpowers x) (sup_le hSyl.1 (Subgroup.zpowers_le.mpr hxY))
         h2 le_sup_left
@@ -67,13 +67,13 @@ theorem fs81Hl_sylow2In_sylow {G : Type} [Group G] [Finite G] {Y S : Subgroup G}
 
 theorem fs81Hl_lieModel_of_marked {R : Type} [Group R] {lab : LargeEvenLabel} {m : ℕ}
     (hcase : (m = 7 ∧ lab.tag = .E7) ∨ (m = 8 ∧ lab.tag = .E8))
-    (hrank : lab.rank = 0) (hn : lab.n = 1) (hm : MarkedModel lab R) :
+    (_hrank : lab.rank = 0) (hn : lab.n = 1) (hm : MarkedModel lab R) :
     LieModel R .E7 0 2 1 ∨ LieModel R .E8 0 2 1 := by
   rcases hcase with ⟨-, htag⟩ | ⟨-, htag⟩
   · left
-    simpa only [MarkedModel, markTag, markRank, markChar, markDeg, htag, hrank, hn] using hm
+    simpa only [MarkedModel, markTag, markRank, markChar, markDeg, htag, _hrank, hn] using hm
   · right
-    simpa only [MarkedModel, markTag, markRank, markChar, markDeg, htag, hrank, hn] using hm
+    simpa only [MarkedModel, markTag, markRank, markChar, markDeg, htag, _hrank, hn] using hm
 
 theorem fs81Hl_card_gt_2520
     {G : Type} [Group G] [Finite G] {m : ℕ} {Y : Subgroup G} (hEm : IsEm m Y) :

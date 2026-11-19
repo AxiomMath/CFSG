@@ -30,7 +30,7 @@ theorem dichotomy_suThreeSixOdd {G : Type} [Group G] [Finite G] {L : Subgroup G}
           (rho L ⟨x, hx⟩ ∉ N ∧ (KFacts.InducesStdKind L x .field ∨
             KFacts.InducesStdKind L x .graphField)) := by
   obtain ⟨k, hk, ⟨m, rfl⟩, ho, F, hFf, hFfin, hF, ⟨φ⟩⟩ := hX
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm1 : 1 ≤ m := by omega
   have hq : 2 ^ (3 * m) % 3 = 2 := two_pow_mod_three_of_odd' ho
   have hm3 : 3 ∣ 2 ^ (3 * m) + 1 := by omega
@@ -103,7 +103,7 @@ theorem pow_apply_eq_of_apply_eq {X : Type*} [Group X] {α : MulAut X} {u : X} (
     rw [pow_succ, MulAut.mul_apply, h, ih]
 
 theorem kF418OuterOn_suThreeSixOdd : KF418OuterOn (fun X _ => IsSUThreeSixOdd X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro G _ _ L hL hl a b ha3 hb3 hab hb1 habz haN hbN hbC haC K hK n hn htype hKa hbk
   obtain ⟨k, hk, ⟨m, rfl⟩, ho, F, hFf, hFfin, hF, ⟨φ⟩⟩ := hl
   have c := Cfg.of_model hK ha3 hb3 hab haN hbN hbC haC hKa
@@ -132,16 +132,16 @@ theorem kF418OuterOn_suThreeSixOdd : KF418OuterOn (fun X _ => IsSUThreeSixOdd X)
     · obtain ⟨hK'', -, ⟨ι⟩⟩ := h
       have hsolv : Group.IsSolvable (StatedSU 3 (2 ^ 1) K'') :=
         CFSG.Quasithin.isSolvable_statedSU_one hK''
-      haveI hsolvC : Group.IsSolvable ↥(Sec8.barCentralizer (Subgroup.zpowers b) L) :=
+      have hsolvC : Group.IsSolvable ↥(Sec8.barCentralizer (Subgroup.zpowers b) L) :=
         Group.isSolvable_of_isSolvable_injective (f := ι.toMonoidHom) ι.injective
       have hle := imageModTheta_le_barCentralizer_of_le c.hbL c.hb3 c.hKL c.hKb
-      haveI : Group.IsSolvable ↥(Sec8.imageModTheta L K) :=
+      have : Group.IsSolvable ↥(Sec8.imageModTheta L K) :=
         Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
           (Subgroup.inclusion_injective hle)
-      haveI := isPerfect_imageModTheta hK
-      haveI : Nontrivial ↥(Sec8.imageModTheta L K) :=
+      have := isPerfect_imageModTheta hK
+      have : Nontrivial ↥(Sec8.imageModTheta L K) :=
         (Subgroup.nontrivial_iff_ne_bot _).mpr (imageModTheta_ne_bot c.hKL hKq)
-      have := IsSolvable.commutator_lt_top_of_nontrivial (Sec8.imageModTheta L K)
+      have := Group.IsSolvable.commutator_lt_top_of_nontrivial (Sec8.imageModTheta L K)
       rw [Group.IsPerfect.commutator_eq_top] at this
       exact lt_irrefl _ this
   have hm2 : 2 ≤ m := by omega

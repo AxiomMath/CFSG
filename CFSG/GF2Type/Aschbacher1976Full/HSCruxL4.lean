@@ -11,6 +11,7 @@ open CFSG CFSG.Blueprint Subgroup PartC
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_E_or_kE {z k : G} {E : Subgroup G} (hE : IsCruxE z k E) (hk : k ∈ Fz z)
     (hk2 : k * k ∈ E) {f : G} (hf : f ∈ Fz z) : f ∈ E ∨ k⁻¹ * f ∈ E := by
   obtain ⟨-, hEn, -, -, hFE, -⟩ := hE
@@ -51,6 +52,7 @@ theorem mem_E_or_kE {z k : G} {E : Subgroup G} (hE : IsCruxE z k E) (hk : k ∈ 
   have hle : Subgroup.zpowers k ⊔ E ≤ U := sup_le (Subgroup.zpowers_le.mpr hkU) hEU
   exact hle (hFE hf)
 
+omit [Finite G] in
 theorem inv_conj_mem {z k : G} {E : Subgroup G} (hE : IsCruxE z k E) (hk : k ∈ Fz z)
     (hk2 : k * k ∈ E) {h f : G} (hh : h ∈ Hz z) (hf : f ∈ Fz z) :
     f⁻¹ * (h * f * h⁻¹) ∈ E := by
@@ -113,7 +115,7 @@ theorem cruxL4_holds :
   ·
     rw [h1, hy] at hmem
     rcases Bad.eq_or_eq_inv_of_mem_zpowers hy4 hord hmem with h2 | h2
-    · rw [h2]; simpa using E.one_mem
+    · rw [h2]; simp
     · rw [h2, hyyi]; exact huE
   ·
     obtain ⟨a, haF, ha⟩ := exists_conj_mul_z' hD hz ((hti.2 u hu).1) hu1 hu.2.1

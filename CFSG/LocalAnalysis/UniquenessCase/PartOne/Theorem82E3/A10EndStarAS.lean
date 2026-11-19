@@ -27,7 +27,7 @@ variable {X : Type} [Group X] [Finite X]
 private lemma eq_of_ne_one_of_card_le_two {H : Type*} [Group H] [Finite H]
     (h : Nat.card H ≤ 2) {x y : H} (hx : x ≠ 1) (hy : y ≠ 1) : x = y := by
   classical
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   by_contra hxy
   have h1 : (1 : H) ∉ ({x, y} : Finset H) := by
     simp only [Finset.mem_insert, Finset.mem_singleton, not_or]
@@ -41,6 +41,7 @@ private lemma eq_of_ne_one_of_card_le_two {H : Type*} [Group H] [Finite H]
   rw [hc, Fintype.card_eq_nat_card] at hle
   omega
 
+omit [Finite X] in
 private lemma eq_or_eq_inv_of_mem_zpowers_of_orderOf_three {z y : X} (hz : orderOf z = 3)
     (hy : y ∈ Subgroup.zpowers z) (hy1 : y ≠ 1) : y = z ∨ y = z⁻¹ := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
@@ -63,6 +64,7 @@ private lemma eq_or_eq_inv_of_mem_zpowers_of_orderOf_three {z y : X} (hz : order
   · left; rw [h]; simp
   · right; rw [h]; simpa using hz2
 
+omit [Finite X] in
 private lemma subgroupOf_inf_centralizer_eq_center (P : Subgroup X) :
     (P ⊓ Subgroup.centralizer (P : Set X)).subgroupOf P = Subgroup.center ↥P := by
   ext y
@@ -76,6 +78,7 @@ private lemma subgroupOf_inf_centralizer_eq_center (P : Subgroup X) :
     intro g hg
     exact congrArg Subtype.val (h ⟨g, hg⟩)
 
+omit [Finite X] in
 private lemma card_inf_centralizer_of_zwr {P : Subgroup X}
     (hPZ : Nonempty (↥P ≃* UC22.InS3.UC326.ZWr 1)) :
     Nat.card ↥(P ⊓ Subgroup.centralizer (P : Set X)) = 3 := by
@@ -86,13 +89,15 @@ private lemma card_inf_centralizer_of_zwr {P : Subgroup X}
     subgroupOf_inf_centralizer_eq_center P]
   simpa using hcent
 
+omit [Finite X] in
 private lemma normal_of_layer_eq {L : Subgroup X} (hlay : CFSG.layer X = L) : L.Normal := by
-  haveI hchar : L.Characteristic := hlay ▸ (CFSG.LocalCores.layer_characteristic (G := X))
+  have hchar : L.Characteristic := hlay ▸ (CFSG.LocalCores.layer_characteristic (G := X))
   exact Subgroup.normal_of_characteristic L
 
+omit [Finite X] in
 private lemma inf_centralizer_normal_of_layer {L : Subgroup X} (hlay : CFSG.layer X = L) :
     (L ⊓ Subgroup.centralizer (L : Set X)).Normal := by
-  haveI : L.Normal := normal_of_layer_eq hlay
+  have : L.Normal := normal_of_layer_eq hlay
   infer_instance
 
 private lemma isPGroup_inf_centralizer {L : Subgroup X} (h3' : CFSG.pPrimeCore 3 X = ⊥)
@@ -154,7 +159,7 @@ private lemma inf_centralizer_le_of_eq_jOf {P A : Subgroup X}
   obtain ⟨e⟩ := hPZ
   have hAle : A ≤ P := hA ▸ Subgroup.map_subtype_le _
   have hAnorm : (A.subgroupOf P).Normal := by
-    haveI hchar : (A.subgroupOf P).Characteristic := by
+    have hchar : (A.subgroupOf P).Characteristic := by
       have h : A.subgroupOf P = CFSG.elemThompson ↥P 3 := by
         rw [hA, UC22.InS3.UC326.jOf]
         exact Subgroup.comap_map_eq_self_of_injective P.subtype_injective _
@@ -246,7 +251,7 @@ private lemma inf_centralizer_eq_of_ne_bot {P A L : Subgroup X}
     apply hZ
     rw [Subgroup.eq_bot_iff_forall]
     intro x hx
-    haveI : Subsingleton ↥(L ⊓ Subgroup.centralizer (L : Set X)) :=
+    have : Subsingleton ↥(L ⊓ Subgroup.centralizer (L : Set X)) :=
       (Nat.card_eq_one_iff_unique.mp h).1
     exact congrArg Subtype.val (Subsingleton.elim (⟨x, hx⟩ : ↥(L ⊓ _)) 1)
   have hZLcard : Nat.card ↥(L ⊓ Subgroup.centralizer (L : Set X)) = 3 := by
@@ -290,6 +295,7 @@ private lemma relPPrimeCore_centralizer_singleton_eq_bot {z : X}
       Nat.prime_three (Subgroup.centralizer ({z} : Set X))
   exact (CFSG.pPrimeCore_eq_bot_iff.mp h3') _ hreln hrelcop
 
+omit [Finite X] in
 private lemma inf_centralizer_eq_bot_of_balance {A W : Subgroup X} {z : X}
     (hbal : ∀ a ∈ A, a ≠ 1 → ∀ W : Subgroup X, W ≤ Subgroup.centralizer ({a} : Set X) →
       A ≤ Subgroup.normalizer (W : Set X) → Nat.Coprime (Nat.card W) 3 →
@@ -305,6 +311,7 @@ private lemma inf_centralizer_eq_bot_of_balance {A W : Subgroup X} {z : X}
   have h' : W ⊓ Subgroup.centralizer ({z} : Set X) ≤ ⊥ := by rwa [hcore] at h
   exact le_bot_iff.mp h'
 
+omit [Finite X] in
 private lemma eq_of_conj_eq_of_inf_centralizer_eq_bot {W : Subgroup X} {z : X}
     (hWY : W ⊓ Subgroup.centralizer ({z} : Set X) = ⊥)
     {w₁ w₂ : ↥W} (h : (w₁ : X) * z * (w₁ : X)⁻¹ = (w₂ : X) * z * (w₂ : X)⁻¹) : w₁ = w₂ := by
@@ -321,9 +328,10 @@ private lemma eq_of_conj_eq_of_inf_centralizer_eq_bot {W : Subgroup X} {z : X}
   have hbot : (w₂ : X)⁻¹ * (w₁ : X) ∈ (⊥ : Subgroup X) := by rwa [hWY] at hmem
   rw [Subgroup.mem_bot] at hbot
   refine Subtype.ext ?_
-  calc (w₁ : X) = (w₂ : X) * ((w₂ : X)⁻¹ * (w₁ : X)) := by simp [mul_assoc]
+  calc (w₁ : X) = (w₂ : X) * ((w₂ : X)⁻¹ * (w₁ : X)) := by simp
     _ = (w₂ : X) := by rw [hbot]; simp
 
+omit [Finite X] in
 private lemma card_le_two_of_inf_centralizer_eq_bot {W : Subgroup X} {z : X}
     (hWY : W ⊓ Subgroup.centralizer ({z} : Set X) = ⊥)
     (hconj : ∀ w : ↥W, (w : X) * z * (w : X)⁻¹ = z ∨ (w : X) * z * (w : X)⁻¹ = z⁻¹) :
@@ -338,12 +346,12 @@ private lemma card_le_two_of_inf_centralizer_eq_bot {W : Subgroup X} {z : X}
     by_cases h1 : (w₁ : X) * z * (w₁ : X)⁻¹ = z
     · have h2 : (w₂ : X) * z * (w₂ : X)⁻¹ = z := by
         by_contra h2
-        rw [if_pos h1, if_neg h2] at heq'
+        rw [ite_eq_left h1, ite_eq_right h2] at heq'
         exact absurd heq' (by decide)
       rw [h1, h2]
     · have h2 : (w₂ : X) * z * (w₂ : X)⁻¹ ≠ z := by
         intro h2
-        rw [if_neg h1, if_pos h2] at heq'
+        rw [ite_eq_right h1, ite_eq_left h2] at heq'
         exact absurd heq' (by decide)
       rcases hconj w₁ with h1' | h1' <;> rcases hconj w₂ with h2' | h2'
       · exact absurd h1' h1
@@ -430,7 +438,7 @@ theorem centralizer_eq_bot_of_inf_centralizer_eq_bot {P L : Subgroup X}
     rw [hZ, Subgroup.mem_bot] at hxZL
     exact hxZL
   have hCn : (Subgroup.centralizer (L : Set X)).Normal := by
-    haveI : L.Normal := normal_of_layer_eq hlay
+    have : L.Normal := normal_of_layer_eq hlay
     exact Subgroup.normal_centralizer
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 3 (P ⊓ Subgroup.centralizer (L : Set X))
       (Subgroup.centralizer (L : Set X)) :=

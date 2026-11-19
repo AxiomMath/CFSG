@@ -19,7 +19,7 @@ theorem s16h_pRank_three_eq_one_of_thin_cover (D : Data G)
     (hcomp : IsComponentOf (lBar V₀ V h.hyp151.isElemAbelian L)
       (Mbar D.M V₀ V h.hyp151.isElemAbelian))
     {t : MulAut (Vtil V₀ V h.hyp151.isElemAbelian)}
-    (hW : Conc4_136W (Mbar D.M V₀ V h.hyp151.isElemAbelian) t
+    (_hW : Conc4_136W (Mbar D.M V₀ V h.hyp151.isElemAbelian) t
       (lBar V₀ V h.hyp151.isElemAbelian L))
     (hthin : ∀ q : ℕ, q.Prime → q ≠ 2 →
       CFSG.Open.pRank q (lBar V₀ V h.hyp151.isElemAbelian L) ≤ 1)
@@ -30,7 +30,7 @@ theorem s16h_pRank_three_eq_one_of_thin_cover (D : Data G)
     CFSG.Open.pRank 3 K = 1 := by
   have hV := h.hyp151.isElemAbelian
   rw [← hbar] at hthin
-  haveI : Finite (MulAut (Vtil V₀ V hV)) :=
+  have : Finite (MulAut (Vtil V₀ V hV)) :=
     Finite.of_injective
       (fun e : MulAut (Vtil V₀ V hV) => (e : Vtil V₀ V hV → Vtil V₀ V hV))
       (fun _ _ hh => MulEquiv.ext (congrFun hh))
@@ -50,7 +50,7 @@ theorem s16h_pRank_three_eq_one_of_thin_cover (D : Data G)
         (Q : Subgroup ↥(barSub V₀ V hV K))]
       exact (CFSG.SectionRank.pRank_mono Nat.prime_three.one_lt
         (le_top : (Q : Subgroup ↥(barSub V₀ V hV K)) ≤ ⊤)).trans hrank
-    exact CFSG.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) Q.isPGroup' hQrank
+    exact CFSG.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) Q.isPGroup hQrank
   have h3bar : 3 ∣ Nat.card ↥(barSub V₀ V hV K) := by
     rw [hbar]
     exact h3

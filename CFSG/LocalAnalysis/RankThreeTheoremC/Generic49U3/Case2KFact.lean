@@ -26,10 +26,10 @@ private theorem kFactRank2_Q_le_K {p : ℕ} {X : Type} [Group X] [Finite X]
     (hKc : Subgroup.centralizer (K : Set X) = ⊥) (hpK : p ∣ Nat.card K)
     (Q : Sylow p X) (hQab : IsMulCommutative (Q : Subgroup X)) :
     (Q : Subgroup X) ≤ K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQS : CFSG.ABGLocalTools.IsSylowOf p (Q : Subgroup X) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, Q.isPGroup', by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
+    exact ⟨le_top, Q.isPGroup, by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
   have hKN : (⊤ : Subgroup X) ≤ normalizer (K : Set X) :=
     le_of_eq (Subgroup.normalizer_eq_top K).symm
   have hQK : CFSG.ABGLocalTools.IsSylowOf p ((Q : Subgroup X) ⊓ K) K :=
@@ -48,7 +48,7 @@ private theorem kFactRank2_Q_le_K {p : ℕ} {X : Type} [Group X] [Finite X]
       (setLike_mul_comm ((hPmem (a : K)).mp a.2) ((hPmem (b : K)).mp b.2)))
   intro q hq
   obtain ⟨n, hn⟩ : ∃ n : ℕ, q ^ (p ^ n) = 1 := by
-    obtain ⟨n, hn⟩ := Q.isPGroup' ⟨q, hq⟩
+    obtain ⟨n, hn⟩ := Q.isPGroup ⟨q, hq⟩
     exact ⟨n, congrArg Subtype.val hn⟩
   have hqN : q ∈ normalizer (K : Set X) := hKN (Subgroup.mem_top q)
   set φ : MulAut K := K.normalizerMonoidHom ⟨q, hqN⟩ with hφdef

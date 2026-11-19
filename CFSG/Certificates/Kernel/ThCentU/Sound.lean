@@ -51,8 +51,8 @@ theorem one5_spec {z : ℕ} (h : one5 z = true) :
     Nat.eq_of_beq_eq_true ((allN_iff _ _).1 h2 q hq)
   rw [e]
   by_cases hd : q / 5 = q % 5
-  · rw [if_pos hd, show Nat.beq (q / 5) (q % 5) = true from Nat.beq_eq_true_eq _ _ ▸ hd]
-  · rw [if_neg hd, beq_false' hd]
+  · rw [ite_eq_left hd, show Nat.beq (q / 5) (q % 5) = true from Nat.beq_eq_true_eq _ _ ▸ hd]
+  · rw [ite_eq_right hd, beq_false' hd]
 
 theorem tree_ind {G E PA : ℕ → ℕ} {nG N : ℕ} (ht : ∀ k < N, node5 G nG E PA k = true)
     (P : ℕ → Prop) (h0 : ∀ z, one5 z = true → P z)
@@ -100,7 +100,7 @@ theorem pkMat_wordH (H₁ H₂ : ℕ) (w : List ℕ) :
     by_cases hl : l = 0
     · subst hl
       rfl
-    · rw [beq_false' hl, if_neg hl]
+    · rw [beq_false' hl, ite_eq_right hl]
 
 omit hk in
 theorem pkMat_rpw {M : ℕ → ℕ} (ONE' : ℕ) (h1 : pkMat ONE' = 1) {i : ℕ}
@@ -151,7 +151,6 @@ theorem keyK_lt (M : ℕ → ℕ) (hv : M 12 < 2 ^ 248) (x : ℕ) : keyK rm M x 
         (Nat.beq e 1))) fun v => v) acc (Nat.beq e 0)) < 2 ^ 248 := by
     intro i acc ha
     rw [strictF_eq]
-    beta_reduce
     cases Nat.beq (dig3 x i) 0
     · rw [strictF_eq]
       exact vecB_lt hk _ _

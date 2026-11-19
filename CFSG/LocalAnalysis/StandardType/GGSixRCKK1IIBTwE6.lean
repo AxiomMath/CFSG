@@ -65,7 +65,7 @@ private theorem rckp5_isElemAbelian_four {G : Type} [Group G] {v₁ v₂ : G}
     CFSG.GH74.Generic.BProg.B3.S3Sec29H.isElementaryAbelian_sup_zpowers
       (CFSG.GH74.Generic.BProg.B3.S3Sec29H.isElementaryAbelian_zpowers h₁) h₂
       (rckp5_comm_of_mem_zpowers h₁ h₁₂)
-  haveI := hEA
+  have := hEA
   exact ⟨hEA.toIsMulCommutative, fun x hx => CFSG.elemPow_eq_one_of_isElementaryAbelian x hx⟩
 
 private theorem rckp5_card_four {G : Type} [Group G] {v₁ v₂ : G}
@@ -158,11 +158,11 @@ private theorem rckp5_form_highRoot_F4
             fun l _ hl => by
               rw [form_single_right]
               simp only [toRat_apply]
-              rw [rckp5_cartan_mul_highRoot_F4_rat, if_neg hl, mul_zero, mul_zero]
+              rw [rckp5_cartan_mul_highRoot_F4_rat, ite_eq_right hl, mul_zero, mul_zero]
     _ = symmetrizer hA rckp5_zeroF4 * x rckp5_zeroF4 := by
           rw [form_single_right]
           simp only [toRat_apply]
-          rw [rckp5_cartan_mul_highRoot_F4_rat, if_pos rfl, mul_one]
+          rw [rckp5_cartan_mul_highRoot_F4_rat, ite_eq_left rfl, mul_one]
           ring
 
 private theorem rckp5_rootForm_highRoot_pos
@@ -193,7 +193,7 @@ private theorem rckp5_isIrreducible_cartan_F4 :
   · decide
 
 theorem rckIIPair_TwE6
-    (n : ℕ) (hadm : StatedLieAdmissible .twistedE6 n 2 1) : RCKIIPair .twistedE6 n := by
+    (n : ℕ) (_hadm : StatedLieAdmissible .twistedE6 n 2 1) : RCKIIPair .twistedE6 n := by
   classical
   unfold RCKIIPair
   simp only [ggU, lieUniversal]

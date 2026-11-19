@@ -158,7 +158,7 @@ private theorem e6InW_trace_nonneg {g : WeylGroup Tag.E6} (hg : g ^ 3 = 1)
 theorem e6WeylEllipticOfNoFixed_holds : E6WeylEllipticOfNoFixed := by
   intro Ω hΩ3 _ hnofix
   classical
-  haveI : Fintype Ω := Fintype.ofFinite Ω
+  have : Fintype Ω := Fintype.ofFinite Ω
   have hsum := e6InW_sum_trace_eq_zero Ω hnofix
   by_contra hcon
   push Not at hcon

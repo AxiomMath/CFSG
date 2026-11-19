@@ -30,7 +30,7 @@ theorem cov_gz_false
     (hnab : ∃ a b : G, a * b ≠ b * a)
     {T H M Lz : Subgroup G} {z y : G}
     (hz1 : z ≠ 1) (hz2 : z ^ 2 = 1) (hHz : H ≤ Subgroup.centralizer ({z} : Set G))
-    (hTz : T ≤ Subgroup.centralizer ({z} : Set G)) (hTH : T ≤ H) (hTM : T ≤ M)
+    (_hTz : T ≤ Subgroup.centralizer ({z} : Set G)) (hTH : T ≤ H) (hTM : T ≤ M)
     (hTsyl : IsSylowTwoOf T (Subgroup.centralizer ({z} : Set G)))
     (hLzG : Lz ≤ Subgroup.centralizer ({z} : Set G)) (hTLz : T ≤ Subgroup.normalizer (Lz : Set G))
     (hLzF : Lz ∈ lFamily T) (hLzperf : ⁅Lz, Lz⁆ = Lz)
@@ -41,8 +41,8 @@ theorem cov_gz_false
     (hθJ : ∀ g : ↥H, (g : G) ∈ kerIn (H ⊓ M) H → θ g = 1)
     (hθy : θ ⟨y, hyH⟩ ≠ 1) (hH9 : ¬ 9 ∣ Nat.card H) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hsimple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hsimple
   set Gz : Subgroup G := Subgroup.centralizer ({z} : Set G) with hGz
   have hpC : CFSG.Open.pCoreOf 2 Gz ≠ ⊥ := kzPCoreCentralizerNeBot_kz3 hz1 hz2
   have hloc : LocalSQTK G := (qtkeCore_of_cat hnab hqtke).1

@@ -173,7 +173,7 @@ theorem exists_ne_zero_mem {F : Type} [Field F] [Fintype F] (ℓ : Submodule F (
   have h1 : 1 < Nat.card ℓ := by
     rw [h]
     exact Fintype.one_lt_card
-  haveI : Nontrivial ℓ := Finite.one_lt_card_iff_nontrivial.mp h1
+  have : Nontrivial ℓ := Finite.one_lt_card_iff_nontrivial.mp h1
   obtain ⟨x, hx⟩ := exists_ne (0 : ℓ)
   exact ⟨x, x.2, fun h0 => hx (Subtype.ext h0)⟩
 
@@ -228,8 +228,8 @@ theorem offender_classification {F : Type} [Field F] [Fintype F] [CharP F 2]
       ∃ ℓ : Submodule F (Fin 2 → F), Nat.card ℓ = Fintype.card F ∧
         ∀ x : Fin 2 → F, (∀ b ∈ B, addMap b x = x) ↔ x ∈ ℓ := by
   classical
-  haveI : Finite (Multiplicative (Fin 2 → F)) := inferInstanceAs (Finite (Fin 2 → F))
-  haveI : Finite (MulAut (Multiplicative (Fin 2 → F))) := MulEquiv.finite_left
+  have : Finite (Multiplicative (Fin 2 → F)) := inferInstanceAs (Finite (Fin 2 → F))
+  have : Finite (MulAut (Multiplicative (Fin 2 → F))) := MulEquiv.finite_left
   set q := Fintype.card F with hqdef
   rw [card_multiplicative_pi (F := F), card_fix_eq B] at hoff
   obtain ⟨B₁, hB₁B, hlin, hcardB, hcase⟩ := exists_linear_subgroup B hB hN
@@ -303,7 +303,7 @@ theorem offender_classification {F : Type} [Field F] [Fintype F] [CharP F 2]
       have hsn : (Pφ ∩ (ℓ' : Set (Fin 2 → F))).ncard = s := by
         rw [← Nat.card_coe_set_eq, hs]
         exact Nat.card_congr (Equiv.subtypeEquivRight (fun x => by simp [Pφ, and_comm]))
-      have hsplit := Set.ncard_inter_add_ncard_diff_eq_ncard Pφ (ℓ' : Set (Fin 2 → F))
+      have hsplit := Set.ncard_inter_add_ncard_sdiff_eq_ncard Pφ (ℓ' : Set (Fin 2 → F))
         (Set.toFinite _)
       set t := (Pφ \ (ℓ' : Set (Fin 2 → F))).ncard with ht
       have hst : s + t = q := by rw [← hPφn, ← hsplit, hsn]

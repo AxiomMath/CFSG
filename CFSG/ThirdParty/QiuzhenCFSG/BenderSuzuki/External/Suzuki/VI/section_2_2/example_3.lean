@@ -1296,7 +1296,7 @@ private lemma example3_subgroup_sylow_cyclic_or_quaternion
   let SM : Subgroup G := (S : Subgroup M).map M.subtype
   have hSMp : IsPGroup 2 SM := by
     dsimp [SM]
-    exact IsPGroup.map (p := 2) (H := (S : Subgroup M)) S.isPGroup' M.subtype
+    exact IsPGroup.map (p := 2) (H := (S : Subgroup M)) S.isPGroup M.subtype
   obtain ⟨R, hSMleR⟩ := IsPGroup.exists_le_sylow (G := G) (p := 2) hSMp
   let eSM : S ≃* SM :=
     Subgroup.equivMapOfInjective (S : Subgroup M) M.subtype M.subtype_injective
@@ -1352,7 +1352,7 @@ private lemma example3_subgroup_sylow_cyclic_or_quaternion
     exact (Subgroup.eq_of_le_of_card_ge hzp_le (by rw [hUcard, hVcard])).symm
   have hclass :=
     BenderSuzuki.External.huppert_III_8_2_pgroup_unique_order_prime_subgroup
-      (G := S) (p := 2) Nat.prime_two S.isPGroup' ⟨U, hUcard, huniqueU⟩
+      (G := S) (p := 2) Nat.prime_two S.isPGroup ⟨U, hUcard, huniqueU⟩
   exact hclass.2 rfl
 
 public lemma example3_quotient_sylow
@@ -1369,7 +1369,7 @@ public lemma example3_quotient_sylow
   have hqinj : Function.Injective (q.comp (Q : Subgroup G).subtype) := by
     simpa [q, N] using
       quotient_pPrimeCore_subgroupMap_injective
-        (G := G) (p := 2) (H := (Q : Subgroup G)) Q.isPGroup'
+        (G := G) (p := 2) (H := (Q : Subgroup G)) Q.isPGroup
   let f : Q →* Qbar :=
     (q.comp (Q : Subgroup G).subtype).codRestrict Qbar (by
       intro x
@@ -2671,7 +2671,7 @@ private lemma example3_inducedCF_restrict_eq_two_mul_of_fixed
     intro x _hx
     have hxmem : x * (c : H) * x⁻¹ ∈ CH :=
       hCHnormal.conj_mem (c : H) c.property x
-    rw [dif_pos hxmem]
+    rw [dite_eq_left hxmem]
     simpa [Section1.conjugateOnNormal] using congrFun (hfix x) c
   rw [hsum]
   simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
@@ -3006,7 +3006,7 @@ private lemma example3_q8Axis_surjective
     symm
     exact Subgroup.eq_of_le_of_card_ge hV0 (by
       rw [hVcard, example3_q8Axis_card])
-  · obtain ⟨v, hvV, hv0⟩ := SetLike.not_le_iff_exists.mp hV0
+  · obtain ⟨v, hvV, hv0⟩ := IsConcreteLE.not_le_iff_exists.mp hV0
     have hvorder : orderOf v = 4 :=
       example3_q8_order_four_of_not_mem_axis_zero hv0
     have hVz : V = Subgroup.zpowers v :=
@@ -5513,7 +5513,7 @@ private theorem suzuki_example3_corefree_setup
     rw [hUQcard, hTQcard] at hcard_le
     omega
   let XC : Subgroup C := X.subgroupOf C
-  have hXQp : IsPGroup 2 XQ := Q.isPGroup'.to_subgroup XQ
+  have hXQp : IsPGroup 2 XQ := Q.isPGroup.to_subgroup XQ
   have hXp : IsPGroup 2 X :=
     hXQp.of_equiv
       (Subgroup.equivMapOfInjective XQ (Q : Subgroup G).subtype
@@ -5799,7 +5799,7 @@ private theorem suzuki_example3_corefree_setup
     rw [hNHcard]
     exact hNodd
   have hSNcoprime : Nat.Coprime (Nat.card S) (Nat.card N) := by
-    rcases S.isPGroup'.exists_card_eq with ⟨a, ha⟩
+    rcases S.isPGroup.exists_card_eq with ⟨a, ha⟩
     rw [ha]
     exact hNodd.pow_left a
   have hSNdisjoint : Disjoint (S : Subgroup C) N :=
@@ -5865,7 +5865,7 @@ private theorem suzuki_example3_corefree_setup
         (Subgroup.card_eq_card_quotient_mul_card_subgroup NH).symm
       _ = Nat.card QH * Nat.card NH := hHcard_QH_NH
   have hQHp : IsPGroup 2 QH :=
-    Q.isPGroup'.of_equiv
+    Q.isPGroup.of_equiv
       (Subgroup.subgroupOfEquivOfLe hQ_le_H).symm
   have hQHNHcoprime : Nat.Coprime (Nat.card QH) (Nat.card NH) := by
     rcases hQHp.exists_card_eq with ⟨a, ha⟩
@@ -5893,7 +5893,7 @@ private theorem suzuki_example3_corefree_setup
   have hHquot_equiv_Q : Nonempty ((H ⧸ NH) ≃* Q) := by
     exact ⟨eQHquot.symm.trans (Subgroup.subgroupOfEquivOfLe hQ_le_H)⟩
   have hHquotp : IsPGroup 2 (H ⧸ NH) :=
-    Q.isPGroup'.of_equiv
+    Q.isPGroup.of_equiv
       (Classical.choice hHquot_equiv_Q).symm
   let OH : Subgroup H := pPrimeCore 2 H
   have hNH_le_OH : NH ≤ OH := by

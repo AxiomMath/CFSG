@@ -13,6 +13,7 @@ open CFSG.Open CFSG.Quasithin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem valHom_range {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     (valHom hV).range = V := by
   ext g
@@ -22,10 +23,12 @@ theorem valHom_range {V : Subgroup G} (hV : IsElemAbelian 2 V) :
   · intro hg
     exact ⟨⟨g, hg⟩, rfl⟩
 
+omit [Finite G] in
 theorem toG_top {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     toG hV (⊤ : Subgroup (IntMod V hV)) = V := by
   rw [toG, Subgroup.map_top, valHom_range hV]
 
+omit [Finite G] in
 theorem toG_comap {V : Subgroup G} (hV : IsElemAbelian 2 V) {H : Subgroup G} (hH : H ≤ V) :
     toG hV (H.comap (valHom hV)) = H := by
   rw [toG, Subgroup.map_comap_eq_self]
@@ -137,7 +140,7 @@ private theorem le_mParam_of_tiFamily_mod {V : Subgroup G} (hV : IsElemAbelian 2
       rw [← hAeq, mem_fixV_autI hV (Subgroup.zpowers_le.mpr hxN)]
     have hex : ∃ i, ¬ Y i ≤ fixV (Subgroup.zpowers t) := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hle : (⊤ : Subgroup (IntMod V hV)) ≤ fixV (Subgroup.zpowers t) := by
         rw [hspan]
         exact iSup_le h

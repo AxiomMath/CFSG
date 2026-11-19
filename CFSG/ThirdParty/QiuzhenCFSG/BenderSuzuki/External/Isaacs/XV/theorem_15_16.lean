@@ -78,9 +78,9 @@ private theorem isaacs_15_16_of_repEquiv_free
           H0.index * Module.finrank K rho.invariants) := by
   constructor
   · exact Theory.Representation.exists_freeOrbitBasis_of_repEquiv_free rho e
-  · letI : Fintype G := Fintype.ofFinite G
-    letI : Fintype alpha := Fintype.ofFinite alpha
-    letI : MulAction G (alpha × G) := {
+  · let : Fintype G := Fintype.ofFinite G
+    let : Fintype alpha := Fintype.ofFinite alpha
+    let : MulAction G (alpha × G) := {
       smul g x := (x.1, g * x.2)
       one_smul x := by
         rcases x with ⟨i, k⟩
@@ -90,7 +90,7 @@ private theorem isaacs_15_16_of_repEquiv_free
         rcases x with ⟨i, k⟩
         change (i, (g * h) * k) = (i, g * (h * k))
         rw [mul_assoc] }
-    letI : IsCancelSMul G (alpha × G) := {
+    let : IsCancelSMul G (alpha × G) := {
       toIsLeftCancelSMul := inferInstance
       right_cancel' g h x eq := by
         rcases x with ⟨i, k⟩
@@ -182,8 +182,8 @@ private theorem isaacs_15_16_descend_equiv_free
     (e : Theory.Representation.extendScalars (F := K) (G := G) (V := V) E rho ≃ₗ
       Representation.free E G alpha) :
     Nonempty (rho ≃ₗ Representation.free K G alpha) := by
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fintype alpha := Fintype.ofFinite alpha
+  let : Fintype G := Fintype.ofFinite G
+  let : Fintype alpha := Fintype.ofFinite alpha
   refine isaacs_15_16_repEquiv_of_extendScalars
     (F := K) (E := E) (G := G) (V := V)
     (W := alpha →₀ MonoidAlgebra K G) rho (Representation.free K G alpha) ?_
@@ -391,7 +391,7 @@ private theorem isaacs_15_16_componentOrderIso_isotypicComponent_le
       isotypicComponent (MonoidAlgebra F N)
         V
         (isaacs_15_16_componentOrderIso rho N g S) := by
-  letI : Module (MonoidAlgebra F N)
+  let : Module (MonoidAlgebra F N)
       V :=
     Representation.instModuleMonoidAlgebraAsModule (rho.comp N.subtype)
   unfold isotypicComponent
@@ -432,7 +432,7 @@ private theorem isaacs_15_16_componentOrderIso_isotypicComponent_eq
       isotypicComponent (MonoidAlgebra F N)
         V
         (isaacs_15_16_componentOrderIso rho N g S) := by
-  letI : Module (MonoidAlgebra F N)
+  let : Module (MonoidAlgebra F N)
       V :=
     Representation.instModuleMonoidAlgebraAsModule (rho.comp N.subtype)
   apply le_antisymm
@@ -476,7 +476,7 @@ private theorem isaacs_15_16_componentOrderIso_mem_isotypicComponents
     isaacs_15_16_componentOrderIso rho N g c.1 ∈
       isotypicComponents (MonoidAlgebra F N)
         V := by
-  letI : Module (MonoidAlgebra F N)
+  let : Module (MonoidAlgebra F N)
       V :=
     Representation.instModuleMonoidAlgebraAsModule (rho.comp N.subtype)
   rcases c with ⟨c, S, hS, rfl⟩
@@ -506,7 +506,7 @@ private theorem isaacs_15_16_repEquiv_free_of_component_action_aux
     exists (alpha : Type) (_ : Finite alpha),
       Nonempty (rho ≃ₗ Representation.free E H alpha) := by
   classical
-  letI (c : C) : FiniteDimensional E (A c) :=
+  let (c : C) : FiniteDimensional E (A c) :=
     FiniteDimensional.of_injective (A c).subtype Subtype.val_injective
   let eH (h : H) : V ≃ₗ[E] V :=
     LinearEquiv.ofBijective (rho h) (Representation.apply_bijective rho h)
@@ -605,10 +605,10 @@ private theorem isaacs_15_16_repEquiv_free_of_component_action
     exists (alpha : Type) (_ : Finite alpha),
       Nonempty (rho ≃ₗ Representation.free E H alpha) := by
   classical
-  letI : Fintype H := Fintype.ofFinite H
-  letI : Fintype C := Fintype.ofFinite C
+  let : Fintype H := Fintype.ofFinite H
+  let : Fintype C := Fintype.ofFinite C
   let Q := MulAction.orbitRel.Quotient H C
-  letI : Fintype Q := Fintype.ofFinite Q
+  let : Fintype Q := Fintype.ofFinite Q
   let eC : Q × H ≃ C := Equiv.ofBijective
     (fun qh => qh.2 • Quotient.out qh.1) (by
       constructor
@@ -937,7 +937,7 @@ private theorem isaacs_15_16_restrict_equiv_free
   obtain ⟨alpha, hfinite, ⟨hE⟩⟩ :=
     isaacs_15_16_algebraicClosure_restrict_equiv_free
       N H rho hfrob hchar hfixedN
-  letI : Finite alpha := hfinite
+  let : Finite alpha := hfinite
   refine ⟨alpha, hfinite, ?_⟩
   exact isaacs_15_16_descend_equiv_free
     (E := AlgebraicClosure K) (rho.comp H.subtype) hE
@@ -960,7 +960,7 @@ public theorem isaacs_theorem_15_16
           H0.index * Module.finrank K (rho.fixedSubspace H)) := by
   obtain ⟨alpha, hfinite, ⟨e⟩⟩ :=
     isaacs_15_16_restrict_equiv_free N H rho hfrob hchar hfixedN
-  letI : Finite alpha := hfinite
+  let : Finite alpha := hfinite
   simpa [Representation.fixedSubspace] using
     (isaacs_15_16_of_repEquiv_free (rho.comp H.subtype) e)
 

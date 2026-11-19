@@ -87,7 +87,7 @@ theorem SGU6.card_quot_center_of_field (h : UnitaryFieldData 2 n K)
     (hT : CFSG.Open.IsComponentOf T (fixSubgroup (primeFormConjHom h (idGram K 6) A))) :
     Nat.card (↥T ⧸ Subgroup.center ↥T) = (2 ^ n) ^ 3 * ((2 ^ n) ^ 6 - 1) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ 2 ^ n := Nat.one_lt_two_pow (by have := h.one_le; omega)
   set x : LinearMap.GeneralLinearGroup K (Fin 6 → K) :=
     Matrix.GeneralLinearGroup.toLin (A : GL (Fin 6) K) with hx
@@ -132,10 +132,10 @@ theorem SGU6.card_quot_center_of_field (h : UnitaryFieldData 2 n K)
     (CFSG.RankThree.PartOne.selfDualPrimaryBlock H a.1 hself)
   obtain ⟨e2⟩ :=
     CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-  haveI : Finite (AdjoinRoot (a.1 : K[X])) := Module.finite_of_finite K
-  letI : Fintype hE.fixedField := Fintype.ofFinite _
+  have : Finite (AdjoinRoot (a.1 : K[X])) := Module.finite_of_finite K
+  let : Fintype hE.fixedField := Fintype.ofFinite _
   have hcardF : Nat.card hE.fixedField = 2 ^ (n * 3) := hE.card_fixedField.trans (by rw [hdeg])
-  haveI : CharP hE.fixedField 2 :=
+  have : CharP hE.fixedField 2 :=
     charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hcardF)
   let F := (specialBlock (idForm h 6) x (a.1 : K[X])).comap (UnitaryBlocks.toLinSU h 6)
   have hFmap : F.map (UnitaryBlocks.toLinSU h 6) = specialBlock (idForm h 6) x (a.1 : K[X]) :=

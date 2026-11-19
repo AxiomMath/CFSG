@@ -63,7 +63,7 @@ theorem parabolicRoots_d4Nodes : parabolicRoots Tag.E8 (d4Nodes Tag.E8) =
     TwClass.S₂ TwClass.e8Twelve := by
   have hiff : ∀ i : Fin Tag.E8.rank, i ∈ d4Nodes Tag.E8 ↔ i.val ∈ TwClass.J₂ TwClass.e8Twelve := by
     intro i
-    simp only [d4Nodes, Set.mem_setOf_eq, TwClass.J₂, Finset.mem_insert, Finset.mem_singleton]
+    simp only [d4Nodes, Set.mem_ofPred_eq, TwClass.J₂, Finset.mem_insert, Finset.mem_singleton]
     omega
   ext α
   constructor
@@ -131,7 +131,7 @@ theorem quasisimple_outer_solvable_d4_layer {L : Type} [Field L] [IsAlgClosed L]
     isQuasisimple_of_isSimpleGroup hs hnc
   have hOut : Group.IsSolvable (Outer (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) :=
     ⟨⟨3, (exceptional_fixed_root_group_Schreier TwistTag.D4 K σ).2 rfl⟩⟩
-  haveI := hOut
+  have := hOut
   exact ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm hq,
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e.symm⟩
 
@@ -156,12 +156,12 @@ private theorem d4_setup (D : LangLevi TwClass.e8Twelve.tag K TwClass.e8Twelve.w
     ∃ (p m : ℕ) (_ : Fact p.Prime) (_ : CharP D.L p) (_ : IsAlgClosed D.L),
       1 ≤ m ∧ D.Fr = iterateFrobenius D.L p m := by
   classical
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨p, hpK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hpp, hcard⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : CharP D.L p := charP_of_injective_algebraMap (algebraMap K D.L).injective p
+  have : Fact p.Prime := ⟨hpp⟩
+  have : CharP D.L p := charP_of_injective_algebraMap (algebraMap K D.L).injective p
   have hcard' : Nat.card K = p ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   exact ⟨p, m, ⟨hpp⟩, inferInstance, inferInstance, m.pos,
     RingHom.ext fun c => by rw [iterateFrobenius_def, D.hFr, hcard']⟩

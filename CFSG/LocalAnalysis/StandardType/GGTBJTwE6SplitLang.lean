@@ -84,8 +84,7 @@ theorem twE6SplitDatum_step_pinnedX_one {L : Type} [Field L] [CharP L 2] (Fr : L
   have h1 : (twE6SplitDatum Fr q hFr).step (pinnedX TwistTag.E6.tag L γ 1) =
       diagramMap TwistTag.E6 L * Units.map (entrywiseHom Fr) (pinnedX TwistTag.E6.tag L γ 1) *
         (diagramMap TwistTag.E6 L)⁻¹ := by
-    simp only [LangDatum.step, MonoidHom.comp_apply, MulAut.conj_apply, hn, one_mul, inv_one,
-      mul_one]
+    simp only [LangDatum.step, MonoidHom.comp_apply, hn]
     rfl
   rw [h1, units_map_entrywiseHom_pinnedX, map_one, h, e1, one_mul]
 
@@ -100,11 +99,11 @@ theorem exists_ggTBJTwE6SplitSetup
       (∀ γ, IsRoot TwistTag.E6.tag γ → S.ρ γ = permLattice TwistTag.E6.perm γ) ∧
       S.D.q = 2 ^ n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   let Fr : AlgebraicClosure K →+* AlgebraicClosure K := iterateFrobenius (AlgebraicClosure K) 2 n
   have hFr : ∀ c, Fr c = c ^ 2 ^ n := fun c => iterateFrobenius_def 2 n c

@@ -187,7 +187,7 @@ theorem cover_gen {T : ℕ → ℕ} {As : List (List ℕ)} (hT : topsOK T As = t
     rfl
   rw [hP, leaves_append, List.mem_flatMap] at hM
   obtain ⟨R, hR, hMR⟩ := hM
-  simp only [leaves, List.flatMap_cons, List.flatMap_nil, List.append_nil, List.mem_flatMap,
+  simp only [leaves, List.mem_flatMap,
     List.mem_singleton] at hR
   obtain ⟨P8, hP8, P7, hP7, P6, hP6, rfl⟩ := hR
   obtain ⟨e9, he9, h9⟩ := mem3 hP8

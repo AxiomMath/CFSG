@@ -256,7 +256,7 @@ theorem C_le_normalizer_Ps (r : ℕ) (i : Fin 3) :
   (C_le_Ns i).trans (le_normalizer_pCoreIn r _)
 
 theorem isPGroup_T [Finite G] (hσ : σ.IsValid) : IsPGroup 2 σ.T :=
-  σ.S.isPGroup'.to_le (σ.T_le_S hσ)
+  σ.S.isPGroup.to_le (σ.T_le_S hσ)
 
 theorem inf_T_eq_bot [Finite G] (hσ : σ.IsValid) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {X : Subgroup G} (hX : IsPGroup p X) : X ⊓ σ.T = ⊥ := by

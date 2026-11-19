@@ -49,7 +49,7 @@ theorem oddLieType_of_evenCentre
             have hcard36 : Nat.card (center L) ∣ 36 :=
               card_center_dvd_thirtySix_of_psu_four_three hGA hperf h4
             have h2grp : IsPGroup 2 (center L) := isPGroup_two_center_of_balanced hS hbal
-            haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+            have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
             obtain ⟨k, hk⟩ := (IsPGroup.iff_card (G := center L)).1 h2grp
             have hle : k ≤ 2 := by
               have hdvd : 2 ^ k ∣ (36 : ℕ) := hk ▸ hcard36

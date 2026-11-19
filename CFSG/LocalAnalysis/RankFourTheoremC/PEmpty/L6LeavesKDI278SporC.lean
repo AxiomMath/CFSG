@@ -18,7 +18,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PEmpty
 theorem kdI278SporC_of_monster
     (hM : KDI278SporCMonster) : KDI278SporC := by
   intro p s hpair Z _ _ K hKn hsK hC B hB hBc hSC W hBW hW
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   rcases hpair with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
   · exact kdSporC_HS_five hsK hC hB hBc hBW hW
   · exact kdSporC_Ru_five hsK hC hB hBc hBW hW

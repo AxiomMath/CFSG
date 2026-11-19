@@ -40,8 +40,8 @@ theorem le_centralizer_of_perfect [Finite G] {L Z : Subgroup G} (hL : ⁅L, L⁆
       map_mul' := fun a b => Equiv.ext fun z => Subtype.ext (by
         simp only [Equiv.coe_fn_mk, Equiv.Perm.coe_mul, Function.comp_apply, Subgroup.coe_mul]
         group) }
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL
-  have hsolv : IsSolvable (Equiv.Perm ↥Z) := Equiv.Perm.isSolvable hZ
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL
+  have hsolv : Group.IsSolvable (Equiv.Perm ↥Z) := Equiv.Perm.isSolvable hZ
   obtain ⟨n, hn⟩ := hsolv.solvable
   have htop : ∀ k, derivedSeries ↥L k = ⊤ := by
     intro k
@@ -97,7 +97,7 @@ theorem centerOf_le_centralizer [Finite G] {L P S : Subgroup G} (hL : ⁅L, L⁆
 theorem pCoreOf_eq_of_odd [Finite G] {L P : Subgroup G} (hLP : L ≤ P)
     (hn : P ≤ Subgroup.normalizer (L : Set G)) (hodd : ¬ 2 ∣ L.relIndex P) :
     pCoreOf 2 P = pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnorm : (L.subgroupOf P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLP).2 hn
   apply le_antisymm
@@ -147,6 +147,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem card_N1 : Nat.card (N1 : Subgroup (ModGL Tag.G2 K)) = Nat.card K := by
   refine (Nat.card_congr (Equiv.ofBijective
     (fun c : K => (⟨gX rC c, gX_c_mem_N1 c⟩ : (N1 : Subgroup (ModGL Tag.G2 K)))) ⟨?_, ?_⟩)).symm
@@ -156,6 +157,7 @@ theorem card_N1 : Nat.card (N1 : Subgroup (ModGL Tag.G2 K)) = Nat.card K := by
     obtain ⟨c, rfl⟩ := exists_of_mem_N1 hg
     exact ⟨c, rfl⟩
 
+omit [CharP K 2] in
 theorem card_radical (i : Fin Tag.G2.rank) :
     Nat.card (parabolicRadical Tag.G2 K {i}) = Nat.card K ^ 5 := by
   rw [card_parabolicRadical]
@@ -172,9 +174,11 @@ theorem card_radical (i : Fin Tag.G2.rank) :
     rw [this, Set.ncard_coe_finset]
     decide +kernel
 
+omit [Finite K] in
 theorem coord_one' : coord (1 : ModGL Tag.G2 K) = 0 :=
   (mem_N1_iff (Subgroup.one_mem _)).mp (Subgroup.one_mem _)
 
+omit [Finite K] in
 theorem coord_inv' {g : ModGL Tag.G2 K} (hg : g ∈ parabolicRadical Tag.G2 K {i1}) :
     coord g⁻¹ = -coord g := by
   have h := coord_mul hg (Subgroup.inv_mem _ hg)
@@ -183,7 +187,7 @@ theorem coord_inv' {g : ModGL Tag.G2 K} (hg : g ∈ parabolicRadical Tag.G2 K {i
 
 theorem isSpecialPow_radical_one (hK : Nat.card K = 4) :
     IsSpecialPow 2 (2 ^ 2) 2 ↥(parabolicRadical Tag.G2 K {i1}) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q := parabolicRadical Tag.G2 K {i1} with hQdef
   have hcQ : Nat.card ↥Q = 2 ^ 10 := by
     rw [card_radical, hK]
@@ -217,7 +221,7 @@ theorem isSpecialPow_radical_one (hK : Nat.card K = 4) :
       obtain ⟨w, hw, hwz⟩ := h1
       rwa [← Q.subtype_injective hwz]
   refine ⟨⟨hP, Or.inr ⟨hC, ?_, ?_⟩⟩, by rw [hcQ]; norm_num, ?_⟩
-  · haveI : (Subgroup.center ↥Q).Normal := inferInstance
+  · have : (Subgroup.center ↥Q).Normal := inferInstance
     refine CFSG.Sporadic.Recognition.LyonsSims.frattini_eq_of_commutator_eq hP ?_ ?_
     · rw [← commutator_def]
       exact hC

@@ -232,11 +232,11 @@ public theorem pgl2_no_kleinFour_centralizes_odd_cyclic
         exact pgl2_no_kleinFour_of_conjugate_torus_centralizer
           A V hAcyc hAne hAodd hVK hVcent htV U0 hU0cyc hw0U
             hw0sq hw0inv hcent0 (isConj_iff.mpr ⟨g, hg⟩)
-    · obtain ⟨t, htV, htJ⟩ := SetLike.not_le_iff_exists.mp hVJ
+    · obtain ⟨t, htV, htJ⟩ := IsConcreteLE.not_le_iff_exists.mp hVJ
       have htne : t ≠ 1 := by
         intro htone
         apply htJ
-        simpa [htone] using J.one_mem
+        simp [htone]
       let : IsKleinFour V := hVK
       have htsq : t * t = 1 :=
         congrArg Subtype.val (IsKleinFour.mul_self (⟨t, htV⟩ : V))

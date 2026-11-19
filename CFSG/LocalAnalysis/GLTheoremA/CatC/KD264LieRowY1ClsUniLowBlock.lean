@@ -18,7 +18,7 @@ variable {p f : ℕ} {K : Type} [Field K]
 theorem Aw_cube : Aw K ^ 3 = 1 := by
   rw [pow_three]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Aw, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [Aw, Matrix.mul_apply, Fin.sum_univ_two]
 
 theorem Aw_det : (Aw K).det = 1 := by
   simp [Aw, Matrix.det_fin_two_of]

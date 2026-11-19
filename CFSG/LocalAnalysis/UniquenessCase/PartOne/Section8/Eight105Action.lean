@@ -17,12 +17,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem ncl_le {N X : Subgroup G} (hX : X ≤ N) : ncl N X ≤ N := by
   unfold ncl
   refine (closure_le N).mpr ?_
   rintro y ⟨g, hg, x, hx, rfl⟩
   exact N.mul_mem (N.mul_mem hg (hX hx)) (N.inv_mem hg)
 
+omit [Finite G] in
 private theorem conj_mem_ncl {N X : Subgroup G} {g y : G} (hg : g ∈ N) (hy : y ∈ ncl N X) :
     g * y * g⁻¹ ∈ ncl N X := by
   unfold ncl at hy ⊢
@@ -38,7 +40,8 @@ private theorem conj_mem_ncl {N X : Subgroup G} {g y : G} (hg : g ∈ N) (hy : y
     rw [show g * a⁻¹ * g⁻¹ = (g * a * g⁻¹)⁻¹ by group]
     exact Subgroup.inv_mem _ ha
 
-private theorem ncl_normal {N X : Subgroup G} (hX : X ≤ N) :
+omit [Finite G] in
+private theorem ncl_normal {N X : Subgroup G} (_hX : X ≤ N) :
     N ≤ normalizer (ncl N X : Set G) := by
   intro g hg
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -54,10 +57,11 @@ private theorem ncl_normal {N X : Subgroup G} (hX : X ≤ N) :
 
 private theorem pCoreOf_two_le_relPPrimeCore_three (N : Subgroup G) :
     pCoreOf 2 N ≤ relPPrimeCore 3 N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3.pCoreOf_two_le_relPPrimeCore
     (by norm_num) N
 
+omit [Finite G] in
 private theorem le_normalizer_pCoreOf_self (N : Subgroup G) :
     N ≤ normalizer (pCoreOf 2 N : Set G) :=
   CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 N
@@ -249,7 +253,7 @@ private theorem range_comp_inclusion_commutator {D : Data G}
   rw [hmap, ← Subgroup.map_commutator, htop]
 
 private noncomputable def step91Kq {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n : ℕ}
-    (c : Ctx8105 D L P B B' D₀ H N p n) : Subgroup ↥(ncl N B') :=
+    (_c : Ctx8105 D L P B B' D₀ H N p n) : Subgroup ↥(ncl N B') :=
   (pCoreOf 2 N ⊓ ncl N B').subgroupOf (ncl N B')
 
 private instance step91Kq_normal {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n : ℕ}
@@ -323,7 +327,7 @@ private theorem step91_isU3 {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n :
     change ((x : ↥(ncl N B')) : G) ∈ pCoreOf 2 N ⊓ ncl N B' at hx
     rw [Subgroup.mem_subgroupOf]
     exact ⟨pCoreOf_two_le_relPPrimeCore_three N hx.1, hx.2⟩
-  haveI hKqINormal : ((relPPrimeCore 3 N ⊓ ncl N B').subgroupOf (ncl N B')).Normal :=
+  have hKqINormal : ((relPPrimeCore 3 N ⊓ ncl N B').subgroupOf (ncl N B')).Normal :=
     normal_subgroupOf_relPPrimeCore_ncl c
   let e1 : step91W c ⧸ step91Z c ≃*
       (↥(ncl N B') ⧸ ((relPPrimeCore 3 N ⊓ ncl N B').subgroupOf (ncl N B'))) :=
@@ -658,16 +662,16 @@ private theorem eq_of_ne_one_of_card_le_two {A : Type} [Group A] [Finite A]
   omega
 
 private theorem action_simple {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n : ℕ}
-    (c : Ctx8105 D L P B B' D₀ H N p n) {X : Type} [Group X] (hsimple : IsSimpleGroup X)
+    (_c : Ctx8105 D L P B B' D₀ H N p n) {X : Type} [Group X] (hsimple : IsSimpleGroup X)
     (φ : ↥(ncl N B') →* X) (hφsurj : Function.Surjective φ)
     (hφker : φ.ker = (relPPrimeCore 3 N).subgroupOf (ncl N B'))
     (hN2I : relPPrimeCore 3 N ⊓ ncl N B' ≤ pCoreOf 2 N) :
     ∀ X' : Subgroup G, X' ≤ ncl N B' → ncl N B' ≤ normalizer (X' : Set G) →
       X' ≤ pCoreOf 2 N ∨ ncl N B' ≤ X' ⊔ pCoreOf 2 N := by
   intro X' hX'N2 hX'norm
-  haveI hX'normal : (X'.subgroupOf (ncl N B')).Normal :=
+  have hX'normal : (X'.subgroupOf (ncl N B')).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hX'N2).mpr hX'norm
-  haveI himgNormal : ((X'.subgroupOf (ncl N B')).map φ).Normal :=
+  have himgNormal : ((X'.subgroupOf (ncl N B')).map φ).Normal :=
     Subgroup.Normal.map hX'normal φ hφsurj
   rcases hsimple.eq_bot_or_eq_top_of_normal ((X'.subgroupOf (ncl N B')).map φ)
     with hbot | htop
@@ -699,7 +703,7 @@ private theorem action_simple {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n
             (ncl N B').mul_mem ((ncl N B').inv_mem hxN2) hy⟩ : ↥(ncl N B')) =
             (⟨(x : G), hxN2⟩ : ↥(ncl N B'))⁻¹ * ⟨y, hy⟩ := by
           apply Subtype.ext
-          simp [Subgroup.coe_mul, Subgroup.coe_inv]
+          simp [Subgroup.coe_mul]
         rw [harg, map_mul, map_inv]
       rw [hval, hxφ]
       simp
@@ -714,7 +718,7 @@ private theorem action_simple {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n
 
 private theorem actionK0_L2 {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n : ℕ}
     (c : Ctx8105 D L P B B' D₀ H N p n) {X : Type} [Group X]
-    (φ : ↥(ncl N B') →* X) (hφsurj : Function.Surjective φ)
+    (φ : ↥(ncl N B') →* X) (_hφsurj : Function.Surjective φ)
     (hφker : φ.ker = (relPPrimeCore 3 N).subgroupOf (ncl N B'))
     (hN2I : relPPrimeCore 3 N ⊓ ncl N B' ≤ pCoreOf 2 N) :
     IsL2 (Bar2 (actionK0 c φ)) (2 * n) := by
@@ -763,7 +767,7 @@ private theorem action_conj_mem {D : Data G} {L P B B' D₀ H N : Subgroup G} {p
         ⟨(k : G), (kOf8103_le_ncl c) k.2⟩ * z *
           ⟨(k : G), (kOf8103_le_ncl c) k.2⟩⁻¹ := by
       apply Subtype.ext
-      simp [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [Subgroup.coe_mul]
     show φ ⟨(k : G) * (z : G) * (k : G)⁻¹, hzN2'⟩ =
       actionF0 c φ k * φ z * (actionF0 c φ k)⁻¹
     rw [show actionF0 c φ k = φ ⟨(k : G), (kOf8103_le_ncl c) k.2⟩ from rfl, harg]
@@ -978,13 +982,13 @@ theorem action_facts (hU3 : KU3Ident) (hM3 : KU3Mult) (hF : KU3Facts) (h332 : UC
   have hQleM : pCoreOf 2 N ≤ D.M :=
     hQleR.trans ((CFSG.LieType.BorelTits.pCoreOf_le 2 H).trans c.toCex8105.memH.1)
   obtain ⟨X, instX, φ, hφsurj, hφker, hU3X⟩ := isU3_ncl hU3 h332 hS c hQleM
-  letI : Group X := instX
-  haveI hXfin : Finite X := Finite.of_surjective φ hφsurj
+  let : Group X := instX
+  have hXfin : Finite X := Finite.of_surjective φ hφsurj
   have hcomm : ⁅ncl N B', relPPrimeCore 3 N⁆ ≤ pCoreOf 2 N :=
     commutator_ncl_relPPrimeCore_le hS c
   have hN2I : relPPrimeCore 3 N ⊓ ncl N B' ≤ pCoreOf 2 N :=
     inf_relPPrimeCore_le_pCoreOf hM3 c hcomm φ hφsurj hφker hU3X
-  haveI hsimple : IsSimpleGroup X :=
+  have hsimple : IsSimpleGroup X :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSU) (by decide) hU3X
   have hsimp := action_simple c hsimple φ hφsurj hφker hN2I
   have h4 : 4 ≤ 2 * n := by

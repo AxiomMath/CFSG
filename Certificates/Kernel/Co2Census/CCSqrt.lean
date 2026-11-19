@@ -143,11 +143,11 @@ theorem cc_sqrt8 : sqrtCnt zCz (cE 0 144) = 0 ∧ sqrtCnt (cE 0 144) (cE 0 144) 
 
 theorem s0Rep_eq {slot nr : ℕ} (h : slot ≠ 0) (h' : s0Reps.getD (slot - 1) 0 = nr) :
     s0Rep slot = sElt nr := by
-  rw [s0Rep, if_neg h, h']
+  rw [s0Rep, ite_eq_right h, h']
 
 theorem cc_cls0 : 270 ≤ (conjSet (cE 1 0)).ncard :=
   cc_cls_le QK_eq (nf := 270) (slot := 0) (by norm_num) (by norm_num) (by norm_num)
-    (by rw [s0Rep, if_pos rfl, sElt_zero]) K0_fib
+    (by rw [s0Rep, ite_eq_left rfl, sElt_zero]) K0_fib
 
 theorem cc_cls1 : 1008 ≤ (conjSet (cE 0 26805)).ncard :=
   cc_cls_le QK_eq (nf := 16) (slot := 1) (by norm_num) (by norm_num) (by norm_num)

@@ -84,7 +84,7 @@ theorem s16n9b_card_le_mul_card_inf_centSub [Finite T] {p : ℕ} (hp : p.Prime)
     {E : Subgroup (MulAut T)} {a : ℕ} (hE : Nat.card E = p ^ a) {W : Subgroup T}
     (hEW : E ≤ stabSub W) {m : ℕ} (hm : Nat.card (MulAut ↥W) = m) (hpm : ¬ p ^ 2 ∣ m) :
     Nat.card E ≤ p * Nat.card ↥(E ⊓ centSub W) := by
-  haveI : Finite (MulAut ↥W) :=
+  have : Finite (MulAut ↥W) :=
     Finite.of_injective (fun f : MulAut ↥W => (f : ↥W → ↥W)) DFunLike.coe_injective
   have h := card_autSub_mul hEW
   have hd1 : Nat.card (autSub E W) ∣ p ^ a := hE ▸ Dvd.intro _ h

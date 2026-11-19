@@ -53,7 +53,7 @@ theorem nonempty_projImage_slPi_false_equiv [Fact p.Prime] (hK : PiField false p
 theorem exists_noncomm_projImage_slPi {π : Bool} (hK : PiField π p f K) (hq2 : 2 < p ^ f) :
     ∃ a b : ↥(projImage (slPi π 3 (p ^ f) K)), a * b ≠ b * a := by
   have : Finite K := hK.finite
-  haveI := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
+  have := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
   have hperf := Sec13.isPerfect_projImage_slPi hK hq2
   by_contra hcon
   push Not at hcon
@@ -69,7 +69,7 @@ theorem exists_noncomm_projImage_slPi {π : Bool} (hK : PiField π p f K) (hq2 :
 theorem center_projImage_slPi_eq_bot {π : Bool} (hK : PiField π p f K) (hq2 : 2 < p ^ f) :
     Subgroup.center ↥(projImage (slPi π 3 (p ^ f) K)) = ⊥ := by
   have : Finite K := hK.finite
-  haveI := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
+  have := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
   exact center_eq_bot_of_simple (exists_noncomm_projImage_slPi hK hq2)
 
 theorem not_typeL2_projImage_slPi_true [Fact p.Prime] (hK : PiField true p f K) (hq2 : 2 < p ^ f)
@@ -121,7 +121,7 @@ theorem noL2Layer_of_equiv_projImage [Fact p.Prime] {π : Bool} (hK : PiField π
   have hSc := Sec13.commutator_projImage_glPi hK hq2
   set S : Subgroup ↥(projImage (glPi π 3 (p ^ f) K)) :=
     (projImage (slPi π 3 (p ^ f) K)).subgroupOf (projImage (glPi π 3 (p ^ f) K)) with hS
-  haveI hSn : S.Normal := by
+  have hSn : S.Normal := by
     have h : (commutator ↥(projImage (glPi π 3 (p ^ f) K))).Normal := inferInstance
     rwa [hSc] at h
   have hsol : Group.IsSolvable (↥(projImage (glPi π 3 (p ^ f) K)) ⧸ S) := by
@@ -129,7 +129,7 @@ theorem noL2Layer_of_equiv_projImage [Fact p.Prime] {π : Bool} (hK : PiField π
     exact (inferInstance : Group.IsSolvable
       (Abelianization ↥(projImage (glPi π 3 (p ^ f) K))))
   have eS : ↥S ≃* ↥(projImage (slPi π 3 (p ^ f) K)) := Subgroup.subgroupOfEquivOfLe hSP
-  haveI hs0 := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
+  have hs0 := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
   have hs : IsSimpleGroup ↥S := eS.isSimpleGroup
   have hnab0 := exists_noncomm_projImage_slPi hK hq2
   have hnab : ∃ a b : ↥S, a * b ≠ b * a := by

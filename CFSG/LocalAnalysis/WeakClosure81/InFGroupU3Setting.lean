@@ -22,8 +22,8 @@ variable {Q : Type} [Group Q] [Finite Q] {C : Subgroup Q} {n : ℕ}
 
 theorem Setting.pCoreOf_top_eq_bot (h : Setting C n) :
     CFSG.Open.pCoreOf 2 (⊤ : Subgroup Q) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : C.Normal := h.normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : C.Normal := h.normal
   set P : Subgroup Q := CFSG.Open.pCoreOf 2 (⊤ : Subgroup Q) with hPdef
   have hP2 : IsPGroup 2 ↥P := by
     rw [hPdef]
@@ -32,7 +32,7 @@ theorem Setting.pCoreOf_top_eq_bot (h : Setting C n) :
     rw [hPdef, CFSG.openPCoreOf_eq_map_pCore]
     exact (CFSG.pCore_normal (p := 2) (G := ↥(⊤ : Subgroup Q))).map (⊤ : Subgroup Q).subtype
       fun x => ⟨⟨x, Subgroup.mem_top x⟩, rfl⟩
-  haveI : P.Normal := hPnorm
+  have : P.Normal := hPnorm
   have hPCnorm : (P ⊓ C).Normal := Subgroup.normal_inf_normal P C
   have hcent : ((P ⊓ C).subgroupOf C) ≤ Subgroup.center ↥C := by
     refine uc22p22a_qs_solvable_normal_le_center h.quasisimple (hPCnorm.subgroupOf C) ?_
@@ -70,6 +70,7 @@ theorem Setting.pCoreOf_top_eq_bot (h : Setting C n) :
   rw [← inf_eq_left.2 hPleC]
   exact hPCbot
 
+omit [Finite Q] in
 theorem Setting.two_le (h : Setting C n) : 2 ≤ n := by
   have hadm := CFSG.Blueprint.LieModel.admissible h.isU3
   have h1 : 1 ≤ n := hadm.2.1
@@ -82,11 +83,13 @@ theorem Setting.two_le (h : Setting C n) : 2 ≤ n := by
   haveI := h.normal
   UCK.Odd.actHom C
 
+omit [Finite Q] in
 theorem Setting.act_apply_mk (h : Setting C n) (g : Q) (y : ↥C) :
     h.act g (QuotientGroup.mk y : ↥C ⧸ center ↥C) =
       QuotientGroup.mk ⟨g * y * g⁻¹, h.normal.conj_mem _ y.2 g⟩ :=
   rfl
 
+omit [Finite Q] in
 theorem Setting.act_coe (h : Setting C n) (c : ↥C) :
     h.act (c : Q) = MulAut.conj (QuotientGroup.mk c : ↥C ⧸ center ↥C) := by
   ext x
@@ -96,9 +99,10 @@ theorem Setting.act_coe (h : Setting C n) (c : ↥C) :
       ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
     congr 1
 
+omit [Finite Q] in
 theorem Setting.mem_center_of_act_eq_one (h : Setting C n) {g : Q} (hg : h.act g = 1) :
     g ∈ (center ↥C).map C.subtype := by
-  haveI : C.Normal := h.normal
+  have : C.Normal := h.normal
   have hg' : UCK.Odd.actHom C g = 1 := hg
   have hcomm : ∀ y ∈ C, g * y = y * g := by
     refine UCK.Odd.centralizes_of_forall_comm_mem C h.quasisimple.1 ?_
@@ -115,6 +119,7 @@ theorem Setting.mem_center_of_act_eq_one (h : Setting C n) {g : Q} (hg : h.act g
   intro z
   exact Subtype.ext (hcomm (z : Q) z.2).symm
 
+omit [Finite Q] in
 theorem Setting.act_not_mem_range (h : Setting C n) {s : Q} (hsC : s ∉ C) :
     h.act s ∉ (MulAut.conj : (↥C ⧸ center ↥C) →* MulAut (↥C ⧸ center ↥C)).range := by
   rintro ⟨x, hx⟩
@@ -129,17 +134,19 @@ theorem Setting.act_not_mem_range (h : Setting C n) {s : Q} (hsC : s ∉ C) :
   rw [hs]
   exact C.mul_mem h2 c.2
 
+omit [Finite Q] in
 theorem Setting.orderOf_act (h : Setting C n) {s : Q} (hsC : s ∉ C) (hs2 : s ^ 2 = 1) :
     orderOf (h.act s) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine orderOf_eq_prime ?_ ?_
   · rw [← map_pow, hs2, map_one]
   · intro h1
     exact h.act_not_mem_range hsC (h1 ▸ ⟨1, map_one MulAut.conj⟩)
 
+omit [Finite Q] in
 theorem Setting.inf_center_map_eq_bot (h : Setting C n) {P : Subgroup Q} (hP : IsPGroup 2 P) :
     P ⊓ (center ↥C).map C.subtype = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (Nat.card ((center ↥C).map C.subtype)) := by
     rw [Subgroup.card_map_of_injective C.subtype_injective]
     exact h.odd_center

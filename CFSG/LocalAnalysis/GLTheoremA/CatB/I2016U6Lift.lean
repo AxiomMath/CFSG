@@ -13,6 +13,7 @@ section Lift
 
 variable {M S : Type} [Group M] [Finite M] [Group S] {π : M →* S} {α : MulAut M} {β : MulAut S}
 
+omit [Finite M] in
 theorem commutator_mem_fix (hZc : π.ker ≤ Subgroup.center M) (hαβ : ∀ u, π (α u) = β (π u))
     {x y : M} (hx : x ∈ coverX π β) (hy : y ∈ coverX π β) : ⁅x, y⁆ ∈ u4Fix α := by
   let x' : ↥(coverX π β) := ⟨x, hx⟩
@@ -23,6 +24,7 @@ theorem commutator_mem_fix (hZc : π.ker ≤ Subgroup.center M) (hαβ : ∀ u, 
   have h2 : α ⁅x, y⁆ * ⁅x, y⁆⁻¹ = 1 := h1
   exact mul_inv_eq_one.1 h2
 
+omit [Finite M] in
 theorem perfect_le_fix (hZc : π.ker ≤ Subgroup.center M) (hαβ : ∀ u, π (α u) = β (π u))
     {L : Subgroup M} (hLX : L ≤ coverX π β) (hperf : ⁅L, L⁆ = L) : L ≤ u4Fix α := by
   calc L = ⁅L, L⁆ := hperf.symm
@@ -48,7 +50,7 @@ theorem exists_perfect_lift (hπ : Function.Surjective π) (hZc : π.ker ≤ Sub
     exact Subtype.ext hu
   obtain ⟨Q, hQ, hQmap⟩ := CatB.I1431YD4.exists_perfect_cover g hg
   let L : Subgroup M := Q.map P'.subtype
-  haveI := hQ
+  have := hQ
   have hLperf : Group.IsPerfect ↥L := Group.IsPerfect.map P'.subtype
   have hLP : ∀ x ∈ L, π x ∈ P := by
     rintro _ ⟨q, _, rfl⟩
@@ -63,11 +65,12 @@ theorem exists_perfect_lift (hπ : Function.Surjective π) (hZc : π.ker ≤ Sub
   obtain ⟨q, hq, hgq⟩ := ht
   exact ⟨q.1, ⟨q, hq, rfl⟩, q.2, hgq⟩
 
+omit [Finite M] in
 theorem preimage_le_fix (hZc : π.ker ≤ Subgroup.center M) (hZ3 : ∀ z ∈ π.ker, z ^ 3 = 1)
     (hZα : ∀ z ∈ π.ker, α z = z) (hαβ : ∀ u, π (α u) = β (π u)) (P : Subgroup S)
     (hP : ∀ x ∈ P, β x = x) {Tq : Type} [Group Tq] (f : ↥P →* Tq)
     (hcop : Nat.Coprime 3 (Nat.card f.ker)) (L : Subgroup M) (hLfix : L ≤ u4Fix α)
-    (hLP : ∀ x ∈ L, π x ∈ P) (hLs : ∀ t : Tq, ∃ x ∈ L, ∃ h : π x ∈ P, f ⟨π x, h⟩ = t) :
+    (_hLP : ∀ x ∈ L, π x ∈ P) (hLs : ∀ t : Tq, ∃ x ∈ L, ∃ h : π x ∈ P, f ⟨π x, h⟩ = t) :
     P.comap π ≤ u4Fix α := by
   intro x hx
   have hxP : π x ∈ P := hx
@@ -111,12 +114,13 @@ theorem preimage_le_fix (hZc : π.ker ≤ Subgroup.center M) (hZ3 : ∀ z ∈ π
   show α x = x
   rw [hxkl, map_mul, hαk, hLfix hl]
 
+omit [Finite M] in
 theorem relIndex_coprime [Finite S] (hπ : Function.Surjective π) (P : Subgroup S) {Tq : Type}
     [Group Tq] (f : ↥P →* Tq) (hf : Function.Surjective f)
     (hcop : Nat.Coprime 3 (Nat.card f.ker)) (L : Subgroup M) (hLP : ∀ x ∈ L, π x ∈ P)
     (hLs : ∀ t : Tq, ∃ x ∈ L, ∃ h : π x ∈ P, f ⟨π x, h⟩ = t) :
     Nat.Coprime 3 (((L.map π).comap π).subgroupOf (P.comap π)).index := by
-  haveI : Finite Tq := Finite.of_surjective f hf
+  have : Finite Tq := Finite.of_surjective f hf
   have h1 : (((L.map π).comap π).subgroupOf (P.comap π)).index = (L.map π).relIndex P := by
     show ((L.map π).comap π).relIndex (P.comap π) = _
     rw [Subgroup.relIndex_comap, Subgroup.map_comap_eq_self_of_surjective hπ]

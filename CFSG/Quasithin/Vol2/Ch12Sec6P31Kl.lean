@@ -31,6 +31,7 @@ section Hodd
 
 variable {Y : Type*} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem pCoreOf_eq_self_P31 {p : ℕ} {Q : Subgroup Y} (hQ : IsPGroup p Q) : pCoreOf p Q = Q := by
   refine le_antisymm (pCoreOf_le p Q) fun y hy => ?_
   have htop : (⊤ : Subgroup Q) ≤ CFSG.Open.pCore p Q :=

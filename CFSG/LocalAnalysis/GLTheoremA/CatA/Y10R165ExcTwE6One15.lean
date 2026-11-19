@@ -21,11 +21,11 @@ open CFSG.LocalAnalysis.GLTheoremA.Y10F.ExcTwE6One
 
 theorem twE6Model165At_one : TwE6Model165At 1 := by
   intro k _ _ _ n p q θ hk hθ hn hp hp2 hrk hq hq2 hqp hqd
-  letI : Finite ↥(e6Data_valid.minGroup k) :=
+  let : Finite ↥(e6Data_valid.minGroup k) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid k
   intro A hA hSC hmax hrank
   classical
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   let H' : Subgroup (e6Data_valid.minGroup (GaloisField 2 (2 * n))) :=
     fixedGroup (GaloisField 2 (2 * n)) (frobQ 2 n)
   let e : ↥(fixedGroup k θ) ≃* ↥H' :=
@@ -107,7 +107,7 @@ theorem twE6Model165At_one : TwE6Model165At 1 := by
       have hζbar : hU.bar (ζ : GaloisField 2 (2 * n)) = (ζ : GaloisField 2 (2 * n)) := by
         rw [TwistedE6Pilot.bar_apply_eq hU hσ, frobQ_apply]
         simpa using congrArg Units.val (ExcFrames.zeta_pow_frobQ_eq_self hζ h3)
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       have h3dvd : 3 ∣ 2 ^ n - 1 :=
         (CFSG.LocalAnalysis.GLTheoremA.rk2Ord_eq_one_iff).mp hrk
       have h3dvd' : 3 ∣ Nat.card (CFSG.RankThree.PartOne.AUTSL.fixSubfield σe)ˣ := by
@@ -153,7 +153,7 @@ theorem twE6Model165At_one : TwE6Model165At 1 := by
         · exact hge
       have hpdvd : p ∣ 2 ^ n - 1 :=
         (CFSG.LocalAnalysis.GLTheoremA.rk2Ord_eq_one_iff).mp hrk
-      letI : Fact p.Prime := ⟨hp⟩
+      let : Fact p.Prime := ⟨hp⟩
       have hpdvd' : p ∣ Nat.card (CFSG.RankThree.PartOne.AUTSL.fixSubfield σe)ˣ := by
         rw [Nat.card_units, hkk]
         exact hpdvd
@@ -161,7 +161,7 @@ theorem twE6Model165At_one : TwE6Model165At 1 := by
         exists_prime_orderOf_dvd_card' p hpdvd'
       let ζ : (GaloisField 2 (2 * n))ˣ :=
         Units.map (algebraMap _ (GaloisField 2 (2 * n))).toMonoidHom t
-      haveI : NeZero p := ⟨hp.ne_zero⟩
+      have : NeZero p := ⟨hp.ne_zero⟩
       have hζ : orderOf ζ = p := by
         rw [show ζ = Units.map (algebraMap
             (CFSG.RankThree.PartOne.AUTSL.fixSubfield σe)

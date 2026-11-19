@@ -38,7 +38,7 @@ theorem le_isPGroup_map {G G' : Type} [Group G] [Group G'] (e : G →* G') {H : 
 theorem le_charTwo_of_normal {G : Type} [Group G] [Finite G] {H N : Subgroup G} (hNH : N ≤ H)
     (hN2 : IsPGroup 2 N) (hNn : ∀ x ∈ H, ∀ n ∈ N, x * n * x⁻¹ ∈ N)
     (hcent : ∀ x ∈ H, (∀ n ∈ N, x * n = n * x) → x ∈ N) : CharTwo H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnorm : (N.subgroupOf H).Normal := by
     refine ⟨fun a ha g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at ha ⊢
@@ -52,7 +52,7 @@ theorem le_charTwo_of_normal {G : Type} [Group G] [Finite G] {H N : Subgroup G} 
 
 theorem le_charTwo_map {G G' : Type} [Group G] [Group G'] [Finite G] [Finite G'] (e : G ≃* G')
     {H : Subgroup G} (hH : CharTwo H) : CharTwo (H.map e.toMonoidHom) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO2 : IsPGroup 2 (pCoreOf 2 H) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H
   have hOH : pCoreOf 2 H ≤ H := CFSG.LieType.BorelTits.pCoreOf_le 2 H
   have hOn : ∀ y ∈ H, ∀ o ∈ pCoreOf 2 H, y * o * y⁻¹ ∈ pCoreOf 2 H := fun y hy o ho =>
@@ -349,7 +349,7 @@ theorem psuFlagCharTwo_holds :
     ∀ (f : ℕ) (K : Type) [Field K] (h : UnitaryFieldData 2 f K) (r ε d : ℕ), 2 ≤ r → ε ≤ 1 →
       1 ≤ d → d ≤ r → CharTwo (projIsoStabilizer h r ε (hypFlag h r ε d)) := by
   intro f K _ h r ε d hr hε hd hdn
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hn : 3 ≤ 2 * r + ε := by omega
   have hq : ¬(2 * r + ε = 3 ∧ 2 ^ f = 2) := fun hx => by omega
   have hC : IsPrimeFormGram (leC K r ε) := le_isPrimeFormGram r ε
@@ -369,8 +369,8 @@ theorem psuFlagCharTwo_holds :
   have hWiso := le_transport_isotropic h hR F hFiso
   have hR0 : IsPGroup 2 (isotropicRadical h (leM K r ε) W0) :=
     (even_unitary_isotropic_radical_centralizer h hC hn hq W0 hW0ne hWiso).1
-  haveI : Finite (primeFormP h (leM K r ε)) := inferInstance
-  haveI : Finite (hypPSU h r ε) := inferInstance
+  have : Finite (primeFormP h (leM K r ε)) := inferInstance
+  have : Finite (hypPSU h r ε) := inferInstance
   have hcomap : ∀ g : hypSU h r ε, hypProj h r ε g ∈ projIsoStabilizer h r ε F ↔
       g ∈ isoStabilizer h r ε F := fun g => by
     rw [← comap_projIsoStabilizer (W := F)]
@@ -440,9 +440,9 @@ theorem le_sylowFacts_generic {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldDa
     (hchar : ∀ d : ℕ, 1 ≤ d → d ≤ r → CharTwo (projIsoStabilizer h r ε (hypFlag h r ε d)))
     (hsimp : IsSimpleGroup (hypPSU h r ε)) :
     SylowFacts (hypPSU h r ε) (hypProjUnitriangular h r ε) := by
-  haveI : Finite K := h.finite
-  haveI : Finite (hypPSU h r ε) := inferInstance
-  haveI := hsimp
+  have : Finite K := h.finite
+  have : Finite (hypPSU h r ε) := inferInstance
+  have := hsimp
   have hr1 : 1 ≤ r := by omega
   obtain ⟨hcard, -, -, ⟨e, -⟩, ⟨P0, hP0⟩, -⟩ :=
     unitary_order_and_Sylow h (r := r) (ε := ε) hr1 hε

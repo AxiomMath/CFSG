@@ -23,7 +23,7 @@ theorem norm_scalar_of_pow_eq_scalar (h : UnitaryFieldData 2 n K) [Finite K]
     ∃ μ : Kˣ, c ^ (2 ^ n + 1) = μ ^ p := by
   classical
   obtain ⟨μ, hμ0, hμq, hμ⟩ := hM
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   set A : Matrix (Fin d) (Fin d) K := (M : Matrix (Fin d) (Fin d) K) with hA
   have huB : uAdj n A = (μ : K) • ((M⁻¹ : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) := by
     have h1 : uAdj n A * A = (μ : K) • (1 : Matrix (Fin d) (Fin d) K) := by
@@ -78,15 +78,15 @@ theorem norm_scalar_of_pow_eq_scalar (h : UnitaryFieldData 2 n K) [Finite K]
       ext i j
       by_cases hij : i = j
       · rw [hij]
-        simp [Matrix.scalar_apply, Matrix.one_apply]
-      · simp [Matrix.scalar_apply, Matrix.one_apply, hij]
+        simp [Matrix.scalar_apply]
+      · simp [Matrix.scalar_apply, hij]
     rw [hc, hscal, Matrix.GeneralLinearGroup.coe_scalar, hsc]
     rw [Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul]
     ext i j
     by_cases hij : i = j
     · rw [hij]
-      simp [Matrix.smul_apply, Matrix.one_apply, pow_succ]
-    · simp [Matrix.smul_apply, Matrix.one_apply, hij]
+      simp [Matrix.smul_apply, pow_succ]
+    · simp [Matrix.smul_apply, hij]
   have hEq : ((c : K) ^ (2 ^ n + 1)) • (1 : Matrix (Fin d) (Fin d) K) =
       ((μ : K) ^ p) • (1 : Matrix (Fin d) (Fin d) K) := hmain.symm.trans hother
   have hval : (c : K) ^ (2 ^ n + 1) = (μ : K) ^ p := by
@@ -95,14 +95,14 @@ theorem norm_scalar_of_pow_eq_scalar (h : UnitaryFieldData 2 n K) [Finite K]
   exact ⟨Units.mk0 μ hμ0, Units.ext hval⟩
 
 theorem exists_scalar_of_projConj_pow_eq_one (h : UnitaryFieldData 2 n K) [Finite K]
-    (hd : 3 ≤ d) (hdq : (d, 2 ^ n) ≠ (3, 2)) (hp : p.Prime)
-    {B : GL (Fin d) K} (hB : B ∈ LargeEvenGUSet (Fin d) K (2 ^ n))
+    (hd : 3 ≤ d) (hdq : (d, 2 ^ n) ≠ (3, 2)) (_hp : p.Prime)
+    {B : GL (Fin d) K} (_hB : B ∈ LargeEvenGUSet (Fin d) K (2 ^ n))
     (hBN : B ∈ Subgroup.normalizer (unitarySU 2 n K d : Set (GL (Fin d) K)))
     (hBp : (TableB.projConj (unitarySU 2 n K d) ⟨B, hBN⟩) ^ p = 1) :
     ∃ c : Kˣ, B ^ p = Matrix.GeneralLinearGroup.scalar (Fin d) c := by
   classical
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H := unitarySU 2 n K d with hH
   have hcard : Nat.card K = (2 ^ n) ^ 2 := by
     rw [h.card, show 2 * n = n * 2 by omega, ← pow_mul]
@@ -142,8 +142,8 @@ theorem mem_scalars_of_projConj_eq_one (h : UnitaryFieldData 2 n K) [Finite K]
     (hX : TableB.projConj (unitarySU 2 n K d) ⟨X, hXN⟩ = 1) :
     X ∈ LargeEvenScalars (Fin d) K := by
   classical
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H := unitarySU 2 n K d with hH
   have hcard : Nat.card K = (2 ^ n) ^ 2 := by
     rw [h.card, show 2 * n = n * 2 by omega, ← pow_mul]

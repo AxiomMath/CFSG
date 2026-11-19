@@ -89,7 +89,7 @@ theorem hat_comm_oddCore (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 : W16One G) (h
     exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := ↥(Mo.img H)))
   let Rsub : Subgroup (VG (Mo.img H)) := vHat (Mo.img H) ⊔ aHat (Mo.img H) O
   have hnormO : Mo.img H ≤ Subgroup.normalizer (O : Set (LGL 2 Mo.W)) := by
-    haveI : (O.subgroupOf (Mo.img H)).Normal := hOn
+    have : (O.subgroupOf (Mo.img H)).Normal := hOn
     exact le_normalizer_of_normal_subgroupOf hOle
   have hVN : hatV1 Mo V₀ V ≤ Subgroup.normalizer (Rsub : Set (VG (Mo.img H))) := by
     rw [hatV1, UAOf, hVA_self]
@@ -346,7 +346,7 @@ theorem hat_commute_of_isPGroup (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifte
         rw [h4] at hh2
         rw [hval] at hh2
         rw [show (jwinv : G) * x * (jwinv : G)⁻¹ = w⁻¹ * x * w by
-          simp [jwinv, Subgroup.coe_inv]] at hh2
+          simp [jwinv]] at hh2
         exact hh2.symm
       exact Mo.ι_injOn hwxI hxI h2
     calc w * x = w * (w⁻¹ * x * w) := by rw [hxa]
@@ -627,6 +627,7 @@ private theorem hatL_inf_normalizer (h1 : W16One G) (h5 : W16Five G) (h15 : W16F
   le_antisymm (hatL_inf_normalizer_le h1 h5 h15 hS c Mo hg' hg'M)
     (hatL_inf_normalizer_ge h1 h5 h15 hS c Mo hg'.1)
 
+omit [Finite G] in
 private theorem hatL_vHat_eq_ker (Mo : ModDataE H (conjClosure (U ⊔ V₀) H)) :
     vHat (Mo.img H) = (projG (Mo.img H)).ker := by
   apply le_antisymm
@@ -681,6 +682,7 @@ private theorem hatL_mQuot_U1 (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen
   rw [hWU, hrel, padicValNat.prime_pow]
   rfl
 
+omit [Finite G] in
 private theorem hatL_U1_ne_bot (Mo : ModDataE H (conjClosure (U ⊔ V₀) H))
     (c : Cfg1620 M V₀ V U S R H g B) :
     wHat (Mo.img H) (Mo.sp V₀) ≠ ⊥ := by
@@ -783,7 +785,7 @@ private theorem hatL_B_eq (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen G) 
         Mo.sp (conjSubgroup V₀ g') := by
       have hcoe : ((hatL_gh Mo g' hg'.1)⁻¹ : LGL 2 Mo.W) =
           Mo.ρ ((⟨g', hg'.1⟩ : ↥H)⁻¹) := by
-        simp only [hatL_gh, map_inv, Subgroup.coe_inv, inv_inv]
+        simp only [hatL_gh, map_inv]
       rw [hcoe, ModDataE.conjSub_sp]
       congr 1
       simp only [Subgroup.coe_inv, inv_inv]
@@ -821,6 +823,7 @@ private theorem hatL_isNaturalSum_rank_le {Q : Type} [Group Q] [Finite Q] {ι F 
   rw [hcardW, padicValNat.prime_pow] at hle
   simpa [Nat.mul_comm] using hle
 
+omit [Finite G] in
 private theorem hatL_card_wHat {J E : Subgroup G} (Mo : ModDataE J E)
     (W : Submodule (ZMod 2) Mo.W) :
     Nat.card ↥(wHat (Mo.img J) W) = Nat.card ↥W := by
@@ -838,6 +841,7 @@ private theorem hatL_card_wHat {J E : Subgroup G} (Mo : ModDataE J E)
     obtain ⟨w, hw, hwx⟩ := mem_wHat.mp x.2
     exact ⟨⟨w, hw⟩, Subtype.ext hwx.symm⟩
 
+omit [Finite G] in
 private theorem hatL_card_sp {J E : Subgroup G} (Mo : ModDataE J E) (S : Subgroup G) :
     Nat.card ↥(Mo.sp S) = Nat.card ↥(S ⊓ E) := by
   refine Nat.card_congr (Equiv.ofBijective
@@ -850,13 +854,14 @@ private theorem hatL_card_sp {J E : Subgroup G} (Mo : ModDataE J E) (S : Subgrou
     obtain ⟨e, he, hwe⟩ := Mo.mem_sp.mp w.2
     exact ⟨⟨e, he⟩, Subtype.ext hwe⟩
 
+omit [Finite G] in
 private theorem hatL_padic_card_sup {J E : Subgroup G} (Mo : ModDataE J E)
     {A B : Subgroup (VG (Mo.img J))} (hA : A ≤ wHat (Mo.img J) ⊤)
     (hB : B ≤ wHat (Mo.img J) ⊤) (hAB : A ⊓ B = ⊥)
     (hcardA : Nat.card ↥A = Nat.card ↥V₀) (hcardB : Nat.card ↥B = Nat.card ↥V₀) :
     padicValNat 2 (Nat.card ↥(A ⊔ B)) = 2 * mSub V₀ := by
-  haveI : Nonempty ↥A := ⟨⟨1, A.one_mem⟩⟩
-  haveI : Nonempty ↥B := ⟨⟨1, B.one_mem⟩⟩
+  have : Nonempty ↥A := ⟨⟨1, A.one_mem⟩⟩
+  have : Nonempty ↥B := ⟨⟨1, B.one_mem⟩⟩
   rw [CFSG.Goldschmidt.G74.card_sup_of_inf_eq_bot
       (isElemAbelian_wHat (G := Mo.img J) ⊤).1 hA hB hAB,
     padicValNat.mul (Nat.card_pos (α := ↥A)).ne' (Nat.card_pos (α := ↥B)).ne',
@@ -948,7 +953,7 @@ theorem hatL_shape (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen G) (hS : S
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
     exact h
   obtain ⟨Z, hZgrp, φ, hφsurj, hφker, hPZ⟩ := hshape
-  letI : Group Z := hZgrp
+  let : Group Z := hZgrp
   have hφker' : φ.ker = (pCoreOf 2 X).subgroupOf X := by
     ext k
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
@@ -1015,18 +1020,18 @@ theorem hatL_shape (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fifteen G) (hS : S
     rcases hnat with ⟨n, F, hFf, hFfin, hFc, hFcard, hn, act, -, hnatS⟩ |
         ⟨a, F, hFf, hFfin, hFc, hFcard, hn, act, -, hnatS⟩ |
         ⟨m, hm, hn1, -, -⟩
-    · letI : Field F := hFf
-      letI : Finite F := hFfin
-      haveI : CharP F 2 := hFc
+    · let : Field F := hFf
+      let : Finite F := hFfin
+      have : CharP F 2 := hFc
       have hbound := hatL_isNaturalSum_rank_le (Q := ↥X) (ι := Fin 2) (F := F)
         (fun x : ↥X => act x) hnatS hKne hFcard
       simp only [Fintype.card_fin] at hbound
       rw [hcardK, hcore] at hbound
       rw [hmq, hn]
       omega
-    · letI : Field F := hFf
-      letI : Finite F := hFfin
-      haveI : CharP F 2 := hFc
+    · let : Field F := hFf
+      let : Finite F := hFfin
+      have : CharP F 2 := hFc
       have hbound := hatL_isNaturalSum_rank_le (Q := ↥X) (ι := Fin 4) (F := F)
         (fun x : ↥X => act x) hnatS hKne hFcard
       simp only [Fintype.card_fin] at hbound

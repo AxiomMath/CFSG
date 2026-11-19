@@ -141,11 +141,11 @@ theorem cz26682 : e26 4 * e26 2 * (e26 4)⁻¹ = e26 2 * x26 :=
 
 theorem a0_26682 : wv f26 (wd (O26682.D 11)) = sgen 0 :=
   sep26682 (wv_mem f26_mem items26682_ok.2.2.2.2.1) (sgen_mem 0)
-    fun p hp => (pt26682 hp).2.2.2.2.1
+    fun _p hp => (pt26682 hp).2.2.2.2.1
 
 theorem a1_26682 : wv f26 (wd (O26682.D 12)) = sgen 1 :=
   sep26682 (wv_mem f26_mem items26682_ok.2.2.2.2.2) (sgen_mem 1)
-    fun p hp => (pt26682 hp).2.2.2.2.2
+    fun _p hp => (pt26682 hp).2.2.2.2.2
 
 theorem ids26682 : e26 3 * e26 3 = e26 2 ∧ x26 * x26 = 1 ∧ g26 * x26 * g26⁻¹ = x26 * e26 2 ∧
     e26 4 * e26 2 * (e26 4)⁻¹ = e26 2 * x26 ∧ wv f26 (wd (O26682.D 11)) = sgen 0 ∧

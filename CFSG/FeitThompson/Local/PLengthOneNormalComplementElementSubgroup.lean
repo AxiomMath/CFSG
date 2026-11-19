@@ -63,7 +63,7 @@ theorem pElementSubgroup_eq_top_of_isPGroup [Finite X] (hp : p.Prime) (h : IsPGr
 theorem sylow_le_pElementSubgroup [Finite X] [Fact p.Prime] (P : Sylow p X) :
     (P : Subgroup X) ≤ pElementSubgroup p X := by
   intro x hx
-  obtain ⟨n, hn⟩ := P.isPGroup'.exists_orderOf_eq_pow (⟨x, hx⟩ : (P : Subgroup X))
+  obtain ⟨n, hn⟩ := P.isPGroup.exists_orderOf_eq_pow (⟨x, hx⟩ : (P : Subgroup X))
   exact mem_pElementSubgroup_of_mem_pElements
     ⟨n, (Subgroup.orderOf_coe (⟨x, hx⟩ : (P : Subgroup X))).trans hn⟩
 

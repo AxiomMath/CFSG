@@ -128,7 +128,7 @@ theorem sumEq7_symm_ge (b : Fin 4) : 3 ≤ ((sumEq7.symm (Sum.inr b) : Fin 7) : 
   decide
 
 theorem InH0_bottom {g : Matrix (Fin 7) (Fin 7) K} (hg : InH0 g) (a b : Fin 7)
-    (ha : 3 ≤ (a : ℕ)) (hb : 3 ≤ (b : ℕ)) : g a b = if a = b then 1 else 0 := by
+    (_ha : 3 ≤ (a : ℕ)) (hb : 3 ≤ (b : ℕ)) : g a b = if a = b then 1 else 0 := by
   have hcol := hg.2 (Pi.single b 1) (by
     funext i
     rw [Dg_eq, Matrix.mulVec_diagonal, Pi.zero_apply]
@@ -137,12 +137,12 @@ theorem InH0_bottom {g : Matrix (Fin 7) (Fin 7) K} (hg : InH0 g) (a b : Fin 7)
         intro h
         rw [h] at hi
         omega
-      simp [hi, Pi.single_apply, hib]
+      simp [hi, hib]
     · simp [hi])
   have := congrFun hcol a
   rw [Matrix.mulVec, dotProduct] at this
   simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-    if_true] at this
+    ite_true] at this
   rw [this]
 
 theorem blk_commutes_Dg (h : Matrix (Fin 3) (Fin 3) K) : blk h * Dg K = Dg K * blk h := by
@@ -219,7 +219,7 @@ theorem InH0_eq_blk {g : Matrix (Fin 7) (Fin 7) K} (hg : InH0 g) : g = blk (tlOf
       simp
     · have hne : sumEq7.symm (Sum.inr i) ≠ sumEq7.symm (Sum.inr j) := fun h =>
         hij (Sum.inr_injective (sumEq7.symm.injective h))
-      rw [if_neg hne, Matrix.one_apply_ne hij]
+      rw [ite_eq_right hne, Matrix.one_apply_ne hij]
 
 theorem blkSL_mul (a b : Matrix.SpecialLinearGroup (Fin 3) K) :
     blkSL (a * b) = blkSL a * blkSL b := by
@@ -258,7 +258,7 @@ theorem blkHom_injective : Function.Injective (blkHom (K := K)) := by
     simp
   · have hne : sumEq7.symm (Sum.inl i) ≠ sumEq7.symm (Sum.inl j) := fun h =>
       hij2 (Sum.inl_injective (sumEq7.symm.injective h))
-    rw [if_neg hne, if_neg hij2]
+    rw [ite_eq_right hne, ite_eq_right hij2]
 
 theorem blkHom_surjective : Function.Surjective (blkHom (K := K)) := by
   rintro ⟨x, hx⟩
@@ -291,7 +291,7 @@ def cyc (K : Type) [Field K] : Matrix.SpecialLinearGroup (Fin 3) K :=
 theorem cyc_pow_three : cyc K ^ 3 = 1 := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_one]
-  simp [cyc, pow_succ, Matrix.mul_fin_three]
+  simp [cyc, pow_succ]
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 

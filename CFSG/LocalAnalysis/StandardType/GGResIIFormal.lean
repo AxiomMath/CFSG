@@ -75,7 +75,7 @@ theorem ggFPi_refl {T : Fin N → Vector R (N + 1)} {h : Fin N → V} {x : V}
   classical
   rw [hg, ggFPi_root hT]
   simp only [ggFPi, ggFRefl, Vector.get_ofFn]
-  rw [if_neg (Fin.castSucc_ne_last k).symm]
+  rw [ite_eq_right (Fin.castSucc_ne_last k).symm]
   have hsum : ∑ l : Fin N, φ (if l.castSucc = k.castSucc then z.get l.castSucc - ggFDot (T k) z
       else z.get l.castSucc) • h l =
       ∑ l : Fin N, φ (z.get l.castSucc) • h l - φ (ggFDot (T k) z) • h k := by
@@ -85,9 +85,9 @@ theorem ggFPi_refl {T : Fin N → Vector R (N + 1)} {h : Fin N → V} {x : V}
       intro l
       by_cases hl : l = k
       · subst hl
-        simp only [if_true]
+        simp only [ite_true]
         rw [RingHom.map_sub, sub_smul]
-      · rw [if_neg (fun h => hl (Fin.castSucc_injective N h)), if_neg hl, sub_zero]
+      · rw [ite_eq_right (fun h => hl (Fin.castSucc_injective N h)), ite_eq_right hl, sub_zero]
     rw [Finset.sum_congr rfl fun l _ => hterm l, Finset.sum_sub_distrib, Finset.sum_ite_eq']
     simp
   rw [hsum]
@@ -107,15 +107,15 @@ theorem ggFPi_unit (h : Fin N → V) (x : V) (l : Fin N) :
     ggFPi φ h x (ggFUnit l.castSucc) = h l := by
   classical
   simp only [ggFPi, ggFUnit, Vector.get_ofFn]
-  rw [if_neg (Fin.castSucc_ne_last l).symm, map_zero, zero_smul, add_zero]
+  rw [ite_eq_right (Fin.castSucc_ne_last l).symm, map_zero, zero_smul, add_zero]
   simp [Fin.castSucc_inj]
 
 theorem ggFFun_unit (α : Fin N → Module.Dual (ZMod p) V) (k : Fin N) :
     ggFFun φ α (ggFDUnit k) = α k := by
   classical
   simp only [ggFFun, ggFDUnit, Vector.get_ofFn]
-  rw [Finset.sum_eq_single k (fun o _ ho => by rw [if_neg ho, map_zero, zero_smul])
-    (fun hk => absurd (Finset.mem_univ k) hk), if_pos rfl, map_one, one_smul]
+  rw [Finset.sum_eq_single k (fun o _ ho => by rw [ite_eq_right ho, map_zero, zero_smul])
+    (fun hk => absurd (Finset.mem_univ k) hk), ite_eq_left rfl, map_one, one_smul]
 
 theorem ggFFun_coroot {T : Fin N → Vector R (N + 1)} {h : Fin N → V} {x : V}
     {α : Fin N → Module.Dual (ZMod p) V} (hT : GGFTable φ T h x α) (c : Vector R N) (j : Fin N) :
@@ -136,11 +136,11 @@ theorem ggFFun_refl {T : Fin N → Vector R (N + 1)} {h : Fin N → V} {x : V}
     intro o
     by_cases ho : o = j
     · subst ho
-      rw [if_pos rfl, if_pos rfl, RingHom.map_sub, sub_mul]
-    · rw [if_neg ho, if_neg ho]
+      rw [ite_eq_left rfl, ite_eq_left rfl, RingHom.map_sub, sub_mul]
+    · rw [ite_eq_right ho, ite_eq_right ho]
       ring
   rw [Finset.sum_congr rfl fun o _ => hterm o]
-  simp only [Finset.sum_sub_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [Finset.sum_sub_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   ring
 
 theorem ggFFun_word {T : Fin N → Vector R (N + 1)} {h : Fin N → V} {x : V}

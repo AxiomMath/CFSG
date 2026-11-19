@@ -23,19 +23,19 @@ theorem s16c1_card_isOmegaMinus_six {X : Type} [Group X] (h : IsOmegaMinus X 6 1
 theorem s16c1_isSimpleGroup_of_isOmegaMinus_six {X : Type} [Group X] (h : IsOmegaMinus X 6 1) :
     IsSimpleGroup X := by
   have hdiv : (6 : ℕ) / 2 = 3 := by norm_num
-  simp only [IsOmegaMinus, hdiv] at h
+  simp only [IsOmegaMinus] at h
   obtain ⟨-, K, hKfield, hKfinite, b, c, hcard, hirr, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fintype K := Fintype.ofFinite K
   have hcard2 : Nat.card K = 2 := by rw [hcard]; norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime (p := 2) (by rw [Fintype.card_eq_nat_card, hcard2])
   have hfacts :=
     CFSG.ComponentClassification.RankTwoClassical.isSimpleGroup_statedOmega_quadMinus_small
       (n := 3) (b := b) (c := c) (Or.inr rfl) hirr
-  haveI : IsSimpleGroup (StatedOmega (StatedQuadMinus 3 K b c)) := hfacts.1
+  have : IsSimpleGroup (StatedOmega (StatedQuadMinus 3 K b c)) := hfacts.1
   have hSbot : (StatedScalars (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) K).subgroupOf
       (StatedOmega (StatedQuadMinus 3 K b c)) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
@@ -60,7 +60,7 @@ theorem s16c1_isSimpleGroup_of_isOmegaMinus_six {X : Type} [Group X] (h : IsOmeg
 
 theorem s16c1_card_of_isE16A5 {X : Type} [Group X] (h : IsE16A5 X) : Nat.card X = 960 := by
   obtain ⟨N, hN, hNe, hAlt⟩ := h
-  haveI := hN
+  have := hN
   have hNcard : Nat.card ↥N = 16 := by
     obtain ⟨e⟩ := hNe
     rw [Nat.card_congr e.toEquiv,
@@ -98,7 +98,7 @@ private theorem s16c1_ker_actTil (D : Data G) {V₀ V L : Subgroup G} {hV : IsEl
     rw [hφrange]
     exact s16c1_card_isOmegaMinus_six hc.1
   have hcard_bar2 : Nat.card (Bar2 L) = 25920 := s16c1_card_isU4 hU4
-  haveI : IsSimpleGroup ↥(lBar V₀ V hV L) :=
+  have : IsSimpleGroup ↥(lBar V₀ V hV L) :=
     s16c1_isSimpleGroup_of_isOmegaMinus_six hc.1
   have hsimple : IsSimpleGroup ↥φ.range := by
     rw [hφrange]
@@ -109,7 +109,7 @@ private theorem s16c1_ker_actTil (D : Data G) {V₀ V L : Subgroup G} {hV : IsEl
   have hOmap_pg : IsPGroup 2 (O.map φ.rangeRestrict) :=
     IsPGroup.map (CFSG.pCore_isPGroup (p := 2) (G := ↥L)) φ.rangeRestrict
   have hOker : O ≤ φ.ker := by
-    haveI := hOmap_normal
+    have := hOmap_normal
     rcases hsimple.eq_bot_or_eq_top_of_normal (O.map φ.rangeRestrict) with hbot | htop
     · rw [← MonoidHom.ker_rangeRestrict φ]
       exact (Subgroup.map_eq_bot_iff (H := O) (f := φ.rangeRestrict)).mp hbot

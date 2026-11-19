@@ -31,7 +31,7 @@ theorem cardRow_six_G2 (f : ℕ) :
   have hf2 : 2 ≤ f := by
     by_contra hf
     push Not at hf
-    interval_cases f <;> norm_num at h
+    interval_cases f; norm_num at h
   omega
 
 theorem olRow_six_G2 (f : ℕ) :
@@ -146,7 +146,7 @@ theorem olRow_six_SL3 (n : ℕ) (hn : 1 ≤ n) :
     have := two_pow_dvd_N h3
     have hn3 : n ≤ 3 := by omega
     interval_cases n
-    · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
       obtain ⟨ψ⟩ := CFSG.AGLEmbeddingD2.Wilson.Census424Rest.nonempty_projSL_two_seven_equiv_three_two
       exact olRow_one 7 1 (by norm_num) le_rfl X P L Q hcfg
         ⟨(φ.trans (statedSLEquivProjSLTwo (by rw [hK]; norm_num))).trans ψ.symm⟩

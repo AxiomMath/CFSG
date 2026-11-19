@@ -142,11 +142,13 @@ variable {F : Type*} [Field F] [Fintype F] [CharP F 2]
 
 @[expose] def hypMap (ψ : F ≃+* F) (x : Hyp F) : Hyp F := fun i j k => ψ (x i j k)
 
+omit [Fintype F] [CharP F 2] in
 theorem hypMap_add (ψ : F ≃+* F) (x y : Hyp F) :
     hypMap ψ (x + y) = hypMap ψ x + hypMap ψ y := by
   funext i j k
   simp [hypMap]
 
+omit [Fintype F] [CharP F 2] in
 theorem hypMap_mem_kForm {K K' : Type} [Field K] [Field K'] [Algebra K F] [Algebra K' F]
     (τ : F →ₐ[K] F) (τ' : F →ₐ[K'] F) (ψ : F ≃+* F)
     (hψ : ∀ a, ψ (τ a) = τ' (ψ a)) {x : Hyp F} (hx : x ∈ kForm τ) :
@@ -156,6 +158,7 @@ theorem hypMap_mem_kForm {K K' : Type} [Field K] [Field K'] [Algebra K F] [Algeb
   rw [hx i j k]
   exact hψ (x i j k)
 
+omit [Fintype F] [CharP F 2] in
 theorem hypMap_mem_kForm_symm {K K' : Type} [Field K] [Field K'] [Algebra K F] [Algebra K' F]
     (τ : F →ₐ[K] F) (τ' : F →ₐ[K'] F) (ψ : F ≃+* F)
     (hψ : ∀ a, ψ (τ a) = τ' (ψ a)) {y : Hyp F} (hy : y ∈ kForm τ') :
@@ -188,6 +191,7 @@ theorem hypMap_mem_kForm_symm {K K' : Type} [Field K] [Field K'] [Algebra K F] [
     apply Subtype.ext
     exact hypMap_add ψ x.1 y.1
 
+omit [Fintype F] [CharP F 2] in
 theorem hypMap_act {K K' : Type} [Field K] [Field K'] [Algebra K F] [Algebra K' F]
     (τ : F →ₐ[K] F) (τ' : F →ₐ[K'] F) (ψ : F ≃+* F)
     (hψτ : ∀ a, ψ ((τ : F →+* F) a) = (τ' : F →+* F) (ψ a))
@@ -238,17 +242,17 @@ theorem exists_kForm_model {F : Type} [Field F] [Fintype F] [CharP F 2] {f : ℕ
   classical
   have hf1 : 1 ≤ f := by omega
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (GaloisField 2 f) := inferInstanceAs (Finite (GaloisField 2 f))
-  haveI : Fintype (GaloisField 2 f) := Fintype.ofFinite (GaloisField 2 f)
+  have : Finite (GaloisField 2 f) := inferInstanceAs (Finite (GaloisField 2 f))
+  have : Fintype (GaloisField 2 f) := Fintype.ofFinite (GaloisField 2 f)
   have hKcard : Fintype.card (GaloisField 2 f) = 2 ^ f := by
     rw [Fintype.card_eq_nat_card]
     exact GaloisField.card 2 f (by omega)
   have hKnat : Nat.card (GaloisField 2 f) = 2 ^ f := by
     rw [Nat.card_eq_fintype_card]
     exact hKcard
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
-  haveI : Module.Finite (ZMod 2) F := Module.Finite.of_finite
-  letI : Algebra (ZMod 2) (GaloisField 2 f) := instAlgebraZModGaloisField 2 f
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
+  have : Module.Finite (ZMod 2) F := Module.Finite.of_finite
+  let : Algebra (ZMod 2) (GaloisField 2 f) := instAlgebraZModGaloisField 2 f
   have hfrK : Module.finrank (ZMod 2) (GaloisField 2 f) = f :=
     GaloisField.finrank 2 (n := f) (by omega)
   have hfrF : Module.finrank (ZMod 2) F = 3 * f := by
@@ -259,24 +263,24 @@ theorem exists_kForm_model {F : Type} [Field F] [Fintype F] [CharP F 2] {f : ℕ
     (K := GaloisField 2 f) (L := F)
     (by rw [hfrK, hfrF]; exact Dvd.intro_left 3 rfl)
   let algK : Algebra (GaloisField 2 f) F := ιGF.toRingHom.toAlgebra
-  letI : Algebra (GaloisField 2 f) F := algK
+  let : Algebra (GaloisField 2 f) F := algK
   have hcardFK : Fintype.card F = Fintype.card (GaloisField 2 f) ^ 3 := by
     rw [hF, hKcard, ← pow_mul]
     congr 1
     ring
   have hKE : Nat.card (EndRing ρ) = 2 ^ f :=
     card_endRing_eq_of_card_eq_two_pow_eight_mul hf1 hF ρ hnt hW
-  letI : Field (EndRing ρ) :=
+  let : Field (EndRing ρ) :=
     { endRingField ρ with toSemiring := Module.End.instSemiring }
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
-  haveI : Fintype (EndRing ρ) := Fintype.ofFinite _
+  have : Finite (EndRing ρ) := finite_endRing ρ
+  have : Fintype (EndRing ρ) := Fintype.ofFinite _
   have hKEfc : Fintype.card (EndRing ρ) = 2 ^ f := by
     rw [← Nat.card_eq_fintype_card]
     exact hKE
   have hcardE : Fintype.card (EndRing ρ) = Fintype.card (GaloisField 2 f) := by
     rw [hKEfc, hKcard]
   let eρ := FiniteField.ringEquivOfCardEq hcardE
-  letI : Module (GaloisField 2 f) W := Module.compHom W eρ.symm.toRingHom
+  let : Module (GaloisField 2 f) W := Module.compHom W eρ.symm.toRingHom
   let ρK : Representation (GaloisField 2 f) SL(2, F) W :=
     { toFun := fun g =>
         { toFun := fun w => repD ρ g w
@@ -326,7 +330,7 @@ theorem exists_kForm_model {F : Type} [Field F] [Fintype F] [CharP F 2] {f : ℕ
     have h1 : (ρK g) w = w := congrArg (fun f : Module.End (GaloisField 2 f) W => f w) h
     change ρ g w = w
     exact h1
-  haveI : Module.Finite (GaloisField 2 f) W := Module.Finite.of_finite
+  have : Module.Finite (GaloisField 2 f) W := Module.Finite.of_finite
   have hdimK : Module.finrank (GaloisField 2 f) W = 8 := by
     have h1 := Module.natCard_eq_pow_finrank (K := GaloisField 2 f) (V := W)
     rw [hW, hKnat, ← pow_mul] at h1
@@ -334,7 +338,7 @@ theorem exists_kForm_model {F : Type} [Field F] [Fintype F] [CharP F 2] {f : ℕ
       Nat.pow_right_injective (a := 2) (by norm_num) h1
     have h3 : f * Module.finrank (GaloisField 2 f) W = f * 8 := by rw [← h2]; ring
     exact Nat.mul_left_cancel (by omega : 0 < f) h3
-  haveI : Fact ρK.IsIrreducible := ⟨hρK_irr⟩
+  have : Fact ρK.IsIrreducible := ⟨hρK_irr⟩
   obtain ⟨σ, θ, hθ⟩ :=
     CFSG.RankThree.GF2n.Stroth80.SL2Descent.exists_kForm_equiv (K := GaloisField 2 f) (F := F)
       (k := f) hKcard hf hcardFK hdimK ρK hntK
@@ -355,12 +359,12 @@ theorem exists_equiv_of_card_eq_two_pow_eight_mul {F : Type} [Field F] [Fintype 
     exists_kForm_model hf hF ρ hnt hW
   obtain ⟨K', hK'field, hK'fin, hK'alg, hK'card, σ', β', hβ'⟩ :=
     exists_kForm_model hf hF ρ' hnt' hW'
-  letI : Field K := hKfield
-  letI : Fintype K := hKfin
-  letI : Algebra K F := hKalg
-  letI : Field K' := hK'field
-  letI : Fintype K' := hK'fin
-  letI : Algebra K' F := hK'alg
+  let : Field K := hKfield
+  let : Fintype K := hKfin
+  let : Algebra K F := hKalg
+  let : Field K' := hK'field
+  let : Fintype K' := hK'fin
+  let : Algebra K' F := hK'alg
   let τ : F →ₐ[K] F := FiniteField.frobeniusAlgHom K F
   let τ' : F →ₐ[K'] F := FiniteField.frobeniusAlgHom K' F
   have hτfun : ∀ a : F, τ a = a ^ (2 ^ f) := by

@@ -66,7 +66,7 @@ private theorem isSolvable_toralCentralizer_quotient :
         (toralCentralizer Tag.E6 K e6FourToralParam)) := by
   obtain ⟨-, -, -, -, φ, hφ, -⟩ :=
     Chevalley_toral_centralizer_root_generated_quotient Tag.E6 K e6FourToralParam
-  haveI := e6FourToralParam_isSolvable_quotient
+  have := e6FourToralParam_isSolvable_quotient
   exact Group.isSolvable_of_surjective hφ
 
 private theorem isSolvable_toralCentralizer_J :
@@ -84,7 +84,7 @@ private theorem isSolvable_toralCentralizer_J :
       rootSpan_rootCharKernel_e6FourToralParam.symm]
     exact torusGroup_le_normalizer_rootSpan
       (S := rootCharKernel e6FourToralParam) (fun α hα => hα.1)
-  haveI hMnorm : (J.subgroupOf M).Normal :=
+  have hMnorm : (J.subgroupOf M).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hT
   have hMJs : Group.IsSolvable (↥M ⧸ (J.subgroupOf M)) :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.isSolvable_sup_quotient_of_comm
@@ -93,18 +93,18 @@ private theorem isSolvable_toralCentralizer_J :
     rw [show M = toralRootGroup Tag.E6 K e6FourToralParam from
       e6FourToralRootGroup_eq_sup.symm]
     infer_instance
-  haveI := hMnormal
+  have := hMnormal
   have hCMs : Group.IsSolvable (↥C ⧸ (M.subgroupOf C)) := by
     have heq : (toralRootGroup Tag.E6 K e6FourToralParam).subgroupOf C = M.subgroupOf C := by
       rw [show M = toralRootGroup Tag.E6 K e6FourToralParam from e6FourToralRootGroup_eq_sup.symm]
-    haveI : ((toralRootGroup Tag.E6 K e6FourToralParam).subgroupOf C).Normal :=
+    have : ((toralRootGroup Tag.E6 K e6FourToralParam).subgroupOf C).Normal :=
       e6FourToralRootGroup_normal_in_toralCentralizer
-    haveI := isSolvable_toralCentralizer_quotient
+    have := isSolvable_toralCentralizer_quotient
     exact Group.isSolvable_of_isSolvable_injective
       (f := (QuotientGroup.quotientMulEquivOfEq heq).symm.toMonoidHom)
       (QuotientGroup.quotientMulEquivOfEq heq).symm.injective
-  haveI := hMJs
-  haveI := hCMs
+  have := hMJs
+  have := hCMs
   let f : (↥M ⧸ (J.subgroupOf M)) →* (↥C ⧸ (J.subgroupOf C)) :=
     QuotientGroup.map (N := J.subgroupOf M) (M := J.subgroupOf C)
       (Subgroup.inclusion hMC) (by
@@ -119,10 +119,10 @@ private theorem isSolvable_toralCentralizer_J :
     rintro x hx
     obtain ⟨c, rfl⟩ := QuotientGroup.mk_surjective x
     rw [MonoidHom.mem_ker] at hx
-    simp only [g, QuotientGroup.map_mk'] at hx
+    simp only [g] at hx
     have hcM : (c : ↥C) ∈ M.subgroupOf C := (QuotientGroup.eq_one_iff _).1 hx
     refine ⟨QuotientGroup.mk ⟨c, hcM⟩, ?_⟩
-    simp only [f, QuotientGroup.map_mk']
+    simp only [f]
     rfl
   exact Group.isSolvable_of_ker_le_range f g hfg
 
@@ -181,7 +181,7 @@ theorem e6FourJ_comp :
         ((Subgroup.mem_normalizer_iff.1 (hCN hg') (x : ModGL Tag.E6 K)).2 hx')
   have hN : (JG.subgroupOf CG).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJCG).2 hCGN
-  haveI := hN
+  have := hN
   let e : CG ≃* C := Subgroup.subgroupOfEquivOfLe hC
   have hmapJ : (JG.subgroupOf CG).map e.toMonoidHom = J.subgroupOf C := by
     ext x
@@ -205,7 +205,7 @@ theorem e6FourJ_comp :
     intro y
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective y
     refine ⟨QuotientGroup.mk ⟨(x : ModGL Tag.E6 K), Subgroup.mem_subgroupOf.1 x.2⟩, ?_⟩
-    simp only [g, QuotientGroup.map_mk']
+    simp only [g]
     rfl
   have hsolv : Group.IsSolvable (↥CG ⧸ JG.subgroupOf CG) := by
     exact @Group.isSolvable_of_surjective (↥C ⧸ J.subgroupOf C)

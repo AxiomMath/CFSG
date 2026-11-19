@@ -22,7 +22,7 @@ theorem s0_w_le_kerAct (h : Setup28 W K S) : W ≤ kerAct W K S := fun w hw =>
     rw [h1]
     exact W.mul_mem hw (Subgroup.Normal.conj_mem inferInstance _ (W.inv_mem hw) k)⟩
 
-theorem s0_kerAct_le_S : kerAct W K S ≤ S := fun s hs => hs.1
+theorem s0_kerAct_le_S : kerAct W K S ≤ S := fun _s hs => hs.1
 
 theorem s0_o2K_aux (h : Setup28 W K S) : pCoreOf 2 K = K ⊓ W := by
   apply le_antisymm
@@ -118,7 +118,7 @@ theorem s0_K_ne_bot (h : Setup28 W K S) : K ≠ ⊥ := by
   intro hK
   have hq := h.hK.2.2.2.2
   rw [hK, Subgroup.map_bot] at hq
-  haveI := hq.2.toNontrivial
+  have := hq.2.toNontrivial
   obtain ⟨a, b, hab⟩ := exists_pair_ne (↥(⊥ : Subgroup (X ⧸ CFSG.pCore 2 X)) ⧸
     Subgroup.center ↥(⊥ : Subgroup (X ⧸ CFSG.pCore 2 X)))
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
@@ -141,7 +141,7 @@ theorem s0_S_ne_bot (h : Setup28 W K S) : S ≠ ⊥ := by
     exact Subgroup.mem_bot.1 this
   exact eq_bot_iff.2 fun x _ => Subgroup.mem_bot.2 (hX x)
 
-theorem s0_vOf_le_S (h : Setup28 W K S) : vOf W K S ≤ S := fun v hv => hv.1.1
+theorem s0_vOf_le_S (_h : Setup28 W K S) : vOf W K S ≤ S := fun _v hv => hv.1.1
 
 theorem s0_kerAct_le_centralizer_V : kerAct W K S ≤ Subgroup.centralizer (vOf W K S : Set X) := by
   intro w hw

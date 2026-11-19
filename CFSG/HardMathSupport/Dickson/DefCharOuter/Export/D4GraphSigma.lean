@@ -23,7 +23,7 @@ open CFSG.HardMathSupport.Timmesfeld.CrossChar CFSG.Blueprint CFSG.Blueprint.Che
 
 theorem ringEquiv_eq_one_of_card_prime {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime)
     (hK : Nat.card K = p) (σ : K ≃+* K) : σ = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = p := by rw [← Nat.card_eq_fintype_card, hK]
   let e := ZMod.ringEquivOfPrime K hp hK'
   have h : σ.toRingHom.comp e.toRingHom = e.toRingHom := RingHom.ext_zmod _ _
@@ -55,7 +55,7 @@ theorem d4_sigma_eq_one {K : Type} [Field K] [Finite K] [CharP K 3]
     (hfix : ∀ x ∈ fixSubgroup α, Ξ x = x) : σ = 1 := by
   classical
   by_contra hσ1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨f, hf, hKf⟩ : ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = 3 ^ f := by
     have : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 3
@@ -156,7 +156,7 @@ theorem d4_sigma_eq_one {K : Type} [Field K] [Finite K] [CharP K 3]
         = ψ * (Ξt * entrywiseAdjointAut Tag.D4 Fr) * ψ⁻¹ := by group
       _ = ψ * (entrywiseAdjointAut Tag.D4 Fr * Ξt) * ψ⁻¹ := by rw [hNT]
       _ = ψ * entrywiseAdjointAut Tag.D4 Fr * ψ⁻¹ * (ψ * Ξt * ψ⁻¹) := by group
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom) :=
+  have : Finite (graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom) :=
     finite_graphFixedRootGroup_D4 Fr
   have hφdata : OuterCentData 3 φ :=
     outerCentData_three_of_classes hf hK₃ Fr hFr

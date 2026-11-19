@@ -66,7 +66,7 @@ private theorem conj_injective_a6 : Function.Injective (MulAut.conj : A6 →* Mu
 theorem alt6_aut_three_inner (α : MulAut A6) (hα : α ^ 3 = 1) :
     α ∈ (MulAut.conj : A6 →* MulAut A6).range := by
   classical
-  haveI : ((MulAut.conj : A6 →* MulAut A6).range).Normal := conj_range_normal A6
+  have : ((MulAut.conj : A6 →* MulAut A6).range).Normal := conj_range_normal A6
   have hcardA : Nat.card A6 = 360 := by
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
     norm_num [Nat.factorial]

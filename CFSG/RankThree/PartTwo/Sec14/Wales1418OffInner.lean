@@ -16,6 +16,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem relIndex_sup_eq {H N : Subgroup G} (h : H ≤ Subgroup.normalizer (N : Set G)) :
     N.relIndex (H ⊔ N) = N.relIndex H := by
   have := Subgroup.normal_subgroupOf_of_le_normalizer h
@@ -29,6 +30,7 @@ private theorem eq_one_of_dvd_odd_of_dvd_two_pow {d m n : ℕ} (hm : d ∣ m) (h
   · rfl
   · exact absurd ((dvd_pow_self 2 (Nat.succ_ne_zero j)).trans hm) hm2
 
+omit [Finite G] in
 private theorem le_sup_of_not_two_dvd_relIndex {M S C : Subgroup G} {n : ℕ}
     (hS : ¬ 2 ∣ S.relIndex M) (hC : C.relIndex M ∣ 2 ^ n) : M ≤ S ⊔ C :=
   Subgroup.relIndex_eq_one.mp (eq_one_of_dvd_odd_of_dvd_two_pow
@@ -46,6 +48,7 @@ private theorem le_of_isPGroup_two_of_relIndex {M Q P : Subgroup G} (hQM : Q ≤
     exact Subgroup.relIndex_dvd_card Q P
   exact le_sup_left.trans (Subgroup.relIndex_eq_one.mp (eq_one_of_dvd_odd_of_dvd_two_pow h1 hQ h2))
 
+omit [Finite G] in
 private theorem conj_mem_sup_of_mem_normalizer {H L : Subgroup G} {g x : G}
     (hH : g ∈ Subgroup.normalizer (H : Set G)) (hL : g ∈ Subgroup.normalizer (L : Set G))
     (hx : x ∈ H ⊔ L) : g * x * g⁻¹ ∈ H ⊔ L := by
@@ -54,6 +57,7 @@ private theorem conj_mem_sup_of_mem_normalizer {H L : Subgroup G} {g x : G}
       (fun l hl => Subgroup.mem_sup_right ((Subgroup.mem_normalizer_iff.mp hL l).mp hl))
   exact hle hx
 
+omit [Finite G] in
 private theorem inf_sup_eq_of_le_sup {K R C : Subgroup G}
     (hKC : K ≤ Subgroup.normalizer (C : Set G)) (hRKC : R ≤ K ⊔ C) :
     (R ⊔ C) ⊓ K ⊔ C = R ⊔ C := by
@@ -67,6 +71,7 @@ private theorem inf_sup_eq_of_le_sup {K R C : Subgroup G}
     rwa [mul_inv_cancel_right] at h
   exact ((R ⊔ C) ⊓ K ⊔ C).mul_mem (Subgroup.mem_sup_left hkM) (Subgroup.mem_sup_right hc)
 
+omit [Finite G] in
 private theorem relIndex_dvd_card_of_le_sup {K R C : Subgroup G}
     (hKC : K ≤ Subgroup.normalizer (C : Set G)) (hRC : R ≤ Subgroup.normalizer (C : Set G))
     (hRKC : R ≤ K ⊔ C) : C.relIndex ((R ⊔ C) ⊓ K) ∣ Nat.card R := by
@@ -116,7 +121,7 @@ theorem exists_invariant_twoSubgroup_cover {K R A : Subgroup G} (hA3 : IsPGroup 
   obtain ⟨P⟩ : Nonempty (Sylow 2 M) := inferInstance
   set S : Subgroup G := (P : Subgroup M).map M.subtype
   have hSM : S ≤ M := Subgroup.map_subtype_le _
-  have hS2 : IsPGroup 2 S := P.isPGroup'.map _
+  have hS2 : IsPGroup 2 S := P.isPGroup.map _
   have hSi : ¬ 2 ∣ S.relIndex M := by
     have h : S.subgroupOf M = (P : Subgroup M) :=
       Subgroup.comap_map_eq_self_of_injective M.subtype_injective _

@@ -20,8 +20,8 @@ open CFSG CFSG.Open CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley
 
 private theorem l937z_rw_charP {K : Type} [Field K] [Finite K] (f : ℕ)
     (hK : Nat.card K = 2 ^ f) : CharP K 2 := by
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
 
 private theorem l937z_rw_psp {R : Type} [Group R] (n f : ℕ)

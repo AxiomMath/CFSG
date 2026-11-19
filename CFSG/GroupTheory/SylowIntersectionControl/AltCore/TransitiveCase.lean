@@ -113,7 +113,7 @@ theorem blockBase_omegaOneCenter_le {K M : Subgroup (Perm α)} {Δ : Set α} (hK
     have hgΔ : g ∈ fixOutside Δ := sup_le hKΔ (blockBase_le_fixOutside hKΔ) hgD
     by_cases hKL : K ≤ alternatingGroup α
     · exact mem_M_of_mem_normalizer hKM hKΔ hML hgN hgΔ (Or.inl (sup_le hKL hBL hgD))
-    · obtain ⟨k, hk, hk2⟩ := SetLike.not_le_iff_exists.mp hKL
+    · obtain ⟨k, hk, hk2⟩ := IsConcreteLE.not_le_iff_exists.mp hKL
       exact mem_M_of_mem_normalizer hKM hKΔ hML hgN hgΔ (Or.inr ⟨k, hk, hk2⟩)
   have hMP : M ≤ normalizer (((K ⊔ blockBase E) ⊓ normalizer (K : Set (Perm α)) :
       Subgroup (Perm α)) : Set (Perm α)) :=

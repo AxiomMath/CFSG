@@ -24,7 +24,7 @@ theorem center_eq_bot_of_sp6Model (h : StatedClassicalModel Y .PSp 3 2 1) :
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center Y) with hb | ht
   · exact hb
   ·
-    haveI : IsMulCommutative Y := Subgroup.center_eq_top_iff.mp ht
+    have : IsMulCommutative Y := Subgroup.center_eq_top_iff.mp ht
     have hp : (Nat.card Y).Prime := Group.is_simple_iff_prime_card.mp hS
     rw [hcard] at hp
     norm_num at hp

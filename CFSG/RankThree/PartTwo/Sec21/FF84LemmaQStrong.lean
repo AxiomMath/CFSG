@@ -131,13 +131,13 @@ theorem orbit_coprime [Finite X] (P Z : Subgroup X)
 theorem fusion [Finite X] (P : Subgroup X) (hP : IsSylowOf 3 P ⊤)
     (hPc : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x) {x y : X} (hx : x ∈ P) (hy : y ∈ P) {g : X}
     (hg : g * x * g⁻¹ = y) : ∃ n ∈ Nor P, n * x * n⁻¹ = y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop' : ¬ 3 ∣ P.index := by
     rw [← Subgroup.relIndex_top_right]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hP.2.2
   obtain ⟨S, rfl⟩ : ∃ S : Sylow 3 X, (S : Subgroup X) = P :=
     ⟨hP.2.1.toSylow hcop', IsPGroup.toSylow_coe hP.2.1 hcop'⟩
-  haveI hcomm' : IsMulCommutative (S : Subgroup X) :=
+  have hcomm' : IsMulCommutative (S : Subgroup X) :=
     ⟨⟨fun a b => Subtype.ext (hPc a.1 a.2 b.1 b.2)⟩⟩
   obtain ⟨n, hn, hn'⟩ := S.conj_eq_normalizer_conj_of_mem x g⁻¹ hx
     (by rw [inv_inv, hg]; exact hy)
@@ -155,7 +155,7 @@ theorem core_closure [Finite X] (P Z W : Subgroup X) (z w t : X)
     (hdec : ∀ p ∈ P, ∃ i j : ℤ, p = z ^ i * w ^ j)
     (ht : (t * z * t⁻¹ = z⁻¹ ∧ t * w * t⁻¹ = w) ∨ (t * z * t⁻¹ = z ∧ t * w * t⁻¹ = w⁻¹)) :
     ∀ n ∈ Nor P, conjBy n Z = Z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzP : z ∈ P := hZP hz
   have hwP : w ∈ P := hWP hw
   have hc : Commute z w := hPc z hzP w hwP
@@ -352,10 +352,10 @@ theorem lemmaQ_strong_closure {X : Type} [Group X] [Finite X]
     (t a : X) (ha : a ∈ A) (ha1 : a ≠ 1) (ht : t * a * t⁻¹ = a⁻¹)
     (htB : ∀ b ∈ B, t * b = b * t) :
     IsStronglyClosedIn P (A : Set X) ∧ IsStronglyClosedIn P (B : Set X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP9' : Nat.card P = 3 ^ 2 := by rw [hP9]; norm_num
   have hPc : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x := fun x hx y hy =>
-    congrArg Subtype.val (IsPGroup.commutative_of_card_eq_prime_sq hP9' ⟨x, hx⟩ ⟨y, hy⟩)
+    congrArg Subtype.val ((IsPGroup.isMulCommutative_of_card_eq_prime_sq hP9').is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hcop : Nat.Coprime 3 (P.relIndex ⊤) := hP.2.2
   obtain ⟨b, hbB, hb1⟩ := exists_ne_one_of_card3 hB3
   have hcomAB : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x := fun x hx y hy => hPc x (hA hx) y (hB hy)
@@ -379,7 +379,7 @@ theorem lemmaQ_strong_closure {X : Type} [Group X] [Finite X]
     have hcard9 : Nat.card ↥(A ⊔ B) = 9 := by
       generalize Nat.card ↥(A ⊔ B) = c at hdvd h3dvd hne3 ⊢
       have hc9 : c ≤ 9 := Nat.le_of_dvd (by norm_num) hdvd
-      interval_cases c <;> first | omega | norm_num at hdvd
+      interval_cases c <;> first | omega
     exact Subgroup.eq_of_le_of_card_ge hQP (le_of_eq (by rw [hcard9, hP9]))
   have hAa : Subgroup.zpowers a = A :=
     Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr ha)

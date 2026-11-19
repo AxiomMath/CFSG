@@ -24,9 +24,9 @@ theorem inverts_of_F4 (hF4 : F4Stmt) {K Q D K0 J : Subgroup G} {X : Type} [Group
     (hp : p.Prime) (hp2 : p ≠ 2) (hL : IsL3U3 p ↥Ks)
     {v : G} (hvK : v ∈ K) (hv2 : v * v = 1) (hvKs : π ⟨v, hvK⟩ ∉ Ks) :
     ∀ j ∈ J, v * j * v⁻¹ * j ∈ Q := by
-  haveI hQN : (Q.subgroupOf K).Normal := normal_subgroupOf_of_le_normalizer hQK
-  haveI hDN : (D.subgroupOf K).Normal := normal_subgroupOf_of_le_normalizer hDn
-  haveI hDbN : (Dbar K Q D).Normal := Subgroup.Normal.map hDN _ (QuotientGroup.mk'_surjective _)
+  have hQN : (Q.subgroupOf K).Normal := normal_subgroupOf_of_le_normalizer hQK
+  have hDN : (D.subgroupOf K).Normal := normal_subgroupOf_of_le_normalizer hDn
+  have hDbN : (Dbar K Q D).Normal := Subgroup.Normal.map hDN _ (QuotientGroup.mk'_surjective _)
   have hJK : J ≤ K := fun x hx => hDK ((hJ x).mp hx).1
   have hQker : Q.subgroupOf K ≤ π.ker := by
     rw [hker]

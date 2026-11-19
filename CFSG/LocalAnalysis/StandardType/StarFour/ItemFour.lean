@@ -40,11 +40,12 @@ theorem pCoreOf_inf_normalizer_map_datumRoot (ψ : SpecialLinearGroup F V →* X
     (hV : 2 * Module.finrank F E < Module.finrank F V) :
     pCoreOf 2 (ψ.range ⊓ Subgroup.normalizer
         (((datumRoot ι π h).map ψ : Subgroup X) : Set X)) = (datumQ ι π).map ψ := by
-  haveI : Module.Finite F E := Module.Finite.of_finite
+  have : Module.Finite F E := Module.Finite.of_finite
   rw [map_normalizer_eq_inf_normalizer_map ψ hψ (datumRoot ι π h),
     pCoreOf_map_of_injective ψ hψ 2 (Subgroup.normalizer (datumRoot ι π h)),
     pCoreOf_normalizer_datumRoot ι π h hι hπ hV]
 
+omit [Finite F] [CharP F 2] [Finite E] [Module.Finite F V] in
 theorem map_datumQ0_le_ggCenterOf (ψ : SpecialLinearGroup F V →* X) (ι : E →ₗ[F] V)
     (π : V →ₗ[F] E) (h : ∀ t, π (ι t) = 0) :
     (datumQ0 ι π).map ψ ≤ ggCenterOf ((datumQ ι π).map ψ) := by
@@ -74,7 +75,7 @@ theorem eq_map_datumU_of_pCore (ψ : SpecialLinearGroup F V →* X) (hψ : Funct
     (hU₅ : ψ.range ⊓ Subgroup.normalizer (((datumRoot ι π h).map ψ : Subgroup X) : Set X) ≤
       Subgroup.normalizer (U : Set X)) :
     U = (datumU1 ι).map ψ ∨ U = (datumU2 π).map ψ := by
-  haveI : Module.Finite F E := Module.Finite.of_finite
+  have : Module.Finite F E := Module.Finite.of_finite
   have hO : pCoreOf 2 (ψ.range ⊓ Subgroup.normalizer
       (((datumRoot ι π h).map ψ : Subgroup X) : Set X)) = (datumQ ι π).map ψ :=
     pCoreOf_inf_normalizer_map_datumRoot ψ hψ ι π h hι hπ hV

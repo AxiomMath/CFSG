@@ -41,7 +41,7 @@ theorem toMT_outer_num {a0 a1 a2 b0 b1 b2 : Nat} (ha0 : a0 < 4) (ha1 : a1 < 4) (
       1 + Matrix.vecMulVec ![f4 a0, f4 a1, f4 a2] ![f4 b0, f4 b1, f4 b2] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [toMT, toMat, toLT, Matrix.vecMulVec_apply, Matrix.one_apply, f4_aT, f4_mT, mT_lt, f4_one, *]
+    simp [toMT, toMat, toLT, f4_aT, f4_mT, mT_lt, f4_one, *]
 
 theorem toMT_outerT {v w : List Nat} (hv : ∀ x ∈ v, x < 4) (hw : ∀ x ∈ w, x < 4) :
     toMT (outerT v w) = 1 + Matrix.vecMulVec (vecT v) (vecT w) :=
@@ -162,10 +162,10 @@ theorem witOK_sound {rows : List (List Nat)} {invs : List (M3 Nat)} {wits : List
       refine toMT_inj (mMulT_OK _ _) mOne_OK ?_
       rw [pow4T, toMT_mMulT (mMulT_OK _ _) (mMulT_OK _ _), toMT_mMulT hWOK hWOK, toMT_mOne,
         ← hW4, show (4 : Nat) = 2 + 2 from rfl, pow_add, sq]
-    simp only [cond_false, hWe, hp, mEq_self, Bool.not_true] at hw
+    simp only [Bool.cond_false, hWe, hp, mEq_self, Bool.not_true] at hw
     exact Bool.false_ne_true hw
   · rw [hx0] at hw
-    simp only [cond_true, Bool.and_eq_true, Nat.blt_eq] at hw
+    simp only [_root_.Bool.cond_true, Bool.and_eq_true, Nat.blt_eq] at hw
     exact ⟨rows.getD x.2 [], by rw [List.getD_eq_getElem _ _ hw.1]; exact List.getElem_mem _,
       (mEq_eq hw.2).symm⟩
 

@@ -33,7 +33,7 @@ theorem cent203b_exists_normal_complement [Finite Γ] (Δ : Subgroup Γ) {z : Γ
       (∀ x ∈ Subgroup.normalizer (Δ : Set Γ), ∀ y ∈ Y, x * y * x⁻¹ ∈ Y) ∧
       ∀ d ∈ Δ, d ∈ Y ⊔ Subgroup.zpowers z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set w : Δ := ⟨z, hzΔ⟩ with hwdef
   have hw2 : w * w = 1 := Subtype.ext hz2
   have hw1 : w ≠ 1 := fun h => hz1 (congrArg Subtype.val h)
@@ -109,7 +109,7 @@ theorem cent203b_exists_normal_complement [Finite Γ] (Δ : Subgroup Γ) {z : Γ
 
 theorem cent203b_two_dvd_index [Finite Γ] (H : Subgroup Γ) [H.Normal] {g : Γ} (hg : g ∉ H)
     (hg2 : g * g ∈ H) : 2 ∣ H.index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : ((g : Γ ⧸ H)) ^ 2 = 1 := by
     rw [sq, ← QuotientGroup.mk_mul, QuotientGroup.eq_one_iff]
     exact hg2
@@ -119,12 +119,12 @@ theorem cent203b_two_dvd_index [Finite Γ] (H : Subgroup Γ) [H.Normal] {g : Γ}
   exact hd
 
 theorem cent203b_mem_sup_three (X A B C : Subgroup Γ) (hA : A ≤ X) (hB : B ≤ X) (hC : C ≤ X)
-    (hAX : X ≤ Subgroup.normalizer (A : Set Γ)) (hBX : X ≤ Subgroup.normalizer (B : Set Γ))
+    (_hAX : X ≤ Subgroup.normalizer (A : Set Γ)) (hBX : X ≤ Subgroup.normalizer (B : Set Γ))
     (hCX : X ≤ Subgroup.normalizer (C : Set Γ)) {g : Γ} (hg : g ∈ A ⊔ B ⊔ C) :
     ∃ a ∈ A, ∃ b ∈ B, ∃ c ∈ C, g = a * b * c := by
-  haveI : (A.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hA).mpr hAX
-  haveI : (B.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hB).mpr hBX
-  haveI : (C.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hC).mpr hCX
+  have : (A.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hA).mpr _hAX
+  have : (B.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hB).mpr hBX
+  have : (C.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hC).mpr hCX
   have hle : A ⊔ B ⊔ C ≤ ((A.subgroupOf X ⊔ B.subgroupOf X) ⊔ C.subgroupOf X).map X.subtype := by
     refine sup_le (sup_le ?_ ?_) ?_
     · intro a ha
@@ -149,7 +149,7 @@ theorem cent203b_mem_sup_three (X A B C : Subgroup Γ) (hA : A ≤ X) (hB : B �
 
 theorem cent203b_not_two_dvd {a b m : ℕ} (hm : m = a * b) (hm0 : m ≠ 0)
     (hpad : padicValNat 2 m ≤ 1) (hb : 2 ∣ b) : ¬ 2 ∣ a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro ha
   have h4 : 2 ^ 2 ∣ m := by
     rw [hm, show (2 : ℕ) ^ 2 = 2 * 2 from rfl]

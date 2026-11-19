@@ -14,7 +14,7 @@ namespace CFSG.Sporadic.FischerOddCore
 open CFSG.Monster.B.Co2.Native CFSG.Certificates.Native CFSG.Monster.B.Fischer
 open CFSG.Sporadic.FischerOddCore.Native
 
-@[expose] def fi22ExtResArr (I : Nat) : Array Nat :=
+def fi22ExtResArr (I : Nat) : Array Nat :=
   resIdx 256 fi22TLevels fi22ExtQArr fi22ExtQiArr fi22ExtVArr fi22ExtDArr fi22ExtPosArr I
 
 end CFSG.Sporadic.FischerOddCore

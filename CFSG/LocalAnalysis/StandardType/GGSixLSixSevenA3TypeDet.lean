@@ -102,17 +102,17 @@ section Generic
 theorem subsingleton_specialLinear_of_card_le_one {ι Q : Type} [Fintype ι] [DecidableEq ι]
     [Field Q] (h : Fintype.card ι ≤ 1) :
     Subsingleton (Matrix.SpecialLinearGroup ι Q) := by
-  haveI : Subsingleton ι := Fintype.card_le_one_iff_subsingleton.mp h
+  have : Subsingleton ι := Fintype.card_le_one_iff_subsingleton.mp h
   infer_instance
 
 theorem isSolvable_specialLinear_of_card_eq_two {ι Q : Type} [Fintype ι] [DecidableEq ι]
     [Field Q] (hι : Fintype.card ι = 2) (hQ : Nat.card Q = 2) :
     Group.IsSolvable (Matrix.SpecialLinearGroup ι Q) := by
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) Q) :=
+  have : Finite Q := Nat.finite_of_card_ne_zero (by omega)
+  have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) Q) :=
     CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable Q
       (Or.inl hQ)
-  haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) Q) :=
+  have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) Q) :=
     Group.isSolvable_of_isSolvable_injective Matrix.SpecialLinearGroup.toGL_injective
   let e : Matrix.SpecialLinearGroup ι Q ≃* Matrix.SpecialLinearGroup (Fin 2) Q :=
     CFSG.SeitzReduction.LinearPilot.reindexSpecialLinear (K := Q)
@@ -143,45 +143,45 @@ theorem isQuasisimple_specialLinear_of_quasisimple_range {G : Type*} [Group G] {
   have h2a : 2 ≤ Fintype.card ι := by
     by_contra hlt
     have hle : Fintype.card ι ≤ 1 := by omega
-    haveI : Subsingleton (Matrix.SpecialLinearGroup ι Q) :=
+    have : Subsingleton (Matrix.SpecialLinearGroup ι Q) :=
       subsingleton_specialLinear_of_card_le_one hle
     have hsub : Subsingleton ↥ρ.range := by
       refine ⟨fun a b => ?_⟩
       obtain ⟨x, hx⟩ := a.2
       obtain ⟨y, hy⟩ := b.2
       exact Subtype.ext (by rw [← hx, ← hy, Subsingleton.elim x y])
-    haveI := hsub
-    haveI : Nontrivial ↥ρ.range :=
+    have := hsub
+    have : Nontrivial ↥ρ.range :=
       CFSG.ComponentClassification.Quasisimple.nontrivial hq
     obtain ⟨a, b, hab⟩ := exists_pair_ne ↥ρ.range
     exact hab (Subsingleton.elim a b)
   have h22 : Fintype.card ι ≠ 2 ∨ Nat.card Q ≠ 2 := by
     rw [← not_and_or]
     rintro ⟨ha2, hQ2⟩
-    haveI : Group.IsSolvable (Matrix.SpecialLinearGroup ι Q) :=
+    have : Group.IsSolvable (Matrix.SpecialLinearGroup ι Q) :=
       isSolvable_specialLinear_of_card_eq_two ha2 hQ2
     have hsolJ : Group.IsSolvable ↥ρ.range :=
       Group.isSolvable_of_surjective ρ.rangeRestrict_surjective
-    letI : Group.IsSolvable ↥ρ.range := hsolJ
+    let : Group.IsSolvable ↥ρ.range := hsolJ
     exact CFSG.StandardType.LinSemisimple.false_of_isQuasisimple_of_le_isSolvable hq le_rfl
   exact ⟨h2a, h22, isQuasisimple_specialLinear h2a h22⟩
 
 theorem card_eq_four_of_ker_le_center_of_lieModel {G : Type} [Group G] {ι Q : Type}
-    [Fintype ι] [DecidableEq ι] [Field Q] [Finite Q] [CharP Q 2] (hι : 2 ≤ Fintype.card ι)
+    [Fintype ι] [DecidableEq ι] [Field Q] [Finite Q] [CharP Q 2] (_hι : 2 ≤ Fintype.card ι)
     (ρ : Matrix.SpecialLinearGroup ι Q →* G)
     (hker : ρ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup ι Q))
     (hq : CFSG.Assembly.IsQuasisimple ρ.range)
     (hA : LieModel (↥ρ.range ⧸ Subgroup.center ↥ρ.range) .PSL 4 2 1) :
     Fintype.card ι = 4 ∧ Nat.card Q = 2 := by
   classical
-  haveI : Fintype Q := Fintype.ofFinite Q
+  have : Fintype Q := Fintype.ofFinite Q
   obtain ⟨k, -, hkcard⟩ := FiniteField.card Q 2
   have hk1 : 1 ≤ (k : ℕ) := Nat.succ_le_iff.mpr k.pos
   have hQnat : Nat.card Q = 2 ^ (k : ℕ) := by
     rw [Nat.card_eq_fintype_card, hkcard]
   obtain ⟨h2a, h22, hS⟩ := isQuasisimple_specialLinear_of_quasisimple_range ρ hq
   let S := Matrix.SpecialLinearGroup ι Q
-  haveI : Group.IsPerfect S := ⟨hS.1⟩
+  have : Group.IsPerfect S := ⟨hS.1⟩
   have hρsurj : Function.Surjective ρ.rangeRestrict := MonoidHom.rangeRestrict_surjective ρ
   have hker' : ρ.rangeRestrict.ker ≤ Subgroup.center S := by
     rw [MonoidHom.ker_rangeRestrict]
@@ -237,12 +237,12 @@ theorem card_eq_four_of_isQuasisimple_range_of_lieModel {G : Type} [Group G] {ι
     · exfalso
       have hρ1 : ρ = 1 := MonoidHom.ker_eq_top_iff.mp h
       have hbot : ρ.range = ⊥ := MonoidHom.range_eq_bot_iff.mpr hρ1
-      haveI : Subsingleton ↥ρ.range := by
+      have : Subsingleton ↥ρ.range := by
         refine ⟨fun a b => Subtype.ext ?_⟩
         have ha : (a : G) = 1 := Subgroup.mem_bot.mp (hbot ▸ a.2)
         have hb : (b : G) = 1 := Subgroup.mem_bot.mp (hbot ▸ b.2)
         rw [ha, hb]
-      haveI : Nontrivial ↥ρ.range :=
+      have : Nontrivial ↥ρ.range :=
         CFSG.ComponentClassification.Quasisimple.nontrivial hq
       obtain ⟨a, b, hab⟩ := exists_pair_ne ↥ρ.range
       exact hab (Subsingleton.elim a b)

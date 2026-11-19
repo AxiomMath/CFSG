@@ -79,11 +79,13 @@ theorem thompsonJ_ne_bot {T : Subgroup G} (hT2 : IsPGroup 2 ↥T) (hT : T ≠ �
   have : 2 ^ 1 ≤ 2 ^ CFSG.Open.pRank 2 T := Nat.pow_le_pow_right (by norm_num) h1
   omega
 
+omit [Finite G] in
 theorem omegaOne_center_le (T : Subgroup G) : omegaOne 2 (centerOf T) ≤ T := by
   refine (Subgroup.closure_le _).2 fun z hz => ?_
   obtain ⟨⟨w, -, rfl⟩, -⟩ := hz
   exact w.2
 
+omit [Finite G] in
 theorem isCharIn_omegaOne_center (T : Subgroup G) : IsCharIn (omegaOne 2 (centerOf T)) T := by
   refine ⟨omegaOne_center_le T, fun ψ x hx => ?_⟩
   have hgen : ∀ z : ↥T, (z : G) ∈ centerOf T → (z : G) ^ 2 = 1 →
@@ -114,7 +116,7 @@ theorem isCharIn_omegaOne_center (T : Subgroup G) : IsCharIn (omegaOne 2 (center
 theorem omegaOne_center_ne_bot {T : Subgroup G} (hT2 : IsPGroup 2 ↥T) (hT : T ≠ ⊥) :
     omegaOne 2 (centerOf T) ≠ ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT
   have hZ : Nontrivial (Subgroup.center ↥T) := hT2.center_nontrivial
   have hZ2 : IsPGroup 2 (Subgroup.center ↥T) := hT2.to_subgroup _
   obtain ⟨k, hk⟩ := hZ2.exists_card_eq
@@ -167,6 +169,7 @@ theorem le_normalizer_of_ne {H L L' : Subgroup G} (hL : GLAPComponent 3 H L)
   refine mem_normalizer_of_mk_centralizes hL (hL'.1 hx) ?_
   exact Claims1115b.barX_le_centralizer_of_ne' hL hL' hne (Inputs1115.mk_mem_barX (hL'.1 hx) hx)
 
+omit [Finite G] in
 theorem commutator_sup_le {Y A : Subgroup G} (hAY : A ≤ Subgroup.normalizer (Y : Set G))
     (hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) : ⁅Y ⊔ A, Y ⊔ A⁆ ≤ Y := by
   rw [Subgroup.commutator_le]
@@ -198,7 +201,7 @@ theorem le_of_le_sup_two {Y J N T : Subgroup G} (hJ : GLAPComponent 3 Y J)
   have hNA : N ≤ N ⊔ T := le_sup_left
   have hTA : T ≤ N ⊔ T := le_sup_right
   have hAN : N ⊔ T ≤ Subgroup.normalizer (N : Set G) := sup_le Subgroup.le_normalizer hTN
-  haveI : (N.subgroupOf (N ⊔ T)).Normal :=
+  have : (N.subgroupOf (N ⊔ T)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNA).2 hAN
   refine CFSG.HardMathSupport.Solomon.Coordinator.i183_le_of_coprime_index Nat.prime_three hJ
     hJNT ?_
@@ -226,18 +229,22 @@ structure IsJoin (H J : Subgroup G) (𝒞 : Set (Subgroup G)) : Prop where
 
 variable {H J : Subgroup G} {𝒞 : Set (Subgroup G)}
 
+omit [Finite G] in
 theorem IsJoin.mem_le (hJ : IsJoin H J 𝒞) {L : Subgroup G} (hL : L ∈ 𝒞) : L ≤ J := by
   rw [hJ.eq]
   exact le_iSup₂ (f := fun (L : Subgroup G) (_ : L ∈ 𝒞) => L) L hL
 
+omit [Finite G] in
 theorem IsJoin.le (hJ : IsJoin H J 𝒞) : J ≤ H := by
   rw [hJ.eq]
   exact iSup₂_le fun L hL => (hJ.comp L hL).1
 
+omit [Finite G] in
 theorem IsJoin.le_of_forall (hJ : IsJoin H J 𝒞) {N : Subgroup G} (h : ∀ L ∈ 𝒞, L ≤ N) : J ≤ N := by
   rw [hJ.eq]
   exact iSup₂_le h
 
+omit [Finite G] in
 theorem IsJoin.mem_normalizer (hJ : IsJoin H J 𝒞) {x : G}
     (h : ∀ L ∈ 𝒞, x ∈ Subgroup.normalizer (L : Set G)) :
     x ∈ Subgroup.normalizer (J : Set G) := by
@@ -348,6 +355,7 @@ section XFacts
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_sup {P Q : Subgroup G} {x : G} (hP : x ∈ Subgroup.normalizer (P : Set G))
     (hQ : x ∈ Subgroup.normalizer (Q : Set G)) : x ∈ Subgroup.normalizer ((P ⊔ Q : Subgroup G) : Set G) := by
   rw [mem_normalizer_iff_gLBConj_eq] at hP hQ ⊢
@@ -783,6 +791,7 @@ theorem covers_of_covers_sub {H X J N : Subgroup G} {𝒞 : Set (Subgroup G)} (h
       rw [CFSG.HardMathSupport.Solomon.Coordinator.i183_barX_sup inf_le_right hOH,
         (CFSG.HardMathSupport.Solomon.Coordinator.i183_barX_eq_bot_iff hOH).2 le_rfl, sup_bot_eq]
 
+omit [Finite G] in
 theorem ne_bot_of_isMaxInvTwoSub {H A T : Subgroup G} (hH : IsTwoLocal H) (hAH : A ≤ H)
     (hT : IsMaxInvTwoSub H A T) : T ≠ ⊥ := by
   intro hbot

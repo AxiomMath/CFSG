@@ -63,6 +63,7 @@ theorem k1Core_almostSimple (hK : CFSG.IsKGroup X) (h : D2Reduced p X R A X₀) 
         ((QuotientGroup.quotientMulEquivOfEq hcenter).trans QuotientGroup.quotientBot).symm
         hcat }⟩
 
+omit [Finite X] in
 theorem k1Core_ne_of_conj {B : Subgroup X}
     (hconj : ∀ g : X, B.map (MulAut.conj g).toMonoidHom ≠ A) : B ≠ A := by
   intro hBA
@@ -79,7 +80,7 @@ theorem k1Core_false_of_sylow_eq (h : D2Reduced p X R A X₀) {B : Subgroup X}
 theorem k1Core_sylow_eq_of_le {R : Sylow 3 X} (h : D2Reduced 3 X R A X₀) {K : Subgroup X}
     (hRK : (R : Subgroup X) ≤ K) (h27 : ¬ 27 ∣ Nat.card K) : (R : Subgroup X) = A := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  obtain ⟨k, hk⟩ := R.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := R.isPGroup.exists_card_eq
   have hRK' : Nat.card (R : Subgroup X) ∣ Nat.card K := Subgroup.card_dvd_of_le hRK
   have hAR : Nat.card A ∣ Nat.card (R : Subgroup X) := Subgroup.card_dvd_of_le h.A_le
   rw [h.card_A, hk] at hAR
@@ -95,6 +96,7 @@ theorem k1Core_sylow_eq_of_le {R : Sylow 3 X} (h : D2Reduced 3 X R A X₀) {K : 
   have hk' : k = 2 := le_antisymm hk2 hk2'
   exact (Subgroup.eq_of_le_of_card_ge h.A_le (by rw [hk, hk', h.card_A])).symm
 
+omit [Finite X] in
 theorem k1Core_exists_action {K : Subgroup X} [K.Normal]
     (hC : Subgroup.centralizer (K : Set X) = ⊥) {L : Type*} [Group L] (ψ : K ≃* L) :
     ∃ ι : X →* MulAut L, Function.Injective ι ∧

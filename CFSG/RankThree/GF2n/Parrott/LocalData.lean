@@ -25,6 +25,7 @@ noncomputable def lift (x : QA45.originalSubgroup) : ↥(H z) :=
     (QuotientGroup.mk'_surjective ((J z).subgroupOf (H z))
       ((QuotientData.toQA45 (z := z) (hN := hN) D).symm x))
 
+omit [Finite G] in
 @[simp] theorem qH_lift (x : QA45.originalSubgroup) : qH D (lift D x) = x := by
   have hspec := Classical.choose_spec
     (QuotientGroup.mk'_surjective ((J z).subgroupOf (H z))
@@ -34,8 +35,10 @@ noncomputable def lift (x : QA45.originalSubgroup) : ↥(H z) :=
   rw [hspec]
   exact MulEquiv.apply_symm_apply _ _
 
+omit [Finite G] in
 theorem qH_surjective : Function.Surjective (qH D) := fun x => ⟨lift D x, qH_lift D x⟩
 
+omit [Finite G] in
 theorem mk_eq_mk_iff (a b : ↥(H z)) :
     QuotientGroup.mk' ((J z).subgroupOf (H z)) a =
         QuotientGroup.mk' ((J z).subgroupOf (H z)) b ↔ qH D a = qH D b := by
@@ -50,11 +53,13 @@ theorem mk_eq_mk_iff (a b : ↥(H z)) :
   · intro h
     exact (QuotientData.toQA45 (z := z) (hN := hN) D).injective (by simpa [qH] using h)
 
+omit [Finite G] in
 theorem mk_eq_of_qH_eq {a b : ↥(H z)} (h : qH D a = qH D b) :
     QuotientGroup.mk' ((J z).subgroupOf (H z)) a =
       QuotientGroup.mk' ((J z).subgroupOf (H z)) b :=
   (mk_eq_mk_iff D a b).mpr h
 
+omit [Finite G] in
 theorem J_mem_iff (x : ↥(H z)) :
     x ∈ (J z).subgroupOf (H z) ↔ qH D x = 1 := by
   rw [← QuotientGroup.ker_mk' (N := ((J z).subgroupOf (H z))), MonoidHom.mem_ker]
@@ -87,36 +92,49 @@ noncomputable abbrev b2H : ↥(H z) := lift D ⟨beta2, beta2_mem_A⟩
 
 noncomputable abbrev betaH : ↥(H z) := lift D ⟨beta, beta_mem_A⟩
 
+omit [Finite G] in
 @[simp] theorem qH_tH : qH D (tH D) = ⟨t, t_mem_A⟩ := qH_lift D _
 
+omit [Finite G] in
 @[simp] theorem qH_uH : qH D (uH D) = ⟨u, u_mem_A⟩ := qH_lift D _
 
+omit [Finite G] in
 @[simp] theorem qH_vH : qH D (vH D) = ⟨v, v_mem_A⟩ := qH_lift D _
 
+omit [Finite G] in
 @[simp] theorem qH_s1H : qH D (s1H D) = ⟨sigma1, sigma1_mem_A⟩ := qH_lift D _
 
+omit [Finite G] in
 @[simp] theorem qH_s2H : qH D (s2H D) = ⟨sigma2, sigma2_mem_A⟩ := qH_lift D _
 
+omit [Finite G] in
 @[simp] theorem qH_a1H : qH D (a1H D) = ⟨alpha1, alpha1_mem_A⟩ := qH_lift D _
 
+omit [Finite G] in
 @[simp] theorem qH_b1H : qH D (b1H D) = ⟨beta1, beta1_mem_A⟩ := qH_lift D _
 
+omit [Finite G] in
 @[simp] theorem qH_a2H : qH D (a2H D) = ⟨alpha2, alpha2_mem_A⟩ := qH_lift D _
 
+omit [Finite G] in
 @[simp] theorem qH_b2H : qH D (b2H D) = ⟨beta2, beta2_mem_A⟩ := qH_lift D _
 
+omit [Finite G] in
 @[simp] theorem qH_betaH : qH D (betaH D) = ⟨beta, beta_mem_A⟩ := qH_lift D _
 
+omit [Finite G] in
 theorem qH_tH_mem_Q :
     qH D (tH D) ∈ QP45.originalSubgroup.subgroupOf QA45.originalSubgroup := by
   rw [qH_tH]
   exact t_mem_Q
 
+omit [Finite G] in
 theorem qH_vH_not_mem_Q :
     qH D (vH D) ∉ QP45.originalSubgroup.subgroupOf QA45.originalSubgroup := by
   rw [qH_vH]
   exact v_not_mem_Q
 
+omit [Finite G] in
 theorem qH_a2H_mem_Q :
     qH D (a2H D) ∈ QP45.originalSubgroup.subgroupOf QA45.originalSubgroup := by
   rw [qH_a2H]
@@ -125,6 +143,7 @@ theorem qH_a2H_mem_Q :
 noncomputable def P_H : Subgroup ↥(H z) :=
   Subgroup.comap (qH D) (QP45.originalSubgroup.subgroupOf QA45.originalSubgroup)
 
+omit [Finite G] in
 theorem mem_P_H_iff (x : ↥(H z)) :
     x ∈ P_H D ↔ qH D x ∈ QP45.originalSubgroup.subgroupOf QA45.originalSubgroup :=
   Iff.rfl
@@ -152,6 +171,7 @@ theorem index_QP45 :
     (QP45.originalSubgroup.subgroupOf QA45.originalSubgroup).index = 2 := by
   rw [Subgroup.index_eq_card_div, card_QA45, card_QP45_subgroupOf]
 
+omit [Finite G] in
 theorem J_le_P_H : (J z).subgroupOf (H z) ≤ P_H D := by
   intro x hx
   rw [mem_P_H_iff]
@@ -159,36 +179,44 @@ theorem J_le_P_H : (J z).subgroupOf (H z) ≤ P_H D := by
   rw [hx]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 theorem P_H_normal : (P_H D).Normal :=
   (Subgroup.normal_of_index_eq_two index_QP45).comap (qH D)
 
+omit [Finite G] in
 theorem index_P_H : (P_H D).index = 2 := by
   unfold P_H
   rw [Subgroup.index_comap_of_surjective
     (H := QP45.originalSubgroup.subgroupOf QA45.originalSubgroup) (f := qH D)
     (qH_surjective D), index_QP45]
 
+omit [Finite G] in
 theorem uH_mem_P_H : uH D ∈ P_H D := by
   rw [mem_P_H_iff, qH_uH]
   exact u_mem_Q
 
+omit [Finite G] in
 theorem vH_not_mem_P_H : vH D ∉ P_H D := by
   intro h
   rw [mem_P_H_iff, qH_vH] at h
   exact v_not_mem_Q h
 
+omit [Finite G] in
 theorem tH_mem_P_H : tH D ∈ P_H D := by
   rw [mem_P_H_iff, qH_tH]
   exact t_mem_Q
 
+omit [Finite G] in
 theorem a2H_mem_P_H : a2H D ∈ P_H D := by
   rw [mem_P_H_iff, qH_a2H]
   exact alpha2_mem_Q
 
+omit [Finite G] in
 theorem betaH_mem_P_H : betaH D ∈ P_H D := by
   rw [mem_P_H_iff, qH_betaH]
   exact beta_mem_Q
 
+omit [Finite G] in
 theorem mk_t_mul_u :
     QuotientGroup.mk' ((J z).subgroupOf (H z)) (tH D * uH D) =
       QuotientGroup.mk' ((J z).subgroupOf (H z)) (uH D * tH D) := by
@@ -197,6 +225,7 @@ theorem mk_t_mul_u :
   apply Subtype.ext
   simpa only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_pow, Subgroup.coe_one] using t_commute_u
 
+omit [Finite G] in
 @[simp] theorem mk_one :
     QuotientGroup.mk' ((J z).subgroupOf (H z)) (1 : ↥(H z)) = 1 := map_one _
 

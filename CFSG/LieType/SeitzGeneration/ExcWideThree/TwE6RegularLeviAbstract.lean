@@ -36,13 +36,13 @@ theorem exists_fixed_mul_central {Y : Type*} [Group Y]
     rw [← this]
     exact Subgroup.mem_map_of_mem _ hz
   let α : Type _ := {y : Y // x⁻¹ * y ∈ Subgroup.center Y}
-  haveI : Finite α := by
+  have : Finite α := by
     refine Finite.of_injective (fun y : α => (⟨x⁻¹ * y.1, y.2⟩ : Subgroup.center Y)) ?_
     intro a b h
     apply Subtype.ext
     have := congrArg Subtype.val h
     simpa using this
-  haveI : Fintype α := Fintype.ofFinite α
+  have : Fintype α := Fintype.ofFinite α
   have hcoset : ∀ y : Y, x⁻¹ * y ∈ Subgroup.center Y → x⁻¹ * ε y ∈ Subgroup.center Y := by
     intro y hy
     have h1 : ε y = ε x * ε (x⁻¹ * y) := by
@@ -79,7 +79,7 @@ theorem exists_fixed_mul_central {Y : Type*} [Group Y]
   have hcardα : Fintype.card α = Nat.card (Subgroup.center Y) := by
     rw [← Nat.card_eq_fintype_card]
     exact Nat.card_congr hαZ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hndvd : ¬ 3 ∣ Fintype.card α := by
     rw [hcardα]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 hcop.symm

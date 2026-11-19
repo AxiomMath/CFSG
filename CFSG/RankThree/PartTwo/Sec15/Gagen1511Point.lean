@@ -17,6 +17,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem deltaZero_le_centralizer {A : Subgroup G} (hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x)
     (LB : Subgroup G → Subgroup G) {c' : G} (hc'A : c' ∈ A) {X : Subgroup G}
     (hX : X ≤ Subgroup.normalizer (Subgroup.zpowers c' : Set G)) :
@@ -53,6 +54,7 @@ theorem deltaZero_le_centralizer {A : Subgroup G} (hA : ∀ x ∈ A, ∀ y ∈ A
   have heq : ⁅q, a⁆ = (q * a * q⁻¹) * a⁻¹ := by rw [commutatorElement_def]
   rwa [heq]
 
+omit [Finite G] in
 theorem mul_inv_mem_pPrimeCoreOf_of_eq {A : Subgroup G} (hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x)
     {LB : Subgroup G → Subgroup G} {c' : G} (hc'A : c' ∈ A) {Y : Subgroup G}
     (hYA : A ≤ Subgroup.normalizer (Y : Set G))
@@ -90,11 +92,11 @@ theorem not_isSolvable_inf_centralizer {X N : Subgroup G} {d : G} (hd3 : d ^ 3 =
     (hXres : X = oPrimeResidualOf 3 X)
     (hq : CFSG.IsQuasisimple (↥X ⧸ CFSG.pCore 2 ↥X))
     (hNX : N ≤ X) (hNn : (N.subgroupOf X).Normal) (hN3 : ¬ 3 ∣ Nat.card N)
-    (hdX : ∀ x ∈ X, d * x * d⁻¹ ∈ X) (hdN : ∀ n ∈ N, d * n * d⁻¹ ∈ N)
+    (_hdX : ∀ x ∈ X, d * x * d⁻¹ ∈ X) (hdN : ∀ n ∈ N, d * n * d⁻¹ ∈ N)
     (htriv : ∀ x ∈ X, x⁻¹ * (d * x * d⁻¹) ∈ N) :
     ¬ Group.IsSolvable ↥(X ⊓ Subgroup.centralizer ({d} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := X ⊓ Subgroup.centralizer ({d} : Set G) with hC
   set Cx : Subgroup ↥X := C.subgroupOf X with hCx
   set Nx : Subgroup ↥X := N.subgroupOf X with hNx
@@ -163,14 +165,14 @@ theorem not_isSolvable_inf_centralizer {X N : Subgroup G} {d : G} (hd3 : d ^ 3 =
       have hyP : y ∈ CFSG.pCore 2 ↥X := by rw [hPtop]; exact Subgroup.mem_top y
       rw [(QuotientGroup.eq_one_iff (N := CFSG.pCore 2 ↥X) x).mpr hxP,
         (QuotientGroup.eq_one_iff (N := CFSG.pCore 2 ↥X) y).mpr hyP]
-    haveI : Subsingleton (↥X ⧸ CFSG.pCore 2 ↥X) := hsubQ
-    haveI : IsSimpleGroup ((↥X ⧸ CFSG.pCore 2 ↥X) ⧸
+    have : Subsingleton (↥X ⧸ CFSG.pCore 2 ↥X) := hsubQ
+    have : IsSimpleGroup ((↥X ⧸ CFSG.pCore 2 ↥X) ⧸
         Subgroup.center (↥X ⧸ CFSG.pCore 2 ↥X)) := hq.2.1
     obtain ⟨a, b, hab⟩ := exists_pair_ne ((↥X ⧸ CFSG.pCore 2 ↥X) ⧸
       Subgroup.center (↥X ⧸ CFSG.pCore 2 ↥X))
     exact hab (Subsingleton.elim a b)
   have hNq_center : Nq ≤ Subgroup.center (↥X ⧸ CFSG.pCore 2 ↥X) := by
-    haveI : Nq.Normal := hNq_normal
+    have : Nq.Normal := hNq_normal
     have hqOpen : CFSG.Open.IsQuasisimple (↥X ⧸ CFSG.pCore 2 ↥X) :=
       (CFSG.Foundations.SteinbergCA.quasisimple_iff _).2.2.1.mp hq
     exact CFSG.ComponentClassification.Quasisimple.normal_le_center_of_ne_top hqOpen Nq
@@ -188,21 +190,21 @@ theorem not_isSolvable_inf_centralizer {X N : Subgroup G} {d : G} (hd3 : d ^ 3 =
       _ = Subgroup.map π Cx ⊔ Subgroup.map π Nx := Subgroup.map_sup Cx Nx π
       _ = Subgroup.map π Cx ⊔ Nq := by rw [hNq]
   intro hCsolv
-  haveI : Group.IsSolvable ↥C := hCsolv
+  have : Group.IsSolvable ↥C := hCsolv
   have hCxsolv : Group.IsSolvable ↥Cx :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (inf_le_left : C ≤ X)).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe (inf_le_left : C ≤ X)).injective
-  haveI : Group.IsSolvable ↥Cx := hCxsolv
+  have : Group.IsSolvable ↥Cx := hCxsolv
   have hCq_solv : Group.IsSolvable ↥(Subgroup.map π Cx) := by
     let f : ↥Cx →* ↥(Subgroup.map π Cx) :=
       (π.comp Cx.subtype).codRestrict _ fun x => Subgroup.mem_map_of_mem π x.2
     exact Group.isSolvable_of_surjective (f := f) fun y => by
       obtain ⟨x, hx, hxy⟩ := Subgroup.mem_map.mp y.2
       exact ⟨⟨x, hx⟩, Subtype.ext hxy⟩
-  haveI : Group.IsSolvable ↥(Subgroup.map π Cx) := hCq_solv
+  have : Group.IsSolvable ↥(Subgroup.map π Cx) := hCq_solv
   have hQNq_solv : Group.IsSolvable ((↥X ⧸ CFSG.pCore 2 ↥X) ⧸ Nq) := by
-    haveI : Nq.Normal := hNq_normal
+    have : Nq.Normal := hNq_normal
     let ψ : ↥(Subgroup.map π Cx) →* ((↥X ⧸ CFSG.pCore 2 ↥X) ⧸ Nq) :=
       (QuotientGroup.mk' Nq).comp (Subgroup.map π Cx).subtype
     refine Group.isSolvable_of_surjective (f := ψ) fun z => ?_
@@ -216,17 +218,17 @@ theorem not_isSolvable_inf_centralizer {X N : Subgroup G} {d : G} (hd3 : d ^ 3 =
     change QuotientGroup.mk' Nq c = QuotientGroup.mk' Nq q
     rw [← hcn, map_mul, hn1, mul_one]
   have hQsolv : Group.IsSolvable (↥X ⧸ CFSG.pCore 2 ↥X) := by
-    haveI : Nq.Normal := hNq_normal
-    haveI : Group.IsSolvable ↥Nq := hNq_solv
-    haveI : Group.IsSolvable ((↥X ⧸ CFSG.pCore 2 ↥X) ⧸ Nq) := hQNq_solv
+    have : Nq.Normal := hNq_normal
+    have : Group.IsSolvable ↥Nq := hNq_solv
+    have : Group.IsSolvable ((↥X ⧸ CFSG.pCore 2 ↥X) ⧸ Nq) := hQNq_solv
     refine Group.isSolvable_of_ker_le_range Nq.subtype (QuotientGroup.mk' Nq) ?_
     rw [QuotientGroup.ker_mk', Subgroup.range_subtype]
-  haveI : IsSimpleGroup ((↥X ⧸ CFSG.pCore 2 ↥X) ⧸
+  have : IsSimpleGroup ((↥X ⧸ CFSG.pCore 2 ↥X) ⧸
       Subgroup.center (↥X ⧸ CFSG.pCore 2 ↥X)) := hq.2.1
-  haveI hQnt : Nontrivial (↥X ⧸ CFSG.pCore 2 ↥X) :=
+  have hQnt : Nontrivial (↥X ⧸ CFSG.pCore 2 ↥X) :=
     Function.Surjective.nontrivial (QuotientGroup.mk'_surjective
       (Subgroup.center (↥X ⧸ CFSG.pCore 2 ↥X)))
-  haveI : Group.IsPerfect (↥X ⧸ CFSG.pCore 2 ↥X) := hq.1
+  have : Group.IsPerfect (↥X ⧸ CFSG.pCore 2 ↥X) := hq.1
   exact Group.IsPerfect.not_isSolvable _ hQsolv
 
 theorem zpowers_eq_of_eq_sup_deltaZero {A L : Subgroup G} {c : G} (h : Sec15R G A c L)
@@ -241,7 +243,7 @@ theorem zpowers_eq_of_eq_sup_deltaZero {A L : Subgroup G} {c : G} (h : Sec15R G 
       deltaZero A (lB A) (Y ⊓ Subgroup.normalizer (Subgroup.zpowers c' : Set G))) :
     Subgroup.zpowers c' = Subgroup.zpowers c := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD := h.toSec13Data
   set O := pPrimeCoreOf 3 Y with hO
   have htrivY : ∀ y ∈ Y, c' * y * c'⁻¹ * y⁻¹ ∈ O := fun y hy =>
@@ -333,7 +335,7 @@ theorem zpowers_eq_of_eq_sup_deltaZero {A L : Subgroup G} {c : G} (h : Sec15R G 
         congrArg (fun z : θ => (z : ↥L)) hab
       exact Subtype.ext (C₁.subtype_injective h)
     have hker_solv : Group.IsSolvable ↥ψ.ker := by
-      haveI : Group.IsSolvable θ := hθsolv
+      have : Group.IsSolvable θ := hθsolv
       exact Group.isSolvable_of_isSolvable_injective hιinj
     have hrange_cent : ψ.range ≤
         Subgroup.centralizer ({πL ⟨d, hdL⟩} : Set (↥L ⧸ θ)) := by
@@ -350,18 +352,18 @@ theorem zpowers_eq_of_eq_sup_deltaZero {A L : Subgroup G} {c : G} (h : Sec15R G 
     have hCbar_nsolv : ¬ Group.IsSolvable ↥(Subgroup.centralizer
         ({πL ⟨d, hdL⟩} : Set (↥L ⧸ θ))) := by
       intro hcentSolv
-      haveI : Group.IsSolvable ↥(Subgroup.centralizer
+      have : Group.IsSolvable ↥(Subgroup.centralizer
           ({πL ⟨d, hdL⟩} : Set (↥L ⧸ θ))) := hcentSolv
       have hrange_solv : Group.IsSolvable ↥ψ.range :=
         Group.isSolvable_of_isSolvable_injective
           (Subgroup.inclusion_injective hrange_cent)
-      haveI : Group.IsSolvable ↥ψ.range := hrange_solv
-      haveI : Group.IsSolvable ↥ψ.ker := hker_solv
+      have : Group.IsSolvable ↥ψ.range := hrange_solv
+      have : Group.IsSolvable ↥ψ.ker := hker_solv
       have hC₁solv : Group.IsSolvable ↥C₁ := by
         refine Group.isSolvable_of_ker_le_range ψ.ker.subtype ψ.rangeRestrict ?_
         intro x hx
         exact ⟨⟨x, by simpa using hx⟩, rfl⟩
-      haveI : Group.IsSolvable ↥C₁ := hC₁solv
+      have : Group.IsSolvable ↥C₁ := hC₁solv
       have hC₀solv : Group.IsSolvable ↥C₀ :=
         Group.isSolvable_of_surjective
           (f := (Subgroup.subgroupOfEquivOfLe hC₀L).toMonoidHom)

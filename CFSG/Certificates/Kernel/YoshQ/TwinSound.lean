@@ -267,9 +267,9 @@ theorem ueEnumCheck_eq (GE GS : List Nat) (c : Nat) (lE lS : List Nat) :
     ueEnumCheck (GE.map (tabN 16 5)).toArray (GS.map (tabN 16 5)).toArray (tabN 16 5 c)
       (lE.map (tabN 16 5)).toArray (lS.map (tabN 16 5)).toArray = ueN GE GS c lE lS := by
   unfold ueEnumCheck ueN
-  simp only [toList_map_tabN, List.any_toArray, List.all_toArray, all_map_tabN, any_map_tabN,
+  simp only [List.any_toArray, List.all_toArray, any_map_tabN,
     filter_map_tabN', memTab_tabN dims16, CFSG.EvenSporadicStandard.M12Std.Yosh.conjT,
-    conjT_tabN dims16, sqIn_tabN dims16, commIn_tabN dims16, commutatorT_tabN dims16,
+    sqIn_tabN dims16, commIn_tabN dims16, commutatorT_tabN dims16,
     List.map_map, Function.comp_def, compT_tabN' dims16, invT_tabN' dims16, List.all_map,
     List.length_map, cjN]
 
@@ -278,8 +278,7 @@ theorem esEnumCheck_eq (GE GS : List Nat) (c : Nat) (lE lS GN : List Nat) :
       (lE.map (tabN 16 5)).toArray (lS.map (tabN 16 5)).toArray (GN.map (tabN 16 5)).toArray =
       esN GE GS c lE lS GN := by
   unfold esEnumCheck esN
-  simp only [toList_map_tabN, List.any_toArray, List.all_toArray, all_map_tabN, any_map_tabN,
-    memTab_tabN dims16, conjT_tabN dims16, commTT_tabN dims16, tblEq_tabN' dims16,
+  simp only [List.all_toArray, all_map_tabN, memTab_tabN dims16, conjT_tabN dims16, commTT_tabN dims16, tblEq_tabN' dims16,
     idT_tabN' dims16]
 
 theorem conjIn_eq (NL : List Nat) (a b : Nat) :
@@ -291,7 +290,7 @@ theorem l6Core_eq (NL good : List Nat) (e : Nat) (LE : List Nat) :
     l6Core (NL.map (tabN 16 5)).toArray (good.map (tabN 16 5)) (tabN 16 5 e) (LE.map (tabN 16 5)) =
       l6N NL good e LE := by
   unfold l6Core l6N
-  simp only [toList_map_tabN, any_map_tabN, all_map_tabN, filter_map_tabN', List.length_map,
+  simp only [any_map_tabN, all_map_tabN, filter_map_tabN', List.length_map,
     commTT_tabN dims16, memTab_tabN dims16, conjIn_eq]
 
 theorem l7Fusion_eq (NL good : List Nat) (e u : Nat) (LE : List Nat)
@@ -299,14 +298,14 @@ theorem l7Fusion_eq (NL good : List Nat) (e u : Nat) (LE : List Nat)
     l7Fusion (NL.map (tabN 16 5)).toArray (good.map (tabN 16 5)) (tabN 16 5 e) (tabN 16 5 u)
       (LE.map (tabN 16 5)) = l7FusionN NL good e u LE := by
   unfold l7Fusion l7FusionN
-  simp only [toList_map_tabN, any_map_tabN, all_map_tabN, filter_map_tabN', List.length_map,
+  simp only [all_map_tabN, filter_map_tabN', List.length_map,
     commTT_tabN dims16, memTab_tabN dims16, conjIn_eq, compT_tabN' dims16, ht, Bool.and_true]
 
 theorem l7Sylow_eq (c e u : Nat) (LE LS : List Nat) :
     l7Sylow (tabN 16 5 c) (tabN 16 5 e) (tabN 16 5 u) (LE.map (tabN 16 5)) (LS.map (tabN 16 5)) =
       l7SylowN c e u LE LS := by
   unfold l7Sylow l7SylowN
-  simp only [any_map_tabN, all_map_tabN, filter_map_tabN', List.length_map, commTT_tabN dims16,
+  simp only [all_map_tabN, filter_map_tabN', List.length_map, commTT_tabN dims16,
     memTab_tabN dims16, compT_tabN' dims16, tblEq_tabN' dims16, idT_tabN' dims16,
     sqIn_tabN dims16, commIn_tabN dims16, List.all_cons, List.all_nil]
 
@@ -317,7 +316,7 @@ theorem l7A_eq (bad : List Nat) (c : Nat) (GA LA LE LS : List Nat)
       (LS.map (tabN 16 5)) = l7AN bad c GA LA LE LS := by
   unfold l7A l7AN
   rw [hA, ht]
-  simp only [toList_map_tabN, List.any_toArray, List.all_toArray, any_map_tabN, all_map_tabN,
+  simp only [List.all_toArray, all_map_tabN,
     commTT_tabN dims16, memTab_tabN dims16, compT_tabN' dims16, tblEq_tabN' dims16,
     idT_tabN' dims16, commIn_tabN dims16, Bool.true_and]
 
@@ -330,7 +329,7 @@ theorem l7V_eq (NL GV : List Nat) :
 theorem l8Fact_eq (NL : List Nat) (e : Nat) :
     l8Fact (NL.map (tabN 16 5)).toArray (tabN 16 5 e) = l8FactN NL e := by
   unfold l8Fact l8FactN
-  simp only [toList_map_tabN, any_map_tabN, all_map_tabN, filter_map_tabN', List.length_map,
+  simp only [any_map_tabN, all_map_tabN, filter_map_tabN', List.length_map,
     commTT_tabN dims16, compT_tabN' dims16, tblEq_tabN' dims16, idT_tabN' dims16,
     conjT_tabN dims16, memTab, memN, List.any_cons, List.any_nil]
 

@@ -211,7 +211,7 @@ theorem hom_word {R : ℕ → ℕ} (hR : rowsOK R = true) {P X Y Q : ℕ}
   have hb21 : Nat.beq (s 1) (s 19) = false := beqF n21
   have hf2 : failsD R P X Y Q (s 19) (s 1) 0 15 (ext R P X Y (s 19) (s 1) 0 15) = false :=
     failsD_false hR hO hs _ (by omega) hs0 rfl (fun _ => rfl) (by omega)
-  simp only [hb2, hb21, hf2, force_eq, Bool.false_or] at hm2
+  simp only [hb2, hb21, hf2, Bool.false_or] at hm2
   have hm3 := allF_spec hm2 l3
   have hb3 : Nat.beq (s 3) 0 = false := beqF n3
   have hb31 : Nat.beq (s 3) (s 19) = false := beqF n31
@@ -219,7 +219,7 @@ theorem hom_word {R : ℕ → ℕ} (hR : rowsOK R = true) {P X Y Q : ℕ}
   have hf3 : failsD R P X Y Q (s 19) (s 1) (s 3) 18
       (extFrom R P X Y (s 19) (s 1) (s 3) (ext R P X Y (s 19) (s 1) 0 15) 15 3) = false :=
     failsD_false hR hO hs _ (by omega) hs0 rfl (fun _ => rfl) (fun _ => rfl)
-  simp only [hb3, hb31, hb32, hf3, force_eq, Bool.false_or, Bool.or_false] at hm3
+  simp only [hb3, hb31, hb32, hf3, Bool.false_or, Bool.or_false] at hm3
   obtain ⟨e, he, hk⟩ := kmask_mem hm3
   have hE := homsOK_mem hH e he
   simp only [entryOK, force_eq, Bool.and_eq_true, Nat.blt_eq] at hE

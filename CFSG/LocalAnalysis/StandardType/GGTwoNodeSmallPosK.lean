@@ -43,10 +43,10 @@ theorem cellA_kopts (p N : ℕ) [Fact p.Prime] (hc : CFSG.StandardType.lr6SmallC
     intro i j hij h
     have hij' : (i : Fin (N - 1)) ≠ (j : Fin (N - 1)) := fun he => hij (Subtype.ext he)
     have hres : ((CK (some i) (some j) : ℤ) : ZMod p) = ((-1 : ℤ) : ZMod p) := by
-      rw [hchain i j, pks_AN_mod p N (i : Fin (N - 1)) (j : Fin (N - 1)) hij', if_pos h]
+      rw [hchain i j, pks_AN_mod p N (i : Fin (N - 1)) (j : Fin (N - 1)) hij', ite_eq_left h]
     have hres' : ((CK (some j) (some i) : ℤ) : ZMod p) = ((-1 : ℤ) : ZMod p) := by
       rw [hchain j i, pks_AN_mod p N (j : Fin (N - 1)) (i : Fin (N - 1)) (Ne.symm hij'),
-        if_pos (Or.symm h)]
+        ite_eq_left (Or.symm h)]
     exact pks_adj_vals p hp3 hC (by simp [hij]) hres hres'
   have hnonadj_entry : ∀ i j : ↥S, i ≠ j →
       ¬((i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ)) →
@@ -54,10 +54,10 @@ theorem cellA_kopts (p N : ℕ) [Fact p.Prime] (hc : CFSG.StandardType.lr6SmallC
     intro i j hij h
     have hij' : (i : Fin (N - 1)) ≠ (j : Fin (N - 1)) := fun he => hij (Subtype.ext he)
     have hres : ((CK (some i) (some j) : ℤ) : ZMod p) = 0 := by
-      rw [hchain i j, pks_AN_mod p N (i : Fin (N - 1)) (j : Fin (N - 1)) hij', if_neg h]
+      rw [hchain i j, pks_AN_mod p N (i : Fin (N - 1)) (j : Fin (N - 1)) hij', ite_eq_right h]
     have hres' : ((CK (some j) (some i) : ℤ) : ZMod p) = 0 := by
       rw [hchain j i, pks_AN_mod p N (j : Fin (N - 1)) (i : Fin (N - 1)) (Ne.symm hij'),
-        if_neg (fun hh => h (Or.symm hh))]
+        ite_eq_right (fun hh => h (Or.symm hh))]
     exact pks_nonadj_vals p hp3 hC (by simp [hij]) (hno6 (some i) (some j)) hres hres'
   set pos : ℕ := (c : ℕ) - s with hposdef
   have hcS : s ≤ (c : ℕ) ∧ (c : ℕ) < s + (N - 3) := (hS (c : Fin (N - 1))).mp c.2
@@ -82,23 +82,23 @@ theorem cellA_kopts (p N : ℕ) [Fact p.Prime] (hc : CFSG.StandardType.lr6SmallC
     constructor
     · by_cases hjc : j = c
       · subst j
-        rw [hx1, if_pos ((hposj c).mpr rfl), pks_neg_one_cast p hp1]
+        rw [hx1, ite_eq_left ((hposj c).mpr rfl), pks_neg_one_cast p hp1]
       · have hne : (j : ℕ) - s ≠ pos := fun h => hjc ((hposj j).mp h)
         have hzj : CK none (some j) = 0 := by
           by_contra hcon
           exact hjc ((hcatt j).mp hcon)
         have hz : CK (some j) none = 0 :=
           CFSG.StandardType.GGIntCartan.eq_zero_symm hC (a := some j) (b := none) (by simp) hzj
-        rw [hz, if_neg hne]
+        rw [hz, ite_eq_right hne]
         simp
     · by_cases hjc : j = c
       · subst j
-        rw [hy1, if_pos ((hposj c).mpr rfl), pks_neg_one_cast p hp1]
+        rw [hy1, ite_eq_left ((hposj c).mpr rfl), pks_neg_one_cast p hp1]
       · have hne : (j : ℕ) - s ≠ pos := fun h => hjc ((hposj j).mp h)
         have hzj : CK none (some j) = 0 := by
           by_contra hcon
           exact hjc ((hcatt j).mp hcon)
-        rw [hzj, if_neg hne]
+        rw [hzj, ite_eq_right hne]
         simp
   · have hcases : (CK (some c) none = -1 ∧ CK none (some c) = -2) ∨
         (CK (some c) none = -2 ∧ CK none (some c) = -1) := by
@@ -175,46 +175,46 @@ theorem cellA_kopts (p N : ℕ) [Fact p.Prime] (hc : CFSG.StandardType.lr6SmallC
       constructor
       · by_cases hjc : j = c
         · subst j
-          rw [hx, if_pos ((hposj c).mpr rfl), pks_neg_one_cast p hp1]
+          rw [hx, ite_eq_left ((hposj c).mpr rfl), pks_neg_one_cast p hp1]
         · have hne : (j : ℕ) - s ≠ pos := fun h => hjc ((hposj j).mp h)
           have hzj : CK none (some j) = 0 := by
             by_contra hcon
             exact hjc ((hcatt j).mp hcon)
           have hz : CK (some j) none = 0 :=
             CFSG.StandardType.GGIntCartan.eq_zero_symm hC (a := some j) (b := none) (by simp) hzj
-          rw [hz, if_neg hne]
+          rw [hz, ite_eq_right hne]
           simp
       · by_cases hjc : j = c
         · subst j
-          rw [hy, if_pos ((hposj c).mpr rfl), pks_neg_two_cast p hp2]
+          rw [hy, ite_eq_left ((hposj c).mpr rfl), pks_neg_two_cast p hp2]
         · have hne : (j : ℕ) - s ≠ pos := fun h => hjc ((hposj j).mp h)
           have hzj : CK none (some j) = 0 := by
             by_contra hcon
             exact hjc ((hcatt j).mp hcon)
-          rw [hzj, if_neg hne]
+          rw [hzj, ite_eq_right hne]
           simp
     · refine ⟨(pos, p - 2, p - 1), pks_mem_posOpts_double_snd p N pos hend, ?_⟩
       intro j
       constructor
       · by_cases hjc : j = c
         · subst j
-          rw [hx, if_pos ((hposj c).mpr rfl), pks_neg_two_cast p hp2]
+          rw [hx, ite_eq_left ((hposj c).mpr rfl), pks_neg_two_cast p hp2]
         · have hne : (j : ℕ) - s ≠ pos := fun h => hjc ((hposj j).mp h)
           have hzj : CK none (some j) = 0 := by
             by_contra hcon
             exact hjc ((hcatt j).mp hcon)
           have hz : CK (some j) none = 0 :=
             CFSG.StandardType.GGIntCartan.eq_zero_symm hC (a := some j) (b := none) (by simp) hzj
-          rw [hz, if_neg hne]
+          rw [hz, ite_eq_right hne]
           simp
       · by_cases hjc : j = c
         · subst j
-          rw [hy, if_pos ((hposj c).mpr rfl), pks_neg_one_cast p hp1]
+          rw [hy, ite_eq_left ((hposj c).mpr rfl), pks_neg_one_cast p hp1]
         · have hne : (j : ℕ) - s ≠ pos := fun h => hjc ((hposj j).mp h)
           have hzj : CK none (some j) = 0 := by
             by_contra hcon
             exact hjc ((hcatt j).mp hcon)
-          rw [hzj, if_neg hne]
+          rw [hzj, ite_eq_right hne]
           simp
   · exact absurd hm6 (hno6 (some c) none)
 

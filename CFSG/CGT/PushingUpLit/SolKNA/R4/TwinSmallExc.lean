@@ -172,7 +172,7 @@ theorem twinCyc4_psl2Even {F : Type} [Group F] {f : ℕ}
 theorem false_of_psl2Even {r n : ℕ} (hr : 4 ≤ r) {Y : Type} [Group Y] [Finite Y]
     {R : Subgroup Y} {S : Sylow 2 R} {t : Y} (h : PerpHypR r n Y R S t) {f : ℕ}
     (hF : LieModel ↥(genFittingFStar Y) .PSL 2 2 f) : False := by
-  haveI := h.core.simple
+  have := h.core.simple
   rcases hF with ⟨-, hF⟩ | ⟨hF, -⟩ | ⟨hF, -⟩ | ⟨hF, -⟩
   · obtain ⟨hcyc, hout⟩ := twinCyc4_psl2Even hF
     exact false_of_twinCyc4 hr h (socleComm2_of_outTwoCyclic hout) hcyc

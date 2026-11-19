@@ -22,8 +22,8 @@ theorem imageModK_opp_eq_generalizedFitting_of_not_dvd_index (k : Sec7Core4 G)
     {H : Subgroup G} (hH : k.Config H)
     (hidx : ¬ k.p ∣ (CFSG.generalizedFitting (QuotK7 k.p H)).index) :
     ImageModK k.p H (Opp k.p H) = CFSG.generalizedFitting (QuotK7 k.p H) := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
-  haveI := (k.isSimpleGroup_generalizedFitting_quotient hH).2.2.1
+  have : Fact k.p.Prime := ⟨k.prime⟩
+  have := (k.isSimpleGroup_generalizedFitting_quotient hH).2.2.1
   exact imageModK_opp_eq_generalizedFitting k hH fun _ _ hx =>
     CFSG.Semidihedral.Local.mem_of_pow_eq_one_of_index _ hidx hx
 

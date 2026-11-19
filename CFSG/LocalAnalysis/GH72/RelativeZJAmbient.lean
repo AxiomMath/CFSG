@@ -15,6 +15,7 @@ section Transport
 
 variable {K₀ P : Subgroup G}
 
+omit [Finite G] in
 private theorem eq_O_sup_of_eq_top (hPK : P ≤ K₀)
     (h : oddCore K₀ ⊔ normalizer (ambientMaxCardZJ (P.subgroupOf K₀) : Set K₀) = ⊤) :
     K₀ = O K₀ ⊔ (K₀ ⊓ normalizer (ambientMaxCardZJ P : Set G)) := by
@@ -36,6 +37,7 @@ private theorem isSylowOf_subgroupOf (hPK : P ≤ K₀) (hQ : IsSylowOf p (P ⊓
   rw [Subgroup.map_inf _ _ _ K₀.subtype_injective, map_subgroupOf_eq_of_le hPK]
   exact hQ
 
+omit [Finite G] in
 private theorem subgroupOf_le_normalizer {X : Subgroup G} (hXP : X ≤ normalizer (P : Set G)) :
     X.subgroupOf K₀ ≤ normalizer (P.subgroupOf K₀ : Set K₀) := by
   intro x hx

@@ -60,7 +60,7 @@ theorem s16t_a_case168_4_two_of_rank (D : Data G) {V L : Subgroup G}
   have h125 : Hyp125 D ⊥ V := hc.setting.hyp16.hyp125
   have hcore := s16n9b_case4_pcore D hV hc hpp (by norm_num : 1 < 2) hL
   obtain ⟨ι, hι, Y, hind, hinj, hsup, hcard, hrk, hperm, hsurj⟩ := s16n9b_case4_data hS
-  letI := hι
+  let := hι
   obtain ⟨F, hFX, hFel, hFcard, hFY, -⟩ := s16n9b_case4_kernel
     (s15_Infra_vtil_sq_eq_one ⊥ V hV) hp37 (by norm_num) hL hcore hrank hind hinj hsup hcard hrk
     hperm hsurj
@@ -99,9 +99,9 @@ theorem s16t_a_case168_4_two_seven (D : Data G) (hSg : UC6S846.SigmaStd D) {V L 
   classical
   obtain ⟨-, hS, h7σ⟩ := h
   have h125 : Hyp125 D ⊥ V := hc.setting.hyp16.hyp125
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨ι, hι, Y, hind, hinj, hsup, hcard, hrk, hperm, hsurj⟩ := s16n9b_case4_data hS
-  letI := hι
+  let := hι
   have hP := h125.pairFacts
   have hMst : D.M ≤ stabTil ⊥ V := le_stabTil hP.le_normalizer hP.le_normalizer₀
   obtain ⟨E, hEM, hEel, hEcard⟩ :=

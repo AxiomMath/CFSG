@@ -71,7 +71,7 @@ structure IsOrbitPartition {ι : Type} (K : Subgroup G) (S : Set G) (P : ι → 
 
 @[expose] def orb2B (a z x : G) : Set G := {b | IsConj a b ∧ IsConj z (x * b)}
 
-@[expose] def orb2BB (a z x : G) : Set G := {w | IsConj z w ∧ IsConj z (x * w)}
+@[expose] def orb2BB (_a z x : G) : Set G := {w | IsConj z w ∧ IsConj z (x * w)}
 
 @[expose] def orb3A (a x : G) : Set G :=
   {c | IsConj a c ∧ orderOf (x * c) = 3 ∧ (orb2A a x ∩ orb2A a c).Nonempty}

@@ -21,7 +21,7 @@ noncomputable abbrev Nk : Subgroup (Equiv.Perm (Fin 1408)) := Zk ⊔ Qk
 
 theorem Z_gens : ∀ s ∈ elemW '' {w | w ∈ zcWordsK}, s = elemW xWordK ∨ s = elemW yWordK := by
   rintro _ ⟨w, hw, rfl⟩
-  simp only [zcWordsK, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hw
+  simp only [zcWordsK, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hw
   rcases hw with rfl | rfl
   · exact Or.inl rfl
   · exact Or.inr rfl
@@ -181,7 +181,7 @@ theorem N_le : Nk ≤ czC ⊓ blocks1408 := by
   have hZ : Zk ≤ closure (elemW '' {w | w ∈ nWordsK}) := by
     rw [closure_le]
     rintro _ ⟨w, hw, rfl⟩
-    simp only [zcWordsK, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hw
+    simp only [zcWordsK, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hw
     rcases hw with rfl | rfl
     · exact elemW_specWord_mem nWordsK xSpecK
     · exact elemW_specWord_mem nWordsK ySpecK

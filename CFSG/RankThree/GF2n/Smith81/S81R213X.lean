@@ -21,6 +21,7 @@ variable [Finite G] {M Q Z B : Subgroup G} {K : Type} [Field K]
   [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {ψ : M₀.E ≃ₗ[K] Cube K}
   {φ : Lgen M (LB M Q B) →* (Cube K ≃ₗ[K] Cube K)} {z : G}
 
+omit [Finite G] [Finite K] in
 theorem neg_eq_self_QE (v : M₀.E) : -v = v := by
   have h2 : (2 : K) • v = 0 := by rw [CharTwo.two_eq_zero, zero_smul]
   rw [two_smul] at h2
@@ -59,6 +60,7 @@ theorem E3LDat.xdata (Dt : E3LDat M Q Z B K γ M₀ ψ φ z) {x : G} (hxc : IsCo
   exact ⟨X, hs, Tx, caseII_of_nf Dt.hD hs Tx hP1
     (fun w hw hw1 => Dt.nf x hxc hxM hxQ w hw hw1), hCs, hRs⟩
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem Tx_eq_of_phi {x y : G} {g : GL (Fin 6) K} (Dt : E3LDat M Q Z B K γ M₀ ψ φ z)
     (hx : ActsAs φ x g) (hy : ActsAs φ y g) (Tx : XAct M₀ x) (Ty : XAct M₀ y) (e : M₀.E) :
     Ty.T e = Tx.T e := by
@@ -133,6 +135,7 @@ theorem conj_of_phi_eq (Dt : E3LDat M Q Z B K γ M₀ ψ φ z) {x₁ y : G} (hx�
     rw [← hyeq]
     exact hy₁c.symm.trans hyc
 
+omit [Finite K] [CharP K 2] in
 theorem Cs_sup_Cs_eq_top {x₁ x₂ : G} {X₁ X₂ : Subgroup G} (hs₁ : Sit M Q Z X₁ x₁)
     (hs₂ : Sit M Q Z X₂ x₂) (T₁ : XAct M₀ x₁) (T₂ : XAct M₀ x₂) (h : Rs T₁ ⊓ Rs T₂ = ⊥) :
     Cs T₁ ⊔ Cs T₂ = ⊤ := by

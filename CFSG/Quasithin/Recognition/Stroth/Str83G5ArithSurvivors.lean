@@ -23,14 +23,14 @@ private theorem countP_split {α : Type*} (s : Multiset α) (P Q₁ Q₂ : α �
     by_cases hq1 : Q₁ a
     · have hP : P a := (h a).mpr (Or.inl hq1)
       have hq2 : ¬Q₂ a := fun hq2 => h' a ⟨hq1, hq2⟩
-      rw [if_pos hP, if_pos hq1, if_neg hq2]
+      rw [ite_eq_left hP, ite_eq_left hq1, ite_eq_right hq2]
       omega
     · by_cases hq2 : Q₂ a
       · have hP : P a := (h a).mpr (Or.inr hq2)
-        rw [if_pos hP, if_neg hq1, if_pos hq2]
+        rw [ite_eq_left hP, ite_eq_right hq1, ite_eq_left hq2]
         omega
       · have hP : ¬P a := fun hP => ((h a).mp hP).elim hq1 hq2
-        rw [if_neg hP, if_neg hq1, if_neg hq2]
+        rw [ite_eq_right hP, ite_eq_right hq1, ite_eq_right hq2]
         omega
 
 private theorem countP_split_bool {α : Type*} (s : Multiset α) (P : α → Prop) (f : α → Bool)
@@ -181,7 +181,7 @@ private theorem eq_zero_of_cls_neg (hn : Odd n) (h3 : 3 ≤ n) {v : Coord n}
   · exact eq_zero_of_two_pow_mul_eq_neg hn (by linear_combination h1)
   · exact eq_zero_of_two_pow_mul_eq_neg hn (by linear_combination h2)
 
-private theorem card_cls_of_isUnit (hn : Odd n) (h3 : 3 ≤ n) {φ : Coord n}
+private theorem card_cls_of_isUnit (_hn : Odd n) (h3 : 3 ≤ n) {φ : Coord n}
     (hu : IsUnit φ.1 ∨ IsUnit φ.2) : (cls φ).card = n := by
   classical
   unfold cls
@@ -201,7 +201,7 @@ private theorem exists_sign (hn : Odd n) (h3 : 3 ≤ n) :
     ∃ pos : ZMod (2 ^ n - 1) → Bool,
       (∀ a, pos (2 * a) = pos a) ∧ ∀ a, a ≠ 0 → pos (-a) = !pos a := by
   have hn0 : n ≠ 0 := by omega
-  haveI : NeZero (2 ^ n - 1) := ⟨by have := seven_le h3; omega⟩
+  have : NeZero (2 ^ n - 1) := ⟨by have := seven_le h3; omega⟩
   obtain ⟨S, hS⟩ : ∃ S : ZMod (2 ^ n - 1) → ℕ,
       ∀ a, S a = ∑ s ∈ Finset.range n, (2 ^ s * a).val := ⟨_, fun _ => rfl⟩
   have hS2 : ∀ a, S (2 * a) = S a := by
@@ -224,7 +224,7 @@ private theorem exists_sign (hn : Odd n) (h3 : 3 ≤ n) :
       intro s _
       have hne : (2 : ZMod (2 ^ n - 1)) ^ s * a ≠ 0 := fun h =>
         ha (((isUnit_two hn0).pow s).mul_right_eq_zero.mp h)
-      rw [mul_neg, ZMod.neg_val, if_neg hne]
+      rw [mul_neg, ZMod.neg_val, ite_eq_right hne]
       have := ZMod.val_lt ((2 : ZMod (2 ^ n - 1)) ^ s * a)
       omega
     rw [hS, hS, ← Finset.sum_add_distrib, Finset.sum_congr rfl hterm, Finset.sum_const,
@@ -360,7 +360,7 @@ private theorem omega_val (hn : Odd n) (h3 : 3 ≤ n) {k₀ m₀ : ZMod (2 ^ n -
     ((Lab.val k₀ m₀ l).1 ≠ 0 ∧ (Lab.val k₀ m₀ l).2 - m₀ * (Lab.val k₀ m₀ l).1 ≠ 0) ↔
       l.isPsi = false := by
   have hn0 : n ≠ 0 := by omega
-  haveI : Nontrivial (ZMod (2 ^ n - 1)) :=
+  have : Nontrivial (ZMod (2 ^ n - 1)) :=
     ZMod.nontrivial_iff.mpr (by have := seven_le h3; omega)
   have e := two_mul_eq_one hn0 hT
   obtain ⟨ip, t, b, c⟩ := l
@@ -440,7 +440,7 @@ private theorem mPow_one_mPow_two_of_T_eq_one {k₀ m₀ : ZMod (2 ^ n - 1)}
   rw [h2 v, mPow_sub_vec, h11, h2 v]
   exact sub_sub_cancel_left _ _
 
-private theorem isUnit_fst_or_snd (hn : Odd n) (h3 : 3 ≤ n) {k₀ : ZMod (2 ^ n - 1)}
+private theorem isUnit_fst_or_snd (_hn : Odd n) (h3 : 3 ≤ n) {k₀ : ZMod (2 ^ n - 1)}
     (hk : IsUnit k₀) {μ : Multiset (Coord n)} (h₂ : (μ.map (sigma2 k₀)).map cls = μ.map cls)
     (ha : ∀ φ ∈ μ, φ.1 = 0 ∨ IsUnit φ.1) {φ : Coord n} (hφ : φ ∈ μ) (hφ0 : φ ≠ 0) :
     IsUnit φ.1 ∨ IsUnit φ.2 := by
@@ -655,7 +655,7 @@ private theorem card_chainR_p20 (hn : Odd n) (h3 : 3 ≤ n) {k₀ m₀ : ZMod (2
     (hk : IsUnit k₀) (hT : 4 * k₀ * m₀ - 2 = 1) :
     ((Pattern.p20.chainR k₀ m₀ 0 0).filter fun φ => φ.1 ≠ 0).card = 6 := by
   have hn0 : n ≠ 0 := by omega
-  haveI : Nontrivial (ZMod (2 ^ n - 1)) :=
+  have : Nontrivial (ZMod (2 ^ n - 1)) :=
     ZMod.nontrivial_iff.mpr (by have := seven_le h3; omega)
   have hc : IsUnit (cen n) := isUnit_cen hn
   have hh1 : IsUnit (2 * k₀ * m₀ - 1) := by
@@ -677,24 +677,24 @@ private theorem card_chainR_p20 (hn : Odd n) (h3 : 3 ≤ n) {k₀ m₀ : ZMod (2
   have f1 : (Lab.val k₀ m₀ ⟨false, 0, false, false⟩).1 ≠ 0 := by
     rw [val_chi_fst, sgn_false, one_mul, mPow_zero, chi_fst]; exact hk.ne_zero
   have f2 : (Lab.val k₀ m₀ ⟨true, 1, false, false⟩).1 ≠ 0 := by
-    rw [val_psi_fst, sgn_false, p1, if_neg Bool.false_ne_true, one_mul, one_mul]
+    rw [val_psi_fst, sgn_false, p1, ite_eq_right Bool.false_ne_true, one_mul, one_mul]
     exact hh1.ne_zero
   have f3 : (Lab.val k₀ m₀ ⟨true, 1, false, true⟩).1 ≠ 0 := by
-    rw [val_psi_fst, sgn_false, p1, if_pos rfl, one_mul]
+    rw [val_psi_fst, sgn_false, p1, ite_eq_left rfl, one_mul]
     exact (hc.mul hh1).ne_zero
   have f4 : (Lab.val k₀ m₀ ⟨false, 1, false, false⟩).1 = 0 := by
     rw [val_chi_fst, sgn_false, q1, mul_zero]
   have f5 : (Lab.val k₀ m₀ ⟨true, 2, false, false⟩).1 ≠ 0 := by
-    rw [val_psi_fst, sgn_false, p2, if_neg Bool.false_ne_true, one_mul, one_mul]
+    rw [val_psi_fst, sgn_false, p2, ite_eq_right Bool.false_ne_true, one_mul, one_mul]
     exact hh2.ne_zero
   have f6 : (Lab.val k₀ m₀ ⟨true, 2, false, true⟩).1 ≠ 0 := by
-    rw [val_psi_fst, sgn_false, p2, if_pos rfl, one_mul]
+    rw [val_psi_fst, sgn_false, p2, ite_eq_left rfl, one_mul]
     exact (hc.mul hh2).ne_zero
   have f7 : (Lab.val k₀ m₀ ⟨false, 2, false, false⟩).1 ≠ 0 := by
     rw [val_chi_fst, sgn_false, q2, one_mul]
     exact neg_ne_zero.mpr hk.ne_zero
   rw [Pattern.chainR_eq_map, labR_p20, ← Multiset.countP_eq_card_filter]
-  simp [Multiset.countP_cons, countP_singleton', f1, f2, f3, f4, f5, f6, f7]
+  simp [countP_singleton', f1, f2, f3, f4, f5, f6, f7]
 
 theorem false_of_T_eq_one (hn : Odd n) (h3 : 3 ≤ n) {k₀ m₀ : ZMod (2 ^ n - 1)} (hk : IsUnit k₀)
     (hm : IsUnit m₀) (hT : 4 * k₀ * m₀ - 2 = 1) {μT : Multiset (Coord n)}

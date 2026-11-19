@@ -32,7 +32,7 @@ private theorem Xstar_singular (hr : 0 < r) : ∀ x ∈ Xstar r K hr, quadPlus r
   · obtain ⟨c, hc, rfl⟩ := hu
     obtain ⟨d, hd, rfl⟩ := hw
     refine polar_single_single fun hdc => ?_
-    simp only [Set.mem_union, Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff] at hc hd
+    simp only [Set.mem_union, Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff] at hc hd
     rcases hc with ⟨j, hj, rfl⟩ | rfl <;> rcases hd with ⟨j', hj', rfl⟩ | rfl <;>
       simp [Fin.ext_iff] at hdc <;> omega
 
@@ -85,9 +85,9 @@ theorem ggLieParabolicCharInputOn_D :
   obtain rfl : d = ⟨.D r q, hv⟩ := Subtype.ext hm
   obtain ⟨hadm, K', _, _, hcard, ⟨φ⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeD r q hv e
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI := Fintype.ofFinite K'
-  haveI : CharP K' q.p := charP_of_card_eq_prime_pow (f := q.exponent)
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have := Fintype.ofFinite K'
+  have : CharP K' q.p := charP_of_card_eq_prime_pow (f := q.exponent)
     (by rw [← Nat.card_eq_fintype_card, hcard])
   have hr4 : 4 ≤ r := hadm.2.2
   let ψ : K ≃* ProjElementary (quadPlus r K') := φ.trans

@@ -62,7 +62,7 @@ omit [Finite G] in
 theorem normalizer_le_normalizer_of_char {C S : Subgroup G} (hCS : C ≤ S)
     (hchar : (C.subgroupOf S).Characteristic) :
     normalizer (S : Set G) ≤ normalizer (C : Set G) := by
-  haveI := hchar
+  have := hchar
   have := CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic (C.subgroupOf S)
   rwa [subgroupOf_map_subtype, inf_eq_left.2 hCS] at this
 

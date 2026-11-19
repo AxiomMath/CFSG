@@ -178,7 +178,7 @@ private theorem exists_threeSubgroup (hK : Nat.card K = 16) :
     ∃ μ : Subgroup Kˣ, Nat.card μ = 3 := by
   have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   have hU : Nat.card Kˣ = 15 := by rw [Nat.card_units, hK]
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 (by rw [hU]; norm_num)
   exact ⟨Subgroup.zpowers x, by rw [Nat.card_zpowers, hx]⟩
 

@@ -84,7 +84,7 @@ theorem card_sq_eq_one_coset {V : Subgroup G} (hVQ : V ≤ T.QG) (hzV : T.z ∈ 
       rw [← hφmul, inv_mul_cancel_right]
     rw [v.2, hv₁] at h1
     rcases zmod2_cases'' (φ (v.1 * v₁⁻¹)) with h | h <;> rcases zmod2_cases'' c with hc | hc <;>
-      simp_all <;> revert h1 <;> decide
+      simp_all
   have htot : Nat.card {v : V // φ v = T.q (T.cl r)} +
       Nat.card {v : V // φ v = T.q (T.cl r) + 1} = Nat.card V := by
     have hc : ∀ v : V, φ v = T.q (T.cl r) + 1 ↔ ¬ φ v = T.q (T.cl r) := fun v => by

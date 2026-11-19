@@ -29,11 +29,11 @@ theorem l3M22Nonsolv_noKantor (hL : NKLeaves) (hmod : StmtFSUModule) (h37 : A37F
   have hC8 := h828 G T L I hyp h731 h821 hc hrow H h k hH hh hC
   obtain ⟨⟨K, hKc, hHK, hq, hcases⟩, -⟩ := hE22 G H T (H ⊓ fsuM T L) hmin hsq hns
   have hr3 : CFSG.Open.pRank 3 H ≤ 1 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact (pRank_le_one_82 hmod (by norm_num) hyp hH hC hC5 hC8
       (hF G T L I hyp h731 h821 hc hrow H h k hH hh hC hrow' 3 (Or.inl rfl))).2
   have hr5 : CFSG.Open.pRank 5 H ≤ 1 := by
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact (pRank_le_one_82 hmod (by norm_num) hyp hH hC hC5 hC8
       (hF G T L I hyp h731 h821 hc hrow H h k hH hh hC hrow' 5 (Or.inr rfl))).2
   obtain ⟨hs, hna, hsolv⟩ := star_facts_of_cases hcases hKc hHK hq

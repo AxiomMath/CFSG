@@ -71,7 +71,7 @@ theorem five_point_stabilizer_card_ne_two_hundred_eighty
     (s : Set X) (hs : s.ncard = 5) :
     Nat.card (fixingSubgroup P s) ≠ 280 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   intro hHcard
   have hP5 :
@@ -161,7 +161,7 @@ theorem five_point_stabilizer_card_ne_two_hundred_eighty
             X P s 15) :=
     four_dvd_card_localOrderFiveSupportElements
       X P s 15 S hScard
-  letI : Fintype s := Fintype.ofFinite s
+  let : Fintype s := Fintype.ofFinite s
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, hs]

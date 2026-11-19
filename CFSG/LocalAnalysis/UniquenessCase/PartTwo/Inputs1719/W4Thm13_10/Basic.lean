@@ -58,8 +58,8 @@ theorem component_eq_or_of_le_sup {W : Type} [CommGroup W] [Finite W]
     exact hMcomm a.1 a.2 b.1 hb
   have hq : CFSG.Open.IsQuasisimple ↥M := hM.2.2
   have hbot : commutator ↥M = ⊥ := (commutator_eq_bot_iff (G := ↥M)).mpr hMabel
-  haveI : _root_.IsSimpleGroup (↥M ⧸ Subgroup.center ↥M) := hq.2
-  haveI : Nontrivial ↥M :=
+  have : _root_.IsSimpleGroup (↥M ⧸ Subgroup.center ↥M) := hq.2
+  have : Nontrivial ↥M :=
     (QuotientGroup.mk_surjective (s := Subgroup.center ↥M)).nontrivial
   have htopbot : (⊤ : Subgroup ↥M) = ⊥ := by rw [← hq.1, hbot]
   exact top_ne_bot htopbot
@@ -222,7 +222,7 @@ theorem commSub_le_of_isSimpleGroup {W : Type} [CommGroup W] {K : Subgroup (MulA
     (hK : IsSimpleGroup ↥K) {C : Subgroup W} (hKC : K ≤ stabSub C) {c : MulAut W}
     (hcK : c ∈ K) (hc1 : c ≠ 1) (hc : commSub (⊤ : Subgroup W) (Subgroup.zpowers c) ≤ C) :
     commSub (⊤ : Subgroup W) K ≤ C := by
-  haveI : IsSimpleGroup ↥K := hK
+  have : IsSimpleGroup ↥K := hK
   let φ : ↥K →* MulAut (W ⧸ C) := (quotHom C).comp (Subgroup.inclusion hKC)
   have hc_mem_cent : c ∈ centQuot C := by
     rw [mem_centQuot]

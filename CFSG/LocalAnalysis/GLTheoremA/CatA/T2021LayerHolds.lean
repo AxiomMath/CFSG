@@ -18,7 +18,7 @@ section Certs
 theorem t2021LayerFact_holds : T2021LayerFact := by
   intro H _ _ p 𝔅 _ _ ψ T a b₁ hp hp2 hchev hD4 hexp hcomm hT2 hTinv hrank hF hID _ _ ht
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N := GLAPPrimeCore p H with hN
   let ψQ : 𝔅 →* MulAut (ppQuot p H) := (MulAut.mapQuotient N).comp ψ
   have hψQ : ∀ (g : 𝔅) (l : H), ψQ g (QuotientGroup.mk l) = QuotientGroup.mk (ψ g l) :=

@@ -63,7 +63,7 @@ theorem u4_eight_equiv_statedSU {G : Type} [Group G] (hG : catalogIs G (S8.isU4o
       obtain ⟨hp2, he3⟩ := Nat.Prime.pow_inj' hpp Nat.prime_two he.ne' (by norm_num) hcard
       subst hp2
       subst he3
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨e1⟩ : Nonempty _ := ⟨CFSG.RankThree.PartTwo.Census.typeTwistedAGroupEquivProjSU 3
         ⟨2, 3, hpp, he⟩ hv⟩
       have e2 := CFSG.PGLModel.projSUEquivStatedProj (3 + 1) 2 3

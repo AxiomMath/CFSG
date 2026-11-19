@@ -18,6 +18,7 @@ section Transfer
 
 variable {R : Type} [Group R] [Finite R]
 
+omit [Finite R] in
 theorem up34_eq_one_of_perfect {A : Type*} [CommGroup A] (hR : Group.IsPerfect R) (f : R →* A)
     (x : R) : f x = 1 := by
   have hx : x ∈ commutator R := by
@@ -29,7 +30,7 @@ theorem up34_eq_one_of_central_pGroup (hR : Group.IsPerfect R) {ℓ : ℕ} (hℓ
     (hN : ¬ ℓ ^ 2 ∣ (Subgroup.center R).index) {z : R} (hz : z ∈ Subgroup.center R) {k : ℕ}
     (hzk : z ^ (ℓ ^ k) = 1) : z = 1 := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hzp : IsPGroup ℓ (Subgroup.zpowers z) := by
     intro g
     obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.1 g.2
@@ -41,7 +42,7 @@ theorem up34_eq_one_of_central_pGroup (hR : Group.IsPerfect R) {ℓ : ℕ} (hℓ
   let f₀ : ↥(P : Subgroup R) →* R ⧸ Subgroup.center R :=
     (QuotientGroup.mk' (Subgroup.center R)).comp (P : Subgroup R).subtype
   let f : ↥(P : Subgroup R) →* ↥f₀.range := f₀.rangeRestrict
-  have hpP : IsPGroup ℓ ↥(P : Subgroup R) := P.isPGroup'
+  have hpP : IsPGroup ℓ ↥(P : Subgroup R) := P.isPGroup
   have hpR : IsPGroup ℓ ↥f₀.range := hpP.of_surjective f f₀.rangeRestrict_surjective
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := ℓ) (G := ↥f₀.range)).1 hpR
   have hdvd : Nat.card ↥f₀.range ∣ (Subgroup.center R).index := by
@@ -54,9 +55,9 @@ theorem up34_eq_one_of_central_pGroup (hR : Group.IsPerfect R) {ℓ : ℕ} (hℓ
     refine dvd_trans (pow_dvd_pow ℓ hcon) ?_
     rw [← hn]
     exact hdvd
-  haveI : IsCyclic ↥f₀.range := by
+  have : IsCyclic ↥f₀.range := by
     interval_cases n
-    · haveI : Subsingleton ↥f₀.range := by
+    · have : Subsingleton ↥f₀.range := by
         rw [pow_zero] at hn
         exact (Nat.card_eq_one_iff_unique.1 hn).1
       exact isCyclic_of_subsingleton
@@ -71,8 +72,8 @@ theorem up34_eq_one_of_central_pGroup (hR : Group.IsPerfect R) {ℓ : ℕ} (hℓ
       simpa [f, f₀] using this
     rw [QuotientGroup.eq_one_iff] at hx'
     exact Subtype.ext (Subgroup.mem_center_iff.1 hx' y)
-  letI : CommGroup ↥(P : Subgroup R) := commGroupOfCyclicCenterQuotient f hker
-  haveI : (P : Subgroup R).FiniteIndex := inferInstance
+  let : CommGroup ↥(P : Subgroup R) := commGroupOfCyclicCenterQuotient f hker
+  have : (P : Subgroup R).FiniteIndex := inferInstance
   let T : R →* ↥(P : Subgroup R) := MonoidHom.transfer (MonoidHom.id ↥(P : Subgroup R))
   have hT1 : T z = 1 := up34_eq_one_of_perfect hR T z
   have hTz : T z = ⟨z ^ (P : Subgroup R).index, _⟩ :=
@@ -99,7 +100,7 @@ theorem up34_not_sq_dvd_20160 {ℓ : ℕ} (hℓ : ℓ.Prime) (h5 : 5 ≤ ℓ) : 
   intro h
   have hle : ℓ ^ 2 ≤ 20160 := Nat.le_of_dvd (by norm_num) h
   have hl : ℓ ≤ 141 := by nlinarith
-  interval_cases ℓ <;> first | (exfalso; revert hℓ; norm_num; done) | (exfalso; revert h; norm_num; done)
+  interval_cases ℓ <;> first | (exfalso; revert hℓ; norm_num; done) | (exfalso; revert h; norm_num)
 
 theorem up34_pow_dvd_20160 {ℓ n : ℕ} (hℓ : ℓ.Prime) (h5 : 5 ≤ ℓ) (h : ℓ ^ n ∣ 20160) :
     ℓ ^ n ≤ 7 := by
@@ -128,13 +129,13 @@ theorem up34_pow_dvd_20160 {ℓ n : ℕ} (hℓ : ℓ.Prime) (h5 : 5 ≤ ℓ) (h 
   have : n = 1 := by omega
   subst this
   rw [pow_one] at h35 hcon
-  interval_cases ℓ <;> first | (exfalso; revert hℓ; norm_num; done) | (exfalso; revert h35; norm_num; done)
+  interval_cases ℓ <;> first | (exfalso; revert hℓ; norm_num; done) | (exfalso; revert h35; norm_num)
 
 theorem up34_card_le_seven (hR : Group.IsPerfect R)
     (h : IsLThreeFour (R ⧸ Subgroup.center R)) {ℓ : ℕ} (hℓ : ℓ.Prime) (h5 : 5 ≤ ℓ)
     {V : Subgroup R} (hV : IsPGroup ℓ V) : Nat.card V ≤ 7 := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hidx : (Subgroup.center R).index = 20160 := by
     rw [Subgroup.index_eq_card]
     exact card_eq_of_isLThreeFour h

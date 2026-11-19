@@ -18,7 +18,7 @@ theorem exists_isReflection_overGamma_of_weylElt {p : ℕ} (hp : p.Prime) (hp2 :
     (hnW : GGTorusWeylElt p (ggGamma K hN).range n)
     (hn : MulAut.conj n ∈ Subgroup.normalizer ((ggGamma K hN).range : Set (MulAut ↥K)))
     (hrefl : GGIsReflection p (ggConjAut (ggGamma K hN).range hn)) :
-    ∃ (g : G) (hgK : g ∈ K) (hg : g ∈ Subgroup.normalizer (Bs : Set G)),
+    ∃ (g : G) (_hgK : g ∈ K) (hg : g ∈ Subgroup.normalizer (Bs : Set G)),
       GGIsReflection p (ggConjAut Bs hg) ∧
         GGOverGamma hN (ggConjAut Bs hg) (ggConjAut (ggGamma K hN).range hn) := by
   classical
@@ -38,7 +38,7 @@ theorem exists_isReflection_overGamma_of_weylElt {p : ℕ} (hp : p.Prime) (hp2 :
   obtain ⟨k, m, hm_odd, horder⟩ :=
     Nat.exists_eq_two_pow_mul_odd (orderOf_pos (n : G)).ne'
   let g : G := (n : G) ^ m
-  have hgK : g ∈ K := Subgroup.pow_mem K n.2 m
+  have _hgK : g ∈ K := Subgroup.pow_mem K n.2 m
   have hg : g ∈ Subgroup.normalizer (Bs : Set G) :=
     Subgroup.pow_mem (Subgroup.normalizer (Bs : Set G)) hnN m
   have hg_eq : ggConjAut Bs hg = ggConjAut Bs hnN ^ m := by
@@ -63,7 +63,7 @@ theorem exists_isReflection_overGamma_of_weylElt {p : ℕ} (hp : p.Prime) (hp2 :
     have hvc : (v : G) ∈ Subgroup.centralizer (K : Set G) :=
       (ggGamma_eq_one_iff K hN v).mp hv1
     have hcomm : (n : G) ^ m * (v : G) = (v : G) * (n : G) ^ m :=
-      (Subgroup.mem_centralizer_iff.mp hvc) ((n : G) ^ m) hgK
+      (Subgroup.mem_centralizer_iff.mp hvc) ((n : G) ^ m) _hgK
     apply Subtype.ext
     rw [ggConjAut_pow_apply Bs hnN m v, hcomm]
     group
@@ -83,7 +83,7 @@ theorem exists_isReflection_overGamma_of_weylElt {p : ℕ} (hp : p.Prime) (hp2 :
     isReflection_of_quotient hp hp2 hVc hVp (ggGamma K hN).rangeRestrict
       (MonoidHom.rangeRestrict_surjective _) (ggConjAut Bs hnN ^ m)
       (ggConjAut (ggGamma K hN).range hn) hGOGm hfix hc hrefl.1 hrefl.2
-  exact ⟨g, hgK, hg, by rw [hg_eq]; exact hlifts, by rw [hg_eq]; exact hGOGm⟩
+  exact ⟨g, _hgK, hg, by rw [hg_eq]; exact hlifts, by rw [hg_eq]; exact hGOGm⟩
 
 end CFSG.StandardType
 

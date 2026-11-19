@@ -258,7 +258,7 @@ theorem card_eq_three_of_rational {A : Type*} [Group A] [Finite A] (hodd : Odd (
   have hmem : ζ + ζ⁻¹ ∈ Set.range Rat.cast := by
     obtain ⟨r, hr⟩ := hrat x
     exact ⟨r, by rw [hζdef, ← hr]⟩
-  obtain ⟨k, hk⟩ := (IsIntegral.exists_int_iff_exists_rat hint).mp hmem
+  obtain ⟨k, hk⟩ := (IsIntegral.mem_range_ratCast_iff hint).mp hmem
   have hnorm : ‖ζ‖ = 1 := hζ.norm'_eq_one hpos.ne'
   have hk2 : |(k : ℝ)| ≤ 2 := by
     have h1 : ‖ζ + ζ⁻¹‖ ≤ 2 := by

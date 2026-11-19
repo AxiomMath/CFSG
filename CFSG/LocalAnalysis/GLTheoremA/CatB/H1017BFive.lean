@@ -14,7 +14,7 @@ open CFSG.Open CFSG.Blueprint
 
 theorem twoRankLe_five_B_of_fiveBPure
     (h : BabyFiveBPureFact) : TwoRankLe 5 .B 2 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have hcrit : GLATwoLocalRank 5 NativeSporadic.B ≤ 2 := by
     refine H1016M5.twoLocalRankCriterion_holds NativeSporadic.B 5 2 4 Nat.prime_five
       (by norm_num) (fun j hj0 hj4 => by interval_cases j <;> decide) ?_ ?_

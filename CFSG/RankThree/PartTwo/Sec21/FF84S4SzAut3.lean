@@ -28,7 +28,7 @@ theorem three_dvd_card_range_of_ne_one {Q M : Type*} [Group Q] [Group M] [Finite
     have hnorm : (ψ.ker.map π).Normal := Subgroup.Normal.map inferInstance π
       (QuotientGroup.mk'_surjective _)
     have hmap : ψ.ker.map π = ⊤ := by
-      haveI := hnorm
+      have := hnorm
       rcases hS.eq_bot_or_eq_top_of_normal (ψ.ker.map π) with h | h
       · exfalso
         apply hNZ
@@ -61,10 +61,10 @@ theorem lemmaSzAut3_of_schreier (hSch : SchreierFor InCatalog) : LemmaSzAut3 := 
   intro H _ _ hHs hHnab hHK h3H Q _ _ hQ hQs _ h3Q φ
   classical
   by_contra hφ
-  haveI := hHs
+  have := hHs
   have hHcat : InCatalog H :=
     KCore.KGroupNonab.catalogue_self CFSG.Assembly.inCatalog_isoInvariant hHK hHnab
-  haveI hsol : Group.IsSolvable (Outer H) := hSch H hHnab hHcat
+  have hsol : Group.IsSolvable (Outer H) := hSch H hHnab hHcat
   set π := QuotientGroup.mk' (inner H) with hπ
   have hout : ∀ q : Q, φ q ∈ inner H := by
     have hperf : Group.IsPerfect (π.comp φ).range :=
@@ -91,7 +91,7 @@ theorem lemmaSzAut3_holds
 theorem lemmaSz_holds :
     LemmaSz := by
   intro H _ _ hHs hnab hK h3
-  haveI := hHs
+  have := hHs
   exact (CFSG.AGLEmbedding.kFactThreeOrFiveDvd H hHs hnab
     (KCore.KGroupNonab.catalogue_self CFSG.Assembly.inCatalog_isoInvariant hK hnab)).resolve_left h3
 

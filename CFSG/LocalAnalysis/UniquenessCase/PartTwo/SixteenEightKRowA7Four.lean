@@ -41,8 +41,8 @@ theorem s16k_false_of_a7four (h : S16gRowCtx D V₀ V L hV)
     exact padicValNat.prime_pow 4
   obtain ⟨Q, hQc, hQf, L', N, hexp, hcard, -, -, hnorm, hrank, -⟩ :=
     s16k_exists_quot_data h
-  letI := hQc
-  letI := hQf
+  let := hQc
+  let := hQf
   have hcardQ : Nat.card Q = 16 := by
     rw [hcard, hmq]
     norm_num

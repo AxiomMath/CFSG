@@ -10,6 +10,7 @@ open CFSG.CGT.Timmesfeld75 CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem card_orbit_eq_ncard (L : Subgroup G) (s : G) (O : Set G)
     (hO : {x : G | ∃ l ∈ L, x = l⁻¹ * s * l} = O) :
     O.ncard * Nat.card ↥(L ⊓ Subgroup.centralizer ({s} : Set G)) = Nat.card L := by
@@ -21,7 +22,7 @@ theorem exists_normal_over {L : Type} [Group L] [Finite L] (A : Subgroup L) [A.N
     (hm0 : 0 < m) (hpm : ¬ 31 ∣ m) (hdiv : ∀ d : ℕ, d ∣ m → d % 31 = 1 → d = 1)
     (hA : Nat.card A = 64) (hL : Nat.card L = 31 * 64 * m) :
     ∃ R : Subgroup L, R.Normal ∧ A ≤ R ∧ Nat.card R = 31 * 64 := by
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hq : Nat.card (L ⧸ A) * 64 = Nat.card L := by
     rw [← hA]
     exact (Subgroup.card_eq_card_quotient_mul_card_subgroup A).symm
@@ -45,13 +46,16 @@ theorem exists_normal_over {L : Type} [Group L] [Finite L] (A : Subgroup L) [A.N
     rw [h2, h4, hL] at h1
     exact Nat.eq_of_mul_eq_mul_right hm0 h1
 
+omit [Finite G] in
 theorem Frame2.T_le_NA (F : Frame2 G z) : F.T ≤ F.NA := by
-  haveI := Gen.normal_subgroupOf_of_conj F.A_normal
+  have := Gen.normal_subgroupOf_of_conj F.A_normal
   exact fun t ht => ⟨F.T_le_H ht, Subgroup.le_normalizer_of_normal_subgroupOf F.A_le_T ht⟩
 
+omit [Finite G] in
 theorem Frame2.A_le_normalizer (F : Frame2 G z) : F.A ≤ Subgroup.normalizer (F.A : Set G) :=
   Subgroup.le_normalizer
 
+omit [Finite G] in
 theorem Frame2.card_NA (F : Frame2 G z) : ∃ k : ℕ, Nat.card ↥F.NA = 1024 * k ∧ k ∣ 21 := by
   have hdvd : Nat.card ↥F.NA ∣ 21504 := by
     rw [← F.card_H]
@@ -81,7 +85,7 @@ theorem Frame3.exists_R (F : Frame3 G z) (h31 : F.Sz.ncard = 31) :
   have hLc : Nat.card L = 31 * 64 * (16 * k) := by
     rw [hL, F.card_normalizer_A, h31, hk]
     ring
-  haveI hAn : (F.A.subgroupOf L).Normal := ⟨fun n hn g => by
+  have hAn : (F.A.subgroupOf L).Normal := ⟨fun n hn g => by
     have hn' : (n : G) ∈ F.A := hn
     show ((g * n * g⁻¹ : ↥L) : G) ∈ F.A
     have := (Subgroup.mem_normalizer_iff.1 g.2 (n : G)).1 hn'

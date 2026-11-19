@@ -16,7 +16,7 @@ section Helpers
 private theorem w183b2_top_ne_bot {Q : Type*} [AddCommGroup Q] [Module k Q] [Nontrivial Q] :
     (⊤ : Submodule k Q) ≠ ⊥ := by
   intro h
-  haveI : Subsingleton Q := by
+  have : Subsingleton Q := by
     refine ⟨fun x y => ?_⟩
     have hx : x ∈ (⊥ : Submodule k Q) := by rw [← h]; exact Submodule.mem_top
     have hy : y ∈ (⊥ : Submodule k Q) := by rw [← h]; exact Submodule.mem_top
@@ -57,7 +57,7 @@ private theorem w183b2_conj_mul_left_inv (ρ : Representation k G Q) (n x : G) :
 
 private theorem w183b2_map_translate_le {ρ : Representation k G Q} {A₁ A₂ Δ : Subgroup G}
     (h : CoreSetting ρ A₁ A₂ Δ) {U : Submodule k Q} (hU : w183b2InvSub ρ (A₁ ⊔ A₂) U)
-    {n d : G} (hn : n ∈ A₁ ⊔ A₂) (hd : d ∈ Δ) :
+    {n d : G} (hn : n ∈ A₁ ⊔ A₂) (_hd : d ∈ Δ) :
     Submodule.map (ρ n) (U.map (ρ d)) ≤ U.map (ρ d) := by
   have hN : (A₁ ⊔ A₂).Normal := w183b2_normal_sup h
   rintro _ ⟨w, hw, rfl⟩
@@ -253,8 +253,8 @@ theorem w183b2_stab_triv {ρ : Representation k G Q} {A₁ A₂ Δ : Subgroup G}
   exact h.faith f hf hfixall
 
 theorem w183b2_twist_iso {ρ : Representation k G Q} {A₁ A₂ Δ : Subgroup G}
-    (h : CoreSetting ρ A₁ A₂ Δ) {U : Submodule k Q} (hU : w183b2InvSub ρ (A₁ ⊔ A₂) U) {x y : G}
-    (hx : x ∈ Δ) (hy : y ∈ Δ)
+    (h : CoreSetting ρ A₁ A₂ Δ) {U : Submodule k Q} (_hU : w183b2InvSub ρ (A₁ ⊔ A₂) U) {x y : G}
+    (_hx : x ∈ Δ) (_hy : y ∈ Δ)
     (hiso : w183b2NIso ρ (A₁ ⊔ A₂) (U.map (ρ x)) (U.map (ρ y))) :
     w183b2NIso ρ (A₁ ⊔ A₂) U (U.map (ρ (x⁻¹ * y))) := by
   obtain ⟨e, he_inj, he_range, he_lin⟩ := hiso

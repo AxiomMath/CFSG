@@ -76,7 +76,7 @@ theorem asch1413_sp4_end (h64o : Asch6_4Odd) {Q : Type} [Group Q] [Finite Q] {V 
   have hsimpleY : IsSimpleGroup ↥Y := by
     obtain ⟨-, F, _, _, hF, ⟨eF⟩⟩ := hL2Y
     have h4 : 4 ≤ Nat.card F := by rw [hF]; nlinarith
-    haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
+    have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
     exact (eF.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj
       2 F).symm).isSimpleGroup
@@ -90,8 +90,8 @@ theorem asch1413_sp4_end (h64o : Asch6_4Odd) {Q : Type} [Group Q] [Finite Q] {V 
     let e' := eF.trans
       (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F).symm
     exact ⟨e'.symm x, e'.symm y, fun hc => hxy (by simpa using congrArg e' hc)⟩
-  haveI : IsSimpleGroup ↥Y := hsimpleY
-  haveI : Group.IsPerfect ↥Y :=
+  have : IsSimpleGroup ↥Y := hsimpleY
+  have : Group.IsPerfect ↥Y :=
     ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top ↥Y hnabY⟩
   have hquasiY := CFSG.ComponentClassification.Quasisimple.simple_of_perfect ↥Y
   have hcenterY : Subgroup.center ↥Y = ⊥ :=

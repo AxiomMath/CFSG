@@ -59,7 +59,7 @@ theorem smul_permLattice_eq_neg_of_conj {L : Type} [Field L] {Fr : L →+* L} {q
         twistHom TwistTag.E6 L Fr (rootDiagUnit TwistTag.E6.tag (corootTuple γ ζ)) *
           (canonicalRep (coxeterSystem TwistTag.E6.tag) L v)⁻¹) :
     v • permLattice TwistTag.E6.perm γ = -γ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [twistHom_rootDiagUnit_eq, rootDiagUnit_eq_conj_canonicalRep_iff] at h
   have hFζ : Units.map Fr.toMonoidHom ζ = ζ ^ q :=
     Units.ext (by rw [Units.coe_map, Units.val_pow_eq_pow_val]; exact hFr _)
@@ -97,8 +97,8 @@ section Upgrade
 
 theorem twE6EnnolaUpgrade_holds : TwE6EnnolaUpgrade := by
   intro K _ _ σ q hK hσ h2 p hp hpq Fr hFr v g0 hg0C hg0 t ht γ hγ ζ hζ hζ1 hcor
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := ringChar.of_eq h2
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := ringChar.of_eq h2
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hdvd : q ∣ 2 ^ (n : ℕ) := by
     rw [← hn, ← Nat.card_eq_fintype_card, hK]
@@ -114,7 +114,7 @@ theorem twE6EnnolaUpgrade_holds : TwE6EnnolaUpgrade := by
     rintro rfl
     have h1 : 2 ∣ 1 := (Nat.dvd_add_right (dvd_pow_self 2 (by omega : f ≠ 0))).1 hpq
     exact absurd (Nat.le_of_dvd one_pos h1) (by norm_num)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hFr' : Fr = iterateFrobenius (AlgebraicClosure K) 2 f :=
     RingHom.ext fun c => by rw [hFr, iterateFrobenius_def]

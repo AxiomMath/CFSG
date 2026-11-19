@@ -58,7 +58,7 @@ theorem Setting1417.exists_of_two_le_pRank (hC : CStarGen G)
   classical
   have hqM : q ∈ CFSG.LocalAnalysis.RankThreeUC.S15.sigmaM G M := by
     simpa only [sigmaSet, CFSG.LocalAnalysis.RankThreeUC.S15.sigmaM] using hq
-  haveI : Fact q.Prime := ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime q hq.1⟩
+  have : Fact q.Prime := ⟨CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime q hq.1⟩
   obtain ⟨Q, hQ⟩ := CFSG.ABGLocalTools.exists_isSylowOf q (H ⊓ M)
   have hQrank : 2 ≤ CFSG.Open.pRank q Q := by
     rw [CFSG.LocalAnalysis.RankThreeUC.PrimeRankSylowTransport.pRank_sylow
@@ -94,11 +94,11 @@ theorem Setting1417.centralizer_kStar_eq_bot (s : Setting1417 G M Q H F q)
     (h1 : NineFourTwoSigmaGen) :
     Subgroup.centralizer (AGL81C.kStar q M H : Set (AGL81C.StarGroup q H)) = ⊥ := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
-  haveI : (AGL81C.kStar q M H).Normal := s.kStar_normal h1
+  have : Fact q.Prime := ⟨s.qPrime⟩
+  have : (AGL81C.kStar q M H).Normal := s.kStar_normal h1
   let O : Subgroup ↥H :=
     CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q
-  haveI hOn : O.Normal := by
+  have hOn : O.Normal := by
     change (CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q).Normal
     infer_instance
   let π : ↥H →* AGL81C.StarGroup q H := QuotientGroup.mk' O
@@ -149,15 +149,15 @@ private theorem isPerfect_kStar (s : Setting1417 G M Q H F q) (h1 : NineFourTwoS
     rw [show (⟨(z : G), AGL81C.kSub_le q M H
       (Subgroup.mem_subgroupOf.mp hz)⟩ : ↥H) = z from Subtype.ext rfl]
     exact hzy
-  haveI : Group.IsPerfect ↥K := s.isPerfect_kSub h1
+  have : Group.IsPerfect ↥K := s.isPerfect_kSub h1
   exact Group.IsPerfect.ofSurjective hsurj
 
 theorem Setting1417.generalizedFitting_eq_kStar (s : Setting1417 G M Q H F q)
     (h1 : NineFourTwoSigmaGen) :
     CFSG.generalizedFitting (AGL81C.StarGroup q H) = AGL81C.kStar q M H := by
-  haveI : (AGL81C.kStar q M H).Normal := s.kStar_normal h1
-  haveI : IsSimpleGroup ↥(AGL81C.kStar q M H) := (s.kStructure h1).2.2.2.1
-  haveI : Group.IsPerfect ↥(AGL81C.kStar q M H) := isPerfect_kStar s h1
+  have : (AGL81C.kStar q M H).Normal := s.kStar_normal h1
+  have : IsSimpleGroup ↥(AGL81C.kStar q M H) := (s.kStructure h1).2.2.2.1
+  have : Group.IsPerfect ↥(AGL81C.kStar q M H) := isPerfect_kStar s h1
   have hnc : ∃ x y : ↥(AGL81C.kStar q M H), x * y ≠ y * x := by
     by_contra h
     have hcomm : IsMulCommutative ↥(AGL81C.kStar q M H) :=
@@ -170,14 +170,14 @@ theorem Setting1417.generalizedFitting_eq_kStar (s : Setting1417 G M Q H F q)
 
 private theorem kStar_ne_bot (s : Setting1417 G M Q H F q) (h1 : NineFourTwoSigmaGen) :
     AGL81C.kStar q M H ≠ ⊥ := by
-  haveI : IsSimpleGroup ↥(AGL81C.kStar q M H) := (s.kStructure h1).2.2.2.1
+  have : IsSimpleGroup ↥(AGL81C.kStar q M H) := (s.kStructure h1).2.2.2.1
   exact (Subgroup.nontrivial_iff_ne_bot _).mp inferInstance
 
 private theorem starImg_eq_bot_of_le_relPPrimeCore (s : Setting1417 G M Q H F q)
-    {K : Subgroup G} (hKH : K ≤ H) (hKO : K ≤ CFSG.Open.relPPrimeCore q H) :
+    {K : Subgroup G} (_hKH : K ≤ H) (hKO : K ≤ CFSG.Open.relPPrimeCore q H) :
     AGL81C.starImg q H K = ⊥ := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   let O : Subgroup ↥H :=
     CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q
   have hOeq : CFSG.Open.relPPrimeCore q H = O.map H.subtype := by
@@ -199,7 +199,7 @@ private theorem commutator_kSub_subgroupOf_normal (s : Setting1417 G M Q H F q)
     (⁅CFSG.Open.relPPrimeCore q H, AGL81C.kSub q M H⁆.subgroupOf
       (AGL81C.kSub q M H)).Normal := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   let K : Subgroup G := AGL81C.kSub q M H
   let O : Subgroup G := CFSG.Open.relPPrimeCore q H
   have hKH : K ≤ H := AGL81C.kSub_le q M H
@@ -280,11 +280,11 @@ theorem Setting1417.pRank_kStar_le (s : Setting1417 G M Q H F q) (h1 : NineFourT
     {R : Subgroup G} (hKR : AGL81C.kSub q M H ≤ R) :
     CFSG.Open.pRank q (⊤ : Subgroup ↥(AGL81C.kStar q M H)) ≤ CFSG.Open.pRank q (M ⊓ R) := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   let K : Subgroup G := AGL81C.kSub q M H
   let O : Subgroup ↥H :=
     CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q
-  haveI hOn : O.Normal := by
+  have hOn : O.Normal := by
     change (CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q).Normal
     infer_instance
   have hKH : K ≤ H := AGL81C.kSub_le q M H
@@ -314,9 +314,9 @@ theorem Setting1417.le_relPPrimeCore_of_not_three_dvd (s : Setting1417 G M Q H F
     {J : Subgroup G} (hJH : J ≤ H) (hJ : IsPGroup 3 J) :
     J ≤ CFSG.Open.relPPrimeCore q H := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (AGL81C.kStar q M H).Normal := s.kStar_normal h1
+  have : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (AGL81C.kStar q M H).Normal := s.kStar_normal h1
   have hdvd : Nat.card (AGL81C.StarGroup q H) ∣
       Nat.card (MulAut ↥(AGL81C.kStar q M H)) :=
     CFSG.OddStandard.Seitz77.card_dvd_mulAut (s.centralizer_kStar_eq_bot h1)
@@ -324,7 +324,7 @@ theorem Setting1417.le_relPPrimeCore_of_not_three_dvd (s : Setting1417 G M Q H F
     fun h => h3 (h.trans hdvd)
   let O : Subgroup ↥H :=
     CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q
-  haveI hOn : O.Normal := by
+  have hOn : O.Normal := by
     change (CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q).Normal
     infer_instance
   let π : ↥H →* AGL81C.StarGroup q H := QuotientGroup.mk' O
@@ -342,10 +342,10 @@ theorem Setting1417.le_relPPrimeCore_of_not_three_dvd (s : Setting1417 G M Q H F
     Subgroup.eq_bot_of_card_eq _ (by rw [hn, hn0, pow_zero])
   exact s.nine.le_relPPrimeCore_of_starImg_eq_bot hJH hbot
 
-private theorem pPrimeCore_inf_normal (s : Setting1417 G M Q H F q) :
+private theorem pPrimeCore_inf_normal (_s : Setting1417 G M Q H F q) :
     (((CFSG.pPrimeCore 3 ↥M).map M.subtype ⊓ H).subgroupOf (H ⊓ M)).Normal := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Y : Subgroup ↥M := CFSG.pPrimeCore 3 ↥M
   let Ymap : Subgroup G := Y.map M.subtype
   let X : Subgroup G := Ymap ⊓ H
@@ -365,17 +365,17 @@ private theorem pPrimeCore_inf_normal (s : Setting1417 G M Q H F q) :
       (inf_le_right.trans hYnorm) (inf_le_left.trans Subgroup.le_normalizer)
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer hXHM).mpr hXnorm
 
-private theorem exists_surjective_map_starImg_inf (s : Setting1417 G M Q H F q)
+private theorem exists_surjective_map_starImg_inf (_s : Setting1417 G M Q H F q)
     (X : Subgroup G) (hXHM : X ≤ H ⊓ M) :
     ∃ f : ↥(H ⊓ M) →* ↥(AGL81C.starImg q H (H ⊓ M)),
       Function.Surjective f ∧
       (X.subgroupOf (H ⊓ M)).map f =
         (AGL81C.starImg q H X).subgroupOf (AGL81C.starImg q H (H ⊓ M)) := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact q.Prime := ⟨_s.qPrime⟩
   let O : Subgroup ↥H :=
     CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q
-  haveI hOn : O.Normal := by
+  have hOn : O.Normal := by
     change (CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q).Normal
     infer_instance
   let π : ↥H →* AGL81C.StarGroup q H := QuotientGroup.mk' O
@@ -424,7 +424,7 @@ private theorem starImg_inf_pPrimeCore_subgroupOf_normal (s : Setting1417 G M Q 
     ((AGL81C.starImg q H ((CFSG.pPrimeCore 3 ↥M).map M.subtype ⊓ H)).subgroupOf
       (AGL81C.starImg q H (H ⊓ M))).Normal := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X : Subgroup G := (CFSG.pPrimeCore 3 ↥M).map M.subtype ⊓ H
   have hXHM : X ≤ H ⊓ M :=
     le_inf inf_le_right
@@ -443,14 +443,14 @@ theorem Setting1417.not_dvd_card_of_pPrimeCore_starImg_eq_bot (s : Setting1417 G
     (hO : CFSG.pPrimeCore 3 ↥(AGL81C.starImg q H (H ⊓ M)) = ⊥) :
     ¬ q ∣ Nat.card ↥((CFSG.pPrimeCore 3 ↥M).map M.subtype ⊓ H) := by
   classical
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Y : Subgroup ↥M := CFSG.pPrimeCore 3 ↥M
   let Ymap : Subgroup G := Y.map M.subtype
   let X : Subgroup G := Ymap ⊓ H
   let O : Subgroup ↥H :=
     CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q
-  haveI hOn : O.Normal := by
+  have hOn : O.Normal := by
     change (CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) q).Normal
     infer_instance
   let π : ↥H →* AGL81C.StarGroup q H := QuotientGroup.mk' O

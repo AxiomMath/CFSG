@@ -26,7 +26,7 @@ theorem l2Wreath_base_le_layer {f n : ℕ} (hf : 2 ≤ f) :
   change B ≤ layer (L2Wreath f n)
   have hf0 : f ≠ 0 := by omega
   have hcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f hf0
-  letI : Fintype (GaloisField 2 f) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 f) := Fintype.ofFinite _
   have h4 : ∃ s : Finset (GaloisField 2 f), s.card = 4 := by
     have h4' : 4 ≤ Fintype.card (GaloisField 2 f) := by
       rw [← Nat.card_eq_fintype_card, hcard]
@@ -40,9 +40,9 @@ theorem l2Wreath_base_le_layer {f n : ℕ} (hf : 2 ≤ f) :
   have hperf : Group.IsPerfect L :=
     CFSG.LinearGroups.linear_projective_perfect
       (K := GaloisField 2 f) (n := 2) le_rfl (Or.inr h4)
-  haveI : IsSimpleGroup L := hsimple
-  haveI : Nontrivial L := hnt
-  haveI : Group.IsPerfect L := hperf
+  have : IsSimpleGroup L := hsimple
+  have : Nontrivial L := hnt
+  have : Group.IsPerfect L := hperf
   have hna : ∃ a b : L, a * b ≠ b * a := by
     by_contra h
     push Not at h

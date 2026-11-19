@@ -49,16 +49,16 @@ lemma pair_comm (u v : V7) : pair u v = pair v u :=
   C7_isSymm.dotProduct_mulVec_comm
 
 lemma pair_add_left (u w v : V7) : pair (u + w) v = pair u v + pair w v := by
-  simp [pair, Matrix.mulVec_add, add_dotProduct]
+  simp [pair, add_dotProduct]
 
 lemma pair_add_right (u v w : V7) : pair u (v + w) = pair u v + pair u w := by
   simp [pair, Matrix.mulVec_add, dotProduct_add]
 
 lemma pair_smul_left (a : F3) (u v : V7) : pair (a • u) v = a * pair u v := by
-  simp [pair, smul_dotProduct, mul_assoc]
+  simp [pair, smul_dotProduct]
 
 lemma pair_smul_right (a : F3) (u v : V7) : pair u (a • v) = a * pair u v := by
-  simp [pair, Matrix.mulVec_smul, dotProduct_smul, mul_assoc, mul_left_comm, mul_comm]
+  simp [pair, Matrix.mulVec_smul, dotProduct_smul]
 
 lemma smul_neg_vec (a : F3) (w : V7) : (-a) • w = -(a • w) := by
   ext x
@@ -77,7 +77,7 @@ lemma pair_neg_left (u v : V7) : pair (-u) v = -pair u v := by
       have h (s : Finset (Fin 7)) (f : Fin 7 → F3) :
           (∑ i ∈ s, -f i) = -∑ i ∈ s, f i :=
         Finset.sum_neg_distrib (s := s) (f := f)
-      simpa using h Finset.univ (fun i => u i * (C7 *ᵥ v) i)
+      simp
 
 lemma pair_neg_right (u v : V7) : pair u (-v) = -pair u v := by
   rw [pair_comm u (-v), pair_neg_left v u, pair_comm v u]
@@ -112,7 +112,6 @@ lemma reflFun_involutive (h : V7) (hn : norm h = 2) : Function.Involutive (reflF
   have hh : pair h h = 2 := by simpa [norm] using hn
   have hcalc : pair (v - pair v h • h) h = -pair v h := by
     rw [pair_sub_left, pair_smul_left]
-    change pair v h - pair v h * pair h h = -pair v h
     rw [hh]
     ring_nf
   change v - pair v h • h - pair (v - pair v h • h) h • h = v
@@ -136,7 +135,7 @@ lemma reflPerm_preserves_pair (h : V7) (hn : norm h = 2) (u v : V7) :
     pair (reflPerm h hn u) (reflPerm h hn v) = pair u v := by
   have hh : pair h h = 2 := by simpa [norm] using hn
   rw [reflPerm_apply, reflPerm_apply]
-  simp only [reflFun, pair_sub_left, pair_sub_right, pair_smul_left, pair_smul_right,
+  simp only [reflFun, pair_sub_right, pair_smul_right,
     pair_comm, hh]
   ring
 
@@ -217,7 +216,7 @@ lemma conj_reflPerm {g : Equiv.Perm V7} (hlin : IsLinearPerm g)
 @[expose] def keyDigit (k i : ℕ) : ℕ := (k / 3 ^ i) % 3
 
 @[expose] def vOfKey (k : ℕ) : V7 := fun i =>
-  if h : i = 6 then 1 else (keyDigit k i.val : F3)
+  if _h : i = 6 then 1 else (keyDigit k i.val : F3)
 
 @[expose] def goodTable : List (ℕ × List (Fin 6)) := [
   (0, []),
@@ -590,7 +589,7 @@ lemma vOfKey_key6 (v : V7) (hv : v 6 = 1) : vOfKey (key6 v) = v := by
       omega
     let j : Fin 6 := ⟨i.val, hlt⟩
     have hcast : j.castSucc = i := Fin.ext rfl
-    simp only [vOfKey, dif_neg hi]
+    simp only [vOfKey, dite_eq_right hi]
     rw [← hcast]
     have h := key6_digit v j
     have h' : (keyDigit (key6 v) j.val : F3) = v j.castSucc := by
@@ -662,7 +661,7 @@ lemma L_le_pairPres : L ≤ pairPres := by
   rintro _ ⟨i, hi, rfl⟩
   exact s7_pair i
 
-private def decEqV7Fast : DecidableEq (V7) := fun u v =>
+@[instance_reducible] private def decEqV7Fast : DecidableEq (V7) := fun u v =>
   decidable_of_iff (((List.finRange 7).all fun i => decide (u i = v i)) = true) (by
     simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
     exact funext_iff.symm)

@@ -77,8 +77,7 @@ private theorem irreducible_perp [Finite K] [CharP K 2] [FiniteDimensional K V]
   have hua : polar Q u a = 0 := by rw [polar_comm Q]; exact hau
   have hEmem : Eom Q a u ∈ pointStabilizer Q u := by
     refine mem_pointStabilizer.mpr ⟨1, ?_⟩
-    simp only [Eom_app haQ hau, hua, polar_self_char_two, zero_smul, mul_zero, zero_add,
-      add_zero, sub_zero, one_smul]
+    simp only [Eom_app haQ hau, hua, polar_self_char_two, zero_smul, mul_zero, add_zero, sub_zero, one_smul]
   have hwX := hXinv _ hEmem σ hσX
   rw [Eom_app haQ hau, hσu''] at hwX
   have h1 : polar Q σ a • (u - Q u • a) ∈ X := by
@@ -147,7 +146,7 @@ private theorem trivial_of_normal_two_group [Finite K] [CharP K 2] [FiniteDimens
     (hQu : Q u ≠ 0) (T : Subgroup (Gom Q)) (hTS : T ≤ pointStabilizer Q u)
     (hT2 : ∀ t ∈ T, t * t = 1) (hTn : ∀ s ∈ pointStabilizer Q u, ∀ t ∈ T, s * t * s⁻¹ ∈ T) :
     ∀ t ∈ T, t = 1 := by
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   intro t ht
   have hT : IsPGroup 2 T := by
     intro g
@@ -237,7 +236,7 @@ private theorem trivial_of_normal_two_group [Finite K] [CharP K 2] [FiniteDimens
     have hcinv : c = (Q u)⁻¹ := by
       have : c * Q u = 1 := by linear_combination hc1 - h2
       exact eq_inv_of_mul_eq_one_left this
-    haveI : Invertible (Q u) := invertibleOfNonzero hQu
+    have : Invertible (Q u) := invertibleOfNonzero hQu
     have heq : (t : V ≃ₗ[K] V) = reflect Q u := by
       refine LinearEquiv.ext fun v => ?_
       show t.app v = reflect Q u v

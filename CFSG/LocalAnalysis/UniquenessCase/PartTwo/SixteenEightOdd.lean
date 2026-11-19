@@ -17,6 +17,7 @@ theorem s16e_v1Sub_eq_of_inf_fixV (D : Data G) {V₀ V L : Subgroup G} (hV : IsE
     exact s16c167_v1Sub_eq_bot_of_inf_fixV D hV rfl h
   · exact v1Sub_of_ne_bot D.M V₀ V hV L h0
 
+omit [Finite G] in
 private theorem s16e_odd_rk_imgTil {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (S : Subgroup (Vtil V₀ V hV)) (V₁ : Subgroup G) (h : V₁ = V₀) :
     rk ↥(imgTil V₁ V hV (preTil V₀ V hV S)) = rk ↥S := by

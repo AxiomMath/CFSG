@@ -415,8 +415,8 @@ theorem cfInner_resClassFun_baseCore [Fintype (baseCore S)] [Fintype S.base]
       = cfInner (resClassFun S.base θ) lam := by
   have hfinV : Finite (Multiplicative V) := finite_multiplicative_of_finite_grp S
   have hfinU : Finite U := finite_units_of_finite_grp S
-  letI : Fintype (Multiplicative V) := Fintype.ofFinite _
-  letI : Fintype S.totalCentralizer := Fintype.ofFinite _
+  let : Fintype (Multiplicative V) := Fintype.ofFinite _
+  let : Fintype S.totalCentralizer := Fintype.ofFinite _
   have hTriv : θ ∈ irrTrivialOn (core S) :=
     mem_irrTrivialOn.2 ⟨hθ, fun n hn => mem_charValueKernel.1 (hker hn)⟩
   have hval : ∀ (v : Multiplicative V) (c : S.totalCentralizer),
@@ -932,9 +932,9 @@ theorem apply_one_eq_index_totalCentralizer_of_invariant {θ : S.grp → ℂ} (h
   have hfinV : Finite V := S.finite_base
   have hfinU : Finite U := S.finite_units
   have hfin : Finite S.grp := S.finite_grp
-  letI : Fintype S.grp := Fintype.ofFinite _
-  letI : Fintype S.base := Fintype.ofFinite _
-  letI : Fintype (baseCore S.toScalarCoordinateSystem) := Fintype.ofFinite _
+  let : Fintype S.grp := Fintype.ofFinite _
+  let : Fintype S.base := Fintype.ofFinite _
+  let : Fintype (baseCore S.toScalarCoordinateSystem) := Fintype.ofFinite _
   obtain ⟨lam, hlamT, hlamfix⟩ := exists_comp_eq_mem_resConstituents (N := S.base)
     (Fact.out) S.not_dvd_natCard_grp S.baseAut S.baseAut_pow_eq_one hθ
     (fun x => by rw [S.coe_baseAut, hinv])

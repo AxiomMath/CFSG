@@ -71,8 +71,8 @@ theorem ggResXDatumA_ind_of_wit {G : Type} [Group G] [Finite G] {p m n : ℕ} [F
           (List.ofFn fun k => w.cor k (ggZetaP p m ^ (c k).val)).prod = 1 → c = 0) →
         ∀ z : G, GGResXDatumAx p Bs X z n) := by
   obtain ⟨V, hVadd, hVmod, hι⟩ := exists_ggLinData (p := p) (G := G) (Bs := Bs) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
   obtain ⟨ι⟩ := hι
   refine ⟨?_, fun hInd z => ?_⟩
   · obtain ⟨hnk, hbk, α, hlin, hpair, -, -⟩ := ggTD_linearData hm hpm hBs hS hN w hw V ι
@@ -104,18 +104,18 @@ theorem ggResXDatumA_ind_of_wit {G : Type} [Group G] [Finite G] {p m n : ℕ} [F
 
 theorem ggResXDatumE6x_of_wit {G : Type} [Group G] [Finite G] {p m : ℕ} [Fact p.Prime]
     (hp2 : p ≠ 2) (hm : Odd m) (hpm : p ∣ m) {Bs X : Subgroup G}
-    (hM : GGIsWeylMatrix CoxeterMatrix.E₆) (hMC : GGIntCartan CoxeterMatrix.E₆ CartanMatrix.E₆)
+    (hM : GGIsWeylMatrix CoxeterMatrix.E₆) (hMC : GGIntCartan CoxeterMatrix.E₆ (CartanMatrix.E 6))
     (hBs : IsElemAbelian p Bs)
     (hS : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs)
     (hN : Bs ≤ Subgroup.normalizer (X : Set G))
     (w : GGTorusTorWit m 6 ↥X (ggGamma X hN).range)
-    (hw : w.Holds CartanMatrix.E₆ CoxeterMatrix.E₆)
+    (hw : w.Holds (CartanMatrix.E 6) CoxeterMatrix.E₆)
     (hInd : ∀ c : Fin 6 → ZMod p,
       (List.ofFn fun k => w.cor k (ggZetaP p m ^ (c k).val)).prod = 1 → c = 0) (z : G) :
     GGResXDatumE6x p Bs X z := by
   obtain ⟨V, hVadd, hVmod, hι⟩ := exists_ggLinData (p := p) (G := G) (Bs := Bs) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
   obtain ⟨ι⟩ := hι
   obtain ⟨hnk, hbk, α, hlin, hpair, -, -, hind⟩ := ggTD_lin hm hpm hBs hS hN w hw hInd V ι
   obtain ⟨e, he⟩ := ggTD_weyl hN hw hp2 hBs hnk
@@ -124,7 +124,7 @@ theorem ggResXDatumE6x_of_wit {G : Type} [Group G] [Finite G] {p m : ℕ} [Fact 
     intro i
     rw [hpair i i, hMC.1 i]
     norm_num
-  refine ⟨Fin 6, inferInstance, inferInstance, CoxeterMatrix.E₆, CartanMatrix.E₆, V, hVadd,
+  refine ⟨Fin 6, inferInstance, inferInstance, CoxeterMatrix.E₆, (CartanMatrix.E 6), V, hVadd,
     hVmod, ι, (fun k => ggTDρB X Bs (ggTDnH w hnk k)),
     (fun k => ι (Additive.ofMul (⟨_, hbk k⟩ : ↥Bs))), α, Equiv.refl _,
     ggTI_coxeter_reindex_refl _, hM, hMC, hlin, ?_, hpair, ⟨e, he⟩, hcl, fun _ => hind⟩
@@ -240,7 +240,7 @@ theorem ggTwoNodeIndepDatum_of_tbTor (hRig : GGLabelRigidInput) (hT : GGTBTorAll
       simpa [add_assoc] using hJr
     have hM : p ∣ ggTorM labX := by
       unfold ggTorM
-      rw [if_neg (by simp [hXt]), hXn]
+      rw [ite_eq_right (by simp [hXt]), hXn]
       exact hJd
     have hex : ¬ (p = 3 ∧ labX.rank = 5 ∧ p ∣ 2 ^ labX.n + 1) := by
       rintro ⟨-, -, h⟩
@@ -263,7 +263,7 @@ theorem ggTwoNodeIndepDatum_of_tbTor (hRig : GGLabelRigidInput) (hT : GGTBTorAll
       simpa [add_assoc] using hJr
     have hM : p ∣ ggTorM labX := by
       unfold ggTorM
-      rw [if_pos (by simp [hXt]), hXn]
+      rw [ite_eq_left (by simp [hXt]), hXn]
       exact hJd
     by_cases hex : p = 3 ∧ labX.rank = 5 ∧ p ∣ 2 ^ labX.n + 1
     · obtain ⟨hp3, hr5, hd3⟩ := hex
@@ -279,7 +279,7 @@ theorem ggTwoNodeIndepDatum_of_tbTor (hRig : GGLabelRigidInput) (hT : GGTBTorAll
     have hXn : labX.n = labJ.n := by rw [hXe]
     have hM : 3 ∣ ggTorM labX := by
       unfold ggTorM
-      rw [if_neg (by simp [hXt]), hXn]
+      rw [ite_eq_right (by simp [hXt]), hXn]
       exact hd
     exact Or.inr ⟨Or.inl hXt, ggTwoNodeIndepE6_of_tbTor hRig hT hLift hp3 hBs hS hInn hTB hXΛ hXl
       hXt hM z hzX hzc hz1 hzp⟩

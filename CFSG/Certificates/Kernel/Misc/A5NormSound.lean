@@ -182,7 +182,7 @@ theorem memB_iff (S c : ℕ) : memB S c = true ↔ S.testBit c = true := by
   · intro h
     refine Nat.pos_of_ne_zero fun h0 => ?_
     have := congrArg (fun n => n.testBit c) h0
-    simp [Nat.testBit_and, h, Nat.testBit_two_pow] at this
+    simp [Nat.testBit_and, h] at this
 
 theorem subP_sound {t X S c : ℕ} (h : subP t X S = true) (hX : X.testBit c = true)
     (ht : t.testBit c = true) : S.testBit c = true := by
@@ -398,7 +398,7 @@ theorem noInv_of {hs : List ℕ} {a b : ℕ} {P : ℕ → ℕ} {t : ℕ} (hP : P
   rw [testBit_shl1, decide_eq_true_eq] at hbit
   rw [← ofCode_code4 g, ← hbit, ofCode_id4]
 
-theorem fixZero_of {hs : List ℕ} {a b : ℕ} (hhs : ∀ c ∈ hs, c < 65536) (ha : a ∈ hs)
+theorem fixZero_of {hs : List ℕ} {a b : ℕ} (_hhs : ∀ c ∈ hs, c < 65536) (ha : a ∈ hs)
     (hb : b ∈ hs) (h : fixC a b = true) : FixZero (hs.map ofCode).toFinset := by
   intro v hv
   obtain ⟨u, hu, rfl⟩ := vec_surj v
@@ -414,7 +414,7 @@ theorem fixZero_of {hs : List ℕ} {a b : ℕ} (hhs : ∀ c ∈ hs, c < 65536) (
   subst hu0
   decide
 
-theorem trans_of {hs us : List ℕ} {v0 : ℕ} (hhs : ∀ c ∈ hs, c < 65536) (hus : ∀ u ∈ us, u < 16)
+theorem trans_of {hs us : List ℕ} {v0 : ℕ} (_hhs : ∀ c ∈ hs, c < 65536) (hus : ∀ u ∈ us, u < 16)
     (hv0 : v0 < 16) (h : transC hs us v0 = true) :
     ∀ v ∈ (us.map vecOfCode).toFinset, ∃ g ∈ (hs.map ofCode).toFinset, g *ᵥ vecOfCode v0 = v := by
   intro v hv

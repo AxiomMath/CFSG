@@ -217,20 +217,20 @@ private noncomputable def sextetTau
 private theorem sextetTau_mem {Y : Finset (Fin 24)}
     (hY : Y.card = 4) : sextetTau Y ∈ M24g := by
   unfold sextetTau
-  rw [dif_pos hY]
+  rw [dite_eq_left hY]
   exact (Classical.choose_spec (exists_smul_cls_zero_eq Y hY)).1
 
 private theorem sextetTau_smul {Y : Finset (Fin 24)}
     (hY : Y.card = 4) : sextetTau Y • cls 0 = Y := by
   unfold sextetTau
-  rw [dif_pos hY]
+  rw [dite_eq_left hY]
   exact (Classical.choose_spec (exists_smul_cls_zero_eq Y hY)).2
 
 theorem card_MY_stdSextet_le :
     Nat.card ↥(MY M24g stdSextet) ≤ 138240 := by
-  haveI : Fintype ↥M24g := Fintype.ofFinite _
-  haveI : Fintype (MulAction.orbit ↥M24g stdSextet) := Fintype.ofFinite _
-  haveI : Fintype (MulAction.stabilizer ↥M24g stdSextet) := Fintype.ofFinite _
+  have : Fintype ↥M24g := Fintype.ofFinite _
+  have : Fintype (MulAction.orbit ↥M24g stdSextet) := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer ↥M24g stdSextet) := Fintype.ofFinite _
   have hGcard : Fintype.card ↥M24g = 244823040 := by
     rw [← Nat.card_eq_fintype_card]
     exact card_AutPerm

@@ -33,7 +33,7 @@ theorem harada39One_of_cat (h : CatHaradaAS) : Harada39One := by
       hs.iso.some.trans (Subgroup.equivMapOfInjective _ (embA e) (embA_injective e)).symm
     exact ⟨φ.trans (MulEquiv.prodCongr ψ ψ)⟩
   ·
-    haveI := hF.simple
+    have := hF.simple
     have hcat : Catalog ↥S :=
       CFSG.SectionRank.catalog_of_isKGroupCat_of_surjective hK S (MonoidHom.id ↥S)
         Function.surjective_id

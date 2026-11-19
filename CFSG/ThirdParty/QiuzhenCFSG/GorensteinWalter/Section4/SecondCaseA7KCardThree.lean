@@ -48,7 +48,7 @@ public theorem secondCase_a7_involution_K_card_eq_three
     secondCase_involution_decomposition c w d
   let E : Subgroup G := d.E
   let Z : Subgroup E := Subgroup.center E
-  letI : Z.Normal := by
+  let : Z.Normal := by
     dsimp [Z]
     infer_instance
   let q : E →* E ⧸ Z := QuotientGroup.mk' Z

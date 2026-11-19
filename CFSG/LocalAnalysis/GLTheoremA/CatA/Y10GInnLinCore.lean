@@ -131,7 +131,7 @@ theorem odd_orderOf_of_pow_scalar (h2 : (2 : K) = 0) {d : ℕ} (hd : 1 ≤ d) (A
     (hp : Odd p) {c : K}
     (hc : ((A ^ p : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) = c • (1 : Matrix (Fin d) (Fin d) K)) :
     Odd (orderOf A) := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   have hc0 : c ≠ 0 := by
     intro h0
     have hu : ((A ^ p : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) *
@@ -150,6 +150,7 @@ theorem odd_orderOf_of_pow_scalar (h2 : (2 : K) = 0) {d : ℕ} (hd : 1 ≤ d) (A
   have hodd_z : Odd (orderOf z) := Odd.of_dvd_nat hodd_card (orderOf_dvd_natCard z)
   exact Odd.of_dvd_nat (Odd.mul hp hodd_z) hdvd
 
+omit [Finite K] in
 theorem cast_orderOf_ne_zero_of_odd (h2 : (2 : K) = 0) {G : Type*} [Group G] (x : G)
     (hx : Odd (orderOf x)) : ((orderOf x : ℕ) : K) ≠ 0 := by
   obtain ⟨k, hk⟩ := hx
@@ -247,6 +248,7 @@ section Core
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem map_fixSubgroup_conjSL {d : ℕ} (A : GL (Fin d) K) :
     (fixSubgroup (conjSL A)).map (StatedSL d K).subtype =
       Subgroup.centralizer ({A} : Set (GL (Fin d) K)) ⊓ CFSG.Open.StatedSL d K := by
@@ -268,6 +270,7 @@ theorem map_fixSubgroup_conjSL {d : ℕ} (A : GL (Fin d) K) :
     rw [hc.symm]
     group
 
+omit [Finite K] in
 theorem ker_projMk_le_center {d : ℕ} :
     (LargeEvenProjMk (StatedSL d K)).ker ≤ Subgroup.center ↥(StatedSL d K) := by
   intro x hx

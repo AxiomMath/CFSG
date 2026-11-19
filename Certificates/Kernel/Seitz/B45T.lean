@@ -79,22 +79,22 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.PSL3Four.Native
 theorem vB_eqF (V i : Nat) : vB V i = vBF V i := by
   unfold vB vBF
   by_cases hi : i < 256
-  · rw [if_pos hi, show Nat.blt i 256 = true from by simpa using hi]
-  · rw [if_neg hi, show Nat.blt i 256 = false from Bool.eq_false_iff.2 (fun h => hi (by simpa using h))]
+  · rw [ite_eq_left hi, show Nat.blt i 256 = true from by simpa using hi]
+  · rw [ite_eq_right hi, show Nat.blt i 256 = false from Bool.eq_false_iff.2 (fun h => hi (by simpa using h))]
 
 theorem rsB_eqF (R p : Nat) : rsB R p = rsBF R p := by
   unfold rsB rsBF
   by_cases hi : p < 4
-  · rw [if_pos hi, show Nat.blt p 4 = true from by simpa using hi]
-  · rw [if_neg hi, show Nat.blt p 4 = false from Bool.eq_false_iff.2 (fun h => hi (by simpa using h))]
+  · rw [ite_eq_left hi, show Nat.blt p 4 = true from by simpa using hi]
+  · rw [ite_eq_right hi, show Nat.blt p 4 = false from Bool.eq_false_iff.2 (fun h => hi (by simpa using h))]
 
 theorem mtB_eqF (P : Nat → Nat) (i j : Nat) : mtB P i j = mtBF P i j := by
   unfold mtB mtBF
   show _ = Bool.rec (motive := fun _ => Nat) 0
     (pg 8 (mask 8) (P ((256 * i + j) / 256)) ((256 * i + j) % 256)) (Nat.blt (256 * i + j) 65536)
   by_cases hi : 256 * i + j < 65536
-  · rw [if_pos hi, show Nat.blt (256 * i + j) 65536 = true from by simpa using hi]
-  · rw [if_neg hi, show Nat.blt (256 * i + j) 65536 = false from
+  · rw [ite_eq_left hi, show Nat.blt (256 * i + j) 65536 = true from by simpa using hi]
+  · rw [ite_eq_right hi, show Nat.blt (256 * i + j) 65536 = false from
       Bool.eq_false_iff.2 (fun h => hi (by simpa using h))]
 
 theorem natBeq_eqF (a b : Nat) : (a == b) = Nat.beq a b := by

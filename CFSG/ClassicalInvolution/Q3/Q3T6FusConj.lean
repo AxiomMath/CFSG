@@ -49,7 +49,7 @@ theorem exists_conj_eq_t_of_subgroup3 (hΩg : HypOmegaGen (CoreAssembly.conjClas
     (hBW : B ≤ Subgroup.centralizer (W : Set G)) (hBL : B ≤ centralizerModOdd ⊤ L) :
     ∃ g : G, (∀ b ∈ B, g * b = b * g) ∧ g * z * g⁻¹ = t := by
   have hWab := abelian_of_mem_WSet3 hΩg hW
-  have hW2 : IsPGroup 2 W := S.isPGroup'.to_le hWS
+  have hW2 : IsPGroup 2 W := S.isPGroup.to_le hWS
   obtain ⟨a, haL⟩ := hL
   subst haL
   have hta : t = a * z * a⁻¹ := ((hI.conj a).eq hLt).symm
@@ -92,7 +92,7 @@ theorem exists_conj_eq_t_of_subgroup3 (hΩg : HypOmegaGen (CoreAssembly.conjClas
     rw [← hta, Subgroup.mem_centralizer_singleton_iff]
     calc r * t = r * t * r⁻¹ * r := by group
       _ = t * r := by rw [hcon r hr]
-  have hT2 : IsPGroup 2 ↥(B ⊔ W) := S.isPGroup'.to_le (sup_le hBS hWS)
+  have hT2 : IsPGroup 2 ↥(B ⊔ W) := S.isPGroup.to_le (sup_le hBS hWS)
   have hTL : B ⊔ W ≤ Subgroup.normalizer ((conjSub a K : Subgroup G) : Set G) :=
     sup_le hBN hWN
   obtain ⟨RL, hRL, hTRL⟩ := Asc77.exists_sylow_normalized hT2 hTL

@@ -57,7 +57,7 @@ theorem exists_rotation
       refine ⟨k,?_⟩
       apply MulAction.injective g.val
       exact (hge k).trans ((congrArg eX hk).trans hi)
-  exact ⟨A,P.isPGroup'.map (stabilizer G b).subtype,hF,g.val,g.property,hσ3,hσfree,s,hs,hbase,hpres⟩
+  exact ⟨A,P.isPGroup.map (stabilizer G b).subtype,hF,g.val,g.property,hσ3,hσfree,s,hs,hbase,hpres⟩
 
 end FiveTransitive.SixPointNormalizerRotation
 

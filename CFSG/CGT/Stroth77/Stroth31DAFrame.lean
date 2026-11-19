@@ -13,6 +13,7 @@ open CFSG.OddStandard.HigherRank.G2Three.Sec1 (IsE IsSylowIn)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem closure_singleton_eq_one_or {s : G} (hs : s * s = 1) {x : G}
     (hx : x ∈ Subgroup.closure ({s} : Set G)) : x = 1 ∨ x = s := by
   refine Subgroup.closure_induction (p := fun x _ => x = 1 ∨ x = s) ?_ ?_ ?_ ?_ hx
@@ -20,7 +21,7 @@ theorem closure_singleton_eq_one_or {s : G} (hs : s * s = 1) {x : G}
     exact Or.inr (by simpa using hy)
   · exact Or.inl rfl
   · intro a b _ _ ha hb
-    rcases ha with rfl | rfl <;> rcases hb with rfl | rfl <;> simp [hs, mul_assoc]
+    rcases ha with rfl | rfl <;> rcases hb with rfl | rfl <;> simp [hs]
   · intro a _ ha
     rcases ha with rfl | rfl
     · exact Or.inl inv_one
@@ -44,7 +45,7 @@ theorem card_sup_closure_singleton_le_mul_two (H : Subgroup G) {s : G}
         rcases hb with ⟨v, hv, hy⟩
         rcases hx with hx | hx <;> rcases hy with hy | hy
         · exact ⟨u * v, H.mul_mem hu hv, Or.inl (by rw [hx, hy])⟩
-        · exact ⟨u * v, H.mul_mem hu hv, Or.inr (by rw [hx, hy]; simp [hs, mul_assoc])⟩
+        · exact ⟨u * v, H.mul_mem hu hv, Or.inr (by rw [hx, hy]; simp [mul_assoc])⟩
         · refine ⟨u * (s * v * s), H.mul_mem hu (hconj v hv), Or.inr ?_⟩
           rw [hx, hy]; simp [hs, mul_assoc]
         · refine ⟨u * (s * v * s), H.mul_mem hu (hconj v hv), Or.inl ?_⟩
@@ -55,12 +56,12 @@ theorem card_sup_closure_singleton_le_mul_two (H : Subgroup G) {s : G}
         intro x hx
         rcases hx with ⟨u, hu, hx⟩
         rcases hx with hx | hx
-        · exact ⟨u⁻¹, H.inv_mem hu, Or.inl (by simpa [hx])⟩
+        · exact ⟨u⁻¹, H.inv_mem hu, Or.inl (by simp [hx])⟩
         · refine ⟨s * u⁻¹ * s, hconj u⁻¹ (H.inv_mem hu), Or.inr ?_⟩
           rw [hx]
           calc (u * s)⁻¹ = s * u⁻¹ := by rw [mul_inv_rev, hsinv]
-            _ = (s * u⁻¹) * (s * s) := by simp [hs, mul_assoc]
-            _ = (s * u⁻¹) := by simp [hs, mul_assoc]
+            _ = (s * u⁻¹) * (s * s) := by simp [hs]
+            _ = (s * u⁻¹) := by simp [hs]
             _ = (s * u⁻¹ * s) * s := by simp [hs, mul_assoc] }
   have hHK : H ≤ K := fun h hh => ⟨h, hh, Or.inl rfl⟩
   have hsK : s ∈ K := ⟨1, H.one_mem, Or.inr (by simp)⟩
@@ -94,7 +95,7 @@ theorem card_T_eq (F : StrothFrame G) :
     Nat.card (F.A ⊔ Subgroup.closure {F.dA.uv, F.dA.t, F.dA.u} : Subgroup G) = 256 := by
   refine le_antisymm ?_ F.card_T_ge
   exact F.card_le_of_le_normalizer_E F.T_le_normalizer_E
-    (F.S.isPGroup'.to_le F.T_le_S)
+    (F.S.isPGroup.to_le F.T_le_S)
 
 theorem T_inf_strothR (F : StrothFrame G)
     {τ : StrothTypeIndex} {dD : StrothWeakTypeData F.A τ} (h : F.IsD F.A dD)
@@ -232,7 +233,7 @@ theorem no_index_four_D_eq_A (F : StrothFrame G) {D : Subgroup G} {m : ℕ}
       refine sup_le Subgroup.le_normalizer ?_
       rw [Subgroup.closure_le]
       simpa using hsNT
-    haveI hNnormal : (T.subgroupOf (F.S : Subgroup G)).Normal :=
+    have hNnormal : (T.subgroupOf (F.S : Subgroup G)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hS_le_normT
     have hcard_sub : Nat.card (T.subgroupOf (F.S : Subgroup G)) = Nat.card T :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe F.T_le_S).toEquiv

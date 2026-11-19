@@ -53,7 +53,7 @@ theorem invariant_prime_subgroups_fuse
   obtain ⟨element, conjugates, fixed⟩ := invariant_sylows_conjugate_by_fixed_element prime
     groupPrime prime_prime groupPrime_prime ActorType actor_pgroup GroupType coprime
     firstSylow secondSylow first_fixed second_fixed
-  refine ⟨element, fixed, secondSylow, secondSylow.isPGroup', ?_, ?_, second_contains⟩
+  refine ⟨element, fixed, secondSylow, secondSylow.isPGroup, ?_, ?_, second_contains⟩
   · intro actorElement value member
     have image_fixed : actorElement • (secondSylow : Subgroup GroupType) = secondSylow := by
       rw [← Sylow.pointwise_smul_def, second_fixed]

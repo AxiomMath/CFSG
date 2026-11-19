@@ -10,7 +10,7 @@ open CFSG.Open CFSG.Goldschmidt CFSG.GH74.GLS.Th2.P412 Subgroup
 namespace CFSG.OddStandard.SmallF3.Omega
 
 theorem perm_image {X : Type} [Group X] [Finite X] {V : Subgroup X} {W : Fin 4 → Subgroup X}
-    (hV : Nat.card V = 2 ^ 8) (hW : ∀ i, W i ≤ V) {M : Subgroup X} [M.Normal] (hVM : V ≤ M)
+    (hV : Nat.card V = 2 ^ 8) (_hW : ∀ i, W i ≤ V) {M : Subgroup X} [M.Normal] (hVM : V ≤ M)
     (hperm : ∀ g ∈ normalizer (V : Set X), ∀ i, ∃ j, ∀ w ∈ W i, g * w * g⁻¹ ∈ W j) :
     ∀ y : Mbar M, (∀ x ∈ (V.subgroupOf M).map (mbarMk M), y * x * y⁻¹ ∈
         (V.subgroupOf M).map (mbarMk M)) →

@@ -29,11 +29,11 @@ private theorem map_centralizer_singleton {G H : Type*} [Group G] [Group H] (e :
   · intro h
     have h' := congrArg e h
     simp only [map_mul, MulEquiv.apply_symm_apply] at h'
-    first | exact h' | exact h'.symm
+    first | exact h'
   · intro h
     apply e.injective
     simp only [map_mul, MulEquiv.apply_symm_apply]
-    first | exact h | exact h.symm
+    first | exact h
 
 private theorem isComponentOf_map {G H : Type} [Group G] [Group H] (e : G ≃* H)
     {K C : Subgroup G} (h : CFSG.Assembly.IsComponentOf K C) :
@@ -46,7 +46,7 @@ theorem ggSixE6A24RootDataRest_of_jUnique (hJ : E6TwoJUnique) (hM : GGSixE6A24Mo
   obtain ⟨θ₀⟩ := nonempty_mulEquiv_EC hperf hLM
   have hx1 : x₀ ≠ 1 := ne_one_of_isComponentOf θ₀ hcomp hL'M
   have h31 := thirtyOne_dvd_card_centralizer hcomp hL'M
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf (θ₀ x₀) = 3 := by
     rw [MulEquiv.orderOf_eq]
     exact orderOf_eq_prime hx3 hx1
@@ -77,7 +77,7 @@ theorem ggSixE6A24RootDataRest_of_jUnique (hJ : E6TwoJUnique) (hM : GGSixE6A24Mo
   have hlz : l * zE * l⁻¹ = zE := by
     have h := Subgroup.mem_centralizer_singleton_iff.1 (lE_le_centralizer_zE hl)
     rw [mul_inv_eq_iff_eq_mul]
-    first | exact h | exact h.symm
+    first | exact h
   have hθx : θ x₀ = zE ∨ θ x₀ = zE⁻¹ := by
     have h1 : θ x₀ = l * θ₁ x₀ * l⁻¹ := rfl
     rcases hθ₁x with h' | h'

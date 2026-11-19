@@ -28,7 +28,7 @@ theorem irgL_exists_slAut_of_quotAut {m : ℕ} {F : Type} [Field F] [Finite F]
             ((slConjugation (m + 1) F A * slFieldAut (Fin (m + 1)) F σ *
               slGraphAut (m + 1) F ^ ε) x) := by
   let SL := Matrix.SpecialLinearGroup (Fin (m + 1)) F
-  haveI : (LinearFlag.scalars (m + 1) F).Normal := LinearFlag.scalars_normal (m + 1) F
+  have : (LinearFlag.scalars (m + 1) F).Normal := LinearFlag.scalars_normal (m + 1) F
   let ec : SL ⧸ Subgroup.center SL ≃* LinearFlag.projectiveSL (m + 1) F :=
     QuotientGroup.quotientMulEquivOfEq (LinearFlag.scalars_eq_center (m + 1) F).symm
   let θ' : MulAut (LinearFlag.projectiveSL (m + 1) F) := ec.symm.trans (θ.trans ec)

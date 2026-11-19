@@ -24,7 +24,7 @@ theorem exists_large_conj_le_of_sylow {G : Type*} [Group G] [Finite G] {p : ℕ}
   have hCH : C ≤ H := Subgroup.map_subtype_le _
   have hCcard : Nat.card C = p ^ (Nat.card H).factorization p := by
     rw [hCdef, Subgroup.card_map_of_injective H.subtype_injective, Sylow.card_eq_multiplicity]
-  have hCp : IsPGroup p ↥(C.subgroupOf Y) := (S₁.isPGroup'.map H.subtype).comap_subtype
+  have hCp : IsPGroup p ↥(C.subgroupOf Y) := (S₁.isPGroup.map H.subtype).comap_subtype
   obtain ⟨S₀, hS₀⟩ := IsPGroup.exists_le_sylow hCp
   have hAp : IsPGroup p ↥(A.subgroupOf Y) := hA.comap_subtype
   obtain ⟨P, hP⟩ := IsPGroup.exists_le_sylow hAp

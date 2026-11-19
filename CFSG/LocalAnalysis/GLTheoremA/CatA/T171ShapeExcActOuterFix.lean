@@ -23,6 +23,7 @@ variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
   {M : Type*} [CommGroup M] {χ : Multiplicative (Fin τ.rank → ℤ) →* M}
   {i : KernelComponent χ}
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem iterHom_eq_self_of_mem_centralizer
     {F : ModGL τ L →* ModGL τ L} {Z : Subgroup (ModGL τ L)}
     (hZ : Subgroup.center (rootSpan τ L (componentRoots χ i)) = ⊥)
@@ -44,6 +45,7 @@ theorem iterHom_eq_self_of_mem_centralizer
   rw [hZ, Subgroup.mem_bot] at hcenter
   exact mul_inv_eq_one.mp (congrArg Subtype.val hcenter)
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem commutator_mem_of_twist_mem_centralizer
     {F : ModGL τ L →* ModGL τ L} {Z : Subgroup (ModGL τ L)}
     (hZ : Subgroup.center (rootSpan τ L (componentRoots χ i)) = ⊥)

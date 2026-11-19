@@ -210,10 +210,10 @@ theorem sec5fb_geom_of_E16 (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3
       exact Subgroup.mem_map.mpr ⟨e, he, he'.symm⟩
     rw [hBbeq]
     exact Subgroup.mem_sup_left hmemĒ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardC : Nat.card (OGroup (Q.restrict (commSp s))) = 2 :=
     natCard_oGroup_one hC hcdim
-  haveI : IsCyclic (OGroup (Q.restrict (commSp s))) :=
+  have : IsCyclic (OGroup (Q.restrict (commSp s))) :=
     isCyclic_of_prime_card (p := 2) hcardC
   let e := MonoidHom.ofInjective (blockHom_injective hss)
   have hmemP : ∀ p : ↥(fixSub (omegaConj hQ s)),

@@ -27,11 +27,11 @@ theorem exists_fixModel_primeFormP (h : UnitaryFieldData p f K) (hp3 : p = 3) {n
   subst hp3
   have hp : Nat.Prime 3 := Nat.prime_three
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI := h.finite
-  haveI := h.charP
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have := h.finite
+  have := h.charP
   have hf1 := h.one_le
-  haveI : Finite (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
+  have : Finite (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
     Finite.of_equiv _ (CFSG.LocalAnalysis.unitaryPSUEquivPrimeFormOne h n).toEquiv
   obtain ⟨σ, g, hσ, hβeq⟩ := exists_conj_primeFormFieldHom_of_outer h hn hp2 hβ hout
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) :=
@@ -83,7 +83,7 @@ theorem exists_fixModel_primeFormP (h : UnitaryFieldData p f K) (hp3 : p = 3) {n
       rfl
     rw [h1, hβeq]
     group
-  haveI hnormC := normal_subgroupOf_self (fixSubgroup β₀)
+  have hnormC := normal_subgroupOf_self (fixSubgroup β₀)
   obtain ⟨e⟩ := exists_equiv_of_conj ψ hψ (J := fixSubgroup β₀) le_rfl (isSolvable_quotient_self _)
     hs hnc hdvd hI
   obtain ⟨hmod, K', fK, finK, hK', ⟨eK'⟩⟩ := hmodel
@@ -103,7 +103,7 @@ theorem i1429SubUni_holds : I1429SubLieAt SubIsUni := by
   obtain ⟨d, hv⟩ := d
   cases hd
   have hq3 : q.p = 3 := by simpa using hchar
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨⟨hℓ, hf, hn3, hq⟩, K, _, _, hK, ⟨eT⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA n q hv e
   have h : UnitaryFieldData q.p q.exponent K := ⟨hℓ, hf, by rw [hK, ← pow_mul, mul_comm]⟩
@@ -115,7 +115,7 @@ theorem i1429SubUni_holds : I1429SubLieAt SubIsUni := by
   have hout' : MulAut.congr e' β ∉ (MulAut.conj : primeFormP h
       ((1 : GL (Fin (n + 1)) K) : Matrix (Fin (n + 1)) (Fin (n + 1)) K) →* _).range := fun hin =>
     hout ((congr_mem_range_conj_iff e' β).1 hin)
-  haveI : Finite (primeFormP h ((1 : GL (Fin (n + 1)) K) : Matrix (Fin (n + 1)) (Fin (n + 1)) K)) :=
+  have : Finite (primeFormP h ((1 : GL (Fin (n + 1)) K) : Matrix (Fin (n + 1)) (Fin (n + 1)) K)) :=
     Finite.of_equiv S e'.toEquiv
   obtain ⟨hI', ⟨eI⟩⟩ := component_transport e' rfl hI
   obtain ⟨a, ha, hf', hmI⟩ := exists_fixModel_primeFormP h hq3 hn3 hβ' hout' hI'

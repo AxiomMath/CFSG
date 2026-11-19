@@ -15,6 +15,7 @@ open Subgroup QuadraticMap
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_simConj_reflOf {ρ : V ≃ₗ[ZMod 3] V} (hρ : IsSimilitude Q ρ (-1))
     (u : V) (hu : Q u ≠ 0) :
     simConj hρ (reflOf Q u hu) =
@@ -36,6 +37,7 @@ theorem ff_simConj_reflOf {ρ : V ≃ₗ[ZMod 3] V} (hρ : IsSimilitude Q ρ (-1
   rw [show ((-1 : (ZMod 3)ˣ) : ZMod 3) = -1 by norm_num]
   ring
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_reflOf_comm {u v : V} (hu : Q u ≠ 0) (hv : Q v ≠ 0)
     (huv : Q.polarBilin u v = 0) :
     reflOf Q u hu * reflOf Q v hv = reflOf Q v hv * reflOf Q u hu := by

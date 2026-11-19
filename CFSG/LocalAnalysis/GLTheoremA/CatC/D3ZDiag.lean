@@ -152,7 +152,7 @@ theorem cartanChar_D4_apply (cc : Fin Tag.D4.rank → Kˣ) :
         cc 3 ^ Tag.D4.cartan 3 l := fun l => by
     unfold cartanChar
     exact Fin.prod_univ_four _
-  refine ⟨?_, ?_, ?_, ?_⟩ <;> rw [key] <;> simp only [cartanD4_apply'] <;> simp <;> exact mul_comm _ _
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> rw [key] <;> simp only [cartanD4_apply'] <;> simp; exact mul_comm _ _
 
 theorem squares_of_cartan {a : Fin Tag.D4.rank → Kˣ} (h : ∃ cc, a = cartanChar cc) :
     IsSquare ((a 0 : K) * a 1) ∧ IsSquare ((a 0 : K) * a 3) := by
@@ -181,10 +181,10 @@ theorem cartan_of_squares {a : Fin Tag.D4.rank → Kˣ} (h01 : IsSquare ((a 0 : 
   have ha3 : (a 3 : K) ≠ 0 := Units.ne_zero _
   have hs0 : s ≠ 0 := by
     rintro rfl
-    exact mul_ne_zero ha0 ha1 (by simpa using hs)
+    exact mul_ne_zero ha0 ha1 (by simp at hs)
   have hr0 : r ≠ 0 := by
     rintro rfl
-    exact mul_ne_zero ha0 ha3 (by simpa using hr)
+    exact mul_ne_zero ha0 ha3 (by simp at hr)
   let su : Kˣ := Units.mk0 s hs0
   let ru : Kˣ := Units.mk0 r hr0
   let w : Kˣ := a 2 * su * ru * (a 0)⁻¹
@@ -236,7 +236,7 @@ variable {K : Type} [Field K] [Finite K]
 
 theorem isSquare_mul_map (hK2 : ringChar K ≠ 2) (σ : K ≃+* K) {x : K} (hx : x ≠ 0) :
     IsSquare (x * σ x) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hσx : σ x ≠ 0 := by simpa using hx
   have hq : Fintype.card K % 2 = 1 := FiniteField.odd_card_of_char_ne_two hK2
   have hsq : ∀ y : K, y ≠ 0 → (y ^ (Fintype.card K / 2)) ^ 2 = 1 := by
@@ -288,8 +288,7 @@ theorem cartan_of_twist (hK2 : ringChar K ≠ 2) (σ : K ≃+* K) (ε : ℕ) (h�
   have ha1 : (a 1 : K) ≠ 0 := Units.ne_zero _
   have ha2 : (a 2 : K) ≠ 0 := Units.ne_zero _
   have ha3 : (a 3 : K) ≠ 0 := Units.ne_zero _
-  simp only [Units.val_mul, Units.val_inv_eq_inv_val, Units.coe_map, RingEquiv.toRingHom_eq_coe,
-    MonoidHom.coe_coe, RingHom.coe_coe] at hw01 hw03
+  simp only [Units.val_mul, Units.val_inv_eq_inv_val, Units.coe_map, RingEquiv.toRingHom_eq_coe] at hw01 hw03
   rcases hε with rfl | rfl
   · obtain ⟨e0, e1, e3⟩ := d4Rho_symm_values_one
     rw [e0, e1] at hw01

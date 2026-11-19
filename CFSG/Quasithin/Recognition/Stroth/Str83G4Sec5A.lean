@@ -18,6 +18,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {a : ℕ}
 
+omit [Finite G] in
 private theorem mem_normalizer_conjClosure_of {Z K : Subgroup G} {h : G}
     (hZ : h ∈ Subgroup.normalizer (Z : Set G)) (hK : h ∈ Subgroup.normalizer (K : Set G)) :
     h ∈ Subgroup.normalizer (conjClosure Z K : Set G) := by
@@ -41,6 +42,7 @@ private theorem mem_normalizer_conjClosure_of {Z K : Subgroup G} {h : G}
   have h1 := key h⁻¹ (Subgroup.inv_mem _ hZ) (Subgroup.inv_mem _ hK) _ hn
   rwa [show h⁻¹ * (h * n * h⁻¹) * h⁻¹⁻¹ = n by group] at h1
 
+omit [Finite G] in
 private theorem mem_centralizer_conjClosure_iff {Z K : Subgroup G} {f : G} :
     f ∈ Subgroup.centralizer (conjClosure Z K : Set G) ↔
       ∀ g ∈ K, f ∈ Subgroup.centralizer (CFSG.conjugate Z g : Set G) := by
@@ -64,11 +66,12 @@ private theorem mem_centralizer_conjClosure_iff {Z K : Subgroup G} {f : G} :
     exact Subgroup.mem_centralizer_iff.mpr fun y hy =>
       Subgroup.mem_centralizer_singleton_iff.mp (hle hy)
 
+omit [Finite G] in
 private theorem commutator_mem_of_mem_two_subgroup {N I : Subgroup G} (hI : IsPGroup 2 ↥I)
     (hIN : I ≤ Subgroup.normalizer (N : Set G)) {g y : G} (hg : Odd (orderOf g))
     (hgN : g ∈ Subgroup.normalizer (N : Set G)) (hgy : g * y * g⁻¹ * y⁻¹ ∈ I)
     (hgI : ∀ i ∈ I, g * i * g⁻¹ * i⁻¹ ∈ N) : g * y * g⁻¹ * y⁻¹ ∈ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨i, hi⟩ : ∃ i, i = g * y * g⁻¹ * y⁻¹ := ⟨_, rfl⟩
   rw [← hi] at hgy ⊢
   have hm : g * i * g⁻¹ * i⁻¹ ∈ N := hgI i hgy
@@ -154,7 +157,7 @@ theorem str83G4_mem_z1_of_mem_x_centralizer
   · have hxM : x ∈ M := Subgroup.mem_inf.mpr ⟨hx, hxN⟩
     rwa [hMZ] at hxM
   exfalso
-  obtain ⟨t, ht, htQ⟩ := SetLike.not_le_iff_exists.mp hB
+  obtain ⟨t, ht, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hB
   have htN : t ∈ N₁ := le_conjClosure _ _ ht
   have hXC : X ≤ Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G) := by
     intro y hy

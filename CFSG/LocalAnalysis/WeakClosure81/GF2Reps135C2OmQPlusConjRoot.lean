@@ -10,6 +10,7 @@ open CFSG.LieType.Universal.Spin CFSG.LieType.RootSystem
 
 variable {n : ℕ} (hn : 3 ≤ n) {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 private theorem c2slomqcr_entry_one (b : Fin n) :
     omqPlusEntry n (1 : spinGroup (quadPlus n F)) b = 1 := by
   change (spinMatrix (quadPlus n F) (1 : spinGroup (quadPlus n F)) :
@@ -22,7 +23,7 @@ private theorem c2slomqcr_longCoroot_true (hn : 3 ≤ n) (k : Fin n) (m : Fin n)
       toStdD n (Pi.single k 1) m := by
   rw [toStdD_single_eq (by omega) k]
   cases hσ : rootSignD n k <;>
-    simp [longCoroot, hσ, Pi.single_apply]
+    simp [longCoroot, Pi.single_apply]
 
 private theorem c2slomqcr_longCoroot_eq (hn : 3 ≤ n) (k : Fin n) (m : Fin n) (r : Bool) :
     longCoroot (rootIdxD n k) (rootIdxD' n k) true (rootSignD n k) m r =
@@ -69,10 +70,11 @@ private theorem c2slomqcr_eps_labels_eq (hn : 3 ≤ n) (i k : Fin n) (m : ℕ) :
     rfl
   rw [hdot, coroot_single]
 
+omit [CharP F 2] in
 private theorem c2slomqcr_zpow_labels (hn : 3 ≤ n) (i k : Fin n) (τ : Fˣ) :
     (τ : Fˣ) ^ ((omqEpsLabels n (Nat.card Fˣ) (c2slomqcr_eps n i (Nat.card Fˣ)) k).val) =
       (τ : Fˣ) ^ (cartanD n k i) := by
-  haveI : NeZero (Nat.card Fˣ) := ⟨Nat.card_pos.ne'⟩
+  have : NeZero (Nat.card Fˣ) := ⟨Nat.card_pos.ne'⟩
   have hmod : (((omqEpsLabels n (Nat.card Fˣ) (c2slomqcr_eps n i (Nat.card Fˣ)) k).val : ℤ) ≡
       cartanD n k i [ZMOD Nat.card Fˣ]) := by
     rw [← ZMod.intCast_eq_intCast_iff, Int.cast_natCast, ZMod.natCast_zmod_val]

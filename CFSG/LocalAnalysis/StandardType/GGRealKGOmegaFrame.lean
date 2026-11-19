@@ -78,11 +78,13 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p k : ℕ} {U : Fin k → Submodule F V}
   {e : Fin k → ↥(orthDerived Q)} {E : Subgroup ↥(orthDerived Q)}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem frame_coe_pow_eq_one (hF : IsPlaneFrame Q p U e E) (j : Fin k) :
     ((e j : ↥(orthDerived Q)) : V ≃ₗ[F] V) ^ p = 1 := by
   have h := congrArg Subtype.val (hF.orderOf_eq j ▸ pow_orderOf_eq_one (e j))
   simpa using h
 
+omit [CharP F 2] [FiniteDimensional F V] in
 theorem not_eigen (hF : IsPlaneFrame Q p U e E) (hp : p.Prime) (hpq : ¬ p ∣ Nat.card F - 1)
     {j : Fin k} {y : V} (hy : y ∈ U j) (hy0 : y ≠ 0) (μ : F)
     (hμ : ((e j : ↥(orthDerived Q)) : V ≃ₗ[F] V) y = μ • y) : False := by
@@ -102,7 +104,7 @@ theorem not_eigen (hF : IsPlaneFrame Q p U e E) (hp : p.Prime) (hpq : ¬ p ∣ N
     rw [zero_pow hp.ne_zero] at hp1
     exact zero_ne_one hp1
   have hq : μ ^ (Nat.card F - 1) = 1 := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card_sub_one_eq_one μ hμ0
   rcases (Nat.dvd_prime hp).mp (orderOf_dvd_of_pow_eq_one hp1) with h1 | h1
@@ -112,6 +114,7 @@ theorem not_eigen (hF : IsPlaneFrame Q p U e E) (hp : p.Prime) (hpq : ¬ p ∣ N
     exact hy0 (hF.eq_zero_of_apply_eq j y hy hμ)
   · exact hpq (h1 ▸ orderOf_dvd_of_pow_eq_one hq)
 
+omit [Finite F] [CharP F 2] in
 theorem frame_apply_sub_mem (hF : IsPlaneFrame Q p U e E) (j : Fin k) (v : V) :
     ((e j : ↥(orthDerived Q)) : V ≃ₗ[F] V) v - v ∈ U j := by
   have hv : v ∈ U j ⊔ polarPerp Q (U j) := by
@@ -121,6 +124,7 @@ theorem frame_apply_sub_mem (hF : IsPlaneFrame Q p U e E) (j : Fin k) (v : V) :
   rw [map_add, hF.apply_of_perp j b hb, add_sub_add_right_eq_sub]
   exact sub_mem (hF.maps_to j a ha) ha
 
+omit [Finite F] [CharP F 2] in
 theorem frame_exists_apply_sub_eq (hF : IsPlaneFrame Q p U e E) (j : Fin k) {x : V}
     (hx : x ∈ U j) : ∃ x₀ ∈ U j, ((e j : ↥(orthDerived Q)) : V ≃ₗ[F] V) x₀ - x₀ = x := by
   let φ : U j →ₗ[F] U j :=
@@ -136,6 +140,7 @@ theorem frame_exists_apply_sub_eq (hF : IsPlaneFrame Q p U e E) (j : Fin k) {x :
   obtain ⟨z, hz⟩ := (LinearMap.injective_iff_surjective.mp hinj) ⟨x, hx⟩
   exact ⟨z, z.2, by rw [← hφ, hz]⟩
 
+omit [CharP F 2] in
 theorem mem_span_pair (hF : IsPlaneFrame Q p U e E) (hp : p.Prime) (hpq : ¬ p ∣ Nat.card F - 1)
     {j : Fin k} {y : V} (hy : y ∈ U j) (hy0 : y ≠ 0) {x : V} (hx : x ∈ U j) :
     x ∈ Submodule.span F (Set.range ![y, ((e j : ↥(orthDerived Q)) : V ≃ₗ[F] V) y]) := by
@@ -208,6 +213,7 @@ theorem eq_one_of_mul_self_of_commute (hF : IsPlaneFrame Q p U e E) (hp : p.Prim
     rw [hbot, Submodule.mem_bot] at hx
     rw [hx, map_zero]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem reflection_mul_comm (hF : IsPlaneFrame Q p U e E) {a b : Fin k} (hab : b ≠ a) {v : V}
     (hv : v ∈ U a) [Invertible (Q v)] :
     TauCeti.QuadraticMap.reflection Q v * ((e b : ↥(orthDerived Q)) : V ≃ₗ[F] V) =
@@ -221,6 +227,7 @@ theorem reflection_mul_comm (hF : IsPlaneFrame Q p U e E) {a b : Fin k} (hab : b
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, TauCeti.QuadraticMap.reflection_apply,
     TauCeti.QuadraticMap.reflection_apply, map_sub, map_smul, hev, h1]
 
+omit [Finite F] in
 theorem reflection_conj_self (hQ : (polarBilin Q).Nondegenerate) (hF : IsPlaneFrame Q p U e E)
     {a : Fin k} {v : V} (hv : v ∈ U a) [Invertible (Q v)] :
     TauCeti.QuadraticMap.reflection Q v * ((e a : ↥(orthDerived Q)) : V ≃ₗ[F] V) *
@@ -265,6 +272,7 @@ theorem reflection_conj_self (hQ : (polarBilin Q).Nondegenerate) (hF : IsPlaneFr
       _ = 1 := hinv
   exact eq_inv_of_mul_eq_one_left h4
 
+omit [Finite F] in
 theorem reflection_conj_tau (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime)
     (hF : IsPlaneFrame Q p U e E) {τ : (Fin k → Multiplicative (ZMod p)) →* ↥(orthDerived Q)}
     (hτ : ∀ c, τ (Pi.mulSingle c (ofAdd 1)) = e c) {a : Fin k} {v : V} (hv : v ∈ U a)
@@ -272,7 +280,7 @@ theorem reflection_conj_tau (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime)
     TauCeti.QuadraticMap.reflection Q v * ((τ f : ↥(orthDerived Q)) : V ≃ₗ[F] V) *
       (TauCeti.QuadraticMap.reflection Q v)⁻¹ =
       ((τ (sgnAut a f) : ↥(orthDerived Q)) : V ≃ₗ[F] V) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hρO : TauCeti.QuadraticMap.reflection Q v ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
     TauCeti.QuadraticMap.reflection_mem_orthogonalGroup Q v
   have hρρ : TauCeti.QuadraticMap.reflection Q v * TauCeti.QuadraticMap.reflection Q v = 1 :=
@@ -290,6 +298,7 @@ theorem reflection_conj_tau (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime)
   · rw [sgnAut_mulSingle_of_ne hda, hτ d, reflection_mul_comm hF hda hv, mul_assoc, hρρ,
       mul_one]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem coe_conj {g : ↥(orthDerived Q)} {x y : ↥(orthDerived Q)} (h : g * x * g⁻¹ = y) :
     (g : V ≃ₗ[F] V) * (x : V ≃ₗ[F] V) * (g : V ≃ₗ[F] V)⁻¹ = (y : V ≃ₗ[F] V) := by
   rw [← h]
@@ -302,8 +311,8 @@ theorem not_induces_sgnAut (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime)
     (hQv : Q v ≠ 0) (g : ↥(orthDerived Q)) (hg : ∀ f, g * τ f * g⁻¹ = τ (sgnAut a f)) :
     False := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  letI : Invertible (Q v) := invertibleOfNonzero hQv
+  have : NeZero p := ⟨hp.ne_zero⟩
+  let : Invertible (Q v) := invertibleOfNonzero hQv
   set ρ := TauCeti.QuadraticMap.reflection Q v with hρ
   have hρO : ρ ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
     TauCeti.QuadraticMap.reflection_mem_orthogonalGroup Q v
@@ -343,8 +352,8 @@ theorem not_induces_sgnAut (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime)
   have hpar := natCast_finrank_commSpace_mul hQ hgO hρO
   rw [finrank_commSpace_reflection hQ v, (ZMod.natCast_eq_zero_iff_even).mpr hgeven, zero_add,
     Nat.cast_one] at hpar
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun x : V ≃ₗ[F] V => (x : V → V))
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun x : V ≃ₗ[F] V => (x : V → V))
     fun x y hxy => LinearEquiv.ext (congrFun hxy)
   set H : ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := ⟨h, hO⟩ with hH
   have hD : dicksonHom Q hQ H = ofAdd (1 : ZMod 2) := by
@@ -377,8 +386,8 @@ theorem isSignedPerm_of_normalizer (hQ : (polarBilin Q).Nondegenerate) (hp : p.P
     {w : MulAut (Fin k → Multiplicative (ZMod p))} (hgw : ∀ f, g * τ f * g⁻¹ = τ (w f)) :
     IsSignedPerm ⇑w := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hE := hF.isElemAbelian
   set A := E.map (orthDerived Q).subtype with hAdef
   have hAΩ : A ≤ orthDerived Q := by
@@ -409,7 +418,7 @@ theorem isSignedPerm_of_normalizer (hQ : (polarBilin Q).Nondegenerate) (hp : p.P
   have hτGA : τG.range = A := by
     rw [hτG, MonoidHom.range_comp, hτE]
   have hrk : r = k := by
-    haveI : Fintype (Fin r → Multiplicative (ZMod p)) := Fintype.ofFinite _
+    have : Fintype (Fin r → Multiplicative (ZMod p)) := Fintype.ofFinite _
     have h1 : Nat.card (Fin r → Multiplicative (ZMod p)) = Nat.card A := by
       rw [← hτ'A]
       exact Nat.card_congr (MonoidHom.ofInjective hτ'inj).toEquiv
@@ -433,7 +442,7 @@ theorem isSignedPerm_of_normalizer (hQ : (polarBilin Q).Nondegenerate) (hp : p.P
     exact ⟨π, ε, hε, fun f i => hπ f (u f) (hgu f) i⟩
   have hs : ∀ i : Fin r, ∃ g : V ≃ₗ[F] V, ∀ f, g * τG f * g⁻¹ = τG (sgnAut i f) := by
     intro i
-    letI : Invertible (Q (u i)) := invertibleOfNonzero (by rw [hF.quad_eq i]; exact hF.c_ne_zero)
+    let : Invertible (Q (u i)) := invertibleOfNonzero (by rw [hF.quad_eq i]; exact hF.c_ne_zero)
     exact ⟨TauCeti.QuadraticMap.reflection Q (u i), fun f =>
       reflection_conj_tau hQ hp hF.toIsPlaneFrame hτ (hF.mem i) f⟩
   have hswap : ∀ i j : Fin r, i < j → ∃ g : V ≃ₗ[F] V,

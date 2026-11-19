@@ -192,7 +192,7 @@ theorem frame_exists {ω : K} (hω : IsPrimitiveRoot ω 3) (T Q : Subgroup (GL (
     (hdet : (u : Matrix (Fin 3) (Fin 3) K).det = 1)
     (hnsc : ∀ c : K, (u : Matrix (Fin 3) (Fin 3) K) ≠ c • 1) :
     ∃ (θ : GL (Fin 3) K) (ε : Fin 3 → K), IsFrame T Q u θ ε := by
-  haveI : NeZero ((3 : ℕ) : K) := hω.neZero'
+  have : NeZero ((3 : ℕ) : K) := hω.neZero'
   have hu3' : (u : Matrix (Fin 3) (Fin 3) K) ^ 3 = 1 := by
     rw [← Units.val_pow_eq_pow_val, hu3, Units.val_one]
   obtain ⟨Q₀, hQ₀, α, β, hα, -⟩ :=

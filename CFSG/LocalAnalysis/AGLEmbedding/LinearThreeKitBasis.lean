@@ -118,7 +118,7 @@ theorem mul_transpose_of_iff {n : ℕ} {b : Fin n → Fin n → K} {A M : Matrix
 theorem isUnit_transpose_of {n : ℕ} {b : Fin n → Fin n → K} (hb : LinearIndependent K b) :
     IsUnit (Matrix.of b)ᵀ := by
   rw [Matrix.isUnit_transpose]
-  exact Matrix.linearIndependent_rows_iff_isUnit.mp hb
+  exact Matrix.linearIndependent_row_iff_isUnit.mp hb
 
 theorem exists_mulVec_eq_sum {n : ℕ} {b : Fin n → Fin n → K} (hb : LinearIndependent K b)
     (M : Matrix (Fin n) (Fin n) K) : ∃ A : Matrix (Fin n) (Fin n) K,

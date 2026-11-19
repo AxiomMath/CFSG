@@ -306,7 +306,7 @@ theorem cert7209_of (hz : zB = true) (ho : orbB = true) (hw : wB = true) (ht : t
   have hS := S0_cosets_of hw ht hs
   have hw' := hw
   simp only [wB, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, Bool.not_eq_true',
-    Bool.eq_false_iff, List.contains_iff_mem] at hw'
+    Bool.eq_false_iff] at hw'
   refine ⟨?_, ?_, sch_of hw ht hs hsch, ⟨?_, fun s hs' => ?_⟩, ⟨card_T0_of hw ht, tG_S0_of hw, ?_⟩,
     ov1_of hw h1, fun r hr => ⟨rP_S0_of hw r hr, ((cosB_spec hs).1 r hr).2.2⟩, hS.1, ov4_of h4,
     ?_, fun h => hw'.2 (List.contains_iff_mem.mpr h)⟩

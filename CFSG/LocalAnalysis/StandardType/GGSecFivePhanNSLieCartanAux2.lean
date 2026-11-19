@@ -30,14 +30,14 @@ lemma ggNSLiePI2_ext_row {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Mod
       intro j hji hj1 hi1
       rw [hoff 0 j.val hn j.isLt (fun hv => hji (Fin.ext hv)) hj1 (by omega), zero_mul])
     rw [hsum ⟨0, hn⟩] at hband
-    simp only [dif_neg (Nat.lt_irrefl 0), add_zero] at hband
+    simp only [dite_eq_right (Nat.lt_irrefl 0), add_zero] at hband
     have hg0 : f 0 (x (⟨0, hn⟩ : Fin n).val) * c' (⟨0, hn⟩ : Fin n).val = 2 * c' 0 := by
       rw [hdiag 0 hn]
     by_cases h1n : 1 < n
-    · rw [dif_pos h1n] at hband
+    · rw [dite_eq_left h1n] at hband
       rw [hg0] at hband
       exact hband.symm
-    · rw [dif_neg h1n] at hband
+    · rw [dite_eq_right h1n] at hband
       have hc1 : c' 1 = 0 := hc'ge 1 (by omega)
       rw [hg0, add_zero] at hband
       rw [hc1, mul_zero, add_zero]
@@ -52,9 +52,9 @@ lemma ggNSLiePI2_ext_row {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Mod
     have hpred : (⟨i, hin⟩ : Fin n).val - 1 = i - 1 := rfl
     have hgpred : f i (x ((⟨i, hin⟩ : Fin n).val - 1)) * c' ((⟨i, hin⟩ : Fin n).val - 1)
         = f i (x (i - 1)) * c' (i - 1) := by rw [hpred]
-    rw [dif_pos (show 0 < (⟨i, hin⟩ : Fin n).val from by simp only [Fin.val_mk]; omega), hg0] at hband
+    rw [dite_eq_left (show 0 < (⟨i, hin⟩ : Fin n).val from by simp only; omega), hg0] at hband
     by_cases h1n : i + 1 < n
-    · rw [dif_pos h1n] at hband
+    · rw [dite_eq_left h1n] at hband
       have hgs : f i (x (⟨i + 1, h1n⟩ : Fin n).val) * c' (⟨i + 1, h1n⟩ : Fin n).val
           = f i (x (i + 1)) * c' (i + 1) := by
         rw [hc' (i + 1) h1n]
@@ -62,7 +62,7 @@ lemma ggNSLiePI2_ext_row {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Mod
       rw [show f i (x (i - 1)) * c' (i - 1) + 2 * c' i + f i (x (i + 1)) * c' (i + 1)
           = 2 * c' i + f i (x (i + 1)) * c' (i + 1) + f i (x (i - 1)) * c' (i - 1)
           from by ring, ← hband]
-    · rw [dif_neg h1n] at hband
+    · rw [dite_eq_right h1n] at hband
       have hc1 : c' (i + 1) = 0 := hc'ge (i + 1) (by omega)
       rw [hgpred, add_zero] at hband
       rw [hc1, mul_zero, add_zero]
@@ -109,11 +109,11 @@ theorem ggNSLiePI2_rank_bound {K : Type*} [Field K] [DecidableEq K] {V : Type*} 
       rw [show A = F.comp X from rfl, LinearMap.range_comp]
       rintro v ⟨w, -, rfl⟩
       exact ⟨w, rfl⟩
-    haveI : Module.Finite (K) ↥(LinearMap.range F) := by infer_instance
+    have : Module.Finite (K) ↥(LinearMap.range F) := by infer_instance
     exact le_trans (Submodule.finrank_mono h1) (LinearMap.finrank_range_le F)
   have hrank' : Module.finrank K (LinearMap.range A) + Module.finrank K (LinearMap.ker A)
       = Module.finrank K (Fin n → K) := by
-    haveI : Module.Finite K (Fin n → K) := Module.Finite.pi
+    have : Module.Finite K (Fin n → K) := Module.Finite.pi
     exact LinearMap.finrank_range_add_finrank_ker A
   have hrank : Module.finrank K (LinearMap.range A) + Module.finrank K (LinearMap.ker A)
       = n := by
@@ -121,8 +121,8 @@ theorem ggNSLiePI2_rank_bound {K : Type*} [Field K] [DecidableEq K] {V : Type*} 
   have hzero_of_coord : ∀ c : Fin n → K, A c = 0 → c ⟨0, hn⟩ = 0 → c = 0 := by
     intro c hAc hc0
     let c' : ℕ → K := fun k => if h : k < n then c ⟨k, h⟩ else 0
-    have hc' : ∀ k (h : k < n), c' k = c ⟨k, h⟩ := fun k h => dif_pos h
-    have hc'ge' : ∀ k, n ≤ k → c' k = 0 := fun k h => dif_neg (by omega)
+    have hc' : ∀ k (h : k < n), c' k = c ⟨k, h⟩ := fun k h => dite_eq_left h
+    have hc'ge' : ∀ k, n ≤ k → c' k = 0 := fun k h => dite_eq_right (by omega)
     have hcA : ∀ i : Fin n, ∑ j : Fin n, f i.val (x j.val) * c j = 0 := by
       intro i; rw [← hAapply c i, hAc]; rfl
     obtain ⟨hrow0, hrowi⟩ := ggNSLiePI2_ext_row hn x f c c' hc' hc'ge' hdiag hoff hcA
@@ -167,8 +167,8 @@ theorem ggNSLiePI2_rank_bound {K : Type*} [Field K] [DecidableEq K] {V : Type*} 
   have hseq : ∀ c : Fin n → K, A c = 0 → (n + 1 : K) * c ⟨0, hn⟩ = 0 := by
     intro c hAc
     let c' : ℕ → K := fun k => if h : k < n then c ⟨k, h⟩ else 0
-    have hc' : ∀ k (h : k < n), c' k = c ⟨k, h⟩ := fun k h => dif_pos h
-    have hc'ge' : ∀ k, n ≤ k → c' k = 0 := fun k h => dif_neg (by omega)
+    have hc' : ∀ k (h : k < n), c' k = c ⟨k, h⟩ := fun k h => dite_eq_left h
+    have hc'ge' : ∀ k, n ≤ k → c' k = 0 := fun k h => dite_eq_right (by omega)
     have hcA : ∀ i : Fin n, ∑ j : Fin n, f i.val (x j.val) * c j = 0 := by
       intro i; rw [← hAapply c i, hAc]; rfl
     obtain ⟨hrow0, hrowi⟩ := ggNSLiePI2_ext_row hn x f c c' hc' hc'ge' hdiag hoff hcA
@@ -189,7 +189,7 @@ theorem ggNSLiePI2_rank_bound {K : Type*} [Field K] [DecidableEq K] {V : Type*} 
     rwa [hc' 0 hn] at hthis
   have hker : Module.finrank K (LinearMap.ker A) ≤ (if (n + 1 : K) = 0 then 1 else 0) := by
     by_cases hp : (n + 1 : K) = 0
-    · rw [if_pos hp]
+    · rw [ite_eq_left hp]
       let ev0 : (LinearMap.ker A) →ₗ[K] K :=
         { toFun := fun c => c.1 ⟨0, hn⟩
           map_add' := by intro a b; rfl
@@ -206,7 +206,7 @@ theorem ggNSLiePI2_rank_bound {K : Type*} [Field K] [DecidableEq K] {V : Type*} 
         exact Subtype.ext (sub_eq_zero.mp hz')
       have h1 := LinearMap.finrank_le_finrank_of_injective hinj
       simpa using h1
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       have hne : (n : K) + 1 ≠ 0 := hp
       have hkerbot : LinearMap.ker A = ⊥ :=
         LinearMap.ker_eq_bot.mpr (fun a b hab => by
@@ -236,12 +236,10 @@ lemma ggNSLiePI2_braid {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Modul
   have h := congrArg (fun T : V ≃ₗ[K] V => T y) hbraid
   simp only [LinearEquiv.mul_apply] at h
   have hL : r (t (r y)) = (f y * (2 - f y * g x)) • x + (f y * g x - 1) • y := by
-    simp only [hr, ht, hfx, hgy, map_sub, map_smul, map_neg, map_add, smul_sub, smul_smul,
-      smul_neg, sub_eq_add_neg, neg_add_rev, neg_neg]
+    simp only [hr, ht, hfx, hgy, map_smul, map_neg, map_add, sub_eq_add_neg]
     module
   have hR : t (r (t y)) = f y • x + (1 - f y * g x) • y := by
-    simp only [ht, hr, hfx, hgy, map_sub, map_smul, map_neg, map_add, smul_sub, smul_smul,
-      smul_neg, sub_eq_add_neg, neg_add_rev, neg_neg]
+    simp only [ht, hr, hgy, map_smul, map_neg, map_add, sub_eq_add_neg]
     module
   rw [hL, hR] at h
   have hAB : (f y * (2 - f y * g x)) • x + (f y * g x - 1) • y

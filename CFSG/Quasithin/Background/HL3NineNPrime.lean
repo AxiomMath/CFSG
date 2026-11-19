@@ -279,7 +279,7 @@ theorem conj_mem_unitriangular (hK : Nat.card K = (2 ^ n) ^ 2)
   obtain ⟨P₀, hP₀⟩ := LinearFlag.exists_sylow_unitriangular (K := K) 2 (n := 3) (by norm_num)
   have hUp : IsPGroup 2 (LinearFlag.unitriangular 3 K) := by
     rw [← hP₀]
-    exact P₀.isPGroup'
+    exact P₀.isPGroup
   obtain ⟨k, hk⟩ := hUp.exists_card_eq
   have hpk : ∀ v ∈ LinearFlag.unitriangular 3 K, v ^ 2 ^ k = 1 := fun v hv => by
     rw [← hk]
@@ -315,7 +315,7 @@ theorem le_nPrime (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
   have hV₀L : V₀ ≤ img hK := Subgroup.map_le_range _ _
   have hV₀p : IsPGroup 2 V₀ := by
     rw [hV₀, hU₀, ← hP₀]
-    exact P₀.isPGroup'.map _
+    exact P₀.isPGroup.map _
   obtain ⟨S, hS, hVS⟩ := exists_isSylowIn_ge 2 (hV₀L.trans hX1) hV₀p
   have hSV : S ⊓ img hK = V₀ := by
     refine le_antisymm ?_ (le_inf hVS hV₀L)

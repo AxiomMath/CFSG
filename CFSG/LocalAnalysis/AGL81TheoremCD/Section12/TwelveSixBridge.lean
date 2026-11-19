@@ -81,7 +81,7 @@ private theorem primeComplementCore_comap_inclusion_eq {p : ℕ} (hp : p.Prime)
     {K H : Subgroup G} (hKH : K ≤ H) (hN : (K.subgroupOf H).Normal) :
     (primeComplementCore (G := ↥H) p).comap (Subgroup.inclusion hKH) =
       primeComplementCore (G := ↥K) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSchar : (primeComplementCore (G := ↥K) p).Characteristic :=
     CFSG.pPrimeCore_characteristic
   have hSmap_normal : ((primeComplementCore (G := ↥K) p).map
@@ -117,7 +117,7 @@ private theorem primeComplementCore_comap_inclusion_eq {p : ℕ} (hp : p.Prime)
 
 private theorem p_dvd_card_sSup_order_p (h : TwelveCtx G M p Q H) :
     p ∣ Nat.card ↥(sSup {Y : Subgroup G | Y ≤ H ∧ Nat.card Y = p}) := by
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   obtain ⟨n, hn⟩ := h.Q_isPGroup.exists_card_eq
   have hn0 : n ≠ 0 := by
     rintro rfl
@@ -141,10 +141,10 @@ private theorem p_dvd_card_sSup_order_p (h : TwelveCtx G M p Q H) :
 private theorem p_dvd_card_of_isPComponentIn_not_le (h : TwelveCtx G M p Q H)
     {Y : Subgroup G} (hY : IsPComponentIn p Y H) (hYM : ¬ Y ≤ M) : p ∣ Nat.card Y := by
   classical
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   have hOpM : relPPrimeCore p H ≤ M := by
     obtain ⟨E, hEQ, hE, hEc, hΓ⟩ := h.exists_E_sq
-    exact relPPrimeCore_le_of_gamma (Q := Q) h.p_prime (hEQ.trans h.Q_le_H) hE hEc hΓ
+    exact relPPrimeCore_le_of_gamma (_Q := Q) h.p_prime (hEQ.trans h.Q_le_H) hE hEc hΓ
   by_contra hpY
   have hcop : Nat.Coprime p (Nat.card Y) := h.p_prime.coprime_iff_not_dvd.mpr hpY
   obtain ⟨K, hKcomp, hKsub, hrest⟩ := hY.2
@@ -170,9 +170,9 @@ private theorem p_dvd_card_kSub (h : TwelveCtx G M p Q H)
     have hqO : CFSG.Open.IsQuasisimple
         (↥(kSub p M H) ⧸ pCore 2 ↥(kSub p M H)) :=
       ⟨hK.2.2.1.1.commutator_eq_top, hK.2.2.1.2.1⟩
-    haveI : Nontrivial (↥(kSub p M H) ⧸ pCore 2 ↥(kSub p M H)) :=
+    have : Nontrivial (↥(kSub p M H) ⧸ pCore 2 ↥(kSub p M H)) :=
       CFSG.ComponentClassification.Quasisimple.nontrivial hqO
-    haveI : Subsingleton (↥(kSub p M H) ⧸ pCore 2 ↥(kSub p M H)) := by
+    have : Subsingleton (↥(kSub p M H) ⧸ pCore 2 ↥(kSub p M H)) := by
       rw [hbot, QuotientGroup.subsingleton_iff, eq_top_iff']
       intro x
       have hx : x = 1 := Subtype.ext (Subgroup.mem_bot.mp x.2)
@@ -183,7 +183,7 @@ private theorem p_dvd_card_kSub (h : TwelveCtx G M p Q H)
   split_ifs with hL
   · exact p_dvd_card_sSup_order_p h
   · have hne : sSup {Y : Subgroup G | IsPComponentIn p Y H ∧ ¬ Y ≤ M} ≠ ⊥ := by
-      simpa only [kSub, if_neg hL] using hKne
+      simpa only [kSub, ite_eq_right hL] using hKne
     have hSne : ({Y : Subgroup G | IsPComponentIn p Y H ∧ ¬ Y ≤ M} :
         Set (Subgroup G)).Nonempty := by
       by_contra hcon
@@ -212,7 +212,7 @@ private theorem eq_top_of_map_quotient_eq_top {Y : Type} [Group Y] {N M : Subgro
 private theorem primeComplementCore_ne_top {K : Type} [Group K] [Finite K] {p : ℕ}
     (hp : p.Prime) (hdvd : p ∣ Nat.card K) :
     primeComplementCore (G := K) p ≠ ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro htop
   have hcard : Nat.card K = Nat.card ↥(primeComplementCore (G := K) p) := by
     rw [htop, Subgroup.card_top]
@@ -228,9 +228,9 @@ private theorem comap_center_quotient_eq_of_central_proper {Y : Type} [Group Y]
     (hcentral : M.map (QuotientGroup.mk' N) ≤ Subgroup.center (Y ⧸ N)) :
     (Subgroup.center (Y ⧸ M)).comap (QuotientGroup.mk' M) =
       (Subgroup.center (Y ⧸ N)).comap (QuotientGroup.mk' N) := by
-  haveI : Group.IsPerfect (Y ⧸ N) := hperf
+  have : Group.IsPerfect (Y ⧸ N) := hperf
   let C : Subgroup (Y ⧸ N) := M.map (QuotientGroup.mk' N)
-  haveI hCnorm : C.Normal :=
+  have hCnorm : C.Normal :=
     (inferInstance : M.Normal).map _ (QuotientGroup.mk'_surjective _)
   have hCpre : C.comap (QuotientGroup.mk' N) = M :=
     Subgroup.comap_map_eq_self (by rwa [QuotientGroup.ker_mk'])
@@ -295,17 +295,17 @@ private theorem center_modPrimeComplement_eq_center_modTwoCore (h : TwelveCtx G 
       (Subgroup.center (modTwoCore (kSub p M H))).comap
         (QuotientGroup.mk' (pCore 2 ↥(kSub p M H))) := by
   classical
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   let K : Subgroup G := kSub p M H
   let O2 : Subgroup ↥K := pCore 2 ↥K
   let Op : Subgroup ↥K := primeComplementCore (G := ↥K) p
   have hqO : CFSG.Open.IsQuasisimple (↥K ⧸ O2) :=
     ⟨hK.2.2.1.1.commutator_eq_top, hK.2.2.1.2.1⟩
-  haveI hperf : Group.IsPerfect (↥K ⧸ O2) := ⟨hqO.1⟩
+  have hperf : Group.IsPerfect (↥K ⧸ O2) := ⟨hqO.1⟩
   have hpdvd : p ∣ Nat.card ↥K := p_dvd_card_kSub h hK
   have hO2Op : O2 ≤ Op := by
     refine le_sSup ⟨inferInstance, ?_⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hp2g : IsPGroup 2 O2 := CFSG.pCore_isPGroup
     obtain ⟨n, hn⟩ := hp2g.exists_card_eq
     rw [hn]
@@ -315,7 +315,7 @@ private theorem center_modPrimeComplement_eq_center_modTwoCore (h : TwelveCtx G 
     exact hp2.pow_right n
   have hOp_ne_top : Op ≠ ⊤ := primeComplementCore_ne_top h.p_prime hpdvd
   let C : Subgroup (↥K ⧸ O2) := Op.map (QuotientGroup.mk' O2)
-  haveI hCnorm : C.Normal :=
+  have hCnorm : C.Normal :=
     (inferInstance : Op.Normal).map _ (QuotientGroup.mk'_surjective _)
   have hCcentral : C ≤ Subgroup.center (↥K ⧸ O2) :=
     CFSG.ComponentClassification.Quasisimple.normal_le_center_of_ne_top hqO C

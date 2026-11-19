@@ -22,10 +22,10 @@ theorem exists_quadSpace_ringEquiv {K K' E : Type} [Field K] [Field K'] [Finite 
       (∀ e f, Qf' (e + f) = Qf' e + Qf' f + B' e f) ∧
       Module.finrank K E' = Module.finrank K' E := by
   classical
-  letI : Module K E := Module.compHom E σ.toRingHom
+  let : Module K E := Module.compHom E σ.toRingHom
   have hsm : ∀ (a : K) (e : E), a • e = σ a • e := fun a e => rfl
-  haveI : Finite E := Module.finite_of_finite K'
-  haveI : Finite K := Finite.of_equiv K' σ.symm.toEquiv
+  have : Finite E := Module.finite_of_finite K'
+  have : Finite K := Finite.of_equiv K' σ.symm.toEquiv
   let B' : LinearMap.BilinForm K E :=
     LinearMap.mk₂ K (fun e f => σ.symm (B e f))
       (fun e₁ e₂ f => by simp only [map_add, LinearMap.add_apply])

@@ -88,7 +88,6 @@ theorem q8G_mem {A B : M} {k : Nat} (hk : k < 8) : q8G A B k ∈ Subgroup.closur
   have hAA := Subgroup.mul_mem _ hA hA
   interval_cases k <;> simp only [q8G] <;> (try norm_num) <;>
     first
-      | exact Subgroup.one_mem _
       | exact hA
       | exact hB
       | exact hAA
@@ -140,9 +139,9 @@ theorem q8_closure {A B : M} (h4 : A * (A * (A * A)) = 1) (hB : B * B = A * A)
     · exact ⟨7, by norm_num, by simp [q8G, mul_assoc, eBA0]⟩
     · exact ⟨6, by norm_num, by simp [q8G, mul_assoc, eBA', eBA0, e4]⟩
     · exact ⟨1, by norm_num, by simp [q8G, eBB0]⟩
-    · exact ⟨0, by norm_num, by simp [q8G, mul_assoc, eBA', eBB, eBB0, e4, h4]⟩
-    · exact ⟨2, by norm_num, by simp [q8G, mul_assoc, eBA', eBB, eBB0, e4]⟩
-    · exact ⟨3, by norm_num, by simp [q8G, mul_assoc, eBA', eBB, eBB0, e4]⟩
+    · exact ⟨0, by norm_num, by simp [q8G, mul_assoc, eBA', eBB0, h4]⟩
+    · exact ⟨2, by norm_num, by simp [q8G, eBA', eBB0, e4]⟩
+    · exact ⟨3, by norm_num, by simp [q8G, mul_assoc, eBA', eBB0, e4]⟩
   induction hx using Subgroup.closure_induction_left with
   | one => exact ⟨0, by norm_num, rfl⟩
   | mul_left x hx y _ ih =>
@@ -562,7 +561,7 @@ theorem pair_sound {N ncl R zc nq : Nat} {RL RC RI RO CT QC QJ : Nat → Nat}
     change RO (RC p) + (q - RO (RC p)) = q
     omega
   rw [hq', hcq] at h1
-  simp only [show Nat.beq 0 0 = true from rfl, CIdx.strictB_eq] at h1
+  simp only [show Nat.beq 0 0 = true from rfl] at h1
   have hA : Acts n (fun x => elF n w (mask w) (n * w) nb LR TR (RL p)
       (elF n w (mask w) (n * w) nb LR TR (RL q) (elF n w (mask w) (n * w) nb LR TR (RL p) x)))
       (el n S base nb (RL p) * el n S base nb (RL q) * el n S base nb (RL p)) := by
@@ -682,7 +681,6 @@ theorem sub_facts {N ncl nx mm : Nat} {E RP JO CJ UO CU X XI QC QJ QW : Nat → 
     have m := fun x y => Subgroup.mul_mem (Gen n S kO) (x := x) (y := y)
     interval_cases k <;> simp only [q8G] <;> norm_num <;>
       first
-        | exact Subgroup.one_mem _
         | exact hAM
         | exact hBM
         | exact m _ _ hAM hAM
@@ -703,7 +701,7 @@ theorem sub_facts {N ncl nx mm : Nat} {E RP JO CJ UO CU X XI QC QJ QW : Nat → 
   · obtain ⟨hta, -⟩ := clsXK_conj (acts_elF hQ _) hX (hcx _ hi) (u := a) (by omega)
     obtain ⟨htb, -⟩ := clsXK_conj (acts_elF hQ _) hX (hcx _ hi) (u := b) (by omega)
     have g1 := (allN_iff.1 ((allN_iff.1 h8) a ha)) b hb
-    simp only [show Nat.blt a b = true from blt_iff.2 hab, CIdx.strictB_eq] at g1
+    simp only [show Nat.blt a b = true from blt_iff.2 hab] at g1
     obtain ⟨k1, k2⟩ := (CIdx.bAnd_iff' _ _).1 g1
     generalize hta' : CJ (JO (QC mm) + a) = ta at k2 hta
     generalize htb' : CJ (JO (QC mm) + b) = tb at k2 htb

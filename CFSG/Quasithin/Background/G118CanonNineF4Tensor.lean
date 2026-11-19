@@ -23,8 +23,7 @@ variable {V W : Type} [AddCommGroup V] [Module (ZMod 2) V] [AddCommGroup W] [Mod
 
 theorem tensor_decompW (t : ↥(permCore 3) ⊗[ZMod 2] W) :
     ∃ a₁ a₂ : W, t = w1 ⊗ₜ a₁ + w2 ⊗ₜ a₂ := by
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, 0, by simp⟩
+  induction t using TensorProduct.inductionOn with
   | tmul x a =>
     refine ⟨coord0 x • a, coord2 x • a, ?_⟩
     conv_lhs => rw [decomp3' x]

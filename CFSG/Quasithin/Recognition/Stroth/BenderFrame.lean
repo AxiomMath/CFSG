@@ -189,7 +189,7 @@ noncomputable def oTwoQuotConj (L : Subgroup G) :
         rw [Subgroup.normalizerMonoidHom_apply_apply_coe]
         exact (Subgroup.mem_normalizer_iff.mp hgN (z : G)).mp ((F1.mem_pCore_iff_coe z).mp hz)
       · have h1 : ρ g * ρ g⁻¹ = 1 := by rw [← map_mul, mul_inv_cancel, map_one]
-        simpa using congrArg (fun f : MulAut ↥L => f z) h1
+        simp
   MonoidHom.mk' (fun g =>
       QuotientGroup.congr (pCore 2 ↥L) (pCore 2 ↥L) (ρ g) (hmap g))
     (by
@@ -261,7 +261,7 @@ private def modCentralizer (P L Q : Subgroup G)
   carrier := {x : G | x ∈ P ∧ ∀ l ∈ L, x⁻¹ * l⁻¹ * x * l ∈ Q}
   one_mem' := by
     refine ⟨P.one_mem, fun l _ => ?_⟩
-    simpa using Q.one_mem
+    simp
   mul_mem' := by
     rintro x y ⟨hxP, hx⟩ ⟨hyP, hy⟩
     refine ⟨P.mul_mem hxP hyP, fun l hl => ?_⟩
@@ -290,7 +290,7 @@ private theorem mem_modCentralizer {P L Q : Subgroup G}
 private theorem modCentralizer_le (P L Q : Subgroup G)
     (hPQ : P ≤ Subgroup.normalizer (Q : Set G)) :
     modCentralizer P L Q hPQ ≤ P :=
-  fun x hx => ((mem_modCentralizer hPQ).mp hx).1
+  fun _x hx => ((mem_modCentralizer hPQ).mp hx).1
 
 private theorem le_normalizer_modCentralizer {P L Q : Subgroup G}
     (hPL : P ≤ Subgroup.normalizer (L : Set G))

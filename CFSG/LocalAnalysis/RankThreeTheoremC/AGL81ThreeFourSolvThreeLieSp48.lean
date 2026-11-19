@@ -38,11 +38,11 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
   intro Y _ _ K Y₀ E R I₀ _ _ σ hKn hKX hZ _ _ hC hcomp hER hE hEc hcore hO2 hker hσY hσs hb
     hcond _
   classical
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   set J := (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ with hJdef
   by_contra hJC
   obtain ⟨eK⟩ := hKX
@@ -50,8 +50,8 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
   have hcardS : Nat.card Sp8 = 3 ^ 4 * 13045760 := by
     rw [← hcardK]
     exact Nat.card_congr eSp.symm.toEquiv
-  haveI hsimple : IsSimpleGroup Sp8 := isSimple_sp8_of_index hdK eK eSp
-  haveI hKs : IsSimpleGroup ↥K := eSp.isSimpleGroup
+  have hsimple : IsSimpleGroup Sp8 := isSimple_sp8_of_index hdK eK eSp
+  have hKs : IsSimpleGroup ↥K := eSp.isSimpleGroup
   have hnab : ∃ a b : ↥K, a * b ≠ b * a := by
     by_contra h
     push Not at h
@@ -61,7 +61,7 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
     rw [Subgroup.card_top, Subgroup.card_bot, hcardK] at h1
     norm_num at h1
   have hKY : ¬ K ≤ Y₀ := by
-    haveI : Group.IsPerfect ↥K :=
+    have : Group.IsPerfect ↥K :=
       ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top ↥K hnab⟩
     exact hcomp K ⟨le_top, IsSubnormal.step le_top inferInstance (IsSubnormal.refl ⊤),
       CFSG.ComponentClassification.Quasisimple.simple_of_perfect ↥K⟩ le_rfl
@@ -141,7 +141,7 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
       exact h3T
     have hcoreW : GLBWeakCore 3 (R : Subgroup Y) ≤ Y₀ := by
       have h := hcore
-      rw [if_pos h3T'] at h
+      rw [ite_eq_left h3T'] at h
       exact h
     refine hSeitz A hAK hA hAc fun a ha ha1 k hk hka => ?_
     have ha3 : orderOf a = 3 := orderOf_eq_prime (hA.2 a ha) ha1
@@ -179,13 +179,13 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
       exact hle hx
     exact mem_centralizer_singleton_iff.1 hk'
   set θ : Y →* MulAut ↥K := MulAut.conjNormal with hθ
-  haveI : Finite (MulAut ↥K) := MulEquiv.finite_left
+  have : Finite (MulAut ↥K) := MulEquiv.finite_left
   set π : Y →* θ.range := θ.rangeRestrict with hπdef
   have hπ : Function.Surjective π := MonoidHom.rangeRestrict_surjective θ
   have hπker : π.ker = C := ker_rangeRestrict_conjNormal K
   have hker' : Nat.Coprime 3 (Nat.card π.ker) := by rw [hπker]; exact hC3
   set K' : Subgroup θ.range := K.map π with hK'def
-  haveI hK'n : K'.Normal := Subgroup.Normal.map hKn π hπ
+  have hK'n : K'.Normal := Subgroup.Normal.map hKn π hπ
   obtain ⟨fK⟩ := nonempty_mulEquiv_map_rangeRestrict_conjNormal hZ
   set eSp' : ↥K' ≃* Sp8 := fK.trans eSp with heSp'
   have hC' : centralizer (K' : Set θ.range) = ⊥ :=
@@ -219,7 +219,7 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
   have h3R' : 3 ≤ CFSG.pRank 3 (R' : Subgroup θ.range) := by
     by_contra hlt
     have hcore1 := hcore'
-    rw [if_neg hlt] at hcore1
+    rw [ite_eq_right hlt] at hcore1
     have hlt' : ¬ 3 ≤ Open.pRank 3 (R' : Subgroup θ.range) := by
       rwa [CFSG.SectionRank.pRank_coe_eq_openPRank] at hlt
     have hEK : E.map π ≤ K' := by
@@ -266,7 +266,7 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
     rwa [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3R'
   have hcoreW : GLBWeakCore 3 (R' : Subgroup θ.range) ≤ Y₀.map π := by
     have h := hcore'
-    rw [if_pos h3R'] at h
+    rw [ite_eq_left h3R'] at h
     exact h
   have hJ'ne : J.map π ≠ ⊥ := by
     intro h
@@ -294,7 +294,7 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
       CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 3 _
     rcases hI.minimal _ hWY hWn with h | h
     · exact hJ'ne (le_bot_iff.mp (h ▸ hJ'O))
-    · haveI : Group.IsNilpotent ↥(pCoreOf 3 (Y₀.map π)) :=
+    · have : Group.IsNilpotent ↥(pCoreOf 3 (Y₀.map π)) :=
         (CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 3 _).isNilpotent
       have hV : V₀ = ⊥ := CFSG.AGLEmbedding.eq_bot_of_commutator_eq_self_of_le h inferInstance
         hI.V_perfect
@@ -354,7 +354,7 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
       rw [h, Subgroup.mem_bot] at hyP
       exact hyP)
     have h3 : 3 ≤ Nat.card (P : Subgroup (θ.range ⧸ K')) := by
-      obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+      obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
       rw [hk]
       rcases k with _ | k
       · exfalso
@@ -396,7 +396,7 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
   have hY₀N : Y₀.map π ≤ normalizer ((R' : Subgroup θ.range) : Set θ.range) := by
     intro g hg
     refine Subgroup.mem_normalizer_fintype fun r hr => ?_
-    obtain ⟨m, hm⟩ := R'.isPGroup' ⟨r, hr⟩
+    obtain ⟨m, hm⟩ := R'.isPGroup ⟨r, hr⟩
     have hm' : r ^ 3 ^ m = 1 := by simpa using congrArg Subtype.val hm
     refine h3el _ ((Y₀.map π).mul_mem ((Y₀.map π).mul_mem hg (hR'Y₀ hr)) ((Y₀.map π).inv_mem hg))
       ⟨m, ?_⟩
@@ -408,7 +408,7 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
   have hN3 : ∀ y' ∈ Y₀, (∃ k : ℕ, y' ^ 3 ^ k = 1) → π y' ∈ (R' : Subgroup θ.range) := by
     rintro y' hy' ⟨k, hk⟩
     exact h3el (π y') ⟨y', hy', rfl⟩ ⟨k, by rw [← map_pow, hk, map_one]⟩
-  obtain ⟨f⟩ := symThree_of_autCond σ hσY hY₀N R'.isPGroup' hN3 hkerσ hcond
+  obtain ⟨f⟩ := symThree_of_autCond σ hσY hY₀N R'.isPGroup hN3 hkerσ hcond
   set σ' : I₀ →* θ.range := π.comp σ with hσ'
   have hD'eq : σ'.range = σ.range.map π := MonoidHom.range_comp π σ
   have hD's : IsSubnormal σ'.range (Y₀.map π) := by rw [hD'eq]; exact hσs.map π
@@ -466,7 +466,7 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
       exact Nat.pow_lt_pow_right (by norm_num) (by omega)
   have htN : t ∈ normalizer ((R' : Subgroup θ.range) : Set θ.range) := hY₀N (hD'Y₀ htD)
   have hidx : (centralizer ({t} : Set θ.range)).relIndex (R' : Subgroup θ.range) ≤ 3 := by
-    have h1 := relIndex_centralizer_le_of_isSubnormal hD's hR'Y₀ R'.isPGroup' htD ht2 htN hW
+    have h1 := relIndex_centralizer_le_of_isSubnormal hD's hR'Y₀ R'.isPGroup htD ht2 htN hW
     rw [inf_comm, Subgroup.inf_relIndex_right] at h1
     exact h1.trans hcardW
   have hidx0 : (centralizer ({t} : Set θ.range)).relIndex (R' : Subgroup θ.range) ≠ 0 :=
@@ -484,7 +484,7 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
     intro x hx
     set M : Subgroup ↥T₀ := (centralizer ({t} : Set θ.range)).subgroupOf T₀ with hMdef
     have hMi : M.index ≤ 3 := hM
-    haveI hMn : M.Normal := ⟨fun n hn g => by
+    have hMn : M.Normal := ⟨fun n hn g => by
       have hc : (g : θ.range) * n = n * g := by
         obtain ⟨a, ha, hga⟩ := g.2
         obtain ⟨b, hb, hnb⟩ := n.2
@@ -516,7 +516,7 @@ theorem threeFourSolvThreeNoneAt_sp48 (q : TauCeti.PrimePower) (d : TauCeti.Vali
     rw [← map_pow, hxs] at h1
     exact (mem_centralizer_singleton_iff.mp h1).symm
   have htR := S.cent_E_le hC' hE3
-  obtain ⟨n, hn⟩ := R'.isPGroup' ⟨t, htR⟩
+  obtain ⟨n, hn⟩ := R'.isPGroup ⟨t, htR⟩
   have hn' : t ^ 3 ^ n = 1 := by simpa using congrArg Subtype.val hn
   exact ht1 (orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes
     (Nat.Coprime.pow_right n (by norm_num : Nat.Coprime 2 3)) (orderOf_dvd_of_pow_eq_one ht2)

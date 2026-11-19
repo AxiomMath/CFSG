@@ -37,9 +37,9 @@ theorem up34OddLeaf_of_noL34 (hInn : ∀ r : ℕ, r.Prime → r ≠ 2 → NoL34I
     (hOut : ∀ r : ℕ, r.Prime → r ≠ 2 → NoL34Out r) : Up34OddLeaf := by
   intro S _ _ hS hnab d hd ⟨e⟩ α hpump
   obtain ⟨hα3, hα1, I, hI, hI34⟩ := hpump
-  haveI := hS
+  have := hS
   have hfin : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv S e.toEquiv
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := e.symm.isSimpleGroup
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := e.symm.isSimpleGroup
   have hnabG : ∃ a b : (TauCeti.CFSGIndex.lie d).Group, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨e a, e b, fun h' => hab (e.injective (by rw [map_mul, map_mul]; exact h'))⟩

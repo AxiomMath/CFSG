@@ -18,7 +18,7 @@ theorem kg115Excluded_titsD :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS₀ : IsPGroup 2 (titsS.subgroupOf titsD) := by
     rw [← hP₀]
-    exact P₀.isPGroup'
+    exact P₀.isPGroup
   have hS₀i : ¬ 2 ∣ (titsS.subgroupOf titsD).index := by
     rw [← hP₀]
     exact P₀.not_dvd_index

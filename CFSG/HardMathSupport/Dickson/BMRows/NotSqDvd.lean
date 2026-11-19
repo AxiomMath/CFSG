@@ -64,8 +64,8 @@ section Rows
 theorem rows_B_of_not_sq_dvd {p : ℕ} (hp : p.Prime) (hd : ¬ p ^ 2 ∣ sporOrd .B) :
     I1416Rows.I1416SporRow .B p ∧ I1416QRows.I1416QRow .B p ∧ I1415Rows.I1415Row .B p ∧
       Chev2Rows.CRow .B p := by
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .B) := CFSG.Sporadic.B.fam_b_simplicity
-  haveI : Finite (NativeSporadic.Carrier .B) :=
+  have : IsSimpleGroup (NativeSporadic.Carrier .B) := CFSG.Sporadic.B.fam_b_simplicity
+  have : Finite (NativeSporadic.Carrier .B) :=
     CFSG.Sporadic.finite_carrier_of_ne_M .B (by decide)
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .B
   have hc : Nat.card (NativeSporadic.Carrier .B) = sporOrd .B :=
@@ -83,10 +83,10 @@ theorem rows_B_of_not_sq_dvd {p : ℕ} (hp : p.Prime) (hd : ¬ p ^ 2 ∣ sporOrd
 theorem rows_M_of_not_sq_dvd {p : ℕ} (hp : p.Prime) (hd : ¬ p ^ 2 ∣ sporOrd .M) :
     I1416Rows.I1416SporRow .M p ∧ I1416QRows.I1416QRow .M p ∧ I1415Rows.I1415Row .M p ∧
       Chev2Rows.CRow .M p := by
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .M) := by
+  have : IsSimpleGroup (NativeSporadic.Carrier .M) := by
     have : IsSimpleGroup CFSG.Open.MonsterY443Derived := CFSG.Milestones.fam_m_simplicity
     exact CFSG.Sporadic.Bridge.Y443.commutatorMulEquiv.isSimpleGroup
-  haveI : Finite (NativeSporadic.Carrier .M) :=
+  have : Finite (NativeSporadic.Carrier .M) :=
     CFSG.Sporadic.finite_carrier_M_of_card CFSG.Milestones.fam_m_finiteness
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .M
   have hc : Nat.card (NativeSporadic.Carrier .M) = sporOrd .M :=

@@ -67,7 +67,7 @@ theorem proj_w2_not_mem : proj 2 K w2 ∉ (upperTriangular 2 K).map (proj 2 K) :
 theorem isPGroup_projUnitriangular_two : IsPGroup 2 (projUnitriangular 2 K) := by
   obtain ⟨P, hP⟩ := exists_sylow_projUnitriangular (K := K) 2 (n := 2) (by norm_num)
   rw [← hP]
-  exact P.isPGroup'
+  exact P.isPGroup
 
 theorem dL2_complement :
     dL2 K ≤ Subgroup.normalizer (projUnitriangular 2 K : Set (projectiveSL 2 K)) ∧

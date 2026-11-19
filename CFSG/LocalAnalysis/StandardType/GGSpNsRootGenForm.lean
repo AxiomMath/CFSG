@@ -96,6 +96,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
 private def gspLin {B : BilinForm F V} (g : Gsp B) : V →ₗ[F] V :=
   (g : LinearMap.GeneralLinearGroup F V)
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem congr_equivFun_eq_polarBilin_quadPlus {B : BilinForm F V} {m : ℕ}
     (b : Module.Basis (Fin m ⊕ Fin m) F V) (hb : BilinForm.toMatrix b B = Matrix.J (Fin m) F) :
     BilinForm.congr b.equivFun B =
@@ -116,9 +117,10 @@ private theorem congr_equivFun_eq_polarBilin_quadPlus {B : BilinForm F V} {m : �
   rw [LinearMap.BilinForm.toMatrix_apply] at h1
   rw [h1, QuadraticMap.polarBilin_apply_apply, CFSG.LieType.Universal.Spin.polar_quadPlus]
   rcases i with a | a <;> rcases j with c | c <;>
-    simp [Matrix.J, Matrix.fromBlocks, Pi.single_apply, Finset.sum_ite_eq', CharTwo.neg_eq,
+    simp [Matrix.J, Matrix.fromBlocks, Pi.single_apply, CharTwo.neg_eq,
       Matrix.one_apply, eq_comm]
 
+omit [Finite F] in
 theorem exists_quadraticForm_polarBilin_eq {B : LinearMap.BilinForm F V} (hB : B.IsAlt)
     (hBn : B.Nondegenerate) : ∃ Q : QuadraticForm F V, QuadraticMap.polarBilin Q = B := by
   classical
@@ -137,13 +139,13 @@ theorem exists_invariant_quadraticForm {B : LinearMap.BilinForm F V} (hB : B.IsA
     (hBn : B.Nondegenerate) {E : Subgroup (Gsp B)} (hodd : Odd (Nat.card E)) :
     ∃ Q : QuadraticForm F V, QuadraticMap.polarBilin Q = B ∧ ∀ g ∈ E, ∀ v, Q (g.app v) = Q v := by
   classical
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (Gsp B) :=
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (Gsp B) :=
     Finite.of_injective (fun g : Gsp B => g.app) fun g h hgh => by
       apply Subtype.ext
       apply Units.ext
       exact LinearMap.ext fun v => congrFun hgh v
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   obtain ⟨Q₀, hQ₀⟩ := exists_quadraticForm_polarBilin_eq hB hBn
   set Q : QuadraticForm F V := ∑ g : E, Q₀.comp (gspLin ((g : E) : Gsp B)) with hQ
   have hQv : ∀ v, Q v = ∑ g : E, Q₀ (gspLin ((g : E) : Gsp B) v) := fun v => by
@@ -162,7 +164,7 @@ theorem exists_invariant_quadraticForm {B : LinearMap.BilinForm F V} (hB : B.IsA
       exact Gsp.form_app (g : Gsp B) x y
     rw [Finset.sum_congr rfl fun g _ => h2 g, Finset.sum_const, Finset.card_univ,
       ← Nat.card_eq_fintype_card, ← Nat.cast_smul_eq_nsmul F,
-      CharTwo.natCast_eq_ite, if_neg (Nat.not_even_iff_odd.mpr hodd), one_smul]
+      CharTwo.natCast_eq_ite, ite_eq_right (Nat.not_even_iff_odd.mpr hodd), one_smul]
   · intro h hh v
     rw [hQv, hQv]
     exact Fintype.sum_equiv (Equiv.mulRight (⟨h, hh⟩ : E)) _ _ fun g => rfl

@@ -29,7 +29,7 @@ theorem lieOrderNumerator_pow_natCast_zmod_eq (t : StatedLieTag) (n : ℕ) {p �
     (hp : p.Prime) (hℓ : 1 ≤ ℓ) (hpf : p ∣ f) :
     (lieOrderNumerator t n (ℓ ^ f) : ZMod p) =
       (lieOrderNumerator t n (ℓ ^ (f / p)) : ZMod p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : ℓ ^ f = (ℓ ^ (f / p)) ^ p := by rw [← pow_mul, Nat.div_mul_cancel hpf]
   have h : ((ℓ ^ f : ℕ) : ZMod p) = ((ℓ ^ (f / p) : ℕ) : ZMod p) := by
     rw [hq, Nat.cast_pow, ZMod.pow_card]

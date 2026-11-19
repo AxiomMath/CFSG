@@ -22,7 +22,7 @@ theorem fj_isPGroup_two_oGroup_of_finrank_le_two (hQ : Q.Nondegenerate)
   · rcases Nat.lt_or_ge (Module.finrank (ZMod 3) V) 1 with h0 | h1
     · have h0' : Module.finrank (ZMod 3) V = 0 := by omega
       have h00 : ∀ x : V, x = 0 := finrank_zero_iff_forall_zero.mp h0'
-      haveI : Subsingleton (OGroup Q) :=
+      have : Subsingleton (OGroup Q) :=
         ⟨fun _ _ => Subtype.ext (LinearEquiv.ext fun x => (h00 _).trans (h00 _).symm)⟩
       exact fun g => ⟨0, Subsingleton.elim _ _⟩
     · exact IsPGroup.of_card (n := 1) (by rw [natCard_oGroup_one hQ (by omega)]; rfl)
@@ -32,7 +32,7 @@ theorem fj_odd_block_fix (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1)
     (hU : Module.finrank (ZMod 3) (commSp s) ≤ 2) {g : OGroup Q}
     (hg : g ∈ Subgroup.centralizer ({s} : Set (OGroup Q))) (hodd : Odd (orderOf g)) :
     ∃ p ∈ omegaGroup (nondegenerate_restrict_fixSp hQ hs), blockHom hs (p, 1) = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← range_blockHom hQ hs] at hg
   obtain ⟨⟨p, c⟩, rfl⟩ := MonoidHom.mem_range.mp hg
   have hord : orderOf (p, c) = orderOf (blockHom hs (p, c)) :=
@@ -89,6 +89,7 @@ theorem fj_block_quaternion (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 
   exact ⟨q₁ * q₁, q₂ * q₂, map_mul (blockHom hs) (q₁, q₂) (q₁, q₂), hy1.1, hy1.2, h1.1,
     h2.1⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fj_pi_mul_blockHom_piOrth_one {s : OGroup Q} (hs : s * s = 1) :
     piOrth Q * blockHom hs (piOrth (Q.restrict (fixSp s)), 1) = s := by
   have h : blockHom hs (piOrth (Q.restrict (fixSp s)), piOrth (Q.restrict (commSp s))) *

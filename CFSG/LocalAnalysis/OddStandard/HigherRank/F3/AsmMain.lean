@@ -18,7 +18,7 @@ theorem f3HigherRankFalse_of_inputs (hT1 : Harris82Theorem1KProper) (hID : Ident
     (hC2 : POmegaPlusCentreExpTwo) (hC4 : POmegaPlusNotLinUnit) : F3HigherRankFalse := by
   intro G _ _ L hset hF3
   have hstd := hset.std.standard
-  haveI : IsSimpleGroup G := hset.std.simple
+  have : IsSimpleGroup G := hset.std.simple
   obtain ⟨-, hs⟩ := hstd.1
   obtain ⟨t, ht, ht2⟩ := CFSG.OddStandard.exists_involution_of_standard hstd
   obtain ⟨hLt, hLp⟩ := CFSG.OddStandard.isPComponent_two_of_standard hstd ht ht2

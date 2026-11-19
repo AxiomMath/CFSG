@@ -16,6 +16,7 @@ private lemma add_self_eq_zero_V6 (v : V6) : v + v = 0 := by
   funext i
   exact CharTwo.add_self_eq_zero (v i)
 
+omit [Finite G] in
 private lemma conj_fix_zpowers {a z g : G} (ha : a ∈ centralizer ({z} : Set G))
     (hg : g ∈ zpowers z) : a * g * a⁻¹ = g := by
   have haz : a * z = z * a := Subgroup.mem_centralizer_singleton_iff.mp ha
@@ -26,12 +27,15 @@ private lemma conj_fix_zpowers {a z g : G} (ha : a ∈ centralizer ({z} : Set G)
   rw [← hcomm]
   group
 
+omit [Finite G] in
 theorem Setting25.t_sq (h : Setting25 G t z z₁ ι zv R0 F) : t ^ 2 = 1 := by
   rw [pow_two, ← h.ι_tv, ← coordElt_add, add_self_eq_zero_V6, coordElt_zero]
 
+omit [Finite G] in
 theorem Setting25.t_mul_z_comm (h : Setting25 G t z z₁ ι zv R0 F) : t * z = z * t := by
   rw [← h.ι_tv, ← h.coord_z, ← coordElt_add, ← coordElt_add, add_comm]
 
+omit [Finite G] in
 theorem R0_le_normalizer_V (h : Setting25 G t z z₁ ι zv R0 F) (hzt : ¬ IsConj t z)
     (htz : IsConj t (t * z)) :
     R0 ≤ normalizer ((zpowers t ⊔ zpowers z : Subgroup G) : Set G) := by
@@ -41,6 +45,7 @@ theorem R0_le_normalizer_V (h : Setting25 G t z z₁ ι zv R0 F) (hzt : ¬ IsCon
         (normalizer_V_inf_centralizer_t h.t_sq h.z_sq h.t_mul_z_comm hzt htz).symm
     _ ≤ normalizer ((zpowers t ⊔ zpowers z : Subgroup G) : Set G) := inf_le_left
 
+omit [Finite G] in
 theorem R0_conj_of_mem_normalizer_V (h : Setting25 G t z z₁ ι zv R0 F) (hzt : ¬ IsConj t z)
     (htz : IsConj t (t * z)) {n x : G}
     (hn : n ∈ normalizer ((zpowers t ⊔ zpowers z : Subgroup G) : Set G)) (hx : x ∈ R0) :
@@ -107,10 +112,12 @@ theorem R0_conj_of_mem_normalizer_V (h : Setting25 G t z z₁ ι zv R0 F) (hzt :
         a⁻¹ * (a * r * a⁻¹ * r⁻¹)⁻¹ * (a⁻¹)⁻¹ by group, hfix]
     exact hmem
 
+omit [Finite G] in
 theorem mem_Dgrp {g : G} : g ∈ Dgrp t z R0 ↔
     g ∈ normalizer ((zpowers t ⊔ zpowers z : Subgroup G) : Set G) ∧
       g ∈ centralizer ({z} : Set G) ∧ ∀ r ∈ R0, g * r * g⁻¹ * r⁻¹ ∈ zpowers z := Iff.rfl
 
+omit [Finite G] in
 theorem Dgrp_conj (h : Setting25 G t z z₁ ι zv R0 F) (hzt : ¬ IsConj t z)
     (htz : IsConj t (t * z)) {n g : G}
     (hn : n ∈ normalizer ((zpowers t ⊔ zpowers z : Subgroup G) : Set G)) (hg : g ∈ Dgrp t z R0) :
@@ -130,6 +137,7 @@ theorem Dgrp_conj (h : Setting25 G t z z₁ ι zv R0 F) (hzt : ¬ IsConj t z)
       n * (g * (n⁻¹ * r * n) * g⁻¹ * (n⁻¹ * r * n)⁻¹) * n⁻¹ by group, hfix]
   exact hgc
 
+omit [Finite G] in
 theorem Dgrp_inf_C (h : Setting25 G t z z₁ ι zv R0 F) (hzt : ¬ IsConj t z)
     (htz : IsConj t (t * z)) :
     Dgrp t z R0 ⊓ (centralizer ({t} : Set G) ⊓ centralizer ({z} : Set G)) = R0 := by

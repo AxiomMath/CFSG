@@ -15,7 +15,7 @@ open CFSG.Open
 
 theorem y1out_five_le_pRank_top_of_card_ge {G : Type} [Group G] [Finite G] {E : Subgroup G}
     (hE : IsElemAbelian 3 E) (h : 243 ≤ Nat.card E) : 5 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPG : IsPGroup 3 E := fun g => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hE.2 g g.2)⟩

@@ -239,7 +239,7 @@ private theorem conj_join_covP [Finite G] {M XM YM L₁ : Subgroup G} {ℒ : Set
     exact Subgroup.mul_mem _ ha hb
 
 private theorem exists_R_covP {H₁ J M XM YM D L₁ : Subgroup G} {ℒ : Set (Subgroup G)}
-    (hS : RonanE111.SecData M XM YM ℒ) (hL₁ : L₁ ∈ ℒ)
+    (hS : RonanE111.SecData M XM YM ℒ) (_hL₁ : L₁ ∈ ℒ)
     (hDcov : D ≤ RonanE111.Cov H₁ J) (hMcov : M ≤ RonanE111.Cov H₁ J)
     (hD₁D : perfectCore L₁ ≤ D)
     (hLcov : ∀ L ∈ ℒ, ∃ m ∈ M, L ≤ A1b.conjSub m (perfectCore L₁) ⊔ YM)
@@ -355,7 +355,7 @@ theorem P_le_cov_E2_of_diagCoverIn [Finite G] {X T J : Subgroup G}
   obtain ⟨Z, hZA, hZV, hZVA⟩ :=
     exists_compl hAab (inf_le_left : A ⊓ Subgroup.normalizer (J : Set G) ≤ A)
   have hset : E111R.DiagSetting X T A J Z := ⟨hR, hAT, hAab, hJ, hZA, hZV⟩
-  haveI : Fintype ↥Z := Fintype.ofFinite _
+  have : Fintype ↥Z := Fintype.ofFinite _
   have hSylX' : IsSylowIn 2 (T ⊓ XM) XM := by
     have e : T ⊓ XM = (T ⊓ Subgroup.normalizer (J : Set G)) ⊓ XM := by
       ext x
@@ -402,7 +402,7 @@ theorem P_le_cov_E1P [Finite G] {X T J : Subgroup G}
   obtain ⟨Z, hZA, hZV, hZVA⟩ :=
     exists_compl hAab (inf_le_left : A ⊓ Subgroup.normalizer (J : Set G) ≤ A)
   have hset : E111R.DiagSetting X T A J Z := ⟨hR, hAT, hAab, hJ, hZA, hZV⟩
-  haveI : Fintype ↥Z := Fintype.ofFinite _
+  have : Fintype ↥Z := Fintype.ofFinite _
   have hYRn : ∀ r ∈ R, ∀ y ∈ YR, r * y * r⁻¹ ∈ YR := fun r hr y hy => hYn r (hRP hr) y hy
   have hYRS' : YR ≤ T ⊓ Subgroup.normalizer (J : Set G) := hYRS.trans inf_le_left
   have hYT : YR ≤ T := hYRS'.trans inf_le_left

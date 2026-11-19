@@ -38,7 +38,7 @@ theorem uni_outer_form [Fact r.Prime] [Finite K] [CharP K r] (hn : 5 ≤ n)
     ∃ (H : uU hU n) (σ : K ≃+* K), σ ^ p = 1 ∧ σ ≠ 1 ∧
       α = uConjAut hU (by omega) H * uFieldAut hU (by omega) σ *
         (uConjAut hU (by omega) H)⁻¹ := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hq : ¬ (n = 3 ∧ r ^ f = 2) := fun h => by omega
   obtain ⟨A, φ, hαeq⟩ := exists_uConjAut_mul_uFieldAut hU (by omega) hq α
   have hφ1 : φ ≠ 1 := by

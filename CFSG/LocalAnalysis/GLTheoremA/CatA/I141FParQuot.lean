@@ -138,7 +138,7 @@ theorem zBar_perfect {H J : Subgroup Γ} (hJH : J ≤ H) (hperf : ⁅J, J⁆ = J
     rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hJH, hperf]
   rw [hcomm]
 
-theorem zBar_normal {H Q J : Subgroup Γ} (hQJ : Q ≤ J) (hJH : J ≤ H)
+theorem zBar_normal {H Q J : Subgroup Γ} (hQJ : Q ≤ J) (_hJH : J ≤ H)
     (hQn : (Q.subgroupOf J).Normal) : ((zBar H Q).subgroupOf (zBar H J)).Normal := by
   have hle : zBar H Q ≤ zBar H J := zBar_mono hQJ
   rw [Subgroup.normal_subgroupOf_iff hle]

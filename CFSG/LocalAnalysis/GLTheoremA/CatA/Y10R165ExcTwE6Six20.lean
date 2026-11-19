@@ -20,10 +20,10 @@ open scoped Matrix MatrixGroups Pointwise
 
 theorem twE6Model165At_six : TwE6Model165At 6 := by
   intro k hField hFinite hChar n p q θ hk hθ hn hp hp2 hrk hq hq2 _hqp hqd
-  letI : Field k := hField
-  letI : Finite k := hFinite
-  letI : CharP k 2 := hChar
-  letI : Finite ↥(e6Data_valid.minGroup k) :=
+  let : Field k := hField
+  let : Finite k := hFinite
+  let : CharP k 2 := hChar
+  let : Finite ↥(e6Data_valid.minGroup k) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid k
   intro Ã hÃ _hΩ _hmax h3
   classical
@@ -32,8 +32,8 @@ theorem twE6Model165At_six : TwE6Model165At 6 := by
   have hσ : ∀ c, σ c = c ^ (2 ^ n) := fun c => by
     rw [show σ c = σ.toRingHom c from rfl, hσθ]
     exact hθ c
-  haveI : Finite (ModGL TwistTag.E6.tag k) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup k σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag k) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup k σ) := Subtype.finite
   have hpker : ¬ p ∣ Nat.card π.ker := by
     rw [hπker]
     exact not_dvd_card_center_fixedGroup_of_rk2Ord_six θ hk hθ hp hrk

@@ -44,7 +44,7 @@ theorem section_dvd_component_E3 (hpl : Plane63E3 p X P x z) (hβ : BetaStructur
     (C : ComponentIndex (X ⧸ primeComplementCore (G := X) p)) :
     Nat.card S ∣ Nat.card ↥C.1 := by
   have hp := hpl.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D : Subgroup X := primeComplementCore (G := X) p with hD
   have hD3 : ¬ p ∣ Nat.card D :=
     (Nat.Prime.coprime_iff_not_dvd hp).mp (primeComplementCore_coprime p)
@@ -82,7 +82,7 @@ theorem section_dvd_component_E3 (hpl : Plane63E3 p X P x z) (hβ : BetaStructur
     (CFSG.AGLEmbedding.catalogSimpleSections_iff_isKGroup).mp hpl.catalog
   have hKY : CFSG.Open.IsKGroup (X ⧸ D) :=
     hKX.of_surjective π (QuotientGroup.mk'_surjective D)
-  haveI : IsSimpleGroup ↥C.1 := isSimpleGroup_of_component C.2 (hβ.centreless C)
+  have : IsSimpleGroup ↥C.1 := isSimpleGroup_of_component C.2 (hβ.centreless C)
   have hcat : IsCatalogGroup ↥C.1 :=
     ((isSecOf_self C.1).mono le_top).isCatalogGroup
       (exists_noncomm_of_component C.2 (hβ.centreless C)) hKY
@@ -114,7 +114,7 @@ theorem pRank_ge_of_beta_E3 (hβ : BetaStructure p X P x z)
     ((QuotientGroup.quotientMulEquivOfEq hker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective ψ hψ)).trans
       (layerPiEquiv hβ.centreless hβ.transitive hβ.card_components C₀)
-  haveI : IsSimpleGroup ↥C₀.1 := isSimpleGroup_of_component C₀.2 (hβ.centreless C₀)
+  have : IsSimpleGroup ↥C₀.1 := isSimpleGroup_of_component C₀.2 (hβ.centreless C₀)
   have h2 := ((hI ↥X₁ (D.subgroupOf X₁) ↥C₀.1 p inferInstance
     (exists_noncomm_of_component C₀.2 (hβ.centreless C₀)) ⟨e⟩ f hf hf2).2
     (one_le_pRank_of_dvd hf hfC))

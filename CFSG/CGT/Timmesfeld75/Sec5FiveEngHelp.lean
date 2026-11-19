@@ -120,7 +120,7 @@ theorem conj_normIn_le_of_mem_secR₁ (h1 : Sec4NoA) (h3 : Sec4Nine) (hy : StepH
   have hxbar : barElt T hxN ∈ (P : Subgroup (NQuot T)) := hRP (barElt_mem_barSub hxN hx)
   have hconj : conjSubgroup (barElt T hxN) (barSub T (normIn T₁ T)) ≤ (P : Subgroup (NQuot T)) :=
     conjSubgroup_le_of_le_of_mem hVP hxbar
-  have heq := eq_of_conj_le_pGroup hV P.isPGroup' hVP hconj
+  have heq := eq_of_conj_le_pGroup hV P.isPGroup hVP hconj
   rw [conjSubgroup_barSub hxN] at heq
   intro l hl
   have hlN : l ∈ Subgroup.normalizer (T : Set G) := (mem_normIn.1 (hl)).2

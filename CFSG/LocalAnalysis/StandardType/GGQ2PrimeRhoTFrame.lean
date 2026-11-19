@@ -153,8 +153,8 @@ theorem exists_rhoT_eq_conj_deltaGU
     have e2 : κ m ⟨g * x * g⁻¹, hzBs⟩ = 1 := by
       have : (⟨g * x * g⁻¹, hzBs⟩ : Bs) = (⟨x, hx⟩ : Bs) ^ t :=
         Subtype.ext (by simpa using ht.symm)
-      rw [this, map_zpow, h.coords.x_coord, if_pos rfl, one_zpow]
-    rw [hzc m, if_neg hn.symm] at e2
+      rw [this, map_zpow, h.coords.x_coord, ite_eq_left rfl, one_zpow]
+    rw [hzc m, ite_eq_right hn.symm] at e2
     exact one_ne_ω3 e2.symm
   · obtain ⟨y', k, hk, hpi⟩ :=
       rhoTFrame_exists_conj_delta (y := ⟨y, hyGU⟩) (z := zh) hu1 hdw.symm hu

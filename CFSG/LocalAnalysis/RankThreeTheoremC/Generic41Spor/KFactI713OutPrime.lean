@@ -68,7 +68,7 @@ private theorem normalizer_le_centralizer_of_pow {H : Type*} [Group H] {p : ℕ}
     dvd_trans (Dvd.intro_left _ h1) (Dvd.intro _ h2)
   have hcop : Nat.Coprime p ((Subgroup.centralizer (S : Set H)).subgroupOf (Subgroup.normalizer (S : Set H))).index :=
     (Nat.Prime.coprime_iff_not_dvd hp).2 fun h => hSindex (dvd_trans h hdvd)
-  haveI := normal_centralizer_subgroupOf S
+  have := normal_centralizer_subgroupOf S
   intro n hn
   have hpn : (⟨n, hn⟩ : (Subgroup.normalizer (S : Set H))) ^ p ∈
       (Subgroup.centralizer (S : Set H)).subgroupOf (Subgroup.normalizer (S : Set H)) := by
@@ -178,11 +178,11 @@ private theorem exists_subgroup_card_eq_prime_le {H : Type*} [Group H] {p : ℕ}
     exact hkercard
 
 theorem false_of_prime_index_normal_sylow {H : Type*} [Group H] [Finite H] {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (I : Subgroup H) [I.Normal] (hI : I ≤ commutator H) (hindex : I.index = p)
+    (_hp2 : p ≠ 2) (I : Subgroup H) [I.Normal] (hI : I ≤ commutator H) (hindex : I.index = p)
     (hdvd : p ∣ Nat.card I) (hndvd : ¬ p ^ 2 ∣ Nat.card I)
     (hfix : ∀ S : Subgroup H, S ≤ I → Nat.card S = p → ∀ α : H, α ^ p = 1 →
       (∀ s ∈ S, α * s = s * α) → α ∈ I) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hHcard : Nat.card I * p = Nat.card H := by
     rw [← hindex]
     exact Subgroup.card_mul_index (H := I)
@@ -205,7 +205,7 @@ theorem false_of_prime_index_normal_sylow {H : Type*} [Group H] [Finite H] {p : 
         (⟨a, ha⟩ : S) ⟨b, hb⟩)
   obtain ⟨x, hxS, hxI⟩ : ∃ x ∈ S, x ∉ I := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 := Subgroup.card_dvd_of_le (show S ≤ I from fun y hy => hcon y hy)
     rw [hScard] at h1
     exact hndvd h1

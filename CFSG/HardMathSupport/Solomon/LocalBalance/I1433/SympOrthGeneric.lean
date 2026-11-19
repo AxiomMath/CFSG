@@ -51,7 +51,7 @@ theorem I1433SCfg.exists_heisenberg {S : Type} [Group S] [Finite S] (hS : Subgro
     ∃ a b : S, ⁅a, b⁆ = x ∧ a ^ 3 = 1 ∧ b ^ 3 = 1 ∧ ⁅a, x⁆ = 1 ∧ ⁅b, x⁆ = 1 ∧
       ∀ L : Subgroup S, GLAPComponent 3 (Subgroup.centralizer ({x} : Set S)) L →
         ∀ l ∈ L, ⁅a, l⁆ = 1 ∧ ⁅b, l⁆ = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj := injective_conj_of_center_eq_bot hS
   have hx3 : x ^ 3 = 1 := by rw [← c.order]; exact pow_orderOf_eq_one x
   obtain ⟨α, hα, β, hβ, hne⟩ := c.nonabelian
@@ -62,7 +62,7 @@ theorem I1433SCfg.exists_heisenberg {S : Type} [Group S] [Finite S] (hS : Subgro
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center ↥Q)
     rw [c.card, hZ3] at h
     omega
-  have hcomm := IsPGroup.commutative_of_card_eq_prime_sq (p := 3) hquot
+  have hcomm := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hquot).is_comm.comm
   set γ : ↥Q := ⁅(⟨α, hα⟩ : ↥Q), ⟨β, hβ⟩⁆ with hγ
   have hγc : γ ∈ Subgroup.center ↥Q := by
     have h1 : (QuotientGroup.mk' (Subgroup.center ↥Q)) γ = 1 := by

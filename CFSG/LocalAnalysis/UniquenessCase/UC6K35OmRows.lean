@@ -30,7 +30,7 @@ theorem card_le_sq_of_omega [Fact p.Prime] {S B : Subgroup X} (hS : IsSylowOf p 
   have hle : E.map (MulAut.conj k⁻¹).toMonoidHom ≤ B := by
     rintro _ ⟨x, hx, rfl⟩
     have h1 : (MulAut.conj k⁻¹).toMonoidHom x = k⁻¹ * x * k := by
-      simp [MulAut.conj_apply]
+      simp
     rw [h1]
     refine hΩ _ ((hk x).1 (hET hx)) ?_
     have h2 := map_pow (MulAut.conj k⁻¹) x p

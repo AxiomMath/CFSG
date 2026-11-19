@@ -30,7 +30,7 @@ theorem exists_sylow (h : KFacts K U x t rk) :
   have hU0K := sup_zpowers_le h
   obtain ⟨P⟩ : Nonempty (Sylow 2 K) := inferInstance
   have hU0P : (U ⊔ zpowers t).subgroupOf K ≤ P := by
-    haveI : ((U ⊔ zpowers t).subgroupOf K).Normal :=
+    have : ((U ⊔ zpowers t).subgroupOf K).Normal :=
       (normal_subgroupOf_iff_le_normalizer hU0K).2 fun k hk => (h.hNK k).2 hk
     have hp : IsPGroup 2 ((U ⊔ zpowers t).subgroupOf K) := h.hU0ab.isPGroup.comap_subtype
     exact hp.le_sylow_of_normal P

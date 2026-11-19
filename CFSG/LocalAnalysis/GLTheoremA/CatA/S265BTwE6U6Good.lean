@@ -23,7 +23,7 @@ private theorem exists_sparse (D : Subgroup (Fin 6 → xunKˣ)) (hD : 3 ^ 4 ≤ 
     norm_num at h2
     omega
   obtain ⟨ζ, hζ⟩ : ∃ ζ : xunKˣ, ζ ≠ 1 := by
-    haveI : Nontrivial xunKˣ := Finite.one_lt_card_iff_nontrivial.1 (by rw [h3]; norm_num)
+    have : Nontrivial xunKˣ := Finite.one_lt_card_iff_nontrivial.1 (by rw [h3]; norm_num)
     exact exists_ne 1
   have hζne : ζ⁻¹ ≠ ζ := by
     intro h

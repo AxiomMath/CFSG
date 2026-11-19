@@ -13,17 +13,20 @@ open Module CFSG.ComponentClassification.OutcomeLocal CFSG.HardMathSupport.Solom
 
 variable {M : Type} [AddCommGroup M] [Module (ZMod 2) M] [Finite M]
 
+omit [Finite M] in
 theorem isMin_P (S : i285_Setup M) (hXW : S.X ≤ S.W) : S.IsMin S.P := by
   refine ⟨S.W_le_stab_P, inf_lt_left.2 S.not_P_le_Q, le_rfl, fun T hT1 hT2 hT3 => ?_⟩
   rcases S.eq_of_stab (hXW.trans hT1) hT2.le hT3 with h | h
   · exact absurd h hT2.ne'
   · exact h
 
+omit [Finite M] in
 theorem D_subset_T_P (S : i285_Setup M) (hP : S.IsMin S.P) : S.D ⊆ S.T S.P := by
   intro d hd
   obtain ⟨x, hx, hdx⟩ := S.exists_mem_T hP hd
   rwa [i285_map_eq_of_stab (S.X_le_stab_P hx)] at hdx
 
+omit [Finite M] in
 theorem X_le_H_P (S : i285_Setup M) (hXW : S.X ≤ S.W) : S.X ≤ S.H S.P := by
   refine hXW.trans ?_
   show Subgroup.closure S.D ≤ Subgroup.closure (S.T S.P)

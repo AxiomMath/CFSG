@@ -91,7 +91,7 @@ theorem Y13Hyp.P_facts [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fact (ElemSec D₁ V₁) := ⟨h.sec⟩
   have : (D₁.subgroupOf (nOne D₁ K₁ D₂)).Normal :=
-    (Subgroup.normal_subgroupOf_iff_le_normalizer h.D₁_le_nOne).mpr h.nOne_le_normalizer
+    (Subgroup.normal_subgroupOf_iff_le_normalizer CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_nOne).mpr h.nOne_le_normalizer
   obtain ⟨fV, hfV⟩ := h.exists_fV
   obtain ⟨hfix, hcase⟩ := (h.r3Hyp fV hfV).main
   set χb := (kmap h).comp χ.toMonoidHom
@@ -104,7 +104,7 @@ theorem Y13Hyp.P_facts [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG)
     · rintro ⟨A, rfl⟩
       exact h.r3_τK ⟨χ A, rfl⟩
   have hPN := hP.le
-  have hDN : D₁ ⊔ D₂ ≤ nOne D₁ K₁ D₂ := sup_le h.D₁_le_nOne h.D₂_le_nOne
+  have hDN : D₁ ⊔ D₂ ≤ nOne D₁ K₁ D₂ := sup_le CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_nOne CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₂_le_nOne
   have hDD : D₁ ≤ D₁ ⊔ D₂ := le_sup_left
   set Pb := barG D₁ K₁ D₂ P
   set Db := barG D₁ K₁ D₂ (D₁ ⊔ D₂)
@@ -132,12 +132,12 @@ theorem Y13Hyp.P_facts [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG)
   have hDcard : 2 ^ 8 ≤ Nat.card Db := by
     have hrange : (dmap h).range ≤ Db := by
       rintro _ ⟨d, rfl⟩
-      exact ⟨Subgroup.inclusion h.D₂_le_nOne d, Subgroup.mem_subgroupOf.mpr
+      exact ⟨Subgroup.inclusion CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₂_le_nOne d, Subgroup.mem_subgroupOf.mpr
         (le_sup_right (a := D₁) d.2), rfl⟩
     have hcard := card_le_card_mul_of_hom (dmap h)
     have hker : Nat.card (dmap h).ker ≤ 2 ^ 10 := by
       refine (Nat.card_le_card_of_injective (fun d : (dmap h).ker =>
-        (⟨((d : D₂) : G), h.mem_D₁_of_mkG_eq_one _ d.2, (d : D₂).2⟩ : (D₁ ⊓ D₂ : Subgroup G)))
+        (⟨((d : D₂) : G), CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.mem_D₁_of_mkG_eq_one _ d.2, (d : D₂).2⟩ : (D₁ ⊓ D₂ : Subgroup G)))
         fun d d' hdd => ?_).trans hD₁D₂
       have := congrArg Subtype.val hdd
       simp only at this
@@ -164,7 +164,7 @@ theorem Y13Hyp.P_facts [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG)
       (mkG D₁ K₁ D₂ ⟨y, hDN hy⟩)).mp ((hDm ⟨y, hDN hy⟩).mpr hy)
     rw [← map_inv, ← map_mul, ← map_mul, hDm] at h1
     simpa using h1
-  set jn : nOne D₁ K₁ D₂ := ⟨χ dωS, h.K₁_le_nOne (χ dωS).2⟩
+  set jn : nOne D₁ K₁ D₂ := ⟨χ dωS, CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.K₁_le_nOne (χ dωS).2⟩
   have hj : χb dωS = mkG D₁ K₁ D₂ jn := rfl
   refine ⟨fun p hp => normalizer_D₂_of h416a h416b ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · rw [mem_normalizer_iff]
@@ -187,7 +187,7 @@ theorem Y13Hyp.P_facts [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG)
       rw [show x * (t * x * t⁻¹)⁻¹ = x * t * x⁻¹ * t⁻¹ by group]
       exact hxt
     obtain ⟨A, hA, hAx⟩ := hF.tfix _ ((hPm ⟨x, hPN hx⟩).mpr hx) h1
-    have hχA : χb A = mkG D₁ K₁ D₂ ⟨χ A, h.K₁_le_nOne (χ A).2⟩ := rfl
+    have hχA : χb A = mkG D₁ K₁ D₂ ⟨χ A, CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.K₁_le_nOne (χ A).2⟩ := rfl
     rw [hχA, ← map_inv, ← map_mul, hDm] at hAx
     have hAx' : (χ A : G)⁻¹ * x ∈ D₁ ⊔ D₂ := by simpa using hAx
     have e : x = (χ A : G) * ((χ A : G)⁻¹ * x) := by group

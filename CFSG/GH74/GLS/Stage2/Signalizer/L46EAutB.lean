@@ -175,7 +175,7 @@ theorem l46e_sl2_aut_one {F : Type} [Field F] [Finite F] {p n : ℕ} [Fact p.Pri
   have hθw : θ = MulAut.conj w := by
     have h1 : θ = (MulAut.conj w⁻¹)⁻¹ := eq_inv_of_mul_eq_one_right hθ₂
     rw [h1, ← map_inv, inv_inv]
-  obtain ⟨k, hk⟩ := (W.isPGroup').exists_orderOf_dvd_pow (⟨w, hw⟩ : ↥(W : Subgroup _))
+  obtain ⟨k, hk⟩ := (W.isPGroup).exists_orderOf_dvd_pow (⟨w, hw⟩ : ↥(W : Subgroup _))
   have h2 : orderOf θ ∣ p ^ k := by
     rw [hθw]
     refine (orderOf_map_dvd MulAut.conj w).trans ?_

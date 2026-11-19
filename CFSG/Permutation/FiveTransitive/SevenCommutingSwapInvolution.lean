@@ -42,12 +42,12 @@ theorem exists_conjugate {F : Type*} [Fintype F] [DecidableEq F]
   refine ⟨c, hxV, ?_⟩
   by_cases he : u a = a
   · have huExpr : u = swap a b * t := by
-      simp only [t, if_pos he, swap_mul_self_mul]
+      simp only [t, ite_eq_left he, swap_mul_self_mul]
     have hm := (ThreeSwapTwoGroup.subgroup e).mul_mem hxV hc
     change (MulAut.conj c (swap a b)) * (MulAut.conj c t) ∈ _ at hm
     rw [← map_mul, ← huExpr] at hm
     exact hm
-  · simpa only [t, if_neg he] using hc
+  · simpa only [t, ite_eq_right he] using hc
 
 end FiveTransitive.SevenCommutingSwapInvolution
 

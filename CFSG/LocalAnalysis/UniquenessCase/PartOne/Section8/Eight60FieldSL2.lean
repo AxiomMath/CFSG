@@ -350,7 +350,7 @@ theorem exists_stable_cyclic_sylow_three_statedSL_two {p f : ℕ} (hp : p.Prime)
     exact h3
   let C₀ : Subgroup X := (Q : Subgroup X)
   have hcycC₀ : IsCyclic C₀ :=
-    isCyclic_of_isPGroup_three_statedSL_two h3q C₀ Q.isPGroup'
+    isCyclic_of_isPGroup_three_statedSL_two h3q C₀ Q.isPGroup
   have h3cardX : 3 ∣ Nat.card X := by
     rw [show Nat.card X = Nat.card K * (Nat.card K ^ 2 - 1) from
       CFSG.Open.StatedAPI.card_statedSL_two K]

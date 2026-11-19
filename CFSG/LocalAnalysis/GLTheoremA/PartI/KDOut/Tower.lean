@@ -67,7 +67,7 @@ theorem eq_one_of_commutator_comm {G : Type*} [Group G] {p : ℕ} (hp : p.Prime)
         _ = t⁻¹ * d ^ (j + 1) := by rw [h1, h2, pow_succ]; group
   have h3 := key (p ^ k)
   rw [hk] at h3
-  simp only [pow_zero, one_mul, inv_one, mul_one] at h3
+  simp only [one_mul, inv_one, mul_one] at h3
   have h4 : d ^ (p ^ k) = 1 := by
     have : t⁻¹ * d ^ (p ^ k) = t⁻¹ * 1 := by rw [mul_one]; exact h3.symm
     exact mul_left_cancel this
@@ -96,7 +96,7 @@ theorem commutator_le_inner_of_outTwoTower {K : Type*} [Group K] {p : ℕ} (hp :
   obtain ⟨m, hm⟩ := hT ⟨δ, hδT⟩
   have hm' : δ ^ (2 ^ m) = 1 := by simpa using congrArg Subtype.val hm
   have hcomm := hcent a ⟨k, hk'⟩ δ hδD ⟨m, by rw [hm']; exact (inner K).one_mem⟩
-  haveI : (inner K).Normal := inner_normal K
+  have : (inner K).Normal := inner_normal K
   let π : MulAut K →* MulAut K ⧸ inner K := QuotientGroup.mk' (inner K)
   have h1 : π (a * δ * a⁻¹ * δ⁻¹) = 1 := (QuotientGroup.eq_one_iff _).2 hcomm
   have hcomm' : π a * π δ * (π a)⁻¹ = π δ := by

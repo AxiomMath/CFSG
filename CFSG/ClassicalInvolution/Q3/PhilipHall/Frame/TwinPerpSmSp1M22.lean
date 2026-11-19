@@ -42,8 +42,8 @@ theorem leaf_m22 {n : ℕ} :
   · intro Y _ _ R' S t hP hF
     obtain ⟨ψ₀⟩ := hF
     have ψ : ↥(genFittingFStar Y) ≃* ↥CFSG.Blueprint.NativeSporadic.M22 := ψ₀
-    haveI := hP.core.simple
-    haveI : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+    have := hP.core.simple
+    have : (genFittingFStar Y).Normal := genFittingFStar_normal Y
     obtain ⟨e₀⟩ := m22AutModel.nonempty_mulEquiv
     refine ⟨⟨ψ₀.trans (e₀.symm.trans (Subgroup.equivMapOfInjective _ iota iota_injective))⟩, ?_⟩
     exact isPGroup_core_of_oddCore hP

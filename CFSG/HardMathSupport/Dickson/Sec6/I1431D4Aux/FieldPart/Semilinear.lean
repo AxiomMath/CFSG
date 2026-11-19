@@ -79,7 +79,7 @@ theorem Semilin.mul {β β' : MulAut (adjointGroup Tag.D4 K)} {a a' : Kˣ} {σ �
   intro c
   rw [MulAut.mul_apply, h' c, h]
   congr 1
-  simp only [Units.val_mul, Units.coe_map, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+  simp only [Units.val_mul, Units.coe_map, RingHom.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
     RingEquiv.toRingHom_eq_coe, map_mul, RingEquiv.coe_toRingHom, RingAut.mul_apply, mul_assoc]
 
 @[expose] def StabU (K : Type) [Field K] : Subgroup (MulAut (adjointGroup Tag.D4 K)) where

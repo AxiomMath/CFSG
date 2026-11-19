@@ -55,7 +55,7 @@ theorem center_eq_bot_of_simple_card {S : Type} [Group S] [Finite S] [IsSimpleGr
         rw [h]
         exact Subgroup.mem_top b
       exact Subgroup.mem_center_iff.1 hb a
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2
     have hnorm : (Subgroup.zpowers x).Normal :=
       ⟨fun n hn g => by
@@ -89,8 +89,8 @@ theorem i131TD4At_holds (G : Type) [Group G] [Finite G] : I131TD4At G := by
   intro X L A T hL hT hM hAN hA hTL hT2 hAT hTnot
   have hlie := lieModel_trialityD4_of_marking hM hT
   obtain ⟨hfin, hsimp, hcard, ⟨φ⟩, hout⟩ := sdata_of_lieModel hlie
-  haveI := hfin
-  haveI := hsimp
+  have := hfin
+  have := hsimp
   have hZ : Subgroup.center (PSimple 3 L) = ⊥ :=
     center_eq_bot_of_simple_card (by rw [hcard]; norm_num) (by rw [hcard]; norm_num)
   exact card_le_nine_mul_card_centMod L A T hM.1 φ hcard hZ hout hTL hT2 hTnot hAN hA hAT

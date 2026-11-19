@@ -102,7 +102,7 @@ theorem ggSporK_bmNoLiePComp_B_three [Finite (TauCeti.CFSGIndex.sporadic .B).Gro
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.B.nonempty_mulEquiv
   let e' : CFSG.Blueprint.NativeSporadic.Carrier .B ≃* (TauCeti.CFSGIndex.sporadic .B).Group :=
     e.trans (MulEquiv.refl _)
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
   have hKB : CFSG.Open.IsKGroup (CFSG.Blueprint.NativeSporadic.Carrier .B) :=
     hK.of_injective e'.toMonoidHom e'.injective
   exact bmNoLiePComp_of_mulEquiv 3 e'
@@ -116,7 +116,7 @@ theorem ggSporK_bmNoLiePComp_B_five [Finite (TauCeti.CFSGIndex.sporadic .B).Grou
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.B.nonempty_mulEquiv
   let e' : CFSG.Blueprint.NativeSporadic.Carrier .B ≃* (TauCeti.CFSGIndex.sporadic .B).Group :=
     e.trans (MulEquiv.refl _)
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
   have hKB : CFSG.Open.IsKGroup (CFSG.Blueprint.NativeSporadic.Carrier .B) :=
     hK.of_injective e'.toMonoidHom e'.injective
   exact bmNoLiePComp_of_mulEquiv 5 e'
@@ -130,7 +130,7 @@ theorem ggSporK_bmNoLiePComp_M_three [Finite (TauCeti.CFSGIndex.sporadic .M).Gro
   obtain ⟨e⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_y443Derived_tauCeti
   let e' : CFSG.Blueprint.NativeSporadic.Carrier .M ≃* (TauCeti.CFSGIndex.sporadic .M).Group :=
     e.trans (MulEquiv.refl _)
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M) := Finite.of_equiv _ e'.symm.toEquiv
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M) := Finite.of_equiv _ e'.symm.toEquiv
   have hKM : CFSG.Open.IsKGroup (CFSG.Blueprint.NativeSporadic.Carrier .M) :=
     hK.of_injective e'.toMonoidHom e'.injective
   exact bmNoLiePComp_of_mulEquiv 3 e'
@@ -147,7 +147,7 @@ theorem ggSporK_bmNoLiePComp_M_five [Finite (TauCeti.CFSGIndex.sporadic .M).Grou
   obtain ⟨e⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_y443Derived_tauCeti
   let e' : CFSG.Blueprint.NativeSporadic.Carrier .M ≃* (TauCeti.CFSGIndex.sporadic .M).Group :=
     e.trans (MulEquiv.refl _)
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M) := Finite.of_equiv _ e'.symm.toEquiv
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M) := Finite.of_equiv _ e'.symm.toEquiv
   have hKM : CFSG.Open.IsKGroup (CFSG.Blueprint.NativeSporadic.Carrier .M) :=
     hK.of_injective e'.toMonoidHom e'.injective
   exact bmNoLiePComp_of_mulEquiv 5 e'
@@ -160,7 +160,7 @@ theorem ggSporK_bmNoLiePComp_M_seven [Finite (TauCeti.CFSGIndex.sporadic .M).Gro
   obtain ⟨e⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_y443Derived_tauCeti
   let e' : CFSG.Blueprint.NativeSporadic.Carrier .M ≃* (TauCeti.CFSGIndex.sporadic .M).Group :=
     e.trans (MulEquiv.refl _)
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M) := Finite.of_equiv _ e'.symm.toEquiv
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M) := Finite.of_equiv _ e'.symm.toEquiv
   exact bmNoLiePComp_of_mulEquiv 7 e'
     (bmNoLiePComp_of_pCompCensus (by norm_num)
       (fun i hi => by subst hi; rw [gkn_card_He]; simp [bmCompOrders])
@@ -172,7 +172,7 @@ private theorem gkn_card_pSimple_gmat_thirteen
     {J : Subgroup CFSG.Monster.Generated.Gmat}
     (hJ : GLAPComponent 13 (Subgroup.centralizer ({s} : Set CFSG.Monster.Generated.Gmat)) J) :
     Nat.card (PSimple 13 J) = 5616 := by
-  haveI : Finite CFSG.Monster.Generated.Gmat :=
+  have : Finite CFSG.Monster.Generated.Gmat :=
     CFSG.Monster.Generated.generated_rational_group_finite_simple.2.2
   obtain ⟨m, k, hk, h | h⟩ :=
     CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterThirteen.census_thirteen s hs
@@ -189,7 +189,7 @@ theorem ggSporK_bmNoLiePComp_M_thirteen [Finite (TauCeti.CFSGIndex.sporadic .M).
   obtain ⟨⟨φ, ψ⟩⟩ := exists_M_equivs
   let e' : CFSG.Blueprint.NativeSporadic.Carrier .M ≃* (TauCeti.CFSGIndex.sporadic .M).Group :=
     e.trans (MulEquiv.refl _)
-  haveI : Finite CFSG.Monster.Generated.Gmat :=
+  have : Finite CFSG.Monster.Generated.Gmat :=
     CFSG.Monster.Generated.generated_rational_group_finite_simple.2.2
   exact bmNoLiePComp_of_mulEquiv 13 (ψ.trans e')
     (bmNoLiePComp_of_pSimpleCard (by norm_num) fun x hx J hJ => by

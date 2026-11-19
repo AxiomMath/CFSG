@@ -27,7 +27,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
   right_inv v := by ext k; by_cases h : k = i.succ ∨ k = j.succ <;>
     simp [d5NegPairVector, h]
   map_add' v w := by ext k; by_cases h : k = i.succ ∨ k = j.succ <;>
-    simp [d5NegPairVector, h] <;> ring
+    simp [d5NegPairVector, h]; ring
   map_smul' c v := by ext k; by_cases h : k = i.succ ∨ k = j.succ <;>
     simp [d5NegPairVector, h]
 
@@ -61,7 +61,7 @@ theorem d5_swap_basis_dsp
     · have h' : (Equiv.swap i.succ j.succ) k = l := by
         rw [h]
         simp
-      simp [h, h']
+      simp [h]
     · have h' : (Equiv.swap i.succ j.succ) k ≠ l := by
         intro he
         apply h
@@ -98,7 +98,7 @@ theorem d5_negPair_basis_dsp
     by_cases hkl : k = l
     · subst k
       by_cases h : l = i.succ ∨ l = j.succ <;> simp [h]
-    · by_cases h : l = i.succ ∨ l = j.succ <;> simp [hkl, h, neg_zero] <;> decide +kernel
+    · by_cases h : l = i.succ ∨ l = j.succ <;> simp [hkl, h, neg_zero]
 
 theorem d5_basis_exists_line_move
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
@@ -113,8 +113,8 @@ theorem d5_basis_exists_line_move
       apply b.equivFun.injective
       ext k
       refine Fin.cases ?_ (fun j => ?_) k
-      · simp [Module.Basis.equivFun_self]
-      · simp [hzero, Module.Basis.equivFun_self]
+      · simp
+      · simp [hzero]
     apply hy
     rw [heq]
     exact Submodule.smul_mem _ _ (Submodule.subset_span (Set.mem_singleton _))

@@ -49,6 +49,7 @@ theorem monoD_eq_inf : monoD = alternatingGroup (Fin 6) ⊓ hMonoC := rfl
     rw [ffMono_mul fr σ σ⁻¹ J (J.map σ.toEmbedding), mul_inv_cancel, inv_inv, symmDiff_self,
       Finset.bot_eq_empty, fr.signChange_empty, fr.permOrth_one, one_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_hPO_iff (fr : NFrame Q (Fin 6) c) {g : OGroup Q} :
     g ∈ hPO fr ↔ ∃ σ ∈ hMonoC, ∃ J : Finset (Fin 6), g = fr.permOrth σ * fr.signChange J :=
   Iff.rfl
@@ -58,6 +59,7 @@ theorem ffP0_le_hPO (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) c) : ffP0 hQ f
   obtain ⟨σ, hσ, J, -, rfl⟩ := (mem_ffP0_iff hQ fr).mp hg
   exact ⟨σ, hσ.2, J, rfl⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem hPO_card (fr : NFrame Q (Fin 6) c) : Nat.card (hPO fr) = 2 ^ 10 := by
   let F : hMonoC × Finset (Fin 6) → hPO fr := fun x =>
     ⟨fr.permOrth x.1.1 * fr.signChange x.2, ⟨x.1.1, x.1.2, x.2, rfl⟩⟩
@@ -95,7 +97,7 @@ theorem hPO_inf_omega (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) 1) :
 
 theorem hPO_le_normalizer (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) 1) :
     hPO fr ≤ normalizer (ffP0 hQ fr : Set (OGroup Q)) := by
-  haveI : Finite (ffP0 hQ fr) :=
+  have : Finite (ffP0 hQ fr) :=
     Nat.finite_of_card_ne_zero (by rw [ffP0_card hQ fr]; norm_num)
   intro g hg
   refine Subgroup.mem_normalizer_fintype fun n hn => ?_

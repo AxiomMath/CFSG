@@ -69,7 +69,7 @@ theorem natCard_mul_natCard_fixedPoints_pow_natCard_eq (ρ : A →* MulAut K)
       mul_ite, mul_one, mul_zero] at key
     simp only [Finset.sum_filter, Fintype.sum_sum_type, Fin.sum_univ_three,
       Sum.elim_inl, Sum.elim_inr, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.tail_cons, Matrix.head_cons, Subgroup.mem_bot, Subgroup.mem_top, if_true, ite_self,
+      Matrix.tail_cons, Matrix.head_cons, Subgroup.mem_bot, Subgroup.mem_top, ite_true, ite_self,
       add_zero, zero_add]
     simpa using key
   have key := prod_natCard_centralizer_pow_eq ρ hcop _ _ _ hmn

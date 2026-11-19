@@ -9,7 +9,7 @@ namespace CFSG.GroupTheory.SmallFixedTwoGroup
 open Subgroup
 
 theorem mem_center_of_card_center_centralizer_le_two {R : Type*} [Group R] [Finite R]
-    (hR : IsPGroup 2 R) {s : R} (hs : s * s = 1) (hs1 : s ≠ 1)
+    (hR : IsPGroup 2 R) {s : R} (_hs : s * s = 1) (hs1 : s ≠ 1)
     (hZ : Nat.card (center (centralizer ({s} : Set R))) ≤ 2) : s ∈ center R := by
   let C : Subgroup R := centralizer ({s} : Set R)
   have hsC : s ∈ C := by
@@ -25,7 +25,7 @@ theorem mem_center_of_card_center_centralizer_le_two {R : Type*} [Group R] [Fini
     exact Subgroup.mem_centralizer_singleton_iff.mp c.2
   let z0 : center C := ⟨sC, hsC_mem_center⟩
   have hz0_ne_one : z0 ≠ 1 := fun h => hsC_ne_one (congrArg Subtype.val h)
-  haveI : Nontrivial (center C) := ⟨z0, 1, hz0_ne_one⟩
+  have : Nontrivial (center C) := ⟨z0, 1, hz0_ne_one⟩
   have h2le : 2 ≤ Nat.card (center C) := by
     have := Finite.one_lt_card (α := center C)
     omega
@@ -82,7 +82,7 @@ theorem mem_center_of_card_center_centralizer_le_two {R : Type*} [Group R] [Fini
       _ = s * n := by rw [hns]
   have hnormalizer_eq : normalizer (C : Set R) = C :=
     le_antisymm hN_le Subgroup.le_normalizer
-  haveI : Group.IsNilpotent R := hR.isNilpotent
+  have : Group.IsNilpotent R := hR.isNilpotent
   have hnc : NormalizerCondition R := Group.normalizerCondition_of_isNilpotent
   have hCtop : C = ⊤ := by
     by_contra hne

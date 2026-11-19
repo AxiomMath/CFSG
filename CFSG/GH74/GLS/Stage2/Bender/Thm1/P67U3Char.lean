@@ -42,7 +42,7 @@ theorem cf67_U3_char_std (hp : p ≠ 2) (hcen : Subgroup.center (hypPSU h 1 1) =
   obtain ⟨-, -, -, -, ⟨SP, hSP⟩, -, -⟩ := unitary_order_and_Sylow h (r := 1) (ε := 1) le_rfl le_rfl
   have hP : IsPGroup p ↥(hypProjUnitriangular h 1 1) := by
     rw [← hSP]
-    exact SP.isPGroup'
+    exact SP.isPGroup
   have hxP : x ∈ hypProjUnitriangular h 1 1 := ⟨g₀, hg₀, rfl⟩
   have hzx : ∀ z ∈ Z, z x = x := by
     intro z hz

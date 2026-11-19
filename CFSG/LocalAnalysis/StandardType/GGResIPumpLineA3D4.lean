@@ -17,7 +17,7 @@ theorem largeEvenLabelAll_D4_notDvdSCJ
     LargeEvenLabelAll ⟨.D, 4, n⟩ fun R _ I _ => GGTorusAutNotDvdSCJ 3 labJ R I 4 27 := by
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
-  rw [if_neg (by norm_num : (4 : ℕ) ≠ 3)] at hQ
+  rw [ite_eq_right (by norm_num : (4 : ℕ) ≠ 3)] at hQ
   obtain ⟨K, hKfield, hKfinite, hKcard, hQ⟩ := hQ
   refine ⟨K, hKfield, hKfinite, hKcard, hQ, ?_⟩
   intro L' _ _ ψ hψ hker hperf A hA hAI h3 _ hsc _

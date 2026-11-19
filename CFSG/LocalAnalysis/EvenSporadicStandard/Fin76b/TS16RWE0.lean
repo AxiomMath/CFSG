@@ -115,7 +115,7 @@ theorem adm_index {σ : M} (hσ2 : σ * σ = 1) (hσa : σ * sElt eD 1 * σ⁻¹
           obtain ⟨hwE, hwC⟩ := Subgroup.mem_inf.1 hw
           obtain ⟨k, hk, hkw⟩ := hctx.L.surj w hwE
           have hk128 : k < 128 := hk.trans (by norm_num)
-          have hlab : labD eD eltE k = w := by rw [hctx.lab_E hk, hkw]
+          have hlab : labD eD eltE k = w := by rw [CFSG.EvenSporadicStandard.Fin76b.W16.DECtx.lab_E hk, hkw]
           refine ⟨⟨⟨k, hk128⟩, hk, ?_⟩, Subtype.ext hlab⟩
           rw [hfixiff]
           rw [Subgroup.mem_centralizer_singleton_iff] at hwC
@@ -143,7 +143,7 @@ theorem adm_index {σ : M} (hσ2 : σ * σ = 1) (hσa : σ * sElt eD 1 * σ⁻¹
         rw [mulC_eq_mulE0 k hk k hk, h2]
       · rw [hfixiff]
         show labD eD eltE k * σ = σ * labD eD eltE k
-        rw [hctx.lab_E hk, hkx]
+        rw [CFSG.EvenSporadicStandard.Fin76b.W16.DECtx.lab_E hk, hkx]
         exact hxc.symm
   exact adm_complete (hctx.Phi σ) hAdm
 

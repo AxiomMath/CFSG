@@ -45,7 +45,7 @@ theorem benderWCInput_of_repo : BenderWCInput := by
         exact CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.commute_of_mul_self_eq_one hK Q' hsQ'
           hs2 y hy)
   have hQ'Q : (Q' : Subgroup K) ≤ (Q : Subgroup K) :=
-    le_of_isPGroup_of_le_normalizer Q'.isPGroup' Q hQ'N
+    le_of_isPGroup_of_le_normalizer Q'.isPGroup Q hQ'N
   have hle : conjSubgroup g T ≤ Subgroup.centralizer ({s} : Set K) := fun y hy => by
     refine Subgroup.mem_centralizer_iff.2 fun h hh => ?_
     rw [Set.mem_singleton_iff] at hh

@@ -37,15 +37,15 @@ theorem perfect_centralizes_of_card_le_four {Yb U : Subgroup B} (hY : ⁅Yb, Yb�
     map_mul' := fun a b => by
       apply Equiv.ext
       intro u
-      simp only [conjy_apply, Equiv.Perm.mul_apply, Subgroup.coe_mul, Subtype.coe_mk]
+      simp only [conjy_apply, Equiv.Perm.mul_apply, Subgroup.coe_mul]
       group }
-  haveI hperfY : Group.IsPerfect ↥Yb := Subgroup.isPerfect_iff.mpr hY
-  haveI hperfR : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range ρ
-  haveI hsol : Group.IsSolvable (Equiv.Perm ↥U) := Equiv.Perm.isSolvable hc
-  haveI hsub : Subsingleton ↥ρ.range := by
+  have hperfY : Group.IsPerfect ↥Yb := Subgroup.isPerfect_iff.mpr hY
+  have hperfR : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range ρ
+  have hsol : Group.IsSolvable (Equiv.Perm ↥U) := Equiv.Perm.isSolvable hc
+  have hsub : Subsingleton ↥ρ.range := by
     rw [← not_nontrivial_iff_subsingleton]
     intro hnt
-    haveI : Nontrivial ↥ρ.range := hnt
+    have : Nontrivial ↥ρ.range := hnt
     exact (Group.IsPerfect.not_isSolvable ↥ρ.range) (inferInstance : Group.IsSolvable ↥ρ.range)
   intro y hy u hu
   have hy1 : ρ ⟨y, hy⟩ = 1 := by
@@ -62,13 +62,14 @@ theorem perfect_centralizes_of_card_le_four {Yb U : Subgroup B} (hY : ⁅Yb, Yb�
   calc y * u = (y * u * y⁻¹) * y := by group
     _ = u * y := by rw [hconj]
 
+omit [Finite B] in
 theorem perfect_centralizes_of_centralizes_commutators {Yb W : Subgroup B} (hY : ⁅Yb, Yb⁆ = Yb)
     (hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a) (hn : ∀ y ∈ Yb, ∀ w ∈ W, y * w * y⁻¹ ∈ W)
     (hD : ∀ y ∈ Yb, ∀ y' ∈ Yb, ∀ w ∈ W,
       y * (y' * w * y'⁻¹ * w⁻¹) = (y' * w * y'⁻¹ * w⁻¹) * y) :
     ∀ y ∈ Yb, ∀ w ∈ W, y * w = w * y := by
-  haveI hperfY : Group.IsPerfect ↥Yb := Subgroup.isPerfect_iff.mpr hY
-  haveI hWcomm : IsMulCommutative ↥W :=
+  have hperfY : Group.IsPerfect ↥Yb := Subgroup.isPerfect_iff.mpr hY
+  have hWcomm : IsMulCommutative ↥W :=
     IsMulCommutative.of_comm (fun a b => Subtype.ext (hW a a.2 b b.2))
   intro y hy w hw
   let f : ↥Yb →* ↥W :=
@@ -78,7 +79,7 @@ theorem perfect_centralizes_of_centralizes_commutators {Yb W : Subgroup B} (hY :
     map_mul' := by
       intro a b
       ext
-      simp only [Subtype.coe_mk, Subgroup.coe_mul]
+      simp only [Subgroup.coe_mul]
       have hD' : (a : B) * ((b : B) * w * (b : B)⁻¹ * w⁻¹)
           = ((b : B) * w * (b : B)⁻¹ * w⁻¹) * (a : B) := hD a a.2 b b.2 w hw
       have hW' : ((b : B) * w * (b : B)⁻¹ * w⁻¹) * ((a : B) * w * (a : B)⁻¹ * w⁻¹)
@@ -111,7 +112,7 @@ theorem perfect_centralizes_of_centralizes_commutators {Yb W : Subgroup B} (hY :
       rw [hyw]
 
 theorem centralizes_of_card_le_of_lattice {Yb Rb Ob Vb : Subgroup B} (hY : ⁅Yb, Yb⁆ = Yb)
-    (hRc : ∀ a ∈ Rb, ∀ b ∈ Rb, a * b = b * a) (hYn : ∀ y ∈ Yb, ∀ r ∈ Rb, y * r * y⁻¹ ∈ Rb)
+    (hRc : ∀ a ∈ Rb, ∀ b ∈ Rb, a * b = b * a) (_hYn : ∀ y ∈ Yb, ∀ r ∈ Rb, y * r * y⁻¹ ∈ Rb)
     (hOR : Ob ≤ Rb) (hVO : Vb ≤ Ob) (hVcard : Nat.card ↥Vb = 2)
     (hVn : ∀ y ∈ Yb, ∀ v ∈ Vb, y * v * y⁻¹ ∈ Vb)
     (hcomm : ∀ y ∈ Yb, ∀ r ∈ Rb, y * r * y⁻¹ * r⁻¹ ∈ Ob)
@@ -120,7 +121,7 @@ theorem centralizes_of_card_le_of_lattice {Yb Rb Ob Vb : Subgroup B} (hY : ⁅Yb
     {M : Subgroup B} (hM : M ≤ Rb) (hMn : ∀ y ∈ Yb, ∀ m ∈ M, y * m * y⁻¹ ∈ M)
     (hMc : Nat.card ↥M ≤ 2 ^ 7) :
     ∀ y ∈ Yb, ∀ m ∈ M, y * m = m * y := by
-  haveI hperfY : Group.IsPerfect ↥Yb := Subgroup.isPerfect_iff.mpr hY
+  have hperfY : Group.IsPerfect ↥Yb := Subgroup.isPerfect_iff.mpr hY
   have hDOb : ⁅Yb, M⁆ ≤ Ob := by
     rw [Subgroup.commutator_le]
     intro y hy m hm
@@ -193,13 +194,13 @@ theorem centralizes_of_card_le_of_lattice {Yb Rb Ob Vb : Subgroup B} (hY : ⁅Yb
   exact hcentU y hy _ (Subgroup.mem_sup_left hcD)
 
 theorem not_centralizes_of_lattice {Yb Rb Ob Vb : Subgroup B} (hOR : Ob ≤ Rb)
-    (hOc : ∀ a ∈ Ob, ∀ b ∈ Ob, a * b = b * a) (hOcard : Nat.card ↥Ob = 2 ^ 11)
+    (_hOc : ∀ a ∈ Ob, ∀ b ∈ Ob, a * b = b * a) (hOcard : Nat.card ↥Ob = 2 ^ 11)
     (hVO : Vb ≤ Ob) (hVcard : Nat.card ↥Vb = 2)
     (hlat : ∀ U : Subgroup B, Vb ≤ U → U ≤ Ob → (∀ y ∈ Yb, ∀ u ∈ U, y * u * y⁻¹ ∈ U) →
       Nat.card ↥U = 2 ∨ Nat.card ↥U = 2 ^ 2 ∨ Nat.card ↥U = 2 ^ 10 ∨ Nat.card ↥U = 2 ^ 11) :
     ¬ ∀ y ∈ Yb, ∀ r ∈ Rb, y * r = r * y := by
   intro hcent
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : 2 ^ 5 ∣ Nat.card ↥Ob := by
     rw [hOcard]
     exact ⟨2 ^ 6, by norm_num⟩

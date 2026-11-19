@@ -35,7 +35,7 @@ theorem S1431Cfg.false_of_induced_inner {P : Type} [Group P] [Finite P]
   exact hnot ⟨QuotientGroup.mk u, by rw [← hu, CFSG.HardMathSupport.Solomon.Coordinator.centerDescend_conj]⟩
 
 theorem isInnerAut_inducedBarHom_of_barX {G : Type} [Group G] [Finite G] {X J : Subgroup G}
-    (hJ : GLAPComponent 3 X J) {b : G} (hbX : b ∈ X) (h : MulAut.conj b ∈ stabAut J)
+    (hJ : GLAPComponent 3 X J) {b : G} (_hbX : b ∈ X) (h : MulAut.conj b ∈ stabAut J)
     {j₀ : G} (hj₀ : j₀ ∈ J)
     (hbj : ∀ j ∈ J, ∀ (h1 : b * j * b⁻¹ ∈ X) (h2 : j₀ * j * j₀⁻¹ ∈ X),
       QuotientGroup.mk' (GLAPPrimeCore 3 ↥X) ⟨b * j * b⁻¹, h1⟩ =

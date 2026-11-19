@@ -15,6 +15,7 @@ section Gen
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElementaryAbelian_of_isE27 {P : Subgroup G} (hP : Late.IsE27 P) :
     CFSG.IsElementaryAbelian 3 P :=
   { toIsMulCommutative := hP.1.1
@@ -54,6 +55,7 @@ theorem le_of_forall_inf_centralizer_hyperplane_three {E V W : Subgroup G}
     exact Subgroup.mem_top _
   exact hle' hmem
 
+omit [Finite G] in
 theorem commute_of_mem_zpowers_five {t w : G} (ht : orderOf t = 5) (hw : w ^ 3 = 1)
     (hwt : w * t * w⁻¹ ∈ Subgroup.zpowers t) : w * t = t * w := by
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hwt
@@ -327,10 +329,10 @@ theorem isPGroup_two_of_le_normalizer (hperf : Group.IsPerfect X)
   refine IsPGroup.of_card (Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' fun {r} hr hrN => ?_)
   by_contra hr2
   have hr3 : r ≠ 3 := fun h => hN3 (h ▸ hrN)
-  haveI : CFSG.IsElementaryAbelian 3 P := isElementaryAbelian_of_isE27 hP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  letI : MulDistribMulAction P N := Subgroup.conjMulDistribMulActionOfLeNormalizer P N hPN
+  have : CFSG.IsElementaryAbelian 3 P := isElementaryAbelian_of_isE27 hP
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact r.Prime := ⟨hr⟩
+  let : MulDistribMulAction P N := Subgroup.conjMulDistribMulActionOfLeNormalizer P N hPN
   obtain ⟨Q, hQ⟩ := CFSG.SolvableHall.exists_invariant_sylow (p := 3) (A := P) (H := N) hN3 r
   set S := (Q : Subgroup N).map N.subtype with hS
   have hPS : P ≤ Subgroup.normalizer (S : Set X) := by
@@ -347,7 +349,7 @@ theorem isPGroup_two_of_le_normalizer (hperf : Group.IsPerfect X)
       have : (y : X) = g * x * g⁻¹ := hyx
       simp only [InvMemClass.coe_inv, inv_inv, this]
       group
-  have hSp : IsPGroup r S := Q.isPGroup'.map N.subtype
+  have hSp : IsPGroup r S := Q.isPGroup.map N.subtype
   have hS3 : ¬ 3 ∣ Nat.card S := fun h3 =>
     hN3 (h3.trans (Subgroup.card_dvd_of_le (Subgroup.map_subtype_le _)))
   have hSbot : S ≤ ⊥ := by

@@ -35,6 +35,7 @@ private def szLineN (c : SzCfg G D d E e n) (P : Sylow 2 (SzBar E))
     (hP : e ∈ szS E P) : Subgroup (SzBar E) :=
   (szLineK c P hP).map (szSMap E P)
 
+omit [Finite G] in
 private theorem szSMap_mem (P : Sylow 2 (SzBar E)) (s : ↥(szS E P)) :
     szSMap E P s ∈ (P : Subgroup (SzBar E)) := by
   obtain ⟨hH, hP⟩ := mem_szS_iff.mp s.2
@@ -42,6 +43,7 @@ private theorem szSMap_mem (P : Sylow 2 (SzBar E)) (s : ↥(szS E P)) :
     (P : Subgroup (SzBar E))
   convert hP using 2
 
+omit [Finite G] in
 private theorem szSMap_surj (P : Sylow 2 (SzBar E)) {p : SzBar E}
     (hp : p ∈ (P : Subgroup (SzBar E))) :
     ∃ s : ↥(szS E P), szSMap E P s = p := by
@@ -58,6 +60,7 @@ private theorem szSMap_surj (P : Sylow 2 (SzBar E)) {p : SzBar E}
     ↥(Subgroup.closure E)) = y from Subtype.ext rfl]
   exact hy
 
+omit [Finite G] in
 private theorem mem_szQ_of_szSMap_eq_one (P : Sylow 2 (SzBar E)) {s : ↥(szS E P)}
     (h : szSMap E P s = 1) : (s : G) ∈ szQ E :=
   (szMk_eq_one_iff_mem_szQ ((szS_le_szN E P).trans (szN_le_closure E P) s.2)).mp h
@@ -268,7 +271,7 @@ private theorem card_szLineT_add_one (c : SzCfg G D d E e n) (P : Sylow 2 (SzBar
     Nat.card (szLineT D d e E) + 1 = Nat.card ↥(szLine D d e) := by
   let h := c.twoTransHyp h4
   obtain ⟨j, hj⟩ := h.exists_card_eq
-  letI : Fintype ↥(szN E P) := Fintype.ofFinite _
+  let : Fintype ↥(szN E P) := Fintype.ofFinite _
   refine card_add_one_of_semireg (N := ↥(szN E P))
     ((szLineHom D d e).comp (Subgroup.inclusion (c.szN_le_szLineStab P hP)))
     c.szLineT_semireg c.szLineT_fix hj ?_ ?_

@@ -41,11 +41,12 @@ private def conjActionOnSub (K A : Subgroup G) (hK : K ≤ Subgroup.normalizer (
       (k : G) * ((l : G) * (a : G) * (l : G)⁻¹) * (k : G)⁻¹
     simp [mul_assoc])
 
+omit [Finite G] in
 theorem card_conjOrbit_mul_card_stab (L : Subgroup G) (z : G) :
     Nat.card {x : G // ∃ l ∈ L, x = l⁻¹ * z * l} *
         Nat.card ↥(L ⊓ Subgroup.centralizer ({z} : Set G)) =
       Nat.card L := by
-  letI := conjActionOf L
+  let := conjActionOf L
   have hact : ∀ (l : L) (y : G), l • y = (l : G) * y * (l : G)⁻¹ := fun _ _ => rfl
   have horb : Nat.card {x : G // ∃ l ∈ L, x = l⁻¹ * z * l} = (MulAction.orbit L z).ncard := by
     rw [← Nat.card_coe_set_eq]
@@ -108,7 +109,7 @@ theorem exists_normalizer_conj_of_normal {p : ℕ} [Fact p.Prime] (T : Sylow p G
     have := hgA _ hy'
     rwa [show g * (g⁻¹ * y * g) * g⁻¹ = y by group] at this
   set N : Subgroup G := Subgroup.normalizer (A : Set G) with hN_def
-  haveI : Finite (Sylow p N) :=
+  have : Finite (Sylow p N) :=
     Finite.of_injective (fun P : Sylow p N => (P : Set N)) SetLike.coe_injective
   obtain ⟨h, hh⟩ := MulAction.exists_smul_eq N (T.subtype hTA) ((g • T).subtype hgTA)
   have hsm : h • T = g • T := by
@@ -137,7 +138,7 @@ theorem exists_normalizer_conj_of_normal {p : ℕ} [Fact p.Prime] (T : Sylow p G
       show ((h : G)⁻¹ * g)⁻¹ * x * ((h : G)⁻¹ * g) = g⁻¹ * ((h : G) * x * (h : G)⁻¹) * g by group]
 
 theorem maximal_pSubgroup_of_normalizer_le {p : ℕ} [Fact p.Prime] {P C K : Subgroup G}
-    (hP : IsPGroup p P) (hPC : P ≤ C) (hPK : P ≤ K)
+    (_hP : IsPGroup p P) (_hPC : P ≤ C) (_hPK : P ≤ K)
     (hC : ∀ Q : Subgroup G, IsPGroup p Q → Q ≤ C → P ≤ Q → Q = P)
     (hN : ∀ n ∈ K, n ∈ Subgroup.normalizer (P : Set G) → n ∈ C) :
     ∀ Q : Subgroup G, IsPGroup p Q → Q ≤ K → P ≤ Q → Q = P := by
@@ -146,9 +147,9 @@ theorem maximal_pSubgroup_of_normalizer_le {p : ℕ} [Fact p.Prime] {P C K : Sub
   have hlt : P.subgroupOf Q < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun htop => hne ?_
     exact le_antisymm (Subgroup.subgroupOf_eq_top.mp htop) hPQ
-  haveI : Group.IsNilpotent Q := IsPGroup.isNilpotent hQ
+  have : Group.IsNilpotent Q := IsPGroup.isNilpotent hQ
   obtain ⟨y, hyN, hyP⟩ :=
-    SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent (G := Q) _ hlt)
+    _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent (G := Q) _ hlt)
   rw [← Subgroup.subgroupOf_normalizer_eq hPQ, Subgroup.mem_subgroupOf] at hyN
   have hyP' : (y : G) ∉ P := fun h => hyP (Subgroup.mem_subgroupOf.mpr h)
   have hPR : P ≤ Subgroup.normalizer (P : Set G) ⊓ Q := le_inf Subgroup.le_normalizer hPQ
@@ -164,7 +165,7 @@ theorem card_modEq_card_centralizer_inf {p : ℕ} [Fact p.Prime] {x : G} (hx : o
     {A : Subgroup G} (hxA : x ∈ Subgroup.normalizer (A : Set G)) :
     Nat.card A ≡ Nat.card ↥(A ⊓ Subgroup.centralizer ({x} : Set G)) [MOD p] := by
   have hK : Subgroup.zpowers x ≤ Subgroup.normalizer (A : Set G) := Subgroup.zpowers_le.mpr hxA
-  letI := conjActionOnSub (Subgroup.zpowers x) A hK
+  let := conjActionOnSub (Subgroup.zpowers x) A hK
   have hP : IsPGroup p ↥(Subgroup.zpowers x) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx, pow_one])
   have hfixiff : ∀ a : A, a ∈ MulAction.fixedPoints (Subgroup.zpowers x) A ↔
@@ -195,7 +196,7 @@ theorem card_modEq_card_centralizer_inf {p : ℕ} [Fact p.Prime] {x : G} (hx : o
 theorem exists_normal_of_card_mul {p m : ℕ} [Fact p.Prime] (hpm : ¬ p ∣ m)
     (hcard : Nat.card G = p * m) (hdiv : ∀ d : ℕ, d ∣ m → d % p = 1 → d = 1) :
     ∃ P : Subgroup G, P.Normal ∧ Nat.card P = p := by
-  haveI : Finite (Sylow p G) :=
+  have : Finite (Sylow p G) :=
     Finite.of_injective (fun P : Sylow p G => (P : Set G)) SetLike.coe_injective
   obtain ⟨P⟩ := (Sylow.nonempty : Nonempty (Sylow p G))
   have hp1 : p.Prime := Fact.out
@@ -217,7 +218,7 @@ theorem exists_normal_of_card_mul {p m : ℕ} [Fact p.Prime] (hpm : ¬ p ∣ m)
     rw [Nat.ModEq, Nat.mod_eq_of_lt hp1.one_lt] at h1
     exact h1
   have hone : Nat.card (Sylow p G) = 1 := hdiv _ hdvd hmod
-  haveI : Subsingleton (Sylow p G) := (Nat.card_eq_one_iff_unique.mp hone).1
+  have : Subsingleton (Sylow p G) := (Nat.card_eq_one_iff_unique.mp hone).1
   exact ⟨(P : Subgroup G), Sylow.normal_of_subsingleton P, hcardP⟩
 
 end CFSG.Quasithin.A94.Gen

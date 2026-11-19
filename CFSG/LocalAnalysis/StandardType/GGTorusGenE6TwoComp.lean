@@ -69,11 +69,11 @@ theorem exists_mem_ne_one_of_isComponentOf_e6Two {K : Type} [Field K] [Finite K]
     (hJ : IsComponentOf J (Subgroup.centralizer {x})) :
     ∃ y ∈ J, y ∈ E ∧ y ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨S, ι', Fr, ω, hι'inj, hι'range, hΦ, hq, hn, hFrq, hAlg, hωo, hωF, hEfull, hT'⟩ :=
     exists_e6Two_diagData hK h2 hEg

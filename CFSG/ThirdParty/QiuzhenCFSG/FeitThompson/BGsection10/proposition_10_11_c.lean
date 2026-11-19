@@ -115,7 +115,7 @@ public theorem CFSG.section10_le_normalizer_fitting
     M ≤ Subgroup.normalizer (section8FittingSubgroup M : Set G) := by
   have hFNorm : ((section8FittingSubgroup M).subgroupOf M).Normal :=
     section8FittingSubgroup_normal_in M
-  letI : ((section8FittingSubgroup M).subgroupOf M).Normal := hFNorm
+  let : ((section8FittingSubgroup M).subgroupOf M).Normal := hFNorm
   exact Subgroup.le_normalizer_of_normal_subgroupOf (section8FittingSubgroup_le M)
 
 omit [Finite G] [IsMinCE G] in
@@ -208,13 +208,13 @@ public theorem CFSG.section10_sigma_compl_fitting_core_isCyclic
     section10_isZGroup_of_subgroup_groupRank_le_one (G := G) Z hZrank
   have hZnil : Group.IsNilpotent Z := by
     have hFnil : Group.IsNilpotent F := section8FittingSubgroup_isNilpotent M
-    letI : Group.IsNilpotent F := hFnil
+    let : Group.IsNilpotent F := hFnil
     let ZF : Subgroup F := Z.subgroupOf F
     have hZF_nil : Group.IsNilpotent ZF := Subgroup.isNilpotent ZF
     let e : ZF ≃* Z := Subgroup.subgroupOfEquivOfLe (H := Z) (K := F) hZleF
     exact Group.nilpotent_of_mulEquiv (G := ZF) (G' := Z) e
-  letI : IsZGroup Z := hZgroup
-  letI : Group.IsNilpotent Z := hZnil
+  let : IsZGroup Z := hZgroup
+  let : Group.IsNilpotent Z := hZnil
   infer_instance
 
 omit [IsMinCE G] in
@@ -230,7 +230,7 @@ public theorem CFSG.section10_fitting_le_msigma_sup_sigma_compl_fitting_core
   let K : Subgroup F := (S ⊔ Z).comap F.subtype
   have hFnil : Group.IsNilpotent F := by
     simpa [F] using section8FittingSubgroup_isNilpotent M
-  letI : Group.IsNilpotent F := hFnil
+  let : Group.IsNilpotent F := hFnil
   have htop_nil : Group.IsNilpotent (⊤ : Subgroup F) := by
     let e : F ≃* (⊤ : Subgroup F) :=
       (Subgroup.topEquiv : (⊤ : Subgroup F) ≃* F).symm
@@ -247,7 +247,7 @@ public theorem CFSG.section10_fitting_le_msigma_sup_sigma_compl_fitting_core
     refine iSup_le ?_
     intro q0
     let q : Nat.Primes := ⟨q0.1.1, Nat.prime_of_mem_primeFactors q0.1.2⟩
-    haveI : Fact q.val.Prime := ⟨q.2⟩
+    have : Fact q.val.Prime := ⟨q.2⟩
     by_cases hqσ : q ∈ section10SigmaPrimes M
     · have hcore_le_S :
           (pCore q.val F).map F.subtype ≤ S := by
@@ -322,13 +322,13 @@ private theorem CFSG.section10_pSubgroup_le_centralizer_piSubgroup_of_nilpotent_
     P ≤ Subgroup.centralizer (X : Set G) := by
   classical
   have hXnil : Group.IsNilpotent X := by
-    letI : Group.IsNilpotent L := hLnil
+    let : Group.IsNilpotent L := hLnil
     let Xsub : Subgroup L := X.subgroupOf L
     have hXsub_nil : Group.IsNilpotent Xsub := by infer_instance
     let e : Xsub ≃* X := Subgroup.subgroupOfEquivOfLe (H := X) (K := L) hXL
-    letI : Group.IsNilpotent Xsub := hXsub_nil
+    let : Group.IsNilpotent Xsub := hXsub_nil
     exact Group.nilpotent_of_mulEquiv (G := Xsub) (G' := X) e
-  letI : Group.IsNilpotent X := hXnil
+  let : Group.IsNilpotent X := hXnil
   have htop_nil : Group.IsNilpotent (⊤ : Subgroup X) := by
     let e : X ≃* (⊤ : Subgroup X) :=
       (Subgroup.topEquiv : (⊤ : Subgroup X) ≃* X).symm
@@ -344,7 +344,7 @@ private theorem CFSG.section10_pSubgroup_le_centralizer_piSubgroup_of_nilpotent_
     refine iSup_le ?_
     intro q0
     let q : Nat.Primes := ⟨q0.1.1, Nat.prime_of_mem_primeFactors q0.1.2⟩
-    haveI : Fact q.val.Prime := ⟨q.2⟩
+    have : Fact q.val.Prime := ⟨q.2⟩
     have hqX : q.val ∣ Nat.card X := Nat.dvd_of_mem_primeFactors q0.1.2
     have hqπ : q ∈ π := hXπ q hqX
     have hpq : p ≠ q := by
@@ -382,13 +382,13 @@ public theorem CFSG.section10_isPiSubgroup_le_centralizer_of_nilpotent_disjoint
     A ≤ Subgroup.centralizer (B : Set G) := by
   classical
   have hAnil : Group.IsNilpotent A := by
-    letI : Group.IsNilpotent L := hLnil
+    let : Group.IsNilpotent L := hLnil
     let Asub : Subgroup L := A.subgroupOf L
     have hAsub_nil : Group.IsNilpotent Asub := by infer_instance
     let e : Asub ≃* A := Subgroup.subgroupOfEquivOfLe (H := A) (K := L) hAL
-    letI : Group.IsNilpotent Asub := hAsub_nil
+    let : Group.IsNilpotent Asub := hAsub_nil
     exact Group.nilpotent_of_mulEquiv (G := Asub) (G' := A) e
-  letI : Group.IsNilpotent A := hAnil
+  let : Group.IsNilpotent A := hAnil
   have htop_nil : Group.IsNilpotent (⊤ : Subgroup A) := by
     let e : A ≃* (⊤ : Subgroup A) :=
       (Subgroup.topEquiv : (⊤ : Subgroup A) ≃* A).symm
@@ -404,7 +404,7 @@ public theorem CFSG.section10_isPiSubgroup_le_centralizer_of_nilpotent_disjoint
     refine iSup_le ?_
     intro q0
     let q : Nat.Primes := ⟨q0.1.1, Nat.prime_of_mem_primeFactors q0.1.2⟩
-    haveI : Fact q.val.Prime := ⟨q.2⟩
+    have : Fact q.val.Prime := ⟨q.2⟩
     have hqA : q.val ∣ Nat.card A := Nat.dvd_of_mem_primeFactors q0.1.2
     have hqπ : q ∈ π := hAπ q hqA
     have hqρ : q ∉ ρ := by
@@ -437,13 +437,13 @@ private theorem CFSG.section10_ambientDerived_le_centralizer_of_cyclic_normal
     ambientDerivedSubgroup M ≤ Subgroup.centralizer (Z : Set G) := by
   classical
   let ZM : Subgroup M := Z.subgroupOf M
-  haveI : ZM.Normal := hZnormM
+  have : ZM.Normal := hZnormM
   have hZMcyc : IsCyclic ZM :=
     (Subgroup.subgroupOfEquivOfLe (H := Z) (K := M) hZleM).isCyclic.2 hZcyc
-  letI : IsCyclic ZM := hZMcyc
+  let : IsCyclic ZM := hZMcyc
   let eAut : MulAut ZM ≃* (ZMod (Nat.card ZM))ˣ :=
     IsCyclic.mulAutMulEquiv (G := ZM)
-  letI : CommGroup (MulAut ZM) :=
+  let : CommGroup (MulAut ZM) :=
     MonoidHom.commGroupOfInjective eAut.toMonoidHom eAut.injective
   let φ : M →* MulAut ZM := MulAut.conjNormal (H := ZM)
   intro x hx
@@ -518,7 +518,7 @@ public theorem CFSG.proposition_10_11_c
     intro f hfF
     exact Subgroup.mem_centralizer_iff.mp (hDcentSup hx) f (hFleSup hfF)
   have hDleF : D ≤ F := by
-    have hMsolv : IsSolvable M :=
+    have hMsolv : Group.IsSolvable M :=
       IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.2 hM.1)
     intro x hxD
     let xM : M := ⟨x, hDleM hxD⟩
@@ -547,14 +547,14 @@ public theorem CFSG.proposition_10_11_c
       (G := G) (π := (section10SigmaPrimes M)ᶜ) (K := D) (H := F)
       hDleF hDnormF hDπ
   have hDcyc : IsCyclic D := by
-    letI : IsCyclic Z := hZcyc
+    let : IsCyclic Z := hZcyc
     exact Subgroup.isCyclic_of_le hDleZ
   have hDnormM : section10NormalIn D M := by
     let DZ : Subgroup Z := D.subgroupOf Z
-    haveI : IsCyclic Z := hZcyc
+    have : IsCyclic Z := hZcyc
     have hDZchar : DZ.Characteristic :=
       section10_characteristic_of_subgroup_of_isCyclic_pre (K := DZ)
-    letI : DZ.Characteristic := hDZchar
+    let : DZ.Characteristic := hDZchar
     have hnormZ_le_normD :
         Subgroup.normalizer (Z : Set G) ≤ Subgroup.normalizer (D : Set G) := by
       have hnorm :=

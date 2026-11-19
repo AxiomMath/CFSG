@@ -113,7 +113,7 @@ private theorem toVecD_and (x y : Nat) (i : Fin 11) :
   rw [Nat.testBit_and]
   cases x.testBit i.val <;> cases y.testBit i.val <;> simp
 
-theorem vecK_sound {v P : Nat} (hv : v < 2048) (h : vecK v P = true) :
+theorem vecK_sound {v P : Nat} (_hv : v < 2048) (h : vecK v P = true) :
     toVecD 11 v ᵥ* colsMatrix (unpack11 P) = toVecD 11 v := by
   funext j
   have hj : Nat.beq (par11 (Nat.land v (colK P j))) (Nat.land (Nat.shiftRight v j) 1) = true :=

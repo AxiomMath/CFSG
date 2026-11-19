@@ -10,9 +10,9 @@ namespace CFSG.GroupTheory.CoprimeActionSupport.IndependentOrbitSumFixedProjecti
 
 theorem exists_fixed_projection {F : Type*} [Field F] {V : Type*} [AddCommGroup V] [Module F V]
     {S : Type*} [Group S] [Finite S] {I : Type*} [MulAction S I]
-    (σ : Representation F S V) (U : I → Submodule F V) (hind : iSupIndep U)
+    (σ : Representation F S V) (U : I → Submodule F V) (_hind : iSupIndep U)
     (hmap : ∀ (s : S) (i : I), (U i).map (σ s) = U (s • i))
-    (i : I) (w : V) (hw : w ∈ U i) (hw0 : w ≠ 0)
+    (i : I) (w : V) (hw : w ∈ U i) (_hw0 : w ≠ 0)
     (hstab : ∀ s : S, s • i = i → σ s w = w) :
     ∃ v : V, (∀ s : S, σ s v = v) ∧ v - w ∈ ⨆ j ∈ {j : I | j ≠ i}, U j := by
   classical
@@ -34,7 +34,7 @@ theorem exists_fixed_projection {F : Type*} [Field F] {V : Type*} [AddCommGroup 
     · intro b hb
       obtain ⟨s, rfl⟩ := (hmemT b).1 hb
       refine ⟨σ (t⁻¹ * s) w, (hmemT _).2 ⟨_, rfl⟩, ?_⟩
-      simp [map_mul, ← Module.End.mul_apply, ← map_mul]
+      simp [← Module.End.mul_apply, ← map_mul]
   · rw [← Finset.add_sum_erase T _ hwT, add_sub_cancel_left]
     refine Submodule.sum_mem _ fun u hu => ?_
     obtain ⟨hne, hu⟩ := Finset.mem_erase.1 hu

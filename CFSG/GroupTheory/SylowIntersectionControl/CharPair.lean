@@ -388,7 +388,7 @@ theorem IsGomiQ.inf_centralizer_vZ_le {S G : Subgroup Ω} (h : IsGomiQ S G)
       _ = g * (k * (g⁻¹ * v * g)) * g⁻¹ := by rw [hc]
       _ = g * k * g⁻¹ * v := by group
   by_contra hne
-  obtain ⟨k, hkK, hkC⟩ := SetLike.not_le_iff_exists.mp hne
+  obtain ⟨k, hkK, hkC⟩ := IsConcreteLE.not_le_iff_exists.mp hne
   have hAne : (K.subgroupOf G).map α ≠ ⊥ := by
     intro hbot
     have hm : α ⟨k, hkK.1⟩ ∈ (K.subgroupOf G).map α := ⟨⟨k, hkK.1⟩, hkK, rfl⟩
@@ -1032,7 +1032,7 @@ theorem commutator_pCoreOf_twoResidual_le_gomiV [Finite Ω] {G : Subgroup Ω}
       have : (((blockU L).subgroupOf Q).map π).Normal :=
         hUn.map π (QuotientGroup.mk'_surjective _)
       have hne : ((blockU L).subgroupOf Q).map π ≠ ⊥ := by
-        obtain ⟨u, hu, huZ⟩ := SetLike.exists_of_lt hZU
+        obtain ⟨u, hu, huZ⟩ := _root_.IsConcreteLE.exists_of_lt hZU
         intro hbot
         have hmem : π ⟨u, hUQ' hu⟩ ∈ ((blockU L).subgroupOf Q).map π :=
           ⟨⟨u, hUQ' hu⟩, hu, rfl⟩

@@ -157,7 +157,7 @@ theorem eq_one_of_det_eq_one_of_pow_three_eq_smul_of_char_two_of_not_nine_dvd
     rintro rfl
     rw [zero_pow (by norm_num)] at ha
     rw [← ha] at h6
-    have h01 : (0 : K) = 1 := by simpa using h6
+    have h01 : (0 : K) = 1 := by simp at h6
     exact zero_ne_one h01
   set u : Kˣ := Units.mk0 a ha0 with hu
   have hu9 : u ^ 9 = 1 := by

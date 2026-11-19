@@ -27,8 +27,8 @@ theorem asc82Tab5_f53_of (hS : Asc82SchurU43) :
   intro G _ _ L hL P hP t ht ht2 z hz hzP
   classical
   obtain ⟨V, i1, i2, i3, Q, hQ, φ, h⟩ := t5_exists_cover hS hL
-  letI := i1; letI := i2; letI := i3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := i1; let := i2; let := i3
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO : OddCentralCover φ := h.oddCentralCover hL
   have hdim : Module.finrank (ZMod 3) V = 6 := h.finrank_eq
   have hsgn : quadSign Q = -1 := h.quadSign_eq
@@ -121,7 +121,7 @@ theorem asc82Tab5_f53_of (hS : Asc82SchurU43) :
       · exact Or.inr (Or.inr (Or.inl (h.trans hh.symm)))
     · exact Or.inr (Or.inl h)
   have htP : t ∈ P := by
-    haveI : (Subgroup.zpowers tL).Normal :=
+    have : (Subgroup.zpowers tL).Normal :=
       Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr htL_center)
     have hpgrp : IsPGroup 2 (Subgroup.zpowers tL) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht'_ord]; norm_num)

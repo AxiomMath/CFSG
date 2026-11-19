@@ -21,7 +21,7 @@ theorem centralizer_sup_eq_top {M : Type*} [Group M] [Finite M] {M0 N : Subgroup
   have hC : ∀ x : M, (∀ p ∈ P', x * p = p * x) → x = 1 ∨ x = t := fun x hx =>
     hZ x (hx t (hNP htN)) fun n hn => hx n (hNP hn)
   have htZ : ∀ p ∈ P', t * p = p * t := by
-    have hPp : IsPGroup 2 (P : Subgroup M0) := P.isPGroup'
+    have hPp : IsPGroup 2 (P : Subgroup M0) := P.isPGroup
     have : Nontrivial (P : Subgroup M0) := ⟨⟨⟨⟨t, hN0 htN⟩, hP (mem_subgroupOf.mpr htN)⟩, 1,
       fun h => ht1 (congrArg (fun y : (P : Subgroup M0) => ((y : M0) : M)) h)⟩⟩
     have := hPp.center_nontrivial

@@ -17,7 +17,7 @@ theorem S0_le_alt : S0 ≤ alternatingGroup (Fin 8) := by
   rw [Subgroup.closure_le]
   intro g hg
   rw [SetLike.mem_coe, Equiv.Perm.mem_alternatingGroup]
-  simp only [S0gens, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hg
+  simp only [S0gens, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hg
   rcases hg with rfl | rfl | rfl | rfl | rfl | rfl <;>
     simp [Equiv.Perm.sign_mul, Equiv.Perm.sign_swap']
 

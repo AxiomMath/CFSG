@@ -30,7 +30,7 @@ theorem exists_minimal_lift {X Y : Type} [Group X] [Finite X] [Group Y] (π : X 
   · exact Subgroup.map_comap_eq_self_of_surjective hπ E
   · rw [Subgroup.mem_normalizer_iff]
     intro x
-    simp only [SetLike.mem_coe, Subgroup.mem_comap, map_mul, map_inv]
+    simp only [Subgroup.mem_comap, map_mul, map_inv]
     exact hE (π x)
 
 theorem minimal_lift_perfect {X Y : Type} [Group X] [Finite X] [Group Y] (π : X →* Y) (E : Subgroup Y)
@@ -127,7 +127,7 @@ theorem exists_invariant_normal_sylow {X Y : Type} [Group X] [Finite X] [Group Y
         rw [map_mul, MonoidHom.mem_ker.mp (Subgroup.mem_inf.mp haA).2, one_mul]
     · rw [Subgroup.mem_normalizer_iff]
       intro x
-      simp only [SetLike.mem_coe, Subgroup.mem_inf]
+      simp only [Subgroup.mem_inf]
       rw [hJs x, lf_conj_mem_iff hRs x]
   have hJN : J ⊓ Subgroup.normalizer (R : Set X) = J := hmin _ hNlift inf_le_left
   refine ⟨R, hRA, hRq, hRidx, fun j hj r hr => ?_, hRs⟩
@@ -142,12 +142,12 @@ theorem minimal_lift_centralizes {X Y : Type} [Group X] [Finite X] [Group Y] (π
     (hrank : CFSG.Open.pRank q (⊤ : Subgroup X) ≤ 2)
     (J : Subgroup X) (hJ : IsLift π (L₁ ⊔ L₂ ⊔ L₃) s J)
     (hmin : ∀ J' : Subgroup X, IsLift π (L₁ ⊔ L₂ ⊔ L₃) s J' → J' ≤ J → J' = J)
-    (R : Subgroup X) (hRA : R ≤ J ⊓ π.ker) (hRq : IsPGroup q R)
+    (R : Subgroup X) (_hRA : R ≤ J ⊓ π.ker) (hRq : IsPGroup q R)
     (hRJ : ∀ j ∈ J, ∀ r ∈ R, j * r * j⁻¹ ∈ R) (hRs : s ∈ Subgroup.normalizer (R : Set X)) :
     ∀ j ∈ J, ∀ r ∈ R, j * r = r * j := by
   classical
-  haveI : Finite Y := Finite.of_surjective π hπ
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Finite Y := Finite.of_surjective π hπ
+  have : Fact q.Prime := ⟨hq⟩
   set E : Subgroup Y := L₁ ⊔ L₂ ⊔ L₃ with hE
   set C : Subgroup X := J ⊓ Subgroup.centralizer (R : Set X) with hC
   have hJE : J.map π = E := hJ.1
@@ -223,8 +223,8 @@ theorem lift_heart {X Y : Type} [Group X] [Finite X] [Group Y] (π : X →* Y)
   classical
   by_contra hlt
   have hrank : CFSG.Open.pRank q (⊤ : Subgroup X) ≤ 2 := by omega
-  haveI : Finite Y := Finite.of_surjective π hπ
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Finite Y := Finite.of_surjective π hπ
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨J, hJ, hmin⟩ := exists_minimal_lift π hπ (L₁ ⊔ L₂ ⊔ L₃) s (ebar_conj hT)
   have hJperf : ⁅J, J⁆ = J := minimal_lift_perfect π (L₁ ⊔ L₂ ⊔ L₃) (ebar_perfect hT) s J hJ hmin
   obtain ⟨R, hRA, hRq, hRsyl, hRJ, hRs⟩ :=
@@ -248,7 +248,7 @@ theorem lift_heart {X Y : Type} [Group X] [Finite X] [Group Y] (π : X →* Y)
     exists_normal_q_complement J A R hAJ hAn hRA hRq hRsyl hcent
   have hCJ : C ≤ J := hCA.trans hAJ
   let φ : ↥J →* Y := π.comp J.subtype
-  haveI hCn : (C.subgroupOf J).Normal := ⟨fun n hn g => by
+  have hCn : (C.subgroupOf J).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := hCinv g.1 (hAiff g.1 g.2) n hn
     simpa using this⟩
@@ -297,7 +297,7 @@ theorem lift_heart {X Y : Type} [Group X] [Finite X] [Group Y] (π : X →* Y)
     have hmem : y ∈ J.map π := by rw [hJ.1]; exact hL hy
     obtain ⟨x, hx, hxy⟩ := Subgroup.mem_map.mp hmem
     exact ⟨⟨x, hx⟩, hxy⟩
-  haveI : Group.IsPerfect ↥L₁ := hT.qs₁.1
+  have : Group.IsPerfect ↥L₁ := hT.qs₁.1
   have hcl₁ : QClean q (↥L₁ ⧸ Subgroup.center ↥L₁) := qClean_of_not_dvd_hopf q _ hqM
   obtain ⟨e₂⟩ := quotCenter_mulEquiv (π s) hT.cyc₁
   have hcl₂ := QClean.congr e₂ hcl₁

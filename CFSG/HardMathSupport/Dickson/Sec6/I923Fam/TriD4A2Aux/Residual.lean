@@ -28,7 +28,7 @@ theorem exists_derivedSeries_stable (G : Type*) [Group G] [Finite G] :
 theorem exists_residual (G : Type*) [Group G] [Finite G] :
     ∃ S : Subgroup G, ∃ _ : S.Normal, ⁅S, S⁆ = S ∧ Group.IsSolvable (G ⧸ S) := by
   obtain ⟨n, hn⟩ := exists_derivedSeries_stable G
-  haveI := derivedSeries_normal G n
+  have := derivedSeries_normal G n
   refine ⟨derivedSeries G n, this, hn, ?_⟩
   refine ⟨⟨n, ?_⟩⟩
   rw [← map_derivedSeries_eq (QuotientGroup.mk'_surjective (derivedSeries G n)) n]

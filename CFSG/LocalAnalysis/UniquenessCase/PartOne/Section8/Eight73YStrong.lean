@@ -22,9 +22,9 @@ theorem stronglyPEmbedded_quotient_of_maximal_of_prime {G : Type} [Group G] [Fin
     CFSG.RankThree.PartOne.IsStronglyPEmbedded p
       (((M ⊓ H).subgroupOf H).map (QuotientGroup.mk' (Y.subgroupOf H))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let YH : Subgroup ↥H := Y.subgroupOf H
-  haveI hYHnorm : YH.Normal := hYnorm
+  have hYHnorm : YH.Normal := hYnorm
   let π : ↥H →* (↥H ⧸ YH) := QuotientGroup.mk' YH
   let MH : Subgroup ↥H := (M ⊓ H).subgroupOf H
   let Mq : Subgroup (↥H ⧸ YH) := MH.map π
@@ -124,7 +124,7 @@ theorem stronglyPEmbedded_quotient_of_maximal_of_prime {G : Type} [Group G] [Fin
 
 theorem not_centralizer_le_of_maximal {G : Type} [Group G] [Finite G] {M Y E : Subgroup G}
     {p : ℕ}
-    (hp : p.Prime) (hYM : Y ≤ M) (hYp : IsPGroup p Y)
+    (hp : p.Prime) (_hYM : Y ≤ M) (hYp : IsPGroup p Y)
     (hYab : Y ≤ Subgroup.centralizer (Y : Set G))
     (hYN : ¬ Subgroup.normalizer (Y : Set G) ≤ M)
     (hmax : ∀ Z : Subgroup G, Y < Z → Z ≤ M → IsPGroup p Z →
@@ -132,7 +132,7 @@ theorem not_centralizer_le_of_maximal {G : Type} [Group G] [Finite G] {M Y E : S
     (hEC : E ≤ Subgroup.centralizer (Y : Set G)) (hEp : IsPGroup p E) (hEY : ¬ E ≤ Y) :
     ¬ Subgroup.centralizer (Y : Set G) ≤ M := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hCM
   let Cz : Subgroup G := Subgroup.centralizer (Y : Set G)
   let Nz : Subgroup G := Subgroup.normalizer (Y : Set G)
@@ -159,7 +159,7 @@ theorem not_centralizer_le_of_maximal {G : Type} [Group G] [Finite G] {M Y E : S
     lt_of_le_not_ge hYSG fun hSGY => hEY (hESG.trans hSGY)
   have hSGp : IsPGroup p SG := by
     show IsPGroup p ((S : Subgroup ↥Cz).map Cz.subtype)
-    exact S.isPGroup'.map Cz.subtype
+    exact S.isPGroup.map Cz.subtype
   have hNSG : Subgroup.normalizer (SG : Set G) ≤ M :=
     hmax SG hYltSG (hSGC.trans hCM) hSGp
   have hKC : Cz ≤ Nz := Subgroup.centralizer_le_normalizer (Y : Set G)

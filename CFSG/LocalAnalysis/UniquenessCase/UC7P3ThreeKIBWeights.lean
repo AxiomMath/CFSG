@@ -29,7 +29,7 @@ theorem linearIndependent_of_eigen₂ {κ : Type*} (A B : End K W) (a b : κ →
 theorem exists_eigen_of_mapsTo [IsAlgClosed K] [FiniteDimensional K W] (R : End K W)
     {p : Submodule K W} (hp : p ≠ ⊥) (hR : ∀ w ∈ p, R w ∈ p) :
     ∃ v ∈ p, v ≠ 0 ∧ ∃ μ : K, R v = μ • v := by
-  haveI := Submodule.nontrivial_iff_ne_bot.2 hp
+  have := Submodule.nontrivial_iff_ne_bot.2 hp
   obtain ⟨μ, hμ⟩ := exists_eigenvalue (R.restrict hR)
   obtain ⟨w, hw⟩ := hμ.exists_hasEigenvector
   exact ⟨w, w.2, fun h => hw.2 (Subtype.ext h), μ, congrArg Subtype.val hw.apply_eq_smul⟩
@@ -137,10 +137,10 @@ theorem coverActsTriviallyOnSmall_of_rep {p : ℕ} (hp : p.Prime) {L : Type*} [G
     CoverActsTriviallyOnSmall p L := by
   intro J _ _ hJ φ hφ hcop hsol ℓ hℓ hℓ2 hℓp V _ _ hcomm hpow hcard ρ
   refine (SEFive.ker_le_or_eq_one hJ φ hφ hsol ρ).resolve_left fun hker => ?_
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨d, hd⟩ := IsPGroup.iff_card.mp (fun v => ⟨1, by simpa using hpow v⟩ : IsPGroup ℓ V)
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary hcomm hpow hd
-  letI : Module (ZMod ℓ) (Fin d → ZMod ℓ) := Pi.Function.module (Fin d) (ZMod ℓ) (ZMod ℓ)
+  let : Module (ZMod ℓ) (Fin d → ZMod ℓ) := Pi.Function.module (Fin d) (ZMod ℓ) (ZMod ℓ)
   let toEnd : GL (Fin d) (ZMod ℓ) →* End (ZMod ℓ) (Fin d → ZMod ℓ) :=
     (Matrix.toLinAlgEquiv' (R := ZMod ℓ) (n := Fin d)).toAlgHom.toMonoidHom.comp
       (Units.coeHom (Matrix (Fin d) (Fin d) (ZMod ℓ)))

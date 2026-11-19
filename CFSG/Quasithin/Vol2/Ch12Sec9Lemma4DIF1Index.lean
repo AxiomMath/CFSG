@@ -12,7 +12,7 @@ section Values
 
 variable {I : Type} [AddCommGroup I] [Module (ZMod 2) I] [FiniteDimensional (ZMod 2) I]
 
-@[expose] def subgroupSuperAct {W : Submodule (ZMod 2) I} {H : Subgroup (I ≃ₗ[ZMod 2] I)}
+@[instance_reducible, expose] def subgroupSuperAct {W : Submodule (ZMod 2) I} {H : Subgroup (I ≃ₗ[ZMod 2] I)}
     (hH : H ≤ stabS W) (j : ℕ) : MulAction H (SuperOf W j) where
   smul h U := ⟨U.1.map (h.1 : I →ₗ[ZMod 2] I), by
     refine ⟨?_, ?_⟩
@@ -28,12 +28,12 @@ variable {I : Type} [AddCommGroup I] [Module (ZMod 2) I] [FiniteDimensional (ZMo
     rfl)
 
 theorem index_flag_B {p ℓ Pl : Submodule (ZMod 2) I} (hI : finrank (ZMod 2) I = 4)
-    (hp : finrank (ZMod 2) p = 1) (hℓ : finrank (ZMod 2) ℓ = 2) (hPl : finrank (ZMod 2) Pl = 3)
+    (_hp : finrank (ZMod 2) p = 1) (hℓ : finrank (ZMod 2) ℓ = 2) (hPl : finrank (ZMod 2) Pl = 3)
     (hpℓ : p ≤ ℓ) (hℓPl : ℓ ≤ Pl) :
     (stabS p ⊓ stabS ℓ ⊓ stabS Pl).index = (stabS p ⊓ stabS ℓ).index * 3 := by
   set H : Subgroup (I ≃ₗ[ZMod 2] I) := stabS p ⊓ stabS ℓ with hHdef
   have hHle : H ≤ stabS ℓ := inf_le_right
-  letI : MulAction H (SuperOf ℓ 3) := subgroupSuperAct hHle 3
+  let : MulAction H (SuperOf ℓ 3) := subgroupSuperAct hHle 3
   have htrans : IsPretransitive H (SuperOf ℓ 3) := by
     constructor
     rintro ⟨U, hU, hUj⟩ ⟨U', hU', hUj'⟩
@@ -142,7 +142,7 @@ theorem not_le_stabS_of_flag {p ℓ Pl : Submodule (ZMod 2) I} (hI : finrank (ZM
     rfl
   have hnot : ∃ U : SuperOf ℓ 3, U.1 ≠ Pl := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : Subsingleton (SuperOf ℓ 3) :=
       ⟨fun a b => Subtype.ext ((hcon a).trans (hcon b).symm)⟩
     have h1 := (Finite.card_le_one_iff_subsingleton (α := SuperOf ℓ 3)).2 hsub

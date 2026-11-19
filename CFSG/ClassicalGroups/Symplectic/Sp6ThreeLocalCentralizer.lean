@@ -113,7 +113,7 @@ theorem not_dvd_card_centralizer_range_c₀ [Finite K] {s : SL(2, K)} (hs : IsCu
     (hpq : p ∣ if Nat.card K % 3 = 1 then Nat.card K + 1 else Nat.card K - 1) :
     ¬ p ∣ Nat.card (Subgroup.centralizer ((c₀ hs).range : Set (StatedSp 3 K))) := by
   intro hdvd
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hx1 : x ^ (if Nat.card K % 3 = 1 then Nat.card K - 1 else Nat.card K + 1) = 1 := by
     apply Subtype.ext
@@ -124,11 +124,11 @@ theorem not_dvd_card_centralizer_range_c₀ [Finite K] {s : SL(2, K)} (hs : IsCu
   have hq : 1 ≤ Nat.card K := Nat.card_pos
   have h2 : p ∣ 2 := by
     by_cases h3 : Nat.card K % 3 = 1
-    · rw [if_pos h3] at hpq hpN
+    · rw [ite_eq_left h3] at hpq hpN
       have h := Nat.dvd_sub hpq hpN
       have e : Nat.card K + 1 - (Nat.card K - 1) = 2 := by omega
       rwa [e] at h
-    · rw [if_neg h3] at hpq hpN
+    · rw [ite_eq_right h3] at hpq hpN
       have h := Nat.dvd_sub hpN hpq
       have e : Nat.card K + 1 - (Nat.card K - 1) = 2 := by omega
       rwa [e] at h

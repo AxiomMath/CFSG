@@ -18,7 +18,7 @@ theorem not_dvd_card_center_of_perfect {R : Type*} [Group R] [Finite R] {p : ℕ
   have hCcard : Nat.card C = p := by rw [Nat.card_zpowers, hzo]
   have hC : IsPGroup p C := IsPGroup.of_card (n := 1) (by rw [hCcard, pow_one])
   obtain ⟨P, hCP⟩ := hC.exists_le_sylow
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hk1 : k ≤ 1 := by
     by_contra h
     exact hp2 (dvd_trans (pow_dvd_pow p (by omega))

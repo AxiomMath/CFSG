@@ -14,10 +14,10 @@ theorem uCited_parabolic_of_psuRootSetup {L : Type} [Group L] [Finite L] {m n : 
     {R Sy : Subgroup L} (h : PSURootSetup L m n R Sy) :
     ∃ X₂ Pα : Subgroup L, RootParabolic R Sy X₂ Pα 2 := by
   obtain ⟨hm, hL, ⟨hcard, F, hFld, hFin, hF, e, he⟩, hSy, hSyR, hRSy⟩ := h
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field F := hFld
+  let : Finite F := hFin
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ : Subgroup.center L = ⊥ := center_eq_bot_of_isPSUGp hm hL
   let φ :=
     (QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)).trans e

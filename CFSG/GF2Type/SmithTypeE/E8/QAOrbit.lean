@@ -162,10 +162,10 @@ theorem good_pinnedElt {b : Fin e7Data.d} (hb : wgrade b = -1)
     rw [LinearMap.sub_apply, Module.End.one_apply, e7Rep56_pinnedElt_single hβ,
       add_sub_cancel_left]
     by_cases hcb : e7Data.wt c ⬝ᵥ β = -1
-    · rw [if_pos hcb]
+    · rw [ite_eq_left hcb]
       exact Finsupp.single_mem_supported (ZMod 2) _ (Finset.mem_coe.2
         (shift_mem_SbSet hb hβ hRA (Finset.mem_coe.1 hc) hcb))
-    · rw [if_neg hcb]
+    · rw [ite_eq_right hcb]
       exact Submodule.zero_mem _
   intro y hy
   exact hY hy
@@ -246,7 +246,7 @@ theorem card_orbit_le {w : Fin e7Data.d →₀ ZMod 2} (hw : w ∈ weightVec) (h
     have hcb : c ≠ b := fun h => by
       subst h
       omega
-    simp [Finsupp.single_apply, Ne.symm hcb]
+    simp [Ne.symm hcb]
   have hff : F.ff e7Y56 (Finsupp.single b 1) = 0 := by
     have h1 := F.ff_rep g e7Y56 (Finsupp.single b 1)
     rw [hgs, ← hg2, hf] at h1
@@ -254,7 +254,7 @@ theorem card_orbit_le {w : Fin e7Data.d →₀ ZMod 2} (hw : w ∈ weightVec) (h
   have hb_opp : b ≠ F.opI ⟨0, by decide⟩ := by
     intro h
     have h2 := F.ff_single_single ⟨0, by decide⟩ b
-    rw [if_pos h] at h2
+    rw [ite_eq_left h] at h2
     rw [F.single_e7Y56] at hff
     rw [hff] at h2
     exact absurd h2 (by decide)

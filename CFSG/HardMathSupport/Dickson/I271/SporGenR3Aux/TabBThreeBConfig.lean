@@ -26,7 +26,7 @@ theorem exists_z_sylow_aut :
         CFSG.Open.IsComponentOf J (Subgroup.centralizer ({z} : Set NativeSporadic.B)) →
         9 ∣ (Subgroup.center J).index → 3 ^ 8 ∣ Nat.card (MulAut J) := by
   obtain ⟨x, y, z, g, hH, hy3, hgx, hgy, hgz, hrk⟩ := bNF_holds
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have hn : 0 < 4 := by norm_num
   have hz3 : z ^ 3 = 1 := hH.zp
   have hdX : ∀ (k : Fin 2) (j : Fin 4), ∀ i < 9,
@@ -137,7 +137,7 @@ theorem exists_z_sylow_aut :
     intro k hk0 hk6
     interval_cases k <;> decide
   have main := component_relIndex_dvd_card_mulAut_exp z X Q L 6 60 hm hQL hLN hLX hCQ hdich hidx hG
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzQ : z ∈ Q := z_mem hH hn
   have hQX : Q ≤ X := by
     rw [hQ, heisSub, Subgroup.closure_le]
@@ -153,7 +153,7 @@ theorem exists_z_sylow_aut :
   have hPcard : Nat.card P = 3 ^ (Nat.card X).factorization 3 := by
     rw [hPdef, Subgroup.card_map_of_injective X.subtype_injective, Sylow.card_eq_multiplicity]
   have hQP : Q ≤ P := fun q hq => ⟨⟨q, hQX hq⟩, hS (Subgroup.mem_subgroupOf.2 hq), rfl⟩
-  have hPpg : IsPGroup 3 P := S.isPGroup'.map X.subtype
+  have hPpg : IsPGroup 3 P := S.isPGroup.map X.subtype
   refine ⟨z, orderOf_z hH, hrk, ⟨P, hPX, hPcard, ?_⟩, ?_⟩
   · intro c hcP hcomm
     have hzP : z ∈ P := hQP hzQ

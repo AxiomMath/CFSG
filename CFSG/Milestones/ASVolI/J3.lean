@@ -139,7 +139,7 @@ private theorem burnsideJ5_mem_Ls_iff {G : Type} [Group G] [Finite G] (l s u : G
   have h := (Subgroup.mem_map_iff_mem (f := (MulAut.conj l⁻¹).toMonoidHom)
     (MulAut.conj l⁻¹).injective (K := CFSG.Quasithin.oTwoUpper (Subgroup.centralizer ({s} : Set G)))
     (x := u)).symm
-  simpa [MulAut.conj_apply] using h
+  simp
 
 private theorem burnsideJ5_exists_conj_of_card_seven {G : Type} [Group G] [Finite G] {L A B :
     Subgroup G}
@@ -424,7 +424,7 @@ private theorem burnsideJ28_card_inv_S {G : Type} [Group G] [Finite G] (M : RuDa
         then 8 else 0 := by
     intro B
     by_cases hB : B.trace = 0 ∧ ∃ s : ruS M.L, M.χ s = Multiplicative.ofAdd B ∧ (s : G) ^ 2 = 1
-    · rw [if_pos hB]
+    · rw [ite_eq_left hB]
       obtain ⟨-, s0, hs0, hs02⟩ := hB
       rw [← M.toRuData.card_V]
       have hmemV : ∀ s : {s : P // f s = B}, (s0 : G)⁻¹ * (s.1.1 : G) ∈ ruV M.L := by
@@ -457,7 +457,7 @@ private theorem burnsideJ28_card_inv_S {G : Type} [Group G] [Finite G] (M : RuDa
       · apply Subtype.ext
         show (s0 : G)⁻¹ * ((s0 : G) * (v : G)) = (v : G)
         group
-    · rw [if_neg hB]
+    · rw [ite_eq_right hB]
       have : IsEmpty {s : P // f s = B} := ⟨fun s => hB ⟨by
         have h := M.χ_trace s.1.1
         rwa [show Multiplicative.toAdd (M.χ s.1.1) = B from s.2] at h, s.1.1, hχB B s, s.1.2⟩⟩
@@ -736,7 +736,7 @@ private theorem burnsideJ28_card_coset_inv {G : Type} [Group G] [Finite G] (M : 
       if (A.trace = 0 ∧ stAct (M.θ x0L) A = A) then 4 else 0 := by
     intro A
     by_cases hA : A.trace = 0 ∧ stAct (M.θ x0L) A = A
-    · rw [if_pos hA]
+    · rw [ite_eq_left hA]
       obtain ⟨htr, hfixA⟩ := hA
       obtain ⟨B, hBtr, hB⟩ := D2 A htr hfixA
       have hBtr' : IsTraceZero B := hBtr
@@ -791,7 +791,7 @@ private theorem burnsideJ28_card_coset_inv {G : Type} [Group G] [Finite G] (M : 
         apply Subtype.ext
         show (sA : G)⁻¹ * ((sA : G) * (v.1 : G)) = (v.1 : G)
         group
-    · rw [if_neg hA]
+    · rw [ite_eq_right hA]
       have : IsEmpty {s : P // f s = A} := ⟨fun s => hA ⟨by
         have h := M.χ_trace s.1.1
         rwa [show Multiplicative.toAdd (M.χ s.1.1) = A from s.2] at h, by
@@ -888,7 +888,7 @@ private theorem burnsideJ28_card_inv_R1_L {G : Type} [Group G] [Finite G] (M : R
         else 0 := by
     intro r
     by_cases hr : r ∈ SL3.R0
-    · rw [if_pos hr]
+    · rw [ite_eq_left hr]
       have hcset : Nat.card {x : P // f x = r} =
           Nat.card {x : G // ∃ hx : x ∈ M.L, M.θ ⟨x, hx⟩ = r ∧ x ^ 2 = 1} := by
         refine Nat.card_congr
@@ -899,7 +899,7 @@ private theorem burnsideJ28_card_inv_R1_L {G : Type} [Group G] [Finite G] (M : R
             right_inv := fun z => rfl }
       rw [hcset]
       by_cases hr1' : r = 1
-      · rw [if_pos hr1']
+      · rw [ite_eq_left hr1']
         subst hr1'
         have hθS : ∀ s : ruS M.L, M.θ ⟨(s : G), M.toRuData.S_le_L s.2⟩ = 1 := by
           intro s
@@ -917,9 +917,9 @@ private theorem burnsideJ28_card_inv_R1_L {G : Type} [Group G] [Finite G] (M : R
           exact z.2.choose_spec.1
         rw [M.θ_ker, Subgroup.mem_subgroupOf] at hk
         exact hk
-      · rw [if_neg hr1']
+      · rw [ite_eq_right hr1']
         exact burnsideJ28_card_Cset M hx1L hx12 hr0 hr1 hr hr1'
-    · rw [if_neg hr]
+    · rw [ite_eq_right hr]
       have : IsEmpty {x : P // f x = r} := ⟨fun x => hr (x.2 ▸ hfR0 x.1)⟩
       exact Nat.card_of_isEmpty
   rw [hsum]
@@ -933,10 +933,10 @@ private theorem burnsideJ28_card_inv_R1_L {G : Type} [Group G] [Finite G] (M : R
     have := SL3.card_R0
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype] at this
     exact this
-  rw [← Finset.add_sum_erase F _ h1F, if_pos rfl]
+  rw [← Finset.add_sum_erase F _ h1F, ite_eq_left rfl]
   have h64 : ∑ x ∈ F.erase 1, (if x = 1 then Nat.card {s : ruS M.L // (s : G) ^ 2 = 1} else 64) =
       ∑ x ∈ F.erase 1, 64 :=
-    Finset.sum_congr rfl fun x hx => if_neg (Finset.ne_of_mem_erase hx)
+    Finset.sum_congr rfl fun x hx => ite_eq_right (Finset.ne_of_mem_erase hx)
   rw [h64, Finset.sum_const, Finset.card_erase_of_mem h1F, hcardF, smul_eq_mul]
 
 end BurnsideJ28Cnt
@@ -1099,14 +1099,14 @@ private theorem burnsideJ28_card_inv_R1_H {G : Type} [Group G] [Finite G] (M : R
         Nat.card {x : G // ∃ hx : x ∈ ruH M.T, M.φ ⟨x, hx⟩ = A ∧ x ^ 2 = 1} else 0 := by
     intro A
     by_cases hA : A ∈ Sigma.U0
-    · rw [if_pos hA]
+    · rw [ite_eq_left hA]
       refine Nat.card_congr
         { toFun := fun x => ⟨x.1.1, hR1H x.1.2.1, x.2, x.1.2.2⟩
           invFun := fun z => ⟨⟨z.1, burnsideJ28_mem_R1_of_φ M z.2.choose
               (by rw [z.2.choose_spec.1]; exact hA), z.2.choose_spec.2⟩, z.2.choose_spec.1⟩
           left_inv := fun x => rfl
           right_inv := fun z => rfl }
-    · rw [if_neg hA]
+    · rw [ite_eq_right hA]
       have : IsEmpty {x : P // f x = A} :=
         ⟨fun x => hA (x.2 ▸ burnsideJ28_φ_R1 M x.1.2.1)⟩
       exact Nat.card_of_isEmpty
@@ -1598,7 +1598,7 @@ theorem as_J_3_6 : J_3_6 := by
       by_contra hxy
       exact hcon ⟨⟨x, hx⟩, ⟨y, hy⟩, fun h => hxy (congrArg Subtype.val h)⟩
   · rw [hF, ← hS]
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     rw [show ((S : Subgroup G).subgroupOf ⊤).index = (S : Subgroup G).index from
       Subgroup.relIndex_top_right (S : Subgroup G)]
     exact S.not_dvd_index

@@ -15,12 +15,12 @@ private def noSwapA (L : Subgroup (Equiv.Perm (Fin 42))) : Subgroup WrE where
   one_mem' := ⟨rfl, L.one_mem⟩
   mul_mem' := by
     intro x y hx hy
-    rw [Set.mem_setOf_eq, WrE.mul_def, hy.1]
+    rw [Set.mem_ofPred_eq, WrE.mul_def, hy.1]
     simp only [Bool.false_eq_true, ↓reduceIte, hx.1, Bool.xor_false, true_and]
     exact L.mul_mem hx.2 hy.2
   inv_mem' := by
     intro x hx
-    rw [Set.mem_setOf_eq, WrE.inv_def, hx.1]
+    rw [Set.mem_ofPred_eq, WrE.inv_def, hx.1]
     simp only [Bool.false_eq_true, ↓reduceIte, true_and]
     exact L.inv_mem hx.2
 

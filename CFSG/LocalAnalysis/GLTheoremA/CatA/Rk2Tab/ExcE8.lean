@@ -33,7 +33,7 @@ private theorem rk2Mult_E8 (m : ℕ) :
 private theorem dvd_sub_one_of_orderOf {K : Type} [Field K] [Finite K] {p e : ℕ}
     (hp : p.Prime) (hpq : ¬ p ∣ Nat.card K)
     (he : orderOf ((Nat.card K : ℕ) : ZMod p) = e) : e ∣ p - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : ((Nat.card K : ℕ) : ZMod p) ≠ 0 := fun h0 =>
     hpq ((ZMod.natCast_eq_zero_iff (Nat.card K) p).1 h0)
   have h := ZMod.orderOf_dvd_card_sub_one hq0
@@ -68,8 +68,8 @@ private theorem rk2_E8_toralRankInput {K : Type} [Field K] [Finite K] [CharP K 2
 
 private theorem rk2_E8_adjoint_card_le_eight {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ Nat.card K - 1) :
-    ∀ E : Subgroup (adjointGroup Tag.E8 K), IsElemAbelian p E → Nat.card E ≤ p ^ 8 :=
-  fun E hE => CFSG.StandardType.GGExcToralRankInput.card_le
+    ∀ _E : Subgroup (adjointGroup Tag.E8 K), IsElemAbelian p _E → Nat.card _E ≤ p ^ 8 :=
+  fun _E hE => CFSG.StandardType.GGExcToralRankInput.card_le
     (rk2_E8_toralRankInput hp hp2 hpq)
     (CFSG.StandardType.TableBExc.card_torusPow_E8 hp hpq) hE
 
@@ -145,21 +145,21 @@ private theorem rk2_E8_adjoint_card_le
     intro E hE
     have hpq1 : p ∣ Nat.card K - 1 :=
       CFSG.LieType.SeitzGeneration.ExcHigh.dvd_sub_one_of_orderOf_eq_one Nat.card_pos he
-    haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hcard
+    have : CharP K 2 := CFSG.StandardType.charP_two_of_card hcard
     have h8 : degCount Tag.E8 1 = 8 := by decide
     rw [h8]
     exact rk2_E8_adjoint_card_le_eight hp hp2 hpq1 E hE
   ·
     intro E hE
     let K' := GaloisField 2 (2 * n)
-    haveI : Field K' := inferInstance
-    haveI : Finite K' := inferInstance
+    have : Field K' := inferInstance
+    have : Finite K' := inferInstance
     have hK'pow : Nat.card K' = 2 ^ (2 * n) := GaloisField.card 2 (2 * n) (by omega)
-    haveI : CharP K' 2 := CFSG.StandardType.charP_two_of_card hK'pow
+    have : CharP K' 2 := CFSG.StandardType.charP_two_of_card hK'pow
     have hK'card : Nat.card K' = (2 ^ n) ^ 2 := by
       rw [hK'pow, ← pow_mul]
       ring_nf
-    haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hcard
+    have : CharP K 2 := CFSG.StandardType.charP_two_of_card hcard
     obtain ⟨φ⟩ := CFSG.HardMathSupport.Lang.AnisoE6.nonempty_ringHom_of_card_sq
       (ℓ := 2) (f := n) (k := K) (K := K') hcard hK'card
     have hpq' : p ∣ Nat.card K' - 1 := by
@@ -232,7 +232,7 @@ private theorem rk2_E8_adjoint_card_le
     rw [h4]
     exact hS.rank_le hp hE
 
-private theorem rk2_pRank_le_E8_assembly (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2)
+private theorem rk2_pRank_le_E8_assembly (p : ℕ) (hp : p.Prime) (_hp2 : p ≠ 2)
     (lab : GLALabel) (K : Type) [Group K] [Finite K] (hK : Rk2IsLabel K lab)
     (htag : lab.tag = .E8)
     (hbound : ∀ (F : Type) [Field F] [Finite F], Nat.card F = 2 ^ lab.n →
@@ -255,17 +255,17 @@ private theorem rk2_pRank_le_E8_assembly (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2
   have hZ : Subgroup.center K = ⊥ :=
     CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc.center_eq_bot_of_E8 hQ' hlab.1
       hFcard e
-  haveI : Finite ↥(adjointGroup Tag.E8 F) :=
+  have : Finite ↥(adjointGroup Tag.E8 F) :=
     CFSG.LieType.Chevalley.generated_group_finite Tag.E8 F
   have h1 : CFSG.Open.pRank p (⊤ : Subgroup (K ⧸ Subgroup.center K)) =
       CFSG.Open.pRank p (⊤ : Subgroup K) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact CFSG.SectionRank.pRank_quotient_eq (Subgroup.center K) (by
       rw [hZ]
       simpa using hp.one_lt.ne')
   have h2 : CFSG.Open.pRank p (⊤ : Subgroup (K ⧸ Subgroup.center K)) =
       CFSG.Open.pRank p (⊤ : Subgroup (adjointGroup Tag.E8 F)) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hAdj : CFSG.Open.pRank p (⊤ : Subgroup (CFSG.Blueprint.AdjointQuotient .E8 F)) =
         CFSG.Open.pRank p (⊤ : Subgroup (adjointGroup Tag.E8 F)) :=
       CFSG.SectionRank.pRank_quotient_eq (Subgroup.center (adjointGroup Tag.E8 F))

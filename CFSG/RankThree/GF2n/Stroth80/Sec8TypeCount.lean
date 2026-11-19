@@ -67,8 +67,8 @@ theorem sec8TypeCount_of (h34 : Stroth34Statement) (hRoot : Stroth310RootStateme
     exact hmSp
   have hxM : g * t * g⁻¹ ∈ M := M.mul_mem (M.mul_mem hgM htM) (M.inv_mem hgM)
   obtain ⟨K, fK, finK, hchar, φ, hn, ψ, u, u', hpts, -⟩ := sec8_natdata h34 hRoot hs hr hmSp
-  haveI := hn
-  haveI := hchar
+  have := hn
+  have := hchar
   have hVV₁ : Vt M (LB M Q B) B Z t ≤ Sec8V1 M Q Z B t r := le_inf le_sup_right le_sup_right
   have hZV₁ : Z ≤ Sec8V1 M Q Z B t r := sec8_Z_le_V1 hc t r
   have hInv := fun ρ hρ => sec8InvStatement_holds G M Q Z B hc n t hs r hr ρ hρ

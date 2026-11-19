@@ -158,7 +158,7 @@ theorem isPSLType_two_oPrimeModPrimeComplement_of_comap_eq_flagStabilizer {p d :
       flagStabilizer 3 (ZMod p) ({i} : Set ℕ)) :
     IsPSLType 2 (ZMod p) (oPrimeModPrimeComplement d Y) := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨fY, hfYsurj, hfYker⟩ := exists_surjection_flagStabilizer_to_Y hd hd2 hdp hY
   obtain ⟨lev, hlevsurj, hlevker⟩ := exists_levi_surjection_of_dvd_add_one hi hd hd2 hdp
   have hmkker := not_dvd_natCard_center_gl2 (p := p) hd hd2 hdp

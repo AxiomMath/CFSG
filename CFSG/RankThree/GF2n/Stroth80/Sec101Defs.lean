@@ -26,7 +26,7 @@ omit [Finite G] in
   IsClique101 M Q Z B X ∧ ∀ Y : Subgroup G, IsClique101 M Q Z B Y → Nat.card Y ≤ Nat.card X
 
 omit [Finite G] in
-@[expose] def IsSaturated101 (M Q Z B X : Subgroup G) : Prop :=
+@[expose] def IsSaturated101 (M Q _Z B X : Subgroup G) : Prop :=
   ∀ C, IsRootB M B C → C ≤ X → ∀ D, IsRootB M B D → D ≤ Q ⊓ QB C → D ≤ X
 
 omit [Finite G] in
@@ -69,6 +69,7 @@ theorem Ctx.conj_inf_QB_of_mem_Q (hc : Ctx M Q Z B) {p : G} (hp : p ∈ Q) :
   rw [QB_conj, ← hc.conj_Q_eq (hc.hyp.Q_normal.1 hp), ← conjSubgroup_inf,
     hc.conj_Q_eq (hc.hyp.Q_normal.1 hp), heq]
 
+omit [Finite G] in
 theorem IsRootB.ctx (hc : Ctx M Q Z B) {E : Subgroup G} (hE : IsRootB M B E) : Ctx M Q Z E := by
   obtain ⟨m, hm, rfl⟩ := hE
   exact hc.conj_of_mem hm

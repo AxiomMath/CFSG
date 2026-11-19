@@ -16,35 +16,42 @@ namespace Stroth47Fus
 
 variable {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t200 m))
 
+omit [Finite G] in
 theorem t200_c_pow_ofInt (j : ℕ) :
     (dD.c : G) ^ j = dD.ofTorus (Torus.ofInt _ ![(j : ℤ), 0, 0]) := by
   rw [dD.c_eq, ← dD.ofTorus_nsmul, c_eq_ofInt, ← natCast_zsmul, t200_zsmul_vec]
   simp only [mul_one, mul_zero]
 
+omit [Finite G] in
 theorem t200_a_pow_ofInt (j : ℕ) :
     (dD.a : G) ^ j = dD.ofTorus (Torus.ofInt _ ![0, (j : ℤ), 0]) := by
   rw [dD.a_eq, ← dD.ofTorus_nsmul, a_eq_ofInt, ← natCast_zsmul, t200_zsmul_vec]
   simp only [mul_one, mul_zero]
 
+omit [Finite G] in
 theorem t200_b_pow_ofInt (j : ℕ) :
     (dD.b : G) ^ j = dD.ofTorus (Torus.ofInt _ ![0, 0, (j : ℤ)]) := by
   rw [dD.b_eq, ← dD.ofTorus_nsmul, b_eq_ofInt, ← natCast_zsmul, t200_zsmul_vec]
   simp only [mul_one, mul_zero]
 
+omit [Finite G] in
 theorem t200_rho_c₁ :
     dD.ρ⁻¹ * (dD.c : G) ^ 2 ^ (m - 1) * dD.ρ = (dD.c : G) ^ 2 ^ (m - 1) := by
   rw [t200_c_pow_ofInt, dD.conj_ofTorus dD.ρ_mem dD.ρ_conj, t200_φρ_vec]
   simp only [sub_zero, neg_zero]
 
+omit [Finite G] in
 theorem t200_rho_a₁ :
     dD.ρ⁻¹ * (dD.a : G) ^ 2 ^ (m + 1) * dD.ρ = (dD.b : G) ^ 2 ^ (m + 1) := by
   rw [t200_a_pow_ofInt, dD.conj_ofTorus dD.ρ_mem dD.ρ_conj, t200_φρ_vec, t200_b_pow_ofInt]
   simp only [sub_zero, neg_zero]
 
+omit [Finite G] in
 theorem t200_u_a₁ :
     dD.u⁻¹ * (dD.a : G) ^ 2 ^ (m + 1) * dD.u = (dD.b : G) ^ 2 ^ (m + 1) := by
   rw [t200_a_pow_ofInt, dD.conj_ofTorus dD.u_mem dD.u_conj, t200_φu_vec, t200_b_pow_ofInt]
 
+omit [Finite G] in
 theorem t200_rho_b₁ :
     dD.ρ⁻¹ * (dD.b : G) ^ 2 ^ (m + 1) * dD.ρ =
       (dD.a : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1) := by
@@ -54,6 +61,7 @@ theorem t200_rho_b₁ :
   rw [t200_vec_eq_iff]
   refine ⟨⟨2, ?_⟩, ⟨1, ?_⟩, ⟨1, ?_⟩⟩ <;> push_cast <;> ring
 
+omit [Finite G] in
 theorem t200_c₁_mul_self (hm : 1 ≤ m) :
     (dD.c : G) ^ 2 ^ (m - 1) * (dD.c : G) ^ 2 ^ (m - 1) = 1 := by
   rw [t200_c_pow_ofInt, ← dD.ofTorus_add, t200_add_vec, dD.ofTorus_eq_one_iff,
@@ -64,6 +72,7 @@ theorem t200_c₁_mul_self (hm : 1 ≤ m) :
   push_cast
   ring
 
+omit [Finite G] in
 theorem t200_c₁_ne_one (hm : 1 ≤ m) : (dD.c : G) ^ 2 ^ (m - 1) ≠ 1 := by
   rw [t200_c_pow_ofInt, Ne, dD.ofTorus_eq_one_iff, t200_vec_eq_zero_iff]
   rintro ⟨⟨k, hk⟩, -, -⟩
@@ -74,6 +83,7 @@ theorem t200_c₁_ne_one (hm : 1 ≤ m) : (dD.c : G) ^ 2 ^ (m - 1) ≠ 1 := by
   have h1 := mul_left_cancel₀ (pow_ne_zero j (two_ne_zero : (2 : ℤ) ≠ 0)) h2
   omega
 
+omit [Finite G] in
 theorem t200_a₁_mul_self : (dD.a : G) ^ 2 ^ (m + 1) * (dD.a : G) ^ 2 ^ (m + 1) = 1 := by
   rw [t200_a_pow_ofInt, ← dD.ofTorus_add, t200_add_vec, dD.ofTorus_eq_one_iff,
     t200_vec_eq_zero_iff]
@@ -81,6 +91,7 @@ theorem t200_a₁_mul_self : (dD.a : G) ^ 2 ^ (m + 1) * (dD.a : G) ^ 2 ^ (m + 1)
   push_cast
   ring
 
+omit [Finite G] in
 theorem t200_b₁_mul_self : (dD.b : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1) = 1 := by
   rw [t200_b_pow_ofInt, ← dD.ofTorus_add, t200_add_vec, dD.ofTorus_eq_one_iff,
     t200_vec_eq_zero_iff]
@@ -88,6 +99,7 @@ theorem t200_b₁_mul_self : (dD.b : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1)
   push_cast
   ring
 
+omit [Finite G] in
 theorem t200_a₁_ne_one : (dD.a : G) ^ 2 ^ (m + 1) ≠ 1 := by
   rw [t200_a_pow_ofInt, Ne, dD.ofTorus_eq_one_iff, t200_vec_eq_zero_iff]
   rintro ⟨-, ⟨k, hk⟩, -⟩
@@ -96,14 +108,17 @@ theorem t200_a₁_ne_one : (dD.a : G) ^ 2 ^ (m + 1) ≠ 1 := by
   have h1 := mul_left_cancel₀ (pow_ne_zero (m + 1) (two_ne_zero : (2 : ℤ) ≠ 0)) h2
   omega
 
+omit [Finite G] in
 theorem t200_u_conj_a : dD.u⁻¹ * (dD.a : G) * dD.u = dD.b := by
   rw [dD.a_eq, dD.conj_ofTorus dD.u_mem dD.u_conj, a_eq_ofInt, t200_φu_vec, ← b_eq_ofInt]
   rfl
 
+omit [Finite G] in
 theorem t200_u_conj_b : dD.u⁻¹ * (dD.b : G) * dD.u = dD.a := by
   rw [dD.b_eq, dD.conj_ofTorus dD.u_mem dD.u_conj, b_eq_ofInt, t200_φu_vec, ← a_eq_ofInt]
   rfl
 
+omit [Finite G] in
 theorem t200_d₂_eq : (dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m =
     dD.ofTorus (Torus.ofInt _ ![0, (2 : ℤ) ^ m, (2 : ℤ) ^ m]) := by
   rw [t200_a_pow_ofInt, t200_b_pow_ofInt, ← dD.ofTorus_add, t200_add_vec]
@@ -111,6 +126,7 @@ theorem t200_d₂_eq : (dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m =
   rw [t200_vec_eq_iff]
   refine ⟨⟨0, ?_⟩, ⟨0, ?_⟩, ⟨0, ?_⟩⟩ <;> push_cast <;> ring
 
+omit [Finite G] in
 theorem t200_uv_conj_d₂ :
     dD.uv⁻¹ * ((dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m) * dD.uv =
       ((dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m)⁻¹ := by
@@ -120,6 +136,7 @@ theorem t200_uv_conj_d₂ :
   rw [t200_vec_eq_iff]
   refine ⟨⟨-2, ?_⟩, ⟨-1, ?_⟩, ⟨-1, ?_⟩⟩ <;> ring
 
+omit [Finite G] in
 theorem t200_conj_uv (m' : ℕ) (dE : StrothWeakTypeData D (.t200 (m' + 1))) :
     (dE.ofTorus (Torus.ofInt _ ![0, (2 : ℤ) ^ m', (2 : ℤ) ^ m']))⁻¹ * dE.uv *
         dE.ofTorus (Torus.ofInt _ ![0, (2 : ℤ) ^ m', (2 : ℤ) ^ m']) =
@@ -129,6 +146,7 @@ theorem t200_conj_uv (m' : ℕ) (dE : StrothWeakTypeData D (.t200 (m' + 1))) :
   rw [t200_vec_eq_iff]
   refine ⟨⟨-1, ?_⟩, ⟨0, ?_⟩, ⟨0, ?_⟩⟩ <;> ring
 
+omit [Finite G] in
 theorem t200_conj_uv' (m' : ℕ) (dE : StrothWeakTypeData D (.t200 (m' + 1))) :
     (dE.ofTorus (-Torus.ofInt _ ![0, (2 : ℤ) ^ m', (2 : ℤ) ^ m']))⁻¹ * dE.uv *
         dE.ofTorus (-Torus.ofInt _ ![0, (2 : ℤ) ^ m', (2 : ℤ) ^ m']) =
@@ -189,7 +207,7 @@ theorem t200_omega_eq (h : F.IsD D dD) :
   · rw [hβ, hβb, F.dA.ofTorus_nsmul]; rfl
 
 theorem t200_a_half_mem (h : F.IsD D dD) : (dD.a : G) ^ 2 ^ m ∈ F.A := by
-  haveI := dD.isMulCommutative
+  have := dD.isMulCommutative
   set a' := (dD.a : G) ^ 2 ^ m with ha'
   have ha'D : a' ∈ D := D.pow_mem dD.a.2 _
   have haD : (F.dA.a : G) ∈ D := h.A_le F.dA.a.2
@@ -208,7 +226,7 @@ theorem t200_a_half_mem (h : F.IsD D dD) : (dD.a : G) ^ 2 ^ m ∈ F.A := by
   exact F.A.mul_mem F.dA.a.2 hpA
 
 theorem t200_b_half_mem (h : F.IsD D dD) : (dD.b : G) ^ 2 ^ m ∈ F.A := by
-  haveI := dD.isMulCommutative
+  have := dD.isMulCommutative
   set b' := (dD.b : G) ^ 2 ^ m with hb'
   have hb'D : b' ∈ D := D.pow_mem dD.b.2 _
   have hbD : (F.dA.b : G) ∈ D := h.A_le F.dA.b.2
@@ -229,7 +247,7 @@ theorem t200_b_half_mem (h : F.IsD D dD) : (dD.b : G) ^ 2 ^ m ∈ F.A := by
 theorem t200_d₂_eq_xy (h : F.IsD D dD) :
     (dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m = ((F.dA.a : G)⁻¹ * (F.dA.b : G)⁻¹)⁻¹ ∨
       (dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m = (F.dA.a : G)⁻¹ * (F.dA.b : G)⁻¹ := by
-  haveI := dD.isMulCommutative
+  have := dD.isMulCommutative
   have hcp : ∀ (g x : G) (k : ℕ), (g⁻¹ * x * g) ^ k = g⁻¹ * x ^ k * g := fun g x k => by
     simpa using conj_pow (a := g⁻¹) (b := x) (i := k)
   obtain ⟨-, ha₁, hb₁⟩ := h.t200_omega_eq

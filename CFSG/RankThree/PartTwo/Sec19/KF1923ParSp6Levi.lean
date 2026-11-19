@@ -12,7 +12,7 @@ open Matrix CFSG.Assembly.LowTwoRank CFSG.LocalAnalysis.ComponentInitial
   CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher
   CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag
 
-@[expose] abbrev Jg (n : ℕ) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (ZMod 2) :=
+abbrev Jg (n : ℕ) : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (ZMod 2) :=
   Matrix.fromBlocks 0 1 (-1) 0
 
 theorem pairedSympForm_eq_dotg (n : ℕ) (x y : Fin n ⊕ Fin n → ZMod 2) :
@@ -30,8 +30,8 @@ theorem Jg_mulVec_inr (n : ℕ) (x : Fin n ⊕ Fin n → ZMod 2) (i : Fin n) :
       (if i = a then x (Sum.inl a) else 0) := by
     intro a
     by_cases hia : i = a
-    · simp [Jg, Matrix.one_apply, hia, neg_eq_self_zmod2]
-    · simp [Jg, Matrix.one_apply, hia, neg_eq_self_zmod2]
+    · simp [Jg, hia]
+    · simp [Jg, hia]
   have h2 : ∀ a : Fin n, Jg n (Sum.inr i) (Sum.inr a) * x (Sum.inr a) = 0 := by
     intro a
     simp [Jg]
@@ -55,7 +55,7 @@ theorem form_split (u v : Fin 3 ⊕ Fin 3 → ZMod 2) :
   rw [pairedSympForm_eq_dotg, pairedSympForm_eq_dotg, dotProduct, Fintype.sum_sum_type,
     dotProduct, Fintype.sum_sum_type]
   simp only [Jg_mulVec_inl, Jg_mulVec_inr, Fin.sum_univ_three, Fin.sum_univ_two]
-  simp [tvec, midVec, midPos, tauEquiv, tauF, tauInv, neg_eq_self_zmod2]
+  simp [tvec, midVec, midPos, tauEquiv, tauF]
   ring
 
 @[expose] def midInv (k : Fin 6) : Fin 2 ⊕ Fin 2 :=
@@ -151,7 +151,7 @@ theorem levi_form (g : StatedSp 3 (ZMod 2)) (hg : g ∈ P1) (x y : Fin 2 ⊕ Fin
   have split1 := form_split (G *ᵥ liftMid x) (G *ᵥ liftMid y)
   have split2 := form_split (liftMid x) (liftMid y)
   simp only [gX5, gY5, zero_mul, mul_zero, zero_add, add_zero] at split1
-  simp only [hX0, hX5, hY0, hY5, zero_mul, mul_zero, zero_add, add_zero] at split2
+  simp only [hX0, hX5, hY0, hY5, mul_zero, zero_add, add_zero] at split2
   rw [← midX, ← midY]
   rw [← split1, hpres, split2, midVec_liftMid, midVec_liftMid]
 
@@ -166,7 +166,7 @@ instance (i : Fin 6) : Decidable (isMid i) := by unfold isMid; infer_instance
 
 theorem liftMat_one : liftMat 1 = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [liftMat, isMid, midInv, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [liftMat, isMid, midInv]
 
 theorem liftMat_mul (A B : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) (ZMod 2)) :
     liftMat (A * B) = liftMat A * liftMat B := by
@@ -217,10 +217,10 @@ theorem liftGL3_inv (A : Matrix.GeneralLinearGroup (Fin 2 ⊕ Fin 2) (ZMod 2)) :
   apply eq_inv_of_mul_eq_one_left
   rw [← liftGL3_mul, inv_mul_cancel, liftGL3_one]
 
-@[expose] abbrev mat3 (g : Matrix.GeneralLinearGroup (Fin 3 ⊕ Fin 3) (ZMod 2)) :
+abbrev mat3 (g : Matrix.GeneralLinearGroup (Fin 3 ⊕ Fin 3) (ZMod 2)) :
     Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2) := g
 
-@[expose] abbrev mat2 (A : Matrix.GeneralLinearGroup (Fin 2 ⊕ Fin 2) (ZMod 2)) :
+abbrev mat2 (A : Matrix.GeneralLinearGroup (Fin 2 ⊕ Fin 2) (ZMod 2)) :
     Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) (ZMod 2) := A
 
 theorem liftGL3_form (A : Matrix.GeneralLinearGroup (Fin 2 ⊕ Fin 2) (ZMod 2))
@@ -231,10 +231,10 @@ theorem liftGL3_form (A : Matrix.GeneralLinearGroup (Fin 2 ⊕ Fin 2) (ZMod 2))
       pairedSympForm (ZMod 2) 3 x y := by
   have hend0 : ∀ t : Fin 6 → ZMod 2, (liftMat (mat2 A) *ᵥ t) 0 = t 0 := by
     intro t
-    simp [Matrix.mulVec, dotProduct, liftMat, isMid, Fin.sum_univ_six]
+    simp [Matrix.mulVec, dotProduct, liftMat, isMid]
   have hend5 : ∀ t : Fin 6 → ZMod 2, (liftMat (mat2 A) *ᵥ t) 5 = t 5 := by
     intro t
-    simp [Matrix.mulVec, dotProduct, liftMat, isMid, Fin.sum_univ_six]
+    simp [Matrix.mulVec, dotProduct, liftMat, isMid]
   have hmid : ∀ t : Fin 6 → ZMod 2, ∀ a : Fin 2 ⊕ Fin 2,
       (liftMat (mat2 A) *ᵥ t) (midPos a) = (mat2 A *ᵥ (fun b => t (midPos b))) a := by
     intro t a
@@ -300,7 +300,7 @@ theorem levi_one :
     levi ((1 : StatedSp 3 (ZMod 2)) : Matrix.GeneralLinearGroup (Fin 3 ⊕ Fin 3) (ZMod 2)) = 1 := by
   ext a b
   rcases a with i | i <;> rcases b with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [levi, toM6, midPos, Matrix.one_apply]
+    simp [levi, toM6, midPos]
 
 @[expose] def leviUnit (g : ↥P1) : Matrix.GeneralLinearGroup (Fin 2 ⊕ Fin 2) (ZMod 2) :=
   Units.mk (levi (g.1 : Matrix.GeneralLinearGroup (Fin 3 ⊕ Fin 3) (ZMod 2)))
@@ -336,7 +336,7 @@ theorem liftMat_midPos (A : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) (ZMod 2))
   have hne : ¬ (midPos a = midPos b ∧ (midPos a = 0 ∨ midPos a = 5)) :=
     fun h => h.2.elim (midPos_ne a).1 (midPos_ne a).2
   unfold liftMat
-  rw [if_neg hne, if_pos (And.intro (isMid_midPos a) (isMid_midPos b)), midInv_midPos,
+  rw [ite_eq_right hne, ite_eq_left (And.intro (isMid_midPos a) (isMid_midPos b)), midInv_midPos,
     midInv_midPos]
 
 theorem levi_liftGL3 (A : Matrix.GeneralLinearGroup (Fin 2 ⊕ Fin 2) (ZMod 2)) :

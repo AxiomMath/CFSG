@@ -18,7 +18,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 
 private theorem hPm_modelI3_aux (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
     (hsgn : quadSign Q = -1) (fr : NFrame Q (Fin 6) 1) {x : ProjOrth Q}
-    (hx : x ∈ normalizer (hPm hQ fr : Set (ProjOrth Q))) (hx2 : x * x = 1)
+    (hx : x ∈ normalizer (hPm hQ fr : Set (ProjOrth Q))) (_hx2 : x * x = 1)
     {r : ℕ} (hr : r = 1 ∨ r = 3) {α : ℤˣ} (hα : HasType x r α) :
     HI3Conc (hPm hQ fr) x := by
   obtain ⟨-, t, ht2, httype, hxt⟩ := hα
@@ -103,9 +103,9 @@ theorem sec8t84_modelI3 :
                 (p * x) * (p * x) = 1 ∧ (∀ b ∈ B, (p * x) * b = b * (p * x)) ∧
                   ∃ α : ℤˣ, HasType (p * x) 3 α := by
   intro V _ _ _ Q hQ hdim hsgn P hP
-  haveI : Finite (OGroup Q) :=
+  have : Finite (OGroup Q) :=
     Nat.finite_of_card_ne_zero (by rw [natCard_oGroup_six_minus hQ hdim hsgn]; norm_num)
-  haveI : Finite (ProjOrth Q) :=
+  have : Finite (ProjOrth Q) :=
     Finite.of_surjective (toProj Q) (QuotientGroup.mk'_surjective (piGroup Q))
   obtain ⟨fr⟩ := exists_nframe_six hQ hdim hsgn
   obtain ⟨a, -, ha⟩ := IsSylow2Of.exists_conj_mem (hPm_sylow hQ hdim hsgn fr) hP

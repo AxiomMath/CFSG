@@ -138,10 +138,9 @@ theorem t200k_h4 (hm : 1 ≤ m) (hrel_f : Rel34inv dD f 0 1 p) :
   have hsq : ∃ s1 s2 : ℤ, (dD.t200fEAction hrel_f).sqE (Torus.ofInt _ ![x0, x1, x2]) false false l =
       Torus.ofInt _ ![0, s1, s2] := by
     cases l <;>
-    simp only [EAction.sqE, EAction.twist, t200fEAction_φe, t200fEAction_ve, t200fEAction_wuv,
-      t200fEAction_wt, SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte,
+    simp only [EAction.sqE, EAction.twist, t200fEAction_φe, t200fEAction_ve, SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte,
       AddMonoidHom.comp_apply, AddMonoidHom.id_apply, Bool.and_false, map_zero, add_zero,
-      zero_add, sub_zero, torusDiag_neg_one, t200_φu, map_neg, ← Torus.ofInt_neg,
+      zero_add, sub_zero, torusDiag_neg_one, t200_φu, ← Torus.ofInt_neg,
       ← Torus.ofInt_add]
     · exact ⟨0, 0, by congr 1; funext i; fin_cases i <;> simp⟩
     · exact ⟨x1 - x2, x2 - x1, by congr 1; funext i; fin_cases i <;> simp <;> ring⟩
@@ -186,7 +185,7 @@ theorem t200k_conj_uv_ofTorus (w1 w2 : ℤ) :
     ← Torus.ofInt_neg, ← Torus.ofInt_add]
   congr 3
   funext i
-  fin_cases i <;> simp <;> ring
+  fin_cases i <;> simp
 
 theorem t200k_isConj_uv_of_even (y0 y1 b : ℤ)
     (hyy : dD.ofTorus (Torus.ofInt _ ![y0, y1, b + b]) * dD.uv *
@@ -236,7 +235,7 @@ theorem t200k_isConj_uv (hp : p % 2 = 1) (hrel_f : Rel34inv dD f 0 1 p) :
         ← dD.ofTorus_add, torusDiag_ofInt, ← Torus.ofInt_add]
       congr 3
       funext i
-      fin_cases i <;> simp <;> push_cast <;> linarith
+      fin_cases i <;> simp <;> linarith
     have hyy' : (f⁻¹ * (dD.ofTorus (Torus.ofInt _ ![y0, y1, y2]) * dD.uv) * f) *
         (f⁻¹ * (dD.ofTorus (Torus.ofInt _ ![y0, y1, y2]) * dD.uv) * f) = 1 := by
       rw [show (f⁻¹ * (dD.ofTorus (Torus.ofInt _ ![y0, y1, y2]) * dD.uv) * f) *

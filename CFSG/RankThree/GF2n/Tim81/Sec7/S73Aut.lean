@@ -29,6 +29,7 @@ theorem IsSUImage.map_of_injective {K L : Type} [Group K] [Group L] {X : Subgrou
   · rintro ⟨x, rfl⟩
     exact ⟨_, (hclass _).mpr ⟨x, rfl⟩, Subgroup.map_map _ ψ Φ⟩
 
+omit [Finite G] in
 theorem mem_normalizer_yOf_of_conj_eq_inv {t : G} (ht : t * h * t⁻¹ = h⁻¹) :
     t ∈ Subgroup.normalizer (yOf h : Set G) := by
   have hz : conjSubgroup t (Subgroup.zpowers h) = Subgroup.zpowers h := by
@@ -40,6 +41,7 @@ theorem mem_normalizer_yOf_of_conj_eq_inv {t : G} (ht : t * h * t⁻¹ = h⁻¹)
     Subgroup.centralizer (Subgroup.zpowers h : Set G)
   rw [← CFSG.CGT.Timmesfeld75.centralizer_conjSubgroup_eq, hz]
 
+omit [Finite G] in
 theorem exists_mulAut_yBar_conj {t : G} (ht : t ∈ Subgroup.normalizer (yOf h : Set G)) :
     ∃ σ : MulAut (YBar h), ∀ (y : G) (hy : y ∈ yOf h) (hty : t * y * t⁻¹ ∈ yOf h),
       σ (QuotientGroup.mk (⟨y, hy⟩ : ↥(yOf h))) =
@@ -138,7 +140,7 @@ theorem eq_one_of_forall_apply_eq (hE : EpsIn M V h) {P : Subgroup G}
   have hZ : Subgroup.center (YBar h) = ⊥ :=
     eq_bot_iff.mpr (hC ▸ Subgroup.center_le_centralizer (X₀ : Set (YBar h)))
   have hκ := CFSG.mulAutConj_injective_of_center_eq_bot hZ
-  haveI : X₀.Characteristic := Subgroup.characteristic_iff_map_eq.mpr hX₀
+  have : X₀.Characteristic := Subgroup.characteristic_iff_map_eq.mpr hX₀
   have hnorm : (X₀.map (MulAut.conj : YBar h →* MulAut (YBar h))).Normal := by
     have h := CFSG.ComponentClassification.CatalogueSchreierCharacteristic.innerSubgroup_normal X₀
     rwa [CFSG.ComponentClassification.CatalogueSchreierCharacteristic.innerSubgroup,
@@ -148,7 +150,7 @@ theorem eq_one_of_forall_apply_eq (hE : EpsIn M V h) {P : Subgroup G}
   have hT' : (barY h V).map (MulAut.conj : YBar h →* MulAut (YBar h)) ∈
       (fun U : Subgroup (YBar h) => U.map (MulAut.conj : YBar h →* MulAut (YBar h))) ''
         barRoots h V := ⟨barY h V, ⟨1, (conjSubgroup_one _).symm⟩, rfl⟩
-  haveI := hnorm
+  have := hnorm
   have hcen := hSU'.centralizer_pCore_le hn hT'
   have hσT := hcen (hE.mem_centralizer_of_forall_apply_eq (X₀ := X₀) hκ
     fun x hx => hσP x (hP.le hx))

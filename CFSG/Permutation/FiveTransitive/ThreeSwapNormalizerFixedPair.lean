@@ -34,7 +34,7 @@ private theorem swap_cases {F : Type*} [Fintype F] [DecidableEq F]
   change v.val = t0 ∨ v.val = t1 ∨ v.val = t2
   cases b <;> cases c <;> cases d
   all_goals simp only [Bool.false_eq_true, ↓reduceIte, one_mul, mul_one] at he
-  all_goals first | exact Or.inl he | exact Or.inr (Or.inl he) | exact Or.inr (Or.inr he) | skip
+  all_goals try first | exact Or.inl he | exact Or.inr (Or.inl he) | exact Or.inr (Or.inr he)
   all_goals rw [he] at hvt
   · simp at hvt
   · rw [hd12.cycleType_mul, ht1, ht2] at hvt

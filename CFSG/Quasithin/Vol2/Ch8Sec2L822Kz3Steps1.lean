@@ -64,8 +64,8 @@ theorem kz3_steps12 {G : Type} [Group G] [Finite G] {T L I : Subgroup G}
       CFSG.IsQuasisimple (↥K ⧸ CFSG.pCore 2 ↥K) ∧
       Kz134Tail_kz (Subgroup.centralizer ({z} : Set G)) T K P := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Gz : Subgroup G := Subgroup.centralizer ({z} : Set G) with hGz
   have hpC : CFSG.Open.pCoreOf 2 Gz ≠ ⊥ := kzPCoreCentralizerNeBot_kz3 hz1 hz2
   have hTsyl : IsSylowTwoOf T Gz := isSylowTwoOf_of_quasithinIsSylowTwo hyp.fsu.sylow hTz
@@ -97,7 +97,7 @@ theorem kz3_steps12 {G : Type} [Group G] [Finite G] {T L I : Subgroup G}
         have h27 : 3 ^ 3 ≤ p ^ 3 := Nat.pow_le_pow_left hc' 3
         norm_num at h27
         linarith
-      interval_cases p <;> first | rfl | (norm_num at h)
+      interval_cases p <;> (norm_num at h)
   subst hp3
   have hXexp : ∀ x ∈ twoResidual H, x ^ 3 ∈ CFSG.Open.pCoreOf 2 (twoResidual H) := hxp
   have hPexp : ∀ q ∈ P, q ^ 3 = 1 := by

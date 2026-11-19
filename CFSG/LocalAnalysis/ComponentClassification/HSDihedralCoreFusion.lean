@@ -66,7 +66,7 @@ theorem exists_fusion (hA : AutFacts Δ) (hX : ¬ SectionalRankLeFour X) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hST, hne⟩ := Δ.exists_sylow_ne hA hX
   refine ⟨T, hST, ?_⟩
-  have hnil : Group.IsNilpotent ↥(T : Subgroup X) := T.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(T : Subgroup X) := T.isPGroup.isNilpotent
   have hlt : Δ.S.subgroupOf T < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun h => hne (le_antisymm hST ?_)
     intro y hy
@@ -86,7 +86,7 @@ theorem false_of_harada (hH : HaradaInput) (hA : AutFacts Δ) (hX : ¬ Sectional
   apply hX
   refine HSFLit.gen4_of_harada hH T (hES.trans hST) hE hcard (fun y hy hyE => ?_)
   have hyt : y * Δ.t = Δ.t * y := hyE _ htE
-  exact hC y (Δ.mem_S_of_commute_t T.isPGroup' hST hy hyt) hyE
+  exact hC y (Δ.mem_S_of_commute_t T.isPGroup hST hy hyt) hyE
 
 end LocalDatum
 

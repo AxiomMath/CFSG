@@ -99,8 +99,8 @@ theorem eq_one_of_commute_gInv (h : IsF20 U x v) {i j : ℤ} (hi : 0 ≤ i) (hi5
 theorem exists_centralizer_gInv (h : IsF20 U x v) (u : Γ) (hu : u ∈ U) :
     ∃ i : Fin 5, gInv x v (i : ℕ) * u = u * gInv x v (i : ℕ) := by
   classical
-  haveI : Finite U := Nat.finite_of_card_ne_zero (by rw [h.card]; norm_num)
-  haveI : Fintype U := Fintype.ofFinite U
+  have : Finite U := Nat.finite_of_card_ne_zero (by rw [h.card]; norm_num)
+  have : Fintype U := Fintype.ofFinite U
   let K : Fin 5 → Subgroup U := fun i =>
     (centralizer ({gInv x v ((i : ℕ) : ℤ)} : Set Γ)).subgroupOf U
   have hKcard : ∀ i, Nat.card (K i) = 4 := fun i => by
@@ -127,7 +127,7 @@ theorem exists_centralizer_gInv (h : IsF20 U x v) (u : Γ) (hu : u ∈ U) :
     have h2 : T i = (Finset.univ.filter (fun w : U => w ∈ K i)).erase 1 := by
       ext w
       simp [T, and_comm]
-    rw [h2, Finset.card_erase_of_mem (by simp [Subgroup.one_mem]), h1]
+    rw [h2, Finset.card_erase_of_mem (by simp), h1]
   have hTdisj : ∀ i ∈ (Finset.univ : Finset (Fin 5)), ∀ j ∈ (Finset.univ : Finset (Fin 5)), i ≠ j →
       Disjoint (T i) (T j) := by
     intro i _ j _ hij
@@ -172,7 +172,7 @@ theorem exists_centralizer_gInv (h : IsF20 U x v) (u : Γ) (hu : u ∈ U) :
 theorem exists_square (h : IsF20 U x v) (u : Γ) (hu : u ∈ U) :
     ∃ i : ℕ, ∃ a : Γ, a ∈ U ∧ (a * gInv x v i) * (a * gInv x v i) = u := by
   classical
-  haveI : Finite U := Nat.finite_of_card_ne_zero (by rw [h.card]; norm_num)
+  have : Finite U := Nat.finite_of_card_ne_zero (by rw [h.card]; norm_num)
   obtain ⟨i, hi⟩ := h.exists_centralizer_gInv u hu
   set g := gInv x v ((i : ℕ) : ℤ) with hg
   have hgn : g ∈ normalizer (U : Set Γ) := h.gInv_norm _

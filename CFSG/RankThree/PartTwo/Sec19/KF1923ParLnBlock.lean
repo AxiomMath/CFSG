@@ -57,7 +57,7 @@ theorem LL_of_mem_stabilizer {g : S2 (i + j)}
     have hne : k ≠ Fin.castAdd j c := fun h => by
       subst h
       exact absurd (by simpa using hk) (not_le.2 c.isLt)
-    simp [Pi.single_apply, hne]
+    simp [hne]
   have hmem : (g : Matrix (Fin (i + j)) (Fin (i + j)) (ZMod 2)) *ᵥ
       (Pi.single (Fin.castAdd j c) (1 : ZMod 2)) ∈ flagSpace (i + j) (ZMod 2) i := by
     have h1 := Submodule.mem_map_of_mem
@@ -177,7 +177,7 @@ theorem embed1_mem_upper {b : S2 i} (hb : b ∈ upperTriangular i (ZMod 2)) :
     | left c =>
       have hca : c < a := by
         have h := Fin.lt_def.1 hxy
-        simp only [Fin.coe_castAdd] at h
+        simp only [Fin.val_castAdd] at h
         exact h
       rw [embed1_cc]
       exact hb a c hca
@@ -188,7 +188,7 @@ theorem embed1_mem_upper {b : S2 i} (hb : b ∈ upperTriangular i (ZMod 2)) :
     | right e =>
       have hed : d ≠ e := by
         have h := Fin.lt_def.1 hxy
-        simp only [Fin.coe_natAdd] at h
+        simp only [Fin.val_natAdd] at h
         have : e < d := by omega
         exact this.ne'
       rw [embed1_nn]
@@ -203,7 +203,7 @@ theorem embed2_mem_upper {b : S2 j} (hb : b ∈ upperTriangular j (ZMod 2)) :
     | left c =>
       have hca : c ≠ a := by
         have h := Fin.lt_def.1 hxy
-        simp only [Fin.coe_castAdd] at h
+        simp only [Fin.val_castAdd] at h
         have : c < a := by omega
         exact this.ne
       rw [embed2_cc]
@@ -215,7 +215,7 @@ theorem embed2_mem_upper {b : S2 j} (hb : b ∈ upperTriangular j (ZMod 2)) :
     | right e =>
       have hed : e < d := by
         have h := Fin.lt_def.1 hxy
-        simp only [Fin.coe_natAdd] at h
+        simp only [Fin.val_natAdd] at h
         omega
       rw [embed2_nn]
       exact hb d e hed

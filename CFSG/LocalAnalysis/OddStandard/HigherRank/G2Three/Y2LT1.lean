@@ -40,8 +40,8 @@ theorem y2l_sylow_transport {X : Type} [Group X] [Finite X]
     (hM : closure ({x 0, x 1, x 2} : Set X) = M) (P : Sylow 2 X) :
     ∃ u v w r s : ↥P, IsPres26 2 e ↥P u v w r s ∧
       closure ({(u : X), (v : X), (w : X)} : Set X) = M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Sylow 2 X) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Sylow 2 X) :=
     Finite.of_injective (fun T : Sylow 2 X => (T : Set X)) SetLike.coe_injective
   have hx : (![x 0, x 1, x 2, x 3, x 4] : Fin 5 → X) = x := by
     funext i
@@ -90,7 +90,7 @@ theorem lemma26Pres2_holds :
     Lemma26Pres2 := by
   intro X _ _ hX P
   obtain ⟨⟨eM⟩, ⟨hN, ⟨eQ⟩⟩, hC⟩ := hX
-  haveI : (pCoreOf 2 (⊤ : Subgroup X)).Normal := ⟨fun m hm g => Subgroup.mem_subgroupOf.mp
+  have : (pCoreOf 2 (⊤ : Subgroup X)).Normal := ⟨fun m hm g => Subgroup.mem_subgroupOf.mp
     (hN.conj_mem ⟨m, mem_top m⟩ (Subgroup.mem_subgroupOf.mpr hm) ⟨g, mem_top g⟩)⟩
   have hidx : (pCoreOf 2 (⊤ : Subgroup X)).index = 168 := by
     rw [← Subgroup.relIndex_top_right]

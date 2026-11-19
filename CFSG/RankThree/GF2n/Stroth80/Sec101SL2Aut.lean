@@ -25,14 +25,14 @@ private theorem nonempty_mulEquiv_psl2Model_of_isSLModel {Y : Type} [Group Y] {r
     (hr : 1 ≤ r) (h : IsSLModel 2 (2 ^ r) Y) :
     Nonempty (Y ≃* CFSG.Theory.Comparator.PSL2Model r) := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : CharP K 2 :=
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hr
       hKcard
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (GaloisField 2 r) := Fintype.ofFinite _
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (GaloisField 2 r) := Fintype.ofFinite _
   have hcardF : Fintype.card K = Fintype.card (GaloisField 2 r) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hKcard,
       GaloisField.card 2 r (by omega)]

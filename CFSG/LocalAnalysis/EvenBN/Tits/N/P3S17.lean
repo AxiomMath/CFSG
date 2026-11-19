@@ -102,7 +102,7 @@ theorem CMt_inf_Cv (hd : d.Hyp) (h49 : d.Thm49Statement) :
 
 theorem card_zpowers_star_t (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) :
     Nat.card (zpowers (star d d.t)) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ho : orderOf (star d d.t) = 2 :=
     orderOf_eq_prime (by rw [pow_two]; exact star_t_mul_self h49 hd) (star_t_ne h49 hd hz)
   rw [Nat.card_zpowers, ho]

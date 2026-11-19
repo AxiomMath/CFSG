@@ -122,7 +122,7 @@ private lemma excU7Cover_step_curve_45 {p₀ : ℕ} (S : LangSetup Tag.E6 GGL p�
 
 theorem excU7Cover_swap {p₀ : ℕ} (S : LangSetup Tag.E6 GGL p₀)
     (a : Fin Tag.E6.rank → GGLˣ) (i : KernelComponent (rootCharHom a)) (f : ℕ)
-    (σQ : GGL ≃+* GGL) (hσQ : ∀ c, σQ c = c ^ 2 ^ f)
+    (σQ : GGL ≃+* GGL) (_hσQ : ∀ c, σQ c = c ^ 2 ^ f)
     (ψ : SL(6, GGL) →* ModGL Tag.E6 GGL) (σf : Fin 6 → Fin 6 → Fin Tag.E6.rank → ℤ)
     (hψ : IsSLFrame ψ σf) (hΨ : componentRoots (rootCharHom a) i = frameRoots σf)
     (z : ModGL Tag.E6 GGL)

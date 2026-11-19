@@ -20,8 +20,8 @@ private theorem card_inf_centralizer (h : WHyp G L A T z t W W₁ W₂) {u : G}
       IsElementaryAbelian 2 ↥((W ⊓ centralizer ({u} : Set G)) ⊔ zpowers u) ∧
       ((W ⊓ centralizer ({u} : Set G)) ⊔ zpowers u) ≤ centralizer ({u} : Set G) := by
   classical
-  haveI hWelem : IsElementaryAbelian 2 ↥W := h.elemAb
-  haveI hWcomm : IsMulCommutative ↥W := hWelem.toIsMulCommutative
+  have hWelem : IsElementaryAbelian 2 ↥W := h.elemAb
+  have hWcomm : IsMulCommutative ↥W := hWelem.toIsMulCommutative
   have hu_inv : u⁻¹ = u := inv_eq_of_mul_eq_one_right hu2
   have hWcard : Nat.card ↥W = 2 ^ 20 := h.e3.card
   let ψ : ↥W →* ↥W :=
@@ -107,11 +107,11 @@ private theorem card_inf_centralizer (h : WHyp G L A T z t W W₁ W₂) {u : G}
       centralizer (zpowers u : Set G) := by
     rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
     exact inf_le_right
-  haveI hCelem : IsElementaryAbelian 2 ↥(W ⊓ centralizer ({u} : Set G)) :=
+  have hCelem : IsElementaryAbelian 2 ↥(W ⊓ centralizer ({u} : Set G)) :=
     hWelem.of_le inf_le_left
-  haveI hzu_elem : IsElementaryAbelian 2 ↥(zpowers u) :=
+  have hzu_elem : IsElementaryAbelian 2 ↥(zpowers u) :=
     IsElementaryAbelian.zpowers_of_pow_eq_one (p := 2) (by rw [pow_two]; exact hu2)
-  haveI hYelem : IsElementaryAbelian 2 ↥(zpowers u ⊔ (W ⊓ centralizer ({u} : Set G))) :=
+  have hYelem : IsElementaryAbelian 2 ↥(zpowers u ⊔ (W ⊓ centralizer ({u} : Set G))) :=
     IsElementaryAbelian.sup_of_le_centralizer hCcent
   have hYsup : (W ⊓ centralizer ({u} : Set G)) ⊔ zpowers u =
       zpowers u ⊔ (W ⊓ centralizer ({u} : Set G)) := sup_comm _ _
@@ -156,7 +156,7 @@ private theorem card_inf_L (h : WHyp G L A T z t W W₁ W₂) {Y' : Subgroup G}
     (hcard : Nat.card ↥Y' = 2 ^ 11) :
     Nat.card ↥(Y' ⊓ L) = 2 ^ 10 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzcent : zpowers z ≤ centralizer (L : Set G) :=
     le_centralizer_zpowers_of_centralizer_eq h.hyp.set.centralizer_z
   have hznorm : zpowers z ≤ normalizer (L : Set G) :=
@@ -164,7 +164,7 @@ private theorem card_inf_L (h : WHyp G L A T z t W W₁ W₂) {Y' : Subgroup G}
   let P : Subgroup G := L ⊔ zpowers z
   have hLP : L ≤ P := le_sup_left
   have hPn : P ≤ normalizer (L : Set G) := sup_le Subgroup.le_normalizer hznorm
-  haveI : (L.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hPn
+  have : (L.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hPn
   let q : ↥Y' →* P ⧸ (L.subgroupOf P) :=
     (QuotientGroup.mk' (L.subgroupOf P)).comp (Subgroup.inclusion hY'P)
   have hker : q.ker = (Y' ⊓ L).subgroupOf Y' := by
@@ -217,9 +217,9 @@ theorem WHyp.exists_conj_of_isConj (h : WHyp G L A T z t W W₁ W₂) {u : G}
     calc (h₀ * z * h₀⁻¹) * (h₀ * z * h₀⁻¹) = h₀ * (z * z) * h₀⁻¹ := by group
       _ = 1 := by rw [hz2]; group
   have huW : u ∉ W := fun hW => h.not_isConj hW huz
-  haveI hWelem : IsElementaryAbelian 2 ↥W := h.elemAb
-  haveI hWcomm : IsMulCommutative ↥W := hWelem.toIsMulCommutative
-  haveI hzu_elem : IsElementaryAbelian 2 ↥(zpowers u) :=
+  have hWelem : IsElementaryAbelian 2 ↥W := h.elemAb
+  have hWcomm : IsMulCommutative ↥W := hWelem.toIsMulCommutative
+  have hzu_elem : IsElementaryAbelian 2 ↥(zpowers u) :=
     IsElementaryAbelian.zpowers_of_pow_eq_one (p := 2) (by rw [pow_two]; exact hu2)
   let C : Subgroup G := W ⊓ centralizer ({u} : Set G)
   let Y : Subgroup G := C ⊔ zpowers u

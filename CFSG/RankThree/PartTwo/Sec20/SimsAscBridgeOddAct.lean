@@ -24,6 +24,7 @@ variable {A M L N : Subgroup G} {c : G} {T : Subgroup G} {i j : Fin 4} {P X : Su
     (Subgroup.inclusion (hKY.trans le_sup_left))).codRestrict (yAlpha M X T c)
     fun k => ⟨Subgroup.inclusion (hKY.trans le_sup_left) k, hKY k.2, rfl⟩
 
+omit [Finite G] in
 theorem coe_kToYAlpha_apply (hKY : kTwenty M c ≤ yTwenty X c) (k : ↥(kTwenty M c)) :
     ((kToYAlpha (T := T) hKY k : ↥(yAlpha M X T c)) : _) =
       QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(yTwenty X c ⊔ CFSG.Open.pCoreOf 2 (kTwenty M c ⊔ T)))
@@ -42,10 +43,11 @@ theorem ker_kToYAlpha_le (hset : Setting204 G A M L N c T i j P)
 
 theorem isPerfect_range_kToYAlpha (hset : Setting204 G A M L N c T i j P)
     (hKY : kTwenty M c ≤ yTwenty X c) : Group.IsPerfect ↥(kToYAlpha (T := T) hKY).range := by
-  haveI : Group.IsPerfect ↥(kTwenty M c) :=
+  have : Group.IsPerfect ↥(kTwenty M c) :=
     isPerfect_of_mem_oTwoComponentsIn hset.mem_oTwoComponentsIn
   exact Group.IsPerfect.range _
 
+omit [Finite G] in
 theorem map_range_kToYAlpha (hKY : kTwenty M c ≤ yTwenty X c) :
     (kToYAlpha (T := T) hKY).range.map (yAlpha M X T c).subtype = kAlpha M X T c := by
   ext z
@@ -92,6 +94,7 @@ theorem range_kToYAlpha_ne_bot (hset : Setting204 G A M L N c T i j P)
   rw [ho] at hdvd
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card hdvd
 
+omit [Finite G] in
 theorem yAlpha_normal (hX : X ∈ scriptM ((kTwenty M c ⊔ T : Subgroup G) : Set G)) :
     (yAlpha M X T c).Normal := by
   have hKTX : kTwenty M c ⊔ T ≤ X := fun x hx => hX.2 hx
@@ -128,6 +131,7 @@ theorem conjNormal_yAlpha_injective
   rw [hC, Subgroup.mem_bot] at hgC
   exact hgC
 
+omit [Finite G] in
 theorem conjNormal_eq_conj (y : ↥(yAlpha M X T c)) :
     MulAut.conjNormal (H := yAlpha M X T c) (Subtype.val y) = MulAut.conj y := by
   ext z
@@ -148,6 +152,7 @@ theorem rAut_inf_innAut_eq_bot (hX : X ∈ scriptM ((kTwenty M c ⊔ T : Subgrou
   rw [h, Subgroup.mem_bot] at hrY
   rw [Subgroup.mem_bot, hrY, map_one]
 
+omit [Finite G] in
 theorem range_le_fixedSubgroup_of_commute (hKY : kTwenty M c ≤ yTwenty X c)
     (hcomm : ∀ k ∈ kAlpha M X T c, ∀ r ∈ rAlpha M X T c, k * r = r * k) :
     ∀ u ∈ (rAlpha M X T c).map MulAut.conjNormal,
@@ -161,6 +166,7 @@ theorem range_le_fixedSubgroup_of_commute (hKY : kTwenty M c ≤ yTwenty X c)
     exact ⟨_, ⟨k, rfl⟩, rfl⟩
   rw [← hcomm _ hk r hr, mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem commute_of_mem_fixedSubgroup {r : ↥(yTwenty X c ⊔ CFSG.Open.pCoreOf 2 (kTwenty M c ⊔ T)) ⧸
       CFSG.pPrimeCore 3 ↥(yTwenty X c ⊔ CFSG.Open.pCoreOf 2 (kTwenty M c ⊔ T))}
     {y : ↥(yAlpha M X T c)}

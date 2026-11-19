@@ -12,6 +12,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t : G} {E Y1 Y2 : Subgroup G}
 
+omit [Finite G] in
 private theorem pow_eq_self_of_sq_eq_one_of_odd {x : G} (hx : x ^ 2 = 1) {m : ℕ}
     (hm : Odd m) : x ^ m = x := by
   obtain ⟨k, rfl⟩ := hm
@@ -52,7 +53,7 @@ private theorem isComplement'_subgroupOf_sup_oddCoreIn (hc : Sec8T84XCore G t E 
     ((E ⊓ Y1).subgroupOf ((E ⊓ Y1) ⊔ oddCoreIn (normalizer (E : Set G)))).IsComplement'
       ((oddCoreIn (normalizer (E : Set G))).subgroupOf
         ((E ⊓ Y1) ⊔ oddCoreIn (normalizer (E : Set G)))) := by
-  haveI : ((oddCoreIn (normalizer (E : Set G))).subgroupOf
+  have : ((oddCoreIn (normalizer (E : Set G))).subgroupOf
       ((E ⊓ Y1) ⊔ oddCoreIn (normalizer (E : Set G)))).Normal :=
     oddCoreIn_subgroupOf_sup_normal hc
   have hinf_bot : E ⊓ Y1 ⊓ oddCoreIn (normalizer (E : Set G)) = ⊥ := by
@@ -108,7 +109,7 @@ theorem sec8t84d5_core_symm (h : Sec8T84XCore G t E Y1 Y2) : Sec8T84XCore G t E 
 theorem sec8t84d5_card_sylow (hc : Sec8T84XCore G t E Y1 Y2) {S1 : Subgroup G}
     (hS : IsSylow2Of S1 Y1) : Nat.card ↥S1 = 2 ^ 7 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcompl := isComplement'_subgroupOf_sup_oddCoreIn hc
   have hcardE1sub : Nat.card
       ↥((E ⊓ Y1).subgroupOf ((E ⊓ Y1) ⊔ oddCoreIn (normalizer (E : Set G)))) = 16 := by
@@ -169,10 +170,10 @@ theorem sec8t84d5_complement (hc : Sec8T84XCore G t E Y1 Y2) {S1 : Subgroup G}
     (hK : ∃ K : Subgroup G, K ≤ S1 ∧ (E ⊓ Y1) ⊓ K = ⊥ ∧ (E ⊓ Y1) ⊔ K = S1) :
     ∃ H : Subgroup G, H ≤ Y1 ∧ (E ⊓ Y1) ⊓ H = ⊥ ∧ (E ⊓ Y1) ⊔ H = Y1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : ((E ⊓ Y1).subgroupOf Y1).Normal := inf_subgroupOf_Y1_normal hc
-  haveI : IsMulCommutative ((E ⊓ Y1).subgroupOf Y1) := by
-    haveI : IsMulCommutative ↥(E ⊓ Y1) := hc.e16_1.1.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : ((E ⊓ Y1).subgroupOf Y1).Normal := inf_subgroupOf_Y1_normal hc
+  have : IsMulCommutative ((E ⊓ Y1).subgroupOf Y1) := by
+    have : IsMulCommutative ↥(E ⊓ Y1) := hc.e16_1.1.1
     exact IsMulCommutative.of_comm fun a b =>
       (Subgroup.subgroupOfEquivOfLe inf_le_right).injective (by
         rw [map_mul, map_mul, mul_comm'])
@@ -219,7 +220,7 @@ theorem sec8t84d5_split_of_complement
     (hc : Sec8T84XCore G t E Y1 Y2) {H : Subgroup G} (hHY : H ≤ Y1) (hinf : (E ⊓ Y1) ⊓ H = ⊥)
     (hsup : (E ⊓ Y1) ⊔ H = Y1) : Sec8T84SplitFor G E Y1 := by
   classical
-  haveI : ((E ⊓ Y1).subgroupOf Y1).Normal := inf_subgroupOf_Y1_normal hc
+  have : ((E ⊓ Y1).subgroupOf Y1).Normal := inf_subgroupOf_Y1_normal hc
   have hO_le_H : oddCoreIn (normalizer (E : Set G)) ≤ H := by
     intro o ho
     have hoY : o ∈ Y1 := hc.o_le1 ho

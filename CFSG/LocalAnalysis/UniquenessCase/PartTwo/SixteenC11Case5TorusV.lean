@@ -23,6 +23,7 @@ private noncomputable def s16c11_case5_psi : Multiplicative (K × K) →* MulAut
         Multiplicative.toAdd x + Multiplicative.toAdd y := rfl
     rw [h, Prod.fst_add, Prod.snd_add, s16c11_case5_rhoU_mul]
 
+omit [Finite K] in
 private theorem s16c11_case5_psi_injective [CharP K 2] :
     Function.Injective (s16c11_case5_psi (K := K)) := by
   intro x y h
@@ -30,6 +31,7 @@ private theorem s16c11_case5_psi_injective [CharP K 2] :
   apply Multiplicative.toAdd.injective
   exact Prod.ext h'.1 h'.2
 
+omit [Finite K] in
 private theorem s16c11_case5_mem_psi_map_iff [CharP K 2]
     (P : AddSubgroup (K × K)) (a b : K) :
     s16c11_case5_rhoU a b ∈
@@ -53,7 +55,7 @@ theorem s16c11_case5_V_ann (hK : Nat.card K = 4) {A : Subgroup (MulAut (VM K))}
       (∀ a b : K, s16c11_case5_rhoU a b ∈ A ↔ (a, b) ∈ P) ∧
       ∀ P' : AddSubgroup (K × K), P' ≤ P → Nat.card ↥P ≤ 2 * Nat.card ↥P' →
         s16c11_case5_ann P' = s16c11_case5_ann P := by
-  haveI := s16c11_case5_charP hK
+  have := s16c11_case5_charP hK
   obtain ⟨hAS, hA1, hAe, hAc⟩ := hA
   let P : AddSubgroup (K × K) :=
     { carrier := {p | s16c11_case5_rhoU p.1 p.2 ∈ A}

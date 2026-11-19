@@ -32,7 +32,7 @@ theorem exists_q3Conf
   have hQle : c.Q ≤ centralizer ({c.a} : Set (MulAut K₀)) := c.Q_le.trans inf_le_right
   have hQ2 : IsPGroup 2 c.Q := by
     obtain ⟨T, hT⟩ := hQs
-    have h := T.isPGroup'
+    have h := T.isPGroup
     rw [hT] at h
     exact h.of_equiv (subgroupOfEquivOfLe hQle)
   have hg2 : IsPGroup 2 (zpowers c.g) := by

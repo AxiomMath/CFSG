@@ -42,10 +42,12 @@ def psuConjHom : J.unitarySubgroup →* MulAut (ProjectiveSpecialUnitaryMatrixGr
         (map_conj_unitary (A := (A : GL (Fin 3) K)) J A.2)
         (map_conj_unitary (A := (B : GL (Fin 3) K)) J B.2) h12
 
+omit [Finite K] in
 theorem psuConjHom_apply (A : J.unitarySubgroup) :
     psuConjHom J A = psuAut J (MulAut.conj (A : GL (Fin 3) K))
       (map_conj_unitary (A := (A : GL (Fin 3) K)) J A.2) := rfl
 
+omit [Finite K] in
 theorem coe_psuConjHom_psuMk (A : J.unitarySubgroup) (g : J.specialSubgroup) :
     ((psuConjHom J A (psuMk J g) : ProjectiveSpecialUnitaryMatrixGroup J) :
         Matrix.ProjGenLinGroup (Fin 3) K) =
@@ -57,6 +59,7 @@ theorem coe_psuConjHom_psuMk (A : J.unitarySubgroup) (g : J.specialSubgroup) :
   simpa [MulAut.conj_apply] using coe_psuAut_mk J (MulAut.conj (A : GL (Fin 3) K))
     (map_conj_unitary (A := (A : GL (Fin 3) K)) J A.2) g.2
 
+omit [Fact (Nat.Prime p)] in
 theorem ringAut_conj_comm (hK : Nat.card K = (p ^ f) ^ 2)
     (hfix : Nat.card {x : K // J.conj x = x} = p ^ f) (σ : K ≃+* K) (x : K) :
     σ (J.conj x) = J.conj (σ x) := by
@@ -64,6 +67,7 @@ theorem ringAut_conj_comm (hK : Nat.card K = (p ^ f) ^ 2)
     map_pow, ← CFSG.BenderSuzuki.External.huppert_II_10_4_conj_eq_frobenius J (p ^ f) hK hfix
       (σ x)]
 
+omit [Fact p.Prime] in
 theorem map_glAut_special (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     (hK : Nat.card K = (p ^ f) ^ 2) (hfix : Nat.card {x : K // J.conj x = x} = p ^ f)
     (σ : K ≃+* K) :
@@ -85,10 +89,12 @@ def psuFieldHom (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
       psuAut_mul J (glAut σ) (glAut τ) (map_glAut_special J hJ hK hfix σ)
         (map_glAut_special J hJ hK hfix τ) _
 
+omit [Fact p.Prime] in
 theorem psuFieldHom_apply (σ : K ≃+* K) :
     psuFieldHom J hJ hK hfix σ =
       psuAut J (glAut σ) (map_glAut_special J hJ hK hfix σ) := rfl
 
+omit [Fact p.Prime] in
 theorem glAut_mem_unitary (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     (hK : Nat.card K = (p ^ f) ^ 2) (hfix : Nat.card {x : K // J.conj x = x} = p ^ f)
     (σ : K ≃+* K) {A : GL (Fin 3) K} (hA : A ∈ J.unitarySubgroup) :
@@ -104,6 +110,7 @@ theorem glAut_mem_unitary (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
   rw [HermitianForm.mem_unitarySubgroup_iff] at hA ⊢
   rw [coe_glAut, hT, ← hJσ, ← map_mul_ringEquiv, ← map_mul_ringEquiv, hJσ, hA, hJσ]
 
+omit [Fact p.Prime] in
 theorem coe_psuFieldHom_psuMk (σ : K ≃+* K) (g : J.specialSubgroup) :
     ((psuFieldHom J hJ hK hfix σ (psuMk J g) : ProjectiveSpecialUnitaryMatrixGroup J) :
         Matrix.ProjGenLinGroup (Fin 3) K) =
@@ -150,6 +157,7 @@ variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) {p f : ℕ} [Fact p.Prime]
   (hK : Nat.card K = (p ^ f) ^ 2) (hfix : Nat.card {x : K // J.conj x = x} = p ^ f)
 
+omit [Finite K] in
 theorem pgl_conj_smul (A u : GL (Fin 3) K) (x : ℙ K (Fin 3 → K)) :
     (Matrix.ProjGenLinGroup.mk (A * u * A⁻¹) : Matrix.ProjGenLinGroup (Fin 3) K) •
         ((Matrix.ProjGenLinGroup.mk A) • x) =
@@ -169,6 +177,7 @@ theorem pgl_conj_smul (A u : GL (Fin 3) K) (x : ℙ K (Fin 3 → K)) :
     simpa only [Matrix.GeneralLinearGroup.coe_mul] using
       congrArg (fun x : GL (Fin 3) K => (x : Matrix (Fin 3) (Fin 3) K)) h
 
+omit [Finite K] in
 theorem smul_mem_isotropicSet_unitary (A : J.unitarySubgroup) {x : ℙ K (Fin 3 → K)}
     (hx : x ∈ isotropicSet J) :
     (Matrix.ProjGenLinGroup.mk (A : GL (Fin 3) K) • x) ∈ isotropicSet J := by
@@ -184,18 +193,22 @@ def guSmul (A : J.unitarySubgroup) (x : IsoPoint J) : IsoPoint J :=
   ⟨Matrix.ProjGenLinGroup.mk (A : GL (Fin 3) K) • (x : ℙ K (Fin 3 → K)),
     smul_mem_isotropicSet_unitary J A x.2⟩
 
+omit [Finite K] in
 @[simp] theorem coe_guSmul (A : J.unitarySubgroup) (x : IsoPoint J) :
     ((guSmul J A x : IsoPoint J) : ℙ K (Fin 3 → K)) =
       Matrix.ProjGenLinGroup.mk (A : GL (Fin 3) K) • (x : ℙ K (Fin 3 → K)) := rfl
 
+omit [Finite K] in
 theorem root_eq_psuMk (z : Coord J) :
     root J hJ z = psuMk J (hermitianUnipotentSU J hJ z) := rfl
 
+omit [Finite K] in
 theorem coe_root_eq_mk (z : Coord J) :
     ((root J hJ z : ProjectiveSpecialUnitaryMatrixGroup J) :
         Matrix.ProjGenLinGroup (Fin 3) K) =
       Matrix.ProjGenLinGroup.mk (hermitianUnipotentGL J z) := rfl
 
+omit [Finite K] in
 theorem guSmul_conj_root (A : J.unitarySubgroup) (z : Coord J) (x : IsoPoint J) :
     (psuConjHom J A (root J hJ z)) • guSmul J A x = guSmul J A (root J hJ z • x) := by
   apply Subtype.ext
@@ -232,6 +245,7 @@ variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) {p f : ℕ} [Fact p.Prime]
   (hK : Nat.card K = (p ^ f) ^ 2) (hfix : Nat.card {x : K // J.conj x = x} = p ^ f)
 
+omit [Finite K] in
 theorem root_fixed_eq_pinf {r : rootGroup J hJ} (hr : r ≠ 1) {x : IsoPoint J}
     (hx : (r : ProjectiveSpecialUnitaryMatrixGroup J) • x = x) : x = pinf J hJ := by
   by_contra hxne
@@ -243,6 +257,7 @@ theorem root_fixed_eq_pinf {r : rootGroup J hJ} (hr : r ≠ 1) {x : IsoPoint J}
 
 variable (hq : 1 < p ^ f)
 
+omit [Fact (Nat.Prime p)] in
 theorem guSmul_pinf_of_stabilizes_rootGroup (hK : Nat.card K = (p ^ f) ^ 2)
     (hfix : Nat.card {x : K // J.conj x = x} = p ^ f) (hq : 1 < p ^ f)
     (A : J.unitarySubgroup)
@@ -291,6 +306,7 @@ variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) {p f : ℕ} [Fact p.Prime]
   (hK : Nat.card K = (p ^ f) ^ 2) (hfix : Nat.card {x : K // J.conj x = x} = p ^ f)
 
+omit [Finite K] in
 theorem first_column_of_fixes_pinf (A : J.unitarySubgroup)
     (h : guSmul J A (pinf J hJ) = pinf J hJ) :
     ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 1 0 = 0 ∧
@@ -313,6 +329,7 @@ theorem first_column_of_fixes_pinf (A : J.unitarySubgroup)
     simp [v, Matrix.mulVec, dotProduct, Fin.sum_univ_three] at h2
     exact h2.symm
 
+omit [Finite K] in
 theorem unitary_entries_of_upper (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     (A : J.unitarySubgroup)
     (h10 : ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 1 0 = 0)
@@ -329,7 +346,7 @@ theorem unitary_entries_of_upper (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
   rw [hJ, ← hM] at hA
   have h20' : J.conj (M 2 2) * M 0 0 = 1 := by
     have h := congrFun (congrFun hA 2) 0
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.conjTranspose, h10, h20] at h
+    simp [Matrix.mul_apply, Fin.sum_univ_three, h10, h20] at h
     exact h
   have ha : M 0 0 ≠ 0 := by
     intro h0
@@ -341,13 +358,13 @@ theorem unitary_entries_of_upper (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     exact eq_inv_of_mul_eq_one_left h
   have h21 : M 2 1 = 0 := by
     have h := congrFun (congrFun hA 1) 0
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.conjTranspose, h10, h20] at h
+    simp [Matrix.mul_apply, Fin.sum_univ_three, h10, h20] at h
     rcases h with h | h
     · exact (map_eq_zero_iff J.conj J.conj.injective).mp h
     · exact absurd h ha
   have h11 : J.conj (M 1 1) * M 1 1 = 1 := by
     have h := congrFun (congrFun hA 1) 1
-    simp [Matrix.mul_apply, Fin.sum_univ_three, HermitianForm.conjTranspose, h21, h10, h20] at h
+    simp [Matrix.mul_apply, Fin.sum_univ_three, HermitianForm.conjTranspose, h21] at h
     simpa using h
   exact ⟨h21, ha, h22, h11⟩
 
@@ -368,6 +385,7 @@ noncomputable section
 
 variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
 
+omit [Finite K] in
 theorem diag3_mem_unitary (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) {a b c : Kˣ}
     (hb : (b : K) * J.conj (b : K) = 1) (hc : (c : K) = (J.conj (a : K))⁻¹) :
     diag3 a b c ∈ J.unitarySubgroup := by
@@ -377,6 +395,7 @@ theorem diag3_mem_unitary (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) {a b c :
   fin_cases i <;> fin_cases j <;>
     simp [HermitianForm.conjTranspose, Matrix.mul_apply, Fin.sum_univ_three, hb', hc]
 
+omit [Finite K] in
 theorem det_diag3 (a b c : Kˣ) :
     Matrix.GeneralLinearGroup.det (diag3 a b c) = a * b * c := by
   rw [Units.ext_iff, Matrix.GeneralLinearGroup.val_det_apply, coe_diag3, Matrix.det_fin_three]
@@ -401,6 +420,7 @@ variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) {p f : ℕ} [Fact p.Prime]
   (hK : Nat.card K = (p ^ f) ^ 2) (hfix : Nat.card {x : K // J.conj x = x} = p ^ f)
 
+omit [Finite K] in
 theorem det_of_upper (A : GL (Fin 3) K)
     (h10 : (A : Matrix (Fin 3) (Fin 3) K) 1 0 = 0)
     (h20 : (A : Matrix (Fin 3) (Fin 3) K) 2 0 = 0)
@@ -432,6 +452,7 @@ variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) {p f : ℕ} [Fact p.Prime]
   (hK : Nat.card K = (p ^ f) ^ 2) (hfix : Nat.card {x : K // J.conj x = x} = p ^ f)
 
+omit [Finite K] in
 private theorem diag3_inv_mul_diag_entries (a b c : Kˣ) (M : Matrix (Fin 3) (Fin 3) K)
     (haa : (a : K) = M 0 0) (hbb : (b : K) = M 1 1)
     (hcc : (c : K) = (J.conj (a : K))⁻¹)
@@ -442,8 +463,7 @@ private theorem diag3_inv_mul_diag_entries (a b c : Kˣ) (M : Matrix (Fin 3) (Fi
   refine ⟨?_, ?_, ?_⟩ <;>
     rw [Matrix.mul_apply] <;>
     simp only [Fin.sum_univ_three, Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons, Matrix.zero_apply, mul_zero,
-      zero_mul, add_zero, mul_one, zero_add, Units.val_inv_eq_inv_val, inv_inv, ← haa, ← hbb,
+      Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons, zero_mul, add_zero, zero_add, Units.val_inv_eq_inv_val, inv_inv, ← haa, ← hbb,
       hcc, h22]
   · exact inv_mul_cancel₀ a.ne_zero
   · exact inv_mul_cancel₀ b.ne_zero
@@ -451,6 +471,7 @@ private theorem diag3_inv_mul_diag_entries (a b c : Kˣ) (M : Matrix (Fin 3) (Fi
     intro h
     exact a.ne_zero (J.conj.injective (h.trans (map_zero J.conj).symm))
 
+omit [Finite K] in
 theorem exists_diag_mul_upper_unitriangular (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     (A : J.unitarySubgroup)
     (h10 : ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 1 0 = 0)
@@ -514,7 +535,7 @@ theorem exists_diag_mul_upper_unitriangular (hJ : J.form = !![0, 0, 1; 0, 1, 0; 
     simp [Fin.sum_univ_three, h10, h20, hM.symm]
   · show ((diag3 a b c)⁻¹ * (A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 2 1 = 0
     rw [coe_diag3_inv, Matrix.mul_apply]
-    simp [Fin.sum_univ_three, h10, h20, h21, hM.symm]
+    simp [Fin.sum_univ_three, h21, hM.symm]
   · rw [map_mul, MonoidHom.map_inv (Matrix.GeneralLinearGroup.det : GL (Fin 3) K →* Kˣ),
       det_diag3, hdetA]
     exact inv_mul_cancel _
@@ -537,6 +558,7 @@ noncomputable section
 variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
 
+omit [Finite K] in
 theorem psuAut_eq_of_eq {θ₁ θ₂ : MulAut (GL (Fin 3) K)}
     (hθ : θ₁ = θ₂) (h₁ : J.specialSubgroup.map θ₁.toMonoidHom = J.specialSubgroup)
     (h₂ : J.specialSubgroup.map θ₂.toMonoidHom = J.specialSubgroup) :
@@ -544,14 +566,16 @@ theorem psuAut_eq_of_eq {θ₁ θ₂ : MulAut (GL (Fin 3) K)}
   subst hθ
   rfl
 
+omit [Finite K] in
 theorem diag3_scalar_center (b : Kˣ) :
     diag3 b b b ∈ Subgroup.center (GL (Fin 3) K) := by
   rw [Subgroup.mem_center_iff]
   intro g
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [diag3, Matrix.mul_apply, Fin.sum_univ_three, mul_assoc, mul_left_comm, mul_comm]
+    simp [diag3, Matrix.mul_apply, Fin.sum_univ_three, mul_comm]
 
+omit [Finite K] in
 theorem psuConjHom_scalar (b : Kˣ)
     (hD : diag3 b b b ∈ J.unitarySubgroup) :
     psuConjHom J ⟨diag3 b b b, hD⟩ = 1 := by
@@ -584,6 +608,7 @@ noncomputable section
 variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
 
+omit [Finite K] in
 theorem psuConjHom_psuMk (N : J.specialSubgroup) :
     psuConjHom J ⟨(N : GL (Fin 3) K), J.specialSubgroup_le_unitarySubgroup N.2⟩ =
       MulAut.conj (psuMk J N) := by
@@ -604,19 +629,17 @@ def diagTorus : Kˣ →* J.unitarySubgroup where
   map_one' := by
     apply Subtype.ext
     rw [Subgroup.coe_one, ← diag3_one]
-    congr 1
     exact Units.ext (by simp)
   map_mul' c d := by
     apply Subtype.ext
     rw [Subgroup.coe_mul, diag3_mul]
-    congr 2
-    exact Units.ext (by simp [map_mul, map_inv, mul_comm])
+    exact Units.ext (by simp [map_mul, mul_comm])
 
 def torusAut : Kˣ →* MulAut (ProjectiveSpecialUnitaryMatrixGroup J) :=
   (psuConjHom J).comp (diagTorus J hJ)
 
 theorem isCyclic_torusAut_range : IsCyclic (torusAut J hJ).range := by
-  haveI : IsCyclic Kˣ := inferInstance
+  have : IsCyclic Kˣ := inferInstance
   exact isCyclic_of_surjective (torusAut J hJ).mrangeRestrict
     (torusAut J hJ).mrangeRestrict_surjective
 
@@ -638,6 +661,7 @@ noncomputable section
 variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
 
+omit [Finite K] in
 theorem diag3_mem_torusAut_range {a b c : Kˣ}
     (hb : (b : K) * J.conj (b : K) = 1) (hc : (c : K) = (J.conj (a : K))⁻¹)
     (hD : diag3 a b c ∈ J.unitarySubgroup) :
@@ -651,8 +675,7 @@ theorem diag3_mem_torusAut_range {a b c : Kˣ}
   have heq : diag3 a b c = diag3 e 1 e3 * diag3 b b b := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [diag3, Matrix.mul_apply, Fin.sum_univ_three, e, e3, he, hc, hbconj, map_div₀,
-        map_inv₀]
+      simp [diag3, Matrix.mul_apply, Fin.sum_univ_three, e, e3, he, hc, hbconj, map_div₀]
     field_simp
   have hE : diag3 e 1 e3 ∈ J.unitarySubgroup := by
     refine diag3_mem_unitary (a := e) (b := 1) (c := e3) J hJ ?_ ?_
@@ -688,6 +711,7 @@ noncomputable section
 variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
 
+omit [Finite K] in
 theorem eq_hermitianUnipotent_of_unitriangular (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     (N : J.specialSubgroup)
     (h00 : ((N : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 0 0 = 1)
@@ -702,18 +726,17 @@ theorem eq_hermitianUnipotent_of_unitriangular (hJ : J.form = !![0, 0, 1; 0, 1, 
   have hz : ((N : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 1 2 =
       -J.conj (((N : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 0 1) := by
     have h := congrFun (congrFun hmem 1) 2
-    simp [Matrix.mul_apply, Fin.sum_univ_three, HermitianForm.conjTranspose, h00, h10, h11,
-      h20, h21, h22] at h
+    simp [Matrix.mul_apply, Fin.sum_univ_three, HermitianForm.conjTranspose, h11,
+      h21, h22] at h
     linear_combination h
   have hq : ((N : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 0 2 +
       J.conj (((N : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 0 2) +
       ((N : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 0 1 *
         J.conj (((N : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 0 1) = 0 := by
     have h := congrFun (congrFun hmem 2) 2
-    simp [Matrix.mul_apply, Fin.sum_univ_three, HermitianForm.conjTranspose, h00, h10, h11,
-      h20, h21, h22] at h
+    simp [Matrix.mul_apply, Fin.sum_univ_three, HermitianForm.conjTranspose, h22] at h
     rw [hz] at h
-    simp only [map_neg, map_mul, map_inv₀, mul_neg, neg_mul, neg_neg, conj_conj] at h
+    simp only [map_neg, mul_neg, neg_mul, neg_neg, conj_conj] at h
     simpa only [add_assoc, add_comm, add_left_comm] using h
   refine ⟨⟨(((N : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 0 1,
     ((N : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 0 2), hq⟩, ?_⟩
@@ -741,6 +764,7 @@ noncomputable section
 variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
 
+omit [Finite K] in
 theorem psuConjHom_mem_sup_of_upper (A : J.unitarySubgroup)
     (h10 : ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 1 0 = 0)
     (h20 : ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 2 0 = 0)
@@ -766,9 +790,9 @@ theorem psuConjHom_mem_sup_of_upper (A : J.unitarySubgroup)
         simp
       have h := congrFun (congrFun hmat 1) 1
       rw [Matrix.mul_apply] at h
-      simp only [Fin.sum_univ_three, hDform, hN11, hN10, hN21, Matrix.cons_val_zero,
+      simp only [Fin.sum_univ_three, hDform, hN11, hN21, Matrix.cons_val_zero,
         Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons,
-        Matrix.of_apply, Matrix.zero_apply, zero_mul, mul_one, zero_add, add_zero] at h
+        Matrix.of_apply, zero_mul, mul_one, zero_add, add_zero] at h
       exact h
     rw [hA11] at h11
     rw [mul_comm]
@@ -823,6 +847,7 @@ variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) {p f : ℕ} [Fact p.Prime]
   (hK : Nat.card K = (p ^ f) ^ 2) (hfix : Nat.card {x : K // J.conj x = x} = p ^ f)
 
+omit [Fact p.Prime] in
 theorem psuField_conj_psuConj (σ : K ≃+* K) (A : J.unitarySubgroup) :
     psuFieldHom J hJ hK hfix σ * psuConjHom J A * (psuFieldHom J hJ hK hfix σ)⁻¹ =
       psuConjHom J ⟨(glAut σ) (A : GL (Fin 3) K),
@@ -851,7 +876,7 @@ theorem psuField_conj_psuConj (σ : K ≃+* K) (A : J.unitarySubgroup) :
     hc ⟨(glAut σ) (A : GL (Fin 3) K), glAut_mem_unitary J hJ hK hfix σ A.2⟩ ⟨g, hg⟩]
   rw [coe_psuMk, coe_psuMk]
   congr 1
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+  simp only
   rw [map_mul, map_mul, map_inv]
   congr 1
   rw [show (glAut σ) ((glAut σ)⁻¹ (g : GL (Fin 3) K)) = g from by
@@ -878,6 +903,7 @@ variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (hK : Nat.card K = (p ^ f) ^ 2) (hfix : Nat.card {x : K // J.conj x = x} = p ^ f)
 
 open CFSG.ProperTwoGeneratedCore.Lemma37.UnitaryOuter in
+omit [Fact p.Prime] in
 theorem psuFieldHom_root (σ : K ≃+* K) (z : Coord J) :
     psuFieldHom J hJ hK hfix σ (root J hJ z) =
       root J hJ (sigmaCoord J σ (ringAut_conj_comm J hK hfix σ) z) := by
@@ -892,6 +918,7 @@ theorem psuFieldHom_root (σ : K ≃+* K) (z : Coord J) :
     (glAut_hermitianUnipotentGL J σ (ringAut_conj_comm J hK hfix σ) z)
 
 open CFSG.ProperTwoGeneratedCore.Lemma37.UnitaryOuter in
+omit [Fact p.Prime] in
 theorem psuFieldHom_stabilizes_rootGroup (σ : K ≃+* K) :
     (rootGroup J hJ).map (psuFieldHom J hJ hK hfix σ).toMonoidHom = rootGroup J hJ := by
   refine Subgroup.eq_of_le_of_card_ge ?_ ?_
@@ -984,6 +1011,7 @@ def coordConj (c : Kˣ) (z : Coord J) : Coord J :=
     simp only [map_mul, conj_conj]
     linear_combination (c * J.conj c) * z.2⟩
 
+omit [Finite K] in
 theorem conj_diag3_hermitianUnipotentGL (c : Kˣ) (z : Coord J) :
     diag3 c 1 (Units.mk0 ((J.conj (c : K))⁻¹) (inv_ne_zero (by
         intro h
@@ -999,7 +1027,7 @@ theorem conj_diag3_hermitianUnipotentGL (c : Kˣ) (z : Coord J) :
     coe_diag3, coe_diag3_inv]
   fin_cases i <;> fin_cases j <;>
     simp [hermitianUnipotentGL, hermitianUnipotentMatrix, coordConj, Matrix.mul_apply,
-      Fin.sum_univ_three, map_mul] <;> ring
+      Fin.sum_univ_three, map_mul]; ring
 
 theorem torusAut_maps_rootGroup (c : Kˣ) :
     (rootGroup J hJ).map (torusAut J hJ c).toMonoidHom = rootGroup J hJ := by
@@ -1022,12 +1050,13 @@ theorem torusAut_mem_rootGroup (c : Kˣ) {x : ProjectiveSpecialUnitaryMatrixGrou
   have h := Subgroup.mem_map_of_mem (torusAut J hJ c).toMonoidHom hx
   rwa [torusAut_maps_rootGroup] at h
 
+omit [Finite K] in
 theorem conj_conj_mulAut (β : MulAut (ProjectiveSpecialUnitaryMatrixGroup J))
     (r : ProjectiveSpecialUnitaryMatrixGroup J) :
     MulAut.conj β (MulAut.conj r) = MulAut.conj (β r) := by
   ext x
   simp only [MulAut.conj_apply, MulAut.mul_apply, MulAut.inv_apply,
-    MulEquiv.apply_symm_apply, MulEquiv.coe_toMonoidHom, map_mul, map_inv]
+    MulEquiv.apply_symm_apply, map_mul, map_inv]
 
 theorem torusAut_range_le_normalizer_map_conj :
     (torusAut J hJ).range ≤
@@ -1055,11 +1084,13 @@ theorem torusAut_range_le_normalizer_map_conj :
       rw [conj_conj_mulAut]
       simp
 
+omit [Finite K] in
 theorem guSmul_one (x : IsoPoint J) : guSmul J 1 x = x := by
   apply Subtype.ext
   rw [coe_guSmul]
   simp
 
+omit [Finite K] in
 theorem guSmul_mul (A B : J.unitarySubgroup) (x : IsoPoint J) :
     guSmul J (A * B) x = guSmul J A (guSmul J B x) := by
   apply Subtype.ext
@@ -1075,10 +1106,12 @@ instance instMulActionUnitarySubgroup : MulAction J.unitarySubgroup (IsoPoint J)
 def stabPinf : Subgroup J.unitarySubgroup :=
   MulAction.stabilizer J.unitarySubgroup (pinf J hJ)
 
+omit [Finite K] in
 theorem mem_stabPinf {A : J.unitarySubgroup} :
     A ∈ stabPinf J hJ ↔ guSmul J A (pinf J hJ) = pinf J hJ :=
   MulAction.mem_stabilizer_iff
 
+omit [Finite K] in
 theorem fixes_pinf_of_first_column (A : J.unitarySubgroup)
     (h10 : ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 1 0 = 0)
     (h20 : ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 2 0 = 0) :
@@ -1090,6 +1123,7 @@ theorem fixes_pinf_of_first_column (A : J.unitarySubgroup)
   fin_cases i <;>
     simp [Units.smul_def, Matrix.mulVec, dotProduct, Fin.sum_univ_three, h10, h20]
 
+omit [Fact p.Prime] in
 theorem glAut_mem_stabPinf (σ : K ≃+* K) {A : J.unitarySubgroup}
     (hA : A ∈ stabPinf J hJ) :
     (⟨(glAut σ) (A : GL (Fin 3) K),
@@ -1120,6 +1154,7 @@ variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
   (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0]) {p f : ℕ} [Fact p.Prime]
   (hK : Nat.card K = (p ^ f) ^ 2) (hfix : Nat.card {x : K // J.conj x = x} = p ^ f)
 
+omit [Fact p.Prime] in
 theorem mem_stabPinf_of_factor (hK : Nat.card K = (p ^ f) ^ 2)
     (hfix : Nat.card {x : K // J.conj x = x} = p ^ f) (hq : 2 < p ^ f)
     {A : Subgroup (MulAut (ProjectiveSpecialUnitaryMatrixGroup J))}
@@ -1157,7 +1192,7 @@ theorem commutator_le_of_stabilizes_rootGroup
         glAut_mem_unitary J hJ hK hfix σ x.2⟩ : J.unitarySubgroup))
     ?_ ?_ ?_ ?_
   · intro s t
-    haveI : IsCyclic (K ≃+* K) := CFSG.GH74.GLS.IVK.ringAut_isCyclic K
+    have : IsCyclic (K ≃+* K) := CFSG.GH74.GLS.IVK.ringAut_isCyclic K
     exact IsCyclic.commGroup.mul_comm s t
   · intro σ x
     exact psuField_conj_psuConj J hJ hK hfix σ x
@@ -1228,8 +1263,8 @@ theorem pRank_three_commutator_le_one_of_stabilizes_sylow
     statedClassicalModel hd ⟨e⟩
   obtain ⟨-, hf, hq, K, hKfield, hKfin, J, hJ, hKcard, hfix, ⟨eP⟩⟩ :=
     exists_equiv_psu (f := d.1.fieldExponent) hcm
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨S, hS⟩ := exists_sylow_eq_rootGroup J hJ hKcard hfix hf
   obtain ⟨e', he'⟩ := exists_equiv_map_eq eP U S
   let Φ : MulAut L ≃* MulAut (ProjectiveSpecialUnitaryMatrixGroup J) := MulAut.congr e'

@@ -49,7 +49,7 @@ theorem le_pRank_of_surj_SL2
       _ ≤ q ^ 3 := Nat.pow_le_pow_left hq3 3
       _ ≤ q ^ f := Nat.pow_le_pow_right hq.pos hf
   have hK4 : 4 ≤ Nat.card K := by rw [Nat.card_eq_fintype_card]; omega
-  haveI : IsSimpleGroup PSL(2, K) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hK4
+  have : IsSimpleGroup PSL(2, K) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hK4
   obtain ⟨hperf, ⟨eM⟩⟩ :=
     CFSG.LieType.Steinberg.CentralExt.SL2Closed.psl_two_hopfMultiplier (k := K) (by omega)
       (by omega)

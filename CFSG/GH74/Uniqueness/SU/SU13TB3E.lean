@@ -140,7 +140,7 @@ theorem false_of_oc_eq (hz : orderOf z = 2) (e : Elts G z) (l : Lem232 z e) (hE 
         hR'p hEsR') hR hER
   have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨Q, hQ⟩ := hEsp.exists_le_sylow
-  have hQeq : (Q : Subgroup G) = Es := hmaxG Q Q.isPGroup' hQ
+  have hQeq : (Q : Subgroup G) = Es := hmaxG Q Q.isPGroup hQ
   have hQcard : Nat.card Q = 81 := by
     have : Nat.card (Q : Subgroup G) = Nat.card Es := by rw [hQeq]
     rw [← hEs81]; exact this

@@ -774,7 +774,7 @@ theorem diag_barImage_mulEquiv_19 {D : Data G} {V₀ V : Subgroup G}
 
 theorem five_dvd_of_normal_tau_19 {D : Data G}
     {V₀ V : Subgroup G} {p : ℕ} {L K : Subgroup G} (h : Ctx19_1 D V₀ V p L K)
-    (hLn : ¬ (L.subgroupOf D.M).Normal) {s : G} (hsT : s ∈ D.T) (hs2 : s ^ 2 = 1)
+    (_hLn : ¬ (L.subgroupOf D.M).Normal) {s : G} (hsT : s ∈ D.T) (hs2 : s ^ 2 = 1)
     (hsL : s ∉ normalizer (L : Set G)) {N : Subgroup G}
     (hNH : N ≤ E1.tauOf (L ⊔ K ⊔ D.T) (L ⊔ K ⊔ D.T) (Subgroup.zpowers s))
     (hHN : E1.tauOf (L ⊔ K ⊔ D.T) (L ⊔ K ⊔ D.T) (Subgroup.zpowers s) ≤

@@ -52,7 +52,7 @@ private lemma uniCubeBlock_cube_root_eq_one_or_sq {K : Type} [Field K] {ω : K}
     · exact Or.inr (sub_eq_zero.mp h)
 
 private lemma uniCubeBlock_one_ne_omega_sq {K : Type} [Field K] [CharP K 2] {ω : K}
-    (hω : ω ^ 2 + ω + 1 = 0) (hω1 : ω ≠ 1) : (1 : K) ≠ ω ^ 2 := by
+    (hω : ω ^ 2 + ω + 1 = 0) (_hω1 : ω ≠ 1) : (1 : K) ≠ ω ^ 2 := by
   intro h
   have htwo : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have h1 : (1 : K) + ω + 1 = 0 := by simpa [← h] using hω
@@ -61,7 +61,7 @@ private lemma uniCubeBlock_one_ne_omega_sq {K : Type} [Field K] [CharP K 2] {ω 
     exact h1
   rw [htwo, add_zero] at h2
   rw [h2] at hω
-  have h10 : (1 : K) = 0 := by simpa using hω
+  have h10 : (1 : K) = 0 := by simp at hω
   exact one_ne_zero h10
 
 private lemma uniCubeBlock_omega_ne_sq {K : Type} [Field K] [CharP K 2] {ω : K}
@@ -107,7 +107,7 @@ private theorem uniCubeBlock_isHermIsometry_of_mem_largeEvenSU {K : Type} [Field
 
 private lemma uniCubeBlock_add_pow_two_pow {K : Type} [Field K] [CharP K 2] (f : ℕ) (a b : K) :
     (a + b) ^ (2 ^ f) = a ^ (2 ^ f) + b ^ (2 ^ f) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact add_pow_char_pow a b 2 f
 
 private lemma uniCubeBlock_sum_pow_add {K : Type} [Field K] [CharP K 2] {N : ℕ} (f : ℕ)
@@ -348,8 +348,8 @@ private lemma uniCubeBlock_sup_eigen_eq_top {K : Type} [Field K] [Finite K] [Cha
 
 private theorem uniCubeBlock_center_ne_bot {K : Type} [Field K] [Finite K] [CharP K 2]
     {f N : ℕ} (h : UnitaryFieldData 2 f K) (hN : 4 ≤ N)
-    {d : GL (Fin N) K} (hd : IsHermIsometry (2 ^ f) (d : Matrix (Fin N) (Fin N) K))
-    (hd3 : d ^ 3 = 1) (hq3 : 3 ∣ 2 ^ f + 1) {J' : Subgroup (PSUg N K (2 ^ f))} {μ ω : K}
+    {d : GL (Fin N) K} (_hd : IsHermIsometry (2 ^ f) (d : Matrix (Fin N) (Fin N) K))
+    (_hd3 : d ^ 3 = 1) (hq3 : 3 ∣ 2 ^ f + 1) {J' : Subgroup (PSUg N K (2 ^ f))} {μ ω : K}
     (hμ3 : μ ^ 3 = 1) (hk3 : Module.finrank K (cubeEigen d μ) = 3)
     (hJ : J' = eigBlock (2 ^ f) d μ) (hω : ω ^ 2 + ω + 1 = 0) (hω1 : ω ≠ 1)
     {a b : K} (ha3 : a ^ 3 = 1) (hb3 : b ^ 3 = 1) (haμ : a ≠ μ) (hbμ : b ≠ μ)
@@ -700,8 +700,7 @@ theorem uniR_cube_block {K : Type} [Field K] [Finite K] [CharP K 2] {q N : ℕ} 
       ext g
       constructor
       · intro _; trivial
-      · intro _
-        intro ν hν hνμ v hv
+      · intro _ ν hν hνμ v hv
         have hbot : cubeEigen d ν = ⊥ := by
           rw [← inf_top_eq (cubeEigen d ν), ← htop]
           exact (Module.End.eigenspaces_iSupIndep

@@ -13,10 +13,10 @@ open Subgroup CFSG.Blueprint CFSG.Blueprint.NativeSporadic CFSG.Sporadic.RuSchre
 
 theorem le_of_isPerfect_of_comm_quotient {G : Type*} [Group G] {K X : Subgroup G} [K.Normal]
     (hcomm : ∀ a b : G ⧸ K, a * b = b * a) (hX : Group.IsPerfect ↥X) : X ≤ K := by
-  haveI : IsMulCommutative (G ⧸ K) := IsMulCommutative.of_comm hcomm
+  have : IsMulCommutative (G ⧸ K) := IsMulCommutative.of_comm hcomm
   have hle : _root_.commutator G ≤ K :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le (G := G) (N := K)).mp inferInstance
-  haveI : Group.IsPerfect ↥X := hX
+  have : Group.IsPerfect ↥X := hX
   calc X = ⁅X, X⁆ := (Subgroup.commutator_eq_self (H := X)).symm
     _ ≤ ⁅(⊤ : Subgroup G), ⊤⁆ := Subgroup.commutator_mono le_top le_top
     _ = _root_.commutator G := rfl
@@ -42,17 +42,17 @@ theorem card_eq_of_perfect_centralizer_ru {R : Type} [Group R] (hR : IsSporadic 
   have hXmapL : X.map (emb e) ≤ ruL := by
     rintro _ ⟨x, hx, rfl⟩
     exact emb_conj_mem he (hXu x hx)
-  haveI : Group.IsPerfect ↥X := hX
+  have : Group.IsPerfect ↥X := hX
   have hXmap_perf : Group.IsPerfect ↥(X.map (emb e)) :=
     Group.IsPerfect.ofSurjective
       (f := (X.equivMapOfInjective (emb e) (emb_injective e)).toMonoidHom)
       (X.equivMapOfInjective (emb e) (emb_injective e)).surjective
-  haveI := hXmap_perf
+  have := hXmap_perf
   have hXruL_perf : Group.IsPerfect ↥((X.map (emb e)).subgroupOf ruL) :=
     Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hXmapL).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hXmapL).symm.surjective
-  haveI : (K0.subgroupOf ruL).Normal := K0_normal
+  have : (K0.subgroupOf ruL).Normal := K0_normal
   have hcardK0sub : Nat.card (K0.subgroupOf ruL) = 29120 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe K0_le_L).toEquiv, card_K0]
   have hcardQ : Nat.card (↥ruL ⧸ K0.subgroupOf ruL) = 2 ^ 2 := by
@@ -62,7 +62,7 @@ theorem card_eq_of_perfect_centralizer_ru {R : Type} [Group R] (hR : IsSporadic 
       (Nat.eq_of_mul_eq_mul_right (by norm_num : 0 < 29120) h).symm
     rw [h4]
     norm_num
-  haveI : IsMulCommutative (↥ruL ⧸ K0.subgroupOf ruL) :=
+  have : IsMulCommutative (↥ruL ⧸ K0.subgroupOf ruL) :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) hcardQ
   have hXruL_le : (X.map (emb e)).subgroupOf ruL ≤ K0.subgroupOf ruL :=
     le_of_isPerfect_of_comm_quotient (fun a b => mul_comm' a b) hXruL_perf

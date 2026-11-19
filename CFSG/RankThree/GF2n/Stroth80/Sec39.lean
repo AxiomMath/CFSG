@@ -11,24 +11,29 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec39_Vt_le {M L B Z : Subgroup G} {t : G} {S : Subgroup G} (hZ : Z ≤ S)
     (hB : ∀ m ∈ M, t ∈ conjSubgroup m L → conjSubgroup m B ≤ S) : Vt M L B Z t ≤ S := by
   unfold Vt
   exact sup_le hZ (iSup₂_le fun m hm => iSup_le fun hT => hB m hm hT)
 
+omit [Finite G] in
 theorem sec39_Z_le_Vt {M L B Z : Subgroup G} {t : G} : Z ≤ Vt M L B Z t := by
   unfold Vt
   exact le_sup_left
 
+omit [Finite G] in
 theorem sec39_conjB_le_Vt {M L B Z : Subgroup G} {t m : G} (hm : m ∈ M)
     (hT : t ∈ conjSubgroup m L) : conjSubgroup m B ≤ Vt M L B Z t := by
   unfold Vt
   exact le_sup_of_le_right (le_iSup₂_of_le m hm (le_iSup_of_le hT le_rfl))
 
+omit [Finite G] in
 theorem sec39_Q_le_LB {M Q B : Subgroup G} : Q ≤ LB M Q B := by
   unfold LB
   exact le_sup_left
 
+omit [Finite G] in
 theorem sec39_centralizer_symm {A K : Subgroup G} (h : A ≤ Subgroup.centralizer (K : Set G)) :
     K ≤ Subgroup.centralizer (A : Set G) := by
   intro k hk
@@ -36,6 +41,7 @@ theorem sec39_centralizer_symm {A K : Subgroup G} (h : A ≤ Subgroup.centralize
   intro a ha
   exact (Subgroup.mem_centralizer_iff.mp (h ha) k hk).symm
 
+omit [Finite G] in
 theorem le_Rt (L : Subgroup G) {t : G} (ht : t ∈ L) : L ≤ Rt M L t := by
   have hT : t ∈ conjSubgroup (1 : G) (L) := by
     rw [conjSubgroup_one]
@@ -45,6 +51,7 @@ theorem le_Rt (L : Subgroup G) {t : G} (ht : t ∈ L) : L ≤ Rt M L t := by
   unfold Rt
   exact hL.trans (le_iSup₂_of_le (1 : G) M.one_mem (le_iSup_of_le hT le_rfl))
 
+omit [Finite G] in
 theorem Ctx.Rt_le_M (hc : Ctx M Q Z B) (t : G) : Rt M (LB M Q B) t ≤ M := by
   unfold Rt
   refine iSup₂_le fun m hm => iSup_le fun hT => ?_
@@ -54,10 +61,12 @@ theorem Ctx.Rt_le_M (hc : Ctx M Q Z B) (t : G) : Rt M (LB M Q B) t ≤ M := by
     M.mul_mem (M.mul_mem hm (hc.LB_le_M hx)) (M.inv_mem hm)
   rwa [show m * (m⁻¹ * x * m) * m⁻¹ = x by group] at h2
 
-theorem Ctx.Q_le_Rt (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
+omit [Finite G] in
+theorem Ctx.Q_le_Rt (_hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
     Q ≤ Rt M (LB M Q B) t :=
   le_trans sec39_Q_le_LB (le_Rt (LB M Q B) ht)
 
+omit [Finite G] in
 theorem Ctx.Vt_le_Q (hc : Ctx M Q Z B) (t : G) : Vt M (LB M Q B) B Z t ≤ Q := by
   refine sec39_Vt_le hc.Z_le_Q fun m hm _ => ?_
   calc conjSubgroup m B ≤ conjSubgroup m Q := Subgroup.map_mono hc.le
@@ -117,6 +126,7 @@ theorem Ctx.commutator_LB_le_Q (hc : Ctx M Q Z B) : ⁅LB M Q B, LB M Q B⁆ ≤
   rw [key]
   exact Q.mul_mem (hconj s hsM _ F1) F2
 
+omit [Finite G] in
 theorem Ctx.conj_LB_le_M (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) :
     conjSubgroup m (LB M Q B) ≤ M := by
   intro x hx
@@ -141,7 +151,7 @@ theorem Ctx.comm_mem_Q_of_conj (hc : Ctx M Q Z B) {m : G} (hm : m ∈ M) {t r : 
   rw [e2] at h3
   exact h3
 
-theorem Ctx.Rt_normalizes_Vt (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
+theorem Ctx.Rt_normalizes_Vt (hc : Ctx M Q Z B) {t : G} (_ht : t ∈ LB M Q B) :
     Rt M (LB M Q B) t ≤ Subgroup.normalizer (Vt M (LB M Q B) B Z t : Set G) := by
   have hstep : ∀ m' ∈ M, ∀ _ : t ∈ conjSubgroup m' (LB M Q B),
       ∀ r ∈ conjSubgroup m' (LB M Q B),
@@ -192,7 +202,7 @@ theorem Ctx.Rt_normalizes_Vt (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
 theorem Ctx.Vt_comm (hc : Ctx M Q Z B)
     (h352 : ∀ m ∈ M, CQt Q Z (LB M Q (conjSubgroup m B)) =
       ((conjSubgroup m B ⊔ Z : Subgroup G) : Set G))
-    {t : G} (ht : t ∈ LB M Q B) (htQ : t ∉ Q) :
+    {t : G} (_ht : t ∈ LB M Q B) (htQ : t ∉ Q) :
     ∀ x ∈ Vt M (LB M Q B) B Z t, ∀ y ∈ Vt M (LB M Q B) B Z t, x * y = y * x := by
   have hBQ : ∀ m ∈ M, conjSubgroup m B ≤ Q := fun m hm => (hc.conj_of_mem hm).le
   have hpair : ∀ m ∈ M, t ∈ conjSubgroup m (LB M Q B) → ∀ m' ∈ M,

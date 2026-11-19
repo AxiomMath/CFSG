@@ -43,7 +43,7 @@ theorem bridge_sp8two {S : Type} [Group S] (h : catalogIs S S8.L84.isSp82) :
 
 theorem nonempty_sp82_equiv :
     Nonempty (StatedSp 4 (ZMod 2) ≃* CFSG.PGLModel.projSp 4 (GaloisField 2 1)) := by
-  haveI : Nat.card (GaloisField 2 1) = 2 := by
+  have : Nat.card (GaloisField 2 1) = 2 := by
     rw [GaloisField.card 2 1 one_ne_zero]; norm_num
   obtain ⟨φ⟩ := exists_ringEquiv_zmod_two (K := GaloisField 2 1) this
   exact ⟨(statedProjEquivZMod2 φ

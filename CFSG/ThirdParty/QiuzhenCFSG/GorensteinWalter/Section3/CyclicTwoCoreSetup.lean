@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section2.Basic
 public import CFSG.ThirdParty.QiuzhenCFSG.BenderGlauberman.Defs
@@ -233,7 +233,7 @@ public theorem exists_firstCaseBGData
     I2_hall := hHall2
   }⟩
 
-@[expose] public noncomputable def firstCaseBGKData
+@[instance_reducible, expose] public noncomputable def firstCaseBGKData
     {G : Type u} [Group G] [Finite G]
     (hmin : IsMinimalCounterexample G)
     (c : CentralizerSetup G)

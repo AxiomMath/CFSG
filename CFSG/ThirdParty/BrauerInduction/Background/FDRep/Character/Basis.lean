@@ -37,12 +37,12 @@ theorem character_mem_span_simple_characters
               (_ : CategoryTheory.Simple S),
               χ = S.character } := by
 
-  haveI : NeZero (Nat.card G : k) := ⟨One.natCast_natCard_ne_zero_of_finite G k⟩
+  have : NeZero (Nat.card G : k) := ⟨One.natCast_natCard_ne_zero_of_finite G k⟩
 
   obtain ⟨ι, f, hι, hsimple, ⟨e⟩⟩ :=
     FDRep.exists_simple_decomposition V
 
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
 
   rw [FDRep.char_eq_of_iso e]
   rw [FDRep.char_biproduct]

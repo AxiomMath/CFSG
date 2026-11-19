@@ -187,7 +187,7 @@ theorem exists_epsQ (x : E0q) : ∃ m, epsQ m = x := by
 
 theorem coe_conjNormal (n : Zq) (x : E0q) :
     (((@MulAut.conjNormal ↥Zq _ E0q E0q_normal) n x : E0q) : Zq) = n * x * n⁻¹ := by
-  haveI := E0q_normal
+  have := E0q_normal
   exact MulAut.conjNormal_apply n x
 
 theorem actZq_apply (n : Zq) (x : E0q) :

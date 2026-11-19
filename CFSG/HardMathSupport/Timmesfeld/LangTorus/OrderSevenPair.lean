@@ -27,7 +27,7 @@ variable {τ : Tag} {L : Type} [Field L]
 theorem orderOf_word_aux (hd : DataChecks τ) {j k : Fin τ.rank}
     (hp : ordPowCheck τ j k = true) (hn : ordNeCheck τ j k = true) (h2 : (2 : L) = 0) :
     orderOf (xUnit τ L k 1 * yUnit τ L k 1 * yUnit τ L j 1 * xUnit τ L j 1) = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hu : (((xUnit τ L k 1 * yUnit τ L k 1 * yUnit τ L j 1 * xUnit τ L j 1 :
       (Module.End L (RootModule τ L))ˣ)) : Module.End L (RootModule τ L)) =
       prodOp (genOp τ L j k) ordWord := by

@@ -18,12 +18,12 @@ theorem exists_fix_of_invariant {E : Subgroup (SUid σ 4)} (hE2 : ∀ a ∈ E, a
     (hT : ∀ a ∈ E, ∀ y ∈ T, a • y ∈ T) (hT0 : T ≠ ⊥) :
     ∃ y ∈ T, y ≠ 0 ∧ y ∈ fixSp E := by
   have hP : IsPGroup 2 ↥E := fun a => ⟨1, Subtype.ext (by simpa [pow_two] using hE2 a.1 a.2)⟩
-  letI : MulAction ↥E ↥T :=
+  let : MulAction ↥E ↥T :=
     { smul := fun a y => ⟨(a : SUid σ 4) • (y : Fin 4 → F), hT a a.2 y y.2⟩
       one_smul := fun y => Subtype.ext (one_smul _ _)
       mul_smul := fun a b y => Subtype.ext (mul_smul (a : SUid σ 4) (b : SUid σ 4) _) }
   have hev : Even (Nat.card ↥T) := by
-    haveI : Nontrivial ↥T := Submodule.nontrivial_iff_ne_bot.mpr hT0
+    have : Nontrivial ↥T := Submodule.nontrivial_iff_ne_bot.mpr hT0
     have hpos : 0 < Module.finrank F ↥T := Module.finrank_pos
     rw [Module.natCard_eq_pow_finrank (K := F) (V := ↥T)]
     exact Nat.even_pow.mpr ⟨hFev, by omega⟩
@@ -84,6 +84,7 @@ theorem orbit_span_eq_top (hσ : IsUnitaryInvolution σ) {E : Subgroup (SUid σ 
     rw [← fixSp_eq_horth hσ hE2]; exact hyfix
   rw [mem_horth.mp hyh u hu, map_zero]
 
+omit [Finite F] in
 theorem JJ_eq_zero_of_orbit {E : Subgroup (SUid σ 4)} (t : Fin 4 → F)
     (ht : Submodule.span F {y | ∃ a ∈ E, y = a • t} = ⊤) {g : Module.End F (Fin 4 → F)}
     (hg : g ∈ JJ E) (h0 : g t = 0) : g = 0 := by
@@ -128,7 +129,7 @@ theorem card_sq_le_of_finrank_eq_three (hσ : IsUnitaryInvolution σ) {E : Subgr
     omega
   obtain ⟨t, htmem⟩ : ∃ t, t ∉ commSp E := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (eq_top_iff.mpr fun x _ => h x)
   have hsup : Submodule.span F {t} ⊔ commSp E = ⊤ := by
     have hlt : commSp E < Submodule.span F {t} ⊔ commSp E := by

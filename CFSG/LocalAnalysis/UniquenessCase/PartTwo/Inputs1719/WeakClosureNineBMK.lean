@@ -282,7 +282,7 @@ theorem Kx_eq_sup : Kx i D = Mx i D ⊔ Sx i D :=
     (sup_le (Mx_le_Kx hT hE hC) le_sup_right)
 
 theorem Qx_inf_Yx : Qx i D ⊓ Yx i D = ⊥ := by
-  apply inf_eq_bot_of_coprime
+  apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
   rw [card_Qx hT hE hC, card_Yx hT hE hC]
   exact Nat.Coprime.pow _ _ (by norm_num)
 

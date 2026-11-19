@@ -128,8 +128,8 @@ theorem spSupported_X_sub_one_eq_bot {m : ℕ} {K : Type} [Field K] {x : StatedS
   exact Subgroup.mem_bot.mpr (spEnd_injective h2)
 
 theorem spFixedFactor_commutator_eq_self {m n p : ℕ} {K : Type} [Field K] [Finite K]
-    (hK : Nat.card K = 2 ^ n) (hm : 2 ≤ m) (hp : p.Prime) (hp2 : p ≠ 2)
-    {x : StatedSp m K} (hx : x ^ p = 1) (hx1 : x ≠ 1)
+    (hK : Nat.card K = 2 ^ n) (_hm : 2 ≤ m) (_hp : p.Prime) (_hp2 : p ≠ 2)
+    {x : StatedSp m K} (_hx : x ^ p = 1) (_hx1 : x ≠ 1)
     (hblocks : SpPrimaryBlocks 2 n p x (proj m K x))
     (hd0 : spFixedDim x ≠ 0) (hd2 : spFixedDim x ≠ 2)
     (h42 : ¬ (spFixedDim x = 4 ∧ Nat.card K = 2)) :
@@ -158,8 +158,8 @@ theorem spFixedFactor_commutator_eq_self {m n p : ℕ} {K : Type} [Field K] [Fin
     Subgroup.map_top, Subgroup.range_subtype]
 
 theorem spFixedFactor_mem_commutator_of_four_two {m n p : ℕ} {K : Type} [Field K] [Finite K]
-    (hK : Nat.card K = 2 ^ n) (hm : 2 ≤ m) (hp : p.Prime) (hp2 : p ≠ 2)
-    {x : StatedSp m K} (hx : x ^ p = 1) (hx1 : x ≠ 1)
+    (_hK : Nat.card K = 2 ^ n) (_hm : 2 ≤ m) (hp : p.Prime) (hp2 : p ≠ 2)
+    {x : StatedSp m K} (_hx : x ^ p = 1) (_hx1 : x ≠ 1)
     (hblocks : SpPrimaryBlocks 2 n p x (proj m K x))
     (hd4 : spFixedDim x = 4) (hK2 : Nat.card K = 2)
     {u : StatedSp m K} (hu : u ∈ spSupported x ({X - 1} : Set K[X])) (hup : u ^ p = 1) :
@@ -168,8 +168,8 @@ theorem spFixedFactor_mem_commutator_of_four_two {m n p : ℕ} {K : Type} [Field
   exact hodd hp hp2 u hu hup
 
 theorem spFixedFactor_commutator_commutative_of_two_two {m n p : ℕ} {K : Type} [Field K]
-    [Finite K] (hK : Nat.card K = 2 ^ n) (hm : 2 ≤ m) (hp : p.Prime) (hp2 : p ≠ 2)
-    {x : StatedSp m K} (hx : x ^ p = 1) (hx1 : x ≠ 1)
+    [Finite K] (_hK : Nat.card K = 2 ^ n) (_hm : 2 ≤ m) (_hp : p.Prime) (_hp2 : p ≠ 2)
+    {x : StatedSp m K} (_hx : x ^ p = 1) (_hx1 : x ≠ 1)
     (hblocks : SpPrimaryBlocks 2 n p x (proj m K x))
     (hd2 : spFixedDim x = 2) (hK2 : Nat.card K = 2) :
     IsMulCommutative ↥⁅spSupported x ({X - 1} : Set K[X]),
@@ -199,8 +199,8 @@ theorem spFixedFactor_commutator_commutative_of_two_two {m n p : ℕ} {K : Type}
     norm_num
   have hnotperf : ¬ Group.IsPerfect ↥F := by
     intro hperf
-    haveI : Nontrivial ↥F := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
-    haveI := hperf
+    have : Nontrivial ↥F := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
+    have := hperf
     exact Group.IsPerfect.not_isSolvable _ hsolvF
   have hDne : ⁅F, F⁆ ≠ F := by
     intro hEq
@@ -236,18 +236,18 @@ theorem spFixedFactor_commutator_commutative_of_two_two {m n p : ℕ} {K : Type}
   have hpos : 0 < Nat.card ↥⁅F, F⁆ := Nat.card_pos
   rcases (by omega : Nat.card ↥⁅F, F⁆ = 1 ∨ Nat.card ↥⁅F, F⁆ = 2 ∨
       Nat.card ↥⁅F, F⁆ = 3) with h1 | h1 | h1
-  · haveI : Subsingleton ↥⁅F, F⁆ :=
+  · have : Subsingleton ↥⁅F, F⁆ :=
       (Finite.card_le_one_iff_subsingleton (α := ↥⁅F, F⁆)).mp (by omega)
     exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
-  · haveI : Fact (Nat.card ↥⁅F, F⁆).Prime := ⟨h1 ▸ Nat.prime_two⟩
+  · have : Fact (Nat.card ↥⁅F, F⁆).Prime := ⟨h1 ▸ Nat.prime_two⟩
     exact (isCyclic_of_prime_card (α := ↥⁅F, F⁆) rfl).isMulCommutative
-  · haveI : Fact (Nat.card ↥⁅F, F⁆).Prime := ⟨h1 ▸ Nat.prime_three⟩
+  · have : Fact (Nat.card ↥⁅F, F⁆).Prime := ⟨h1 ▸ Nat.prime_three⟩
     exact (isCyclic_of_prime_card (α := ↥⁅F, F⁆) rfl).isMulCommutative
 
 theorem exists_fixed_lift {m n p : ℕ} {K : Type} [Field K] [Finite K]
-    (hK : Nat.card K = 2 ^ n) (hm : 2 ≤ m) (hp : p.Prime) (hp2 : p ≠ 2)
+    (hK : Nat.card K = 2 ^ n) (_hm : 2 ≤ m) (hp : p.Prime) (hp2 : p ≠ 2)
     {x y : StatedSp m K} (hx : x ^ p = 1) (hy : y ^ p = 1) (hxy : x * y = y * x)
-    (hx1 : x ≠ 1) (hblocks : SpPrimaryBlocks 2 n p x (proj m K x)) :
+    (_hx1 : x ≠ 1) (hblocks : SpPrimaryBlocks 2 n p x (proj m K x)) :
     ∃ u ∈ spSupported x ({X - 1} : Set K[X]), u ^ p = 1 ∧
       ∀ g ∈ spSupported x ({X - 1} : Set K[X]), u⁻¹ * g * u = y⁻¹ * g * y := by
   classical
@@ -255,7 +255,7 @@ theorem exists_fixed_lift {m n p : ℕ} {K : Type} [Field K] [Finite K]
   have hyC : y ∈ Subgroup.centralizer ({x} : Set (StatedSp m K)) :=
     Subgroup.mem_centralizer_singleton_iff.mpr hxy.symm
   have hyinvC : y⁻¹ ∈ Subgroup.centralizer ({x} : Set (StatedSp m K)) := Subgroup.inv_mem _ hyC
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with h0 | h0
     · exfalso
@@ -263,8 +263,8 @@ theorem exists_fixed_lift {m n p : ℕ} {K : Type} [Field K] [Finite K]
       have h2c := Finite.one_lt_card (α := K)
       omega
     · exact h0
-  haveI hchar : CharP K 2 := by
-    letI : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 := by
+    let : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [Fintype.card_eq_nat_card, hK])
   have hpK : (p : K) ≠ 0 := by
@@ -390,7 +390,7 @@ theorem spFixedFactor_oddOrder_mem_commutator_or_commutative {m n p : ℕ} {K : 
       IsMulCommutative ↥⁅spSupported x ({X - 1} : Set K[X]),
         spSupported x ({X - 1} : Set K[X])⁆ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with h0 | h0
     · exfalso
@@ -398,8 +398,8 @@ theorem spFixedFactor_oddOrder_mem_commutator_or_commutative {m n p : ℕ} {K : 
       have h2c := Finite.one_lt_card (α := K)
       omega
     · exact h0
-  haveI hchar : CharP K 2 := by
-    letI : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 := by
+    let : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [Fintype.card_eq_nat_card, hK])
   have hpK : (p : K) ≠ 0 := by
@@ -426,8 +426,8 @@ theorem spFixedFactor_oddOrder_mem_commutator_or_commutative {m n p : ℕ} {K : 
         rcases hc with ⟨-, hq⟩
         rcases hq with h2 | h3
         · exact hK2 h2
-        · haveI : CharP K 2 := hchar
-          letI : Fintype K := Fintype.ofFinite K
+        · have : CharP K 2 := hchar
+          let : Fintype K := Fintype.ofFinite K
           obtain ⟨m, -, hm⟩ := FiniteField.card K 2
           have hm' : Nat.card K = 2 ^ (m : ℕ) := by
             rw [Nat.card_eq_fintype_card, hm]
@@ -489,7 +489,7 @@ theorem spFixedBlockAnalysis_holds :
             CFSG.ComponentClassification.OuterAutomorphisms.inner (PSimple p J) := by
   intro m n p K _ _ hK hm hp hp2 x y hxp hyp hxy hx1 J hJeq hN
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with h0 | h0
     · exfalso
@@ -497,16 +497,16 @@ theorem spFixedBlockAnalysis_holds :
       have h2c := Finite.one_lt_card (α := K)
       omega
     · exact h0
-  haveI hchar : CharP K 2 := by
-    letI : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 := by
+    let : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [Fintype.card_eq_nat_card, hK])
   have hpK : (p : K) ≠ 0 := by
     intro h0
     rw [CharP.cast_eq_zero_iff K 2] at h0
     exact hp2 (Nat.prime_dvd_prime_iff_eq Nat.prime_two hp |>.1 h0).symm
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero m := ⟨by omega⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero m := ⟨by omega⟩
   have hm1 : 1 ≤ m := by omega
   have ha1 : proj m K x ≠ 1 := fun h1 =>
     hx1 ((CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo
@@ -523,9 +523,9 @@ theorem spFixedBlockAnalysis_holds :
       huF hup with huD | hcomm
     · exact indAut_mem_inner_of_inducesInnerMod hN (inducesInnerMod_fixed hJeq huD hconj)
     ·
-      haveI hcommD : IsMulCommutative ↥⁅spSupported x ({X - 1} : Set K[X]),
+      have hcommD : IsMulCommutative ↥⁅spSupported x ({X - 1} : Set K[X]),
           spSupported x ({X - 1} : Set K[X])⁆ := hcomm
-      haveI hproj : Function.Injective (proj m K) :=
+      have hproj : Function.Injective (proj m K) :=
         CFSG.LocalAnalysis.GLTheoremA.K155XSp.l154s_proj_injective (K := K) (r := m) (by
           have := CharP.cast_eq_zero K 2
           simpa using this)
@@ -533,22 +533,22 @@ theorem spFixedBlockAnalysis_holds :
           spSupported x ({X - 1} : Set K[X])⁆ ≃* ↥J :=
         (Subgroup.equivMapOfInjective _ (proj m K) hproj).trans
           (MulEquiv.subgroupCongr hJeq.symm)
-      haveI hcommJ : IsMulCommutative ↥J := ⟨⟨fun a b => by
+      have hcommJ : IsMulCommutative ↥J := ⟨⟨fun a b => by
         obtain ⟨a', rfl⟩ := e.surjective a
         obtain ⟨b', rfl⟩ := e.surjective b
         rw [← map_mul, ← map_mul, (isMulCommutative_iff.mp hcomm) a' b']⟩⟩
-      haveI hcommQ : IsMulCommutative (PQuot p J) := ⟨⟨fun a b => by
+      have hcommQ : IsMulCommutative (PQuot p J) := ⟨⟨fun a b => by
         refine Quotient.inductionOn a fun a' => Quotient.inductionOn b fun b' => ?_
         rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul,
           (isMulCommutative_iff.mp hcommJ) a' b']⟩⟩
       have hcenter : Subgroup.center (PQuot p J) = ⊤ := Subgroup.center_eq_top
-      haveI : Subsingleton (PSimple p J) := by
+      have : Subsingleton (PSimple p J) := by
         have h : PSimple p J = (PQuot p J ⧸ (⊤ : Subgroup (PQuot p J))) := by
           unfold PSimple
           rw [hcenter]
         exact h ▸ QuotientGroup.subsingleton_quotient_top
       exact mem_inner_of_subsingleton _
-  · haveI := subsingleton_pSimple_of_not_dvd hp hpJ
+  · have := subsingleton_pSimple_of_not_dvd hp hpJ
     exact mem_inner_of_subsingleton _
 
 end CFSG.LocalAnalysis.GLTheoremA.T171Sh

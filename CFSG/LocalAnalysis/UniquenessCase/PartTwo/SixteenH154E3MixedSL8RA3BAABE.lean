@@ -99,7 +99,7 @@ theorem s16h_sl28_seven_kbar_central_element
             calc d⁻¹ * l * d = d⁻¹ * (l * d) := by group
               _ = d⁻¹ * (d * l) := by rw [hcomm]
               _ = l := by group
-          simp [MulAut.conj_apply, hfix]
+          simp [hfix]
       have hcomp : (B.map (MulAut.conj d).toMonoidHom).map
           (MulAut.conj d⁻¹).toMonoidHom = B := by
         rw [Subgroup.map_map]

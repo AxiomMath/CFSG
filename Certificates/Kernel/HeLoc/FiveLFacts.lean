@@ -47,8 +47,8 @@ theorem neA_P {t u : Array Nat} {x y : Equiv.Perm (Fin 8330)} {f f' : Nat → Na
   rw [eqOnL_of_eq Five.bs_lt hf hf'] at h
   exact absurd h (by decide)
 
-theorem hmulP : ∀ a ∈ heP, ∀ b ∈ heP, (a * b ∈ heP ↔ (a ∈ heP ↔ b ∈ heP)) :=
-  fun a ha b hb => iff_of_true (heP.mul_mem ha hb) (iff_of_true ha hb)
+theorem hmulP : ∀ _a ∈ heP, ∀ _b ∈ heP, (_a * _b ∈ heP ↔ (_a ∈ heP ↔ _b ∈ heP)) :=
+  fun _a ha _b hb => iff_of_true (heP.mul_mem ha hb) (iff_of_true ha hb)
 
 theorem qgens_eq (k : Nat) (hk : k < 2) : heFiveQGens[k]! = unpack 8330 14 (A k) := by
   rw [heFiveQGens]

@@ -596,7 +596,7 @@ theorem exists_sylow_three_u4_commute_fieldAut (h : UnitaryFieldData 2 f K) (hf 
       card_range_u4projM h hf hlam hlamq hlam0]
   let P : Sylow 3 (StatedProj (StatedSU 4 (2 ^ f) K)) := Sylow.ofCard S hcardS
   refine ⟨S, ?_, ?_, ?_, ?_⟩
-  · exact P.isPGroup'
+  · exact P.isPGroup
   · exact P.not_dvd_index
   · intro s hs
     obtain ⟨x, rfl⟩ := MonoidHom.mem_range.mp hs

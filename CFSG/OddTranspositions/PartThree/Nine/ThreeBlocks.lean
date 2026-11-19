@@ -208,8 +208,8 @@ theorem mem_sylow_of_mem_sup_center {K : Type} [Group K] [Finite K]
   have hoc : ∀ x : K, o * x = x * o := fun x => Subgroup.mem_center_iff.mp (hOZ ho) x |>.symm
   have hodd : Odd (Nat.card (CFSG.oddCore K)) := CFSG.ABGLocalTools.odd_card_oddCore
   have hTO : (T : Subgroup K) ⊓ CFSG.oddCore K = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
-    obtain ⟨n, hn⟩ := T.isPGroup'.exists_card_eq
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
+    obtain ⟨n, hn⟩ := T.isPGroup.exists_card_eq
     rw [hn]
     exact Nat.Coprime.pow_left n (Nat.coprime_two_left.mpr hodd)
   have ho2 : o * o = 1 := by

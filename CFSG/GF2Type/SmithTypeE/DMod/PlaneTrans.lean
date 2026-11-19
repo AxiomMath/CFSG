@@ -35,7 +35,7 @@ theorem exists_smul_planes_eq (i j : Fin 75735) : ∃ g : TD6, g • i = j := by
 
 theorem exists_fixed_plane (P : Subgroup TD6) (hP : IsPGroup 2 P) :
     ∃ i : Fin 75735, ∀ g ∈ P, g • i = i := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := hP.card_modEq_card_fixedPoints (Fin 75735)
   have hcard : Nat.card (Fin 75735) = 75735 := by simp
   rw [hcard] at h

@@ -64,7 +64,7 @@ theorem kgOrth_holds :
     · exact ⟨_, Or.inr rfl, hG⟩
   obtain ⟨X, inst, -, hXLie, hfac, g, hg, hker⟩ :=
     kgOrth_lieFactor hp hp2 ht hG a hap K hKo
-  letI := inst
+  let := inst
   obtain ⟨eJ⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.center_quot_equiv_of_surjective
       hXLie.perfect g hg hker

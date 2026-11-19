@@ -99,7 +99,7 @@ private theorem fr_nWord_conj (j : ℕ) {W : List ℕ} (hW : ∀ l ∈ W, l < 2)
   intro l hl
   have hl2 := hW l hl
   rcases (show l = 0 ∨ l = 1 by omega) with rfl | rfl
-  · simp only [Nat.mul_zero, Nat.zero_add, Nat.add_zero]
+  · simp only [Nat.mul_zero, Nat.add_zero]
     rw [nG_zero, nG_even j]
   · simp only [Nat.mul_zero, Nat.zero_add]
     rw [nG_one, nG_odd j]
@@ -148,7 +148,7 @@ theorem exists_lab (H : Hyp φ Q) : Nonempty (Lab φ Q) := by
       simp [nC_zero]
     · show φ (if j = 0 then 1 else if h : j < 28 then Classical.choose (hlift j h) else 1) =
         mkQ 8 (nC j)
-      rw [if_neg hj0, dif_pos hj]
+      rw [ite_eq_right hj0, dite_eq_left hj]
       exact Classical.choose_spec (hlift j hj)
   exact ⟨⟨K1, a, b, T, hK1Q, haK1, hbK1, hφa, hφb, hK1, hTφ, hT0⟩⟩
 
@@ -164,13 +164,13 @@ theorem gen_even (j : ℕ) : F.gen (2 * j) = F.T j * F.a * (F.T j)⁻¹ := by
   have h1 : 2 * j / 2 = j := by omega
   have h2 : 2 * j % 2 = 0 := by omega
   unfold gen
-  rw [h1, if_pos h2]
+  rw [h1, ite_eq_left h2]
 
 theorem gen_odd (j : ℕ) : F.gen (2 * j + 1) = F.T j * F.b * (F.T j)⁻¹ := by
   have h1 : (2 * j + 1) / 2 = j := by omega
   have h2 : ¬ ((2 * j + 1) % 2 = 0) := by omega
   unfold gen
-  rw [h1, if_neg h2]
+  rw [h1, ite_eq_right h2]
 
 theorem L_zero : F.L 0 = F.K1 := by
   unfold L

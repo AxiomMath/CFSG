@@ -146,7 +146,7 @@ theorem card_commute_eq_of_fixed_five {K : Type*} [Group K] [Finite K] (Q : Subg
         apply Subtype.ext
         show ⁅ρ * w.1.1 * ρ⁻¹, x⁆ = 1
         rw [hconj, hq1, mul_one, mul_inv_cancel]
-    haveI : Fintype ↥φ.ker := Fintype.ofFinite _
+    have : Fintype ↥φ.ker := Fintype.ofFinite _
     have hf5 : f ^ 5 ^ 1 = 1 := by
       funext w
       apply Subtype.ext

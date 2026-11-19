@@ -16,7 +16,7 @@ theorem exists_comm_image [Finite G] {A : Subgroup G}
       (∀ n ∈ N, ∃ a ∈ A, n = a * g * a⁻¹ * g⁻¹) ∧
       Nat.card A = Nat.card N * Nat.card ↥(A ⊓ centralizer ({g} : Set G)) := by
   classical
-  letI : CommGroup A := { (inferInstance : Group A) with
+  let : CommGroup A := { (inferInstance : Group A) with
     mul_comm := fun x y => Subtype.ext (hA x.1 x.2 y.1 y.2) }
   let ψ : A →* A :=
     { toFun := fun a => ⟨g * a.1 * g⁻¹, hg a.1 a.2⟩
@@ -108,7 +108,7 @@ theorem exists_isElemAbelian_card_sixteen [Finite G] {W : Subgroup G}
     (hW : CFSG.Open.IsElemAbelian 2 W) (hcard : 16 ≤ Nat.card W) :
     ∃ Y' : Subgroup G, Y' ≤ W ∧ CFSG.Open.IsElemAbelian 2 Y' ∧ Nat.card Y' = 16 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWp : IsPGroup 2 W := by
     intro x
     refine ⟨1, ?_⟩

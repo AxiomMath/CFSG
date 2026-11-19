@@ -53,7 +53,7 @@ private theorem inner_of_card_outer_dvd_two {L : Type*} [Group L] [Finite L]
     (hL : Nat.card (Outer L) ∣ 2) {ζ : MulAut L} (hζ : ζ ^ 3 = 1) {Q : Subgroup (MulAut L)}
     (hQ : Nat.card Q = 4) (hζQ : ζ ∈ normalizer (Q : Set (MulAut L)))
     (hfpf : ∀ q ∈ Q, ζ * q * ζ⁻¹ = q → q = 1) : ζ ∈ inner L ∧ Q ≤ inner L := by
-  haveI : Finite (MulAut L) :=
+  have : Finite (MulAut L) :=
     Finite.of_injective (fun e : MulAut L => (e : L → L)) fun a b h => MulEquiv.ext (congrFun h)
   set π := QuotientGroup.mk' (inner L)
   have hπ : ∀ g, π g = 1 ↔ g ∈ inner L := fun g => QuotientGroup.eq_one_iff g
@@ -140,8 +140,8 @@ private theorem exists_injective_rep_of_ten {L : Type} [Group L]
 theorem pumpUpTenInput_holds : PumpUpTenInput := by
   intro K _ _ W Wk ζ ξ Q A h hmodel
   classical
-  haveI : Group.IsPerfect K := Group.isPerfect_def.2 h.quasi.1
-  haveI : IsSimpleGroup (K ⧸ center K) := h.quasi.2
+  have : Group.IsPerfect K := Group.isPerfect_def.2 h.quasi.1
+  have : IsSimpleGroup (K ⧸ center K) := h.quasi.2
   let π : K →* K ⧸ center K := QuotientGroup.mk' (center K)
   have hcl : StatedClassicalModel (K ⧸ center K) .PSp 5 2 1 ∨
       StatedClassicalModel (K ⧸ center K) .POmegaMinus 5 2 1 := by
@@ -158,8 +158,8 @@ theorem pumpUpTenInput_holds : PumpUpTenInput := by
     obtain ⟨-, hc | ⟨h0, -⟩⟩ := h.Wk_model
     · exact hc
     · omega
-  haveI : IsSimpleGroup W := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWcl
-  haveI : IsSimpleGroup Wk := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWkcl
+  have : IsSimpleGroup W := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWcl
+  have : IsSimpleGroup Wk := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWkcl
   have hWc : Nat.card W = 13685760 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_five_two hWcl
   have hWkc : Nat.card Wk = 25920 :=
@@ -181,7 +181,7 @@ theorem pumpUpTenInput_holds : PumpUpTenInput := by
     exact mem_bot.2 (hone hS s fun b => Subtype.ext ((mem_center_iff.1 hs b).symm))
   have hπW := hinjS W (hnp (by rw [hWc]; norm_num) (by rw [hWc]; norm_num))
   have hπWk := hinjS Wk (hnp (by rw [hWkc]; norm_num) (by rw [hWkc]; norm_num))
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := W) 11 (by rw [hWc]; norm_num)
   let cq := CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom K
   have hcq : Function.Injective cq :=

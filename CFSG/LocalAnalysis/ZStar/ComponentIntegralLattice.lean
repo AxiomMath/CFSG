@@ -274,6 +274,7 @@ private theorem finrank_orbitSpan_eq
   LinearMap.toMatrix (orbitSpanBasis (R := R) ρ b)
     (orbitSpanBasis (R := R) ρ b) (orbitSpanEnd (R := R) ρ b g)
 
+omit [IsFractionRing R K] in
 theorem orbitSpanRepresentation_toMatrix
     (ρ : Representation K G V) (b : Module.Basis ι K V) (g : G) :
     LinearMap.toMatrix (orbitSpanBasis (R := R) ρ b)

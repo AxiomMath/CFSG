@@ -144,7 +144,7 @@ theorem shift_GT (a : ℤ) : (X.shift a).GT = X.GT := by
 @[simp] theorem swap_S : X.swap.S = X.S := by
   unfold swap
   rw [shift_S]
-  simp only [Setup.edgeSylow, Setup.S, reverse_Gi, zero_sub, neg_neg]
+  simp only [Setup.edgeSylow, Setup.S, reverse_Gi, neg_neg]
   rw [inf_comm]
   congr 2
 

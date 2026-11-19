@@ -313,7 +313,7 @@ theorem exists_g (hq : h.IsQ3) (hCF1 : CFSec8Simple) (hCF2 : CFSec8InnerCentrali
     exact isPGroup_sup_zpowers (hQ1₂.map H.rho) hgN hgsq
   obtain ⟨P₂⟩ := (inferInstance : Nonempty (Sylow 2 ↥T₁))
   set T₂ : Subgroup ↥h.M3 := (P₂ : Subgroup ↥T₁).map T₁.subtype with hT₂
-  have hT₂₂ : IsPGroup 2 T₂ := P₂.isPGroup'.map T₁.subtype
+  have hT₂₂ : IsPGroup 2 T₂ := P₂.isPGroup.map T₁.subtype
   have hT₂T₁ : T₂ ≤ T₁ := map_subtype_le _
   have hQT₂ : Q1 ≤ T₂ := by
     have hn : (Q1.subgroupOf T₁).Normal :=

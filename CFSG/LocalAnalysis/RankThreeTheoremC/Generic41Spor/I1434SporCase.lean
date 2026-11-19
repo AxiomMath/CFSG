@@ -34,6 +34,6 @@ theorem i1434SporCase_of_tables (hord : SporCarrierOrders) (hnon : ∀ s : TauCe
 theorem five_pow_three_dvd_sporOrd_iff (s : TauCeti.SporadicName) :
     5 ^ 3 ∣ sporOrd s ↔ (s = .HS ∨ s = .McL ∨ s = .Ru ∨ s = .Co3 ∨ s = .Co2 ∨ s = .Th ∨
       s = .Co1 ∨ s = .HN ∨ s = .Ly ∨ s = .B ∨ s = .M) := by
-  cases s <;> simp [sporOrd] <;> decide
+  cases s <;> simp [sporOrd]
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.I1434

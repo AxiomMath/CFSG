@@ -32,7 +32,7 @@ theorem eq_bot_of_stronglyClosed_of_sixteen {G : Type} [Group G] [Finite G] [IsS
     intro a j ha hj hG
     obtain ⟨T', hPT'⟩ := hP2.exists_le_sylow
     have hT'le : Nat.card (T' : Subgroup G) ≤ 8 :=
-      (Disconnected.AschTight.card_le_of_isPGroup_of_card_eq T'.isPGroup' hj hG).trans
+      (Disconnected.AschTight.card_le_of_isPGroup_of_card_eq T'.isPGroup hj hG).trans
         (le_of_le_of_eq (Nat.pow_le_pow_right (by norm_num) ha) (by norm_num))
     have := Subgroup.card_le_of_le hPT'
     omega
@@ -69,7 +69,7 @@ theorem inf_fstar_eq_bot_of_stronglyClosed (hnab : ∃ a b : genFittingFStar Y, 
     A ⊓ genFittingFStar Y = ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set L := genFittingFStar Y
-  haveI : L.Normal := fstar_normal
+  have : L.Normal := fstar_normal
   obtain ⟨TL, hTL⟩ := Glauberman.sylow_inf_normal T (N := L)
   have hcen : ∀ {x : Y} (hx : x ∈ L), x ∈ Subgroup.centralizer ({z} : Set Y) →
       (⟨x, hx⟩ : L) ∈ Subgroup.centralizer ({⟨z, hzL⟩} : Set L) := fun {x} hx hxz =>

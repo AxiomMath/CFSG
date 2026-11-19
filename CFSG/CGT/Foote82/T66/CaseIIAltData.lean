@@ -128,37 +128,43 @@ variable {α : ↥L →* ↥(alternatingGroup (Fin 6))} {β : ↥(commSpace L �
   (d : AD L α β)
 include d
 
+omit [Finite V] d in
 theorem conj_mem (ℓ : ↥L) (w : ↥(commSpace L ⊤)) : (ℓ : GLV V) w ∈ commSpace L ⊤ :=
   invariant_commSpace (fun _ ha _ hb => L.mul_mem (L.mul_mem ha hb) (L.inv_mem ha))
     (invariant_top L) ℓ ℓ.2 w w.2
 
+omit [Finite V] d in
 theorem sub_mem (ℓ : ↥L) (w : V) : (ℓ : GLV V) w - w ∈ commSpace L ⊤ :=
   sub_mem_commSpace ℓ.2 Submodule.mem_top
 
+omit [Finite V] in
 theorem beta_eq_zero_iff (w : ↥(commSpace L ⊤)) : β w = 0 ↔ (w : V) ∈ fixedSpace L := by
   rw [← AddMonoidHom.mem_ker, d.β_ker]
   rfl
 
+omit [Finite V] in
 theorem beta_sub (ℓ : ↥L) (w : ↥(commSpace L ⊤)) {x : Fin 6 → ZMod 2} (hx : ∑ i, x i = 0)
     (hβw : β w = hmk x hx) :
-    β ⟨(ℓ : GLV V) w - w, d.sub_mem ℓ w⟩ =
+    β ⟨(ℓ : GLV V) w - w, CFSG.CGT.Foote82.CaseII.AD.sub_mem ℓ w⟩ =
       hmk (pv (α ℓ : Perm (Fin 6)) x - x) (sum_sub_eq_zero (sum_pv_eq_zero _ hx) hx) := by
-  have e : (⟨(ℓ : GLV V) w - w, d.sub_mem ℓ w⟩ : ↥(commSpace L ⊤)) =
-      ⟨(ℓ : GLV V) w, d.conj_mem ℓ w⟩ - w := rfl
-  have h1 := d.rel ℓ w ⟨(ℓ : GLV V) w, d.conj_mem ℓ w⟩ rfl ⟨x, hx⟩ hβw
+  have e : (⟨(ℓ : GLV V) w - w, CFSG.CGT.Foote82.CaseII.AD.sub_mem ℓ w⟩ : ↥(commSpace L ⊤)) =
+      ⟨(ℓ : GLV V) w, CFSG.CGT.Foote82.CaseII.AD.conj_mem ℓ w⟩ - w := rfl
+  have h1 := d.rel ℓ w ⟨(ℓ : GLV V) w, CFSG.CGT.Foote82.CaseII.AD.conj_mem ℓ w⟩ rfl ⟨x, hx⟩ hβw
   rw [e, map_sub, h1, hβw]
   rw [← hmk_sub (sum_pv_eq_zero _ hx) hx]
   rfl
 
+omit [Finite V] in
 theorem beta_conj (ℓ : ↥L) (w : ↥(commSpace L ⊤)) {x : Fin 6 → ZMod 2} (hx : ∑ i, x i = 0)
     (hβw : β w = hmk x hx) :
-    β ⟨(ℓ : GLV V) w, d.conj_mem ℓ w⟩ = hmk (pv (α ℓ : Perm (Fin 6)) x) (sum_pv_eq_zero _ hx) :=
-  d.rel ℓ w ⟨(ℓ : GLV V) w, d.conj_mem ℓ w⟩ rfl ⟨x, hx⟩ hβw
+    β ⟨(ℓ : GLV V) w, CFSG.CGT.Foote82.CaseII.AD.conj_mem ℓ w⟩ = hmk (pv (α ℓ : Perm (Fin 6)) x) (sum_pv_eq_zero _ hx) :=
+  d.rel ℓ w ⟨(ℓ : GLV V) w, CFSG.CGT.Foote82.CaseII.AD.conj_mem ℓ w⟩ rfl ⟨x, hx⟩ hβw
 
 theorem α_injective (hL : Nonempty (↥L ≃* alternatingGroup (Fin 6))) : Function.Injective α := by
   obtain ⟨e⟩ := hL
   exact (Finite.injective_iff_surjective_of_equiv e.toEquiv).2 d.α_surj
 
+omit [Finite V] in
 theorem exists_two_comm (ℓ : ↥L) (hσ : (α ℓ : Perm (Fin 6)).cycleType = {2, 2}) :
     ∃ w₁ w₂ : ↥(commSpace L ⊤), (ℓ : GLV V) w₁ - w₁ ≠ 0 ∧ (ℓ : GLV V) w₂ - w₂ ≠ 0 ∧
       (ℓ : GLV V) w₁ - w₁ ≠ (ℓ : GLV V) w₂ - w₂ := by
@@ -177,26 +183,27 @@ theorem exists_two_comm (ℓ : ↥L) (hσ : (α ℓ : Perm (Fin 6)).cycleType = 
     exact dt_three.1 k
   refine ⟨w₁, w₂, ?_, ?_, ?_⟩
   · intro h0
-    have : β ⟨(ℓ : GLV V) w₁ - w₁, d.sub_mem ℓ w₁⟩ = 0 := by
-      rw [show (⟨(ℓ : GLV V) w₁ - w₁, d.sub_mem ℓ w₁⟩ : ↥(commSpace L ⊤)) = 0 from
+    have : β ⟨(ℓ : GLV V) w₁ - w₁, CFSG.CGT.Foote82.CaseII.AD.sub_mem ℓ w₁⟩ = 0 := by
+      rw [show (⟨(ℓ : GLV V) w₁ - w₁, CFSG.CGT.Foote82.CaseII.AD.sub_mem ℓ w₁⟩ : ↥(commSpace L ⊤)) = 0 from
         Subtype.ext h0, map_zero]
     rw [hb₁, hmk_eq_zero_iff] at this
     exact hne 0 this
   · intro h0
-    have : β ⟨(ℓ : GLV V) w₂ - w₂, d.sub_mem ℓ w₂⟩ = 0 := by
-      rw [show (⟨(ℓ : GLV V) w₂ - w₂, d.sub_mem ℓ w₂⟩ : ↥(commSpace L ⊤)) = 0 from
+    have : β ⟨(ℓ : GLV V) w₂ - w₂, CFSG.CGT.Foote82.CaseII.AD.sub_mem ℓ w₂⟩ = 0 := by
+      rw [show (⟨(ℓ : GLV V) w₂ - w₂, CFSG.CGT.Foote82.CaseII.AD.sub_mem ℓ w₂⟩ : ↥(commSpace L ⊤)) = 0 from
         Subtype.ext h0, map_zero]
     rw [hb₂, hmk_eq_zero_iff] at this
     exact hne 1 this
   · intro h12
-    have : β ⟨(ℓ : GLV V) w₁ - w₁, d.sub_mem ℓ w₁⟩ = β ⟨(ℓ : GLV V) w₂ - w₂, d.sub_mem ℓ w₂⟩ := by
+    have : β ⟨(ℓ : GLV V) w₁ - w₁, CFSG.CGT.Foote82.CaseII.AD.sub_mem ℓ w₁⟩ = β ⟨(ℓ : GLV V) w₂ - w₂, CFSG.CGT.Foote82.CaseII.AD.sub_mem ℓ w₂⟩ := by
       congr 1
       exact Subtype.ext h12
     rw [hb₁, hb₂, hmk_eq_hmk_iff, hc, hc, ← pv_sub, isTriv_pv_iff] at this
     exact dt_three.2 0 1 (by decide) this
 
+omit [Finite V] in
 theorem eq_zero_of_fixed (ℓ : ↥L) (hσ : (α ℓ : Perm (Fin 6)).cycleType = {3, 3})
-    (w : ↥(commSpace L ⊤)) (hw : β ⟨(ℓ : GLV V) w, d.conj_mem ℓ w⟩ = β w) : β w = 0 := by
+    (w : ↥(commSpace L ⊤)) (hw : β ⟨(ℓ : GLV V) w, CFSG.CGT.Foote82.CaseII.AD.conj_mem ℓ w⟩ = β w) : β w = 0 := by
   obtain ⟨π, hπ⟩ : ∃ π : Perm (Fin 6), π * d3₀ * π⁻¹ = (α ℓ : Perm (Fin 6)) :=
     isConj_iff.1 (isConj_iff_cycleType_eq.2 (d3₀_cycleType.trans hσ.symm))
   obtain ⟨x, hx, hβw⟩ := exists_hmk (β w)
@@ -207,8 +214,9 @@ theorem eq_zero_of_fixed (ℓ : ↥L) (hσ : (α ℓ : Perm (Fin 6)).cycleType =
   rw [hβw, hmk_eq_zero_iff, hx', isTriv_pv_iff]
   exact h0
 
+omit [Finite V] in
 theorem exists_fixed (ℓ : ↥L) (hℓ : (α ℓ : Perm (Fin 6)) = c3₀) :
-    ∃ w : ↥(commSpace L ⊤), β w ≠ 0 ∧ β ⟨(ℓ : GLV V) w, d.conj_mem ℓ w⟩ = β w := by
+    ∃ w : ↥(commSpace L ⊤), β w ≠ 0 ∧ β ⟨(ℓ : GLV V) w, CFSG.CGT.Foote82.CaseII.AD.conj_mem ℓ w⟩ = β w := by
   obtain ⟨hs, hnt, hfix⟩ := c3_fixed
   obtain ⟨w, hw⟩ := d.β_surj (hmk c3x hs)
   refine ⟨w, ?_, ?_⟩

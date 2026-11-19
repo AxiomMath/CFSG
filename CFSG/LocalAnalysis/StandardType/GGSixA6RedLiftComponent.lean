@@ -13,7 +13,7 @@ namespace CFSG.StandardType.A6Red
 open CFSG.Assembly CFSG.Blueprint CFSG.Assembly.LowTwoRank
 
 theorem ggA6_lift_component {U X : Type} [Group U] [Finite U] [Group X] (ψ : U →* X)
-    (hker : ψ.ker ≤ Subgroup.center U) (M C : Subgroup U) (hkM : ψ.ker ≤ M) (hCM : C ≤ M)
+    (hker : ψ.ker ≤ Subgroup.center U) (M C : Subgroup U) (_hkM : ψ.ker ≤ M) (hCM : C ≤ M)
     (hab : ⁅M, M⁆ ≤ C) {J : Subgroup X}
     (hJ : IsComponentOf J (M.map ψ)) :
     ∃ J' : Subgroup U, IsComponentOf J' C ∧
@@ -30,11 +30,11 @@ theorem ggA6_lift_component {U X : Type} [Group U] [Finite U] [Group X] (ψ : U 
     CFSG.ComponentClassification.CatalogueBCentralQuotient.imageRestriction_kernel_central ψ hker M
   have hJperf : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
   have hJmperf : Group.IsPerfect Jm := by
-    haveI : Group.IsPerfect ↥J := hJperf
+    have : Group.IsPerfect ↥J := hJperf
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hJM).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hJM).symm.surjective
-  haveI : Group.IsPerfect Jm := hJmperf
+  have : Group.IsPerfect Jm := hJmperf
   have hJM_le_comm : JM ≤ ⁅(⊤ : Subgroup ↥M), ⊤⁆ := by
     change CFSG.ComponentClassification.CatalogueBCentralQuotient.derivedPreimage π Jm ≤
       ⁅(⊤ : Subgroup ↥M), ⊤⁆
@@ -48,7 +48,7 @@ theorem ggA6_lift_component {U X : Type} [Group U] [Finite U] [Group X] (ψ : U 
   have hJMperf : Group.IsPerfect JM :=
     CFSG.ComponentClassification.CatalogueBCentralQuotient.derivedPreimage_perfect π hπ hπker Jm
   have hJ'perf : Group.IsPerfect ↥J' := by
-    haveI : Group.IsPerfect JM := hJMperf
+    have : Group.IsPerfect JM := hJMperf
     exact Group.IsPerfect.ofSurjective
       (f := (JM.equivMapOfInjective M.subtype M.subtype_injective).toMonoidHom)
       (JM.equivMapOfInjective M.subtype M.subtype_injective).surjective
@@ -118,8 +118,8 @@ theorem ggA6_lift_component {U X : Type} [Group U] [Finite U] [Group X] (ψ : U 
       (QuotientGroup.quotientKerEquivOfSurjective _
         ((QuotientGroup.mk'_surjective _).comp hf))
   have hJ'q : CFSG.Assembly.IsQuasisimple ↥J' := by
-    haveI : Group.IsPerfect ↥J' := hJ'perf
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+    have : Group.IsPerfect ↥J' := hJ'perf
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
     exact ⟨Group.IsPerfect.commutator_eq_top, e'.isSimpleGroup⟩
   exact ⟨J', ⟨hJ'C, hJ'_sub_C, hJ'q⟩, ⟨e'.symm⟩⟩
 

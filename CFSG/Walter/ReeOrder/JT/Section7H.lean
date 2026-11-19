@@ -223,7 +223,7 @@ theorem isSolvable_normalizer_of_elementary_pi
       norm_num
     refine isKleinFour_of_card_four hScard fun x => ?_
     obtain ⟨_, ⟨n, hn, rfl⟩⟩ := x
-    have hn2 : IsPGroup 2 ((P : Subgroup N).map N.subtype) := P.isPGroup'.map _
+    have hn2 : IsPGroup 2 ((P : Subgroup N).map N.subtype) := P.isPGroup.map _
     have hnn := h.mul_self_of_isPGroup_two hp3 hn2 ⟨n, hn, rfl⟩
     apply Subtype.ext
     simp only [Subgroup.coe_mul, Subgroup.coe_one]
@@ -261,7 +261,7 @@ theorem isSolvable_normalizer_of_elementary_pi
         simpa using hOtn.conj_mem y hy t⁻¹
     obtain ⟨P₃, hP₃⟩ := exists_sylow_normalized_of_coprime hT₀2 hT₀OG hOodd 3
     have hP₃bot := h.eq_bot_of_isPGroup_three_of_le_normalizer hp3
-      (P₃.isPGroup'.map OG.subtype) hT₀2 (by rw [hT₀card]) hP₃
+      (P₃.isPGroup.map OG.subtype) hT₀2 (by rw [hT₀card]) hP₃
     intro h3
     have h3G : 3 ∣ Nat.card OG := hOcard ▸ dvd_mul_of_dvd_left h3 _
     have := P₃.pow_dvd_card_of_pow_dvd_card (n := 1) (by simpa using h3G)

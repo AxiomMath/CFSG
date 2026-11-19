@@ -38,23 +38,23 @@ theorem genStepB_spec {k t row c r : Nat} (hst : ∀ t, P t → P (st k t))
   rw [genStepW_eq]
   generalize fget row k ew = q at hr ⊢
   by_cases hc : c = 0
-  · rw [if_pos hc] at hr
+  · rw [ite_eq_left hc] at hr
     exact absurd hr.symm h0
-  rw [if_neg hc] at hr ⊢
+  rw [ite_eq_right hc] at hr ⊢
   by_cases hq : q < c
-  · rw [if_pos hq] at hr ⊢
+  · rw [ite_eq_left hq] at hr ⊢
     by_cases hb : eqb k t (T q) = true
-    · rw [if_pos hb] at hr
-      rw [if_pos (heq t (T q) hP (hI q hq) hb)]
+    · rw [ite_eq_left hb] at hr
+      rw [ite_eq_left (heq t (T q) hP (hI q hq) hb)]
       subst hr
       exact ⟨rfl, hI⟩
-    · rw [if_neg hb] at hr
+    · rw [ite_eq_right hb] at hr
       exact absurd hr.symm h0
-  · rw [if_neg hq] at hr ⊢
+  · rw [ite_eq_right hq] at hr ⊢
     by_cases hqc : q = c
-    · rw [if_pos hqc] at hr ⊢
+    · rw [ite_eq_left hqc] at hr ⊢
       by_cases hT : T c = st k t
-      · rw [if_pos hT] at hr ⊢
+      · rw [ite_eq_left hT] at hr ⊢
         subst hr
         refine ⟨rfl, fun j hj => ?_⟩
         rcases Nat.lt_or_ge j c with a | a
@@ -63,13 +63,13 @@ theorem genStepB_spec {k t row c r : Nat} (hst : ∀ t, P t → P (st k t))
           subst e
           rw [hT]
           exact hst t hP
-      · rw [if_neg hT] at hr
+      · rw [ite_eq_right hT] at hr
         exact absurd hr.symm h0
-    · rw [if_neg hqc] at hr
+    · rw [ite_eq_right hqc] at hr
       exact absurd hr.symm h0
 
 theorem genStepB_zero (t row k : Nat) : genStepB st eqb T ew t row k 0 = 0 := by
-  rw [genStepB_eq, if_pos rfl]
+  rw [genStepB_eq, ite_eq_left rfl]
 
 theorem pointRecB_zero (i : Nat) : ∀ r, pointRecB ng st eqb T E ew i r 0 = 0
   | 0 => rfl

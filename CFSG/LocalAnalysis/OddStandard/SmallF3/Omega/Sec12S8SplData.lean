@@ -91,13 +91,13 @@ theorem ker_inf (h : S8Data V1 V2 φ1 φ2 α β) : α.ker ⊓ β.ker = V1 ⊔ V2
 theorem H_normal (h : S8Data V1 V2 φ1 φ2 α β) : (s8H V2).Normal := by
   unfold s8H
   rw [h.cent_V2]
-  haveI : β.ker.Normal := MonoidHom.normal_ker β
+  have : β.ker.Normal := MonoidHom.normal_ker β
   exact Subgroup.commutator_normal _ _
 
 theorem H_le_cent (h : S8Data V1 V2 φ1 φ2 α β) : s8H V2 ≤ centralizer (V2 : Set P) := by
   unfold s8H
   rw [h.cent_V2]
-  haveI : β.ker.Normal := MonoidHom.normal_ker β
+  have : β.ker.Normal := MonoidHom.normal_ker β
   exact Subgroup.commutator_le_left _ _
 
 end S8Data

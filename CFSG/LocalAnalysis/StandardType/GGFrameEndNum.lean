@@ -25,7 +25,7 @@ theorem frameConn_image (ρ : MulAut ↥A →* M') (hρ : Function.Injective ρ)
     exact ⟨⟨a, ha, rfl⟩, ⟨b, hb, rfl⟩, (frameEndN_map_ne_iff ρ hρ a b).mpr hab⟩)
 
 private lemma frameEndN_nonComm_image (ρ : MulAut ↥A →* M') (hρ : Function.Injective ρ)
-    {𝒜 : Subgroup (MulAut ↥A)} {φ : MulAut ↥A} (hφ : φ ∈ frameReflSet 𝒜) :
+    {𝒜 : Subgroup (MulAut ↥A)} {φ : MulAut ↥A} (_hφ : φ ∈ frameReflSet 𝒜) :
     frameNonComm 𝒜 φ =
       Set.ncard {t | t ∈ ρ '' frameReflSet 𝒜 ∧ ρ φ * t ≠ t * ρ φ} := by
   have hset : {t | t ∈ ρ '' frameReflSet 𝒜 ∧ ρ φ * t ≠ t * ρ φ}

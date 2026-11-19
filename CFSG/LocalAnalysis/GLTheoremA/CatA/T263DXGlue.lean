@@ -29,15 +29,17 @@ theorem exists_two_of_act_open {X₀ J P B : Subgroup Ω} (hJX : J ≤ X₀)
     (hBP : B ≤ Subgroup.normalizer (P : Set Ω)) :
     ∃ T'' : Subgroup Ω, T'' ≤ J ∧ IsPGroup 2 ↥T'' ∧ B ≤ Subgroup.normalizer (T'' : Set Ω) ∧
       ¬ T'' ≤ Subgroup.centralizer (J : Set Ω) :=
-  exists_two_of_act hJX (by first | exact hJ | exact native_of_open_dx hJ) hP2 hPX hinn hact hBX
+  exists_two_of_act hJX (by first | exact native_of_open_dx hJ) hP2 hPX hinn hact hBX
     hBJ hBP
 
+omit [Finite Ω] in
 private theorem mem_normalizer_commutator_dx {H K : Subgroup Ω} {g : Ω}
     (hH : g ∈ Subgroup.normalizer (H : Set Ω)) (hK : g ∈ Subgroup.normalizer (K : Set Ω)) :
     g ∈ Subgroup.normalizer ((⁅H, K⁆ : Subgroup Ω) : Set Ω) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hH hK ⊢
   rw [Subgroup.map_commutator, hH, hK]
 
+omit [Finite Ω] in
 theorem norm_data_dx {S B B₀ T' : Subgroup Ω} {x : Ω} (hSn : S.Normal)
     (hBab : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a) (hB₀ : B₀ ≤ B) (hxB : x ∈ B₀)
     (hT'B : B ≤ Subgroup.normalizer (T' : Set Ω)) :

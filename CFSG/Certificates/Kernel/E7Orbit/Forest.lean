@@ -52,13 +52,14 @@ theorem msk_strict (hN : ∀ i < 3159, nodeOK T NT RT i = true) {i : Nat} :
       subst e
       exact hs
 
+set_option exponentiation.threshold 2187 in
 theorem maskSet_inj {M M' : Nat} (h : M < 2 ^ 2187) (h' : M' < 2 ^ 2187)
     (e : maskSet M = maskSet M') : M = M' := by
   apply Nat.eq_of_testBit_eq
   intro q
   rcases Nat.lt_or_ge q 2187 with hq | hq
   · have := congrArg (fun S => (⟨q, hq⟩ : Fin 2187) ∈ S) e
-    simp only [maskSet, Set.mem_setOf_eq, eq_iff_iff] at this
+    simp only [maskSet, Set.mem_ofPred_eq, eq_iff_iff] at this
     exact Bool.eq_iff_iff.2 this
   · rw [Nat.testBit_lt_two_pow (lt_of_lt_of_le h (Nat.pow_le_pow_right (by decide) hq)),
       Nat.testBit_lt_two_pow (lt_of_lt_of_le h' (Nat.pow_le_pow_right (by decide) hq))]

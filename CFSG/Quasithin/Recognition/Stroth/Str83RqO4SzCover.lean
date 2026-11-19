@@ -27,6 +27,7 @@ private theorem szc_Gv_inf_eq {a f : ℕ}
   rw [zero_add] at h
   rw [← h, t.Gw_zero_one hfr.hF, t.sup_K_eq_bigB]
 
+omit [Finite G] in
 private theorem szc_K_le_normalizer_S {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     t.K ≤ normalizer (S : Set G) :=
   le_sup_right.trans (t.sup_K_eq_bigB.le.trans hfr.hN)
@@ -46,10 +47,12 @@ private theorem szc_Q_le_Gv_neg_one {a f : ℕ}
   have h := (t.Qv_le_Gv hfr 0).1
   simpa using h
 
+omit [Finite G] in
 private theorem szc_conj_mem {H : Subgroup G} {g y : G} (hg : g ∈ normalizer (H : Set G))
     (hy : y ∈ H) : g * y * g⁻¹ ∈ H :=
   (mem_normalizer_iff.mp hg y).mp hy
 
+omit [Finite G] in
 private theorem szc_mem_Q_of_pow_eq_one {x : G} (hx : x ∈ t.Qv 0 ⊔ t.K) {j : ℕ}
     (hxj : x ^ 2 ^ j = 1) : x ∈ t.Qv 0 := by
   have hKQ : t.K ≤ normalizer (t.Qv 0 : Set G) := t.K_le_normalizer_Qv 0
@@ -85,6 +88,7 @@ private theorem szc_inf_B_le {a f : ℕ} (hfr : Frame L1 L2 S a f)
   have hhQ : h ∈ t.Qv 0 := hHS ⟨hh, hhS⟩
   exact mul_mem (mem_sup_left (mul_mem hq hhQ)) (mem_sup_right hk)
 
+omit [Finite G] in
 private theorem szc_conj_x₁_inv_mem {y : G} (hy : y ∈ t.Gv 0 ⊓ t.Gv (-1)) :
     t.x₁⁻¹ * y * t.x₁ ∈ t.Gv 0 ⊓ t.Gv 1 := by
   have h0 := t.map_Gv_x₁ 0
@@ -102,7 +106,7 @@ private theorem szc_two_elt_mem {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {H : Subgroup G} (hH : H ≤ t.Gv 0) (hK : t.K ≤ H)
     (htr : CosetTrans H (t.Gv 0) (t.Gv 1)) (hHS : H ⊓ S ≤ t.Qv 0) {u : G}
     (hu : u ∈ H ⊔ t.Qv 0) {j : ℕ} (huj : u ^ 2 ^ j = 1) : u ∈ t.Qv 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hHQ0 : H ⊔ t.Qv 0 ≤ t.Gv 0 := sup_le hH (t.Qv_le_Gv_self 0)
   have hP : IsPGroup 2 (zpowers u) := by
     have hdvd : orderOf u ∣ 2 ^ j := orderOf_dvd_of_pow_eq_one huj
@@ -136,7 +140,7 @@ private theorem szc_two_elt_mem {a f : ℕ}
 private theorem szc_exists_mem_not_mem {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {H : Subgroup G} (hH : H ≤ t.Gv 0) (hK : t.K ≤ H)
     (htr : CosetTrans H (t.Gv 0) (t.Gv 1)) : ∃ h ∈ H ⊓ S, h ∉ t.Qv 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hcon
   push Not at hcon
   have hHS : H ⊓ S ≤ t.Qv 0 := fun h hh => hcon h hh
@@ -181,7 +185,7 @@ private theorem szc_exists_mem_not_mem {a f : ℕ}
   have hcop : ∀ {M : Subgroup G}, Odd (Nat.card M) → Q ⊓ M = ⊥ := by
     intro M hM
     obtain ⟨m, hm⟩ := hQp.exists_card_eq
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hm]
     exact Nat.Coprime.pow_left m (Nat.coprime_two_left.2 hM)
   obtain ⟨m, hmQ, hmK⟩ := Vol2.Ch10.SecB.C11AmS.exists_conj_of_complement hQp hKo hKQ hKnQ
@@ -280,7 +284,7 @@ private theorem szc_inf_L1_ne_map_x₁ {a f : ℕ}
   have hSle : S ≤ t.Qv 0 := hSQ.le.trans (sup_le le_rfl hTQ)
   have hQS : (t.Qv 0).relIndex S = 1 := Subgroup.relIndex_eq_one.mpr hSle
   have h9 := (t.relIndex_Qv_pCoreOf hfr 0).2
-  rw [zero_add, t.pCoreOf_Gw_zero_one hfr, if_pos (by norm_num : Even (0 : ℤ)), hQS] at h9
+  rw [zero_add, t.pCoreOf_Gw_zero_one hfr, ite_eq_left (by norm_num : Even (0 : ℤ)), hQS] at h9
   have h4 : 1 < (2 ^ (2 * a + 1)) ^ 2 :=
     Nat.one_lt_pow (by norm_num) (Nat.one_lt_two_pow (by omega))
   rw [← h9] at h4
@@ -289,7 +293,7 @@ private theorem szc_inf_L1_ne_map_x₁ {a f : ℕ}
 theorem L1_le_oTwoPrime_sup_Qv_zero
     {a f : ℕ} (hfr : Frame L1 L2 S a f) {H : Subgroup G} (hH : H ≤ t.Gv 0) (hK : t.K ≤ H)
     (htr : CosetTrans H (t.Gv 0) (t.Gv 1)) : L1 ≤ oTwoPrime H ⊔ t.Qv 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨h, ⟨hhH, hhS⟩, hhQ⟩ := t.szc_exists_mem_not_mem hfr hH hK htr
   have hSp : IsPGroup 2 S := hfr.hF.1.h1.pgroup
   have hD1K : t.D1 ≤ t.K := le_sup_left

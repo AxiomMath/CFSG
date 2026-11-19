@@ -28,7 +28,7 @@ open CFSG.HardMathSupport.Foote.ModuleExclusions (Ai)
 
 theorem fldUni_of_sigmaPow_rig (hSig : UniSigmaPowOne) (hRig : GGLabelRigidInput) : FldUni := by
   intro S _ _ p α J labK labJ hFam hp hp2 hcen hfld hα hlabJ hJ
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨K, hK, hKf, d, τ, hτ, hτq, hcard, hd3, hd3n, htag, hrank, hnK, A, σ, u, e, hA, hαu, hgraph,
     hσ1⟩ := fieldKind_unitary_data hcen hFam hfld
   have hn1 : 1 ≤ labK.n := by
@@ -57,8 +57,8 @@ theorem fldUni_of_sigmaPow_rig (hSig : UniSigmaPowOne) (hRig : GGLabelRigidInput
   have hpn : p ∣ 2 * labK.n := by
     have h := orderOf_dvd_of_card Nat.prime_two (by omega : 1 ≤ 2 * labK.n) hK2 σ
     rwa [hσord] at h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2
     (by exact_mod_cast two_eq_zero_of_card hcard)
   have hbar : IsUnitaryInvolution τ := by
     have h := isUnitaryInvolution_unitaryInvolution (K := K) (p := 2) (f := labK.n) hcard
@@ -77,7 +77,7 @@ theorem fldUni_of_sigmaPow_rig (hSig : UniSigmaPowOne) (hRig : GGLabelRigidInput
     rw [← hj2] at h1
     have h2 : 2 * (p * j) = 2 * labK.n := by rw [← h1]; ring
     exact Nat.eq_of_mul_eq_mul_left (by norm_num) h2
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   obtain ⟨c, hc⟩ := normProd_scalar_of_sigma_pow hτ hτq hcard hd3 hdQ σ hA u hgraph hpow hσp
   have hc' : Ai σ (A : Matrix (Fin d) (Fin d) K) (orderOf σ) = c • (1 : Matrix (Fin d) (Fin d) K) := by
     rw [hσord]; exact hc
@@ -113,27 +113,27 @@ theorem fldUni_of_sigmaPow_rig (hSig : UniSigmaPowOne) (hRig : GGLabelRigidInput
       norm_num
     have hsolSU : Group.IsSolvable ↥(StatedSU 3 (2 ^ j) (fixField σ)) :=
       hct_isSolvable_of_natCard_eq Nat.prime_two Nat.prime_three (by norm_num) hcardSU
-    haveI := hsolSU
-    haveI : Group.IsSolvable (StatedProj (StatedSU 3 (2 ^ j) (fixField σ))) := inferInstance
+    have := hsolSU
+    have : Group.IsSolvable (StatedProj (StatedSU 3 (2 ^ j) (fixField σ))) := inferInstance
     have hsolY : Group.IsSolvable ↥Y :=
-      solvable_of_surjective (f := eY.symm.toMonoidHom) eY.symm.surjective
+      Group.isSolvable_of_surjective (f := eY.symm.toMonoidHom) eY.symm.surjective
     have hJY : J.map e.toMonoidHom ≤ Y :=
       calc J.map e.toMonoidHom = ⁅J.map e.toMonoidHom, J.map e.toMonoidHom⁆ := hJperf.symm
         _ ≤ ⁅fixSubgroup u, fixSubgroup u⁆ := Subgroup.commutator_mono hJ'.1 hJ'.1
         _ ≤ Y := hCY
-    haveI : Group.IsSolvable ↥(J.map e.toMonoidHom) :=
+    have : Group.IsSolvable ↥(J.map e.toMonoidHom) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJY) (Subgroup.inclusion_injective hJY)
-    haveI := (ggHasLabel_of_hasLabel hlabJ').2.1
+    have := (ggHasLabel_of_hasLabel hlabJ').2.1
     exact not_isSolvable_quot_center (J := ↥(J.map e.toMonoidHom)) inferInstance
   ·
-    haveI : IsSimpleGroup (StatedProj (StatedSU d (2 ^ j) (fixField σ))) :=
+    have : IsSimpleGroup (StatedProj (StatedSU d (2 ^ j) (fixField σ))) :=
       isSimpleGroup_statedProj_statedSU (fixField σ) 2 j hFcard d hd3 hdj
-    haveI : Group.IsPerfect (StatedSU d (2 ^ j) (fixField σ)) :=
+    have : Group.IsPerfect (StatedSU d (2 ^ j) (fixField σ)) :=
       isPerfect_statedSU hFcard hd3 hdj
-    haveI : Group.IsPerfect (StatedProj (StatedSU d (2 ^ j) (fixField σ))) :=
+    have : Group.IsPerfect (StatedProj (StatedSU d (2 ^ j) (fixField σ))) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-    haveI : IsSimpleGroup ↥Y := eY.isSimpleGroup
-    haveI : Group.IsPerfect ↥Y :=
+    have : IsSimpleGroup ↥Y := eY.isSimpleGroup
+    have : Group.IsPerfect ↥Y :=
       Group.IsPerfect.ofSurjective (f := eY.symm.toMonoidHom) eY.symm.surjective
     have hJY : J.map e.toMonoidHom = Y := component_eq_of_fixed hJ' hYC hYn hCY
     obtain ⟨χ⟩ : Nonempty (↥(J.map e.toMonoidHom) ⧸ Subgroup.center ↥(J.map e.toMonoidHom) ≃*

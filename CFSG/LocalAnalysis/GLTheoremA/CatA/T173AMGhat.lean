@@ -37,9 +37,9 @@ private theorem gInduced_one {Ω : Type} [Group Ω] {S : Subgroup Ω} {d : ℕ} 
 private theorem gInduced_mul {Ω : Type} [Group Ω] {S : Subgroup Ω} {d : ℕ} {F : Type}
     [Field F] {U : Subgroup (GL (Fin d) F)}
     (θ : ↥S ⧸ Subgroup.center ↥S ≃* LargeEvenProj U) {b b' : Ω}
-    {A A' : GL (Fin d) F} (hAN : A ∈ Subgroup.normalizer (U : Set (GL (Fin d) F)))
+    {A A' : GL (Fin d) F} (_hAN : A ∈ Subgroup.normalizer (U : Set (GL (Fin d) F)))
     (hA'N : A' ∈ Subgroup.normalizer (U : Set (GL (Fin d) F)))
-    (hbN : b ∈ Subgroup.normalizer (S : Set Ω))
+    (_hbN : b ∈ Subgroup.normalizer (S : Set Ω))
     (hb'N : b' ∈ Subgroup.normalizer (S : Set Ω))
     (hA : GInduced θ b A) (hA' : GInduced θ b' A') :
     GInduced θ (b' * b) (A * A') := by
@@ -74,7 +74,7 @@ private theorem gInduced_mul {Ω : Type} [Group Ω] {S : Subgroup Ω} {d : ℕ} 
 private theorem gInduced_inv {Ω : Type} [Group Ω] {S : Subgroup Ω} {d : ℕ} {F : Type}
     [Field F] {U : Subgroup (GL (Fin d) F)}
     (θ : ↥S ⧸ Subgroup.center ↥S ≃* LargeEvenProj U) {b : Ω} {A : GL (Fin d) F}
-    (hAN : A ∈ Subgroup.normalizer (U : Set (GL (Fin d) F)))
+    (_hAN : A ∈ Subgroup.normalizer (U : Set (GL (Fin d) F)))
     (hbN : b ∈ Subgroup.normalizer (S : Set Ω)) (hA : GInduced θ b A) :
     GInduced θ b⁻¹ A⁻¹ := by
   obtain ⟨φ, hφg, hφi⟩ := hA
@@ -211,7 +211,7 @@ private theorem commutatorElement_mul_center_eq {G : Type*} [Group G] (x y : G)
 
 private theorem commutator_sup_center_le {G : Type*} [Group G] {A Z : Subgroup G}
     (hZ : Z ≤ Subgroup.center G) : ⁅A ⊔ Z, A ⊔ Z⁆ ≤ A := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   rw [Subgroup.commutator_le]
   intro x hx y hy
   obtain ⟨a, ha, c, hc, rfl⟩ := (Subgroup.mem_sup_of_normal_right).mp hx
@@ -238,7 +238,7 @@ theorem gen_ghat {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subgr
     CFSG.LocalAnalysis.GLTheoremA.S171.normalizer_of_innerDiagMarking
       (CFSG.LocalAnalysis.GLTheoremA.innerDiagMarking_of_split16 hcfg.split)
   have hperfS : Group.IsPerfect ↥S := ⟨hcfg.qs.1⟩
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   let Gh : Subgroup (GL (Fin d) F) :=
     { carrier := {A | A ∈ V ∧ ∃ b ∈ B, GInduced θ b A}
       one_mem' := ⟨V.one_mem, 1, B.one_mem, gInduced_one θ⟩
@@ -271,7 +271,6 @@ theorem gen_ghat {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subgr
           ← Subgroup.mem_center_iff.mp hcenter h]
         group
       first
-        | exact hh'
         | exact congrArg (LargeEvenProjMk U) hh'.symm
     · intro l l' hl
       rw [MulAut.one_apply]

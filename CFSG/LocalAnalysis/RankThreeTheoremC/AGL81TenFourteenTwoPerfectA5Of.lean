@@ -27,7 +27,7 @@ theorem perfectA5_of_d1KBar_ne_bot
     (hI : IsTwoPrimeComponent (centralizer ({a} : Set G) ⊓ M) I) (hpI : p ∣ Nat.card I) :
     p = 5 ∧ Nonempty (↥I ⧸ CFSG.pCore 2 ↥I ≃* alternatingGroup (Fin 5)) := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N := centralizer ({a} : Set G) with hN
   have ha1 : a ≠ 1 := fun h => hp.one_lt.ne' (hao ▸ h ▸ orderOf_one)
   have hCtop := RankOneCent.centralizer_ne_top_of_setting hS ha1
@@ -86,7 +86,7 @@ theorem perfectA5_of_d1KBar_ne_bot
     rw [← hxg]
     exact this
   have hQ : CFSG.Open.IsQuasisimple ↥(barM (N ⊓ M) I) := hI.component.2.2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hjI := joinIrreducible_of_isQuasisimple hIc ψ hψs hQ hk
   set J := (I.subgroupOf N).map π with hJ
   set σ : I →* J := (π.comp (Subgroup.inclusion hIN)).codRestrict J

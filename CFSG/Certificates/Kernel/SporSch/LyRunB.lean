@@ -112,7 +112,7 @@ theorem stH_skip {p w S d T L H CM RM : Nat} {UG E W : Nat → Nat} {kg c h cur 
   induction l generalizing cur with
   | nil => rfl
   | cons k l ih =>
-    rw [List.foldl_cons, stepB_eq, if_neg (by omega)]
+    rw [List.foldl_cons, stepB_eq, ite_eq_right (by omega)]
     exact ih hh
 
 theorem range_split (f : Nat → Nat → Nat) (s : Nat) {a b : Nat} (hab : a ≤ b) :
@@ -234,12 +234,12 @@ theorem runB_soundL {w S T L H CM RM ONE LV HV kg c cap nS Hh : Nat} {UG E W SO 
       · intro hz
         by_cases e : (idM 111 == z) = true
         · exact ⟨0, Nat.zero_lt_one, by rw [← hidE]; exact eq_of_beq e⟩
-        · rw [if_neg e, Std.HashMap.getElem?_empty] at hz
+        · rw [ite_eq_right e, Std.HashMap.getElem?_empty] at hz
           exact absurd hz (by decide)
       · rintro ⟨i, hi, hz⟩
         have : i = 0 := by omega
         subst this
-        rw [if_pos (by rw [hidE, hz]; exact beq_self_eq_true z)]
+        rw [ite_eq_left (by rw [hidE, hz]; exact beq_self_eq_true z)]
         rfl
   ·
     intro h b hh hb
@@ -269,7 +269,7 @@ theorem runB_soundL {w S T L H CM RM ONE LV HV kg c cap nS Hh : Nat} {UG E W SO 
           rw [hx, hus.2 k hk]
           exact mulR_unpack hc (hU k hk) hvh
         have hstep := hIs h k
-        rw [stepB_eq, if_pos hcur] at hstep
+        rw [stepB_eq, ite_eq_left hcur] at hstep
         rw [hy]
         split
         ·
@@ -279,10 +279,10 @@ theorem runB_soundL {w S T L H CM RM ONE LV HV kg c cap nS Hh : Nat} {UG E W SO 
             (hs2 _).1 (by rw [hj]; rfl)
           by_cases hA : fld(W h, Nat.mul (nat_lit 9) k, nat_lit 511) < stI h k ∧
               mulR 5 w S 111 T L H CM RM (UG k) (E h) = E fld(W h, Nat.mul (nat_lit 9) k, nat_lit 511)
-          · rw [if_pos hA] at hstep
+          · rw [ite_eq_left hA] at hstep
             rw [hstep]
             exact ⟨hs1, hs2⟩
-          · rw [if_neg hA] at hstep
+          · rw [ite_eq_right hA] at hstep
             by_cases hB : fld(W h, Nat.mul (nat_lit 9) k, nat_lit 511) = stI h k ∧ stI h k < c ∧
                 mulR 5 w S 111 T L H CM RM (UG k) (E h) = E (stI h k)
             · exfalso
@@ -290,7 +290,7 @@ theorem runB_soundL {w S T L H CM RM ONE LV HV kg c cap nS Hh : Nat} {UG E W SO 
               rw [hB.2.2] at hiz
               have := hP i (by omega) (stI h k) hB.2.1 hiz
               omega
-            · rw [if_neg hB] at hstep
+            · rw [ite_eq_right hB] at hstep
               exact absurd hstep hIk1.2.1
         ·
           rename_i hj
@@ -303,10 +303,10 @@ theorem runB_soundL {w S T L H CM RM ONE LV HV kg c cap nS Hh : Nat} {UG E W SO 
           by_cases hA : fld(W h, Nat.mul (nat_lit 9) k, nat_lit 511) < stI h k ∧
               mulR 5 w S 111 T L H CM RM (UG k) (E h) = E fld(W h, Nat.mul (nat_lit 9) k, nat_lit 511)
           · exact absurd ⟨_, hA.1, by rw [hA.2]⟩ hnot
-          · rw [if_neg hA] at hstep
+          · rw [ite_eq_right hA] at hstep
             by_cases hB : fld(W h, Nat.mul (nat_lit 9) k, nat_lit 511) = stI h k ∧ stI h k < c ∧
                 mulR 5 w S 111 T L H CM RM (UG k) (E h) = E (stI h k)
-            · rw [if_pos hB] at hstep
+            · rw [ite_eq_left hB] at hstep
               rw [hstep]
               have hyP : unpackL 111 w S (mulR 5 w S 111 T L H CM RM (UG k) (E h)) = P (stI h k) := by
                 rw [hB.2.2]
@@ -316,11 +316,11 @@ theorem runB_soundL {w S T L H CM RM ONE LV HV kg c cap nS Hh : Nat} {UG E W SO 
               · change ((s.1.insert _ s.2.1.size)[z]?).isSome = true ↔ _
                 rw [Std.HashMap.getElem?_insert]
                 by_cases e : (unpackL 111 w S (mulR 5 w S 111 T L H CM RM (UG k) (E h)) == z) = true
-                · rw [if_pos e]
+                · rw [ite_eq_left e]
                   refine ⟨fun _ => ⟨stI h k, Nat.lt_succ_self _, ?_⟩, fun _ => rfl⟩
                   rw [← hyP]
                   exact eq_of_beq e
-                · rw [if_neg e, hs2]
+                · rw [ite_eq_right e, hs2]
                   constructor
                   · rintro ⟨i, hi, hiz⟩
                     exact ⟨i, by omega, hiz⟩
@@ -334,7 +334,7 @@ theorem runB_soundL {w S T L H CM RM ONE LV HV kg c cap nS Hh : Nat} {UG E W SO 
                       apply e
                       rw [hyP, hiz]
                       exact beq_self_eq_true z
-            · rw [if_neg hB] at hstep
+            · rw [ite_eq_right hB] at hstep
               exact absurd hstep hIk1.2.1
     · rename_i hge
       refine ⟨_, rfl, ?_⟩

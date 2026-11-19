@@ -22,8 +22,8 @@ theorem rigidOK_planeDTabs_eq_true :
 theorem f12 :
     ∀ β : ↥Q0 ≃* ↥Q0, (∀ d : ↥Q0, (d : Q3) ∈ D0 → β d = d) → β = MulEquiv.refl _ := by
   intro β hβ
-  letI := planeXMulAction
-  haveI := planeXMulAction_isPretransitive
+  let := planeXMulAction
+  have := planeXMulAction_isPretransitive
   refine CFSG.EvenSporadicStandard.TwoFi22.DS81.RouteP.Rigid.eq_refl_of_rigidOK
     (n := 891) (gens := planeDTabs ()) (R := planeInterCount (planeXData ()))
     (0 : Fin 891) (D0.subgroupOf Q0) ?_ planeGenQ ?_ ?_ ?_ rigidOK_planeDTabs_eq_true ?_ ?_ β ?_

@@ -95,7 +95,7 @@ theorem stroth41iiTensor_of_pieces (h34 : Stroth34Statement) (h310 : Stroth310St
   have hd1 := S₁.three
   have hd2 := S₂.three
   have hn' : n + 1 ≤ d₁ + d₂ := by omega
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hX₁H : X₁ ≤ bar M Q (H0 M Z) := h₁.1.trans hc.bar_Lgen_le_bar_H0
   have hX₂H : X₂ ≤ bar M Q (H0 M Z) := h₂.1.trans hc.bar_Lgen_le_bar_H0
   exact tensor_count_false M₀.B M₀.alt M₀.nondeg ρ hS.dim hcomm S₁ S₂

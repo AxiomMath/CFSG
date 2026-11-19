@@ -27,7 +27,7 @@ private theorem qtt_chain_label_three (m b i : ℕ) (hglob : b + i + 3 ≤ m + 1
   have hD : CartanMatrix.D (m + 1) ⟨b + i, by omega⟩ ⟨b + i + 1, by omega⟩ = -1 := by
     simp [CartanMatrix.D, Fin.ext_iff, show ¬ m + 1 ≤ 2 by omega]
     omega
-  rw [CFSG.StandardType.ggCoxeterMatrixD_apply, if_neg hne]
+  rw [CFSG.StandardType.ggCoxeterMatrixD_apply, ite_eq_right hne]
   simp [hD]
 
 private theorem qtt_theta_threeBlock_coe (m : ℕ) (hm : 3 ≤ m)

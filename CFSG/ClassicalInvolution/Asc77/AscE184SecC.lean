@@ -65,6 +65,7 @@ theorem E187C.section_hall_of {Y : Type} [Group Y] {Λ : Set (Subgroup Y)}
     obtain ⟨n, -, hn⟩ := hexc hKy hJΛ himg
     exact ⟨n * y, by rw [conjSub_mul]; exact hn.symm⟩
 
+omit [Finite G] in
 theorem E187C.cent_restrict_of {Y : Subgroup G} (hcent : CentralizersSylowPairs Ω K H)
     (hKY : K ≤ Y) :
     CentralizersSylowPairs (restrictFamily Ω Y) (K.subgroupOf Y) (H.subgroupOf Y) := by

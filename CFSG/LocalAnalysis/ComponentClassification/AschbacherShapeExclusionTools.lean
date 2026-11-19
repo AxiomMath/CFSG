@@ -108,7 +108,7 @@ theorem false_of_abelian_sylow_fixed [Finite X] (hperf : commutator X = ⊤) (T 
     simp only [Subgroup.coe_mul] at hab
     rw [mem_bot, commutatorElement_def, hab]
     group
-  obtain ⟨k, hk⟩ := T.isPGroup' ⟨e, he⟩
+  obtain ⟨k, hk⟩ := T.isPGroup ⟨e, he⟩
   have hmain := CFSG.Quasithin.generalized_thompson_transfer_one (p := 2) hindex
     ⟨bot_le, hbot⟩ habel he (fun h => he1 ((mem_bot).1 h))
     ⟨k, by simpa using congrArg Subtype.val hk⟩ (fun m a ha => by

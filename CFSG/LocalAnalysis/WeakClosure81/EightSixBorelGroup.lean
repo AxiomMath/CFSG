@@ -32,8 +32,8 @@ theorem exists_mem_normalizer_inf_not_fix {H K T : Subgroup G} (hKH : K ≤ H)
     ∃ y : ↥H, (y : G) ∈ normalizer ((T ⊓ (K ⊔ ρ.ker.map H.subtype) : Subgroup G) : Set G) ∧
       ρ y t₀ ≠ t₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite S := Finite.of_surjective ψ hsurj
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite S := Finite.of_surjective ψ hsurj
   have hρK : ∀ k : ↥K, ρ ⟨k, hKH k.2⟩ = MulAut.conj (ψ k) := by
     intro k
     ext s
@@ -301,7 +301,7 @@ theorem mul_mem_range_conj_of_isCyclic_map {S : Type} [Group S] [Finite S]
     · exact hαβ
     · exact hαβ.symm
     · exact absurd rfl hxy
-  letI : CommGroup B :=
+  let : CommGroup B :=
     haveI : IsMulCommutative B := Subgroup.isMulCommutative_closure hcomm
     IsMulCommutative.instCommGroup
   have hsq : ∀ b : B, b * b = 1 := by
@@ -329,7 +329,7 @@ theorem mul_mem_range_conj_of_isCyclic_map {S : Type} [Group S] [Finite S]
     exact orderOf_dvd_iff_pow_eq_one.mpr (by simpa [pow_two] using hsq b)
   let C : Subgroup (MulAut S ⧸ inner S) := B.map (QuotientGroup.mk' (inner S))
   have hC : IsCyclic C := hS B hP
-  haveI : Fintype C := Fintype.ofFinite C
+  have : Fintype C := Fintype.ofFinite C
   let a : C := ⟨QuotientGroup.mk' (inner S) α, Subgroup.mem_map.mpr ⟨α, hαB, rfl⟩⟩
   let b : C := ⟨QuotientGroup.mk' (inner S) β, Subgroup.mem_map.mpr ⟨β, hβB, rfl⟩⟩
   have ha2 : a ^ 2 = 1 := by
@@ -386,7 +386,7 @@ theorem mul_mem_range_conj_of_isCyclic_map {S : Type} [Group S] [Finite S]
       · exact ha2
       · exact hb2
     have hle := Finset.card_le_card hsub
-    haveI : IsCyclic C := hC
+    have : IsCyclic C := hC
     have hbound := IsCyclic.card_pow_eq_one_le (α := C) (n := 2) (by norm_num)
     omega
 

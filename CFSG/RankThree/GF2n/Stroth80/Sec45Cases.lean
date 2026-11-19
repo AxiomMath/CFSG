@@ -42,7 +42,7 @@ theorem stroth45_of_42_43 (h34 : Stroth34Statement) (h310 : Stroth310Statement)
   have hSL2 : ∀ (K : Type) [Field K] [Finite K], Nat.card K = Nat.card Z →
       CFSG.IsQuasisimple ↥(StatedSL 2 K) := by
     intro K _ _ hK
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
     exact (hCQ K (by rw [hK]; exact hq4)).1 2 le_rfl
   have hqSL : ∀ X : Subgroup (Mbar M Q), IsSLModel 2 (Nat.card Z) ↥X → CFSG.IsQuasisimple ↥X := by
     rintro X ⟨K, hF, hFin, hK, ⟨e⟩⟩
@@ -50,7 +50,7 @@ theorem stroth45_of_42_43 (h34 : Stroth34Statement) (h310 : Stroth310Statement)
   have hcs := hc.compSimple h34 h44 hw hn hno hgen
   have hΛ := hc.swapHyp hw hn hno
   have hEn : (layer (Mbar M Q)).Normal := by
-    haveI := CFSG.LocalCores.layer_characteristic (G := Mbar M Q)
+    have := CFSG.LocalCores.layer_characteristic (G := Mbar M Q)
     infer_instance
   by_cases hasSL : ∃ C : Subgroup (Mbar M Q), IsComponent C ∧ IsSLModel 2 (Nat.card Z) ↥C
   swap
@@ -164,9 +164,9 @@ theorem stroth45_of_42_43 (h34 : Stroth34Statement) (h310 : Stroth310Statement)
     exact Subtype.ext h2
   have hns : ¬ Group.IsSolvable ↥X := by
     intro hs
-    haveI := hs
+    have := hs
     exact not_isSolvable_of_isQuasisimple hY₂c.1
-      (solvable_of_solvable_injective (f := Subgroup.inclusion hY₂X)
+      (Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hY₂X)
         (Subgroup.inclusion_injective hY₂X))
   have hEnormX : layer (Mbar M Q) ≤ Subgroup.normalizer (X : Set (Mbar M Q)) := by
     intro e he
@@ -186,7 +186,7 @@ theorem stroth45_of_42_43 (h34 : Stroth34Statement) (h310 : Stroth310Statement)
     refine ⟨Y₂, Y₁, by rw [← hXeq, sup_comm]; exact hEX.symm, hcs.inf_eq_bot hY₂c hY₁c hY₂ne,
       fun x hx y hy => comm_of_ne_component hY₂c hY₁c hY₂ne x hx y hy, hY₂c.1, hY₁SL⟩
   have hSL2K : CFSG.IsQuasisimple ↥(StatedSL 2 K) := hSL2 K hK
-  haveI : CharP K 2 := hK2
+  have : CharP K 2 := hK2
   rcases normal_embedding_cases hSL2K (R := bar M Q (Rt M (LB M Q B) (t' : G))) (X := X)
     π hπs hshape hXle hXnorm hinj hns with ⟨hq, ⟨e⟩⟩ | he | he
   · exact Or.inl (finish (isQuasisimple_of_mulEquiv' e.symm hq))

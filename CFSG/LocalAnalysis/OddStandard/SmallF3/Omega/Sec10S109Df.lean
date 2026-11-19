@@ -133,7 +133,7 @@ theorem sec10D_hatCent_normalizes {t z : G} (ht2 : t * t = 1) (hz2 : z * z = 1)
           exact (MulAut.conj c).orderOf_eq y
         rw [hconj]
         exact hy.2
-  | one => simpa using Subgroup.one_mem (Subgroup.closure _)
+  | one => simp
   | mul y w _ _ ihy ihw => simpa only [conj_mul] using Subgroup.mul_mem _ ihy ihw
   | inv y _ ihy => simpa only [conj_inv] using Subgroup.inv_mem _ ihy
 

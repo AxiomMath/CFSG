@@ -41,8 +41,8 @@ theorem candL_same {CG FT FTi FC TH i X Y : Nat} {l : Nat} (hl : l < 11) (h : ¬
     candL CG FT FTi FC TH i Y l = candL CG FT FTi FC TH i X l := by
   unfold candL
   by_cases h5 : l < 5
-  · rw [blt_t h5, cond_true, cond_true]
-  · rw [blt_f h5, cond_false, cond_false, blt_f (by omega : ¬ l < 10), cond_false, cond_false]
+  · rw [blt_t h5, _root_.Bool.cond_true, _root_.Bool.cond_true]
+  · rw [blt_f h5, Bool.cond_false, Bool.cond_false, blt_f (by omega : ¬ l < 10), Bool.cond_false, Bool.cond_false]
 
 theorem div_six {k d : Nat} (hd : d < 6) : Nat.div (6 * k + d) 6 = k := by
   change (6 * k + d) / 6 = k

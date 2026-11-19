@@ -46,7 +46,7 @@ theorem exists_injective_hom_of_not_dvd_index {r : ℕ} [Fact r.Prime] {P : Type
     ∃ φ : E →* R, Function.Injective φ := by
   classical
   obtain ⟨S⟩ : Nonempty (Sylow r R) := inferInstance
-  have hS'p : IsPGroup r ((S : Subgroup R).map R.subtype) := S.isPGroup'.map R.subtype
+  have hS'p : IsPGroup r ((S : Subgroup R).map R.subtype) := S.isPGroup.map R.subtype
   have hS'idx : ¬ r ∣ ((S : Subgroup R).map R.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro h
@@ -95,8 +95,8 @@ theorem card_le_of_embeds_in_cyclic {E C : Type*} [Group E] [Group C] [IsCyclic 
     Nat.card E ≤ r := by
   classical
   let e : E ≃* φ.range := MonoidHom.ofInjective hφ
-  haveI : IsCyclic φ.range := inferInstance
-  haveI : IsCyclic E := isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
+  have : IsCyclic φ.range := inferInstance
+  have : IsCyclic E := isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := E)
   have hord : orderOf g = Nat.card E := orderOf_eq_card_of_forall_mem_zpowers hg
   have hdvd : orderOf g ∣ r := orderOf_dvd_of_pow_eq_one (h g)

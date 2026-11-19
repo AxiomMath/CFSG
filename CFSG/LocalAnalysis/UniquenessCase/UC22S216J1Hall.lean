@@ -21,9 +21,9 @@ private theorem uc22s216_not_dvd_of_permutes_J1 {X : Type} [Group X] [Finite X]
     (hq2 : q ≠ 2) (hsq : ¬ q ^ 2 ∣ 175560) (h8 : ∀ n : ℕ, n ∣ 8 → n % q = 1 → n = 1) :
     ¬ q ∣ Nat.card ↥B := by
   intro hqB
-  haveI := CFSG.Adapters.certificate43_holds
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have := CFSG.Adapters.certificate43_holds
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hX : Nat.card X = 175560 := by
     rw [Nat.card_congr f.toEquiv, CFSG.Walter.J1Props.card_walterJ1]
   have hS2 : IsPGroup 2 ↥S := hS.2.1
@@ -49,7 +49,7 @@ private theorem uc22s216_not_dvd_of_permutes_J1 {X : Type} [Group X] [Finite X]
   have hsolv : Group.IsSolvable ↥(B ⊔ S) := by
     have eB : ↥(B.subgroupOf (B ⊔ S)) ≃* ↥B := Subgroup.subgroupOfEquivOfLe hBY
     have eS : ↥(S.subgroupOf (B ⊔ S)) ≃* ↥S := Subgroup.subgroupOfEquivOfLe hSY
-    haveI := hBn
+    have := hBn
     refine CFSG.GroupTheory.WielandtProduct.wielandt_coprime_product (B.subgroupOf (B ⊔ S))
       (S.subgroupOf (B ⊔ S)) (Group.nilpotent_of_mulEquiv eB.symm)
       ((hS2.of_equiv eS.symm).isNilpotent) ?_ ?_
@@ -101,7 +101,7 @@ private theorem uc22s216_not_dvd_of_permutes_J1 {X : Type} [Group X] [Finite X]
     have h := card_sylow_modEq_one q ↥H
     rw [Nat.ModEq, Nat.mod_eq_of_lt hq.one_lt] at h
     exact h
-  haveI : Subsingleton (Sylow q ↥H) := (Nat.card_eq_one_iff_unique.mp hn1).1
+  have : Subsingleton (Sylow q ↥H) := (Nat.card_eq_one_iff_unique.mp hn1).1
   have hQn : (Q : Subgroup ↥H).Normal := Q.normal_of_subsingleton
   let ι : ↥H →* X := (B ⊔ S).subtype.comp H.subtype
   have hι : Function.Injective ι := (B ⊔ S).subtype_injective.comp H.subtype_injective

@@ -19,6 +19,7 @@ noncomputable def Ctx.xbarModConj (hc : Ctx M Q Z B) : Mbar M Q →* MulAut (Xba
   letI : (Xbar M Q Z B).Normal := hc.Xbar_normal
   (MulAut.mapQuotient (Subgroup.center ↥(Xbar M Q Z B))).comp MulAut.conjNormal
 
+omit [Finite G] in
 theorem Ctx.xbarModConj_apply_mk (hc : Ctx M Q Z B) (m : Mbar M Q) (x : ↥(Xbar M Q Z B)) :
     hc.xbarModConj m (x : XbarMod M Q Z B) =
       ((⟨m * x * m⁻¹, hc.Xbar_normal.conj_mem _ x.2 m⟩ : ↥(Xbar M Q Z B)) :
@@ -29,6 +30,7 @@ theorem Ctx.xbarModConj_apply_mk (hc : Ctx M Q Z B) (m : Mbar M Q) (x : ↥(Xbar
   rw [MulAut.mapQuotient_mk]
   exact congrArg _ (Subtype.ext (MulAut.conjNormal_apply m x))
 
+omit [Finite G] in
 theorem Ctx.xbarModConj_coe (hc : Ctx M Q Z B) (x : ↥(Xbar M Q Z B)) :
     hc.xbarModConj (x : Mbar M Q) = MulAut.conj (x : XbarMod M Q Z B) := by
   refine MulEquiv.ext fun y => ?_

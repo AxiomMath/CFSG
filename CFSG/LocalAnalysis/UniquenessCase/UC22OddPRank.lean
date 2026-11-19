@@ -14,8 +14,8 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pRank_bar2_eq_of_odd {Y : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     CFSG.Open.pRank p (⊤ : Subgroup (Bar2 Y)) = CFSG.Open.pRank p Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : ¬ p ∣ Nat.card (CFSG.pCore 2 ↥Y) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := ↥Y))
     rw [hk]

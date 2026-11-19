@@ -88,8 +88,8 @@ theorem not_exists_surjective_quasisimple_prod {S U₁ U₂ : Type} [Group S] [G
         exact hab (Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top b) a)
     have : x ∈ Subgroup.center U₂ := Subgroup.mem_center_iff.mpr hx
     rwa [hc, Subgroup.mem_bot] at this
-  haveI := IsSimpleGroup.toNontrivial (G := U₁)
-  haveI := IsSimpleGroup.toNontrivial (G := U₂)
+  have := IsSimpleGroup.toNontrivial (G := U₁)
+  have := IsSimpleGroup.toNontrivial (G := U₂)
   obtain ⟨x, hx⟩ := exists_ne (1 : U₁)
   obtain ⟨y, hy⟩ := exists_ne (1 : U₂)
   rcases CFSG.AGLEmbedding.le_center_or_eq_top_of_normal_quasisimple hS σ.ker with hk | hk

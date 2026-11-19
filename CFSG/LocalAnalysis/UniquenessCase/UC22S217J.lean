@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22s217j_seven_facts {Y : Type} [Group Y] [Finite Y] {W : Subgroup Y}
     (hW : Nat.card W = 175560) {p : ℕ} (hp : ¬ p ∣ 175560) :
     CFSG.Open.pRank 7 W ≤ 1 ∧ 7 ∣ Nat.card W ∧ ¬ p ∣ Nat.card (Sylow 7 ↥W) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine ⟨?_, by rw [hW]; norm_num, fun h => hp ?_⟩
   · obtain ⟨E, hEW, -, hE⟩ := CFSG.SectionRank.exists_pRank (by norm_num : 1 < 7) W
     have hdvd : 7 ^ CFSG.Open.pRank 7 W ∣ 175560 := by
@@ -45,7 +45,7 @@ theorem uc22s217j_exists_elemAbelian_of_isJ1 {M L A₀ : Subgroup G} (hL : L ∈
       A₀ ≤ normalizer (E : Set G) ∧
       ∀ R : Subgroup G, R ≤ M → IsPGroup 7 R → E ≤ R → E ≤ centralizer (R : Set G) := by
   obtain ⟨hcard, hsimple, -⟩ := kJ1_holds (Bar2 L) hJ
-  haveI := hsimple
+  have := hsimple
   have hpJ : ¬ p ∣ 175560 := by
     rw [← hcard]
     exact fun h => hpL (h.trans (Subgroup.card_quotient_dvd_card _))
@@ -59,7 +59,7 @@ theorem uc22s217j_exists_elemAbelian_of_isJ1 {M L A₀ : Subgroup G} (hL : L ∈
 theorem uc22s217j_not_sp_seven {D : Data G} {Ch : Choice2011 G} (h211 : S21_1 D Ch)
     (h1930 : H1930 D) (c : Ctx21 D Ch) (hn3 : c.n = 3) : ¬ IsStronglyPEmbedded 7 D.M := by
   obtain ⟨b, hb, hbo⟩ := uc22p22i_exists_elt_of_mem_piSet (B := c.B0) (r := 7) (by
-    rw [c.hpi, hn3, etaSet, Set.mem_setOf_eq]
+    rw [c.hpi, hn3, etaSet, Set.mem_ofPred_eq]
     exact ⟨by norm_num, by norm_num⟩)
   have hle : c.B0 ≤ oPi (etaSet c.n) c.B0 := by
     refine le_iSup₂_of_le c.B0 ⟨le_rfl, ?_, c.hpi.subset⟩ le_rfl
@@ -85,8 +85,8 @@ theorem s21_17J_of_conclusion76 (D : Data G) (Ch : Choice2011 G) (h211 : S21_1 D
     UC6S846.exists_elemAbelian_card_of_le_pRank hpp (hSg.three_le p hp)
   obtain ⟨E, hEM, hEel, hEcard, hA₀E, hEZ⟩ :=
     uc22s217j_exists_elemAbelian_of_isJ1 hL hc2 hJ hpp hp2 hpL hA₀M hA₀el.isPGroup
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hΓ : rankThreeGamma 1 7 E ≤ D.M := by
     have h3 := UC6S846.le_pRank' hpp (le_inf hA₀M hA₀E) hA₀el hA₀card
     exact UC6R77.rankThreeGamma_le_of_two_lt_pRank hp7

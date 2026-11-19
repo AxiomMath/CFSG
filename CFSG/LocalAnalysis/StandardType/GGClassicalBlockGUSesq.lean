@@ -28,7 +28,7 @@ theorem nonempty_sesqUnitaryGroup_mulEquiv_GUFull {K : Type} [Field K] [Finite K
     obtain ⟨x, hx⟩ := hρ1
     exact hx (by simpa using congrArg (fun f : K ≃+* K => f x) h)
   obtain ⟨q, hqq, hqpow⟩ := RonanRes.fieldAut_invol_eq_pow hρ2 hρne
-  letI : Module (ZMod 2) K := (ZMod.castHom (dvd_refl 2) K).toModule
+  let : Module (ZMod 2) K := (ZMod.castHom (dvd_refl 2) K).toModule
   have hcard2 : 2 ^ Module.finrank (ZMod 2) K = Nat.card K := FiniteField.pow_finrank_eq_natCard 2 K
   have hdvd : q ∣ 2 ^ Module.finrank (ZMod 2) K := ⟨q, by rw [hcard2]; exact hqq.symm⟩
   obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd

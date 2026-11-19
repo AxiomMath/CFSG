@@ -18,12 +18,12 @@ theorem isPGroup_three_oddCoreIn
     (hL : IsOm6Z2 L) : IsPGroup 3 (oddCoreIn L) := by
   classical
   obtain ⟨hq, hZcard, hmodel⟩ := hL
-  haveI hperf : Group.IsPerfect ↥L := hq.1
+  have hperf : Group.IsPerfect ↥L := hq.1
   let O : Subgroup ↥L := CFSG.oddCore ↥L
   let Z : Subgroup ↥L := Subgroup.center ↥L
   have hne : O ≠ ⊤ := by
     intro htop
-    haveI : Subsingleton (↥L ⧸ O) := (QuotientGroup.subsingleton_iff).mpr htop
+    have : Subsingleton (↥L ⧸ O) := (QuotientGroup.subsingleton_iff).mpr htop
     have h1 : Nat.card (Subgroup.center (↥L ⧸ O)) ≤ 1 :=
       Finite.card_le_one_iff_subsingleton.mpr inferInstance
     have h2 : Nat.card (Subgroup.center (↥L ⧸ O)) = 2 := by
@@ -45,10 +45,10 @@ theorem isPGroup_three_oddCoreIn
     hmodel.of_mulEquiv e.symm
   obtain ⟨hperfS, ⟨eM⟩⟩ :=
     CFSG.LieType.Multipliers.U43.multiplier_PSU_four_three (↥L ⧸ Z) hmodelL
-  haveI : Group.IsPerfect (↥L ⧸ Z) := ⟨hperfS⟩
+  have : Group.IsPerfect (↥L ⧸ Z) := ⟨hperfS⟩
   have hcardM : Nat.card (CFSG.Open.griessHopfMultiplier (↥L ⧸ Z)) = 36 := by
     rw [Nat.card_congr eM.toEquiv]
-    simp [Nat.card_prod, Nat.card_zmod]
+    simp
   have hcardHopf :
       Nat.card (CFSG.RankThree.PerfectCover.hopfMultiplier (↥L ⧸ Z)) = 36 := by
     rw [← Nat.card_congr

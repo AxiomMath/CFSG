@@ -19,7 +19,7 @@ open scoped commutatorElement
 theorem layerData_of_threeA {X : Type} [Group X] [Finite X] {b : X} (h : ThreeA b) :
     LayerData b := by
   set C : Subgroup X := Subgroup.centralizer ({b} : Set X) with hCdef
-  haveI : Group.IsPerfect ↥C := h.1.1
+  have : Group.IsPerfect ↥C := h.1.1
   have hCC : ⁅C, C⁆ = C := Subgroup.commutator_eq_self
   refine ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv (MulEquiv.subgroupCongr hCC.symm) h.1,
     fun z hz => ⟨1, ?_⟩, ⊥, fun a ha a' ha' => ?_, fun a ha r hr => ?_, ?_⟩
@@ -46,7 +46,7 @@ theorem threeA_of_short
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype K := Fintype.ofFinite K
   have hp : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) (by
     rw [← Nat.card_eq_fintype_card, hK])
@@ -70,7 +70,7 @@ theorem layerData_of_cube
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype K := Fintype.ofFinite K
   have hp : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) (by
     rw [← Nat.card_eq_fintype_card, hK])
@@ -133,7 +133,7 @@ open CFSG CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 theorem census423_of_g2
     {X : Type} [Group X] [Finite X] {f : ℕ}
     (hX : Blueprint.ChevalleyExceptionalModel X .G2 2 f) (hq : CFSG.IsQuasisimple X)
-    (hZ : Subgroup.center X = ⊥) : Census423 X := by
+    (_hZ : Subgroup.center X = ⊥) : Census423 X := by
   obtain ⟨hadm, K, _, _, hK, ⟨e⟩⟩ := hX
   have hq3 : 3 ≤ 2 ^ f := hadm.2.2.2
   have hf : 2 ≤ f := by
@@ -144,7 +144,7 @@ theorem census423_of_g2
   have hZK := center_adjointGroup_eq_bot (τ := .G2) (K := K)
   let e' : X ≃* adjointGroup .G2 K :=
     e.trans ((QuotientGroup.quotientMulEquivOfEq hZK).trans QuotientGroup.quotientBot)
-  haveI : Finite ↥(adjointGroup .G2 K) := Finite.of_equiv X e'.toEquiv
+  have : Finite ↥(adjointGroup .G2 K) := Finite.of_equiv X e'.toEquiv
   exact census423_of_equiv_alpha e' fun D hDc hDexp hD9 =>
     G2.alphaVanishes_of_g2 hf hK (CFSG.LocalCores.isQuasisimple_of_mulEquiv e' hq) hZK hDc hDexp
       hD9

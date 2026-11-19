@@ -104,6 +104,7 @@ theorem theta82_injective {a : G} {K K' : Subgroup G}
   have h3 : K' ≤ C82_wPS7b a := (CFSG.RankThree.PartOne.mem_thetaComponentsAt_iff.mp hK').1
   rw [← Subgroup.map_subgroupOf_eq_of_le h2, ← Subgroup.map_subgroupOf_eq_of_le h3, h1]
 
+omit [Finite G] in
 theorem theta82_conj {a : G} {K : Subgroup G} {b : G} (hb : b ∈ C82_wPS7b a)
     (hK : K ≤ C82_wPS7b a) :
     theta82_wPS7b a (K.map (MulAut.conj b).toMonoidHom) =
@@ -141,6 +142,7 @@ theorem theta82_conj {a : G} {K : Subgroup G} {b : G} (hb : b ∈ C82_wPS7b a)
       rw [map_mul, map_mul, map_inv]
       rfl
 
+omit [Finite G] in
 theorem theta82_card_dvd {a : G} {K : Subgroup G} :
     Nat.card (theta82_wPS7b a K) ∣ Nat.card K := by
   have h1 : Nat.card (theta82_wPS7b a K) ∣ Nat.card (K.subgroupOf (C82_wPS7b a)) :=
@@ -153,6 +155,7 @@ theorem theta82_card_dvd {a : G} {K : Subgroup G} :
   rw [h2] at h1
   exact h1.trans h3
 
+omit [Finite G] in
 theorem card_conjugate (H : Subgroup G) (g : G) :
     Nat.card (CFSG.conjugate H g) = Nat.card H := by
   unfold CFSG.conjugate
@@ -303,13 +306,13 @@ theorem twoLocal_rank_four_of_orbit (c : Ctx82E3 D) {a : G} {J : Subgroup G}
     rw [← hTcoe i] at hnorm
     exact hnorm
   have hyq : ∀ i, orderOf (((y i : K i) : K i ⧸ Subgroup.center (K i))) = r := by
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     intro i
     refine orderOf_eq_prime ?_ ?_
     · rw [← QuotientGroup.mk_pow, ← hyord i, pow_orderOf_eq_one, QuotientGroup.mk_one]
     · rw [Ne, QuotientGroup.eq_one_iff]
       exact hync i
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨V, hVle, hVab, hVcard⟩ :=
     CFSG.RankThree.GroupTheory.SteinbergBK.exists_elemAbelian_of_component_family
       hr K hKcomp hKinj (fun i => (y i : ↥(C82_wPS7b a) ⧸ T82_wPS7b a)) (fun i => (y i).2) hyq
@@ -318,7 +321,7 @@ theorem twoLocal_rank_four_of_orbit (c : Ctx82E3 D) {a : G} {J : Subgroup G}
       (fun x => Subtype.ext (hVab.2 x x.2)) hVcard
   let Tsub : Fin 7 → Subgroup (↥(C82_wPS7b a) ⧸ T82_wPS7b a) := fun i =>
     (T i : Subgroup (K i)).map (K i).subtype
-  have hTsubP : ∀ i, IsPGroup 2 (Tsub i) := fun i => (T i).isPGroup'.map _
+  have hTsubP : ∀ i, IsPGroup 2 (Tsub i) := fun i => (T i).isPGroup.map _
   have hTsubK : ∀ i, Tsub i ≤ K i := fun i => Subgroup.map_subtype_le _
   have hTsubNe : ∀ i, Tsub i ≠ ⊥ := by
     intro i hbot
@@ -372,7 +375,7 @@ theorem twoLocal_rank_four_of_orbit (c : Ctx82E3 D) {a : G} {J : Subgroup G}
   let T2sub : Subgroup ↥(C82_wPS7b a) := (T2 : Subgroup Kpre).map Kpre.subtype
   have hT2subP : IsPGroup 2 T2sub := by
     change IsPGroup 2 ((T2 : Subgroup Kpre).map Kpre.subtype)
-    exact (T2).isPGroup'.map _
+    exact (T2).isPGroup.map _
   have hKpreMap : Kpre.map (QuotientGroup.mk' (T82_wPS7b a)) = Tstar :=
     Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) Tstar
   let ψ : Kpre →* Tstar :=
@@ -416,7 +419,7 @@ theorem twoLocal_rank_four_of_orbit (c : Ctx82E3 D) {a : G} {J : Subgroup G}
     · intro hx
       exact (QuotientGroup.eq_one_iff (x : ↥(C82_wPS7b a))).mpr
         (Subgroup.mem_subgroupOf.mp hx)
-  haveI : N'.Normal := inferInstance
+  have : N'.Normal := inferInstance
   have hφrange : φ.range = H'.map (QuotientGroup.mk' (T82_wPS7b a)) := by
     rw [show φ = (QuotientGroup.mk' (T82_wPS7b a)).comp H'.subtype from rfl,
       MonoidHom.range_comp, Subgroup.range_subtype]
@@ -508,20 +511,20 @@ theorem twoLocal_rank_four_of_orbit (c : Ctx82E3 D) {a : G} {J : Subgroup G}
 
 theorem suzuki_orbit_rank_assembly''
     (c : Ctx82E3 D)
-    (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (hK8 : K8Cat)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
-    (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
-    (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A) (haZ : a ∉ zSub P c.L)
-    (hP2 : IsTripleCover (perfectCoreL c a ⧸ CFSG.Open.pCore 2 ↥(perfectCoreL c a))
+    (_hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) (_hK8 : K8Cat)
+    (_hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
+    (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (_hA : CFSG.Open.IsElemAbelian 3 A) (_hA27 : Nat.card A = 27) (_hZA : zSub P c.L ≤ A)
+    (_hAPL : A ≤ P ⊓ c.L) (_ha : a ∈ A) (_haZ : a ∉ zSub P c.L)
+    (_hP2 : IsTripleCover (perfectCoreL c a ⧸ CFSG.Open.pCore 2 ↥(perfectCoreL c a))
         (alternatingGroup (Fin 6)) ∧
       zSub P c.L ≤ perfectCoreL c a ∧
       ⁅perfectCoreL c a, zSub P c.L⁆ ≤
         CFSG.Open.pCoreOf 2 (perfectCoreL c a) ∧
       A ≤ Subgroup.closure ({a} : Set G) ⊔ perfectCoreL c a)
-    (hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1)
-    (hP5 : ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
+    (_hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({a} : Set G)) = 1)
+    (_hP5 : ∀ W : Subgroup G, W ≤ D.M → Group.IsPerfect ↥W → ¬ 3 ∣ Nat.card W →
       W ≤ CFSG.LocalAnalysis.RankThreeUC.centralizerOnQuotient D.M
         (CFSG.Open.pCoreOf 2 c.L) c.L)
     {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a) (h3 : ¬ 3 ∣ Nat.card J)

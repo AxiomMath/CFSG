@@ -359,7 +359,7 @@ private lemma o2c_mem_centralizer_iff {ι F : Type} [Fintype ι] [DecidableEq ι
 
 theorem map_trivBlockOrth_eq {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F] [Finite F]
     [CharP F 2] (Q : QuadraticForm F (ι → F)) (hQ : (polarBilin Q).Nondegenerate)
-    (hj : Function.Injective (Spin.spinMatrix Q))
+    (_hj : Function.Injective (Spin.spinMatrix Q))
     (hrange : (Spin.spinAction Q).range = orthDerived Q) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (s : spinGroup Q) (hs : s ^ p = 1)
     (h8 : 8 ≤ Matrix.rank (fixIdem p (Spin.spinMatrix Q s : GL ι F))) :
@@ -486,7 +486,7 @@ private lemma o2b_fixIdem_mul_left {ι F : Type} [Fintype ι] [DecidableEq ι] [
   rw [Matrix.mul_smul, o2b_geom_sum_mul_left b hpow]
 
 private lemma o2b_fixIdem_mulVec_of_fixed {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
-    {p : ℕ} (b : GL ι F) (hpow : b ^ p = 1) (hc : (p : F) ≠ 0) {v : ι → F}
+    {p : ℕ} (b : GL ι F) (_hpow : b ^ p = 1) (hc : (p : F) ≠ 0) {v : ι → F}
     (hv : (b : Matrix ι ι F).mulVec v = v) :
     (fixIdem p b).mulVec v = v := by
   have hbpow : ∀ i : ℕ, ((b : Matrix ι ι F) ^ i).mulVec v = v := by
@@ -503,7 +503,7 @@ private lemma o2b_fixIdem_mulVec_of_fixed {ι F : Type} [Fintype ι] [DecidableE
   rw [← Nat.cast_smul_eq_nsmul F p v, inv_smul_smul₀ hc]
 
 theorem finrank_fixedSpace_spinAction {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
-    [Finite F] [CharP F 2] (Q : QuadraticForm F (ι → F)) (hQ : (polarBilin Q).Nondegenerate)
+    [Finite F] [CharP F 2] (Q : QuadraticForm F (ι → F)) (_hQ : (polarBilin Q).Nondegenerate)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (s : spinGroup Q) (hs : s ^ p = 1) :
     Matrix.rank (fixIdem p (Spin.spinMatrix Q s : GL ι F)) =
       finrank F (fixedSpace (Spin.spinAction Q s)) := by

@@ -32,8 +32,8 @@ theorem _root_.CFSG.GH74.Filter.Frame7.polar_v (F : Frame7 Q) (i j : FrameIdx) :
     polar Q (F.v i) (F.v j) = if i = j then 2 * frameNorm K i else 0 := by
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl, polar_self_eq_two_mul, F.Q_v]
-  · rw [if_neg h, F.orth i j h]
+    rw [ite_eq_left rfl, polar_self_eq_two_mul, F.Q_v]
+  · rw [ite_eq_right h, F.orth i j h]
 
 theorem _root_.CFSG.GH74.Filter.Frame7.Q_inl (F : Frame7 Q) (i : Fin 3) :
     Q (F.v (.inl i)) = 1 := by
@@ -72,7 +72,7 @@ noncomputable def _root_.CFSG.GH74.Filter.Frame7.toEqFrame7 (F : Frame7 Q) {s t 
     intro i j hij
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.cons_val, F.polar_v, frameNorm, polar_add_left, polar_add_right,
-        polar_smul_left_eq, polar_smul_right_eq, polar_comm] at hij ⊢
+        polar_comm] at hij ⊢
 
 end Rotation
 

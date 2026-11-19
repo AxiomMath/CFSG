@@ -25,7 +25,7 @@ theorem sec5pk_oddCoreIn_le_of_subnormal {X K : Subgroup G} (hKX : K ≤ X)
 
 private theorem sec5pk_twoCoreIn_le_of_normal {H M : Subgroup G} (hHM : H ≤ M)
     (hN : (H.subgroupOf M).Normal) : twoCoreIn H ≤ twoCoreIn M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : M ≤ Subgroup.normalizer (H : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hHM).mp hN
   have h2 : M ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 H : Set G) :=
@@ -47,7 +47,7 @@ theorem sec5pk_twoCoreIn_le_of_subnormal {X K : Subgroup G} (hKX : K ≤ X)
 
 theorem sec5pk_comm_oddCoreIn_twoCoreIn (X : Subgroup G) :
     ∀ u ∈ oddCoreIn X, ∀ q ∈ twoCoreIn X, u * q = q * u := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro u hu q hq
   have hPK : twoCoreIn X ≤ X := CFSG.LieType.BorelTits.pCoreOf_le 2 X
   have hOK : oddCoreIn X ≤ X := (oddCoreIn_normal X).1

@@ -18,7 +18,7 @@ theorem s16n9b_not_propC_of_fixed {M Z : Subgroup G} {p : ℕ} (hp : p.Prime)
     (hM : IsStronglyPEmbedded p M) {z : G} (hz : z ∈ Z) (hz2 : orderOf z = 2)
     (hx : 1 ≤ CFSG.Open.pRank p (M ⊓ centralizer ({z} : Set G))) : ¬ PropC M Z := by
   rintro ⟨g, hgM, hΓ⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : centralizer ({z} : Set G) ≤ conjSubgroup M g :=
     CFSG.RankThree.PartOne.centralizer_le_of_rankThreeGamma_le hΓ hz hz2
   obtain ⟨x, hxmem, hxord⟩ := CFSG.GroupTheory.exists_mem_orderOf_eq_of_one_le_pRank hp hx
@@ -31,6 +31,7 @@ theorem s16n9b_not_propC_of_fixed {M Z : Subgroup G} {p : ℕ} (hp : p.Prime)
     exact Subgroup.orderOf_dvd_natCard _ hmem
   exact hM.2.2 g⁻¹ hgi hdvd
 
+omit [Finite G] in
 theorem s16n9b_commElt_le {V W : Subgroup G} (hWV : W ≤ V) {t : G}
     (ht : t ∈ normalizer (V : Set G)) : commElt W t ≤ V := by
   refine (Subgroup.closure_le _).2 ?_
@@ -40,6 +41,7 @@ theorem s16n9b_commElt_le {V W : Subgroup G} (hWV : W ≤ V) {t : G}
   rw [h2]
   exact V.mul_mem (V.inv_mem (hWV hw)) h1
 
+omit [Finite G] in
 theorem s16n9b_exists_commutator_ne_one {W : Subgroup G} {t : G}
     (h : ¬ W ≤ centralizer ({t} : Set G)) : ∃ w ∈ W, w⁻¹ * t⁻¹ * w * t ≠ 1 := by
   by_contra hne
@@ -75,7 +77,7 @@ theorem s16n9b_lt_gammaN_of_good {M V : Subgroup G} (hV : IsElemAbelian 2 V)
       (E3.mQuot_mono hUt).trans hlt'
     obtain ⟨z, hzmem, hz1, p, hpP, hpz⟩ := hgood t htM ht2 hrank W hWV hWn hWt
     have hzV : z ∈ V := s16n9b_commElt_le hWV (hMV htM) hzmem
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hz2 : orderOf z = 2 := orderOf_eq_prime (hV.2 z hzV) hz1
     exact s16n9b_not_propC_of_fixed (hP p hpP).1 (hP p hpP).2 hzmem hz2 hpz hC
   have hle : ((N + 1 : ℕ) : ℕ∞) ≤ gammaN n M V := by

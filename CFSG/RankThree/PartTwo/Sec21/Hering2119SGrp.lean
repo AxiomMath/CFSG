@@ -17,7 +17,7 @@ theorem sylow_surj {N Γ : Type*} [Group N] [Finite N] [Group Γ] (f : N →* Γ
     ∃ T : Subgroup N, IsPGroup 2 T ∧ S₀ ≤ T ∧ ∀ g : Γ, ∃ t ∈ T, f t = g := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := hS₀.exists_le_sylow
-  refine ⟨P, P.isPGroup', hP, fun g => ?_⟩
+  refine ⟨P, P.isPGroup, hP, fun g => ?_⟩
   have hmax : (Sylow.mapSurjective hf P : Subgroup Γ) = ⊤ := by
     have h1 := (Sylow.mapSurjective hf P).maximal_isPGroup.le_of_ge
       (hΓ.to_subgroup ⊤) le_top

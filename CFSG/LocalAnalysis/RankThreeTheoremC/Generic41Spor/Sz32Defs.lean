@@ -173,6 +173,7 @@ structure Sz32Plane (P : Sylow 5 G) (x a c y : G) (U : Subgroup G) : Prop where
   wc : ∀ g : G, (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom ≤ U →
     (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom = Subgroup.zpowers x
 
+omit [Finite G] in
 theorem u3S_eq_of_le_cent {p : ℕ} {P : Sylow p G} {x : G}
     (h : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G)) : u3S P x = (P : Subgroup G) :=
   inf_eq_left.2 h

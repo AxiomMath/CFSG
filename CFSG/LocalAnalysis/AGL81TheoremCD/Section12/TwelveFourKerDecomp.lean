@@ -26,7 +26,7 @@ private theorem relPPrimeCore_kSub_le_kerIn (h : TwelveCtx G M p Q H) (hL : pLay
       CFSG.LocalAnalysis.RankThreeUC.WeakClosure.kerIn M (kSub p M H) := by
   obtain ⟨E, hEQ, hE, hEc, hΓ⟩ := h.exists_E_sq
   have hOH : relPPrimeCore p H ≤ M :=
-    relPPrimeCore_le_of_gamma (Q := Q) h.p_prime (hEQ.trans h.Q_le_H) hE hEc hΓ
+    relPPrimeCore_le_of_gamma (_Q := Q) h.p_prime (hEQ.trans h.Q_le_H) hE hEc hΓ
   have hOK : relPPrimeCore p (kSub p M H) ≤ M :=
     (relPPrimeCore_le_of_le_normal h.p_prime (kSub_le p M H) (kSub_normal_of_le hL)).trans hOH
   have hle := CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_le

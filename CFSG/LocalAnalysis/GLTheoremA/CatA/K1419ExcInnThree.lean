@@ -32,11 +32,11 @@ theorem l3u3_inn_a2_central (hF : L3U3Facts) (hT : rootDiagUnit τ a ∈ S.D.tor
       (∀ g ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i, g * w = w * g) ∧
       w ^ 3 = 1 ∧ w ≠ 1 := by
   classical
-  haveI := D.hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_rationalComponent S a i
-  haveI : NeZero D.s := ⟨D.hs0.ne'⟩
+  have := D.hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_rationalComponent S a i
+  have : NeZero D.s := ⟨D.hs0.ne'⟩
   have hN := hF.order _ hL
   obtain ⟨γ₁, γ₂, hP, hΨeq, hglueAll⟩ := hRDg L a hap i h6
   have ha1 : ∃ j, a j ≠ 1 := by

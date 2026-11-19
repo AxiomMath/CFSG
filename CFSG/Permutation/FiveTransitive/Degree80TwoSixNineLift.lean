@@ -57,7 +57,7 @@ theorem exists_nine
   change rho.range = ⊤ at himage
   let S : Sylow 3 N := Sylow.nonempty.some
   let H : Subgroup N := S
-  have hH : IsPGroup 3 H := S.isPGroup'
+  have hH : IsPGroup 3 H := S.isPGroup
   have hdN : 9 ∣ Nat.card N := by
     have hd : 9 ∣ Nat.card rho.range := by
       rw [himage,Subgroup.card_top,Nat.card_perm,hF]

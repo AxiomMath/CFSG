@@ -295,13 +295,13 @@ theorem sumBelow_eq (m : Nat) (f : Nat → Nat) : ∀ h : Nat,
       rw [e]
       by_cases hlt : 64 * h + l < m
       · have hb : Nat.blt (64 * h + l) m = true := by rw [Nat.blt_eq]; exact hlt
-        rw [hb, if_pos hlt]
+        rw [hb, ite_eq_left hlt]
       · have hb : Nat.blt (64 * h + l) m = false := by
           cases hc : Nat.blt (64 * h + l) m
           · rfl
           · rw [Nat.blt_eq] at hc
             exact absurd hc hlt
-        rw [hb, if_neg hlt]
+        rw [hb, ite_eq_right hlt]
     change Nat.rec (motive := fun _ => Nat) 0 (fun l ih2 =>
       Nat.add ((fun i => Bool.rec (motive := fun _ => Nat) 0 (f i) (Nat.blt i m))
         (Nat.add (Nat.shiftLeft h 6) l)) ih2) 64 + sumBelow m h f = _
@@ -330,7 +330,7 @@ theorem cnt_eq (p : Nat → Bool) : cnt p = ((List.range 729).filter p).length :
     simp
   rw [h0, Nat.add_zero, ← sum_ind_eq p 729]
   refine congrArg List.sum (List.map_congr_left fun i hi => ?_)
-  rw [if_pos (List.mem_range.1 hi)]
+  rw [ite_eq_left (List.mem_range.1 hi)]
 
 theorem pk_cons (w v : Nat) (l : List Nat) : pk w (v :: l) = v + pk w l * 2 ^ w := by
   change v + pk w l <<< w = _

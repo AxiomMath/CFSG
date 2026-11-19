@@ -58,7 +58,7 @@ private theorem zpow_pow_eq_one_of_pow_eq_one {G : Type} [CommGroup G] {s : G} {
 private theorem rootDiagUnit_zpow {τ : Tag} {K : Type} [Field K] (b : Fin τ.rank → Kˣ)
     (n : ℤ) : rootDiagUnit τ b ^ n = rootDiagUnit τ (b ^ n) := by
   rcases n with m | m
-  · rw [Int.ofNat_eq_coe, zpow_natCast, zpow_natCast, rootDiagUnit_pow]
+  · rw [Int.ofNat_eq_natCast, zpow_natCast, zpow_natCast, rootDiagUnit_pow]
   · rw [zpow_negSucc, zpow_negSucc, rootDiagUnit_pow, rootDiagUnit_inv]
 
 private theorem rootDiagUnit_list_prod (L : List (Fin Tag.E6.rank → Ωˣ)) :
@@ -88,7 +88,7 @@ private theorem thetaTorus_le_centralizer (q : ℕ) {z : ModGL Tag.E6 Ω}
 private theorem mulSingle_eq_pow {n : ℕ} {G : Type} [Group G] (i : Fin n) (u : G) :
     (Pi.mulSingle i u : Fin n → G) = fun k => u ^ (if k = i then (1 : ℤ) else 0) := by
   funext k
-  by_cases h : k = i <;> simp [Pi.mulSingle_apply, h]
+  by_cases h : k = i <;> simp [h]
 
 private theorem mulSingle_zpow {n : ℕ} [NeZero n] {G : Type} [Group G] (i : Fin n) (u : G)
     (c : ℤ) :
@@ -96,7 +96,7 @@ private theorem mulSingle_zpow {n : ℕ} [NeZero n] {G : Type} [Group G] (i : Fi
   funext k
   change (Pi.mulSingle (M := fun _ : Fin n => G) i u : Fin n → G) k ^ c =
     u ^ (c * (if k = i then (1 : ℤ) else 0))
-  by_cases h : k = i <;> simp [Pi.mulSingle_apply, h]
+  by_cases h : k = i <;> simp [h]
 
 private theorem mulSingle_mul_zpow {n : ℕ} [NeZero n] {G : Type} [CommGroup G] (i : Fin n)
     (u : G) (c : ℤ) :

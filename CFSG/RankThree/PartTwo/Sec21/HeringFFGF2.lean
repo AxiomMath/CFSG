@@ -25,8 +25,8 @@ theorem glaSymplecticType_of_extraspecial {G : Type} [Group G] [Finite G] {T : S
     (hT : IsExtraspecialPGroup 2 T) : CFSG.Open.GLASymplecticType T := by
   obtain ⟨h2, hc, hf, hcard⟩ := hT
   refine ⟨h2, fun A hAchar hAcomm => ?_⟩
-  haveI := hAchar
-  haveI := hAcomm
+  have := hAchar
+  have := hAcomm
   exact CFSG.LocalAnalysis.GLTheoremA.S8.extraspecial_char_abelian_cyclic h2 (hc.trans hf.symm)
     hf hcard A
 
@@ -67,7 +67,7 @@ theorem false_of_extraspecial_involution (hGF2 : GF2TypeStatementKP) (hb : Item3
     {G : Type} [Group G] [Finite G] (hst : PartTwoStanding G) {t : G} (ht : orderOf t = 2)
     (hT : IsExtraspecialPGroup 2
       ↥(inSubgroup (pCore 2) (Subgroup.centralizer ({t} : Set G)))) : False := by
-  haveI := hst.isSimpleGroup
+  have := hst.isSimpleGroup
   have hchar : IsCharacteristicPType G 2 :=
     Assembly.isCharTwoType_iff_isCharacteristicPType.mp hst.charTwoType
   have hloc := ComponentClassification.Sol78.isPLocal_centralizer_of_orderOf_eq_two ht
@@ -95,9 +95,9 @@ theorem ff_false_papers_gf2 (hGF2 : GF2TypeStatementKP) (hb : Item310Bridges)
     (hN : Subgroup.centralizer ({a} : Set G) ≤ Subgroup.normalizer (X : Set G))
     (hW : ¬ Subgroup.normalizer (A : Set G) ≤
       Subgroup.normalizer ((Subgroup.zpowers a : Subgroup G) : Set G)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hst := hpt.standing
-  haveI := hst.isSimpleGroup
+  have := hst.isSimpleGroup
   have hA := hpt.mem_S
   have hAab := hA.1.1
   have haA := hpt.mem

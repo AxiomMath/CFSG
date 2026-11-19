@@ -55,7 +55,7 @@ theorem Fx_invariant {Ω : Subgroup (VM ≃ₗ[ZMod 2] VM)} (hΩG : Ω ≤ GM)
 
 theorem exists_fixed_TX {Ω : Subgroup (VM ≃ₗ[ZMod 2] VM)} :
     ∃ c0 : TX, ∀ n : CFSG.pCore 2 ↥(Hm ⊓ Ω), psiN Ω n • c0 = c0 := by
-  letI : MulAction (CFSG.pCore 2 ↥(Hm ⊓ Ω)) TX := MulAction.compHom TX (psiN Ω)
+  let : MulAction (CFSG.pCore 2 ↥(Hm ⊓ Ω)) TX := MulAction.compHom TX (psiN Ω)
   have hp : IsPGroup 2 (CFSG.pCore 2 ↥(Hm ⊓ Ω)) :=
     CFSG.pCore_isPGroup (p := 2) (G := ↥(Hm ⊓ Ω))
   have hcong := hp.card_modEq_card_fixedPoints (α := TX)

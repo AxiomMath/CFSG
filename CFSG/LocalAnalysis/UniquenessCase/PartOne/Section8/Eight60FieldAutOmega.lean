@@ -160,7 +160,7 @@ theorem autOmegaCentral_of_fieldSylowData {X : Type} [Group X] [Finite X] {b : �
     change (Q : Subgroup X).map conj ≤ inner X
     exact Subgroup.map_le_range conj (Q : Subgroup X)
   have hQinf : (Q : Subgroup X) ⊓ Subgroup.center X = ⊥ :=
-    inf_center_eq_bot_of_isPGroup Q.isPGroup' hZ
+    inf_center_eq_bot_of_isPGroup Q.isPGroup hZ
   have hinjQ : Set.InjOn conj (Q : Set X) := by
     intro a ha b hb hab
     have hmem : a * b⁻¹ ∈ (Q : Subgroup X) ⊓ Subgroup.center X :=

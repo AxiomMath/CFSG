@@ -19,7 +19,7 @@ private abbrev Om6mV (K : Type) : Type := (Fin 2 ⊕ Fin 2 → K) × (Fin 2 → 
 
 instance finite_orthElementaryGroup_quadTail_minus {r : ℕ} :
     Finite ↥(orthElementaryGroup (quadTail r (minusTailForm K b c))) := by
-  haveI : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin r ⊕ Fin r → K) × (Fin 2 → K))) :=
     CFSG.AGLEmbedding.LeviBlock.finite_orthLinearEquiv
   infer_instance
@@ -27,7 +27,7 @@ instance finite_orthElementaryGroup_quadTail_minus {r : ℕ} :
 theorem om6m_orthCuts_zero_two : OrthCuts 2 ![0, 2] where
   mono := by
     intro i j hij
-    fin_cases i <;> fin_cases j <;> simp_all <;> decide
+    fin_cases i <;> fin_cases j <;> simp_all
   zero := rfl
   last := by decide
 
@@ -59,6 +59,7 @@ private theorem mem_tailQAlpha_iff_D07 {K : Type} [Field K] {b c : K}
     · simp [tailFlag_zero]
     · simpa using h
 
+omit [Finite K] [CharP K 2] in
 theorem om6m_orthParab_inf_eq_tailBorel :
     orthParab 2 (minusTailForm K b c) ![0, 1] ⊓ orthParab 2 (minusTailForm K b c) ![0, 2] =
       (tailBorel 2 (minusTailForm K b c)).subgroupOf
@@ -68,7 +69,7 @@ theorem om6m_orthParab_inf_eq_tailBorel :
     Subgroup.mem_subgroupOf, mem_tailBorel]
   constructor
   · rintro ⟨h1, h2⟩
-    refine ⟨by simpa using x.2, fun i hi1 hi2 => ?_⟩
+    refine ⟨by simp, fun i hi1 hi2 => ?_⟩
     rcases (show i = 1 ∨ i = 2 by omega) with rfl | rfl
     · exact h1
     · exact h2
@@ -86,7 +87,7 @@ private theorem pow_orderOf_eq_one_of_mul_mem_tailUnipotent_D07 {K : Type} [Fiel
   let Bo : Subgroup (((Fin r ⊕ Fin r → K) × A) ≃ₗ[K] ((Fin r ⊕ Fin r → K) × A)) :=
     tailBorel r qA
   let N : Subgroup Bo := (tailUnipotent r qA).subgroupOf Bo
-  haveI hN : N.Normal := tailUnipotent_normal hani
+  have hN : N.Normal := tailUnipotent_normal hani
   have htBo : (t : ((Fin r ⊕ Fin r → K) × A) ≃ₗ[K] ((Fin r ⊕ Fin r → K) × A)) ∈ Bo := by
     rw [ht]
     exact mul_mem (tailTorus_le_tailBorel hτ) (tailUnipotent_le_tailBorel hani hυ)
@@ -133,7 +134,7 @@ theorem om6m_exists_conj_mem_tailTorus (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 
         (orthElementaryGroup (quadTail 2 (minusTailForm K b c))),
       e * t * e⁻¹ ∈ (tailTorus 2 (minusTailForm K b c)).subgroupOf
         (orthElementaryGroup (quadTail 2 (minusTailForm K b c))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hani : (minusTailForm K b c).Anisotropic := anisotropic_minusTailForm hirr
   obtain ⟨τ, hτ, υ, hυ, hb⟩ := exists_tailTorus_mul_tailUnipotent (r := 2)
     (qA := minusTailForm K b c) hani (Subgroup.mem_subgroupOf.mp ht)
@@ -171,6 +172,7 @@ theorem om6m_exists_conj_mem_tailTorus (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 
     (p := 2) hET hE hT ht' hodd
   exact ⟨e, he, (Subgroup.zpowers_le.mpr (Subgroup.mem_subgroupOf.mpr hτ)) hconj⟩
 
+omit [Finite K] [CharP K 2] in
 theorem om6m_tailUnipotent_le_orthParab (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     (tailUnipotent 2 (minusTailForm K b c)).subgroupOf
         (orthElementaryGroup (quadTail 2 (minusTailForm K b c))) ≤

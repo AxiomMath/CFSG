@@ -54,7 +54,7 @@ theorem pair_Xsub (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3Hyp S a w)
 theorem twoCore_Xsub (S : Setting z E F) {a : G} :
     ∀ N : Subgroup ↥(Xsub S a), N.Normal → IsPGroup 2 N → N = ⊥ := by
   intro N hNn hNp
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   have hP2 : IsPGroup 2 (N.map (Xsub S a).subtype) := hNp.map _
   have hPY : N.map (Xsub S a).subtype ≤ Xsub S a := Subgroup.map_subtype_le _
   have hnorm : Xsub S a ≤
@@ -75,9 +75,9 @@ theorem threeCore_Xsub (S : Setting z E F) {a : G} {w : ℕ} (h : Sec3Hyp S a w)
       Rbar S a = ⊥ ∨ Y = ⊥) :
     ∀ N : Subgroup ↥(Xsub S a), N.Normal → IsPGroup 3 N →
       N ≤ Subgroup.center ↥(Xsub S a) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro N hNn hNp
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   let P : Subgroup (Hbar z) := N.map (Xsub S a).subtype
   have hP2 : IsPGroup 3 P := hNp.map _
   have hPY : P ≤ Xsub S a := Subgroup.map_subtype_le _

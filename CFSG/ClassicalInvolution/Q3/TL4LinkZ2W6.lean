@@ -539,8 +539,8 @@ theorem std8_false_of_twinE4 (hg : Z2GapFacts) (h4 : Thm4RBelow 3 n) (hs : Tight
 
 theorem Z2Set.exists_lift_fixSyl (hs : Z2Set n R S t J u R₀ T₀ P) {s : Y}
     (hsa : s ∈ Subgroup.centralizer ({t * u} : Set Y)) (hs2 : s * s = 1)
-    (hsR : R₀ ≤ Subgroup.centralizer ({s} : Set Y)) (hsT : s ∈ Subgroup.normalizer (T₀ : Set Y))
-    (hsZ : ∀ x ∈ T₀, x * s = s * x → x * x = 1) {h : Y} (hh : h * u * h⁻¹ = s)
+    (_hsR : R₀ ≤ Subgroup.centralizer ({s} : Set Y)) (_hsT : s ∈ Subgroup.normalizer (T₀ : Set Y))
+    (_hsZ : ∀ x ∈ T₀, x * s = s * x → x * x = 1) {h : Y} (hh : h * u * h⁻¹ = s)
     {σ' : MulAut ↥(secOrb (CoreAssembly.conjClass (tightCore R)) (tightCore R) (t * u))}
     (hσ' : ∀ c : ↥(secOrb (CoreAssembly.conjClass (tightCore R)) (tightCore R) (t * u)),
       ((σ' c : ↥(secOrb (CoreAssembly.conjClass (tightCore R)) (tightCore R) (t * u))) :
@@ -587,7 +587,7 @@ theorem Z2Set.not_lieModel_L33_of_le (hs : Z2Set n R S t J u R₀ T₀ P) {s h :
   have hΛ : linkLayerAt (CoreAssembly.conjClass (tightCore R)) (conjSub h J) s =
       conjSub (h * g) (linkLayer R t) := by
     rw [conjSub_linkLayerAt hcl (h * g), ← hJh, hsc]
-  haveI : IsSimpleGroup (↥L ⧸ B) :=
+  have : IsSimpleGroup (↥L ⧸ B) :=
     (LieType.Simplicity.fam_PSL_simplicity _ 3 3 1 (hLie.statedClassicalModel (by decide))).2
   have hcard : Nat.card (↥L ⧸ B) = 5616 := modelCardL33_proved _ hLie
   have hJhs : IsUniqueInvolution (conjSub h J) s := by

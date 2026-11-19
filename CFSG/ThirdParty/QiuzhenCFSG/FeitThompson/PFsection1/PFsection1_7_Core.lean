@@ -125,7 +125,7 @@ public theorem isBookIrreducibleCharacter_representation_witness_irreducible
   apply (Theory.Character.irreducible_iff_end_dimension_one (ρ := rho)).2
   have hcard_ne : (Nat.card G : ℂ) ≠ 0 := by
     exact_mod_cast (Nat.card_pos (α := G)).ne'
-  letI : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard_ne
+  let : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard_ne
   have hnorm :
       (Nat.card G : ℂ)⁻¹ * ∑ g : G,
           rho.character g * rho.character g⁻¹ = 1 := by
@@ -162,7 +162,7 @@ public theorem degree_nat_dvd_card_of_isBookIrreducibleCharacter
     ⟨V, _hadd, _hmod, _hfd, rho, hχ, hirr⟩
   refine ⟨Module.finrank ℂ V, ?_, ?_⟩
   · rw [hχ, degree_representation_character rho]
-  · letI : Representation.IsIrreducible rho := hirr
+  · let : Representation.IsIrreducible rho := hirr
     exact Theory.Character.irreducible_dimension_dvd_group_order rho
 
 public theorem isCharacter_inducedCF_of_isCharacter
@@ -171,7 +171,7 @@ public theorem isCharacter_inducedCF_of_isCharacter
     (hpsi : IsCharacter psi) :
   IsCharacter (inducedCF S psi) := by
   rcases hpsi with ⟨V, _hadd, _hmod, _hfd, rho, hpsi⟩
-  haveI : FiniteDimensional ℂ (Representation.IndV S.subtype rho) :=
+  have : FiniteDimensional ℂ (Representation.IndV S.subtype rho) :=
     Theory.Representation.finiteDimensional_ind S rho
   refine ⟨Representation.IndV S.subtype rho, inferInstance, inferInstance,
     inferInstance, Representation.ind S.subtype rho, ?_⟩
@@ -188,7 +188,7 @@ public theorem scalarProduct_representation_char_eq_finrank
   classical
   have hcard : (Nat.card G : ℂ) ≠ 0 := by
     exact_mod_cast (Nat.card_pos (α := G)).ne'
-  letI : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard
+  let : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard
   calc
     scalarProduct G sigma.character rho.character =
         (Nat.card G : ℂ)⁻¹ * ∑ g : G,
@@ -225,8 +225,8 @@ public theorem scalarProduct_isBookIrreducible_family
       intro hchars
       apply hne
       rw [hchari, hcharj, hchars]
-    letI : Representation.IsIrreducible rhoi := hirri
-    letI : Representation.IsIrreducible rhoj := hirrj
+    let : Representation.IsIrreducible rhoi := hirri
+    let : Representation.IsIrreducible rhoj := hirrj
     simp [hij, hchari, hcharj,
       scalarProduct_representation_char_eq_zero_of_ne rhoi rhoj hchars_ne]
 
@@ -268,7 +268,7 @@ public theorem scalarProduct_inducedCF_representation_char_eq_nat
     (hphi : phi = phiRep.character)
     (hpsi : psi = psiRep.character) :
     ∃ n : ℕ, scalarProduct G (inducedCF S phi) psi = (n : ℂ) := by
-  haveI : FiniteDimensional ℂ (Representation.IndV S.subtype phiRep) :=
+  have : FiniteDimensional ℂ (Representation.IndV S.subtype phiRep) :=
     Theory.Representation.finiteDimensional_ind S phiRep
   refine ⟨Module.finrank ℂ
       (Representation.IntertwiningMap psiRep (Representation.ind S.subtype phiRep)), ?_⟩
@@ -389,9 +389,9 @@ public theorem representation_completeFamily_orthonormal
           if Nonempty (Representation.Equiv rhoj rhoi) then 1 else 0 := by
       have hcard_ne : (Nat.card G : ℂ) ≠ 0 := by
         exact_mod_cast (Nat.card_pos (α := G)).ne'
-      letI : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard_ne
-      letI : Representation.IsIrreducible rhoi := hirri
-      letI : Representation.IsIrreducible rhoj := hirrj
+      let : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard_ne
+      let : Representation.IsIrreducible rhoi := hirri
+      let : Representation.IsIrreducible rhoj := hirrj
       rw [representation_classFunctionInner_characterClassFunction]
       simpa using (Representation.char_orthonormal (ρ := rhoi) (σ := rhoj))
     rw [hchari, hcharj, horth]
@@ -404,7 +404,7 @@ public theorem representation_completeFamily_orthonormal
       exact (congrFun (Representation.char_iso e) g).symm
     have hnone : ¬ Nonempty (Representation.Equiv rhoj rhoi) := by
       intro h
-      letI : IsEmpty (Representation.Equiv rhoj rhoi) := hno
+      let : IsEmpty (Representation.Equiv rhoj rhoi) := hno
       exact isEmptyElim h.some
     simp [hij, hnone]
 
@@ -475,7 +475,7 @@ public theorem representation_classFunction_eq_of_inner_irreducible
   classical
   rcases Theory.Character.irreducible_characters_form_basis (G := G) with
     ⟨ι, hι, chi, hchi, b, hb⟩
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   apply b.repr.injective
   ext i
   rw [representation_basis_repr_eq_inner hchi b hb phi i]
@@ -647,8 +647,8 @@ public theorem character_irreducible_decomposition_all
     isCharacter_isClassFunction phi hphi_char
   rcases Theory.Character.irreducible_characters_form_basis (G := G) with
     ⟨ι, hι, chi, hchi, b, hb⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := Classical.decEq ι
+  let : Fintype ι := hι
+  let : DecidableEq ι := Classical.decEq ι
   let psi : ι → ClassFunction G :=
     fun i => ofConjClassFunction (chi i)
   have hpsi_book : ∀ i : ι, IsBookIrreducibleCharacter (psi i) := by
@@ -715,8 +715,8 @@ public theorem exists_positive_irreducible_decomposition_of_character
   classical
   rcases character_irreducible_decomposition_all phi hphi_char with
     ⟨β, hβ, hβdec, e0, psi0, hpsi0, hpair0, hdecomp0⟩
-  letI : Fintype β := hβ
-  letI : DecidableEq β := hβdec
+  let : Fintype β := hβ
+  let : DecidableEq β := hβdec
   have hex : ∃ i : β, e0 i ≠ 0 := by
     by_contra hnone
     have hallzero : ∀ i : β, e0 i = 0 := by
@@ -729,8 +729,8 @@ public theorem exists_positive_irreducible_decomposition_of_character
     simp [weightedFamilySum, hallzero]
   let s : Finset β := Finset.univ.filter fun i => e0 i ≠ 0
   let γ : Type := {i : β // i ∈ s}
-  letI : Fintype γ := inferInstance
-  letI : DecidableEq γ := inferInstance
+  let : Fintype γ := inferInstance
+  let : DecidableEq γ := inferInstance
   let e : γ → ℕ := fun i => e0 i.1
   let psi : γ → ClassFunction G := fun i => psi0 i.1
   rcases hex with ⟨i, hi⟩
@@ -981,7 +981,7 @@ public theorem conjugateOnNormal_subgroupOfClassFunction_of_inertia
     conjugateOnNormal (H.subgroupOf (inertiaSubgroup H theta))
         (subgroupOfClassFunction theta) t =
       subgroupOfClassFunction theta := by
-  haveI : (H.subgroupOf (inertiaSubgroup H theta)).Normal :=
+  have : (H.subgroupOf (inertiaSubgroup H theta)).Normal :=
     subgroupOf_normal_of_normal H (inertiaSubgroup H theta)
   ext h
   have ht := congrFun t.2 ⟨(h : inertiaSubgroup H theta), h.2⟩
@@ -1004,7 +1004,7 @@ public theorem conjugateOrbitConj_subgroupOfClassFunction_of_inertia_rep
         (H.subgroupOf (inertiaSubgroup H theta))
         thetaRep.character o =
       thetaRep.character := by
-  haveI : (H.subgroupOf (inertiaSubgroup H theta)).Normal :=
+  have : (H.subgroupOf (inertiaSubgroup H theta)).Normal :=
     subgroupOf_normal_of_normal H (inertiaSubgroup H theta)
   refine Quotient.inductionOn o ?_
   intro t
@@ -1134,7 +1134,7 @@ public theorem inducedCF_trans
           (Nat.card Hsub : ℂ)⁻¹ * ∑ t : T, F ((t : G) * x) := by
     intro x
     by_cases hxT : x * g * x⁻¹ ∈ T
-    · rw [dif_pos hxT]
+    · rw [dite_eq_left hxT]
       unfold inducedCF inducedClassFunction
       congr 1
       refine Finset.sum_congr ?_ ?_
@@ -1148,22 +1148,22 @@ public theorem inducedCF_trans
           else 0) =
           F ((t : G) * x)
       by_cases hleft : (t * a * t⁻¹ : T) ∈ Hsub
-      · rw [dif_pos hleft]
+      · rw [dite_eq_left hleft]
         dsimp [F]
         have hright : ((t : G) * x) * g * ((t : G) * x)⁻¹ ∈ H := by
           have hraw := (hterm_mem_iff x t hxT).mp hleft
           simpa [a, mul_assoc] using hraw
-        rw [dif_pos hright]
+        rw [dite_eq_left hright]
         simp [thetaSub, subgroupOfClassFunction, a, mul_assoc]
-      · rw [dif_neg hleft]
+      · rw [dite_eq_right hleft]
         dsimp [F]
         have hright : ¬ ((t : G) * x) * g * ((t : G) * x)⁻¹ ∈ H := by
           intro hmem
           apply hleft
           apply (hterm_mem_iff x t hxT).mpr
           simpa [a, mul_assoc] using hmem
-        rw [dif_neg hright]
-    · rw [dif_neg hxT]
+        rw [dite_eq_right hright]
+    · rw [dite_eq_right hxT]
       have hzero : ∀ t : T, F ((t : G) * x) = 0 := by
         intro t
         dsimp [F]
@@ -1519,7 +1519,7 @@ public theorem finite_abelian_character_sum_apply
         Fintype.card (Q →* ℂˣ) = Nat.card Q := by
       rw [← Nat.card_eq_fintype_card]
       exact CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity Q ℂ
-    rw [if_pos hq]
+    rw [ite_eq_left hq]
     calc
       (∑ chi : Q →* ℂˣ, (chi q : ℂ)) =
           (Fintype.card (Q →* ℂˣ) : ℂ) := by
@@ -1549,7 +1549,7 @@ public theorem finite_abelian_character_sum_apply
       exact sub_eq_zero.mp h
     have hSzero : S = 0 := by
       exact (mul_eq_zero.mp hzero).resolve_left hetaC
-    rw [if_neg hq]
+    rw [ite_eq_right hq]
     exact hSzero
 
 @[expose] public noncomputable def quotientCharacterInflation
@@ -1680,23 +1680,23 @@ public theorem characterInflationByHom_regular_sum
   have hsum := finite_abelian_character_sum_apply (Q := Q) (pi t)
   by_cases ht : t ∈ S
   · have hpi : pi t = 1 := (hker t).2 ht
-    rw [if_pos ht]
+    rw [ite_eq_left ht]
     calc
       (∑ chi : Q →* ℂˣ, characterInflationByHom pi chi t) =
           ∑ chi : Q →* ℂˣ, (chi (pi t) : ℂ) := rfl
       _ = (Nat.card Q : ℂ) := by
-          rw [hsum, if_pos hpi]
+          rw [hsum, ite_eq_left hpi]
       _ = (Subgroup.index S : ℂ) := by
           rw [hcard]
   · have hpi : pi t ≠ 1 := by
       intro h
       exact ht ((hker t).1 h)
-    rw [if_neg ht]
+    rw [ite_eq_right ht]
     calc
       (∑ chi : Q →* ℂˣ, characterInflationByHom pi chi t) =
           ∑ chi : Q →* ℂˣ, (chi (pi t) : ℂ) := rfl
       _ = 0 := by
-          rw [hsum, if_neg hpi]
+          rw [hsum, ite_eq_right hpi]
 
 public theorem characterInflationByHom_regular_sum_mem
     {T Q : Type*} [Group T] [CommGroup Q] [Finite Q] [DecidableEq Q]
@@ -1710,7 +1710,7 @@ public theorem characterInflationByHom_regular_sum_mem
       (∑ chi : Q →* ℂˣ, characterInflationByHom pi chi t) =
         (Subgroup.index S : ℂ) := by
   intro t ht
-  rw [characterInflationByHom_regular_sum S pi hker hcard t, if_pos ht]
+  rw [characterInflationByHom_regular_sum S pi hker hcard t, ite_eq_left ht]
 
 public theorem characterInflationByHom_regular_sum_not_mem
     {T Q : Type*} [Group T] [CommGroup Q] [Finite Q] [DecidableEq Q]
@@ -1723,7 +1723,7 @@ public theorem characterInflationByHom_regular_sum_not_mem
     ∀ t : T, t ∉ S →
       (∑ chi : Q →* ℂˣ, characterInflationByHom pi chi t) = 0 := by
   intro t ht
-  rw [characterInflationByHom_regular_sum S pi hker hcard t, if_neg ht]
+  rw [characterInflationByHom_regular_sum S pi hker hcard t, ite_eq_right ht]
 
 
 public theorem induced_restriction_eq_regular_twist_sum
@@ -1739,9 +1739,9 @@ public theorem induced_restriction_eq_regular_twist_sum
     inducedCF (H.subgroupOf T) (subgroupRestriction (H.subgroupOf T) psi) =
       familySum (fun i : ι => lambda i * psi) := by
   classical
-  letI : Fintype T := Fintype.ofFinite T
+  let : Fintype T := Fintype.ofFinite T
   let Hsub : Subgroup T := H.subgroupOf T
-  letI : Fintype Hsub := Fintype.ofFinite Hsub
+  let : Fintype Hsub := Fintype.ofFinite Hsub
   have hcardH_ne : (Nat.card Hsub : ℂ) ≠ 0 := by
     exact_mod_cast (Nat.card_pos (α := Hsub)).ne'
   have hindex_card : (Subgroup.index Hsub : ℂ) * Nat.card Hsub = Nat.card T := by
@@ -1857,7 +1857,7 @@ public theorem induced_restriction_eq_regular_quotient_twist_sum
         (fun chi : (T ⧸ H.subgroupOf T) →* ℂˣ =>
           quotientCharacterInflation H T chi * psi) := by
   classical
-  letI : CommGroup (T ⧸ H.subgroupOf T) :=
+  let : CommGroup (T ⧸ H.subgroupOf T) :=
     { (inferInstance : Group (T ⧸ H.subgroupOf T)) with
       mul_comm := fun x y => hquot_comm.comm x y }
   have hker :
@@ -2003,7 +2003,7 @@ public theorem irreducible_twistByCharacter
     (lambda : G →* ℂˣ) (rho : Representation ℂ G V)
     (hirr : Representation.IsIrreducible rho) :
     Representation.IsIrreducible (representationTwistByCharacter lambda rho) := by
-  letI : Representation.IsIrreducible rho := hirr
+  let : Representation.IsIrreducible rho := hirr
   exact (OrderIso.isSimpleOrder_iff
     (subrepresentationOrderIso_twistByCharacter lambda rho)).mp inferInstance
 
@@ -2150,7 +2150,7 @@ public theorem isIrreducibleCharacterOnGroup_degree_eq_one_of_commutative
     degree χ = 1 := by
   rcases hχ with ⟨n, ρ, hρirr, hχeq⟩
   have hfin : Module.finrank ℂ (Fin n → ℂ) = 1 := by
-    letI : Representation.IsIrreducible ρ := hρirr
+    let : Representation.IsIrreducible ρ := hρirr
     exact Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative (ρ := ρ)
   rw [hχeq, degree_representation_character ρ]
   exact_mod_cast hfin
@@ -2239,7 +2239,7 @@ public theorem scalarProduct_subgroupOfClassFunction
       scalarProduct H theta phi := by
   classical
   let Hsub : Subgroup T := H.subgroupOf T
-  letI : Fintype Hsub := Fintype.ofFinite Hsub
+  let : Fintype Hsub := Fintype.ofFinite Hsub
   let e := (Subgroup.subgroupOfEquivOfLe hHT).toEquiv
   have hcard : Nat.card Hsub = Nat.card H :=
     Nat.card_congr e
@@ -2311,7 +2311,7 @@ public theorem scalarProduct_smul_subgroupOfClassFunction_irreducible
         ((m : ℂ) • subgroupOfClassFunction (T := T) theta) phi =
       if phi = subgroupOfClassFunction (T := T) theta then (m : ℂ) else 0 := by
   by_cases hphi_eq : phi = subgroupOfClassFunction (T := T) theta
-  · rw [if_pos hphi_eq, hphi_eq]
+  · rw [ite_eq_left hphi_eq, hphi_eq]
     rw [scalarProduct_smul_left]
     have hnorm :
         scalarProduct (H.subgroupOf T)
@@ -2321,7 +2321,7 @@ public theorem scalarProduct_smul_subgroupOfClassFunction_irreducible
       exact scalarProduct_representation_char_self thetaSubRep hthetaSub_irreducible
     rw [hnorm]
     simp
-  · rw [if_neg hphi_eq]
+  · rw [ite_eq_right hphi_eq]
     rw [scalarProduct_smul_left]
     rw [scalarProduct_irreducible_representationCharacter_eq_zero_of_ne
       (subgroupOfClassFunction (T := T) theta) phi thetaSubRep phiRep
@@ -2422,7 +2422,7 @@ public theorem scalarProduct_restriction_eq_zero_of_ne_subgroupOfClassFunction
   let T : Subgroup G := inertiaSubgroup H theta
   let Hsub : Subgroup T := H.subgroupOf T
   let thetaSub : ClassFunction Hsub := subgroupOfClassFunction theta
-  haveI : Hsub.Normal := subgroupOf_normal_of_normal H T
+  have : Hsub.Normal := subgroupOf_normal_of_normal H T
   have hnotConj :
       ∀ o : conjugateOrbitIndex Hsub thetaSubRep.character,
         phi ≠ conjugateOrbitConj Hsub thetaSubRep.character o := by

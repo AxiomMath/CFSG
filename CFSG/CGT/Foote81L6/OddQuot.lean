@@ -233,13 +233,14 @@ variable {T : Subgroup G} {m n : ℕ} (D : FooteData G T m n) (f : G →* H)
 variable [Finite G] {O : Subgroup G} [O.Normal] (hO : Odd (Nat.card O))
 
 include D hO in
+omit [Finite G] in
 theorem mk_eq_one_of_odd : ∀ x ∈ T, QuotientGroup.mk' O x = 1 → x = 1 := by
   intro x hx h
   have hcop : Nat.Coprime (Nat.card T) (Nat.card O) := by
     rw [D.card_T]
     exact Nat.Coprime.pow_left _ (Nat.coprime_two_left.2 hO)
   have : x ∈ T ⊓ O := mem_inf.2 ⟨hx, (QuotientGroup.eq_one_iff x).1 h⟩
-  rw [Subgroup.inf_eq_bot_of_coprime hcop, mem_bot] at this
+  rw [(Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop)), mem_bot] at this
   exact this
 
 include D hO in

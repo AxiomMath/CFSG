@@ -318,7 +318,7 @@ private theorem s1611e3_no_fixed_natural {L Z : Subgroup (MulAut W)} {U K K' : S
     (hZU : ∀ z' ∈ Z, ∀ w ∈ U, z' w ∈ U)
     (hZf : ∀ z' ∈ Z, z' ≠ 1 → ∃ w ∈ U, z' w ≠ w)
     (hz : z ∈ Z) (hz1 : z ≠ 1) (hz3 : z ^ 3 = 1)
-    (hKnat : AlternatingNatural L K ⊥ 5) (hKU : K ≤ U)
+    (hKnat : AlternatingNatural L K ⊥ 5) (_hKU : K ≤ U)
     (hK'nat : AlternatingNatural L K' ⊥ 5) (hinf : K ⊓ K' = ⊥) (hsup : K ⊔ K' = U) :
     K.map z.toMonoidHom ≠ K := by
   intro hKz
@@ -496,7 +496,7 @@ private theorem s1611e3_z_fixed_free {L Z : Subgroup (MulAut W)} {U : Subgroup W
 end Split
 
 theorem s1611e3_a5_split {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
-    {L Z : Subgroup (MulAut W)} {U : Subgroup W} (hL : IsAlt ↥L 5)
+    {L Z : Subgroup (MulAut W)} {U : Subgroup W} (_hL : IsAlt ↥L 5)
     (hsum : SumOfNat (fun H V Z => AlternatingNatural H V Z 5) L U ⊥ 2)
     (hZ : Nat.card ↥Z = 3) (hZL : ∀ z ∈ Z, ∀ l ∈ L, z * l = l * z)
     (hZU : ∀ z ∈ Z, ∀ w ∈ U, z w ∈ U) (hZf : ∀ z ∈ Z, z ≠ 1 → ∃ w ∈ U, z w ≠ w)

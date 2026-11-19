@@ -404,7 +404,7 @@ private theorem burnsideB1b_allTCF {M : Type*} [Group M] [Finite M] {X : Subgrou
   have hmin' : ∀ J : Subgroup M, B ≤ J → J ≤ A → (J.subgroupOf X).Normal → J = B ∨ J = A := by
     intro J hBJ hJA hJn
     by_contra hne
-    push_neg at hne
+    push Not at hne
     have hJX : J ≤ X := hJA.trans hAX
     exact hmin J (lt_of_le_of_ne hBJ (Ne.symm hne.1)) (lt_of_le_of_ne hJA hne.2)
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hJX).1 hJn)
@@ -415,7 +415,7 @@ private theorem burnsideB1b_twoResidual_eq {M : Type*} [Group M] [Finite M] (X :
   le_antisymm
     (CFSG.Quasithin.twoResidual_le_of_isTwoQuotient (CFSG.Quasithin.oTwoUpper_le X)
       (CFSG.Quasithin.le_normalizer_oTwoUpper X)
-      (fun y hy => CFSG.Quasithin.exists_pow_mem_oTwoUpper X hy))
+      (fun _y hy => CFSG.Quasithin.exists_pow_mem_oTwoUpper X hy))
     (CFSG.Quasithin.oTwoUpper_le_of_pow_mem (CFSG.Quasithin.twoResidual_isTwoQuotient X))
 
 end BurnsideB1b
@@ -692,10 +692,10 @@ theorem as_B_1_8 : B_1_8 := by
         fun H => if h : H ∈ 𝓗 then As (e ⟨H, h⟩) else ⊥
       have ha_gs : ∀ i, a (e.symm i).1 = As i := by
         intro i
-        simp only [a, dif_pos (e.symm i).2, Subtype.coe_eta, Equiv.apply_symm_apply]
+        simp only [a, dite_eq_left (e.symm i).2, Subtype.coe_eta, Equiv.apply_symm_apply]
       refine ⟨a, ?_, ⟨(e.symm j).1, (e.symm j).2, ?_⟩, ?_⟩
       · intro H hH
-        have hdef : a H = As (e ⟨H, hH⟩) := dif_pos hH
+        have hdef : a H = As (e ⟨H, hH⟩) := dite_eq_left hH
         rw [hdef]
         have h2 := hAs1 (e ⟨H, hH⟩)
         simpa using h2
@@ -712,7 +712,7 @@ theorem as_B_1_8 : B_1_8 := by
     · rw [hIJ]
       exact burnsideB1c_biSup_subset 𝓗 I hIsub e J hJI (fun H => H)
     · ext A
-      simp only [Set.mem_inter_iff, Set.mem_setOf_eq]
+      simp only [Set.mem_inter_iff, Set.mem_ofPred_eq]
       constructor
       · rintro ⟨hAP, hAmin⟩
         exact ⟨hAmin, (hmin A hAmin).1 hAP⟩
@@ -862,7 +862,7 @@ theorem as_B_1_11 : B_1_11 := by
 theorem as_B_1_12 : B_1_12 := by
   classical
   intro V _ _ hV G T K hT _hKG hKiso hKJ hsub
-  haveI : Finite (MulAut V) := inferInstance
+  have : Finite (MulAut V) := inferInstance
   obtain ⟨ψ⟩ := hKiso
   have hZ : Nat.card (Multiplicative (ZMod 3)) = 3 :=
     (Nat.card_congr Multiplicative.ofAdd).symm.trans

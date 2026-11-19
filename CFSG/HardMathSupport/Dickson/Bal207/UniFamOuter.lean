@@ -24,7 +24,7 @@ theorem uni_outer_shape (hf : f = 1 ∨ f = 3) (hn : 4 ≤ n) (h3 : ¬ 3 ∣ n)
       Subgroup.center ↥L = ⊥ ∧
       ∃ (F₀ : Type) (_ : Field F₀) (k : ℕ) (h₀ : UnitaryFieldData 2 k F₀), k = 1 ∧
         Nonempty (↥L ≃* primeFormP h₀ (oneGram F₀ n)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hτo : orderOf τ = 3 := orderOf_eq_prime hτ3 hτ1
   have hZ : ¬ 3 ∣ Nat.card (normOneScalars h
       (gramSU h ((1 : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) n) := by
@@ -57,7 +57,7 @@ theorem uni_outer_shape (hf : f = 1 ∨ f = 3) (hn : 4 ≤ n) (h3 : ¬ 3 ∣ n)
     (Subgroup.equivMapOfInjective (fieldFixedPSU h n τ) _ hβi).symm.isSimpleGroup
   have hLC : L = (fieldFixedPSU h n τ).map (primeFormConjHom h (oneGram F n) M).toMonoidHom := by
     rcases hL.2.1.eq_bot_or_eq_of_isSimpleGroup hCs with hb | he
-    · haveI := excU62_nontrivial_of_isQuasisimple hL.2.2
+    · have := excU62_nontrivial_of_isQuasisimple hL.2.2
       exact absurd hb ((Subgroup.nontrivial_iff_ne_bot L).1 inferInstance)
     · exact he
   have h₀ : UnitaryFieldData 2 (f / 3) (CFSG.LieType.Chevalley.fixSubfield τ) :=

@@ -41,16 +41,16 @@ theorem prod_range_single (f : ℕ → G) {k : ℕ} :
 theorem dg_unit (k m : ℕ) : dg (4 ^ k) m = if m = k then 1 else 0 := by
   rw [dg_eq]
   rcases lt_trichotomy m k with h | rfl | h
-  · rw [if_neg (by omega), Nat.pow_div h.le (by norm_num)]
+  · rw [ite_eq_right (by omega), Nat.pow_div h.le (by norm_num)]
     obtain ⟨d, hd⟩ : ∃ d, k - m = d + 1 := ⟨k - m - 1, by omega⟩
     rw [hd, pow_succ, Nat.mul_mod_left]
   · simp
-  · rw [if_neg (by omega), Nat.div_eq_of_lt (Nat.pow_lt_pow_right (by norm_num) h)]
+  · rw [ite_eq_right (by omega), Nat.div_eq_of_lt (Nat.pow_lt_pow_right (by norm_num) h)]
 
 theorem nv_unit (x : ℕ → G) {k : ℕ} (hk : k < 13) : nv x 13 (4 ^ k) = x k := by
   unfold nv
-  rw [prod_range_single _ 13 hk fun m _ hmk => by rw [dg_unit, if_neg hmk, pow_zero]]
-  rw [dg_unit, if_pos rfl, pow_one]
+  rw [prod_range_single _ 13 hk fun m _ hmk => by rw [dg_unit, ite_eq_right hmk, pow_zero]]
+  rw [dg_unit, ite_eq_left rfl, pow_one]
 
 theorem nv_zero (x : ℕ → G) : nv x 13 0 = 1 := by
   unfold nv
@@ -124,8 +124,7 @@ theorem pcRel
     have hi : i < 13 := by omega
     have hcj := (hd.2 i hi).2.2 j hj13
     have hrel := hj i hi j hj13
-    simp only [CFSG.KS.PK.bIf_eq, Nat.blt_eq, hij, ↓reduceIte, CFSG.KS.PK.strictB_eq,
-      CFSG.KS.PK.bAnd_eq, Bool.and_eq_true, cj_index] at hcj hrel
+    simp only [CFSG.KS.PK.bIf_eq, Nat.blt_eq, hij, ↓reduceIte, Bool.and_eq_true, cj_index] at hcj hrel
     obtain ⟨C1, C2⟩ := nwR_spec aE (vecOK_dg hcj.1)
     have hl : ∀ c ∈ [j, i], c < 13 := fun c hc => by
       simp only [List.mem_cons, List.not_mem_nil, or_false] at hc

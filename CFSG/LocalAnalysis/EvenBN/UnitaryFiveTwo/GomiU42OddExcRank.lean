@@ -31,7 +31,7 @@ theorem outer_elementary_card_le_two_of_outPNice {L : Type} [Group L] [Finite L]
     (hN : OutPNice 2 L) (A : Subgroup (Outer L)) (hA : ∀ e ∈ A, e * e = 1) :
     Nat.card A ≤ 2 ^ 1 := by
   classical
-  haveI := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal L
+  have := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal L
   obtain ⟨Dd, Ee, hInn, h2, h3, -, h5⟩ := hN
   have hcomm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := by
     intro x hx y hy
@@ -138,7 +138,7 @@ theorem card_elementary_le_of_no_two_pow_six {M : Type} [Group M] [Finite M]
   have hdvd : 2 ^ 6 ∣ Nat.card E := by
     rw [hd]
     exact pow_dvd_pow 2 hd6
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥E) 2 hdvd
   refine hno (K.map E.subtype) ?_ ?_
   · rw [Subgroup.card_map_of_injective E.subtype_injective, hK]
@@ -149,7 +149,7 @@ theorem GomiU42Data.false_of_oddLie_g2d4
     (h : GomiU42Data X J D E a) {t : StatedLieTag} {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (ht : t = .G2 ∨ t = .trialityD4) (hD : ChevalleyExceptionalModel ↥D t p f) : False := by
   have hlie : LieModel ↥D t 0 p f := Or.inr (Or.inl ⟨rfl, by rcases ht with rfl | rfl <;> decide, hD⟩)
-  haveI := h.simple
+  have := h.simple
   have hZ : center ↥D = ⊥ := (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup h.nonabelian).2
   have hOutP : OutPNice 2 ↥D := by
     rcases ht with rfl | rfl

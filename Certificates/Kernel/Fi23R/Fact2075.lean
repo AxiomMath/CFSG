@@ -74,7 +74,7 @@ theorem witOK_of {R G' : Table} {wR wG : List ℕ} (hR : RW R wR) (hG : RW G' wG
   have hok := ok_brayW hR.2.1 hG.2.1 e odd
   have e1 := wp_eq_of_eqB h (ok_append hR.2.1 hok) (ok_append hok hR.2.1)
   unfold fi23WitOK
-  rw [rw_invOK dP_sq hG, rw_invOK dP_sq hB, (rw_compT hB hR).beq (rw_compT hR hB) e1] <;> rfl
+  rw [rw_invOK dP_sq hG, rw_invOK dP_sq hB, (rw_compT hB hR).beq (rw_compT hR hB) e1]; rfl
 
 theorem common_eq {R E₁ E₂ : Table} {wR w₁ w₂ : List ℕ} (hR : RW R wR) (h₁ : RW E₁ w₁)
     (h₂ : RW E₂ w₂) : fi23Common R E₁ E₂ =
@@ -109,7 +109,7 @@ theorem caseOK_of {R : Table} {wR : List ℕ} (hR : RW R wR) (e₀ e₁ e₂ : �
       fxW G (commW (brayW wR W1n e₁ o₁) (brayW wR W0n e₀ o₀)) x &&
       fxW G (commW (brayW wR W2n e₂ o₂) (brayW wR W0n e₀ o₀)) x) =
       (List.range 31671).countP (cmQ wR (cws wR e₀ e₁ e₂ o₀ o₁ o₂)) := rfl
-  rw [e, hc] <;> rfl
+  rw [e, hc]; rfl
 
 theorem rw_u2 : RW (fi23U2T orbLit) u2W := by
   unfold fi23U2T
@@ -147,7 +147,7 @@ theorem rep_ok : fi23RepOK orbLit = true := by
     (rw_compT rw_u2 rw_u2).beq rw_idT (wp_eq_of_eqB h4 (ok_append ok_u2 ok_u2) (by decide)),
     rw_u2.isIdT_false h6, rw_u2.countP, f2,
     (rw_compT rw_u3 rw_u3).beq rw_idT (wp_eq_of_eqB h5 (ok_append ok_u3 ok_u3) (by decide)),
-    rw_u3.isIdT_false h7, rw_u3.countP, f3] <;> rfl
+    rw_u3.isIdT_false h7, rw_u3.countP, f3]; rfl
 
 theorem cnt_case2 : (List.range 31671).countP (cmQ wXC cw2) = 2 := by
   have ha := wit2a_ok
@@ -178,7 +178,7 @@ theorem wit_ok : fi23WitChecks orbLit = true := by
     rw [← cntS_zero, h]
   unfold fi23WitChecks
   rw [caseOK_of rw_X 2 2 3 true true false h2 c1,
-    caseOK_of rw_XC 30 9 9 false false false h3 cnt_case2, rep_ok] <;> rfl
+    caseOK_of rw_XC 30 9 9 false false false h3 cnt_case2, rep_ok]; rfl
 
 end CertificateChecks.KernelFi23R
 

@@ -168,13 +168,14 @@ theorem le_sup_coreActionKernel_of_inner {K L : Subgroup G}
   rw [h1, h2, hcard] at h4
   exact lt_irrefl _ h4
 
+omit [Finite G] in
 theorem le_sup_coreActionKernel_of_outer_solvable {K L : Subgroup G}
     (hOut : Group.IsSolvable (OuterAutomorphisms.Outer (↥L ⧸ pPrimeCore 2 ↥L)))
     (hKperf : ⁅K, K⁆ = K) (hKL : K ≤ normalizer (L : Set G)) :
     K ≤ L ⊔ coreActionKernel L := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hOut
+  have := hOut
   have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
   set action : ↥K →* MulAut (↥L ⧸ pPrimeCore 2 ↥L) :=
     (CFSG.FiveTransitive.CharacteristicAutomorphism.quotient (pPrimeCore 2 ↥L)).comp

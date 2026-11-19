@@ -18,7 +18,7 @@ theorem y7b_theta_comm (c : Ctx7 G L) (hb : B5Std c) {a m u : G}
     (hmu : u⁻¹ * ⁅m, c.s.t⁆ ∈ M3 c.s) :
     (⁅a, u⁆)⁻¹ * ⁅⁅a, m⁆, c.s.t⁆ ∈ M3 c.s := by
   have hM7X7 : M7 c.s ≤ X7 c.s := (y7b_M7_le_C7 c hb).trans (y7b_C7_le_X7 c hb)
-  haveI hN : ((M3 c.s).subgroupOf (y7bBM c.s)).Normal := y7b_M3_normal_BM c hb
+  have hN : ((M3 c.s).subgroupOf (y7bBM c.s)).Normal := y7b_M3_normal_BM c hb
   obtain ⟨θ, hθ1, hθ2⟩ := y7b_exists_theta c hb
   have haH : a ∈ normIn c.s.H c.s.fr.B :=
     ⟨s3_L_le_H c.s hb.hH.hS ha.1, ha.2⟩
@@ -61,7 +61,7 @@ theorem y7b_theta_eq (c : Ctx7 G L) (hb : B5Std c) {x u : G} (hx : x ∈ M7 c.s)
     y7b_comm_t_mem_BM c hb x (y7b_X7_le_X c hxX7)
   have hut : ⁅u, c.s.t⁆ ∈ y7bBM c.s :=
     y7b_comm_t_mem_BM c hb u (y7b_X7_le_X c huX7)
-  haveI hN : ((M3 c.s).subgroupOf (y7bBM c.s)).Normal := y7b_M3_normal_BM c hb
+  have hN : ((M3 c.s).subgroupOf (y7bBM c.s)).Normal := y7b_M3_normal_BM c hb
   obtain ⟨θ, hθ1, -⟩ := y7b_exists_theta c hb
   let X : ↥(X7 c.s) := ⟨x, hxX7⟩
   let U : ↥(X7 c.s) := ⟨u, huX7⟩

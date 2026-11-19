@@ -18,7 +18,7 @@ open CFSG.ComponentClassification.UnbalancedCatalog
   (List.finRange 4).foldl (fun acc i => (List.finRange 4).foldl (fun acc j =>
     acc ||| ((M i j).toNat <<< (2 * (4 * i.val + j.val)))) acc) 0
 private theorem w183finSp44_or_bytes_eq (b0 b1 b2 b3 : Nat) (h0 : b0 < 256) (h1 : b1 < 256)
-    (h2 : b2 < 256) (h3 : b3 < 256) :
+    (h2 : b2 < 256) (_h3 : b3 < 256) :
     b0 ||| (b1 <<< 8) ||| (b2 <<< 16) ||| (b3 <<< 24)
       = b0 + b1 * 256 + b2 * 65536 + b3 * 16777216 := by
   have e0 : b0 ||| (b1 <<< 8) = b0 + b1 * 256 := by
@@ -296,7 +296,7 @@ private def w183finSp44_rhoF (g : Nat) (m : Nat) : Nat :=
   let l := (idxA B).2
   gmul (e2 g i k) (e2 g j l) ^^^ gmul (e2 g i l) (e2 g j k)
 
-private theorem w183finSp44_rhoF_lt (g : Nat) (m : Nat) (hm : m < 16) :
+private theorem w183finSp44_rhoF_lt (g : Nat) (m : Nat) (_hm : m < 16) :
     w183finSp44_rhoF g m < 4 := by
   have h1 : gmul (e2 g (idxA (m / 4)).1 (idxA (m % 4)).1)
       (e2 g (idxA (m / 4)).2 (idxA (m % 4)).2) < 2 ^ 2 :=
@@ -436,15 +436,15 @@ private theorem w183finSp44_testBit_pack2 (sh f : Nat → Nat → Nat) (q : Nat)
   rw [w183finSp44_testBit_pack2_aux]
   simp
 
-private theorem w183finSp44_idx_eq {A B i j : Nat} (hA : A < 4) (hB : B < 4) (hi : i < 4)
-    (hj : j < 4) (h : 4 * j + i = 4 * A + B) : i = B := by
+private theorem w183finSp44_idx_eq {A B i j : Nat} (_hA : A < 4) (hB : B < 4) (hi : i < 4)
+    (_hj : j < 4) (h : 4 * j + i = 4 * A + B) : i = B := by
   have h1 := congrArg (· % 4) h
   rw [Nat.add_comm (4 * j) i, Nat.add_mul_mod_self_left i 4 j, Nat.mod_eq_of_lt hi,
     Nat.add_comm (4 * A) B, Nat.add_mul_mod_self_left B 4 A, Nat.mod_eq_of_lt hB] at h1
   exact h1
 
-private theorem w183finSp44_idx_eq2 {A B i j : Nat} (hA : A < 4) (hB : B < 4) (hi : i < 4)
-    (hj : j < 4) (h : 4 * j + i = 4 * A + B) : j = A := by
+private theorem w183finSp44_idx_eq2 {A B i j : Nat} (_hA : A < 4) (hB : B < 4) (hi : i < 4)
+    (_hj : j < 4) (h : 4 * j + i = 4 * A + B) : j = A := by
   have h1 := congrArg (· / 4) h
   rw [Nat.add_comm (4 * j) i, Nat.add_mul_div_left i j (by norm_num), Nat.div_eq_of_lt hi,
     Nat.zero_add, Nat.add_comm (4 * A) B, Nat.add_mul_div_left B A (by norm_num),
@@ -458,7 +458,7 @@ private theorem w183finSp44_any_inner_transp (f : Nat → Nat → Nat) (i A B p 
   simp only [Nat.testBit_shiftLeft]
   by_cases hib : i = B
   · subst hib
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rw [w183finSp44_any_range_eq 4 A
       (fun j => decide (2 * (4 * A + i) + p ≥ 2 * (4 * j + i)) &&
         (f i j).testBit (2 * (4 * A + i) + p - 2 * (4 * j + i))) hA ?_]
@@ -472,7 +472,7 @@ private theorem w183finSp44_any_inner_transp (f : Nat → Nat → Nat) (i A B p 
         exact w183finSp44_testBit_lt_of_lt (f i j) (2 * (4 * A + i) + p - 2 * (4 * j + i))
           (hf j hj) (by omega)
       · rw [decide_eq_false_iff_not.mpr (by omega), Bool.false_and]
-  · rw [if_neg hib]
+  · rw [ite_eq_right hib]
     apply List.any_eq_false.mpr
     intro j hj
     have hj4 : j < 4 := List.mem_range.mp hj
@@ -499,10 +499,10 @@ private theorem w183finSp44_e2_transp (g A B : Nat) (hA : A < 4) (hB : B < 4) :
       (fun i => (List.range 4).any (fun j =>
         (e2 g i j <<< (2 * (4 * j + i))).testBit (2 * (4 * A + B) + p))) hB ?_]
     · rw [w183finSp44_any_inner_transp (fun i j => e2 g i j) B A B p hB hA hB hp
-        (fun j _ => w183finSp44_e2_lt g B j), if_pos rfl]
+        (fun j _ => w183finSp44_e2_lt g B j), ite_eq_left rfl]
     · intro m' hm' hne
       rw [w183finSp44_any_inner_transp (fun i j => e2 g i j) m' A B p hm' hA hB hp
-        (fun j _ => w183finSp44_e2_lt g m' j), if_neg hne]
+        (fun j _ => w183finSp44_e2_lt g m' j), ite_eq_right hne]
   · rw [w183finSp44_testBit_lt_of_lt (e2 (transp g) A B) p
         (w183finSp44_e2_lt ..) (not_lt.1 hp),
       w183finSp44_testBit_lt_of_lt (e2 g B A) p (w183finSp44_e2_lt ..) (not_lt.1 hp)]
@@ -636,7 +636,7 @@ private theorem w183finSp44_any_inner_encode (f : Fin 4 → Fin 4 → Nat) (i A 
   simp only [Nat.testBit_shiftLeft]
   by_cases hiA : i = A
   · subst hiA
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rw [w183finSp44_any_finRange_eq B
       (fun j => decide (2 * (4 * i.val + B.val) + p ≥ 2 * (4 * i.val + j.val)) &&
         (f i j).testBit (2 * (4 * i.val + B.val) + p - 2 * (4 * i.val + j.val))) ?_]
@@ -651,7 +651,7 @@ private theorem w183finSp44_any_inner_encode (f : Fin 4 → Fin 4 → Nat) (i A 
       · rw [decide_eq_true_iff.mpr (by simp only [ge_iff_le]; omega), Bool.true_and,
           w183finSp44_testBit_lt_of_lt (f i j) _ (hf j) (by omega)]
       · rw [decide_eq_false_iff_not.mpr (by simp only [ge_iff_le, not_le]; omega), Bool.false_and]
-  · rw [if_neg hiA]
+  · rw [ite_eq_right hiA]
     apply List.any_eq_false.mpr
     intro j _
     by_cases hlt : 4 * i.val + j.val < 4 * A.val + B.val
@@ -676,10 +676,10 @@ private theorem w183finSp44_e2_encodeM (M : Matrix (Fin 4) (Fin 4) GF4) (A B : F
       (fun i => (List.finRange 4).any (fun j =>
         ((M i j).toNat <<< (2 * (4 * i.val + j.val))).testBit (2 * (4 * A.val + B.val) + p))) ?_]
     · rw [w183finSp44_any_inner_encode (fun i j => (M i j).toNat) A A B p hp
-        (fun j => w183finSp44_toNat_lt _), if_pos rfl]
+        (fun j => w183finSp44_toNat_lt _), ite_eq_left rfl]
     · intro m' hne
       rw [w183finSp44_any_inner_encode (fun i j => (M i j).toNat) m' A B p hp
-        (fun j => w183finSp44_toNat_lt _), if_neg hne]
+        (fun j => w183finSp44_toNat_lt _), ite_eq_right hne]
   · rw [w183finSp44_testBit_lt_of_lt (e2 (encodeM M) A.val B.val) p
         (w183finSp44_e2_lt ..) (not_lt.1 hp),
       w183finSp44_testBit_lt_of_lt (M A B).toNat p (w183finSp44_toNat_lt _) (not_lt.1 hp)]

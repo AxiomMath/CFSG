@@ -94,6 +94,7 @@ theorem z_smul_line_of_onP {a : G ⧸ c.G1} (ha : c.OnP a c.pi0) {m : G ⧸ c.G2
     _ = m := smul_inv_smul h m
 
 include ρ in
+omit ρ in
 theorem exists_adj_z_smul_ne :
     ∃ y, c.Delta.Adj c.x0 y ∧ z • y ≠ y := by
   by_contra hcon

@@ -20,8 +20,8 @@ theorem t263_matConj_inner {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0) (A
       (fun h h' => (h' : GL (Fin 2) K) = A * (h : GL (Fin 2) K) * A⁻¹) φ) :
     ∃ r : LargeEvenProj (LargeEvenSLGroup (Fin 2) K), φ = MulAut.conj r := by
   classical
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
-  haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨l, hl⟩ := FiniteField.isSquare_of_char_two (F := K) (ringChar.eq K 2) (Matrix.GeneralLinearGroup.det A : Kˣ)
   have hl0 : l ≠ 0 := by
     rintro rfl
@@ -156,8 +156,8 @@ theorem t263_exists_psl2_of_linRk1 {T : Type} [Group T] (h : catalogIs T t263GLi
       rcases r with _ | _ | r
       · simp [t263GLinRk1, onLie] at hi
       · have hq : q.p = 2 := by simpa [t263GLinRk1, onLie] using hi
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-        haveI : NeZero q.exponent := ⟨Nat.pos_iff_ne_zero.1 q.exponent_pos⟩
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : NeZero q.exponent := ⟨Nat.pos_iff_ne_zero.1 q.exponent_pos⟩
         refine ⟨q.exponent, GaloisField q.p q.exponent, inferInstance, inferInstance, ?_,
           ⟨(e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hv)).trans
             (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj (1 + 1)
@@ -181,7 +181,7 @@ theorem t263_lin1_inner (hLD : Y10GInnLin.LinLabelDict) {p : ℕ} {Ω : Type} [G
   have hcanon := hLD (PQuot p S) lab 2 m E le_rfl hE hlab ⟨e⟩
   obtain ⟨m₀, hiff⟩ := t263_recipe_rank_one hcanon
   obtain ⟨K, instF, instFin, hK, hs, hna, θ, φ, hφ, hind⟩ := (hiff _).1 hraw
-  haveI : CharP K 2 := t263_charP_two hK
+  have : CharP K 2 := t263_charP_two hK
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
   obtain ⟨A, -, hA⟩ := hφ
   obtain ⟨r, hr⟩ := t263_matConj_inner h2 A φ hA
@@ -202,7 +202,7 @@ theorem t263_psl2_no_odd_comm_invol {T : Type} [Group T] (hT : catalogIs T t263G
     (hp2 : p ≠ 2) (s t : T) (hs : s ^ p = 1) (hs1 : s ≠ 1) (ht : orderOf t = 2) (hts : t * s = s * t) : False := by
   classical
   obtain ⟨m, E, hEf, hEfin, hE, ⟨e⟩⟩ := t263_exists_psl2_of_linRk1 hT
-  haveI : CharP E 2 := t263_charP_two hE
+  have : CharP E 2 := t263_charP_two hE
   let e' : T ≃* PSL(2, E) :=
     e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 E).symm
   have hto : orderOf (e' t) = 2 := by rw [MulEquiv.orderOf_eq]; exact ht

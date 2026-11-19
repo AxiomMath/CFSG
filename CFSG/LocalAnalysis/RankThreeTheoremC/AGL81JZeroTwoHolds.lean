@@ -34,6 +34,7 @@ private theorem le_pCore_of_isSubnormal_of_isPGroup {X : Type} [Group X] [Finite
   rw [htop, ← MonoidHom.range_eq_map, Subgroup.range_subtype] at h
   exact h.le.trans inf_le_right
 
+omit [Finite G] in
 theorem jOne_normal_jZero (H L : Subgroup G) : ((jOne H L).subgroupOf (jZero H L)).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (jOne_le_jZero H L)).mpr
     ((jZero_le H L).trans (Subgroup.le_normalizer.trans (le_normalizer_jOne H L)))
@@ -41,7 +42,7 @@ theorem jOne_normal_jZero (H L : Subgroup G) : ((jOne H L).subgroupOf (jZero H L
 theorem exists_two_pow_mem_jOne (H L : Subgroup G) {g : G} (hg : g ∈ jZero H L) :
     ∃ k : ℕ, g ^ (2 ^ k) ∈ jOne H L := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := jOne_normal_jZero H L
+  have := jOne_normal_jZero H L
   set J₀ := jZero H L with hJ₀
   set π := QuotientGroup.mk' ((jOne H L).subgroupOf J₀) with hπ
   have hmem : ∀ I ∈ cZero (H ⊓ L), (I.subgroupOf J₀).map π ≤

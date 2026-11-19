@@ -16,6 +16,7 @@ open Equiv
 
 variable {β : Type*} [Fintype β] [DecidableEq β]
 
+omit [Fintype β] in
 private lemma p9uN7QT_comap_normal {T : Finset β} {M : Subgroup (Perm β)}
     (hnorm : ∀ g : Perm β, (∀ i, i ∉ T → g i = i) → ∀ m ∈ M, g * m * g⁻¹ ∈ M) :
     (M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T)))).Normal := by
@@ -60,7 +61,7 @@ theorem perm_eq_bot_of_normal_of_two_power (T : Finset β) (hT : 5 ≤ T.card)
     p9uN7QT_comap_normal hnorm
   have hbot : M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T))) = ⊥ := by
     by_contra hne
-    haveI : (M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T)))).Normal := hnormM'
+    have : (M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T)))).Normal := hnormM'
     have hle : alternatingGroup {x // x ∈ T}
         ≤ M.comap (Equiv.Perm.ofSubtype (p := (· ∈ T))) :=
       Equiv.Perm.alternatingGroup_le_of_normal (N := _)
@@ -93,7 +94,7 @@ namespace N7Setup
 
 variable {X : Type} [Group X] [Finite X] (S : N7Setup X)
 
-theorem le_F1_of_normal_two {T : Subgroup X} (hFT : S.F1 ≤ T) (hTH : T ≤ S.H)
+theorem le_F1_of_normal_two {T : Subgroup X} (_hFT : S.F1 ≤ T) (hTH : T ≤ S.H)
     (hnorm : ∀ h ∈ S.H, ∀ t ∈ T, h * t * h⁻¹ ∈ T) (hT : IsPGroup 2 T) : T ≤ S.F1 := by
   let Tset : Finset (Fin 8) := Finset.univ.erase 0
   let M : Subgroup (Equiv.Perm (Fin 8)) := (T.subgroupOf S.H).map S.permHom

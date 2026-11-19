@@ -10,6 +10,7 @@ open Subgroup CFSG.Sporadic.HN
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_top_of_conjProd_mem_coprime {a b g : G} {m n : ℕ} (hmn : Nat.Coprime m n)
     (hgen : closure {a, b} = ⊤) (ha : a ^ m = 1) (hb : b ^ n = 1) {N : Subgroup G} [N.Normal]
     (hx : a * (g⁻¹ * b * g) ∈ N) : N = ⊤ := by
@@ -69,7 +70,7 @@ theorem isSimpleGroup_of_conjProd_coprime {a b g : G} {m n q : ℕ} (hmn : Nat.C
     have := (mem_centralizer_iff.1 (hCN ▸ mem_top y : y ∈ centralizer (N : Set G))) n hn
     exact this.symm
 
-theorem pow_le_of_dvd_ly {p e m : ℕ} (hp : 1 < p) (hd : p ^ e ∣ 51765179004000000)
+theorem pow_le_of_dvd_ly {p e m : ℕ} (_hp : 1 < p) (hd : p ^ e ∣ 51765179004000000)
     (hm : ¬ p ^ (m + 1) ∣ 51765179004000000) : e ≤ m := by
   by_contra h
   exact hm ((pow_dvd_pow p (by omega)).trans hd)
@@ -102,16 +103,16 @@ theorem ly_GL_condition : ∀ p e : ℕ, p.Prime → p ≠ 67 → p ^ e ∣ 5176
               interval_cases k <;> norm_num
           · obtain rfl := hpl 7 (by norm_num) h7
             have : k ≤ 1 := hk 1 (by norm_num)
-            interval_cases k <;> norm_num
+            interval_cases k; norm_num
         · obtain rfl := hpl 11 (by norm_num) h11
           have : k ≤ 1 := hk 1 (by norm_num)
-          interval_cases k <;> norm_num
+          interval_cases k; norm_num
       · obtain rfl := hpl 31 (by norm_num) h31
         have : k ≤ 1 := hk 1 (by norm_num)
-        interval_cases k <;> norm_num
+        interval_cases k; norm_num
     · obtain rfl := hpl 37 (by norm_num) h37
       have : k ≤ 1 := hk 1 (by norm_num)
-      interval_cases k <;> norm_num
+      interval_cases k; norm_num
   · exact absurd (hpl 67 (by norm_num) h67) hpq
 
 end CFSG.Sporadic.Ly

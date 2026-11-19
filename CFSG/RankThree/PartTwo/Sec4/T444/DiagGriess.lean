@@ -54,7 +54,7 @@ theorem diagGriess_card_mult_sl3 {m : ℕ} (hm : 2 ≤ m) :
     rw [Nat.gcd_eq_left h3]
   have hexc : CFSG.Blueprint.Multiplier.exceptionalOrders .PSL 3 2 (2 * m) = (1, 1) := by
     unfold CFSG.Blueprint.Multiplier.exceptionalOrders
-    split <;> first | rfl | (exfalso; omega) | simp_all | omega
+    split <;> first | rfl | (exfalso; omega)
   have hmul : ∀ α : Type, Nat.card (Multiplicative α) = Nat.card α :=
     fun α => Nat.card_congr Multiplicative.toAdd
   unfold CFSG.Blueprint.Multiplier.generic CFSG.Blueprint.Multiplier.exceptional

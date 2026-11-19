@@ -28,7 +28,7 @@ theorem mem_iSup_phiTwoComp_of_mem_e8D8
         rootSpan .E8 (AlgebraicClosure K) {γ | IsRoot .E8 γ ∧ Even (γ (e8Node 0))}) :
     x ∈ ⨆ γ : {γ : Fin Tag.E8.rank → ℤ // IsRoot .E8 γ}, phiTwoComp g γ.1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hrat : ∀ X : Subgroup (ModGL .E8 (AlgebraicClosure K)), Finite X →
       X ≤ adjointGroup .E8 (AlgebraicClosure K) →
       (∀ y ∈ X, Units.map (entrywiseHom Fr) y = y) →
@@ -111,7 +111,7 @@ theorem mem_iSup_phiTwoComp_of_mem_e8D8
     have h3 : 2 ∣ (Nat.card K + 1) - Nat.card K := Nat.dvd_sub h2dvd h2q
     rw [Nat.add_sub_cancel_left] at h3
     exact absurd h3 (by norm_num)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζo, -⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_orderOf_eq_of_dvd_add_one K
       (L := AlgebraicClosure K) (N := p) hpq

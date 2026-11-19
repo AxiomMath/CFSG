@@ -24,12 +24,15 @@ variable {σ : ↥(H z)}
 variable [Fact (orderOf σ = 3)] [Fact (conjZ z σ = 1)]
 variable {T F : Subgroup G}
 
+omit [Fact (orderOf σ = 3)] hN in
+omit [Finite G] in
 theorem sigma_commute_of_mem_centerIn {y : G}
     (hy : y ∈ centerIn (J z)) : Commute (σ : G) y := by
   have hmem := centerIn_le_centralizer_of_conjZ_eq_one (z := z)
     (Fact.out : conjZ z σ = 1) hy
   exact (Subgroup.mem_centralizer_singleton_iff.mp hmem).symm
 
+omit [Finite G] in
 theorem mul_self_eq_one_of_card_two (hT : Nat.card T = 2) (x : T) : x * x = 1 := by
   have h := pow_card_eq_one' (x := x)
   rw [hT] at h
@@ -50,7 +53,9 @@ noncomputable def psi (σ : ↥(H z)) (hdisj : T ⊓ F = ⊥)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) : F →* T :=
   (tMap σ hdisj hcomm hsup).comp (phi σ hdisj hcomm hsup)
 
-theorem conjJ'_sigma_inclusion_T (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
+omit [Fact (orderOf σ = 3)] hN in
+omit [Finite G] in
+theorem conjJ'_sigma_inclusion_T (_h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) (t : T) :
     conjJ' z (σ) (Subgroup.inclusion (T_le_J_of_sup hsup) t) =
       Subgroup.inclusion (T_le_J_of_sup hsup) t := by
@@ -63,6 +68,7 @@ theorem conjJ'_sigma_inclusion_T (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
   rw [hc.eq]
   group
 
+omit hN [Fact ((conjZ z) σ = 1)] [Finite G] in
 theorem conjJ'_sigma_pow_three :
     (conjJ' z (σ)) ^ 3 = 1 := by
   have h3 : σ ^ 3 = 1 := by
@@ -73,6 +79,7 @@ theorem conjJ'_sigma_pow_three :
     _ = conjJ' z 1 := by rw [h3]
     _ = 1 := map_one (conjJ' z)
 
+omit hN [Fact (orderOf σ = 3)] [Fact ((conjZ z) σ = 1)] [Finite G] in
 theorem conjJ'_sigma_inclusion_F (hdisj : T ⊓ F = ⊥)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) (f : F) :
     conjJ' z (σ) (Subgroup.inclusion (F_le_J_of_sup hsup) f) =
@@ -81,6 +88,8 @@ theorem conjJ'_sigma_inclusion_F (hdisj : T ⊓ F = ⊥)
   exact Subtype.ext
     (prT_mul_prF hdisj hcomm hsup (conjF σ hsup f)).symm
 
+omit [Fact (orderOf σ = 3)] in
+omit hN [Finite G] in
 theorem conjJ'_sigma_sq_inclusion_F (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
     (hdisj : T ⊓ F = ⊥) (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
     (hsup : T ⊔ F = J z) (f : F) :
@@ -97,6 +106,7 @@ theorem conjJ'_sigma_sq_inclusion_F (h : Tim79a.ParrottHyp z) (hT : Nat.card T =
     conjJ'_sigma_inclusion_F (σ := σ) hdisj hcomm hsup
       (phi σ hdisj hcomm hsup f)]
 
+omit hN [Fact (orderOf σ = 3)] [Finite G] in
 theorem conjJ'_sigma_cube_inclusion_F (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
     (hdisj : T ⊓ F = ⊥) (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
     (hsup : T ⊔ F = J z) (f : F) :
@@ -121,6 +131,7 @@ theorem conjJ'_sigma_cube_inclusion_F (h : Tim79a.ParrottHyp z) (hT : Nat.card T
     conjJ'_sigma_inclusion_F (σ := σ) hdisj hcomm hsup
       (phi σ hdisj hcomm hsup (phi σ hdisj hcomm hsup f))]
 
+omit hN [Finite G] in
 theorem phi_phi_phi (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
     (hdisj : T ⊓ F = ⊥) (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
     (hsup : T ⊔ F = J z) (f : F) :
@@ -149,9 +160,10 @@ theorem phi_phi_phi (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
     rw [← hfix]
     exact hcube
   have h := congrArg (prF hdisj hcomm hsup) hEq
-  simp only [map_mul, prF_inclusion_T, prF_inclusion_F, one_mul, mul_one] at h
+  simp only [map_mul, prF_inclusion_T, prF_inclusion_F, one_mul] at h
   exact h.symm
 
+omit hN [Finite G] in
 theorem tMap_cocycle (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
     (hdisj : T ⊓ F = ⊥) (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
     (hsup : T ⊔ F = J z) (f : F) :
@@ -182,10 +194,11 @@ theorem tMap_cocycle (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
     exact hcube
   rw [phi_phi_phi (σ := σ) h hT hdisj hcomm hsup f] at hEq
   have h := congrArg (prT hdisj hcomm hsup) hEq
-  simp only [map_mul, prT_inclusion_T, prT_inclusion_F, one_mul, mul_one] at h
+  simp only [map_mul, prT_inclusion_T, prT_inclusion_F, mul_one] at h
   rw [mul_assoc]
   exact h.symm
 
+omit hN [Finite G] in
 theorem psi_phi_eq (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
     (hdisj : T ⊓ F = ⊥) (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
     (hsup : T ⊔ F = J z) (f : F) :
@@ -215,6 +228,7 @@ theorem psi_phi_eq (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
           tMap σ hdisj hcomm hsup (phi σ hdisj hcomm hsup f) := hcb
     _ = tMap σ hdisj hcomm hsup f * psi σ hdisj hcomm hsup f := rfl
 
+omit hN [Finite G] in
 theorem psi_phi_eq_comm (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
     (hdisj : T ⊓ F = ⊥) (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
     (hsup : T ⊔ F = J z) (f : F) :
@@ -257,6 +271,7 @@ noncomputable def invariantComplement (σ : ↥(H z)) (hdisj : T ⊓ F = ⊥)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) : Subgroup G :=
   (tau σ hdisj hcomm hsup).range
 
+omit hN [Fact (orderOf σ = 3)] [Fact ((conjZ z) σ = 1)] [Finite G] in
 theorem invariantComplement_le_J (hdisj : T ⊓ F = ⊥)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) :
     invariantComplement σ hdisj hcomm hsup ≤ J z := by
@@ -264,6 +279,7 @@ theorem invariantComplement_le_J (hdisj : T ⊓ F = ⊥)
   exact (J z).mul_mem (T_le_J_of_sup hsup (psi σ hdisj hcomm hsup f).2)
     (F_le_J_of_sup hsup f.2)
 
+omit hN [Fact (orderOf σ = 3)] [Fact ((conjZ z) σ = 1)] [Finite G] in
 theorem invariantComplement_inf_T (hdisj : T ⊓ F = ⊥)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) :
     invariantComplement σ hdisj hcomm hsup ⊓ T = ⊥ := by
@@ -283,6 +299,7 @@ theorem invariantComplement_inf_T (hdisj : T ⊓ F = ⊥)
   rw [hf1]
   simp
 
+omit hN [Fact (orderOf σ = 3)] [Fact ((conjZ z) σ = 1)] [Finite G] in
 theorem invariantComplement_sup_T (hdisj : T ⊓ F = ⊥)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) :
     invariantComplement σ hdisj hcomm hsup ⊔ T = J z := by
@@ -306,6 +323,7 @@ theorem invariantComplement_sup_T (hdisj : T ⊓ F = ⊥)
     rw [hxeq, sup_comm]
     exact Subgroup.mul_mem_sup hmemT hmemK
 
+omit hN [Fact (orderOf σ = 3)] [Fact ((conjZ z) σ = 1)] [Finite G] in
 theorem tau_injective (hdisj : T ⊓ F = ⊥)
     (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f) (hsup : T ⊔ F = J z) :
     Function.Injective (tau σ hdisj hcomm hsup) := by
@@ -336,6 +354,7 @@ theorem tau_injective (hdisj : T ⊓ F = ⊥)
     exact Subgroup.mem_bot.mp hmem
   exact Subtype.ext (mul_inv_eq_one.mp hbot)
 
+omit hN [Fact (orderOf σ = 3)] [Fact ((conjZ z) σ = 1)] [Finite G] in
 theorem card_invariantComplement (hFc : Nat.card F = 2 ^ 9)
     (hdisj : T ⊓ F = ⊥) (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
     (hsup : T ⊔ F = J z) :
@@ -348,6 +367,7 @@ theorem card_invariantComplement (hFc : Nat.card F = 2 ^ 9)
   change Nat.card (tau σ hdisj hcomm hsup).range = 2 ^ 9
   rw [hcard, hFc]
 
+omit hN [Finite G] in
 theorem conjJ'_sigma_tau_apply (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
     (hdisj : T ⊓ F = ⊥) (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
     (hsup : T ⊔ F = J z) (f : F) :
@@ -395,6 +415,7 @@ theorem conjJ'_sigma_tau_apply (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
               (psi_phi_eq_comm  h hT hdisj hcomm hsup f).symm
         rw [hcoe]
 
+omit hN [Finite G] in
 theorem invariantComplement_conj (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
     (hdisj : T ⊓ F = ⊥) (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
     (hsup : T ⊔ F = J z) :
@@ -407,6 +428,7 @@ theorem invariantComplement_conj (h : Tim79a.ParrottHyp z) (hT : Nat.card T = 2)
     ⟨phi σ hdisj hcomm hsup f,
       (conjJ'_sigma_tau_apply  h hT hdisj hcomm hsup f).symm⟩
 
+omit hN [Fact (orderOf σ = 3)] [Fact ((conjZ z) σ = 1)] in
 theorem isExtraspecial2_invariantComplement (h : Tim79a.ParrottHyp z)
     (hT : Nat.card T = 2) (hFc : Nat.card F = 2 ^ 9)
     (hdisj : T ⊓ F = ⊥) (hcomm : ∀ t ∈ T, ∀ f ∈ F, Commute t f)
@@ -420,6 +442,7 @@ theorem isExtraspecial2_invariantComplement (h : Tim79a.ParrottHyp z)
   · exact central_in_J_of_decomposition hT hcomm hsup
   · exact card_invariantComplement hFc hdisj hcomm hsup
 
+omit hN in
 theorem exists_invariant_complement_of_decomposition (h : Tim79a.ParrottHyp z)
     {T F : Subgroup G} (hT : Nat.card T = 2) (_hF : IsExtraspecial2 F)
     (hFc : Nat.card F = 2 ^ 9) (hdisj : T ⊓ F = ⊥)
@@ -434,6 +457,7 @@ theorem exists_invariant_complement_of_decomposition (h : Tim79a.ParrottHyp z)
   · exact invariantComplement_sup_T  hdisj hcomm hsup
   · exact invariantComplement_conj  h hT hdisj hcomm hsup
 
+omit hN in
 theorem exists_invariant_complement (h : Tim79a.ParrottHyp z) :
     ∃ T F K : Subgroup G,
       Nat.card T = 2 ∧ IsExtraspecial2 F ∧ Nat.card F = 2 ^ 9 ∧ T ⊓ F = ⊥ ∧
@@ -451,17 +475,20 @@ section PartA
 
 open CFSG.HardMathSupport.Timmesfeld.ComponentBalance
 
+omit [Finite G] hN in
 theorem map_zpowers_sigma_eq {σ : ↥(H z)} :
     (Subgroup.zpowers σ).map (H z).subtype = Subgroup.zpowers (σ : G) := by
   rw [MonoidHom.map_zpowers]
   rfl
 
+omit [Finite G] hN in
 theorem isPGroup_zpowers_sigma_of {σ : ↥(H z)} (hσ : orderOf σ = 3) :
     IsPGroup 3 (Subgroup.zpowers (σ : G)) := by
   apply IsPGroup.of_card (n := 1)
   rw [Nat.card_zpowers, Subgroup.orderOf_coe, hσ]
   norm_num
 
+omit [Finite G] in
 theorem zpowers_sigma_le_normalizer_J_of {σ : ↥(H z)} :
     Subgroup.zpowers (σ : G) ≤ Subgroup.normalizer (J z : Set G) := by
   have hH : Subgroup.zpowers (σ : G) ≤ H z := by
@@ -474,7 +501,7 @@ theorem J_eq_sup_centralizer_commutator_of (h : Tim79a.ParrottHyp z) {σ : ↥(H
     (hσ : orderOf σ = 3) :
     J z = (J z ⊓ Subgroup.centralizer (Subgroup.zpowers (σ : G) : Set G)) ⊔
       ⁅(Subgroup.zpowers σ).map (H z).subtype, J z⁆ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hle : J z ≤ (J z ⊓ Subgroup.centralizer (Subgroup.zpowers (σ : G) : Set G)) ⊔
       ⁅J z, Subgroup.zpowers (σ : G)⁆ :=
     le_sup_centralizer_commutator (p := 3) (Y := J z)
@@ -494,6 +521,7 @@ theorem J_eq_sup_centralizer_commutator_of (h : Tim79a.ParrottHyp z) {σ : ↥(H
     _ = (J z ⊓ Subgroup.centralizer (Subgroup.zpowers (σ : G) : Set G)) ⊔
         ⁅(Subgroup.zpowers σ).map (H z).subtype, J z⁆ := by rw [map_zpowers_sigma_eq]
 
+omit [Finite G] in
 theorem commutator_le_J_of {σ : ↥(H z)} :
     ⁅(Subgroup.zpowers σ).map (H z).subtype, J z⁆ ≤ J z := by
   rw [map_zpowers_sigma_eq (z := z), Subgroup.commutator_comm]
@@ -504,11 +532,15 @@ section PartA2
 
 variable {σ : ↥(H z)}
 
+omit hN in
+omit [Finite G] in
 theorem sigma_commute_of_mem_centerIn_of (hZ : conjZ z σ = 1)
     {y : G} (hy : y ∈ centerIn (J z)) : Commute (σ : G) y := by
   have hmem := centerIn_le_centralizer_of_conjZ_eq_one (z := z) hZ hy
   exact (Subgroup.mem_centralizer_singleton_iff.mp hmem).symm
 
+omit hN in
+omit [Finite G] in
 theorem centralizerJ_ne_top_of_conjV_ne_one (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
     (hV : conjV h σ ≠ 1) : centralizerJ σ ≠ ⊤ := by
   intro htop
@@ -531,6 +563,7 @@ theorem centralizerJ_ne_top_of_conjV_ne_one (h : Tim79a.ParrottHyp z) {σ : ↥(
     simp
   rw [hq, map_one]
 
+omit hN [Finite G] in
 private theorem centralizerJ_eq_top_of_commutes_of {T K : Subgroup G}
     (hsup : T ⊔ K = J z)
     (hcent : ∀ t ∈ T, ∀ x ∈ J z, Commute t x)
@@ -558,6 +591,7 @@ private theorem centralizerJ_eq_top_of_commutes_of {T K : Subgroup G}
     _ = (σ : G) * (t * k) := by group
     _ = (σ : G) * (j : G) := by rw [← htk]
 
+omit [Finite G] in
 private lemma mem_normalizer_of_pow_three_eq_one {K : Subgroup G} {g : G}
     (hg : g ^ 3 = 1) (h : ∀ k ∈ K, g * k * g⁻¹ ∈ K) :
     g ∈ Subgroup.normalizer (K : Set G) := by
@@ -577,6 +611,7 @@ private lemma mem_normalizer_of_pow_three_eq_one {K : Subgroup G} {g : G}
     rw [hggg] at h3'
     simpa using h3'
 
+omit [Finite G] in
 private lemma commute_of_commutator_mem_center {g k c : G}
     (hg : g ^ 3 = 1) (hc : c = ⁅g, k⁆) (hgc : Commute g c) (hc2 : c * c = 1) :
     Commute g k := by
@@ -605,6 +640,7 @@ private lemma commute_of_commutator_mem_center {g k c : G}
     g * k = (g * k * g⁻¹) * g := by group
     _ = k * g := by rw [h1]
 
+omit [Finite G] hN in
 private lemma mul_self_eq_one_of_mem_zpowers_of_order_two {c : G}
     (h : c ∈ Subgroup.zpowers z) (hz : orderOf z = 2) : c * c = 1 := by
   have hcard : Nat.card (Subgroup.zpowers z) = 2 := by
@@ -621,10 +657,11 @@ private lemma mul_self_eq_one_of_mem_zpowers_of_order_two {c : G}
       exact pow_orderOf_eq_one c
   simpa [pow_two] using hpow
 
+omit hN in
 theorem isExtraspecial2_commutator_of_K (h : Tim79a.ParrottHyp z)
     {σ : ↥(H z)} (hσ : orderOf σ = 3) (hZ : conjZ z σ = 1) (hV : conjV h σ ≠ 1)
-    {T K : Subgroup G} (hT : Nat.card T = 2)
-    (hsup : T ⊔ K = J z) (hinf : T ⊓ K = ⊥)
+    {T K : Subgroup G} (_hT : Nat.card T = 2)
+    (hsup : T ⊔ K = J z) (_hinf : T ⊓ K = ⊥)
     (hcent : ∀ t ∈ T, ∀ x ∈ J z, Commute t x)
     (hK : IsExtraspecial2 K)
     (hKinv : ∀ k ∈ K, (σ : G) * k * (σ : G)⁻¹ ∈ K) :
@@ -726,7 +763,9 @@ theorem isExtraspecial2_commutator_of_K (h : Tim79a.ParrottHyp z)
       exact (Subgroup.mem_centralizer_iff.mp (hle hsB) k hk).symm
     exact hcontra hKσ
 
-theorem commutator_J_eq_commutator_K_of (h : Tim79a.ParrottHyp z)
+omit hN in
+omit [Finite G] in
+theorem commutator_J_eq_commutator_K_of (_h : Tim79a.ParrottHyp z)
     {σ : ↥(H z)} (hσ : orderOf σ = 3) (hZ : conjZ z σ = 1)
     {T K : Subgroup G} (hsup : T ⊔ K = J z)
     (hcent : ∀ t ∈ T, ∀ x ∈ J z, Commute t x)
@@ -812,11 +851,12 @@ theorem commutator_J_eq_commutator_K_of (h : Tim79a.ParrottHyp z)
     exact Subgroup.commutator_mem_commutator hb hk
   · exact Subgroup.commutator_mono_right hKJ
 
+omit hN in
 theorem isExtraspecial2_commutator_of (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
     (hσ : orderOf σ = 3) (hZ : conjZ z σ = 1) (hV : conjV h σ ≠ 1) :
     IsExtraspecial2 ⁅(Subgroup.zpowers σ).map (H z).subtype, J z⁆ := by
-  haveI : Fact (orderOf σ = 3) := ⟨hσ⟩
-  haveI : Fact (conjZ z σ = 1) := ⟨hZ⟩
+  have : Fact (orderOf σ = 3) := ⟨hσ⟩
+  have : Fact (conjZ z σ = 1) := ⟨hZ⟩
   obtain ⟨T, F, K, hT, hF, hFc, hdisj, hcomm, hsup, hK, hKcard, hKinf, hKsup, hKconj⟩ :=
     GenericInvariantComplement.exists_invariant_complement (σ := σ) h
   have hcent : ∀ t ∈ T, ∀ x ∈ J z, Commute t x :=
@@ -939,13 +979,16 @@ variable {σ : ↥(H z)}
   toFun v := v * conjV h σ v
   map_one' := by simp
   map_mul' v w := by
-    letI : CommGroup (QuotientV.V z) := commGroupV h
+    let : CommGroup (QuotientV.V z) := commGroupV h
     simp [map_mul, mul_assoc, mul_comm, mul_left_comm]
 
-@[simp] theorem VComplementHom_apply (h : Tim79a.ParrottHyp z) (σ : ↥(H z))
+omit hN in
+omit [Finite G] in
+@[simp] theorem VComplementHom_apply [Finite G] (h : Tim79a.ParrottHyp z) (σ : ↥(H z))
     (v : QuotientV.V z) :
     VComplementHom h σ v = v * conjV h σ v := rfl
 
+omit hN [Finite G] in
 theorem conjV_alpha_three_of (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
     (hσ : orderOf σ = 3) (v : QuotientV.V z) :
     conjV h σ (conjV h σ (conjV h σ v)) = v := by
@@ -956,10 +999,11 @@ theorem conjV_alpha_three_of (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
   have h := congrArg (fun f : MulAut (QuotientV.V z) => f v) hσ3'
   simpa [pow_succ, pow_two] using h
 
+omit hN [Finite G] in
 theorem disjoint_ker_range_VComplementHom (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
     (hσ : orderOf σ = 3) :
     (VComplementHom h σ).ker ⊓ (VComplementHom h σ).range = ⊥ := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
   rw [Subgroup.eq_bot_iff_forall]
   intro v hv
   rw [Subgroup.mem_inf] at hv
@@ -970,8 +1014,7 @@ theorem disjoint_ker_range_VComplementHom (h : Tim79a.ParrottHyp z) {σ : ↥(H 
   have hvv : ∀ x : QuotientV.V z, x * x = 1 := by
     intro x
     simpa [pow_two] using QuotientV.pow_two_eq_one_V h x
-  have hvker' : v * conjV h σ v = 1 := by
-    simpa only [VComplementHom_apply] using hvker
+  have hvker' : v * conjV h σ v = 1 := hvker
   have hvfix : conjV h σ v = v := by
     calc conjV h σ v = 1 * conjV h σ v := (one_mul _).symm
       _ = (v * v) * conjV h σ v := by rw [hvv v]
@@ -1001,14 +1044,15 @@ theorem disjoint_ker_range_VComplementHom (h : Tim79a.ParrottHyp z) {σ : ↥(H 
     _ = w * w := by rw [hwfix]
     _ = 1 := hvv w
 
+omit hN in
 theorem fixSubmodule_eq_ker_VComplementHom (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
-    (hσ : orderOf σ = 3) :
+    (_hσ : orderOf σ = 3) :
     letI : CommGroup (QuotientV.V z) := commGroupV h
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     fixSubmodule h σ =
       ((VComplementHom h σ).ker.toAddSubgroup).toZModSubmodule 2 := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   ext v
   rw [mem_fixSubmodule_iff, AddSubgroup.mem_toZModSubmodule, Additive.mem_toAddSubgroup,
     MonoidHom.mem_ker, VComplementHom_apply]
@@ -1030,15 +1074,16 @@ theorem fixSubmodule_eq_ker_VComplementHom (h : Tim79a.ParrottHyp z) {σ : ↥(H
       _ = Additive.toMul v * 1 := by rw [hker]
       _ = Additive.toMul v := mul_one _
 
-@[expose] noncomputable def commutatorV (h : Tim79a.ParrottHyp z) (σ : ↥(H z)) :
+@[expose] noncomputable def commutatorV (_h : Tim79a.ParrottHyp z) (σ : ↥(H z)) :
     Subgroup (QuotientV.V z) :=
   let P : Subgroup G := ⁅(Subgroup.zpowers σ).map (H z).subtype, J z⁆
   (P.subgroupOf (J z)).map (QuotientV.pi z)
 
+omit hN in
 theorem range_le_commutatorV (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
-    (hσ : orderOf σ = 3) :
+    (_hσ : orderOf σ = 3) :
     (VComplementHom h σ).range ≤ commutatorV h σ := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
   rintro w ⟨v, rfl⟩
   obtain ⟨j, rfl⟩ := QuotientV.pi_surjective z v
   let B : Subgroup G := (Subgroup.zpowers σ).map (H z).subtype
@@ -1066,10 +1111,11 @@ theorem range_le_commutatorV (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
       _ = QuotientV.pi z j * conjV h σ (QuotientV.pi z j) := mul_comm _ _
   rwa [hT] at hmem
 
+omit hN in
 theorem commutatorV_le_range (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
     (hσ : orderOf σ = 3) :
     commutatorV h σ ≤ (VComplementHom h σ).range := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
   let B : Subgroup G := (Subgroup.zpowers σ).map (H z).subtype
   let P : Subgroup G := ⁅B, J z⁆
   have hBP : B = Subgroup.zpowers (σ : G) := map_zpowers_sigma_eq (z := z)
@@ -1121,7 +1167,7 @@ theorem commutatorV_le_range (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
         simpa [pow_two] using
           QuotientV.pow_two_eq_one_V h (conjV h σ (QuotientV.pi z jJ))
       have hσ2 : (σ : H z) ^ (2 : ℤ) = σ * σ := by
-        simp [zpow_natCast, pow_two]
+        simp [pow_two]
       rw [hσ2, map_mul]
       simp only [VComplementHom_apply, map_mul]
       rw [inv_eq_of_mul_eq_one_right hv2]
@@ -1148,6 +1194,7 @@ theorem commutatorV_le_range (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
   rw [← hyx, ← hwy']
   exact hwRange
 
+omit hN in
 theorem commutatorV_eq_range (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
     (hσ : orderOf σ = 3) :
     commutatorV h σ = (VComplementHom h σ).range :=
@@ -1155,8 +1202,9 @@ theorem commutatorV_eq_range (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
 
 end PartA5Split
 
+omit hN in
 theorem ker_VComplementHom_eq_autFixedSubgroup (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
-    (hσ : orderOf σ = 3) :
+    (_hσ : orderOf σ = 3) :
     (VComplementHom h σ).ker = autFixedSubgroup (conjV h σ) := by
   ext v
   rw [MonoidHom.mem_ker, VComplementHom_apply, mem_autFixedSubgroup]
@@ -1211,7 +1259,9 @@ theorem centralizer_commutator_le_inf_centerIn_of (h : Tim79a.ParrottHyp z) {σ 
   exact Subgroup.mem_inf.mpr
     ⟨hxP, Subgroup.mem_subgroupOf.mp hxker⟩
 
-theorem inf_centerIn_le_centralizer_commutator_of (h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
+omit hN in
+omit [Finite G] in
+theorem inf_centerIn_le_centralizer_commutator_of (_h : Tim79a.ParrottHyp z) {σ : ↥(H z)}
     (hZ : conjZ z σ = 1) :
     ⁅(Subgroup.zpowers σ).map (H z).subtype, J z⁆ ⊓ centerIn (J z) ≤
       Subgroup.centralizer ({(σ : G)} : Set G) ⊓
@@ -1240,6 +1290,7 @@ end PartA
 
 section PartB
 
+omit [Finite G] in
 theorem centralizer_zpowers_eq_centralizer_singleton (x : G) :
     Subgroup.centralizer (Subgroup.zpowers x : Set G) =
       Subgroup.centralizer ({x} : Set G) := by

@@ -108,7 +108,7 @@ theorem ggR1E8_splitLie_tagged
     largeEvenMarking_mono (fun _ _ _ _ _ _ hP => ⟨hP.1.2.1, hP.1.2.2⟩) hL
   obtain ⟨⟨tag, _, n⟩, -, _, _, _, _, θ, -, -, hrow, hm⟩ := largeEvenMarking_exists_markedModel h
   obtain ⟨rfl, hpn⟩ : tag = .E8 ∧ p ∣ 2 ^ n - 1 := hrow
-  haveI : Finite (ggU .E8 0 n).K := by
+  have : Finite (ggU .E8 0 n).K := by
     have : Finite (Module.End (GaloisField 2 n)
         (CFSG.Blueprint.Chevalley.RootModule .E8 (GaloisField 2 n))) :=
       Module.finite_of_finite (GaloisField 2 n)

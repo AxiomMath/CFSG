@@ -109,8 +109,8 @@ theorem card_closure_pair_le_two_mul_card_zpowers {G : Type*} [Group G]
       Infinite.of_injective (fun p : P => (⟨p.1, hPK p.2⟩ : K)) (by
         intro x y h
         exact Subtype.ext (congrArg (fun z : K => (z : G)) h))
-    haveI := hPinf
-    haveI := hKinf
+    have := hPinf
+    have := hKinf
     simp [Nat.card_eq_zero_of_infinite]
 
 theorem card_closure_pair_le_eight {G : Type*} [Group G] {a b : G}
@@ -129,7 +129,7 @@ theorem exists_compl_or_forall_mem {H X : Type} [Group H] [Group X] [Finite H]
     (hconj : ∀ x : X, x * x = 1 → x ≠ 1 → ∃ a : X, a * t * a⁻¹ = x) :
     (∃ K : Subgroup H, W ⊓ K = ⊥ ∧ W ⊔ K = ⊤) ∨ ∀ h : H, h * h = 1 → h ∈ W := by
   classical
-  haveI : Finite X := Finite.of_surjective π hπ
+  have : Finite X := Finite.of_surjective π hπ
   have hconj_yt : t * y * t⁻¹ = y⁻¹ := by
     have ht_inv : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht
     have h1 : t * y * t = y⁻¹ := by
@@ -174,7 +174,7 @@ theorem exists_compl_or_forall_mem {H X : Type} [Group H] [Group X] [Finite H]
     have h := hw0uniq ⟨z, hzW⟩ (by simpa using hz1)
     exact congrArg Subtype.val h
   have hw2 : w * w = 1 := by
-    haveI : Finite W := Nat.finite_of_card_ne_zero (by rw [hW2]; norm_num)
+    have : Finite W := Nat.finite_of_card_ne_zero (by rw [hW2]; norm_num)
     have h := pow_card_eq_one' (x := w0)
     rw [hW2] at h
     have h' := congrArg Subtype.val h
@@ -328,8 +328,8 @@ theorem exists_compl_or_forall_mem {H X : Type} [Group H] [Group X] [Finite H]
           _ = π 1 := by rw [map_one]
           _ = hf 1 := rfl
       simpa using congrArg Subtype.val heq
-    haveI hWnormal : W.Normal := Subgroup.normal_of_le_center hWZ
-    haveI hWcomm : IsMulCommutative W :=
+    have hWnormal : W.Normal := Subgroup.normal_of_le_center hWZ
+    have hWcomm : IsMulCommutative W :=
       Subgroup.le_centralizer_iff_isMulCommutative.mp
         (hWZ.trans (Subgroup.center_le_centralizer _))
     have hWp : IsPGroup 2 W := IsPGroup.of_card (n := 1) (by rw [hW2]; norm_num)

@@ -132,7 +132,7 @@ theorem coprime_card_U_B (h : EqualParameterData G t s₀ d d₁ J p f F κ F' �
       R := (Subgroup.map_subtype_le _).trans hBR
   have hP'r : IsPGroup r (((P : Subgroup ((N t).map (C t).subtype)).map
       ((N t).map (C t).subtype).subtype).subgroupOf R) :=
-    (P.isPGroup'.map _).comap_subtype
+    (P.isPGroup.map _).comap_subtype
   obtain ⟨Y₀, hY₀⟩ := hP'r.exists_le_sylow
   have hY : IsSylowOf r ((Y₀ : Subgroup R).map R.subtype) R := ⟨Y₀, rfl⟩
   have hPY : (P : Subgroup ((N t).map (C t).subtype)).map ((N t).map (C t).subtype).subtype ≤

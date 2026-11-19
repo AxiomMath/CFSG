@@ -16,6 +16,7 @@ section Chart
 variable {G : Type} [Group G] [Finite G] {c : Bool} {T₂ P : Subgroup G} {x₁ x₂ t q s lam : G}
   {β : ℕ → G}
 
+omit [Finite G] in
 theorem fzb_chart_card (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β) (X : Subgroup G) :
     Nat.card {x : ℕ // x < 1024 ∧ β x ∈ X} = Nat.card ↥(T₂ ⊓ X) := by
   let f : {x : ℕ // x < 1024 ∧ β x ∈ X} → ↥(T₂ ⊓ X) :=
@@ -34,6 +35,7 @@ theorem fzb_chart_card (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β) (X : Sub
         exact hxβ
   exact Nat.card_congr (Equiv.ofBijective f hf)
 
+omit [Finite G] in
 theorem fzb_chart_comm (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β)
     (hlt : ∀ x < 1024, ∀ y < 1024, fzbMul c x y < 1024) {x y : ℕ} (hx : x < 1024)
     (hy : y < 1024) : fzbMul c x y = fzbMul c y x ↔ β x * β y = β y * β x := by
@@ -45,6 +47,7 @@ theorem fzb_chart_comm (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β)
   · intro h
     exact hβ.inj _ (hlt x hx y hy) _ (hlt y hy x hx) (by rw [hxy, hyx, h])
 
+omit [Finite G] in
 theorem fzb_chart_conj (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β)
     (hlt : ∀ x < 1024, ∀ y < 1024, fzbMul c x y < 1024) {g x y : ℕ} (hg : g < 1024)
     (hx : x < 1024) (hy : y < 1024) :
@@ -61,7 +64,7 @@ theorem fzb_chart_conj (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β)
   exact (mul_inv_eq_iff_eq_mul (a := β g * β x) (b := β g) (c := β y)).symm
 
 theorem fzb_subgroup_of_codes (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β)
-    (hlt : ∀ x < 1024, ∀ y < 1024, fzbMul c x y < 1024) {A : Finset ℕ} (h0 : 0 ∈ A)
+    (_hlt : ∀ x < 1024, ∀ y < 1024, fzbMul c x y < 1024) {A : Finset ℕ} (h0 : 0 ∈ A)
     (hA : ∀ x ∈ A, x < 1024) (hmul : ∀ x ∈ A, ∀ y ∈ A, fzbMul c x y ∈ A) :
     ∃ E : Subgroup G, E ≤ T₂ ∧ Nat.card E = A.card ∧ ∀ x < 1024, β x ∈ E ↔ x ∈ A := by
   let S : Set G := {g | ∃ x ∈ A, β x = g}
@@ -146,6 +149,7 @@ section Struct
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
   {T₂ P : Subgroup G} {q s : G}
 
+omit [Finite G] in
 theorem fzb_sylow_T2 (hS : FzbStruct t S x₁ x₂ lam rho tau T₂ P q s)
     (h2 : ¬ 2 ^ 11 ∣ Nat.card G) : FzSylow T₂ := by
   refine ⟨hS.isPGroup, ?_⟩

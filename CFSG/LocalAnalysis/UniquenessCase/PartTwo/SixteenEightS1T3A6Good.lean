@@ -67,16 +67,16 @@ theorem ThreeNat.exists_fixed_vector_alt_six
       norm_num at h1
     obtain ⟨w, hwI, hw1, hwfixT⟩ :=
       s15_Lin_exists_ne_one_mem_fixV hTp (fun w => by rw [pow_two]; exact h.elem w) hI₀ne hI₀T
-    letI : MulAction ↥(H) ↥I₀ :=
+    let : MulAction ↥(H) ↥I₀ :=
       { smul := fun l x => ⟨(l : MulAut (W)) (x : W),
             hI₀.2.2.1 l l.2 x x.2⟩
         one_smul := fun x => Subtype.ext rfl
         mul_smul := fun l m x => Subtype.ext rfl }
-    haveI : Fintype ↥I₀ := Fintype.ofFinite _
-    haveI : Fintype ↥(H) := Fintype.ofFinite _
-    haveI : Fintype (MulAction.orbit ↥(H) (⟨w, hwI⟩ : ↥I₀)) :=
+    have : Fintype ↥I₀ := Fintype.ofFinite _
+    have : Fintype ↥(H) := Fintype.ofFinite _
+    have : Fintype (MulAction.orbit ↥(H) (⟨w, hwI⟩ : ↥I₀)) :=
       Fintype.ofFinite _
-    haveI : Fintype (MulAction.stabilizer ↥(H) (⟨w, hwI⟩ : ↥I₀)) :=
+    have : Fintype (MulAction.stabilizer ↥(H) (⟨w, hwI⟩ : ↥I₀)) :=
       Fintype.ofFinite _
     have horbit : MulAction.orbit ↥(H) (⟨w, hwI⟩ : ↥I₀) =
         {x : ↥I₀ | x ≠ 1} := by
@@ -236,7 +236,7 @@ theorem ThreeNat.exists_fixed_vector_alt_six
       exact hHp.to_sup_of_normal_right' hKp hHK
     have hEcc : ¬ IsCyclic ↥E := by
       intro hcyc
-      haveI : IsCyclic ↥E := hcyc
+      have : IsCyclic ↥E := hcyc
       have hcE : c ∈ E := Subgroup.mem_sup_left (Subgroup.mem_zpowers c)
       have hκE : κ ∈ E := Subgroup.mem_sup_right (Subgroup.mem_zpowers κ)
       have hc3 : Nat.card ↥(Subgroup.zpowers (⟨c, hcE⟩ : ↥E)) = 3 := by
@@ -296,7 +296,7 @@ theorem ThreeNat.exists_fixed_vector_alt_six
     have hEp : IsPGroup 3 ↥E := hPp.map (H).subtype
     have hEc : ¬ IsCyclic ↥E := by
       intro hcyc
-      haveI : IsCyclic ↥E := hcyc
+      have : IsCyclic ↥E := hcyc
       exact hPnc (isCyclic_of_injective
         (Subgroup.equivMapOfInjective P (H).subtype
           (H).subtype_injective).toMonoidHom

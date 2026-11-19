@@ -33,7 +33,7 @@ theorem c8_e64_le_of_no_three {P : Type} [Group P] [Finite P] {N M : Subgroup P}
   obtain ⟨hsimp, hcardL⟩ :=
     CFSG.Quasithin.H13.U3.GC137.SQ.simple_card_of_lieModel_psl_three_two hL
   have hsurj : Function.Surjective (QuotientGroup.mk' N) := QuotientGroup.mk'_surjective N
-  haveI : (M.map (QuotientGroup.mk' N)).Normal := hM.map _ hsurj
+  have : (M.map (QuotientGroup.mk' N)).Normal := hM.map _ hsurj
   rcases hsimp.eq_bot_or_eq_top_of_normal (M.map (QuotientGroup.mk' N)) with hbot | htop
   · rw [Subgroup.map_eq_bot_iff] at hbot
     intro m hm
@@ -64,7 +64,7 @@ theorem c8_e64_eq_top {P : Type} [Group P] [Finite P] {N : Subgroup P} [N.Normal
     R = ⊤ := by
   obtain ⟨hsimp, hcardL⟩ :=
     CFSG.Quasithin.H13.U3.GC137.SQ.simple_card_of_lieModel_psl_three_two hL
-  haveI : R.Normal := hR
+  have : R.Normal := hR
   have hsurj : Function.Surjective (QuotientGroup.mk' N) := QuotientGroup.mk'_surjective N
   have h3dvd : 3 ∣ Nat.card (P ⧸ N) := by rw [hcardL]; norm_num
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 3 h3dvd
@@ -82,7 +82,7 @@ theorem c8_e64_eq_top {P : Type} [Group P] [Finite P] {N : Subgroup P} [N.Normal
     rw [h, orderOf_one] at hord
     norm_num at hord
   have hx0R : x ^ b ∈ R := h3 (x ^ b) ⟨e, hxb1⟩
-  haveI : (R.map (QuotientGroup.mk' N)).Normal := hR.map _ hsurj
+  have : (R.map (QuotientGroup.mk' N)).Normal := hR.map _ hsurj
   have hRtop : R.map (QuotientGroup.mk' N) = ⊤ := by
     rcases hsimp.eq_bot_or_eq_top_of_normal (R.map (QuotientGroup.mk' N)) with hbot | htop
     · rw [Subgroup.map_eq_bot_iff] at hbot

@@ -83,7 +83,7 @@ private theorem or_two_pow_of_testBit_false {x p : Nat} (h : x.testBit p = false
   obtain ⟨q, r, hrlt, rfl⟩ : ∃ q r, r < 2 ^ (p + 1) ∧ x = 2 ^ (p + 1) * q + r :=
     ⟨x / 2 ^ (p + 1), x % 2 ^ (p + 1), Nat.mod_lt _ (Nat.two_pow_pos _),
       (Nat.div_add_mod _ _).symm⟩
-  rw [Nat.testBit_two_pow_mul_add q hrlt p, if_pos (Nat.lt_succ_self p)] at h
+  rw [Nat.testBit_two_pow_mul_add q hrlt p, ite_eq_left (Nat.lt_succ_self p)] at h
   have hr : r < 2 ^ p := by
     rcases Nat.lt_or_ge r (2 ^ p) with hlt | hge
     · exact hlt
@@ -150,7 +150,7 @@ private theorem mem_lvRec (f : Nat → Bool) (n l : Nat) : l ∈ lvRec f n ↔ l
   | succ n ih =>
     rw [lvRec_succ]
     by_cases hf : f n = true
-    · rw [if_pos hf, List.mem_cons, ih]
+    · rw [ite_eq_left hf, List.mem_cons, ih]
       constructor
       · rintro (rfl | ⟨h1, h2⟩)
         · exact ⟨by omega, hf⟩
@@ -159,7 +159,7 @@ private theorem mem_lvRec (f : Nat → Bool) (n l : Nat) : l ∈ lvRec f n ↔ l
         by_cases hl : l = n
         · exact Or.inl hl
         · exact Or.inr ⟨by omega, h2⟩
-    · rw [if_neg hf, ih]
+    · rw [ite_eq_right hf, ih]
       constructor
       · rintro ⟨h1, h2⟩
         exact ⟨by omega, h2⟩
@@ -233,7 +233,7 @@ private theorem fmtR_cons (c : Nat) (cs : List Nat) (st : Nat) :
   by_cases h32 : c = 32
   · simp [h32, beq_eq_false_iff']
   · by_cases h45 : c = 45
-    · simp [h32, h45]
+    · simp [h45]
     · simp [h32, h45]
 
 private theorem intsR_nil (cur : Nat) (ng : Bool) :
@@ -295,7 +295,7 @@ private theorem pre_no32 (ng : Bool) (ds : List Nat) (hds : ∀ c ∈ ds, 48 ≤
   cases ng
   · have := hds 32 (by simpa [pre] using h)
     omega
-  · simp only [pre, if_true, List.singleton_append, List.mem_cons] at h
+  · simp only [pre, ite_true, List.singleton_append, List.mem_cons] at h
     rcases h with h | h
     · omega
     · have := hds 32 h
@@ -353,10 +353,10 @@ private theorem endTok (ng : Bool) (ds : List Nat) (hds : ∀ c ∈ ds, 48 ≤ c
       rw [tok_eq, tokVal_pre ng ds hds, hcur1]
     have hbne : (pre ng ds != []) = true := by simpa using hne
     constructor
-    · rw [List.filter_cons, if_pos hbne, List.map_cons, if_neg hcur, htok]
+    · rw [List.filter_cons, ite_eq_left hbne, List.map_cons, ite_eq_right hcur, htok]
       rfl
     · intro l hl
-      rw [List.filter_cons, if_pos hbne] at hl
+      rw [List.filter_cons, ite_eq_left hbne] at hl
       rcases List.mem_cons.1 hl with rfl | hl'
       · exact Or.inr (isTok_pre ng ds hds hd)
       · exact Or.inl hl'
@@ -450,6 +450,7 @@ end T46Pk
 
 open T46Pk
 
+set_option exponentiation.threshold 8316 in
 theorem ptsK_spec {UL : List Nat} {UP : Nat} (h : ptsK UL UP = true) :
     UL.length = 693 ∧ UP < 2 ^ (12 * 693) ∧ (∀ i < 693, fd 12 UP i = UL.getD i 0) ∧
       (∀ i < 692, UL.getD i 0 < UL.getD (i + 1) 0) ∧
@@ -490,7 +491,7 @@ theorem gensOK_spec {UL : List Nat} {UP : Nat} {GP : List Nat}
   refine ⟨h0.1, h0.2.1, fun k hk => ?_⟩
   have hk' := h k hk
   unfold gensOK at hk'
-  simp only [andB_eq, letB_eq, impB_eq, Bool.and_eq_true, allN_lqt_iff, Nat.blt_eq, nthN_eq] at hk'
+  simp only [andB_eq, letB_eq, impB_eq, Bool.and_eq_true, allN_lqt_iff, nthN_eq] at hk'
   have h2 := hk'.2.2 0 (by decide)
   have hb : Nat.blt k 46 = true := Nat.blt_eq.mpr hk
   simp [hb] at h2
@@ -612,7 +613,7 @@ theorem tvWordsK_spec {GP : List Nat} {xw yw : List Int} {TW : List (List Nat)}
   refine ⟨h0.1, fun k hk => ?_⟩
   have hk' := h k hk
   unfold tvWordsK at hk'
-  simp only [andB_eq, letB_eq, impB_eq, Bool.and_eq_true, allN_lqt_iff, Nat.blt_eq, Nat.beq_eq,
+  simp only [andB_eq, letB_eq, impB_eq, Bool.and_eq_true, allN_lqt_iff, Nat.beq_eq,
     nthN_eq, nthL_eq] at hk'
   have h2 := hk'.2 0 (by decide)
   have hb : Nat.blt k 46 = true := Nat.blt_eq.mpr hk

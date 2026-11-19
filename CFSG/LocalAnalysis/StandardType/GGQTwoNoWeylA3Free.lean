@@ -16,8 +16,8 @@ theorem ggQTwoNoWeylA3_of_free (h : GGQTwoNoWeylA3Free) : GGQTwoNoWeylA3 := by
   intro G _ _ p B Bs x L D J hS _ y K hnb M hcard4
   have hcfg : GGConfig p B Bs x L D J := hS.1.1
   obtain ⟨hpprime, -, -, -, h4card⟩ := hcfg.tableB_facts
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
-  haveI : Module.Finite (ZMod p) M.V := Module.Finite.of_finite
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Module.Finite (ZMod p) M.V := Module.Finite.of_finite
   have hcardV : Nat.card M.V = p ^ Module.finrank (ZMod p) M.V := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod p) (V := M.V), Nat.card_zmod]
   have hcardM : Nat.card M.V = Nat.card ↥Bs := by

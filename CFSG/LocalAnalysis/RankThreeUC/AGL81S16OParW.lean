@@ -27,20 +27,20 @@ theorem exists_gl_isometry_pair {F : Type} [Field F] [Finite F] [CharP F 2] {b c
     intro s t hst
     have h0 := congrFun hst (Sum.inl idx0)
     have h1 := congrFun hst (Sum.inl idx1)
-    simp [Pi.single_apply, hne, hne.symm] at h0 h1
+    simp at h0 h1
     exact ⟨h0, h1⟩
   have hee : ∀ i j : Fin (3 - 1), polar (quadMinus 3 F b c) (eV F i) (eV F j) = 0 := by
     intro i j
     rw [polar_e_right]
-    simp [Pi.single_apply]
+    simp
   obtain ⟨g₀, hg₀, hgu⟩ := CFSG.RankThree.OrthogonalInvolutions.exists_mem_orthogonalGroup_apply_eq
     hQn (k := 2) ![eV F idx0, eV F idx1] ![w, u] hli0 hli
     (by
-      simp only [Fin.forall_fin_two, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      simp only [Fin.forall_fin_two, Matrix.cons_val_zero, Matrix.cons_val_one]
       rw [hw, hu, quad_eV, quad_eV]
       exact ⟨rfl, rfl⟩)
     (by
-      simp only [Fin.forall_fin_two, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      simp only [Fin.forall_fin_two, Matrix.cons_val_zero, Matrix.cons_val_one]
       refine ⟨⟨?_, ?_⟩, ?_, ?_⟩
       · rw [polar_self_eq_two_mul, polar_self_eq_two_mul, hw, quad_eV, mul_zero]
       · rw [hwu, hee]
@@ -61,7 +61,7 @@ theorem exists_gl_isometry_pair {F : Type} [Field F] [Finite F] [CharP F 2] {b c
   exact hg₀
 
 theorem O6NatData.exists_lift_stab_plane (d : O6NatData G n L V) [CharP d.F 2] (hp : p.Prime)
-    (hpq : p ∣ 2 ^ n + 1) (hn : 1 ≤ n) (hLM : L ≤ M) (Y : Submodule d.F (OW d.F))
+    (hpq : p ∣ 2 ^ n + 1) (hn : 1 ≤ n) (_hLM : L ≤ M) (Y : Submodule d.F (OW d.F))
     (hY2 : Module.finrank d.F Y = 2)
     (hYs : ∀ y ∈ Y, StatedQuadMinus 3 d.F d.b d.c y = 0) :
     ∃ P : Subgroup G, P ≤ L ∧ 2 ≤ CFSG.Open.pRank p P ∧ ∀ x ∈ P, ∃ hx : x ∈ L, ∀ y ∈ Y,

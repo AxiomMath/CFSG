@@ -161,10 +161,10 @@ theorem exists_line {y : ↥trialityGroup8} (hy : y ∈ Subgroup.zpowers hD ⊔ 
   generalize b % 7 = b' at hb ⊢
   rcases Nat.eq_zero_or_pos a' with rfl | ha0
   · refine ⟨7, b', ?_⟩
-    rw [pow_zero, one_mul, qD, if_neg (by decide)]
+    rw [pow_zero, one_mul, qD, ite_eq_right (by decide)]
   · have hc : b' * a' ^ 5 % 7 < 7 := Nat.mod_lt _ (by norm_num)
     refine ⟨⟨b' * a' ^ 5 % 7, by omega⟩, a', ?_⟩
-    rw [qD, if_pos hc, ((show Commute hD zD from hD_mul_zD).pow_right _).mul_pow, ← pow_mul]
+    rw [qD, ite_eq_left hc, ((show Commute hD zD from hD_mul_zD).pow_right _).mul_pow, ← pow_mul]
     congr 1
     rw [pow_eq_pow_mod (_ * a') zD_pow_seven]
     show zD ^ b' = zD ^ ((b' * a' ^ 5 % 7 * a') % 7)

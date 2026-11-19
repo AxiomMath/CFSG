@@ -18,7 +18,7 @@ variable {W : Type} [CommGroup W] [Finite W] {G X D : Subgroup (MulAut W)} {s : 
 
 private theorem w1369_commutator_eq_self_of_isQuasisimple {B : Type*} [Group B]
     {K : Subgroup B} (hq : CFSG.Open.IsQuasisimple K) : ⁅K, K⁆ = K := by
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   exact Subgroup.commutator_eq_self
 
 private theorem w1369_commSub_invariant_of_normalizes {V : Type*} [CommGroup V]
@@ -185,11 +185,11 @@ theorem Std139.lemmaG (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n) (hn 
   classical
   have hKperf : ⁅K, K⁆ = K := w1369_commutator_eq_self_of_isQuasisimple hK.2.2
   have hKX : ∀ k ∈ K, ∀ x ∈ X, k * x = x * k := Std139.component_commutes_X S hK
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
-  haveI : Nontrivial ↥K := (QuotientGroup.mk'_surjective (Subgroup.center ↥K)).nontrivial
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
+  have : Nontrivial ↥K := (QuotientGroup.mk'_surjective (Subgroup.center ↥K)).nontrivial
   have hKne : K ≠ ⊥ := by
     intro hbot
-    haveI : Subsingleton ↥K := by rw [hbot]; infer_instance
+    have : Subsingleton ↥K := by rw [hbot]; infer_instance
     exact false_of_nontrivial_of_subsingleton ↥K
   have hs2 : s * s = 1 := by
     have h : s ^ 2 = 1 := by rw [← S.s2]; exact pow_orderOf_eq_one s
@@ -249,7 +249,7 @@ theorem Std139.lemmaG (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n) (hn 
   have hUX : StableUnder X U :=
     CFSG.Quasithin.B1.commSub_invariant_of_commute (Y := K) (B := X) (M := ⊤)
       (fun y hy b hb => hKX y hy b hb) (fun b _ m _ => Subgroup.mem_top m)
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hXrank : IsElemAbelianOfRank 3 1 ↥X :=
     ⟨mulEquivOfPrimeCardEq S.Xcard (by simp [Nat.card_eq_fintype_card])⟩
   have hinvX : ∀ y ∈ X, s * y * s⁻¹ = y⁻¹ := by

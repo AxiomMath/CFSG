@@ -99,7 +99,7 @@ theorem not_dvd_card_scalars_suGroup {m n r : ℕ} (hr : r.Prime) (hrm : m < r) 
 theorem rankLE1_projSU_three_of_ne {n r : ℕ} (hn : 1 ≤ n) (hr : r.Prime) (hr7 : 7 ≤ r)
     (h1 : ((2 ^ n : ℕ) : ZMod r) ≠ 1) (h2 : ((2 ^ n : ℕ) : ZMod r) ≠ -1) :
     RankLE1 r (projSU 3 2 n) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set K := GaloisField 2 (2 * n)
   have hr2 : r ≠ 2 := by omega
   have hrK : (r : K) ≠ 0 := natCast_ne_zero_galoisField hr hr2
@@ -119,7 +119,7 @@ theorem rankLE1_projSU_three_of_ne {n r : ℕ} (hn : 1 ≤ n) (hr : r.Prime) (hr
 theorem rankLE1_projSU_four_of_ne {n r : ℕ} (hn : 1 ≤ n) (hr : r.Prime) (hr7 : 7 ≤ r)
     (h1 : ((2 ^ n : ℕ) : ZMod r) ≠ 1) (h2 : ((2 ^ n : ℕ) : ZMod r) ≠ -1)
     (h4 : ((2 ^ n : ℕ) : ZMod r) ^ 2 ≠ -1) : RankLE1 r (projSU 4 2 n) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set K := GaloisField 2 (2 * n)
   have hr2 : r ≠ 2 := by omega
   have hrK : (r : K) ≠ 0 := natCast_ne_zero_galoisField hr hr2

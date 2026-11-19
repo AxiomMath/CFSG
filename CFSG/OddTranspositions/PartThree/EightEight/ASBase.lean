@@ -25,6 +25,7 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
   ∃ d ∈ DalphaStar D hC.alpha, ∃ m ∈ (CFSG.solvableRadical (Halpha D hC.alpha)).map
     (Halpha D hC.alpha).subtype, z = d * m
 
+omit [Finite G] in
 theorem starZbarMem_iff (hC : HypothesisC D) {z : G} (hz : z ∈ Halpha D hC.alpha) :
     StarZbarMem hC z ↔
       QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) ⟨z, hz⟩ ∈ imageClass hC := by
@@ -55,6 +56,7 @@ theorem starZbarMem_iff (hC : HypothesisC D) {z : G} (hz : z ∈ Halpha D hC.alp
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       group
 
+omit [Finite G] in
 theorem almostSimpleCase_conj_iff (hC : HypothesisC D) (g : G) :
     AlmostSimpleCase (Halpha D (hC.conj g).alpha ⧸
         CFSG.solvableRadical (Halpha D (hC.conj g).alpha)) (imageClass (hC.conj g)) ↔
@@ -92,6 +94,7 @@ theorem almostSimpleCase_conj_iff (hC : HypothesisC D) (g : G) :
     AlmostSimpleCase (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))
       (imageClass hC)
 
+omit [Finite G] in
 theorem StandingAS.conj {hC : HypothesisC D} (h : StandingAS hC) (g : G) :
     StandingAS (hC.conj g) := by
   obtain ⟨hrad, h3, hns, hF, hO4, hne, hAS⟩ := h

@@ -34,15 +34,15 @@ theorem dNeg_apply_vec (m : ℕ) (a : Fin m) (v : DVec m) :
     rw [Module.reflection_apply, dNeg_basis]
     by_cases h : i = a
     · subst h
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simp only [LinearMap.smul_apply, LinearMap.proj_apply, smul_eq_mul, dBasis,
         Pi.basisFun_apply, Pi.single_eq_same, mul_one]
       module
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have hf : ((2 : ZMod 3) • (LinearMap.proj a : DVec m →ₗ[ZMod 3] ZMod 3))
           (dBasis m i) = 0 := by
         simp [LinearMap.smul_apply, LinearMap.proj_apply, smul_eq_mul, dBasis,
-          Pi.basisFun_apply, Pi.single_apply, if_neg (Ne.symm h)]
+          Pi.basisFun_apply, Pi.single_apply, ite_eq_right (Ne.symm h)]
       rw [hf, zero_smul, sub_zero, one_smul]
   rw [hrefl, Module.reflection_apply]
   simp only [LinearMap.smul_apply, LinearMap.proj_apply, smul_eq_mul]
@@ -121,16 +121,15 @@ theorem ggLin_tauIota_basis_iff (a : MulAut ↥Bs) (σ : Equiv.Perm (Fin (n + 1)
     by_cases hj : j = σ i
     · subst hj
       rw [hv (dBasis (n + 1) i) i]
-      simp only [dBasis, Pi.basisFun_apply, Pi.single_apply, Pi.smul_apply, smul_eq_mul,
-        if_pos rfl]
+      simp only [dBasis, Pi.basisFun_apply, Pi.single_apply, Pi.smul_apply, smul_eq_mul]
     · have h0 := hv (dBasis (n + 1) i) (σ.symm j)
       rw [Equiv.apply_symm_apply] at h0
       rw [h0]
       have hne : i ≠ σ.symm j := fun hc => hj (by rw [hc, Equiv.apply_symm_apply])
       have hL : (dBasis (n + 1) i) (σ.symm j) = 0 := by
-        rw [dBasis, Pi.basisFun_apply, Pi.single_apply, if_neg (Ne.symm hne)]
+        rw [dBasis, Pi.basisFun_apply, Pi.single_apply, ite_eq_right (Ne.symm hne)]
       have hR : (c i • dBasis (n + 1) (σ i)) j = 0 := by
-        rw [Pi.smul_apply, dBasis, Pi.basisFun_apply, Pi.single_apply, if_neg hj, smul_zero]
+        rw [Pi.smul_apply, dBasis, Pi.basisFun_apply, Pi.single_apply, ite_eq_right hj, smul_zero]
       rw [hL, hR, mul_zero]
   · intro hb v i
     have hv : v = ∑ k, v k • dBasis (n + 1) k := by
@@ -142,9 +141,9 @@ theorem ggLin_tauIota_basis_iff (a : MulAut ↥Bs) (σ : Equiv.Perm (Fin (n + 1)
     rw [Finset.sum_eq_single i
       (fun k _ hki => by
         rw [dBasis, Pi.basisFun_apply, Pi.single_apply,
-          if_neg (Ne.symm (fun hc => hki (σ.injective hc))), mul_zero, mul_zero])
+          ite_eq_right (Ne.symm (fun hc => hki (σ.injective hc))), mul_zero, mul_zero])
       (fun hi => absurd (Finset.mem_univ i) hi)]
-    rw [dBasis, Pi.basisFun_apply, Pi.single_apply, if_pos rfl, mul_one]
+    rw [dBasis, Pi.basisFun_apply, Pi.single_apply, ite_eq_left rfl, mul_one]
     ring
 
 theorem ggLinInv_mem_automizer_d {X : Subgroup G} (hmod : HdRo7D.DCoordModel 3 Bs X n τ)
@@ -180,17 +179,17 @@ theorem ggLinInv_dTau_mem_automizer_d {X : Subgroup G} (hmod : HdRo7D.DCoordMode
     (P := dTau (n + 1) ε a b) (σ := Equiv.swap a b)
     (c := fun i => if i = a ∨ i = b then dSgn ε else 1)
     (Equiv.swap_apply_of_ne_of_ne ha0 hb0) ?_ ?_ ?_ (dTau_basis (n + 1) ε hab)
-  · rw [if_neg (fun h => h.elim ha0 hb0)]
+  · rw [ite_eq_right (fun h => h.elim ha0 hb0)]
   · intro i
     by_cases h : i = a ∨ i = b
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       cases ε <;> simp [dSgn]
-    · rw [if_neg h]; exact Or.inl rfl
+    · rw [ite_eq_right h]; exact Or.inl rfl
   · rw [Finset.prod_eq_mul_of_mem a b (Finset.mem_univ a) (Finset.mem_univ b) hab]
-    · rw [if_pos (Or.inl rfl), if_pos (Or.inr rfl)]
+    · rw [ite_eq_left (Or.inl rfl), ite_eq_left (Or.inr rfl)]
       cases ε <;> decide
     · intro k _ hk
-      rw [if_neg (fun h => h.elim hk.1 hk.2)]
+      rw [ite_eq_right (fun h => h.elim hk.1 hk.2)]
 
 theorem ggLinInv_dTau_mem_automizer_c2 {X : Subgroup G} (hmod : HdRo7C.C2CoordModel 3 Bs X n τ)
     (ε : Bool) {a b : Fin (n + 1)} (ha : 0 < a.val) (hb : 0 < b.val) (hab : a ≠ b) :
@@ -207,12 +206,12 @@ theorem ggLinInv_dTau_mem_automizer_c2 {X : Subgroup G} (hmod : HdRo7C.C2CoordMo
     (P := dTau (n + 1) ε a b) (σ := Equiv.swap a b)
     (c := fun i => if i = a ∨ i = b then dSgn ε else 1)
     (Equiv.swap_apply_of_ne_of_ne ha0 hb0) ?_ ?_ (dTau_basis (n + 1) ε hab)
-  · rw [if_neg (fun h => h.elim ha0 hb0)]
+  · rw [ite_eq_right (fun h => h.elim ha0 hb0)]
   · intro i
     by_cases h : i = a ∨ i = b
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       cases ε <;> simp [dSgn]
-    · rw [if_neg h]; exact Or.inl rfl
+    · rw [ite_eq_right h]; exact Or.inl rfl
 
 theorem ggLinInv_dNeg_mem_automizer_c2 {X : Subgroup G} (hmod : HdRo7C.C2CoordModel 3 Bs X n τ)
     {a : Fin (n + 1)} (ha : 0 < a.val) :
@@ -224,11 +223,11 @@ theorem ggLinInv_dNeg_mem_automizer_c2 {X : Subgroup G} (hmod : HdRo7C.C2CoordMo
   refine ggLinInv_mem_automizer_c2 (n := n) (τ := τ) (X := X) (hmod := hmod)
     (P := dNeg (n + 1) a) (σ := 1) (c := fun i => if i = a then -1 else 1)
     rfl ?_ ?_ (dNeg_basis (n + 1) a)
-  · rw [if_neg ha0]
+  · rw [ite_eq_right ha0]
   · intro i
     by_cases h : i = a
-    · rw [if_pos h]; exact Or.inr rfl
-    · rw [if_neg h]; exact Or.inl rfl
+    · rw [ite_eq_left h]; exact Or.inr rfl
+    · rw [ite_eq_right h]; exact Or.inl rfl
 
 theorem ggIsReflection_ggLinInv_dTau (ε : Bool) {a b : Fin (n + 1)} (hab : a ≠ b) :
     GGIsReflection 3 (ggLinInv (p := 3) (tauIota τ) (dTau (n + 1) ε a b)) := by
@@ -265,12 +264,12 @@ theorem not_pow_two_or_three_dNeg_mul_dTau {a b : Fin (n + 1)} (hab : a ≠ b) :
     rw [map_mul, hφ, hψ, ggLin_ggLinInv, ggLin_ggLinInv, hTdef]
   have hTa : T (dBasis (n + 1) a) = dBasis (n + 1) b := by
     rw [hTdef, LinearEquiv.mul_apply, dTau_apply_left (n + 1) false hab,
-      if_neg (by decide : ¬ (false = true)), one_smul,
-      dNeg_basis, if_neg (Ne.symm hab), one_smul]
+      ite_eq_right (by decide : ¬ (false = true)), one_smul,
+      dNeg_basis, ite_eq_right (Ne.symm hab), one_smul]
   have hTb : T (dBasis (n + 1) b) = -dBasis (n + 1) a := by
     rw [hTdef, LinearEquiv.mul_apply, dTau_apply_right (n + 1) false hab,
-      if_neg (by decide : ¬ (false = true)), one_smul,
-      dNeg_basis, if_pos rfl, neg_one_smul]
+      ite_eq_right (by decide : ¬ (false = true)), one_smul,
+      dNeg_basis, ite_eq_left rfl, neg_one_smul]
   have hT2 : (T ^ 2) (dBasis (n + 1) a) = -dBasis (n + 1) a := by
     rw [pow_two, LinearEquiv.mul_apply, hTa, hTb]
   have hT3 : (T ^ 3) (dBasis (n + 1) a) = -dBasis (n + 1) b := by
@@ -280,13 +279,12 @@ theorem not_pow_two_or_three_dNeg_mul_dTau {a b : Fin (n + 1)} (hab : a ≠ b) :
   have hne_a : -dBasis (n + 1) a ≠ dBasis (n + 1) a := by
     intro heq
     have hc := congrFun heq a
-    simp only [Pi.neg_apply, dBasis, Pi.basisFun_apply, Pi.single_apply, if_pos rfl] at hc
+    simp only [Pi.neg_apply, dBasis, Pi.basisFun_apply, Pi.single_apply] at hc
     exact (by decide : (-1 : ZMod 3) ≠ 1) hc
   have hne_b : -dBasis (n + 1) b ≠ dBasis (n + 1) a := by
     intro heq
     have hc := congrFun heq a
-    simp only [Pi.neg_apply, dBasis, Pi.basisFun_apply, Pi.single_apply, if_neg hab,
-      if_pos rfl] at hc
+    simp only [Pi.neg_apply, dBasis, Pi.basisFun_apply, Pi.single_apply, ite_eq_right hab] at hc
     exact (by decide : (0 : ZMod 3) ≠ 1) hc
   have hTpow : T ^ 2 = 1 ∨ T ^ 3 = 1 := by
     rcases h with h2 | h3

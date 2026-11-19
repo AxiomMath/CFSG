@@ -225,13 +225,13 @@ theorem triangulable_ndGraph_of_cycleTrivial (hσ : IsUnitaryInvolution σ)
         ((Walk.cons hST .nil).append (connector T)) := by
     intro S T hST
     rcases hST with hlt | hgt
-    · simpa only [reduce, dif_pos hlt] using hedge_forward hlt
+    · simpa only [reduce, dite_eq_left hlt] using hedge_forward hlt
     · have hn : ¬ S.1 < T.1 := not_lt_of_gt hgt
       have hr := substituteWalk_reverse_homotopic i (ndExpand (by omega))
         (homotopic_ndExpand_append_symm (by omega)) (reduce_aux hgt)
       have hr' := hr.append_left (connector S)
       have hb := homotopic_reverse_connector (hedge_forward hgt)
-      apply Homotopic.trans (by simpa only [reduce, dif_neg hn] using hr')
+      apply Homotopic.trans (by simpa only [reduce, dite_eq_right hn] using hr')
       exact hb
   exact triangulable_of_cycleTrivial_liftNull i r (ndExpand (by omega)) reduce connector
     (homotopic_ndExpand_append_symm (by omega)) hedge h

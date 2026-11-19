@@ -26,7 +26,7 @@ private theorem map_subtype_eq_of_normalClosure_le {Y : Type*} [Group Y] {X K : 
     {E : Subgroup ↥X} (hN : (E.map X.subtype).Normal)
     (hXK : X = Subgroup.normalClosure (K : Set Y)) (hK : K ≤ E.map X.subtype) :
     E.map X.subtype = X := by
-  haveI : (E.map X.subtype).Normal := hN
+  have : (E.map X.subtype).Normal := hN
   refine le_antisymm (Subgroup.map_subtype_le E) ?_
   calc X = Subgroup.normalClosure (K : Set Y) := hXK
     _ ≤ E.map X.subtype := Subgroup.normalClosure_le_normal fun s hs => hK hs
@@ -35,8 +35,8 @@ theorem isSimpleGroup_of_normalClosure (hSch : CFSG.AGLEmbedding.KFactCatalogSch
     {Y : Type} [Group Y] [Finite Y] (hY : CFSG.Open.IsKGroup Y) (hO : CFSG.pPrimeCore 3 Y = ⊥)
     {X K : Subgroup Y} (hX3 : Open.pRank 3 X ≤ 1) (hXK : X = normalClosure (K : Set Y))
     (hK : ⁅K, K⁆ = K) (hK1 : K ≠ ⊥) : IsSimpleGroup X ∧ ∃ a b : X, a * b ≠ b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : X.Normal := by rw [hXK]; infer_instance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : X.Normal := by rw [hXK]; infer_instance
   have hKX : K ≤ X := by rw [hXK]; exact Subgroup.le_normalClosure
   set K' : Subgroup ↥X := K.subgroupOf X with hK'def
   have hK'perf : ⁅K', K'⁆ = K' := by
@@ -53,15 +53,15 @@ theorem isSimpleGroup_of_normalClosure (hSch : CFSG.AGLEmbedding.KFactCatalogSch
     exact hX3
   have hns : ¬ Group.IsSolvable ↥X := by
     intro hsol
-    haveI : Group.IsSolvable ↥X := hsol
+    have : Group.IsSolvable ↥X := hsol
     exact CFSG.LocalAnalysis.GLTheoremA.Y10GField.solvable_no_perfect
       (C := ⊤) (Q := K') inferInstance le_top hK'perf hK'ne
   obtain ⟨E, hEcomp, hFE, hEsimp, hEnab, hEcen⟩ :=
     CFSG.LocalAnalysis.WeakClosure81.exists_generalizedFitting_eq_isComponent hO' hX3' hns
   obtain ⟨hEchar, hEnorm⟩ :=
     hFE ▸ CFSG.LocalCores.generalized_fitting_characteristic (G := ↥X)
-  haveI : E.Characteristic := hEchar
-  haveI : E.Normal := hEnorm
+  have : E.Characteristic := hEchar
+  have : E.Normal := hEnorm
   have hout : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥E) :=
     CFSG.LocalAnalysis.GLTheoremB.outer_solvable_of_component hSch (hY.subgroup X)
       ((CFSG.isComponent_iff_open E).mp hEcomp)

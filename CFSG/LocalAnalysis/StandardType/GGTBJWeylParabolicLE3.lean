@@ -105,7 +105,7 @@ theorem ggTBJWeylParabolicLE3 {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.
     (hpair : ∀ i j, α i (h j) = (C i j : ZMod p))
     {f : M.Group ≃* ↥(ggAutomizer X Bs)} (hf : ∀ i, (f (M.simple i) : MulAut ↥Bs) = φ i)
     (hclos : ggAutomizer X Bs = Subgroup.closure (Set.range φ))
-    (T : Finset Λ) (hT1 : 1 ≤ T.card) (hT3 : T.card ≤ 3)
+    (T : Finset Λ) (_hT1 : 1 ≤ T.card) (hT3 : T.card ≤ 3)
     (hJ : ggAutomizer J Bs =
       Subgroup.closure (Set.range fun j : {j : Λ // j ∉ T} => φ j.1))
     (hWMJ : GGIsWeylMatrix (parMatrix M {j : Λ | j ∉ T}))

@@ -56,7 +56,7 @@ theorem exists_involution_commutator_K :
   obtain ⟨e⟩ := Qgrp_equiv h hn hnz
   let q0 : ↥(Qgrp h n) := e.symm (1, a)
   have heq0 : e q0 = (1, a) := e.apply_symm_apply (1, a)
-  haveI : IsMulCommutative (Multiplicative (ZMod 2)) :=
+  have : IsMulCommutative (Multiplicative (ZMod 2)) :=
     IsMulCommutative.of_comm (fun a b => mul_comm a b)
   have hcommZ2 : commutator (Multiplicative (ZMod 2)) = ⊥ :=
     commutator_eq_bot (Multiplicative (ZMod 2))

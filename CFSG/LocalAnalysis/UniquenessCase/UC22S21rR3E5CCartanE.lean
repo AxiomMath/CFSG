@@ -28,7 +28,7 @@ theorem uc22r3e5c_barImage_beta_eq_prod {D : Data G}
       (Subgroup.normalizer (barImage L (D.T ⊓ L) : Set (Bar2 L))).prod
         (Subgroup.normalizer (barImage K (D.T ⊓ K) : Set (Bar2 K))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : Subgroup G := conjClosure D.M L
   let P : Subgroup G := D.T ⊓ X
   let Bc : Subgroup G := X ⊓ normalizer (P : Set G)

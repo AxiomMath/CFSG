@@ -101,7 +101,7 @@ theorem ggHasLabel_D41_of_isD42 {X : Type} [Group X]
       CFSG.HardMathSupport.Dickson.Sec6.IsD42Index) :
     GGHasLabel ⟨.D, 4, 1⟩ X := by
   obtain ⟨hs, hnab⟩ := CFSG.HardMathSupport.Dickson.Sec6.isSimpleGroup_of_isD42Type h
-  haveI := hs
+  have := hs
   obtain ⟨lab, -, htag, hrank, -, hdeg, hraw⟩ := exists_label_rawDatum_of_lieModel
     (CFSG.HardMathSupport.Dickson.Sec6.center_eq_bot_of_isSimpleGroup_noncomm hnab)
     (CFSG.HardMathSupport.Dickson.Sec6.lieModel_of_isD42 h)
@@ -109,7 +109,7 @@ theorem ggHasLabel_D41_of_isD42 {X : Type} [Group X]
     clear hraw
     rcases lab with ⟨tag, rank, n⟩
     cases tag <;> simp_all [markTag, markRank, markDeg]
-    all_goals split_ifs at htag hrank <;> simp_all
+    all_goals split_ifs at htag hrank
   subst hlab
   exact hraw
 
@@ -132,13 +132,13 @@ theorem rawMarking_conj {S : Type} [Group S] [Finite S]
     LargeEvenRawDatum lab fun R _ I _ =>
       ∃ θ : S ⧸ Subgroup.center S ≃* R, ∃ β ∈ I,
         LargeEvenInduces θ (fun a b => b = MulAut.conj x a) β := by
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center S = ⊥ :=
     CFSG.HardMathSupport.Dickson.Sec6.center_eq_bot_of_isSimpleGroup_noncomm hnab
   apply largeEvenRawDatum_mono _
     (ggRawInnFieldInput_holds 3 Nat.prime_three (by decide) lab hΛ _ hraw)
   rintro R _ I F ⟨⟨eR⟩, hI⟩
-  haveI : IsSimpleGroup R := eR.symm.isSimpleGroup
+  have : IsSimpleGroup R := eR.symm.isSimpleGroup
   have hnabR : ∃ a b : R, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨eR a, eR b, fun h => hab (eR.injective (by rw [map_mul, map_mul, h]))⟩
@@ -191,7 +191,7 @@ theorem exc_field_two {S : Type} [Group S] [Finite S]
     (hD : GGHasLabel ⟨.D, 4, 1⟩ (↥K ⧸ Subgroup.center ↥K)) :
     f = 1 ∧ LargeEvenInLambda2 ⟨tag, 0, 1⟩ ∧
       LargeEvenRawDatum ⟨tag, 0, 1⟩ fun R _ _ _ => Nonempty (S ≃* R) := by
-  haveI := hs
+  have := hs
   obtain ⟨lab, hΛ, htag, -, -, hdeg, hraw⟩ := exists_label_rawDatum_of_lieModel
     (CFSG.HardMathSupport.Dickson.Sec6.center_eq_bot_of_isSimpleGroup_noncomm hnab) hm
   have htag' : tag = .E6 ∨ tag = .twE6 ∨ tag = .E7 ∨ tag = .E8 ∨ tag = .F4 := by

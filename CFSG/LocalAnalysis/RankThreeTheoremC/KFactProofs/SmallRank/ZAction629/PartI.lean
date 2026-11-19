@@ -14,11 +14,13 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K] {p d : ℕ} {S : Subgroup K} {z t : K}
 
-theorem Setup.S_le_normalizer (h : Setup p d S z t) :
+omit [Finite K] in
+theorem Setup.S_le_normalizer (_h : Setup p d S z t) :
     S ≤ normalizer ((RR S z : Subgroup K) : Set K) :=
   Subgroup.normalizer_commutator_ge_right _ _
 
-theorem Setup.zpowers_le_normalizer (h : Setup p d S z t) :
+omit [Finite K] in
+theorem Setup.zpowers_le_normalizer (_h : Setup p d S z t) :
     zpowers z ≤ normalizer ((RR S z : Subgroup K) : Set K) :=
   Subgroup.normalizer_commutator_ge_left _ _
 end
@@ -30,6 +32,7 @@ open scoped commutatorElement
 variable {K : Type} [Group K] [Finite K]
 variable {p d : ℕ} {S : Subgroup K} {z t : K}
 
+omit [Finite K] in
 theorem setupBasic_mem_zpowers_involution {u x : K} (hu2 : u ^ 2 = 1) (hx : x ∈ zpowers u) :
     x = 1 ∨ x = u := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
@@ -41,6 +44,7 @@ theorem setupBasic_mem_zpowers_involution {u x : K} (hu2 : u ^ 2 = 1) (hx : x �
     rw [hm, zpow_add_one, zpow_mul]
     simp [hu2]
 
+omit [Finite K] in
 theorem setupBasic_conj_t (h : Setup p d S z t) {g : K}
     (hg : g ∈ normalizer ((RR S z : Subgroup K) : Set K)) : g * t = t * g := by
   have hrR : g * t * g⁻¹ ∈ RR S z :=
@@ -65,6 +69,7 @@ theorem setupBasic_conj_t (h : Setup p d S z t) {g : K}
   · calc g * t = g * t * g⁻¹ * g := by group
       _ = t * g := by rw [h1]
 
+omit [Finite K] in
 theorem Setup.RR_le (h : Setup p d S z t) : RR S z ≤ S := by
   refine Subgroup.commutator_le.2 ?_
   intro g hg s hs
@@ -73,14 +78,17 @@ theorem Setup.RR_le (h : Setup p d S z t) : RR S z ≤ S := by
   rw [commutatorElement_def]
   exact S.mul_mem hconj (S.inv_mem hs)
 
-theorem Setup.t_comm_S (h : Setup p d S z t) : ∀ s ∈ S, s * t = t * s :=
-  fun s hs => setupBasic_conj_t h (h.S_le_normalizer hs)
+omit [Finite K] in
+theorem Setup.t_comm_S (h : Setup p d S z t) : ∀ _s ∈ S, _s * t = t * _s :=
+  fun _s hs => setupBasic_conj_t h (h.S_le_normalizer hs)
 
+omit [Finite K] in
 theorem Setup.z_comm_t (h : Setup p d S z t) : z * t = t * z :=
   setupBasic_conj_t h (h.zpowers_le_normalizer (Subgroup.mem_zpowers z))
 
+omit [Finite K] in
 theorem Setup.orderOf_z (h : Setup p d S z t) : orderOf z = p := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact orderOf_eq_prime h.zp h.zne
 end
 
@@ -92,7 +100,7 @@ variable {K : Type} [Group K] [Finite K]
 variable {p d : ℕ} {S : Subgroup K} {z t : K}
 
 theorem Setup.commutator_RR (h : Setup p d S z t) : ⁅RR S z, zpowers z⁆ = RR S z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.exists_card_eq h.two
   have hz : Nat.card (zpowers z) = p := by
     rw [Nat.card_zpowers, Setup.orderOf_z h]
@@ -114,11 +122,13 @@ open scoped commutatorElement
 variable {K : Type} [Group K] [Finite K]
 variable {p d : ℕ} {S : Subgroup K} {z t : K}
 
+omit [Finite K] in
 theorem fixRR_commute_of_zpowers {a y w : K} (ha : Commute a y) (hw : w ∈ zpowers a) :
     Commute w y := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hw
   exact ha.zpow_left k
 
+omit [Finite K] in
 theorem fixRR_key {r s w c s' : K} (hc : c = r * s * r⁻¹ * s⁻¹) (hs' : s' = w * s⁻¹ * w⁻¹)
     (hrw : Commute r w) (hcw : Commute c w) (hcs : Commute c s) (hcs' : Commute c s') :
     r * (s * s') = s * s' * r := by
@@ -191,6 +201,7 @@ open scoped commutatorElement
 variable {K : Type} [Group K] [Finite K]
 variable {p d : ℕ} {S : Subgroup K} {z t : K}
 
+omit [Finite K] in
 theorem keyRR_fwd {A B : Subgroup K} {g : K} (hA : ∀ x ∈ A, g * x * g⁻¹ ∈ A)
     (hB : ∀ x ∈ B, g * x * g⁻¹ ∈ B) : ∀ x ∈ A ⊔ B, g * x * g⁻¹ ∈ A ⊔ B := by
   let W : Subgroup K := (A ⊔ B).comap (MulAut.conj g).toMonoidHom
@@ -201,6 +212,7 @@ theorem keyRR_fwd {A B : Subgroup K} {g : K} (hA : ∀ x ∈ A, g * x * g⁻¹ �
   intro x hx
   exact hle hx
 
+omit [Finite K] in
 theorem keyRR_mem_normalizer_of {A : Subgroup K} {g : K} (hA : ∀ x ∈ A, g * x * g⁻¹ ∈ A)
     (hA' : ∀ x ∈ A, g⁻¹ * x * g⁻¹⁻¹ ∈ A) : g ∈ normalizer (A : Set K) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -208,15 +220,18 @@ theorem keyRR_mem_normalizer_of {A : Subgroup K} {g : K} (hA : ∀ x ∈ A, g * 
   refine ⟨fun hx => hA x hx, fun hx => ?_⟩
   simpa [mul_assoc] using hA' (g * x * g⁻¹) hx
 
+omit [Finite K] in
 theorem keyRR_conj_mem {A : Subgroup K} {g : K} (hg : g ∈ normalizer (A : Set K)) :
     ∀ x ∈ A, g * x * g⁻¹ ∈ A :=
   fun x hx => (Subgroup.mem_normalizer_iff.mp hg x).mp hx
 
+omit [Finite K] in
 theorem keyRR_normalizer_sup {A B : Subgroup K} {g : K} (hA : g ∈ normalizer (A : Set K))
     (hB : g ∈ normalizer (B : Set K)) : g ∈ normalizer ((A ⊔ B : Subgroup K) : Set K) :=
   keyRR_mem_normalizer_of (keyRR_fwd (keyRR_conj_mem hA) (keyRR_conj_mem hB))
     (keyRR_fwd (keyRR_conj_mem (inv_mem hA)) (keyRR_conj_mem (inv_mem hB)))
 
+omit [Finite K] in
 theorem keyRR_zpowers_conj {g t : K} (hc : Commute g t) :
     ∀ x ∈ zpowers t, g * x * g⁻¹ ∈ zpowers t := by
   intro x hx
@@ -227,14 +242,17 @@ theorem keyRR_zpowers_conj {g t : K} (hc : Commute g t) :
   rw [e]
   exact zpow_mem_zpowers t k
 
+omit [Finite K] in
 theorem keyRR_mem_normalizer_zpowers {g t : K} (hc : Commute g t) :
     g ∈ normalizer ((zpowers t : Subgroup K) : Set K) :=
   keyRR_mem_normalizer_of (keyRR_zpowers_conj hc) (keyRR_zpowers_conj hc.inv_left)
 
+omit [Finite K] in
 theorem keyRR_sq_zpowers {t b : K} (ht : t ^ 2 = 1) (hb : b ∈ zpowers t) : b ^ 2 = 1 := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hb
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, ht, one_zpow]
 
+omit [Finite K] in
 theorem keyRR_mem_sup_of_comm {A B : Subgroup K} (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     ∀ x ∈ A ⊔ B, ∃ a ∈ A, ∃ b ∈ B, x = a * b := by
   let T : Subgroup K :=
@@ -267,7 +285,7 @@ theorem keyRR_arith {p d j : ℕ} (hpd : (p = 3 ∧ d = 2) ∨ (p = 5 ∧ d = 4)
 
 theorem Setup.key_RR (h : Setup p d S z t) {U : Subgroup K} (hU : U ≤ RR S z)
     (hz : zpowers z ≤ normalizer (U : Set K)) (hnt : ¬ U ≤ zpowers t) : U = RR S z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨V, hVdef⟩ : ∃ V : Subgroup K, V = U ⊔ zpowers t := ⟨_, rfl⟩
   have htR : t ∈ RR S z := h.shape.t_mem
   have hVR : V ≤ RR S z := by
@@ -391,11 +409,13 @@ def centZ_U (R T : Subgroup K) (c : K) (hT : ∀ r ∈ R, ∀ τ ∈ T, r * τ =
     rw [e, hcomm]
     exact T.inv_mem ha'
 
+omit [Finite K] in
 theorem centZ_mem_U {R T : Subgroup K} {c r : K}
     {hT : ∀ x ∈ R, ∀ τ ∈ T, x * τ = τ * x} :
     r ∈ centZ_U R T c hT ↔ r ∈ R ∧ ⁅c, r⁆ ∈ T :=
   Iff.rfl
 
+omit [Finite K] in
 theorem centZ_comm_conj {z c : K} (hcz : z * c = c * z) (n : K) :
     ⁅c, z * n * z⁻¹⁆ = z * ⁅c, n⁆ * z⁻¹ := by
   have key : c * (z * n * z⁻¹) * c⁻¹ = z * (c * n * c⁻¹) * z⁻¹ := by
@@ -406,12 +426,14 @@ theorem centZ_comm_conj {z c : K} (hcz : z * c = c * z) (n : K) :
   rw [key]
   group
 
+omit [Finite K] in
 theorem centZ_conj_fix {z t x : K} (hzt : z * t = t * z) (hx : x ∈ zpowers t) :
     z * x * z⁻¹ = x := by
   obtain ⟨k, rfl⟩ := mem_zpowers_iff.mp hx
   have hc : Commute z (t ^ k) := Commute.zpow_right (show Commute z t from hzt) k
   rw [hc.eq, mul_inv_cancel_right]
 
+omit [Finite K] in
 theorem centZ_conj_mem {z t x : K} (hzt : z * t = t * z) (hx : z * x * z⁻¹ ∈ zpowers t) :
     x ∈ zpowers t := by
   obtain ⟨k, hk⟩ := mem_zpowers_iff.mp hx
@@ -490,7 +512,7 @@ theorem Setup.centralizer_z (h : Setup p d S z t) {c : K} (hc : c ∈ S) (hcz : 
     intro n
     have hzRn : n ∈ RR S z ↔ z * n * z⁻¹ ∈ RR S z :=
       Subgroup.mem_normalizer_iff.mp (h.zpowers_le_normalizer (mem_zpowers z)) n
-    simp only [SetLike.mem_coe, centZ_mem_U]
+    simp only [centZ_mem_U]
     constructor
     · rintro ⟨hn, hcn⟩
       refine ⟨hzRn.mp hn, ?_⟩
@@ -551,12 +573,14 @@ open scoped commutatorElement
 variable {K : Type} [Group K] [Finite K]
 variable {p d : ℕ} {S : Subgroup K} {z t : K}
 
+omit [Finite K] in
 theorem ccStruct_sq_of_mem_zpowers {u x : K} (hu2 : u ^ 2 = 1) (hx : x ∈ zpowers u) :
     x ^ 2 = 1 := by
   have hu : orderOf u ∣ 2 := orderOf_dvd_of_pow_eq_one hu2
   have hx' : orderOf x ∣ 2 := (orderOf_dvd_of_mem_zpowers hx).trans hu
   exact orderOf_dvd_iff_pow_eq_one.1 hx'
 
+omit [Finite K] in
 theorem Setup.RR_inf_CC (h : Setup p d S z t) : RR S z ⊓ CC S z = zpowers t := by
   apply le_antisymm
   · intro x hx
@@ -589,6 +613,7 @@ theorem Setup.CC_sup (h : Setup p d S z t) : RR S z ⊔ CC S z = S := by
     exact Subgroup.mem_inf.2
       ⟨hcS, Subgroup.mem_centralizer_iff.2 (fun r hr => (h.centralizer_z hcS hzc r hr).symm)⟩
 
+omit [Finite K] in
 theorem Setup.z_comm_CC (h : Setup p d S z t) : ∀ c ∈ CC S z, z * c = c * z := by
   intro c hcC
   have hcS : c ∈ S := (Subgroup.mem_inf.1 hcC).1
@@ -664,15 +689,18 @@ open scoped commutatorElement
 variable {K : Type} [Group K] [Finite K]
 variable {p d : ℕ} {S : Subgroup K} {z t : K}
 
+omit [Finite K] in
 theorem conclC_comm_zpowers {z t σ : K} (hzt : z * t = t * z) (hσ : σ ∈ zpowers t) :
     z * σ = σ * z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hσ
   exact (show Commute z t from hzt).zpow_right k
 
+omit [Finite K] in
 theorem conclC_sq_one {t σ : K} (ht2 : t ^ 2 = 1) (hσ : σ ∈ zpowers t) : σ ^ 2 = 1 := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hσ
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, ht2, one_zpow]
 
+omit [Finite K] in
 theorem conclC_pow_conj {z a σ : K} (hza : z * a = σ * a * z) (hσz : z * σ = σ * z) (k : ℕ) :
     z ^ k * a = σ ^ k * a * z ^ k := by
   induction k with
@@ -688,6 +716,7 @@ theorem conclC_pow_conj {z a σ : K} (hza : z * a = σ * a * z) (hσz : z * σ =
       _ = σ ^ (k + 1) * a * z ^ (k + 1) := by
         rw [pow_succ σ k, pow_succ' z k]; simp only [mul_assoc]
 
+omit [Finite K] in
 theorem conclC_sigma_eq_one {q : ℕ} (hodd : Odd q) {z t a σ : K} (hzq : z ^ q = 1)
     (ht2 : t ^ 2 = 1) (hzt : z * t = t * z) (hσ : σ ∈ zpowers t) (hza : z * a = σ * a * z) :
     σ = 1 := by
@@ -700,6 +729,7 @@ theorem conclC_sigma_eq_one {q : ℕ} (hodd : Odd q) {z t a σ : K} (hzq : z ^ q
   rw [hm, pow_succ, pow_mul, hσ2, one_pow, one_mul] at hσq
   exact hσq
 
+omit [Finite K] in
 theorem conclC_commute_of_mem {q : ℕ} (hodd : Odd q) {z t a : K} (hzq : z ^ q = 1)
     (ht2 : t ^ 2 = 1) (hzt : z * t = t * z) (hτ : ⁅a, z⁆ ∈ zpowers t) : a * z = z * a := by
   have hza : z * a = (⁅a, z⁆)⁻¹ * a * z := by
@@ -707,6 +737,7 @@ theorem conclC_commute_of_mem {q : ℕ} (hodd : Odd q) {z t a : K} (hzq : z ^ q 
   have hσ : (⁅a, z⁆)⁻¹ = 1 := conclC_sigma_eq_one hodd hzq ht2 hzt (inv_mem hτ) hza
   exact commutatorElement_eq_one_iff_mul_comm.mp (inv_eq_one.mp hσ)
 
+omit [Finite K] in
 theorem conclC_conj_mem {H : Subgroup K} {g : K} (hg : g ∈ normalizer (H : Set K)) (x : K) :
     x ∈ H ↔ g * x * g⁻¹ ∈ H :=
   Subgroup.mem_normalizer_iff.mp hg x
@@ -735,7 +766,7 @@ theorem Setup.conclusion_C (h : Setup p d S z t) :
     intro x
     have h1 := conclC_conj_mem (hzA hg) x
     have h2 := conclC_conj_mem (h.zpowers_le_normalizer hg) x
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     exact and_congr h1 h2
   have huA : ⁅a, z⁆ ∈ A := by
     have e : ⁅a, z⁆ = a * (z * a⁻¹ * z⁻¹) := by

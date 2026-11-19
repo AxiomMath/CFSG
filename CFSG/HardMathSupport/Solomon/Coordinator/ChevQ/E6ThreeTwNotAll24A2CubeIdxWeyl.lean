@@ -207,7 +207,7 @@ theorem a2cube_card_weylQuotient_dvd_three_of_eq {L : Type} [Field L]
       (fun α => w⁻¹ • α) '' {γ | IsRoot Tag.E6 γ ∧ (3 : ℤ) ∣ γ 3}) :
     Nat.card (↥(rootCharStabilizerSubgroup ta) ⧸
       (kernelReflectionGroup ta).subgroupOf (rootCharStabilizerSubgroup ta)) ∣ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ := CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.isPGroup_quotient
     Nat.prime_three hap
   let e : kernelPosStabilizer (rootCharHom ta) ≃* (↥(rootCharStabilizerSubgroup ta) ⧸

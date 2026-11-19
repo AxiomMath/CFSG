@@ -17,7 +17,7 @@ theorem OddPCoreInClosure.of_inf_normal {G : Type*} [Group G] [Finite G] {p : �
   have heq : (U ⊓ N).subgroupOf U = N.subgroupOf U := by
     ext g
     simp [Subgroup.mem_subgroupOf]
-  haveI hN : ((U ⊓ N).subgroupOf U).Normal := by
+  have hN : ((U ⊓ N).subgroupOf U).Normal := by
     rw [heq]
     exact Subgroup.Normal.subgroupOf inferInstance U
   exact OddPCoreInClosure.of_mulEquiv (Subgroup.subgroupOfEquivOfLe inf_le_left)
@@ -52,8 +52,8 @@ theorem oddPCoreInClosure_centralizer_sesqSpecial_of_squarefree {p : ℕ} (hp : 
     (hBl : B.SeparatingLeft) (y : ↥(sesqSpecialUnitaryGroup B))
     (hsq : Squarefree (minpoly K ((y : LinearMap.GeneralLinearGroup K V) : Module.End K V))) :
     OddPCoreInClosure p ↥(Subgroup.centralizer ({y} : Set ↥(sesqSpecialUnitaryGroup B))) := by
-  haveI : Finite K := hK.finite
-  haveI : Finite (LinearMap.GeneralLinearGroup K V) := finite_generalLinearGroup'
+  have : Finite K := hK.finite
+  have : Finite (LinearMap.GeneralLinearGroup K V) := finite_generalLinearGroup'
   have hx : (y : LinearMap.GeneralLinearGroup K V) ∈ sesqUnitaryGroup B :=
     sesqSpecialUnitaryGroup_le B y.2
   have hU := oddPCoreInClosure_unitaryCentralizer_of_squarefree hp hp2 hℓ hK B hB hBl hx hsq
@@ -77,8 +77,8 @@ theorem oddPCoreInClosure_centralizer_sesqSpecial {p : ℕ} (hp : p.Prime) (hp2 
     [FiniteDimensional K V] (B : V →ₛₗ[hK.bar] V →ₗ[K] K) (hB : B.IsSymm)
     (hBl : B.SeparatingLeft) (y : ↥(sesqSpecialUnitaryGroup B)) (hyp : y ^ p = 1) :
     OddPCoreInClosure p ↥(Subgroup.centralizer ({y} : Set ↥(sesqSpecialUnitaryGroup B))) := by
-  haveI : Finite K := hK.finite
-  haveI : CharP K 2 := hℓ ▸ hK.charP
+  have : Finite K := hK.finite
+  have : CharP K 2 := hℓ ▸ hK.charP
   have hxp : (y : LinearMap.GeneralLinearGroup K V) ^ p = 1 := by
     simpa using congrArg Subtype.val hyp
   have hpK : (p : K) ≠ 0 := by
@@ -140,8 +140,8 @@ theorem oddPCoreInClosure_centralizer_unitarySU {p : ℕ} (hp : p.Prime) (hp2 : 
 theorem pClosureOdd_unitaryPSU {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hℓ : ℓ = 2)
     (h : UnitaryFieldData ℓ f K) {n : ℕ} (hn : 1 ≤ n) (hZ : ¬ p ∣ Nat.gcd n (ℓ ^ f + 1)) :
     PClosureOdd p (unitaryPSU h n) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := h.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
   have hZ' : ∀ z ∈ unitaryScalars h n, z ^ p = 1 → z = 1 := by
     intro z hz hzp
     by_contra hz1

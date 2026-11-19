@@ -27,7 +27,7 @@ theorem ordD_two {n : ℕ} (hn : 1 ≤ n) : ordD n (2 ^ 1) = 2 ^ (n * (n - 1)) *
     have := Nat.Coprime.pow_left 2 (Nat.coprime_two_left.mpr (odd_two_pow_sub_one_of_pos hn))
     simpa using this
   unfold ordD omegaOdd sqProd
-  rw [pow_one, hg, Nat.div_one, if_pos rfl, mul_assoc]
+  rw [pow_one, hg, Nat.div_one, ite_eq_left rfl, mul_assoc]
 
 theorem ordTwistedD_two {n : ℕ} (hn : 1 ≤ n) :
     ordTwistedD n (2 ^ 1) = 2 ^ (n * (n - 1)) * omegaOdd false n := by
@@ -35,7 +35,7 @@ theorem ordTwistedD_two {n : ℕ} (hn : 1 ≤ n) :
     have := Nat.Coprime.pow_left 2 (Nat.coprime_two_left.mpr (odd_two_pow_add_one_of_pos hn))
     simpa using this
   unfold ordTwistedD omegaOdd sqProd
-  rw [pow_one, hg, Nat.div_one, if_neg (by simp), mul_assoc]
+  rw [pow_one, hg, Nat.div_one, ite_eq_right (by simp), mul_assoc]
 
 theorem timmesfeldPlusType_iff {d : ℕ} (q : QuadraticForm (ZMod 2) (Fin d → ZMod 2)) :
     timmesfeldPlusType q ↔ CFSG.GroupTheory.WeirSylow.IsPlusType q := by

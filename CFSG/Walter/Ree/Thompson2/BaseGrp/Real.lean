@@ -16,7 +16,7 @@ theorem exists_inv_of_inverted {p : ℕ} [Fact p.Prime] {A : Subgroup G} {ι : G
     (hι : ∀ a ∈ A, ι * a * ι⁻¹ = a⁻¹) (hp : ¬ p ∣ A.index) {c : G}
     (hc : IsPGroup p (Subgroup.zpowers c)) : ∃ n : G, n * c * n⁻¹ = c⁻¹ := by
   obtain ⟨P⟩ : Nonempty (Sylow p A) := inferInstance
-  have hPm : IsPGroup p ((P : Subgroup A).map A.subtype) := P.isPGroup'.map _
+  have hPm : IsPGroup p ((P : Subgroup A).map A.subtype) := P.isPGroup.map _
   obtain ⟨Q, hQ⟩ := hPm.exists_le_sylow
   have hcard : Nat.card Q ≤ Nat.card ((P : Subgroup A).map A.subtype) := by
     rw [Subgroup.card_map_of_injective A.subtype_injective, Sylow.card_eq_multiplicity,

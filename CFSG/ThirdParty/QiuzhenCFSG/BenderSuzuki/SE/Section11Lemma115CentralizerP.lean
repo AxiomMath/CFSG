@@ -46,7 +46,7 @@ public theorem lemma115_centralizer_P_le_lift_Q
   let P : Subgroup X := d.choice.P
   let Nstar : Subgroup X := lemma103NStar P
   let Qx : Subgroup X := hL.Q.map Nstar.subtype
-  letI : hL.Q.Normal := hL.Q_normal
+  let : hL.Q.Normal := hL.Q_normal
   intro b hb
   have hbB : b ∈ B := hb.1
   have hbP : b ∈ Subgroup.centralizer (P : Set X) := by

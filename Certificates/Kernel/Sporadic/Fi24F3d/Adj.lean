@@ -201,7 +201,7 @@ theorem comp_6983 : fComp (CFSG.KD.Fi24Orb.FD 6983) = 2 :=
 
 theorem Pr_closed {i : ℕ} (hi1 : 1 ≤ i) (hin : i < N) (hPi : Pr i) :
     ∀ r, 1 ≤ r → r < N → fComp (CFSG.KD.Fi24Orb.FD r) = fComp (CFSG.KD.Fi24Orb.FD i) → Pr r :=
-  forest_closed CFSG.KD.Fi24Orb.forest_all Pr (fun k p hk hk8 _ hp => Pr_tk hk hk8 hp) hi1 hin hPi
+  forest_closed CFSG.KD.Fi24Orb.forest_all Pr (fun _k _p hk hk8 _ hp => Pr_tk hk hk8 hp) hi1 hin hPi
 
 theorem Pr_of_comp2 {x : ℕ} (h1 : 1 ≤ x) (hx : x < N)
     (hc : fComp (CFSG.KD.Fi24Orb.FD x) = 2) : Pr x :=
@@ -215,7 +215,7 @@ theorem Δ_sub_Ω : Δ ⊆ Ω := by
 theorem Ω_finite : Ω.Finite := by
   have e : Ω = ((Finset.range N).image ψ : Set _) := by
     ext W
-    simp only [Set.mem_setOf_eq, Finset.coe_image, Finset.coe_range, Set.mem_image, Set.mem_Iio]
+    simp only [Set.mem_ofPred_eq, Finset.coe_image, Finset.coe_range, Set.mem_image, Set.mem_Iio]
   rw [e]
   exact Finset.finite_toSet _
 

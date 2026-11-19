@@ -23,7 +23,7 @@ theorem xlevel_dichotomy (hGold : GoldStmt) (hN11a : S_N11a) (hN11b : S_N11b) (h
   have hV : IsPGroup 2 V := IsPGroup.of_card hX.planes.card_V
   rcases xdata_dichotomy hGold hX with ⟨Nn, hNn, hodd, hVN⟩ | hB
   · left
-    haveI := hNn
+    have := hNn
     exact ⟨Nn, hNn, hodd, fun i => caseA_subnormal hV hodd hVN (hAle i) (hAsub i)⟩
   · right
     exact caseB_data hN11a hN11b hN11c hX hB

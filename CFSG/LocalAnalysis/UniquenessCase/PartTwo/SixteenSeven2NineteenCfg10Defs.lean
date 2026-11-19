@@ -82,6 +82,7 @@ end FFacts
 
 variable [Finite W]
 
+omit [Finite W] in
 theorem s16c167_cfg10_mk (hW : ∀ w : W, w ^ 2 = 1) {X Fs : Subgroup (MulAut W)} {J : Subgroup W}
     (hle : Fs ≤ X) (hel : IsElemAbelianOfRank 3 3 ↥Fs)
     (hnorm : ∀ x ∈ X, ∀ f ∈ Fs, x * f * x⁻¹ ∈ Fs)

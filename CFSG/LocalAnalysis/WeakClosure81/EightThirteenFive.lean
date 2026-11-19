@@ -586,11 +586,11 @@ theorem five_conjugates {V K N T R A U : Subgroup G} (D : FiveData V K N T R A U
   push Not at hcon
   set K₁ : Subgroup G := K ⊓ Subgroup.normalizer (V : Set G) with hK₁
   have S : FiveSetup K K₁ N := D.setup
-  haveI : Fintype (Cosets K K₁) := Fintype.ofFinite _
+  have : Fintype (Cosets K K₁) := Fintype.ofFinite _
   have hcard : Fintype.card (Cosets K K₁) = 5 := by
     rw [← Nat.card_eq_fintype_card]
     exact S.card_cosets
-  letI : CommGroup ↥U := { (inferInstance : Group ↥U) with
+  let : CommGroup ↥U := { (inferInstance : Group ↥U) with
     mul_comm := fun x y => Subtype.ext (D.u_comm x x.2 y y.2) }
   have hW2 : ∀ w : ↥U, w * w = 1 := fun w => Subtype.ext (D.u_sq w w.2)
   have hU : ∀ k ∈ K, k * v * k⁻¹ ∈ U := fun k hk => D.u_gen k hk v hvV

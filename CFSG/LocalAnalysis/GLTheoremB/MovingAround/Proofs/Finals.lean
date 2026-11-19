@@ -14,6 +14,7 @@ section Final
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_component_of_Iof_ne_bot {p : ℕ} {M D : Subgroup G} (h : Iof p M D ≠ ⊥) :
     ∃ L : Subgroup G, GLAPComponent p M L ∧
       ¬ barX p M (gammaStar p D) ≤ Subgroup.centralizer
@@ -25,12 +26,14 @@ theorem exists_component_of_Iof_ne_bot {p : ℕ} {M D : Subgroup G} (h : Iof p M
   refine eq_bot_iff.2 (iSup₂_le fun L hL => ?_)
   exact False.elim (hL.2 (hcon L hL.1))
 
+omit [Finite G] in
 theorem barX_inf_self {p : ℕ} (C X : Subgroup G) : barX p C (X ⊓ C) = barX p C X := by
   unfold barX
   congr 1
   ext m
-  simp [Subgroup.mem_subgroupOf, m.2]
+  simp [Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem gammaStar_le_pCoreOf_piStar (p : ℕ) (D : Subgroup G) :
     gammaStar p D ≤ pCoreOf 2 (piStar p D) := by
   unfold gammaStar
@@ -39,8 +42,8 @@ theorem gammaStar_le_pCoreOf_piStar (p : ℕ) (D : Subgroup G) :
 theorem final_of_prop1310_of_lemma133 (h133 : Lemma133Statement) : Final_of_prop1310Statement := by
   intro G _ _ m p B M E A D T h hcov
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hI : Iof p M D ≠ ⊥ := (h133 h).1
   obtain ⟨L, hL, hnc⟩ := exists_component_of_Iof_ne_bot hI
   have hcomp : IsComponentOf (barX p M L) ⊤ := by
@@ -118,6 +121,7 @@ variable {G : Type} [Group G] [Finite G]
     rw [Subgroup.coe_mul]
     group)
 
+omit [Finite G] in
 theorem cex117_le_normalizer_of_invariant {A R : Subgroup G}
     (hA : ∀ a ∈ A, ∀ r ∈ R, a * r * a⁻¹ ∈ R) : A ≤ Subgroup.normalizer (R : Set G) := by
   intro a ha
@@ -143,9 +147,10 @@ theorem exists_isMaxInvTwoSub_ge {H A R : Subgroup G} (hRH : R ≤ H) (hR2 : IsP
   have hc : Nat.card ↥T' ≤ Nat.card ↥T := hTmax T' hmem
   exact (Subgroup.eq_of_le_of_card_ge hTT' hc).symm
 
+omit [Finite G] in
 theorem isSylowIn_map_sylow {N : Subgroup G} (P : Sylow 2 ↥N) :
     IsSylowIn 2 N ((P : Subgroup ↥N).map N.subtype) := by
-  refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map N.subtype, fun R' hR'N hR'2 hPR' => ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map N.subtype, fun R' hR'N hR'2 hPR' => ?_⟩
   have hQ : IsPGroup 2 ↥(R'.subgroupOf N) :=
     hR'2.comap_of_injective N.subtype Subtype.val_injective
   have hPle : (P : Subgroup ↥N) ≤ R'.subgroupOf N := fun x hx =>
@@ -160,8 +165,8 @@ theorem exists_invariant_sylowIn_two {A N : Subgroup G} (hA : IsPGroup 3 ↥A)
     (hAN : ∀ a ∈ A, ∀ n ∈ N, a * n * a⁻¹ ∈ N) (h3 : ¬ 3 ∣ Nat.card ↥N) :
     ∃ R : Subgroup G, IsSylowIn 2 N R ∧ ∀ a ∈ A, ∀ r ∈ R, a * r * a⁻¹ ∈ R := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let _ : MulAction ↥A (Sylow 2 ↥N) := MulAction.compHom _ (cexConjOn hAN)
   have hndvd : ¬ 3 ∣ Nat.card (Sylow 2 ↥N) := by
     obtain ⟨P⟩ : Nonempty (Sylow 2 ↥N) := inferInstance
@@ -183,8 +188,8 @@ theorem prop117_cex_false_of_lemmas (h1111 : Lemma1111Statement) (h1114 : Lemma1
     (h1115iii : Lemma1115_iiiStatement) : Prop117_cex_falseStatement := by
   intro G _ _ m p B M E A a K h
   obtain ⟨rfl, -, -⟩ := h1111 h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSC : IsSCp 3 M A := h.pair.1.2.1.1.1
   have hAM : A ≤ M := hSC.1
   have hA3 : IsPGroup 3 ↥A := hSC.2.1.isPGroup

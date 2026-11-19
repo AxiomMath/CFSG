@@ -44,7 +44,7 @@ theorem exists_sl2_diagonal {b : K} (hb : b ≠ 0) :
       rw [Matrix.det_diagonal, Fin.prod_univ_two]
       simp [hb]⟩, rfl⟩
 
-theorem orderOf_slRootEmb_diagonal (hk : 3 ≤ k) {b : K} (hb : b ≠ 0)
+theorem orderOf_slRootEmb_diagonal (hk : 3 ≤ k) {b : K} (_hb : b ≠ 0)
     {D : Matrix.SpecialLinearGroup (Fin 2) K}
     (hD : (D : Matrix (Fin 2) (Fin 2) K) = Matrix.diagonal ![b, b⁻¹]) :
     orderOf (slRootEmb k hk K D) = orderOf b := by
@@ -62,9 +62,9 @@ theorem orderOf_slRootEmb_diagonal (hk : 3 ≤ k) {b : K} (hb : b ≠ 0)
     apply Subtype.ext
     rw [hpow, Matrix.SpecialLinearGroup.coe_one]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply, h1, inv_pow]
+    fin_cases i <;> fin_cases j <;> simp [h1, inv_pow]
 
-private lemma intertwine_left_B05 (hk : 3 ≤ k) {c : K} {t' : ↥(StatedSL k K)}
+private lemma intertwine_left_B05 (_hk : 3 ≤ k) {c : K} {t' : ↥(StatedSL k K)}
     (h : slMat t' = Matrix.diagonal (slTorusDiag k c)) :
     slMat t' * blockSel K k 2 1 = blockSel K k 2 1 * Matrix.diagonal ![c⁻¹, 1] := by
   rw [h]
@@ -79,7 +79,7 @@ private lemma intertwine_left_B05 (hk : 3 ≤ k) {c : K} {t' : ↥(StatedSL k K)
     · simp [slTorusDiag, ha]
     · simp [ha]
 
-private lemma intertwine_right_B05 (hk : 3 ≤ k) {c : K} {t' : ↥(StatedSL k K)}
+private lemma intertwine_right_B05 (_hk : 3 ≤ k) {c : K} {t' : ↥(StatedSL k K)}
     (h : slMat t' = Matrix.diagonal (slTorusDiag k c)) :
     (blockSel K k 2 1)ᵀ * slMat t' = Matrix.diagonal ![c⁻¹, 1] * (blockSel K k 2 1)ᵀ := by
   rw [h]

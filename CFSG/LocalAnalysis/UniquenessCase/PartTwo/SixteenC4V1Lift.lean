@@ -70,7 +70,7 @@ theorem s16c4v1_lift_subgroup (S : s16c4v1_Sit D V L hV) {E : Subgroup ↥(SUid 
       map_one' := by
         apply s16c4v1_induces_unique S
         · exact Classical.choose_spec (s16c4v1_induces_of_mem_L S (1 : ↥L).2)
-        · intro w hw; simp [s16c4v1_Induces]
+        · intro w hw; simp
       map_mul' := fun a b => by
         apply s16c4v1_induces_unique S
         · exact Classical.choose_spec (s16c4v1_induces_of_mem_L S (a * b).2)
@@ -87,8 +87,8 @@ theorem s16c4v1_lift_subgroup (S : s16c4v1_Sit D V L hV) {E : Subgroup ↥(SUid 
   let H : Subgroup ↥L := E.comap ψ
   let ψH : ↥H →* ↥E :=
     { toFun := fun q => ⟨ψ (q : ↥L), q.2⟩
-      map_one' := Subtype.ext (by simpa using map_one ψ)
-      map_mul' := fun a b => Subtype.ext (by simpa using map_mul ψ a b) }
+      map_one' := Subtype.ext (by simp)
+      map_mul' := fun a b => Subtype.ext (by simp) }
   have hψHsurj : Function.Surjective ψH := by
     intro γ
     obtain ⟨l, hl⟩ := hψsurj γ
@@ -97,7 +97,7 @@ theorem s16c4v1_lift_subgroup (S : s16c4v1_Sit D V L hV) {E : Subgroup ↥(SUid 
     · apply Subtype.ext
       show ψ l = γ
       exact hl
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q⟩ : Nonempty (Sylow 3 ↥H) := Sylow.nonempty
   have hEtop : IsPGroup 3 (⊤ : Subgroup ↥E) := hE.to_subgroup ⊤
   have hmax : (⊤ : Subgroup ↥E) = (Q : Subgroup ↥H).map ψH :=
@@ -123,6 +123,7 @@ theorem s16c4v1_lift_subgroup (S : s16c4v1_Sit D V L hV) {E : Subgroup ↥(SUid 
     exact ⟨(ψH q : ↥E), (ψH q).2,
       Classical.choose_spec (s16c4v1_induces_of_mem_L S (q : ↥L).2)⟩
 
+omit [Finite G] in
 private theorem s16c4v1_lft_odd_orderOf {H : Subgroup G} {g : G} (hH : IsPGroup 3 H)
     (hg : g ∈ H) : Odd (orderOf g) := by
   obtain ⟨k, hk⟩ := (isPGroup_iff_orderOf_dvd_pow.mp hH) ⟨g, hg⟩
@@ -144,7 +145,7 @@ private theorem s16c4v1_lft_exists_three_induces (S : s16c4v1_Sit D V L hV)
     intro hp
     refine hγ1 (s16c4v1_induces_unique S (hp ▸ hpγ) ?_)
     intro w hw
-    simp [s16c4v1_Induces]
+    simp
   have hpp : IsPGroup 3 (Subgroup.zpowers p) := hPp.to_le (Subgroup.zpowers_le.2 hpP)
   exact ⟨p, hpL, hp1, hpp, hpγ⟩
 
@@ -169,7 +170,7 @@ private theorem s16c4v1_lft_noncyclic_of_e9 (S : s16c4v1_Sit D V L hV)
         rw [hg 1]
         exact s16c4v1_induces_unique S
           (by simpa using (Classical.choose_spec (hEP 1 (Subgroup.one_mem P))).2)
-          (by intro w hw; simp [s16c4v1_Induces])
+          (by intro w hw; simp)
       map_mul' := fun a b => by
         apply Subtype.ext
         rw [hg (a * b)]
@@ -198,7 +199,7 @@ private theorem s16c4v1_lft_noncyclic_of_e9 (S : s16c4v1_Sit D V L hV)
   refine ⟨P, hPL, hPp, ?_, hPE, hEP⟩
   intro hcyc
   have hEcyc : IsCyclic ↥E := by
-    letI : IsCyclic ↥P := hcyc
+    let : IsCyclic ↥P := hcyc
     exact isCyclic_of_surjective φ hφsurj
   exact hEnc hEcyc
 

@@ -42,12 +42,12 @@ theorem exists_odd_characteristic_isComplement {G : Type*} [Group G] [Finite G] 
   have hζS : ζ ∈ (S : Subgroup G) := hS (mem_zpowers ζ)
   have hζc : ζ ∈ centralizer ({ζ} : Set G) := mem_centralizer_singleton_iff.2 rfl
   have hUp : IsPGroup 2 ((S : Subgroup G) ⊓ centralizer ({ζ} : Set G) : Subgroup G) :=
-    S.isPGroup'.to_inf_left
+    S.isPGroup.to_inf_left
   have hUeq : zpowers ζ = (S : Subgroup G) ⊓ centralizer ({ζ} : Set G) :=
     eq_of_le_of_card_ge (le_inf hS (zpowers_le.2 hζc)) (by rw [hcz]; exact hU _ hUp inf_le_right)
   have hnt : Nontrivial (S : Subgroup G) :=
     ⟨⟨⟨ζ, hζS⟩, 1, fun h => hζ1 (congrArg Subtype.val h)⟩⟩
-  have hcn : Nontrivial (center (S : Subgroup G)) := S.isPGroup'.center_nontrivial
+  have hcn : Nontrivial (center (S : Subgroup G)) := S.isPGroup.center_nontrivial
   obtain ⟨c, hc1⟩ := exists_ne (1 : center (S : Subgroup G))
   have hcζ : ((c : (S : Subgroup G)) : G) * ζ = ζ * ((c : (S : Subgroup G)) : G) := by
     have := (mem_center_iff.1 c.2) ⟨ζ, hζS⟩

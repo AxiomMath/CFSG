@@ -110,9 +110,9 @@ theorem mem_irrSet_autSub_of_mem_irrSet {X : Subgroup (MulAut W)} {U : Subgroup 
     (hXU : X ≤ stabSub U) (hirr : U ∈ irrSet (W := W) X) :
     commSub (⊤ : Subgroup U) (autSub X U) ∈ irrSet (W := U) (autSub X U) := by
   have h : commSub U X = U ∧ IsIrrOn (W := W) X U (U ⊓ fixV X) := by
-    simpa only [irrSet, Set.mem_setOf_eq] using hirr
+    simpa only [irrSet, Set.mem_ofPred_eq] using hirr
   have hcomm := commSub_top_autSub_eq_top (W := W) hXU h.1
-  rw [irrSet, Set.mem_setOf_eq, hcomm, top_inf_eq]
+  rw [irrSet, Set.mem_ofPred_eq, hcomm, top_inf_eq]
   exact ⟨hcomm, isIrrOn_top_fixV_autSub_of_isIrrOn (W := W) hXU h.2⟩
 
 variable [Finite W] {H : Subgroup (MulAut W)} {t : MulAut W}
@@ -132,7 +132,7 @@ theorem mem_centralizer_of_commSub_sup_fixV_mQuot_eq_zero
   set U : Subgroup W := commSub (⊤ : Subgroup W) H with hU
   set Z : Subgroup W := U ⊓ fixV H with hZ
   have hirr' := hirr
-  rw [irrSet, Set.mem_setOf_eq] at hirr'
+  rw [irrSet, Set.mem_ofPred_eq] at hirr'
   obtain ⟨hcommU, hIirr⟩ := hirr'
   have hHU : H ≤ stabSub U := CFSG.Quasithin.le_stabSub_of_forall_mem hIirr.2.1
   have hne : ¬ H ≤ centSub U := by
@@ -179,8 +179,8 @@ theorem mem_centralizer_of_commSub_sup_fixV_mQuot_eq_zero
     CFSG.Open.IsQuasisimple.of_mulEquiv e.symm hHq
   obtain ⟨Q, hQc, hQf, qU, ρU, hqsurj, hqker, hρinj, heq, -, -, -⟩ :=
     s16k_qm_quotMap (W := U) (H := HU) hqHU hcommHU hWU
-  letI : CommGroup Q := hQc
-  letI : Finite Q := hQf
+  let : CommGroup Q := hQc
+  let : Finite Q := hQf
   have htU_trivQ : ∀ u : U, qU (tU u) = qU u := by
     intro u
     have h1 : qU (tU u * u⁻¹) = 1 := (hqker (tU u * u⁻¹)).mpr (htU_triv u)

@@ -23,7 +23,7 @@ theorem admGen_facts {i : ℕ} (hi : i < 60) :
   simp only [admGenCheck, List.all_eq_true, List.mem_range] at h
   have hi' := h i hi
   simp only [admGenOK, List.all_eq_true, List.any_eq_true, List.mem_filter, List.mem_range,
-    Bool.and_eq_true, beq_iff_eq, Bool.or_eq_true, bne_iff_ne, ne_eq, decide_eq_true_eq] at hi'
+    beq_iff_eq, Bool.or_eq_true, bne_iff_ne, ne_eq] at hi'
   intro y hy hyc
   obtain ⟨u, ⟨⟨hu, huc⟩, hu2⟩, v, ⟨⟨hv, hvc⟩, hv2⟩, huv⟩ :=
     hi' y ⟨hy, fun g hg => by

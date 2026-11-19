@@ -105,7 +105,7 @@ theorem zpow_powInvIndex {K : Type} [Field K] {m : ℕ} [NeZero m] {ζ : K}
   · subst hi
     simp [powInvIndex]
   · have hile : i.val ≤ m := le_of_lt i.isLt
-    rw [zpow_natCast, zpow_natCast, powInvIndex, dif_neg hi]
+    rw [zpow_natCast, zpow_natCast, powInvIndex, dite_eq_right hi]
     refine eq_inv_of_mul_eq_one_left ?_
     rw [← pow_add, Nat.sub_add_cancel hile, hζ.pow_eq_one]
 
@@ -168,7 +168,7 @@ theorem finrank_le_one_of_stdHermForm_eq_zero {K : Type} [Field K] [Finite K] {n
     (hiso : ∀ y ∈ W, ∀ w ∈ W, stdHermForm h 3 y w = 0) :
     Module.finrank K W ≤ 1 := by
   classical
-  haveI := h.charP
+  have := h.charP
   have hK : Nat.card K = (2 ^ n) ^ 2 := by
     rw [h.card, ← pow_mul, Nat.mul_comm 2 n]
   by_contra hle
@@ -235,7 +235,7 @@ theorem eq_bot_of_eigenSubmodule_powInvIndex_eq_bot {K : Type} [Field K] {n : �
     (hbot : eigenSubmodule (2 ^ n - 1) A ζ (powInvIndex i) = ⊥) :
     eigenSubmodule (2 ^ n - 1) A ζ i = ⊥ := by
   classical
-  haveI := h.charP
+  have := h.charP
   rw [Submodule.eq_bot_iff]
   intro y hy
   have hμ := bar_eq_self_of_isPrimitiveRoot_pow h hζ i
@@ -319,7 +319,7 @@ theorem finrank_eigenSubmodule_eq_one {K : Type} [Field K] [Finite K] {n : ℕ}
     {i : Fin (2 ^ n - 1)} (hi : i ≠ 0)
     (hEi : eigenSubmodule (2 ^ n - 1) A ζ i ≠ ⊥) :
     Module.finrank K (eigenSubmodule (2 ^ n - 1) A ζ i) = 1 := by
-  haveI := h.charP
+  have := h.charP
   have hμ := bar_eq_self_of_isPrimitiveRoot_pow h hζ i
   have hμ1 : ζ ^ (i : ℤ) ≠ 1 := by
     intro h1
@@ -339,7 +339,7 @@ theorem finrank_eigenSubmodule_zero_eq_one {K : Type} [Field K] [Finite K] {n : 
     (hdir : DirectSum.IsInternal (eigenSubmodule (2 ^ n - 1) A ζ)) (hAne : A ≠ 1) :
     Module.finrank K (eigenSubmodule (2 ^ n - 1) A ζ 0) = 1 := by
   classical
-  haveI := h.charP
+  have := h.charP
   let E : Fin (2 ^ n - 1) → Submodule K (Fin 3 → K) := eigenSubmodule (2 ^ n - 1) A ζ
   let f : Fin (2 ^ n - 1) → ℕ := fun k => Module.finrank K (E k)
   have hsum : ∑ k, f k = 3 := by
@@ -475,7 +475,7 @@ theorem exists_stdHermForm_ne_zero_of_eigenSubmodule {K : Type} [Field K] {n : �
     (hy : y ∈ eigenSubmodule (2 ^ n - 1) A ζ i) (hy0 : y ≠ 0) :
     ∃ z ∈ eigenSubmodule (2 ^ n - 1) A ζ (powInvIndex i), stdHermForm h 3 y z ≠ 0 := by
   classical
-  haveI := h.charP
+  have := h.charP
   by_contra hzero
   push Not at hzero
   have hμ := bar_eq_self_of_isPrimitiveRoot_pow h hζ i
@@ -512,7 +512,7 @@ theorem stdHermForm_self_ne_zero_of_eigenSubmodule_zero {K : Type} [Field K] {n 
     {v : Fin 3 → K} (hv : v ∈ eigenSubmodule (2 ^ n - 1) A ζ 0) (hv0 : v ≠ 0) :
     stdHermForm h 3 v v ≠ 0 := by
   classical
-  haveI := h.charP
+  have := h.charP
   intro hvv
   have hspan : eigenSubmodule (2 ^ n - 1) A ζ 0 = Submodule.span K {v} :=
     eq_span_singleton_of_mem_of_finrank_eq_one hE0 hv hv0
@@ -549,8 +549,8 @@ theorem exists_hyperbolic_eigenbasis_of_pow_eq_one {K : Type} [Field K] {n : ℕ
       ∀ w : Fin 3 → K, ((a : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).mulVec w = w →
         ∃ c : K, w = c • v := by
   classical
-  haveI := h.finite
-  haveI := h.charP
+  have := h.finite
+  have := h.charP
   have hnpos : 1 ≤ n := h.one_le
   rcases Nat.lt_or_ge n 2 with hn1 | hn
   · have hn1' : n = 1 := by omega
@@ -562,7 +562,7 @@ theorem exists_hyperbolic_eigenbasis_of_pow_eq_one {K : Type} [Field K] {n : ℕ
     have h4 : 4 ≤ 2 ^ n := by
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-    haveI : NeZero (2 ^ n - 1) := ⟨by omega⟩
+    have : NeZero (2 ^ n - 1) := ⟨by omega⟩
     let A : GL (Fin 3) K := (a : GL (Fin 3) K)
     have hA : A ^ (2 ^ n - 1) = 1 := by
       simpa [A] using congrArg (fun x : StatedSU 3 (2 ^ n) K => (x : GL (Fin 3) K)) hpow

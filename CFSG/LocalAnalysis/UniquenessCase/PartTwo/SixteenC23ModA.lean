@@ -30,6 +30,7 @@ structure C23Core {U : Type*} [CommGroup U] (Y₁ Y₂ : Subgroup U)
 variable {U : Type*} [CommGroup U] [Finite U] {Y₁ Y₂ : Subgroup U}
   {A₁ A₂ Mb : Subgroup (MulAut U)}
 
+omit [Finite U] in
 theorem c23_core_map_eq₁ (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {a : MulAut U} (ha : a ∈ A₁) :
     Y₁.map a.toMonoidHom = Y₁ := by
   rcases h.perm a (h.le₁ ha) with ⟨h1, _⟩ | ⟨_, h12⟩
@@ -54,6 +55,7 @@ theorem c23_core_map_eq₁ (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {a : MulAut U} (
     rw [hc] at hc8
     norm_num at hc8
 
+omit [Finite U] in
 theorem c23_core_map_eq₂ (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {a : MulAut U} (ha : a ∈ A₂) :
     Y₂.map a.toMonoidHom = Y₂ := by
   rcases h.perm a (h.le₂ ha) with ⟨_, h2⟩ | ⟨h12, _⟩
@@ -78,6 +80,7 @@ theorem c23_core_map_eq₂ (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {a : MulAut U} (
     rw [hc] at hc8
     norm_num at hc8
 
+omit [Finite U] in
 theorem c23_core_commute (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {a b : MulAut U} (ha : a ∈ A₁)
     (hb : b ∈ A₂) : a * b = b * a := by
   refine MulEquiv.ext fun u => ?_
@@ -95,6 +98,7 @@ theorem c23_core_commute (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {a b : MulAut U} (
   simp only [map_mul, h.triv₂ b hb y hy, h.triv₁ a ha ((b : MulAut U) z) hbz,
     h.triv₁ a ha z hz, h.triv₂ b hb ((a : MulAut U) y) hay]
 
+omit [Finite U] in
 theorem c23_core_inf_A_eq_bot (h : C23Core Y₁ Y₂ A₁ A₂ Mb) : A₁ ⊓ A₂ = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
   intro φ hφ
@@ -134,9 +138,10 @@ theorem c23_ncard_omega (h : C23Core Y₁ Y₂ A₁ A₂ Mb) : (c23Omega Y₁ Y�
     omega
   rw [hcompl, Set.ncard_compl, c23_core_card_top h, hunion]
 
+omit [Finite U] in
 theorem c23_omega_stable (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {φ : MulAut U} (hφ : φ ∈ Mb) {u : U}
     (hu : u ∈ c23Omega Y₁ Y₂) : φ u ∈ c23Omega Y₁ Y₂ := by
-  simp only [c23Omega, Set.mem_setOf_eq] at hu ⊢
+  simp only [c23Omega, Set.mem_ofPred_eq] at hu ⊢
   rcases h.perm φ hφ with ⟨h1, h2⟩ | ⟨h12, h21⟩
   · refine ⟨?_, ?_⟩
     · intro hmem
@@ -161,9 +166,10 @@ theorem c23_omega_stable (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {φ : MulAut U} (h
       rw [Subgroup.mem_map_equiv] at hmem'
       simpa using hmem'
 
+omit [Finite U] in
 theorem c23_omega_trans (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {u u' : U} (hu : u ∈ c23Omega Y₁ Y₂)
     (hu' : u' ∈ c23Omega Y₁ Y₂) : ∃ a ∈ A₁, ∃ b ∈ A₂, (a : MulAut U) ((b : MulAut U) u) = u' := by
-  simp only [c23Omega, Set.mem_setOf_eq] at hu hu'
+  simp only [c23Omega, Set.mem_ofPred_eq] at hu hu'
   obtain ⟨y₁, hy₁, y₂, hy₂, hy_eq⟩ :=
     Subgroup.mem_sup.mp (by rw [h.sup_eq]; trivial : u ∈ Y₁ ⊔ Y₂)
   obtain ⟨y₁', hy₁', y₂', hy₂', hy'_eq⟩ :=
@@ -207,7 +213,7 @@ theorem c23_omega_trans (h : C23Core Y₁ Y₂ A₁ A₂ Mb) {u u' : U} (hu : u 
 theorem c23_exists_fixed_omega (h : C23Core Y₁ Y₂ A₁ A₂ Mb)
     {Tb : Subgroup (MulAut U)} (hTb : Tb ≤ Mb) (hT : IsPGroup 2 Tb) :
     ∃ u ∈ c23Omega Y₁ Y₂, ∀ t ∈ Tb, (t : MulAut U) u = u := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hΩ : ∀ g : ↥Tb, ∀ y ∈ c23Omega Y₁ Y₂,
       ((MulAut.toPerm U).comp Tb.subtype) g y ∈ c23Omega Y₁ Y₂ := by
     intro g y hy

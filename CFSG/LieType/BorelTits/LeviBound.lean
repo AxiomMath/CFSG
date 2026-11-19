@@ -119,7 +119,7 @@ theorem flagStab_apply_mem_perp_isoSeq_one [FiniteDimensional K V] (hρ : IsIsom
     {R : Subgroup H} {g : H}
     (hg : g ∈ flagStab ρ (isoFlag F ρ R)) {v : V}
     (hv : v ∈ F.perp (isoSeq F ρ R 1)) : ρ g v ∈ F.perp (isoSeq F ρ R 1) :=
-  hρ.apply_mem_perp_of_forall (fun w hw => flagStab_inv_apply_mem_isoSeq_one F ρ hg hw) hv
+  hρ.apply_mem_perp_of_forall (fun _w hw => flagStab_inv_apply_mem_isoSeq_one F ρ hg hw) hv
 
 theorem flagStab_inv_apply_mem_perp_isoSeq_one [FiniteDimensional K V] (hρ : IsIsometric F ρ)
     {R : Subgroup H} {g : H}
@@ -148,7 +148,7 @@ noncomputable def perpFormRestrict (τ : K →+* K) (hτ : ∀ c, F.σ c = τ c)
     rw [F.smul_left, hτ]
 
 noncomputable def perpForm (τ : K →+* K) (hτ : ∀ c, F.σ c = τ c) (W : Submodule K V)
-    (hW : F.IsTotallyIsotropic W) :
+    (_hW : F.IsTotallyIsotropic W) :
     PieceQ W (F.perp W) →ₛₗ[τ] PieceQ W (F.perp W) →ₗ[K] K :=
   (perpFormRestrict F τ hτ W).liftQ₂ (W.comap (F.perp W).subtype) (W.comap (F.perp W).subtype)
     (by

@@ -80,8 +80,8 @@ theorem exists_zeta (L : Type) [Field L] [IsAlgClosed L] [CharP L 2] {p : ℕ} (
     intro h
     rw [CharP.cast_eq_zero_iff L 2 p] at h
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 h).symm
-  haveI : NeZero (p : L) := ⟨hne⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  have : NeZero (p : L) := ⟨hne⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   refine ⟨(hζ.isUnit hp.ne_zero).unit, ?_⟩
   rw [← orderOf_units, IsUnit.unit_spec]
   exact hζ.eq_orderOf.symm

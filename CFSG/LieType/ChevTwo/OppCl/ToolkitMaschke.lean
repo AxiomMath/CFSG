@@ -47,7 +47,7 @@ theorem exists_invariant_compl [CharP F 2] [Finite V] (p : ℕ) [Fact p.Prime] (
     refine ⟨W.subtype ∘ₗ g, fun v => (g v).2, fun w hw => ?_⟩
     have := LinearMap.congr_fun hg ⟨w, hw⟩
     simpa using congrArg Subtype.val this
-  haveI : Fintype Rh := Fintype.ofFinite Rh
+  have : Fintype Rh := Fintype.ofFinite Rh
   choose c hc using fun r : Rh => exists_conj_linear (hs r.2) π₀
   let Pi : V →ₗ[F] V := ∑ r : Rh, c r
   have hPi : ∀ v, Pi v = ∑ r : Rh, (r : Equiv.Perm V) (π₀ ((r : Equiv.Perm V)⁻¹ v)) := by

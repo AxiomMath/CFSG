@@ -44,7 +44,7 @@ theorem five_ne_zero_of_dvd {K : Type} [Field K] [Finite K] (hpK : 5 ∣ Nat.car
   intro h
   obtain ⟨ℓ, hℓ⟩ := CharP.exists K
   have hℓp : ℓ.Prime := CharP.char_is_prime K ℓ
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K ℓ
   have hdvd : ℓ ∣ 5 := (CharP.cast_eq_zero_iff K ℓ 5).mp (by exact_mod_cast h)
   have hℓ5 : ℓ = 5 := (Nat.prime_dvd_prime_iff_eq hℓp Nat.prime_five).mp hdvd

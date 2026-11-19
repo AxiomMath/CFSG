@@ -38,7 +38,7 @@ theorem alt_of_L3Order4NotA8 (hA8 : I1419L3Order20160NotA8) : I1419UpAltFact := 
         have hna' : ∃ a b : alternatingGroup (Fin n), a * b ≠ b * a := by
           obtain ⟨a, b, hab⟩ := hna
           exact ⟨eS a, eS b, fun h => hab (eS.injective (by rw [map_mul, map_mul]; exact h))⟩
-        haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+        have : IsSimpleGroup (alternatingGroup (Fin n)) :=
           alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hn)
         obtain ⟨e1⟩ := chevQ_pSimple_top_equiv Nat.prime_three hna' hI
         exact ⟨n, hn, ⟨eJ.trans (eI.trans e1)⟩⟩
@@ -48,7 +48,7 @@ theorem alt_of_L3Order4NotA8 (hA8 : I1419L3Order20160NotA8) : I1419UpAltFact := 
         exact ⟨m, (le_max_left 5 3).trans hm, ⟨eJ.trans (eI.trans f)⟩⟩
     obtain ⟨m, hm, ⟨f⟩⟩ := key
     obtain ⟨H, hH, hL3, ⟨eH⟩⟩ := l3u3_exists_L3Kind hcat
-    haveI : Finite H := isL3Kind_finite 2 H hL3
+    have : Finite H := isL3Kind_finite 2 H hL3
     have hcard : Nat.card (H ⧸ Subgroup.center H) = m.factorial / 2 := by
       rw [Nat.card_congr eH.toEquiv, Nat.card_congr f.toEquiv, card_alt m (by omega)]
     have h2n : 2 * Nat.card (H ⧸ Subgroup.center H) = m.factorial := by

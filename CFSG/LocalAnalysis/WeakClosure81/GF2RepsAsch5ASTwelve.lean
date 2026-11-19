@@ -74,12 +74,12 @@ theorem twelve_six_AS (D : Data G) (h5_11 : Asch5_11AS)
   by_cases hsp : IsStronglyPEmbedded 3 D.M
   · have hk : D.k = 1 := by
       unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam
-      rw [if_pos hsp]
+      rw [ite_eq_left hsp]
     rw [hk]
     exact inE_of_inFSqAS (inFSqAS_of_sp D h5_13 h66 hmin hsp)
   · have hk : D.k = 2 := by
       unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam
-      rw [if_neg hsp]
+      rw [ite_eq_right hsp]
     rw [hk]
     rcases inFSqAS_of_not_sp D h5_11 h66 hmin hsp with h | h
     · exact (inE_of_inFSqAS h).mono (by norm_num)

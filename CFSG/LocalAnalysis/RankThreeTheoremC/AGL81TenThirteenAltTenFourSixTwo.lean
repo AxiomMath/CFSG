@@ -66,7 +66,7 @@ theorem eq_top_of_isComponentOf {X : Type} [Group X] [Finite X] (hX : CFSG.Open.
   rcases CFSG.Fischer.Classification.Recognition.IsSubnormal.eq_or_le_center hC.2.1 hX' with h | h
   · exact h
   · exfalso
-    refine LeviBlock.spFlag_not_isSolvable hC.2.2 (isSolvable_of_comm fun a b => ?_)
+    refine LeviBlock.spFlag_not_isSolvable hC.2.2 (_root_.Group.isSolvable_of_comm fun a b => ?_)
     obtain ⟨a', ha', ha⟩ := h a.2
     obtain ⟨b', -, hb⟩ := h b.2
     apply Subtype.ext
@@ -89,7 +89,7 @@ theorem ne_borel_of_alt5 {Y : Type} [Group Y] [Finite Y] {L P : Subgroup Y} (hPL
     (hC : ∃ f : ↥C →* alternatingGroup (Fin 5), Function.Surjective f) :
     ∀ T : Subgroup Y, IsSylowTwoOf T L → P ≠ L ⊓ Subgroup.normalizer (T : Set Y) := by
   rintro T ⟨hTL, hT2, hTi⟩ hPeq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, hf⟩ := hC
   have hTP : T ≤ P := by rw [hPeq]; exact le_inf hTL Subgroup.le_normalizer
   have hTn : (T.subgroupOf P).Normal := ⟨fun n hn g => by
@@ -113,7 +113,7 @@ theorem ne_borel_of_alt5 {Y : Type} [Group Y] [Finite Y] {L P : Subgroup Y} (hPL
 
 theorem odd_card_center_of_pCore_eq_bot {Y : Type} [Group Y] [Finite Y]
     (h : CFSG.pCore 2 Y = ⊥) : Odd (Nat.card (Subgroup.center Y)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Nat.odd_iff, ← Nat.two_dvd_ne_zero]
   intro h2
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 h2
@@ -143,7 +143,7 @@ theorem compParab_top_subgroupOf {A : Type} [Group A] [Finite A] {Y P : Subgroup
     {C₁ C₂ : Subgroup (↥(P.subgroupOf Y) ⧸ CFSG.pCore 2 ↥(P.subgroupOf Y))}
     (h₁ : IsFiveComponent (P.subgroupOf Y) C₁) (h₂ : IsFiveComponent (P.subgroupOf Y) C₂)
     (hne : C₁ ≠ C₂) : CompParab (⊤ : Subgroup ↥Y) (P.subgroupOf Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : CFSG.Open.IsQuasisimple ↥(⊤ : Subgroup ↥Y) :=
     LeviBlock.isQuasisimple_of_mulEquiv Subgroup.topEquiv.symm hYq
   have hO2Y : CFSG.pCore 2 ↥Y = ⊥ :=
@@ -346,7 +346,7 @@ theorem kFactFourSixTwo_of (hTF : KFactCompParabTwoFives) : KFactFourSixTwo := b
     rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, hmk _ hxJ]
     congr 1
     apply Subtype.ext
-    simp only [Subgroup.coe_mk]
+    simp only
     group
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.TenThirteen

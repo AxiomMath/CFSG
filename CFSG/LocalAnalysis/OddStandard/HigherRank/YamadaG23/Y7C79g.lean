@@ -66,7 +66,7 @@ private theorem dih_gen : ∃ x : GL (Fin 3) (ZMod 2), dih ⊔ conjSub x dih = �
     rw [card_dih] at h8
     exact dvd_trans (by norm_num) h8
   have h7 : 7 ∣ Nat.card H := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hord : orderOf (dihElt (0, 2) * MulAut.conj wGL (dihElt (0, 3))) = 7 := by
       apply orderOf_eq_prime
       · decide +kernel
@@ -78,7 +78,7 @@ private theorem dih_gen : ∃ x : GL (Fin 3) (ZMod 2), dih ⊔ conjSub x dih = �
 theorem y7c_gl3Two_gen_sylow (S : Subgroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)))
     (hS : Nat.card S = 8) : ∃ x, S ⊔ conjSub x S = ⊤ := by
   obtain ⟨x0, hx0⟩ := dih_gen
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSp : IsPGroup 2 S := IsPGroup.of_card (n := 3) (by rw [hS]; norm_num)
   have hSidx : ¬ 2 ∣ S.index := by
     have h := S.card_mul_index
@@ -109,7 +109,7 @@ theorem y7c_gl3_gen_sylow (hE : IsGL3Ext E N) {D : Subgroup G} (hND : N ≤ D) (
     (hD : Nat.card D = 8 * Nat.card N) : ∃ x ∈ E, D ⊔ conjSub x D = E := by
   unfold IsGL3Ext SecProp at hE
   obtain ⟨hNE, hNnorm, ⟨e⟩⟩ := hE
-  haveI : (N.subgroupOf E).Normal := hNnorm
+  have : (N.subgroupOf E).Normal := hNnorm
   let Q := ↥E ⧸ N.subgroupOf E
   let π : E →* Q := QuotientGroup.mk' (N.subgroupOf E)
   let ψ : E →* GL (Fin 3) (ZMod 2) := e.toMonoidHom.comp π
@@ -145,7 +145,7 @@ theorem y7c_gl3_gen_sylow (hE : IsGL3Ext E N) {D : Subgroup G} (hND : N ≤ D) (
         _ = Nat.card ↥A := hcard.symm
         _ = 8 * Nat.card N := hAD
     have hNpos : 0 < Nat.card N := by
-      haveI : Nonempty ↥N := ⟨1⟩
+      have : Nonempty ↥N := ⟨1⟩
       exact Nat.card_pos
     exact Nat.eq_of_mul_eq_mul_right hNpos hmain
   obtain ⟨y0, hy0⟩ := y7c_gl3Two_gen_sylow (A.map ψ) hS

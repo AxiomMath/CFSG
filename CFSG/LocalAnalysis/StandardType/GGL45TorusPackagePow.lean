@@ -43,7 +43,7 @@ private lemma ggL45L976_modEq_pow_pow {p : ℕ} {s : ℕ} (hs : 2 ≤ s) {c₀ :
     (hc₀ : c₀ ≡ 1 + (p : ℤ) ^ (s - 1) * k₀ [ZMOD (p : ℤ) ^ s]) (m : ℕ) :
     c₀ ^ m ≡ 1 + (p : ℤ) ^ (s - 1) * (m * k₀) [ZMOD (p : ℤ) ^ s] := by
   induction m with
-  | zero => simpa using Int.ModEq.refl (1 : ℤ)
+  | zero => simp
   | succ m ih =>
     rw [pow_succ]
     refine (ih.mul hc₀).trans ?_

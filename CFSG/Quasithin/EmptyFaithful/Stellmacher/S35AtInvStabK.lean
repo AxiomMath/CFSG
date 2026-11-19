@@ -90,7 +90,7 @@ end InvStabK
 open CFSG.Permutation.FinPack InvStabK in
 theorem invStab_card_of_fix (x y : Fin 5) (hxy : x ≠ y) (F : Finset (Perm (Fin 5)))
     (hF : ∀ g ∈ F, ((g x = x ∧ g y = y) ∨ (g x = y ∧ g y = x)) ∧ g ^ 2 = 1)
-    (h1 : (1 : Perm (Fin 5)) ∈ F) (hmul : ∀ a ∈ F, ∀ b ∈ F, a * b ∈ F) :
+    (_h1 : (1 : Perm (Fin 5)) ∈ F) (hmul : ∀ a ∈ F, ∀ b ∈ F, a * b ∈ F) :
     F.card ≤ 4 ∧ (3 ≤ F.card → swap x y ∈ F) := by
   have hn : 5 ≤ 16 := by norm_num
   have hxy' : Nat.beq x y = false :=

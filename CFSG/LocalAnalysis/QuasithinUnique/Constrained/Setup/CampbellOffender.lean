@@ -524,7 +524,7 @@ theorem exists_slPerm_orderOf_three [CharP k 2] :
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, ht,
       Matrix.SpecialLinearGroup.coe_one]
     fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-      first | rfl | linear_combination h2
+      linear_combination h2
   exact ⟨t, orderOf_eq_prime ht3 ht1⟩
 
 theorem rootPerm_eq_of_le_two_group [CharP k 2] [Finite k] {P : Subgroup (Equiv.Perm (Fin 2 → k))}
@@ -637,7 +637,7 @@ theorem card_eq_two_pow_factorization_slGamma [Finite k] [CharP k 2] :
             (rootGamma_le_slGamma ℓ)).toEquiv).symm
       _ ≤ Nat.card P₀ := Subgroup.card_le_of_le hP₀
   have hup : Nat.card P₀ ≤ Nat.card k := by
-    have hP0 : IsPGroup 2 (P₀ : Subgroup (slGamma k)) := P₀.isPGroup'
+    have hP0 : IsPGroup 2 (P₀ : Subgroup (slGamma k)) := P₀.isPGroup
     have := card_le_of_isPGroup_of_le_slGamma ((P₀ : Subgroup (slGamma k)).map (slGamma k).subtype)
       (by rintro _ ⟨x, -, rfl⟩; exact x.2)
       (hP0.of_equiv (((P₀ : Subgroup (slGamma k)).equivMapOfInjective (slGamma k).subtype

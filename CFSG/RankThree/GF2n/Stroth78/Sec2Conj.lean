@@ -13,12 +13,14 @@ open CFSG.LargeExtraspecial.Timmesfeld (Qa fStar)
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
+omit [Finite G] in
 theorem centralizer_map_conj (a : G) (g : G) :
     Subgroup.centralizer ({g * a * g⁻¹} : Set G) =
       (Subgroup.centralizer ({a} : Set G)).map (MulAut.conj g).toMonoidHom := by
   rw [← MulAut.conj_apply g a]
   exact (CFSG.Literature.GL52.map_centralizer_singleton (MulAut.conj g) a).symm
 
+omit [Finite G] in
 theorem fStar_map_conj (M : Subgroup G) (g : G) :
     fStar (M.map (MulAut.conj g).toMonoidHom) =
       (fStar M).map (MulAut.conj g).toMonoidHom := by
@@ -32,7 +34,8 @@ theorem fStar_map_conj (M : Subgroup G) (g : G) :
   unfold fStar
   rw [← h, Subgroup.map_map, Subgroup.map_map, hcomp]
 
-theorem QaOf_eq_map_of_isConj (S : Setting z E F) {a : G} (h : IsConj z a) :
+omit [Finite G] in
+theorem QaOf_eq_map_of_isConj (_S : Setting z E F) {a : G} (h : IsConj z a) :
     ∃ g : G, QaOf a = (Q z).map (MulAut.conj g).toMonoidHom := by
   obtain ⟨c, hc⟩ := h
   have ha : a = (c : G) * z * (c : G)⁻¹ := by
@@ -45,12 +48,14 @@ theorem QaOf_eq_map_of_isConj (S : Setting z E F) {a : G} (h : IsConj z a) :
     (fStar (Subgroup.centralizer ({z} : Set G))).map (MulAut.conj (c : G)).toMonoidHom
   rw [ha, centralizer_map_conj z (c : G), fStar_map_conj]
 
+omit [Finite G] in
 theorem card_QaOf_eq (S : Setting z E F) {a : G} (h : IsConj z a) :
     Nat.card (QaOf a) = Nat.card (Q z) := by
   obtain ⟨g, hg⟩ := QaOf_eq_map_of_isConj S h
   rw [hg, Subgroup.card_map_of_injective (K := Q z)
     (f := (MulAut.conj g).toMonoidHom) (MulAut.conj g).injective]
 
+omit [Finite G] in
 theorem centerIn_QaOf_eq_map (S : Setting z E F) {a : G} (h : IsConj z a) :
     ∃ g : G, centerIn (QaOf a) = (ZQ z).map (MulAut.conj g).toMonoidHom := by
   obtain ⟨g, hg⟩ := QaOf_eq_map_of_isConj S h

@@ -87,6 +87,7 @@ private def commEndS (g : MulAut Y) : Y →* Y where
     simp only [map_mul, mul_inv_rev]
     ac_rfl
 
+omit [Finite Y] in
 private theorem mem_ker_commEndS {g : MulAut Y} {w : Y} : w ∈ (commEndS g).ker ↔ g w = w := by
   rw [MonoidHom.mem_ker]
   change g w * w⁻¹ = 1 ↔ g w = w

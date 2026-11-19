@@ -99,7 +99,7 @@ theorem conclusion {F : Type*} [Field F] [IsAlgClosed F]
     (hqF : (q : F) ≠ 0) (hrF : (r : F) ≠ 0) (hHF : (Nat.card H : F) ≠ 0) :
     q = 2 ∧ ∃ k : ℕ, orderOf (2 : ZMod r) = 2 ^ k := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hEF : (Nat.card E : F) ≠ 0 := by
     intro h0
     apply hHF
@@ -111,7 +111,7 @@ theorem conclusion {F : Type*} [Field F] [IsAlgClosed F]
     hqr D hD hCV E hE1 hEq hEF hrF hDE
   have hnc := FixedFreePrimeGeneratedPGroupSpecial.nonabelian τ hfaith hq hr
     hqr D hD hCV E hE1 hEq hEF hrF hDE
-  haveI : IsCyclic D := isCyclic_of_prime_card hD
+  have : IsCyclic D := isCyclic_of_prime_card hD
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := D)
   have hgord : orderOf g = r := by
     rw [orderOf_eq_card_of_forall_mem_zpowers hg, hD]
@@ -130,7 +130,7 @@ theorem conclusion {F : Type*} [Field F] [IsAlgClosed F]
     ext x
     rw [conjAut_pow]
     simp [hdr]
-  let T : W ≃ₗ[F] W := LinearEquiv.ofLinear (τ d) (τ d⁻¹)
+  let T : W ≃ₗ[F] W := LinearEquiv.ofLinearMap (τ d) (τ d⁻¹)
     (by rw [← Module.End.mul_eq_comp, ← map_mul]; simp [Module.End.one_eq_id])
     (by rw [← Module.End.mul_eq_comp, ← map_mul]; simp [Module.End.one_eq_id])
   have hTapply : ∀ w, T w = τ d w := fun w => rfl

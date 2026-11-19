@@ -10,7 +10,7 @@ namespace CFSG.RankThree.PartTwo.Sec4
 theorem ys03_N06_exists_primitiveRoot_three (K : Type) [Field K] [Finite K]
     {m : ℕ} (hm : 1 ≤ m) (hK : Nat.card K = 4 ^ m) : ∃ ζ : K, IsPrimitiveRoot ζ 3 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h4mod : 4 ^ m % 3 = 1 := by
     rw [Nat.pow_mod]
     norm_num

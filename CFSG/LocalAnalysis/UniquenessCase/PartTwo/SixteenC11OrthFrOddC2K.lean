@@ -32,7 +32,7 @@ theorem s16c11_frK_sort3_xor (i j : ℕ) :
     (s16c11_fr_sort3 i j (i ^^^ j)).2.2 =
       (s16c11_fr_sort3 i j (i ^^^ j)).1 ^^^ (s16c11_fr_sort3 i j (i ^^^ j)).2.1 := by
   unfold s16c11_fr_sort3
-  split_ifs <;> simp [Nat.xor_comm, Nat.xor_left_comm]
+  split_ifs <;> simp [Nat.xor_comm]
 
 theorem s16c11_frK_sort3_lt (i j : ℕ) (hi : i < 256) (hj : j < 256) :
     (s16c11_fr_sort3 i j (i ^^^ j)).1 < 256 ∧ (s16c11_fr_sort3 i j (i ^^^ j)).2.1 < 256 ∧

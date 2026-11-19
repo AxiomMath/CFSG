@@ -102,14 +102,17 @@ theorem injOn_of_isPGroup (h : GomiU42Setup B e t J₀ E₂) {P : Subgroup B} (h
   rw [hc.gcd_eq_one, Nat.dvd_one, orderOf_eq_one_iff] at hd
   exact inv_mul_eq_one.1 hd
 
+omit [Finite B] in
 theorem mk_eq_iff {x y : B} :
     QuotientGroup.mk' (zpowers e) x = QuotientGroup.mk' (zpowers e) y ↔ x⁻¹ * y ∈ zpowers e :=
   QuotientGroup.eq
 
+omit [(zpowers e).Normal] in
 theorem card_B_eq (h : GomiU42Setup B e t J₀ E₂) :
     Nat.card B = Nat.card (B ⧸ zpowers e) * 3 := by
   rw [card_eq_card_quotient_mul_card_subgroup (zpowers e), Nat.card_zpowers, h.orderOf_e]
 
+omit [(zpowers e).Normal] in
 theorem two_pow_dvd_card_quot (h : GomiU42Setup B e t J₀ E₂) :
     2 ^ 9 ∣ Nat.card (B ⧸ zpowers e) := by
   have := h.two_pow_dvd
@@ -126,6 +129,7 @@ theorem injOn_J₀ (h : GomiU42Setup B e t J₀ E₂) :
   rw [h.inf_e, mem_bot] at hz'
   exact inv_mul_eq_one.1 hz'
 
+omit [(zpowers e).Normal] in
 theorem not_mem_zpowers_e (h : GomiU42Setup B e t J₀ E₂) : t ∉ zpowers e := by
   intro ht
   obtain ⟨k, hk⟩ := mem_zpowers_iff.1 ht
@@ -148,20 +152,23 @@ theorem orderOf_mk_t (h : GomiU42Setup B e t J₀ E₂) :
     exact (QuotientGroup.eq_one_iff t).1 h1
   exact orderOf_eq_prime hsq hne
 
+omit [(zpowers e).Normal] in
 theorem isSimpleGroup_J₀ (h : GomiU42Setup B e t J₀ E₂) : IsSimpleGroup J₀ :=
   CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) h.lieModel
 
+omit [(zpowers e).Normal] in
 theorem card_J₀ (h : GomiU42Setup B e t J₀ E₂) : Nat.card J₀ = 25920 := by
   have := CFSG.EvenSmallLie.CatalogOrders.card_eq_lieOrd_of_classical
     (h.lieModel.statedClassicalModel (by decide))
   rw [this]
   decide
 
+omit [(zpowers e).Normal] in
 theorem nonabelian_J₀ (h : GomiU42Setup B e t J₀ E₂) : ∃ x y : J₀, x * y ≠ y * x := by
   by_contra hne
   push Not at hne
-  haveI := h.isSimpleGroup_J₀
-  letI : CommGroup J₀ := { (inferInstance : Group J₀) with mul_comm := fun x y => (hne x y) }
+  have := h.isSimpleGroup_J₀
+  let : CommGroup J₀ := { (inferInstance : Group J₀) with mul_comm := fun x y => (hne x y) }
   have hp := IsSimpleGroup.prime_card (α := J₀)
   rw [h.card_J₀] at hp
   exact absurd hp (by norm_num)
@@ -172,7 +179,7 @@ noncomputable def equivJb (h : GomiU42Setup B e t J₀ E₂) :
 
 theorem isSimpleGroup_Jb (h : GomiU42Setup B e t J₀ E₂) :
     IsSimpleGroup (J₀.map (QuotientGroup.mk' (zpowers e))) := by
-  haveI := h.isSimpleGroup_J₀
+  have := h.isSimpleGroup_J₀
   exact h.equivJb.symm.isSimpleGroup
 
 theorem nonabelian_Jb (h : GomiU42Setup B e t J₀ E₂) :
@@ -187,6 +194,7 @@ theorem card_Jb (h : GomiU42Setup B e t J₀ E₂) :
   rw [card_map_of_injOn _ J₀ h.injOn_J₀]
   exact h.card_J₀
 
+omit [Finite B] in
 theorem map_zpowers_e : (zpowers e).map (QuotientGroup.mk' (zpowers e)) = ⊥ := by
   rw [eq_bot_iff]
   rintro _ ⟨x, hx, rfl⟩
@@ -254,8 +262,8 @@ theorem sylow_not_central (h : GomiU42Setup B e t J₀ E₂) :
 theorem exists_four_group (h : GomiU42Setup B e t J₀ E₂) :
     ∃ E4 : Subgroup (B ⧸ zpowers e), E4 ≤ J₀.map (QuotientGroup.mk' (zpowers e)) ∧
       CFSG.IsElementaryAbelian 2 E4 ∧ Nat.card E4 = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h.elementary
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.elementary
   set C : Subgroup B := E₂ ⊓ centralizer ({t} : Set B) with hC
   have hCE : C ≤ E₂ := inf_le_left
   have hcomm : ∀ x ∈ E₂, ∀ y ∈ E₂, x * y = y * x := fun x hx y hy =>

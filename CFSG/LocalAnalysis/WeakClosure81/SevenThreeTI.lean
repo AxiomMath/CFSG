@@ -44,7 +44,7 @@ theorem isPGroup_of_map_mk_isPGroup {X J H : Subgroup G} (hXH : X ≤ H) (hJH : 
     (hJnorm : (J.subgroupOf H).Normal) (hJ2 : IsPGroup 2 J)
     (h : IsPGroup 2 ((X.subgroupOf H).map (QuotientGroup.mk' (J.subgroupOf H)))) :
     IsPGroup 2 X := by
-  haveI : (J.subgroupOf H).Normal := hJnorm
+  have : (J.subgroupOf H).Normal := hJnorm
   let π : ↥H →* (↥H ⧸ (J.subgroupOf H)) := QuotientGroup.mk' (J.subgroupOf H)
   have hker : IsPGroup 2 π.ker := by
     rw [show π.ker = J.subgroupOf H from QuotientGroup.ker_mk' (J.subgroupOf H)]
@@ -159,17 +159,20 @@ end General
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_of_mem_omegaSet {V H E U : Subgroup G} (hV : IsElemAbelian 2 V)
     (hU : U ∈ omegaSet V H E) : IsElemAbelian 2 U := by
   obtain ⟨g, rfl, -, -⟩ := mem_omegaSet.mp hU
   exact isElemAbelian_conjSubgroup' hV g
 
+omit [Finite G] in
 theorem inf_iSub_eq_inf_pCoreOf {V H E U : Subgroup G} (hU : U ∈ omegaSet V H E) :
     U ⊓ iSub V H E = U ⊓ pCoreOf 2 H := by
   refine le_antisymm ?_ ?_
   · exact inf_le_inf le_rfl (iSup_le fun W => iSup_le fun _ => inf_le_right)
   · exact le_inf inf_le_left (inf_pCoreOf_le_iSub hU)
 
+omit [Finite G] in
 theorem inf_iSub_eq_inf_J {V H E J U : Subgroup G} (hU : U ∈ omegaSet V H E)
     (hIJ : iSub V H E ≤ J) (hJ : J ≤ pCoreOf 2 H) : U ⊓ iSub V H E = U ⊓ J := by
   refine le_antisymm (inf_le_inf le_rfl hIJ) ?_
@@ -186,7 +189,7 @@ theorem inf_pCoreOf_ne_bot_of_mem_omegaSet {V H E U : Subgroup G}
     have hp : IsPGroup 2 ↥(conjSubgroup V g ⊓ E : Subgroup G) :=
       (CFSG.CGT.Timmesfeld75.isPGroup_two_of_isElemAbelian hUe).to_le inf_le_left
     have hnorm' : ((conjSubgroup V g ⊓ E).subgroupOf E).Normal := by
-      haveI : IsMulCommutative E := hE
+      have : IsMulCommutative E := hE
       infer_instance
     have h1 : conjSubgroup V g ⊓ E ≤ pCoreOf 2 E :=
       CFSG.LieType.BorelTits.le_pCoreOf 2 inf_le_right hnorm' hp
@@ -207,6 +210,7 @@ theorem inf_pCoreOf_ne_bot_of_mem_omegaSet {V H E U : Subgroup G}
   rw [hbot] at hx'
   exact hx'
 
+omit [Finite G] in
 theorem mem_dSet_of_mem_of_not_mem_J {V H E J U : Subgroup G} (hU : U ∈ omegaSet V H E)
     (hIJ : iSub V H E ≤ J) (hJ : J ≤ pCoreOf 2 H) {u : G} (hu : u ∈ U) (huJ : u ∉ J) :
     u ∈ dSet V H E := by
@@ -217,6 +221,7 @@ theorem mem_dSet_of_mem_of_not_mem_J {V H E J U : Subgroup G} (hU : U ∈ omegaS
   intro huO
   exact huJ (hle ⟨hu, huO⟩).2
 
+omit [Finite G] in
 theorem kSub_subgroupOf_normal {V H E : Subgroup G} (hEH : E ≤ H)
     (hEnorm : (E.subgroupOf H).Normal) (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H) :
     ((kSub V H E).subgroupOf H).Normal := by
@@ -315,7 +320,7 @@ theorem seven_three_three {V H E J : Subgroup G}
     hclHuw.trans (le_normalizer_of_subgroupOf_normal hJleH hJnorm)
   have huw_not : ¬ IsPGroup 2 (Subgroup.closure ({u, w} : Set G)) := by
     intro h2
-    haveI : (J.subgroupOf H).Normal := hJnorm
+    have : (J.subgroupOf H).Normal := hJnorm
     let π : ↥H →* (↥H ⧸ (J.subgroupOf H)) := QuotientGroup.mk' (J.subgroupOf H)
     have h2sub : IsPGroup 2 ((Subgroup.closure ({u, w} : Set G)).subgroupOf H) :=
       IsPGroup.comap_of_injective h2 H.subtype H.subtype_injective
@@ -535,12 +540,12 @@ theorem seven_three_five {V H E J R : Subgroup G}
     (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
     (hVOm : V ∈ omegaSet V H E) (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H)
     (hJ : J ≤ pCoreOf 2 H) (hJnorm : (J.subgroupOf H).Normal) (hIJ : iSub V H E ≤ J)
-    (hVbig : 2 < J.relIndex V) (hJR : J ≤ R) (hRH : R ≤ H)
+    (hVbig : 2 < J.relIndex V) (_hJR : J ≤ R) (hRH : R ≤ H)
     (hVN : V ≤ Subgroup.normalizer (R : Set G)) (hRodd : Odd (J.relIndex R)) :
     ⁅V, R⁆ ≤ J := by
   have hVleH : V ≤ H := hOmH V hVOm
   have hJleH : J ≤ H := hJ.trans (CFSG.LieType.BorelTits.pCoreOf_le (r := 2) H)
-  haveI : (J.subgroupOf H).Normal := hJnorm
+  have : (J.subgroupOf H).Normal := hJnorm
   let π : ↥H →* (↥H ⧸ (J.subgroupOf H)) := QuotientGroup.mk' (J.subgroupOf H)
   let Vq : Subgroup (↥H ⧸ (J.subgroupOf H)) := (V.subgroupOf H).map π
   let Rq : Subgroup (↥H ⧸ (J.subgroupOf H)) := (R.subgroupOf H).map π

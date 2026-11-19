@@ -77,8 +77,7 @@ private theorem s16k_statedOmegaPlusCongr_apply_coe {K L : Type} [Field K] [Fiel
     (e : K ≃+* L) (m : ℕ) (x : ↥(StatedOmega (StatedQuadPlus m K))) :
     ((s16k_statedOmegaPlusCongr e m x : ↥(StatedOmega (StatedQuadPlus m L))) :
         GL (Fin m ⊕ Fin m) L) = glCongr e (x : GL (Fin m ⊕ Fin m) K) := by
-  simp only [s16k_statedOmegaPlusCongr, MulEquiv.trans_apply, MulEquiv.coe_subgroupMap_apply,
-    MulEquiv.subgroupCongr_apply]
+  simp only [s16k_statedOmegaPlusCongr, MulEquiv.trans_apply]
   rfl
 
 private noncomputable def s16k_statedOmegaPlusProjEquiv {K : Type} [Field K]
@@ -104,8 +103,8 @@ private theorem s16k_omegaPlus_module_equiv {K₁ K₂ : Type} [Field K₁] [Fie
         (x : Multiplicative (Fin m ⊕ Fin m → K₁)),
         A (natAct (StatedOmega (StatedQuadPlus m K₁)) γ x) =
           natAct (StatedOmega (StatedQuadPlus m K₂)) (φ γ) (A x) := by
-  haveI : Fintype K₁ := Fintype.ofFinite K₁
-  haveI : Fintype K₂ := Fintype.ofFinite K₂
+  have : Fintype K₁ := Fintype.ofFinite K₁
+  have : Fintype K₂ := Fintype.ofFinite K₂
   let e : K₁ ≃+* K₂ := FiniteField.ringEquivOfCardEq (by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, h₁, h₂])
   let E : ↥(StatedOmega (StatedQuadPlus m K₁)) ≃* ↥(StatedOmega (StatedQuadPlus m K₂)) :=
@@ -181,7 +180,7 @@ private theorem s16k_omegaPlus_module_equiv {K₁ K₂ : Type} [Field K₁] [Fie
   conv_rhs => rw [s16k_natAct_toAdd, s16k_vecConjMulEquiv_apply_toAdd, Matrix.mulVec_mulVec]
   rw [hmat g]
 
-theorem s16k_omegaPlus_two_equiv {n : ℕ} (hn : 8 ≤ n) {X : Type} [Group X] [Finite X]
+theorem s16k_omegaPlus_two_equiv {n : ℕ} (_hn : 8 ≤ n) {X : Type} [Group X] [Finite X]
     (hX : IsOmegaPlus X n 1) {K₁ K₂ : Type} [Field K₁] [Field K₂] [Finite K₁] [Finite K₂]
     (h₁ : Nat.card K₁ = 2) (h₂ : Nat.card K₂ = 2)
     {π₁ : ↥(StatedOmega (StatedQuadPlus (n / 2) K₁)) →* X}
@@ -193,11 +192,11 @@ theorem s16k_omegaPlus_two_equiv {n : ℕ} (hn : 8 ≤ n) {X : Type} [Group X] [
         (FFModel.nat (StatedOmega (StatedQuadPlus (n / 2) K₂))) π₁ π₂) := by
   classical
   obtain ⟨-, K', hK'field, hK'fin, hK'card, ⟨eX⟩⟩ := hX
-  letI : Field K' := hK'field
-  letI : Finite K' := hK'fin
-  haveI : Fintype K₁ := Fintype.ofFinite K₁
-  haveI : Fintype K₂ := Fintype.ofFinite K₂
-  haveI : Fintype K' := Fintype.ofFinite K'
+  let : Field K' := hK'field
+  let : Finite K' := hK'fin
+  have : Fintype K₁ := Fintype.ofFinite K₁
+  have : Fintype K₂ := Fintype.ofFinite K₂
+  have : Fintype K' := Fintype.ofFinite K'
   have hK' : Nat.card K' = 2 := by simpa using hK'card
   have hcardX : Nat.card X =
       Nat.card (StatedProj (StatedOmega (StatedQuadPlus (n / 2) K'))) :=

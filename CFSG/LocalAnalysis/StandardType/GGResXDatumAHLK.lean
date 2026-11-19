@@ -14,7 +14,7 @@ open CFSG CFSG.Assembly
 
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
-theorem ggResXDatumA_compat_K (hRig : GGLabelRigidInput)
+theorem ggResXDatumA_compat_K (_hRig : GGLabelRigidInput)
     (hT : GGTBTorANarrow) (hLift : GGTBTorLiftADepRows) (hW : GGTBWNormLabelInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
@@ -57,8 +57,8 @@ theorem ggResXDatumA_compat_K (hRig : GGLabelRigidInput)
   obtain ⟨w, hw⟩ := hTor
   have hp2 : p ≠ 2 := ggHLT_ne_two_of_S hp hlab ⟨htag, hrank, hdvd, hdvdM⟩
   obtain ⟨V, hVadd, hVmod, hι⟩ := exists_ggLinData (p := p) (G := G) (Bs := Bs) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
   obtain ⟨ι⟩ := hι
   have hKy : K ≤ Subgroup.centralizer ({y} : Set G) := hH.2.2.2.2.1.1.2.2.2.1
   have hyK : y ∈ Subgroup.centralizer (K : Set G) := by

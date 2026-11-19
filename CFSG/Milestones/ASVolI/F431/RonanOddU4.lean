@@ -116,8 +116,8 @@ theorem ctx_of_even_index_U4 {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E} {Y
     (hyp : HypF_4_31 GLKind.U4 1 Gp M₁ M₂ β ε z) (hev : ¬ Odd Gp.index) :
     Nonempty (CFSG.Quasithin.H13.F431.U42Aut.AutCtx M (MiOne β ε) (MiTwo β ε) z) := by
   classical
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   have hne : Gp ≠ ⊤ := fun h => hev (by rw [h, Subgroup.index_top]; exact odd_one)
   have hout : ∃ n ∈ M₁ ⊓ M₂, n ∉ Gp := by
     obtain ⟨e, he⟩ : ∃ e : E, e ∉ Gp := by
@@ -157,7 +157,7 @@ theorem ctx_of_even_index_U4 {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E} {Y
 theorem oddIndex_U4_of_lie (hlie : LieOfAutCtx) : OddIndexU4 := by
   intro E _ Gp M₁ M₂ Y _ β M _ ε z hyp hL
   by_contra hev
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   obtain ⟨c⟩ := ctx_of_even_index_U4 hyp hev
   exact hL (isL43_of_lieModel (hlie M _ _ z c))
 

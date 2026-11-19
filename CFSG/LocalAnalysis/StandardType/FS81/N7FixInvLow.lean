@@ -53,30 +53,30 @@ private theorem q2nN7_sgn_mulVec_eq_self_iff (S : Finset (Fin 8)) (v : Fin 8 →
     rw [q2nN7_sgn_mulVec]
     dsimp only
     by_cases hi : i ∈ S
-    · rw [if_pos hi, h i hi]
+    · rw [ite_eq_left hi, h i hi]
       decide
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
 
 private def q2nN7_vanishingEquiv (S : Finset (Fin 8)) :
     {v : Fin 8 → ZMod 3 // ∀ i ∈ S, v i = 0} ≃ ({i : Fin 8 // i ∉ S} → ZMod 3) where
   toFun v := fun i => v.1 i.1
   invFun w := ⟨fun i => if h : i ∈ S then 0 else w ⟨i, h⟩, by
     intro i hi
-    simpa only [dif_pos hi]⟩
+    simp only [dite_eq_left hi]⟩
   left_inv := by
     intro v
     refine Subtype.ext ?_
     funext i
     dsimp only
     by_cases hi : i ∈ S
-    · rw [dif_pos hi]
+    · rw [dite_eq_left hi]
       exact (v.2 i hi).symm
-    · rw [dif_neg hi]
+    · rw [dite_eq_right hi]
   right_inv := by
     intro w
     funext i
     cases i with
-    | mk i hi => simp only [dif_neg hi]
+    | mk i hi => simp only [dite_eq_right hi]
 
 theorem q2nN7_fixCount_sgn (S : Finset (Fin 8)) : fixCount (sgn S) = 3 ^ (8 - S.card) := by
   have hcard : Fintype.card {i : Fin 8 // i ∉ S} = 8 - S.card := by
@@ -101,15 +101,15 @@ private theorem q2nN7_goodVec_self (σ : Equiv.Perm (Fin 8)) (s : Fin 8 → ZMod
     (j : Fin 8) : q2nN7_goodVec σ s j j = 1 := by
   simp only [q2nN7_goodVec, Pi.add_apply, Pi.single_eq_same]
   by_cases h : σ j = j
-  · simp only [h, if_true, Pi.zero_apply, add_zero]
-  · simp only [h, if_false, Pi.single_eq_of_ne (Ne.symm h), add_zero]
+  · simp only [h, ite_true, Pi.zero_apply, add_zero]
+  · simp only [h, ite_false, Pi.single_eq_of_ne (Ne.symm h), add_zero]
 
 private theorem q2nN7_goodVec_eq_zero (σ : Equiv.Perm (Fin 8)) (s : Fin 8 → ZMod 3)
     (j k : Fin 8) (hjk : k ≠ j) (hσjk : k ≠ σ j) : q2nN7_goodVec σ s j k = 0 := by
-  simp only [q2nN7_goodVec, Pi.add_apply, Pi.single_eq_of_ne hjk, Pi.zero_apply]
+  simp only [q2nN7_goodVec, Pi.add_apply, Pi.single_eq_of_ne hjk]
   by_cases h : σ j = j
-  · simp only [h, if_true, Pi.zero_apply, zero_add]
-  · simp only [h, if_false, Pi.single_eq_of_ne hσjk, add_zero]
+  · simp only [h, ite_true, Pi.zero_apply, zero_add]
+  · simp only [h, ite_false, Pi.single_eq_of_ne hσjk, add_zero]
 
 private def q2nN7_comb (σ : Equiv.Perm (Fin 8)) (s : Fin 8 → ZMod 3) (i i' : Fin 8)
     (c : Fin 3 → ZMod 3) : Fin 8 → ZMod 3 :=
@@ -128,10 +128,10 @@ private theorem q2nN7_spMat_mulVec_goodVec {σ : Equiv.Perm (Fin 8)} {s : Fin 8 
       rcases hgj with h | h
       · exact absurd hfix h
       · exact h
-    simp only [q2nN7_goodVec, hfix, if_true, Matrix.mulVec_add, Matrix.mulVec_zero, add_zero,
+    simp only [q2nN7_goodVec, hfix, ite_true, add_zero,
       spMat_mulVec_single, hs1, mul_one]
   · have hif : (if σ j = j then (0 : Fin 8 → ZMod 3) else Pi.single (σ j) (s j))
-        = Pi.single (σ j) (s j) := if_neg hfix
+        = Pi.single (σ j) (s j) := ite_eq_right hfix
     simp only [q2nN7_goodVec, hif, Matrix.mulVec_add, spMat_mulVec_single]
     obtain ⟨hσj, hsj⟩ := hsq j
     rw [hσj, hsj, mul_one]
@@ -178,9 +178,9 @@ theorem q2nN7_fixCount_ge_27 {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3} (h
   have hfi'i' : q2nN7_goodVec σ s i' i' = 1 := q2nN7_goodVec_self σ s i'
   have he00 : e0 0 = 1 := by simp only [e0, Pi.single_eq_same]
   have he0i : e0 i = 0 := by
-    simp only [e0, Pi.single_eq_of_ne hi, Pi.zero_apply]
+    simp only [e0, Pi.single_eq_of_ne hi]
   have he0i' : e0 i' = 0 := by
-    simp only [e0, Pi.single_eq_of_ne hi', Pi.zero_apply]
+    simp only [e0, Pi.single_eq_of_ne hi']
   have hφinj : Function.Injective
       (fun c : Fin 3 → ZMod 3 =>
         (⟨q2nN7_comb σ s i i' c, q2nN7_comb_fixed hσ0 hs0 hsq hgi hgi' c⟩ :
@@ -191,17 +191,17 @@ theorem q2nN7_fixCount_ge_27 {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3} (h
     have h0 : c 0 = c' 0 := by
       have h := congrFun hval 0
       simp only [q2nN7_comb, Pi.add_apply, Pi.smul_apply, he00, hfi0, hfi'0,
-        smul_zero, smul_eq_mul, mul_one, mul_zero, add_zero] at h
+        smul_eq_mul, mul_one, mul_zero, add_zero] at h
       exact h
     have h1' : c 1 = c' 1 := by
       have h := congrFun hval i
       simp only [q2nN7_comb, Pi.add_apply, Pi.smul_apply, he0i, hfii, hfi'i,
-        smul_zero, smul_eq_mul, mul_one, mul_zero, add_zero, zero_add] at h
+        smul_eq_mul, mul_one, mul_zero, add_zero, zero_add] at h
       exact h
     have h2' : c 2 = c' 2 := by
       have h := congrFun hval i'
       simp only [q2nN7_comb, Pi.add_apply, Pi.smul_apply, he0i', hfii', hfi'i',
-        smul_zero, smul_eq_mul, mul_one, mul_zero, add_zero, zero_add] at h
+        smul_eq_mul, mul_one, mul_zero, add_zero, zero_add] at h
       exact h
     funext k
     fin_cases k

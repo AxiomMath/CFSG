@@ -54,7 +54,7 @@ theorem exists_normal_two_compl_of_cyclic {R : Type*} [Group R] [Finite R] (Q : 
     refine ⟨(MonoidHom.transferSylow Q hNC).ker, inferInstance, ?_, ?_⟩
     · exact Nat.odd_iff.mpr
         (Nat.two_dvd_ne_zero.mp (MonoidHom.not_dvd_card_ker_transferSylow Q hNC))
-    · obtain ⟨j, hj⟩ := Q.isPGroup'.exists_card_eq
+    · obtain ⟨j, hj⟩ := Q.isPGroup.exists_card_eq
       exact ⟨j, ((MonoidHom.ker_transferSylow_isComplement' Q hNC).symm.index_eq_card).trans hj⟩
   · refine ⟨⊤, inferInstance, ?_, 0, by simp⟩
     rw [Subgroup.card_top]

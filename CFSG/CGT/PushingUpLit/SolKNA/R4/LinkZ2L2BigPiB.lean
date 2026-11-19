@@ -68,6 +68,7 @@ theorem exists_piData {r : ℕ} {Λ Q A' : Subgroup G} {d : G} (hQΛ : Q ≤ Λ)
   · intro x hx
     exact MonoidHom.mem_range.mpr ⟨⟨x, hx⟩, rfl⟩
 
+omit [Finite G] in
 private theorem quatInvolution_mem_of_eq {r : ℕ} {Λ Q : Subgroup G} {d : G} (hQΛ : Q ≤ Λ)
     (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2))) (hd : quatInvolution r e = d) : d ∈ Λ :=
   hd ▸ hQΛ (e.symm (QuaternionGroup.a ((2 ^ (r - 2) : ℕ) : ZMod (2 * 2 ^ (r - 2))))).2
@@ -80,7 +81,7 @@ theorem pi_cyc_of_concl {r E : ℕ} {Λ Q A' : Subgroup G} {d : G} (hQΛ : Q ≤
     {x : G} (hx : x ∈ A') {K : ℕ} (hK : E < K) (h1 : ActsTriv Λ (x ^ 2 ^ K))
     (h2 : ¬ ActsTriv Λ (x ^ 2 ^ (K - 1))) :
     ActsLike Λ (x ^ 2 ^ (K - 1)) d := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdΛ : d ∈ Λ := quatInvolution_mem_of_eq hQΛ e hd
   obtain ⟨Qb, eb, H, hH2, hHN, hquat, hmem⟩ :=
     exists_piData hQΛ hdΛ hQ2 e hd hA'N hA'2 hA'Q
@@ -156,7 +157,7 @@ theorem pi4_of_concl {r : ℕ} {Λ Q A' : Subgroup G} {d : G} (hQΛ : Q ≤ Λ)
     {x : G} (hx : x ∈ A') {K : ℕ} (hK : 2 ≤ K) (h1 : ActsTriv Λ (x ^ 2 ^ K))
     (h2 : ¬ ActsTriv Λ (x ^ 2 ^ (K - 1))) :
     ActsLike Λ (x ^ 2 ^ (K - 1)) d ∨ ¬ InnerModOdd Λ (x ^ 2 ^ (K - 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdΛ : d ∈ Λ := quatInvolution_mem_of_eq hQΛ e hd
   obtain ⟨Qb, eb, H, hH2, hHN, hquat, hmem⟩ :=
     exists_piData hQΛ hdΛ hQ2 e hd hA'N hA'2 hA'Q

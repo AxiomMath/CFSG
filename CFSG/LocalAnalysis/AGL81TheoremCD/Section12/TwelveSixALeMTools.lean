@@ -26,7 +26,7 @@ theorem exists_conj_le_of_le_sup_of_not_three_dvd {O V U : Subgroup G}
     (hU : IsPGroup 3 U) (hUVO : U ≤ V ⊔ O) :
     ∃ o ∈ O, U.map (MulAut.conj o).toMonoidHom ≤ V := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hVsyl : IsSylowOf 3 V (V ⊔ O) := isSylowOf_sup hV hO3 hVO
   obtain ⟨P, hP, hUP⟩ := exists_isSylowOf_of_le (p := 3) hU hUVO
   obtain ⟨k, hkVO, hk⟩ := hVsyl.exists_mem_conj hP
@@ -75,10 +75,11 @@ theorem exists_mul_mem_normalizer_of_not_three_dvd {O W : Subgroup G} {s : G}
       Subgroup.card_map_of_injective (MulAut.conj s).injective]
   exact Subgroup.eq_of_le_of_card_ge hconj (by rw [hcard])
 
+omit [Finite G] in
 private lemma eq_one_or_eq_or_eq_inv_of_mem_of_card_three {W : Subgroup G}
     (hW : Nat.card W = 3) {w : G} (hwW : w ∈ W) (hw1 : w ≠ 1) {x : G} (hxW : x ∈ W) :
     x = 1 ∨ x = w ∨ x = w⁻¹ := by
-  haveI : Finite W := Nat.finite_of_card_ne_zero (by rw [hW]; norm_num)
+  have : Finite W := Nat.finite_of_card_ne_zero (by rw [hW]; norm_num)
   have hordw : orderOf w = 3 := by
     have hdvd := Subgroup.orderOf_dvd_natCard W hwW
     rw [hW] at hdvd
@@ -116,6 +117,7 @@ private lemma eq_one_or_eq_or_eq_inv_of_mem_of_card_three {W : Subgroup G}
     exact hxW
   simpa only [Set.mem_insert_iff, Set.mem_singleton_iff] using hx
 
+omit [Finite G] in
 private lemma mem_centralizer_of_maps_gen {W : Subgroup G} (hW : Nat.card W = 3)
     {w : G} (hwW : w ∈ W) (hw1 : w ≠ 1) {s : G} (hs : s * w * s⁻¹ = w) :
     s ∈ centralizer (W : Set G) := by
@@ -132,12 +134,13 @@ private lemma mem_centralizer_of_maps_gen {W : Subgroup G} (hW : Nat.card W = 3)
     · exact hsw.inv_right
   exact ((commute_iff_eq s x).mp hsx).symm
 
+omit [Finite G] in
 theorem normalizer_le_of_inverted {M W : Subgroup G} {t : G} (hW : Nat.card W = 3)
     (hCW : centralizer (W : Set G) ≤ M) (htM : t ∈ M)
     (ht : ∀ w ∈ W, t * w * t⁻¹ = w⁻¹) : normalizer (W : Set G) ≤ M := by
   intro g hg
-  haveI : Finite W := Nat.finite_of_card_ne_zero (by rw [hW]; norm_num)
-  haveI : Nontrivial W := by
+  have : Finite W := Nat.finite_of_card_ne_zero (by rw [hW]; norm_num)
+  have : Nontrivial W := by
     rw [← Finite.one_lt_card_iff_nontrivial, hW]
     norm_num
   obtain ⟨w, hwW, hw1⟩ := Subgroup.exists_ne_one_of_nontrivial W
@@ -182,15 +185,15 @@ theorem le_pCoreOf_two_of_isPSLType {I N : Subgroup G} {n : ℕ} (hn : 2 ≤ n)
     (hI : IsPSLType 2 (GaloisField 2 n) (modTwoCore I)) (hNI : N ≤ I)
     (hIN : I ≤ normalizer (N : Set G)) (hN3 : ¬ 3 ∣ Nat.card N) : N ≤ pCoreOf 2 I := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P : Subgroup ↥I := CFSG.pCore 2 ↥I
   let π : ↥I →* modTwoCore I := QuotientGroup.mk' P
   let B : Subgroup ↥I := N.subgroupOf I
   have hBn : B.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNI).mpr hIN
   let K : Subgroup (modTwoCore I) := B.map π
-  haveI : K.Normal := hBn.map π (QuotientGroup.mk'_surjective P)
+  have : K.Normal := hBn.map π (QuotientGroup.mk'_surjective P)
   obtain ⟨e⟩ := hI
-  haveI : IsSimpleGroup (modTwoCore I) :=
+  have : IsSimpleGroup (modTwoCore I) :=
     CFSG.CGT.Timmesfeld75.isSimpleGroup_of_psl2 hn e
   rcases (Subgroup.Normal.eq_bot_or_eq_top K) with hbot | htop
   · have hBle : B ≤ P := by
@@ -214,7 +217,7 @@ theorem le_pCoreOf_two_of_isPSLType {I N : Subgroup G} {n : ℕ} (hn : 2 ≤ n)
 
 theorem le_sup_relPPrimeCore_of_starImg_le (hp : p.Prime) {H A B : Subgroup G} (hAH : A ≤ H)
     (hAB : starImg p H A ≤ starImg p H B) : A ≤ B ⊔ relPPrimeCore p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O : Subgroup ↥H := CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
   have h2 : (A.subgroupOf H).map π ≤ (B.subgroupOf H).map π := hAB
@@ -237,7 +240,7 @@ theorem lt_finrank_of_dvd_card_linearEquiv {K : Type*} [Field K] [Finite K] {S :
     (hrK : ¬ r ∣ Nat.card K) (hj : ∀ j, 1 ≤ j → j ≤ m → ¬ r ∣ Nat.card K ^ j - 1)
     (hdvd : r ∣ Nat.card (S ≃ₗ[K] S)) : m < Module.finrank K S := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have : Fintype K := Fintype.ofFinite K
   by_contra hlt
   push Not at hlt
@@ -256,11 +259,13 @@ theorem lt_finrank_of_dvd_card_linearEquiv {K : Type*} [Field K] [Finite K] {S :
   rw [hcard] at hdvd
   exact hnot hdvd
 
+omit [Finite G] in
 private lemma conj_inv_eq_of_conj_eq {t w : G} (h : t * w * t⁻¹ = w) :
     t * w⁻¹ * t⁻¹ = w⁻¹ := by
   calc t * w⁻¹ * t⁻¹ = (t * w * t⁻¹)⁻¹ := by group
     _ = w⁻¹ := by rw [h]
 
+omit [Finite G] in
 private lemma IsE27InvConfig.tau_inv₁ {V W₁ W₂ W₃ : Subgroup G} {t₁ t₂ t₃ : G}
     (hcfg : IsE27InvConfig V W₁ W₂ W₃ t₁ t₂ t₃) :
     ∀ w ∈ W₁, (t₁ * t₂ * t₃) * w * (t₁ * t₂ * t₃)⁻¹ = w⁻¹ := by
@@ -277,6 +282,7 @@ private lemma IsE27InvConfig.tau_inv₁ {V W₁ W₂ W₃ : Subgroup G} {t₁ t�
     _ = t₁ * w * t₁⁻¹ := by rw [h₂]
     _ = w⁻¹ := hcfg.inv₁ w hw
 
+omit [Finite G] in
 private lemma IsE27InvConfig.tau_inv₂ {V W₁ W₂ W₃ : Subgroup G} {t₁ t₂ t₃ : G}
     (hcfg : IsE27InvConfig V W₁ W₂ W₃ t₁ t₂ t₃) :
     ∀ w ∈ W₂, (t₁ * t₂ * t₃) * w * (t₁ * t₂ * t₃)⁻¹ = w⁻¹ := by
@@ -294,6 +300,7 @@ private lemma IsE27InvConfig.tau_inv₂ {V W₁ W₂ W₃ : Subgroup G} {t₁ t�
     _ = t₁ * w⁻¹ * t₁⁻¹ := by rw [hcfg.inv₂ w hw]
     _ = w⁻¹ := h₁'
 
+omit [Finite G] in
 private lemma IsE27InvConfig.tau_inv₃ {V W₁ W₂ W₃ : Subgroup G} {t₁ t₂ t₃ : G}
     (hcfg : IsE27InvConfig V W₁ W₂ W₃ t₁ t₂ t₃) :
     ∀ w ∈ W₃, (t₁ * t₂ * t₃) * w * (t₁ * t₂ * t₃)⁻¹ = w⁻¹ := by
@@ -312,6 +319,7 @@ private lemma IsE27InvConfig.tau_inv₃ {V W₁ W₂ W₃ : Subgroup G} {t₁ t�
     _ = t₁ * w⁻¹ * t₁⁻¹ := by rw [h₂']
     _ = w⁻¹ := h₁'
 
+omit [Finite G] in
 private lemma inverts_of_inverts_factors {V W₁ W₂ W₃ : Subgroup G} {τ : G}
     (hcomm : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) (hjoin : V = W₁ ⊔ W₂ ⊔ W₃)
     (hinv₁ : ∀ w ∈ W₁, τ * w * τ⁻¹ = w⁻¹)
@@ -347,11 +355,12 @@ private lemma inverts_of_inverts_factors {V W₁ W₂ W₃ : Subgroup G} {τ : G
     exact sup_le (sup_le hW₁D hW₂D) hW₃D
   exact fun v hv => (hVD hv).2
 
+omit [Finite G] in
 theorem IsE27InvConfig.conj_mul_mul_eq_inv {V W₁ W₂ W₃ : Subgroup G} {t₁ t₂ t₃ : G}
     (hcfg : IsE27InvConfig V W₁ W₂ W₃ t₁ t₂ t₃) {v : G} (hv : v ∈ V) :
     (t₁ * t₂ * t₃) * v * (t₁ * t₂ * t₃)⁻¹ = v⁻¹ :=
   inverts_of_inverts_factors
-    (fun a ha b hb => CFSG.Open.IsElemAbelian.comm hcfg.elem ha hb) hcfg.join
+    (fun _a ha _b hb => CFSG.Open.IsElemAbelian.comm hcfg.elem ha hb) hcfg.join
     hcfg.tau_inv₁ hcfg.tau_inv₂ hcfg.tau_inv₃ v hv
 
 end CFSG.LocalAnalysis.AGL81TheoremCD.Section12

@@ -262,7 +262,7 @@ theorem G24Vertex1.act_k_mem [Finite G] {k : G}
         rw [Pi.single_apply]
       rw [h1, h2, hs, eElt_zero, one_mul, eElt_single]
     rw [hfj, hcol]
-    simpa using mul_inv_cancel (k * e j' * k⁻¹)
+    simp
   · intro j'
     have hfj : v1Frame k e (Fin.natAdd 4 j') = k * e j' * k⁻¹ := v1Frame_natAdd k e j'
     have hcol : eElt (v1Frame k e) (fun i => v1Omega i (Fin.natAdd 4 j')) =

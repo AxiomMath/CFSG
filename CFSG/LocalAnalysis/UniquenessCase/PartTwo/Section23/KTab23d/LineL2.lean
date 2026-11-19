@@ -19,12 +19,12 @@ open scoped commutatorElement
 open CFSG.Open
 
 theorem kTab23d_L2 {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n) (S : Sylow 2 ↥H)
+    (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n) (S : Sylow 2 ↥H)
     (h : IsL2 ↥H n ∧ CFSG.Quasithin.BinaryNaturalSL H ⊤ ⊥ 2 n) : Hinf (pointStab H S) = ⊥ := by
   obtain ⟨hL2, K, hKf, hKfin, hKcard, hreal⟩ := h
-  letI := hKf
-  letI := hKfin
-  haveI : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
+  let := hKf
+  let := hKfin
+  have : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
   have hline : KTabC.SylowFixedLine (StatedSL 2 K) (Pi.single 0 1) :=
     sylowFixedLine_statedSL (K := K) (d := 2) le_rfl
   obtain ⟨φ, hφ⟩ := exists_mulEquiv_pointStab_eq_map hreal hline S

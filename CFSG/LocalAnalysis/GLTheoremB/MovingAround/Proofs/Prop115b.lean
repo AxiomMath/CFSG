@@ -16,6 +16,7 @@ noncomputable def quotHomOf {p : ℕ} {C D : Subgroup G} (hDC : D ≤ C) :
     ↥D →* (↥C ⧸ GLAPPrimeCore p ↥C) :=
   (QuotientGroup.mk' (GLAPPrimeCore p ↥C)).comp (Subgroup.inclusion hDC)
 
+omit [Finite G] in
 theorem map_subgroupOf_quotHomOf {p : ℕ} {C D S : Subgroup G} (hDC : D ≤ C) (hSD : S ≤ D) :
     (S.subgroupOf D).map (quotHomOf (p := p) hDC) = barX p C S := by
   have e : (S.subgroupOf D).map (Subgroup.inclusion hDC) = S.subgroupOf C := by
@@ -44,7 +45,7 @@ theorem coprime_card_ker_quotHomOf {p : ℕ} [Fact p.Prime] {C D : Subgroup G} (
 
 theorem barX_glaPComponent_of_le {p : ℕ} (hp : p.Prime) {C D J : Subgroup G} (hDC : D ≤ C)
     (hJ : GLAPComponent p D J) : GLAPComponent p (barX p C D) (barX p C J) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : GLAPComponent p (D.subgroupOf D) (J.subgroupOf D) := by
     rw [Subgroup.subgroupOf_self]
     exact glaPComponent_top hJ
@@ -68,7 +69,7 @@ open Prop115b in
 theorem Prop115b.ident_holds : Prop115.Ident := by
   intro G _ _ m p B M E A h a e ha ha1 he he1 J hJ K hK hJK haC
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨_, hAsc⟩ := lemma104_ii_holds h.toSec10Fails h.pair
   have hAel : CFSG.Open.IsElemAbelian p A := hAsc.2.1
   have heA : e ∈ A := (Subgroup.mem_inf.1 he).2

@@ -112,7 +112,7 @@ theorem ker_eq_bot_of_localRank
   set T' := (T : Subgroup π.ker).map π.ker.subtype with hT'
   have hT'ne : T' ≠ ⊥ := fun h => T.ne_bot_of_dvd_card hodd2
     ((Subgroup.map_eq_bot_iff_of_injective _ π.ker.subtype_injective).mp h)
-  have hT'2 : IsPGroup 2 T' := T.isPGroup'.map _
+  have hT'2 : IsPGroup 2 T' := T.isPGroup.map _
   set H := Subgroup.normalizer (T' : Set Y) with hH
   have hHπ : H.map π = ⊤ := by
     rw [eq_top_iff]

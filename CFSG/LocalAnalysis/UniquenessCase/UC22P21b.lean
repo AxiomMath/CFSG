@@ -12,6 +12,7 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup CFSG.ABGLocalTools
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p21b_conj_mem_centralizer {Z : Subgroup G} {n k : G}
     (hn : n ∈ normalizer (Z : Set G)) (hk : k ∈ centralizer (Z : Set G)) :
     n * k * n⁻¹ ∈ centralizer (Z : Set G) := by
@@ -23,6 +24,7 @@ theorem uc22p21b_conj_mem_centralizer {Z : Subgroup G} {n k : G}
     _ = n * (k * (n⁻¹ * z * n)) * n⁻¹ := by rw [h]
     _ = (n * k * n⁻¹) * z := by group
 
+omit [Finite G] in
 theorem uc22p21b_comm_mem {A : Subgroup G} {t u : G} (ht : ∀ a ∈ A, t * a * t⁻¹ = a⁻¹)
     (hu : u ∈ normalizer (A : Set G)) : t * u * t⁻¹ * u⁻¹ ∈ centralizer (A : Set G) := by
   rw [mem_centralizer_iff]
@@ -42,6 +44,7 @@ theorem uc22p21b_comm_mem {A : Subgroup G} {t u : G} (ht : ∀ a ∈ A, t * a * 
       _ = a := h2
   exact (mul_inv_eq_iff_eq_mul.1 h3).symm
 
+omit [Finite G] in
 theorem uc22p21b_conj_mem_iff {Q : Subgroup G} {u z : G} (hu : u ∈ Q) :
     u⁻¹ * z * u ∈ Q ↔ z ∈ Q := by
   constructor
@@ -51,6 +54,7 @@ theorem uc22p21b_conj_mem_iff {Q : Subgroup G} {u z : G} (hu : u ∈ Q) :
   · intro h
     exact Q.mul_mem (Q.mul_mem (Q.inv_mem hu) h) hu
 
+omit [Finite G] in
 theorem uc22p21b_exists_prod (C Q : Subgroup G) (h : ∀ u ∈ Q, ∀ c ∈ C, u * c * u⁻¹ ∈ C) :
     ∃ H : Subgroup G, C ≤ H ∧ Q ≤ H ∧ ∀ g ∈ H, ∃ c ∈ C, ∃ u ∈ Q, g = c * u := by
   refine ⟨{ carrier := {g | ∃ c ∈ C, ∃ u ∈ Q, g = c * u}
@@ -74,7 +78,7 @@ theorem uc22p21b_core {M A X : Subgroup G} (hMs : normalizer (M : Set G) = M) {q
     (hq : q.Prime) (hXq : IsPGroup q X) (hXA : X ≤ normalizer (A : Set G))
     (hXU : UC6.InU M X) {t : G} (ht : ∀ a ∈ A, t * a * t⁻¹ = a⁻¹) :
     ∃ m ∈ M, ∀ a ∈ A, m * a * m⁻¹ = a⁻¹ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have htN : t ∈ normalizer (A : Set G) := mem_normalizer_of_inverts le_rfl ht
   obtain ⟨Q, hQN, hXQ⟩ := UC6.exists_isSylowOf_ge hXA hXq
   have hQU : UC6.InU M Q :=
@@ -108,7 +112,7 @@ theorem uc22p21b_core {M A X : Subgroup G} (hMs : normalizer (M : Set G) = M) {q
     have h1 : y ∈ Q ↔ t * y * t⁻¹ ∈ Q.map (MulAut.conj t).toMonoidHom := by
       have := Subgroup.mem_map_iff_mem (f := (MulAut.conj t).toMonoidHom)
         (MulAut.conj t).injective (K := Q) (x := y)
-      simpa [MulAut.conj_apply] using this.symm
+      simp [MulAut.conj_apply]
     rw [h1, hk]
     have e : (c * u)⁻¹ * (t * y * t⁻¹) * (c * u) = u⁻¹ * (c⁻¹ * (t * y * t⁻¹) * c) * u := by
       group

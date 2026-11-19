@@ -64,20 +64,20 @@ theorem y4_central_aut {a₁ b₁ a₂ b₂ z y : G} (hz2 : z ^ 2 = 1)
   have hmem : c ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G) := by
     have hf1 : (if ⁅y, a₁⁆ = z then b₁ else 1) ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G) := by
       by_cases h : ⁅y, a₁⁆ = z
-      · rw [if_pos h]; exact Subgroup.subset_closure (by simp)
-      · rw [if_neg h]; exact one_mem _
+      · rw [ite_eq_left h]; exact Subgroup.subset_closure (by simp)
+      · rw [ite_eq_right h]; exact one_mem _
     have hf2 : (if ⁅y, b₁⁆ = z then a₁ else 1) ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G) := by
       by_cases h : ⁅y, b₁⁆ = z
-      · rw [if_pos h]; exact Subgroup.subset_closure (by simp)
-      · rw [if_neg h]; exact one_mem _
+      · rw [ite_eq_left h]; exact Subgroup.subset_closure (by simp)
+      · rw [ite_eq_right h]; exact one_mem _
     have hf3 : (if ⁅y, a₂⁆ = z then b₂ else 1) ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G) := by
       by_cases h : ⁅y, a₂⁆ = z
-      · rw [if_pos h]; exact Subgroup.subset_closure (by simp)
-      · rw [if_neg h]; exact one_mem _
+      · rw [ite_eq_left h]; exact Subgroup.subset_closure (by simp)
+      · rw [ite_eq_right h]; exact one_mem _
     have hf4 : (if ⁅y, b₂⁆ = z then a₂ else 1) ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G) := by
       by_cases h : ⁅y, b₂⁆ = z
-      · rw [if_pos h]; exact Subgroup.subset_closure (by simp)
-      · rw [if_neg h]; exact one_mem _
+      · rw [ite_eq_left h]; exact Subgroup.subset_closure (by simp)
+      · rw [ite_eq_right h]; exact one_mem _
     dsimp only [c]
     exact mul_mem (mul_mem (mul_mem hf1 hf2) hf3) hf4
   have hc1 : c * a₁ * c⁻¹ = (if ⁅y, a₁⁆ = z then z else 1) * a₁ := by
@@ -85,45 +85,45 @@ theorem y4_central_aut {a₁ b₁ a₂ b₂ z y : G} (hz2 : z ^ 2 = 1)
     dsimp only [c]
     split_ifs <;>
       simp only [map_mul, map_one, one_mul, MulAut.mul_apply, MulAut.one_apply,
-        j_a1a1, j_b1a1, j_a2a1, j_b2a1, j_a1z, j_b1z, j_a2z, j_b2z]
+        j_a1a1, j_b1a1, j_a2a1, j_b2a1]
   have hc2 : c * b₁ * c⁻¹ = (if ⁅y, b₁⁆ = z then z else 1) * b₁ := by
     rw [← MulAut.conj_apply]
     dsimp only [c]
     split_ifs <;>
       simp only [map_mul, map_one, one_mul, MulAut.mul_apply, MulAut.one_apply,
-        j_a1b1, j_b1b1, j_a2b1, j_b2b1, j_a1z, j_b1z, j_a2z, j_b2z]
+        j_a1b1, j_b1b1, j_a2b1, j_b2b1, j_b1z]
   have hc3 : c * a₂ * c⁻¹ = (if ⁅y, a₂⁆ = z then z else 1) * a₂ := by
     rw [← MulAut.conj_apply]
     dsimp only [c]
     split_ifs <;>
       simp only [map_mul, map_one, one_mul, MulAut.mul_apply, MulAut.one_apply,
-        j_a1a2, j_b1a2, j_a2a2, j_b2a2, j_a1z, j_b1z, j_a2z, j_b2z]
+        j_a1a2, j_b1a2, j_a2a2, j_b2a2, j_a1z, j_b1z]
   have hc4 : c * b₂ * c⁻¹ = (if ⁅y, b₂⁆ = z then z else 1) * b₂ := by
     rw [← MulAut.conj_apply]
     dsimp only [c]
     split_ifs <;>
       simp only [map_mul, map_one, one_mul, MulAut.mul_apply, MulAut.one_apply,
-        j_a1b2, j_b1b2, j_a2b2, j_b2b2, j_a1z, j_b1z, j_a2z, j_b2z]
+        j_a1b2, j_b1b2, j_a2b2, j_b2b2, j_a1z, j_b1z, j_b2z]
   have hya1 : y * a₁ = (if ⁅y, a₁⁆ = z then z else 1) * a₁ * y := by
     rw [mul_eq_commutator_mul]
     by_cases h : ⁅y, a₁⁆ = z
-    · rw [if_pos h, h]; group
-    · rw [if_neg h, (hy a₁ (by simp)).resolve_right h]; group
+    · rw [ite_eq_left h, h]; group
+    · rw [ite_eq_right h, (hy a₁ (by simp)).resolve_right h]; group
   have hya2 : y * b₁ = (if ⁅y, b₁⁆ = z then z else 1) * b₁ * y := by
     rw [mul_eq_commutator_mul]
     by_cases h : ⁅y, b₁⁆ = z
-    · rw [if_pos h, h]; group
-    · rw [if_neg h, (hy b₁ (by simp)).resolve_right h]; group
+    · rw [ite_eq_left h, h]; group
+    · rw [ite_eq_right h, (hy b₁ (by simp)).resolve_right h]; group
   have hya3 : y * a₂ = (if ⁅y, a₂⁆ = z then z else 1) * a₂ * y := by
     rw [mul_eq_commutator_mul]
     by_cases h : ⁅y, a₂⁆ = z
-    · rw [if_pos h, h]; group
-    · rw [if_neg h, (hy a₂ (by simp)).resolve_right h]; group
+    · rw [ite_eq_left h, h]; group
+    · rw [ite_eq_right h, (hy a₂ (by simp)).resolve_right h]; group
   have hya4 : y * b₂ = (if ⁅y, b₂⁆ = z then z else 1) * b₂ * y := by
     rw [mul_eq_commutator_mul]
     by_cases h : ⁅y, b₂⁆ = z
-    · rw [if_pos h, h]; group
-    · rw [if_neg h, (hy b₂ (by simp)).resolve_right h]; group
+    · rw [ite_eq_left h, h]; group
+    · rw [ite_eq_right h, (hy b₂ (by simp)).resolve_right h]; group
   have hcomm1 : (c⁻¹ * y) * a₁ = a₁ * (c⁻¹ * y) := by
     calc (c⁻¹ * y) * a₁ = c⁻¹ * (y * a₁) := by group
       _ = c⁻¹ * ((if ⁅y, a₁⁆ = z then z else 1) * a₁ * y) := by rw [hya1]

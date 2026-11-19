@@ -31,12 +31,12 @@ theorem finrank_range_conj_sub_one {G k V : Type*} [Group G] [Field k] [AddCommG
     rw [← Module.End.mul_apply, ← map_mul, mul_inv_cancel, map_one, Module.End.one_apply]
   have hgg' : ∀ v, ρ g⁻¹ (ρ g v) = v := fun v => by
     rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
-  let e : V ≃ₗ[k] V := LinearEquiv.ofLinear (ρ g) (ρ g⁻¹) (LinearMap.ext hgg) (LinearMap.ext hgg')
+  let e : V ≃ₗ[k] V := LinearEquiv.ofLinearMap (ρ g) (ρ g⁻¹) (LinearMap.ext hgg) (LinearMap.ext hgg')
   have hcomp : ρ (g * a * g⁻¹) - 1 = e.toLinearMap ∘ₗ (ρ a - 1) ∘ₗ e.symm.toLinearMap := by
     refine LinearMap.ext fun v => ?_
     simp only [e, LinearMap.sub_apply, Module.End.one_apply, LinearMap.coe_comp,
-      Function.comp_apply, LinearEquiv.coe_coe, LinearEquiv.ofLinear_apply,
-      LinearEquiv.ofLinear_symm_apply, map_sub, map_mul, Module.End.mul_apply, hgg]
+      Function.comp_apply, LinearEquiv.coe_coe, LinearEquiv.coe_ofLinearMap,
+      _root_.LinearEquiv.symm_ofLinearMap, _root_.LinearEquiv.coe_ofLinearMap, map_sub, map_mul, Module.End.mul_apply, hgg]
   rw [hcomp, LinearMap.range_comp, LinearMap.range_comp_of_range_eq_top _ e.symm.range,
     LinearEquiv.finrank_map_eq]
 
@@ -130,7 +130,7 @@ theorem k14_5SmallFor_sp6_of (hbridge : BridgeStatement) (hplace : PlacementStat
   have hirr' := hirr
   obtain ⟨hlt, -, -, hJ⟩ := hirr'
   have : Nontrivial I := by
-    obtain ⟨v, -, hv⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨v, -, hv⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     exact ⟨⟨v, 1, fun h => hv (h ▸ Subgroup.one_mem _)⟩⟩
   have : Nontrivial W := by
     obtain ⟨v, hv⟩ := exists_ne (1 : I)

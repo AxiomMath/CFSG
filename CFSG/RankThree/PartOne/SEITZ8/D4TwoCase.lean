@@ -350,12 +350,12 @@ theorem n1_conj_ordT (hσ : ∀ c, σ (σ (σ c)) = c) (c : ℕ → K) (hc1 : c 
 omit [CharP K 2] in
 theorem repCheck_21_22 : RootOps.repCheck d4 21 22 [(1, 1, 2, 1)] = true ∨
     RootOps.repCheck d4 21 22 [(1, 1, 2, -1)] = true := by
-  first | exact Or.inl (by decide +kernel) | exact Or.inr (by decide +kernel)
+  exact Or.inr (by decide +kernel)
 
 omit [CharP K 2] in
 theorem repCheck_8_21 : RootOps.repCheck d4 8 21 [(1, 1, 23, 1)] = true ∨
     RootOps.repCheck d4 8 21 [(1, 1, 23, -1)] = true := by
-  first | exact Or.inl (by decide +kernel) | exact Or.inr (by decide +kernel)
+  exact Or.inr (by decide +kernel)
 
 theorem swap_21_22 (x y : K) :
     xd 21 y * xd 22 x = xd 2 (x * y) * (xd 22 x * xd 21 y) := by

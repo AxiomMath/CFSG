@@ -20,6 +20,7 @@ section Gen
 variable {G : Type} [Group G] [Finite G] {Q : Subgroup G} {r : ℕ}
   (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2)))
 
+omit [Finite G] in
 theorem mul_centralizes_of_conj_zeta (hr : 4 ≤ r) {t u : G}
     (ht : ∀ q ∈ Q, t * q * t⁻¹ = QSub.zeta e * q * (QSub.zeta e)⁻¹)
     (hu : ∀ q ∈ Q, u * q * u⁻¹ = QSub.zeta e * q * (QSub.zeta e)⁻¹) :

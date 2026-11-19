@@ -30,6 +30,7 @@ variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {m : ℕ} {ω : F0ˣ} {
 @[expose] noncomputable def qtwoDB39_delDiag (ω : F0ˣ) (c : Fin m) : Fin m → F0ˣ :=
   fun i => if i = c then ω else 1
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB39_diag_val (d : Fin m → F0ˣ) :
     ((qTwoChartTwoThree_diag d : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) =
       Matrix.diagonal fun i => (d i : F0) := rfl
@@ -39,7 +40,7 @@ theorem qtwoDB39_diag_conjTr_mul (hF0 : Nat.card F0 = 4) (d : Fin m → F0ˣ) :
         ((qTwoChartTwoThree_diag d : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) *
       ((qTwoChartTwoThree_diag d : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) = 1 := by
   classical
-  haveI : Fintype F0 := Fintype.ofFinite F0
+  have : Fintype F0 := Fintype.ofFinite F0
   have hcard : Fintype.card F0 = 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact hF0
@@ -109,18 +110,22 @@ private theorem qtwoDB39_offdiag_zero (hF0 : Nat.card F0 = 4) {d : Fin m → F0�
     ((y : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) i j = 0 :=
   qtwoDB39_entry_eq_zero ((qtwoDB39_mem_fixed_iff hF0 d y).mp hy) hij
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB39_delDiag_apply_self : qtwoDB39_delDiag ω c c = ω := by
   simp [qtwoDB39_delDiag]
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB39_delDiag_apply_of_ne {i : Fin m} (hi : i ≠ c) :
     qtwoDB39_delDiag ω c i = 1 := by
   simp [qtwoDB39_delDiag, hi]
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB39_delDiag_ne_self (hω : ω ≠ 1) {i : Fin m} (hi : i ≠ c) :
     qtwoDB39_delDiag ω c i ≠ qtwoDB39_delDiag ω c c := by
   rw [qtwoDB39_delDiag_apply_of_ne hi, qtwoDB39_delDiag_apply_self]
   exact fun h => hω h.symm
 
+omit [Finite F0] [CharP F0 2] in
 private theorem qtwoDB39_delDiag_self_ne (hω : ω ≠ 1) {j : Fin m} (hj : j ≠ c) :
     qtwoDB39_delDiag ω c c ≠ qtwoDB39_delDiag ω c j := by
   rw [qtwoDB39_delDiag_apply_of_ne hj, qtwoDB39_delDiag_apply_self]
@@ -152,14 +157,14 @@ private theorem qtwoDB39_compIndicator_comm (hF0 : Nat.card F0 = 4) (hω : ω �
       have hY : ((y : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) i j = 0 := by
         rw [hjc]
         exact qtwoDB39_offdiag_zero hF0 hy (qtwoDB39_delDiag_ne_self hω hic)
-      rw [if_pos hi, if_neg hj, hY]
+      rw [ite_eq_left hi, ite_eq_right hj, hY]
   · have hic : i = c := by simpa using hi
     by_cases hj : j ∈ Finset.univ.erase c
     · have hjc : j ≠ c := (Finset.mem_erase.mp hj).1
       have hY : ((y : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) i j = 0 := by
         rw [hic]
         exact qtwoDB39_offdiag_zero hF0 hy (qtwoDB39_delDiag_self_ne hω hjc)
-      rw [if_neg hi, if_pos hj, hY]
+      rw [ite_eq_right hi, ite_eq_left hj, hY]
     · simp [hi, hj]
 
 theorem qtwoDB39_coordBlock_normal (hF0 : Nat.card F0 = 4) (hω : ω ≠ 1) :
@@ -179,7 +184,7 @@ theorem qtwoDB39_isQuasisimple (hF0 : Nat.card F0 = 4) (hm : 5 ≤ m) :
   have hcardS : (Finset.univ.erase c : Finset (Fin m)).card = m - 1 := by
     rw [Finset.card_erase_of_mem (Finset.mem_univ c), Finset.card_univ, Fintype.card_fin]
   have hsu : CFSG.IsQuasisimple (Su F0 2 1 (Finset.univ.erase c).card) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine CFSG.GH74.L5U5.isQuasisimple_su (K := F0) (p := 2) (f := 1) ?_ ?_ ?_
     · rw [hF0]; norm_num
     · rw [hcardS]; omega
@@ -222,19 +227,19 @@ theorem qtwoDB39_mem_coordBlock_iff (hF0 : Nat.card F0 = 4) (hω : ω ≠ 1)
       · have hY : (((y : GL (Fin m) F0)) : Matrix (Fin m) (Fin m) F0) i j = 0 := by
           rw [hic]
           exact qtwoDB39_offdiag_zero hF0 hy (qtwoDB39_delDiag_self_ne hω hjc)
-        rw [hY, if_neg (fun h => hjc (h.symm.trans hic))]
+        rw [hY, ite_eq_right (fun h => hjc (h.symm.trans hic))]
     · have hjc : j = c := by simpa using hj
       by_cases hic : i = c
       · rw [hic, hjc, hcc]; simp
       · have hY : (((y : GL (Fin m) F0)) : Matrix (Fin m) (Fin m) F0) i j = 0 := by
           rw [hjc]
           exact qtwoDB39_offdiag_zero hF0 hy (qtwoDB39_delDiag_ne_self hω hic)
-        rw [hY, if_neg (fun h => hic (h.trans hjc))]
+        rw [hY, ite_eq_right (fun h => hic (h.trans hjc))]
 
 private theorem qtwoDB39_mul_apply_cc (hF0 : Nat.card F0 = 4) (hω : ω ≠ 1)
     {y z : Su F0 2 1 m}
     (hy : y ∈ fixedGroup (qtwoDB39_conjAut hF0 (qtwoDB39_delDiag ω c)))
-    (hz : z ∈ fixedGroup (qtwoDB39_conjAut hF0 (qtwoDB39_delDiag ω c))) :
+    (_hz : z ∈ fixedGroup (qtwoDB39_conjAut hF0 (qtwoDB39_delDiag ω c))) :
     (((y * z : Su F0 2 1 m) : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) c c =
       (((y : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) c c) *
         (((z : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) c c) := by

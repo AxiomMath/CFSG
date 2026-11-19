@@ -190,7 +190,7 @@ end Model
 theorem exists_units_orderOf_three (L : Type) [Field L] [IsAlgClosed L] (h3 : (3 : L) ≠ 0) :
     ∃ ζ : Lˣ, orderOf ζ = 3 := by
   have : NeZero ((3 : ℕ) : L) := ⟨by exact_mod_cast h3⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   refine ⟨(hζ.isUnit (by norm_num)).unit, ?_⟩
   have h : IsPrimitiveRoot ((hζ.isUnit (by norm_num)).unit : L) 3 := by
     rw [IsUnit.unit_spec]

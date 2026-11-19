@@ -19,7 +19,7 @@ open CFSG.EvenSporadicStandard.HNRecog.Fpf
 @[expose] def sw₃ : List A5 := [1, g₁, g₂, g₃]
 
 theorem orderOf_c₃ : orderOf c₃ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   rw [orderOf_eq_prime_iff]
   exact ⟨by decide +kernel, by decide +kernel⟩
 

@@ -35,7 +35,7 @@ theorem nonempty_equiv_of_diag {H : Type} [Group H] [Finite H] {t : H} (ht : ord
       hc | htop
     · exact hc
     · exfalso
-      haveI : Nontrivial (↥R0 ⧸ pPrimeCore 2 ↥R0) := LocalCores.isQuasisimple_nontrivial hBq
+      have : Nontrivial (↥R0 ⧸ pPrimeCore 2 ↥R0) := LocalCores.isQuasisimple_nontrivial hBq
       obtain ⟨a, b, hab⟩ := exists_pair_ne (↥R0 ⧸ pPrimeCore 2 ↥R0)
       obtain ⟨x, rfl⟩ := hφ a
       obtain ⟨y, rfl⟩ := hφ b

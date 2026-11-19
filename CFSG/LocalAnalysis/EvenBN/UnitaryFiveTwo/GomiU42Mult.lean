@@ -59,7 +59,7 @@ theorem card_multiplier_psu_four_two :
 theorem center_eq_bot_of_psl_four_four (hGA : CFSG.Open.GriessAllModelsStatement)
     {Q D : Type} [Group Q] [Finite Q] [Group D] (hQ : Group.IsPerfect Q)
     (e : Q ⧸ Subgroup.center Q ≃* D) (hD : CFSG.Blueprint.LieModel D .PSL 4 2 2)
-    (hodd : Odd (Nat.card (Subgroup.center Q))) : Subgroup.center Q = ⊥ := by
+    (_hodd : Odd (Nat.card (Subgroup.center Q))) : Subgroup.center Q = ⊥ := by
   have ht : CFSG.Assembly.LowTwoRank.StatedLieTag.PSL ∈ CFSG.Blueprint.classicalTags := by
     decide
   have hQZ : CFSG.Models.LieModel (Q ⧸ Subgroup.center Q) .PSL 4 2 2 :=

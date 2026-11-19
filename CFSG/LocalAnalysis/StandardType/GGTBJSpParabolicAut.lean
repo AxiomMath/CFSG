@@ -53,7 +53,7 @@ theorem mem_of_isSignedPerm_fix_first (hp : p.Prime)
       (Pi.mulSingle (0 : Fin 3) (ofAdd (1 : ZMod p)) : Fin 3 → Multiplicative (ZMod p))) :
     u ∈ H := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨π, ε, hε, hu⟩ := hu
   have hBasis := (IsSignedPerm.apply_mulSingle hu (0 : Fin 3) (1 : ZMod p)).symm
   rw [hfix, mul_one] at hBasis
@@ -149,7 +149,7 @@ theorem mem_of_isSignedPerm_fix_diagonal
       have hEq : (permAut (Equiv.swap a b * π) :
           MulAut (Fin 3 → Multiplicative (ZMod p))) = permAut (Equiv.swap a b) * permAut π := by
         ext f i
-        simp [permAut_apply, MulAut.mul_apply, Function.comp_apply, Equiv.Perm.mul_apply]
+        simp [permAut_apply, MulAut.mul_apply, Function.comp_apply]
       rw [hEq]
       exact H.mul_mem (hswaps a b hab) ih
   rw [hform]
@@ -238,7 +238,7 @@ theorem ggTBJSpC_diagAut_conj_reflAut {p m : ℕ} {α : Type*}
       · rw [(htε u).1 hu, (htε w).1 (h.symm.trans hu), one_mul]
       · rw [(htε u).2 hu, (htε w).2 (h.symm.trans hu)]
         ring
-    rw [ggTBJSpC_reflAut, if_pos h]
+    rw [ggTBJSpC_reflAut, ite_eq_left h]
     simpa only [Equiv.Perm.one_apply] using
       conj_permAut_swap_eq_of_mul_eq_one hε hdata hs
   · have hs : ε u * ε w = -1 := by
@@ -247,7 +247,7 @@ theorem ggTBJSpC_diagAut_conj_reflAut {p m : ℕ} {α : Type*}
       · rw [(htε u).1 hu, (htε w).2 hw, one_mul]
       · rw [(htε u).2 hu, (htε w).1 hw, mul_one]
       · exact (h (hu.trans hw.symm)).elim
-    rw [ggTBJSpC_reflAut, if_neg h, ggTBJSpC_invSwapAut_eq_sgnAut_conj]
+    rw [ggTBJSpC_reflAut, ite_eq_right h, ggTBJSpC_invSwapAut_eq_sgnAut_conj]
     simpa only [Equiv.Perm.one_apply] using
       conj_permAut_swap_eq_of_mul_eq_neg_one hε hdata huw hs
 
@@ -299,7 +299,7 @@ theorem ggTBJ_sp_isSignedPerm_of_torus_conj {p m : ℕ} (hp : p.Prime)
     (g : GL (Fin m ⊕ Fin m) K) (u : MulAut (Fin m → Multiplicative (ZMod p)))
     (hu : ∀ f, g * spTorusGL hζ f * g⁻¹ = spTorusGL hζ (u f)) :
     SpCoord.IsSignedPerm u := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨j, ε, hε, hj⟩ := ReflSp.exists_monomial_data hζo hζ g
   have hrel : ∀ f, g * spTorusGL hζ f = spTorusGL hζ (u f) * g := by
     intro f
@@ -378,7 +378,7 @@ theorem ggTBJ_sp_zero_block_automizer {p : ℕ} (hp : p.Prime)
       Subgroup.closure ({sgnAut (2 : Fin 3), permAut (Equiv.swap (1 : Fin 3) 2)} :
         Set (MulAut (Fin 3 → Multiplicative (ZMod p)))) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨lam, hperm, _hmixed, hsign, hcentral, hcase⟩ :=
     ggTBJ_sp_blockData_rank_three hp hK4 hζ t ⟨σ 0, ht₀⟩ hJ hcount
   have hlam : lam = 1 := by
@@ -403,7 +403,7 @@ theorem ggTBJ_sp_zero_block_automizer {p : ℕ} (hp : p.Prime)
     have hx : ∀ i, t i = 1 → zmodPowHom hζ (permAut σ δ i) = 1 := by
       intro i hi
       have hi₀ : i ≠ σ 0 := by intro h; rw [h] at hi; exact ht₀ hi
-      simp [δ, permAut_mulSingle, Pi.mulSingle_apply, hi₀]
+      simp [δ, permAut_mulSingle, hi₀]
     have hc := hcentral (fun i => zmodPowHom hζ (permAut σ δ i))
       (Or.inl ⟨hlam, hx⟩) n hn
     have hc' : spTorusSp hζ (permAut σ δ) * n = n * spTorusSp hζ (permAut σ δ) := by
@@ -464,7 +464,7 @@ theorem ggTBJ_sp_paired_block_automizer {p : ℕ} (hp : p.Prime)
       Subgroup.closure ({permAut (Equiv.swap (0 : Fin 3) 1),
         permAut (Equiv.swap (1 : Fin 3) 2)} : Set (MulAut (Fin 3 → Multiplicative (ZMod p)))) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have htn : ∀ i, t i ≠ 1 := by
     intro i hi
     rcases hta i with hpos | hneg
@@ -474,7 +474,7 @@ theorem ggTBJ_sp_paired_block_automizer {p : ℕ} (hp : p.Prime)
     ggTBJ_sp_blockData_rank_three hp hK4 hζ t ⟨0, htn 0⟩ hJ hcount
   have hshape : lam ≠ 1 ∧ ∀ i, t i = lam ∨ t i = lam⁻¹ := by
     rcases hcase with ⟨hlam, hzero⟩ | h
-    · haveI : IsEmpty {i : Fin 3 // t i = 1} := ⟨fun i => htn i.1 i.2⟩
+    · have : IsEmpty {i : Fin 3 // t i = 1} := ⟨fun i => htn i.1 i.2⟩
       simp at hzero
     · exact h
   have haLam : a = lam ∨ a = lam⁻¹ := by
@@ -578,7 +578,7 @@ theorem ggTBJ_sp_rank_three_automizer {p : ℕ} (hp : p.Prime)
             permAut (Equiv.swap (1 : Fin 3) 2)} :
             Set (MulAut (Fin 3 → Multiplicative (ZMod p))))) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let κ₀ := MonoidHom.ofInjective (spTorusSp_injective (m := 3) hζ hζo)
   obtain ⟨lam, _hperm, _hmixed, _hsign, _hcentral, hcase⟩ :=
     ggTBJ_sp_blockData_rank_three hp hK4 hζ t ht hJ hcount

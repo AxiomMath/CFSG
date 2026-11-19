@@ -16,7 +16,7 @@ open CFSG.SectionRank.OddCover (diagHom)
 
 theorem ggTBJ_su_core {K : Type} [Field K] [Finite K] {n d p : ℕ} {u : Kˣ}
     (h : UnitaryFieldData 2 n K) [NeZero p] (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 2 ≤ n)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ n + 1) (hd : 4 ≤ d) (hpd : ¬ p ∣ d)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hpq : p ∣ 2 ^ n + 1) (hd : 4 ≤ d) (_hpd : ¬ p ∣ d)
     (hu : u ^ p = 1) (huq : u ^ (2 ^ n + 1) = 1) (hord : orderOf u = p)
     {G : Type} [Group G] [Finite G] (ψ : ↥(unitarySU 2 n K d) →* G)
     (hker : ψ.ker ≤ Subgroup.center ↥(unitarySU 2 n K d))

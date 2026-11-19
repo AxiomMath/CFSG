@@ -35,7 +35,7 @@ theorem wordG_eq {n w kS : Nat} {S : Array (Array Nat)} {PS PSI : Nat → Nat}
     wordA n S (rawInvs n S) wd = unpack n w (wordK n w (mask w) (pidn n w) PS PSI wd) := by
   refine (wordEqK_sound hS hp ?_).1
   rw [wordEqK]
-  simp only [bAnd_iff, hsz, hl, true_and]
+  simp only [hsz, hl]
   exact Nat.beq_refl _
 
 theorem ofFn_inv {n m : Nat} (S : Array (Array Nat)) (hS : S.size = m) :

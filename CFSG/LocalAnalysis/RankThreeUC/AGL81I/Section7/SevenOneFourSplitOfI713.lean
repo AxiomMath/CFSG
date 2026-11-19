@@ -47,7 +47,7 @@ theorem conjNormal_eq_one_iff {L : Subgroup X} [L.Normal] {x : X} :
       _ = x * y := by group
   · intro h
     ext y
-    simp only [MulAut.conjNormal_apply, MulAut.one_apply, Subgroup.coe_mk, Subgroup.coe_one]
+    simp only [MulAut.conjNormal_apply, MulAut.one_apply]
     have hcomm : (y : X) * x = x * (y : X) := Subgroup.mem_centralizer_iff.mp h (y : X) y.2
     rw [← hcomm, mul_assoc, mul_inv_cancel, mul_one]
 
@@ -92,7 +92,7 @@ theorem outerAction_ker_eq_sup_centralizer (L : Subgroup X) [L.Normal] [Group.Is
 
 theorem exists_preimage_pow_mem_centralizer {L : Subgroup X} [L.Normal] [Group.IsPerfect ↥L]
     {p k : ℕ} {y : Outer (↥L ⧸ Subgroup.center ↥L)} (hy : y ∈ (outerAction L).range)
-    (hyk : y ^ (p ^ k) = 1)
+    (_hyk : y ^ (p ^ k) = 1)
     (hf : ∃ f : MulAut (↥L ⧸ Subgroup.center ↥L),
       QuotientGroup.mk' (inner (↥L ⧸ Subgroup.center ↥L)) f = y ∧ f ^ (p ^ k) = 1) :
     ∃ g : X, outerAction L g = y ∧ g ^ (p ^ k) ∈ Subgroup.centralizer (L : Set X) := by
@@ -151,7 +151,7 @@ theorem isPSingular_mem_zpowers_pSingular {G : Type*} [Group G] [Finite G] {p : 
       Group.pSingular_eq_self_of_isPSingular (p := p) (a := q ^ n)
         (isOfFinOrder_of_finite (q ^ n)) hxs]
   rw [hEq]
-  simpa using Subgroup.zpow_mem_zpowers (Group.pSingular p q) (n : ℤ)
+  simp
 
 theorem exists_isSplitCover_of_pGenerator [Finite X] {p k : ℕ} [Fact p.Prime]
     {L : Subgroup X} [L.Normal]
@@ -168,7 +168,7 @@ theorem exists_isSplitCover_of_pGenerator [Finite X] {p k : ℕ} [Fact p.Prime]
         ∀ w ∈ W, ∃ n : ℕ, w * (g ^ n)⁻¹ ∈ Subgroup.centralizer (L : Set X)) ∧
       ∀ w ∈ W, w ^ p ∈ Subgroup.centralizer (L : Set X) →
         ∃ z ∈ L, orderOf z = p ∧ w * z = z * w := by
-  haveI : Group.IsPerfect ↥L := hL.1.1
+  have : Group.IsPerfect ↥L := hL.1.1
   have hCn : (Subgroup.centralizer (L : Set X)).Normal := inferInstance
   have hLK : L ≤ (outerAction L).ker := by
     rw [outerAction_ker_eq_sup_centralizer L]
@@ -236,7 +236,7 @@ theorem exists_isSplitCover_of_pGenerator [Finite X] {p k : ℕ} [Fact p.Prime]
     exact SevenOneKS.exists_orderOf_eq_commute_of_pow_mem hpL hwC
 
 theorem exists_splitCover_of_fieldPart [Finite X] {p : ℕ} [Fact p.Prime]
-    (hp2 : p ≠ 2) {L : Subgroup X} [L.Normal] (hL : CFSG.IsComponent L)
+    (_hp2 : p ≠ 2) {L : Subgroup X} [L.Normal] (hL : CFSG.IsComponent L)
     (hrk : CFSG.Open.pRank p L = 1)
     (F : Subgroup (MulAut (↥L ⧸ Subgroup.center ↥L)))
     (hFcyc : IsCyclic ↥F)
@@ -250,8 +250,8 @@ theorem exists_splitCover_of_fieldPart [Finite X] {p : ℕ} [Fact p.Prime]
         ∀ w ∈ W, ∃ n : ℕ, w * (g ^ n)⁻¹ ∈ Subgroup.centralizer (L : Set X)) ∧
       ∀ w ∈ W, w ^ p ∈ Subgroup.centralizer (L : Set X) →
         ∃ z ∈ L, orderOf z = p ∧ w * z = z * w := by
-  haveI : Group.IsPerfect ↥L := hL.1.1
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
+  have : Group.IsPerfect ↥L := hL.1.1
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
   classical
   let π : MulAut (↥L ⧸ Subgroup.center ↥L) →* Outer (↥L ⧸ Subgroup.center ↥L) :=
     QuotientGroup.mk' (inner (↥L ⧸ Subgroup.center ↥L))
@@ -347,7 +347,7 @@ theorem exists_isSplitCover_of_not_dvd_outer [Finite X] {p : ℕ} [Fact p.Prime]
         ∀ w ∈ W, ∃ n : ℕ, w * (g ^ n)⁻¹ ∈ Subgroup.centralizer (L : Set X)) ∧
       ∀ w ∈ W, w ^ p ∈ Subgroup.centralizer (L : Set X) →
         ∃ z ∈ L, orderOf z = p ∧ w * z = z * w := by
-  haveI : Group.IsPerfect ↥L := hL.1.1
+  have : Group.IsPerfect ↥L := hL.1.1
   refine ⟨Subgroup.centralizer (L : Set X), le_rfl, inf_le_left, ?_, ?_, ?_⟩
   ·
     rw [oPPrimeHull]
@@ -370,7 +370,7 @@ theorem exists_isSplitCover_of_not_dvd_outer [Finite X] {p : ℕ} [Fact p.Prime]
     exact MonoidHom.mem_ker.mpr (orderOf_eq_one_iff.mp hone)
   ·
     refine ⟨1, Subgroup.one_mem _, ⟨0, ?_⟩, ?_⟩
-    · simpa using Subgroup.one_mem (Subgroup.centralizer (L : Set X))
+    · simp
     · intro w hw
       exact ⟨0, by simpa using hw⟩
   ·
@@ -395,9 +395,9 @@ theorem exists_splitCover_of_cyclicOuter [Finite X] {p : ℕ} [Fact p.Prime]
         ∀ w ∈ W, ∃ n : ℕ, w * (g ^ n)⁻¹ ∈ Subgroup.centralizer (L : Set X)) ∧
       ∀ w ∈ W, w ^ p ∈ Subgroup.centralizer (L : Set X) →
         ∃ z ∈ L, orderOf z = p ∧ w * z = z * w := by
-  haveI : Group.IsPerfect ↥L := hL.1.1
-  haveI : IsCyclic (Outer (↥L ⧸ Subgroup.center ↥L)) := hcyc
-  haveI hHcyc : IsCyclic ↥((outerAction L).range) := Subgroup.isCyclic_of_le le_top
+  have : Group.IsPerfect ↥L := hL.1.1
+  have : IsCyclic (Outer (↥L ⧸ Subgroup.center ↥L)) := hcyc
+  have hHcyc : IsCyclic ↥((outerAction L).range) := Subgroup.isCyclic_of_le le_top
   obtain ⟨q, hq⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top (outerAction L).range).mp hHcyc
   set y : Outer (↥L ⧸ Subgroup.center ↥L) := Group.pSingular p q with hy
   have hyps : CFSG.IsPSingular p y := Group.isPSingular_pSingular (p := p) (a := q)
@@ -420,10 +420,10 @@ theorem sevenOneFourSplit_of_I_7_13_2_5
     (h : CFSG.LieType.OutStructure.I_7_13_2_5) :
     SevenOneFourSplit := by
   intro X _ _ hK p hp hp2 L hL hLn hrk
-  haveI := hLn
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect ↥L := hL.1.1
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
+  have := hLn
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥L := hL.1.1
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
   have hq : CFSG.Open.IsQuasisimple ↥L := ⟨Group.isPerfect_def.mp hL.1.1, hL.1.2.1⟩
   have hnab := S15.K7145Proof.quotient_center_nonabelian hq
   have hcat := S15.K7145Proof.isCatalogGroup_quotient_center hK L hq

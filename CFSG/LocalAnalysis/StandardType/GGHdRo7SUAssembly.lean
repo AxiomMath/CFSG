@@ -178,7 +178,7 @@ private theorem su_commonJ_of_exact2_left
     hgenL, hgenK, hdel, hgenJ⟩
   have hml : m ≤ Nat.card Λ + 1 :=
     hdRo7SUAJPerm_model_card_le (X := L) (M := ML) b ι hpermL
-      (φ := fun i => φ (Sum.inl i)) fL (hf := fun i => hfL i) hgenL
+      (φ := fun i => φ (Sum.inl i)) fL (_hf := fun i => hfL i) hgenL
       (hrefl := fun i => hrefl (Sum.inl i)) hm7
   have hcardSurv : Nat.card {i : Λ // i ∉ S} = Nat.card Λ - S.card := by
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card,
@@ -234,7 +234,7 @@ private theorem su_commonJ_of_exact2_right
   have hml : m ≤ Nat.card ({i : Λ // i ∉ S} ⊕ Λa) + 1 :=
     hdRo7SUAJPerm_model_card_le (X := L) (M := MK) b ι hpermL
       (φ := fun o : {i : Λ // i ∉ S} ⊕ Λa => φ (o.map Subtype.val id))
-      fK (hf := fun o => hfK o) hgenL'
+      fK (_hf := fun o => hfK o) hgenL'
       (hrefl := fun o => hrefl (o.map Subtype.val id)) hm7
   have hcardPair : Nat.card ({i : Λ // i ∉ S} ⊕ Λa) =
       Nat.card {i : Λ // i ∉ S} + Nat.card Λa := Nat.card_sum

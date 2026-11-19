@@ -40,7 +40,7 @@ theorem StrothFrame.IsD.exists_d8_inv_mul_mem (h : F.IsD D dD) (hk : ∀ i, 1 �
     refine mem_omegaIn_one_of_mul_self ((Subgroup.mem_normalizer_iff.mp hx.2 w).mp hwD) ?_
     calc x * w * x⁻¹ * (x * w * x⁻¹) = x * (w * w) * x⁻¹ := by group
       _ = 1 := by rw [hw2, mul_one, mul_inv_cancel]
-  haveI : (Ω.subgroupOf N).Normal := ⟨fun w hw x => Subgroup.mem_subgroupOf.mpr (by
+  have : (Ω.subgroupOf N).Normal := ⟨fun w hw x => Subgroup.mem_subgroupOf.mpr (by
     simpa using hΩnorm x x.2 w (Subgroup.mem_subgroupOf.mp hw))⟩
   let θ : ↥N →* MulAut ↥(Ω.subgroupOf N) := MulAut.conjNormal
   have hθ : ∀ x : N, θ x = 1 → ∀ w ∈ Ω, w * (x : G) = (x : G) * w := by
@@ -64,7 +64,7 @@ theorem StrothFrame.IsD.exists_d8_inv_mul_mem (h : F.IsD D dD) (hk : ∀ i, 1 �
     ((mem_omegaIn_one_iff hDc).mp (Subgroup.mem_subgroupOf.mp v.2)).2)
   have h168 : Nat.card (MulAut ↥(Ω.subgroupOf N)) = 168 :=
     CFSG.OddStandard.ChengHeld.card_mulAut_elemAb8 hV8 hV2
-  have hNp : IsPGroup 2 N := F.S.isPGroup'.to_le inf_le_left
+  have hNp : IsPGroup 2 N := F.S.isPGroup.to_le inf_le_left
   have hPp : IsPGroup 2 θ.range := hNp.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
   have hdvd8 : ∀ H : Subgroup (MulAut ↥(Ω.subgroupOf N)), H ≤ θ.range → Nat.card H ∣ 8 := by
     intro H hH
@@ -112,6 +112,7 @@ theorem StrothFrame.IsD.exists_d8_inv_mul_mem (h : F.IsD D dD) (hk : ∀ i, 1 �
   rw [← hijl]
   simpa using h2
 
+omit [Finite G] in
 theorem StrothWeakTypeData.d8_conj_mem_omegaIn (dD : StrothWeakTypeData D τ) (i j l : Bool)
     {w : G} (hw : w ∈ omegaIn 1 D) :
     (dD.d8 i j l)⁻¹ * w * dD.d8 i j l ∈ omegaIn 1 D := by
@@ -193,7 +194,7 @@ theorem StrothFrame.IsD.conj_le_R_of_inf_le (h : F.IsD D dD) (hk : ∀ i, 1 ≤ 
       have : 2 ^ 3 ≤ 2 ^ j := Nat.pow_le_pow_right (by norm_num) (by omega)
       omega
     exact (Nat.pow_dvd_pow 2 hj2).trans (by norm_num)
-  haveI : B.Normal := ⟨fun n _ x => by
+  have : B.Normal := ⟨fun n _ x => by
     rwa [show x * n * x⁻¹ = n by rw [hDc.is_comm.comm x n, mul_inv_cancel_right]]⟩
   have h4 : ∀ d ∈ D, d ^ 4 ∈ K := by
     intro d hd
@@ -220,7 +221,7 @@ theorem StrothFrame.IsD.conj_le_R_of_inf_le (h : F.IsD D dD) (hk : ∀ i, 1 ≤ 
       have haw : a * w₁ * a⁻¹ = w₂ := by
         have hu : dD.u * w₁ * dD.u⁻¹ = w₂ := huw
         cases i <;> cases j <;> simp only [ha, StrothWeakTypeData.d8, Bool.false_eq_true,
-          ↓reduceIte, one_mul, mul_inv_rev, inv_one, mul_one]
+          ↓reduceIte, one_mul, mul_inv_rev]
         · exact hu
         · calc dD.t * dD.u * w₁ * (dD.u⁻¹ * dD.t⁻¹) = dD.t * (dD.u * w₁ * dD.u⁻¹) * dD.t⁻¹ := by
                 group
@@ -394,6 +395,7 @@ theorem StrothFrame.IsD.mem_normalizer_omegaIn_of_cases (h : F.IsD D dD) (hτ : 
       exact this ▸ hd
   exact normalizer_le_normalizer_omegaIn D hgD
 
+omit [Finite G] in
 theorem exists_mul_self_eq_of_two_le {D : Subgroup G} {k : Fin 3 → ℕ}
     (e : Additive D ≃+ Torus k) (hk : ∀ i, 2 ≤ k i) {x : G} (hx : x ∈ D) (hx2 : x * x = 1) :
     ∃ y ∈ D, y * y = x := by
@@ -408,7 +410,7 @@ theorem exists_mul_self_eq_of_two_le {D : Subgroup G} {k : Fin 3 → ℕ}
     by_cases h0 : v i = 0
     · simp [w, h0]
     · have h1 := (zmod_two_pow_eq_zero_or_of_add_self (v i) (congrFun hv2 i)).resolve_left h0
-      simp only [Pi.add_apply, w, if_neg h0]
+      simp only [Pi.add_apply, w, ite_eq_right h0]
       rw [h1, ← two_mul, ← pow_succ']
       congr 1
       have := hk i
@@ -439,6 +441,7 @@ theorem StrothFrame.IsD.hA_of_torus (h : F.IsD D dD) (hk2 : ∀ i, 2 ≤ τ.k i)
     (by rw [dD.u_mul_ofTorus, hu, mul_inv_cancel_right])
     (by rw [dD.uv_mul_ofTorus, huv]) (by rw [dD.t_mul_ofTorus, ht]) hgN hA
 
+omit [Finite G] in
 theorem not_commute_mul_of_commute {w b x : G} (hwb : ¬ w * b = b * w) (hx : w * x = x * w) :
     ¬ w * (b * x) = b * x * w := by
   intro h
@@ -451,6 +454,7 @@ theorem not_commute_mul_of_commute {w b x : G} (hwb : ¬ w * b = b * w) (hx : w 
       _ = b * w * x := by group
   exact mul_right_cancel h1
 
+omit [Finite G] in
 theorem StrothWeakTypeData.mul_self_eq_one_of_inv_shape (dD : StrothWeakTypeData D τ)
     (hn : 3 ≤ τ.n) {e : G} {j t : ℕ} (hj : j = 2 ^ (τ.n - 1) * t)
     (hc : e⁻¹ * (dD.c : G) * e = (dD.c : G)⁻¹)
@@ -466,17 +470,17 @@ theorem StrothWeakTypeData.mul_self_eq_one_of_inv_shape (dD : StrothWeakTypeData
     rw [zpow_sub_one, zpow_natCast, ← (Commute.self_pow g q).inv_left.eq]
   have hcφ : e⁻¹ * (dD.c : G) * e = dD.ofTorus (φ Torus.c) := by
     rw [hc, show Torus.c = Torus.ofInt τ.k ![1, 0, 0] by
-      funext i; fin_cases i <;> simp [Torus.ofInt, Torus.c, gen, Pi.single_apply],
+      funext i; fin_cases i <;> simp [Torus.ofInt, Torus.c, gen],
       matAct_ofInt, dD.ofTorus_ofInt]
     simp [M, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
   have haφ : e⁻¹ * (dD.a : G) * e = dD.ofTorus (φ Torus.a) := by
     rw [ha, show Torus.a = Torus.ofInt τ.k ![0, 1, 0] by
-      funext i; fin_cases i <;> simp [Torus.ofInt, Torus.a, gen, Pi.single_apply],
+      funext i; fin_cases i <;> simp [Torus.ofInt, Torus.a, gen],
       matAct_ofInt, dD.ofTorus_ofInt, hcoef]
     simp [M, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
   have hbφ : e⁻¹ * (dD.b : G) * e = dD.ofTorus (φ Torus.b) := by
     rw [hb, show Torus.b = Torus.ofInt τ.k ![0, 0, 1] by
-      funext i; fin_cases i <;> simp [Torus.ofInt, Torus.b, gen, Pi.single_apply],
+      funext i; fin_cases i <;> simp [Torus.ofInt, Torus.b, gen],
       matAct_ofInt, dD.ofTorus_ofInt, hcoef]
     simp [M, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
   obtain ⟨v, rfl⟩ := dD.exists_ofTorus hd
@@ -521,7 +525,7 @@ theorem StrothWeakTypeData.mul_self_eq_one_of_inv_shape (dD : StrothWeakTypeData
     simp only [Pi.add_apply, Fin.mk_one, Fin.isValue]
     exact hcoord _ h0
   · have h0 := (hfix 2).dvd
-    simp only [Matrix.cons_val_two, Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.tail_cons,
+    simp only [Matrix.cons_val_two, Matrix.tail_cons,
       Matrix.head_cons] at h0
     simp only [Pi.add_apply, Fin.reduceFinMk, Fin.isValue]
     have hk2 : τ.k 2 = τ.n := τ.k_two
@@ -529,6 +533,7 @@ theorem StrothWeakTypeData.mul_self_eq_one_of_inv_shape (dD : StrothWeakTypeData
     exact hcoord _ h0
 
 open scoped Pointwise in
+omit [Finite G] in
 theorem mem_or_inv_mul_mem_of_mem_sup_zpowers {D : Subgroup G} {e : G}
     (he : e ∈ Subgroup.normalizer (D : Set G)) (he2 : e * e ∈ D) {y : G}
     (hy : y ∈ D ⊔ Subgroup.zpowers e) : y ∈ D ∨ e⁻¹ * y ∈ D := by
@@ -560,7 +565,7 @@ theorem relIndex_le_two_of_le_sup_zpowers {D : Subgroup G} {e : G}
   by_cases hQD : Q ≤ D
   · rw [Subgroup.relIndex_eq_one.mpr hQD]
     norm_num
-  obtain ⟨q₀, hq₀Q, hq₀D⟩ := SetLike.not_le_iff_exists.mp hQD
+  obtain ⟨q₀, hq₀Q, hq₀D⟩ := IsConcreteLE.not_le_iff_exists.mp hQD
   have hq₀ : e⁻¹ * q₀ ∈ D := (mem_or_inv_mul_mem_of_mem_sup_zpowers he he2 (hQ hq₀Q)).resolve_left
     hq₀D
   let f : Bool × ↥(D ⊓ Q) → ↥Q := fun p =>
@@ -665,7 +670,7 @@ theorem four_mul_card_inf_centralizer_le {D : Subgroup G}
         Nat.mul_le_mul_right _ h4
     _ = Nat.card D := by rw [mul_comm]; exact hsplit
 
-theorem StrothFrame.IsD.hB_of_zpowers (h : F.IsD D dD) {e : G}
+theorem StrothFrame.IsD.hB_of_zpowers (_h : F.IsD D dD) {e : G}
     (hRe : (F.S : Subgroup G) ⊓ Subgroup.normalizer (D : Set G) ⊓
       Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G) = D ⊔ Subgroup.zpowers e)
     (heN : e ∈ Subgroup.normalizer (D : Set G)) (he2 : e * e ∈ D)
@@ -685,7 +690,7 @@ theorem StrothFrame.IsD.hB_of_zpowers (h : F.IsD D dD) {e : G}
     congrArg Subtype.val (dD.isMulCommutative.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   rw [hRe] at hx hQR
   have hidx := relIndex_le_two_of_le_sup_zpowers heN he2 hQR
-  obtain ⟨q₀, hq₀Q, hq₀D⟩ := SetLike.not_le_iff_exists.mp hQD
+  obtain ⟨q₀, hq₀Q, hq₀D⟩ := IsConcreteLE.not_le_iff_exists.mp hQD
   have hq₀ : e⁻¹ * q₀ ∈ D :=
     (mem_or_inv_mul_mem_of_mem_sup_zpowers heN he2 (hQR hq₀Q)).resolve_left hq₀D
   have hCQ : D ⊓ Subgroup.centralizer ({dD.uv * x} : Set G) ⊓ Subgroup.centralizer (Q : Set G) ≤

@@ -42,7 +42,7 @@ theorem card_eq_sixteen
     obtain ⟨g, hg, heq⟩ := Subgroup.mem_map.mp hy
     exact ⟨⟨g, hg⟩, Subtype.ext heq⟩
   have hkernel (y : P) (hy : phi y = 1) : (y : G) ∈ Q := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' y
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup y
     apply CentralExtensionUniqueSquare.mem_of_two_element_mem_kernel f Q hodd y k
     · have hp : y ^ (2 ^ k) = 1 := by rw [← hk]; exact pow_orderOf_eq_one y
       exact congrArg Subtype.val hp

@@ -97,14 +97,14 @@ theorem IsSec.quotient_of_not_dvd [Finite G] [IsSimpleGroup S] [Finite S]
       Subgroup.card_comap_dvd_of_injective N H.subtype H.subtype_injective
     exact hN (hS.trans (h2.trans h3))
 
-theorem IsSec.quotient_of_isSolvable [Finite G] [IsSimpleGroup S] (hS : ¬ IsSolvable S)
-    {N : Subgroup G} [N.Normal] (hN : IsSolvable N) (h : IsSec S G) : IsSec S (G ⧸ N) := by
+theorem IsSec.quotient_of_isSolvable [Finite G] [IsSimpleGroup S] (hS : ¬ Group.IsSolvable S)
+    {N : Subgroup G} [N.Normal] (hN : Group.IsSolvable N) (h : IsSec S G) : IsSec S (G ⧸ N) := by
   obtain ⟨H, φ, hφ⟩ := h
   refine isSec_quotient_of_map_eq_bot φ hφ ?_
   rcases map_subgroupOf_eq_bot_or_top (N := N) φ hφ with hbot | htop
   · exact hbot
   · exfalso
-    haveI : Group.IsSolvable N := hN
+    have : Group.IsSolvable N := hN
     let jN : (N.subgroupOf H) →* N :=
       (H.subtype.comp (N.subgroupOf H).subtype).codRestrict N
         fun x => Subgroup.mem_subgroupOf.mp x.2
@@ -114,7 +114,7 @@ theorem IsSec.quotient_of_isSolvable [Finite G] [IsSimpleGroup S] (hS : ¬ IsSol
       apply Subtype.ext
       have h' := congrArg Subtype.val hab
       exact h'
-    haveI : Group.IsSolvable (N.subgroupOf H) := Group.isSolvable_of_isSolvable_injective hjN
+    have : Group.IsSolvable (N.subgroupOf H) := Group.isSolvable_of_isSolvable_injective hjN
     have hψ : Function.Surjective (φ.comp (N.subgroupOf H).subtype) := by
       intro s
       have hs : s ∈ (N.subgroupOf H).map φ := by

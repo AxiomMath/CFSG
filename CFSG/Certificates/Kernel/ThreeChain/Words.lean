@@ -27,15 +27,15 @@ theorem lt_letW {a b ai bi : Nat} {ga gb : Equiv.Perm (Fin n)} (ha : PRep n w a 
   unfold CFSG.KC.Enum.lt letW
   simp only [PK.nIf_eq]
   by_cases h0 : Nat.beq c 0 = true
-  · rw [if_pos h0, if_pos h0]
+  · rw [ite_eq_left h0, ite_eq_left h0]
     exact ha ⟨q, hq⟩
   by_cases h1 : Nat.beq c 1 = true
-  · rw [if_neg h0, if_pos h1, if_neg h0, if_pos h1]
+  · rw [ite_eq_right h0, ite_eq_left h1, ite_eq_right h0, ite_eq_left h1]
     exact hb ⟨q, hq⟩
   by_cases h2 : Nat.beq c 2 = true
-  · rw [if_neg h0, if_neg h1, if_pos h2, if_neg h0, if_neg h1, if_pos h2]
+  · rw [ite_eq_right h0, ite_eq_right h1, ite_eq_left h2, ite_eq_right h0, ite_eq_right h1, ite_eq_left h2]
     exact hai ⟨q, hq⟩
-  · rw [if_neg h0, if_neg h1, if_neg h2, if_neg h0, if_neg h1, if_neg h2]
+  · rw [ite_eq_right h0, ite_eq_right h1, ite_eq_right h2, ite_eq_right h0, ite_eq_right h1, ite_eq_right h2]
     exact hbi ⟨q, hq⟩
 
 theorem foldN_letW {a b ai bi W : Nat} {ga gb : Equiv.Perm (Fin n)} (ha : PRep n w a ga)
@@ -164,7 +164,7 @@ theorem penumRight_group (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {k cnt cap : �
   let x : ℕ → Equiv.Perm (Fin n) := fun i => if h : i < cnt then (hex i h).choose else 1
   have hx : ∀ i < cnt, PRep n w (T i) (x i) := by
     intro i hi
-    simp only [x, dif_pos hi]
+    simp only [x, dite_eq_left hi]
     exact (hex i hi).choose_spec
   have hx0 : x 0 = 1 := CFSG.KC.OrbGroup.prep_eq (hx 0 hc0) (by rw [hT0']; exact hid)
   have htree : ∀ i, 0 < i → i < cnt → ∃ p < i, ∃ j < k, x i = x p * g j := by

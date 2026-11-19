@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.H1419
 open scoped Nat
 open CFSG.HardMathSupport.Solomon.Coordinator.YS08.L3Char (L3Order)
 
-theorem factorial_two_emultiplicity {m n k Y : ℕ} (hk : 1 ≤ k) (h2n : 2 * n = m !)
+theorem factorial_two_emultiplicity {m n k Y : ℕ} (_hk : 1 ≤ k) (h2n : 2 * n = m !)
     (h3 : 3 * n = 2 ^ (3 * k) * Y) (hY : Odd Y) : emultiplicity 2 (m !) = ((3 * k + 1 : ℕ) : ℕ∞) := by
   have hcop : Nat.Coprime (2 ^ (3 * k)) 3 := Nat.Coprime.pow_left _ (by norm_num)
   have hdvd3 : 2 ^ (3 * k) ∣ n := by
@@ -112,7 +112,7 @@ theorem l3Order_factorial {s n m : ℕ} (hm : 5 ≤ m) (h2n : 2 * n = m !) (hL :
     have hk2 : 2 ≤ k := by
       by_contra hne
       have hk1' : k ≤ 1 := by omega
-      interval_cases k <;> norm_num at hpow <;> omega
+      interval_cases k; norm_num at hpow; omega
     have hYodd : Odd (s * (s + 2) * (s * (s ^ 2 + 3 * s + 3))) := by
       rw [Nat.odd_iff]
       simp [Nat.mul_mod, Nat.add_mod, Nat.pow_mod, hs_odd]

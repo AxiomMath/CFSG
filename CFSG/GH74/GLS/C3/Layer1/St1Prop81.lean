@@ -145,10 +145,12 @@ theorem exists_extremal {S U : Subgroup G} (hG : IsSimpleGroup G) (hnab : ∃ a 
   · rw [hc]
     rwa [top_inf_eq] at hySyl
 
+omit [Finite G] in
 theorem prop81_cmap_inf (c : G) (H K : Subgroup G) :
     cmap c (H ⊓ K) = cmap c H ⊓ cmap c K :=
   Subgroup.map_inf H K (MulAut.conj c).toMonoidHom (MulAut.conj c).injective
 
+omit [Finite G] in
 theorem prop81_cmap_centralizer (c : G) (S : Subgroup G) :
     cmap c (centralizer (S : Set G)) = centralizer (cmap c S : Set G) := by
   change (Subgroup.centralizer (S : Set G)).map (MulAut.conj c).toMonoidHom =
@@ -156,11 +158,13 @@ theorem prop81_cmap_centralizer (c : G) (S : Subgroup G) :
   rw [CFSG.Walter.map_centralizer_mulEquiv, Subgroup.coe_map]
   rfl
 
+omit [Finite G] in
 theorem prop81_cmap_centerIn (c : G) (S : Subgroup G) :
     cmap c (centerIn S) = centerIn (cmap c S) := by
   unfold centerIn
   rw [prop81_cmap_inf, prop81_cmap_centralizer]
 
+omit [Finite G] in
 theorem prop81_isFourSubgroup_cmap (c : G) {U : Subgroup G} (hU : IVK.IsFourSubgroup U) :
     IVK.IsFourSubgroup (cmap c U) := by
   let e : ↥U ≃* ↥(cmap c U) :=
@@ -169,6 +173,7 @@ theorem prop81_isFourSubgroup_cmap (c : G) {U : Subgroup G} (hU : IVK.IsFourSubg
   rw [← Nat.card_congr e.toEquiv]
   exact hU.2
 
+omit [Finite G] in
 theorem prop81_isNormalFourOf_cmap (c : G) {S U : Subgroup G} (h : IsNormalFourOf S U) :
     IsNormalFourOf (cmap c S) (cmap c U) := by
   refine ⟨prop81_isFourSubgroup_cmap c h.1, Subgroup.map_mono h.2.1, ?_⟩
@@ -180,6 +185,7 @@ theorem prop81_isNormalFourOf_cmap (c : G) {S U : Subgroup G} (h : IsNormalFourO
   convert hnorm using 1
   group
 
+omit [Finite G] in
 theorem prop81_isCyclic_centerIn_cmap_iff (c : G) (S : Subgroup G) :
     IsCyclic ↥(centerIn (cmap c S)) ↔ IsCyclic ↥(centerIn S) := by
   rw [← prop81_cmap_centerIn c S]
@@ -188,6 +194,7 @@ theorem prop81_isCyclic_centerIn_cmap_iff (c : G) (S : Subgroup G) :
       (MulAut.conj c).injective
   exact (MulEquiv.isCyclic e).symm
 
+omit [Finite G] in
 theorem prop81_noL29Component_cmap_iff
     (c u : G)
     (hu : pPrimeCore 2 ↥(centralizer ({u} : Set G)) = ⊥)
@@ -360,7 +367,7 @@ theorem b_st1_prop81_general
       have hS_eq : cmap c S0 = S := by
         rw [show S0 = cmap c⁻¹ S from rfl, cmap_cmap, mul_inv_cancel]
         ext x
-        simp [mem_cmap]
+        simp
       simpa [U', hS_eq] using h
     let u' : G := c * u0' * c⁻¹
     have hu' : u' ∈ U' := by

@@ -365,7 +365,7 @@ private theorem cube_eq_smul_one_of_shape₁ {B : Matrix (Fin 3) (Fin 3) F25}
   rw [hB]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [pow_three, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply] <;> ring
+    simp [pow_three, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
 
 private theorem cube_eq_smul_one_of_shape₂ {B : Matrix (Fin 3) (Fin 3) F25}
     (h00 : B 0 0 = 0) (h02 : B 0 2 = 0) (h10 : B 1 0 = 0) (h11 : B 1 1 = 0)
@@ -377,7 +377,7 @@ private theorem cube_eq_smul_one_of_shape₂ {B : Matrix (Fin 3) (Fin 3) F25}
   rw [hB]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [pow_three, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply] <;> ring
+    simp [pow_three, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
 
 private theorem eq_one_of_cube_eq_smul_one {B : SU5} {μ : F25}
     (h : M[B] ^ 3 = μ • 1) : (B : PU5) ^ 3 = 1 := by
@@ -476,19 +476,19 @@ private theorem fe_four : (fe 4 0 : F25) = -1 := by decide +kernel
 private theorem diagonal_smul_one (μ : F25) :
     (Matrix.diagonal ![μ, μ, μ] : Matrix (Fin 3) (Fin 3) F25) = μ • 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 private theorem diagonal_smul_sMat1 (μ : F25) :
     (Matrix.diagonal ![μ, -μ, -μ] : Matrix (Fin 3) (Fin 3) F25) = μ • sMat1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [sMat1, fe_one, fe_zero, fe_four, Matrix.one_apply] <;> ring
+    simp [sMat1, fe_one, fe_zero, fe_four]
 
 private theorem diagonal_smul_sMat2 (μ : F25) :
     (Matrix.diagonal ![-μ, μ, -μ] : Matrix (Fin 3) (Fin 3) F25) = μ • sMat2 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [sMat2, fe_one, fe_zero, fe_four, Matrix.one_apply] <;> ring
+    simp [sMat2, fe_one, fe_zero, fe_four]
 
 private theorem sMat1_mul_sMat2_eq :
     sMat1 * sMat2 = !![fe 4 0, fe 0 0, fe 0 0;
@@ -499,7 +499,7 @@ private theorem diagonal_smul_s12 (μ : F25) :
   rw [sMat1_mul_sMat2_eq]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [fe_one, fe_zero, fe_four, Matrix.one_apply] <;> ring
+    simp [fe_one, fe_zero, fe_four]
 
 private theorem mem_kD_of_matrix_eq_smul {B D : SU5} {μ : F25}
     (hD : (D : PU5) = 1 ∨ (D : PU5) = k1 ∨ (D : PU5) = k2 ∨ (D : PU5) = k1 * k2)
@@ -538,7 +538,7 @@ private theorem diagonal_mem_kD_of_pow_two {B : SU5}
     rw [Matrix.diagonal_pow] at h1
     have e0 := congrFun (congrFun h1 0) 0
     have e1 := congrFun (congrFun h1 1) 1
-    simp [Matrix.one_apply] at e0 e1
+    simp at e0 e1
     rw [e0, e1]
   have hsq1 : M[B] 1 1 ^ 2 = M[B] 2 2 ^ 2 := by
     have h1 : (Matrix.diagonal ![M[B] 0 0, M[B] 1 1, M[B] 2 2] :
@@ -548,7 +548,7 @@ private theorem diagonal_mem_kD_of_pow_two {B : SU5}
     rw [Matrix.diagonal_pow] at h1
     have e1 := congrFun (congrFun h1 1) 1
     have e2 := congrFun (congrFun h1 2) 2
-    simp [Matrix.one_apply] at e1 e2
+    simp at e1 e2
     rw [e1, e2]
   obtain ⟨ν, hν⟩ := diag_exists_smul_sign (M[B] 0 0) (M[B] 1 1) (M[B] 2 2) ha hb hd hdet
     hsq0 hsq1

@@ -193,8 +193,8 @@ private theorem cover_six {i j k l m n : Fin 6} (h : [i, j, k, l, m, n].Nodup) (
 private theorem pc_six {i j k l m n : Fin 6} (h : [i, j, k, l, m, n].Nodup) :
     pc i j + pc k l + pc m n = 0 := by
   have hcov := cover_six h
-  simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil, not_or,
-    List.nodup_nil, not_false_eq_true, and_true, true_and] at h
+  simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, not_or,
+    List.nodup_nil, not_false_eq_true, and_true] at h
   obtain ⟨⟨hij, hik, hil, him, hin⟩, ⟨hjk, hjl, hjm, hjn⟩, ⟨hkl, hkm, hkn⟩, ⟨hlm, hln⟩, hmn⟩ := h
   rw [pc_eq_mk, pc_eq_mk, pc_eq_mk, ← QuotientAddGroup.mk_add, ← QuotientAddGroup.mk_add]
   refine (QuotientAddGroup.eq_zero_iff _).2 (mem_evenWeightOnes_of_forall_eq (c := 1) fun p => ?_)
@@ -269,7 +269,7 @@ theorem decomp (i j : Fin 6) (_hij : i ≠ j) (σ : Perm (Fin 6)) (hσ : Pres σ
 private theorem cyc_apply_left {i j k : Fin 6} (hij : i ≠ j) (hjk : j ≠ k) : cyc i j k i = j := by
   rw [cyc, Perm.mul_apply, swap_apply_left, swap_apply_of_ne_of_ne hij.symm hjk]
 
-private theorem cyc_apply_mid {i j k : Fin 6} (hij : i ≠ j) (hjk : j ≠ k) : cyc i j k j = k := by
+private theorem cyc_apply_mid {i j k : Fin 6} (_hij : i ≠ j) (_hjk : j ≠ k) : cyc i j k j = k := by
   rw [cyc, Perm.mul_apply, swap_apply_right, swap_apply_left]
 
 private theorem cyc_apply_right {i j k : Fin 6} (hik : i ≠ k) (hjk : j ≠ k) : cyc i j k k = i := by
@@ -301,14 +301,14 @@ theorem cyc_conj (i j k : Fin 6) (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k)
     exact swap_three i j k hij hjk hik
 
 theorem index_stabSub (u : altHeart 6) (hu : u ≠ 0) : (stabSub u).index = 15 := by
-  letI : MulAction (Perm (Fin 6)) (altHeart 6) :=
+  let : MulAction (Perm (Fin 6)) (altHeart 6) :=
     { smul := fun σ v => altAct σ v, one_smul := altAct_one, mul_smul := altAct_mul }
   have hstab : MulAction.stabilizer (Perm (Fin 6)) u = stabSub u :=
     Subgroup.ext fun σ => Iff.rfl
   rw [← hstab, MulAction.index_stabilizer]
   have horb : MulAction.orbit (Perm (Fin 6)) u = Set.univ \ {0} := by
     ext v
-    simp only [Set.mem_diff, Set.mem_univ, Set.mem_singleton_iff, true_and]
+    simp only [Set.mem_sdiff, Set.mem_univ, Set.mem_singleton_iff, true_and]
     constructor
     · rintro ⟨σ, rfl⟩ h
       apply hu
@@ -319,7 +319,7 @@ theorem index_stabSub (u : altHeart 6) (hu : u ≠ 0) : (stabSub u).index = 15 :
     · intro hv
       obtain ⟨σ, hσ⟩ := altAct_transitive u v hu hv
       exact ⟨σ, hσ⟩
-  rw [horb, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, card_altHeart_six]
+  rw [horb, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ, card_altHeart_six]
 
 private noncomputable def diffHom (σ : Perm (Fin 6)) : altHeart 6 →+ altHeart 6 :=
   altAct σ + AddMonoidHom.id (altHeart 6)
@@ -388,7 +388,7 @@ private theorem range_diffHom_swap (i j : Fin 6) (hij : i ≠ j) :
 private theorem card_range_diffHom_swap (i j : Fin 6) (hij : i ≠ j) :
     Nat.card (diffHom (swap i j)).range = 2 := by
   rw [range_diffHom_swap i j hij, Nat.card_zmultiples]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact addOrderOf_eq_prime (by rw [two_nsmul]; exact altHeart_add_self _) (pc_ne_zero i j hij)
 
 theorem card_fixSub_swap (i j : Fin 6) (hij : i ≠ j) : Nat.card (fixSub (swap i j)) = 8 := by
@@ -529,8 +529,8 @@ theorem quad (i j : Fin 6) (hij : i ≠ j) (E : Subgroup (Perm (Fin 6)))
       have hn_k : σ m ≠ k := fun h => hml ((hinv m).symm.trans (congrArg σ h))
       have hn_l : σ m ≠ σ k := fun h => hmk (σ.injective h)
       have hnd : [i, j, k, σ m, σ k, m].Nodup := by
-        simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil, not_or,
-          List.nodup_nil, not_false_eq_true, and_true, true_and]
+        simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, not_or,
+          List.nodup_nil, not_false_eq_true, and_true]
         exact ⟨⟨hij, hki.symm, hn_i.symm, hl_i.symm, hmi.symm⟩,
           ⟨hkj.symm, hn_j.symm, hl_j.symm, hmj.symm⟩, ⟨hn_k.symm, hk.symm, hmk.symm⟩,
           ⟨hn_l, hm⟩, hml.symm⟩

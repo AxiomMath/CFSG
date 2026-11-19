@@ -121,7 +121,7 @@ theorem inf_sup_conj (D : E11Data H I) (hU : Module.finrank D.F D.U = 2)
     (h4 : Module.finrank (ZMod 2) B = 4) {c : GLV V} (hcH : ∀ h ∈ H, h * c = c * h)
     (hne : conjSub c B ≠ B) (hB : Invariant H B) :
     B ⊓ conjSub c B = ⊥ ∧ B ⊔ conjSub c B = ⊤ := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hcB : Invariant H (conjSub c B) := by
     intro h hh u hu
     obtain ⟨b, hb, rfl⟩ := hu
@@ -145,6 +145,7 @@ theorem inf_sup_conj (D : E11Data H I) (hU : Module.finrank D.F D.U = 2)
   rw [hdim]
   omega
 
+omit [Finite V] in
 theorem dcompat {H : Subgroup (GLV V)} {φ : ↥H ≃* ↥(alternatingGroup (Fin 5))}
     {B : Submodule (ZMod 2) V} {ι : ↥B ≃ₗ[ZMod 2] ↥(permCore 5)}
     (hι : Intertwines H φ B ι) (hB : Invariant H B) {d : GLV V} (hdB : ∀ b ∈ B, d b ∈ B)

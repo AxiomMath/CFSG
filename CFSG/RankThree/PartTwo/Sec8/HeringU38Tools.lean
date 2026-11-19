@@ -26,7 +26,7 @@ theorem commutator_conj_mem (C : Subgroup G) (b : G) {c : G} (hc : c ∈ C)
     rw [h1]
     exact Subgroup.mul_mem _ (Subgroup.subset_closure ⟨c * p, Subgroup.mul_mem _ hc hp, q, hq, rfl⟩)
       (Subgroup.inv_mem _ (Subgroup.subset_closure ⟨c, hc, q, hq, rfl⟩))
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul y z _ _ hy hz =>
     have : c * (y * z) * c⁻¹ = (c * y * c⁻¹) * (c * z * c⁻¹) := by group
     rw [this]

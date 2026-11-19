@@ -31,7 +31,7 @@ theorem s16c1G_qB_eq_false {a : ℕ} (h : qModel true (vec a) = 0) : qB true a =
   rw [qModel_vec] at h
   by_contra hb
   have hb' : qB true a = true := by simpa using hb
-  rw [if_pos hb'] at h
+  rw [ite_eq_left hb'] at h
   exact absurd h (by decide)
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

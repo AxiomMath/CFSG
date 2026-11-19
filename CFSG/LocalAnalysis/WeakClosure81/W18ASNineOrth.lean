@@ -16,7 +16,7 @@ theorem noSocle185Factor_statedOmega_quadPlus (hO : LieOrderFormulasInput) {F : 
     NoSocle185Factor ↥(StatedOmega (StatedQuadPlus k F)) := by
   have hadm : StatedLieAdmissible .POmegaPlus k 2 n :=
     ⟨Nat.prime_two, one_le_of_natCard_eq_two_pow hF, hk⟩
-  haveI : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadPlus k F))) :=
+  have : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadPlus k F))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadPlus (by omega)
   refine NoSocle185Factor.of_statedProj _ (NoSocle185Factor.of_lieModel_two hO hadm ?_ ?_)
   · exact Or.inl ⟨by decide, hadm, F, inferInstance, inferInstance, hF, ⟨MulEquiv.refl _⟩⟩
@@ -28,7 +28,7 @@ theorem noSocle185Factor_statedOmega_quadMinus (hO : LieOrderFormulasInput) {F :
     NoSocle185Factor ↥(StatedOmega (StatedQuadMinus k F b c)) := by
   have hadm : StatedLieAdmissible .POmegaMinus k 2 n :=
     ⟨Nat.prime_two, one_le_of_natCard_eq_two_pow hF, hk⟩
-  haveI : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus k F b c))) :=
+  have : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus k F b c))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadMinus hk hbc
   refine NoSocle185Factor.of_statedProj _ (NoSocle185Factor.of_lieModel_two hO hadm ?_ ?_)
   · exact Or.inl ⟨by decide, hadm, F, inferInstance, inferInstance, hF, b, c, hbc,

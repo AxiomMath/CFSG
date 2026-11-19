@@ -26,21 +26,23 @@ private theorem tbjO_toAdd_piMul_mulSingle (j k : Fin r)
   rw [piMul_apply, toAdd_ofAdd]
   by_cases h : k = j
   · subst h
-    simp [Pi.mulSingle_apply]
-  · simp [Pi.mulSingle_apply, h, toAdd_one]
+    simp
+  · simp [h, toAdd_one]
 
 private noncomputable def tbjO_gen (Δ : TBJOmData Q p A r) (j : Fin r) :
     V ≃ₗ[K] V :=
   Δ.F.ι (piMul r p (Pi.mulSingle j (ofAdd 1)))
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjO_gen_mem (Δ : TBJOmData Q p A r) (hA : A ≤ orthDerived Q) (j : Fin r) :
     tbjO_gen Δ j ∈ orthDerived Q :=
   hA (Δ.F.mem (piMul r p (Pi.mulSingle j (ofAdd 1))))
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjO_gen_apply_eq_self_iff [Fact p.Prime] (Δ : TBJOmData Q p A r) (j : Fin r)
     (v : V) :
     tbjO_gen Δ j v = v ↔ ∀ u ∈ Δ.F.U j, polar Q u v = 0 := by
-  haveI : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
+  have : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
   change Δ.F.ι (piMul r p (Pi.mulSingle j (ofAdd 1))) v = v ↔ _
   rw [Δ.F.fix]
   constructor
@@ -57,6 +59,7 @@ private theorem tbjO_gen_apply_eq_self_iff [Fact p.Prime] (Δ : TBJOmData Q p A 
         simp [hkj]
       exact (hk h0).elim
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjO_gen_apply_of_mem_orthogonal [Fact p.Prime] (Δ : TBJOmData Q p A r)
     (j : Fin r) {v : V}
     (hv : v ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) (Δ.F.U j)) :
@@ -65,6 +68,7 @@ private theorem tbjO_gen_apply_of_mem_orthogonal [Fact p.Prime] (Δ : TBJOmData 
     have h := (LinearMap.BilinForm.mem_orthogonal_iff.mp hv) u hu
     simpa [polarBilin_apply_apply] using h
 
+omit [Finite K] in
 private theorem tbjO_isCompl_orthogonal (Δ : TBJOmData Q p A r) (j : Fin r) :
     IsCompl (Δ.F.U j) (LinearMap.BilinForm.orthogonal (polarBilin Q) (Δ.F.U j)) := by
   have hrefl : (polarBilin Q).IsRefl := fun x y h => by
@@ -87,6 +91,7 @@ private theorem tbjO_isCompl_orthogonal (Δ : TBJOmData Q p A r) (j : Fin r) :
       simpa [polarBilin_apply_apply, polar_comm] using h
   exact LinearMap.BilinForm.isCompl_orthogonal_of_restrict_nondegenerate hrefl hnd
 
+omit [Finite K] in
 private theorem tbjO_gen_apply_sub_mem [Fact p.Prime] (Δ : TBJOmData Q p A r) (j : Fin r) (x : V) :
     tbjO_gen Δ j x - x ∈ Δ.F.U j := by
   have hx : x ∈ Δ.F.U j ⊔
@@ -98,6 +103,7 @@ private theorem tbjO_gen_apply_sub_mem [Fact p.Prime] (Δ : TBJOmData Q p A r) (
   rw [← huv, map_add, hwfix, add_sub_add_right_eq_sub]
   exact sub_mem (Δ.F.mapsTo (piMul r p (Pi.mulSingle j (ofAdd 1))) j u hu) hu
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjO_exists_quad_ne_zero (Δ : TBJOmData Q p A r) (a : Fin r) :
     ∃ v ∈ Δ.F.U a, Q v ≠ 0 := by
   by_contra h
@@ -111,6 +117,7 @@ private theorem tbjO_exists_quad_ne_zero (Δ : TBJOmData Q p A r) (a : Fin r) :
   rw [polar_comm Q w u]
   exact h1
 
+omit [Finite K] in
 private theorem tbjO_iSup_U_eq_top (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate)
     (hnf : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0) :
@@ -129,14 +136,15 @@ private theorem tbjO_iSup_U_eq_top (Δ : TBJOmData Q p A r)
       have h := (LinearMap.BilinForm.mem_orthogonal_iff.mp hv) u huW
       simpa [polarBilin_apply_apply] using h
     have hv0 : v = 0 := hnf v hvfix
-    simpa [hv0] using Submodule.zero_mem (⊥ : Submodule K V)
+    simp [hv0]
   have horth := LinearMap.BilinForm.orthogonal_orthogonal hQ
     (QuadraticMap.isSymm_polarBilin Q).isRefl W
   rw [hWperp] at horth
   simpa using horth.symm
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem tbjO_reflection_mul_comm_of_apply_eq
-    (hQ : (polarBilin Q).Nondegenerate) {v : V} [Invertible (Q v)] {e : V ≃ₗ[K] V}
+    (_hQ : (polarBilin Q).Nondegenerate) {v : V} [Invertible (Q v)] {e : V ≃ₗ[K] V}
     (heO : e ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hev : e v = v) :
     TauCeti.QuadraticMap.reflection Q v * e =
       e * TauCeti.QuadraticMap.reflection Q v := by
@@ -148,25 +156,27 @@ private theorem tbjO_reflection_mul_comm_of_apply_eq
   rw [hev] at h1
   rw [h1]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjO_reflection_mul_gen_of_ne [Fact p.Prime]
     (hQ : (polarBilin Q).Nondegenerate) (Δ : TBJOmData Q p A r)
     (hA : A ≤ orthDerived Q) {a j : Fin r} (hja : j ≠ a) {v : V} (hv : v ∈ Δ.F.U a)
     [Invertible (Q v)] :
     TauCeti.QuadraticMap.reflection Q v * tbjO_gen Δ j =
       tbjO_gen Δ j * TauCeti.QuadraticMap.reflection Q v := by
-  haveI : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
+  have : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
   refine tbjO_reflection_mul_comm_of_apply_eq hQ
     (CFSG.RankThree.PartOne.KCOrthogonal.orthDerived_le_orthogonalGroup (tbjO_gen_mem Δ hA j)) ?_
   rw [tbjO_gen_apply_eq_self_iff]
   intro u hu
   exact Δ.F.orth j a hja u hu v hv
 
+omit [Finite K] in
 private theorem tbjO_reflection_conj_gen_self [Fact p.Prime]
     (hQ : (polarBilin Q).Nondegenerate) (Δ : TBJOmData Q p A r) (hA : A ≤ orthDerived Q)
     {a : Fin r} {v : V} (hv : v ∈ Δ.F.U a) [Invertible (Q v)] :
     TauCeti.QuadraticMap.reflection Q v * tbjO_gen Δ a *
       TauCeti.QuadraticMap.reflection Q v = (tbjO_gen Δ a)⁻¹ := by
-  haveI : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
+  have : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
   set ρ := TauCeti.QuadraticMap.reflection Q v with hρ
   set ea := tbjO_gen Δ a with hea
   have hρO : ρ ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
@@ -210,13 +220,14 @@ private theorem tbjO_reflection_conj_gen_self [Fact p.Prime]
       _ = 1 := hinv
   exact eq_inv_of_mul_eq_one_left h4
 
+omit [Finite K] in
 private theorem tbjO_reflection_conj_tau [Fact p.Prime]
     (hQ : (polarBilin Q).Nondegenerate) (Δ : TBJOmData Q p A r) (hA : A ≤ orthDerived Q)
     {a : Fin r} {v : V} (hv : v ∈ Δ.F.U a) [Invertible (Q v)]
     (f : Fin r → Multiplicative (ZMod p)) :
     TauCeti.QuadraticMap.reflection Q v * Δ.τ f *
       (TauCeti.QuadraticMap.reflection Q v)⁻¹ = Δ.τ (sgnAut a f) := by
-  haveI : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
+  have : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
   have hρO : TauCeti.QuadraticMap.reflection Q v ∈
       TauCeti.QuadraticMap.orthogonalGroup Q :=
     TauCeti.QuadraticMap.reflection_mem_orthogonalGroup Q v
@@ -244,6 +255,7 @@ private theorem tbjO_sgnAut_apply_self (a : Fin r)
     (sgnAut_sq a)
   simpa [pow_two] using h
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem tbjO_pow_conj_eq (u x : V ≃ₗ[K] V) (h : u * x * u⁻¹ = x) (n : ℕ) :
     u ^ n * x * (u ^ n)⁻¹ = x := by
   induction n with
@@ -255,6 +267,7 @@ private theorem tbjO_pow_conj_eq (u x : V ≃ₗ[K] V) (h : u * x * u⁻¹ = x) 
       _ = u ^ n * x * (u ^ n)⁻¹ := by rw [h]
       _ = x := ih
 
+omit [Finite K] in
 private theorem tbjO_centralizer_reflection [Fact p.Prime]
     (hQ : (polarBilin Q).Nondegenerate) (Δ : TBJOmData Q p A r) (hA : A ≤ orthDerived Q)
     {a : Fin r} (g : ↥(orthDerived Q))
@@ -262,7 +275,7 @@ private theorem tbjO_centralizer_reflection [Fact p.Prime]
     {v : V} (hv : v ∈ Δ.F.U a) [Invertible (Q v)] :
     ∀ f, ((g : V ≃ₗ[K] V) * TauCeti.QuadraticMap.reflection Q v) * Δ.τ f *
       ((g : V ≃ₗ[K] V) * TauCeti.QuadraticMap.reflection Q v)⁻¹ = Δ.τ f := by
-  haveI : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
+  have : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
   have hge : ∀ f, (g : V ≃ₗ[K] V) * Δ.τ f * (g : V ≃ₗ[K] V)⁻¹ =
       Δ.τ (sgnAut a f) := by
     intro f
@@ -278,6 +291,7 @@ private theorem tbjO_centralizer_reflection [Fact p.Prime]
     _ = Δ.τ f := by
           rw [hge (sgnAut a f), tbjO_sgnAut_apply_self a f]
 
+omit [CharP K 2] in
 private theorem tbjO_exists_involution_power [Fact p.Prime]
     (hQ : (polarBilin Q).Nondegenerate) {h : V ≃ₗ[K] V}
     (hO : h ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
@@ -285,8 +299,8 @@ private theorem tbjO_exists_involution_power [Fact p.Prime]
     ∃ (m : ℕ) (t : V ≃ₗ[K] V), 0 < m ∧ t = h ^ m ∧ t * t = 1 ∧ t ≠ 1 ∧
       t ∈ TauCeti.QuadraticMap.orthogonalGroup Q := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun x : V ≃ₗ[K] V => (x : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun x : V ≃ₗ[K] V => (x : V → V))
     fun x y hxy => LinearEquiv.ext (congrFun hxy)
   set H : ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := ⟨h, hO⟩ with hH
   have hD : dicksonHom Q hQ H = ofAdd (1 : ZMod 2) := by
@@ -325,7 +339,7 @@ private theorem tbjO_exists_fixed_involution [Fact p.Prime]
       t ∈ TauCeti.QuadraticMap.orthogonalGroup Q := by
   classical
   obtain ⟨v, hvU, hQv⟩ := tbjO_exists_quad_ne_zero Δ a
-  letI : Invertible (Q v) := invertibleOfNonzero hQv
+  let : Invertible (Q v) := invertibleOfNonzero hQv
   set ρ := TauCeti.QuadraticMap.reflection Q v with hρ
   have hρO : ρ ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
     TauCeti.QuadraticMap.reflection_mem_orthogonalGroup Q v
@@ -347,6 +361,7 @@ private theorem tbjO_exists_fixed_involution [Fact p.Prime]
   rw [ht]
   exact tbjO_pow_conj_eq h (Δ.τ f) (hcen f) m
 
+omit [Finite K] [CharP K 2] in
 private theorem tbjO_scalar_eq_zero {M : Type} [AddCommGroup M] [Module K M]
     {lam : K} (hlam : lam ≠ lam⁻¹) {v : M} (hv : v ≠ 0) {a : K}
     (h : (a * lam) • v = (a * lam⁻¹) • v) : a = 0 := by
@@ -358,6 +373,7 @@ private theorem tbjO_scalar_eq_zero {M : Type} [AddCommGroup M] [Module K M]
   · exact h0
   · exact absurd (sub_eq_zero.mp h0) hlam
 
+omit [FiniteDimensional K V] [Finite K] in
 private theorem tbjO_endomorphism_eq_one (Δ : TBJOmData Q p A r)
     {tj : Δ.D →ₗ[K] Δ.D} (hsq : ∀ d, tj (tj d) = d)
     (hc : ∀ d, tj (Δ.c d) = Δ.c (tj d)) : tj = 1 := by
@@ -475,11 +491,12 @@ private theorem tbjO_endomorphism_eq_one (Δ : TBJOmData Q p A r)
   have hν0 : ν = 0 := tbjO_scalar_eq_zero hlamlam hv0' hνeq
   exact hTv0 (by rw [hν', hν0, zero_smul])
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjO_mapsTo_orthogonal_of_commute [Fact p.Prime] (Δ : TBJOmData Q p A r)
     (j : Fin r) {u : V ≃ₗ[K] V} (hcomm : u * tbjO_gen Δ j = tbjO_gen Δ j * u)
     {y : V} (hy : y ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) (Δ.F.U j)) :
     u y ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) (Δ.F.U j) := by
-  haveI : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
+  have : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
   have hyfix : tbjO_gen Δ j y = y := tbjO_gen_apply_of_mem_orthogonal Δ j hy
   have hfix : tbjO_gen Δ j (u y) = u y := by
     calc tbjO_gen Δ j (u y) = (tbjO_gen Δ j * u) y := rfl
@@ -488,12 +505,13 @@ private theorem tbjO_mapsTo_orthogonal_of_commute [Fact p.Prime] (Δ : TBJOmData
       _ = u y := by rw [hyfix]
   exact (tbjO_gen_apply_eq_self_iff Δ j (u y)).mp hfix
 
+omit [Finite K] in
 private theorem tbjO_mapsTo_piece [Fact p.Prime]
     (hQ : (polarBilin Q).Nondegenerate) (Δ : TBJOmData Q p A r) {t : V ≃ₗ[K] V}
     (htO : t ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hcomm : ∀ j, t * tbjO_gen Δ j = tbjO_gen Δ j * t)
     (j : Fin r) {x : V} (hx : x ∈ Δ.F.U j) : t x ∈ Δ.F.U j := by
-  haveI : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
+  have : NeZero p := ⟨Nat.Prime.ne_zero (Fact.out : p.Prime)⟩
   have htinvO : t⁻¹ ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
     (TauCeti.QuadraticMap.orthogonalGroup Q).inv_mem htO
   have htinvcomm : ∀ j, t⁻¹ * tbjO_gen Δ j = tbjO_gen Δ j * t⁻¹ := by
@@ -513,6 +531,7 @@ private theorem tbjO_mapsTo_piece [Fact p.Prime]
   simpa [polarBilin_apply_apply, polar_comm] using
     (LinearMap.BilinForm.mem_orthogonal_iff.mp (hfixinv y hy)) x hx
 
+omit [FiniteDimensional K V] [Finite K] in
 private theorem tbjO_eq_self_on_piece [Fact p.Prime] (Δ : TBJOmData Q p A r) (j : Fin r)
     {t : V ≃ₗ[K] V} (htt : t * t = 1)
     (hcomm : t * tbjO_gen Δ j = tbjO_gen Δ j * t)
@@ -551,9 +570,9 @@ private theorem tbjO_eq_self_on_piece [Fact p.Prime] (Δ : TBJOmData Q p A r) (j
     rw [htj_apply (tj d), htj_apply d, htt']
   have hθc : ∀ d, (θe (Δ.c d) : V) = tbjO_gen Δ j (θe d : V) := by
     intro d
-    haveI : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
+    have : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
     have hval : ((toAdd (piMul r p (Pi.mulSingle j (ofAdd 1)))) j).val = 1 := by
-      rw [tbjO_toAdd_piMul_mulSingle, if_pos rfl, toAdd_ofAdd, ZMod.val_one p]
+      rw [tbjO_toAdd_piMul_mulSingle, ite_eq_left rfl, toAdd_ofAdd, ZMod.val_one p]
     have hpow : (Δ.c ^ ((toAdd (piMul r p (Pi.mulSingle j (ofAdd 1)))) j).val) = Δ.c := by
       rw [hval, pow_one]
     have h := Δ.θ_act (piMul r p (Pi.mulSingle j (ofAdd 1))) j d
@@ -576,7 +595,7 @@ private theorem tbjO_eq_self_on_piece [Fact p.Prime] (Δ : TBJOmData Q p A r) (j
   rw [congrArg (fun u : Δ.D →ₗ[K] Δ.D => u d) htj1] at h2
   exact h2.symm
 
-theorem TBJOmData.not_induces_sgnAut_of_noFixed [Fact p.Prime] (hp2 : p ≠ 2)
+theorem TBJOmData.not_induces_sgnAut_of_noFixed [Fact p.Prime] (_hp2 : p ≠ 2)
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (hnf : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0) (a : Fin r) (g : ↥(orthDerived Q))
     (hg : ∀ f, g * Δ.τΩ hA f * g⁻¹ = Δ.τΩ hA (sgnAut a f)) : False := by

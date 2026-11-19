@@ -28,6 +28,7 @@ abbrev u3M (L1 L2 S : Subgroup G) : Type :=
     ↥(u3Lhat L1 L2 S) →* MulAut (u3M L1 L2 S) :=
   CFSG.Quasithin.Vol2.Ch11.SecD.quotAct hX hZ
 
+omit [Finite G] in
 theorem u3M_normal (L1 L2 S : Subgroup G) :
     ((Z1 L1 L2 S).subgroupOf (u3X1 L1 L2 S)).Normal := by
   refine Subgroup.normal_subgroupOf_of_le_normalizer ?_
@@ -57,12 +58,13 @@ theorem u3M_normal (L1 L2 S : Subgroup G) :
         exact (Subgroup.mem_subgroupOf (H := Z1 L1 L2 S)
           (K := u3X1 L1 L2 S)).mpr (by rw [he]; exact hc))
 
+omit [Finite G] in
 theorem u3K1_le_q1 (L1 L2 S : Subgroup G) : u3K1 L1 L2 S ≤ Q1 L1 L2 S := inf_le_left
 
 theorem u3Z1_le_u3K1 {L1 L2 S : Subgroup G}
-    (hF : F112Hyp L1 L2 S) (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
-    (h1 : VU3Big L1) (hB2 : VBig L2) (h2 : VL2 L2)
-    (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G)) :
+    (_hF : F112Hyp L1 L2 S) (_hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
+    (_h1 : VU3Big L1) (_hB2 : VBig L2) (_h2 : VL2 L2)
+    (_hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G)) :
     Z1 L1 L2 S ≤ u3K1 L1 L2 S := by
   refine le_inf (omegaOneCenterOf_le (Q1 L1 L2 S)) ?_
   rw [Subgroup.le_centralizer_iff]
@@ -130,6 +132,7 @@ theorem u3Z1_le_u3X1 {L1 L2 S : Subgroup G}
     le_inf hZ1Z2 (omegaOneCenterOf_le (Q1 L1 L2 S))
   exact hZ1Y.trans (u3Y_le_u3X1 (L1 := L1) (L2 := L2) (S := S))
 
+omit [Finite G] in
 theorem card_u3X1_eq_card_z1_mul_card_u3M {L1 L2 S : Subgroup G}
     (hZ1X : Z1 L1 L2 S ≤ u3X1 L1 L2 S) :
     Nat.card (u3X1 L1 L2 S) =
@@ -141,6 +144,7 @@ theorem card_u3X1_eq_card_z1_mul_card_u3M {L1 L2 S : Subgroup G}
   congr 1
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZ1X).toEquiv
 
+omit [Finite G] in
 theorem card_u3X1_of_card_u3M {L1 L2 S : Subgroup G} {k : ℕ}
     (hZ1X : Z1 L1 L2 S ≤ u3X1 L1 L2 S) (hZ1 : Nat.card (Z1 L1 L2 S) = 2 ^ k)
     (hM : Nat.card (u3M L1 L2 S) = (2 ^ k) ^ 6) :
@@ -157,12 +161,12 @@ theorem str86_X1_structure_of_parts
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
     (hB2 : VBig L2) (h2 : VL2 L2)
     (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
-    (hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
-    (hL2 : IsL2Quot (2 * k) (oTwoQuot ↥L2)) (hZ2 : Nat.card (Z2 L1 L2 S) = (2 ^ k) ^ 4)
+    (_hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
+    (_hL2 : IsL2Quot (2 * k) (oTwoQuot ↥L2)) (_hZ2 : Nat.card (Z2 L1 L2 S) = (2 ^ k) ^ 4)
     (hZ1 : Nat.card (Z1 L1 L2 S) = 2 ^ k)
-    (hY : Nat.card ↥(Z2 L1 L2 S ⊓ Q1 L1 L2 S) = (2 ^ k) ^ 3)
+    (_hY : Nat.card ↥(Z2 L1 L2 S ⊓ Q1 L1 L2 S) = (2 ^ k) ^ 3)
     (hX1' : ⁅u3X1 L1 L2 S, u3X1 L1 L2 S⁆ = Z1 L1 L2 S)
-    (hX1Q1 : ⁅u3X1 L1 L2 S, Q1 L1 L2 S⁆ ≤ Z1 L1 L2 S)
+    (_hX1Q1 : ⁅u3X1 L1 L2 S, Q1 L1 L2 S⁆ ≤ Z1 L1 L2 S)
     (hMod : Str86X1Module hF k hX1') :
     Nat.card (u3X1 L1 L2 S) = (2 ^ k) ^ 7 ∧
       Q1 L1 L2 S = u3X1 L1 L2 S ⊔

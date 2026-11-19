@@ -24,6 +24,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     Submodule K M₀.E :=
   imgSub M₀ (Vt M (LB M Q B) B Z t) (fun c _ he => hc.smul_mem_img_Vt hM t c he)
 
+omit [(Q.subgroupOf M).Normal] in
 theorem Ctx.mem_VtSub (hc : Ctx M Q Z B) {K : Type} [Field K] [Finite K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} (hM : GlobalModelData M Q Z γ M₀) (t : G) {e : M₀.E} :
     e ∈ hc.VtSub hM t ↔ e ∈ M₀.img (Vt M (LB M Q B) B Z t) := Iff.rfl
@@ -54,7 +55,7 @@ theorem Ctx.irred_VtSub (hc : Ctx M Q Z B) {n : ℕ} {K : Type} [Field K] [Finit
     {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     {ρ : Mbar M Q →* Multiplicative (AddAut M₀.E)} {b : M₀.E}
     (hS : IsTensorSetup hc n M₀ ρ b)
-    (h35 : CQt Q Z (LB M Q B) = ((B ⊔ Z : Subgroup G) : Set G)) {t : G} (ht : t ∈ LB M Q B) :
+    (h35 : CQt Q Z (LB M Q B) = ((B ⊔ Z : Subgroup G) : Set G)) {t : G} (_ht : t ∈ LB M Q B) :
     ∀ S : Submodule K M₀.E, S ≤ hc.VtSub hS.model t →
       (∀ x ∈ bar M Q (Rt M (LB M Q B) t), ∀ v ∈ S, (ρ x).toAdd v ∈ S) →
         S = ⊥ ∨ S = hc.VtSub hS.model t := by
@@ -63,7 +64,7 @@ theorem Ctx.irred_VtSub (hc : Ctx M Q Z B) {n : ℕ} {K : Type} [Field K] [Finit
   · exact Or.inl hS0
   refine Or.inr (le_antisymm hSle ?_)
   obtain ⟨jj, -, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
   have hstep : ∀ l ∈ Rt M (LB M Q B) t, ∀ T : M₀.E ≃ₗ[K] M₀.E,
       (∀ x ∈ Q, M₀.π (l * x * l⁻¹) = T (M₀.π x)) → (∀ e, M₀.Qf (T e) = M₀.Qf e) →
         ∀ w ∈ S, T w ∈ S := by
@@ -84,7 +85,7 @@ theorem Ctx.irred_VtSub (hc : Ctx M Q Z B) {n : ℕ} {K : Type} [Field K] [Finit
 theorem Ctx.act_CN (hc : Ctx M Q Z B) {n : ℕ} {K : Type} [Field K] [Finite K]
     {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     {ρ : Mbar M Q →* Multiplicative (AddAut M₀.E)} {b : M₀.E}
-    (hS : IsTensorSetup hc n M₀ ρ b) {t : G} (ht : t ∈ LB M Q B) :
+    (hS : IsTensorSetup hc n M₀ ρ b) {t : G} (_ht : t ∈ LB M Q B) :
     ∀ ν ∈ bar M Q (hc.CN t), ∀ w ∈ hc.VtSub hS.model t, (ρ ν).toAdd w = w := by
   intro ν hν w hw
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hν
@@ -203,7 +204,7 @@ theorem Ctx.natural_transport (hc : Ctx M Q Z B) {n : ℕ} {K : Type} [Field K] 
           (π x : Matrix ι ι K') *ᵥ Ψ w := by
   obtain ⟨φ, hφr, hφk, hSA⟩ := hnat
   obtain ⟨hRV, hZV, ψ, hψ⟩ := hSA
-  haveI := hZV
+  have := hZV
   have hSmul : ∀ (c : K) (e : M₀.E), e ∈ M₀.img (Vt M (LB M Q B) B Z t) →
       c • e ∈ M₀.img (Vt M (LB M Q B) B Z t) :=
     fun c e he => hc.smul_mem_img_Vt hS.model t c he
@@ -284,8 +285,8 @@ theorem Ctx.natural_transport (hc : Ctx M Q Z B) {n : ℕ} {K : Type} [Field K] 
 
 
 theorem Ctx.bar_LB_le_normalizer_CN (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
-    bar M Q (LB M Q B) ≤ Subgroup.normalizer (bar M Q (hc.CN t) : Set (Mbar M Q)) := fun ℓ hℓ =>
-  Subgroup.mem_normalizer_fintype fun ν hν =>
+    bar M Q (LB M Q B) ≤ Subgroup.normalizer (bar M Q (hc.CN t) : Set (Mbar M Q)) := fun _ℓ hℓ =>
+  Subgroup.mem_normalizer_fintype fun _ν hν =>
     hc.bar_CN_conj_mem ht (hc.bar_LB_le_bar_Rt ht hℓ) hν
 
 theorem act_mul_apply {E : Type*} [AddCommGroup E] {Γ : Type*} [Group Γ]
@@ -319,7 +320,7 @@ theorem Ctx.sq_inter (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {X : Subgr
 theorem Ctx.fix_inter (hc : Ctx M Q Z B) {n : ℕ} {K : Type} [Field K] [Finite K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} {ρ : Mbar M Q →* Multiplicative (AddAut M₀.E)} {b : M₀.E}
     (hS : IsTensorSetup hc n M₀ ρ b) {t : G} (ht : t ∈ LB M Q B) {X : Subgroup (Mbar M Q)}
-    (hXR : X ≤ bar M Q (Rt M (LB M Q B) t))
+    (_hXR : X ≤ bar M Q (Rt M (LB M Q B) t))
     (hsup : bar M Q (Rt M (LB M Q B) t) = bar M Q (hc.CN t) ⊔ X)
     (hCNX : bar M Q (hc.CN t) ≤ Subgroup.normalizer (X : Set (Mbar M Q))) :
     ∀ v ∈ hc.VtSub hS.model t,
@@ -412,7 +413,7 @@ theorem Ctx.tensorSide_uniform (hc : Ctx M Q Z B) {n : ℕ} {K : Type} [Field K]
     (hnat : NaturalRep K' Xcl (Rt M (LB M Q B) t) (Vt M (LB M Q B) B Z t) Z (hc.CN t)) :
     ∃ W : Submodule K M₀.E,
       TensorSide ρ b X (X ⊓ (bar M Q (LB M Q B) ⊔ bar M Q (hc.CN t))) W (Fintype.card ι) := by
-  haveI : Nonempty ι := Fintype.card_pos_iff.mp (by have := hcl.three_le; omega)
+  have : Nonempty ι := Fintype.card_pos_iff.mp (by have := hcl.three_le; omega)
   have hCNX : bar M Q (hc.CN t) ≤ Subgroup.normalizer (X : Set (Mbar M Q)) := fun m hm =>
     Subgroup.mem_normalizer_fintype fun x hx => hXn m (hc.bar_CN_le_bar_Rt _ hm) x hx
   obtain ⟨θ, Ψ, π, hπr, hπk, hΨθ, hΨπ⟩ := hc.natural_transport hS ht hK' hcl.addComm hnat
@@ -484,7 +485,7 @@ theorem tensorSide_of_ctx (h34 : Stroth34Statement) (h310 : Stroth310Statement)
   have hsup := hc.Rt_eq_CN_sup h34 h310 hCQ hw hn hno hgen hcs ht htQ hXc hXR hXn hXSL
   have hCNX : bar M Q (hc.CN (t : G)) ≤ Subgroup.normalizer (X : Set (Mbar M Q)) := fun m hm =>
     Subgroup.mem_normalizer_fintype fun x hx => hXn m (hc.bar_CN_le_bar_Rt _ hm) x hx
-  haveI := isSimpleGroup_of_center_eq_bot hXc (hcs X hXc)
+  have := isSimpleGroup_of_center_eq_bot hXc (hcs X hXc)
   have hΛ := hc.swapHyp hw hn hno
   have hRne : Rt M (LB M Q B) (t : G) ≠ LB M Q B := by
     intro hRL
@@ -496,7 +497,7 @@ theorem tensorSide_of_ctx (h34 : Stroth34Statement) (h310 : Stroth310Statement)
   rcases h310 G M Q Z B hc n hw hn hno hgen (t : G) ht htQ with hRL | ⟨K', hF', hFin', hK', hnat⟩
   · exact absurd hRL hRne
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'.trans hZ2)
+  have : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'.trans hZ2)
   have hq4 : 4 ≤ Nat.card K' := by rw [hK']; exact hc.hyp.q4
   have hSL2 : CFSG.IsQuasisimple ↥(StatedSL 2 K') := (hCQ K' hq4).1 2 le_rfl
   rcases hnat with ⟨m, hm, hn'⟩ | ⟨m, hm, hn'⟩ | ⟨m, hm, hn'⟩ | ⟨m, b', c', hm, hirr, hn'⟩

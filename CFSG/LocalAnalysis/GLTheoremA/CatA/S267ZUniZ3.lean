@@ -40,6 +40,7 @@ section Frame
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem mul_map_conjUHom_eq_smul {h : UnitaryFieldData ℓ f K} (σ : K ≃+* K) (P : UG h)
     {a : SG h} {c : Kˣ}
     (hc : ((fieldUHom h σ a : SG h) : GL (Fin 3) K) =
@@ -68,6 +69,7 @@ theorem mul_map_conjUHom_eq_smul {h : UnitaryFieldData ℓ f K} (σ : K ≃+* K)
   simpa only [Units.val_mul, coe_glAut, hsdef, Matrix.GeneralLinearGroup.coe_scalar, scalar_apply,
     ← smul_eq_diagonal_mul, Matrix.mul_assoc] using e
 
+omit [Finite K] in
 private theorem inv_mul_mul_eq_of_isDiag {T Y : GL (Fin 3) K}
     (hT : ((T : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).IsDiag)
     (hY : ((Y : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).IsDiag) : Y⁻¹ * T * Y = T := by
@@ -264,8 +266,8 @@ theorem z3Data_of_fieldUHom_mem {σ : K ≃+* K} (hσ : orderOf σ = 3)
     (hcard : Nat.card E = 3 ^ 3)
     (hcomm : ∀ s t : SG h, MulAut.conj s ∈ E → MulAut.conj t ∈ E → s * t = t * s)
     (hσE : fieldUHom h σ ∈ E) : Z3Data 3 (SG h) E := by
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP K ℓ := h.charP
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP K ℓ := h.charP
   have hK : Nat.card K = (ℓ ^ f) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   have hq : ℓ ^ f = (ℓ ^ (f / 3)) ^ 3 := by rw [← pow_mul, Nat.div_mul_cancel hpf]
   have hq0 : 5 ≤ ℓ ^ (f / 3) := by
@@ -410,7 +412,7 @@ theorem z3Data_of_fieldUHom_mem {σ : K ≃+* K} (hσ : orderOf σ = 3)
       ext g
       simp [MulAut.conj_apply]
 
-theorem z3Model_SG (hℓ3 : ℓ ≠ 3) (h3 : 3 ∣ ℓ ^ f + 1) : Z3Model 3 (SG h) := by
+theorem z3Model_SG (hℓ3 : ℓ ≠ 3) (_h3 : 3 ∣ ℓ ^ f + 1) : Z3Model 3 (SG h) := by
   refine ⟨fun E hE => card_le_pow_three_SG hℓ hperf Nat.prime_three (by norm_num) (Ne.symm hℓ3) hE,
     ?_⟩
   intro E hE hcard AM hAM hZ hEq

@@ -13,6 +13,7 @@ section Class4
 variable {V : Type} [CommGroup V] [Finite V] [Module (ZMod 2) (Additive V)]
   {L : Subgroup (MulAut V)} (ι : ↥L ≃* A7)
 
+omit [Finite V] in
 theorem card_eq_sixteen_of_equiv (Ψ : Vec 4 ≃ₗ[ZMod 2] Additive V) : Nat.card V = 2 ^ 4 := by
   have h1 : Nat.card (Vec 4) = Nat.card (Additive V) := Nat.card_congr Ψ.toEquiv
   have h2 : Nat.card (Additive V) = Nat.card V := rfl

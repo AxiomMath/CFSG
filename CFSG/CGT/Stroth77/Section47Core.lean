@@ -131,19 +131,19 @@ theorem t200_c_pow : (dD.c : G) ^ 2 ^ (m - 1) = dD.ofTorus (om200 m ![1, 0, 0]) 
   rw [c_eq, ← ofTorus_nsmul]
   congr 1
   funext i
-  fin_cases i <;> simp [om200, gen, Pi.single_apply] <;> rfl
+  fin_cases i <;> simp [om200, gen]; rfl
 
 theorem t200_a_pow : (dD.a : G) ^ 2 ^ (m + 1) = dD.ofTorus (om200 m ![0, 1, 0]) := by
   rw [a_eq, ← ofTorus_nsmul]
   congr 1
   funext i
-  fin_cases i <;> simp [om200, gen, Pi.single_apply] <;> rfl
+  fin_cases i <;> simp [om200, gen]; rfl
 
 theorem t200_b_pow : (dD.b : G) ^ 2 ^ (m + 1) = dD.ofTorus (om200 m ![0, 0, 1]) := by
   rw [b_eq, ← ofTorus_nsmul]
   congr 1
   funext i
-  fin_cases i <;> simp [om200, gen, Pi.single_apply] <;> rfl
+  fin_cases i <;> simp [om200, gen]; rfl
 
 theorem t200_eq_om_of_mul_self (hm : 1 ≤ m) {y : G} (hy : y ∈ D) (h2 : y * y = 1) :
     ∃ ε : Fin 3 → ℤ, (∀ i, ε i = 0 ∨ ε i = 1) ∧ y = dD.ofTorus (om200 m ε) := by

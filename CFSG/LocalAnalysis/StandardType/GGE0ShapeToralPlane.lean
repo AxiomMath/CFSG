@@ -54,7 +54,7 @@ private theorem exists_two_gens_of_card_nine_exp_three
     {A : Type} [Group A] {S : Subgroup A}
     (hcard : Nat.card S = 9) (hexp : ∀ s ∈ S, s ^ 3 = 1) :
     ∃ x ∈ S, ∃ y ∈ S, Subgroup.closure ({x, y} : Set A) = S := by
-  haveI : Finite S := (Nat.card_pos_iff.mp (by rw [hcard]; norm_num)).2
+  have : Finite S := (Nat.card_pos_iff.mp (by rw [hcard]; norm_num)).2
   have hSne : S ≠ ⊥ := by
     intro h
     have h1 : Nat.card S = 1 := by rw [h, Subgroup.card_bot]
@@ -71,7 +71,7 @@ private theorem exists_two_gens_of_card_nine_exp_three
       rw [Set.mem_singleton_iff] at ha
       rwa [ha])
   have hK1card : Nat.card K1 = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hx3 : x ^ 3 = 1 := hexp x hxS
     have ho : orderOf x = 3 := orderOf_eq_prime hx3 hxne
     change Nat.card (Subgroup.closure ({x} : Set A)) = 3
@@ -103,7 +103,7 @@ private theorem exists_two_gens_of_card_nine_exp_three
     rw [← h] at hyK2
     exact hyK1 hyK2
   have hlt : K1 < K2 := lt_of_le_of_ne hK1leK2 hK1neK2
-  haveI : Finite K2 := Finite.of_injective (Subgroup.inclusion hK2leS)
+  have : Finite K2 := Finite.of_injective (Subgroup.inclusion hK2leS)
     (Subgroup.inclusion_injective hK2leS)
   have hgt : 3 < Nat.card K2 := by
     have h := Subgroup.card_lt_of_lt hlt

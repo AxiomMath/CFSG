@@ -69,7 +69,7 @@ theorem exists_fpf (hH : Hyp184 S U M) (hconf : Conf18H S M V x z)
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Hh, H₀, hN, -, hH₀Hh, ⟨e⟩, -, -, -, hfpf, -⟩ := hcl.normalizerT
   have hTM : Tsub S U ≤ M := Base.T_le_S.trans hconf.S_le
-  have hTp : IsPGroup 2 ↥(Tsub S U) := S.isPGroup'.to_le Base.T_le_S
+  have hTp : IsPGroup 2 ↥(Tsub S U) := S.isPGroup.to_le Base.T_le_S
   obtain ⟨σ, hσ⟩ : ∃ σ : Equiv.Perm (Fin 3), orderOf σ = 3 :=
     ⟨finRotate 3, orderOf_eq_prime (by decide) (by decide)⟩
   set a₀ : ↥H₀ := e.symm σ with ha₀

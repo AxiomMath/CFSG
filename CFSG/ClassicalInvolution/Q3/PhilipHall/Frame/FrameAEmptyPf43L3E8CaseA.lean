@@ -276,7 +276,7 @@ theorem lemmaA_conj (cfg : L3E8Cfg K z J zJ H Q E S) {m g : T} (hm : m ∈ sigma
     rw [Subgroup.mem_normalizer_iff] at hN ⊢
     intro w
     have := hN (g⁻¹ * w * g)
-    simp only [SetLike.mem_coe, mem_rightConjugate_iff] at this ⊢
+    simp only [mem_rightConjugate_iff] at this ⊢
     rw [show g * (g⁻¹ * w * g) * g⁻¹ = w by group,
       show g * (m⁻¹ * z * m * (g⁻¹ * w * g) * (m⁻¹ * z * m)⁻¹) * g⁻¹ =
         g * (m⁻¹ * z * m) * g⁻¹ * w * (g * (m⁻¹ * z * m) * g⁻¹)⁻¹ by group] at this

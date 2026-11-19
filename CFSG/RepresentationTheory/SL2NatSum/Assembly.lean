@@ -47,7 +47,7 @@ private theorem quad_of_conj {K W : Type*} [Field K] [AddCommGroup W]
     intro w
     have h1 : ρ g⁻¹ * ρ g = 1 := by
       rw [← map_mul, inv_mul_cancel, map_one]
-    simpa using congrArg (fun f : Module.End (ZMod 2) W => f w) h1
+    simp
   have hu : ρ d (ρ g v) = ρ g (ρ c v) := by
     rw [hdc (ρ g v), hgg]
   have hu2 : ρ d (ρ g (ρ c v)) = ρ g (ρ c (ρ c v)) := by
@@ -65,7 +65,7 @@ private theorem quad_of_order_three {K : Type} {W : Type*} [Field K] [Fintype K]
     ∀ c : SL(2, K), c ^ 3 = 1 → c ≠ 1 → ∀ v : W,
       ρ c (ρ c v) + ρ c v + v = 0 := by
   intro c hc3 hc1 v
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcOrd : orderOf c = 3 := orderOf_eq_prime hc3 hc1
   have hdOrd : orderOf d = 3 := orderOf_eq_prime hd3 hd1
   have hcP : CFSG.IsPRegular 2 c := by
@@ -115,7 +115,7 @@ private theorem hgen_of_quadratic {K : Type} {W : Type*} [Field K] [CharP K 2] [
     U = ⊤ := by
   let M : Subgroup SL(2, K) :=
     { carrier := {x | ∀ w : W, x • w - w ∈ U}
-      one_mem' := fun w => by simpa using U.zero_mem
+      one_mem' := fun w => by simp
       mul_mem' := fun {x y} hx hy w => by
         have h : (x * y) • w - w = x • (y • w - w) + (x • w - w) := by
           rw [mul_smul, smul_sub]
@@ -181,8 +181,6 @@ private theorem exists_additive_decomp {K : Type} {W : Type*} [Field K] [CharP K
     obtain ⟨x, rfl⟩ := (mem_upperUnipotent_iff K).mp ha
     obtain ⟨y, rfl⟩ := (mem_upperUnipotent_iff K).mp ha'
     rw [hsmul (upperElt K y), hsmul (upperElt K x)]
-    change ρ' (upperElt K y) (ρ' (upperElt K x) v - v) =
-      ρ' (upperElt K x) v - v
     simpa [huMat] using hquad x y v
   have hdquad' : ∀ v : W, d • (d • v) + d • v + v = 0 := by
     intro v
@@ -302,16 +300,16 @@ theorem natSum_of_quadratic {n : ℕ}
   have hLmodel : LieModel H .PSL 2 2 n :=
     (LieModel.classical_iff (by decide)).mpr hH
   obtain ⟨K, hKf, hKfin, hKchar, hKcard, ⟨e⟩⟩ := sl2_of_lieModel hLmodel
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : PerfectRing K 2 := inferInstance
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : PerfectRing K 2 := inferInstance
   let ρH : Representation (ZMod 2) H W :=
     LinearEquiv.automorphismGroup.toLinearMapMonoidHom.comp ρ
   let ρ' : Representation (ZMod 2) SL(2, K) W := ρH.comp e.symm.toMonoidHom
-  letI : DistribMulAction SL(2, K) W := DistribMulAction.compHom W ρ'
+  let : DistribMulAction SL(2, K) W := DistribMulAction.compHom W ρ'
   obtain ⟨D, hDcard, hDfix⟩ := hD
   obtain ⟨d₀, hDz, hd0pow, hd0ne⟩ := exists_gen_of_card_three D hDcard
   let d : SL(2, K) := e d₀

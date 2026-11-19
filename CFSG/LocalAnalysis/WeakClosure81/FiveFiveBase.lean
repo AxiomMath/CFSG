@@ -24,10 +24,11 @@ theorem le_or_eq_of_maxOver_eq_singleton {H M A K : Subgroup G} (hM : maxOver H 
     rw [Set.mem_singleton_iff] at hN
     exact hKN.trans_eq hN
 
+omit [Finite G] in
 theorem exists_mul_of_eq_sup_of_normal {H X A : Subgroup G} (hXH : X ≤ H) (hAH : A ≤ H)
     (hX : (X.subgroupOf H).Normal) (hH : H = X ⊔ A) {g : G} (hg : g ∈ H) :
     ∃ a ∈ A, ∃ x ∈ X, g = a * x := by
-  haveI : (X.subgroupOf H).Normal := hX
+  have : (X.subgroupOf H).Normal := hX
   have hg' : (⟨g, hg⟩ : ↥H) ∈ X.subgroupOf H ⊔ A.subgroupOf H := by
     rw [← Subgroup.subgroupOf_sup hXH hAH, Subgroup.mem_subgroupOf]
     exact hH ▸ hg
@@ -74,6 +75,7 @@ theorem pCoreOf_two_eq_bot_of_maxOver_eq_singleton {H M A : Subgroup G} (h : Sec
   rw [hK] at hle
   exact le_bot_iff.mp hle
 
+omit [Finite G] in
 theorem le_pCoreOf_of_isPGroup_of_normal {p : ℕ} {H N : Subgroup G} (hNH : N ≤ H)
     (hN : (N.subgroupOf H).Normal) (hp : IsPGroup p N) : N ≤ pCoreOf p H := by
   have hp' : IsPGroup p ↥(N.subgroupOf H) :=
@@ -84,7 +86,7 @@ theorem le_pCoreOf_of_isPGroup_of_normal {p : ℕ} {H N : Subgroup G} (hNH : N �
     _ ≤ (CFSG.pCore p ↥H).map H.subtype := Subgroup.map_mono hle
     _ = pCoreOf p H := rfl
 
-theorem exists_isMinNormalOver {H Y : Subgroup G} (hYH : Y < H) (hY : (Y.subgroupOf H).Normal) :
+theorem exists_isMinNormalOver {H Y : Subgroup G} (hYH : Y < H) (_hY : (Y.subgroupOf H).Normal) :
     ∃ X : Subgroup G, IsMinNormalOver H Y X := by
   let S : Set (Subgroup G) := {Z | Y < Z ∧ Z ≤ H ∧ (Z.subgroupOf H).Normal}
   have hHS : H ∈ S := by

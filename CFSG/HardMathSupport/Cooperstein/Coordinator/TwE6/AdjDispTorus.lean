@@ -183,7 +183,7 @@ theorem ker_eq_hatH {z : ↥(TwistedE6.fixedGroup K σ)} (hz : z ∈ (coverHom h
   rw [perm_orbitMin_00, perm_orbitMin_01, perm_orbitMin_10, perm_orbitMin_11, u00, u01, u00, u01]
   have hsv : Units.map σ.toMonoidHom (v : Kˣ) = (v : Kˣ) ^ 2 := hθ.trans hinv
   rw [hsv]
-  simp only [hinv, hs2]
+  simp only [hs2]
   have ht : CFSG.LieType.Steinberg.CentralExt.AdjointClosed.tvec (v : Kˣ)
       CFSG.LieType.Steinberg.CentralExt.MinusculeClosed.e6c =
       Pi.mulSingle e6n0 (v : Kˣ) * Pi.mulSingle e6n5 ((v : Kˣ) ^ 2) *
@@ -197,28 +197,22 @@ theorem ker_eq_hatH {z : ↥(TwistedE6.fixedGroup K σ)} (hz : z ∈ (coverHom h
     interval_cases kv
     · have : (⟨0, hk⟩ : Fin Tag.E6.rank) = e6n0 := rfl
       rw [this]
-      simp [CFSG.LieType.Steinberg.CentralExt.AdjointClosed.tvec, c0, Pi.mulSingle_apply,
-        Fin.ext_iff, v0, v2, v4, v5]
+      simp [CFSG.LieType.Steinberg.CentralExt.AdjointClosed.tvec, c0, Fin.ext_iff, v0, v2, v4, v5]
     · have : (⟨1, hk⟩ : Fin Tag.E6.rank) = e6n1 := rfl
       rw [this]
-      simp [CFSG.LieType.Steinberg.CentralExt.AdjointClosed.tvec, c1, Pi.mulSingle_apply,
-        Fin.ext_iff, v1, v0, v2, v4, v5]
+      simp [CFSG.LieType.Steinberg.CentralExt.AdjointClosed.tvec, c1, Fin.ext_iff, v1, v0, v2, v4, v5]
     · have : (⟨2, hk⟩ : Fin Tag.E6.rank) = e6n2 := rfl
       rw [this]
-      simp [CFSG.LieType.Steinberg.CentralExt.AdjointClosed.tvec, c2, Pi.mulSingle_apply,
-        Fin.ext_iff, v2, v0, v4, v5]
+      simp [CFSG.LieType.Steinberg.CentralExt.AdjointClosed.tvec, c2, Fin.ext_iff, v2, v0, v4, v5]
     · have : (⟨3, hk⟩ : Fin Tag.E6.rank) = e6n3 := rfl
       rw [this]
-      simp [CFSG.LieType.Steinberg.CentralExt.AdjointClosed.tvec, c3, Pi.mulSingle_apply,
-        Fin.ext_iff, v3, v0, v2, v4, v5]
+      simp [CFSG.LieType.Steinberg.CentralExt.AdjointClosed.tvec, c3, Fin.ext_iff, v3, v0, v2, v4, v5]
     · have : (⟨4, hk⟩ : Fin Tag.E6.rank) = e6n4 := rfl
       rw [this]
-      simp [CFSG.LieType.Steinberg.CentralExt.AdjointClosed.tvec, c4, Pi.mulSingle_apply,
-        Fin.ext_iff, v4, v0, v2, v5]
+      simp [CFSG.LieType.Steinberg.CentralExt.AdjointClosed.tvec, c4, Fin.ext_iff, v4, v0, v2, v5]
     · have : (⟨5, hk⟩ : Fin Tag.E6.rank) = e6n5 := rfl
       rw [this]
-      simp [CFSG.LieType.Steinberg.CentralExt.AdjointClosed.tvec, c5, Pi.mulSingle_apply,
-        Fin.ext_iff, v5, v0, v2, v4]
+      simp [CFSG.LieType.Steinberg.CentralExt.AdjointClosed.tvec, c5, Fin.ext_iff, v5, v0, v2, v4]
   rw [ht, map_mul, map_mul, map_mul, CFSG.LieType.Steinberg.CentralExt.MinusculeClosed.minTorus_mulSingle,
     CFSG.LieType.Steinberg.CentralExt.MinusculeClosed.minTorus_mulSingle,
     CFSG.LieType.Steinberg.CentralExt.MinusculeClosed.minTorus_mulSingle,

@@ -33,12 +33,12 @@ variable {G : Type*} [Group G]
 theorem Jj_eq_higherElemThompson_of_le (H : Subgroup G) (j : ℕ)
     (bound : j ≤ CFSG.pRank 2 ↥H) :
     Jj H j = (CFSG.higherElemThompson ↥H j).map H.subtype := by
-  simp only [Jj, if_pos bound]
+  simp only [Jj, ite_eq_left bound]
 
 theorem Aj_eq_empty_of_rank_lt (H : Subgroup G) (j : ℕ)
     (bound : CFSG.pRank 2 ↥H < j) : Aj H j = ∅ := by
   ext A
-  simp only [Aj, Set.mem_setOf_eq, Set.mem_empty_iff_false]
+  simp only [Aj, Set.mem_ofPred_eq, Set.mem_empty_iff_false]
   exact iff_false_intro (fun member => (Nat.not_le_of_lt bound) member.1)
 
 @[expose] noncomputable def baumOf (H : Subgroup G) : Subgroup G :=
@@ -125,7 +125,7 @@ open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChB in
 private theorem burnsideB2a_mem_Aj_iff {G : Type} [Group G] [Finite G] (H A : Subgroup G) (j : ℕ) :
     A ∈ Aj H j ↔ CFSG.Quasithin.IsElemAbelianCorank H j A := by
   unfold Aj
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hj, A', hA', rfl⟩
     exact burnsideB2a_corank_map H j hj A' hA'
@@ -155,7 +155,7 @@ private theorem burnsideB2a_Jj_eq_thompsonJi {G : Type} [Group G] [Finite G] (H 
       exact iSup₂_le fun A hA => (hj (burnsideB2a_le_pRank_of_corank hA)).elim
     rw [hbot]
     unfold Jj
-    rw [if_neg hj]
+    rw [ite_eq_right hj]
 
 open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChB in
 private theorem burnsideB2a_Jj_zero {G : Type} [Group G] [Finite G] (H : Subgroup G) :
@@ -209,7 +209,7 @@ theorem as_B_2_2 : B_2_2 := by
       exact CFSG.Quasithin.SteinbergBK.higherElemThompson_characteristic i
     · have hbot : Jj H i = ⊥ := by
         unfold Jj
-        rw [if_neg hi]
+        rw [ite_eq_right hi]
       rw [hbot, Subgroup.bot_subgroupOf]
       infer_instance
   · rw [burnsideB2a_baumOf_eq_baum H]
@@ -395,7 +395,7 @@ open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChB in
 private theorem burnsideB2b_Jj_zero_eq {G : Type} [Group G] [Finite G] (H : Subgroup G) :
     Jj H 0 = CFSG.Quasithin.thompsonJ H := by
   unfold Jj
-  rw [if_pos (Nat.zero_le _), CFSG.higherElemThompson_zero,
+  rw [ite_eq_left (Nat.zero_le _), CFSG.higherElemThompson_zero,
     CFSG.Quasithin.elemThompson_map_subtype_eq_thompsonJ]
 
 open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChB in
@@ -492,7 +492,7 @@ theorem B_2_5_stable_of_nonempty (statement : B_2_5)
   rcases (statement G V hV).1 with empty | stable
   · obtain ⟨A, maximal, nontrivial⟩ := nonempty
     have member : autI hV A ∈ starOffenders hV ⊤ := ⟨A, maximal, nontrivial, rfl⟩
-    have contradiction : False := by simpa [empty] using member
+    have contradiction : False := by simp [empty] at member
     exact contradiction.elim
   · exact stable
 
@@ -585,7 +585,7 @@ theorem as_B_2_8 : B_2_8 := by
     clear hD hDB hB hBA hbg hA
     have hkey : A ⊓ preimI hV B = CFSG.Quasithin.preI hV A hAN B :=
       burnsideB2b_inf_preimI_eq hV hAN B
-    rw [← hkey] <;> rfl
+    rw [← hkey]; rfl
   · intro hnot
     have hnot' : ¬ CFSG.Quasithin.IsStrongFFOffender hV ⊤ A := fun h => hnot h.2
     have hAs : CFSG.Quasithin.IsFFStarOffender (CFSG.Quasithin.autI hV ⊤)
@@ -666,7 +666,7 @@ open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChB in
 private theorem burnsideB2f_Jj_zero_eq {G : Type} [Group G] [Finite G] (H : Subgroup G) :
     Jj H 0 = CFSG.Quasithin.thompsonJ H := by
   unfold Jj
-  rw [if_pos (Nat.zero_le _), CFSG.higherElemThompson_zero,
+  rw [ite_eq_left (Nat.zero_le _), CFSG.higherElemThompson_zero,
     CFSG.Quasithin.elemThompson_map_subtype_eq_thompsonJ]
 
 open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChB in
@@ -782,7 +782,7 @@ private theorem burnsideB2f_normal_of_subnormal {G : Type} [Group G] [Finite G] 
       simpa using this
     have hsolv : Group.IsSolvable ↥(T ⊓ H) := by
       have hp : IsPGroup 2 ↥(T ⊓ H) := hT.to_le inf_le_left
-      haveI := hp.isNilpotent
+      have := hp.isNilpotent
       infer_instance
     have hcore : perfectCore H ≤ L := perfectCore_le_of_sup_solvable hLH hLHn hHdec hsolv
     have hMH : M ≤ Subgroup.normalizer (H : Set G) :=
@@ -809,7 +809,7 @@ private theorem burnsideB2f_normal_of_subnormal {G : Type} [Group G] [Finite G] 
 
 
 private theorem burnsideB2f_relIndex_dvd_card {W : Type*} [Group W] [Finite W] {Y A P : Subgroup W}
-    (hAY : A ≤ Y) (hPY : P ≤ Y) (h : ∀ y ∈ Y, ∃ a ∈ A, ∃ p ∈ P, y = a * p) :
+    (hAY : A ≤ Y) (_hPY : P ≤ Y) (h : ∀ y ∈ Y, ∃ a ∈ A, ∃ p ∈ P, y = a * p) :
     P.relIndex Y ∣ Nat.card A := by
   have hcardA : Nat.card (A.subgroupOf Y) = Nat.card A :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAY).toEquiv
@@ -835,7 +835,7 @@ private theorem burnsideB2f_card_dvd_six {W : Type*} [Group W] [Finite W] {Y P :
     (hPY : P ≤ Y) (hP : IsPGroup 2 P) (hidx : P.relIndex Y = 3) (hO : pCoreOf 2 Y = ⊥) :
     Nat.card Y ∣ 6 := by
   have hidx' : (P.subgroupOf Y).index = 3 := hidx
-  haveI : (P.subgroupOf Y).FiniteIndex := ⟨by rw [hidx']; norm_num⟩
+  have : (P.subgroupOf Y).FiniteIndex := ⟨by rw [hidx']; norm_num⟩
   have h := Subgroup.index_normalCore_dvd_factorial_index (P.subgroupOf Y)
   rw [hidx'] at h
   have hP' : IsPGroup 2 (P.subgroupOf Y) := hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPY).symm
@@ -1143,7 +1143,7 @@ private theorem burnsideB2c_mem_fam_zero_iff {G : Type*} [Group G] [Finite G] (H
 
 private theorem burnsideB2c_mem_Aj_zero_iff {G : Type*} [Group G] [Finite G] {H A : Subgroup G} :
     A ∈ CFSG.ASVolI.ChB.Aj H 0 ↔ CFSG.Quasithin.IsMaxElemAbelian H A := by
-  simp only [CFSG.ASVolI.ChB.Aj, Set.mem_setOf_eq]
+  simp only [CFSG.ASVolI.ChB.Aj, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨-, A', hA', rfl⟩
     refine CFSG.Quasithin.BlueprintB2.isMaxElemAbelian_iff_mem_elemThompsonFamily.2
@@ -1160,7 +1160,7 @@ private theorem burnsideB2c_mem_Aj_zero_iff {G : Type*} [Group G] [Finite G] {H 
 private theorem burnsideB2c_Jj_zero {G : Type*} [Group G] [Finite G] (H : Subgroup G) :
     CFSG.ASVolI.ChB.Jj H 0 = CFSG.Quasithin.thompsonJ H := by
   unfold CFSG.ASVolI.ChB.Jj
-  rw [if_pos (Nat.zero_le (CFSG.pRank 2 ↥H)), CFSG.higherElemThompson_zero ↥H,
+  rw [ite_eq_left (Nat.zero_le (CFSG.pRank 2 ↥H)), CFSG.higherElemThompson_zero ↥H,
     CFSG.Quasithin.elemThompson_map_subtype_eq_thompsonJ H]
 
 private theorem burnsideB2c_baumOf {G : Type*} [Group G] [Finite G] (H : Subgroup G) :
@@ -1170,7 +1170,7 @@ private theorem burnsideB2c_baumOf {G : Type*} [Group G] [Finite G] (H : Subgrou
 
 private theorem burnsideB2c_isPGroup_of_isElemAbelian {G : Type*} [Group G] {V : Subgroup G}
     (hV : CFSG.Open.IsElemAbelian 2 V) : IsPGroup 2 V := by
-  haveI : CFSG.IsElementaryAbelian 2 V :=
+  have : CFSG.IsElementaryAbelian 2 V :=
     (CFSG.Quasithin.BlueprintB2.isElemAbelian_iff_isElementaryAbelian 2).1 hV
   exact CFSG.IsElementaryAbelian.isPGroup 2 V
 
@@ -1216,7 +1216,7 @@ private theorem burnsideB2d_pCoreOf_top (G : Type) [Group G] :
 private theorem burnsideB2d_charTwo_top (G : Type) [Group G] [Finite G]
     (hF : CFSG.Open.genFittingFStar G = pCore 2 G) :
     CFSG.QuasithinUnique.CharTwo (⊤ : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hgen : CFSG.generalizedFitting G = pCore 2 G :=
     (CFSG.Adapters.genFittingFStar_eq_foundations G).symm.trans hF
   have hchar : CFSG.IsCharacteristicP 2 G :=
@@ -1231,7 +1231,7 @@ private theorem burnsideB2d_conjClosure_top (G : Type) [Group G] (Z : Subgroup G
   unfold CFSG.Quasithin.conjClosure Subgroup.normalClosure
   congr 1
   ext x
-  simp only [Set.mem_setOf_eq, Group.mem_conjugatesOfSet_iff, Subgroup.mem_top, true_and,
+  simp only [Set.mem_ofPred_eq, Group.mem_conjugatesOfSet_iff, Subgroup.mem_top, true_and,
     isConj_iff, SetLike.mem_coe]
   constructor
   · rintro ⟨h, z, hz, rfl⟩
@@ -1308,8 +1308,8 @@ open CFSG.Quasithin in
 private theorem burnsideB2d_commutator_isPrimeReduced {G : Type*} [Group G] {W : Subgroup G}
     (hW : IsPrimeReduced 2 W) : IsPrimeReduced 2 ⁅W, (⊤ : Subgroup G)⁆ := by
   obtain ⟨hWn, hWe, hWf⟩ := (isPrimeReduced_iff_forall 2).mp hW
-  haveI : W.Normal := hWn
-  haveI := hWe
+  have : W.Normal := hWn
+  have := hWe
   have hle : ⁅W, (⊤ : Subgroup G)⁆ ≤ W := Subgroup.commutator_le_left W ⊤
   have hexp : ∀ x ∈ ⁅W, (⊤ : Subgroup G)⁆, x ^ 2 = 1 := fun x hx =>
     elemPow_eq_one_of_isElementaryAbelian x (hle hx)
@@ -1317,7 +1317,7 @@ private theorem burnsideB2d_commutator_isPrimeReduced {G : Type*} [Group G] {W :
     CFSG.Quasithin.BlueprintB2.isElementaryAbelian_of_le hle hWe
   refine (isPrimeReduced_iff_forall 2).mpr ⟨inferInstance, hUe, ?_⟩
   intro D hD hDp
-  haveI := hD
+  have := hD
   have hsq : ∀ k ∈ Subgroup.centralizer ((⁅W, (⊤ : Subgroup G)⁆ : Subgroup G) : Set G),
       k * k ∈ Subgroup.centralizer (W : Set G) := fun k hk =>
     Subgroup.mem_centralizer_iff.mpr fun w hw => burnsideB2d_sq_mem_centralizer hexp hk hw
@@ -1495,7 +1495,7 @@ section BurnsideB2e
 open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChB in
 private theorem burnsideB2e_Jj_zero {G : Type} [Group G] [Finite G] (H : Subgroup G) :
     ChB.Jj H 0 = CFSG.Quasithin.thompsonJ H := by
-  rw [ChB.Jj, if_pos (Nat.zero_le _), CFSG.higherElemThompson_zero ↥H,
+  rw [ChB.Jj, ite_eq_left (Nat.zero_le _), CFSG.higherElemThompson_zero ↥H,
     CFSG.Quasithin.elemThompson_map_subtype_eq_thompsonJ H]
 
 open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChB in
@@ -1669,7 +1669,7 @@ private theorem burnsideB2e_conjClosure_top {G : Type} [Group G] (Z : Subgroup G
   congr 1
   apply Set.ext
   intro x
-  simp only [Set.mem_setOf_eq, Subgroup.mem_top, true_and, Group.mem_conjugatesOfSet_iff,
+  simp only [Set.mem_ofPred_eq, Subgroup.mem_top, true_and, Group.mem_conjugatesOfSet_iff,
     isConj_iff, SetLike.mem_coe]
   constructor
   · rintro ⟨h, z, hz, hx⟩

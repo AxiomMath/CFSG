@@ -122,7 +122,7 @@ omit [Group G] in
 theorem sylow_isSylowTwoOf_top {Y : Type} [Group Y] [Finite Y] (P : Sylow 2 Y) :
     IsSylowTwoOf (P : Subgroup Y) ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   rw [show ((P : Subgroup Y).subgroupOf ⊤).index = (P : Subgroup Y).index from
     Subgroup.relIndex_top_right _]
   exact P.not_dvd_index
@@ -526,7 +526,7 @@ theorem exists_isSylowTwoOf_mem [Finite G] {H : Subgroup G} {x : G} (hx : x ∈ 
     rw [← zpow_natCast, ← _root_.zpow_mul, mul_comm, _root_.zpow_mul, zpow_natCast, hk,
       _root_.one_zpow]
   obtain ⟨P, hP⟩ := hZ.exists_le_sylow
-  refine ⟨(P : Subgroup ↥H).map H.subtype, ⟨Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_⟩,
+  refine ⟨(P : Subgroup ↥H).map H.subtype, ⟨Subgroup.map_subtype_le _, P.isPGroup.map _, ?_⟩,
     ⟨x₁, hP (Subgroup.mem_zpowers x₁), rfl⟩⟩
   rw [show ((P : Subgroup ↥H).map H.subtype).subgroupOf H = P from
     Subgroup.comap_map_eq_self_of_injective H.subtype_injective _]

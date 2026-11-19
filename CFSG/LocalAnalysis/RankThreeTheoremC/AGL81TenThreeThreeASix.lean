@@ -26,7 +26,7 @@ theorem threeASix_odd {Y P : Subgroup A} (hPY : P ≤ Y)
       Equiv.Perm (Fin 4))) :
     ¬ 2 ∣ P.relIndex Y ∧ ¬ 2 ∣ (wSup (↥P ⧸ CFSG.pCore 2 ↥P)).index := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e6⟩ := hA6
   obtain ⟨e4⟩ := hS4
   set Z := Subgroup.center ↥Y with hZdef
@@ -98,7 +98,7 @@ theorem threeASix_odd {Y P : Subgroup A} (hPY : P ≤ Y)
     obtain ⟨V⟩ : Nonempty (Sylow 2 ↥N) := inferInstance
     set V' : Subgroup ↥P := (V : Subgroup ↥N).map N.subtype with hV'
     have hV'N : V' ≤ N := map_subtype_le _
-    have hV'2 : IsPGroup 2 V' := V.isPGroup'.map _
+    have hV'2 : IsPGroup 2 V' := V.isPGroup.map _
     have hCnorm : C.Normal := MonoidHom.normal_ker ρ
     have hNCV : N ≤ C ⊔ V' := by
       have hle : C ⊔ V' ≤ N := sup_le hCN hV'N
@@ -112,7 +112,7 @@ theorem threeASix_odd {Y P : Subgroup A} (hPY : P ≤ Y)
           ext x
           rw [mem_subgroupOf, MonoidHom.mem_ker, MonoidHom.comp_apply]
           rfl
-        haveI : (C.subgroupOf N).Normal := hCnorm.subgroupOf N
+        have : (C.subgroupOf N).Normal := hCnorm.subgroupOf N
         have e := (QuotientGroup.quotientMulEquivOfEq hsub).trans
           (QuotientGroup.quotientKerEquivRange (ρ.comp N.subtype))
         refine IsPGroup.of_equiv ?_ e.symm
@@ -187,7 +187,7 @@ theorem threeASix_odd {Y P : Subgroup A} (hPY : P ≤ Y)
         QuotientGroup.eq_one_iff] at hy
       have hxN : x ∈ N := hy
       have hx' : x ∈ C ⊔ CFSG.pCore 2 ↥P := (sup_le_sup_left hV'O C) (hNCV hxN)
-      haveI : (CFSG.pCore 2 ↥P).Normal := CFSG.pCore_normal
+      have : (CFSG.pCore 2 ↥P).Normal := CFSG.pCore_normal
       rw [← SetLike.mem_coe, mul_normal C (CFSG.pCore 2 ↥P)] at hx'
       obtain ⟨c, hc, o, ho, rfl⟩ := hx'
       refine ⟨c, hc, ?_⟩

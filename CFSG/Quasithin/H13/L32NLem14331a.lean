@@ -149,7 +149,7 @@ theorem exists_lift {X Q : Type} [Group X] [Finite X] [Group Q] (f : X →* Q)
       exact ⟨y, ⟨y, hyP, rfl⟩, congrArg Subtype.val hy⟩
   · rw [eq_bot_iff]
     rintro x ⟨⟨y, hyP, rfl⟩, hxk⟩
-    obtain ⟨k, hk3⟩ := P.isPGroup' ⟨y, hyP⟩
+    obtain ⟨k, hk3⟩ := P.isPGroup ⟨y, hyP⟩
     have hy3 : (y : X) ^ (3 ^ k) = 1 := by
       simpa using congrArg (fun z : ↥(P : Subgroup ↥Y) => ((z : ↥Y) : X)) hk3
     have hdvd : orderOf (y : X) ∣ Nat.card f.ker := f.ker.orderOf_dvd_natCard hxk
@@ -218,7 +218,7 @@ theorem exists_e27 {H K N S : Subgroup G} (hKH : K ≤ H) (hNH : N ≤ H)
   have hQ'3 : IsPGroup 3 ↥Q' := by
     intro x
     obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.mp x.2
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨y, hy⟩
     refine ⟨k, Subtype.ext ?_⟩
     have := congrArg (fun z : ↥(Q : Subgroup ↥X) => ((z : ↥X) : G)) hk
     simp only [SubmonoidClass.coe_pow, OneMemClass.coe_one] at this

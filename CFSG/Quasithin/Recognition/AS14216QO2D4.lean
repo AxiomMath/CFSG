@@ -18,7 +18,7 @@ section Lift
 variable {G : Type*} [Group G]
 
 theorem commute_of_comm_mem {k z q : G} {m : ℕ} (hm : Odd m) (hk : k ^ m = 1)
-    (hkz : k * z * k⁻¹ = z) (hzz : z * z = 1) (hzq : z * q = q * z)
+    (hkz : k * z * k⁻¹ = z) (hzz : z * z = 1) (_hzq : z * q = q * z)
     (h : k * q * k⁻¹ * q⁻¹ = 1 ∨ k * q * k⁻¹ * q⁻¹ = z) : k * q = q * k := by
   rcases h with h | h
   · calc k * q = k * q * k⁻¹ * q⁻¹ * (q * k) := by group
@@ -57,6 +57,7 @@ end Lift
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_eq_of_center {Q : Subgroup G} {k z : G}
     (hkQ : k ∈ Subgroup.normalizer (Q : Set G)) (hzQ : z ∈ Q) (hz1 : z ≠ 1)
     (hzc : ∀ q ∈ Q, z * q = q * z)
@@ -143,8 +144,8 @@ theorem pCoreOf_le_pCoreOf_of_d4 {X K1 : Subgroup G} (hKX : K1 ≤ X)
     (hsp : IsSpecialPow 2 2 4 ↥(pCoreOf 2 X)) (hK1 : Nat.card (OTwoQuot K1) = 504)
     {Y : Type} [Group Y] (hY : IsLieOverTwo .trialityD4 0 1 Y) (ψ : ↥X →* Y)
     (hψ : Function.Injective ψ) : pCoreOf 2 X ≤ pCoreOf 2 K1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   set Q := pCoreOf 2 X with hQdef
   have hQX : Q ≤ X := pCoreOf_le 2 X
   have hXQ : X ≤ Subgroup.normalizer (Q : Set G) := le_normalizer_pCoreOf 2 X

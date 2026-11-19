@@ -29,7 +29,7 @@ private theorem innSet_subset_chevID {r : ℕ} {A : Matrix (Fin r) (Fin r) ℤ}
 private theorem ggCharP_two_of_card {K : Type} [Field K] [Finite K] {n : ℕ}
     (h : Nat.card K = (2 ^ n) ^ 2) : CharP K 2 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hc⟩ := CharP.exists K
   obtain ⟨k, hp, hk⟩ := FiniteField.card K p
   have hcard : Fintype.card K = 2 ^ (2 * n) := by
@@ -120,7 +120,7 @@ private theorem recipeUnitary_inn {d n : ℕ} {Q : LargeEvenRawCont}
     (h : LargeEvenRecipeUnitary d (2 ^ n) Q) :
     LargeEvenRecipeUnitary d (2 ^ n) fun R _ I F => Q R I F ∧ LargeEvenInnSet R ⊆ I := by
   obtain ⟨K, _, _, hcard, hQ⟩ := h
-  haveI : CharP K 2 := ggCharP_two_of_card hcard
+  have : CharP K 2 := ggCharP_two_of_card hcard
   refine ⟨K, inferInstance, inferInstance, hcard, hQ, ?_⟩
   exact innSet_subset_matConjImage _ _ (fun g hg => su_mem_gu hg)
 
@@ -172,32 +172,32 @@ theorem largeEvenRawDatum_inn_all {lab : LargeEvenLabel} {Q : LargeEvenRawCont}
   | D =>
     by_cases hl : l = 3
     · have h' : LargeEvenRecipeLinear 4 (2 ^ n) Q := by
-        simpa only [LargeEvenRawDatum, if_pos hl] using h
+        simpa only [LargeEvenRawDatum, ite_eq_left hl] using h
       show (if l = 3 then _ else _)
-      rw [if_pos hl]
+      rw [ite_eq_left hl]
       exact recipeLinear_inn h'
     · have h' : LargeEvenRecipeOmegaPlus l (2 ^ n) Q := by
-        simpa only [LargeEvenRawDatum, if_neg hl] using h
+        simpa only [LargeEvenRawDatum, ite_eq_right hl] using h
       show (if l = 3 then _ else _)
-      rw [if_neg hl]
+      rw [ite_eq_right hl]
       exact recipeOmegaPlus_inn h'
   | twD =>
     by_cases hl2 : l = 2
     · have h' : LargeEvenRecipeLinear 2 ((2 ^ n) ^ 2) Q := by
-        simpa only [LargeEvenRawDatum, if_pos hl2] using h
+        simpa only [LargeEvenRawDatum, ite_eq_left hl2] using h
       show (if l = 2 then _ else _)
-      rw [if_pos hl2]
+      rw [ite_eq_left hl2]
       exact recipeLinear_inn h'
     · by_cases hl3 : l = 3
       · have h' : LargeEvenRecipeUnitary 4 (2 ^ n) Q := by
-          simpa only [LargeEvenRawDatum, if_neg hl2, if_pos hl3] using h
+          simpa only [LargeEvenRawDatum, ite_eq_right hl2, ite_eq_left hl3] using h
         show (if l = 2 then _ else if l = 3 then _ else _)
-        rw [if_neg hl2, if_pos hl3]
+        rw [ite_eq_right hl2, ite_eq_left hl3]
         exact recipeUnitary_inn h'
       · have h' : LargeEvenRecipeOmegaMinus (l - 1) (2 ^ n) Q := by
-          simpa only [LargeEvenRawDatum, if_neg hl2, if_neg hl3] using h
+          simpa only [LargeEvenRawDatum, ite_eq_right hl2, ite_eq_right hl3] using h
         show (if l = 2 then _ else if l = 3 then _ else _)
-        rw [if_neg hl2, if_neg hl3]
+        rw [ite_eq_right hl2, ite_eq_right hl3]
         exact recipeOmegaMinus_inn h'
   | E6 => exact recipeChevalley_inn h
   | E7 => exact recipeChevalley_inn h

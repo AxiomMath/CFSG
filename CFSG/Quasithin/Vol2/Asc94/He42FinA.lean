@@ -22,7 +22,7 @@ private theorem he42fa_orderOf_eq_three_iff (c : Perm (Fin 5)) :
     rw [orderOf_one] at h
     exact absurd h (by decide)
   · rintro ⟨h3, h1⟩
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime h3 h1
 
 private theorem he42fa_inverting_finite :

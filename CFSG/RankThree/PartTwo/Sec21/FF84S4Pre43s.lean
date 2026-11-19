@@ -13,7 +13,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84
 theorem S43_tstarCen₁_holds :
     S43_TstarCen₁ := by
   intro G _ _ b L B K b₁ b₂ h V hV _hVne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA : A8Model L := a8Model_of_hyp h.hyp
   obtain ⟨s, hsN, hsb, hsb₁, hsb₂⟩ := h.mono.2.2.2.2.1
   have hs2 : s⁻¹ * b₁ * s = b := by rw [← hsb]; group

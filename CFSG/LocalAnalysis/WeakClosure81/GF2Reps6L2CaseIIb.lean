@@ -232,7 +232,7 @@ theorem pslRange_le_quadY_sup {K : Type} [Field K] [Finite K]
     exists_mem_quadY_commuting (G := G) (B := B) hK hcard ht ht1 htJ hβ hβJ hcomm hβB
       hB_le_Yt hmemG hJ2 hqodd hq7
   have hxH : x ∈ H := ⟨Subgroup.mem_sup_left hxYt, hxJ⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hH : H = pslRange K :=
     eq_pslRange_of_commute (p := p) (f := f) hKcard hK hcard htJ ht ht1
       (by rw [pow_two]; exact hβ) hβJ hcomm H hHJ htH hβH hP1g hxH hxt hx2

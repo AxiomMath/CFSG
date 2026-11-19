@@ -62,7 +62,7 @@ private theorem s16h_e3_centralizer_le_scalars {K : Type} [Field K] [Finite K] [
     have hsingle : (Pi.single (Sum.inl (0 : Fin 1)) (1 : K) : s16h_H5E3RkιA → K) ≠ 0 := by
       intro h
       have := congrFun h (Sum.inl (0 : Fin 1))
-      simpa using this
+      simp at this
     refine hsingle ((toAddMap_eq_zero_iff g).mp ?_)
     have h1 : f (Pi.single (Sum.inl (0 : Fin 1)) (1 : K)) = 0 := by
       rw [hμ, h0, zero_smul]
@@ -141,8 +141,8 @@ private theorem s16h_e3_outer_card_dvd {K : Type} [Field K] [Finite K] [CharP K 
   have hm : CFSG.Open.StatedClassicalModel ↥Ω .PSL 2 2 (2 * 3) :=
     hL2.statedClassicalModel (by decide)
   obtain ⟨⟨-, -, -⟩, L', hL'f, hL'fin, hL'card, ⟨ePSL⟩⟩ := hm
-  letI : Field L' := hL'f
-  letI : Finite L' := hL'fin
+  let : Field L' := hL'f
+  let : Finite L' := hL'fin
   let e' : ↥Ω ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) L' :=
     ePSL.trans
       (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 L').symm
@@ -157,7 +157,7 @@ private theorem s16h_e3_D_le_scalars_sup {K : Type} [Field K] [Finite K] [CharP 
     (hK : Nat.card K = 2 ^ 3) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {D : Subgroup (MulAut (StdMod s16h_H5E3RkιA K))}
     (hDN : D ≤ natNorm (StatedOmega (StatedQuadMinus 2 K b c)))
-    (hDab : IsElemAbelian 7 D) (hDcard : Nat.card ↥D = 7 ^ 2) :
+    (hDab : IsElemAbelian 7 D) (_hDcard : Nat.card ↥D = 7 ^ 2) :
     D ≤ natImage (StatedScalars s16h_H5E3RkιA K) ⊔
       natImage (StatedOmega (StatedQuadMinus 2 K b c)) := by
   classical
@@ -214,7 +214,7 @@ private theorem s16h_e3_D_le_scalars_sup {K : Type} [Field K] [Finite K] [CharP 
 
 private theorem s16h_e3_X7_splits {K : Type} [Field K] [Finite K] [CharP K 2]
     (hK : Nat.card K = 2 ^ 3) : (X ^ 7 - 1 : K[X]).Splits := by
-  haveI : Fintype ↥(⊤ : Subgroup Kˣ) := Fintype.ofFinite _
+  have : Fintype ↥(⊤ : Subgroup Kˣ) := Fintype.ofFinite _
   have hcard : Fintype.card ↥(⊤ : Subgroup Kˣ) = 7 := by
     rw [← Nat.card_eq_fintype_card, Subgroup.card_top, Nat.card_units, hK]
     norm_num
@@ -329,7 +329,7 @@ private theorem s16h_e3_center_omega_eq_bot {K : Type} [Field K] [Finite K] [Cha
     uc22p22d_isL2_of_omegaMinus4 (by norm_num) hK b c hirr eImg.symm
   obtain ⟨hsimple, hnonab⟩ :=
     CFSG.ComponentClassification.HarrisLit.L415.simple_nonabelian_of_lieModel hL2
-  haveI : IsSimpleGroup ↥Ω := hsimple
+  have : IsSimpleGroup ↥Ω := hsimple
   exact GL83.I713.center_eq_bot_of_simple hnonab
 
 private theorem s16h_e3_inf_scalars_omega_eq_bot {K : Type} [Field K] [Finite K] [CharP K 2]
@@ -405,10 +405,10 @@ private theorem s16h_e3_quotient_sup_omega_card {K : Type} [Field K] [Finite K] 
         Set (MulAut (StdMod s16h_H5E3RkιA K))) := by
     rw [← s16h_e3_centralizer_eq_scalars (K := K) hirr]
     exact Subgroup.centralizer_le_normalizer _
-  haveI : ((natImage (StatedOmega (StatedQuadMinus 2 K b c))).subgroupOf
+  have : ((natImage (StatedOmega (StatedQuadMinus 2 K b c))).subgroupOf
       (natImage (StatedScalars s16h_H5E3RkιA K))).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hCnorm
-  haveI : ((natImage (StatedOmega (StatedQuadMinus 2 K b c))).subgroupOf
+  have : ((natImage (StatedOmega (StatedQuadMinus 2 K b c))).subgroupOf
       (natImage (StatedScalars s16h_H5E3RkιA K) ⊔
         natImage (StatedOmega (StatedQuadMinus 2 K b c)))).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
@@ -447,7 +447,7 @@ private theorem s16h_e3_pRank_quotient_sup_scalars_le_one {K : Type} [Field K] [
   classical
   have hCinfΩ := s16h_e3_inf_scalars_omega_eq_bot (K := K) (b := b) (c := c) hK hirr
   have hΩnormC := s16h_e3_scalars_normalize_omega (K := K) (b := b) (c := c) hirr
-  haveI : ((natImage (StatedScalars s16h_H5E3RkιA K)).subgroupOf
+  have : ((natImage (StatedScalars s16h_H5E3RkιA K)).subgroupOf
       (natImage (StatedOmega (StatedQuadMinus 2 K b c)))).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hΩnormC
   have hbot : (natImage (StatedScalars s16h_H5E3RkιA K)).subgroupOf
@@ -469,7 +469,7 @@ private theorem s16h_e3_pRank_quotient_sup_scalars_le_one {K : Type} [Field K] [
       ← CFSG.SectionRank.pRank_eq_pRank_top_subgroup
         (natImage (StatedOmega (StatedQuadMinus 2 K b c)))]
     exact s16h_e3_pRank_omega_le_one (K := K) hK hirr
-  haveI : ((natImage (StatedScalars s16h_H5E3RkιA K)).subgroupOf
+  have : ((natImage (StatedScalars s16h_H5E3RkιA K)).subgroupOf
       (natImage (StatedOmega (StatedQuadMinus 2 K b c)) ⊔
         natImage (StatedScalars s16h_H5E3RkιA K))).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
@@ -495,7 +495,7 @@ private theorem s16h_e3_scalars_le_D {K : Type} [Field K] [Finite K] [CharP K 2]
       natImage (StatedScalars s16h_H5E3RkιA K) := by
     rw [sup_comm]; exact hDCO
   have hΩnormC := s16h_e3_scalars_normalize_omega (K := K) (b := b) (c := c) hirr
-  haveI : ((natImage (StatedScalars s16h_H5E3RkιA K)).subgroupOf
+  have : ((natImage (StatedScalars s16h_H5E3RkιA K)).subgroupOf
       (natImage (StatedOmega (StatedQuadMinus 2 K b c)) ⊔
         natImage (StatedScalars s16h_H5E3RkιA K))).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
@@ -585,7 +585,7 @@ private theorem s16h_e3_inf_omega_nontrivial {K : Type} [Field K] [Finite K] [Ch
         Set (MulAut (StdMod s16h_H5E3RkιA K))) := by
     rw [← s16h_e3_centralizer_eq_scalars (K := K) hirr]
     exact Subgroup.centralizer_le_normalizer _
-  haveI : ((natImage (StatedOmega (StatedQuadMinus 2 K b c))).subgroupOf
+  have : ((natImage (StatedOmega (StatedQuadMinus 2 K b c))).subgroupOf
       (natImage (StatedScalars s16h_H5E3RkιA K) ⊔
         natImage (StatedOmega (StatedQuadMinus 2 K b c)))).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
@@ -631,7 +631,7 @@ private theorem s16h_e3_inf_omega_nontrivial {K : Type} [Field K] [Finite K] [Ch
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv]
   have hgt : 1 < Nat.card ↥(D ⊓ natImage (StatedOmega (StatedQuadMinus 2 K b c))) :=
     lt_of_lt_of_le (by norm_num) (hker7.trans hle)
-  haveI : Nontrivial ↥(D ⊓ natImage (StatedOmega (StatedQuadMinus 2 K b c))) :=
+  have : Nontrivial ↥(D ⊓ natImage (StatedOmega (StatedQuadMinus 2 K b c))) :=
     Finite.one_lt_card_iff_nontrivial.mp hgt
   obtain ⟨y, hyne⟩ := exists_ne (1 : ↥(D ⊓ natImage (StatedOmega (StatedQuadMinus 2 K b c))))
   exact ⟨y.1, y.2, fun h => hyne (Subtype.ext h)⟩

@@ -14,7 +14,7 @@ theorem four_dvd_card_sub_card_fixedBy {G : Type*} [Group G] {Ω : Type*} [MulAc
     [Finite Ω] {t : G} (ht : t ^ 2 = 1) (htG : t ∈ _root_.commutator G) :
     4 ∣ Nat.card Ω - Nat.card (MulAction.fixedBy Ω t) := by
   classical
-  haveI : Fintype Ω := Fintype.ofFinite Ω
+  have : Fintype Ω := Fintype.ofFinite Ω
   let π : G →* Equiv.Perm Ω := MulAction.toPermHom G Ω
   have hsign : Equiv.Perm.sign (π t) = 1 := by
     have h := Abelianization.commutator_subset_ker
@@ -26,7 +26,7 @@ theorem four_dvd_card_sub_card_fixedBy {G : Type*} [Group G] {Ω : Type*} [MulAc
     simp [π, Function.fixedPoints, Function.IsFixedPt, MulAction.mem_fixedBy]
   have h2 := Equiv.Perm.sign_of_pow_two_eq_one hpow
   rw [hsign] at h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hev : Even ((Fintype.card Ω - Fintype.card (Function.fixedPoints (π t))) / 2) :=
     (neg_one_pow_eq_one_iff_even (by decide)).mp h2.symm
   have hct := Equiv.Perm.cycleType_of_pow_prime_eq_one (σ := π t) hpow
@@ -51,7 +51,7 @@ theorem card_fixedBy_quotient_mul_card {G : Type*} [Group G] [Finite G] (L : Sub
   let P : Set G := {g | g⁻¹ * t * g ∈ L}
   have hPpre : P = (QuotientGroup.mk : G → G ⧸ L) ⁻¹' (MulAction.fixedBy (G ⧸ L) t) := by
     ext g
-    simp only [P, Set.mem_setOf_eq, Set.mem_preimage, MulAction.mem_fixedBy]
+    simp only [P, Set.mem_ofPred_eq, Set.mem_preimage, MulAction.mem_fixedBy]
     rw [MulAction.Quotient.smul_mk, QuotientGroup.eq, smul_eq_mul]
     have : (t * g)⁻¹ * g = (g⁻¹ * t * g)⁻¹ := by group
     rw [this, inv_mem_iff]

@@ -71,7 +71,7 @@ theorem odd_normal_supplement_full_two_sylow
   have hAodd : Odd A.index := by
     rw [Subgroup.index_map_subtype]
     exact hPodd.mul hModd
-  exact ⟨(P.isPGroup'.map M.subtype).toSylow hAodd.not_two_dvd_nat, rfl⟩
+  exact ⟨(P.isPGroup.map M.subtype).toSylow hAodd.not_two_dvd_nat, rfl⟩
 
 theorem odd_normal_supplement_two_rank
     (W M : Subgroup G) [W.Normal] (hWodd : Odd (Nat.card W))

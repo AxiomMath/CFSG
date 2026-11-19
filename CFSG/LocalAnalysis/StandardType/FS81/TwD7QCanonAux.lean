@@ -50,7 +50,7 @@ theorem dropFirst_span_le (B : Basis3 G (k + 1)) : B.dropFirst.span ≤ B.span :
 
 theorem card_span (B : Basis3 G k) : Nat.card ↥B.span = 3 ^ k := by
   rw [← Nat.card_congr B.equiv.toEquiv]
-  simp [Nat.card_eq_fintype_card, Fintype.card_fun, ZMod.card]
+  simp [Nat.card_eq_fintype_card, ZMod.card]
 
 theorem isElemAbelian_span (B : Basis3 G k) : IsElemAbelian 3 B.span := by
   refine ⟨IsMulCommutative.of_comm ?_, ?_⟩

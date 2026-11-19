@@ -126,7 +126,7 @@ theorem dvd_natCard_sylow : q ∣ Nat.card ↥(Q : Subgroup G) := by
   have := Fact.mk hq
   have h1 : Nat.card ↥(Q : Subgroup G) ≠ 1 := fun h =>
     sylow_ne_bot hM Q hNQ (Subgroup.card_eq_one.1 h)
-  obtain ⟨n, hn⟩ := Q.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := Q.isPGroup.exists_card_eq
   rcases Nat.eq_zero_or_pos n with rfl | hn0
   · rw [pow_zero] at hn; exact absurd hn h1
   · exact hn ▸ dvd_pow_self q hn0.ne'
@@ -143,7 +143,7 @@ include hq in
 theorem isPiSubgroup_sylow {π : Set ℕ} (hqπ : q ∈ π) : IsPiSubgroup π (Q : Subgroup G) := by
   have := Fact.mk hq
   refine isPiSubgroup_iff.2 fun r hr => ?_
-  obtain ⟨n, hn⟩ := Q.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := Q.isPGroup.exists_card_eq
   have hrq : r = q :=
     (Nat.prime_dvd_prime_iff_eq (Nat.prime_of_mem_primeFactors hr) hq).1
       ((Nat.prime_of_mem_primeFactors hr).dvd_of_dvd_pow (hn ▸ Nat.dvd_of_mem_primeFactors hr))
@@ -243,7 +243,7 @@ theorem FBG_common_sylow_normalizer_beta_factor
       rw [(elementaryAbelianPRank_eq_zero_iff hrp).2 hd] at hrrank; omega
     have hoddr : Odd r :=
       hG.odd_natCard.of_dvd_nat (hrdvd.trans (Subgroup.card_subgroup_dvd_card M))
-    obtain ⟨n, hn⟩ := Q.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := Q.isPGroup.exists_card_eq
     obtain ⟨R, hR, hcomm⟩ := h₂ G hG6 M hM r q hrp hq hoddr hoddq hrq hrβ hqβ
       (Q : Subgroup G) n hQM hn (Or.inl hQMp)
     have hrσ : r ∈ sigmaPrimes M :=

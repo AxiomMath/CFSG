@@ -57,7 +57,7 @@ theorem commutator_mem_fixedCoreU {y z : unitaryPSU h 3} (hy : psuField h σ y =
   change unitaryProj h 3 (suIncl h h₀ hbar C) = ⁅unitaryProj h 3 A, unitaryProj h 3 B⁆
   rw [hC, map_commutatorElement]
 
-theorem ker_fixedCoreHomU (hq : 2 < p ^ f) (hq₀ : 2 < p ^ f₀) :
+theorem ker_fixedCoreHomU (_hq : 2 < p ^ f) (hq₀ : 2 < p ^ f₀) :
     (fixedCoreHomU h h₀ hbar).ker = Subgroup.center (unitarySU p f₀ (fixedField σ) 3) := by
   ext g
   rw [MonoidHom.mem_ker]
@@ -110,14 +110,14 @@ noncomputable def fixedCoreUEquiv (hq : 2 < p ^ f) (hq₀ : 2 < p ^ f₀) :
 
 theorem fixedCoreU_isSimpleGroup (hq : 2 < p ^ f) (hq₀ : 2 < p ^ f₀) :
     IsSimpleGroup ↥(fixedCoreU h h₀ hbar) := by
-  haveI : IsSimpleGroup (unitarySU p f₀ (fixedField σ) 3 ⧸
+  have : IsSimpleGroup (unitarySU p f₀ (fixedField σ) 3 ⧸
       Subgroup.center (unitarySU p f₀ (fixedField σ) 3)) :=
     (isQuasisimple_unitarySU_three' h₀ hq₀).2.1
   exact (fixedCoreUEquiv hq hq₀).symm.isSimpleGroup
 
 theorem not_isSolvable_fixedCoreU (hq : 2 < p ^ f) (hq₀ : 2 < p ^ f₀) :
     ¬ Group.IsSolvable ↥(fixedCoreU h h₀ hbar) := by
-  haveI := fixedCoreU_isSimpleGroup (h := h) (h₀ := h₀) (hbar := hbar) hq hq₀
+  have := fixedCoreU_isSimpleGroup (h := h) (h₀ := h₀) (hbar := hbar) hq hq₀
   intro hs
   have hcomm := IsSimpleGroup.comm_iff_isSolvable.mpr hs
   obtain ⟨a, b, hab⟩ := (isQuasisimple_unitarySU_three' h₀ hq₀).2.2

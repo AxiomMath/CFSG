@@ -236,7 +236,6 @@ theorem count22201 : (countBelow 64 (fun k => comp 42 (wordTab (tg k))
   refine Eq.trans ?_ (Nat.eq_of_beq_eq_true ch22201t_c8)
   unfold CFSG.PSL3Four.Native.countBelow
   refine congrArg List.length (List.filter_congr fun k _ => ?_)
-  beta_reduce
   obtain ⟨hc, e⟩ := tgK_eq gensG k
   rw [r4T_eq, e, conj_unpack cn_r4 hc, comp_unpack' hc (cn_cj cn_r4 hc), idTab42,
     beqU (CFSG.KC.BfsPin.canonK_pcomp hc (cn_cj cn_r4 hc)) cn_pidn]

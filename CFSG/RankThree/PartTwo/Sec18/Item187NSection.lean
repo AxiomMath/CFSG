@@ -12,6 +12,7 @@ section Section
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem map_normalizerMonoidHom_subgroupOf {W₀ W₁ : Subgroup G} {g : G}
     (hg0 : g ∈ Subgroup.normalizer (W₀ : Set G)) (hg1 : g ∈ Subgroup.normalizer (W₁ : Set G)) :
     (W₀.subgroupOf W₁).map ((W₁.normalizerMonoidHom ⟨g, hg1⟩ : MulAut ↥W₁) : ↥W₁ →* ↥W₁) =
@@ -53,6 +54,7 @@ noncomputable def secAct {Γ W₀ W₁ : Subgroup G} [(W₀.subgroupOf W₁).Nor
     congr 1
     exact Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 theorem secAct_mk {Γ W₀ W₁ : Subgroup G} [(W₀.subgroupOf W₁).Normal]
     (h₀ : Γ ≤ Subgroup.normalizer (W₀ : Set G)) (h₁ : Γ ≤ Subgroup.normalizer (W₁ : Set G))
     (g : ↥Γ) (w : ↥W₁) (hw : (g : G) * w * (g : G)⁻¹ ∈ W₁) :
@@ -64,6 +66,7 @@ theorem secAct_mk {Γ W₀ W₁ : Subgroup G} [(W₀.subgroupOf W₁).Normal]
   rw [e, QuotientGroup.congr_mk]
   congr 1
 
+omit [Finite G] in
 theorem normal_subgroupOf_of_le_normalizer {W₀ W₁ : Subgroup G} (hW01 : W₀ ≤ W₁)
     (h10 : W₁ ≤ Subgroup.normalizer (W₀ : Set G)) : (W₀.subgroupOf W₁).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer hW01).mpr h10
@@ -75,7 +78,7 @@ theorem acts_trivially_of_normal_pGroup {Q Γ W₀ W₁ : Subgroup G} (hQ : IsPG
     (hirr : ∀ U : Subgroup G, W₀ ≤ U → U ≤ W₁ → Γ ≤ Subgroup.normalizer (U : Set G) →
       U = W₀ ∨ U = W₁) :
     ∀ q ∈ Q, ∀ x ∈ W₁, q * x * q⁻¹ * x⁻¹ ∈ W₀ := by
-  haveI : (W₀.subgroupOf W₁).Normal := normal_subgroupOf_of_le_normalizer hW01 h10
+  have : (W₀.subgroupOf W₁).Normal := normal_subgroupOf_of_le_normalizer hW01 h10
   have hconj : ∀ y ∈ W₁, ∀ w ∈ W₀, y * w * y⁻¹ ∈ W₀ := fun y hy w hw =>
     (Subgroup.mem_normalizer_iff.mp (h10 hy) w).mp hw
   have hconjΓ : ∀ γ ∈ Γ, ∀ w ∈ W₀, γ * w * γ⁻¹ ∈ W₀ := fun γ hγ w hw =>
@@ -96,7 +99,7 @@ theorem acts_trivially_of_normal_pGroup {Q Γ W₀ W₁ : Subgroup G} (hQ : IsPG
           (q * x * q⁻¹ * x⁻¹) * (x * (q * y * q⁻¹ * y⁻¹) * x⁻¹) := by group
       rw [e]
       exact W₀.mul_mem (hxQ q hq) (hconj x hx _ (hyQ q hq))
-    · exact ⟨W₁.one_mem, fun q _ => by simpa using W₀.one_mem⟩
+    · exact ⟨W₁.one_mem, fun q _ => by simp⟩
     · rintro x ⟨hx, hxQ⟩
       refine ⟨W₁.inv_mem hx, fun q hq => ?_⟩
       have e : q * x⁻¹ * q⁻¹ * x⁻¹⁻¹ = x⁻¹ * (q * x * q⁻¹ * x⁻¹)⁻¹ * x⁻¹⁻¹ := by group
@@ -124,10 +127,10 @@ theorem acts_trivially_of_normal_pGroup {Q Γ W₀ W₁ : Subgroup G} (hQ : IsPG
   intro q hq x hx
   by_cases hsub : W₁ ≤ W₀
   · exact W₀.mul_mem (hconjΓ q (hQΓ hq) x (hsub hx)) (W₀.inv_mem (hsub hx))
-  obtain ⟨x₁, hx₁, hx₁W⟩ := SetLike.not_le_iff_exists.mp hsub
+  obtain ⟨x₁, hx₁, hx₁W⟩ := IsConcreteLE.not_le_iff_exists.mp hsub
   obtain ⟨xf, hxfW, hxfQ, hxf⟩ : ∃ xf : G, xf ∈ W₁ ∧ (∀ q ∈ Q, q * xf * q⁻¹ * xf⁻¹ ∈ W₀) ∧
       xf ∉ W₀ := by
-    letI : MulAction ↥Q (↥W₁ ⧸ W₀.subgroupOf W₁) :=
+    let : MulAction ↥Q (↥W₁ ⧸ W₀.subgroupOf W₁) :=
       MulAction.compHom _ ((secAct hΓ₀ hΓ₁).comp (Subgroup.inclusion hQΓ))
     have hWb2 : IsPGroup 2 (↥W₁ ⧸ W₀.subgroupOf W₁) := hW₁.to_quotient _
     have hWbnt : 1 < Nat.card (↥W₁ ⧸ W₀.subgroupOf W₁) := by

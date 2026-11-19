@@ -9,10 +9,10 @@ namespace CFSG
 open CFSG.ABGLocalTools
 
 theorem isSylowOf_map_of_not_dvd_card_ker {X Y : Type} [Group X] [Group Y] [Finite X]
-    [Finite Y] (f : X →* Y) (hf : Function.Surjective f) {p : Nat} (hp : p.Prime)
+    [Finite Y] (f : X →* Y) (_hf : Function.Surjective f) {p : Nat} (hp : p.Prime)
     (hker : ¬ p ∣ Nat.card ↥(MonoidHom.ker f)) {S K : Subgroup X}
     (hSyl : IsSylowOf p S K) : IsSylowOf p (S.map f) (K.map f) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSK : S ≤ K := hSyl.le
   rw [isSylowOf_iff] at hSyl ⊢
   obtain ⟨hle, hSp, hSidx⟩ := hSyl

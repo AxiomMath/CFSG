@@ -15,13 +15,13 @@ open CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native CFSG.Sporadic.Co1.Module
   CFSG.Sporadic.Co1.Module.Pairs CFSG.Sporadic.Co1.S365Native CFSG.Sporadic.Co1.InvNative
   CFSG.Sporadic.Co1.S365CentNative
 
-@[expose] def pathE1 : List ℕ := [0, 2, 2, 2, 0, 2, 2, 2, 2, 2, 0, 0, 2, 0, 2, 2, 0, 2, 2, 0, 2]
+def pathE1 : List ℕ := [0, 2, 2, 2, 0, 2, 2, 2, 2, 2, 0, 0, 2, 0, 2, 2, 0, 2, 2, 0, 2]
 
-@[expose] def pathE2 : List ℕ := [2, 0, 2, 2, 0, 2, 0, 2, 0, 0, 2, 2, 0, 2, 0, 2, 0, 2]
+def pathE2 : List ℕ := [2, 0, 2, 2, 0, 2, 0, 2, 0, 0, 2, 2, 0, 2, 0, 2, 0, 2]
 
-@[expose] def pathE12 : List ℕ := [0, 0, 2, 2, 2, 2, 2, 0, 0, 2, 0, 2, 2, 0, 0, 0, 2, 0]
+def pathE12 : List ℕ := [0, 0, 2, 2, 2, 2, 2, 0, 0, 2, 0, 2, 2, 0, 0, 0, 2, 0]
 
-@[expose] def pathCheck : Bool :=
+def pathCheck : Bool :=
   applyPath cosetRowsT pathE1 cosetBase == (cosetBase ^^^ 2) &&
   applyPath cosetRowsT pathE2 cosetBase == (cosetBase ^^^ 4) &&
   applyPath cosetRowsT pathE12 cosetBase == (cosetBase ^^^ 2 ^^^ 4) &&

@@ -76,7 +76,7 @@ theorem asc82Fact513Comm_of (h36 : Asc82Lemma36) (h37 : Asc82Lemma37) (h52a : As
     exact sec5cn_swap_N hπ (fun g hgt hgz => c.mem_normalizer_of_cent h36
       (Subgroup.mem_centralizer_singleton_iff.mpr hgt)
       (Subgroup.mem_centralizer_singleton_iff.mpr hgz)) hc₀N hc₀P hc₀t hxP hcase
-  · push_neg at hcase
+  · push Not at hcase
     exact sec5cn_core_of_eq h36 h52a hO hAut c rfl (c.P_le_cent hxP) hs2 hs1 hsz hxt hcase.1
       hcase.2 fun k hk => (hRC _ hsP (sec5cn_pow4_of_mul_self hs2) k hk).symm
 

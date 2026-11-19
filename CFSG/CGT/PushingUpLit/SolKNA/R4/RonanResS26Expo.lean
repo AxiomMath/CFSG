@@ -36,7 +36,7 @@ theorem two_elt_pow_eq_one_of_mem {r : ℕ} (hr : 3 ≤ r) {X : Type} [Group X] 
   have hcP : c ∈ (S : Subgroup A).map A.subtype :=
     Subgroup.mem_map_of_mem A.subtype (hSZ (Subgroup.mem_zpowers _))
   obtain ⟨e⟩ := hΦ.quat A hA _ (isSylow2In_map_subtype A S)
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   have hn : 2 ∣ 2 ^ (r - 2) := dvd_pow_self 2 (by omega)
   have h1 : (⟨c, hcP⟩ : ↥((S : Subgroup A).map A.subtype)) ^ (2 * 2 ^ (r - 2)) = 1 := by
     apply e.injective
@@ -55,7 +55,7 @@ theorem r_eq_of_card_sylow {r m : ℕ} (hr : 3 ≤ r) {X : Type} [Group X] [Fini
     {Φ : Set (Subgroup X)} (hΦ : TypeRFam r Φ) {A : Subgroup X} (hA : A ∈ Φ) {P : Subgroup X}
     (hP : IsSylow2In P A) (hcard : Nat.card P = 2 ^ (m + 2)) : m + 2 = r := by
   obtain ⟨e⟩ := hΦ.quat A hA P hP
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   have h4 : 2 ^ r = 4 * 2 ^ (r - 2) := by
     rw [show (4 : ℕ) = 2 ^ 2 by norm_num, ← pow_add]
     congr 1

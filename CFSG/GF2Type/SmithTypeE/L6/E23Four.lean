@@ -40,6 +40,7 @@ structure E23FourFacts : Prop where
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem acts_inv {S : Setting G} {φ : S.Qt ≃ₗ[ZMod 2] (Fin 20 → ZMod 2)} {g : G} {F : Nat → Nat}
     (hgM : g ∈ S.M) (hg : Acts S φ g F) (hF : ∀ c < 2 ^ 20, F (F c) = c) :
     Acts S φ g⁻¹ F := by
@@ -50,15 +51,18 @@ theorem acts_inv {S : Setting G} {φ : S.Qt ≃ₗ[ZMod 2] (Fin 20 → ZMod 2)} 
   rw [show g * (g⁻¹ * u * g) * g⁻¹ = u by group] at h1
   rw [h1, hF _ (psi_lt S φ _), inv_inv]
 
+omit [Finite G] in
 theorem acts_one_of_mem_QG {S : Setting G} {φ : S.Qt ≃ₗ[ZMod 2] (Fin 20 → ZMod 2)} {q : G}
     (hq : q ∈ S.QG) : Acts S φ q (fun c => c) := by
   intro u hu
   rw [cl_conj_of_mem_QG hq hu]
 
+omit [Finite G] in
 theorem acts_mul_of_mem_QG {S : Setting G} {φ : S.Qt ≃ₗ[ZMod 2] (Fin 20 → ZMod 2)} {q m : G}
     {F : Nat → Nat} (hq : q ∈ S.QG) (hmM : m ∈ S.M) (hm : Acts S φ m F) :
     Acts S φ (q * m) F := fun u hu => (acts_one_of_mem_QG (φ := φ) hq |>.mul hmM hm) u hu
 
+omit [Finite G] in
 theorem acts_conj_of_comm {S : Setting G} {φ : S.Qt ≃ₗ[ZMod 2] (Fin 20 → ZMod 2)} {g m : G}
     {F H : Nat → Nat} (hgM : g ∈ S.M) (hmM : m ∈ S.M) (hg : Acts S φ g F) (hm : Acts S φ m H)
     (hH : ∀ c < 2 ^ 20, H (H c) = c) (hc : ∀ c < 2 ^ 20, H (F c) = F (H c)) :

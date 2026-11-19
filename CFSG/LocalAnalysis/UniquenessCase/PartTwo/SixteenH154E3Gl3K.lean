@@ -16,10 +16,10 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
 private theorem s16h_e3_gl3_centralizer_seven
     {P : Subgroup (GL (Fin 3) (ZMod 2))} (hP : Nat.card P = 7) :
     Subgroup.centralizer (P : Set (GL (Fin 3) (ZMod 2))) = P := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hN := CFSG.ComponentClassification.GMS78.card_normalizer_eq_of_card_eq_seven_GL32 hP
   have hle : P ≤ Subgroup.centralizer (P : Set (GL (Fin 3) (ZMod 2))) := by
-    haveI : IsCyclic P := isCyclic_of_prime_card (p := 7) hP
+    have : IsCyclic P := isCyclic_of_prime_card (p := 7) hP
     exact Subgroup.le_centralizer (H := P)
   have hCN : Subgroup.centralizer (P : Set (GL (Fin 3) (ZMod 2))) ≤
       Subgroup.normalizer (P : Set (GL (Fin 3) (ZMod 2))) :=
@@ -76,7 +76,7 @@ private theorem s16h_e3_gl3_centralizer_seven
 
 private theorem s16h_e3_gl3_normal_coprime_bot
     {R P N : Subgroup (GL (Fin 3) (ZMod 2))}
-    (hRcard : Nat.card R = 7 ∨ Nat.card R = 21)
+    (_hRcard : Nat.card R = 7 ∨ Nat.card R = 21)
     (hPle : P ≤ R) (hPcard : Nat.card P = 7)
     (hPnorm : ∀ x ∈ R, P.map (MulAut.conj x).toMonoidHom = P)
     (hNle : N ≤ R)
@@ -132,7 +132,7 @@ theorem s16h_e3_gl3_K_structure {K : Type} [Group K] [Finite K]
       ∃ Z : Subgroup K, Nat.card ↥Z = 7 ∧ (∀ Z' : Subgroup K, Nat.card ↥Z' = 7 → Z' = Z) ∧
         Group.IsSolvable K ∧
         ∀ N : Subgroup K, N.Normal → Group.IsNilpotent ↥N → N ≤ Z := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   let K1 : Subgroup K := π₁.ker
   let R : Subgroup (GL (Fin 3) (ZMod 2)) := π₂.range
   have hK1normal : K1.Normal := MonoidHom.normal_ker π₁
@@ -150,7 +150,7 @@ theorem s16h_e3_gl3_K_structure {K : Type} [Group K] [Finite K]
     intro x hx
     apply Subtype.ext
     refine hinj (x : K) ?_ ?_
-    · exact MonoidHom.mem_ker.mp (by simpa [K1] using x.2)
+    · exact MonoidHom.mem_ker.mp (by simp [K1])
     · simpa using hx
   have hNcard : Nat.card ↥(K1.map π₂) = Nat.card ↥K1 := by
     have hmap : K1.map π₂ = (π₂.comp K1.subtype).range := by
@@ -260,7 +260,7 @@ theorem s16h_e3_gl3_K_structure {K : Type} [Group K] [Finite K]
         Subgroup.mem_map.mpr ⟨π₁ z, hzP, rfl⟩
       rw [hPnorm (π₁ k) hkR] at hmem
       simpa [map_mul, Z] using hmem
-    haveI : Z.Normal := hZnormal
+    have : Z.Normal := hZnormal
     refine ⟨Z, hZcard, ?_, ?_, ?_⟩
     ·
       intro Z' hZ'
@@ -292,11 +292,11 @@ theorem s16h_e3_gl3_K_structure {K : Type} [Group K] [Finite K]
           rw [h1]; norm_num
         · have h1 : Z.index = 3 := by omega
           rw [h1]
-      haveI hZsol : Group.IsSolvable ↥Z := by
-        haveI : IsCyclic ↥Z := isCyclic_of_card_dvd_prime (p := 7) (by rw [hZcard])
+      have hZsol : Group.IsSolvable ↥Z := by
+        have : IsCyclic ↥Z := isCyclic_of_card_dvd_prime (p := 7) (by rw [hZcard])
         infer_instance
-      haveI hQsol : Group.IsSolvable (K ⧸ Z) := by
-        haveI : IsCyclic (K ⧸ Z) := isCyclic_of_card_dvd_prime (p := 3) hquot
+      have hQsol : Group.IsSolvable (K ⧸ Z) := by
+        have : IsCyclic (K ⧸ Z) := isCyclic_of_card_dvd_prime (p := 3) hquot
         infer_instance
       exact Group.isSolvable_of_subgroup_quotient Z
     ·
@@ -350,8 +350,8 @@ theorem s16h_e3_gl3_K_structure {K : Type} [Group K] [Finite K]
             · rw [h7] at h1; norm_num at h1
             · rw [← hR1cardK, h21]
           have hNK : N = ⊤ := Subgroup.eq_top_of_card_eq N (by rw [hN21, hK21])
-          haveI : Group.IsNilpotent ↥(⊤ : Subgroup K) := hNK ▸ hNnil
-          haveI : Group.IsNilpotent K := Group.nilpotent_of_mulEquiv Subgroup.topEquiv
+          have : Group.IsNilpotent ↥(⊤ : Subgroup K) := hNK ▸ hNnil
+          have : Group.IsNilpotent K := Group.nilpotent_of_mulEquiv Subgroup.topEquiv
           obtain ⟨Q, hQcard, hQnormK⟩ :=
             Group.IsNilpotent.exists_normal_card_eq_of_dvd_card (G := K) (n := 3)
               (by rw [hK21]; norm_num)

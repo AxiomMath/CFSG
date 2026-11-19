@@ -92,7 +92,7 @@ theorem burnsideC121_pCore_L_le {Ω : Type} [Group Ω] [Finite Ω] {X L : Subgro
 theorem burnsideC121_Q_inf_L_le {Ω : Type} [Group Ω] [Finite Ω] {X L : Subgroup Ω}
     (hLX : L = oTwoUpper X) : pCoreOf 2 X ⊓ L ≤ pCoreOf 2 L :=
   C1.le_pCoreOf_of_normalized inf_le_right
-    (fun l hl => Subgroup.inf_normalizer_le_normalizer_inf
+    (fun _l hl => Subgroup.inf_normalizer_le_normalizer_inf
       ⟨((burnsideC121_L_le_X hLX).trans (le_normalizer_pCoreOf 2 X)) hl, Subgroup.le_normalizer hl⟩)
     ((pCoreOf_isPGroup 2 X).to_le inf_le_left)
 
@@ -209,23 +209,25 @@ variable {Ω : Type} [Group Ω] [Finite Ω] {X R T Y W L : Subgroup Ω}
 
 include c
 
+omit [Finite Ω] in
 theorem Y_le_L (hLX : L = oTwoUpper X) : Y ≤ L :=
   calc Y = oTwoUpper Y := c.hY.perf
     _ ≤ oTwoUpper X := oTwoUpper_mono c.hY.le
     _ = L := hLX.symm
 
+omit [Finite Ω] in
 theorem pow_mem_Y : ∀ g ∈ burnsideC121_H X T Y, ∃ k : ℕ, g ^ 2 ^ k ∈ Y := by
   intro g hg
   obtain ⟨y, hy, p, hp, rfl⟩ := c.H_prod g hg
-  exact C124.exists_pow_mem_of_prod c.Y_le_H c.H_le_normalizer c.P_le_H c.P_pGroup hg
+  exact C124.exists_pow_mem_of_prod CFSG.ASVolI.burnsideC121_YCtx.Y_le_H c.H_le_normalizer (CFSG.ASVolI.burnsideC121_YCtx.P_le_H (X := X) (R := R) (T := T) (Y := Y)) c.P_pGroup hg
     ⟨y, hy, p, hp, rfl⟩
 
 theorem Q_le_pCore_H : pCoreOf 2 X ≤ pCoreOf 2 (burnsideC121_H X T Y) :=
-  C1.le_pCoreOf_of_normalized (c.Q_le_P.trans c.P_le_H)
+  C1.le_pCoreOf_of_normalized ((CFSG.ASVolI.burnsideC121_YCtx.Q_le_P (X := X) (R := R) (T := T) (Y := Y)).trans (CFSG.ASVolI.burnsideC121_YCtx.P_le_H (X := X) (R := R) (T := T) (Y := Y)))
     (c.H_le_X.trans (le_normalizer_pCoreOf 2 X)) (pCoreOf_isPGroup 2 X)
 
 theorem blockU_le_omega (hYs : IsShort2 Y) : blockU Y ≤ omegaOneCenterOf (pCoreOf 2 X) := by
-  have hC := C1.inf_centralizer_blockU_eq hYs c.Y_le_H c.H_le_normalizer c.pow_mem_Y
+  have hC := C1.inf_centralizer_blockU_eq hYs CFSG.ASVolI.burnsideC121_YCtx.Y_le_H c.H_le_normalizer c.pow_mem_Y
   have hQC : pCoreOf 2 X ≤ Subgroup.centralizer (blockU Y : Set Ω) := by
     have := c.Q_le_pCore_H
     rw [← hC] at this
@@ -302,8 +304,8 @@ theorem reduction (hLX : L = oTwoUpper X) (hLc : L ∈ cComp X)
       ⟨fun u hu => ⟨hULO hu, Subgroup.centralizer_le hOLQ (hWQC (hULW hu))⟩,
         fun x hx => hWQel.2 x (hULW hx)⟩, Or.inl hLq, ?_, ?_⟩
     · intro N _ h2
-      haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hperf
-      haveI : Group.IsNilpotent (↥L ⧸ N) := h2.isNilpotent
+      have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.2 hperf
+      have : Group.IsNilpotent (↥L ⧸ N) := h2.isNilpotent
       rw [eq_top_iff]
       intro a _
       exact (QuotientGroup.eq_one_iff a).1

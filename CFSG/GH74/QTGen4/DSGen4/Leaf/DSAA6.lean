@@ -31,14 +31,14 @@ private def dsa6VA : Subgroup (alternatingGroup (Fin 5)) where
     (g : Equiv.Perm (Fin 5)) = dsa6b ∨ (g : Equiv.Perm (Fin 5)) = dsa6a * dsa6b}
   mul_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq, Subgroup.coe_mul] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq, Subgroup.coe_mul] at hx hy ⊢
     rcases hx with hx | hx | hx | hx <;> rcases hy with hy | hy | hy | hy <;>
       rw [hx, hy] <;> decide +kernel
   one_mem' := by
-    simp only [Set.mem_setOf_eq, Subgroup.coe_one, true_or]
+    simp only [Set.mem_ofPred_eq, Subgroup.coe_one, true_or]
   inv_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq, Subgroup.coe_inv] at hx ⊢
+    simp only [Set.mem_ofPred_eq, Subgroup.coe_inv] at hx ⊢
     rcases hx with hx | hx | hx | hx <;> rw [hx] <;> decide +kernel
 
 private theorem dsa6_disj_sign : ∀ w : Equiv.Perm (Fin 5),
@@ -101,7 +101,7 @@ private theorem dsa6_card_sylow_of_card60 {X : Type} [Group X] [Finite X] (T : S
   have hle : 2 ^ k ≤ 60 := Nat.le_of_dvd (by norm_num) hdvd
   have hk6 : k < 6 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : 2 ^ 6 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) h
     omega
   rw [hk]
@@ -171,7 +171,7 @@ theorem dsa6_le_of_chief {G : Type} [Group G] {P L Q : Subgroup G}
     have hL := Subgroup.mem_normalizer_iff.mp (h.norm_L hp)
     rw [Subgroup.mem_normalizer_iff]
     intro x
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     rw [hQ x, hL x]
   obtain ⟨l, hl, e, he, hne⟩ := h.nontriv
   have hmem := dsa6_comm_mem h hl he
@@ -369,7 +369,7 @@ theorem dsa6_K_inf {G : Type} [Group G] {L Q : Subgroup G} (hq : IsL2Quot 2 (oTw
   exact (F1.mem_pCore_iff_coe _).mp hmem
 
 theorem dsa6_KZ {G : Type} [Group G] {P L1 Q S : Subgroup G}
-    (hLP : L1 ≤ P) (hPL : P ≤ Subgroup.normalizer (L1 : Set G))
+    (hLP : L1 ≤ P) (_hPL : P ≤ Subgroup.normalizer (L1 : Set G))
     (hPQ : P ≤ Subgroup.normalizer (Q : Set G)) (hQdef : pCoreOf 2 P = Q) (hCT : CharTwo P)
     (hab : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x) (hZi : dsZi L1 S = Q)
     {c : G} (hc : c ∈ dsCentMod P L1 Q) (hcZ : ∀ z ∈ dsZ S, c * z = z * c) : c ∈ Q := by
@@ -623,13 +623,13 @@ theorem dsa6_perm {G : Type} [Group G] [Finite G] {P L Q B : Subgroup G} (k : �
     have := hK'norm ⟨g, hg⟩ n hn
     exact Subgroup.mem_map.mpr ⟨_, this, rfl⟩
   have hQL : Q ≤ L := by rw [← hpc]; exact FaithfulA5.pCoreOf_le_self 2 L
-  haveI : IsSimpleGroup (oTwoQuot ↥L) := (FaithfulA5.isSimpleGroup_and_card_of_isL2Quot hq).1
+  have : IsSimpleGroup (oTwoQuot ↥L) := (FaithfulA5.isSimpleGroup_and_card_of_isL2Quot hq).1
   set M' : Subgroup ↥L := (KK ⊓ L).subgroupOf L with hM'
-  haveI hM'norm : M'.Normal :=
+  have hM'norm : M'.Normal :=
     dsa6_normal_inf_subgroupOf (A := KK) (H := L) (fun h hh a ha => hKKP h (hLP hh) a ha)
   set π : ↥L →* oTwoQuot ↥L := QuotientGroup.mk' (pCore 2 ↥L) with hπ
   set N'' : Subgroup (oTwoQuot ↥L) := M'.map π with hN''
-  haveI hNn : N''.Normal := Subgroup.Normal.map hM'norm π (QuotientGroup.mk'_surjective _)
+  have hNn : N''.Normal := Subgroup.Normal.map hM'norm π (QuotientGroup.mk'_surjective _)
   have hMQ : ∀ x ∈ KK ⊓ L, x ∈ Q := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N'' with hbot | htop
     · intro x hx
@@ -764,7 +764,7 @@ theorem dsa6_perm {G : Type} [Group G] [Finite G] {P L Q B : Subgroup G} (k : �
     rw [h8] at hQKGdvd
     omega
 
-def dsa6_MA {G : Type} [Group G] (B Z : Subgroup G) (hZ : ∀ b ∈ B, ∀ z ∈ Z, b * z * b⁻¹ ∈ Z) :
+@[instance_reducible] def dsa6_MA {G : Type} [Group G] (B Z : Subgroup G) (hZ : ∀ b ∈ B, ∀ z ∈ Z, b * z * b⁻¹ ∈ Z) :
     MulAction ↥B ↥Z where
   smul b z := ⟨(b : G) * z * (b : G)⁻¹, hZ b b.2 z z.2⟩
   one_smul z := by
@@ -782,7 +782,7 @@ theorem dsa6_KZ_card {G : Type} [Group G] [Finite G] (B Z : Subgroup G)
     Nat.card (Subgroup.map B.subtype (MonoidHom.ker (@MulAction.toPermHom ↥B ↥Z _ (dsa6_MA B Z hZ)))) *
       Nat.card (@MulAction.toPermHom ↥B ↥Z _ (dsa6_MA B Z hZ)).range = Nat.card B ∧
     Nat.card (@MulAction.toPermHom ↥B ↥Z _ (dsa6_MA B Z hZ)).range ∣ 24 := by
-  letI := dsa6_MA B Z hZ
+  let := dsa6_MA B Z hZ
   set φ := MulAction.toPermHom ↥B ↥Z with hφ
   constructor
   · rw [Subgroup.card_map_of_injective B.subtype_injective]
@@ -854,8 +854,8 @@ theorem dsa6_side {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
     rw [hBL1] at h1
     exact h1.symm
   have hidxP : (L1.subgroupOf (L1 ⊔ bigB L1 L2 S)).index = k := by
-    haveI := Subgroup.normal_subgroupOf_of_le_normalizer hBN
-    haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hBN
+    have := Subgroup.normal_subgroupOf_of_le_normalizer hBN
+    have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hBN
     have e1 := Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient
       (bigB L1 L2 S) L1 hBN).toEquiv
     have e2 : bigB L1 L2 S ⊔ L1 = L1 ⊔ bigB L1 L2 S := sup_comm _ _
@@ -899,7 +899,7 @@ def dsa6_KZG {G : Type} [Group G] (B Z : Subgroup G) (hZ : ∀ b ∈ B, ∀ z �
 theorem mem_dsa6_KZG {G : Type} [Group G] {B Z : Subgroup G}
     (hZ : ∀ b ∈ B, ∀ z ∈ Z, b * z * b⁻¹ ∈ Z) {x : G} :
     x ∈ dsa6_KZG B Z hZ ↔ x ∈ B ∧ ∀ z ∈ Z, x * z = z * x := by
-  letI := dsa6_MA B Z hZ
+  let := dsa6_MA B Z hZ
   constructor
   · intro hx
     obtain ⟨b, hb, rfl⟩ := Subgroup.mem_map.mp hx
@@ -1073,7 +1073,7 @@ theorem dsa6_count {G : Type} [Group G] [Finite G] {B S : Subgroup G} {M1 M2 M3 
     intro M hSM hMc
     have hdisj : Disjoint ((M : Set G) \ (S : Set G)) (S : Set G) := Set.disjoint_sdiff_left
     have hunion : ((M : Set G) \ (S : Set G)) ∪ (S : Set G) = (M : Set G) :=
-      Set.diff_union_of_subset hSM
+      Set.sdiff_union_of_subset hSM
     have h1 := Set.ncard_union_eq hdisj
     rw [hunion] at h1
     have hMn : (M : Set G).ncard = 192 := by
@@ -1134,7 +1134,7 @@ theorem dsa6_count {G : Type} [Group G] [Finite G] {B S : Subgroup G} {M1 M2 M3 
   have hBS : ((B : Set G) \ (S : Set G)).ncard = 512 := by
     have hdisj : Disjoint ((B : Set G) \ (S : Set G)) (S : Set G) := Set.disjoint_sdiff_left
     have hunion : ((B : Set G) \ (S : Set G)) ∪ (S : Set G) = (B : Set G) :=
-      Set.diff_union_of_subset hSB
+      Set.sdiff_union_of_subset hSB
     have h1 := Set.ncard_union_eq hdisj
     rw [hunion] at h1
     have hBn : (B : Set G).ncard = 576 := by
@@ -1153,7 +1153,7 @@ theorem dsa6_k_dvd {G : Type} [Group G] [Finite G] {B K Q Z : Subgroup G} (k : �
     (hKB : K ≤ B) (hK : Nat.card K = 16 * k) (hQK : Q ≤ K) (hQB : Q ≤ B)
     (hQcard : Nat.card Q = 16) (hQZ : ∀ q ∈ Q, ∀ z ∈ Z, q * z = z * q)
     (hKZ : ∀ c ∈ K, (∀ z ∈ Z, c * z = z * c) → c ∈ Q) : k ∣ 24 := by
-  letI := dsa6_MA B Z hZB
+  let := dsa6_MA B Z hZB
   set ψ : ↥(K.subgroupOf B) →* Equiv.Perm ↥Z :=
     (MulAction.toPermHom ↥B ↥Z).comp (K.subgroupOf B).subtype with hψ
   have hf : Function.Injective (B.subtype.comp (K.subgroupOf B).subtype : ↥(K.subgroupOf B) →* G) := by
@@ -1186,7 +1186,7 @@ theorem dsa6_k_dvd {G : Type} [Group G] [Finite G] {B K Q Z : Subgroup G} (k : �
       apply Equiv.ext
       intro w
       apply Subtype.ext
-      simp only [MulAction.toPermHom_apply, Equiv.Perm.one_apply]
+      simp only [Equiv.Perm.one_apply]
       change (q : G) * (w : G) * (q : G)⁻¹ = (w : G)
       rw [hQZ q hq w w.2]
       group
@@ -1208,7 +1208,7 @@ theorem dsa6_k_dvd {G : Type} [Group G] [Finite G] {B K Q Z : Subgroup G} (k : �
 theorem dsa6_D1 {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
     (hcB : Nat.card (bigB L1 L2 S) = 576) (hcB1 : Nat.card ↥(L1 ⊓ bigB L1 L2 S) = 192)
     (hS1 : S ≤ L1) (hSB : S ≤ bigB L1 L2 S)
-    (hB1eq : L1 ⊓ bigB L1 L2 S = borelOf L1 S) (hB2eq : L2 ⊓ bigB L1 L2 S = borelOf L2 S) :
+    (_hB1eq : L1 ⊓ bigB L1 L2 S = borelOf L1 S) (hB2eq : L2 ⊓ bigB L1 L2 S = borelOf L2 S) :
     L1 ⊓ bigB L1 L2 S ≠ L2 ⊓ bigB L1 L2 S := by
   intro heq
   have hsub : bigB L1 L2 S ≤ L1 ⊓ bigB L1 L2 S := by
@@ -1226,7 +1226,7 @@ theorem dsa6_D2 {G : Type} [Group G] [Finite G] {L B Q Z : Subgroup G}
     (hZ4 : Nat.card Z = 4) (hc : Nat.card ↥(L ⊓ B) = 192) :
     L ⊓ B ≠ dsa6_KZG B Z hZB := by
   intro heq
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 (G := ↥(L ⊓ B)) (by rw [hc]; norm_num)
   have hdL : ((x : ↥(L ⊓ B)) : G) ∈ L := (Subgroup.mem_inf.mp x.2).1
   have hdB : ((x : ↥(L ⊓ B)) : G) ∈ B := (Subgroup.mem_inf.mp x.2).2
@@ -1285,7 +1285,7 @@ theorem dsa6_D4 {G : Type} [Group G] [Finite G] {L1 L2 B Q1 Q2 K2 S : Subgroup G
     (hK2N : ∀ y ∈ K2, y ∈ Subgroup.normalizer (Q2 : Set G))
     (hK2c : ∀ y ∈ K2, ∀ l ∈ L2, ⁅y, l⁆ ∈ Q2) (hK2card : Nat.card K2 = 48)
     (hQ1L2 : Q1 ≤ L2) (heq : L1 ⊓ B = K2 ⊔ S) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hK2L1 : K2 ≤ L1 := by
     have h1 : K2 ≤ L1 ⊓ B := by
       rw [heq]
@@ -1316,7 +1316,7 @@ theorem dsa6_D4 {G : Type} [Group G] [Finite G] {L1 L2 B Q1 Q2 K2 S : Subgroup G
     exact hK2c y hyK2 r (hQ1L2 hr)
   have hvex : ∃ v ∈ Q1, v ∉ Q1 ⊓ Q2 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Q1 ≤ Q1 ⊓ Q2 := fun v hv => hcon v hv
     have := Subgroup.card_le_of_le hle
     omega
@@ -1379,7 +1379,7 @@ theorem dsa6_A5_fixed {G : Type} [Group G] [Finite G] {L W : Subgroup G}
     (hW : ∀ l ∈ L, ∀ w ∈ W, l * w * l⁻¹ ∈ W) (hWc : Nat.card W ≤ 4) :
     ∃ x ∈ L, orderOf x = 3 ∧ ∀ w ∈ W, x * w * x⁻¹ = w := by
   classical
-  letI := dsa6_MA L W hW
+  let := dsa6_MA L W hW
   set φ : ↥L →* Equiv.Perm ↥W := MulAction.toPermHom ↥L ↥W with hφ
   set K : Subgroup ↥L := φ.ker with hK
   set O : Subgroup ↥L := pCore 2 ↥L with hO
@@ -1393,8 +1393,8 @@ theorem dsa6_A5_fixed {G : Type} [Group G] [Finite G] {L W : Subgroup G}
   obtain ⟨ψ⟩ := CFSG.Quasithin.S1421QA17.nonempty_mulEquiv_alt5_of_isL2Quot_two hq
   have hsimp : IsSimpleGroup (oTwoQuot ↥L) := ψ.isSimpleGroup
   set π : ↥L →* (↥L ⧸ O) := QuotientGroup.mk' O with hπ
-  haveI hKn : K.Normal := MonoidHom.normal_ker φ
-  haveI hN : (K.map π).Normal := Subgroup.Normal.map hKn π (QuotientGroup.mk'_surjective O)
+  have hKn : K.Normal := MonoidHom.normal_ker φ
+  have hN : (K.map π).Normal := Subgroup.Normal.map hKn π (QuotientGroup.mk'_surjective O)
   have htop : K.map π = ⊤ := by
     rcases hsimp.eq_bot_or_eq_top_of_normal (K.map π) with hbot | htop
     · exfalso
@@ -1448,7 +1448,7 @@ theorem dsa6_A5_fixed {G : Type} [Group G] [Finite G] {L W : Subgroup G}
 theorem dsa6_noCent {G : Type} [Group G] [Finite G] {L B Q Z : Subgroup G}
     (hNat : NatSec L ⊥ Q) (hZQ : Z ≤ Q) (hZ4 : Nat.card Z = 4) (hc : Nat.card ↥(L ⊓ B) = 192)
     (hcent : ∀ x ∈ L ⊓ B, ∀ z ∈ Z, x * z = z * x) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 (G := ↥(L ⊓ B)) (by rw [hc]; norm_num)
   have hxL : ((x : ↥(L ⊓ B)) : G) ∈ L := (Subgroup.mem_inf.mp x.2).1
   have hxord : orderOf ((x : ↥(L ⊓ B)) : G) = 3 := by
@@ -1469,8 +1469,8 @@ theorem dsa6_noCent {G : Type} [Group G] [Finite G] {L B Q Z : Subgroup G}
 theorem dsa6_KS_card192 {G : Type} [Group G] [Finite G] {K S Q : Subgroup G}
     (hSN : S ≤ Subgroup.normalizer (K : Set G)) (hcS : Nat.card S = 64) (hK : Nat.card K = 48)
     (hKS : K ⊓ S = Q) (hQ : Nat.card Q = 16) : Nat.card ↥(K ⊔ S) = 192 := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hSN
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hSN
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hSN
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hSN
   have hc1 : Nat.card (K.subgroupOf S) = 16 := by
     have h1 : Nat.card ((K.subgroupOf S).map S.subtype) = Nat.card (K.subgroupOf S) :=
       Subgroup.card_map_of_injective S.subtype_injective
@@ -1565,7 +1565,7 @@ theorem dsa6_D8 {G : Type} [Group G] [Finite G] {L1 L2 S Q1 Q2 K1 K2 : Subgroup 
     (hq2 : IsL2Quot 2 (oTwoQuot ↥L2)) (hcardL2 : Nat.card L2 = 960)
     (hnat2 : NatSec L2 ⊥ Q2)
     (heq : K1 ⊔ S = K2 ⊔ S) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨x3, hx3⟩ := exists_prime_orderOf_dvd_card' 3 (G := ↥K2) (by rw [hK2card]; norm_num)
   set y : G := (x3 : G) with hy
   have hyK2 : y ∈ K2 := x3.2
@@ -1607,7 +1607,7 @@ theorem dsa6_D8 {G : Type} [Group G] [Finite G] {L1 L2 S Q1 Q2 K1 K2 : Subgroup 
     Subgroup.mem_inf.mpr ⟨hyQ1 z hz.1, hyQ2 z hz.2⟩
   have hZnc : ∃ z0 ∈ Q1 ⊓ Q2, y * z0 ≠ z0 * y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hyQ2' : y ∈ Q2 := hKZ2 y hyK2 (fun z hz => hcon z hz)
     have h2 : y * y = 1 := by rw [← pow_two]; exact hsq2 y hyQ2'
     have h1 : y = 1 := by
@@ -1623,7 +1623,7 @@ theorem dsa6_D8 {G : Type} [Group G] [Finite G] {L1 L2 S Q1 Q2 K1 K2 : Subgroup 
     exact hz0ne (dsa6_orbit hZ4 hy3 hZy hc hc1 hcy hz0)
   have hvex : ∃ v ∈ Q2, v ∉ Q1 ⊓ Q2 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Q2 ≤ Q1 ⊓ Q2 := fun v hv => hcon v hv
     have := Subgroup.card_le_of_le hle
     omega

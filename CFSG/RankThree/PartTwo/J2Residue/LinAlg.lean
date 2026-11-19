@@ -324,7 +324,7 @@ private theorem three_dvd_finrank_eigenspace {K W Λ : Type*} [Field K] [AddComm
     have h := congrArg LinearMap.det hscalar
     rw [hdet] at h
     simpa using h.symm
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   have hord : orderOf ω = 3 := orderOf_eq_prime hω3 hω1
   have hdvd : orderOf (ω : K) ∣ Module.finrank K U := (orderOf_dvd_iff_pow_eq_one).mpr hpow
   simpa [hord] using hdvd
@@ -348,7 +348,7 @@ private theorem three_dvd_of_root {K W Λ : Type*} [Field K] [AddCommGroup W]
   have hω0 : ω ≠ 0 := by
     intro h
     subst h
-    have h10 : (1 : K) = 0 := by simpa using hω
+    have h10 : (1 : K) = 0 := by simp at hω
     exact one_ne_zero h10
   have hω2ne1 : ω ^ 2 ≠ 1 := by
     intro h
@@ -424,10 +424,10 @@ private theorem three_dvd_of_nonsplit {K W Λ : Type*} [Field K] [AddCommGroup W
     · intro r hr
       apply hno r
       simpa [p, IsRoot] using hr
-  haveI : Fact (Irreducible p) := ⟨hp_irr⟩
+  have : Fact (Irreducible p) := ⟨hp_irr⟩
   let E := K[X] ⧸ Ideal.span {p}
-  haveI : (Ideal.span {p}).IsMaximal := AdjoinRoot.span_maximal_of_irreducible
-  letI : Field E := Ideal.Quotient.field _
+  have : (Ideal.span {p}).IsMaximal := AdjoinRoot.span_maximal_of_irreducible
+  let : Field E := Ideal.Quotient.field _
   have hpτ : aeval τ p = 0 := by
     simpa [p] using hτ
   let ψ : K[X] →+* Module.End K W := (aeval τ).toRingHom
@@ -442,21 +442,21 @@ private theorem three_dvd_of_nonsplit {K W Λ : Type*} [Field K] [AddCommGroup W
       φring (Ideal.Quotient.mk (Ideal.span {p}) q) = aeval τ q := by
     intro q
     exact Ideal.Quotient.lift_mk (Ideal.span {p}) (a := q) ψ hψ
-  letI : Module E W := Module.compHom W φring
+  let : Module E W := Module.compHom W φring
   have hφring_C : ∀ r : K, φring (algebraMap K E r) =
       algebraMap K (Module.End K W) r := by
     intro r
     change φring (Ideal.Quotient.mk (Ideal.span {p}) (Polynomial.C r)) =
       algebraMap K (Module.End K W) r
     rw [hφring_mk]
-    simp [ψ]
-  haveI : IsScalarTower K E W := ⟨fun r x m => by
+    simp
+  have : IsScalarTower K E W := ⟨fun r x m => by
     change φring (r • x) m = r • φring x m
     have hsm : r • x = algebraMap K E r * x := Algebra.smul_def r x
     rw [hsm, map_mul, hφring_C]
     rfl⟩
-  haveI : FiniteDimensional E W := Module.Finite.of_restrictScalars_finite K E W
-  haveI : FiniteDimensional K E := (AdjoinRoot.powerBasis hp_ne).finite
+  have : FiniteDimensional E W := Module.Finite.of_restrictScalars_finite K E W
+  have : FiniteDimensional K E := (AdjoinRoot.powerBasis hp_ne).finite
   have hE2 : Module.finrank K E = 2 := by
     rw [show Module.finrank K E = Module.finrank K (AdjoinRoot p) from rfl]
     rw [(AdjoinRoot.powerBasis hp_ne).finrank, AdjoinRoot.powerBasis_dim, hp_deg]
@@ -491,12 +491,11 @@ private theorem three_dvd_of_nonsplit {K W Λ : Type*} [Field K] [AddCommGroup W
           map_smul' := hElin g }
       map_one' := by
         ext w
-        simpa using congrArg (fun f : Module.End K W => f w) (map_one ρ)
+        simp
       map_mul' := by
         intro g h
         ext w
-        simpa [Module.End.mul_apply] using
-          congrArg (fun f : Module.End K W => f w) (map_mul ρ g h) }
+        simp [Module.End.mul_apply] }
   have hτE : (ρE σ) ^ 2 + ρE σ + 1 = 0 := by
     ext w
     have h := congrArg (fun f : Module.End K W => f w) hτ

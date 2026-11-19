@@ -104,8 +104,6 @@ private theorem exists_comp_eq_of_model {K : Type} [Field K] [Finite K] {d n : �
     have hu : φ u = 1 := by rw [← hψ' u, hr]
     exact (QuotientGroup.eq_one_iff u).mpr (hle_phi_pi (MonoidHom.mem_ker.mpr hu))
   refine ⟨eπ.symm.trans (MulEquiv.ofBijective ψ ⟨hψinj, hψsurj⟩), fun u => ?_⟩
-  change φ u = (eπ.symm.trans (MulEquiv.ofBijective ψ ⟨hψinj, hψsurj⟩))
-    (InndiagSU.projU n d K u)
   rw [MulEquiv.trans_apply]
   change φ u = ψ (eπ.symm (InndiagSU.projU n d K u))
   rw [← heπ u, MulEquiv.symm_apply_apply, hψ' u]

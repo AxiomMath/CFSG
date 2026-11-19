@@ -145,7 +145,7 @@ theorem l28iv_false_of_wc (hS : Setting G) (hU0 : FullCoreLocal G) (hK1 : KFactL
     rw [zpowers_one_eq_bot, mem_bot]
     exact hx1
   have hPC : (P : Subgroup G) ≤ C :=
-    l28iv_le_centralizer P.isPGroup' hxP hx3 hx1 hx1' (one_pow 3) fun g hg => Or.inl (hwc g hg)
+    l28iv_le_centralizer P.isPGroup hxP hx3 hx1 hx1' (one_pow 3) fun g hg => Or.inl (hwc g hg)
   have hQP : (P : Subgroup G) ⊓ C = P := inf_eq_left.mpr hPC
   have hNx : ∀ n ∈ normalizer ((P : Subgroup G) : Set G), n * x * n⁻¹ ∈ zpowers x := by
     intro n hn

@@ -13,12 +13,14 @@ section Core
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_primeCoreOf_iff {p : ℕ} {L : Subgroup G} (x : ↥L) :
     (x : G) ∈ GLAPPrimeCoreOf p L ↔ x ∈ GLAPPrimeCore p ↥L :=
   ⟨fun ⟨c', hc', hv⟩ => by
     have : c' = x := Subtype.ext hv
     rwa [this] at hc', fun h => ⟨x, h, rfl⟩⟩
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_primeCoreOf (p : ℕ) (L : Subgroup G) :
     Subgroup.normalizer (L : Set G) ≤ Subgroup.normalizer (GLAPPrimeCoreOf p L : Set G) :=
   normalizer_le_normalizer_glaPPrimeCoreOf p L
@@ -34,9 +36,11 @@ theorem normalizer_le_normalizer_primeCoreOf (p : ℕ) (L : Subgroup G) :
   right_inv x := Subtype.ext (by simp [mul_assoc])
   map_mul' x y := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 theorem conjL_apply (L : Subgroup G) (b : G) (hb : b ∈ Subgroup.normalizer (L : Set G))
     (x : ↥L) : ((conjL L b hb x : ↥L) : G) = b⁻¹ * x * b := rfl
 
+omit [Finite G] in
 theorem conjL_core (L : Subgroup G) (b : G) (hb : b ∈ Subgroup.normalizer (L : Set G)) :
     (GLAPPrimeCore 3 ↥L).map (conjL L b hb).toMonoidHom = GLAPPrimeCore 3 ↥L := by
   have hN := Subgroup.mem_normalizer_iff.1 (normalizer_le_normalizer_primeCoreOf 3 L hb)
@@ -62,9 +66,11 @@ theorem conjL_core (L : Subgroup G) (b : G) (hb : b ∈ Subgroup.normalizer (L :
   QuotientGroup.congr (GLAPPrimeCore 3 ↥L) (GLAPPrimeCore 3 ↥L) (conjL L b hb)
     (conjL_core L b hb)
 
+omit [Finite G] in
 theorem barAut_mk (L : Subgroup G) (b : G) (hb : b ∈ Subgroup.normalizer (L : Set G)) (x : ↥L) :
     barAut L b hb (QuotientGroup.mk x) = QuotientGroup.mk (conjL L b hb x) := rfl
 
+omit [Finite G] in
 theorem barAut_pow_three (L : Subgroup G) (b : G) (hb : b ∈ Subgroup.normalizer (L : Set G))
     (hb3 : b ^ 3 = 1) : barAut L b hb ^ 3 = 1 := by
   apply MulEquiv.ext
@@ -84,6 +90,7 @@ theorem barAut_pow_three (L : Subgroup G) (b : G) (hb : b ∈ Subgroup.normalize
   calc b⁻¹ * (b⁻¹ * (b⁻¹ * (x : G) * b) * b) * b = (b * b * b)⁻¹ * x * (b * b * b) := by group
     _ = x := by rw [hb3']; simp
 
+omit [Finite G] in
 theorem inducesInnerMod_of_inner {L : Subgroup G} {b : G}
     (hb : b ∈ Subgroup.normalizer (L : Set G)) (h : barAut L b hb ∈ inner (PQuot 3 L)) :
     InducesInnerMod 3 L b := by
@@ -130,15 +137,18 @@ theorem eq_one_of_mem_primeCore_of_pow_three {K : Subgroup G} {y : ↥K}
     ↥L →* M :=
   e.toMonoidHom.comp (QuotientGroup.mk' (GLAPPrimeCore 3 ↥L))
 
+omit [Finite G] in
 theorem piOf_ker (L : Subgroup G) {M : Type*} [Group M] (e : PQuot 3 L ≃* M) :
     (piOf L e).ker = GLAPPrimeCore 3 ↥L := by
   unfold piOf
   rw [MonoidHom.ker_comp_of_injective _ _ e.injective, QuotientGroup.ker_mk']
 
+omit [Finite G] in
 theorem piOf_surjective (L : Subgroup G) {M : Type*} [Group M] (e : PQuot 3 L ≃* M) :
     Function.Surjective (piOf L e) :=
   e.surjective.comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 theorem isElemAbelian_subgroupOf {p : ℕ} {E L : Subgroup G} (hE : IsElemAbelian p E) :
     IsElemAbelian p (E.subgroupOf L) := by
   have := hE.1
@@ -151,6 +161,7 @@ theorem isElemAbelian_subgroupOf {p : ℕ} {E L : Subgroup G} (hE : IsElemAbelia
     have := hE.2 (x : G) hx
     simpa using this
 
+omit [Finite G] in
 theorem map_le_normalizer_map {K : Subgroup G} {M : Type*} [Group M] (π : ↥K →* M)
     {A B : Subgroup G} (hAB : A ≤ Subgroup.normalizer (B : Set G)) :
     (A.subgroupOf K).map π ≤ Subgroup.normalizer (((B.subgroupOf K).map π : Subgroup M) : Set M) := by

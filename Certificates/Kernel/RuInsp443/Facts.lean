@@ -99,13 +99,13 @@ theorem maskA_eq : ∀ (Ps : List Nat), (∀ p ∈ Ps, cn p = true) → ∀ k,
           cn (nIf(Nat.beq (Nat.mod k 2) 1, b, pidn 4060 12)) = true := by
       by_cases hk : k % 2 = 1
       · have : Nat.beq (Nat.mod k 2) 1 = true := Nat.beq_eq_true_eq _ _ ▸ hk
-        rw [if_pos hk, this]
+        rw [ite_eq_left hk, this]
         exact ⟨rfl, hb⟩
       · have : Nat.beq (Nat.mod k 2) 1 = false := by
           cases h : Nat.beq (Nat.mod k 2) 1
           · rfl
           · exact absurd (Nat.eq_of_beq_eq_true h) hk
-        rw [if_neg hk, this]
+        rw [ite_eq_right hk, this]
         exact ⟨(idK_sound idOK).symm, hid⟩
     have e2 : maskA (List.map (unpack 4060 12) (b :: Ps)) k =
         compA 4060 (if k % 2 = 1 then unpack 4060 12 b else idA 4060)
@@ -189,7 +189,7 @@ theorem chkKxE_true : chkKxE () = true := by
       have : ∃ j < 2 ^ 3, Nat.beq (maskL 4060 12 (mask 12) (pidn 4060 12) BEs j)
           (maskL 4060 12 (mask 12) (pidn 4060 12) BVs k) = true := by
         by_contra hne
-        push_neg at hne
+        push Not at hne
         have : allN (Nat.pow 2 3) (fun j => bIf(Nat.beq (maskL 4060 12 (mask 12) (pidn 4060 12)
             BEs j) (maskL 4060 12 (mask 12) (pidn 4060 12) BVs k), false, true)) = true :=
           PackFld.allN_of_forall fun j hj => by

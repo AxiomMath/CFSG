@@ -14,11 +14,11 @@ theorem squarefree_card [IsCyclic E]
     Squarefree (Nat.card E) := by
   rw [Nat.squarefree_iff_prime_squarefree]
   intro q hq hqq
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hdvd : q ∣ Nat.card E := (dvd_mul_right q q).trans hqq
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow q E))
-  have hnorm : (Q : Subgroup E).Normal := Subgroup.normal_of_comm _
-  have hQp : IsPGroup q (Q : Subgroup E) := Q.isPGroup'
+  have hnorm : (Q : Subgroup E).Normal := Subgroup.normal_of_isMulCommutative _
+  have hQp : IsPGroup q (Q : Subgroup E) := Q.isPGroup
   have hle : (Q : Subgroup E) ≤ CFSG.Open.pCore q E :=
     CFSG.LieType.BorelTits.le_pCore q hnorm hQp
   have hQc : IsCyclic (Q : Subgroup E) := inferInstance

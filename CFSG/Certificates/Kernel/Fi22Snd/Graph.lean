@@ -19,7 +19,7 @@ private theorem treeOK_facts {n ng : Nat} {G T : Nat → Nat} {x : Nat}
   unfold treeOK at h
   rw [CFSG.KS.Raw.Orb.bIf_eq] at h
   have h0 : ¬ Nat.beq x (nat_lit 0) = true := fun hb => hx (Nat.eq_of_beq_eq_true hb)
-  rw [if_neg h0, CFSG.KC.Pack.strictB_eq, CFSG.KC.Pack.strictB_eq] at h
+  rw [ite_eq_right h0, CFSG.KC.Pack.strictB_eq, CFSG.KC.Pack.strictB_eq] at h
   obtain ⟨h1, h'⟩ := CFSG.KC.Pack.band_iff.1 h
   obtain ⟨h2, h''⟩ := CFSG.KC.Pack.band_iff.1 h'
   obtain ⟨h3, h4⟩ := CFSG.KC.Pack.band_iff.1 h''

@@ -87,7 +87,7 @@ theorem isPGroup_ker_blkN (j : Fin 2) : IsPGroup 2 (blkN (K := K) j).ker := by
   obtain ⟨P₀, hP₀⟩ := exists_sylow_unipotent (K := K) 2 2
   intro x
   have hxU := blkN_ker (K := K) j (x : ↥(perfectCore (Q2 K j))) (MonoidHom.mem_ker.mp x.2)
-  obtain ⟨k, hk⟩ := P₀.isPGroup' ⟨_, hP₀ ▸ hxU⟩
+  obtain ⟨k, hk⟩ := P₀.isPGroup ⟨_, hP₀ ▸ hxU⟩
   refine ⟨k, Subtype.ext (Subtype.ext ?_)⟩
   have h1 := congrArg Subtype.val hk
   simpa using h1

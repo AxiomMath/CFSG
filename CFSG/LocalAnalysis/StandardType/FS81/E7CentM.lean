@@ -78,7 +78,7 @@ private theorem conj_eq_self_of_mem_central {H Z : Subgroup X}
 
 private theorem commutatorElement_mul_right_mem_of_central {H Z : Subgroup X}
     (hZ : ∀ z ∈ Z, ∀ h ∈ H, z * h = h * z) {x y₁ y₂ : X}
-    (hy₁ : y₁ ∈ H) (hy₂ : y₂ ∈ H) (h₁ : ⁅x, y₁⁆ ∈ Z) (h₂ : ⁅x, y₂⁆ ∈ Z) :
+    (hy₁ : y₁ ∈ H) (_hy₂ : y₂ ∈ H) (h₁ : ⁅x, y₁⁆ ∈ Z) (h₂ : ⁅x, y₂⁆ ∈ Z) :
     ⁅x, y₁ * y₂⁆ ∈ Z := by
   have heq : ⁅x, y₁ * y₂⁆ = ⁅x, y₁⁆ * ⁅x, y₂⁆ := by
     calc ⁅x, y₁ * y₂⁆ = ⁅x, y₁⁆ * (y₁ * ⁅x, y₂⁆ * y₁⁻¹) := by
@@ -100,7 +100,7 @@ private theorem commutatorElement_inv_right_mem_of_central {H Z : Subgroup X}
 
 private theorem commutatorElement_mem_closure_of_central {H Z : Subgroup X}
     (hZ : ∀ z ∈ Z, ∀ h ∈ H, z * h = h * z) {Xs : Set X} (hXs : Xs ⊆ H)
-    {x : X} (hx : x ∈ H) (hgen : ∀ w ∈ Xs, ⁅x, w⁆ ∈ Z) :
+    {x : X} (_hx : x ∈ H) (hgen : ∀ w ∈ Xs, ⁅x, w⁆ ∈ Z) :
     ∀ w ∈ Subgroup.closure Xs, ⁅x, w⁆ ∈ Z := by
   let K : Subgroup X :=
     { carrier := {w | w ∈ H ∧ ⁅x, w⁆ ∈ Z}
@@ -700,8 +700,8 @@ private theorem P_le_normalizer_T (D : Fs81CentData X) :
     ((Subgroup.normalizer (D.T0 : Set X)).inv_mem (D.P_le_normalizer_T0 hp))
 
 private theorem T_isSolvable [Finite X] (D : Fs81CentData X)
-    (hT2 : IsPGroup 2 D.T) : IsSolvable ↥D.T := by
-  haveI : Group.IsNilpotent ↥D.T := IsPGroup.isNilpotent hT2
+    (hT2 : IsPGroup 2 D.T) : Group.IsSolvable ↥D.T := by
+  have : Group.IsNilpotent ↥D.T := IsPGroup.isNilpotent hT2
   exact IsNilpotent.to_isSolvable
 
 private theorem b_zpow_eq_one_of_mem_N (D : Fs81CentData X)
@@ -828,8 +828,8 @@ private theorem fpf [Finite X] (D : Fs81CentData X)
   exact htT0
 
 private theorem T0_eq_N [Finite X] (D : Fs81CentData X)
-    (hN2 : IsPGroup 2 D.N) (hT0_2 : IsPGroup 2 D.T0)
-    (hKnormT0 : D.K ≤ Subgroup.normalizer (D.T0 : Set X))
+    (hN2 : IsPGroup 2 D.N) (_hT0_2 : IsPGroup 2 D.T0)
+    (_hKnormT0 : D.K ≤ Subgroup.normalizer (D.T0 : Set X))
     (hPnormT0 : D.P ≤ Subgroup.normalizer (D.T0 : Set X))
     (hPnormT : D.P ≤ Subgroup.normalizer (D.T : Set X))
     (hfpf : ∀ t ∈ D.T, D.b₁ * t * D.b₁⁻¹ * t⁻¹ ∈ D.T0 → t ∈ D.T0) :
@@ -917,7 +917,7 @@ private theorem centralizer_b1_le (D : Fs81CentData X)
 private theorem M_le_QSK [Finite X] (D : Fs81CentData X) (h₂ : FS81SixLift)
     (hN2 : IsPGroup 2 D.N) (hCnormN : D.C ≤ Subgroup.normalizer D.N)
     (hPnormM : D.P ≤ Subgroup.normalizer D.M)
-    (hKnormT0 : D.K ≤ Subgroup.normalizer (D.T0 : Set X))
+    (_hKnormT0 : D.K ≤ Subgroup.normalizer (D.T0 : Set X))
     (hT0eqN : D.T0 = D.N)
     (hCb : ∀ m ∈ D.M, m * D.b = D.b * m → m ∈ D.N ⊔ Subgroup.zpowers D.b)
     (hCb₁ : ∀ m ∈ D.M, m * D.b₁ = D.b₁ * m →

@@ -20,14 +20,14 @@ theorem indexMap_loop {α : Type} [Inhabited α] (key : α → Nat) (l : Array �
     rw [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil,
       Std.HashMap.getElem?_insert]
     by_cases hk : key l[n]! = k
-    · simp only [hk, beq_self_eq_true, if_true, Option.some.injEq]
+    · simp only [hk, beq_self_eq_true, ite_true, Option.some.injEq]
       constructor
       · rintro rfl
         exact ⟨Nat.lt_succ_self _, hk⟩
       · rintro ⟨hi, hik⟩
         exact (hd i (by omega) n (by omega) (hik.trans hk.symm)).symm
     · have hk' : (key l[n]! == k) = false := by simpa using hk
-      rw [hk', if_neg Bool.false_ne_true, indexMap_loop key l hd n (by omega) k i]
+      rw [hk', ite_eq_right Bool.false_ne_true, indexMap_loop key l hd n (by omega) k i]
       constructor
       · rintro ⟨hi, hik⟩
         exact ⟨by omega, hik⟩
@@ -58,17 +58,17 @@ private theorem ksIdx_findK_mem (pos : KTree (Nat × Nat)) {k i : Nat}
         if k = x.1 then some x.2 else if k < x.1 then findK k l else findK k r := rfl
     rw [hdef] at h
     by_cases hk : k = x.1
-    · rw [if_pos hk] at h
+    · rw [ite_eq_left hk] at h
       simp only [Option.some.injEq] at h
       have hx : x = (k, i) := Prod.ext hk.symm h
       simp [KTree.toList, hx]
-    · rw [if_neg hk] at h
+    · rw [ite_eq_right hk] at h
       by_cases hlt : k < x.1
-      · rw [if_pos hlt] at h
+      · rw [ite_eq_left hlt] at h
         have hl := ihl h
         simp only [KTree.toList, List.mem_append]
         exact Or.inl hl
-      · rw [if_neg hlt] at h
+      · rw [ite_eq_right hlt] at h
         have hr := ihr h
         simp only [KTree.toList, List.mem_append]
         exact Or.inr (List.mem_cons_of_mem _ hr)

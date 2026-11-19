@@ -165,14 +165,14 @@ theorem commutator_eq_bot_of_nilpotent (hV : ∀ v : V, v ^ 2 = 1) {X A R : Subg
       (Q : Subgroup ↥R).Normal := (Group.isNilpotent_of_finite_tfae.out 1 4).mp
   have hPn : (P : Subgroup ↥R).Normal := h14 hRn p ⟨hp⟩ P
   set P' : Subgroup (MulAut V) := (P : Subgroup ↥R).map R.subtype with hP'
-  have hP'p : IsPGroup p ↥P' := P.isPGroup'.map _
+  have hP'p : IsPGroup p ↥P' := P.isPGroup.map _
   have hAP' : A ≤ Subgroup.normalizer (P' : Set (MulAut V)) := by
     refine le_normalizer_of_conj fun a ha x hx => ?_
     obtain ⟨y, hy, rfl⟩ := hx
     have hyR : a * (y : MulAut V) * a⁻¹ ∈ R :=
       (Subgroup.mem_normalizer_iff.mp (hAR ha) y).mp y.2
     set z : ↥R := ⟨_, hyR⟩ with hz
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨y, hy⟩
     have hk' : y ^ p ^ k = 1 := congrArg Subtype.val hk
     have hzk : z ^ p ^ k = 1 := by
       apply Subtype.ext

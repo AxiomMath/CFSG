@@ -18,7 +18,7 @@ theorem exists_yComponent_dvd_aux_not_dvd_card_iSup {Y : Type} [Group Y] [Finite
     (hp : p.Prime) (S : Set (Subgroup Y)) (hS : ∀ K ∈ S, ¬ p ∣ Nat.card K)
     (hc : ∀ K ∈ S, ∀ K' ∈ S, K ≠ K' → ∀ x ∈ K, ∀ y ∈ K', Commute x y) :
     ¬ p ∣ Nat.card (⨆ K ∈ S, K : Subgroup Y) := by
-  haveI : Fintype ↥S := Fintype.ofFinite _
+  have : Fintype ↥S := Fintype.ofFinite _
   let H : ↥S → Subgroup Y := fun i => i.1
   have hcomm : Pairwise fun i j : ↥S => ∀ x y : Y, x ∈ H i → y ∈ H j → Commute x y := by
     intro i j hij x y hx hy
@@ -30,7 +30,7 @@ theorem exists_yComponent_dvd_aux_not_dvd_card_iSup {Y : Type} [Group Y] [Finite
   rw [← hrange] at hdvd
   have h1 := hdvd.trans (Subgroup.card_range_dvd _)
   rw [Nat.card_pi] at h1
-  rw [(Nat.prime_iff.mp hp).dvd_finset_prod_iff] at h1
+  rw [(Nat.prime_iff.mp hp).dvd_finsetProd_iff] at h1
   obtain ⟨i, -, hi⟩ := h1
   exact hS i.1 i.2 hi
 
@@ -141,10 +141,10 @@ theorem exists_yComponent_dvd_aux_isCyclic {X : Type} [Group X] [Finite X] {p : 
     (hp2 : p ≠ 2) {P : Subgroup X} (hP : IsPGroup p P) (h : CFSG.Open.pRank p P ≤ 1) :
     IsCyclic P := by
   by_contra hnc
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hp2 hnc
-  haveI := hSel
+  have := hSel
   have hSm : CFSG.IsElementaryAbelian p (S.map P.subtype) :=
     CFSG.IsElementaryAbelian.map_subtype
   have hcard : Nat.card (S.map P.subtype) = p ^ 2 := by
@@ -161,18 +161,18 @@ open scoped Pointwise
 variable {X : Type} [Group X] [Finite X]
 
 theorem exists_yComponent_dvd {p : ℕ} (hW : KWiel) (hH : KHupAt p) {T T₁ T₂ : Subgroup X}
-    (hX : GNSetting X T) (hg : GNGood T T₁ T₂) (hp : p.Prime) (hp2 : p ≠ 2)
+    (_hX : GNSetting X T) (hg : GNGood T T₁ T₂) (hp : p.Prime) (hp2 : p ≠ 2)
     (hrank : 3 ≤ CFSG.Open.pRank p (⊤ : Subgroup X))
     (h₁ : CFSG.Open.pRank p (Subgroup.normalizer (T₁ : Set X)) ≤ 1)
     (h₂ : CFSG.Open.pRank p (Subgroup.normalizer (T₂ : Set X)) ≤ 1) :
     ∃ Ls : Subgroup (X ⧸ gnC T), GNYComponent T T₁ T₂ Ls ∧ p ∣ Nat.card Ls := by
   by_contra hcon
   push Not at hcon
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨J, hJn, hJc, hJle⟩ := exists_yComponent_dvd_aux_normal_sup (Y := X ⧸ gnC T) hp
   have hYJ : Ystar T T₁ T₂ ≤ J := iSup₂_le fun L hL => hJle L hL.1 (hcon L hL)
   set N : Subgroup X := J.comap (toStar T) with hN
-  haveI : N.Normal := hJn.comap _
+  have : N.Normal := hJn.comap _
   have hY0N : Y0 T T₁ T₂ ≤ N := Subgroup.comap_mono hYJ
   have hCN : gnC T ≤ N := by
     intro x hx
@@ -211,7 +211,7 @@ theorem exists_yComponent_dvd {p : ℕ} (hW : KWiel) (hH : KHupAt p) {T T₁ T�
   have hc₂ := exists_yComponent_dvd_aux_isCyclic hp hp2 hP₂.isPGroup hr₂
   have hWp : IsPGroup p (P₁ ⊔ P₂ : Subgroup X) := by
     rw [← hQ]
-    exact Q.isPGroup'
+    exact Q.isPGroup
   have hprod : ∀ w ∈ (P₁ ⊔ P₂ : Subgroup X), ∃ a ∈ P₁, ∃ b ∈ P₂, w = a * b := by
     intro w hw
     have hw' : w ∈ (P₁ : Set X) * (P₂ : Set X) := hset ▸ hw

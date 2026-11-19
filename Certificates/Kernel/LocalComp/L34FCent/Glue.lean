@@ -121,7 +121,6 @@ theorem fcent_true :
   · unfold centScanOK
     rw [size_pts 42 6 241920, CFSG.KS.BfsReplay.allBelow_iff]
     intro k hk
-    beta_reduce
     rw [pts_get' hk]
     exact cen4_sound (pinR.canon k hk) (fcAll k hk)
   · have h := kconj

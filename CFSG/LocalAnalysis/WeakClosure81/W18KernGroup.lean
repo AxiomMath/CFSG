@@ -21,14 +21,15 @@ structure PerfSocleMod (Kk F : Subgroup Y) : Prop where
   not_le : ¬ F ≤ Kk
   centralizer_le : ∀ y : Y, (∀ f ∈ F, ⁅y, f⁆ ∈ Kk) → y ∈ Kk
 
+omit [Finite Y] in
 theorem SimpleSocleMod.toPerf {Kk F : Subgroup Y} (h : SimpleSocleMod Kk F) :
     PerfSocleMod Kk F where
   normal_left := h.normal_left
   normal_right := h.normal_right
   le := h.le
   perfect := by
-    haveI := h.normal_left
-    haveI := h.normal_right
+    have := h.normal_left
+    have := h.normal_right
     have hFFle : ⁅F, F⁆ ≤ F := by
       refine Subgroup.commutator_le.mpr fun a ha b hb => ?_
       rw [commutatorElement_def]
@@ -86,6 +87,7 @@ private theorem kern_eq_of_perfect_of_pow_mem {X N : Subgroup Y} (hX : ⁅X, X�
   rw [QuotientGroup.eq] at h1
   simpa [Subgroup.mem_subgroupOf] using h1
 
+omit [Finite Y] in
 private theorem kern_mem_centralizer_of_commutator_mem_center {P : Subgroup Y} (hP : ⁅P, P⁆ = P)
     {h : Y} (hN : h ∈ normalizer (P : Set Y))
     (hc : ∀ p ∈ P, ∀ q ∈ P, h * p * h⁻¹ * p⁻¹ * q = q * (h * p * h⁻¹ * p⁻¹)) :
@@ -127,8 +129,8 @@ private theorem kern_mem_centralizer_of_commutator_mem_center {P : Subgroup Y} (
   exact mem_centralizer_iff.mpr fun x hx => mem_centralizer_singleton_iff.mp (key hx)
 
 theorem perfect_core (h : KernSetting Kk F P) : ⁅P, P⁆ = P ∧ P ⊔ Kk = F := by
-  haveI := h.socle.normal_left
-  haveI := h.socle.normal_right
+  have := h.socle.normal_left
+  have := h.socle.normal_right
   have hFF : F ≤ ⁅F, F⁆ ⊔ Kk := h.socle.perfect
   obtain ⟨P', hP'norm, hP'perf, hP'le, hP'sup, _⟩ :=
     CFSG.LocalAnalysis.EvenBN.Common.exists_perfect_normal_sup_eq
@@ -155,7 +157,7 @@ theorem perfect_core (h : KernSetting Kk F P) : ⁅P, P⁆ = P ∧ P ⊔ Kk = F 
 theorem exists_odd_normal (h : KernSetting Kk F P) :
     ∃ Fo : Subgroup Y, Fo.Normal ∧ Fo ≤ Kk ∧ Odd (Nat.card ↥Fo) ∧
       ∀ y ∈ Kk, (∀ f ∈ Fo, y * f = f * y) → y ∈ Fo := by
-  haveI := h.socle.normal_left
+  have := h.socle.normal_left
   let Fo : Subgroup Y := (fittingSubgroup ↥Kk).map Kk.subtype
   have hFoNorm : Fo.Normal := inferInstance
   have hFoK : Fo ≤ Kk := Subgroup.map_subtype_le _
@@ -166,15 +168,15 @@ theorem exists_odd_normal (h : KernSetting Kk F P) :
     by_contra hnot
     have h2dvd : 2 ∣ Nat.card ↥Fo := even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hnot)
     let S : Sylow 2 ↥Fo := default
-    haveI : Group.IsNilpotent ↥Fo := hFoNil
+    have : Group.IsNilpotent ↥Fo := hFoNil
     have hSnorm : (S : Subgroup ↥Fo).Normal := inferInstance
     have hSne : (S : Subgroup ↥Fo) ≠ ⊥ := Sylow.ne_bot_of_dvd_card S h2dvd
     have hSchar : (S : Subgroup ↥Fo).Characteristic := Sylow.characteristic_of_normal S hSnorm
-    haveI : (S : Subgroup ↥Fo).Characteristic := hSchar
-    haveI : Fo.Normal := hFoNorm
+    have : (S : Subgroup ↥Fo).Characteristic := hSchar
+    have : Fo.Normal := hFoNorm
     have hNnorm : ((S : Subgroup ↥Fo).map Fo.subtype).Normal := inferInstance
     have hNp : IsPGroup 2 ↥((S : Subgroup ↥Fo).map Fo.subtype) :=
-      S.isPGroup'.map Fo.subtype
+      S.isPGroup.map Fo.subtype
     have hbot := h.o2_eq_bot _ hNnorm hNp
     apply hSne
     rw [eq_bot_iff]
@@ -208,9 +210,10 @@ theorem le_of_odd (h : KernSetting Kk F P) {X : Subgroup Y} (hX : Odd (Nat.card 
     exact Subgroup.mem_zpowers x
   exact Subgroup.zpowers_le.mpr hk hxmem
 
+omit [Finite Y] in
 theorem le_centralizer_of_odd (h : KernSetting Kk F P) {A Fo : Subgroup Y} (hA2 : IsPGroup 2 ↥A)
     (hA4 : 4 ≤ Nat.card ↥A) (hA : (A ⊓ centralizer (Fo : Set Y)).relIndex A ≤ 2)
-    (hFo : Fo.Normal) (hFoK : Fo ≤ Kk) (hodd : Odd (Nat.card ↥Fo))
+    (hFo : Fo.Normal) (_hFoK : Fo ≤ Kk) (hodd : Odd (Nat.card ↥Fo))
     (hself : ∀ y ∈ Kk, (∀ f ∈ Fo, y * f = f * y) → y ∈ Fo) :
     P ≤ centralizer (Fo : Set Y) := by
   let A₀ : Subgroup Y := A ⊓ centralizer (Fo : Set Y)
@@ -235,7 +238,7 @@ theorem le_centralizer_of_odd (h : KernSetting Kk F P) {A Fo : Subgroup Y} (hA2 
     have hyFo : y ∈ Fo := hself y hyK fun f hf => (mem_centralizer_iff.mp hyC f hf).symm
     have horder_dvd : orderOf y ∣ Nat.card ↥Fo := Subgroup.orderOf_dvd_natCard Fo hyFo
     have hyodd : Odd (orderOf y) := hodd.of_dvd_nat horder_dvd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := hA2.exists_orderOf_eq_pow ⟨y, hyA⟩
     have hk' : orderOf y = 2 ^ k := (Subgroup.orderOf_coe (⟨y, hyA⟩ : ↥A)).trans hk
     have hk0 : k = 0 := by
@@ -256,11 +259,12 @@ theorem le_centralizer_of_odd (h : KernSetting Kk F P) {A Fo : Subgroup Y} (hA2 
     hA0notK (Subgroup.subset_normalClosure.trans hle)
   have hPN : P ≤ N := h.le_of_not_le N hNnorm hNnotK
   have hNC : N ≤ centralizer (Fo : Set Y) := by
-    haveI : Fo.Normal := hFo
-    haveI : (centralizer (Fo : Set Y)).Normal := inferInstance
+    have : Fo.Normal := hFo
+    have : (centralizer (Fo : Set Y)).Normal := inferInstance
     exact Subgroup.normalClosure_le_normal fun x hx => (Subgroup.mem_inf.mp (hA0 ▸ hx)).2
   exact hPN.trans hNC
 
+omit [Finite Y] in
 theorem le_centralizer_of_inf_le (h : KernSetting Kk F P) {Fo : Subgroup Y} (hP : ⁅P, P⁆ = P)
     (hKP : Kk ⊓ P ≤ Fo) (hFo : Fo ≤ centralizer (P : Set Y)) :
     Kk ≤ centralizer (P : Set Y) := by
@@ -278,16 +282,16 @@ theorem le_centralizer_of_inf_le (h : KernSetting Kk F P) {Fo : Subgroup Y} (hP 
     exact ((mem_centralizer_iff.mp (hFo (hKP hcomm_mem))) q hq).symm
 
 theorem centralizer_le (h : KernSetting Kk F P) : centralizer (P : Set Y) ≤ P := by
-  haveI hPnormal : P.Normal := h.normal
+  have hPnormal : P.Normal := h.normal
   set C : Subgroup Y := centralizer (P : Set Y) with hC
   have hCnorm : C.Normal := hC.symm ▸ (inferInstance : (centralizer (P : Set Y)).Normal)
-  haveI : C.Normal := hCnorm
+  have : C.Normal := hCnorm
   set M : Subgroup Y := C ⊓ P with hM
   have hMnorm : M.Normal := hM.symm ▸ (inferInstance : (C ⊓ P).Normal)
-  haveI : M.Normal := hMnorm
+  have : M.Normal := hMnorm
   let N : Subgroup ↥C := M.subgroupOf C
   have hNnorm : N.Normal := hMnorm.subgroupOf C
-  haveI : N.Normal := hNnorm
+  have : N.Normal := hNnorm
   have hpQ : IsPGroup 2 (↥C ⧸ N) := by
     intro q
     induction q using QuotientGroup.induction_on with
@@ -298,8 +302,8 @@ theorem centralizer_le (h : KernSetting Kk F P) : centralizer (P : Set Y) ≤ P 
         Subgroup.coe_pow, Subgroup.mem_inf]
       exact ⟨pow_mem c.2 (2 ^ k), hk⟩
   have hCnil : Group.IsNilpotent ↥C := by
-    haveI : Finite (↥C ⧸ N) := inferInstance
-    haveI : Group.IsNilpotent (↥C ⧸ N) := hpQ.isNilpotent
+    have : Finite (↥C ⧸ N) := inferInstance
+    have : Group.IsNilpotent (↥C ⧸ N) := hpQ.isNilpotent
     refine Subgroup.isNilpotent_of_ker_le_center (QuotientGroup.mk' N) ?_
     rw [QuotientGroup.ker_mk']
     intro n hn
@@ -312,13 +316,13 @@ theorem centralizer_le (h : KernSetting Kk F P) : centralizer (P : Set Y) ≤ P 
     by_contra hnot
     have h2dvd : 2 ∣ Nat.card ↥C := even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hnot)
     let S : Sylow 2 ↥C := default
-    haveI : Group.IsNilpotent ↥C := hCnil
+    have : Group.IsNilpotent ↥C := hCnil
     have hSnorm : (S : Subgroup ↥C).Normal := inferInstance
     have hSne : (S : Subgroup ↥C) ≠ ⊥ := Sylow.ne_bot_of_dvd_card S h2dvd
     have hSchar : (S : Subgroup ↥C).Characteristic := Sylow.characteristic_of_normal S hSnorm
-    haveI : (S : Subgroup ↥C).Characteristic := hSchar
+    have : (S : Subgroup ↥C).Characteristic := hSchar
     have hNnorm' : ((S : Subgroup ↥C).map C.subtype).Normal := inferInstance
-    have hNp : IsPGroup 2 ↥((S : Subgroup ↥C).map C.subtype) := S.isPGroup'.map C.subtype
+    have hNp : IsPGroup 2 ↥((S : Subgroup ↥C).map C.subtype) := S.isPGroup.map C.subtype
     have hbot := h.o2_eq_bot _ hNnorm' hNp
     apply hSne
     rw [eq_bot_iff]
@@ -328,9 +332,10 @@ theorem centralizer_le (h : KernSetting Kk F P) : centralizer (P : Set Y) ≤ P 
     exact Subtype.ext (Subgroup.mem_bot.mp hmem)
   exact h.le_of_odd hCodd
 
+omit [Finite Y] in
 theorem inf_centralizer_le (h : KernSetting Kk F P) (hP : P ⊔ Kk = F) :
     P ⊓ centralizer (P : Set Y) ≤ Kk := by
-  haveI := h.socle.normal_left
+  have := h.socle.normal_left
   intro z hz
   obtain ⟨hzP, hzC⟩ := Subgroup.mem_inf.mp hz
   refine h.socle.centralizer_le z ?_

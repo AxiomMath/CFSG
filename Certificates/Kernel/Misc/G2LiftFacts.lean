@@ -35,12 +35,12 @@ theorem neOne_ofM3 {P : Matrix (Fin 14) (Fin 14) (ZMod 3)} (h : P ≠ 1) : neOne
   apply ZMod.val_injective
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl] at e ⊢
+    rw [ite_eq_left rfl] at e ⊢
     rw [e]
     rfl
   · have hij' : ¬ i.val = j.val := fun x => hij (Fin.ext x)
-    rw [if_neg hij'] at e
-    rw [if_neg hij, e]
+    rw [ite_eq_right hij'] at e
+    rw [ite_eq_right hij, e]
     rfl
 
 theorem liftCheck_true : liftCheck = true := by

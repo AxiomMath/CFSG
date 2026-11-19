@@ -19,7 +19,7 @@ theorem natOrderClass_of_pow_three_dvd {ι : Type} [Fintype ι] [DecidableEq ι]
     (hK : Nat.card K = 2 ^ n) (hR : (FFModel.nat Γ).Realizes H ⊤ ⊥)
     (hd : Nat.card K ^ 3 ∣ Nat.card ↥Γ) : NatOrderClass H n := by
   have hcard : Nat.card ↥H = Nat.card ↥Γ := natRealizes_card_eq hR
-  haveI : Nonempty ↥Γ := ⟨⟨1, Γ.one_mem⟩⟩
+  have : Nonempty ↥Γ := ⟨⟨1, Γ.one_mem⟩⟩
   have hnt : Nontrivial ↥H := by
     have h1 : 1 < Nat.card ↥H := by
       have hK2 : 2 ≤ Nat.card K := by
@@ -30,7 +30,7 @@ theorem natOrderClass_of_pow_three_dvd {ι : Type} [Fintype ι] [DecidableEq ι]
       calc 1 < 2 ^ 3 := by norm_num
         _ ≤ Nat.card K ^ 3 := Nat.pow_le_pow_left hK2 3
         _ ≤ Nat.card ↥Γ := hle
-    haveI : Finite ↥H := Nat.finite_of_card_ne_zero (by omega)
+    have : Finite ↥H := Nat.finite_of_card_ne_zero (by omega)
     exact Finite.one_lt_card_iff_nontrivial.mp h1
   refine ⟨hnt, Or.inr (Or.inr (Or.inr ?_))⟩
   rw [hcard, ← hK]
@@ -40,8 +40,8 @@ theorem natOrderClass_of_binaryNaturalSL_two (h : BinaryNaturalSL H ⊤ ⊥ 2 n)
     NatOrderClass H n := by
   have hkeep := h
   obtain ⟨K, hKfield, hKfin, hKcard, hR⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hcard : Nat.card ↥H = Nat.card ↥(StatedSL 2 K) := natRealizes_card_eq hR
   have hord : Nat.card ↥(StatedSL 2 K) = Nat.card K * (Nat.card K ^ 2 - 1) :=
     CFSG.Open.StatedAPI.card_statedSL_two K
@@ -59,7 +59,7 @@ theorem natOrderClass_of_binaryNaturalSL_two (h : BinaryNaturalSL H ⊤ ⊥ 2 n)
         omega
       calc 1 < 2 * 1 := by norm_num
         _ ≤ Nat.card K * (Nat.card K ^ 2 - 1) := Nat.mul_le_mul hK2 h3
-    haveI : Finite ↥H := Nat.finite_of_card_ne_zero (by omega)
+    have : Finite ↥H := Nat.finite_of_card_ne_zero (by omega)
     exact Finite.one_lt_card_iff_nontrivial.mp h1
   refine ⟨hnt, Or.inl ⟨hkeep, ?_⟩⟩
   rw [hcard, hord, hKcard]
@@ -69,9 +69,9 @@ theorem natOrderClass_of_natOmegaMinus_four (h : NatOmegaMinus H ⊤ ⊥ 4 n) :
   have hkeep := h
   obtain ⟨-, K, hKfield, hKfin, b, c, hKcard, hirr, hR⟩ := h
   rw [show (4 / 2 : ℕ) = 2 from rfl] at hR
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   have hcard : Nat.card ↥H = Nat.card ↥(StatedOmega (StatedQuadMinus 2 K b c)) :=
     natRealizes_card_eq hR
   have hord : Nat.card ↥(StatedOmega (StatedQuadMinus 2 K b c)) =
@@ -95,7 +95,7 @@ theorem natOrderClass_of_natOmegaMinus_four (h : NatOmegaMinus H ⊤ ⊥ 4 n) :
         omega
       calc 1 < 2 * 2 := by norm_num
         _ ≤ (2 ^ n) ^ 2 * ((2 ^ n) ^ 4 - 1) := Nat.mul_le_mul ha hb
-    haveI : Finite ↥H := Nat.finite_of_card_ne_zero (by omega)
+    have : Finite ↥H := Nat.finite_of_card_ne_zero (by omega)
     exact Finite.one_lt_card_iff_nontrivial.mp h1
   refine ⟨hnt, Or.inr (Or.inl ⟨hkeep, ?_⟩)⟩
   rw [hcard, hord, hKcard]
@@ -104,14 +104,14 @@ theorem natOrderClass_of_natOmegaPlus_four (h : NatOmegaPlus H ⊤ ⊥ 4 n) :
     NatOrderClass H n := by
   obtain ⟨-, K, hKfield, hKfin, hKcard, hR⟩ := h
   rw [show (4 / 2 : ℕ) = 2 from rfl] at hR
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   obtain ⟨e⟩ := natRealizes_nonempty_mulEquiv hR
   have hcard : Nat.card ↥H = Nat.card ↥(StatedOmega (StatedQuadPlus 2 K)) :=
     natRealizes_card_eq hR
   refine ⟨?_, Or.inr (Or.inr (Or.inl ⟨?_, ?_⟩))⟩
-  · haveI : Nontrivial ↥(StatedOmega (StatedQuadPlus 2 K)) :=
+  · have : Nontrivial ↥(StatedOmega (StatedQuadPlus 2 K)) :=
       nontrivial_statedOmega_quadPlus_two
     exact e.injective.nontrivial
   · rw [hcard, ← hKcard]

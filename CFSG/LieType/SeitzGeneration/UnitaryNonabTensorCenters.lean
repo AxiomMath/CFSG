@@ -17,33 +17,37 @@ variable {K : Type} [Field K] {σ : K ≃+* K} {n m : ℕ} {p : ℕ} [NeZero p]
 theorem herm_pair_two {N : ℕ} {i j : Fin N} (hij : i ≠ j) (x y x' y' : K) :
     herm σ (Pi.single i x + Pi.single j y : Fin N → K) (Pi.single i x' + Pi.single j y') =
       σ x * x' + σ y * y' := by
-  simp only [herm_add_left, herm_add_right, herm_single_left, herm_single_right, Pi.add_apply,
+  simp only [herm_add_right, herm_single_right, Pi.add_apply,
     Pi.single_eq_same, Pi.single_eq_of_ne hij, Pi.single_eq_of_ne hij.symm]
   ring
 
+omit [NeZero p] in
 theorem castAdd_ne_natAdd_fin (k l : Fin p) :
     (Fin.castAdd p k : Fin (p + p)) ≠ Fin.natAdd p l := by
   intro h
   have h' := congrArg Fin.val h
-  simp only [Fin.coe_castAdd, Fin.coe_natAdd] at h'
+  simp only [Fin.val_castAdd, Fin.val_natAdd] at h'
   have := k.isLt
   omega
 
+omit [NeZero p] in
 theorem natAdd_ne_castAdd_fin (k l : Fin p) :
     (Fin.natAdd p k : Fin (p + p)) ≠ Fin.castAdd p l :=
   fun h => castAdd_ne_natAdd_fin l k h.symm
 
+omit [NeZero p] in
 theorem castAdd_ne_of_le (k : Fin p) (i : Fin (p + p)) (hi : p ≤ (i : ℕ)) :
     (Fin.castAdd p k : Fin (p + p)) ≠ i := by
   intro h
   have h' := congrArg Fin.val h
-  simp only [Fin.coe_castAdd] at h'
+  simp only [Fin.val_castAdd] at h'
   have := k.isLt
   omega
 
+omit [NeZero p] in
 theorem natAdd_eq_natAdd_fin (k l : Fin p) :
     (Fin.natAdd p k : Fin (p + p)) = Fin.natAdd p l ↔ k = l :=
-  ⟨fun h => Fin.ext (by have h' := congrArg Fin.val h; simp only [Fin.coe_natAdd] at h'; omega),
+  ⟨fun h => Fin.ext (by have h' := congrArg Fin.val h; simp only [Fin.val_natAdd] at h'; omega),
     fun h => by rw [h]⟩
 
 namespace HeisFrameP
@@ -120,22 +124,22 @@ theorem blk_on {a b : Fin m} (hab : a ≠ b) (i j : Fin (p + p)) :
     induction j using Fin.addCases with
     | left l => simp [F.blk_castAdd, F.on]
     | right l =>
-      rw [F.blk_castAdd, F.blk_natAdd, F.on, if_neg (castAdd_ne_natAdd_fin k l),
-        if_neg (show ¬(k = l ∧ a = b) from fun h => hab h.2)]
+      rw [F.blk_castAdd, F.blk_natAdd, F.on, ite_eq_right (castAdd_ne_natAdd_fin k l),
+        ite_eq_right (show ¬(k = l ∧ a = b) from fun h => hab h.2)]
   | right k =>
     induction j using Fin.addCases with
     | left l =>
-      rw [F.blk_natAdd, F.blk_castAdd, F.on, if_neg (natAdd_ne_castAdd_fin k l),
-        if_neg (show ¬(k = l ∧ b = a) from fun h => hab h.2.symm)]
+      rw [F.blk_natAdd, F.blk_castAdd, F.on, ite_eq_right (natAdd_ne_castAdd_fin k l),
+        ite_eq_right (show ¬(k = l ∧ b = a) from fun h => hab h.2.symm)]
     | right l =>
       rw [F.blk_natAdd, F.blk_natAdd, F.on]
-      simp only [natAdd_eq_natAdd_fin, eq_self_iff_true, and_true]
+      simp only [natAdd_eq_natAdd_fin, and_true]
 
 theorem herm_f_blk_of_ne {a b s : Fin m} (hsa : s ≠ a) (hsb : s ≠ b) (l : Fin p)
     (i : Fin (p + p)) : herm σ (F.f l s) (F.blk a b i) = 0 := by
   induction i using Fin.addCases with
   | left k => simp [F.blk_castAdd, F.on, hsa]
-  | right k => rw [F.blk_natAdd, F.on, if_neg (show ¬(l = k ∧ s = b) from fun h => hsb h.2)]
+  | right k => rw [F.blk_natAdd, F.on, ite_eq_right (show ¬(l = k ∧ s = b) from fun h => hsb h.2)]
 
 theorem eq_zero_of_herm_f (hσ : ∀ c, σ (σ c) = c) {w : Fin n → K}
     (h : ∀ l s, herm σ (F.f l s) w = 0) : w = 0 := by
@@ -188,7 +192,7 @@ theorem orthoEmb_blk_eq {a b : Fin m} {μ μ' : K} {u u' : Fin m → K}
   match_scalars <;> field_simp <;> ring
 
 theorem isCenter_pair_of_dec (hσ : IsUnitaryInvolution σ) (hp : p.Prime)
-    (hζ : IsPrimitiveRoot ζ p) (hζσ : σ ζ = ζ⁻¹) (hαN : σ α * α = 1)
+    (hζ : IsPrimitiveRoot ζ p) (hζσ : σ ζ = ζ⁻¹) (_hαN : σ α * α = 1)
     (hdec : ∀ S : Matrix (Fin p) (Fin p) K, (∀ a b, σ (S b a) = S a b) →
       ∃ Q : Fin (p + 1) → Matrix (Fin p) (Fin p) K, (∀ i a b, σ (Q i b a) = Q i a b) ∧
         Q 0 * Zm ζ = Zm ζ * Q 0 ∧ (∀ j : Fin p, Q j.succ * Gj ζ α j = Gj ζ α j * Q j.succ) ∧
@@ -230,7 +234,7 @@ theorem isCenter_pair_of_dec (hσ : IsUnitaryInvolution σ) (hp : p.Prime)
     simp [hμ']
   have hiuu' : herm σ u u' ≠ 0 := by
     rw [hu, hu', hsm, hsm, herm_pair_two hab]
-    simp only [map_one, one_mul, mul_one]
+    simp only [map_one, mul_one]
     intro h
     have h1 : σ μ * μ' = σ μ * μ := by linear_combination h - hμ
     have h2 : μ' = μ := mul_left_cancel₀ ((map_ne_zero σ).mpr hμ0) h1
@@ -261,7 +265,7 @@ theorem isCenter_pair_of_dec (hσ : IsUnitaryInvolution σ) (hp : p.Prime)
     have hξ : ξ₂ ≠ 0 := fun h => h0 (by rw [h, F.vec_zero_left])
     obtain ⟨j, hj⟩ : ∃ j, ξ₂ j ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hξ (funext hcon)
     refine ⟨F.vec (Pi.single j 1) u, memX' u _, ?_⟩
     rw [F.herm_vec_vec, herm_single_left]

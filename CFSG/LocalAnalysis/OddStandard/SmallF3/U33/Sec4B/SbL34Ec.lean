@@ -11,6 +11,7 @@ namespace CFSG.OddStandard.SmallF3.HarrisU33.L34E
 
 variable {Λ : Type*} [Group Λ] [Finite Λ]
 
+omit [Finite Λ] in
 theorem eq_bot_of_normal_cyclic (R : Subgroup Λ) [R.Normal] [IsCyclic R] (r s : Λ)
     (hr3 : r ^ 3 = 1) (hs : s * r * s⁻¹ = r⁻¹)
     (hfix : ∀ x ∈ R, r * x * r⁻¹ = x → x = 1) : R = ⊥ := by

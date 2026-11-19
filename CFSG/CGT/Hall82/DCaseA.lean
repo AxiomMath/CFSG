@@ -280,7 +280,7 @@ theorem mem_of_conj_le (S : Setting G M L)
     · have hfix0 : (0 : Fin 64) ∈ fixPts B := by
         intro b hb
         exact hF.apply_zero b (hBle hb)
-      haveI : Nonempty ↥(fixPts B) := ⟨⟨0, hfix0⟩⟩
+      have : Nonempty ↥(fixPts B) := ⟨⟨0, hfix0⟩⟩
       have hfixpos : 0 < Nat.card (fixPts B) := Nat.card_pos
       have h1 : Nat.card B ≤ Nat.card B * Nat.card (fixPts B) := by
         calc Nat.card B = Nat.card B * 1 := by rw [mul_one]

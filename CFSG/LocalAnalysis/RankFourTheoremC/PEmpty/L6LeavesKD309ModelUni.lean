@@ -101,16 +101,16 @@ theorem dftGL_mem_unitary {ζ : Kˣ} (h : orderOf ζ = 5) (hN : hU.norm (ζ : K)
     dft_sum (isPrimitiveRoot_coe h) l k]
   by_cases hkl : k = l
   · subst hkl
-    simp only [if_true]
+    simp only [ite_true]
     linear_combination hcN
   · have hlk : ¬ l = k := fun h' => hkl h'.symm
     simp [hkl, hlk]
 
 theorem pkg_uni {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x z : Y} {L : Subgroup Y}
     [L.Normal] [Group.IsPerfect ↥L] (hcfg : LinUniCfg 5 P x z L)
-    (hCp : IsPGroup 5 (centralizer (L : Set Y))) (hmodel : LinUniModelUni 5 x L) :
+    (_hCp : IsPGroup 5 (centralizer (L : Set Y))) (hmodel : LinUniModelUni 5 x L) :
     Nonempty (Pkg Y L x) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨q, K, instF, instFin, e, ŷ, ω, hK, hpq, hŷu, hŷp, hω, hact⟩ := hmodel
   have hq2 : 2 ≤ q := by
     have := Nat.le_of_dvd (by omega) hpq
@@ -185,8 +185,7 @@ theorem pkg_uni {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x z : Y} {L : 
     F := (dftGL (isPrimitiveRoot_coe hζ) h5 lam⁻¹ hc0)⁻¹
     hF := ?_
     hFconj := ?_ }⟩
-  · change thetaP L (e.trans (statedEquiv hU hn1)) x ∉ _
-    rw [hx]
+  · rw [hx]
     exact conjHom_not_mem_inner hU hn3 hq ⟨ŷ, hŷ⟩ hdet
   · exact factorization_card_primeFormUnitary Nat.prime_five (by norm_num) hU hpq
   · rw [card_ker_c_uni hU hn3 hq]

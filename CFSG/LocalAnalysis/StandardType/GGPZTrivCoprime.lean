@@ -88,7 +88,7 @@ theorem ggPZ_coprime_lift {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prim
   obtain ⟨S, hPS⟩ := hPsubp.exists_le_sylow
   obtain ⟨S', hP'S'⟩ := hP'subp.exists_le_sylow
   have hSmap : (S : Subgroup ↥M).map M.subtype = P :=
-    pzt1_maximal_of_normalizer_coprime hPN hcopN (S.isPGroup'.map M.subtype)
+    pzt1_maximal_of_normalizer_coprime hPN hcopN (S.isPGroup.map M.subtype)
       (by rw [← hM]; exact Subgroup.map_subtype_le _)
       (by
         intro r hr

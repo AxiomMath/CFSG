@@ -204,7 +204,7 @@ public theorem commutator_le_piCoreOf_compl_of_centralizes_fitting_of_twoCore_bo
           rw [Nat.card_zpowers]
           exact hord
         refine IsPGroup.of_card (n := 1) ?_
-        simpa [hcard]
+        simp [hcard]
       have hzQ : Subgroup.zpowers a ≤ qCoreOf M 2 :=
         le_qCoreOf_of_isSubnormal_isPGroup M (Subgroup.zpowers a) 2 hzleM hsubM hzp
       have hO2q : qCoreOf M 2 = ⊥ := by

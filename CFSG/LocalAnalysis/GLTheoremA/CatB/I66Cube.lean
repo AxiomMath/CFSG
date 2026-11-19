@@ -30,7 +30,7 @@ theorem i66_card_center_eq_three {K : Type} [Group K] [Finite K]
   have hO' : CFSG.pPrimeCore 3 K = ⊥ := hO
   have hprime : ∀ q : ℕ, q.Prime → q ∣ Nat.card (Subgroup.center K) → q = 3 := by
     intro q hq hqd
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center K) q hqd
     by_contra hq3
     have hxo : orderOf (x : K) = q := by rw [Subgroup.orderOf_coe]; exact hx
@@ -64,7 +64,7 @@ theorem i66_cube_false {K Y : Type} [Group K] [Finite K] [Group Y] {z : K}
     (hz : z ∈ Subgroup.center K) (hzo : orderOf z = 3) (hn : Nat.card (Subgroup.center K) = 3)
     (e : K ⧸ Subgroup.center K ≃* Y) (hY : ∀ t : Y, orderOf t = 3 → IsConj t t⁻¹) (g : K)
     (hg : g ^ 3 = z) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ht3 : (QuotientGroup.mk g : K ⧸ Subgroup.center K) ^ 3 = 1 := by
     rw [← QuotientGroup.mk_pow, hg]
     exact (QuotientGroup.eq_one_iff z).mpr hz

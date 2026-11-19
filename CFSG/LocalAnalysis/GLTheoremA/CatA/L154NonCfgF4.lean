@@ -53,7 +53,7 @@ theorem l154f4_nonCfgModel_of_sp42 {K : Type} [Field K] [Finite K] (hK : Nat.car
 theorem l154f4_ne_bot_of_isQuasisimple {G : Type} [Group G] {R : Subgroup G}
     (hqs : CFSG.IsQuasisimple ↥R) : R ≠ ⊥ := by
   intro h
-  haveI := hqs.2.1.toNontrivial
+  have := hqs.2.1.toNontrivial
   obtain ⟨x, hx⟩ := exists_ne (1 : ↥R ⧸ Subgroup.center ↥R)
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x
   apply hx
@@ -65,8 +65,8 @@ theorem l154f4_subfield_params {L : Type} [Field L] [CharP L 2] (K : Subfield L)
     {m Q : ℕ} (hm : 2 ≤ m) (hK : Nat.card ↥K = Q) (hQ : m = 2 → 3 ≤ Q) :
     CharP ↥K 2 ∧ ∃ f : ℕ, 0 < f ∧ Nat.card ↥K = 2 ^ f ∧ StatedLieAdmissible .PSp m 2 f ∧
       (m = 2 → 4 ≤ Nat.card ↥K) := by
-  haveI : Fintype ↥K := Fintype.ofFinite ↥K
-  haveI hch : CharP ↥K 2 := (K.subtype.charP_iff K.subtype_injective 2).2 inferInstance
+  have : Fintype ↥K := Fintype.ofFinite ↥K
+  have hch : CharP ↥K 2 := (K.subtype.charP_iff K.subtype_injective 2).2 inferInstance
   obtain ⟨f, -, hf⟩ := FiniteField.card ↥K 2
   have hKf : Nat.card ↥K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hf]
   have h4 : m = 2 → 4 ≤ Nat.card ↥K := fun h2 => by
@@ -86,7 +86,7 @@ theorem l154f4_equiv_of_derived_two {K' : Type} [Field K'] [Finite K'] (hcard : 
     (hf2 : ⁅D, D⁆ = D → f.range ≤ R) (hR1 : R ≠ ⊥) :
     Nonempty (↥(commutator ↥(StatedSp 2 K')) ≃* ↥R) := by
   classical
-  haveI : Fintype K' := Fintype.ofFinite _
+  have : Fintype K' := Fintype.ofFinite _
   have hcard' : Fintype.card K' = 2 := by rw [← Nat.card_eq_fintype_card]; exact hcard
   set X' : Subgroup (StatedSp 2 K') := commutator (StatedSp 2 K') with hX'
   have hDmap : D = X'.map ψ := by
@@ -165,7 +165,7 @@ theorem l154f4_exists_spSurj {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p�
   classical
   obtain ⟨σ, hfin, hcard, f, hf1, hker, hf2⟩ := exists_inner_cover S hT i hinner
   obtain ⟨hperf, Ψ, hΨk, hΨr⟩ := hrec _ hfin hcard
-  haveI : Group.IsPerfect (StatedSp m ↥(fixSubfield σ)) := Group.isPerfect_def.2 hperf
+  have : Group.IsPerfect (StatedSp m ↥(fixSubfield σ)) := Group.isPerfect_def.2 hperf
   have hmem : ∀ y, Ψ y ∈ componentRootSpan (fixSubfield σ) (rootCharHom a) i :=
     fun y => hΨr ▸ ⟨y, rfl⟩
   let g₀ := Ψ.codRestrict _ hmem
@@ -207,9 +207,9 @@ theorem l154f4_classModel_of_cover {L : Type} [Field L] [IsAlgClosed L] [CharP L
   classical
   obtain ⟨K, hfin, hcard, g, hg, hker⟩ := l154f4_exists_spSurj S hT i hinner (m := m)
     (fun K hfin hK => by
-      haveI := hfin
+      have := hfin
       obtain ⟨hch, f, hf, hKf, hadm, h4⟩ := l154f4_subfield_params K hm hK hQ
-      haveI := hch
+      have := hch
       refine ⟨Group.isPerfect_def.mp
         (CFSG.LieType.Universal.Symplectic.isQuasisimple_of_admissible m ↥K hadm hKf).1, ?_⟩
       obtain ⟨Ψ, hΨk, hΨr⟩ := hcov ↥K f hf hKf h4
@@ -218,7 +218,7 @@ theorem l154f4_classModel_of_cover {L : Type} [Field L] [IsAlgClosed L] [CharP L
       rw [hr']
       show _ = rootSpan Tag.F4 ↥K (componentRoots (rootCharHom a) i)
       rw [hroots])
-  haveI := hfin
+  have := hfin
   obtain ⟨-, f, -, hKf, hadm, -⟩ := l154f4_subfield_params K hm hcard hQ
   exact l154f4_nonCfgModel_of_spSurj hadm hKf g hg hker
 
@@ -297,7 +297,7 @@ theorem l154f4_classModel_b2_two {L : Type} [Field L] [IsAlgClosed L] {p₀ : �
   classical
   obtain ⟨K', hfin, C, D, hC, hD, hcard, f, hf1, -, hf2⟩ :=
     exists_inner_cover_derived_two S hT i hinner hQ
-  haveI := hfin
+  have := hfin
   obtain ⟨φ, hφ⟩ := l154f4_b2Hom (K := ↥K')
   have hr : ((adjointGroup .F4 ↥K').subtype.comp φ).range = subsystemGroup .F4 ↥K' f4LeviB2 := by
     rw [MonoidHom.range_comp, hφ, map_subtype_sup_b2]

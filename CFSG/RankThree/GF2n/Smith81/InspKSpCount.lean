@@ -15,7 +15,7 @@ private theorem cardWR_card_offPQ {n : ℕ} {p q : Fin n} (hpq : p ≠ q) :
     Nat.card {t : Fin n ⊕ Fin n // OffPQ p q t} = 2 * n - 4 := by
   have hS : ({Sum.inl p, Sum.inr p, Sum.inl q, Sum.inr q} :
       Finset (Fin n ⊕ Fin n)).card = 4 := by
-    simp [Finset.card_insert_of_notMem, hpq, Ne.symm hpq]
+    simp [Finset.card_insert_of_notMem, hpq]
   have hmem : ∀ t : Fin n ⊕ Fin n,
       t ∈ (Finset.univ \ {Sum.inl p, Sum.inr p, Sum.inl q, Sum.inr q} :
         Finset (Fin n ⊕ Fin n)) ↔ OffPQ p q t := by
@@ -41,16 +41,16 @@ private theorem cardWR_mat_mul {K : Type} [Field K] {n : ℕ} {p q : Fin n} (hpq
     by_cases hut : u = t
     · have hup : u ≠ Sum.inl p := fun h => htp (hut.symm.trans h)
       have huq : u ≠ Sum.inl q := fun h => htq (hut.symm.trans h)
-      rw [if_pos hut, if_neg hup, if_neg huq, hz3 t ht u hup huq, hut, Matrix.one_apply_eq]
+      rw [ite_eq_left hut, ite_eq_right hup, ite_eq_right huq, hz3 t ht u hup huq, hut, Matrix.one_apply_eq]
       simp
     · by_cases hup : u = Sum.inl p
       · have huq : u ≠ Sum.inl q := fun h => hpq (Sum.inl_injective (hup.symm.trans h))
-        rw [if_neg hut, if_pos hup, if_neg huq, hup]
+        rw [ite_eq_right hut, ite_eq_left hup, ite_eq_right huq, hup]
         simp
       · by_cases huq : u = Sum.inl q
-        · rw [if_neg hut, if_neg hup, if_pos huq, huq]
+        · rw [ite_eq_right hut, ite_eq_right hup, ite_eq_left huq, huq]
           simp
-        · rw [if_neg hut, if_neg hup, if_neg huq, hz3 t ht u hup huq, Matrix.one_apply_ne hut]
+        · rw [ite_eq_right hut, ite_eq_right hup, ite_eq_right huq, hz3 t ht u hup huq, Matrix.one_apply_ne hut]
           simp
   rw [map_mul, Matrix.mul_apply, Finset.sum_congr rfl fun u _ => hpt u,
     Finset.sum_add_distrib, Finset.sum_add_distrib]

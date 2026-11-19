@@ -3,7 +3,7 @@ module
 public import Mathlib.Data.List.GetD
 public import Mathlib.Algebra.Group.End
 public import Mathlib.Data.Finset.Attr
-public import Mathlib.Data.Nat.SuccPred
+public import Mathlib.Order.SuccPred.Nat
 public import Mathlib.Data.Sym.Sym2.Init
 public import Mathlib.Tactic.NormNum.GCD
 

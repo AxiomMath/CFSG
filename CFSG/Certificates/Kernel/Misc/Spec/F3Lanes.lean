@@ -310,7 +310,7 @@ theorem col_eq {a : ℕ → ℕ} (ha : ∀ t < 144, a t < 256) {k : ℕ} (hk : k
   rw [Finset.sum_eq_single 0]
   · have e2 : (12 * i + 0) % 12 = 0 := by omega
     have e3 : 8 * (12 * i + 0) = 96 * i := by ring
-    rw [e2, e3, if_pos rfl, Nat.add_zero]
+    rw [e2, e3, ite_eq_left rfl, Nat.add_zero]
   · intro j hj hj0
     rw [(div_mod_idx (i := i) (Finset.mem_range.1 hj)).2]
     simp [hj0]
@@ -448,12 +448,12 @@ theorem one3_eq : CFSG.KC.Misc.G24.one3 =
     refine Finset.sum_congr rfl fun i hi => ?_
     rw [Finset.sum_eq_single i]
     · obtain ⟨e1, e2⟩ := div_mod_idx (d := 12) (i := i) (Finset.mem_range.1 hi)
-      rw [e1, e2, if_pos rfl, Nat.one_mul]
+      rw [e1, e2, ite_eq_left rfl, Nat.one_mul]
       congr 1
       ring
     · intro j hj hji
       obtain ⟨e1, e2⟩ := div_mod_idx (d := 12) (i := i) (Finset.mem_range.1 hj)
-      rw [e1, e2, if_neg (Ne.symm hji), Nat.zero_mul]
+      rw [e1, e2, ite_eq_right (Ne.symm hji), Nat.zero_mul]
     · intro h0
       exact absurd hi h0
   have h2 : lanes 144 (fun t => if t / 12 = t % 12 then 1 else 0) =
@@ -673,7 +673,7 @@ theorem word3_eval {Lb Lib : List ℕ} {M N : ℕ → Matrix (Fin 12) (Fin 12) (
       cases bb
       · have : Nat.beq (Nat.mod (encL (⟨i, hi'⟩, false)) 2) 1 = false := by
           unfold encL
-          simp only [Bool.false_eq_true, if_false, Nat.add_zero]
+          simp only [Bool.false_eq_true, ite_false, Nat.add_zero]
           show Nat.beq ((2 * i) % 2) 1 = false
           rw [Nat.mul_mod_right]
           rfl
@@ -683,7 +683,7 @@ theorem word3_eval {Lb Lib : List ℕ} {M N : ℕ → Matrix (Fin 12) (Fin 12) (
         simp
       · have : Nat.beq (Nat.mod (encL (⟨i, hi'⟩, true)) 2) 1 = true := by
           unfold encL
-          simp only [if_true]
+          simp only [ite_true]
           show Nat.beq ((2 * i + 1) % 2) 1 = true
           rw [Nat.mul_add_mod]
           rfl

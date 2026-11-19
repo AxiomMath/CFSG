@@ -12,14 +12,17 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G]
 private def Ycong (Y : Subgroup G) (a b : G) : Prop := a⁻¹ * b ∈ Y
 
+omit [Finite G] in
 private lemma ycong_refl (Y : Subgroup G) (a : G) : Ycong Y a a := by
   show a⁻¹ * a ∈ Y
   rw [inv_mul_cancel]; exact Subgroup.one_mem Y
+omit [Finite G] in
 private lemma ycong_trans {Y : Subgroup G} {a b c : G}
     (h1 : Ycong Y a b) (h2 : Ycong Y b c) : Ycong Y a c := by
   show a⁻¹ * c ∈ Y
   rw [show a⁻¹ * c = (a⁻¹ * b) * (b⁻¹ * c) by group]
   exact Subgroup.mul_mem _ h1 h2
+omit [Finite G] in
 private lemma ycong_swap {Y K : Subgroup G}
     (hYc : ∀ y ∈ Y, ∀ k ∈ K, y * k = k * y)
     (hKc : ∀ a ∈ K, ∀ b ∈ K, a * b * a⁻¹ * b⁻¹ ∈ Y)
@@ -36,6 +39,7 @@ private lemma ycong_swap {Y K : Subgroup G}
       _ = z⁻¹ := by group
   show (a * b)⁻¹ * (b * a) ∈ Y
   rw [heq]; exact Subgroup.inv_mem _ hzi
+omit [Finite G] in
 private lemma ycong_mul {Y K : Subgroup G}
     (hYc : ∀ y ∈ Y, ∀ k ∈ K, y * k = k * y)
     {a a' b b' : G} (ha : Ycong Y a a') (hb : Ycong Y b b') (hb' : b' ∈ K) :
@@ -49,16 +53,19 @@ private lemma ycong_mul {Y K : Subgroup G}
   show (a * b)⁻¹ * (a' * b') ∈ Y
   rw [show (a * b)⁻¹ * (a' * b') = b⁻¹ * (a⁻¹ * a') * b' by group, h2]
   exact Subgroup.mul_mem _ hb hy
+omit [Finite G] in
 private lemma ycong_conj {Y : Subgroup G} {c : G}
     (hcY : ∀ y ∈ Y, c * y * c⁻¹ ∈ Y)
     {a b : G} (h : Ycong Y a b) : Ycong Y (c * a * c⁻¹) (c * b * c⁻¹) := by
   have key : (c * a * c⁻¹)⁻¹ * (c * b * c⁻¹) = c * (a⁻¹ * b) * c⁻¹ := by group
   show (c * a * c⁻¹)⁻¹ * (c * b * c⁻¹) ∈ Y
   rw [key]; exact hcY _ h
+omit [Finite G] in
 private lemma mem_of_ycong_of_mem {Y : Subgroup G} {a b : G}
     (h : Ycong Y a b) (hb : b ∈ Y) : a ∈ Y := by
   rw [show a = b * (a⁻¹ * b)⁻¹ by group]
   exact Subgroup.mul_mem _ hb (Subgroup.inv_mem _ h)
+omit [Finite G] in
 private lemma ycong_rotate3 {Y K : Subgroup G}
     (hYc : ∀ y ∈ Y, ∀ k ∈ K, y * k = k * y)
     (hKc : ∀ a ∈ K, ∀ b ∈ K, a * b * a⁻¹ * b⁻¹ ∈ Y)
@@ -157,11 +164,12 @@ theorem z18_norm_surj {Y : Subgroup G} (hY2 : ∀ y ∈ Y, y * y = 1)
   have hc_range : (⟨c, hcY⟩ : ↥Y) ∈ nm.range := by rw [hrange_eq]; exact hc_mem
   obtain ⟨v, hv⟩ := hc_range
   exact ⟨(v : G), v.2, (congrArg Subtype.val hv).symm⟩
-theorem z18_coh_step {K Y : Subgroup G} {u ρ : G} (hYK : Y ≤ K)
+omit [Finite G] in
+theorem z18_coh_step {K Y : Subgroup G} {u ρ : G} (_hYK : Y ≤ K)
     (hYc : ∀ y ∈ Y, ∀ k ∈ K, y * k = k * y)
     (hK2 : ∀ k ∈ K, k * k ∈ Y) (hKc : ∀ a ∈ K, ∀ b ∈ K, a * b * a⁻¹ * b⁻¹ ∈ Y)
     (hρK : ∀ k ∈ K, ρ * k * ρ⁻¹ ∈ K) (hρY : ∀ y ∈ Y, ρ * y * ρ⁻¹ ∈ Y)
-    (huK : ∀ k ∈ K, u * k * u⁻¹ ∈ K) (huY : ∀ y ∈ Y, u * y * u⁻¹ ∈ Y)
+    (huK : ∀ k ∈ K, u * k * u⁻¹ ∈ K) (_huY : ∀ y ∈ Y, u * y * u⁻¹ ∈ Y)
     (hρ3 : ρ ^ 3 = 1) (hu2 : u * u = 1) (huρ : u * ρ * u⁻¹ = ρ⁻¹)
     (hfix : ∀ k ∈ K, ρ * k * ρ⁻¹ * k⁻¹ ∈ Y → k ∈ Y)
     {k : G} (hk : k ∈ K) (hkinv : (u * k) * (u * k) = 1) :

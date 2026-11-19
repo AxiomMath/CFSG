@@ -15,7 +15,7 @@ variable {H : Type} [Group H] [Finite H]
 theorem ap_E_simple {β : MulAut H} {Z K : Subgroup H} {z₀ : H} (hd : FF79APData β Z K z₀) :
     layer H ≠ ⊥ ∧ IsSimpleGroup ↥(layer H) ∧ K ≤ layer H ∧
       ∀ x : H, x ∈ layer H → β x ∈ layer H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKE := e34_K_le_layer hd
   have hE := e34_layer_ne_bot hd
   have hS := hd.absyl
@@ -27,7 +27,7 @@ theorem ap_E_simple {β : MulAut H} {Z K : Subgroup H} {z₀ : H} (hd : FF79APDa
     intro h
     rw [h, orderOf_one] at hx3
     exact absurd hx3 (by decide)
-  haveI := e34_K_simple hd
+  have := e34_K_simple hd
   obtain ⟨C0, hC0, k0, hk0, w0, hw0, hkw0⟩ :
       ∃ C : Subgroup H, IsComponent C ∧ ∃ k ∈ K, ∃ w ∈ C, k * w ≠ w * k := by
     by_contra hno

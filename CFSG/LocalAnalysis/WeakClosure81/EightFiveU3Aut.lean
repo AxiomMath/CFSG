@@ -33,6 +33,6 @@ theorem card_elemAbelian_two_aut_PSU3
     simpa [pow_two] using hA.2 x hx).1
 
 theorem w3Lem85TwoGap1_holds : W3Lem85TwoGap1 :=
-  w3Lem85TwoGap1_of_PSU3 (fun Y _ _ n hY A hA => card_elemAbelian_two_aut_PSU3 hY A hA)
+  w3Lem85TwoGap1_of_PSU3 (fun _Y _ _ _n hY A hA => card_elemAbelian_two_aut_PSU3 hY A hA)
 
 end CFSG.LocalAnalysis.WeakClosure81

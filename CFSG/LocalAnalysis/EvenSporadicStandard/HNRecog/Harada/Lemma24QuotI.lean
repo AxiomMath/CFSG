@@ -34,7 +34,7 @@ private lemma injOn_mk'_tInvolutions {Y : Type} [Group Y] {a t : Y} {τ : Y → 
     {F P : Subgroup Y} [(zpowers a).Normal] (h : Cfg24 Y a t τ F P) :
     Set.InjOn (QuotientGroup.mk' (zpowers a)) (tInvolutions t τ) := by
   intro s hs s' hs' heq
-  rw [tInvolutions, Set.mem_setOf_eq] at hs hs'
+  rw [tInvolutions, Set.mem_ofPred_eq] at hs hs'
   obtain ⟨hsC, hs2, -, -⟩ := hs
   obtain ⟨-, hs'2, -, -⟩ := hs'
   rw [QuotientGroup.mk'_eq_mk'] at heq
@@ -60,7 +60,7 @@ theorem quot_involutions {Y : Type} [Group Y] [Finite Y] {a t : Y} {τ : Y → P
   · intro c hc
     rw [Set.mem_image] at hc
     obtain ⟨s, hsT, rfl⟩ := hc
-    rw [tInvolutions, Set.mem_setOf_eq] at hsT
+    rw [tInvolutions, Set.mem_ofPred_eq] at hsT
     obtain ⟨hsC, hs2, hsne, hτs⟩ := hsT
     refine ⟨?_, ?_, ?_, ?_⟩
     · rw [Subgroup.mem_centralizer_iff]
@@ -108,7 +108,7 @@ theorem quot_involutions {Y : Type} [Group Y] [Finite Y] {a t : Y} {τ : Y → P
       exact (centralizer ({t} : Set Y)).mul_mem hsC
         (Subgroup.center_le_centralizer ({t} : Set Y) hzC)
     exact ⟨y * t * y⁻¹, by
-      rw [tInvolutions, Set.mem_setOf_eq]
+      rw [tInvolutions, Set.mem_ofPred_eq]
       exact ⟨hs'C, hs'2, hs'ne, hs'τ⟩, hs'c⟩
 
 end CFSG.EvenSporadicStandard.HNRecog.Harada

@@ -21,7 +21,7 @@ variable {K : Type} [Group K] [Finite K] {D : UniversalRootDatum K}
 private theorem le_of_perfect_of_twoQuotient {G : Type*} [Group G] [Finite G] {L N : Subgroup G}
     (hL : ⁅L, L⁆ = L) (hLN : L ≤ Subgroup.normalizer (N : Set G))
     (h2 : ∀ y ∈ L, ∃ k : ℕ, y ^ 2 ^ k ∈ N) : L ≤ N := by
-  haveI : Group.IsPerfect L := Subgroup.isPerfect_iff.mpr hL
+  have : Group.IsPerfect L := Subgroup.isPerfect_iff.mpr hL
   have hMn : ((L ⊓ N).subgroupOf L).Normal := by
     rw [Subgroup.normal_subgroupOf_iff inf_le_left]
     intro h k hh hk
@@ -34,19 +34,20 @@ private theorem le_of_perfect_of_twoQuotient {G : Type*} [Group G] [Finite G] {L
     refine ⟨k, ?_⟩
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
     exact ⟨(y ^ 2 ^ k).2, by simpa using hk⟩
-  haveI : Group.IsPerfect (L ⧸ (L ⊓ N).subgroupOf L) :=
+  have : Group.IsPerfect (L ⧸ (L ⊓ N).subgroupOf L) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
   have hQs : Subsingleton (L ⧸ (L ⊓ N).subgroupOf L) := by
     by_contra hns
-    haveI : Nontrivial (L ⧸ (L ⊓ N).subgroupOf L) := not_subsingleton_iff_nontrivial.mp hns
+    have : Nontrivial (L ⧸ (L ⊓ N).subgroupOf L) := not_subsingleton_iff_nontrivial.mp hns
     exact Group.IsPerfect.not_isNilpotent _ (IsPGroup.isNilpotent hQ2)
   exact (Subgroup.subgroupOf_eq_top.mp (QuotientGroup.subsingleton_iff.mp hQs)).trans inf_le_right
 
 theorem twoResidual_eq_self_of_perfect {G : Type*} [Group G] [Finite G] {X : Subgroup G}
     (h : ⁅X, X⁆ = X) : twoResidual X = X :=
   le_antisymm (twoResidual_le X)
-    (le_iInf₂ fun N hN => le_of_perfect_of_twoQuotient h hN.2.1 hN.2.2)
+    (le_iInf₂ fun _N hN => le_of_perfect_of_twoQuotient h hN.2.1 hN.2.2)
 
+omit [Finite K] in
 theorem edgeLevi_symm {u v : Fin D.rank} (h : EdgeLevi D u v) : EdgeLevi D v u := by
   unfold EdgeLevi at h ⊢
   rw [sup_comm]
@@ -54,7 +55,7 @@ theorem edgeLevi_symm {u v : Fin D.rank} (h : EdgeLevi D u v) : EdgeLevi D v u :
 
 private theorem card_eq_two_or_four_le (F : Type) [Field F] [Finite F] [CharP F 2] :
     Nat.card F = 2 ∨ 4 ≤ Nat.card F := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   rw [Nat.card_eq_fintype_card, hn]
   have hpos := n.pos
@@ -70,7 +71,7 @@ private theorem card_eq_two_or_four_le (F : Type) [Field F] [Finite F] [CharP F 
 theorem edgeLevi_of_sl3 {F : Type} [Field F] [Finite F] [CharP F 2] {u v : Fin D.rank}
     (l : SpecialLinearGroup (Fin 3) F →* K) (hl : Function.Injective l)
     (hr : l.range = rankOne D.rootGroup u ⊔ rankOne D.rootGroup v) : EdgeLevi D u v := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hp : ⁅(⊤ : Subgroup (SpecialLinearGroup (Fin 3) F)), ⊤⁆ = ⊤ := sl3_perfect F
   have hXperf : ⁅rankOne D.rootGroup u ⊔ rankOne D.rootGroup v,
       rankOne D.rootGroup u ⊔ rankOne D.rootGroup v⁆ =
@@ -121,10 +122,11 @@ theorem edgeLevi_of_simplyLacedLevis {F : Type} [Field F] [Finite F] [CharP F 2]
     sup_le (sup_le hX1 hX2) (sup_le hX3 hX4)
   exact edgeLevi_of_sl3 l hl (le_antisymm hle hge)
 
+omit [Finite K] in
 theorem edgeLevi_of_sp4 {F : Type} [Field F] [Finite F] [CharP F 2] {u v : Fin D.rank}
     (l : StatedSp 2 F →* K) (hl : Function.Injective l)
     (hr : l.range = rankOne D.rootGroup u ⊔ rankOne D.rootGroup v) : EdgeLevi D u v := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hres : (twoResidual (⊤ : Subgroup (StatedSp 2 F))).map l =
       twoResidual (rankOne D.rootGroup u ⊔ rankOne D.rootGroup v) := by
     rw [CFSG.AGLEmbeddingD2.Tits.GN516.map_twoResidual, ← MonoidHom.range_eq_map, hr]
@@ -136,7 +138,7 @@ theorem edgeLevi_of_sp4 {F : Type} [Field F] [Finite F] [CharP F 2] {u v : Fin D
         CFSG.QuasithinUnique.Bridge.Alt57Model.spEquivPerm F hK
       have hperfA6 : ⁅alternatingGroup (Fin 6), alternatingGroup (Fin 6)⁆ =
           alternatingGroup (Fin 6) := by
-        haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+        have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
           ⟨isQuasisimpleTwoNonab_alternatingGroup_six.1⟩
         exact Subgroup.commutator_eq_self
       have hnorm : Subgroup.normalizer (alternatingGroup (Fin 6) : Set (Equiv.Perm (Fin 6))) = ⊤ :=

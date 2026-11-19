@@ -20,11 +20,11 @@ theorem hxH : ∀ c < 12, fiX c ∈ fiH := by
   · have hm : (PresentedGroup.of (fiHGen c) : fiPC) ∈ fiH := by
       apply Subgroup.subset_closure
       rcases hgen_lt c h6 with e | e | e <;> rw [e] <;> simp
-    rw [fiX, if_pos h6]
+    rw [fiX, ite_eq_left h6]
     split_ifs
     · exact hm
     · exact fiH.inv_mem hm
-  · rw [fiX, if_neg h6]
+  · rw [fiX, ite_eq_right h6]
     exact fiH.one_mem
 
 theorem inv_eq : ∀ c < 12, ivL INVM c = if c < 6 then (if c % 2 = 0 then c + 1 else c - 1) else c := by
@@ -38,16 +38,16 @@ theorem hinv : ∀ c < 12, ivL INVM c < 12 ∧ fiX (ivL INVM c) = (fiX c)⁻¹ :
   refine ⟨by rw [inv_eq c hc]; split_ifs <;> omega, ?_⟩
   rw [inv_eq c hc]
   by_cases h6 : c < 6
-  · rw [if_pos h6]
+  · rw [ite_eq_left h6]
     by_cases h : c % 2 = 0
-    · rw [if_pos h]
-      simp only [fiX, if_pos h6, if_pos (show c + 1 < 6 by omega), if_pos h,
-        if_neg (show ¬ (c + 1) % 2 = 0 by omega), fiHGen_congr (show (c + 1) / 2 = c / 2 by omega)]
-    · rw [if_neg h]
-      simp only [fiX, if_pos h6, if_pos (show c - 1 < 6 by omega), if_neg h,
-        if_pos (show (c - 1) % 2 = 0 by omega), inv_inv,
+    · rw [ite_eq_left h]
+      simp only [fiX, ite_eq_left h6, ite_eq_left (show c + 1 < 6 by omega), ite_eq_left h,
+        ite_eq_right (show ¬ (c + 1) % 2 = 0 by omega), fiHGen_congr (show (c + 1) / 2 = c / 2 by omega)]
+    · rw [ite_eq_right h]
+      simp only [fiX, ite_eq_left h6, ite_eq_left (show c - 1 < 6 by omega), ite_eq_right h,
+        ite_eq_left (show (c - 1) % 2 = 0 by omega), inv_inv,
         fiHGen_congr (show (c - 1) / 2 = c / 2 by omega)]
-  · rw [if_neg h6]
+  · rw [ite_eq_right h6]
     simp [fiX, h6]
 
 theorem nt_eq : NT = 0 := by decide +kernel

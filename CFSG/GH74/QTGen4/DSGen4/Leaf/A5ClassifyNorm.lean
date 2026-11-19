@@ -70,7 +70,7 @@ theorem t0sub_card : Nat.card hN.t0sub = 8 := by
     card_finsetSubgroup]
   exact hN.t0_card
 
-theorem t0sub_le : hN.t0sub ≤ hN.nsub := fun g hg => hN.t0_sub hg
+theorem t0sub_le : hN.t0sub ≤ hN.nsub := fun _g hg => hN.t0_sub hg
 
 theorem mem_nsub_of_normalizes (g : GL (Fin 4) (ZMod 2))
     (h : ∀ m ∈ H, ∃ m' ∈ H, glMat g * m = m' * glMat g) : g ∈ hN.nsub :=
@@ -113,7 +113,7 @@ theorem sylow_no_three {N : Type*} [Group N] [Finite N] {k : ℕ} (hk : ¬ 2 ∣
     (h1 : Nat.card T = 8)
     (hfree : ∀ d : N, d ≠ 1 → d ^ 3 = 1 → d ∉ Subgroup.normalizer (T0 : Set N)) {d : N}
     (hd1 : d ≠ 1) (hd3 : d ^ 3 = 1) (hd : d ∈ Subgroup.normalizer (T : Set N)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp0 : IsPGroup 2 T0 := IsPGroup.of_card (n := 3) (by rw [h0]; norm_num)
   have hp1 : IsPGroup 2 T := IsPGroup.of_card (n := 3) (by rw [h1]; norm_num)
   have hi0 : ¬ 2 ∣ T0.index := by
@@ -145,6 +145,7 @@ section Core
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem relIndex_eq_card_range {P Q : Subgroup G} (M : ↥P →* GL (Fin 4) (ZMod 2))
     (hker : ∀ p : ↥P, M p = 1 ↔ (p : G) ∈ Q) : Q.relIndex P = Nat.card M.range := by
   have hk : M.ker = Q.subgroupOf P := by
@@ -153,6 +154,7 @@ theorem relIndex_eq_card_range {P Q : Subgroup G} (M : ↥P →* GL (Fin 4) (ZMo
   rw [← Subgroup.index_ker, hk]
   rfl
 
+omit [Finite G] in
 theorem not_mem_of_pgroup_of_orderOf_three {Q : Subgroup G} (hQ : IsPGroup 2 Q) {x : G}
     (hx3 : orderOf x = 3) : x ∉ Q := by
   intro hx
@@ -163,6 +165,7 @@ theorem not_mem_of_pgroup_of_orderOf_three {Q : Subgroup G} (hQ : IsPGroup 2 Q) 
   · have : 2 ∣ 2 ^ (k + 1) := dvd_pow_self 2 (Nat.succ_ne_zero k)
     omega
 
+omit [Finite G] in
 theorem card_map_eq_relIndex {P Q S : Subgroup G} (hSP : S ≤ P) (M : ↥P →* GL (Fin 4) (ZMod 2))
     (hker : ∀ p : ↥P, M p = 1 ↔ (p : G) ∈ Q) :
     Nat.card ((S.subgroupOf P).map M) = Q.relIndex S := by
@@ -174,6 +177,7 @@ theorem card_map_eq_relIndex {P Q S : Subgroup G} (hSP : S ≤ P) (M : ↥P →*
   rw [hkq, Subgroup.relIndex_subgroupOf hSP] at hk
   exact hk.symm
 
+omit [Finite G] in
 theorem map_conj_mem_iff {P S : Subgroup G} (M : ↥P →* GL (Fin 4) (ZMod 2)) {d : G} (hdP : d ∈ P)
     (hdS : d ∈ Subgroup.normalizer (S : Set G)) (g : GL (Fin 4) (ZMod 2)) :
     g ∈ (S.subgroupOf P).map M ↔
@@ -247,6 +251,7 @@ theorem eq_four_of_dvd_eight {r : ℕ} (h8 : r ∣ 8) (h4 : 4 ∣ r) (hne : r �
   have ha_le : a ≤ 2 := Nat.le_of_dvd (by norm_num) ha'
   interval_cases a <;> omega
 
+omit [Finite G] in
 theorem m2_not_eight {P Q S : Subgroup G} {H NH T0 : Finset Mat4} (hN : NormFacts H NH T0)
     (hQ2 : IsPGroup 2 Q) (hSP : S ≤ P)
     (M : ↥P →* GL (Fin 4) (ZMod 2)) (hker : ∀ p : ↥P, M p = 1 ↔ (p : G) ∈ Q)
@@ -303,11 +308,12 @@ theorem m2_core {P Q S : Subgroup G} {H NH T0 : Finset Mat4} (hN : NormFacts H N
   exact m2_not_eight hN hQ2 hS.1 M hker (fun p => hN.mem_nsub_of_normalizes _ (hnorm p)) h8 hdP
     hdS hd3
 
+omit [Finite G] in
 theorem m2_odd {P L Q : Subgroup G} {H : Finset Mat4} (hC : NoInvCent H)
     (M : ↥P →* GL (Fin 4) (ZMod 2)) (hker : ∀ p : ↥P, M p = 1 ↔ (p : G) ∈ Q)
     (hsurj : ∀ m ∈ H, ∃ l : ↥P, (l : G) ∈ L ∧ glMat (M l) = m) :
     Odd (Q.relIndex (dsCentMod P L Q)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCP : dsCentMod P L Q ≤ P := fun c hc => hc.1
   let g : ↥(dsCentMod P L Q) →* GL (Fin 4) (ZMod 2) := M.comp (Subgroup.inclusion hCP)
   have hgker : g.ker = Q.subgroupOf (dsCentMod P L Q) := by

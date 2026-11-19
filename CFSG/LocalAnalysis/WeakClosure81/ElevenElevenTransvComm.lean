@@ -18,7 +18,7 @@ theorem eleven11_mul_self_mem_oTwoIn {M V Q U L X : Subgroup G}
     (hd : Eleven11Data M V Q U L X) (h8 : Nat.card V = 8) {t : G} (ht : t ∈ L ⊓ Q) :
     t * t ∈ oTwoIn L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨α, -, p, -, hαk, -, -, -, hαS, -⟩ := eleven11_exists_model hd h8
   have htL : t ∈ L := (Subgroup.mem_inf.1 ht).1
   have htα : α ⟨t, htL⟩ ∈ CFSG.QuasithinUnique.Setup.Campbell.rootGrp p := by
@@ -45,6 +45,7 @@ private noncomputable def commMapAux (W : Subgroup G) (t : G)
       _ = (t * (a : G) * t⁻¹) * ((a : G)⁻¹ * (t * (b : G) * t⁻¹ * (b : G)⁻¹)) := by rw [hc]
       _ = (t * (a : G) * t⁻¹ * (a : G)⁻¹) * (t * (b : G) * t⁻¹ * (b : G)⁻¹) := by group)
 
+omit [Finite G] in
 private theorem commMapAux_apply (W : Subgroup G) (t : G)
     (hab : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a) (hn : ∀ w ∈ W, t * w * t⁻¹ ∈ W) (w : ↥W) :
     commMapAux W t hab hn w = t * (w : G) * t⁻¹ * (w : G)⁻¹ := rfl

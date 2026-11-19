@@ -138,21 +138,21 @@ theorem tp_smul_single (b : Fin Tag.E6.rank → ZMod 3) (j : Fin Tag.E6.rank) :
   rwa [one_smul, Int.cast_one, mul_one] at h
 
 theorem col_spec {t : List ℕ} {y : WeylGroup Tag.E6} (hrep : e6Certificate.Represents t y)
-    {c : ℕ} {b : Fin Tag.E6.rank → ZMod 3} (hb : InS y (c : ZMod 3) b) {j : ℕ} (hj : j < 7) :
+    {c : ℕ} {b : Fin Tag.E6.rank → ZMod 3} (hb : InS y (c : ZMod 3) b) {j : ℕ} (_hj : j < 7) :
     ∃ v, colL t c j = List.ofFn v ∧ triPairing b v = 0 := by
   have hfix := triPairing_smul_of_mem hb.1
   by_cases h6 : j < 6
   · have h6' : j < Tag.E6.rank := h6
     refine ⟨y • (Pi.single (⟨j, h6'⟩ : Fin Tag.E6.rank) 1 : Fin Tag.E6.rank → ℤ) +
       -(Pi.single (⟨j, h6'⟩ : Fin Tag.E6.rank) 1 : Fin Tag.E6.rank → ℤ), ?_, ?_⟩
-    · rw [colL, if_pos h6, rvL_eq, (eV_eq ⟨j, h6'⟩ : eV j = _), negV_eq, (hrep.2 ⟨j, h6'⟩).2,
+    · rw [colL, ite_eq_left h6, rvL_eq, (eV_eq ⟨j, h6'⟩ : eV j = _), negV_eq, (hrep.2 ⟨j, h6'⟩).2,
         addV_eq]
     · rw [← sub_eq_add_neg]
       change tpHom b (_ - _) = 0
       rw [map_sub]
       exact sub_eq_zero.2 (hfix _)
   · refine ⟨e6Shift y + (-(c : ℤ)) • e6Omega3, ?_, ?_⟩
-    · rw [colL, if_neg h6, shL_eq hrep, om3L_eq, smulV_eq, addV_eq]
+    · rw [colL, ite_eq_right h6, shL_eq hrep, om3L_eq, smulV_eq, addV_eq]
     · change tpHom b _ = 0
       rw [map_add, map_zsmul]
       change triPairing b _ + (-(c : ℤ)) • triPairing b _ = 0

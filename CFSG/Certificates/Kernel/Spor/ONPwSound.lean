@@ -272,7 +272,7 @@ private theorem rInv_aux {P : Nat} {σ : Equiv.Perm (Fin 120)} (hP : ∀ j : Fin
 
 theorem rInv_eq {P : Nat} {σ : Equiv.Perm (Fin 120)} (hP : ∀ j : Fin 120, rt P j = (σ j : Nat))
     (k : Fin 120) : rInv P k = (σ⁻¹ k : Nat) :=
-  (rInv_aux hP k 120 le_rfl).trans (if_pos (σ⁻¹ k).isLt)
+  (rInv_aux hP k 120 le_rfl).trans (ite_eq_left (σ⁻¹ k).isLt)
 
 variable {TT UU : Nat → Nat → Nat} {D : Nat → Nat} {g : Nat → Equiv.Perm (Fin 245520)}
 
@@ -311,9 +311,9 @@ theorem rG_eq (hR : Rp TT UU g 7) (hP : PwItems D) (hBk : Blocks D Mg ρ)
   · exact hBk.disj _ ht' _ (ρ (sI g D j) k).isLt 1 (by omega) 1 (by omega) (e0.symm.trans h1)
 
 theorem rp_blk (hR : Rp TT UU g 7) (hP : PwItems D) (hBk : Blocks D Mg ρ)
-    (hM : ∀ j < 5, sI g D j ∈ Mg) (h : rhoAll TT UU D = true) :
-    Rp (rG D) (rGU D) (fun j => ρ (sI g D j)) 5 :=
-  fun j hj k => ⟨rG_eq hR hP hBk hM h hj k, rInv_eq (fun i => rG_eq hR hP hBk hM h hj i) k⟩
+    (hM : ∀ _j < 5, sI g D _j ∈ Mg) (h : rhoAll TT UU D = true) :
+    Rp (rG D) (rGU D) (fun _j => ρ (sI g D _j)) 5 :=
+  fun _j hj k => ⟨rG_eq hR hP hBk hM h hj k, rInv_eq (fun i => rG_eq hR hP hBk hM h hj i) k⟩
 
 theorem rp_blkL (hR : Rp TT UU g 7) (hP : PwItems D) (hBk : Blocks D Mg ρ)
     (hM : ∀ j < 5, sI g D j ∈ Mg) (h : rhoAll TT UU D = true) :

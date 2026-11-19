@@ -203,7 +203,7 @@ theorem high_rank_pair_prime_subgroup {H : Subgroup G} {z₀ : G}
     mem_normalizer_closure_invertedSet (hWJ g hg)
       (Subgroup.mem_centralizer_singleton_iff.mp (hWt hg))
   have htA : t ∈ Subgroup.normalizer (A : Set G) := flip_mem_normalizer_closure_invertedSet htJ
-  have hAp : IsPGroup p A := (R.isPGroup'.map I.subtype).to_le (hAJ.trans hJP)
+  have hAp : IsPGroup p A := (R.isPGroup.map I.subtype).to_le (hAJ.trans hJP)
   have hArel : (Subgroup.centralizer ({t} : Set G)).relIndex A = p ^ (2 * f) := by
     rw [relIndex_closure_invertedSet hJodd htJ htord]
     exact hJr

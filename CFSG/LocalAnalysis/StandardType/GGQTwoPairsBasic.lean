@@ -14,7 +14,7 @@ theorem ggF1 {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) {Y J : Sub
     (hpJ : p ∣ Nat.card J) (hJY : J ≤ Y) (hb : b ∈ Subgroup.normalizer (J : Set G))
     (h : ⁅J, Subgroup.zpowers b⁆ ≤ LargeEvenPPrimeCoreOf p Y) :
     b ∈ Subgroup.centralizer (J : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpc : LargeEvenPPrimeCoreOf p Y = CFSG.Open.lBalancePrimeCore p Y := by
     rw [CFSG.ComponentClassification.LBalance.primeCore_eq_map]
     rfl

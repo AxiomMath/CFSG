@@ -92,7 +92,7 @@ theorem fixSubgroup_solvable_of_mulEquiv' {S T : Type} [Group S] [Group T] (e : 
     simpa using this
   have h := hT _ hβ hβ1
   rw [fixSubgroup_congr'] at h
-  haveI := h
+  have := h
   exact isSolvable_of_mulEquiv' (Subgroup.equivMapOfInjective (fixSubgroup α) e.toMonoidHom e.injective)
 
 theorem center_eq_bot_of_simple_nonabelian' {K : Type} [Group K] [IsSimpleGroup K]
@@ -130,7 +130,7 @@ theorem fixSolv_of_conj_yM5 (E : Subgroup (MulAut M5))
     Group.IsSolvable ↥(i269Fix E) := by
   classical
   obtain ⟨Kb, hKbC, hsup, -, hsimp, hnc, -, hcat⟩ := m5_u4_layer
-  haveI := hsimp
+  have := hsimp
   have hZM : Subgroup.center M5 = ⊥ := center_M5_eq_bot
   have hy3 : yM5 ^ 3 = 1 := pow_eq_one_of_conj_pow_eq_one hZM (hE.2 _ hy)
   have hK : ∀ k ∈ Kb, k * yM5 = yM5 * k := fun k hk =>
@@ -209,7 +209,7 @@ theorem fixSolv_of_conj_yM5 (E : Subgroup (MulAut M5))
     intro a ha b hb
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hb
     exact (show Commute a yM5 from hAC a ha).zpow_right n
-  haveI hZsolv : Group.IsSolvable ↥(Subgroup.zpowers yM5) := by
+  have hZsolv : Group.IsSolvable ↥(Subgroup.zpowers yM5) := by
     refine Group.isSolvable_of_comm (fun a b => Subtype.ext ?_)
     obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.1 a.2
     obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.1 b.2
@@ -270,8 +270,8 @@ end FixSolv
 theorem E9Solv_M5 : E9Solv M5 := by
   intro E hE hcard
   classical
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hcard]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hcard]; norm_num)
   obtain ⟨α₁, hα₁1⟩ := exists_ne (1 : E)
   have hα₁3 : (α₁.1 : MulAut M5) ^ 3 = 1 := hE.2 α₁.1 α₁.2
   obtain ⟨s₁, hs₁⟩ := exists_conj_of_pow_three α₁.1 hα₁3
@@ -300,7 +300,7 @@ theorem E9Solv_M5 : E9Solv M5 := by
         rwa [inv_inv] at h10
     have hS := fixSolv_of_conj_yM5 _ hE' hcard' hyE'
     rw [i269Fix_map] at hS
-    haveI := hS
+    have := hS
     exact isSolvable_of_mulEquiv' (Subgroup.equivMapOfInjective (i269Fix E) τ.toMonoidHom τ.injective)
   ·
     have hC : Group.IsSolvable ↥(Subgroup.centralizer ({s₁} : Set M5)) :=
@@ -309,7 +309,7 @@ theorem E9Solv_M5 : E9Solv M5 := by
       intro x hx
       rw [← fixSubgroup_conj_eq_centralizer', ← hs₁]
       exact (mem_i269Fix.1 hx) α₁.1 α₁.2
-    haveI := hC
+    have := hC
     exact isSolvable_of_le_isSolvable hle
 
 theorem layer_eq_bot_of_u5 {G : Type} [Group G] [Finite G]

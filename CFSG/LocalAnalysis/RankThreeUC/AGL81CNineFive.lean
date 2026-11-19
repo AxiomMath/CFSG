@@ -46,7 +46,7 @@ theorem mem_sigmaA_of_large (hrank : evenRank G = 3) {p : ℕ} (hp : p.Prime) (h
   have hS2 : ({p | p.Prime ∧ 5 < p ∧ p ∣ Nat.card G ∧ rankThreeLocalRank p G = 3} :
       Set ℕ).Nonempty := ⟨p, hp, h5, hdvd, h3⟩
   dsimp only [rankThreeSigmaA]
-  rw [if_neg hS1, if_pos hS2]
+  rw [ite_eq_right hS1, ite_eq_left hS2]
   exact ⟨hp, h5, hdvd, h3⟩
 
 namespace NineSettingGen

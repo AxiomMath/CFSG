@@ -33,11 +33,11 @@ private theorem spIncl_comp {σ : Fin m → Fin n} {τ : Fin n → Fin l} :
       Sum.map (τ ∘ σ) (τ ∘ σ) b = Sum.map τ τ (Sum.map σ σ b) := fun b => by
     cases b <;> rfl
   ext a b
-  simp only [Matrix.mul_apply, spIncl_apply, h, mul_one]
+  simp only [Matrix.mul_apply, spIncl_apply, h]
   rw [Finset.sum_eq_single (Sum.map σ σ b)]
   · simp
   · intro c _ hc
-    rw [if_neg hc, mul_zero]
+    rw [ite_eq_right hc, mul_zero]
   · intro h'
     exact absurd (Finset.mem_univ (Sum.map σ σ b)) h'
 
@@ -217,7 +217,7 @@ private theorem swap_pi_image_range_last {n s : ℕ} (hs : 2 ≤ s) (π : Fin (s
     congr 1
   have hfix : (Equiv.swap (0 : Fin (s + 3)) 1) (⟨s + 2, by omega⟩ : Fin (s + 3)) =
       ⟨s + 2, by omega⟩ :=
-    swap01_fix (N := s + 3) (by omega) (by simp only [Fin.val_mk]; omega)
+    swap01_fix (N := s + 3) (by omega) (by simp only; omega)
   have hT : (Equiv.swap (0 : Fin (s + 3)) 1) ''
       ({(⟨s + 2, by omega⟩ : Fin (s + 3))} : Set (Fin (s + 3))) =
       {(⟨s + 2, by omega⟩ : Fin (s + 3))} := by
@@ -240,12 +240,12 @@ private theorem swap_pi_image_planes_zero_one {n s : ℕ} (hs : 2 ≤ s) (π : F
     congr 1
   have hfix1 : (Equiv.swap (0 : Fin (s + 3)) 3) (⟨1, by omega⟩ : Fin (s + 3)) =
       ⟨1, by omega⟩ :=
-    swap03_fix (N := s + 3) (by omega) (by simp only [Fin.val_mk]; omega)
-      (by simp only [Fin.val_mk]; omega)
+    swap03_fix (N := s + 3) (by omega) (by simp only; omega)
+      (by simp only; omega)
   have hfix2 : (Equiv.swap (0 : Fin (s + 3)) 3) (⟨2, by omega⟩ : Fin (s + 3)) =
       ⟨2, by omega⟩ :=
-    swap03_fix (N := s + 3) (by omega) (by simp only [Fin.val_mk]; omega)
-      (by simp only [Fin.val_mk]; omega)
+    swap03_fix (N := s + 3) (by omega) (by simp only; omega)
+      (by simp only; omega)
   have hT : (Equiv.swap (0 : Fin (s + 3)) 3) ''
       ({(⟨1, by omega⟩ : Fin (s + 3)),
         (⟨2, by omega⟩ : Fin (s + 3))} : Set (Fin (s + 3))) =
@@ -273,7 +273,7 @@ private theorem swap01_pi_image_planes_last_zero {n s : ℕ} (hs : 2 ≤ s)
     congr 1
   have hfix_s : (Equiv.swap (0 : Fin (s + 3)) 1) (⟨s + 2, by omega⟩ : Fin (s + 3)) =
       ⟨s + 2, by omega⟩ :=
-    swap01_fix (N := s + 3) (by omega) (by simp only [Fin.val_mk]; omega)
+    swap01_fix (N := s + 3) (by omega) (by simp only; omega)
   have hfix_1 : (Equiv.swap (0 : Fin (s + 3)) 1) (⟨1, by omega⟩ : Fin (s + 3)) =
       (0 : Fin (s + 3)) :=
     swap01_one (N := s + 3) (by omega)
@@ -299,8 +299,8 @@ private theorem swap03_pi_image_planes_last_zero {n s : ℕ} (hs : 2 ≤ s)
     congr 1
   have hfix_s : (Equiv.swap (0 : Fin (s + 3)) 3) (⟨s + 2, by omega⟩ : Fin (s + 3)) =
       ⟨s + 2, by omega⟩ :=
-    swap03_fix (N := s + 3) (by omega) (by simp only [Fin.val_mk]; omega)
-      (by simp only [Fin.val_mk]; omega)
+    swap03_fix (N := s + 3) (by omega) (by simp only; omega)
+      (by simp only; omega)
   have hfix_0 : (Equiv.swap (0 : Fin (s + 3)) 3) (0 : Fin (s + 3)) =
       (⟨3, by omega⟩ : Fin (s + 3)) :=
     swap03_zero (N := s + 3) (by omega)
@@ -449,7 +449,7 @@ private theorem disjoint_castLE_pairMap_two {s : ℕ} (hs : 2 ≤ s) :
       simp only [Fin.val_last]
       omega
     · show 2 ≤ (⟨2, by omega⟩ : Fin (s + 2)).val
-      simp only [Fin.val_mk]
+      simp only
       omega
   have h3 : (pairMap (Fin.last (s + 1)) (⟨2, by omega⟩ : Fin (s + 2)) j).val =
       (Fin.castLE (Nat.le_add_left 2 s) i).val := congrArg Fin.val hj

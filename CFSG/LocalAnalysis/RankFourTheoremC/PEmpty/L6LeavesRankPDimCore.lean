@@ -30,9 +30,9 @@ theorem finrank_ge_of_minimal [Finite k] [Module.Finite k V] {p : ℕ} [Fact p.P
       W = ⊤)
     (hρc : ∃ v : V, ρ c v ≠ v) : p ≤ finrank k V := by
   classical
-  haveI : Finite V := Module.finite_of_finite k
+  have : Finite V := Module.finite_of_finite k
   obtain ⟨v₀, hv₀⟩ := hρc
-  haveI : Nontrivial V := ⟨⟨v₀, 0, fun h => hv₀ (by rw [h, map_zero])⟩⟩
+  have : Nontrivial V := ⟨⟨v₀, 0, fun h => hv₀ (by rw [h, map_zero])⟩⟩
   let K : Subalgebra k (Module.End k V) := Algebra.adjoin k {ρ c}
   have hKcomm : ∀ T ∈ K, ∀ g : G, T * ρ g = ρ g * T := by
     intro T hT g
@@ -94,13 +94,13 @@ theorem finrank_ge_of_minimal [Finite k] [Module.Finite k V] {p : ℕ} [Fact p.P
     exact hv₀ (by
       have := congrArg (fun S : Module.End k V => S v₀) (sub_eq_zero.mp hN0)
       simpa using this)
-  haveI : Finite (Module.End k V) :=
+  have : Finite (Module.End k V) :=
     Finite.of_injective (fun f : Module.End k V => (f : V → V)) DFunLike.coe_injective
-  haveI : Finite K := Finite.of_injective (fun T : K => (T : Module.End k V)) Subtype.val_injective
+  have : Finite K := Finite.of_injective (fun T : K => (T : Module.End k V)) Subtype.val_injective
   have hKmc : IsMulCommutative K := Algebra.isMulCommutative_adjoin k (by simp [Set.Pairwise])
-  letI : CommRing K := by
+  let : CommRing K := by
     open scoped IsMulCommutative in exact inferInstance
-  haveI : NoZeroDivisors K := ⟨fun {x y} hxy => by
+  have : NoZeroDivisors K := ⟨fun {x y} hxy => by
     by_contra h
     push Not at h
     obtain ⟨hx, hy⟩ := h
@@ -113,9 +113,9 @@ theorem finrank_ge_of_minimal [Finite k] [Module.Finite k V] {p : ℕ} [Fact p.P
       have := congrArg (fun S : Module.End k V => S v) hxy'
       simpa using this
     exact hy (Subtype.ext this)⟩
-  haveI : IsDomain K := NoZeroDivisors.to_isDomain K
-  haveI : Fintype K := Fintype.ofFinite K
-  letI : Field K := Fintype.fieldOfDomain K
+  have : IsDomain K := NoZeroDivisors.to_isDomain K
+  have : Fintype K := Fintype.ofFinite K
+  let : Field K := Fintype.fieldOfDomain K
   let gK : G → (V →ₗ[K] V) := fun g =>
     { toFun := fun v => ρ g v
       map_add' := fun u v => map_add (ρ g) u v

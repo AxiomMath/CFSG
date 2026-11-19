@@ -168,7 +168,7 @@ theorem expand3 (h₁ : IsSmallDev d₁) (h₂ : IsSmallDev d₂) (h₃ : IsSmal
     (a₁ + d₁) ((a₂ + d₂) ((a₃ + d₃) x)) =
       a₁ (a₂ (a₃ x)) + (a₁ (a₂ (d₃ x)) + a₁ (d₂ (a₃ x)) + d₁ (a₂ (a₃ x))) := by
   simp only [AddMonoidHom.add_apply, map_add, h₂.kill_dev h₃, h₁.kill_comp_dev h₃,
-    h₁.kill_dev h₂, map_zero, add_zero]
+    h₁.kill_dev h₂, add_zero]
   abel
 
 theorem two_zsmul_expand3 (h₁ : IsSmallDev d₁) (h₂ : IsSmallDev d₂) (h₃ : IsSmallDev d₃)
@@ -182,7 +182,7 @@ theorem expand4 (h₁ : IsSmallDev d₁) (h₂ : IsSmallDev d₂) (h₃ : IsSmal
       a₁ (a₂ (a₃ (a₄ x))) + (a₁ (a₂ (a₃ (d₄ x))) + a₁ (a₂ (d₃ (a₄ x))) +
         a₁ (d₂ (a₃ (a₄ x))) + d₁ (a₂ (a₃ (a₄ x)))) := by
   simp only [AddMonoidHom.add_apply, map_add, h₃.kill_dev h₄, h₂.kill_dev h₃, h₁.kill_dev h₂,
-    h₂.kill_comp_dev h₄, h₁.kill_comp_dev h₃, h₁.kill_comp2_dev h₄, map_zero, add_zero]
+    h₂.kill_comp_dev h₄, h₁.kill_comp_dev h₃, h₁.kill_comp2_dev h₄, add_zero]
   abel
 
 end Expand

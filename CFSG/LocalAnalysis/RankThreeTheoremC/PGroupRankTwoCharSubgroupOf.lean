@@ -15,6 +15,7 @@ open CFSG.Open
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_map_of_characteristic {Q : Subgroup G} (K : Subgroup Q)
     [K.Characteristic] :
     Subgroup.normalizer (Q : Set G) ≤ Subgroup.normalizer (K.map Q.subtype : Set G) := by
@@ -38,6 +39,7 @@ section InQ
 
 variable {P : Type} [Group P] [Finite P] {p : ℕ}
 
+omit [Finite P] in
 theorem card_sup_of_commute_of_disjoint' {F K : Subgroup P}
     (hc : ∀ f ∈ F, ∀ k ∈ K, f * k = k * f) (hd : F ⊓ K = ⊥) :
     Nat.card ↥(F ⊔ K) = Nat.card F * Nat.card K := by
@@ -111,6 +113,7 @@ theorem isElemAbelian_sup_zpowers [hp : Fact p.Prime] {E : Subgroup P}
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hb
     exact (Commute.zpow_right (hcc a ha) k).eq
 
+omit [Finite P] in
 theorem isElemAbelian_zpowers {z : P} (hz : z ^ p = 1) : IsElemAbelian p (Subgroup.zpowers z) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
   · obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.1 a.2
@@ -128,7 +131,7 @@ theorem exists_characteristic_rankTwo [hp : Fact p.Prime] (hp2 : p ≠ 2) (hP : 
   have hp1 := hp.out.one_lt
   obtain ⟨E, -, hE, hEc⟩ := CFSG.SectionRank.exists_pRank hp1 (⊤ : Subgroup P)
   rw [hrk] at hEc
-  haveI : Nontrivial P := by
+  have : Nontrivial P := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
     have : Nat.card E ≤ 1 := by
@@ -138,12 +141,12 @@ theorem exists_characteristic_rankTwo [hp : Fact p.Prime] (hp2 : p ≠ 2) (hP : 
     have : 1 < p ^ 2 := Nat.one_lt_pow (by norm_num) hp1
     omega
   obtain ⟨D, hDc, hDne, hDp, hDZ, htors, -⟩ := CFSG.SectionRank.Ccomm.supercritical_witness hp2 hP
-  haveI := hDc
+  have := hDc
   refine ⟨D, hDc, ?_⟩
   have hD2 : 2 ≤ Open.pRank p D := by
     by_contra hlt
     push Not at hlt
-    haveI : Group.IsNilpotent P := hP.isNilpotent
+    have : Group.IsNilpotent P := hP.isNilpotent
     have hZ := Group.IsNilpotent.inf_center_ne_bot_of_normal hDne
     obtain ⟨⟨z, hzD, hzZ⟩, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hZ
     have hzp : (z : P) ^ p = 1 := hDp z hzD
@@ -215,18 +218,18 @@ theorem exists_characteristic_rankTwo [hp : Fact p.Prime] (hp2 : p ≠ 2) (hP : 
     have hk2' : k = 2 := by omega
     apply hab
     exact ⟨⟨fun a b => Subtype.ext (by
-      have := IsPGroup.commutative_of_card_eq_prime_sq (p := p) (hk2' ▸ hk) a b
+      have := (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := p) (hk2' ▸ hk)).is_comm.comm a b
       exact congrArg Subtype.val this)⟩⟩
 
 end InQ
 
 theorem pGroupRankTwoCharSubgroup : PGroupRankTwoCharSubgroup G := by
   intro p hp hp2 Q hQ hrk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 := hp.one_lt
   rw [CFSG.SectionRank.pRank_eq_pRank_top_subgroup] at hrk
   obtain ⟨D, hDc, hD2, hD⟩ := exists_characteristic_rankTwo hp2 hQ hrk
-  haveI := hDc
+  have := hDc
   set Y := D.map Q.subtype with hYdef
   have e : D ≃* Y := D.equivMapOfInjective Q.subtype Q.subtype_injective
   have hYc : Nat.card Y = Nat.card D := Subgroup.card_map_of_injective Q.subtype_injective
@@ -238,7 +241,7 @@ theorem pGroupRankTwoCharSubgroup : PGroupRankTwoCharSubgroup G := by
   rcases hD with ⟨hDel, hDcard⟩ | ⟨hab, hDcard, hDp⟩
   · exact Or.inl ⟨CFSG.SectionRank.isElemAbelian_map hDel Q.subtype, hYc.trans hDcard⟩
   · refine Or.inr ⟨fun h => hab ?_, hYc.trans hDcard, ?_⟩
-    · haveI := h
+    · have := h
       exact ⟨⟨fun a b => e.injective (by
         rw [map_mul, map_mul]
         exact h.is_comm.comm (e a) (e b))⟩⟩

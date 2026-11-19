@@ -19,16 +19,14 @@ theorem tv_zero_one_eq_upperSL2 (c : F) : (tv 0 1 c : SL(2, F)) = Spin.upperSL2 
   rw [tv_of_ne (by decide : (0 : Fin 2) ≠ 1)]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.SpecialLinearGroup.transvection, Matrix.transvection, Matrix.single_apply,
-      Spin.upperSL2]
+    simp [Matrix.SpecialLinearGroup.transvection, Matrix.transvection, Spin.upperSL2]
 
 theorem tv_one_zero_eq_lowerSL2 (c : F) : (tv 1 0 c : SL(2, F)) = Spin.lowerSL2 c := by
   apply Subtype.ext
   rw [tv_of_ne (by decide : (1 : Fin 2) ≠ 0)]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.SpecialLinearGroup.transvection, Matrix.transvection, Matrix.single_apply,
-      Spin.lowerSL2]
+    simp [Matrix.SpecialLinearGroup.transvection, Matrix.transvection, Spin.lowerSL2]
 
 theorem comp_rankOneD_of_pinned (hρ : IsTrialityPinned ρ) (k : Fin 4) :
     ρ.toMonoidHom.comp (Spin.rankOneD F (by norm_num) k) =

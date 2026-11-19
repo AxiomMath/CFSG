@@ -215,13 +215,13 @@ private lemma weylE6_cover (w : WeylGroup .E6) :
       exact Subgroup.mul_mem _ (weylE6Even_gen i 0) hw
 
 theorem weylE6_solvable_quotient_card_le_two {Q : Type*} [Group Q]
-    (f : WeylGroup .E6 →* Q) (hf : Function.Surjective f) (hQ : IsSolvable Q) :
+    (f : WeylGroup .E6 →* Q) (hf : Function.Surjective f) (hQ : Group.IsSolvable Q) :
     Nat.card Q ≤ 2 := by
-  haveI : IsSolvable Q := hQ
+  have : Group.IsSolvable Q := hQ
   have hmap : weylE6Even.map f = ⊥ := by
     by_contra hne
     have hlt : ⁅weylE6Even.map f, weylE6Even.map f⁆ < weylE6Even.map f :=
-      @IsSolvable.commutator_lt_of_ne_bot Q _ hQ (weylE6Even.map f) hne
+      @Group.IsSolvable.commutator_lt_of_ne_bot Q _ hQ (weylE6Even.map f) hne
     rw [← Subgroup.map_commutator weylE6Even weylE6Even f, weylE6Even_perfect] at hlt
     exact (lt_irrefl _) hlt
   have hsurj : Function.Surjective

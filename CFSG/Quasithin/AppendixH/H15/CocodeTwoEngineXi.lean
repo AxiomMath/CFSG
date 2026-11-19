@@ -67,11 +67,11 @@ private theorem two_le_countP : ∀ {l : List ℕ} {p : ℕ → Bool} {a b : ℕ
       rcases ha with rfl | ha
       · rcases hb with rfl | hb
         · exact absurd rfl hab
-        · rw [hpa, if_pos rfl]
+        · rw [hpa, ite_eq_left rfl]
           have h1 : 1 ≤ l.countP p := List.one_le_countP_iff.mpr ⟨b, hb, hpb⟩
           omega
       · rcases hb with rfl | hb
-        · rw [hpb, if_pos rfl]
+        · rw [hpb, ite_eq_left rfl]
           have h1 : 1 ≤ l.countP p := List.one_le_countP_iff.mpr ⟨a, ha, hpa⟩
           omega
         · have ih := two_le_countP ha hb hab hpa hpb
@@ -275,17 +275,17 @@ private theorem good_ct_lt {D : KData} (hD : D.good = true) {t : ℕ} (ht : t < 
   have hlt : (D.cols.getD t []).headD 0 < 2 ^ D.n := by
     cases hc : D.cols.getD t [] with
     | nil =>
-        simp only [hc, List.headD_nil]
+        simp only [List.headD_nil]
         exact Nat.two_pow_pos D.n
     | cons x xs =>
-        simp only [hc, List.headD_cons]
+        simp only [List.headD_cons]
         exact hspec x (by rw [hc]; exact List.mem_cons_self)
   have h1 : 1 < 2 ^ D.n := Nat.one_lt_two_pow_iff.mpr (by omega)
   unfold KData.ct
   exact Nat.xor_lt_two_pow hlt h1
 
-private theorem vm_mem_xiSub_of (hD : D.good = true) (hA : ActsByMats c A D.cols)
-    {g : MulAut V} (hg : g ∈ A) (hg1 : g ≠ 1) {m : ℕ} (hm : m < 2 ^ D.n)
+private theorem vm_mem_xiSub_of (_hD : D.good = true) (_hA : ActsByMats c A D.cols)
+    {g : MulAut V} (hg : g ∈ A) (hg1 : g ≠ 1) {m : ℕ} (_hm : m < 2 ^ D.n)
     (hgv : g (c.vm m) = c.vm m) : c.vm m ∈ xiSub A := by
   have hfx : c.vm m ∈ fixV (Subgroup.zpowers g) := CFSG.Quasithin.mem_fixV_zpowers_iff.mpr hgv
   rw [xiSub]

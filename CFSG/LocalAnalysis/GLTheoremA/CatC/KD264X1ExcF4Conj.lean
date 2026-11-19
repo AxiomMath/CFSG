@@ -78,8 +78,7 @@ theorem nSL_one_mul_HSL_mul_inv {L : Type} [Field L] (t : Lˣ) :
   rw [nSL_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [coe_WSL, coe_HSL, Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two,
-      Matrix.mul_apply, Fin.sum_univ_two]
+    simp [coe_WSL, coe_HSL]
 
 theorem exists_conj_eq_of_descent {C₁ C₂ : Type} [Group C₁] [Group C₂] [Finite C₁] [Finite C₂]
     {ι : C₁ →* C₂} (hι : Function.Injective ι) {G : C₂} {X V : Subgroup C₂} {T : Subgroup C₁}
@@ -186,7 +185,7 @@ theorem card_torusPow_F4 (hK : Nat.card K = 2) :
     fun a => CFSG.RankThree.Chevalley.F4_rootDiagUnit_mem_torusGroup a
   exact TableBExc.card_torusPow_of_full hfull Nat.prime_three h3
 
-theorem conj_tE_mem_torusPow (hK : Nat.card K = 2) {ω : (FiniteField.Extension K 2 2)ˣ}
+theorem conj_tE_mem_torusPow (_hK : Nat.card K = 2) {ω : (FiniteField.Extension K 2 2)ˣ}
     (hωo : orderOf ω = 3) (u : Multiplicative (Fin 4 → ZMod 3)) :
     (ExcFrameIso.langEltF4 hωo)⁻¹ *
       TableBExcTwo.adjointMap .F4 (algebraMap K (FiniteField.Extension K 2 2)) (tE K u) *
@@ -214,7 +213,7 @@ theorem map_conj_range_tE_eq_torusPow (hK : Nat.card K = 2)
         (TableBExcTwo.adjointMap .F4 (algebraMap K (FiniteField.Extension K 2 2)))).map
       (MulAut.conj (ExcFrameIso.langEltF4 hωo)⁻¹).toMonoidHom =
       TableBExc.torusPow .F4 (FiniteField.Extension K 2 2) 3 := by
-  haveI : Finite (adjointGroup .F4 (FiniteField.Extension K 2 2)) :=
+  have : Finite (adjointGroup .F4 (FiniteField.Extension K 2 2)) :=
     generated_group_finite .F4 _
   refine Subgroup.eq_of_le_of_card_ge ?_ ?_
   · rintro _ ⟨_, ⟨y, ⟨u, rfl⟩, rfl⟩, rfl⟩
@@ -231,9 +230,9 @@ theorem mem_torusPow_iff_exists (hK : Nat.card K = 2) {ω : (FiniteField.Extensi
   rw [← map_conj_range_tE_eq_torusPow hK hωo]
   constructor
   · rintro ⟨_, ⟨y, hy, rfl⟩, rfl⟩
-    exact ⟨y, hy, by simp [MulAut.conj_apply]⟩
+    exact ⟨y, hy, by simp⟩
   · rintro ⟨y, hy, rfl⟩
-    exact ⟨_, ⟨y, hy, rfl⟩, by simp [MulAut.conj_apply]⟩
+    exact ⟨_, ⟨y, hy, rfl⟩, by simp⟩
 
 theorem frameProdF4_conj_torusPow (hK : Nat.card K = 2) {ω : (FiniteField.Extension K 2 2)ˣ}
     (hωo : orderOf ω = 3) {v : adjointGroup .F4 (FiniteField.Extension K 2 2)}
@@ -250,7 +249,7 @@ theorem frameProdF4_conj_torusPow (hK : Nat.card K = 2) {ω : (FiniteField.Exten
   set D : (Fin 4 → Multiplicative (ZMod 3)) →* adjointGroup .F4 L :=
     (MulAut.conj G⁻¹).toMonoidHom.comp (ι.comp (tD K)) with hD
   have hDf : ∀ g, D g = G⁻¹ * ι (tD K g) * G := fun g => by
-    simp [hD, MulAut.conj_apply]
+    simp [hD]
   have hDgen : ∀ (i : Fin 4) (a : Multiplicative (ZMod 3)),
       D (Pi.mulSingle i a) = rho L i (HSL ω) ^ (Multiplicative.toAdd a).val := by
     intro i a
@@ -409,11 +408,11 @@ section Main
 theorem x1F4FrameConj_holds : X1F4FrameConj := by
   intro K _ _ _ hK E hE hcard
   have h3 : 3 ∣ Nat.card (FiniteField.Extension K 2 2) - 1 := three_dvd_natCard_ext_sub_one hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hωo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := FiniteField.Extension K 2 2)
     (p := 3) h3
-  haveI : Finite (adjointGroup .F4 (FiniteField.Extension K 2 2)) := generated_group_finite .F4 _
-  haveI : Finite (adjointGroup .F4 K) := generated_group_finite .F4 K
+  have : Finite (adjointGroup .F4 (FiniteField.Extension K 2 2)) := generated_group_finite .F4 _
+  have : Finite (adjointGroup .F4 K) := generated_group_finite .F4 K
   refine X1F4Conj.exists_conj_eq_of_descent (TableBExcTwo.adjointMap_injective _)
     (X := TableBF4.weylX (FiniteField.Extension K 2 2)) (fun m hm => ?_)
     (TableBF4.not_three_dvd_index_weylX h3) (X1F4Conj.map_conj_range_tE_eq_torusPow hK hωo)

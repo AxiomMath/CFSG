@@ -33,9 +33,9 @@ theorem anyL_iff {α : Type} (p : α → Bool) (l : List α) :
     change (Bool.rec (anyL p l) true (p a) : Bool) = true ↔ _
     rw [brec_eq]
     by_cases h : p a = true
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact ⟨fun _ => ⟨a, List.mem_cons_self, h⟩, fun _ => rfl⟩
-    · rw [if_neg h, ih]
+    · rw [ite_eq_right h, ih]
       constructor
       · rintro ⟨x, hx, hp⟩
         exact ⟨x, List.mem_cons_of_mem _ hx, hp⟩
@@ -65,9 +65,9 @@ theorem memK_iff (x : ℕ) (l : List ℕ) : memK x l = true ↔ x ∈ l := by
     change (Bool.rec (memK x l) true (Nat.beq x a) : Bool) = true ↔ _
     rw [brec_eq, List.mem_cons, ← ih]
     by_cases h : x = a
-    · rw [if_pos (by rw [h]; exact Nat.beq_refl a)]
+    · rw [ite_eq_left (by rw [h]; exact Nat.beq_refl a)]
       exact ⟨fun _ => Or.inl h, fun _ => rfl⟩
-    · rw [if_neg (fun e => h (Nat.eq_of_beq_eq_true e))]
+    · rw [ite_eq_right (fun e => h (Nat.eq_of_beq_eq_true e))]
       exact ⟨Or.inr, fun e => e.resolve_left h⟩
 
 theorem memLoK_iff (e : ℕ) (l : List ℕ) : memLoK e l = true ↔ ∃ q ∈ l, e = loK q := by
@@ -77,9 +77,9 @@ theorem memLoK_iff (e : ℕ) (l : List ℕ) : memLoK e l = true ↔ ∃ q ∈ l,
     change (Bool.rec (memLoK e l) true (Nat.beq e (loK a)) : Bool) = true ↔ _
     rw [brec_eq]
     by_cases h : e = loK a
-    · rw [if_pos (by rw [h]; exact Nat.beq_refl _)]
+    · rw [ite_eq_left (by rw [h]; exact Nat.beq_refl _)]
       exact ⟨fun _ => ⟨a, List.mem_cons_self, h⟩, fun _ => rfl⟩
-    · rw [if_neg (fun e' => h (Nat.eq_of_beq_eq_true e')), ih]
+    · rw [ite_eq_right (fun e' => h (Nat.eq_of_beq_eq_true e')), ih]
       constructor
       · rintro ⟨q, hq, rfl⟩
         exact ⟨q, List.mem_cons_of_mem _ hq, rfl⟩
@@ -165,7 +165,7 @@ theorem setK_spec {x s old c plus : ℕ} (h : setK x s old c plus < BAD) :
   by_cases h1 : x < BAD
   · by_cases h2 : old + c ≤ plus
     · by_cases h3 : plus - (old + c) < 256
-      · simp only [h1, h2, h3, if_true]
+      · simp only [h1, h2, h3, ite_true]
         refine ⟨trivial, trivial, trivial, ?_⟩
         simp only [updK, Nat.add_eq, Nat.sub_eq, shl_eq]
       · simp [h1, h2, h3] at h
@@ -215,7 +215,7 @@ theorem spec0 (x : ℕ) (h : stepK 0 x < BAD) :
     simp only [Nat.add_eq, Nat.reducePow]
     omega
   rw [he, hp, reflect_apply, toV_pk h0 h1 h2 h3 h4 h5 h6, toV_pk (by omega) h1 h2 h3 h4 h5 h6]
-  fin_cases j <;> simp [cartanE7_apply] <;> omega
+  fin_cases j <;> simp [cartanE7_apply]; omega
 
 theorem spec1 (x : ℕ) (h : stepK 1 x < BAD) :
     x < BAD ∧ ∀ j : Fin 7, toV (stepK 1 x) j = reflect Tag.E7 (1 : Fin 7) (toV x) j := by
@@ -232,7 +232,7 @@ theorem spec1 (x : ℕ) (h : stepK 1 x < BAD) :
     simp only [Nat.add_eq, Nat.reducePow]
     omega
   rw [he, hp, reflect_apply, toV_pk h0 h1 h2 h3 h4 h5 h6, toV_pk h0 (by omega) h2 h3 h4 h5 h6]
-  fin_cases j <;> simp [cartanE7_apply] <;> omega
+  fin_cases j <;> simp [cartanE7_apply]; omega
 
 theorem spec2 (x : ℕ) (h : stepK 2 x < BAD) :
     x < BAD ∧ ∀ j : Fin 7, toV (stepK 2 x) j = reflect Tag.E7 (2 : Fin 7) (toV x) j := by
@@ -249,7 +249,7 @@ theorem spec2 (x : ℕ) (h : stepK 2 x < BAD) :
     simp only [Nat.add_eq, Nat.reducePow]
     omega
   rw [he, hp, reflect_apply, toV_pk h0 h1 h2 h3 h4 h5 h6, toV_pk h0 h1 (by omega) h3 h4 h5 h6]
-  fin_cases j <;> simp [cartanE7_apply] <;> omega
+  fin_cases j <;> simp [cartanE7_apply]; omega
 
 set_option maxRecDepth 8000 in
 theorem spec3 (x : ℕ) (h : stepK 3 x < BAD) :
@@ -268,7 +268,7 @@ theorem spec3 (x : ℕ) (h : stepK 3 x < BAD) :
     simp only [Nat.add_eq, Nat.reducePow]
     omega
   rw [he, hp, reflect_apply, toV_pk h0 h1 h2 h3 h4 h5 h6, toV_pk h0 h1 h2 (by omega) h4 h5 h6]
-  fin_cases j <;> simp [cartanE7_apply] <;> omega
+  fin_cases j <;> simp [cartanE7_apply]; omega
 
 theorem spec4 (x : ℕ) (h : stepK 4 x < BAD) :
     x < BAD ∧ ∀ j : Fin 7, toV (stepK 4 x) j = reflect Tag.E7 (4 : Fin 7) (toV x) j := by
@@ -285,7 +285,7 @@ theorem spec4 (x : ℕ) (h : stepK 4 x < BAD) :
     simp only [Nat.add_eq, Nat.reducePow]
     omega
   rw [he, hp, reflect_apply, toV_pk h0 h1 h2 h3 h4 h5 h6, toV_pk h0 h1 h2 h3 (by omega) h5 h6]
-  fin_cases j <;> simp [cartanE7_apply] <;> omega
+  fin_cases j <;> simp [cartanE7_apply]; omega
 
 theorem spec5 (x : ℕ) (h : stepK 5 x < BAD) :
     x < BAD ∧ ∀ j : Fin 7, toV (stepK 5 x) j = reflect Tag.E7 (5 : Fin 7) (toV x) j := by
@@ -302,7 +302,7 @@ theorem spec5 (x : ℕ) (h : stepK 5 x < BAD) :
     simp only [Nat.add_eq, Nat.reducePow]
     omega
   rw [he, hp, reflect_apply, toV_pk h0 h1 h2 h3 h4 h5 h6, toV_pk h0 h1 h2 h3 h4 (by omega) h6]
-  fin_cases j <;> simp [cartanE7_apply] <;> omega
+  fin_cases j <;> simp [cartanE7_apply]; omega
 
 theorem spec6 (x : ℕ) (h : stepK 6 x < BAD) :
     x < BAD ∧ ∀ j : Fin 7, toV (stepK 6 x) j = reflect Tag.E7 (6 : Fin 7) (toV x) j := by
@@ -319,7 +319,7 @@ theorem spec6 (x : ℕ) (h : stepK 6 x < BAD) :
     simp only [Nat.add_eq, Nat.reducePow]
     omega
   rw [he, hp, reflect_apply, toV_pk h0 h1 h2 h3 h4 h5 h6, toV_pk h0 h1 h2 h3 h4 h5 (by omega)]
-  fin_cases j <;> simp [cartanE7_apply] <;> omega
+  fin_cases j <;> simp [cartanE7_apply]; omega
 
 theorem stepK_spec (i : Fin Tag.E7.rank) (x : ℕ) (h : stepK i.val x < BAD) :
     x < BAD ∧ toV (stepK i.val x) = reflect Tag.E7 i (toV x) := by
@@ -443,7 +443,7 @@ theorem permK_spec (k : ℕ) (rot : Bool) (x : ℕ) (hx : x < BAD) :
   by_cases h1 : k = 1
   · cases rot <;> simp [h1, p1, p2]
   · by_cases h2 : k = 2
-    · cases rot <;> simp [h1, h2, p3, p4]
+    · cases rot <;> simp [h2, p3, p4]
     · simp [h1, h2, hx]
 
 structure DataOK (s0 s1 s2 s3 roots : List ℕ) : Prop where

@@ -25,7 +25,7 @@ theorem exists_Y_U {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) (hp2
       ¬ Y ≤ (frattini ↥Dp).map Dp.subtype ∧
       ⁅CFSG.Open.pCoreOf 2 (Subgroup.centralizer ({u} : Set G)) ⊓ Subgroup.centralizer (Y : Set G),
         Dp ⊓ Subgroup.centralizer ((Y ⊔ Subgroup.zpowers u : Subgroup G) : Set G)⁆ ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set P : Subgroup G := Dp ⊓ Subgroup.centralizer ({u} : Set G) with hP
   set Φ : Subgroup G := (frattini ↥Dp).map Dp.subtype with hΦ
   set H : Subgroup G := Subgroup.centralizer ({u} : Set G) with hH
@@ -106,7 +106,7 @@ theorem dPrime_exp (hcrit : Crit135 L p C) {z : G} (hz : z ∈ L) :
 theorem dPrime_frattini_central (hcrit : Crit135 L p C) {z : G} (hz : z ∈ L) :
     ∀ x ∈ (frattini ↥(dPrime L p C z)).map (dPrime L p C z).subtype,
       ∀ d ∈ dPrime L p C z, x * d = d * x := by
-  haveI : Fact p.Prime := ⟨hcrit.prime⟩
+  have : Fact p.Prime := ⟨hcrit.prime⟩
   set Dp := dPrime L p C z with hDp
   have hexp' : ∀ y : ↥Dp, y ^ p = 1 := fun y =>
     Subtype.ext (by simpa using dPrime_exp hcrit hz y y.2)

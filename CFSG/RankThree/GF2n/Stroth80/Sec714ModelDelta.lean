@@ -89,10 +89,12 @@ theorem dmap_comm {g h : Mbar M Q} (hgh : g * h = h * g) (e : M₀.E) :
 
 end Maps
 
+omit [Finite G] in
 theorem mk_mem_bar {S : Subgroup G} (m : ↥M) (hm : (m : G) ∈ S) :
     (QuotientGroup.mk m : Mbar M Q) ∈ bar M Q S :=
   Subgroup.mem_map.mpr ⟨m, Subgroup.mem_subgroupOf.mpr hm, rfl⟩
 
+omit [Finite G] in
 theorem exists_of_mem_bar {S : Subgroup G} {g : Mbar M Q} (hg : g ∈ bar M Q S) :
     ∃ m : ↥M, (m : G) ∈ S ∧ (QuotientGroup.mk m : Mbar M Q) = g := by
   obtain ⟨m, hm, rfl⟩ := Subgroup.mem_map.mp hg

@@ -43,7 +43,7 @@ private theorem factorization_card_sl_four {K : Type} [Field K] [Finite K] {r : 
     Finsupp.add_apply, Nat.factorization_pow, Finsupp.smul_apply,
     Nat.factorization_eq_zero_of_not_dvd hqr, smul_zero, zero_add,
     Nat.factorization_prod (fun j hj => hne j (by have := (Finset.mem_Icc.mp hj).1; omega)),
-    Finsupp.finset_sum_apply]
+    _root_.Finsupp.finsetSum_apply]
   have h : ∀ j ∈ Finset.Icc 2 4, (Nat.card K ^ j - 1).factorization r =
       (Nat.card K - 1).factorization r := by
     intro j hj
@@ -182,7 +182,7 @@ private theorem exists_field_sylow_four {K : Type} [Field K] [Finite K] [CharP K
     have hmap := congrArg (Subgroup.map (P : Subgroup (RingAut K)).subtype) hgen
     simpa only [MonoidHom.map_zpowers, Subgroup.map_top, Subgroup.range_subtype,
       Subgroup.subtype_apply] using hmap.symm
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have hσk : (σ : RingAut K) ^ (r ^ k) = 1 := by
     have h := congrArg Subtype.val (pow_card_eq_one' (G := (P : Subgroup (RingAut K))) (x := σ))
     change (σ : RingAut K) ^ Nat.card (P : Subgroup (RingAut K)) = 1 at h
@@ -260,7 +260,7 @@ theorem sylow_torsion_fixed_projectiveSL_four {K : Type} [Field K] [Finite K] [C
   obtain ⟨σ, k, hσ, hi⟩ := exists_field_sylow_four (K := K) hr hr7
   have hφ : (fieldAut 4 K σ) ^ (r ^ k) = 1 := by rw [← map_pow, hσ, map_one]
   exact CFSG.apply_eq_self_of_pow_eq_one hS₀p hS₀i hS₀c ⟨k, hφ⟩ (hS₀σ σ) hi
-    (hS₀fix σ k hσ) R.isPGroup' R.not_dvd_index hα hαR
+    (hS₀fix σ k hσ) R.isPGroup R.not_dvd_index hα hαR
 
 theorem sylow_torsion_fixed_of_lieModel_psl_four
     {X : Type} [Group X] [Finite X] {f r : ℕ}

@@ -37,7 +37,7 @@ private theorem not_mem_normalizer_of_not_commute [Finite X]
   have hyp : IsPGroup 2 (Subgroup.zpowers y) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hy, pow_one])
   have h2 : IsPGroup 2 ((S : Subgroup X) ⊔ Subgroup.zpowers y : Subgroup X) :=
-    (S.isPGroup').to_sup_of_normal_left' hyp (Subgroup.zpowers_le.mpr hyN)
+    (S.isPGroup).to_sup_of_normal_left' hyp (Subgroup.zpowers_le.mpr hyN)
   have hle : ((S : Subgroup X) ⊔ Subgroup.zpowers y : Subgroup X) ≤ (S : Subgroup X) :=
     (S.maximal_isPGroup.eq_of_ge h2 le_sup_left).le
   have hyS : y ∈ (S : Subgroup X) :=

@@ -99,7 +99,7 @@ theorem hdRo7SULCoordAux_modelCfg
       have hfst : (dec (dec.symm (g, (1 : Multiplicative (ZMod p))))).1 = g := by simp
       have hsnd : (dec (dec.symm (g, (1 : Multiplicative (ZMod p))))).2 = 1 := by simp
       simp only [hτ (dec.symm (g, 1)), hτ (fun i => (dec.symm (g, 1)) (σ⁻¹ i)),
-        hdec_perm σ (dec.symm (g, 1)), hfst, hsnd, map_mul, map_one, mul_one] at h1
+        hdec_perm σ (dec.symm (g, 1)), hfst, hsnd, map_one, mul_one] at h1
       exact h1
   refine ⟨m, hx, τ, hp3, hm7, hm3d, ?_, ?_⟩
   · rw [hτ (fun _ => Multiplicative.ofAdd (1 : ZMod p)),

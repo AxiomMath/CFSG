@@ -41,7 +41,7 @@ theorem coe_wxy {F : Type} [Field F] (c a b : F) :
   simp only [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wMat, xMat, yMat, wM, xM, yM, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [wMat, xMat, yMat, wM, xM, yM, Matrix.mul_apply, Fin.sum_univ_three]; ring
 
 theorem B0_eq_normalizer {F : Type} [Field F] [Finite F] [CharP F 2] :
     Ln F ⊓ Pt F = Subgroup.normalizer ((projUnitriangular 3 F : Subgroup (projectiveSL 3 F)) :
@@ -76,7 +76,7 @@ theorem torus_inf_U_eq_one {F : Type} [Field F] [CharP F 2] {g : projectiveSL 3 
   have e12 := congrFun (congrFun hMM 1) 2
   have e02 := congrFun (congrFun hMM 0) 2
   rw [coe_wxy, coe_dMat] at e01 e12 e02
-  simp [Matrix.mul_diagonal, Matrix.scalar_apply, Matrix.diagonal_apply] at e01 e12 e02
+  simp [Matrix.mul_diagonal, Matrix.scalar_apply] at e01 e12 e02
   have ha : a = 0 := e01
   have hb : b = 0 := e12
   have hc : c = 0 := by simpa [ha, hb] using e02
@@ -136,7 +136,7 @@ theorem nuFrob_sub_mul {F : Type} [Field F] [CharP F 2] (ε : Bool) (a b c : F) 
     nuFrob ε (c - a * b) = nuFrob ε c - nuFrob ε a * nuFrob ε b := by
   cases ε
   · rfl
-  · simp only [nuFrob, if_true]
+  · simp only [nuFrob, ite_true]
     linear_combination (-(a * b * (c - a * b))) * (CharTwo.two_eq_zero : (2 : F) = 0)
 
 @[expose] def nuDiagGL {F : Type} [Field F] (s t : Fˣ) : GL (Fin 3) F :=
@@ -148,14 +148,14 @@ theorem nuFrob_sub_mul {F : Type} [Field F] [CharP F 2] (ε : Bool) (a b c : F) 
       rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
       congr 1
       funext i
-      fin_cases i <;> simp <;> field_simp)
+      fin_cases i <;> simp; field_simp)
     (by
       have hs : (s : F) ≠ 0 := Units.ne_zero s
       have ht : (t : F) ≠ 0 := Units.ne_zero t
       rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
       congr 1
       funext i
-      fin_cases i <;> simp <;> field_simp)
+      fin_cases i <;> simp; field_simp)
 
 theorem coe_nuDiagGL {F : Type} [Field F] (s t : Fˣ) :
     ((nuDiagGL (F := F) s t : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
@@ -191,7 +191,7 @@ theorem conjAut_nuDiag_yP {F : Type} [Field F] (s t : Fˣ) (b : F) :
   rw [coe_slConjugation, coe_nuDiagGL, coe_nuDiagGL_inv]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [yMat, yM, Matrix.mul_apply, Fin.sum_univ_three] <;> field_simp
+    simp [yMat, yM, Matrix.mul_apply, Fin.sum_univ_three]; field_simp
 
 theorem conjAut_nuDiag_wP {F : Type} [Field F] (s t : Fˣ) (c : F) :
     conjAut 3 F (nuDiagGL s t) (wP c) = wP ((s : F) * (t : F) * c) := by
@@ -204,7 +204,7 @@ theorem conjAut_nuDiag_wP {F : Type} [Field F] (s t : Fˣ) (c : F) :
   rw [coe_slConjugation, coe_nuDiagGL, coe_nuDiagGL_inv]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wMat, wM, Matrix.mul_apply, Fin.sum_univ_three] <;> field_simp
+    simp [wMat, wM, Matrix.mul_apply, Fin.sum_univ_three]; field_simp
 
 theorem conjAut_nuDiag_dMat {F : Type} [Field F] (s t t1 t2 : Fˣ) :
     conjAut 3 F (nuDiagGL s t) (proj 3 F (dMat t1 t2)) = proj 3 F (dMat t1 t2) := by
@@ -216,7 +216,7 @@ theorem conjAut_nuDiag_dMat {F : Type} [Field F] (s t t1 t2 : Fˣ) :
   rw [coe_slConjugation, coe_nuDiagGL, coe_nuDiagGL_inv, coe_dMat]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply] <;> field_simp
+    simp [Matrix.mul_apply, Matrix.diagonal_apply] <;> field_simp
 
 theorem coe_sl_map_apply {F : Type} [Field F] (σ : F ≃+* F)
     (g : Matrix.SpecialLinearGroup (Fin 3) F) (i j : Fin 3) :
@@ -270,7 +270,7 @@ theorem fieldAut_nuFrob_dMat {F : Type} [Field F] [Finite F] [CharP F 2] (t1 t2 
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [coe_dMat, Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply,
-      nuFrobEquiv_apply, Units.val_pow_eq_pow_val, mul_pow, inv_pow, mul_inv]
+      nuFrobEquiv_apply, Units.val_pow_eq_pow_val, mul_pow, inv_pow]
 
 theorem fieldAut_refl_proj {F : Type} [Field F] (g : Matrix.SpecialLinearGroup (Fin 3) F) :
     fieldAut 3 F (RingEquiv.refl F) (proj 3 F g) = proj 3 F g := by
@@ -322,9 +322,9 @@ theorem nuTheta_torus {F : Type} [Field F] [Finite F] [CharP F 2] (hq : Nat.card
       ((if ε then τ⁻¹ else τ : ↥(torus3 F)) : projectiveSL 3 F) := by
   obtain ⟨t1, t2, hτ⟩ := mem_torus3.mp τ.2
   cases ε
-  · simp only [Bool.false_eq_true, if_false]
+  · simp only [Bool.false_eq_true, ite_false]
     rw [hτ, nuTheta_torus_false]
-  · simp only [if_true]
+  · simp only [ite_true]
     rw [Subgroup.coe_inv, hτ, nuTheta_torus_true hq]
 
 theorem nuTheta_uElt_mul {F : Type} [Field F] [Finite F] [CharP F 2] (hq : Nat.card F = 4)

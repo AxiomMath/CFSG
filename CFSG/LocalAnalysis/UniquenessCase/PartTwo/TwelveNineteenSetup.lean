@@ -44,7 +44,7 @@ theorem mem_pCoreOf_of_centralizes (D : Data G) (h613 : UC6.R6_13 D) {p : ℕ} {
     (hmc : ∀ y ∈ P ⊓ UC6.inftyOf (centralizer (P₀ : Set G)), m * y * m⁻¹ * y⁻¹ ∈ pCoreOf 2 D.M)
     (hm2 : m * m ∈ pCoreOf 2 D.M) : m ∈ pCoreOf 2 D.M := by
   obtain ⟨-, -, -, ⟨-, h4b, h4c⟩, -⟩ := h613 p P P₀ hH
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P₁ : Subgroup G := P ⊓ UC6.inftyOf (centralizer (P₀ : Set G)) with hP₁def
   set R : Subgroup G := pCoreOf 2 D.M with hRdef
   have hP₁M : P₁ ≤ D.M := inf_le_left.trans hH.sylow.le
@@ -94,6 +94,7 @@ theorem mem_pCoreOf_of_centralizes (D : Data G) (h613 : UC6.R6_13 D) {p : ℕ} {
   rw [e]
   exact uc22p22qh_conj_mem_pCoreOf hxM htR
 
+omit [Finite G] in
 theorem card_barSub_of_inf_eq_bot {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer (V₀ : Set G)) {X : Subgroup G}
     (hXM : X ≤ M) (hX : X ⊓ F11.CTilde M V₀ V = ⊥) :
@@ -119,6 +120,7 @@ theorem card_barSub_of_inf_eq_bot {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 
   rw [← hrange, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hXs).toEquiv
 
+omit [Finite G] in
 private theorem barSub_le_normalizer {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {X Y : Subgroup G} (hXY : X ≤ normalizer (Y : Set G)) :
     barSub V₀ V hV X ≤ normalizer ((barSub V₀ V hV Y : Subgroup _) : Set _) := by
@@ -131,6 +133,7 @@ private theorem barSub_le_normalizer {V₀ V : Subgroup G} (hV : IsElemAbelian 2
   simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   exact mem_normalizer_iff.1 (hXY hg) h
 
+omit [Finite G] in
 private theorem barSub_sup_eq {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer (V₀ : Set G)) {Y C : Subgroup G}
     (hYM : Y ≤ M) (hC : C ≤ F11.CTilde M V₀ V) (hYC : Y ≤ normalizer (C : Set G)) :
@@ -158,8 +161,8 @@ theorem mBarGT_three (D : Data G) (hstd : Sigma23Std D) (h613 : UC6.R6_13 D) (h1
     exact Or.inl (Or.inr hH.mem_sig2)
   have hpP : p.Prime := (D.sig_prime p hpσ).1
   have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2
-  haveI : Fact p.Prime := ⟨hpP⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hpP⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp5 : 5 ≤ p := by
     rcases Nat.lt_or_ge p 5 with h5 | h5
     · interval_cases p

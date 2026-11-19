@@ -29,7 +29,7 @@ theorem noA5_omegaOdd_outer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {G : Type} 
   have hL1 := Claims1110h.a5Center_map e hL
   rw [hJeq] at hL1
   have : Finite k := Finite.of_injective (algebraMap k K) (algebraMap k K).injective
-  letI : Fintype k := Fintype.ofFinite k
+  let : Fintype k := Fintype.ofFinite k
   exact not_a5_of_surj hqT.1.commutator_eq_top π hπ hπk
     (not_a5_top rfl (large_noA5 S.hnd₀ (by rw [Module.finrank_fin_fun]; exact hd))) hL1
 

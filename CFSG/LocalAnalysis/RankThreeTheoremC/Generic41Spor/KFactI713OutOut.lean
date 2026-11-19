@@ -49,7 +49,7 @@ theorem not_dvd_card_outer_of_sylow_card_eq_prime
     ¬ p ∣ Nat.card (Outer K) := by
   classical
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : Subgroup.center K = ⊥ := CFSG.ComponentClassification.Helpers.center_eq_bot K hnab
   have hinj : Function.Injective (MulAut.conj : K →* MulAut K) := by
     intro a b hab

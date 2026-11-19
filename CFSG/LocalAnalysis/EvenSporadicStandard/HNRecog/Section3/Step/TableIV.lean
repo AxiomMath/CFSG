@@ -142,26 +142,26 @@ private theorem tableIV_at (hI : TwoHSInterface) (hS : SuborbitFacts) {G : Type}
   exact ⟨hcard, hpart, hstab, hshape_4B, hshape_3A, hshape_6A, hs8⟩
 
 theorem tableIVInput_holds :
-    ∀ (hI : TwoHSInterface) (hS : SuborbitFacts) {G : Type} [Group G] [Finite G] {a z : G}
-      (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z) (hF2 : Vert Fusion2Facts a z)
-      (hF3 : Vert Fusion3Facts a z) (hPic : Vert A8Pictures a z) (hSGz : Vert StructGzFacts a z)
-      (hSX : Vert StructXFacts a z) (hT3 : Vert TableIIIFacts a z) (hPar : Vert ParityFacts a z),
+    ∀ (_hI : TwoHSInterface) (_hS : SuborbitFacts) {G : Type} [Group G] [Finite G] {a z : G}
+      (_h : IsF5Type a z) (_hF1 : Vert Fusion1Facts a z) (_hF2 : Vert Fusion2Facts a z)
+      (_hF3 : Vert Fusion3Facts a z) (_hPic : Vert A8Pictures a z) (_hSGz : Vert StructGzFacts a z)
+      (_hSX : Vert StructXFacts a z) (_hT3 : Vert TableIIIFacts a z) (_hPar : Vert ParityFacts a z),
       TableIVFacts a z := by
-  intro hI hS G _ _ a z h hF1 hF2 hF3 hPic hSGz hSX hT3 hPar
+  intro _hI _hS G _ _ a z _h _hF1 _hF2 _hF3 _hPic _hSGz _hSX _hT3 _hPar
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · intro b hb
-    exact (tableIV_at hI hS h hF1 hF2 hF3 hPic hb).1
+    exact (tableIV_at _hI _hS _h _hF1 _hF2 _hF3 _hPic hb).1
   · intro b hb
-    exact (tableIV_at hI hS h hF1 hF2 hF3 hPic hb).2.1
+    exact (tableIV_at _hI _hS _h _hF1 _hF2 _hF3 _hPic hb).2.1
   · intro b hb
-    exact (tableIV_at hI hS h hF1 hF2 hF3 hPic hb).2.2.1
+    exact (tableIV_at _hI _hS _h _hF1 _hF2 _hF3 _hPic hb).2.2.1
   · intro b hb c hc
-    exact (tableIV_at hI hS h hF1 hF2 hF3 hPic hb).2.2.2.1 c hc
+    exact (tableIV_at _hI _hS _h _hF1 _hF2 _hF3 _hPic hb).2.2.2.1 c hc
   · intro b hb c hc
-    exact (tableIV_at hI hS h hF1 hF2 hF3 hPic hb).2.2.2.2.1 c hc
+    exact (tableIV_at _hI _hS _h _hF1 _hF2 _hF3 _hPic hb).2.2.2.2.1 c hc
   · intro b hb c hc
-    exact (tableIV_at hI hS h hF1 hF2 hF3 hPic hb).2.2.2.2.2.1 c hc
+    exact (tableIV_at _hI _hS _h _hF1 _hF2 _hF3 _hPic hb).2.2.2.2.2.1 c hc
   · intro b hb c hc
-    exact (tableIV_at hI hS h hF1 hF2 hF3 hPic hb).2.2.2.2.2.2 c hc
+    exact (tableIV_at _hI _hS _h _hF1 _hF2 _hF3 _hPic hb).2.2.2.2.2.2 c hc
 
 end CFSG.EvenSporadicStandard.HNRecog.Section3

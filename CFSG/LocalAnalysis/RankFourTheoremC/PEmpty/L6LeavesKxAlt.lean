@@ -24,7 +24,7 @@ theorem le_of_section_three (hL613 : L613) (h2401 : KFact2401Three) (c : KxCfg p
     {H N : Subgroup G} (hHL : H ≤ L) (hHM : H ≤ M) (hs : S622IsSimpleSection H N)
     (hzH : z ∈ H) (hzN : z ∉ N) (h3 : 3 ∣ N.relIndex H) : False := by
   have hp5 : 5 ≤ p := c.conf.config.situation.p_ge
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsE : GLBStronglyEmbedded 3 M :=
     c.stronglyEmbedded hL613 hHL hHM hs hzH hzN Nat.prime_three (by norm_num) (by omega) h3
   have h3H : 3 ∣ Nat.card H := h3.trans (Subgroup.index_dvd_card (N.subgroupOf H))
@@ -50,7 +50,7 @@ theorem le_of_section_three (hL613 : L613) (h2401 : KFact2401Three) (c : KxCfg p
 
 theorem commutator_commutator_eq (c : KxCfg p P M x z T S L) :
     ⁅(⁅zpowers z, S⁆ : Subgroup G), zpowers z⁆ = ⁅zpowers z, S⁆ := by
-  haveI : Fact p.Prime := ⟨c.conf.config.prime⟩
+  have : Fact p.Prime := ⟨c.conf.config.prime⟩
   have hXP : zpowers z ≤ normalizer (S : Set G) := c.conf.z_le_normalizer
   have hcop : Nat.Coprime (Nat.card (zpowers z)) (Nat.card S) := by
     obtain ⟨k, hk⟩ := c.conf.S_isPGroup.exists_card_eq

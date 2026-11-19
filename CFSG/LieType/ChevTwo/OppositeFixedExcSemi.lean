@@ -89,8 +89,7 @@ variable (τ K) in
   toFun s := MulAut.conj s.left * fieldAutHom τ K s.right
   map_one' := by
     refine MulEquiv.ext fun g => ?_
-    simp only [SemidirectProduct.one_left, SemidirectProduct.one_right, map_one, MulAut.mul_apply,
-      MulAut.one_apply, MulAut.conj_apply, inv_one, one_mul, mul_one]
+    simp only [SemidirectProduct.one_left, SemidirectProduct.one_right, map_one, MulAut.one_apply, mul_one]
   map_mul' s t := by
     refine MulEquiv.ext fun g => ?_
     simp only [SemidirectProduct.mul_left, SemidirectProduct.mul_right, map_mul, MulAut.mul_apply,
@@ -107,11 +106,11 @@ theorem conjAct_apply (s : GamL τ K) (g : ModGL τ K) :
   algebraMap (ZMod (ringChar K)) K (Algebra.trace (ZMod (ringChar K)) K z)
 
 theorem trK_add (x y : K) : trK (x + y) = trK x + trK y := by
-  letI : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
+  let : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
   simp only [trK, map_add]
 
 theorem trK_zero : trK (0 : K) = 0 := by
-  letI : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
+  let : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
   simp only [trK, map_zero]
 
 @[expose] noncomputable def trKHom : K →+ K where
@@ -120,7 +119,7 @@ theorem trK_zero : trK (0 : K) = 0 := by
   map_add' := trK_add
 
 theorem trK_ringAut (σ : RingAut K) (z : K) : trK (σ z) = trK z := by
-  letI : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
+  let : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
   have e : (σ.toRingHom.comp (algebraMap (ZMod (ringChar K)) K)) =
       algebraMap (ZMod (ringChar K)) K := RingHom.ext_zmod _ _
   let e' : K ≃ₐ[ZMod (ringChar K)] K :=
@@ -130,7 +129,7 @@ theorem trK_ringAut (σ : RingAut K) (z : K) : trK (σ z) = trK z := by
   exact congrArg _ h
 
 theorem exists_trK_ne_zero [Finite K] {a : K} (ha : a ≠ 0) : ∃ b : K, trK (a * b) ≠ 0 := by
-  letI : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
+  let : Algebra (ZMod (ringChar K)) K := ZMod.algebra K (ringChar K)
   obtain ⟨b, hb⟩ := FiniteField.trace_to_zmod_nondegenerate K ha
   have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
   refine ⟨b, fun h => hb ?_⟩
@@ -310,7 +309,7 @@ theorem inl_conj_left (n : ModGL τ K) (hn : ∀ σ : RingAut K, fieldAutHom τ 
     SemidirectProduct.mul_right, SemidirectProduct.left_inl, SemidirectProduct.left_inl,
     SemidirectProduct.right_inl, map_inv, one_mul, map_one, MulAut.one_apply, hn]
 
-@[expose] noncomputable def actSub (B : Subgroup (GamL τ K)) (H : Subgroup (ModGL τ K))
+@[instance_reducible, expose] noncomputable def actSub (B : Subgroup (GamL τ K)) (H : Subgroup (ModGL τ K))
     (hH : ∀ b ∈ B, ∀ x ∈ H, conjAct τ K b x ∈ H) : MulDistribMulAction B H :=
   { smul := fun b x => ⟨conjAct τ K b x, hH b b.2 x x.2⟩
     one_smul := fun x => Subtype.ext (by
@@ -371,7 +370,7 @@ theorem exists_fixed_mem_oppRadical_semi [Finite K] [CharP K 2]
   have hN2 : ∀ b ∈ S', ∀ z ∈ levelRadical τ K (δ '' J) (n + 1 + 1),
       conjAct τ K b z ∈ levelRadical τ K (δ '' J) (n + 1 + 1) := fun b hb z hz =>
     conjAct_mem_levelRadical (hS'M b hb) (one_le_succ_succ n) hz
-  letI : MulDistribMulAction S' (levelRadical τ K (δ '' J) (n + 1)) :=
+  let : MulDistribMulAction S' (levelRadical τ K (δ '' J) (n + 1)) :=
     actSub S' _ hN1
   have hinv : CFSG.IsInvariant S' (levelRadical τ K (δ '' J) (n + 1))
       ((levelRadical τ K (δ '' J) (n + 1 + 1)).subgroupOf (levelRadical τ K (δ '' J) (n + 1))) :=

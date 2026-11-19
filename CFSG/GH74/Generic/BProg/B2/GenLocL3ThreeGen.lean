@@ -75,7 +75,7 @@ theorem wMat_sandwich {p q : Fin 3} (hpq : p ≠ q) (u : Fin 3 → K3) (h : u p 
     wMat p q (1 : K3) * Matrix.diagonal u * (wMat p q (1 : K3)).transpose = Matrix.diagonal u := by
   rcases (by decide : ∀ p : Fin 3, p = 0 ∨ p = 1 ∨ p = 2) p with rfl | rfl | rfl <;>
     rcases (by decide : ∀ p : Fin 3, p = 0 ∨ p = 1 ∨ p = 2) q with rfl | rfl | rfl <;>
-    first | exact absurd rfl hpq | skip
+    try exact absurd rfl hpq
   all_goals
     ext a b
     fin_cases a <;> fin_cases b <;>

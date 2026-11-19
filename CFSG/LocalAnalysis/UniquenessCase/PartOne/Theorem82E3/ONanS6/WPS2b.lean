@@ -98,14 +98,14 @@ theorem orbit_ncard_eq_one_or_six_le_of_tripleCover
       exact (pCore_isPGroup (p := 2) (G := P)).of_equiv (Subgroup.subgroupOfEquivOfLe hZL).symm
     have hcen : Group.IsSolvable ↥(Subgroup.center Pbar) :=
       Group.isSolvable_of_comm fun a b => Subtype.ext (Subgroup.mem_center_iff.mp b.2 a)
-    haveI : Group.IsSolvable ↥(Subgroup.center Pbar) := hcen
+    have : Group.IsSolvable ↥(Subgroup.center Pbar) := hcen
     have hcenTop : Group.IsSolvable ↥(⊤ : Subgroup (Subgroup.center Pbar)) :=
       inferInstance
     have h := CFSG.GroupTheory.isSolvable_comap_of_isPGroup_ker cL hcL_surj
       (BQ := ⊤) hcenTop hcL_p
     rw [Subgroup.comap_top] at h
     have hLtop : Group.IsSolvable ↥(⊤ : Subgroup L) := h
-    haveI : Group.IsSolvable ↥(⊤ : Subgroup L) := hLtop
+    have : Group.IsSolvable ↥(⊤ : Subgroup L) := hLtop
     exact Group.isSolvable_of_isSolvable_injective
       (f := ((Subgroup.topEquiv : ↥(⊤ : Subgroup L) ≃* L).symm).toMonoidHom)
       (Subgroup.topEquiv : ↥(⊤ : Subgroup L) ≃* L).symm.injective
@@ -113,7 +113,7 @@ theorem orbit_ncard_eq_one_or_six_le_of_tripleCover
   let ρ : P →* Equiv.Perm O := MulAction.toPermHom P O
   let Q : Subgroup (Equiv.Perm O) := ρ.range
   let K : Subgroup P := ρ.ker
-  haveI : Group.IsPerfect P := hP
+  have : Group.IsPerfect P := hP
   have hQperf : Group.IsPerfect ↥Q := by
     have h := Group.IsPerfect.ofSurjective (f := ρ.rangeRestrict) ρ.rangeRestrict_surjective
     simpa [Q] using h
@@ -126,7 +126,7 @@ theorem orbit_ncard_eq_one_or_six_le_of_tripleCover
         obtain ⟨p, hp⟩ := hπ_surj a
         refine ⟨QuotientGroup.mk' K p, ?_⟩
         rw [← hp]
-        simpa [hfac] using QuotientGroup.lift_mk K hKL p
+        simp [hfac]
       have h360 : 360 ≤ Nat.card (P ⧸ K) := by
         have hle := Nat.card_le_card_of_surjective hfac hfac_surj
         have hA6 : Nat.card (alternatingGroup (Fin 6)) = 360 :=
@@ -137,7 +137,7 @@ theorem orbit_ncard_eq_one_or_six_le_of_tripleCover
       rwa [hcard]
     · left
       have hsimpleP : IsSimpleGroup (P ⧸ L) := by
-        haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+        have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
           alternatingGroup.isSimpleGroup (by norm_num)
         exact MulEquiv.isSimpleGroup (QuotientGroup.quotientKerEquivOfSurjective π hπ_surj)
       have hKmap : K.map (QuotientGroup.mk' L) = ⊤ := by
@@ -162,7 +162,7 @@ theorem orbit_ncard_eq_one_or_six_le_of_tripleCover
           intro y
           obtain ⟨p, hp⟩ := QuotientGroup.mk'_surjective K y
           have hp' : p ∈ K ⊔ L := by rw [hKLtop]; exact Subgroup.mem_top p
-          haveI : L.Normal := MonoidHom.normal_ker π
+          have : L.Normal := MonoidHom.normal_ker π
           rcases (Subgroup.mem_sup_of_normal_left (s := K) (t := L)).mp hp' with
             ⟨k, hk, l, hl, hkl⟩
           refine ⟨⟨l, hl⟩, ?_⟩
@@ -172,12 +172,12 @@ theorem orbit_ncard_eq_one_or_six_le_of_tripleCover
             one_mul]
         exact Group.isSolvable_of_surjective (f := f) hf
       have hQsolv : Group.IsSolvable ↥Q := by
-        haveI : Group.IsSolvable (P ⧸ K) := hPKsolv
+        have : Group.IsSolvable (P ⧸ K) := hPKsolv
         exact Group.isSolvable_of_surjective
           (f := (QuotientGroup.quotientKerEquivRange ρ).toMonoidHom)
           (QuotientGroup.quotientKerEquivRange ρ).surjective
       by_contra hQne
-      haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hQne
+      have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hQne
       exact Group.IsPerfect.not_isSolvable ↥Q hQsolv
   rcases hdich with hQbot | hQbig
   · left
@@ -193,7 +193,7 @@ theorem orbit_ncard_eq_one_or_six_le_of_tripleCover
         exact Set.mem_singleton_iff.mpr (congrArg Subtype.val hp)
       · intro hy
         rw [Set.mem_singleton_iff] at hy
-        simpa [hy] using MulAction.mem_orbit_self x
+        simp [hy]
     rw [horbit, Set.ncard_singleton]
   · right
     change 6 ≤ O.ncard
@@ -245,8 +245,7 @@ theorem perfectCoreL_le_normalizer_iff_orbit_ncard_eq_one
     · intro hK
       rw [hK]
       exact hmem
-  · intro h
-    intro i hi
+  · intro h i hi
     have hKi : CFSG.conjugate J i ∈ orbitConjugates (perfectCoreL c a) J := ⟨i, hi, rfl⟩
     rcases Set.ncard_eq_one.mp h with ⟨K, hK⟩
     have hJK : J = K := by
@@ -264,7 +263,7 @@ theorem perfectCoreL_orbit_card
     (J : Subgroup G) :
     (orbitConjugates (perfectCoreL c a) J).ncard = 1 ∨
       6 ≤ (orbitConjugates (perfectCoreL c a) J).ncard := by
-  letI : MulAction ↥(perfectCoreL c a) (Subgroup G) :=
+  let : MulAction ↥(perfectCoreL c a) (Subgroup G) :=
     MulAction.compHom (Subgroup G) (MulAut.conj.comp (perfectCoreL c a).subtype)
   have hsmul : ∀ (b : ↥(perfectCoreL c a)) (M : Subgroup G),
       b • M = M.map (MulAut.conj (b : G)).toMonoidHom := fun b M => by

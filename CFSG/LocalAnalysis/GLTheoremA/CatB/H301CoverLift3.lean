@@ -31,7 +31,7 @@ theorem SporCfgCore.hK6_sandwich_of_outer {p : ℕ} {row : Row} {x : G} {L : Sub
   right
   have hp : p.Prime := by rw [hrow.1]; cases row <;> norm_num [Row.prime]
   have hp2 : p ≠ 2 := by rw [hrow.1]; cases row <;> norm_num [Row.prime]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set W : Subgroup G := Subgroup.centralizer (c.D : Set G) ⊓
     Subgroup.centralizer (centerOf (cfgR0 c.R c.D) : Set G) with hWdef
   set O : Subgroup G := GLAPPrimeCoreOf p (cx x) with hO
@@ -86,7 +86,7 @@ theorem SporCfgCore.hK6_layer_of_outer {p : ℕ} {row : Row} {x : G} {L : Subgro
   right
   refine ⟨hKΛ, ?_⟩
   have hp : p.Prime := by rw [hrow.1]; cases row <;> norm_num [Row.prime]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Λ : Subgroup G := GLAPLayer p (Subgroup.centralizer (c.D : Set G) ⊓
     Subgroup.centralizer (centerOf (cfgR0 c.R c.D) : Set G)) with hΛdef
   set O : Subgroup G := GLAPPrimeCoreOf p (cx x) with hO

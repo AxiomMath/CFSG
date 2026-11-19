@@ -177,7 +177,7 @@ theorem eq_one_of_pow_seven_eq_one {J : Type*} [Group J] [Finite J]
       (isPGroup_zpowers_of_pow_seven hα).nonempty_fixed_point_of_prime_not_dvd_card _ h7n
     have hPα : (P : Subgroup J).map (α : J →* J) = P :=
       congrArg Sylow.toSubgroup (hP ⟨α, mem_zpowers α⟩)
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 P.isPGroup
     exact ⟨P, hfix P hPα (hk ▸ hpow p k hp)⟩
   ext x
   have hx : x ∈ MonoidHom.eqLocus (α : J →* J) (MonoidHom.id J) := htop ▸ mem_top x

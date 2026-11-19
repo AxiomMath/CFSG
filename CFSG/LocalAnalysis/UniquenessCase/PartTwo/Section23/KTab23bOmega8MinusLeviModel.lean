@@ -21,11 +21,13 @@ open scoped Matrix
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
 
+omit [Finite K] [CharP K 2] in
 private theorem o8ModEquiv_symm_ofAdd_H12 (v : T3V K) :
     (o8ModEquiv K b c).symm (Multiplicative.ofAdd v) =
       Multiplicative.ofAdd ((minusTailIsometry 4 K b c) v) :=
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem matHom_ofAdd_eq_H12 (g : GL (Fin 3 ⊕ Fin 3 ⊕ Fin 2) K)
     (w : Fin 3 ⊕ Fin 3 ⊕ Fin 2 → K) :
     CFSG.Quasithin.H.matHom g (Multiplicative.ofAdd w) =
@@ -33,11 +35,13 @@ private theorem matHom_ofAdd_eq_H12 (g : GL (Fin 3 ⊕ Fin 3 ⊕ Fin 2) K)
         ((g : Matrix (Fin 3 ⊕ Fin 3 ⊕ Fin 2) (Fin 3 ⊕ Fin 3 ⊕ Fin 2) K) *ᵥ w) :=
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem o8ModEquiv_ofAdd_H12 (w : Fin 3 ⊕ Fin 3 ⊕ Fin 2 → K) :
     o8ModEquiv K b c (Multiplicative.ofAdd w) =
       Multiplicative.ofAdd ((minusTailIsometry 4 K b c).symm w) :=
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem map_natImage_eq_of_hhom_H12
     (φ : ↥(StatedOmega (StatedQuadMinus 4 K b c)) ≃*
       ↥(orthElementaryGroup (quadTail 3 (minusTailForm K b c))))

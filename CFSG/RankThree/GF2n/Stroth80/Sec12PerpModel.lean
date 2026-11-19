@@ -23,7 +23,7 @@ theorem Ctx.eq_of_le_sup_Z (hc : Ctx M Q Z B) {N : Subgroup G} (hNQ : N ≤ Q)
     intro hle
     obtain ⟨g, hg⟩ := hc.conj
     exact hc.ne (Subgroup.eq_of_le_of_card_ge hle (by rw [hg, card_conjSubgroup]))
-  obtain ⟨a, haB, haZ⟩ := SetLike.not_le_iff_exists.mp hBZ
+  obtain ⟨a, haB, haZ⟩ := IsConcreteLE.not_le_iff_exists.mp hBZ
   have haQ : a ∈ Q := hc.le haB
   obtain ⟨c, hcQ, hca⟩ : ∃ c ∈ Q, c * a ≠ a * c := by
     by_contra hcon
@@ -74,6 +74,7 @@ section Model
 
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite K] in
 theorem Ctx.smul_mem_img_Lgen (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) (κ : K)
     {e : M₀.E} (he : e ∈ M₀.img (Lgen M B)) : κ • e ∈ M₀.img (Lgen M B) := by
   let T : Subgroup G :=
@@ -119,6 +120,7 @@ theorem Ctx.smul_mem_img_Lgen (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M
   smul_mem' := fun c e he n hn => by
     rw [map_smul, LinearMap.smul_apply, he n hn, smul_zero]
 
+omit [Finite K] [Finite G] in
 theorem Ctx.mem_img_PerpB_iff (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) (e : M₀.E) :
     e ∈ M₀.img (PerpB M Q B) ↔ e ∈ PerpSub M₀ (Lgen M B) := by
   constructor
@@ -131,6 +133,7 @@ theorem Ctx.mem_img_PerpB_iff (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M
     refine (Tim79.QuadModel.comm_iff_B M₀ h.reg (hc.Lgen_le_Q hn) hxQ).mpr ?_
     rw [Tim79.QuadModel.B_comm, he n hn, neg_zero]
 
+omit [Finite K] in
 theorem Ctx.card_PerpB (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) :
     Nat.card (PerpB M Q B) =
       Nat.card Z * Nat.card K ^ Module.finrank K (PerpSub M₀ (Lgen M B)) := by
@@ -139,6 +142,7 @@ theorem Ctx.card_PerpB (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) :
   rw [← Module.natCard_eq_pow_finrank]
   exact Nat.card_congr (Equiv.subtypeEquivRight fun e => hc.mem_img_PerpB_iff h e)
 
+omit [Finite K] in
 theorem Ctx.two_le_finrank_PerpSub (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     (hne : PerpB M Q B ≠ Z) : 2 ≤ Module.finrank K (PerpSub M₀ (Lgen M B)) := by
   by_contra hlt

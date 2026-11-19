@@ -115,7 +115,7 @@ theorem confined_normal_inverted_odd_subgroup_primes_do_not_divide_centralizer_i
         hPbot hPQ hQC
     refine ⟨fun Q hQC _ hPQ => hN Q hQC hPQ, fun Q => ?_⟩
     have hPp : IsPGroup ℓ (((P : Subgroup U).map U.subtype).comap (C t).subtype) :=
-      (P.isPGroup'.map U.subtype).comap_of_injective (C t).subtype Subtype.val_injective
+      (P.isPGroup.map U.subtype).comap_of_injective (C t).subtype Subtype.val_injective
     obtain ⟨Q₀, hQ₀⟩ := hPp.exists_le_sylow
     have hPQ₀ : (P : Subgroup U).map U.subtype ≤ (Q₀ : Subgroup (C t)).map (C t).subtype := by
       intro x hx

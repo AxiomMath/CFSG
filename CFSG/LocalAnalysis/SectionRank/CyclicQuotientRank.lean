@@ -13,9 +13,9 @@ theorem pRank_le_one_of_normal_isPGroup_cyclic_quotient
     {p r : ℕ} (hp : p.Prime) (hN : IsPGroup p N) (hcyc : IsCyclic (G ⧸ N))
     (hr : r.Prime) (hrp : r ≠ p) :
     CFSG.Open.pRank r (⊤ : Subgroup G) ≤ 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hcyc
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have := hcyc
   have hcard : ¬ r ∣ Nat.card N := by
     obtain ⟨k, hk⟩ := hN.exists_card_eq
     rw [hk]
@@ -47,7 +47,7 @@ theorem pRank_le_one_of_isPGroup_sup_cyclic {Y : Type*} [Group Y] [Finite Y]
     rw [← Subgroup.subgroupOf_sup hTB hJB, hsup, Subgroup.subgroupOf_self]
   have hJsub : IsCyclic (J.subgroupOf B) :=
     (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hJB)).2 hJ
-  haveI : (T.subgroupOf B).Normal := hTn
+  have : (T.subgroupOf B).Normal := hTn
   have hcyc : IsCyclic (↥B ⧸ T.subgroupOf B) :=
     CFSG.quotient_isCyclic_of_sup_cyclic_right hsupB hJsub
   exact pRank_le_one_of_le_normal_isPGroup_cyclic_quotient hTB hTn Fact.out hT hcyc hr

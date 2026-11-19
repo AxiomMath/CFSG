@@ -63,7 +63,7 @@ theorem sec4I_exists_inner [Finite G] (hL : IsOmega7Group L)
     rw [h1, map_one] at hlp
     exact hy1 (congrArg Subtype.val hlp.symm)
   have hord : orderOf (l : G) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine orderOf_eq_prime (by rw [pow_two, ← Subgroup.coe_mul, hll]; rfl) ?_
     exact fun h => hl1 (Subtype.ext h)
   have hly : ((e (QuotientGroup.mk (⟨(l : G), l.2⟩ : ↥L)) : Sec4IOmega) : ProjOrth Sec4IQ) = y :=

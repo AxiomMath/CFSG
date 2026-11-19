@@ -31,7 +31,7 @@ theorem J6.not_dvd_index_of_card_nine {E : Subgroup J6.S6} (hE : Nat.card E = 9)
 theorem FS79Hyp.exists_std (h : FS79Hyp b t b₁ b₂ J) :
     ∃ φ : ↥J ≃* J6.S6, φ ⟨b₁, h.b₁_mem⟩ = J6.c₁ ∧ φ ⟨b₂, h.b₂_mem⟩ = J6.c₂ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := h.J_perm
   set b₁' : ↥J := ⟨b₁, h.b₁_mem⟩ with hb₁'
   set b₂' : ↥J := ⟨b₂, h.b₂_mem⟩ with hb₂'

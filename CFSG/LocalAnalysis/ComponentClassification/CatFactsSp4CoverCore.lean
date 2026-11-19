@@ -183,7 +183,7 @@ theorem center_quotient_ne_bot (hperf : Group.IsPerfect M) (heven : Even (Nat.ca
     exact center_quotient_ne_bot_of hw2 (mk_mem_center hw)
   push Not at hrank
   obtain ⟨T⟩ : Nonempty (Sylow 2 M) := inferInstance
-  have hT2 : IsPGroup 2 (T : Subgroup M) := T.isPGroup'
+  have hT2 : IsPGroup 2 (T : Subgroup M) := T.isPGroup
   have hTrank : CFSG.DisconnectedInvolutionGraph.Helpers.NoCommutingDistinctInvolutions
       (T : Subgroup M) := by
     intro a b hab

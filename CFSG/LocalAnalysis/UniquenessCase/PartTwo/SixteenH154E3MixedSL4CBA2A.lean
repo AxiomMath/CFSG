@@ -41,8 +41,8 @@ theorem s16h_sl4_engine_b_involution_normalizer
   obtain ⟨K, hKf, hKfin, hKcard, s', hs'N, hs'2, hs'1, hle⟩ :=
     s16h_sl4_engine_a_involution_normalizer_reduce D S hσ hJP h hs2 ht ht2 ht1 htr hW hcomp hthin hZ
         hbad hrow hZ4 hs hsq hs1 hsN
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have h2 := s16h_sl4_natNorm_involution hKcard hs'N hs'2 hs'1
   omega
 

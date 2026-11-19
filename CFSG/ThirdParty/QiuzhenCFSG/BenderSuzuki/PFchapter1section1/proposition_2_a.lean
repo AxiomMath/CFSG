@@ -19,7 +19,7 @@ public theorem not_isInvolution_of_mem_odd_subgroup
     {G : Type*} [Group G] [Finite G] (K : Subgroup G)
     (hKodd : Odd (Nat.card K)) {x : G} (hxK : x ∈ K) :
     ¬ IsInvolution x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hx
   let xK : K := ⟨x, hxK⟩
   have hxK_sq : xK ^ 2 = 1 := by
@@ -183,7 +183,7 @@ private theorem exists_involution_mem_zpowers_of_even_order
     ∃ w : G, w ∈ Subgroup.zpowers r ∧ IsInvolution w := by
   classical
   let C : Subgroup G := Subgroup.zpowers r
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htwo_dvd_C : 2 ∣ Nat.card C := by
     simpa [C, Nat.card_zpowers] using hr_even.two_dvd
   obtain ⟨wC, hwC_order⟩ :=
@@ -232,7 +232,7 @@ public theorem involution_mem_Q_of_mem_H
   classical
   let QH : Subgroup H := Q.subgroupOf H
   let DH : Subgroup H := D.subgroupOf H
-  haveI : QH.Normal := by
+  have : QH.Normal := by
     simpa [QH] using hA1.Q_normal_in_H
   have hDHodd : Odd (Nat.card DH) := by
     have hmap_card : Nat.card (DH.map H.subtype) = Nat.card DH :=

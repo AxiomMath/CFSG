@@ -117,7 +117,7 @@ theorem FTS_supported_plane_sylow_normalizer
     hna hsolv (bot_lt_iff_ne_bot.2 hA0) hAtop hcon hq hqπ hqC hp (le_refl A)
     (Subgroup.le_centralizer A (h := hAmax.prop.isMulCommutative)) hAcard hAmax.prop.pow_eq_one
   obtain ⟨S, hAS⟩ := hAp.exists_le_sylow
-  have hSp : IsPGroup p (S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup p (S : Subgroup G) := S.isPGroup
   have hS0 : (S : Subgroup G) ≠ ⊥ := fun h => hA0 (le_bot_iff.1 (h ▸ hAS))
   have hStop : (S : Subgroup G) < ⊤ := lt_top_of_isPGroup hna hp hS0 hSp
   have hSπ : IsPiSubgroup (subgroupPrimeSupport A) (S : Subgroup G) := by
@@ -139,7 +139,7 @@ theorem FTS_supported_plane_sylow_normalizer
     rw [hPdef, ← hceq]
     exact mem_maximalNormalizedPSubgroups_smul _ hQ₀
   have hPcoe : ((c⁻¹ • S : Sylow p G) : Subgroup G) = P := Sylow.coe_subgroup_smul
-  have hPp : IsPGroup p P := hPcoe ▸ (c⁻¹ • S : Sylow p G).isPGroup'
+  have hPp : IsPGroup p P := hPcoe ▸ (c⁻¹ • S : Sylow p G).isPGroup
   have hP0 : P ≠ ⊥ := fun h => hA0 (le_bot_iff.1 (h ▸ hAP))
   have hPtop : P < ⊤ := lt_top_of_isPGroup hna hp hP0 hPp
   have hPπ : IsPiSubgroup (subgroupPrimeSupport A) P := by

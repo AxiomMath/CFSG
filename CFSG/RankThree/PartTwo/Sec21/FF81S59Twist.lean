@@ -138,6 +138,7 @@ theorem id_R4b :
   noncomm_ring
 
 
+omit h2 hg in
 theorem exp_theta0 : (1 + g + g^2 + g^3 + g^4 + g^5 + g^6) =
     1 + (g + g^3 + g^5) * (g + 1) := by
   noncomm_ring
@@ -162,7 +163,7 @@ variable {W : Type*} [AddCommGroup W] [Finite W]
 
 theorem card_eq_two_pow_of_exp_two (hW : ∀ x : W, x + x = 0) (K : AddSubgroup W) :
     ∃ a : ℕ, Nat.card K = 2 ^ a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 (Multiplicative K) := fun x => ⟨1, by
     have h : (Multiplicative.toAdd x) + (Multiplicative.toAdd x) = 0 := by
       apply Subtype.ext
@@ -257,7 +258,7 @@ theorem twist_card (hW : ∀ x : W, x + x = 0)
     · intro hx
       refine ⟨x, ?_⟩
       have hexp : θ₀ = 1 + (g + g ^ 3 + g ^ 5) * (g + 1) := by
-        rw [hθ₀]; exact exp_theta0 g h2 hg
+        rw [hθ₀]; exact exp_theta0 g
       have hgx : (g + 1) x = 0 := by
         show g x + x = 0
         rw [hx]; exact hW x
@@ -281,8 +282,8 @@ theorem twist_card (hW : ∀ x : W, x + x = 0)
     · exact Nat.card_le_card_of_injective (fun y => ⟨h₂ y, hmem₂ y y.2⟩)
         (fun a b hab => Subtype.ext (hi₂ (congrArg Subtype.val hab)))
   have hmod : Nat.card W ≡ Nat.card {x : W // g x = x} [MOD 7] := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-    haveI := Fintype.ofFinite W
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have := Fintype.ofFinite W
     let σ : Equiv.Perm W :=
       { toFun := fun x => g x
         invFun := fun x => (g ^ 6) x
@@ -382,7 +383,7 @@ theorem twist_sub (E : Subgroup 𝒢) [Finite E] (hE2 : ∀ x ∈ E, x ^ 2 = 1)
     (h₂E : h₂ ∈ Subgroup.normalizer (E : Set 𝒢)) (hg : g ^ 7 = 1)
     (hh₁ : h₁ * g * h₁⁻¹ = g ^ 3) (hh₂ : h₂ * g * h₂⁻¹ = g ^ 5) :
     ∃ j : ℕ, Nat.card E = Nat.card ↥(E ⊓ Subgroup.centralizer ({g} : Set 𝒢)) * 64 ^ j := by
-  letI : CommGroup ↥E := { (inferInstance : Group ↥E) with
+  let : CommGroup ↥E := { (inferInstance : Group ↥E) with
     mul_comm := fun a b => Subtype.ext (hEc a a.2 b b.2) }
   have hW : ∀ x : Additive ↥E, x + x = 0 := fun x => by
     apply Additive.toMul.injective

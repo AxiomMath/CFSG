@@ -66,7 +66,7 @@ theorem card_range_lt {A G : Type*} [Group A] [Group G] [Finite A] [Finite G] (�
     (hz : z ≠ 1) (hzk : σ z = 1) : Nat.card σ.range < Nat.card A := by
   have h1 := Subgroup.card_ker_mul_card_range σ
   have hk : 1 < Nat.card σ.ker := by
-    haveI : Nontrivial σ.ker := ⟨⟨⟨z, hzk⟩, 1, fun h => hz (congrArg Subtype.val h)⟩⟩
+    have : Nontrivial σ.ker := ⟨⟨⟨z, hzk⟩, 1, fun h => hz (congrArg Subtype.val h)⟩⟩
     exact Finite.one_lt_card
   have hr : 0 < Nat.card σ.range := Nat.card_pos
   rw [← h1]

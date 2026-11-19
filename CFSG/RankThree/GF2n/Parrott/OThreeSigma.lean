@@ -107,10 +107,10 @@ private theorem mem_closure_of_mem_spanL : ∀ (gs : List P45) {x : P45}, x ∈ 
   | g :: gs, x, h => by
     simp only [spanL, List.mem_append, List.mem_map] at h
     rcases h with h | ⟨y, hy, rfl⟩
-    · exact Subgroup.closure_mono (fun z hz => by simp only [Set.mem_setOf_eq] at hz ⊢; simp [hz])
+    · exact Subgroup.closure_mono (fun z hz => by simp only [Set.mem_ofPred_eq] at hz ⊢; simp [hz])
         (mem_closure_of_mem_spanL gs h)
     · exact mul_mem (Subgroup.subset_closure (by simp))
-        (Subgroup.closure_mono (fun z hz => by simp only [Set.mem_setOf_eq] at hz ⊢; simp [hz])
+        (Subgroup.closure_mono (fun z hz => by simp only [Set.mem_ofPred_eq] at hz ⊢; simp [hz])
           (mem_closure_of_mem_spanL gs hy))
 
 private theorem mem_spanL_of_mem_closure {gs : List P45}
@@ -357,7 +357,7 @@ private theorem oThreeSigmaQA45_eq : oThreeSigmaQA45 = Subgroup.closure {y | y �
   refine closure_eq_of_subset (fun y hy => Subgroup.subset_closure ?_)
     (fun y hy => Subgroup.subset_closure ?_)
   · rcases hy with rfl | rfl | rfl <;>
-      simp only [lU, Set.mem_setOf_eq, List.mem_cons, true_or, or_true]
+      simp only [lU, Set.mem_ofPred_eq, List.mem_cons, true_or, or_true]
   · simp only [lU, List.mem_cons, List.not_mem_nil, or_false] at hy
     rcases hy with rfl | rfl | rfl | rfl | rfl | rfl <;>
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff, true_or, or_true]
@@ -367,7 +367,7 @@ private theorem cSigmaQA45_eq : cSigmaQA45 = Subgroup.closure {y | y ∈ lC} := 
   refine closure_eq_of_subset (fun y hy => Subgroup.subset_closure ?_)
     (fun y hy => Subgroup.subset_closure ?_)
   · rcases hy with rfl | rfl | rfl | rfl | rfl | rfl <;>
-      simp only [lC, Set.mem_setOf_eq, List.mem_cons, true_or, or_true]
+      simp only [lC, Set.mem_ofPred_eq, List.mem_cons, true_or, or_true]
   · simp only [lC, List.mem_cons, List.not_mem_nil, or_false] at hy
     rcases hy with rfl | rfl | rfl | rfl | rfl | rfl <;>
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff, true_or, or_true]

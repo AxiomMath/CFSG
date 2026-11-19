@@ -803,7 +803,7 @@ theorem l28_lift_normalizer (hS : Setting G) (hU0 : FullCoreLocal G) (hp : 3 ∈
     e9_le_normalizer_inf Subgroup.le_normalizer (hJC.trans (le_normalizer_glbPrimeCore 3 C))
   have hTJ : T ≤ J := inf_le_right
   have hTN' : T ≤ normalizer (N' : Set G) := hTJ.trans hJN'
-  have hT3 : IsPGroup 3 T := P.isPGroup'.to_inf_left
+  have hT3 : IsPGroup 3 T := P.isPGroup.to_inf_left
   have hTcard' : Nat.card T = 9 := hTcard.trans (by norm_num)
   have hTN'bot : T ⊓ N' = ⊥ := inf_eq_bot_of_pGroup_of_coprime hT3 hN'cop
   have hN'ker : ∀ c : ↥C, (c : G) ∈ J → l34Hom x J c = 1 → (c : G) ∈ N' := fun c hcJ h1 =>
@@ -1048,7 +1048,7 @@ theorem mem_normalizer_subgroupOf_iff {X : Type*} [Group X] {K T : Subgroup X} (
     · intro hy
       exact Subgroup.mem_subgroupOf.mpr (this.mpr (Subgroup.mem_subgroupOf.mp hy))
 
-theorem l28_img_ne (hS : Setting G) (hU0 : FullCoreLocal G) (hp : 3 ∈ rankThreeSigmaA G)
+theorem l28_img_ne (hS : Setting G) (_hU0 : FullCoreLocal G) (hp : 3 ∈ rankThreeSigmaA G)
     {P : Sylow 3 G} {M : Subgroup G} (hM : IsCoreMaxLocal 3 P M) {x : G}
     (hgen : IsGenericPoint 3 P M x) {J : Subgroup G} (hJ : IsL28Normal M x J) :
     l34Img x J J ≠ l34Img x J (M ⊓ J) := by
@@ -1126,7 +1126,7 @@ theorem isSolvable_of_card_dvd_54 {H : Type} [Group H] [Finite H] (h : Nat.card 
   classical
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 H) := inferInstance
-  have hnil : Group.IsNilpotent ↥(P : Subgroup H) := P.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(P : Subgroup H) := P.isPGroup.isNilpotent
   have hidx : (P : Subgroup H).index ∣ 2 := by
     have h1 : (P : Subgroup H).index ∣ 54 := (Subgroup.index_dvd_card _).trans h
     have hcop : Nat.Coprime (P : Subgroup H).index 27 := by
@@ -1189,8 +1189,8 @@ theorem card_normalizer_dvd_54 {X : Type} [Group X] [Finite X] {K D : Subgroup X
     · exact h.trans hDeq.symm
     · exfalso
       have hnormal : (D.subgroupOf K).Normal := Subgroup.normalizer_eq_top_iff.mp h
-      haveI := hDsimple
-      haveI := hnormal
+      have := hDsimple
+      have := hnormal
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (D.subgroupOf K) with h0 | h1
       · rw [h0, Subgroup.card_bot] at hD18
         omega
@@ -1274,7 +1274,7 @@ theorem zpowers_inf_eq_bot {a b : G} (ha : orderOf a = 3) (hb : orderOf b = 3)
   rw [← h2, h1]
   exact mem_zpowers a
 
-theorem mem_of_mem_zpowers_of_ne_one {e u : G} {N : Subgroup G} (he : e ^ 3 = 1) (he1 : e ≠ 1)
+theorem mem_of_mem_zpowers_of_ne_one {e u : G} {N : Subgroup G} (he : e ^ 3 = 1) (_he1 : e ≠ 1)
     (hu : u ∈ zpowers e) (hu1 : u ≠ 1) (hN : u ∈ N) : e ∈ N := by
   have hu3 : u ^ 3 = 1 := by
     obtain ⟨i, rfl⟩ := mem_zpowers_iff.mp hu
@@ -1284,6 +1284,7 @@ theorem mem_of_mem_zpowers_of_ne_one {e u : G} {N : Subgroup G} (he : e ^ 3 = 1)
       he
   exact (zpowers_le.mpr hN) this
 
+omit [Finite G] in
 theorem eq_one_of_mul_self_eq_one {e u : G} (he : e ^ 3 = 1) (hu : u ∈ zpowers e)
     (h : u * u = 1) : u = 1 := by
   have hu3 : u ^ 3 = 1 := by
@@ -1712,7 +1713,7 @@ theorem l28_closedConfig (hS : Setting G) (hU0 : FullCoreLocal G) (hp : 3 ∈ ra
     mem_L28Z_iff.mpr ⟨hxP, fun p hp => mem_centralizer_singleton_iff.mp (hPC hp)⟩
   have hTJ : zpowers k ≤ J := by rw [← hkT]; exact inf_le_right
   have hSylTop : IsSylowOf 3 (P : Subgroup G) ⊤ :=
-    isSylowOf_iff.mpr ⟨le_top, P.isPGroup', by
+    isSylowOf_iff.mpr ⟨le_top, P.isPGroup, by
       rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
   refine
     { kgroup := catalogSimpleSections_of_isKProper hS.kProper M hMtop
@@ -2156,7 +2157,7 @@ theorem l28_endgame_structure (hS : Setting G) (hU0 : FullCoreLocal G)
   set Kx : Subgroup G := M ⊓ centralizer ({x} : Set G) with hKx
   have hPKx : (P : Subgroup G) ≤ Kx := le_inf hPM hPC
   have hSylTop : IsSylowOf 3 (P : Subgroup G) ⊤ :=
-    isSylowOf_iff.mpr ⟨le_top, P.isPGroup', by
+    isSylowOf_iff.mpr ⟨le_top, P.isPGroup, by
       rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
   have hSylKx : IsSylowOf 3 (P : Subgroup G) Kx := hSylTop.of_le hPKx le_top
   set F₁ : Subgroup G := F ⊓ normalizer (U : Set G) with hF₁
@@ -2186,8 +2187,8 @@ theorem l28_endgame_structure (hS : Setting G) (hU0 : FullCoreLocal G)
       intro f hf
       have : (⟨f, hf⟩ : ↥F) ∈ F₁.subgroupOf F := by rw [htop]; exact Subgroup.mem_top _
       exact (Subgroup.mem_subgroupOf.mp this).2
-    haveI : Group.IsNilpotent ↥F := hFp.isNilpotent
-    obtain ⟨f, hfN, hfnot⟩ := SetLike.exists_of_lt
+    have : Group.IsNilpotent ↥F := hFp.isNilpotent
+    obtain ⟨f, hfN, hfnot⟩ := _root_.IsConcreteLE.exists_of_lt
       ((Group.normalizerCondition_of_isNilpotent (G := ↥F)) _ hlt)
     have hfF₁N : ∀ g ∈ F₁, (f : G) * g * (f : G)⁻¹ ∈ F₁ := by
       intro g hg
@@ -2221,7 +2222,7 @@ theorem l28_endgame_structure (hS : Setting G) (hU0 : FullCoreLocal G)
   have hc' : ∀ y ∈ F, c⁻¹ * y * c ∈ (P : Subgroup G) := fun y hy => hc y ⟨hy, hFF₁ hy⟩
   set A : Subgroup G := F.map (MulAut.conj c⁻¹).toMonoidHom with hA
   have hφ : ∀ y : G, (MulAut.conj c⁻¹).toMonoidHom y = c⁻¹ * y * c := fun y => by
-    simp [MulAut.conj_apply]
+    simp
   have hAP : A ≤ (P : Subgroup G) := by
     rintro _ ⟨y, hy, rfl⟩
     rw [hφ]

@@ -65,7 +65,7 @@ private theorem parseWords_ofList (cs : List Char) (h : charsOK cs = true) :
   simp only [Function.comp_apply, ofList_isEmpty']
   by_cases he : t.isEmpty = true
   · simp [he]
-  · rw [if_neg he, if_neg he]
+  · rw [ite_eq_right he, ite_eq_right he]
     have hne : t ≠ [] := fun e => he (by rw [e]; rfl)
     rw [List.splitOn_eq_splitOnP] at hw ht
     have hd : ∀ c ∈ t, c.isDigit = true := by

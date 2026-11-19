@@ -246,7 +246,7 @@ theorem j2_innerKernel :
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, htY2, pow_one])
   obtain ⟨P, hP⟩ := hT.exists_le_sylow
   have htP : tY ∈ (P : Subgroup Y) := hP (mem_zpowers tY)
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hcop := P.card_coprime_index
   have hmul := (P : Subgroup Y).card_mul_index
   rw [h12, hk] at hmul

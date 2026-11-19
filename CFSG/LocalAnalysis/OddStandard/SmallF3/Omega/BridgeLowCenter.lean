@@ -45,7 +45,7 @@ theorem nonempty_quotient_center_omegaGroup_mulEquiv (hQ : Q.Nondegenerate)
       exact Subgroup.mem_center_iff.mp piOrth_mem_center (h : OGroup Q)
   have hcardker : Nat.card φ.ker = if piOrth Q ∈ omegaGroup hQ then 2 else 1 := by
     by_cases hmem : piOrth Q ∈ omegaGroup hQ
-    · rw [if_pos hmem]
+    · rw [ite_eq_left hmem]
       let πΩ : omegaGroup hQ := ⟨piOrth Q, hmem⟩
       have hπmem : πΩ ∈ φ.ker := by
         rw [hφ, MonoidHom.mem_ker]
@@ -72,7 +72,7 @@ theorem nonempty_quotient_center_omegaGroup_mulEquiv (hQ : Q.Nondegenerate)
         exact piOrth_mul_self
       · intro h
         exact piOrth_ne_one h0 (Subtype.ext_iff.mp h)
-    · rw [if_neg hmem]
+    · rw [ite_eq_right hmem]
       have hker_bot : φ.ker = ⊥ := by
         apply le_antisymm _ bot_le
         intro g hg
@@ -87,7 +87,7 @@ theorem nonempty_quotient_center_omegaGroup_mulEquiv (hQ : Q.Nondegenerate)
         · exact Subtype.ext h1
         · exact absurd (hp ▸ g.2) hmem
       rw [hker_bot, Subgroup.card_bot]
-  haveI : Finite (Subgroup.center (omegaGroup hQ)) :=
+  have : Finite (Subgroup.center (omegaGroup hQ)) :=
     Nat.finite_of_card_ne_zero (by
       by_cases hmem : piOrth Q ∈ omegaGroup hQ <;> simp [hZ, hmem])
   have hcenter_eq : φ.ker = Subgroup.center (omegaGroup hQ) := by

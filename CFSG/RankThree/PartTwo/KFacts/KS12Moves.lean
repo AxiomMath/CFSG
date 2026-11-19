@@ -72,7 +72,7 @@ theorem exists_normalizer_moves_of_factorization {X : Type*} [Group X] [Finite X
       have hu' : (⟨u, hTS hu⟩ : (S : Subgroup X)) ∈ T' := Subgroup.mem_subgroupOf.mpr hu
       have := hT'n.conj_mem _ hu' s
       exact Subgroup.mem_subgroupOf.mp this
-    exact hcon s hsN (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr s.2)) t ht
+    exact hcon s hsN (S.isPGroup.to_le (Subgroup.zpowers_le.mpr s.2)) t ht
   have hker : (QuotientGroup.mk' T').ker ≤ Subgroup.center (S : Subgroup X) := by
     rw [QuotientGroup.ker_mk']
     intro t ht

@@ -154,7 +154,7 @@ theorem opq4d_suzuki_exists_involution_inverts {m : ℕ} (hm : 1 ≤ m) {p : ℕ
     (by rw [opq4d_card_suzukiMatrixGroup (by omega)]; ring)
     (suzuki_card_coprime hqeven hq1) T₀ hT₀ w⁻¹ (fun t ht => ?_)
     (opq4d_conj_eq_inv_of_frobenius hm) hp hp2 S hS1
-  · exact opq4d_isCyclic_of_isPGroup hm hr.out hr2 T₀ hT₀ P P.isPGroup'
+  · exact opq4d_isCyclic_of_isPGroup hm hr.out hr2 T₀ hT₀ P P.isPGroup
   · rw [inv_inv]
     exact hinv t ht
 

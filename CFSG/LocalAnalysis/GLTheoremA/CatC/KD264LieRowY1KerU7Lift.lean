@@ -34,7 +34,7 @@ theorem lift_of_elemAbelianU (h : UnitaryFieldData p f K)
     (hE : CFSG.Open.IsElemAbelian 3 E) (hc : Nat.card E = 27) :
     ∃ P : Subgroup ↥(StatedSU 7 (p ^ f) K), P.map (piU p f K) = E ∧
       (∀ x ∈ P, ∀ y ∈ P, x * y = y * x) ∧ (∀ x ∈ P, x ^ 3 = 1) ∧ Nat.card P = 27 := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   let E' : Subgroup ↥(StatedSU 7 (p ^ f) K) := E.comap (piU p f K)
   let ρ : E' →* E := ((piU p f K).comp E'.subtype).codRestrict E (fun x => x.2)
   have hρ : Function.Surjective ρ := by
@@ -51,7 +51,7 @@ theorem lift_of_elemAbelianU (h : UnitaryFieldData p f K)
     have hq := Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective ρ hρ).toEquiv
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup ρ.ker, hq, hc]
     norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := Sylow.exists_subgroup_card_pow_prime (G := E') 3 h27
   let P : Subgroup ↥(StatedSU 7 (p ^ f) K) := Q.map E'.subtype
   have hcardP : Nat.card P = 27 := by

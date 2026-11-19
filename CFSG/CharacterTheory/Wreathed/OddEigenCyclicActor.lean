@@ -54,7 +54,7 @@ theorem odd_eigensubgroup_cyclic_actor_centralizer_has_quaternion_factorization
   let P₀ : Sylow 2 H := default
   let φ : (P₀ : Subgroup H) →* G := H.subtype.comp (P₀ : Subgroup H).subtype
   have hφ : Function.Injective φ := H.subtype_injective.comp (P₀ : Subgroup H).subtype_injective
-  obtain ⟨T, hT⟩ := (P₀.isPGroup'.map H.subtype).exists_le_sylow
+  obtain ⟨T, hT⟩ := (P₀.isPGroup.map H.subtype).exists_le_sylow
   let ι : (P₀ : Subgroup H) →* (T : Subgroup G) := φ.codRestrict (T : Subgroup G)
     (fun p => hT ⟨p, p.property, rfl⟩)
   have hι : Function.Injective ι := by

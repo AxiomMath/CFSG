@@ -79,7 +79,7 @@ open CFSG.Open in
 theorem pRank_statedSL_of_not_dvd {F : Type} [Field F] [Fintype F] {r : ℕ} (hr : r.Prime)
     (hr2 : r ≠ 2) (hrp : ¬ r ∣ Fintype.card F) (hrF : ¬ r ∣ Fintype.card F - 1) (m : ℕ) :
     CFSG.Open.pRank r (⊤ : Subgroup ↥(StatedSL m F)) = m / orderOf (Fintype.card F : ZMod r) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   rw [RankChevLinProof.pRank_top_eq_of_pow_mem (StatedSL m F) fun x hx =>
     RankChevLinProof.mem_statedSL_of_pow_eq_one hr hrF hx]
   exact RankChevProof.pRank_eq_of_sylow_sigmaModel r (CFSG.GroupTheory.WeirSylow.one_le_weirA hrp)
@@ -94,7 +94,7 @@ theorem chevA_reduce_to_SL (hG : CFSG.Open.GriessAllModelsStatement) {K : Type} 
     ∃ (F : Type) (_ : Field F) (_ : Fintype F), Fintype.card F = Q.card ∧
       CFSG.Open.pRank r (⊤ : Subgroup K) =
         CFSG.Open.pRank r (⊤ : Subgroup ↥(StatedSL (l + 1) F)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hm : CFSG.Open.StatedClassicalModel (K ⧸ Subgroup.center K) .PSL (l + 1) Q.p Q.exponent :=
     CFSG.RankThree.PartOne.N143.statedClassicalModel_of_isoLie_A hv e
   have hLM : CFSG.Models.LieModel (K ⧸ Subgroup.center K) .PSL (l + 1) Q.p Q.exponent :=
@@ -111,7 +111,7 @@ theorem chevA_reduce_to_SL (hG : CFSG.Open.GriessAllModelsStatement) {K : Type} 
     · exact hZ (by rwa [hQc])
     · exact hr2 h1
   obtain ⟨-, F, instF, instFin, hcard, ⟨φ⟩⟩ := hm
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hFc : Fintype.card F = Q.card := by
     rw [Fintype.card_eq_nat_card, hcard, TauCeti.PrimePower.card_def]
   refine ⟨F, instF, inferInstance, hFc, ?_⟩
@@ -141,7 +141,7 @@ theorem pRank_chev_A_largeE (hG : CFSG.Open.GriessAllModelsStatement) {K : Type}
   have hne : eP Q.card r ≠ 1 := fun h =>
     hc ((eP_eq_one_iff (by rw [hQc]; exact Nat.one_le_two_pow)).1 h)
   unfold rkLin
-  simp only [if_true, hne, if_false]
+  simp only [ite_true, hne, ite_false]
   rfl
 
 end CFSG.LocalAnalysis.RankThreeUC.S15

@@ -80,7 +80,7 @@ theorem center3_of_cyclic_normal_mul27
   have hPidx : ¬ 3 ∣ ((P : Subgroup G).subgroupOf M).index := fun h =>
     P.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hPM))
   have hmax : ∀ A : Subgroup G, A ≤ W → IsElemAbelian 3 A → Nat.card A ≤ 27 := fun A hAW hA =>
-    card_le_of_isElemAbelian_of_pRank hPM P.isPGroup' hPidx hP3 (hAW.trans hWM) hA
+    card_le_of_isElemAbelian_of_pRank hPM P.isPGroup hPidx hP3 (hAW.trans hWM) hA
   obtain ⟨F, hFW, hFel, hFc⟩ := exists_elemAbelian_le_sylow_pow hWM hWp hWidx h3
   have hF27 : Nat.card F = 27 := by rw [hFc]; norm_num
   obtain ⟨E, hEW₂, hEF, hEel, hE9⟩ := exists_E9_le_inf_of_cyclic_normal_mul hWp hmax hFW hFel hF27

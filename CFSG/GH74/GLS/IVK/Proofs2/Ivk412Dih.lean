@@ -228,7 +228,7 @@ theorem mem_sylow_of_commute' (S : Sylow 2 G) {y : G} (hy : ∃ i : ℕ, y ^ 2 ^
       rw [MonoidHom.noncommCoprod_range, Subgroup.range_subtype, Subgroup.range_subtype]⟩
   have hPQ : IsPGroup 2 (↥(S : Subgroup G) × ↥(zpowers y)) := by
     intro g
-    obtain ⟨k₁, hk₁⟩ := S.isPGroup' g.1
+    obtain ⟨k₁, hk₁⟩ := S.isPGroup g.1
     obtain ⟨k₂, hk₂⟩ := hz g.2
     refine ⟨k₁ + k₂, ?_⟩
     have e1 : g.1 ^ 2 ^ (k₁ + k₂) = 1 := by

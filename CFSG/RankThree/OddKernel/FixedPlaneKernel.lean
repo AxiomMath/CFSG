@@ -321,7 +321,7 @@ theorem pRank_centralizer_le_two (hp : p.Prime) (hp3 : 3 < p) {Y E : Type*} [Gro
     rw [pRank_eq_pRank_top_subgroup, ← pRank_eq_open_pRank_top, pRank_eq_open_pRank_top,
       pRank_eq_open_pRank_top]
     exact pRank_top_le_of_injective hp.one_lt ι hι
-  have h := pRank_le_two_of_surjective_of_two_le_ker hp hp3 Q₀.isPGroup' hQ₀rank ψ₀ hψ₀ hker
+  have h := pRank_le_two_of_surjective_of_two_le_ker hp hp3 Q₀.isPGroup hQ₀rank ψ₀ hψ₀ hker
   change CFSG.Open.pRank p (centralizer {f t}) ≤ 2
   rw [pRank_eq_pRank_top_subgroup, ← pRank_eq_open_pRank_top, ← (pRank_sylow Q).2]
   exact h

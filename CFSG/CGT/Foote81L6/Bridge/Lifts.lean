@@ -19,12 +19,13 @@ namespace Gen
 variable {n : ℕ} (hn : 3 ≤ n)
 include hn
 
+omit hn in
 theorem cz_mul_cz : cz n * cz n = 1 := by
   ext <;> simp [cz, SD.z_mul_self]
 
 theorem cz_pow_qr : cz n ^ 2 ^ (n - 2) = 1 := by
   rw [show 2 ^ (n - 2) = 2 * 2 ^ (n - 3) by rw [← pow_succ']; congr 1; omega, pow_mul, pow_two,
-    cz_mul_cz hn, one_pow]
+    cz_mul_cz, one_pow]
 
 omit hn in
 theorem zF_mul_cz : PHat.zF * cz n = PHat.c := by
@@ -39,21 +40,23 @@ theorem sq_of_semiconj {G : Type*} [Group G] {w u c : G} (h : w * u = u⁻¹ * w
     _ = (u⁻¹) ^ k * (w * w) * u ^ k := by rw [h1]; group
     _ = c := by rw [hw, hc, mul_assoc, inv_pow, inv_mul_cancel, mul_one]
 
+omit hn in
 theorem sA_rA_pow_sq (k : ℕ) : (sA n * rA n ^ k) * (sA n * rA n ^ k) = PHat.zF :=
-  sq_of_semiconj (sA_mul_rA hn) (sA_mul_sA hn) PHat.zF_comm k
+  sq_of_semiconj (sA_mul_rA) (sA_mul_sA) PHat.zF_comm k
 
 theorem κ₀_ρ₀_pow_sq (k : ℕ) : (κ₀ n * ρ₀ n ^ k) * (κ₀ n * ρ₀ n ^ k) = cz n :=
   sq_of_semiconj (κ₀_mul_ρ₀ hn) (κ₀_mul_κ₀ hn) cz_comm k
 
+omit hn in
 theorem κ₁_ρ₁_pow_sq (k : ℕ) : (κ₁ n * ρ₁ n ^ k) * (κ₁ n * ρ₁ n ^ k) = cz n :=
-  sq_of_semiconj (κ₁_mul_ρ₁ hn) (κ₁_mul_κ₁ hn) cz_comm k
+  sq_of_semiconj (κ₁_mul_ρ₁) (κ₁_mul_κ₁) cz_comm k
 
 theorem b₀H_sq : b₀H n * b₀H n = cz n := by
   rw [← ρ₀_pow_qr hn, ← pow_add, ← two_mul, ← pow_succ', show n - 2 + 1 = n - 1 by omega,
     ρ₀_pow_hf hn]
 
 theorem b₁H_sq : b₁H n * b₁H n = cz n := by
-  rw [← ρ₁_pow_qr hn, ← pow_add, ← two_mul, ← pow_succ', show n - 2 + 1 = n - 1 by omega,
+  rw [← ρ₁_pow_qr, ← pow_add, ← two_mul, ← pow_succ', show n - 2 + 1 = n - 1 by omega,
     ρ₁_pow_hf hn]
 
 theorem aH_sq : aH n * aH n = PHat.zF := by
@@ -84,29 +87,29 @@ theorem pow_mul_of_mul_eq {G : Type*} [Group G] {x y c : G} (h : x * y = y * x *
           rw [(Commute.pow_left (hc x).symm k).eq, pow_succ, pow_succ]; group
 
 theorem commute_b₀H_b₁H : Commute (b₀H n) (b₁H n) := by
-  rw [← ρ₀_pow_qr hn, ← ρ₁_pow_qr hn]
-  exact (show Commute (ρ₀ n) (ρ₁ n) from ρ₀_mul_ρ₁ hn).pow_pow _ _
+  rw [← ρ₀_pow_qr hn, ← ρ₁_pow_qr]
+  exact (show Commute (ρ₀ n) (ρ₁ n) from ρ₀_mul_ρ₁).pow_pow _ _
 
 theorem commute_κ₀_ρ₀_pow_b₁H (k : ℕ) : Commute (κ₀ n * ρ₀ n ^ k) (b₁H n) := by
   have h1 : Commute (κ₀ n) (b₁H n) := by
-    rw [Commute, SemiconjBy, ← ρ₁_pow_qr hn, mul_pow_of_mul_eq (κ₀_mul_ρ₁ hn) cz_comm,
+    rw [Commute, SemiconjBy, ← ρ₁_pow_qr, mul_pow_of_mul_eq (κ₀_mul_ρ₁ hn) cz_comm,
       cz_pow_qr hn, mul_one]
   have h2 : Commute (ρ₀ n) (b₁H n) := by
-    rw [← ρ₁_pow_qr hn]
-    exact (show Commute (ρ₀ n) (ρ₁ n) from ρ₀_mul_ρ₁ hn).pow_right _
+    rw [← ρ₁_pow_qr]
+    exact (show Commute (ρ₀ n) (ρ₁ n) from ρ₀_mul_ρ₁).pow_right _
   exact h1.mul_left (h2.pow_left k)
 
 theorem commute_κ₀ρ₀_κ₁ρ₁ (k : ℕ) : Commute (κ₀ n * ρ₀ n ^ k) (κ₁ n * ρ₁ n ^ k) := by
   have hczk : cz n ^ k * cz n ^ k = 1 := by
-    rw [← pow_add, ← two_mul, pow_mul, pow_two, cz_mul_cz hn, one_pow]
+    rw [← pow_add, ← two_mul, pow_mul, pow_two, cz_mul_cz, one_pow]
   have hcz : ∀ g : PHat n, g * cz n ^ k = cz n ^ k * g := fun g =>
     (Commute.pow_right (cz_comm g) k).eq
   have h1 : ρ₀ n ^ k * κ₁ n = κ₁ n * ρ₀ n ^ k * cz n ^ k :=
-    pow_mul_of_mul_eq (ρ₀_mul_κ₁ hn) cz_comm k
+    pow_mul_of_mul_eq (ρ₀_mul_κ₁) cz_comm k
   have h2 : ρ₁ n ^ k * κ₀ n = κ₀ n * ρ₁ n ^ k * cz n ^ k := by
     rw [mul_pow_of_mul_eq (κ₀_mul_ρ₁ hn) cz_comm k, mul_assoc, hczk, mul_one]
   have h3 : ρ₀ n ^ k * ρ₁ n ^ k = ρ₁ n ^ k * ρ₀ n ^ k :=
-    ((show Commute (ρ₀ n) (ρ₁ n) from ρ₀_mul_ρ₁ hn).pow_pow k k).eq
+    ((show Commute (ρ₀ n) (ρ₁ n) from ρ₀_mul_ρ₁).pow_pow k k).eq
   have h4 := κ₀_mul_κ₁ hn
   have hUV : κ₀ n * ρ₀ n ^ k * (κ₁ n * ρ₁ n ^ k) =
       κ₀ n * κ₁ n * (ρ₀ n ^ k * ρ₁ n ^ k) * cz n ^ k := by
@@ -237,7 +240,7 @@ theorem B₀_lift {r : TM n} (hr : r ∈ B₀T hn) (hr2 : orderOf r = 2) :
         tT_conj_κ₀T hn, tT_conj_ρ₀T hn]
       rfl
     · rw [Subgroup.coe_mul, Subgroup.coe_pow, coe_toP Gen.det_κ₁, coe_toP Gen.det_ρ₁,
-        Gen.κ₁_ρ₁_pow_sq hn]
+        Gen.κ₁_ρ₁_pow_sq]
     · rw [Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_mul, Subgroup.coe_pow,
         coe_toP Gen.det_κ₀, coe_toP Gen.det_ρ₀, coe_toP Gen.det_κ₁, coe_toP Gen.det_ρ₁]
       exact (Gen.commute_κ₀ρ₀_κ₁ρ₁ hn k).eq
@@ -248,7 +251,7 @@ theorem lifts_A : ∀ x ∈ AT hn, orderOf x = 2 → LiftsSqZ x := by
   · exact liftsSqZ_of (Or.inl (by rw [coe_toP (Gen.det_aH hn), Gen.aH_sq hn]))
   · obtain ⟨h1, -, h3⟩ := sA_rA_lift hn k
     rw [h1]
-    exact liftsSqZ_of (Or.inl (by rw [h3, Gen.sA_rA_pow_sq hn]))
+    exact liftsSqZ_of (Or.inl (by rw [h3, Gen.sA_rA_pow_sq]))
 
 theorem lifts_i : ∀ x ∈ AT hn, orderOf x = 2 → x ≠ aT n → ∀ r ∈ B₀T hn, orderOf r = 2 →
     LiftsSq1 (x * r) := by
@@ -259,7 +262,7 @@ theorem lifts_i : ∀ x ∈ AT hn, orderOf x = 2 → x ≠ aT n → ∀ r ∈ B�
   rw [h1, ← map_mul]
   refine liftsSq1_of (Or.inr ?_)
   rw [Subgroup.coe_mul, mul_mul_mul_self_of_comm (coe_comm_of_mem_Atil_Btil hX hR),
-    h3, Gen.sA_rA_pow_sq hn, hR2, Gen.zF_mul_cz]
+    h3, Gen.sA_rA_pow_sq, hR2, Gen.zF_mul_cz]
 
 theorem lifts_ii : ∀ r ∈ B₀T hn, orderOf r = 2 → LiftsSq1 (r * b₁T hn) := by
   intro r hr hr2
@@ -267,7 +270,7 @@ theorem lifts_ii : ∀ r ∈ B₀T hn, orderOf r = 2 → LiftsSq1 (r * b₁T hn)
   rw [b₁T_eq' hn, ← map_mul]
   refine liftsSq1_of (Or.inl ?_)
   rw [Subgroup.coe_mul, coe_toP Gen.det_b₁H, mul_mul_mul_self_of_comm hRb, hR2,
-    Gen.b₁H_sq hn, Gen.cz_mul_cz hn]
+    Gen.b₁H_sq hn, Gen.cz_mul_cz]
 
 theorem lifts_iv : ∀ x ∈ AT hn, orderOf x = 2 → x ≠ aT n → ∀ r ∈ B₀T hn, orderOf r = 2 →
     LiftsSqZ (x * r * b₁T hn) ∧ LiftsSq1 (x * b₀T hn) := by
@@ -281,20 +284,20 @@ theorem lifts_iv : ∀ x ∈ AT hn, orderOf x = 2 → x ≠ aT n → ∀ r ∈ B
   · rw [h1, b₁T_eq' hn, ← map_mul, ← map_mul, mul_assoc]
     refine liftsSqZ_of (Or.inl ?_)
     rw [Subgroup.coe_mul, mul_mul_mul_self_of_comm
-      (coe_comm_of_mem_Atil_Btil hX (mul_mem hR hb₁)), h3, Gen.sA_rA_pow_sq hn, Subgroup.coe_mul,
-      coe_toP Gen.det_b₁H, mul_mul_mul_self_of_comm hRb, hR2, Gen.b₁H_sq hn, Gen.cz_mul_cz hn,
+      (coe_comm_of_mem_Atil_Btil hX (mul_mem hR hb₁)), h3, Gen.sA_rA_pow_sq, Subgroup.coe_mul,
+      coe_toP Gen.det_b₁H, mul_mul_mul_self_of_comm hRb, hR2, Gen.b₁H_sq hn, Gen.cz_mul_cz,
       mul_one]
   · rw [h1, b₀T_eq' hn, ← map_mul]
     refine liftsSq1_of (Or.inr ?_)
     rw [Subgroup.coe_mul, mul_mul_mul_self_of_comm (coe_comm_of_mem_Atil_Btil hX hb₀),
-      h3, Gen.sA_rA_pow_sq hn, coe_toP Gen.det_b₀H, Gen.b₀H_sq hn, Gen.zF_mul_cz]
+      h3, Gen.sA_rA_pow_sq, coe_toP Gen.det_b₀H, Gen.b₀H_sq hn, Gen.zF_mul_cz]
 
 theorem lifts_v : ∀ r ∈ B₀T hn, orderOf r = 2 → LiftsSq1 (r * (tT n * r * (tT n)⁻¹)) := by
   intro r hr hr2
   obtain ⟨R, rfl, -, hR2, -, R', hR', -, hR'2, hRR'⟩ := B₀_lift hn hr hr2
   rw [hR', ← map_mul]
   refine liftsSq1_of (Or.inl ?_)
-  rw [Subgroup.coe_mul, mul_mul_mul_self_of_comm hRR', hR2, hR'2, Gen.cz_mul_cz hn]
+  rw [Subgroup.coe_mul, mul_mul_mul_self_of_comm hRR', hR2, hR'2, Gen.cz_mul_cz]
 
 @[expose] noncomputable def bT : TM n := b₀T hn * b₁T hn
 
@@ -318,7 +321,7 @@ theorem sAbT_conj_rAT : (sAT n * bT hn) * rAT n * (sAT n * bT hn)⁻¹ = (rAT n)
   group
 
 @[expose] noncomputable def fAstar : DihedralGroup (2 ^ (n - 2)) →* TM n :=
-  dihedralLift _ (rAT n) (sAT n * bT hn) (rAT_pow_qr hn) (sAbT_mul_self hn) (sAbT_conj_rAT hn)
+  dihedralLift _ (rAT n) (sAT n * bT hn) (rAT_pow_qr) (sAbT_mul_self hn) (sAbT_conj_rAT hn)
 
 theorem Astar_le : (footeCoreModel hn).Astar ≤ (fAstar hn).range := by
   rw [FooteCore.Astar, closure_le]
@@ -326,7 +329,7 @@ theorem Astar_le : (footeCoreModel hn).Astar ≤ (fAstar hn).range := by
   obtain ⟨k, rfl⟩ := (inv_AT_cases hn hx hx2).resolve_left hxa
   refine ⟨DihedralGroup.sr (k : ZMod (2 ^ (n - 2))), ?_⟩
   change sAT n * bT hn * rAT n ^ (k : ZMod (2 ^ (n - 2))).val = sAT n * rAT n ^ k * bT hn
-  rw [ZMod.val_natCast, ← pow_eq_pow_mod _ (rAT_pow_qr hn), mul_assoc, mul_assoc,
+  rw [ZMod.val_natCast, ← pow_eq_pow_mod _ (rAT_pow_qr), mul_assoc, mul_assoc,
     (bT_comm_AT hn (pow_mem (rAT_mem_AT hn) k)).symm]
 
 theorem lifts_Astar : ∀ x ∈ (footeCoreModel hn).Astar, orderOf x = 2 → LiftsSqZ x := by
@@ -345,8 +348,8 @@ theorem lifts_Astar : ∀ x ∈ (footeCoreModel hn).Astar, orderOf x = 2 → Lif
       b₀T_eq' hn, b₁T_eq' hn, ← map_mul, ← map_mul]
     refine liftsSqZ_of (Or.inl ?_)
     rw [Subgroup.coe_mul, mul_mul_mul_self_of_comm (coe_comm_of_mem_Atil_Btil hX hb),
-      h3, Gen.sA_rA_pow_sq hn, Subgroup.coe_mul, coe_toP Gen.det_b₀H, coe_toP Gen.det_b₁H,
+      h3, Gen.sA_rA_pow_sq, Subgroup.coe_mul, coe_toP Gen.det_b₀H, coe_toP Gen.det_b₁H,
       mul_mul_mul_self_of_comm (Gen.commute_b₀H_b₁H hn).eq, Gen.b₀H_sq hn, Gen.b₁H_sq hn,
-      Gen.cz_mul_cz hn, mul_one]
+      Gen.cz_mul_cz, mul_one]
 
 end CFSG.CGT.Foote81L6.Bridge

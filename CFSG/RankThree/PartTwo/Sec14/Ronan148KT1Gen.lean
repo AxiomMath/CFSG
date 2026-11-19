@@ -13,9 +13,9 @@ open scoped commutatorElement
 
 theorem exists_maximal_normal_ne_top (Q : Type) [Group Q] [Finite Q] (hne : Nontrivial Q) :
     ∃ N : Subgroup Q, N.Normal ∧ N ≠ ⊤ ∧ ∀ K : Subgroup Q, K.Normal → N ≤ K → K = N ∨ K = ⊤ := by
-  haveI : Finite (Subgroup Q) :=
+  have : Finite (Subgroup Q) :=
     Finite.of_injective (fun K : Subgroup Q => (K : Set Q)) SetLike.coe_injective
-  haveI : Nontrivial (Subgroup Q) := Subgroup.nontrivial_iff.mpr hne
+  have : Nontrivial (Subgroup Q) := Subgroup.nontrivial_iff.mpr hne
   let 𝓝 : Set (Subgroup Q) := {K | K.Normal ∧ K ≠ ⊤}
   have hbot : (⊥ : Subgroup Q) ∈ 𝓝 := ⟨inferInstance, bot_ne_top⟩
   obtain ⟨N, hNmem, hNmax⟩ := Set.Finite.exists_maximal (Set.toFinite 𝓝) ⟨⊥, hbot⟩
@@ -31,7 +31,7 @@ theorem exists_suzuki_section_of_isPerfect
     (h3 : ¬ 3 ∣ Nat.card Q) (hne : Nontrivial Q) :
     ∃ (N : Subgroup Q) (_ : N.Normal) (f : ℕ), CFSG.Blueprint.SuzukiModel (Q ⧸ N) 2 f := by
   obtain ⟨N, hNn, hNt, hmax⟩ := exists_maximal_normal_ne_top Q hne
-  haveI := hNn
+  have := hNn
   have hnab : ∃ a b : Q ⧸ N, a * b ≠ b * a := by
     by_contra hcon
     have hcomm : ∀ a b : Q ⧸ N, a * b = b * a := fun a b => by
@@ -84,9 +84,9 @@ theorem row143_of_noSzSection
   unfold Row143
   intro β _ _ D _ _ _ P hPK _ _ hPperf hP3
   by_contra hP
-  haveI : Finite (MulAut S) :=
+  have : Finite (MulAut S) :=
     Finite.of_injective (fun φ : MulAut S => (φ : S → S)) DFunLike.coe_injective
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr hP
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr hP
   obtain ⟨N, hN, f, hf⟩ := exists_suzuki_section_of_isPerfect hPK hPperf hP3 inferInstance
   exact h P N 2 f hf
 

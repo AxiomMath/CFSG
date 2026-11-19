@@ -98,7 +98,7 @@ theorem rowOfK9_mcl :
     RowOfK9 (Spor .McL) := by
   refine rowOfK9_spor CFSG.Sporadic.Bridge.McL.nonempty_mulEquiv ?_
   intro S _ _ _ hna ⟨e⟩
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .McL) := Finite.of_equiv S e.toEquiv
+  have : Finite (Blueprint.NativeSporadic.Carrier .McL) := Finite.of_equiv S e.toEquiv
   refine noCfgJ2_of_model (G' := Blueprint.NativeSporadic.McL) e
     (center_eq_bot_of_simple_nonab hna)
     (not_three_dvd_outer_of_mulEquiv e (not_three_dvd_outer_of_le_two Sec4.card_outer_McL))

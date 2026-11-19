@@ -103,7 +103,7 @@ theorem asc82FactCE16_of_cert :
       obtain ⟨hxX, hxT⟩ := hFs x hx
       obtain ⟨hs, hc⟩ := (TyDict.inducesTypeSome_four_minus_iff hL F x).1 hxT
       have h1 := MoCE16.fixCnt_of_invCent_1440 hc
-      simp only [ψ, dif_pos hxX]
+      simp only [ψ, dite_eq_left hxX]
       rw [hφX]
       exact h1
     have hinjOn : Set.InjOn ψ (Fs : Set G) := by

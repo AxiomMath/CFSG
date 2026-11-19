@@ -16,7 +16,7 @@ open scoped MatrixGroups
 theorem kdI278ChevP_holds :
     KDI278ChevP := by
   intro p hp hp5 K _ _ hs hnab hlie hrk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨d, ⟨e⟩, hchar⟩ := hlie
   by_cases hsmall : CFSG.AGLEmbeddingD2.IsD2LieCharSmall p d.1

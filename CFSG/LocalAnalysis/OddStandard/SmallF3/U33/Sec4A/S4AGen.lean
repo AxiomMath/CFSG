@@ -11,7 +11,8 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem mem_or_mem_or_mul_mem_of_relIndex_two {S K : Subgroup G} (hK : K ≤ S)
+omit [Finite G] in
+theorem mem_or_mem_or_mul_mem_of_relIndex_two {S K : Subgroup G} (_hK : K ≤ S)
     (hKi : K.relIndex S = 2) {a b : G} (ha : a ∈ S) (hb : b ∈ S) :
     a ∈ K ∨ b ∈ K ∨ a * b ∈ K := by
   have h := Subgroup.mul_mem_iff_of_index_two (H := K.subgroupOf S) hKi
@@ -25,7 +26,8 @@ theorem mem_or_mem_or_mul_mem_of_relIndex_two {S K : Subgroup G} (hK : K ≤ S)
       have hbK' : (⟨b, hb⟩ : S) ∉ K.subgroupOf S := fun hh => hbK (Subgroup.mem_subgroupOf.mp hh)
       exact Subgroup.mem_subgroupOf.mp (h.mpr (iff_of_false haK' hbK'))
 
-theorem relIndex_le_two_of_forall {N C : Subgroup G} (hCN : C ≤ N) (a : G) (haN : a ∈ N)
+omit [Finite G] in
+theorem relIndex_le_two_of_forall {N C : Subgroup G} (_hCN : C ≤ N) (a : G) (haN : a ∈ N)
     (h : ∀ n ∈ N, n ∈ C ∨ a⁻¹ * n ∈ C) : C.relIndex N ≤ 2 := by
   rw [Subgroup.relIndex, Subgroup.index]
   let f : Bool → (↥N ⧸ C.subgroupOf N) := fun b =>
@@ -46,6 +48,7 @@ theorem relIndex_le_two_of_forall {N C : Subgroup G} (hCN : C ≤ N) (a : G) (ha
   calc Nat.card (↥N ⧸ C.subgroupOf N) ≤ Nat.card Bool := Nat.card_le_card_of_surjective f hf
     _ = 2 := by rw [Nat.card_eq_fintype_card, Fintype.card_bool]
 
+omit [Finite G] in
 theorem eq_of_relIndex_le_two_of_odd {N C S : Subgroup G} (hCN : C ≤ N) (hSC : S ≤ C)
     (hS : ¬ 2 ∣ S.relIndex N) (h2 : C.relIndex N ≤ 2) : C = N := by
   have hdvd : C.relIndex N ∣ S.relIndex N := Subgroup.relIndex_dvd_of_le_left (L := N) hSC
@@ -65,13 +68,13 @@ theorem eq_of_relIndex_le_two_of_odd {N C S : Subgroup G} (hCN : C ≤ N) (hSC :
   · exact absurd (h1.symm ▸ dvd_refl 2) hodd
 
 theorem exists_conj_le_of_isPGroup {H S Q : Subgroup G} (hQH : Q ≤ H) (hQ : IsPGroup 2 Q)
-    (hSH : S ≤ H) (hS : IsPGroup 2 S) (hSi : ¬ 2 ∣ S.relIndex H) :
+    (_hSH : S ≤ H) (hS : IsPGroup 2 S) (hSi : ¬ 2 ∣ S.relIndex H) :
     ∃ k ∈ H, ∀ q ∈ Q, k * q * k⁻¹ ∈ S := by
   have hQ' : IsPGroup 2 (Q.subgroupOf H) := hQ.comap_subtype
   have hS' : IsPGroup 2 (S.subgroupOf H) := hS.comap_subtype
   let S₀ : Sylow 2 ↥H := hS'.toSylow hSi
   obtain ⟨R, hQR⟩ := hQ'.exists_le_sylow
-  haveI : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex S₀
+  have : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex S₀
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq (M := ↥H) S₀ R
   have hS₀ : (S₀ : Subgroup ↥H) = S.subgroupOf H := rfl
   have hconj : (c⁻¹ : ↥H) • R = S₀ := by
@@ -87,6 +90,7 @@ theorem exists_conj_le_of_isPGroup {H S Q : Subgroup G} (hQH : Q ≤ H) (hQ : Is
   rw [hS₀, Subgroup.mem_subgroupOf] at hmem
   simpa only [MulAut.smul_def, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv] using hmem
 
+omit [Finite G] in
 theorem exists_sylow_coe_eq {S : Subgroup G} (hS : IsPGroup 2 S) (hi : ¬ 2 ∣ S.index) :
     ∃ Sy : Sylow 2 G, (Sy : Subgroup G) = S :=
   ⟨hS.toSylow hi, hS.toSylow_coe hi⟩
@@ -100,13 +104,13 @@ theorem exists_sylow_gt {S : Subgroup G} (hS : IsPGroup 2 S) (hi : 2 ∣ S.index
 
 theorem exists_mem_normalizer_not_mem {S Q : Subgroup G} (hQ : IsPGroup 2 Q) (hSQ : S < Q) :
     ∃ n ∈ Q, n ∈ normalizer (S : Set G) ∧ n ∉ S := by
-  haveI := hQ.isNilpotent
+  have := hQ.isNilpotent
   have hnc : NormalizerCondition ↥Q := Group.normalizerCondition_of_isNilpotent
   have hlt : S.subgroupOf Q < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro htop
     exact not_le_of_gt hSQ (Subgroup.subgroupOf_eq_top.mp htop)
-  obtain ⟨n, hn_mem, hn_not⟩ := SetLike.exists_of_lt (hnc (S.subgroupOf Q) hlt)
+  obtain ⟨n, hn_mem, hn_not⟩ := _root_.IsConcreteLE.exists_of_lt (hnc (S.subgroupOf Q) hlt)
   refine ⟨(n : G), n.2, ?_, ?_⟩
   · rw [Subgroup.mem_normalizer_iff]
     intro h

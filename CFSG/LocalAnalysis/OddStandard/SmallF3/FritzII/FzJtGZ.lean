@@ -15,6 +15,7 @@ variable {G : Type} [Group G]
 section GZ
 variable [Finite G] {t : G} {L S T₂ : Subgroup G} {x₁ x₂ lam rho tau a₁₂ a₂₂ a₃₂ : G}
 
+omit [Finite G] in
 theorem fzJt_mem_closure_pair {a b e : G} (hab : Commute a b) (ha : a ^ 2 = 1) (hb : b ^ 2 = 1)
     (h : e ∈ closure ({a, b} : Set G)) : e = 1 ∨ e = a ∨ e = b ∨ e = a * b := by
   have haa : a * a = 1 := by rw [← pow_two, ha]

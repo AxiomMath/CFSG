@@ -72,7 +72,7 @@ private lemma not_three_dvd_sub_one_of_mod_eq_two {a : ℕ} (ha : a % 3 = 2) : �
 private lemma unitary_valuation {r k : ℕ} (hr : r % 3 = 2)
     (hk1 : 3 ^ k ∣ r ^ 3 + 1) (hk2 : ¬ 3 ^ (k + 1) ∣ r ^ 3 + 1) :
     padicValNat 3 (r + 1) = k - 1 ∧ 1 ≤ k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : r ^ 3 + 1 ≠ 0 := by positivity
   have hvN_le : k ≤ padicValNat 3 (r ^ 3 + 1) := (padicValNat_dvd_iff_le hN).mp hk1
   have hvN_lt : padicValNat 3 (r ^ 3 + 1) < k + 1 := by
@@ -160,7 +160,7 @@ private lemma unitary_odd {r k m : ℕ} (hr : r % 3 = 2) (hm : Odd m) (hm3 : ¬ 
 theorem arith_linear {r : ℕ} (hr1 : 1 < r) (hr : r % 3 = 1) {k : ℕ}
     (hk1 : 3 ^ k ∣ r ^ 3 - 1) (hk2 : ¬ 3 ^ (k + 1) ∣ r ^ 3 - 1) {m : ℕ} (hm : ¬ 3 ∣ m) :
     ¬ 3 ^ k ∣ r ^ m - 1 ∧ ¬ 3 ^ k ∣ r ^ m + 1 ∧ ¬ 3 ^ k ∣ r ^ m := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : r ^ 3 - 1 ≠ 0 := Nat.sub_ne_zero_of_lt (one_lt_pow₀ hr1 (by omega))
   have hvN_le : k ≤ padicValNat 3 (r ^ 3 - 1) := (padicValNat_dvd_iff_le hN).mp hk1
   have hvN_lt : padicValNat 3 (r ^ 3 - 1) < k + 1 := by
@@ -206,7 +206,7 @@ theorem arith_unitary {r : ℕ} (hr : r % 3 = 2) {k : ℕ}
 
 theorem exists_primitiveRoot_three {K : Type} [Field K] [Finite K]
     (h3 : 3 ∣ Nat.card K - 1) : ∃ ω : K, IsPrimitiveRoot ω 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card Kˣ := by rwa [Nat.card_units]
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 3 hdvd
   have hzp : IsPrimitiveRoot z 3 := by

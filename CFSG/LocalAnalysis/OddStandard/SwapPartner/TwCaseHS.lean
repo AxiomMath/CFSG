@@ -15,18 +15,19 @@ variable {X : Type*} [Group X] {t : X} {Sg V K : Subgroup X} [K.Normal]
 
 private theorem tw_center_commutator_eq_bot (h : SwapShape t Sg V) :
     Subgroup.center (⁅Sg, Sg⁆ : Subgroup X) = ⊥ := by
-  haveI : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := h.isSimpleGroup_commutator_sg
+  have : IsSimpleGroup (⁅Sg, Sg⁆ : Subgroup X) := h.isSimpleGroup_commutator_sg
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (Subgroup.center (⁅Sg, Sg⁆ : Subgroup X)) with hbot | htop
   · exact hbot
   · exfalso
-    haveI : IsMulCommutative (⁅Sg, Sg⁆ : Subgroup X) :=
+    have : IsMulCommutative (⁅Sg, Sg⁆ : Subgroup X) :=
       Subgroup.center_eq_top_iff.mp htop
     have hprime : (Nat.card (⁅Sg, Sg⁆ : Subgroup X)).Prime :=
       (Group.is_simple_iff_prime_card (α := (⁅Sg, Sg⁆ : Subgroup X))).mp inferInstance
     rw [h.card_commutator_sg] at hprime
     norm_num at hprime
 
+omit [K.Normal] in
 private theorem tw_mem_center_commutator_of_mem_center (hA : ⁅Sg, Sg⁆ ≤ K)
     (z : (⁅Sg, Sg⁆ : Subgroup X))
     (hz : Subgroup.inclusion hA z ∈ Subgroup.center ↥K) :
@@ -41,9 +42,11 @@ private noncomputable def tw_psi (hA : ⁅Sg, Sg⁆ ≤ K) :
     (⁅Sg, Sg⁆ : Subgroup X) →* (K ⧸ Subgroup.center K) :=
   (QuotientGroup.mk' (Subgroup.center K)).comp (Subgroup.inclusion hA)
 
+omit [K.Normal] in
 private theorem tw_psi_apply (hA : ⁅Sg, Sg⁆ ≤ K) (c : (⁅Sg, Sg⁆ : Subgroup X)) :
     tw_psi hA c = QuotientGroup.mk (Subgroup.inclusion hA c) := rfl
 
+omit [K.Normal] in
 private theorem tw_psi_injective (h : SwapShape t Sg V) (hA : ⁅Sg, Sg⁆ ≤ K) :
     Function.Injective (tw_psi hA) := by
   rw [← MonoidHom.ker_eq_bot_iff (tw_psi hA)]
@@ -127,7 +130,7 @@ theorem false_of_hs_of_conj (hF : TwHSFusion) {X : Type} [Group X] [Finite X] {t
     (ha : a ∈ (⁅Sg, Sg⁆ : Subgroup X)) (heA : eA ⟨a, ha⟩ = abType22)
     (hy : y * t * y⁻¹ = t * a) : False := by
   classical
-  haveI : Finite (K ⧸ Subgroup.center K) :=
+  have : Finite (K ⧸ Subgroup.center K) :=
     Finite.of_surjective (QuotientGroup.mk' (Subgroup.center K))
       (QuotientGroup.mk'_surjective (Subgroup.center K))
   have ht2 : t * t = 1 := by

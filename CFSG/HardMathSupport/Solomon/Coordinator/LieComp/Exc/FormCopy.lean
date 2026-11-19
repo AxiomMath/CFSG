@@ -103,10 +103,10 @@ theorem exists_form_FG {τ : Tag} (hτ : τ = .F4 ∨ τ = .G2) {K : Type} [Fiel
     ∃ (g : adjointGroup τ K) (σ : K ≃+* K),
       β = MulAut.conj g * exactNormalAut τ K 1 σ 0 ∧ σ ^ p = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   set ℓ := ringChar K
   have hqK : Nat.card K = ℓ ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
   have hf1 : 1 ≤ (f : ℕ) := f.pos
@@ -114,7 +114,7 @@ theorem exists_form_FG {τ : Tag} (hτ : τ = .F4 ∨ τ = .G2) {K : Type} [Fiel
   · by_cases hℓ2 : ℓ = 2
     ·
       have hc2 : CharP K 2 := by rw [← hℓ2]; infer_instance
-      haveI : CharP K ReeTag.F4.prime := hc2
+      have : CharP K ReeTag.F4.prime := hc2
       have hK : Nat.card K = ReeTag.F4.prime ^ (f : ℕ) := by rw [hqK, hℓ2]; rfl
       obtain ⟨-, hNF, ⟨Θ, hΘ, -, -⟩, -⟩ := even_F4_exact_automorphism_normal_form hf1 K hK
       exact exists_form_of_phi ReeTag.F4 hp hp2 hf1 hK (fun α => by
@@ -144,7 +144,7 @@ theorem exists_form_FG {τ : Tag} (hτ : τ = .F4 ∨ τ = .G2) {K : Type} [Fiel
     · by_cases hℓ3 : ℓ = 3
       ·
         have hc3 : CharP K 3 := by rw [← hℓ3]; infer_instance
-        haveI : CharP K ReeTag.G2.prime := hc3
+        have : CharP K ReeTag.G2.prime := hc3
         have hK : Nat.card K = ReeTag.G2.prime ^ (f : ℕ) := by rw [hqK, hℓ3]; rfl
         obtain ⟨-, hNF, ⟨Θ, hΘ, -, -⟩, -⟩ := G2_three_exact_automorphism_normal_form hf1 K hK
         exact exists_form_of_phi ReeTag.G2 hp hp2 hf1 hK (fun α => by

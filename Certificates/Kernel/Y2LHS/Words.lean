@@ -37,9 +37,9 @@ theorem y2l_subst_eq {m : ℕ} (hs : List (List (Fin m × Bool))) (r : List (Fin
     unfold y2l_subst substWord at *
     rw [List.flatMap_cons, List.flatMap_cons, natWord_append, ih]
     cases b
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       rw [getD_natWord, invW_natWord]
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [getD_natWord]
 
 end CertificateChecks.KernelY2LHS

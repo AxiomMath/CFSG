@@ -71,7 +71,7 @@ theorem omega_cent_paired {n : ℕ} (hK : Nat.card K = 3) (hn : finrank K V = n)
     (hn78 : n = 7 ∨ n = 8) (Q : QuadraticForm K V) (hQ : Q.polarBilin.Nondegenerate)
     (A : V ≃ₗ[K] V) (d μ : Kˣ) (hsquare : ∀ x : V, A (A x) = (d : K) • x)
     (hsim : ∀ x y : V, Q.polarBilin (A x) (A y) = (μ : K) * Q.polarBilin x y)
-    (hnonscalar : ∀ c : K, A.toLinearMap ≠ c • (1 : Module.End K V))
+    (_hnonscalar : ∀ c : K, A.toLinearMap ≠ c • (1 : Module.End K V))
     (b : K) (hb : b ≠ 0) (hroot : (d : K) = b ^ 2) (hneg : (μ : K) / (d : K) = -1) :
     5760 < Nat.card (orthogonalOperatorCentralizer Q A.toLinearMap) := by
   have h2 : (2 : K) ≠ 0 := Ring.two_ne_zero (ringChar_ne_two_of_card_three hK)
@@ -92,6 +92,7 @@ section Unitary
 
 variable {E W : Type} [Field E] [Finite E] [AddCommGroup W] [Module E W] [FiniteDimensional E W]
 
+omit [Finite E] in
 theorem card_isometryGroup_unitary {sigma : E ≃+* E} {ℓ e : ℕ} (hℓ : ℓ.Prime) (he : 1 ≤ e)
     (hE : Nat.card E = (ℓ ^ e) ^ 2) (h : W →ₛₗ[sigma.toRingHom] W →ₗ[E] E) (hsym : h.IsSymm)
     (hnd : h.Nondegenerate) (hsig : ∀ z, sigma z = z ^ (ℓ ^ e)) {m : ℕ}
@@ -141,10 +142,10 @@ theorem omega_cent_field_pos {n : ℕ} (hK : Nat.card K = 3) (hn : finrank K V =
   have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have h2 : (2 : K) ≠ 0 := Ring.two_ne_zero (ringChar_ne_two_of_card_three hK)
   have hs := CatalogueBOrthogonalScalarSquareStructure.original_endomorphism_square A d hsquare
-  letI := scalarField A.toLinearMap d hns hs
-  letI := evaluationModule A.toLinearMap
-  haveI : Finite (scalarAlgebra A.toLinearMap) := scalarAlgebra_finite_type A.toLinearMap d hns hs
-  haveI : Module.Finite (scalarAlgebra A.toLinearMap) V := evaluationModule_finite A.toLinearMap
+  let := scalarField A.toLinearMap d hns hs
+  let := evaluationModule A.toLinearMap
+  have : Finite (scalarAlgebra A.toLinearMap) := scalarAlgebra_finite_type A.toLinearMap d hns hs
+  have : Module.Finite (scalarAlgebra A.toLinearMap) V := evaluationModule_finite A.toLinearMap
   have hE : ((Nat.card (scalarAlgebra A.toLinearMap) : ℕ) : ℤ) = 9 := by
     rw [scalarAlgebra_card A.toLinearMap d hns hs, hK]; norm_num
   have hfr := evaluationModule_finrank A.toLinearMap d hns hs
@@ -178,10 +179,10 @@ theorem omega_cent_field_neg {n : ℕ} (hK : Nat.card K = 3) (hn : finrank K V =
   have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have h2 : (2 : K) ≠ 0 := Ring.two_ne_zero (ringChar_ne_two_of_card_three hK)
   have hs := CatalogueBOrthogonalScalarSquareStructure.original_endomorphism_square A d hsquare
-  letI := scalarField A.toLinearMap d hns hs
-  letI := evaluationModule A.toLinearMap
-  haveI : Finite (scalarAlgebra A.toLinearMap) := scalarAlgebra_finite_type A.toLinearMap d hns hs
-  haveI : Module.Finite (scalarAlgebra A.toLinearMap) V := evaluationModule_finite A.toLinearMap
+  let := scalarField A.toLinearMap d hns hs
+  let := evaluationModule A.toLinearMap
+  have : Finite (scalarAlgebra A.toLinearMap) := scalarAlgebra_finite_type A.toLinearMap d hns hs
+  have : Module.Finite (scalarAlgebra A.toLinearMap) V := evaluationModule_finite A.toLinearMap
   have hE : Nat.card (scalarAlgebra A.toLinearMap) = (3 ^ 1) ^ 2 := by
     rw [scalarAlgebra_card A.toLinearMap d hns hs, hK]; norm_num
   have hfr := evaluationModule_finrank A.toLinearMap d hns hs

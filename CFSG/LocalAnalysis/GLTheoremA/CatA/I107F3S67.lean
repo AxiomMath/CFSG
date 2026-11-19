@@ -14,7 +14,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 theorem i67Cover_of_autAt
        (hA : I107AutAt) : I67Cover := by
   intro G _ _ p X L lab hp hp2 hX hL hrk hlab hm hEven
-  haveI hsimple : IsSimpleGroup (PSimple p L) := (isQuasisimple_pQuot_of_glaPComponent hp hL).2
+  have hsimple : IsSimpleGroup (PSimple p L) := (isQuasisimple_pQuot_of_glaPComponent hp hL).2
   have hperf := ltilde_perfect hL
   obtain ⟨e⟩ := ltilde_centre_equiv hL
   have hraw : GLARawDatum lab (fun R _ _ _ => (∃ a b : R, a * b ≠ b * a) ∧
@@ -36,14 +36,14 @@ theorem i67Cover_of_autAt
   have hle := CFSG.StandardType.center_torsion_le_native hperf (MulEquiv.refl _) hM hT
     Nat.prime_two
   have h2 : 2 ≤ Nat.card {z : Subgroup.center (LTilde p L) // z ^ 2 = 1} := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center (LTilde p L)) 2
       (even_iff_two_dvd.mp hEven)
     have hz2 : z ^ 2 = 1 := hz ▸ pow_orderOf_eq_one z
     have hz1 : z ≠ 1 := fun h => by
       rw [h, orderOf_one] at hz
       norm_num at hz
-    haveI : Nontrivial {w : Subgroup.center (LTilde p L) // w ^ 2 = 1} :=
+    have : Nontrivial {w : Subgroup.center (LTilde p L) // w ^ 2 = 1} :=
       ⟨⟨⟨1, one_pow 2⟩, ⟨z, hz2⟩, fun h => hz1 (congrArg Subtype.val h).symm⟩⟩
     exact Finite.one_lt_card_iff_nontrivial.2 inferInstance
   rcases torsBound_two_mark_cases hlab (h2.trans hle) with h | h | h

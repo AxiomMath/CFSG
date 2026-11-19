@@ -14,6 +14,7 @@ open Research.OddFourCentralizer
 
 variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 
+omit [Finite G] in
 theorem involution_fixedBy_ncard_le_three
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (e : Fin 4 ↪ X)
@@ -23,7 +24,7 @@ theorem involution_fixedBy_ncard_le_three
   classical
   by_contra hnot
   have hfour : 4 ≤ (MulAction.fixedBy X g).ncard := by omega
-  letI : Fintype (MulAction.fixedBy X g) := Fintype.ofFinite _
+  let : Fintype (MulAction.fixedBy X g) := Fintype.ofFinite _
   let f : Fin 4 ↪ MulAction.fixedBy X g := Classical.choice
     (Function.Embedding.nonempty_iff_card_le.mpr (by
       simpa using hfour))
@@ -66,6 +67,7 @@ theorem involution_fixedBy_ncard_le_three
   rw [hxOrder] at hdvd
   exact hodd.not_two_dvd_nat hdvd
 
+omit [Finite G] in
 private theorem exists_two_disjoint_involution_pairs_of_fixed_le_three
     (hX : 8 ≤ Fintype.card X)
     (g : G) (hgTwo : g ^ 2 = 1)
@@ -89,7 +91,7 @@ private theorem exists_two_disjoint_involution_pairs_of_fixed_le_three
     rw [← mul_smul, ← pow_two, hgTwo, one_smul]
   have hzExists : ∃ z ∈ M, z ≠ x ∧ z ≠ g • x := by
     by_contra hnone
-    push_neg at hnone
+    push Not at hnone
     have hsub : M ⊆ ({x, g • x} : Set X) := by
       intro y hy
       by_cases hyx : y = x
@@ -115,6 +117,7 @@ private theorem exists_two_disjoint_involution_pairs_of_fixed_le_three
     exact hzx ((MulAction.injective g) heq)
   exact ⟨x, z, hx, hz, hzx, hzgx, hgzx, hgzgx⟩
 
+omit [Finite G] in
 theorem involution_conjugate_doubleSwapLift
     (h4 : MulAction.IsMultiplyPretransitive G X 4)
     (hX : 8 ≤ Fintype.card X)

@@ -107,7 +107,7 @@ theorem exists_linearIndependent_pair (hc : BinaryActionRankCounterexample G p P
   have hPE : ¬ P ≤ E := fun h => by
     rw [Subgroup.relIndex_eq_one.mpr h] at hidx
     exact hc.oddPrimeClassTwoAction.setting.prime.one_lt.ne hidx
-  obtain ⟨x, hxP, hxE⟩ := SetLike.not_le_iff_exists.mp hPE
+  obtain ⟨x, hxP, hxE⟩ := IsConcreteLE.not_le_iff_exists.mp hPE
   have hxu : ρ x u ∈ fixedSubmodule ρ E := apply_mem_fixedSubmodule hc hEP hxP hu
   have hxu0 : ρ x u ≠ 0 := by
     intro h
@@ -132,7 +132,7 @@ theorem exists_apply_ne_of_inverts (hc : BinaryActionRankCounterexample G p P T 
   have hPE : ¬ P ≤ E := fun h => by
     rw [Subgroup.relIndex_eq_one.mpr h] at hidx
     exact hS.prime.one_lt.ne hidx
-  obtain ⟨x, hxP, hxE⟩ := SetLike.not_le_iff_exists.mp hPE
+  obtain ⟨x, hxP, hxE⟩ := IsConcreteLE.not_le_iff_exists.mp hPE
   by_contra hall
   push Not at hall
   have hmul : ∀ (a b : G) (w : V), ρ (a * b) w = ρ a (ρ b w) := fun a b w => by rw [map_mul]; rfl
@@ -182,10 +182,10 @@ theorem lt_commRank_of_not_mem_centralizer (hc : BinaryActionRankCounterexample 
   have hS := hc.oddPrimeClassTwoAction.setting
   have hF := hc.faithfulBinaryIrreducibleAction
   have hP : P.Normal := hF.normal
-  haveI : FiniteDimensional (ZMod 2) V :=
+  have : FiniteDimensional (ZMod 2) V :=
     CFSG.LinearAlgebra.CoprimeActions.IrreducibleFiniteGroupFiniteDimensional.finiteDimensional_of_irreducible
       ρ hF.irreducible
-  haveI : Fintype ↥(Delta p P ρ) := Fintype.ofFinite _
+  have : Fintype ↥(Delta p P ρ) := Fintype.ofFinite _
   have h520 := cyclic_actor_and_hyperplane_transitivity_and_irreducible_commutator_action hc
   set D₀ : Subgroup G := ⁅B, P⁆ with hD₀
   set act := DeltaConjugationAction.act (p := p) hP ρ with hact
@@ -233,7 +233,7 @@ theorem lt_commRank_of_not_mem_centralizer (hc : BinaryActionRankCounterexample 
       have h1 : act n = (act s)⁻¹ * act t := by rw [hsn, map_mul, inv_mul_cancel_left]
       rw [h1, hs1, hσ, inv_one, one_mul]
     obtain ⟨F, hF, hFD⟩ : ∃ F ∈ Delta p P ρ, F ≠ D₀ := by
-      haveI : Nontrivial ↥(Delta p P ρ) := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+      have : Nontrivial ↥(Delta p P ρ) := Finite.one_lt_card_iff_nontrivial.mp (by omega)
       obtain ⟨F, hF⟩ := exists_ne (⟨D₀, h520.1⟩ : ↥(Delta p P ρ))
       exact ⟨F.1, F.2, fun h => hF (Subtype.ext h)⟩
     have hnB' : ∀ b ∈ B, n * b = b * n := by
@@ -363,7 +363,7 @@ theorem lt_commRank_of_not_mem_centralizer (hc : BinaryActionRankCounterexample 
 
 theorem lt_commRank_of_not_mem_centralizer_of_orderOf_eq_two (hc : BinaryActionRankCounterexample G p P T B e ρ)
     {t : G} (ht : orderOf t = 2) (htP : t ∉ Subgroup.centralizer (P : Set G)) : e + 1 < commRank ρ t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP := hc.faithfulBinaryIrreducibleAction.normal
   obtain ⟨T₀, hT₀⟩ := NotIsPrimePowTwoPowSubOne.exists_sylow_coe hc.faithfulBinaryIrreducibleAction.sylow
   have h2 : IsPGroup 2 (Subgroup.zpowers t) := IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht, pow_one])
@@ -379,7 +379,7 @@ theorem lt_commRank_of_not_mem_centralizer_of_orderOf_eq_two (hc : BinaryActionR
     intro h
     apply htP
     have hCn : (Subgroup.centralizer (P : Set G)).Normal := by
-      haveI := hP
+      have := hP
       exact Subgroup.normal_centralizer
     have h' := hCn.conj_mem _ h x
     rwa [show x * (x⁻¹ * t * x) * x⁻¹ = t by group] at h'

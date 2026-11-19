@@ -147,7 +147,7 @@ theorem lift_fuel (T Ti : Array (Array Nat)) (x : Nat) : ∀ r < 16384, ∀ f, r
       obtain ⟨f', rfl⟩ : ∃ f', f = f' + 1 := ⟨f - 1, by omega⟩
       obtain ⟨r', rfl⟩ : ∃ r', r = r' + 1 := ⟨r - 1, by omega⟩
       unfold evalLift
-      simp only [evalLiftF, if_neg (Nat.succ_ne_zero r')]
+      simp only [evalLiftF, ite_eq_right (Nat.succ_ne_zero r')]
       rw [ih _ hp (by omega) f' (by omega), ih _ hp (by omega) r' (by omega)]
 
 noncomputable abbrev FLf := at0 CFSG.KD.HNPt15020.FL
@@ -167,7 +167,7 @@ theorem step_img {s m x y : Nat}
   obtain ⟨h64, hpts, himg⟩ := hck
   have h64' : at0 CFSG.KD.HNPt15020.NC (Nat.shiftRight s 6) ≤ 64 := Nat.ble_eq.mp h64
   have hp := allN_spec hpts _ hi
-  simp only [bAnd_eq', Bool.and_eq_true, Nat.blt_eq] at hp
+  simp only [Bool.and_eq_true, Nat.blt_eq] at hp
   have hm' : at0 CFSG.KD.HNPt15020.MI (Nat.shiftRight s 6) = m := Nat.eq_of_beq_eq_true hm
   rw [hm'] at himg
   rw [← Nat.eq_of_beq_eq_true hx, ← Nat.eq_of_beq_eq_true hy]
@@ -202,10 +202,10 @@ theorem fact_ok :
     refine ⟨hr, ?_⟩
     rw [bIf_eq'] at h
     by_cases r0 : f21 CFSG.KD.HNPt15020.FR j = 0
-    · rw [if_pos (by rw [r0]; rfl)] at h
+    · rw [ite_eq_left (by rw [r0]; rfl)] at h
       rw [r0, Nat.eq_of_beq_eq_true h]
       rfl
-    · rw [if_neg (fun e => r0 (Nat.eq_of_beq_eq_true e))] at h
+    · rw [ite_eq_right (fun e => r0 (Nat.eq_of_beq_eq_true e))] at h
       simp only [Bool.and_eq_true] at h
       obtain ⟨hp, hpr, hpx, hst⟩ := h
       have hp : f21 CFSG.KD.HNPt15020.FP j < j := Nat.blt_eq.mp hp
@@ -218,7 +218,7 @@ theorem fact_ok :
       generalize hR : f21 CFSG.KD.HNPt15020.FR j = r at *
       obtain ⟨r', rfl⟩ : ∃ r', r = r' + 1 := ⟨r - 1, by omega⟩
       unfold evalLift
-      simp only [evalLiftF, if_neg (Nat.succ_ne_zero r')]
+      simp only [evalLiftF, ite_eq_right (Nat.succ_ne_zero r')]
       rw [lift_fuel _ _ _ _ (by omega) r' (by omega), ihp,
         evalWordPt_eq HNPt2086.hT HNPt2086.hTi _ (HNPt2086.pw_data _ ll).2.2 ⟨_, hx'⟩]
       exact e
@@ -239,7 +239,7 @@ theorem codes_eq {s L : Nat} (h : letsK HNT4T.QN s L = true) :
   refine List.map_congr_left fun x hx => ?_
   obtain ⟨h1, h2⟩ := letsK_spec h x hx
   simp only [Function.comp, gcode, sub11]
-  rw [if_pos (by omega)]
+  rw [ite_eq_left (by omega)]
   change x - 12 = ((x : Int) - 11).toNat - 1
   omega
 
@@ -247,8 +247,8 @@ theorem letR_neg {l : Int}
     (hl : l ≠ 0 ∧ l.natAbs ≤ 11) : letR (gcode (-l)) = (letR (gcode l))⁻¹ := by
   rw [letR_gcode hl, letR_gcode ⟨by omega, by omega⟩]
   by_cases hp : 0 < l
-  · rw [if_pos hp, if_neg (by omega), neg_neg]
-  · rw [if_neg hp, if_pos (by omega), inv_inv]
+  · rw [ite_eq_left hp, ite_eq_right (by omega), neg_neg]
+  · rw [ite_eq_right hp, ite_eq_left (by omega), inv_inv]
 
 theorem wordG_invW {w : List Int}
     (hw : ∀ l ∈ w, l ≠ 0 ∧ l.natAbs ≤ 11) : wordG (invW w) = (wordG w)⁻¹ := by
@@ -283,7 +283,7 @@ theorem word_mat {w : List Int}
     obtain ⟨l, hl, rfl⟩ := List.mem_map.1 hc
     obtain ⟨h1, h2⟩ := hw l hl
     unfold gcode
-    rw [if_pos (by omega)]
+    rw [ite_eq_left (by omega)]
     omega
   exact wordGT_mat _ hc
 
@@ -409,7 +409,7 @@ theorem faith_ok
     refine ⟨?_, fact_get hb (Nat.eq_of_beq_eq_true h1) (Nat.eq_of_beq_eq_true h2)
       (Nat.eq_of_beq_eq_true h3)⟩
     by_cases ev : i % 2 = 0
-    · rw [if_pos ev]
+    · rw [ite_eq_left ev]
       have e : nIf(Nat.beq (Nat.land i 1) 0, 23 + f21 CFSG.KD.HNPt15020.AF a,
           14 + f21 CFSG.KD.HNPt15020.AF a) = 23 + f21 CFSG.KD.HNPt15020.AF a := by
         rw [show Nat.land i 1 = i % 2 from Nat.and_one_is_mod i, ev]
@@ -417,7 +417,7 @@ theorem faith_ok
       rw [e] at hst
       obtain ⟨hx, -, e⟩ := step_img hst cCI mCI
       exact (evalWordPt_eq HNPt2086.hT HNPt2086.hTi _ (lets11_inv hcl) ⟨_, hx⟩).trans e
-    · rw [if_neg ev]
+    · rw [ite_eq_right ev]
       have e : nIf(Nat.beq (Nat.land i 1) 0, 23 + f21 CFSG.KD.HNPt15020.AF a,
           14 + f21 CFSG.KD.HNPt15020.AF a) = 14 + f21 CFSG.KD.HNPt15020.AF a := by
         rw [show Nat.land i 1 = i % 2 from Nat.and_one_is_mod i, show i % 2 = 1 by omega]
@@ -433,8 +433,8 @@ theorem faith_ok
   have b2 := (st 2 (by norm_num)).2
   have a3 := (st 3 (by norm_num)).1
   have b3 := (st 3 (by norm_num)).2
-  simp only [show (2 * 0) % 2 = 0 from rfl, show 0 % 2 = 0 from rfl, show 1 % 2 = 1 from rfl,
-    show 2 % 2 = 0 from rfl, show 3 % 2 = 1 from rfl, if_pos, if_neg, reduceIte,
+  simp only [show (2 * 0) % 2 = 0 from rfl, show 1 % 2 = 1 from rfl,
+    ite_eq_left, reduceIte,
     Nat.reduceMul, Nat.reduceAdd, one_ne_zero] at a0 a1 a2 a3 b0 b1 b2 b3
   have e0 : f21 CFSG.KD.HNPt15020.AQ (9 * a) = aq a 0 := rfl
   rw [e0]
@@ -508,7 +508,7 @@ theorem wit_ok
   simp only [bIf_eq'] at hm
   rcases t4WK_spec (wt_ok hk) with ⟨c, hs⟩ | ⟨c, hfs, hord⟩ | ⟨c, hf, hp, hz⟩ | ⟨c, hp⟩
   · unfold t4Wit
-    rw [if_pos c]
+    rw [ite_eq_left c]
     unfold t4WitOK isInvP
     rw [pE_get hk, ← HN2088.EA_get hk]
     rcases hs with rfl | hsq
@@ -518,7 +518,7 @@ theorem wit_ok
       rw [HN2088.sq_iff hk, hsq']
       simp
   · unfold t4Wit
-    rw [if_neg (by omega), if_pos c]
+    rw [ite_eq_right (by omega), ite_eq_left c]
     unfold t4WitOK
     simp only [Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq]
     refine ⟨fun f hf => by rw [cs_size]; exact hfs f hf, ?_⟩
@@ -530,8 +530,8 @@ theorem wit_ok
     rw [e3]
     exact ord4P_unpack c3 hord
   · unfold t4Wit
-    rw [if_neg (by omega), if_neg (by omega), if_pos c]
-    rw [if_pos (by rw [c]; rfl)] at hm
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left c]
+    rw [ite_eq_left (by rw [c]; rfl)] at hm
     simp only [Bool.and_eq_true] at hm
     obtain ⟨ht, hak, haf, haq⟩ := hm
     have ht' := Nat.blt_eq.mp ht
@@ -552,8 +552,8 @@ theorem wit_ok
       exact hX
   · have c0 : HNT4T.WN (HNT4T.WP k) ≠ 0 := by omega
     unfold t4Wit
-    rw [if_neg c0, if_neg (by omega), if_neg (by omega)]
-    rw [if_neg (by rw [c]; decide), if_pos (by rw [c]; rfl)] at hm
+    rw [ite_eq_right c0, ite_eq_right (by omega), ite_eq_right (by omega)]
+    rw [ite_eq_right (by rw [c]; decide), ite_eq_left (by rw [c]; rfl)] at hm
     simp only [Bool.and_eq_true] at hm
     obtain ⟨ht, hnk, hnq⟩ := hm
     have hX := noInv_ok (Nat.blt_eq.mp ht)

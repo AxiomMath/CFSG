@@ -17,7 +17,7 @@ theorem range_eq_ker_of_ker_ne_bot (γ δ ν : V →ₗ[ZMod 2] V) (hγ : γ ^ 5
     (hker : LinearMap.ker (γ - 1) ≠ ⊥) :
     LinearMap.range (γ - 1) = LinearMap.ker (δ - 1) ∧
       finrank (ZMod 2) (LinearMap.range (γ - 1)) = 4 := by
-  haveI : FiniteDimensional (ZMod 2) V :=
+  have : FiniteDimensional (ZMod 2) V :=
     FiniteDimensional.of_finrank_pos (by rw [h8]; norm_num)
   set R : Submodule (ZMod 2) V := LinearMap.range (γ - 1) with hR
   set R' : Submodule (ZMod 2) V := LinearMap.range (δ - 1) with hR'

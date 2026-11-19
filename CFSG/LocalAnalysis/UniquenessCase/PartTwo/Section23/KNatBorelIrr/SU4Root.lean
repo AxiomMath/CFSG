@@ -91,6 +91,6 @@ theorem su4AlphaRoot_torusSL_mulVec (c : Kˣ) :
   funext x
   rw [Matrix.mulVec_single_one, Matrix.col_apply, Pi.smul_apply]
   rcases ix_cases x with rfl | rfl | rfl | rfl <;>
-    simp [evenMat, torusSL, ie1, ie2, if1, if2, Pi.single_apply, smul_eq_mul]
+    simp [evenMat, torusSL, ie1, ie2, if1, if2, smul_eq_mul]
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.NatBorelIrr

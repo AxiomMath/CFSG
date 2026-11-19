@@ -66,7 +66,7 @@ theorem subG_xor : ∀ {gs : List G}, CommInv gs → ∀ m n,
       comm_subG (fun b hb => (h g List.mem_cons_self).2 b (List.mem_cons_of_mem _ hb))
     rw [subG_cons, subG_cons, subG_cons, xor_div_two', subG_xor h.tail, testBit_xor_zero]
     cases m.testBit 0 <;> cases n.testBit 0 <;> simp only [Bool.xor_false, Bool.xor_true,
-      Bool.not_true, Bool.not_false, Bool.false_eq_true, if_true, if_false, one_mul, mul_one]
+      Bool.not_true, Bool.not_false, Bool.false_eq_true, ite_true, ite_false, one_mul]
     · rw [← mul_assoc, hc, mul_assoc]
     · rw [mul_assoc]
     · rw [hc, mul_assoc, ← mul_assoc g g, hgg, one_mul]
@@ -130,7 +130,7 @@ theorem card_closure [Finite G] {gs : List G} (h : CommInv gs)
     exact ⟨⟨m, hm⟩, rfl⟩
   rw [← Nat.card_eq_of_bijective f hf, Nat.card_eq_fintype_card, Fintype.card_fin]
 
-theorem subG_bif {gs : List G} (h : CommInv gs) (b : Bool) (c : ℕ) :
+theorem subG_bif {gs : List G} (_h : CommInv gs) (b : Bool) (c : ℕ) :
     subG gs (bif b then c else 0) = if b then subG gs c else 1 := by
   cases b
   · exact subG_zero gs
@@ -265,7 +265,7 @@ theorem pairwise_prodsG : ∀ {Ls : List (List G)} {ts : List G}, ChainG Ls ts �
           _ = x' * t * x'⁻¹ := by rw [hcent b hb]; group
       rw [← ea, ← eb, e]
 
-theorem sep_symm (ts : List G) : Symmetric (Sep ts) := fun a b h h' => h fun t ht => by
+theorem sep_symm (ts : List G) : (∀ ⦃a₀ b₀⦄, (Sep ts) a₀ b₀ → (Sep ts) b₀ a₀) := fun a b h h' => h fun t ht => by
   have := h' t ht
   have e : a⁻¹ * b = (b⁻¹ * a)⁻¹ := by group
   rw [e]
@@ -344,7 +344,7 @@ theorem conjOK_spec {SG LP : List ℕ} {CM : List (List ℕ)} (h : conjOK SG LP 
   rw [Bool.and_eq_true, Nat.beq_eq, allBelow_iff, lenN_eq, lenN_eq] at hs'
   refine ⟨by simpa [nthD_eq] using hs'.1, fun i hi => ?_⟩
   have hi' := hs'.2 i hi
-  simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, nthD_eq, lenN_eq] at hi'
+  simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, nthD_eq] at hi'
   exact hi'
 
 theorem orbOK_spec {CM : List (List ℕ)} {r : ℕ} {ws : List (List ℕ)} {ms : List ℕ}

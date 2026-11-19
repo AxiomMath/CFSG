@@ -53,12 +53,12 @@ theorem exists_twoPart {Γ : Type*} [Group Γ] [Finite Γ] {Δ : Type*} [Group �
     ∃ S : Subgroup Γ, S.Normal ∧ IsPGroup 2 S ∧
       (∀ g : Γ, (∃ k : ℕ, g ^ (2 ^ k) = 1) → g ∈ S) ∧
       ∀ g : Γ, ∃ s ∈ S, ∃ z ∈ π.ker, g = s * z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hr : IsPGroup 2 ↥π.range := fun d => by
     obtain ⟨k, hk⟩ := h2 d d.2
     exact ⟨k, Subtype.ext hk⟩
-  haveI : Finite ↥π.range := Finite.of_surjective π.rangeRestrict π.rangeRestrict_surjective
-  haveI : Group.IsNilpotent ↥π.range := hr.isNilpotent
+  have : Finite ↥π.range := Finite.of_surjective π.rangeRestrict π.rangeRestrict_surjective
+  have : Group.IsNilpotent ↥π.range := hr.isNilpotent
   have hnil : Group.IsNilpotent Γ :=
     Subgroup.isNilpotent_of_ker_le_center π.rangeRestrict
       (by rwa [MonoidHom.ker_rangeRestrict])
@@ -66,7 +66,7 @@ theorem exists_twoPart {Γ : Type*} [Group Γ] [Finite Γ] {Δ : Type*} [Group �
   have hPn : (P : Subgroup Γ).Normal := inferInstance
   have hmem : ∀ g : Γ, (∃ k : ℕ, g ^ (2 ^ k) = 1) → g ∈ (P : Subgroup Γ) := fun g hg =>
     mem_of_normal_sylow P hg
-  refine ⟨P, hPn, P.isPGroup', hmem, fun g => ?_⟩
+  refine ⟨P, hPn, P.isPGroup, hmem, fun g => ?_⟩
   obtain ⟨a, o, hg, ha, m, hm, ho⟩ := exists_two_odd_decomp g
   refine ⟨a, hmem a ha, o, ?_, hg⟩
   rw [MonoidHom.mem_ker]

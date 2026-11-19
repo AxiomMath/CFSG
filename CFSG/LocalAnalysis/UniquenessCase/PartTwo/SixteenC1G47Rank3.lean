@@ -12,7 +12,7 @@ open scoped Pointwise
 theorem s16c1_G47_unique_three {Hs : Type} [Group Hs] [Finite Hs] {P Dd Dd' : Subgroup Hs}
     (hP : IsPGroup 3 P) (hD : Dd ≤ P) (hD' : Dd' ≤ P) (hD3 : Nat.card Dd = 3)
     (hD3' : Nat.card Dd' = 3) (hr : CFSG.Open.pRank 3 (⊤ : Subgroup Hs) ≤ 1) : Dd = Dd' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.LocalAnalysis.RankThreeUC.eq_of_card_eq_prime_of_pRank_le_one hP ?_ hD hD' hD3 hD3'
   exact (CFSG.SectionRank.pRank_mono (by norm_num : 1 < 3) le_top).trans hr
 
@@ -21,14 +21,14 @@ theorem s16c1_G47_no_three {Hs : Type} [Group Hs] [Finite Hs] {Xs Ys N : Subgrou
     (hX3 : 3 ∣ Nat.card Xs) (hr : CFSG.Open.pRank 3 (⊤ : Subgroup Hs) ≤ 1) :
     ¬ 3 ∣ Nat.card N := by
   intro hN3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨dx, hdx⟩ := exists_prime_orderOf_dvd_card' (G := ↥Xs) 3 hX3
   obtain ⟨dn, hdn⟩ := exists_prime_orderOf_dvd_card' (G := ↥N) 3 hN3
   set d : Hs := (dx : Hs) with hddef
   set n : Hs := (dn : Hs) with hndef
-  have hdmem : d ∈ Xs := by simpa [hddef] using dx.2
+  have hdmem : d ∈ Xs := by simp [hddef]
   have hdord : orderOf d = 3 := by rw [hddef, Subgroup.orderOf_coe, hdx]
-  have hnmem : n ∈ N := by simpa [hndef] using dn.2
+  have hnmem : n ∈ N := by simp [hndef]
   have hnord : orderOf n = 3 := by rw [hndef, Subgroup.orderOf_coe, hdn]
   set dy : ↥Ys := ⟨d, hXY hdmem⟩ with hdydef
   set ny : ↥Ys := ⟨n, hNY hnmem⟩ with hnydef
@@ -40,7 +40,7 @@ theorem s16c1_G47_no_three {Hs : Type} [Group Hs] [Finite Hs] {Xs Ys N : Subgrou
     IsPGroup.of_card (by rw [Nat.card_zpowers, hnyord, pow_one])
   obtain ⟨P, hdy_le⟩ := IsPGroup.exists_le_sylow hdyP
   obtain ⟨Q, hny_le⟩ := IsPGroup.exists_le_sylow hnyP
-  haveI : Finite (Sylow 3 ↥Ys) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 3 ↥Ys) := Sylow.finite_of_finiteIndex P
   obtain ⟨g, hgPQ⟩ := MulAction.exists_smul_eq ↥Ys P Q
   have hnyQ : ny ∈ Q := hny_le (Subgroup.mem_zpowers ny)
   have hny_gP : ny ∈ MulAut.conj g • (P : Subgroup ↥Ys) := by
@@ -71,7 +71,7 @@ theorem s16c1_G47_no_three {Hs : Type} [Group Hs] [Finite Hs] {Xs Ys N : Subgrou
       show g * (g⁻¹ * ny * g) = ny * g
       group
     rw [hmdef, Subgroup.orderOf_coe, SemiconjBy.orderOf_eq g hsem, hnyord]
-  have hP' : IsPGroup 3 ((P : Subgroup ↥Ys).map Ys.subtype) := P.isPGroup'.map Ys.subtype
+  have hP' : IsPGroup 3 ((P : Subgroup ↥Ys).map Ys.subtype) := P.isPGroup.map Ys.subtype
   have hdP' : d ∈ (P : Subgroup ↥Ys).map Ys.subtype :=
     ⟨dy, hdy_le (Subgroup.mem_zpowers dy), rfl⟩
   have heq := s16c1_G47_unique_three hP' (Subgroup.zpowers_le.mpr hdP')
@@ -90,19 +90,19 @@ theorem s16c1_G47_frattini3 {Hs : Type} [Group Hs] [Finite Hs] {Ys Dd : Subgroup
     (hY : Ys.Normal) (hD : Dd ≤ Ys) (hD3 : Nat.card Dd = 3)
     (hr : CFSG.Open.pRank 3 (⊤ : Subgroup Hs) ≤ 1) :
     ∀ h : Hs, ∃ y ∈ Ys, ∃ b ∈ normalizer (Dd : Set Hs), h = y * b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Ys.Normal := hY
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Ys.Normal := hY
   set Dds : Subgroup ↥Ys := Dd.subgroupOf Ys with hDdsdef
   have hDds_card : Nat.card Dds = 3 := by
     rw [hDdsdef]
     exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hD).toEquiv).trans hD3
   have hDdsP : IsPGroup 3 Dds := IsPGroup.of_card (by rw [hDds_card, pow_one])
   obtain ⟨P, hDds_le⟩ := IsPGroup.exists_le_sylow hDdsP
-  haveI : Finite (Sylow 3 ↥Ys) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 3 ↥Ys) := Sylow.finite_of_finiteIndex P
   set P' : Subgroup Hs := (P : Subgroup ↥Ys).map Ys.subtype with hP'def
   have hP' : IsPGroup 3 P' := by
     rw [hP'def]
-    exact P.isPGroup'.map Ys.subtype
+    exact P.isPGroup.map Ys.subtype
   have hDd_le_P' : Dd ≤ P' := by
     intro x hx
     rw [hP'def]

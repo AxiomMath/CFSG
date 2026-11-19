@@ -51,7 +51,7 @@ theorem compat_u (m : ℕ) (hm : 2 ≤ m) : Compat (k m) ((uM m)) := by
 theorem compat_rho (m : ℕ) (hm : 2 ≤ m) : Compat (k m) (ρM) := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   exact Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; ring1)
 
 theorem uv_sq (m : ℕ) (hm : 2 ≤ m) :
     MatEq (k m) ((uvM m) * (uvM m)) (1) := by
@@ -75,7 +75,7 @@ theorem rho_cube (m : ℕ) (hm : 2 ≤ m) :
     MatEq (k m) (ρM * (ρM * ρM)) (1) := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   exact MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_sq (m : ℕ) (hm : 2 ≤ m) :
     MatEq (k m) ((uM m) * (uM m)) (1) := by
@@ -123,49 +123,49 @@ theorem uv_a (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φuv Torus.a = (2*(2 ^ (m - 2)) + 1 : ℤ) • Torus.c + (8*(2 ^ (m - 2)) + 1 : ℤ) • Torus.a + (-4*(2 ^ (m - 2)) + 2 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uvM (s + 2))) (compat_uv (s + 2) hm) 1 (2*(2 ^ s) + 1) (8*(2 ^ s) + 1) (-4*(2 ^ s) + 2) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem uv_b (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φuv Torus.b = (-40*(2 ^ (m - 2))^2 - 24*(2 ^ (m - 2)) + 1 : ℤ) • Torus.c + (-32*(2 ^ (m - 2))^2 - 44*(2 ^ (m - 2)) + 2 : ℤ) • Torus.a + (-80*(2 ^ (m - 2))^2 - 32*(2 ^ (m - 2)) + 1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uvM (s + 2))) (compat_uv (s + 2) hm) 2 (-40*(2 ^ s)^2 - 24*(2 ^ s) + 1) (-32*(2 ^ s)^2 - 44*(2 ^ s) + 2) (-80*(2 ^ s)^2 - 32*(2 ^ s) + 1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem u_c (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φu Torus.c = (2*(2 ^ (m - 2)) + 1 : ℤ) • Torus.c + (0 : ℤ) • Torus.a + (0 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uM (s + 2))) (compat_u (s + 2) hm) 0 (2*(2 ^ s) + 1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_a (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φu Torus.a = (2*(2 ^ (m - 2)) : ℤ) • Torus.c + (0 : ℤ) • Torus.a + (1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uM (s + 2))) (compat_u (s + 2) hm) 1 (2*(2 ^ s)) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_b (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φu Torus.b = (-4*(2 ^ (m - 2))^2 - 2*(2 ^ (m - 2)) : ℤ) • Torus.c + (1 : ℤ) • Torus.a + (0 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uM (s + 2))) (compat_u (s + 2) hm) 2 (-4*(2 ^ s)^2 - 2*(2 ^ s)) (1) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem rho_c (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φρ Torus.c = (1 : ℤ) • Torus.c + (0 : ℤ) • Torus.a + (0 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of (ρM) (compat_rho (s + 2) hm) 0 (1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem rho_a (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φρ Torus.a = (0 : ℤ) • Torus.c + (0 : ℤ) • Torus.a + (1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of (ρM) (compat_rho (s + 2) hm) 1 (0) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem rho_b (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φρ Torus.b = (-1 : ℤ) • Torus.c + (-1 : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of (ρM) (compat_rho (s + 2) hm) 2 (-1) (-1) (-1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 end Type210
 
@@ -210,7 +210,7 @@ theorem compat_u (m : ℕ) (hm : 2 ≤ m) : Compat (k m) ((uM m)) := by
 theorem compat_rho (m : ℕ) (hm : 2 ≤ m) : Compat (k m) (ρM) := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   exact Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; ring1)
 
 theorem uv_sq (m : ℕ) (hm : 2 ≤ m) :
     MatEq (k m) ((uvM m) * (uvM m)) (1) := by
@@ -234,7 +234,7 @@ theorem rho_cube (m : ℕ) (hm : 2 ≤ m) :
     MatEq (k m) (ρM * (ρM * ρM)) (1) := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   exact MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_sq (m : ℕ) (hm : 2 ≤ m) :
     MatEq (k m) ((uM m) * (uM m)) (1) := by
@@ -282,49 +282,49 @@ theorem uv_a (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φuv Torus.a = (2*(2 ^ (m - 2)) + 1 : ℤ) • Torus.c + (8*(2 ^ (m - 2)) + 1 : ℤ) • Torus.a + (4*(2 ^ (m - 2)) + 2 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uvM (s + 2))) (compat_uv (s + 2) hm) 1 (2*(2 ^ s) + 1) (8*(2 ^ s) + 1) (4*(2 ^ s) + 2) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem uv_b (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φuv Torus.b = (-88*(2 ^ (m - 2))^2 - 24*(2 ^ (m - 2)) + 1 : ℤ) • Torus.c + (-96*(2 ^ (m - 2))^2 - 20*(2 ^ (m - 2)) + 2 : ℤ) • Torus.a + (-80*(2 ^ (m - 2))^2 - 32*(2 ^ (m - 2)) + 1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uvM (s + 2))) (compat_uv (s + 2) hm) 2 (-88*(2 ^ s)^2 - 24*(2 ^ s) + 1) (-96*(2 ^ s)^2 - 20*(2 ^ s) + 2) (-80*(2 ^ s)^2 - 32*(2 ^ s) + 1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem u_c (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φu Torus.c = (2*(2 ^ (m - 2)) + 1 : ℤ) • Torus.c + (0 : ℤ) • Torus.a + (0 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uM (s + 2))) (compat_u (s + 2) hm) 0 (2*(2 ^ s) + 1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_a (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φu Torus.a = (2*(2 ^ (m - 2)) : ℤ) • Torus.c + (0 : ℤ) • Torus.a + (1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uM (s + 2))) (compat_u (s + 2) hm) 1 (2*(2 ^ s)) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_b (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φu Torus.b = (-4*(2 ^ (m - 2))^2 - 2*(2 ^ (m - 2)) : ℤ) • Torus.c + (1 : ℤ) • Torus.a + (0 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uM (s + 2))) (compat_u (s + 2) hm) 2 (-4*(2 ^ s)^2 - 2*(2 ^ s)) (1) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem rho_c (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φρ Torus.c = (1 : ℤ) • Torus.c + (0 : ℤ) • Torus.a + (0 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of (ρM) (compat_rho (s + 2) hm) 0 (1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem rho_a (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φρ Torus.a = (0 : ℤ) • Torus.c + (0 : ℤ) • Torus.a + (1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of (ρM) (compat_rho (s + 2) hm) 1 (0) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem rho_b (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φρ Torus.b = (-1 : ℤ) • Torus.c + (-1 : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of (ρM) (compat_rho (s + 2) hm) 2 (-1) (-1) (-1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 end Type211
 
@@ -357,17 +357,17 @@ theorem compat_uv (m : ℕ) (hm : 2 ≤ m) : Compat (k m) ((uvM m)) := by
 theorem compat_t (m : ℕ) (hm : 2 ≤ m) : Compat (k m) ((tM m)) := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   exact Compat.of_witness (C := !![1, 0, -4; 1, -1, -2; 2*(2 ^ s), 0, -1]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem compat_u (m : ℕ) (hm : 2 ≤ m) : Compat (k m) ((uM m)) := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   exact Compat.of_witness (C := !![2*(2 ^ s) + 1, 0, 0; 0, 0, 1; 0, 1, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem compat_rho (m : ℕ) (hm : 2 ≤ m) : Compat (k m) (ρM) := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   exact Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem uv_sq (m : ℕ) (hm : 2 ≤ m) :
     MatEq (k m) ((uvM m) * (uvM m)) (1) := by
@@ -391,13 +391,13 @@ theorem rho_cube (m : ℕ) (hm : 2 ≤ m) :
     MatEq (k m) (ρM * (ρM * ρM)) (1) := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   exact MatEq.of_witness (W := 0) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_sq (m : ℕ) (hm : 2 ≤ m) :
     MatEq (k m) ((uM m) * (uM m)) (1) := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   exact MatEq.of_witness (W := !![(2 ^ s) + 1, 0, 0; 0, 0, 0; 0, 0, 0]) (by
-    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1)
+    intro i j; fin_cases i <;> fin_cases j <;> simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; ring1)
 
 theorem u_rho (m : ℕ) (hm : 2 ≤ m) :
     MatEq (k m) (ρM * ((uM m) * (ρM * (uM m)))) (1) := by
@@ -439,73 +439,73 @@ theorem uv_c (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φuv Torus.c = (-3 : ℤ) • Torus.c + (2*(2 ^ (m - 2)) - 1 : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uvM (s + 2))) (compat_uv (s + 2) hm) 0 (-3) (2*(2 ^ s) - 1) (-1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem uv_a (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φuv Torus.a = (4 : ℤ) • Torus.c + (1 : ℤ) • Torus.a + (2 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uvM (s + 2))) (compat_uv (s + 2) hm) 1 (4) (1) (2) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem uv_b (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φuv Torus.b = (-32*(2 ^ (m - 2)) + 4 : ℤ) • Torus.c + (-8*(2 ^ (m - 2)) + 2 : ℤ) • Torus.a + (-8*(2 ^ (m - 2)) + 1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uvM (s + 2))) (compat_uv (s + 2) hm) 2 (-32*(2 ^ s) + 4) (-8*(2 ^ s) + 2) (-8*(2 ^ s) + 1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff]; try ring1)
 
 theorem t_c (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φt Torus.c = (1 : ℤ) • Torus.c + (1 : ℤ) • Torus.a + (2*(2 ^ (m - 2)) : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((tM (s + 2))) (compat_t (s + 2) hm) 0 (1) (1) (2*(2 ^ s)) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem t_a (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φt Torus.a = (0 : ℤ) • Torus.c + (-1 : ℤ) • Torus.a + (0 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((tM (s + 2))) (compat_t (s + 2) hm) 1 (0) (-1) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem t_b (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φt Torus.b = (-4 : ℤ) • Torus.c + (-2 : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((tM (s + 2))) (compat_t (s + 2) hm) 2 (-4) (-2) (-1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_c (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φu Torus.c = (2*(2 ^ (m - 2)) + 1 : ℤ) • Torus.c + (0 : ℤ) • Torus.a + (0 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uM (s + 2))) (compat_u (s + 2) hm) 0 (2*(2 ^ s) + 1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_a (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φu Torus.a = (0 : ℤ) • Torus.c + (0 : ℤ) • Torus.a + (1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uM (s + 2))) (compat_u (s + 2) hm) 1 (0) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem u_b (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φu Torus.b = (0 : ℤ) • Torus.c + (1 : ℤ) • Torus.a + (0 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of ((uM (s + 2))) (compat_u (s + 2) hm) 2 (0) (1) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem rho_c (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φρ Torus.c = (1 : ℤ) • Torus.c + (0 : ℤ) • Torus.a + (0 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of (ρM) (compat_rho (s + 2) hm) 0 (1) (0) (0) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem rho_a (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φρ Torus.a = (0 : ℤ) • Torus.c + (0 : ℤ) • Torus.a + (1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of (ρM) (compat_rho (s + 2) hm) 1 (0) (0) (1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 theorem rho_b (m : ℕ) (hm : 2 ≤ m) :
     (action m hm).φρ Torus.b = (-4 : ℤ) • Torus.c + (-1 : ℤ) • Torus.a + (-1 : ℤ) • Torus.b := by
   obtain ⟨s, rfl⟩ : ∃ s, m = s + 2 := ⟨m - 2, (Nat.sub_add_cancel hm).symm⟩
   refine (matAct_gen_of (ρM) (compat_rho (s + 2) hm) 2 (-4) (-1) (-1) ?_ ?_ ?_).trans ?_ <;>
-    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff] <;> ring1) | module
+    first | (simp [-mul_eq_zero, -mul_eq_mul_left_iff, -mul_eq_mul_right_iff])
 
 end Type310
 

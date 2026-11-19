@@ -52,7 +52,7 @@ private theorem qTwoLMA_rootV_inv {m : ℕ} (i j : Fin m) :
   simp only [crd_inv, crd_rootV]
   ring
 
-private theorem qTwoLMA_swap_rootV {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
+private theorem qTwoLMA_swap_rootV {m : ℕ} {i j : Fin m} (_hij : i ≠ j) :
     permAutV (Equiv.swap i j) (rootV i j : ↥(sumZero m 3)) *
       (rootV i j : ↥(sumZero m 3))⁻¹ = (rootV i j : ↥(sumZero m 3)) := by
   rw [permAutV_rootV, Equiv.swap_apply_left, Equiv.swap_apply_right, ← qTwoLMA_rootV_inv i j]
@@ -103,7 +103,7 @@ theorem qTwoLMA_closure_rootV (m : ℕ) :
   rcases m with _ | n
   · rw [eq_top_iff]
     intro f _
-    haveI : Subsingleton ↥(sumZero 0 3) :=
+    have : Subsingleton ↥(sumZero 0 3) :=
       ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
     rw [Subsingleton.elim f 1]
     exact one_mem _
@@ -115,7 +115,7 @@ theorem qTwoLMA_closure_rootV (m : ℕ) :
         (∏ i ∈ s, (rootV i (0 : Fin (n + 1))) ^ (crd f i).val) ∈ H := by
       intro s
       induction s using Finset.induction with
-      | empty => intro _; simpa using one_mem H
+      | empty => intro _; simp
       | insert a s ha ih =>
           intro hs
           rw [Finset.prod_insert ha]
@@ -207,11 +207,11 @@ private theorem qTwoLMA_card_fix_swap {m : ℕ} {a b : Fin m} (hab : a ≠ b) :
     rw [crd_pow, crd_pow, crd_rootV_left hab, crd_rootV_right hab, ZMod.natCast_zmod_val]
     ring_nf
     have h4 : (4 : ZMod 3) = 1 := by decide
-    simp only [h4, mul_one, one_mul]
+    simp only [h4, mul_one]
   have hrange : Nat.card (qTwoLMA_diffHom a b).range = 3 := by
     rw [MonoidHom.range_eq_top.mpr hsurj]
     rw [Nat.card_congr Subgroup.topEquiv.toEquiv]
-    simpa using (Nat.card_zmod 3 : Nat.card (ZMod 3) = 3)
+    simp
   have hcard := (qTwoLMA_diffHom a b).ker.card_mul_index
   rw [Subgroup.index_ker, hrange] at hcard
   rw [hker]

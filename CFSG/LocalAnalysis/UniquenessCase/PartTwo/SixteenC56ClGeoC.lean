@@ -25,7 +25,7 @@ theorem Geo2.pol_eq_zero_of_card_fix_four (hE : Geo2 S E) (hSK : Nat.card S.K = 
 theorem Geo2.comm_surj_of_card_fix_four (hE : Geo2 S E) (hF : Nat.card (fixV E) = 4) {w : W}
     (hw : w ∉ fixV E) (hw2 : ∀ e ∈ E, e w * w⁻¹ ∈ fixV E) :
     ∀ f ∈ fixV E, ∃ e ∈ E, e w * w⁻¹ = f := by
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   refine exists_comm_eq_of_card_le hE.elem hw2 ?_
   rw [hF]
   calc 4 = 2 ^ 2 := by norm_num
@@ -35,7 +35,7 @@ theorem Geo2.comm_surj_of_card_fix_four (hE : Geo2 S E) (hF : Nat.card (fixV E) 
 theorem Geo2.Q_eq_zero_of_card_fix_four (hE : Geo2 S E) (hSK : Nat.card S.K = 4)
     (hF : Nat.card (fixV E) = 4) : ∀ z ∈ fixV E, S.Q z = 0 := by
   classical
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   have hW2 : ∀ w : W, w ^ 2 = 1 := fun w => by rw [pow_two]; exact S.mul_self_eq_one w
   obtain ⟨w, hwF, hw2⟩ :=
     exists_mem_secondLayer hW2 hE.elem (le_refl (fixV E)) (fixV_ne_top hE.ne_bot)
@@ -50,7 +50,7 @@ theorem Geo2.Q_eq_zero_of_card_fix_four (hE : Geo2 S E) (hSK : Nat.card S.K = 4)
   obtain ⟨ω, hω0, hω1⟩ : ∃ ω : S.K, ω ≠ 0 ∧ ω ≠ 1 := by
     by_contra hcon
     push Not at hcon
-    letI := Fintype.ofFinite S.K
+    let := Fintype.ofFinite S.K
     have hcard : Fintype.card S.K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hSK
     have hsub : (Finset.univ : Finset S.K) ⊆ {0, 1} := fun c _ => by
       by_cases h0 : c = 0

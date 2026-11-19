@@ -890,7 +890,7 @@ theorem exists_inv_three {X : Type} [Group X] [Finite X] (hX : LieModel X .PSL 3
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := exists_sylow_two_fixed hτ2
   have hS2 : IsSylowTwoOf (S : Subgroup X) ⊤ := by
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     change ¬ 2 ∣ (S : Subgroup X).relIndex ⊤
     rw [Subgroup.relIndex_top_right]
     exact S.not_dvd_index

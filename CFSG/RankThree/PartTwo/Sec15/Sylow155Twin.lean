@@ -200,7 +200,7 @@ theorem map_conj_eq_of_sq {A M X : Subgroup G} (hA : A ∈ partTwoF G) (hAM : A 
     have ha : a = 1 := Subtype.ext (hWbot _ a.2)
     have hb : b = 1 := Subtype.ext (hWbot _ b.2)
     exact hab (by rw [ha, hb])
-  haveI : Group.IsPerfect ↥(Y'.map π) := hWq.1
+  have : Group.IsPerfect ↥(Y'.map π) := hWq.1
   obtain ⟨f, hf3, hfc⟩ :=
     CFSG.Quasithin.Vol2.Ch11.SecS.KF.exists_pow_eq_one_not_mem_center (p := 3) (by norm_num) h3W
   have hfC : (f : ↥M ⧸ θ) ∉

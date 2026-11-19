@@ -15,8 +15,8 @@ theorem r1613g_card_le_nine_of_elemAbelian {H : Type} [Group H] [Finite H] {F : 
     [F.Normal] (hF : centralizer (F : Set H) ≤ F) (hE : IsElemAbelianOfRank 3 2 ↥F)
     {E : Subgroup H} (hE3 : IsElemAbelian 3 E) : Nat.card E ≤ 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hE3.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hE3.1
   have hFcard : Nat.card F = 9 := by
     rw [s16c167_card_isElemAbelianOfRank hE]
     norm_num
@@ -82,13 +82,13 @@ theorem r1613g_pRank_Mbar_le_two_of_case168_8 (D : Data G) {V₀ V : Subgroup G}
     (hV : IsElemAbelian 2 V) (h8 : Case168_8 D V₀ V hV) :
     CFSG.Open.pRank 3 (Mbar D.M V₀ V hV) ≤ 2 := by
   classical
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   let Mb : Subgroup (MulAut (Vtil V₀ V hV)) := Mbar D.M V₀ V hV
   let F₀ : Subgroup ↥Mb := genFittingFStar ↥Mb
-  haveI : Finite ↥Mb := Subtype.finite
+  have : Finite ↥Mb := Subtype.finite
   have hnorm : F₀.Normal := CFSG.ClassicalInvolution.Q3.genFittingFStar_isNormal
   have hself : centralizer (F₀ : Set ↥Mb) ≤ F₀ :=
-    CFSG.Open.Open.generalized_fitting_self_centralizing ↥Mb
+    CFSG.Open.Thm.generalized_fitting_self_centralizing ↥Mb
   obtain ⟨e'⟩ := h8.1
   let e₀ : ↥F₀ ≃* Multiplicative (Fin 2 → ZMod 3) :=
     (Subgroup.equivMapOfInjective F₀ Mb.subtype Mb.subtype_injective).trans e'

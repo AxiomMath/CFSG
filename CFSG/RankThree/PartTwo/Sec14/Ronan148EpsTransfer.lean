@@ -24,7 +24,7 @@ theorem inf_centralizer_eq_bot {G : Type} [Group G] {A L K' : Subgroup G} {c : G
     exact inf_le_inf_left A (Subgroup.centralizer_le hK'L)
   have hco : orderOf c = 3 := orderOf_eq_prime hc3 hc1
   have hcard : Nat.card (Subgroup.zpowers c) = 3 := by rw [Nat.card_zpowers, hco]
-  haveI : Fact (Nat.card (Subgroup.zpowers c)).Prime := ⟨hcard ▸ Nat.prime_three⟩
+  have : Fact (Nat.card (Subgroup.zpowers c)).Prime := ⟨hcard ▸ Nat.prime_three⟩
   rcases (H.subgroupOf (Subgroup.zpowers c)).eq_bot_or_eq_top_of_prime_card with h | h
   · rw [Subgroup.subgroupOf_eq_bot] at h
     exact h.eq_bot_of_le hle

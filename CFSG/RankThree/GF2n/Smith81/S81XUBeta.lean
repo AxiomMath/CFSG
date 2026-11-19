@@ -20,6 +20,7 @@ variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F} {K : Type} [Field K]
 theorem betaU_e3uVal_wact (g : SUid σ 6) (w : E3UWspace σ e) :
     e3uVal (e3uWact σ e g w) = rho F (g : GL (Fin 6) F) (e3uVal w) := rfl
 
+omit [CharP F 2] in
 theorem betaU_det_SUid (g : SUid σ 6) :
     ((g : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).det = 1 :=
   ((CFSG.ClassicalGroups.Unitary.mem_SUid_iff σ).mp g.2).1

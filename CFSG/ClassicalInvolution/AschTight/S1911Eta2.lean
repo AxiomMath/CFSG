@@ -123,7 +123,7 @@ theorem invol_eq_or (hd : Sec19DataT p f K z S W L t V) {η : Set (Subgroup G)} 
   have htW := mem_W hd
   have hWL : W ≤ Subgroup.normalizer (L : Set G) :=
     (le_centralizer_of_mem hd0 htW).trans (centralizer_le_normalizer_member htb hd.memL hd.invL)
-  have hW2 : IsPGroup 2 W := S.isPGroup'.to_le hd.hWS
+  have hW2 : IsPGroup 2 W := S.isPGroup.to_le hd.hWS
   obtain ⟨R₁, hR₁, hR₁W⟩ := exists_sylow_normalized hW2 hWL
   have hR₁mem : R₁ ∈ RSet (CoreAssembly.conjClass K) := mem_RSet_of_isSylow2In hd.memL hR₁
   have hWR₁ : W ≤ Subgroup.normalizer (R₁ : Set G) := fun w hw =>

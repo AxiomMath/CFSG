@@ -200,7 +200,7 @@ theorem vecMulVec_inj {a φ b ψ : V4} (ha : a ≠ 0) (hφ : φ ≠ 0)
 theorem QT_ne {p : V4 × V4} (hp : QT p) : p.1 ≠ 0 ∧ p.2 ≠ 0 := by
   obtain ⟨-, h8⟩ := hp
   have h1 : (p.1 = 0 ∨ p.2 = 0) → fT p = 1 := by
-    rintro (h | h) <;> ext i j <;> simp [fT, vecMulVec_apply, h]
+    rintro (h | h) <;> ext i j <;> simp [fT, h]
   by_contra hc
   rw [not_and_or, not_not, not_not] at hc
   rw [h1 hc] at h8

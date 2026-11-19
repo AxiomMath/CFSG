@@ -280,7 +280,7 @@ theorem model5 [CharP K 2] {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n)
     have hU : bk ∈ unipotent 2 K := (diagHom_eq_one_iff _).mp h1
     obtain ⟨P2, hP2⟩ := exists_sylow_unipotent (K := K) 2 2
     have hP2' : bk ∈ (P2 : Subgroup (StatedSp 2 K)) := by rw [hP2]; exact hU
-    obtain ⟨j, hj⟩ := P2.isPGroup' ⟨bk, hP2'⟩
+    obtain ⟨j, hj⟩ := P2.isPGroup ⟨bk, hP2'⟩
     have hbkj : bk ^ 2 ^ j = 1 := by simpa using congrArg Subtype.val hj
     have hdvd : orderOf (proj 2 K bk) ∣ 2 ^ j := orderOf_dvd_of_pow_eq_one (by
       rw [← map_pow, hbkj, map_one])

@@ -32,7 +32,7 @@ theorem split [Finite G] (ρ : Representation (ZMod p) G W) (Z : Subgroup G)
     (_hZ : IsMulCommutative Z) (hc : ((Nat.card Z : ℕ) : ZMod p) ≠ 0) :
     commSpace ρ Z ⊔ fixedSpace ρ Z = ⊤ := by
   classical
-  haveI : Fintype Z := Fintype.ofFinite _
+  have : Fintype Z := Fintype.ofFinite _
   have hc' := card_cast (Z := Z) hc
   rw [eq_top_iff]
   intro v _
@@ -43,11 +43,11 @@ theorem split [Finite G] (ρ : Representation (ZMod p) G W) (Z : Subgroup G)
     (Submodule.smul_mem _ _ (mem_fixedSpace_normOp ρ Z v))
 
 theorem restricted_commSpace_eq_top [Finite G] (ρ : Representation (ZMod p) G W) (Z : Subgroup G)
-    (hZ : IsMulCommutative Z) (hc : ((Nat.card Z : ℕ) : ZMod p) ≠ 0)
+    (_hZ : IsMulCommutative Z) (hc : ((Nat.card Z : ℕ) : ZMod p) ≠ 0)
     (hcentral : ∀ k ∈ Z, ∀ z ∈ Z, k * z = z * k) :
     commSpace (restrictedRepresentation ρ Z Z hcentral) (⊤ : Subgroup Z) = ⊤ := by
   classical
-  haveI : Fintype Z := Fintype.ofFinite _
+  have : Fintype Z := Fintype.ofFinite _
   have hc' := card_cast (Z := Z) hc
   rw [eq_top_iff]
   intro u _

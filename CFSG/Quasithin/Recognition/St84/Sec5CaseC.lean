@@ -59,8 +59,8 @@ theorem caseC_n (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = ⊥)
     rw [hAeq]
     exact le_sup_right
   have hZ1card : Nat.card ↥(Y.Z 1) = 4 := (s52_step8_Z Y H hZ 1 (by norm_num)).2
-  haveI : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
-  haveI : Finite ↥(Y.Q 0 ⊓ Y.Q 2) :=
+  have : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
+  have : Finite ↥(Y.Q 0 ⊓ Y.Q 2) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left) (Subgroup.inclusion_injective _)
   have hAZ : Y.Q 0 ⊓ Y.Q 2 = Y.Z 1 :=
     (Subgroup.eq_of_le_of_card_ge hZ1A (by rw [hAcard, hZ1card])).symm
@@ -105,7 +105,7 @@ private theorem L_zero_two_trans (Y : Setup Γ G) (hn0 : Y.n 0 = 2)
     { toFun := fun i => e (x i), inj' := fun i j h => x.inj' (e.injective h) }
   let yE : Fin 2 ↪ Fin 5 :=
     { toFun := fun i => e (y i), inj' := fun i j h => y.inj' (e.injective h) }
-  haveI h3 : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 5)) (Fin 5) 3 := by
+  have h3 : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 5)) (Fin 5) 3 := by
     simpa using alternatingGroup.isMultiplyPretransitive (Fin 5)
   have hpre : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 5)) (Fin 5) 2 :=
     MulAction.isMultiplyPretransitive_of_le (m := 2) (n := 3) (by norm_num) (by norm_num)
@@ -148,7 +148,7 @@ private theorem exists_Z_zero_eq_zpowers (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     (hZ : Y.Zt 0 = ⊥) :
     ∃ z ∈ Y.Z 0, z ≠ 1 ∧ z * z = 1 ∧ Y.Z 0 = Subgroup.zpowers z := by
   have hZ0card : Nat.card ↥(Y.Z 0) = 2 := (s52_step8 Y H hZ).2.2.2.2.2.2.1
-  haveI hfinZ0 : Finite ↥(Y.Z 0) := Nat.finite_of_card_ne_zero (by rw [hZ0card]; norm_num)
+  have hfinZ0 : Finite ↥(Y.Z 0) := Nat.finite_of_card_ne_zero (by rw [hZ0card]; norm_num)
   have hZ0ne : Y.Z 0 ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hZ0card
@@ -168,7 +168,7 @@ private theorem exists_Z_zero_eq_zpowers (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     have hle : Subgroup.zpowers z ≤ Y.Z 0 := Subgroup.zpowers_le.mpr hzZ0
     have hcard : Nat.card ↥(Subgroup.zpowers z) = 2 := by
       rw [Nat.card_zpowers, orderOf_eq_prime (by rw [pow_two]; exact hz2) hz1]
-    haveI : Finite ↥(Y.Z 0) := Nat.finite_of_card_ne_zero (by rw [hZ0card]; norm_num)
+    have : Finite ↥(Y.Z 0) := Nat.finite_of_card_ne_zero (by rw [hZ0card]; norm_num)
     have hle2 : Y.Z 0 ≤ Subgroup.zpowers z := by
       have hEq : Subgroup.zpowers z = Y.Z 0 :=
         Subgroup.eq_of_le_of_card_ge hle (by rw [hcard, hZ0card])
@@ -193,7 +193,7 @@ private theorem vertZ_eq_Z_zero_sup_zpowers (Y : Setup Γ G) (H : Y.Sec5Hyp s n�
   have hZ0card : Nat.card ↥(Y.Z 0) = 2 := (s52_step8 Y H hZ).2.2.2.2.2.2.1
   have hZle : Y.Z 0 ≤ vertZ (G := G) (u : V) := Z_zero_le_vertZ Y H hZ u
   have hcard : Nat.card ↥(vertZ (G := G) (u : V)) = 4 := card_vertZ_nbr Y H hZ u
-  haveI : Finite ↥(vertZ (G := G) (u : V)) :=
+  have : Finite ↥(vertZ (G := G) (u : V)) :=
     finite_of_le_stabilizer Y.hyp
       ((vertZ_le_pCoreOf _).trans (CFSG.LieType.BorelTits.pCoreOf_le 2 _))
   exact (CFSG.Quasithin.F6.GoldAmN.sup_zpowers_eq_of_relIndex_two hZle
@@ -205,7 +205,7 @@ private theorem commutator_vertZ_eq_Z_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n�
     {u v : Γ.neighborSet (Y.vert 0)} (huv : u ≠ v) :
     ⁅vertZ (G := G) (u : V), vertZ (G := G) (v : V)⁆ = Y.Z 0 := by
   have hZ0card : Nat.card ↥(Y.Z 0) = 2 := (s52_step8 Y H hZ).2.2.2.2.2.2.1
-  haveI hfinZ0 : Finite ↥(Y.Z 0) := Nat.finite_of_card_ne_zero (by rw [hZ0card]; norm_num)
+  have hfinZ0 : Finite ↥(Y.Z 0) := Nat.finite_of_card_ne_zero (by rw [hZ0card]; norm_num)
   have hn0 : Y.n 0 = 2 := by rw [H.n_zero, (caseC_n Y H hZ h5).1]
   have hvertZ_le_Q : ∀ u : Γ.neighborSet (Y.vert 0), vertZ (G := G) (u : V) ≤ Y.Q 0 :=
     vertZ_nbr_le_Q_zero Y H hZ h5
@@ -255,7 +255,7 @@ private theorem commutator_vertZ_eq_Z_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n�
     rw [hder] at hbotQ
     have hcard1 : Nat.card ↥(Y.Z 0) = 1 := by rw [hbotQ, Subgroup.card_bot]
     omega
-  haveI : Finite ↥(⁅vertZ (G := G) (u : V), vertZ (G := G) (v : V)⁆) :=
+  have : Finite ↥(⁅vertZ (G := G) (u : V), vertZ (G := G) (v : V)⁆) :=
     Finite.of_injective (Subgroup.inclusion hleZ) (Subgroup.inclusion_injective _)
   have hcardH : 2 ≤ Nat.card ↥(⁅vertZ (G := G) (u : V),
       vertZ (G := G) (v : V)⁆) := by
@@ -412,7 +412,7 @@ private theorem center_Q_zero_eq_zpowers (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     (hZ : Y.Zt 0 = ⊥) (hcenter : centerOf (Y.Q 0) = Y.Z 0) {z : G} (hzQ : z ∈ Y.Q 0)
     (hzZ : z ∈ Y.Z 0) (hz1 : z ≠ 1) (hz2 : z * z = 1) :
     Subgroup.center ↥(Y.Q 0) = Subgroup.zpowers (⟨z, hzQ⟩ : ↥(Y.Q 0)) := by
-  haveI : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
+  have : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
   have hZ0card : Nat.card ↥(Y.Z 0) = 2 := (s52_step8 Y H hZ).2.2.2.2.2.2.1
   have hzc : ∀ q ∈ Y.Q 0, z * q = q * z := by
     intro q hq
@@ -446,7 +446,7 @@ private theorem caseC_q8d8 (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 
   have hcase := caseC_n Y H hZ h5
   have hn0 : Y.n 0 = 2 := by rw [H.n_zero, hcase.1]
   have hVQ : Y.VNbr0 = Y.Q 0 := hcase.2.2.1
-  haveI hfinQ0 : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
+  have hfinQ0 : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
   obtain ⟨z, hzZ0, hz1, hz2, hZ0_zp⟩ := exists_Z_zero_eq_zpowers Y H hZ
   have hzQ : z ∈ Y.Q 0 := Y.Z_le_Q 0 hzZ0
   have hcenterQ : centerOf (Y.Q 0) = Y.Z 0 := centerOf_Q_zero_of_VNbr0_eq Y H hZ hVQ
@@ -517,8 +517,7 @@ private theorem caseC_q8d8 (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 
 
 private theorem caseC_nat (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = ⊥)
     (h5 : s = 5) : NatSec (Y.L 1) ⊥ (Y.Q 1) := by
-  intro x hxL hx3
-  intro e heQ hcomm
+  intro x hxL hx3 e heQ hcomm
   have hA : Y.Q 0 ⊓ Y.Q 2 = Y.Z 1 := (caseC_n Y H hZ h5).2.2.2
   have hstep := s52_step10 Y H hZ hxL hx3
   have hcent : e ∈ Subgroup.centralizer ({x} : Set G) := by
@@ -561,7 +560,7 @@ private theorem sup_inf_K_eq (Y : Setup Γ G) {F : Subgroup G}
 private theorem isComplement_subgroupOf_of_sup {A B F : Subgroup G} (hAF : A ≤ F) (hBF : B ≤ F)
     (hAn : (A.subgroupOf F).Normal) (hsup : A ⊔ B = F) (hinf : A ⊓ B = ⊥) :
     (A.subgroupOf F).IsComplement' (B.subgroupOf F) := by
-  haveI := hAn
+  have := hAn
   have hsup' : (A.subgroupOf F) ⊔ (B.subgroupOf F) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hAF hBF, hsup, Subgroup.subgroupOf_self]
   have hinf' : (A.subgroupOf F) ⊓ (B.subgroupOf F) = ⊥ := by
@@ -589,9 +588,9 @@ private theorem exists_S_conj_mem_K (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ 
     obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
     exact ⟨(Y.Gi 0).zpow_mem hkG.1 m, (Y.Gi 1).zpow_mem hkG.2 m⟩
   have hSle : Y.S ≤ Y.Gi 0 ⊓ Y.Gi 1 := (Y.isSylowTwoOf_edgeSylow 0).1
-  haveI : Finite ↥Y.S := finite_of_le_stabilizer Y.hyp (hSle.trans inf_le_left)
+  have : Finite ↥Y.S := finite_of_le_stabilizer Y.hyp (hSle.trans inf_le_left)
   have hFle : F ≤ Y.Gi 0 ⊓ Y.Gi 1 := sup_le hSle hTle
-  haveI : Finite ↥F := finite_of_le_stabilizer Y.hyp (hFle.trans inf_le_left)
+  have : Finite ↥F := finite_of_le_stabilizer Y.hyp (hFle.trans inf_le_left)
   have hSnormG : Y.Gi 0 ⊓ Y.Gi 1 ≤ Subgroup.normalizer (Y.S : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSle).mp
       (by simpa [Y.edgeSylow_zero] using Y.edgeSylow_subgroupOf_normal 0)
@@ -741,9 +740,9 @@ private theorem card_sup_mul_card_inf_of_le_normal {H K L : Subgroup G} [Finite 
 private theorem sq_mem_Z_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     (hZ : Y.Zt 0 = ⊥) {x : G} (hx : x ∈ Y.Q 0) : x * x ∈ Y.Z 0 := by
   have hds : dsFrattini (Y.Q 0) = Y.Z 0 := dsFrattini_Q_zero_eq_Z_zero Y H hZ
-  haveI : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥(Y.Q 0)) := ⟨pCoreOf_isPGroup' (Y.Gi 0)⟩
+  have : Finite ↥(Y.Q 0) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 0)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥(Y.Q 0)) := ⟨pCoreOf_isPGroup' (Y.Gi 0)⟩
   have hx' : (⟨x, hx⟩ : ↥(Y.Q 0)) ^ 2 ∈ frattini ↥(Y.Q 0) :=
     CFSG.pth_power_mem_frattini_of_isPGroup (p := 2) (R := ↥(Y.Q 0)) ⟨x, hx⟩
   have hmem : x ^ 2 ∈ dsFrattini (Y.Q 0) := ⟨_, hx', rfl⟩
@@ -816,9 +815,9 @@ private theorem commutator_self_Q_one_le_Z_one (Y : Setup Γ G) (H : Y.Sec5Hyp s
   have hQ1NB : Y.Q 1 ≤ Subgroup.normalizer (B : Set G) :=
     Q_one_le_normalizer_Q_inf_Q_one Y (j := 2)
       (by simpa using (Y.Q_le_Gi_adj 1).trans inf_le_right)
-  haveI hAnorm : (A.subgroupOf (Y.Q 1)).Normal :=
+  have hAnorm : (A.subgroupOf (Y.Q 1)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hA_le_Q1).mpr hQ1NA
-  haveI hBnorm : (B.subgroupOf (Y.Q 1)).Normal :=
+  have hBnorm : (B.subgroupOf (Y.Q 1)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hB_le_Q1).mpr hQ1NB
   have hAA : ⁅A.subgroupOf (Y.Q 1), A.subgroupOf (Y.Q 1)⁆ ≤
       (Y.Z 1).subgroupOf (Y.Q 1) := by
@@ -1116,7 +1115,7 @@ private theorem conjOnQ_mem_Mset_iff (Y : Setup Γ G) {x : V} {g : G} (hg : g �
     not_congr (mem_Q_zero_iff Y u)
   have hA2 (u : ↥(Y.Q 1)) : (u : G) ∉ Y.Q 2 ↔ (u : G) ∉ nbrCore Y (Y.vert 2) :=
     not_congr (mem_Q_two_iff Y u)
-  simp only [Mset, Set.mem_setOf_eq, hA0, hA2]
+  simp only [Mset, Set.mem_ofPred_eq, hA0, hA2]
   rw [conjOnQ_mem_nbrCore_iff Y hg y (Y.vert 0),
     conjOnQ_mem_nbrCore_iff Y hg y (Y.vert 2),
     conjOnQ_mem_nbrCore_iff Y hg y x]
@@ -1165,7 +1164,7 @@ private theorem nbrCore_zero_inf_nbrCore_two (Y : Setup Γ G) (H : Y.Sec5Hyp s n
 
 private theorem card_nbrCore_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = ⊥)
     (h5 : s = 5) : Nat.card ↥(nbrCore Y (Y.vert 0)) = 16 := by
-  haveI : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
   have hA02 : nbrCore Y (Y.vert 0) ⊓ nbrCore Y (Y.vert 2) = Y.Z 1 :=
     nbrCore_zero_inf_nbrCore_two Y H hZ h5
   have hQ1G2 : Y.Q 1 ≤ Y.Gi 2 := by
@@ -1329,7 +1328,7 @@ private theorem ncard_Mset (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 
     (h5 : s = 5) {x : V} (hx1 : Γ.Adj (Y.vert 1) x) (hx0 : x ≠ Y.vert 0)
     (hx2 : x ≠ Y.vert 2) : (Mset Y x).ncard = 24 := by
   have hQfin : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
-  haveI := hQfin
+  have := hQfin
   have hQcard : Nat.card ↥(Y.Q 1) = 64 := by
     rw [card_Q_one_of_caseC Y H hZ h5]
     norm_num
@@ -1414,7 +1413,7 @@ private theorem ncard_Mset (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 
     omega
   have hMeq : Mset Y x = Tᶜ := by
     ext y
-    simp only [Mset, T, relSet, Set.mem_compl_iff, Set.mem_union, Set.mem_setOf_eq, not_or]
+    simp only [Mset, T, relSet, Set.mem_compl_iff, Set.mem_union, Set.mem_ofPred_eq, not_or]
     tauto
   rw [hMeq]
   have h := Set.ncard_compl (s := T) (α := ↥(Y.Q 1))
@@ -1426,7 +1425,7 @@ private theorem relSet_Z_one_eq_union (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (h
     (hx2 : x ≠ Y.vert 2) :
     (relSet (Y.Q 1) (Y.Z 0) ∪ relSet (Y.Q 1) (Y.Z 2)) ∪
       relSet (Y.Q 1) (vertZ (G := G) x) = relSet (Y.Q 1) (Y.Z 1) := by
-  haveI : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
   have hZ0card : Nat.card ↥(Y.Z 0) = 2 := (s52_step8 Y H hZ).2.2.2.2.2.2.1
   have hZ1card : Nat.card ↥(Y.Z 1) = 4 := (s52_step8_Z Y H hZ 1 (by norm_num)).2
   have hZ1eq : Y.Z 1 = Y.Z 0 ⊔ Y.Z 2 := (s52_step8 Y H hZ).2.2.2.2.1
@@ -1481,8 +1480,8 @@ private theorem relSet_Z_one_eq_union (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (h
               Subgroup.mem_inf.mpr ⟨hy.1, hy.2⟩
             rw [hZ02bot] at hybot
             have hy1 : (y : G) = 1 := Subgroup.mem_bot.mp hybot
-            exact ⟨⟨hy.1, by simpa [relSet, hy1] using (vertZ (G := G) x).one_mem⟩,
-              ⟨hy.2, by simpa [relSet, hy1] using (vertZ (G := G) x).one_mem⟩⟩
+            exact ⟨⟨hy.1, by simp [relSet, hy1]⟩,
+              ⟨hy.2, by simp [relSet, hy1]⟩⟩
         rw [heq, hZ02set]
       have h := Set.ncard_union_add_ncard_inter
         (relSet (Y.Q 1) (Y.Z 0) ∩ relSet (Y.Q 1) (vertZ (G := G) x))
@@ -1509,7 +1508,7 @@ private theorem ncard_fibre_smul (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {x : V}
     (hg : g ∈ Y.Gi 1) {v w : V} (hvw : g • v = w) :
     {y : ↥(Y.Q 1) | y ∈ Mset Y x ∧ (y : G) ^ 2 ∈ vertZ (G := G) w}.ncard =
     {y : ↥(Y.Q 1) | y ∈ Mset Y x ∧ (y : G) ^ 2 ∈ vertZ (G := G) v}.ncard := by
-  haveI : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
   have hgInv : g⁻¹ ∈ Y.Gi 1 := (Y.Gi 1).inv_mem hg
   have hpre : ({g⁻¹ • Y.vert 0, g⁻¹ • Y.vert 2, g⁻¹ • x} : Set V) =
       {Y.vert 0, Y.vert 2, x} := smul_nbr_set Y H hx1 hx0 hx2 hgInv
@@ -1545,7 +1544,7 @@ private theorem ncard_Mset_eq_three_mul (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) 
     (Mset Y x).ncard =
       3 * {y : ↥(Y.Q 1) | y ∈ Mset Y x ∧
         (y : G) ^ 2 ∈ vertZ (G := G) (Y.vert 0)}.ncard := by
-  haveI : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
   have hZ02bot : Y.Z 0 ⊓ Y.Z 2 = ⊥ := (s52_step8 Y H hZ).2.2.2.2.2.1
   have hZxZ2 : vertZ (G := G) x ⊓ Y.Z 2 = ⊥ := (third_inf_two Y H hZ h5 hx1 hx0 hx2).2
   have hZxZ0 : vertZ (G := G) x ⊓ Y.Z 0 = ⊥ := (third_inf_zero Y H hZ h5 hx1 hx0 hx2).2
@@ -1620,7 +1619,7 @@ private theorem three_dvd_ncard_sq_fibre (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     (hx2 : x ≠ Y.vert 2) :
     3 ∣ {y : ↥(Y.Q 1) | y ∈ Mset Y x ∧
       (y : G) ^ 2 ∈ vertZ (G := G) (Y.vert 0)}.ncard := by
-  haveI : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
+  have : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (Y.Q_le_Gi 1)
   obtain ⟨k, hkK, hk3⟩ := exists_order_three_K Y H hZ h5
   have hkG1 : k ∈ Y.Gi 1 := Y.K_le_Gi 1 hkK
   have hkG : k ∈ Y.Gi 0 ⊓ Y.Gi 1 := ⟨Y.K_le_Gi 0 hkK, hkG1⟩
@@ -1748,7 +1747,7 @@ theorem treeJ2_of_caseC (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = �
   have hZ1elem : IsElemAbelian 2 (Y.Z 1) := (s52_step8_Z Y H hZ 1 (by norm_num)).1
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · simpa [Setup.swap_S] using (caseC_n Y H hZ h5).2.1
-  · exact isQ8D8_of_eq (by simpa using Setup.swap_Q (X := Y) 1)
+  · exact isQ8D8_of_eq (by simp)
       (caseC_q8d8 Y H hZ h5)
   · simpa [Setup.swap_Q] using hcardQ1
   · simpa [Setup.swap_Z] using hZ1card

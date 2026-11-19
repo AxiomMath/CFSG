@@ -22,6 +22,7 @@ theorem two_smul_ec_cocycle218 {τ : StrothTypeIndex} (D : StrothTypeData B τ)
     (mul_inv_cancel_left D.c (conjBy hgB D.c)).symm, D.ec_mul, D.ec_inv, hφ, D.ec_c]
   abel
 
+omit [Finite S] in
 theorem conj_mul_adj218 (hBC : B ≤ C) {d : S} (hdC : d ∈ C) {z : B} (hz : z * z = 1)
     {g : S} (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B) {b : B}
     (hb : conjBy hgC (⟨d, hdC⟩ : C) = ⟨d, hdC⟩ * Subgroup.inclusion hBC b) :
@@ -49,26 +50,32 @@ theorem n_t221 : (StrothTypeIndex.t221 s hs).n = s + 4 := by
   simp only [Matrix.cons_val_one, Matrix.cons_val_zero] at h
   exact h.symm
 
+omit [Finite S] in
 theorem ec_conj_u_t221 (D : StrothTypeData B (StrothTypeIndex.t221 s hs)) (x : B) :
     D.ec (conjBy D.u_mem x) = (Type221.action (Type221.data s)).φu (D.ec x) :=
   D.u_conj x
 
+omit [Finite S] in
 theorem ec_conj_ρ_t221 (D : StrothTypeData B (StrothTypeIndex.t221 s hs)) (x : B) :
     D.ec (conjBy D.ρ_mem x) = (Type221.action (Type221.data s)).φρ (D.ec x) :=
   D.ρ_conj x
 
+omit [Finite S] in
 theorem ec_conj_t_t221 (D : StrothTypeData B (StrothTypeIndex.t221 s hs)) (x : B) :
     D.ec (conjBy D.t_mem x) = (Type221.action (Type221.data s)).φt (D.ec x) :=
   D.t_conj x
 
+omit [Finite S] in
 theorem ec_conj_uv_t221 (D : StrothTypeData B (StrothTypeIndex.t221 s hs)) (x : B) :
     D.ec (conjBy D.uv_mem x) = (Type221.action (Type221.data s)).φuv (D.ec x) :=
   D.uv_conj x
 
+omit [Finite S] in
 theorem ec_a_t221 (D : StrothTypeData B (StrothTypeIndex.t221 s hs)) :
     D.ec D.a = gen (Type221.k s) 1 :=
   D.ec_a
 
+omit [Finite S] in
 theorem ec_b_t221 (D : StrothTypeData B (StrothTypeIndex.t221 s hs)) :
     D.ec D.b = gen (Type221.k s) 2 :=
   D.ec_b

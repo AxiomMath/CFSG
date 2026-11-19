@@ -44,7 +44,7 @@ theorem cycThree_mul_scalar_ne_diagUnits (u a b c : Kˣ) :
       Matrix (Fin 3) (Fin 3) K) 0 2 = (u : K) := by
     simp [coe_cycThree, GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.mul_diagonal]
   have e2 : ((diagUnits a b c : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 0 2 = 0 := by
-    simp [coe_diagUnits, Matrix.diagonal_apply]
+    simp [coe_diagUnits]
   have h02 : (((cycThree : GL (Fin 3) K) * GeneralLinearGroup.scalar (Fin 3) u : GL (Fin 3) K) :
       Matrix (Fin 3) (Fin 3) K) 0 2 = ((diagUnits a b c : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 0 2 := by
     rw [h]
@@ -149,7 +149,7 @@ theorem exists_witness_of_typeOne (hK : PiField π p f K) (hq : ModThree π (p ^
   have hτ0 : τ ≠ 0 := by
     rintro rfl
     simp at hτ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcL : (cycThree : GL (Fin 3) K) ∈ slPi π 3 (p ^ f) K := cycThree_mem_slPi hπ
   have hcZ : (cycThree : GL (Fin 3) K) ∉ zPi π 3 (p ^ f) K := by
     intro h

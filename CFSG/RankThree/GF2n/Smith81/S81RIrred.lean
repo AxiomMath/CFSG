@@ -93,9 +93,9 @@ theorem irred_range_tInv1 [Finite K] [CharP K 2] (S : AddSubgroup (Cube K)) (hS 
       rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
     first
     | (rw [cfm_zero_of_fixed (fun i j => 2 ≤ i.val ∧ i.val < j.val) hz _ hm (by decide)]
-       simp [cfm_smul, cfm_ub_mask]; done)
+       simp [cfm_smul, cfm_ub_mask])
     | (simp [cfm_smul, cfm_ub_mask]; done)
-    | (rw [← hc]; simp [ranG1, cfm_add, cfm_smul, cfm_ub_mask, Fin.sum_univ_succ, cfm_zero]; done)
+    | (rw [← hc]; simp [ranG1, cfm_add, cfm_smul, cfm_ub_mask, Fin.sum_univ_succ])
   have hc0 : cfm K s 13 ≠ 0 := by
     intro h
     apply hs0

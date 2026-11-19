@@ -10,11 +10,12 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22nb_exists_complement {p : ℕ} (hp : p.Prime) {E A : Subgroup G}
     (hE : IsElemAbelian p E) (hAE : A ≤ E) (hA : Nat.card A ≤ p) :
     ∃ P : Subgroup G, P ≤ E ∧ P ⊓ A = ⊥ ∧ Nat.card E ≤ p * Nat.card P := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CFSG.IsElementaryAbelian p E := hE.isElementaryAbelian
+  have : Fact p.Prime := ⟨hp⟩
+  have : CFSG.IsElementaryAbelian p E := hE.isElementaryAbelian
   obtain ⟨C, hC⟩ := CFSG.IsElementaryAbelian.exists_isCompl p E (A.subgroupOf E)
   have hcard : Nat.card (A.subgroupOf E) * Nat.card C = Nat.card E := by
     refine (isComplement'_of_disjoint_and_mul_eq_univ hC.disjoint ?_).card_mul_card

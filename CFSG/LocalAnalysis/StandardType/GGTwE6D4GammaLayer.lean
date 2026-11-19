@@ -139,7 +139,7 @@ theorem ncard_kernelRoots_d4 {L : Type} [Field L] {ζ : Lˣ} (hζo : orderOf ζ 
   have h2 : {γ : Fin Tag.E6.rank → ℤ | IsRoot Tag.E6 γ ∧ γ 0 = 0 ∧ γ 5 = 0} =
       ↑((rootFinset Tag.E6).filter fun δ : Fin Tag.E6.rank → ℤ => δ 0 = 0 ∧ δ 5 = 0) := by
     ext γ
-    simp only [Set.mem_setOf_eq, Finset.coe_filter, mem_rootFinset]
+    simp only [Set.mem_ofPred_eq, Finset.coe_filter, mem_rootFinset]
   rw [h2, Set.ncard_coe_finset]
   exact h24
 
@@ -155,8 +155,8 @@ theorem exists_ennolaSetup_five (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     (hσ : ∀ c, σ c = c ^ 2 ^ n) (D : TwLangData K σ (2 ^ n) A) :
     ∃ S : LangSetup TwistTag.E6.tag (AlgebraicClosure K) 5,
       S.D = LangDatum.ofTwist TwistTag.E6 D.Fr (2 ^ n) D.hFr D.v D.hg0C D.hg0 := by
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨ρ, hρ⟩ := frobeniusOnRoots_proved _ _
     (LangDatum.ofTwist TwistTag.E6 D.Fr (2 ^ n) D.hFr D.v D.hg0C D.hg0)
@@ -226,7 +226,7 @@ theorem exists_ggLayerOf_rationalComponent_d4 {L : Type} [Field L] [IsAlgClosed 
     exact huγ γ hγ
   have hk : twistKind S.ρ (rootCharHom a) i = .inner := by
     unfold twistKind
-    rw [if_pos hin]
+    rw [ite_eq_left hin]
   have hTp : rootDiagUnit Tag.E6 a ^ 3 = 1 := rootDiagUnit_pow_eq_one_of_forall hap
   have hqs : CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
     rcases langSetup_tame_inner_of_prime S Nat.prime_three (fun h => absurd h (by decide)) hT hTp
@@ -238,13 +238,13 @@ theorem exists_ggLayerOf_rationalComponent_d4 {L : Type} [Field L] [IsAlgClosed 
       have hle : E0 ≤ rationalComponent S.ρ S.Γ (rootCharHom a) i :=
         LangRat.perfect_le_rationalComponent_of_single_orbit S Nat.prime_three hT hap i hone
           E0 hE0X hperf
-      haveI : Group.IsSolvable (rationalComponent S.ρ S.Γ (rootCharHom a) i) := hsolv
-      haveI : Group.IsSolvable E0 :=
-        solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+      have : Group.IsSolvable (rationalComponent S.ρ S.Γ (rootCharHom a) i) := hsolv
+      have : Group.IsSolvable E0 :=
+        Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
       obtain ⟨x, y, hxy⟩ := hE0q.2.2
       obtain ⟨x', rfl⟩ := QuotientGroup.mk_surjective x
       obtain ⟨y', rfl⟩ := QuotientGroup.mk_surjective y
-      haveI : Nontrivial E0 := ⟨⟨x', y', fun h => hxy (by rw [h])⟩⟩
+      have : Nontrivial E0 := ⟨⟨x', y', fun h => hxy (by rw [h])⟩⟩
       exact (Group.IsSolvable.commutator_lt_top_of_nontrivial E0).ne
         (Group.isPerfect_def.mp hE0q.1)
   exact LangRat.ggLayerOf_langCentralizer_of_single_orbit S Nat.prime_three hT hap i hone hqs

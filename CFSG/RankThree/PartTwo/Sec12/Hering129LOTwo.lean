@@ -154,7 +154,7 @@ theorem normal_le_of_ne_top {X : Type} [Group X] [Group.IsPerfect X] {K : Subgro
       change QuotientGroup.mk' N (n⁻¹ * x) = QuotientGroup.mk' N x
       rw [map_mul, map_inv, show QuotientGroup.mk' N n = 1 from (QuotientGroup.eq_one_iff n).mpr hn,
         inv_one, one_mul]
-    haveI : Group.IsSolvable K := hK
+    have : Group.IsSolvable K := hK
     have : Group.IsSolvable (X ⧸ N) := Group.isSolvable_of_surjective hsurj
     exact Sec4.Census.eq_top_of_isSolvable_quotient this
 
@@ -183,7 +183,7 @@ theorem triple2_of_three_le_pRank {G : Type} [Group G] [Finite G]
     rw [hcard]
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ CFSG.Open.pRank 2 (⊤ : Subgroup G) := Nat.pow_le_pow_right (by norm_num) h
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hcardE : Fintype.card E = Nat.card E := (Nat.card_eq_fintype_card).symm
   have hsq : ∀ x : E, x * x = 1 := fun x =>
     Subtype.ext (by simpa [sq] using hE.2 (x : G) x.2)
@@ -314,7 +314,7 @@ theorem false_of_triple_quotient {S Q : Type*} [Group S] [Group Q] (π : S →* 
 theorem false_of_sl2_quotient {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p) {Q : Type} [Group Q]
     [Finite Q] [Nontrivial Q] (π : Matrix.SpecialLinearGroup (Fin 2) (ZMod p) →* Q)
     (hπ : Function.Surjective π) (hr : 3 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup Q)) : False := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   have hodd : Odd (Nat.card (ZMod p)) := by
     rw [Nat.card_zmod]
     exact hp.out.odd_of_ne_two (by omega)
@@ -352,7 +352,7 @@ theorem odd_card_oddCore' (G : Type*) [Group G] [Finite G] : Odd (Nat.card (CFSG
   exact Nat.coprime_two_left.mp CFSG.pPrimeCore_coprime_card
 
 theorem le_center_of_isQuasisimple {P : Type} [Group P] [Group.IsPerfect P]
-    (hq : IsQuasisimple P) {Z : Subgroup P} [Z.Normal] (hZ : Group.IsSolvable Z)
+    (hq : IsQuasisimple P) {Z : Subgroup P} [Z.Normal] (_hZ : Group.IsSolvable Z)
     [Nontrivial (P ⧸ Z)] : Z ≤ Subgroup.center P := by
   have hs : IsSimpleGroup (P ⧸ Subgroup.center P) := hq.2.1
   have hn : (Z.map (QuotientGroup.mk' (Subgroup.center P))).Normal :=
@@ -420,15 +420,15 @@ theorem map_theta_cases (hperf : Group.IsPerfect X)
     ((aschbacherSolvableCore 3 X).map (QuotientGroup.mk' N) = ⊥ ∨
       (IsPGroup 2 ((aschbacherSolvableCore 3 X).map (QuotientGroup.mk' N)) ∧
         3 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (X ⧸ N)))) := by
-  haveI := hperf
+  have := hperf
   obtain ⟨hθsol, -, hθ3, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := X) Nat.prime_three
-  haveI hZn : ((aschbacherSolvableCore 3 X).map (QuotientGroup.mk' N)).Normal :=
+  have hZn : ((aschbacherSolvableCore 3 X).map (QuotientGroup.mk' N)).Normal :=
     Subgroup.Normal.map inferInstance (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
   obtain ⟨e⟩ := CFSG.LocalAnalysis.GLTheoremA.H248.quotient_quotient_map_equiv N
     (aschbacherSolvableCore 3 X) hNθ
-  haveI := hsimple.toNontrivial
-  haveI : Nontrivial ((X ⧸ N) ⧸ (aschbacherSolvableCore 3 X).map (QuotientGroup.mk' N)) :=
+  have := hsimple.toNontrivial
+  have : Nontrivial ((X ⧸ N) ⧸ (aschbacherSolvableCore 3 X).map (QuotientGroup.mk' N)) :=
     e.symm.injective.nontrivial
   have hZsol : Group.IsSolvable ((aschbacherSolvableCore 3 X).map (QuotientGroup.mk' N)) :=
     Group.isSolvable_of_surjective
@@ -463,15 +463,16 @@ theorem card_theta_quotient_le {M : Subgroup X} [M.Normal] (hM : M ≤ aschbache
     exact ⟨x, rfl⟩
   exact Nat.card_le_card_of_surjective _ hsurj
 
+omit [Finite X] in
 theorem card_quotient_top : Nat.card (X ⧸ (⊤ : Subgroup X)) = 1 := by
-  haveI : Subsingleton (X ⧸ (⊤ : Subgroup X)) := QuotientGroup.subsingleton_quotient_top
+  have : Subsingleton (X ⧸ (⊤ : Subgroup X)) := QuotientGroup.subsingleton_quotient_top
   exact Nat.card_unique
 
 theorem false_of_card_le (hperf : Group.IsPerfect X)
     (hsimple : IsSimpleGroup (X ⧸ aschbacherSolvableCore 3 X))
     (hbig : 5616 < Nat.card (X ⧸ aschbacherSolvableCore 3 X)) {M : Subgroup X} [M.Normal]
     (hM2 : 2 ≤ Nat.card (X ⧸ M)) (hM : Nat.card (X ⧸ M) ≤ 5616) : False := by
-  haveI := hperf
+  have := hperf
   obtain ⟨hθsol, -, -, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := X) Nat.prime_three
   have hMtop : M ≠ ⊤ := by
@@ -487,8 +488,8 @@ theorem false_of_isExtOf (hperf : Group.IsPerfect X)
     {A B : Type} [Group A] [Group B] (h : Sec4.IsExtOf (X ⧸ N) A B) (hA2 : 2 ≤ Nat.card A)
     (hA : Nat.card A ≤ 5616) : False := by
   obtain ⟨K', hK'n, -, ⟨eA⟩⟩ := h
-  haveI := hK'n
-  haveI : (K'.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap hK'n _
+  have := hK'n
+  have : (K'.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap hK'n _
   have eM : X ⧸ K'.comap (QuotientGroup.mk' N) ≃* (X ⧸ N) ⧸ K' :=
     Sec4.Census.quotientComapEquiv N K'
   have hcard : Nat.card (X ⧸ K'.comap (QuotientGroup.mk' N)) = Nat.card A :=
@@ -502,17 +503,17 @@ theorem false_of_sl2_case (hperf : Group.IsPerfect X)
     (hrank : 3 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (X ⧸ aschbacherSolvableCore 3 X)))
     {N : Subgroup X} [N.Normal] {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p)
     (e : X ⧸ N ≃* Matrix.SpecialLinearGroup (Fin 2) (ZMod p)) : False := by
-  haveI := hperf
-  haveI := hsimple.toNontrivial
+  have := hperf
+  have := hsimple.toNontrivial
   obtain ⟨hθsol, -, -, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := X) Nat.prime_three
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   have hodd : Odd (Nat.card (ZMod p)) := by
     rw [Nat.card_zmod]
     exact hp.out.odd_of_ne_two (by omega)
   have hN : N ≠ ⊤ := by
     rintro rfl
-    haveI : Subsingleton (X ⧸ (⊤ : Subgroup X)) := QuotientGroup.subsingleton_quotient_top
+    have : Subsingleton (X ⧸ (⊤ : Subgroup X)) := QuotientGroup.subsingleton_quotient_top
     exact CFSG.ClassicalInvolution.sl2_neg_one_ne_one hodd
       (e.symm.injective (Subsingleton.elim (e.symm (-1)) (e.symm 1)))
   have hNθ := normal_le_of_ne_top hθsol hsimple hN
@@ -529,8 +530,8 @@ theorem false_of_projSL_three_three (hperf : Group.IsPerfect X)
     (hsimple : IsSimpleGroup (X ⧸ aschbacherSolvableCore 3 X))
     (hbig : 5616 < Nat.card (X ⧸ aschbacherSolvableCore 3 X)) {N : Subgroup X} [N.Normal]
     (e : X ⧸ N ≃* CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 3 1)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := Sec4.Item462AltProof.isSimpleGroup_projSL_three (GaloisField 3 1)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Sec4.Item462AltProof.isSimpleGroup_projSL_three (GaloisField 3 1)
   have hdvd := Sec4.card_projSL_dvd 3 (GaloisField 3 1)
   rw [Sec6.BThreeCensus.card_SL_galoisField 3 3 1 one_ne_zero] at hdvd
   have h5616 : (∏ i : Fin 3, ((3 ^ 1) ^ 3 - (3 ^ 1) ^ (i : ℕ))) / (3 ^ 1 - 1) = 5616 := by
@@ -560,8 +561,8 @@ theorem theta_eq_pCore_two_of_good (hperf : Group.IsPerfect X) (h44 : Sec4.Item4
     (hrank : 3 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (X ⧸ aschbacherSolvableCore 3 X)))
     (hmult : MultGood (X ⧸ aschbacherSolvableCore 3 X)) :
     aschbacherSolvableCore 3 X = CFSG.pCore 2 X := by
-  haveI := hperf
-  haveI := hsimple.toNontrivial
+  have := hperf
+  have := hsimple.toNontrivial
   obtain ⟨hθsol, -, hθ3, -, -, -, hθO⟩ :=
     solvable_prime_complement_core_characterization (H := X) Nat.prime_three
   have hO2 : CFSG.pCore 2 X ≤ aschbacherSolvableCore 3 X := hθO 2 Nat.prime_two (by norm_num)
@@ -571,11 +572,11 @@ theorem theta_eq_pCore_two_of_good (hperf : Group.IsPerfect X) (h44 : Sec4.Item4
   · exact theta_le_pCore_two_of_quasisimple hperf hsimple hmult h1
   · exfalso
     obtain ⟨e2⟩ := h2
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact false_of_sl2_case hperf hsimple hrank (le_refl 5) e2
   · exfalso
     obtain ⟨p, hp, hp3, ⟨e3⟩⟩ := h3
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     have hp5 : 5 ≤ p := by
       by_contra h
       have : p = 4 := by omega
@@ -598,16 +599,16 @@ theorem theta_eq_pCore_two_of_good (hperf : Group.IsPerfect X) (h44 : Sec4.Item4
         Nat.card (alternatingGroup (Fin 6)) ≤ 5616 := by rw [card_alt_six]; norm_num
     rcases h5 hθ3 with ⟨hr2, hq | hext⟩ | ⟨-, hext | hext | hext⟩
     ·
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI hnt : Nontrivial (X ⧸ CFSG.oddCore X) := by
-        haveI := hq.2.1.toNontrivial
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have hnt : Nontrivial (X ⧸ CFSG.oddCore X) := by
+        have := hq.2.1.toNontrivial
         obtain ⟨y, hy⟩ :=
           exists_ne (1 : (X ⧸ CFSG.oddCore X) ⧸ Subgroup.center (X ⧸ CFSG.oddCore X))
         obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective y
         exact ⟨x, 1, fun h => hy (by rw [h]; rfl)⟩
       have hOtop : CFSG.oddCore X ≠ ⊤ := by
         intro h
-        haveI : Subsingleton (X ⧸ CFSG.oddCore X) := by
+        have : Subsingleton (X ⧸ CFSG.oddCore X) := by
           rw [h]
           exact QuotientGroup.subsingleton_quotient_top
         exact not_subsingleton _ ‹_›
@@ -800,7 +801,7 @@ theorem three_le_pRank_of_isG2D4 {Q : Type} [Group Q] [Finite Q] {r : TauCeti.Pr
     3 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup Q) := by
   rcases h with ⟨h1, hX⟩ | ⟨h3, hr, ⟨f⟩⟩
   · by_cases hp2 : r.p = 2
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hU : UntwistedChevalleyModel Q .G2 (2 ^ r.exponent) := by
         have := untwistedModel_of_isoGTwo hX
         rwa [TauCeti.PrimePower.card_def, hp2] at this
@@ -867,7 +868,7 @@ theorem three_le_pRank_double_cover {P : Type} [Group P] [Finite P] {Q : Type} [
   have hK4 : Nat.card K = 4 := by
     rw [hcard, TauCeti.PrimePower.card_def, hp, hf]
     norm_num
-  haveI : CharP K 2 := (ringChar.eq_iff).mp (hKp.trans hp)
+  have : CharP K 2 := (ringChar.eq_iff).mp (hKp.trans hp)
   let π : P →* adjointGroup .G2 K :=
     eK.toMonoidHom.comp (e.toMonoidHom.comp (QuotientGroup.mk' Z))
   have hπ : Function.Surjective π := by
@@ -927,7 +928,7 @@ theorem multGood_of_isG2D4 (hGA : CFSG.ComponentClassification.TBLit.GriessMulti
 
 theorem isQuasisimple_of_isG2D4 {Q : Type} [Group Q] {r : TauCeti.PrimePower} {δ : ℕ}
     (h : IsG2D4 Q r δ) : CFSG.IsQuasisimple Q := by
-  haveI := Hering129KModels.isSimpleGroup_of_isG2D4 h
+  have := Hering129KModels.isSimpleGroup_of_isG2D4 h
   have hperf := Hering129KModels.isPerfect_of_isG2D4 h
   have e : Q ⧸ Subgroup.center Q ≃* Q :=
     (QuotientGroup.quotientMulEquivOfEq (Hering129KModels.center_eq_bot_of_isG2D4 h)).trans
@@ -974,11 +975,11 @@ theorem center_eq_of_quotient {P Q : Type} [Group P] [Group Q] {Z : Subgroup P} 
 
 theorem center_eq_bot_of_perfect_simple (Q : Type) [Group Q] [IsSimpleGroup Q]
     [Group.IsPerfect Q] : Subgroup.center Q = ⊥ := by
-  haveI := (inferInstance : IsSimpleGroup Q).toNontrivial
+  have := (inferInstance : IsSimpleGroup Q).toNontrivial
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Q) with h | h
   · exact h
   · exfalso
-    letI : CommGroup Q := { ‹Group Q› with
+    let : CommGroup Q := { ‹Group Q› with
       mul_comm := fun a b => Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top b) a }
     exact Group.IsPerfect.not_isSolvable Q inferInstance
 
@@ -991,15 +992,15 @@ theorem isPerfect_of_quotient_equiv {P Q : Type} [Group P] [Group Q] (hP : Group
 theorem isQuasisimple_of_central_cover {P Q : Type} [Group P] [Group Q] [IsSimpleGroup Q]
     (hP : Group.IsPerfect P) {Z : Subgroup P} [Z.Normal] (hZc : Z ≤ Subgroup.center P)
     (e : P ⧸ Z ≃* Q) : CFSG.IsQuasisimple P ∧ Subgroup.center P = Z := by
-  haveI := isPerfect_of_quotient_equiv hP e
+  have := isPerfect_of_quotient_equiv hP e
   have hQ : Subgroup.center Q = ⊥ := center_eq_bot_of_perfect_simple Q
   have hc := center_eq_of_quotient hZc e hQ
   let e' : P ⧸ Subgroup.center P ≃* Q := (QuotientGroup.quotientMulEquivOfEq hc).trans e
-  haveI := (inferInstance : IsSimpleGroup Q).toNontrivial
+  have := (inferInstance : IsSimpleGroup Q).toNontrivial
   obtain ⟨a, b, hab⟩ : ∃ a b : Q, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    letI : CommGroup Q := { ‹Group Q› with mul_comm := hcon }
+    let : CommGroup Q := { ‹Group Q› with mul_comm := hcon }
     exact Group.IsPerfect.not_isSolvable Q inferInstance
   exact ⟨⟨hP, e'.isSimpleGroup, e'.symm a, e'.symm b,
     fun h' => hab (e'.symm.injective (by rw [map_mul, map_mul, h']))⟩, hc⟩
@@ -1007,7 +1008,7 @@ theorem isQuasisimple_of_central_cover {P Q : Type} [Group P] [Group Q] [IsSimpl
 theorem exceptional_psl_three_two_dvd (f : ℕ) :
     (exceptionalOrders .PSL 3 2 f).1 * (exceptionalOrders .PSL 3 2 f).2 ∣ 16 := by
   unfold CFSG.Blueprint.Multiplier.exceptionalOrders
-  split <;> simp_all <;> norm_num
+  split <;> simp_all
 
 theorem exceptional_psu_three (p f : ℕ) : exceptionalOrders .PSU 3 p f = (1, 1) := by
   unfold CFSG.Blueprint.Multiplier.exceptionalOrders
@@ -1016,9 +1017,9 @@ theorem exceptional_psu_three (p f : ℕ) : exceptionalOrders .PSU 3 p f = (1, 1
 theorem multGood_of_projSL_three_two
     (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels) {Q : Type} [Group Q]
     {e : ℕ} (he : 2 ≤ e) (φ : Q ≃* projSL 3 (GaloisField 2 e)) : MultGood Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Sec4.Item462AltProof.isSimpleGroup_projSL_three (GaloisField 2 e)
-  haveI : IsSimpleGroup Q := φ.isSimpleGroup
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Sec4.Item462AltProof.isSimpleGroup_projSL_three (GaloisField 2 e)
+  have : IsSimpleGroup Q := φ.isSimpleGroup
   intro P _ _ hP Z _ hZc ⟨f⟩ h3
   have hadm : StatedLieAdmissible .PSL 3 2 e :=
     ⟨Nat.prime_two, by omega, by norm_num, by simp, by simp⟩
@@ -1045,7 +1046,7 @@ theorem multGood_of_projSL_three_two
 theorem multGood_of_projSU_three_two
     (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels) {Q : Type} [Group Q]
     {e : ℕ} (he : 3 ≤ e) (φ : Q ≃* projSU 3 2 e) : MultGood Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro P _ _ hP Z _ hZc ⟨f⟩ h3
   have h2e : 2 < 2 ^ e :=
     calc 2 < 2 ^ 2 := by norm_num
@@ -1068,7 +1069,7 @@ theorem multGood_of_projSU_three_two
   · exact (h3 (by rw [h1])).elim
 
 theorem nontrivial_projSU_three_two_one : Nontrivial (projSU 3 2 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← Finite.one_lt_card_iff_nontrivial, KFacts.card_projSU_three_two (le_refl 1),
     CFSG.GH74.Generic.S3.L3Ord.ordTwistedA_two]
   norm_num
@@ -1081,8 +1082,8 @@ theorem theta_eq_pCore_two_of_isoLThreePi_even
     {X : Type} [Group X] [Finite X] (hX : SectionFourHyp X) (hperf : Group.IsPerfect X) {e : ℕ}
     (he : 1 ≤ e) (h : Sec4.IsoLThreePi (X ⧸ aschbacherSolvableCore 3 X) 2 e) :
     aschbacherSolvableCore 3 X = CFSG.pCore 2 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hperf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hperf
   rcases h with ⟨h1, ⟨φ⟩⟩ | ⟨h2, ⟨φ⟩⟩
   ·
     have he2 : 2 ≤ e := by
@@ -1090,8 +1091,8 @@ theorem theta_eq_pCore_two_of_isoLThreePi_even
       have : e = 1 := by omega
       subst this
       norm_num at h1
-    haveI := Sec4.Item462AltProof.isSimpleGroup_projSL_three (GaloisField 2 e)
-    haveI hsimple : IsSimpleGroup (X ⧸ aschbacherSolvableCore 3 X) := φ.isSimpleGroup
+    have := Sec4.Item462AltProof.isSimpleGroup_projSL_three (GaloisField 2 e)
+    have hsimple : IsSimpleGroup (X ⧸ aschbacherSolvableCore 3 X) := φ.isSimpleGroup
     have hK : Nat.card (GaloisField 2 e) = 2 ^ e := GaloisField.card 2 e (by omega)
     have h3q : 3 < 2 ^ e :=
       calc 3 < 2 ^ 2 := by norm_num
@@ -1100,7 +1101,7 @@ theorem theta_eq_pCore_two_of_isoLThreePi_even
       rw [Nat.card_congr φ.toEquiv, Sec8.Item8ModelProof.card_projSL_three_galois (by omega)]
       have := CFSG.GH74.Generic.BProg.B2.SD2.SDOrders.lt_ordA h3q
       omega
-    haveI : Finite (projSL 3 (GaloisField 2 e)) := Finite.of_equiv _ φ.toEquiv
+    have : Finite (projSL 3 (GaloisField 2 e)) := Finite.of_equiv _ φ.toEquiv
     have hrank : 3 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (X ⧸ aschbacherSolvableCore 3 X)) := by
       rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num) φ,
         ← CFSG.SectionRank.pRank_eq_open_pRank_top]
@@ -1112,18 +1113,18 @@ theorem theta_eq_pCore_two_of_isoLThreePi_even
     rcases (by omega : e = 1 ∨ e = 2 ∨ 3 ≤ e) with rfl | rfl | he3
     ·
       exfalso
-      haveI := nontrivial_projSU_three_two_one
-      haveI : Nontrivial (X ⧸ aschbacherSolvableCore 3 X) := φ.toEquiv.nontrivial
-      haveI : Group.IsPerfect (X ⧸ aschbacherSolvableCore 3 X) := inferInstance
-      haveI := Sec13.isSolvable_projSU_two
+      have := nontrivial_projSU_three_two_one
+      have : Nontrivial (X ⧸ aschbacherSolvableCore 3 X) := φ.toEquiv.nontrivial
+      have : Group.IsPerfect (X ⧸ aschbacherSolvableCore 3 X) := inferInstance
+      have := Sec13.isSolvable_projSU_two
       exact Group.IsPerfect.not_isSolvable _
         (Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective)
     · norm_num at h2
     · have h2e : 2 < 2 ^ e :=
         calc 2 < 2 ^ 2 := by norm_num
           _ ≤ 2 ^ e := Nat.pow_le_pow_right (by norm_num) (by omega)
-      haveI := Sec4.Item462AltProof.isSimpleGroup_projSU_three 2 e (by omega) (by omega)
-      haveI hsimple : IsSimpleGroup (X ⧸ aschbacherSolvableCore 3 X) := φ.isSimpleGroup
+      have := Sec4.Item462AltProof.isSimpleGroup_projSU_three 2 e (by omega) (by omega)
+      have hsimple : IsSimpleGroup (X ⧸ aschbacherSolvableCore 3 X) := φ.isSimpleGroup
       have hbig : 5616 < Nat.card (X ⧸ aschbacherSolvableCore 3 X) := by
         rw [Nat.card_congr φ.toEquiv, KFacts.card_projSU_three_two (by omega)]
         have := CFSG.GH74.Generic.BProg.B2.SD2.SDOrders.lt_ordTwistedA (q := 2 ^ e) (by omega)

@@ -122,7 +122,7 @@ theorem LayerData.map (D : LayerData X A τ B) (e : X ≃* Y) :
       refine Subgroup.mem_map.mpr ⟨σ' t, hinv σ' hσ' t ht, ?_⟩
       have hσ't : σ' t = e (σ (e.symm t)) := by
         change (MulAut.congr e σ) t = e (σ (e.symm t))
-        simpa [e.apply_symm_apply] using hcongr σ (e.symm t)
+        simp
       rw [hσ't]
       exact e.symm_apply_apply _
     obtain ⟨hcore1, hcore2⟩ := D.core T' hfixT' h2' hinv'
@@ -218,7 +218,7 @@ theorem LayerData.false_of_outTwo [IsSimpleGroup X] (hnonab : ∃ a b : X, a * b
       rw [h]
       exact hA
     exact Nat.le_of_mul_le_mul_right hle (by
-      haveI : Nonempty X := ⟨1⟩
+      have : Nonempty X := ⟨1⟩
       exact Nat.card_pos)
   have hrel : I.relIndex A ≤ 2 := by
     have h0 : I.relIndex (⊤ : Subgroup (MulAut X)) ≠ 0 := by
@@ -238,7 +238,7 @@ theorem LayerData.false_of_outTwo [IsSimpleGroup X] (hnonab : ∃ a b : X, a * b
       omega
     · rw [h2] at h
       omega
-  letI := Fintype.ofFinite ↥(I ⊓ A)
+  let := Fintype.ofFinite ↥(I ⊓ A)
   have htwo : 1 < (Finset.univ.erase (1 : ↥(I ⊓ A))).card := by
     rw [Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ,
       ← Nat.card_eq_fintype_card]
@@ -410,9 +410,9 @@ theorem LayerData.inner_of_outOdd [IsSimpleGroup X] (hnonab : ∃ a b : X, a * b
     have h := Subgroup.index_mul_card I
     rw [hIcard, hA] at h
     exact Nat.mul_right_cancel (by
-      haveI : Nonempty X := ⟨1⟩
+      have : Nonempty X := ⟨1⟩
       exact Nat.card_pos) h
-  haveI : I.Normal := hInorm
+  have : I.Normal := hInorm
   have hquot : Nat.card (MulAut X ⧸ I) = k := by
     rw [← Subgroup.index_eq_card, hIindex]
   let q : MulAut X ⧸ I := QuotientGroup.mk τ

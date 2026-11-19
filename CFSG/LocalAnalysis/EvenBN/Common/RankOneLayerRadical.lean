@@ -44,7 +44,7 @@ theorem normalClosureInNormalizer_le_normalizer {X Y : Subgroup G}
   exact mul_mem (mul_mem (inv_mem hg) (sup_le hY le_normalizer hy)) hg
 
 theorem normal_subgroupOf_normalClosureInNormalizer {X Y : Subgroup G}
-    (hY : Y ≤ normalizer (X : Set G)) :
+    (_hY : Y ≤ normalizer (X : Set G)) :
     ((normalClosureInNormalizer X Y).subgroupOf (normalizer (X : Set G))).Normal := by
   refine ⟨fun n hn g => ?_⟩
   rw [mem_subgroupOf] at hn ⊢
@@ -315,7 +315,7 @@ theorem field_eq_top_of_frobenius {k : Type} [Field k] [Fintype k] [CharP k 2] {
     (hVcard : Nat.card V = Nat.card k) (hVT : V ≤ T)
     (hσ : ∀ v ∈ V, Matrix.SpecialLinearGroup.map (iterateFrobenius k 2 n) v ∈ V) : T = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : (2 : k) = 0 := CharTwo.two_eq_zero
   have hq : Nat.card k = 2 ^ (2 * n) := by
     rw [Nat.card_eq_fintype_card, hk, ← pow_mul, mul_comm]
@@ -340,7 +340,6 @@ theorem field_eq_top_of_frobenius {k : Type} [Field k] [Fintype k] [CharP k 2] {
       unipotent 1 := by
     ext i j
     fin_cases i <;> fin_cases j <;> simp [coe_unipotent]
-    all_goals first | rfl | simp [iterateFrobenius_def]
   have e1 : g * unipotent t₀ * g⁻¹ = G * unipotent 1 * G⁻¹ := by
     have h1 : (MulAut.conj g).toMonoidHom (unipotent t₀) = g * unipotent t₀ * g⁻¹ := rfl
     rw [← h1, hut, map_mul, map_mul, map_inv, hmapu, hG]
@@ -376,7 +375,7 @@ theorem field_eq_top_of_frobenius {k : Type} [Field k] [Fintype k] [CharP k 2] {
         (g : Matrix (Fin 2) (Fin 2) k) 1 0) (by rw [zero_mul, one_mul, zero_sub, CharTwo.neg_eq]),
         hA _ ?_, ?_⟩
       · intro i j
-        fin_cases i <;> fin_cases j <;> simp [Common.coe_mkSL, hr] <;> first | rfl | skip
+        fin_cases i <;> fin_cases j <;> simp [Common.coe_mkSL, hr]
       · simp [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two,
           Common.coe_mkSL]
         field_simp
@@ -445,7 +444,7 @@ theorem RankOneData.sup_eq {M : Type} [Group M] [Finite M] {A : Subgroup M} {k :
       rw [Subgroup.card_map_of_injective ψ.injective, Common.card_sylow_two_eq_prod ψ P,
         h.card_k]
     have htop := prod_eq_top_of_diag h.two_le hk hdiag
-      ((P.isPGroup').map ψ.toMonoidHom) hVcard
+      ((P.isPGroup).map ψ.toMonoidHom) hVcard
       (Subgroup.map_mono (fun x hx => hPT x hx))
     refine eq_top_iff.2 fun x _ => ?_
     have hx : ψ x ∈ T.map ψ.toMonoidHom := htop ▸ mem_top _

@@ -130,7 +130,7 @@ private theorem qFits_U0 (hbv : ∀ l < 5, D.bvL l < 2 ^ 248) : QFits (U0 D) := 
   rw [e, testBit_stackN_s (by omega) hF, Bool.and_eq_true, decide_eq_true_eq] at hp
   obtain ⟨h1, h2⟩ := hp
   refine ⟨?_, h1⟩
-  rw [if_pos h1] at h2
+  rw [ite_eq_left h1] at h2
   by_contra h3
   rw [Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le (hbv _ h1)
     (Nat.pow_le_pow_right (by omega) (by omega)))] at h2

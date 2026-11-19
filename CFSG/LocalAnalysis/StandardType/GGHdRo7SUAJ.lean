@@ -27,8 +27,8 @@ private theorem hdRo7SUAJAux_three_dvd_card_of_row {G : Type} [Group G] [Finite 
       (fun R' _ _ _ => Nonempty ((↥J ⧸ Subgroup.center ↥J) ≃* R')) := by
     simpa only [GGHasLabel, LargeEvenRawDatum, hJtag] using hJlab
   obtain ⟨K, hKfield, hKfin, hKcard, hKiso⟩ := hJlab'
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨e⟩ := hKiso
   have hcard_eq : Nat.card (↥J ⧸ Subgroup.center ↥J) =
       Nat.card (LargeEvenProj (LargeEvenSUGroup (Fin (labJ.rank + 1)) K (2 ^ labJ.n))) :=
@@ -107,14 +107,14 @@ private theorem hdRo7SUAJAux_not_nonLevi {G : Type} [Group G] [Finite G] {p : �
     omega
 
 private theorem hdRo7SUAJAux_nonabelian_of_data
-    {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs J X : Subgroup G}
+    {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs J _X : Subgroup G}
     {m : ℕ} (hm7 : 7 ≤ m)
     {Λ K : Type} [Fintype Λ] [Fintype K]
-    {M : CoxeterMatrix Λ} {MJ : CoxeterMatrix K}
+    {_M : CoxeterMatrix Λ} {MJ : CoxeterMatrix K}
     (φ : Λ → MulAut ↥Bs) (e : K → Λ)
     (hWeylMJ : GGIsWeylMatrix MJ)
     (fJ : MJ.Group ≃* ↥(ggAutomizer J Bs))
-    (hfJ : ∀ j, (fJ (MJ.simple j) : MulAut ↥Bs) = φ (e j))
+    (_hfJ : ∀ j, (fJ (MJ.simple j) : MulAut ↥Bs) = φ (e j))
     (hΛcard : Nat.card Λ ≤ Nat.card K + 3)
     (hml : m ≤ Nat.card Λ + 1) :
     ∃ u ∈ ggAutomizer J Bs, ∃ v ∈ ggAutomizer J Bs, u * v ≠ v * u := by
@@ -160,7 +160,7 @@ private theorem hdRo7SUAJAux_nonabelian_of_data
           exact (hstep.2 (hnoedge _ _ hstep.1)).elim
     exact hne hEq
   have hKpos : 0 < Nat.card K := by omega
-  haveI : Nonempty K := by
+  have : Nonempty K := by
     rw [← Fintype.card_pos_iff]
     simpa [Nat.card_eq_fintype_card] using hKpos
   have hKcard : Nat.card K = 1 := by
@@ -179,10 +179,10 @@ private theorem hdRo7SUAJAux_sideDatum_nonabelian
   obtain ⟨Λ, instΛ, decΛ, bnode, M, C, MJ, V', instV, instMod, ι', φ, hv, hα,
     hWeylM, hCartan, hWeylMJ, hMJsub, hformula, hrefl, hpair, ⟨f, hf⟩, hgenX,
     ⟨fJ, hfJ⟩, hgenJ, hconj⟩ := hD
-  letI : Fintype Λ := instΛ
-  letI : DecidableEq Λ := decΛ
-  letI : AddCommGroup V' := instV
-  letI : Module (ZMod p) V' := instMod
+  let : Fintype Λ := instΛ
+  let : DecidableEq Λ := decΛ
+  let : AddCommGroup V' := instV
+  let : Module (ZMod p) V' := instMod
   have hml : m ≤ Nat.card Λ + 1 :=
     hdRo7SUAJPerm_model_card_le (M := M) b ι hperm φ f hf hgenX hrefl hm7
   have hΛcard : Nat.card Λ ≤ Nat.card {j : Λ // j ≠ bnode} + 3 := by
@@ -197,8 +197,8 @@ private theorem hdRo7SUAJAux_sideDatum_nonabelian
       rw [this]
       simp
     omega
-  exact hdRo7SUAJAux_nonabelian_of_data (p := p) (Bs := Bs) (J := J) (X := X) (m := m)
-    (M := M) (MJ := MJ) hm7 φ Subtype.val hWeylMJ fJ hfJ hΛcard hml
+  exact hdRo7SUAJAux_nonabelian_of_data (p := p) (Bs := Bs) (J := J) (_X := X) (m := m)
+    (_M := M) (MJ := MJ) hm7 φ Subtype.val hWeylMJ fJ hfJ hΛcard hml
 
 private theorem hdRo7SUAJAux_le3_nonabelian
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
@@ -210,10 +210,10 @@ private theorem hdRo7SUAJAux_le3_nonabelian
   obtain ⟨Λ, instΛ, decΛ, S, M, C, MJ, V', instV, instMod, ι', φ, hv, hα,
     hS2, hS3, hWeylM, hCartan, hWeylMJ, hMJsub, hformula, hrefl, hpair, ⟨f, hf⟩, hgenX,
     ⟨fJ, hfJ⟩, hgenJ, hconj⟩ := hD
-  letI : Fintype Λ := instΛ
-  letI : DecidableEq Λ := decΛ
-  letI : AddCommGroup V' := instV
-  letI : Module (ZMod p) V' := instMod
+  let : Fintype Λ := instΛ
+  let : DecidableEq Λ := decΛ
+  let : AddCommGroup V' := instV
+  let : Module (ZMod p) V' := instMod
   have hml : m ≤ Nat.card Λ + 1 :=
     hdRo7SUAJPerm_model_card_le (M := M) b ι hperm φ f hf hgenX hrefl hm7
   have hΛcard : Nat.card Λ ≤ Nat.card {j : Λ // j ∉ S} + 3 := by
@@ -224,12 +224,11 @@ private theorem hdRo7SUAJAux_le3_nonabelian
       rw [Nat.card_eq_fintype_card]
       exact Fintype.card_coe S
     omega
-  exact hdRo7SUAJAux_nonabelian_of_data (p := p) (Bs := Bs) (J := J) (X := X) (m := m)
-    (M := M) (MJ := MJ) hm7 φ Subtype.val hWeylMJ fJ hfJ hΛcard hml
+  exact hdRo7SUAJAux_nonabelian_of_data (p := p) (Bs := Bs) (J := J) (_X := X) (m := m)
+    (_M := M) (MJ := MJ) hm7 φ Subtype.val hWeylMJ fJ hfJ hΛcard hml
 
 theorem su_aj_holds : SUAJLeaf := by
-  intro hX hJ hRig hLB G _ _ p B Bs x L D J y K hH inst
-  intro hmL hmK hrow
+  intro hX hJ hRig hLB G _ _ p B Bs x L D J y K hH inst hmL hmK hrow
   have hcfg : GGConfig p B Bs x L D J := hH.1
   have hI : GGThmIHyp p B x L := hcfg.1
   have hStd : LargeEvenStdSub p B x L D J := hcfg.2.2
@@ -248,8 +247,8 @@ theorem su_aj_holds : SUAJLeaf := by
   refine ⟨?_, hle⟩
   rcases hrow with hrowL | hrowK
   · obtain ⟨m, V, hVadd, hVmod, ι, b, hx, hp3, hm7, h3m, hxb, hperm⟩ := hmL hrowL
-    letI : AddCommGroup V := hVadd
-    letI : Module (ZMod p) V := hVmod
+    let : AddCommGroup V := hVadd
+    let : Module (ZMod p) V := hVmod
     have hXD : GGResXDatum p Bs L := by
       rcases (hX G p B Bs x L D J y K hH).1 with h | h7
       · exact h
@@ -261,8 +260,8 @@ theorem su_aj_holds : SUAJLeaf := by
     · exact hdRo7SUAJAux_le3_nonabelian b ι hperm hm7 hLE3
     · exact (hdRo7SUAJAux_not_nonLevi hRig hrowL hNL).elim
   · obtain ⟨m, V, hVadd, hVmod, ι, b, hy, hp3, hm7, h3m, hyb, hperm⟩ := hmK hrowK
-    letI : AddCommGroup V := hVadd
-    letI : Module (ZMod p) V := hVmod
+    let : AddCommGroup V := hVadd
+    let : Module (ZMod p) V := hVmod
     have hXD : GGResXDatum p Bs K := by
       rcases (hX G p B Bs x L D J y K hH).2 with h | h7
       · exact h

@@ -21,7 +21,7 @@ theorem commutator_ne_self_of_isPGroup [Finite G] {p : ℕ} [Fact p.Prime] {D : 
   intro h
   have : Group.IsNilpotent D := hD.isNilpotent
   have : Nontrivial D := (nontrivial_iff_ne_bot D).mpr hD1
-  refine (IsSolvable.commutator_lt_top_of_nontrivial D).ne ?_
+  refine (Group.IsSolvable.commutator_lt_top_of_nontrivial D).ne ?_
   apply map_injective D.subtype_injective
   rw [commutator_def, map_commutator, ← MonoidHom.range_eq_map, range_subtype, h]
 
@@ -638,7 +638,7 @@ theorem exists_mem_not_mem_conj_eq_inv [Finite G] {A N M : Subgroup G}
       rw [hgen]
       exact mem_top _
     exact (iSup₂_le fun B hB => hcon B hB) h1
-  obtain ⟨⟨g₀, hg₀N⟩, hg₀B, hg₀M⟩ := SetLike.not_le_iff_exists.mp hBM
+  obtain ⟨⟨g₀, hg₀N⟩, hg₀B, hg₀M⟩ := IsConcreteLE.not_le_iff_exists.mp hBM
   rw [mem_subgroupOf] at hg₀M
   have hfix : ∀ b ∈ B, ((b : A) : G) * g₀ * ((b : A) : G)⁻¹ = g₀ := fun b hb =>
     congrArg Subtype.val (hg₀B ⟨b, hb⟩)
@@ -695,7 +695,7 @@ theorem exists_le_card_le_of_isCyclic [Finite G] {p : ℕ} (hp : 0 < p) {W : Sub
     [IsCyclic W] : ∃ W₁ : Subgroup G, W₁ ≤ W ∧ Nat.card W₁ ≤ p ∧
       (∀ w ∈ W, w ^ p = 1 → w ∈ W₁) ∧ normalizer (W : Set G) ≤ normalizer (W₁ : Set G) := by
   have hcomm : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a := fun a ha b hb =>
-    congrArg Subtype.val ((IsCyclic.commutative (α := W)).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
+    congrArg Subtype.val ((_root_.IsCyclic.isMulCommutative (α := W)).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   let W₁ : Subgroup G :=
     { carrier := {w | w ∈ W ∧ w ^ p = 1}
       mul_mem' := fun {a b} ha hb => ⟨mul_mem ha.1 hb.1, by
@@ -1020,7 +1020,7 @@ theorem lemma_5_9_of (Q : Subgroup G) (hQP : Q ≤ 𝔨.P) (hAQ : A ≤ normaliz
     ρ.comm (ρ.X_le_A hx) ha
   have hEab : ∀ a ∈ ⁅𝔨.Pstar, ρ.X⁆, ∀ b ∈ ⁅𝔨.Pstar, ρ.X⁆, a * b = b * a :=
     fun a ha b hb => congrArg Subtype.val
-      ((IsCyclic.commutative (α := ↥(⁅𝔨.Pstar, ρ.X⁆ : Subgroup G))).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
+      ((_root_.IsCyclic.isMulCommutative (α := ↥(⁅𝔨.Pstar, ρ.X⁆ : Subgroup G))).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hinvE : ∀ e ∈ ⁅𝔨.Pstar, ρ.X⁆, x₂ * e * x₂⁻¹ = e⁻¹ := by
     intro e he
     have he' : x₂ * e * x₂⁻¹ ∈ ⁅𝔨.Pstar, ρ.X⁆ :=

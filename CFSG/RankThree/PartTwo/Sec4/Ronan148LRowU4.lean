@@ -31,10 +31,10 @@ theorem noCommNormalPair3_of_cover {Y : Type*} [Group Y] [Finite Y] {m : ℕ} (h
     (hm1 : 1 < m) (π : Y →* projSU 3 2 m) (hπ : Function.Surjective π)
     (hker : Nat.Coprime (Nat.card π.ker) 3) : NoCommNormalPair3 Y := by
   intro N₁ N₂ h₁ h₂ hc a ha ha1 ha3 b hb hb1 hb3
-  haveI : IsSimpleGroup (projSU 3 2 m) := isSimpleGroup_projSU_of_odd hm1
+  have : IsSimpleGroup (projSU 3 2 m) := isSimpleGroup_projSU_of_odd hm1
   have hM : ∀ M : Subgroup Y, M.Normal → ∀ c ∈ M, c ≠ 1 → c ^ 3 = 1 → M.map π = ⊤ := by
     intro M hMn c hc hc1 hc3
-    haveI : (M.map π).Normal := hMn.map π hπ
+    have : (M.map π).Normal := hMn.map π hπ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (M.map π) with h | h
     · exfalso
       have hmem : π c ∈ M.map π := Subgroup.mem_map_of_mem _ hc
@@ -75,7 +75,7 @@ theorem isSimpleGroup_unitarySU_four' {k : ℕ} {F : Type} [Field F]
       exact Nat.Coprime.pow_left 2 (Nat.coprime_two_left.mpr hodd)
     exact CFSG.RankThree.PartOne.KFU.scalars_subgroupOf_eq_bot
       (by rw [h₀.card, ← pow_mul, mul_comm]) (by norm_num) hcop
-  haveI := CFSG.SeitzReduction.UnitaryPilot.isSimpleGroup_unitaryPSU_of_three_le h₀
+  have := CFSG.SeitzReduction.UnitaryPilot.isSimpleGroup_unitaryPSU_of_three_le h₀
     (n := 4) (by norm_num) (by simp)
   exact ((QuotientGroup.quotientMulEquivOfEq hbot).trans
     QuotientGroup.quotientBot).symm.isSimpleGroup
@@ -100,8 +100,8 @@ theorem false_of_su4_cover {k : ℕ} {F : Type} [Field F] (h₀ : UnitaryFieldDa
   have hU := padicValNat_card_projSU (by omega : 1 ≤ m)
   have hU1 := one_lt_card_projSU (by omega : 1 ≤ m)
   have hdU : Nat.card (projSU 3 2 m) ∣ Nat.card Y := Subgroup.card_dvd_of_surjective hπ
-  haveI : IsSimpleGroup (unitarySU 2 k F 4) := isSimpleGroup_unitarySU_four' h₀
-  haveI hCs : IsSimpleGroup C := eC.isSimpleGroup
+  have : IsSimpleGroup (unitarySU 2 k F 4) := isSimpleGroup_unitarySU_four' h₀
+  have hCs : IsSimpleGroup C := eC.isSimpleGroup
   have hcardC : Nat.card C =
       (2 ^ k) ^ 6 * (((2 ^ k) ^ 2 - 1) * ((2 ^ k) ^ 3 + 1) * ((2 ^ k) ^ 4 - 1)) := by
     rw [Nat.card_congr eC.toEquiv, Item419Res3.card_unitarySU_four h₀]
@@ -125,7 +125,7 @@ theorem false_of_su4_cover {k : ℕ} {F : Type} [Field F] (h₀ : UnitaryFieldDa
         exact Subgroup.mem_top _
       exact this
     have eY : Y ≃* C := MulEquiv.subgroupCongr hYeq
-    haveI : IsSimpleGroup Y := eY.isSimpleGroup
+    have : IsSimpleGroup Y := eY.isSimpleGroup
     have hcY := card_eq_of_isSimpleGroup_surj π hπ hU1
     have hv := padicValNat_ordSU4_two_pow h₀.one_le
     rw [← hcardC, ← Nat.card_congr eY.toEquiv, hcY, hU] at hv

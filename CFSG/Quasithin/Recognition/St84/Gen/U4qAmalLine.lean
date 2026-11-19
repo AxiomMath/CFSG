@@ -44,7 +44,7 @@ theorem u4LineBlk_apply (g : hypSU h 2 0) (i j : Fin 2) :
   fin_cases i <;> fin_cases j <;> rfl
 
 theorem u4LineBlk_mem_u4Herm {q : hypSU h 2 0} (hq : q ∈ radQ2 h) : u4LineBlk h q ∈ u4Herm h := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   obtain ⟨a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12⟩ := hq
   have hgram := (mem_gramSU.mp q.2).1
@@ -59,7 +59,7 @@ theorem u4LineBlk_mem_u4Herm {q : hypSU h 2 0} (hq : q ∈ radQ2 h) : u4LineBlk 
   have e21 := entry if2 if1
   have e22 := entry if2 if2
   rw [sum_ix, hypGram_apply] at e11 e12 e21 e22
-  simp [a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12] at e11 e12 e21 e22
+  simp [a7, a8, a11, a12] at e11 e12 e21 e22
   rw [mem_u4Herm]
   intro i j
   fin_cases i <;> fin_cases j
@@ -84,8 +84,7 @@ theorem u4LineBlk_mul {q q' : hypSU h 2 0} (hq : q ∈ radQ2 h) (hq' : q' ∈ ra
   rw [Matrix.add_apply, u4LineBlk_apply, u4LineBlk_apply, u4LineBlk_apply, coe_mul_hypSU,
     Matrix.mul_apply, sum_ix]
   fin_cases i <;> fin_cases j <;>
-    simp [a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, b1, b2, b3, b4, b5, b6, b7, b8, b9,
-      b10, b11, b12] <;> ring
+    simp [a1, a2, a3, a4, b7, b8, b11, b12] <;> ring
 
 theorem u4LineBlk_inj {q q' : hypSU h 2 0} (hq : q ∈ radQ2 h) (hq' : q' ∈ radQ2 h)
     (he : u4LineBlk h q = u4LineBlk h q') : q = q' := by
@@ -117,7 +116,7 @@ theorem u4Q2Mat_apply (X : Matrix (Fin 2) (Fin 2) K) (i j : Ix) :
 
 include h in
 theorem u4Q2Mat_mul_self (X : Matrix (Fin 2) (Fin 2) K) : u4Q2Mat X * u4Q2Mat X = 1 := by
-  haveI := h.charP
+  have := h.charP
   ext i j
   rw [Matrix.mul_apply, sum_ix]
   rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
@@ -125,7 +124,7 @@ theorem u4Q2Mat_mul_self (X : Matrix (Fin 2) (Fin 2) K) : u4Q2Mat X * u4Q2Mat X 
 
 theorem u4Q2Mat_gram {X : Matrix (Fin 2) (Fin 2) K} (hX : X ∈ u4Herm h) :
     ((u4Q2Mat X).map h.bar)ᵀ * hypGram 2 0 K * u4Q2Mat X = hypGram 2 0 K := by
-  haveI := h.charP
+  have := h.charP
   have hXe := (mem_u4Herm h).mp hX
   ext i j
   rw [Matrix.mul_apply, sum_ix]
@@ -209,7 +208,7 @@ theorem u4LineBlk_conj (p : hypSU h 2 0) {q : hypSU h 2 0} (hq : q ∈ radQ2 h) 
   rw [u4LineBlk_apply, coe_mul_hypSU, coe_mul_hypSU, mul_isQ2Mat_mul_apply hPP hQ hij,
     inv_apply h p, inv_apply h p]
   fin_cases i <;> fin_cases j <;>
-    simp [rho2, u4LineBlk, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+    simp [rho2, u4LineBlk, Matrix.mul_apply, Fin.sum_univ_two]
 
 @[expose] noncomputable def u4FFBlk (g : hypSU h 2 0) : Matrix (Fin 2) (Fin 2) K :=
   !![((g : GL Ix K) : Matrix Ix Ix K) if1 if1, ((g : GL Ix K) : Matrix Ix Ix K) if1 if2;

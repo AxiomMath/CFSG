@@ -30,6 +30,7 @@ theorem centralizer_map_conj_le_of_mem {Z M : Subgroup G} (hZ : centralizer (Z :
   rw [hn_eq]
   exact M.mul_mem (M.mul_mem hb (hZ hkey)) (M.inv_mem hb)
 
+omit [Finite G] in
 theorem exists_minimal_invariant_not_le {K O M : Subgroup G}
     (hKO : K ≤ normalizer (O : Set G)) (hOM : ¬ O ≤ M) :
     ∃ U : Subgroup G, U ≤ O ∧ K ≤ normalizer (U : Set G) ∧ ¬ U ≤ M ∧
@@ -80,8 +81,8 @@ theorem eq_zpowers_of_card_eq_three {Z : Subgroup G} (hZ3 : Nat.card Z = 3) {z :
   rw [Nat.card_zpowers, hzord, hZ3]
 
 theorem forall_fixed_of_fixed_conj {K Z U W : Subgroup G} (hZK : Z ≤ K) (hZ3 : Nat.card Z = 3)
-    (hWK : K ≤ normalizer (W : Set G)) (hWU : U ≤ normalizer (W : Set G))
-    {b z u : G} (hb : b ∈ K) (hzZ : z ∈ Z) (hz1 : z ≠ 1) (hu : u ∈ U)
+    (hWK : K ≤ normalizer (W : Set G)) (_hWU : U ≤ normalizer (W : Set G))
+    {b z u : G} (hb : b ∈ K) (hzZ : z ∈ Z) (hz1 : z ≠ 1) (_hu : u ∈ U)
     (hq : u⁻¹ * (b * z * b⁻¹) * u * (b * z * b⁻¹)⁻¹ ∈ W) :
     ∀ x ∈ Z, u⁻¹ * (b * x * b⁻¹) * u * (b * x * b⁻¹)⁻¹ ∈ W := by
   have hbN : b ∈ normalizer (W : Set G) := hWK hb
@@ -89,7 +90,7 @@ theorem forall_fixed_of_fixed_conj {K Z U W : Subgroup G} (hZK : Z ≤ K) (hZ3 :
   let S : Subgroup G :=
     { carrier := {y : G | y ∈ normalizer (W : Set G) ∧
         u⁻¹ * (b * y * b⁻¹) * u * (b * y * b⁻¹)⁻¹ ∈ W},
-      one_mem' := ⟨Subgroup.one_mem _, by simpa using W.one_mem⟩,
+      one_mem' := ⟨Subgroup.one_mem _, by simp⟩,
       mul_mem' := by
         rintro y₁ y₂ ⟨h1N, h1⟩ ⟨h2N, h2⟩
         have hA1N : b * y₁ * b⁻¹ ∈ normalizer (W : Set G) :=
@@ -123,7 +124,7 @@ theorem mem_inf_sup_of_fixed_conj {K Z M U W : Subgroup G} (hZ3 : Nat.card Z = 3
     {b : G} (hb : b ∈ K) {u : G} (hu : u ∈ U)
     (hq : ∀ x ∈ Z, u⁻¹ * (b * x * b⁻¹) * u * (b * x * b⁻¹)⁻¹ ∈ W) :
     u ∈ (U ⊓ M) ⊔ W := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X : Subgroup G := Z.map (MulAut.conj b).toMonoidHom with hX
   have hXcard : Nat.card X = 3 := by
     rw [hX, Subgroup.card_map_of_injective (f := (MulAut.conj b).toMonoidHom)

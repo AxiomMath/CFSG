@@ -130,7 +130,7 @@ theorem uc22s218_l3_pRank_le_one {Y : Type} [Group Y] [Finite Y] {n : ℕ} (hY :
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h))
   have hpK1 : ¬ p ∣ Nat.card K - 1 := by rw [hK]; exact hpn
   rw [CFSG.LieType.OutStructure.pRank_projectiveSL_formula hp hp2 (by norm_num) hpK
-    (fun h => hpK1 (h.trans (Nat.gcd_dvd_right _ _))), if_neg hpK1]
+    (fun h => hpK1 (h.trans (Nat.gcd_dvd_right _ _))), ite_eq_right hpK1]
   have h1 : orderOf ((Nat.card K : ℕ) : ZMod p) ≠ 1 := by
     rw [Ne, orderOf_eq_one_iff]
     intro h

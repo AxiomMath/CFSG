@@ -89,10 +89,10 @@ open CFSG.ComponentClassification.RankTwoStandard
 namespace CFSG.Sporadic.SuzRecog.SuzL34
 
 theorem isSylowOf_of_fourGroup {G : Type} [Group G] [Finite G] {R C : Subgroup G}
-    (hRC : R ≤ C) (hR : IsElemAbelian 2 R) (hR4 : Nat.card R = 4)
+    (hRC : R ≤ C) (_hR : IsElemAbelian 2 R) (hR4 : Nat.card R = 4)
     (h : ∀ r ∈ R, r ≠ 1 → centralizer ({r} : Set G) ⊓ C ≤ R) : IsSylowOf 2 R C := by
   classical
-  haveI : Fintype ↥R := Fintype.ofFinite ↥R
+  have : Fintype ↥R := Fintype.ofFinite ↥R
   have hR2 : IsPGroup 2 R := IsPGroup.of_card (n := 2) (by rw [hR4]; norm_num)
   refine Sec2Quot.isSylowOf_of_forall_mem_normalizer hRC hR2 ?_
   intro c hcC hcN hc2

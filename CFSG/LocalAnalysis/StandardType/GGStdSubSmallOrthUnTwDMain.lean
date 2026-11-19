@@ -60,7 +60,7 @@ open CFSG.Assembly TableB TableBOrth SmallOrthUn CFSG.GroupTheory.WeirSylow
 
 theorem twDFourEndInput_holds : TwDFourEndInput := by
   intro K _ _ n p b c hK hn hp hpn hirr A D a hE hr
-  haveI : CharP K 2 := charP_two_of_card (one_le_of_card hK) hK
+  have : CharP K 2 := charP_two_of_card (one_le_of_card hK) hK
   have hp2 : p ≠ 2 := by
     rintro rfl
     have h2 : 2 ∣ 2 ^ n := dvd_pow_self 2 (by omega)

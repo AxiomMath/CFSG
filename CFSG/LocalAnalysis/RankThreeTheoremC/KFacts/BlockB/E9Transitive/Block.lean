@@ -68,7 +68,7 @@ theorem not_nine_dvd_of_perm {P : Type*} [Group P] [Finite P] {n : ℕ} (hn : n 
   rw [hcard] at h9
   have hcop : Nat.Coprime 9 (2 ^ k) := Nat.Coprime.pow_right _ (by norm_num)
   have h9' := hcop.dvd_of_dvd_mul_right h9
-  interval_cases n <;> simp [Nat.factorial] at h9' <;> omega
+  interval_cases n <;> simp [Nat.factorial] at h9'
 
 section Block
 

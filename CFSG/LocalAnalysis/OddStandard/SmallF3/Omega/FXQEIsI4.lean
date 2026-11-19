@@ -23,11 +23,11 @@ theorem fx_qe_isI4PlusIn (hS : Asc82SchurU43) (hL : IsOm6Z2 L) {Q₁ Q₂ : Subg
     (he₂ : e₂ ⟨z, hz₂⟩ = QuaternionGroup.a 2) (hzz : z * z = 1) (hz1 : z ≠ 1)
     (hzc : z ∉ centerIn L) : IsI4PlusIn L z := by
   obtain ⟨V, i1, i2, i3, Q, hQ, φ, hφ⟩ := t5_exists_cover hS hL
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   have hoc : OddCentralCover φ := hφ.oddCentralCover hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz2 : orderOf z = 2 := orderOf_eq_prime (by rw [pow_two]; exact hzz) hz1
   rw [fg_isI4PlusIn_iff_of_cover hoc (hQ₁ hz₁) hz2]
   rw [m6z_isI4PlusIn_omega_iff hQ (by rw [hφ.finrank_eq]; norm_num)

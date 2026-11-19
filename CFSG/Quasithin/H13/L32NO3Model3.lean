@@ -199,7 +199,6 @@ theorem eq_MM_of {c : ℕ} (hc : c < 2)
     have hcinj : ∀ i j, cs i = cs j → i = j := by
       intro i j h
       fin_cases i <;> fin_cases j <;> simp only [cs] at h ⊢ <;> first
-        | rfl
         | exact absurd h huv.symm | exact absurd h.symm huv.symm
         | exact absurd h hne₁.symm | exact absurd h.symm hne₁.symm
         | exact absurd h hne₂.symm | exact absurd h.symm hne₂.symm

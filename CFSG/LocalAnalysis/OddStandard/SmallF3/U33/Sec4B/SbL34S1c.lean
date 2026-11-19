@@ -216,7 +216,7 @@ theorem card_CO_q_le :
     Nat.card (ctxO t tau x₁ x₂ ⊓ centralizer ({t * lam} : Set G) : Subgroup G) ≤ 32 := by
   let C₁ : Subgroup G := ctxO t tau x₁ x₂ ⊓ centralizer ({t * lam} : Set G)
   let C₂ : Subgroup G := ctxU t tau x₁ x₂ lam ⊓ centralizer ({t * lam} : Set G)
-  have hle : C₁ ≤ C₂ := inf_le_inf_right _ (O_le_U hc)
+  have hle : C₁ ≤ C₂ := inf_le_inf_right _ (O_le_U)
   have hcard₂ : Nat.card C₂ = 64 := by
     change Nat.card (ctxU t tau x₁ x₂ lam ⊓ centralizer ({t * lam} : Set G) : Subgroup G) = 64
     rw [hc.card_CU_tl]

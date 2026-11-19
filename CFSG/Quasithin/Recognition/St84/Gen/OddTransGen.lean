@@ -136,18 +136,18 @@ private theorem orbit_zpowers_eq_neighborSet
     simpa [hgv, MulAction.subgroup_smul_def] using hadj
   have hstab_bot : MulAction.stabilizer ↥(Subgroup.zpowers x) a = ⊥ :=
     stabilizer_zpowers_eq_bot h hN hxL hxodd hxord ha
-  haveI : Finite ↥(Subgroup.zpowers x) :=
+  have : Finite ↥(Subgroup.zpowers x) :=
     finite_of_le_stabilizer h ((Subgroup.zpowers_le.mpr hxL).trans hLle)
-  haveI : Fintype ↥(Subgroup.zpowers x) := Fintype.ofFinite _
-  haveI : Finite (MulAction.orbit ↥(Subgroup.zpowers x) a) :=
+  have : Fintype ↥(Subgroup.zpowers x) := Fintype.ofFinite _
+  have : Finite (MulAction.orbit ↥(Subgroup.zpowers x) a) :=
     Finite.of_surjective
       (fun g : ↥(Subgroup.zpowers x) =>
         (⟨g • a, MulAction.mem_orbit a g⟩ : MulAction.orbit ↥(Subgroup.zpowers x) a))
       (by
         rintro ⟨b, g, hg⟩
         exact ⟨g, Subtype.ext hg⟩)
-  haveI : Fintype (MulAction.orbit ↥(Subgroup.zpowers x) a) := Fintype.ofFinite _
-  haveI : Fintype (MulAction.stabilizer ↥(Subgroup.zpowers x) a) := Fintype.ofFinite _
+  have : Fintype (MulAction.orbit ↥(Subgroup.zpowers x) a) := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer ↥(Subgroup.zpowers x) a) := Fintype.ofFinite _
   have hmul :=
     MulAction.card_orbit_mul_card_stabilizer_eq_card_group
       (G := ↥(Subgroup.zpowers x)) a
@@ -185,7 +185,7 @@ theorem Hyp30.exists_odd_transitive_gen (h : Hyp30 Γ G) (v : V) :
   have hN : IsLocL2 Γ G v n L := h.isLocL2_oTwoPrime v
   have hLle : L ≤ MulAction.stabilizer G v := oTwoPrime_le _
   have hn : 1 ≤ n := (h.valency v).1
-  haveI : Finite ↥L := finite_of_le_stabilizer (h := h) (α := v) (H := L) hLle
+  have : Finite ↥L := finite_of_le_stabilizer (h := h) (α := v) (H := L) hLle
   obtain ⟨s, hsord⟩ := exists_orderOf_eq_two_pow_add_one_psl2 n hn
   obtain ⟨y, hy⟩ := hN.phi_surjective s
   have hyne : orderOf y ≠ 0 := (orderOf_pos y).ne'

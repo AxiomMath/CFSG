@@ -43,11 +43,11 @@ instance : Group Heis where
   mul_assoc u v w := by ext <;> simp <;> ring
   one_mul u := by ext <;> simp
   mul_one u := by ext <;> simp
-  inv_mul_cancel u := by ext <;> simp <;> ring
+  inv_mul_cancel u := by ext <;> simp; ring
 
 theorem card : Nat.card Heis = 125 := by
   rw [Nat.card_congr equivProd]
-  simp [Nat.card_prod, Nat.card_zmod]
+  simp
 
 theorem mul_comm_iff (u v : Heis) : u * v = v * u ↔ v.a * u.b = u.a * v.b := by
   constructor
@@ -203,7 +203,7 @@ theorem nfHom_apply (u : Heis) : nfHom hx hy hz hzx hzy hxy u = nf x y z u := rf
 include hx hy hz hzx hzy hxy in
 theorem card_closure (hz1 : z ≠ 1) [Finite G] :
     Nat.card (Subgroup.closure ({x, y} : Set G)) = 125 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hd : Nat.card (Subgroup.closure ({x, y} : Set G)) ∣ 5 ^ 3 := by
     rw [← range_nfHom hx hy hz hzx hzy hxy]
     exact (Subgroup.card_range_dvd _).trans (by rw [Heis.card]; norm_num)
@@ -218,14 +218,14 @@ theorem card_closure (hz1 : z ≠ 1) [Finite G] :
     exact hz1 (mul_left_cancel (mul_right_cancel h2))
   interval_cases k
   · exfalso
-    haveI : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hcard).1
+    have : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hcard).1
     exact hnc (Subsingleton.elim _ _)
   · exfalso
-    haveI : Fact (Nat.card P).Prime := ⟨by rw [hcard]; norm_num⟩
-    haveI := isCyclic_of_prime_card (α := P) rfl
+    have : Fact (Nat.card P).Prime := ⟨by rw [hcard]; norm_num⟩
+    have := isCyclic_of_prime_card (α := P) rfl
     exact hnc (IsCyclic.commGroup.mul_comm _ _)
   · exfalso
-    exact hnc (IsPGroup.commutative_of_card_eq_prime_sq (p := 5) hcard _ _)
+    exact hnc ((IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 5) hcard).is_comm.comm _ _)
   · simpa using hcard
 
 include hx hy hz hzx hzy hxy in
@@ -302,6 +302,7 @@ section Conj
 
 variable {K K' : Type*} [Group K] [Finite K] [Group K'] [Finite K']
 
+omit [Finite K] [Finite K'] in
 theorem map_centGen_le (φ : K ≃* K') (A : Subgroup K) :
     (centGen A).map φ.toMonoidHom ≤ centGen (A.map φ.toMonoidHom) := by
   rw [centGen, Subgroup.map_iSup]
@@ -321,11 +322,13 @@ theorem map_centGen_le (φ : K ≃* K') (A : Subgroup K) :
   simp only [MulEquiv.coe_toMonoidHom]
   rw [← map_mul, ← map_mul, hg']
 
+omit [Finite K] [Finite K'] in
 theorem centGen_eq_top_of_map {A : Subgroup K} (φ : K ≃* K') (h : centGen A = ⊤) :
     centGen (A.map φ.toMonoidHom) = ⊤ := by
   refine top_le_iff.mp (le_trans ?_ (map_centGen_le φ A))
   rw [h, Subgroup.map_top_of_surjective _ φ.surjective]
 
+omit [Finite K] [Finite K'] in
 theorem isElemAbelian_map {p : ℕ} {A : Subgroup K} (hA : IsElemAbelian p A) (φ : K ≃* K') :
     IsElemAbelian p (A.map φ.toMonoidHom) := by
   refine ⟨⟨⟨fun ⟨_, a, ha, rfl⟩ ⟨_, b, hb, rfl⟩ => Subtype.ext ?_⟩⟩, ?_⟩
@@ -336,10 +339,12 @@ theorem isElemAbelian_map {p : ℕ} {A : Subgroup K} (hA : IsElemAbelian p A) (�
   · rintro _ ⟨a, ha, rfl⟩
     rw [← map_pow, hA.2 a ha, map_one]
 
+omit [Finite K] [Finite K'] in
 theorem card_map (A : Subgroup K) (φ : K ≃* K') :
     Nat.card (A.map φ.toMonoidHom) = Nat.card A :=
   Subgroup.card_map_of_injective φ.injective
 
+omit [Finite K'] [Finite K] in
 theorem centGen_eq_top_of_equiv {A : Subgroup K} (φ : K ≃* K')
     (h : centGen (A.map φ.toMonoidHom) = ⊤) : centGen A = ⊤ := by
   have h2 := centGen_eq_top_of_map φ.symm h
@@ -359,6 +364,7 @@ variable {G : Type*} [Group G] [Finite G] {x y z : G}
   (hzy : z * y = y * z) (hxy : x * y = y * z * x) (hz1 : z ≠ 1)
 
 include hzy in
+omit [Finite G] in
 theorem isMulCommutative_closure_zy :
     IsMulCommutative (Subgroup.closure ({z, y} : Set G)) := by
   exact Subgroup.isMulCommutative_closure (by
@@ -369,6 +375,7 @@ theorem isMulCommutative_closure_zy :
     · exact Commute.refl _)
 
 include hxy in
+omit [Finite G] in
 theorem closure_zy_le : Subgroup.closure ({z, y} : Set G) ≤ Subgroup.closure ({x, y} : Set G) := by
   rw [Subgroup.closure_le]
   rintro g (rfl | rfl)
@@ -402,6 +409,7 @@ theorem card_closure_zy : Nat.card (Subgroup.closure ({z, y} : Set G)) = 25 := b
       rw [heq, Set.ncard_coe_finset, card_lineSet hx hy hz hzx hzy hxy hz1 _ (Or.inr one_ne_zero)]
 
 include hz1 in
+omit [Finite G] in
 theorem centGen_closure_zy_eq_top [IsSimpleGroup G] {h₁ h₂ g₂ : G}
     (hN₁ : h₁ ∈ Subgroup.normalizer ((Subgroup.closure ({z, y} : Set G)) : Set G))
     (hN₂ : h₂ ∈ Subgroup.normalizer ((Subgroup.closure ({z, y} : Set G)) : Set G))
@@ -506,6 +514,7 @@ section Final
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_eq_of_mul_eq {w g t : G} (h : w * g = t * w) : w * g * w⁻¹ = t := by
   rw [h]; group
 
@@ -546,7 +555,7 @@ theorem centGen_eq_top_of_heisData [IsSimpleGroup G] (hcard : ¬ 5 ^ 4 ∣ Nat.c
       (v.a ≠ 0 ∨ v.b ≠ 0) ∧ v.a * u.b = u.a * v.b ∧ w * z * w⁻¹ ∈ Subgroup.zpowers z)
     (hgen : Subgroup.closure ({h₁, h₂, g₂} : Set G) = ⊤)
     (A : Subgroup G) (hA : IsElemAbelian 5 A) (hAc : Nat.card A = 25) : centGen A = ⊤ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hA₁ := centGen_closure_zy_eq_top hz1 (mem_normalizer_of_conj_mem hN₁)
     (mem_normalizer_of_conj_mem hN₂) hF1 hgen
   set P := Subgroup.closure ({x, y} : Set G)
@@ -648,8 +657,8 @@ theorem centGen_Th_five_of_check
     (hcard : ¬ 5 ^ 4 ∣ Nat.card (NativeSporadic.Carrier .Th))
     (A : Subgroup (NativeSporadic.Carrier .Th))
     (hA : IsElemAbelian 5 A) (hAc : Nat.card A = 25) : centGen A = ⊤ := by
-  haveI : Finite NativeSporadic.Th := ‹Finite (NativeSporadic.Carrier .Th)›
-  haveI : IsSimpleGroup NativeSporadic.Th := ‹IsSimpleGroup (NativeSporadic.Carrier .Th)›
+  have : Finite NativeSporadic.Th := ‹Finite (NativeSporadic.Carrier .Th)›
+  have : IsSimpleGroup NativeSporadic.Th := ‹IsSimpleGroup (NativeSporadic.Carrier .Th)›
   unfold seedCertCheck at hC
   simp only [Bool.and_eq_true] at hC
   obtain ⟨⟨hM, hAeq⟩, hBeq⟩ := hC
@@ -767,8 +776,8 @@ theorem sporadicCentGen_Th_five_of_check
   intro L _ _ ⟨e⟩ A hA hAc
   have hf := CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.carrierFacts_of_ne_M .Th
     (by decide)
-  haveI : Finite (NativeSporadic.Carrier .Th) := hf.1
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .Th) := hf.2.1
+  have : Finite (NativeSporadic.Carrier .Th) := hf.1
+  have : IsSimpleGroup (NativeSporadic.Carrier .Th) := hf.2.1
   obtain ⟨f⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .Th
   let ψ : L ≃* NativeSporadic.Carrier .Th := e.trans f.symm
   have hcard : ¬ 5 ^ 4 ∣ Nat.card (NativeSporadic.Carrier .Th) := by

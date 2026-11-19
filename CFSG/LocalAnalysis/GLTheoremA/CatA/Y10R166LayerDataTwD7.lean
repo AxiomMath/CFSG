@@ -106,6 +106,7 @@ open scoped Classical
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {n q : ℕ} {b c : F}
 
+omit [Finite F] [CharP F 2] in
 private theorem inW_single_anisoLeft :
     InW (cPair F b c 0) (cPair F b c 1) (Pi.single ldAL (1 : F)) := by
   rw [inW_cPair_single_iff]
@@ -114,17 +115,19 @@ private theorem inW_single_anisoLeft :
   exact ⟨d0.right_ne_left.symm, d0.left_ne_left.symm,
     d1.right_ne_left.symm, d1.left_ne_left.symm⟩
 
+omit [Finite F] in
 private theorem map_single_anisoLeft (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
     Qc F b c (Pi.single ldAL (1 : F)) = 1 := by
   show Qc F b c (Pi.single (anisoCoordLeft (n := 5) (by norm_num)) (1 : F)) = 1
   exact (isAnisoCoord_coordinateQuadMinus (K := F) (n := 5) (by norm_num) hirr).map_left
 
+omit [Finite F] in
 private theorem apply_eq_self_of_eichler_conj
     {B : (Fin (2 * 5) → F) ≃ₗ[F] (Fin (2 * 5) → F)} {e e' f f' v : Fin (2 * 5) → F}
     (hO : B ∈ TauCeti.QuadraticMap.orthogonalGroup (Qc F b c))
     (hQe : Qc F b c e = 0) (hef : polar (Qc F b c) e f = 1)
-    (hf'e : polar (Qc F b c) f' e = 0) (he'f : polar (Qc F b c) e' f = 0)
-    (he'f' : polar (Qc F b c) e' f' = 1)
+    (hf'e : polar (Qc F b c) f' e = 0) (_he'f : polar (Qc F b c) e' f = 0)
+    (_he'f' : polar (Qc F b c) e' f' = 1)
     (hev : polar (Qc F b c) e v = 0) (hfv : polar (Qc F b c) f v = 0)
     (hf'v : polar (Qc F b c) f' v = 0) (hQv : Qc F b c v = 1)
     (hconv : eichler (Qc F b c) (B e) (B v) = eichler (Qc F b c) e v)
@@ -176,6 +179,7 @@ private theorem apply_eq_self_of_eichler_conj
   have ha1 : a = 1 := eq_one_of_mul_self_eq_one haa
   rw [hdec', hc0, ha1, zero_smul, one_smul, add_zero]
 
+omit [Finite F] [CharP F 2] in
 private theorem apply_eq_self_of_eichler_conj_of_fix
     {B : (Fin (2 * 5) → F) ≃ₗ[F] (Fin (2 * 5) → F)} {e f w : Fin (2 * 5) → F}
     (hO : B ∈ TauCeti.QuadraticMap.orthogonalGroup (Qc F b c))
@@ -192,13 +196,14 @@ private theorem apply_eq_self_of_eichler_conj_of_fix
   have h := congrArg (fun L => L f) hconv
   rw [eichler_apply hBQ hBpol, eichler_apply hQe heW] at h
   rw [hBe, hfe, hfw, hBfw] at h
-  simp only [one_mul, zero_add, mul_one, one_smul] at h
+  simp only [zero_add, mul_one, one_smul] at h
   rw [hQ] at h
   have h2 : f + B w = f + w := by
     have h3 := congrArg (fun z => z + Qc F b c w • e) h
     simpa only [sub_add_cancel] using h3
   exact add_left_cancel h2
 
+omit [Finite F] [CharP F 2] in
 private theorem apply_f_eq_self_of_fix
     {B : (Fin (2 * 5) → F) ≃ₗ[F] (Fin (2 * 5) → F)} {e e' f f' : Fin (2 * 5) → F}
     (hO : B ∈ TauCeti.QuadraticMap.orthogonalGroup (Qc F b c))
@@ -212,6 +217,7 @@ private theorem apply_f_eq_self_of_fix
     rw [← he', polar_map_of_mem hO]; exact he'f
   rw [hdec, h1, h2, one_smul, zero_smul, add_zero]
 
+omit [Finite F] in
 private theorem projLift_commutes_of_mem_rootRadical
     (hQ' : ∃ v, Qc F b c v ≠ 0) {b₀ : matrixProjectiveDerived (Qc F b c)}
     (hbC : b₀ ∈ Subgroup.centralizer

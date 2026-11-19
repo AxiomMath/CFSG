@@ -39,7 +39,7 @@ theorem le_of_mem_omegaOf {V H K : Subgroup G} (hVK : V ≤ K) (hHK : H ≤ K)
   exact conjSubgroup_le_of_le_of_mem hVK (hHK hg)
 
 theorem map_xOf_subgroupOf {V H K : Subgroup G} (hVK : V ≤ K) (hHK : H ≤ K)
-    (hVH : V ≤ H) :
+    (_hVH : V ≤ H) :
     (xOf (V.subgroupOf K) (H.subgroupOf K)).map K.subtype = xOf V H := by
   have hle : ∀ U ∈ omegaOf V H, U ≤ K := fun U hU => le_of_mem_omegaOf hVK hHK hU
   unfold xOf
@@ -309,7 +309,7 @@ theorem map_Vy_subgroupOf {V H K : Subgroup G} (hVK : V ≤ K) (hHK : H ≤ K)
     exact ⟨z, (mem_Vy_subgroupOf_iff hVK hHK hVH z).2 hy, rfl⟩
 
 theorem mem_Rbar_subgroupOf_iff {V H P K : Subgroup G} (hVK : V ≤ K) (hHK : H ≤ K)
-    (hVH : V ≤ H) (hPK : P ≤ K)
+    (hVH : V ≤ H) (_hPK : P ≤ K)
     (z : Xbar (V.subgroupOf K) (H.subgroupOf K)) :
     z ∈ Rbar (V.subgroupOf K) (H.subgroupOf K) (P.subgroupOf K) ↔
       xbarEquivSubgroupOf hVK hHK hVH z ∈ Rbar V H P := by

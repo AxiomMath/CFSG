@@ -104,7 +104,7 @@ theorem D1ConstrainedReducedData3.map_sl_eq {p : ℕ} [Fact p.Prime] {P : Sylow 
   have hp : p.Prime := Fact.out
   have hO := primeComplementCore_coprime (G := Subgroup.centralizer ({z} : Set G)) p
   have hFC : F ≤ Subgroup.centralizer ({z} : Set G) := hFP.trans hPC
-  obtain ⟨φ, hφ⟩ := CFSG.AGLEmbedding.exists_mulEquiv_map_mk _ hp hO (P.isPGroup'.to_le hFP) hFC
+  obtain ⟨φ, hφ⟩ := CFSG.AGLEmbedding.exists_mulEquiv_map_mk _ hp hO (P.isPGroup.to_le hFP) hFC
   let zC : Subgroup.centralizer ({z} : Set G) :=
     ⟨z, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
   have hzbar := hdata.zbar_eq zC rfl
@@ -137,7 +137,7 @@ theorem D1ConstrainedReducedData3.sl_le_constrainedQ_and_normal {p : ℕ} [Fact 
   have hEq := hdata.map_sl_eq hstr hPC hFP hFcard hFexp hFZ eF hSL
   have hO := primeComplementCore_coprime (G := Subgroup.centralizer ({z} : Set G)) p
   have hT : IsPGroup p ((P : Subgroup G).subgroupOf (Subgroup.centralizer ({z} : Set G))) :=
-    P.isPGroup'.comap_subtype
+    P.isPGroup.comap_subtype
   refine ⟨fun g hg => ?_, ⟨fun n hn x => ?_⟩⟩
   · exact (mem_constrainedQ_iff (hFP hg)).mpr
       (hstr.le_pCore (hEq ▸ ⟨⟨g, hPC (hFP hg)⟩, hg, rfl⟩))
@@ -209,7 +209,7 @@ theorem D1ConstrainedReducedData3.map_inf_centralizer_eq {p : ℕ} [Fact p.Prime
   have hp : p.Prime := Fact.out
   have hO := primeComplementCore_coprime (G := Subgroup.centralizer ({z} : Set G)) p
   have hT : IsPGroup p ((P : Subgroup G).subgroupOf (Subgroup.centralizer ({z} : Set G))) :=
-    P.isPGroup'.comap_subtype
+    P.isPGroup.comap_subtype
   ext y
   constructor
   · rintro ⟨c, ⟨hcP, hcF⟩, rfl⟩
@@ -251,7 +251,7 @@ theorem D1ConstrainedReducedData3.constrainedQ_eq_sup {p : ℕ} [Fact p.Prime] {
   have hp : p.Prime := Fact.out
   have hO := primeComplementCore_coprime (G := Subgroup.centralizer ({z} : Set G)) p
   have hT : IsPGroup p ((P : Subgroup G).subgroupOf (Subgroup.centralizer ({z} : Set G))) :=
-    P.isPGroup'.comap_subtype
+    P.isPGroup.comap_subtype
   have hCGmap := hdata.map_inf_centralizer_eq hstr hPC hFP hFE
   have hzF : Subgroup.zpowers z ≤ F := hFZ ▸ Subgroup.map_subtype_le _
   have hCP : (P : Subgroup G) ⊓ Subgroup.centralizer (F : Set G) ≤ Subgroup.centralizer
@@ -281,7 +281,7 @@ theorem D1ConstrainedReducedData3.constrainedQ_eq_sup {p : ℕ} [Fact p.Prime] {
       hCGmap ▸ ⟨⟨g, hPC hg.1⟩, hg, rfl⟩
     exact hstr.sup_eq ▸ (le_sup_right : C ≤ E ⊔ C) this
   · obtain ⟨φ, -⟩ := CFSG.AGLEmbedding.exists_mulEquiv_map_mk _ hp hO
-      (P.isPGroup'.to_le inf_le_left) hCP
+      (P.isPGroup.to_le inf_le_left) hCP
     have : IsCyclic (((((P : Subgroup G) ⊓ Subgroup.centralizer (F : Set G)).subgroupOf
       (Subgroup.centralizer ({z} : Set G))).map (QuotientGroup.mk' (primeComplementCore p)))) :=
       hCGmap ▸ hstr.isCyclic

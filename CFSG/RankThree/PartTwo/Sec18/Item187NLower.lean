@@ -18,7 +18,7 @@ theorem eight_le_card_inf_centralizer {c : G} (hc3 : c ^ 3 = 1)
     {P Kt Q : Subgroup G} (hP2 : IsPGroup 2 P) (hQ2 : IsPGroup 2 Q) (hQKt : Q ≤ Kt)
     (hKtQ : Kt ≤ Subgroup.normalizer (Q : Set G)) (hcQ : c ∈ Subgroup.normalizer (Q : Set G))
     (hKtP : Kt ≤ Subgroup.normalizer (P : Set G)) (hcP : c ∈ Subgroup.normalizer (P : Set G))
-    (hcKt : c ∈ Subgroup.normalizer (Kt : Set G))
+    (_hcKt : c ∈ Subgroup.normalizer (Kt : Set G))
     (hCP : Kt ⊓ Subgroup.centralizer (P : Set G) ≤ P)
     {T : Type} [Group T] (π : ↥Kt →* T) (hπ : Function.Surjective π)
     (hker : π.ker = Q.subgroupOf Kt) {n : ℕ} (hSz : CFSG.Blueprint.SuzukiModel T 2 n)
@@ -54,7 +54,7 @@ theorem eight_le_card_inf_centralizer {c : G} (hc3 : c ^ 3 = 1)
     exact hCP (Subgroup.mem_inf.mpr ⟨y.2, hcen⟩)
   obtain ⟨W₀, W₁, h01, h1P, hΓ0, hΓ1, h10, hcomm, hsq, hirr, x₀, hx₀, hx₀'⟩ :=
     exists_chiefFactor hP2 hΓP hyΓ hyodd hex
-  haveI hnorm : (W₀.subgroupOf W₁).Normal := normal_subgroupOf_of_le_normalizer h01 h10
+  have hnorm : (W₀.subgroupOf W₁).Normal := normal_subgroupOf_of_le_normalizer h01 h10
   have hW₁2 : IsPGroup 2 W₁ := hP2.to_le h1P
   have hW₀2 : IsPGroup 2 W₀ := hP2.to_le (h01.trans h1P)
   have hKt0 : Kt ≤ Subgroup.normalizer (W₀ : Set G) := le_sup_left.trans hΓ0

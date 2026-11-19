@@ -18,8 +18,9 @@ section Img
 
 variable {QF Vc : Subgroup G} {K : Type} [Field K] {γ : G → K}
 
+omit [Finite G] in
 theorem quadModel_img_inf (M₀ : Tim79.QuadModel QF Vc K γ) {S T : Subgroup G}
-    (hVS : Vc ≤ S) (hVT : Vc ≤ T) (hSQ : S ≤ QF) (hTQ : T ≤ QF) :
+    (_hVS : Vc ≤ S) (hVT : Vc ≤ T) (_hSQ : S ≤ QF) (_hTQ : T ≤ QF) :
     M₀.img (S ⊓ T) = M₀.img S ⊓ M₀.img T := by
   refine le_antisymm (fun e he => ⟨M₀.img_mono inf_le_left he,
     M₀.img_mono inf_le_right he⟩) ?_
@@ -93,9 +94,9 @@ theorem Ctx.card_Wt_mul_card_vone (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec
     Nat.card ↥(Wt Q (Vone Q B C (Vt M (LB M Q B) B Z t))) *
         Nat.card ↥(Vone Q B C (Vt M (LB M Q B) B Z t)) = Nat.card Q * Nat.card Z := by
   obtain ⟨K, iF, iFin, iChar, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  letI := iF
-  letI := iFin
-  letI := iChar
+  let := iF
+  let := iFin
+  let := iChar
   exact card_Wt_mul_card_eq_of_gammaReg M₀ hD.reg
     (vone_le_Q (hc.Vt_le_Q t)) Z_le_vone (hc.img_vone_smul hs hcC hnoC hD)
 

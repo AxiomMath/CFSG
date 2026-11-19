@@ -11,6 +11,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.LocalAnalysis.RankThree
 
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H E : Subgroup G} {k : ℕ}
 
+omit [Finite G] in
 theorem starImg_self (p : ℕ) (H : Subgroup G) : starImg p H H = ⊤ := by
   rw [starImg, Subgroup.subgroupOf_self]
   exact Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)
@@ -18,7 +19,7 @@ theorem starImg_self (p : ℕ) (H : Subgroup G) : starImg p H H = ⊤ := by
 theorem oPPrimeHull_map_kStar (hp : p.Prime) (hL : pLayerIn p H ≤ M) :
     oPPrimeHull p ((kStar p M H).map (QuotientGroup.mk' (CFSG.pCore p (StarGroup p H)))) =
       (kStar p M H).map (QuotientGroup.mk' (CFSG.pCore p (StarGroup p H))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let π : StarGroup p H →* StarGroup p H ⧸ CFSG.pCore p (StarGroup p H) :=
     QuotientGroup.mk' (CFSG.pCore p (StarGroup p H))
   change oPPrimeHull p ((kStar p M H).map π) = (kStar p M H).map π

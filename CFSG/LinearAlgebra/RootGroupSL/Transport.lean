@@ -48,7 +48,7 @@ private theorem normalizer_le_normalizer_normalizer {G : Type*} [Group G] (R : S
       (Subgroup.normalizer (R : Set G)).mul_mem
         ((Subgroup.normalizer (R : Set G)).mul_mem
           ((Subgroup.normalizer (R : Set G)).inv_mem hy) hx) hy
-    convert this using 1 <;> group
+    convert this using 1; group
 
 theorem map_normalizer_eq_inf_normalizer_map {S : Type} [Group S] (ι : S →* G)
     (hι : Function.Injective ι) (R : Subgroup S) :
@@ -92,6 +92,7 @@ theorem pCoreOf_map_of_injective {S : Type} [Group S] (ι : S →* G)
 
 variable [Finite k] [Finite E] [Module.Finite k X] [CharP k 2]
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private theorem finrank_pos_of_star (hdX : Module.finrank k E ≤ Module.finrank k X)
     (hstar : 2 ≤ Module.finrank k E ∨
       (Module.finrank k E = 1 ∧ 4 ≤ Nat.card k ∧ 2 ≤ Module.finrank k X)) :
@@ -100,6 +101,7 @@ private theorem finrank_pos_of_star (hdX : Module.finrank k E ≤ Module.finrank
   · exact lt_of_lt_of_le (by norm_num) (le_trans h hdX)
   · exact lt_of_lt_of_le (by norm_num) hX
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 private theorem mem_rootSL_iff_map (ι : SpecialLinearGroup k (DSpace E X) →* G)
     (hι : Function.Injective ι) (z : SpecialLinearGroup k (DSpace E X)) :
     z ∈ rootSL k E X ↔ ι z ∈ (rootSL k E X).map ι := by

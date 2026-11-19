@@ -206,7 +206,7 @@ theorem kd264RowData_three_of_plane {T : Type} [Group T] [Finite T] {Q E : Subgr
     (hcard : Nat.card ↥(Subgroup.closure ({x, z} : Set T)) = 9) {K : Subgroup T}
     (hK1 : GLAPComponent 3 (Subgroup.centralizer ({x} : Set T)) K)
     (hK2 : GLAPComponent 3 (Subgroup.centralizer ({x, z} : Set T)) K) : KD264RowData 3 T := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ho, hF2, hF2c⟩ := conj_plane_facts hE n x z hx hz hcard
   obtain ⟨hJ1, hJ2⟩ := comps_conj Nat.prime_three n x z hK1 hK2
   exact kd264RowData_of_uniq hQ hE huniq (Subgroup.zpowers_le.2 hx)

@@ -59,6 +59,7 @@ section Conf
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ}
 
+omit [Finite K] in
 theorem conf_of_wt {A : Type} [CommGroup A] (hQ : (polarBilin Q).Nondegenerate)
     (hpK : (p : K) ≠ 0) (f : A →* ↥(orthDerived Q)) (hf : Function.Injective f)
     (hfp : ∀ a, f a ^ p = 1) (ρ : Representation K A V)
@@ -103,7 +104,7 @@ theorem conf_of_wt {A : Type} [CommGroup A] (hQ : (polarBilin Q).Nondegenerate)
     rw [mem_wtFixedSpace_sup_iff, hρ, hρ]
     constructor
     · intro hv
-      have hxv : x v = v := mem_fixedSpace.mp (fixedSpace_mul_le hxo hyo hxy hyR hv)
+      have hxv : x v = v := mem_fixedSpace.mp (fixedSpace_mul_le hxo hxy hyR hv)
       refine ⟨hxv, ?_⟩
       have h := mem_fixedSpace.mp hv
       rw [hxy, LinearEquiv.mul_apply, hxv] at h
@@ -128,7 +129,7 @@ theorem conf_of_wt {A : Type} [CommGroup A] (hQ : (polarBilin Q).Nondegenerate)
     exact Subgroup.mem_zpowers_iff.mpr ⟨k, by rw [← map_zpow, hk]⟩
   · have hnle : ¬ Wt.fixedSpace ρ (Subgroup.zpowers yy ⊔ Subgroup.zpowers zz) ≤
         Wt.fixedSpace ρ ⊤ := fun h => absurd (Submodule.finrank_mono h) (not_le.mpr h7)
-    obtain ⟨u, hu, hu'⟩ := SetLike.not_le_iff_exists.mp hnle
+    obtain ⟨u, hu, hu'⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
     rw [Wt.mem_fixedSpace] at hu'
     push Not at hu'
     obtain ⟨a, -, ha⟩ := hu'
@@ -208,11 +209,11 @@ theorem field_facts {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime) (hp
     {Q : TauCeti.PrimePower} (hQ2 : Q.p ≠ 2) (hFcard : Nat.card F = Q.p ^ Q.exponent)
     (hdiv : p ∣ Q.card ^ 2 - 1) :
     ringChar F ≠ 2 ∧ Nat.card F ≠ 3 ∧ (p : F) ≠ 0 ∧ Nat.card F = Q.card := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   have hFQ : Nat.card F = Q.card := by rw [hFcard, TauCeti.PrimePower.card_def]
   have hchar : ringChar F = Q.p := by
     have := Fintype.ofFinite F
-    haveI := charP_of_card_eq_prime_pow (R := F) (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
+    have := charP_of_card_eq_prime_pow (R := F) (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
     exact ringChar.eq F Q.p
   refine ⟨by rw [hchar]; exact hQ2, by rw [hFQ]; exact card_ne_three_of_dvd_sq_sub_one hp hp2 hdiv,
     fun h => ?_, hFQ⟩

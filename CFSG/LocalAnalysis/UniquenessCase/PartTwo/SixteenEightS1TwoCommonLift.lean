@@ -126,6 +126,7 @@ private theorem s16e_twoLf_lift_irr_abs {κ : W₁ →* W₂} (hκ : Function.Su
 
 end Abstract
 
+omit [Finite G] in
 private theorem s16e_twoLf_kappa_AB {V₀ V₁ V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (h01 : V₀ ≤ V₁)
     (hL₁ : L ≤ stabTil V₁ V) :
@@ -137,6 +138,7 @@ private theorem s16e_twoLf_kappa_AB {V₀ V₁ V L : Subgroup G} (hV : IsElemAbe
   exact ⟨actTil V₁ V hV ⟨g, hg1⟩, actTil_mem_barSub V₁ V hV hgL hg1,
     fun w => s15_T7_kappa_act V₀ V₁ V hV h01 g.2 hg1 w⟩
 
+omit [Finite G] in
 private theorem s16e_twoLf_kappa_BA {V₀ V₁ V L : Subgroup G} (hV : IsElemAbelian 2 V)
     (h01 : V₀ ≤ V₁)
     (hL₀ : L ≤ stabTil V₀ V) :

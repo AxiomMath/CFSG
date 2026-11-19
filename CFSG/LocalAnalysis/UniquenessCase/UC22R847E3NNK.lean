@@ -91,7 +91,7 @@ theorem R847E3.inf_eq_bot_of_not_le_normalizer {M Y E : Subgroup G} (hY : Y ∈ 
     (hEel : IsElemAbelian p E) (hEN : ¬ E ≤ normalizer (Y : Set G)) : E ⊓ Y = ⊥ := by
   have : Fact p.Prime := ⟨hp⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨e, heE, heN⟩ := SetLike.not_le_iff_exists.1 hEN
+  obtain ⟨e, heE, heN⟩ := IsConcreteLE.not_le_iff_exists.1 hEN
   have hY' : Y.map (MulAut.conj e).toMonoidHom ∈ calC M :=
     uc22p2214_calC_of_mem_conjSetOf hY ⟨e, hEM heE, rfl⟩
   have hne : Y ≠ Y.map (MulAut.conj e).toMonoidHom := fun h =>
@@ -171,7 +171,7 @@ theorem R847E3.eq_five_of_kf7Use {D : Data G} (hKF7 : KF7Use D) {p : ℕ} (hp : 
         (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
         (Subgroup.inclusion_injective hle)
-    exact absurd (solvable_of_surjective hf) (Group.IsPerfect.not_isSolvable S)
+    exact absurd (Group.isSolvable_of_surjective hf) (Group.IsPerfect.not_isSolvable S)
   · exact hp5
 
 theorem R847E3.even_card_of_thin {X : Type} [Group X]

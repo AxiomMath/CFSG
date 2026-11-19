@@ -54,7 +54,7 @@ theorem inf_sup_eq_and_isSylow2In (S : Sylow 2 G) {C A H T : Subgroup G}
     exact Nat.eq_of_mul_eq_mul_right (by positivity) h1
   have hle : PA ⊔ T ≤ (S : Subgroup G) ⊓ (A ⊔ H) :=
     sup_le (inf_le_inf_left _ le_sup_left) (le_inf hTS (hT.1.trans le_sup_right))
-  have h2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ (A ⊔ H)) := S.isPGroup'.to_le inf_le_left
+  have h2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ (A ⊔ H)) := S.isPGroup.to_le inf_le_left
   obtain ⟨V, hV, -⟩ := IsSylow2In.exists_ge (P := A ⊔ H) (T := ⊥) IsPGroup.of_bot bot_le
   have hSyl : IsSylow2In ((S : Subgroup G) ⊓ (A ⊔ H)) (A ⊔ H) := by
     refine hV.of_natCard_le h2 inf_le_right ?_

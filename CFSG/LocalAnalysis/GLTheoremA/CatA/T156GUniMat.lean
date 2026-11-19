@@ -33,7 +33,7 @@ theorem uAdj_one (j : ℕ) : uAdj j (1 : Matrix (Fin d) (Fin d) K) = 1 := by
 
 theorem uAdj_mul [CharP K 2] (j : ℕ) (M N : Matrix (Fin d) (Fin d) K) :
     uAdj j (M * N) = uAdj j N * uAdj j M := by
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   have hmap : ∀ X : Matrix (Fin d) (Fin d) K,
       X.map (· ^ 2 ^ j) = X.map (iterateFrobenius K 2 j) := fun X => rfl
   rw [uAdj_def, uAdj_def, uAdj_def, hmap, hmap, hmap, Matrix.map_mul, Matrix.transpose_mul]
@@ -186,7 +186,7 @@ theorem mem_scalars_of_commute_su [Finite k] [CharP k 2] (hg : 1 ≤ g)
       apply hζ1
       apply Units.ext
       have h1 := congrArg (fun u : Kˣ => (u : K)) heq
-      simp only [Units.coe_map, MonoidHom.coe_coe, Units.val_one] at h1
+      simp only [Units.coe_map, Units.val_one] at h1
       rw [Units.val_one]
       exact ι.injective (h1.trans (map_one ι).symm)
   have hconst : ∀ a b : Fin d, β a = β b := by
@@ -213,7 +213,7 @@ theorem commutator_su [Finite k] (hk : Nat.card k = (2 ^ g) ^ 2) (hd : 3 ≤ d)
     (hdq : (d, 2 ^ g) ≠ (3, 2)) :
     ⁅LargeEvenSUGroup (Fin d) k (2 ^ g), LargeEvenSUGroup (Fin d) k (2 ^ g)⁆ =
       LargeEvenSUGroup (Fin d) k (2 ^ g) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : Group.IsPerfect ↥(LargeEvenSUGroup (Fin d) k (2 ^ g)) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := g) hk hd hdq
   exact (Subgroup.isPerfect_iff (H := LargeEvenSUGroup (Fin d) k (2 ^ g))).1 hP
@@ -275,6 +275,7 @@ theorem conj_mem_su [Finite K] {A : GL (Fin d) K} (hA : A ∈ LargeEvenGUSet (Fi
             Matrix.smul_mul]
       _ = 1 := by rw [hu', Matrix.mul_one, hFbb]
 
+omit [CharP K 2] in
 theorem mem_guSet_of_map {k : Type} [Field k] (ι : k →+* K) {q q₀ : ℕ}
     (hpow : ∀ b : k, ι (b ^ q₀) = ι b ^ q) (hK : ∀ c : K, (c ^ q) ^ q = c) (hd : 1 ≤ d)
     {A : GL (Fin d) K} (hA : A ∈ LargeEvenGUSet (Fin d) K q) {B : GL (Fin d) k} {μ : K}
@@ -308,7 +309,7 @@ theorem mem_guSet_of_map {k : Type} [Field k] (ι : k →+* K) {q q₀ : ℕ}
   set i₀ : Fin d := ⟨0, by omega⟩
   set ν : k := N i₀ i₀ with hν
   have hιν : ι ν = μ ^ q * μ * l := by
-    rw [hν, hentry, if_pos rfl]
+    rw [hν, hentry, ite_eq_left rfl]
   have hνne : ν ≠ 0 := by
     intro h0
     have h1 : ι ν = 0 := by rw [h0, map_zero]

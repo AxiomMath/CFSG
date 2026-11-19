@@ -60,15 +60,15 @@ theorem isSymplecticTransvectionIn_one_of_mul_self {F : Type} [Field F] [CharP F
     exact hg1 (Subtype.ext (Units.ext hgt))
   exact timti_rank_sub_one_eq_one (ι := Fin 1 ⊕ Fin 1) (by simp) hmat2 hmat1
 
-theorem isUnitaryTransvectionIn_three_of_mul_self {n : ℕ} (hn : 1 ≤ n) {F : Type} [Field F]
+theorem isUnitaryTransvectionIn_three_of_mul_self {n : ℕ} (_hn : 1 ≤ n) {F : Type} [Field F]
     [Finite F] (hF : Nat.card F = (2 ^ n) ^ 2) {x : StatedProj (StatedSU 3 (2 ^ n) F)}
     (hx2 : x * x = 1) (hx1 : x ≠ 1) : SevenK.IsUnitaryTransvectionIn 3 n x := by
   obtain ⟨g₀, hg₀⟩ := QuotientGroup.mk_surjective x
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite F
   have hcharF : Fintype.card F = 2 ^ (2 * n) := by
     rw [Fintype.card_eq_nat_card, hF, ← pow_mul, Nat.mul_comm n 2]
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2 * n) hcharF
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2 * n) hcharF
   have hmem : (g₀ * g₀ : ↥(StatedSU 3 (2 ^ n) F)) ∈
       (StatedScalars (Fin 3) F).subgroupOf (StatedSU 3 (2 ^ n) F) := by
     have hq : (QuotientGroup.mk (g₀ * g₀) :

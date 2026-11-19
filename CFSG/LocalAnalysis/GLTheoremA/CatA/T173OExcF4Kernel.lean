@@ -32,92 +32,92 @@ def cofactorZ (a b c : Fin Tag.F4.rank → ℤ) : Fin Tag.F4.rank → ℤ :=
 def f4LongRootsP : List ({x : Fin Tag.F4.rank → ℤ // IsLongRoot x}) :=
   [  ⟨(![0,1,0,0] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i0 1) = (![0,1,0,0] : Fin Tag.F4.rank → ℤ)
-    exact ⟨simple .F4 i0 * simple .F4 i1, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨simple .F4 i0 * simple .F4 i1, by simp; decide⟩⟩,
   ⟨(![0,1,2,0] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i0 1) = (![0,1,2,0] : Fin Tag.F4.rank → ℤ)
-    exact ⟨simple .F4 i2 * simple .F4 i0 * simple .F4 i1, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨simple .F4 i2 * simple .F4 i0 * simple .F4 i1, by simp; decide⟩⟩,
   ⟨(![0,1,2,2] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i0 1) = (![0,1,2,2] : Fin Tag.F4.rank → ℤ)
     exact ⟨simple .F4 i3 * simple .F4 i2 * simple .F4 i0 * simple .F4 i1,
-      by simp [mul_smul, simple_smul]; decide⟩⟩,
+      by simp; decide⟩⟩,
   ⟨(![1,0,0,0] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i0 1) = (![1,0,0,0] : Fin Tag.F4.rank → ℤ)
-    exact ⟨1, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨1, by simp; decide⟩⟩,
   ⟨(![1,1,0,0] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i0 1) = (![1,1,0,0] : Fin Tag.F4.rank → ℤ)
-    exact ⟨simple .F4 i1, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨simple .F4 i1, by simp; decide⟩⟩,
   ⟨(![1,1,2,0] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i0 1) = (![1,1,2,0] : Fin Tag.F4.rank → ℤ)
-    exact ⟨simple .F4 i2 * simple .F4 i1, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨simple .F4 i2 * simple .F4 i1, by simp; decide⟩⟩,
   ⟨(![1,1,2,2] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i0 1) = (![1,1,2,2] : Fin Tag.F4.rank → ℤ)
-    exact ⟨simple .F4 i3 * simple .F4 i2 * simple .F4 i1, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨simple .F4 i3 * simple .F4 i2 * simple .F4 i1, by simp; decide⟩⟩,
   ⟨(![1,2,2,0] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i0 1) = (![1,2,2,0] : Fin Tag.F4.rank → ℤ)
-    exact ⟨simple .F4 i1 * simple .F4 i2 * simple .F4 i1, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨simple .F4 i1 * simple .F4 i2 * simple .F4 i1, by simp; decide⟩⟩,
   ⟨(![1,2,2,2] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i0 1) = (![1,2,2,2] : Fin Tag.F4.rank → ℤ)
     exact ⟨simple .F4 i3 * simple .F4 i1 * simple .F4 i2 * simple .F4 i1,
-      by simp [mul_smul, simple_smul]; decide⟩⟩,
+      by simp; decide⟩⟩,
   ⟨(![1,2,4,2] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i0 1) = (![1,2,4,2] : Fin Tag.F4.rank → ℤ)
     exact ⟨simple .F4 i2 * simple .F4 i3 * simple .F4 i1 * simple .F4 i2 * simple .F4 i1,
-      by simp [mul_smul, simple_smul]; decide⟩⟩,
+      by simp; decide⟩⟩,
   ⟨(![1,3,4,2] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i0 1) = (![1,3,4,2] : Fin Tag.F4.rank → ℤ)
     exact ⟨simple .F4 i1 * simple .F4 i2 * simple .F4 i3 * simple .F4 i1 * simple .F4 i2 *
         simple .F4 i1,
-      by simp [mul_smul, simple_smul]; decide⟩⟩,
+      by simp; decide⟩⟩,
   ⟨(![2,3,4,2] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i0 1) = (![2,3,4,2] : Fin Tag.F4.rank → ℤ)
     exact ⟨simple .F4 i0 * simple .F4 i1 * simple .F4 i2 * simple .F4 i3 * simple .F4 i1 *
         simple .F4 i2 * simple .F4 i1,
-      by simp [mul_smul, simple_smul]; decide⟩⟩]
+      by simp; decide⟩⟩]
 
 def f4ShortRootsP : List ({x : Fin Tag.F4.rank → ℤ // IsShortRoot x}) :=
   [  ⟨(![0,0,0,1] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i3 1) = (![0,0,0,1] : Fin Tag.F4.rank → ℤ)
-    exact ⟨1, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨1, by simp; decide⟩⟩,
   ⟨(![0,0,1,0] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i3 1) = (![0,0,1,0] : Fin Tag.F4.rank → ℤ)
-    exact ⟨simple .F4 i3 * simple .F4 i2, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨simple .F4 i3 * simple .F4 i2, by simp; decide⟩⟩,
   ⟨(![0,0,1,1] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i3 1) = (![0,0,1,1] : Fin Tag.F4.rank → ℤ)
-    exact ⟨simple .F4 i2, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨simple .F4 i2, by simp; decide⟩⟩,
   ⟨(![0,1,1,0] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i3 1) = (![0,1,1,0] : Fin Tag.F4.rank → ℤ)
-    exact ⟨simple .F4 i3 * simple .F4 i1 * simple .F4 i2, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨simple .F4 i3 * simple .F4 i1 * simple .F4 i2, by simp; decide⟩⟩,
   ⟨(![0,1,1,1] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i3 1) = (![0,1,1,1] : Fin Tag.F4.rank → ℤ)
-    exact ⟨simple .F4 i1 * simple .F4 i2, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨simple .F4 i1 * simple .F4 i2, by simp; decide⟩⟩,
   ⟨(![0,1,2,1] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i3 1) = (![0,1,2,1] : Fin Tag.F4.rank → ℤ)
-    exact ⟨simple .F4 i2 * simple .F4 i1 * simple .F4 i2, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨simple .F4 i2 * simple .F4 i1 * simple .F4 i2, by simp; decide⟩⟩,
   ⟨(![1,1,1,0] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i3 1) = (![1,1,1,0] : Fin Tag.F4.rank → ℤ)
     exact ⟨simple .F4 i3 * simple .F4 i0 * simple .F4 i1 * simple .F4 i2,
-      by simp [mul_smul, simple_smul]; decide⟩⟩,
+      by simp; decide⟩⟩,
   ⟨(![1,1,1,1] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i3 1) = (![1,1,1,1] : Fin Tag.F4.rank → ℤ)
-    exact ⟨simple .F4 i0 * simple .F4 i1 * simple .F4 i2, by simp [mul_smul, simple_smul]; decide⟩⟩,
+    exact ⟨simple .F4 i0 * simple .F4 i1 * simple .F4 i2, by simp; decide⟩⟩,
   ⟨(![1,1,2,1] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i3 1) = (![1,1,2,1] : Fin Tag.F4.rank → ℤ)
     exact ⟨simple .F4 i2 * simple .F4 i0 * simple .F4 i1 * simple .F4 i2,
-      by simp [mul_smul, simple_smul]; decide⟩⟩,
+      by simp; decide⟩⟩,
   ⟨(![1,2,2,1] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i3 1) = (![1,2,2,1] : Fin Tag.F4.rank → ℤ)
     exact ⟨simple .F4 i1 * simple .F4 i2 * simple .F4 i0 * simple .F4 i1 * simple .F4 i2,
-      by simp [mul_smul, simple_smul]; decide⟩⟩,
+      by simp; decide⟩⟩,
   ⟨(![1,2,3,1] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i3 1) = (![1,2,3,1] : Fin Tag.F4.rank → ℤ)
     exact ⟨simple .F4 i2 * simple .F4 i1 * simple .F4 i2 * simple .F4 i0 * simple .F4 i1 *
         simple .F4 i2,
-      by simp [mul_smul, simple_smul]; decide⟩⟩,
+      by simp; decide⟩⟩,
   ⟨(![1,2,3,2] : Fin Tag.F4.rank → ℤ), by
     change ∃ w : WeylGroup .F4, w • (Pi.single i3 1) = (![1,2,3,2] : Fin Tag.F4.rank → ℤ)
     exact ⟨simple .F4 i3 * simple .F4 i2 * simple .F4 i1 * simple .F4 i2 * simple .F4 i0 *
         simple .F4 i1 * simple .F4 i2,
-      by simp [mul_smul, simple_smul]; decide⟩⟩]
+      by simp; decide⟩⟩]
 
 abbrev toF4 (v : Fin 4 → ℤ) : Fin Tag.F4.rank → ℤ := fun i => v i
 

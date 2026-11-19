@@ -11,6 +11,7 @@ open CFSG
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pCore_two_bar_H0_eq_bot {M Q Z B : Subgroup G}
     [hN : (Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) :
     pCore 2 ↥(bar M Q (H0 M Z)) = ⊥ := by
@@ -41,13 +42,13 @@ theorem pCore_two_bar_H0_eq_bot {M Q Z B : Subgroup G}
         intro z hz
         exact congrArg Subtype.val (hcent ⟨z, hZM hz⟩ (Subgroup.mem_subgroupOf.mpr hz))
     rw [heq]
-    haveI := hZsub
+    have := hZsub
     exact Subgroup.normal_centralizer
   let H := bar M Q (H0 M Z)
   have hH : H.Normal := by
     exact Subgroup.Normal.map hH0n (QuotientGroup.mk' (Q.subgroupOf M))
       (QuotientGroup.mk'_surjective (Q.subgroupOf M))
-  haveI := hH
+  have := hH
   have hnorm : ((pCore 2 ↥H).map H.subtype).Normal := inferInstance
   have hp : IsPGroup 2 ((pCore 2 ↥H).map H.subtype) :=
     (pCore_isPGroup (p := 2) (G := ↥H)).map H.subtype

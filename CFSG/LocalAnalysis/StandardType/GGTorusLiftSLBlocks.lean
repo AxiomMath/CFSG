@@ -22,7 +22,7 @@ theorem ggTorusLift_of_commutingSL2_normalizing (hp : p.Prime) (hp2 : p ≠ 2) {
     (hc : ∀ i j, i ≠ j → ∀ A B, Commute (ρ i A) (ρ j B)) {U : Subgroup R} (hU : U ≠ ⊥)
     (hU2 : IsPGroup 2 U) (hsU : ∀ i, ρ i s ∈ Subgroup.normalizer (U : Set R)) :
     GGTorusLift p d R := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hs_pow : s ^ p = 1 := by rw [← hsorder]; exact pow_orderOf_eq_one s
   have hpow : ∀ i : Fin d, (ρ i s) ^ p = 1 := fun i => by
     rw [← map_pow, hs_pow, map_one]
@@ -187,6 +187,7 @@ theorem uniHom_sq (x : Multiplicative (Matrix (Fin 2) ι K)) : uniHom K (Fin 2) 
 
 end Blocks
 
+omit [CharP K 2] in
 private theorem eq_scalar_of_proj_reindex_eq_one {ι : Type} [Fintype ι] [DecidableEq ι] {d : ℕ}
     (eι : Fin 2 ⊕ ι ≃ Fin d) {g : SpecialLinearGroup (Fin 2 ⊕ ι) K}
     (hg : proj d K (reindexSL eι g) = 1) :
@@ -220,7 +221,7 @@ theorem ggTorusLift_of_sl2Blocks
     obtain ⟨c, hc⟩ := hπ1 _ hA
     have hc1 : c = 1 := by
       have h := hc (Sum.inr j₀) (Sum.inr j₀)
-      rw [levL_val, fromBlocks_apply₂₂, one_apply_eq, if_pos rfl] at h
+      rw [levL_val, fromBlocks_apply₂₂, one_apply_eq, ite_eq_left rfl] at h
       exact h.symm
     ext a b
     have h := hc (Sum.inl a) (Sum.inl b)
@@ -233,7 +234,7 @@ theorem ggTorusLift_of_sl2Blocks
     obtain ⟨c, hc⟩ := hπ1 _ hA
     have hc1 : c = 1 := by
       have h := hc (Sum.inl 0) (Sum.inl 0)
-      rw [MonoidHom.comp_apply, levR_val, fromBlocks_apply₁₁, one_apply_eq, if_pos rfl] at h
+      rw [MonoidHom.comp_apply, levR_val, fromBlocks_apply₁₁, one_apply_eq, ite_eq_left rfl] at h
       exact h.symm
     have hD : ρ' i A = 1 := by
       ext a b
@@ -270,7 +271,7 @@ theorem ggTorusLift_of_sl2Blocks
     rw [hbot, Subgroup.mem_bot] at hmem
     obtain ⟨c, hc⟩ := hπ1 _ hmem
     have h := hc (Sum.inl 0) (Sum.inr j₀)
-    rw [uniHom_val, fromBlocks_apply₁₂, if_neg Sum.inl_ne_inr, Matrix.of_apply] at h
+    rw [uniHom_val, fromBlocks_apply₁₂, ite_eq_right Sum.inl_ne_inr, Matrix.of_apply] at h
     exact one_ne_zero h
   have hU2 : IsPGroup 2 U := by
     rintro ⟨_, ⟨_, ⟨x, rfl⟩, rfl⟩⟩
@@ -354,7 +355,7 @@ theorem ggTorusLift_two_split
     [Finite K] (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card K - 1) : GGTorusLift p 1 (projectiveSL 2 K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨μ, hμ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) p (by rw [Nat.card_units]; exact hpq)
   have hs : orderOf (HSL μ : SL2 K) = p := by
     change orderOf (hslHom μ) = p

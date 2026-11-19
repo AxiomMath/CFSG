@@ -65,7 +65,7 @@ theorem not_isCyclic_of_isPerfect {Q : Type*} [Group Q] [Finite Q] [Nontrivial Q
   have hmin : (Nat.card Q).minFac = 2 := (Nat.minFac_eq_two_iff _).mpr h2
   have hcomp := IsCyclic.isComplement' hmin hPcyc
   have : Group.IsSolvable (P : Subgroup Q) := by
-    have := P.isPGroup'.isNilpotent
+    have := P.isPGroup.isNilpotent
     infer_instance
   rw [CFSG.ComponentClassification.SolvableKernelContainment.hom_eq_one
     (MonoidHom.transferSylow P (hPcyc.normalizer_le_centralizer hmin)), MonoidHom.ker_one]

@@ -145,7 +145,7 @@ theorem localized_fixed_points_force_scalar_action_and_an_inverted_sylow [Finite
     intro ell hell Q hTQ hQC
     let : Fact ell.Prime := ⟨hell⟩
     have hQne : (Q : Subgroup O).map O.subtype ≠ ⊥ := fun h => hQC (h ▸ bot_le)
-    have hQp : IsPGroup ell ((Q : Subgroup O).map O.subtype) := Q.isPGroup'.map O.subtype
+    have hQp : IsPGroup ell ((Q : Subgroup O).map O.subtype) := Q.isPGroup.map O.subtype
     have hellodd : Odd ell := by
       have h1 : ell ∣ Nat.card ((Q : Subgroup O).map O.subtype) := by
         rcases hQp.card_eq_or_dvd with h | h

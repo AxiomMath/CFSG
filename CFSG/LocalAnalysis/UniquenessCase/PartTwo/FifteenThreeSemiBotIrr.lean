@@ -15,6 +15,7 @@ section Clifford
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s15_semiBot_isIrrOn_map_rel {X N : Subgroup (MulAut W)}
     (hN : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N) {C J : Subgroup W} (hC : StableUnder X C)
     {x : MulAut W} (hx : x ∈ X) (hJ : IsIrrOn N J C) :
@@ -25,7 +26,7 @@ private theorem s15_semiBot_isIrrOn_map_rel {X N : Subgroup (MulAut W)}
     · rintro _ ⟨c, hc, rfl⟩
       exact hC x hx c hc
     · intro c hc
-      exact ⟨x⁻¹ c, hC x⁻¹ hxinv c hc, by simp [MulAut.mul_apply, MulAut.inv_apply]⟩
+      exact ⟨x⁻¹ c, hC x⁻¹ hxinv c hc, by simp [MulAut.inv_apply]⟩
   have hlt : C < J.map x.toMonoidHom := by
     rw [← hCmap]
     exact (Subgroup.map_lt_map_iff_of_injective x.injective).2 hJ.1
@@ -119,6 +120,7 @@ section Quotient
 
 variable {W W' : Type} [CommGroup W] [CommGroup W'] [Finite W] [Finite W']
 
+omit [Finite W] [Finite W'] in
 theorem s15_semiBot_isIrrOn_map_of_ker (κ : W →* W') {N : Subgroup (MulAut W)}
     {N' : Subgroup (MulAut W')} (hNN' : ∀ n ∈ N, ∃ n' ∈ N', ∀ w, κ (n w) = n' (κ w))
     (hN'N : ∀ n' ∈ N', ∃ n ∈ N, ∀ w, κ (n w) = n' (κ w)) {J C : Subgroup W}
@@ -167,6 +169,7 @@ theorem s15_semiBot_isIrrOn_map_of_ker (κ : W →* W') {N : Subgroup (MulAut W)
       rintro y ⟨j, hj, rfl⟩
       exact hJK hj
 
+omit [Finite W'] in
 theorem s15_semiBot_sSup_irr_of_irrSet (κ : W →* W') (hκ : Function.Surjective κ)
     {X N : Subgroup (MulAut W)} {N' : Subgroup (MulAut W')} (hNX : N ≤ X)
     (hN : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N)
@@ -202,6 +205,7 @@ section Concrete
 
 variable {G : Type} [Group G] [Finite G] {D : Data G} {V₀ V L : Subgroup G}
 
+omit [Finite G] in
 theorem s15_semiBot_ker_kappa (V₁ : Subgroup G) (hV : IsElemAbelian 2 V) (h01 : V₀ ≤ V₁) :
     (s15T7Kappa V₀ V₁ V hV h01).ker = imgTil V₀ V hV V₁ := by
   ext q

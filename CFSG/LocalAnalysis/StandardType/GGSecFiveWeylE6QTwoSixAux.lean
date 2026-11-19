@@ -38,8 +38,7 @@ private theorem normalizerMonoidHom_conj {G : Type} [Group G] {Bs : Subgroup G}
   ext b
   simp only [MulAut.mul_apply, ggConjAut_apply,
     Subgroup.normalizerMonoidHom_apply_apply_coe,
-    inv_apply_of_forall (ggConjAut_apply Bs hg) b, Subgroup.coe_mul, Subgroup.coe_inv,
-    Subgroup.coe_mk]
+    inv_apply_of_forall (ggConjAut_apply Bs hg) b, Subgroup.coe_mul, Subgroup.coe_inv]
   group
 
 theorem ggConjPreimage_map_conj {G : Type} [Group G] {Bs : Subgroup G}
@@ -58,7 +57,7 @@ theorem ggConjPreimage_map_conj {G : Type} [Group G] {Bs : Subgroup G}
       exact huA
     have hxu : (MulAut.conj g) u = (gN * ⟨u, huN⟩ * gN⁻¹ : N) := by
       change g * u * g⁻¹ = ↑(gN * ⟨u, huN⟩ * gN⁻¹)
-      simpa [gN]
+      simp [gN]
     rw [← hux]
     change (MulAut.conj g) u ∈
       ggConjPreimage Bs (A.map (MulAut.conj (ggConjAut Bs hg)).toMonoidHom)

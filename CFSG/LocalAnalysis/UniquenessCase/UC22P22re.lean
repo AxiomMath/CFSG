@@ -36,7 +36,7 @@ theorem uc22p22r_s22_10_of_parts (D : Data G) (Ch : Choice2011 G) (h63 : UC6.R6_
   classical
   intro h1930 c q hq hq2 Q hQ hrank
   by_contra hne'
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨P, hPQ, hPq, hPexp, hPcl, hPnc, hPY, hPA⟩ := hP h1930 c q hq hq2 Q hQ hrank hne'
   have hQM : Q ≤ D.M := hQ.le.trans (uc22p21c_barPreimage_le _ _)
   have hPM : P ≤ D.M := hPQ.trans hQM
@@ -51,7 +51,7 @@ theorem uc22p22r_s22_10_of_parts (D : Data G) (Ch : Choice2011 G) (h63 : UC6.R6_
       push Not at hk2
       exact absurd hlt (not_lt.2 (Nat.pow_le_pow_right hq.pos hk2))
     interval_cases k
-    · haveI : Subsingleton ↥P := (Nat.card_eq_one_iff_unique.mp (by simpa using hk)).1
+    · have : Subsingleton ↥P := (Nat.card_eq_one_iff_unique.mp (by simpa using hk)).1
       exact isCyclic_of_subsingleton
     · exact isCyclic_of_prime_card (by simpa using hk)
   have hΓP : rankThreeGamma 1 q P ≤ D.M :=

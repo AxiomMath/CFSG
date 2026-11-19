@@ -44,7 +44,7 @@ private lemma z_sq {G : Type*} [Group G] {J : Subgroup G} {z : G} {κ : G → V}
     (hκz : κ z = 0) : z * z = 1 := by
   have h := hsq z hzJ
   have hq : q (κ z) = 0 := by rw [hκz, q_zero]
-  rw [if_pos hq] at h
+  rw [ite_eq_left hq] at h
   exact h
 
 private lemma b_comm (v w : V) : b v w = b w v := by
@@ -102,7 +102,7 @@ private lemma conj_commutator_commute {G : Type*} [Group G] {J : Subgroup G} {z 
   have hq : q (κ c) = 0 := hF1 (κ c) hfix
   have hcc : c * c = 1 := by
     have h := hsq c hcJ
-    rw [if_pos hq] at h
+    rw [ite_eq_left hq] at h
     exact h
   have ha_inv : a⁻¹ = a := (eq_inv_of_mul_eq_one_left ha2).symm
   have hconj : a * c * a⁻¹ = c⁻¹ := by
@@ -254,8 +254,8 @@ private lemma toAdd_chi_if {G : Type*} [Group G] {C : Subgroup G} {z : G} (hzC :
     (β : ZMod 2) :
     Multiplicative.toAdd (χ (if β = 0 then 1 else ⟨z, hzC⟩)) = β := by
   by_cases hβ : β = 0
-  · rw [if_pos hβ, map_one, hβ, toAdd_one]
-  · rw [if_neg hβ, hχz, zmod2_eq_one_of_ne_zero hβ, toAdd_ofAdd]
+  · rw [ite_eq_left hβ, map_one, hβ, toAdd_one]
+  · rw [ite_eq_right hβ, hχz, zmod2_eq_one_of_ne_zero hβ, toAdd_ofAdd]
 
 theorem spinCoord_mul_self_of_commute {G : Type*} [Group G] {J : Subgroup G} {z a : G}
     {κ : G → V} {σ : Matrix (Fin 8) (Fin 8) (ZMod 2)}
@@ -274,7 +274,7 @@ theorem spinCoord_mul_self_of_commute {G : Type*} [Group G] {J : Subgroup G} {z 
     (commute_iff_aux hza hadd hsurj hker hsq ha2 haJ haκ hσ2 hF1 hF2 j hj).mp h
   have hq : q (κ j) = 0 := hF1 (κ j) hfix
   have hsqj := hsq j hj
-  rw [if_pos hq] at hsqj
+  rw [ite_eq_left hq] at hsqj
   exact hsqj
 
 theorem spinCoord_commute_of_commute {G : Type*} [Group G] {J : Subgroup G} {z a : G}
@@ -304,7 +304,7 @@ theorem spinCoord_commute_of_commute {G : Type*} [Group G] {J : Subgroup G} {z a
     unfold b
     rw [hqjk, hqj, hqk, zero_add, zero_add]
   have hc := hcomm j hj k hk
-  rw [if_pos hb] at hc
+  rw [ite_eq_left hb] at hc
   have hc' : (j * k) * (k * j)⁻¹ = 1 := by
     simpa [mul_inv_rev, mul_assoc] using hc
   exact mul_inv_eq_one.mp hc'
@@ -513,9 +513,9 @@ theorem spinCoord_z_mem_closure {G : Type*} [Group G] {J : Subgroup G} {z a : G}
       simpa [g0, hb, inv_inv] using h
     have hg0C : g0 ∈ C := by
       by_cases hb0 : b (κ j₁) ((σ + 1) *ᵥ κ j₂) = 0
-      · rw [hg0def, if_pos hb0]
+      · rw [hg0def, ite_eq_left hb0]
         exact C.one_mem
-      · rw [hg0def, if_neg hb0]
+      · rw [hg0def, ite_eq_right hb0]
         exact hzC
     let zC : C := ⟨z, hzC⟩
     let gC : C := if b (κ j₁) ((σ + 1) *ᵥ κ j₂) = 0 then 1 else zC

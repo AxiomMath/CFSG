@@ -113,7 +113,7 @@ theorem prime_dvd_index_centralizer_of_inverts {H : Type*} [Group H] [Finite H] 
     have h1 : ℓ ∣ Nat.card (Q : Subgroup H) := by
       obtain ⟨⟨x, hx⟩, hx1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hQ
       have hx1' : x ≠ 1 := fun h => hx1 (Subtype.ext h)
-      obtain ⟨k, hk⟩ := (Q.isPGroup'.exists_orderOf_dvd_pow (⟨x, hx⟩ : (Q : Subgroup H)))
+      obtain ⟨k, hk⟩ := (Q.isPGroup.exists_orderOf_dvd_pow (⟨x, hx⟩ : (Q : Subgroup H)))
       have hord : orderOf (⟨x, hx⟩ : (Q : Subgroup H)) ≠ 1 := by
         rw [Ne, orderOf_eq_one_iff]
         exact hx1

@@ -28,8 +28,8 @@ theorem items6011 : ∀ x ∈ recTag HS.recShard_1, TagEq x :=
       (ng := kd_count% CFSG.KD.AX.c6011 u) (nch := kd_count% CFSG.KD.AX.c6011 CH)
       (by kd_allE CFSG.KD.AX.c6011 u) (by quickRfl))
     (by decide +kernel) (by quickRfl)
-    (by rw [rlS_lt (by norm_num)] <;> quickRfl) (by rw [rlS_lt (by norm_num)] <;> quickRfl)
-    (by rw [rlS_lt (by norm_num), rlS_lt (by norm_num)] <;> rfl)
+    (by rw [rlS_lt (by norm_num)]; quickRfl) (by rw [rlS_lt (by norm_num)]; quickRfl)
+    (by rw [rlS_lt (by norm_num), rlS_lt (by norm_num)]; rfl)
     (by quickRfl) (by decide +kernel)
 
 theorem c6011 :

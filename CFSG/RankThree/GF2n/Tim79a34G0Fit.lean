@@ -47,7 +47,7 @@ theorem exists_sylow_le_of_twoEnd [Finite G] {M V Q P H : Subgroup G}
     (hH : TwoEndHyp M V Q P H) :
     ∃ T : Sylow 2 G, (T : Subgroup G) ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : MinCex M V Q P H := hH.setup.mc.toMinCex
   let T₂ : Sylow 2 ↥M := Classical.arbitrary _
   let S : Subgroup G := (T₂ : Subgroup ↥M).map M.subtype
@@ -61,8 +61,8 @@ theorem exists_sylow_le_of_twoEnd [Finite G] {M V Q P H : Subgroup G}
   have hPS : P ≤ S := hPcore.trans hQT
   have hPne : P ≠ ⊥ := fun hbot => hc.V_ne_bot (le_bot_iff.mp (hbot ▸ hc.V_le_P))
   have hSne : S ≠ ⊥ := fun hbot => hPne (le_bot_iff.mp (hbot ▸ hPS))
-  haveI : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
-  have hSp : IsPGroup 2 S := (Sylow.isPGroup' T₂).map M.subtype
+  have : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).mpr hSne
+  have hSp : IsPGroup 2 S := (Sylow.isPGroup T₂).map M.subtype
   have hZne : centerIn S ≠ ⊥ := by
     rw [centerIn_eq_map_center]
     intro hbot
@@ -89,7 +89,7 @@ theorem exists_sylow_le_of_twoEnd [Finite G] {M V Q P H : Subgroup G}
 theorem pResidual_sup_eq_top_of_twoEnd [Finite G] {M V Q P H : Subgroup G}
     (hH : TwoEndHyp M V Q P H) :
     pResidual 2 G ⊔ M = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hTM⟩ := exists_sylow_le_of_twoEnd hH
   have hsup : (T : Subgroup G) ⊔ pResidual 2 G = ⊤ :=
     CFSG.RankThree.S4Free.sylow_sup_pResidual_eq_top T
@@ -106,7 +106,7 @@ theorem not_weaklyClosedIn_subgroupOf_residual [Finite G] {M V Q P H : Subgroup 
       Nonempty (↥(StatedSp n (GaloisField 2 1)) ≃* XbarZ V H)) :
     ¬ WeaklyClosedIn (V.subgroupOf (pResidual 2 G)) (M.subgroupOf (pResidual 2 G)) := by
   let G₀ : Subgroup G := pResidual 2 G
-  haveI : G₀.Normal := G6.pResidual_normal_aux 2
+  have : G₀.Normal := G6.pResidual_normal_aux 2
   intro hwc
   have hc : MinCex M V Q P H := hH.setup.mc.toMinCex
   have hV : V ≤ G₀ := V_le_pResidual_of_twoEnd hH hZ hn
@@ -156,7 +156,7 @@ theorem generalizedFitting_subgroupOf_residual [Finite G] {M V Q P H : Subgroup 
       pCore 2 ↥(M.subgroupOf (pResidual 2 G)) := by
   let G₀ : Subgroup G := pResidual 2 G
   let M₀ : Subgroup ↥G₀ := M.subgroupOf G₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : MinCex M V Q P H := hH.setup.mc.toMinCex
   have hcore : P.subgroupOf G₀ = inSubgroup (pCore 2) M₀ :=
     pCore_subgroupOf_residual_eq hH hZ hn hrel hOut

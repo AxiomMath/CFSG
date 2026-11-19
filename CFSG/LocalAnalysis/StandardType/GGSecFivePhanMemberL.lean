@@ -139,9 +139,9 @@ theorem ggD_exists_signedA {k : ℕ} (hk : 2 ≤ k) {Φ : Set (Fin k → ℤ)}
   have hρsign : ∀ c hc, ρ c hc c = 1 ∨ ρ c hc c = -1 :=
     fun c hc => ggDRootSet_sign (hρroot c hc) (hρc c hc)
   let ε : Fin k → ℤ := fun a => if h : a = a0 then 1 else -(ρ a h) a
-  have hεa0 : ε a0 = 1 := by simp only [ε, dif_pos rfl]
+  have hεa0 : ε a0 = 1 := by simp only [ε, dite_eq_left rfl]
   have hεc : ∀ c (hc : c ≠ a0), ε c = -(ρ c hc) c := fun c hc => by
-    simp only [ε, dif_neg hc]
+    simp only [ε, dite_eq_right hc]
   have hεsign : ∀ a, ε a = 1 ∨ ε a = -1 := by
     intro a
     by_cases ha : a = a0

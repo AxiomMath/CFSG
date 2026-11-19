@@ -89,7 +89,7 @@ private theorem ggE8LangModelAux_sylowConj {G : Type} [Group G] {p m : ℕ} (hp 
     rw [h1]
     refine hE t ht ?_
     rw [← h1, conj_pow, hE'.2 u hu, mul_one, mul_inv_cancel]
-  haveI : Finite E :=
+  have : Finite E :=
     Nat.finite_of_card_ne_zero (by rw [hEcard]; exact pow_ne_zero _ hp.ne_zero)
   have heq : E'.map (MulAut.conj g'⁻¹).toMonoidHom = E := by
     refine Subgroup.eq_of_le_of_card_ge hle ?_
@@ -153,8 +153,8 @@ private theorem ggE8LangModelAux_big
   classical
   have hT := M.torusData (n := n) hf hp hp2 hreg
   have hidx0 : (ggIota .E8 n f hf).range.relIndex M.D.fix ≠ 0 := by
-    haveI := hT.pkg.desc.finite_fix
-    haveI : Finite (↥M.D.fix ⧸ (ggIota .E8 n f hf).range.subgroupOf M.D.fix) :=
+    have := hT.pkg.desc.finite_fix
+    have : Finite (↥M.D.fix ⧸ (ggIota .E8 n f hf).range.subgroupOf M.D.fix) :=
       Quotient.finite (QuotientGroup.leftRel _)
     exact Subgroup.index_ne_zero_of_finite
   have hco : Nat.Coprime p ((ggIota .E8 n f hf).range.relIndex M.D.fix) :=
@@ -305,7 +305,7 @@ private theorem ggE8LangModelAux_lang
       familyGroup (K := GGL) (fun _ : Unit => a) := by
     have hkernel : familyKernel (fun _ : Unit => a) = rootCharKernel a := by
       ext α
-      simp only [familyKernel, rootCharKernel, Set.mem_setOf_eq]
+      simp only [familyKernel, rootCharKernel, Set.mem_ofPred_eq]
       constructor
       · rintro ⟨hα, h⟩
         exact ⟨hα, h ()⟩

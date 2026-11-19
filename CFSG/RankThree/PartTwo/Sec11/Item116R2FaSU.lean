@@ -64,7 +64,7 @@ theorem exists_heisenberg_statedSU {K : Type} [Field K] [Finite K] {q : ℕ} (hK
       ∃ x ∈ H, ∃ y ∈ H, x ^ 3 = 1 ∧ y ^ 3 = 1 ∧ x * y ≠ y * x := by
   have hq0 : q ≠ 0 := by omega
   have hsq : q ^ 2 % 3 = 1 := by
-    rw [Nat.pow_mod, hq] <;> norm_num
+    rw [Nat.pow_mod, hq]
   obtain ⟨ω, hω3, hω1⟩ := exists_cube_root_of_three_dvd (K := K) (by rw [hK]; omega)
   have hω0 : ω ≠ 0 := by
     rintro rfl
@@ -101,7 +101,7 @@ theorem exists_heisenberg_statedSU {K : Type} [Field K] [Finite K] {q : ℕ} (hK
     refine Units.ext ?_
     simp only [Units.val_mul, coe_glOfPowThree, Matrix.GeneralLinearGroup.coe_scalar,
       Units.val_mk0]
-    rw [cycMat_mul_cubeDiag hω3] <;> simp [Matrix.scalar_apply])
+    rw [cycMat_mul_cubeDiag hω3]; simp [Matrix.scalar_apply])
   have hnc : d * P ≠ P * d := by
     intro h
     have hz1 : z = 1 := mul_left_cancel (a := P * d) (by rw [mul_one, ← hdP]; exact h)

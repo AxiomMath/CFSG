@@ -255,7 +255,7 @@ theorem k_19_20_oddAut_holds : K_19_20_oddAut := by
         exact ⟨_, h1, rfl⟩
       set T : Subgroup (alternatingGroup (Fin 7)) :=
         (P : Subgroup ↥Y').map Y'.subtype with hTdef
-      have hT2 : IsPGroup 2 T := (P.isPGroup').map Y'.subtype
+      have hT2 : IsPGroup 2 T := (P.isPGroup).map Y'.subtype
       have hmap_le : T.map (MulAut.conj (x : alternatingGroup (Fin 7))).toMonoidHom ≤ T := by
         rintro _ ⟨y, hy, rfl⟩
         obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.mp hy

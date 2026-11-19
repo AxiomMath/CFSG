@@ -109,8 +109,8 @@ theorem eq_zpowers_of_fix (hK : Nat.card K = 2) {Ã : Subgroup (StatedSp m K)}
     (hrk : finrank K (LinearMap.range (spEnd y - 1)) = 2) {s : StatedSp m K} (hs : s ∈ Ã)
     (hfix : ∀ u ∈ LinearMap.ker (spEnd y - 1), spEnd s u = u) : s ∈ Subgroup.zpowers y := by
   classical
-  haveI := SpFin.finite_statedSp_group (K := K) (m := m)
-  haveI := finite_units_end (K := K) (V := Fin m ⊕ Fin m → K)
+  have := SpFin.finite_statedSp_group (K := K) (m := m)
+  have := finite_units_end (K := K) (V := Fin m ⊕ Fin m → K)
   have hy3 : y ^ 3 = 1 := hÃ.2 y hy
   set Z : Subgroup (StatedSp m K) := Ã ⊓ fixSub (LinearMap.ker (spEnd y - 1)) with hZ
   have hyZ : y ∈ Z := ⟨hy, fun u hu => mem_ker_sub_one_iff.mp hu⟩
@@ -157,7 +157,7 @@ theorem endNodeAt_of_six (hK : Nat.card K = 2) {Ã : Subgroup (StatedSp 4 K)}
     (blocks : SpPrimaryBlocks 2 1 3 y (proj 4 K y)) (hd : spFixedDim y = 6) :
     EndNodeAt Ã y ∧ ¬ LargeEvenSmall (layerC y) := by
   classical
-  haveI := SpFin.finite_statedSp_group (K := K) (m := 4)
+  have := SpFin.finite_statedSp_group (K := K) (m := 4)
   have hy3 : y ^ 3 = 1 := hÃ.2 y hy
   have hy3' : spLin 4 K y ^ 3 = 1 := by rw [← map_pow, hy3, map_one]
   have hsum : finrank K (LinearMap.ker (spEnd y - 1)) +

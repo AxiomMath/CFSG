@@ -160,11 +160,11 @@ lemma finrank_hom_simple
       refine ⟨fun f g => ?_⟩
       have hf0 : f = 0 := by
         by_contra hf_ne
-        haveI : IsIso f := by exact isIso_of_hom_simple hf_ne
+        have : IsIso f := by exact isIso_of_hom_simple hf_ne
         exact False.elim (hIso ⟨asIso f⟩)
       have hg0 : g = 0 := by
         by_contra hg_ne
-        haveI : IsIso g := by exact isIso_of_hom_simple hg_ne
+        have : IsIso g := by exact isIso_of_hom_simple hg_ne
         exact False.elim (hIso ⟨asIso g⟩)
       rw [hf0, hg0]
     exact Module.finrank_zero_iff.mpr hsub
@@ -183,7 +183,7 @@ lemma finrank_hom_to_biproduct_simple
     (hf : ∀ i, Simple (f i)) :
     Module.finrank k (S ⟶ ⨁ f) =
       ∑ i, (if Nonempty (S ≅ f i) then 1 else 0) := by
-  haveI : ∀ i, Simple (f i) := hf
+  have : ∀ i, Simple (f i) := hf
   calc
     Module.finrank k (S ⟶ ⨁ f)
         = ∑ i, Module.finrank k (S ⟶ f i) :=
@@ -207,7 +207,7 @@ lemma hom_eq_zero_of_not_iso_simple
     ∀ f : S ⟶ T, f = 0 := by
   intro f
   by_contra hf
-  haveI : IsIso f := isIso_of_hom_simple hf
+  have : IsIso f := isIso_of_hom_simple hf
   exact h.false (asIso f)
 
 /--
@@ -222,11 +222,11 @@ lemma hom_subsingleton_of_not_iso_simple
   refine ⟨fun f g => ?_⟩
   have hf0 : f = 0 := by
     by_contra hf_ne
-    haveI : IsIso f := isIso_of_hom_simple hf_ne
+    have : IsIso f := isIso_of_hom_simple hf_ne
     exact h.false (asIso f)
   have hg0 : g = 0 := by
     by_contra hg_ne
-    haveI : IsIso g := isIso_of_hom_simple hg_ne
+    have : IsIso g := isIso_of_hom_simple hg_ne
     exact h.false (asIso g)
   rw [hf0, hg0]
 
@@ -240,7 +240,7 @@ lemma finrank_hom_eq_zero_of_not_iso_simple
     {S T : FDRep k G} [Simple S] [Simple T]
     (h : IsEmpty (S ≅ T)) :
     Module.finrank k (S ⟶ T) = 0 := by
-  haveI : Subsingleton (S ⟶ T) :=
+  have : Subsingleton (S ⟶ T) :=
     hom_subsingleton_of_not_iso_simple h
   exact Module.finrank_zero_of_subsingleton
 
@@ -384,7 +384,7 @@ lemma lift_simple_of_simple
       intro c f
       rfl }
 
-  haveI : NeZero (Nat.card G : k) := by
+  have : NeZero (Nat.card G : k) := by
     exact ⟨by
       exact_mod_cast One.natCard_ne_zero_of_finite G⟩
 
@@ -399,7 +399,7 @@ lemma lift_simple_of_simple
   have hρ' : Module.finrank k (ρ' ⟶ ρ') = 1 := by
     simpa [hρ] using hEq
 
-  haveI : NeZero (Nat.card (G ⧸ K) : k) := by
+  have : NeZero (Nat.card (G ⧸ K) : k) := by
     exact ⟨by
       exact_mod_cast One.natCard_ne_zero_of_finite (G ⧸ K)⟩
 

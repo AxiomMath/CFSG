@@ -61,7 +61,7 @@ def repP {K : Type} [Field K] (P : Subgroup (StatedSp 3 K)) :
     P →* Module.End K ((Fin 3 ⊕ Fin 3) → K) where
   toFun g := Matrix.toLin' (g.1.1 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K)
   map_one' := by
-    simp only [Subgroup.coe_one, OneMemClass.coe_one, Units.val_one]
+    simp only [Subgroup.coe_one, Units.val_one]
     rw [Matrix.toLin'_one]
     rfl
   map_mul' g h := by
@@ -212,7 +212,7 @@ theorem conj_ΦSp {K : Type} [Field K] {Q : Module.End K ((Fin 3 ⊕ Fin 3) → 
         (g.1.1 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) *
         (yt.1.1 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) := by
       have h' := congrArg (fun z : StatedSp 3 K => (z : GL (Fin 3 ⊕ Fin 3) K)) h
-      simp only [Subgroup.coe_mul, Units.val_mul] at h'
+      simp only [Subgroup.coe_mul] at h'
       exact congrArg (fun z : GL (Fin 3 ⊕ Fin 3) K => (z : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K)) h'
     show Matrix.toLin' (yt.1.1 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) ∘ₗ
       Matrix.toLin' (g.1.1 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) =
@@ -249,7 +249,7 @@ theorem kerConcl_sp3 (K : Type) [Field K] [Finite K] (h3 : (3 : K) ≠ 0) (h4 : 
     (E : Subgroup (StatedProj (StatedSp 3 K))) (hE : IsElemAbelian 3 E) (hc : Nat.card E = 27) :
     CFSG.LocalAnalysis.GLTheoremA.KD264LieA4.KerConcl E := by
   obtain ⟨P, hcard, hexp, hcomm, hinj, himg⟩ := lift_props K E hE hc
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype P := Fintype.ofFinite P
   have hexp' : ∀ g : P, g ^ 3 = 1 := fun g => Subtype.ext (by simpa using hexp g.1 g.2)
   have hcomm' : ∀ g h : P, g * h = h * g := fun g h =>
     Subtype.ext (by simpa using hcomm g.1 g.2 h.1 h.2)

@@ -97,7 +97,7 @@ public theorem firstCase_edgeWing_ncard_three
   have hmem : B ∈ N := hAB
   have hEq : commutingGraphEdgeWing c A B = N \ {B} := by
     ext X
-    simp only [commutingGraphEdgeWing, N, Set.mem_setOf_eq, Set.mem_sdiff,
+    simp only [commutingGraphEdgeWing, N, Set.mem_ofPred_eq, Set.mem_sdiff,
       Set.mem_singleton_iff]
   rw [hEq, Set.ncard_sdiff_singleton_of_mem hmem, hN]
 
@@ -380,7 +380,7 @@ public theorem commutingGraphEdgeStar_comm
     commutingGraphEdgeStar c A B = commutingGraphEdgeStar c B A := by
   ext X
   simp only [commutingGraphEdgeStar, commutingGraphEdgeWing, commutingGraphEdgeCenter, Set.mem_union,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   aesop
 
 public theorem commutingGraphEdgeStar_smul_iff
@@ -388,7 +388,7 @@ public theorem commutingGraphEdgeStar_smul_iff
     (c : CentralizerSetup G) (g : G) (A B X : UConjugates c) :
     g • X ∈ commutingGraphEdgeStar c (g • A) (g • B) ↔ X ∈ commutingGraphEdgeStar c A B := by
   simp only [commutingGraphEdgeStar, commutingGraphEdgeWing, commutingGraphEdgeCenter, Set.mem_union,
-    Set.mem_setOf_eq, commutingGraph.adj_smul_iff,
+    Set.mem_ofPred_eq, commutingGraph.adj_smul_iff,
     commutingGraphDistThree_smul_iff, ne_eq]
   constructor
   · rintro ((hAX | hBX) | hCX)

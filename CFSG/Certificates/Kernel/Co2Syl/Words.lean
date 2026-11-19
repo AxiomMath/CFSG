@@ -27,10 +27,10 @@ theorem actGo_bitZ (rows : Array ℕ) (v j : ℕ) : ∀ m acc,
   | m + 1, acc => by
     rw [CFSG.Monster.VisCert.Native.actGo, actGo_bitZ rows v j m, Finset.sum_range_succ]
     by_cases h : v.testBit m
-    · rw [if_pos h, bitZ_xor]
-      simp only [bitZ, h, if_true, one_mul]
+    · rw [ite_eq_left h, bitZ_xor]
+      simp only [bitZ, h, ite_true, one_mul]
       abel
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       simp only [bitZ, h]
       simp
 
@@ -40,7 +40,7 @@ theorem rowsMat_rowsMul (A B : Array ℕ) :
     rowsMat (CFSG.Monster.B.TwoA.Co2Inv.rowsMul A B) = rowsMat A * rowsMat B := by
   ext t k
   rw [rowsMat_apply, CFSG.Monster.B.TwoA.Co2Inv.rowsMul_getElem _ _ t.isLt,
-    CFSG.Monster.B.Co2.Native.actD, actGo_bitZ, Matrix.mul_apply, bitZ, Nat.zero_testBit, if_neg
+    CFSG.Monster.B.Co2.Native.actD, actGo_bitZ, Matrix.mul_apply, bitZ, Nat.zero_testBit, ite_eq_right
     Bool.false_ne_true, zero_add, ← Fin.sum_univ_eq_sum_range (fun i => bitZ A[t.val]! i *
       bitZ B[i]! k.val)]
   rfl

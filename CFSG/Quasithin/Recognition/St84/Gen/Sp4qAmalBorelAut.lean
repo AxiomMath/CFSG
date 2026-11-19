@@ -22,6 +22,7 @@ open Matrix
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 private theorem mul_eq_self_iff {x a : F} : x * a = a ↔ x = 1 ∨ a = 0 := by
   constructor
   · intro h
@@ -33,6 +34,7 @@ private theorem mul_eq_self_iff {x a : F} : x * a = a ↔ x = 1 ∨ a = 0 := by
     · simp
     · simp
 
+omit [Finite F] [CharP F 2] in
 private theorem units_mul_eq_self_iff {x : Fˣ} {a : F} :
     (x : F) * a = a ↔ x = 1 ∨ a = 0 := by
   rw [mul_eq_self_iff]
@@ -44,6 +46,7 @@ private theorem units_mul_eq_self_iff {x : Fˣ} {a : F} :
     · exact Or.inl (by rw [h, Units.val_one])
     · exact Or.inr h
 
+omit [Finite F] in
 private theorem unit_sq_eq_one_iff {u : Fˣ} : u ^ 2 = 1 ↔ u = 1 := by
   constructor
   · intro h
@@ -58,20 +61,24 @@ private theorem unit_sq_eq_one_iff {u : Fˣ} : u ^ 2 = 1 ↔ u = 1 := by
   · rintro rfl
     simp
 
+omit [Finite F] in
 private theorem unit_sq_ne_one {u : Fˣ} (hu : u ≠ 1) : u ^ 2 ≠ 1 :=
   fun h => hu (unit_sq_eq_one_iff.mp h)
 
+omit [CharP F 2] in
 private theorem exists_unit_ne_one (hF : 4 ≤ Nat.card F) : ∃ lam : Fˣ, lam ≠ 1 := by
   classical
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
   have hcard : 1 < Fintype.card Fˣ := by
     rw [← Nat.card_eq_fintype_card, Nat.card_units]
     omega
   exact Fintype.exists_ne_of_one_lt_card hcard 1
 
+omit [Finite F] [CharP F 2] in
 private theorem ringEquiv_ne_zero_of_ne_zero (ρ : F ≃+* F) {x : F} (hx : x ≠ 0) :
     ρ x ≠ 0 := fun h => hx (ρ.injective (by rw [h, map_zero]))
 
+omit [Finite F] [CharP F 2] in
 private theorem eq_of_inv_eq_inv {a b : F} (ha : a ≠ 0) (hb : b ≠ 0)
     (h : a⁻¹ = b⁻¹) : a = b := by
   have h1 : a * b⁻¹ = 1 := by
@@ -88,10 +95,12 @@ private theorem exists_unit_sq_eq (μ : Fˣ) : ∃ τ : Fˣ, τ ^ 2 = μ := by
   show τ ^ 2 = (μ : F)
   exact hτ
 
+omit [Finite F] [CharP F 2] in
 private theorem pow_two_pow (x : F) (k : ℕ) :
     (x ^ 2 ^ k) ^ 2 = (x ^ 2) ^ 2 ^ k := by
   rw [← pow_mul, ← pow_mul, Nat.mul_comm]
 
+omit [Finite F] in
 private theorem chi_inj {S T s t : Fˣ}
     (h1 : (S : F) * (T : F)⁻¹ = (s : F) * (t : F)⁻¹)
     (h2 : (T : F) ^ 2 = (t : F) ^ 2) : S = s ∧ T = t := by
@@ -143,6 +152,7 @@ theorem exists_addEquiv_of_map_mul {Γ : Type*} [Group Γ] {A : Type*} [AddGroup
   exact ⟨AddEquiv.ofBijective (AddMonoidHom.mk' l hadd)
     ⟨hinj, Finite.injective_iff_surjective.mp hinj⟩, hl⟩
 
+omit [Finite F] in
 theorem dSp_mul_uElt_comm_iff (s t : Fˣ) (a b c d : F) :
     dSp s t * uElt a b c d = uElt a b c d * dSp s t ↔
       (s = t ∨ a = 0) ∧ (s * t = 1 ∨ b = 0) ∧ (s = 1 ∨ c = 0) ∧ (t = 1 ∨ d = 0) := by
@@ -207,11 +217,14 @@ private def zU1 : ↥(B0 F) := ⟨uElt 0 1 0 0, Z0_le_B0 ⟨1, 0, rfl⟩⟩
 
 private def zU2 : ↥(B0 F) := ⟨uElt 0 0 1 0, Z0_le_B0 ⟨0, 1, rfl⟩⟩
 
+omit [Finite F] in
 private theorem torB_mem (s t : Fˣ) : torB s t ∈ HB F :=
   Subgroup.mem_subgroupOf.mpr (dSp_mem_dTor s t)
 
+omit [Finite F] in
 private theorem zU1_mem : zU1 (F := F) ∈ Z0B F := ⟨1, 0, rfl⟩
 
+omit [Finite F] in
 private theorem zU2_mem : zU2 (F := F) ∈ Z0B F := ⟨0, 1, rfl⟩
 
 private theorem symm_maps_to_XbB (hF : 4 ≤ Nat.card F) (σ : MulAut ↥(B0 F))
@@ -409,6 +422,7 @@ private def ActsOnXa (σ : MulAut ↥(B0 F)) (fa : F ≃+ F) : Prop :=
 private def ActsOnXb (σ : MulAut ↥(B0 F)) (fb : F ≃+ F) : Prop :=
   ∀ d : F, ((σ (xbB d) : ↥(B0 F)) : antiSp F) = uElt 0 0 0 (fb d)
 
+omit [Finite F] in
 private theorem sigmaCoords_exists (σ : MulAut ↥(B0 F))
     (hH : (HB F).map σ.toMonoidHom = HB F) (s t : Fˣ) :
     ∃ p : Fˣ × Fˣ, ((σ (torB s t) : ↥(B0 F)) : antiSp F) = dSp p.1 p.2 := by
@@ -428,12 +442,14 @@ private noncomputable def sigmaCoordsD (σ : MulAut ↥(B0 F))
     (hH : (HB F).map σ.toMonoidHom = HB F) (s t : Fˣ) : Fˣ :=
   (sigmaCoords σ hH s t).2
 
+omit [Finite F] in
 private theorem sigmaCoords_spec (σ : MulAut ↥(B0 F))
     (hH : (HB F).map σ.toMonoidHom = HB F) (s t : Fˣ) :
     ((σ (torB s t) : ↥(B0 F)) : antiSp F) =
       dSp (sigmaCoords σ hH s t).1 (sigmaCoords σ hH s t).2 :=
   Classical.choose_spec (sigmaCoords_exists σ hH s t)
 
+omit [Finite F] in
 private theorem sigmaCoordsA_spec (σ : MulAut ↥(B0 F))
     (hH : (HB F).map σ.toMonoidHom = HB F) (s t : Fˣ) :
     ((σ (torB s t) : ↥(B0 F)) : antiSp F) =
@@ -448,18 +464,21 @@ private noncomputable def chiD (σ : MulAut ↥(B0 F))
     (hH : (HB F).map σ.toMonoidHom = HB F) (s t : Fˣ) : Fˣ :=
   (sigmaCoordsD σ hH s t) ^ 2
 
+omit [Finite F] in
 private theorem chiA_apply (σ : MulAut ↥(B0 F))
     (hH : (HB F).map σ.toMonoidHom = HB F) (s t : Fˣ) :
     (chiA σ hH s t : F) =
       (sigmaCoordsA σ hH s t : F) * (sigmaCoordsD σ hH s t : F)⁻¹ := by
   rw [chiA, Units.val_mul, Units.val_inv_eq_inv_val]
 
+omit [Finite F] in
 private theorem chiD_apply (σ : MulAut ↥(B0 F))
     (hH : (HB F).map σ.toMonoidHom = HB F) (s t : Fˣ) :
     (chiD σ hH s t : F) = (sigmaCoordsD σ hH s t : F) ^ 2 := by
   rw [chiD]
   rfl
 
+omit [Finite F] in
 private theorem semilinear_Xa (σ : MulAut ↥(B0 F))
     (hH : (HB F).map σ.toMonoidHom = HB F) {fa : F ≃+ F} (hfa : ActsOnXa σ fa)
     (s t : Fˣ) (a : F) :
@@ -500,6 +519,7 @@ private theorem semilinear_Xa (σ : MulAut ↥(B0 F))
   have hcoord := (uElt_inj hmap).1
   exact hcoord.symm
 
+omit [Finite F] in
 private theorem semilinear_Xb (σ : MulAut ↥(B0 F))
     (hH : (HB F).map σ.toMonoidHom = HB F) {fb : F ≃+ F} (hfb : ActsOnXb σ fb)
     (s t : Fˣ) (d : F) :
@@ -538,6 +558,7 @@ private theorem semilinear_Xb (σ : MulAut ↥(B0 F))
   have hcoord := (uElt_inj hmap).2.2.2
   exact hcoord.symm
 
+omit [Finite F] in
 private theorem chiA_eq_ring (σ : MulAut ↥(B0 F))
     (hH : (HB F).map σ.toMonoidHom = HB F) {fa : F ≃+ F} (hfa : ActsOnXa σ fa)
     {ρa : F ≃+* F} (hρa : ∀ x : F, fa x = fa 1 * ρa x) (s t : Fˣ) :
@@ -552,6 +573,7 @@ private theorem chiA_eq_ring (σ : MulAut ↥(B0 F))
     rw [h3, mul_comm (fa 1)]
   exact mul_right_cancel₀ hfa1 h4
 
+omit [Finite F] in
 private theorem chiD_eq_ring (σ : MulAut ↥(B0 F))
     (hH : (HB F).map σ.toMonoidHom = HB F) {fb : F ≃+ F} (hfb : ActsOnXb σ fb)
     {ρb : F ≃+* F} (hρb : ∀ x : F, fb x = fb 1 * ρb x) (s t : Fˣ) :
@@ -566,6 +588,7 @@ private theorem chiD_eq_ring (σ : MulAut ↥(B0 F))
     rw [h3, mul_comm (fb 1)]
   exact mul_right_cancel₀ hfb1 h4
 
+omit [Finite F] in
 private theorem center_action_criteria (σ : MulAut ↥(B0 F))
     (hH : (HB F).map σ.toMonoidHom = HB F) {fa : F ≃+ F} (hfa : ActsOnXa σ fa)
     {fb : F ≃+ F} (hfb : ActsOnXb σ fb)
@@ -755,7 +778,7 @@ private theorem rho_eq_of_center_action (hF : 8 ≤ Nat.card F) (σ : MulAut ↥
       · have hx1 : x = 1 := by rw [← hτval, hτ1, Units.val_one]
         have hxu : (u : F) = 1 := by
           rw [← hx, hx1]
-          simpa using map_one ρa
+          simp
         have hu1 : u = 1 := Units.ext hxu
         rw [hu1]
         exact one_pow 3
@@ -764,7 +787,7 @@ private theorem rho_eq_of_center_action (hF : 8 ≤ Nat.card F) (σ : MulAut ↥
         apply Units.ext
         simpa using h
     have hcard3 : Nat.card Fˣ ≤ 3 := by
-      haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+      have : Fintype Fˣ := Fintype.ofFinite Fˣ
       obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Fˣ)
       have hdvd : orderOf g ∣ 3 := orderOf_dvd_of_pow_eq_one (h3all g)
       have hord : orderOf g = Nat.card Fˣ := orderOf_eq_card_of_forall_mem_zpowers hg
@@ -810,6 +833,7 @@ private theorem rho_eq_of_center_action (hF : 8 ≤ Nat.card F) (σ : MulAut ↥
     · simp
     · exact hunits (Units.mk0 x hx)
 
+omit [Finite F] in
 private theorem dSp_conj_eq_self {h x : antiSp F} (hh : h ∈ dTor F) (hx : x ∈ dTor F) :
     h * x * h⁻¹ = x := by
   have hcomm := dTor_comm hh hx
@@ -902,7 +926,7 @@ theorem exists_eq_conj_frobAut_pow_of_eight_le (hF : 8 ≤ Nat.card F) (σ : Mul
         exact hx'
       have e1 := semilinear_Xb σ hH hfb' 1 τ y
       have e2 := semilinear_Xb σ hH hfb' 1 τ 1
-      simp only [one_pow, mul_one] at e2
+      simp only [mul_one] at e2
       rw [hτ'] at e1 e2
       rw [e1, e2]
       ring

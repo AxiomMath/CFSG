@@ -37,7 +37,7 @@ theorem even_card_of_isBenderGroup {X : Type*} [Group X] [Finite X]
   have h4 := IsBenderGroup.four_le_card_center hB Q
   have hle : Nat.card (Subgroup.center (Q : Subgroup X)) ≤ Nat.card (Q : Subgroup X) :=
     Subgroup.card_le_card_group _
-  obtain ⟨n, hn⟩ := Q.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := Q.isPGroup.exists_card_eq
   have hn0 : n ≠ 0 := by
     rintro rfl
     rw [pow_zero] at hn
@@ -131,7 +131,7 @@ theorem pCore_split {E₀ : Set K} (hS : Setup K E₀)
   have hOodd : Odd (Nat.card O) := CFSG.ABGLocalTools.odd_card_oddCore
   have hP2 : IsPGroup 2 P := CFSG.pCore_isPGroup
   have hPO : P ⊓ O = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨n, hn⟩ := hP2.exists_card_eq
     rw [hn]
     exact Nat.Coprime.pow_left n (Nat.coprime_two_left.mpr hOodd)

@@ -11,28 +11,34 @@ variable {k E VJ V₀ : Type} [Field k] [Field E] [Algebra k E]
   [AddCommGroup V₀] [Module k V₀]
   [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀]
 
+omit [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀] in
 @[simp] private theorem diagE_apply (s : Eˣ) (v : VJ) (w : V₀) :
     diagE (k := k) s (v, w) = ((s : E) • v, w) := rfl
 
+omit [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀] in
 @[simp] private theorem diagE_inv_apply (s : Eˣ) (v : VJ) (w : V₀) :
     (diagE (k := k) s)⁻¹ (v, w) = (((s⁻¹ : Eˣ) : E) • v, w) := rfl
 
+omit [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀] in
 @[simp] private theorem diagE_fst (s : Eˣ) (p : VJ × V₀) :
     (diagE (k := k) s p).1 = (s : E) • p.1 := by
   obtain ⟨v, w⟩ := p
   rw [diagE_apply]
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 @[simp] private theorem diagY_apply (y : V₀ ≃ₗ[k] V₀) (v : VJ) (w : V₀) :
     diagY y (v, w) = (v, y w) := by
   rw [diagY, LinearEquiv.prodCongr_apply]
   rfl
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 @[simp] private theorem diagY_inv_apply (y : V₀ ≃ₗ[k] V₀) (v : VJ) (w : V₀) :
     (diagY y)⁻¹ (v, w) = (v, y.symm w) := by
   change (diagY y).symm (v, w) = (v, y.symm w)
   rw [diagY, LinearEquiv.prodCongr_symm, LinearEquiv.prodCongr_apply]
   rfl
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 @[simp] private theorem diagY_fst (y : V₀ ≃ₗ[k] V₀) (p : VJ × V₀) :
     (diagY y p).1 = p.1 := by
   obtain ⟨v, w⟩ := p
@@ -44,6 +50,7 @@ variable {k E VJ V₀ : Type} [Field k] [Field E] [Algebra k E]
       (B : VJ ≃ₗ[E] VJ).restrictScalars k from rfl]
   exact LinearMap.restrictScalars_apply k (B : VJ →ₗ[E] VJ) v
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 private theorem det_conj_eq_one (z : (VJ × V₀) ≃ₗ[k] (VJ × V₀))
     (g : SpecialLinearGroup k (VJ × V₀)) :
     LinearEquiv.det (z * SpecialLinearGroup.toLinearEquiv g * z⁻¹) = 1 := by
@@ -54,12 +61,14 @@ private def conjSL (z : (VJ × V₀) ≃ₗ[k] (VJ × V₀))
     (g : SpecialLinearGroup k (VJ × V₀)) : SpecialLinearGroup k (VJ × V₀) :=
   ⟨z * SpecialLinearGroup.toLinearEquiv g * z⁻¹, det_conj_eq_one z g⟩
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 private theorem conjSL_apply (z : (VJ × V₀) ≃ₗ[k] (VJ × V₀))
     (g : SpecialLinearGroup k (VJ × V₀)) (p : VJ × V₀) :
     conjSL z g p = z (g (z⁻¹ p)) := by
   simp only [conjSL, SpecialLinearGroup.coe_mk, LinearEquiv.mul_apply]
   rfl
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 private theorem apply_add (g : SpecialLinearGroup k (VJ × V₀)) (v : VJ) (w : V₀) :
     SpecialLinearGroup.toLinearEquiv g (v, w) =
       SpecialLinearGroup.toLinearEquiv g (v, 0) +
@@ -68,6 +77,7 @@ private theorem apply_add (g : SpecialLinearGroup k (VJ × V₀)) (v : VJ) (w : 
   rw [h]
   exact map_add (SpecialLinearGroup.toLinearEquiv g) (v, (0 : V₀)) ((0 : VJ), w)
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 private theorem modelK1_apply (g : SpecialLinearGroup k (VJ × V₀))
     (hg : g ∈ modelK1 k VJ V₀) (v : VJ) (w : V₀) :
     SpecialLinearGroup.toLinearEquiv g (v, w) =
@@ -80,6 +90,7 @@ private theorem modelK1_apply (g : SpecialLinearGroup k (VJ × V₀))
   rw [h1, h2]
   simp
 
+omit [Module.Finite E VJ] in
 private theorem diagE_smul_inv (s : Eˣ) (v : VJ) :
     (s : E) • (((s⁻¹ : Eˣ) : E) • v) = v := by
   rw [smul_smul]
@@ -87,6 +98,7 @@ private theorem diagE_smul_inv (s : Eˣ) (v : VJ) :
     rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
   rw [h, one_smul]
 
+omit [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem diagE_conj_mem_modelK1 (s : Eˣ) {g : SpecialLinearGroup k (VJ × V₀)}
     (hg : g ∈ modelK1 k VJ V₀) :
     ∃ g' ∈ modelK1 k VJ V₀, SpecialLinearGroup.toLinearEquiv g' =
@@ -111,6 +123,7 @@ theorem diagE_conj_mem_modelK1 (s : Eˣ) {g : SpecialLinearGroup k (VJ × V₀)}
     rw [h0, hg.2 w]
     simp
 
+omit [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem diagE_conj_mem_modelA1 (s : Eˣ) {g : SpecialLinearGroup k (VJ × V₀)}
     (hg : g ∈ modelA1 k VJ V₀) :
     ∃ g' ∈ modelA1 k VJ V₀, SpecialLinearGroup.toLinearEquiv g' =
@@ -134,6 +147,7 @@ theorem diagE_conj_mem_modelA1 (s : Eˣ) {g : SpecialLinearGroup k (VJ × V₀)}
     rw [hg0]
     simp
 
+omit [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem diagE_conj_mem_modelA2 (s : Eˣ) {g : SpecialLinearGroup k (VJ × V₀)}
     (hg : g ∈ modelA2 k VJ V₀) :
     ∃ g' ∈ modelA2 k VJ V₀, SpecialLinearGroup.toLinearEquiv g' =
@@ -176,6 +190,7 @@ theorem diagE_comm_modelJ (s : Eˣ) {g : SpecialLinearGroup k (VJ × V₀)}
   obtain ⟨v, w⟩ := p
   simp only [LinearEquiv.mul_apply, blockSLE_apply, diagE_apply, map_smul]
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem diagY_conj_mem_modelA1 (y : V₀ ≃ₗ[k] V₀) {g : SpecialLinearGroup k (VJ × V₀)}
     (hg : g ∈ modelA1 k VJ V₀) :
     ∃ g' ∈ modelA1 k VJ V₀, SpecialLinearGroup.toLinearEquiv g' =
@@ -198,6 +213,7 @@ theorem diagY_conj_mem_modelA1 (y : V₀ ≃ₗ[k] V₀) {g : SpecialLinearGroup
     rw [hx]
     simp
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem diagY_conj_mem_modelA2 (y : V₀ ≃ₗ[k] V₀) {g : SpecialLinearGroup k (VJ × V₀)}
     (hg : g ∈ modelA2 k VJ V₀) :
     ∃ g' ∈ modelA2 k VJ V₀, SpecialLinearGroup.toLinearEquiv g' =
@@ -218,6 +234,7 @@ theorem diagY_conj_mem_modelA2 (y : V₀ ≃ₗ[k] V₀) {g : SpecialLinearGroup
     rw [diagY_fst]
     exact hg.2 v
 
+omit [Module.Finite k VJ] [Module.Finite k V₀] in
 theorem diagY_comm_modelK1 (y : V₀ ≃ₗ[k] V₀) {g : SpecialLinearGroup k (VJ × V₀)}
     (hg : g ∈ modelK1 k VJ V₀) :
     diagY y * SpecialLinearGroup.toLinearEquiv g =

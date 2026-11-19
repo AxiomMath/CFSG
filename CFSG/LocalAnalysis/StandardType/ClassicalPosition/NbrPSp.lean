@@ -389,11 +389,11 @@ private theorem nbrPSp_alt6_contradiction
         (x := e k) (by rw [MulEquiv.orderOf_eq]; exact h3)
     have hcardC : Nat.card ↥(Subgroup.centralizer ({k} : Set K)) = 9 := by
       rw [hcard_eq, h9]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hP : IsPGroup 3 ↥(Subgroup.centralizer ({k} : Set K)) := by
       apply IsPGroup.of_card (n := 2)
       rw [hcardC]; norm_num
-    haveI := hP.isNilpotent
+    have := hP.isNilpotent
     exact (CFSG.LocalAnalysis.ComponentInitial.not_le_of_isQuasisimple_of_isSolvable
       hJq IsNilpotent.to_isSolvable) hk
   · have h5c : Nat.card ↥(Subgroup.centralizer ({e k} : Set (alternatingGroup (Fin 6)))) = 5 :=
@@ -401,11 +401,11 @@ private theorem nbrPSp_alt6_contradiction
         (by rw [MulEquiv.orderOf_eq]; exact h5)
     have hcardC : Nat.card ↥(Subgroup.centralizer ({k} : Set K)) = 5 := by
       rw [hcard_eq, h5c]
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     have hP : IsPGroup 5 ↥(Subgroup.centralizer ({k} : Set K)) := by
       apply IsPGroup.of_card (n := 1)
       rw [hcardC]; norm_num
-    haveI := hP.isNilpotent
+    have := hP.isNilpotent
     exact (CFSG.LocalAnalysis.ComponentInitial.not_le_of_isQuasisimple_of_isSolvable
       hJq IsNilpotent.to_isSolvable) hk
 
@@ -580,7 +580,7 @@ private lemma nbrPSp_exists_dot_J_ne_zero {n f : ℕ} {a : (Fin n ⊕ Fin n) →
   have hsep := (CFSG.ClassicalGroups.Symplectic.spForm_nondegenerate (m := n)
     (K := GaloisField 2 f)).1
   by_contra h
-  push_neg at h
+  push Not at h
   exact ha (hsep a (by
     intro y
     rw [CFSG.ClassicalGroups.Symplectic.spForm_apply]
@@ -1384,7 +1384,7 @@ private theorem nbrPSpx_J_sp
             Subalgebra.toSubmodule (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) := by
           rw [show LinearMap.mulRight (GaloisField 2 f)
               (1 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) =
-              LinearMap.id from by ext y; simp [LinearMap.mulRight_apply]]
+              LinearMap.id from by ext y; simp]
           exact Submodule.map_id _
         unfold blockDegree at h
         rw [hmap] at h
@@ -1396,7 +1396,7 @@ private theorem nbrPSpx_J_sp
         intro h
         have h00 := congrFun (congrFun h (Sum.inl ⟨0, by omega⟩)) (Sum.inl ⟨0, by omega⟩)
         simp at h00
-      haveI hnt : Nontrivial (Subalgebra.toSubmodule
+      have hnt : Nontrivial (Subalgebra.toSubmodule
           (Algebra.adjoin (GaloisField 2 f) (Units.val '' S))) :=
         ⟨⟨⟨1, h1A⟩, 0, by intro hcon; exact h1ne (congrArg Subtype.val hcon)⟩⟩
       have hpos : 0 < Module.finrank (GaloisField 2 f)
@@ -1830,7 +1830,7 @@ private theorem nbrPSpx_J_sl
 
 private lemma nbrPSpx_mem_sup_central {U : Type} [Group U] {K Z : Subgroup U}
     (hZ : Z ≤ Subgroup.center U) {x : U} : x ∈ K ⊔ Z ↔ ∃ k ∈ K, ∃ z ∈ Z, k * z = x := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   exact Subgroup.mem_sup_of_normal_right
 
 private lemma nbrPSpx_commutatorElement_mul_central_left {U : Type} [Group U]
@@ -1862,7 +1862,7 @@ private lemma nbrPSpx_commutator_sup_central_le {U : Type} [Group U] {K Z : Subg
 
 private lemma nbrPSpx_perfect_le_of_le_sup_center {U : Type} [Group U] {J K Z : Subgroup U}
     (hZ : Z ≤ Subgroup.center U) (hle : J ≤ K ⊔ Z) (hperf : commutator ↥J = ⊤) : J ≤ K := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   have hmap2 : Subgroup.map (Subgroup.subtype J) (commutator ↥J) = ⁅J, J⁆ := by
     have hc : commutator ↥J = ⁅(⊤ : Subgroup ↥J), ⊤⁆ := rfl
     rw [hc, Subgroup.map_commutator]
@@ -2527,11 +2527,11 @@ private lemma nbrPSpx_mul_e_eq_smul {ι F : Type} [Fintype ι] [DecidableEq ι] 
     {A : Subalgebra F (Matrix ι ι F)} {e : Matrix ι ι F} (he : IsPrimIdemIn A e)
     (hdeg : blockDegree A e < 2) : ∀ a ∈ A, ∃ c : F, a * e = c • e := by
   let M : Submodule F (Matrix ι ι F) := (Subalgebra.toSubmodule A).map (LinearMap.mulRight F e)
-  have heM : e ∈ M := ⟨1, by simpa using A.one_mem, by rw [LinearMap.mulRight_apply, one_mul]⟩
+  have heM : e ∈ M := ⟨1, by simp, by rw [LinearMap.mulRight_apply, one_mul]⟩
   have hne : (⟨e, heM⟩ : M) ≠ 0 := by
     intro h
     exact he.2.2.1 (by simpa using congrArg Subtype.val h)
-  haveI : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
+  have : Nontrivial M := ⟨⟨⟨e, heM⟩, 0, hne⟩⟩
   have hpos : 0 < Module.finrank F M := Module.finrank_pos_iff.mpr inferInstance
   have hlt : Module.finrank F M < 2 := hdeg
   have hfin : Module.finrank F M = 1 := by omega
@@ -2658,8 +2658,8 @@ private theorem nbrPSpx_K_sp_ne
       (glBlockCentralizer (CFSG.Open.StatedSp n (GaloisField 2 f)).subtype S ε :
         Subgroup (ggU .PSp n f).K)⁆ :=
     hG_eq.symm ▸ hK'block
-  haveI : Finite (GL (Fin n ⊕ Fin n) (GaloisField 2 f)) := inferInstance
-  haveI : Finite (ggU .PSp n f).K := Subtype.finite
+  have : Finite (GL (Fin n ⊕ Fin n) (GaloisField 2 f)) := inferInstance
+  have : Finite (ggU .PSp n f).K := Subtype.finite
   have hJK'' : J' = K' :=
     CFSG.LocalAnalysis.ComponentInitial.eq_of_isComponentOf_le hJ'ε hK'blockS hJK'
   have hKJ : K = J :=
@@ -2699,8 +2699,8 @@ private lemma nbrPSpx_field_of_prim {n f : ℕ}
       x * e' ≠ 0 → ∃ y ∈ Algebra.adjoin (GaloisField 2 f) (Units.val '' S'),
         y * x * e' = e' := by
   obtain ⟨Kf, hKf, hKa, hKfin, π, hπs, hπk, -⟩ := exists_blockField (S := S') hS' hodd' he'
-  letI : Field Kf := hKf
-  letI : Algebra (GaloisField 2 f) Kf := hKa
+  let : Field Kf := hKf
+  let : Algebra (GaloisField 2 f) Kf := hKa
   exact nbrPSpx_blockField_inv π hπs hπk
 
 private theorem nbrPSpx_K_sp_notSU (n f : ℕ)
@@ -3231,8 +3231,8 @@ private theorem nbrPSpx_K_su_ne2
       (glBlockCentralizer (CFSG.Open.StatedSp n (GaloisField 2 f)).subtype S ε :
         Subgroup (ggU .PSp n f).K)⁆ :=
     hG_eq.symm ▸ hK'block
-  haveI : Finite (GL (Fin n ⊕ Fin n) (GaloisField 2 f)) := inferInstance
-  haveI : Finite (ggU .PSp n f).K := Subtype.finite
+  have : Finite (GL (Fin n ⊕ Fin n) (GaloisField 2 f)) := inferInstance
+  have : Finite (ggU .PSp n f).K := Subtype.finite
   have hJK'' : J' = K' :=
     CFSG.LocalAnalysis.ComponentInitial.eq_of_isComponentOf_le hJ'ε hK'blockS hJK'
   have hKJ : K = J :=
@@ -3333,7 +3333,7 @@ private lemma nbrPSpx_func_factoring {F : Type*} [Field F] {V : Type*} [AddCommG
     exact ⟨0, by rw [hf]; simp⟩
   · obtain ⟨x₀, hx₀⟩ : ∃ x, g x ≠ 0 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hg (by ext x; exact hc x)
     refine ⟨f x₀ * (g x₀)⁻¹, ?_⟩
     ext x
@@ -3351,7 +3351,7 @@ private lemma nbrPSpx_indep_func_surj {F : Type*} [Field F] {V : Type*} [AddComm
     ∀ α β : F, ∃ x, f x = α ∧ g x = β := by
   have hne : ∃ x, g x = 0 ∧ f x ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hker : LinearMap.ker g ≤ LinearMap.ker f := by
       intro x hx
       exact LinearMap.mem_ker.mpr (hc x (LinearMap.mem_ker.mp hx))
@@ -3363,7 +3363,7 @@ private lemma nbrPSpx_indep_func_surj {F : Type*} [Field F] {V : Type*} [AddComm
     exact one_ne_zero ((LinearIndependent.pair_iff.mp h) 1 (-c) hzero).1
   have hne2 : ∃ y, f y = 0 ∧ g y ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have hker : LinearMap.ker f ≤ LinearMap.ker g := by
       intro x hx
       exact LinearMap.mem_ker.mpr (hc x (LinearMap.mem_ker.mp hx))
@@ -3378,9 +3378,9 @@ private lemma nbrPSpx_indep_func_surj {F : Type*} [Field F] {V : Type*} [AddComm
   intro α β
   refine ⟨α • ((f x)⁻¹ • x) + β • ((g y)⁻¹ • y), ?_, ?_⟩
   · rw [map_add, map_smul, map_smul, map_smul, map_smul]
-    simp [smul_smul, smul_eq_mul, inv_mul_cancel₀ hxf, hyf]
+    simp [smul_eq_mul, inv_mul_cancel₀ hxf, hyf]
   · rw [map_add, map_smul, map_smul, map_smul, map_smul]
-    simp [smul_smul, smul_eq_mul, inv_mul_cancel₀ hyg, hxg]
+    simp [smul_eq_mul, inv_mul_cancel₀ hyg, hxg]
 
 private lemma nbrPSpx_pair_swap {F : Type*} [Field F] {M : Type*} [AddCommGroup M]
     [Module F M] (a₁ a₂ : M) (hli : LinearIndependent F ![a₁, a₂]) :
@@ -3511,7 +3511,7 @@ private lemma nbrPSpx_siegel_rank_two {n f : ℕ}
       Submodule.span (GaloisField 2 f) (Set.range ![a₁, a₂]) := by
     congr 1
     ext x
-    simp [Fin.exists_fin_two, or_comm, and_comm]
+    simp [or_comm]
   rw [hsp, finrank_span_eq_card hli]
   simp
 
@@ -3576,7 +3576,7 @@ private lemma nbrPSpx_matTransvGroup_mem {n f : ℕ}
     ∃ c : GaloisField 2 f, (g : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) =
       1 + c • Matrix.vecMulVec v φ := by
   classical
-  haveI : Finite (GL (Fin n ⊕ Fin n) (GaloisField 2 f)) := inferInstance
+  have : Finite (GL (Fin n ⊕ Fin n) (GaloisField 2 f)) := inferInstance
   refine Subgroup.closure_induction (k := {g : GL (Fin n ⊕ Fin n) (GaloisField 2 f) |
       ∃ c : GaloisField 2 f, (g : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 f)) =
         1 + c • Matrix.vecMulVec v φ}) ?_ ?_ ?_ ?_ hg
@@ -3668,7 +3668,7 @@ private lemma nbrPSpx_suGen_mem {n f : ℕ}
   have hXX : X * X = 0 := by
     rw [hX]
     simp only [Matrix.add_mul, Matrix.mul_add, Matrix.vecMulVec_mul_vecMulVec, h1, h2, h3, h4,
-      zero_smul, Matrix.vecMulVec_zero, add_zero, zero_add]
+      zero_smul, Matrix.vecMulVec_zero, add_zero]
   have hXX2 : X + X = 0 := by
     ext i j
     exact CharTwo.add_self_eq_zero (X i j)
@@ -4098,13 +4098,13 @@ private lemma nbrPSpx_finrank_range_add_of_orth {ι F : Type*} [Fintype ι] [Dec
   have hp : LinearMap.range (Matrix.toLin' a) ≤ LinearMap.range (Matrix.toLin' (a + b)) := by
     rintro _ ⟨y, rfl⟩
     refine ⟨Matrix.toLin' a y, ?_⟩
-    simp only [Matrix.toLin'_apply, Matrix.add_mul, Matrix.add_mulVec, Matrix.mulVec_mulVec,
-      ha.eq, hba, Matrix.zero_mulVec, add_zero]
+    simp only [Matrix.toLin'_apply, Matrix.add_mul, Matrix.mulVec_mulVec,
+      ha.eq, hba, add_zero]
   have hq : LinearMap.range (Matrix.toLin' b) ≤ LinearMap.range (Matrix.toLin' (a + b)) := by
     rintro _ ⟨y, rfl⟩
     refine ⟨Matrix.toLin' b y, ?_⟩
-    simp only [Matrix.toLin'_apply, Matrix.add_mul, Matrix.add_mulVec, Matrix.mulVec_mulVec,
-      hb.eq, hab, Matrix.zero_mulVec, zero_add]
+    simp only [Matrix.toLin'_apply, Matrix.add_mul, Matrix.mulVec_mulVec,
+      hb.eq, hab, zero_add]
   have hsup : LinearMap.range (Matrix.toLin' (a + b)) =
       LinearMap.range (Matrix.toLin' a) ⊔ LinearMap.range (Matrix.toLin' b) := by
     refine le_antisymm ?_ (sup_le hp hq)
@@ -4630,7 +4630,7 @@ private lemma nbrPSpx_dualPair_ne
       (CFSG.Open.StatedSp n (GaloisField 2 f)).subtype ≤
       (Subgroup.centralizer S').comap (CFSG.Open.StatedSp n (GaloisField 2 f)).subtype :=
     Subgroup.comap_mono (Subgroup.centralizer_le hSe)
-  haveI : Finite (ggU .PSp n f).K := Subtype.finite
+  have : Finite (ggU .PSp n f).K := Subtype.finite
   have hK'compS : IsComponentOf K' ((Subgroup.centralizer S).comap
       (CFSG.Open.StatedSp n (GaloisField 2 f)).subtype) :=
     IsComponentOf.of_le_of_le hK'comp hK'H hSe'

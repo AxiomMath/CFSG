@@ -238,7 +238,7 @@ private theorem csDfs_step {n w : ℕ} {G : ℕ → ℕ} {nG : ℕ} {O : ℕ →
   exact h1
 
 private theorem csImg {n : ℕ} (σ : Perm (Fin n)) {i : ℕ} (hi : i < n) :
-    CFSG.KC.Misc.ClosW.img σ i = σ ⟨i, hi⟩ := dif_pos hi
+    CFSG.KC.Misc.ClosW.img σ i = σ ⟨i, hi⟩ := dite_eq_left hi
 
 private theorem csImg_lt {n w : ℕ} (hw : n < 2 ^ w) (σ : Perm (Fin n)) (i : ℕ) :
     CFSG.KC.Misc.ClosW.img σ i < 2 ^ w := by

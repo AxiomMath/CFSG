@@ -65,7 +65,7 @@ theorem langSetup_isAlgebraic_of_zmod_two
   have : FiniteDimensional (ZMod 2) (IntermediateField.adjoin (ZMod 2) {c}) :=
     IntermediateField.adjoin.finiteDimensional hint
   have : Finite (IntermediateField.adjoin (ZMod 2) {c}) := Module.finite_of_finite (ZMod 2)
-  letI : Fintype (IntermediateField.adjoin (ZMod 2) {c}) := Fintype.ofFinite _
+  let : Fintype (IntermediateField.adjoin (ZMod 2) {c}) := Fintype.ofFinite _
   have hcard0 : Fintype.card (IntermediateField.adjoin (ZMod 2) {c}) =
       Fintype.card (ZMod 2) ^ Module.finrank (ZMod 2) (IntermediateField.adjoin (ZMod 2) {c}) :=
     Module.card_eq_pow_finrank

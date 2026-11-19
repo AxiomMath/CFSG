@@ -19,11 +19,11 @@ private theorem card_le_mul_card_inf_ker_of_cyclic_image {G C : Type*} [Group G]
   have hβ : β.range ≤ Subgroup.zpowers c := by
     rintro _ ⟨x, rfl⟩
     exact hα x x.2
-  haveI : Finite β.range :=
+  have : Finite β.range :=
     (MonoidHom.finite_iff_finite_ker_range β).mp (inferInstance : Finite A) |>.2
   have hrange : Nat.card β.range ≤ p := by
     classical
-    haveI : Fintype β.range := Fintype.ofFinite β.range
+    have : Fintype β.range := Fintype.ofFinite β.range
     rcases eq_or_ne β.range ⊥ with hbot | hne
     · rw [hbot, Subgroup.card_bot]; exact hp
     · obtain ⟨y₀, hy₀⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
@@ -105,8 +105,8 @@ theorem card_le_sq_of_two_cyclic_layers {G : Type*} [Group G] {p : ℕ} (hp : 0 
     (hgen : ∀ s ∈ S, ∃ k : ℤ, g ^ k * s ∈ J) (hJ : J ≤ N ⊔ Subgroup.zpowers φ₀) (hAS : A ≤ S)
     (hexp : ∀ x ∈ A, x ^ p = 1) (hAN : A ⊓ N = ⊥) : Nat.card A ≤ p ^ 2 := by
   by_cases hfin : Finite A
-  · letI := hfin
-    haveI : (J.subgroupOf S).Normal := hJn
+  · let := hfin
+    have : (J.subgroupOf S).Normal := hJn
     have hcyc : ∀ x ∈ A.subgroupOf S,
         QuotientGroup.mk' (J.subgroupOf S) x ∈
           Subgroup.zpowers (QuotientGroup.mk' (J.subgroupOf S) ⟨g, hg⟩) := by
@@ -122,7 +122,7 @@ theorem card_le_sq_of_two_cyclic_layers {G : Type*} [Group G] {p : ℕ} (hp : 0 
       exact h2.symm ▸ Subgroup.zpow_mem_zpowers _ _
     have hA' : ∀ x ∈ A.subgroupOf S, x ^ p = 1 := fun x hx =>
       Subtype.ext (by simpa using hexp x.1 hx)
-    haveI : Finite (A.subgroupOf S) :=
+    have : Finite (A.subgroupOf S) :=
       Finite.of_equiv A (Subgroup.subgroupOfEquivOfLe hAS).toEquiv.symm
     have h1 : Nat.card A ≤ p * Nat.card (A ⊓ J : Subgroup G) := by
       have h := card_le_mul_card_inf_ker_of_cyclic_image hp hA'
@@ -133,7 +133,7 @@ theorem card_le_sq_of_two_cyclic_layers {G : Type*} [Group G] {p : ℕ} (hp : 0 
       rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAS).toEquiv,
         Nat.card_congr (Subgroup.subgroupOfEquivOfLe (inf_le_left.trans hAS)).toEquiv] at h
     have h2 : Nat.card (A ⊓ J : Subgroup G) ≤ p := by
-      haveI : Finite (A ⊓ J : Subgroup G) :=
+      have : Finite (A ⊓ J : Subgroup G) :=
         Finite.of_injective (Subgroup.inclusion inf_le_left)
           (Subgroup.inclusion_injective inf_le_left)
       have hmap : (N ⊔ Subgroup.zpowers φ₀).map (QuotientGroup.mk' N) =
@@ -150,7 +150,7 @@ theorem card_le_sq_of_two_cyclic_layers {G : Type*} [Group G] {p : ℕ} (hp : 0 
           show A ⊓ J ⊓ N = A ⊓ N ⊓ J by ac_rfl, hAN, bot_inf_eq]
       rwa [hbot, Subgroup.card_bot, mul_one] at h
     exact le_trans h1 (by simpa [pow_two] using Nat.mul_le_mul_left p h2)
-  · haveI : Infinite A := not_finite_iff_infinite.mp hfin
+  · have : Infinite A := not_finite_iff_infinite.mp hfin
     simp
 
 end CFSG

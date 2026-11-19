@@ -132,7 +132,7 @@ theorem lt3_of_sylow (h : P71Env Gs n N u) (P : Sylow 3 G)
     calc Nat.card ↥R ≤ Nat.card ↥(Q : Subgroup G) := Subgroup.card_le_of_le hQ
       _ = Nat.card ↥(P : Subgroup G) := by
         rw [Sylow.card_eq_multiplicity Q, Sylow.card_eq_multiplicity P]
-  have h2 := T6.card_pSub_C_le hctx h.q₁ h.q₂ hP₀c hP P.isPGroup'
+  have h2 := T6.card_pSub_C_le hctx h.q₁ h.q₂ hP₀c hP P.isPGroup
   have h3 := card_F_le_sq h
   have h4 := sq_lt_three_pow n
   calc Nat.card ↥R ≤ N.q₁ * N.q₂ * Nat.card ↥P₀ := h1.trans h2

@@ -95,6 +95,7 @@ section OrthMatrix
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
   {Q' : QuadraticForm K (ι → K)} {X : Subgroup (GL ι K)}
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem exists_perp_polar_one (hQ : (polarBilin Q').Nondegenerate) {u w : ι → K} (hu0 : u ≠ 0)
     (hw : ¬ ∃ μ : K, w = μ • u) : ∃ v : ι → K, polar Q' v u = 0 ∧ polar Q' v w = 1 := by
   classical
@@ -130,6 +131,7 @@ theorem exists_perp_polar_one (hQ : (polarBilin Q').Nondegenerate) {u w : ι →
   · rw [polar_smul_left_eq]
     exact inv_mul_cancel₀ hv'w
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem eichler_smul_self {u : ι → K} (hu : Q' u = 0) (μ : K) : eichler Q' u (μ • u) = 1 := by
   have hw : polar Q' u (μ • u) = 0 := by
     rw [polar_smul_right_eq, polar_self_eq_zero hu, mul_zero]
@@ -635,7 +637,7 @@ theorem not_omegaPlusNat_of_three_le (h34 : Stroth34Statement) (hRoot : Stroth31
     (hx : x ∈ LB M Q B ⊓ X) (hxQ : x ∉ Q) {m : ℕ} (hm : 3 ≤ m) : ¬ OmegaPlusNat hc x m := by
   classical
   rintro ⟨K, fK, finK, hK, hnat⟩
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hs5 := hs.toSec5
@@ -643,7 +645,7 @@ theorem not_omegaPlusNat_of_three_le (h34 : Stroth34Statement) (hRoot : Stroth31
   have hsx : Sec5Hyp hc n x := ⟨hs5.width, hs5.n_gt, hs5.noA2, hs5.gen, hxL, hxQ⟩
   have hYR : Y ≤ Rt M (LB M Q B) x := le_sup_right.trans (HS9.one_part_a hc hsplit h4 hxL hx.2)
   have hnatSO : SpNat hc x ∨ OmegaNat hc x := Or.inr ⟨K, fK, finK, hK, Or.inl ⟨m, hm, hnat⟩⟩
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hdim : Module.finrank K (Fin m ⊕ Fin m → K) = 2 * m := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
     ring
@@ -684,7 +686,7 @@ theorem not_omegaMinusNat_of_two_le (h34 : Stroth34Statement) (hRoot : Stroth310
     (hx : x ∈ LB M Q B ⊓ X) (hxQ : x ∉ Q) {m : ℕ} (hm : 2 ≤ m) : ¬ OmegaMinusNat hc x m := by
   classical
   rintro ⟨K, fK, finK, hK, b, c, hirr, hnat⟩
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hs5 := hs.toSec5
@@ -693,7 +695,7 @@ theorem not_omegaMinusNat_of_two_le (h34 : Stroth34Statement) (hRoot : Stroth310
   have hYR : Y ≤ Rt M (LB M Q B) x := le_sup_right.trans (HS9.one_part_a hc hsplit h4 hxL hx.2)
   have hnatSO : SpNat hc x ∨ OmegaNat hc x :=
     Or.inr ⟨K, fK, finK, hK, Or.inr ⟨m, b, c, hm, hirr, hnat⟩⟩
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   have hdim : Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) = 2 * m := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum, Fintype.card_fin,
       Fintype.card_fin]
@@ -748,7 +750,7 @@ theorem not_spMNat_of_two_le (h34 : Stroth34Statement) (hRoot : Stroth310RootSta
     (hx : x ∈ LB M Q B ⊓ X) (hxQ : x ∉ Q) {m : ℕ} (hm : 2 ≤ m) : ¬ SpMNat hc x m := by
   classical
   rintro ⟨K, fK, finK, hK, hnat⟩
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hs5 := hs.toSec5

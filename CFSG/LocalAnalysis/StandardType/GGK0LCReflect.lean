@@ -114,7 +114,7 @@ theorem exists_refl_node
     fun γ => lk0xlcrefl_shift_node_zero K j hj hz γ
   refine ⟨simple τ j, hmem, ?_, ?_, ?_⟩
   · rw [lk0xlcrefl_act_node K j hshift]
-    simp only [simpleAff, Prod.fst, Prod.snd]
+    simp only [simpleAff]
     rw [reflect_single_self τ j]
     simp
   · exact lk0xlcrefl_simple_mul_self j
@@ -156,7 +156,7 @@ theorem exists_refl_ext
       exact absurd (Finset.mem_univ i) hi
   refine ⟨w * simple τ i * w⁻¹, hmem, ?_, ?_, ?_⟩
   · rw [lk0xlcrefl_act_ext K h0 hwi hz]
-    simp only [extAff, Prod.fst, Prod.snd]
+    simp only [extAff]
     rw [hcneg]
     have h1 : -theta τ - (-2 : ℤ) • theta τ = theta τ := by module
     rw [h1]
@@ -171,8 +171,7 @@ theorem exists_refl_ext
     · show IsRoot τ ((w * simple τ i * w⁻¹) • a.1)
       exact IsRoot.smul ha _
     · rw [lk0xlcrefl_act_ext K h0 hwi hz]
-      simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.add_apply, Prod.fst, Prod.snd,
-        theta]
+      simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, theta]
       ring_nf
       linarith [hi0]
 

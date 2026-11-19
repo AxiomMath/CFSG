@@ -127,7 +127,7 @@ theorem radical_Sylow_normalizer_perfect_residual_supplement {B : Type*} [Group 
       exact mem_top b
     rw [normal_mul, Set.mem_mul] at hb
     obtain ⟨l, hl, t, ht, rfl⟩ := hb
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨t, ht⟩
     have hk' : t ^ r ^ k = 1 := congrArg Subtype.val hk
     refine ⟨k, ?_⟩
     rw [← QuotientGroup.eq_one_iff, QuotientGroup.mk_pow, QuotientGroup.mk_mul,

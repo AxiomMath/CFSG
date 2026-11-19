@@ -32,7 +32,7 @@ private theorem ggKGSo_padicValNat_prodA {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤
     padicValNat p (q ^ 36 * (q ^ 12 - 1) * (q ^ 9 - 1) * (q ^ 8 - 1) * (q ^ 6 - 1) *
       (q ^ 5 - 1) * (q ^ 2 - 1)) =
       6 * padicValNat p (q - 1) + padicValNat p 51840 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp_not_dvd_q : ¬ p ∣ q := by
     intro hd
     have h1 : p ∣ q - (q - 1) := Nat.dvd_sub hd hpq
@@ -117,7 +117,7 @@ theorem padicValNat_card_adjointGroup_split
     (hpq : p ∣ Nat.card K - 1) :
     padicValNat p (Nat.card (adjointGroup .E6 K)) =
       6 * padicValNat p (Nat.card K - 1) + padicValNat p 51840 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq1 : 1 ≤ Nat.card K := Nat.card_pos
   have hq2 : 1 < Nat.card K := Finite.one_lt_card
   have hp_not_dvd_three : ¬ p ∣ 3 := by

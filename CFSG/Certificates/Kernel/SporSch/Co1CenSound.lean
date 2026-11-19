@@ -42,7 +42,7 @@ theorem centreOK_unpack (A B X p : Nat) :
       exact ⟨k, hk, by simpa using he⟩
   have hn : ∀ c : Bool, (if c = true then false else true) = !c := fun c => by cases c <;> rfl
   unfold co1SylowCentreOK cenPtK
-  simp only [mul_unpackW, hb, hpow, MatL.bAnd_eq, bIf_eq, hn, hany]
+  simp only [mul_unpackW, hb, hpow, bIf_eq, hn, hany]
   cases eqK (mulWK p A) (mulWK A p) <;> cases eqK (mulWK p B) (mulWK B p) <;>
     cases CFSG.KC.Enum.allN 5 (fun k => !eqK p (powWK X k)) <;> simp
 

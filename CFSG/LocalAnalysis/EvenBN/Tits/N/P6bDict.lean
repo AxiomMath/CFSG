@@ -147,7 +147,7 @@ theorem conj_transfer {g : G} (hg : g ∈ Hg d) (V₁ : Subgroup ↥d.s56V) :
   exact star_apply_val hg u
 
 theorem irr_transfer (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀)
-    {V₁ : Subgroup ↥d.s56V} (hZV₁ : Zv d z₀ ≤ V₁)
+    {V₁ : Subgroup ↥d.s56V} (_hZV₁ : Zv d z₀ ≤ V₁)
     (hirr : ∀ U : Subgroup ↥d.s56V, Zv d z₀ ≤ U → U ≤ V₁ →
       (∀ σ ∈ normalClosure ({xB h49 hd} : Set ↥(Hs d)), ∀ u ∈ U, (σ : MulAut ↥d.s56V) u ∈ U) →
         U = Zv d z₀ ∨ U = V₁) :

@@ -20,6 +20,7 @@ variable (D : QuotientData (z := z) hN)
 noncomputable def sigma1Commutator (D : QuotientData (z := z) hN) : Subgroup G :=
   ⁅(Subgroup.zpowers (sigma1Nine D)).map (H z).subtype, J z⁆
 
+omit [Finite G] hN in
 theorem card_CJ_eq_card_centralizerJ (x : ↥(H z)) :
     Nat.card (CJ z (x : G)) = Nat.card (centralizerJ x) := by
   let C : Subgroup G := Subgroup.centralizer ({(x : G)} : Set G) ⊓ J z
@@ -28,6 +29,8 @@ theorem card_CJ_eq_card_centralizerJ (x : ↥(H z)) :
   exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe
     (inf_le_right : C ≤ J z)).toEquiv).symm
 
+omit hN in
+omit [Finite G] in
 theorem conjV_mul_mem_J (h : Tim79a.ParrottHyp z) {x j : ↥(H z)}
     (hj : (j : G) ∈ J z) : conjV h (x * j) = conjV h x := by
   have hker : j ∈ (conjV h).ker :=
@@ -35,6 +38,8 @@ theorem conjV_mul_mem_J (h : Tim79a.ParrottHyp z) {x j : ↥(H z)}
   have hj1 : conjV h j = 1 := MonoidHom.mem_ker.mp hker
   rw [map_mul, hj1, mul_one]
 
+omit hN in
+omit [Finite G] in
 theorem conjV_mem_J_mul (h : Tim79a.ParrottHyp z) {x j : ↥(H z)}
     (hj : (j : G) ∈ J z) : conjV h (j * x) = conjV h x := by
   have hker : j ∈ (conjV h).ker :=

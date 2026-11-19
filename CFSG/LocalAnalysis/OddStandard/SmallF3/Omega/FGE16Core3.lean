@@ -84,7 +84,7 @@ theorem fg_centralizer_bot (hB : IsElemAb2 B 4) (hdim : Module.finrank (ZMod 3) 
   rcases fg_card_centralizer_sixteen hf5 B hB16 hf with h | h
   · exact Subgroup.eq_bot_of_card_eq _ h
   · exfalso
-    haveI : Finite ↥B := Nat.finite_of_card_ne_zero (by omega)
+    have : Finite ↥B := Nat.finite_of_card_ne_zero (by omega)
     have heq : B ⊓ Subgroup.centralizer {f} = B :=
       Subgroup.eq_of_le_of_card_ge inf_le_left (by rw [h, hB16])
     have hBc : B ≤ Subgroup.centralizer {f} := by
@@ -107,7 +107,7 @@ theorem fg_perm_ne_self (hB : IsElemAb2 B 4) (hdim : Module.finrank (ZMod 3) V =
   have hsq : ∀ g, χ g * χ g = 1 := fgWt_sq (fgT B) (fgT_sq B hB) hχ
   have hnt : ∃ g, χ g ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hχ1 (funext h)
   obtain ⟨H, hHB, hH8, hHmem⟩ := fg_exists_kernel B hB16 χ hone hmul hsq hnt
   have hcj : ∀ g : ↥B, χ (fgCj B f hf g) = χ g := by

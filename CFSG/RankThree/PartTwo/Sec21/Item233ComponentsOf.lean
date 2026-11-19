@@ -65,7 +65,7 @@ theorem exists_mem_map_conj_eq [Finite G] {p : ℕ} [Fact p.Prime] {A M A' : Sub
   obtain ⟨Q, hQ⟩ := (hAp.comap_subtype (K := M)).exists_le_sylow
   obtain ⟨Q', hQ'⟩ := (hA'p.comap_subtype (K := M)).exists_le_sylow
   obtain ⟨m', hm'⟩ := MulAction.exists_smul_eq M Q' Q
-  obtain ⟨S, hS⟩ := (Q.isPGroup'.map M.subtype).exists_le_sylow
+  obtain ⟨S, hS⟩ := (Q.isPGroup.map M.subtype).exists_le_sylow
   have hAS : A ≤ S := fun a ha => hS ⟨⟨a, hAM ha⟩, hQ (Subgroup.mem_subgroupOf.mpr ha), rfl⟩
   have hA'S : A'.map (MulAut.conj (m' : G)).toMonoidHom ≤ S := by
     rintro _ ⟨a, ha, rfl⟩

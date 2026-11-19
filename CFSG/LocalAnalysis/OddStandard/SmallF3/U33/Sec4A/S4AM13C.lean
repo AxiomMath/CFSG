@@ -188,8 +188,8 @@ theorem m13_ncard_conjIn_M_mod (h : L41GPh10 t L S x₁ x₂ lam rho) :
     exact ⟨n * m, Subgroup.mul_mem _ hn hm, by group⟩
   have hΩ' : ∀ n ∈ zpowers rho, ∀ x ∈ Ω, n * x * n⁻¹ ∈ Ω := fun n hn x hx =>
     hΩ n (Subgroup.zpowers_le.mpr hρM hn) x hx
-  letI : MulAction ↥(zpowers rho) ↥Ω := MulAction.compHom ↥Ω (conjAct (zpowers rho) Ω hΩ')
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : MulAction ↥(zpowers rho) ↥Ω := MulAction.compHom ↥Ω (conjAct (zpowers rho) Ω hΩ')
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 ↥(zpowers rho) := by
     have hc : Nat.card ↥(zpowers rho) = 3 ^ 1 := by
       rw [Nat.card_zpowers, h.ord_rho]
@@ -228,9 +228,9 @@ theorem m13_ncard_conjIn_M_mod (h : L41GPh10 t L S x₁ x₂ lam rho) :
     subst hk0
     exact Subtype.ext (mul_one t)
   have hfix : Nat.card (MulAction.fixedPoints ↥(zpowers rho) ↥Ω) = 1 := by
-    haveI : Nonempty (MulAction.fixedPoints ↥(zpowers rho) ↥Ω) :=
+    have : Nonempty (MulAction.fixedPoints ↥(zpowers rho) ↥Ω) :=
       ⟨⟨⟨t, htΩ⟩, MulAction.mem_fixedPoints.mpr hfix_t⟩⟩
-    haveI : Subsingleton (MulAction.fixedPoints ↥(zpowers rho) ↥Ω) :=
+    have : Subsingleton (MulAction.fixedPoints ↥(zpowers rho) ↥Ω) :=
       ⟨fun a b => Subtype.ext ((hfix_unique a.1 (MulAction.mem_fixedPoints.mp a.2)).trans
         (hfix_unique b.1 (MulAction.mem_fixedPoints.mp b.2)).symm)⟩
     exact Nat.card_unique
@@ -292,8 +292,8 @@ theorem m13_card_M (h : L41GPh10 t L S x₁ x₂ lam rho) :
   · exact ⟨10, by rw [h1]; norm_num⟩
 
 theorem l41_mbasic_of (h : L41GPh12 t L S x₁ x₂ lam rho) : L41MBasic t x₁ x₂ lam rho where
-  orbit_tk := fun k hk => m13_orbit_tk h.toL41GPh10 hk
-  cent_tk := fun k hk => m13_cent_tk h.toL41GPh10 hk
+  orbit_tk := fun _k hk => m13_orbit_tk h.toL41GPh10 hk
+  cent_tk := fun _k hk => m13_cent_tk h.toL41GPh10 hk
   card_invol_tR := m13_card_X h.toL41GPh10
   normal_R := m13_normal_R h.toL41GPh10
   normal_Y := m13_normal_Y h.toL41GPh10

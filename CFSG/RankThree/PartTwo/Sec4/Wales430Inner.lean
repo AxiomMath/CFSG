@@ -12,6 +12,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_one_of_forall_conj_eq {L : Subgroup G} (hcen : Subgroup.center ↥L = ⊥) {z : G}
     (hzL : z ∈ L) (hz : ∀ l ∈ L, z * l * z⁻¹ = l) : z = 1 := by
   have hmem : (⟨z, hzL⟩ : ↥L) ∈ Subgroup.center ↥L := by
@@ -25,6 +26,7 @@ theorem eq_one_of_forall_conj_eq {L : Subgroup G} (hcen : Subgroup.center ↥L =
   rw [hcen, Subgroup.mem_bot] at hmem
   exact congrArg Subtype.val hmem
 
+omit [Finite G] in
 theorem exists_inner {A L : Subgroup G} (hAL : A ≤ Subgroup.normalizer (L : Set G))
     (hinn : ∀ σ : MulAut ↥L, orderOf σ = 3 → σ ∈ (MulAut.conj : ↥L →* MulAut ↥L).range)
     {x : G} (hxA : x ∈ A) (hx3 : x ^ 3 = 1) :

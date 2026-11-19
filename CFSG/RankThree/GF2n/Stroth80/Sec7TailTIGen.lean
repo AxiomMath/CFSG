@@ -12,6 +12,7 @@ open Subgroup CFSG.CGT.Timmesfeld75
 
 variable {Y : Type*} [Group Y] [Finite Y] {V N : Subgroup Y}
 
+omit [Finite Y] in
 theorem conjSubgroup_iSup_eq' {ι : Sort*} (k : Y) (s : ι → Subgroup Y) :
     conjSubgroup k (⨆ i, s i) = ⨆ i, conjSubgroup k (s i) :=
   Subgroup.map_iSup (MulAut.conj k).toMonoidHom s

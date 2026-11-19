@@ -30,11 +30,13 @@ variable {H : Type} [Group H] [Finite H]
 @[expose] noncomputable def f112saFive (L : Subgroup H) : Subgroup H :=
   Subgroup.closure {x | x ∈ L ∧ orderOf x = 5}
 
+omit [Finite H] in
 theorem f112sa_card_oTwoQuot_vs3 {L : Subgroup H} (h : VS3 L) :
     Nat.card (oTwoQuot ↥L) = 6 := by
   obtain ⟨e⟩ := h
   rw [Nat.card_congr e.toEquiv, CFSG.Quasithin.F112W.perm3_card]
 
+omit [Finite H] in
 theorem f112sa_three_dvd_card {L : Subgroup H} (h : VS3 L) : 3 ∣ Nat.card ↥L := by
   have hcard := Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.Open.pCore 2 ↥L)
   rw [f112sa_card_oTwoQuot_vs3 h] at hcard
@@ -232,7 +234,7 @@ theorem f112sa_quot_P2_two {L1 L2 S : Subgroup H}
 theorem f112sa_mem_L2_of_odd {L1 L2 S : Subgroup H}
     (hF : F112Hyp L1 L2 S) (h1 : VS3 L1) {x : H}
     (hx : x ∈ f112P2 L1 L2 S) (hodd : Odd (orderOf x)) : x ∈ L2 := by
-  haveI : (L2.subgroupOf (f112P2 L1 L2 S)).Normal := f112sa_L2_normal_P2 hF
+  have : (L2.subgroupOf (f112P2 L1 L2 S)).Normal := f112sa_L2_normal_P2 hF
   have hmem : (⟨x, hx⟩ : ↥(f112P2 L1 L2 S)) ∈ L2.subgroupOf (f112P2 L1 L2 S) :=
     CFSG.QuasiDihedralFusion.mem_of_odd_orderOf_of_isPGroup_quotient _
       (f112sa_quot_P2_two hF h1) (by rwa [Subgroup.orderOf_mk])
@@ -250,7 +252,7 @@ theorem f112sa_ncard_neighborSet_baseA {L1 L2 S : Subgroup H}
     ((f112Gold L1 L2 S).treeGraph.neighborSet (baseA (f112Gold L1 L2 S))).ncard = 3 := by
   simpa using f112sa_ncard_neighborSet_alpha hF h1 hn h2 (1 : (f112Gold L1 L2 S).Universal)
 
-theorem f112sa_exists_orderThree_L1 {L1 L2 S : Subgroup H} (h1 : VS3 L1) :
+theorem f112sa_exists_orderThree_L1 {L1 _L2 _S : Subgroup H} (h1 : VS3 L1) :
     ∃ y ∈ L1, orderOf y = 3 := by
   obtain ⟨y, hy3⟩ := exists_prime_orderOf_dvd_card' 3 (f112sa_three_dvd_card h1)
   refine ⟨(y : H), y.2, ?_⟩
@@ -306,6 +308,7 @@ theorem f112sa_orderThree_not_fixed_of_hyp111R {L1 L2 S : Subgroup H}
   have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h23
   norm_num at this
 
+omit [Finite H] in
 theorem f112sa_transitive_of_prime_order {p : ℕ} [hp : Fact p.Prime]
     {L1 L2 S : Subgroup H} {E : Subgroup (f112Gold L1 L2 S).Universal}
     {v : Vtx (f112Gold L1 L2 S)} {x : (f112Gold L1 L2 S).Universal}
@@ -321,8 +324,8 @@ theorem f112sa_transitive_of_prime_order {p : ℕ} [hp : Fact p.Prime]
     refine Set.finite_of_ncard_ne_zero ?_
     rw [hcard]
     exact hp.out.pos.ne'
-  haveI : Finite (X.treeGraph.neighborSet v) := hfin.to_subtype
-  haveI : Fintype (X.treeGraph.neighborSet v) := Fintype.ofFinite _
+  have : Finite (X.treeGraph.neighborSet v) := hfin.to_subtype
+  have : Fintype (X.treeGraph.neighborSet v) := Fintype.ofFinite _
   let e : Equiv.Perm (X.treeGraph.neighborSet v) :=
   { toFun := fun w => ⟨x • w.1, by
         have h := (adj_smul X x v w.1).2 w.2
@@ -395,7 +398,7 @@ theorem f112sa_transitive_alpha {L1 L2 S : Subgroup H}
   have hR : Hyp111R L1 L2 S :=
     hyp111R_of_isL2Quot (m := 1) (n := n) (by norm_num) (by omega) hF.1
       (isL2Quot_of_VS3 h1) h2
-  obtain ⟨y, hyL, hy3⟩ := f112sa_exists_orderThree_L1 (L2 := L2) (S := S) h1
+  obtain ⟨y, hyL, hy3⟩ := f112sa_exists_orderThree_L1 (_L2 := L2) (_S := S) h1
   let y' : ↥(f112P1 L1 L2 S) := ⟨y, Subgroup.mem_sup_left hyL⟩
   have hy'3 : orderOf y' = 3 := by
     rw [Subgroup.orderOf_mk]
@@ -415,6 +418,7 @@ theorem f112sa_transitive_alpha {L1 L2 S : Subgroup H}
     (fun w hw => f112sa_orderThree_not_fixed_of_hyp111R hF hR h1 hyL hy'3 hw)
     (f112sa_ncard_neighborSet_baseA hF h1 hn h2)
 
+omit [Finite H] in
 private theorem f112sa_ofB_mem_EOdd {L1 L2 S : Subgroup H} {z : H}
     (hz : z ∈ oTwoRes L2) (hzP : z ∈ f112P2 L1 L2 S) :
     (f112Gold L1 L2 S).ofB ⟨z, hzP⟩ ∈ f112EOdd L1 L2 S := by
@@ -569,6 +573,7 @@ theorem f112sa_locTransBase {L1 L2 S : Subgroup H}
           (baseB (f112Gold L1 L2 S)), g • a = b) :=
   ⟨f112sa_transitive_alpha hF h1 hn h2, f112sa_transitive_beta hF h1 hn h2⟩
 
+omit [Finite H] in
 theorem f112sa_preservesParts (L1 L2 S : Subgroup H) :
     PreservesParts (f112Gold L1 L2 S).treeGraph (f112Gold L1 L2 S).Universal := by
   let X := f112Gold L1 L2 S
@@ -587,6 +592,7 @@ theorem f112sa_preservesParts (L1 L2 S : Subgroup H) :
   rw [mem_f112PartsSubgroup] at hg
   exact hg v
 
+omit [Finite H] in
 theorem f112sa_preservesParts_E (L1 L2 S : Subgroup H) :
     PreservesParts (f112Gold L1 L2 S).treeGraph ↥(f112EOdd L1 L2 S) := by
   let X := f112Gold L1 L2 S
@@ -630,6 +636,7 @@ theorem f112sa_sup_edgeStab {L1 L2 S : Subgroup H}
     (f112sa_preservesParts L1 L2 S) (adj_baseA_baseB (f112Gold L1 L2 S))
     (f112sa_edgeTransitive hF h1 hn h2)
 
+omit [Finite H] in
 theorem f112sa_edgeStab_le_normalizer (L1 L2 S : Subgroup H) :
     (MulAction.stabilizer (f112Gold L1 L2 S).Universal
         (baseA (f112Gold L1 L2 S)) ⊓
@@ -690,9 +697,11 @@ theorem f112sa_EOdd_normal {L1 L2 S : Subgroup H}
   rw [← f112sa_sup_edgeStab hF h1 hn h2]
   exact sup_le Subgroup.le_normalizer (f112sa_edgeStab_le_normalizer L1 L2 S)
 
+omit [Finite H] in
 theorem f112saFive_le (L : Subgroup H) : f112saFive L ≤ L :=
   (Subgroup.closure_le L).mpr fun _ hx => hx.1
 
+omit [Finite H] in
 theorem f112saFive_subgroupOf_normal (L : Subgroup H) :
     ((f112saFive L).subgroupOf L).Normal := by
   have hconj : ∀ g ∈ L, ∀ y ∈ f112saFive L, g * y * g⁻¹ ∈ f112saFive L := by
@@ -705,7 +714,7 @@ theorem f112saFive_subgroupOf_normal (L : Subgroup H) :
             (MulAut.conj g).injective z
           simpa [MulAut.conj_apply] using hh
         rw [h, hz.2]
-    | one => simpa using Subgroup.one_mem (f112saFive L)
+    | one => simp
     | mul a b _ _ iha ihb => simpa [mul_assoc] using Subgroup.mul_mem _ iha ihb
     | inv a _ iha => simpa [mul_assoc] using Subgroup.inv_mem _ iha
   refine ⟨fun x hx g => ?_⟩
@@ -714,14 +723,14 @@ theorem f112saFive_subgroupOf_normal (L : Subgroup H) :
 
 theorem f112saFive_sup_pCore {L : Subgroup H} (h : VA5 L) :
     f112saFive L ⊔ pCoreOf 2 L = L := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   refine le_antisymm (sup_le (f112saFive_le L) (pCoreOf_le 2 L)) ?_
   have hQsimple : IsSimpleGroup (oTwoQuot ↥L) := by
     obtain ⟨e⟩ := h
     have hcard : 4 ≤ Nat.card (GaloisField 2 2) := by
       rw [GaloisField.card 2 2 (by norm_num)]
       norm_num
-    haveI : IsSimpleGroup
+    have : IsSimpleGroup
         (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 2)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcard
     exact e.isSimpleGroup
@@ -756,7 +765,7 @@ theorem f112saFive_sup_pCore {L : Subgroup H} (h : VA5 L) :
     intro hh
     exact hx_notin ((F1.mem_pCore_iff_coe x).mp ((QuotientGroup.eq_one_iff x).mp hh))
   have himg_top : A.map π = ⊤ := by
-    haveI : (A.map π).Normal := hnorm
+    have : (A.map π).Normal := hnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (A.map π) with hbot | htop
     · exfalso
       have hmem : π x ∈ A.map π := Subgroup.mem_map_of_mem π hxA
@@ -776,7 +785,7 @@ theorem f112saFive_sup_pCore {L : Subgroup H} (h : VA5 L) :
   have hl_eq : l' = a * (a⁻¹ * l') := by group
   have hval : (l' : H) = (a : H) * ((a⁻¹ * l' : ↥L) : H) := by
     have h := congrArg (fun z : ↥L => (z : H)) hl_eq
-    simpa using h
+    simp
   change (l' : H) ∈ f112saFive L ⊔ pCoreOf 2 L
   rw [hval]
   exact Subgroup.mul_mem_sup hafive hker
@@ -786,7 +795,7 @@ theorem f112sa_mem_five_of_odd {L : Subgroup H} (h : VA5 L)
   let A : Subgroup ↥L := (f112saFive L).subgroupOf L
   let B : Subgroup ↥L := (pCoreOf 2 L).subgroupOf L
   have hAn : A.Normal := f112saFive_subgroupOf_normal L
-  haveI : A.Normal := hAn
+  have : A.Normal := hAn
   have hB2 : IsPGroup 2 B :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L).of_equiv
       (Subgroup.subgroupOfEquivOfLe (pCoreOf_le 2 L)).symm
@@ -862,9 +871,9 @@ private theorem f112sa_minimality_beta_of_hyp111R
   have hKβdef : Kβ = (MulAction.stabilizer X.Universal (baseB X)).subgroupOf E := by
     change MulAction.stabilizer ↥E (baseB X) = _
     rw [← MulAction.stabilizer_subgroupOf]
-  haveI hKβfin : Finite ↥Kβ := by
+  have hKβfin : Finite ↥Kβ := by
     rw [hKβdef]
-    haveI : Finite (MulAction.stabilizer X.Universal (baseB X)) :=
+    have : Finite (MulAction.stabilizer X.Universal (baseB X)) :=
       finite_stabilizer X (baseB X)
     exact Finite.of_injective
       (fun x : ↥((MulAction.stabilizer X.Universal (baseB X)).subgroupOf E) =>
@@ -1032,9 +1041,9 @@ theorem f112sa_minimality {L1 L2 S : Subgroup H}
   have hKβdef : Kβ = (MulAction.stabilizer X.Universal (baseB X)).subgroupOf E := by
     change MulAction.stabilizer ↥E (baseB X) = _
     rw [← MulAction.stabilizer_subgroupOf]
-  haveI hKαfin : Finite ↥Kα := by
+  have hKαfin : Finite ↥Kα := by
     rw [hKαdef]
-    haveI : Finite (MulAction.stabilizer X.Universal (baseA X)) :=
+    have : Finite (MulAction.stabilizer X.Universal (baseA X)) :=
       finite_stabilizer X (baseA X)
     exact Finite.of_injective
       (fun x : ↥((MulAction.stabilizer X.Universal (baseA X)).subgroupOf E) =>
@@ -1043,9 +1052,9 @@ theorem f112sa_minimality {L1 L2 S : Subgroup H}
           exact Subtype.ext (Subtype.ext
             (congrArg (fun y : ↥(MulAction.stabilizer X.Universal (baseA X)) =>
               (y : X.Universal)) h)))
-  haveI hKβfin : Finite ↥Kβ := by
+  have hKβfin : Finite ↥Kβ := by
     rw [hKβdef]
-    haveI : Finite (MulAction.stabilizer X.Universal (baseB X)) :=
+    have : Finite (MulAction.stabilizer X.Universal (baseB X)) :=
       finite_stabilizer X (baseB X)
     exact Finite.of_injective
       (fun x : ↥((MulAction.stabilizer X.Universal (baseB X)).subgroupOf E) =>
@@ -1054,7 +1063,7 @@ theorem f112sa_minimality {L1 L2 S : Subgroup H}
           exact Subtype.ext (Subtype.ext
             (congrArg (fun y : ↥(MulAction.stabilizer X.Universal (baseB X)) =>
               (y : X.Universal)) h)))
-  haveI hL'fin : Finite ↥L' :=
+  have hL'fin : Finite ↥L' :=
     Finite.of_injective (Subgroup.inclusion inf_le_left)
       (Subgroup.inclusion_injective inf_le_left)
   have hMα_transA : ∀ a b : Vtx X, X.treeGraph.Adj (baseA X) a →
@@ -1118,7 +1127,7 @@ theorem f112sa_minimality {L1 L2 S : Subgroup H}
     have hxKβ : x ∈ Kβ := (Subgroup.mem_inf.mp hxL).2
     have hxM : x ∈ M := hβ_odd_mem x hxKβ hxodd
     exact Subgroup.mem_inf.mpr ⟨hxM, (Subgroup.mem_inf.mp hxL).1⟩
-  haveI hNnormal : (Mα.subgroupOf L').Normal := by
+  have hNnormal : (Mα.subgroupOf L').Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hnM : (n : ↥E) ∈ M := (Subgroup.mem_inf.mp hn).1
@@ -1166,7 +1175,7 @@ theorem f112sa_minimality {L1 L2 S : Subgroup H}
       rw [hNrel, Subgroup.index_eq_card]
       exact hk
     rw [h1, h2]
-  haveI : (Mα.subgroupOf Kα).Normal := hMα_normal
+  have : (Mα.subgroupOf Kα).Normal := hMα_normal
   have hα_odd_mem : ∀ x : ↥E, x ∈ Kα → Odd (orderOf x) → x ∈ M := by
     intro x hxK hxodd
     have hx' : (⟨x, hxK⟩ : ↥Kα) ∈ Mα.subgroupOf Kα :=
@@ -1223,11 +1232,11 @@ theorem f112sa_charTwoStab {L1 L2 S : Subgroup H}
   let X := f112Gold L1 L2 S
   let Uv : Subgroup X.Universal := MulAction.stabilizer X.Universal v
   let E := f112EOdd L1 L2 S
-  haveI hUvfin : Finite Uv := finite_stabilizer X v
+  have hUvfin : Finite Uv := finite_stabilizer X v
   have hEn : (E.subgroupOf Uv).Normal := (f112sa_EOdd_normal hF h1 hn h2).subgroupOf Uv
   have hEq : E.subgroupOf Uv = (E ⊓ Uv).subgroupOf Uv := by
     ext x
-    simp [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+    simp [Subgroup.mem_subgroupOf]
   have hcharU : CharTwo Uv := f112_charTwo_stabilizer_of_hyp111R hR v
   have hcharSub : CharTwo ((E ⊓ Uv).subgroupOf Uv) := by
     have hHn : ((E ⊓ Uv).subgroupOf Uv).Normal := by rw [← hEq]; exact hEn
@@ -1267,9 +1276,9 @@ private theorem f112sa_hyp30_of_locL2_of_hyp111R {L1 L2 S : Subgroup H}
   minimal := f112sa_minimality hF h1 hn h2
   finite_stab := by
     intro v
-    haveI : Finite ↥(f112P1 L1 L2 S) := Subtype.finite
-    haveI : Finite ↥(f112P2 L1 L2 S) := Subtype.finite
-    haveI hfin : Finite (MulAction.stabilizer (f112Gold L1 L2 S).Universal v) :=
+    have : Finite ↥(f112P1 L1 L2 S) := Subtype.finite
+    have : Finite ↥(f112P2 L1 L2 S) := Subtype.finite
+    have hfin : Finite (MulAction.stabilizer (f112Gold L1 L2 S).Universal v) :=
       finite_stabilizer (f112Gold L1 L2 S) v
     rw [← MulAction.stabilizer_subgroupOf (f112EOdd L1 L2 S) v]
     exact Finite.of_injective

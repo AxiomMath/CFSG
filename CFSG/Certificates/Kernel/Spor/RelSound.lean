@@ -49,7 +49,7 @@ private theorem packU_tab {n w : Nat} {t : Table} (h : Good n t) (hw : n < 2 ^ w
   apply enc_congr
   intro i hi
   have hi' : i < t.size := by rw [h.1]; exact hi
-  simp [ap, List.getD_eq_getElem?_getD, hi', getElem!_pos t i hi']
+  simp [ap, List.getD_eq_getElem?_getD, hi']
 
 private theorem letter_packU (w : Nat) (α αi β βi : Table) (l : Nat × Bool) :
     letter (packU w α.toList) (packU w αi.toList) (packU w β.toList) (packU w βi.toList) l =
@@ -117,8 +117,8 @@ private theorem relsId_iff (n w m idn A Ai B Bi : Nat) (rels : List (List (Nat �
         bAnd(Nat.beq (wordP n w m idn A Ai B Bi v) idn, relsId n w m idn A Ai B Bi rels) := rfl
     rw [h, bAnd_eq, Bool.and_eq_true, Nat.beq_eq, ih, List.forall_mem_cons]
 
-private theorem ap_wordTab {n : Nat} {α αi β βi : Table} (hn : n < 2 ^ 32) (hα : Good n α)
-    (hαi : Good n αi) (hβ : Good n β) (hβi : Good n βi) (v : List (Nat × Bool)) :
+private theorem ap_wordTab {n : Nat} {α αi β βi : Table} (hn : n < 2 ^ 32) (_hα : Good n α)
+    (_hαi : Good n αi) (_hβ : Good n β) (_hβi : Good n βi) (v : List (Nat × Bool)) :
     (wordTab n α αi β βi v).size = n ∧
       ∀ i < n, ap (wordTab n α αi β βi v) i = wordAp α αi β βi v i := by
   induction v with

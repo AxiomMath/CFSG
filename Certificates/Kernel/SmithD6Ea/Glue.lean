@@ -136,6 +136,7 @@ variable (hK : lineKeys.toList = J.lineKeysC.flatten)
   (hI : ∀ u w, lineIdx u w < 365211 → lineKeys[lineIdx u w]! = 4096 * u + w)
 include hK hL hI
 
+omit hL in
 theorem tvImg_key {a b : Nat} (h : tvImg a b < 365211) :
     J.lineKeysC.flatten[tvImg a b]! = imgKey J.lineKeysC.flatten[a]! J.lineKeysC.flatten[b]! := by
   have hk : ∀ i, lineKeys[i]! = J.lineKeysC.flatten[i]! := fun i => by
@@ -154,7 +155,7 @@ theorem tvImg_fix_iff {a b : Nat} (ha : a < 365211) (hb : b < 365211) :
   constructor
   · intro h
     have hlt : tvImg a b < 365211 := by rw [h]; exact hb
-    have e := tvImg_key hK hL hI hlt
+    have e := tvImg_key hK hI hlt
     rw [h] at e
     exact e.symm
   · intro h
@@ -211,23 +212,27 @@ theorem ea7I_length : ea7I.length = 1578 := by
   rw [← List.length_map (f := fun p => J.lineKeysC.flatten[p]!), ea7I_map hK hL hI,
     eaKC_flatten_length]
 
+omit hL hI in
 theorem linePair_31899 : linePair 31899 = (64, 128) := by
   rw [linePair_eq hK, key_31899]
   rfl
 
+omit hL hI in
 theorem linePair_zero : linePair 0 = (1, 2) := by
   rw [linePair_eq hK, key_zero]
   rfl
 
+omit hL hI in
 theorem ea7ChkCols_of_pinned : ea7ChkCols = true := by
   unfold ea7ChkCols
-  rw [ea7Pivot_eq, ea7Pivot_eq, linePair_zero hK hL hI, linePair_31899 hK hL hI, cbw_facts.1,
+  rw [ea7Pivot_eq, ea7Pivot_eq, linePair_zero hK, linePair_31899 hK, cbw_facts.1,
     cbw_facts.2.1]
   rfl
 
+omit hL hI in
 theorem ea7ChkBits_of_pinned : ea7ChkBits = true := by
   unfold ea7ChkBits
-  rw [ea7Diff_eq, ea7Diff_eq, linePair_zero hK hL hI, linePair_31899 hK hL hI]
+  rw [ea7Diff_eq, ea7Diff_eq, linePair_zero hK, linePair_31899 hK]
   exact cbw_facts.2.2.1
 
 end Model

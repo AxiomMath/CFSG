@@ -24,7 +24,7 @@ theorem qPackRk_high (B : List ℕ) {n v : ℕ} (hv : v < 2 ^ n) : ∀ k, qPackR
   | 0 => rfl
   | k + 1 => by
     rw [← Nat.add_assoc, qPackRk, Nat.testBit_lt_two_pow (lt_of_lt_of_le hv
-      (Nat.pow_le_pow_right (by norm_num) (by omega))), if_neg Bool.false_ne_true, qPackRk_high B hv k]
+      (Nat.pow_le_pow_right (by norm_num) (by omega))), ite_eq_right Bool.false_ne_true, qPackRk_high B hv k]
 
 theorem qOf_eq_qPackRk (D : Co1RankTab.Dat) (v : ℕ) : ∀ n, Nat.rec (motive := fun _ => ℕ) oneK
     (fun s acc => nIf(Nat.beq (Nat.land (Nat.shiftRight v s) 1) 1,
@@ -50,7 +50,7 @@ theorem oneK_lt_rk : oneK < 2 ^ (24 * 24) := by
 theorem matK_entry_rk (X : ℕ) (i j : Fin 24) :
     matK X i j = if X.testBit (j.val + 24 * i.val) then 1 else 0 := by
   simp only [matK, CFSG.Sporadic.SmallF2.rowsMatrix, CFSG.Sporadic.SmallF2.toVecD, Matrix.of_apply,
-    CFSG.KC.Co1F2.unpackR, Array.getElem?_ofFn, dif_pos i.isLt, Option.getD_some,
+    CFSG.KC.Co1F2.unpackR, Array.getElem?_ofFn, dite_eq_left i.isLt, Option.getD_some,
     Nat.testBit_mod_two_pow, Nat.testBit_div_two_pow, decide_eq_true j.isLt, Bool.true_and]
 
 set_option exponentiation.threshold 600 in
@@ -138,7 +138,7 @@ theorem doubling_rk (B : List ℕ) : ∀ k n (L : List ℕ), n + k = B.length �
       have hb : (2 ^ n + u).testBit n = true := by
         rw [Nat.testBit_two_pow_add_eq, Nat.testBit_lt_two_pow hu]
         rfl
-      rw [qPackRk, hb, if_pos rfl]
+      rw [qPackRk, hb, ite_eq_left rfl]
       congr 1
       exact qPackRk_congr B n fun s hs => Nat.testBit_two_pow_add_gt hs u
     by_cases hv : v < 2 ^ (n + 1)
@@ -208,9 +208,9 @@ theorem wordP_mem {gg : ℕ → G} {nG : ℕ} {S : Subgroup G} (hgg : ∀ g < nG
     rw [wordOKn] at h
     rw [wordP]
     by_cases hw : w % 16 = 0
-    · rw [if_pos hw]
+    · rw [ite_eq_left hw]
       exact S.one_mem
-    · rw [if_neg hw] at h ⊢
+    · rw [ite_eq_right hw] at h ⊢
       obtain ⟨hl, h⟩ := Bool.and_eq_true_iff.1 h
       have := of_decide_eq_true hl
       exact S.mul_mem (hgg _ (by omega)) (wordP_mem hgg n _ h)

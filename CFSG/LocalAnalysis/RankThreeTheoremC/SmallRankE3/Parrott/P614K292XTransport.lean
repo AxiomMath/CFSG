@@ -44,7 +44,7 @@ theorem index_eq_relIndex_of_sup_eq_top [Finite G] {H N : Subgroup G} [N.Normal]
 theorem exists_sylow_le_of_not_dvd_index [Finite G] {p : ℕ} [Fact p.Prime] {T : Subgroup G}
     (hT : ¬ p ∣ T.index) : ∃ S : Sylow p G, (S : Subgroup G) ≤ T := by
   obtain ⟨S₀⟩ : Nonempty (Sylow p T) := inferInstance
-  have hS : IsPGroup p ((S₀ : Subgroup T).map T.subtype) := S₀.isPGroup'.map T.subtype
+  have hS : IsPGroup p ((S₀ : Subgroup T).map T.subtype) := S₀.isPGroup.map T.subtype
   have hSi : ¬ p ∣ ((S₀ : Subgroup T).map T.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact fun h => ((Fact.out : p.Prime).dvd_mul.1 h).elim S₀.not_dvd_index hT
@@ -54,8 +54,8 @@ theorem exists_sylow_le_of_not_dvd_index [Finite G] {p : ℕ} [Fact p.Prime] {T 
 
 theorem isSolvable_of_derivedSeries_le {n : ℕ} {H : Subgroup G} (hH : derivedSeries G n ≤ H)
     [Group.IsSolvable H] : Group.IsSolvable G := by
-  haveI : (derivedSeries G n).Normal := derivedSeries_normal G n
-  haveI : Group.IsSolvable (G ⧸ derivedSeries G n) := by
+  have : (derivedSeries G n).Normal := derivedSeries_normal G n
+  have : Group.IsSolvable (G ⧸ derivedSeries G n) := by
     rw [Group.isSolvable_def]
     refine ⟨n, ?_⟩
     rw [← map_derivedSeries_eq (QuotientGroup.mk'_surjective _) n, Subgroup.map_eq_bot_iff,
@@ -140,7 +140,7 @@ theorem coe_mem_normalizer_threeFrame (hν : Function.Injective ν)
     {s : ↥(slPi π 3 (p ^ f) K)}
     (hs : ((ν s : ↥L) : X) ∈ normalizer (threeFrameIn ν y v : Set X)) :
     (s : GL (Fin 3) K) ∈ normalizer (threeFrame y v : Set (GL (Fin 3) K)) := by
-  haveI : Finite ↥(threeFrame y v) := Nat.finite_of_card_ne_zero (by rw [h9]; norm_num)
+  have : Finite ↥(threeFrame y v) := Nat.finite_of_card_ne_zero (by rw [h9]; norm_num)
   refine mem_normalizer_of_conj_mem fun h hh => ?_
   set t : ↥(slPi π 3 (p ^ f) K) := ⟨h, hF hh⟩
   have h1 : ((ν t : ↥L) : X) ∈ threeFrameIn ν y v := (coe_mem_threeFrameIn_iff hν).2 hh

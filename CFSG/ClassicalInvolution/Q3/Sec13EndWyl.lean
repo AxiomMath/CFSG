@@ -15,6 +15,7 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem twinSet_conjSub_eq_image {Ω : Set (Subgroup G)} (hΩ : ConjInvariant Ω) (g : G)
     (L : Subgroup G) : twinSet Ω (conjSub g L) = conjSub g '' twinSet Ω L := by
   refine Set.Subset.antisymm ?_ ?_
@@ -50,7 +51,7 @@ theorem endBranchWyl : EndBranchWyl := by
   · obtain ⟨K, hK, hDE⟩ := hDE
     exact (h.aeIdentOn_e29_of_zGroup_eq h9 hK hDE
       (h.ncard_twinSet_eq_four_of_muIsoWylD4 hW hWyl hK)).elim h.no_e29.false
-  · push_neg at hDE
+  · push Not at hDE
     exact h.false_of_wyl_ne h9 hW hWyl hDE
 
 end FrameCert

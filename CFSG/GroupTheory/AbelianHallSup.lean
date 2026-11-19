@@ -57,7 +57,7 @@ private lemma odd_relIndex_sup {G : Type*} [Group G] [Finite G] {P Y₁ Y₂ : S
   have hNnorm : N.Normal := by
     refine (Subgroup.normal_subgroupOf_iff_le_normalizer hY₁Y).mpr ?_
     exact sup_le Subgroup.le_normalizer hY₂Y₁
-  letI : N.Normal := hNnorm
+  let : N.Normal := hNnorm
   have hUN : U ⊔ N = ⊤ := by
     have h := (Subgroup.subgroupOf_sup hY₂Y hY₁Y).symm
     rw [h, sup_comm Y₂ Y₁, show Y₁ ⊔ Y₂ = Y from rfl, Subgroup.subgroupOf_self]
@@ -100,7 +100,7 @@ private lemma solvable_sup_of_commutator_le {G : Type*} [Group G] [Finite G]
     exact hP.comap_subtype (K := Y)
   have hP'norm : P'.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPY).mpr hYnorm
-  letI : P'.Normal := hP'norm
+  let : P'.Normal := hP'norm
   have hcomm' : commutator Y ≤ P' := by
     rw [commutator_def, Subgroup.commutator_le]
     intro x _ y _
@@ -108,11 +108,11 @@ private lemma solvable_sup_of_commutator_le {G : Type*} [Group G] [Finite G]
     change (Y.subtype ⁅x, y⁆ : G) ∈ P
     rw [map_commutatorElement]
     exact hcomm (Subgroup.commutator_mem_commutator x.2 y.2)
-  haveI : IsMulCommutative (Y ⧸ P') :=
+  have : IsMulCommutative (Y ⧸ P') :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm'
-  haveI : Group.IsSolvable (Y ⧸ P') := inferInstance
-  haveI : Group.IsNilpotent P' := IsPGroup.isNilpotent (p := 2) hP'
-  haveI : Group.IsSolvable P' := IsNilpotent.to_isSolvable
+  have : Group.IsSolvable (Y ⧸ P') := inferInstance
+  have : Group.IsNilpotent P' := IsPGroup.isNilpotent (p := 2) hP'
+  have : Group.IsSolvable P' := IsNilpotent.to_isSolvable
   exact Group.isSolvable_of_subgroup_quotient P'
 
 private lemma exists_odd_hall_subgroup_sup {G : Type*} [Group G] [Finite G]
@@ -163,7 +163,7 @@ private lemma inf_eq_bot_and_isMulCommutative {G : Type*} [Group G] [Finite G]
     have hcop : Nat.Coprime (Nat.card P) (Nat.card H) := by
       rw [hn]
       exact Nat.Coprime.pow_left n (Odd.coprime_two_left hHodd)
-    exact Subgroup.inf_eq_bot_of_coprime hcop
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   refine ⟨hPinfH, ?_⟩
   apply Subgroup.commutator_self_eq_bot_iff.mp
   apply le_bot_iff.mp
@@ -231,7 +231,7 @@ private lemma sup_eq_of_hall {G : Type*} [Group G] {P Y : Subgroup G} [Finite Y]
   have hoddP' : Odd P'.index := by
     change Odd (P.relIndex Y)
     exact hodd
-  letI : P'.Normal := hP'norm
+  let : P'.Normal := hP'norm
   have htop : P' ⊔ H' = ⊤ := sup_eq_top_of_hall hsolv hP' hoddP' hH'hall
   have h := congrArg (Subgroup.map Y.subtype) htop
   rw [Subgroup.map_sup, Subgroup.map_subgroupOf_eq_of_le hPY,

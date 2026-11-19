@@ -152,7 +152,7 @@ private theorem s16c11_case2orth_realizesVia_of_equiv {V : Type*} [CommGroup V] 
 theorem s16c11_orth_center_bot {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {m : ℕ}
     (hm : 2 ≤ m) {b c : K} (hpoly : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Subgroup.center ↥(CFSG.MatrixModel.isometryCore (StatedQuadMinus m K b c)) = ⊥ := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [Subgroup.eq_bot_iff_forall]
   intro z hz
   let zM : Matrix (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2)
@@ -197,10 +197,10 @@ theorem s16c11_orth_mem_isometryCore_of_normalizes {K : Type} [Field K] [Finite 
     (hA : ∀ g ∈ StatedOmega (StatedQuadMinus m K b c),
       A * g * A⁻¹ ∈ StatedOmega (StatedQuadMinus m K b c)) :
     A ∈ CFSG.MatrixModel.isometryCore (StatedQuadMinus m K b c) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK' : Fintype.card K = 2 := by rwa [← Nat.card_eq_fintype_card]
-  haveI : CharP K 2 := charP_of_card_eq_prime hK'
+  have : CharP K 2 := charP_of_card_eq_prime hK'
   obtain ⟨c, hcne, hcQ⟩ :=
     CFSG.RankThree.GF2n.Stroth80.normalizerOmegaFor_minus K hm hpoly A hA
   have hc1 : c = 1 := by
@@ -243,8 +243,6 @@ theorem s16c11_realizes_of_normal_overgroup {W : Type} [CommGroup W] [Finite W] 
       change e (ρ₀ (π₀ γ) (e.symm (e u))) = Multiplicative.ofAdd
         (((γ : GL ι K) : Matrix ι ι K).mulVec (Multiplicative.toAdd (e u)))
       rw [MulEquiv.symm_apply_apply]
-      change e (ρ₀ (π₀ γ) u) = Multiplicative.ofAdd
-        (((γ : GL ι K) : Matrix ι ι K).mulVec (Multiplicative.toAdd (e u)))
       have hu' : ((π γ : ↥L) : MulAut W) (u : W) ∈ J :=
         hJ ((π γ : ↥L) : MulAut W) (hLL₀ (π γ).2) (u : W) u.2
       have hval : ρ₀ (π₀ γ) u = (⟨((π γ : ↥L) : MulAut W) (u : W), hu'⟩ : ↥J) := by
@@ -370,8 +368,8 @@ theorem s16c11_orth_faithful_on {W : Type} [CommGroup W] [Finite W]
     obtain ⟨hcC, hcL⟩ := Subgroup.mem_inf.1 hc
     have hcL' : (c : MulAut W) ∈ L := hcL
     obtain ⟨-, K', hK'f, hK'fin, b', c', hK'card, hpoly', hreal⟩ := hN
-    letI : Field K' := hK'f
-    letI : Finite K' := hK'fin
+    let : Field K' := hK'f
+    let : Finite K' := hK'fin
     rw [pow_one] at hK'card
     obtain ⟨π, hπ⟩ := hreal
     obtain ⟨β, hβs, hβk, hβe⟩ := FFModel.RealizesVia.coord rfl rfl hπ
@@ -404,7 +402,7 @@ theorem s16c11_orth_faithful_on {W : Type} [CommGroup W] [Finite W]
       simpa using h2
     exact Subtype.ext hc1
   have hCcard : Nat.card ↥C ≤ 2 := by
-    haveI : (L.subgroupOf L₀).Normal := Subgroup.normal_of_index_eq_two hrel
+    have : (L.subgroupOf L₀).Normal := Subgroup.normal_of_index_eq_two hrel
     let q : ↥L₀ →* ↥L₀ ⧸ (L.subgroupOf L₀) := QuotientGroup.mk' _
     have hinj : Function.Injective (q.comp C.subtype) := by
       intro a b hab
@@ -463,8 +461,8 @@ theorem s16c11_orth_faithful_on {W : Type} [CommGroup W] [Finite W]
       _ = c * g := by rw [e3]
   have hcenter_bot : Subgroup.center ↥L₀ = ⊥ := by
     obtain ⟨-, K', hK'f, hK'fin, b', c', hK'card, hpoly', ⟨e⟩⟩ := hL₀
-    letI : Field K' := hK'f
-    letI : Finite K' := hK'fin
+    let : Field K' := hK'f
+    let : Finite K' := hK'fin
     rw [pow_one] at hK'card
     have hm : 2 ≤ n / 2 := by rcases hn with rfl | rfl <;> norm_num
     have hmap := Subgroup.map_center_eq e
@@ -483,8 +481,8 @@ theorem s16c11_orth_card_eq {X : Type} [Group X] {n : ℕ} (hX : IsOMinus X n 1)
     Nat.card X =
       Nat.card ↥(CFSG.MatrixModel.isometryCore (StatedQuadMinus (n / 2) K b c)) := by
   obtain ⟨-, K', hK'f, hK'fin, b', c', hK'card, hpoly', ⟨eX⟩⟩ := hX
-  letI : Field K' := hK'f
-  letI : Finite K' := hK'fin
+  let : Field K' := hK'f
+  let : Finite K' := hK'fin
   rw [pow_one] at hK'card
   obtain ⟨t'⟩ := s16c167_isometryCore_quadMinus_equiv (n / 2) hK'card hpoly'
   obtain ⟨t⟩ := s16c167_isometryCore_quadMinus_equiv (n / 2) hK hpoly
@@ -502,8 +500,8 @@ theorem s16c11_orth_realizes {W : Type} [CommGroup W] [Finite W]
   have hnorm := s16c11_map_conj_eq_of_card_two_mul hLL₀ hcard
   have hfaith := s16c11_orth_faithful_on hn hLL₀ hL₀ hL hJ hN
   obtain ⟨hev, K, hKf, hKfin, b, c, hKcard, hpoly, hreal⟩ := hN
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   rw [pow_one] at hKcard
   have hm : 2 ≤ n / 2 := by rcases hn with rfl | rfl <;> norm_num
   refine ⟨K, hKf, hKfin, b, c, hKcard, hpoly, ?_⟩

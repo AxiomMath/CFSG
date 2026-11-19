@@ -29,6 +29,7 @@ theorem isPGroup_two_zpowers_of_sq {k : X} (hk : k * k = 1) : IsPGroup 2 (zpower
   · exact ⟨0, by simp [Nat.card_zpowers, h1]⟩
   · exact ⟨1, by simp [Nat.card_zpowers, h1]⟩
 
+omit [Finite X] in
 theorem MoveFrame.not_mem_normalizer_of_not_forall (F : MoveFrame B φ V L Nb Rb Tt q) (h : X)
     (hN : ¬ ∀ a ∈ V, h * a * h⁻¹ ∈ Nb) : h ∉ normalizer (V : Set X) := by
   intro hnorm
@@ -82,8 +83,9 @@ theorem MoveFrame.Y_comm_V (F : MoveFrame B φ V L Nb Rb Tt q) (h : X)
   intro v hv a ha
   exact key v hv (h * a * h⁻¹) (mem_conjSubgroup_iff'.mpr ⟨a, ha, rfl⟩)
 
+omit [Finite X] in
 theorem MoveFrame.Y_inf_V (F : MoveFrame B φ V L Nb Rb Tt q) (h : X)
-    (hK : ∀ a ∈ V, h * a * h⁻¹ ∈ normalizer (V : Set X))
+    (_hK : ∀ a ∈ V, h * a * h⁻¹ ∈ normalizer (V : Set X))
     (hN : ¬ ∀ a ∈ V, h * a * h⁻¹ ∈ Nb)  :
   ∀ a ∈ V, a ≠ 1 → h * a * h⁻¹ ∉ V := by
   intro a ha ha1 hmem
@@ -109,7 +111,7 @@ theorem MoveFrame.Y_inf_Nb (F : MoveFrame B φ V L Nb Rb Tt q) (h : X)
   by_contra ha₁1
   obtain ⟨a₀, ha₀, hy₀⟩ : ∃ a₀ ∈ V, h * a₀ * h⁻¹ ∉ Nb := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hN hc
   have ha₀1 : a₀ ≠ 1 := by
     rintro rfl
@@ -118,7 +120,7 @@ theorem MoveFrame.Y_inf_Nb (F : MoveFrame B φ V L Nb Rb Tt q) (h : X)
   have hy₀Rb : h * a₀ * h⁻¹ ∈ Rb := F.Y_le_Rb h hK hN a₀ ha₀
   obtain ⟨w₀, hw₀, hw₀ne⟩ : ∃ w ∈ Tt 1, φ (h * a₀ * h⁻¹) w ≠ w := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hy₀ (F.Rb_fix_Nb _ hy₀Rb hc)
   obtain ⟨a, ha, ha1⟩ := F.exists_ne_one
   rw [← F.range_opm_V ha ha1] at hw₀

@@ -316,7 +316,7 @@ theorem confined_odd_factor_gives_free_six_element_torus_character_orbit [Finite
         _ = (m⁻¹ * t * m) * x := by group
     have hs2 : orderOf (m⁻¹ * t * m) = 2 := by rw [orderOf_inv_mul_mul, ht]
     have hP : IsPGroup 2 ((S : Subgroup G) ⊔ Subgroup.zpowers (m⁻¹ * t * m) : Subgroup G) := by
-      apply IsPGroup.to_sup_of_normal_right' S.isPGroup'
+      apply IsPGroup.to_sup_of_normal_right' S.isPGroup
       · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hs2, pow_one])
       · intro x hx
         apply Subgroup.centralizer_le_normalizer

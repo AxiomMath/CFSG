@@ -48,7 +48,7 @@ theorem card_sl3_two : Nat.card (Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) = 1
 theorem card_sylow_two_of_card {X : Type*} [Group X] [Finite X] (hX : Nat.card X = 168)
     (S : Sylow 2 X) : Nat.card S = 8 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card.mp S.isPGroup')
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card.mp S.isPGroup)
   have hidx := (S : Subgroup X).card_mul_index
   rw [hk, hX] at hidx
   have hodd := S.not_dvd_index

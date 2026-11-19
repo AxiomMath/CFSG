@@ -12,7 +12,7 @@ open Matrix CFSG.Monster.B.Geometry CFSG.ClassicalInvolution.Phan.PhanE
 
 variable {K : Type} [Field K] [Finite K] {f : ℕ} [CharP K 2]
 
-private theorem pls2x_sgv_mulVec {n : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
+private theorem pls2x_sgv_mulVec {n : ℕ} (_hK : Nat.card K = (2 ^ f) ^ 2)
     (g g' : GL (Fin n) K)
     (hgg' : ∀ i j, (g' : Matrix (Fin n) (Fin n) K) i j =
       sg K f ((g : Matrix (Fin n) (Fin n) K) i j)) (v : Fin n → K) :
@@ -116,6 +116,7 @@ private theorem pls2x_isCut_02 : IsCut 2 [0, 2] where
     subst i
     decide
 
+omit [Finite K] [CharP K 2] in
 private theorem pls2x_mem_refSet_02 (x : FlagK K 2) : x ∈ refSet K 2 [0, 2] := by
   intro i hi
   simp only [List.length_cons, List.length_nil] at hi
@@ -129,7 +130,7 @@ theorem exists_chart_exchA1A1 {I C : Type} (X : ChamberSystem I C)
     (hK : Nat.card K = (2 ^ f) ^ 2) (S : Set C) (ψ : C → C)
     (Θ₀ : ChamberIso X ((flagSys K 1).prod (flagSys K 1))) (N₁ N₂ : GL (Fin 2) K)
     (hS : ∀ c, c ∈ S ↔ (Θ₀.Φ c).1 ∈ refSet K 2 [0, 2])
-    (hψS : ∀ c ∈ S, ψ c ∈ S) (hψψ : ∀ c ∈ S, ψ (ψ c) = c)
+    (_hψS : ∀ c ∈ S, ψ c ∈ S) (hψψ : ∀ c ∈ S, ψ (ψ c) = c)
     (P₁ P₂ : SpecialLinearGroup (Fin 2) K) (hP₁ : P₁ = 1) (hP₂ : P₂ = 1)
     (hψ : ∀ B₁ B₂ : SpecialLinearGroup (Fin 2) K, ∀ c ∈ S,
       Θ₀.Φ c = (flagAct (SpecialLinearGroup.toGL B₁) (stdFlag K 2),
@@ -314,7 +315,7 @@ theorem exists_chart_exch3 {I C : Type} (X : ChamberSystem I C)
       simpa [psiA1A1] using hpair
     have hthird : (Θ.Φ (ψ c)).2 =
         flagPsi' K f hK 2 dz plz (Θ.Φ c).2 := by
-      rw [hΘ (ψ c), hthirdKey c hc, flagPsi', dif_pos hdz]
+      rw [hΘ (ψ c), hthirdKey c hc, flagPsi', dite_eq_left hdz]
       have hmem3 : flagAct e₃ (Θ₀.Φ c).2 ∈ refSet K 2 dz :=
         flagMap_mem_refSet (glLin e₃) he₃ hx3
       have h3eq := heq₃ (flagAct e₃ (Θ₀.Φ c).2) hmem3

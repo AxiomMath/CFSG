@@ -109,11 +109,11 @@ theorem torusE_noncentral {K : Type} [Field K] (hK : UnitaryFieldData 2 2 K) :
     ∃ k ∈ Hinf (lineStab (hypSU hK 2 0) (Pi.single ie1 1)),
       ∃ e ∈ torusE hK ⊓ Hinf (lineStab (hypSU hK 2 0) (Pi.single ie1 1)), e * k ≠ k * e := by
   let P : Subgroup (hypSU hK 2 0) := lineStab (hypSU hK 2 0) (Pi.single ie1 1)
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   have hcard : Nat.card ↥(torusE hK ⊓ Hinf P) = 3 := by
     rw [← torusE_inf_vecStab_eq hK]
     exact card_torusE_inf_vecStab hK
-  haveI : Nontrivial ↥(torusE hK ⊓ Hinf P) := by
+  have : Nontrivial ↥(torusE hK ⊓ Hinf P) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcard]
     norm_num
   obtain ⟨e, he, hne⟩ := Subgroup.exists_ne_one_of_nontrivial (torusE hK ⊓ Hinf P)

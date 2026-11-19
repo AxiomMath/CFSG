@@ -19,6 +19,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.TenThreeThree.ParabComm
 
 variable {r : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem plusFlagStab_le_E (D : Finset ℕ) :
     plusFlagStab K r D ≤ orthElementaryGroup (quadPlus r K) := fun _ hg =>
   (mem_plusFlagStab.1 hg).1
@@ -35,6 +36,7 @@ variable {A : Type} [Group A] [Finite A] {Y P : Subgroup A} {D : Finset ℕ}
     fun q => (hρ ⟨q.1, plusFlagStab_le_E D q.2⟩).1 q.2)
 
 include hρ in
+omit [Finite A] [Finite K] [CharP K 2] in
 theorem toP_injective : Function.Injective (toP ρ hρ) := by
   intro q₁ q₂ h
   have h0 : ((toP ρ hρ q₁ : ↥P) : A) = ((toP ρ hρ q₂ : ↥P) : A) := Subtype.ext_iff.1 h
@@ -47,6 +49,7 @@ theorem toP_injective : Function.Injective (toP ρ hρ) := by
   exact Subtype.ext h3
 
 include hρ in
+omit [Finite A] [Finite K] [CharP K 2] in
 theorem toP_surjective (hPY : P ≤ Y) : Function.Surjective (toP ρ hρ) := by
   rintro ⟨w, hw⟩
   set x := ρ.symm ⟨w, hPY hw⟩ with hx
@@ -58,17 +61,19 @@ theorem toP_surjective (hPY : P ≤ Y) : Function.Surjective (toP ρ hρ) := by
   (QuotientGroup.mk' (CFSG.pCore 2 ↥P)).comp (toP ρ hρ)
 
 include hρ in
+omit [Finite A] [Finite K] [CharP K 2] in
 theorem toHat_surjective (hPY : P ≤ Y) : Function.Surjective (toHat ρ hρ) :=
   (QuotientGroup.mk'_surjective _).comp (toP_surjective ρ hρ hPY)
 
 variable {ρ} {hρ}
 
 include hρ in
+omit [Finite A] [Finite K] in
 theorem toHat_eq_one_of_mem_leviKer (hPY : P ≤ Y) {hD : ∀ d ∈ D, d ≤ r} {t m : ℕ}
     {ht : t = 0 ∨ t ∈ D} {htm : t + m = r} (hD1 : ∀ d ∈ D, 1 ≤ d) (hDt : ∀ d ∈ D, d ≤ t)
     {g : ↥(plusFlagStab K r D)} (hg : g ∈ leviKer hD ht htm) : toHat ρ hρ g = 1 := by
   have hmap : (leviKer hD ht htm).map (toP ρ hρ) ≤ CFSG.pCore 2 ↥P := by
-    haveI := leviKer_normal (K := K) (hD := hD) (ht := ht) (htm := htm)
+    have := leviKer_normal (K := K) (hD := hD) (ht := ht) (htm := htm)
     have hnorm : ((leviKer hD ht htm).map (toP ρ hρ)).Normal :=
       Subgroup.Normal.map inferInstance _ (toP_surjective ρ hρ hPY)
     have hp : IsPGroup 2 ((leviKer hD ht htm).map (toP ρ hρ)) :=
@@ -90,6 +95,7 @@ variable {A : Type} [Group A] [Finite A] {Y P : Subgroup A} {D : Finset ℕ}
   (hD1 : ∀ d ∈ D, 1 ≤ d) (hDt : ∀ d ∈ D, d ≤ t)
 
 include hPY hD1 hDt in
+omit [Finite K] in
 theorem toHat_mem_wSup_aux (N : Subgroup ↥(plusFlagStab K r D)) [N.Normal] {S : Type} [Group S]
     (ℓ : ↥N →* S) (hℓ : Function.Surjective ℓ)
     (hker : ∀ x : ↥N, ℓ x = 1 → (x : ↥(plusFlagStab K r D)) ∈ leviKer hD ht htm)
@@ -118,7 +124,7 @@ theorem toHat_mem_wSup_block (hr : 3 ≤ r) {b : ℕ} (hb : b ∈ D) (hk : 2 ≤
   let G₀ : Subgroup (GL (Fin (b - predCut D b)) K) :=
     (SpecialLinearGroup.toGL : SpecialLinearGroup (Fin (b - predCut D b)) K →*
       GL (Fin (b - predCut D b)) K).range
-  haveI hG₀ : G₀.Normal := by
+  have hG₀ : G₀.Normal := by
     change (SpecialLinearGroup.toGL : SpecialLinearGroup (Fin (b - predCut D b)) K →*
       GL (Fin (b - predCut D b)) K).range.Normal
     rw [SpecialLinearGroup.range_toGL_eq_ker_det]
@@ -130,13 +136,13 @@ theorem toHat_mem_wSup_block (hr : 3 ≤ r) {b : ℕ} (hb : b ∈ D) (hk : 2 ≤
       plusResBlockHom hD ht htm x = 1 ∧ plusEBlockHom hD hb x ∈ G₀ := by
     intro x
     simp only [N, Subgroup.mem_inf, Subgroup.mem_iInf, MonoidHom.mem_ker, Subgroup.mem_comap,
-      Subtype.forall, and_imp]
+      Subtype.forall]
     tauto
-  haveI hNn : N.Normal := by
-    haveI h1 : (⨅ b' : {b' // b' ∈ D ∧ b' ≠ b}, (plusEBlockHom (K := K) hD b'.2.1).ker).Normal :=
+  have hNn : N.Normal := by
+    have h1 : (⨅ b' : {b' // b' ∈ D ∧ b' ≠ b}, (plusEBlockHom (K := K) hD b'.2.1).ker).Normal :=
       Subgroup.normal_iInf_normal fun b' => MonoidHom.normal_ker _
-    haveI h2 := MonoidHom.normal_ker (plusResBlockHom (K := K) hD ht htm)
-    haveI h3 : (G₀.comap (plusEBlockHom hD hb)).Normal := hG₀.comap _
+    have h2 := MonoidHom.normal_ker (plusResBlockHom (K := K) hD ht htm)
+    have h3 : (G₀.comap (plusEBlockHom hD hb)).Normal := hG₀.comap _
     exact Subgroup.normal_inf_normal _ _
   let ℓ : ↥N →* ↥G₀ := ((plusEBlockHom hD hb).comp N.subtype).codRestrict G₀
     fun x => ((hmemN x.1).1 x.2).2.2
@@ -156,6 +162,7 @@ theorem toHat_mem_wSup_block (hr : 3 ≤ r) {b : ℕ} (hb : b ∈ D) (hk : 2 ≤
     · exact h2 b' hb' hbb
 
 include hPY hD1 hDt in
+omit [Finite K] in
 theorem toHat_mem_wSup_res_three (hm : 3 ≤ m) {q : ↥(plusFlagStab K r D)}
     (hq1 : ∀ (b : ℕ) (hb : b ∈ D), plusEBlockHom hD hb q = 1)
     (hq2 : plusResAut hD ht htm q ∈ orthElementaryGroup (quadPlus m K)) :
@@ -168,10 +175,10 @@ theorem toHat_mem_wSup_res_three (hm : 3 ≤ m) {q : ↥(plusFlagStab K r D)}
     intro x
     simp only [N, Subgroup.mem_inf, Subgroup.mem_iInf, MonoidHom.mem_ker, Subgroup.mem_comap,
       Subtype.forall]
-  haveI hNn : N.Normal := by
-    haveI h1 : (⨅ b : ↥D, (plusEBlockHom (K := K) hD b.2).ker).Normal :=
+  have hNn : N.Normal := by
+    have h1 : (⨅ b : ↥D, (plusEBlockHom (K := K) hD b.2).ker).Normal :=
       Subgroup.normal_iInf_normal fun b => MonoidHom.normal_ker _
-    haveI h3 : (Em.comap (plusResAut hD ht htm)).Normal := ⟨fun n hn g => by
+    have h3 : (Em.comap (plusResAut hD ht htm)).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_comap] at hn ⊢
       rw [map_mul, map_mul, map_inv]
       exact conj_mem_orthElementaryGroup (plusResAut_mem_orthogonalGroup hD ht htm g) hn⟩
@@ -206,10 +213,10 @@ theorem toHat_mem_wSup_fam {f f' : ↥(plusFlagStab K r D) →* GL (Fin 2) K}
   have hmemN : ∀ x, x ∈ N ↔ (∀ (b : ℕ) (hb : b ∈ D), plusEBlockHom hD hb x = 1) ∧ f' x = 1 := by
     intro x
     simp only [N, Subgroup.mem_inf, Subgroup.mem_iInf, MonoidHom.mem_ker, Subtype.forall]
-  haveI hNn : N.Normal := by
-    haveI h1 : (⨅ b : ↥D, (plusEBlockHom (K := K) hD b.2).ker).Normal :=
+  have hNn : N.Normal := by
+    have h1 : (⨅ b : ↥D, (plusEBlockHom (K := K) hD b.2).ker).Normal :=
       Subgroup.normal_iInf_normal fun b => MonoidHom.normal_ker _
-    haveI := MonoidHom.normal_ker f'
+    have := MonoidHom.normal_ker f'
     exact Subgroup.normal_inf_normal _ _
   let ℓ : ↥N →* ↥(SpecialLinearGroup.toGL : SL(2, K) →* GL (Fin 2) K).range :=
     (f.comp N.subtype).codRestrict _ fun x => hf x.1
@@ -271,6 +278,7 @@ variable {A : Type} [Group A] [Finite A] {Y P : Subgroup A} {D : Finset ℕ}
     ↥(Subgroup.normalizer (Y : Set A)) →* MulAut ↥(orthElementaryGroup (quadPlus r K)) :=
   (MulAut.congr ρ.symm).toMonoidHom.comp Y.normalizerMonoidHom
 
+omit [Finite K] [CharP K 2] [Finite A] in
 theorem coe_rho_autHom (b : ↥(Subgroup.normalizer (Y : Set A)))
     (x : ↥(orthElementaryGroup (quadPlus r K))) :
     ((ρ (autHom ρ b x) : ↥Y) : A) = (b : A) * ((ρ x : ↥Y) : A) * (b : A)⁻¹ := by
@@ -280,15 +288,18 @@ theorem coe_rho_autHom (b : ↥(Subgroup.normalizer (Y : Set A)))
   rw [h]
   exact Subgroup.normalizerMonoidHom_apply_apply_coe _ _ _
 
+omit [Finite K] [CharP K 2] [Finite A] in
 theorem autHom_pow_eq_one (b : ↥(Subgroup.normalizer (Y : Set A))) {p k : ℕ}
     (hb : (b : A) ^ p ^ k = 1) : autHom ρ b ^ p ^ k = 1 := by
   have h : b ^ p ^ k = 1 := Subtype.ext (by simpa using hb)
   rw [← map_pow, h, map_one]
 
+omit [Finite K] [CharP K 2] [Finite A] in
 theorem odd_orderOf_autHom (b : ↥(Subgroup.normalizer (Y : Set A))) {p k : ℕ}
     (hp : Odd p) (hb : (b : A) ^ p ^ k = 1) : Odd (orderOf (autHom ρ b)) :=
   (hp.pow (n := k)).of_dvd_nat (orderOf_dvd_of_pow_eq_one (autHom_pow_eq_one ρ b hb))
 
+omit [Finite K] [CharP K 2] [Finite A] in
 theorem centralizes_of_autHom_eq_one (c : ↥(Subgroup.normalizer (Y : Set A)))
     (h : autHom ρ c = 1) : ∀ y ∈ Y, (c : A) * y = y * c := by
   intro y hy
@@ -306,6 +317,7 @@ variable {ρ}
   (hr : 3 ≤ r) (hD1 : ∀ d ∈ D, 1 ≤ d) (hDt : ∀ d ∈ D, d ≤ t) (hm : m = 0 ∨ 2 ≤ m)
 
 include hρ hPY hr hD1 hDt hm in
+omit hPY [Finite A] in
 theorem leviTriv_autQ {b : A} (hbY : b ∈ Subgroup.normalizer (Y : Set A)) (hW : WCent P b)
     {q : ↥(plusFlagStab K r D)} (hq : toHat ρ hρ q ∈ wSup (↥P ⧸ CFSG.pCore 2 ↥P)) :
     LeviTriv hD ht htm (autQ (autHom ρ ⟨b, hbY⟩) q * (q : GLV r K)⁻¹) := by
@@ -322,7 +334,7 @@ theorem leviTriv_autQ {b : A} (hbY : b ∈ Subgroup.normalizer (Y : Set A)) (hW 
   have hu : ((α q' * q'⁻¹ : ↥(orthElementaryGroup (quadPlus r K))) : GLV r K) ∈
       plusFlagStab K r D := (hρ _).2 (by rw [hρu]; exact hcP)
   let R : Subgroup ↥(plusFlagStab K r D) := (CFSG.pCore 2 ↥P).comap (toP ρ hρ)
-  haveI hRn : R.Normal := Subgroup.Normal.comap CFSG.pCore_normal _
+  have hRn : R.Normal := Subgroup.Normal.comap CFSG.pCore_normal _
   have hR2 : IsPGroup 2 R :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥P)).comap_of_injective (toP ρ hρ) (toP_injective ρ hρ)
   have hmem : (⟨_, hu⟩ : ↥(plusFlagStab K r D)) ∈ R := by
@@ -358,7 +370,7 @@ theorem normFix_autHom {b : A} (hbY : b ∈ Subgroup.normalizer (Y : Set A))
   · rw [hρ x, hρ (autHom ρ ⟨b, hbY⟩ x), coe_rho_autHom]
     exact Subgroup.mem_normalizer_iff.1 hbP _
   · intro q b' hb' A hk hq
-    refine leviTriv_autQ (hρ := hρ) hPY hr hD1 hDt hm hbY hW ?_
+    refine leviTriv_autQ (hρ := hρ) hr hD1 hDt hm hbY hW ?_
     have hq' : q = ⟨plusFlagLevi K (hD b' hb') (SpecialLinearGroup.toGL A),
         plusFlagLevi_mem_plusFlagStab hr hD hb' _⟩ := Subtype.ext hq
     rw [hq']
@@ -375,12 +387,13 @@ theorem normFix_autHom {b : A} (hbY : b ∈ Subgroup.normalizer (Y : Set A))
       · exact toHat_mem_wSup_plusResExt_two hPY hD1 hDt hD ht hr htm (rpElt_two_cases hac s) hqmem
       · refine toHat_mem_wSup_res_three (hD := hD) (ht := ht) (htm := htm) hPY hD1 hDt hm3
           (fun b' hb' => plusEBlockHom_plusResExt hD htm hDt hb' hqmem) ?_
-        change plusResAut hD ht htm ⟨plusResExt K htm (rpElt a c s), hqmem⟩ ∈ _
         rw [plusResAut_plusResExt hD ht htm hqmem]
         exact eichler_mem_elementaryGroup _ _ _
-    exact leviTriv_autQ (hρ := hρ) hPY hr hD1 hDt hm hbY hW hw
+    exact leviTriv_autQ (hρ := hρ) hr hD1 hDt hm hbY hW hw
 
 include hρ hPY hD1 hDt in
+omit [Finite A] in
+omit [Finite K] in
 theorem exists_block_of_nonabelian (hD : ∀ d ∈ D, d ≤ r) (ht : t = 0 ∨ t ∈ D)
     (htm : t + m = r) (hm : m = 0 ∨ 2 ≤ m)
     (hna : ∃ x ∈ P, ∃ y ∈ P, x * y * x⁻¹ * y⁻¹ ∉ pCoreOf 2 P) :
@@ -397,7 +410,7 @@ theorem exists_block_of_nonabelian (hD : ∀ d ∈ D, d ≤ r) (ht : t = 0 ∨ t
     refine mem_leviKer.2 ⟨fun b hb => ?_, ?_⟩
     · rw [map_commutatorElement]
       exact commutatorElement_eq_one_iff_mul_comm.2 (gl_mul_comm_of_lt_two (hlt b hb) _ _)
-    · haveI := gl_subsingleton_zero (K := K)
+    · have := gl_subsingleton_zero (K := K)
       exact Subsingleton.elim _ _
   have h1 : toHat ρ hρ ⁅x', y'⁆ = 1 := toHat_eq_one_of_mem_leviKer hPY hD1 hDt hc
   change QuotientGroup.mk' _ (toP ρ hρ ⁅x', y'⁆) = 1 at h1

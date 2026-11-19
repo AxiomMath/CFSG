@@ -59,7 +59,7 @@ theorem ggExists_sl2_of_tableBPosSU {G : Type} [Group G] [Finite G] {p : ℕ} {B
   have hblockMap_inj : Function.Injective blockMap := blockEmb_injective (by omega)
   have hφinj : Function.Injective (blockMap.comp eSL.toMonoidHom) :=
     hblockMap_inj.comp eSL.injective
-  haveI : CharP (fixedSubfield K 2 f) 2 := inferInstance
+  have : CharP (fixedSubfield K 2 f) 2 := inferInstance
   let θ : Matrix.SpecialLinearGroup (Fin 2) (fixedSubfield K 2 f) →* G :=
     ψ.comp ((MulAut.conj g).toMonoidHom.comp (blockMap.comp eSL.toMonoidHom))
   have hθinj : Function.Injective θ := by
@@ -94,7 +94,7 @@ theorem ggRk1ConclEx_of_sl2 {G : Type} [Group G] [Finite G] {p : ℕ} {Bs X : Su
   obtain ⟨b, hnb, hlabX⟩ := hlab
   have hb3 : 3 ≤ b := by omega
   obtain ⟨n', hn'in, hn'N, hn'act⟩ := ggExists_weylElt_of_mem_ggAutomizer hrA hr2
-  haveI : CharP (fixedSubfield K 2 f) 2 := inferInstance
+  have : CharP (fixedSubfield K 2 f) 2 := inferInstance
   refine ⟨fixedSubfield K 2 f, inferInstance, inferInstance, θ, inferInstance, hθinj, hrangeθ,
     ⟨n', hn'in, hn'N, hn'act⟩, ?_, ?_, ?_, ?_⟩
   · intro hs
@@ -144,9 +144,9 @@ theorem ggRk1Concl_unitary_nbr {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs :
     (hrC : r ∈ ggCoxRefl M e) : GGRk1Concl p Bs X r := by
   obtain ⟨K, hKfield, hKfin, hKchar, f, n, ψ, hKcard, hn4, hker, hrange, hpf, hacts, hlab⟩ :=
     ggNSLie_cover_of_esu hU
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   exact (ggRk1ConclEx_of_unitaryCover_nbr hcfg hpres hX hXns hKcard hn4 hker hrange hpf hacts hlab
     hrA hrC).toConcl
 

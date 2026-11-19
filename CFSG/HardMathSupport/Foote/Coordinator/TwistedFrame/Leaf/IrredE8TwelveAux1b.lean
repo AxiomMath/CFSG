@@ -85,7 +85,7 @@ private theorem torus_conj_Qθ (c : Fˣ) {q : ModGL τ F} (hq : q ∈ Qθ τ F) 
     by_cases hγ : γ = β
     · subst hγ
       simp
-    · simp [Pi.single_apply, hγ]
+    · simp [hγ]
   · intro t
     have hconj := ScalarTorusAux.torus_conj_pinnedX (isRoot_highRoot τ) (isRoot_highRoot τ) c t
     rw [hh] at hconj

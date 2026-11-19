@@ -50,9 +50,9 @@ theorem hasNormalSimpleCentralizer_projImage_glPi {π : Bool} {p f : ℕ} {K : T
   have hπ : π = false → UnitaryFieldData p f K := fun h => by subst h; exact hK.unitary
   have hSP : projImage (Sec4.slPi π 3 (p ^ f) K) ≤ projImage (Sec4.glPi π 3 (p ^ f) K) :=
     Subgroup.map_mono (Sec4.slPi_le_glPi hπ)
-  haveI : IsSimpleGroup (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
+  have : IsSimpleGroup (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
     Sec8.Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
-  haveI : Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
+  have : Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
     Sec13.isPerfect_projImage_slPi hK hq2
   obtain ⟨N₀, hN₀⟩ : ∃ N₀ : Subgroup ↥(projImage (Sec4.glPi π 3 (p ^ f) K)),
       N₀ = (projImage (Sec4.slPi π 3 (p ^ f) K)).subgroupOf
@@ -66,12 +66,12 @@ theorem hasNormalSimpleCentralizer_projImage_glPi {π : Bool} {p f : ℕ} {K : T
     have hNs : IsSimpleGroup ↥N₀ := by
       rw [hN₀]
       exact (Subgroup.subgroupOfEquivOfLe hSP).isSimpleGroup
-    haveI := hNs.toNontrivial
-    haveI : Group.IsPerfect ↥N₀ := by
+    have := hNs.toNontrivial
+    have : Group.IsPerfect ↥N₀ := by
       rw [hN₀]
       exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hSP).symm.toMonoidHom)
         (MulEquiv.surjective _)
-    haveI : IsMulCommutative ↥N₀ := ⟨⟨hc⟩⟩
+    have : IsMulCommutative ↥N₀ := ⟨⟨hc⟩⟩
     exact Group.IsPerfect.not_isMulCommutative ↥N₀ this
   · rw [eq_bot_iff]
     rintro ⟨y, hy⟩ hx

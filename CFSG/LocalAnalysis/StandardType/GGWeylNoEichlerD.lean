@@ -31,7 +31,7 @@ private lemma ggBCDE_sum_ggDSimple (p m : ℕ) (i : Fin m) (hi : (i : ℕ) + 1 <
       (if (l : ℕ) = (i : ℕ) then (1 : ZMod p) else 0) +
       (if (l : ℕ) = (i : ℕ) + 1 then (-1 : ZMod p) else 0) := by
     intro l
-    rw [ggDSimple, if_pos hi]
+    rw [ggDSimple, ite_eq_left hi]
     by_cases h1 : (l : ℕ) = (i : ℕ)
     · have h2 : ¬ (l : ℕ) = (i : ℕ) + 1 := by omega
       simp [h1]
@@ -61,19 +61,19 @@ private lemma ggBCDE_sum_ggDSimple_fork (p m : ℕ) (hm : 2 ≤ m) (i : Fin m)
       (if (l : ℕ) = m - 2 then (1 : ZMod p) else 0) +
       (if (l : ℕ) = m - 1 then (1 : ZMod p) else 0) := by
     intro l
-    rw [ggDSimple, if_neg hi]
+    rw [ggDSimple, ite_eq_right hi]
     by_cases h2 : (l : ℕ) + 2 = m
     · have h : (l : ℕ) = m - 2 := by omega
-      rw [if_pos (Or.inl h2), h]
+      rw [ite_eq_left (Or.inl h2), h]
       have hlt : ¬ (m - 2 : ℕ) = m - 1 := by omega
       simp [hlt]
     · by_cases h1 : (l : ℕ) + 1 = m
       · have h : (l : ℕ) = m - 1 := by omega
-        rw [if_pos (Or.inr h1), h]
+        rw [ite_eq_left (Or.inr h1), h]
         have hlt : ¬ (m - 1 : ℕ) = m - 2 := by omega
         simp [hlt]
       · have hc : ¬ ((l : ℕ) + 2 = m ∨ (l : ℕ) + 1 = m) := by omega
-        rw [if_neg hc]
+        rw [ite_eq_right hc]
         have hlt2 : ¬ (l : ℕ) = m - 2 := by omega
         have hlt1 : ¬ (l : ℕ) = m - 1 := by omega
         simp [hlt2, hlt1]
@@ -96,7 +96,7 @@ private lemma ggBCDE_chain_rel {n : ℕ} (i : Fin n) (hi : (i : ℕ) + 1 < n) :
     ggDSimple 3 n i =
       (Pi.single i (1 : ZMod 3) - Pi.single ⟨(i : ℕ) + 1, hi⟩ 1 : GGBCV n) := by
   funext j
-  rw [ggDSimple, if_pos hi]
+  rw [ggDSimple, ite_eq_left hi]
   simp only [Pi.sub_apply]
   by_cases h1 : (j : ℕ) = (i : ℕ)
   · have hj : j = i := Fin.ext h1
@@ -107,14 +107,14 @@ private lemma ggBCDE_chain_rel {n : ℕ} (i : Fin n) (hi : (i : ℕ) + 1 < n) :
         have := congrArg Fin.val h
         dsimp only at this
         omega)]
-    rw [if_pos h1, Pi.single_eq_same, hne]
+    rw [ite_eq_left h1, Pi.single_eq_same, hne]
     ring
   · have hPi : (Pi.single i (1 : ZMod 3) : GGBCV n) j = 0 := by
       rw [Pi.single_eq_of_ne (show j ≠ i from fun h => h1 (congrArg Fin.val h))]
     by_cases h2 : (j : ℕ) = (i : ℕ) + 1
     · have hj : j = ⟨(i : ℕ) + 1, hi⟩ := Fin.ext h2
       subst j
-      rw [if_neg h1, if_pos h2, Pi.single_eq_same, hPi]
+      rw [ite_eq_right h1, ite_eq_left h2, Pi.single_eq_same, hPi]
       ring_nf
     · have hPi2 : (Pi.single (⟨(i : ℕ) + 1, hi⟩ : Fin n) (1 : ZMod 3) : GGBCV n) j = 0 := by
         rw [Pi.single_eq_of_ne (show j ≠ (⟨(i : ℕ) + 1, hi⟩ : Fin n) from by
@@ -122,7 +122,7 @@ private lemma ggBCDE_chain_rel {n : ℕ} (i : Fin n) (hi : (i : ℕ) + 1 < n) :
           have := congrArg Fin.val h
           dsimp only at this
           omega)]
-      rw [if_neg h1, if_neg h2, hPi, hPi2]
+      rw [ite_eq_right h1, ite_eq_right h2, hPi, hPi2]
       ring
 
 private lemma ggBCDE_fork_rel {n : ℕ} (hn : 2 ≤ n) :
@@ -133,10 +133,10 @@ private lemma ggBCDE_fork_rel {n : ℕ} (hn : 2 ≤ n) :
   have hlast : ¬ ((⟨n - 1, by omega⟩ : Fin n) : ℕ) + 1 < n := by
     dsimp only
     omega
-  rw [ggDSimple, if_neg hlast]
+  rw [ggDSimple, ite_eq_right hlast]
   simp only [Pi.add_apply]
   by_cases h2 : (j : ℕ) + 2 = n
-  · rw [if_pos (Or.inl h2)]
+  · rw [ite_eq_left (Or.inl h2)]
     have hj : j = ⟨n - 2, by omega⟩ := Fin.ext (by dsimp only; omega)
     rw [hj]
     have hne : (⟨n - 2, by omega⟩ : Fin n) ≠ ⟨n - 1, by omega⟩ := by
@@ -147,7 +147,7 @@ private lemma ggBCDE_fork_rel {n : ℕ} (hn : 2 ≤ n) :
     rw [Pi.single_eq_same, Pi.single_eq_of_ne hne]
     ring
   · by_cases h1 : (j : ℕ) + 1 = n
-    · rw [if_pos (Or.inr h1)]
+    · rw [ite_eq_left (Or.inr h1)]
       have hj : j = ⟨n - 1, by omega⟩ := Fin.ext (by dsimp only; omega)
       rw [hj]
       have hne : (⟨n - 1, by omega⟩ : Fin n) ≠ ⟨n - 2, by omega⟩ := by
@@ -158,7 +158,7 @@ private lemma ggBCDE_fork_rel {n : ℕ} (hn : 2 ≤ n) :
       rw [Pi.single_eq_same, Pi.single_eq_of_ne hne]
       ring
     · have hc : ¬ ((j : ℕ) + 2 = n ∨ (j : ℕ) + 1 = n) := by omega
-      rw [if_neg hc]
+      rw [ite_eq_right hc]
       have h1' : j ≠ ⟨n - 2, by omega⟩ := by
         intro h
         have := congrArg Fin.val h
@@ -327,8 +327,8 @@ private theorem ggBCDE_rho_D {n : ℕ} (hn : 5 ≤ n) :
     rwa [hmapD] at h
   have hDsub : ggDRoots n ⊆ ggBCRoots n := by
     intro v hv
-    simp only [ggDRoots, Set.mem_setOf_eq] at hv
-    simp only [ggBCRoots, Set.mem_setOf_eq]
+    simp only [ggDRoots, Set.mem_ofPred_eq] at hv
+    simp only [ggBCRoots, Set.mem_ofPred_eq]
     omega
   obtain ⟨σ, ε', hε', hsingle⟩ := ggBCReflGp_monomial (S := ggDRoots n) hDsub hmemD
   have hne : ¬ GGEichler g :=

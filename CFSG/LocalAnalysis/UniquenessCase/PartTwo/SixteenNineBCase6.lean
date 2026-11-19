@@ -18,7 +18,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 private theorem s16n9b_commSub_sup_direct {T : Type*} [CommGroup T]
-    {U V : Subgroup T} {e : MulAut T} (hU : ∀ u ∈ U, e u ∈ U) (hV : ∀ v ∈ V, e v ∈ V) :
+    {U V : Subgroup T} {e : MulAut T} (_hU : ∀ u ∈ U, e u ∈ U) (_hV : ∀ v ∈ V, e v ∈ V) :
     commSub (U ⊔ V) (Subgroup.zpowers e) =
       commSub U (Subgroup.zpowers e) ⊔ commSub V (Subgroup.zpowers e) := by
   refine le_antisymm ?_ (sup_le (commSub_mono le_sup_left le_rfl)
@@ -211,7 +211,7 @@ private theorem s16n9b_fixV_altDn_five {T : Type} [CommGroup T] {A : Subgroup (M
 private theorem s16n9b_not_comm_of_simple {X : Type*} [Group X] [Finite X]
     (hS : IsSimpleGroup X) (hcard : ¬ (Nat.card X).Prime) : ¬ IsMulCommutative X := by
   intro hc
-  haveI : IsMulCommutative X := hc
+  have : IsMulCommutative X := hc
   exact hcard (Group.is_simple_iff_prime_card.mp hS)
 
 private theorem s16n9b_rk_map {T : Type*} [CommGroup T] (e : MulAut T) (U : Subgroup T) :
@@ -446,11 +446,11 @@ private theorem s16n9b_no_small_rank {T : Type} [CommGroup T] [Finite T]
     exact inv_mul_eq_one.mp h1'
   let eAW : ↥A ≃* ↥(autSub A W) := MulEquiv.ofBijective r ⟨rinj, rsurj⟩
   have hBsimple : IsSimpleGroup ↥(autSub A W) := by
-    haveI : IsSimpleGroup ↥A := hAs
+    have : IsSimpleGroup ↥A := hAs
     exact MulEquiv.isSimpleGroup eAW.symm
   have hBnoncomm : ¬ IsMulCommutative ↥(autSub A W) := by
     intro hc
-    haveI : IsMulCommutative ↥(autSub A W) := hc
+    have : IsMulCommutative ↥(autSub A W) := hc
     apply hAn
     refine ⟨⟨fun x y => ?_⟩⟩
     apply eAW.injective
@@ -506,7 +506,7 @@ private theorem s16n9b_no_small_rank {T : Type} [CommGroup T] [Finite T]
       rw [h]
       exact Subgroup.inv_mem _ ha
   have hKbot_top : K = ⊥ ∨ K = ⊤ := by
-    haveI : K.Normal := hKnormal
+    have : K.Normal := hKnormal
     exact hBsimple.eq_bot_or_eq_top_of_normal K
   rcases hKbot_top with hKbot | hKtop
   ·
@@ -843,7 +843,7 @@ private theorem s16n9b_rank_of_alt {T : Type} [CommGroup T] [Finite T]
       (∀ w ∈ W, φ w = w) ∨ 2 ≤ rk ↥(commSub W (Subgroup.zpowers φ)) := by
   have hsimple : IsSimpleGroup ↥A := by
     obtain ⟨e⟩ := hAlt
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     exact MulEquiv.isSimpleGroup e
   have hcard : Nat.card ↥A = 60 := by
     obtain ⟨e⟩ := hAlt

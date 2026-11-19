@@ -305,7 +305,7 @@ private theorem layer_le_Q {D : Data G} {V₀ V L : Subgroup G}
 
 
 private theorem component_Q {D : Data G} {V₀ V L : Subgroup G}
-    (c : A5Data18 D V₀ V L) {C : Subgroup (Bar2 D.M)}
+    (_c : A5Data18 D V₀ V L) {C : Subgroup (Bar2 D.M)}
     (hC : CFSG.IsComponent C)
     (hCQ : C ≤ CFSG.RankThree.PartOne.pElementSubgroup 5
       (⊤ : Subgroup (Bar2 D.M))) :
@@ -317,7 +317,7 @@ private theorem component_Q {D : Data G} {V₀ V L : Subgroup G}
 
 
 private theorem isComponent_map_Q {D : Data G} {V₀ V L : Subgroup G}
-    (c : A5Data18 D V₀ V L)
+    (_c : A5Data18 D V₀ V L)
     {F : Subgroup (CFSG.RankThree.PartOne.pElementSubgroup 5
       (⊤ : Subgroup (Bar2 D.M)))}
     (hF : CFSG.Open.IsComponentOf F ⊤) :
@@ -354,23 +354,23 @@ theorem A5Data18.exists_second_component {D : Data G} {V₀ V L : Subgroup G}
   have hKQcomp : CFSG.Open.IsComponentOf KQ ⊤ := by
     by_cases h : LQ = F₁
     · change CFSG.Open.IsComponentOf (if LQ = F₁ then F₂ else F₁) ⊤
-      rw [if_pos h]; exact hF₂comp
+      rw [ite_eq_left h]; exact hF₂comp
     · change CFSG.Open.IsComponentOf (if LQ = F₁ then F₂ else F₁) ⊤
-      rw [if_neg h]; exact hF₁comp
+      rw [ite_eq_right h]; exact hF₁comp
   have hKQne : KQ ≠ LQ := by
     by_cases h : LQ = F₁
     · change (if LQ = F₁ then F₂ else F₁) ≠ LQ
-      rw [if_pos h]
+      rw [ite_eq_left h]
       exact fun hEq => hne (hEq.trans h).symm
     · change (if LQ = F₁ then F₂ else F₁) ≠ LQ
-      rw [if_neg h]
+      rw [ite_eq_right h]
       exact fun hEq => h hEq.symm
   have hKQiso : Nonempty (↥KQ ≃* alternatingGroup (Fin 5)) := by
     by_cases h : LQ = F₁
     · change Nonempty (↥(if LQ = F₁ then F₂ else F₁) ≃* alternatingGroup (Fin 5))
-      rw [if_pos h]; exact hF₂iso
+      rw [ite_eq_left h]; exact hF₂iso
     · change Nonempty (↥(if LQ = F₁ then F₂ else F₁) ≃* alternatingGroup (Fin 5))
-      rw [if_neg h]; exact hF₁iso
+      rw [ite_eq_right h]; exact hF₁iso
   have hKcomp : CFSG.IsComponent (KQ.map Q.subtype) := isComponent_map_Q c hKQcomp
   obtain ⟨K, hK, hKbar⟩ := s13_exists_calC_of_component D.M hKcomp
   have hKne : K ≠ L := by
@@ -461,19 +461,21 @@ theorem A5Data18.commutator_le {D : Data G} {V₀ V L K : Subgroup G}
   exact (calC_commutator_le_of_ne c.hyp.hL.1 hK hKne.symm).trans (inf_le_left.trans hLp)
 
 
+omit [Finite G] in
 private theorem uc22ConjClosure_le_of_forall {M L X : Subgroup G}
     (h : ∀ g ∈ M, conjSubgroup L g ≤ X) : UC22.conjClosure M L ≤ X := by
   refine iSup₂_le fun J hJ => ?_
   obtain ⟨g, hg, rfl⟩ := hJ
   simpa only [conjSubgroup, inv_inv] using h g⁻¹ (M.inv_mem hg)
 
+omit [Finite G] in
 private theorem le_uc22ConjClosure_of_mem {M L : Subgroup G} {g : G} (hg : g ∈ M) :
     conjSubgroup L g ≤ UC22.conjClosure M L :=
   le_iSup₂ (f := fun J (_ : J ∈ UC22.conjSetOf M L) => J) (conjSubgroup L g)
     ⟨g⁻¹, M.inv_mem hg, rfl⟩
 
 theorem A5Data18.dichotomy {D : Data G} {V₀ V L K : Subgroup G}
-    (c : A5Data18 D V₀ V L) (hK : K ∈ calC D.M) (hKne : K ≠ L)
+    (c : A5Data18 D V₀ V L) (hK : K ∈ calC D.M) (_hKne : K ≠ L)
     (hcal : ∀ J ∈ calC D.M, J = L ∨ J = K) :
     (UC22.conjClosure D.M L = L ⊔ K ∧ ∃ x ∈ D.M, K = conjSubgroup L x) ∨
       (UC22.conjClosure D.M L = L ∧ (L.subgroupOf D.M).Normal ∧
@@ -533,6 +535,7 @@ theorem A5Data18.dichotomy {D : Data G} {V₀ V L K : Subgroup G}
       · exact (Quasithin.conjSubgroup_eq_iff_mem_normalizer).1 h
     exact ⟨hclosure, hLnorm, hKnorm⟩
 
+omit [Finite G] in
 private theorem uc22ConjClosure_conjSubgroup {M L : Subgroup G} {x : G} (hx : x ∈ M) :
     UC22.conjClosure M (conjSubgroup L x) = UC22.conjClosure M L := by
   have hset : UC22.conjSetOf M (conjSubgroup L x) = UC22.conjSetOf M L := by
@@ -674,6 +677,7 @@ theorem A5Data18.three_not_mem_sig
   have hcal : ∀ J ∈ calC D.M, J = L ∨ J = K := c.calC_eq hK hKne
   exact three_not_mem_sig_aux c hK hK5 hAltK hcal h1768
 
+omit [Finite G] in
 theorem map_mbarImage_barSub {M V X : Subgroup G} (hMV : M ≤ normalizer (V : Set G))
     (hV : IsElemAbelian 2 V) [hN : ((F11.CTilde M ⊥ V).subgroupOf M).Normal]
     (hXM : X ≤ M) :
@@ -747,7 +751,7 @@ theorem A5Data18.compBar_subset {D : Data G} {V₀ V L K : Subgroup G}
             (barSub_mono ⊥ V hV (s13_le_of_mem_calC hK))
 
 theorem barImage_inf_eq_bot_of_calC {D : Data G} {L K : Subgroup G}
-    (hL : L ∈ calC D.M) (hK : K ∈ calC D.M) (hKne : K ≠ L)
+    (hL : L ∈ calC D.M) (_hK : K ∈ calC D.M) (_hKne : K ≠ L)
     (hLalt : IsAlt (Bar2 L) 5)
     (hcomm : ∀ a ∈ barImage D.M L, ∀ b ∈ barImage D.M K, a * b = b * a) :
     barImage D.M L ⊓ barImage D.M K = ⊥ := by

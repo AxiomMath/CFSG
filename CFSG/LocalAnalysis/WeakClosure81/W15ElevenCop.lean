@@ -12,6 +12,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem b15_relIndex_sup_eq_of_le_normalizer {A B : Subgroup G}
     (hB : B ≤ Subgroup.normalizer (A : Set G)) : B.relIndex (A ⊔ B) = B.relIndex A := by
   unfold Subgroup.relIndex Subgroup.index
@@ -30,6 +31,7 @@ private theorem b15_relIndex_sup_eq_of_le_normalizer {A B : Subgroup G}
     Subgroup.mem_subgroupOf]
   simpa using hb
 
+omit [Finite G] in
 private theorem b15_relIndex_sup_eq_card_of_disjoint {A B : Subgroup G}
     (hdisj : B ⊓ A = ⊥) (hB : B ≤ Subgroup.normalizer (A : Set G)) :
     B.relIndex (A ⊔ B) = Nat.card A := by
@@ -49,7 +51,7 @@ private theorem b15_not_dvd_card_of_isPGroup {p r : ℕ} [Fact p.Prime] [Fact r.
 
 theorem exists_mul_of_comm_mem_of_coprime {p r : ℕ} [Fact p.Prime] [Fact r.Prime] (hpr : p ≠ r)
     {Q I X : Subgroup G} (hX : IsPGroup p ↥X) (hI : IsPGroup r ↥I) (hIQ : I ≤ Q)
-    (hXI : X ≤ normalizer (I : Set G)) (hQI : Q ≤ normalizer (I : Set G))
+    (hXI : X ≤ normalizer (I : Set G)) (_hQI : Q ≤ normalizer (I : Set G))
     (hcomm : ∀ x ∈ X, ∀ q ∈ Q, ⁅x, q⁆ ∈ I) {q : G} (hq : q ∈ Q) :
     ∃ c ∈ Q ⊓ centralizer (X : Set G), ∃ i ∈ I, q = c * i := by
   classical
@@ -72,7 +74,7 @@ theorem exists_mul_of_comm_mem_of_coprime {p r : ℕ} [Fact p.Prime] [Fact r.Pri
     · rintro ⟨x, hx, hxy⟩
       exact ⟨x, hx, by simpa [MulAut.smul_def, MulAut.conj_apply, mul_assoc] using hxy⟩
     · rintro ⟨x, hx, rfl⟩
-      exact ⟨x, hx, by simp [MulAut.smul_def, MulAut.conj_apply, mul_assoc]⟩
+      exact ⟨x, hx, by simp [MulAut.smul_def, mul_assoc]⟩
   have hX'le : X' ≤ J := by
     intro y hy
     obtain ⟨x, hx, rfl⟩ := (hX'mem y).mp hy
@@ -96,7 +98,7 @@ theorem exists_mul_of_comm_mem_of_coprime {p r : ℕ} [Fact p.Prime] [Fact r.Pri
     ⟨hX'le, hX'grp, by rw [hrelX', hrelX]; exact hnotdvdI⟩
   let S : Sylow p ↥J := hXJ_sylow.toSylow
   let T : Sylow p ↥J := hX'J_sylow.toSylow
-  haveI : Finite (Sylow p ↥J) := Sylow.finite_of_finiteIndex S
+  have : Finite (Sylow p ↥J) := Sylow.finite_of_finiteIndex S
   obtain ⟨j, hj⟩ := MulAction.exists_smul_eq (M := ↥J) S T
   have hcoe : (MulAut.conj j) • (X.subgroupOf J) = X'.subgroupOf J := by
     have h1 : (↑(j • S) : Subgroup ↥J) = (T : Subgroup ↥J) :=
@@ -126,7 +128,7 @@ theorem exists_mul_of_comm_mem_of_coprime {p r : ℕ} [Fact p.Prime] [Fact r.Pri
     rw [Subgroup.mem_normalizer_iff'']
     intro h
     rw [← SetLike.ext_iff.mp hqj_smul h, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-    simp [MulAut.conj_inv_apply, mul_assoc]
+    simp [mul_assoc]
   obtain ⟨i₁, hi₁, x₁, hx₁, hix⟩ := by
     have hmem : (j : G) ∈ (I : Set G) * (X : Set G) := by
       rw [← Subgroup.coe_mul_of_right_le_normalizer_left I X hXI]

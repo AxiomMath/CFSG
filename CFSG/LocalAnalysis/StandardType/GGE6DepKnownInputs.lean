@@ -14,6 +14,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conjSetting_mem_L {p : ℕ} {Bs : Subgroup G} {x y : G} {L : Subgroup G}
     (h : GGE6DepConjSetting p Bs x y L) : y ∈ L := by
   obtain ⟨-, -, g, x₁, y₁, w, hx₁, hy₁, hy, hw, -, -, -, -, -, -, hyL, -⟩ := h

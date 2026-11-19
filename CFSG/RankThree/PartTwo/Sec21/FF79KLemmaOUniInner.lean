@@ -30,7 +30,7 @@ theorem unitary_inner_a5_false {p : ℕ} (hp : p.Prime) (hpℓ : p ≠ ℓ) (h�
     (hZ : Subgroup.center ↥T = ⊥)
     (hL : Nonempty ((↥T ⧸ Subgroup.center ↥T) ≃* alternatingGroup (Fin 5))) : False := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) h.prime.one_lt
     omega
@@ -50,7 +50,7 @@ theorem unitary_inner_a5_false {p : ℕ} (hp : p.Prime) (hpℓ : p ≠ ℓ) (h�
     ((Subgroup.equivMapOfInjective F (toLinSU h n) toLinSU_injective).trans
       (MulEquiv.subgroupCongr hFmap)).symm
   let π := QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n)
-  haveI : Finite ↥F := inferInstance
+  have : Finite ↥F := inferInstance
   subst ha
   have hmem : ∀ u : ↥(specialBlock (idForm h n)
       (Matrix.GeneralLinearGroup.toLin (A : GL (Fin n) K)) (a.1 : K[X])),

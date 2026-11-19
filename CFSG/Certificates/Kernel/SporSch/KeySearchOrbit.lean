@@ -60,7 +60,7 @@ theorem toL_finSet {n : Nat} {l : List Nat} (hl : Good n l) : toL (finSet n l) =
 theorem permOfArr_val {n : Nat} {t : Array Nat} (ht : PermA n t) (x : Fin n) :
     (permOfArr n t x).val = t[x.val]! := by
   unfold permOfArr
-  rw [dif_pos ⟨ht.1, ht.2⟩]
+  rw [dite_eq_left ⟨ht.1, ht.2⟩]
   rfl
 
 theorem img_toL {n : Nat} {t : Array Nat} (ht : PermA n t) (U : Set (Fin n)) :

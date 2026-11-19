@@ -522,7 +522,7 @@ private theorem ggOmW3c_exists_ne_zero_ne_one_of_card_ne_two
     {K : Type} [Field K] [Fintype K] (hK : Nat.card K ≠ 2) :
     ∃ c : K, c ≠ 0 ∧ c ≠ 1 := by
   classical
-  haveI : Nontrivial K := ⟨0, 1, zero_ne_one⟩
+  have : Nontrivial K := ⟨0, 1, zero_ne_one⟩
   have h1 : 1 < Nat.card K := by
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
@@ -554,7 +554,7 @@ private theorem ggOmW3c_omegaGroup_le_commutator
   refine (CFSG.RankThree.GF2n.Smith81.omegaGroup_le_elementaryGroup_of_four_le
     (V := ι → K) hΦ h4').trans ?_
   by_cases hK2 : Nat.card K = 2
-  · haveI : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
+  · have : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
       CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2.of_natCard_eq_two hK2
     exact CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.elementaryGroup_le_commutator
       (V := ι → K) hΦ (Or.inl h5')
@@ -631,7 +631,7 @@ private lemma ggOmW3c_finrank_range_baseChange {ι K₀ K : Type} [Fintype ι] [
     Module.finrank K (LinearMap.range
         (LinearMap.baseChange K (Matrix.toLin' (M₀ - 1)))) =
       Module.finrank K₀ (LinearMap.range (Matrix.toLin' (M₀ - 1))) := by
-  haveI : FiniteDimensional K (TensorProduct K₀ K (ι → K₀)) := inferInstance
+  have : FiniteDimensional K (TensorProduct K₀ K (ι → K₀)) := inferInstance
   have hker : Module.finrank K (LinearMap.ker
         (LinearMap.baseChange K (Matrix.toLin' (M₀ - 1)))) =
       Module.finrank K₀ (LinearMap.ker (Matrix.toLin' (M₀ - 1))) := by
@@ -666,8 +666,7 @@ private lemma ggOmW3_finrank_range_map {ι K₀ K : Type} [Fintype ι] [Decidabl
         (LinearMap.baseChange K (Matrix.toLin' (M₀ - 1))) := by
     apply LinearMap.ext
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul c w =>
         change Matrix.toLin' (M₀.map (algebraMap K₀ K) - 1) (ggOmW3c_e (c ⊗ₜ[K₀] w)) =
           ggOmW3c_e ((LinearMap.baseChange K (Matrix.toLin' (M₀ - 1))) (c ⊗ₜ[K₀] w))
@@ -744,9 +743,9 @@ private lemma ggOmW3_mem_statedOmega_descent {ι K : Type} [Fintype ι] [Decidab
     (h8 : 8 ≤ Fintype.card ι) (g : GL ι K) (hg : g.map σ.toRingHom = g) :
     g ∈ StatedOmega ⇑Φ' ↔
       ggOmW3_descendGL σ g hg ∈ StatedOmega ⇑(ggOmW3_descendForm σ Φ' hinv) := by
-  letI : Finite K := Finite.of_fintype K
-  haveI : Fintype ↥(fixedField K σ) := Fintype.ofFinite ↥(fixedField K σ)
-  haveI : CharP ↥(fixedField K σ) 2 := ggOmW3_charP_fixedField (K := K) σ
+  let : Finite K := Finite.of_fintype K
+  have : Fintype ↥(fixedField K σ) := Fintype.ofFinite ↥(fixedField K σ)
+  have : CharP ↥(fixedField K σ) 2 := ggOmW3_charP_fixedField (K := K) σ
   have h4 : 4 ≤ Fintype.card ι := by omega
   have h5 : 5 ≤ Fintype.card ι := by omega
   have hnd₀ : (QuadraticMap.polarBilin (ggOmW3_descendForm σ Φ' hinv)).Nondegenerate :=
@@ -1051,7 +1050,7 @@ private lemma ggOmW3_isSemisimple {ι K : Type} [Fintype ι] [DecidableEq ι] [F
   refine Module.End.isSemisimple_of_squarefree_aeval_eq_zero
     (p := (Polynomial.X : Polynomial (AlgebraicClosure K)) ^ n - 1) ?_ ?_
   · exact (Polynomial.X_pow_sub_one_separable_iff.mpr hn).squarefree
-  · simpa [Polynomial.aeval_X, hfpow]
+  · simp [Polynomial.aeval_X, hfpow]
 
 private lemma ggOmW3_eigDim_eq_rootMultiplicity {ι K : Type} [Fintype ι] [DecidableEq ι]
     [Field K] (M : Matrix ι ι K) (n : ℕ) (hn : (n : AlgebraicClosure K) ≠ 0)
@@ -1081,7 +1080,7 @@ private lemma ggOmW3_blockExp_eq_polyExp {ι K : Type} [Fintype ι] [DecidableEq
       ((M.charpoly).map (algebraMap K (AlgebraicClosure K))) := by
   classical
   rw [blockExp, ggOmW3_polyExp]
-  simp only [if_true]
+  simp only [ite_true]
   congr 1
   · rw [ggOmW3_eigDim_eq_rootMultiplicity M n hn hM 1]
   · congr 1
@@ -1175,7 +1174,7 @@ private lemma ggOmW3e_blockExp_map_general {ι F K : Type} [Fintype ι] [Decidab
     · intro x _ y _ hxy
       exact ee.injective hxy
   rw [blockExp, blockExp]
-  simp only [if_true]
+  simp only [ite_true]
   rw [heig1, hsum]
 
 private lemma ggOmW3_blockExp_conj {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
@@ -1208,7 +1207,7 @@ private lemma ggOmW3_blockExp_conj {ι K : Type} [Fintype ι] [DecidableEq ι] [
 
 private lemma ggOmW3_cast_orderOf_ne_zero {K : Type} [Field K] [CharP K 2] {n : ℕ}
     (h : Odd n) : (n : AlgebraicClosure K) ≠ 0 := by
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   intro h0
   have h2 : (2 : ℕ) ∣ n := (CharP.cast_eq_zero_iff (AlgebraicClosure K) 2 n).mp h0
@@ -1266,11 +1265,11 @@ theorem descent_centralizer_Omega {ι K : Type} [Fintype ι] [DecidableEq ι] [F
         ↥((Subgroup.centralizer {b₀}).comap (StatedOmega ⇑Φ₀).subtype)) ∧
       blockExp true (b : Matrix ι ι K) = blockExp true (b₀ : Matrix ι ι K₀) := by
   classical
-  haveI : Finite K := Finite.of_fintype K
+  have : Finite K := Finite.of_fintype K
   obtain ⟨P, hP⟩ := ggOmW3_hilbert90 σ hσ hσ2 A hAA
   let K₀ : Subfield K := fixedField K σ
-  haveI : Fintype ↥K₀ := Fintype.ofFinite ↥K₀
-  haveI : CharP ↥K₀ 2 := ggOmW3_charP_fixedField (K := K) σ
+  have : Fintype ↥K₀ := Fintype.ofFinite ↥K₀
+  have : CharP ↥K₀ 2 := ggOmW3_charP_fixedField (K := K) σ
   let Qm : Matrix ι ι K := ((P⁻¹ : GL ι K) : Matrix ι ι K)
   let Φ' : QuadraticForm K (ι → K) := ggOmW3_transformForm Φ Qm
   have hΦ'inv : ∀ w : ι → K, Φ' (fun i => σ (w i)) = σ (Φ' w) :=

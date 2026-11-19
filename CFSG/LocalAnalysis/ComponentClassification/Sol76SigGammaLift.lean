@@ -206,7 +206,7 @@ theorem exists_sylow_gamma_eq_top {Y K : Subgroup G} (hKY : K ≤ Y)
     omega
   obtain ⟨E, hET, hEe, hEc⟩ :=
     SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 2) (k := 3) hT3
-  have hTY2 : IsPGroup 2 TY := P.isPGroup'.map _
+  have hTY2 : IsPGroup 2 TY := P.isPGroup.map _
   obtain ⟨S', hS'⟩ := hTY2.exists_le_sylow
   refine ⟨S', ?_⟩
   set Γ := CFSG.Open.properTwoGenCoreGamma (S' : Subgroup ↥Y) 2 with hΓdef
@@ -239,7 +239,7 @@ theorem exists_sylow_gamma_eq_top {Y K : Subgroup G} (hKY : K ≤ Y)
   have hK : K ≤ Γ.map Y.subtype := by
     have hL : (Γ.map Y.subtype).comap K.subtype = ⊤ := by
       refine eq_top_of_gamma_map_eq_top (O := pPrimeCore 2 ↥K)
-        (Nat.coprime_two_left.mp (pPrimeCore_coprime_card (p := 2) (G := ↥K))) T₀.isPGroup'
+        (Nat.coprime_two_left.mp (pPrimeCore_coprime_card (p := 2) (G := ↥K))) T₀.isPGroup
         (fun x hx => hO ⟨x, hx, rfl⟩) (fun Q hQ hQr k hk => ?_)
         (hΓ (T₀.mapSurjective (QuotientGroup.mk'_surjective (pPrimeCore 2 ↥K))))
       have hkN : (k : G) ∈ normalizer ((Q.map K.subtype : Subgroup G) : Set G) :=

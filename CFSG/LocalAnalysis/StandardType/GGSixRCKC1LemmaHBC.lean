@@ -52,7 +52,7 @@ private theorem rckHBC_rootGroup_cent {n : ℕ} {F : Type} [Field F] {β : Fin n
   exact (rckHBC_commute_elt r hc₀ hcomm c).symm
 
 theorem rck_lemmaHC_BC
-    {m g : ℕ} (hg : 1 ≤ g) {β : Fin (ggU .PSp m g).D.rank → ℤ}
+    {m g : ℕ} (_hg : 1 ≤ g) {β : Fin (ggU .PSp m g).D.rank → ℤ}
     (hβ : GGLongRoot (ggU .PSp m g).D β) :
     RCKLemmaHCent (ggU .PSp m g) β := by
   change RCKLemmaHCent

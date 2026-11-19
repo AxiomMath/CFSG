@@ -10,13 +10,13 @@ theorem rckF4_no_center_prime_of_isCyclic {J : Type} [Group J] [Finite J]
     (hJ : commutator J = ⊤) {r : ℕ} (hr : r.Prime)
     (hcyc : ∀ P : Sylow r (J ⧸ Subgroup.center J), IsCyclic P) {z : J}
     (hz : z ∈ Subgroup.center J) (hzr : orderOf z = r) : False := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   let Z : Subgroup J := Subgroup.center J
   let π : J →* J ⧸ Z := QuotientGroup.mk' Z
   obtain ⟨S⟩ : Nonempty (Sylow r J) := Sylow.nonempty
-  have hPmap : IsPGroup r (S.map π) := (Sylow.isPGroup' S).map π
+  have hPmap : IsPGroup r (S.map π) := (Sylow.isPGroup S).map π
   obtain ⟨P, hSP⟩ : ∃ P : Sylow r (J ⧸ Z), S.map π ≤ P := IsPGroup.exists_le_sylow hPmap
-  haveI : IsCyclic P := hcyc P
+  have : IsCyclic P := hcyc P
   let f : S →* P :=
     (π.comp (S : Subgroup J).subtype).codRestrict P fun x =>
       hSP (by simpa using Subgroup.apply_coe_mem_map π (S : Subgroup J) x)
@@ -38,21 +38,21 @@ theorem rckF4_no_center_prime_of_isCyclic {J : Type} [Group J] [Finite J]
     exact pow_orderOf_eq_one z
   have hz1 : z = 1 :=
     CFSG.LocalAnalysis.RankThreeTheoremC.lift62x_center_eq_one hJ hr
-      (Sylow.isPGroup' S) (Sylow.not_dvd_index S) hQc hz hzf
+      (Sylow.isPGroup S) (Sylow.not_dvd_index S) hQc hz hzf
   have hr1 : r = 1 := by
     rw [← hzr, hz1, orderOf_one]
   exact hr.ne_one hr1
 
 theorem rckF4_A6_sylow_isCyclic {Q : Type} [Group Q] (e : Q ≃* alternatingGroup (Fin 6)) {r : ℕ}
     [Fact r.Prime] (hr : 5 ≤ r) (P : Sylow r Q) : IsCyclic P := by
-  haveI : Finite Q := Finite.of_equiv (alternatingGroup (Fin 6)) e.toEquiv.symm
+  have : Finite Q := Finite.of_equiv (alternatingGroup (Fin 6)) e.toEquiv.symm
   have hcardQ : Nat.card Q = 360 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     norm_num
   have hdvd : Nat.card P ∣ 360 := by
     rw [← hcardQ]
     exact Subgroup.card_subgroup_dvd_card (P : Subgroup Q)
-  obtain ⟨n, hn⟩ := IsPGroup.exists_card_eq (Sylow.isPGroup' P)
+  obtain ⟨n, hn⟩ := IsPGroup.exists_card_eq (Sylow.isPGroup P)
   have hndvd : r ^ n ∣ 360 := by rwa [hn] at hdvd
   have hr2 : ¬ r ^ 2 ∣ 360 := by
     rintro h

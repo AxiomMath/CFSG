@@ -65,7 +65,7 @@ theorem not_le_d1PlusCore_of_cover
     ¬ CFSG.ComponentClassification.AS76b.oUpperTwo I₀ ≤ d1PlusCore p H K := by
   intro hIX
   obtain ⟨H₁, R₁, he⟩ := hd.escape
-  haveI : Fact p.Prime := ⟨he.prime⟩
+  have : Fact p.Prime := ⟨he.prime⟩
   set I := CFSG.ComponentClassification.AS76b.oUpperTwo I₀ with hIdef
   obtain ⟨-, hMH, hHM⟩ := hd.nineEightFour' hS h984
   have hT := hd.toTwoLocalPhaseThree' hS h984
@@ -211,7 +211,7 @@ theorem not_le_d1PlusCore_of_cover
     have hcore : (primeComplementCore (G := N) p).map N.subtype ≤ M :=
       core_le_of_base (muAt_of_escape he) hQ₀ hQ₀N'
     obtain ⟨R, -, hRN, hR, S, hSR⟩ := exists_sylowBase he hQ₀ hQ₀N'
-    haveI : (d1KBar p M N).Normal := d1KBar_normal_of_escape he hQ₀ hQ₀N' hKN
+    have : (d1KBar p M N).Normal := d1KBar_normal_of_escape he hQ₀ hQ₀N' hKN
     have hsyl := sylowK_of_sylow (K := d1KBar p M N) S hSR
     have hb3 := (h98 hS p P M H₁ R₁ he N R hR hRN hN hNM hsyl).resolve_right (fun h => hp3 h.1)
     have hO2M : pCoreOf 2 N ≤ M := (h984 hS p P M H₁ R₁ he N R hR hRN hN hNM hsyl hb3).2.2

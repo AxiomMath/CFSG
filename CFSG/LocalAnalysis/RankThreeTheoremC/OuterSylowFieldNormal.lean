@@ -13,15 +13,15 @@ variable {X : Type*} [Group X]
 theorem sylow_normal_of_normal_isCyclic_index [Finite X] {p : ℕ} [Fact p.Prime]
     (N : Subgroup X) [N.Normal] (hcyc : IsCyclic ↥N) (hcop : ¬ p ∣ N.index)
     (S : Sylow p X) : (S : Subgroup X).Normal := by
-  haveI : IsCyclic ↥N := hcyc
-  haveI : Finite (X ⧸ N) := (finite_iff_subgroup_quotient N).mp inferInstance |>.2
+  have : IsCyclic ↥N := hcyc
+  have : Finite (X ⧸ N) := (finite_iff_subgroup_quotient N).mp inferInstance |>.2
   let T : Subgroup (X ⧸ N) := (S : Subgroup X).map (QuotientGroup.mk' N)
   have hTp : IsPGroup p T := by
-    simpa [T] using S.isPGroup'.map (QuotientGroup.mk' N)
+    simpa [T] using S.isPGroup.map (QuotientGroup.mk' N)
   have hTcard : Nat.card T ∣ N.index := by
     rw [Subgroup.index_eq_card]
     exact T.card_subgroup_dvd_card
-  haveI : Finite T := inferInstance
+  have : Finite T := inferInstance
   have hT1 : Nat.card T = 1 := by
     obtain ⟨n, hn⟩ := hTp.exists_card_eq
     have hpT : ¬ p ∣ Nat.card T := fun h => hcop (h.trans hTcard)

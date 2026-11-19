@@ -268,7 +268,7 @@ private theorem normSylowIn_projectiveSL_frame {F : Type} [Field F] [Finite F] {
     let g : SL(2 * m + 1 + 1 + tail, F) :=
       blockSL F (2 * m + 1 + 1 + tail) 2 (2 * k.val) (by have := k.isLt; omega) B
     let b : GL (Fin (2 * m + 1 + 1 + tail)) F := SpecialLinearGroup.toGL g
-    obtain ⟨n, hn⟩ := (Q k).isPGroup' ⟨B, hB⟩
+    obtain ⟨n, hn⟩ := (Q k).isPGroup ⟨B, hB⟩
     have hBpow : B ^ 2 ^ n = 1 := by
       have h := congrArg (fun x : ↥(Q k) => (x : SL(2, F))) hn
       simpa using h

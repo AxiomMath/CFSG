@@ -49,10 +49,10 @@ theorem closure_setOf_isTwoPow_eq_top {A : Type} [Group A] [Finite A] [IsSimpleG
       (by simpa [Subgroup.normalClosure] using Subgroup.closure_mono (hXconj.trans
         Subgroup.subset_closure))
       Subgroup.closure_le_normalClosure
-  haveI hnormal : (Subgroup.closure X).Normal := by rw [← hnormal_eq]; infer_instance
-  haveI := Fintype.ofFinite A
+  have hnormal : (Subgroup.closure X).Normal := by rw [← hnormal_eq]; infer_instance
+  have := Fintype.ofFinite A
   have h2' : 2 ∣ Fintype.card A := by rwa [← Nat.card_eq_fintype_card]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card 2 h2'
   have hxX : x ∈ X := ⟨1, by rw [hx]; norm_num⟩
   have hxne : x ≠ 1 := by rintro rfl; simp at hx
@@ -112,7 +112,7 @@ theorem eq_or_eq_top_of_le_of_index_eq {A : Type} [Group A] [Finite A] [IsSimple
 theorem b114_ElevenFourBAltGp_factorization_twelve_three : Nat.factorization 12 3 = 1 := by
   have h12 : (12 : ℕ) = 2 ^ 2 * 3 := by norm_num
   rw [h12, Nat.factorization_mul (by norm_num) (by norm_num : (3 : ℕ) ≠ 0)]
-  simp [Nat.factorization_eq_zero_iff, Nat.prime_three]
+  simp [Nat.prime_three]
 
 theorem b114_ElevenFourBAltGp_card_le_twelve_of_ne_top {A : Type} [Group A] [Finite A]
     [IsSimpleGroup A] (hA : Nat.card A = 60) {H : Subgroup A} (hH : H ≠ ⊤) :
@@ -141,12 +141,12 @@ theorem b114_ElevenFourBAltGp_eight_le_card_orderOf_three {G : Type} [Group G] [
     (hG : Nat.card G = 12) (h3 : Nat.card (Sylow 3 G) = 4) :
     8 ≤ Nat.card {x : G // orderOf x = 3} := by
   classical
-  haveI := Fintype.ofFinite G
-  haveI : Fintype (Sylow 3 G) := Fintype.ofFinite _
+  have := Fintype.ofFinite G
+  have : Fintype (Sylow 3 G) := Fintype.ofFinite _
   have hPcard := b114_ElevenFourBAltGp_sylow_card_three hG
   have hfiber : ∀ P : Sylow 3 G, Nat.card {y : P // y ≠ 1} = 2 := by
     intro P
-    haveI := Fintype.ofFinite P
+    have := Fintype.ofFinite P
     have h1 : Nat.card {y : P // y ≠ 1} = ((Finset.univ : Finset P).erase 1).card :=
       Nat.subtype_card _ (fun y => by simp [Finset.mem_erase])
     rw [h1, Finset.card_erase_of_mem (Finset.mem_univ 1), Finset.card_univ,
@@ -231,7 +231,7 @@ theorem le_or_eq_top_of_card_sixty {A : Type} [Group A] [Finite A] [IsSimpleGrou
         (Subgroup.normal_subgroupOf_iff_le_normalizer hKS).mp hKn
       have hne : Subgroup.normalizer (K : Set A) ≠ ⊤ := by
         intro htop
-        haveI : K.Normal := Subgroup.normalizer_eq_top_iff.mp htop
+        have : K.Normal := Subgroup.normalizer_eq_top_iff.mp htop
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with hbot | htop'
         · have : Nat.card K = 1 := by rw [hbot]; simp
           omega
@@ -268,9 +268,9 @@ theorem le_or_eq_top_of_card_sixty {A : Type} [Group A] [Finite A] [IsSimpleGrou
           rwa [hindexP] at h1
         have hne1 : Nat.card (Sylow 3 ↥D) ≠ 1 := by
           intro h1
-          haveI : Subsingleton (Sylow 3 ↥D) := (Nat.card_eq_one_iff_unique.mp h1).1
+          have : Subsingleton (Sylow 3 ↥D) := (Nat.card_eq_one_iff_unique.mp h1).1
           exact hPn (Sylow.normal_of_subsingleton P)
-        haveI : Nonempty (Sylow 3 ↥D) := Sylow.nonempty
+        have : Nonempty (Sylow 3 ↥D) := Sylow.nonempty
         have hnpos : 1 ≤ Nat.card (Sylow 3 ↥D) :=
           Nat.one_le_iff_ne_zero.mpr Nat.card_pos.ne'
         set n := Nat.card (Sylow 3 ↥D) with hn
@@ -283,7 +283,7 @@ theorem le_or_eq_top_of_card_sixty {A : Type} [Group A] [Finite A] [IsSimpleGrou
       have h8 : 8 ≤ Nat.card {x : ↥D // orderOf x = 3} :=
         b114_ElevenFourBAltGp_eight_le_card_orderOf_three hDcard h3card
       have hcompl_le : Nat.card {x : ↥D // ¬ orderOf x = 3} ≤ 4 := by
-        haveI := Fintype.ofFinite ↥D
+        have := Fintype.ofFinite ↥D
         rw [Nat.card_eq_fintype_card,
           Fintype.card_subtype_compl (fun x : ↥D => orderOf x = 3)]
         simp only [Fintype.card_eq_nat_card]
@@ -312,8 +312,8 @@ theorem le_or_eq_top_of_card_sixty {A : Type} [Group A] [Finite A] [IsSimpleGrou
           exact Subtype.ext hval
         have hcard_eq : Nat.card K' = Nat.card {z : ↥D // ¬ orderOf z = 3} :=
           le_antisymm (Nat.card_le_card_of_injective inc hinc) (by omega)
-        haveI := Fintype.ofFinite K'
-        haveI := Fintype.ofFinite {z : ↥D // ¬ orderOf z = 3}
+        have := Fintype.ofFinite K'
+        have := Fintype.ofFinite {z : ↥D // ¬ orderOf z = 3}
         let e : K' ≃ {z : ↥D // ¬ orderOf z = 3} :=
           Fintype.equivOfCardEq (by
             rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card]
@@ -359,7 +359,7 @@ theorem le_or_eq_top_of_card_sixty {A : Type} [Group A] [Finite A] [IsSimpleGrou
     have hnormQ : Subgroup.normalizer (Q : Set A) = Subgroup.normalizer (P' : Set A) := rfl
     have hNne : Subgroup.normalizer (P' : Set A) ≠ ⊤ := by
       intro htop
-      haveI : P'.Normal := Subgroup.normalizer_eq_top_iff.mp htop
+      have : P'.Normal := Subgroup.normalizer_eq_top_iff.mp htop
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal P' with hbot | htop'
       · have : Nat.card P' = 1 := by rw [hbot]; simp
         omega
@@ -388,10 +388,10 @@ theorem le_or_eq_top_of_forall_isTwoPow_mem {A : Type} [Group A] [Finite A] {m :
     (hm : 2 ≤ m) (φ : A ≃* alternatingGroup (Fin (2 * m + 1))) {S : Subgroup A}
     (hS : Nonempty (S ≃* alternatingGroup (Fin (2 * m)))) {D : Subgroup A}
     (hD : ∀ x ∈ S, (∃ k : ℕ, orderOf x = 2 ^ k) → x ∈ D) : D ≤ S ∨ D = ⊤ := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin (2 * m + 1))) :=
+  have : IsSimpleGroup (alternatingGroup (Fin (2 * m + 1))) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; omega)
-  haveI : IsSimpleGroup A := φ.isSimpleGroup
-  haveI : (2 * m + 1).AtLeastTwo := ⟨by omega⟩
+  have : IsSimpleGroup A := φ.isSimpleGroup
+  have : (2 * m + 1).AtLeastTwo := ⟨by omega⟩
   have hcardA : Nat.card A = (2 * m + 1).factorial / 2 := by
     calc Nat.card A = Nat.card (alternatingGroup (Fin (2 * m + 1))) := Nat.card_congr φ.toEquiv
       _ = (Nat.card (Fin (2 * m + 1))).factorial / 2 := nat_card_alternatingGroup
@@ -452,10 +452,10 @@ theorem le_or_eq_top_of_forall_isTwoPow_mem {A : Type} [Group A] [Finite A] {m :
     exact le_or_eq_top_of_card_sixty hA60 hS12 hKS hKcard hKn hKD
   · have hm3 : 3 ≤ m := by omega
     obtain ⟨e⟩ := hS
-    haveI : (2 * m).AtLeastTwo := ⟨by omega⟩
-    haveI : IsSimpleGroup (alternatingGroup (Fin (2 * m))) :=
+    have : (2 * m).AtLeastTwo := ⟨by omega⟩
+    have : IsSimpleGroup (alternatingGroup (Fin (2 * m))) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; omega)
-    haveI : IsSimpleGroup S := e.isSimpleGroup
+    have : IsSimpleGroup S := e.isSimpleGroup
     have hScard : Nat.card S = (2 * m).factorial / 2 := by
       calc Nat.card S = Nat.card (alternatingGroup (Fin (2 * m))) := Nat.card_congr e.toEquiv
         _ = (Nat.card (Fin (2 * m))).factorial / 2 := nat_card_alternatingGroup

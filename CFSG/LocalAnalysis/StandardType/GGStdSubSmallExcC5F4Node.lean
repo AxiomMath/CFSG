@@ -129,7 +129,7 @@ theorem exists_not_commute_of_eltHyp (hK : Nat.card K = 2)
     rw [Subgroup.mem_center_iff]
     intro g
     apply Subtype.ext
-    have h1 := hcon (α g) (Subgroup.mem_map_equiv.2 (by simpa using g.2))
+    have h1 := hcon (α g) (Subgroup.mem_map_equiv.2 (by simp))
     have h2 := congrArg α.symm h1
     simp only [map_mul, MulEquiv.symm_apply_apply] at h2
     exact h2.symm

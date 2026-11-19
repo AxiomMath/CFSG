@@ -9,7 +9,7 @@ namespace CFSG.GF2Type.Smith1979.GammaU.StepA
 
 open CFSG.GF2Type.Smith1979.GammaU Module
 
-@[expose] def RowsSet (C : List (Array ℕ)) (l : V12 ≃ₗ[ZMod 2] V12) : Prop :=
+def RowsSet (C : List (Array ℕ)) (l : V12 ≃ₗ[ZMod 2] V12) : Prop :=
   ∃ r ∈ C, ∀ x, l x = linOfRows r x
 
 theorem mem_spanOf_d0_of_rows {r : Array ℕ} (hr : ∀ d ∈ d0, appN r d ∈ spanList d0) {y : V12}

@@ -80,7 +80,7 @@ theorem exists_ringHom_map_smul_of_normalizes [Finite F]
     (hΦ : ∀ g : SpecialLinearGroup (Fin 2) F,
       ∃ g' : SpecialLinearGroup (Fin 2) F, ∀ w, Φ (g • w) = g' • Φ w) :
     ∃ σ : F →+* F, ∀ (a : F) w, Φ (a • w) = σ a • Φ w := by
-  haveI : Finite (SpecialLinearGroup (Fin 2) F) := Subtype.finite
+  have : Finite (SpecialLinearGroup (Fin 2) F) := Subtype.finite
   let φ : SpecialLinearGroup (Fin 2) F → SpecialLinearGroup (Fin 2) F :=
     fun g => Classical.choose (hΦ g)
   have hφ : ∀ (g : SpecialLinearGroup (Fin 2) F) (w : Fin 2 → F),
@@ -127,7 +127,7 @@ theorem exists_ringHom_map_smul_of_normalizes [Finite F]
     intro h0
     have h1 : (Pi.single 0 (1 : F) : Fin 2 → F) = 0 := Φ.injective (by rw [h0, map_zero])
     have := congrFun h1 0
-    simpa using this
+    simp at this
   have hσ_unique : ∀ (a τ : F), (∀ v, Φ (a • v) = τ • Φ v) → σ a = τ := by
     intro a τ hτ
     have h : σ a • Φ (Pi.single 0 1) = τ • Φ (Pi.single 0 1) := by

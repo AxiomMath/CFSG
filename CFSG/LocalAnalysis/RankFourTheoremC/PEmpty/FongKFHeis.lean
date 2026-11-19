@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Dvd
 public import Mathlib.Data.Nat.Choose.Multinomial
@@ -77,7 +77,7 @@ instance : Group (Heis p) where
   mul_assoc u v w := by ext <;> simp <;> ring
   one_mul u := by ext <;> simp
   mul_one u := by ext <;> simp
-  inv_mul_cancel u := by ext <;> simp <;> ring
+  inv_mul_cancel u := by ext <;> simp; ring
 
 @[expose] def X : Heis p := ⟨1, 0, 0⟩
 @[expose] def Y : Heis p := ⟨0, 1, 0⟩
@@ -162,11 +162,11 @@ theorem closure_XY [NeZero p] : Subgroup.closure ({X, Y} : Set (Heis p)) = ⊤ :
   one_mem' := by simp
   mul_mem' := by
     intro u w hu hw
-    simp only [Set.mem_setOf_eq, mul_a, mul_b] at *
+    simp only [Set.mem_ofPred_eq, mul_a, mul_b] at *
     rw [add_mul, add_mul, hu, hw]
   inv_mem' := by
     intro u hu
-    simp only [Set.mem_setOf_eq, inv_a, inv_b] at *
+    simp only [Set.mem_ofPred_eq, inv_a, inv_b] at *
     rw [neg_mul, neg_mul, hu]
 
 theorem Mline_card [Fact p.Prime] {v : ZMod p × ZMod p} (hv : v ≠ 0) :
@@ -185,9 +185,9 @@ theorem Mline_card [Fact p.Prime] {v : ZMod p × ZMod p} (hv : v ≠ 0) :
         by_cases h1 : v.1 = 0
         · have h2 := hv' h1
           show ((if v.1 = 0 then q.1 * v.2 / v.2 else q.1 * v.1 / v.1), q.2) = q
-          rw [if_pos h1, mul_div_cancel_right₀ _ h2]
+          rw [ite_eq_left h1, mul_div_cancel_right₀ _ h2]
         · show ((if v.1 = 0 then q.1 * v.2 / v.2 else q.1 * v.1 / v.1), q.2) = q
-          rw [if_neg h1, mul_div_cancel_right₀ _ h1]
+          rw [ite_eq_right h1, mul_div_cancel_right₀ _ h1]
       right_inv := by
         rintro ⟨⟨a, b, c⟩, hh⟩
         have hh' : a * v.2 = b * v.1 := hh
@@ -199,15 +199,15 @@ theorem Mline_card [Fact p.Prime] {v : ZMod p × ZMod p} (hv : v ≠ 0) :
               have h3 : a * v.2 = 0 := by rw [hh', h1, mul_zero]
               exact (mul_eq_zero.mp h3).resolve_right h2
             show (if v.1 = 0 then b / v.2 else a / v.1) * v.1 = a
-            rw [if_pos h1, h1, ha, mul_zero]
+            rw [ite_eq_left h1, h1, ha, mul_zero]
           · show (if v.1 = 0 then b / v.2 else a / v.1) * v.1 = a
-            rw [if_neg h1, div_mul_cancel₀ a h1]
+            rw [ite_eq_right h1, div_mul_cancel₀ a h1]
         · by_cases h1 : v.1 = 0
           · have h2 := hv' h1
             show (if v.1 = 0 then b / v.2 else a / v.1) * v.2 = b
-            rw [if_pos h1, div_mul_cancel₀ b h2]
+            rw [ite_eq_left h1, div_mul_cancel₀ b h2]
           · show (if v.1 = 0 then b / v.2 else a / v.1) * v.2 = b
-            rw [if_neg h1]
+            rw [ite_eq_right h1]
             calc a / v.1 * v.2 = a * v.2 / v.1 := by ring
               _ = b * v.1 / v.1 := by rw [hh']
               _ = b := mul_div_cancel_right₀ b h1
@@ -225,11 +225,11 @@ theorem Mline_smul [Fact p.Prime] {v : ZMod p × ZMod p} {s : ZMod p} (hs : s �
   · intro H
     linear_combination s * H
 
-theorem exists_Mline [Fact p.Prime] (hp : p ≠ 2) (M : Subgroup (Heis p)) (hM : Nat.card M = p ^ 2) :
+theorem exists_Mline [Fact p.Prime] (_hp : p ≠ 2) (M : Subgroup (Heis p)) (hM : Nat.card M = p ^ 2) :
     ∃ v : ZMod p × ZMod p, v ≠ 0 ∧ M = Mline v := by
   have hpp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hpp.ne_zero⟩
-  haveI : Finite (Heis p) :=
+  have : NeZero p := ⟨hpp.ne_zero⟩
+  have : Finite (Heis p) :=
     Finite.of_injective (fun h : Heis p => (h.a, h.b, h.c)) (by
       intro x y hxy
       simp only [Prod.mk.injEq] at hxy
@@ -385,13 +385,13 @@ lemma lift_mul_aux [NeZero p] {x y : G} (h : Data p x y) (u v : Heis p) :
   map_mul' := fun u v => lift_mul_aux h u v
 
 theorem lift_X [NeZero p] {x y : G} (h : Data p x y) (hp1 : 1 < p) : lift h X = x := by
-  haveI : Fact (1 < p) := ⟨hp1⟩
+  have : Fact (1 < p) := ⟨hp1⟩
   have e : lift h X = x ^ X.a.val * y ^ X.b.val * ⁅x, y⁆ ^ X.c.val := rfl
   rw [e]
   simp [X, ZMod.val_one, ZMod.val_zero]
 
 theorem lift_Y [NeZero p] {x y : G} (h : Data p x y) (hp1 : 1 < p) : lift h Y = y := by
-  haveI : Fact (1 < p) := ⟨hp1⟩
+  have : Fact (1 < p) := ⟨hp1⟩
   have e : lift h Y = x ^ Y.a.val * y ^ Y.b.val * ⁅x, y⁆ ^ Y.c.val := rfl
   rw [e]
   simp [Y, ZMod.val_one, ZMod.val_zero]
@@ -433,7 +433,7 @@ lemma lift_injective_aux [NeZero p] {x y : G} (h : Data p x y) (hord : orderOf �
   have hc0 : u.c = 0 := key _ hc
   ext <;> simp [ha, hb, hc0]
 
-theorem lift_injective [Fact p.Prime] (hp : p ≠ 2) {x y : G} (h : Data p x y) :
+theorem lift_injective [Fact p.Prime] (_hp : p ≠ 2) {x y : G} (h : Data p x y) :
     Function.Injective (lift h) :=
   lift_injective_aux h (orderOf_eq_prime h.hz h.hne)
 
@@ -462,14 +462,14 @@ theorem dataHeis [Fact p.Prime] (hp : p ≠ 2) {u v : Heis p} (hdet : u.a * v.b 
 
 theorem lift_heis_a [Fact p.Prime] (hp : p ≠ 2) {u v : Heis p} (hdet : u.a * v.b - u.b * v.a ≠ 0)
     (h : Heis p) : (lift (dataHeis hp hdet) h).a = h.a * u.a + h.b * v.a := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   rw [lift_apply]
   simp only [mul_a, pow_eq, comm_eq, ZMod.natCast_zmod_val]
   ring
 
 theorem lift_heis_b [Fact p.Prime] (hp : p ≠ 2) {u v : Heis p} (hdet : u.a * v.b - u.b * v.a ≠ 0)
     (h : Heis p) : (lift (dataHeis hp hdet) h).b = h.a * u.b + h.b * v.b := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   rw [lift_apply]
   simp only [mul_b, pow_eq, comm_eq, ZMod.natCast_zmod_val]
   ring
@@ -481,7 +481,7 @@ theorem conj_map_Mline [Fact p.Prime] (hp : p ≠ 2) {G : Type*} [Group G] {φ :
     ((Mline w).map φ).map (MulAut.conj g).toMonoidHom =
       (Mline (u.a * w.1 + v.a * w.2, u.b * w.1 + v.b * w.2)).map φ := by
   have hpp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hpp.ne_zero⟩
+  have : NeZero p := ⟨hpp.ne_zero⟩
   have hp1 : 1 < p := hpp.one_lt
   set ψ := lift (dataHeis hp hdet) with hψ
   have hconj : ∀ h : Heis p, g * φ h * g⁻¹ = φ (ψ h) := by
@@ -491,12 +491,12 @@ theorem conj_map_Mline [Fact p.Prime] (hp : p ≠ 2) {G : Type*} [Group G] {φ :
         apply MonoidHom.eqOn_closure
         intro t ht
         rcases ht with rfl | ht
-        · simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+        · simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
             MulAut.conj_apply]
           rw [hu, hψ, lift_X _ hp1]
         · simp only [Set.mem_singleton_iff] at ht
           subst ht
-          simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+          simp only [MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
             MulAut.conj_apply]
           rw [hv, hψ, lift_Y _ hp1]
       ext t
@@ -513,12 +513,12 @@ theorem conj_map_Mline [Fact p.Prime] (hp : p ≠ 2) {G : Type*} [Group G] {φ :
     have e1 : (u.a * v.b - u.b * v.a) * w.1 = 0 := by linear_combination v.b * h1 - v.a * h2
     have e2 : (u.a * v.b - u.b * v.a) * w.2 = 0 := by linear_combination u.a * h2 - u.b * h1
     exact Prod.ext ((mul_eq_zero.1 e1).resolve_left hdet) ((mul_eq_zero.1 e2).resolve_left hdet)
-  haveI : Finite (Heis p) :=
+  have : Finite (Heis p) :=
     Finite.of_injective (fun h : Heis p => (h.a, h.b, h.c)) (by
       intro x y hxy
       simp only [Prod.mk.injEq] at hxy
       exact Heis.ext hxy.1 hxy.2.1 hxy.2.2)
-  haveI : Finite ↥((Mline (u.a * w.1 + v.a * w.2, u.b * w.1 + v.b * w.2)).map φ) :=
+  have : Finite ↥((Mline (u.a * w.1 + v.a * w.2, u.b * w.1 + v.b * w.2)).map φ) :=
     Finite.of_equiv _ (Subgroup.equivMapOfInjective _ φ hφ).toEquiv
   apply Subgroup.eq_of_le_of_card_ge
   · rintro _ ⟨_, ⟨h, hh, rfl⟩, rfl⟩
@@ -527,7 +527,7 @@ theorem conj_map_Mline [Fact p.Prime] (hp : p ≠ 2) {G : Type*} [Group G] {φ :
       have hh' : h.a * w.2 = h.b * w.1 := hh
       rw [hψ, lift_heis_a hp hdet, lift_heis_b hp hdet]
       linear_combination (u.a * v.b - u.b * v.a) * hh'
-    · simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    · simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       exact (hconj h).symm
   · rw [Subgroup.card_map_of_injective hφ, Subgroup.card_map_of_injective
       (MulAut.conj g).injective, Subgroup.card_map_of_injective hφ,
@@ -574,8 +574,8 @@ theorem exists_conj_mline [Fact p.Prime] (hp : p ≠ 2) {G : Type*} [Group G] [F
     (B : Subgroup G) (hB : Nat.card B = p ^ 2) :
     ∃ v : ZMod p × ZMod p, v ≠ 0 ∧ ConjSub B ((Mline v).map φ) := by
   have hpp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hpp.ne_zero⟩
-  haveI : Finite (Heis p) := Finite.of_injective φ hφ
+  have : NeZero p := ⟨hpp.ne_zero⟩
+  have : Finite (Heis p) := Finite.of_injective φ hφ
   have hP3 : Nat.card φ.range = p ^ 3 := by
     rw [← card_heis (p := p)]
     exact (Nat.card_congr (MonoidHom.ofInjective hφ).toEquiv).symm
@@ -624,7 +624,7 @@ theorem oneClassE [Fact p.Prime] (hp : p ≠ 2) {G : Type*} [Group G] [Finite G]
       ∃ A ∈ Submonoid.closure As, ∃ s : ZMod p, s ≠ 0 ∧ A.mulVec ![1, 0] = s • w) :
     ∀ B U : Subgroup G, Nat.card B = p ^ 2 → Nat.card U = p ^ 2 → ConjSub B U := by
   have hpp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hpp.ne_zero⟩
+  have : NeZero p := ⟨hpp.ne_zero⟩
   have hp1 : 1 < p := hpp.one_lt
   set φ := lift hd with hφdef
   have hφ : Function.Injective φ := lift_injective hp hd
@@ -657,7 +657,7 @@ theorem oneClassE [Fact p.Prime] (hp : p ≠ 2) {G : Type*} [Group G] [Finite G]
           have e2 : (MulAut.conj g).toMonoidHom y = φ v := by
             simpa [MulAut.conj_apply, hφdef, lift_Y hd hp1] using hyv
           rw [e1, e2, ← map_commutatorElement, hcomm, map_one] at this
-          simpa only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply] using this
+          simpa only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply] using this
         apply hd.hne
         calc ⁅x, y⁆ = g⁻¹ * (g * ⁅x, y⁆ * g⁻¹) * g := by group
           _ = 1 := by rw [h1]; group
@@ -674,7 +674,7 @@ theorem oneClassE [Fact p.Prime] (hp : p ≠ 2) {G : Type*} [Group G] [Finite G]
           fin_cases i
           · exact congrArg Prod.fst h0
           · exact congrArg Prod.snd h0)
-        convert this using 3 <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, hu, hv]
+        convert this using 3; simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, hu, hv]
     | one =>
       refine ⟨by simp, 1, fun w hw => ?_⟩
       have : (MulAut.conj (1 : G)).toMonoidHom = MonoidHom.id G := by

@@ -25,7 +25,7 @@ theorem su4W_three_dvd_card_units {F : Type} [Field F] [Finite F] {q : ℕ}
 theorem su4W_exists_unit_cube_ne_one {F : Type} [Field F] [Finite F] {q : ℕ}
     (hF : Nat.card F = q ^ 2) (h3 : 3 ∣ q - 1) (hq : 1 ≤ q) :
     ∃ g : Fˣ, g ^ 3 = 1 ∧ g ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ :=
     exists_prime_orderOf_dvd_card' (G := Fˣ) 3 (su4W_three_dvd_card_units hF h3 hq)
   refine ⟨g, ?_, ?_⟩
@@ -153,7 +153,6 @@ theorem listRow_projSU_four_of_dvd {p f : ℕ} [Fact p.Prime] (hf : 1 ≤ f) (h3
     simp [dvec4] at h4
     first
       | exact hg1 h4.symm
-      | exact hg1 h4
   exact listRow_of_cover_pair (su4W_projCover hF) (su4W_projCover_surjective hF)
     (su4W_projCover_ker hF)
     (fun E _ hexp hcard => Item424Res5.exists_weyl_su4 hF hf h3 E hexp hcard)

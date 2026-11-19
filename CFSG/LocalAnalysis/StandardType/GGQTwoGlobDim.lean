@@ -118,8 +118,8 @@ theorem qTwo_bar_dim
       (Module.finrank (ZMod 3) (qTwoBarU B Bs L D J x ι) = m ∨
         Module.finrank (ZMod 3) (qTwoBarU B Bs L D J x ι) + 1 = m) := by
   classical
-  haveI : Finite V := by
-    haveI : Finite ↥Bs := Subtype.finite
+  have : Finite V := by
+    have : Finite ↥Bs := Subtype.finite
     exact Finite.of_injective (ι.symm : V → Additive ↥Bs) ι.symm.injective
   have hVcard : Nat.card V = 3 ^ m := by
     have h1 : Nat.card V = Nat.card ↥Bs := Nat.card_congr ι.toEquiv.symm

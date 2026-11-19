@@ -106,7 +106,7 @@ theorem lineMem_conj (hN : ∀ g : X, ∀ x ∈ E, g * x * g⁻¹ ∈ E) (g : X)
   obtain ⟨z, rfl⟩ := (MulAut.conj g).surjective z
   rw [(MulAut.conj g).injective.mem_set_image]
   simp only [MulAut.conj_apply, mem_lineMem, perpMem, Set.subset_def, Set.mem_inter_iff,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hz, h⟩
     refine ⟨(hiff z).mpr hz, fun y ⟨⟨hyE, hya⟩, ⟨_, hyb⟩⟩ => ⟨hyE, ?_⟩⟩
@@ -283,7 +283,7 @@ theorem exists_lineMem_ncard_eq_of_model (hIH : Theorem4Below (Nat.card G)) (hC 
       (if hz : z ∈ Ω then (⟨z, Subgroup.subset_closure hz⟩ : S) else 1)) ?_ ?_ (Set.toFinite _)
     · intro z hz
       have hzΩ := hsubΓ hz
-      simp only [dif_pos hzΩ]
+      simp only [dite_eq_left hzΩ]
       have hmemE : QuotientGroup.mk' R (⟨z, Subgroup.subset_closure hzΩ⟩ : S) ∈
           {x | IsConj (QuotientGroup.mk' R tS) x} := by
         rw [← himgE]
@@ -301,7 +301,7 @@ theorem exists_lineMem_ncard_eq_of_model (hIH : Theorem4Below (Nat.card G)) (hC 
     · intro z hz z' hz' h
       have hzΩ := hsubΓ hz
       have hzΩ' := hsubΓ hz'
-      simp only [dif_pos hzΩ, dif_pos hzΩ'] at h
+      simp only [dite_eq_left hzΩ, dite_eq_left hzΩ'] at h
       exact congrArg Subtype.val (hinj hzΩ hzΩ' h)
   obtain ⟨g, hg⟩ := isConj_iff.mp (hC.setup.isConj haD hC.hd)
   refine ⟨g * b * g⁻¹, hC.setup.conj_mem g hbD, fun h => habG ?_, ?_⟩

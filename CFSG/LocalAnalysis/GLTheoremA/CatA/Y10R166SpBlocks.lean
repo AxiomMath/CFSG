@@ -23,6 +23,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {ℓ : ℕ}
   ((⊤ : Subgroup (Fin ℓ → rootsOfUnity q F)).map
     ((diagSp F ℓ).comp ((rootsOfUnity q F).subtype.compLeft (Fin ℓ))))
 
+omit [Finite F] [CharP F 2] in
 theorem mem_symplecticQTorus {q : ℕ} {g : StatedSp ℓ F} :
     g ∈ symplecticQTorus (F := F) (ℓ := ℓ) q ↔
       ∃ t : Fin ℓ → Fˣ, (∀ i, t i ^ q = 1) ∧ g = diagSp F ℓ t := by
@@ -37,7 +38,8 @@ theorem mem_symplecticQTorus {q : ℕ} {g : StatedSp ℓ F} :
     refine ⟨fun i => (⟨t i, ht i⟩ : rootsOfUnity q F), trivial, ?_⟩
     rfl
 
-theorem isElemAbelian_symplecticQTorus {q : ℕ} (hq : q.Prime) :
+omit [Finite F] [CharP F 2] in
+theorem isElemAbelian_symplecticQTorus {q : ℕ} (_hq : q.Prime) :
     IsElemAbelian q (symplecticQTorus (F := F) (ℓ := ℓ) q) := by
   have htop : IsElemAbelian q (⊤ : Subgroup (Fin ℓ → rootsOfUnity q F)) := by
     refine ⟨⟨⟨fun a b => Subtype.ext (funext fun i => mul_comm _ _)⟩⟩, fun x _ => ?_⟩
@@ -51,6 +53,7 @@ theorem isElemAbelian_symplecticQTorus {q : ℕ} (hq : q.Prime) :
     ((diagSp F ℓ).comp ((rootsOfUnity q F).subtype.compLeft (Fin ℓ)))
   simpa [symplecticQTorus, MonoidHom.range_eq_map] using h
 
+omit [CharP F 2] in
 theorem card_symplecticQTorus {q : ℕ} (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1) :
     Nat.card (symplecticQTorus (F := F) (ℓ := ℓ) q) = q ^ ℓ := by
   have hφ : Function.Injective
@@ -68,6 +71,7 @@ section Centralizer
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {m : ℕ}
 
+omit [Finite F] [CharP F 2] in
 theorem commutator_mem_complSp_of_centralizer_rootTorusHom {k : Fin (m + 1)} {ζ : Fˣ}
     (hζ : ζ * ζ ≠ 1) {g g' : StatedSp (m + 1) F}
     (hg : g ∈ Subgroup.centralizer ({rootTorusHom F (m + 1) k ζ} : Set (StatedSp (m + 1) F)))
@@ -98,6 +102,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {m : ℕ}
 
 open CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag
 
+omit [Finite F] [CharP F 2] in
 private theorem eq_upperUnipotentSp_of_mem_spSiegel {e : StatedSp m F} {C : Matrix (Fin m) (Fin m) F}
     (hC : Cᵀ = C) (h : ((e : GL (Fin m ⊕ Fin m) F) : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) F) =
       Matrix.fromBlocks 1 C 0 1) : e = upperUnipotentSp m F hC := by
@@ -105,6 +110,7 @@ private theorem eq_upperUnipotentSp_of_mem_spSiegel {e : StatedSp m F} {C : Matr
   rw [mat_upperUnipotentSp, mat_apply]
   exact h
 
+omit [Finite F] [CharP F 2] in
 private theorem upperUnipotentSp_eq_one_iff {C : Matrix (Fin m) (Fin m) F} (hC : Cᵀ = C) :
     upperUnipotentSp m F hC = 1 ↔ C = 0 := by
   constructor
@@ -115,6 +121,7 @@ private theorem upperUnipotentSp_eq_one_iff {C : Matrix (Fin m) (Fin m) F} (hC :
   · rintro rfl
     exact upperUnipotentSp_zero
 
+omit [Finite F] [CharP F 2] in
 private theorem leviEmbedGL_conj_mem_spSiegel (A : GL (Fin m) F) {e : StatedSp m F}
     (he : e ∈ spSiegel m F) :
     leviEmbedGL F m A * e * (leviEmbedGL F m A)⁻¹ ∈ spSiegel m F := by
@@ -123,6 +130,7 @@ private theorem leviEmbedGL_conj_mem_spSiegel (A : GL (Fin m) F) {e : StatedSp m
   exact (mem_spSiegel m F).2 ⟨_, (transpose_mul_mul_transpose _ hC.eq),
     mat_upperUnipotentSp _⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem diagGL_mul_mul_transpose_apply (t : Fin m → Fˣ) (C : Matrix (Fin m) (Fin m) F)
     (i j : Fin m) :
     ((TauCeti.diagGL t : Matrix (Fin m) (Fin m) F) * C *
@@ -130,6 +138,7 @@ private theorem diagGL_mul_mul_transpose_apply (t : Fin m → Fˣ) (C : Matrix (
   rw [TauCeti.diagGL_coe]
   exact diagonal_mul_mul_transpose_apply (fun i => (t i : F)) C i j
 
+omit [Finite F] [CharP F 2] in
 private theorem diagSp_mul_eq_one_of_mem_centralizer_spSiegel {t : Fin m → Fˣ}
     (hc : diagSp F m t ∈ Subgroup.centralizer (spSiegel m F : Set (StatedSp m F))) (i j : Fin m) :
     t i * t j = 1 := by
@@ -139,7 +148,7 @@ private theorem diagSp_mul_eq_one_of_mem_centralizer_spSiegel {t : Fin m → Fˣ
     by_cases hij : i = j
     · subst hij
       simp [hCdef]
-    · simp only [hCdef, if_neg hij, Matrix.transpose_add, Matrix.transpose_single, add_comm]
+    · simp only [hCdef, ite_eq_right hij, Matrix.transpose_add, Matrix.transpose_single, add_comm]
   have hcomm : upperUnipotentSp m F hCsymm * diagSp F m t =
       diagSp F m t * upperUnipotentSp m F hCsymm :=
     Subgroup.mem_centralizer_iff.1 hc (upperUnipotentSp m F hCsymm)
@@ -172,11 +181,13 @@ section Element
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {m : ℕ}
 
+omit [Finite F] [CharP F 2] in
 private theorem rootsOfUnity_eq_zpowers {q : ℕ} (hq : q.Prime) {ζ : Fˣ}
     (hζ : orderOf ζ = q) : rootsOfUnity q F = Subgroup.zpowers ζ := by
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   exact ((hζ ▸ IsPrimitiveRoot.orderOf ζ).zpowers_eq).symm
 
+omit [Finite F] [CharP F 2] in
 private theorem diagSp_eq_one_of_mem_centralizer_spSiegel {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     {t : Fin m → Fˣ} (hpow : ∀ i, t i ^ q = 1)
     (hc : diagSp F m t ∈ Subgroup.centralizer (spSiegel m F : Set (StatedSp m F))) :
@@ -194,6 +205,7 @@ private theorem diagSp_eq_one_of_mem_centralizer_spSiegel {q : ℕ} (hq : q.Prim
     rwa [hcop] at this
   exact orderOf_eq_one_iff.1 (Nat.dvd_one.1 hdvd)
 
+omit [Finite F] [CharP F 2] in
 theorem symplecticQTorus_le_normalizer_spSiegel (q : ℕ) :
     symplecticQTorus (F := F) (ℓ := m) q ≤
       Subgroup.normalizer (spSiegel m F : Set (StatedSp m F)) := by
@@ -210,6 +222,7 @@ theorem symplecticQTorus_le_normalizer_spSiegel (q : ℕ) :
     have h := leviEmbedGL_conj_mem_spSiegel (A := (TauCeti.diagGL t)⁻¹) hx'
     simpa [map_inv, mul_assoc] using h
 
+omit [Finite F] [CharP F 2] in
 theorem symplecticQTorus_inf_centralizer_spSiegel {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :
     symplecticQTorus (F := F) (ℓ := m) q ⊓
         Subgroup.centralizer (spSiegel m F : Set (StatedSp m F)) = ⊥ := by
@@ -219,6 +232,7 @@ theorem symplecticQTorus_inf_centralizer_spSiegel {q : ℕ} (hq : q.Prime) (hq2 
   rw [diagSp_eq_one_of_mem_centralizer_spSiegel hq hq2 hpow hbc, map_one]
   exact Subgroup.mem_bot.2 rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem diagSp_eq_rootTorusHom_mul_update {t : Fin (m + 1) → Fˣ} :
     diagSp F (m + 1) t =
       rootTorusHom F (m + 1) 0 (t 0) * diagSp F (m + 1) (Function.update t 0 1) := by
@@ -232,6 +246,7 @@ private theorem diagSp_eq_rootTorusHom_mul_update {t : Fin (m + 1) → Fˣ} :
   · rw [Pi.mulSingle_eq_of_ne hi]
     simp [hi]
 
+omit [Finite F] [CharP F 2] in
 private theorem mem_complSp_diagSp {t : Fin (m + 1) → Fˣ} (h0 : t 0 = 1) :
     diagSp F (m + 1) t ∈ complSp F (0 : Fin (m + 1)) := by
   rw [mem_complSp, IsSupp]
@@ -248,6 +263,7 @@ private theorem mem_complSp_diagSp {t : Fin (m + 1) → Fˣ} (h0 : t 0 = 1) :
     rcases mem_coords.1 hmem with rfl | rfl <;> simp [h0]
   · simp [h]
 
+omit [Finite F] [CharP F 2] in
 theorem rootTorusHom_mem_complSp_of_ne {k j : Fin (m + 1)} (hkj : k ≠ j) (u : Fˣ) :
     rootTorusHom F (m + 1) k u ∈ complSp F j := by
   refine suppGroup_mono ?_ (isSupp_rootTorusHom k u)
@@ -260,8 +276,9 @@ theorem rootTorusHom_mem_complSp_of_ne {k j : Fin (m + 1)} (hkj : k ≠ j) (u : 
   · exact Sum.inr_ne_inl h
   · exact hkj (Sum.inr_injective h)
 
+omit [Finite F] [CharP F 2] in
 theorem symplecticQTorus_le_sup_complSp_zpowers {q : ℕ} (hq : q.Prime)
-    (hdvd : q ∣ Nat.card F - 1) {ζ : Fˣ} (hζ : orderOf ζ = q) :
+    (_hdvd : q ∣ Nat.card F - 1) {ζ : Fˣ} (hζ : orderOf ζ = q) :
     symplecticQTorus (F := F) (ℓ := m + 1) q ≤
       complSp F (0 : Fin (m + 1)) ⊔ Subgroup.zpowers (rootTorusHom F (m + 1) 0 ζ) := by
   intro b hb
@@ -275,7 +292,7 @@ theorem symplecticQTorus_le_sup_complSp_zpowers {q : ℕ} (hq : q.Prime)
     rw [← hk, map_zpow]
   have hd : diagSp F (m + 1) (Function.update t 0 1) ∈ complSp F (0 : Fin (m + 1)) := by
     refine mem_complSp_diagSp ?_
-    rw [Function.update_apply, if_pos rfl]
+    rw [Function.update_apply, ite_eq_left rfl]
   rw [diagSp_eq_rootTorusHom_mul_update, hx]
   exact Subgroup.mul_mem _
     (Subgroup.mem_sup_right (Subgroup.zpow_mem _ (Subgroup.mem_zpowers _) k))
@@ -291,16 +308,19 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {m : ℕ}
   (spSiegel m F).map ((complSp F (0 : Fin (m + 1))).subtype.comp
     (complSpEquiv (K := F) (0 : Fin (m + 1))).toMonoidHom)
 
+omit [Finite F] [CharP F 2] in
 private theorem mem_complSpSiegel {x : StatedSp (m + 1) F} :
     x ∈ complSpSiegel (F := F) m ↔ ∃ s ∈ spSiegel m F,
       ((complSpEquiv (K := F) (0 : Fin (m + 1)) s : complSp F 0) : StatedSp (m + 1) F) = x := by
   simp [complSpSiegel, Subgroup.mem_map]
 
+omit [Finite F] [CharP F 2] in
 private theorem complSpEquiv_mem_complSpSiegel {s : StatedSp m F} (hs : s ∈ spSiegel m F) :
     ((complSpEquiv (K := F) (0 : Fin (m + 1)) s : complSp F 0) : StatedSp (m + 1) F) ∈
       complSpSiegel (F := F) m :=
   (mem_complSpSiegel (F := F) (m := m)).2 ⟨s, hs, rfl⟩
 
+omit [Finite F] [CharP F 2] in
 theorem complSpSiegel_le_complSp :
     complSpSiegel (F := F) m ≤ complSp F (0 : Fin (m + 1)) := by
   rintro _ ⟨s, -, rfl⟩
@@ -312,12 +332,14 @@ theorem isPGroup_complSpSiegel : IsPGroup 2 (complSpSiegel (F := F) m) := by
       (complSpEquiv (K := F) (0 : Fin (m + 1))).toMonoidHom)
   exact h
 
+omit [Finite F] [CharP F 2] in
 private theorem coe_complSpEquiv_diagSp {t : Fin m → Fˣ} :
     ((complSpEquiv (K := F) (0 : Fin (m + 1)) (diagSp F m t) : complSp F 0) :
         StatedSp (m + 1) F) =
       diagSp F (m + 1) (Fin.insertNth (0 : Fin (m + 1)) (1 : Fˣ) t) := by
   rw [kOmega_coe_complSpEquiv_diagSp, kOmegaInsert_apply]
 
+omit [Finite F] [CharP F 2] in
 private theorem diagSp_conj_mem_complSpSiegel {t : Fin (m + 1) → Fˣ} (h0 : t 0 = 1)
     {x : StatedSp (m + 1) F} (hx : x ∈ complSpSiegel (F := F) m) :
     diagSp F (m + 1) t * x * (diagSp F (m + 1) t)⁻¹ ∈ complSpSiegel (F := F) m := by
@@ -349,6 +371,7 @@ private theorem diagSp_conj_mem_complSpSiegel {t : Fin (m + 1) → Fˣ} (h0 : t 
     rw [map_mul, map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv, hd]
   exact hcoe
 
+omit [Finite F] [CharP F 2] in
 private theorem diagSp_mem_normalizer_complSpSiegel {t : Fin (m + 1) → Fˣ} (h0 : t 0 = 1) :
     diagSp F (m + 1) t ∈ Subgroup.normalizer (complSpSiegel (F := F) m : Set _) := by
   have h0inv : (t⁻¹) 0 = 1 := by
@@ -364,6 +387,7 @@ section Normalizer
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {m : ℕ}
 
+omit [Finite F] [CharP F 2] in
 theorem symplecticQTorus_le_normalizer_complSpSiegel (q : ℕ) :
     symplecticQTorus (F := F) (ℓ := m + 1) q ≤
       Subgroup.normalizer (complSpSiegel (F := F) m : Set _) := by
@@ -401,15 +425,17 @@ theorem symplecticQTorus_le_normalizer_complSpSiegel (q : ℕ) :
       rw [h]
       exact hz
   · refine diagSp_mem_normalizer_complSpSiegel ?_
-    rw [Function.update_apply, if_pos rfl]
+    rw [Function.update_apply, ite_eq_left rfl]
 
-private theorem exists_zpow_of_mem_symplecticQTorus {q : ℕ} (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1)
+omit [Finite F] [CharP F 2] in
+private theorem exists_zpow_of_mem_symplecticQTorus {q : ℕ} (hq : q.Prime) (_hdvd : q ∣ Nat.card F - 1)
     {ζ : Fˣ} (hζ : orderOf ζ = q) {u : Fˣ} (hu : u ^ q = 1) :
     ∃ k : ℤ, ζ ^ k = u := by
   have hmem : u ∈ rootsOfUnity q F := (mem_rootsOfUnity q u).2 hu
   rw [rootsOfUnity_eq_zpowers hq hζ] at hmem
   exact Subgroup.mem_zpowers_iff.1 hmem
 
+omit [Finite F] [CharP F 2] in
 theorem symplecticQTorus_inf_centralizer_complSpSiegel {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hdvd : q ∣ Nat.card F - 1) {ζ : Fˣ} (hζ : orderOf ζ = q) :
     symplecticQTorus (F := F) (ℓ := m + 1) q ⊓
@@ -431,8 +457,8 @@ theorem symplecticQTorus_inf_centralizer_complSpSiegel {q : ℕ} (hq : q.Prime) 
         Function.update t 0 1 := by
       funext i
       rcases Fin.eq_self_or_eq_succAbove (0 : Fin (m + 1)) i with rfl | ⟨j, rfl⟩
-      · rw [Fin.insertNth_apply_same, Function.update_apply, if_pos rfl]
-      · rw [Fin.insertNth_apply_succAbove, Function.update_apply, if_neg (Fin.succAbove_ne 0 j)]
+      · rw [Fin.insertNth_apply_same, Function.update_apply, ite_eq_left rfl]
+      · rw [Fin.insertNth_apply_succAbove, Function.update_apply, ite_eq_right (Fin.succAbove_ne 0 j)]
     have hdC : diagSp F (m + 1) (Function.update t 0 1) ∈
         Subgroup.centralizer (complSpSiegel (F := F) m : Set _) := by
       have h1 : (rootTorusHom F (m + 1) 0 (t 0))⁻¹ * diagSp F (m + 1) t ∈
@@ -490,8 +516,9 @@ theorem symplecticQTorus_inf_centralizer_complSpSiegel {q : ℕ} (hq : q.Prime) 
         (rootTorusSp_le_longRootSp2 0 (rootTorusHom_mem_rootTorusSp 0 ζ))
         (complSpSiegel_le_complSp hz)).eq.symm
 
-theorem evenRank_le_pRank_symplecticQTorus_inf {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
-    (hdvd : q ∣ Nat.card F - 1) (hm : 2 ≤ m) :
+omit [CharP F 2] in
+theorem evenRank_le_pRank_symplecticQTorus_inf {q : ℕ} (hq : q.Prime) (_hq2 : q ≠ 2)
+    (hdvd : q ∣ Nat.card F - 1) (_hm : 2 ≤ m) :
     m + 1 ≤ CFSG.Open.pRank q
       (symplecticQTorus (F := F) (ℓ := m + 1) q ⊓ complSp F (0 : Fin (m + 1))) + 2 := by
   set e := complSpEquiv (K := F) (0 : Fin (m + 1)) with he

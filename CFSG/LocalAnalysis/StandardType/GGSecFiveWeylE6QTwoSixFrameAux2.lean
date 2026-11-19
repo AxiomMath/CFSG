@@ -11,6 +11,7 @@ open CFSG.Assembly CFSG.LocalAnalysis.ComponentInitial
 
 variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K]
 
+omit [Finite G] in
 theorem e6QTwoSixFrameFullDiagonal (hK : Nat.card K = 4) {Bs L : Subgroup G} {x : G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hperf : commutator ↥L = ⊤) (hBs : IsElemAbelian 3 Bs) (hcard : Nat.card Bs = 3 ^ 6)
@@ -92,6 +93,7 @@ theorem e6QTwoSixFrameFullDiagonal (hK : Nat.card K = 4) {Bs L : Subgroup G} {x 
   rw [hb]
   exact hτe ▸ hσfr e
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixFrameAction_mem_inn_of_mem_sup {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
@@ -149,6 +151,7 @@ theorem e6QTwoSixFrameAction_mem_inn_of_mem_sup {Bs L : Subgroup G}
     ← e6QTwoMulAutConjCongr θ (QuotientGroup.mk' (Subgroup.center L) l)]
   exact ⟨θ (QuotientGroup.mk' (Subgroup.center L) l), rfl⟩
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixFrameAction_mem_sup_of_mem_inn {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hperf : commutator ↥L = ⊤)
@@ -190,6 +193,7 @@ theorem e6QTwoSixFrameAction_mem_sup_of_mem_inn {Bs L : Subgroup G}
   rw [hb_eq]
   exact Subgroup.mul_mem_sup l.2 hcent
 
+omit [Finite G] in
 theorem e6QTwoSixFrameInnerPartCard (hK : Nat.card K = 4) {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
@@ -253,25 +257,25 @@ theorem e6QTwoSixFrameInnerPartCard (hK : Nat.card K = 4) {Bs L : Subgroup G}
     rwa [hcard, e6QTwoCardRangeFrameTorusHom hK Q hQ] at hle
   have hninner : ∃ e ∈ β.range, e ∉ Inn := by
     have hunits : Nat.card Kˣ = 3 := by rw [Nat.card_units, hK]
-    haveI : Fintype Kˣ := Fintype.ofFinite Kˣ
-    haveI : Nontrivial Kˣ := (Fintype.one_lt_card_iff_nontrivial (α := Kˣ)).mp (by
+    have : Fintype Kˣ := Fintype.ofFinite Kˣ
+    have : Nontrivial Kˣ := (Fintype.one_lt_card_iff_nontrivial (α := Kˣ)).mp (by
       rw [← Nat.card_eq_fintype_card, hunits]; norm_num)
     obtain ⟨ω, hω1⟩ := exists_ne (1 : Kˣ)
     have hω3 : ω ^ 3 = 1 := USixTwo.cube_unit_eq_one hK ω
     let σ : Fin 6 → Kˣ := Function.update (fun _ : Fin 6 => (1 : Kˣ)) (1 : Fin 6) ω
     have hσ0 : σ (0 : Fin 6) = 1 := by
       show Function.update (fun _ : Fin 6 => (1 : Kˣ)) (1 : Fin 6) ω 0 = 1
-      rw [Function.update_apply, if_neg (by decide : (0 : Fin 6) ≠ 1)]
+      rw [Function.update_apply, ite_eq_right (by decide : (0 : Fin 6) ≠ 1)]
     have hσ3 : ∀ k, σ k ^ 3 = 1 := by
       intro k
       by_cases hk : k = 1
       · rw [show σ k = ω from by
           show Function.update (fun _ : Fin 6 => (1 : Kˣ)) (1 : Fin 6) ω k = ω
-          rw [Function.update_apply, if_pos hk]]
+          rw [Function.update_apply, ite_eq_left hk]]
         exact hω3
       · rw [show σ k = 1 from by
           show Function.update (fun _ : Fin 6 => (1 : Kˣ)) (1 : Fin 6) ω k = 1
-          rw [Function.update_apply, if_neg hk]]
+          rw [Function.update_apply, ite_eq_right hk]]
         exact one_pow 3
     obtain ⟨b, hb⟩ := hfull σ hσ0 hσ3
     refine ⟨β b, ⟨b, rfl⟩, ?_⟩
@@ -321,11 +325,11 @@ theorem e6QTwoSixFrameInnerPartCard (hK : Nat.card K = 4) {Bs L : Subgroup G}
       rw [Fintype.prod_eq_single 1]
       · rw [show σ 1 = ω from by
           show Function.update (fun _ : Fin 6 => (1 : Kˣ)) (1 : Fin 6) ω 1 = ω
-          rw [Function.update_apply, if_pos rfl]]
+          rw [Function.update_apply, ite_eq_left rfl]]
       · intro k hk
         rw [show σ k = 1 from by
           show Function.update (fun _ : Fin 6 => (1 : Kˣ)) (1 : Fin 6) ω k = 1
-          rw [Function.update_apply, if_neg hk]]
+          rw [Function.update_apply, ite_eq_right hk]]
     rw [hprod_eq] at hprod1
     exact hω1 hprod1
   have hproper : Inn ⊓ β.range ≠ β.range := by
@@ -352,6 +356,7 @@ theorem e6QTwoSixFrameInnerPartCard (hK : Nat.card K = 4) {Bs L : Subgroup G}
   exact le_antisymm hupper hlower
 
 
+omit [Finite G] in
 theorem e6QTwoSixCardInfSupCentralizer (hK : Nat.card K = 4) {Bs L : Subgroup G} {x : G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hperf : commutator ↥L = ⊤) (hBs : IsElemAbelian 3 Bs) (hcard : Nat.card Bs = 3 ^ 6)

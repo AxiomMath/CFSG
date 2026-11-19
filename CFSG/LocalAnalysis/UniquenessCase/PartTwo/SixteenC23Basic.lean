@@ -23,6 +23,7 @@ theorem c23_uniqueMax_of_noncyclic (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ} (hp
     UniqueMax D.M X :=
   ElevenFourteen.uniqueMax_of_le D.maxLocal (h61 p hp E (hEX.trans hXM) hE hEc) hEX hXM
 
+omit [Finite G] in
 private theorem c23_eq_of_mem_zpowers {w x : G} (hw2 : w ^ 2 = 1) (hx : x ∈ Subgroup.zpowers w)
     (hx1 : x ≠ 1) : x = w := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx

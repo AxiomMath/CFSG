@@ -25,7 +25,7 @@ section Spor
 theorem dichThreeSpor_holds
     : DichThreeSpor := by
   intro K _ _ hs hnab ⟨s, ⟨e⟩⟩ h3
-  haveI : Finite (NativeSporadic.Carrier s) := Finite.of_equiv K e.toEquiv
+  have : Finite (NativeSporadic.Carrier s) := Finite.of_equiv K e.toEquiv
   have hcard : Nat.card K = Nat.card (NativeSporadic.Carrier s) := Nat.card_congr e.toEquiv
   by_cases hone : SporadicOnePair s 3
   · rcases hone with ⟨-, hs'⟩ | ⟨h5, -⟩ | ⟨h7, -⟩

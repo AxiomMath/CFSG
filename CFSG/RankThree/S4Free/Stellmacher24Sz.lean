@@ -49,7 +49,7 @@ theorem le_normalizer_of_sylow_le (ha : 1 ≤ a)
     intro Q hQ s hs
     have h1 : (s : X) ∈ (S : Subgroup X) ⊓ normalizer (Q : Set X) :=
       ⟨s.2, Sylow.smul_eq_iff_mem_normalizer.mp hs⟩
-    rw [S.isPGroup'.inf_normalizer_sylow Q, inf_eq_bot_of_sylow_ne hK e (Ne.symm hQ)] at h1
+    rw [S.isPGroup.inf_normalizer_sylow Q, inf_eq_bot_of_sylow_ne hK e (Ne.symm hQ)] at h1
     exact Subtype.ext (mem_bot.mp h1)
   have horbit : ∀ Q : Sylow 2 X, Q ≠ S → Q ∈ MulAction.orbit (S : Subgroup X) S' := by
     have hsub : MulAction.orbit (S : Subgroup X) S' ⊆ {S}ᶜ := by
@@ -66,7 +66,7 @@ theorem le_normalizer_of_sylow_le (ha : 1 ≤ a)
         exact mem_bot.mpr (hfree S' hS'S s hs)
       rw [← MulAction.index_stabilizer, hst, index_bot, (card_sylow_and_center ha hK e S).1]
     have hcard2 : ({S}ᶜ : Set (Sylow 2 X)).ncard = (2 ^ (2 * a + 1)) ^ 2 := by
-      rw [Set.compl_eq_univ_diff, Set.ncard_diff_singleton_of_mem (Set.mem_univ S),
+      rw [Set.compl_eq_univ_sdiff, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ S),
         Set.ncard_univ, hcardSyl, Nat.add_sub_cancel]
     have heq : MulAction.orbit (S : Subgroup X) S' = {S}ᶜ :=
       Set.eq_of_subset_of_ncard_le hsub (by rw [hcard2, hcard1]) (Set.toFinite _)
@@ -168,7 +168,7 @@ theorem suzukiSubgroupInput_of_mulEquiv
     ⟨Q, hQ⟩ | ⟨k, -, -, hk⟩
   · left
     refine ⟨(Q : Subgroup (suzukiGroup a K)).comap e.toMonoidHom,
-      Q.isPGroup'.comap_of_injective e.toMonoidHom e.injective, ?_, ?_⟩
+      Q.isPGroup.comap_of_injective e.toMonoidHom e.injective, ?_, ?_⟩
     · rw [index_comap_of_surjective _ e.surjective]
       exact Q.not_dvd_index
     · intro j hj
@@ -224,9 +224,9 @@ theorem not_dvd_relIndex_of_le (hK : Nat.card K = 2 ^ (2 * a + 1))
     ¬ 2 ∣ (S : Subgroup X).relIndex J := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite X := Finite.of_equiv _ e.symm.toEquiv
-  have hP2 : IsPGroup 2 (P.subgroupOf J) := (S.isPGroup'.to_le hPS).comap_subtype
+  have hP2 : IsPGroup 2 (P.subgroupOf J) := (S.isPGroup.to_le hPS).comap_subtype
   obtain ⟨Q₀, hQ₀⟩ := hP2.exists_le_sylow
-  have hQ₀2 : IsPGroup 2 ((Q₀ : Subgroup J).map J.subtype) := Q₀.isPGroup'.map _
+  have hQ₀2 : IsPGroup 2 ((Q₀ : Subgroup J).map J.subtype) := Q₀.isPGroup.map _
   obtain ⟨Q, hQ⟩ := hQ₀2.exists_le_sylow
   have hPQ : P ≤ Q := fun x hx =>
     hQ ⟨⟨x, hPJ hx⟩, hQ₀ (show (⟨x, hPJ hx⟩ : J) ∈ P.subgroupOf J from hx), rfl⟩
@@ -258,7 +258,7 @@ namespace Stell
 open Suzuki
 
 theorem commutatorElement_mul_mul_of_commute {G : Type*} [Group G] {x y c d : G}
-    (hcx : Commute c x) (hcy : Commute c y) (hdx : Commute d x) (hdy : Commute d y)
+    (_hcx : Commute c x) (hcy : Commute c y) (hdx : Commute d x) (_hdy : Commute d y)
     (hcd : Commute c d) : ⁅x * c, y * d⁆ = ⁅x, y⁆ := by
   rw [commutatorElement_def, commutatorElement_def, mul_inv_rev, mul_inv_rev]
   calc x * c * (y * d) * (c⁻¹ * x⁻¹) * (d⁻¹ * y⁻¹)
@@ -372,7 +372,6 @@ theorem exists_isL24_or_isL24Sz_of_inner
     refine hinvT g hg (hAEsq g ⟨hg, b, hb, hgb⟩) ?_
     rw [mem_normalizer_iff]
     intro y
-    change y ∈ (TE : Subgroup E) ↔ _ ∈ (TE : Subgroup E)
     rw [hTE, mem_subgroupOf, mem_subgroupOf]
     change (y : H) ∈ S ↔ g * (y : H) * g⁻¹ ∈ S
     rw [← hgb y y.2]
@@ -655,7 +654,7 @@ theorem exists_isL24_or_isL24Sz_of_inner
         rw [heq]
         exact P.mul_mem hp (P.inv_mem hzP)
       have hX2 : IsPGroup 2 (((P : Subgroup L).map L.subtype).subgroupOf J₀) :=
-        (P.isPGroup'.map _).comap_subtype
+        (P.isPGroup.map _).comap_subtype
       have hle : (TJ : Subgroup J₀) ≤ ((P : Subgroup L).map L.subtype).subgroupOf J₀ :=
         fun y hy => ⟨⟨y, hJ₀L y.2⟩, hP (show (⟨(y : H), hJ₀L y.2⟩ : L) ∈ S.subgroupOf L from hy),
           rfl⟩

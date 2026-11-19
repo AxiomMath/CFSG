@@ -12,13 +12,13 @@ open CFSG.EvenSmallLie.UnitarySix.YamadaHAut (autT)
 
 private theorem hermStd_single_single (i j : Fin 6) :
     hermStd (Pi.single i 1) (Pi.single j 1) = if i = j then 1 else 0 := by
-  fin_cases i <;> fin_cases j <;> simp [hermStd, Fin.sum_univ_six, Pi.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [hermStd, Pi.single_apply]
 
 private theorem hermStd_basis_pair {i j : Fin 6} (hij : i ≠ j) (a : F4) :
     hermStd (Pi.single i 1 + a • Pi.single j 1) (Pi.single i 1 + a • Pi.single j 1) =
       1 + a ^ 3 := by
   simp [hermStd_add_left, hermStd_add_right, hermStd_smul_left, hermStd_smul_right,
-    hermStd_single_single, hij, Ne.symm hij] <;> ring
+    hermStd_single_single, hij, Ne.symm hij]; ring
 
 private theorem one_add_one_F4 : (1 : F4) + 1 = 0 := by decide
 
@@ -81,7 +81,7 @@ private theorem matrix_eq_smul_one_of_pairs (M : Matrix (Fin 6) (Fin 6) F4)
     obtain ⟨_, -, h2⟩ := H2 i j hij
     have e1 := pair_coord h1 (k := k)
     have e2 := pair_coord h2 (k := k)
-    simp [Pi.single_apply, Ne.symm hik, hkj] at e1 e2
+    simp [Ne.symm hik, hkj] at e1 e2
     have hm : (F4.ω + 1) * M k j = 0 := by
       linear_combination e2 - e1 + (M k j) * F4.two_eq_zero
     exact (mul_eq_zero.1 hm).resolve_left (by decide)
@@ -90,7 +90,7 @@ private theorem matrix_eq_smul_one_of_pairs (M : Matrix (Fin 6) (Fin 6) F4)
     obtain ⟨c, hc, h⟩ := H1 0 j (Ne.symm hj)
     have e0 := pair_coord h (k := 0)
     have ej := pair_coord h (k := j)
-    simp [Pi.single_apply, hj, Ne.symm hj, hoff j 0 (Ne.symm hj), hoff 0 j hj] at e0 ej
+    simp [hj, Ne.symm hj, hoff j 0 (Ne.symm hj), hoff 0 j hj] at e0 ej
     exact ⟨c, hc, by linear_combination e0, by linear_combination ej⟩
   obtain ⟨c, hc, h0, -⟩ := hdiag 1 (by decide)
   refine ⟨M 0 0, by rw [h0]; exact hc, ?_⟩
@@ -209,7 +209,7 @@ theorem mem_range_piGU_of_pow_three_eq_one
       rw [h1]
       exact Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 hmem
-  · haveI : (piGU.range.subgroupOf autT).Normal := Subgroup.normal_of_index_eq_two h2
+  · have : (piGU.range.subgroupOf autT).Normal := Subgroup.normal_of_index_eq_two h2
     have hcard : Nat.card (↥autT ⧸ piGU.range.subgroupOf autT) = 2 := h2
     have hyA3 : (⟨y, hy⟩ : autT) ^ 3 = 1 := Subtype.ext (by simpa using h3)
     have hq3 : (QuotientGroup.mk (⟨y, hy⟩ : autT) :

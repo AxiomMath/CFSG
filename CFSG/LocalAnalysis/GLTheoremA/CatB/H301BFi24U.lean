@@ -22,8 +22,8 @@ open scoped commutatorElement
 private theorem eq_bot_of_elemAbelian81_le_normalizer {E T : Subgroup X₀}
     (hE : IsElemAbelian 3 E) (hc : Nat.card E = 81) (hT : IsPGroup 2 T)
     (hET : E ≤ Subgroup.normalizer (T : Set X₀)) : T = ⊥ := by
-  haveI : Finite X₀ := Nat.finite_of_card_ne_zero (by rw [card_X₀]; norm_num)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite X₀ := Nat.finite_of_card_ne_zero (by rw [card_X₀]; norm_num)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hE1 : E ≠ ⊥ := by
     rintro rfl
     rw [Subgroup.card_bot] at hc
@@ -55,7 +55,7 @@ theorem le_of_parrottData_elemAbelian {C : Type} [Group C] [Finite C] {Q Nt K₁
     (hd : ParrottData C X₀ Q Nt K₁) {B T : Subgroup C} (hB : IsElemAbelian 3 B)
     (hc : Nat.card B = 243) (hT : IsPGroup 2 T)
     (hBT : B ≤ Subgroup.normalizer (T : Set C)) : T ≤ Q := by
-  haveI := hd.normal_Q
+  have := hd.normal_Q
   obtain ⟨π, -, hπk⟩ := hd.hom
   have hQ0 : 0 < Nat.card Q := by rw [hd.card_Q]; norm_num
   have hBK : B ≤ K₁ := fun b hb => by

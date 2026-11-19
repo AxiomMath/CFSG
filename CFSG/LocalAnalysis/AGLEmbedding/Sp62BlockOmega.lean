@@ -37,7 +37,7 @@ theorem D1Sp62Data.false_of_omegaEightMinus (h : D1Sp62Data P M H R V)
   obtain ⟨E, hEP, hE, hEc⟩ := CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank
     (betaFour_all_sylows_rank_ge_four hβ P)
   have hEM : E ≤ M := hEP.trans h3.sylow_le
-  have hE3 : IsPGroup 3 E := P.isPGroup'.to_le hEP
+  have hE3 : IsPGroup 3 E := P.isPGroup.to_le hEP
   set mk := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hmk
   let ψ : E →* MulAut ↥(barM M L) :=
     ((MulAut.conjNormal (H := barM M L)).comp mk).comp (Subgroup.inclusion hEM)

@@ -402,7 +402,7 @@ private theorem three_point_stabilizer_subsingleton_of_not_alternating
     Finite.one_lt_card_iff_nontrivial.mpr hM
   obtain ⟨p, hp, hpdvd⟩ :=
     Nat.exists_prime_and_dvd (n := Nat.card M) (by omega)
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨u, hu⟩ :=
     exists_prime_orderOf_dvd_card' p hpdvd
   let g : Equiv.Perm X := (((u : M) : K) : P)
@@ -532,7 +532,7 @@ private theorem five_point_stabilizer_card_dvd_seven_hundred_twenty
       (MulAction.stabilizer K (a (0 : Fin 3)) ⊓
         MulAction.stabilizer K (a (1 : Fin 3))) ⊓
         MulAction.stabilizer K (a (2 : Fin 3))
-    letI : Subsingleton M :=
+    let : Subsingleton M :=
       three_point_stabilizer_subsingleton_of_not_alternating
         X P hcard h5 hnotAlt hs
           (a 0) (a 1) (a 2) h01 h02 h12
@@ -570,9 +570,9 @@ private theorem sylow_centralizer_card_eq_prime_of_not_alternating
     (S : Sylow p P) (hScard : Nat.card S = p) :
     Nat.card (Subgroup.centralizer (S : Set P)) = p := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsCyclic S := isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S := IsCyclic.isMulCommutative
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsCyclic S := isCyclic_of_prime_card hScard
+  let : IsMulCommutative S := IsCyclic.isMulCommutative
   obtain ⟨u, hu⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
   have huorder : orderOf u = p := hu.trans hScard
@@ -633,7 +633,7 @@ private theorem sylow_centralizer_card_eq_prime_of_not_alternating
   have himpossible {q : ℕ} (hq : q.Prime)
       (hqcop : Nat.Coprime q p)
       (hqdvd : q ∣ Nat.card C) : False := by
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     obtain ⟨v, hv⟩ :=
       exists_prime_orderOf_dvd_card' q hqdvd
     let w : Equiv.Perm X := (v : P)
@@ -716,9 +716,9 @@ theorem sylow_normalizer_constraints_of_not_alternating
       C.relIndex N * N.index * p = Nat.card P := by
   classical
   dsimp
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsCyclic S := isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S := IsCyclic.isMulCommutative
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsCyclic S := isCyclic_of_prime_card hScard
+  let : IsMulCommutative S := IsCyclic.isMulCommutative
   let C : Subgroup P :=
     Subgroup.centralizer (S : Set P)
   let N : Subgroup P :=
@@ -763,7 +763,7 @@ theorem sylow_normalizer_constraints_of_not_alternating
         (Subgroup.centralizer_le_normalizer (S : Set P))
   have hCindex := C.index_mul_card
   rw [hCcard, ← hrel] at hCindex
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   exact ⟨hrDvd,
     Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero,
@@ -781,7 +781,7 @@ private theorem sylow_eleven_normalizer_le_centralizer_of_factor_seventy_two
     Subgroup.normalizer (S : Set P) ≤
       Subgroup.centralizer (S : Set P) := by
   classical
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hScard : Nat.card S = 11 := by
     rw [S.card_eq_multiplicity, hPcard]
     rw [show 360360 = 11 * 32760 by norm_num, Nat.mul_assoc,
@@ -823,7 +823,7 @@ private theorem stabilizer_factor_seventy_two_impossible
     (hPcard : Nat.card P = 360360 * 72) :
     False := by
   classical
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   let S : Sylow 11 P := Sylow.nonempty.some
   have hScard : Nat.card S = 11 := by
     rw [S.card_eq_multiplicity, hPcard]
@@ -833,8 +833,8 @@ private theorem stabilizer_factor_seventy_two_impossible
       Finsupp.single_eq_same,
       Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
     norm_num
-  letI : IsCyclic S := isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S := IsCyclic.isMulCommutative
+  let : IsCyclic S := isCyclic_of_prime_card hScard
+  let : IsMulCommutative S := IsCyclic.isMulCommutative
   obtain ⟨u, hu⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
   have huorder : orderOf u = 11 := hu.trans hScard
@@ -875,7 +875,7 @@ private theorem stabilizer_factor_seventy_two_impossible
     ext i
     exact hq i
   have hP4 : MulAction.IsMultiplyPretransitive P X 4 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 4) (n := 5) (by omega) (by
         rw [Nat.card_eq_fintype_card, hcard]
@@ -956,18 +956,18 @@ private theorem stabilizer_factor_seventy_two_impossible
     have htotal := Set.ncard_add_ncard_compl s
     rw [Nat.card_eq_fintype_card, hcard, hs] at htotal
     omega
-  letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+  let : MulAction.IsMultiplyPretransitive P X 5 := hP5
   have hK1 :
       MulAction.IsMultiplyPretransitive K Y 1 :=
     SubMulAction.ofFixingSubgroup.isMultiplyPretransitive
       (m := 1) (n := 5) P s (by omega)
-  letI : MulAction.IsPretransitive K Y :=
+  let : MulAction.IsPretransitive K Y :=
     MulAction.is_one_pretransitive_iff.mp hK1
-  letI : MulAction.IsPreprimitive K Y := by
+  let : MulAction.IsPreprimitive K Y := by
     apply IsPreprimitive.of_prime_card
     rw [hYcard]
     norm_num
-  letI : Nonempty Y := Finite.card_pos_iff.mp (by omega)
+  let : Nonempty Y := Finite.card_pos_iff.mp (by omega)
   have hKFaithful :
       ∀ q : K, (∀ y : Y, q • y = y) → q = 1 := by
     intro q hq
@@ -1004,7 +1004,7 @@ private theorem sylow_seven_normalizer_le_centralizer_of_factor_sixty_or_one_for
   classical
   rcases hk with rfl | rfl
   all_goals
-    letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hScard : Nat.card S = 7 := by
       rw [S.card_eq_multiplicity, hPcard]
       rw [show 360360 = 7 * 51480 by norm_num, Nat.mul_assoc,
@@ -1013,8 +1013,8 @@ private theorem sylow_seven_normalizer_le_centralizer_of_factor_sixty_or_one_for
         Finsupp.single_eq_same,
         Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
       norm_num
-    letI : IsCyclic S := isCyclic_of_prime_card hScard
-    letI : IsMulCommutative S := IsCyclic.isMulCommutative
+    let : IsCyclic S := isCyclic_of_prime_card hScard
+    let : IsMulCommutative S := IsCyclic.isMulCommutative
     obtain ⟨u, hu⟩ :=
       IsCyclic.exists_ofOrder_eq_natCard (α := S)
     have huorder : orderOf u = 7 := hu.trans hScard
@@ -1141,7 +1141,7 @@ private theorem sylow_seven_normalizer_le_centralizer_of_factor_sixty_or_one_for
           (Subgroup.centralizer_le_normalizer (S : Set P))
     have hCindex := C.index_mul_card
     rw [hPcard, ← hrel] at hCindex
-    letI :
+    let :
         C.IsFiniteRelIndex (Subgroup.normalizer (S : Set P)) :=
       Subgroup.isFiniteRelIndex_of_finiteIndex
     have hrpos :
@@ -1182,7 +1182,7 @@ private theorem stabilizer_factor_sixty_or_one_forty_four_impossible
     have hcases :=
       (show Nat.Prime 7 by norm_num).dvd_mul.mp h
     exact hcases.elim (by norm_num) hkNot7
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let S : Sylow 7 P := Sylow.nonempty.some
   have hScard : Nat.card S = 7 := by
     rw [S.card_eq_multiplicity, hPcard]
@@ -1203,7 +1203,7 @@ private theorem stabilizer_factor_sixty_or_one_forty_four_impossible
   have hcomplement : N.IsComplement' S :=
     MonoidHom.ker_transferSylow_isComplement' S hnormalizer
   have hNcard : Nat.card N = 51480 * k := by
-    have hproduct := hcomplement.card_mul
+    have hproduct := hcomplement.card_mul_card
     rw [hScard, hPcard] at hproduct
     omega
   have hP5 : MulAction.IsMultiplyPretransitive P X 5 := by
@@ -1214,22 +1214,22 @@ private theorem stabilizer_factor_sixty_or_one_forty_four_impossible
     ext i
     exact hg i
   have hP2 : MulAction.IsMultiplyPretransitive P X 2 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 2) (n := 5) (by omega) (by
         rw [Nat.card_eq_fintype_card, hcard]
         omega)
-  letI : MulAction.IsMultiplyPretransitive P X 2 := hP2
-  letI : MulAction.IsPretransitive P X :=
+  let : MulAction.IsMultiplyPretransitive P X 2 := hP2
+  let : MulAction.IsPretransitive P X :=
     MulAction.isPretransitive_of_is_two_pretransitive
-  letI : MulAction.IsPreprimitive P X :=
+  let : MulAction.IsPreprimitive P X :=
     MulAction.isPreprimitive_of_is_two_pretransitive hP2
-  letI : N.Normal := by
+  let : N.Normal := by
     dsimp only [N]
     infer_instance
   have hNnotFixed : MulAction.fixedPoints N X ≠ Set.univ := by
     intro hfixed
-    letI : Subsingleton N := ⟨fun a b => by
+    let : Subsingleton N := ⟨fun a b => by
       apply Subtype.ext
       apply P.subtype_injective
       ext x
@@ -1246,8 +1246,8 @@ private theorem stabilizer_factor_sixty_or_one_forty_four_impossible
     omega
   have hNtransitive : MulAction.IsPretransitive N X :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal hNnotFixed
-  letI : MulAction.IsPretransitive N X := hNtransitive
-  letI : Nonempty X := Fintype.card_pos_iff.mp (by omega)
+  let : MulAction.IsPretransitive N X := hNtransitive
+  let : Nonempty X := Fintype.card_pos_iff.mp (by omega)
   let x : X := Classical.choice inferInstance
   have hNOrbitCard :
       Fintype.card (MulAction.orbit N x) = 15 := by
@@ -1269,24 +1269,24 @@ private theorem stabilizer_factor_sixty_or_one_forty_four_impossible
     dsimp only [Y]
     rw [SubMulAction.nat_card_ofStabilizer_eq, hXcardNat]
   have hPx4 : MulAction.IsMultiplyPretransitive Px Y 4 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact
       (SubMulAction.ofStabilizer.isMultiplyPretransitive
         (G := P) (α := X) (n := 4) (a := x)).mp hP5
-  letI : MulAction.IsMultiplyPretransitive Px Y 4 := hPx4
+  let : MulAction.IsMultiplyPretransitive Px Y 4 := hPx4
   have hPx2 : MulAction.IsMultiplyPretransitive Px Y 2 := by
     exact MulAction.isMultiplyPretransitive_of_le
       (G := Px) (α := Y) (m := 2) (n := 4) (by omega) (by
         rw [hYcard]
         omega)
-  letI : MulAction.IsMultiplyPretransitive Px Y 2 := hPx2
-  letI : MulAction.IsPretransitive Px Y :=
+  let : MulAction.IsMultiplyPretransitive Px Y 2 := hPx2
+  let : MulAction.IsPretransitive Px Y :=
     MulAction.isPretransitive_of_is_two_pretransitive
-  letI : MulAction.IsPreprimitive Px Y :=
+  let : MulAction.IsPreprimitive Px Y :=
     MulAction.isPreprimitive_of_is_two_pretransitive hPx2
-  letI : Nonempty Y := Finite.card_pos_iff.mp (by omega)
+  let : Nonempty Y := Finite.card_pos_iff.mp (by omega)
   let Nst : Subgroup Px := N.comap Px.subtype
-  letI : Nst.Normal := by
+  let : Nst.Normal := by
     dsimp only [Nst]
     infer_instance
   have hNstCard : Nat.card Nst = 3432 * k := by
@@ -1432,7 +1432,7 @@ private theorem five_point_stabilizer_card_cases
   have hkNot11 : ¬11 ∣ k := by
     intro h
     exact (by norm_num : ¬11 ∣ 720) (h.trans hkdiv)
-  letI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   let S13 : Sylow 13 P := Sylow.nonempty.some
   have hS13card : Nat.card S13 = 13 := by
     rw [S13.card_eq_multiplicity, hPcard]
@@ -1458,7 +1458,7 @@ private theorem five_point_stabilizer_card_cases
       sylow_normalizer_constraints_of_not_alternating
         X P hcard h5 hnotAlt (p := 13) (by norm_num)
           (Or.inr rfl) S13 hS13card
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   let S11 : Sylow 11 P := Sylow.nonempty.some
   have hS11card : Nat.card S11 = 11 := by
     rw [S11.card_eq_multiplicity, hPcard]

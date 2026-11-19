@@ -34,8 +34,8 @@ theorem nonempty_equiv_u6two_of_statedProj {X : Type} [Group X] {K : Type} [Fiel
       ValidLieTypeIndex.fieldExponent ⟨.twistedA 5 pp2, valid_twistedA_five⟩ = 2 ^ 1 := by
     rw [hc2, hf2]
   rw [← hq] at e
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField (ValidLieTypeIndex.characteristic
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField (ValidLieTypeIndex.characteristic
     ⟨.twistedA 5 pp2, valid_twistedA_five⟩)
       (2 * ValidLieTypeIndex.fieldExponent ⟨.twistedA 5 pp2, valid_twistedA_five⟩)) :=
     Fintype.ofFinite _
@@ -53,10 +53,10 @@ theorem core3Group_of_SU6cover
     (Q : Type) [Group Q] [Finite Q] (hL : FullLinearCover true 6 2 Q) :
     Core3Group (Q ⧸ Subgroup.center Q) := by
   obtain ⟨K, _, _, h⟩ := hL
-  rw [if_pos rfl] at h
+  rw [ite_eq_left rfl] at h
   obtain ⟨hK, ⟨e⟩⟩ := h
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ := (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU
     (CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hK' (by norm_num) (by decide))
     (CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 1 hK' 6 (by norm_num)

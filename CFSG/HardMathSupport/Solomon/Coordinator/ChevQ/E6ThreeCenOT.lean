@@ -42,7 +42,7 @@ theorem e6Cen_finrank_eq_24_of_zpowers [Finite K] (hK4 : 4 ≤ Nat.card K) (h3 :
       refine (hs1 (Subtype.ext ?_)).elim
       rw [hsx', e6CenTz_zero, e6Cen_torV_zero, OneMemClass.coe_one]
       exact Units.ext rootDiag_one
-    · rw [hsx', e6PW_finrank_torV h3 h1, e6Cen_kerCount_Tz, e6CenTzKc, if_pos rfl, if_neg hac]
+    · rw [hsx', e6PW_finrank_torV h3 h1, e6Cen_kerCount_Tz, e6CenTzKc, ite_eq_left rfl, ite_eq_right hac]
   · exact finrank_ker_eq_24_of_bmMono_z hK3 hK4 hs3 (k := 1) (Or.inl rfl)
       (by rw [pow_one]; exact hsv)
   · exact finrank_ker_eq_24_of_bmMono_z hK3 hK4 hs3 (k := 2) (Or.inr rfl) hsv

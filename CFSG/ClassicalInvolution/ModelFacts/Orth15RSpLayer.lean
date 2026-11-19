@@ -140,7 +140,7 @@ theorem mat_c1_mul_PhiS (a b : F) (hab : a * a + b * b = -1)
   rw [mat_blk]
   ext x y
   rcases x with k | k <;> rcases y with l | l <;> fin_cases k <;> fin_cases l <;>
-    simp [hInv, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, PhiS_apply, PhiFun,
+    simp [hInv, Matrix.mul_apply, Fintype.sum_sum_type, PhiS_apply, PhiFun,
       Matrix.fromBlocks, Matrix.diagonal_apply] <;> ring
 
 
@@ -227,7 +227,7 @@ theorem t0_mem_range (h2 : (2 : F) ≠ 0) (hlam : star lam * lam = -1) :
   · rw [t0_eq_blk, mat_blk]
     ext x y
     rcases x with k | k <;> rcases y with l | l <;> fin_cases k <;> fin_cases l <;>
-      simp [PhiS_apply, PhiFun, omE, coe_r0, Matrix.fromBlocks, Matrix.diagonal_apply]
+      simp [PhiS_apply, PhiFun, omE, coe_r0, Matrix.fromBlocks]
   · rw [Matrix.det_fin_two_of]
     have := omE_mul_self (F := F)
     linear_combination (-1 : QE F) * this

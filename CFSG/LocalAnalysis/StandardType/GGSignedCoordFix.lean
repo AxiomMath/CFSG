@@ -59,15 +59,15 @@ theorem negTrans_apply (a b : Fin n) (hab : a ≠ b)
     inv_eq_of_mul_eq_one_right h2
   rw [hinv, MulAut.mul_apply, MulAut.mul_apply, sgnAut_apply, Function.update_apply]
   by_cases hia : i = a
-  · rw [if_pos hia, if_pos hia, permAut_apply, Function.comp_apply]
+  · rw [ite_eq_left hia, ite_eq_left hia, permAut_apply, Function.comp_apply]
     change ((sgnAut a f) (Equiv.swap a b a))⁻¹ = (f b)⁻¹
     rw [Equiv.swap_apply_left, sgnAut_apply, Function.update_of_ne (Ne.symm hab)]
-  · rw [if_neg hia]
+  · rw [ite_eq_right hia]
     by_cases hib : i = b
-    · rw [hib, if_neg (Ne.symm hab), if_pos rfl, permAut_apply, Function.comp_apply]
+    · rw [hib, ite_eq_right (Ne.symm hab), ite_eq_left rfl, permAut_apply, Function.comp_apply]
       change (sgnAut a f) (Equiv.swap a b b) = (f a)⁻¹
       rw [Equiv.swap_apply_right, sgnAut_apply, Function.update_self]
-    · rw [if_neg hia, if_neg hib, permAut_apply, Function.comp_apply]
+    · rw [ite_eq_right hia, ite_eq_right hib, permAut_apply, Function.comp_apply]
       change (sgnAut a f) (Equiv.swap a b i) = f i
       rw [Equiv.swap_apply_of_ne_of_ne hia hib, sgnAut_apply, Function.update_of_ne hia]
 
@@ -278,7 +278,7 @@ theorem exists_involution_mem_bCoordinateBlock_dCoordinateBlock (hp : p.Prime) (
         g (Pi.mulSingle a (ofAdd 1))) h
     rw [permAut_mulSingle, Equiv.swap_apply_left, MulAut.one_apply] at hx
     have hx2 := congrArg (fun f : Fin n → Multiplicative (ZMod p) => toAdd (f a)) hx
-    rw [toAdd_mulSingle, toAdd_mulSingle, if_pos rfl, if_neg hab] at hx2
+    rw [toAdd_mulSingle, toAdd_mulSingle, ite_eq_left rfl, ite_eq_right hab] at hx2
     exact coord_zero_ne_one hp hx2
 
 theorem exists_involution_mem_aPermutationFull_map_conj (hp : p.Prime) (hn : 2 ≤ n)
@@ -302,7 +302,7 @@ theorem exists_involution_mem_aPermutationFull_map_conj (hp : p.Prime) (hn : 2 �
       rw [permAut_mulSingle, Equiv.swap_apply_left, MulAut.one_apply] at hx
       have hx2 := congrArg
         (fun f : Fin (m + 2) → Multiplicative (ZMod p) => toAdd (f a)) hx
-      rw [toAdd_mulSingle, toAdd_mulSingle, if_pos rfl, if_neg hab] at hx2
+      rw [toAdd_mulSingle, toAdd_mulSingle, ite_eq_left rfl, ite_eq_right hab] at hx2
       exact coord_zero_ne_one hp hx2
     refine ⟨δ * permAut (Equiv.swap a b) * δ⁻¹, ?_, ?_, ?_⟩
     · exact Subgroup.mem_map.mpr ⟨permAut (Equiv.swap a b),

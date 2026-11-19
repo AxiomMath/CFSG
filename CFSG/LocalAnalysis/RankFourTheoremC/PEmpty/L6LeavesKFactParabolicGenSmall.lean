@@ -63,9 +63,9 @@ theorem mem_alt6V1 {x : A6} : x ∈ alt6V1 ↔ x = 1 ∨ x = alt6Inv ∨ x = alt
 theorem mem_alt6V2 {x : A6} : x ∈ alt6V2 ↔ x = 1 ∨ x = alt6Inv ∨ x = alt6InvB ∨ x = alt6InvD :=
   Iff.rfl
 
-instance : DecidablePred (· ∈ alt6V1) := fun x => decidable_of_iff _ mem_alt6V1.symm
+instance : DecidablePred (· ∈ alt6V1) := fun _x => decidable_of_iff _ mem_alt6V1.symm
 
-instance : DecidablePred (· ∈ alt6V2) := fun x => decidable_of_iff _ mem_alt6V2.symm
+instance : DecidablePred (· ∈ alt6V2) := fun _x => decidable_of_iff _ mem_alt6V2.symm
 
 theorem alt6V1_le_syl : alt6V1 ≤ alt6Syl := by
   intro x hx
@@ -159,7 +159,7 @@ theorem card_eq_24_of_alt6 {P : Subgroup A6} (hSP : alt6Syl ≤ P) (hne : P ≠ 
 @[expose] def alt6P2 : Subgroup A6 := normalizer (alt6V2 : Set A6)
 
 theorem hasParGen_alt6 : HasParGen A6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨W, hW⟩ := exists_sylow_two_coe_eq isSylowTwoOf_alt6Syl
   have hNW : normalizer ((W : Subgroup A6) : Set A6) = alt6Syl := by
     rw [hW]

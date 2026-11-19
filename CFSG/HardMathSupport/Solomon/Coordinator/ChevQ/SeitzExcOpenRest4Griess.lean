@@ -72,10 +72,10 @@ theorem rotSL_mul_single (i j : Fin 5) (t : K) :
     rw [Equiv.Perm.inv_def, Equiv.symm_symm]
     exact (finRotate 5).injective.eq_iff
   by_cases h1 : finRotate 5 i = a <;> by_cases h2 : j = b
-  · rw [if_pos ⟨e1.2 h1, h2⟩, if_pos ⟨h1, e2.2 h2⟩]
-  · rw [if_neg (fun h => h2 h.2), if_neg (fun h => h2 (e2.1 h.2))]
-  · rw [if_neg (fun h => h1 (e1.1 h.1)), if_neg (fun h => h1 h.1)]
-  · rw [if_neg (fun h => h1 (e1.1 h.1)), if_neg (fun h => h1 h.1)]
+  · rw [ite_eq_left ⟨e1.2 h1, h2⟩, ite_eq_left ⟨h1, e2.2 h2⟩]
+  · rw [ite_eq_right (fun h => h2 h.2), ite_eq_right (fun h => h2 (e2.1 h.2))]
+  · rw [ite_eq_right (fun h => h1 (e1.1 h.1)), ite_eq_right (fun h => h1 h.1)]
+  · rw [ite_eq_right (fun h => h1 (e1.1 h.1)), ite_eq_right (fun h => h1 h.1)]
 
 theorem rotSL_conj_tv {i j : Fin 5} (hij : i ≠ j) (t : K) :
     rotSL * SpecialLinearGroup.transvection hij t * rotSL⁻¹ =
@@ -189,10 +189,10 @@ theorem exact_cocycle (μ : Fin 5 → Fin 5 → K) (hμ : ∀ i j, i ≠ j → �
   intro i j hij
   by_cases hj : j = 0
   · subst hj
-    rw [if_pos rfl, if_neg hij, mul_one]
+    rw [ite_eq_left rfl, ite_eq_right hij, mul_one]
   · by_cases hi : i = 0
     · subst hi
-      rw [if_pos rfl, if_neg hj]
+      rw [ite_eq_left rfl, ite_eq_right hj]
       obtain ⟨a, ha0, haj⟩ : ∃ a : Fin 5, a ≠ 0 ∧ a ≠ j := by
         by_cases h1 : j = 1
         · exact ⟨2, by decide, by rw [h1]; decide⟩
@@ -204,7 +204,7 @@ theorem exact_cocycle (μ : Fin 5 → Fin 5 → K) (hμ : ∀ i j, i ≠ j → �
           _ = μ a 0 * μ 0 j * μ j 0 := by rw [e1]
           _ = μ a 0 * (μ 0 j * μ j 0) := by ring
       exact (mul_left_cancel₀ (hμ a 0 ha0) e3).symm
-    · rw [if_neg hj, if_neg hi]
+    · rw [ite_eq_right hj, ite_eq_right hi]
       exact (h3 i j 0 hij hj hi).symm
 
 end Signs
@@ -698,7 +698,7 @@ theorem griessW_pow_ne {m : ℕ} (hm : m ∈ ({1, 2, 3, 4} : Finset ℕ)) : grie
   rw [← griessW_pow_smul, h, one_smul]
 
 theorem orderOf_griessW : orderOf griessW = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime griessW_pow_five (by simpa using griessW_pow_ne (m := 1) (by decide))
 
 theorem griessW_pow_six : griessW ^ 6 = griessW := by

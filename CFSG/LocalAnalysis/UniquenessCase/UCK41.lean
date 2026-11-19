@@ -15,11 +15,13 @@ variable {G : Type} [Group G] [Finite G] {V : Type} [AddCommGroup V] [Module (ZM
 @[expose] def hyperplaneSet (q : ℕ) (A : Subgroup G) : Set (Subgroup G) :=
   {B | B ≤ A ∧ B.relIndex A = q}
 
+omit [Finite G] [Finite V] in
 private theorem fixSub_eq_invariants (ρ : Representation (ZMod 2) G V) (A : Subgroup G) :
     fixSub ρ A = Representation.invariants (ρ.comp A.subtype) := by
   ext v
   exact ⟨fun h a => h a a.2, fun h a ha => h ⟨a, ha⟩⟩
 
+omit [Finite V] in
 theorem iSupIndep_fixSub_hyperplane (ρ : Representation (ZMod 2) G V) {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) {A : Subgroup G} (hA : CFSG.Open.IsElemAbelian q A)
     (hfix : fixSub ρ A = ⊥) :

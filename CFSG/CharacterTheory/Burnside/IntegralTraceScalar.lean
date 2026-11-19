@@ -40,7 +40,7 @@ theorem Module.End.eq_smul_one_of_pow_eq_one_of_isIntegral_trace_div_finrank
         (f := f) (IsAlgClosed.splits (LinearMap.charpoly f)))
   let T : Set ℂ := ↑s.toFinset
   have hTfinite : T.Finite := by
-    simpa [T] using s.toFinset.finite_toSet
+    simp [T]
   let : Fintype T := hTfinite.fintype
   have hTint : ∀ z ∈ T, IsIntegral ℚ z := by
     intro z hz
@@ -65,7 +65,7 @@ theorem Module.End.eq_smul_one_of_pow_eq_one_of_isIntegral_trace_div_finrank
       LinearMap.trace ℂ V f / (Module.finrank ℂ V : ℂ)
     have hsumcoe : ((rootsK.sum : K) : ℂ) = s.sum := by
       rw [← hcoe_rootsK]
-      simpa using (map_multiset_sum (IntermediateField.val K) rootsK)
+      simp
     rw [hsumcoe, ← htrace_sum]
     norm_cast
   have hx0 : x ≠ 0 := by

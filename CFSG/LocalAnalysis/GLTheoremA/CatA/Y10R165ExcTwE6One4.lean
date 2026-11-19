@@ -37,7 +37,7 @@ theorem diag3_mul (a b c a' b' c' : Kˣ) :
   apply Matrix.GeneralLinearGroup.ext
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [coe_diag3, Matrix.mul_apply, Matrix.diagonal, Fin.sum_univ_six]
+    simp [coe_diag3, Matrix.mul_apply, Matrix.diagonal]
   all_goals ring
 
 theorem diag3_mem_gramSU (h : UnitaryFieldData 2 F K) (a b c : Kˣ)
@@ -79,7 +79,7 @@ theorem pow_val_add_of_orderOf [NeZero p] (ζ : Kˣ) (hζ : orderOf ζ = p) (a b
     apply Subtype.ext
     apply Matrix.GeneralLinearGroup.ext
     intro i j
-    simp only [Subgroup.coe_mul, Units.val_mul, diag3_mul, ← pow_val_add_of_orderOf (p := p) ζ hζ]
+    simp only [Subgroup.coe_mul, diag3_mul, ← pow_val_add_of_orderOf (p := p) ζ hζ]
     rfl
 
 theorem quotient_r3Hom_injective (h : UnitaryFieldData 2 F K) (p : ℕ) [NeZero p]
@@ -208,7 +208,7 @@ private theorem isElemAbelian_multiplicative_zmod [Fact p.Prime] :
   apply Multiplicative.toAdd.injective
   rw [hpow x p]
   show p • x.toAdd = (0 : ZMod p × ZMod p × ZMod p)
-  ext <;> simp [nsmul_eq_mul, CharP.cast_eq_zero (ZMod p) p]
+  ext <;> simp [nsmul_eq_mul]
 
 noncomputable abbrev N6 (h : UnitaryFieldData 2 f K) :
     Subgroup ↥(gramSU h ((CFSG.SeitzReduction.TwistedE6Pilot.antiIdGL K : GL (Fin 6) K) :
@@ -223,8 +223,8 @@ noncomputable abbrev N6 (h : UnitaryFieldData 2 f K) :
         Matrix (Fin 6) (Fin 6) K) :=
   (QuotientGroup.mk' (N6 h)).comp (r3Hom h p ζ hζ hζbar)
 
-@[expose] noncomputable def R3bar (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime)
-    (hp2 : p ≠ 2) (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) :
+@[expose] noncomputable def R3bar (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (_hp : p.Prime)
+    (_hp2 : p ≠ 2) (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) :
     Subgroup (primeFormP h ((CFSG.SeitzReduction.TwistedE6Pilot.antiIdGL K : GL (Fin 6) K) :
       Matrix (Fin 6) (Fin 6) K)) :=
   (r3ToP h p ζ hζ hζbar).range
@@ -242,7 +242,7 @@ theorem card_R3bar (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Pri
 theorem isElemAbelian_R3bar (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime)
     (hp2 : p ≠ 2) (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) :
     IsElemAbelian p (R3bar h p hp hp2 ζ hζ hζbar) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [R3bar, r3ToP, MonoidHom.range_eq_map]
   exact CFSG.SectionRank.isElemAbelian_map isElemAbelian_multiplicative_zmod _
 
@@ -296,7 +296,7 @@ theorem zbar_mem (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime
 theorem orderOf_zbar (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.Prime)
     (hp2 : p ≠ 2) (ζ : Kˣ) (hζ : orderOf ζ = p) (hζbar : h.bar (ζ : K) = ζ) :
     orderOf (zbar h p ζ hζ hζbar) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [zbar, r3ToP, orderOf_injective _ (quotient_r3Hom_injective h p hp hp2 ζ hζ hζbar)]
   refine orderOf_eq_prime ?_ ?_
   · exact isElemAbelian_multiplicative_zmod.2 _ (Subgroup.mem_top _)
@@ -305,7 +305,7 @@ theorem orderOf_zbar (h : UnitaryFieldData 2 f K) (p : ℕ) [NeZero p] (hp : p.P
     simp at h2
 
 @[expose] noncomputable def zLevi {σ : K →+* K} (h : UnitaryFieldData 2 f K) [Finite K] (p : ℕ)
-    [NeZero p] (hp : p.Prime) (hp2 : p ≠ 2) (ζ : Kˣ) (hζ : orderOf ζ = p)
+    [NeZero p] (_hp : p.Prime) (_hp2 : p ≠ 2) (ζ : Kˣ) (hζ : orderOf ζ = p)
     (hζbar : h.bar (ζ : K) = ζ) (hσ : ∀ c, σ c = c ^ (2 ^ f)) :
     ModGL TwistTag.E6.tag K :=
   (su6LeviEquiv h hσ (zbar h p ζ hζ hζbar) : ModGL TwistTag.E6.tag K)

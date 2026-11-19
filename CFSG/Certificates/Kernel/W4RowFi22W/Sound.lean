@@ -40,12 +40,12 @@ theorem actPerm_append (a b : List ℕ) : actPerm ℓ (a ++ b) = actPerm ℓ b *
 
 theorem refPerm_two_mul (i : ℕ) : refPerm ℓ E (2 * i) = ev ℓ E i := by
   have h1 : ¬ (2 * i) % 2 = 1 := by omega
-  rw [refPerm, if_neg h1, Nat.mul_div_cancel_left i (by norm_num)]
+  rw [refPerm, ite_eq_right h1, Nat.mul_div_cancel_left i (by norm_num)]
 
 theorem refPerm_two_mul_add_one (i : ℕ) : refPerm ℓ E (2 * i + 1) = (ev ℓ E i)⁻¹ := by
   have h1 : (2 * i + 1) % 2 = 1 := by omega
   have h2 : (2 * i + 1) / 2 = i := by omega
-  rw [refPerm, if_pos h1, h2]
+  rw [refPerm, ite_eq_left h1, h2]
 
 theorem refsPerm_cons (r : ℕ) (rs : List ℕ) :
     refsPerm ℓ E (r :: rs) = refsPerm ℓ E rs * refPerm ℓ E r := rfl
@@ -111,10 +111,10 @@ theorem refAct_eq (r p : ℕ) (hp : p < n) : refAct w h L E r p = (refPerm ℓ E
   rw [hd]
   cases h2 : Nat.beq (Nat.mod r 2) 1
   · have h3 : ¬ r % 2 = 1 := Nat.ne_of_beq_eq_false h2
-    rw [if_neg h3, cond_false]
+    rw [ite_eq_right h3, Bool.cond_false]
     exact actW_eq H _ (getD_wordOK hE _) p hp
   · have h3 : r % 2 = 1 := Nat.eq_of_beq_eq_true h2
-    rw [if_pos h3, cond_true]
+    rw [ite_eq_left h3, _root_.Bool.cond_true]
     exact actWI_eq H _ (getD_wordOK hE _) p hp
 
 theorem refsAct_eq : ∀ (rs : List ℕ) (p : ℕ) (hp : p < n),
@@ -143,7 +143,7 @@ theorem movB_sound {m : List ℕ × ℕ} (hm : m.2 < n) (hc : movB w h L E m = t
   intro e
   unfold movB at hc
   rw [Bool.not_eq_true', refsAct_eq H hE _ _ hm, e] at hc
-  exact absurd (Nat.beq_refl m.2) (by simpa using hc)
+  exact absurd (Nat.beq_refl m.2) (by simp at hc)
 
 end Letters
 

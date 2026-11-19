@@ -16,7 +16,7 @@ open CFSG.GH74.Uniqueness.Bender
 variable {G : Type} [Group G] [Finite G]
 
 private theorem exists_reflection_of_vertex
-    {L L' S B P D D' Kg : Subgroup G} {n i : ℕ}
+    {L _L' S B P D D' Kg : Subgroup G} {n i : ℕ}
     (hPdef : P = L ⊔ B)
     (hsyl : IsSylowTwoOf (S ⊓ L) L)
     (hBsyl : B ≤ Subgroup.normalizer ((S ⊓ L : Subgroup G) : Set G))
@@ -74,7 +74,7 @@ private theorem exists_reflection_of_vertex
         intro y hy
         exact (hcomm x hx y hy).symm
       · exact Subgroup.commutator_self_eq_bot_iff.mpr (IsCyclic.isMulCommutative)
-    haveI : IsMulCommutative ↥(D ⊔ D') := by
+    have : IsMulCommutative ↥(D ⊔ D') := by
       have h := CFSG.GroupTheory.isMulCommutative_sSup hS
       rw [sSup_pair] at h
       exact h
@@ -96,13 +96,13 @@ private theorem exists_reflection_of_vertex
       RonanF13.inf_eq_bot_of_odd (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L) hNodd
     exact le_bot_iff.mp ((le_inf hle inf_le_right).trans (le_of_eq hpc))
   have hNcyc : IsCyclic ↥N := by
-    haveI : IsCyclic ↥D' := hD'cyc
+    have : IsCyclic ↥D' := hD'cyc
     exact (CFSG.Semidihedral.StationaryConfinement.cyclic_of_inf_eq_bot_of_commute
       (W := D') (A₀ := D) (A' := N)
       (fun w hw a ha => (hcomm a ha w hw).symm)
       (by rw [sup_comm]; exact hNleH)
       (by rw [inf_comm]; exact hDN)).1
-  haveI : IsCyclic ↥N := hNcyc
+  have : IsCyclic ↥N := hNcyc
   have hD'leDN : D' ≤ D ⊔ N := by
     intro d hd
     obtain ⟨δ, hδD, hδcomm⟩ := hcommLift d hd
@@ -199,9 +199,9 @@ private theorem exists_reflection_of_vertex
       (CFSG.GroupTheory.CyclicSubgroup.commutator_le_centralizer N M0 M0 hM0N hM0N)
   have hBender : CFSG.BenderSuzuki.IsBenderGroup Lbar :=
     isBenderGroup_iff_exists_benderType.mpr ⟨n, i, 1, hBt⟩
-  haveI : Group.IsPerfect Lbar := Group.isPerfect_def.mpr
+  have : Group.IsPerfect Lbar := Group.isPerfect_def.mpr
     (CFSG.GH74.Uniqueness.commutator_eq_top_of_isBenderGroup hBender)
-  haveI : Group.IsPerfect (MulAut.conj : Lbar →* MulAut Lbar).range :=
+  have : Group.IsPerfect (MulAut.conj : Lbar →* MulAut Lbar).range :=
     Group.IsPerfect.range (f := (MulAut.conj : Lbar →* MulAut Lbar))
   have hInn_perf : (MulAut.conj : Lbar →* MulAut Lbar).range =
       ⁅(MulAut.conj : Lbar →* MulAut Lbar).range,
@@ -620,7 +620,7 @@ theorem f112_exists_reflection_left
       Subgroup.mem_map_of_mem (L1 ⊔ bigB L1 L2 S).subtype
         (f112_mem_K1_of_commutator_mem hF.1 hx hc)
     rwa [← hK1def] at hmap
-  exact exists_reflection_of_vertex (L := L1) (L' := L2) (S := S) (B := bigB L1 L2 S)
+  exact exists_reflection_of_vertex (L := L1) (_L' := L2) (S := S) (B := bigB L1 L2 S)
     (P := P1) (D := D1) (D' := D2) (Kg := K1) (n := 2 * a + 1) (i := 2)
     hP1def hF.1.h1.sylow (F1.bigB_le_normalizer_sylow hR).1
     (F1.bigB_le_normalizer_left hR).1 hBt1 hD1 hB1D hD1cyc hD2cyc hcomm hHall hcommLift
@@ -705,7 +705,7 @@ theorem f112_exists_reflection_right
         (f112_mem_K2_of_commutator_mem hF.1 hx hc)
     rwa [← hK2def] at hmap
   simpa only [sup_comm D2 D1] using
-    (exists_reflection_of_vertex (L := L2) (L' := L1) (S := S) (B := bigB L1 L2 S)
+    (exists_reflection_of_vertex (L := L2) (_L' := L1) (S := S) (B := bigB L1 L2 S)
       (P := P2) (D := D2) (D' := D1) (Kg := K2) (n := f) (i := 1)
       hP2def hF.1.h2.sylow (F1.bigB_le_normalizer_sylow hR).2
       (F1.bigB_le_normalizer_left hR).2 hBt2 hD2 hB2D hD2cyc hD1cyc hcomm' hHall' hcommLift

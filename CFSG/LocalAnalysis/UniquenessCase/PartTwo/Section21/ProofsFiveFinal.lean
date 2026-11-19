@@ -20,6 +20,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem normalizes_conj_of_mem_normalizer_normalizer {T K : Subgroup G} {a : G}
     (haT : a ∈ Subgroup.normalizer (T : Set G))
     (hTK : T ≤ Subgroup.normalizer (K : Set G)) :
@@ -39,6 +40,7 @@ private theorem normalizes_conj_of_mem_normalizer_normalizer {T K : Subgroup G} 
           (MulAut.conj a).toMonoidHom := (Subgroup.map_conj_map_conj K (a⁻¹ * t * a) a).symm
     _ = K.map (MulAut.conj a).toMonoidHom := by rw [hKt]
 
+omit [Finite G] in
 theorem normalizes_conjugatePower_of_normalizes_one {T L : Subgroup G} {a : G} {r : ℕ}
     (ha : a ^ r = 1) (haT : a ∈ Subgroup.normalizer (T : Set G))
     {j : ℕ} (hj : j < r) (hTj : T ≤ Subgroup.normalizer (conjugatePower a L j : Set G)) :
@@ -84,7 +86,7 @@ private theorem mem_normalizer_of_isPGroup_zpowers_of_sylow {M L T : Subgroup G}
     {x : G} (hxM : x ∈ M) (hx2 : IsPGroup 2 (Subgroup.zpowers x)) :
     ∀ K ∈ conjSetOf M L, x ∈ Subgroup.normalizer (K : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hx2' : IsPGroup 2 ((Subgroup.zpowers x).subgroupOf M) := hx2.comap_subtype
   obtain ⟨Q, hxQ⟩ := hx2'.exists_le_sylow
   let P : Subgroup G := (Q : Subgroup ↥M).map M.subtype
@@ -121,6 +123,7 @@ private theorem mem_normalizer_of_isPGroup_zpowers_of_sylow {M L T : Subgroup G}
           ext x
           simp
 
+omit [Finite G] in
 private theorem conj_eq_self_of_conj_sq_eq_self {L : Subgroup G} {a : G}
     (h : (L.map (MulAut.conj a).toMonoidHom).map (MulAut.conj a).toMonoidHom =
       L.map (MulAut.conj a).toMonoidHom) :
@@ -136,12 +139,13 @@ private theorem conj_eq_self_of_conj_sq_eq_self {L : Subgroup G} {a : G}
     rw [Subgroup.map_conj_map_conj]
     rw [show a⁻¹ * a = 1 by group]
     ext y
-    simp [Subgroup.mem_map, MulAut.conj_apply]
+    simp [Subgroup.mem_map]
   have h4 := congrArg (fun H : Subgroup G =>
     H.map (MulAut.conj a⁻¹).toMonoidHom) h
   rw [hleft, hright] at h4
   exact h4
 
+omit [Finite G] in
 private theorem mem_normalizer_of_inverts_of_mem_normalizer_conjugatePower {L : Subgroup G}
     {a x : G}
     (hx : x * a * x⁻¹ = a⁻¹) (ha : Odd (orderOf a))
@@ -158,7 +162,7 @@ private theorem mem_normalizer_of_inverts_of_mem_normalizer_conjugatePower {L : 
       _ = L := by
             rw [inv_mul_cancel]
             ext x
-            simp [Subgroup.mem_map, MulAut.conj_apply]
+            simp [Subgroup.mem_map]
   have hz : x⁻¹ ∈ Subgroup.normalizer (K : Set G) :=
     (Subgroup.normalizer (K : Set G)).inv_mem hxK
   have hz' : x⁻¹ ∈ Subgroup.normalizer
@@ -202,7 +206,7 @@ private theorem exists_order_three_mem_centralizer_of_dvd_card_bar2 {M L : Subgr
   have hcardB : 3 ∣ Nat.card ↥B := by
     rw [← Nat.card_congr eB.toEquiv]
     exact h3
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' 3 hcardB
   have hδyord : orderOf (δ y) = 3 := by
     rw [orderOf_injective δ hδinj y, hyord]
@@ -229,7 +233,7 @@ private theorem normalizes_conjSetOf_of_sylow {M T L : Subgroup G} {a : G}
       Set.range (fun i : Fin (orderOf a) => conjugatePower a L i)) :
     ∀ K ∈ conjSetOf M L, T ≤ Subgroup.normalizer (K : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinj : Function.Injective
       (fun i : Fin (orderOf a) => conjugatePower a L i) := by
     intro i j hij

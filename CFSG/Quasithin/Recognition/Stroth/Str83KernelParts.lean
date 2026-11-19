@@ -126,7 +126,7 @@ private theorem exists_conj_cartan_of_complement {K : Type} [Group K] [Finite K]
   classical
   let N : Subgroup K := GH74.Uniqueness.Bender.borel Q
   have hQle : Q ≤ N := le_borel Q
-  letI : (Q.subgroupOf N).Normal := Subgroup.normal_in_normalizer
+  let : (Q.subgroupOf N).Normal := Subgroup.normal_in_normalizer
   have hQinf : Q ⊓ D = ⊥ := CFSG.Quasithin.RonanF13.inf_eq_bot_of_odd hQ2 hDodd
   have hDle : cartan Q t ≤ N := cartan_le_borel Q t
   have hcompD : (Q.subgroupOf N).IsComplement' (D.subgroupOf N) := by
@@ -196,7 +196,7 @@ theorem exists_involution_cartan_eq {K : Type} [Group K] [Finite K]
       cartan (Q : Subgroup K) t = D := by
   classical
   obtain ⟨t₀, hc⟩ := hB.exists_benderCore Q
-  obtain ⟨g, hg, hDg⟩ := exists_conj_cartan_of_complement hc Q.isPGroup' hD hDodd hQD
+  obtain ⟨g, hg, hDg⟩ := exists_conj_cartan_of_complement hc Q.isPGroup hD hDodd hQD
   have hgN : g ∈ Subgroup.normalizer ((Q : Subgroup K) : Set K) := Subgroup.le_normalizer hg
   have hQmap : (Q : Subgroup K).map (MulAut.conj g).toMonoidHom = (Q : Subgroup K) :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mp hgN
@@ -247,7 +247,7 @@ private theorem card_eq_one_of_isPGroup_two_of_odd {H : Type} [Group H] [Finite 
 private theorem exists_sylow_image
     {G : Type} [Group G] [Finite G] {L S : Subgroup G}
     (hsyl : IsSylowTwoOf (S ⊓ L) L) :
-    ∃ (Q : Sylow 2 (oTwoQuot ↥L)) (hQ : (Q : Subgroup (oTwoQuot ↥L)) =
+    ∃ (Q : Sylow 2 (oTwoQuot ↥L)) (_hQ : (Q : Subgroup (oTwoQuot ↥L)) =
       ((S ⊓ L).subgroupOf L).map (QuotientGroup.mk' (pCore 2 ↥L))),
       ((borelOf L S).subgroupOf L).map (QuotientGroup.mk' (pCore 2 ↥L)) =
         GH74.Uniqueness.Bender.borel (Q : Subgroup (oTwoQuot ↥L)) := by
@@ -678,7 +678,7 @@ theorem str83BorelInf_of_caseI (hI : Str83CaseI)
   intro p hp hpdvd
   by_contra hpne
   have hpodd : Odd p := hp.odd_of_ne_two hpne
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(borelOf L1 S ⊓ borelOf L2 S)) p hpdvd
   have hx' : orderOf (x : G) = p := by

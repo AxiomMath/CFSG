@@ -20,7 +20,7 @@ open CFSG.Open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 private theorem j4fNotSolv {C : Type*} [Group C] (hQ : CFSG.IsQuasisimple C) :
     ¬ Group.IsSolvable C := by
   obtain ⟨hperf, hsimple, -⟩ := hQ
-  haveI : IsSimpleGroup (C ⧸ Subgroup.center C) := hsimple
+  have : IsSimpleGroup (C ⧸ Subgroup.center C) := hsimple
   have : Nontrivial C := (QuotientGroup.mk_surjective (s := Subgroup.center C)).nontrivial
   exact Group.IsPerfect.not_isSolvable C
 

@@ -224,7 +224,7 @@ section
 variable {G : Type*} [Group G] {RD : ℕ → ℕ} {N : ℕ} {g : ℕ → G} {u : G}
 
 theorem stL_X_zero : stL_X RD N g u 0 = 1 := by
-  rw [stL_X, dif_neg]
+  rw [stL_X, dite_eq_right]
   rintro ⟨q, -, -, -, h⟩
   exact Nat.not_lt_zero _ h
 
@@ -234,7 +234,7 @@ theorem stL_X_tree {t : ℕ} (ht : t < N) (hk : dKind (RD t) = 0)
     stL_X RD N g u (dN2 (RD t)) = stL_X RD N g u (dN1 (RD t)) * g (dPt (RD t)) * u := by
   have hex : ∃ q, q < N ∧ dKind (RD q) = 0 ∧ dN2 (RD q) = dN2 (RD t) ∧
       dN1 (RD q) < dN2 (RD t) := ⟨t, ht, hk, rfl, hlt⟩
-  rw [stL_X, dif_pos hex]
+  rw [stL_X, dite_eq_left hex]
   have hq := Nat.find_spec hex
   rw [huniq _ hq.1 hq.2.1 hq.2.2.1]
 

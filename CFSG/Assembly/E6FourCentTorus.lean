@@ -55,7 +55,7 @@ private lemma cast_e6Pair (v : Fin Tag.E6.rank → ZMod 5) (γ : Fin Tag.E6.rank
   rw [e6Pair]
   push_cast
   refine Finset.sum_congr rfl fun i _ => ?_
-  simp only [Int.cast_natCast, ZMod.natCast_zmod_val]
+  simp only [ZMod.natCast_zmod_val]
 
 private lemma mulVec_single_apply (k j : Fin Tag.E6.rank) :
     ((wordMat Tag.E6 e6TwoWord) *ᵥ Pi.single j (1 : ℤ)) k =

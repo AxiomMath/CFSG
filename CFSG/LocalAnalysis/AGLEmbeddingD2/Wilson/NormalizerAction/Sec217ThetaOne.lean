@@ -40,7 +40,7 @@ theorem isCyclic_of_isPGroup_J3 {p : ℕ} [hp : Fact p.Prime]
     rw [← CFSG.Sporadic.J3.card_J3]; exact Subgroup.card_subgroup_dvd_card S
   rcases Nat.lt_or_ge k 2 with hk2 | hk2
   · interval_cases k
-    · haveI : Subsingleton S := (Nat.card_eq_one_iff_unique.1 (by simpa using hk)).1
+    · have : Subsingleton S := (Nat.card_eq_one_iff_unique.1 (by simpa using hk)).1
       infer_instance
     · exact isCyclic_of_prime_card (by simpa using hk)
   · exfalso
@@ -52,7 +52,7 @@ theorem not_isSolvable_of_simple {Q : Type*} [Group Q] [Finite Q] [IsSimpleGroup
     (hc : ¬ (Nat.card Q).Prime) : ¬ Group.IsSolvable Q := by
   intro hs
   have hcomm := IsSimpleGroup.comm_iff_isSolvable.2 hs
-  letI : CommGroup Q := { ‹Group Q› with mul_comm := hcomm }
+  let : CommGroup Q := { ‹Group Q› with mul_comm := hcomm }
   exact hc (IsSimpleGroup.prime_card (α := Q))
 
 theorem theta_eq_bot_aux {L : Type*} [Group L] [Finite L] (hperf : Group.IsPerfect L)
@@ -64,7 +64,7 @@ theorem theta_eq_bot_aux {L : Type*} [Group L] [Finite L] (hperf : Group.IsPerfe
     ⟨e.toMonoidHom.comp (QuotientGroup.mk' (center L)),
       e.surjective.comp (QuotientGroup.mk'_surjective _), by
         ext x
-        simp [MonoidHom.mem_ker, QuotientGroup.eq_one_iff]⟩
+        simp⟩
   obtain ⟨hsolv, -, h3T, -⟩ := solvable_prime_complement_core_characterization
     (H := L) Nat.prime_three
   have hTc : aschbacherSolvableCore 3 L ≤ center L := by
@@ -77,15 +77,15 @@ theorem theta_eq_bot_aux {L : Type*} [Group L] [Finite L] (hperf : Group.IsPerfe
       exact (Subgroup.mem_bot.1 (h0 ▸ Subgroup.mem_map_of_mem π hx))
     · exfalso
       have hsolv' : Group.IsSolvable ((aschbacherSolvableCore 3 L).map π) :=
-        solvable_of_surjective (π.subgroupMap_surjective _)
+        Group.isSolvable_of_surjective (π.subgroupMap_surjective _)
       rw [h1] at hsolv'
-      exact hQ (solvable_of_surjective (f := (Subgroup.topEquiv (G := Q)).toMonoidHom)
+      exact hQ (Group.isSolvable_of_surjective (f := (Subgroup.topEquiv (G := Q)).toMonoidHom)
         (Subgroup.topEquiv (G := Q)).surjective)
   by_contra hne
   have hcard : Nat.card (aschbacherSolvableCore 3 L) ≠ 1 := fun h1 =>
     hne (Subgroup.card_eq_one.1 h1)
   obtain ⟨p, hp, hpd⟩ := Nat.exists_prime_and_dvd hcard
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hpd
   have hxT : (x : L) ∈ aschbacherSolvableCore 3 L := x.2
   have hxo : orderOf (x : L) = p := by rw [Subgroup.orderOf_coe]; exact hx
@@ -110,8 +110,8 @@ section Main
 set_option linter.unusedSectionVars false
 
 theorem not_isSolvable_J3 : ¬ Group.IsSolvable NativeSporadic.J3 := by
-  haveI : IsSimpleGroup NativeSporadic.J3 := CFSG.Sporadic.J3.isSimpleGroup_J3
-  haveI : Finite NativeSporadic.J3 := (CFSG.Sporadic.J3.fam_j3_simplicity).1
+  have : IsSimpleGroup NativeSporadic.J3 := CFSG.Sporadic.J3.isSimpleGroup_J3
+  have : Finite NativeSporadic.J3 := (CFSG.Sporadic.J3.fam_j3_simplicity).1
   apply not_isSolvable_of_simple
   rw [CFSG.Sporadic.J3.card_J3]
   norm_num

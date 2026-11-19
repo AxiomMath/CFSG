@@ -30,11 +30,11 @@ private theorem card_pSimple_mul_two_of_sl2_model (hp : p.Prime) (hqodd : Odd q)
     (eSL : ↥(specialBlock Q x h) ≃* Matrix.SpecialLinearGroup (Fin 2) E) :
     Nat.card (PSimple p (componentImage Q x h)) * 2 = q ^ f' * ((q ^ f') ^ 2 - 1) := by
   classical
-  letI : Fintype E := Fintype.ofFinite E
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  let : Fintype E := Fintype.ofFinite E
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite (ProjOrthDerived Q) := inferInstance
+  have : Finite (ProjOrthDerived Q) := inferInstance
   have hle : specialBlock Q x h ≤ TauCeti.QuadraticMap.orthogonalGroup Q :=
     (specialBlock_le_isometryCentralizer h).trans fun _ hg => (Subgroup.mem_inf.mp hg).1
   have hΩ : specialBlock Q x h ≤ orthDerived Q :=
@@ -82,7 +82,7 @@ theorem card_pSimple_componentImage_of_mult_two (hp : p.Prime) (hp2 : p ≠ 2) (
     ∃ f' : ℕ, 1 ≤ f' ∧ Nat.card (PSimple p (componentImage Q x h)) * 2 =
       (q ^ f') * ((q ^ f') ^ 2 - 1) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hqodd : Odd q := hq.odd_of_ne_two hq2
   have hf1 : 1 ≤ f := by
     by_contra hf

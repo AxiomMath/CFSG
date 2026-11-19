@@ -199,7 +199,7 @@ theorem tightlyEmbedded_centralizer_of_even {G : Type} [Group G] [Finite G]
     (huniq : maximalTwoLocalsContaining (X : Set G) = {M})
     (hev : Even (Nat.card ↥(Subgroup.centralizer (X : Set G)))) :
     TightlyEmbedded (Subgroup.centralizer (X : Set G)) :=
-  CFSG.StandardSubgroupAPI.tightlyEmbedded_of_involution hev fun g z hz hz2 =>
+  CFSG.StandardSubgroupAPI.tightlyEmbedded_of_involution hev fun g _z hz hz2 =>
     le_normalizer_centralizer_of_normalizer_eq hN
       (mem_of_common_involution_of_isMaximalTwoLocal hM huniq
         (Subgroup.mem_inf.1 hz).1 hz2

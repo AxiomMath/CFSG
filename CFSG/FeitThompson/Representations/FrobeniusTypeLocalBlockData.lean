@@ -100,11 +100,11 @@ theorem exists_finset_coe_eq_irrConstituents
     constructor
     · intro hχ
       refine ⟨hSIrr hχ, ?_⟩
-      rw [hsum, cfInner_sum_eq_ite hSIrr (hSIrr hχ), if_pos hχ]
+      rw [hsum, cfInner_sum_eq_ite hSIrr (hSIrr hχ), ite_eq_left hχ]
       exact zero_lt_one
     · rintro ⟨hχ, hpos⟩
       by_contra hnot
-      rw [hsum, cfInner_sum_eq_ite hSIrr hχ, if_neg hnot] at hpos
+      rw [hsum, cfInner_sum_eq_ite hSIrr hχ, ite_eq_right hnot] at hpos
       exact absurd hpos (lt_irrefl 0)
   · intro χ hχ
     rw [hdeg χ hχ, ← AbelianInertiaBlock.inertiaGroup_eq_sup (U := U) hlamIrr hD.sup_eq_top]

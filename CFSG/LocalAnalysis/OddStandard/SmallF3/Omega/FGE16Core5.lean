@@ -13,6 +13,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_norm_ne_zero_of_orth {ι : Type} [Fintype ι] [DecidableEq ι] (hQ : Q.Nondegenerate)
     (b : Module.Basis ι (ZMod 3) V)
     (horth : ∀ i j, i ≠ j → QuadraticMap.polar Q (b i) (b j) = 0) (i : ι) : Q (b i) ≠ 0 := by
@@ -29,6 +30,7 @@ theorem fg_norm_ne_zero_of_orth {ι : Type} [Fintype ι] [DecidableEq ι] (hQ : 
 
 variable (B : Subgroup (OGroup Q)) [Fintype ↥B] [DecidableEq ↥B]
 
+omit [Fintype ↥B] [DecidableEq ↥B] in
 theorem fg_exists_wt_basis (hB : IsElemAb2 B 4) (hdim : Module.finrank (ZMod 3) V = 6)
     {χo : Option (Fin 5) → (↥B → ZMod 3)} (hinj : Function.Injective χo)
     (hne : ∀ o, fgWt (fgT B) (χo o) ≠ ⊥) :

@@ -11,6 +11,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 theorem charIn_of_map {𝒬 A : Subgroup G} {A₀ : Subgroup ↥𝒬} (hA : A ≤ 𝒬)
     (hmap : A₀.map 𝒬.subtype = A) (hchar : A₀.Characteristic) : CharIn A 𝒬 := by
   unfold CharIn

@@ -41,7 +41,7 @@ theorem e7T3QLayer_le_model {K : Type} [Field K] [Finite K] {ℓ f p : ℕ} [Fac
       twistedFixedPoints F.n (Units.map (entrywiseHom (iterateFrobenius L ℓ f))) ≤ P := by
   classical
   have hℓ : ℓ.Prime := Fact.out
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   have hFr : ∀ c, Fr c = c ^ ℓ ^ f := fun c => iterateFrobenius_def ℓ f c
   have hFrbij : Function.Bijective Fr := ⟨Fr.injective, fun y => by
@@ -62,15 +62,15 @@ theorem e7T3QLayer_le_model {K : Type} [Field K] [Finite K] {ℓ f p : ℕ} [Fac
   let QL : Subgroup (ModGL Tag.E7 L) :=
     rootSpan Tag.E7 L e7T3A5SubA2 ⊓ twistedFixedPoints F.n (Units.map (entrywiseHom Fr))
   have hQLqs : CFSG.IsQuasisimple ↥QL :=
-    isQuasisimple_e7T3QLayer (L := L) (p := p) hf hK hε hq2 F.n F.hnm
+    isQuasisimple_e7T3QLayer (L := L) (_p := p) hf hK hε hq2 F.n F.hnm
       (monomialSubgroup_le_adjointGroup' F.hnm) (fun x => F.hnW x)
   have hQLperf : ⁅QL, QL⁆ = QL := by
-    haveI : Group.IsPerfect ↥QL := hQLqs.1
+    have : Group.IsPerfect ↥QL := hQLqs.1
     exact Subgroup.isPerfect_iff.mp inferInstance
   have hQΓ : QL.map (MulAut.conj V⁻¹).toMonoidHom ≤ Γ := by
     rintro x ⟨g, hg, rfl⟩
     have hx : (MulAut.conj V⁻¹).toMonoidHom g = V⁻¹ * g * V := by
-      simp [MulAut.conj_apply]
+      simp
     rw [hx]
     refine ⟨?_, ?_⟩
     · exact CFSG.HardMathSupport.Lang.TwE6Step3.canonicalRep_inv_conj_mem_rootSpan (K := L) v
@@ -95,7 +95,7 @@ theorem e7T3QLayer_le_model {K : Type} [Field K] [Finite K] {ℓ f p : ℕ} [Fac
   intro g hg
   have hg' : V⁻¹ * g * V ∈ (fixSubgroup Φ').map (a5Frame L) := by
     refine hle ⟨g, hg, ?_⟩
-    simp [MulAut.conj_apply]
+    simp
   rw [hP, ← Subgroup.map_map]
   exact Subgroup.mem_map.mpr ⟨V⁻¹ * g * V, hg', by simp [MulAut.conj_apply]; group⟩
 

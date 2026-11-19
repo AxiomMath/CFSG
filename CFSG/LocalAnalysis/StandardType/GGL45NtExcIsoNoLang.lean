@@ -94,7 +94,7 @@ theorem pElt_mem_of_central_product {M : Type*} [Group M] {p : ℕ} (hp : p.Prim
     rw [this]
     exact inv_mem (pow_mem hz _)
   set K' : Subgroup X := (Z ⊓ S : Subgroup M).subgroupOf X with hK'
-  haveI hK'n : K'.Normal := by
+  have hK'n : K'.Normal := by
     refine ⟨fun c hc g => ?_⟩
     rw [hK', Subgroup.mem_subgroupOf] at hc ⊢
     have h : (g : M) * c * (g : M)⁻¹ = c := by

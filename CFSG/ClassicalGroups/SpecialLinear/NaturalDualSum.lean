@@ -213,7 +213,7 @@ theorem natDual_invariant_addSubgroup {K : Type} [Field K] {n : ℕ} (hn : 3 ≤
 theorem det_eq_one_of_pow_two_pow_eq_one {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
     (g : GL (Fin n) K) {k : ℕ} (hg : g ^ (2 ^ k) = 1) :
     (g : Matrix (Fin n) (Fin n) K).det = 1 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hd : (g : Matrix (Fin n) (Fin n) K).det ^ (2 ^ k) = 1 := by
     rw [← Matrix.det_pow, ← Units.val_pow_eq_pow_val, hg, Units.val_one, Matrix.det_one]
   have hne : (g : Matrix (Fin n) (Fin n) K).det ≠ 0 :=

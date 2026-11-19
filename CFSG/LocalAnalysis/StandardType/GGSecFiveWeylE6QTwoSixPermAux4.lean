@@ -33,7 +33,7 @@ theorem e6QTwoSix_card_inf_L_of_card_six
     (hLx : L ≤ Subgroup.centralizer {x}) :
     3 ^ 4 ≤ Nat.card ↥(Bs ⊓ L) ∧ (x ∈ L → 3 ^ 5 ≤ Nat.card ↥(Bs ⊓ L)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let R : Type := LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))
   let conjHom : ↥Bs →* MulAut ↥L :=
     (Subgroup.normalizerMonoidHom L).comp (Subgroup.inclusion hNL)

@@ -179,7 +179,7 @@ theorem footeGSMaximalRepresentative_of_rankIncrease (hRI : FooteRankIncrease) :
   intro G _ _ t L hmin hce hsimp hrank2 A hAF
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   obtain ⟨⟨z, hzA⟩, hAT⟩ := hAF
   let R : Set (G × Subgroup G) := {p | FootePointedMaximal p.1 p.2 ∧
@@ -302,7 +302,7 @@ theorem exists_isomorphicFamily_of_rankIncrease (hGA : TBLit.GriessMultipliersAl
         Y₀ ∈ 𝓢 ∧ conjugate Y₀ s₀ ≠ Y₀ := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   let B : Set (G × Subgroup G × G) := {q | IsTwoComponentAt q.1 q.2.1 ∧
     GrSLit.GSWeakMaximalComponent q.2.1 ∧

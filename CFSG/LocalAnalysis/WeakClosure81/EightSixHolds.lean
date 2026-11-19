@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo (W3Lem86_1)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem NormalizersInM.toTwo {V H W : Subgroup G} (h : NormalizersInM V H W) :
     NormalizersInMTwo V H W :=
   fun X hX _ hXN hNX => h X hX hXN hNX

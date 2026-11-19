@@ -61,6 +61,7 @@ section Conj
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem index_fixV_conj (g a : MulAut W) :
     (fixV (Subgroup.zpowers (g * a * g⁻¹))).index = (fixV (Subgroup.zpowers a)).index :=
   CFSG.Quasithin.FixVLat.index_fixV_zpowers_conj g a

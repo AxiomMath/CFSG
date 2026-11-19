@@ -52,12 +52,12 @@ theorem isSylowOf_top_of_normalizer_le {L₀ W S₀ : Subgroup G} (hWodd : Odd (
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hnot
   obtain ⟨S, hS₀S, z, hzS, hzN, hzS₀⟩ := exists_mem_normalizer_of_not_isSylowOf hS₀.isPGroup hnot
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨z, hzS⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨z, hzS⟩
   have hzk : z ^ 2 ^ k = 1 := by
     have := congrArg Subtype.val hk
     simpa using this
   have hzL₀ : z ∈ L₀ := mem_of_mem_sup_of_pow_two_pow_eq_one hWodd hLW hWC (hNS hzN) hzk
-  have heq := hS₀.eq_of_le (le_inf hS₀S hS₀.le) inf_le_right (S.isPGroup'.to_le inf_le_left)
+  have heq := hS₀.eq_of_le (le_inf hS₀S hS₀.le) inf_le_right (S.isPGroup.to_le inf_le_left)
   exact hzS₀ (heq ▸ ⟨hzS, hzL₀⟩)
 
 theorem oddCoreIn_centralizer_eq {L₀ W S₀ : Subgroup G} (hWodd : Odd (Nat.card W))

@@ -236,13 +236,13 @@ private theorem exists_elemAbelian_two_statedProj [Finite K] (h2 : (2 : K) ≠ 0
     by_cases h : i = k
     · subst h
       simp
-    · simp [Pi.single_apply, h]
+    · simp [h]
   have hsv8 : ∀ j, signVec N K j i8 = 1 := fun j => by
     unfold signVec
-    rw [if_neg (by simp [hi8]; omega)]
+    rw [ite_eq_right (by simp [hi8]; omega)]
   have hsvj : ∀ j : Fin 7, signVec N K j ⟨j.val + 1, by omega⟩ = -1 := fun j => by
     unfold signVec
-    rw [if_pos (Or.inr rfl)]
+    rw [ite_eq_left (Or.inr rfl)]
   have hc1 : ∀ c : K, c • (Pi.single i8 1 : Fin N → K) = Pi.single i8 1 → c = 1 := by
     intro c hc
     have := congrFun hc i8
@@ -266,7 +266,7 @@ private theorem exists_elemAbelian_two_statedProj [Finite K] (h2 : (2 : K) ≠ 0
     rw [hc', one_smul] at h0
     have h00 : signVec N K j ⟨0, by omega⟩ = -1 := by
       unfold signVec
-      rw [if_pos (Or.inl rfl)]
+      rw [ite_eq_left (Or.inl rfl)]
     rw [h00] at h0
     have : (-1 : K) = 1 := by simpa using congrFun h0 ⟨0, by omega⟩
     exact hne this
@@ -322,7 +322,7 @@ private theorem exists_elemAbelian_two_statedProj [Finite K] (h2 : (2 : K) ≠ 0
           rw [hej, hsv]
           have : signVec N K i ⟨j.val + 1, by omega⟩ = 1 := by
             unfold signVec
-            rw [if_neg]
+            rw [ite_eq_right]
             intro h
             rcases h with h | h
             · simp at h
@@ -402,7 +402,7 @@ private def rowMap (N : ℕ) (K : Type) [Field K] : (Fin 6 → K) →+ Matrix (F
 private theorem rowMap_apply_eq_zero {a : Fin 6 → K} {i k : Fin N}
     (h : ¬ (i.val = 0 ∧ 1 ≤ k.val ∧ k.val ≤ 6)) : rowMap N K a i k = 0 := by
   change (if h : i.val = 0 ∧ 1 ≤ k.val ∧ k.val ≤ 6 then a ⟨k.val - 1, by omega⟩ else 0) = 0
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
 private theorem rowMap_mul (a b : Fin 6 → K) : rowMap N K a * rowMap N K b = 0 := by
   ext i k
@@ -420,7 +420,7 @@ private theorem rowMap_injective (hN : 7 ≤ N) : Function.Injective (rowMap N K
       (⟨j.val + 1, by omega⟩ : Fin N).val ≤ 6 :=
     ⟨rfl, show 1 ≤ j.val + 1 by omega, show j.val + 1 ≤ 6 by omega⟩
   change (if h : _ then a _ else 0) = (if h : _ then b _ else 0) at h
-  rw [dif_pos hc, dif_pos hc] at h
+  rw [dite_eq_left hc, dite_eq_left hc] at h
   simpa using h
 
 private def lowSign8 (N : ℕ) (K : Type) [Field K] : Fin N → K :=
@@ -443,7 +443,7 @@ private theorem six_le_localRank_PSL [Finite K] {p f : ℕ} [Fact p.Prime] [Char
   · intro a i k hik
     by_cases hc : i.val = 0 ∧ 1 ≤ k.val ∧ k.val ≤ 6
     · unfold lowSign8
-      rw [if_pos (by omega), if_pos (by omega)]
+      rw [ite_eq_left (by omega), ite_eq_left (by omega)]
     · exact absurd (rowMap_apply_eq_zero hc) hik
   · rw [Nat.card_fun, Nat.card_fin, hK, ← pow_mul]
 
@@ -462,7 +462,7 @@ theorem six_le_twoLocalRank_of_PSL {K : Type} [Field K] [Fintype K] {p f N : ℕ
     rw [this, pow_zero] at hK
     exact absurd hK (Fintype.one_lt_card).ne'
   have h2 : (2 : K) ≠ 0 := CFSG.RankThree.PartOne.Census3.two_ne_zero_of_charP hp2
-  haveI : IsSimpleGroup (ProjectiveSpecialLinearGroup (Fin N) K) :=
+  have : IsSimpleGroup (ProjectiveSpecialLinearGroup (Fin N) K) :=
     (CFSG.LinearGroups.linear_projective_simple (K := K) (n := N) (by omega)
       (Or.inl (by omega))).2.1
   obtain ⟨hperf, ⟨eM⟩⟩ :=
@@ -503,7 +503,7 @@ theorem six_le_twoLocalRank_of_PSU
   have h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f K := ⟨hp, hf, hK'⟩
   have : CharP K p := h.charP
   have h2 : (2 : K) ≠ 0 := CFSG.RankThree.PartTwo.Census.two_ne_zero_of_unitaryFieldData h hp2
-  haveI : IsSimpleGroup (StatedProj (StatedSU N (p ^ f) K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSU N (p ^ f) K)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K p f hK N (by omega)
       (fun h => by simp only [Prod.mk.injEq] at h; omega)
   have hodd : Odd (p ^ f) := (hp.odd_of_ne_two hp2).pow
@@ -547,8 +547,8 @@ theorem six_le_twoLocalRank_A {n : ℕ} (hn : 8 ≤ n) (Q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A n Q).Valid) (hq2 : Q.p ≠ 2) {X : Type} [Group X] [Finite X]
     (φ : X →* (TauCeti.CFSGIndex.lie ⟨.A n Q, hv⟩).Group) (hφ : Function.Surjective φ) :
     6 ≤ GLATwoLocalRank Q.p X := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  letI : Fintype (GaloisField Q.p Q.exponent) := Fintype.ofFinite _
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  let : Fintype (GaloisField Q.p Q.exponent) := Fintype.ofFinite _
   have hK : Fintype.card (GaloisField Q.p Q.exponent) = Q.p ^ Q.exponent := by
     rw [Fintype.card_eq_nat_card, GaloisField.card _ _ Q.exponent_pos.ne']
   let e := CFSG.ClassicalModels.linearCatalogCandidateEquivPSL n Q hv
@@ -566,7 +566,7 @@ theorem six_le_twoLocalRank_twistedA
   have hcp : (TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA n Q, hv⟩).Prime := by
     rw [hc]
     exact Q.prime_p
-  haveI : Fact (TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA n Q, hv⟩).Prime := ⟨hcp⟩
+  have : Fact (TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA n Q, hv⟩).Prime := ⟨hcp⟩
   have hK : Nat.card (GaloisField (TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA n Q, hv⟩)
       (2 * TauCeti.ValidLieTypeIndex.fieldExponent ⟨.twistedA n Q, hv⟩)) =
       (TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA n Q, hv⟩ ^

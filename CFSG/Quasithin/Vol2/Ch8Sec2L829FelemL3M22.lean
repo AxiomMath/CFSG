@@ -47,7 +47,7 @@ theorem exists_mem_orderOf_of_alternatingNatural {W : Type} [CommGroup W]
     {H : Subgroup (MulAut W)} (h5 : AlternatingNatural H ⊤ ⊥ 5) (hH : H ≠ ⊥) {p : ℕ}
     (hp : p.Prime) (hdvd : p ∣ 60) :
     ∃ s : MulAut W, s ∈ H ∧ s ^ p = 1 ∧ s ≠ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨π, hπs, -⟩ := h5
   have hcardA : Nat.card ↥(alternatingGroup (Fin 5)) = 60 := by
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
@@ -91,7 +91,7 @@ theorem stmtFelemL3M22_holds (hmod : StmtFSUModule) (h711n : Stmt7_1_1_normal)
   have hH0 := ne_bot_of_alternatingNatural_828 (Or.inl rfl) hA5
   have hpp : p.Prime := by rcases hpm with rfl | rfl <;> norm_num
   have hpdvd : p ∣ 60 := by rcases hpm with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨s, hsH, hsp, hs1⟩ := exists_mem_orderOf_of_alternatingNatural hA5 hH0 hpp hpdvd
   have hσ : orderOf s = p := orderOf_eq_prime hsp hs1
   obtain ⟨g, hgX, hgs⟩ := mem_autSub.mp hsH

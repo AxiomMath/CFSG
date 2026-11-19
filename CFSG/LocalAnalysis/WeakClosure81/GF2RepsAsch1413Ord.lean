@@ -99,7 +99,7 @@ private lemma a1413Ord_sigma'_entry (x : Matrix.SpecialLinearGroup (Fin 2) K) :
       (Sum.inl 0) (Sum.inl 0)) = 0 := by
   unfold a1413OrdSwapSp
   simp only [Subgroup.coe_mul, Units.val_mul, coe_toSp, coe_blkSL, a1413OrdSwapMat, blk,
-    Matrix.fromBlocks_multiply, Matrix.mul_zero, Matrix.zero_mul, add_zero,
+    Matrix.fromBlocks_multiply, Matrix.mul_zero, add_zero,
     zero_add, Matrix.fromBlocks_apply₁₁]
   simp [Matrix.mul_apply, Fin.sum_univ_two, diag2, a1413OrdSwap2]
 
@@ -136,7 +136,7 @@ private theorem a1413Ord_sigma_sq (x : Matrix.SpecialLinearGroup (Fin 2) K) :
     _ = blkSL K ((x, x⁻¹) * (x⁻¹, x)) := by rw [← map_mul]
     _ = blkSL K 1 := by
       rw [show (x, x⁻¹) * (x⁻¹, x) = 1 from
-        Prod.ext (mul_inv_cancel x) (by simpa using mul_inv_cancel x⁻¹)]
+        Prod.ext (mul_inv_cancel x) (by simp)]
     _ = 1 := map_one _
 
 private lemma a1413Ord_half_dvd_of_dvd {N k : ℕ} (hN2 : 2 ∣ N) (h : N ∣ k) :
@@ -215,7 +215,7 @@ private lemma a1413Ord_exists_sl2_good_order (K : Type) [Field K] [Finite K]
     intro k
     exact a1413Ord_pow_eq_pm_one_iff _ _ (dvd_trans (by norm_num : 2 ∣ 4) h4N) hxN h2 k
   · let a : Kˣ := 1
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hnsq : ¬ IsSquare (-(a : K)) := by
       rw [show -(a : K) = -1 by simp [a], FiniteField.isSquare_neg_one_iff, not_not,
         ← Nat.card_eq_fintype_card]

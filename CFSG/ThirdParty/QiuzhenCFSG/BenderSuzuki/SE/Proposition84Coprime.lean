@@ -41,7 +41,7 @@ public theorem odd_subgroup_eq_commutator_mul_centralizer
     (R : Set X) =
       (⁅R, A⁆ : Subgroup X) *
         ((R ⊓ Subgroup.centralizer (A : Set X) : Subgroup X) : Set X) := by
-  letI : Subgroup.Normalizes A R := ⟨hA_norm_R⟩
+  let : Subgroup.Normalizes A R := ⟨hA_norm_R⟩
   let Cfix : Subgroup R := fixedPointSubgroup A R
   let Ccomm : Subgroup R := commutatorAction (A := A) (G := R)
   have hcop : Nat.Coprime (Nat.card A) (Nat.card R) := by
@@ -58,7 +58,7 @@ public theorem odd_subgroup_eq_commutator_mul_centralizer
     simpa [subgroupCentralizerIn] using
       fixedPointSubgroup_subgroup_conj_eq_subgroupCentralizerIn
         R A hA_norm_R
-  haveI : Ccomm.Normal :=
+  have : Ccomm.Normal :=
     (commutatorAction_normal_and_invariant (A := A) (G := R)).1
   apply Set.Subset.antisymm
   · intro x hxR

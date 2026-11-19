@@ -13,10 +13,11 @@ open Subgroup CFSG.ComponentClassification.HSFLit
 
 variable {X : Type} [Group X] [Finite X] {t : X} {L : Subgroup X}
 
+omit [Finite X] in
 theorem exists_sylow_P (M : SDModel ↥L) :
     ∃ S : Sylow 2 (MulAut ↥L), (S : Subgroup (MulAut ↥L)) = SDAutP.P M.F := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut ↥L) :=
+  have : Finite (MulAut ↥L) :=
     Nat.finite_of_card_ne_zero (by rw [M.card_aut]; norm_num)
   have hfac : (Nat.card (MulAut ↥L)).factorization 2 = 5 := by
     rw [M.card_aut]
@@ -65,7 +66,7 @@ theorem card_inf_L (hN : centralizer ({t} : Set X) ≤ normalizer (L : Set X))
     norm_num
   set Q' : Subgroup (centralizer ({t} : Set X)) :=
     ((Q : Subgroup ↥L).map L.subtype).comap (centralizer ({t} : Set X)).subtype with hQ'
-  have hQ'p : IsPGroup 2 Q' := (Q.isPGroup'.map L.subtype).comap_of_injective _
+  have hQ'p : IsPGroup 2 Q' := (Q.isPGroup.map L.subtype).comap_of_injective _
     (subtype_injective _)
   obtain ⟨T', hT'⟩ := hQ'p.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (centralizer ({t} : Set X)) T' T
@@ -92,6 +93,7 @@ theorem card_inf_L (hN : centralizer ({t} : Set X) ≤ normalizer (L : Set X))
     exact hle
   omega
 
+omit [Finite X] in
 theorem ker_le_sylowIn
     (hK : IsPGroup 2 ↥(centralizer ({t} : Set X) ⊓ centralizer (L : Set X)))
     (hN : centralizer ({t} : Set X) ≤ normalizer (L : Set X))
@@ -115,7 +117,7 @@ theorem ker_le_sylowIn
           (centralizer ({t} : Set X))).Normal := by
       rw [hK'eq]
       infer_instance
-    haveI := hnormal
+    have := hnormal
     exact hK'p.le_sylow_of_normal T
   intro k hk
   have hk' : k ∈ (centralizer ({t} : Set X) ⊓ centralizer (L : Set X) : Subgroup X) := hk

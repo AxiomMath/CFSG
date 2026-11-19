@@ -12,8 +12,8 @@ theorem oTwoP_map_mulEquiv (p : ℕ) {A B : Type} [Group A] [Group B] (f : A ≃
     (Sec4.oTwoP p A).map f.toMonoidHom = Sec4.oTwoP p B := by
   obtain ⟨N, hN⟩ : ∃ N : Subgroup A, N = CFSG.pCore 2 A := ⟨_, rfl⟩
   obtain ⟨M, hM⟩ : ∃ M : Subgroup B, M = CFSG.pCore 2 B := ⟨_, rfl⟩
-  haveI hNn : N.Normal := by rw [hN]; infer_instance
-  haveI hMn : M.Normal := by rw [hM]; infer_instance
+  have hNn : N.Normal := by rw [hN]; infer_instance
+  have hMn : M.Normal := by rw [hM]; infer_instance
   have h2 : N.map f.toMonoidHom = M := by
     rw [hN, hM]
     exact CFSG.pCore_map_iso 2 f
@@ -39,7 +39,7 @@ theorem oTwoP_map_mulEquiv (p : ℕ) {A B : Type} [Group A] [Group B] (f : A ≃
     rw [hqmk] at hm
     exact hm
   · intro hy
-    simp only [SetLike.mem_coe, Subgroup.mem_comap] at hy
+    simp only [Subgroup.mem_comap] at hy
     have hyy : q.toMonoidHom (QuotientGroup.mk' N (f.symm y)) ∈ CFSG.pCore p (B ⧸ M) := by
       rw [hqmk, MulEquiv.apply_symm_apply]
       exact hy
@@ -73,7 +73,7 @@ theorem isProperParabolic_map {X Y : Type} [Group X] [Group Y] [Finite X] [Finit
     rw [← hyx']
     exact hy
   · have hTp : IsPGroup 2 ((T : Subgroup X).map ϕ.toMonoidHom) :=
-      T.isPGroup'.map ϕ.toMonoidHom
+      T.isPGroup.map ϕ.toMonoidHom
     have hidx : ¬ 2 ∣ ((T : Subgroup X).map ϕ.toMonoidHom).index := by
       have h : ((T : Subgroup X).map ϕ.toMonoidHom).index = (T : Subgroup X).index :=
         Subgroup.index_map_equiv (H := (T : Subgroup X)) ϕ
@@ -104,7 +104,7 @@ theorem isProperParabolic_map {X Y : Type} [Group X] [Group Y] [Finite X] [Finit
     t ∈ Subgroup.normalizer (D : Set (MulAut X))
 
 theorem isElemAbelian_map_injective {G H : Type} [Group G] [Group H] (p : ℕ) {E : Subgroup G}
-    (hE : CFSG.Assembly.IsElemAbelian p E) (f : G →* H) (hf : Function.Injective f) :
+    (hE : CFSG.Assembly.IsElemAbelian p E) (f : G →* H) (_hf : Function.Injective f) :
     CFSG.Assembly.IsElemAbelian p (E.map f) := by
   obtain ⟨hcomm, hexp⟩ := hE
   refine ⟨?_, ?_⟩

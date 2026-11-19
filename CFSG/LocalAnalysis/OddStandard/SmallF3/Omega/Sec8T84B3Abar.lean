@@ -24,6 +24,7 @@ theorem gE_eq (hE : Sec8E G t L S z g B E) (m : ↥(L.subgroupOf (normalizer (B 
     gE hE m = rhoG hE ((m : ↥(normalizer (B : Set G))) : G) :=
   (rhoG_eq hE _).symm
 
+omit [Finite G] in
 theorem mem_subgroupOf_of {m : G} (hmL : m ∈ L) (hm : m ∈ normalizer (B : Set G)) :
     (⟨m, hm⟩ : ↥(normalizer (B : Set G))) ∈ L.subgroupOf (normalizer (B : Set G)) :=
   Subgroup.mem_subgroupOf.mpr hmL

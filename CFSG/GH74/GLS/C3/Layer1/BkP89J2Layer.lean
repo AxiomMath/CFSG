@@ -110,7 +110,7 @@ theorem exists_conj_sylow_le {S : Subgroup X} (hS : IsSylowOf 2 S ⊤) (hScard :
     ∃ g : X, S ≤ K.map (MulAut.conj g).toMonoidHom := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 2 ↥K))
-  have hQp : IsPGroup 2 ↥((Q : Subgroup ↥K).map K.subtype) := Q.isPGroup'.map K.subtype
+  have hQp : IsPGroup 2 ↥((Q : Subgroup ↥K).map K.subtype) := Q.isPGroup.map K.subtype
   have hQcard : Nat.card ↥((Q : Subgroup ↥K).map K.subtype) = 2 ^ 7 := by
     rw [Subgroup.card_map_of_injective K.subtype_injective, Sylow.card_eq_multiplicity, hK]
   obtain ⟨g, hg⟩ := exists_conj_le_of_sylow2In (isSylowOf_iff.1 hS) hQp
@@ -133,7 +133,7 @@ theorem eq_of_isComponent_of_sylow_le {z : X} (hz2 : orderOf z = 2) {S : Subgrou
   have hJc : J ≤ centralizer (K : Set X) := Subgroup.commutator_eq_bot_iff_le_centralizer.1 h
   have hJS : J ≤ centralizer (S : Set X) := hJc.trans (Subgroup.centralizer_le hSK)
   obtain ⟨R⟩ := (inferInstance : Nonempty (Sylow 2 ↥J))
-  have hR'p : IsPGroup 2 ↥((R : Subgroup ↥J).map J.subtype) := R.isPGroup'.map J.subtype
+  have hR'p : IsPGroup 2 ↥((R : Subgroup ↥J).map J.subtype) := R.isPGroup.map J.subtype
   have hR'J : (R : Subgroup ↥J).map J.subtype ≤ J := Subgroup.map_subtype_le _
   have hSR' : S ≤ centralizer (((R : Subgroup ↥J).map J.subtype : Subgroup X) : Set X) :=
     Subgroup.le_centralizer_iff.2 (hR'J.trans hJS)

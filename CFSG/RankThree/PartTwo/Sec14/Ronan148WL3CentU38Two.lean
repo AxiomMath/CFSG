@@ -82,7 +82,7 @@ theorem CentConfig.false_of_field_block (hK : PiField false 2 3 K)
     False := by
   have hU := hK.unitary
   have := hK.finite
-  haveI : CharP K 2 := hK.charP
+  have : CharP K 2 := hK.charP
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hq : ModThree false (2 ^ 3) := rfl
   have hε1' : (ε : K) ≠ 1 := fun h => hε1 (Units.ext h)
@@ -211,8 +211,7 @@ theorem CentConfig.false_of_field_block (hK : PiField false 2 3 K)
       apply Units.ext
       rw [Units.val_mul, Units.val_mul, coe_blockOne, coe_diagE]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [blockMat, Matrix.mul_apply, Fin.sum_univ_three,
-        Matrix.diagonal]
+      fin_cases i <;> fin_cases j <;> simp [blockMat, Matrix.mul_apply, Matrix.diagonal]
     rw [hcomm, mul_inv_cancel_right])
   have hfix : ∀ x, α x w = w := fun x => fixed_of_mem_sup hw1 hw2 (hgen x)
   have hX3 : (X₀ : Matrix (Fin 2) (Fin 2) K) ^ 3 = 1 := TrOne.pow_three X₀.2
@@ -232,7 +231,7 @@ theorem CentConfig.false_of_field_block (hK : PiField false 2 3 K)
     have h11 := congrArg (fun A : GL (Fin 3) K => (A : Matrix (Fin 3) (Fin 3) K) 1 1) hu
     have h22 := congrArg (fun A : GL (Fin 3) K => (A : Matrix (Fin 3) (Fin 3) K) 2 2) hu
     simp [coe_blockOne, coe_diagE, blockMat, GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
-      Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal] at h11 h22
+      Matrix.mul_apply, Matrix.diagonal] at h11 h22
     obtain ⟨-, -, htr⟩ := X₀.2
     rw [Matrix.trace_fin_two] at htr
     have hu1 : (X₀ : Matrix (Fin 2) (Fin 2) K) 0 0 * (u : K) = 1 := h11

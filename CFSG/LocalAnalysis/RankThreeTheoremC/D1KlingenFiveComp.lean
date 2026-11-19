@@ -200,7 +200,7 @@ theorem not_dvd_card_barM_of_le_inf {p : ℕ} [Fact p.Prime] {P : Sylow p G}
       have h1 : (g : H ⧸ primeComplementCore (G := H) p) ^ p = 1 := by
         rw [← hxg, ← map_pow, hxp, map_one]
       simpa using h1
-    · exact Rbar.isPGroup'.to_le ((le_inf hY₀le h).trans hC)
+    · exact Rbar.isPGroup.to_le ((le_inf hY₀le h).trans hC)
   have hbot : φ.range = ⊥ := kl5_eq_bot_of_perfect_of_isPGroup hperf hpgrp
   have hLN : L ≤ GLBPrimeCore p H := by
     intro l hl

@@ -59,10 +59,10 @@ private theorem ordBC_two_eq (q : ℕ) :
 theorem LieModel.two_le_pRank_psl4_of_dvd [Finite X] {p f r : ℕ} (h : LieModel X .PSL 4 p f)
     (hr : r.Prime) (hr2 : r ≠ 2) (hrq : r ∣ p ^ f - 1) :
     2 ≤ CFSG.Open.pRank r (⊤ : Subgroup X) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hdvd : r ∣ Nat.card K - 1 := by rw [hK]; exact hrq
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) r (by rwa [Nat.card_units])
   rw [pRank_top_eq_of_mulEquiv hr.one_lt e]
@@ -74,15 +74,15 @@ theorem LieModel.two_le_pRank_psl4_of_dvd [Finite X] {p f r : ℕ} (h : LieModel
 theorem LieModel.two_le_pRank_psu4_of_dvd [Finite X] {p f r : ℕ} (h : LieModel X .PSU 4 p f)
     (hr : r.Prime) (hr2 : r ≠ 2) (hrq : r ∣ p ^ f + 1) :
     2 ≤ CFSG.Open.pRank r (⊤ : Subgroup X) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   by_cases hr3 : r = 3
   · subst hr3
     exact CFSG.HardMathSupport.Timmesfeld.FieldBonus.two_le_pRank_three_psu_four_of_dvd
       (n := 4) (by norm_num) (h.statedClassicalModel_of_ne_zero (by norm_num)) hrq
   · obtain ⟨⟨hp, hf, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ :=
       h.statedClassicalModel_of_ne_zero (by norm_num)
-    letI : Field K := hfield
-    letI : Finite K := hfinite
+    let : Field K := hfield
+    let : Finite K := hfinite
     have hq : p ^ f ≠ 0 := (pow_pos hp.pos f).ne'
     have hcard : Nat.card Kˣ = (p ^ f + 1) * (p ^ f - 1) := by
       rw [Nat.card_units, hK, ← Nat.sq_sub_sq, one_pow]
@@ -100,10 +100,10 @@ theorem LieModel.two_le_pRank_psu4_of_dvd [Finite X] {p f r : ℕ} (h : LieModel
 theorem LieModel.two_le_pRank_psp4_of_dvd [Finite X] {p f r : ℕ} (h : LieModel X .PSp 2 p f)
     (hr : r.Prime) (hr2 : r ≠ 2) (hrq : r ∣ p ^ f - 1 ∨ r ∣ p ^ f + 1) :
     2 ≤ CFSG.Open.pRank r (⊤ : Subgroup X) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   rw [pRank_top_eq_of_mulEquiv hr.one_lt e]
   rcases hrq with hq1 | hq1
   · exact CFSG.Quasithin.H13.KGInsp4316.two_le_pRank_psp4 (K := K) hr2 (by rw [hK]; exact hq1)
@@ -154,7 +154,7 @@ theorem LieModel.two_le_pRank_psp4_of_dvd [Finite X] {p f r : ℕ} (h : LieModel
         rw [← mul_assoc, mul_inv_cancel, one_mul] at hh
         exact hh
       exact Subtype.ext hba.symm
-    haveI hEcomm : IsMulCommutative E := hE.1
+    have hEcomm : IsMulCommutative E := hE.1
     have hcomm : ∀ a b : E, a * b = b * a :=
       fun a b => Subtype.ext (setLike_mul_comm (s := E) a.2 b.2)
     have hpow : ∀ a : E, a ^ r = 1 :=
@@ -172,11 +172,11 @@ private theorem isMulCommutative_sylow_statedProj_of_gl {ι : Type} [Fintype ι]
   obtain ⟨S, rfl⟩ := Sylow.mapSurjective_surjective (f := π)
     (QuotientGroup.mk'_surjective N) r R
   rw [Sylow.coe_mapSurjective]
-  have h1 : IsMulCommutative ((S : Subgroup H).map H.subtype) := hGL _ (S.isPGroup'.map _)
+  have h1 : IsMulCommutative ((S : Subgroup H).map H.subtype) := hGL _ (S.isPGroup.map _)
   have h2 : IsMulCommutative (S : Subgroup H) :=
     .of_setLike_mul_comm fun a ha b hb => Subtype.ext
       (setLike_mul_comm (s := (S : Subgroup H).map H.subtype) ⟨a, ha, rfl⟩ ⟨b, hb, rfl⟩)
-  haveI : IsMulCommutative (S : Subgroup H) := h2
+  have : IsMulCommutative (S : Subgroup H) := h2
   have hmap : IsMulCommutative ((S : Subgroup H).map π) := by
     refine IsMulCommutative.of_setLike_mul_comm ?_
     intro a ha b hb
@@ -190,11 +190,11 @@ private theorem isMulCommutative_sylow_statedProj_of_gl {ι : Type} [Fintype ι]
 theorem LieModel.isMulCommutative_sylow_psl4 [Finite X] {p f r : ℕ} (h : LieModel X .PSL 4 p f)
     (hr : r.Prime) (hr5 : 5 ≤ r) (hrp : r ≠ p) (P : Sylow r X) :
     IsMulCommutative (P : Subgroup X) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨⟨hp, hf, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hchar : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
   have hrK : ringChar K ≠ r := by
@@ -212,11 +212,11 @@ theorem LieModel.isMulCommutative_sylow_psl4 [Finite X] {p f r : ℕ} (h : LieMo
 theorem LieModel.isMulCommutative_sylow_psu4 [Finite X] {p f r : ℕ} (h : LieModel X .PSU 4 p f)
     (hr : r.Prime) (hr5 : 5 ≤ r) (hrp : r ≠ p) (P : Sylow r X) :
     IsMulCommutative (P : Subgroup X) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨⟨hp, hf, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hchar : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic (k := 2 * f) hp
       (by omega) (by rw [hK, ← pow_mul, mul_comm])
@@ -235,11 +235,11 @@ theorem LieModel.isMulCommutative_sylow_psu4 [Finite X] {p f r : ℕ} (h : LieMo
 theorem LieModel.isMulCommutative_sylow_psp4 [Finite X] {p f r : ℕ} (h : LieModel X .PSp 2 p f)
     (hr : r.Prime) (hr5 : 5 ≤ r) (hrp : r ≠ p) (P : Sylow r X) :
     IsMulCommutative (P : Subgroup X) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨⟨hp, hf, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hchar : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
   have hrK : ringChar K ≠ r := by
@@ -258,8 +258,8 @@ theorem LieModel.card_outer_psl4_dvd {p f : ℕ} (h : LieModel X .PSL 4 p f) :
     Nat.card (Outer X) ∣ 2 * f * Nat.gcd 4 (p ^ f - 1) := by
   obtain ⟨⟨hp, hf, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have e' : X ≃* CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL 4 K :=
     (e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 4 K).symm).trans
       (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL 4 K)
@@ -272,8 +272,8 @@ theorem LieModel.card_outer_psu4 {p f : ℕ} (h : LieModel X .PSU 4 p f) :
     Nat.card (Outer X) = 2 * f * Nat.gcd 4 (p ^ f + 1) := by
   obtain ⟨⟨hp, hf, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f K :=
     ⟨hp, hf, by rw [hK, ← pow_mul, mul_comm]⟩
   have hq : ¬ (4 = 3 ∧ p ^ f = 2) := by

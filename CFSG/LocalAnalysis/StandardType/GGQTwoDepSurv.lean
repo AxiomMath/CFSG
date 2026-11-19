@@ -38,7 +38,7 @@ private theorem lr7ds_ker_of_relation (D : GGQ2Lin 3)
   classical
   let d' : D.ι → ZMod 3 := fun i => if h : i ≠ D.a then d ⟨i, h⟩ else 0
   have hd'e0 : d' (e 0) = 0 := by
-    simp only [d']; rw [dif_pos he0]; exact h0
+    simp only [d']; rw [dite_eq_left he0]; exact h0
   have hleft : ∀ j, ∑ i, d' i * (D.cartan i j : ZMod 3) = 0 := by
     intro j
     have hpairs : (∑ k : {k // k ≠ D.a}, d k * (D.cartan k.val j : ZMod 3)) = 0 := by
@@ -51,16 +51,16 @@ private theorem lr7ds_ker_of_relation (D : GGQ2Lin 3)
       simp [d']
       apply Finset.sum_congr rfl
       intro x _
-      rw [if_neg x.2]
+      rw [ite_eq_right x.2]
     have hfull : (∑ i ∈ Finset.univ.filter (fun i => i ≠ D.a), d' i * (D.cartan i j : ZMod 3))
         = ∑ i, d' i * (D.cartan i j : ZMod 3) := by
       rw [Finset.sum_filter]
       apply Finset.sum_congr rfl
       intro i _
       by_cases hi : i ≠ D.a
-      · rw [if_pos hi]
-      · rw [if_neg hi]
-        have hdi : d' i = 0 := by simp only [d']; exact dif_neg hi
+      · rw [ite_eq_left hi]
+      · rw [ite_eq_right hi]
+        have hdi : d' i = 0 := by simp only [d']; exact dite_eq_right hi
         rw [hdi, zero_mul]
     rw [← hfull, ← hsub]
     exact hpairs
@@ -80,7 +80,7 @@ private theorem lr7ds_ker_of_relation (D : GGQ2Lin 3)
   funext k
   simp only [Pi.zero_apply]
   have hdk : d' k.val = d k := by
-    simp only [d']; rw [dif_pos k.2]
+    simp only [d']; rw [dite_eq_left k.2]
   rw [← hdk, ← e.apply_symm_apply k.val]
   exact hd'zero (e.symm k.val)
 
@@ -150,8 +150,8 @@ private theorem lr7ds_six_roots_aux (D : GGQ2Lin 3) [FiniteDimensional (ZMod 3) 
       apply Finset.sum_congr rfl
       intro k _
       by_cases hk : k = D.a
-      · subst hk; rw [if_neg (by simp), hda, zero_smul]
-      · rw [if_pos hk]
+      · subst hk; rw [ite_eq_right (by simp), hda, zero_smul]
+      · rw [ite_eq_left hk]
     have hsub : (∑ k : {k // k ≠ D.a}, d k.val • D.root k.val)
         = ∑ k ∈ Finset.univ.filter (fun k => k ≠ D.a), d k • D.root k := by
       rw [← Finset.sum_subtype_eq_sum_filter (s := (Finset.univ : Finset D.ι))
@@ -222,8 +222,8 @@ theorem ggQ2_dep_types (D : GGQ2Lin 3) [FiniteDimensional (ZMod 3) D.V]
         apply Finset.sum_congr rfl
         intro k _
         by_cases hk : k = D.a
-        · subst hk; rw [if_neg (by simp), hca, zero_smul]
-        · rw [if_pos hk]
+        · subst hk; rw [ite_eq_right (by simp), hca, zero_smul]
+        · rw [ite_eq_left hk]
       have hsub : (∑ k : {k // k ≠ D.a}, c k.val • D.coroot k.val)
           = ∑ k ∈ Finset.univ.filter (fun k => k ≠ D.a), c k • D.coroot k := by
         rw [← Finset.sum_subtype_eq_sum_filter (s := (Finset.univ : Finset D.ι))
@@ -315,16 +315,16 @@ theorem ggQ2_dep_types (D : GGQ2Lin 3) [FiniteDimensional (ZMod 3) D.V]
         simp [g']
         apply Finset.sum_congr rfl
         intro x _
-        rw [if_neg x.2]
+        rw [ite_eq_right x.2]
       have hfull : (∑ i ∈ Finset.univ.filter (fun i => i ≠ D.b), g' i * (D.cartan i j : ZMod 3))
           = ∑ i, g' i * (D.cartan i j : ZMod 3) := by
         rw [Finset.sum_filter]
         apply Finset.sum_congr rfl
         intro i _
         by_cases hi : i ≠ D.b
-        · rw [if_pos hi]
-        · rw [if_neg hi]
-          have hgi : g' i = 0 := by simp only [g']; exact dif_neg hi
+        · rw [ite_eq_left hi]
+        · rw [ite_eq_right hi]
+          have hgi : g' i = 0 := by simp only [g']; exact dite_eq_right hi
           rw [hgi, zero_mul]
       rw [← hfull, ← hsub]
       exact hpairs
@@ -343,10 +343,10 @@ theorem ggQ2_dep_types (D : GGQ2Lin 3) [FiniteDimensional (ZMod 3) D.V]
       apply hg0
       have hk0 : g' g0.val = 0 := by rw [h]; rfl
       simp only [g'] at hk0
-      rw [dif_pos g0.2] at hk0
+      rw [dite_eq_left g0.2] at hk0
       simpa using hk0
     have hg'b : g' D.b = 0 := by
-      simp only [g']; exact dif_neg (fun h : D.b ≠ D.b => h rfl)
+      simp only [g']; exact dite_eq_right (fun h : D.b ≠ D.b => h rfl)
     have hq0 : g' (e (e.symm D.b)) = 0 := by
       rw [e.apply_symm_apply]; exact hg'b
     have hg'0 : g' (e 0) ≠ 0 := by

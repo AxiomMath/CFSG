@@ -257,8 +257,8 @@ theorem ggQTwoFRConcl_of_frame {E : Subgroup R} {x : R} {L D J : Subgroup R}
     funext i
     simp only [P, LinearEquiv.funCongrLeft_apply, LinearMap.funLeft_apply]
     by_cases hi : i.val = 0
-    · rw [if_pos ((hs i).mpr hi), if_pos hi]
-    · rw [if_neg (fun hc => hi ((hs i).mp hc)), if_neg hi]
+    · rw [ite_eq_left ((hs i).mpr hi), ite_eq_left hi]
+    · rw [ite_eq_right (fun hc => hi ((hs i).mp hc)), ite_eq_right hi]
   rw [← closure_signedPermSet_eq n, signedPermSet_eq n] at hKimg
   exact ⟨n, hn, α x, L.map α.toMonoidHom, hxE, hyE, ι', hiyD, hiy_not, hJcard, hKcomp,
     hJle, hxK, hLimg, hKimg, hι'x, hι'y⟩

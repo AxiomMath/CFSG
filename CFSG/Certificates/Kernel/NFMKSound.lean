@@ -290,9 +290,9 @@ theorem unitN_spec (n : ℕ) (i j : Fin n) : toM n (unitN n (n * i + j)) = Matri
     · rintro ⟨rfl, rfl⟩
       rfl
   by_cases hab : i = a ∧ j = b
-  · rw [if_pos (key.mpr hab), if_pos hab]
+  · rw [ite_eq_left (key.mpr hab), ite_eq_left hab]
     simp
-  · rw [if_neg (fun h => hab (key.mp h)), if_neg hab]
+  · rw [ite_eq_right (fun h => hab (key.mp h)), ite_eq_right hab]
     simp
 
 theorem toM_maddN {n : ℕ} (c : ℕ) {A B : NMat} (hA : WF n A) (hB : WF n B) :

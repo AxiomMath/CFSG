@@ -76,8 +76,8 @@ theorem gsFixedLayer_eq_of_isPComponent_swapped {Q : Type} [Group Q] [Finite Q]
       apply e.injective
       rw [map_mul, map_mul]
       exact hcommR (e a) (e b)
-    haveI : IsMulCommutative ↥(K.subgroupOf C) := IsMulCommutative.of_comm hcommC
-    haveI : Group.IsPerfect ↥(K.subgroupOf C) := hKperf
+    have : IsMulCommutative ↥(K.subgroupOf C) := IsMulCommutative.of_comm hcommC
+    have : Group.IsPerfect ↥(K.subgroupOf C) := hKperf
     have hKbot : K ≤ ⊥ := by
       intro x hx
       have h1 : (⟨⟨x, hKC hx⟩, hx⟩ : ↥(K.subgroupOf C)) = 1 := Subsingleton.elim _ _

@@ -43,7 +43,7 @@ theorem normalizer_zpowers_map_le {G H : Type*} [Group G] [Group H] (f : G ≃* 
     {W : Subgroup G} (h : Subgroup.normalizer (Subgroup.zpowers x : Set G) ≤ W) :
     Subgroup.normalizer (Subgroup.zpowers (f x) : Set H) ≤ W.map (f : G →* H) := by
   have e := map_normalizer_zpowers_eq (f : G →* H) f.bijective x
-  rw [MonoidHom.coe_coe] at e
+  rw [_root_.MonoidHom.coe_ofClass] at e
   rw [← e]
   exact Subgroup.map_mono h
 
@@ -54,7 +54,7 @@ theorem nonempty_mulEquiv_he_of_isKGroup (hb : LieOrderBridge) (hOrd : SporadicO
     (hJW : Jt' ≤ W') (hJ1 : Jt' ≠ ⊥) (hJp : ⁅Jt', Jt'⁆ = Jt')
     (hJs : CFSG.Open.IsSubnormal Jt' W') :
     Nonempty (↥Jt' ≃* (TauCeti.CFSGIndex.sporadic .He).Group) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨hcE, hcases⟩ := plane_cases hEtQ hEtc
   have hNc : Subgroup.normalizer (Subgroup.zpowers C7 : Set J) ≤ W' := hEtN C7 hcE C7_ne_one
   have hYne : Y7 ≠ 1 := by
@@ -71,8 +71,8 @@ theorem nonempty_mulEquiv_he_of_isKGroup (hb : LieOrderBridge) (hOrd : SporadicO
       _ = Y7 * Y7 ^ 6 := by rw [h]; simp
       _ = Y7 ^ 7 := by rw [← pow_succ']
       _ = 1 := fi7_cube.2.1
-  have hNs : IsSolvable (Subgroup.normalizer (Q7 : Set J)) := by
-    have hsol : IsSolvable ↥(Subgroup.normalizer (Subgroup.zpowers C7 : Set J)) :=
+  have hNs : Group.IsSolvable (Subgroup.normalizer (Q7 : Set J)) := by
+    have hsol : Group.IsSolvable ↥(Subgroup.normalizer (Subgroup.zpowers C7 : Set J)) :=
       isSolvable_normalizer_zpowers (G := J) sevenLine_c card_centralizer_C7
     refine @Group.isSolvable_of_isSolvable_injective _ _ _ _
       (Subgroup.inclusion (normalizer_le_normalizer_zpowers sevenLine_c))
@@ -127,7 +127,7 @@ theorem nonempty_mulEquiv_he_of_isKGroup (hb : LieOrderBridge) (hOrd : SporadicO
       obtain ⟨bHe⟩ := CFSG.Sporadic.Bridge.He.nonempty_mulEquiv
       have eC : H ≃* CFSG.Blueprint.NativeSporadic.Carrier .He := eH.trans bHe.symm
       have hHs : IsSimpleGroup H := by
-        haveI hHe : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .He) :=
+        have hHe : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .He) :=
           CFSG.Sporadic.He.isSimpleGroup_He
         exact @MulEquiv.isSimpleGroup _ _ _ _ hHe eC
       have hHc : Nat.card H = 4030387200 := by
@@ -144,11 +144,11 @@ theorem nonempty_mulEquiv_he_of_isKGroup (hb : LieOrderBridge) (hOrd : SporadicO
 theorem threeFourTwoAt_fi24Prime_of_isKGroup (hb : LieOrderBridge) (hOrd : SporadicOrdersTable)
     (hKX : CFSG.Open.IsKGroup (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group) :
     ThreeFourTwoAt 7 (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hO : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime)) ≤ 2 :=
     CFSG.Sporadic.Schreier.Fi24.card_outer_fi24prime.le
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime) :=
     Nat.finite_of_card_ne_zero (by
       show Nat.card CFSG.Blueprint.NativeSporadic.Fi24prime ≠ 0
       rw [CFSG.Sporadic.Fi24.card_Fi24prime]
@@ -160,15 +160,15 @@ theorem threeFourTwoAt_fi24Prime_of_isKGroup (hb : LieOrderBridge) (hOrd : Spora
   obtain ⟨hX, hnab, hout⟩ := sporadicIndex_facts_of_bridge (s := .Fi24Prime)
     CFSG.Sporadic.Bridge.Fi24.nonempty_mulEquiv CFSG.Sporadic.Fi24.isSimpleGroup_Fi24prime hO
     (by norm_num) hsq
-  haveI := hX
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group :=
+  have := hX
+  have : Finite (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group :=
     Finite.of_equiv _ CFSG.Sporadic.Bridge.Fi24.nonempty_mulEquiv.some.toEquiv
   refine threeFourTwoAt_of_forall_model hX hnab hout ?_
   intro Y _ _ K Y₀ E R hp hp2 hKn e hrk hC hcomp hER hE hEc hcore hRY hKY Jt hJ hne hJp hJs hQ
-  haveI := hKn
+  have := hKn
   obtain ⟨eC⟩ := nonempty_mulEquiv_carrier_of_sporadicIndex (s := .Fi24Prime)
     CFSG.Sporadic.Bridge.Fi24.nonempty_mulEquiv ⟨e⟩
-  haveI : Finite K := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite K := Finite.of_equiv _ e.symm.toEquiv
   obtain ⟨hfac, hnc⟩ := fi24Seven_sylow_facts (K := K) ⟨e⟩
   set W : Subgroup (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group :=
     (Y₀.subgroupOf K).map e.toMonoidHom with hWdef
@@ -210,7 +210,7 @@ theorem threeFourTwoAt_fi24Prime_of_isKGroup (hb : LieOrderBridge) (hOrd : Spora
   have hout7 : ¬ 7 ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer K) := by
     rw [Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence eC).toEquiv]
     intro h7
-    haveI : Finite (MulAut (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime)) :=
+    have : Finite (MulAut (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime)) :=
       MulEquiv.finite_left
     have hpos : 0 < Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       (CFSG.Blueprint.NativeSporadic.Carrier .Fi24Prime)) := Nat.card_pos

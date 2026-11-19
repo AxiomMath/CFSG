@@ -53,6 +53,7 @@ section Moves
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem frameProdConjD_of_perm {F F' : List Rt} (hF : ∀ σ ∈ F, IsRoot .E7 σ)
     (horth : F.Pairwise fun σ σ' => iform σ σ' = 0) (hp : F.Perm F') :
     FrameProdConjD K F F' :=

@@ -98,12 +98,12 @@ theorem single_core (T : Tables112) (TL : TableL2) (TT : Tables112Types) (TM : T
 theorem quot_center_equiv {Q S : Type} [Group Q] [Group S] [IsSimpleGroup S]
     (hQ : Nontrivial (Q ⧸ Subgroup.center Q)) (e : Q ≃* S) :
     Nonempty ((Q ⧸ Subgroup.center Q) ≃* S) := by
-  haveI : IsSimpleGroup Q := e.isSimpleGroup
+  have : IsSimpleGroup Q := e.isSimpleGroup
   have hZ : Subgroup.center Q = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Q) with h1 | h1
     · exact h1
     · exfalso
-      haveI : Subsingleton (Q ⧸ Subgroup.center Q) := by
+      have : Subsingleton (Q ⧸ Subgroup.center Q) := by
         rw [h1]
         exact QuotientGroup.subsingleton_quotient_top
       exact not_subsingleton (Q ⧸ Subgroup.center Q) ‹_›
@@ -173,7 +173,7 @@ theorem orderTwistedA2 {Q : ℕ} (hQ : Q % 3 = 2) :
   have hprod : ∏ i ∈ Finset.Icc 2 3, (if Even i then Q ^ i - 1 else Q ^ i + 1) =
       (Q ^ 2 - 1) * (Q ^ 3 + 1) := by
     rw [show Finset.Icc 2 3 = {2, 3} from by decide, Finset.prod_pair (by norm_num),
-      if_pos (by decide), if_neg (by decide)]
+      ite_eq_left (by decide), ite_eq_right (by decide)]
   unfold CFSG.Open.orderTwistedA
   simp only [show 2 * (2 + 1) / 2 = 3 from rfl, show 2 + 1 = 3 from rfl, hg, hprod]
 
@@ -357,8 +357,8 @@ theorem single_of_card (T : Tables112) (TL : TableL2) (TT : Tables112Types) (TM 
       hEX hr' hL₁ hnE
     have hQJ := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ
     have hQL := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hL₁
-    haveI : IsSimpleGroup (PSimple 3 L₁) := hQL.2
-    haveI : IsSimpleGroup (PSimple 3 J) := hQJ.2
+    have : IsSimpleGroup (PSimple 3 L₁) := hQL.2
+    have : IsSimpleGroup (PSimple 3 J) := hQJ.2
     obtain ⟨f⟩ := quot_center_equiv (inferInstance : Nontrivial (PSimple 3 J)) e
     have hcard : Nat.card (PSimple 3 L₁) = Nat.card (PSimple 3 J) :=
       (Nat.card_congr f.toEquiv).symm

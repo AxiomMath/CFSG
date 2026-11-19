@@ -167,9 +167,9 @@ theorem qCert2_size : (qCert2 ()).pts.size = 729 := by rw [qCert2_pts, qLit_size
 theorem qCert2_pt {i : ℕ} (hi : i < 729) :
     (qCert2 ()).pts[i]! = permOfMat 22 co2FiveV (QP i) := by rw [qCert2_pts, qLit_pt hi]
 
-theorem good_QP {i : ℕ} (hi : i < 729) : Good (QP i) :=
-  tree_good hd22 sys.lt hmm I22_eq (fun k hk => (qD_get hk).2.1) qRoot.1 (fun i hi => qPoint hi)
-    i hi
+theorem good_QP {_i : ℕ} (hi : _i < 729) : Good (QP _i) :=
+  tree_good hd22 sys.lt hmm I22_eq (fun _k hk => (qD_get hk).2.1) qRoot.1 (fun _i hi => qPoint hi)
+    _i hi
 
 theorem sift_DMt {j : ℕ} (hj : j < 7) :
     siftM vmK mmK I22 2300 VG BS LK mL PO TIM 6 0 (CertificateChecks.KernelCo2Pump.DMt j) =

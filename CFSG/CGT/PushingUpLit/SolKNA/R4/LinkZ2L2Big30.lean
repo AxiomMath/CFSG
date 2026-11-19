@@ -21,7 +21,7 @@ theorem exists_frobenius_two_power [Fact p.Prime] (hF : Nat.card F = p ^ f) (hp2
     (hq : ∀ x : F, σ₀ x = x ^ p ^ (f / 2)) :
     ∃ (e s : ℕ) (ψ : F ≃+* F), 1 ≤ e ∧ padicValNat 2 f = e ∧ orderOf ψ = 2 ^ e ∧
       (∀ x : F, ψ x = x ^ s) ∧ Odd s ∧ s ^ 2 ^ e = p ^ f ∧ ψ ^ 2 ^ (e - 1) = σ₀ := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hcardF : Fintype.card F = p ^ f := by rw [← Nat.card_eq_fintype_card, hF]
   have hchar : CharP F p := charP_of_card_eq_prime_pow hcardF
   obtain ⟨e, f₀, hf₀odd, hfe⟩ := Nat.exists_eq_two_pow_mul_odd hf0
@@ -34,7 +34,7 @@ theorem exists_frobenius_two_power [Fact p.Prime] (hF : Nat.card F = p ^ f) (hp2
     rintro rfl
     obtain ⟨k, hk⟩ := hf₀odd
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2f₀ : ¬ 2 ∣ f₀ := by
     intro h
     exact (Nat.not_even_iff_odd.mpr hf₀odd) (even_iff_two_dvd.mpr h)

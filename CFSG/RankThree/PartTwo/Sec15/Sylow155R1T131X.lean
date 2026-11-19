@@ -27,7 +27,7 @@ theorem pCoreOf_two_le_delta_of_eq_sup_x {A : Subgroup G} {c : G} {L : Subgroup 
     (hE : End155N A X K Y M T P) (hRP : CFSG.Open.pCoreOf 2 Y ≤ P)
     (hKX : K = X ⊔ CFSG.Open.pCoreOf 2 K) :
     CFSG.Open.pCoreOf 2 K ≤ delta A (lB A) (CFSG.Open.pCoreOf 2 K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set V := CFSG.Open.pCoreOf 2 K with hVdef
   set U := CFSG.Open.pCoreOf 2 X with hUdef
   have hK : K ∈ scriptY4 A (lB A) := hC.mem_k.prop.1
@@ -67,7 +67,7 @@ theorem pCoreOf_two_mem_scriptQ_of_eq_sup_x {A : Subgroup G} {c : G} {L : Subgro
     (hE : End155N A X K Y M T P) (hRP : CFSG.Open.pCoreOf 2 Y ≤ P)
     (hKX : K = X ⊔ CFSG.Open.pCoreOf 2 K) :
     CFSG.Open.pCoreOf 2 K ∈ scriptQ A (lB A) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : K ∈ scriptY4 A (lB A) := hC.mem_k.prop.1
   have hV : CFSG.Open.pCoreOf 2 K ∈ invariantPiSubgroups ⊤ A (piCompl 3) :=
     ⟨le_top, Sec15.isPiSubgroup_piCompl_three_of_isPGroup Nat.prime_two (by norm_num)

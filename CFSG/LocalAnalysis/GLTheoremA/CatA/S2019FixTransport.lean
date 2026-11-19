@@ -15,7 +15,7 @@ variable {G G' : Type} [Group G] [Group G'] [Finite G]
 
 theorem s2019FixCentralizes_of_congr {p : ℕ} (hp : p.Prime) (e : G ≃* G') (β : MulAut G)
     (h : S2019FixCentralizes p (MulAut.congr e β)) : S2019FixCentralizes p β := by
-  haveI : Finite G' := Finite.of_equiv _ e.toEquiv
+  have : Finite G' := Finite.of_equiv _ e.toEquiv
   intro L hL T hT hLT
   have hc : ∀ y ∈ fixSubgroup β ⊓ e.toMonoidHom.ker, ∀ x ∈ fixSubgroup β, x * y = y * x := by
     intro y hy x _

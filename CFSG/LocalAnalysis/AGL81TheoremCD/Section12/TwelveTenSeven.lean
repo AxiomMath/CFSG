@@ -15,7 +15,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.A6.I1435
 variable {G : Type} [Group G] [Finite G]
 
 @[expose] def TwelveSevenA (M H Q : Subgroup G) : Prop :=
-  ∃ e : ↥Q ≃* W3, IsMulCommutative (Q ⊓ jSub M H : Subgroup G) ∧
+  ∃ _e : ↥Q ≃* W3, IsMulCommutative (Q ⊓ jSub M H : Subgroup G) ∧
     Nat.card (Q ⊓ jSub M H : Subgroup G) = 27
 
 theorem thompsonSubgroup_eq_inf_of_wreath {M H Q : Subgroup G}

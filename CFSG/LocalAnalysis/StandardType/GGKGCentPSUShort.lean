@@ -103,7 +103,7 @@ theorem eq_one_of_fix_PSU [Fintype F] [CharP F 2] (hσ : ∀ c, σ (σ c) = c)
       rwa [map_one, one_mul] at h
     · obtain ⟨ζ, -, hζ, hK⟩ := hKT a
       have h := hK i a
-      simp only [coordDiag, if_neg hi, if_neg hia, if_true] at h
+      simp only [coordDiag, ite_eq_right hi, ite_eq_right hia, ite_true] at h
       by_contra hne
       have h' : φ ζ = 1 := by
         have h2 : M i a * φ ζ = M i a * 1 := by rw [h, one_mul, mul_one]
@@ -136,14 +136,14 @@ theorem eq_one_of_fix_PSU [Fintype F] [CharP F 2] (hσ : ∀ c, σ (σ c) = c)
     have h' : coordDiag ζ j j = coordDiag ζ j i := by
       have := h.trans (mul_comm _ _)
       exact mul_left_cancel₀ hne this
-    simp only [coordDiag, if_neg hij, if_true] at h'
+    simp only [coordDiag, ite_eq_right hij, ite_true] at h'
     by_cases hir : i = Fin.rev j
-    · rw [if_pos hir] at h'
+    · rw [ite_eq_left hir] at h'
       apply hζ
       rw [pow_two]
       nth_rewrite 2 [h']
       exact mul_inv_cancel₀ hζ0
-    · rw [if_neg hir] at h'
+    · rw [ite_eq_right hir] at h'
       exact hζ1 ζ hζ h'
   have hii : ∀ i, M i i ≠ 0 := by
     intro i h0
@@ -317,16 +317,16 @@ theorem exists_coordDiag_SU {ζ : PSUF g} (hζ0 : ζ ≠ 0) (hσζ : PSUσ g ζ 
         simp [coordDiag, his, hσζ, hζ0]
       · have h1 : Fin.rev i ≠ s := fun e => hir (by rw [← e, Fin.rev_rev])
         have h2 : Fin.rev i ≠ Fin.rev s := fun e => his (Fin.rev_injective e)
-        simp only [coordDiag, if_neg his, if_neg hir, if_neg h1, if_neg h2, map_one, mul_one]
+        simp only [coordDiag, ite_eq_right his, ite_eq_right hir, ite_eq_right h1, ite_eq_right h2, map_one, mul_one]
   have hsplit : ∀ i, coordDiag ζ s i =
       (if i = s then ζ else 1) * (if i = Fin.rev s then ζ⁻¹ else 1) := by
     intro i
     by_cases his : i = s
     · subst his
       simp [coordDiag, (hrev i).symm]
-    · simp only [coordDiag, if_neg his, one_mul]
+    · simp only [coordDiag, ite_eq_right his, one_mul]
   have hp : ∏ i, coordDiag ζ s i = 1 := by
-    simp only [hsplit, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, if_true]
+    simp only [hsplit, Finset.prod_mul_distrib, Finset.prod_ite_eq', Finset.mem_univ, ite_true]
     exact mul_inv_cancel₀ hζ0
   exact ⟨MpStdSU.diagSU (coordDiag ζ s) ht hp, MpStdSU.mat_diagSU _ ht hp⟩
 

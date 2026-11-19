@@ -58,13 +58,13 @@ private theorem mem_leavesFrom {G : ℕ × ℕ → Prop} {a0 a1 a2 a3 a4 a5 : �
     (by simp [g0, g2, g3, g4, g5]) g1
   simp only [leavesFrom, List.mem_flatMap]
   refine ⟨a2, h2, a3, h3, ?_⟩
-  simp only [o30, p3, Bool.not_false, Bool.and_self, cond_true, List.mem_flatMap]
+  simp only [o30, p3, Bool.not_false, Bool.and_self, _root_.Bool.cond_true, List.mem_flatMap]
   refine ⟨a4, h4, ?_⟩
-  simp only [o40, o42, p4, Bool.not_false, Bool.and_self, cond_true, List.mem_flatMap]
+  simp only [o40, o42, p4, Bool.not_false, Bool.and_self, _root_.Bool.cond_true, List.mem_flatMap]
   refine ⟨a5, h5, ?_⟩
-  simp only [o50, o52, o53, p5, Bool.not_false, Bool.and_self, cond_true, List.mem_flatMap]
+  simp only [o50, o52, o53, p5, Bool.not_false, Bool.and_self, _root_.Bool.cond_true, List.mem_flatMap]
   refine ⟨a1, h1, ?_⟩
-  simp only [o10, o12, o14, o15, p1, hw, Bool.not_false, Bool.and_self, cond_true]
+  simp only [o10, o12, o14, o15, p1, hw, Bool.not_false, Bool.and_self, _root_.Bool.cond_true]
   exact List.mem_singleton.2 rfl
 
 private theorem getD_tuple (f : Fin Tag.E6.rank → ℕ) (j : Fin Tag.E6.rank) :

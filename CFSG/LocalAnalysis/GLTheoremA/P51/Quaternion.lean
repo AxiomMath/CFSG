@@ -28,15 +28,16 @@ private theorem eq_one_of_isPerfect_of_isSolvable {A M : Type*} [Group A] [Group
   have : (⟨φ h, h, rfl⟩ : φ.range) = 1 := Subsingleton.elim _ _
   exact congrArg Subtype.val this
 
+omit [Finite G] in
 theorem isEmpty_mulEquiv_quaternionGroup {W H : Subgroup G}
     (hHW : H ≤ Subgroup.normalizer (W : Set G)) (hH : (⁅H, H⁆ : Subgroup G) = H)
     (hW : (⁅W, H⁆ : Subgroup G) = W) (hWne : W ≠ ⊥) :
     IsEmpty (W ≃* QuaternionGroup 2) := by
   refine ⟨fun e => ?_⟩
-  haveI : Group.IsPerfect H := Subgroup.isPerfect_iff.mpr hH
-  haveI : Group.IsSolvable (MulAut (QuaternionGroup 2)) := by
+  have : Group.IsPerfect H := Subgroup.isPerfect_iff.mpr hH
+  have : Group.IsSolvable (MulAut (QuaternionGroup 2)) := by
     simpa using CFSG.ProperTwoGeneratedCore.quaternion_power_two_automorphism_solvable 1
-  haveI : Group.IsSolvable (MulAut W) :=
+  have : Group.IsSolvable (MulAut W) :=
     Group.isSolvable_of_isSolvable_injective (f := (MulAut.congr e).toMonoidHom)
       (MulAut.congr e).injective
   have hφ := eq_one_of_isPerfect_of_isSolvable

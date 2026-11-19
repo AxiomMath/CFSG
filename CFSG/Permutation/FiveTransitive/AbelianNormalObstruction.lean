@@ -54,7 +54,7 @@ theorem false_of_regular_normal_subgroup
       apply hne
       exact IsCancelSMul.right_cancel a⁻¹ a x hzy
     obtain ⟨w, hw⟩ :=
-      Finset.exists_not_mem_of_card_lt_enatCard
+      Finset.exists_notMem_of_card_lt_enatCard
         (s := {x, y, z}) (by
           have hx_yz : x ∉ ({y, z} : Finset X) := by
             simp only [Finset.mem_insert, Finset.mem_singleton, not_or]
@@ -129,7 +129,7 @@ theorem false_of_regular_normal_subgroup
     intro hyx
     exact ha (hfree a x hyx)
   obtain ⟨z, hz⟩ :=
-    Finset.exists_not_mem_of_card_lt_enatCard
+    Finset.exists_notMem_of_card_lt_enatCard
       (s := {x, y}) (by
         have hx_y : x ∉ ({y} : Finset X) := by
           simpa only [Finset.mem_singleton] using hyx.symm
@@ -175,7 +175,7 @@ theorem false_of_regular_normal_subgroup
     apply mul_right_cancel (b := b)
     simpa using habB
   obtain ⟨d, hd⟩ :=
-    Finset.exists_not_mem_of_card_lt_enatCard
+    Finset.exists_notMem_of_card_lt_enatCard
       (s := {x, y, z, c}) (by
         have hx_yzc : x ∉ ({y, z, c} : Finset X) := by
           simp only [Finset.mem_insert, Finset.mem_singleton, not_or]

@@ -32,15 +32,15 @@ theorem Ctx.center_Xbar_eq_bot_of_suzukiModel [Finite G]
     (h : CFSG.Blueprint.SuzukiModel (XbarMod M Q Z B) 2 x) :
     Subgroup.center ↥(Xbar M Q Z B) = ⊥ := by
   obtain ⟨-, s, hs, K, hKf, hKfin, hfx, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hK : Nat.card K = 2 ^ (2 * s + 1) := by rw [hKcard, hfx]
-  haveI : Group.IsPerfect ↥(CFSG.Blueprint.suzukiGroup s K) :=
+  have : Group.IsPerfect ↥(CFSG.Blueprint.suzukiGroup s K) :=
     (CFSG.LieType.Ree.suzuki_perfect hs hK).2
   have hperf : Group.IsPerfect (XbarMod M Q Z B) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hcomm := hc.commutator_Xbar_eq_top_of_isPerfect hperf
-  haveI : Group.IsPerfect ↥(Xbar M Q Z B) := Group.isPerfect_def.2 hcomm
+  have : Group.IsPerfect ↥(Xbar M Q Z B) := Group.isPerfect_def.2 hcomm
   exact CFSG.RankThree.S4Free.Suzuki.center_eq_bot_of_quotient hs hK e
     hc.odd_card_center_Xbar
 
@@ -108,7 +108,7 @@ theorem card_Z_le_two_pow_of_suzukiModel [Finite G]
 
 theorem two_mul_dvd_of_orderOf_two_eq {l a x : ℕ} (hl : l.Prime)
     (hord : orderOf (2 : ZMod l) = 4 * x) (h : l ∣ (2 ^ a) ^ 2 - 1) : 2 * x ∣ a := by
-  haveI : Fact l.Prime := ⟨hl⟩
+  have : Fact l.Prime := ⟨hl⟩
   have h1 : 1 ≤ 2 ^ (2 * a) := Nat.one_le_two_pow
   have hEq : (2 ^ a) ^ 2 = 2 ^ (2 * a) := by rw [← pow_mul]; ring
   have h0 : ((2 ^ (2 * a) - 1 : ℕ) : ZMod l) = 0 := by
@@ -130,8 +130,8 @@ theorem Ctx.two_mul_dvd_of_suzukiModel [Finite G]
     2 * x ∣ a := by
   have hcenter := hc.center_Xbar_eq_bot_of_suzukiModel h
   obtain ⟨-, s, hs, K, hKf, hKfin, hfx, hKcard, ⟨e⟩⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hK : Nat.card K = 2 ^ (2 * s + 1) := by rw [hKcard, hfx]
   let e' : ↥(Xbar M Q Z B) ≃* CFSG.Blueprint.suzukiGroup s K :=
     ((QuotientGroup.quotientMulEquivOfEq hcenter).trans QuotientGroup.quotientBot).symm.trans e

@@ -29,14 +29,14 @@ theorem exists_sylow_two_containing {N S₀ : Subgroup G} (hS₀N : S₀ ≤ N) 
   obtain ⟨R, hR⟩ := hT₁.exists_le_sylow
   obtain ⟨Q₀, hQ₀⟩ := hS₁.exists_le_sylow
   have hQ₀card : Nat.card (Q₀ : Subgroup ↥N) ≤ Nat.card (S₀.subgroupOf N) := by
-    have hdvd := hUB ((Q₀ : Subgroup ↥N).map N.subtype) (Q₀.isPGroup'.map N.subtype)
+    have hdvd := hUB ((Q₀ : Subgroup ↥N).map N.subtype) (Q₀.isPGroup.map N.subtype)
       (Subgroup.map_subtype_le _)
     rw [Subgroup.card_map_of_injective N.subtype_injective] at hdvd
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hS₀N).toEquiv, hS₀c]
     exact Nat.le_of_dvd (by norm_num) hdvd
   have hQ₀eq : S₀.subgroupOf N = (Q₀ : Subgroup ↥N) := Subgroup.eq_of_le_of_card_ge hQ₀ hQ₀card
   refine ⟨(R : Subgroup ↥N).map N.subtype, ?_,
-    ⟨Subgroup.map_subtype_le _, R.isPGroup'.map N.subtype, ?_⟩, ?_⟩
+    ⟨Subgroup.map_subtype_le _, R.isPGroup.map N.subtype, ?_⟩, ?_⟩
   · intro t ht
     have : (⟨t, hTN ht⟩ : ↥N) ∈ (R : Subgroup ↥N) := hR (Subgroup.mem_subgroupOf.2 ht)
     exact ⟨_, this, rfl⟩
@@ -78,7 +78,7 @@ theorem exists_sylow_complement (P : Subgroup Γ) (hP : Nat.card P = 27) (hi : P
     · rw [hP, hTcard, hΓ]
     · rw [hP, hTcard]
       exact Nat.Coprime.pow_right b (by norm_num)
-  refine ⟨T, hT, T.isPGroup', fun g => ?_⟩
+  refine ⟨T, hT, T.isPGroup, fun g => ?_⟩
   obtain ⟨⟨p, t⟩, hpt⟩ := hcomp.2 g
   exact ⟨p, p.2, t, t.2, hpt.symm⟩
 

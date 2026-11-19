@@ -132,11 +132,11 @@ theorem fi23Rep_mul {X Y : Nat} {g h : G} (hX : Fi23Rep φ X g) (hY : Fi23Rep φ
   obtain ⟨c, e⟩ := CertificateChecks.KernelFi23M.hs.mul_sound X Y hX.1 hY.1
   refine ⟨c, ?_⟩
   rw [MUL] at e
-  rw [e, hX.2, hY.2, map_mul] <;> rfl
+  rw [e, hX.2, hY.2, map_mul]
 
 theorem fi23Rep_one : Fi23Rep φ ONE 1 := by
   refine ⟨CertificateChecks.KernelFi23M.hs.one_q, ?_⟩
-  rw [CertificateChecks.KernelFi23M.hs.one_mt, map_one] <;> rfl
+  rw [CertificateChecks.KernelFi23M.hs.one_mt, map_one]
 
 theorem fiNZ_spec {X : Nat} {g : G} (hX : Fi23Rep φ X g) (h : fiNZ X = true) : g ≠ 1 := by
   rintro rfl
@@ -150,9 +150,9 @@ theorem fiNZ_spec {X : Nat} {g : G} (hX : Fi23Rep φ X g) (h : fiNZ X = true) : 
   unfold mat3 bv at hm
   simp only [Fin.val_zero, Nat.mul_zero, Nat.add_zero, hb] at hm
   by_cases hm' : X.testBit 64009
-  · rw [if_neg (by simp), if_pos hm'] at hm
+  · rw [ite_eq_right (by simp), ite_eq_left hm'] at hm
     exact absurd hm (by decide)
-  · rw [if_neg (by simp), if_neg hm'] at hm
+  · rw [ite_eq_right (by simp), ite_eq_right hm'] at hm
     exact absurd hm (by decide)
 
 theorem fi23_hinit {gA gB : G} (hA : mat3 253 64009 (RB 1) = φ gA)

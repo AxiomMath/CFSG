@@ -14,6 +14,7 @@ section FieldTwo
 
 variable {K : Type} [Field K] [Finite K] {X : Type} [Group X]
 
+omit [Finite K] in
 theorem weylTwo_agree (hK : Nat.card K = 2) (s t : Fin 2) {θ₁ θ₂ : SL(3, K) →* X}
     (h₁ : θ₁.ker ≤ Subgroup.center SL(3, K)) (h₂ : θ₂.ker ≤ Subgroup.center SL(3, K))
     (hM : (Bs K s).map θ₁ = (Bs K t).map θ₂)
@@ -115,6 +116,7 @@ theorem weylTwo_agree (hK : Nat.card K = 2) (s t : Fin 2) {θ₁ θ₂ : SL(3, K
   · exact key _ (blk_mem_Bs t.rev (tv 0 1 1)) (blk_rev_tv01_ne_one t)
       (by rw [hAv]; exact (blk_tv10_comm_blk_rev_tv01 t).symm)
 
+omit [Finite K] in
 theorem exists_adjust_side_two (hK : Nat.card K = 2) (s : Fin 2) {θ₀ : SL(3, K) →* X}
     (hθ₀ : θ₀.ker ≤ Subgroup.center SL(3, K)) {ρ : SL(2, K) →* X} (hρ : Function.Injective ρ)
     (hrange : ρ.range = (Bs K s).map θ₀) (hw : ρ (weylTwo K) = θ₀ (blk K s (weylTwo K))) :
@@ -221,6 +223,7 @@ theorem exists_adjust_side_two (hK : Nat.card K = 2) (s : Fin 2) {θ₀ : SL(3, 
 variable {r : ℕ} {adj : Fin r → Fin r → Prop} {par : Fin r → Fin r} {dep : Fin r → ℕ}
   {k₀ : Fin r}
 
+omit [Finite K] in
 theorem exists_frame_of_tree_two (hK : Nat.card K = 2) (hT : RootedTree adj par dep k₀)
     (hroot : ∃ c, adj k₀ c ∨ adj c k₀) {U : Fin r → Subgroup X}
     (hcomm : ∀ i j, i ≠ j → ¬ adj i j → ¬ adj j i → ∀ x ∈ U i, ∀ y ∈ U j, x * y = y * x)

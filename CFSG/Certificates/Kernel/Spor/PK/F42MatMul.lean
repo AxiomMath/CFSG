@@ -89,11 +89,11 @@ theorem can52_mulPart {X Y : Array V} (hX : Can52 X) (hY : Can52 Y) {n : ℕ} (h
     rw [mm_mulPart_succ hX]
     exact can52_addM (ih (by omega)) (mm_can52_termM hY (by omega))
 
-theorem can52_termM {X Y : Array V} (hX : Can52 X) (hY : Can52 Y) {k : ℕ} (hk : k < 52) :
+theorem can52_termM {X Y : Array V} (_hX : Can52 X) (hY : Can52 Y) {k : ℕ} (hk : k < 52) :
     Can52 (termM X Y k) :=
   mm_can52_termM hY hk
 
-theorem mulPart_succ {X Y : Array V} (hX : Can52 X) (hY : Can52 Y) {n : ℕ} (hn : n < 52) :
+theorem mulPart_succ {X Y : Array V} (hX : Can52 X) (_hY : Can52 Y) {n : ℕ} (_hn : n < 52) :
     mulPart (n + 1) X Y = addM 52 (mulPart n X Y) (termM X Y n) :=
   mm_mulPart_succ hX
 
@@ -167,6 +167,7 @@ private theorem mm_fd_add (w : ℕ) (A B : V) (i : ℕ) :
   dsimp only
   simp only [mm_fd_lor, mm_fd_land, mm_fd_xor, and_self]
 
+set_option exponentiation.threshold 2704 in
 theorem addS_pk52 {X Y : Array V} (hX : Can52 X) (hY : Can52 Y) :
     addS (pk52 X % 2 ^ 2704) (pk52 X / 2 ^ 2704) (pk52 Y % 2 ^ 2704) (pk52 Y / 2 ^ 2704) =
       pk52 (addM 52 X Y) := by
@@ -337,22 +338,22 @@ theorem mulPlusMinus_pk52 {X Y : Array V} (hX : Can52 X) (hY : Can52 Y) {k : ℕ
     mm_mulPlus_enc hap ham hbp hbm hk, mm_mulMinus_enc hap ham hbp hbm hk]
   constructor <;> apply enc_congr <;> intro i hi <;> rw [mm_termM_getElem X Y k hi]
   · by_cases hp : X[i]!.p.testBit k = true
-    · simp only [hp, hnot i hi hp, if_true, Bool.false_eq_true, if_false, Nat.zero_and,
+    · simp only [hp, hnot i hi hp, ite_true, Bool.false_eq_true, ite_false, Nat.zero_and,
         Nat.or_zero, mm_and_full (hbp k hk)]
     · by_cases hm : X[i]!.m.testBit k = true
-      · simp only [hp, hm, if_true, Bool.false_eq_true, if_false, Nat.zero_and, Nat.zero_or,
+      · simp only [hp, hm, ite_true, Bool.false_eq_true, ite_false, Nat.zero_and, Nat.zero_or,
           mm_and_full (hbm k hk)]
         rfl
-      · simp only [hp, hm, Bool.false_eq_true, if_false, Nat.zero_and, Nat.or_zero]
+      · simp only [hp, hm, Bool.false_eq_true, ite_false, Nat.zero_and, Nat.or_zero]
         rfl
   · by_cases hp : X[i]!.p.testBit k = true
-    · simp only [hp, hnot i hi hp, if_true, Bool.false_eq_true, if_false, Nat.zero_and,
+    · simp only [hp, hnot i hi hp, ite_true, Bool.false_eq_true, ite_false, Nat.zero_and,
         Nat.or_zero, mm_and_full (hbm k hk)]
     · by_cases hm : X[i]!.m.testBit k = true
-      · simp only [hp, hm, if_true, Bool.false_eq_true, if_false, Nat.zero_and, Nat.zero_or,
+      · simp only [hp, hm, ite_true, Bool.false_eq_true, ite_false, Nat.zero_and, Nat.zero_or,
           mm_and_full (hbp k hk)]
         rfl
-      · simp only [hp, hm, Bool.false_eq_true, if_false, Nat.zero_and, Nat.or_zero]
+      · simp only [hp, hm, Bool.false_eq_true, ite_false, Nat.zero_and, Nat.or_zero]
         rfl
 
 private theorem mm_pk52_mulPart_zero {X Y : Array V} (hX : Can52 X) : pk52 (mulPart 0 X Y) = 0 := by
@@ -363,6 +364,7 @@ private theorem mm_pk52_mulPart_zero {X Y : Array V} (hX : Can52 X) : pk52 (mulP
     enc_congr (g := fun _ => 0) (fun i hi => congrArg V.m (h i hi)), mm_enc_zero_fun,
     Nat.mul_zero]
 
+set_option exponentiation.threshold 2704 in
 private theorem mm_mulLoop_succ (Ap Am Bp Bm n : ℕ) : mulLoop Ap Am Bp Bm (n + 1) =
     addS (mulLoop Ap Am Bp Bm n % 2 ^ 2704) (mulLoop Ap Am Bp Bm n / 2 ^ 2704)
       (mulPlus Ap Am Bp Bm n) (mulMinus Ap Am Bp Bm n) := by
@@ -384,6 +386,7 @@ theorem mulLoop_pk52 {X Y : Array V} (hX : Can52 X) (hY : Can52 Y) {n : ℕ} (hn
       (mulPlusMinus_pk52 hX hY hn').2, addS_pk52 (can52_mulPart hX hY (by omega))
         (can52_termM hX hY hn'), mulPart_succ hX hY hn']
 
+set_option exponentiation.threshold 2704 in
 theorem mulS_pk52 {X Y : Array V} (hX : Can52 X) (hY : Can52 Y) :
     mulS (pk52 X) (pk52 Y) = pk52 (mul 52 X Y) := by
   have e1 : ∀ N : ℕ, Nat.land N planeMask = N % 2 ^ 2704 := fun N => by
@@ -405,7 +408,7 @@ theorem mulI_eq (A B : ℕ) :
   rw [letN_eq, letN_eq, letN_eq]
   by_cases hB : B = idS
   · have : Nat.beq B idS = true := by simp [hB]
-    simp only [this, hB, if_true]
+    simp only [hB, ite_true]
     rfl
   · have hB' : Nat.beq B idS = false := by
       cases h : Nat.beq B idS
@@ -413,24 +416,24 @@ theorem mulI_eq (A B : ℕ) :
       · exact absurd (Nat.eq_of_beq_eq_true h) hB
     by_cases hA : A = idS
     · have hA' : Nat.beq A idS = true := by simp [hA]
-      simp only [hB', hA', hB, hA, if_true, if_false]
+      simp only [hB', hB, hA, ite_true, ite_false]
       rfl
     · have hA' : Nat.beq A idS = false := by
         cases h : Nat.beq A idS
         · rfl
         · exact absurd (Nat.eq_of_beq_eq_true h) hA
-      simp only [hB', hA', hB, hA, if_false]
+      simp only [hB', hA', hB, hA, ite_false]
 
 theorem mulI_pk52 {X Y : Array V} (hX : Can52 X) (hY : Can52 Y) :
     mulI (pk52 X) (pk52 Y) = pk52 (mul 52 X Y) := by
   rw [mulI_eq]
   by_cases hB : pk52 Y = idS
   · have hY1 : Y = idM 52 := pk52_inj hY can52_idM (hB.trans idS_eq)
-    rw [if_pos hB, hY1, mul52_one hX]
+    rw [ite_eq_left hB, hY1, mul52_one hX]
   · by_cases hA : pk52 X = idS
     · have hX1 : X = idM 52 := pk52_inj hX can52_idM (hA.trans idS_eq)
-      rw [if_neg hB, if_pos hA, hX1, one_mul52 hY]
-    · rw [if_neg hB, if_neg hA]
+      rw [ite_eq_right hB, ite_eq_left hA, hX1, one_mul52 hY]
+    · rw [ite_eq_right hB, ite_eq_right hA]
       exact mulS_pk52 hX hY
 
 theorem commS_pk52 {X Y : Array V} (hX : Can52 X) (hY : Can52 Y) :

@@ -27,7 +27,7 @@ private lemma exists_perfect_le_inf_centralizer_of_lbar {p : ℕ} {v : Fin 3 →
     ∃ J : Subgroup G, J ≤ c.L ⊓ Subgroup.centralizer
         (Subgroup.zpowers (s.pt v) : Set G) ∧ ⁅J, J⁆ = J ∧ p ∣ Nat.card J := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hXleL : Subgroup.zpowers (s.pt v) ≤ c.L := Subgroup.zpowers_le.mpr (s.pt_mem_L v)
   have hXpg : IsPGroup 3 (Subgroup.zpowers (s.pt v)) :=
     h.elemAbelian.isPGroup.to_le (Subgroup.zpowers_le.mpr (s.pt_mem_A v))
@@ -52,7 +52,7 @@ private lemma exists_perfect_le_inf_centralizer_of_lbar {p : ℕ} {v : Fin 3 →
     have hk : (k : c.Lbar) ∈ Y0.map g := by rw [hY0map]; exact k.2
     obtain ⟨y, hy, hyval⟩ := Subgroup.mem_map.mp hk
     exact ⟨⟨y, hy⟩, Subtype.ext hyval⟩
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
   obtain ⟨P, hPperf, hPmap⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.PartOne.Section9.exists_perfect_map_eq_top gK hgKsurj
   let f : ↥Y0 →* G := Y.subtype.comp Y0.subtype
@@ -94,7 +94,7 @@ private lemma false_of_perfect_image {p : ℕ} (hp : p.Prime) {J H X : Subgroup 
     (hsol : Group.IsSolvable ↥(((H ⊓ D.M).subgroupOf H).map
       (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H)))) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hJL : J ≤ c.L := hJle.trans inf_le_left
   have hJC : J ≤ Subgroup.centralizer (X : Set G) := hJle.trans inf_le_right
   have hJH : J ≤ H := by
@@ -114,14 +114,14 @@ private lemma false_of_perfect_image {p : ℕ} (hp : p.Prime) {J H X : Subgroup 
     change ⁅Subgroup.map f (J.subgroupOf H), Subgroup.map f (J.subgroupOf H)⁆ =
       Subgroup.map f (J.subgroupOf H)
     rw [← hmap, hJsub_perf]
-  haveI : Group.IsSolvable ↥Nbar := hsol
-  haveI : Group.IsSolvable ↥Jbar :=
+  have : Group.IsSolvable ↥Nbar := hsol
+  have : Group.IsSolvable ↥Jbar :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJbar_le)
       (Subgroup.inclusion_injective hJbar_le)
   have hJbar_bot : Jbar = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥Jbar := (Subgroup.bot_or_nontrivial Jbar).resolve_left hne
-    haveI : Group.IsPerfect ↥Jbar := Subgroup.isPerfect_iff.mpr hJbar_perf
+    have : Nontrivial ↥Jbar := (Subgroup.bot_or_nontrivial Jbar).resolve_left hne
+    have : Group.IsPerfect ↥Jbar := Subgroup.isPerfect_iff.mpr hJbar_perf
     exact Group.IsPerfect.not_isSolvable ↥Jbar inferInstance
   have hJcore : J.subgroupOf H ≤ CFSG.pPrimeCore p ↥H := by
     have hbot : Subgroup.map f (J.subgroupOf H) = ⊥ := hJbar_bot
@@ -151,7 +151,7 @@ theorem good_of_perfect (hKF7 : UC22.KF7Use D) {p : ℕ} (hp : p ∈ D.sig) (hp5
   by_contra hHM
   let H : Subgroup G := Subgroup.normalizer (Subgroup.zpowers (s.pt v) : Set G)
   have hp_prime : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
   have hp2 : p ≠ 2 := by
     have := c.five_le_of_mem_sigma hp
     omega
@@ -162,7 +162,7 @@ theorem good_of_perfect (hKF7 : UC22.KF7Use D) {p : ℕ} (hp : p ∈ D.sig) (hp5
     rw [hEq]
     omega
   have hHne : H ≠ ⊤ := by
-    haveI : IsSimpleGroup G := D.standing.simple
+    have : IsSimpleGroup G := D.standing.simple
     have hXcard : Nat.card (Subgroup.zpowers (s.pt v)) = 3 := by
       rw [Nat.card_zpowers, s.orderOf_pt hv]
     exact CFSG.RankThree.PartOne.Sec9Excl.normalizer_ne_top_of_simple

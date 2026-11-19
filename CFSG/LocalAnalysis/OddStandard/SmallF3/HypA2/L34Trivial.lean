@@ -13,11 +13,11 @@ theorem sup_pPrimeCore_eq_of_trivial_action {H : Type} [Group H] [Finite H] {M :
     {x : H} {T : Subgroup H} {w : H} (h : VCSetting M x T w)
     (htriv : ∀ m ∈ M, x * m * x⁻¹ * m⁻¹ ∈ (pPrimeCore 2 ↥M).map M.subtype) :
     T ⊔ (pPrimeCore 2 ↥M).map M.subtype = M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   classical
   let O' : Subgroup ↥M := pPrimeCore 2 ↥M
   have hO'N : O'.Normal := by dsimp only [O']; infer_instance
-  haveI : O'.Normal := hO'N
+  have : O'.Normal := hO'N
   let π : ↥M →* ↥M ⧸ O' := QuotientGroup.mk' O'
   let C : Subgroup H := M ⊓ centralizer ({x} : Set H)
   have hTC : T ≤ C := le_inf h.hTM h.hTx
@@ -92,7 +92,7 @@ theorem sup_pPrimeCore_eq_of_trivial_action {H : Type} [Group H] [Finite H] {M :
     have hσ2ord : orderOf σ ∣ 2 := orderOf_dvd_iff_pow_eq_one.mpr hσ2
     have hP : IsPGroup 2 (Subgroup.zpowers σ) :=
       IsPGroup.of_card_dvd_pow (n := 1) (by rw [Nat.card_zpowers, pow_one]; exact hσ2ord)
-    letI : MulAction (Subgroup.zpowers σ) S :=
+    let : MulAction (Subgroup.zpowers σ) S :=
       { smul := fun p n => ⟨p • (n : ↥M), hSinv p (n : ↥M) n.2⟩
         one_smul := fun n => Subtype.ext (one_smul (Subgroup.zpowers σ) (n : ↥M))
         mul_smul := fun p q n => Subtype.ext (mul_smul p q (n : ↥M)) }
@@ -139,12 +139,12 @@ theorem sup_pPrimeCore_eq_of_trivial_action {H : Type} [Group H] [Finite H] {M :
     (ComponentClassification.HarrisLit.isTwoQuasisimple_of_mulEquiv
       (Subgroup.subgroupOfEquivOfLe h.hTx) hTqs).1
   have hTCperf : Group.IsPerfect ↥(T.subgroupOf C) := by
-    haveI : Group.IsPerfect ↥T := hTperf
+    have : Group.IsPerfect ↥T := hTperf
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hTC).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hTC).symm.surjective
   have hUperf : Group.IsPerfect ↥U := by
-    haveI : Group.IsPerfect ↥(T.subgroupOf C) := hTCperf
+    have : Group.IsPerfect ↥(T.subgroupOf C) := hTCperf
     show Group.IsPerfect ↥((T.subgroupOf C).map πC)
     exact Group.IsPerfect.map (f := πC)
   have hUsub : U.IsSubnormal := hsubC.map hπCsurj
@@ -196,8 +196,8 @@ theorem sup_pPrimeCore_eq_of_trivial_action {H : Type} [Group H] [Finite H] {M :
       have hUcomm : IsMulCommutative ↥U :=
         IsMulCommutative.of_comm fun a b =>
           Subtype.ext (Subgroup.mem_center_iff.mp (hUZ a.2) (b : ↥M ⧸ O')).symm
-      haveI : Nontrivial ↥U := (Subgroup.nontrivial_iff_ne_bot U).mpr hUnebot
-      haveI : Group.IsPerfect ↥U := hUperf
+      have : Nontrivial ↥U := (Subgroup.nontrivial_iff_ne_bot U).mpr hUnebot
+      have : Group.IsPerfect ↥U := hUperf
       exact (Group.IsPerfect.not_isMulCommutative ↥U) hUcomm
   have hcodisj : (T.subgroupOf M) ⊔ O' = ⊤ := by
     have h' := (Subgroup.map_eq_range_iff (f := π) (H := T.subgroupOf M)).mp

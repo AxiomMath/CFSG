@@ -21,7 +21,7 @@ theorem s1611e3_compFactorAutInF_of_shapeL3 {G : Type} [Group G] [Finite G] {H S
     (hSH : S ≤ H) (hS2 : IsPGroup 2 S) (hshape : S1611e3ShapeL3 H) :
     CompFactorAutInF 2 H S := by
   intro Y hY hYn
-  haveI := hYn
+  have := hYn
   let S' : Subgroup (↥H ⧸ Y.subgroupOf H) :=
     (S.subgroupOf H).map (QuotientGroup.mk' (Y.subgroupOf H))
   have hS'2 : IsPGroup 2 S' := by
@@ -37,30 +37,30 @@ theorem s1611e3_shapeL3_of_layer {G : Type} [Group G] [Finite G] {H : Subgroup G
     (hEQ : Group.IsSolvable (Q ⧸ E)) {L : Type} [Group L] (hL : IsL3 L 1)
     (eE : ↥E ≃* L × L) : S1611e3ShapeL3 H := by
   classical
-  haveI : Finite L := by
-    haveI : Finite ↥E := inferInstance
-    haveI : Finite (L × L) := Finite.of_equiv ↥E eE
+  have : Finite L := by
+    have : Finite ↥E := inferInstance
+    have : Finite (L × L) := Finite.of_equiv ↥E eE
     exact Finite.of_injective (fun x : L => (x, (1 : L))) (fun a b h => (Prod.ext_iff.mp h).1)
   intro Y hY hYn
-  haveI := hYn
+  have := hYn
   intro X hXn hXne hXmin hXnc L0 hL0
   let Y' : Subgroup ↥H := Y.subgroupOf H
   let q : ↥H →* (↥H ⧸ Y') := QuotientGroup.mk' Y'
   let E0 : Subgroup ↥H := E.comap π
   have hE0n : E0.Normal := (inferInstance : E.Normal).comap π
-  haveI : E0.Normal := hE0n
+  have : E0.Normal := hE0n
   let Ehat : Subgroup (↥H ⧸ Y') := E0.map q
   have hEhatn : Ehat.Normal := hE0n.map q (QuotientGroup.mk'_surjective Y')
-  haveI : Ehat.Normal := hEhatn
+  have : Ehat.Normal := hEhatn
   let R : Subgroup (↥H ⧸ Y') := (π.ker).map q
   have hRn : R.Normal :=
     (inferInstance : (π.ker).Normal).map q (QuotientGroup.mk'_surjective Y')
-  haveI : R.Normal := hRn
+  have : R.Normal := hRn
   have hRE : R ≤ Ehat := Subgroup.map_mono (f := q) (by
     intro x hx
     exact Subgroup.mem_comap.mpr (by rw [MonoidHom.mem_ker.mp hx]; exact E.one_mem))
   have hRsol : Group.IsSolvable ↥R := by
-    haveI : Group.IsSolvable ↥(π.ker) := hker
+    have : Group.IsSolvable ↥(π.ker) := hker
     let κ : ↥(π.ker) →* ↥R :=
       (q.comp (π.ker).subtype).codRestrict R
         (fun x => Subgroup.mem_map.mpr ⟨(x : ↥H), x.2, rfl⟩)
@@ -81,9 +81,9 @@ theorem s1611e3_shapeL3_of_layer {G : Type} [Group G] [Finite G] {H : Subgroup G
     have e : ↥H ⧸ E0 ≃* Q ⧸ E :=
       (QuotientGroup.quotientMulEquivOfEq hφQEker).symm.trans
         (QuotientGroup.quotientKerEquivOfSurjective φQE hφQE)
-    haveI : Group.IsSolvable (Q ⧸ E) := hEQ
+    have : Group.IsSolvable (Q ⧸ E) := hEQ
     exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
-  haveI : Group.IsSolvable (↥H ⧸ E0) := hH_E0_sol
+  have : Group.IsSolvable (↥H ⧸ E0) := hH_E0_sol
   have hPE : Group.IsSolvable ((↥H ⧸ Y') ⧸ Ehat) := by
     let ψ : ↥H →* ((↥H ⧸ Y') ⧸ Ehat) := (QuotientGroup.mk' Ehat).comp q
     have hψsurj : Function.Surjective ψ :=

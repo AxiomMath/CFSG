@@ -49,7 +49,7 @@ theorem unitary_core_heis {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hf : 1 ≤
         Commute ⁅x, y⁆ x ∧ Commute ⁅x, y⁆ y ∧ y ∉ Subgroup.zpowers x := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   set q := p ^ f with hqdef
   set q₄ := q ^ 4 with hq₄def
   have hq2 : 2 ≤ q := by omega
@@ -92,7 +92,7 @@ theorem unitary_core_heis {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hf : 1 ≤
       | zero => simp
       | succ n ih =>
         rw [pow_succ, pow_mul, ih]
-        haveI : Fintype K := Fintype.ofFinite K
+        have : Fintype K := Fintype.ofFinite K
         rw [Nat.card_eq_fintype_card, FiniteField.pow_card]
     have : q ^ 9 * (q ^ 9 * (q ^ 9 * q ^ 9)) = Nat.card K ^ 3 := by
       rw [hN, hq₄def]
@@ -111,14 +111,14 @@ theorem unitary_core_heis {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hf : 1 ≤
   have hcompat := tau_rho_compat hA.toCore φ₄ ρ hμε h1 h2 h3 h4 h5 h6
   have hFcard : Nat.card (fixSubfield σ) = q₄ :=
     CFSG.GH74.GLS.Stage4.Hex.card_fixedField_of_cube σ.toRingHom hA.two_le hA.card hA.frob
-  haveI hFchar : CharP (fixSubfield σ) p :=
+  have hFchar : CharP (fixSubfield σ) p :=
     ((fixSubfield σ).subtype.charP_iff (fixSubfield σ).subtype_injective p).2 inferInstance
   let σQ : fixSubfield σ ≃+* fixSubfield σ := fixSubfieldRestrict ε σ
   have hσQ : ∀ c : fixSubfield σ, σQ c = c ^ (p ^ f) :=
     eps_restrict_frob (Q := p ^ f) rfl hσ hε
   obtain ⟨F₂, hF₂, ⟨e⟩⟩ := stdUnitary_equiv_fin (ℓ := p) (f := f) (ν := 3) hp
     (L := ↥(fixSubfield σ)) hf σQ hσQ le_rfl (by rw [hFcard])
-  haveI hF₂char : CharP ↥F₂ p := (F₂.subtype.charP_iff F₂.subtype_injective p).2 inferInstance
+  have hF₂char : CharP ↥F₂ p := (F₂.subtype.charP_iff F₂.subtype_injective p).2 inferInstance
   let θ : SL(3, fixSubfield σ) ≃* SL(3, fixSubfield σ) := stdUnitaryEquiv (ν := 3) σQ
   let S : Subgroup SL(3, fixSubfield σ) :=
     CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup θ
@@ -147,7 +147,7 @@ theorem unitary_core_heis {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hf : 1 ≤
       exact ⟨x, Subtype.ext hx⟩
     · rintro ⟨x, hx⟩
       exact ⟨x, congrArg Subtype.val hx⟩
-  haveI hN' : (ρY.range.subgroupOf (fixSubO φ₄)).Normal := by
+  have hN' : (ρY.range.subgroupOf (fixSubO φ₄)).Normal := by
     rw [hrng]
     exact hN
   have hsolv' : Group.IsSolvable (↥(fixSubO φ₄) ⧸ ρY.range.subgroupOf (fixSubO φ₄)) := by
@@ -165,7 +165,7 @@ theorem unitary_core_heis {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hf : 1 ≤
   set C' := foldFix (φ₄ : graphFixedRootGroup TwistTag.D4 K σ.toRingHom ≃*
         graphFixedRootGroup TwistTag.D4 K σ.toRingHom) ⊓ foldFix (τ : graphFixedRootGroup
           TwistTag.D4 K σ.toRingHom ≃* graphFixedRootGroup TwistTag.D4 K σ.toRingHom) with hC'def
-  haveI hJN := hNorm
+  have hJN := hNorm
   let J : Subgroup ↥C' := (S.map ρY).subgroupOf C'
   let ρS : ↥S →* ↥C' := (ρY.comp S.subtype).codRestrict C' (fun x => hSle ⟨x, x.2, rfl⟩)
   let gS : ↥S →* ↥J := ρS.codRestrict J (fun x => ⟨x, x.2, rfl⟩)
@@ -194,7 +194,7 @@ theorem unitary_core_heis {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (hf : 1 ≤
     apply Subtype.ext
     rw [map_mul, map_mul, Subgroup.coe_mul, Subgroup.coe_mul]
     exact Subgroup.mem_center_iff.1 hz _
-  haveI : Fintype ↥F₂ := Fintype.ofFinite _
+  have : Fintype ↥F₂ := Fintype.ofFinite _
   have hnq : (3, p ^ f) ≠ (3, 2) := fun h => by
     have := congrArg Prod.snd h
     simp only at this
@@ -260,11 +260,11 @@ theorem not_hasType424_fixSub_a2Minus {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     ¬ KS11Lie2Proof.HasType424
       ↥(CFSG.RankThree.PartTwo.Sec4.autFix
         (MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   obtain ⟨K₄, _, _, hCh, hK₄, σ₄, ε, hσ₄, hε, b, hb3, hb1, s₄, hs₄, ψ₄, hinj, hint, hfix⟩ :=
     un_frame hp hf hq K hK σ hσ s hs
-  haveI : Finite (ModGL TwistTag.D4.tag K₄) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K₄) := finite_modGL
   have hp5 : 5 ≤ p := by
     have := hp.two_le
     have h4 : p ≠ 4 := fun h => by rw [h] at hp; exact absurd hp (by norm_num)
@@ -274,7 +274,7 @@ theorem not_hasType424_fixSub_a2Minus {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     unitary_core_heis (p := p) hp2 hf hq hq5 hK₄ hσ₄ hε hb3 hb1 hs₄
   obtain ⟨e, -⟩ := un_fixSub_equiv (MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ)
     (MulAut.conj s₄ * fieldActor (t := TwistTag.D4) σ₄ σ₄) (unTau σ₄ ε) ψ₄ hinj hint hfix
-  haveI := hJn
+  have := hJn
   have hC' : ¬ KS11Lie2Proof.HasType424 ↥(unC σ₄ ε s₄) :=
     not_hasType424_of_quasisimple J hJq hsolv hxJ hyJ hx1 hx3 hy3 hcx hcy hyx
   intro h

@@ -30,12 +30,12 @@ theorem fixCompsEquiv_entrywiseAdjointAut_untw {τ : Tag}
   classical
   have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨ι, hι, hJC, hJn, hsol⟩ := ExcCopy.exists_fixed_structure τ σ
-  haveI : Finite (fixSubfield σ) := Subtype.finite
-  haveI : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
+  have : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
   have hperf := ExcCopy.isPerfect_adjointGroup τ (fixSubfield σ) hk3
   obtain ⟨hs, hnc⟩ := ExcCopy.isSimpleGroup_adjointGroup_of_perfect τ (fixSubfield σ) hperf
   let e : adjointGroup τ (fixSubfield σ) ≃* ι.range := MonoidHom.ofInjective hι
-  haveI := hs
+  have := hs
   have hJs : IsSimpleGroup ι.range := e.symm.isSimpleGroup
   have hJnc : ∃ x y : ι.range, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
@@ -44,7 +44,7 @@ theorem fixCompsEquiv_entrywiseAdjointAut_untw {τ : Tag}
   have hZ : Subgroup.center ↥(adjointGroup τ (fixSubfield σ)) = ⊥ := center_adjointGroup_eq_bot
   let eX : ↥(adjointGroup τ (fixSubfield σ)) ≃* (TauCeti.CFSGIndex.lie ⟨c q', hv'⟩).Group :=
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.trans eq
-  haveI := hJn
+  have := hJn
   refine ⟨fixCompsEquiv_of_normal_simple hJC hJs hJnc hsol (e.symm.trans eX), ?_⟩
   rw [← Subgroup.map_center_eq eX, hZ, Subgroup.map_bot]
 
@@ -103,7 +103,7 @@ private theorem congr_not_mem_inner {S G : Type} [Group S] [Group G] (e : S ≃*
 private theorem orderOf_congr_eq {S G : Type} [Group S] [Group G] (e : S ≃* G) {p : ℕ}
     (hp : p.Prime) {β : MulAut S} (hβ : β ^ p = 1) (hout : ∀ a : S, MulAut.conj a ≠ β) :
     orderOf (MulAut.congr e β) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hβ1 : β ≠ 1 := fun h => hout 1 (by rw [map_one, h])
   refine orderOf_eq_prime (by rw [← map_pow, hβ, map_one]) fun h => hβ1 ?_
   exact (MulAut.congr e).injective (h.trans (map_one _).symm)
@@ -122,7 +122,7 @@ private theorem s2019OuterComp_E {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ 
   obtain ⟨K, _, hKfin, hK, -, ⟨eK⟩⟩ :=
     CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup hB q hv
   let e : S ≃* ↥(adjointGroup τ K) := eS.trans eK
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hKq : Nat.card K = q.p ^ q.exponent := by rw [hK, TauCeti.PrimePower.card_def]
   have hφp : MulAut.congr e β ^ p = 1 := by rw [← map_pow, hβ, map_one]
   have hdet : ¬ p ∣ τ.cartan.det.natAbs := by
@@ -160,7 +160,7 @@ theorem s2019OuterComp_G2 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (q : TauCeti.
       orderOf σ = p ∧ MulAut.congr e β = MulAut.conj x * entrywiseAdjointAut .G2 σ := by
     by_cases hℓ3 : q.p = 3
     · have hF3 : Nat.card F = 3 ^ q.exponent := by rw [hFq, hℓ3]
-      haveI : CharP F 3 := hℓ3 ▸ hFchar
+      have : CharP F 3 := hℓ3 ▸ hFchar
       exact CFSG.HardMathSupport.Lang.E6Descent.G2_form_three q.exponent_pos F hF3 hp (by omega) _
         hφo hφinn
     · exact CFSG.HardMathSupport.Lang.E6Descent.G2_form_odd q.prime_p hq2 hℓ3 q.exponent_pos F hFq
@@ -176,7 +176,7 @@ theorem s2019OuterComp_G2 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (q : TauCeti.
   exact s2019OuterComp_untw_of_descent hB hvalid hp q hq2 hF e β σ hσp 1 1 δ
     (by rw [pow_one, pow_one]) (by rw [pow_one]; exact hδ) J hJ
 
-theorem s2019OuterComp_F4 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (q : TauCeti.PrimePower)
+theorem s2019OuterComp_F4 {p : ℕ} (hp : p.Prime) (_hp5 : 5 ≤ p) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.F4 q).Valid) (hq2 : q.p ≠ 2) {K : Type} [Group K] [Finite K]
     (eK : K ≃* (TauCeti.CFSGIndex.lie ⟨.F4 q, hv⟩).Group) (β : MulAut K) (hβ : β ^ p = 1)
     (hout : ∀ a : K, MulAut.conj a ≠ β) (J : Subgroup K) (hJ : IsComponentOf J (fixSubgroup β)) :

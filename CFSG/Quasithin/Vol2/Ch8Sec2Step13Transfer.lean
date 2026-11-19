@@ -88,6 +88,7 @@ section Image
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem range_modO2Image {C L : Subgroup G} (hLC : L ≤ C) :
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥C)).comp (Subgroup.inclusion hLC)).range =
       modO2Image C L := by
@@ -98,16 +99,19 @@ noncomputable def imgHom {C L : Subgroup G} (hLC : L ≤ C) : ↥L →* ↥(modO
   (MulEquiv.subgroupCongr (range_modO2Image hLC)).toMonoidHom.comp
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥C)).comp (Subgroup.inclusion hLC)).rangeRestrict
 
+omit [Finite G] in
 theorem imgHom_surjective {C L : Subgroup G} (hLC : L ≤ C) :
     Function.Surjective (imgHom hLC) :=
   (MulEquiv.subgroupCongr (range_modO2Image hLC)).surjective.comp
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥C)).comp (Subgroup.inclusion hLC)).rangeRestrict_surjective
 
+omit [Finite G] in
 theorem imgHom_val {C L : Subgroup G} (hLC : L ≤ C) (x : ↥L) :
     ((imgHom hLC x : ↥(modO2Image C L)) : ↥C ⧸ CFSG.pCore 2 ↥C) =
       QuotientGroup.mk' (CFSG.pCore 2 ↥C) (Subgroup.inclusion hLC x) := by
   rfl
 
+omit [Finite G] in
 theorem imgHom_eq_one_iff {C L : Subgroup G} (hLC : L ≤ C) (x : ↥L) :
     imgHom hLC x = 1 ↔ (x : G) ∈ pCoreOf 2 C := by
   constructor
@@ -120,6 +124,7 @@ theorem imgHom_eq_one_iff {C L : Subgroup G} (hLC : L ≤ C) (x : ↥L) :
     rw [imgHom_val, OneMemClass.coe_one, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
     exact (mem_pCore_iff_mem_pCoreOf_sub _).mpr hx
 
+omit [Finite G] in
 theorem isPGroup_ker_imgHom {C L : Subgroup G} (hLC : L ≤ C) :
     IsPGroup 2 (imgHom hLC).ker := by
   intro g
@@ -142,6 +147,7 @@ theorem pCore_map_imgHom {C L : Subgroup G} (hLC : L ≤ C) :
   CFSG.GroupTheory.FT63ChII.pCore_map_of_surjective (imgHom_surjective hLC)
     (isPGroup_ker_imgHom hLC)
 
+omit [Finite G] in
 theorem range_imgHom_inclusion {C L V : Subgroup G} (hLC : L ≤ C) (hVL : V ≤ L)
     (hEL : pCoreOf 2 L = pCoreOf 2 C ⊔ V) :
     ((imgHom hLC).comp (Subgroup.inclusion hVL)).range =
@@ -175,6 +181,7 @@ theorem range_imgHom_inclusion {C L V : Subgroup G} (hLC : L ≤ C) (hVL : V ≤
     rw [hwx'] at hw
     exact Subgroup.mem_comap.mp hw
 
+omit [Finite G] in
 theorem ker_imgHom_inclusion {C L V : Subgroup G} (hLC : L ≤ C) (hVL : V ≤ L) :
     ((imgHom hLC).comp (Subgroup.inclusion hVL)).ker = (pCoreOf 2 C ⊓ V).subgroupOf V := by
   ext v
@@ -342,8 +349,8 @@ theorem map_conj_centralizer_singleton {G : Type} [Group G] {z t : G}
     · show t * (t⁻¹ * x * t) * t⁻¹ = x
       group
 
-theorem map_le_normalizer_modO2Image {G : Type} [Group G] {C L T : Subgroup G} (hLC : L ≤ C)
-    (hTC : T ≤ C) (hTL : T ≤ Subgroup.normalizer (L : Set G)) :
+theorem map_le_normalizer_modO2Image {G : Type} [Group G] {C L T : Subgroup G} (_hLC : L ≤ C)
+    (_hTC : T ≤ C) (hTL : T ≤ Subgroup.normalizer (L : Set G)) :
     (T.subgroupOf C).map (QuotientGroup.mk' (CFSG.pCore 2 ↥C)) ≤
       Subgroup.normalizer (modO2Image C L : Set (↥C ⧸ CFSG.pCore 2 ↥C)) := by
   have hsub : ∀ x ∈ (T.subgroupOf C).map (QuotientGroup.mk' (CFSG.pCore 2 ↥C)),
@@ -369,7 +376,7 @@ theorem step8_2_13_insp_of
     (h8210 : Stmt8_2_10) (h8211 : Stmt8_2_11_modules) (h8212 : Stmt8_2_12) :
     Step8_2_13_insp := by
   intro G _ _ T L I hyp h731 h821 hc hrow hnot24 z hz hzV
-  haveI : IsSimpleGroup G := hyp.fsu.simple
+  have : IsSimpleGroup G := hyp.fsu.simple
   obtain ⟨hcomp, hTLz, h4, hL34, hcode, hcocode⟩ :=
     h8211 G T L I hyp h731 h821 hc hrow hnot24 z hz hzV
   obtain ⟨-, hD, hEC, hEL, hVz⟩ := h8212 G T L I hyp h731 h821 hc hrow z hz hzV

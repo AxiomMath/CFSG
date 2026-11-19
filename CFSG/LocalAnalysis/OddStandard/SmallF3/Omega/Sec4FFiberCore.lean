@@ -83,10 +83,10 @@ theorem Sec4FSetup.fiber_core (h : Sec4FSetup t L S z A B φ) {y x : G}
   · right
     have hνi : ν (some i) = a := by
       rw [← hi]
-      simpa using Equiv.apply_symm_apply ν a
+      simp
     have hνj : ν (some j) = b := by
       rw [← hj]
-      simpa using Equiv.apply_symm_apply ν b
+      simp
     calc x = m * (m⁻¹ * x * m) * m⁻¹ := hx'
       _ = m * (sec4MPt t φ (some i) * sec4MPt t φ (some j)) * m⁻¹ := by rw [h1]
       _ = (m * sec4MPt t φ (some i) * m⁻¹)

@@ -143,7 +143,7 @@ theorem exists_sylow_ge {A : Subgroup G} (hAL : A ≤ L) (hAp : IsPGroup 2 A) :
   refine ⟨(Q : Subgroup L).map L.subtype, ?_, Subgroup.map_subtype_le _, ?_, ?_⟩
   · intro x hx
     exact ⟨⟨x, hAL hx⟩, hQ hx, rfl⟩
-  · exact Q.isPGroup'.of_equiv (Subgroup.equivMapOfInjective _ L.subtype L.subtype_injective)
+  · exact Q.isPGroup.of_equiv (Subgroup.equivMapOfInjective _ L.subtype L.subtype_injective)
   · have : ((Q : Subgroup L).map L.subtype).subgroupOf L = Q := by
       rw [Subgroup.subgroupOf]
       exact Subgroup.comap_map_eq_self_of_injective L.subtype_injective _

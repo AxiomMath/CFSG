@@ -17,22 +17,22 @@ open CFSG CFSG.Assembly
 
 theorem linShape_rank_pgl2
     {E : Type} [Field E] [Finite E] (hchar : CharP E 2)
-    (hE : 4 ≤ Nat.card E) :
+    (_hE : 4 ≤ Nat.card E) :
     ∀ B : Subgroup (MulAut (PSLg 2 E)),
       B ≤ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin 2) E)) Set.univ →
       IsElemAbelian 3 B → Nat.card B ≤ 3 := by
-  haveI : CharP E 2 := hchar
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP E 2 := hchar
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro B hB hBab
   have hcyc : ∀ S : Sylow 3 (PSLg 2 E), IsCyclic ↥(S : Subgroup (PSLg 2 E)) := by
     intro S
     let e : PSLg 2 E ≃* Matrix.SpecialLinearGroup (Fin 2) E :=
       CFSG.LocalAnalysis.GLTheoremA.projEquiv E
     have hQ : IsPGroup 3 ↥(Subgroup.map e.toMonoidHom (S : Subgroup (PSLg 2 E))) :=
-      S.isPGroup'.map e.toMonoidHom
+      S.isPGroup.map e.toMonoidHom
     have hcyc' : IsCyclic ↥(Subgroup.map e.toMonoidHom (S : Subgroup (PSLg 2 E))) :=
       CFSG.LinearAlgebra.even_SL2_odd_prime_subgroups_cyclic (p := 3) (by norm_num) _ hQ
-    haveI : IsCyclic ↥(Subgroup.map e.toMonoidHom (S : Subgroup (PSLg 2 E))) := hcyc'
+    have : IsCyclic ↥(Subgroup.map e.toMonoidHom (S : Subgroup (PSLg 2 E))) := hcyc'
     exact isCyclic_of_surjective
       (Subgroup.equivMapOfInjective (S : Subgroup (PSLg 2 E)) e.toMonoidHom e.injective).symm.toMonoidHom
       (Subgroup.equivMapOfInjective (S : Subgroup (PSLg 2 E)) e.toMonoidHom e.injective).symm.surjective

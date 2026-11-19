@@ -55,7 +55,7 @@ theorem cen_tE : cenGL tE = parabolicSubgroup ReeTag.F4.tag (ZMod 2) {i | i ≠ 
   rw [cen_eq_parabolic tE_central]
   congr 1
   ext i
-  rw [Set.mem_setOf_eq, Set.mem_setOf_eq]
+  rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq]
   refine (comm_iff_commN (invT_zero ▸ hasBits_tE) i).trans ?_
   rw [commN_of_allN CFSG.KD.F4Inv.comm_t _ i.2]
   fin_cases i <;> decide
@@ -64,7 +64,7 @@ theorem cen_tuE : cenGL tuE = parabolicSubgroup ReeTag.F4.tag (ZMod 2) {i | i �
   rw [cen_eq_parabolic tuE_central]
   congr 1
   ext i
-  rw [Set.mem_setOf_eq, Set.mem_setOf_eq]
+  rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq]
   refine (comm_iff_commN (invT_two ▸ hasBits_tuE) i).trans ?_
   rw [commN_of_allN CFSG.KD.F4Inv.comm_tu _ i.2]
   fin_cases i <;> decide
@@ -147,7 +147,7 @@ theorem u26_invariant (c : F42C) :
     have hl8 : l < 8 := by rwa [letterGB_size] at hl
     have e : letterGB[l]! = (letterOfCode l).bits := by
       rw [getElem!_pos letterGB l hl]
-      simp [letterGB, hl8]
+      simp [letterGB]
     refine ⟨(letterOfCode l).bits, ?_, allN_spec CFSG.KD.F4Inv.stab_ok l hl8⟩
     rw [← e]
     exact gL_bits l hl

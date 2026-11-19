@@ -44,7 +44,7 @@ theorem hdRo7CKCoordAux_card_centralizer_bs_le_sq {p : ℕ}
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp p B Bs x L D J y K) :
     Nat.card ↥(Bs ⊓ Subgroup.centralizer (K : Set G)) ≤ p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hH.1.tableB_facts.1⟩
+  have : Fact p.Prime := ⟨hH.1.tableB_facts.1⟩
   let A : Subgroup G := Bs ⊓ Subgroup.centralizer (K : Set G)
   have hDinf : Subgroup.zpowers y = B ⊓ Subgroup.centralizer (K : Set G) :=
     (hdRo7CKCoordAux_centralizer_B_eq hH).symm
@@ -65,8 +65,8 @@ theorem hdRo7CKCoordAux_card_centralizer_bs_le_sq {p : ℕ}
     · intro z hz
       exact ⟨⟨hBleBs hz.1, hz.2⟩, hz.1⟩
   have hrel : (Subgroup.zpowers y).relIndex A ≤ B.relIndex Bs := by
-    haveI : IsMulCommutative ↥Bs := hH.1.2.1.2.1.1
-    haveI : (B.subgroupOf Bs).Normal := Subgroup.normal_of_isMulCommutative (B.subgroupOf Bs)
+    have : IsMulCommutative ↥Bs := hH.1.2.1.2.1.1
+    have : (B.subgroupOf Bs).Normal := Subgroup.normal_of_isMulCommutative (B.subgroupOf Bs)
     have hAB : A ≤ Bs := inf_le_left
     let f0 : ↥A →* ↥Bs ⧸ (B.subgroupOf Bs) :=
       (QuotientGroup.mk' (B.subgroupOf Bs)).comp (Subgroup.inclusion hAB)
@@ -136,7 +136,7 @@ theorem hdRo7CKCoordAux_card_inf_ge_two {p : ℕ}
   exact Nat.le_of_mul_le_mul_right hle (pow_pos hp.pos 2)
 
 theorem hdRo7CKCoordAux_card_inf_pow
-    (hRig : GGLabelRigidInput) {p : ℕ}
+    (_hRig : GGLabelRigidInput) {p : ℕ}
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp p B Bs x L D J y K) (hrow : GGResRowAt ggRowCorank2C p J K)
     (hBsN : Bs ≤ Subgroup.normalizer (K : Set G))
@@ -161,7 +161,7 @@ theorem hdRo7CKCoordAux_card_inf_pow
     hdRo7CLCoordAux_statedClassicalModel_of_hasLabel_BC htagK (by omega) h1n hHasK
   obtain ⟨φ, hinj, hrange⟩ :=
     ggSpLiftInput_holds G K labK.rank labK.n h4 hperf hmodel
-  haveI : CharP (GaloisField 2 labK.n) 2 :=
+  have : CharP (GaloisField 2 labK.n) 2 :=
     charP_two_of_card (GaloisField.card 2 labK.n (by omega))
   have hZK : Subgroup.center ↥K = ⊥ := hdRo7CKCoordAux_center_K_eq_bot hH hrow'
   obtain ⟨hpow, hcomm, hmax, hcardE⟩ :=
@@ -226,7 +226,7 @@ theorem hdRo7CKCoordAux_bstar_centralizer_eq
   obtain ⟨labK, hlabK, hKlab, htagK, hnK1, h5, hcard_inf⟩ :=
     hdRo7CKCoordAux_card_inf_pow hRig hH hrow hBsN hinner
   have hp : Nat.Prime p := hH.1.tableB_facts.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZK : Subgroup.center ↥K = ⊥ := hdRo7CKCoordAux_center_K_eq_bot hH hrow
   have hsplit := CFSG.StandardType.card_ggBstar_split hH.1.2.1 hZK hBsN hinner
   have hupper : Nat.card ↥Bs ≤ p ^ (labK.rank + 1) :=
@@ -263,7 +263,7 @@ theorem hdRo7CKCoordAux_card_inf_ge
     (hinner : ∀ b ∈ Bs, ∃ x ∈ K, ∀ y ∈ K, b * y * b⁻¹ = x * y * x⁻¹) :
     p ^ 3 ≤ Nat.card ↥(Bs ⊓ K) := by
   have hp : Nat.Prime p := hH.1.tableB_facts.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsplit := CFSG.StandardType.card_ggBstar_split hH.1.2.1 hZK hBsN hinner
   have hCeq : Bs ⊓ Subgroup.centralizer (K : Set G) = Subgroup.zpowers y :=
     hdRo7CKCoordAux_bstar_centralizer_eq hRig hH hrow hBsN hinner

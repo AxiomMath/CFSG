@@ -15,13 +15,13 @@ theorem le_upperCentralSeries_two_of_card_eq {T : Type*} [Group T] [Finite T] {p
     [Fact p.Prime] (hT : IsPGroup p T) {B Z : Subgroup T} [hB : B.Normal] (hZB : Z ≤ B)
     (hZ : Z ≤ Subgroup.center T) (hcard : Nat.card B = p * Nat.card Z) :
     B ≤ Subgroup.upperCentralSeries T 2 := by
-  haveI hZn : Z.Normal := Subgroup.normal_of_le_center hZ
+  have hZn : Z.Normal := Subgroup.normal_of_le_center hZ
   let π : T →* T ⧸ Z := QuotientGroup.mk' Z
-  haveI : Fact (IsPGroup p (T ⧸ Z)) := ⟨hT.to_quotient Z⟩
-  haveI : (B.map π).Normal := hB.map π (QuotientGroup.mk'_surjective Z)
+  have : Fact (IsPGroup p (T ⧸ Z)) := ⟨hT.to_quotient Z⟩
+  have : (B.map π).Normal := hB.map π (QuotientGroup.mk'_surjective Z)
   have hcardB' : Nat.card (B.map π) = p := by
     have h := Subgroup.card_ker_mul_card_range (π.domRestrict B)
-    rw [MonoidHom.ker_restrict, MonoidHom.restrict_range, QuotientGroup.ker_mk',
+    rw [MonoidHom.ker_domRestrict, MonoidHom.domRestrict_range, QuotientGroup.ker_mk',
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZB).toEquiv, hcard, mul_comm p] at h
     exact Nat.eq_of_mul_eq_mul_left Nat.card_pos h
   have hcent := CFSG.normal_subgroup_card_eq_prime_le_center (B.map π) hcardB'
@@ -73,32 +73,32 @@ theorem exists_characteristic_exponent_classTwo_card_ge_cube_type {R : Type} [Gr
     rcases (by omega : k = 0 ∨ k = 1 ∨ k = 2) with h0 | h1 | h2
     · exfalso
       rw [h0, pow_zero, Nat.card_eq_one_iff_unique] at hk
-      haveI := hk.1
+      have := hk.1
       exact hW1nc inferInstance
     · exfalso
       rw [h1, pow_one] at hk
       exact hW1nc (isCyclic_of_prime_card hk)
     · exact h2
   rw [hk2] at hk
-  haveI hW1elem : CFSG.IsElementaryAbelian p W1 :=
-    { is_comm := ⟨fun a b => IsPGroup.commutative_of_card_eq_prime_sq hk a b⟩
+  have hW1elem : CFSG.IsElementaryAbelian p W1 :=
+    { is_comm := ⟨fun a b => (IsPGroup.isMulCommutative_of_card_eq_prime_sq hk).is_comm.comm a b⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
         Subtype.ext (hexp1 g.1 g.2) }
-  haveI : W1.Characteristic := hchar
-  haveI : W1.Normal := inferInstance
+  have : W1.Characteristic := hchar
+  have : W1.Normal := inferInstance
   obtain ⟨B, hBn, hBelem, hBcard, hW1B⟩ :=
     CFSG.exists_normal_elementaryAbelian_card_p3_containing_rank_two_normal hp2 hR h3
       (E := W1) ⟨hk, hW1elem⟩
-  haveI := hBelem
+  have := hBelem
   set C : Subgroup R := Subgroup.centralizer (W1 : Set R) with hC
-  haveI : C.Characteristic := Subgroup.characteristic_centralizer
+  have : C.Characteristic := Subgroup.characteristic_centralizer
   have hBcomm : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hBelem.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hBC : B ≤ C := fun b hb =>
     Subgroup.mem_centralizer_iff.mpr fun w hw => hBcomm w (hW1B hw) b hb
   have hW1C : W1 ≤ C := hW1B.trans hBC
   have hCp : IsPGroup p C := hR.to_subgroup C
-  haveI : (B.subgroupOf C).Normal := hBn.subgroupOf C
+  have : (B.subgroupOf C).Normal := hBn.subgroupOf C
   have hZBC : W1.subgroupOf C ≤ B.subgroupOf C := fun _ hx => hW1B hx
   have hZcent : W1.subgroupOf C ≤ Subgroup.center C := by
     intro z hz
@@ -115,7 +115,7 @@ theorem exists_characteristic_exponent_classTwo_card_ge_cube_type {R : Type} [Gr
   obtain ⟨hexp2, hcl2⟩ := omega12_exp_class hp2 hCp
   set W2 : Subgroup C :=
     Subgroup.closure {x : C | x ∈ Subgroup.upperCentralSeries C 2 ∧ x ^ p = 1} with hW2
-  haveI : W2.Characteristic := hchar2
+  have : W2.Characteristic := hchar2
   have hBW2 : B.subgroupOf C ≤ W2 := fun b hb =>
     (hmem2 b).mpr ⟨hB2 hb, Subtype.ext (CFSG.elemPow_eq_one_of_isElementaryAbelian (A := B)
       (b : R) hb)⟩
@@ -134,7 +134,7 @@ theorem exists_characteristic_exponent_classTwo_card_ge_cube
       (∀ x ∈ X, x ^ p = 1) ∧ ⁅⁅X, X⁆, X⁆ = ⊥ ∧ p ^ 3 ≤ Nat.card X := by
   obtain ⟨K, hKP, -, hKelem, hKcard⟩ :=
     CFSG.Goldschmidt.G55.exists_normal_isElemAbelian hp.out hp2 hP h3
-  haveI hKe : CFSG.IsElementaryAbelian p (K.subgroupOf P) :=
+  have hKe : CFSG.IsElementaryAbelian p (K.subgroupOf P) :=
     { is_comm := ⟨fun a b => by
         have key : ((a : P) : G) * ((b : P) : G) = ((b : P) : G) * ((a : P) : G) :=
           congrArg Subtype.val

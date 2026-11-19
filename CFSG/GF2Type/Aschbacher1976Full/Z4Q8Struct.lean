@@ -48,7 +48,7 @@ theorem exists_gen_Zc {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) :
 theorem card_Hz_and_T {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) {T : Subgroup G}
     (hTH : T ≤ Hz z) (hTp : IsPGroup 2 ↥T) (hFT : Fz z ≤ T) {y : G} (hyT : y ∈ T)
     (hyF : y ∉ Fz z) : Nat.card ↥(Hz z) = 96 ∧ Nat.card ↥T = 32 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm6, hH⟩ := card_Hz_eq_mul hZ hz
   obtain ⟨n, hTn⟩ := (IsPGroup.iff_card).mp hTp
   have hF16 := card_Fz hZ hz
@@ -203,6 +203,7 @@ theorem zpowers_inf_eq_bot {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) {k y
     rw [hy_eq]
     exact Subgroup.mul_mem _ (Subgroup.inv_mem _ (Subgroup.zpow_mem _ htF _)) hwF
 
+omit [Finite G] in
 theorem card_A {k y : G} (hky : k * y = y * k) (hk4 : orderOf k = 4) (hy4 : orderOf y = 4)
     (hKY : Subgroup.zpowers k ⊓ Subgroup.zpowers y = ⊥) :
     Nat.card ↥(Subgroup.zpowers k ⊔ Subgroup.zpowers y) = 16 := by

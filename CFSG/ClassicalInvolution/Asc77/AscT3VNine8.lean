@@ -25,7 +25,7 @@ theorem Std20.v_normal_Y (d : Std20 p f K K' J S R R' W V z t) {g : G}
   have hgz : g * z * g⁻¹ = z := d.late_S_act_z hgS
   have hgJ : conjSub g J = J := by
     have hX2 : IsPGroup 2 ↥(Subgroup.zpowers g) :=
-      S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hgS)
+      S.isPGroup.to_le (Subgroup.zpowers_le.mpr hgS)
     have hXS : Subgroup.zpowers g ≤ (S : Subgroup G) := Subgroup.zpowers_le.mpr hgS
     have hcomm : Commute g t := by
       calc g * t = (g * t * g⁻¹) * g := by group

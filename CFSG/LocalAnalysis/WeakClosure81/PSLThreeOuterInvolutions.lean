@@ -48,7 +48,7 @@ theorem outer_pair_psl3_of_statedModel {L : Subgroup G} [L.Normal]
     (h3 : p ^ f % 4 = 3) :
     ∀ t₁ t₂ : G, t₁ ∉ L → t₂ ∉ L →
       orderOf t₁ = 2 → orderOf t₂ = 2 → t₁ * t₂ = t₂ * t₁ → t₁ * t₂ ∈ L := by
-  haveI : Finite ↥L := Subtype.finite
+  have : Finite ↥L := Subtype.finite
   exact outer_pair_of_isCyclic_out_image hC
     (isCyclic_map_outer_psl3_of_statedModel hp2 hL h3)
 
@@ -58,7 +58,7 @@ theorem outer_pair_psl3 {L : Subgroup G} [L.Normal]
     (hL : LieModel ↥L .PSL 3 p f) :
     ∀ t₁ t₂ : G, t₁ ∉ L → t₂ ∉ L →
       orderOf t₁ = 2 → orderOf t₂ = 2 → t₁ * t₂ = t₂ * t₁ → t₁ * t₂ ∈ L := by
-  haveI : Finite ↥L := Subtype.finite
+  have : Finite ↥L := Subtype.finite
   exact outer_pair_psl3_of_statedModel hC hp2
     (CFSG.GH74.Generic.stated_of_lieModel_PSL hL) h3
 
@@ -68,9 +68,10 @@ theorem outer_pair_psl3_of_almostSimple {L : Subgroup G}
     (hL : LieModel ↥L .PSL 3 p f) :
     ∀ t₁ t₂ : G, t₁ ∉ L → t₂ ∉ L →
       orderOf t₁ = 2 → orderOf t₂ = 2 → t₁ * t₂ = t₂ * t₁ → t₁ * t₂ ∈ L := by
-  letI : L.Normal := hAS.normal
+  let : L.Normal := hAS.normal
   exact outer_pair_psl3 hAS.centralizer_eq hp2 h3 hL
 
+omit [Finite G] in
 theorem conjNormal_transport_eq_conjAut_mul_dualAut
     {L : Subgroup G} [L.Normal]
     (hAS : CFSG.Quasithin.Vol2.Ch11.SecE3.AlmostSimple L)

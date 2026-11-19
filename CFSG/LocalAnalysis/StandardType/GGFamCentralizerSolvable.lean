@@ -41,17 +41,17 @@ theorem isSolvable_familyToral
     intro h
     subst h
     norm_num at hpodd
-  letI : Finite S.D.model := S.finite
+  let : Finite S.D.model := S.finite
   let H : Subgroup (ModGL τ L) :=
     S.Γ ⊓ Subgroup.centralizer (Set.range fun u => rootDiagUnit τ (a u))
   let χ : Multiplicative (Fin τ.rank → ℤ) →* (ι → Lˣ) :=
-    Pi.monoidHom fun u => rootCharHom (a u)
+    _root_.MonoidHom.pi fun u => rootCharHom (a u)
   let Oidx := Set.range (rationalRootsM S.ρ χ)
   let A : Oidx → Subgroup (ModGL τ L) := fun O => rootSpan τ L O.1
   let R : Oidx → Subgroup (ModGL τ L) := fun O => ⁅A O ⊓ S.Γ, A O ⊓ S.Γ⁆
   have hHmodel : H ≤ S.D.model :=
     (inf_le_left : H ≤ S.Γ).trans (Subgroup.commutator_le_self S.D.model)
-  haveI : Finite ↥H :=
+  have : Finite ↥H :=
     Finite.of_injective (Subgroup.inclusion hHmodel) (Subgroup.inclusion_injective _)
   have hRleH : ∀ O, R O ≤ H := by
     intro O
@@ -140,12 +140,12 @@ theorem isSolvable_familyToral
             _ ≤ ⁅H, H⁆ := Subgroup.commutator_mono hRH hRH
         have hNPC_R : CFSG.HasNormalPComplement p ↥(R O) :=
           CFSG.hasNormalPComplement_of_le p hRcomm hNPC
-        haveI : Group.IsPerfect ↥(R O) := Subgroup.isPerfect_iff.mpr hperfR
+        have : Group.IsPerfect ↥(R O) := Subgroup.isPerfect_iff.mpr hperfR
         have hRmodel : R O ≤ S.D.model :=
           (hRH.trans inf_le_left).trans (Subgroup.commutator_le_self S.D.model)
-        haveI : Finite ↥(R O) :=
+        have : Finite ↥(R O) :=
           Finite.of_injective (Subgroup.inclusion hRmodel) (Subgroup.inclusion_injective _)
-        haveI : Fact p.Prime := ⟨hp⟩
+        have : Fact p.Prime := ⟨hp⟩
         have hcop : Nat.Coprime p (Nat.card ↥(R O)) :=
           CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent.coprime_card_of_perfect hNPC_R
         have hpR : p ∣ Nat.card ↥(R O) := by
@@ -158,11 +158,11 @@ theorem isSolvable_familyToral
         exact (hp.coprime_iff_not_dvd.mp hcop) hpR
       · exact hs
     have hsolvSup : Group.IsSolvable ↥(⨆ O, R O) := by
-      haveI : Finite (kernelRoots χ) :=
+      have : Finite (kernelRoots χ) :=
         ((finite_setOf_isRoot τ).subset (t := kernelRoots χ) fun α h => h.1).to_subtype
-      haveI : Finite (KernelComponent χ) := inferInstance
-      haveI : Finite Oidx := (Set.finite_range _).to_subtype
-      haveI : Fintype Oidx := Fintype.ofFinite Oidx
+      have : Finite (KernelComponent χ) := inferInstance
+      have : Finite Oidx := (Set.finite_range _).to_subtype
+      have : Fintype Oidx := Fintype.ofFinite Oidx
       exact CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.isSolvable_iSup_of_commute
         R hRsolv hcommR
     let P0 : Subgroup ↥H := CFSG.Quasithin.perfectCore (⊤ : Subgroup ↥H)
@@ -180,7 +180,7 @@ theorem isSolvable_familyToral
       simpa [P] using h
     have hP_sup : P ≤ ⨆ O, R O := hperfect_le P hP_le_H hP_perf
     have hP_bot : P = ⊥ := by
-      haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP_perf
+      have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP_perf
       exact CFSG.Walter.eq_bot_of_isPerfect_of_le_isSolvable hP_sup hsolvSup
     have hP0_bot : P0 = ⊥ := by
       have hmap : P0.map H.subtype = ⊥ := by simpa [P] using hP_bot
@@ -244,11 +244,11 @@ theorem isSolvable_familyToral
       change CFSG.HasNormalPComplement p ↥⁅H, H⁆ at h'
       rw [hH, hperfΓ] at h'
       exact h'
-    haveI : Finite ↥S.Γ :=
+    have : Finite ↥S.Γ :=
       Finite.of_injective (Subgroup.inclusion (Subgroup.commutator_le_self S.D.model))
         (Subgroup.inclusion_injective _)
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Group.IsPerfect ↥S.Γ := Subgroup.isPerfect_iff.mpr hperfΓ
+    have : Fact p.Prime := ⟨hp⟩
+    have : Group.IsPerfect ↥S.Γ := Subgroup.isPerfect_iff.mpr hperfΓ
     have hcop : Nat.Coprime p (Nat.card ↥S.Γ) :=
       CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent.coprime_card_of_perfect hNPCΓ
     exfalso

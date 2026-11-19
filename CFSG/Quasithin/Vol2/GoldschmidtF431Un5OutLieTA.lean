@@ -26,7 +26,7 @@ theorem un5ta_exists_lift [Finite G] (π : G →* Q) (hπ : Function.Surjective 
   set R' : Subgroup G := R.comap π with hR'
   obtain ⟨P⟩ : Nonempty (Sylow 2 R') := inferInstance
   set H : Subgroup G := (P : Subgroup R').map R'.subtype with hH
-  have hH2 : IsPGroup 2 H := P.isPGroup'.map R'.subtype
+  have hH2 : IsPGroup 2 H := P.isPGroup.map R'.subtype
   have hHR' : H ≤ R' := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2

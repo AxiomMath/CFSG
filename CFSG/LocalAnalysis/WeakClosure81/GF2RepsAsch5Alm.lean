@@ -13,7 +13,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo (InEGroup)
 
 theorem normal_innAutOf_subgroupOf {L₀ : Type} [Group L₀] {A : Subgroup (MulAut L₀)}
     (_h : innAutOf L₀ ≤ A) : ((innAutOf L₀).subgroupOf A).Normal := by
-  haveI : (innAutOf L₀).Normal := CFSG.Quasithin.H13.P31Sec.normal_innGroup
+  have : (innAutOf L₀).Normal := CFSG.Quasithin.H13.P31Sec.normal_innGroup
   exact Subgroup.Normal.subgroupOf inferInstance A
 
 theorem nonempty_mulEquiv_innAutOf_subgroupOf {L₀ : Type} [Group L₀]

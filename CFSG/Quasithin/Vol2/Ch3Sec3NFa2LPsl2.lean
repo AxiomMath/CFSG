@@ -14,22 +14,22 @@ theorem psl_two_elt_sq {X : Type} [Group X] (q : ℕ) (hq : q.Prime)
     {s : X} {k : ℕ} (hs : s ^ 2 ^ k = 1) : s * s = 1 := by
   have hq5 : 5 ≤ q := by omega
   have h3 : q % 8 = 3 ∨ q % 8 = 5 := by omega
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero q := ⟨hq.ne_zero⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFq : Nat.card (ZMod q) = q := Nat.card_zmod q
   obtain ⟨e⟩ := nonempty_mulEquiv_psl_zmod hq hX
-  haveI : Finite X := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite X := Finite.of_equiv _ e.symm.toEquiv
   have hA : IsPGroup 2 (Subgroup.zpowers s) := by
     apply IsPGroup.of_card_dvd_pow (n := k)
     rw [Nat.card_zpowers]
     exact orderOf_dvd_of_pow_eq_one hs
   obtain ⟨P, hAP⟩ := IsPGroup.exists_le_sylow hA
   have hPcard : Nat.card (P : Subgroup X) = 4 :=
-    CFSG.Quasithin.H13.L2q.card_sylow_four e hFq hq hq5 h3 P.isPGroup' P.not_dvd_index
+    CFSG.Quasithin.H13.L2q.card_sylow_four e hFq hq hq5 h3 P.isPGroup P.not_dvd_index
   have hPnc : ¬ IsCyclic (P : Subgroup X) := fun h =>
     CFSG.Quasithin.H13.L2q.not_isCyclic_sylow hFq hq hq5
-      (CFSG.Quasithin.H13.L2q.isPGroup_map e P.isPGroup')
+      (CFSG.Quasithin.H13.L2q.isPGroup_map e P.isPGroup)
       (by rw [CFSG.Quasithin.H13.L2q.index_map]; exact P.not_dvd_index)
       ((MulEquiv.isCyclic ((P : Subgroup X).equivMapOfInjective e.toMonoidHom e.injective)).mp h)
   have hdvd : orderOf s ∣ 2 ^ 2 := by

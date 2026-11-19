@@ -11,10 +11,12 @@ namespace CFSG.RankThree.GF2n.Stroth80.Classify
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {F : LinearMap.BilinForm K V}
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem span_pair_le_three (e x x' : V) :
     Submodule.span K ({x, x'} : Set V) ≤ Submodule.span K ({e, x, x'} : Set V) :=
   Submodule.span_mono (Set.subset_insert e _)
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem span_pair_le_four (e f x x' : V) :
     Submodule.span K ({x, x'} : Set V) ≤ Submodule.span K ({e, f, x, x'} : Set V) :=
   Submodule.span_mono ((Set.subset_insert f _).trans (Set.subset_insert e _))
@@ -109,6 +111,7 @@ theorem blockQ_of_lemmaPSub (hSub : LemmaPSubStatement) (hnd : F.Nondegenerate)
   · exact ⟨q, hq1, hq2, hq3, hq4, fun g hg hgS => hq5 g ((hA g).mpr ⟨hg, hgS⟩),
       fun g hg hgS => hq6 g ((hA' g).mpr ⟨hg, hgS⟩)⟩
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem perp_span_pair {e f x x' : V} (hxe : F x e = 0) (hxf : F x f = 0) (hx'e : F x' e = 0)
     (hx'f : F x' f = 0) {u : V} (hu : u ∈ Submodule.span K ({x, x'} : Set V)) :
     F u e = 0 ∧ F u f = 0 := by
@@ -116,16 +119,18 @@ theorem perp_span_pair {e f x x' : V} (hxe : F x e = 0) (hxf : F x f = 0) (hx'e 
   simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hxe,
     hxf, hx'e, hx'f, mul_zero, add_zero, and_self]
 
+omit [Finite K] [FiniteDimensional K V] [CharP K 2] in
 theorem form_add_smul_e (halt : F.IsAlt) (e x y : V) (s t : K) :
     F (x + s • e) (y + t • e) = F x y + t * F x e + s * F e y := by
   simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
     form_self halt e]
   ring
 
+omit [Finite K] in
 theorem exists_a_of_blockQ (hnd : F.Nondegenerate) (halt : F.IsAlt)
     (hdim : 4 ≤ Module.finrank K V) {H : Subgroup (V ≃ₗ[K] V)} {e f : V} (hef : F e f = 1)
     (hfe : ElationFull F ((H : Set _) ∩ pointRad F e) e)
-    (hff : ElationFull F ((H : Set _) ∩ pointRad F f) f) (hblk : BlockQ F H e f) :
+    (_hff : ElationFull F ((H : Set _) ∩ pointRad F f) f) (hblk : BlockQ F H e f) :
     ∃ a : V → K, AData F H e f a := by
   have hef' : F f e = 1 := by rw [form_comm halt]; exact hef
   have hee : F e e = 0 := form_self halt e
@@ -249,7 +254,7 @@ theorem exists_a_of_blockQ (hnd : F.Nondegenerate) (halt : F.IsAlt)
       rw [form_comm halt f u, huf, hef', zero_add, mul_one]
     have hq_ue : q (u + a u • e) = q u := by
       rw [hq2 u (a u • e) hu4 hae4, hq1 (a u) e he4', hqe]
-      simp only [map_smul, smul_eq_mul, hue, mul_zero, zero_add, add_zero]
+      simp only [map_smul, smul_eq_mul, hue, mul_zero, add_zero]
     rw [hgf, h6, hFfu, hq_ue] at h5
     linear_combination h5 - (a u) * two_eq_zero_K (K := K)
   have hhom : ∀ (c : K) (w : V), F w e = 0 → F w f = 0 → a (c • w) = c ^ 2 * a w := by
@@ -321,12 +326,13 @@ theorem exists_a_of_blockQ (hnd : F.Nondegenerate) (halt : F.IsAlt)
     have hsum : (g * gsel w) f - f = (c + a w) • e := by
       rw [pointRad_om_mul halt hef hQg hQw, hc, hdw, form_add_smul_e halt e w w c (a w),
         form_self halt, form_comm halt e w, hwe]
-      simp only [mul_zero, zero_add, add_zero, zero_smul]
+      simp only [mul_zero, add_zero, zero_smul]
       exact hww
     have h0 := hK _ hmul (c + a w) hsum
     linear_combination h0 - (a w) * two_eq_zero_K (K := K)
   exact ⟨a, fun w hwe hwf => ⟨gsel w, (hgsel w hwe hwf).1, hi w hwe hwf⟩, hhom, hadd, hDe, hDf⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem exists_quadForm_of_aData (halt : F.IsAlt) {H : Subgroup (V ≃ₗ[K] V)} {e f : V}
     (hef : F e f = 1) {a : V → K} (ha : AData F H e f a) :
     ∃ Q : QuadraticForm K V, Q.polarBilin = F ∧ Q e = 0 ∧ Q f = 0 ∧
@@ -382,6 +388,7 @@ theorem exists_quadForm_of_aData (halt : F.IsAlt) {H : Subgroup (V ≃ₗ[K] V)}
     fun g hg => (pointRad_mem_orth_iff halt hef' hQ hQf (Subgroup.mem_inf.mp hg).2).mpr
       (hconj5 g hg)⟩
 
+omit [Finite K] in
 theorem exists_quadForm_of_blockQ (hnd : F.Nondegenerate) (halt : F.IsAlt)
     (hdim : 4 ≤ Module.finrank K V) {H : Subgroup (V ≃ₗ[K] V)} {e f : V} (hef : F e f = 1)
     (hfe : ElationFull F ((H : Set _) ∩ pointRad F e) e)

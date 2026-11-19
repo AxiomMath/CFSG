@@ -35,8 +35,8 @@ theorem exists_prime_five_le_dvd_pow_sub_one_not_dvd_exponent {p f : ℕ} (hp : 
     have hp3 : 3 ≤ p := by have := hp.two_le; omega
     obtain ⟨ℓ, hℓ, hℓd, hℓprim⟩ :=
       CFSG.SL2MinimalFaithful.exists_primitive_prime_dvd_pow_sub_one hp3 hf
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Fact ℓ.Prime := ⟨hℓ⟩
+    have : Fact p.Prime := ⟨hp⟩
+    have : Fact ℓ.Prime := ⟨hℓ⟩
     have hpr : (p : ZMod ℓ) ^ f = 1 :=
       (CFSG.SL2MinimalFaithful.Zsigmondy.dvd_pow_sub_one_iff hp.pos f).mp hℓd
     have hord : orderOf (p : ZMod ℓ) = f := by

@@ -37,8 +37,8 @@ theorem s16c1_natOmegaMinus_unpack {W : Type} [CommGroup W] {H : Subgroup (MulAu
                 (Multiplicative.toAdd (β x))) := by
   classical
   obtain ⟨-, K, hK, hKf, b, c, hK2, hpoly, π, hπ⟩ := h
-  letI := hK
-  haveI : Finite K := hKf
+  let := hK
+  have : Finite K := hKf
   let R := CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
   obtain ⟨β, hβsurj, hβker, hβe⟩ := R.exists_β
   have hβinj : Function.Injective β := by
@@ -59,7 +59,7 @@ theorem s16c1_natOmegaMinus_unpack {W : Type} [CommGroup W] {H : Subgroup (MulAu
             (Multiplicative.toAdd (β' x))) := by
     intro γ x
     have hx := hβe γ ⟨x, Subgroup.mem_top x⟩ (Subgroup.mem_top _)
-    simp only [hβ', Subtype.coe_mk] at hx ⊢
+    simp only [hβ'] at hx ⊢
     refine hx.trans ?_
     rw [CFSG.Quasithin.natAct, CFSG.ClassicalGroups.Orthogonal.toLinEquiv_apply]
   refine ⟨K, hK, hKf, b, c, hK2, hpoly, β', ?_⟩
@@ -86,7 +86,7 @@ private theorem s16c1_minusQuadCore_map {K : Type} [Field K] (e : ZMod 2 ≃+* K
     (hb : e.symm b = 1) (hc : e.symm c = 1) (v : Fin 2 ⊕ Fin 2 ⊕ Fin 2 → K) :
     CFSG.MatrixModel.minusQuadCore 2 (ZMod 2) 1 1 (fun i => e.symm (v i)) =
       e.symm (CFSG.MatrixModel.minusQuadCore 2 K b c v) := by
-  simp only [CFSG.MatrixModel.minusQuadCore, map_add, map_mul, map_pow, map_sum, map_one, hb,
+  simp only [CFSG.MatrixModel.minusQuadCore, map_add, map_mul, map_pow, hb,
     hc, Fin.sum_univ_two]
 
 theorem s16c1_statedOmega_minus_zmod2 {K : Type} [Field K] [Finite K] {b c : K}
@@ -103,7 +103,7 @@ theorem s16c1_statedOmega_minus_zmod2 {K : Type} [Field K] [Finite K] {b c : K}
         γ ∈ StatedOmega (StatedQuadMinus 3 K b c) ↔
           ψ γ ∈ StatedOmega (StatedQuadMinus 3 (ZMod 2) 1 1) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rwa [← Nat.card_eq_fintype_card]
   let e : ZMod 2 ≃+* K := ZMod.ringEquivOfPrime K Nat.prime_two hK'
   let θ : (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → K) ≃+
@@ -333,8 +333,8 @@ theorem natOmegaMinus_exists_model {W : Type} [CommGroup W] [Finite W] {H : Subg
     (h : NatOmegaMinus H (⊤ : Subgroup W) ⊥ 6 1) :
     ∃ β : W ≃* Multiplicative V₀, IsOmegaModel H β := by
   obtain ⟨K, hK, hKf, b, c, hK2, hpoly, β, hβ⟩ := s16c1_natOmegaMinus_unpack h
-  letI := hK
-  haveI := hKf
+  let := hK
+  have := hKf
   obtain ⟨θ, ψ, hψθ, hψΩ⟩ := s16c1_statedOmega_minus_model hK2 hpoly
   refine ⟨β.trans (AddEquiv.toMultiplicative θ), fun φ => ?_⟩
   rw [hβ φ]

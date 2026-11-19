@@ -186,7 +186,7 @@ theorem exists_prime_four_le_of_res1512_A {l : ℕ} {Q : TauCeti.PrimePower}
     ⟨h5, h2, -⟩ | ⟨q, hq, hqd, hqge⟩
   · omega
   · have hdvd : q ∣ 2 ^ Q.exponent - 1 := by
-      rw [if_neg (Nat.not_even_iff_odd.2 hodd)] at hqd
+      rw [ite_eq_right (Nat.not_even_iff_odd.2 hodd)] at hqd
       exact hqd
     have hdec : decide (Odd Q.exponent) = true := decide_eq_true hodd
     rw [hdec] at hqge
@@ -216,7 +216,7 @@ theorem exists_prime_four_le_of_res1512_twistedA {l : ℕ} {Q : TauCeti.PrimePow
     have h5e : 4 ≤ Q.exponent := h4e hl
     omega
   · have hdvd : q ∣ 2 ^ Q.exponent + 1 := by
-      rw [if_pos hev] at hqd
+      rw [ite_eq_left hev] at hqd
       exact hqd
     have hdec : decide (Odd Q.exponent) = false :=
       decide_eq_false (Nat.not_odd_iff_even.2 hev)
@@ -256,10 +256,10 @@ theorem not_dvd_of_rank_u5 {Q : TauCeti.PrimePower} (hc : Q.card = 4) {z : ℕ}
     have : -((4 : ℕ) : ZMod 5) = 1 := by decide
     unfold eM
     rw [this, orderOf_one]
-  rw [if_pos he] at h
+  rw [ite_eq_left he] at h
   have : ¬ (¬ 5 ∣ z ∧ 5 ∣ 5 ∧ 4 ≤ 5 ∧ padicValNat 5 (4 + 1) ≤ padicValNat 5 5) :=
     fun hc => hc.1 h5
-  rw [if_neg this] at h
+  rw [ite_eq_right this] at h
   omega
 
 theorem dvd_sq_sub_one_of_dvd_add_one_s15 {p Q : ℕ} (h : p ∣ Q + 1) : p ∣ Q ^ 2 - 1 := by
@@ -288,8 +288,8 @@ theorem dvd_add_one_of_dvd_sq_sub_one {p Q : ℕ} (hp : p.Prime) (hQ : 1 ≤ Q) 
 theorem dvd_of_dvd_card_SL3 {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hm : 0 < m)
     (h : p ∣ Nat.card (Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 m))) :
     p ∣ (2 ^ (2 * m) - 1) * (2 ^ (3 * m) - 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype (GaloisField 2 m) := Fintype.ofFinite _
   have hq : Fintype.card (GaloisField 2 m) = 2 ^ m := by
     rw [← Nat.card_eq_fintype_card]
     exact GaloisField.card 2 m hm.ne'
@@ -307,10 +307,10 @@ theorem dvd_of_dvd_card_SL3 {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hm : 0 <
   simp only [Fin.val_zero, Fin.val_one, Fin.val_two, pow_zero, pow_one] at h
   have e1 : Q ^ 3 - Q = Q * (Q ^ 2 - 1) := by
     rw [Nat.mul_sub_one]
-    congr 1 <;> ring
+    congr 1; ring
   have e2 : Q ^ 3 - Q ^ 2 = Q ^ 2 * (Q - 1) := by
     rw [Nat.mul_sub_one]
-    congr 1 <;> ring
+    congr 1
   have hpos : 0 < Q - 1 := by omega
   rw [e1, e2] at h
   have hdiv : (Q ^ 3 - 1) * (Q * (Q ^ 2 - 1)) * (Q ^ 2 * (Q - 1)) / (Q - 1) =

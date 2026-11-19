@@ -20,20 +20,23 @@ def factorSub (i : ι) : Subgroup (∀ j, H j) where
   one_mem' := fun j _ => rfl
   inv_mem' := fun {a} ha j hj => by simp [ha j hj]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem mem_factorSub {i : ι} {w : ∀ j, H j} : w ∈ factorSub i ↔ ∀ j, j ≠ i → w j = 1 :=
   Iff.rfl
 
 instance factorSub_normal (i : ι) : (factorSub (H := H) i).Normal where
   conj_mem n hn g := fun j hj => by simp [mem_factorSub.mp hn j hj]
 
+omit [Fintype ι] in
 theorem eq_mulSingle_of_mem_factorSub {i : ι} {w : ∀ j, H j} (hw : w ∈ factorSub i) :
     w = MonoidHom.mulSingle H i (w i) := by
   funext j
   by_cases hj : j = i
   · subst hj
     simp
-  · simp [MonoidHom.mulSingle_apply, Pi.mulSingle_apply, hj, hw j hj]
+  · simp [MonoidHom.mulSingle_apply, hj, hw j hj]
 
+omit [Fintype ι] in
 theorem commutator_factorSub_le {i : ι} (S : Subgroup (H i)) (hS : ∀ a b : H i, ⁅a, b⁆ ∈ S) :
     ⁅factorSub (H := H) i, factorSub (H := H) i⁆ ≤ S.map (MonoidHom.mulSingle H i) := by
   refine Subgroup.commutator_le.mpr fun x hx y hy => ?_
@@ -51,10 +54,11 @@ theorem not_isQuasisimple_of_comm {Γ : Type*} [Group Γ] (h : ∀ a b : Γ, a *
   rw [QuotientGroup.eq_one_iff, Subgroup.mem_center_iff]
   exact fun g => h g a
 
+omit [Fintype ι] in
 theorem exists_factor_of_isComponentOf_top [Finite ι] [∀ i, Finite (H i)]
     {J : Subgroup (∀ j, H j)} (hJ : IsComponentOf J ⊤) : ∃ i, J ≤ factorSub (H := H) i := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hcomm : ∀ i, ⁅J, factorSub (H := H) i⁆ = ⊥ := fun i =>
     (CFSG.ComponentClassification.LocalComponents.normal_contains_or_commutes J
       (factorSub (H := H) i) hJ).resolve_left (hcon i)
@@ -66,7 +70,7 @@ theorem exists_factor_of_isComponentOf_top [Finite ι] [∀ i, Finite (H i)]
       Subgroup.commutator_eq_bot_iff_le_centralizer.mp (hcomm j)
     have hmem : MonoidHom.mulSingle H j (w j) ∈ factorSub j := by
       intro k hk
-      simp [MonoidHom.mulSingle_apply, Pi.mulSingle_apply, hk]
+      simp [MonoidHom.mulSingle_apply, hk]
     have h1 := Subgroup.mem_centralizer_iff.mp (hc hx) _ hmem
     have h2 := congrFun h1 j
     simpa [MonoidHom.mulSingle_apply, Pi.mulSingle_apply, eq_comm] using h2
@@ -100,8 +104,8 @@ theorem held_linear_components (hSL : SLComponentsTrivial) {F : Type} [Field F] 
     exact hord
   obtain ⟨r, D, d, hFld, hFin, hAlg, Φ, θ, _hNZ, _hΦinj, _hΦrange, hθinj, hθrange, _hθapply⟩ :=
     exists_piMat_commutant (Subgroup.zpowers s) hA
-  letI : ∀ i, Field (D i) := hFld
-  haveI : ∀ i, Finite (D i) := hFin
+  let : ∀ i, Field (D i) := hFld
+  have : ∀ i, Finite (D i) := hFin
   have hcent : Subgroup.centralizer ((Subgroup.zpowers s : Subgroup (GL (Fin n) F)) :
       Set (GL (Fin n) F)) = Subgroup.centralizer ({s} : Set (GL (Fin n) F)) := by
     ext g
@@ -177,7 +181,7 @@ theorem held_linear_components (hSL : SLComponentsTrivial) {F : Type} [Field F] 
     rw [← hTeq, hJmap]
   have hd2 : 2 ≤ d i := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hall : ∀ a ∈ J, a = 1 := by
       intro a ha
       rw [hJeq] at ha

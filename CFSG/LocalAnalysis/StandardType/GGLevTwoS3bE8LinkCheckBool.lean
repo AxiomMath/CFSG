@@ -61,7 +61,7 @@ theorem levTwoS3bK_e8_blt_land (m p : ℕ) :
     rw [← Nat.one_shiftLeft]
     rfl
   rw [h, Nat.and_two_pow]
-  cases m.testBit p <;> simp <;> rfl
+  cases m.testBit p <;> simp; rfl
 
 theorem levTwoS3bK_e8_walk_iff (m : ℕ) : ∀ (v : List ℤ) (p : ℕ),
     levTwoS3bK_e8_walk m v p = true ↔

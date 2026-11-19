@@ -142,7 +142,7 @@ theorem burnsideF429a_U5_eq_one_of_comm {ω : K} (hω : h.bar ω ≠ ω)
   have e8 := congrFun (congrFun hM ιe₂) ιf₂
   simp only [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, Finset.univ_unique,
     Finset.sum_singleton] at e1 e2 e3 e4 e5 e6 e7 e8
-  simp [a1, a2, d1, d2, d3, d4, d5, l1, l2, l3, l4, l5, l6, l7, l8, l9, l10] at e1 e2 e3 e4 e5 e6 e7 e8
+  simp [a1, a2, d1, d2, d3, d4, d5, l1, l2, l5, l8, l9, l10] at e1 e2 e3 e4 e5 e6 e7 e8
   have hω0 : ω ≠ 0 := fun h0 => hω (by rw [h0, map_zero])
   have hβ0 : h.bar ω ≠ 0 := (map_ne_zero h.bar).2 hω0
   have hne : h.bar ω - ω ≠ 0 := sub_ne_zero.2 hω
@@ -163,7 +163,7 @@ theorem burnsideF429a_U5_eq_one_of_comm {ω : K} (hω : h.bar ω ≠ ω)
   have z22 : mat x ιe₂ ιf₂ = 0 := by linear_combination -e6 + z11
   have z12 : mat x ιe₁ ιf₂ = 0 := by linear_combination e5 - h.bar ω * z11 + z21
   refine eq_of_U_entries hxU (one_mem _) (forall_upper.2 ?_)
-  simp [mat_one, Matrix.one_apply, a1, a2, zv1, zv2, zw1, zw2, z11, z12, z21, z22]
+  simp [mat_one, a1, a2, zv1, zv2, zw1, zw2, z11, z12, z21, z22]
 
 theorem burnsideF429a_U5_Ssub_le_perfectCore : Ssub h ≤ perfectCore (u5LnStab h) := by
   have : Finite (hypSU h 2 1) := by have := h.finite; infer_instance
@@ -229,7 +229,7 @@ theorem burnsideF429a_U5_line {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     (hyp : HypF_4_4 .U5 2 f Gp M₁ M₂) :
     pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ≤ perfectCore (Gp ⊓ M₂) ∧
       oPPrime 2 (Gp ⊓ M₂) = perfectCore (Gp ⊓ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨marking, -, h2⟩ := burnsideF4g_marking (c := .U5) hyp.toHypF_4_4g
   obtain ⟨Ψ, -, e2⟩ := burnsideF429a_U5_equiv marking
   obtain ⟨hS2, -, hS⟩ := burnsideF429a_sbar Gp M₁ M₂

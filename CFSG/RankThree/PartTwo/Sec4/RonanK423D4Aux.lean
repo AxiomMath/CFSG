@@ -165,7 +165,7 @@ theorem threeA_layer_of_mem_short
   have hf1 : 1 ≤ f := by omega
   have hq2 : 2 < 2 ^ f :=
     lt_of_lt_of_le (by norm_num : 2 < 2 ^ 2) (Nat.pow_le_pow_right (by norm_num) hf2)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two (k := f * 3)
     (by omega) (by rw [hK, pow_mul])
   set L := AlgebraicClosure K with hL
@@ -228,7 +228,7 @@ theorem layer_eq_Asub_of_mem_Bsub
   have hK4 : 4 ≤ Nat.card X := four_le_card_of_cube n P.one_le P.card
   have hAC : (Asub σ : Subgroup (C0 σ)) ≤ Subgroup.centralizer ({z} : Set (C0 σ)) := fun a ha =>
     Subgroup.mem_centralizer_singleton_iff.mpr (Asub_Bsub_commute ha hz)
-  haveI : Group.IsPerfect ↥(Asub σ) := (RonanKChevTwo.isQuasisimple_d4Short hσ3 hK4).1
+  have : Group.IsPerfect ↥(Asub σ) := (RonanKChevTwo.isQuasisimple_d4Short hσ3 hK4).1
   apply le_antisymm
   · exact Subgroup.commutator_le.2 fun x hx y hy => hcomm x hx y hy
   · calc (Asub σ : Subgroup (C0 σ)) = ⁅Asub σ, Asub σ⁆ := Subgroup.commutator_eq_self.symm
@@ -242,7 +242,7 @@ theorem layerOK_of_mem_Bsub
   have hK4 : 4 ≤ Nat.card X := four_le_card_of_cube n P.one_le P.card
   have hq := RonanKChevTwo.isQuasisimple_d4Short hσ3 hK4
   have hc : Subgroup.center ↥(Asub σ) = ⊥ := by
-    haveI := P.charP
+    have := P.charP
     have h := Subgroup.map_center_eq (asubEquiv P)
     rw [CFSG.RankThree.PartOne.CTP.center_sl2_eq_bot, Subgroup.map_bot] at h
     exact h.symm

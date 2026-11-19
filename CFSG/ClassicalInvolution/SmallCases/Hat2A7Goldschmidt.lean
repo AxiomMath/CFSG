@@ -120,7 +120,7 @@ theorem not_isCyclic_sylow_of_isPerfect {G : Type*} [Group G] [Finite G]
     ¬ IsCyclic ↥(P : Subgroup G) := by
   intro hcyc
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨a, ha⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := P.isPGroup.exists_card_eq
   have ha0 : a ≠ 0 := by
     rintro rfl
     exact hP (by simpa using ha)
@@ -145,7 +145,7 @@ theorem pow_four_eq_one_of_card_two_part {F : Type*} [Group F] [Finite F]
     (hcard : Nat.card F = 2 ^ j * k) : ∀ x ∈ (T : Subgroup F), x ^ 4 = 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hx
-  obtain ⟨a, ha⟩ := T.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := T.isPGroup.exists_card_eq
   have hdvd : Nat.card (T : Subgroup F) ∣ 2 ^ j := by
     have h1 : 2 ^ a ∣ 2 ^ j * k := by
       rw [← ha, ← hcard]
@@ -267,7 +267,7 @@ theorem goldschmidtSimpleType_of_milestone (h : GoldschmidtMilestone) {F : Type}
   have : IsSimpleGroup ↥M := eM.isSimpleGroup
   have hF2 : 2 ∣ Nat.card F := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    obtain ⟨a, ha⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨a, ha⟩ := T.isPGroup.exists_card_eq
     have ha0 : a ≠ 0 := by
       rintro rfl
       have hT1 : Nat.card (T : Subgroup F) = 1 := by simpa using ha
@@ -313,7 +313,7 @@ theorem goldschmidtStronglyClosedExponent_of_milestone (h : GoldschmidtMilestone
   have hperf : Group.IsPerfect F := (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnab).1.1
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hx2 : ∃ k, x ^ (2 ^ k) = 1 := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup') ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup) ⟨x, hx⟩
     refine ⟨k, ?_⟩
     have := pow_orderOf_eq_one (⟨x, hx⟩ : ↥(T : Subgroup F))
     rw [hk] at this

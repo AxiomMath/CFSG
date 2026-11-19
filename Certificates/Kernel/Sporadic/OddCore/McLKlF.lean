@@ -66,7 +66,7 @@ theorem s_hs : ∀ i < McLKlS.cnt,
 theorem s_cl : ∀ c < McLKlS.cnt * (3 + 3), findPtK McLKlS.cnt McLKlS.T
     (prodQK 275 9 (mask 9) (3 + 3) McLKlS.T (bothK 3 McLKlS.GI McLKlSI)) McLKlCl c = true :=
   fun c hc => slK_spec sCl c (Nat.zero_le _) (by change c < Nat.mul McLKlS.cnt 6; omega)
-    (by change c < Nat.mul McLKlS.cnt 6; omega)
+    (by omega)
 
 theorem sift_eq {X : Nat} (hX : canonK 275 9 (mask 9) (275 * 9) X = true) :
     mclSift (tabT (unpack 275 9 X)) =
@@ -80,7 +80,7 @@ theorem closure_eq : mulClosureH 275 sylAGens 200 = hRec 275 9 McLKlS.cnt McLKlS
       (hRec 275 9 McLKlS.cnt McLKlS.T McLKlS.PL).2.1
       (hRec 275 9 McLKlS.cnt McLKlS.T McLKlS.PL).2.2 = true ∧
     hkeysDistinct 275 (hRec 275 9 McLKlS.cnt McLKlS.T McLKlS.PL).1.toList = true :=
-  mulH_sound base.1 (fun j hj => (gen hj).2.2.1) s_tabs base.2.2.2.2.2 s_pe s_hs
+  mulH_sound base.1 (fun _j hj => (gen hj).2.2.1) s_tabs base.2.2.2.2.2 s_pe s_hs
 
 theorem hT : ∀ i < McLKlS.cnt, canonK 275 9 (mask 9) (275 * 9) (McLKlS.T i) = true :=
   fun i hi => penumPt_canon (s_pe i hi)

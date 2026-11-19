@@ -29,7 +29,7 @@ theorem noOrder186_B_of_table (h : CFSG.Monster.GMS.BabyTableIII) : NoOrder 186 
   noOrder186_of_involution_centralizers fun t ht => by
     obtain ⟨k, -, hk⟩ := h.1 t ht
     rw [hk]
-    fin_cases k <;> simp [CFSG.Monster.GMS.babyCentOrder] <;> norm_num
+    fin_cases k <;> simp [CFSG.Monster.GMS.babyCentOrder]
 
 theorem card_centralizer_of_isConj {G : Type*} [Group G] {a b : G} (h : IsConj a b) :
     Nat.card ↥(Subgroup.centralizer ({b} : Set G)) = Nat.card ↥(Subgroup.centralizer ({a} : Set G)) := by

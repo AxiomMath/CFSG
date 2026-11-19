@@ -33,7 +33,7 @@ theorem mem_normalizer_map {G H : Type*} [Group G] [Group H] (f : G →* H)
     simpa [mul_assoc] using hs'
 
 theorem le_of_normalizers_generate [Fact p.Prime] {Z C : Type} [Group Z] [Finite Z] [Group C]
-    [Finite C] {L : Subgroup Z} (φ : L ≃* C) {P : Subgroup Z} (hPL : P ≤ L)
+    [Finite C] {L : Subgroup Z} (φ : L ≃* C) {P : Subgroup Z} (_hPL : P ≤ L)
     (hPp : IsPGroup p P) (hidx : ¬ p ∣ (P.subgroupOf L).index) {Y : Subgroup Z}
     (hY : ∀ S : Subgroup Z, S ≤ P → 2 ≤ CFSG.Open.pRank p S →
       Subgroup.normalizer (S : Set Z) ≤ Y)
@@ -65,7 +65,7 @@ theorem le_of_normalizers_generate [Fact p.Prime] {Z C : Type} [Group Z] [Finite
   let ψ : C →* Z := L.subtype.comp ((φ.symm : C →* L).comp (MulAut.conj g⁻¹).toMonoidHom)
   have hψ : ∀ x : C, ψ x = ((φ.symm (g⁻¹ * x * g) : L) : Z) := by
     intro x
-    simp [ψ, MulAut.conj_apply, mul_assoc]
+    simp [ψ, mul_assoc]
   have hψinj : Function.Injective ψ := by
     intro a b hab
     rw [hψ, hψ] at hab

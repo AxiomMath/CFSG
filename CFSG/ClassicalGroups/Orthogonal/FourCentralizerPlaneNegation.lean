@@ -16,6 +16,7 @@ variable {K : Type} [Field K] [Finite K]
 variable {W : Type*} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
 variable {Q : QuadraticForm K W}
 
+omit [Finite K] [FiniteDimensional K W] in
 private theorem centralizer_eq_operator
     (A : TauCeti.QuadraticMap.orthogonalGroup Q) :
     Subgroup.centralizer ({A} : Set (TauCeti.QuadraticMap.orthogonalGroup Q)) =
@@ -39,10 +40,10 @@ private theorem centralizer_eq_operator
     simpa [LinearEquiv.mul_apply] using hv
 
 private theorem eigenspace_cases
-    (hodd : Odd (Nat.card K)) (hQ : Q.polarBilin.Nondegenerate)
+    (hodd : Odd (Nat.card K)) (_hQ : Q.polarBilin.Nondegenerate)
     (A : TauCeti.QuadraticMap.orthogonalGroup Q) (hA2 : A * A = 1)
     (hA1 : A ≠ 1) (hAneg : ((A : W ≃ₗ[K] W) : W →ₗ[K] W) ≠ -1)
-    (e : Basis (Fin 4) K W) (he : ∀ i, Q (e i) = 1) :
+    (e : Basis (Fin 4) K W) (_he : ∀ i, Q (e i) = 1) :
     Module.finrank K (Module.End.eigenspace (((A : W ≃ₗ[K] W).toLinearMap)) (-1)) = 1 ∨
     Module.finrank K (Module.End.eigenspace (((A : W ≃ₗ[K] W).toLinearMap)) (-1)) = 2 ∨
     Module.finrank K (Module.End.eigenspace (((A : W ≃ₗ[K] W).toLinearMap)) (-1)) = 3 := by
@@ -103,6 +104,7 @@ private theorem eigenspace_cases
     Module.finrank K (T.eigenspace (-1)) = 3
   omega
 
+omit [Finite K] in
 private theorem discr_eq_zero_of_unit_basis
     [Invertible (2 : K)]
     (hQ : Q.polarBilin.Nondegenerate)
@@ -148,8 +150,7 @@ private noncomputable def eigenspace_prod_isometry
     T 1 one_ne_zero h2 hT2
   have he : ∀ (x : T.eigenspace 1) (y : T.eigenspace (-1)), e (x, y) = x.val + y.val := by
     intro x y
-    simp [e, CFSG.ComponentClassification.CatalogueBProjectiveInvolution.squareScalar_eigenspaceEquiv,
-      Submodule.coe_prodEquivOfIsCompl, LinearMap.coprod_apply]
+    simp [e, CFSG.ComponentClassification.CatalogueBProjectiveInvolution.squareScalar_eigenspaceEquiv]
   refine { toLinearEquiv := e.symm, map_app' := ?_ }
   intro v
   obtain ⟨⟨x, y⟩, rfl⟩ := e.surjective v
@@ -159,6 +160,7 @@ private noncomputable def eigenspace_prod_isometry
   exact (CFSG.ComponentClassification.CatalogueBOrthogonalScalarSquare.positive_eigenspace_sum
     Q T 1 one_ne_zero h2 hself x y).symm
 
+omit [Finite K] in
 private theorem discr_eigenspaces_sum
     [Invertible (2 : K)]
     (h2 : (2 : K) ≠ 0) (hQ : Q.polarBilin.Nondegenerate)
@@ -239,17 +241,17 @@ private theorem coord_plane_signchange_unit
         (∀ x : Fin 2 → K, Q.polarBilin u x = 0 →
           (b : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) x = x) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (TauCeti.QuadraticMap.orthogonalGroup Q) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (TauCeti.QuadraticMap.orthogonalGroup Q) :=
     CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   have h2 : (2 : K) ≠ 0 := CFSG.ComponentClassification.CatalogueBOddQuadratic.two_ne_zero_of_odd_card hodd
   have hQn : Q.Nondegenerate := QuadraticMap.nondegenerate_polar_iff.mp hQ
   obtain ⟨hSle, hScard, S0, hS0⟩ :=
     CFSG.ClassicalGroups.Orthogonal.PlaneSignChangeSylow.isSylow_signChangeSubgroup_of_discr_ne_zero
       (K := K) (V := Fin 2 → K) (Q := Q) (hQ := hQn) (c := c) (hc := hc) (hdisc := hdisc)
-  haveI : (S0 : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q)).FiniteIndex :=
+  have : (S0 : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q)).FiniteIndex :=
     Subgroup.finiteIndex_of_finite
-  haveI : Finite (Sylow 2 (TauCeti.QuadraticMap.orthogonalGroup Q)) :=
+  have : Finite (Sylow 2 (TauCeti.QuadraticMap.orthogonalGroup Q)) :=
     Sylow.finite_of_finiteIndex S0
   obtain ⟨g, hg⟩ := (Sylow.isPretransitive_of_finite (p := 2)
     (G := TauCeti.QuadraticMap.orthogonalGroup Q)).exists_smul_eq S0 SV
@@ -402,8 +404,8 @@ private theorem plane_signchange_unit_of_nonsquare
       ∃ u : V, Q u = 1 ∧ (b : V ≃ₗ[K] V) u = -u ∧
         (∀ x : V, Q.polarBilin u x = 0 → (b : V ≃ₗ[K] V) x = x) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (TauCeti.QuadraticMap.orthogonalGroup Q) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (TauCeti.QuadraticMap.orthogonalGroup Q) :=
     CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   have h2 : (2 : K) ≠ 0 := CFSG.ComponentClassification.CatalogueBOddQuadratic.two_ne_zero_of_odd_card hodd
   have hQn : Q.Nondegenerate := QuadraticMap.nondegenerate_polar_iff.mp hQ
@@ -437,7 +439,7 @@ private theorem plane_signchange_unit_of_nonsquare
     rw [Basis.equivFun_self]
     by_cases h : j = i
     · simp [h]
-    · simp [Pi.single_eq_of_ne h, (Ne.symm h)]
+    · simp [(Ne.symm h)]
   have hc2_0 : Q2 (c2 0) = 1 := by
     rw [← he_ci 0]
     exact (e.map_app (c 0)).trans hc0
@@ -480,7 +482,7 @@ private theorem plane_signchange_unit_of_nonsquare
     simpa only [map_mul, heGb] using h
   refine ⟨b, hbSV, hcentral, ?_, ?_, e.symm u2, ?_, ?_, ?_⟩
   · apply eG.injective
-    simpa only [map_mul, heGb, hb2sq, map_one, b] using hb2sq
+    simp only [map_mul, heGb, hb2sq, map_one, b]
   · intro hb1
     apply hb2ne
     rw [← heGb, hb1, map_one]
@@ -562,7 +564,7 @@ private theorem plane_unit_basis_of_square
     rw [Basis.equivFun_self]
     by_cases h : j = i
     · simp [h]
-    · simp [Pi.single_eq_of_ne h, (Ne.symm h)]
+    · simp [(Ne.symm h)]
   have hc2 : ∀ i j : Fin 2, i ≠ j → Q2.IsOrtho (c2 i) (c2 j) := by
     intro i j hij
     rw [← QuadraticMap.isOrtho_polarBilin]
@@ -631,8 +633,7 @@ private theorem plane_unit_basis_of_square
       have hp : Q.polarBilin ((s : K)⁻¹ • c 1) x =
           a1 * ((s : K)⁻¹ * Q.polarBilin (c 1) (c 1)) := by
         rw [hxcoord]
-        simp only [map_add, map_smul, LinearMap.smul_apply, hc10, smul_zero, zero_add,
-          smul_eq_mul]
+        simp only [map_add, map_smul, LinearMap.smul_apply, hc10, smul_eq_mul]
         ring
       rw [hp] at hx1
       have hdiag : Q.polarBilin (c 1) (c 1) = 2 * Q (c 1) := by
@@ -647,15 +648,16 @@ private theorem plane_unit_basis_of_square
     rw [hxcoord, hcoef0, hcoef1, zero_smul, zero_smul, add_zero]
 
 
+omit [Finite K] [FiniteDimensional K W] in
 private theorem squareScalar_eigenspaceEquiv_apply
     (h2 : (2 : K) ≠ 0) (T : Module.End K W)
     (hT2 : T * T = (1 : K) ^ 2 • (1 : Module.End K W))
     (x : T.eigenspace 1) (y : T.eigenspace (-1)) :
     CFSG.ComponentClassification.CatalogueBProjectiveInvolution.squareScalar_eigenspaceEquiv
       T 1 one_ne_zero h2 hT2 (x, y) = x.val + y.val := by
-  simp [CFSG.ComponentClassification.CatalogueBProjectiveInvolution.squareScalar_eigenspaceEquiv,
-    Submodule.coe_prodEquivOfIsCompl, LinearMap.coprod_apply]
+  simp [CFSG.ComponentClassification.CatalogueBProjectiveInvolution.squareScalar_eigenspaceEquiv]
 
+omit [Finite K] [FiniteDimensional K W] in
 private theorem positiveCentralizer_symm_apply
     (h2 : (2 : K) ≠ 0) (T : Module.End K W)
     (hT2 : T * T = (1 : K) ^ 2 • (1 : Module.End K W))
@@ -671,6 +673,7 @@ private theorem positiveCentralizer_symm_apply
     Q T 1 one_ne_zero h2 hT2 hself g (x, y)
   rwa [squareScalar_eigenspaceEquiv_apply] at h
 
+omit [Finite K] [FiniteDimensional K W] in
 private theorem nonsquare_action_data
     (Q : QuadraticForm K W) (h2 : (2 : K) ≠ 0) (T : Module.End K W)
     (hT2 : T * T = (1 : K) ^ 2 • (1 : Module.End K W))
@@ -756,11 +759,11 @@ theorem exists_central_plane_negation_of_sylow
         (∀ x : W, Q.polarBilin u x = 0 → Q.polarBilin v x = 0 →
           (b : W ≃ₗ[K] W) x = x) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (TauCeti.QuadraticMap.orthogonalGroup Q) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (TauCeti.QuadraticMap.orthogonalGroup Q) :=
     CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   have h2 : (2 : K) ≠ 0 := CFSG.ComponentClassification.CatalogueBOddQuadratic.two_ne_zero_of_odd_card hodd
-  letI : Invertible (2 : K) := invertibleOfNonzero h2
+  let : Invertible (2 : K) := invertibleOfNonzero h2
   let T : Module.End K W := ((A : W ≃ₗ[K] W)).toLinearMap
   have hT2 : T * T = (1 : K) ^ 2 • (1 : Module.End K W) := by
     ext v

@@ -25,12 +25,15 @@ section Base
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {F : LinearMap.BilinForm K V}
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem two_smul_zero' (v : V) : (2 : K) • v = 0 := by
   rw [two_eq_zero_K, zero_smul]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem two_mul_smul_zero (x : K) (v : V) : (2 * x) • v = 0 := by
   rw [two_eq_zero_K, zero_mul, zero_smul]
 
+omit [Finite K] [CharP K 2] in
 private theorem exists_ne_zero_one (hq : 4 ≤ Nat.card K) : ∃ l : K, l ≠ 0 ∧ l ≠ 1 := by
   classical
   by_contra hcon
@@ -51,6 +54,7 @@ private theorem exists_ne_zero_one (hq : 4 ≤ Nat.card K) : ∃ l : K, l ≠ 0 
   have hB : Nat.card Bool = 2 := by simp [Nat.card_eq_fintype_card]
   omega
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem exists_dual_pair {p c : V} (hli : LinearIndependent K ![p, c]) (κ : K) :
     ∃ φ : Module.Dual K V, φ p = 0 ∧ φ c = κ := by
   have hcn : c ∉ Submodule.span K {p} := by
@@ -69,6 +73,7 @@ private theorem exists_dual_pair {p c : V} (hli : LinearIndependent K ![p, c]) (
   · simp [hφ₀p]
   · rw [LinearMap.smul_apply, smul_eq_mul, mul_assoc, inv_mul_cancel₀ hφ₀c, mul_one]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem exists_transv_e (halt : F.IsAlt) {e f : V} (hef : F e f = 1) (c : K) :
     ∃ t : V ≃ₗ[K] V, t ∈ pointRadSubgroup F e ∧ t f = f + c • e ∧
       ∀ v, t v = v + (c * F v e) • e := by
@@ -78,10 +83,11 @@ private theorem exists_transv_e (halt : F.IsAlt) {e f : V} (hef : F e f = 1) (c 
   refine ⟨elationEquiv halt e f (c • e) hω, elationEquiv_mem halt hef hω,
     elationEquiv_f halt hef hω, fun v => ?_⟩
   have hb : F v (c • e) + F f (c • e) * F v e = 0 := by
-    simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, hfe, mul_one]
+    simp only [map_smul, smul_eq_mul, hfe, mul_one]
     linear_combination (c * F v e) * (two_eq_zero_K (K := K))
   rw [elationEquiv_apply, hb, zero_smul, add_zero, smul_smul, mul_comm (F v e) c]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem conj_pointRad_om (halt : F.IsAlt) {e f : V} (hef : F e f = 1) {h g : V ≃ₗ[K] V}
     (hh : h ∈ sympSubgroup F) {s : K} (hhe : h e = s • e) (hg : g ∈ pointRadSubgroup F e)
     {w : V} {a μ ν : K} (hw : g f - f = w + a • e) (hwf : F w f = 0)
@@ -132,6 +138,7 @@ theorem conj_pointRad_om (halt : F.IsAlt) {e f : V} (hef : F e f = 1) {h g : V �
   simp only [map_add, map_smul, hhz, hhe, hhw]
   linear_combination (norm := module) two_mul_smul_zero (ν * s) e
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem coord_unique (halt : F.IsAlt) {e f : V} (hef : F e f = 1) {J : Subgroup (V ≃ₗ[K] V)}
     (hT : NoTransv F J e) {g g' : V ≃ₗ[K] V} (hg : g ∈ J ⊓ pointRadSubgroup F e)
     (hg' : g' ∈ J ⊓ pointRadSubgroup F e) {w : V} {a a' : K} (h1 : g f - f = w + a • e)
@@ -160,6 +167,7 @@ theorem coord_unique (halt : F.IsAlt) {e f : V} (hef : F e f = 1) {J : Subgroup 
   have h0 := hT (a + a') hTr
   linear_combination h0 + (-a') * (two_eq_zero_K (K := K))
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem exists_diag_of_perp (halt : F.IsAlt) {J : Subgroup (V ≃ₗ[K] V)}
     {p c : V} (hcp : F c p = 0) (hli : LinearIndependent K ![p, c])
     (hp : ElationFull F ((J : Set _) ∩ pointRad F p) p)
@@ -190,12 +198,12 @@ theorem exists_diag_of_perp (halt : F.IsAlt) {J : Subgroup (V ≃ₗ[K] V)}
     have haa : a * a⁻¹ = 1 := mul_inv_cancel₀ ha
     have hai : a⁻¹ * a = 1 := inv_mul_cancel₀ ha
     simp only [LinearEquiv.mul_apply, map_add, map_smul, hXc, hXp, hYc, hYp, smul_add,
-      smul_smul, haa, hai, mul_one, one_smul]
+      smul_smul, haa, hai, one_smul]
     linear_combination (norm := module) two_smul_zero' (K := K) c + two_smul_zero' (K := K) (a • p)
   have hNp : ∀ a : K, a ≠ 0 → (X a * Y a⁻¹ * X a) p = a⁻¹ • c := by
     intro a ha
     have hai : a⁻¹ * a = 1 := inv_mul_cancel₀ ha
-    simp only [LinearEquiv.mul_apply, map_add, map_smul, hXc, hXp, hYc, hYp, smul_add,
+    simp only [LinearEquiv.mul_apply, map_add, map_smul, hXc, hXp, hYp, smul_add,
       smul_smul, hai, one_smul]
     linear_combination (norm := module) two_smul_zero' (K := K) p
   have hN1p : (X 1 * Y 1⁻¹ * X 1) p = c := by rw [hNp 1 one_ne_zero, inv_one, one_smul]
@@ -206,7 +214,8 @@ theorem exists_diag_of_perp (halt : F.IsAlt) {J : Subgroup (V ≃ₗ[K] V)}
   · rw [LinearEquiv.mul_apply, hN1p, hNc s hs]
   · rw [LinearEquiv.mul_apply, hN1c, hNp s hs]
 
-theorem zero_of_perp_point (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ Nat.card K)
+omit [Finite K] [FiniteDimensional K V] in
+theorem zero_of_perp_point (_hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ Nat.card K)
     {e f : V} (hef : F e f = 1) {J : Subgroup (V ≃ₗ[K] V)} (hJ : J ≤ sympSubgroup F)
     (hfull : ElationFull F ((J : Set _) ∩ pointRad F e) e) (hT : NoTransv F J e) {c : V}
     (hce : F c e = 0) (hcne : ∀ t : K, c ≠ t • e)
@@ -236,6 +245,7 @@ theorem zero_of_perp_point (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ 
   have hl1' : l + 1 ≠ 0 := fun h0 => hl1 (by linear_combination h0 - (two_eq_zero_K (K := K)))
   exact (mul_eq_zero.mp hfac).resolve_left (pow_ne_zero 2 hl1')
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem zero_of_perp_point_smul (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ Nat.card K)
     {e f : V} (hef : F e f = 1) {J : Subgroup (V ≃ₗ[K] V)} (hJ : J ≤ sympSubgroup F)
     (hfull : ElationFull F ((J : Set _) ∩ pointRad F e) e) (hT : NoTransv F J e) {c : V}
@@ -279,6 +289,7 @@ section Dichotomy
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {F : LinearMap.BilinForm K V}
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem lin_one_apply (x : V) : (1 : V ≃ₗ[K] V) x = x := rfl
 
 theorem dichotomy_b1 (hnd : F.Nondegenerate) (halt : F.IsAlt) (hdim : Module.finrank K V = 4)
@@ -326,7 +337,7 @@ theorem dichotomy_b1 (hnd : F.Nondegenerate) (halt : F.IsAlt) (hdim : Module.fin
     have hfw : F f w = 0 := by rw [form_comm halt]; exact hwf
     have hFz : F (s • w + d • f) (t • w + d' • f) = 0 := by
       simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-        form_self halt, hwf, hfw, mul_zero, zero_mul, add_zero, zero_add]
+        form_self halt, hwf, hfw, mul_zero, add_zero]
     rw [pointRad_om_mul halt hef' hx hy, hxe, hye, hFz, zero_smul, add_zero]
     module
   obtain ⟨T, hT⟩ : ∃ T : Bool → V ≃ₗ[K] V, ∀ b, T b = cond b τ 1 :=

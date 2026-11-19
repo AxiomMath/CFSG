@@ -330,7 +330,7 @@ public theorem secondCase_linear_omega_invertedElements_le_fitting
     have hxCentFC : x ∈ Subgroup.centralizer (FC : Set G) :=
       inverted_element_centralizes_normal_inverted_subgroup
         c.U FC s hUodd hsU hFCnormalU hFCinv hxInv
-    have hCsolv : IsSolvable C := odd_order_theorem C hCodd
+    have hCsolv : Group.IsSolvable C := odd_order_theorem C hCodd
     have hxFC : x ∈ FC :=
       fact_1_2_centralizer_fitting_le_fitting C hCsolv ⟨hxC, hxCentFC⟩
     exact hxFC

@@ -75,7 +75,7 @@ private theorem isQuasisimple_or_isSolvable_blockSU
     subst hn1
     rcases Nat.lt_or_ge S.card 4 with h4 | h4
     · right
-      haveI : Group.IsSolvable ↥(unitarySU 2 1 K S.card) :=
+      have : Group.IsSolvable ↥(unitarySU 2 1 K S.card) :=
         WitSU.isSolvable_unitarySU_two_one hKd (by omega) (by omega)
       exact Group.isSolvable_of_surjective (f := (TableBUE.blockSUEquiv S hKd).toMonoidHom)
         (TableBUE.blockSUEquiv S hKd).surjective
@@ -90,9 +90,9 @@ private theorem isQuasisimple_or_isSolvable_blockSU
 private theorem not_isSolvable_of_isQuasisimple_native {Q : Type*} [Group Q]
     (hQ : CFSG.IsQuasisimple Q) : ¬ Group.IsSolvable Q := by
   obtain ⟨hperf, hsimple, -⟩ := hQ
-  haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hsimple.toNontrivial
-  haveI : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
-  haveI : Group.IsPerfect Q := hperf
+  have : Nontrivial (Q ⧸ Subgroup.center Q) := hsimple.toNontrivial
+  have : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
+  have : Group.IsPerfect Q := hperf
   exact Group.IsPerfect.not_isSolvable Q
 
 private theorem blockSU_empty_eq_bot {d n : ℕ} {K : Type} [Field K] :
@@ -192,7 +192,7 @@ private theorem eq_of_le_blockSU
         (fun z : ↥(TableBUE.blockSU (K := K) (n := n) S) => (z : ↥(unitarySU 2 n K d)))
         hcomm).symm
   · exfalso
-    haveI : Group.IsSolvable ↥(TableBUE.blockSU (K := K) (n := n) S) := hBsol
+    have : Group.IsSolvable ↥(TableBUE.blockSU (K := K) (n := n) S) := hBsol
     have hQq : CFSG.IsQuasisimple
         ↥(Q.subgroupOf (TableBUE.blockSU (K := K) (n := n) S)) :=
       (isQuasisimple_congr (Subgroup.subgroupOfEquivOfLe hQB.1)).2

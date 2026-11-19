@@ -93,6 +93,7 @@ include h
     spinGroup (quadMinus k F b c) →* Matrix (Fin (n + n)) (Fin (n + n)) F :=
   (extendHom (F := F) (tauF_injective h hk1 hn1)).comp (matM hk1)
 
+omit [Finite F] [CharP F 2] in
 theorem dMu_apply (s : spinGroup (quadMinus k F b c)) :
     dMu h hk1 hn1 s = extendMat (tauF_injective h hk1 hn1) (matM hk1 s) := rfl
 
@@ -104,6 +105,7 @@ theorem dMu_injective (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) :
   simp only [dMu_apply, submatrix_extendMat] at this
   exact this
 
+omit [Finite F] [CharP F 2] in
 theorem shift_longRoot {i j : Fin (k - 1)} (hij : i ≠ j) (s t : Bool) (x : F) :
     matM hn1 ((minusFrame n b c).longRoot (fun e => hij (shiftC_injective h e)) s t (.ofAdd x)) =
       dMu h hk1 hn1 ((minusFrame k b c).longRoot hij s t (.ofAdd x)) := by
@@ -112,10 +114,12 @@ theorem shift_longRoot {i j : Fin (k - 1)} (hij : i ≠ j) (s t : Bool) (x : F) 
     tauM_minusPos]
 
 
+omit [Finite F] [CharP F 2] in
 theorem planeVec_tauM (p : Fin 2 → F) (x : Fin (k - 1) ⊕ Fin (k - 1) ⊕ Fin 2) :
     planeVec n p (tauM h x) = planeVec k p x := by
   rcases x with i | i | t <;> rfl
 
+omit h [Finite F] [CharP F 2] in
 theorem planeVec_of_not_plane (p : Fin 2 → F) {x : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2}
     (hx : ∀ t, x ≠ .inr (.inr t)) : planeVec n p x = 0 := by
   rcases x with i | i | t
@@ -123,6 +127,7 @@ theorem planeVec_of_not_plane (p : Fin 2 → F) {x : Fin (n - 1) ⊕ Fin (n - 1)
   · rfl
   · exact absurd rfl (hx t)
 
+omit [Finite F] [CharP F 2] in
 theorem polarSingle_tauM (p : Fin 2 → F) (x : Fin (k - 1) ⊕ Fin (k - 1) ⊕ Fin 2) :
     polar (quadMinus n F b c) (Pi.single (tauM h x) 1) (planeVec n p) =
       polar (quadMinus k F b c) (Pi.single x 1) (planeVec k p) := by
@@ -145,6 +150,7 @@ theorem not_plane_of_not_range {x : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2}
   fun e => hx ⟨.inr (.inr t), e.symm⟩
 
 
+omit [Finite F] [CharP F 2] in
 theorem shift_shortRoot (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (i : Fin (k - 1)) (s : Bool)
     (p : Fin 2 → F) :
     matM hn1 (twShortRoot n hirr (shiftC h i) s (.ofAdd p)) =
@@ -167,8 +173,8 @@ theorem shift_shortRoot (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (i : Fin (k 
       by_cases h2 : minusPos n (shiftC h i) (!s) = x2
       · have hx2 : x2 ∈ Set.range (tauM h) := ⟨minusPos k i (!s), by rw [tauM_minusPos, h2]⟩
         have hx1 : x1 ∉ Set.range (tauM h) := fun h1 => hx ⟨h1, hx2⟩
-        rw [planeVec_of_not_plane h p (not_plane_of_not_range h hx1), mul_zero]
-      · rw [if_neg h2, zero_mul]
+        rw [planeVec_of_not_plane p (not_plane_of_not_range h hx1), mul_zero]
+      · rw [ite_eq_right h2, zero_mul]
     have e2 : (polar (quadMinus n F b c) (Pi.single x2 1) (planeVec n p) +
         planeNorm b c p * (if minusPos n (shiftC h i) (!s) = x2 then 1 else 0)) *
           (if x1 = minusPos n (shiftC h i) s then 1 else 0) = 0 := by
@@ -177,9 +183,9 @@ theorem shift_shortRoot (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (i : Fin (k 
         have hx2 : x2 ∉ Set.range (tauM h) := fun h1 => hx ⟨hx1, h1⟩
         have h3 : minusPos n (shiftC h i) (!s) ≠ x2 := fun e =>
           hx2 ⟨minusPos k i (!s), by rw [tauM_minusPos, e]⟩
-        rw [polar_single_planeVec_of_ne n (not_plane_of_not_range h hx2) p, if_neg h3]
+        rw [polar_single_planeVec_of_ne n (not_plane_of_not_range h hx2) p, ite_eq_right h3]
         simp
-      · rw [if_neg h2, mul_zero]
+      · rw [ite_eq_right h2, mul_zero]
     have := e1
     have := e2
     simp only [e1, e2]
@@ -279,7 +285,7 @@ theorem dblock_E1 (hk1 : 1 ≤ k) (hn1 : 1 ≤ n) (x : spinGroup (quadMinus k F 
           (hsupp_of γ' (fun q hq => ?_)) (longRoot_mem_minusRootGroup n hirr hij' s0 t0 h' y)
         have e1 : ¬ (shiftC h i).val ≤ q.val := by simp only [shiftC]; omega
         have e2 : ¬ (shiftC h j).val ≤ q.val := by simp only [shiftC]; omega
-        rw [hγ'def, ofStdB_pair', if_neg e1, if_neg e2]
+        rw [hγ'def, ofStdB_pair', ite_eq_right e1, ite_eq_right e2]
         simp
       · exact shift_longRoot h hk1 hn1 hij s0 t0 y
     · obtain ⟨p, rfl⟩ := (mem_minusRootGroup_short_iff k hirr i s0 hγ').mp hs
@@ -290,11 +296,12 @@ theorem dblock_E1 (hk1 : 1 ≤ k) (hn1 : 1 ≤ n) (x : spinGroup (quadMinus k F 
       · refine rootGroup_le_leviM hct (mem_roots_of_toStdB_eq_short n (shiftC h i) s0 h')
           (hsupp_of γ' (fun q hq => ?_)) (twShortRoot_mem_minusRootGroup n hirr (shiftC h i) s0 h' p)
         have e1 : ¬ (shiftC h i).val ≤ q.val := by simp only [shiftC]; omega
-        rw [hγ'def, ofStdB_single, if_neg e1]
+        rw [hγ'def, ofStdB_single, ite_eq_right e1]
       · exact shift_shortRoot h hk1 hn1 hirr i s0 p
   exact htop (Subgroup.mem_top x)
 
 
+omit [Finite F] [CharP F 2] in
 theorem dblock_E2 (hk1 : 1 ≤ k) (hn1 : 1 ≤ n) :
     leviM (minusDatum n hirr) (blkNodes (n - 1) a) ≤
       liftImage (matM (b := b) (c := c) hn1) (dMu (b := b) (c := c) h hk1 hn1) := by

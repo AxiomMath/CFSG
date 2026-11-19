@@ -43,8 +43,8 @@ theorem SwapW4.herm_stab_facts (W : SwapW4 D) (A : StabData W) (hHS : HermStabFa
     (∀ ξ ∈ D.Xhat, (∀ c ∈ A.CX, ξ * c * ξ⁻¹ ∈ A.CX) → ξ ∈ A.CX) := by
   obtain ⟨E, hField, hAlg, P', ψ, φ, hcardE, hψQ, hψρ⟩ :=
     SwapW4.exists_herm D W A.Q A.hQ A.hR A.hmin
-  letI := hField
-  letI := hAlg
+  let := hField
+  let := hAlg
   let X : hermFourSpace P'.σ := ψ A.v
   have hX1 : hermFourForm P' X = 1 := by
     rw [hψQ, A.hv]
@@ -382,7 +382,7 @@ theorem SwapW4.card_range_le_of_ne_top (W : SwapW4 D) (A : StabData W) (hHS : He
     (hcardK : Nat.card ↥A.K = Nat.card ↥πK.range * Nat.card ↥πK.ker)
     (h60 : 60 ≤ Nat.card ↥A.K) (hne : πK.range ≠ ⊤) :
     Nat.card ↥πK.range ≤ 6 ∧ Nat.card ↥(A.K ⊓ D.Z) = 6 := by
-  haveI : IsSimpleGroup D.Z := SwapW4.isSimpleGroup_Z D W
+  have : IsSimpleGroup D.Z := SwapW4.isSimpleGroup_Z D W
   have hle12 : Nat.card ↥πK.range ≤ 12 :=
     CFSG.LocalAnalysis.WeakClosure81.b114_ElevenFourBAltGp_card_le_twelve_of_ne_top
       (SwapW4.card_Z D W) hne
@@ -460,14 +460,14 @@ structure GoursatFacts (W : SwapW4 D) (A : StabData W) : Prop where
   not_commutative : ∃ a b : A.K, a * b ≠ b * a
 
 theorem SwapW4.goursat_aux (W : SwapW4 D) (A : StabData W) (hHS : HermStabFacts)
-    (h60 : 60 ≤ Nat.card ↥A.K) (πK : A.K →* D.Z)
+    (_h60 : 60 ≤ Nat.card ↥A.K) (πK : A.K →* D.Z)
     (hker : πK.ker = (A.K ⊓ D.W).subgroupOf A.K)
     (hcard_ker : Nat.card ↥πK.ker = Nat.card ↥(A.K ⊓ D.W))
     (hcardK : Nat.card ↥A.K = Nat.card ↥πK.range * Nat.card ↥πK.ker)
     (hπK_norm : ∀ k : A.K, (πK k : S.O) ∈
       Subgroup.normalizer ((A.K ⊓ D.Z : Subgroup S.O) : Set S.O))
     (htop : πK.range = ⊤) : GoursatFacts W A := by
-  haveI : IsSimpleGroup D.Z := SwapW4.isSimpleGroup_Z D W
+  have : IsSimpleGroup D.Z := SwapW4.isSimpleGroup_Z D W
   have hZleNorm : D.Z ≤ Subgroup.normalizer ((A.K ⊓ D.Z : Subgroup S.O) : Set S.O) := by
     intro z hz
     have hzrange : (⟨z, hz⟩ : D.Z) ∈ πK.range := by
@@ -512,8 +512,8 @@ theorem SwapW4.goursat_aux (W : SwapW4 D) (A : StabData W) (hHS : HermStabFacts)
   let eK : A.K ≃* D.Z := MulEquiv.ofBijective πK ⟨hinj, hsurj⟩
   have hKsimple : IsSimpleGroup A.K := MulEquiv.isSimpleGroup eK
   have hnabZ : ∃ a b : D.Z, a * b ≠ b * a := by
-    haveI : Group.IsPerfect D.Z := ⟨D.isQuasisimple_Z.1⟩
-    haveI : Nontrivial D.Z :=
+    have : Group.IsPerfect D.Z := ⟨D.isQuasisimple_Z.1⟩
+    have : Nontrivial D.Z :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [SwapW4.card_Z D W]; norm_num)
     have hnc := Group.IsPerfect.not_isMulCommutative D.Z
     rw [isMulCommutative_iff] at hnc
@@ -529,7 +529,7 @@ theorem SwapW4.goursat_aux (W : SwapW4 D) (A : StabData W) (hHS : HermStabFacts)
   exact ⟨hK1bot, hKinfWbot, hcardK60, hKsimple, hnabK⟩
 theorem SwapW4.goursat_facts (W : SwapW4 D) (A : StabData W) (hHS : HermStabFacts)
     (h60 : 60 ≤ Nat.card ↥A.K) : GoursatFacts W A := by
-  haveI : IsSimpleGroup D.Z := SwapW4.isSimpleGroup_Z D W
+  have : IsSimpleGroup D.Z := SwapW4.isSimpleGroup_Z D W
   let E2 : Subgroup S.O := D.Z ⊔ D.W
   have hKE2 : A.K ≤ E2 := fun k hk => ((A.hK k).mp hk).1
   let πK : A.K →* D.Z := (SwapW4.piZ W).comp (Subgroup.inclusion hKE2)
@@ -616,7 +616,7 @@ theorem SwapW4.isSimpleGroup_K (W : SwapW4 D) (A : StabData W) (hHS : HermStabFa
 
 theorem SwapW4.isQuasisimple_K (W : SwapW4 D) (A : StabData W) (hHS : HermStabFacts)
     (h60 : 60 ≤ Nat.card ↥A.K) : CFSG.Open.IsQuasisimple A.K := by
-  haveI : IsSimpleGroup A.K := (SwapW4.goursat_facts W A hHS h60).isSimpleGroup_K
+  have : IsSimpleGroup A.K := (SwapW4.goursat_facts W A hHS h60).isSimpleGroup_K
   exact CFSG.ClassicalInvolution.Q3.TL4.ExitTwo.isQuasisimple_open_of_simple
     (SwapW4.goursat_facts W A hHS h60).not_commutative
 
@@ -695,7 +695,7 @@ theorem SwapW4.eq_one_of_mem_Lbar_of_commute (W : SwapW4 D) (A : StabData W)
 theorem SwapW4.le_closure_pow_five (W : SwapW4 D) (A : StabData W) (hHS : HermStabFacts)
     (h60 : 60 ≤ Nat.card ↥A.K) :
     A.K ≤ Subgroup.closure {k : S.O | k ∈ A.K ∧ k ^ 5 = 1} := by
-  haveI : IsSimpleGroup A.K := SwapW4.isSimpleGroup_K W A hHS h60
+  have : IsSimpleGroup A.K := SwapW4.isSimpleGroup_K W A hHS h60
   have hcardK : Nat.card ↥A.K = 60 := SwapW4.card_K W A hHS h60
   let T : Set S.O := {k | k ∈ A.K ∧ k ^ 5 = 1}
   let H : Subgroup S.O := Subgroup.closure T
@@ -757,7 +757,7 @@ theorem SwapW4.finrank_le_two (W : SwapW4 D) (A : StabData W) (hHS : HermStabFac
       (∀ u ∈ C, ∀ k ∈ A.K, (k : S.Qt ≃ₗ[ZMod 2] S.Qt) u = u) →
       finrank (ZMod 2) C ≤ 2 := by
   intro C hC
-  haveI : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) S.Qt := Module.Finite.of_finite
   let t : S.Qt ≃ₗ[ZMod 2] S.Qt := D.t
   let C' : Submodule (ZMod 2) S.Qt := C ⊔ C.map t.toLinearMap
   have htt : t * t = 1 := by

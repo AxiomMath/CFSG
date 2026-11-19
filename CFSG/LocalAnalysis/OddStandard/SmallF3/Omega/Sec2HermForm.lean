@@ -13,7 +13,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 open QuadraticMap CFSG.LieType.BorelTits CFSG.ClassicalGroups.Unitary
 
 theorem hermForm_nondegenerate (n : ℕ) : (hermForm n).Nondegenerate := by
-  haveI : Invertible (2 : ZMod 3) := invertibleOfNonzero (by decide)
+  have : Invertible (2 : ZMod 3) := invertibleOfNonzero (by decide)
   rw [QuadraticMap.nondegenerate_iff_radical_eq_bot, Submodule.eq_bot_iff]
   intro x hx
   obtain ⟨h0, h1⟩ := QuadraticMap.mem_radical_iff'.mp hx
@@ -38,8 +38,8 @@ theorem hermForm_nondegenerate (n : ℕ) : (hermForm n).Nondegenerate := by
 
 @[expose] noncomputable def omegaLin (n : ℕ) : (Fin n → F9) →ₗ[ZMod 3] (Fin n → F9) where
   toFun x := omega9 • x
-  map_add' x y := smul_add _ _ _
-  map_smul' c x := smul_comm _ _ _
+  map_add' _x _y := smul_add _ _ _
+  map_smul' _c _x := smul_comm _ _ _
 
 theorem omegaLin_apply {n : ℕ} (x : Fin n → F9) : omegaLin n x = omega9 • x := rfl
 
@@ -49,13 +49,13 @@ theorem omega9_mul_omega9 : omega9 * omega9 = -1 := by
   · simp [omega9, QuadraticAlgebra.im_mul, QuadraticAlgebra.im_one]
 
 @[expose] noncomputable def omegaEquiv (n : ℕ) : (Fin n → F9) ≃ₗ[ZMod 3] (Fin n → F9) :=
-  LinearEquiv.ofLinear (omegaLin n) (-omegaLin n)
+  LinearEquiv.ofLinearMap (omegaLin n) (-omegaLin n)
     (LinearMap.ext fun x => by
       simp only [LinearMap.comp_apply, LinearMap.neg_apply, omegaLin_apply, LinearMap.id_apply,
         smul_neg, smul_smul, omega9_mul_omega9, neg_smul, one_smul, neg_neg])
     (LinearMap.ext fun x => by
       simp only [LinearMap.comp_apply, LinearMap.neg_apply, omegaLin_apply, LinearMap.id_apply,
-        smul_neg, smul_smul, omega9_mul_omega9, neg_smul, one_smul, neg_neg])
+        smul_smul, omega9_mul_omega9, neg_smul, one_smul, neg_neg])
 
 theorem hermForm_omega_smul {n : ℕ} (x : Fin n → F9) : hermForm n (omega9 • x) = hermForm n x := by
   rw [hermForm_apply, hermForm_apply]

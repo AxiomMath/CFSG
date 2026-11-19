@@ -181,8 +181,8 @@ end A2A2Aux
 theorem phi3_A2A2_commute_roots (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hK : Nat.card K = (ℓ ^ f) ^ 2) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     (hFr : ∀ c, Fr c = c ^ (ℓ ^ f)) {p : ℕ} (hp : p.Prime) (hp3 : 3 < p)
-    (hpq : p ∣ (ℓ ^ f) ^ 2 + ℓ ^ f + 1) (hg : g ∈ adjointGroup Tag.E6 Ω)
-    (hgn : g⁻¹ * twistE6 Ω Fr g = canonicalRep (coxeterSystem Tag.E6) Ω phi3V)
+    (hpq : p ∣ (ℓ ^ f) ^ 2 + ℓ ^ f + 1) (_hg : g ∈ adjointGroup Tag.E6 Ω)
+    (_hgn : g⁻¹ * twistE6 Ω Fr g = canonicalRep (coxeterSystem Tag.E6) Ω phi3V)
     {x : ModGL Tag.E6 Ω} (hx : x ∈ phi3TStar K σ Ω Fr g) (hxp : orderOf x = p)
     (hA2A2 : ∃ w : WeylGroup Tag.E6,
       (w • ·) '' torusRootKernel x = parabolicRoots Tag.E6 supportA2A2)

@@ -137,7 +137,7 @@ theorem exists_conj_sigma4_mem {D : Subgroup (Perm (Fin 7))} (hDA : D ≤ altern
   obtain ⟨Q, hDQ⟩ := hD'p.exists_le_sylow
   have hQ : (Q : Subgroup A) = D' := by
     refine (Subgroup.eq_of_le_of_card_ge hDQ ?_).symm
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup
     have hdvd : 2 ^ k ∣ 2520 := by
       rw [← hk, ← hcardA]
       exact Subgroup.card_subgroup_dvd_card (Q : Subgroup A)

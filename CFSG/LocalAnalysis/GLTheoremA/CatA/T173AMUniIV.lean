@@ -16,9 +16,9 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.Assembly CFSG.LocalAnalysis.GL
 open CFSG.LocalAnalysis.GLTheoremA.T173
 open scoped commutatorElement MatrixGroups
 
-private theorem charP_two_of_card_sq {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 1 ≤ n)
+private theorem charP_two_of_card_sq {F : Type} [Field F] [Finite F] {n : ℕ} (_hn : 1 ≤ n)
     (hF : Nat.card F = (2 ^ n) ^ 2) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨p', hp'⟩ := CharP.exists F
   have hp'prime : p'.Prime := CharP.char_is_prime F p'
   obtain ⟨m, -, hcard⟩ := FiniteField.card F p'
@@ -53,7 +53,7 @@ private theorem permMatrix_map_pow {n d : ℕ} {F : Type} [Field F] (σ : Equiv.
   rw [Matrix.map_apply, permMatrix_apply']
   by_cases h : σ i = j
   · simp [h]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact zero_pow hq0
 
 private theorem swap_permGL'_mem_UniSU {n d : ℕ} {F : Type} [Field F] [CharP F 2]
@@ -79,7 +79,7 @@ private theorem block_mul {d : ℕ} {F : Type} [Field F] {I : Finset (Fin d)} {g
   by_cases hi : i ∈ I
   · have hj : j ∉ I := by rcases hij with h | h; exact absurd hi h; exact h
     rw [Finset.sum_eq_single j]
-    · rw [hh j j (Or.inr hj), if_pos rfl, mul_one]
+    · rw [hh j j (Or.inr hj), ite_eq_left rfl, mul_one]
       exact hg i j (Or.inr hj)
     · intro b _ hbj
       rw [hh b j (Or.inr hj)]
@@ -87,7 +87,7 @@ private theorem block_mul {d : ℕ} {F : Type} [Field F] {I : Finset (Fin d)} {g
     · intro hnot
       exact absurd (Finset.mem_univ j) hnot
   · rw [Finset.sum_eq_single i]
-    · rw [hg i i (Or.inl hi), if_pos rfl, one_mul]
+    · rw [hg i i (Or.inl hi), ite_eq_left rfl, one_mul]
       exact hh i j (Or.inl hi)
     · intro b _ hbi
       rw [hg i b (Or.inl hi)]
@@ -125,7 +125,7 @@ private theorem swap_permMatrix_block {d : ℕ} {F : Type} [Field F] {b b' : Fin
     have hib : i ≠ b := fun hh => hi (hh ▸ hbI)
     have hib' : i ≠ b' := fun hh => hi (hh ▸ hb'I)
     rw [Equiv.swap_apply_of_ne_of_ne hib hib']
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hsw_ne : Equiv.swap b b' i ≠ j := by
       intro hsw
       rcases hij with hi | hj
@@ -141,7 +141,7 @@ private theorem swap_permMatrix_block {d : ℕ} {F : Type} [Field F] {b b' : Fin
           have hib' : i ≠ b' := fun hh => hi (hh ▸ hb'I)
           rw [Equiv.swap_apply_of_ne_of_ne hib hib'] at hsw
           exact h hsw
-    rw [if_neg hsw_ne]
+    rw [ite_eq_right hsw_ne]
 
 private theorem diagonal_comm_permMatrix_swap {d : ℕ} {F : Type} [Field F] {b b' : Fin d}
     {h : Fin d → F} (hh : h b = h b') :
@@ -157,9 +157,9 @@ private theorem diagonal_comm_permMatrix_swap {d : ℕ} {F : Type} [Field F] {b 
   ext i j
   rw [Matrix.diagonal_mul, Matrix.mul_diagonal, permMatrix_apply']
   by_cases hij : Equiv.swap b b' i = j
-  · rw [if_pos hij, mul_one, one_mul]
+  · rw [ite_eq_left hij, mul_one, one_mul]
     rw [← hij, hswap i]
-  · rw [if_neg hij, mul_zero, zero_mul]
+  · rw [ite_eq_right hij, mul_zero, zero_mul]
 
 private theorem conj_pow_eq {d : ℕ} {F : Type} [Field F] (P g : GL (Fin d) F) (k : ℕ) :
     (P⁻¹ * g * P) ^ k = P⁻¹ * g ^ k * P := by
@@ -174,12 +174,12 @@ private def diagGL {d : ℕ} {F : Type} [Field F] (f : Fin d → Fˣ) : GL (Fin 
     rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one,
       Matrix.diagonal_injective.eq_iff]
     funext i
-    simpa using (f i).mul_inv
+    simp
   inv_val := by
     rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one,
       Matrix.diagonal_injective.eq_iff]
     funext i
-    simpa using (f i).inv_mul
+    simp
 
 @[simp] private theorem coe_diagGL {d : ℕ} {F : Type} [Field F] (f : Fin d → Fˣ) :
     ((diagGL f : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) =
@@ -207,7 +207,7 @@ private theorem diagGL_mem_UniSU {n d : ℕ} {F : Type} [Field F] {f : Fin d →
   refine Subgroup.subset_closure ⟨?_, ?_⟩
   · rw [coe_diagGL, Matrix.det_diagonal]
     exact hdet
-  · rw [coe_diagGL, Matrix.diagonal_map (by simp [hq0]), Matrix.diagonal_transpose,
+  · rw [coe_diagGL, Matrix.diagonal_map (by simp), Matrix.diagonal_transpose,
       Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one, Matrix.diagonal_injective.eq_iff]
     funext i
     rw [← pow_succ]
@@ -246,8 +246,8 @@ private theorem exists_pair_element {p n d : ℕ} {F : Type} [Field F] [Finite F
       MWt P X' a = (ω : F) ∧ MWt P X' a' = ((ω⁻¹ : Fˣ) : F) ∧
       X' ∉ LargeEvenScalars (Fin d) F := by
   classical
-  haveI hchar : CharP F 2 := charP_two_of_card_sq hn hF
-  haveI hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
+  have hchar : CharP F 2 := charP_two_of_card_sq hn hF
+  have hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
     { prime := Nat.prime_two, one_le := hn,
       card := by rw [hF, ← pow_mul, Nat.mul_comm n 2] }
   have hpodd : p ≠ 2 := by
@@ -283,7 +283,7 @@ private theorem exists_pair_element {p n d : ℕ} {F : Type} [Field F] [Finite F
   have hdet : (∏ i, (f i : F)) = 1 := by
     rw [show f = pairUnit a a' ω ω⁻¹ from rfl, prod_pairUnit haa]
     have : ((ω * ω⁻¹ : Fˣ) : F) = 1 := by rw [mul_inv_cancel, Units.val_one]
-    simpa [Units.val_mul] using this
+    simp
   have hD : diagGL f ∈ LargeEvenSUGroup (Fin d) F (2 ^ n) := by
     rw [show LargeEvenSUGroup (Fin d) F (2 ^ n) = UniSU n d F from rfl]
     exact diagGL_mem_UniSU (pairUnit_pow_card haa hωq1 hωinvq1) hdet
@@ -336,7 +336,7 @@ private theorem exists_pair_element {p n d : ℕ} {F : Type} [Field F] [Finite F
         Matrix (Fin d) (Fin d) F) = (c : F) • (1 : Matrix (Fin d) (Fin d) F) := by
       rw [hcentral, Matrix.GeneralLinearGroup.coe_scalar]
       ext i j
-      by_cases h : i = j <;> simp [Matrix.scalar_apply, Matrix.smul_apply, Matrix.one_apply, h]
+      by_cases h : i = j <;> simp [Matrix.scalar_apply, Matrix.smul_apply, h]
     have hdiag_eq : Matrix.diagonal (fun i => (pairUnit a a' ω ω⁻¹ i : F)) =
         (c : F) • (1 : Matrix (Fin d) (Fin d) F) := by
       rw [← hXD, hXeq, hconj]
@@ -353,11 +353,11 @@ private theorem exists_pair_element {p n d : ℕ} {F : Type} [Field F] [Finite F
   have hwta : MWt P X' a = (ω : F) := by
     change ((P * X' * P⁻¹ : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) a a = (ω : F)
     rw [hXD, Matrix.diagonal_apply_eq]
-    simp [f, pairUnit_self]
+    simp [pairUnit_self]
   have hwta' : MWt P X' a' = ((ω⁻¹ : Fˣ) : F) := by
     change ((P * X' * P⁻¹ : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) a' a' = ((ω⁻¹ : Fˣ) : F)
     rw [hXD, Matrix.diagonal_apply_eq]
-    simp [f, pairUnit_other haa]
+    simp [pairUnit_other haa]
   exact ⟨X', hX'SU, by dsimp [X']; rw [conj_pow_eq P D p, hDp]; group, hXD, hwta, hwta', hnotscal⟩
 
 private theorem conj_mem_scalars {d : ℕ} {F : Type} [Field F] (A : GL (Fin d) F)
@@ -392,14 +392,14 @@ private theorem diagonal_pow {d : ℕ} {F : Type} [Field F] (v : Fin d → F) (k
       rw [pow_succ]
 
 private theorem mem_GU_of_diag_pow_scalar {p n d : ℕ} {F : Type} [Field F] [Finite F]
-    (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1) (hF : Nat.card F = (2 ^ n) ^ 2) (hd : 1 ≤ d)
+    (_hp : p.Prime) (hpq : p ∣ 2 ^ n + 1) (hF : Nat.card F = (2 ^ n) ^ 2) (hd : 1 ≤ d)
     {P A : GL (Fin d) F} (hP : P ∈ LargeEvenGUSet (Fin d) F (2 ^ n)) {Dfun : Fin d → F}
     (hdiag : ((P * A * P⁻¹ : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) = Matrix.diagonal Dfun)
     (hAp : A ^ p ∈ LargeEvenScalars (Fin d) F) :
     A ∈ MGU n d F := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨_hp⟩
+  have : Fintype F := Fintype.ofFinite F
   set M : GL (Fin d) F := P * A * P⁻¹ with hM
   have hMp : M ^ p ∈ LargeEvenScalars (Fin d) F := by
     have h1 : M ^ p = P * A ^ p * P⁻¹ := by
@@ -439,7 +439,7 @@ private theorem mem_GU_of_diag_pow_scalar {p n d : ℕ} {F : Type} [Field F] [Fi
     intro i
     have hx : (Dfun i * (Dfun i0)⁻¹) ^ p = 1 := by
       rw [mul_pow, inv_pow, hDpow i, hD0pow]
-      exact mul_inv_cancel₀ (by simpa using lam.ne_zero)
+      exact mul_inv_cancel₀ (by simp)
     have hxq : (Dfun i * (Dfun i0)⁻¹) ^ (2 ^ n + 1) = 1 := by
       obtain ⟨m, hm⟩ := hpq
       rw [hm, pow_mul, hx, one_pow]
@@ -538,7 +538,6 @@ private theorem ginduced_of_gacts {n d : ℕ} {Ω : Type} [Group Ω] {S : Subgro
     intro x
     obtain ⟨u, rfl⟩ := QuotientGroup.mk'_surjective Z x
     rw [show QuotientGroup.mk' Z u = (↑u : LargeEvenProj U) from QuotientGroup.mk'_apply (N := Z) u]
-    change φinv (φhom (↑u)) = (↑u : LargeEvenProj U)
     dsimp only [φhom, φinv]
     rw [QuotientGroup.map_mk (N := Z) (M := Z) f hZmap u,
       QuotientGroup.map_mk (N := Z) (M := Z) finv hZmapinv (f u), hleftU u]
@@ -546,7 +545,6 @@ private theorem ginduced_of_gacts {n d : ℕ} {Ω : Type} [Group Ω] {S : Subgro
     intro x
     obtain ⟨u, rfl⟩ := QuotientGroup.mk'_surjective Z x
     rw [show QuotientGroup.mk' Z u = (↑u : LargeEvenProj U) from QuotientGroup.mk'_apply (N := Z) u]
-    change φhom (φinv (↑u)) = (↑u : LargeEvenProj U)
     dsimp only [φhom, φinv]
     rw [QuotientGroup.map_mk (N := Z) (M := Z) finv hZmapinv u,
       QuotientGroup.map_mk (N := Z) (M := Z) f hZmap (finv u), hrightU u]
@@ -658,8 +656,8 @@ private theorem pair_element_not_mem {p n d : ℕ} {Ω : Type} [Group Ω] [Finit
     (hDXa : DX a = (ω : F)) (hDXa' : DX a' = ((ω⁻¹ : Fˣ) : F)) (hωne : ω ≠ ω⁻¹) :
     (ψ ⟨X', hX'SU⟩ : Ω) ∉ B := by
   classical
-  haveI hchar : CharP F 2 := charP_two_of_card_sq hn hF
-  haveI hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
+  have hchar : CharP F 2 := charP_two_of_card_sq hn hF
+  have hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
     { prime := Nat.prime_two, one_le := hn,
       card := by rw [hF, ← pow_mul, Nat.mul_comm n 2] }
   let U := LargeEvenSUGroup (Fin d) F (2 ^ n)
@@ -800,10 +798,10 @@ private theorem diag_conj_of_block {d : ℕ} {F : Type} [Field F] {I : Finset (F
       · rw [hg0, mul_zero, zero_mul]
       · have hiI : i ∈ I := by
           by_contra hi
-          exact hg0 (by rw [hg i j (Or.inl hi), if_neg hij])
+          exact hg0 (by rw [hg i j (Or.inl hi), ite_eq_right hij])
         have hjI : j ∈ I := by
           by_contra hj
-          exact hg0 (by rw [hg i j (Or.inr hj), if_neg hij])
+          exact hg0 (by rw [hg i j (Or.inr hj), ite_eq_right hij])
         rw [hDunit i hiI, hDunit j hjI, one_mul, mul_one]
   calc D * g * D⁻¹ = g * D * D⁻¹ := by rw [hDg]
     _ = g := by group
@@ -831,8 +829,8 @@ private theorem diag_conj_mem_block {n d : ℕ} {F : Type} [Field F] {I : Finset
     rw [hgij]
     by_cases h : i = j
     · subst h
-      rw [if_pos rfl, one_mul, mul_inv_cancel₀ (hDne i)]
-    · rw [if_neg h, zero_mul, mul_zero]
+      rw [ite_eq_left rfl, one_mul, mul_inv_cancel₀ (hDne i)]
+    · rw [ite_eq_right h, zero_mul, mul_zero]
 
 private theorem B_le_normalizer_K {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
     {S B N D K : Subgroup Ω} {x : Ω} (hcfg : MCfg p S B N D K x)
@@ -846,7 +844,7 @@ private theorem B_le_normalizer_K {p n d : ℕ} {Ω : Type} [Group Ω] [Finite �
     (hB : ∀ b ∈ B, GDiagAct p ψ P b) :
     B ≤ Subgroup.normalizer (K : Set Ω) := by
   classical
-  haveI hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
+  have hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
     { prime := Nat.prime_two, one_le := hn,
       card := by rw [hF, ← pow_mul, Nat.mul_comm n 2] }
   let U := LargeEvenSUGroup (Fin d) F (2 ^ n)
@@ -905,7 +903,7 @@ private theorem B_le_normalizer_K {p n d : ℕ} {Ω : Type} [Group Ω] [Finite �
     simpa [inv_inv] using hmem
 
 private theorem pair_element_mem_K {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
-    {S B N D K : Subgroup Ω} {x : Ω} (hcfg : MCfg p S B N D K x)
+    {S B N D K : Subgroup Ω} {x : Ω} (_hcfg : MCfg p S B N D K x)
     {F : Type} [Field F] [Finite F] (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n)
     {P : GL (Fin d) F} (hP : P ∈ LargeEvenGUSet (Fin d) F (2 ^ n))
     (I : Finset (Fin d))
@@ -917,7 +915,7 @@ private theorem pair_element_mem_K {p n d : ℕ} {Ω : Type} [Group Ω] [Finite 
     (hDX : ((P * X' * P⁻¹ : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) =
       Matrix.diagonal (fun i => (pairUnit a a' ω ω⁻¹ i : F))) :
     (ψ ⟨X', hX'SU⟩ : Ω) ∈ K := by
-  haveI hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
+  have hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
     { prime := Nat.prime_two, one_le := hn,
       card := by rw [hF, ← pow_mul, Nat.mul_comm n 2] }
   have hPnorm : P ∈ Subgroup.normalizer
@@ -931,18 +929,18 @@ private theorem pair_element_mem_K {p n d : ℕ} {Ω : Type} [Group Ω] [Finite 
     rw [hDX, Matrix.diagonal_apply]
     by_cases h : i = j
     · subst h
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have hi : i ∉ I := hij.elim id id
       have hia : i ≠ a := fun hh => hi (hh ▸ haI)
       have hia' : i ≠ a' := fun hh => hi (hh ▸ ha'I)
       simp [pairUnit, hia, hia']
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
   exact (hK _).mpr ⟨⟨X', hX'SU⟩, hX'block, rfl⟩
 
 private theorem pair_element_centralizes_K {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
-    {S B N D K : Subgroup Ω} {x : Ω} (hcfg : MCfg p S B N D K x)
-    {F : Type} [Field F] [Finite F] (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n)
-    {P : GL (Fin d) F} (hP : P ∈ LargeEvenGUSet (Fin d) F (2 ^ n))
+    {S B N D K : Subgroup Ω} {x : Ω} (_hcfg : MCfg p S B N D K x)
+    {F : Type} [Field F] [Finite F] (_hF : Nat.card F = (2 ^ n) ^ 2) (_hn : 1 ≤ n)
+    {P : GL (Fin d) F} (_hP : P ∈ LargeEvenGUSet (Fin d) F (2 ^ n))
     (I : Finset (Fin d))
     {ψ : ↥(LargeEvenSUGroup (Fin d) F (2 ^ n)) →* ↥S}
     (hK : ∀ k : Ω, k ∈ K ↔ ∃ u : ↥(LargeEvenSUGroup (Fin d) F (2 ^ n)),
@@ -1012,7 +1010,7 @@ theorem gen_lift_mem_B {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K :
     rw [← hvs]
     have hv : ((u * v * u⁻¹ : ↥U) : GL (Fin d) F) =
         (u : GL (Fin d) F) * (v : GL (Fin d) F) * (u : GL (Fin d) F)⁻¹ := by
-      simp [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [Subgroup.coe_mul]
     have hg := hact v (u * v * u⁻¹) hv
     have h1 : (ψ v : Ω) * b = b * (ψ (u * v * u⁻¹) : Ω) := by
       rw [hg]; group
@@ -1071,7 +1069,7 @@ theorem gen_lift_mem_B {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K :
 
 theorem uni_transvection {n d : ℕ} {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) (P : GL (Fin d) F)
-    (hP : P ∈ LargeEvenGUSet (Fin d) F (2 ^ n)) (I : Finset (Fin d)) {s t : Fin d} (hs : s ∈ I)
+    (_hP : P ∈ LargeEvenGUSet (Fin d) F (2 ^ n)) (I : Finset (Fin d)) {s t : Fin d} (hs : s ∈ I)
     (ht : t ∈ I) (hst : s ≠ t) :
     ∃ U₀ : Subgroup (GL (Fin d) F), U₀ ≠ ⊥ ∧ IsPGroup 2 U₀ ∧
       (∀ u ∈ U₀, (P * u * P⁻¹) ∈ UniBlockSet n d F I) ∧
@@ -1079,7 +1077,7 @@ theorem uni_transvection {n d : ℕ} {F : Type} [Field F] [Finite F]
         (∀ i j : Fin d, i ≠ j → ((P * A * P⁻¹ : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) i j = 0) →
         A ∈ Subgroup.normalizer (U₀ : Set (GL (Fin d) F)) := by
   classical
-  haveI hchar : CharP F 2 := charP_two_of_card_sq hn hF
+  have hchar : CharP F 2 := charP_two_of_card_sq hn hF
   let σ : Equiv.Perm (Fin d) := Equiv.swap s t
   let τ : GL (Fin d) F := permGL' σ
   have hτSU : τ ∈ UniSU n d F := by
@@ -1097,8 +1095,7 @@ theorem uni_transvection {n d : ℕ} {F : Type} [Field F] [Finite F]
       ((g : Matrix (Fin d) (Fin d) F) s t)) h
     have hτst : ((τ : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) s t = 1 := by
       rw [hτmat]
-      change (σ.permMatrix F) s t = 1
-      rw [permMatrix_apply', Equiv.swap_apply_left, if_pos rfl]
+      rw [permMatrix_apply', Equiv.swap_apply_left, ite_eq_left rfl]
     have h1st : ((1 : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) s t = 0 := by
       rw [Units.val_one, Matrix.one_apply_ne hst]
     rw [hτst, h1st] at hmat
@@ -1182,7 +1179,7 @@ private theorem MGU_le_normalizer {n d : ℕ} {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) :
     MGU n d F ≤ Subgroup.normalizer
       (LargeEvenSUGroup (Fin d) F (2 ^ n) : Set (GL (Fin d) F)) := by
-  haveI hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
+  have hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
     { prime := Nat.prime_two, one_le := hn,
       card := by rw [hF, ← pow_mul, Nat.mul_comm n 2] }
   rw [MGU]
@@ -1229,7 +1226,7 @@ private theorem GActs_pow_self {n d : ℕ} {Ω : Type} [Group Ω] {S : Subgroup 
   group
 
 private theorem exists_uni_U {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
-    {S B N D K : Subgroup Ω} {x : Ω} (hcfg : MCfg p S B N D K x)
+    {S B N D K : Subgroup Ω} {x : Ω} (_hcfg : MCfg p S B N D K x)
     {F : Type} [Field F] [Finite F] (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n)
     (hd : 3 ≤ d)
     {θ : ↥S ⧸ Subgroup.center ↥S ≃* LargeEvenProj (LargeEvenSUGroup (Fin d) F (2 ^ n))}
@@ -1245,8 +1242,8 @@ private theorem exists_uni_U {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
           Matrix (Fin d) (Fin d) F) i j = 0) →
         GActs ψ b A → b ∈ Subgroup.normalizer (U : Set Ω)) := by
   classical
-  haveI hchar : CharP F 2 := charP_two_of_card_sq hn hF
-  haveI hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
+  have hchar : CharP F 2 := charP_two_of_card_sq hn hF
+  have hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
     { prime := Nat.prime_two, one_le := hn,
       card := by rw [hF, ← pow_mul, Nat.mul_comm n 2] }
   let SU := LargeEvenSUGroup (Fin d) F (2 ^ n)
@@ -1424,7 +1421,7 @@ private theorem B_decomp_sep {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
     {ψ : ↥(LargeEvenSUGroup (Fin d) F (2 ^ n)) →* ↥S} (hψ : GLifts θ ψ)
     (hψS : Function.Surjective ψ)
     (hperf : Group.IsPerfect ↥(LargeEvenSUGroup (Fin d) F (2 ^ n)))
-    (hcen : ∀ A : GL (Fin d) F, (∀ u ∈ LargeEvenSUGroup (Fin d) F (2 ^ n),
+    (_hcen : ∀ A : GL (Fin d) F, (∀ u ∈ LargeEvenSUGroup (Fin d) F (2 ^ n),
       ⁅A, u⁆ ∈ LargeEvenScalars (Fin d) F) → A ∈ LargeEvenScalars (Fin d) F)
     {P : GL (Fin d) F} (hP : P ∈ LargeEvenGUSet (Fin d) F (2 ^ n))
     (hB : ∀ b ∈ B, GDiagAct p ψ P b) {Gh : Subgroup (GL (Fin d) F)}
@@ -1433,10 +1430,10 @@ private theorem B_decomp_sep {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
     (I : Finset (Fin d))
     (hK : ∀ k : Ω, k ∈ K ↔ ∃ u : ↥(LargeEvenSUGroup (Fin d) F (2 ^ n)),
       (P * (u : GL (Fin d) F) * P⁻¹) ∈ UniBlockSet n d F I ∧ (ψ u : Ω) = k)
-    {s t : Fin d} (hs : s ∈ I) (ht : t ∈ I) (hst : s ≠ t)
+    {s t : Fin d} (_hs : s ∈ I) (_ht : t ∈ I) (_hst : s ≠ t)
     (hsep : ∃ A ∈ Gh, (P * A * P⁻¹) ∈ UniBlockSet n d F I ∧ A ^ p = 1 ∧
       MWt P A s ≠ MWt P A t)
-    (U : Subgroup Ω) (hUne : U ≠ ⊥) (hU2 : IsPGroup 2 U) (hUK : U ≤ K)
+    (U : Subgroup Ω) (_hUne : U ≠ ⊥) (_hU2 : IsPGroup 2 U) (_hUK : U ≤ K)
     (hUtrans : ∀ (b : Ω) (A : GL (Fin d) F), b ∈ B → A ∈ MGU n d F →
         MWt P A s = MWt P A t →
         (∀ i j : Fin d, i ≠ j → ((P * A * P⁻¹ : GL (Fin d) F) :
@@ -1478,11 +1475,8 @@ private theorem B_decomp_sep {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
     intro i
     have h2 : ((P * A * P⁻¹ : GL (Fin d) F) ^ p : Matrix (Fin d) (Fin d) F) =
         Matrix.diagonal (fun i => lam i ^ p) := by
-      change ((P * A * P⁻¹ : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) ^ p =
-        Matrix.diagonal (fun i => lam i ^ p)
       rw [hAmat, diagonal_pow]
     have h3 : ((P * A * P⁻¹ : GL (Fin d) F) ^ p : Matrix (Fin d) (Fin d) F) = 1 := by
-      change ((P * A * P⁻¹ : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) ^ p = 1
       rw [← Units.val_pow_eq_pow_val]
       rw [show (P * A * P⁻¹ : GL (Fin d) F) ^ p = 1 from by
         rw [show P * A * P⁻¹ = (P⁻¹)⁻¹ * A * P⁻¹ from by group, conj_pow_eq, hAp]
@@ -1522,7 +1516,7 @@ private theorem B_decomp_sep {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
       ((P * A * P⁻¹ : GL (Fin d) F) : Matrix (Fin d) (Fin d) F) t t
     rw [hAmat, Matrix.diagonal_apply_eq, Matrix.diagonal_apply_eq]
     exact h2
-  haveI : NeZero p := ⟨hcfg.prime.ne_zero⟩
+  have : NeZero p := ⟨hcfg.prime.ne_zero⟩
   have hρprim : IsPrimitiveRoot ρ p := by
     apply IsPrimitiveRoot.iff_orderOf.mpr
     have hdvd : orderOf ρ ∣ p := orderOf_dvd_iff_pow_eq_one.mpr hρp
@@ -1554,14 +1548,14 @@ private theorem B_decomp_sep {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
           rw [show P * Ab * P⁻¹ = (P⁻¹)⁻¹ * Ab * P⁻¹ from by group, conj_pow_eq]
           group]
         rw [← hc]
-        have hcen : P * Matrix.GeneralLinearGroup.scalar (Fin d) c * P⁻¹ =
+        have _hcen : P * Matrix.GeneralLinearGroup.scalar (Fin d) c * P⁻¹ =
             Matrix.GeneralLinearGroup.scalar (Fin d) c := by
           calc P * Matrix.GeneralLinearGroup.scalar (Fin d) c * P⁻¹
               = Matrix.GeneralLinearGroup.scalar (Fin d) c * P * P⁻¹ := by
                 rw [← Matrix.GeneralLinearGroup.scalar_commute c P]
             _ = Matrix.GeneralLinearGroup.scalar (Fin d) c := by
                 rw [mul_assoc, mul_inv_cancel, mul_one]
-        rw [hcen, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
+        rw [_hcen, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
           ← Matrix.smul_one_eq_diagonal]
       have h3 := hdiagp.symm.trans hscal
       rw [Matrix.smul_one_eq_diagonal, Matrix.diagonal_injective.eq_iff] at h3
@@ -1585,7 +1579,7 @@ private theorem B_decomp_sep {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
       apply Units.ext
       change (α : F) ^ p = (1 : F)
       rw [hαval, mul_pow, inv_pow, hDp s, hDp t]
-      exact mul_inv_cancel₀ (by simpa using c.ne_zero)
+      exact mul_inv_cancel₀ (by simp)
     have hαpF : (α : F) ^ p = 1 := by
       have := congrArg (fun z : Fˣ => (z : F)) hαp
       simpa [Units.val_one, Units.val_pow_eq_pow_val] using this
@@ -1593,7 +1587,7 @@ private theorem B_decomp_sep {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
       (IsPrimitiveRoot.coe_units_iff.mpr hρprim) (by rw [inv_pow, hαpF, inv_one])
     have hαj : (α : F) * (ρ : F) ^ j = 1 := by
       rw [hj]
-      exact mul_inv_cancel₀ (by simpa using α.ne_zero)
+      exact mul_inv_cancel₀ (by simp)
     have hxj : D s * lam s ^ j = D t * lam t ^ j := by
       have hval : (α : F) * (ρ : F) ^ j = 1 := hαj
       rw [hαval, hρval, mul_pow, inv_pow] at hval
@@ -1670,7 +1664,7 @@ theorem uni_iv_assembly {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N 
       IsPGroup 2 U ∧ U ≤ K ∧ B' = (B' ⊓ K) ⊔ (B' ⊓ Subgroup.normalizer (U : Set Ω)) ∧
       B' ≤ Subgroup.normalizer (K : Set Ω) := by
   classical
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   have hpF : p ∣ Nat.card Fˣ := by
     rw [Nat.card_units, hF]
     have hfac : (2 ^ n) ^ 2 - 1 = (2 ^ n + 1) * (2 ^ n - 1) := by

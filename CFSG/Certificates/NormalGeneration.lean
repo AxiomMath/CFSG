@@ -73,7 +73,7 @@ theorem exists_prime_order_mem_subgroup (N : Subgroup G) (hN : N ≠ ⊥) :
     by simpa only [Subgroup.orderOf_coe] using hx⟩
 
 theorem prime_order_normal_test [Nontrivial G] (representatives : Set G)
-    (hprime : ∀ r ∈ representatives, (orderOf r).Prime)
+    (_hprime : ∀ r ∈ representatives, (orderOf r).Prime)
     (hcover : ∀ x : G, (orderOf x).Prime →
       ∃ r ∈ representatives, ∃ g : G,
         Subgroup.zpowers x = (Subgroup.zpowers r).map (MulAut.conj g).toMonoidHom)

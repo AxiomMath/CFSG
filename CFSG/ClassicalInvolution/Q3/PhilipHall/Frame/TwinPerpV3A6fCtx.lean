@@ -43,7 +43,7 @@ theorem stable_symmDiff {π : Equiv.Perm (Fin 8)} (hππ : ∀ z, π (π z) = z)
   simp only [Finset.mem_symmDiff, Finset.mem_map_equiv, hs, hππ]
   tauto
 
-theorem moved_of_mem_symmDiff {π : Equiv.Perm (Fin 8)} (hππ : ∀ z, π (π z) = z)
+theorem moved_of_mem_symmDiff {π : Equiv.Perm (Fin 8)} (_hππ : ∀ z, π (π z) = z)
     (S : Finset (Fin 8)) {z : Fin 8} (hz : z ∈ symmDiff S (S.map π.toEmbedding)) : π z ≠ z := by
   intro h
   have hs : π.symm z = z := by

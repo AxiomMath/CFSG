@@ -105,11 +105,11 @@ theorem card_le_of_colOK {n w K : Nat} {gs : Array Nat} {ps : List Nat} {c : Arr
     intro a b hab
     by_cases ha : (a : Equiv.Perm (Fin n)) = 1 <;> by_cases hb : (b : Equiv.Perm (Fin n)) = 1
     · exact Subtype.ext (ha.trans hb.symm)
-    · simp only [F, dif_pos ha, dif_neg hb] at hab
+    · simp only [F, dite_eq_left ha, dite_eq_right hb] at hab
       exact absurd hab.symm (Fin.succ_ne_zero _)
-    · simp only [F, dif_neg ha, dif_pos hb] at hab
+    · simp only [F, dite_eq_right ha, dite_eq_left hb] at hab
       exact absurd hab (Fin.succ_ne_zero _)
-    · simp only [F, dif_neg ha, dif_neg hb, Fin.succ_inj] at hab
+    · simp only [F, dite_eq_right ha, dite_eq_right hb, Fin.succ_inj] at hab
       obtain ⟨p, hp, hcp, hrp⟩ := (key a a.2 ha).choose_spec
       obtain ⟨q, hq, hcq, hrq⟩ := (key b b.2 hb).choose_spec
       rw [hab] at hp

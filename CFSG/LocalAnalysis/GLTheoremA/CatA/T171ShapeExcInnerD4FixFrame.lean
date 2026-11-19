@@ -64,7 +64,7 @@ theorem twoDExcFixedPointsPerfect_of_isPerfect_CQ (i : KernelComponent (rootChar
     TwoDExcFixedPointsPerfect S a i s := by
   unfold TwoDExcFixedPointsPerfect
   rw [fixedPointSubgroup_eq_map_CQ S i hnorm hz hCQ]
-  haveI := hperf
+  have := hperf
   let e := Subgroup.equivMapOfInjective (CQ σ i) (MulAut.conj z).toMonoidHom
     (MulAut.conj z).injective
   exact Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective

@@ -15,6 +15,7 @@ namespace MinCex
 
 variable {M V Q P H : Subgroup G} [Finite G]
 
+omit [Finite G] in
 theorem Rtilde_le_centralizer (hc : MinCex M V Q P H) :
     Rtilde V H P ≤ Subgroup.centralizer (VZ V H : Set (XbarZ V H)) := by
   rintro _ ⟨r, hr, rfl⟩

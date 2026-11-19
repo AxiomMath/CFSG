@@ -26,14 +26,14 @@ theorem w135c2_psu_four_center_eq_bot
     (hctx : Is135Context Y L) {f : ℕ}
     (hlie : LieModel (↥L ⧸ Subgroup.center ↥L) .PSU 4 2 f) : Subgroup.center ↥L = ⊥ := by
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun g : MulAut W => (g : W → W)) DFunLike.coe_injective
-  haveI : Group.IsPerfect ↥L := (hctx.2.2.2.2.1 : CFSG.IsQuasisimple ↥L).1
+  have : Group.IsPerfect ↥L := (hctx.2.2.2.2.1 : CFSG.IsQuasisimple ↥L).1
   have hodd : Odd (Nat.card (Subgroup.center ↥L)) := w135_odd_card_center hctx
   obtain ⟨⟨-, hf, hm, hq⟩, K, hKf, hKfin, hK, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel hlie (by decide)
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   obtain ⟨φ, -, -, hφmap⟩ :=
     CFSG.LocalAnalysis.RankThreeUC.S15.GN15.exists_su_cover hodd hK hf hm hq e
   have hcard : Nat.card ((StatedScalars (Fin 4) K).subgroupOf (StatedSU 4 (2 ^ f) K)) = 1 := by
@@ -63,9 +63,9 @@ theorem w135c2_psu_four_inner
   have hf : 1 ≤ f := hlie.admissible.2.1
   have hI := hctx.2.2.2.2.2
   have hirr : CFSG.LocalAnalysis.RankThreeUC.IsIrrOn L := fun J hJ => hI.2.2.2 J hJ bot_le le_top
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun g : MulAut W => (g : W → W)) DFunLike.coe_injective
-  haveI : Fact (∀ s : W, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hW s⟩
+  have : Fact (∀ s : W, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hW s⟩
   have htt : t * t = 1 := by
     have h1 := pow_orderOf_eq_one t
     rwa [ht2, pow_two] at h1

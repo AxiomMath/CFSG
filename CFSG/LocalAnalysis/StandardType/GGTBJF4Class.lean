@@ -67,7 +67,7 @@ theorem ggTBJ_f4_class
     have hsub : Subsingleton (J ⧸ Subgroup.center J) := by
       rw [hcenter]
       exact QuotientGroup.subsingleton_quotient_top
-    haveI := hsub
+    have := hsub
     obtain ⟨x, y, hxy⟩ := (hJ.2.2.2.toNontrivial : Nontrivial (J ⧸ Subgroup.center J))
     exact hxy (Subsingleton.elim x y)
   obtain ⟨β, hβ⟩ := hne

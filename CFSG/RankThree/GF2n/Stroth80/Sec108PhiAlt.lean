@@ -42,7 +42,7 @@ private theorem card_toAddSubgroup' {A : Type} [AddGroup A]
     { toFun := fun x => ⟨Multiplicative.ofAdd x.1,
         (Subgroup.mem_toAddSubgroup' S x.1).mp x.2⟩
       invFun := fun y => ⟨(y : Multiplicative A).toAdd,
-        (Subgroup.mem_toAddSubgroup' S (y : Multiplicative A).toAdd).mpr (by simpa using y.2)⟩
+        (Subgroup.mem_toAddSubgroup' S (y : Multiplicative A).toAdd).mpr (by simp)⟩
       left_inv := fun x => Subtype.ext rfl
       right_inv := fun y => Subtype.ext (by simp) }
 
@@ -235,7 +235,7 @@ private theorem card_deltaLB (D : Sec108Data hc t Y)
       AddSubgroup.mem_map_of_mem _
         ((Subgroup.mem_toAddSubgroup' H
           (S : Multiplicative (Matrix (Fin 3) (Fin 3) AM.K)).toAdd).mpr
-          (by simpa using S.2))⟩
+          (by simp))⟩
   have hbij : Function.Bijective e := by
     constructor
     · intro S T hST
@@ -326,7 +326,7 @@ theorem Sec108Data.exists_phiMat_eq (D : Sec108Data hc t Y)
     rw [hbot] at hXcard
     rw [AddSubgroup.card_bot] at hXcard
     omega
-  obtain ⟨S₀, hS₀, hS₀ne⟩ := SetLike.exists_of_lt (bot_lt_iff_ne_bot.mpr hne_bot)
+  obtain ⟨S₀, hS₀, hS₀ne⟩ := _root_.IsConcreteLE.exists_of_lt (bot_lt_iff_ne_bot.mpr hne_bot)
   obtain ⟨n₀, hn₀⟩ := (mem_range_iff D AM).mp hS₀
   have hS₀t : S₀ᵀ = -S₀ := by
     rw [← hn₀, CharTwo.neg_eq]
@@ -398,7 +398,7 @@ private theorem root_le_CN (D : Sec108Data hc t Y) : Y ≤ hc.CN t := by
 
 private theorem root_le_normalizer_Q (D : Sec108Data hc t Y) :
     Y ≤ Subgroup.normalizer (Q : Set G) :=
-  fun y hy => hc.hyp.Q_normal.2 (((smith_1_12 D.sit).1).trans inf_le_left hy)
+  fun _y hy => hc.hyp.Q_normal.2 (((smith_1_12 D.sit).1).trans inf_le_left hy)
 
 private theorem card_root_sup_Q (D : Sec108Data hc t Y) :
     Nat.card ↥(Y ⊔ Q) = Nat.card Z * Nat.card Q := by
@@ -440,7 +440,7 @@ private theorem phiHom_eq_one_of_mem_Q (D : Sec108Data hc t Y)
 private theorem card_ker_phiHom (D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) :
     Nat.card ↥(D.phiHom AM).ker = Nat.card Z * Nat.card Q := by
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have hCN : Nat.card ↥(hc.CN t) = Nat.card (bar M Q (hc.CN t)) * Nat.card Q :=
     (bar_card_mul_card_of_le (Ctx.Q_le_CN hc D.good.1.mem_LB)
       (fun x hx => hc.Rt_le_M t (Ctx.mem_CN.mp hx).1)).symm

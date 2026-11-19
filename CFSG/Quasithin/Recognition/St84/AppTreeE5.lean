@@ -107,7 +107,7 @@ theorem f112saQ_eq_one_of_odd_of_f112Hyp_of_hyp111R {L1 L2 S : Subgroup H}
     (hF : F112HypW L1 L2 S) (hR : Hyp111R L1 L2 S) [hN : (f112saK' L1 L2 S).Normal]
     {q : f112saQ L1 L2 S} (hodd : Odd (orderOf q)) : q = 1 := by
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : 2 ∣ orderOf q := (f112saQ_isPGroup_of_f112Hyp_of_hyp111R hF hR).dvd_orderOf hne
   exact (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr h2)
 
@@ -122,6 +122,7 @@ theorem f112EOdd_le_ker_chi_of_f112Hyp_of_hyp111R {L1 L2 S : Subgroup H}
   exact MonoidHom.mem_ker.mpr (f112saQ_eq_one_of_odd_of_f112Hyp_of_hyp111R hF hR
     (huodd.of_dvd_nat (orderOf_map_dvd (f112saChiR hF hR) u)))
 
+omit [Finite H] in
 theorem f112E5_le_EOdd (L1 L2 S : Subgroup H) :
     f112E5 L1 L2 S ≤ f112EOdd L1 L2 S := by
   rw [f112E5, f112EOdd]
@@ -137,6 +138,7 @@ theorem f112E5_le_ker_chi_of_f112Hyp_of_hyp111R {L1 L2 S : Subgroup H}
     f112E5 L1 L2 S ≤ (f112saChiR hF hR).ker :=
   (f112E5_le_EOdd L1 L2 S).trans (f112EOdd_le_ker_chi_of_f112Hyp_of_hyp111R hF hR)
 
+omit [Finite H] in
 theorem f112sa_five_map_le_E5_left {L1 L2 S : Subgroup H} :
     ((f112saFive L1).subgroupOf (f112P1 L1 L2 S)).map (f112Gold L1 L2 S).ofA ≤
       f112E5 L1 L2 S := by
@@ -153,6 +155,7 @@ theorem f112sa_five_map_le_E5_left {L1 L2 S : Subgroup H} :
   · rintro x ⟨hxL, -⟩
     exact Subgroup.mem_sup_left hxL
 
+omit [Finite H] in
 theorem f112sa_five_map_le_E5_right {L1 L2 S : Subgroup H} :
     ((f112saFive L2).subgroupOf (f112P2 L1 L2 S)).map (f112Gold L1 L2 S).ofB ≤
       f112E5 L1 L2 S := by
@@ -240,10 +243,10 @@ theorem f112E5_inf_ofA_range {L1 L2 S : Subgroup H}
         (f112Gold L1 L2 S).ofA := by
   have hR : Hyp111R L1 L2 S :=
     hyp111R_of_isL2Quot (m := 2) (n := 2) (by norm_num) (by norm_num) hF.1 h1 h2
-  haveI hN : (f112saK' L1 L2 S).Normal := f112saK'_normal_of_hyp111R hF hR
-  haveI hN1 : ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).Normal :=
+  have hN : (f112saK' L1 L2 S).Normal := f112saK'_normal_of_hyp111R hF hR
+  have hN1 : ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).Normal :=
     f112sa_P1'_normal hF
-  haveI hN2 : ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).Normal :=
+  have hN2 : ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).Normal :=
     f112sa_P2'_normal hF
   refine le_antisymm ?_ ?_
   · rintro u ⟨huE, huA⟩
@@ -266,10 +269,10 @@ theorem f112E5_inf_ofB_range {L1 L2 S : Subgroup H}
         (f112Gold L1 L2 S).ofB := by
   have hR : Hyp111R L1 L2 S :=
     hyp111R_of_isL2Quot (m := 2) (n := 2) (by norm_num) (by norm_num) hF.1 h1 h2
-  haveI hN : (f112saK' L1 L2 S).Normal := f112saK'_normal_of_hyp111R hF hR
-  haveI hN1 : ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).Normal :=
+  have hN : (f112saK' L1 L2 S).Normal := f112saK'_normal_of_hyp111R hF hR
+  have hN1 : ((f112saP1' L1 L2 S).subgroupOf (f112P1 L1 L2 S)).Normal :=
     f112sa_P1'_normal hF
-  haveI hN2 : ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).Normal :=
+  have hN2 : ((f112saP2' L1 L2 S).subgroupOf (f112P2 L1 L2 S)).Normal :=
     f112sa_P2'_normal hF
   refine le_antisymm ?_ ?_
   · rintro u ⟨huE, huB⟩

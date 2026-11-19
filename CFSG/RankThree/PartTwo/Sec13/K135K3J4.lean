@@ -18,8 +18,8 @@ theorem k3_J4
   have hsimp := CFSG.Sporadic.J4.fam_j4_simplicity
   have hcard : Nat.card NativeSporadic.J4 = 86775571046077562880 := CFSG.Sporadic.J4.card_J4
   have hnp : ¬ Nat.Prime 86775571046077562880 := by norm_num
-  haveI : IsSimpleGroup NativeSporadic.J4 := hsimp.2.2
-  haveI : Finite NativeSporadic.J4 := hsimp.1
+  have : IsSimpleGroup NativeSporadic.J4 := hsimp.2.2
+  have : Finite NativeSporadic.J4 := hsimp.1
   have hcen : Subgroup.center S = ⊥ := by
     refine center_eq_bot_of_simple_card (X := NativeSporadic.J4) e ?_
     intro hp
@@ -32,10 +32,10 @@ theorem k3_J4
   intro P hP hcard' α hα hcomm
   refine k3_of_data hcen hodd (fun A hA => hinner A hA) ?_ P hP hcard' α hα hcomm
   intro Q hQ hQcard l hl3 hcommQ
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have θ : S ≃* ↥CFSG.Sporadic.J4.J :=
     e.trans (CFSG.Sporadic.J4.seedEquiv CFSG.Sporadic.J4.j4Facts.mat)
-  haveI : Finite ↥CFSG.Sporadic.J4.J := Finite.of_equiv S θ.toEquiv
+  have : Finite ↥CFSG.Sporadic.J4.J := Finite.of_equiv S θ.toEquiv
   have hC : Subgroup.centralizer ((Q11Sylow : Subgroup ↥CFSG.Sporadic.J4.J) : Set ↥CFSG.Sporadic.J4.J)
       ≤ (Q11Sylow : Subgroup ↥CFSG.Sporadic.J4.J) := by
     rw [Q11Sylow_coe]

@@ -31,7 +31,7 @@ theorem false_of_towerFacts {X : Type} [Group X] {n : ℕ} (hX : Nat.card X = 2 
       rw [← map_pow, map_eq_one_iff ι hι] at h2
       rw [mem_map_iff_mem hι] at hq
       rw [← hιt]
-      exact conj_map hι (hout q hq h2))
+      exact conj_map (φ := ι) (hout q hq h2))
   set D := ExtData.ofConj hι hcN hc2
   set Φ := cycHom hι hcN hc2
   have hΦ : Function.Injective Φ := cycHom_injective hι hcN hc2 hcK
@@ -69,9 +69,9 @@ theorem false_of_towerFacts {X : Type} [Group X] {n : ℕ} (hX : Nat.card X = 2 
       intro x hx
       obtain ⟨q, rfl⟩ := MonoidHom.mem_range.1 hx.1
       rw [← hΦt]
-      exact (hcls₂ q ((isPInv_map_iff hΦ q).1 hx)).imp (conj_map hΦ) (conj_map hΦ))
+      exact (hcls₂ q ((isPInv_map_iff hΦ q).1 hx)).imp (conj_map (φ := Φ)) (conj_map (φ := Φ)))
   rcases hor with hx₀ | hL3
-  · obtain ⟨k, hk, hx⟩ := conj_map hΦ hx₀
+  · obtain ⟨k, hk, hx⟩ := conj_map (φ := Φ) hx₀
     rw [hΦt] at hx
     exact hnot k hk hx
   set Φ' := cycHom hΦ hc'N hc'2
@@ -95,7 +95,7 @@ theorem false_of_towerFacts {X : Type} [Group X] {n : ℕ} (hX : Nat.card X = 2 
       intro x hx
       obtain ⟨q, rfl⟩ := MonoidHom.mem_range.1 hx.1
       rw [← hΦ't]
-      exact conj_map hΦ' (hcls₃ q ((isPInv_map_iff hΦ' q).1 hx)))
+      exact conj_map (φ := Φ') (hcls₃ q ((isPInv_map_iff hΦ' q).1 hx)))
 
 theorem t₀_sq (S : Subgroup (GL (Fin 6) (ZMod 2))) (h : GL62.z₀ ∈ S) : t₀ S h ^ 2 = 1 := by
   rw [sq]

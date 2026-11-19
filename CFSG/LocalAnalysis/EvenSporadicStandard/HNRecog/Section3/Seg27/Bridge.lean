@@ -39,7 +39,7 @@ theorem seg27_bridge_five {H : Type} [Group H] [Finite H] {θ : H →* Equiv.Per
   have hcardK : Nat.card K = 240 := lines_card_z2_sym5 hK.shape
   have hker' : Nat.card (K ⊓ θ.ker : Subgroup H) = 2 := by
     rw [show K ⊓ θ.ker = Subgroup.zpowers a by rw [hker, hK.inf_center], Nat.card_zpowers]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by simpa [pow_two] using hK.mul_self) hK.ne_one
   have hmul := seg27_card_map_mul θ K
   rw [hcardK, hker'] at hmul

@@ -31,13 +31,13 @@ theorem isSolvable_of_card_dvd_pow_two {X : Type} [Group X] [Finite X] {k : ℕ}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 h
   have hp : IsPGroup 2 X := IsPGroup.of_card hj
-  haveI := hp.isNilpotent
+  have := hp.isNilpotent
   infer_instance
 
 theorem ringEquiv_eq_refl_of_card_prime {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime)
     (hK : Nat.card K = p) (σ : K ≃+* K) : σ = RingEquiv.refl K := by
   have : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K p := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     hp (le_refl 1) (by rw [hK, pow_one])
   have hsurj : Function.Surjective (ZMod.castHom (dvd_refl p) K) := by
     have hinj : Function.Injective (ZMod.castHom (dvd_refl p) K) :=
@@ -82,7 +82,7 @@ theorem kT1_four_SL (p : ℕ) [Fact p.Prime] (hp : 3 < p) :
             Nat.mul_dvd_mul_left _ (Nat.gcd_dvd_left 4 _)
         _ = 2 ^ 3 := by norm_num
     have hfin : Finite (Outer S) := by
-      haveI : Finite (MulAut S) :=
+      have : Finite (MulAut S) :=
         Finite.of_injective (fun φ : MulAut S => (φ : S → S)) DFunLike.coe_injective
       infer_instance
     refine isSolvable_of_card_dvd_pow_two (k := 3) ?_
@@ -123,7 +123,7 @@ theorem isSolvable_outer_G2 (p : ℕ) [Fact p.Prime] (hp : 3 < p) (q : PrimePowe
   have hsol : Group.IsSolvable (Outer (adjointGroup Tag.G2 K)) :=
     Group.isSolvable_of_comm fun a b => φ.injective (by rw [hsub (φ (a * b)), hsub (φ (b * a))])
   let e' : S ≃* adjointGroup Tag.G2 K := e.trans eK
-  exact solvable_of_surjective (f := (equivalence e').symm.toMonoidHom)
+  exact Group.isSolvable_of_surjective (f := (equivalence e').symm.toMonoidHom)
     (equivalence e').symm.surjective
 
 theorem kT1_four_G2 (p : ℕ) [Fact p.Prime] (hp : 3 < p) (q : PrimePower) (hqp : q.p = p)

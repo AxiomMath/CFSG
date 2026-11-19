@@ -135,7 +135,7 @@ private theorem excPayK6_lift_pow {G : Type} [Group G] {f p : ℕ} {K : Type} [F
     ∃ y : ↥X, ψ y = g ∧ y ^ p = 1 := by
   have hzn : (y₀ ^ p) ^ n = 1 := by
     have hzp : y₀ ^ p ∈ Subgroup.center ↥X :=
-      (hker _).1 (by simpa [map_pow, hy₀, hgp])
+      (hker _).1 (by simp [map_pow, hy₀, hgp])
     exact orderOf_dvd_iff_pow_eq_one.mp
       ((Subgroup.orderOf_dvd_natCard (Subgroup.center ↥X) hzp).trans hdvd)
   have hm1 : (n * k) % p = 1 := excPayK6_modEq_one_mod hp hk
@@ -156,7 +156,7 @@ private theorem excPayK6_commutator_eq_one {G : Type} [Group G] {f p : ℕ}
     (hker : ∀ z : ↥X, ψ z = 1 ↔ z ∈ Subgroup.center ↥X)
     (A0 : Subgroup ↥X) (hA0el : IsElemAbelian p A0)
     (hZ : Nat.Coprime (Nat.card ↥(Subgroup.center ↥X)) p)
-    {y : ↥X} (hyp : y ^ p = 1)
+    {y : ↥X} (_hyp : y ^ p = 1)
     (hg : ∀ x ∈ A0.map ψ, ψ y * x = x * ψ y) :
     ∀ x' ∈ A0, y * x' * y⁻¹ * x'⁻¹ = 1 := by
   intro x' hx'
@@ -315,8 +315,8 @@ theorem card_eq_pow_six_of_sc_twE6 {K : Type} [Field K] [Finite K] {f p : ℕ} (
     (hSC : ∀ g, (∀ x ∈ E, g * x = x * g) → g ^ p = 1 → g ∈ E) :
     Nat.card E = p ^ 6 := by
   classical
-  haveI : CharP K 2 := charP_two_of_card (m := f * 2) (by rw [hK, ← pow_mul])
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : CharP K 2 := charP_two_of_card (m := f * 2) (by rw [hK, ← pow_mul])
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨θ, hθq, hθo, -⟩ :=
     finite_graph_field_parameter_fields TwistTag.E6 Nat.prime_two hf K hK
   have hθ : ∀ c, θ.toRingHom (θ.toRingHom c) = c :=
@@ -349,8 +349,8 @@ theorem card_inf_eq_pow_six_of_marking_twE6 {G : Type} [Group G] [Finite G] {p :
   classical
   obtain ⟨f, K, hfld, hfin, θ, hf2, hpq, hK, -, -, -⟩ :=
     exists_recipe_of_marking_twE6 hmark
-  letI : Field K := hfld
-  letI : Finite K := hfin
+  let : Field K := hfld
+  let : Finite K := hfin
   let ψ := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥X))
   let A0 : Subgroup ↥X := (X ⊓ Bs).subgroupOf X
   let E : Subgroup (TwE6Delta.RecipeR K f) := A0.map ψ

@@ -22,10 +22,10 @@ theorem four_le_pRank_of_isLieOver_twistedA {A : Type} [Group A] [Finite A] {Y :
   have hc := CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e
   rw [hqp] at hc
   obtain ⟨⟨-, -, hn3, hnq⟩, K, hK, hKfin, hcard, ⟨e'⟩⟩ := hc
-  letI : Field K := hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2 * q.exponent)
+  let : Field K := hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2 * q.exponent)
     (by rw [← Nat.card_eq_fintype_card, hcard, ← pow_mul, mul_comm])
   have hcomp : IsComponentOf (⊤ : Subgroup ↥Y) ⊤ := isComponentOf_top_top_of_isQuasisimple hY
   have hodd : Odd (Nat.card (center ↥(⊤ : Subgroup ↥Y))) := by

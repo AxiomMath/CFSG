@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {n : ℕ} {U T : ℕ → Subgroup G} {s
 
 theorem oddCore_eq_bot_of_isSimpleGroup (hs : IsSimpleGroup G) {t : G} (ht : orderOf t = 2) :
     CFSG.oddCore G = ⊥ := by
-  haveI : (CFSG.oddCore G).Normal := inferInstance
+  have : (CFSG.oddCore G).Normal := inferInstance
   rcases hs.eq_bot_or_eq_top_of_normal (CFSG.oddCore G) with h | h
   · exact h
   · exfalso

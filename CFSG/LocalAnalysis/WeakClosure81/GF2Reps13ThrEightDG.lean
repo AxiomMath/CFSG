@@ -15,7 +15,7 @@ variable {W : Type} [CommGroup W] [Finite W] {A : Subgroup (MulAut W)} {t : MulA
   {z k a : MulAut W} {N : Subgroup (MulAut W)}
 
 private theorem w16g_orderOf_two_zmod_three : orderOf (2 : ZMod 3) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (x := (2 : ZMod 3)) (p := 2) (by decide) (by decide)
 
 private theorem w16g_odd_card_zpowers_z (hD : Data8 A t z N) :
@@ -83,7 +83,7 @@ theorem s13_eight_comp_irr (h : Cfg133 A t 3) (hD : Data8 A t z N) (hG : Gen8 A 
         _ = ⊥ := hfixz
     have hzstabJ : StableUnder (Subgroup.zpowers z) J :=
       fun x hx => hJstab x (Subgroup.zpowers_le.mpr hD.hzN hx)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hYp : IsPGroup 3 ↥(Subgroup.zpowers z) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hD.hz3, pow_one])
     have hdvd : orderOf (2 : ZMod 3) ∣ rk ↥J :=

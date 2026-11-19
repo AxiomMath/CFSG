@@ -19,7 +19,7 @@ theorem psl2_conclusion_of_centralizer {G : Type} [Group G] {z : G} (hz : orderO
     (hSC : CFSG.Assembly.LowTwoRank.StatedClassicalModel G .PSL 2 p f) : PSL2Conclusion G := by
   have hSC' := hSC
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨φ⟩⟩ := hSC
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd p := hp.odd_of_ne_two hp2
   let e2 : G ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) K :=
     φ.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
@@ -67,7 +67,7 @@ theorem leafDihedral_holds : Asc76LeafDihedral := by
   unfold Asc76LeafDihedral
   intro G _ _ z hset n hn hH he
   obtain ⟨hsimp, hnab, hz, -⟩ := hset
-  haveI := hsimp
+  have := hsimp
   obtain ⟨e⟩ := he
   have hn2 : 2 ≤ n := by omega
   have hm : Even (2 ^ (n - 1)) := Nat.even_pow.mpr ⟨even_two, by omega⟩

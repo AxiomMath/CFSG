@@ -97,7 +97,7 @@ theorem uc22s206p_elemAbelian_sup {Y : Type*} [Group Y] {p : ℕ} {A B : Subgrou
 theorem uc22s206p_E9 :
     IsElemAbelian 3 (zpowers uc22s206pA0 ⊔ zpowers uc22s206pB0) ∧
       Nat.card ↥(zpowers uc22s206pA0 ⊔ zpowers uc22s206pB0) = 3 ^ (1 + 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hab, ha3, hb3, ha1, hb1, -, -, h2a, h2b⟩ := uc22s206p_rel
   refine uc22s206p_elemAbelian_sup (isElemAbelian_zpowers ha3) (isElemAbelian_zpowers hb3)
     (fun x hx y hy => ?_) (uc22s206p_disjoint h2a h2b hb3) ?_ ?_
@@ -121,8 +121,8 @@ theorem uc22s206p_frattini {X Q : Type*} [Group X] [Finite X] [Group Q] (β : X 
     (hEi : ∀ x ∈ E, ∀ y ∈ E, β x = β y → x = y) {σ : Q}
     (hσ : ∀ e ∈ E, ∃ e' ∈ E, β e' = σ * β e * σ⁻¹) :
     ∃ h : X, ∀ e ∈ E, ∀ e' ∈ E, β e' = σ * β e * σ⁻¹ → h * e * h⁻¹ = e' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, rfl⟩ := hβ σ
   have hEH : CFSG.ABGLocalTools.IsSylowOf 3 E (E ⊔ β.ker) := by
     refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_sup_left, hE, fun h3 => ?_⟩
@@ -162,7 +162,7 @@ theorem uc22s206p_elements [Finite G] {L : Subgroup G} (α : ↥L →* alternati
     ∃ a b h₁ h₂ : ↥(ptCore α i), a * b = b * a ∧ a ^ 3 = 1 ∧ b ^ 3 = 1 ∧
       h₁ * a * h₁⁻¹ = a⁻¹ ∧ h₁ * b * h₁⁻¹ = b ∧ h₂ * a * h₂⁻¹ = a ∧ h₂ * b * h₂⁻¹ = b⁻¹ ∧
       ptHom α i a ≠ 1 ∧ ptHom α i b ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hab, ha3, hb3, ha1, hb1, h1a, h1b, h2a, h2b⟩ := uc22s206p_rel
   obtain ⟨hE₀, hE₀card⟩ := uc22s206p_E9
   set e := uc22s206gEmb i with he

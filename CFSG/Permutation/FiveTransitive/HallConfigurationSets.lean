@@ -15,6 +15,7 @@ open Research.HallOrbitTransitivity
 
 variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 
+omit [Fintype X] in
 private theorem range_fin_four (e : Fin 4 ↪ X) :
     Set.range e = {e 0, e 1, e 2, e 3} := by
   ext x
@@ -29,11 +30,13 @@ private theorem range_fin_four (e : Fin 4 ↪ X) :
     · exact ⟨2, rfl⟩
     · exact ⟨3, rfl⟩
 
+omit [Fintype X] in
 private theorem range_fin_four_ncard (e : Fin 4 ↪ X) :
     (Set.range e).ncard = 4 := by
   rw [Set.ncard_range_of_injective e.injective,
     Nat.card_eq_fintype_card, Fintype.card_fin]
 
+omit [Finite G] in
 theorem sevenPointConfiguration_sets
     (e : Fin 4 ↪ X) (a b : G) (p q : X)
     (h : SevenPointConfiguration e a b p q) :

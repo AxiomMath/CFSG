@@ -63,7 +63,7 @@ theorem tableIII_dvd_card_of_conj_mem [Finite G] {K : Subgroup G} {T : Set G} {d
         rintro x ⟨k, hk, rfl⟩
         exact hT k hk c hc
       have hs : 0 < Nat.card ↥(K ⊓ Gx c) := by
-        haveI : Nonempty ↥(K ⊓ Gx c) := ⟨⟨1, ⟨K.one_mem, mem_Gx.mpr (by simp)⟩⟩⟩
+        have : Nonempty ↥(K ⊓ Gx c) := ⟨⟨1, ⟨K.one_mem, mem_Gx.mpr (by simp)⟩⟩⟩
         exact Nat.card_pos
       have hdvdO : d ∣ Nat.card ↥O := by
         have h := hd c hc
@@ -107,7 +107,7 @@ theorem tableIII_isConjOrbit_of_card_le [Finite G] {K : Subgroup G} {T : Set G}
     rintro x ⟨k, hk, rfl⟩
     exact hT k hk c hc
   have hs : 0 < Nat.card ↥(K ⊓ Gx c) := by
-    haveI : Nonempty ↥(K ⊓ Gx c) := ⟨⟨1, ⟨K.one_mem, mem_Gx.mpr (by simp)⟩⟩⟩
+    have : Nonempty ↥(K ⊓ Gx c) := ⟨⟨1, ⟨K.one_mem, mem_Gx.mpr (by simp)⟩⟩⟩
     exact Nat.card_pos
   have hcard : Nat.card ↥T ≤ Nat.card ↥(t3_orbit K c) := by
     have h1 : Nat.card ↥T * Nat.card ↥(K ⊓ Gx c) ≤

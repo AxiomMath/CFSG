@@ -16,8 +16,8 @@ open L6LeavesKF64iiNPC
 
 theorem kFact64iiOuterNPC_of_outerSylow (h : KFact64iiOuterSylow) : KFact64iiOuterNPC := by
   intro p hp hp3 K _ _ hsimple hnab hcat hrk φ hφ hφinn
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup K := hsimple
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup K := hsimple
   have hp1 : 1 < p := hp.one_lt
   have hp2 : p ≠ 2 := by omega
   obtain ⟨E, -, -, hEcard⟩ := CFSG.SectionRank.exists_pRank hp1 (⊤ : Subgroup K)
@@ -27,7 +27,7 @@ theorem kFact64iiOuterNPC_of_outerSylow (h : KFact64iiOuterSylow) : KFact64iiOut
     rwa [hEcard] at hdvd
   have hcyc : ∀ P : Sylow p K, IsCyclic (P : Subgroup K) := fun P => by
     refine CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one hp hp2
-      (le_top : (P : Subgroup K) ≤ ⊤) P.isPGroup' ?_
+      (le_top : (P : Subgroup K) ≤ ⊤) P.isPGroup ?_
     rw [CFSG.SectionRank.pRank_eq_open_pRank_top, ← CFSG.SectionRank.pRank_eq_pRank_top_subgroup]
     exact le_of_eq hrk
   have hmov := h p hp hp3 K hsimple hnab hcat hrk φ hφ hφinn
@@ -36,11 +36,11 @@ theorem kFact64iiOuterNPC_of_outerSylow (h : KFact64iiOuterSylow) : KFact64iiOut
   let C : Subgroup K :=
     { carrier := {g : K | φ g = g}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul, ha, hb]
       one_mem' := by simp
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv, ha] }
   have hC : Subgroup.closure {g : K | φ g = g} = C := Subgroup.closure_eq C
   rw [hC]

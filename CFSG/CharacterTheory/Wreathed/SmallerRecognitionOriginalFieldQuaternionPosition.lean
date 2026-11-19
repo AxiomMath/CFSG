@@ -138,12 +138,12 @@ theorem quaternion_subgroup_positions_actual_sylow
   obtain ⟨E⟩ := hquat
   have htwo : IsPGroup 2 A := by
     have hYtwo : IsPGroup 2 (Original.Y (2 ^ n)) := by
-      exact (S.isPGroup'.of_equiv e).to_subgroup _
+      exact (S.isPGroup.of_equiv e).to_subgroup _
     exact (hYtwo.of_equiv (originalYQuaternionEquiv n hn).symm).of_equiv E
   obtain ⟨P, hAP⟩ := htwo.exists_le_sylow
   let P0 := (P : Subgroup K).map K.subtype
   obtain ⟨g, hg⟩ := two_subgroup_conjugate_into_original_sylow S P0
-    (P.isPGroup'.map K.subtype)
+    (P.isPGroup.map K.subtype)
   have hAg : A0.map (MulAut.conj g).toMonoidHom ≤ S :=
     (Subgroup.map_mono (Subgroup.map_mono hAP)).trans hg
   have hA0quat : Nonempty (QuaternionGroup (2 ^ n / 2) ≃* A0) :=

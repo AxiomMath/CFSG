@@ -24,7 +24,7 @@ theorem hdRo7SmAAux_d9Hom_swap_78_apply (v : SMV 7) :
   ext i
   fin_cases i <;>
     simp [hdRo7SmAAux_delProj, hdRo7SmAAux_delEmbed, kRefl_apply, kRoot, sm7cx, smDual,
-      Fin.sum_univ_seven, Pi.sub_apply, Pi.smul_apply, Pi.single_apply]
+      Fin.sum_univ_seven, Pi.sub_apply, Pi.smul_apply]
   all_goals
     rw [show (2 : ZMod 3) = -1 by decide]
     simp only [show ∀ x : ZMod 3, x * (-1 : ZMod 3) = -x from fun x => mul_neg_one x]

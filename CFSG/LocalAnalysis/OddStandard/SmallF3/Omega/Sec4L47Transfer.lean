@@ -20,7 +20,7 @@ theorem sec4_simple_squares [Finite G] (hG : IsSimpleGroup G)
   have hNn : N.Normal := by
     rw [← Subgroup.normalizer_eq_top_iff, eq_top_iff]
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer (le_top : N ≤ ⊤)).mp hN
-  haveI := hNn
+  have := hNn
   rcases hG.eq_bot_or_eq_top_of_normal N with hbot | htop
   · obtain ⟨a, b, hab⟩ := hnab
     apply hab

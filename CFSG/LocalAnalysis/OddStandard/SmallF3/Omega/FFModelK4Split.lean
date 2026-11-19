@@ -14,8 +14,8 @@ open Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
-theorem ff_K4_split (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = 1) {x : ProjSim Q} (hx2 : x * x = 1) (hx : KM4 x) :
+theorem ff_K4_split (_hQ : Q.Nondegenerate) (_hdim : Module.finrank (ZMod 3) V = 6)
+    (_hsgn : quadSign Q = 1) {x : ProjSim Q} (hx2 : x * x = 1) (hx : KM4 x) :
     ∃ ρ : ↥(simGroup Q), (QuotientGroup.mk ρ : ProjSim Q) = x ∧
       IsSimilitude Q (ρ : V ≃ₗ[ZMod 3] V) (-1) ∧
       ((∀ v, (ρ : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) v) = v) ∨

@@ -60,13 +60,11 @@ private lemma s888parm_w2_apply {G : Type} [Group G] {z n q : G} (hz2 : z * z = 
     exact hfin.symm
 
 private lemma s888parm_xor_congr {a b c d : Prop} (h1 : a ↔ c) (h2 : b ↔ d) :
-    (Xor' a b ↔ Xor' c d) := by
-  change Xor a b ↔ Xor c d
+    (Xor a b ↔ Xor c d) := by
   rw [xor_iff_not_iff, xor_iff_not_iff]
   exact not_congr (iff_congr h1 h2)
 
-private lemma s888parm_xor_comm {a b : Prop} : (Xor' a b ↔ Xor' b a) := by
-  change Xor a b ↔ Xor b a
+private lemma s888parm_xor_comm {a b : Prop} : (Xor a b ↔ Xor b a) := by
   rw [_root_.xor_comm]
 
 private lemma s888parm_out_corr {G : Type} [Group G] {K : Fin 4 → Subgroup G} {z : G}
@@ -111,7 +109,7 @@ private lemma s888parm_sup01_le_centralizer_y {G : Type} [Group G] {K : Fin 4 �
       _ = a₁ * (b₁ * k) := by rw [hq.comm 1 3 (by decide) k hk b₁ hb₁]
       _ = (a₁ * b₁) * k := by group
 
-theorem par_even_of_xor_iff (P : Fin 4 → Prop) (hP : Xor' (P 0) (P 1) ↔ Xor' (P 2) (P 3)) :
+theorem par_even_of_xor_iff (P : Fin 4 → Prop) (hP : Xor (P 0) (P 1) ↔ Xor (P 2) (P 3)) :
     Even (Nat.card {i : Fin 4 // P i}) := by
   classical
   have hcard : Nat.card {i : Fin 4 // P i} =
@@ -123,7 +121,7 @@ theorem par_even_of_xor_iff (P : Fin 4 → Prop) (hP : Xor' (P 0) (P 1) ↔ Xor'
     simp; omega
   rw [hcard]
   by_cases h0 : P 0 <;> by_cases h1 : P 1 <;> by_cases h2 : P 2 <;> by_cases h3 : P 3 <;>
-    simp_all [Xor'] <;> norm_num
+    simp_all [Xor]; norm_num
 
 theorem asc82Lemma518Parity_of (h514 : Asc82Lemma514) (h515b : Asc82Lemma515b)
     (h515c : Asc82Lemma515c) (hF2 : Asc82FactPocketsTwo) (h52a : Asc82Lemma52a)
@@ -243,7 +241,7 @@ theorem asc82Lemma518Parity_of (h514 : Asc82Lemma514) (h515b : Asc82Lemma515b)
   have hsup01 : K 0 ⊔ K 1 ≤ centralizer ({y} : Set G) :=
     s888parm_sup01_le_centralizer_y hq ha₁K hb₁K
   have hF5_result :
-      (Xor' (∃ k ∈ K 0, g⁻¹ * k * g * k⁻¹ ∉ twoCoreIn (K 0))
+      (Xor (∃ k ∈ K 0, g⁻¹ * k * g * k⁻¹ ∉ twoCoreIn (K 0))
         (∃ k ∈ K 1, g⁻¹ * k * g * k⁻¹ ∉ twoCoreIn (K 1))) ↔
       (y⁻¹ * (g⁻¹ * y * g) ∉ D ∧ (y * z)⁻¹ * (g⁻¹ * y * g) ∉ D) := by
     rcases hpockets with ⟨hP1, hP2⟩ | ⟨hP1, hP2⟩
@@ -258,24 +256,24 @@ theorem asc82Lemma518Parity_of (h514 : Asc82Lemma514) (h515b : Asc82Lemma515b)
         c''.pocket.1 c''.pocket₁ c''.pocket₂ c''.ne c''.comm c''.prod
         g y hg_norm (hgK 1) (hgK 0) hy_norm hycent hy2 hyne hyzne
       exact s888parm_xor_comm.trans hres
-  have step1 : (Xor' (ParNt K z w 0) (ParNt K z w 1)) ↔
-      (Xor' (∃ k ∈ K 0, w⁻¹ * k * w * k⁻¹ ∉ twoCoreIn (K 0))
+  have step1 : (Xor (ParNt K z w 0) (ParNt K z w 1)) ↔
+      (Xor (∃ k ∈ K 0, w⁻¹ * k * w * k⁻¹ ∉ twoCoreIn (K 0))
         (∃ k ∈ K 1, w⁻¹ * k * w * k⁻¹ ∉ twoCoreIn (K 1))) :=
     s888parm_xor_congr (par_outer_iff hq 0 hwz (hwK 0) (hw2' 0)).symm
       (par_outer_iff hq 1 hwz (hwK 1) (hw2' 1)).symm
-  have step2 : (Xor' (∃ k ∈ K 0, w⁻¹ * k * w * k⁻¹ ∉ twoCoreIn (K 0))
+  have step2 : (Xor (∃ k ∈ K 0, w⁻¹ * k * w * k⁻¹ ∉ twoCoreIn (K 0))
         (∃ k ∈ K 1, w⁻¹ * k * w * k⁻¹ ∉ twoCoreIn (K 1))) ↔
-      (Xor' (∃ k ∈ K 0, g⁻¹ * k * g * k⁻¹ ∉ twoCoreIn (K 0))
+      (Xor (∃ k ∈ K 0, g⁻¹ * k * g * k⁻¹ ∉ twoCoreIn (K 0))
         (∃ k ∈ K 1, g⁻¹ * k * g * k⁻¹ ∉ twoCoreIn (K 1))) :=
     s888parm_xor_congr
       (s888parm_out_corr hq hrK (by decide : (0 : Fin 4) ≠ 2) (hwK 0)).symm
       (s888parm_out_corr hq hrK (by decide : (1 : Fin 4) ≠ 2) (hwK 1)).symm
   have step4 : (y⁻¹ * (g⁻¹ * y * g) ∉ D ∧ (y * z)⁻¹ * (g⁻¹ * y * g) ∉ D) ↔
-      (Xor' (ParNt K z g 2) (ParNt K z g 3)) :=
+      (Xor (ParNt K z g 2) (ParNt K z g 3)) :=
     par_xor_iff hq h23 D ha₀K hb₀K ha₁K hb₁K ha₀2 hb₀2 ha₁2 hb₁2 ha₁ne ha₁ne'
       hb₁ne hb₁ne' hgz (hgK 2) (hgK 3) hg₀ hg₀' ht'D hD
-  have step5 : (Xor' (ParNt K z g 2) (ParNt K z g 3)) ↔
-      (Xor' (ParNt K z w 2) (ParNt K z w 3)) :=
+  have step5 : (Xor (ParNt K z g 2) (ParNt K z g 3)) ↔
+      (Xor (ParNt K z w 2) (ParNt K z w 3)) :=
     s888parm_xor_congr (par_nt_corr_iff hq hrK hr4 hwK 2)
       (par_nt_corr_iff hq hrK hr4 hwK 3)
   exact step1.trans (step2.trans (hF5_result.trans (step4.trans step5)))

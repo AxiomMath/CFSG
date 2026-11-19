@@ -69,7 +69,7 @@ theorem comm_step_U {S : Type} [Group S] {g : S →* L'} (hgs : Function.Surject
         rw [hzc _ hx, mul_inv_cancel_right]
     _ = MulAut.conj m * (f * a * f⁻¹) * (MulAut.conj m)⁻¹ := by group
 
-theorem fix_of_heart_U (hK : UnitaryFieldData 2 n K) (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
+theorem fix_of_heart_U (hK : UnitaryFieldData 2 n K) (_hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
     (hd : 3 ≤ d) (hφs : Function.Surjective φ)
     (hφker : ∀ g : ↥(unitarySU 2 n K d), φ g = 1 →
       ∃ c : K, ((g : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) = diagonal (fun _ => c))

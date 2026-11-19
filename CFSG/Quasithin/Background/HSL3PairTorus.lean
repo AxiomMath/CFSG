@@ -111,7 +111,7 @@ theorem le_nPrime [Finite K] [CharP K 2] {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card
     exact Subgroup.map_le_range _ _
   have hU₀p : IsPGroup 2 U₀ := by
     rw [hU₀, ← hP₀]
-    exact P₀.isPGroup'.map _
+    exact P₀.isPGroup.map _
   obtain ⟨S, hS, hUS⟩ := exists_isSylowIn_ge 2 (hU₀L.trans hX1) hU₀p
   have hSU : S ⊓ pairSL K = U₀ := by
     refine le_antisymm (fun x hx => ?_) (le_inf hUS hU₀L)

@@ -17,14 +17,14 @@ theorem pgL_eq (hn : n < 2 ^ 32) (g t y : Nat) :
   unfold pgL
   cases h : Nat.blt y n
   · rfl
-  · rw [cond_true, pc, PF.pg_pcomp hn (Eq.mp Nat.blt_eq h)]
+  · rw [_root_.Bool.cond_true, pc, PF.pg_pcomp hn (Eq.mp Nat.blt_eq h)]
 
 theorem pgL2_eq (hn : n < 2 ^ 32) (a g t y : Nat) :
     pgL2 n w a g t y = pg w (mask w) (pc n w a (pc n w g t)) y := by
   unfold pgL2
   cases h : Nat.blt y n
   · rfl
-  · rw [cond_true, pgL_eq hn]
+  · rw [_root_.Bool.cond_true, pgL_eq hn]
     unfold pc
     rw [PF.pg_pcomp (p := a) hn (Eq.mp Nat.blt_eq h)]
 
@@ -44,7 +44,7 @@ theorem beq_pc_pc (hw : 0 < w) (hn : n < 2 ^ 32) (a b c d : Nat) :
     apply PF.eq_of_fld hw (PF.fld_pcomp (w := w) a b hn)
     refine PF.fld_congr (PF.fld_pcomp (w := w) c d hn) fun i => ?_
     by_cases hi : i < n
-    · simp only [hi, if_true]
+    · simp only [hi, ite_true]
       exact (Nat.eq_of_beq_eq_true (h i hi)).symm
     · simp [hi]
 

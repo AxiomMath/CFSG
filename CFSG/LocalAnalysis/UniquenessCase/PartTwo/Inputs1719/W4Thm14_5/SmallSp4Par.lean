@@ -34,7 +34,7 @@ theorem isL2_bar2_perfectCore_Q2 {K : Type} [Field K] [Finite K] [CharP K 2] {n 
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   have hnab := sl2_nonabelian (K := K) hK4
-  haveI : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple (K := K) hK4
+  have : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple (K := K) hK4
   have hmodel : CFSG.Blueprint.LieModel (StatedProj (StatedSL 2 K)) .PSL 2 2 n :=
     CFSG.Models.LieModel.toBlueprint (by decide)
       (CFSG.RankThree.GF2n.Stroth80.lieModel_statedProj_sl (K := K) (m := 2) (f := n)
@@ -51,15 +51,15 @@ theorem isSp4_bar2_hinf_self {G : Type} [Group G] [Finite G] {L : Subgroup G} {e
   have h3 : 3 ≤ Nat.card K := by
     have := K148.four_le_card he hK
     omega
-  haveI : Group.IsPerfect ↥(StatedSp 2 K) :=
+  have : Group.IsPerfect ↥(StatedSp 2 K) :=
     CFSG.ClassicalInvolution.Q3.Q3T6.isPerfect_sp4_of_three_le h3
-  haveI : Group.IsPerfect ↥L :=
+  have : Group.IsPerfect ↥L :=
     Group.IsPerfect.ofSurjective (f := (φ.trans (antiSpEquiv K)).symm.toMonoidHom)
       (φ.trans (antiSpEquiv K)).symm.surjective
   have hperf : ⁅L, L⁆ = L := Subgroup.isPerfect_iff.mp inferInstance
   have hO2 : CFSG.pCore 2 ↥L = ⊥ := by
-    haveI : IsSimpleGroup ↥L := K148.isSimpleGroup_of_isSp4 hS
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : IsSimpleGroup ↥L := K148.isSimpleGroup_of_isSp4 hS
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rcases (CFSG.pCore_normal (p := 2) (G := ↥L)).eq_bot_or_eq_top with h | h
     · exact h
     · exact absurd ((CFSG.pCore_isPGroup (p := 2) (G := ↥L)).of_equiv

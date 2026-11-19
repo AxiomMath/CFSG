@@ -55,6 +55,7 @@ private theorem uc22r3t_mem_normalizer_N0 {D : Data G} {L : Subgroup G} (hL : L 
     Subgroup.inf_normalizer_le_normalizer_inf ⟨hX hbM, Subgroup.le_normalizer hbT⟩
   exact Subgroup.inf_normalizer_le_normalizer_inf ⟨h1, Subgroup.le_normalizer hbL⟩
 
+omit [Finite G] in
 private theorem uc22r3t_inducedQuotInfAut_conj (L : Subgroup G) {a x : G}
     (ha : a ∈ normalizer (L : Set G)) (hx : x ∈ normalizer (L : Set G))
     (hax : a * x * a⁻¹ ∈ normalizer (L : Set G)) :
@@ -68,6 +69,7 @@ private theorem uc22r3t_inducedQuotInfAut_conj (L : Subgroup G) {a x : G}
     _ = inducedQuotInfAutHom L ⟨a, ha⟩ * inducedQuotInfAutHom L ⟨x, hx⟩ *
         (inducedQuotInfAutHom L ⟨a, ha⟩)⁻¹ := by rw [map_mul, map_mul, map_inv]
 
+omit [Finite G] in
 private theorem uc22r3t_theta_conj_ne_one_of_mem {L : Subgroup G} {a x : G}
     (ha : a ∈ normalizer (L : Set G)) (hx : x ∈ normalizer (L : Set G))
     (hax : a * x * a⁻¹ ∈ normalizer (L : Set G))
@@ -109,8 +111,8 @@ private theorem uc22r3t_exists_sylow_normalized {D : Data G} {L K : Subgroup G}
     ∃ (Q : Subgroup G) (c : G), Q ≤ uc22r3tN0 D.T D.M L ∧ IsPGroup r Q ∧
       b ∈ normalizer (Q : Set G) ∧ c ∈ uc22r3tN0 D.T D.M L ∧ c * y * c⁻¹ ∈ Q := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hbN : b ∈ normalizer (uc22r3tN0 D.T D.M L : Set G) :=
     uc22r3t_mem_normalizer_N0 hL hbM hbT hbL
   have hBp : IsPGroup q (Subgroup.zpowers b) :=
@@ -173,6 +175,7 @@ private theorem uc22r3t_exists_barElt {M L K : Subgroup G} (hL : L ∈ calC M) (
   · exact absurd (orderOf_eq_one_iff.1 h) hu1
   · exact ⟨u, hu1, h, hzu⟩
 
+omit [Finite G] in
 private theorem uc22r3t_fixed_of_commute {L : Subgroup G} {b z : G}
     (hbL : b ∈ normalizer (L : Set G)) (hzn : z ∈ normalizer (L : Set G))
     {u : BarInf L ⧸ Subgroup.center (BarInf L)}
@@ -201,7 +204,7 @@ private theorem uc22r3t_ne_commute_of_conj {M L : Subgroup G}
     (hbL : b ∈ normalizer (L : Set G)) (hbo : orderOf b = q)
     (hθ : inducedQuotInfAut L b hbL ∉ (MulAut.conj).range)
     (hzn : z ∈ normalizer (L : Set G)) {u : BarInf L ⧸ Subgroup.center (BarInf L)}
-    (hu1 : u ≠ 1) (huo : orderOf u = r) (hzu : inducedQuotInfAut L z hzn = MulAut.conj u)
+    (_hu1 : u ≠ 1) (huo : orderOf u = r) (hzu : inducedQuotInfAut L z hzn = MulAut.conj u)
     (hcomm : b * z = z * b) : False := by
   have hinj : ∀ v : BarInf L ⧸ Subgroup.center (BarInf L), MulAut.conj v = 1 → v = 1 :=
     fun v hv => (uc22r3t_conj_eq_one_iff hL hSz).1 hv

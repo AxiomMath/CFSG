@@ -308,7 +308,7 @@ theorem exists_sq_eq_det {G : Type*} [Group G] {F : Type*} [Field F] [CharP F 2]
   have hsdet : ∀ A : Matrix (Fin 2) (Fin 2) F, s A = ζ' (Multiplicative.ofAdd A.det) := fun A => by
     have hA : A = vecMulVec (fun i => A i 0) ![1, 0] + vecMulVec (fun i => A i 1) ![0, 1] := by
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [vecMulVec_apply]
+      fin_cases i <;> fin_cases j <;> simp
     rw [congrArg s hA, hs_add, hs_pure, hs_pure, one_mul, one_mul, ← hΛ, hform, hζ',
       toAdd_ofAdd]
     exact congrArg (fun t => Λ ![1, 0] ![0, t]) (by simp only [det_fin_two]; ring)

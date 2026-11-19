@@ -28,7 +28,7 @@ open scoped Matrix MatrixGroups Pointwise
 
 private theorem three_lt_of_rk2Ord_eq_three {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hrk : rk2Ord p n = 3) : 3 < p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2ne : (2 : ZMod p) ≠ 0 := by
     intro h0
     have h1 : ((2 : ℕ) : ZMod p) = 0 := by exact_mod_cast h0
@@ -44,7 +44,7 @@ private theorem three_lt_of_rk2Ord_eq_three {p n : ℕ} (hp : p.Prime) (hp2 : p 
   · interval_cases p <;> simp_all [Nat.Prime]
   · omega
 
-private theorem dvd_two_pow_add {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+private theorem dvd_two_pow_add {p n : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hrk : rk2Ord p n = 3) : p ∣ 2 ^ (2 * n) + 2 ^ n + 1 := by
   have h3' : rk2Ord p n ∣ 3 := by rw [hrk]
   have h3 : p ∣ 2 ^ (n * 3) - 1 := (rk2Ord_dvd_iff 3).1 h3'
@@ -78,13 +78,13 @@ theorem three_dvd_card_sq_add {F : Type} [Field F] [Finite F] [CharP F 2]
   exact h
 
 theorem three_lt_of_card {F : Type} [Field F] [Finite F] [CharP F 2]
-    {n p : ℕ} (hcard : Nat.card F = 2 ^ n) (hp : p.Prime) (hp2 : p ≠ 2)
+    {n p : ℕ} (_hcard : Nat.card F = 2 ^ n) (hp : p.Prime) (hp2 : p ≠ 2)
     (hrk : rk2Ord p n = 3) : 3 < p :=
   three_lt_of_rk2Ord_eq_three hp hp2 hrk
 
 private theorem seven_le_of_rk2Ord_eq_three {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hrk : rk2Ord p n = 3) : 7 ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2ne : (2 : ZMod p) ≠ 0 := by
     intro h0
     have h1 : ((2 : ℕ) : ZMod p) = 0 := by exact_mod_cast h0
@@ -104,7 +104,7 @@ private theorem seven_le_of_rk2Ord_eq_three {p n : ℕ} (hp : p.Prime) (hp2 : p 
   · exact h
 
 theorem seven_le_of_card {F : Type} [Field F] [Finite F] [CharP F 2]
-    {n p : ℕ} (hcard : Nat.card F = 2 ^ n) (hp : p.Prime) (hp2 : p ≠ 2)
+    {n p : ℕ} (_hcard : Nat.card F = 2 ^ n) (hp : p.Prime) (hp2 : p ≠ 2)
     (hrk : rk2Ord p n = 3) : 7 ≤ p :=
   seven_le_of_rk2Ord_eq_three hp hp2 hrk
 
@@ -159,8 +159,8 @@ theorem exists_frame_image {F : Type} [Field F] [Finite F] [CharP F 2]
         (∀ x ∈ P, Units.map (entrywiseHom (iterateFrobenius (AlgebraicClosure F) 2 n)) x = x) →
         ⁅P, P⁆ = P → P ≤ (adjEmb Tag.E6 F (AlgebraicClosure F)).range) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP (AlgebraicClosure F) 2 :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP (AlgebraicClosure F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
   have hf : 1 ≤ n := by omega
   have hp3 : 3 < p := three_lt_of_card hcard hp hp2 hrk
@@ -219,10 +219,10 @@ theorem exists_frame_image {F : Type} [Field F] [Finite F] [CharP F 2]
       Subgroup.card_map_of_injective adjEmb_injective,
       Subgroup.card_map_of_injective (MulAut.conj c).injective, hQcard]
 
-private theorem zmod_quadratic {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+private theorem zmod_quadratic {p n : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hrk : rk2Ord p n = 3) :
     ((2 : ZMod p) ^ n) ^ 2 + (2 : ZMod p) ^ n + 1 = 0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h3' : rk2Ord p n ∣ 3 := by rw [hrk]
   have h3 : p ∣ 2 ^ (n * 3) - 1 := (rk2Ord_dvd_iff 3).1 h3'
   have hx3 : ((2 : ZMod p) ^ n) ^ 3 = 1 := by
@@ -277,7 +277,7 @@ private theorem ne_one_of_isA2A2Kernel {L : Type} [Field L]
   norm_num at h0
 
 theorem exists_A2A2_point {F : Type} [Field F] [Finite F] [CharP F 2]
-    {n p : ℕ} (hcard : Nat.card F = 2 ^ n) (hn : 2 ≤ n)
+    {n p : ℕ} (hcard : Nat.card F = 2 ^ n) (_hn : 2 ≤ n)
     (hp : p.Prime) (hp2 : p ≠ 2) (hrk : rk2Ord p n = 3)
     {A : Subgroup (ModGL Tag.E6 (AlgebraicClosure F))} (hA : IsElemAbelian p A)
     (hAcard : Nat.card A = p ^ 3)
@@ -285,8 +285,8 @@ theorem exists_A2A2_point {F : Type} [Field F] [Finite F] [CharP F 2]
       (iterateFrobenius (AlgebraicClosure F) 2 n)) :
     ∃ x ∈ A, x ≠ 1 ∧ IsA2A2Kernel (torusRootKernel x) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP (AlgebraicClosure F) 2 :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP (AlgebraicClosure F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
   have hp5 : 5 < p := by
     have := seven_le_of_card hcard hp hp2 hrk

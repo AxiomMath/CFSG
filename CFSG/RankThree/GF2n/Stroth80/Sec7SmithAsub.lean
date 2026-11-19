@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal] {n : ℕ} {K : Type} [Field K] [Finite K] {γ : G → K}
   {M₀ : Tim79.QuadModel Q Z K γ} {ρ : Mbar M Q →* Multiplicative (AddAut M₀.E)} {b₀ : M₀.E}
 
+omit [(Q.subgroupOf M).Normal] in
 theorem sec7_QBW_comm {C : Subgroup G} (hc' : Ctx M Q Z C) {V : Subgroup G}
     (hV : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x) :
     ∀ x ∈ (QB C ⊓ Wt Q V) ⊔ V, ∀ y ∈ (QB C ⊓ Wt Q V) ⊔ V, x * y = y * x := by

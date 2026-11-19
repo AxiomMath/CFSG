@@ -41,7 +41,7 @@ theorem untwCrossRankStep_E6 (g5 : CyclicSylowGap Tag.E6 5) : UntwCrossRankStep 
   refine untwCrossRankStep_of_row (D := [12, 9, 8, 6, 5, 2]) (N := 36) (by decide)
     (fun K _ _ => card_adjointGroup_E6_dvd K) ?_
   intro ℓ f₀ p hℓ hf₀ hp hp5 hne K k _ _ _ _ hK hk m hm hpm hrk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcong := natCast_card_eq_of_pow (p := p) hK hk
   have hpk : ¬ p ∣ Nat.card k := by
     rw [hk]
@@ -71,7 +71,7 @@ theorem untwCrossRankStep_E6 (g5 : CyclicSylowGap Tag.E6 5) : UntwCrossRankStep 
       omega
     · have hp57 : p = 5 ∨ p = 7 := by
         have : p ≤ 7 := by omega
-        interval_cases p <;> first | omega | (exfalso; revert hp; norm_num) | simp
+        interval_cases p <;> first | omega | (exfalso; revert hp; norm_num)
       rcases hp57 with rfl | rfl
       · have hsum : ((5 : ℕ) : ℤ) ∣ ∑ j ∈ Finset.range 5, (1 * (Nat.card K : ℤ)) ^ j := by
           simpa [exhaustionPhi, Finset.sum_range_succ, one_mul, add_assoc, add_comm, add_left_comm]

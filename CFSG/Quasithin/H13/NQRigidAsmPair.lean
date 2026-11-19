@@ -424,7 +424,7 @@ theorem rigidPair_false (hcen : FactCenterOddPart)
         exact hP₁card
       have hQ'top : IsSylowOf 2 (Q' : Subgroup H) ⊤ := by
         rw [CFSG.ABGLocalTools.isSylowOf_iff, relIndex_top_right]
-        exact ⟨le_top, Q'.isPGroup', Q'.not_dvd_index⟩
+        exact ⟨le_top, Q'.isPGroup, Q'.not_dvd_index⟩
       have hQK₀ : IsSylowOf 2 ((Q' : Subgroup H) ⊓ K₀) K₀ :=
         hQ'top.inf_of_le_normalizer le_top (normalizer_eq_top_iff.mpr hK₀n).ge
       have hQK : IsSylowOf 2 ((Q' : Subgroup H) ⊓ K) K := by
@@ -443,7 +443,7 @@ theorem rigidPair_false (hcen : FactCenterOddPart)
         mul_comm_sylow_of_core_le hX'A hPH (hQ'A.trans hAN) hOQ
       have hcop : Nat.Coprime (Nat.card PH) (Nat.card (Q' : Subgroup H)) := by
         obtain ⟨a, ha⟩ := hPH.isPGroup.exists_card_eq
-        obtain ⟨b, hb⟩ := Q'.isPGroup'.exists_card_eq
+        obtain ⟨b, hb⟩ := Q'.isPGroup.exists_card_eq
         rw [ha, hb]
         exact Nat.Coprime.pow a b ((Nat.coprime_primes hp Nat.prime_two).mpr hp2)
       obtain ⟨-, -, hPQK⟩ :=

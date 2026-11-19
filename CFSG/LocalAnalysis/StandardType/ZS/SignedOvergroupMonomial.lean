@@ -247,7 +247,7 @@ theorem twist_apply_basis_of_ne (b : Module.Basis (Fin n) (ZMod p) U) {a₁ a₂
     (diagMap p b (pairUnit p a₁ a₂ ζ) * permMap p b (Equiv.swap a₁ a₂)) (b k) = b k := by
   rw [LinearEquiv.mul_apply, permMap_apply_basis, Equiv.swap_apply_of_ne_of_ne h₁ h₂,
     diagMap_apply_basis]
-  have h : pairUnit p a₁ a₂ ζ k = 1 := by simp only [pairUnit, h₁, h₂, if_false]
+  have h : pairUnit p a₁ a₂ ζ k = 1 := by simp only [pairUnit, h₁, h₂, ite_false]
   rw [h, Units.val_one, one_smul]
 
 theorem twist_not_signed (b : Module.Basis (Fin n) (ZMod p) U) {a₁ a₂ : Fin n} (ha : a₁ ≠ a₂)
@@ -257,7 +257,7 @@ theorem twist_not_signed (b : Module.Basis (Fin n) (ZMod p) U) {a₁ a₂ : Fin 
         c i • b (σ i) := by
   rintro ⟨σ, c, hc, h⟩
   have h1 : pairUnit p a₁ a₂ ζ a₂ = ζ⁻¹ := by
-    simp only [pairUnit, Ne.symm ha, if_false, if_true]
+    simp only [pairUnit, Ne.symm ha, ite_false, ite_true]
   have ht : (diagMap p b (pairUnit p a₁ a₂ ζ) * permMap p b (Equiv.swap a₁ a₂)) (b a₁) =
       ((ζ : ZMod p))⁻¹ • b a₂ := by
     rw [LinearEquiv.mul_apply, permMap_apply_basis, Equiv.swap_apply_left, diagMap_apply_basis, h1,
@@ -309,12 +309,12 @@ private theorem diagTuple_apply {a₂ : Fin n} {m : ℕ} (ζ : (ZMod p)ˣ)
       have hjk : j.1 ≠ k.1 := fun h => hj (Subtype.ext h)
       rw [Pi.pow_apply]
       have h1 : pairUnit p j.1 a₂ ζ k.1 = 1 := by
-        simp only [pairUnit, Ne.symm hjk, k.2, if_false]
+        simp only [pairUnit, Ne.symm hjk, k.2, ite_false]
       rw [h1, one_pow]
     · intro hk
       exact absurd (Finset.mem_univ k) hk
   rw [hsingle, Pi.pow_apply]
-  have h1 : pairUnit p k.1 a₂ ζ k.1 = ζ := by simp only [pairUnit, if_true, k.2]
+  have h1 : pairUnit p k.1 a₂ ζ k.1 = ζ := by simp only [pairUnit, ite_true, k.2]
   rw [h1]
 
 private theorem diagMap_diagTuple_mem {m : ℕ} (b : Module.Basis (Fin n) (ZMod p) U)

@@ -53,8 +53,8 @@ theorem k_U4ParabolicGen_holds :
           Y₁.map α.toMonoidHom = Y₁ ∧ Y₂.map α.toMonoidHom = Y₂ := by
   intro X _ _ n hn hU4 S hS
   obtain ⟨K, _, h, ⟨e⟩⟩ := CFSG.Quasithin.H13.U4Par.exists_hypSU_equiv_of_lieModel hU4
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
-  haveI := CFSG.Quasithin.H13.U4Par.isSimpleGroup_hypSU h
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := CFSG.Quasithin.H13.U4Par.isSimpleGroup_hypSU h
   have hY := CFSG.Quasithin.H13.Sec53F.Unit.u4_yamStd h
   obtain ⟨φ, hφ⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.exists_mulEquiv_map_eq_of_isSylowIn

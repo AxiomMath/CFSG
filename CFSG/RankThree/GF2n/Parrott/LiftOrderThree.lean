@@ -18,24 +18,28 @@ variable {G : Type} [Group G] [Finite G] {z : G}
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 
-noncomputable def lift3 (x : QA45.originalSubgroup) (hx : orderOf x = 3) : ↥(H z) :=
+noncomputable def lift3 (x : QA45.originalSubgroup) (_hx : orderOf x = 3) : ↥(H z) :=
   let y := lift D x
   let k := orderOf ((y : ↥(H z)) ^ 3)
   let z0 := y ^ k
   if qH D z0 = x then z0 else z0⁻¹
 
+omit [Finite G] hN in
 theorem isPGroup_O2_J : IsPGroup 2 (J z) :=
   (CFSG.pCore_isPGroup (p := 2) (G := ↥(H z))).map (H z).subtype
 
+omit [Finite G] hN in
 theorem isPGroup_J_subgroupOf : IsPGroup 2 ((J z).subgroupOf (H z)) :=
   (isPGroup_O2_J (z := z)).of_equiv
     (Subgroup.subgroupOfEquivOfLe (J_le_H (z := z))).symm
 
+omit hN in
 theorem coprime_three_card_J : Nat.Coprime 3 (Nat.card (J z)) := by
   obtain ⟨n, hn⟩ := (isPGroup_O2_J (z := z)).exists_card_eq
   rw [hn]
   exact Nat.Coprime.pow_right n (by norm_num)
 
+omit hN in
 theorem coprime_three_card_J_subgroupOf :
     Nat.Coprime 3 (Nat.card ((J z).subgroupOf (H z))) := by
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (J_le_H (z := z))).toEquiv]
@@ -157,6 +161,7 @@ theorem card_centralizer_mulEquiv {A B : Type*} [Group A] [Group B] (e : A ≃* 
       _ = e a * e x := h
       _ = e (a * x) := by rw [map_mul]
 
+omit [Finite G] in
 theorem ker_qH : (qH D).ker = (J z).subgroupOf (H z) := by
   ext x
   rw [MonoidHom.mem_ker, J_mem_iff D]
@@ -166,13 +171,14 @@ noncomputable def quotientEquivQA45 :
   (QuotientGroup.quotientMulEquivOfEq (ker_qH D).symm).trans
     (QuotientGroup.quotientKerEquivOfRightInverse (φ := qH D) (lift D) (qH_lift D))
 
+omit [Finite G] in
 theorem quotientEquivQA45_coe (a : ↥(H z)) :
     quotientEquivQA45 D (a : ↥(H z) ⧸ (J z).subgroupOf (H z)) = qH D a := by
-  change quotientEquivQA45 D (QuotientGroup.mk a) = qH D a
   unfold quotientEquivQA45
   rw [MulEquiv.trans_apply, QuotientGroup.quotientMulEquivOfEq_mk,
     QuotientGroup.quotientKerEquivOfRightInverse_apply, QuotientGroup.kerLift_mk]
 
+omit [Finite G] in
 theorem card_centralizer_quotient_eq (a : ↥(H z)) :
     Nat.card (Subgroup.centralizer
         ({(a : ↥(H z) ⧸ (J z).subgroupOf (H z))} :

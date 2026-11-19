@@ -212,7 +212,7 @@ theorem prime_three_dimensional_simple_module_central_cover (hp3 : 3 < p) {S : T
     right
     push Not at hcyc
     obtain ⟨Q, hQ⟩ := hcyc
-    have hGp : IsPGroup p ((Q : Subgroup S).map ι) := Q.isPGroup'.map ι
+    have hGp : IsPGroup p ((Q : Subgroup S).map ι) := Q.isPGroup.map ι
     have hGnc : ¬ IsCyclic ((Q : Subgroup S).map ι) := fun h => hQ
       (isCyclic_of_injective ((Q : Subgroup S).equivMapOfInjective ι hι).toMonoidHom
         (MulEquiv.injective _))

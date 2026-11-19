@@ -153,10 +153,12 @@ variable {G : Type*} [Group G] [Finite G] {p : ℕ}
   ((QuotientGroup.mk' (GLAPPrimeCore p ↥H)).comp (Subgroup.inclusion hJH)).codRestrict
     (barX p H J) (fun x => ⟨Subgroup.inclusion hJH x, (Subgroup.mem_subgroupOf).2 x.2, rfl⟩)
 
+omit [Finite G] in
 theorem coe_barHom (p : ℕ) {H J : Subgroup G} (hJH : J ≤ H) (x : ↥J) :
     ((barHom p hJH x : ↥(barX p H J)) : ↥H ⧸ GLAPPrimeCore p ↥H) =
       QuotientGroup.mk (Subgroup.inclusion hJH x) := rfl
 
+omit [Finite G] in
 theorem barHom_surjective (p : ℕ) {H J : Subgroup G} (hJH : J ≤ H) :
     Function.Surjective (barHom p hJH) := by
   rintro ⟨z, x, hx, rfl⟩
@@ -284,7 +286,7 @@ section FImage
 variable {G : Type*} [Group G] [Finite G] {p : ℕ}
 
 theorem isLocallyBalanced_fImage (hp : p.Prime) {k : ℕ} {H B E : Subgroup G} (hEB : E ≤ B)
-    (hEH : E ≤ H) {J : Subgroup G} (hJ : GLAPComponent p H J)
+    (_hEH : E ≤ H) {J : Subgroup G} (hJ : GLAPComponent p H J)
     (hbal : IsCompLocallyBalanced p k B J)
     (hF : ∀ e : ↥H, (e : G) ∈ E → (QuotientGroup.mk e : ↥H ⧸ GLAPPrimeCore p ↥H) ∈
       Subgroup.normalizer ((barX p H J : Subgroup (↥H ⧸ GLAPPrimeCore p ↥H)) :
@@ -331,6 +333,7 @@ section QuotientImage
 
 variable {G : Type*} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem elemAbelian_subgroupOf {H E : Subgroup G} (hEH : E ≤ H) (hel : IsElemAbelian p E) :
     IsElemAbelian p (E.subgroupOf H) := by
   refine ⟨?_, fun x hx => Subtype.ext (by simpa using hel.2 (x : G) hx)⟩
@@ -340,6 +343,7 @@ theorem elemAbelian_subgroupOf {H E : Subgroup G} (hEH : E ≤ H) (hel : IsElemA
     have := hc.is_comm.comm (e a) (e b)
     simpa using this)⟩⟩
 
+omit [Finite G] in
 theorem card_subgroupOf_eq {H E : Subgroup G} (hEH : E ≤ H) :
     Nat.card (E.subgroupOf H) = Nat.card E :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEH).toEquiv
@@ -368,7 +372,8 @@ theorem mk_ne_one (hp : p.Prime) {H E : Subgroup G} (hEH : E ≤ H) (hel : IsEle
     simpa using h
   simpa using congrArg Subtype.val this
 
-theorem elemAbelian_image (hp : p.Prime) {H E : Subgroup G} (hEH : E ≤ H)
+omit [Finite G] in
+theorem elemAbelian_image (_hp : p.Prime) {H E : Subgroup G} (hEH : E ≤ H)
     (hel : IsElemAbelian p E) :
     IsElemAbelian p ((E.subgroupOf H).map (QuotientGroup.mk' (GLAPPrimeCore p ↥H))) := by
   have h := elemAbelian_subgroupOf hEH hel
@@ -387,7 +392,7 @@ theorem card_image (hp : p.Prime) {H E : Subgroup G} (hEH : E ≤ H)
 end QuotientImage
 
 theorem mk_mem_centralizer_core {G : Type} [Group G] [Finite G] {p : ℕ} (hH1 : H1Stmt.{0})
-    (hp : p.Prime) {H E : Subgroup G} (hEH : E ≤ H) (hel : IsElemAbelian p E) {x : ↥H} {e : ↥H}
+    (hp : p.Prime) {H E : Subgroup G} (_hEH : E ≤ H) (hel : IsElemAbelian p E) {x : ↥H} {e : ↥H}
     (he : (e : G) ∈ E) (hne : e ≠ 1)
     (hx : (x : G) ∈ GLAPPrimeCoreOf p (H ⊓ Subgroup.centralizer ({(e : G)} : Set G))) :
     (QuotientGroup.mk x : ↥H ⧸ GLAPPrimeCore p ↥H) ∈

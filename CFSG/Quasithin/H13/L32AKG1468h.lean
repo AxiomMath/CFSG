@@ -116,7 +116,7 @@ theorem normalizer_quot_sl32
         refine ⟨1, Subtype.ext (Subtype.ext ?_)⟩
         have := hEe.2 _ (Subgroup.mem_subgroupOf.mp x.2)
         simpa using this
-      have hQ := IsPGroup.to_sup_of_normal_right' (ruSylow : Sylow 2 ↥ruP).isPGroup'
+      have hQ := IsPGroup.to_sup_of_normal_right' (ruSylow : Sylow 2 ↥ruP).isPGroup
         hE2 (by rw [ruSylow_coe]; exact hSE)
       have hmax := (ruSylow : Sylow 2 ↥ruP).maximal_isPGroup.eq_of_ge hQ le_sup_left
       rintro _ ⟨a, ha, rfl⟩

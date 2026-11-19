@@ -24,7 +24,7 @@ theorem isSylowIn_inf_normal (T : Sylow 2 X) (N : Subgroup X) [N.Normal] :
     IsSylowIn N ((T : Subgroup X) ⊓ N) := by
   obtain ⟨Q, hQ⟩ := CFSG.Glauberman.sylow_inf_normal (p := 2) T (N := N)
   refine ⟨inf_le_right, ?_, ?_⟩
-  · have h1 : IsPGroup 2 (((T : Subgroup X) ⊓ N).subgroupOf N) := hQ ▸ Q.isPGroup'
+  · have h1 : IsPGroup 2 (((T : Subgroup X) ⊓ N).subgroupOf N) := hQ ▸ Q.isPGroup
     exact IsPGroup.of_equiv h1 (Subgroup.subgroupOfEquivOfLe (inf_le_right :
       (T : Subgroup X) ⊓ N ≤ N))
   · have h1 : ¬ 2 ∣ (((T : Subgroup X) ⊓ N).subgroupOf N).index := by

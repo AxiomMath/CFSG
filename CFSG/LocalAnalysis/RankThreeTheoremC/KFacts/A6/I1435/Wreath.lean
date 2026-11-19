@@ -68,7 +68,7 @@ theorem eq_wBase_of_comm {A : Subgroup W3} (hA : ∀ a ∈ A, ∀ b ∈ A, a * b
     (h27 : 27 ≤ Nat.card A) : A = wBase := by
   have hle : A ≤ wBase := by
     by_contra hn
-    obtain ⟨a, haA, haB⟩ := SetLike.not_le_iff_exists.mp hn
+    obtain ⟨a, haA, haB⟩ := IsConcreteLE.not_le_iff_exists.mp hn
     have ha : a.right ≠ 1 := fun h => haB (mem_wBase.mpr h)
     have hcard : Nat.card ↥(A ⊓ wBase) ≤ 3 := by
       have hinj : Function.Injective fun b : ↥(A ⊓ wBase) => (b : W3).left 1 := by

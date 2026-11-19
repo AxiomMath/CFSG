@@ -26,7 +26,7 @@ theorem exists_perm_ne_zero {A : Matrix (Fin 3) (Fin 3) F} (hA : A.det ≠ 0) :
   have hz : ∏ i, A (σ i) i = 0 := Finset.prod_eq_zero (Finset.mem_univ j) hj
   rw [hz, smul_zero]
 
-theorem diag_of_intertwine₂ {τ τ' : F} (hτ1 : τ ≠ 1) (hτ'1 : τ' ≠ 1)
+theorem diag_of_intertwine₂ {τ τ' : F} (hτ1 : τ ≠ 1) (_hτ'1 : τ' ≠ 1)
     {A : Matrix (Fin 3) (Fin 3) F} (hA : A.det ≠ 0) {l₂ l₃ : F}
     (h₂ : A * diagonal ![1, 1, τ'] = l₂ • (diagonal ![1, 1, τ] * A))
     (h₃ : A * diagonal ![1, τ', 1] = l₃ • (diagonal ![1, τ, 1] * A)) :
@@ -98,7 +98,7 @@ theorem pow_apply_of_eq_pow {σ : F ≃+* F} {ζ : F} {i : ℕ} (h : σ ζ = ζ 
 
 theorem fieldAut_fix_of_pow_fix {p : ℕ} (hp : p.Prime) {σ : F ≃+* F} {ζ : F}
     (hζ : IsPrimitiveRoot ζ p) (hσ : (σ ^ p) ζ = ζ) : ∀ a : F, a ^ p = 1 → σ a = a := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hσζ : (σ ζ) ^ p = 1 := by rw [← map_pow, hζ.pow_eq_one, map_one]
   obtain ⟨i, hi, hσi⟩ := hζ.eq_pow_of_pow_eq_one hσζ
   have hk := pow_apply_of_eq_pow hσi.symm p
@@ -115,7 +115,7 @@ theorem fieldAut_fix_of_pow_fix {p : ℕ} (hp : p.Prime) {σ : F ≃+* F} {ζ : 
     have h3 : i ^ p % p = 1 % p :=
       hζ.pow_inj (Nat.mod_lt _ hp.pos) (Nat.mod_lt _ hp.pos) h2
     have h4 : (i : ZMod p) ^ p = (i : ZMod p) := by
-      haveI := Fact.mk hp
+      have := Fact.mk hp
       exact ZMod.pow_card _
     have h5 : i ^ p % p = i % p := by
       refine (ZMod.natCast_eq_natCast_iff' _ _ _).mp ?_
@@ -218,7 +218,7 @@ theorem eq_of_proj_diagSL_eq {a b c a' b' c' : F} {h : a * b * c = 1} {h' : a' *
   have e0 := congrFun (congrFun h1 0) 0
   have e1 := congrFun (congrFun h1 1) 1
   have e2 := congrFun (congrFun h1 2) 2
-  simp [diagSL, Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply,
+  simp [diagSL, Matrix.mul_apply, Matrix.scalar_apply,
     diagonal_apply] at e0 e1 e2
   have hc0 : c ≠ 0 := by
     rintro rfl
@@ -266,7 +266,7 @@ theorem pow_apply_proj_diagSL {B : GL (Fin 3) F}
 
 theorem exists_isPrimitiveRoot [Finite F] {p : ℕ} (hp : p.Prime) (hpF : p ∣ Nat.card F - 1) :
     ∃ ζ : F, IsPrimitiveRoot ζ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ Nat.card Fˣ := by rwa [Nat.card_units]
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   exact ⟨(x : F), IsPrimitiveRoot.coe_units_iff.mpr (hx ▸ IsPrimitiveRoot.orderOf x)⟩

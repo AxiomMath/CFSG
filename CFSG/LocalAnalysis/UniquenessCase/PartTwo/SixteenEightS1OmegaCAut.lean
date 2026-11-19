@@ -13,9 +13,9 @@ open Subgroup
 open CFSG.ComponentClassification.AutL2Facts in
 private theorem s16e_omc_simpleCentreless_five :
     SimpleCentreless (alternatingGroup (Fin 5)) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   refine ⟨fun N hN => ?_, fun z hz => ?_, ?_⟩
-  · haveI := hN
+  · have := hN
     exact IsSimpleGroup.eq_bot_or_eq_top_of_normal N
   · have hc : z ∈ Subgroup.center (alternatingGroup (Fin 5)) := by
       rw [Subgroup.mem_center_iff]
@@ -59,7 +59,7 @@ theorem s16e_omc_card_dvd_nine
   have h2 : Nat.card (P.subgroupOf (presSub (alternatingGroup (Fin 5)))) = Nat.card P :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPle).toEquiv
   rw [h2, Nat.card_prod, s16e_omc_card_aut_five] at h1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hP.exists_card_eq
   rw [hk] at h1 ⊢
   have hk2 : k ≤ 2 := by
@@ -74,7 +74,7 @@ theorem s16e_omc_not_injective_of_dvd_card {H : Type} [Group H] [Finite H]
     (f : H →* MulAut (alternatingGroup (Fin 5) × alternatingGroup (Fin 5))) :
     ¬ Function.Injective f := by
   intro hf
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 H) := inferInstance
   have hP27 : 27 ∣ Nat.card P := by
     rw [P.card_eq_multiplicity]
@@ -83,7 +83,7 @@ theorem s16e_omc_not_injective_of_dvd_card {H : Type} [Group H] [Finite H]
         (by norm_num; exact h27)
     exact Nat.pow_dvd_pow 3 h4
   have hmap : Nat.card (P.map f) = Nat.card P := Subgroup.card_map_of_injective hf
-  have hdvd : Nat.card (P.map f) ∣ 9 := s16e_omc_card_dvd_nine (P.isPGroup'.map f)
+  have hdvd : Nat.card (P.map f) ∣ 9 := s16e_omc_card_dvd_nine (P.isPGroup.map f)
   rw [hmap] at hdvd
   have := Nat.le_of_dvd (by norm_num) (hP27.trans hdvd)
   omega

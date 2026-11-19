@@ -45,13 +45,13 @@ theorem seed_lane_or_shl {a v j k : Nat} (hv : v < 2 ^ 13) :
   rw [seed_testBit, Nat.testBit_lor, Nat.testBit_shiftLeft]
   by_cases hkj : k = j
   · subst hkj
-    rw [if_pos rfl, Nat.testBit_lor, seed_testBit]
+    rw [ite_eq_left rfl, Nat.testBit_lor, seed_testBit]
     by_cases hr : r < 13
     · simp [hr]
     · have hv' : v.testBit r = false := Nat.testBit_eq_false_of_lt
         (Nat.lt_of_lt_of_le hv (Nat.pow_le_pow_right (by norm_num) (by omega)))
       simp [hr, hv']
-  · rw [if_neg hkj, seed_testBit]
+  · rw [ite_eq_right hkj, seed_testBit]
     by_cases hr : r < 13
     · have hz : (decide (r + 13 * k ≥ 13 * j) && v.testBit (r + 13 * k - 13 * j)) = false := by
         by_cases hge : r + 13 * k ≥ 13 * j
@@ -103,7 +103,7 @@ theorem seed_ws (c : Char) : wsKX c.toNat = CFSG.Sporadic.He.Native.wsChar c := 
   apply Bool.eq_iff_iff.2
   by_cases h32 : n = 32
   · subst h32; decide
-  · rw [seed_beq_false h32, if_neg (by simp)]
+  · rw [seed_beq_false h32, ite_eq_right (by simp)]
     simp only [Bool.and_eq_true, Bool.or_eq_true, Nat.ble_eq, beq_iff_eq]
     omega
 
@@ -160,7 +160,7 @@ theorem seed_cons1 (W : Nat) (ch : Char) (cs : List Char) (i j acc : Nat) :
               strictB (Nat.succ i) (fun i' => seedRun W cs 1 i' 0 0)),
             strictB (Nat.succ j) (fun j' => seedRun W cs 1 i j' a)))))) := rfl
   rw [e]
-  simp only [strictB_eq, seed_bIf, seed_bAnd, Nat.beq_eq, Nat.succ_eq_add_one]
+  simp only [strictB_eq, seed_bIf, Nat.beq_eq, Nat.succ_eq_add_one]
   rfl
 
 theorem seed_ph0 (W : Nat) : ∀ (cs : List Char) (i j acc : Nat),
@@ -178,11 +178,11 @@ theorem seed_ph0 (W : Nat) : ∀ (cs : List Char) (i j acc : Nat),
     by_cases hc : ch = '\n'
     · subst hc
       have h10 : ('\n' : Char).toNat = 10 := rfl
-      rw [if_pos h10] at h
+      rw [ite_eq_left h10] at h
       rw [List.dropWhile_cons_of_neg (by simp)]
       exact h
     · have h' : ch.toNat ≠ 10 := fun e => hc (Char.toNat_inj.1 e)
-      rw [if_neg h'] at h
+      rw [ite_eq_right h'] at h
       rw [List.dropWhile_cons_of_pos (by simpa using hc)]
       exact ih i j acc h
 
@@ -215,10 +215,10 @@ theorem seed_run1 {W : Nat} : ∀ (cs : List Char) (i j acc : Nat),
     intro i j acc h hi hj hacc r hir hr c hc
     rw [seed_cons1] at h
     by_cases hw : wsKX ch.toNat = true
-    · rw [if_pos hw] at h
+    · rw [ite_eq_left hw] at h
       rw [seed_E_ws cs (by rw [← seed_ws]; exact hw)]
       exact ih i j acc h hi hj hacc r hir hr c hc
-    · rw [if_neg hw, if_neg (by omega : i ≠ 133)] at h
+    · rw [ite_eq_right hw, ite_eq_right (by omega : i ≠ 133)] at h
       rw [seed_E_cons cs (by rw [← seed_ws]; exact hw)]
       have hd := seed_dig ch
       generalize (if '0' ≤ ch && ch ≤ '9' then ch.toNat - '0'.toNat else 0) = d at hd ⊢
@@ -232,12 +232,12 @@ theorem seed_run1 {W : Nat} : ∀ (cs : List Char) (i j acc : Nat),
         · rw [h', hacc j le_rfl, Nat.zero_or]
         · rfl
       by_cases hj1 : j = 132
-      · rw [if_pos hj1] at h
+      · rw [ite_eq_left hj1] at h
         by_cases h1 : fldW W (1729 * i) 1729 = (acc ||| dig5KX ch.toNat <<< (13 * j))
         swap
-        · rw [if_neg h1] at h
+        · rw [ite_eq_right h1] at h
           exact absurd h Bool.false_ne_true
-        rw [if_pos h1] at h
+        rw [ite_eq_left h1] at h
         rcases Nat.eq_or_lt_of_le hir with rfl | hlt
         · rw [seed_ent13_eq W _ c hc, h1, hacc' c]
           split_ifs with hcj hcj'
@@ -247,28 +247,28 @@ theorem seed_run1 {W : Nat} : ∀ (cs : List Char) (i j acc : Nat),
           · rfl
           · omega
         · have := ih (i + 1) 0 0 h (by omega) (by omega) (fun c _ => seed_lane_zero c) r hlt hr c hc
-          rw [this, if_neg (by omega), if_neg (by omega)]
+          rw [this, ite_eq_right (by omega), ite_eq_right (by omega)]
           have e2 : 133 * r + c - (133 * i + j) = (133 * r + c - (133 * (i + 1) + 0)) + 1 := by
             omega
           rw [e2, List.getD_cons_succ]
-      · rw [if_neg hj1] at h
+      · rw [ite_eq_right hj1] at h
         have := ih i (j + 1) _ h hi (by omega) (fun c' h1 => by
-          rw [hacc' c', if_neg (by omega)]
+          rw [hacc' c', ite_eq_right (by omega)]
           exact hacc c' (by omega)) r hir hr c hc
         rw [this, hacc' c]
         by_cases hri : r = i
         · subst hri
           by_cases hcj : c < j
-          · rw [if_pos (And.intro rfl (by omega)), if_pos (And.intro rfl hcj), if_neg (by omega)]
+          · rw [ite_eq_left (And.intro rfl (by omega)), ite_eq_left (And.intro rfl hcj), ite_eq_right (by omega)]
           · by_cases hcj' : c = j
             · subst hcj'
-              rw [if_pos (And.intro rfl (by omega)), if_pos rfl, if_neg (by omega), Nat.sub_self,
+              rw [ite_eq_left (And.intro rfl (by omega)), ite_eq_left rfl, ite_eq_right (by omega), Nat.sub_self,
                 List.getD_cons_zero, hd]
-            · rw [if_neg (by omega), if_neg (by omega)]
+            · rw [ite_eq_right (by omega), ite_eq_right (by omega)]
               have e2 : 133 * r + c - (133 * r + j) = (133 * r + c - (133 * r + (j + 1))) + 1 := by
                 omega
               rw [e2, List.getD_cons_succ]
-        · rw [if_neg (by omega), if_neg (by omega)]
+        · rw [ite_eq_right (by omega), ite_eq_right (by omega)]
           have e2 : 133 * r + c - (133 * i + j) = (133 * r + c - (133 * i + (j + 1))) + 1 := by
             omega
           rw [e2, List.getD_cons_succ]
@@ -284,7 +284,7 @@ theorem seedRK_rows {W : Nat} {cs : List Char} (h : seedRK W cs = true) :
   unfold seedRK at h
   have hrun := seed_run1 _ 0 0 0 (seed_ph0 W cs 0 0 0 h) (by norm_num) (by norm_num)
     (fun c _ => seed_lane_zero c) i (Nat.zero_le _) hi j hj
-  rw [if_neg (by omega), Nat.mul_zero, Nat.add_zero, Nat.sub_zero] at hrun
+  rw [ite_eq_right (by omega), Nat.mul_zero, Nat.add_zero, Nat.sub_zero] at hrun
   have hdec : CFSG.Sporadic.He.Native.decodeEntries (String.ofList cs) =
       seed_E ((cs.dropWhile (· != '\n')).drop 1) := by
     unfold CFSG.Sporadic.He.Native.decodeEntries

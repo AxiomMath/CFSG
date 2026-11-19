@@ -137,7 +137,7 @@ theorem exists_eq_liftAdd (A : Subgroup V) (hA : Z ≤ A) :
     exact ⟨a⁻¹, inv_mem ha, cls_inv Z a⟩
   · ext v
     simp only [mem_liftAdd, AddSubgroup.mem_mk, AddSubmonoid.mem_mk, AddSubsemigroup.mem_mk,
-      Set.mem_setOf_eq]
+      Set.mem_ofPred_eq]
     constructor
     · rintro ⟨a, ha, hav⟩
       rw [cls_eq_iff] at hav

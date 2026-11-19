@@ -45,7 +45,7 @@ private theorem perm3_exists_cube_eq_one_ne_one {H : Subgroup (Equiv.Perm (Fin 3
 theorem perm3_card_of_forall_moved {H : Subgroup (Equiv.Perm (Fin 3))}
     (h : ∀ k : Fin 3, ∃ x ∈ H, x k ≠ k) : Nat.card H = 3 ∨ Nat.card H = 6 := by
   obtain ⟨z, hzH, hz3, hz1⟩ := perm3_exists_cube_eq_one_ne_one h
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   have hzord : orderOf z = 3 := orderOf_eq_prime hz3 hz1
   have h3dvd : 3 ∣ Nat.card H := by
     simpa [hzord] using Subgroup.orderOf_dvd_natCard H hzH

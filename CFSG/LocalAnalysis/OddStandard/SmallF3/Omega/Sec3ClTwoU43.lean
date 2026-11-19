@@ -36,8 +36,8 @@ theorem cl_closureFix_omegaGroup_six_minus (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hs : quadSign Q = -1)
     (hM : ClosureFix ↥(omegaProj hQ)) : ClosureFix ↥(omegaGroup hQ) := by
   have h2 : 2 ≤ Module.finrank (ZMod 3) V := by omega
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite ↥(omegaGroup hQ) := Subtype.finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite ↥(omegaGroup hQ) := Subtype.finite
   refine closureFix_of_ne_one (isQuasisimple_omegaGroup_six_minus hQ hdim hs)
     (cl_isFStarGroup_omegaGroup_six_minus hQ hdim hs) ?_
   intro α hα hα1 J hJ

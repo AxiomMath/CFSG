@@ -143,15 +143,15 @@ theorem res822_act_one {V L : Subgroup G} (hLV : L ≤ Subgroup.normalizer (V : 
   rw [Subgroup.coe_one, MulAut.one_apply]
   exact h v
 
-theorem res822_subgroupOf_normal {L Y : Subgroup G} (hYL : Y ≤ L) (hY : ∀ g ∈ L, ∀ y ∈ Y, g * y * g⁻¹ ∈ Y) :
+theorem res822_subgroupOf_normal {L Y : Subgroup G} (_hYL : Y ≤ L) (hY : ∀ g ∈ L, ∀ y ∈ Y, g * y * g⁻¹ ∈ Y) :
     (Y.subgroupOf L).Normal := by
   refine ⟨fun n hn g => ?_⟩
   rw [Subgroup.mem_subgroupOf] at hn ⊢
   exact hY g g.2 n hn
 
 theorem res822_Y_inter_pCore_eq_bot {L Y : Subgroup G} [Finite G] (hYL : Y ≤ L)
-    (hYnorm : ∀ g ∈ L, ∀ y ∈ Y, g * y * g⁻¹ ∈ Y) (hO : pCoreOf 2 Y = ⊥) : Y ⊓ pCoreOf 2 L = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    (_hYnorm : ∀ g ∈ L, ∀ y ∈ Y, g * y * g⁻¹ ∈ Y) (hO : pCoreOf 2 Y = ⊥) : Y ⊓ pCoreOf 2 L = ⊥ := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : Y ⊓ pCoreOf 2 L ≤ pCoreOf 2 Y := by
     refine CFSG.LieType.BorelTits.le_pCoreOf 2 inf_le_left ?_ ?_
     · refine ⟨fun n hn g => ?_⟩
@@ -197,10 +197,10 @@ theorem res822_card_Y_eq_three {L Y : Subgroup G} [Finite G] (hYL : Y ≤ L) (hY
   have hYL1 : 1 < Nat.card ↥(Y.subgroupOf L) := by
     have hex : ∃ y ∈ Y, y ≠ 1 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       exact hYne (eq_bot_iff.mpr fun y hy => Subgroup.mem_bot.mpr (hc y hy))
     obtain ⟨y, hyY, hy1⟩ := hex
-    haveI hnt : Nontrivial ↥(Y.subgroupOf L) := by
+    have hnt : Nontrivial ↥(Y.subgroupOf L) := by
       refine ⟨⟨(⟨⟨y, hYL hyY⟩, hyY⟩ : ↥(Y.subgroupOf L)), 1, ?_⟩⟩
       intro h
       apply hy1
@@ -220,7 +220,7 @@ theorem res822_pCoreOf_Y_ne_bot {L Y : Subgroup G} [Finite G] (hYL : Y ≤ L) (h
   intro hO
   have hYO : Y ⊓ pCoreOf 2 L = ⊥ := res822_Y_inter_pCore_eq_bot hYL hYnorm hO
   have hcardY : Nat.card ↥Y = 3 := res822_card_Y_eq_three hYL hYP hcenter3 hYne hYO
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYp : IsPGroup 3 ↥Y := IsPGroup.of_card (n := 1) (by rw [hcardY]; norm_num)
   have hYnil : Group.IsNilpotent ↥Y := hYp.isNilpotent
   have hmemS : Y ∈ {N : Subgroup G | N ≤ L ∧ (N.subgroupOf L).Normal ∧ Group.IsNilpotent ↥N} :=
@@ -237,8 +237,8 @@ theorem res822_decomp {L S : Subgroup G} [Finite G] (hcenter3 : Nat.card (Subgro
     {x0 : G} (hx0L : x0 ∈ L) (hx0S : x0 ∈ S) (hx0P : x0 ∈ res822P L) (hx03 : orderOf x0 = 3) :
     ∀ p ∈ res822P L, ∃ j ∈ S, ∃ o ∈ pCoreOf 2 L, p = j * o := by
   intro p hp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz0c : (QuotientGroup.mk (⟨x0, hx0L⟩ : ↥L) : ↥L ⧸ CFSG.pCore 2 ↥L) ∈
       Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L) := ((res822_mem_P_iff L x0).mp hx0P).2
   have hx3 : x0 ^ 3 = 1 := by
@@ -277,13 +277,13 @@ theorem res822_decomp {L S : Subgroup G} [Finite G] (hcenter3 : Nat.card (Subgro
   have hoG : ((((⟨x0, hx0L⟩ : ↥L) ^ k)⁻¹ * (⟨p, hpL⟩ : ↥L) : ↥L) : G) ∈ pCoreOf 2 L :=
     (res822_mem_pCoreOf_iff L _).mp ho
   refine ⟨x0 ^ k, zpow_mem hx0S k, _, hoG, ?_⟩
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_zpow, Subgroup.coe_mk]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_zpow]
   group
 
 theorem res822_o_mem {H S : Subgroup G} (hSH : S ≤ H) (hSn : ∀ h ∈ H, ∀ s ∈ S, h * s * h⁻¹ ∈ S)
     {p j o : G} (hpH : p ∈ H) (hjS : j ∈ S) (hoH : o ∈ H) (hp : p = j * o) {n k : ℕ}
     (hn : Odd n) (hpn : p ^ n = 1) (hok : o ^ 2 ^ k = 1) : o ∈ S := by
-  haveI hnorm : (S.subgroupOf H).Normal := ⟨fun s hs h => by
+  have hnorm : (S.subgroupOf H).Normal := ⟨fun s hs h => by
     rw [Subgroup.mem_subgroupOf] at hs ⊢
     exact hSn h h.2 s hs⟩
   have hP' : (⟨p, hpH⟩ : ↥H) = (⟨j, hSH hjS⟩ : ↥H) * ⟨o, hoH⟩ := Subtype.ext (by simp [hp])
@@ -419,7 +419,7 @@ theorem res822CoverJ3_of
     rw [Subgroup.closure_le]
     rintro x ⟨hxJ, hx3⟩
     exact Subgroup.subset_closure ⟨hJ3P x hxJ hx3, hodd3 x hx3⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x0, hx0J, hord0⟩ : ∃ x0 : G, x0 ∈ kerIn (H ⊓ fsuM T L) H ∧ orderOf x0 = 3 := by
     obtain ⟨x0', hx0'⟩ := exists_prime_orderOf_dvd_card' (G := ↥(kerIn (H ⊓ fsuM T L) H)) 3 h3
     exact ⟨x0', x0'.2, by rw [Subgroup.orderOf_coe]; exact hx0'⟩

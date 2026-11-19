@@ -63,7 +63,7 @@ theorem le_sup_inf_normalizer_of_isSylowOf {p : ℕ} [Fact p.Prime] {H Y S : Sub
   exact mul_mem_sup hk ⟨H.mul_mem (H.inv_mem (hYH hk)) hx, hkx⟩
 
 theorem IsWitnessGen.exists_le_conj_of_two_le_pRank
-    (hS : CFSG.LocalAnalysis.AGL81TheoremCD.StandingGen G) {p : ℕ} {P : Sylow p G}
+    (_hS : CFSG.LocalAnalysis.AGL81TheoremCD.StandingGen G) {p : ℕ} {P : Sylow p G}
     (hp : IsWitnessPrime p P) {M : Subgroup G} (hw : IsWitnessGen p P M)
     {H : Subgroup G} (hH : IsTwoLocal H) (h2 : 2 ≤ CFSG.Open.pRank p H) :
     ∃ g : G, H ≤ M.map (MulAut.conj g).toMonoidHom := by

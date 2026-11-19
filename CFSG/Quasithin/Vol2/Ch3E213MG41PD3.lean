@@ -71,7 +71,7 @@ theorem dihedral_or_large [Finite k]
     have hprod : rhoP hvw (xv * xw) ∈ (Q : Subgroup _) := by
       rw [map_mul]
       exact (Q : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) k)).mul_mem hxv hxw
-    obtain ⟨j, hj⟩ := Q.isPGroup' ⟨_, hprod⟩
+    obtain ⟨j, hj⟩ := Q.isPGroup ⟨_, hprod⟩
     have h2 : rhoP hvw ((xv * xw) ^ 2 ^ j) = rhoP hvw 1 := by
       rw [map_pow, map_one]
       simpa using congrArg Subtype.val hj

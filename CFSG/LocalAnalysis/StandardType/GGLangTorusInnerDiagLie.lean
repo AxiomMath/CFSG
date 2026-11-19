@@ -53,7 +53,7 @@ theorem langTorus_connectedModelAction
     (Subgroup.commutator_le_self _).trans (inf_le_right.trans
       (Subgroup.commutator_le_self S.D.model))
   let G := ↥S.D.model
-  haveI : Finite G := S.finite
+  have : Finite G := S.finite
   let J : Subgroup G := R.subgroupOf S.D.model
   let E' : Subgroup G := E.subgroupOf S.D.model
   have hJmap : J.map S.D.model.subtype = R := Subgroup.map_subgroupOf_eq_of_le hRle
@@ -71,7 +71,7 @@ theorem langTorus_connectedModelAction
   have hdvd : 2 ∣ Nat.card ↥J := hdvdZ.trans (Subgroup.card_quotient_dvd_card _)
   have hker : familyKernel (fun _ : Unit => b) = rootCharKernel b := by
     ext α
-    simp only [familyKernel, rootCharKernel, Set.mem_setOf_eq]
+    simp only [familyKernel, rootCharKernel, Set.mem_ofPred_eq]
     exact ⟨fun h => ⟨h.1, h.2 ()⟩, fun h => ⟨h.1, fun _ => h.2⟩⟩
   have hE_Nmod : E ≤ Subgroup.normalizer (R : Set (ModGL τ L)) := by
     intro g hg
@@ -90,7 +90,7 @@ theorem langTorus_connectedModelAction
     intro _
     obtain ⟨t, n, f, hLM_X, hADE, -⟩ :=
       langComp_lieModel_alternative hτ S hp hp2 hb hap i hQS (y := 1)
-        (Subgroup.one_mem _) (map_one _) (by simpa using Subgroup.one_mem _)
+        (Subgroup.one_mem _) (map_one _) (by simp)
     have hLM_J := shapeAct_lieModel_centerQuot_transport eJ hLM_X
     have htne := shapeAct_tag_ne_of_ade hADE
     exact shapeAct_largeEvenMarking_chevSt hQSJ.1.commutator_eq_top hLM_J
@@ -199,7 +199,7 @@ theorem langTorus_innerDiagOn_lie
   obtain ⟨t', n', f', hLM', -, -⟩ :=
     langComp_lieModel_alternative (hτ.elim Or.inl fun h => Or.inr (Or.inr h)) S5 hp hp2
       (by rw [htor5]; exact hd) hdp i hQS
-      (y := 1) (Subgroup.one_mem _) (map_one _) (by simpa using Subgroup.one_mem _)
+      (y := 1) (Subgroup.one_mem _) (map_one _) (by simp)
   have hmark : LargeEvenMarking ↥K (fun _ _ _ _ _ _ => True) := by
     rw [hXeq]
     exact largeEvenMarking_mono (fun _ _ _ _ _ _ _ => trivial)

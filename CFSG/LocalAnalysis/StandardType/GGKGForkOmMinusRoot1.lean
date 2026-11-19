@@ -38,7 +38,7 @@ theorem ggKGOmM_monomial_tail {K : Type} [Field K] {m p : ℕ} {ζ : Kˣ} (hp : 
     ∃ (j : Fin m → Fin m) (ε : Fin m → ZMod p), (∀ i, ε i = 1 ∨ ε i = -1) ∧
       ∀ f i, toAdd (u f (j i)) = ε i * toAdd (f i) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have key : ∀ i : Fin m, ∃ (j : Fin m) (ε : ZMod p), (ε = 1 ∨ ε = -1) ∧
       ∀ f : Fin m → Multiplicative (ZMod p), toAdd (u f j) = ε * toAdd (f i) := by
     intro i
@@ -102,14 +102,14 @@ theorem ggKGOmM_isSignedPerm_of_monomial {p m : ℕ} (hp : p.Prime)
     (hε : ∀ i, ε i = 1 ∨ ε i = -1)
     (hrel : ∀ f i, toAdd (u f (j i)) = ε i * toAdd (f i)) : SpCoord.IsSignedPerm ⇑u := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hjinj : Function.Injective j := by
     intro i i' hij
     by_contra hne
     have h1 := hrel (Pi.mulSingle i (ofAdd (1 : ZMod p))) i
     have h2 := hrel (Pi.mulSingle i (ofAdd (1 : ZMod p))) i'
-    rw [SpCoord.toAdd_mulSingle, if_pos rfl, mul_one] at h1
-    rw [SpCoord.toAdd_mulSingle, if_neg (Ne.symm hne), mul_zero] at h2
+    rw [SpCoord.toAdd_mulSingle, ite_eq_left rfl, mul_one] at h1
+    rw [SpCoord.toAdd_mulSingle, ite_eq_right (Ne.symm hne), mul_zero] at h2
     rw [hij] at h1
     exact SpCoord.coord_sign_ne_zero hp (hε i) (h1.symm.trans h2)
   have hbij : Function.Bijective j :=

@@ -13,9 +13,9 @@ theorem exists_E27 {U Y : Type} [Group U] [Group Y] [Finite U] [Finite Y]
     (E : Subgroup U) (hE : CFSG.Assembly.IsElemAbelian 3 E) (hE9 : Nat.card E = 9) :
     ∃ F : Subgroup (MulAut Y), CFSG.Assembly.IsElemAbelian 3 F ∧ Nat.card F = 27 ∧
       F ≤ (MulAut.conj : Y →* MulAut Y).range ⊔ Subgroup.zpowers α := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hEc, hEe⟩ := hE
-  haveI := hEc
+  have := hEc
   have hord : orderOf α = 3 := orderOf_eq_prime hα3 hα1
   have hcomm_α : ∀ e : U, Commute (MulAut.conj (ι e)) α := by
     intro e

@@ -102,7 +102,7 @@ theorem pow_mul_pow_eq_pow_finRotate {a : G} {r : ℕ} (ha : a ^ r = 1) (i : Fin
     norm_num
     rw [show a * a ^ n = a ^ (n + 1) by group, ha]
 
-@[expose] def orbitDiagonalHom (a : G) (L : Subgroup G) (r : ℕ) (ha : a ^ r = 1)
+@[expose] def orbitDiagonalHom (a : G) (L : Subgroup G) (r : ℕ) (_ha : a ^ r = 1)
     (hcomm : ConjugatesCommute a L r) : ↥L →* G where
   toFun y := (List.ofFn (orbitDiagonalFactor a r y)).prod
   map_one' := by

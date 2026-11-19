@@ -61,9 +61,9 @@ theorem two_dvd_card_statedProj_statedSU {d f : ℕ} {K : Type} [Field K] [Finit
     have h1 := congrArg (fun M : Matrix (Fin d) (Fin d) K => M i₀ i₀) hc'
     rw [Matrix.scalar_apply, Matrix.diagonal_apply_eq, Equiv.Perm.permMatrix,
       PEquiv.toMatrix_apply, Equiv.toPEquiv_apply] at h1
-    simp only [Equiv.swap_apply_left, Option.mem_def, Option.some.injEq, if_neg hi] at h1
+    simp only [Equiv.swap_apply_left, Option.mem_def, Option.some.injEq] at h1
     exact c.ne_zero h1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf (QuotientGroup.mk g : StatedProj (StatedSU d (2 ^ f) K)) = 2 :=
     orderOf_eq_prime (by rw [← QuotientGroup.mk_pow, hg2, QuotientGroup.mk_one]) hnot
   have hdvd : orderOf (QuotientGroup.mk g : StatedProj (StatedSU d (2 ^ f) K)) ∣
@@ -89,8 +89,8 @@ theorem largeEvenLabelAll_frame_unitary {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   obtain ⟨K, _, _, hK, hQ'⟩ := hQ
   have hpq' : ¬ p ∣ 2 ^ n + 1 := not_dvd_two_pow_add_one_of_dvd_sub_one hp hp2 hpq
   have hq4 : 4 ≤ 2 ^ n := four_le_two_pow_of_dvd_sub_one hp hp2 hn hpq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
   have hZ : Subgroup.center
       (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ n))) = ⊥ :=
     center_statedProj_statedSU_eq_bot hK (by norm_num)

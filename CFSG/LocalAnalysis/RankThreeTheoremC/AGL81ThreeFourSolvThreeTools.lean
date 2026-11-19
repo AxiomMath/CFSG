@@ -46,7 +46,7 @@ theorem normalizer_sylow_le_threeFourCore {Y : Type} [Group Y] [Finite Y] {p : �
     (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ 2) :
     normalizer ((R : Subgroup Y) : Set Y) ≤ if 3 ≤ CFSG.pRank p (R : Subgroup Y) then
       GLBWeakCore p (R : Subgroup Y) else GLBCore p 1 E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   split_ifs with h3
   · rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
     exact CFSG.PreuniquenessRankFour.Helpers.normalizer_le_weakCore_of_rank p hp _ h3
@@ -95,7 +95,7 @@ theorem normalizer_sylow_le_threeFourCore {Y : Type} [Group Y] [Finite Y] {p : �
       simpa [mul_assoc] using this
     have hpR : p ∣ Nat.card (R : Subgroup Y) :=
       (dvd_pow_self p two_ne_zero).trans (by rw [← hEc]; exact card_dvd_of_le hER)
-    haveI : Group.IsNilpotent (R : Subgroup Y) := R.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (R : Subgroup Y) := R.isPGroup.isNilpotent
     obtain ⟨x, hx⟩ :=
       exists_prime_orderOf_dvd_card' p (Group.IsNilpotent.prime_dvd_card_center hpR)
     set z : Y := ((x : (R : Subgroup Y)) : Y) with hz
@@ -127,6 +127,7 @@ theorem cube_mem_pCore_two (hb : IsSymThreeOrSUThreeTwo (I₀ ⧸ CFSG.pCore 2 I
   rw [← QuotientGroup.eq_one_iff]
   simpa using h3
 
+omit [Finite Y] [Finite I₀] in
 theorem normal_map_subgroupOf_range (σ : I₀ →* Y) {N : Subgroup I₀} (hN : N.Normal) :
     ((N.map σ).subgroupOf σ.range).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.map_le_range σ N)]
@@ -141,10 +142,12 @@ theorem normal_map_subgroupOf_range (σ : I₀ →* Y) {N : Subgroup I₀} (hN :
     rw [map_mul, map_mul, hx, map_inv]
     group
 
+omit [Finite Y] [Finite I₀] in
 theorem oUpperTwo_map_le {Y₀ : Subgroup Y} (σ : I₀ →* Y) (hσY : σ.range ≤ Y₀) :
     (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ ≤ Y₀ :=
   (Subgroup.map_le_range σ _).trans hσY
 
+omit [Finite I₀] in
 theorem normal_oUpperTwo_top :
     (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -152,15 +155,17 @@ theorem normal_oUpperTwo_top :
     (Subgroup.mem_top g) hn
   simpa using h
 
+omit [Finite Y] [Finite I₀] in
 theorem isSubnormal_oUpperTwo_map {Y₀ : Subgroup Y} (σ : I₀ →* Y)
     (hσs : IsSubnormal σ.range Y₀) :
     IsSubnormal ((CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ) Y₀ :=
   IsSubnormal.step (Subgroup.map_le_range σ _)
     (normal_map_subgroupOf_range σ normal_oUpperTwo_top) hσs
 
+omit [Finite I₀] in
 theorem map_pCore_two_le_pCoreOf {Y₀ : Subgroup Y} (σ : I₀ →* Y)
     (hσs : IsSubnormal σ.range Y₀) : (CFSG.pCore 2 I₀).map σ ≤ pCoreOf 2 Y₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.AGLEmbedding.SubnormalCommute.le_pCoreOf_of_isSubnormal ?_
     (CFSG.pCore_isPGroup.map σ)
   exact IsSubnormal.step (Subgroup.map_le_range σ _)

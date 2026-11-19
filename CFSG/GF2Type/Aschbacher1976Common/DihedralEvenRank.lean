@@ -28,7 +28,7 @@ theorem exists_two_gen_of_cyclic_coset {X : Type*} [Group X] (C : Subgroup X) [I
     (hcoset : ∀ x y : X, x ∉ C → y ∉ C → x * y ∈ C) (P : Subgroup X) :
     ∃ s : Finset X, s.card ≤ 2 ∧ Subgroup.closure (s : Set X) = P := by
   classical
-  haveI : IsCyclic ↥(P ⊓ C) := Subgroup.isCyclic_of_le inf_le_right
+  have : IsCyclic ↥(P ⊓ C) := Subgroup.isCyclic_of_le inf_le_right
   obtain ⟨g, hgen⟩ := IsCyclic.exists_generator (α := ↥(P ⊓ C))
   have hgP : (g : X) ∈ P := (Subgroup.mem_inf.mp g.2).1
   have hgz : ∀ x ∈ C, x ∈ P → x ∈ Subgroup.zpowers (g : X) := by
@@ -125,7 +125,7 @@ theorem twoGen_dihedral (m : ℕ) [NeZero m] : TwoGenSubgroups (DihedralGroup m)
       | sr j =>
         rw [DihedralGroup.sr_mul_sr]
         exact hr _
-  haveI : IsCyclic ↥(Subgroup.zpowers (DihedralGroup.r 1 : DihedralGroup m)) :=
+  have : IsCyclic ↥(Subgroup.zpowers (DihedralGroup.r 1 : DihedralGroup m)) :=
     Subgroup.isCyclic_zpowers _
   exact fun P => exists_two_gen_of_cyclic_coset _ hcoset P
 
@@ -137,7 +137,7 @@ theorem twoGen_semidihedral (n : ℕ) (hn : 4 ≤ n) :
       x * y ∈ CFSG.Semidihedral.rotationSubgroup n :=
     fun _ _ hx hy =>
       mul_mem_of_notMem_of_index_two (CFSG.Semidihedral.rotationSubgroup_index n (by omega)) hx hy
-  haveI := CFSG.Semidihedral.rotationSubgroup_cyclic n
+  have := CFSG.Semidihedral.rotationSubgroup_cyclic n
   exact fun P => exists_two_gen_of_cyclic_coset _ hcoset P
 
 theorem twoGen_of_sylow {G : Type} [Group G] [Finite G] (T S : Sylow 2 G) {X : Type} [Group X]
@@ -145,7 +145,7 @@ theorem twoGen_of_sylow {G : Type} [Group G] [Finite G] (T S : Sylow 2 G) {X : T
     TwoGenSubgroups ↥(S : Subgroup G) := by
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G T S
   have hSeq : (S : Subgroup G) = (T : Subgroup G).map (MulAut.conj g).toMonoidHom := by
-    rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def] <;> rfl
+    rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]; rfl
   let eS : ↥(S : Subgroup G) ≃* ↥(T : Subgroup G) :=
     (MulEquiv.subgroupCongr hSeq).trans
       (Subgroup.equivMapOfInjective (T : Subgroup G) (MulAut.conj g).toMonoidHom
@@ -158,7 +158,7 @@ theorem twoGen_of_isPGroup {G : Type} [Group G] [Finite G]
   obtain ⟨S, hPS⟩ := hP.exists_le_sylow
   have hS : TwoGenSubgroups ↥(S : Subgroup G) := by
     rcases h with ⟨T, n, -, ⟨eT⟩⟩ | ⟨T, n, hn, ⟨eT⟩⟩
-    · haveI : NeZero (2 ^ (n - 1)) := ⟨by positivity⟩
+    · have : NeZero (2 ^ (n - 1)) := ⟨by positivity⟩
       exact twoGen_of_sylow T S eT (twoGen_dihedral (2 ^ (n - 1)))
     · exact twoGen_of_sylow T S eT (twoGen_semidihedral n hn)
   exact exists_two_gen_of_le (S : Subgroup G) hS P hPS

@@ -12,7 +12,7 @@ open scoped Pointwise
 
 private theorem eq_one_of_isPGroup_two {G : Type} [Group G] {P : Subgroup G} (hP : IsPGroup 2 P)
     {m₀ : ℕ} (hm₀ : Odd m₀) {x : G} (hx : x ∈ P) (hxm : x ^ m₀ = 1) : x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp hP ⟨x, hx⟩
   have h1 : orderOf x = 2 ^ k := by rw [← Subgroup.orderOf_mk x hx]; exact hk
   have h2 : orderOf x ∣ m₀ := orderOf_dvd_of_pow_eq_one hxm
@@ -31,9 +31,9 @@ theorem sylowFourJoined_of_wreath_sylow {G Y : Type} [Group G] [Finite G] [Group
     (hAS : A ≤ S) (hBS : B ≤ S) (hτS : τ ∈ (S : Subgroup G))
     (hz₁ : z₁ ∈ A) (hz₁2 : z₁ * z₁ = 1) (hz₁1 : z₁ ≠ 1) (hz₁c : ∀ a ∈ A, a * z₁ = z₁ * a)
     (hc : c ∈ A) (hc2 : c * c = 1) (hcz : c ≠ z₁) (hc1 : c ≠ 1) : SylowFourJoined Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite Y := Finite.of_surjective π hπ
-  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Y := Finite.of_surjective π hπ
+  have hSp : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hinj : ∀ x ∈ (S : Subgroup G), ∀ y ∈ (S : Subgroup G), π x = π y → x = y := by
     intro x hx y hy hxy
     have h1 : x⁻¹ * y = 1 := eq_one_of_isPGroup_two hSp hm₀ (S.mul_mem (S.inv_mem hx) hy)
@@ -127,7 +127,7 @@ theorem exists_sylow_wreath {G Γ : Type} [Group G] [Group Γ] (emb : Γ × Γ �
         ∃ b ∈ D.map (emb.comp (MonoidHom.inr Γ Γ)), s = a * b ∨ s = a * b * τ) ∧
       D.map (emb.comp (MonoidHom.inl Γ Γ)) ≤ S ∧ D.map (emb.comp (MonoidHom.inr Γ Γ)) ≤ S ∧
       τ ∈ (S : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set fA : Γ →* G := emb.comp (MonoidHom.inl Γ Γ) with hfA
   set fB : Γ →* G := emb.comp (MonoidHom.inr Γ Γ) with hfB
   have hfA' : ∀ x, fA x = emb (x, 1) := fun x => rfl
@@ -238,7 +238,7 @@ theorem exists_sylow_wreath {G Γ : Type} [Group G] [Group Γ] (emb : Γ × Γ �
 theorem exists_sylow_two_containing {Γ : Type} [Group Γ] [Finite Γ] {z r : Γ} (hz2 : z * z = 1)
     (hr2 : r * r = 1) (hz1 : z ≠ 1) (hr1 : r ≠ 1) (hzr : z ≠ r) (hc : Commute z r) :
     ∃ D : Subgroup Γ, z ∈ D ∧ r ∈ D ∧ Nat.card D = 2 ^ (Nat.card Γ).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK := GorensteinWalter.isKleinFour_kleinFourOfCommutingInvolutions z r hz2 hr2 hz1 hr1 hzr hc
   have hV2 : IsPGroup 2 (GorensteinWalter.kleinFourOfCommutingInvolutions z r hz2 hr2 hc) :=
     IsPGroup.of_card (n := 2) (by rw [hK.card_four]; norm_num)

@@ -39,7 +39,7 @@ theorem oc_l34Row {N K Q T : Subgroup X} [K.Normal]
     (hT8 : Nonempty (↥T ≃* QuaternionGroup 2)) :
     Nat.card ↥(CFSG.pPrimeCore 3 ↥N) ≤ 2 ∧ CentralizerHasPElementOutside 3 N := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hidx
   obtain ⟨hv, ⟨e⟩⟩ := hI
   have hPSL : CFSG.Assembly.LowTwoRank.StatedClassicalModel ↥K .PSL 3 2 2 :=

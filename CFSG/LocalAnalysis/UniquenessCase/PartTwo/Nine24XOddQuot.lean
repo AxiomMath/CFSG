@@ -39,7 +39,7 @@ private theorem n924x_quot_ker_cases_odd (hK462 : CFSG.LocalAnalysis.UniquenessC
           (fun V _ => CFSG.GH74.Uniqueness.SU.SU5.IsQ8D8 (⊤ : Subgroup V))
           (fun Y _ => CFSG.Quasithin.IsAlt 5 Y)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN3 := not_three_dvd_card_ker ρ hE9 hD3 hfix
   refine ⟨hN3, ?_⟩
   obtain ⟨d₀, hd₀⟩ := exists_prime_orderOf_dvd_card' 3 (hD3 ▸ dvd_rfl : 3 ∣ Nat.card D)
@@ -77,7 +77,7 @@ private theorem n924x_quot_ker_cases_odd (hK462 : CFSG.LocalAnalysis.UniquenessC
     exact CFSG.SectionRank.le_pRank (p := 3) (H := ⊤) (E := D.map π) (by norm_num) le_top
       (CFSG.GroupTheory.isElemAbelian_of_card_prime hDb3) (k := 1) (by rw [hDb3, pow_one])
   have hperfb : commutator (G ⧸ ρ.ker) = ⊤ := by
-    haveI : Group.IsPerfect G := ⟨hQperf⟩
+    have : Group.IsPerfect G := ⟨hQperf⟩
     exact Group.IsPerfect.commutator_eq_top
   have hKb : CFSG.Open.IsKGroup (G ⧸ ρ.ker) := hQK.quotient ρ.ker
   have h2r : 2 < r := lt_of_le_of_ne (Fact.out : r.Prime).two_le (Ne.symm hr2)
@@ -104,10 +104,10 @@ theorem chief_quot_cases_odd (hK462 : CFSG.LocalAnalysis.UniquenessCase.UCK.K462
           (fun V _ => CFSG.GH74.Uniqueness.SU.SU5.IsQ8D8 (⊤ : Subgroup V))
           (fun Y _ => CFSG.Quasithin.IsAlt 5 Y)) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI hWn : (W.subgroupOf U).Normal := hUW.normal
-  haveI hEl : IsElementaryAbelian r (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
-  haveI : Nontrivial (↥U ⧸ W.subgroupOf U) := by
+  have : Fact r.Prime := ⟨hr⟩
+  have hWn : (W.subgroupOf U).Normal := hUW.normal
+  have hEl : IsElementaryAbelian r (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
+  have : Nontrivial (↥U ⧸ W.subgroupOf U) := by
     rw [QuotientGroup.nontrivial_iff]
     intro htop
     exact hUW.1.ne ((Subgroup.subgroupOf_eq_top.mp htop).antisymm hUW.1.le).symm
@@ -144,7 +144,7 @@ theorem chief_quot_cases_odd (hK462 : CFSG.LocalAnalysis.UniquenessCase.UCK.K462
     rw [← hZ3]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZK).toEquiv
   have hperf : commutator ↥K = ⊤ := by
-    haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
+    have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
     exact Group.IsPerfect.commutator_eq_top
   obtain ⟨hN3, hcases⟩ := n924x_quot_ker_cases_odd hK462 hr2 hKK hE9 hperf hD3
     (normalClosure_subgroupOf_eq_top hZK hKgen) ρ hirr hfixV

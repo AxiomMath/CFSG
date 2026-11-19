@@ -33,10 +33,11 @@ private noncomputable def iotaRing (n : ℕ) (a : F) [Fact (Irreducible (quadPol
   toFun c := ⟨algebraMap F (AdjoinRoot (quadPoly a)) c,
     SteinbergCB.mem_frobFixed.mpr (iterate_frob_algebraMap_fix hF c)⟩
   map_one' := Subtype.ext (map_one _)
-  map_mul' c d := Subtype.ext (map_mul _ _ _)
+  map_mul' _c _d := Subtype.ext (map_mul _ _ _)
   map_zero' := Subtype.ext (map_zero _)
-  map_add' c d := Subtype.ext (map_add _ _ _)
+  map_add' _c _d := Subtype.ext (map_add _ _ _)
 
+omit [CharP F 2] in
 private theorem iotaRing_bijective (n : ℕ) (a : F)
     [Fact (Irreducible (quadPoly a))] [CharP (AdjoinRoot (quadPoly a)) 2]
     [Finite F] [Finite (AdjoinRoot (quadPoly a))] (hn : 1 ≤ n)
@@ -59,6 +60,7 @@ private noncomputable def thetaAdd (n : ℕ) (a : F) [Fact (Irreducible (quadPol
     fin_cases i <;> fin_cases j <;> simp [hermOf])
   map_add' x y := Subtype.ext (hermOf_add x y)
 
+omit [CharP F 2] in
 private theorem thetaAdd_apply (n : ℕ) (a : F) [Fact (Irreducible (quadPoly a))]
     [CharP (AdjoinRoot (quadPoly a)) 2] [Finite F] [Finite (AdjoinRoot (quadPoly a))]
     (hF : Nat.card F = 2 ^ n) (hK : Nat.card (AdjoinRoot (quadPoly a)) = (2 ^ n) ^ 2)
@@ -66,6 +68,7 @@ private theorem thetaAdd_apply (n : ℕ) (a : F) [Fact (Irreducible (quadPoly a)
     ((thetaAdd n a hF hK x : WQ n a) : Matrix (Fin 2) (Fin 2) (AdjoinRoot (quadPoly a))) =
       hermOf n a x := rfl
 
+omit [CharP F 2] in
 private theorem thetaAdd_smul (n : ℕ) (a : F) [Fact (Irreducible (quadPoly a))]
     [CharP (AdjoinRoot (quadPoly a)) 2] [Finite F] [Finite (AdjoinRoot (quadPoly a))]
     (hF : Nat.card F = 2 ^ n) (hK : Nat.card (AdjoinRoot (quadPoly a)) = (2 ^ n) ^ 2)
@@ -86,12 +89,14 @@ private noncomputable def thetaEquiv (n : ℕ) (a : F) [Fact (Irreducible (quadP
         obtain ⟨x, hx⟩ := hermOf_surj hn hF hK X.1 (SteinbergCB.mem_twistedForm.mp X.2)
         exact ⟨x, Subtype.ext hx⟩⟩
 
+omit [CharP F 2] in
 private theorem thetaEquiv_apply (n : ℕ) (a : F) [Fact (Irreducible (quadPoly a))]
     [CharP (AdjoinRoot (quadPoly a)) 2] [Finite F] [Finite (AdjoinRoot (quadPoly a))]
     (ha : ∀ t : F, t ^ 2 + t + a ≠ 0) (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ n)
     (hK : Nat.card (AdjoinRoot (quadPoly a)) = (2 ^ n) ^ 2) (x : Fin 4 → F) :
     thetaEquiv n a ha hn hF hK x = thetaAdd n a hF hK x := rfl
 
+omit [CharP F 2] in
 private theorem thetaEquiv_symm_smul (n : ℕ) (a : F) [Fact (Irreducible (quadPoly a))]
     [CharP (AdjoinRoot (quadPoly a)) 2] [Finite F] [Finite (AdjoinRoot (quadPoly a))]
     (ha : ∀ t : F, t ^ 2 + t + a ≠ 0) (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ n)
@@ -123,6 +128,7 @@ private noncomputable def cjSemi (n : ℕ) (a : F) [Fact (Irreducible (quadPoly 
   left_inv X := by simp
   right_inv X := by simp
 
+omit [CharP F 2] in
 private theorem cjSemi_apply (n : ℕ) (a : F) [Fact (Irreducible (quadPoly a))]
     [CharP (AdjoinRoot (quadPoly a)) 2] [Finite F] [Finite (AdjoinRoot (quadPoly a))]
     (ha : ∀ t : F, t ^ 2 + t + a ≠ 0) (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ n)
@@ -159,6 +165,7 @@ private noncomputable def uncjSemi (n : ℕ) (a : F) [Fact (Irreducible (quadPol
   left_inv x := by simp
   right_inv x := by simp
 
+omit [CharP F 2] in
 private theorem cjSemi_uncjSemi (n : ℕ) (a : F) [Fact (Irreducible (quadPoly a))]
     [CharP (AdjoinRoot (quadPoly a)) 2] [Finite F] [Finite (AdjoinRoot (quadPoly a))]
     (ha : ∀ t : F, t ^ 2 + t + a ≠ 0) (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ n)
@@ -222,14 +229,17 @@ open CFSG.RankThree.PartOne.KCRootAxis (SL₂)
 variable {F : Type} [Field F] [CharP F 2] {n : ℕ} {a : F}
   [Fact (Irreducible (quadPoly a))] [CharP (AdjoinRoot (quadPoly a)) 2]
 
+omit [CharP F 2] in
 private theorem sigInv_sigQ [Finite (AdjoinRoot (quadPoly a))]
     (hK : Nat.card (AdjoinRoot (quadPoly a)) = (2 ^ n) ^ 2) :
     ∀ x, sigQ n a (sigQ n a x) = x := fun x => frob_iter_iter hK x
 
+omit [CharP F 2] in
 private theorem sigInv_of_card [Finite (AdjoinRoot (quadPoly a))]
     (hK : Nat.card (AdjoinRoot (quadPoly a)) = (2 ^ n) ^ 2) :
     SigInv n (AdjoinRoot (quadPoly a)) := sigInv_sigQ hK
 
+omit [CharP F 2] in
 private theorem herm_of_twisted (hinv : ∀ x, sigQ n a (sigQ n a x) = x)
     {X : Matrix (Fin 2) (Fin 2) (AdjoinRoot (quadPoly a))}
     (hX : X ∈ SteinbergCB.twistedForm (sigQ n a)) :
@@ -241,6 +251,7 @@ private theorem herm_of_twisted (hinv : ∀ x, sigQ n a (sigQ n a x) = x)
   ext i j
   simp [hinv]
 
+omit [CharP F 2] in
 private theorem twisted_of_herm
     {X : Matrix (Fin 2) (Fin 2) (AdjoinRoot (quadPoly a))}
     (hX : X ∈ JonesParshall.hermA n (AdjoinRoot (quadPoly a))) :
@@ -260,12 +271,13 @@ private noncomputable def phiEquiv (hinv : ∀ x, sigQ n a (sigQ n a x) = x) :
   right_inv _ := rfl
   map_mul' _ _ := rfl
 
+omit [CharP F 2] in
 private theorem congr_phiEquiv_twistRep (hinv : ∀ x, sigQ n a (sigQ n a x) = x)
     (g : SL₂ (AdjoinRoot (quadPoly a))) :
     MulAut.congr (phiEquiv hinv)
       (linToMulAut (SteinbergCB.frobFixed (sigQ n a)) (WQ n a) (SteinbergCB.twistRep hinv g)) =
       rhoH hinv g :=
-  MulEquiv.ext fun v => hm_injective rfl
+  MulEquiv.ext fun _v => hm_injective rfl
 
 variable [Finite F] [Finite (AdjoinRoot (quadPoly a))]
 
@@ -509,6 +521,7 @@ variable {F : Type} [Field F] [CharP F 2] {n : ℕ} {a : F}
   [Fact (Irreducible (quadPoly a))] [CharP (AdjoinRoot (quadPoly a)) 2]
   [Finite F] [Finite (AdjoinRoot (quadPoly a))]
 
+omit [CharP F 2] in
 private theorem fin4_linear (ha : ∀ t : F, t ^ 2 + t + a ≠ 0) (hn : 1 ≤ n)
     (hF : Nat.card F = 2 ^ n) (hK : Nat.card (AdjoinRoot (quadPoly a)) = (2 ^ n) ^ 2)
     (T : MulAut (Multiplicative (Fin 4 → F)))
@@ -556,12 +569,12 @@ theorem h11_minus {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [CommGr
         (n = 2 ∧ ∃ t ∈ A, IsFTransvection F (Fin 4) (MulAut.congr e t))) ∧
       (A ≤ perfectCore M → rk ↥A + n ≤ rkIdx (fixV A)) := by
   classical
-  haveI : Fact (Irreducible (quadPoly a)) := ⟨quadPoly_irreducible ha⟩
-  haveI : CharP (AdjoinRoot (quadPoly a)) 2 :=
+  have : Fact (Irreducible (quadPoly a)) := ⟨quadPoly_irreducible ha⟩
+  have : CharP (AdjoinRoot (quadPoly a)) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AdjoinRoot (quadPoly a))).injective 2
   have hK : Nat.card (AdjoinRoot (quadPoly a)) = (2 ^ n) ^ 2 := by
     rw [natCard_adjoinRoot_quad a hF, ← pow_mul, mul_comm]
-  haveI : Finite (AdjoinRoot (quadPoly a)) := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite (AdjoinRoot (quadPoly a)) := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have hn1 : 1 ≤ n := by omega
   set Ψ := psiEquiv ha hn1 hF hK with hΨ
   set E : V ≃* CFSG.Quasithin.H13.H11M.VH n (AdjoinRoot (quadPoly a)) := e.trans Ψ with hE

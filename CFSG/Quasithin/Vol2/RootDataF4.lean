@@ -58,7 +58,7 @@ theorem eq_one_of_centralizer_of_odd
   obtain ⟨PU, hPU⟩ := (large_Ree_Sylow_opposition F4 a K w₀ hw₀).1
   have hUp : IsPGroup 2 ↥(F4.reeFixedPosUnipotent K a) := by
     have h1 : IsPGroup 2 ↥((PU : Subgroup ↥(F4.reeGamma K a)).map (F4.reeGamma K a).subtype) :=
-      PU.isPGroup'.map _
+      PU.isPGroup.map _
     rwa [hPU, Subgroup.subgroupOf_map_subtype, inf_eq_left.2 reeFixedPosUnipotent_le_reeGamma] at h1
   obtain ⟨k, hk⟩ := hUp ⟨g, hgU⟩
   have h1 : g ^ 2 ^ k = 1 := congrArg Subtype.val hk

@@ -16,6 +16,7 @@ open CFSG.LocalAnalysis.GLTheoremA CFSG.LocalAnalysis.GLTheoremA.S10
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem type167J_three {J : Subgroup Ω} (h : Type167J 3 J) :
     ∃ f : ℕ, 1 ≤ f ∧ 3 ∣ 2 ^ f + 1 ∧ catalogIs (PSimple 3 J) (T167Idx f) := by
   rcases h with ⟨-, n, hn, hn5, hJ⟩ | ⟨-, n, hn, hn6, hJ⟩ | ⟨n, k, hn, hn3, hk5, hk, hpk, hJ⟩

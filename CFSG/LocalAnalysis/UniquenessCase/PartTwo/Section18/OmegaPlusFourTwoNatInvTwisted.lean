@@ -29,11 +29,13 @@ open scoped Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem natOmegaPlus_invariant {X : Subgroup (MulAut W)} {I : Subgroup W} {n a : ℕ}
     (h : NatOmegaPlus X I ⊥ n a) : ∀ x ∈ X, ∀ v ∈ I, x v ∈ I := by
   obtain ⟨-, K, hF, hFin, -, π, hRV⟩ := h
   exact fun x hx => hRV.2.2.2.1 ⟨x, hx⟩
 
+omit [Finite W] in
 theorem exists_omegaModel_summand {X : Subgroup (MulAut W)} {I : Subgroup W}
     (h : NatOmegaPlus X I ⊥ 4 2) :
     ∃ (S : OmegaModel ↥I), Nat.card S.K = 4 ∧
@@ -46,6 +48,7 @@ theorem exists_omegaModel_summand {X : Subgroup (MulAut W)} {I : Subgroup W}
     exists_omegaModel_of_natOmegaPlus (W := ↥I) (H := H') (a := 2) (by norm_num) hNat
   exact ⟨S, by rw [hSK]; norm_num, hSω.trans hH'⟩
 
+omit [Finite W] in
 private theorem decomp_exists_of_sup_eq_top {I J : Subgroup W} (hsup : I ⊔ J = ⊤) (v : W) :
     ∃ p : ↥I × ↥J, ((p.1 : W) * (p.2 : W)) = v := by
   obtain ⟨a, ha, b, hb, hab⟩ := Subgroup.mem_sup.1 (hsup ▸ Subgroup.mem_top v)
@@ -54,16 +57,19 @@ private theorem decomp_exists_of_sup_eq_top {I J : Subgroup W} (hsup : I ⊔ J =
 private noncomputable def decompOfSup {I J : Subgroup W} (hsup : I ⊔ J = ⊤) (v : W) : ↥I × ↥J :=
   Classical.choose (decomp_exists_of_sup_eq_top hsup v)
 
+omit [Finite W] in
 private theorem decompOfSup_spec {I J : Subgroup W} (hsup : I ⊔ J = ⊤) (v : W) :
     ((decompOfSup hsup v).1 : W) * ((decompOfSup hsup v).2 : W) = v :=
   Classical.choose_spec (decomp_exists_of_sup_eq_top hsup v)
 
+omit [Finite W] in
 private theorem decompOfSup_eq {I J : Subgroup W} (hinf : I ⊓ J = ⊥) (hsup : I ⊔ J = ⊤)
     {a : ↥I} {b : ↥J} {v : W} (h : ((a : W) * (b : W)) = v) : decompOfSup hsup v = (a, b) := by
   have hu := eq_of_mul_eq_mul_of_inf_eq_bot hinf a.2 (decompOfSup hsup v).1.2 b.2
     (decompOfSup hsup v).2.2 (h.trans (decompOfSup_spec hsup v).symm)
   exact Prod.ext (Subtype.ext hu.1.symm) (Subtype.ext hu.2.symm)
 
+omit [Finite W] in
 theorem card_fixV_eq_mul_of_preserves {I J : Subgroup W} (hinf : I ⊓ J = ⊥) (hsup : I ⊔ J = ⊤)
     {w : MulAut W} (hI : ∀ v ∈ I, w v ∈ I) (hJ : ∀ v ∈ J, w v ∈ J) :
     Nat.card ↥(fixV (Subgroup.zpowers w)) =
@@ -124,6 +130,7 @@ theorem card_fixV_eq_mul_of_preserves {I J : Subgroup W} (hinf : I ⊓ J = ⊥) 
     Nat.card_congr { toFun := F, invFun := G, left_inv := hFG, right_inv := hGF }
   rw [heq, Nat.card_prod]
 
+omit [Finite W] in
 theorem card_fixV_of_swap {I J : Subgroup W} (hinf : I ⊓ J = ⊥) (hsup : I ⊔ J = ⊤)
     {w : MulAut W} (hw2 : w ^ 2 = 1) (hIJ : I.map w.toMonoidHom = J) :
     Nat.card ↥(fixV (Subgroup.zpowers w)) = Nat.card ↥I := by
@@ -185,6 +192,7 @@ theorem card_fixV_of_swap {I J : Subgroup W} (hinf : I ⊓ J = ⊥) (hsup : I �
     rw [h2]
   exact Nat.card_congr { toFun := F, invFun := G, left_inv := hFG, right_inv := hGF }
 
+omit [Finite W] in
 theorem natCard_eq_mul_of_sup_eq_top {I J : Subgroup W} (hinf : I ⊓ J = ⊥) (hsup : I ⊔ J = ⊤) :
     Nat.card W = Nat.card ↥I * Nat.card ↥J := by
   have hdisj : Disjoint I J := by
@@ -194,8 +202,9 @@ theorem natCard_eq_mul_of_sup_eq_top {I J : Subgroup W} (hinf : I ⊓ J = ⊥) (
     exact ⟨fun _ => Set.mem_univ v, fun _ => by
       obtain ⟨a, ha, b, hb, hab⟩ := Subgroup.mem_sup.1 (hsup ▸ Subgroup.mem_top v)
       exact Set.mem_mul.2 ⟨a, ha, b, hb, hab⟩⟩
-  exact (Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisj hmul).card_mul.symm
+  exact (Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisj hmul).card_mul_card.symm
 
+omit [Finite W] in
 theorem card_of_natOmegaPlus {X : Subgroup (MulAut W)} {I : Subgroup W}
     (h : NatOmegaPlus X I ⊥ 4 2) : Nat.card ↥I = 256 := by
   obtain ⟨-, K, hF, hFin, hcard, π, hRV⟩ := h
@@ -228,6 +237,7 @@ theorem card_fixV_of_mQuot_top {w : MulAut W} (hW : Nat.card W = 2 ^ 16)
   rw [hidx, hW] at hmul
   omega
 
+omit [Finite W] in
 theorem isIrr_natOmegaPlus {X : Subgroup (MulAut W)} {I : Subgroup W}
     (h : NatOmegaPlus X I ⊥ 4 2) : CFSG.Quasithin.H.Pair.IsIrr X I := by
   classical
@@ -297,10 +307,10 @@ theorem isIrr_natOmegaPlus {X : Subgroup (MulAut W)} {I : Subgroup W}
   MulEquiv.ofBijective
     ({ toFun := fun v => ⟨g (v : V), h (v : V) v.2⟩
        map_one' := Subtype.ext (map_one g)
-       map_mul' := fun a b => Subtype.ext (map_mul g (a : V) (b : V)) } : ↥I →* ↥I)
-    ⟨fun a b hab => Subtype.ext (g.injective (congrArg Subtype.val hab)),
+       map_mul' := fun _a _b => Subtype.ext (map_mul g (_a : V) (_b : V)) } : ↥I →* ↥I)
+    ⟨fun _a _b hab => Subtype.ext (g.injective (congrArg Subtype.val hab)),
      Finite.surjective_of_injective
-       (fun a b hab => Subtype.ext (g.injective (congrArg Subtype.val hab)))⟩
+       (fun _a _b hab => Subtype.ext (g.injective (congrArg Subtype.val hab)))⟩
 
 theorem mulAutOnSub_apply {V : Type} [CommGroup V] [Finite V] (g : MulAut V)
     {I : Subgroup V} (h : ∀ v ∈ I, g v ∈ I) (v : ↥I) :
@@ -309,7 +319,7 @@ theorem mulAutOnSub_apply {V : Type} [CommGroup V] [Finite V] (g : MulAut V)
 theorem conj_mulAutOnSub_actOnSub {X : Subgroup (MulAut W)} {I : Subgroup W}
     (hInv : ∀ x ∈ X, ∀ v ∈ I, x v ∈ I) {w : MulAut W}
     (hwN : w ∈ Subgroup.normalizer (X : Set (MulAut W)))
-    (hpres : ∀ v ∈ I, w v ∈ I) (hpres' : ∀ v ∈ I, w⁻¹ v ∈ I) (x : ↥X) :
+    (hpres : ∀ v ∈ I, w v ∈ I) (_hpres' : ∀ v ∈ I, w⁻¹ v ∈ I) (x : ↥X) :
     mulAutOnSub w hpres * (actOnSub hInv x) * (mulAutOnSub w hpres)⁻¹ =
       actOnSub hInv (⟨w * (x : MulAut W) * w⁻¹,
         (Subgroup.mem_normalizer_iff.mp hwN (x : MulAut W)).mp x.2⟩ : ↥X) := by
@@ -927,6 +937,7 @@ theorem fixV_card_eq_64 {X : Subgroup (MulAut W)} {I : Fin 2 → Subgroup W}
   · rw [h0, h1] at h4096
     norm_num at h4096
 
+omit [Finite W] in
 private theorem congr_actHom {I : Subgroup W} {S : OmegaModel ↥I}
     (γ : GL OmI S.K) : MulAut.congr S.e (S.actHom γ) = H.matAut γ := by
   apply MulEquiv.ext
@@ -938,6 +949,7 @@ private theorem congr_actHom {I : Subgroup W} {S : OmegaModel ↥I}
   rw [show S.vec (S.e.symm u) = Multiplicative.toAdd u from S.vec_ofVec (Multiplicative.toAdd u)]
   rfl
 
+omit [Finite W] in
 theorem omega_map_congr_eq_natImage {I : Subgroup W}
     {S : OmegaModel ↥I} :
     S.omega.map (H.congrHom S.e) =

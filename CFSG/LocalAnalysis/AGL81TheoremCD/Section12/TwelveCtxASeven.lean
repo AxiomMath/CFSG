@@ -22,7 +22,7 @@ theorem card_barM_inf_dvd_seventyTwo_of_twelveCtx
     {Q H : Subgroup G} (h : TwelveCtx G M p Q H) {L : Subgroup G}
     (hL : L ∈ weakBlockSet M H) (h5 : NineThreeFive M L) :
     Nat.card ↥(barM M (H ⊓ L)) ∣ 72 := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hphase : TwoLocalPhaseThree M H := h.twoLocalPhaseThree
   have hMtop : M ≠ ⊤ :=
     CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top h.cstar.nonab M h.maxLocal.1
@@ -94,7 +94,7 @@ theorem center_barM_le_barM_inf_of_twelveCtx
     ∀ z ∈ Subgroup.center ↥(barM M L),
       (z : ↥M ⧸ CFSG.pCore 2 ↥M) ∈ barM M (H ⊓ L) := by
   intro z hz
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hphase : TwoLocalPhaseThree M H := h.twoLocalPhaseThree
   have hMtop : M ≠ ⊤ :=
     CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top h.cstar.nonab M h.maxLocal.1

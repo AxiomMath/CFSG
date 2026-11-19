@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec8_conj_R_of_comm (hc : Ctx M Q Z B) {t x : G} (htM : t ∈ M) (hxM : x ∈ M)
     (hxt : ⁅x, t⁆ ∈ Q) :
     conjSubgroup x (Rt M (LB M Q B) t) = Rt M (LB M Q B) t := by

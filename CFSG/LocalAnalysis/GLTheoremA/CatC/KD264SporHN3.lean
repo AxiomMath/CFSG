@@ -57,13 +57,14 @@ variable {G : Type} [Group G] [Finite G] {X : Type} [Fintype X] [DecidableEq X] 
   (ι : alternatingGroup (Fin 12) →* G) (hι : Function.Injective ι) {s1 s3 : G}
 
 include hι in
+omit hι in
 theorem exists_conj_s1_gen (hcls : ∀ x : G, orderOf x = 3 → IsConj s1 x ∨ IsConj s3 x)
     (hX : Fintype.card X = 1140000)
     (hfix3 : (Finset.univ.filter fun x : X => s3 • x = x).card = 60)
     {A : Subgroup G} (hA : IsElemAbelian 3 A) (h81 : 81 ≤ Nat.card A) :
     ∃ x ∈ A, IsConj s1 x := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := (isPGroup_of_isElemAbelian hA).exists_card_eq
   by_contra h
   push Not at h
@@ -105,8 +106,8 @@ theorem glaPComponent_alt3_gen (hC : Subgroup.centralizer ({s1} : Set G) =
     GLAPComponent 3 (Subgroup.centralizer ({s1} : Set G)) (alt3.map ι) := by
   set L := alt3.map ι with hL
   have hle : L ≤ Subgroup.centralizer ({s1} : Set G) := by rw [hC]; exact le_sup_right
-  haveI hs3 : IsSimpleGroup alt3 := alt3_simple
-  haveI hsL : IsSimpleGroup ↥L :=
+  have hs3 : IsSimpleGroup alt3 := alt3_simple
+  have hsL : IsSimpleGroup ↥L :=
     @MulEquiv.isSimpleGroup _ _ _ _ hs3 (alt3.equivMapOfInjective ι hι).symm
   have hcardL : Nat.card L = 181440 := by
     rw [hL, Subgroup.card_map_of_injective hι, card_alt3]
@@ -154,7 +155,7 @@ theorem exists_F9_gen (hCs : Subgroup.centralizer ({s1} : Set G) =
     ∃ F : Subgroup G, F ≤ A ∧ Nat.card F = 3 ^ 2 ∧ ∃ J0 : Subgroup G,
       GLAPComponent 3 (Subgroup.centralizer (F : Set G)) J0 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrange : A ≤ ι.range := by
     intro a ha
     have := hAC ha
@@ -233,14 +234,14 @@ theorem kd264RowData_gen (hcls : ∀ x : G, orderOf x = 3 → IsConj s1 x ∨ Is
     (hCs : Subgroup.centralizer ({s1} : Set G) = (Subgroup.centralizer {tri012A}).map ι)
     (hιs : ι tri012A = s1) (ho1 : orderOf s1 = 3) : KD264RowData 3 G := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro A hA hmax k hk1 hk2 hpk
   have hS81 : IsElemAbelian 3 ((Subgroup.closure (Set.range blockA)).map ι) :=
     isElemAbelian_blocks.map ι
   have hc81 : 81 ≤ Nat.card ((Subgroup.closure (Set.range blockA)).map ι) := by
     rw [Subgroup.card_map_of_injective hι]; exact card_blocks
   have h81 : 81 ≤ Nat.card A := hc81.trans (hmax _ hS81)
-  obtain ⟨x, hxA, hxc⟩ := exists_conj_s1_gen ι hι hcls hX hfix3 hA h81
+  obtain ⟨x, hxA, hxc⟩ := exists_conj_s1_gen hcls hX hfix3 hA h81
   obtain ⟨c, hc⟩ := isConj_iff.1 hxc
   interval_cases k
   · refine ⟨Subgroup.zpowers x, Subgroup.zpowers_le.2 hxA, ?_,
@@ -282,7 +283,7 @@ section HN
 
 set_option maxRecDepth 100000 in
 theorem kd264RowData_HN_three : KD264RowData 3 ↥JH := by
-  haveI : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
+  have : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
   obtain ⟨hC, -, hcomm⟩ := CJ_s1_structure
   have hX : Fintype.card X = 1140000 := by rw [Fintype.card_fin]; rfl
   exact kd264RowData_gen (X := X) iotaA iotaA_injective (s3 := sJ 2)
@@ -298,8 +299,8 @@ set_option maxRecDepth 100000 in
 theorem kd264SporAt_HN_three
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) :
     KD264SporAt 3 .HN := by
-  haveI hHN : IsSimpleGroup NativeSporadic.HN := CFSG.Sporadic.HN.isSimpleGroup_HN
-  haveI : IsSimpleGroup ↥JH := @MulEquiv.isSimpleGroup _ _ _ _ hHN hnEquivJ.symm
+  have hHN : IsSimpleGroup NativeSporadic.HN := CFSG.Sporadic.HN.isSimpleGroup_HN
+  have : IsSimpleGroup ↥JH := @MulEquiv.isSimpleGroup _ _ _ _ hHN hnEquivJ.symm
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.HN.nonempty_mulEquiv
   have hp : ¬ (Nat.card ↥JH).Prime := by rw [card_JH]; norm_num
   have hnc : ∃ x y : ↥JH, x * y ≠ y * x :=

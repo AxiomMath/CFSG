@@ -100,9 +100,7 @@ private theorem genericOrders_pos_char_two (t : CFSG.Assembly.LowTwoRank.StatedL
   unfold genericOrders
   split
   all_goals simp_all
-  all_goals first |
-    (apply Nat.gcd_pos_of_pos_right; omega) |
-    (apply Nat.gcd_pos_of_pos_left; omega) | positivity | omega
+  all_goals omega
 
 private theorem genericOrders_second_eq_one_char_two (t : CFSG.Assembly.LowTwoRank.StatedLieTag)
     (n f : ℕ) (hf : 1 ≤ f) :
@@ -126,9 +124,7 @@ private theorem exceptionalOrders_eq_one_or_pow_two (lab : GLALabel) (hlab : GLA
     rcases hlab with ⟨hn, hcond⟩
     simp only [markTag, markRank, markChar, markDeg]
     unfold exceptionalOrders
-    split <;> simp_all <;>
-      (first | exact Or.inl rfl | exact Or.inr (Or.inl rfl) |
-        exact Or.inr (Or.inr (Or.inl rfl)) | exact Or.inr (Or.inr (Or.inr rfl)))
+    split <;> simp_all
 
 
 theorem pRank_griessHopfMultiplier_le_one {X : Type} [Group X] {lab : GLALabel}
@@ -202,47 +198,47 @@ theorem pRank_griessHopfMultiplier_le_one {X : Type} [Group X] {lab : GLALabel}
         CFSG.Milestones.cl_lit_griess_schur_multipliers_all_native_models
           X (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩)
           (markDeg ⟨t, ℓ, n⟩) hM
-      haveI : Finite (generic (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩)
+      have : Finite (generic (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩)
           (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩) ×
           exceptional (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩)
             (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)) :=
         Finite.of_equiv _ eM.toEquiv
-      haveI hAB : Finite (Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩)
+      have hAB : Finite (Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩)
           (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).1) ×
           Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩)
             (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).2)) :=
         finite_of_finite_prod_left
         (Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).1) × Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).2))
         (Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).1) × Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).2))
-      haveI hCD : Finite (Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩)
+      have hCD : Finite (Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩)
           (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).1) ×
           Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩)
             (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).2)) :=
         finite_of_finite_prod_right
         (Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).1) × Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).2))
         (Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).1) × Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).2))
-      haveI : Finite (Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩)
+      have : Finite (Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩)
           (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).1)) :=
         finite_of_finite_prod_left
           (Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩)
             (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).1))
           (Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩)
             (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).2))
-      haveI : Finite (Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩)
+      have : Finite (Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩)
           (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).2)) :=
         finite_of_finite_prod_right
           (Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩)
             (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).1))
           (Multiplicative (ZMod (genericOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩)
             (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).2))
-      haveI : Finite (Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩)
+      have : Finite (Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩)
           (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).1)) :=
         finite_of_finite_prod_left
           (Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩)
             (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).1))
           (Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩)
             (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).2))
-      haveI : Finite (Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩)
+      have : Finite (Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩)
           (markRank ⟨t, ℓ, n⟩) (markChar ⟨t, ℓ, n⟩) (markDeg ⟨t, ℓ, n⟩)).2)) :=
         finite_of_finite_prod_right
           (Multiplicative (ZMod (exceptionalOrders (markTag ⟨t, ℓ, n⟩) (markRank ⟨t, ℓ, n⟩)
@@ -268,13 +264,13 @@ theorem pRank_center_le_one_of_isLabel {K : Type} [Group K] [Finite K] {lab : GL
     CFSG.Open.pRank p (Subgroup.center K) ≤ 1 := by
   obtain ⟨hQ, hlab, hM⟩ := rk2_model_of_isLabel hK
   have hQ' : CFSG.IsQuasisimple K := (CFSG.Foundations.SteinbergCA.quasisimple_iff _).2.2.1.2 hQ
-  haveI : Group.IsPerfect K := hQ'.1
+  have : Group.IsPerfect K := hQ'.1
   let X := K ⧸ Subgroup.center K
-  haveI : Group.IsPerfect X := CFSG.RankThree.PerfectCover.isPerfect_of_quasisimple_quotient hQ' (MulEquiv.refl X)
-  haveI : Finite X := inferInstance
-  haveI : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier X) :=
+  have : Group.IsPerfect X := CFSG.RankThree.PerfectCover.isPerfect_of_quasisimple_quotient hQ' (MulEquiv.refl X)
+  have : Finite X := inferInstance
+  have : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier X) :=
     CFSG.RankThree.PerfectCover.finite_hopfMultiplier (X := X) inferInstance
-  haveI : Finite (CFSG.Open.griessHopfMultiplier X) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier X) :=
     Finite.of_equiv (CFSG.RankThree.PerfectCover.hopfMultiplier X)
       (CFSG.RankThree.PerfectCover.hopfMultiplierEquivGriess X).symm.toEquiv
   have hgr := pRank_griessHopfMultiplier_le_one hlab hM hp hp2
@@ -370,7 +366,7 @@ theorem rk2Mult_le_rank {lab : GLALabel}
     by_cases hm1 : m = 1
     · subst hm1
       simp
-    · rw [if_neg hm1]
+    · rw [ite_eq_right hm1]
       have hm2 : 2 ≤ m := by omega
       calc (lab.rank + 1) / m ≤ (lab.rank + 1) / 2 := Nat.div_le_div_left hm2 (by norm_num)
         _ ≤ lab.rank := by omega
@@ -378,7 +374,7 @@ theorem rk2Mult_le_rank {lab : GLALabel}
     by_cases hm3 : 3 ≤ m
     · exact (rk2Mult_bcd_le (by tauto) hm3).trans (Nat.div_le_self _ _)
     · have hmle : m = 1 ∨ m = 2 := by omega
-      rcases hmle with rfl | rfl <;> simp [rk2Mult, ht] <;> try (split_ifs <;> omega)
+      rcases hmle with rfl | rfl <;> simp [rk2Mult, ht]; try (split_ifs <;> omega)
 
 theorem rk2Mult_A_le_div_three {lab : GLALabel} (ht : lab.tag = .A) {m : ℕ} (hm : 3 ≤ m) :
     rk2Mult lab m ≤ (lab.rank + 1) / 3 := by
@@ -663,7 +659,7 @@ theorem rk2Split_of_inputs (h : Rk2SplitInputs) : Rk2Split := by
       have hmne1 : rk2Ord r 1 ≠ 1 := rk2Ord_one_ne_one hr
       have hm2 : 2 ≤ rk2Ord r 1 := by omega
       simp only [rk2Mult]
-      rw [if_neg hmne1]
+      rw [ite_eq_right hmne1]
       exact Nat.div_le_div_left hm2 (by norm_num)
     ·
       have hℓ3 : 3 ≤ ℓ := by omega

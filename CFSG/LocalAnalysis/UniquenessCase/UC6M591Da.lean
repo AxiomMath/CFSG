@@ -33,7 +33,7 @@ theorem sylow_inf_center_eq_bot {Y : Type*} [Group Y] [Finite Y] {p : ℕ} [Fact
   have hpow : z ^ (P : Subgroup Y).index = 1 := by
     have := congrArg Subtype.val htr
     simpa using this.symm
-  obtain ⟨a, ha⟩ := P.isPGroup' ⟨z, hzP⟩
+  obtain ⟨a, ha⟩ := P.isPGroup ⟨z, hzP⟩
   have hza : z ^ (p ^ a) = 1 := by
     have := congrArg Subtype.val ha
     simpa using this
@@ -53,7 +53,7 @@ theorem not_dvd_card_center {Y : Type*} [Group Y] [Finite Y] {p : ℕ} [hp : Fac
   have hzp : IsPGroup p (zpowers (z : Y)) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hzY, pow_one])
   obtain ⟨P, hP⟩ := hzp.exists_le_sylow
-  haveI := hcyc P
+  have := hcyc P
   have hmem : (z : Y) ∈ (P : Subgroup Y) ⊓ center Y := ⟨hP (mem_zpowers _), z.2⟩
   rw [sylow_inf_center_eq_bot hY P, mem_bot] at hmem
   rw [hmem, orderOf_one] at hzY
@@ -63,7 +63,7 @@ theorem exists_minimal_invariant {X V : Type*} [Group X] [AddCommGroup V] [Modul
     [Nontrivial V] (ρ : Representation (ZMod 2) X V) :
     ∃ W : Submodule (ZMod 2) V, W ≠ ⊥ ∧ (∀ g, W ≤ W.comap (ρ g)) ∧
       ∀ W' : Submodule (ZMod 2) V, W' ≠ ⊥ → (∀ g, W' ≤ W'.comap (ρ g)) → W' ≤ W → W' = W := by
-  haveI : Finite (Submodule (ZMod 2) V) :=
+  have : Finite (Submodule (ZMod 2) V) :=
     Finite.of_injective (fun W : Submodule (ZMod 2) V => (W : Set V)) SetLike.coe_injective
   obtain ⟨W, ⟨hW0, hWinv⟩, hWmin⟩ :=
     (Set.toFinite {W : Submodule (ZMod 2) V | W ≠ ⊥ ∧ ∀ g, W ≤ W.comap (ρ g)}).exists_minimal
@@ -86,7 +86,7 @@ theorem isIrreducible_quotientLift {X V : Type} [Group X] [AddCommGroup V] [Modu
     have : w ∈ (⊤ : Subrepresentation ρbar).toSubmodule := Submodule.mem_top
     rw [← h] at this
     exact hw ((Submodule.mem_bot _).1 this)
-  haveI : Nontrivial (Subrepresentation ρbar) := ⟨⟨⊥, ⊤, hbt⟩⟩
+  have : Nontrivial (Subrepresentation ρbar) := ⟨⟨⊥, ⊤, hbt⟩⟩
   refine ⟨fun ψ => ?_⟩
   set U : Submodule (ZMod 2) V := ψ.toSubmodule.map W.subtype with hU
   have hUW : U ≤ W := by
@@ -120,18 +120,18 @@ end UCK.M591D
 open UCK.M591D in
 theorem UCK.k634_of_k461 (h : UCK.K461) : UCK.K634 := by
   intro X _ _ hX hQ hr3 V _ _ _ ρ hρ D hD3 hfix p hp hp2 hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : commutator X = ⊤ := hQ.1
-  haveI : Nontrivial X := by
-    haveI : IsSimpleGroup (X ⧸ center X) := hQ.2
+  have : Nontrivial X := by
+    have : IsSimpleGroup (X ⧸ center X) := hQ.2
     by_contra hX1
     rw [not_nontrivial_iff_subsingleton] at hX1
     obtain ⟨a, b, hab⟩ := exists_pair_ne (X ⧸ center X)
     obtain ⟨a', rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b', rfl⟩ := QuotientGroup.mk_surjective b
     exact hab (congrArg _ (Subsingleton.elim a' b'))
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     by_contra hV1
     rw [not_nontrivial_iff_subsingleton] at hV1
     obtain ⟨x, hx⟩ := exists_ne (1 : X)
@@ -140,7 +140,7 @@ theorem UCK.k634_of_k461 (h : UCK.K461) : UCK.K634 := by
     ext v
     exact Subsingleton.elim _ _
   have hcyc3 : ∀ P : Sylow 3 X, IsCyclic (P : Subgroup X) := fun P =>
-    CFSG.Quasithin.isCyclic_of_pRank_le_one (by norm_num) le_top P.isPGroup' hr3.le
+    CFSG.Quasithin.isCyclic_of_pRank_le_one (by norm_num) le_top P.isPGroup hr3.le
   have hZ3 : ¬ 3 ∣ Nat.card (center X) := not_dvd_card_center hperf hcyc3
   obtain ⟨W, hW0, hWinv, hWmin⟩ := exists_minimal_invariant ρ
   set ρW := ρ.subrepresentation W hWinv with hρW
@@ -205,19 +205,19 @@ theorem UCK.k634_of_k461 (h : UCK.K461) : UCK.K634 := by
       hperf]
   obtain ⟨n, F, _, _, φ, -, hF, -⟩ :=
     h (X ⧸ X₀) (hX.quotient X₀) W ρbar hinj hirr Dbar hD3' hncl hfixbar hrank hcomm
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (by rw [Fintype.card_eq_nat_card]; exact hF)
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (by rw [Fintype.card_eq_nat_card]; exact hF)
   have hcycΓ : ∀ H : Subgroup (X ⧸ X₀), IsPGroup p H → IsCyclic H := by
     intro H hH
-    haveI := CFSG.LinearAlgebra.even_SL2_odd_prime_subgroups_cyclic hp2 (H.map φ.toMonoidHom)
+    have := CFSG.LinearAlgebra.even_SL2_odd_prime_subgroups_cyclic hp2 (H.map φ.toMonoidHom)
       (hH.map φ.toMonoidHom)
     exact isCyclic_of_surjective (H.equivMapOfInjective φ.toMonoidHom φ.injective).symm
       (MulEquiv.surjective _)
   have hcycP : ∀ P : Sylow p X, IsCyclic (P : Subgroup X) := by
     intro P
     set f := π.subgroupMap (P : Subgroup X) with hf
-    haveI : IsCyclic ((P : Subgroup X).map π) := hcycΓ _ (P.isPGroup'.map π)
+    have : IsCyclic ((P : Subgroup X).map π) := hcycΓ _ (P.isPGroup.map π)
     have hker : f.ker ≤ center (P : Subgroup X) := by
       intro x hx
       have hxX₀ : (x : X) ∈ X₀ := by
@@ -226,7 +226,7 @@ theorem UCK.k634_of_k461 (h : UCK.K461) : UCK.K634 := by
       rw [mem_center_iff]
       intro y
       exact Subtype.ext (mem_center_iff.1 (hX₀Z hxX₀) y)
-    haveI : IsMulCommutative (P : Subgroup X) := f.isMulCommutative_of_isCyclic_of_ker_le_center hker
+    have : IsMulCommutative (P : Subgroup X) := f.isMulCommutative_of_isCyclic_of_ker_le_center hker
     have hPZ := sylow_inf_center_eq_bot hperf P
     have hfinj : Function.Injective f := by
       rw [injective_iff_map_eq_one]

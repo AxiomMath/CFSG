@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s612_SixTwelveStruct_le_normalizer_of_conj {X S : Subgroup G}
     (h : ∀ x ∈ X, ∀ s ∈ S, x * s * x⁻¹ ∈ S) : X ≤ normalizer (S : Set G) := by
   intro x hx
@@ -24,6 +25,7 @@ private theorem s612_SixTwelveStruct_le_normalizer_of_conj {X S : Subgroup G}
     have h2 := h x⁻¹ (X.inv_mem hx) (x * s * x⁻¹) hs
     rwa [show x⁻¹ * (x * s * x⁻¹) * x⁻¹⁻¹ = s by group] at h2
 
+omit [Finite G] in
 private theorem s612_SixTwelveStruct_KOf_le_LOf (M V : Subgroup G) (g : G) :
     KOf M V g ≤ LOf V g := by
   unfold KOf LOf UOf BOf
@@ -33,9 +35,11 @@ namespace Hyp612Sym
 
 variable {n : ℕ} {M V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem elemAbelian_conj (h : Hyp612Sym n M V g) : IsElemAbelian 2 (conjSubgroup V g) :=
   CFSG.Quasithin.E3.isElemAbelian_conjSubgroup h.elemAbelian g
 
+omit [Finite G] in
 theorem commutator_mem_U (h : Hyp612Sym n M V g) {b v : G} (hb : b ∈ BOf M V g) (hv : v ∈ V) :
     ⁅v, b⁆ ∈ UOf M V g := by
   by_cases hbV : b ∈ V
@@ -73,12 +77,14 @@ theorem commutator_mem_U (h : Hyp612Sym n M V g) {b v : G} (hb : b ∈ BOf M V g
         exact Subgroup.mem_inf.2 ⟨V.one_mem, (conjSubgroup V g).one_mem⟩)
     exact Subgroup.mem_inf.2 ⟨hcV, hcMg⟩
 
+omit [Finite G] in
 theorem commutator_mem_B (h : Hyp612Sym n M V g) {a w : G} (ha : a ∈ UOf M V g)
     (hw : w ∈ conjSubgroup V g) : ⁅w, a⁆ ∈ BOf M V g := by
   have ha' : a ∈ BOf (conjSubgroup M g) (conjSubgroup V g) g⁻¹ := by rwa [BOf_swap]
   have h' := (h.swap).commutator_mem_U (b := a) (v := w) ha' hw
   rwa [UOf_swap] at h'
 
+omit [Finite G] in
 theorem commutator_mem_N (h : Hyp612Sym n M V g) {u b : G} (hu : u ∈ UOf M V g)
     (hb : b ∈ BOf M V g) : ⁅u, b⁆ ∈ NOf M V g := by
   have hcU : ⁅u, b⁆ ∈ UOf M V g := commutator_mem_U h hb hu.1
@@ -89,6 +95,7 @@ theorem commutator_mem_N (h : Hyp612Sym n M V g) {u b : G} (hu : u ∈ UOf M V g
   rw [NOf, Subgroup.mem_inf]
   exact ⟨hcU, hcB⟩
 
+omit [Finite G] in
 theorem mul_comm_of_mem_NOf (h : Hyp612Sym n M V g) {x l : G} (hx : x ∈ NOf M V g)
     (hl : l ∈ LOf V g) : x * l = l * x := by
   have hxV : x ∈ V := by
@@ -114,6 +121,7 @@ theorem mul_comm_of_mem_NOf (h : Hyp612Sym n M V g) {x l : G} (hx : x ∈ NOf M 
     exact (sup_le hVc hVgc) hl
   exact Subgroup.mem_centralizer_iff.1 hl' x (Set.mem_singleton x)
 
+omit [Finite G] in
 theorem mem_KOf_iff (h : Hyp612Sym n M V g) {x : G} :
     x ∈ KOf M V g ↔ ∃ u ∈ UOf M V g, ∃ b ∈ BOf M V g, x = u * b := by
   have hconj_mem : ∀ b ∈ BOf M V g, ∀ u ∈ UOf M V g,
@@ -153,6 +161,7 @@ theorem mem_KOf_iff (h : Hyp612Sym n M V g) {x : G} :
   · rintro ⟨u, hu, b, hb, rfl⟩
     exact (KOf M V g).mul_mem (Subgroup.mem_sup_left hu) (Subgroup.mem_sup_right hb)
 
+omit [Finite G] in
 theorem V_inf_KOf (h : Hyp612Sym n M V g) : V ⊓ KOf M V g = UOf M V g := by
   apply le_antisymm
   · intro x hx
@@ -170,6 +179,7 @@ theorem V_inf_KOf (h : Hyp612Sym n M V g) : V ⊓ KOf M V g = UOf M V g := by
     exact (UOf M V g).mul_mem hu hbU
   · exact le_inf inf_le_left (by rw [KOf]; exact le_sup_left)
 
+omit [Finite G] in
 theorem conjV_inf_KOf (h : Hyp612Sym n M V g) : conjSubgroup V g ⊓ KOf M V g = BOf M V g := by
   apply le_antisymm
   · intro x hx
@@ -189,6 +199,7 @@ theorem conjV_inf_KOf (h : Hyp612Sym n M V g) : conjSubgroup V g ⊓ KOf M V g =
     exact (BOf M V g).mul_mem huB hb
   · exact le_inf inf_le_left (by rw [KOf]; exact le_sup_right)
 
+omit [Finite G] in
 theorem LOf_le_normalizer_KOf (h : Hyp612Sym n M V g) :
     LOf V g ≤ normalizer ((KOf M V g : Subgroup G) : Set G) := by
   have hVK : V ≤ normalizer ((KOf M V g : Subgroup G) : Set G) := by
@@ -221,10 +232,12 @@ theorem LOf_le_normalizer_KOf (h : Hyp612Sym n M V g) :
   rw [LOf]
   exact sup_le hVK hVgK
 
+omit [Finite G] in
 theorem normal_KOf (h : Hyp612Sym n M V g) : ((KOf M V g).subgroupOf (LOf V g)).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (s612_SixTwelveStruct_KOf_le_LOf M V g)).2
     (LOf_le_normalizer_KOf h)
 
+omit [Finite G] in
 theorem commutator_KOf_KOf_mem_N (h : Hyp612Sym n M V g) {k k' : G} (hk : k ∈ KOf M V g)
     (hk' : k' ∈ KOf M V g) : ⁅k, k'⁆ ∈ NOf M V g := by
   obtain ⟨u, hu, b, hb, rfl⟩ := (mem_KOf_iff h).1 hk
@@ -259,6 +272,7 @@ theorem commutator_KOf_KOf_mem_N (h : Hyp612Sym n M V g) {k k' : G} (hk : k ∈ 
   rw [hmain]
   exact (NOf M V g).mul_mem hn1 hn2
 
+omit [Finite G] in
 theorem mem_UOf_of_commutator_mem_N (h : Hyp612Sym n M V g) {v k : G} (hv : v ∈ V)
     (hvU : v ∉ UOf M V g) (hk : k ∈ KOf M V g) (hc : ⁅k, v⁆ ∈ NOf M V g) :
     k ∈ UOf M V g := by
@@ -294,6 +308,7 @@ theorem mem_UOf_of_commutator_mem_N (h : Hyp612Sym n M V g) {v k : G} (hv : v �
   · exact absurd (Subgroup.mem_inf.2
       ⟨hv, h.mem_of_commutator_mem b hb hbV v hv hcvb_inf⟩) hvU
 
+omit [Finite G] in
 theorem mem_BOf_of_commutator_mem_N (h : Hyp612Sym n M V g) {w k : G}
     (hw : w ∈ conjSubgroup V g) (hwB : w ∉ BOf M V g) (hk : k ∈ KOf M V g)
     (hc : ⁅k, w⁆ ∈ NOf M V g) : k ∈ BOf M V g := by

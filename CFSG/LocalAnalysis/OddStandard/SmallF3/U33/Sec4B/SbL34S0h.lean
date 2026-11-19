@@ -14,6 +14,7 @@ open CFSG.OddStandard.SmallF3.HarrisU33.L34
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or_eq {z x : G} (hz : z * z = 1) (hx : x ∈ zpowers z) :
     x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -25,6 +26,7 @@ private lemma mem_zpowers_eq_one_or_eq {z x : G} (hz : z * z = 1) (hx : x ∈ zp
   · right
     rw [← Int.emod_add_mul_ediv k 2, h, zpow_add, zpow_mul, h2, one_zpow, mul_one, zpow_one]
 
+omit [Finite G] in
 private theorem mem_ctxN_cases_of {w : G} (hw2 : w * w = 1)
     (hcomm : ∀ v ∈ fourGrp x₁ x₂, w * v = v * w) {u : G} (hu : u ∈ ctxN w x₁ x₂) :
     u ∈ fourGrp x₁ x₂ ∨ ∃ v ∈ fourGrp x₁ x₂, u = w * v := by
@@ -92,6 +94,7 @@ theorem N_le_X : ctxN tau x₁ x₂ ≤ ctxX t tau x₁ x₂ := by
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha
   rcases ha with rfl | rfl | rfl <;> exact subset_closure (by simp)
 
+omit [Finite G] hc in
 theorem tN_le_X : ctxN (t * tau) x₁ x₂ ≤ ctxX t tau x₁ x₂ := by
   rw [ctxN, ctxX, closure_le]
   intro a ha
@@ -137,7 +140,7 @@ theorem tG_N_field : ∀ g : G, ∀ u ∈ ctxN tau x₁ x₂, g * t * g⁻¹ ≠
 
 theorem tG_tN_field : ∀ g : G, ∀ u ∈ ctxN (t * tau) x₁ x₂, g * t * g⁻¹ ≠ u := by
   intro g u hu heq
-  have huX : u ∈ ctxX t tau x₁ x₂ := tN_le_X hc hu
+  have huX : u ∈ ctxX t tau x₁ x₂ := tN_le_X hu
   have huV : u ∈ t • (fourGrp x₁ x₂ : Set G) := by
     rw [← heq]
     exact hc.tG_X g (heq.symm ▸ huX)

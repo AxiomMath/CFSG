@@ -10,7 +10,7 @@ theorem exists_nontrivial_fixed_point_of_isPGroup_three
     {Y B : Type*} [Group Y] [Finite Y] [Group B] [Finite B]
     [MulDistribMulAction Y B] (hY : IsPGroup 3 Y) (hB : IsPGroup 3 B) (hBnt : Nontrivial B) :
     ∃ x : B, x ≠ 1 ∧ ∀ y : Y, y • x = x := by
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card B := by
     obtain ⟨n, hn, hcard⟩ := hB.nontrivial_iff_card.mp hBnt
     exact hcard.symm ▸ dvd_pow_self 3 (ne_of_gt hn)

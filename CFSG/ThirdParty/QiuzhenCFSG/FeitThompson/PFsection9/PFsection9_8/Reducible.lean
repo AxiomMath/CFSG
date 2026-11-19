@@ -43,8 +43,8 @@ public theorem theorem_9_reducible_filter_card_of_transport_data_sec9
   classical
   intro hdata
   rcases hdata with ⟨ι, instFintype, instDecidableEq, μ, hμinj, hcard, hmem, hall⟩
-  letI : Fintype ι := instFintype
-  letI : DecidableEq ι := instDecidableEq
+  let : Fintype ι := instFintype
+  let : DecidableEq ι := instDecidableEq
   let R : Finset (Section1.ClassFunction M) := Finset.univ.image μ
   have hRcard : R.card = Fintype.card ι := by
     simpa [R] using
@@ -113,8 +113,8 @@ public theorem quotientReducibleFamilyTransportData_of_nbRedMQuotientTransportDa
   rcases hdata with
     ⟨ι, instFintype, instDecidableEq, μ, hμinj, hcard, hmem, hall⟩
   refine ⟨ι, instFintype, instDecidableEq, ?_⟩
-  letI : Fintype ι := instFintype
-  letI : DecidableEq ι := instDecidableEq
+  let : Fintype ι := instFintype
+  let : DecidableEq ι := instDecidableEq
   exact ⟨μ, hμinj, hcard, hmem, hall⟩
 
 public theorem le_normalizer_sup_of_le_normalizer_sec9
@@ -518,10 +518,10 @@ public theorem theorem_9_nb_redM_pf4_quotient_column_data_of_notation_sec9
   rcases hnotation with
     ⟨I, J, instFintypeI, instFintypeJ, instDecidableEqI, instDecidableEqJ,
       i0, j0, ω, hω⟩
-  letI : Fintype I := instFintypeI
-  letI : Fintype J := instFintypeJ
-  letI : DecidableEq I := instDecidableEqI
-  letI : DecidableEq J := instDecidableEqJ
+  let : Fintype I := instFintypeI
+  let : Fintype J := instFintypeJ
+  let : DecidableEq I := instDecidableEqI
+  let : DecidableEq J := instDecidableEqJ
   rcases Section4.theorem_4_3 K W1 W2 W I J i0 j0 ω h42 hω with
     ⟨_h43a, σ, piChar, deltaSign, h43b, h43c, _h43d⟩
   rcases Section4Scratch.theorem_4_5 K W1 W2 W i0 j0 ω σ piChar deltaSign
@@ -1112,7 +1112,7 @@ public theorem pf4_reducible_kernelInducedFamily_member_is_nonbase_inflated_colu
     exact hKD hk
   have hNnormal : Nsub.Normal := by
     simpa [Nsub] using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : Nsub.Normal := hNnormal
+  let : Nsub.Normal := hNnormal
   rcases hS with ⟨_hKNfam, _hMFNfam, hmemS⟩
   rcases (hmemS χ).mp hχS with ⟨θ, hθirr, hθnotMF, hθkerK, hχeq⟩
   rcases exists_quotient_character_of_subgroupInKernel_sec9
@@ -1198,7 +1198,7 @@ public theorem theorem_9_nb_redM_pf4_column_lower_transport_to_kernelInduced_sou
                           nbRedMQuotientLowerTransportData_sec9 M K W2bar p S := by
   classical
   intro h92 _hH0MF _hpprime _hpData hKnormal hKD _hKinf hS
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   dsimp
   intro h42q _hW2bar_card hpf4
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
@@ -1211,13 +1211,13 @@ public theorem theorem_9_nb_redM_pf4_column_lower_transport_to_kernelInduced_sou
     ⟨I, J, instFintypeI, instFintypeJ, instDecidableEqI, instDecidableEqJ,
       i0, j0, ω, hω, σ, piChar, deltaSign, xChar, h43b, h43c, h45a,
       _h45b, _hdeltaBase, _hpiBase, hpiColumnInj, hnonbaseCard⟩
-  letI : Fintype I := instFintypeI
-  letI : Fintype J := instFintypeJ
-  letI : DecidableEq I := instDecidableEqI
-  letI : DecidableEq J := instDecidableEqJ
+  let : Fintype I := instFintypeI
+  let : Fintype J := instFintypeJ
+  let : DecidableEq I := instDecidableEqI
+  let : DecidableEq J := instDecidableEqJ
   let ι : Type u := {j : J // j ∈ Finset.univ.erase j0}
-  letI : Fintype ι := inferInstance
-  letI : DecidableEq ι := inferInstance
+  let : Fintype ι := inferInstance
+  let : DecidableEq ι := inferInstance
   let θ : ι → Section1.ClassFunction Nsub := fun j h =>
     xChar j.1 (((QuotientGroup.mk' (K.subgroupOf M)).subgroupMap Nsub) h)
   let μ : ι → Section1.ClassFunction M := fun j =>
@@ -1228,7 +1228,7 @@ public theorem theorem_9_nb_redM_pf4_column_lower_transport_to_kernelInduced_sou
     exact hKD hk
   have hNnormal : Nsub.Normal := by
     simpa [Nsub] using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : Nsub.Normal := hNnormal
+  let : Nsub.Normal := hNnormal
   have h46 :
       Section4Scratch.hypothesis_4_6_statement
         Kbar W1bar W2bar Wbar Kbar
@@ -1336,7 +1336,7 @@ public theorem theorem_9_nb_redM_pf4_column_reducible_filter_card_le_sec9
                           (reducibleCharacterFilter_sec9 M S).card ≤ p - 1 := by
   classical
   intro _h92 _hH0MF _hpprime _hpData hKnormal hKD _hKinf hS
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   dsimp
   intro _h42q _hW2bar_card hpf4
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
@@ -1346,14 +1346,14 @@ public theorem theorem_9_nb_redM_pf4_column_reducible_filter_card_le_sec9
     ⟨I, J, instFintypeI, instFintypeJ, _instDecidableEqI, instDecidableEqJ,
       i0, j0, _ω, _hω, _σ, piChar, _deltaSign, xChar, _h43b, _h43c, h45a,
       h45b, _hdeltaBase, hpiBase, _hpiColumnInj, hnonbaseCard⟩
-  letI : Fintype I := instFintypeI
-  letI : Fintype J := instFintypeJ
-  letI : DecidableEq J := instDecidableEqJ
+  let : Fintype I := instFintypeI
+  let : Fintype J := instFintypeJ
+  let : DecidableEq J := instDecidableEqJ
   let Red : Finset (Section1.ClassFunction M) := reducibleCharacterFilter_sec9 M S
   let ρ : Type u := {χ : Section1.ClassFunction M // χ ∈ Red}
-  letI : Fintype ρ := Finset.Subtype.fintype Red
+  let : Fintype ρ := Finset.Subtype.fintype Red
   let ι : Type u := {j : J // j ∈ Finset.univ.erase j0}
-  letI : Fintype ι := Finset.Subtype.fintype (Finset.univ.erase j0)
+  let : Fintype ι := Finset.Subtype.fintype (Finset.univ.erase j0)
   have hclass :
       ∀ χ : ρ, ∃ j : ι,
         (χ : Section1.ClassFunction M) =
@@ -1445,7 +1445,7 @@ public theorem theorem_9_nb_redM_pf4_column_reducible_subset_source_core_sec9
                                       χ ∈ R := by
   classical
   intro h92 hH0MF hpprime hpData hKnormal hKD hKinf hS
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   dsimp
   intro h42q hW2bar_card hpf4 R hRcard hRmem χ hχS hχred
   let Red : Finset (Section1.ClassFunction M) := reducibleCharacterFilter_sec9 M S
@@ -1500,7 +1500,7 @@ public theorem theorem_9_nb_redM_pf4_column_exhaust_transport_to_kernelInduced_s
                             nbRedMQuotientTransportData_sec9 M K W2bar p S := by
   classical
   intro h92 hH0MF hpprime hpData hKnormal hKD hKinf hS
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   dsimp
   intro h42q hW2bar_card hpf4 hlower
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
@@ -1510,8 +1510,8 @@ public theorem theorem_9_nb_redM_pf4_column_exhaust_transport_to_kernelInduced_s
   let W2bar : Subgroup (M ⧸ K.subgroupOf M) := (W2.subgroupOf M).map qM
   let Wbar : Subgroup (M ⧸ K.subgroupOf M) := ((W1 ⊔ W2).subgroupOf M).map qM
   rcases hlower with ⟨ι, instFintype, instDecidableEq, μ, hμinj, hcard, hmem⟩
-  letI : Fintype ι := instFintype
-  letI : DecidableEq ι := instDecidableEq
+  let : Fintype ι := instFintype
+  let : DecidableEq ι := instDecidableEq
   let R : Finset (Section1.ClassFunction M) := Finset.univ.image μ
   have hRcard : R.card = p - 1 := by
     calc
@@ -1572,7 +1572,7 @@ public theorem theorem_9_nb_redM_pf4_column_transport_to_kernelInduced_source_co
                         nbRedMPF4QuotientColumnData_sec9 Kbar W1bar W2bar Wbar p →
                           nbRedMQuotientTransportData_sec9 M K W2bar p S := by
   intro h92 hH0MF hpprime hpData hKnormal hKD hKinf hS
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   dsimp
   intro h42q hW2bar_card hpf4
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
@@ -1620,7 +1620,7 @@ public theorem theorem_9_nb_redM_pf4_quotient_character_transport_source_core_se
                           ((W2.subgroupOf M).map (QuotientGroup.mk' (K.subgroupOf M)))
                           p S := by
   intro h92 hH0MF hpprime hpData hKnormal hKD hKinf hS h42q hW2bar_card
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
   let Kbar : Subgroup (M ⧸ K.subgroupOf M) :=
     ((ambientDerivedSubgroup M).subgroupOf M).map qM
@@ -1662,7 +1662,7 @@ public theorem theorem_9_nb_redM_primeTI_quotient_character_transport_source_cor
                       Nat.card W2bar ≠ 1 →
                       nbRedMQuotientTransportData_sec9 M K W2bar p S := by
   intro h92 hH0MF hpprime hpData hKnormal hKD hKinf hS
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   change
     IsCyclic ((W2.subgroupOf M).map (QuotientGroup.mk' (K.subgroupOf M))) →
       Nat.card ((W2.subgroupOf M).map (QuotientGroup.mk' (K.subgroupOf M))) ≠ 1 →
@@ -1712,7 +1712,7 @@ public theorem theorem_9_nb_redM_quotient_character_transport_of_W2_card_source_
                     Nat.card W2bar = p →
                       nbRedMQuotientTransportData_sec9 M K W2bar p S := by
   intro h92 hH0MF hpprime hpData hKnormal hKD hKinf hS
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   change
     Nat.card ((W2.subgroupOf M).map (QuotientGroup.mk' (K.subgroupOf M))) = p →
       nbRedMQuotientTransportData_sec9 M K
@@ -1754,7 +1754,7 @@ public theorem theorem_9_nb_redM_quotient_transport_source_core_sec9
                       (W2.subgroupOf M).map qM
                     nbRedMQuotientTransportData_sec9 M K W2bar p S := by
   intro h92 hH0MF hpprime hpData hKnormal hKD hKinf hS
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
   let W2bar : Subgroup (M ⧸ K.subgroupOf M) := (W2.subgroupOf M).map qM
   have hW2bar_card : Nat.card W2bar = p := by
@@ -1784,7 +1784,7 @@ public theorem theorem_9_nb_redM_count_of_normal_le_inter_source_core_sec9
                   kernelInducedFamily M (ambientDerivedSubgroup M) MF K S →
                     (reducibleCharacterFilter_sec9 M S).card = p - 1 := by
   intro h92 hH0MF hpprime hpData hKnormal hKD hKinf hS
-  letI : (K.subgroupOf M).Normal := hKnormal
+  let : (K.subgroupOf M).Normal := hKnormal
   let qM : M →* M ⧸ K.subgroupOf M := QuotientGroup.mk' (K.subgroupOf M)
   let W2bar : Subgroup (M ⧸ K.subgroupOf M) := (W2.subgroupOf M).map qM
   have htransport : nbRedMQuotientTransportData_sec9 M K W2bar p S :=
@@ -1931,7 +1931,7 @@ public theorem theorem_9_H0C_inf_MF_eq_H0_source_core_sec9
     have hxSub : xM ∈ H0.subgroupOf M ⊔ C.subgroupOf M := by
       rw [← hsubsup]
       simpa [xM, Subgroup.mem_subgroupOf] using hx.1
-    letI : (H0.subgroupOf M).Normal := hH0normalM
+    let : (H0.subgroupOf M).Normal := hH0normalM
     rcases (Subgroup.mem_sup_of_normal_left
         (s := H0.subgroupOf M) (t := C.subgroupOf M) (x := xM)).1 hxSub with
       ⟨hM, hhH0M, cM, hcCM, hhcM⟩
@@ -2140,7 +2140,7 @@ public theorem subgroupInKernel'_constituent_of_subgroupRestriction_kernel_sec9
   rcases hfinrank_pos with ⟨f, hf⟩
   have hθkerRep :
       Section1.subgroupInRepresentationKernel ρθ (A.subgroupOf K) := by
-    letI : Representation.IsIrreducible ρθ := hρθirr
+    let : Representation.IsIrreducible ρθ := hρθirr
     have hf_inj : Function.Injective f := by
       rcases (Representation.IsIrreducible.injective_or_eq_zero
           (ρ := ρθ) (σ := ρχK) f) with hinj | hzero
@@ -2177,7 +2177,7 @@ public theorem constituent_not_subgroupInKernel'_of_subgroupRestriction_not_kern
   rcases hθirr with ⟨nθ, ρθ, _hρθirr, hθeq⟩
   let indρθ : Representation ℂ L (Representation.IndV K.subtype ρθ) :=
     Representation.ind K.subtype ρθ
-  haveI : FiniteDimensional ℂ (Representation.IndV K.subtype ρθ) :=
+  have : FiniteDimensional ℂ (Representation.IndV K.subtype ρθ) :=
     Theory.Representation.finiteDimensional_ind K ρθ
   have hIndCharKer :
       Section1.subgroupInKernel' (Section1.inducedCF K ρθ.character) A :=
@@ -2215,7 +2215,7 @@ public theorem constituent_not_subgroupInKernel'_of_subgroupRestriction_not_kern
   rw [Module.finrank_pos_iff_exists_ne_zero] at hfinrank_pos
   rcases hfinrank_pos with ⟨f, hf⟩
   have hχRepKer : Section1.subgroupInRepresentationKernel ρχ A := by
-    letI : Representation.IsIrreducible ρχ := hρχirr
+    let : Representation.IsIrreducible ρχ := hρχirr
     have hf_inj : Function.Injective f := by
       rcases (Representation.IsIrreducible.injective_or_eq_zero
           (ρ := ρχ) (σ := indρθ) f) with hinj | hzero
@@ -2246,11 +2246,11 @@ public theorem exists_irreducible_constituent_of_subgroupRestriction_sec9
         Section1.scalarProduct K θ (Section1.subgroupRestriction K χ) ≠ 0 := by
   rcases hχ with ⟨n, ρ, hρirr, hρchar⟩
   let ρK : Representation ℂ K (Fin n → ℂ) := ρ.comp K.subtype
-  letI : Nontrivial (Fin n → ℂ) :=
+  let : Nontrivial (Fin n → ℂ) :=
     Subrepresentation.irreducible_module_nontrivial ρ
   obtain ⟨φ, hφirr⟩ :=
     Subrepresentation.irreducible_subrepresentation_of_finite_dimensional ρK
-  letI : Nontrivial φ.toSubmodule :=
+  let : Nontrivial φ.toSubmodule :=
     Subrepresentation.irreducible_module_nontrivial φ.toRepresentation
   let incl : Theory.Representation.RepMap φ.toRepresentation ρK := by
     refine Theory.Representation.RepMap.mk φ.toSubmodule.subtype ?_
@@ -2393,7 +2393,7 @@ public theorem theorem_9_8_exists_MF_restriction_constituent_sec9
     simpa [D, K] using
       theorem_9_8_MF_subgroupOf_ambientDerived_normal_sec9
         M MF U W1 W2 H0 C p q a hcase
-  letI : K.Normal := hKnormal
+  let : K.Normal := hKnormal
   rcases exists_restriction_constituent_kernelD_sec9
       (L := D.subgroupOf M) K A K le_rfl hθirr
       (by simpa [D, K] using hθnotMF)
@@ -2457,8 +2457,8 @@ public theorem theorem_9_8_clifford_inertia_inducing_constituent_source_core_sec
       (Section1.inducedCF Ksub (Section1.subgroupOfClassFunction (T := T) ψ))
       hindChar hindNe with
     ⟨ι, hι, hιdec, e, ηfam, i0, hepos, hηbook, hηpair, hdecompT⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := hιdec
+  let : Fintype ι := hι
+  let : DecidableEq ι := hιdec
   let χfam : ι → Section1.ClassFunction L :=
     fun i => Section1.inducedCF T (ηfam i)
   have hχdef : ∀ i : ι, χfam i = Section1.inducedCF T (ηfam i) := by
@@ -2561,7 +2561,7 @@ public theorem theorem_9_8_MF_U_internalSemidirect_ambientDerived_sec9
   let D : Subgroup G := ambientDerivedSubgroup M
   let K : Subgroup (D.subgroupOf M) := (MF.subgroupOf M).subgroupOf (D.subgroupOf M)
   let W : Subgroup (D.subgroupOf M) := (U.subgroupOf M).subgroupOf (D.subgroupOf M)
-  letI : K.Normal := by
+  let : K.Normal := by
     simpa [D, K] using hKnormal
   rcases h92.typeP with ⟨_hMFtype, hcommon⟩
   rcases hcommon with
@@ -2629,7 +2629,7 @@ public theorem injective_on_prime_card_subgroup_of_not_le_ker_sec9
     Function.Injective fun x : P => χ (x : Q) := by
   classical
   let χP : P →* A := χ.comp P.subtype
-  haveI : Fact (Nat.Prime (Nat.card P)) := ⟨by simpa [hcard] using hp⟩
+  have : Fact (Nat.Prime (Nat.card P)) := ⟨by simpa [hcard] using hp⟩
   have hker_ne_top : χP.ker ≠ ⊤ := by
     intro htop
     apply hP
@@ -2722,9 +2722,9 @@ public theorem degree_eq_one_of_irreducible_kernel_quotient_commutative_sec9
     apply Section6.representation_isIrreducible_of_comp_surjective ρq q
       (QuotientGroup.mk'_surjective (H.subgroupOf T))
     simpa [hcomp_eq] using hρirr
-  haveI : IsMulCommutative (T ⧸ H.subgroupOf T) := hcomm
+  have : IsMulCommutative (T ⧸ H.subgroupOf T) := hcomm
   have hn : n = 1 := by
-    haveI : Representation.IsIrreducible ρq := hρqirr
+    have : Representation.IsIrreducible ρq := hρqirr
     simpa using
       (Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative (ρ := ρq))
   rw [hθeq, Section1.degree_representation_character]
@@ -2806,8 +2806,8 @@ public theorem theorem_9_8_nonprincipal_MF_constituent_quotient_linear_character
     rcases hpData with
       ⟨_hH0MF, _hMFM, _hH0normalM, _hH0normalMF, _hH0ltMF, hElem, _hrest⟩
     rcases hElem with ⟨hnormal, hbarElem⟩
-    letI : (H0.subgroupOf MF).Normal := hnormal
-    letI : IsElementaryAbelian hp.val (MF ⧸ H0.subgroupOf MF) := hbarElem
+    let : (H0.subgroupOf MF).Normal := hnormal
+    let : IsElementaryAbelian hp.val (MF ⧸ H0.subgroupOf MF) := hbarElem
     infer_instance
   have hθdeg : Section1.degree θ = 1 :=
     degree_eq_one_of_irreducible_kernel_quotient_commutative_sec9
@@ -2853,7 +2853,7 @@ public theorem theorem_9_8_semidirect_index_eq_inf_complement_index_sec9
       (W.subgroupOf (⊤ : Subgroup L)) :=
     Section2.internalSemidirectProduct_isComplement hsemi
   have hcardL : Nat.card L = Nat.card K * Nat.card W := by
-    have hmul := hcompTop.card_mul
+    have hmul := hcompTop.card_mul_card
     calc
       Nat.card L = Nat.card (⊤ : Subgroup L) := (Subgroup.card_top (G := L)).symm
       _ = Nat.card (K.subgroupOf (⊤ : Subgroup L)) *
@@ -2907,12 +2907,12 @@ public theorem theorem_9_8_semidirect_index_eq_inf_complement_index_sec9
           simpa [kT, wT] using hxkw
         rw [hx_eq]
         exact Subgroup.mul_mem_sup hkTmem hwTmem
-    letI : (K.subgroupOf T).Normal :=
+    let : (K.subgroupOf T).Normal :=
       Subgroup.Normal.subgroupOf (inferInstance : K.Normal) T
     exact isComplement'_of_disjoint_sup_eq_top_of_normal
       (K.subgroupOf T) WTsubT hdisj hsupTop
   have hcardT : Nat.card T = Nat.card K * Nat.card WT := by
-    have hmul := hKsubT_comp.card_mul
+    have hmul := hKsubT_comp.card_mul_card
     calc
       Nat.card T = Nat.card (K.subgroupOf T) * Nat.card WTsubT := hmul.symm
       _ = Nat.card K * Nat.card WT := by
@@ -3002,12 +3002,12 @@ public theorem
   classical
   intro hcase hnormalH0 H hcard _hnorm _hindep _hSup hfac
     hKnormal hMFleM hMFsubD χ i hiχ hψχ hnormalC x hxT u hu
-  letI : (H0.subgroupOf MF).Normal := hnormalH0
-  letI : ((MF.subgroupOf M).subgroupOf
+  let : (H0.subgroupOf MF).Normal := hnormalH0
+  let : ((MF.subgroupOf M).subgroupOf
       ((ambientDerivedSubgroup M).subgroupOf M)).Normal := hKnormal
-  letI : (C.subgroupOf U).Normal := hnormalC
+  let : (C.subgroupOf U).Normal := hnormalC
   rcases hfac i with ⟨hnormalCfac, ρ, _hcyc, _hρcard, haction, hker⟩
-  letI : (C.subgroupOf U).Normal := hnormalCfac
+  let : (C.subgroupOf U).Normal := hnormalCfac
   have hχinj :
       Function.Injective fun y : H i => χ (y : MF ⧸ H0.subgroupOf MF) :=
     injective_on_prime_card_subgroup_of_not_le_ker_sec9 χ (hcard i)
@@ -3184,10 +3184,10 @@ public theorem
   classical
   intro hcase hnormalH0 H hcard hnorm hindep hSup hfac hKnormal
     χ i hiχ hψχ hnormalC x hxT
-  letI : (H0.subgroupOf MF).Normal := hnormalH0
-  letI : ((MF.subgroupOf M).subgroupOf
+  let : (H0.subgroupOf MF).Normal := hnormalH0
+  let : ((MF.subgroupOf M).subgroupOf
       ((ambientDerivedSubgroup M).subgroupOf M)).Normal := hKnormal
-  letI : (C.subgroupOf U).Normal := hnormalC
+  let : (C.subgroupOf U).Normal := hnormalC
   have hMFleM : MF ≤ M := case_9_7_a_MF_le_M_sec9 hcase
   have hMFsubD :
       MF.subgroupOf M ≤ (ambientDerivedSubgroup M).subgroupOf M := by
@@ -3292,7 +3292,7 @@ public theorem
   classical
   intro hcase hnormalH0 H hcard hnorm hindep hSup hfac horbit hKnormal
     hψirr hψnotMF hψkerH0
-  letI : (H0.subgroupOf MF).Normal := hnormalH0
+  let : (H0.subgroupOf MF).Normal := hnormalH0
   have hMFleM : MF ≤ M := case_9_7_a_MF_le_M_sec9 hcase
   have hMFsubD : MF.subgroupOf M ≤ (ambientDerivedSubgroup M).subgroupOf M := by
     intro x hx
@@ -3352,14 +3352,14 @@ public theorem theorem_9_8_nonprincipal_MF_constituent_component_factor_kernel_s
   intro hcase hKnormal hψirr hψnotMF hψkerH0
   rcases case_9_7_a_component_decomposition_sec9 hcase with
     ⟨hnormalH0, H, hcard, hnorm, hindep, hSup, hfac, horbit⟩
-  letI : (H0.subgroupOf MF).Normal := hnormalH0
+  let : (H0.subgroupOf MF).Normal := hnormalH0
   rcases
       theorem_9_8_nonprincipal_MF_constituent_component_centralized_source_core_sec9
         M MF U W1 W2 H0 C p q a ψ hcase hnormalH0 H hcard hnorm hindep
         hSup hfac horbit hKnormal hψirr hψnotMF hψkerH0 with
     ⟨i, hcentralized⟩
   rcases hfac i with ⟨hnormalC, ρ, _hcyc, hρcard, _haction, hker⟩
-  letI : (C.subgroupOf U).Normal := hnormalC
+  let : (C.subgroupOf U).Normal := hnormalC
   refine ⟨hnormalH0, H i, hnormalC, ρ, hρcard, ?_⟩
   intro x hxT
   exact (hker (QuotientGroup.mk' (C.subgroupOf U)
@@ -3404,13 +3404,13 @@ public theorem theorem_9_8_nonprincipal_MF_constituent_inertia_index_dvd_source_
   let T : Subgroup L := Section1.inertiaSubgroup K ψ
   have hKnormal' : K.Normal := by
     simpa [D, L, K] using hKnormal
-  letI : K.Normal := hKnormal'
+  let : K.Normal := hKnormal'
   rcases theorem_9_8_nonprincipal_MF_constituent_component_factor_kernel_source_core_sec9
       M MF U W1 W2 H0 C p q a ψ hcase
       (by simpa [D, L, K] using hKnormal') hψirr hψnotMF hψkerH0 with
     ⟨hnormalH0, Q, hnormalC, ρ, hρcard, hρkerT⟩
-  letI : (H0.subgroupOf MF).Normal := hnormalH0
-  letI : (C.subgroupOf U).Normal := hnormalC
+  let : (H0.subgroupOf MF).Normal := hnormalH0
+  let : (C.subgroupOf U).Normal := hnormalC
   let toU : W →* U := theorem_9_8_ambientDerived_U_subgroupOf_to_U_sec9 M U
   let f : W →* ρ.range :=
     ρ.rangeRestrict.comp ((QuotientGroup.mk' (C.subgroupOf U)).comp toU)
@@ -3516,7 +3516,7 @@ public theorem theorem_9_8_nonprincipal_book_constituent_inertia_witness_source_
     simpa [D, K] using
       theorem_9_8_MF_subgroupOf_ambientDerived_normal_sec9
         M MF U W1 W2 H0 C p q a hcase
-  letI : K.Normal := hKnormal
+  let : K.Normal := hKnormal
   let T : Subgroup (D.subgroupOf M) := Section1.inertiaSubgroup K ψ
   rcases theorem_9_8_clifford_inertia_inducing_constituent_source_core_sec9
       K hθirr hψirr (by simpa [D, K] using hψinner) with

@@ -57,7 +57,7 @@ private theorem tnc_mem_normalizer_subgroupOf
 
 theorem triD4_C0_exists_odd_fpf
     {K : Type} [Field K] [Finite K] (σ : K →+* K) {f : ℕ} (hf : 1 ≤ f)
-    (hK : Nat.card K = (2 ^ f) ^ 3) (hσ : ∀ c, σ c = c ^ (2 ^ f)) :
+    (hK : Nat.card K = (2 ^ f) ^ 3) (_hσ : ∀ c, σ c = c ^ (2 ^ f)) :
     ∃ h : graphFixedRootGroup TwistTag.D4 K σ,
       h ∈ (⊤ : Subgroup (graphFixedRootGroup TwistTag.D4 K σ)) ⊓
           Subgroup.normalizer (Bridge.triD4C0HighRoot K σ :
@@ -68,7 +68,7 @@ theorem triD4_C0_exists_odd_fpf
               Set (graphFixedRootGroup TwistTag.D4 K σ))),
           h * y = y * h → y ∈ Bridge.triD4C0HighRoot K σ := by
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, Nat.mul_comm f 3]
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hK3
   have hring : ringChar K = 2 := ringChar.eq K 2
@@ -154,7 +154,7 @@ theorem triD4_noCentral_C0
     GGRootNoCentralAt (⊤ : Subgroup (graphFixedRootGroup TwistTag.D4 K σ))
       (Bridge.triD4C0HighRoot K σ) := by
   obtain ⟨h, hhN, hodd, hfix⟩ := triD4_C0_exists_odd_fpf σ hf hK hσ
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ) :=
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ) :=
     Finite.of_injective (Subtype.val : graphFixedRootGroup TwistTag.D4 K σ → ModGL d4 K)
       Subtype.val_injective
   exact noCentral_of_fixedPoint_odd hodd hhN hfix

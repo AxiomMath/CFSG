@@ -17,6 +17,7 @@ open CFSG.Open
 
 variable {H : Type*} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem map_mk_facts {p : ℕ} (hp : p.Prime) (N : Subgroup H) [N.Normal]
     (hN : ¬ p ∣ Nat.card N) {E T : Subgroup H} (hE : IsElemAbelian p E) (hT : IsPGroup 2 T)
     (hTN : ¬ T ≤ N) (hET : E ≤ Subgroup.normalizer (T : Set H)) :
@@ -126,6 +127,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem nonempty_pquot_equiv_ON
     {p : ℕ} {L : Subgroup G}
     (hcat : catalogIs (PSimple p L) (sporIs .ONan)) (hZ : Subgroup.center (PQuot p L) = ⊥) :
@@ -158,6 +160,7 @@ theorem cfsgQuasisimple_of_open {Q : Type*} [Group Q] (h : CFSG.Open.IsQuasisimp
   rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq]
   exact hZ (Subgroup.mem_top _)
 
+omit [Finite G] in
 theorem nonempty_psimple_equiv_ON
     {p : ℕ} {L : Subgroup G}
     (hcat : catalogIs (PSimple p L) (sporIs .ONan)) :

@@ -29,7 +29,7 @@ theorem uni_B_structure {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K 
     B = Subgroup.zpowers x ⊔ B ⊓ S ∧ IsElemAbelian p (modCentreImage S B) := by
   classical
   have hp : p.Prime := hcfg.prime
-  haveI hPerf : Group.IsPerfect ↥S := ⟨hcfg.qs.1⟩
+  have hPerf : Group.IsPerfect ↥S := ⟨hcfg.qs.1⟩
   have hBN : B ≤ Subgroup.normalizer (S : Set Ω) := hM.2.2.2.2.2.1
   have hArith : UniArith p n d F :=
     ⟨hp, hM.2.2.2.2.1, hd, hM.1, hM.2.1, hM.2.2.1, hM.2.2.2.1⟩
@@ -96,7 +96,7 @@ theorem uni_B_structure {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K 
     exact mul_inv_eq_one.mp h1
   have hSigEa : IsElemAbelian p Sig :=
     ⟨IsMulCommutative.of_comm hSigComm', hSigPow⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Slift, hSlift_ea, hSlift_map, -⟩ :=
     CFSG.LocalAnalysis.GLTheoremB.exists_elemAbelian_lift (Subgroup.center ↥S) hZ
       (Eb := Sig) hSigEa

@@ -12,6 +12,7 @@ open Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem pow_apply_mem {x : MulAut W} {Y : Subgroup W}
     (hY : ∀ y ∈ Y, x y ∈ Y) (n : ℕ) {y : W} (hy : y ∈ Y) : (x ^ n) y ∈ Y := by
   induction n generalizing y with
@@ -20,8 +21,8 @@ private theorem pow_apply_mem {x : MulAut W} {Y : Subgroup W}
       have h := hY _ (ih hy)
       simpa [pow_succ', MulAut.mul_apply] using h
 
-theorem fixV_zpowers_eq_commSub_and_card (hW : ∀ w : W, w ^ 2 = 1) {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) {x b : MulAut W} (hx : orderOf x = p) (hb : orderOf b = 2)
+theorem fixV_zpowers_eq_commSub_and_card (hW : ∀ w : W, w ^ 2 = 1) {p : ℕ} (_hp : p.Prime)
+    (_hp2 : p ≠ 2) {x b : MulAut W} (_hx : orderOf x = p) (hb : orderOf b = 2)
     (hxb : b * x * b⁻¹ = x⁻¹) (hfix : fixV (Subgroup.zpowers x) = ⊥) :
     fixV (Subgroup.zpowers b) = commSub ⊤ (Subgroup.zpowers b) ∧
       Nat.card W = Nat.card (fixV (Subgroup.zpowers b)) ^ 2 := by
@@ -44,7 +45,7 @@ theorem fixV_zpowers_eq_commSub_and_card (hW : ∀ w : W, w ^ 2 = 1) {p : ℕ} (
     _ = (Nat.card (fixV (Subgroup.zpowers b))) ^ 2 := by
         rw [card_eq_two_pow hW]
 
-theorem card_eq_card_mul_card {b : MulAut W} (hb : b * b = 1) {U A : Subgroup W}
+theorem card_eq_card_mul_card {b : MulAut W} (_hb : b * b = 1) {U A : Subgroup W}
     (hAT : A ≤ commSub ⊤ (Subgroup.zpowers b)) (hTU : fixV (Subgroup.zpowers b) ≤ U)
     (hUA : ∀ u ∈ U, b u * u⁻¹ ∈ A) (hAU : ∀ w : W, b w * w⁻¹ ∈ A → w ∈ U) :
     Nat.card U = Nat.card (fixV (Subgroup.zpowers b)) * Nat.card A := by
@@ -76,11 +77,13 @@ theorem card_eq_card_mul_card {b : MulAut W} (hb : b * b = 1) {U A : Subgroup W}
   rw [hcardker, hrangeA] at h
   exact h.symm
 
+omit [Finite W] in
 theorem le_orbitClosure (x : MulAut W) (A : Subgroup W) : A ≤ orbitClosure x A := by
   intro a ha
   exact Subgroup.mem_iSup_of_mem 0
     (by simpa using Subgroup.mem_map_of_mem ((x ^ 0 : MulAut W) : W →* W) ha)
 
+omit [Finite W] in
 theorem apply_mem_orbitClosure (x : MulAut W) (A : Subgroup W) {z : W}
     (hz : z ∈ orbitClosure x A) : x z ∈ orbitClosure x A := by
   have hmap : (orbitClosure x A).map ((x : MulAut W) : W →* W) ≤ orbitClosure x A := by
@@ -93,6 +96,7 @@ theorem apply_mem_orbitClosure (x : MulAut W) (A : Subgroup W) {z : W}
       Subgroup.mem_map_of_mem ((x ^ (i + 1) : MulAut W) : W →* W) ha
   exact hmap (Subgroup.mem_map_of_mem ((x : MulAut W) : W →* W) hz)
 
+omit [Finite W] in
 private theorem pow_apply_mem_orbitClosure (x : MulAut W) (A : Subgroup W) (n : ℕ) {z : W}
     (hz : z ∈ orbitClosure x A) : (x ^ n) z ∈ orbitClosure x A := by
   induction n generalizing z with
@@ -101,6 +105,7 @@ private theorem pow_apply_mem_orbitClosure (x : MulAut W) (A : Subgroup W) (n : 
       have h := apply_mem_orbitClosure x A (ih hz)
       simpa [pow_succ', MulAut.mul_apply] using h
 
+omit [Finite W] in
 theorem orbitClosure_le {x : MulAut W} {A Y : Subgroup W} (hAY : A ≤ Y)
     (hxY : ∀ y ∈ Y, x y ∈ Y) : orbitClosure x A ≤ Y := by
   rw [orbitClosure]
@@ -252,7 +257,7 @@ theorem index_orbitClosure_le (hW : ∀ w : W, w ^ 2 = 1) {p : ℕ} (hp : p.Prim
       _ = r ^ 2 * a ^ 2 := by rw [mul_pow]
   exact Nat.le_of_mul_le_mul_right hkey (pow_pos (card_subgroup_pos A) 2)
 
-theorem even_rk_of_invariant (hW : ∀ w : W, w ^ 2 = 1) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem even_rk_of_invariant (hW : ∀ w : W, w ^ 2 = 1) {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
     {x b : MulAut W} (hx : orderOf x = p) (hb : orderOf b = 2) (hxb : b * x * b⁻¹ = x⁻¹)
     (hfix : fixV (Subgroup.zpowers x) = ⊥) {Z : Subgroup W} (hxZ : ∀ z ∈ Z, x z ∈ Z)
     (hbZ : ∀ z ∈ Z, b z ∈ Z) : Even (rk ↥Z) := by
@@ -327,8 +332,8 @@ theorem card_modEq_card_inf_fixV {p : ℕ} (hp : p.Prime) {x : MulAut W} (hx : o
     {Y : Subgroup W} (hY : ∀ y ∈ Y, x y ∈ Y) :
     Nat.card Y ≡ Nat.card ↥(Y ⊓ fixV (Subgroup.zpowers x)) [MOD p] := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype ↥Y := Fintype.ofFinite ↥Y
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype ↥Y := Fintype.ofFinite ↥Y
   let σ : Function.End ↥Y := fun y => ⟨x y, hY y y.2⟩
   have hσpow : ∀ (n : ℕ) (y : ↥Y),
       (σ ^ n) y = ⟨(x ^ n) (y : W), pow_apply_mem hY n y.2⟩ := by

@@ -19,6 +19,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.CurtisTits CFSG.LieType.RootSystem
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem e6_nrep_eq_weylHom (w : WeylGroup .E6) :
     nrep (e6Datum_isCTGroupDatum K) w = weylHom K w := by
   obtain ⟨ω, hω, rfl⟩ := (coxeterSystem .E6).exists_isReduced w
@@ -27,6 +28,7 @@ theorem e6_nrep_eq_weylHom (w : WeylGroup .E6) :
   rw [map_list_prod]
   simp only [List.map_map, Function.comp_def, weylHom_simple]
 
+omit [Finite K] [CharP K 2] in
 theorem e6W0_eq_frameLongest :
     (e6W0 K : WeylGroup .E6) = frameLongest := by
   refine CFSG.LieType.Chevalley.ext_single (τ := .E6)
@@ -36,6 +38,7 @@ theorem e6W0_eq_frameLongest :
   rw [rho_rho, rho_single] at h
   exact (e6W0_table K i).trans h.symm
 
+omit [Finite K] in
 theorem langG_lang_eq_e6_nrep (σ : K ≃+* K) (hσ : ∀ c, σ (σ c) = c)
     {l : K} (hl : σ l = l + 1) :
     (langG K σ.toRingHom l)⁻¹ *
@@ -62,6 +65,7 @@ theorem langG_lang_eq_e6_nrep (σ : K ≃+* K) (hσ : ∀ c, σ (σ c) = c)
 open CFSG.LieType.BorelTits CFSG.LieType.Universal
 open CFSG.StandardType CFSG.StandardType.PsiDiagChar CFSG.StandardType.RankOneXfer
 
+omit [Finite K] in
 theorem exists_e6_rootNormalizer_lang (σ : K ≃+* K) (hσ : ∀ c, σ (σ c) = c)
     (hne : ∃ c, σ c ≠ c) :
     ∃ g : e6Data_valid.minGroup K,
@@ -72,7 +76,7 @@ theorem exists_e6_rootNormalizer_lang (σ : K ≃+* K) (hσ : ∀ c, σ (σ c) =
   have hσ1 : σ ≠ 1 := by
     intro hs
     obtain ⟨c, hc⟩ := hne
-    exact hc (by simpa [hs])
+    exact hc (by simp [hs])
   have hσσ : σ * σ = 1 := by
     ext c
     exact hσ c
@@ -85,6 +89,7 @@ theorem exists_e6_rootNormalizer_lang (σ : K ≃+* K) (hσ : ∀ c, σ (σ c) =
     (TwE6Lang.rankOne K eOne : Set (e6Data_valid.minGroup K))
   simpa only [hroot] using langG_mem_normalizer_rankOne σ.toRingHom l
 
+omit [Finite K] [CharP K 2] in
 theorem exists_e6_fixed_primitive_root_with_params {k : Type} [Field k]
     (σ : K ≃+* K) (e : k →+* K)
     (hfix : ∀ c : K, σ c = c ↔ c ∈ Set.range e)
@@ -163,6 +168,7 @@ theorem exists_e6_fixed_primitive_root_with_params {k : Type} [Field k]
       exact Subgroup.mem_map.2 ⟨phi A, ⟨A, rfl⟩,
         (DFunLike.congr_fun hEP A).trans (congrArg P hA)⟩
 
+omit [Finite K] [CharP K 2] in
 theorem exists_e6_fixed_primitive_root {k : Type} [Field k]
     (σ : K ≃+* K) (e : k →+* K)
     (hfix : ∀ c : K, σ c = c ↔ c ∈ Set.range e) :
@@ -190,7 +196,7 @@ theorem exists_e6_stdConfig_primitive_node {F : Type} [Field F] [Finite F] [Char
       (∀ a : (GaloisField 2 f)ˣ, phi (sl2Diag a) ∈ ggTorus (ggU .twistedE6 0 f).D) ∧
       ∃ v : (ggU .twistedE6 0 f).K,
         phi.range.map (MulAut.conj v).toMonoidHom = ((e6StdConfig F f hF hf).S.ι (1 : Fin 6)).range := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K0 := GaloisField 2 (2 * f)
   let σ := frobQEquiv hf
   have hσeq : σ.toRingHom = frobQ 2 f := rfl

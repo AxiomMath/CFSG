@@ -70,11 +70,11 @@ theorem kappa_eq_one_of_central [Nontrivial Z]
   let W : Submodule (ZMod 2) Z :=
     { carrier := {w | κ c w = w}
       add_mem' := fun {x y} hx hy => by
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         rw [map_add, hx, hy]
       zero_mem' := map_zero _
       smul_mem' := fun a x hx => by
-        simp only [Set.mem_setOf_eq] at hx ⊢
+        simp only [Set.mem_ofPred_eq] at hx ⊢
         rw [map_smul, hx] }
   have hW : ∀ k : K, ∀ w ∈ W, κ k w ∈ W := by
     intro k w hw
@@ -181,7 +181,7 @@ include h
 theorem centralizes_of_fix' (Y : Submodule (ZMod 2) Z) (hY : ∀ l ∈ L, ∀ y ∈ Y, κ l y ∈ Y)
     (hnt : ∃ l ∈ L, ∃ y ∈ Y, κ l y ≠ y) {c : K} (hc : ∀ y ∈ Y, κ c y = y) :
     c ∈ Subgroup.centralizer (L : Set K) := by
-  haveI := h.normal_L
+  have := h.normal_L
   exact centralizes_of_fix h.quasi κ Y hY hnt hc
 
 theorem central_of_centralizes {b : K} (hb : b ∈ B) (hcen : b ∈ Subgroup.centralizer (L : Set K)) :

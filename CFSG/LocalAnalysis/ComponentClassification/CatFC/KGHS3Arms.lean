@@ -42,7 +42,7 @@ theorem kgHS3_alt {S : Type} [Group S] [Finite S] {n : ℕ} (hn : 5 ≤ n)
     (K : Subgroup S) (hK : HSType ↥K) : False := by
   have hcard : Nat.card S = n.factorial / 2 := by
     rw [Nat.card_congr e.toEquiv]
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
   have hpos : 0 < Nat.card S := Nat.card_pos
   have hdvd := hK.dvd_card

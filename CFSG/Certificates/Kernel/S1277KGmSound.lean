@@ -58,7 +58,7 @@ theorem memS_insS (s i j : ℕ) :
   · subst hij
     cases decide (i < 262144) <;> simp
   · have : ¬ j + 64 = i + 64 := by omega
-    simp [hij, Ne.symm hij, this]
+    simp [hij, Ne.symm hij]
 
 def SRel (a : Array Bool) (s : ℕ) : Prop := a.size = 262144 ∧ ∀ i, a.getD i false = memS s i
 
@@ -93,9 +93,9 @@ theorem bfsAdd_sim (gens : List Mc) (x : Mc) :
     simp only [bfsAdd, bfsAddK, List.foldl_cons] at ih ⊢
     rw [mulF_eq, h1.2]
     cases hm : memS q.1 (mcIdx (x.mul g))
-    · simp only [Bool.false_eq_true, ↓reduceIte, cond_false]
+    · simp only [Bool.false_eq_true, ↓reduceIte, Bool.cond_false]
       exact ih _ _ (h1.set _) (by rw [h2])
-    · simp only [↓reduceIte, cond_true]
+    · simp only [↓reduceIte, _root_.Bool.cond_true]
       exact ih _ _ h1 h2
 
 theorem fold_sim (gens : List Mc) :
@@ -196,7 +196,7 @@ theorem appP_eq (p v : ℕ) : appP p v = (B6.ofP p).app v := by
   rw [bit_mul0]
 
 theorem term_lt (x b : ℕ) : x % 64 * (b % 2) < 2 ^ 6 := by
-  rcases Nat.mod_two_eq_zero_or_one b with h | h <;> simp [h] <;> omega
+  rcases Nat.mod_two_eq_zero_or_one b with h | h <;> simp [h]; omega
 
 theorem appP_lt (p v : ℕ) : appP p v < 64 := by
   have h := Nat.xor_lt_two_pow (Nat.xor_lt_two_pow (Nat.xor_lt_two_pow (Nat.xor_lt_two_pow
@@ -246,7 +246,7 @@ theorem dedupAux_spec : ∀ (l acc : List ℕ), acc.Nodup →
     intro acc h
     rw [Certificates.Data.S1277MLine.dedupAux]
     by_cases hy : y ∈ acc
-    · rw [if_pos (List.elem_iff.2 hy)]
+    · rw [ite_eq_left (List.elem_iff.2 hy)]
       refine ⟨(ih acc h).1, fun x => ?_⟩
       rw [(ih acc h).2, List.mem_cons]
       constructor
@@ -257,7 +257,7 @@ theorem dedupAux_spec : ∀ (l acc : List ℕ), acc.Nodup →
         · exact Or.inl h
         · exact Or.inl hy
         · exact Or.inr h
-    · rw [if_neg (fun e => hy (List.elem_iff.1 e))]
+    · rw [ite_eq_right (fun e => hy (List.elem_iff.1 e))]
       have h' : (y :: acc).Nodup := List.nodup_cons.2 ⟨hy, h⟩
       refine ⟨(ih _ h').1, fun x => ?_⟩
       rw [(ih _ h').2, List.mem_cons, List.mem_cons]

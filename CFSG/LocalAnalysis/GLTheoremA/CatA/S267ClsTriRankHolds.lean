@@ -18,10 +18,10 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalPointData
 theorem d4TriRank_holds : D4TriRank := by
   intro K _ _ Q₈ hodd h3 hplus y hy3 hyE
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨ℓ, hchar⟩ := CharP.exists K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K ℓ
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK : Nat.card K = ℓ ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
   have hℓ2 : ℓ ≠ 2 := by
     rintro rfl

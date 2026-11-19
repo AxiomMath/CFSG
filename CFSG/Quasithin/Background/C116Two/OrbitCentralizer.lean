@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizer_orbitW_eq {L A : Subgroup G} (hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) :
     A ⊓ Subgroup.centralizer (orbitW A L : Set G) =
       A ⊓ Subgroup.centralizer (blockU L : Set G) := by

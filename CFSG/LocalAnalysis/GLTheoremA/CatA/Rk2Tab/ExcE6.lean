@@ -95,13 +95,13 @@ private theorem sylowTorus_E6_one {K : Type} [Field K] [Finite K] {p : ℕ} (hp 
     · intro hdvd; have hle := Nat.le_of_dvd (by norm_num) hdvd; omega
     · intro hdvd; have hle := Nat.le_of_dvd (by norm_num : 0 < 8) hdvd
       interval_cases p
-      all_goals (try norm_num at hp; try norm_num at hdvd; try omega)
+      all_goals (try norm_num at hp; try norm_num at hdvd)
     · intro hdvd; have hle := Nat.le_of_dvd (by norm_num : 0 < 9) hdvd
       interval_cases p
-      all_goals (try norm_num at hp; try norm_num at hdvd; try omega)
+      all_goals (try norm_num at hp; try norm_num at hdvd)
     · intro hdvd; have hle := Nat.le_of_dvd (by norm_num : 0 < 12) hdvd
       interval_cases p
-      all_goals (try norm_num at hp; try norm_num at hdvd; try omega)
+      all_goals (try norm_num at hp; try norm_num at hdvd)
   refine CFSG.HardMathSupport.Timmesfeld.CrossChar.sylowTorus_of_blocks_of_three_lt 3
     (Or.inl ⟨rfl, rfl⟩) K hp (by omega) hpq
     (CFSG.RankThree.PartOne.KE.IsWeylMatrix.of_word Tag.E6 e6OneWord) [1, 1, 1, 1, 1, 1]
@@ -128,7 +128,7 @@ private theorem rk2_not_dvd_card_center_twE6 {K : Type} [Group K] [Finite K] {la
     · subst hn
       simp [exceptionalOrders, markTag, markRank, markChar, markDeg]
     · simp [exceptionalOrders, markTag, markRank, markChar, markDeg, hn]
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier (K ⧸ Subgroup.center K)) :=
     Nat.finite_of_card_ne_zero (by
       rw [hcard]
       exact (Nat.mul_pos (Nat.gcd_pos_of_pos_left _ (by norm_num))
@@ -344,8 +344,8 @@ private theorem pRank_le_of_model_E6 {K : Type} [Group K] [Finite K] {lab : GLAL
     · exact absurd rfl hp3
     · exact absurd hp (by norm_num)
   obtain ⟨K', _, _, hcard, ⟨e⟩⟩ := exists_adjointGroup_E6_of_marked hM
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (adjointGroup Tag.E6 K') := generated_group_finite Tag.E6 K'
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (adjointGroup Tag.E6 K') := generated_group_finite Tag.E6 K'
   have heord : orderOf ((Nat.card K' : ℕ) : ZMod p) = rk2Ord p lab.n := by
     have hcast : (((2 : ZMod p)) ^ lab.n) = (((2 ^ lab.n : ℕ)) : ZMod p) := by
       push_cast
@@ -376,7 +376,7 @@ private theorem pRank_le_of_model_E6 {K : Type} [Group K] [Finite K] {lab : GLAL
             have h2 := hp.two_le
             rcases Nat.lt_or_ge p 7 with hlt | hge
             · interval_cases p <;>
-                first | exact absurd rfl hp2 | exact absurd rfl hp3 |
+                first |
                   exact absurd rfl hp5' | exact absurd hp (by norm_num)
             · exact hge
           calc CFSG.Open.pRank p (⊤ : Subgroup (adjointGroup Tag.E6 K')) ≤ 6 :=
@@ -414,7 +414,7 @@ private theorem pRank_twisted_E6_le_of_mem {K : Type} [Field K] [Finite K] {lab 
     (hp : p.Prime) (hp5 : 5 ≤ p) (hm : m ∈ [1, 3, 4, 6, 8, 10, 12, 18])
     (he : orderOf (((ℓ ^ f : ℕ)) : ZMod p) = m) :
     CFSG.Open.pRank p (⊤ : Subgroup (twistedE6RootGroup K σ)) ≤ rk2Mult lab m := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   simp only [List.mem_cons, List.not_mem_nil, or_false] at hm
   rcases hm with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   · have hpq : ¬ p ∣ ℓ ^ f := not_dvd_of_orderOf_pos hp he (by norm_num)
@@ -474,9 +474,9 @@ private theorem pRank_le_of_model_twE6 {K : Type} [Group K] [Finite K] {lab : GL
     · exact absurd rfl hp3
     · exact absurd hp (by norm_num)
   obtain ⟨F, _, _, σ, hcard, hσ, ⟨e3⟩⟩ := exists_twistedE6RootGroup_of_marked hM
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL TwistTag.E6.tag F) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup F σ) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL TwistTag.E6.tag F) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup F σ) := Subtype.finite
   have heord : orderOf (((2 ^ lab.n : ℕ)) : ZMod p) = rk2Ord p lab.n := by
     rw [rk2Ord]
     push_cast
@@ -524,7 +524,7 @@ private theorem pRank_le_of_model_twE6 {K : Type} [Group K] [Finite K] {lab : GL
             have h2 := hp.two_le
             rcases Nat.lt_or_ge p 7 with hlt | hge
             · interval_cases p <;>
-                first | exact absurd rfl hp2 | exact absurd rfl hp3 |
+                first |
                   exact absurd rfl hp5' | exact absurd hp (by norm_num)
             · exact hge
           calc CFSG.Open.pRank p (⊤ : Subgroup ↥(twistedE6RootGroup F σ)) ≤ 6 :=
@@ -568,7 +568,7 @@ theorem rk2E6ThreeTwoFrontier :
     have h0 : n = 0 := by omega
     rw [h0] at hm2
     norm_num [rk2Ord] at hm2
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn hcard
   have h3 : 3 ∣ 2 ^ n + 1 := three_dvd_two_pow_add_one_of_rk2Ord_eq_two hm2
@@ -594,7 +594,7 @@ theorem rk2TwE6ThreeOneFrontier :
     simp at hcard
     have := Finite.one_lt_card (α := K)
     omega
-  haveI : CharP (GaloisField 2 n) 2 := inferInstance
+  have : CharP (GaloisField 2 n) 2 := inferInstance
   have hF : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n hn
   have hq : ((2 : ZMod 3) ^ n) = 1 :=
     orderOf_eq_one_iff.1 (by simpa [rk2Ord] using hm1)
@@ -638,7 +638,7 @@ theorem rk2_pRank_le_E6 (K : Type) [Group K] [Finite K] (lab : GLALabel) (p : �
         rk2_not_dvd_card_center_twE6 hQ' hM hTw hp hp2 hp3
       exact pRank_le_of_model_twE6 hTw hMt hp hp2 hp3 hpZ
   · subst hp3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rcases hcases3 with ⟨hE6, hm1⟩ | ⟨hTw, hm2⟩
     · have hM6 : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .E6 0 2 lab.n := by
         simpa [CFSG.StandardType.MarkedModel, CFSG.StandardType.markTag,
@@ -679,7 +679,7 @@ theorem rk2_pRank_le_E6_of_frontier (h : Rk2E6Frontier) (K : Type) [Group K] [Fi
       by_contra hne
       exact hcov (Or.inl hne)
     subst p
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨-, -, hM⟩ := rk2_model_of_isLabel hK
     by_cases hZ : 3 ∣ Nat.card (Subgroup.center K)
     · rcases htag with hE6 | hTw
@@ -699,7 +699,7 @@ theorem rk2_pRank_le_E6_of_frontier (h : Rk2E6Frontier) (K : Type) [Group K] [Fi
               CFSG.StandardType.markRank, CFSG.StandardType.markChar,
               CFSG.StandardType.markDeg, hE6] using hM
           obtain ⟨F, _, _, hcard, ⟨e⟩⟩ := exists_adjointGroup_E6_of_marked hM6
-          haveI : Finite (adjointGroup Tag.E6 F) := generated_group_finite Tag.E6 F
+          have : Finite (adjointGroup Tag.E6 F) := generated_group_finite Tag.E6 F
           have heord : orderOf ((Nat.card F : ℕ) : ZMod 3) = rk2Ord 3 lab.n := by
             have hcast : (((2 : ZMod 3)) ^ lab.n) = (((2 ^ lab.n : ℕ)) : ZMod 3) := by
               push_cast
@@ -732,8 +732,8 @@ theorem rk2_pRank_le_E6_of_frontier (h : Rk2E6Frontier) (K : Type) [Group K] [Fi
               CFSG.StandardType.markRank, CFSG.StandardType.markChar,
               CFSG.StandardType.markDeg, hTw] using hM
           obtain ⟨F, _, _, σ, hcard, hσ, ⟨e3⟩⟩ := exists_twistedE6RootGroup_of_marked hMt
-          haveI : Finite (ModGL TwistTag.E6.tag F) := finite_modGL
-          haveI : Finite ↥(twistedE6RootGroup F σ) := Subtype.finite
+          have : Finite (ModGL TwistTag.E6.tag F) := finite_modGL
+          have : Finite ↥(twistedE6RootGroup F σ) := Subtype.finite
           have heord : orderOf (((2 ^ lab.n : ℕ)) : ZMod 3) = rk2Ord 3 lab.n := by
             rw [rk2Ord]
             push_cast

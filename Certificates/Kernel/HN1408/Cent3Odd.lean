@@ -38,7 +38,7 @@ theorem oddNormalAt_of_pairs {G : Type} [Group G] {x g₅ h₅ g₃ h₃ : G}
   have hcent : ∀ c : C, c * xc = xc * c := fun c => Subtype.ext (by
     have h := mem_centralizer_singleton_iff.1 c.2
     simp only [Subgroup.coe_mul]
-    first | exact h | exact h.symm)
+    first | exact h)
   have hx3c : xc ^ 3 = 1 := Subtype.ext (by simp [xc, hx3])
   have hx1c : xc ≠ 1 := fun e => hx1 (by simpa [xc] using congrArg Subtype.val e)
   have hox : orderOf xc = 3 := orderOf_eq_prime hx3c hx1c

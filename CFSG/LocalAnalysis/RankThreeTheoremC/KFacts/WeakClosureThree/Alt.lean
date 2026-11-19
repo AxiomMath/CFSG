@@ -101,7 +101,7 @@ open AltThree
 
 theorem dichThreeAt_alt_of_nine_le {n : ℕ} (hn : 9 ≤ n) :
     DichThreeAt (alternatingGroup (Fin n)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨φ, hφ⟩ := exists_injective_nine hn
   obtain ⟨huv, huw, hvw, hu, hv, hw, hy, h1, h2, h3, hnc⟩ := rels
   obtain ⟨hc1, hc2, hd1, hd2, hd3, hd4, hd5, hd6⟩ := comm_rels
@@ -177,7 +177,7 @@ theorem dichThreeAt_alt_of_nine_le {n : ℕ} (hn : 9 ≤ n) :
 
 theorem dichThreeAt_alt_of_le_eight {n : ℕ} (hn2 : 2 ≤ n) (hn : n ≤ 8) :
     DichThreeAt (alternatingGroup (Fin n)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfac : (Nat.card (alternatingGroup (Fin n))).factorization 3 ≤ 2 := by
     rw [KFactProofs.Stroth.AltBlocks.factorization_card_alternatingGroup_fin Nat.prime_three
       (by norm_num) hn2 (by omega)]
@@ -186,7 +186,7 @@ theorem dichThreeAt_alt_of_le_eight {n : ℕ} (hn2 : 2 ≤ n) (hn : n ≤ 8) :
       IsMulCommutative (S : Subgroup (alternatingGroup (Fin n))) := by
     intro S
     by_contra hS
-    have h1 := pow_three_le_card_of_nonabelian S.isPGroup' hS
+    have h1 := pow_three_le_card_of_nonabelian S.isPGroup hS
     rw [S.card_eq_multiplicity] at h1
     have h2 : 3 ^ (Nat.card (alternatingGroup (Fin n))).factorization 3 ≤ 3 ^ 2 :=
       Nat.pow_le_pow_right (by norm_num) hfac
@@ -195,7 +195,7 @@ theorem dichThreeAt_alt_of_le_eight {n : ℕ} (hn2 : 2 ≤ n) (hn : n ≤ 8) :
 
 theorem dichThreeAt_alt_of_twelve_le {n : ℕ} (hn : 12 ≤ n) :
     DichThreeAt (alternatingGroup (Fin n)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨φ, hφ⟩ := exists_injective_pi_alt (k := 4) (m := 3) (n := n) (by omega)
   have hA3 : Nat.card (alternatingGroup (Fin 3)) = 3 := by
     have h2 : 2 * Nat.card (alternatingGroup (Fin 3)) = Nat.factorial 3 := by
@@ -203,7 +203,7 @@ theorem dichThreeAt_alt_of_twelve_le {n : ℕ} (hn : 12 ≤ n) :
     have : Nat.factorial 3 = 6 := rfl
     omega
   have hcomm3 : ∀ a b : alternatingGroup (Fin 3), a * b = b * a := by
-    haveI : IsCyclic (alternatingGroup (Fin 3)) := isCyclic_of_prime_card hA3
+    have : IsCyclic (alternatingGroup (Fin 3)) := isCyclic_of_prime_card hA3
     exact (IsCyclic.isMulCommutative (α := alternatingGroup (Fin 3))).is_comm.comm
   have hexp3 : ∀ a : alternatingGroup (Fin 3), a ^ 3 = 1 := fun a => by
     have h := pow_card_eq_one' (x := a)

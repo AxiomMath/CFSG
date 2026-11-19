@@ -57,7 +57,7 @@ theorem subgroup_card_twenty_five_pow_five_eq_one
     (r : R) :
     r ^ 5 = 1 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   apply Subtype.ext
   change ((r : Equiv.Perm X) ^ 5) = 1
   rw [Equiv.Perm.pow_prime_eq_one_iff]
@@ -89,8 +89,8 @@ theorem mulAut_card_eq_four_hundred_eighty_of_subgroup_card_twenty_five
     (hRcard : Nat.card R = 25) :
     Nat.card (MulAut R) = 480 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  letI : CommGroup R :=
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : CommGroup R :=
     IsPGroup.commGroupOfCardEqPrimeSq
       (p := 5) (by
         rw [hRcard]
@@ -105,7 +105,7 @@ theorem mulAut_card_eq_four_hundred_eighty_of_subgroup_card_twenty_five
     exact
       subgroup_card_twenty_five_pow_five_eq_one
         X hcard R hRcard a.toMul
-  letI : Module (ZMod 5) A :=
+  let : Module (ZMod 5) A :=
     AddCommGroup.zmodModule hfive
   have hpow :=
     Module.natCard_eq_pow_finrank

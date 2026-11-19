@@ -52,6 +52,7 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit hf [Finite K] [CharP K 3] hK hσ in
 theorem pinnedX_short_mem {t : K} (ht : σ t = t) :
     pinnedX TwistTag.D4.tag K rootA0 t * pinnedX TwistTag.D4.tag K rootA1 t *
         pinnedX TwistTag.D4.tag K rootA3 t ∈ graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom := by
@@ -90,16 +91,18 @@ theorem pinnedX_short_mem {t : K} (ht : σ t = t) :
   ⟨pinnedX TwistTag.D4.tag K rootA0 t * pinnedX TwistTag.D4.tag K rootA1 t *
       pinnedX TwistTag.D4.tag K rootA3 t,
     le_sup_left (a := graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom)
-      (pinnedX_short_mem hf hK σ hσ ht)⟩
+      (pinnedX_short_mem σ ht)⟩
 
+omit hf [Finite K] [CharP K 3] hK hσ in
 theorem coe_shortElt {t : K} (ht : σ t = t) :
-    ((shortElt hf hK σ hσ ht : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :
+    ((shortElt σ ht : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :
       ModGL TwistTag.D4.tag K) =
       pinnedX TwistTag.D4.tag K rootA0 t * pinnedX TwistTag.D4.tag K rootA1 t *
         pinnedX TwistTag.D4.tag K rootA3 t := rfl
 
+omit hf [CharP K 3] hK hσ in
 theorem fieldActor_shortElt {t : K} (ht : σ t = t) :
-    fieldActor (t := TwistTag.D4) σ σ (shortElt hf hK σ hσ ht) = shortElt hf hK σ hσ ht := by
+    fieldActor (t := TwistTag.D4) σ σ (shortElt σ ht) = shortElt σ ht := by
   refine Subtype.ext ?_
   rw [coe_fieldActor, coe_shortElt, map_mul, map_mul, units_map_pinnedX, units_map_pinnedX,
     units_map_pinnedX, ht]

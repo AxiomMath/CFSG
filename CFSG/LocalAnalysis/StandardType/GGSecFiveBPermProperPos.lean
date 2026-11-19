@@ -281,7 +281,7 @@ private theorem three_le_card_D_of_third {G F : Type} [Group G] [Finite G] [Fiel
     refine (mem_D_iff_of_two hLF hDB hJeq hJI hconst hroot (b w)).mpr ⟨?_, ?_⟩
     · intro i hi j hj
       rw [hη, hη]
-      simp only [v, if_pos hi, if_pos hj]
+      simp only [v, ite_eq_left hi, ite_eq_left hj]
     · rw [hη, hη]
       simp [v, haI, ha'I]
   let emb : (Fin 3 → ZMod p) → ↥D := fun w => ⟨(b w : G), hmem w⟩

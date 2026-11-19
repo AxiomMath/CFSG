@@ -364,7 +364,7 @@ theorem sz_case
     rw [hPZ]
     exact Nat.pow_lt_pow_right (by norm_num) (by omega)
   have hS := sec_of_chief h hc hI hg hgen hP hZ hne h4 hcard
-  haveI := hS.normal
+  have := hS.normal
   have hnt := exists_comm_not_mem h hI hg hgen hP hZ hne
   refine ⟨a, K, inferInstance, inferInstance, ha, hka, hK, ?_⟩
   rw [hka] at hK hPZ
@@ -385,7 +385,7 @@ theorem sp4_false
     rw [show 2 * (4 * k) = 8 * k by ring]
     exact hcard
   have hS := sec_of_chief h hc hI hg hgen hP hZ hne h4 hcard'
-  haveI := hS.normal
+  have := hS.normal
   have hnt := exists_comm_not_mem h hI hg hgen hP hZ hne
   obtain ⟨F, _, _, _, hF, ⟨e⟩⟩ : ∃ (F : Type) (_ : Field F) (_ : Finite F) (_ : CharP F 2),
       Nat.card F = 2 ^ k ∧ Nonempty (E2.StarQuot (M ⊓ I) I ≃*
@@ -455,7 +455,7 @@ theorem dih5_case
         ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 I).to_le
           (fun x hx => (e213_member H T M V h hc I g hI hg hgen _ rfl).2.2 _ rfl |>.2 ▸ hx)),
         hcomm, hsq, hirr, hZP'.ne⟩
-    haveI := hS.normal
+    have := hS.normal
     exact hS.isNaturalSection_of_dih5 e (fun x hx hxP => (hJ x).2 ⟨hx, hxP⟩) hPZ
 
 end E214S

@@ -98,11 +98,13 @@ private noncomputable def cornerUnits (σ : K ≃+* K) (k : ℕ) :
     ↥(Subgroup.centralizer ({ggInvSU σ (k + 2) 1} : Set (SU σ (k + 2)))) →* Kˣ :=
   (MonoidHom.fst Kˣ (Matrix (Fin k) (Fin k) K)).comp (RCSTSU.cornerMid σ k)
 
+omit [Finite K] in
 private theorem coe_cornerUnits (σ : K ≃+* K) (k : ℕ)
     (x : ↥(Subgroup.centralizer ({ggInvSU σ (k + 2) 1} : Set (SU σ (k + 2))))) :
     ((cornerUnits (K := K) σ k x : Kˣ) : K) =
       mat σ (k + 2) (x : SU σ (k + 2)) (Fin.last (k + 1)) (Fin.last (k + 1)) := rfl
 
+omit [Finite K] in
 private theorem corner_commutator {σ : K ≃+* K} {k : ℕ} {x y : SU σ (k + 2)}
     (hx : x ∈ Subgroup.centralizer ({ggInvSU σ (k + 2) 1} : Set (SU σ (k + 2))))
     (hy : y ∈ Subgroup.centralizer ({ggInvSU σ (k + 2) 1} : Set (SU σ (k + 2)))) :
@@ -232,7 +234,7 @@ theorem isQuasisimple_suBlock (h : UnitaryFieldData 2 f K) {k : ℕ} (hk : 2 ≤
 
 theorem largeEvenMarking_suBlock (h : UnitaryFieldData 2 f K) {k : ℕ} (hk : 2 ≤ k)
     (hkq : 4 ≤ k ∨ 2 ≤ f) :
-    LargeEvenMarking ↥(suBlock h k) (fun lab R _ I _ θ => GGChevStTag lab ∧
+    LargeEvenMarking ↥(suBlock h k) (fun lab _R _ I _ θ => GGChevStTag lab ∧
       ∀ α ∈ KGND.suConjSet (blockOnto h k), ∃ φ ∈ I, ∀ y : ↥(suBlock h k),
         φ (θ (QuotientGroup.mk y)) = θ (QuotientGroup.mk (α y))) := by
   have hker : (blockOnto h k).ker ≤
@@ -251,12 +253,12 @@ private theorem isSolvable_sup_of_le_normalizer {G : Type} [Group G] {B S : Subg
     (hB : Group.IsSolvable ↥B) (hS : Group.IsSolvable ↥S) :
     Group.IsSolvable ↥(B ⊔ S) := by
   obtain ⟨π, -, hπker, -⟩ := exists_sup_proj hSB hdisj
-  haveI : Group.IsSolvable ↥B := hB
-  haveI : Group.IsSolvable ↥S := hS
+  have : Group.IsSolvable ↥B := hB
+  have : Group.IsSolvable ↥S := hS
   let φ : ↥B →* ↥(B.subgroupOf (B ⊔ S)) :=
     (Subgroup.subgroupOfEquivOfLe le_sup_left).symm.toMonoidHom
   have hφ : Function.Surjective φ := (Subgroup.subgroupOfEquivOfLe le_sup_left).symm.surjective
-  haveI : Group.IsSolvable ↥(B.subgroupOf (B ⊔ S)) :=
+  have : Group.IsSolvable ↥(B.subgroupOf (B ⊔ S)) :=
     Group.isSolvable_of_surjective (f := φ) hφ
   exact Group.isSolvable_of_ker_le_range (B.subgroupOf (B ⊔ S)).subtype π (by
     rw [hπker, Subgroup.range_subtype])
@@ -270,15 +272,15 @@ theorem isSolvable_centralizer_rootU (h : UnitaryFieldData 2 f K) (hf : f = 1) {
     rw [radical_of_le]
     exact (suR_isPGroup (K := K) (f := f) h (show 1 ≤ k + 1 by omega)).map (AutPSU.projU h)
   have hRsolv : Group.IsSolvable ↥(radical h (k + 1)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent ↥(radical h (k + 1)) := IsPGroup.isNilpotent hR2
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent ↥(radical h (k + 1)) := IsPGroup.isNilpotent hR2
     exact IsNilpotent.to_isSolvable
   have hLsolv : Group.IsSolvable ↥(suBlock h k) := by
     rcases hk23 with rfl | rfl
-    · haveI : Group.IsSolvable ↥(SU (unitaryInvolution K 2 f) 2) :=
+    · have : Group.IsSolvable ↥(SU (unitaryInvolution K 2 f) 2) :=
         CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.su_two_solvable h.card_eq_sq hf
       exact Group.isSolvable_of_surjective (f := blockOnto h 2) (blockOnto_surjective h 2)
-    · haveI : Group.IsSolvable ↥(SU (unitaryInvolution K 2 f) 3) :=
+    · have : Group.IsSolvable ↥(SU (unitaryInvolution K 2 f) 3) :=
         CFSG.HardMathSupport.Cooperstein.Coordinator.LieInput.su_three_solvable h.card_eq_sq hf
       exact Group.isSolvable_of_surjective (f := blockOnto h 3) (blockOnto_surjective h 3)
   have hRLsolv : Group.IsSolvable ↥(radical h (k + 1) ⊔ suBlock h k) :=
@@ -290,7 +292,7 @@ theorem isSolvable_centralizer_rootU (h : UnitaryFieldData 2 f K) (hf : f = 1) {
   have hcomm : ⁅C, C⁆ ≤ radical h (k + 1) ⊔ suBlock h k := by
     rw [hC]
     exact commutator_centralizer_rootU_le h hk
-  haveI : Group.IsSolvable ↥(radical h (k + 1) ⊔ suBlock h k) := hRLsolv
+  have : Group.IsSolvable ↥(radical h (k + 1) ⊔ suBlock h k) := hRLsolv
   have hCommSolv : Group.IsSolvable ↥(commutator ↥C) := by
     have hmap : (commutator ↥C).map C.subtype = ⁅C, C⁆ := by
       rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype]
@@ -316,9 +318,9 @@ theorem kgPiecesD_of_isSolvable {U : Type} [Group U] {𝒟 : Subgroup (MulAut U)
   have hC₀ : ψ.range ⊓ Subgroup.centralizer ({ψ z} : Set G) =
       (Subgroup.centralizer ({z} : Set U)).map ψ :=
     RCSTSp.range_inf_centralizer_of_injective hψ z
-  haveI hC₀solv : Group.IsSolvable ↥(ψ.range ⊓ Subgroup.centralizer ({ψ z} : Set G)) := by
+  have hC₀solv : Group.IsSolvable ↥(ψ.range ⊓ Subgroup.centralizer ({ψ z} : Set G)) := by
     rw [hC₀]
-    haveI : Group.IsSolvable ↥(Subgroup.centralizer ({z} : Set U)) := hsol
+    have : Group.IsSolvable ↥(Subgroup.centralizer ({z} : Set U)) := hsol
     have h1 : Group.IsSolvable
         ↥((ψ.comp (Subgroup.centralizer ({z} : Set U)).subtype).range) :=
       Group.isSolvable_of_surjective
@@ -328,7 +330,7 @@ theorem kgPiecesD_of_isSolvable {U : Type} [Group U] {𝒟 : Subgroup (MulAut U)
   refine ⟨∅, ?_, ?_⟩
   · intro P hP hperf
     rw [sSup_empty, le_bot_iff]
-    haveI : Group.IsSolvable
+    have : Group.IsSolvable
         ↥(P.subgroupOf (ψ.range ⊓ Subgroup.centralizer ({ψ z} : Set G))) := inferInstance
     have hsurj : Function.Surjective
         ((Subgroup.subgroupOfEquivOfLe hP).toMonoidHom) :=
@@ -336,10 +338,10 @@ theorem kgPiecesD_of_isSolvable {U : Type} [Group U] {𝒟 : Subgroup (MulAut U)
     have h1 : Group.IsSolvable ↥P :=
       Group.isSolvable_of_surjective
         (f := (Subgroup.subgroupOfEquivOfLe hP).toMonoidHom) hsurj
-    haveI : Group.IsSolvable ↥P := h1
+    have : Group.IsSolvable ↥P := h1
     by_contra hne
-    haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr hne
-    haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hperf
+    have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr hne
+    have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hperf
     exact Group.IsPerfect.not_isSolvable ↥P inferInstance
   · intro J hJ
     simp at hJ

@@ -41,7 +41,7 @@ theorem exists_elemAbelian_sq_of_dvd_card_center [Group.IsPerfect L] (hp2 : p �
     rw [hbot, Subgroup.map_bot, Subgroup.mem_bot] at ha'
     rw [ha', orderOf_one] at hAo
     exact hp.out.one_lt.ne hAo
-  have : Fact (IsPGroup p (P : Subgroup L)) := ⟨P.isPGroup'⟩
+  have : Fact (IsPGroup p (P : Subgroup L)) := ⟨P.isPGroup⟩
   obtain ⟨S, -, hScard, hSe⟩ := CFSG.lemma_4_5_a (R := (P : Subgroup L)) hp2 hncyc
   refine ⟨S.map (P : Subgroup L).subtype, isElemAbelian_map ?_ _, ?_⟩
   · exact (isElementaryAbelian_iff_isElemAbelian p S).1 hSe

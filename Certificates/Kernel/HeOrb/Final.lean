@@ -16,11 +16,13 @@ open CFSG.KC.HeOrb CFSG.KC.Enum CFSG.KC.Ord CFSG.KS CFSG.KS.PEnum CFSG.KS.Row CF
 
 @[expose] noncomputable def OJ : VOrbit := vRec 8330 T AL BE PA LA
 
+set_option exponentiation.threshold 600 in
 theorem cRM_eq : cRM = 2 ^ 600 - 1 := by
   unfold cRM
   change (1 <<< 600) - 1 = _
   rw [Nat.shiftLeft_eq, Nat.one_mul]
 
+set_option exponentiation.threshold 600 in
 theorem fld600 (Y o : Nat) : Nat.land (Nat.shiftRight Y o) cRM = Y / 2 ^ o % 2 ^ 600 := by
   rw [cRM_eq, land_eq, Nat.and_two_pow_sub_one_eq_mod]
   change Y >>> o % 2 ^ 600 = _
@@ -38,6 +40,7 @@ theorem code_eq (i : Nat) : code PT i = PT (i / 32) / 2 ^ (600 * (i % 32)) % 2 ^
   rw [e1, e2]
   rfl
 
+set_option exponentiation.threshold 600 in
 theorem code_lt (i : Nat) : code PT i < 2 ^ (12 * 50) := by
   rw [code_eq]
   exact Nat.mod_lt _ (Nat.two_pow_pos _)

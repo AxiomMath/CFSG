@@ -36,7 +36,7 @@ private theorem exists_one_of_ne_zero {n : ℕ} {b : Fin n → ZMod 2} (hb : b �
   · exact h0
   · exact (h ⟨i, h1⟩).elim
 
-theorem isNondegN_pairQn (n : ℕ) (hn : 0 < n) : IsNondegN (pairQn n) := by
+theorem isNondegN_pairQn (n : ℕ) (_hn : 0 < n) : IsNondegN (pairQn n) := by
   intro x hx
   obtain ⟨a, b, rfl⟩ := pairVec_surj x
   by_cases ha : a = 0
@@ -107,8 +107,8 @@ private theorem eq_pairQn_of_invariant {n : ℕ} (hn : 2 ≤ n) {q' : PairN n �
     intro h
     have := congrFun h i₂
     simp [w] at this
-  have huu : u ⬝ᵥ u = 1 := by simp [u, single_dotProduct]
-  have huw : u ⬝ᵥ w = 0 := by simp [u, w, single_dotProduct, h12.symm]
+  have huu : u ⬝ᵥ u = 1 := by simp [u]
+  have huw : u ⬝ᵥ w = 0 := by simp [u, w, h12.symm]
   have huw' : u + w ≠ 0 := by
     intro h
     have := congrFun h i₁

@@ -33,7 +33,7 @@ theorem kFactMultiComponent_of_beta (hβ : KFactBetaStructure) : KFactMultiCompo
   have hβs := hβ p X P x z hpl hcomp
   have hp := hpl.prime
   have hp2 : p ≠ 2 := by have := hpl.five_le; omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D : Subgroup X := primeComplementCore (G := X) p with hD
   have hD3 : ¬ p ∣ Nat.card D :=
     (Nat.Prime.coprime_iff_not_dvd hp).mp (primeComplementCore_coprime p)

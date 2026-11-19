@@ -63,9 +63,9 @@ private lemma k0patNodeGo_length {rho : List ℕ} {N k : ℕ} (hN : rho.length =
         intro t ht hlt acc hacc
         rw [k0NodeOrbit.go.eq_2]
         by_cases hk1 : t + 1 = k
-        · rw [if_pos (by rw [hk1]; exact hfix), hacc]
+        · rw [ite_eq_left (by rw [hk1]; exact hfix), hacc]
           omega
-        · rw [if_neg (hmin (t + 1) (by omega) (by omega))]
+        · rw [ite_eq_right (hmin (t + 1) (by omega) (by omega))]
           have hfuel : N - t = N - (t + 1) + 1 := by omega
           rw [hfuel]
           have hstep := ih (t + 1) (by omega) (by omega)

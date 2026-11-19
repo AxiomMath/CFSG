@@ -26,7 +26,7 @@ theorem uc22s216_exists_inner_permutes {L B T : Subgroup G}
       (Bφ : Set (BarInf L)) * (S : Set (BarInf L)) = (S : Set (BarInf L)) * (Bφ : Set (BarInf L)) ∧
       ∀ b (hb : b ∈ B), ∃ x ∈ Bφ,
         inducedBarInfAutHom L ⟨b, hBN hb⟩ = MulAut.conj x ∧ orderOf x ∣ orderOf b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := normalizer (L : Set G) with hNdef
   set φ := inducedBarInfAutHom L with hφdef
   set X : Subgroup (MulAut (BarInf L)) :=
@@ -43,7 +43,7 @@ theorem uc22s216_exists_inner_permutes {L B T : Subgroup G}
         _ = z * w := by group
     rwa [hZ, mem_bot] at hzc
   let eX : BarInf L ≃* ↥X := MonoidHom.ofInjective hinj
-  haveI : Finite ↥X := Finite.of_equiv _ eX.toEquiv
+  have : Finite ↥X := Finite.of_equiv _ eX.toEquiv
   set Bφ : Subgroup (MulAut (BarInf L)) := (B.subgroupOf N).map φ with hBφdef
   set Sφ : Subgroup (MulAut (BarInf L)) := ((T ⊓ N).subgroupOf N).map φ with hSφdef
   have hBX : Bφ ≤ X := by
@@ -84,8 +84,8 @@ theorem uc22s216_exists_inner_permutes {L B T : Subgroup G}
       exact fun h2 => hidx
         (h2.trans ((Subgroup.index_dvd_of_le hle).trans (Subgroup.index_map_dvd _ hf)))
   have eBX : ↥(Bφ.subgroupOf X) ≃* ↥Bφ := subgroupOfEquivOfLe hBX
-  haveI : IsMulCommutative ↥(B.subgroupOf N) := inferInstance
-  haveI : IsMulCommutative ↥Bφ := Subgroup.map_isMulCommutative _ _
+  have : IsMulCommutative ↥(B.subgroupOf N) := inferInstance
+  have : IsMulCommutative ↥Bφ := Subgroup.map_isMulCommutative _ _
   have hBo' : Odd (Nat.card ↥(Bφ.subgroupOf X)) := by
     rw [Nat.card_congr eBX.toEquiv]
     refine Odd.of_dvd_nat hBo ?_

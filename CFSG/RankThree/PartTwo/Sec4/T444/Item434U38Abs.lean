@@ -50,7 +50,7 @@ theorem k0_abstract
     no_E27_fixes_point hΩ hH htrans hy9 hy9f hE hE27 ω
   obtain ⟨r, hr, hr3, V, hVne, hVab, hVnorm⟩ :=
     exists_elemAbelian_normalized hE.2 hY3 hYbot hEY
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hrdvd : r ∣ 99283968 := by
     obtain ⟨v, hv, hv1⟩ : ∃ v ∈ V, v ≠ 1 := by
       by_contra hcon

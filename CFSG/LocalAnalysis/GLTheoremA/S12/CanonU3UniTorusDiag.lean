@@ -30,7 +30,7 @@ theorem isComponentOf_blockImage {f N : ℕ} {K : Type} [Field K]
         (primeFormConjHom h (idGram K N) A)) := by
   classical
   subst hx
-  haveI := h.finite
+  have := h.finite
   let F := CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns.I1433.UnitaryGlue.specialSU
     h (A : GL (Fin N) K) (a : K[X])
   have hcomp := isComponentOf_map_fixSubgroup_aux
@@ -60,12 +60,12 @@ theorem blockImage_ne_of_good_ne {f N : ℕ} {K : Type} [Field K]
     (hx : x = Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K))
     (H : UnitaryPrimaryData h.bar (idForm h N) x)
     {a b : primaryFactors (x : Module.End K (Fin N → K))}
-    (hgooda : IsGoodBlock h x a) (hgoodb : IsGoodBlock h x b)
+    (hgooda : IsGoodBlock h x a) (_hgoodb : IsGoodBlock h x b)
     (hba : (b : K[X]) ≠ (a : K[X]))
     (hbd : (b : K[X]) ≠ dualPoly h.bar (a : K[X])) :
     blockImage h x (a : K[X]) ≠ blockImage h x (b : K[X]) := by
   classical
-  haveI := h.finite
+  have := h.finite
   intro hEq
   have hca := isComponentOf_blockImage h A hx H hgooda
   have hqa : CFSG.Open.IsQuasisimple ↥(blockImage h x (a : K[X])) := hca.2.2
@@ -111,7 +111,7 @@ theorem primaryMultiplicity_le_one_of_ne {f N : ℕ} {K : Type} [Field K]
     (hb : b ≠ ⟨X - C μ, ha⟩) :
     primaryMultiplicity (x : Module.End K (Fin N → K)) (b : K[X]) ≤ 1 := by
   classical
-  haveI := h.finite
+  have := h.finite
   let a : primaryFactors (x : Module.End K (Fin N → K)) := ⟨X - C μ, ha⟩
   have hma : primaryMultiplicity (x : Module.End K (Fin N → K)) (a : K[X]) = 3 := by
     simpa [a] using hm
@@ -123,8 +123,7 @@ theorem primaryMultiplicity_le_one_of_ne {f N : ℕ} {K : Type} [Field K]
     hq.trans (Nat.pow_le_pow_right (by norm_num) (Nat.le_mul_of_pos_right f hdega))
   have hgooda : IsGoodBlock h x a := by
     refine ⟨by omega, ?_⟩
-    intro _
-    intro hmem
+    intro _ hmem
     have h' : (primaryMultiplicity (x : Module.End K (Fin N → K)) (a : K[X]) = 2 ∧
         (2 : ℕ) ^ (f * (a : K[X]).natDegree) = 2) ∨
       (primaryMultiplicity (x : Module.End K (Fin N → K)) (a : K[X]) = 2 ∧
@@ -171,7 +170,7 @@ theorem exists_linear_of_mem_primaryFactors {f N : ℕ} {K : Type} [Field K]
       ((Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K) : Module.End K (Fin N → K)))) :
     ∃ ν : K, (b : K[X]) = X - C ν ∧ ν ^ 3 = (c : K) := by
   classical
-  haveI := h.finite
+  have := h.finite
   let x : LinearMap.GeneralLinearGroup K (Fin N → K) :=
     Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K)
   have H : UnitaryPrimaryData h.bar (idForm h N) x :=
@@ -187,7 +186,7 @@ theorem exists_linear_of_mem_primaryFactors {f N : ℕ} {K : Type} [Field K]
     rw [← Units.val_pow_eq_pow_val, h1]
     apply LinearMap.ext
     intro v
-    simpa using toLin_scalar_apply c v
+    simp
   have hxaeval : aeval (x : Module.End K (Fin N → K)) (X ^ 3 - C (c : K)) = 0 := by
     rw [map_sub, map_pow, aeval_X, aeval_C, hx3, Algebra.algebraMap_eq_smul_one, sub_self]
   have hμ3 : μ ^ 3 = (c : K) := by
@@ -210,7 +209,7 @@ theorem exists_linear_of_mem_primaryFactors {f N : ℕ} {K : Type} [Field K]
     exact sub_eq_zero.mp ((smul_eq_zero.mp h3).resolve_right hvne)
   obtain ⟨ω, hω3, hω1, -⟩ :=
     CFSG.HardMathSupport.Dickson.Bal207.FirstClaim.exists_cube_root_bar h h3
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hωprim : IsPrimitiveRoot ω 3 := by
     have hord : orderOf ω = 3 := orderOf_eq_prime hω3 hω1
     exact hord ▸ IsPrimitiveRoot.orderOf ω
@@ -234,7 +233,7 @@ theorem commute_of_conjHom_commute {f N : ℕ} {K : Type} [Field K]
     (hc : Commute (primeFormConjHom h (idGram K N) A) (primeFormConjHom h (idGram K N) B)) :
     Commute (A : GL (Fin N) K) (B : GL (Fin N) K) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hn3 : 3 ≤ N := by omega
   have hne : ¬(N = 3 ∧ 2 ^ f = 2) := by
     rintro ⟨rfl, hq2⟩
@@ -305,13 +304,13 @@ theorem commute_of_conjHom_commute {f N : ℕ} {K : Type} [Field K]
       (lam : K) • (1 : Module.End K (Fin N → K)) := by
     apply LinearMap.ext
     intro v
-    simpa using toLin_scalar_apply lam v
+    simp
   let yinv : Module.End K (Fin N → K) :=
     ↑((Matrix.GeneralLinearGroup.toLin (B : GL (Fin N) K))⁻¹)
   have hyinv : yinv * y = 1 := by
-    simpa [y, yinv] using Units.inv_mul (Matrix.GeneralLinearGroup.toLin (B : GL (Fin N) K))
+    simp [y, yinv]
   have hyinv' : y * yinv = 1 := by
-    simpa [y, yinv] using Units.mul_inv (Matrix.GeneralLinearGroup.toLin (B : GL (Fin N) K))
+    simp [y, yinv]
   have hrelEnd : y * x * yinv = (lam : K) • x := by
     have h' := congrArg (fun g : GL (Fin N) K =>
       (Matrix.GeneralLinearGroup.toLin g : Module.End K (Fin N → K))) hrel
@@ -410,7 +409,7 @@ theorem exists_scalar_conj_eq_of_conjHom_commute {f N : ℕ} {K : Type} [Field K
     ∃ lam : Kˣ, (B : GL (Fin N) K) * (A : GL (Fin N) K) * (B : GL (Fin N) K)⁻¹ =
       GeneralLinearGroup.scalar (Fin N) lam * (A : GL (Fin N) K) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hn3 : 3 ≤ N := by omega
   have hne : ¬(N = 3 ∧ 2 ^ f = 2) := by
     rintro ⟨rfl, hq2⟩
@@ -489,7 +488,7 @@ theorem commute_of_commute_of_commute {f N : ℕ} {K : Type} [Field K]
     (hc12 : Commute (primeFormConjHom h (idGram K N) A₁) (primeFormConjHom h (idGram K N) A₂)) :
     Commute (A₁ : GL (Fin N) K) (A₂ : GL (Fin N) K) := by
   classical
-  haveI := h.finite
+  have := h.finite
   let x : Module.End K (Fin N → K) := Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K)
   let y₁ : Module.End K (Fin N → K) := Matrix.GeneralLinearGroup.toLin (A₁ : GL (Fin N) K)
   let y₂ : Module.End K (Fin N → K) := Matrix.GeneralLinearGroup.toLin (A₂ : GL (Fin N) K)
@@ -565,13 +564,13 @@ theorem commute_of_commute_of_commute {f N : ℕ} {K : Type} [Field K]
   let y₂inv : Module.End K (Fin N → K) :=
     ↑((Matrix.GeneralLinearGroup.toLin (A₂ : GL (Fin N) K))⁻¹)
   have hy2inv : y₂inv * y₂ = 1 := by
-    simpa [y₂, y₂inv] using Units.inv_mul (Matrix.GeneralLinearGroup.toLin (A₂ : GL (Fin N) K))
+    simp [y₂, y₂inv]
   have htoLinScalar2 : (Matrix.GeneralLinearGroup.toLin
       (GeneralLinearGroup.scalar (Fin N) lam) : Module.End K (Fin N → K)) =
       (lam : K) • (1 : Module.End K (Fin N → K)) := by
     apply LinearMap.ext
     intro w
-    simpa using toLin_scalar_apply lam w
+    simp
   have hrelEnd : y₂ * y₁ * y₂inv = (lam : K) • y₁ := by
     have h' := congrArg (fun g : GL (Fin N) K =>
       (Matrix.GeneralLinearGroup.toLin g : Module.End K (Fin N → K))) hlam
@@ -636,7 +635,7 @@ theorem toLin_pow_three_eq_smul_one {n : ℕ} {K : Type} [Field K]
   rw [← Units.val_pow_eq_pow_val, h1]
   apply LinearMap.ext
   intro v
-  simpa using toLin_scalar_apply c v
+  simp
 
 theorem pow_three_eq_of_mem_primaryFactors {f N : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 f K)
@@ -646,7 +645,7 @@ theorem pow_three_eq_of_mem_primaryFactors {f N : ℕ} {K : Type} [Field K]
       ((Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K) : Module.End K (Fin N → K)))) :
     μ ^ 3 = (c : K) := by
   classical
-  haveI := h.finite
+  have := h.finite
   let x : LinearMap.GeneralLinearGroup K (Fin N → K) :=
     Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K)
   have H : UnitaryPrimaryData h.bar (idForm h N) x :=
@@ -674,13 +673,13 @@ theorem norm_eq_one_of_pow_three_eq {f : ℕ} {K : Type} [Field K]
     (hs3 : s ^ 3 = c) (hc : h.bar c * c = 1) :
     h.bar s * s = 1 := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hqmod : 2 ^ f % 3 = 2 := by
     have hq0 : (2 ^ f + 1) % 3 = 0 := Nat.mod_eq_zero_of_dvd h3
     have hqlt : 2 ^ f % 3 < 3 := Nat.mod_lt _ (by norm_num)
     have h : (2 ^ f % 3 + 1) % 3 = 0 := by
       simpa [Nat.add_mod] using hq0
-    interval_cases hq : 2 ^ f % 3 <;> simp [hq] at h ⊢
+    interval_cases hq : 2 ^ f % 3 <;> simp at h ⊢
   have hcn : h.norm c = 1 := by
     simpa [UnitaryFieldData.norm, mul_comm] using hc
   let x : h.fixedField := ⟨h.norm s, h.norm_mem_fixedField s⟩
@@ -705,7 +704,7 @@ theorem norm_eq_one_of_pow_three_eq {f : ℕ} {K : Type} [Field K]
     apply Units.ext
     change (x : h.fixedField) ^ 3 = 1
     exact hx3
-  haveI : Fintype h.fixedField := Fintype.ofFinite h.fixedField
+  have : Fintype h.fixedField := Fintype.ofFinite h.fixedField
   have hum : u ^ (Nat.card h.fixedField - 1) = 1 := by
     have h := FiniteField.pow_card_sub_one_eq_one (u : h.fixedField) (Units.ne_zero u)
     rw [← Nat.card_eq_fintype_card] at h
@@ -751,7 +750,7 @@ theorem exists_scalar_of_commute {f N : ℕ} {K : Type} [Field K]
     (hcomm : Commute (A : GL (Fin N) K) (B : GL (Fin N) K)) :
     ∃ s : Kˣ, s ^ 3 = cB ∧ h.bar s * s = 1 := by
   classical
-  haveI := h.finite
+  have := h.finite
   let x : Module.End K (Fin N → K) := Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K)
   let y : Module.End K (Fin N → K) := Matrix.GeneralLinearGroup.toLin (B : GL (Fin N) K)
   have H : UnitaryPrimaryData h.bar (idForm h N)
@@ -921,7 +920,7 @@ theorem exists_diagonal_of_unique {f N : ℕ} {K : Type} [Field K] (h : UnitaryF
         Matrix (Fin N) (Fin N) K) = Matrix.diagonal e₂ ∧
       (Finset.univ.filter fun r => d r = μ).card = 3 := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 4 ≤ 2 ^ f := by
     have h := Nat.pow_le_pow_right (by norm_num : (0 : ℕ) < 2) hf
     norm_num at h
@@ -986,19 +985,16 @@ theorem exists_diagonal_of_unique {f N : ℕ} {K : Type} [Field K] (h : UnitaryF
     change (GeneralLinearGroup.scalar (Fin N) mu⁻¹ * (A : GL (Fin N) K)) ^ 3 = 1
     rw [(CFSG.ClassicalGroups.UnitaryFlag.commute_scalar mu⁻¹ (A : GL (Fin N) K)).symm.mul_pow,
       hA, ← map_pow, ← map_mul]
-    congr 1
     rw [inv_pow, hmu3u, inv_mul_cancel, map_one]
   have hA₁'3 : (A₁' : GL (Fin N) K) ^ 3 = 1 := by
     change (GeneralLinearGroup.scalar (Fin N) s₁⁻¹ * (A₁ : GL (Fin N) K)) ^ 3 = 1
     rw [(CFSG.ClassicalGroups.UnitaryFlag.commute_scalar s₁⁻¹ (A₁ : GL (Fin N) K)).symm.mul_pow,
       hA₁, ← map_pow, ← map_mul]
-    congr 1
     rw [inv_pow, hs₁cube, inv_mul_cancel, map_one]
   have hA₂'3 : (A₂' : GL (Fin N) K) ^ 3 = 1 := by
     change (GeneralLinearGroup.scalar (Fin N) s₂⁻¹ * (A₂ : GL (Fin N) K)) ^ 3 = 1
     rw [(CFSG.ClassicalGroups.UnitaryFlag.commute_scalar s₂⁻¹ (A₂ : GL (Fin N) K)).symm.mul_pow,
       hA₂, ← map_pow, ← map_mul]
-    congr 1
     rw [inv_pow, hs₂cube, inv_mul_cancel, map_one]
   have hcommA'A₁' : Commute (A' : GL (Fin N) K) (A₁' : GL (Fin N) K) := by
     change Commute (GeneralLinearGroup.scalar (Fin N) mu⁻¹ * (A : GL (Fin N) K))
@@ -1057,9 +1053,9 @@ theorem exists_diagonal_of_unique {f N : ℕ} {K : Type} [Field K] (h : UnitaryF
       ((1 : GL (Fin N) K) : Matrix (Fin N) (Fin N) K) := by
     intro z hz
     rcases hz with rfl | rfl | rfl
-    · simpa [idGram] using A'.2
-    · simpa [idGram] using A₁'.2
-    · simpa [idGram] using A₂'.2
+    · simp
+    · simp
+    · simp
   have hEc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x := by
     intro z hz w hw
     rcases hz with rfl | rfl | rfl <;> rcases hw with rfl | rfl | rfl
@@ -1103,22 +1099,22 @@ theorem exists_diagonal_of_unique {f N : ℕ} {K : Type} [Field K] (h : UnitaryF
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [d', Matrix.diagonal_apply]
-    · rw [Matrix.diagonal_apply, if_neg hij]
+      simp [d']
+    · rw [Matrix.diagonal_apply, ite_eq_right hij]
       simpa [D'] using hPdiag' (A' : GL (Fin N) K) (by simp [E]) hij
   have hD₁'diag : D₁' = Matrix.diagonal d₁' := by
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [d₁', Matrix.diagonal_apply]
-    · rw [Matrix.diagonal_apply, if_neg hij]
+      simp [d₁']
+    · rw [Matrix.diagonal_apply, ite_eq_right hij]
       simpa [D₁'] using hPdiag' (A₁' : GL (Fin N) K) (by simp [E]) hij
   have hD₂'diag : D₂' = Matrix.diagonal d₂' := by
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [d₂', Matrix.diagonal_apply]
-    · rw [Matrix.diagonal_apply, if_neg hij]
+      simp [d₂']
+    · rw [Matrix.diagonal_apply, ite_eq_right hij]
       simpa [D₂'] using hPdiag' (A₂' : GL (Fin N) K) (by simp [E]) hij
   let d : Fin N → K := fun i => (mu : K) * d' i
   let e₁ : Fin N → K := fun i => (s₁ : K) * d₁' i
@@ -1214,7 +1210,7 @@ theorem exists_diagonal_of_unique {f N : ℕ} {K : Type} [Field K] (h : UnitaryF
                 Module.End K (Fin N → K)) *
                 (↑(Matrix.GeneralLinearGroup.toLin (P' : GL (Fin N) K)) :
                   Module.End K (Fin N → K)) = 1 := by
-              simpa using Units.inv_mul (Matrix.GeneralLinearGroup.toLin (P' : GL (Fin N) K))
+              simp
             exact congrArg (fun T : Module.End K (Fin N → K) => T v) h
           right_inv := by
             intro v
@@ -1222,7 +1218,7 @@ theorem exists_diagonal_of_unique {f N : ℕ} {K : Type} [Field K] (h : UnitaryF
                 Module.End K (Fin N → K)) *
                 (↑(Matrix.GeneralLinearGroup.toLin ((P' : GL (Fin N) K)⁻¹)) :
                   Module.End K (Fin N → K)) = 1 := by
-              simpa using Units.mul_inv (Matrix.GeneralLinearGroup.toLin (P' : GL (Fin N) K))
+              simp
             exact congrArg (fun T : Module.End K (Fin N → K) => T v) h
           map_add' := map_add _
           map_smul' := map_smul _ }
@@ -1239,7 +1235,7 @@ theorem exists_diagonal_of_unique {f N : ℕ} {K : Type} [Field K] (h : UnitaryF
             Module.End K (Fin N → K)) (e v))
         dsimp only [e]
         rw [LinearEquiv.coe_symm_mk]
-        simp [Matrix.GeneralLinearGroup.toLin_apply, map_mul]
+        simp [map_mul]
       have htoLinD' : Matrix.toLin' D' =
           (Matrix.GeneralLinearGroup.toLin
             ((P'⁻¹ * A' * P' : primeFormUnitary h (idGram K N)) : GL (Fin N) K) :

@@ -58,6 +58,7 @@ variable {p w S d T L H CM RM ONE LV HV nb : ℕ}
   {ρ : G →* Matrix (Fin d) (Fin d) (ZMod p)}
 include hc hnb
 
+omit hc hnb in
 theorem letLn_soundC {a b : G} {MA MAi MB MBi : ℕ}
     (hl : ∀ c, validM p nb L H (let4 MA MAi MB MBi c) = true ∧
       ordMat p d w S (let4 MA MAi MB MBi c) = ρ (f4 a b c))
@@ -69,10 +70,10 @@ theorem letLn_soundC {a b : G} {MA MAi MB MBi : ℕ}
   unfold letLn letG
   by_cases h4 : c < 4
   · have e : Nat.blt c 4 = true := Nat.ble_eq_true_of_le h4
-    rw [e, if_pos h4]
+    rw [e, ite_eq_left h4]
     exact hl c
   · have e : Nat.blt c 4 = false := Bool.eq_false_iff.2 fun e => h4 (Nat.le_of_ble_eq_true e)
-    rw [e, if_neg h4]
+    rw [e, ite_eq_right h4]
     exact hR (c - 4)
 
 theorem regC_sound {a b : G} {MA MAi MB MBi : ℕ}
@@ -88,7 +89,7 @@ theorem regC_sound {a b : G} {MA MAi MB MBi : ℕ}
       (fun x => regC (mulR p w S d T L H CM RM) ONE MA MAi MB MBi Ws (snocR Rg x) k) = true at h
     rw [forceR_eq] at h
     obtain ⟨vO, eO⟩ := one_sound' hc hnb
-    obtain ⟨vx, ex⟩ := mwLn_sound hc hnb (letLn_soundC hc hnb hl hI.2) w' ONE vO
+    obtain ⟨vx, ex⟩ := mwLn_sound hc hnb (letLn_soundC hl hI.2) w' ONE vO
     rw [eO, mul_one] at ex
     refine regC_sound hl Ws _ _ k ⟨?_, fun i => ?_⟩ h
     · rw [snocR_eq, List.length_append, List.length_append, hI.1]
@@ -123,14 +124,14 @@ theorem kitC_sound {a b : G} {MA MAi MB MBi : ℕ} (vA : validM p nb L H MA = tr
     rw [← (mul_sound' hc hnb vA vAi).2, Nat.eq_of_beq_eq_true h1, eO]
   have i2 : ordMat p d w S MB * ordMat p d w S MBi = 1 := by
     rw [← (mul_sound' hc hnb vB vBi).2, Nat.eq_of_beq_eq_true h2, eO]
-  have hl := let4_sound hc hnb ⟨vA, hA⟩ ⟨vAi, inv_of_mulC hA i1⟩ ⟨vB, hB⟩ ⟨vBi, inv_of_mulC hB i2⟩
+  have hl := let4_sound ⟨vA, hA⟩ ⟨vAi, inv_of_mulC hA i1⟩ ⟨vB, hB⟩ ⟨vBi, inv_of_mulC hB i2⟩
   have hI0 : RegInv p d w S nb L H ONE ρ [] ([] : List G) :=
     ⟨rfl, fun i => ⟨vO, by
       change ordMat p d w S ONE = ρ 1
       rw [eO, map_one]⟩⟩
   obtain ⟨Rg, hk, hR⟩ := regC_sound hc hnb hl Ws [] [] _ hI0 h3
   refine ⟨_, hk, fun u => ?_⟩
-  obtain ⟨v, e⟩ := mwLn_sound hc hnb (letLn_soundC hc hnb hl hR.2) u ONE vO
+  obtain ⟨v, e⟩ := mwLn_sound hc hnb (letLn_soundC hl hR.2) u ONE vO
   exact ⟨v, by rw [e, eO, mul_one]; rfl⟩
 
 end Kit

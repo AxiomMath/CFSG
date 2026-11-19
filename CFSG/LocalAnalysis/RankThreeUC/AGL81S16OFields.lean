@@ -12,18 +12,20 @@ open CFSG.Open Subgroup Matrix
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem O6NatData.charP {n : ℕ} {L V : Subgroup G} (d : O6NatData G n L V) (hn : 1 ≤ n) :
+omit [Finite G] in
+theorem O6NatData.charP {n : ℕ} {L V : Subgroup G} (d : O6NatData G n L V) (_hn : 1 ≤ n) :
     CharP d.F 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype d.F := Fintype.ofFinite d.F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype d.F := Fintype.ofFinite d.F
   have h : Fintype.card d.F = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]
     exact d.card_F
   exact charP_of_card_eq_prime_pow h
 
+omit [Finite G] in
 theorem O6NatData.nonempty_model {n : ℕ} {L V : Subgroup G} (d : O6NatData G n L V)
     (hn : 1 ≤ n) : Nonempty (NormModel d.F d.b d.c) := by
-  haveI := d.charP hn
+  have := d.charP hn
   exact nonempty_normModel d.irred d.card_F hn
 
 theorem O6NatData.nonsing_good {n p : ℕ} {M L V : Subgroup G} (d : O6NatData G n L V)
@@ -32,7 +34,7 @@ theorem O6NatData.nonsing_good {n p : ℕ} {M L V : Subgroup G} (d : O6NatData G
     ∀ v ∈ V, v ≠ 1 → ¬ d.sing v →
       2 ≤ CFSG.Open.pRank p (M ⊓ centralizer ({v} : Set G)) := by
   intro v hv hv1 hns
-  haveI := d.charP hn
+  have := d.charP hn
   obtain ⟨Mdl⟩ := d.nonempty_model hn
   have hp2 := prime_ne_two_of_dvd_two_pow_add_one hn hpq
   have hpq' : p ∣ Nat.card d.F + 1 := by
@@ -48,7 +50,7 @@ theorem O6NatData.p_dvd {n p : ℕ} {M L V : Subgroup G} (d : O6NatData G n L V)
     (hMV : M ≤ normalizer (V : Set G)) :
     ∀ v ∈ V, v ≠ 1 → p ∣ Nat.card ↥(M ⊓ centralizer ({v} : Set G)) := by
   intro v hv hv1
-  haveI := d.charP hn
+  have := d.charP hn
   obtain ⟨Mdl⟩ := d.nonempty_model hn
   have hp2 := prime_ne_two_of_dvd_two_pow_add_one hn hpq
   have hpq' : p ∣ Nat.card d.F + 1 := by
@@ -67,6 +69,7 @@ theorem O6NatData.p_dvd {n p : ℕ} {M L V : Subgroup G} (d : O6NatData G n L V)
   rw [hSc] at this
   exact (dvd_pow_self p (by omega)).trans this
 
+omit [Finite G] in
 theorem O6NatData.exists_image {n : ℕ} {L V : Subgroup G} (d : O6NatData G n L V)
     (W : Subgroup G) :
     ∃ S : AddSubgroup (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F),
@@ -81,6 +84,7 @@ theorem O6NatData.exists_image {n : ℕ} {L V : Subgroup G} (d : O6NatData G n L
        rintro _ ⟨w, hw, rfl⟩
        exact ⟨w⁻¹, W.inv_mem hw, by rw [map_inv, toAdd_inv]⟩ }, fun _ => Iff.rfl⟩
 
+omit [Finite G] in
 theorem O6NatData.card_image {n : ℕ} {L V : Subgroup G} (d : O6NatData G n L V) (W : Subgroup G)
     (hWV : W ≤ V) (S : AddSubgroup (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F))
     (hSmem : ∀ x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → d.F,
@@ -102,10 +106,11 @@ theorem O6NatData.card_image {n : ℕ} {L V : Subgroup G} (d : O6NatData G n L V
       exact ⟨⟨(w : G), hw⟩, Subtype.ext hws⟩
   exact (Nat.card_congr (Equiv.ofBijective _ hbij)).symm
 
+omit [Finite G] in
 theorem O6NatData.ts_index {n : ℕ} {L V : Subgroup G} (d : O6NatData G n L V) (hn : 1 ≤ n) :
     ∀ W : Subgroup G, W ≤ V → (∀ w ∈ W, w ≠ 1 → d.sing w) → 2 ^ (4 * n) ≤ W.relIndex V := by
   intro W hWV hsing
-  haveI := d.charP hn
+  have := d.charP hn
   obtain ⟨S, hSmem⟩ := d.exists_image W
   have hcard : Nat.card S = Nat.card W := d.card_image W hWV S hSmem
   have hSs : ∀ x ∈ S, StatedQuadMinus 3 d.F d.b d.c x = 0 := by
@@ -144,7 +149,7 @@ theorem O6NatData.ts_equal {n p : ℕ} {M L V : Subgroup G} (d : O6NatData G n L
     ∀ W : Subgroup G, W ≤ V → (∀ w ∈ W, w ≠ 1 → d.sing w) → W.relIndex V = 2 ^ (4 * n) →
       2 ≤ CFSG.Open.pRank p (M ⊓ normalizer (W : Set G)) := by
   intro W hWV hsing hidx
-  haveI := d.charP hn
+  have := d.charP hn
   obtain ⟨Mdl⟩ := d.nonempty_model hn
   have hp2 := prime_ne_two_of_dvd_two_pow_add_one hn hpq
   have hpq' : p ∣ Nat.card d.F + 1 := by

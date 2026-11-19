@@ -16,12 +16,12 @@ theorem le_centralizer_of_card_nine_of_isPGroup {p : ℕ} (hp : p.Prime)
     (hE : Nat.card E = 9) (hBE : B ≤ Subgroup.normalizer (E : Set X)) :
     B ≤ Subgroup.centralizer (E : Set X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro b hb
   let Z : Subgroup X := Subgroup.zpowers b
   have hZp : IsPGroup p Z := hB.to_le (Subgroup.zpowers_le.mpr hb)
   have hZN : Z ≤ Subgroup.normalizer (E : Set X) := (Subgroup.zpowers_le).mpr (hBE hb)
-  letI : MulDistribMulAction ↥Z ↥E :=
+  let : MulDistribMulAction ↥Z ↥E :=
     MulDistribMulAction.compHom ↥E ((E.normalizerMonoidHom).comp (Subgroup.inclusion hZN))
   have hmod := hZp.card_modEq_card_fixedPoints ↥E
   let F : Subgroup ↥E := FixedPoints.subgroup Z ↥E

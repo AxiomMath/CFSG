@@ -45,7 +45,6 @@ theorem hasLabel_adjointGroup_E7 {F : Type} [Field F] [Finite F] {n : ℕ}
     obtain ⟨t, r, k⟩ := lab
     have ht : t = .E7 := by
       cases t <;> simp only [CFSG.StandardType.markTag] at htag ⊢
-      all_goals try rfl
       all_goals try split_ifs at htag
       all_goals simp_all
     subst ht
@@ -76,7 +75,7 @@ theorem evenRank_adjointGroup_E7 {F : Type} [Field F] [Finite F] [CharP F 2] {n 
   omega
 
 theorem hasLabel_perpLevi_E7 {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
-    (hF : Nat.card F = 2 ^ n) (hn : 1 ≤ n) :
+    (hF : Nat.card F = 2 ^ n) (_hn : 1 ≤ n) :
     HasLabel ↥(perpLevi .E7 F) (· = ⟨.D, 6, n⟩) := by
   have hJ : CFSG.IsQuasisimple ↥(perpLevi .E7 F) :=
     CFSG.SeitzReduction.E7Pilot.isQuasisimple_perpLevi_E7
@@ -182,7 +181,7 @@ private theorem e7_JShape {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
   rcases label_eq_or_BC he hlab hlabE7 with hEq | ⟨ht, ht', -, -⟩
   · subst hEq
     refine ⟨rfl, ?_⟩
-    simp [JShape]
+    simp
   · exact absurd ht' (by simp)
 
 theorem concl166S_E7_model_of_layerData {F : Type} [Field F] [Finite F] [CharP F 2]
@@ -192,7 +191,7 @@ theorem concl166S_E7_model_of_layerData {F : Type} [Field F] [Finite F] [CharP F
     ∃ (q' : ℕ) (B' : Subgroup (adjointGroup .E7 F)) (x' : adjointGroup .E7 F)
       (J : Subgroup (adjointGroup .E7 F)), Concl166S (adjointGroup .E7 F) p q' B' x' J := by
   obtain ⟨q, hq, hq2, hqD⟩ := CFSG.RankThree.Chevalley.exists_odd_prime_dvd_two_pow_sub_one hn
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqF : q ∣ Nat.card F - 1 := by rwa [hF]
   obtain ⟨ζ, hζ⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := F) hqF
   let R := adjointGroup .E7 F

@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -72,7 +72,7 @@ theorem exists_fixed_of_norm [Finite A] {p m : ℕ} [hp : Fact p.Prime] (hpm : N
     (σ : A →* A) (hσ : ∀ a, (⇑σ)^[p] a = a) {u : A} (hu : u ^ m = 1) (hN : nrm σ u p = 1) :
     ∃ w : A, w ^ m = 1 ∧ σ w * w⁻¹ = u := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hp0 : 0 < p := hp.out.pos
   have hinj : Function.Injective σ := by
     intro a b hab

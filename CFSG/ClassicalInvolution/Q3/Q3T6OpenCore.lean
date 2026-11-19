@@ -65,7 +65,7 @@ theorem exists_conj_eq_of_mem_sec19BPrime3 (hM : Q3.M11Facts)
     exact hd.comm_of_mem t hd.mem_W z hd.mem_W_z
   exact exists_conj_eq_of_cStar3 (ht.member.toQ3 (by norm_num)) ht.hyp ht.edgeless
     ht.centralizer_le_normalizer ht.nonabelian ht.below le_rfl hM hOut
-    (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxS)) hx1 hxK hzx hex
+    (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxS)) hx1 hxK hzx hex
     (hL3 G K z S W L t V hd x hx hx1) hg
 
 theorem exists_mem_centralizer_conj_eq3 (hM : Q3.M11Facts)

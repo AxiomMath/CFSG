@@ -317,9 +317,8 @@ theorem ggE6Psi_of_twoSL6Charts_marked {G : Type} [Group G] {f : ℕ} (hf : 2 �
       ψ.comp (blk (GaloisField 2 f) 0) = ρ i ∧ ψ.comp (blk (GaloisField 2 f) 1) = ρ j := by
     intro i j h
     fin_cases i <;> fin_cases j
-    all_goals first
+    all_goals try first
       | exact absurd h (by decide)
-      | skip
     · exact ⟨_, hchain ψ₁ 0 (by decide)⟩
     · refine ⟨(ψ₂.comp (blockSL (GaloisField 2 f) 6 3 2 (by norm_num))).comp
         (CFSG.ClassicalInvolution.Q3.Q3V.blockSwapAut (K := GaloisField 2 f)).toMonoidHom, ?_, ?_⟩

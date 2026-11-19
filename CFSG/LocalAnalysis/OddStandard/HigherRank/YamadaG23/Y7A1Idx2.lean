@@ -16,12 +16,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A C0 V : Subgroup G} {a₁ b₁ a₂ b₂ z t d : G}
 
+omit [Finite G] in
 private lemma y7a_d_ne_one (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) : d ≠ 1 := by
   intro hd
   have hord := h.d_ord
   rw [hd, orderOf_one] at hord
   omega
 
+omit [Finite G] in
 private lemma y7a_z_ne_d (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) : z ≠ d := by
   intro hzd
   have hzt : z * t = t * z := h.cfg.t_cent z (y7a_z_mem_A h)
@@ -35,6 +37,7 @@ private lemma y7a_z_ne_d (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) : z ≠ d
   rw [h.cfg.u_sq] at h2
   exact h.cfg.z_ne h2
 
+omit [Finite G] in
 private lemma y7a_t_conj_zd (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) :
     t * (z * d) * t⁻¹ = d := by
   calc t * (z * d) * t⁻¹ = t * (t * d * t⁻¹) * t⁻¹ := by rw [← y7a_tdt h]
@@ -43,6 +46,7 @@ private lemma y7a_t_conj_zd (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) :
       have htinv : t⁻¹ * t⁻¹ = 1 := by rw [← mul_inv_rev, y7a_t_sq h, inv_one]
       rw [y7a_t_sq h, htinv, one_mul, mul_one]
 
+omit [Finite G] in
 private lemma y7a_mem_centIn_iff (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {C : Subgroup G}
     (hCz : ∀ c ∈ C, c * z * c⁻¹ = z) {c : G} (hc : c ∈ C) :
     c ∈ centIn C V ↔ c * d * c⁻¹ = d := by
@@ -71,6 +75,7 @@ private lemma y7a_mem_centIn_iff (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {
         _ = (c * z) * d := by rw [hcz.symm]
         _ = c * (z * d) := by rw [mul_assoc]
 
+omit [Finite G] in
 private lemma y7a_conj_d_elems (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {C : Subgroup G}
     (hCz : ∀ c ∈ C, c * z * c⁻¹ = z) (hCV : C ≤ normalizer (V : Set G)) {c : G} (hc : c ∈ C) :
     c * d * c⁻¹ = d ∨ c * d * c⁻¹ = z * d := by
@@ -100,6 +105,7 @@ private lemma y7a_conj_d_elems (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {C 
   · exact Or.inl hd
   · exact Or.inr hzd
 
+omit [Finite G] in
 theorem y7a_index_two (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {C : Subgroup G} (htC : t ∈ C)
     (hCV : C ≤ normalizer (V : Set G)) (hCz : ∀ c ∈ C, c * z * c⁻¹ = z) :
     Nat.card ↥(centIn C V) * 2 = Nat.card ↥C ∧ C = centIn C V ⊔ zpowers t := by

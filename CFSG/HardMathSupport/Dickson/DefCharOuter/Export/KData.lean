@@ -18,24 +18,24 @@ open CFSG.Yardstones.Md42047359a2a (lieFamily)
 theorem not_glaPComponent_of_solvable {G : Type} [Group G] [Finite G] {p : ℕ} {X I : Subgroup G}
     (hX : Group.IsSolvable ↥X) (hI : GLAPComponent p X I) : False := by
   have hIX : I ≤ X := hI.1
-  haveI : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr (glaPComponent_perfect hI)
-  haveI : Group.IsSolvable ↥I :=
+  have : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr (glaPComponent_perfect hI)
+  have : Group.IsSolvable ↥I :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hIX)
       (Subgroup.inclusion_injective hIX)
-  haveI : Nontrivial ↥I := (Subgroup.nontrivial_iff_ne_bot I).2 (glaPComponent_ne_bot' hI)
+  have : Nontrivial ↥I := (Subgroup.nontrivial_iff_ne_bot I).2 (glaPComponent_ne_bot' hI)
   exact Group.IsPerfect.not_isSolvable (G := ↥I) inferInstance
 
 theorem orderOf_eq_of_pow_eq_one_of_not_inner {S : Type} [Group S] {p : ℕ} (hp : p.Prime)
     {α : MulAut S} (hα : α ^ p = 1) (hout : α ∉ innerAut S) : orderOf α = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact orderOf_eq_prime hα fun h => hout (h ▸ (innerAut S).one_mem)
 
 theorem kdOutChevUnique_of_outerCent (hO : OuterCentAll) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     KDOutChevUnique p := by
   intro d hd α hα hout I J hI hJ
   obtain ⟨hfin, hsimp, hnc⟩ := (hO (lieFamily d.1)).1 d rfl (by rw [hd]; exact hp2)
-  haveI := hfin
-  haveI := hsimp
+  have := hfin
+  have := hsimp
   exact ((hO (lieFamily d.1)).2 (TauCeti.CFSGIndex.lie d).Group hsimp hnc d rfl
     ⟨MulEquiv.refl _⟩ p hp hp2 hd.symm α hα hout).unique I J hI hJ
 
@@ -43,8 +43,8 @@ theorem kdOutChev_of_outerCent (hO : OuterCentAll) {p : ℕ} (hp : p.Prime) (hp2
     KDOutChev p := by
   intro d hd α hα hout I hI
   obtain ⟨hfin, hsimp, hnc⟩ := (hO (lieFamily d.1)).1 d rfl (by rw [hd]; exact hp2)
-  haveI := hfin
-  haveI := hsimp
+  have := hfin
+  have := hsimp
   exact ((hO (lieFamily d.1)).2 (TauCeti.CFSGIndex.lie d).Group hsimp hnc d rfl
     ⟨MulEquiv.refl _⟩ p hp hp2 hd.symm α hα hout).chev I hI
 
@@ -77,8 +77,8 @@ theorem kdOutExc_of_outerCent (hO : OuterCentAll) (hA : KDAmbSolv 3) : KDOutExc 
       hout ((MulAut.congr e).injective (h.trans (map_one _).symm) ▸ (innerAut S).one_mem)
     have hsol := hA i hi (MulAut.congr e α) hα' hα1
     rw [fixSubgroup_congr e α] at hsol
-    haveI : Group.IsSolvable ↥((fixSubgroup α).map e.toMonoidHom) := hsol
-    haveI : Group.IsSolvable ↥(fixSubgroup α) :=
+    have : Group.IsSolvable ↥((fixSubgroup α).map e.toMonoidHom) := hsol
+    have : Group.IsSolvable ↥(fixSubgroup α) :=
       Group.isSolvable_of_isSolvable_injective
         (f := (Subgroup.equivMapOfInjective (fixSubgroup α) e.toMonoidHom e.injective).toMonoidHom)
         (Subgroup.equivMapOfInjective (fixSubgroup α) e.toMonoidHom e.injective).injective

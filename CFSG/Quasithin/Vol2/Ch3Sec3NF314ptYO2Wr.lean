@@ -80,7 +80,7 @@ theorem yo2_wreath_of_iso {G : Type} [Group G] [Finite G] {T H : Subgroup G}
   exact (Lem3313.piH_eq_one_iff φ ⟨t, htH⟩).mp hw1
 
 theorem yo2_wreath {G : Type} [Group G] [Finite G] {T H : Subgroup G}
-    (hTsyl : IsSylowTwoOf T H) (hTop : pCoreOf 2 H ≠ ⊥)
+    (hTsyl : IsSylowTwoOf T H) (_hTop : pCoreOf 2 H ≠ ⊥)
     (e : ↥H ⧸ CFSG.pCore 2 ↥H ≃* ↥wreathS3Z2) :
     Nat.card T = 8 * Nat.card (pCoreOf 2 H) ∧
       ∀ t ∈ T, (∀ y ∈ oTwoUpper H, ⁅t, y⁆ ∈ pCoreOf 2 H) → t ∈ pCoreOf 2 H :=

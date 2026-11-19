@@ -24,7 +24,7 @@ private lemma d7_sgnDiff_coord (v : Vn 8) {a b : Fin 7} (h : a ≠ b) :
   have hab : b.castSucc ≠ a.castSucc := fun h' => h (Fin.castSucc_injective _ h').symm
   change (v - ((frameE 7 a - frameE 7 b) ⬝ᵥ v) • (frameE 7 a - frameE 7 b)) b.castSucc = _
   rw [frameE_sub_dot]
-  simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, frameE_apply, if_neg hab, ↓reduceIte]
+  simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, frameE_apply, ite_eq_right hab, ↓reduceIte]
   ring
 
 private lemma d7_three : ∀ i : Fin 7, ∃ j k : Fin 7, i ≠ j ∧ i ≠ k ∧ j ≠ k := by decide
@@ -146,9 +146,9 @@ theorem ggQ2s08_cellE_twD7 (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput)
         rw [hn, hκx']
         funext m
         induction m using Fin.lastCases with
-        | last => rw [Pi.smul_apply, smul_eq_mul, xLast_apply, if_pos rfl, mul_one]
+        | last => rw [Pi.smul_apply, smul_eq_mul, xLast_apply, ite_eq_left rfl, mul_one]
         | cast i =>
-            rw [hzero i, Pi.smul_apply, smul_eq_mul, xLast_apply, if_neg (Fin.castSucc_ne_last i),
+            rw [hzero i, Pi.smul_apply, smul_eq_mul, xLast_apply, ite_eq_right (Fin.castSucc_ne_last i),
               mul_zero]
       have hcx : c = ⟨x, M.hx⟩ ^ n := by
         have h1 : κ (M.model (Additive.ofMul c)) =
@@ -180,7 +180,7 @@ theorem ggQ2s08_cellE_twD7 (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput)
       rw [Finset.sum_eq_single i]
       · simp
       · intro j _ hji
-        rw [if_neg (fun h => hji (Fin.castSucc_injective _ h).symm), mul_zero]
+        rw [ite_eq_right (fun h => hji (Fin.castSucc_injective _ h).symm), mul_zero]
       · intro h
         exact absurd (Finset.mem_univ i) h
     have hinj : Function.Injective (fun f : Fin 7 → ZMod 3 =>

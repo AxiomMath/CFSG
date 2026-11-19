@@ -32,6 +32,7 @@ variable (h5 : FF81Sec5 b L B b₁ b₂ b₃ t₀ s₀)
   (hJs : OUp 3 (CenS (Subgroup.closure {b₂, b₃})) ≤ Cen s₀)
 include h5 hJs
 
+omit [Finite G] h5 in
 theorem FF81Sec5.β_sup_M_le :
     Subgroup.zpowers (β' b₂ b₃) ⊔ M₅₇ b b₁ b₂ b₃ s₀ ≤ Cen (β' b₂ b₃) :=
   sup_le (Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_singleton_iff.mpr rfl))
@@ -81,7 +82,7 @@ theorem FF81Sec5.cen_β_of_conj (h0 : Opp 3 (Cen b) = ⊥)
       _ ≤ Nat.card ↥(Subgroup.zpowers b ⊔ L) * Nat.card ↥(Subgroup.zpowers b ⊓ L) :=
         Nat.le_mul_of_pos_right _ hpos
       _ = 3 * Nat.card L := hcard
-  refine Subgroup.eq_of_le_of_card_ge (h5.β_sup_M_le hJs) ?_
+  refine Subgroup.eq_of_le_of_card_ge (CFSG.RankThree.PartTwo.Sec21.FF81.FF81Sec5.β_sup_M_le hJs) ?_
   rw [h5.card_β_sup_M hJs, hM]
   calc Nat.card (Cen (β' b₂ b₃)) ≤ Nat.card (Cen (g * b * g⁻¹)) := Subgroup.card_le_of_le h1
     _ ≤ Nat.card (Cen b) := S57.card_cen_conj_le g b

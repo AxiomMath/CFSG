@@ -150,7 +150,7 @@ theorem exists_elemAbelian_four_of_isQuasisimple {K : Type} [Group K] [Finite K]
     rw [injective_iff_map_eq_one]
     intro r hr
     have hrZ : ((r : T) : K) ∈ Z := (hfker r).mp hr
-    have hr2 : IsPGroup 2 (R : Subgroup T) := R.isPGroup'
+    have hr2 : IsPGroup 2 (R : Subgroup T) := R.isPGroup
     obtain ⟨n, hn⟩ := hr2 r
     have hz : orderOf (((r : T) : K)) ∣ 2 ^ n := by
       apply orderOf_dvd_of_pow_eq_one
@@ -181,14 +181,14 @@ theorem exists_elemAbelian_four_of_isQuasisimple {K : Type} [Group K] [Finite K]
       exact this
     have : (⟨u, hu⟩ : (R : Subgroup T)) * ⟨v, hv⟩ = ⟨v, hv⟩ * ⟨u, hu⟩ := by
       apply hRinj
-      simp only [MonoidHom.comp_apply, Subgroup.coe_subtype, map_mul, Subgroup.coe_mul]
+      simp only [MonoidHom.comp_apply, Subgroup.coe_subtype, map_mul]
       exact hc
     exact congrArg (fun s : (R : Subgroup T) => ((s : T) : K)) this
   · obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hx
     have h2 : (f u) ^ 2 = 1 := hW.2 (f u) (f u).2 |> fun h => Subtype.ext (by simpa using h)
     have : (⟨u, hu⟩ : (R : Subgroup T)) ^ 2 = 1 := by
       apply hRinj
-      simp only [MonoidHom.comp_apply, Subgroup.coe_subtype, map_pow, Subgroup.coe_pow, map_one]
+      simp only [MonoidHom.comp_apply, Subgroup.coe_subtype, map_pow, map_one]
       exact h2
     have := congrArg (fun s : (R : Subgroup T) => ((s : T) : K)) this
     simpa using this
@@ -332,6 +332,7 @@ section Sup
 
 variable {X : Type*} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem exists_mul_of_mem_sup {Y P : Subgroup X} (hPY : P ≤ Subgroup.normalizer (Y : Set X))
     {g : X} (hg : g ∈ Y ⊔ P) : ∃ y ∈ Y, ∃ p ∈ P, y * p = g := by
   have : g ∈ ((Y : Set X) * (P : Set X)) := by
@@ -340,16 +341,18 @@ theorem exists_mul_of_mem_sup {Y P : Subgroup X} (hPY : P ≤ Subgroup.normalize
   obtain ⟨y, hy, p, hp, h⟩ := this
   exact ⟨y, hy, p, hp, h⟩
 
+omit [Finite X] in
 theorem normal_subgroupOf_sup {Y P : Subgroup X} (hPY : P ≤ Subgroup.normalizer (Y : Set X)) :
     (Y.subgroupOf (Y ⊔ P)).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr
     (sup_le Subgroup.le_normalizer hPY)
 
+omit [Finite X] in
 theorem isPGroup_quotient_sup {Y P : Subgroup X} (hPY : P ≤ Subgroup.normalizer (Y : Set X))
     (hP : IsPGroup 3 P) :
     haveI := normal_subgroupOf_sup hPY
     IsPGroup 3 (↥(Y ⊔ P) ⧸ Y.subgroupOf (Y ⊔ P)) := by
-  haveI := normal_subgroupOf_sup hPY
+  have := normal_subgroupOf_sup hPY
   intro x
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x
   obtain ⟨y, hy, p, hp, hyp⟩ := exists_mul_of_mem_sup hPY g.2
@@ -366,9 +369,10 @@ theorem isPGroup_quotient_sup {Y P : Subgroup X} (hPY : P ≤ Subgroup.normalize
     simpa using this
   rw [hg, QuotientGroup.mk_mul, hy1, one_mul, ← QuotientGroup.mk_pow, hp1, QuotientGroup.mk_one]
 
+omit [Finite X] in
 theorem le_of_le_sup_of_not_dvd {Y P S : Subgroup X} (hPY : P ≤ Subgroup.normalizer (Y : Set X))
     (hP : IsPGroup 3 P) (hS : S ≤ Y ⊔ P) (hS3 : ¬ 3 ∣ Nat.card S) : S ≤ Y := by
-  haveI := normal_subgroupOf_sup hPY
+  have := normal_subgroupOf_sup hPY
   have hq := isPGroup_quotient_sup hPY hP
   intro s hs
   set s' : ↥(Y ⊔ P) := ⟨s, hS hs⟩ with hs'
@@ -391,7 +395,7 @@ theorem le_of_le_sup_of_not_dvd {Y P S : Subgroup X} (hPY : P ≤ Subgroup.norma
 
 theorem le_of_le_sup_of_isPerfect {Y P S : Subgroup X} (hPY : P ≤ Subgroup.normalizer (Y : Set X))
     (hP : IsPGroup 3 P) (hS : S ≤ Y ⊔ P) (hSp : Group.IsPerfect S) : S ≤ Y := by
-  haveI := normal_subgroupOf_sup hPY
+  have := normal_subgroupOf_sup hPY
   have hq := isPGroup_quotient_sup hPY hP
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' (Y.subgroupOf (Y ⊔ P)) with hπ

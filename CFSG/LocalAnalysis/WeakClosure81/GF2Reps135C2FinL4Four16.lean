@@ -24,16 +24,16 @@ theorem finL4Four16_holds :
     FinL4Four16 := by
   intro W _ _ hW Y L g hctx hgY hg2 hlie hcard
   obtain ⟨K, _, _, _, hK, ⟨σ⟩⟩ := exists_mulEquiv_specialLinear_four_of_lieModel hctx hlie
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hW2 : ∀ a : Additive W, (2 : ℕ) • a = 0 := fun a => by
     apply Additive.toMul.injective
     show (Additive.toMul a) ^ 2 = 1
     exact hW _
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
   have hLY : L ≤ Y := hctx.2.2.1
   have hirr : (specialLinearRep σ).IsIrreducible := isIrreducible_specialLinearRep hctx σ
   have hne : ∃ x, specialLinearRep σ x ≠ 1 := specialLinearRep_ne_one hctx σ
-  haveI : (specialLinearRep σ).IsIrreducible := hirr
+  have : (specialLinearRep σ).IsIrreducible := hirr
   have hcardA : Nat.card (Additive W) = 2 ^ 16 := by
     rw [← hcard]
     exact Nat.card_congr Additive.toMul

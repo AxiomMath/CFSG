@@ -38,7 +38,7 @@ private lemma ggQ2s08k5_not_commute_of_moves {m : ℕ} {x y : Equiv.Perm (Fin m)
   exact hwu key
 
 private lemma ggQ2s08k5_common_of_pow_three {m : ℕ} {x y : Equiv.Perm (Fin m)}
-    (hx : x.IsSwap) (hy : y.IsSwap) (hxy : x ≠ y) (h3 : (x * y) ^ 3 = 1) :
+    (hx : x.IsSwap) (hy : y.IsSwap) (_hxy : x ≠ y) (h3 : (x * y) ^ 3 = 1) :
     ∃ u, x u ≠ u ∧ y u ≠ u := by
   by_contra h
   have hd : x.Disjoint y := by

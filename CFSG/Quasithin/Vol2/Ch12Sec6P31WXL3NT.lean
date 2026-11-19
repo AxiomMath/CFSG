@@ -22,7 +22,7 @@ theorem l3_odd_of_three_dvd_two_pow_add_one {j : ℕ} (h : 3 ∣ 2 ^ j + 1) : Od
     omega
   · exact hodd
 
-theorem l3_not_dvd_two_pow_sub_one {n p j : ℕ} (hn : Even n) (hp : p.Prime) (hp5 : 5 ≤ p)
+theorem l3_not_dvd_two_pow_sub_one {n p j : ℕ} (hn : Even n) (_hp : p.Prime) (hp5 : 5 ≤ p)
     (hpn : p ∣ 2 ^ (n / 2) + 1) (hj : Odd j) : ¬ p ∣ 2 ^ j - 1 := by
   intro hdiv
   obtain ⟨m, rfl⟩ := hn
@@ -61,8 +61,8 @@ theorem l3_not_dvd_two_pow_sub_one {n p j : ℕ} (hn : Even n) (hp : p.Prime) (h
 theorem l3_exists_orderOf_eq_prime {K : Type} [Field K] [Finite K] {n p : ℕ}
     (hK : Nat.card K = 2 ^ n) (hn : Even n) (hp : p.Prime) (hpn : p ∣ 2 ^ (n / 2) + 1) :
     ∃ a : Kˣ, orderOf a = p := by
-  haveI := Fact.mk hp
-  haveI : Finite Kˣ := Finite.of_injective (Units.val : Kˣ → K) (fun _ _ h => Units.ext h)
+  have := Fact.mk hp
+  have : Finite Kˣ := Finite.of_injective (Units.val : Kˣ → K) (fun _ _ h => Units.ext h)
   obtain ⟨m, rfl⟩ := hn
   have hnm : (m + m) / 2 = m := by omega
   rw [hnm] at hpn

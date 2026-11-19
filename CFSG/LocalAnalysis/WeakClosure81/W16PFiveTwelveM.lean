@@ -23,7 +23,7 @@ theorem Hyp167.inf_eSub_ne_bot_of_mSub_le_one
   intro hBE
   have hV₀O : V₀ ≤ pCoreOf 2 H := hX.cex.hyp.h6.le.trans hVO
   have hV₀el : IsElemAbelian 2 V₀ := hX.cex.hyp.elemAbelian₀
-  haveI : Fact (IsElemAbelian 2 (eSub V₀ X T)) :=
+  have : Fact (IsElemAbelian 2 (eSub V₀ X T)) :=
     ⟨Hyp167.isElemAbelian_eSub h1 hS hV₀O hX⟩
   have hA : IsElemAbelian 2 (conjSubgroup V g) :=
     E3.isElemAbelian_conjSubgroup hX.cex.hyp.h6.elemAbelian g

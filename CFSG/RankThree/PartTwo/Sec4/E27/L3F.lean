@@ -51,7 +51,7 @@ theorem seitz27_u3pi_of_planes (hA : Sec19.SeitzThreeLThreePi) {n : ℕ} (hn : 9
     obtain ⟨a, rfl⟩ := hmodd
     rw [pow_succ, pow_mul]
     norm_num [Nat.mul_mod, Nat.pow_mod]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 (3 * m)
       (GaloisField 2 (2 * (3 * m))) :=
     Sec4.unitaryFieldData_galoisField 2 (3 * m) (by omega)

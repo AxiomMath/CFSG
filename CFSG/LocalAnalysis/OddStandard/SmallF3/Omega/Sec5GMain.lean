@@ -73,7 +73,7 @@ theorem sec5g_main (hGold : GoldStmt) (hN11a : S_N11a)
     Sec5GOutcome ((S.subgroupOf (centralizer ({z} : Set G))).map π)
       (((sec5p510_T t z (sec5p510_R S (twoCoreIn K₁) (twoCoreIn K₂))).subgroupOf
         (centralizer ({z} : Set G))).map π) := by
-  haveI : Finite X := Finite.of_surjective π hπ
+  have : Finite X := Finite.of_surjective π hπ
   refine sec5g_of_goldData hGold hN11a hN11b (sec5z_exists_sylow_quotient h π hπ)
     (sec5z_gold_data hy h55 h58d hFB h4 h hs hTE π hπ hker) ?_
   refine sec5g_not_caseIII π hker

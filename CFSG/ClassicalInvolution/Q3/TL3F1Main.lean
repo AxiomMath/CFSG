@@ -70,7 +70,7 @@ theorem false_of_outer {s : G} (hsS : s ∈ (S : Subgroup G)) (hs2 : s * s = 1)
   have hU := hd0.inf_mem_USet
   obtain ⟨-, -, -, -, -, -, hUc, -, hU4⟩ := Sec6Gen.exists_data_of_mem_USet hΩ hU
   obtain ⟨u, huU, huu⟩ := exists_mul_self_eq_of_isCyclic hI inf_le_left hUc
-    (S.isPGroup'.to_le (inf_le_right.trans hd.hWS)) hU4
+    (S.isPGroup.to_le (inf_le_right.trans hd.hWS)) hU4
   have huR : u ∈ R := ⟨hd.hWS huU.2, huU.1⟩
   have hsuU : s * u * s⁻¹ ∈ K ⊓ W :=
     ⟨(Subgroup.mem_normalizer_iff.mp hsK u).mp huU.1, (Subgroup.mem_normalizer_iff.mp hsW u).mp huU.2⟩
@@ -128,9 +128,9 @@ theorem false_of_outer {s : G} (hsS : s ∈ (S : Subgroup G)) (hs2 : s * s = 1)
     exact ⟨(S : Subgroup G).mul_mem ((S : Subgroup G).mul_mem hyS hw.1)
       ((S : Subgroup G).inv_mem hyS), (Subgroup.mem_normalizer_iff.mp hyL w).mp hw.2⟩
   obtain ⟨-, -, -, -, -, -, hVc, -, hV4⟩ := Sec6Gen.exists_data_of_mem_USet hΩ hd.memV
-  have hV2 : IsPGroup 2 V := S.isPGroup'.to_le (hd.leW.trans hd.hWS)
+  have hV2 : IsPGroup 2 V := S.isPGroup.to_le (hd.leW.trans hd.hWS)
   obtain ⟨v, hvV, hvv⟩ := exists_mul_self_eq_of_isCyclic hd.invL hd.le_member hVc hV2 hV4
-  have hy2 : IsPGroup 2 (Subgroup.zpowers y) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hyS)
+  have hy2 : IsPGroup 2 (Subgroup.zpowers y) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hyS)
   have hyN : y ∈ Subgroup.normalizer (V : Set G) := by
     have hle : conjSub y V ≤ V := by
       intro a ha
@@ -271,7 +271,7 @@ theorem tightF1S_holds {IH : ℕ → Prop} : TightF1S IH := by
     (S19Q.isPGroup_zpowers_iff_exists_pow _).mpr ⟨1, by rw [pow_one, sq, hss]⟩
   set H : Subgroup G := Subgroup.centralizer ({x} : Set G) with hH
   obtain ⟨P, hP, hTP⟩ := IsSylow2In.exists_ge
-    (T.isPGroup'.to_le inf_le_left : IsPGroup 2 ↥((T : Subgroup G) ⊓ H)) inf_le_right
+    (T.isPGroup.to_le inf_le_left : IsPGroup 2 ↥((T : Subgroup G) ⊓ H)) inf_le_right
   obtain ⟨c, hcH, hsc⟩ := Sec7.exists_conj_le_of_isSylow2In hP hs2 (Subgroup.zpowers_le.mpr hg)
   have hcs : c⁻¹ * (g * t * g⁻¹) * c ∈ P := mem_conjSub_iff.mp (hsc (Subgroup.mem_zpowers _))
   have hS₀P : (T : Subgroup G) ⊓ tightCore R ≤ P := fun r hr =>

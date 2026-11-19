@@ -46,7 +46,7 @@ theorem not_isSLThreeFour_of_isSimple {X : Type} [Group X] (hs : IsSimpleGroup X
 
 theorem card_alt (n : ℕ) (hn : 2 ≤ n) :
     Nat.card (alternatingGroup (Fin n)) = n.factorial / 2 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
   rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
 
 theorem card_alt_eleven : Nat.card (alternatingGroup (Fin 11)) = 19958400 := by
@@ -99,9 +99,9 @@ theorem card_catGroup_A {d : TauCeti.ValidLieTypeIndex} {r : ℕ} {q : TauCeti.P
     (h : d.1 = .A r q) : Nat.card (CatGroup d) = CFSG.Open.orderA r (q.p ^ q.exponent) := by
   obtain ⟨x, hv⟩ := d
   obtain rfl : x = TauCeti.LieTypeIndex.A r q := h
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have e := CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r q hv
-  haveI : Finite (GaloisField q.p q.exponent) := inferInstance
+  have : Finite (GaloisField q.p q.exponent) := inferInstance
   change Nat.card (TauCeti.ValidLieTypeIndex.Group ⟨TauCeti.LieTypeIndex.A r q, hv⟩) = _
   rw [Nat.card_congr e.toEquiv,
     CFSG.OrderReductions.LinearOrders.card_projectiveSpecialLinear_eq_orderA,
@@ -127,7 +127,7 @@ theorem card_ne_alt_eleven {K : Type} [Group K] [Finite K] {d : TauCeti.ValidLie
     ⟨q, hqp, hqe, hdq⟩ | ⟨-, m, hdq⟩ | ⟨-, ⟨q, hqp, hqe, hdq | hdq | hdq⟩ |
       ⟨q, hqp, hqe, hdq⟩ | ⟨q, hqp, hqe, hdq⟩ | hdq⟩ | ⟨h, -⟩
   ·
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h := card_catGroup_linTwo (p := 3) (n := q.exponent) (by norm_num)
       q.exponent_pos.ne' (d := d) ⟨q, hdq, hqp, rfl⟩
     rw [hc] at h
@@ -235,7 +235,7 @@ theorem kFactNineThreeComponentL34_holds :
         rcases hi with ⟨-, h⟩ | ⟨h, -⟩
         · exact h
         · omega
-      haveI hsA : IsSimpleGroup (TauCeti.CFSGIndex.alternating n hn).Group := by
+      have hsA : IsSimpleGroup (TauCeti.CFSGIndex.alternating n hn).Group := by
         change IsSimpleGroup (alternatingGroup (Fin n))
         exact alternatingGroup.isSimpleGroup (by simp; omega)
       refine key e.isSimpleGroup ?_
@@ -245,7 +245,7 @@ theorem kFactNineThreeComponentL34_holds :
       rw [h1, KFC34.card_alt n (by omega), KFC34.card_alt_eleven] at h2
       rcases hn' with rfl | rfl <;> revert h2 <;> decide
     | lie d =>
-      haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := by
+      have : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := by
         obtain ⟨t, n, r, f, -, hm, -, -, -⟩ :=
           CFSG.RankThree.PartOne.CTP.seitzBridge d.Group d.1 ⟨d.2, ⟨MulEquiv.refl _⟩⟩
         exact (CFSG.LieType.Catalog.lieModel_finite_simple d.Group t n r f hm).2.2

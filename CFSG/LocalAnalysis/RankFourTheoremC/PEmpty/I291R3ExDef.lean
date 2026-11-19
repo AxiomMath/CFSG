@@ -73,11 +73,11 @@ end Scalars
 section Field
 
 theorem charP_of_card_eq_prime_pow {K : Type} [Field K] [Finite K] {p f : ℕ} [hp : Fact p.Prime]
-    (hf : 1 ≤ f) (hK : Nat.card K = p ^ f) : CharP K p := by
+    (_hf : 1 ≤ f) (hK : Nat.card K = p ^ f) : CharP K p := by
   have := Fintype.ofFinite K
   obtain ⟨r, hchar⟩ := CharP.exists K
   have hr : r.Prime := CharP.char_is_prime K r
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨n, -, hn⟩ := FiniteField.card K r
   have h1 : r ∣ p ^ f := by
     rw [← hK, Nat.card_eq_fintype_card, hn]
@@ -125,7 +125,7 @@ theorem three_le_pRank_centralizer_of_statedSL_three [Finite K] (hf : 1 ≤ f)
     (e : S ≃* StatedProj (StatedSL 3 K)) (h4 : 4 ≤ CFSG.Open.pRank p (⊤ : Subgroup S))
     {x : S} (hx : x ^ p = 1) : 3 ≤ CFSG.Open.pRank p (centralizer ({x} : Set S)) := by
   have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
-  haveI : CharP K p := charP_of_card_eq_prime_pow hf hK
+  have : CharP K p := charP_of_card_eq_prime_pow hf hK
   let φ := specialLinearGroupEquivStatedSL 3 K
   let π : Matrix.SpecialLinearGroup (Fin 3) K →* StatedProj (StatedSL 3 K) :=
     (QuotientGroup.mk' ((StatedScalars (Fin 3) K).subgroupOf (StatedSL 3 K))).comp φ.toMonoidHom
@@ -166,12 +166,14 @@ section U3
 
 variable {K : Type} [Field K] [Finite K] {p f : ℕ} [Fact p.Prime]
 
+omit [Finite K] in
 theorem zSU_pow {σ : K ≃+* K} (H : SUInv σ) (β : traceZero σ) (n : ℕ) :
     (zSU H β) ^ n = zSU H (n • β) := by
   induction n with
   | zero => simp [zSU_zero]
   | succ n ih => rw [pow_succ, ih, zSU_mul, succ_nsmul]
 
+omit [Finite K] in
 theorem card_Zsu_eq {σ : K ≃+* K} (H : SUInv σ) : Nat.card (Zsu H) = Nat.card (traceZero σ) := by
   let g : traceZero σ → Zsu H := fun β => ⟨zSU H β, zSU_mem_Zsu H β⟩
   have hg : Function.Bijective g := by
@@ -189,7 +191,7 @@ theorem three_le_pRank_centralizer_of_statedSU_three (hp2 : p ≠ 2) (hf : 1 ≤
     (e : S ≃* StatedProj (StatedSU 3 (p ^ f) K)) (h4 : 4 ≤ CFSG.Open.pRank p (⊤ : Subgroup S))
     {x : S} (hx : x ^ p = 1) : 3 ≤ CFSG.Open.pRank p (centralizer ({x} : Set S)) := by
   have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
-  haveI : CharP K p :=
+  have : CharP K p :=
     charP_of_card_eq_prime_pow (f := 2 * f) (by omega) (by rw [hK, pow_mul'])
   have H : SUInv (CFSG.LieType.BorelTits.unitaryInvolution K p f) := suInv_unitary hK hp2
   let φ := equivStatedSU hK 3

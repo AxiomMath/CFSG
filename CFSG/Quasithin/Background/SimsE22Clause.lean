@@ -34,7 +34,7 @@ theorem exists_involution_of_inf_eq {Y : Type} [Group Y] [Finite Y] {Ks Ts Ms TK
       exact hk'.1
     have htop : (⊤ : Subgroup Y) ≤ Ms := hKT ▸ sup_le hKM hmin.le
     exact hmin.maximal.1.ne (top_le_iff.mp htop)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ : ∃ z : ↥(TKs ⊓ Subgroup.centralizer (TKs : Set Y)), orderOf z = 2 := by
     rcases hZ2.card_eq_or_dvd with h1 | h2
     · exact absurd (Subgroup.card_eq_one.mp h1) hZne
@@ -59,7 +59,7 @@ theorem exists_not_innerFieldAt {Γ : Type} [Group Γ] [Finite Γ] {H T M K : Su
         ∃ t ∈ E2.star M H T, ¬ InnerFieldAt (E2.star M H K) φ t := by
   have hKH : K ≤ H := hHK ▸ le_sup_left
   have hTH : T ≤ H := hmin.isSylow.1
-  haveI : Finite (E2.StarQuot M H) := E2P.finite_starQuot M H
+  have : Finite (E2.StarQuot M H) := E2P.finite_starQuot M H
   have hKn : (E2.star M H K).Normal := by
     have hHN : H ≤ Subgroup.normalizer (K : Set Γ) := by
       rw [hHK]
@@ -81,9 +81,9 @@ theorem exists_not_innerFieldAt {Γ : Type} [Group Γ] [Finite Γ] {H T M K : Su
   have hKs : IsSimpleGroup ↥(E2.star M H K) :=
     StatedAPI.isSimpleGroup_of_statedClassicalModel_psl_two hK
   obtain ⟨-, F, _, _, hF, ⟨φ⟩⟩ := hK
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F p := charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card, hF])
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F p := charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card, hF])
   have hp2 : p ≠ 2 := by omega
   refine ⟨F, inferInstance, inferInstance, hF, φ, ?_⟩
   by_contra hcon

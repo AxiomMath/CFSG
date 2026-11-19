@@ -98,7 +98,7 @@ theorem exists_frame (hs : Std8 p f Ω K J S R T W z t) (hμ : MuIsoWylD4 Ω W)
     · exact hdC
   have hddinj : ∀ i j, i ≠ j → dd i ≠ dd j := by
     intro i j hij
-    fin_cases i <;> fin_cases j <;> first | exact absurd rfl hij | skip
+    fin_cases i <;> fin_cases j <;> try exact absurd rfl hij
     all_goals first
       | exact hd01 | exact fun h => hd01 h.symm
       | exact fun h => hca h.symm | exact hca | exact fun h => hcb h.symm | exact hcb

@@ -30,9 +30,9 @@ theorem burnsideF4m_F_4_40_inst (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z)
       (Gp ⊓ Subgroup.centralizer ({(v : E)} : Set E))) :
     ChF.IsSylowOf 2 (SinM Gp β ε ⊓ Subgroup.centralizer ({bM β ε v} : Set M))
       (Subgroup.centralizer ({bM β ε v} : Set M)) := by
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hb₁ : Function.Injective (burnsideF4d_bOne β ε) :=
     hyp.inj.comp (f1_injective β hyp.faithful)
   have hbM : Function.Injective (bM β ε) :=

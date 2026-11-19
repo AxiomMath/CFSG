@@ -19,9 +19,9 @@ theorem forIn_root (par : Array Nat) :
   | a :: l, r => by
     rw [List.forIn_cons, List.length_cons, ufFind]
     by_cases h : (par[r]! == r) = true
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       rfl
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
       exact forIn_root par l _
 
 theorem lineRoot_eq (par : Array Nat) (x : Nat) : lineRoot par x = ufFind par par.size x := by
@@ -147,17 +147,17 @@ theorem outer_inv {n : Nat} {G : Array (Array Nat)} {S0 : St} (h0 : S0.1.size = 
             ((List.range G.size).foldl (innerL G (q[hd]!).1 (q[hd]!).2) (p, z, q, o)).2.2.2,
             hd + 1) := by
         unfold outerL
-        rw [if_pos hq]
-      rw [hstep, if_pos hq, hout, e.1]
+        rw [ite_eq_left hq]
+      rw [hstep, ite_eq_left hq, hout, e.1]
       change (_ = _) ∧ _ ∧ hd + 1 ≤ _ ∧ hd + 1 ≤ hd + 1 ∧ (hd + 1 = hd + 1 ∨ _)
       refine ⟨rfl, e.2, ?_, le_rfl, Or.inl rfl⟩
       change q.size ≤ _ at hq'
       omega
     · have hout : outerL G (p, z, q, o, hd) j = (p, z, q, o, hd) := by
         unfold outerL
-        rw [if_neg hq]
+        rw [ite_eq_right hq]
       have hjq : ¬ j < q.size := by omega
-      rw [hstep, if_neg hjq, hout]
+      rw [hstep, ite_eq_right hjq, hout]
       change (_ = _) ∧ p.size = n ∧ hd ≤ q.size ∧ hd ≤ j + 1 ∧ (hd = j + 1 ∨ hd = q.size)
       exact ⟨rfl, hsz, hle, by omega, Or.inr (by omega)⟩
 
@@ -178,7 +178,7 @@ theorem lineMergeSearch_eq {n : Nat} {G : Array (Array Nat)} {b x : Nat} (hb : b
     Nat.add_sub_cancel, Nat.div_one]
   rw [lineRoot_eq, lineRoot_eq, Array.size_ofFn, ufFind_id hb, ufFind_id hx]
   have hne : (b != x) = true := by simpa using hbx
-  simp only [hne, if_true]
+  simp only [hne, ite_true]
   rw [forIn_yield (List.range' 0 (2 * n) 1) _ _ (outerL G)]
   · have h0 := proj_init (n := n) hb hx
     have hs0 : (initSt n b x).1.size = n := by simp [initSt]
@@ -192,7 +192,7 @@ theorem lineMergeSearch_eq {n : Nat} {G : Array (Array Nat)} {b x : Nat} (hb : b
     obtain ⟨p, z, q, o, hd⟩ := T
     simp only [outerL]
     by_cases hq : hd < q.size
-    · rw [if_pos hq, if_pos hq]
+    · rw [ite_eq_left hq, ite_eq_left hq]
       rw [forIn_yield (List.range' 0 G.size 1) _ _ (innerL G (q[hd]!).1 (q[hd]!).2)]
       · rw [← List.range_eq_range']
         rfl
@@ -200,7 +200,7 @@ theorem lineMergeSearch_eq {n : Nat} {G : Array (Array Nat)} {b x : Nat} (hb : b
         obtain ⟨p', z', q', o'⟩ := s
         simp only [innerL]
         split_ifs <;> rfl
-    · rw [if_neg hq, if_neg hq]
+    · rw [ite_eq_right hq, ite_eq_right hq]
 
 @[expose] def keys (s : Nat × Nat × Nat) : List Nat :=
   [120 * s.1 + s.2.1, 120 * s.2.1 + s.1, 120 * s.1 + s.2.2, 120 * s.2.2 + s.1,
@@ -259,12 +259,12 @@ theorem fold_table_get {N M : Nat} {L : Nat → List Nat} {P : Nat → Nat}
         exact (hA j (by omega) a ha).1
       obtain ⟨e1, e2⟩ := foldl_set_get j (L j) T hl
       refine ⟨by rw [e1, h1], fun k hk hn => ?_, fun k hk t ht hkt => ?_⟩
-      · rw [e2, if_neg (hn j (by omega))]
+      · rw [e2, ite_eq_right (hn j (by omega))]
         exact h2 k hk fun t ht => hn t (by omega)
       · rw [e2]
         by_cases hkj : k ∈ L j
-        · rw [if_pos hkj, (hA j (by omega) k hkj).2]
-        · rw [if_neg hkj]
+        · rw [ite_eq_left hkj, (hA j (by omega) k hkj).2]
+        · rw [ite_eq_right hkj]
           have htj : t < j := by
             rcases Nat.lt_or_ge t j with h | h
             · exact h

@@ -17,20 +17,24 @@ variable {G : Type} [Group G] {M Q Z X : Subgroup G} {x : G} {K : Type} [Field K
 section Lift1
 variable [Finite G] [CharP K 2]
 
+omit [Finite G] in
 private theorem e3l_H0_comm {u : G} (hu0 : u ∈ H0 M Z) {z : G} (hz : z ∈ Z) : z * u = u * z :=
   Subgroup.mem_centralizer_iff.mp hu0.2 z hz
 
+omit [Finite G] in
 private theorem e3l_H0_fix {u : G} (hu0 : u ∈ H0 M Z) {y : G} (hy : y ∈ Z) :
     u⁻¹ * y * u = y := by
   calc u⁻¹ * y * u = u⁻¹ * (y * u) := by group
     _ = u⁻¹ * (u * y) := by rw [e3l_H0_comm hu0 hy]
     _ = y := by group
 
+omit [Finite G] in
 private theorem e3l_conj_inv_mem_Q (H : StrothHyp M Q Z) {u : G} (hu0 : u ∈ H0 M Z) {v : G}
     (hv : v ∈ Q) : u⁻¹ * v * u ∈ Q := by
   have h := conj_mem_Q H (M.inv_mem hu0.1) hv
   rwa [inv_inv] at h
 
+omit [CharP K 2] in
 theorem pi_conj_mem_Cs (hs : Sit M Q Z X x) (Tx : XAct M₀ x) {u : G} (hu0 : u ∈ H0 M Z)
     (hux : ⁅u, x⁆ ∈ Q) {w : G} (hw : w ∈ Q) (hwC : M₀.π w ∈ Cs Tx) :
     M₀.π (u⁻¹ * w * u) ∈ Cs Tx := by
@@ -105,6 +109,7 @@ theorem comm_conj_key (hs : Sit M Q Z X x) {u : G} (hu0 : u ∈ H0 M Z) (hux : �
   have hy : ⁅v, c⁆ * z ∈ Z := Z.mul_mem (comm_mem_Z H hv hcQ) hzZ
   rw [e1, e2, e4, e3l_H0_fix hu0 hy]
 
+omit [CharP K 2] in
 private theorem e3l_B_of_comm_eq (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x)
     {u : G} (hu0 : u ∈ H0 M Z) (hux : ⁅u, x⁆ ∈ Q) {v : G} (hv : v ∈ Q) (hvx : ⁅v, x⁆ ∈ Z)
     (hvw : ⁅v, x⁆ = ⁅u⁻¹ * v * u, x⁆) : M₀.B (M₀.π v) (M₀.π ⁅u, x⁆) = 0 := by
@@ -144,6 +149,7 @@ theorem caseI_piComm_mem_Rs (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z
   have hB := e3l_B_of_comm_eq hD hs hu0 hux hv hvx hvw
   rw [Tim79.QuadModel.B_comm, hB, neg_zero]
 
+omit [CharP K 2] in
 theorem caseII_piComm_mem_Rs (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x)
     (Tx : XAct M₀ x) (hII : CaseII Q Z x) {u : G} (hu0 : u ∈ H0 M Z) (hux : ⁅u, x⁆ ∈ Q) :
     M₀.π ⁅u, x⁆ ∈ Rs Tx := by

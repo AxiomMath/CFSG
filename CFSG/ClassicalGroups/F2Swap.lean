@@ -194,6 +194,7 @@ theorem le_invSub_of_generators (h2 : ∀ m : M, m + m = 0) {L L' : Subgroup G} 
   exact add_mem (add_mem (AddSubgroup.mem_sup_left hx) (AddSubgroup.mem_sup_right hc))
     (AddSubgroup.mem_sup_right (mem_map_smul.mpr ⟨x', hx', rfl⟩))
 
+omit [Finite M] in
 theorem invariant_of_two_sided {L L' : Subgroup G} {g : G} (hLL : L ⊔ L' = ⊤)
     {U : AddSubgroup M}
     (h1 : L' ≤ invSub G (U ⊔ U.map (DistribSMul.toAddMonoidHom M g)))

@@ -77,7 +77,7 @@ theorem nside_ae (h : PerpHypS n Y R S t) {c : Y}
         MulAut.mul_apply]
   have hσk : σ ^ orderOf x = 1 := by
     have h1 : (⟨x, hxc⟩ : ↥(Subgroup.centralizer ({c} : Set Y))) ^ orderOf x = 1 :=
-      Subtype.ext (by simpa using pow_orderOf_eq_one x)
+      Subtype.ext (by simp)
     rw [hσ, ← map_pow, h1, map_one]
   have hψk : ψ ^ orderOf x = 1 := by
     refine MulEquiv.ext fun y => Subtype.ext ?_

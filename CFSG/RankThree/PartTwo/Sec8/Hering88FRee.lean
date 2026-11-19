@@ -30,7 +30,7 @@ theorem imageModTheta_bot {G : Type} [Group G] [Finite G] (L : Subgroup G) :
 theorem noThetaNormal_of_isSimpleGroup_of_isPerfect {Q : Type*} [Group Q] [IsSimpleGroup Q]
     [Group.IsPerfect Q] : NoThetaNormal Q := by
   refine Hering418.noThetaNormal_of_isSimpleGroup ?_
-  haveI : Nontrivial Q := IsSimpleGroup.toNontrivial
+  have : Nontrivial Q := IsSimpleGroup.toNontrivial
   exact Group.IsPerfect.not_isSolvable Q
 
 
@@ -66,11 +66,11 @@ theorem false_of_isGammaTypeRee
   set C := barCentralizer (Subgroup.zpowers a) L with hCdef
   have hperfF : Group.IsPerfect (ReeTag.F4.reeGamma k' b') :=
     ⟨ReeTag.commutator_reeGamma_eq_top (t := ReeTag.F4) hb1 hk'⟩
-  haveI hsimpF : IsSimpleGroup (ReeTag.F4.reeGamma k' b') :=
+  have hsimpF : IsSimpleGroup (ReeTag.F4.reeGamma k' b') :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb1 hk'
-  haveI hCperf : Group.IsPerfect ↥C :=
+  have hCperf : Group.IsPerfect ↥C :=
     Group.IsPerfect.ofSurjective (f := φ.symm.toMonoidHom) φ.symm.surjective
-  haveI hCsimple : IsSimpleGroup ↥C := φ.isSimpleGroup
+  have hCsimple : IsSimpleGroup ↥C := φ.isSimpleGroup
   have hCres : inSubgroup perfectResidual C = C :=
     inSubgroup_perfectResidual_of_isPerfect (R := C) hCperf
   have hπL : imageModTheta L (sec8I L a) = C := by
@@ -86,9 +86,9 @@ theorem false_of_isGammaTypeRee
   have hM1 := Hering88E.imageModTheta_sec8I_eq_perfectResidual_of_isoGTwoEven kF87Cent_holds h hUn
     hI hY hIY hcN hm2 hG2
   set R := barCentralizer (Subgroup.zpowers c) Y with hRdef
-  haveI hRsimple : IsSimpleGroup ↥(inSubgroup perfectResidual R) :=
+  have hRsimple : IsSimpleGroup ↥(inSubgroup perfectResidual R) :=
     Hering88E.isSimpleGroup_perfectResidual_of_isoGTwoEven hm2 hG2
-  haveI hRperf : Group.IsPerfect ↥(inSubgroup perfectResidual R) := Item87Proof.isPerfect_residual R
+  have hRperf : Group.IsPerfect ↥(inSubgroup perfectResidual R) := Item87Proof.isPerfect_residual R
   have hθL : NoThetaNormal ↥(imageModTheta L (sec8I L a)) :=
     Item87Proof.NoThetaNormal.of_mulEquiv (MulEquiv.subgroupCongr hπL)
       noThetaNormal_of_isSimpleGroup_of_isPerfect

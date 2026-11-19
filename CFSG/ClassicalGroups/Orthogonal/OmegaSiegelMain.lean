@@ -24,7 +24,7 @@ private def listLine (e f p p' : N) (w : ℕ → N) (k j : ℕ) : N × N :=
 private theorem listLine_lt {e f p p' : N} {w : ℕ → N} {k j : ℕ} (h : j < k) :
     listLine e f p p' w k j = (e, w j) := by
   unfold listLine
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem listLine_k {e f p p' : N} {w : ℕ → N} {k : ℕ} :
     listLine e f p p' w k k = (w 0, p) := by
@@ -381,16 +381,16 @@ private theorem cost_step {A : ℕ → Submodule K V} {k : ℕ} (C : Finset ℕ)
   rcases Nat.lt_or_ge j k with hjk | hjk
   · by_cases hjC : j ∈ C
     · obtain ⟨i, hi, hov⟩ := hcert j hjC
-      rw [if_pos (Finset.mem_union_left _ hjC)]
+      rw [ite_eq_left (Finset.mem_union_left _ hjC)]
       exact finrank_sup_le_add_one (hrank j (by omega)) (hle i j hi) hov
     · have hnot : j ∉ C ∪ Finset.Ico k (k + 4) := by
         intro h
         rcases Finset.mem_union.mp h with h | h
         · exact hjC h
         · exact absurd (Finset.mem_Ico.mp h).1 (by omega)
-      rw [if_neg hnot]
+      rw [ite_eq_right hnot]
       exact finrank_sup_le_add_two (hrank j (by omega))
-  · rw [if_pos (Finset.mem_union_right _ (Finset.mem_Ico.mpr ⟨hjk, by omega⟩))]
+  · rw [ite_eq_left (Finset.mem_union_right _ (Finset.mem_Ico.mpr ⟨hjk, by omega⟩))]
     rcases (show j = k ∨ j = k + 1 ∨ j = k + 2 ∨ j = k + 3 by omega) with h | h | h | h <;>
       rw [h]
     · exact finrank_sup_le_add_one (hrank k (by omega)) (hle 0 k hk) h₀

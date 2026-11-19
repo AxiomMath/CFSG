@@ -16,6 +16,7 @@ open CFSG.AGLEmbedding (CatalogSimpleSections exists_mem_sylow_inf_component)
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem mem_normalizer_of_pow_mem' {H : Subgroup Y} {y : Y} {n : ℕ} (hy : y ^ 3 ^ n = 1) {m : ℕ}
     (hm : Nat.Coprime m 3) (hym : y ^ m ∈ normalizer (H : Set Y)) :
     y ∈ normalizer (H : Set Y) := by
@@ -31,6 +32,7 @@ theorem mem_normalizer_of_pow_mem' {H : Subgroup Y} {y : Y} {n : ℕ} (hy : y ^ 
     rw [h1]
     exact pow_mem hym k
 
+omit [Finite Y] in
 theorem three_dvd_center {K : Subgroup Y} {z : Y} (hzK : z ∈ K) (hzc : ∀ k ∈ K, k * z = z * k)
     (hz1 : z ≠ 1) (hz3 : z ^ 3 = 1) : 3 ∣ Nat.card (center K) := by
   have hz : (⟨z, hzK⟩ : K) ∈ center K :=
@@ -50,9 +52,9 @@ variable {F U M₁ N R : Subgroup Y} {x : Y}
 theorem center_not_dvd (hd : EndData F U M₁ N R x) (hCen : KFactCentralOmega) {K : Subgroup Y}
     (hK : IsComponentOf K ⊤) : ¬ 3 ∣ Nat.card (center K) := by
   intro h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : CFSG.Open.IsQuasisimple K := hK.2.2
-  haveI hs : IsSimpleGroup (K ⧸ center K) := hq.2
+  have hs : IsSimpleGroup (K ⧸ center K) := hq.2
   have hcat : IsCatalogGroup (K ⧸ center K) := by
     obtain ⟨a, b, hab⟩ :=
       CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq
@@ -70,7 +72,7 @@ theorem center_not_dvd (hd : EndData F U M₁ N R x) (hCen : KFactCentralOmega) 
       Nat.pow_le_pow_right (by norm_num) hge
     omega
   obtain ⟨S⟩ := (Sylow.nonempty : Nonempty (Sylow 3 K))
-  have hS' : IsPGroup 3 ((S : Subgroup K).map K.subtype) := S.isPGroup'.map K.subtype
+  have hS' : IsPGroup 3 ((S : Subgroup K).map K.subtype) := S.isPGroup.map K.subtype
   obtain ⟨k, -, hk⟩ := GL83P3L28Aux.exists_mem_conj_le_sylow hd.sylow le_top hS'
   have key : ∀ c : K, c ∈ (S : Subgroup K) → c ^ 3 = 1 → k⁻¹ * (c : Y) * k ∈ U := by
     intro c hc hc3
@@ -161,7 +163,7 @@ theorem comp_unique (hd : EndData F U M₁ N R x) (hcore : primeComplementCore (
 theorem pCore_eq_bot (hd : EndData F U M₁ N R x) (hcore : primeComplementCore (G := Y) 3 = ⊥)
     (hCen : KFactCentralOmega) {K : Subgroup Y} (hK : IsComponentOf K ⊤) :
     CFSG.pCore 3 Y = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hO
   obtain ⟨S, hS⟩ := hd.exists_sylow
   have hOF : CFSG.pCore 3 Y ≤ F := by
@@ -186,7 +188,7 @@ theorem pCore_eq_bot (hd : EndData F U M₁ N R x) (hcore : primeComplementCore 
 theorem R_eq_bot (hd : EndData F U M₁ N R x) (hcore : primeComplementCore (G := Y) 3 = ⊥)
     (hCen : KFactCentralOmega) (hM27 : KFactSylowM27) (hGen : KFactFieldGeneration) :
     R = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hcomp : ∃ K : Subgroup Y, IsComponentOf K ⊤
   swap
   · push Not at hcomp
@@ -199,7 +201,7 @@ theorem R_eq_bot (hd : EndData F U M₁ N R x) (hcore : primeComplementCore (G :
       hu _ ((CFSG.ComponentClassification.LocalComponents.equiv_iff (MulAut.conj g) K).mpr hK)
     rw [← hmap]
     exact ⟨n, hn, by simp [MulAut.conj_apply]⟩⟩
-  haveI := hKn
+  have := hKn
   have hlay : CFSG.layer Y = K := by
     refine le_antisymm (sSup_le fun L hL => ?_) (le_sSup ((CFSG.isComponent_iff_open K).mpr hK))
     exact (hu L ((CFSG.isComponent_iff_open L).mp hL)).le

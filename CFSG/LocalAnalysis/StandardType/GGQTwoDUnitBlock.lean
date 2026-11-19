@@ -48,8 +48,8 @@ private theorem qtwoDU4_coordBlockSU_conj_le (σ : Equiv.Perm (Fin n)) (J : Fins
   rw [hy' _ _ hpre]
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl, if_pos rfl]
-  · rw [if_neg h, if_neg (fun hh => h (σ⁻¹.injective hh))]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h (σ⁻¹.injective hh))]
 
 theorem ggQTwoDUnit_coordBlockSU_conj (σ : Equiv.Perm (Fin n)) (J : Finset (Fin n)) :
     (coordBlockSU K 2 f J).map
@@ -103,7 +103,7 @@ theorem ggQTwoDUnit_range_blockEmb_zero {k : ℕ} (hk : 0 + k ≤ n) :
     refine (mem_coordBlockSU_iff (K := K) (p := 2) (f := f) (J := J)).mpr ?_
     intro i j hij
     rw [coe_coe_blockEmb, blockMat_apply]
-    rw [dif_neg (fun h => by
+    rw [dite_eq_right (fun h => by
       rcases hij with hi | hj
       · exact hi ((hJmem i).mpr (by omega))
       · exact hj ((hJmem j).mpr (by omega)))]
@@ -135,7 +135,7 @@ theorem ggQTwoDUnit_range_blockEmb_zero {k : ℕ} (hk : 0 + k ≤ n) :
       rw [blockMat_apply (F := K) (i := 0) (k := k)]
       by_cases hj : 0 ≤ j.val ∧ j.val < 0 + k
       · by_cases hl : 0 ≤ l.val ∧ l.val < 0 + k
-        · rw [dif_pos ⟨hj, hl⟩]
+        · rw [dite_eq_left ⟨hj, hl⟩]
           show ((M : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)
               (blockIdx 0 hk ⟨j.val - 0, by omega⟩)
               (blockIdx 0 hk ⟨l.val - 0, by omega⟩) =
@@ -144,9 +144,9 @@ theorem ggQTwoDUnit_range_blockEmb_zero {k : ℕ} (hk : 0 + k ≤ n) :
                 Fin.ext (by simp only [blockIdx_val]; omega),
               show blockIdx 0 hk ⟨l.val - 0, by omega⟩ = l from
                 Fin.ext (by simp only [blockIdx_val]; omega)]
-        · rw [dif_neg (fun hh => hl hh.2)]
+        · rw [dite_eq_right (fun hh => hl hh.2)]
           exact (hM1 j l (Or.inr (hoff l (by omega)))).symm
-      · rw [dif_neg (fun hh => hj hh.1)]
+      · rw [dite_eq_right (fun hh => hj hh.1)]
         exact (hM1 j l (Or.inl (hoff j (by omega)))).symm
     have heqB : blockMat n 0 Bmat =
         (((M⁻¹ : Su K 2 f n) : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by
@@ -154,7 +154,7 @@ theorem ggQTwoDUnit_range_blockEmb_zero {k : ℕ} (hk : 0 + k ≤ n) :
       rw [blockMat_apply (F := K) (i := 0) (k := k)]
       by_cases hj : 0 ≤ j.val ∧ j.val < 0 + k
       · by_cases hl : 0 ≤ l.val ∧ l.val < 0 + k
-        · rw [dif_pos ⟨hj, hl⟩]
+        · rw [dite_eq_left ⟨hj, hl⟩]
           show ((((M⁻¹ : Su K 2 f n) : GL (Fin n) K)) : Matrix (Fin n) (Fin n) K)
               (blockIdx 0 hk ⟨j.val - 0, by omega⟩)
               (blockIdx 0 hk ⟨l.val - 0, by omega⟩) =
@@ -163,9 +163,9 @@ theorem ggQTwoDUnit_range_blockEmb_zero {k : ℕ} (hk : 0 + k ≤ n) :
                 Fin.ext (by simp only [blockIdx_val]; omega),
               show blockIdx 0 hk ⟨l.val - 0, by omega⟩ = l from
                 Fin.ext (by simp only [blockIdx_val]; omega)]
-        · rw [dif_neg (fun hh => hl hh.2)]
+        · rw [dite_eq_right (fun hh => hl hh.2)]
           exact (hM1inv j l (Or.inr (hoff l (by omega)))).symm
-      · rw [dif_neg (fun hh => hj hh.1)]
+      · rw [dite_eq_right (fun hh => hj hh.1)]
         exact (hM1inv j l (Or.inl (hoff j (by omega)))).symm
     have hmul1 : Amat * Bmat = 1 := by
       apply blockMat_injective (k := k) hk
@@ -256,7 +256,7 @@ theorem ggQTwoDUnit_eq_one_of_mem_center_coordBlockSU (hK : Nat.card K = 4) {n :
     exact hJ
   obtain ⟨k, -, hk⟩ := Finset.exists_mem_notMem_of_card_lt_card hlt
   have h1 : ((z : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) k k = 1 := by
-    rw [(mem_coordBlockSU_iff.mp hzJ) k k (Or.inl hk), if_pos rfl]
+    rw [(mem_coordBlockSU_iff.mp hzJ) k k (Or.inl hk), ite_eq_left rfl]
   have h2 := scalar_eq_one_of_apply_eq_one hu h1
   exact Subtype.ext (Units.ext h2)
 

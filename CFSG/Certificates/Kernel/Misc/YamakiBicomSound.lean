@@ -140,7 +140,7 @@ theorem bicomMat_listSum (l : List (Fin 2 → Fin 3 ⊕ Fin 3 → ZMod 2)) :
 theorem decomp (y : Fin 2 → Fin 3 ⊕ Fin 3 → ZMod 2) :
     y = (bcIdx.map fun p => Pi.single p.1 (Pi.single p.2 (y p.1 p.2))).sum := by
   funext k a
-  fin_cases k <;> rcases a with a | a <;> fin_cases a <;> simp [bcIdx, Pi.single_apply]
+  fin_cases k <;> rcases a with a | a <;> fin_cases a <;> simp [bcIdx]
 
 theorem term_eq (k : Fin 2) (a : Fin 3 ⊕ Fin 3) (c : ZMod 2) :
     bicomMat (Pi.single k (Pi.single a c)) =

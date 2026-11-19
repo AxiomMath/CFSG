@@ -84,7 +84,7 @@ theorem exists_coreData_of_isFactor148 [Finite G] [Finite V]
     fun i j hij h hh => (hdata i).1 h fun x hx => hD.2.1 j i (Ne.symm hij) h hh x hx,
     fun k hk => ((hdata k).2.2.2.2 (hnc k hk)).1, fun k hk => ((hdata k).2.2.2.2 (hnc k hk)).2.1,
     fun k hk => ((hdata k).2.2.2.2 (hnc k hk)).2.2, fun i => rfl⟩
-  haveI : (Hs k).Normal := TauCeti.normal_of_commute_of_sup_eq_top
+  have : (Hs k).Normal := TauCeti.normal_of_commute_of_sup_eq_top
     (fun c hc x hx => Subgroup.mem_centralizer_iff.1 hx c hc) (hHC k)
   infer_instance
 

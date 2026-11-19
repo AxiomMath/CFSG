@@ -115,7 +115,7 @@ theorem sixA_disjoint (h : IsF5Type a z) (hx : x ∈ orb6A a a) (hnc : ¬ IsConj
   · exact sixA_disjoint_lt h hx hnc hij
   · exact (sixA_disjoint_lt h hx hnc hij).symm
 
-theorem sixA_conj_mem (h : IsF5Type a z) (hx : x ∈ orb6A a a) (i : Fin 5) {k c : G}
+theorem sixA_conj_mem (_h : IsF5Type a z) (_hx : x ∈ orb6A a a) (i : Fin 5) {k c : G}
     (hk : k ∈ Gxy a x) (hc : c ∈ sixASet a z x i) : k * c * k⁻¹ ∈ sixASet a z x i := by
   obtain ⟨hka, hkx⟩ := mem_Gxy.mp hk
   have hkac : k * a * k⁻¹ = a := sixA_conj_fix hka

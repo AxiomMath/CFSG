@@ -15,13 +15,13 @@ theorem isSylowOf_of_fusionIsSylowIn [Finite G] {p : ℕ} [Fact p.Prime] {P K : 
     (h : fusionIsSylowIn p P K) : IsSylowOf p P K := by
   obtain ⟨hPK, hPp, hmax⟩ := h
   obtain ⟨T, hT⟩ := (hPp.comap_of_injective K.subtype K.subtype_injective).exists_le_sylow
-  exact ⟨T, hmax _ (Subgroup.map_subtype_le _) (T.isPGroup'.map K.subtype)
+  exact ⟨T, hmax _ (Subgroup.map_subtype_le _) (T.isPGroup.map K.subtype)
     fun x hx => ⟨⟨x, hPK hx⟩, hT hx, rfl⟩⟩
 
 theorem fusionIsSylowIn_of_isSylowOf {p : ℕ} {P K : Subgroup G} (h : IsSylowOf p P K) :
     fusionIsSylowIn p P K := by
   obtain ⟨Q, rfl⟩ := h
-  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, fun R hRK hR hQR => ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, fun R hRK hR hQR => ?_⟩
   have hQR' : (Q : Subgroup K) ≤ R.subgroupOf K := fun x hx => hQR ⟨x, hx, rfl⟩
   rw [← Q.maximal_isPGroup.eq_of_ge (hR.comap_of_injective K.subtype K.subtype_injective) hQR']
   exact ((Subgroup.subgroupOf_map_subtype R K).trans (inf_eq_left.mpr hRK)).symm

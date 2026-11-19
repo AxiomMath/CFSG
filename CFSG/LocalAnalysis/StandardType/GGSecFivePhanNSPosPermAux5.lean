@@ -121,7 +121,7 @@ theorem ggNSPosPA_exists_zeta {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : 
     {K : Type} [Field K] [Finite K] [CharP K 2] {f n : ℕ} {ψ : Su K 2 f n →* G}
     (h : GGNSLocalHyp p B Bs K f n ψ) :
     ∃ ζ : Kˣ, orderOf ζ = p ∧ ζ ^ (2 ^ f + 1) = 1 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hpK : p ∣ Nat.card Kˣ := by
     rw [Nat.card_units, h.card]
     have e : (2 ^ f) ^ 2 - 1 = (2 ^ f + 1) * (2 ^ f - 1) := by

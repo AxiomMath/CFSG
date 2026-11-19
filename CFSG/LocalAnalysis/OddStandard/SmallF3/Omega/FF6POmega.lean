@@ -20,7 +20,7 @@ theorem ff6p_detSpinor_signChange_some (hQ : Q.Nondegenerate)
     (fr : PFrame Q (Option (Fin 5)) ffC) (i : Fin 5) :
     detSpinorNorm hQ (fr.signChange {some i}) =
       ((-1 : (ZMod 3)ˣ), (1 : Multiplicative (SquareClassGroup (ZMod 3)))) := by
-  haveI : Invertible (Q (fr.b (some i))) :=
+  have : Invertible (Q (fr.b (some i))) :=
     invertibleOfNonzero (by rw [fr.norm (some i)]; simp only [ffC]; decide)
   rw [ffOutFF6POmega_signChange_single_eq_reflection fr (some i),
     detSpinorNorm_reflectionOrthogonal]
@@ -32,7 +32,7 @@ theorem ff6p_detSpinor_signChange_none (hQ : Q.Nondegenerate)
     (fr : PFrame Q (Option (Fin 5)) ffC) :
     detSpinorNorm hQ (fr.signChange {none}) =
       ((-1 : (ZMod 3)ˣ), Multiplicative.ofAdd (squareClass (-1 : (ZMod 3)ˣ))) := by
-  haveI : Invertible (Q (fr.b none)) :=
+  have : Invertible (Q (fr.b none)) :=
     invertibleOfNonzero (by rw [fr.norm none]; decide)
   rw [ffOutFF6POmega_signChange_single_eq_reflection fr none, detSpinorNorm_reflectionOrthogonal]
   have hunit : unitOfInvertible (Q (fr.b none)) = (-1 : (ZMod 3)ˣ) :=
@@ -55,7 +55,7 @@ theorem ff6p_detSpinor_signChange (hQ : Q.Nondegenerate) (fr : PFrame Q (Option 
       by_cases hji : j = i
       · subst hji
         simp [Finset.mem_symmDiff, hi]
-      · simp [Finset.mem_symmDiff, Finset.mem_singleton, hji, hi]
+      · simp [Finset.mem_symmDiff, Finset.mem_singleton, hji]
     have hprod : fr.signChange (insert i K) = fr.signChange {i} * fr.signChange K := by
       rw [← hsym, ← fr.signChange_mul]
     rw [hprod, map_mul, ih]
@@ -63,7 +63,7 @@ theorem ff6p_detSpinor_signChange (hQ : Q.Nondegenerate) (fr : PFrame Q (Option 
     | none =>
       rw [ff6p_detSpinor_signChange_none hQ fr, Prod.mk_mul_mk,
         Finset.card_insert_of_notMem hi, pow_succ,
-        if_pos (Finset.mem_insert_self none K), if_neg hi, mul_one]
+        ite_eq_left (Finset.mem_insert_self none K), ite_eq_right hi, mul_one]
       refine Prod.ext ?_ ?_
       · exact mul_comm _ _
       · rfl
@@ -76,14 +76,14 @@ theorem ff6p_detSpinor_signChange (hQ : Q.Nondegenerate) (fr : PFrame Q (Option 
       refine Prod.ext ?_ ?_
       · exact mul_comm _ _
       · by_cases hK : none ∈ K
-        · rw [if_pos hK, if_pos (hmem.mpr hK), one_mul]
-        · rw [if_neg hK, if_neg (fun h => hK (hmem.mp h)), one_mul]
+        · rw [ite_eq_left hK, ite_eq_left (hmem.mpr hK), one_mul]
+        · rw [ite_eq_right hK, ite_eq_right (fun h => hK (hmem.mp h)), one_mul]
 
 theorem ff6p_detSpinor_swap (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5)) ffC)
     {i j : Fin 5} (hij : i ≠ j) :
     detSpinorNorm hQ (fr.pOrth (Equiv.swap i j)) =
       ((-1 : (ZMod 3)ˣ), Multiplicative.ofAdd (squareClass (-1 : (ZMod 3)ˣ))) := by
-  haveI : Invertible (Q (fr.b (some i) - fr.b (some j))) :=
+  have : Invertible (Q (fr.b (some i) - fr.b (some j))) :=
     invertibleOfNonzero (by rw [ffOutFF6POmega_Q_sub fr hij]; exact neg_ne_zero.mpr one_ne_zero)
   rw [ffOutFF6POmega_swap_eq_reflection fr hij, detSpinorNorm_reflectionOrthogonal]
   have hunit : unitOfInvertible (Q (fr.b (some i) - fr.b (some j))) = (-1 : (ZMod 3)ˣ) :=
@@ -103,14 +103,14 @@ theorem ff6p_detSpinor_pOrth (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 
     rw [fr.pOrth_mul, map_mul, ff6p_detSpinor_swap hQ fr hab, Equiv.Perm.sign_mul,
       Equiv.Perm.sign_swap hab]
     by_cases hs : Equiv.Perm.sign τ = 1
-    · rw [ih, hs, if_pos rfl,
-        if_neg (by decide : (-1 : ℤˣ) * (1 : ℤˣ) ≠ 1), mul_one]
+    · rw [ih, hs, ite_eq_left rfl,
+        ite_eq_right (by decide : (-1 : ℤˣ) * (1 : ℤˣ) ≠ 1), mul_one]
     · have hs' : Equiv.Perm.sign τ = -1 := by
         rcases Int.units_eq_one_or (Equiv.Perm.sign τ) with h | h
         · exact absurd h hs
         · exact h
-      rw [ih, hs', if_neg (by decide : (-1 : ℤˣ) ≠ 1),
-        if_pos (by decide : (-1 : ℤˣ) * (-1) = 1), ffOutFF6POmega_prod_mul_self]
+      rw [ih, hs', ite_eq_right (by decide : (-1 : ℤˣ) ≠ 1),
+        ite_eq_left (by decide : (-1 : ℤˣ) * (-1) = 1), ffOutFF6POmega_prod_mul_self]
 
 theorem ff6p_mem_omega_iff (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5)) ffC)
     (σ : Equiv.Perm (Fin 5)) (K : Finset (Option (Fin 5))) :
@@ -125,15 +125,15 @@ theorem ff6p_mem_omega_iff (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5)
     exact fun h => aux_squareClass_neg_one_ne_zero (Multiplicative.ofAdd.injective h)
   have hsq : s * s = 1 := (Prod.ext_iff.mp (ffOutFF6POmega_prod_mul_self ((1 : (ZMod 3)ˣ), s))).2
   rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with hs | hs
-  · rw [if_pos hs, hs, one_mul]
+  · rw [ite_eq_left hs, hs, one_mul]
     by_cases hn : none ∈ K
-    · rw [if_pos hn]
+    · rw [ite_eq_left hn]
       constructor
       · intro h
         exact absurd (Prod.ext_iff.mp h).2 hs1
       · intro h
         exact absurd (h.1.mp hn) (by decide)
-    · rw [if_neg hn, Finset.erase_eq_of_notMem hn]
+    · rw [ite_eq_right hn, Finset.erase_eq_of_notMem hn]
       constructor
       · intro h
         refine ⟨?_, ?_⟩
@@ -145,9 +145,9 @@ theorem ff6p_mem_omega_iff (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5)
         exact ⟨(neg_one_pow_eq_one_iff_even (by decide : (-1 : (ZMod 3)ˣ) ≠ 1)).mpr hEven,
           rfl⟩
   · have hsne : Equiv.Perm.sign σ ≠ 1 := by rw [hs]; decide
-    rw [if_neg hsne, hs]
+    rw [ite_eq_right hsne, hs]
     by_cases hn : none ∈ K
-    · rw [if_pos hn]
+    · rw [ite_eq_left hn]
       constructor
       · intro h
         refine ⟨?_, ?_⟩
@@ -161,7 +161,7 @@ theorem ff6p_mem_omega_iff (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5)
         show (-1 : (ZMod 3)ˣ) * (-1) ^ K.card = 1
         rw [← Finset.card_erase_add_one hn, ffOutFF6POmega_neg_one_mul_pow_succ]
         exact (neg_one_pow_eq_one_iff_even (by decide : (-1 : (ZMod 3)ˣ) ≠ 1)).mpr hEven
-    · rw [if_neg hn]
+    · rw [ite_eq_right hn]
       constructor
       · intro h
         exact absurd (by simpa using (Prod.ext_iff.mp h).2) hs1
@@ -177,25 +177,28 @@ theorem ffHat_mem_omega (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5)) f
   rw [ffHat, ff6p_mem_omega_iff hQ fr σ, ffOutFF6POmega_eps_erase σ]
   constructor
   · by_cases hs : Equiv.Perm.sign σ = 1
-    · rw [if_pos hs, hs]
+    · rw [ite_eq_left hs, hs]
       exact iff_of_false (Finset.notMem_empty none) (by decide)
     · have hs' : Equiv.Perm.sign σ = -1 := by
         rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with h | h
         · exact absurd h hs
         · exact h
-      rw [if_neg hs, hs']
+      rw [ite_eq_right hs, hs']
       exact iff_of_true (Finset.mem_singleton_self none) rfl
   · simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffHat_mul (fr : PFrame Q (Option (Fin 5)) ffC) (σ τ : Equiv.Perm (Fin 5)) :
     ffHat fr σ * ffHat fr τ = ffHat fr (σ * τ) := by
   rw [ffHat, ffHat, ffHat, ffMonoP_mul fr σ τ, ffOutFF6POmega_eps_map σ τ⁻¹, mul_left_cancel_iff,
     fr.signChange_injective.eq_iff]
   exact ffOutFF6POmega_symmDiff_eps σ τ
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffHat_one (fr : PFrame Q (Option (Fin 5)) ffC) : ffHat fr 1 = 1 := by
-  rw [ffHat, fr.pOrth_one, Equiv.Perm.sign_one, if_pos rfl, fr.signChange_empty, one_mul]
+  rw [ffHat, fr.pOrth_one, Equiv.Perm.sign_one, ite_eq_left rfl, fr.signChange_empty, one_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffHat_conj_signChange (fr : PFrame Q (Option (Fin 5)) ffC) (σ : Equiv.Perm (Fin 5))
     (K : Finset (Option (Fin 5))) :
     ffHat fr σ * fr.signChange K * (ffHat fr σ)⁻¹ =

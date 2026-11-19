@@ -131,7 +131,7 @@ private theorem exists_not_mem_centralizer_pCore {H : Type} [Group H] [Finite H]
     hcent (htop_le_cent (Subgroup.mem_top x))
   have hQHtop : CFSG.pCore 2 H = ⊤ := le_antisymm le_top htop_le_QH
   have hquotcard1 : Nat.card (H ⧸ CFSG.pCore 2 H) = 1 := by
-    haveI : Subsingleton (H ⧸ ⊤) := QuotientGroup.subsingleton_quotient_top
+    have : Subsingleton (H ⧸ ⊤) := QuotientGroup.subsingleton_quotient_top
     rw [hQHtop]
     exact Nat.card_of_subsingleton (1 : H ⧸ ⊤)
   have hqcard := CFSG.Quasithin.IsL2Quot.card hn hquot
@@ -167,12 +167,12 @@ private theorem shortU_eq_pCore {H : Type} [Group H] [Finite H]
     rw [hbot] at hmem
     exact commutatorElement_eq_one_iff_mul_comm.mp (Subgroup.mem_bot.mp hmem)
   have hcomm_le : (⁅QH, (⊤ : Subgroup H)⁆ : Subgroup H) ≤ QH := by
-    haveI : QH.Normal := CFSG.pCore_normal
-    haveI : (⊤ : Subgroup H).Normal := inferInstance
+    have : QH.Normal := CFSG.pCore_normal
+    have : (⊤ : Subgroup H).Normal := inferInstance
     exact (Subgroup.commutator_le_inf QH (⊤ : Subgroup H)).trans inf_le_left
   have hcomm_norm : (⁅QH, (⊤ : Subgroup H)⁆ : Subgroup H).Normal := by
-    haveI : QH.Normal := CFSG.pCore_normal
-    haveI : (⊤ : Subgroup H).Normal := inferInstance
+    have : QH.Normal := CFSG.pCore_normal
+    have : (⊤ : Subgroup H).Normal := inferInstance
     exact Subgroup.commutator_normal QH ⊤
   have hcases := hirr _ hcomm_le
     (by rw [Subgroup.normalizer_eq_top_iff.mpr hcomm_norm])
@@ -189,8 +189,8 @@ private theorem shortC_eq_bot {H : Type} [Group H] [Finite H]
   classical
   let QH : Subgroup H := CFSG.pCore 2 H
   have hZ_norm : (QH ⊓ Subgroup.center H).Normal := by
-    haveI : QH.Normal := CFSG.pCore_normal
-    haveI : (Subgroup.center H).Normal := inferInstance
+    have : QH.Normal := CFSG.pCore_normal
+    have : (Subgroup.center H).Normal := inferInstance
     exact inferInstance
   have hcases := hirr _ inf_le_left
     (by rw [Subgroup.normalizer_eq_top_iff.mpr hZ_norm])
@@ -258,14 +258,14 @@ private theorem card_SL_eq_card_quotient {H : Type} [Group H] {n : ℕ}
   exact (Nat.card_congr eL.toEquiv).symm
 
 private theorem ker_eq_pCore_of_surjective {H : Type} [Group H] [Finite H] {n : ℕ}
-    (hn : 1 ≤ n)
+    (_hn : 1 ≤ n)
     {ψ : H →* Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n)}
     (hψ : Function.Surjective ψ) (hquot : IsL2Quot n (oTwoQuot H))
     (hQHcard : Nat.card ↥(CFSG.pCore 2 H) = 2 ^ (2 * n)) :
     ψ.ker = CFSG.pCore 2 H := by
   classical
   let F := GaloisField 2 n
-  letI : Fintype F := Fintype.ofFinite _
+  let : Fintype F := Fintype.ofFinite _
   have h1 : Nat.card ↥ψ.ker * Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) =
       Nat.card H := Subgroup.card_ker_mul_card_of_surjective hψ
   have h2 : Nat.card H = Nat.card (H ⧸ CFSG.pCore 2 H) * Nat.card ↥(CFSG.pCore 2 H) :=
@@ -279,7 +279,7 @@ private theorem ker_eq_pCore_of_surjective {H : Type} [Group H] [Finite H] {n : 
     ring
   have hker_card : Nat.card ↥ψ.ker = 2 ^ (2 * n) := by
     rw [Nat.eq_of_mul_eq_mul_right hSLpos hmul, hQHcard]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : ψ.ker ≤ CFSG.pCore 2 H := by
     have hp : IsPGroup 2 ↥ψ.ker := IsPGroup.of_card (n := 2 * n) hker_card
     refine fun x hx => le_sSup (show ψ.ker ∈
@@ -311,11 +311,11 @@ private theorem sylow_image_mul_index {H : Type} [Group H] [Finite H] {n : ℕ} 
     {ψ : H →* Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n)}
     (hψ : Function.Surjective ψ) (hψker : ψ.ker = CFSG.pCore 2 H)
     (hquot : IsL2Quot n (oTwoQuot H))
-    (hQHcard : Nat.card ↥(CFSG.pCore 2 H) = 2 ^ (2 * n)) :
+    (_hQHcard : Nat.card ↥(CFSG.pCore 2 H) = 2 ^ (2 * n)) :
     Nat.card ↥(S.map ψ) * S.index = 2 ^ n * (4 ^ n - 1) := by
   classical
   let F := GaloisField 2 n
-  letI : Fintype F := Fintype.ofFinite _
+  let : Fintype F := Fintype.ofFinite _
   have hQHleS : CFSG.pCore 2 H ≤ S := by
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have := CFSG.pCore_normal (p := 2) (G := H)
@@ -707,9 +707,9 @@ private theorem isNaturalSLTwoModule_of_local_data {H : Type} [Group H] [Finite 
     CFSG.RankThree.PartOne.IsNaturalSLTwoModule H n := by
   classical
   obtain ⟨W, hWadd, hWmod, hWfin, ⟨s⟩⟩ := exists_secRep hsec
-  letI : AddCommGroup W := hWadd
-  letI : Module (ZMod 2) W := hWmod
-  letI : Finite W := hWfin
+  let : AddCommGroup W := hWadd
+  let : Module (ZMod 2) W := hWmod
+  let : Finite W := hWfin
   have hcls_inj : Function.Injective s.cl := secRep_cls_injective s
   obtain ⟨l', v0, hfix⟩ := exists_nontrivial_secRep_action s hcls_inj hnc
   have hkerP : CFSG.pCore 2 ↥(⊤ : Subgroup H) ≤ s.ρ.ker :=
@@ -722,10 +722,10 @@ private theorem isNaturalSLTwoModule_of_local_data {H : Type} [Group H] [Finite 
   obtain ⟨ρ, hρirr, hρnt, ψ, hψsurj, hψeq⟩ :=
     exists_irreducible_SL2_rep hquotTop hsec hchief s hkerP l' v0 hfix
   let F := GaloisField 2 n
-  letI : Fintype F := Fintype.ofFinite _
-  haveI : CharP F 2 := inferInstance
+  let : Fintype F := Fintype.ofFinite _
+  have : CharP F 2 := inferInstance
   have hFcard : Fintype.card F = 2 ^ n := by
-    rw [Fintype.card_eq_nat_card, GaloisField.card] <;> omega
+    rw [Fintype.card_eq_nat_card, GaloisField.card]; omega
   let ψH : H →* Matrix.SpecialLinearGroup (Fin 2) F :=
     ψ.comp (Subgroup.topEquiv (G := H)).symm.toMonoidHom
   have hψHsurj : Function.Surjective ψH :=
@@ -745,7 +745,7 @@ private theorem isNaturalSLTwoModule_of_local_data {H : Type} [Group H] [Finite 
   have hIn : Nat.card W < Nat.card (fixedSub ρ (S.map ψH)) ^ 4 :=
     card_lt_fixedSub_pow_four ρ (S.map ψH) hn (card_of_secRep s hcls_inj hQHcard)
       (fixedSub_card_ge s hcls_inj ρ hψHeq hC')
-  haveI : Fact ρ.IsIrreducible := ⟨hρirr⟩
+  have : Fact ρ.IsIrreducible := ⟨hρirr⟩
   obtain ⟨φT, hφT⟩ := CFSG.RankThree.GF2n.Tim81.Sec2.isNaturalModule_of_card_lt
     (by omega : 1 ≤ n) hFcard ρ hρnt (S.map ψH) hA2 hA hIn
   exact isNaturalSLTwoModule_of_data s φT hshortU hshortC hψHeq hφT φ hφmk

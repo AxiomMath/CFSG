@@ -22,7 +22,7 @@ theorem three_ne_zero_of_charP {K : Type} [Field K] (p : ℕ) [hp : Fact p.Prime
 theorem no_cube_root_of_not_dvd_units {K : Type} [Field K] [Finite K] (h3 : (3 : K) ≠ 0)
     (hK : ¬ 3 ∣ Nat.card Kˣ) : ∀ c : K, c ^ 2 + c + 1 ≠ 0 := by
   intro c hc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc0 : c ≠ 0 := by
     rintro rfl
     norm_num at hc
@@ -87,7 +87,7 @@ theorem KD264Y1ClsLin_holds : KD264Y1ClsLin := by
   obtain ⟨r, q, hd⟩ := hA
   have hd' : e = TauCeti.LieTypeIndex.A r q := hd
   subst hd'
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).mp
     ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
   have hqcard : q.card = q.p ^ q.exponent := TauCeti.PrimePower.card_def q

@@ -116,7 +116,7 @@ theorem rowOfK9_ru :
     RowOfK9 (Spor .Ru) := by
   refine rowOfK9_spor (s := .Ru) CFSG.Sporadic.Bridge.Ru.nonempty_mulEquiv ?_
   intro S _ _ hs hna ⟨e⟩
-  haveI := hs
+  have := hs
   let eP : S ≃* ruP := e.trans ruEquivP
   refine noCfgJ2_of_model eP (center_eq_bot_of_simple_nonab hna) ?_ goodJ2_ruP
   rw [Nat.card_congr (equivalence eP).toEquiv,
@@ -142,7 +142,7 @@ theorem rowOfK9_hn :
     RowOfK9 (Spor .HN) := by
   refine rowOfK9_spor (s := .HN) CFSG.Sporadic.Bridge.HN.nonempty_mulEquiv ?_
   intro S _ _ hs hna ⟨e⟩
-  haveI := hs
+  have := hs
   have hnat : ∀ x : Blueprint.NativeSporadic.HN, orderOf x = 3 →
       GoodJ2 (Subgroup.centralizer ({x} : Set Blueprint.NativeSporadic.HN)) := fun x hx =>
     @GoodJ2.of_mulEquiv_centralizer Blueprint.NativeSporadic.HN ↥JH Units.instGroup

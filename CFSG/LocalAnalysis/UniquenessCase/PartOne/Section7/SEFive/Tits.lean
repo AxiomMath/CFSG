@@ -23,7 +23,7 @@ open CFSG.ComponentClassification.CoprimeAutomorphisms (eq_one_of_fixed_displace
 
 theorem FixedFreeFive.of_torusLocal {L : Type*} [Group L] [Finite L] {R : Subgroup L}
     (hT : TorusLocal 5 R) : FixedFreeFive 5 L := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hcard, -, -, -, t, htN, m, lam, -, hm, hlam, -, hpow, -, hline⟩ := hT
   have hexp : ∀ x ∈ R, x ^ 5 = 1 :=
     pow_eq_one_of_torus Nat.prime_five hcard htN fun Y₀ hY₀ hY₀c => by
@@ -35,7 +35,7 @@ theorem FixedFreeFive.of_torusLocal {L : Type*} [Group L] [Finite L] {R : Subgro
     norm_num at hcard
   have hRcomm : ∀ a ∈ R, ∀ b ∈ R, a * b = b * a := by
     intro a ha b hb
-    exact congrArg Subtype.val (IsPGroup.commutative_of_card_eq_prime_sq hcard ⟨a, ha⟩ ⟨b, hb⟩)
+    exact congrArg Subtype.val ((IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hord5 : ∀ s ∈ R, s ≠ 1 → orderOf s = 5 := by
     intro s hs hs1
     have h5 : orderOf s ∣ 5 := orderOf_dvd_iff_pow_eq_one.2 (hexp s hs)
@@ -102,7 +102,7 @@ theorem FixedFreeFive.of_torusLocal {L : Type*} [Group L] [Finite L] {R : Subgro
     rcases hq12 with hq1 | hq2
     · rw [hq1, pow_one] at hz
       rw [hz] at hlam
-      simpa using hlam
+      simp at hlam
     · rw [hq2] at hz
       have hdvd : orderOf ((lam : ZMod 5)) ∣ 2 := (orderOf_dvd_iff_pow_eq_one).2 hz
       rw [hlam] at hdvd
@@ -118,7 +118,7 @@ theorem FixedFreeFive.of_torusLocal {L : Type*} [Group L] [Finite L] {R : Subgro
       exact ⟨((lam ^ q : ℕ) : ℤ), by rw [zpow_natCast]; exact hy_eq⟩
     have hy_mem : y ∈ Subgroup.zpowers s := by
       let Y : Subgroup L := Subgroup.zpowers y
-      haveI : IsCyclic Y := Subgroup.isCyclic_zpowers y
+      have : IsCyclic Y := Subgroup.isCyclic_zpowers y
       let sY : Y := ⟨s, hs_mem⟩
       have hYcard : Nat.card Y = 5 := by rw [Nat.card_zpowers, hyord5]
       have hsYcard : Nat.card (Subgroup.zpowers sY) = 5 := by
@@ -142,7 +142,7 @@ theorem FixedFreeFive.of_torusLocal {L : Type*} [Group L] [Finite L] {R : Subgro
       obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.mp hn
       rw [← hj]
       have hconjz : t ^ r * s ^ j * (t ^ r)⁻¹ = y ^ j := by
-        simpa [y, MulAut.conj_apply] using map_zpow (MulAut.conj (t ^ r)).toMonoidHom s j
+        simp [y]
       rw [hconjz]
       exact Subgroup.zpow_mem (Subgroup.zpowers s) hy_mem j
     exact (hline r hr hrlt (Subgroup.zpowers s) (Subgroup.zpowers_le.2 hs)
@@ -175,13 +175,13 @@ theorem good_tits
     (hL : CFSG.AGLEmbedding.IsTitsGroup ↥(CFSG.generalizedFitting X)) :
     Good 5 N := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let K : Subgroup X := CFSG.generalizedFitting X
   obtain ⟨hKsimple, hKnab, hKnormal, hKc⟩ :
       IsSimpleGroup ↥K ∧ (∃ a b : ↥K, a * b ≠ b * a) ∧ K.Normal ∧
         Subgroup.centralizer (K : Set X) = ⊥ :=
     CFSG.RankThree.PartOne.Sec1511.spe_fstar (p := 5) (by norm_num) hO hN
-  haveI : K.Normal := hKnormal
+  have : K.Normal := hKnormal
   obtain ⟨eD⟩ := CFSG.AGLEmbedding.KFactProofs.SmallIdent.nonempty_equiv_tits hL
   obtain ⟨P, hPsyl, hPN⟩ := hN.exists_isSylowOf_le
   have hPindex : ¬ 5 ∣ P.index := by
@@ -196,7 +196,7 @@ theorem good_tits
   have hTpow : ∀ x ∈ (R : Subgroup X), x ^ 5 = 1 :=
     pow_eq_one_of_torus Nat.prime_five hRcard htN fun Y₀ hY₀ hY₀c => by
       simpa using hline 1 one_pos (by omega) Y₀ hY₀ hY₀c
-  have hRpg : IsPGroup 5 (R : Subgroup X) := R.isPGroup'
+  have hRpg : IsPGroup 5 (R : Subgroup X) := R.isPGroup
   have hRne : (R : Subgroup X) ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hRcard
@@ -214,7 +214,7 @@ theorem good_tits
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRN).mpr (le_of_eq hN_eq)
   let PN : Sylow 5 ↥N := R.subtype hRN
   have hPNcoe : (PN : Subgroup ↥N) = R.subgroupOf N := Sylow.coe_subtype R hRN
-  haveI : (PN : Subgroup ↥N).Normal := by rw [hPNcoe]; exact hRsubN_normal
+  have : (PN : Subgroup ↥N).Normal := by rw [hPNcoe]; exact hRsubN_normal
   have hx5N : IsPGroup 5 (Subgroup.zpowers (⟨x, hxN⟩ : ↥N)) := by
     obtain ⟨k, hk⟩ := hx5.exists_card_eq
     refine IsPGroup.of_card (n := k) ?_
@@ -224,7 +224,7 @@ theorem good_tits
       _ = Nat.card (Subgroup.zpowers x) := (Nat.card_zpowers x).symm
       _ = 5 ^ k := hk
   obtain ⟨Q, hxQ⟩ := hx5N.exists_le_sylow
-  haveI : Unique (Sylow 5 ↥N) := Sylow.unique_of_normal PN (by rwa [hPNcoe])
+  have : Unique (Sylow 5 ↥N) := Sylow.unique_of_normal PN (by rwa [hPNcoe])
   have hQeq : Q = PN := Subsingleton.elim Q PN
   have hxPN : (⟨x, hxN⟩ : ↥N) ∈ (PN : Subgroup ↥N) := by
     rw [← hQeq]
@@ -250,10 +250,10 @@ theorem good_tits
   let D : Subgroup ↥(R : Subgroup X) := Subgroup.zpowers xR
   have hDcard : Nat.card D = 5 := by
     rw [show D = Subgroup.zpowers xR from rfl, Nat.card_zpowers, hxR5]
-  haveI : IsMulCommutative ↥(R : Subgroup X) :=
+  have : IsMulCommutative ↥(R : Subgroup X) :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq hRcard
-  have hDnormal : D.Normal := Subgroup.normal_of_comm D
-  haveI : D.Normal := hDnormal
+  have hDnormal : D.Normal := Subgroup.normal_of_isMulCommutative D
+  have : D.Normal := hDnormal
   let α : MulAut ↥(R : Subgroup X) :=
     Subgroup.normalizerMonoidHom (R : Subgroup X) ⟨y, hyNorm⟩
   have hαx : α xR = xR := by

@@ -56,7 +56,7 @@ theorem clConfig_of_ctx2 {T Mc M V₁ V₂ Yp I L : Subgroup G} {t : G} (h113 : 
   have hker : π.ker = Z := QuotientGroup.ker_mk' Z
   set T' : Subgroup (↥L ⧸ Z) := (Tsyl : Subgroup (↥L ⧸ Z)) with hTdef
   have hTsyl : IsSylowTwoOf T' ⊤ :=
-    K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup', Tsyl.not_dvd_index⟩
+    K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup, Tsyl.not_dvd_index⟩
   have hPL : Q ≤ L := hQ.1
   have hVL : V₂ ≤ L := hV2L
   set Vbar : Subgroup (↥L ⧸ Z) := (V₂.subgroupOf L).map π with hVbar

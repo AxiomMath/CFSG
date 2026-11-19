@@ -21,8 +21,8 @@ private theorem redStep_eq (v p : ℕ) :
     redStep v p = v ^^^ (if v ≤ v ^^^ p then 0 else p) := by
   rw [redStep]
   by_cases h : v ≤ v ^^^ p
-  · rw [if_pos h, Nat.xor_zero, min_eq_left h]
-  · rw [if_neg h, min_eq_right (le_of_lt (not_le.mp h))]
+  · rw [ite_eq_left h, Nat.xor_zero, min_eq_left h]
+  · rw [ite_eq_right h, min_eq_right (le_of_lt (not_le.mp h))]
 
 private theorem exists_reduceBy_xor : ∀ (bs : List ℕ) (v : ℕ),
     ∃ c ∈ combos bs, reduceBy bs v = v ^^^ c := by
@@ -37,9 +37,9 @@ private theorem exists_reduceBy_xor : ∀ (bs : List ℕ) (v : ℕ),
     refine ⟨(if v ≤ v ^^^ b then 0 else b) ^^^ c, ?_, ?_⟩
     · refine xor_mem_combos (b :: bs) ?_ ?_
       · by_cases h : v ≤ v ^^^ b
-        · rw [if_pos h]
+        · rw [ite_eq_left h]
           exact zero_mem_combos (b :: bs)
-        · rw [if_neg h]
+        · rw [ite_eq_right h]
           exact mem_combos_of_mem List.mem_cons_self
       · rw [combos]
         exact List.mem_append_left _ hc
@@ -48,10 +48,10 @@ private theorem exists_reduceBy_xor : ∀ (bs : List ℕ) (v : ℕ),
       rw [show List.foldl redStep (redStep v b) bs = redStep v b ^^^ c from hcv]
       rw [redStep_eq, Nat.xor_assoc]
 
-private theorem mem_combos_of_subset {L bs : List ℕ} (h : ∀ b ∈ bs, b ∈ combos L) :
+private theorem mem_combos_of_subset {L bs : List ℕ} (h : ∀ _b ∈ bs, _b ∈ combos L) :
     ∀ c ∈ combos bs, c ∈ combos L :=
   mem_of_combos (fun x => x ∈ combos L) (zero_mem_combos L)
-    (fun a b ha hb => xor_mem_combos L ha hb) bs h
+    (fun _a _b ha hb => xor_mem_combos L ha hb) bs h
 
 private theorem mem_combos_reduceBy_iff {L bs : List ℕ} (h : ∀ b ∈ bs, b ∈ combos L) (v : ℕ) :
     reduceBy bs v ∈ combos L ↔ v ∈ combos L := by
@@ -107,9 +107,9 @@ private theorem echelon_fold_subset :
     have hbs1 : ∀ b ∈ echStep bs0 v, b ∈ combos (p ++ [v]) := by
       intro b hb
       by_cases h : reduceBy bs0 v = 0
-      · rw [echStep, if_pos h] at hb
+      · rw [echStep, ite_eq_left h] at hb
         exact hbs0' b hb
-      · rw [echStep, if_neg h] at hb
+      · rw [echStep, ite_eq_right h] at hb
         rcases List.mem_append.1 hb with hb | hb
         · exact hbs0' b hb
         · rw [List.mem_singleton] at hb

@@ -48,7 +48,8 @@ section Stabilizer
 
 variable {p : ℕ} {T : Type} [Group T] [Finite T]
 
-theorem cent_of_stabilizer (hp : p.Prime) {α : MulAut T} (hα : orderOf α = p) {M : Subgroup T}
+omit [Finite T] in
+theorem cent_of_stabilizer (_hp : p.Prime) {α : MulAut T} (hα : orderOf α = p) {M : Subgroup T}
     (hle : M ≤ fixSubgroup α)
     (hstab : ∀ w : MulAut T, w * α = α * w → (∀ x ∈ M, w x = x) → w ∈ Subgroup.zpowers α) :
     ∀ w : MulAut T, Nat.Coprime p (orderOf w) → w * α = α * w →

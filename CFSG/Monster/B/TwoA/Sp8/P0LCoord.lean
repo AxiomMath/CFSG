@@ -30,7 +30,7 @@ open scoped commutatorElement
 theorem tVec_tD (τ : ℕ) : tVec (tD τ) = bvec 9 τ := by
   have ht : tD τ ∈ T9 := tD_mem_T9 τ
   unfold tVec
-  rw [dif_pos ht]
+  rw [dite_eq_left ht]
   have h : tEquiv.symm ⟨tD τ, ht⟩ = Multiplicative.ofAdd (bvec 9 τ) := by
     apply tEquiv.injective
     rw [MulEquiv.apply_symm_apply]
@@ -44,7 +44,7 @@ theorem tVec_mul {t t' : Dfull} (ht : t ∈ T9) (ht' : t' ∈ T9) :
   have hmem : t * t' ∈ T9 := T9.mul_mem ht ht'
   have hprod : (⟨t * t', hmem⟩ : T9) = ⟨t, ht⟩ * ⟨t', ht'⟩ := rfl
   unfold tVec
-  rw [dif_pos hmem, dif_pos ht, dif_pos ht']
+  rw [dite_eq_left hmem, dite_eq_left ht, dite_eq_left ht']
   have h : tEquiv.symm ⟨t * t', hmem⟩ =
       tEquiv.symm ⟨t, ht⟩ * tEquiv.symm ⟨t', ht'⟩ := by
     rw [← map_mul, hprod]
@@ -55,7 +55,7 @@ theorem eq_of_tVec_eq {t t' : Dfull} (ht : t ∈ T9) (ht' : t' ∈ T9) (h : tVec
   have key : ∀ {u : Dfull} (hu : u ∈ T9), (tEquiv (Multiplicative.ofAdd (tVec u)) : Dfull) = u := by
     intro u hu
     unfold tVec
-    rw [dif_pos hu, ofAdd_toAdd, MulEquiv.apply_symm_apply]
+    rw [dite_eq_left hu, ofAdd_toAdd, MulEquiv.apply_symm_apply]
   calc t = (tEquiv (Multiplicative.ofAdd (tVec t)) : Dfull) := (key ht).symm
     _ = (tEquiv (Multiplicative.ofAdd (tVec t')) : Dfull) := by rw [h]
     _ = t' := key ht'
@@ -65,7 +65,7 @@ private theorem T9_mul_comm {a b : Dfull} (ha : a ∈ T9) (hb : b ∈ T9) : a * 
 
 private theorem tVec_one : tVec (1 : Dfull) = 0 := by
   unfold tVec
-  rw [dif_pos T9.one_mem]
+  rw [dite_eq_left T9.one_mem]
   have h : (⟨(1 : Dfull), T9.one_mem⟩ : T9) = 1 := rfl
   rw [h, map_one, toAdd_one]
 
@@ -86,7 +86,7 @@ private theorem tOf_comm (v w : Fin 9 → ZMod 2) : tOf v * tOf w = tOf w * tOf 
 
 private theorem tVec_tOf (v : Fin 9 → ZMod 2) : tVec (tOf v) = v := by
   unfold tVec
-  rw [dif_pos (tOf_mem_T9 v)]
+  rw [dite_eq_left (tOf_mem_T9 v)]
   have h : (⟨tOf v, tOf_mem_T9 v⟩ : T9) = tEquiv (Multiplicative.ofAdd v) := rfl
   rw [h, MulEquiv.symm_apply_apply, toAdd_ofAdd]
 
@@ -127,7 +127,7 @@ private theorem lD_eq_prod_range (n : ℕ) (hn : n ≤ 16) {σ : ℕ} (hσ : σ 
       (fun j => if σ.testBit j then lD (2 ^ j) else 1)).prod = 1 := by
     refine List.prod_eq_one fun x hx => ?_
     obtain ⟨j, hj, rfl⟩ := List.mem_map.1 hx
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hbit
     have hnle : n ≤ j := by
       have := List.mem_range'.1 hj
@@ -237,9 +237,9 @@ private theorem mkQ_lq_mem (σ : ℕ) : mkQ (lq σ) ∈ Subgroup.closure genSet 
   refine Subgroup.list_prod_mem (Subgroup.closure genSet) fun x hx => ?_
   obtain ⟨j, hj, rfl⟩ := List.mem_map.1 hx
   by_cases h : σ.testBit j
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact Subgroup.subset_closure ⟨j, List.mem_range.1 hj, rfl⟩
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact Subgroup.one_mem _
 
 private theorem wordD_coGens_single_mem (i : ℕ) (hi : i < 9) :
@@ -302,7 +302,7 @@ private theorem mkQ_wordD_subWord_mem (gs : List (List ℕ)) (m : ℕ)
     intro i hi
     have hig : i < gs.length := List.mem_range.1 (List.mem_filter.1 hi).1
     dsimp [f]
-    rw [dif_pos hig]
+    rw [dite_eq_left hig]
   have hEq : mkQ ⟨wordD (subWord gs m), hsub⟩ =
       (l.map (fun i => mkQ (f i))).prod := by
     rw [heq, map_list_prod, List.map_map]
@@ -312,7 +312,7 @@ private theorem mkQ_wordD_subWord_mem (gs : List (List ℕ)) (m : ℕ)
   obtain ⟨i, hi, rfl⟩ := List.mem_map.1 hy
   have hig : i < gs.length := List.mem_range.1 (List.mem_filter.1 hi).1
   dsimp [f]
-  rw [dif_pos hig]
+  rw [dite_eq_left hig]
   exact hC i hig
 
 private theorem xhat_mem_T9' : xhat ∈ T9 := by
@@ -617,7 +617,7 @@ private theorem lD_eq_one_of_bvec_zero {σ : ℕ} (h : bvec 16 σ = 0) : lD σ =
     cases hbit : σ.testBit j
     · rfl
     · exfalso
-      rw [if_pos hbit] at h1
+      rw [ite_eq_left hbit] at h1
       exact one_ne_zero h1
   simp [hb]
 
@@ -906,9 +906,9 @@ private theorem inner_sum_lD (i : ℕ) (hi : i < 16) (σ' : ℕ) :
   intro j hj
   have hj16 : j < 16 := Finset.mem_range.1 hj
   by_cases h : σ'.testBit j
-  · simp only [Function.comp_apply, h, if_true]
+  · simp only [Function.comp_apply, h, ite_true]
     rw [comm_gen hi hj16, tVec_tD]
-  · simp only [Function.comp_apply, if_neg h]
+  · simp only [Function.comp_apply, ite_eq_right h]
     rw [tVec_comm_one_right]
 
 private theorem list_sum_map_zero {α : Type*} (l : List α) :
@@ -930,9 +930,9 @@ private theorem outer_sum_lD (σ σ' : ℕ) :
   intro i hi
   have hi16 : i < 16 := Finset.mem_range.1 hi
   by_cases h : σ.testBit i
-  · simp only [h, if_true]
+  · simp only [h, ite_true]
     exact inner_sum_lD i hi16 σ'
-  · simp only [if_neg h]
+  · simp only [ite_eq_right h]
     rw [show (lDlist σ').map (fun y => tVec ⁅(1 : Dfull), y⁆) =
         (lDlist σ').map (fun _ => (0 : Fin 9 → ZMod 2)) from by
       apply List.map_congr_left
@@ -951,14 +951,14 @@ private theorem finset_double_sum_eq_lBeta (σ σ' : ℕ) :
   refine Finset.sum_congr rfl ?_
   intro i hi
   have hi16 : i < 16 := Finset.mem_range.1 hi
-  simp only [dif_pos hi16]
+  simp only [dite_eq_left hi16]
   by_cases hi : σ.testBit i
-  · simp only [hi, if_true]
+  · simp only [hi, ite_true]
     rw [Finset.sum_fin_eq_sum_range]
     refine Finset.sum_congr rfl ?_
     intro j hj
     have hj16 : j < 16 := Finset.mem_range.1 hj
-    simp only [dif_pos hj16]
+    simp only [dite_eq_left hj16]
     rw [bvec_apply, bvec_apply]
     by_cases h2 : σ'.testBit j <;> simp [hi, h2]
   · simp only [hi]
@@ -967,7 +967,7 @@ private theorem finset_double_sum_eq_lBeta (σ σ' : ℕ) :
     refine Finset.sum_eq_zero ?_
     intro j hj
     have hj16 : j < 16 := Finset.mem_range.1 hj
-    simp only [dif_pos hj16]
+    simp only [dite_eq_left hj16]
     rw [bvec_apply]
     simp [hi]
 
@@ -1100,7 +1100,7 @@ private theorem tVec_comm_prefix (σ n : ℕ) (hn : n < 16) :
     simpa using hh
   rw [tVec_list_prod hmem]
   by_cases hbit : σ.testBit n
-  · simp only [hbit, if_true]
+  · simp only [hbit, ite_true]
     have hcL : c = lD (2 ^ n) := by simp [c, hbit]
     rw [hcL]
     rw [show l = (List.range n).map
@@ -1112,11 +1112,11 @@ private theorem tVec_comm_prefix (σ n : ℕ) (hn : n < 16) :
     have hjlt : j < n := Finset.mem_range.1 hj
     have hj16 : j < 16 := lt_trans hjlt hn
     by_cases hb : σ.testBit j
-    · simp only [Function.comp_apply, hb, if_true]
+    · simp only [Function.comp_apply, hb, ite_true]
       rw [comm_gen hn hj16, tVec_tD]
-    · simp only [Function.comp_apply, if_neg hb]
+    · simp only [Function.comp_apply, ite_eq_right hb]
       rw [tVec_comm_one_right]
-  · simp only [hbit, if_false, Bool.false_eq_true]
+  · simp only [hbit, ite_false, Bool.false_eq_true]
     have hc1 : c = 1 := by simp [c, hbit]
     rw [hc1]
     rw [List.map_map]
@@ -1223,22 +1223,22 @@ private theorem lQuad_eq_qsum (σ : ℕ) :
   refine Finset.sum_congr rfl ?_
   intro j hj
   have hj16 : j < 16 := Finset.mem_range.1 hj
-  simp only [dif_pos hj16]
+  simp only [dite_eq_left hj16]
   rw [sum_fin_ite_lt ⟨j, hj16⟩ (fun i => (bvec 16 σ i * bvec 16 σ ⟨j, hj16⟩) •
     bvec 9 ((lCommN.getD j []).getD i 0))]
   by_cases hbit : σ.testBit j
-  · simp only [hbit, if_true]
+  · simp only [hbit, ite_true]
     refine Finset.sum_congr rfl ?_
     intro i hi
     have hi16 : i < 16 := lt_trans (Finset.mem_range.1 hi) hj16
-    simp only [dif_pos hi16]
+    simp only [dite_eq_left hi16]
     rw [bvec_apply, bvec_apply]
     by_cases hibit : σ.testBit i <;> simp [hbit, hibit]
   · simp only [hbit]
     refine Finset.sum_eq_zero ?_
     intro i hi
     have hi16 : i < 16 := lt_trans (Finset.mem_range.1 hi) hj16
-    simp only [dif_pos hi16]
+    simp only [dite_eq_left hi16]
     simp only [bvec_apply]
     simp [hbit]
 

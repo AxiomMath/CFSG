@@ -211,7 +211,7 @@ theorem card_E_eq (h : TransvSetup b₀ K E) :
   have hTE : (T : Subgroup ↥(Subgroup.centralizer (E : Set G))) ≤
       E.subgroupOf (Subgroup.centralizer (E : Set G)) := by
     intro t ht
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨t, ht⟩
     exact Subgroup.mem_subgroupOf.mpr (h.syl _ t.2 k (by
       have := congrArg (fun x : ↥T => ((x : ↥(Subgroup.centralizer (E : Set G))) : G)) hk
       simpa using this))
@@ -236,7 +236,7 @@ theorem exists_transvP1 (h : TransvSetup b₀ K E) :
   set βS := (transvBeta b₀ K E).comp (S : Subgroup N₁).subtype with hβS
   have hker : Nat.card βS.ker ≤ Nat.card E := by
     let f : βS.ker → E := fun x => ⟨(((x : ↥(S : Subgroup N₁)) : N₁) : G), by
-      obtain ⟨k, hk⟩ := S.isPGroup' (x : ↥(S : Subgroup N₁))
+      obtain ⟨k, hk⟩ := S.isPGroup (x : ↥(S : Subgroup N₁))
       refine h.syl _ ((h.beta_eq_one_iff _).mp x.2) k ?_
       have := congrArg (fun y : ↥(S : Subgroup N₁) => ((y : N₁) : G)) hk
       simpa using this⟩
@@ -257,7 +257,7 @@ theorem exists_transvP1 (h : TransvSetup b₀ K E) :
       omega
     exact le_antisymm (Subgroup.card_le_card_group _) h2
   refine ⟨(S : Subgroup N₁).map N₁.subtype, Subgroup.map_subtype_le _,
-    S.isPGroup'.map _, ?_, fun e he => ?_, fun β hβ => ?_⟩
+    S.isPGroup.map _, ?_, fun e he => ?_, fun β hβ => ?_⟩
   · rw [Subgroup.card_map_of_injective N₁.subtype_injective, Sylow.card_eq_multiplicity]
   · exact ⟨⟨e, h.le_transvN1 he⟩, hES (Subgroup.mem_subgroupOf.mpr he), rfl⟩
   · obtain ⟨x, hx⟩ := hrange ▸ (Subgroup.mem_top (⟨β, hβ⟩ : ↥(E ⊓ K)))

@@ -60,7 +60,7 @@ private theorem commutator_mem_rootCenter {Q : Subgroup K}
 
 private theorem eq_one_of_forall_conj_mem_of_simple [IsSimpleGroup K] {M : Subgroup K}
     (hM : M ≠ ⊤) {w : K} (hw : ∀ y : K, y⁻¹ * w * y ∈ M) : w = 1 := by
-  haveI := Subgroup.normalCore_normal M
+  have := Subgroup.normalCore_normal M
   have hnc : M.normalCore = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M.normalCore with h0 | h1
     · exact h0
@@ -141,7 +141,7 @@ theorem BenderType.eq_one_of_sq_eq_one_of_cartan_unitary
       by_contra hne
       have hord : orderOf g = 2 := orderOf_eq_prime (by rw [sq]; exact hgc) hne
       have hgZ := hc.center_of_involution g hgM hord
-      exact hne (hc.eq_one_of_forall_commute (by omega) Q.isPGroup' (rootCenter_le _ hgZ) hgD)
+      exact hne (hc.eq_one_of_forall_commute (by omega) Q.isPGroup (rootCenter_le _ hgZ) hgD)
     ext x
     rw [hg x, hg1]
     simp
@@ -222,7 +222,7 @@ theorem BenderType.isRigidQuot {K : Type} [Group K] [Finite K]
     intro P
     obtain ⟨t, hc⟩ := h.exists_benderCore P
     have hti : t⁻¹ = t := inv_eq_of_mul_self hc.sq_eq_one
-    haveI : IsSimpleGroup K := h.isSimple
+    have : IsSimpleGroup K := h.isSimple
     have hne : borel (P : Subgroup K) ≠ ⊤ := by
       intro htop
       apply hc.not_mem
@@ -257,7 +257,7 @@ theorem BenderType.isRigidQuot {K : Type} [Group K] [Finite K]
     have hσP : ∀ x ∈ (P : Subgroup K), σ x ∈ (P : Subgroup K) := by
       intro x hx
       have h2 : IsPGroup 2 ((P : Subgroup K).map σ.toMonoidHom) :=
-        P.isPGroup'.map σ.toMonoidHom
+        P.isPGroup.map σ.toMonoidHom
       have h3 := IsPGroup.inf_normalizer_sylow h2 P
       have hxm : σ x ∈ (P : Subgroup K).map σ.toMonoidHom :=
         Subgroup.mem_map_of_mem σ.toMonoidHom hx
@@ -284,7 +284,7 @@ private theorem IsRigidQuot.of_surjective_aux {K K' : Type*} [Group K] [Group K'
     fun P a => by
       rw [Sylow.coe_mapSurjective]
       exact ⟨fun ha => Subgroup.le_normalizer_map f ⟨a, ha, rfl⟩,
-        fun ha => RonanF13.mem_normalizer_of_central_cover f hker hodd P.isPGroup' ha⟩
+        fun ha => RonanF13.mem_normalizer_of_central_cover f hker hodd P.isPGroup ha⟩
   refine ⟨fun P => ?_⟩
   obtain ⟨x', hx', hrig⟩ := h.rigid (P.mapSurjective hf)
   obtain ⟨x, rfl⟩ := hf x'
@@ -371,7 +371,7 @@ theorem isRigidQuot_of_listed {K : Type} [Group K] [Finite K]
     let π : StatedSU 3 (2 ^ n) F →* StatedProj (StatedSU 3 (2 ^ n) F) :=
       QuotientGroup.mk' ((StatedScalars (Fin 3) F).subgroupOf (StatedSU 3 (2 ^ n) F))
     have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
-    haveI : Finite (StatedProj (StatedSU 3 (2 ^ n) F)) := Finite.of_surjective π hπ
+    have : Finite (StatedProj (StatedSU 3 (2 ^ n) F)) := Finite.of_surjective π hπ
     refine IsRigidQuot.of_mulEquiv e (IsRigidQuot.of_surjective π hπ ?_ ?_ hB.center_eq_bot
       (BenderType.isRigidQuot hB))
     · show π.ker ≤ _

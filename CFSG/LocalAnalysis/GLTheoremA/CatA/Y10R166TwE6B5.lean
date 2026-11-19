@@ -42,6 +42,7 @@ theorem twE6BlockPhi_spec {Fr : Ω →+* Ω} {n : ℕ} (hFr : ∀ c, Fr c = c ^ 
           1 + single j i ((b i j : Ω) * frobPow (Ω := Ω) n t)) :=
   Classical.choose_spec (twE6_block_Phi (Ω := Ω) (Fr := Fr) (n := n) hFr)
 
+omit [CharP Ω 2] in
 private theorem twE6BlockPhi_fixed {Fr : Ω →+* Ω}
     {Φ : Matrix.SpecialLinearGroup (Fin 3) Ω ≃* Matrix.SpecialLinearGroup (Fin 3) Ω}
     (hΦ : ∀ g : ↥(subsystemGroup Tag.E6 Ω support56),
@@ -54,6 +55,7 @@ private theorem twE6BlockPhi_fixed {Fr : Ω →+* Ω}
   apply Subtype.ext
   rw [hΦ g, hfix, a2Equiv₂_apply, coe_a2Rep₂]
 
+omit [CharP Ω 2] in
 private theorem twE6Block_symm_mem {Fr : Ω →+* Ω}
     {Φ : Matrix.SpecialLinearGroup (Fin 3) Ω ≃* Matrix.SpecialLinearGroup (Fin 3) Ω}
     (hΦ : ∀ g : ↥(subsystemGroup Tag.E6 Ω support56),
@@ -113,17 +115,18 @@ noncomputable def twE6BlockEquivFix {Fr : Ω →+* Ω}
       (⟨g.1, (mem_twE6Block.1 g.2).1⟩ : ↥(subsystemGroup Tag.E6 Ω support56))
       (⟨h.1, (mem_twE6Block.1 h.2).1⟩ : ↥(subsystemGroup Tag.E6 Ω support56)))
 
+omit [CharP Ω 2] in
 theorem twE6Block_nonempty_mulEquiv_statedSU {Fr : Ω →+* Ω} {n : ℕ} {K : Type} [Field K]
     [Algebra K Ω] [IsAlgClosure K Ω] (hFr : ∀ c, Fr c = c ^ (2 ^ n))
-    (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 3 ≤ n) (hod : Odd n) :
+    (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 3 ≤ n) (_hod : Odd n) :
     Nonempty (↥(twE6Block Fr) ≃* ↥(CFSG.Open.StatedSU 3 (2 ^ n) K)) := by
   classical
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hK' : Nat.card K = 2 ^ (2 * n) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK']; positivity)
-  haveI : CharP K 2 :=
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK']; positivity)
+  have : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hK'
-  haveI : CharP Ω 2 :=
+  have : CharP Ω 2 :=
     charP_of_injective_algebraMap (algebraMap K Ω).injective 2
   obtain ⟨b, hΦmat, hΦt⟩ := twE6BlockPhi_spec (Ω := Ω) (Fr := Fr) (n := n) hFr
   have hinjθ : Function.Injective (TwistedDiag.theta Fr) :=
@@ -145,7 +148,7 @@ theorem twE6Block_nonempty_mulEquiv_statedSU {Fr : Ω →+* Ω} {n : ℕ} {K : T
     iterateFrobeniusEquiv_def (R := K) (p := 2) (n := n) c
   have hkcard : Nat.card k = 2 ^ n :=
     CFSG.RankThree.PartOne.KE.card_fixSubfield_twisted Nat.prime_two (by omega) hK σ hσ
-  haveI hkalg : IsAlgClosure k Ω := by
+  have hkalg : IsAlgClosure k Ω := by
     have : Module.Finite k K := Module.Finite.of_finite
     have : Algebra.IsAlgebraic k K := Algebra.IsAlgebraic.of_finite _ K
     exact IsAlgClosure.ofAlgebraic k K Ω
@@ -171,31 +174,34 @@ theorem twE6Block_nonempty_mulEquiv_statedSU {Fr : Ω →+* Ω} {n : ℕ} {K : T
   refine ⟨(twE6BlockEquivFix (Ω := Ω) hΦmat hQ).trans ?_⟩
   exact ((MonoidHom.ofInjective hψinj).trans (MulEquiv.subgroupCongr hψrange)).symm
 
+omit [CharP Ω 2] in
 theorem twE6_block_finite {Fr : Ω →+* Ω} {n : ℕ} {K : Type} [Field K]
     [Algebra K Ω] [IsAlgClosure K Ω] (hFr : ∀ c, Fr c = c ^ (2 ^ n))
     (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 3 ≤ n) (hod : Odd n) :
     Finite ↥(twE6Block Fr) := by
   obtain ⟨e⟩ := twE6Block_nonempty_mulEquiv_statedSU (Ω := Ω) hFr hK hn hod
   have hK' : Nat.card K = 2 ^ (2 * n) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK']; positivity)
-  haveI : Finite ↥(CFSG.Open.StatedSU 3 (2 ^ n) K) := inferInstance
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK']; positivity)
+  have : Finite ↥(CFSG.Open.StatedSU 3 (2 ^ n) K) := inferInstance
   exact Finite.of_equiv _ e.symm.toEquiv
 
+omit [CharP Ω 2] in
 theorem twE6_block_isQuasisimple {Fr : Ω →+* Ω} {n : ℕ} {K : Type} [Field K]
     [Algebra K Ω] [IsAlgClosure K Ω] (hFr : ∀ c, Fr c = c ^ (2 ^ n))
     (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 3 ≤ n) (hod : Odd n) :
     CFSG.Open.IsQuasisimple ↥(twE6Block Fr) ∧
       3 ∣ Nat.card (↥(twE6Block Fr) ⧸ Subgroup.center ↥(twE6Block Fr)) := by
   have hK' : Nat.card K = 2 ^ (2 * n) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK']; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK']; positivity)
   obtain ⟨e⟩ := twE6Block_nonempty_mulEquiv_statedSU (Ω := Ω) hFr hK hn hod
   exact isQuasisimple_and_three_dvd_of_mulEquiv_statedSU (by omega) hK e
 
+omit [CharP Ω 2] in
 theorem twE6Block_le_C {Fr : Ω →+* Ω} {n : ℕ} {K : Type} [Field K]
     [Algebra K Ω] [IsAlgClosure K Ω] (hFr : ∀ c, Fr c = c ^ (2 ^ n))
     (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 3 ≤ n) (hod : Odd n) :
     twE6Block Fr ≤ twE6C Fr := by
-  haveI : Finite ↥(twE6Block Fr) :=
+  have : Finite ↥(twE6Block Fr) :=
     twE6_block_finite (Ω := Ω) hFr hK hn hod
   have hq := twE6_block_isQuasisimple (Ω := Ω) hFr hK hn hod
   have hperf : ⁅twE6Block Fr, twE6Block Fr⁆ = twE6Block Fr := by
@@ -227,6 +233,7 @@ private theorem cartan2_val (i : Fin Tag.E6.rank) :
       (if i.val = 0 then (-1 : ℤ) else if i.val = 2 then 2 else if i.val = 3 then -1 else 0) := by
   fin_cases i <;> decide
 
+omit [CharP Ω 2] in
 theorem eBar_eq_torusElt {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
     eBar (Ω := Ω) ω = torusElt Tag.E6 Ω 4 ω * torusElt Tag.E6 Ω 5 (ω ^ 2) := by
   have hω3z : ω ^ (3 : ℤ) = 1 := by simpa using hω3
@@ -241,6 +248,7 @@ theorem eBar_eq_torusElt {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
       ← _root_.zpow_mul, ← _root_.zpow_add, zpow_eq_zpow_emod' _ hω3z]
      norm_num [hω3, hωinv])
 
+omit [CharP Ω 2] in
 theorem fBar_eq_torusElt {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
     fBar (Ω := Ω) ω = torusElt Tag.E6 Ω 2 ω := by
   have hω3z : ω ^ (3 : ℤ) = 1 := by simpa using hω3
@@ -249,7 +257,7 @@ theorem fBar_eq_torusElt {ω : Ωˣ} (hω3 : ω ^ 3 = 1) :
   rw [fBar, torusElt_eq_rootDiagUnit]
   congr 1
   funext i
-  simp only [Pi.mul_apply, cartan2_val, fBarTuple]
+  simp only [cartan2_val, fBarTuple]
   fin_cases i <;>
     (rw [show ω ^ 2 = ω ^ (2 : ℤ) by norm_num [zpow_ofNat],
       zpow_eq_zpow_emod' _ hω3z]
@@ -266,11 +274,13 @@ private theorem three_dvd_two_pow_add_one_of_odd {n : ℕ} (hn : Odd n) : 3 ∣ 
     ring
   exact (ZMod.natCast_eq_zero_iff (2 ^ n + 1) 3).mp h0
 
+omit [CharP Ω 2] in
 private theorem omega_pow_Q_add_one {ω : Ωˣ} {n : ℕ} (hω3 : ω ^ 3 = 1) (hn : Odd n) :
     ω ^ (2 ^ n + 1) = 1 := by
   obtain ⟨k, hk⟩ := three_dvd_two_pow_add_one_of_odd hn
   rw [hk, pow_mul, hω3, one_pow]
 
+omit [CharP Ω 2] in
 theorem commute_rootDiagUnit_pinnedX {a : Fin Tag.E6.rank → Ωˣ}
     {α : Fin Tag.E6.rank → ℤ} (hα : IsRoot Tag.E6 α)
     (hχ : rootChar a α = 1) (c : Ω) :
@@ -279,6 +289,7 @@ theorem commute_rootDiagUnit_pinnedX {a : Fin Tag.E6.rank → Ωˣ}
   rw [hχ, Units.val_one, one_mul] at h
   exact (mul_inv_eq_iff_eq_mul).mp h
 
+omit [CharP Ω 2] in
 theorem rootDiagUnit_centralizes_rootSpan {a : Fin Tag.E6.rank → Ωˣ}
     {S : Set (Fin Tag.E6.rank → ℤ)} (hS : ∀ α ∈ S, IsRoot Tag.E6 α)
     (hχ : ∀ α ∈ S, rootChar a α = 1) :
@@ -290,6 +301,7 @@ theorem rootDiagUnit_centralizes_rootSpan {a : Fin Tag.E6.rank → Ωˣ}
   exact Subgroup.mem_centralizer_singleton_iff.2
     (commute_rootDiagUnit_pinnedX (hS α hα) (hχ α hα) c).symm
 
+omit [CharP Ω 2] in
 theorem rootChar_eBar_of_mem_support56 {ω : Ωˣ}
     {α : Fin Tag.E6.rank → ℤ} (hα : α ∈ parabolicRoots Tag.E6 support56) :
     rootChar (eBarTuple ω) α = 1 := by
@@ -303,9 +315,10 @@ theorem rootChar_eBar_of_mem_support56 {ω : Ωˣ}
         omega
       · have hv : i.val = 5 := by rw [h5]; decide
         omega
-    rw [eBarTuple, if_pos h, hα.2 i hi, _root_.zpow_zero]
-  · rw [eBarTuple, if_neg h]; exact _root_.one_zpow _
+    rw [eBarTuple, ite_eq_left h, hα.2 i hi, _root_.zpow_zero]
+  · rw [eBarTuple, ite_eq_right h]; exact _root_.one_zpow _
 
+omit [CharP Ω 2] in
 theorem rootChar_fBar_of_mem_support56 {ω : Ωˣ}
     {α : Fin Tag.E6.rank → ℤ} (hα : α ∈ parabolicRoots Tag.E6 support56) :
     rootChar (fBarTuple ω) α = 1 := by
@@ -319,9 +332,10 @@ theorem rootChar_fBar_of_mem_support56 {ω : Ωˣ}
         rcases h with h0 | h2 | h3 <;> omega
       · have hv : i.val = 5 := by rw [h5]; decide
         rcases h with h0 | h2 | h3 <;> omega
-    rw [fBarTuple, if_pos h, hα.2 i hi, _root_.zpow_zero]
-  · rw [fBarTuple, if_neg h]; exact _root_.one_zpow _
+    rw [fBarTuple, ite_eq_left h, hα.2 i hi, _root_.zpow_zero]
+  · rw [fBarTuple, ite_eq_right h]; exact _root_.one_zpow _
 
+omit [CharP Ω 2] in
 theorem twE6Block_le_centralizer_eBar {Fr : Ω →+* Ω} {ω : Ωˣ} :
     twE6Block Fr ≤ Subgroup.centralizer ({eBar (Ω := Ω) ω} : Set (ModGL Tag.E6 Ω)) := by
   have h := rootDiagUnit_centralizes_rootSpan (a := eBarTuple ω)
@@ -333,6 +347,7 @@ theorem twE6Block_le_centralizer_eBar {Fr : Ω →+* Ω} {ω : Ωˣ} :
     exact h
   exact (twE6Block_le_subsystem Fr).trans h'
 
+omit [CharP Ω 2] in
 theorem twE6Block_le_centralizer_fBar {Fr : Ω →+* Ω} {ω : Ωˣ} :
     twE6Block Fr ≤ Subgroup.centralizer ({fBar (Ω := Ω) ω} : Set (ModGL Tag.E6 Ω)) := by
   have h := rootDiagUnit_centralizes_rootSpan (a := fBarTuple ω)
@@ -344,6 +359,7 @@ theorem twE6Block_le_centralizer_fBar {Fr : Ω →+* Ω} {ω : Ωˣ} :
     exact h
   exact (twE6Block_le_subsystem Fr).trans h'
 
+omit [CharP Ω 2] in
 private theorem sq_pow_Q_add_one {ω : Ωˣ} {n : ℕ} (hωQ : ω ^ (2 ^ n + 1) = 1) :
     (ω ^ 2) ^ (2 ^ n + 1) = 1 := by
   calc (ω ^ 2) ^ (2 ^ n + 1) = ω ^ (2 * (2 ^ n + 1)) := by rw [pow_mul]
@@ -351,17 +367,19 @@ private theorem sq_pow_Q_add_one {ω : Ωˣ} {n : ℕ} (hωQ : ω ^ (2 ^ n + 1) 
     _ = (ω ^ (2 ^ n + 1)) ^ 2 := by rw [← pow_mul]
     _ = 1 := by rw [hωQ, one_pow]
 
+omit [CharP Ω 2] in
 theorem theta_eBar_eq {Fr : Ω →+* Ω} {ω : Ωˣ} {n : ℕ}
     (hFr : ∀ c, Fr c = c ^ (2 ^ n)) (hωQ : ω ^ (2 ^ n + 1) = 1) :
     TwistedDiag.theta Fr (eBar (Ω := Ω) ω) = eBar (Ω := Ω) ω := by
   rw [eBar, (TwistedDiag.theta_rootDiagUnit_eq_iff Fr hFr _).2]
   intro i
   by_cases h : i.val = 3
-  · rw [eBarTuple, if_pos h]
+  · rw [eBarTuple, ite_eq_left h]
     exact sq_pow_Q_add_one hωQ
-  · rw [eBarTuple, if_neg h]
+  · rw [eBarTuple, ite_eq_right h]
     exact one_pow _
 
+omit [CharP Ω 2] in
 theorem eBar_mem_twE6Block {Fr : Ω →+* Ω} {ω : Ωˣ} {n : ℕ}
     (hFr : ∀ c, Fr c = c ^ (2 ^ n)) (hω3 : ω ^ 3 = 1) (hn : Odd n) :
     eBar (Ω := Ω) ω ∈ twE6Block Fr := by
@@ -379,59 +397,68 @@ theorem eBar_mem_twE6Block {Fr : Ω →+* Ω} {ω : Ωˣ} {n : ℕ}
     (τ := Tag.E6) (L := Ω) support56) hsub,
     theta_eBar_eq hFr (omega_pow_Q_add_one hω3 hn)⟩
 
+omit [CharP Ω 2] in
 theorem eBar_mem_C {Fr : Ω →+* Ω} {ω : Ωˣ} {n : ℕ} {K : Type} [Field K]
     [Algebra K Ω] [IsAlgClosure K Ω] (hFr : ∀ c, Fr c = c ^ (2 ^ n))
     (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 3 ≤ n) (hod : Odd n) (hω3 : ω ^ 3 = 1) :
     eBar (Ω := Ω) ω ∈ twE6C Fr :=
   twE6Block_le_C (Ω := Ω) hFr hK hn hod (eBar_mem_twE6Block hFr hω3 hod)
 
+omit [CharP Ω 2] in
 private theorem sq_pow_three {ω : Ωˣ} (hω3 : ω ^ 3 = 1) : (ω ^ 2) ^ 3 = 1 := by
   rw [show (ω ^ 2) ^ 3 = (ω ^ 3) ^ 2 by group, hω3, one_pow]
 
+omit [CharP Ω 2] in
 theorem eBar_pow_three {ω : Ωˣ} (hω3 : ω ^ 3 = 1) : eBar (Ω := Ω) ω ^ 3 = 1 := by
   change (rootDiagUnitHom Tag.E6 Ω) (eBarTuple ω) ^ 3 = 1
   rw [← map_pow]
   have h : eBarTuple ω ^ 3 = 1 := by
     funext i
-    fin_cases i <;> simp [eBarTuple, hω3, sq_pow_three hω3]
+    fin_cases i <;> simp [eBarTuple, sq_pow_three hω3]
   rw [h, map_one]
 
+omit [CharP Ω 2] in
 theorem fBar_pow_three {ω : Ωˣ} (hω3 : ω ^ 3 = 1) : fBar (Ω := Ω) ω ^ 3 = 1 := by
   change (rootDiagUnitHom Tag.E6 Ω) (fBarTuple ω) ^ 3 = 1
   rw [← map_pow]
   have h : fBarTuple ω ^ 3 = 1 := by
     funext i
-    fin_cases i <;> simp [fBarTuple, hω3, sq_pow_three hω3]
+    fin_cases i <;> simp [fBarTuple, sq_pow_three hω3]
   rw [h, map_one]
 
+omit [CharP Ω 2] in
 theorem eBar_ne_one {ω : Ωˣ} (hω : orderOf ω = 3) : eBar (Ω := Ω) ω ≠ 1 := by
   intro h
   change rootDiagUnit Tag.E6 (eBarTuple ω) = 1 at h
   have h1 : eBarTuple ω = 1 := rootDiagUnit_injective (h.trans rootDiagUnit_one.symm)
   have h2 := congrFun h1 ⟨3, by decide⟩
-  simp only [eBarTuple, Pi.one_apply, if_pos rfl] at h2
+  simp only [eBarTuple, Pi.one_apply] at h2
   have hdvd : orderOf ω ∣ 2 := orderOf_dvd_iff_pow_eq_one.mpr h2
   rw [hω] at hdvd
   norm_num at hdvd
 
+omit [CharP Ω 2] in
 theorem fBar_ne_one {ω : Ωˣ} (hω : orderOf ω = 3) : fBar (Ω := Ω) ω ≠ 1 := by
   intro h
   change rootDiagUnit Tag.E6 (fBarTuple ω) = 1 at h
   have h1 : fBarTuple ω = 1 := rootDiagUnit_injective (h.trans rootDiagUnit_one.symm)
   have h2 := congrFun h1 ⟨0, by decide⟩
-  simp only [fBarTuple, Pi.one_apply, if_pos (Or.inl rfl)] at h2
+  simp only [fBarTuple, Pi.one_apply] at h2
   have hdvd : orderOf ω ∣ 2 := orderOf_dvd_iff_pow_eq_one.mpr h2
   rw [hω] at hdvd
   norm_num at hdvd
 
+omit [CharP Ω 2] in
 theorem orderOf_eBar {ω : Ωˣ} (hω3 : ω ^ 3 = 1) (hω : orderOf ω = 3) :
     orderOf (eBar (Ω := Ω) ω) = 3 :=
   orderOf_eq_prime (eBar_pow_three hω3) (eBar_ne_one hω)
 
+omit [CharP Ω 2] in
 theorem orderOf_fBar {ω : Ωˣ} (hω3 : ω ^ 3 = 1) (hω : orderOf ω = 3) :
     orderOf (fBar (Ω := Ω) ω) = 3 :=
   orderOf_eq_prime (fBar_pow_three hω3) (fBar_ne_one hω)
 
+omit [CharP Ω 2] in
 theorem commute_eBar_fBar {ω : Ωˣ} : Commute (eBar (Ω := Ω) ω) (fBar (Ω := Ω) ω) := by
   change rootDiagUnit Tag.E6 (eBarTuple ω) * rootDiagUnit Tag.E6 (fBarTuple ω) =
     rootDiagUnit Tag.E6 (fBarTuple ω) * rootDiagUnit Tag.E6 (eBarTuple ω)

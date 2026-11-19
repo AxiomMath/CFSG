@@ -39,7 +39,7 @@ include h
 theorem commute_conj_conj {K : Subgroup Y} (hK : K ∈ Φ) {z : Y} (hz : IsUniqueInvolution K z)
     (g : Y) : Commute ((g * z * g⁻¹) * z * (g * z * g⁻¹)⁻¹) z := by
   have hΦ := h.hypGen
-  haveI := h.normal
+  have := h.normal
   obtain ⟨S, hS⟩ := (IsPGroup.to_sup_of_normal_left h.two (h.isPGroup K hK)).exists_le_sylow
   obtain ⟨η, hη, hηS, hWab, hSW⟩ := TL4.exists_eta hΦ S
   have h2 : 2 < Nat.card ↥(K ⊓ (S : Subgroup Y)) := by
@@ -61,7 +61,7 @@ theorem exists_le_centralizer {J L : Subgroup Y} (hJ : J ∈ Φ) (hL : L ∈ Φ)
   have hvQ := h.inv_mem L hL v hv
   have hQn := h.normal
   by_cases h2 : 2 < Nat.card ↥(J ⊓ Q)
-  · haveI := hQn
+  · have := hQn
     obtain ⟨S, hS⟩ := (IsPGroup.to_sup_of_normal_right hL2 h.two).exists_le_sylow
     obtain ⟨η, hη, hηS, hWab, -⟩ := TL4.exists_eta hΦ S
     have hJS2 : 2 < Nat.card ↥(J ⊓ (S : Subgroup Y)) :=

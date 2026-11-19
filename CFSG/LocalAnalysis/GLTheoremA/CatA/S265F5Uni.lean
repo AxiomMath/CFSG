@@ -101,7 +101,7 @@ theorem card_le_mul_card_inf_primeFormD (h : UnitaryFieldData ℓ f K) {n p : �
       rfl
     rw [h1, ← Subgroup.inf_subgroupOf_left]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
-  haveI : IsCyclic (K ≃+* K) := by
+  have : IsCyclic (K ≃+* K) := by
     obtain ⟨σ₀, -, -, htop, -⟩ :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality h.prime
         (by have := h.one_le; omega) h.card
@@ -171,7 +171,7 @@ theorem glaPLayer_ne_bot_of_fieldHom_conjHom_prime (h : UnitaryFieldData 2 f K) 
     GLAPLayer p (fixSubgroup (primeFormFieldHom h (isPrimeFormGram_idGram (K := K) (n := p)) σ) ⊓
       fixSubgroup (primeFormConjHom h (idGram K p) M)) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have := h.finite
   have hp3 : 3 ≤ p := by
     have := hp.two_le
@@ -366,7 +366,7 @@ theorem glaPLayer_ne_bot_of_field_unitary_prime {f : ℕ} (h : UnitaryFieldData 
     (hcp : c ^ p = 1) (hcomm : x * c = c * x) {t : primeFormP h (idGram K p)} (ht : orderOf t = 2)
     (hct : c t = t) : GLAPLayer p (fixSubgroup x ⊓ fixSubgroup c) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by
     have := hp.two_le
     omega
@@ -444,8 +444,8 @@ theorem exists_layer_of_unitary_model_prime {T : Type} [Group T] [Finite T] {f :
     (hEt : ∀ c ∈ Eb, c t = t) :
     ∃ c ∈ Eb, c ∉ Subgroup.zpowers β ∧ GLAPLayer p (fixSubgroup β ⊓ fixSubgroup c) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut (primeFormP h (idGram K p))) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut (primeFormP h (idGram K p))) :=
     Finite.of_injective
       (fun (g : MulAut (primeFormP h (idGram K p))) (w : primeFormP h (idGram K p)) => g w)
       (fun g g' hgg' => MulEquiv.ext (congrFun hgg'))

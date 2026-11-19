@@ -39,7 +39,7 @@ theorem smith24E4Form_holds :
     Smith24E4FormStatement := by
   intro G _ _ M Q Z B _ hc _ K _ _ γ M₀ hD ψ φ d
   obtain ⟨n, k, hn, -⟩ := hc.ctx.hyp.cp
-  haveI : CharP K 2 := charP_two_of_natCard_pow_two (hD.card.trans hn)
+  have : CharP K 2 := charP_two_of_natCard_pow_two (hD.card.trans hn)
   have hgeom := d6MinuscGeom (K := K)
   exact KSchur.form_of_uniform hc.ctx hD (D6X.betaWL K) betaWL_nondeg hgeom.p₀_ne
     (D6X.d6_fe2Geom (K := K)).β_inv hgeom.U₀_le hgeom.U₀_fix fix_rootRad0 EAut0_irreducible d

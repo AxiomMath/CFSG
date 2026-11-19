@@ -30,11 +30,11 @@ private def signVec (a : Fin k) : Fin k → Multiplicative (ZMod p) :=
   fun j => if j = a then 1 else Multiplicative.ofAdd 1
 
 private theorem signVec_self (a : Fin k) : signVec (p := p) a a = 1 := by
-  rw [signVec, if_pos rfl]
+  rw [signVec, ite_eq_left rfl]
 
 private theorem signVec_of_ne {a j : Fin k} (hj : j ≠ a) :
     signVec (p := p) a j = Multiplicative.ofAdd 1 := by
-  rw [signVec, if_neg hj]
+  rw [signVec, ite_eq_right hj]
 
 private theorem permAut_swap_signVec {a b : Fin k} (hab : a ≠ b) :
     SpCoord.permAut (Equiv.swap a b) (signVec (p := p) b) = signVec (p := p) a := by
@@ -85,6 +85,7 @@ private theorem swap_eq_swap_of_lt {i j i' j' : Fin k} (hij : i < j) (hij' : i' 
       exact lt_asymm hij hlt
     · exact absurd (hi.trans hj.symm) (ne_of_lt hij)
 
+omit [Finite F] [CharP F 2] in
 theorem finrank_polarPerp_iSup_eq_two {ℓ : ℕ} (hdim : Module.finrank F V = 2 * ℓ)
     (hkℓ : k + 1 = ℓ) (hS : IsPlaneSystem Q U) :
     Module.finrank F (polarPerp Q (⨆ j, U j)) = 2 := by
@@ -103,16 +104,18 @@ theorem finrank_polarPerp_iSup_eq_two {ℓ : ℕ} (hdim : Module.finrank F V = 2
     exact h.symm
   omega
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem quad_add_eq_one {f f' : V} (hQf : Q f = 0) (hQf' : Q f' = 0)
     (hff' : QuadraticMap.polar Q f f' = 1) : Q (f + f') = 1 := by
   have h := QuadraticMap.map_add (Q : V → F) f f'
   rw [h, hQf, hQf', hff']
   simp
 
+omit [Finite F] in
 private theorem signChange_conj_delta (hF : IsCoherentFrame Q p U e E u c t)
     {τ : (Fin k → Multiplicative (ZMod p)) →* ↥(orthDerived Q)}
     (hτ : ∀ c, τ (Pi.mulSingle c (Multiplicative.ofAdd 1)) = e c) {v : V}
-    (hv : v ∈ polarPerp Q (⨆ j, U j)) (hQv : Q v ≠ 0) (a l : Fin k) :
+    (hv : v ∈ polarPerp Q (⨆ j, U j)) (_hQv : Q v ≠ 0) (a l : Fin k) :
     signChange Q u v a * (τ (Pi.mulSingle l (Multiplicative.ofAdd 1)) : V ≃ₗ[F] V) *
         (signChange Q u v a)⁻¹ =
       (τ (SpCoord.sgnAut a (Pi.mulSingle l (Multiplicative.ofAdd 1))) : V ≃ₗ[F] V) := by
@@ -123,6 +126,7 @@ private theorem signChange_conj_delta (hF : IsCoherentFrame Q p U e E u c t)
   · rw [SpCoord.sgnAut_mulSingle_of_ne hla, hτ l]
     exact signChange_conj_of_ne hF hv hla
 
+omit [Finite F] in
 private theorem frameSwap_conj_delta (hF : IsCoherentFrame Q p U e E u c t)
     {τ : (Fin k → Multiplicative (ZMod p)) →* ↥(orthDerived Q)}
     (hτ : ∀ c, τ (Pi.mulSingle c (Multiplicative.ofAdd 1)) = e c) {i j : Fin k} (hij : i < j)
@@ -152,11 +156,11 @@ theorem ggTorusModelAt_of_coherentFrame_hyp (hQ : (QuadraticMap.polarBilin Q).No
     (hf : f ∈ polarPerp Q (⨆ j, U j)) (hf' : f' ∈ polarPerp Q (⨆ j, U j)) (hQf : Q f = 0)
     (hQf' : Q f' = 0) (hff' : QuadraticMap.polar Q f f' = 1) : GGTorusModelAt p E := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (1 < p) := ⟨by have h := hp.two_le; omega⟩
-  haveI : Fact (2 < p) := ⟨by have h := hp.two_le; omega⟩
-  haveI : IsMulCommutative ↥E := hF.isElemAbelian.1
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (1 < p) := ⟨by have h := hp.two_le; omega⟩
+  have : Fact (2 < p) := ⟨by have h := hp.two_le; omega⟩
+  have : IsMulCommutative ↥E := hF.isElemAbelian.1
   have hQv : Q (f + f') = 1 := quad_add_eq_one hQf hQf' hff'
   have hQv0 : Q (f + f') ≠ 0 := by rw [hQv]; exact one_ne_zero
   have hvW : f + f' ∈ polarPerp Q (⨆ j, U j) := by
@@ -237,14 +241,14 @@ theorem ggTorusModelAt_of_coherentFrame_hyp (hQ : (QuadraticMap.polarBilin Q).No
       rw [SpCoord.sgnAut_apply]
       by_cases hli : l = i
       · subst hli
-        rw [Function.update_self, Pi.mulSingle_eq_same, if_pos rfl]
-      · rw [Function.update_of_ne hli, Pi.mulSingle_eq_same, if_neg hli]
+        rw [Function.update_self, Pi.mulSingle_eq_same, ite_eq_left rfl]
+      · rw [Function.update_of_ne hli, Pi.mulSingle_eq_same, ite_eq_right hli]
     have hsp : ∀ (i : Fin k) (σ : Equiv.Perm (Fin k)), SpCoord.sgnAut i ≠
         (SpCoord.permAut σ : MulAut (Fin k → Multiplicative (ZMod p))) := by
       intro i σ h
       have h1 := congrFun (congrArg (fun φ : MulAut (Fin k → Multiplicative (ZMod p)) =>
         φ (Pi.mulSingle i (Multiplicative.ofAdd 1))) h) i
-      rw [hsgn i i, if_pos rfl, SpCoord.permAut_mulSingle, Pi.mulSingle_apply] at h1
+      rw [hsgn i i, ite_eq_left rfl, SpCoord.permAut_mulSingle, Pi.mulSingle_apply] at h1
       split_ifs at h1
       · exact hginv h1
       · exact hgone (inv_eq_one.mp h1)
@@ -252,10 +256,10 @@ theorem ggTorusModelAt_of_coherentFrame_hyp (hQ : (QuadraticMap.polarBilin Q).No
     · change SpCoord.sgnAut a = SpCoord.sgnAut a' at h
       have h1 := congrFun (congrArg (fun φ : MulAut (Fin k → Multiplicative (ZMod p)) =>
         φ (Pi.mulSingle a (Multiplicative.ofAdd 1))) h) a
-      rw [hsgn a a, hsgn a' a, if_pos rfl] at h1
+      rw [hsgn a a, hsgn a' a, ite_eq_left rfl] at h1
       by_cases haa : a = a'
       · exact congrArg Sum.inl haa
-      · rw [if_neg haa] at h1
+      · rw [ite_eq_right haa] at h1
         exact absurd h1 hginv
     · exact absurd h (hsp a (Equiv.swap i' j'))
     · exact absurd h.symm (hsp a' (Equiv.swap i j))

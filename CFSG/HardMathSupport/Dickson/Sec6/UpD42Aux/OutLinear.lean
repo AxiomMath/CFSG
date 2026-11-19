@@ -33,7 +33,7 @@ theorem not_upD42Pumpup_conjAut_linear {n f : ℕ} (hn : 3 ≤ n) (hf : 1 ≤ f)
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ f) (A : GL (Fin n) K) :
     ¬ UpD42Pumpup (projectiveSL n K) (conjAut n K A) := by
   intro h
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
   have h3K : ((3 : ℕ) : K) ≠ 0 := fun h0 => by
     have h23 := (CharP.cast_eq_zero_iff K 2 3).1 h0
     omega
@@ -52,7 +52,7 @@ theorem not_upD42Pumpup_fieldAut_psl {n f : ℕ} (hn : 3 ≤ n) (hf : 1 ≤ f)
   have hinj := linearSubfieldInclusion_injective (by omega : 0 < n) k
   let J : Subgroup (projectiveSL n K) := (linearSubfieldInclusion n k).range
   let eJ : ↥J ≃* projectiveSL n ↥k := (MonoidHom.ofInjective hinj).symm
-  haveI : IsSimpleGroup (projectiveSL n ↥k) := KCLinearSubfield.isSimpleGroup_projectiveSL hn
+  have : IsSimpleGroup (projectiveSL n ↥k) := KCLinearSubfield.isSimpleGroup_projectiveSL hn
   have hnabk : ∃ a b : projectiveSL n ↥k, a * b ≠ b * a := by
     have hnc := KCLinearSubfield.not_commutative_projectiveSL (n := n) (K := ↥k) hn
     push Not at hnc
@@ -99,7 +99,7 @@ theorem upD42Chev2Out_linear_rank_ge_two_holds : UpD42Chev2Out
   cases d with
   | A r q =>
     have hp : q.p = 2 := hc
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     let e' : S ≃* projectiveSL (r + 1) (GaloisField q.p q.exponent) :=
       e.trans ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r q hv).trans
         (LinearCover.projectiveSpecialLinearEquivProjectiveSL (r + 1) _))

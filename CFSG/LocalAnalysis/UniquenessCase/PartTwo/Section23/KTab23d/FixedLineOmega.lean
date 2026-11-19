@@ -35,7 +35,7 @@ theorem sylowFixedLine_omegaMinus {K : Type} [Field K] [Finite K] [CharP K 2] {m
     (hm : 2 ≤ m) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     KTabC.SylowFixedLine (StatedOmega (StatedQuadMinus m K b c))
       (Pi.single (Sum.inl ⟨0, by omega⟩) 1) := by
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   obtain ⟨U, hU, hfix⟩ := KTabA.exists_fixedLine_statedOmega_minus_single (K := K) hm hirr
   exact KTabC.sylowFixedLine_of_isPGroup U hU _ hfix
 

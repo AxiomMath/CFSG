@@ -28,7 +28,7 @@ theorem caseVIMeet_of_coord {n : ℕ} (hcB : Ctx M Q Z B) (hw : Width Q Z n) (hn
   have hq4 : 4 ≤ Nat.card Z := hcB.hyp.q4
   have hK : ∃ c : K, c ≠ 0 ∧ c ^ 2 ≠ 1 :=
     exists_ne_zero_sq_ne_one_of_two_lt_card K (by rw [hcard]; omega)
-  haveI : CharP F 2 := charP_of_injective_ringHom C.θ₁.toRingHom.injective 2
+  have : CharP F 2 := charP_of_injective_ringHom C.θ₁.toRingHom.injective 2
   let Qd : QuadDatum K M₀.E := quadDatumOfModel M₀
   have hQρ : ∀ (g : ↥S) (e : M₀.E), Qd.Qf (ρ g e) = Qd.Qf e := fun g e => hφiso _ e
   have hLH : LB M Q B ≤ H0 M Z := hcB.LB_le_H0

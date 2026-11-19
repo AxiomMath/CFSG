@@ -10,7 +10,7 @@ namespace CFSG.ClassicalInvolution.Phan.PhanE
 
 private lemma plh_exists_notMem_of_natCard_lt {α : Type*} [Finite α] (s : Finset α)
     (h : s.card < Nat.card α) : ∃ a, a ∉ s := by
-  haveI : Fintype α := Fintype.ofFinite α
+  have : Fintype α := Fintype.ofFinite α
   obtain ⟨a, -, ha⟩ := Finset.exists_mem_notMem_of_card_lt_card (s := s) (t := Finset.univ)
     (by simpa only [Finset.card_univ, Nat.card_eq_fintype_card] using h)
   exact ⟨a, ha⟩

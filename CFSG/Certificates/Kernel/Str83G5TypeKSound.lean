@@ -29,14 +29,14 @@ theorem allBelow_eq_true {n : ℕ} {f : ℕ → Bool} : allBelow n f = true ↔ 
 private theorem brec_beq {α : Sort _} (a b : α) (x y : ℕ) :
     (Bool.rec a b (Nat.beq x y) : α) = if x = y then b else a := by
   cases h : Nat.beq x y
-  · rw [if_neg (Nat.ne_of_beq_eq_false h)]
-  · rw [if_pos (Nat.eq_of_beq_eq_true h)]
+  · rw [ite_eq_right (Nat.ne_of_beq_eq_false h)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true h)]
 
 private theorem brec_ble {α : Sort _} (a b : α) (x y : ℕ) :
     (Bool.rec a b (Nat.ble x y) : α) = if x ≤ y then b else a := by
   cases h : Nat.ble x y
-  · rw [if_neg (fun h' => absurd (Nat.ble_eq_true_of_le h') (by rw [h]; decide))]
-  · rw [if_pos (Nat.le_of_ble_eq_true h)]
+  · rw [ite_eq_right (fun h' => absurd (Nat.ble_eq_true_of_le h') (by rw [h]; decide))]
+  · rw [ite_eq_left (Nat.le_of_ble_eq_true h)]
 
 private theorem brec_true (x b : Bool) : (Bool.rec true x b : Bool) = (!b || x) := by
   cases b <;> rfl
@@ -139,7 +139,7 @@ theorem admLoop (p : Pattern) (n : ℕ) :
       · subst hn
         rfl
       · exact Finset.sum_Ico_succ_top (by omega) _
-    simp only [admStep, brec_beq, brec_ble, dSK_eq, dLK_eq, brec_false, brec_true, nat_mod,
+    simp only [admStep, brec_beq, brec_ble, dSK_eq, dLK_eq, brec_false, nat_mod,
       nat_add]
     refine ⟨?_, ?_, fun hadm => ?_⟩
     · rw [hE]
@@ -160,7 +160,7 @@ theorem admLoop (p : Pattern) (n : ℕ) :
       unfold eDrop oDrop at *
       rw [imp_iff_not_or] at hev
       simp only [ble_dec, beq_dec, Bool.true_and, Bool.and_eq_true, decide_eq_true_eq]
-      split_ifs at * <;> simp only [decide_eq_true_eq, Bool.false_eq_true, and_true, and_false] <;>
+      split_ifs at * <;> simp only [decide_eq_true_eq, and_true, and_false] <;>
         omega
 
 theorem admK_of (p : Pattern) (hp : p.admissibleB = true) : admK p.s2 p.s1 p.l1 = true := by
@@ -260,7 +260,7 @@ theorem allWin_of (p : Pattern) (τ : AType) (H : Lab → ℕ) (f : ℕ → ℕ 
       rcases (by omega : i = 0 ∨ i = 1) with rfl | rfl <;> simp
     have h := hpa (p.labR i (i + d), p.labL i (i + d))
       (List.mem_flatMap.mpr ⟨(i : ℤ), hi',
-        List.mem_map.mpr ⟨d, by simp <;> omega, rfl⟩⟩)
+        List.mem_map.mpr ⟨d, by simp; omega, rfl⟩⟩)
     rw [decide_eq_true_eq] at h
     have h' := congrArg (fun M => (M.map H).sum) h
     simp only [Multiset.map_map, Function.comp_def] at h'
@@ -446,7 +446,7 @@ theorem okK_eq (p : Pattern) (r r' : ℕ) (e e' : Bool) :
   generalize decide ((r, r') ∈ pairs30) = M
   rw [Bool.eq_iff_iff]
   simp only [Bool.and_eq_true, Bool.or_eq_true, Bool.not_eq_true', decide_eq_true_eq,
-    decide_eq_false_iff_not, Prod.mk.injEq, true_and, and_true, Bool.and_eq_false_iff,
+    decide_eq_false_iff_not, Prod.mk.injEq, true_and, Bool.and_eq_false_iff,
     Bool.or_eq_false_iff]
   simp only [Pattern.p16, Pattern.p17, Pattern.p18, Pattern.p20, Pattern.target]
   tauto

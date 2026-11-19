@@ -74,7 +74,7 @@ theorem d1SmallKC_of (hOut : KFactSmallOutPPrime) (hExp : KFactSmallSylowExp)
     rw [← hTC, Subgroup.card_map_of_injective KC.subtype_injective, hcardTC]
   have hexp : ∀ t ∈ (Pbar : Subgroup (D1CzQuot p z)) ⊓ KC, t ^ p = 1 := by
     intro t ht
-    obtain ⟨n, hn⟩ := Pbar.isPGroup' ⟨t, ht.1⟩
+    obtain ⟨n, hn⟩ := Pbar.isPGroup ⟨t, ht.1⟩
     have htn : t ^ p ^ n = 1 := by simpa using congrArg Subtype.val hn
     have hk1 : (⟨t, ht.2⟩ : KC) ^ p ^ n = 1 := Subtype.ext (by rw [Subgroup.coe_pow]; exact htn)
     have h1 := hExp KC hsimple hnonab hcat p hp hp2 TC hTCnc hΓ hAut ⟨t, ht.2⟩ ⟨n, hk1⟩

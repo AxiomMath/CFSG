@@ -82,8 +82,6 @@ theorem mem_torus_of_comm_blocks {x : normOne (unitaryInvolution K p f)} (hx : x
   all_goals first
     | exact eq_zero_aux1 hu1 e0 | exact eq_zero_aux1 hu1 e2
     | exact eq_zero_aux1 hu2 e0 | exact eq_zero_aux1 hu2 e2
-    | exact eq_zero_aux2 hu1 e0 | exact eq_zero_aux2 hu1 e2
-    | exact eq_zero_aux2 hu2 e0 | exact eq_zero_aux2 hu2 e2
     | exact eq_zero_aux3 hu3 e0 | exact eq_zero_aux3 hu3 e2
     | exact eq_zero_aux3 hu3.symm e0 | exact eq_zero_aux3 hu3.symm e2
 

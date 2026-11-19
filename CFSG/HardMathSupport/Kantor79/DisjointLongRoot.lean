@@ -20,6 +20,7 @@ theorem siegelEquiv_toLin_eq_one_add_smul_rootEnd {Q : QuadraticForm K E} {a b :
     x + (c • polar Q x b • a + c • polar Q x a • b)
   abel
 
+omit [CharP K 2] in
 theorem rootEnd_comp_eq_zero_of_orthogonal {Q : QuadraticForm K E} {a b a' b' : E}
     (horth : ∀ x ∈ Submodule.span K ({a, b} : Set E),
       ∀ y ∈ Submodule.span K ({a', b'} : Set E), polar Q x y = 0) :
@@ -37,6 +38,7 @@ theorem rootEnd_comp_eq_zero_of_orthogonal {Q : QuadraticForm K E} {a b a' b' : 
   rw [hb0, ha0]
   simp
 
+omit [CharP K 2] in
 theorem rootEnd_comp_eq_zero_of_orthogonal' {Q : QuadraticForm K E} {a b a' b' : E}
     (horth : ∀ x ∈ Submodule.span K ({a, b} : Set E),
       ∀ y ∈ Submodule.span K ({a', b'} : Set E), polar Q x y = 0) :
@@ -68,15 +70,13 @@ theorem siegelEquiv_mul_comm_of_orthogonal {Q : QuadraticForm K E} {a b a' b' : 
     change (siegelEquiv Q a b ha hb hab c : E →ₗ[K] E) *
       (siegelEquiv Q a' b' ha' hb' hab' d : E →ₗ[K] E) = _
     rw [hp, hq]
-    simp only [mul_add, add_mul, one_mul, mul_one, smul_mul_smul, hpq, smul_zero, zero_add,
-      add_zero]
+    simp only [mul_add, add_mul, one_mul, mul_one, smul_mul_smul, hpq, smul_zero, add_zero]
   have hR : ((siegelEquiv Q a' b' ha' hb' hab' d * siegelEquiv Q a b ha hb hab c :
       E ≃ₗ[K] E) : E →ₗ[K] E) = 1 + c • rootEnd Q a b + d • rootEnd Q a' b' := by
     change (siegelEquiv Q a' b' ha' hb' hab' d : E →ₗ[K] E) *
       (siegelEquiv Q a b ha hb hab c : E →ₗ[K] E) = _
     rw [hp, hq]
-    simp only [mul_add, add_mul, one_mul, mul_one, smul_mul_smul, hqp, smul_zero, zero_add,
-      add_zero]
+    simp only [mul_add, add_mul, one_mul, mul_one, smul_mul_smul, hqp, smul_zero, add_zero]
     abel
   ext x
   exact congrArg (fun f : E →ₗ[K] E => f x) (hL.trans hR.symm)

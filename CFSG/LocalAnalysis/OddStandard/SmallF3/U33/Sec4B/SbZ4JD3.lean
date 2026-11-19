@@ -83,7 +83,7 @@ theorem mem_Mc_or_tau_mul {g : H} (hg : g ∈ Mh) : g ∈ Mc ∨ τ * g ∈ Mc :
         omega
       rcases hk with hk | hk | hk
       · rw [hk, zpow_zero]
-        simpa using Mc.one_mem
+        simp
       · rw [hk, zpow_one]
         have heq : ⁅m, ρ⁆ = m * (ρ * m⁻¹ * ρ⁻¹) := by rw [commutatorElement_def]; group
         rw [heq]; exact comm_rho_mem_Mc h hMh hMc hm
@@ -110,12 +110,12 @@ theorem mem_Mc_or_tau_mul {g : H} (hg : g ∈ Mh) : g ∈ Mc ∨ τ * g ∈ Mc :
 theorem card_Mc : Nat.card Mc = 256 := by
   let K : Subgroup Mh := Mc.subgroupOf Mh
   have hKcard : Nat.card K = Nat.card Mc :=
-    Nat.card_congr (Subgroup.subgroupOfEquivOfLe (Mc_le_Mh h hMh hMc)).toEquiv
+    Nat.card_congr (Subgroup.subgroupOfEquivOfLe (Mc_le_Mh hMc)).toEquiv
   have hidx : K.index = 2 := by
     rw [Subgroup.index_eq_two_iff_exists_notMem_and']
     refine ⟨⟨τ, tau_mem_Mh h hMh⟩, ?_, ?_⟩
     · intro hτ
-      exact tau_not_mem_Mc h hMh hMc (Subgroup.mem_subgroupOf.mp hτ)
+      exact tau_not_mem_Mc h hMc (Subgroup.mem_subgroupOf.mp hτ)
     · intro b
       rcases mem_Mc_or_tau_mul h hMh hMc b.2 with hb | hb
       · exact Or.inr (Subgroup.mem_subgroupOf.mpr hb)
@@ -125,11 +125,11 @@ theorem card_Mc : Nat.card Mc = 256 := by
   omega
 
 theorem Mc_isPGroup : IsPGroup 2 Mc :=
-  (Mh_isPGroup h hMh).to_le (Mc_le_Mh h hMh hMc)
+  (Mh_isPGroup h hMh).to_le (Mc_le_Mh hMc)
 
 theorem mem_Q_of_mem_Mc_cent_Y {m : H} (hm : m ∈ Mc) (hY : m ∈ centralizer (Y : Set H)) :
     m ∈ Q := by
-  haveI hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
+  have hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
   have hmE : m ∈ Q ⊔ zpowers τ := by rw [← h.E_eq]; exact hY
   obtain ⟨q, hq, zz, hzz, hxz⟩ :=
     (Subgroup.mem_sup_of_normal_left (s := Q) (t := zpowers τ)).mp hmE
@@ -146,10 +146,11 @@ theorem mem_Q_of_mem_Mc_cent_Y {m : H} (hm : m ∈ Mc) (hY : m ∈ centralizer (
       have heq : τ = q⁻¹ * m := by rw [← hxz]; group
       rw [heq]
       exact Mc.mul_mem (Q_le_Mc h hMh hMc (Q.inv_mem hq)) hm
-    exact tau_not_mem_Mc h hMh hMc hτMc
+    exact tau_not_mem_Mc h hMc hτMc
 
+omit [Finite H] in
 theorem cent_rho_Mc {m : H} (hm : m ∈ Mc) (hc : ρ * m * ρ⁻¹ = m) : m = 1 := by
-  have hmMh : m ∈ Mh := Mc_le_Mh h hMh hMc hm
+  have hmMh : m ∈ Mh := Mc_le_Mh hMc hm
   have hmc : m ∈ centralizer ({ρ} : Set H) := by
     rw [Subgroup.mem_centralizer_singleton_iff]
     calc m * ρ = (ρ * m * ρ⁻¹) * ρ := by conv_lhs => rw [← hc]
@@ -165,7 +166,7 @@ theorem cent_rho_Mc {m : H} (hm : m ∈ Mc) (hc : ρ * m * ρ⁻¹ = m) : m = 1 
   · rw [h0, zpow_zero] at hn; exact hn.symm
   · exfalso
     rw [h1, zpow_one] at hn
-    exact tau_not_mem_Mc h hMh hMc (hn ▸ hm)
+    exact tau_not_mem_Mc h hMc (hn ▸ hm)
 
 end ZJData
 

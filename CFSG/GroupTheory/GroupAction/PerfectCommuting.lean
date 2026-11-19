@@ -123,7 +123,7 @@ theorem smul_eq_self_of_perfect_or_pGroup_of_fixedPoints {N : Type u} {Q : Type 
       have hF : F = ⊤ := by
         rw [eq_top_iff, ← hgenA, Subgroup.closure_le]
         intro x hx
-        simp only [Set.mem_iUnion, Set.mem_image, Set.mem_setOf_eq] at hx
+        simp only [Set.mem_iUnion, Set.mem_image, Set.mem_ofPred_eq] at hx
         obtain ⟨g, c, hc, rfl⟩ := hx
         intro s'
         have hc' : ∀ t ∈ T, (t : Q) • (c : N') = c := fun t ht => congrArg Subtype.val (hc t ht)
@@ -245,11 +245,11 @@ theorem closure_translates_fixedPoints_eq_top_of_zmod {Q : Type v} [Group Q] (T 
   have hsub : (⋃ g : Q, (fun w : Additive V => g • w) ''
       {w : Additive V | ∀ t ∈ T, (t : Q) • w = w}) ⊆ (H' : Set (Additive V)) := by
     intro w hw
-    simp only [Set.mem_iUnion, Set.mem_image, Set.mem_setOf_eq] at hw
+    simp only [Set.mem_iUnion, Set.mem_image, Set.mem_ofPred_eq] at hw
     obtain ⟨g, c, hc, rfl⟩ := hw
     show g • Additive.toMul c ∈ H
     apply Subgroup.subset_closure
-    simp only [Set.mem_iUnion, Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_iUnion, Set.mem_image, Set.mem_ofPred_eq]
     exact ⟨g, Additive.toMul c, fun t ht => congrArg Additive.toMul (hc t ht), rfl⟩
   have htop : (⊤ : Submodule (ZMod r) (Additive V)) ≤ H' :=
     hspan.symm.le.trans (Submodule.span_le.mpr hsub)

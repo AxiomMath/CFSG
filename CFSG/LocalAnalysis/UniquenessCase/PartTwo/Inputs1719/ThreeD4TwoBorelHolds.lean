@@ -47,7 +47,7 @@ theorem exists_two_pow_of_relIndex_seven {A : Type} [Group A] {B U : Subgroup A}
   have hcard : Nat.card (↥B ⧸ U.subgroupOf B) = 7 := hidx
   have : IsCyclic (↥B ⧸ U.subgroupOf B) := isCyclic_of_prime_card hcard
   have hcomm : ∀ a b : ↥B ⧸ U.subgroupOf B, a * b = b * a := fun a b =>
-    (IsCyclic.commutative (α := ↥B ⧸ U.subgroupOf B)).is_comm.comm a b
+    (_root_.IsCyclic.isMulCommutative (α := ↥B ⧸ U.subgroupOf B)).is_comm.comm a b
   set c : ↥B →* ↥B := (B.normalizerMonoidHom ⟨r, hrB⟩).toMonoidHom with hc
   have hcoe : ∀ b : ↥B, ((c b : ↥B) : A) = r * b * r⁻¹ := fun b =>
     normalizerMonoidHom_apply_apply_coe B ⟨r, hrB⟩ b

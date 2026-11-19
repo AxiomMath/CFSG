@@ -23,7 +23,7 @@ private theorem l48pT_image {G : Type} [Group G] {L : Subgroup G} {x b : G}
     rw [Subgroup.mem_map] at hg
     obtain ⟨a, ha, rfl⟩ := hg
     refine ⟨?_, ?_⟩
-    · simpa using a.2
+    · simp
     · have ha' : (L.normalizerMonoidHom ⟨b, hb⟩) a = a := by
         rwa [hA, mem_ggFixSub] at ha
       have hfix : b * (a : G) * b⁻¹ = (a : G) := by

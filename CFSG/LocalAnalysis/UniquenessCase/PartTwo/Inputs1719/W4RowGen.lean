@@ -94,14 +94,14 @@ theorem le_mParam_of_gen (hW : ∀ w : W, w ^ 2 = 1) {Y L : Subgroup (MulAut W)}
   have hW' : ∀ w : W, w * w = 1 := fun w => by rw [← sq]; exact hW w
   unfold E3.mParam
   by_cases hEven : Even (Nat.card Y)
-  · rw [if_pos hEven]
+  · rw [ite_eq_left hEven]
     refine le_csInf ?_ ?_
     · obtain ⟨t, hto⟩ :=
         exists_prime_orderOf_dvd_card' (G := ↥Y) 2 (even_iff_two_dvd.1 hEven)
       exact ⟨_, (t : MulAut W), t.2, by rwa [Subgroup.orderOf_coe], rfl⟩
     · rintro n ⟨t, htY, hto, rfl⟩
       exact le_rkIdx_of_gen hW' hO2 e hp2 hρ hgen (hYL t htY hto) hto
-  · rw [if_neg hEven]
+  · rw [ite_eq_right hEven]
     exact le_rk_of_gen hW e hk hp2 hpS hρ
 
 theorem mem_of_actS_inner_of_fstar {Y L : Subgroup (MulAut W)} (hLY : L ≤ Y) (hF : Fstar Y = L)
@@ -194,7 +194,7 @@ theorem le_mParam_of_gen_out2 (hW : ∀ w : W, w ^ 2 = 1) {Y L : Subgroup (MulAu
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLY).1 hLn
   unfold E3.mParam
   by_cases hEven : Even (Nat.card Y)
-  · rw [if_pos hEven]
+  · rw [ite_eq_left hEven]
     refine le_csInf ?_ ?_
     · obtain ⟨t, hto⟩ :=
         exists_prime_orderOf_dvd_card' (G := ↥Y) 2 (even_iff_two_dvd.1 hEven)
@@ -212,7 +212,7 @@ theorem le_mParam_of_gen_out2 (hW : ∀ w : W, w ^ 2 = 1) {Y L : Subgroup (MulAu
         rw [hm] at h2
         have hρm : ρ ≤ m := (Nat.pow_le_pow_iff_right (by norm_num)).1 h2
         rwa [rkIdx, hm, padicValNat.prime_pow]
-  · rw [if_neg hEven]
+  · rw [ite_eq_right hEven]
     exact le_rk_of_gen hW e hk hp2 hpS hρ
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.W4Row

@@ -40,7 +40,7 @@ theorem ggA2EightRA_holds : GGTablePKnownR fun p n labJ labX => GGRegimeA2Eight 
     have hAll := largeEvenLabelAll_torusLift_typeA (p := 7) (by norm_num) htagA hr4 hdvdq
     have hRaw := hAll (fun R _ _ _ => Nonempty (X ⧸ Subgroup.center X ≃* R)) hhX
     obtain ⟨R, hR, I, F, ⟨⟨e⟩, hT⟩⟩ := largeEvenRawDatum_exists hRaw
-    letI := hR
+    let := hR
     have hlift : labX.rank + 1 - 2 ≤ LargeEvenTwoLocalRank 7 X :=
       tara_le_twoLocalRank_of_torusLift (p := 7) (by norm_num) hT e hperf
     omega

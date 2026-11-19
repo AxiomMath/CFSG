@@ -27,7 +27,7 @@ theorem confinement_p (hp5 : 5 ≤ p) (hK : P5KFacts) (hG : P5Global G) (hloc : 
 
 theorem pNonemptyConfinement_of_inputs (hK : P5KFacts) : YSPNonemptyConfinement := by
   intro G _ _ _ hnonab hKp hchar he hpre hD1 hD2 hFC p P M hp5 hloc hpm hType
-  haveI : Fact p.Prime := ⟨hloc.beta.1⟩
+  have : Fact p.Prime := ⟨hloc.beta.1⟩
   have hS : D1Global G := ⟨inferInstance, hnonab, hKp, hchar, he, hpre⟩
   have hG : P5Global G := ⟨hS, hD1, hD2, hFC⟩
   have hType' : PTypeHyp p P M := hType

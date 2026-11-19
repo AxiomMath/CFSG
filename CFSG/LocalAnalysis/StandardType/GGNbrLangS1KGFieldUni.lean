@@ -44,17 +44,17 @@ private theorem kgFieldCompContUniAux_recipe {p : ℕ} (hp : p.Prime) (_hp2 : p 
     rw [h2] at hle
     omega
   have hdq : (l + 1, 2 ^ n) ≠ (3, 2) := fun h => hdq' (Prod.mk.inj h)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdata : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
     unitaryFieldData_of_card hn hF
   change KGFieldCompCont p ⟨.twA, l, n⟩ R I Fd
   have hsimple : IsSimpleGroup R :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 n hF (l + 1) hd hdq
-  haveI hSUperf : Group.IsPerfect SU :=
+  have hSUperf : Group.IsPerfect SU :=
     Subgroup.isPerfect_iff.mpr (GGL45TG.SU.commutator_su hdata hd (by omega : 2 ≤ n))
-  haveI hRperf : Group.IsPerfect R :=
+  have hRperf : Group.IsPerfect R :=
     Group.IsPerfect.ofSurjective (f := LargeEvenProjMk SU) (QuotientGroup.mk'_surjective _)
-  haveI : Nontrivial R := hsimple.toNontrivial
+  have : Nontrivial R := hsimple.toNontrivial
   have hna : ∃ a b : R, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -95,7 +95,7 @@ private theorem kgFieldCompContUniAux_recipe {p : ℕ} (hp : p.Prime) (_hp2 : p 
     exact MulEquiv.injective u' (by rw [hh', map_one])
   let ψ₀ : SU →* SU :=
     { toFun := fun g => ⟨Matrix.GeneralLinearGroup.map (σ : F →+* F) (g : GL (Fin (l + 1)) F),
-        GGL45TG.SU.map_mem_su hdata σ g.2⟩
+        GGL45TG.SU.map_mem_su σ g.2⟩
       map_one' := by
         apply Subtype.ext
         exact map_one (Matrix.GeneralLinearGroup.map (σ : F →+* F))

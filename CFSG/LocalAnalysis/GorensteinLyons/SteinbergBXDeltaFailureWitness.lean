@@ -58,7 +58,7 @@ theorem delta_failure_invariant_two_witness [Finite G] {p : ℕ} (hp : p.Prime) 
   have hSne : (Q : Subgroup K).map K.subtype ≠ ⊥ := by
     rw [Ne, map_eq_bot_iff_of_injective _ K.subtype_injective]
     exact Q.ne_bot_of_dvd_card (even_iff_two_dvd.mp hKeven)
-  have hSp : IsPGroup 2 ((Q : Subgroup K).map K.subtype) := Q.isPGroup'.map K.subtype
+  have hSp : IsPGroup 2 ((Q : Subgroup K).map K.subtype) := Q.isPGroup.map K.subtype
   refine ⟨B, hB, D, hDB, hD, hDcard, (Q : Subgroup K).map K.subtype, K, hK5, hK3, hKeven,
     ⟨Q, rfl⟩, hSne, hSK.trans hKΔ, hQ, ?_, ⟨_, hSne, hSp, rfl⟩, fun h3 => ?_⟩
   · exact le_centralizer_iff.mp ((hSK.trans hKΔ).trans hΔC)

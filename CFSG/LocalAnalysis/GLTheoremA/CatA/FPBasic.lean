@@ -53,7 +53,7 @@ theorem exists_fixed_lift {Z : Subgroup H} (hZc : Z ≤ Subgroup.center H) [Z.No
       have hz1 : (x ^ n) ^ d = 1 := by
         have := pow_orderOf_eq_one z
         have h2 := congrArg (fun y : Z => (y : H)) this
-        simpa [hz, hd] using h2
+        simp [hz, hd]
       obtain ⟨c, hc⟩ := hdu
       rw [hc, pow_mul, hz1, one_pow]
     have hwu : (w ^ u) ^ n = 1 := by
@@ -126,11 +126,11 @@ theorem twoPart_fixNum_centerQuot {H : Type*} [Group H] [Finite H]
         rintro ⟨c, hc⟩
         exact (Nat.not_even_iff_odd.2 hker) ⟨c, by omega⟩), zero_add]
   have h3 : twoPart (Nat.card C') = twoPart (Nat.card D) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨P⟩ : Nonempty (Sylow 2 C') := inferInstance
     have hPD : (P : Subgroup C') ≤ D.subgroupOf C' := by
       intro y hy
-      obtain ⟨k, hk⟩ := P.isPGroup' (⟨y, hy⟩ : P)
+      obtain ⟨k, hk⟩ := P.isPGroup (⟨y, hy⟩ : P)
       have hk' : (y : H ⧸ Z) ^ (2 ^ k) = 1 := by
         have := congrArg (fun t : P => ((t : C') : H ⧸ Z)) hk
         simpa using this
@@ -165,6 +165,7 @@ open CFSG.LocalAnalysis.GLTheoremA.MI (indAut)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem indRel_iff_barAut {p : ℕ} {L : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) (q q' : PQuot p L) :
     indRel p L g q q' ↔ barAut p L ⟨g⁻¹, Subgroup.inv_mem _ hg⟩ q = q' := by
@@ -184,6 +185,7 @@ theorem indRel_iff_barAut {p : ℕ} {L : Subgroup G} {g : G}
     show (g⁻¹ : G) * (l : G) * (g⁻¹)⁻¹ = g⁻¹ * l * g
     simp
 
+omit [Finite G] in
 theorem card_indRel_fixed_eq {p : ℕ} {L : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) :
     Nat.card {q : PQuot p L // indRel p L g q q} =
@@ -200,7 +202,7 @@ theorem centCard2_eq_twoPart_fixNum {p : ℕ} {L : Subgroup G} {g : G}
 
 theorem odd_card_center_pQuot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (L : Subgroup G) :
     Odd (Nat.card (Subgroup.center (PQuot p L))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (I2611.isPGroup_center_pQuot' hp L)
   rw [hn]
   exact (hp.odd_of_ne_two hp2).pow

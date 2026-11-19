@@ -40,6 +40,7 @@ structure BorelU34 (Q S D : Subgroup Γ) : Prop where
 
 variable [Finite Γ]
 
+omit [Finite Γ] in
 theorem w183l313_center_map_eq (S : Subgroup Γ) :
     (Subgroup.center ↥S).map S.subtype = sylowCenter S := by
   ext x
@@ -52,6 +53,7 @@ theorem w183l313_center_map_eq (S : Subgroup Γ) :
     rw [mem_sylowCenter] at hx
     exact ⟨⟨x, hx.1⟩, Subgroup.mem_center_iff.mpr (fun z => Subtype.ext (hx.2 z z.2)), rfl⟩
 
+omit [Finite Γ] in
 private theorem w183l313_normalizes_center_aux {S : Subgroup Γ} {y : Γ}
     (hy : y ∈ Subgroup.normalizer (S : Set Γ)) :
     y ∈ Subgroup.normalizer ((sylowCenter S : Subgroup Γ) : Set Γ) := by
@@ -123,7 +125,7 @@ private theorem w183l313_map_conjSub {Y Z : Type} [Group Y] [Group Z] (φ : Y �
   have hf : (φ.comp (MulAut.conj g⁻¹).toMonoidHom : Y →* Z) =
       ((MulAut.conj (φ g)⁻¹).toMonoidHom.comp φ : Y →* Z) := by
     ext x
-    simp [MulAut.conj_apply, map_mul]
+    simp [map_mul]
   rw [CFSG.Goldschmidt.conjSub, conjSubgroup, Subgroup.map_map, Subgroup.map_map, hf]
 
 section Certified
@@ -132,7 +134,7 @@ section Certified
 theorem w183l313_borel_exists {Q S : Subgroup Γ} (hQ : IsU3 ↥Q 2) (hS : IsSylowIn 2 S Q) :
     ∃ D : Subgroup Γ, BorelU34 Q S D := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X := ↥Q
   let φ : X →* Γ := Q.subtype
   have hφ : Function.Injective φ := Q.subtype_injective
@@ -299,7 +301,7 @@ theorem w183l313_borel_exists {Q S : Subgroup Γ} (hQ : IsU3 ↥Q 2) (hS : IsSyl
     rw [← hTmap] at hx
     obtain ⟨a, ha, rfl⟩ := hx
     rw [← hZmap]
-    exact ⟨a ^ 2, hsqT a ha, by simp [map_pow, pow_two]⟩
+    exact ⟨a ^ 2, hsqT a ha, by simp [pow_two]⟩
   · have h : ∃ a : ↥(T : Subgroup X), ∃ b : ↥(T : Subgroup X), a * b ≠ b * a := by
       have h' : ¬ ∀ a b : ↥(T : Subgroup X), a * b = b * a :=
         fun h => hnabT (isMulCommutative_iff.mpr h)
@@ -404,6 +406,7 @@ theorem w183l313_borel_exists {Q S : Subgroup Γ} (hQ : IsU3 ↥Q 2) (hS : IsSyl
       rfl
     exact hgoal.symm
 
+omit [Finite Γ] in
 private theorem w183l313_center_inf_normalizer {Q S D S' D' : Subgroup Γ}
     (hB : BorelU34 Q S D) (hB' : BorelU34 Q S' D') (hS : IsSylowIn 2 S Q)
     (hS' : IsSylowIn 2 S' Q) (hne : S ≠ S') :
@@ -456,7 +459,7 @@ private theorem w183l313_center_inf_normalizer {Q S D S' D' : Subgroup Γ}
       rw [IsSylowIn.coe_toSylow, Subgroup.mem_subgroupOf]
       exact hxS
     have hP : IsPGroup 2 (Subgroup.zpowers x') :=
-      hS.toSylow.isPGroup'.to_le (Subgroup.zpowers_le.mpr hx'T)
+      hS.toSylow.isPGroup.to_le (Subgroup.zpowers_le.mpr hx'T)
     have hx'N : x' ∈ Subgroup.normalizer ((hS'.toSylow : Subgroup X) : Set X) := by
       rw [Subgroup.mem_normalizer_iff]
       intro z
@@ -549,6 +552,7 @@ theorem w183l313_normalizes_sylow {Q S : Subgroup Γ} (hQ : IsU3 ↥Q 2) (hS : I
 
 end Certified
 
+omit [Finite Γ] in
 theorem w183l313_normalizes_center {S : Subgroup Γ} {y : Γ}
     (hy : y ∈ Subgroup.normalizer (S : Set Γ)) :
     y ∈ Subgroup.normalizer ((sylowCenter S : Subgroup Γ) : Set Γ) :=

@@ -11,6 +11,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c167_twenty_two_core {M V A : Subgroup G} (hAM : A ≤ M) (hAel : IsElemAbelian 2 A)
     {I : Fin 3 → Subgroup G} {ρ : ↥M →* Equiv.Perm (Fin 3)} {P : Subgroup G}
     {Δ : Set (Subgroup G)} (hle : ∀ i, I i ≤ V) (hne : ∀ i, I i ≠ ⊥)

@@ -22,9 +22,9 @@ theorem w16l_false_of_linear {X : Type} [Group X] [Finite X] {B : Subgroup X} {m
     False := by
   classical
   obtain ⟨F, hF, hFin, _hFcard, e, a, ha, hVb⟩ := hlin
-  letI : Field F := hF
-  letI : Finite F := hFin
-  haveI : Nontrivial F := ⟨0, 1, zero_ne_one⟩
+  let : Field F := hF
+  let : Finite F := hFin
+  have : Nontrivial F := ⟨0, 1, zero_ne_one⟩
   have hm2 : 2 ≤ m := by omega
   have hcard : 1 < (transvectionCenterSet m F a).ncard := by
     rw [ncard_transvectionCenterSet m F hm2 a ha]
@@ -64,7 +64,7 @@ theorem w16l_false_of_linear {X : Type} [Group X] [Finite X] {B : Subgroup X} {m
       rw [Subgroup.mem_center_iff]
       intro y
       exact (Subgroup.mem_centralizer_iff.mp (htop (Subgroup.mem_top y)) b hb).symm
-    haveI hBnorm : B.Normal := Subgroup.normal_of_le_center hBcenter
+    have hBnorm : B.Normal := Subgroup.normal_of_le_center hBcenter
     have hnc : Subgroup.normalClosure (B : Set X) = B := Subgroup.normalClosure_eq_self B
     have hBtop : B = ⊤ := hnc.symm.trans hgen
     have hel_top : IsElemAbelian 2 (⊤ : Subgroup X) := by

@@ -77,6 +77,7 @@ theorem psi_mul (u v : Fin n ⊕ Fin n → GaloisField 2 1) :
       ((Additive.toMul (ψ (u + v)) : ↥(wOf V H)) : G) :=
   lemma11b_psi_mul ψ u v
 
+omit [Finite G] in
 theorem psi_inv (u : Fin n ⊕ Fin n → GaloisField 2 1) :
     ((Additive.toMul (ψ u) : ↥(wOf V H)) : G)⁻¹ = ((Additive.toMul (ψ u) : ↥(wOf V H)) : G) :=
   inv_eq_of_mul_eq_one_right (qpCfg_psi_mul_self (ψ := ψ) u)
@@ -237,7 +238,7 @@ theorem mul_self_mem_VW (h11b : Lemma11bStatement) (cfg : GCfg M V Q P H Φ ψ a
     (hp : p ∈ P) : p * p ∈ V ⊓ wOf V H := by
   have hc : MinCex M V Q P H := cfg.hyp.setup.mc.toMinCex
   obtain ⟨-, hfr, -⟩ := h11b G M V Q P H cfg.hyp cfg.centre cfg.iw
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← hfr]
   refine ⟨⟨p, hp⟩ ^ 2, CFSG.OrderReductions.FrattiniElementary.pow_mem_frattini 2
     hc.isPGroup_P _, ?_⟩
@@ -484,7 +485,7 @@ theorem conj_mem_W_of_commute (h11a : Lemma11aStatement) (h11c : Lemma11cStateme
     exact (wOf V H).mul_mem h2 ((wOf V H).inv_mem hbW)
 
 theorem conjSubgroup_xOf_le (h11a : Lemma11aStatement) (cfg : GCfg M V Q P H Φ ψ a T)
-    {c : G} (hcM : c ∈ M) (hcW : ∀ w ∈ wOf V H, c * w * c⁻¹ ∈ wOf V H) :
+    {c : G} (_hcM : c ∈ M) (hcW : ∀ w ∈ wOf V H, c * w * c⁻¹ ∈ wOf V H) :
     conjSubgroup c (xOf V H) ≤ xOf V H := by
   have hc : MinCex M V Q P H := cfg.hyp.setup.mc.toMinCex
   obtain ⟨-, -, hxOf, -⟩ :=
@@ -643,7 +644,7 @@ theorem lmap_injective {q : G} (hq : ∀ w ∈ wOf V H, q * w * q⁻¹ ∈ wOf V
   simp only [psi_lmap] at h1
   exact psi_injective (mul_left_cancel (mul_right_cancel h1))
 
-theorem exists_X_conj_of_mem_M (cfg : GCfg M V Q P H Φ ψ a T) {q : G} (hqM : q ∈ M)
+theorem exists_X_conj_of_mem_M (cfg : GCfg M V Q P H Φ ψ a T) {q : G} (_hqM : q ∈ M)
     (hq : ∀ w ∈ wOf V H, q * w * q⁻¹ ∈ wOf V H) (x : ↥(xOf V H)) :
     ∃ x' : ↥(xOf V H), (x' : G) * ((Additive.toMul (ψ a) : ↥(wOf V H)) : G) * (x' : G)⁻¹ =
         q * ((x : G) * ((Additive.toMul (ψ a) : ↥(wOf V H)) : G) * (x : G)⁻¹) * q⁻¹ ∧
@@ -1211,7 +1212,7 @@ omit [Finite G] in
 theorem psi_toVec {w : G} (hw : w ∈ wOf V H) :
     ((Additive.toMul (ψ (toVec ψ w)) : ↥(wOf V H)) : G) = w := by
   unfold toVec
-  rw [dif_pos hw, AddEquiv.apply_symm_apply]
+  rw [dite_eq_left hw, AddEquiv.apply_symm_apply]
   rfl
 
 omit [Finite G] in

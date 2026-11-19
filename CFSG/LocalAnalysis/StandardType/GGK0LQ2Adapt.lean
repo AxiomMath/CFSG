@@ -30,6 +30,7 @@ noncomputable def coreFactor_equiv_rationalComponent
   rw [coreFactor, Subgroup.map_comap_eq]
   exact inf_eq_right.mpr hle
 
+omit [CharP Omega 2] in
 theorem coreFactor_label_of_rationalComponent_label
     {lab : LargeEvenLabel} {p : ℕ} {R : Type} [Group R] {I : Set (MulAut R)} {phi : MulAut R}
     {ell : LargeEvenLabel}

@@ -51,7 +51,7 @@ theorem sign_mem_or_of_nilpotent (hd : Sec19DataT p f K z S W L t V)
   have hOY : O ≤ sec19Y K z := Subgroup.map_subtype_le _
   have hYN : ∀ y ∈ sec19Y K z, y ∈ Subgroup.normalizer (O : Set G) := fun y hy =>
     AschTight.mem_normalizer_oddCoreOf_of_mem_normalizer (Subgroup.le_normalizer hy)
-  have hP2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ sec19Y K z) := S.isPGroup'.to_le inf_le_left
+  have hP2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ sec19Y K z) := S.isPGroup.to_le inf_le_left
   have hbot := S1916.inf_oddCoreOf_eq_bot hP2 (sec19Y K z)
   intro x hx
   refine ⟨AschTight.mem_normalizer_oddCoreOf_of_mem_normalizer (hNY hx), ?_⟩
@@ -123,7 +123,7 @@ theorem exists_pow_four_eq (hd : Sec19DataT p f K z S W L t V)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ef := S1911.etaYForm p f G K z S W L t V hd
   have hzZ := S1916.isUniqueInvolution_W_inf hd
-  have hC2 : IsPGroup 2 ↥(W ⊓ sec19Y K z) := S.isPGroup'.to_le (inf_le_left.trans hd.hWS)
+  have hC2 : IsPGroup 2 ↥(W ⊓ sec19Y K z) := S.isPGroup.to_le (inf_le_left.trans hd.hWS)
   obtain ⟨g₀, hg₀⟩ := ef.cyclic.exists_generator
   have hgo : orderOf (g₀ : G) = Nat.card ↥(W ⊓ sec19Y K z) := by
     rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers hg₀]
@@ -166,7 +166,7 @@ theorem false_of_quat (h11b : C19_11bTmp p f) (hd : Sec19DataT p f K z S W L t V
     rw [e]
     intro hz
     have hmem : z ∈ W ⊓ sec19Y K z ⊓ oddCoreOf (sec19Y K z) := ⟨hzZ.mem, hz⟩
-    rw [S1916.inf_oddCoreOf_eq_bot (S.isPGroup'.to_le (inf_le_left.trans hd.hWS)) _,
+    rw [S1916.inf_oddCoreOf_eq_bot (S.isPGroup.to_le (inf_le_left.trans hd.hWS)) _,
       Subgroup.mem_bot] at hmem
     exact hzZ.ne_one hmem
   have hqR : ∀ r ∈ (S : Subgroup G) ⊓ K, q * r = r * q := fun r hr =>

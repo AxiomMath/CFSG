@@ -18,7 +18,7 @@ theorem k148f_hker {K I' : Subgroup G} (hI'K : I' ≤ K) (hS : IsSimpleGroup ↥
     (CFSG.HardMathSupport.Solomon.Coordinator.l514t_barXMap hI'K).ker = GLAPPrimeCore 3 ↥I' := by
   apply le_antisymm (CFSG.HardMathSupport.Solomon.Coordinator.l514t_barXMap_ker_le_core hI'K)
   have hsurj := CFSG.HardMathSupport.Solomon.Coordinator.l514t_barXMap_surjective hI'K
-  haveI hNn : ((GLAPPrimeCore 3 ↥I').map
+  have hNn : ((GLAPPrimeCore 3 ↥I').map
       (CFSG.HardMathSupport.Solomon.Coordinator.l514t_barXMap hI'K)).Normal :=
     Subgroup.Normal.map (GLAPPrimeCore.normal 3 ↥I') _ hsurj
   rcases hS.eq_bot_or_eq_top_of_normal ((GLAPPrimeCore 3 ↥I').map
@@ -43,6 +43,7 @@ theorem k148f_hker {K I' : Subgroup G} (hI'K : I' ≤ K) (hS : IsSimpleGroup ↥
     (QuotientGroup.quotientKerEquivOfSurjective _
       (CFSG.HardMathSupport.Solomon.Coordinator.l514t_barXMap_surjective hI'K))
 
+omit [Finite G] in
 theorem k148f_psi_mk {K I' : Subgroup G} (hI'K : I' ≤ K)
     (hker : (CFSG.HardMathSupport.Solomon.Coordinator.l514t_barXMap hI'K).ker = GLAPPrimeCore 3 ↥I')
     (x : ↥I') :

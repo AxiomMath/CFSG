@@ -27,7 +27,7 @@ theorem burnside_fusion_pointwise {G : Type*} [Group G] [Finite G] {p : ℕ} [Fa
     calc g⁻¹ * a * g * x = g⁻¹ * (a * (g * x * g⁻¹)) * g := by group
       _ = g⁻¹ * ((g * x * g⁻¹) * a) * g := by rw [← h1]
       _ = x * (g⁻¹ * a * g) := by group
-  have hWp : IsPGroup p W := T.isPGroup'.to_le hWT
+  have hWp : IsPGroup p W := T.isPGroup.to_le hWT
   have hW'p : IsPGroup p (conjSubgroup W g) := hWp.map _
   obtain ⟨c, hcN, y, hy1, hy2⟩ := exists_conj_le_sylow_of_isPGroup T hWN hW'N hWp hW'p
   have h1 : conjSubgroup W y = W := hW y hy1

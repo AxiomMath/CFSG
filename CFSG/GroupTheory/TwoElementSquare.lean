@@ -39,7 +39,7 @@ theorem eq_bot_of_normal_isPGroup_of_isSimpleGroup {H : Type*} [Group H] [Finite
   · exfalso
     subst h
     have hH2 : IsPGroup 2 H := hN.of_equiv Subgroup.topEquiv
-    haveI : Nontrivial (Subgroup.center H) := hH2.center_nontrivial
+    have : Nontrivial (Subgroup.center H) := hH2.center_nontrivial
     have hZ : Subgroup.center H ≠ ⊥ := by
       intro hbot
       obtain ⟨z, hz⟩ := exists_ne (1 : Subgroup.center H)
@@ -56,9 +56,9 @@ theorem sq_eq_one_of_surjective_of_sq_mem {X H : Type*} [Group X] [Group H] [IsS
     (hsq : ∀ y ∈ Y, (∃ k : ℕ, y ^ 2 ^ k = 1) → y ^ 2 ∈ Q)
     (φ : ↥Y →* H) (hφ : Function.Surjective φ) {g : H} (hg : ∃ k : ℕ, g ^ 2 ^ k = 1) :
     g ^ 2 = 1 := by
-  haveI : Finite H := Finite.of_surjective φ hφ
+  have : Finite H := Finite.of_surjective φ hφ
   let R : Subgroup ↥Y := (Q ⊓ Y).subgroupOf Y
-  haveI hRnormal : R.Normal := by
+  have hRnormal : R.Normal := by
     rw [show R = (Q ⊓ Y).subgroupOf Y from rfl,
       Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right]
     exact (le_inf hYQ Subgroup.le_normalizer).trans
@@ -67,7 +67,7 @@ theorem sq_eq_one_of_surjective_of_sq_mem {X H : Type*} [Group X] [Group H] [IsS
     rw [show R = (Q ⊓ Y).subgroupOf Y from rfl]
     exact (hQ.to_inf_left (K := Y)).of_equiv
       (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
-  haveI hRmapN : (R.map φ).Normal := Subgroup.Normal.map hRnormal φ hφ
+  have hRmapN : (R.map φ).Normal := Subgroup.Normal.map hRnormal φ hφ
   have hRmap : R.map φ = ⊥ :=
     eq_bot_of_normal_isPGroup_of_isSimpleGroup hH (hR2.map φ)
   refine sq_eq_one_of_surjective_of_sq_mem_ker φ hφ ?_ hg

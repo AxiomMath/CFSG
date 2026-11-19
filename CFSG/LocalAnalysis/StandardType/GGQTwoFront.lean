@@ -45,6 +45,7 @@ theorem qTwoFront_lieModel {H : Type} [Group H] [Finite H] {m f : ℕ} {K : Type
     exact absurd (congrArg Prod.fst h) (by omega)
   · exact ⟨show H ⧸ Subgroup.center H ≃* StatedProj (StatedSU m (2 ^ f) K) from e⟩
 
+omit [Finite G] in
 theorem qTwoFront_esuTied {p : ℕ} {Bs X : Subgroup G}
     (h : GGInnerDiagOnLabel ggRowP_ESU p Bs X) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (f m : ℕ), Nat.card K = (2 ^ f) ^ 2 ∧ 4 ≤ m ∧
@@ -71,8 +72,8 @@ theorem qTwo_front
   have hlabel : GGInnerDiagOnLabel ggRowP_ESU p Bs L := qTwoFront_esuLabel hG hEn
   obtain ⟨K, hfld, hfin, f, m, hK, hm4, hdvd, hperf, he, hlabelT⟩ := qTwoFront_esuTied hlabel
   obtain ⟨e⟩ := he
-  letI := hfld
-  letI := hfin
+  let := hfld
+  let := hfin
   have hf1 : f = 1 := qTwoFront_q_eq_one hG hlabelT hK hm4 hperf hdvd e
   have hm5 : 5 ≤ m := qTwoFront_m_ge_five hG hK hm4 hf1 hperf e
   subst hf1

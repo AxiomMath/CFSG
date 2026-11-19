@@ -111,7 +111,7 @@ private theorem mul_conj_inv_mem_centralizer {A : Subgroup G}
   rw [hφ] at hfa'
   have hTG : (((T ⟨a, ha⟩)⁻¹ : A) : G) = (a⁻¹ * (w * a * w⁻¹))⁻¹ := by
     rw [hT]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, hφ, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, hφ]
   rw [hTG] at hfa'
   have hwe := mul_inv_eq_iff_eq_mul.mp hfa'
   have hae : a * (w * a⁻¹ * w⁻¹) = (a⁻¹ * (w * a * w⁻¹))⁻¹ := by

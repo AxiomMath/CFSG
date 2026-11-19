@@ -58,12 +58,12 @@ theorem mul_self_of_mem_A_two (hm : m = 2) {x : G} (hx : x ∈ D.A) : x * x = 1 
 
 theorem comm_T₀_of_mem_A (hm : m = 2) {α x : G} (hα : α ∈ D.A) (hx : x ∈ D.T₀) :
     x * α = α * x :=
-  comm_of_mem_sup (fun y hy => comm_of_mul_self (fun z hz => D.mul_self_of_mem_A_two hm hz) hy hα)
-    (fun y hy => (D.A_comm_B α hα y hy).symm) hx
+  comm_of_mem_sup (fun _y hy => comm_of_mul_self (fun _z hz => D.mul_self_of_mem_A_two hm hz) hy hα)
+    (fun _y hy => (D.A_comm_B α hα _y hy).symm) hx
 
 theorem comm_mem_B₀B₁_of_mem_B {β β' : G} (hβ : β ∈ D.B) (hβ' : β' ∈ D.B) :
     β * β' * β⁻¹ * β'⁻¹ ∈ D.B₀ ⊔ D.B₁ := by
-  haveI : Finite D.B := Nat.finite_of_card_ne_zero (by rw [D.card_B]; positivity)
+  have : Finite D.B := Nat.finite_of_card_ne_zero (by rw [D.card_B]; positivity)
   have hcard : Nat.card D.B = 2 * Nat.card ↥(D.B₀ ⊔ D.B₁) := by
     rw [D.card_B, D.card_B₀B₁, pow_succ, mul_comm]
   have hT : β ∈ T := D.B_le_T hβ
@@ -253,7 +253,7 @@ theorem exists_conj_a_of_mem_T₀ (hm : m = 2) (hab : ¬ IsConj D.a (D.a * D.b))
       _ = g₁⁻¹ * (v * z) * g₁ := by rw [hzv]
       _ = g₁⁻¹ * v * g₁ * (g₁⁻¹ * z * g₁) := by group
   have hHp : IsPGroup 2 ↥((E₁ ⊔ E₂).map (MulAut.conj g₁⁻¹).toMonoidHom) :=
-    (T.isPGroup'.to_le (sup_le hE₁T hE₂T)).map _
+    (T.isPGroup.to_le (sup_le hE₁T hE₂T)).map _
   obtain ⟨k, hk, hkT⟩ := exists_conj_le_sylow_of_le T hTC hHC hHp
   set κ := k * g₁⁻¹ with hκ
   have hψ : ∀ E : Subgroup G, E ≤ E₁ ⊔ E₂ → E.map (MulAut.conj κ).toMonoidHom ≤ T := by

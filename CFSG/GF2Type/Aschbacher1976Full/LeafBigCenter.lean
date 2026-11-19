@@ -17,6 +17,7 @@ open Subgroup CFSG CFSG.LocalAnalysis.GorensteinLyons CFSG.GF2Type.Aschbacher197
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem not_twoGen_of_bigCenter {z : G} (hB : BigCenterData z) :
     ¬ ∃ s : Finset G, s.card ≤ 2 ∧ Subgroup.closure (s : Set G) = Fz z := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, h⟩ := hB
@@ -28,7 +29,7 @@ theorem false_of_bigCenter_of_four_three {z : G} (hz2 : orderOf z = 2)
       ∃ g : G, conjugate (zpowers x) g ≤ Hz z ∧ conjugate (zpowers x) g ≠ zpowers x) :
     False := by
   obtain ⟨Y, P, hYcyc, hY8, hzY, hYF, hYH, hPF, hPH, hP4, hC, -⟩ := hB
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hY2 : IsPGroup 2 Y := hF2.to_le hYF
   have hY4 : 4 ≤ Nat.card Y := by omega
   have hHN : Hz z ≤ normalizer (Y : Set G) := fun h hh =>
@@ -162,7 +163,7 @@ end LeafBigCenter
 theorem leafBigCenter_holds : Asc76LeafBigCenter := by
   intro G _ _ z hS hB
   obtain ⟨hsimp, hnab, hz2, hsymp⟩ := hS
-  haveI := hsimp
+  have := hsimp
   obtain ⟨hF2, -⟩ := hsymp
   exact LeafBigCenter.false_of_bigCenter_of_four_three hz2 hF2 hB
     (fun x hx4 hxz => LeafBigCenter.exists_conj_le_centralizer_ne hnab hz2 hx4 hxz hF2

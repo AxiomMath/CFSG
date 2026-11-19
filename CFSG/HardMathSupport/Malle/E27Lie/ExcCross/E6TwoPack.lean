@@ -88,7 +88,7 @@ theorem anyNK_iff (n : ℕ) (f : ℕ → Bool) : anyNK n f = true → ∃ k < n,
     rw [brec_eq] at h
     by_cases hf : f n = true
     · exact ⟨n, Nat.lt_succ_self n, hf⟩
-    · rw [if_neg hf] at h
+    · rw [ite_eq_right hf] at h
       obtain ⟨k, hk, h'⟩ := ih h
       exact ⟨k, Nat.lt_succ_of_lt hk, h'⟩
 
@@ -145,7 +145,7 @@ theorem setK_spec {x s old c plus : ℕ} (h : setK x s old c plus < BAD) :
   by_cases h1 : x < BAD
   · by_cases h2 : old + c ≤ plus
     · by_cases h3 : plus - (old + c) < 256
-      · simp only [h1, h2, h3, if_true]
+      · simp only [h1, h2, h3, ite_true]
         refine ⟨trivial, trivial, trivial, ?_⟩
         simp only [updK, Nat.add_eq, Nat.sub_eq, shl_eq]
       · simp [h1, h2, h3] at h
@@ -194,7 +194,7 @@ theorem spec0 (x : ℕ) (h : stepK 0 x < BAD) :
     simp only [Nat.add_eq, Nat.reducePow]
     omega
   rw [he, hp, reflect_apply, toV_pk h0 h1 h2 h3 h4 h5, toV_pk (by omega) h1 h2 h3 h4 h5]
-  fin_cases j <;> simp [cE6] <;> omega
+  fin_cases j <;> simp [cE6]; omega
 
 theorem spec1 (x : ℕ) (h : stepK 1 x < BAD) :
     x < BAD ∧ ∀ j : Fin 6, toV (stepK 1 x) j = reflect Tag.E6 (1 : Fin 6) (toV x) j := by
@@ -211,7 +211,7 @@ theorem spec1 (x : ℕ) (h : stepK 1 x < BAD) :
     simp only [Nat.add_eq, Nat.reducePow]
     omega
   rw [he, hp, reflect_apply, toV_pk h0 h1 h2 h3 h4 h5, toV_pk h0 (by omega) h2 h3 h4 h5]
-  fin_cases j <;> simp [cE6] <;> omega
+  fin_cases j <;> simp [cE6]; omega
 
 theorem spec2 (x : ℕ) (h : stepK 2 x < BAD) :
     x < BAD ∧ ∀ j : Fin 6, toV (stepK 2 x) j = reflect Tag.E6 (2 : Fin 6) (toV x) j := by
@@ -228,7 +228,7 @@ theorem spec2 (x : ℕ) (h : stepK 2 x < BAD) :
     simp only [Nat.add_eq, Nat.reducePow]
     omega
   rw [he, hp, reflect_apply, toV_pk h0 h1 h2 h3 h4 h5, toV_pk h0 h1 (by omega) h3 h4 h5]
-  fin_cases j <;> simp [cE6] <;> omega
+  fin_cases j <;> simp [cE6]; omega
 
 set_option maxRecDepth 8000 in
 theorem spec3 (x : ℕ) (h : stepK 3 x < BAD) :
@@ -247,7 +247,7 @@ theorem spec3 (x : ℕ) (h : stepK 3 x < BAD) :
     simp only [Nat.add_eq, Nat.reducePow]
     omega
   rw [he, hp, reflect_apply, toV_pk h0 h1 h2 h3 h4 h5, toV_pk h0 h1 h2 (by omega) h4 h5]
-  fin_cases j <;> simp [cE6] <;> omega
+  fin_cases j <;> simp [cE6]; omega
 
 theorem spec4 (x : ℕ) (h : stepK 4 x < BAD) :
     x < BAD ∧ ∀ j : Fin 6, toV (stepK 4 x) j = reflect Tag.E6 (4 : Fin 6) (toV x) j := by
@@ -264,7 +264,7 @@ theorem spec4 (x : ℕ) (h : stepK 4 x < BAD) :
     simp only [Nat.add_eq, Nat.reducePow]
     omega
   rw [he, hp, reflect_apply, toV_pk h0 h1 h2 h3 h4 h5, toV_pk h0 h1 h2 h3 (by omega) h5]
-  fin_cases j <;> simp [cE6] <;> omega
+  fin_cases j <;> simp [cE6]; omega
 
 theorem spec5 (x : ℕ) (h : stepK 5 x < BAD) :
     x < BAD ∧ ∀ j : Fin 6, toV (stepK 5 x) j = reflect Tag.E6 (5 : Fin 6) (toV x) j := by
@@ -281,7 +281,7 @@ theorem spec5 (x : ℕ) (h : stepK 5 x < BAD) :
     simp only [Nat.add_eq, Nat.reducePow]
     omega
   rw [he, hp, reflect_apply, toV_pk h0 h1 h2 h3 h4 h5, toV_pk h0 h1 h2 h3 h4 (by omega)]
-  fin_cases j <;> simp [cE6] <;> omega
+  fin_cases j <;> simp [cE6]; omega
 
 theorem stepK_spec (i : Fin Tag.E6.rank) (x : ℕ) (h : stepK i.val x < BAD) :
     x < BAD ∧ toV (stepK i.val x) = (Smat Tag.E6 i).mulVec (toV x) := by

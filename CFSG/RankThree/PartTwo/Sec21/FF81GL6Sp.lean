@@ -38,7 +38,7 @@ theorem sp_dot_J0_self (v : Fin 6 → ZMod 2) : v ⬝ᵥ (J0 *ᵥ v) = 0 := by
 theorem sp_vecMulVec_mulVec (a b y : Fin 6 → ZMod 2) :
     vecMulVec a b *ᵥ y = (b ⬝ᵥ y) • a := by
   ext i
-  simp [mulVec, dotProduct, vecMulVec_apply, Finset.mul_sum, Finset.sum_mul, mul_comm,
+  simp [mulVec, dotProduct, vecMulVec_apply, Finset.mul_sum, mul_comm,
     mul_left_comm]
 
 theorem sp_matrix_add_self (M : Matrix (Fin 6) (Fin 6) (ZMod 2)) : M + M = 0 := by

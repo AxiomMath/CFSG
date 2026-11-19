@@ -28,7 +28,7 @@ theorem not_dvd_five_fixer
   let N := sylowNormalizer X P s S
   let _ : Fintype F := Fintype.ofFinite _
   obtain ⟨hF,hJ,hbound⟩ := Degree67ElevenImage.fixed_card_image_and_bound P hcard h5 hnotAlt s hs S hS
-  have hQ : IsPGroup 11 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 11 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q ≤ 121 := by
     rwa [Subgroup.card_map_of_injective (fixingSubgroup P s).subtype_injective]
   have hN : 9 ∣ Nat.card N := by

@@ -17,7 +17,7 @@ private theorem isInnerAut_of_orderOf_prime_card_four {k : Type} [Field k] (hk :
     KFacts.IsInnerAut α := by
   set Inn : Subgroup (MulAut (projectiveSL 3 k)) :=
     (MulAut.conj : projectiveSL 3 k →* MulAut (projectiveSL 3 k)).range with hInn
-  haveI : Inn.Normal := ⟨fun τ hτ γ => (KFacts.isInnerAut_conj_iff γ τ).2 hτ⟩
+  have : Inn.Normal := ⟨fun τ hτ γ => (KFacts.isInnerAut_conj_iff γ τ).2 hτ⟩
   have hInnCard : Nat.card Inn = 20160 := by
     rw [← Nat.card_congr (MonoidHom.ofInjective (KFacts.L34.conj_injective hk)).toEquiv,
       KFacts.L34.card_projectiveSL hk]

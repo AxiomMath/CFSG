@@ -20,16 +20,17 @@ variable {Y : Type*} [Group Y] [Finite Y] {T Z : Subgroup Y} [Z.Normal]
 private theorem not_isMulCommutative_sl2 {F : Type} [Field F] [CharP F 2] :
     ¬ IsMulCommutative (SL(2, F)) := by
   intro h
-  haveI := h
+  have := h
   have htop : Subgroup.center (SL(2, F)) = ⊤ := Subgroup.center_eq_top
   rw [center_sl2_eq_bot] at htop
-  haveI : Subsingleton (SL(2, F)) := by
+  have : Subsingleton (SL(2, F)) := by
     refine ⟨fun a b => ?_⟩
     have ha : a = 1 := Subgroup.mem_bot.mp (htop.symm ▸ Subgroup.mem_top a)
     have hb : b = 1 := Subgroup.mem_bot.mp (htop.symm ▸ Subgroup.mem_top b)
     rw [ha, hb]
   exact utriElt_ne_one (one_ne_zero : (1 : F) ≠ 0) (Subsingleton.elim _ _)
 
+omit [Finite Y] in
 private theorem sl2_T'_data (hTZ : T ⊓ Z = ⊥) (hTp : IsPGroup 2 T) (hTne : T ≠ ⊥)
     (hwc : WeaklyClosedIn T (Subgroup.normalizer (T : Set Y)))
     (hZ : Z ≤ Subgroup.center Y) {F : Type} [Field F] [Fintype F] [CharP F 2]
@@ -117,6 +118,7 @@ private theorem sl2_lift_torus (hTZ : T ⊓ Z = ⊥)
     normalize_and_fixedPointFree_of_map hZ hTZ hwc hd hdbarN hfpfTbar
   exact ⟨d, hdN, hfpfT⟩
 
+omit [Finite Y] in
 private theorem sl2_center_eq_center (hZ : Z ≤ Subgroup.center Y) {F : Type} [Field F]
     [Fintype F] [CharP F 2] (e : Y ⧸ Z ≃* SL(2, F)) :
     Z = Subgroup.center Y := by
@@ -135,12 +137,13 @@ private theorem sl2_center_eq_center (hZ : Z ≤ Subgroup.center Y) {F : Type} [
   have hZc : Z = Subgroup.center Y := center_eq_of_center_quotient_eq_bot hZ hcenterq
   exact hZc
 
+omit [Z.Normal] in
 private theorem sl2_N_data (hZ : Z ≤ Subgroup.center Y) :
     ∃ N : Subgroup Y, N ≤ Z ∧ IsPGroup 2 N ∧ N.Normal ∧ IsSylowOf 2 N Z := by
   obtain ⟨PZ⟩ := (inferInstance : Nonempty (Sylow 2 ↥Z))
   set N : Subgroup Y := (PZ : Subgroup ↥Z).map Z.subtype with hN
   have hNle : N ≤ Z := Subgroup.map_subtype_le _
-  have hNp : IsPGroup 2 N := PZ.isPGroup'.map Z.subtype
+  have hNp : IsPGroup 2 N := PZ.isPGroup.map Z.subtype
   have hNnormal : N.Normal := Subgroup.normal_of_le_center (hNle.trans hZ)
   have htopSub : Subgroup.map Z.subtype (⊤ : Subgroup ↥Z) = Z := by
     ext y
@@ -155,7 +158,7 @@ private theorem sl2_N_data (hZ : Z ≤ Subgroup.center Y) :
     · rw [← hN, htopSub] at h
       exact h
     · rw [isSylowOf_iff]
-      exact ⟨le_top, PZ.isPGroup', by rw [Subgroup.relIndex_top_right]; exact PZ.not_dvd_index⟩
+      exact ⟨le_top, PZ.isPGroup, by rw [Subgroup.relIndex_top_right]; exact PZ.not_dvd_index⟩
   exact ⟨N, hNle, hNp, hNnormal, hNsyl⟩
 
 private theorem sl2_index_odd {F : Type} [Field F] [Fintype F] [CharP F 2]
@@ -164,7 +167,7 @@ private theorem sl2_index_odd {F : Type} [Field F] [Fintype F] [CharP F 2]
     {x : SL(2, F)} (hx : T' = conjSubgroup x (utri F))
     {N : Subgroup Y} (hNle : N ≤ Z) (hNnormal : N.Normal) (hNsyl : IsSylowOf 2 N Z)
     (hTZ : T ⊓ Z = ⊥) : ¬ 2 ∣ (T ⊔ N).index := by
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
 
   have hTZcomap : (T ⊔ Z : Subgroup Y) = (T.map (QuotientGroup.mk' Z)).comap
       (QuotientGroup.mk' Z) := by
@@ -222,7 +225,7 @@ private theorem sl2_sylow_sup (hTp : IsPGroup 2 T)
     {N : Subgroup Y} (hNle : N ≤ Z) (hNp : IsPGroup 2 N) (hNnormal : N.Normal)
     (hNsyl : IsSylowOf 2 N Z) (hTZ : T ⊓ Z = ⊥) :
     ∃ S : Sylow 2 Y, IsSylowOf 2 (T ⊔ N) ⊤ ∧ (S : Subgroup Y) = T ⊔ N := by
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hPgroupTN : IsPGroup 2 ↥(T ⊔ N : Subgroup Y) := by
     rw [sup_comm]
     exact hNp.to_sup_of_normal_left hTp
@@ -237,12 +240,13 @@ private theorem sl2_sylow_sup (hTp : IsPGroup 2 T)
     rw [hS]
     exact IsPGroup.toSylow_coe hPgroupTN hoddTN
   exact ⟨S, hSylTN, hcoe⟩
+omit [Z.Normal] in
 private theorem sl2_N_eq_bot (hZ : Z ≤ Subgroup.center Y) (hperf : commutator Y = ⊤)
     {N : Subgroup Y} (hNle : N ≤ Z) (hNp : IsPGroup 2 N) (hNnormal : N.Normal)
     (hNcomm : IsMulCommutative N) (hTZ : T ⊓ Z = ⊥) {S : Sylow 2 Y}
     (hScoe : (S : Subgroup Y) = T ⊔ N) : N = ⊥ := by
-  haveI : N.Normal := hNnormal
-  haveI : IsMulCommutative N := hNcomm
+  have : N.Normal := hNnormal
+  have : IsMulCommutative N := hNcomm
   obtain ⟨C, hNC, hNsup⟩ :=
     exists_complement_of_sylow_complement (G := Y) Nat.prime_two hNp S
       (by rw [hScoe]; exact le_sup_right)
@@ -271,8 +275,8 @@ private theorem sl2_N_eq_bot (hZ : Z ≤ Subgroup.center Y) (hperf : commutator 
     Subgroup.commutator_eq_bot_iff_le_centralizer.mpr
       ((hNle.trans hZ).trans (Subgroup.center_le_centralizer (⊤ : Set Y)))
   have hcommC : commutator Y ≤ C := by
-    haveI : C.Normal := hCnormal
-    haveI : (N ⊔ C).Normal := inferInstance
+    have : C.Normal := hCnormal
+    have : (N ⊔ C).Normal := inferInstance
     have hNN : ⁅N, N⁆ = (⊥ : Subgroup Y) :=
       le_bot_iff.mp ((Subgroup.commutator_mono le_rfl le_top).trans_eq hNtop)
     have hNC : ⁅N, C⁆ = (⊥ : Subgroup Y) :=
@@ -315,7 +319,7 @@ private theorem sl2_center_eq_bot
       (isSylowOf_iff.mp hNsyl).2.2 (even_iff_two_dvd.mp he)
   have hoddY : Odd (Nat.card (Subgroup.center Y)) := hZc ▸ hoddZ
   obtain ⟨n, -, hcardF⟩ := FiniteField.card F 2
-  haveI : Fintype (GaloisField 2 (n : ℕ)) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (n : ℕ)) := Fintype.ofFinite _
   have hn0 : (n : ℕ) ≠ 0 := n.pos.ne'
   have hGal : Fintype.card (GaloisField 2 (n : ℕ)) = Fintype.card F := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card (p := 2) (n := (n : ℕ)) hn0, hcardF]
@@ -348,10 +352,10 @@ private theorem centralTI_sl2_aux
     (hF : 4 ≤ Fintype.card F) (e : Y ⧸ Z ≃* SL(2, F)) :
     Z = ⊥ ∧ IsSylowOf 2 T ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : ¬ IsMulCommutative (Y ⧸ Z) := by
     intro h
-    haveI := h
+    have := h
     exact not_isMulCommutative_sl2 (IsMulCommutative.of_comm fun a b => by
       obtain ⟨x, rfl⟩ := e.surjective a
       obtain ⟨y, rfl⟩ := e.surjective b
@@ -360,10 +364,10 @@ private theorem centralTI_sl2_aux
   have hTp : IsPGroup 2 T :=
     Timmesfeld.Bridge.OddLocal.isPGroup_two_of_mul_self fun x hx => by
       simpa [pow_two] using hT.2 x hx
-  haveI hQnt : Nontrivial (Y ⧸ Z) :=
+  have hQnt : Nontrivial (Y ⧸ Z) :=
     ⟨⟨e.symm (utriElt (1 : F)), 1, fun h =>
       utriElt_ne_one one_ne_zero (e.symm.injective (by rw [h, map_one]))⟩⟩
-  haveI hYnt : Nontrivial Y := (QuotientGroup.mk'_surjective Z).nontrivial
+  have hYnt : Nontrivial Y := (QuotientGroup.mk'_surjective Z).nontrivial
   have hTne : T ≠ ⊥ := by
     intro hbot
     have htop : (⊤ : Subgroup Y) = ⊥ := by
@@ -377,7 +381,7 @@ private theorem centralTI_sl2_aux
   have hperf : commutator Y = ⊤ := commutator_eq_top_of_fixedPointFree hdN hfpfT hgen
   have hZc : Z = Subgroup.center Y := sl2_center_eq_center hZ e
   obtain ⟨N, hNle, hNp, hNnormal, hNsyl⟩ := sl2_N_data hZ
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hNcomm : IsMulCommutative N := IsMulCommutative.of_comm fun a b =>
     Subtype.ext (Subgroup.mem_center_iff.1 (hZ (hNle a.2)) (b : Y)).symm
   obtain ⟨S, hSylTN, hScoe⟩ := sl2_sylow_sup hTp e hT'def hx hNle hNp hNnormal hNsyl hTZ

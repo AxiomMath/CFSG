@@ -57,10 +57,10 @@ theorem components_step2 {X : Type*} [Group X] [Finite X] {K W : Subgroup X}
     (hW2.to_le hcommW).of_equiv (Subgroup.subgroupOfEquivOfLe hcommK).symm
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hK.1 hnormal with htop | hcenter
   · exfalso
-    haveI : Group.IsPerfect K := hK.1.1
-    haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+    have : Group.IsPerfect K := hK.1.1
+    have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
     have htop2 : IsPGroup 2 (⊤ : Subgroup K) := htop ▸ h2
-    haveI : Group.IsNilpotent ↥(⊤ : Subgroup K) := htop2.isNilpotent
+    have : Group.IsNilpotent ↥(⊤ : Subgroup K) := htop2.isNilpotent
     have hnil : Group.IsNilpotent K :=
       Group.nilpotent_of_mulEquiv (Subgroup.topEquiv (G := K))
     exact Group.IsPerfect.not_isNilpotent K hnil
@@ -105,14 +105,14 @@ theorem components_step2_context (c : Ctx82E3 D) (P : Subgroup G) (e : G)
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcomm'
 
 @[expose] def SuzukiComponentStep
-    (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz)
-    (hSzB : Sz.SzBorel) (hSzO : Sz.SzOutOdd) (hSzF : Sz.SzFix) (c : Ctx82E3 D)
-    (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
-    (P : Subgroup G) (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (e : G) (hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({e} : Set G)) = 1)
-    (hZ3 : ∀ J ∈ thetaComponentsAt 3 e, 3 ∣ Nat.card J →
+    (_hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz)
+    (_hSzB : Sz.SzBorel) (_hSzO : Sz.SzOutOdd) (_hSzF : Sz.SzFix) (c : Ctx82E3 D)
+    (_hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
+    (P : Subgroup G) (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (e : G) (_hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({e} : Set G)) = 1)
+    (_hZ3 : ∀ J ∈ thetaComponentsAt 3 e, 3 ∣ Nat.card J →
       Nat.card (autThetaQuot (zSub P c.L) J) = 1)
-    (he : e ∈ P ⊓ c.L) (he3 : orderOf e = 3) (heZ : e ∉ zSub P c.L) : Prop :=
+    (_he : e ∈ P ⊓ c.L) (_he3 : orderOf e = 3) (_heZ : e ∉ zSub P c.L) : Prop :=
   ∀ J : Subgroup (componentsQuot e), CFSG.IsComponent J →
     ¬ TrivialZComponentAction (D := D) c P e J →
       componentsImage (D := D) e ≤ Subgroup.centralizer (J : Set _)
@@ -137,7 +137,7 @@ theorem pcore_centralizer_le_theta_components'
     (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz)
     (hSzB : Sz.SzBorel) (hSzO : Sz.SzOutOdd) (hSzF : Sz.SzFix) (c : Ctx82E3 D)
     (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
-    {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
+    {P : Subgroup G} (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
     {e : G} (hP3 : CFSG.Open.pRank 7 (Subgroup.centralizer ({e} : Set G)) = 1)
     (hZ3 : ∀ J ∈ thetaComponentsAt 3 e, 3 ∣ Nat.card J →

@@ -44,7 +44,7 @@ theorem sylow_le_hallCore [Finite G] {p : ℕ} [Fact p.Prime] (P : Sylow p G)
     [(P : Subgroup G).Normal] : (P : Subgroup G) ≤ hallCore G := by
   by_cases hpd : p ∣ Nat.card G
   · exact le_hallCore_of_mem (coe_mem_normalSylows Fact.out hpd P)
-  · obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+  · obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     rcases Nat.eq_zero_or_pos n with rfl | h
     · have hbot : (P : Subgroup G) = ⊥ := Subgroup.card_eq_one.mp (by simpa using hn)
       rw [hbot]

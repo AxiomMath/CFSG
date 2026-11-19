@@ -29,15 +29,15 @@ theorem three_dvd_card_bar2 {L : Subgroup G} (h : CFSG.Open.pRank 3 L = 1) :
 
 theorem isCyclic_sylow_of_thin8 {L : Subgroup G} (h : F08.Thin8 L) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (P : Sylow p (Bar2 L)) : IsCyclic ↥(P : Subgroup (Bar2 L)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact RankFourTheoremC.Nongeneration.isCyclic_sylow_of_pRank_le_one hp2
     ((pRank_bar2_eq_of_odd hp hp2).le.trans (h p hp hp2)) P
 
 theorem isCyclic_of_isPGroup_of_thin8 {L : Subgroup G} (h : F08.Thin8 L) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) {B : Subgroup (Bar2 L)} (hB : IsPGroup p B) : IsCyclic ↥B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hBS⟩ := hB.exists_le_sylow
-  haveI := isCyclic_sylow_of_thin8 h hp hp2 S
+  have := isCyclic_sylow_of_thin8 h hp hp2 S
   exact Subgroup.isCyclic_of_le hBS
 
 theorem center_eq_bot_of_thin8 {M L : Subgroup G} (hL : L ∈ calC M) (h : F08.Thin8 L) :

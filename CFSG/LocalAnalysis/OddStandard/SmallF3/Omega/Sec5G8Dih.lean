@@ -47,7 +47,7 @@ theorem sec5g8_dihedral (hy : Sec5B59Hyp) (h4 : Asc82FactReflCentQ6)
     rw [hR16] at h1
     exact h1
   have hTb8 : Nat.card ↥Tb = 8 := by omega
-  haveI : Finite ↥Tb := Nat.finite_of_card_ne_zero (by rw [hTb8]; norm_num)
+  have : Finite ↥Tb := Nat.finite_of_card_ne_zero (by rw [hTb8]; norm_num)
   have hEb_le_Tb : Eb ≤ Tb :=
     Subgroup.map_mono (f := π) (Subgroup.subgroupOf_mono H hER)
   have hEb4 : Nat.card ↥Eb = 4 := by
@@ -75,7 +75,7 @@ theorem sec5g8_dihedral (hy : Sec5B59Hyp) (h4 : Asc82FactReflCentQ6)
       have h1 := Subgroup.relIndex_eq_one.mpr hle
       rw [hrel] at h1
       omega
-    obtain ⟨d, hdR, hdE⟩ := SetLike.not_le_iff_exists.mp hnle
+    obtain ⟨d, hdR, hdE⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
     have haE : a ∈ E := (sec5p510_E_gens t a b).2.1
     have hbE : b ∈ E := (sec5p510_E_gens t a b).2.2
     have haR : a ∈ R := hER haE

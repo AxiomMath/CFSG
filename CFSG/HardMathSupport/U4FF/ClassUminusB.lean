@@ -18,6 +18,7 @@ section Fixed
 
 variable [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem one_lt_two_pow_of_card {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) : 1 < 2 ^ n := by
   by_contra h
   have h1 : 2 ^ n = 1 := by
@@ -65,9 +66,10 @@ theorem two_pow_le_card_fixed {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) :
       _ < 2 ^ n * 2 ^ n := Nat.mul_self_lt_mul_self hlt
   omega
 
+omit [CharP K 2] in
 theorem card_fixed_le {n : ℕ} (hn : 1 < 2 ^ n) :
     Nat.card {c : K // c ^ 2 ^ n = c} ≤ 2 ^ n := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hne : (Polynomial.X ^ 2 ^ n - Polynomial.X : Polynomial K) ≠ 0 :=
     FiniteField.X_pow_card_sub_X_ne_zero K hn
   have hdeg : (Polynomial.X ^ 2 ^ n - Polynomial.X : Polynomial K).natDegree = 2 ^ n :=
@@ -211,6 +213,7 @@ theorem Eu_pow {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) (u : ↥(LowerU K n)) :
   rw [Eu_eq hK u]
   exact EE_pow hK (paramOf_ucond hK u)
 
+omit [Finite K] [CharP K 2] in
 theorem EE_ne_zero_iff {n : ℕ} (a b c d : K) :
     EE n a b c d ≠ 0 ↔ d ≠ 0 ∧ c * (a ^ 2 ^ n * b + d) + b * b ^ 2 ^ n ≠ 0 := by
   have hq : (2 : ℕ) ^ n ≠ 0 := by positivity
@@ -227,6 +230,7 @@ section Model
 
 variable [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem add_ne_self_iff_ne_zero (x y : K) : x + y ≠ y ↔ x ≠ 0 := by
   constructor
   · intro h hx
@@ -305,7 +309,7 @@ theorem Acount_add_one [Fintype K] {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) {b 
     rw [Finset.sum_eq_single ((t * b⁻¹) ^ 2 ^ n)]
     · have h0 : ((t * b⁻¹) ^ 2 ^ n) ^ 2 ^ n * b = t := by
         rw [pow_pow_of_card hK, inv_mul_cancel_right₀ hb]
-      rw [if_pos h0.symm]
+      rw [ite_eq_left h0.symm]
     · intro a _ ha
       split_ifs with h
       · exfalso
@@ -329,6 +333,7 @@ theorem Acount_add_one [Fintype K] {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) {b 
     _ = ∑ a : K, (1 : ℕ) := Finset.sum_congr rfl (fun a _ => hsplit a)
     _ = (2 ^ n) ^ 2 := by simp [hcard]
 
+omit [Finite K] [CharP K 2] in
 theorem Acount_zero [Fintype K] {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) (t : K) :
     Acount n 0 t = if t = 0 then 0 else (2 ^ n) ^ 2 := by
   have hcard : Fintype.card K = (2 ^ n) ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
@@ -358,6 +363,7 @@ theorem ecount_add_one [Fintype K] {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) :
     _ = ∑ c : K, if c ^ 2 ^ n = c then (1 : ℕ) else 0 := Finset.sum_congr rfl (fun c _ => hsplit c)
     _ = 2 ^ n := h
 
+omit [Finite K] in
 theorem sum_unique_t [Fintype K] {n : ℕ} {c N : K} (hc : c ^ 2 ^ n = c) (hN : N ^ 2 ^ n = N)
     (hN0 : N ≠ 0) :
     (∑ t : K, if t ^ 2 ^ n = t ∧ c * t + N = 0 then (1 : ℕ) else 0) =
@@ -374,7 +380,7 @@ theorem sum_unique_t [Fintype K] {n : ℕ} {c N : K} (hc : c ^ 2 ^ n = c) (hN : 
       have hsum : c * (N * c⁻¹) + N = 0 := by
         rw [hval, CharTwo.add_self_eq_zero]
       have hcond : (N * c⁻¹) ^ 2 ^ n = N * c⁻¹ ∧ c * (N * c⁻¹) + N = 0 := ⟨hfix, hsum⟩
-      rw [if_pos hcond, if_pos (show c ≠ 0 from hc0)]
+      rw [ite_eq_left hcond, ite_eq_left (show c ≠ 0 from hc0)]
     · intro t _ ht
       split_ifs with h
       · exfalso
@@ -411,7 +417,7 @@ theorem Mcount_add_ecount [Fintype K] {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) 
       (if c ^ 2 ^ n = c ∧ c ≠ 0 then 1 else 0) = if c ^ 2 ^ n = c then 2 ^ n else 0 := by
     intro c
     by_cases hc : c ^ 2 ^ n = c
-    · simp only [hc, true_and, if_true]
+    · simp only [hc, true_and, ite_true]
       exact per_c hK hc hN hN0
     · simp [hc]
   have he : ecount K n = ∑ c : K, (if c ^ 2 ^ n = c ∧ c ≠ 0 then (1 : ℕ) else 0) := rfl
@@ -424,6 +430,7 @@ theorem Mcount_add_ecount [Fintype K] {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) 
     by_cases hc : c ^ 2 ^ n = c <;> simp [hc]
   rw [hfin, sum_fixed_eq hK, pow_two]
 
+omit [Field K] [Finite K] [CharP K 2] in
 theorem sum_reorder {f : K → K → K → K → ℕ} [Fintype K] :
     ∑ a : K, ∑ b : K, ∑ c : K, ∑ t : K, f a b c t =
       ∑ b : K, ∑ c : K, ∑ t : K, ∑ a : K, f a b c t := by
@@ -446,6 +453,7 @@ theorem card_model_sum [Fintype K] {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) :
   · simp [h, Acount]
   · simp [h]
 
+omit [Finite K] [CharP K 2] in
 theorem g_zero [Fintype K] {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) :
     (∑ c : K, ∑ t : K, if (c ^ 2 ^ n = c ∧ t ^ 2 ^ n = t) ∧ c * t + 0 * 0 ^ 2 ^ n ≠ 0 then
         Acount n 0 t else 0) = (2 ^ n) ^ 2 * ecount K n * ecount K n := by
@@ -454,7 +462,7 @@ theorem g_zero [Fintype K] {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) :
         (if t ^ 2 ^ n = t ∧ t ≠ 0 then 1 else 0)) := by
     intro c t
     rw [Acount_zero hK]
-    by_cases hc : c = 0 <;> by_cases ht : t = 0 <;> simp [hc, ht] <;>
+    by_cases hc : c = 0 <;> by_cases ht : t = 0 <;> simp [hc, ht];
       by_cases h1 : c ^ 2 ^ n = c <;> by_cases h2 : t ^ 2 ^ n = t <;> simp [h1, h2]
   rw [Finset.sum_congr rfl (fun c _ => Finset.sum_congr rfl (fun t _ => hpt c t))]
   have hsum : (∑ c : K, ∑ t : K, (2 ^ n) ^ 2 * ((if c ^ 2 ^ n = c ∧ c ≠ 0 then 1 else 0) *
@@ -531,7 +539,7 @@ theorem card_UCond [Fintype K] {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) :
         if c ^ 2 ^ n = c then 2 ^ n else 0 := by
       intro c
       by_cases hc : c ^ 2 ^ n = c
-      · simp only [hc, true_and, if_true]
+      · simp only [hc, true_and, ite_true]
         exact sum_fixed_eq hK
       · simp [hc]
     rw [Finset.sum_congr rfl (fun c _ => hpt c)]
@@ -547,7 +555,7 @@ theorem card_UCond [Fintype K] {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) :
 
 theorem card_LowerU {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) :
     Nat.card ↥(LowerU K n) = (2 ^ n) ^ 6 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [card_LowerU_eq hK, card_UCond hK]
 
 theorem odd_formula {n : ℕ} (hn : n ≠ 0) (e : ℕ) (he : e + 1 = 2 ^ n) :
@@ -564,7 +572,7 @@ theorem odd_formula {n : ℕ} (hn : n ≠ 0) (e : ℕ) (he : e + 1 = 2 ^ n) :
 
 theorem odd_card_Eu_ne_zero {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) :
     Odd (Nat.card {u : ↥(LowerU K n) // Eu n u ≠ 0}) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hn : n ≠ 0 := by
     rintro rfl
     have := one_lt_two_pow_of_card hK
@@ -599,18 +607,19 @@ theorem odd_cast_eq_one {k : Type} [Field k] [CharP k 2] {m : ℕ} (hm : Odd m) 
   rw [h2]
   ring
 
+omit [Finite K] [CharP K 2] in
 theorem pow_sub_one_algebraMap {k : Type} [Field k] [Algebra K k] {n : ℕ} (hq : 1 < 2 ^ n)
     {x : K} (hx : x ^ 2 ^ n = x) :
     (algebraMap K k x) ^ (2 ^ n - 1) = if x = 0 then 0 else 1 := by
   have hne : 2 ^ n - 1 ≠ 0 := Nat.sub_ne_zero_of_lt hq
   by_cases h0 : x = 0
   · subst h0
-    rw [map_zero, zero_pow hne, if_pos rfl]
+    rw [map_zero, zero_pow hne, ite_eq_left rfl]
   · have h1 : x ^ (2 ^ n - 1) = 1 := by
       have h2 : x ^ (2 ^ n - 1) * x = x := by
         rw [← pow_succ, Nat.sub_add_cancel (le_of_lt hq), hx]
       exact mul_right_cancel₀ h0 (h2.trans (one_mul x).symm)
-    rw [← map_pow, h1, map_one, if_neg h0]
+    rw [← map_pow, h1, map_one, ite_eq_right h0]
 
 theorem sum_Eu_pow_eq_one {n : ℕ} [Fintype ↥(LowerU K n)] (hK : Nat.card K = (2 ^ n) ^ 2)
     {k : Type} [Field k] [Algebra K k] [CharP k 2] :

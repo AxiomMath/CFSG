@@ -33,6 +33,7 @@ open scoped IsMulCommutative
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem exists_fixed_vector (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (h8 : finrank (ZMod 2) V = 8)
     (hα : ∀ u : V, σ (a₀, 1) u = u → u = 0) (hβ : ∀ u : V, σ (1, a₀) u = u → u = 0) :
     ∃ v : V, v ≠ 0 ∧ ∃ k : ℕ, 1 ≤ k ∧ k ≤ 4 ∧ σ (a₀ ^ k, a₀) v = v := by
@@ -42,7 +43,7 @@ theorem exists_fixed_vector (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (h8 : finr
   let β : Module.End (ZMod 2) V := φ (1, a₀)
   have hα_apply : ∀ u : V, α u = σ (a₀, 1) u := fun _ => rfl
   have hβ_apply : ∀ u : V, β u = σ (1, a₀) u := fun _ => rfl
-  haveI hVnt : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [h8]; norm_num)
+  have hVnt : Nontrivial V := Module.nontrivial_of_finrank_pos (by rw [h8]; norm_num)
   have ha0 : a₀ ^ 5 = 1 := by
     have := pow_orderOf_eq_one a₀
     rwa [orderOf_a₀] at this
@@ -114,18 +115,18 @@ theorem exists_fixed_vector (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (h8 : finr
     · exact hαβ.symm
     · exact absurd rfl hxy
   let R := Algebra.adjoin (ZMod 2) S
-  haveI hRcomm : IsMulCommutative R :=
+  have hRcomm : IsMulCommutative R :=
     Algebra.isMulCommutative_adjoin (R := ZMod 2) hcommS
-  haveI hRnt : Nontrivial R := ⟨⟨1, 0, by
+  have hRnt : Nontrivial R := ⟨⟨1, 0, by
     intro h
     have h1 : (1 : Module.End (ZMod 2) V) = 0 := by
       have := congrArg (Subtype.val) h
-      simpa using this
+      simp at this
     obtain ⟨w, hw⟩ := exists_ne (0 : V)
     exact hw (by
       have := congrArg (fun f : Module.End (ZMod 2) V => f w) h1
       simpa using this)⟩⟩
-  haveI hRchar : CharP R 2 :=
+  have hRchar : CharP R 2 :=
     CharP.of_ringHom_of_ne_zero (algebraMap (ZMod 2) R) 2 (by norm_num)
   have hα_mem : α ∈ R := Algebra.subset_adjoin (by simp [S])
   have hβ_mem : β ∈ R := Algebra.subset_adjoin (by simp [S])
@@ -156,7 +157,7 @@ theorem exists_fixed_vector (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (h8 : finr
     simpa [Module.End.mul_apply] using hu
   have hex : ∃ i : ℕ, (i = 1 ∨ i = 2 ∨ i = 3 ∨ i = 4) ∧ LinearMap.ker (β - α ^ i) ≠ ⊥ := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hT : LinearMap.ker T = ⊥ := by
       dsimp [T]
       exact hker_mul (hker_mul (hker_mul (hker_mul hβker (h 1 (by simp))) (h 2 (by simp)))

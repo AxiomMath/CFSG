@@ -65,14 +65,11 @@ instance : Group H27 :=
       ext <;> simp only [mul_a, mul_b, mul_c, one_a, one_b, one_c] <;> ring)
     (fun x => by
       ext
-      · change (x⁻¹ * x).a = (1 : H27).a
-        rw [mul_a, inv_a, one_a]
+      · rw [mul_a, inv_a, one_a]
         abel
-      · change (x⁻¹ * x).b = (1 : H27).b
-        rw [mul_b, inv_b, one_b]
+      · rw [mul_b, inv_b, one_b]
         abel
-      · change (x⁻¹ * x).c = (1 : H27).c
-        rw [mul_c, inv_c, inv_a, one_c]
+      · rw [mul_c, inv_c, inv_a, one_c]
         have h : (-x.a) * x.b = -(x.a * x.b) := neg_mul x.a x.b
         rw [h]
         abel)
@@ -125,10 +122,10 @@ theorem commutator_mem_center (x y : H27) : ⁅x, y⁆ ∈ centerSubgroup := by
   rw [mem_centerSubgroup_iff]
   constructor
   · rw [commutatorElement_def]
-    simp only [mul_a, mul_b, mul_c, inv_a, inv_b, inv_c]
+    simp only [mul_a, inv_a]
     abel
   · rw [commutatorElement_def]
-    simp only [mul_a, mul_b, mul_c, inv_a, inv_b, inv_c]
+    simp only [mul_b, inv_b]
     abel
 
 theorem exists_conj_eq_mul (x : H27) (hx : x ∉ centerSubgroup) :
@@ -139,12 +136,12 @@ theorem exists_conj_eq_mul (x : H27) (hx : x ∉ centerSubgroup) :
       exact hx (mem_centerSubgroup_iff x |>.mpr ⟨ha, hb⟩)
     refine ⟨⟨x.b⁻¹, 0, 0⟩, ?_⟩
     ext
-    · simp only [mul_a, inv_a, inv_b, inv_c]
+    · simp only [mul_a, inv_a]
       rw [ha]
       abel
-    · simp only [mul_a, mul_b, mul_c, inv_a, inv_b, inv_c]
+    · simp only [mul_b, inv_b]
       abel
-    · simp only [mul_a, mul_b, mul_c, inv_a, inv_b, inv_c, c0_a, c0_b, c0_c, ha,
+    · simp only [mul_a, mul_c, inv_b, inv_c, c0_a, c0_c, ha,
         zero_mul, mul_zero, zero_add, add_zero]
       have h1 : x.b⁻¹ * x.b = 1 := inv_mul_cancel₀ hb
       have h2 : x.b⁻¹ * (-0) = 0 := by
@@ -154,12 +151,12 @@ theorem exists_conj_eq_mul (x : H27) (hx : x ∉ centerSubgroup) :
       abel
   · refine ⟨⟨0, -(x.a⁻¹), 0⟩, ?_⟩
     ext
-    · simp only [mul_a, inv_a, inv_b, inv_c]
+    · simp only [mul_a, inv_a]
       abel
-    · simp only [mul_a, mul_b, mul_c, inv_a, inv_b, inv_c]
+    · simp only [mul_b, inv_b]
       abel
-    · simp only [mul_a, mul_b, mul_c, inv_a, inv_b, inv_c, c0_a, c0_b, c0_c,
-        zero_mul, mul_zero, zero_add, add_zero]
+    · simp only [mul_a, mul_c, inv_b, inv_c, c0_a, c0_c,
+        zero_mul, zero_add, add_zero]
       have h1 : x.a * (-(-(x.a⁻¹))) = 1 := by
         have h : -(-(x.a⁻¹)) = x.a⁻¹ := neg_neg (x.a⁻¹)
         rw [h, mul_inv_cancel₀ ha]
@@ -188,9 +185,9 @@ theorem center_le_commutator : centerSubgroup ≤ commutator H27 := by
     | zero => rfl
     | succ n ih =>
       rw [pow_succ, ih]
-      ext <;> simp [mul_a, mul_b, mul_c] <;> ring
+      ext <;> simp [mul_a, mul_b, mul_c]
   have hx_eq : x = ⟨0, 0, (x.c.val : ZMod 3)⟩ := by
-    ext <;> simp [hx1, hx2, ZMod.natCast_zmod_val]
+    ext <;> simp [hx1, hx2]
   rw [hx_eq, ← hpow x.c.val]
   exact Subgroup.pow_mem _ hc0 _
 
@@ -287,7 +284,7 @@ theorem fixedSpace_finrank_eq_one
     calc (ρ y).conj T = (((ρ y) * (ρ x) * (ρ y)⁻¹ : W ≃ₗ[F4] W) : W →ₗ[F4] W) := hconj_map
       _ = (((ρ H27.c0) * (ρ x) : W ≃ₗ[F4] W) : W →ₗ[F4] W) := hlin
       _ = ω • T := by
-          simp [hρc, T, smul_mul_assoc]
+          simp [hρc, T]
   have htraceT : LinearMap.trace F4 W T = 0 := by
     have htr : LinearMap.trace F4 W T = ω * LinearMap.trace F4 W T := by
       calc LinearMap.trace F4 W T = LinearMap.trace F4 W ((ρ y).conj T) :=

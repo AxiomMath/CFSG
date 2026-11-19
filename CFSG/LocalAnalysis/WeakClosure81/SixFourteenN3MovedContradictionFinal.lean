@@ -73,7 +73,7 @@ theorem huniq_of_axisOfTensorModel
         ((Lm F₄ : Subgroup (MulAut (VM F₄))) : Set (MulAut (VM F₄)))
       ∧ IsFTransvectionOn F₄ M₄ t ∧ fixVSub (F := F₄) (M := M₄) t = Hax}
   have hS : Nat.card S ≤ 1 := ncard_fTransvectionSet_fixed_axis_le_one Hax hHfin
-  haveI : Finite S := Subtype.finite
+  have : Finite S := Subtype.finite
   have hsub : Subsingleton S := (Finite.card_le_one_iff_subsingleton).mp hS
   have hteS : T re ∈ S := ⟨hteN, hteT, hteFix⟩
   have htfS : T rf ∈ S := ⟨htfN, htfT, htfFix⟩

@@ -25,6 +25,7 @@ include h
 
 theorem z_ord : orderOf z = 2 := h.std.z_ord
 
+omit [Finite G] [Group Lh] h in
 theorem z_cen : z ∈ Cz z := Subgroup.mem_centralizer_singleton_iff.mpr rfl
 
 theorem z_mem_S : z ∈ S := mem_sylow_of_central h.z_ord h.std.sylow
@@ -52,18 +53,18 @@ theorem zcen (hB : IVK_5_1g) (hF : Step9_8_Fstar) {n : ℕ} (hn8 : 8 ≤ n) (hn1
     (hcov : IsDoubleCoverOfAlt Lh n) :
     ∀ w ∈ S, (∀ s ∈ S, s * w = w * s) → orderOf w = 2 → w = z := by
   intro w hwS hwc hw2
-  haveI : (K.subgroupOf (Cz z)).Normal := h.K_normal_C
+  have : (K.subgroupOf (Cz z)).Normal := h.K_normal_C
   have hyp := h.hypC hF hn8 hn11 hcov
   have hzS := h.z_mem_S
   have hmk := core_center (N := pPrimeCore 2 ↥(Cz z)) (K := K.subgroupOf (Cz z))
     (S := S.subgroupOf (Cz z)) hB hyp odd_card_pPrimeCore h.sylowC
-    (zc := ⟨z, h.z_cen⟩) h.z_mem (fun k hk => Subtype.ext (h.z_comm hk))
+    (zc := ⟨z, CFSG.GH74.GLS.Stage1.Thm4.Ctx98.z_cen⟩) h.z_mem (fun k hk => Subtype.ext (h.z_comm hk))
     (mk'_ne_one_of_orderOf_two odd_card_pPrimeCore (by rw [Subgroup.orderOf_mk]; exact h.z_ord))
     ⟨w, h.S_le hwS⟩ hwS (fun s hs => Subtype.ext (hwc s hs))
     (by rw [Subgroup.orderOf_mk]; exact hw2)
   have hwS' : (⟨w, h.S_le hwS⟩ : ↥(Cz z)) ∈ S.subgroupOf (Cz z) := hwS
-  have hzS' : (⟨z, h.z_cen⟩ : ↥(Cz z)) ∈ S.subgroupOf (Cz z) := hzS
-  have hx : (⟨w, h.S_le hwS⟩ : ↥(Cz z))⁻¹ * ⟨z, h.z_cen⟩ ∈
+  have hzS' : (⟨z, CFSG.GH74.GLS.Stage1.Thm4.Ctx98.z_cen⟩ : ↥(Cz z)) ∈ S.subgroupOf (Cz z) := hzS
+  have hx : (⟨w, h.S_le hwS⟩ : ↥(Cz z))⁻¹ * ⟨z, CFSG.GH74.GLS.Stage1.Thm4.Ctx98.z_cen⟩ ∈
       S.subgroupOf (Cz z) ⊓ pPrimeCore 2 ↥(Cz z) :=
     ⟨Subgroup.mul_mem _ (Subgroup.inv_mem _ hwS') hzS', QuotientGroup.eq.1 hmk⟩
   rw [inf_eq_bot_of_odd h.sylowC.isPGroup odd_card_pPrimeCore] at hx
@@ -93,7 +94,7 @@ theorem t_mem_K (h96 : Lemma9_6) (hF : Step9_8_Fstar) {n : ℕ} (hcov : IsDouble
     have := mul_mem h1 h2
     simpa using this
   have h3 := mem_sup_subgroupOf_of_mem h.K_le (c := ⟨t, htC⟩) htKO
-  haveI := h.K_normal_C
+  have := h.K_normal_C
   have ht2 : (⟨t, htC⟩ : ↥(Cz z)) ^ (2 ^ 1) = 1 := by
     apply Subtype.ext
     simp only [pow_one, Subgroup.coe_pow, Subgroup.coe_one]

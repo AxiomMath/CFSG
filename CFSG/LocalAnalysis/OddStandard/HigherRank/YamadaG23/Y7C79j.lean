@@ -21,11 +21,11 @@ theorem y7c_schur_gl3
   obtain ⟨hZR, hZn, hZiso⟩ := hZ
   set H : Subgroup G := (⁅R, R⁆ ⊓ Z) ⊔ N with hH
   have hNR' : (N.subgroupOf R).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNR
-  letI : (N.subgroupOf R).Normal := hNR'
-  letI : (Z.subgroupOf R).Normal := hZn
+  let : (N.subgroupOf R).Normal := hNR'
+  let : (Z.subgroupOf R).Normal := hZn
   let Q := ↥R ⧸ N.subgroupOf R
   let π : ↥R →* Q := QuotientGroup.mk' (N.subgroupOf R)
-  haveI : ((Z.subgroupOf R).map π).Normal :=
+  have : ((Z.subgroupOf R).map π).Normal :=
     hZn.map π (QuotientGroup.mk'_surjective (N.subgroupOf R))
   have hsub : ⁅Z.subgroupOf R, (⊤ : Subgroup ↥R)⁆ ≤ N.subgroupOf R := by
     change ⁅Z.subgroupOf R, (⊤ : Subgroup ↥R)⁆ ≤ N.comap R.subtype

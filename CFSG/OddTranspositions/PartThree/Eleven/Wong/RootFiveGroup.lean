@@ -28,8 +28,6 @@ private theorem centralizer_map_mulEquiv (φ : G ≃* G) (H : Subgroup G) :
   · rintro x ⟨y, hy, rfl⟩
     change y ∈ centralizer (H : Set G) at hy
     rw [mem_centralizer_iff] at hy
-    change φ.toMonoidHom y ∈
-      centralizer ((H.map φ.toMonoidHom : Subgroup G) : Set G)
     rw [mem_centralizer_iff]
     intro z hz
     obtain ⟨h, hh, rfl⟩ := hz
@@ -104,9 +102,6 @@ private theorem isPGroup_of_coprime_order_eq_one [Finite G] {p : ℕ} (hp : p.Pr
 private theorem root_three_eq :
     D.P3 = D.D1.map (MulAut.conj (D.h2 * D.y)⁻¹).toMonoidHom := by
   rw [P3_eq_map_D2 D, D2_eq_map_D1 D, Subgroup.map_map]
-  change D.D1.map ((MulAut.conj D.y⁻¹).toMonoidHom.comp
-    (MulAut.conj D.h2⁻¹).toMonoidHom) =
-    D.D1.map (MulAut.conj (D.h2 * D.y)⁻¹).toMonoidHom
   rw [show (MulAut.conj D.y⁻¹).toMonoidHom.comp (MulAut.conj D.h2⁻¹).toMonoidHom =
       (MulAut.conj (D.h2 * D.y)⁻¹).toMonoidHom by
     ext x
@@ -135,7 +130,7 @@ private theorem map_Q_conj_h2y [Finite G] :
   · intro x hx
     refine ⟨(D.h2 * D.y) * x * (D.h2 * D.y)⁻¹,
       (mem_normalizer_iff.mp hgN x).mp hx, ?_⟩
-    simp [MulAut.conj_apply]
+    simp
     group
 
 private theorem centralizer_third_root_eq :
@@ -188,7 +183,7 @@ private theorem root_three_P3_le_V [Finite G] : D.P3 ≤ D.V := by
 
 private theorem root_three_P3_le_centralizer :
     D.P3 ≤ centralizer (D.P3 : Set G) := by
-  haveI : IsMulCommutative D.P3 := by
+  have : IsMulCommutative D.P3 := by
     change IsMulCommutative D.q3.range
     infer_instance
   exact Subgroup.le_centralizer (H := D.P3)
@@ -248,7 +243,7 @@ private theorem root_three_intersection_le_Q [Finite G] :
     apply Subgroup.map_injective C1.subtype_injective
     rw [Subgroup.map_subgroupOf_eq_of_le hQleC1]
     rfl
-  haveI hQnormal : (D.Q.subgroupOf C1).Normal := hQsub ▸ CFSG.oddCore_normal C1
+  have hQnormal : (D.Q.subgroupOf C1).Normal := hQsub ▸ CFSG.oddCore_normal C1
   have hleQ : (D.V ⊓ C3).map ψ.toMonoidHom ≤ D.Q :=
     le_oddCore_of_odd_of_relIndex_four hle hidxQ (by
       rw [Subgroup.card_map_of_injective ψ.injective]
@@ -293,7 +288,7 @@ private theorem root_three_five_prime_element_centralizes_P3 [Finite G] (x : ↥
     simpa [y', Subgroup.orderOf_mk] using h
   have hcop' : Nat.Coprime (orderOf x) (orderOf y') :=
     hcop.symm.of_dvd_right hord
-  haveI : Group.IsNilpotent ↥D.V := hVnil
+  have : Group.IsNilpotent ↥D.V := hVnil
   have hc := Group.IsNilpotent.commute_of_orderOf_coprime (G := ↥D.V) hcop'
   have hcG : Commute (x : G) (D.q3 a) := by
     rw [commute_iff_eq]

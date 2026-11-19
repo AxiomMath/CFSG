@@ -51,7 +51,7 @@ theorem s15k_jp_isometryCore_quadPlus_equiv {K : Type} [Field K] [Finite K] (n :
     Nonempty (↥(CFSG.MatrixModel.isometryCore (StatedQuadPlus n K)) ≃*
       ↥(CFSG.MatrixModel.isometryCore (StatedQuadPlus n (ZMod 2)))) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rwa [← Nat.card_eq_fintype_card]
   let e : K ≃+* ZMod 2 := (ZMod.ringEquivOfPrime K Nat.prime_two hK').symm
   have hmap := CFSG.ClassicalInvolution.Upgrade.map_closure_preserving

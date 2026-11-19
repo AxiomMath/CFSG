@@ -95,8 +95,9 @@ theorem res3L125_card_le_three_mul_card_center {c : MulAut J} {j : J} (hj : MulA
     exact Nat.mul_le_mul h3 h2
   exact Nat.le_of_mul_le_mul_right hmul hpos
 
+omit [Finite J] in
 theorem res3L125_mem_zpowers_of_perfect {c : MulAut J} {j : J} (hj : MulAut.conj j = c)
-    (hj3 : j ^ 3 = 1)
+    (_hj3 : j ^ 3 = 1)
     (hin : ∀ x : J, Commute x j → x ^ 3 = 1 → x ∈ Subgroup.zpowers j ⊔ Subgroup.center J)
     (hcube : ∀ x : J, c x = x → x ^ 3 ∈ Subgroup.center J → x ^ 3 = 1)
     (I : Subgroup (J ⧸ Subgroup.center J)) (hI : ⁅I, I⁆ = I)
@@ -172,7 +173,7 @@ theorem res3L125_false_of_rows
       (∃ I : Subgroup G, I ≤ Subgroup.centralizer {x} ∧ ⁅I, I⁆ = I ∧
         ∃ u ∈ I, orderOf u = 3 ∧ u ∉ Subgroup.zpowers x))
     {c g : MulAut J} {V U : Subgroup (MulAut J)} (hd : Res3Datum c g V U) : False := by
-  haveI : Group.IsPerfect J := hq.1
+  have : Group.IsPerfect J := hq.1
   have hΦ := l125Phi_injective e
   have hZG : Subgroup.center G = ⊥ := by
     rw [← CFSG.ComponentClassification.OuterAutomorphisms.center_map_equiv e,

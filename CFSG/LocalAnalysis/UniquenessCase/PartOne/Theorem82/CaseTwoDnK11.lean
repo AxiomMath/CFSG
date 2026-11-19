@@ -31,13 +31,13 @@ theorem Dn_le_of_K11 (hK11 : K11) (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.
       CFSG.LocalAnalysis.UniquenessCase.UC22.IsSpor (t.Dhat N) .J1) :
     t.Dn N ≤ c.S.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZN : t.Z ≤ N := t.Z_le_Ky.trans hKN
   let D : Subgroup G := t.Dn N
   let π : ↥D →* t.Dhat N := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥D)
   let ZD : Subgroup (t.Dhat N) := t.DhatZ N
   let MD : Subgroup (t.Dhat N) := ((c.S.M).subgroupOf D).map π
-  haveI hPnormal : (CFSG.pPrimeCore 3 ↥D).Normal := CFSG.pPrimeCore_normal
+  have hPnormal : (CFSG.pPrimeCore 3 ↥D).Normal := CFSG.pPrimeCore_normal
   have hZD_card : Nat.card ZD = 3 := t.card_DhatZ hZN
   have hZsub_card : Nat.card (t.Z.subgroupOf D : Subgroup ↥D) = 3 :=
     t.card_Z_subgroupOf_Dn hZN

@@ -22,7 +22,7 @@ private theorem flag_eq_of_mem_siegelY {K V : Type} [Field K] [AddCommGroup V] [
   have h2 : polar Q P'.f y = c₂ := by
     rw [← hc]
     simp only [polar_add_right, polar_smul_right_eq, polar_comm Q P'.f P.e, h.ef, P'.polar_fe,
-      mul_one, mul_zero, add_zero, zero_add]
+      mul_one, mul_zero, zero_add]
   rw [h1, h2]
   exact hc.symm
 
@@ -55,7 +55,7 @@ private theorem flag_mul_eichler_apply {K V : Type} [Field K] [AddCommGroup V] [
     rw [polar_sub_left, polar_smul_left_eq]
     simp [hwe']
   rw [eichler_apply P.Q_e hwe, hcross, hcross1]
-  simp only [zero_smul, mul_zero, add_zero, sub_zero]
+  simp only [zero_smul, mul_zero, add_zero]
   abel
 
 theorem mem_axisRadical_of_flag {K V : Type} [Field K] [AddCommGroup V] [Module K V]

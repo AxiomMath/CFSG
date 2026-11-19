@@ -33,7 +33,7 @@ private theorem false_of_dvd_card_fixed {K : Type} [Field K] [Finite K] (hK : Na
       (LargeEvenChevH (LargeEvenCartanE 6) K false))
     {J₁ : Subgroup (E6Rec K)} (hJ : J₁ ≤ ggFix s) {p : ℕ} (hp : p = 13 ∨ p = 73)
     (hdvd : p ∣ Nat.card J₁) : False := by
-  haveI := CFSG.Monster.Existence.Compat.subsingleton_units_of_card_two hK
+  have := CFSG.Monster.Existence.Compat.subsingleton_units_of_card_two hK
   obtain ⟨y, rfl⟩ := chevIDImage_subset_inn_of_subsingleton
     (LargeEvenChevH (LargeEvenCartanE 6) K false) hsI
   let e : E6Rec K ≃* adjointGroup .E6 K := recipeChevEquiv .E6 K
@@ -56,13 +56,13 @@ private theorem false_of_dvd_card_fixed {K : Type} [Field K] [Finite K] (hK : Na
     have h := mem_ggFix.1 (hJ z.2)
     rw [MulAut.conj_apply] at h
     exact (mul_inv_eq_iff_eq_mul.1 h).symm
-  haveI := hfin
+  have := hfin
   rcases hp with rfl | rfl
-  · haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 13 hdvd
     exact E6_two_not_commute_order_thirteen hK e (x := (z : E6Rec K))
       (by rwa [Subgroup.orderOf_coe]) hyo (hcomm z)
-  · haveI : Fact (Nat.Prime 73) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 73) := ⟨by norm_num⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 73 hdvd
     exact E6_two_not_commute_order_seventy_three hK e (x := (z : E6Rec K))
       (by rwa [Subgroup.orderOf_coe]) hyo (hcomm z)

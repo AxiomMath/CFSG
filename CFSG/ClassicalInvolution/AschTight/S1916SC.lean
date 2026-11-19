@@ -63,7 +63,7 @@ theorem mem_sec19X_conj_of_comm [IsSimpleGroup G] (hZ : C19_14ZTmp p f)
       Subgroup.mem_centralizer_singleton_iff.mpr (S1911.comm_of_mem hd w hw s hsW)
     have hP : Subgroup.zpowers x ⊔ W = W :=
       eq_W_of_le_centralizer hDT h1 hsW hs2 hs1 hsz
-        (S.isPGroup'.to_le (sup_le (Subgroup.zpowers_le.mpr hxA.1) hd.hWS))
+        (S.isPGroup.to_le (sup_le (Subgroup.zpowers_le.mpr hxA.1) hd.hWS))
         (sup_le (Subgroup.zpowers_le.mpr hxA.2) (S1911.le_sec19X hd))
         (sup_le (Subgroup.zpowers_le.mpr hxs') hWs) le_sup_right
     have hxW : x ∈ W := hP ▸ Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
@@ -91,7 +91,7 @@ theorem mem_sec19X_conj_of_comm [IsSimpleGroup G] (hZ : C19_14ZTmp p f)
       _ = a⁻¹ * (s * x) * a := by rw [hxs]
       _ = a⁻¹ * s * a * (a⁻¹ * x * a) := by group
   have hT2 : IsPGroup 2 (Subgroup.zpowers (a⁻¹ * x * a)) := by
-    have h3 := (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxA.1)).map
+    have h3 := (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxA.1)).map
       (MulAut.conj a⁻¹).toMonoidHom
     rw [MonoidHom.map_zpowers] at h3
     have e : (MulAut.conj a⁻¹).toMonoidHom x = a⁻¹ * x * a := by simp

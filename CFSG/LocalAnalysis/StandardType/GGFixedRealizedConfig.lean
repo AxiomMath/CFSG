@@ -15,7 +15,7 @@ open CFSG CFSG.Assembly CFSG.ComponentClassification Subgroup
 theorem ggAut_eq_one_of_commutator_le_primeCore {G : Type} [Group G] [Finite G] {p : ℕ}
     [Fact p.Prime] (hp2 : p ≠ 2)
     {Y Bs L : Subgroup G} {x n : G} {t : MulAut ↥Bs} (hBsY : Bs ≤ Y) (hLY : L ≤ Y) (hnY : n ∈ Y)
-    (hcomm : ∀ a ∈ Bs, ∀ b ∈ Bs, a * b = b * a) (hexp : ∀ b ∈ Bs, b ^ p = 1)
+    (_hcomm : ∀ a ∈ Bs, ∀ b ∈ Bs, a * b = b * a) (hexp : ∀ b ∈ Bs, b ^ p = 1)
     (hLq : CFSG.Assembly.IsQuasisimple L) (hpL : p ∣ Nat.card L)
     (hBsL : Bs ≤ normalizer (L : Set G)) (hxBs : x ∈ Bs)
     (hC : Bs ⊓ centralizer (L : Set G) = zpowers x)
@@ -105,8 +105,8 @@ theorem ggFixedRealizedInL_of_config {G : Type} [Group G] [Finite G] (hL : GGLBa
   rintro t hr - hxE ⟨Jt, hind, hJC, hpc⟩
   obtain ⟨hp, hBsabel, hxBs, hLx, -⟩ := hcfg.tableB_facts
   obtain ⟨hI, hBsB, hDJ⟩ := hcfg
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup G := hI.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup G := hI.1
   have hp2 : p ≠ 2 := hI.2.2.2.2.2.1.2.1
   have hS : LargeEvenSStar p B x L := hI.2.2.2.2.2.2.1
   have hx1 : x ≠ 1 := hS.2.2.1

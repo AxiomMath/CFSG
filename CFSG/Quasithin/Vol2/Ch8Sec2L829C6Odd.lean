@@ -48,7 +48,7 @@ theorem c6Odd829_psl2_card_ne_m24 {n : ℕ} (hn : 2 ≤ n) :
 theorem c6Odd829_of
     (h443o : Stmt4_4_3Orbit') (h711n : Stmt7_1_1_normal) (h3228 : Stmt3_2_2_eight)
     (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQTK) : C6Odd829 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro G _ _ T L I hyp _ _ hc _ hcoc B hBM hB1 hBc hBo hBV
   have hTL : T ≤ Subgroup.normalizer (L : Set G) := by
     refine h711n G T L I hyp hc ?_
@@ -132,7 +132,7 @@ theorem c6Odd829_of
     exact h
   have hcard : Nat.card ↥(autOn L (fsuV T I)) = 244823040 :=
     (CFSG.Quasithin.H.Mathieu.card_of_cocode24 hcocL).2
-  haveI : Finite ↥(autOn L (fsuV T I)) :=
+  have : Finite ↥(autOn L (fsuV T I)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hPL : pCoreOf 2 L ≤ Subgroup.centralizer (fsuV T I : Set G) := by
     have hQL : pCoreOf 2 L ≤ pCoreOf 2 (L ⊔ T) :=
@@ -174,7 +174,7 @@ theorem c6Odd829_of
           rw [hk]
           exact Subgroup.mem_top q
         exact MonoidHom.mem_ker.1 hq
-      haveI : Subsingleton ↥(autOn L (fsuV T I)) :=
+      have : Subsingleton ↥(autOn L (fsuV T I)) :=
         ⟨fun a b => (hsub1 a).trans (hsub1 b).symm⟩
       have h1 := Nat.card_of_subsingleton (1 : ↥(autOn L (fsuV T I)))
       omega

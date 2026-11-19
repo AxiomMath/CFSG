@@ -25,7 +25,7 @@ theorem fixed_of_normalizing_pGroup_fixed
     (hfix : ∀ w : W, (∀ d : D, tau d w = w) → ∀ r : R, tau r w = w) :
     ∀ r ∈ R, ∀ w : W, tau r w = w := by
   classical
-  haveI : Fintype R := Fintype.ofFinite R
+  have : Fintype R := Fintype.ofFinite R
   let s : W →ₗ[ZMod p] W := ∑ r : R, ((tau r : W ≃ₗ[ZMod p] W) : W →ₗ[ZMod p] W)
   have hs : ∀ w, s w = ∑ r : R, tau r w := fun w => by
     simp [s, LinearMap.sum_apply]

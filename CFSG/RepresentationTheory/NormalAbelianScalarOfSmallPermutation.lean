@@ -68,7 +68,7 @@ theorem normal_abelian_scalar_of_small_permutation
     have hg := congrArg (fun ψ : G →* Equiv.Perm Ω => ψ g) hφ
     have hg' : eΩ.symm.permCongr (MulAction.toPerm g) = 1 := by
       simpa [φ] using hg
-    rw [Equiv.apply_eq_iff_eq_symm_apply] at hg'
+    rw [← _root_.Equiv.eq_symm_apply] at hg'
     rw [Equiv.permCongr_symm] at hg'
     have h1 : eΩ.symm.symm.permCongr (1 : Equiv.Perm Ω) = 1 := by
       change eΩ.permCongr (Equiv.refl Ω) = Equiv.refl (G ⧸ TauCeti.inertia σFD)

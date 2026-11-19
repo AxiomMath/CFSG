@@ -58,8 +58,8 @@ theorem rank_adjointGroup_of_dvd_add_one {K K' : Type} [Field K] [Field K'] [Fin
         3 ≤ CFSG.Open.pRank p (centralizer ({y} : Set (adjointGroup τ K))) := by
   classical
   have : Fintype (WeylGroup τ) := Fintype.ofFinite _
-  haveI : Finite (adjointGroup τ K) := generated_group_finite τ K
-  haveI : Finite (adjointGroup τ K') := generated_group_finite τ K'
+  have : Finite (adjointGroup τ K) := generated_group_finite τ K
+  have : Finite (adjointGroup τ K') := generated_group_finite τ K'
   set q := Nat.card K with hqdef
   have hq : 1 < q := Finite.one_lt_card
   have hpq1 : ¬ p ∣ q - 1 := by
@@ -153,7 +153,7 @@ theorem crossAtPrime_untwisted_of_dvd_add_one {τ : Tag}
       (ds.map fun d => ∑ i ∈ Finset.range d, x ^ i).prod) :
     CrossAtPrime ⟨c q, hv⟩ p := by
   refine crossAtPrime_of_model fun hp hp5 _ => ?_
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [GaloisField.card _ _ q.exponent_pos.ne', TauCeti.PrimePower.card_def]
   have h2e : q.exponent * 2 ≠ 0 := Nat.mul_ne_zero q.exponent_pos.ne' (by norm_num)
@@ -168,7 +168,7 @@ theorem crossAtPrime_untwisted_of_dvd_add_one {τ : Tag}
   have hp2 : p ≠ 2 := by omega
   obtain ⟨h3, hr'⟩ := rank_adjointGroup_of_dvd_add_one ι.toRingHom hK' hp hp2
     (by rw [hK]; exact hpq) (hker _ hp5) hr ds hd0 hde hlen hds
-  haveI : Finite (adjointGroup τ (GaloisField q.p q.exponent)) := generated_group_finite τ _
+  have : Finite (adjointGroup τ (GaloisField q.p q.exponent)) := generated_group_finite τ _
   exact ⟨adjointGroup τ (GaloisField q.p q.exponent), inferInstance, inferInstance,
     ⟨φ.symm.trans (adjointQuotientEquiv τ _)⟩, h3, hr'⟩
 

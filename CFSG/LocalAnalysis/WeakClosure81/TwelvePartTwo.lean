@@ -11,6 +11,7 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Open Subgro
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem map_conj_map_eq_cj {G : Type} [Group G] (ρ : G →* LGL 2 V) (A : Subgroup G) (g : G) :
     (A.map (MulAut.conj g).toMonoidHom).map ρ = cj (ρ g) (A.map ρ) := by
   have h : ρ.comp (MulAut.conj g).toMonoidHom = (MulAut.conj (ρ g)).toMonoidHom.comp ρ := by
@@ -22,6 +23,7 @@ section Generation
 
 variable {G : Type} [Group G] [Finite G] {A M : Subgroup G} {n : ℕ}
 
+omit [Finite G] in
 private theorem b12_TwelvePartTwo_two_elt (h : Setting12Two A M n) {a : G} (ha : a ∈ A) :
     ∃ k : ℕ, a ^ 2 ^ k = 1 := by
   obtain ⟨k, hk⟩ := h.A_two ⟨a, ha⟩
@@ -29,6 +31,7 @@ private theorem b12_TwelvePartTwo_two_elt (h : Setting12Two A M n) {a : G} (ha :
     have h2 := congrArg (Subgroup.subtype A) hk
     simpa using h2⟩
 
+omit [Finite G] in
 private theorem b12_TwelvePartTwo_conj_pow (g a : G) (k : ℕ) :
     (g * a * g⁻¹) ^ 2 ^ k = g * a ^ 2 ^ k * g⁻¹ := by
   rw [conj_pow]
@@ -98,6 +101,7 @@ theorem Setting12Two.zpowers_conj_sup_eq_top (h : Setting12Two A M n) {g a : G} 
 
 end Generation
 
+omit [Finite V] in
 theorem twelveFive_partTwo {G : Type} [Group G] [Finite G] {A M : Subgroup G} {n : ℕ}
     (h : Setting12Two A M n) (ρ : G →* LGL 2 V) (hq : RepQuad ρ A) {g : G} (hg : g ∉ M) :
     Conclusion121 ρ.range (A.map ρ) (ρ g)

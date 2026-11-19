@@ -15,6 +15,7 @@ open CFSG.Open CFSG.AGLEmbedding CFSG.LocalAnalysis.RankThreeUC.AGL81C
 
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H : Subgroup G}
 
+omit [Finite G] in
 private theorem card_map_center_dvd_card_normalizer_inf {M S L : Subgroup G}
     {J : Subgroup (↥(barM M L) ⧸ Subgroup.center ↥(barM M L))}
     (hJ : J = ((barM M (Subgroup.normalizer (S : Set G) ⊓ L)).subgroupOf
@@ -26,6 +27,7 @@ private theorem card_map_center_dvd_card_normalizer_inf {M S L : Subgroup G}
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (barM_mono inf_le_right)).toEquiv]
   exact CFSG.AGLEmbedding.card_barM_dvd (inf_le_right.trans hLM)
 
+omit [Finite G] in
 private theorem card_center_dvd_card_normalizer_inf {M S L : Subgroup G}
     (h93 : NineThreeTwo M S L) (hLM : L ≤ M) :
     Nat.card (Subgroup.center ↥(barM M L)) ∣
@@ -57,7 +59,7 @@ theorem pRank_barM_add_one_le_of_nineThreeTwo
     (hdL : ¬ d ∣ Nat.card (L ⊓ H : Subgroup G)) :
     CFSG.Open.pRank d (barM M L) + 1 ≤ max 2 (CFSG.Open.pRank 3 (barM M L)) ∧
       ¬ d ∣ Nat.card (Subgroup.center ↥(barM M L)) := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hphase : CFSG.AGLEmbedding.TwoLocalPhaseThree M H := h.twoLocalPhaseThree
   have hK : CFSG.Open.IsKGroup ↥M :=
     CFSG.LocalAnalysis.GLTheoremB.isKGroup_of_isKProper h.cstar.kProper

@@ -66,7 +66,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     (∃ t ∈ LB M Q B, t ∉ Q ∧ SLlike hc t) → False
 
 @[expose] def Stroth1111Statement : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) (hc : Ctx M Q Z B) (n : ℕ),
+  ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) (_hc : Ctx M Q Z B) (n : ℕ),
     Width Q Z n → 2 < n → (∃ a ∈ LB M Q B, IsA2 Q Z a) →
     CaseVI M Q Z (Lgen M (LB M Q B))
 
@@ -94,7 +94,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     ∀ t ∈ LB M Q B, t ∉ Q → Nat.card Q * Nat.card Z ≤ Nat.card ↥(hc.CN t)
 
 @[expose] def Stroth1111NotTIStatement : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) (hc : Ctx M Q Z B) (n : ℕ),
+  ∀ (G : Type) [Group G] [Finite G] (M Q Z B : Subgroup G) (_hc : Ctx M Q Z B) (n : ℕ),
     Width Q Z n → 2 < n → (∃ a ∈ LB M Q B, IsA2 Q Z a) →
     ¬ IsTIMod M Q (LB M Q B)
 

@@ -22,6 +22,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     (A : Subgroup ↥(bar M Q (H0 M Z))) : Subgroup G :=
   ((A.map (bar M Q (H0 M Z)).subtype).comap (QuotientGroup.mk' (Q.subgroupOf M))).map M.subtype
 
+omit [Finite G] in
 theorem mem_barPreH0 {A : Subgroup ↥(bar M Q (H0 M Z))} (y : ↥M) :
     (y : G) ∈ barPreH0 M Q Z A ↔
       QuotientGroup.mk' (Q.subgroupOf M) y ∈ A.map (bar M Q (H0 M Z)).subtype := by
@@ -33,6 +34,7 @@ theorem mem_barPreH0 {A : Subgroup ↥(bar M Q (H0 M Z))} (y : ↥M) :
   · intro h
     exact ⟨y, h, rfl⟩
 
+omit [Finite G] in
 theorem bar_barPreH0 (A : Subgroup ↥(bar M Q (H0 M Z))) :
     (bar M Q (barPreH0 M Q Z A)).subgroupOf (bar M Q (H0 M Z)) = A := by
   have h1 : (barPreH0 M Q Z A).subgroupOf M =
@@ -45,13 +47,15 @@ theorem bar_barPreH0 (A : Subgroup ↥(bar M Q (H0 M Z))) :
   rw [Subgroup.mem_subgroupOf, h2]
   exact Subgroup.mem_map_iff_mem (bar M Q (H0 M Z)).subtype_injective
 
-theorem le_barPreH0 {S : Subgroup G} (hQS : Q ≤ S) (hSM : S ≤ M) {A : Subgroup ↥(bar M Q (H0 M Z))}
+omit [Finite G] in
+theorem le_barPreH0 {S : Subgroup G} (_hQS : Q ≤ S) (hSM : S ≤ M) {A : Subgroup ↥(bar M Q (H0 M Z))}
     (hSA : ∀ s : ↥M, (s : G) ∈ S → ∃ h, (⟨QuotientGroup.mk' (Q.subgroupOf M) s, h⟩ :
       ↥(bar M Q (H0 M Z))) ∈ A) : S ≤ barPreH0 M Q Z A := by
   intro x hx
   obtain ⟨h, hA⟩ := hSA ⟨x, hSM hx⟩ hx
   exact (mem_barPreH0 (A := A) ⟨x, hSM hx⟩).mpr ⟨_, hA, rfl⟩
 
+omit [Finite G] in
 theorem barPreH0_le {S : Subgroup G} (hQS : Q ≤ S) {A : Subgroup ↥(bar M Q (H0 M Z))}
     (hAS : A ≤ (bar M Q S).subgroupOf (bar M Q (H0 M Z))) : barPreH0 M Q Z A ≤ S := by
   rintro _ ⟨y, ⟨a, ha, hay⟩, rfl⟩
@@ -62,6 +66,7 @@ theorem barPreH0_le {S : Subgroup G} (hQS : Q ≤ S) {A : Subgroup ↥(bar M Q (
     exact h1
   exact (mk_mem_bar_iff_sec4 hQS y).mp h2
 
+omit [Finite G] in
 theorem barPreH0_conj {R : Subgroup G} (hRH : R ≤ H0 M Z) (hQR : Q ≤ R)
     {A : Subgroup ↥(bar M Q (H0 M Z))}
     (hA : ∀ r ∈ (bar M Q R).subgroupOf (bar M Q (H0 M Z)), ∀ a ∈ A, r * a * r⁻¹ ∈ A) :

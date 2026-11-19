@@ -22,6 +22,7 @@ section Torus
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem exp_of_twistedTorus {ℓ f : ℕ} [Fact ℓ.Prime] {L : Type} [Field L] [IsAlgClosed L]
     [Algebra K L] [CharP L ℓ]
     (σ : K ≃+* K) (h3q : 3 ∣ ℓ ^ f + 1) {ζ : Lˣ} (hζ : orderOf ζ = 3)

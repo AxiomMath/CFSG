@@ -21,9 +21,9 @@ private theorem e16m_ofVec_eq_allOnes (u : Fin n → ZMod 2) :
 private theorem e16m_conj_ofVec (v : Fin n → ZMod 2) (E : Wr n) :
     Wr.ofVec v * E * (Wr.ofVec v)⁻¹ = Wr.ofVec (fun x => v x + v (E.perm.symm x)) * E := by
   refine Wr.ext (funext fun x => ?_) ?_
-  · simp [mul_vec, inv_vec, mul_perm, Wr.ofVec, one_perm]
+  · simp [mul_vec, inv_vec, mul_perm, Wr.ofVec]
     ring
-  · simp [mul_perm, inv_perm, Wr.ofVec, one_perm]
+  · simp [mul_perm, inv_perm, Wr.ofVec]
 
 private theorem e16m_comm_iff (v : Fin n → ZMod 2) (E : Wr n) :
     mkQ n (Wr.ofVec v) * mkQ n E = mkQ n E * mkQ n (Wr.ofVec v) ↔
@@ -115,8 +115,8 @@ private theorem e16m_ofVec_mem {α : Finset (Fin n)} {h : α.card = 4} {b : Bool
       rw [zOf_vec_apply]
       by_cases hx : x ∈ Set.range (emb α h)
       · obtain ⟨i, rfl⟩ := hx
-        rw [if_pos (Set.mem_range_self i), hconst i 0, h1]
-      · rw [if_neg hx]
+        rw [ite_eq_left (Set.mem_range_self i), hconst i 0, h1]
+      · rw [ite_eq_right hx]
         exact hsupp x hx
     have hz : Wr.ofVec u = zOf (emb α h) := by
       rw [hu]
@@ -299,7 +299,7 @@ theorem eq_vec_of_comm_vectors (hn : 5 ≤ n) {x : AEQ n}
     have hjσ : j ≠ σ i := fun e => hj (by simp [e])
     let f : Fin n → ZMod 2 := fun k => (if k = i then 1 else 0) + (if k = j then 1 else 0)
     have hsum : ∑ k, f k = 0 := by
-      simp only [f, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      simp only [f, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
       decide
     have hc := (e16m_comm_iff f ⟨w, σ⟩).mp (hx f hsum).symm
     obtain ⟨x₀, hx₀⟩ := e16m_exists_notMem ({i, j, σ i, σ j} : Finset (Fin n)) (by
@@ -366,9 +366,9 @@ theorem card_vec_const (hn : 4 ≤ n) (γ : Finset (Fin n)) (hγ : γ.card = 4) 
         apply Subtype.ext
         funext x
         by_cases hx : x ∈ γ
-        · simp only [dif_pos hx]
+        · simp only [dite_eq_left hx]
           exact v.2 g hg x hx
-        · simp only [dif_neg hx]
+        · simp only [dite_eq_right hx]
       right_inv := fun p => by
         refine Prod.ext ?_ ?_
         · simp [hg]

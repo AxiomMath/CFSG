@@ -39,8 +39,8 @@ private theorem sympMinus_spPlane_stdModel_aux
       (∀ n : L', MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut L')) →
         GGTorusWeylElt p A n) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hm : 1 ≤ m := Nat.one_le_iff_ne_zero.mpr (NeZero.ne m)
   have hZR : Subgroup.center (LargeEvenProj (LargeEvenSpGroup K m)) = ⊥ :=
     TableBSymp.center_spProj_eq_bot (K := K) (m := m)
@@ -185,7 +185,7 @@ theorem ggTBJ_spPlane_model
   classical
   obtain ⟨ζ, x, σ, Θ, hζinj, hζW, hψσ, hσp, hΘσ, hWeyl⟩ :=
     sympMinus_spPlane_stdModel_aux hp hp2 hpq ψ₀ hψ hker hperf A hAe hAI hsc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcpL : ¬ p ∣ Nat.card (Subgroup.center L') :=
     (ggCenterPrime_sp hp hp2) L' ψ₀ hψ hker hperf
   let e : StatedSp m K ≃* LargeEvenProj (LargeEvenSpGroup K m) :=
@@ -402,7 +402,7 @@ theorem ggTBJ_spPlane_model
     have hid : (MulAut.conj x).toMonoidHom.comp (MulAut.conj x⁻¹).toMonoidHom =
         MonoidHom.id _ := by
       ext r
-      simp [MulAut.conj_apply]
+      simp
     rw [hid, Subgroup.map_id]
 
 end SympMinus

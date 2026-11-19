@@ -57,6 +57,7 @@ theorem allBlk_true {b : Nat} {f : Nat → Bool} : ∀ {len : Nat}, allBlk b f l
       subst e
       exact h1
 
+set_option exponentiation.threshold 4096 in
 theorem testBit_img {N S : Nat} (hN : StagesValid 12 N) {r : Nat} (hr : r < 4096) :
     (img N S).testBit r = S.testBit (benesPerm 12 N r) := by
   have hq : benesPerm (nat_lit 12) N r < 4096 :=
@@ -73,6 +74,7 @@ theorem testBit_img {N S : Nat} (hN : StagesValid 12 N) {r : Nat} (hr : r < 4096
   have e2 : decide (benesPerm (nat_lit 12) N r ≥ nat_lit 4096) = false := decide_eq_false hq'
   rw [e1, e2, Bool.false_and, Bool.or_false, Bool.and_true]
 
+set_option exponentiation.threshold 4096 in
 theorem testBit_img_ge {N S : Nat} {r : Nat} (hr : 4096 ≤ r) : (img N S).testBit r = false := by
   unfold img
   rw [nland, Nat.testBit_and, ones_eq, Nat.testBit_two_pow_sub_one]
@@ -80,6 +82,7 @@ theorem testBit_img_ge {N S : Nat} {r : Nat} (hr : 4096 ≤ r) : (img N S).testB
   have e : decide (r < nat_lit 4096) = false := decide_eq_false hr'
   rw [e, Bool.and_false]
 
+set_option exponentiation.threshold 2187 in
 theorem img_sound {N S : Nat} {σ : Perm (Fin 2187)} (hN : StagesValid 12 N)
     (hσ : ∀ p : Fin 2187, benesPerm 12 N p = (σ⁻¹ p : Nat)) (hS : S < 2 ^ 2187) :
     maskSet (img N S) = σ • maskSet S ∧ img N S < 2 ^ 2187 := by
@@ -97,7 +100,7 @@ theorem img_sound {N S : Nat} {σ : Perm (Fin 2187)} (hN : StagesValid 12 N)
         have hinv : ∀ x, σ⁻¹ (σ x) = x := fun x => by simp
         rw [hinv] at e
         have e' := congrArg (benesInv 12 N) e
-        simp only [Fin.val_mk] at e'
+        simp only at e'
         rw [benesInv_benesPerm hN, benesInv_benesPerm hN] at e'
         have := (σ ⟨benesPerm 12 N q, by omega⟩).2
         omega
@@ -170,6 +173,7 @@ theorem testBit_planes {G b p : Nat} (hb : b < 12) (hp : p < 4096) :
   rw [Nat.testBit_and, Nat.testBit_shiftRight, Nat.add_zero]
   cases (ext G p).testBit b <;> rfl
 
+set_option exponentiation.threshold 4096 in
 theorem testBit_idP12 {u r : Nat} (hu : u < 12) (hr : r < 4096) :
     (idP 12).testBit (4096 * u + r) = r.testBit u := by
   have e : Nat.shiftLeft (nat_lit 1) (nat_lit 12) = 2 ^ 12 := rfl

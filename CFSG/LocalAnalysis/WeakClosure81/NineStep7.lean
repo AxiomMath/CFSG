@@ -13,22 +13,26 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V K S X A : Subgroup G} {p : ℕ}
 
+omit [Finite G] in
 private theorem nineStep7_conjSubgroup_iSup {ι : Sort*} (A : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, A i) g = ⨆ i, conjSubgroup (A i) g := by
   unfold conjSubgroup
   rw [Subgroup.map_iSup]
 
+omit [Finite G] in
 private theorem nineStep7_le_normalClosure {K Y : Subgroup G} :
     Y ≤ ⨆ k : K, conjSubgroup Y (k : G) := by
   have h1 : conjSubgroup Y ((1 : K) : G) ≤ ⨆ k : K, conjSubgroup Y (k : G) :=
     le_iSup (fun k : K => conjSubgroup Y (k : G)) 1
   simpa [conjSubgroup_one] using h1
 
+omit [Finite G] in
 private theorem nineStep7_normalClosure_le {K Y Z : Subgroup G}
     (h : ∀ k : K, conjSubgroup Y (k : G) ≤ Z) :
     (⨆ k : K, conjSubgroup Y (k : G)) ≤ Z :=
   iSup_le h
 
+omit [Finite G] in
 private theorem nineStep7_normalClosure_normal {K Y : Subgroup G} (hYK : Y ≤ K) :
     ((⨆ k : K, conjSubgroup Y (k : G)).subgroupOf K).Normal := by
   have hNK : (⨆ k : K, conjSubgroup Y (k : G)) ≤ K := by

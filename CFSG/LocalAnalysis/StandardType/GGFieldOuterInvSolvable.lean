@@ -44,17 +44,17 @@ private theorem ggPA3_isSolvable_familyCentralizer_unit
   have hNbot : (kernelReflectionGroup a).subgroupOf (rootCharStabilizerSubgroup a) = ⊥ := by
     rw [hKR]
     ext x
-    simp [Subgroup.mem_subgroupOf]
-  haveI hHs : Group.IsSolvable ↥(rootCharStabilizerSubgroup a) := by
+    simp
+  have hHs : Group.IsSolvable ↥(rootCharStabilizerSubgroup a) := by
     have hQ : Group.IsSolvable (↥(rootCharStabilizerSubgroup a) ⧸
         (kernelReflectionGroup a).subgroupOf (rootCharStabilizerSubgroup a)) :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.isSolvable_quotient hp ha
-    haveI := hQ
+    have := hQ
     have hN : Group.IsSolvable ↥((kernelReflectionGroup a).subgroupOf
         (rootCharStabilizerSubgroup a)) := by
       rw [hNbot]
       infer_instance
-    haveI := hN
+    have := hN
     exact Group.isSolvable_of_ker_le_range
       ((kernelReflectionGroup a).subgroupOf (rootCharStabilizerSubgroup a)).subtype
       (QuotientGroup.mk' ((kernelReflectionGroup a).subgroupOf (rootCharStabilizerSubgroup a)))
@@ -97,7 +97,7 @@ private theorem ggPA3_isSolvable_familyCentralizer_unit
   let ψ' : ↥(familyCentralizer τ L (fun _ : Unit => a)) →*
       ↥((rootCharStabilizerSubgroup a).comap ρ) :=
     ψ.codRestrict ((rootCharStabilizerSubgroup a).comap ρ) hρψ
-  haveI := hsolv
+  have := hsolv
   refine Group.isSolvable_of_isSolvable_injective (f := ψ') ?_
   intro g g' h
   exact hψ (congrArg Subtype.val h)
@@ -119,7 +119,7 @@ theorem isSolvable_centralizer_of_familyKernel_empty
   have he : Function.Injective e := fun x y h =>
     Subtype.ext (congrArg
       (fun z : ↥(familyCentralizer τ L (fun _ : Unit => a)) => (z : ModGL τ L)) h)
-  haveI : Group.IsSolvable ↥(familyCentralizer τ L (fun _ : Unit => a)) := hfam
+  have : Group.IsSolvable ↥(familyCentralizer τ L (fun _ : Unit => a)) := hfam
   exact Group.isSolvable_of_isSolvable_injective (f := e) he
 
 end CFSG.StandardType

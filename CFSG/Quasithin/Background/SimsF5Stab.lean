@@ -36,18 +36,18 @@ theorem last5_ne_castSucc (i : Fin 5) : Fin.last 5 ≠ i.castSucc := (Fin.castSu
 @[simp] theorem extMat_last_castSucc (A : Matrix (Fin 5) (Fin 5) (ZMod 3)) (j : Fin 5) :
     extMat A (Fin.last 5) j.castSucc = 0 := by
   simp only [extMat, Matrix.of_apply, Fin.lastCases_castSucc, Fin.lastCases_last,
-    castSucc_ne_last5, if_false]
+    castSucc_ne_last5, ite_false]
 
 @[simp] theorem extMat_last_last (A : Matrix (Fin 5) (Fin 5) (ZMod 3)) :
     extMat A (Fin.last 5) (Fin.last 5) = 1 := by
-  simp only [extMat, Matrix.of_apply, Fin.lastCases_last, if_true]
+  simp only [extMat, Matrix.of_apply, Fin.lastCases_last, ite_true]
 
 theorem extMat_one : extMat 1 = 1 := by
   ext i j
   refine Fin.lastCases ?_ (fun i => ?_) i <;> refine Fin.lastCases ?_ (fun j => ?_) j <;>
     simp only [extMat_castSucc_castSucc, extMat_castSucc_last, extMat_last_castSucc,
       extMat_last_last, Matrix.one_apply, castSucc_ne_last5, last5_ne_castSucc, Fin.castSucc_inj,
-      if_true, if_false]
+      ite_true, ite_false]
 
 theorem extMat_mul (A B : Matrix (Fin 5) (Fin 5) (ZMod 3)) :
     extMat (A * B) = extMat A * extMat B := by
@@ -56,7 +56,7 @@ theorem extMat_mul (A B : Matrix (Fin 5) (Fin 5) (ZMod 3)) :
   refine Fin.lastCases ?_ (fun i => ?_) i <;> refine Fin.lastCases ?_ (fun j => ?_) j <;>
     simp only [extMat_castSucc_castSucc, extMat_castSucc_last, extMat_last_castSucc,
       extMat_last_last, Matrix.mul_apply, zero_mul, mul_zero, Finset.sum_const_zero, zero_add,
-      add_zero, one_mul, mul_one]
+      add_zero, mul_one]
 
 theorem det_extMat (A : Matrix (Fin 5) (Fin 5) (ZMod 3)) : (extMat A).det = A.det := by
   rw [Matrix.det_succ_row _ (Fin.last 5), Fin.sum_univ_castSucc]
@@ -145,7 +145,7 @@ theorem x6_eq_snoc : x6 = Fin.snoc (α := fun _ => ZMod 3) 0 1 := by
     simp [x6, xvec]
   · rw [Fin.snoc_castSucc]
     simp only [x6, xvec, Pi.single_apply, Pi.zero_apply]
-    exact if_neg (castSucc_ne_last5 i)
+    exact ite_eq_right (castSucc_ne_last5 i)
 
 theorem x6_ne_zero : x6 ≠ 0 := by
   intro h
@@ -154,18 +154,18 @@ theorem x6_ne_zero : x6 ≠ 0 := by
 
 theorem x6_castSucc (i : Fin 5) : x6 i.castSucc = 0 := by
   simp only [x6, xvec, Pi.single_apply]
-  exact if_neg (castSucc_ne_last5 i)
+  exact ite_eq_right (castSucc_ne_last5 i)
 
 theorem x6_last : x6 (Fin.last 5) = 1 := by
   simp [x6, xvec]
 
 theorem xvec_castSucc_last (j : Fin 5) : xvec j.castSucc (Fin.last 5) = 0 := by
   simp only [xvec, Pi.single_apply]
-  exact if_neg (last5_ne_castSucc j)
+  exact ite_eq_right (last5_ne_castSucc j)
 
 theorem bil_x6 (u : V6) : bil u x6 = u 5 := by
   rw [bil_coord]
-  simp [x6, xvec, Pi.single_apply]
+  simp [x6, xvec]
   generalize u 5 = a
   revert a
   decide
@@ -509,10 +509,10 @@ theorem GDot_eq_map_statedOmega : GDot = (CFSG.Open.StatedOmega qV5).map ext6 :=
     ((CFSG.Open.StatedOmega qV5).equivMapOfInjective ext6 ext6_injective).symm
 
 theorem eJd_eq_neg_one_of_mem {J : Finset (Fin 6)} {i : Fin 6} (h : i ∈ J) : eJd J i = -1 :=
-  if_pos h
+  ite_eq_left h
 
 theorem eJd_eq_one_of_notMem {J : Finset (Fin 6)} {i : Fin 6} (h : i ∉ J) : eJd J i = 1 :=
-  if_neg h
+  ite_eq_right h
 
 theorem eJd_insert_of_ne {J : Finset (Fin 6)} {a i : Fin 6} (h : i ≠ a) :
     eJd (insert a J) i = eJd J i := by
@@ -583,7 +583,7 @@ theorem eJ_mulVec_x6 (J : Finset (Fin 6)) (hJ : J ⊆ Iset) :
   by_cases hi : i = 5
   · subst hi
     rw [eJd_eq_one_of_notMem h5, one_mul]
-  · have : x6 i = 0 := by simp [x6, xvec, Pi.single_apply, hi]
+  · have : x6 i = 0 := by simp [x6, xvec, hi]
     rw [this, mul_zero]
 
 theorem eJ_mem_GDot (J : Finset (Fin 6)) (hJ : J ⊆ Iset) (he : Even J.card) : eJ J ∈ GDot :=
@@ -622,7 +622,7 @@ theorem fDot_mem_MDot : fDot ∈ MDot := by
     ⟨⟨1, rfl⟩, ?_⟩
   · rw [fDot_eq_refl6_mul]
     simpa [reflOf] using h
-  · simp [List.countP_cons, qV_x1_sub_x2, qV_x6]
+  · simp [qV_x1_sub_x2, qV_x6]
 
 theorem fMat_mulVec_x6 : fMat *ᵥ x6 = (-1 : ZMod 3) • x6 := by decide
 
@@ -755,9 +755,9 @@ theorem M0DotToPO5_injective : Function.Injective M0DotToPO5 := by
   ext i j
   rw [Matrix.diagonal_apply]
   refine Fin.lastCases ?_ (fun i => ?_) i <;> refine Fin.lastCases ?_ (fun j => ?_) j
-  · simp only [if_true, Fin.snoc_last]
-  · rw [hB.2 j, if_neg (last5_ne_castSucc j)]
-  · rw [hB.1 i, if_neg (castSucc_ne_last5 i)]
+  · simp only [ite_true, Fin.snoc_last]
+  · rw [hB.2 j, ite_eq_right (last5_ne_castSucc j)]
+  · rw [hB.1 i, ite_eq_right (castSucc_ne_last5 i)]
   · rw [hentry i j]
     simp only [Fin.castSucc_inj, Fin.snoc_castSucc]
 
@@ -836,7 +836,7 @@ theorem diag_of_comm {g : GL6} (hc : ∀ h ∈ GDot, g * h = h * g) :
   by_cases hij : i = j
   · subst hij
     simp
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     exact offdiag_eq_zero_of_comm hc hij
 
 theorem refl6_mulVec_x6_of_last (z : V6) (hz : qV z ≠ 0) (h5 : z 5 = 0) :
@@ -942,7 +942,7 @@ theorem centralizer_GDot_eq_bot {g : GL6} (hg : g ∈ MDot) (hc : ∀ h ∈ GDot
     · exact e4.symm
 
 theorem isAutU42_M0Dot : IsAutU42 ↥M0Dot := by
-  haveI : (GDot.subgroupOf M0Dot).Normal :=
+  have : (GDot.subgroupOf M0Dot).Normal :=
     Subgroup.normal_of_index_eq_two index_GDot_subgroupOf_M0Dot
   have hGL : CFSG.ASVolI.ChF.IsGenLie ↥(GDot.subgroupOf M0Dot) CFSG.ASVolI.ChF.GLKind.U4 2 1 :=
     isGenLie_U4_of_mulEquiv (Subgroup.subgroupOfEquivOfLe GDot_le_M0Dot) isGenLie_GDot

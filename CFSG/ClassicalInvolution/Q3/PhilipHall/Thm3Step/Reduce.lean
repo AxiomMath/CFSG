@@ -81,7 +81,7 @@ theorem conclG_of_parts {m : ℕ} (h2 : Thm3RLiftSub) (h3 : Thm3RTwoOrbit m) (h4
     · exact h7 Y Φ K hc htw hQ hF hcl hG
   exfalso
   by_cases htop : genFittingFStar Y = ⊤
-  · haveI : IsSimpleGroup Y := isSimpleGroup_of_fstar_eq_top hF.1 htop
+  · have : IsSimpleGroup Y := isSimpleGroup_of_fstar_eq_top hF.1 htop
     have hcl' : SubClass Φ K ⊤ := htop ▸ hcl
     have hcc : Φ = CoreAssembly.conjClass K :=
       eq_conjClass_of_subClass hΦ.hyp.conjInvariant hK hcl'

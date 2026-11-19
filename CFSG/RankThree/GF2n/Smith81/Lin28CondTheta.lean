@@ -17,6 +17,7 @@ namespace RestModel
 
 variable (R : RestModel M Q Z n V₁ V₂)
 
+omit [Finite G] in
 theorem comm_mem_Z_iff (hx : x ∈ H0 M Z) {q : G} (hq : q ∈ Q) :
     ⁅q, x⁆ ∈ Z ↔ R.φ ⟨x, hx⟩ (R.M₀.π q) = R.M₀.π q := by
   have h := (R.xact x hx).pi_comm R.hyp hx.1 hq
@@ -97,7 +98,7 @@ theorem exists_split (hx : x ∈ H0 M Z) (hxn₁ : x ∈ Subgroup.normalizer (V�
   exact ⟨a, ha, b, hb, rfl, (R.comm_mem_Z_iff hx haQ).mpr h3, (R.comm_mem_Z_iff hx hbQ).mpr h4⟩
 
 theorem exists_moved (hs : Sit M Q Z X x) (hx : x ∈ H0 M Z)
-    (hxn₁ : x ∈ Subgroup.normalizer (V₁ : Set G))
+    (_hxn₁ : x ∈ Subgroup.normalizer (V₁ : Set G))
     (hxn₂ : x ∈ Subgroup.normalizer (V₂ : Set G)) :
     ∃ q ∈ V₁, R.φ ⟨x, hx⟩ (R.M₀.π q) ≠ R.M₀.π q := by
   by_contra hcon
@@ -129,6 +130,7 @@ theorem exists_moved (hs : Sit M Q Z X x) (hx : x ∈ H0 M Z)
   rw [map_add, hT1 w₁ hw₁, sub_eq_zero.mp hd]
   rfl
 
+omit [Finite G] in
 theorem exists_comm_rep' (hx : x ∈ H0 M Z) {y : G} (hyQ : y ∈ Q)
     (hy : R.M₀.π y ∈ R.Nsp hx) : ∃ q ∈ Q, ∃ z₀ ∈ Z, y = ⁅q, x⁆ * z₀ := by
   obtain ⟨u, hu⟩ := (R.mem_Nsp hx _).mp hy
@@ -143,6 +145,7 @@ theorem exists_comm_rep' (hx : x ∈ H0 M Z) {y : G} (hyQ : y ∈ Q)
     exact neg_add_cancel _
   exact ⟨q, hq, (y⁻¹ * ⁅q, x⁆)⁻¹, Z.inv_mem h2, by group⟩
 
+omit [Finite G] in
 theorem pi_comm_mem_Nsp (hx : x ∈ H0 M Z) {q : G} (hq : q ∈ Q) :
     R.M₀.π ⁅q, x⁆ ∈ R.Nsp hx := by
   rw [(R.xact x hx).pi_comm R.hyp hx.1 hq]
@@ -265,6 +268,7 @@ theorem theta_dichotomy_comm (hb : Smith1981Below (Nat.card G)) (hc : Ctx M Q Z 
     exact theta_surj_of_root R.symm S.symm hs hx hb' hbZ hb1
   · exact theta_surj_of_root R S hs hx ha haZ ha1
 
+omit [Finite G] in
 theorem comm_eq_iff_conj {p z : G} (hxZ : ∀ z ∈ Z, x * z * x⁻¹ = z) (hz : z ∈ Z) :
     ⁅p, x⁆ = z ↔ p * x * p⁻¹ = x * z := by
   have h1 : x * z = z * x := mul_inv_eq_iff_eq_mul.mp (hxZ z hz)

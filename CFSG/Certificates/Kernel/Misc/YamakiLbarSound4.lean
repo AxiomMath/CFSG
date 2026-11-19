@@ -37,16 +37,16 @@ theorem img_fold2 (T : Array (Array ℕ)) (Λ : ℕ → ℕ) {v : ℕ} (hv : v <
       J.foldr (fun m acc => ((z6MulTab ())[(T[m]!)[v]!]!)[acc]!) 0 =
         psc Q (J.foldr (fun m a => Nat.xor (MULF (crd Q v) (Λ m)) a) 0)
   | [], _ => by
-    rw [List.foldr_nil, List.foldr_nil, psc_zero hA hc]
+    rw [List.foldr_nil, List.foldr_nil, psc_zero hc]
   | m :: J, hJ => by
     have ih := img_fold2 T Λ hv J fun x hx => hJ x (List.mem_cons_of_mem _ hx)
     have hlt : ∀ J : List ℕ, J.foldr (fun m a => Nat.xor (MULF (crd Q v) (Λ m)) a) 0 < 64 := by
       intro J
       induction J with
       | nil => norm_num
-      | cons x J ihJ => exact xor_lt64 (vec_lt (crd_lt hA hc hv) _) ihJ
+      | cons x J ihJ => exact xor_lt64 (vec_lt (crd_lt hc hv) _) ihJ
     rw [List.foldr_cons, List.foldr_cons, ih, hJ m List.mem_cons_self, phiA_get _ hv,
-      z6MulTab_psc hG hA hc (vec_lt (crd_lt hA hc hv) _) (hlt J)]
+      z6MulTab_psc hG hA hc (vec_lt (crd_lt hc hv) _) (hlt J)]
     rfl
 
 include hG hA hc hg hl in
@@ -61,7 +61,7 @@ theorem norm_v (hrep : repK Q = true) (hia : iaK Q = true) (hib : ibK Q = true)
           (z6BuildF (z6MulTab ()) (enumA0 ()) (z6Img (z6MulTab ()) T v)) ||
         ((z6EnumL ()).lookup
           (z6BuildF (z6MulTab ()) (enumA0 ()) (z6Img (z6MulTab ()) T v))).isSome)) = true := by
-  have hcl : crd Q v < 64 := crd_lt hA hc hv
+  have hcl : crd Q v < 64 := crd_lt hc hv
   have hAl : A < 2 ^ 36 := hAe ▸ lbL_lt hl ia hia'
   have hBl : B < 2 ^ 36 := hBe ▸ lbL_lt hl ib hib'
   have himg : z6Img (z6MulTab ()) T v =
@@ -98,12 +98,12 @@ theorem norm_v (hrep : repK Q = true) (hia : iaK Q = true) (hib : ibK Q = true)
     | _ k ih =>
       intro hk
       cases k with
-      | zero => rw [hF0, (coord_facts hc).1, zero_mulF, psc_zero hA hc]
+      | zero => rw [hF0, (coord_facts hc).1, zero_mulF, psc_zero hc]
       | succ t =>
         obtain ⟨p1, p2, -⟩ := hBt t (by omega)
         rw [hFk (t + 1) (by omega) hk, (hpar (t + 1) (by omega) hk).1,
           (hpar (t + 1) (by omega) hk).2, Nat.add_sub_cancel, ih _ (by omega) (by omega),
-          himg_get _ p2, z6MulTab_psc hG hA hc (vec_lt (crd_lt hA hc (by omega)) _)
+          himg_get _ p2, z6MulTab_psc hG hA hc (vec_lt (crd_lt hc (by omega)) _)
             (vec_lt (pow_lt64 p2) _), ← xor_mulF, ← crd_succ hA hc (by omega)]
   have hFG : z6BuildF (z6MulTab ()) (enumA0 ()) (z6Img (z6MulTab ()) T v) =
       phiA Q (gOf (crd Q v) A B) :=
@@ -132,21 +132,21 @@ theorem norm_v (hrep : repK Q = true) (hia : iaK Q = true) (hib : ibK Q = true)
   rw [z6GsL_eq hG hA hc hg hl] at hN
   have hN0 := hN 0 (by simp)
   have hN1 := hN 1 (by simp)
-  rw [arr2_get0, arr2_get0, compA_phiA hA hc, compA_phiA hA hc] at hN0
-  rw [arr2_get1, arr2_get1, compA_phiA hA hc, compA_phiA hA hc] at hN1
-  have hI0 := phiA_inj hA hc (MULF_lt _ _) (MULF_lt _ _) hN0
-  have hI1 := phiA_inj hA hc (MULF_lt _ _) (MULF_lt _ _) hN1
+  rw [arr2_get0, arr2_get0, compA_phiA hc, compA_phiA hc] at hN0
+  rw [arr2_get1, arr2_get1, compA_phiA hc, compA_phiA hc] at hN1
+  have hI0 := phiA_inj hc (MULF_lt _ _) (MULF_lt _ _) hN0
+  have hI1 := phiA_inj hc (MULF_lt _ _) (MULF_lt _ _) hN1
   have hker : ∀ x < 64, 0 < x → MULF x (gOf (crd Q v) A B) ≠ 0 := by
     intro x hx hx0 hz
-    have hpx := psc_lt hA hc hx
+    have hpx := psc_lt hc hx
     have hne : psc Q x ≠ 0 := fun h => by
-      have := crd_psc hA hc hx
+      have := crd_psc hc hx
       rw [h, (coord_facts hc).1] at this
       omega
     have e1 : (phiA Q (gOf (crd Q v) A B))[psc Q x]! = 0 := by
-      rw [phiA_psc hA hc _ hx, hz, psc_zero hA hc]
+      rw [phiA_psc hc _ hx, hz, psc_zero hc]
     exact (hP (psc Q x) hpx).2 0 (Nat.pos_of_ne_zero hne)
-      (by rw [e1, phiA_zero hA hc])
+      (by rw [e1, phiA_zero hc])
   have hc0 : crd Q v ≠ 0 := by
     intro h
     apply hker 1 (by norm_num) (by norm_num)
@@ -268,8 +268,8 @@ theorem z6NormCheck_of (hrep : repK Q = true) (hia : iaK Q = true) (hib : ibK Q 
   simp only [allLt_iff]
   intro ia hia' ib hib'
   rw [enumL_get hG hA hc hg hl hia', enumL_get hG hA hc hg hl hib', arr2_get0, arr2_get1,
-    compA_phiA hA hc, compA_phiA hA hc, compA_phiA hA hc, ← phiA_one hA hc,
-    decide_phiA hA hc (MULF_lt _ _) ONE_lt, decide_phiA hA hc (MULF_lt _ _) ONE_lt]
+    compA_phiA hc, compA_phiA hc, compA_phiA hc, ← phiA_one hc,
+    decide_phiA hc (MULF_lt _ _) ONE_lt, decide_phiA hc (MULF_lt _ _) ONE_lt]
   have hAl := lbL_lt hl ia hia'
   have hBl := lbL_lt hl ib hib'
   by_cases ha : MULF (lbL Q ia) (lbL Q ia) = ONE
@@ -296,39 +296,39 @@ theorem z6NormCheck_of (hrep : repK Q = true) (hia : iaK Q = true) (hib : ibK Q 
     rwa [(hE.2.2.2.2.1 (e + 1) (by omega) (by omega)).1,
       (hE.2.2.2.2.1 (e + 1) (by omega) (by omega)).2, Nat.add_sub_cancel] at this
   generalize hT : buildF (z6EnumL ()) #[phiA Q (lbL Q ia), phiA Q (lbL Q ib)] = T at hTs hT0 hTm hTn ⊢
-  have hT0' : T[0]! = phiA Q ONE := by rw [hT0, phiA_one hA hc]
+  have hT0' : T[0]! = phiA Q ONE := by rw [hT0, phiA_one hc]
   have hT1 : T[1]! = phiA Q (lbL Q ia) := by
     have := hTn 0 (by norm_num)
-    rw [a0, b0, hT0', arr2_get0, compA_phiA hA hc, mulF_one hAl] at this
+    rw [a0, b0, hT0', arr2_get0, compA_phiA hc, mulF_one hAl] at this
     exact this
   have hT2 : T[2]! = phiA Q (lbL Q ib) := by
     have := hTn 1 (by norm_num)
-    rw [a1, b1, hT0', arr2_get1, compA_phiA hA hc, mulF_one hBl] at this
+    rw [a1, b1, hT0', arr2_get1, compA_phiA hc, mulF_one hBl] at this
     exact this
   have hT3 : T[3]! = phiA Q (MULF (lbL Q ib) (lbL Q ia)) := by
     have := hTn 2 (by norm_num)
-    rw [a2, b2, hT1, arr2_get1, compA_phiA hA hc] at this
+    rw [a2, b2, hT1, arr2_get1, compA_phiA hc] at this
     exact this
   have hT4 : T[4]! = phiA Q (MULF (lbL Q ia) (lbL Q ib)) := by
     have := hTn 3 (by norm_num)
-    rw [a3, b3, hT2, arr2_get0, compA_phiA hA hc] at this
+    rw [a3, b3, hT2, arr2_get0, compA_phiA hc] at this
     exact this
   have hT5 : T[5]! = phiA Q (MULF (lbL Q ib) (lbL Q ib)) := by
     have := hTn 4 (by norm_num)
-    rw [a4, b4, hT2, arr2_get1, compA_phiA hA hc] at this
+    rw [a4, b4, hT2, arr2_get1, compA_phiA hc] at this
     exact this
   have hT8 : T[8]! = phiA Q (MULF (lbL Q ib) (MULF (lbL Q ia) (lbL Q ib))) := by
     have := hTn 7 (by norm_num)
-    rw [a7, b7, hT4, arr2_get1, compA_phiA hA hc] at this
+    rw [a7, b7, hT4, arr2_get1, compA_phiA hc] at this
     exact this
   have hT9 : T[9]! = phiA Q (MULF (lbL Q ia) (MULF (lbL Q ib) (lbL Q ib))) := by
     have := hTn 8 (by norm_num)
-    rw [a8, b8, hT5, arr2_get0, compA_phiA hA hc] at this
+    rw [a8, b8, hT5, arr2_get0, compA_phiA hc] at this
     exact this
   have hT14 : T[14]! =
       phiA Q (MULF (lbL Q ib) (MULF (lbL Q ia) (MULF (lbL Q ib) (lbL Q ib)))) := by
     have := hTn 13 (by norm_num)
-    rw [a13, b13, hT9, arr2_get1, compA_phiA hA hc] at this
+    rw [a13, b13, hT9, arr2_get1, compA_phiA hc] at this
     exact this
   rw [Bool.and_eq_true]
   refine ⟨?_, ?_⟩

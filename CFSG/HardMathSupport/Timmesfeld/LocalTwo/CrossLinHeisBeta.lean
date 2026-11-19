@@ -15,6 +15,7 @@ variable {p : ℕ} [NeZero p] {f : ZMod p → Module.End K V} {t ti : Module.End
     Module.End K V :=
   ∑ k ∈ Finset.range p, (ξ.comp (ti ^ k)).smulRight ((t ^ k) y)
 
+omit [NeZero p] in
 theorem betaOp_apply (y : V) (ξ : Module.Dual K V) (v : V) :
     betaOp p t ti y ξ v = ∑ k ∈ Finset.range p, ξ ((ti ^ k) v) • (t ^ k) y := by
   simp [betaOp, LinearMap.sum_apply]

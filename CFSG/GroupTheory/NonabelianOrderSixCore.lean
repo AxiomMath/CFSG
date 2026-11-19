@@ -75,8 +75,8 @@ theorem pCore_two_eq_bot_of_card_six_of_not_comm
     let : Fact (Nat.Prime 3) := ⟨by decide⟩
     let : IsCyclic (Q ⧸ P) := isCyclic_of_prime_card hquotcard
     have hcomm : ∀ a b : Q, a * b = b * a :=
-      commutative_of_cyclic_center_quotient (QuotientGroup.mk' P)
-        (by rw [QuotientGroup.ker_mk']; exact hcenter)
+      (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' P)
+        (by rw [QuotientGroup.ker_mk']; exact hcenter)).is_comm.comm
     exact (hnot (isMulCommutative_iff.mpr hcomm)).elim
 
 end CFSG

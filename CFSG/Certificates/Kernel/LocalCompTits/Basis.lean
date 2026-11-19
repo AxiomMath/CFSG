@@ -29,7 +29,7 @@ private theorem lk_of_not_key {ps : List (Nat × Nat)} {t : Nat} (h : ∀ x ∈ 
   | cons x r ih =>
     obtain ⟨c, p⟩ := x
     simp only [lk]
-    rw [if_neg (h (c, p) (by simp))]
+    rw [ite_eq_right (h (c, p) (by simp))]
     exact ih fun y hy => h y (by simp [hy])
 
 private theorem lk_of_lt {ps : List (Nat × Nat)} {t : Nat} (h : ∀ x ∈ ps, x.1 < t) :
@@ -173,11 +173,11 @@ private theorem topK_eq : ∀ (c v : Nat), v < 2 ^ c → v ≠ 0 → topK c v = 
   | c + 1, v, h, h0 => by
     simp only [topK, CFSG.KS.Raw.Orb.nIf_eq, bit_eq']
     by_cases hv : v.testBit c = true
-    · rw [if_pos hv]
+    · rw [ite_eq_left hv]
       have h2 := Nat.ge_two_pow_of_testBit hv
       symm
       exact Nat.log2_eq_iff h0 |>.2 ⟨h2, h⟩
-    · rw [if_neg hv]
+    · rw [ite_eq_right hv]
       have : v < 2 ^ c := by
         refine Nat.lt_of_not_ge fun hge => hv ?_
         have : v.log2 = c := Nat.log2_eq_iff h0 |>.2 ⟨hge, h⟩
@@ -230,7 +230,7 @@ private theorem red_eq {piv : Array Nat} :
       · subst hb
         have e : stepb piv b v = if v.testBit b = true then v ^^^ p else v := by
           have := hl b (by omega)
-          simp only [lk, if_true] at this
+          simp only [lk, ite_true] at this
           simp only [stepb, this]
           have : (p != 0) = true := by simpa using hgb.2.1
           simp [this]
@@ -239,7 +239,7 @@ private theorem red_eq {piv : Array Nat} :
         intro b' hb'
         have := hl b' (by omega)
         simp only [lk] at this
-        rw [this, if_neg (by omega)]
+        rw [this, ite_eq_right (by omega)]
       · have e : stepb piv c v = v := by
           have := hl c (by omega)
           have h0 : lk ((b, p) :: r) c = 0 := by
@@ -350,18 +350,18 @@ private theorem checks_basis {N : Nat} {TP : Nat → Nat} (hlt : ∀ i < N, TP i
     by_cases hv : redK ps (TP j) = 0
     · refine ⟨(s.1, s.2), ?_, ps, acc, hr, hs, hg, hidx, ?_⟩
       · simp [hv]
-      · simp only [basisK, hv, if_true] at hb
+      · simp only [basisK, hv, ite_true] at hb
         rw [hf']; exact hb
     · obtain ⟨hr', hs', hg'⟩ := hnew hv
       refine ⟨(s.1.set! (redK ps (TP j)).log2 (redK ps (TP j)), s.2.push j), ?_,
         insK (topK 52 (redK ps (TP j))) (redK ps (TP j)) ps, j :: acc, hr', hs', hg', ?_, ?_⟩
       · simp [hv]
       · simp [hidx]
-      · simp only [basisK, hv, if_false] at hb
+      · simp only [basisK, hv, ite_false] at hb
         rw [hf']; exact hb
   · refine ⟨[], [], ⟨by simp, fun b hb => ?_⟩, by simp [Sorted], by simp [Good], by simp, ?_⟩
     · simp [lk, hb]
-    · simp [basisK]
+    · simp
 
 theorem basisIdx_eq {N : Nat} {TP : Nat → Nat} (hlt : ∀ i < N, TP i < 2 ^ 52) :
     basisIdx (Array.ofFn (n := N) fun i => TP i.val) = (basisK TP N 0 [] []).reverse.toArray :=

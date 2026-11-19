@@ -10,6 +10,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 private lemma four_mul {t z : G} (ht2 : t * t = 1) (hz2 : z * z = 1)
     (htz : t * z = z * t) :
     ∀ a ∈ ({g : G | g = 1 ∨ g = t ∨ g = z ∨ g = t * z} : Set G),
@@ -23,9 +24,10 @@ private lemma four_mul {t z : G} (ht2 : t * t = 1) (hz2 : z * z = 1)
   have h5 : (t * z) * (t * z) = 1 := by rw [← mul_assoc, h2, hz2]
   intro a ha b hb
   rcases ha with rfl | rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl | rfl <;>
-    simp only [Set.mem_setOf_eq, one_mul, mul_one, ht2, hz2, h1, h2, h3, h4, h5, hzt,
-      eq_self_iff_true, or_true, true_or, or_false, false_or]
+    simp only [Set.mem_ofPred_eq, one_mul, mul_one, ht2, hz2, h1, h2, h3, h4, h5, hzt,
+      or_true, true_or]
 
+omit [Finite G] in
 private lemma four_inv {t z : G} (ht2 : t * t = 1) (hz2 : z * z = 1)
     (htz : t * z = z * t) :
     ∀ a ∈ ({g : G | g = 1 ∨ g = t ∨ g = z ∨ g = t * z} : Set G),
@@ -35,28 +37,33 @@ private lemma four_inv {t z : G} (ht2 : t * t = 1) (hz2 : z * z = 1)
   have h5 : (t * z) * (t * z) = 1 := by rw [← mul_assoc, h2, hz2]
   intro a ha
   rcases ha with rfl | rfl | rfl | rfl <;>
-    simp only [Set.mem_setOf_eq, inv_one, inv_eq_of_mul_eq_one_right ht2,
+    simp only [Set.mem_ofPred_eq, inv_one, inv_eq_of_mul_eq_one_right ht2,
       inv_eq_of_mul_eq_one_right hz2, inv_eq_of_mul_eq_one_right h5,
-      eq_self_iff_true, or_true, true_or, or_false, false_or]
+      or_true, true_or]
 
+omit [Finite G] in
 private lemma mul_self_mem_of_relIndex_two {M K : Subgroup G} (hidx : K.relIndex M = 2)
     (a : M) : (a : G) * (a : G) ∈ K := by
   have h2 : (K.subgroupOf M).index = 2 := hidx
   have h := Subgroup.mul_self_mem_of_index_two h2 a
   rwa [Subgroup.mem_subgroupOf] at h
 
+omit [Finite G] in
 theorem mem_invCent_iff {g : G} : g ∈ invCent t ↔ g * t = t * g := by
   rw [invCent]
   exact Subgroup.mem_centralizer_singleton_iff
 
+omit [Finite G] in
 theorem twoCore_isPGroup (t : G) : IsPGroup 2 (twoCore t) := by
   rw [twoCore, CFSG.Open.pCoreOf]
   exact CFSG.pCore_isPGroup.map _
 
+omit [Finite G] in
 theorem twoCore_le_invCent (t : G) : twoCore t ≤ invCent t := by
   rw [twoCore, CFSG.Open.pCoreOf]
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem twoCore_conj_mem (t : G) {g : G} (hg : g ∈ invCent t) {r : G} (hr : r ∈ twoCore t) :
     g * r * g⁻¹ ∈ twoCore t := by
   rw [twoCore, CFSG.Open.pCoreOf] at hr ⊢
@@ -155,11 +162,11 @@ theorem eq_one_or_z_of_mem_closure_t_z_of_mem_L (h : Ctx0 t L S x₁ x₂ lam rh
 
 theorem odd_mem_L (h : Ctx0 t L S x₁ x₂ lam rho) {g : G} (hg : g ∈ invCent t)
     (hodd : ¬ 2 ∣ orderOf g) : g ∈ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFH : twoCore t ⊔ L ≤ invCent t :=
     sup_le (twoCore_le_invCent t) (L_le_invCent h.hyp)
   have hrel : (twoCore t ⊔ L).relIndex (invCent t) ≤ 2 := h.hyp.relIndex_le
-  haveI : (twoCore t ⊔ L).IsFiniteRelIndex (invCent t) :=
+  have : (twoCore t ⊔ L).IsFiniteRelIndex (invCent t) :=
     Subgroup.isFiniteRelIndex_iff_finiteIndex.mpr Subgroup.finiteIndex_of_finite
   have hrelne : (twoCore t ⊔ L).relIndex (invCent t) ≠ 0 := Subgroup.relIndex_ne_zero
   have hrelcases : (twoCore t ⊔ L).relIndex (invCent t) = 1 ∨
@@ -205,7 +212,7 @@ theorem odd_mem_L (h : Ctx0 t L S x₁ x₂ lam rho) {g : G} (hg : g ∈ invCent
       by_contra hjne
       have h2dvd : 2 ∣ 2 ^ j := by
         obtain ⟨i, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hjne
-        simpa [pow_succ] using dvd_mul_right 2 (2 ^ i)
+        simp [pow_succ]
       exact hodd (h2dvd.trans hdvd2)
     rw [hj0, pow_zero] at hj'
     exact orderOf_eq_one_iff.mp hj'

@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.Algebra.Group.Subgroup.Defs
 public import Mathlib.Data.Nat.Prime.Defs
 public import CFSG.ThirdParty.QiuzhenCFSG.FeitThompson.PCore.Defs
@@ -391,7 +391,7 @@ public theorem pSubgroup_le_qCoreOf_of_le_fittingSubgroupOf
     have hQnorm : (Q : Subgroup F0).Normal :=
       Group.IsNilpotent.sylow_normal hnil p Q
     have hQcore : (Q : Subgroup F0) ≤ pCore p F0 :=
-      le_sSup ⟨hQnorm, Q.isPGroup'⟩
+      le_sSup ⟨hQnorm, Q.isPGroup⟩
     exact hQcore (hX0Q hx)
   have hFleU : fittingSubgroupOf U ≤ U := fittingSubgroupOf_le U
   intro x hx
@@ -482,7 +482,7 @@ public theorem centralizerIn_fittingSubgroupOf_card_coprime_of_inverted
     · intro x hx
       rcases (Subgroup.mem_map).1 hx with ⟨a, ha, rfl⟩
       exact a.2
-    · exact (Q.isPGroup').map A.subtype
+    · exact (Q.isPGroup).map A.subtype
   have hQbot : (Q : Subgroup A) = ⊥ :=
     (Subgroup.map_eq_bot_iff_of_injective (H := (Q : Subgroup A))
       (f := A.subtype) A.subtype_injective).mp hQmapbot

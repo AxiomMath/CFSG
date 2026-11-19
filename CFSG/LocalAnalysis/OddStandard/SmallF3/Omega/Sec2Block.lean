@@ -29,6 +29,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
   ((blockIsom hs).orthogonalGroupCongr).toMonoidHom.comp
     (QuadraticMap.orthogonalGroupProd (Q.restrict (fixSp s)) (Q.restrict (commSp s)))
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem blockHom_apply {s : OGroup Q} (hs : s * s = 1)
     (p : OGroup (Q.restrict (fixSp s)) × OGroup (Q.restrict (commSp s)))
     (w : fixSp s) (u : commSp s) :
@@ -49,6 +50,7 @@ theorem blockHom_apply {s : OGroup Q} (hs : s * s = 1)
     (((p.1 : fixSp s ≃ₗ[ZMod 3] fixSp s) w), ((p.2 : commSp s ≃ₗ[ZMod 3] commSp s) u)) = _
   rw [Submodule.coe_prodEquivOfIsCompl']
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem exists_fixSp_add_commSp {s : OGroup Q} (hs : s * s = 1) (v : V) :
     ∃ (w : fixSp s) (u : commSp s), v = (w : V) + (u : V) := by
   have h : v ∈ fixSp s ⊔ commSp s := by
@@ -57,6 +59,7 @@ theorem exists_fixSp_add_commSp {s : OGroup Q} (hs : s * s = 1) (v : V) :
   obtain ⟨w, hw, u, hu, rfl⟩ := Submodule.mem_sup.mp h
   exact ⟨⟨w, hw⟩, ⟨u, hu⟩, rfl⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem blockHom_injective {s : OGroup Q} (hs : s * s = 1) : Function.Injective (blockHom hs) := by
   intro a b h
   exact QuadraticMap.orthogonalGroupProd_injective _ _
@@ -141,6 +144,7 @@ theorem range_blockHom (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1) :
     rw [hp]
     exact ((blockIsom hs).orthogonalGroupCongr).apply_symm_apply g
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem blockHom_one_piOrth {s : OGroup Q} (hs : s * s = 1) :
     blockHom hs (1, piOrth (Q.restrict (commSp s))) = s := by
   apply Subtype.ext
@@ -158,6 +162,7 @@ theorem blockHom_one_piOrth {s : OGroup Q} (hs : s * s = 1) :
   rw [h3]
   rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem blockHom_piOrth_piOrth {s : OGroup Q} (hs : s * s = 1) :
     blockHom hs (piOrth (Q.restrict (fixSp s)), piOrth (Q.restrict (commSp s))) = piOrth Q := by
   apply Subtype.ext
@@ -258,7 +263,7 @@ theorem blockOmega_normal_in_centralizer (hQ : Q.Nondegenerate) {s : OGroup Q} (
     exact g.2
   obtain ⟨p, hp⟩ := hg
   refine Subgroup.mem_map.mpr ⟨p * q * p⁻¹, ?_, ?_⟩
-  · haveI : (Subgroup.prod (omegaGroup (nondegenerate_restrict_fixSp hQ hs))
+  · have : (Subgroup.prod (omegaGroup (nondegenerate_restrict_fixSp hQ hs))
         (omegaGroup (nondegenerate_restrict_commSp hQ hs))).Normal := inferInstance
     exact this.conj_mem q hq p
   · rw [map_mul, map_mul, map_inv, hqx, hp]

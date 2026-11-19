@@ -17,6 +17,7 @@ section Schur
 variable {G : Type} [Group G] [Finite G] {Q R V Z : Subgroup G}
   {t : G} {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] [(Z.subgroupOf V).Normal]
 
+omit [Finite G] in
 theorem exists_scalar_of_chi (hχ : IsChiIso Q R V V Z t) (ψ : ↥V ⧸ Z.subgroupOf V ≃*
       Multiplicative (ι → K)) (φ : ↥R →* GL ι K)
     (hψ : ∀ (s : ↥R) (v w : ↥V), (w : G) = (s : G) * v * (s : G)⁻¹ →
@@ -98,7 +99,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 theorem Env.Q1_eq_V (I : Inputs) (e : Env hc n t m X) {a : G} (ha : a ∈ hc.CN t)
     (haQ : a ∉ Q) : Q1 hc a = Vt M (LB M Q B) B Z t := by
   obtain ⟨ι, _, _, K, _, _, hch, Xm, hX, -, φ, hφr, hφk, hRV, hn, ψ, hψ⟩ := e.exists_nat
-  haveI := hn
+  have := hn
   have hχ := e.chi I.h34
   have hNR : ∀ a ∈ hc.CN t, a ∈ Rt M (LB M Q B) t := fun a ha => (Ctx.mem_CN.mp ha).1
   have haR := hNR a ha

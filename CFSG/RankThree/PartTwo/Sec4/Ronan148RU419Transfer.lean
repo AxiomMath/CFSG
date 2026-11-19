@@ -167,7 +167,7 @@ theorem ne_one_of_mk [Group.IsPerfect H] (hN : N ≤ Subgroup.center H) {α : Mu
 theorem cfgU419_map [Finite H] [Group.IsPerfect H] (hN : N ≤ Subgroup.center H) {α : MulAut H}
     {β : MulAut (H ⧸ N)} (hβ : ∀ h : H, β (h : H ⧸ N) = ((α h : H) : H ⧸ N)) {Y : Subgroup H}
     {m : ℕ} (hc : CfgU419 H α Y m) : CfgU419 (H ⧸ N) β (Y.map (QuotientGroup.mk' N)) m := by
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   obtain ⟨π, hπ, hker⟩ := hc.cover
   set f : Y →* Y.map (QuotientGroup.mk' N) := (QuotientGroup.mk' N).subgroupMap Y with hf
   have hfs : Function.Surjective f := (QuotientGroup.mk' N).subgroupMap_surjective Y
@@ -192,6 +192,7 @@ section Component
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem autFix_compAction {L : Subgroup G} {a : G} (ha : a ∈ Subgroup.normalizer (L : Set G)) :
     autFix (compAction L ⟨a, ha⟩) = (L ⊓ Subgroup.centralizer ({a} : Set G)).subgroupOf L := by
   ext l
@@ -208,7 +209,7 @@ theorem autFix_compAction {L : Subgroup G} {a : G} (ha : a ∈ Subgroup.normaliz
     change a * (l : G) * a⁻¹ = l
     rw [← h, mul_inv_cancel_right]
 
-theorem cfgU419_component {L : Subgroup G} (hL : IsComponent L) {a : G}
+theorem cfgU419_component {L : Subgroup G} (_hL : IsComponent L) {a : G}
     (haN : a ∈ Subgroup.normalizer (L : Set G)) (ha3 : orderOf a = 3)
     (haC : a ∉ Subgroup.centralizer (L : Set G)) {Y : Subgroup G}
     (hYle : Y ≤ L ⊓ Subgroup.centralizer ({a} : Set G)) (hYp : Group.IsPerfect Y)
@@ -262,7 +263,7 @@ theorem k419UnitaryCensusCover_of_rowU419
     K419UnitaryCensusCover := by
   intro G _ _ L hL hL46 a haN ha3 haC Y hYle hYp hYsub m π hmo hm1 hπ hker
   have hq : IsQuasisimple L := hL.1
-  haveI : Group.IsPerfect L := hq.1
+  have : Group.IsPerfect L := hq.1
   have hθ : aschbacherSolvableCore 3 L ≤ Subgroup.center L := aschbacherSolvableCore_le_center hq
   have hc := cfgU419_component hL haN ha3 haC hYle hYp hYsub π hmo hm1 hπ hker
   have hcX := cfgU419_map hθ (β := thetaQuotMulAut L (compAction L ⟨a, haN⟩))

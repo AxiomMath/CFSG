@@ -25,7 +25,7 @@ theorem hs27_abelian_not_le_card {T : Type} [Group T] [Finite T] (hT : IsPGroup 
     (hA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hAT : ¬ A ≤ commAut α) : Nat.card A ≤ 8 := by
   classical
   obtain ⟨hTn, hinf, hsup, hY⟩ := iv2_2_7 T hT t ht hC α hα1 hα3 hαt
-  haveI : (commAut α).Normal := hTn
+  have : (commAut α).Normal := hTn
   have hindex : (commAut α).index = 2 := hs27_index_commAut hT ht hC hα1 hα3 hαt
   have ht1 : t ≠ 1 := by
     intro h

@@ -25,8 +25,8 @@ theorem splitInv_rootsOfUnity_three (hK : UnitaryFieldData 2 2 K) :
 
 theorem card_rootsOfUnity_three (hK : UnitaryFieldData 2 2 K) :
     Nat.card (rootsOfUnity 3 K) = 3 := by
-  haveI : Finite K := hK.finite
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite K := hK.finite
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   apply le_antisymm
   · simpa using card_rootsOfUnity K 3
   · have hunits : Nat.card Kˣ = 15 := by

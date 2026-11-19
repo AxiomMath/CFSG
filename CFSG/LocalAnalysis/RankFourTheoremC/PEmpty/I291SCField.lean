@@ -21,7 +21,7 @@ theorem exists_index_prime_of_focal_ne {G : Type*} [Group G] [Finite G] {p : ℕ
   have : Nontrivial (S ⧸ conjugatePairFocal (S : Subgroup G)) :=
     QuotientGroup.nontrivial_iff.mpr hproper
   obtain ⟨M, hnormal, hindex⟩ := exists_index_prime_of_nontrivial_abelian_pgroup
-    (S.isPGroup'.to_quotient (conjugatePairFocal (S : Subgroup G)))
+    (S.isPGroup.to_quotient (conjugatePairFocal (S : Subgroup G)))
   let : M.Normal := hnormal
   refine ⟨M.comap (focalTransfer (S : Subgroup G)), inferInstance, ?_⟩
   exact (M.index_comap_of_surjective (focalTransfer_surjective S)).trans hindex
@@ -36,7 +36,7 @@ theorem focalSubgroup_le_of_kdInndiag (hΔ : KDInndiagP5) {Y : Type} [Group Y] [
   let φ : Y →* MulAut L := MulAut.conjNormal
   have hpow : ∀ y ∈ (P : Subgroup Y), ∃ k : ℕ, (φ y) ^ p ^ k = 1 := by
     intro y hy
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨y, hy⟩
     refine ⟨k, ?_⟩
     have hy1 : y ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
     rw [← map_pow, hy1, map_one]
@@ -78,8 +78,8 @@ section CertificateInstances
 theorem kdFieldP5_holds : KDFieldP5 := by
   intro p hp hp5 Y _ _ hcat _ L hLn hs hn hlu hC _ x hxL hxo
   right
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
-  haveI := hLn
+  have : Fact (Nat.Prime p) := ⟨hp⟩
+  have := hLn
   have hxp : IsPGroup p (zpowers x) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hxo, pow_one])
   obtain ⟨P, hP⟩ := hxp.exists_le_sylow

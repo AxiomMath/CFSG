@@ -97,12 +97,12 @@ private lemma l05nK3c_ifsub_eq_zero_iff {k : ℕ} (a b x : Fin k) (hab : a ≠ b
     ((if x = a then (1 : ℤ) else 0) - (if x = b then (1 : ℤ) else 0)) = 0 ↔
       ¬(x = a ∨ x = b) := by
   by_cases ha : x = a
-  · rw [if_pos ha, if_neg (fun h : x = b => hab (ha.symm.trans h)), sub_zero]
+  · rw [ite_eq_left ha, ite_eq_right (fun h : x = b => hab (ha.symm.trans h)), sub_zero]
     simp [ha]
   · by_cases hb : x = b
-    · rw [if_neg ha, if_pos hb, zero_sub]
+    · rw [ite_eq_right ha, ite_eq_left hb, zero_sub]
       simp [hb]
-    · rw [if_neg ha, if_neg hb, sub_zero]
+    · rw [ite_eq_right ha, ite_eq_right hb, sub_zero]
       simp [ha, hb]
 
 private theorem l05nK3c_signedPerm_unique {k : ℕ} (hk : 3 ≤ k) {g : ggWeylD k}
@@ -209,10 +209,10 @@ private theorem l05nK3c_signedPerm_unique {k : ℕ} (hk : 3 ≤ k) {g : ggWeylD 
         have hprev : f (⟨m - 1, hm1⟩ : Fin k) = (⟨m - 1, hm1⟩ : Fin k) :=
           ih (m - 1) (by omega) hm1
         have hsucc : (⟨m - 1, hm1⟩ : Fin k).val + 1 < k := by
-          simp only [Fin.val_mk]
+          simp only
           omega
         have hloc : l05nK3c_next k (⟨m - 1, hm1⟩ : Fin k) hsucc = ⟨m, hm⟩ := by
-          simp only [l05nK3c_next, Fin.ext_iff, Fin.val_mk]
+          simp only [l05nK3c_next, Fin.ext_iff]
           omega
         have hmem := hpair' (⟨m - 1, hm1⟩ : Fin k) hsucc
         rw [hloc] at hmem
@@ -251,18 +251,18 @@ private theorem l05nK3c_exists_sgnReal (k : ℕ) (hk : 3 ≤ k) (j : Fin k ⊕ U
     · subst hi
       refine ⟨1, fun v => ?_⟩
       funext c
-      simp [l05nK3c_eps, l05nK3c_signSet, Pi.smul_apply, smul_eq_mul]
+      simp [l05nK3c_eps, l05nK3c_signSet]
     · obtain ⟨g, hg⟩ := ggD_exists_negPair (k := k) hk2 (x := l05nK3c_zero k hk) (y := i)
         (fun h => hi h.symm)
       refine ⟨g, fun v => ?_⟩
       rw [hg v]
       funext c
       by_cases hc : c = l05nK3c_zero k hk ∨ c = i
-      · rw [if_pos hc]
+      · rw [ite_eq_left hc]
         have hcm : c ∈ ({l05nK3c_zero k hk, i} : Finset (Fin k)) := by
           rcases hc with rfl | rfl <;> simp
         simp [l05nK3c_eps, l05nK3c_signSet, hi, hcm]
-      · rw [if_neg hc]
+      · rw [ite_eq_right hc]
         have hcm : c ∉ ({l05nK3c_zero k hk, i} : Finset (Fin k)) := by
           intro h
           exact hc (by simpa using h)
@@ -273,11 +273,11 @@ private theorem l05nK3c_exists_sgnReal (k : ℕ) (hk : 3 ≤ k) (j : Fin k ⊕ U
     rw [hg v]
     funext c
     by_cases hc : c = l05nK3c_one k hk ∨ c = l05nK3c_two k hk
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       have hcm : c ∈ ({l05nK3c_one k hk, l05nK3c_two k hk} : Finset (Fin k)) := by
         rcases hc with rfl | rfl <;> simp
       simp [l05nK3c_eps, l05nK3c_signSet, hcm]
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       have hcm : c ∉ ({l05nK3c_one k hk, l05nK3c_two k hk} : Finset (Fin k)) := by
         intro h
         exact hc (by simpa using h)
@@ -333,11 +333,11 @@ private theorem l05nK3c_eps_injective (k : ℕ) (hk : 3 ≤ k) :
     · by_cases h2 : c ∈ l05nK3c_signSet k hk j'
       · simp [h1, h2]
       · exfalso
-        rw [if_pos h1, if_neg h2] at hc
+        rw [ite_eq_left h1, ite_eq_right h2] at hc
         norm_num at hc
     · by_cases h2 : c ∈ l05nK3c_signSet k hk j'
       · exfalso
-        rw [if_neg h1, if_pos h2] at hc
+        rw [ite_eq_right h1, ite_eq_left h2] at hc
         norm_num at hc
       · simp [h1, h2]
   rcases j with i | u
@@ -404,7 +404,7 @@ private theorem l05nK3c_eps_injective (k : ℕ) (hk : 3 ≤ k) :
 private theorem l05nK3c_card_wD_ge (k : ℕ) (hk : 3 ≤ k) :
     (k + 1).factorial ≤ Nat.card (ggWeylD k) := by
   have hk2 : 2 ≤ k := by omega
-  haveI : Finite (ggWeylD k) := finite_group (isFiniteType_cartanD k)
+  have : Finite (ggWeylD k) := finite_group (isFiniteType_cartanD k)
   let F : Equiv.Perm (Fin k) × (Fin k ⊕ Unit) → ggWeylD k :=
     fun q => l05nK3c_permReal k hk2 q.1 * l05nK3c_sgnReal k hk q.2
   have hF_rep : ∀ (π : Equiv.Perm (Fin k)) (j : Fin k ⊕ Unit),
@@ -427,7 +427,7 @@ private theorem l05nK3c_card_wD_ge (k : ℕ) (hk : 3 ≤ k) :
             rw [l05nK3c_sgnReal_spec k hk j v]
         _ = fun c => l05nK3c_eps k hk j (π c) * toStdD k v (π c) := by
             funext c
-            simp only [Function.comp_apply, Pi.smul_apply, smul_eq_mul, Pi.mul_apply]
+            simp only [Function.comp_apply, smul_eq_mul, Pi.mul_apply]
   have hF : Function.Injective F := by
     intro q q' hEq
     obtain ⟨π, j⟩ := q

@@ -60,7 +60,7 @@ theorem card_inf_stabilizer_eq {Γ : Subgroup P24} {α : Type*} [MulAction P24 �
     Nat.card ↥(Γ ⊓ MulAction.stabilizer P24 x) = Nat.card ↥(MulAction.stabilizer ↥Γ x) := by
   have h : (Γ ⊓ MulAction.stabilizer P24 x).subgroupOf Γ = MulAction.stabilizer ↥Γ x := by
     ext g
-    simp [Subgroup.mem_subgroupOf, MulAction.mem_stabilizer_iff]
+    simp [MulAction.mem_stabilizer_iff]
   rw [← h]
   exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv).symm
 
@@ -78,8 +78,8 @@ theorem card_MY_Q_L_le :
 
 theorem exists_piQ (Γ : Subgroup P24) :
     ∃ π : ↥(MY Γ Qstd) →* Equiv.Perm (Fin 5),
-      ∀ (g : ↥(MY Γ Qstd)) (i : Fin 5), Zq (π g i) = (g : P24) • Zq i :=
-  exists_labAct Zq Zq_injective (MY Γ Qstd) fun g hg i =>
+      ∀ (_g : ↥(MY Γ Qstd)) (i : Fin 5), Zq (π _g i) = (_g : P24) • Zq i :=
+  exists_labAct Zq Zq_injective (MY Γ Qstd) fun _g hg i =>
     exists_Zq_of_smul_Qstd (mem_MY_iff.1 hg).2 i
 
 noncomputable def piQ (Γ : Subgroup P24) : ↥(MY Γ Qstd) →* Equiv.Perm (Fin 5) :=

@@ -23,7 +23,7 @@ theorem ggModelLayerCyclic_of_layerLieTwo (hG : CFSG.Open.GriessAllModelsStateme
   have hEq : CFSG.IsQuasisimple (LargeEvenLayer (ggFix α)) :=
     (TableBSymp.isQuasisimple_iff _).mp hcomp.2.2
   have hperf : commutator ↥(LargeEvenLayer (ggFix α)) = ⊤ := by
-    haveI := hEq.1
+    have := hEq.1
     exact Group.IsPerfect.commutator_eq_top
   have hS' : S.subgroupOf (LargeEvenLayer (ggFix α)) ≤
       Subgroup.center ↥(LargeEvenLayer (ggFix α)) := by
@@ -34,7 +34,7 @@ theorem ggModelLayerCyclic_of_layerLieTwo (hG : CFSG.Open.GriessAllModelsStateme
     exact Subgroup.mem_centralizer_iff.mp (hSC hs) (g : Y) g.2
   have hSp' : IsPGroup p (S.subgroupOf (LargeEvenLayer (ggFix α))) :=
     hSp.of_equiv (Subgroup.subgroupOfEquivOfLe hSE).symm
-  haveI : IsCyclic (S.subgroupOf (LargeEvenLayer (ggFix α))) :=
+  have : IsCyclic (S.subgroupOf (LargeEvenLayer (ggFix α))) :=
     isCyclic_of_le_center_of_lieTwoModel hG hperf hp hp2 hX hS' hSp'
   exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hSE)
     (Subgroup.subgroupOfEquivOfLe hSE).surjective
@@ -99,7 +99,7 @@ theorem GGLayerLieTwo.of_central_surjective {p : ℕ} {L R : Type} [Group L] [Gr
   have hEq : CFSG.IsQuasisimple (LargeEvenLayer (ggFix a)) :=
     (TableBSymp.isQuasisimple_iff _).mp hcomp.2.2
   have hperfE : commutator ↥(LargeEvenLayer (ggFix a)) = ⊤ := by
-    haveI := hEq.1
+    have := hEq.1
     exact Group.IsPerfect.commutator_eq_top
   let ψE : ↥(LargeEvenLayer (ggFix a)) →* ↥(LargeEvenLayer (ggFix φ)) :=
     (MulEquiv.subgroupCongr hEmap).toMonoidHom.comp (ψ.subgroupMap (LargeEvenLayer (ggFix a)))

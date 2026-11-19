@@ -485,7 +485,6 @@ theorem exists_pureD4_hom
     dsimp only [Y]
     rw [Subgroup.card_map_of_injective (ha 3)]
     have hmap := Subgroup.map_comap_eq_self (f := del 3) (H := N1) (by
-      change N1 ≤ (del 3).range
       exact hN1P.trans hP01del3)
     have hcard := Subgroup.card_map_of_injective (normDel_injective E (by norm_num : 2 ≤ 3) 3)
       (K := N1.comap (del 3))
@@ -507,8 +506,8 @@ theorem exists_pureD4_hom
   have hXcard : Nat.card X = Nat.card (Su K 2 f 2) := by
     rw [hXcardY, hYcard, hN1card]
   have hsu2noncomm : ∃ x y : Su K 2 f 2, x * y ≠ y * x := by
-    haveI : IsSimpleGroup (Su K 2 f 2) := isSimpleGroup_Su_two hK hq
-    haveI : Group.IsPerfect (Su K 2 f 2) :=
+    have : IsSimpleGroup (Su K 2 f 2) := isSimpleGroup_Su_two hK hq
+    have : Group.IsPerfect (Su K 2 f 2) :=
       CFSG.RankThree.PartOne.CTP.isPerfect_su_two hK (two_le_of_four_le_pow hq)
     by_contra h
     push Not at h

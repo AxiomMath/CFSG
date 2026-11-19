@@ -40,7 +40,7 @@ theorem S14Choice.kSub_eq_of_le_caseTwo {M H E Q : Subgroup G}
     (hN : IsMaxTwoLocalSubgroup N) (hKN : kSub 3 M H ≤ N) :
     kSub 3 M N = kSub 3 M H := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let A : Subgroup G := kSub 3 M N
   let QQ : Subgroup ↥A := CFSG.pPrimeCore 3 ↥A
@@ -79,13 +79,13 @@ theorem S14Choice.kSub_eq_of_le_caseTwo {M H E Q : Subgroup G}
   have hOutA : Group.IsSolvable (Outer (↥A ⧸ QQ)) := by
     rcases hsingle.2 with h34 | h11
     · obtain ⟨e⟩ := nonempty_mulEquiv_projSL_of_isL34Type h34.1 h34.2
-      haveI : Group.IsSolvable (Outer (projectiveSL 3 (GaloisField 2 2))) :=
+      have : Group.IsSolvable (Outer (projectiveSL 3 (GaloisField 2 2))) :=
         NormalizerAux.isSolvable_out_projectiveSL (K := GaloisField 2 2) (by norm_num)
       exact solvable_of_equiv (G := projectiveSL 3 (GaloisField 2 2))
         (H := threeStar A)
         ((e.trans (projSLEquivProjectiveSL 3 (GaloisField 2 2))).symm)
     · obtain ⟨e⟩ := h11
-      haveI : Group.IsSolvable (Outer (alternatingGroup (Fin 11))) :=
+      have : Group.IsSolvable (Outer (alternatingGroup (Fin 11))) :=
         (CFSG.Quasithin.SteinbergCB.isSolvable_outer_alternatingGroup (n := 11)
           (Or.inr (by norm_num))).1
       exact solvable_of_equiv (G := alternatingGroup (Fin 11)) (H := threeStar A) e.symm

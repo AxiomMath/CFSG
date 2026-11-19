@@ -13,6 +13,7 @@ open CFSG.Open CFSG.QuasithinUnique CFSG.LieType.BorelTits CFSG.Quasithin.H13.Ch
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPerfect_oTwoQuot {L : Subgroup G} (h : VA5 L) : Group.IsPerfect (oTwoQuot ↥L) := by
   obtain ⟨e⟩ := h
   have hL4 : ∃ s : Finset (GaloisField 2 2), s.card = 4 := by
@@ -26,8 +27,9 @@ theorem isPerfect_oTwoQuot {L : Subgroup G} (h : VA5 L) : Group.IsPerfect (oTwoQ
     e.trans (pslTwoGf2EquivSl 2)
   exact Group.IsPerfect.ofSurjective (f := e'.symm.toMonoidHom) e'.symm.surjective
 
+omit [Finite G] in
 theorem perfect_of_VA5 {L : Subgroup G} (h : VA5 L) (hO : pCoreOf 2 L ≤ ⁅L, L⁆) : ⁅L, L⁆ = L := by
-  haveI := isPerfect_oTwoQuot h
+  have := isPerfect_oTwoQuot h
   let π : ↥L →* oTwoQuot ↥L := QuotientGroup.mk' (pCore 2 ↥L)
   have hmap : (commutator ↥L).map π = ⊤ := by
     rw [map_commutator_eq, MonoidHom.range_eq_top.mpr (QuotientGroup.mk'_surjective _)]
@@ -86,6 +88,7 @@ theorem vFact_of_hasModelFacts {L1 L2 S : Subgroup G} (h1 : VA5 L1) (h2 : VA5 L2
     (le_inf le_sup_right le_sup_right :
       bigB L1 L2 S ≤ (L1 ⊔ bigB L1 L2 S) ⊓ (L2 ⊔ bigB L1 L2 S)))
 
+omit [Finite G] in
 theorem bigB_le_normalizer {L1 L2 S : Subgroup G} (hH : Hyp111 L1 L2 S) :
     bigB L1 L2 S ≤ Subgroup.normalizer (L1 : Set G) ∧
       bigB L1 L2 S ≤ Subgroup.normalizer (L2 : Set G) :=

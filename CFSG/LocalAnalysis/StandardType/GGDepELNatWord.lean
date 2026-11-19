@@ -14,9 +14,9 @@ theorem ggDepELNGen_valid {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGD
     {g : ℕ} (hg : g < 6 + news.length) : GGDepELNValid (ggDepELNGen news g) := by
   unfold ggDepELNGen
   by_cases h : g < 6
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact ggDepELNFrame_valid h
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hk : g - 6 < news.length := by omega
     rw [List.getD_eq_getElem (l := news) (d := ([], [])) (n := g - 6) hk]
     exact hnews _ (List.getElem_mem hk)
@@ -25,12 +25,12 @@ theorem ggDepELNGen_mem {news : List GGDepANPair} {g : ℕ} (hg : g < 6 + news.l
     ggDepELNRflOf (ggDepELNGen news g) ∈ Submonoid.closure (ggDepELGens (ggDepELNNews news)) := by
   unfold ggDepELNGen
   by_cases h : g < 6
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     show ggDepARefl (ggDepELToZ (ggDepELNH g)) (ggDepELToZ (ggDepELNA g)) ∈
       Submonoid.closure (ggDepELGens (ggDepELNNews news))
     rw [ggDepELNH_toZ ⟨g, h⟩, ggDepELNA_toZ ⟨g, h⟩]
     exact Submonoid.subset_closure (Or.inl ⟨⟨g, h⟩, rfl⟩)
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hk : g - 6 < news.length := by omega
     rw [List.getD_eq_getElem (l := news) (d := ([], [])) (n := g - 6) hk]
     refine Submonoid.subset_closure (Or.inr ?_)

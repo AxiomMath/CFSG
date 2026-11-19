@@ -33,8 +33,8 @@ theorem qUConcl_of_linear {S B T : Subgroup Ω} {x b : Ω} (cfg : QUCfg 3 S B T 
     omega
   subst hd
   have hK : Nat.card K = 2 ^ (3 * m) := hKcard
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hαL := congr_not_mem_linearAutGroup le_rfl A hσ e heu hu
   have hinv : chevAut 3 S ⟨b, hF.1⟩ = (indAut 3 S b hF.1)⁻¹ := by

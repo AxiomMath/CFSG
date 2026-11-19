@@ -41,7 +41,7 @@ private theorem center_le_of_normal_ne_bot {H : Type*} [Group H] [Finite H] {p :
 
 private theorem centralizer_ne_top (h : S14Choice G M H E Q J) {A₀ : Subgroup G}
     (hA0card : Nat.card A₀ = 3) : Subgroup.centralizer (A₀ : Set G) ≠ ⊤ := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   intro htop
   have hA0ne : A₀ ≠ ⊥ := by
     intro hbot
@@ -67,7 +67,7 @@ private theorem centralizer_not_le (h : S14Choice G M H E Q J) (hpre : PreambleT
     (hA0card : Nat.card A₀ = 3) (hA0J : ⁅A₀, J⁆ ≤ CFSG.Open.pCoreOf 2 J) :
     ¬ Subgroup.centralizer (A₀ : Set G) ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := Subgroup.centralizer (A₀ : Set G) with hCdef
   set D : Subgroup G := (CFSG.pPrimeCore 3 ↥J).map J.subtype with hDdef
   have hDcop : ¬ 3 ∣ Nat.card D := by
@@ -118,13 +118,13 @@ private theorem centralizer_ne_top_and_not_le (h : S14Choice G M H E Q J)
       ¬ Subgroup.centralizer (A₀ : Set G) ≤ M :=
   ⟨centralizer_ne_top h hA0card, centralizer_not_le h hpre hU hL hA0Q hA0card hA0J⟩
 
-private theorem inf_J_le_centralizer (h : S14Choice G M H E Q J) (hU : NineNineOneAt M)
+private theorem inf_J_le_centralizer (h : S14Choice G M H E Q J) (_hU : NineNineOneAt M)
     {A₀ : Subgroup G} (hA0Q : A₀ ≤ Q)
     (hA0J : ⁅A₀, J⁆ ≤ CFSG.Open.pCoreOf 2 J) :
     Q ⊓ J ≤ Subgroup.centralizer (A₀ : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO2p : IsPGroup 2 (CFSG.Open.pCoreOf 2 J) := by
     rw [CFSG.openPCoreOf_eq_map_pCore]
     exact (CFSG.pCore_isPGroup (p := 2) (G := ↥J)).map J.subtype
@@ -147,7 +147,7 @@ private theorem center_inf_J_eq_center
     (Subgroup.center ↥(Q ⊓ J)).map (Q ⊓ J).subtype =
       (Subgroup.center ↥Q).map Q.subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup G := Q ⊓ J
   obtain ⟨hScard, -, -, hZScardMap⟩ :=
     IsKComp.sylow_three_structure (M := M) (N := H) h.isKComp
@@ -155,7 +155,7 @@ private theorem center_inf_J_eq_center
   have hna : ∃ a b : ↥S, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    haveI : IsMulCommutative ↥S := ⟨⟨fun a b => hcon a b⟩⟩
+    have : IsMulCommutative ↥S := ⟨⟨fun a b => hcon a b⟩⟩
     have htop : Subgroup.center ↥S = ⊤ := Subgroup.center_eq_top
     have h27 : Nat.card ↥(Subgroup.center ↥S) = 27 := by
       rw [htop]
@@ -181,7 +181,7 @@ private theorem center_inf_J_eq_center
   rw [hZScardMap, h142Q.1.2.2.2]
 
 private theorem center_not_le_centralizer {p : ℕ} (hpp : p.Prime) {A₀ C P F : Subgroup G}
-    (hA0Q : A₀ ≤ Q) (hPC : P ≤ C) (hZQleC : (Subgroup.center ↥Q).map Q.subtype ≤ C)
+    (_hA0Q : A₀ ≤ Q) (hPC : P ≤ C) (hZQleC : (Subgroup.center ↥Q).map Q.subtype ≤ C)
     (hcent : C ⊓ Subgroup.centralizer (F : Set G) ≤
       (CFSG.pPrimeCore p ↥C).map C.subtype)
     (hPp : IsPGroup p P)
@@ -189,7 +189,7 @@ private theorem center_not_le_centralizer {p : ℕ} (hpp : p.Prime) {A₀ C P F 
     (hZcomm : ⁅(Subgroup.center ↥Q).map Q.subtype, P⁆ ≠ ⊥) :
     ¬ (Subgroup.center ↥Q).map Q.subtype ≤ Subgroup.centralizer (F : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   let Z : Subgroup G := (Subgroup.center ↥Q).map Q.subtype
   let O : Subgroup G := (CFSG.pPrimeCore p ↥C).map C.subtype
   intro hZle
@@ -229,7 +229,7 @@ private theorem inf_centralizer_eq_bot_of_center_eq {S Z F : Subgroup G}
     (hZnot : ¬ Z ≤ Subgroup.centralizer (F : Set G)) :
     S ⊓ Subgroup.centralizer (F : Set G) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hne
   have hNnorm : ((S ⊓ Subgroup.centralizer (F : Set G)).subgroupOf S).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer
@@ -258,12 +258,12 @@ private theorem inf_centralizer_eq_bot_of_center_eq {S Z F : Subgroup G}
   exact hZnot (hZeq ▸ (hZle'.trans inf_le_right))
 
 private theorem branch_one_inf_centralizer_eq_bot {F : Subgroup G}
-    (hEea : IsElemAbelian 3 E) (hEM : E ≤ M)
-    (hEF : E ≤ Subgroup.normalizer (F : Set G)) (hKM : ¬ F ≤ M)
+    (hEea : IsElemAbelian 3 E) (_hEM : E ≤ M)
+    (_hEF : E ≤ Subgroup.normalizer (F : Set G)) (hKM : ¬ F ≤ M)
     (hgamma : CFSG.Open.rankThreeGamma 1 3 E ≤ M) :
     E ⊓ Subgroup.centralizer (F : Set G) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hne
   obtain ⟨e, he1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
   have heE : (e : G) ∈ E := e.2.1
@@ -302,7 +302,7 @@ private theorem false_of_branch_one {p : ℕ} {F : Subgroup G}
     (hgamma : CFSG.Open.rankThreeGamma 1 3 E ≤ M)
     (hpp : p.Prime) (hp5 : 5 ≤ p) (hK9 : KFactNineFourAutM) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYne : F ⊓ M ≠ F := by
     intro heq
     exact hKM (heq ▸ inf_le_right)
@@ -352,7 +352,7 @@ private theorem false_of_branch_two
     (hZcomm : ⁅(Subgroup.center ↥Q).map Q.subtype, P⁆ ≠ ⊥)
     (hpp : p.Prime) (hp5 : 5 ≤ p) (hK9 : KFactNineFourAutM) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Subgroup G := Q ⊓ J
   have hSM : S ≤ M := inf_le_left.trans (h.Q_le_M hU)
   obtain ⟨hScard, hSexp, -, hZScardMap⟩ :=
@@ -395,7 +395,7 @@ theorem fourteenFiveCaseOneAt_of
   let C : Subgroup G := Subgroup.centralizer (A₀ : Set G)
   let F : Subgroup G := kSub p M C
   have hpp : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   rcases hbranch with hA0E | ⟨P, hPM, hPp, hZnorm, hZcomm⟩
   · have hEC : E ≤ C := by
       refine (Subgroup.commutator_eq_bot_iff_le_centralizer (H₁ := E) (H₂ := A₀)).mp ?_

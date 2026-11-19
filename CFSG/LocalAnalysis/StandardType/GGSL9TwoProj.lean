@@ -64,8 +64,7 @@ theorem congr_ggSL9RecipeEquiv_mem (hK : Nat.card K = 2)
   refine ⟨ggSL9ProjEquiv hK (proj 9 K g), ?_⟩
   rw [← mulAut_congr_conj, hA]
   ext x
-  simp only [ggSL9RecipeEquiv, MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_trans_apply,
-    MulEquiv.symm_apply_apply]
+  simp only [ggSL9RecipeEquiv, MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_trans_apply]
 
 end ProjEquiv
 

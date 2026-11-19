@@ -54,10 +54,10 @@ theorem ggSecFiveBNativeRow_spTwo {K : Type} [Field K] [Finite K] {r : ℕ} (hK 
     GGSecFiveBNativeRow (LargeEvenProj (LargeEvenSpGroup K r)) 3 r
       (fun lab => lab = ⟨.twA, r - 1, 1⟩)
       (fun lab => lab = ⟨.C, r - 1, 1⟩ ∨ (r = 3 ∧ lab = ⟨.B2der, 0, 1⟩)) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by simpa using hK)
-  haveI : NeZero r := ⟨by omega⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by simpa using hK)
+  have : NeZero r := ⟨by omega⟩
   obtain ⟨ζ, hζinj, hζW, hζconj⟩ := ggCommonJSpTwo_exists_torus (K := K)
   have hAt : GGSecFiveBNativeAt (StatedSp r K) 3 r
       (fun lab => lab = ⟨.twA, r - 1, 1⟩)
@@ -81,9 +81,9 @@ theorem ggSecFiveBNativeRow_spTwo {K : Type} [Field K] [Finite K] {r : ℕ} (hK 
 
 theorem ggSecFiveBNativeSparseRow_spTwo {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     GGSecFiveBNativeSparseRow (LargeEvenProj (LargeEvenSpGroup K 4)) 3 4 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by simpa using hK)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by simpa using hK)
   obtain ⟨ζ, hζinj, hζW, hζconj⟩ := ggCommonJSpTwo_exists_torus (K := K)
   have hAt : GGSecFiveBNativeSparseAt (StatedSp 4 K) 3 4 (spPlaneTorus 4 ζ).range := by
     refine GGSecFiveBNativeSparseAt.of_torus (spPlaneTorus 4 ζ)

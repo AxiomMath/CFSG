@@ -15,7 +15,7 @@ theorem omqPlusWeightVector_of_interpolation (hG1 : OmqRootInterpolation) :
     OmqPlusWeightVector := by
   intro n hn F _ _ _ k _ _ ι V _ _ σ hσ y χ μ ht i hi c j hc1 hcle hχ hodd
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   let D := omPlusCurtisDatum n F hn
   obtain ⟨φ, hφ1, hφ⟩ := omq_omPlus_hcoeff hn ι hσ ht hi hc1 hχ
   obtain ⟨α, hconj, hαι⟩ := omq_omPlus_exists_alpha (F := F) hn i

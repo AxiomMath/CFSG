@@ -78,7 +78,7 @@ theorem linFixKer_finrank_le [FiniteDimensional 𝕜 V] {E e e' H : Module.End �
     finrank 𝕜 (linFixKer E e) ≤ finrank 𝕜 (linFixKer E e') :=
   LinearMap.finrank_le_finrank_of_injective
     (f := H.restrict fun _ hv => linFixKer_mapsTo hE he hv)
-    fun x y hxy => Subtype.ext (hH (congrArg Subtype.val hxy))
+    fun _x _y hxy => Subtype.ext (hH (congrArg Subtype.val hxy))
 
 theorem apply_mem_linFixKer {E e : Module.End 𝕜 V} (hEe : E * e = e * E) (hee : e * e = 3 * e)
     {v : V} (hv : E v = 0) : e v ∈ linFixKer E e := by
@@ -239,7 +239,7 @@ theorem lin_eq_one_of_finrank_lt_eight [FiniteDimensional 𝕜 V] (h3 : (3 : �
     · exact hPR
     · exact hPR.symm
     · exact Commute.refl _
-  haveI := Algebra.isMulCommutative_adjoin 𝕜 hcomm
+  have := Algebra.isMulCommutative_adjoin 𝕜 hcomm
   let S := Algebra.adjoin 𝕜 ({P, R} : Set (Module.End 𝕜 V))
   let p : S := ⟨P, Algebra.subset_adjoin (Set.mem_insert P {R})⟩
   let r : S := ⟨R, Algebra.subset_adjoin (Set.mem_insert_of_mem P rfl)⟩

@@ -140,7 +140,7 @@ theorem mul_eq_of {P Q R S : Nat} {a b c d : Equiv.Perm (Fin n)} (hsz : szOK n w
   rw [beq_pcomp_iff (by omega) (PF.w_pos hf.2) hP hQ hR hS] at h
   exact of_decide_eq_true h
 
-theorem cf67OKT_of (hsz : szOK n w = true) {Q : RawSchreierDatum n} (hQ : ValidSchreier Q)
+theorem cf67OKT_of (hsz : szOK n w = true) {Q : RawSchreierDatum n} (_hQ : ValidSchreier Q)
     {a b : Equiv.Perm (Fin n)} {A B : Nat} (pA : PRep n w A a) (pB : PRep n w B b)
     (sA : A >>> (n * w) = 0) (sB : B >>> (n * w) = 0) {r : Nat}
     (f1 : Nat.beq (powK n w (mask w) (pidn n w) A r) (pidn n w) = true)

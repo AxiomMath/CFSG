@@ -24,6 +24,7 @@ private structure UMap (K : Subgroup G) (L : Subgroup (GLV V)) where
     ((Multiplicative.toAdd (ψ v) : ↥(commSpace L ⊤)) : V) =
       (φ k : GLV V) ((Multiplicative.toAdd (ψ u) : ↥(commSpace L ⊤)) : V)
 
+omit [Finite G] in
 private theorem conj_mem_blockU_of_mem {k g : G} (hk : k ∈ K) (hg : g ∈ blockU K) :
     k * g * k⁻¹ ∈ blockU K :=
   (Subgroup.mem_normalizer_iff.mp (Subgroup.normalizer_commutator_ge_right (blockQ K) K hk) g).mp hg
@@ -33,24 +34,29 @@ namespace UMap
 private def vec (D : UMap K L) (u : ↥(blockU K)) : V :=
   ((Multiplicative.toAdd (D.ψ u) : ↥(commSpace L ⊤)) : V)
 
+omit [Finite G] [Finite V] in
 private theorem vec_mem (D : UMap K L) (u : ↥(blockU K)) : D.vec u ∈ commSpace L ⊤ :=
   (Multiplicative.toAdd (D.ψ u)).2
 
+omit [Finite G] [Finite V] in
 private theorem vec_mem_fixedSpace_iff (D : UMap K L) (u : ↥(blockU K)) :
     D.vec u ∈ fixedSpace L ↔ (u : G) ∈ blockZ K :=
   D.ψ_mem_fixedSpace_iff u
 
+omit [Finite G] [Finite V] in
 private theorem vec_conj (D : UMap K L) (k : ↥K) (u v : ↥(blockU K))
     (h : (v : G) = k * u * (k : G)⁻¹) :
     D.vec v = (D.φ k : GLV V) (D.vec u) :=
   D.ψ_conj k u v h
 
+omit [Finite G] [Finite V] in
 private theorem vec_eq_of_eq (D : UMap K L) {u : ↥(blockU K)} {x : Multiplicative ↥(commSpace L ⊤)}
     (h : D.ψ u = x) : D.vec u = ((Multiplicative.toAdd x : ↥(commSpace L ⊤)) : V) :=
   congrArg
     (fun x : Multiplicative ↥(commSpace L ⊤) => ((Multiplicative.toAdd x : ↥(commSpace L ⊤)) : V))
     h
 
+omit [Finite G] [Finite V] in
 private theorem exists_vec_eq (D : UMap K L) {y : V} (hy : y ∈ commSpace L ⊤) :
     ∃ u, D.vec u = y := by
   obtain ⟨u, hu⟩ := D.ψ_surj (Multiplicative.ofAdd ⟨y, hy⟩)
@@ -60,6 +66,7 @@ private def preU (D : UMap K L) (S : Submodule (ZMod 2) V) : Subgroup G :=
   ((AddSubgroup.toSubgroup (S.comap (commSpace L ⊤).subtype).toAddSubgroup).comap D.ψ).map
     (blockU K).subtype
 
+omit [Finite G] [Finite V] in
 private theorem mem_preU (D : UMap K L) {S : Submodule (ZMod 2) V} {g : G} :
     g ∈ D.preU S ↔ ∃ h : g ∈ blockU K, D.vec ⟨g, h⟩ ∈ S := by
   constructor
@@ -68,6 +75,7 @@ private theorem mem_preU (D : UMap K L) {S : Submodule (ZMod 2) V} {g : G} :
   · rintro ⟨h, hv⟩
     exact ⟨⟨g, h⟩, hv, rfl⟩
 
+omit [Finite G] [Finite V] in
 private theorem conj_mem_preU (D : UMap K L) {S : Submodule (ZMod 2) V} (hS : Invariant L S)
     {k g : G} (hk : k ∈ K) (hg : g ∈ D.preU S) : k * g * k⁻¹ ∈ D.preU S := by
   obtain ⟨hgU, hv⟩ := (D.mem_preU).mp hg
@@ -76,10 +84,11 @@ private theorem conj_mem_preU (D : UMap K L) {S : Submodule (ZMod 2) V} (hS : In
   rw [D.vec_conj ⟨k, hk⟩ ⟨g, hgU⟩ ⟨k * g * k⁻¹, hconj⟩ rfl]
   exact hS _ (D.φ ⟨k, hk⟩).2 _ hv
 
+omit [Finite G] [Finite V] in
 private theorem hasIrrTildeV (D : UMap K L) (hK : IsFooteBlock K K) : HasIrrTildeV L := by
   unfold HasIrrTildeV IrrSec
   refine ⟨?_, ?_⟩
-  · obtain ⟨g, hgU, hgZ⟩ := SetLike.exists_of_lt hK.chief.1
+  · obtain ⟨g, hgU, hgZ⟩ := _root_.IsConcreteLE.exists_of_lt hK.chief.1
     refine lt_of_le_of_ne inf_le_right fun h => hgZ ?_
     have hv : D.vec ⟨g, hgU⟩ ∈ commSpace L ⊤ := D.vec_mem _
     rw [← h] at hv
@@ -106,6 +115,7 @@ private theorem hasIrrTildeV (D : UMap K L) (hK : IsFooteBlock K K) : HasIrrTild
         exact u.2
       exact ((D.mem_preU).mp hu).2
 
+omit [Finite G] [Finite V] in
 private theorem tildeVWitness (D : UMap K L) {T M : Type} [Group T] [AddGroup M]
     (R : T → M → M → Prop) (α : ↥K →* T) (hα : Function.Surjective α) (hαk : D.φ.ker ≤ α.ker)
     (β : ↥(blockU K) →* Multiplicative M) (hβ : Function.Surjective β)
@@ -165,6 +175,7 @@ private theorem tildeVWitness (D : UMap K L) {T M : Type} [Group T] [AddGroup M]
     rw [hα', hβw w u hu, hβw w' u' hu', hβv]
     exact hR k u v rfl
 
+omit [Finite G] [Finite V] in
 private theorem exists_surjective_of_ker_le (D : UMap K L) {T : Type} [Group T] (α : ↥K →* T)
     (hα : Function.Surjective α) (hαk : D.φ.ker ≤ α.ker) :
     ∃ α' : ↥L →* T, Function.Surjective α' := by
@@ -195,7 +206,7 @@ private theorem finrank_tildeV (D : UMap K L) {k : ℕ} (hk : CFSG.pRank 2 (tild
     (QuotientGroup.quotientMulEquivOfEq hΘk).symm.trans
       (QuotientGroup.quotientKerEquivOfSurjective Θ hΘs)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CFSG.IsElementaryAbelian 2 (tildeU K) :=
+  have : CFSG.IsElementaryAbelian 2 (tildeU K) :=
     { toIsMulCommutative := ⟨⟨fun a b => e.injective (by rw [map_mul, map_mul, mul_comm])⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun a => e.injective (by
         rw [map_pow, map_one]
@@ -210,6 +221,7 @@ private theorem finrank_tildeV (D : UMap K L) {k : ℕ} (hk : CFSG.pRank 2 (tild
 
 end UMap
 
+omit [Finite G] [Finite V] in
 theorem hasIrrTildeV_of_uMap (hK : IsFooteBlock K K)
     (φ : ↥K →* ↥L) (hφ : Function.Surjective φ)
     (ψ : ↥(blockU K) →* Multiplicative ↥(commSpace L ⊤)) (hψ : Function.Surjective ψ)

@@ -114,9 +114,10 @@ theorem conjTr_diagonal (d : Fin 4 → K) :
   ext i j
   by_cases hij : i = j
   · subst hij
-    simp [conjTr, unitaryInvolution_apply, iterateFrobenius_def]
+    simp [conjTr, iterateFrobenius_def]
   · simp [conjTr, diagonal_apply_ne _ hij, diagonal_apply_ne _ (Ne.symm hij)]
 
+omit [Finite K] [CharP K 2] in
 theorem diagonal_mul_antidiag_mul_diagonal (a b : Fin 4 → K) (i j : Fin 4) :
     (diagonal a * antidiag 4 * diagonal b : Matrix (Fin 4) (Fin 4) K) i j =
       if j = Fin.rev i then a i * b j else 0 := by
@@ -154,10 +155,12 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
 @[expose] def tor1Vec (v : K) : Fin 4 → K := ![1, v, v⁻¹, 1]
 
+omit [Finite K] [CharP K 2] in
 theorem tor0Vec_ne (n : ℕ) {u : K} (hu : u ≠ 0) : ∀ i, tor0Vec n u i ≠ 0 := by
   intro i
   fin_cases i <;> simp [tor0Vec, hu]
 
+omit [Finite K] [CharP K 2] in
 theorem tor1Vec_ne {v : K} (hv : v ≠ 0) : ∀ i, tor1Vec v i ≠ 0 := by
   intro i
   fin_cases i <;> simp [tor1Vec, hv]
@@ -170,19 +173,22 @@ theorem tor0Vec_h1 {u : K} (hu : u ≠ 0) :
   intro i
   have hq : ∀ x : K, (x ^ 2 ^ n) ^ 2 ^ n = x := pow_pow_of_card hK
   fin_cases i <;>
-    simp [tor0Vec, Datum.rev0, Datum.rev1, Datum.rev2, Datum.rev3, hq, inv_pow, hu]
+    simp [tor0Vec, Datum.rev1, Datum.rev2, Datum.rev3, hq, inv_pow, hu]
 
+omit [Finite K] [CharP K 2] in
 theorem tor0Vec_h2 {u : K} (hu : u ≠ 0) : tor0Vec n u 0 * tor0Vec n u 1 * tor0Vec n u 2 *
     tor0Vec n u 3 = 1 := by
   simp [tor0Vec, hu]
 
 include hK in
+omit [Finite K] [CharP K 2] hK in
 theorem tor1Vec_h1 {v : K} (hv : v ≠ 0) (hvq : v ^ 2 ^ n = v) :
     ∀ i, tor1Vec v i ^ 2 ^ n * tor1Vec v (Fin.rev i) = 1 := by
   intro i
   fin_cases i <;>
-    simp [tor1Vec, Datum.rev0, Datum.rev1, Datum.rev2, Datum.rev3, inv_pow, hvq, hv]
+    simp [tor1Vec, Datum.rev1, Datum.rev2, Datum.rev3, inv_pow, hvq, hv]
 
+omit [Finite K] [CharP K 2] in
 theorem tor1Vec_h2 {v : K} (hv : v ≠ 0) : tor1Vec v 0 * tor1Vec v 1 * tor1Vec v 2 *
     tor1Vec v 3 = 1 := by
   simp [tor1Vec, hv]
@@ -191,12 +197,13 @@ theorem tor1Vec_h2 {v : K} (hv : v ≠ 0) : tor1Vec v 0 * tor1Vec v 1 * tor1Vec 
   diagG (tor0Vec n (u : K)) (tor0Vec_ne n u.ne_zero) (tor0Vec_h1 hK u.ne_zero)
     (tor0Vec_h2 u.ne_zero)
 
+omit [Finite K] in
 theorem fq_ne_zero {n : ℕ} (v : (Fq K n)ˣ) : ((v : Fq K n) : K) ≠ 0 := fun h =>
   v.ne_zero (Subtype.ext h)
 
-@[expose] noncomputable def hTor1 (hK : Nat.card K = (2 ^ n) ^ 2) (v : (Fq K n)ˣ) : G4 K n :=
+@[expose] noncomputable def hTor1 (_hK : Nat.card K = (2 ^ n) ^ 2) (v : (Fq K n)ˣ) : G4 K n :=
   diagG (tor1Vec ((v : Fq K n) : K)) (tor1Vec_ne (fq_ne_zero v))
-    (tor1Vec_h1 hK (fq_ne_zero v) v.1.2) (tor1Vec_h2 (fq_ne_zero v))
+    (tor1Vec_h1 (fq_ne_zero v) v.1.2) (tor1Vec_h2 (fq_ne_zero v))
 
 theorem gm_hTor0 (u : Kˣ) : gm (hTor0 hK u) = diagonal (tor0Vec n (u : K)) := rfl
 
@@ -367,7 +374,7 @@ theorem hTor0_mul (u u' : Kˣ) : hTor0 hK (u * u') = hTor0 hK u * hTor0 hK u' :=
   rw [gm_mul, gm_hTor0 hK, gm_hTor0 hK, gm_hTor0 hK, diagonal_mul_diagonal]
   congr 1
   funext i
-  fin_cases i <;> simp [tor0Vec, mul_pow, mul_inv] <;> ring
+  fin_cases i <;> simp [tor0Vec, mul_pow] <;> ring
 
 theorem hTor0_one : hTor0 hK (1 : Kˣ) = 1 := by
   apply eq_of_gm_eq
@@ -381,7 +388,7 @@ theorem hTor1_mul (v v' : (Fq K n)ˣ) : hTor1 hK (v * v') = hTor1 hK v * hTor1 h
   rw [gm_mul, gm_hTor1 hK, gm_hTor1 hK, gm_hTor1 hK, diagonal_mul_diagonal]
   congr 1
   funext i
-  fin_cases i <;> simp [tor1Vec, mul_inv] <;> ring
+  fin_cases i <;> simp [tor1Vec]; ring
 
 theorem hTor1_one : hTor1 hK (1 : (Fq K n)ˣ) = 1 := by
   apply eq_of_gm_eq

@@ -41,7 +41,7 @@ theorem card_orbits_eq_one_or_three
     exact odd_orbit_of_sylow_fixed y T hT
   have hmeet (y : Y) : ∃ z : fixedPoints S Y, z.val ∈ orbit G y := by
     let O := orbitAction (S : Subgroup G) y
-    have hm := S.isPGroup'.card_modEq_card_fixedPoints O
+    have hm := S.isPGroup.card_modEq_card_fixedPoints O
     have hnonzero : Nat.card (fixedPoints S O) ≠ 0 := by
       intro he
       have ho := hodd y
@@ -74,7 +74,7 @@ theorem card_orbits_eq_one_or_three
     rw [hsum, Finset.sum_nat_mod]
     simp_rw [hmod]
     simp only [Finset.sum_const, Finset.card_univ, smul_eq_mul, mul_one, Nat.card_eq_fintype_card]
-  have htotal := S.isPGroup'.card_modEq_card_fixedPoints Y
+  have htotal := S.isPGroup.card_modEq_card_fixedPoints Y
   change Nat.card Y % 2 = Nat.card (fixedPoints S Y) % 2 at htotal
   rw [hS] at htotal
   omega

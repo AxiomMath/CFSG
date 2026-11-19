@@ -35,7 +35,7 @@ theorem p8dAct_ker_ggBeta {R : Type} [Group R] (θ : K ⧸ Subgroup.center K ≃
 
 theorem p8dAct_card_zpowers (hBs : IsElemAbelian 3 Bs) (hz : z ∈ Bs) (hz1 : z ≠ 1) :
     Nat.card ((Subgroup.zpowers z).subgroupOf Bs) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (Subgroup.zpowers_le.mpr hz)).toEquiv,
     Nat.card_zpowers, orderOf_eq_prime (hBs.2 z hz) hz1]
 

@@ -176,7 +176,7 @@ private lemma feomegm_adjoin_comm {ι F : Type} [Fintype ι] [DecidableEq ι] [F
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  letI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+  let : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
     Algebra.isMulCommutative_adjoin F hcommS
   intro a b ha hb
   have h := mul_comm' (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
@@ -241,11 +241,11 @@ private lemma feomegm_blockDegree_pos {ι F : Type} [Fintype ι] [DecidableEq ι
   exact Module.finrank_pos
 
 private lemma feomegm_isPrimIdemIn (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (hn : 4 ≤ n)
+    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (_hn : 4 ≤ n)
     (S : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F))
     (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {ε : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
             (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F)
@@ -290,7 +290,7 @@ private lemma feomegm_isPrimIdemIn (n : ℕ) {F : Type} [Field F] [Finite F] [Ch
     omega
 
 private lemma feomegm_blockDegree_eq_one (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (hn : 4 ≤ n)
+    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (_hn : 4 ≤ n)
     (S : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F))
     (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
@@ -336,7 +336,7 @@ private lemma feomegm_formAdj_inv_mem {ι F : Type} [Fintype ι] [DecidableEq ι
   Geo.formAdj_mem_adjoin (RingHom.id F) hG (by intro s hs; simpa using hSG s hs) ha
 
 private lemma feomegm_block_trivial (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (hn : 4 ≤ n)
+    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (_hn : 4 ≤ n)
     (S : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F))
     (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
@@ -346,7 +346,7 @@ private lemma feomegm_block_trivial (n : ℕ) {F : Type} [Field F] [Finite F] [C
     (hε : IsPrimAdjIdemIn (RingHom.id F)
       (LinearMap.toMatrix₂' F (QuadraticMap.polarBilin (Spin.quadMinus n F bq cq)))
       (Algebra.adjoin F (Units.val '' S)) ε)
-    (hdeg : blockDegree (Algebra.adjoin F (Units.val '' S)) ε < 2)
+    (_hdeg : blockDegree (Algebra.adjoin F (Units.val '' S)) ε < 2)
     (hprim : IsPrimIdemIn (Algebra.adjoin F (Units.val '' S)) ε)
     (hdeg1 : blockDegree (Algebra.adjoin F (Units.val '' S)) ε = 1) :
     ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
@@ -378,12 +378,12 @@ private lemma feomegm_block_trivial (n : ℕ) {F : Type} [Field F] [Finite F] [C
           (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
-  letI : CommRing A := IsMulCommutative.instCommRing
+  let : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
+  let : CommRing A := IsMulCommutative.instCommRing
   obtain ⟨K, fieldK, algK, finiteK, π, hπsurj, hπker, hπdeg⟩ := exists_blockField hS hodd hprim
-  letI : Field K := fieldK
-  letI : Algebra F K := algK
-  letI : Finite K := finiteK
+  let : Field K := fieldK
+  let : Algebra F K := algK
+  let : Finite K := finiteK
   have hfin : Module.finrank F K = 1 := by rw [hπdeg, hdeg1]
   have hspan : Submodule.span F ({1} : Set K) = ⊤ :=
     (finrank_eq_one_iff_of_nonzero (1 : K) one_ne_zero).mp hfin
@@ -530,14 +530,14 @@ private lemma feomegm_polar_single_inl {F : Type} [Field F] {bq cq : F}
     QuadraticMap.polar (⇑(Spin.quadMinus 2 F bq cq))
       (Pi.single (Sum.inl (0 : Fin 1)) 1) x = x (Sum.inr (Sum.inl 0)) := by
   rw [Spin.polar_quadMinus]
-  simp [Fin.sum_univ_one, Pi.single_eq_same, Pi.single_eq_of_ne]
+  simp [Pi.single_eq_same, Pi.single_eq_of_ne]
 
 private lemma feomegm_polar_single_inr {F : Type} [Field F] {bq cq : F}
     (x : Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F) :
     QuadraticMap.polar (⇑(Spin.quadMinus 2 F bq cq))
       (Pi.single (Sum.inr (Sum.inl (0 : Fin 1))) 1) x = x (Sum.inl 0) := by
   rw [Spin.polar_quadMinus]
-  simp [Fin.sum_univ_one, Pi.single_eq_same, Pi.single_eq_of_ne]
+  simp [Pi.single_eq_same, Pi.single_eq_of_ne]
 
 private lemma feomegm_quadMinus_two_apply {F : Type} [Field F] {bq cq : F}
     (x : Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F) :
@@ -546,7 +546,7 @@ private lemma feomegm_quadMinus_two_apply {F : Type} [Field F] {bq cq : F}
         bq * x (Sum.inr (Sum.inr 0)) * x (Sum.inr (Sum.inr 1)) +
           cq * x (Sum.inr (Sum.inr 1)) ^ 2 := by
   rw [Spin.quadMinus_apply]
-  simp [Fin.sum_univ_one]
+  simp
 
 private lemma feomegm_perp_anisotropic {F : Type} [Field F] {bq cq : F}
     (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0)
@@ -864,7 +864,7 @@ private lemma feomegm_chunk_two_flatMap_two {F : Type} [Field F] :
   | a :: b :: rest, h => by
       show ((a, b) :: feomegm_chunk_two rest).flatMap (fun q => [q.1, q.2]) = a :: b :: rest
       rw [List.flatMap_cons]
-      simp only [List.flatMap_cons, List.flatMap_nil, List.append_nil]
+      simp only
       rw [feomegm_chunk_two_flatMap_two rest (by
         obtain ⟨k, hk⟩ := h
         exact ⟨k - 1, by simp only [List.length_cons] at hk; omega⟩)]
@@ -903,7 +903,7 @@ private lemma feomegm_prod_map_reflect_mem_commutator_quadMinus_two {F : Type} [
 private lemma feomegm_prod_map_reflect_paired_two {F : Type} [Field F] [Finite F] [CharP F 2]
     {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0)
     {l : List (Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F)} (hl : ∀ a ∈ l, (Spin.quadMinus 2 F bq cq) a ≠ 0)
-    (hsq : IsSquare (List.map (⇑(Spin.quadMinus 2 F bq cq)) l).prod)
+    (_hsq : IsSquare (List.map (⇑(Spin.quadMinus 2 F bq cq)) l).prod)
     (hp : feomegm_paired_two l) :
     (List.map (CFSG.ClassicalGroups.Orthogonal.reflect (Spin.quadMinus 2 F bq cq)) l).prod ∈
       CFSG.ClassicalGroups.Orthogonal.elementaryGroup (Spin.quadMinus 2 F bq cq) :=
@@ -913,9 +913,9 @@ private lemma feomegm_prod_map_reflect_paired_two {F : Type} [Field F] [Finite F
 
 private lemma feomegm_exists_paired_of_even_sq_two {F : Type} [Field F] {bq cq : F}
     {l : List (Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F)}
-    (hl : ∀ a ∈ l, (Spin.quadMinus 2 F bq cq) a ≠ 0)
+    (_hl : ∀ a ∈ l, (Spin.quadMinus 2 F bq cq) a ≠ 0)
     (heven : Even l.length)
-    (hsq : IsSquare (List.map (⇑(Spin.quadMinus 2 F bq cq)) l).prod) :
+    (_hsq : IsSquare (List.map (⇑(Spin.quadMinus 2 F bq cq)) l).prod) :
     feomegm_paired_two l :=
   feomegm_paired_two_of_even_two heven
 
@@ -941,7 +941,7 @@ private lemma feomegm_range_spinAction_le_elementary_two {F : Type} [Field F] [F
   exact feomegm_prod_map_reflect_mem_elementary_two hirr hl heven
     (by rw [hprod]; exact IsSquare.one)
 
-private def feomegm_hypFrame_vec_two {F : Type} [Field F] (bq cq : F) :
+private def feomegm_hypFrame_vec_two {F : Type} [Field F] (_bq _cq : F) :
     Fin 1 → Bool → (Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F) :=
   fun _ s => cond s (Pi.single (Sum.inr (Sum.inl (0 : Fin 1))) 1)
     (Pi.single (Sum.inl (0 : Fin 1)) 1)
@@ -981,7 +981,7 @@ private lemma feomegm_hypFrame_polar_vec_not_two {F : Type} [Field F] {bq cq : F
     rw [feomegm_polar_single_inr]; simp
 
 private lemma feomegm_hypFrame_exists_aux_two {F : Type} [Field F] {bq cq : F}
-    (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) :
+    (_hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) :
     ∀ (i j : Fin 1), ∃ a, IsUnit ((Spin.quadMinus 2 F bq cq) a) ∧
       ∀ (s : Bool), QuadraticMap.polar (⇑(Spin.quadMinus 2 F bq cq))
         (feomegm_hypFrame_vec_two (F := F) bq cq i s) a = 0 ∧
@@ -1013,7 +1013,7 @@ private noncomputable def feomegm_hypFrame_quadMinus_two {F : Type} [Field F] [F
     Spin.HypFrame (Spin.quadMinus 2 F bq cq) 1 :=
   Spin.HypFrame.mk (feomegm_hypFrame_vec_two (F := F) bq cq)
     (feomegm_hypFrame_map_vec_two (F := F) (bq := bq) (cq := cq))
-    (fun i j h => feomegm_hypFrame_polar_vec_of_ne_two (F := F) (bq := bq) (cq := cq) h)
+    (fun _i _j h => feomegm_hypFrame_polar_vec_of_ne_two (F := F) (bq := bq) (cq := cq) h)
     (feomegm_hypFrame_polar_vec_not_two (F := F) (bq := bq) (cq := cq))
     (feomegm_hypFrame_exists_aux_two (F := F) (bq := bq) (cq := cq) hirr)
 
@@ -1050,7 +1050,7 @@ private lemma feomegm_rootHom_mem_spinGroup_two {F : Type} [Field F] {bq cq : F}
   feomegm_root_mem_spinGroup_of_sq_swap_two hu hpol ha
 
 private lemma feomegm_eichler_mem_range_two {F : Type} [Field F] [Finite F]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0)
+    {bq cq : F} (_hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0)
     {u w : Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F}
     (hu : (Spin.quadMinus 2 F bq cq) u = 0)
     (hpol : QuadraticMap.polar (⇑(Spin.quadMinus 2 F bq cq)) w u = 0)
@@ -1309,20 +1309,20 @@ private lemma feomegm_aux_block_isCompl_two (n : ℕ) {F : Type} [Field F] [Fini
     · abel
 
 private lemma feomegm_aux_blockAction_comm_two (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (hn : 4 ≤ n)
+    {bq cq : F} (_hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (_hn : 4 ≤ n)
     (S : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F))
-    (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {ε : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
             (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F)
       (LinearMap.toMatrix₂' F (QuadraticMap.polarBilin (Spin.quadMinus n F bq cq)))
       (Algebra.adjoin F (Units.val '' S)) ε)
-    (htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
+    (_htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F) * ε = ε)
-    (hrank : ε.rank = 4)
-    (hminus : ∀ x y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F, Matrix.mulVec ε x = x → Matrix.mulVec ε
+    (_hrank : ε.rank = 4)
+    (_hminus : ∀ x y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F, Matrix.mulVec ε x = x → Matrix.mulVec ε
       y = y →
       (Spin.quadMinus n F bq cq) x = 0 → (Spin.quadMinus n F bq cq) y = 0 → QuadraticMap.polar
       (Spin.quadMinus n F bq cq) x y = 0 → ¬ LinearIndependent F ![x, y])
@@ -1441,20 +1441,20 @@ private noncomputable def feomegm_aux_blockActionHom_two (n : ℕ) {F : Type} [F
 
 private lemma feomegm_aux_blockAction_le_self_two (n : ℕ) {F : Type} [Field F] [Finite F]
     [CharP F 2]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (hn : 4 ≤ n)
+    {bq cq : F} (_hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (_hn : 4 ≤ n)
     (S : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F))
-    (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {ε : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
             (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F)
       (LinearMap.toMatrix₂' F (QuadraticMap.polarBilin (Spin.quadMinus n F bq cq)))
       (Algebra.adjoin F (Units.val '' S)) ε)
-    (htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
+    (_htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F) * ε = ε)
-    (hrank : ε.rank = 4)
-    (hminus : ∀ x y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F, Matrix.mulVec ε x = x → Matrix.mulVec ε
+    (_hrank : ε.rank = 4)
+    (_hminus : ∀ x y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F, Matrix.mulVec ε x = x → Matrix.mulVec ε
       y = y →
       (Spin.quadMinus n F bq cq) x = 0 → (Spin.quadMinus n F bq cq) y = 0 → QuadraticMap.polar
       (Spin.quadMinus n F bq cq) x y = 0 → ¬ LinearIndependent F ![x, y]) :
@@ -1576,20 +1576,20 @@ private noncomputable def feomegm_aux_blockAction_two (n : ℕ) {F : Type} [Fiel
 
 private lemma feomegm_aux_spinAction_fixes_ker_two (n : ℕ) {F : Type} [Field F] [Finite F]
     [CharP F 2]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (hn : 4 ≤ n)
+    {bq cq : F} (_hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (_hn : 4 ≤ n)
     (S : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F))
-    (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {ε : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
             (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F}
-    (hε : IsPrimAdjIdemIn (RingHom.id F)
+    (_hε : IsPrimAdjIdemIn (RingHom.id F)
       (LinearMap.toMatrix₂' F (QuadraticMap.polarBilin (Spin.quadMinus n F bq cq)))
       (Algebra.adjoin F (Units.val '' S)) ε)
-    (htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
+    (_htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F) * ε = ε)
-    (hrank : ε.rank = 4)
-    (hminus : ∀ x y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F, Matrix.mulVec ε x = x → Matrix.mulVec ε
+    (_hrank : ε.rank = 4)
+    (_hminus : ∀ x y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F, Matrix.mulVec ε x = x → Matrix.mulVec ε
       y = y →
       (Spin.quadMinus n F bq cq) x = 0 → (Spin.quadMinus n F bq cq) y = 0 → QuadraticMap.polar
       (Spin.quadMinus n F bq cq) x y = 0 → ¬ LinearIndependent F ![x, y])
@@ -1739,19 +1739,19 @@ private lemma feomegm_aux_blockAction_injective_two (n : ℕ) {F : Type} [Field 
 
 private lemma feomegm_aux_prodEquivOfIsCompl_apply_two (n : ℕ) {F : Type} [Field F] [Finite F]
     [CharP F 2]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (hn : 4 ≤ n)
+    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (_hn : 4 ≤ n)
     (S : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F))
-    (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {ε : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F)
       (LinearMap.toMatrix₂' F (QuadraticMap.polarBilin (Spin.quadMinus n F bq cq)))
       (Algebra.adjoin F (Units.val '' S)) ε)
-    (htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
+    (_htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F) * ε = ε)
-    (hrank : ε.rank = 4)
-    (hminus : ∀ x y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F, Matrix.mulVec ε x = x → Matrix.mulVec ε
+    (_hrank : ε.rank = 4)
+    (_hminus : ∀ x y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F, Matrix.mulVec ε x = x → Matrix.mulVec ε
       y = y →
       (Spin.quadMinus n F bq cq) x = 0 → (Spin.quadMinus n F bq cq) y = 0 → QuadraticMap.polar
       (Spin.quadMinus n F bq cq) x y = 0 → ¬ LinearIndependent F ![x, y]) :
@@ -1884,19 +1884,19 @@ private lemma feomegm_aux_map_commutator_subgroup_le {G H : Type*} [Group G] [Gr
 
 private lemma feomegm_aux_blockActionHom_extend_omega_two (n : ℕ) {F : Type} [Field F] [Finite F]
     [CharP F 2]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (hn : 4 ≤ n)
+    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (_hn : 4 ≤ n)
     (S : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F))
-    (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {ε : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F)
       (LinearMap.toMatrix₂' F (QuadraticMap.polarBilin (Spin.quadMinus n F bq cq)))
       (Algebra.adjoin F (Units.val '' S)) ε)
-    (htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
+    (_htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F) * ε = ε)
-    (hrank : ε.rank = 4)
-    (hminus : ∀ x y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F, Matrix.mulVec ε x = x → Matrix.mulVec ε
+    (_hrank : ε.rank = 4)
+    (_hminus : ∀ x y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F, Matrix.mulVec ε x = x → Matrix.mulVec ε
       y = y →
       (Spin.quadMinus n F bq cq) x = 0 → (Spin.quadMinus n F bq cq) y = 0 → QuadraticMap.polar
       (Spin.quadMinus n F bq cq) x y = 0 → ¬ LinearIndependent F ![x, y]) :
@@ -1960,7 +1960,7 @@ private lemma feomegm_aux_extend_mem_spinAction_range_two (n : ℕ) {F : Type} [
       ha
 
 private lemma feomegm_aux_spin_commute_eps_two (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (hn : 4 ≤ n)
+    {bq cq : F} (_hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (_hn : 4 ≤ n)
     (S : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F))
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
     {ε : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F}
@@ -2249,7 +2249,7 @@ private lemma feomegm_aux_block_polarBilin_nondegenerate_two (n : ℕ) {F : Type
 
 private lemma feomegm_aux_block_no_totallySingular_two (n : ℕ) {F : Type} [Field F]
     [Finite F] [CharP F 2]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0)
+    {bq cq : F} (_hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0)
     (S : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F))
     {ε : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
             (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F}
@@ -2275,7 +2275,7 @@ private lemma feomegm_aux_block_no_totallySingular_two (n : ℕ) {F : Type} [Fie
       ∃ u ∈ U, Q' u ≠ 0 := by
     intro U hU
     by_contra h
-    push_neg at h
+    push Not at h
     have hU2 : Module.finrank F U = 2 := by
       rw [hU, hd4]
     let U' : Submodule F (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F) :=
@@ -2285,7 +2285,7 @@ private lemma feomegm_aux_block_no_totallySingular_two (n : ℕ) {F : Type} [Fie
         (Submodule.subtype_injective W) U
       rw [← LinearEquiv.finrank_eq e]
       exact hU2
-    haveI : Module.Free F U' := Module.Free.of_divisionRing F U'
+    have : Module.Free F U' := Module.Free.of_divisionRing F U'
     let b := Module.finBasisOfFinrankEq F U' hU'2
     let x : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F := b 0
     let y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F := b 1
@@ -2353,17 +2353,17 @@ private lemma feomegm_aux_block_no_totallySingular_two (n : ℕ) {F : Type} [Fie
 
 private lemma feomegm_aux_blockOmega_perfect_two (n : ℕ) {F : Type} [Field F] [Finite F]
     [CharP F 2]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (hn : 4 ≤ n)
+    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (_hn : 4 ≤ n)
     (S : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F))
-    (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {ε : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
             (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F)
       (LinearMap.toMatrix₂' F (QuadraticMap.polarBilin (Spin.quadMinus n F bq cq)))
       (Algebra.adjoin F (Units.val '' S)) ε)
-    (htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
+    (_htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F) * ε = ε)
     (hrank : ε.rank = 4)
     (hminus : ∀ x y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F, Matrix.mulVec ε x = x → Matrix.mulVec ε
@@ -2419,7 +2419,7 @@ private lemma feomegm_aux_blockOmega_perfect_two (n : ℕ) {F : Type} [Field F] 
       ∃ u ∈ U, Q' u ≠ 0 := by
     intro U hU
     by_contra h
-    push_neg at h
+    push Not at h
     have hU2 : Module.finrank F U = 2 := by
       rw [hU, hd4]
     let U' : Submodule F (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F) :=
@@ -2429,7 +2429,7 @@ private lemma feomegm_aux_blockOmega_perfect_two (n : ℕ) {F : Type} [Field F] 
         (Submodule.subtype_injective W) U
       rw [← LinearEquiv.finrank_eq e]
       exact hU2
-    haveI : Module.Free F U' := Module.Free.of_divisionRing F U'
+    have : Module.Free F U' := Module.Free.of_divisionRing F U'
     let b := Module.finBasisOfFinrankEq F U' hU'2
     let x : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F := b 0
     let y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F := b 1
@@ -2553,17 +2553,17 @@ private lemma feomegm_aux_blockAction_surjective_two (n : ℕ) {F : Type} [Field
 
 private lemma feomegm_aux_blockOmega_transport_two (n : ℕ) {F : Type} [Field F] [Finite F]
     [CharP F 2]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (hn : 4 ≤ n)
+    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (_hn : 4 ≤ n)
     (S : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F))
-    (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
-    (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix (Spin.quadMinus n F bq cq)).range)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s')
+    (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {ε : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
             (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F}
     (hε : IsPrimAdjIdemIn (RingHom.id F)
       (LinearMap.toMatrix₂' F (QuadraticMap.polarBilin (Spin.quadMinus n F bq cq)))
       (Algebra.adjoin F (Units.val '' S)) ε)
-    (htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
+    (_htriv : ∀ s ∈ S, (s : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F) * ε = ε)
     (hrank : ε.rank = 4)
     (hminus : ∀ x y : Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F, Matrix.mulVec ε x = x → Matrix.mulVec ε
@@ -3174,7 +3174,7 @@ private lemma feomegm_blockGroup_commutator_card_le_value_two (n : ℕ) {F : Typ
       glBlockCentralizer (Spin.spinMatrix (Spin.quadMinus n F bq cq)) S ε⁆ ≤
         Nat.card F ^ 2 * (Nat.card F ^ 4 - 1) := by
   have hF2 : 2 ≤ Nat.card F := by
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
   have hb : 0 < Nat.card F ^ 2 * (Nat.card F ^ 4 - 1) := by
@@ -3291,7 +3291,7 @@ private lemma feomegm_blockGroup_commutator_iso_of_card_two (n : ℕ) {F : Type}
       y = y →
       (Spin.quadMinus n F bq cq) x = 0 → (Spin.quadMinus n F bq cq) y = 0 → QuadraticMap.polar
       (Spin.quadMinus n F bq cq) x y = 0 → ¬ LinearIndependent F ![x, y])
-    (hcard : Nat.card ↥⁅glBlockCentralizer (Spin.spinMatrix (Spin.quadMinus n F bq cq)) S ε,
+    (_hcard : Nat.card ↥⁅glBlockCentralizer (Spin.spinMatrix (Spin.quadMinus n F bq cq)) S ε,
       glBlockCentralizer (Spin.spinMatrix (Spin.quadMinus n F bq cq)) S ε⁆ =
       Nat.card ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 2 F bq cq))) :
     Nonempty (↥⁅glBlockCentralizer (Spin.spinMatrix (Spin.quadMinus n F bq cq)) S ε,
@@ -3403,7 +3403,7 @@ private lemma feomegm_component_eq (n : ℕ) {F : Type} [Field F] [Finite F] [Ch
   have hsmall :=
       CFSG.ComponentClassification.RankTwoClassical.isSimpleGroup_statedOmega_quadMinus_small
     (K := F) (n := 2) (Or.inl rfl) (b := bq) (c := cq) hirr
-  haveI : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 2 F bq cq)) := hsmall.1
+  have : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 2 F bq cq)) := hsmall.1
   have hSq : CFSG.Open.IsQuasisimple ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 2 F bq cq))
       := by
     refine ⟨hsmall.2.1, ?_⟩
@@ -3416,8 +3416,8 @@ private lemma feomegm_component_eq (n : ℕ) {F : Type} [Field F] [Finite F] [Ch
   have hHq : CFSG.Open.IsQuasisimple H := CFSG.Open.IsQuasisimple.of_mulEquiv φ hSq
   have hsub : CFSG.Open.IsSubnormal (J'.subgroupOf H) ⊤ :=
     CFSG.Open.IsSubnormal.of_mathlib (CFSG.Assembly.IsSubnormal.subgroupOf hJε.2.1)
-  haveI : Group.IsPerfect J' := ⟨hJε.2.2.1⟩
-  haveI : Group.IsPerfect (J'.subgroupOf H) :=
+  have : Group.IsPerfect J' := ⟨hJε.2.2.1⟩
+  have : Group.IsPerfect (J'.subgroupOf H) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hJε.1).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hJε.1).symm.surjective
   rcases CFSG.ComponentClassification.Quasisimple.perfect_subnormal_eq_bot_or_eq_top
@@ -3432,13 +3432,13 @@ private lemma feomegm_component_eq (n : ℕ) {F : Type} [Field F] [Finite F] [Ch
   · exact le_antisymm hJε.1 (Subgroup.subgroupOf_eq_top.mp htop)
 
 private lemma feomegm_isOmegaMinus (n : ℕ) {F : Type} [Field F] [Finite F] [CharP F 2]
-    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (hn : 4 ≤ n) (f : ℕ)
+    {bq cq : F} (hirr : ∀ s : F, s ^ 2 + bq * s + cq ≠ 0) (_hn : 4 ≤ n) (f : ℕ)
     (hc : Nat.card F = 2 ^ f)
     (S : Set (GL (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F))
     {ε : Matrix (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2)
             (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) F}
     {J' : Subgroup ↥(spinGroup (Spin.quadMinus n F bq cq))}
-    (hJε : IsComponentOf J'
+    (_hJε : IsComponentOf J'
       ⁅glBlockCentralizer (Spin.spinMatrix (Spin.quadMinus n F bq cq)) S ε, glBlockCentralizer
       (Spin.spinMatrix (Spin.quadMinus n F bq cq)) S ε⁆)
     (hcomm : Nonempty (↥⁅glBlockCentralizer (Spin.spinMatrix (Spin.quadMinus n F bq cq)) S ε,
@@ -3458,7 +3458,7 @@ private lemma feomegm_isOmegaMinus (n : ℕ) {F : Type} [Field F] [Finite F] [Ch
   have hsmall :=
       CFSG.ComponentClassification.RankTwoClassical.isSimpleGroup_statedOmega_quadMinus_small
     (K := F) (n := 2) (Or.inl rfl) (b := bq) (c := cq) hirr
-  haveI : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 2 F bq cq)) := hsmall.1
+  have : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 2 F bq cq)) := hsmall.1
   have hcenter : Subgroup.center
       ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 2 F bq cq)) = ⊥ :=
     TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
@@ -3502,7 +3502,7 @@ private lemma feomegm_quotientCenter {U X : Type} [Group U] [Group X] (ψ : U �
     have hxc := hψ hx1
     apply Subtype.ext
     simpa using (Subgroup.mem_center_iff.mp hxc (y : U))
-  haveI : Group.IsPerfect ↥J' := ⟨hperf⟩
+  have : Group.IsPerfect ↥J' := ⟨hperf⟩
   have hcen : Subgroup.center (↥J' ⧸ fmap.ker) =
       (Subgroup.center ↥J').map (QuotientGroup.mk' fmap.ker) :=
     (CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel
@@ -3541,9 +3541,9 @@ theorem ggSixLSevenFieldExtCase_omegaFourMinus_POmegaMinus (n : ℕ) {F : Type} 
   classical
   have hcard_ne : Nat.card F ≠ 0 := by
     rw [hc]; exact pow_ne_zero f (by norm_num)
-  haveI : Finite F := Nat.finite_of_card_ne_zero hcard_ne
-  haveI : CharP F 2 := by
-    letI : Fintype F := Fintype.ofFinite F
+  have : Finite F := Nat.finite_of_card_ne_zero hcard_ne
+  have : CharP F 2 := by
+    let : Fintype F := Fintype.ofFinite F
     exact charP_of_card_eq_prime_pow (p := 2) (f := f)
       (by rw [← Nat.card_eq_fintype_card]; exact hc)
   have hf : 1 ≤ f := by
@@ -3551,7 +3551,7 @@ theorem ggSixLSevenFieldExtCase_omegaFourMinus_POmegaMinus (n : ℕ) {F : Type} 
     have hf0 : f = 0 := by omega
     rw [hf0, pow_zero] at hc
     have h2 : 2 ≤ Nat.card F := by
-      letI : Fintype F := Fintype.ofFinite F
+      let : Fintype F := Fintype.ofFinite F
       rw [Nat.card_eq_fintype_card]
       exact Nat.succ_le_of_lt Fintype.one_lt_card
     omega

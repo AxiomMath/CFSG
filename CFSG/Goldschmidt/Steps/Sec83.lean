@@ -44,7 +44,7 @@ theorem G83_of (h64 : S_G64) (h31 : S_G31) (h82 : S_G82) : S_G83 := by
   · subst hp2
     refine hcentr fun x hx => ?_
     have hR : IsPGroup 2 (A ⊔ qCoreOf H 2 : Subgroup G) :=
-      IsPGroup.to_sup_of_normal_right' (S.isPGroup'.to_le hset.le) (qCoreOf_isPGroup H 2)
+      IsPGroup.to_sup_of_normal_right' (S.isPGroup.to_le hset.le) (qCoreOf_isPGroup H 2)
         (hAH.trans (le_normalizer_of_isNormalIn (qCoreOf_normal_in H 2)))
     exact pGroup_le_centralizer hset h4 hR le_sup_left (Subgroup.mem_sup_right hx)
   set P := qCoreOf H p ⊓ Subgroup.centralizer (A : Set G) with hPdef

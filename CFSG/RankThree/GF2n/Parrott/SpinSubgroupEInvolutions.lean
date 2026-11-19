@@ -91,7 +91,8 @@ theorem mem_spinFixE_of_involution_ut (h : Tim79a.ParrottHypA z) (hκ : IsSpinCo
     unfold SpinFixes at ha' ⊢
     rw [Matrix.mulVec_neg, ha']
 
-theorem conj_mul_fixes' (hz2 : z * z = 1) {x j f : G} (hx : x ∈ H z) (hf : f ∈ J z)
+omit [Finite G] in
+theorem conj_mul_fixes' (hz2 : z * z = 1) {x j f : G} (hx : x ∈ H z) (_hf : f ∈ J z)
     {a : ZMod 2} (hxf : x * f * x⁻¹ = if a = 0 then f else f * z)
     (hjf : j * f * j⁻¹ = if a = 0 then f else f * z) :
     (x * j) * f * (x * j)⁻¹ = f := by
@@ -99,9 +100,9 @@ theorem conj_mul_fixes' (hz2 : z * z = 1) {x j f : G} (hx : x ∈ H z) (hf : f �
     _ = f := by
       rw [hjf]
       by_cases ha : a = 0
-      · rw [if_pos ha] at hxf ⊢
+      · rw [ite_eq_left ha] at hxf ⊢
         exact hxf
-      · rw [if_neg ha] at hxf ⊢
+      · rw [ite_eq_right ha] at hxf ⊢
         calc x * (f * z) * x⁻¹ = (x * f * x⁻¹) * (x * z * x⁻¹) := by group
           _ = (f * z) * z := by rw [hxf, show x * z * x⁻¹ = z by rw [H_mul_z_comm hx]; group]
           _ = f := by rw [mul_assoc, hz2, mul_one]
@@ -136,20 +137,20 @@ theorem exists_conj_mem_spinFixE_of_involution_t (h : Tim79a.ParrottHypA z)
     have h2 := hκ.sq j₁ hj₁J
     rw [h1] at hprod
     by_cases hℓ : ℓ (κ j₁) = 0
-    · rw [if_pos hℓ] at hprod
+    · rw [ite_eq_left hℓ] at hprod
       rw [hprod] at h2
       have : q (κ j₁) = 0 := by
         by_contra hqv
-        rw [if_neg hqv] at h2
+        rw [ite_eq_right hqv] at h2
         exact hz1 h2.symm
       rw [this, hℓ]
-    · rw [if_neg hℓ] at hprod
+    · rw [ite_eq_right hℓ] at hprod
       have h3 : z * (j₁ * j₁) = 1 := by
         calc z * (j₁ * j₁) = (z * j₁) * j₁ := (mul_assoc z j₁ j₁).symm
           _ = (j₁ * z) * j₁ := by rw [← H_mul_z_comm (J_le_H hj₁J)]
           _ = 1 := hprod
       by_cases hqv : q (κ j₁) = 0
-      · rw [if_pos hqv] at h2
+      · rw [ite_eq_left hqv] at h2
         rw [h2, mul_one] at h3
         exact absurd h3 hz1
       · exact (by decide : ∀ a b : ZMod 2, a ≠ 0 → b ≠ 0 → a = b) _ _ hqv hℓ
@@ -165,7 +166,7 @@ theorem exists_conj_mem_spinFixE_of_involution_t (h : Tim79a.ParrottHypA z)
       group
     rw [hfix] at h1
     by_contra hℓ
-    rw [if_neg hℓ] at h1
+    rw [ite_eq_right hℓ] at h1
     exact hz1 (mul_left_cancel (a := f) (by rw [mul_one]; exact h1)).symm
   obtain ⟨a, haS, ha⟩ := exists_conj_cover_of_fixes_tA ℓ (fun x hx x' hx' => hadd x hx x' hx')
     hW (κ j₁) hvC hq

@@ -14,7 +14,7 @@ theorem t2021TD4Lift_map_fixSub {H : Type} [Group H] [Finite H] {p : ℕ} (hp : 
     (β : MulAut H) (βQ : MulAut (ppQuot p H))
     (hβQ : ∀ l : H, βQ (QuotientGroup.mk l) = QuotientGroup.mk (β l)) (hβp : β ^ p = 1) :
     (fixSub β).map (QuotientGroup.mk' (GLAPPrimeCore p H)) = fixSub βQ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · rintro _ ⟨x, hx, rfl⟩
     have hx' : β x = x := hx
@@ -67,7 +67,7 @@ theorem t2021TD4Lift_exists_sylow {H : Type} [Group H] [Finite H] {𝔅 : Type} 
     {W : Subgroup H} (hWinv : ∀ g : 𝔅, ∀ w ∈ W, ψ g w ∈ W) (hW : ¬ r ∣ Nat.card W) :
     ∃ P : Sylow q ↥W, ∀ g : 𝔅, ∀ x ∈ (P : Subgroup ↥W),
       ψ g (x : H) ∈ (P : Subgroup ↥W).map W.subtype := by
-  letI : MulDistribMulAction 𝔅 ↥W :=
+  let : MulDistribMulAction 𝔅 ↥W :=
     { smul := fun g w => ⟨ψ g w, hWinv g w w.2⟩
       one_smul := fun w => Subtype.ext (by show ψ 1 (w : H) = w; rw [map_one]; rfl)
       mul_smul := fun g h w => Subtype.ext (by
@@ -102,8 +102,8 @@ theorem t2021TD4_lift {H : Type} [Group H] [Finite H] {𝔅 : Type} [Group 𝔅]
     ∃ T' : Subgroup H, T' ≤ GLAPLayer p (fixSub (ψ b)) ∧ IsPGroup 2 T' ∧
       (∀ g : 𝔅, ∀ t ∈ T', ψ g t ∈ T') ∧
         ¬ T' ≤ GLAPPrimeCoreOf p (GLAPLayer p (fixSub (ψ b))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π : H →* ppQuot p H := QuotientGroup.mk' (GLAPPrimeCore p H) with hπ
   set X : Subgroup H := fixSub (ψ b) with hX
   set E : Subgroup H := GLAPLayer p X with hE
@@ -183,7 +183,7 @@ theorem t2021TD4_lift {H : Type} [Group H] [Finite H] {𝔅 : Type} [Group 𝔅]
       rfl
     rw [h, hSU, Subgroup.map_top, Subgroup.range_subtype]
   refine ⟨(P : Subgroup ↥W).map W.subtype, (Subgroup.map_subtype_le _).trans inf_le_left,
-    P.isPGroup'.map W.subtype, ?_, ?_⟩
+    P.isPGroup.map W.subtype, ?_, ?_⟩
   · rintro g _ ⟨x, hx, rfl⟩
     exact hP g x hx
   intro hle

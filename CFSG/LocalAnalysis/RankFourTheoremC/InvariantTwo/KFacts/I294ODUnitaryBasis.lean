@@ -17,6 +17,7 @@ variable {K : Type} [Field K] [Finite K] {r e0 p n : ℕ} [Fact r.Prime] [CharP 
   [hpf : Fact p.Prime] {c : K} [hirr : Fact (Irreducible (X ^ p - C c : K[X]))]
   {σ : K ≃+* K} {B : GL (Fin n) K}
 
+omit [Fact (Nat.Prime r)] [CharP K r] [Finite K] hirr in
 theorem od_perp_stable (S : OdSetup r e0 p c σ B) {k : ℕ} (w : Fin k → Fin n → K)
     {x : Fin n → K}
     (hx : x ∈ perp σ (fun t : Fin k × Fin p => odBv B ((t.2 : ℕ) : ℤ) (w t.1))) :
@@ -105,7 +106,7 @@ theorem od_exists_orbit_family (S : OdSetup r e0 p c σ B) (hσ : IsUnitaryInvol
           have h0 : herm σ (odBv B ((j : ℕ) : ℤ) (odAct p c _ S.hBp e *ᵥ Q y))
               (odBv B ((j' : ℕ) : ℤ) (w a)) = 0 :=
             herm_eq_zero_comm σ S.hσσ (mem_perp.1 (horbit (j : ℕ)) (a, j'))
-          rw [h0, if_neg]
+          rw [h0, ite_eq_right]
           intro h
           exact (Fin.castSucc_lt_last a).ne' (Prod.mk.inj h).1
       | cast a =>
@@ -115,7 +116,7 @@ theorem od_exists_orbit_family (S : OdSetup r e0 p c σ B) (hσ : IsUnitaryInvol
           have h0 : herm σ (odBv B ((j : ℕ) : ℤ) (w a))
               (odBv B ((j' : ℕ) : ℤ) (odAct p c _ S.hBp e *ᵥ Q y)) = 0 :=
             mem_perp.1 (horbit (j' : ℕ)) (a, j)
-          rw [h0, if_neg]
+          rw [h0, ite_eq_right]
           intro h
           exact (Fin.castSucc_lt_last a).ne (Prod.mk.inj h).1
         | cast a' =>

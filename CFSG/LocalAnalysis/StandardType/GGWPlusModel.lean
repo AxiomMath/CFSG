@@ -29,7 +29,7 @@ private noncomputable def ggAutAct {G : Type} [Group G] (H B : Subgroup G) :
     intro b
     apply Subtype.ext
     rw [ggConjAut_apply, MulAut.mul_apply, ggConjAut_apply, ggConjAut_apply]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_mul]
     group
 
 private theorem ggAutAct_apply {G : Type} [Group G] (H B : Subgroup G)
@@ -55,7 +55,7 @@ private theorem ggConjAut_eq_one_iff {G : Type} [Group G] (B : Subgroup G) {g : 
     rw [← hb, mul_assoc, mul_inv_cancel, mul_one]
 
 theorem ggSolvQuotLeTwo_PSL {d p : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K - 1) (hd : 5 ≤ d) (h4 : 4 ≤ Nat.card K)
+    (hp : p.Prime) (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K - 1) (hd : 5 ≤ d) (_h4 : 4 ≤ Nat.card K)
     (hsec : SLHasSections d K) {Eb : Subgroup (MulAut (projectiveSL d K))}
     (hA : IsElemAbelian p Eb) (hI : (Eb : Set (MulAut (projectiveSL d K))) ⊆ Set.range (conjAut d K))
     (hr : p ^ (d - 2) ≤ Nat.card Eb) (hsc : GGTorusSelfCent p Eb) :
@@ -163,9 +163,9 @@ theorem ggSolvQuotLeTwo_PSL {d p : ℕ} {K : Type} [Field K] [Finite K] [CharP K
       have h3 : e (ρ x) = e 1 := congrArg e hx
       rw [show ρ x = e.symm (actR x) from rfl] at h3
       simpa using h3
-    have h4 := congrArg (fun y : (TypeANbrDvd.permAut φ' Eb hN).range =>
+    have _h4 := congrArg (fun y : (TypeANbrDvd.permAut φ' Eb hN).range =>
       (y : MulAut ↥Eb)) h2
-    exact h4
+    exact _h4
   exact ggSolvQuotLeTwo_of_surj
     (fun Q _ f hf hQ => perm_solvable_quotient_card_le_two (by omega : 5 ≤ d) f hf hQ)
     ρ hρ hker

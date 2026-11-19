@@ -55,10 +55,10 @@ theorem slOnBlock_eq_of_nesting {P P' : Type} [CommGroup P] [CommGroup P']
     (hle : fr.slOnBlock i ≤ fr'.slOnBlock i') (hmm : fr'.m i' = fr.m i) :
     fr.slOnBlock i = fr'.slOnBlock i' := by
   classical
-  haveI : Finite V :=
+  have : Finite V :=
     Finite.of_injective ((Module.finBasis F V).equivFun : V → (Fin (Module.finrank F V) → F))
       (Module.finBasis F V).equivFun.injective
-  haveI : Finite (SpecialLinearGroup F V) :=
+  have : Finite (SpecialLinearGroup F V) :=
     Finite.of_injective (fun u : SpecialLinearGroup F V => (u : V → V))
       (fun u v hv => by ext x; exact congrFun hv x)
   have hcard : Nat.card (fr.slOnBlock i) = Nat.card (fr'.slOnBlock i') :=

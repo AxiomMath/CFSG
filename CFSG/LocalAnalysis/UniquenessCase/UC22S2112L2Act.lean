@@ -21,7 +21,7 @@ theorem uc22s2112_rhoL_eq_one {L S B : Subgroup G}
     (hBodd : Odd (Nat.card ↥B)) {x : G} (hx : x ∈ B) (hx3 : (orderOf x).Coprime 3) :
     UC6S846.rhoL L ⟨x, hBN hx⟩ = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := CFSG.Quasithin.H13.NQCore.nonempty_mulEquiv_psl2_odd
     (CFSG.Blueprint.LieModel.statedClassicalModel hLp (by decide))
   let φ : ↥(normalizer (L : Set G)) →*
@@ -109,7 +109,7 @@ theorem uc22s2112_rhoL_eq_one {L S B : Subgroup G}
     obtain ⟨-, -, s, hs, hinv⟩ := CFSG.ASVolI.burnsideA315x_l2_core hp2 le_rfl hc
     have hSB : S' ⊓ B' = ⊥ := by
       obtain ⟨k, hk⟩ := hS'.2.1.exists_card_eq
-      refine Subgroup.inf_eq_bot_of_coprime ?_
+      refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
       rw [hk]
       exact (Nat.coprime_two_left.2 hB'odd).pow_left k
     have hbot : B' = ⊥ := by

@@ -15,7 +15,7 @@ theorem IsAutTripleM22.exists_of_normal_card_three
       (∀ d : D, ψ d = 1 ↔ (d : X) ∈ Y) ∧
       (∀ g : X, (∀ y ∈ Y, g * y * g⁻¹ = y) → g ∈ D) ∧ Y ≤ D := by
   obtain ⟨Z, -, hZcard, hDindex, -, -, -, ψ, -, hψsurj, hψker, -, -, -, -⟩ := h
-  haveI : (Subgroup.centralizer (Z : Set X)).Normal :=
+  have : (Subgroup.centralizer (Z : Set X)).Normal :=
     Subgroup.normal_of_index_eq_two hDindex
   have hYleD : Y ≤ Subgroup.centralizer (Z : Set X) := by
     intro y hy
@@ -34,7 +34,7 @@ theorem IsAutTripleM22.exists_of_normal_card_three
     rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hYleD).toEquiv, hYcard] at h1
   have hInormal : I.Normal :=
     (hYn.subgroupOf (Subgroup.centralizer (Z : Set X))).map ψ hψsurj
-  haveI : I.Normal := hInormal
+  have : I.Normal := hInormal
   have hIbot : I = ⊥ := by
     rcases (CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2).eq_bot_or_eq_top_of_normal I with h | h
     · exact h
@@ -130,7 +130,7 @@ theorem exists_normal_card_three_of_sup {G : Type} [Group G] [Finite G] (S : Set
     have hy : (m * x0 * m⁻¹ : S.M) ∈ S.Q ⊔ X' := by
       rw [← Subgroup.mem_map_iff_mem S.M.subtype_injective, hsup_map]
       exact hQX (m : G) m.2 (x0 : G) (Subgroup.mem_sup_right hx0G)
-    haveI : S.Q.Normal := S.normal
+    have : S.Q.Normal := S.normal
     obtain ⟨q, hq, x1, hx1, hqx⟩ := Subgroup.mem_sup_of_normal_left.mp hy
     have hq1 : S.ρM q = 1 := Subtype.ext (S.ρ_eq_one_of_mem_Q hq)
     have hmul : S.ρM m * S.ρM x0 * (S.ρM m)⁻¹ = S.ρM (m * x0 * m⁻¹) := by
@@ -182,7 +182,7 @@ theorem mem_of_odd_of_setting {G : Type} [Group G] [Finite G] {z : G}
   intro h hh hodd
   have hsubidx : (N.subgroupOf (H z)).index = 2 := by
     simpa [Subgroup.relIndex] using hNrel
-  haveI : (N.subgroupOf (H z)).Normal := Subgroup.normal_of_index_eq_two hsubidx
+  have : (N.subgroupOf (H z)).Normal := Subgroup.normal_of_index_eq_two hsubidx
   have hoddH : Odd (Nat.card (Subgroup.zpowers (⟨h, hh⟩ : H z))) := by
     rw [Nat.card_zpowers]
     simpa using hodd
@@ -209,7 +209,7 @@ theorem Loc41.exists_linear_M22_of_setting
     rwa [hSQG]
   obtain ⟨Xbar, hXbar_normal, hXbar_card, hXbar_eq, hpreY⟩ :=
     exists_normal_card_three_of_sup S d.X (by rw [hSM]; exact d.X_le) d.card_X hSwidth hQX
-  haveI : Finite S.Mbar := Bridge.finite_Mbar S
+  have : Finite S.Mbar := Bridge.finite_Mbar S
   obtain ⟨D, ψ, hDindex, hψsurj, hψker, hDcomm, hYleD⟩ :=
     J4.IsAutTripleM22.exists_of_normal_card_three hautTriple hXbar_normal hXbar_card
   let M0 : Subgroup S.M := D.comap S.ρM

@@ -80,7 +80,7 @@ theorem typeLayer_omega_plus_of_EW (hD : LieSOutTypeW T tm tf tN) {H : Type} [Gr
   obtain ⟨-, -, hn4⟩ := hG.1
   have hgates := orthogonal_large_prime_semilinear_field_and_diagonal_gates H .POmegaPlus
     (Or.inr (Or.inl rfl)) n 2 f hG K hK e
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus n K)) :=
     Finite.of_equiv H (coordinatePlusWitnessEquiv K e).toEquiv
   refine typeLayer_of_gates_outer (coordinatePlusWitnessEquiv K e) hgates β hβ hE hout ?_
   intro a haE haD hap
@@ -129,7 +129,7 @@ theorem typeLayer_omega_minus_outerW (hD : LieSOutTypeW T tm tf tN) {H : Type} [
   have htop : projectivePointFamilyAut (coordinateQuadMinus n K hn1 b c) = ⊤ :=
     ((orthogonal_geometry_tail_model_point_family_invariant H .POmegaMinus (.inr rfl) n 2 f hG)
       hn1 K hK b c hirr).2
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn1 b c)) :=
     Finite.of_equiv H (coordinateMinusWitnessEquiv K hn1 b c e).toEquiv
   refine typeLayer_of_gates_outer (coordinateMinusWitnessEquiv K hn1 b c e) hgates β hβ
     (mem_E_of_pow_eq_one_three hgates htop) hout ?_

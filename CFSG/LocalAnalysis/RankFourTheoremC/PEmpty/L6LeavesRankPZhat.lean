@@ -20,7 +20,7 @@ theorem exists_zhat_layer {V : Type} [Group V] [Finite V] {f : ℕ} [Fact f.Prim
         coord hZ C ⟨z, hz⟩ ∈ (S : Subgroup C.1) ∧
           ∀ s ∈ (S : Subgroup C.1), coord hZ C ⟨z, hz⟩ * s = s * coord hZ C ⟨z, hz⟩ := by
   classical
-  haveI : (layer V).Normal := layer_normal V
+  have : (layer V).Normal := layer_normal V
   obtain ⟨Fh, hFle, hFp, hFmax, hFv, -⟩ := exists_sylow_normalized (layer V) hv
   let F : Subgroup (layer V) := Fh.subgroupOf (layer V)
   have hFp' : IsPGroup f F := hFp.comap_of_injective _ (layer V).subtype_injective

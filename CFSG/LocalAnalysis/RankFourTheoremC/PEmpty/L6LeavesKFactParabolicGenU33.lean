@@ -37,7 +37,7 @@ theorem card_radical_G2_zmod_two
 
 theorem hasParGen_of_isPSU_three_three
     {X : Type} [Group X] [Finite X] (hX : IsPSU 3 3 1 X) : HasParGen X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (ZMod 2) = 2 := Nat.card_zmod 2
   obtain ⟨eA⟩ := SmithC27.nonempty_quasithinG2_mulEquiv_adjointGroup_two hF
   have hD : IsPSU 3 3 1 ↥⁅quasithinG2 (ZMod 2), quasithinG2 (ZMod 2)⁆ :=

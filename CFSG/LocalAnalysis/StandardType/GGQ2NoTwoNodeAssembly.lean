@@ -42,7 +42,7 @@ theorem ggQ2_noTwoNodeL_of_placement
   have hxBs : x ∈ Bs := hBstar.1 hSstar.2.1
   have hx3 : x ^ 3 = 1 := hBstar.2.1.2 x hxBs
   have hord : orderOf x = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hx3 hx1
   have hLcomp : IsComponentOf L (Subgroup.centralizer ({x} : Set G)) := hSstar.2.2.2.1
   have hLH : IsComponentOf L (ggG0 3 B x L D J ⊓ Subgroup.centralizer ({x} : Set G)) :=

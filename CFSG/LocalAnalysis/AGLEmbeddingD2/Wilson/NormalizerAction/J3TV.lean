@@ -18,12 +18,12 @@ theorem tv_necessary {L : Type*} [Group L] {n : ℕ} {B : Subgroup L}
   set ψ : MulAut (Multiplicative (Fin n → ZMod 3)) := f.trans (φ.trans f.symm) with hψ
   have hψT : IsTransvectionOn ψ :=
     Item2113Res3Proof.isTransvectionOn_of_bijective f.symm.toMonoidHom f.symm.bijective
-      (fun a => by simp [hψ] <;> rfl) hT
+      (fun a => by simp [hψ]) hT
   set A := conjAdd f g with hA
   have hψv : ∀ v, ψ (Multiplicative.ofAdd v) = Multiplicative.ofAdd (A v) := by
     intro v
     rw [hA, conjAdd_apply, ofAdd_toAdd]
-    simp [hψ] <;> rfl
+    simp [hψ]; rfl
   have hMA : ∀ v, conjMat f g *ᵥ v = A v := by
     intro v
     rw [conjMat, LinearMap.toMatrix'_mulVec]

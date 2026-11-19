@@ -34,7 +34,7 @@ variable {Ω : Type} [Field Ω]
 
 theorem twFrame_apply (i : Fin 3) (X : SL(3, Ω)) :
     twFrame Ω i X = (twFrameN Ω i)⁻¹ * e6rhoA2₁ Ω X * twFrameN Ω i := by
-  simp [twFrame, MulAut.conj_apply]
+  simp [twFrame]
 
 theorem twFrame_injective (i : Fin 3) : Function.Injective (twFrame Ω i) :=
   (MulAut.conj (twFrameN Ω i)⁻¹).injective.comp e6rhoA2₁_injective

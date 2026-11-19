@@ -22,8 +22,8 @@ theorem s16h_H5_row_SL2_four_one {A L : Subgroup (MulAut W)} {t : MulAut W}
   intro E hE hEab
   obtain ⟨K, hKf, hKfin, hKcard, D, hDN, hDab, hcard⟩ :=
     s16h_H5_row_SL2_four_bridge hc h hq hq2 hE hEab
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hDle : Nat.card D ≤ q :=
     s16h_H5_natNorm_statedSL_two_four_elemAbelian_one hKcard hq hq2 hq3 hDN hDab
   rw [hcard] at hDle
@@ -59,7 +59,7 @@ theorem s16h_H5_row_SL2_four_fix {A L : Subgroup (MulAut W)} {t : MulAut W}
       have hEq : E ⊓ centSub U = E :=
         le_antisymm inf_le_left fun b hb => ⟨hb, hall b hb⟩
       rw [hEq] at hEcardU
-      have hle : 9 * Nat.card ↥E ≤ Nat.card ↥E := by simpa using hEcardU
+      have hle : 9 * Nat.card ↥E ≤ Nat.card ↥E := by simp at hEcardU
       have hpos : 0 < Nat.card ↥E := Nat.card_pos
       omega
     obtain ⟨b, hbE, hbcent⟩ := hbex
@@ -71,8 +71,8 @@ theorem s16h_H5_row_SL2_four_fix {A L : Subgroup (MulAut W)} {t : MulAut W}
     simpa using hfixw
   · obtain ⟨K, hKf, hKfin, hKcard, e, D, hDeq, hmapL, hDnorm, hDab, hDcard⟩ :=
       s16h_H5_row_SL2_four_bridge_strong hc h (q := 3) Nat.prime_three (by norm_num) hE hEab
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     have h9aut : 9 ≤ Nat.card ↥(autSub E U) := by
       have hpre : 9 * Nat.card ↥(E ⊓ centSub U) ≤ Nat.card E := by
         simpa only [show (3 : ℕ) ^ 2 = 9 by norm_num] using hEcardU

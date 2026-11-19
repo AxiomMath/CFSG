@@ -100,18 +100,18 @@ private theorem d6planeSpan_two_eq :
     · change d6PlaneEmb (d6PlaneV 14) ∈ planeSpan ({2} : Finset (Fin 6))
       rw [mem_planeSpan]
       intro i _
-      fin_cases i <;> simp_all [hV, d6PlaneEmb_v4_inl_zero, d6PlaneEmb_v4_inl_one,
-        d6PlaneEmb_v4_inl_two, d6PlaneEmb_v4_inl_three, d6PlaneEmb_v4_inl_four,
+      fin_cases i <;> simp_all [d6PlaneEmb_v4_inl_zero, d6PlaneEmb_v4_inl_one,
+        d6PlaneEmb_v4_inl_three, d6PlaneEmb_v4_inl_four,
         d6PlaneEmb_v4_inl_five, d6PlaneEmb_v4_inr_zero, d6PlaneEmb_v4_inr_one,
-        d6PlaneEmb_v4_inr_two, d6PlaneEmb_v4_inr_three, d6PlaneEmb_v4_inr_four,
+        d6PlaneEmb_v4_inr_three, d6PlaneEmb_v4_inr_four,
         d6PlaneEmb_v4_inr_five]
     · change d6PlaneEmb (d6PlaneU 14) ∈ planeSpan ({2} : Finset (Fin 6))
       rw [mem_planeSpan]
       intro i _
-      fin_cases i <;> simp_all [hU, d6PlaneEmb_v4_inl_zero, d6PlaneEmb_v4_inl_one,
-        d6PlaneEmb_v4_inl_two, d6PlaneEmb_v4_inl_three, d6PlaneEmb_v4_inl_four,
+      fin_cases i <;> simp_all [d6PlaneEmb_v4_inl_zero, d6PlaneEmb_v4_inl_one,
+        d6PlaneEmb_v4_inl_three, d6PlaneEmb_v4_inl_four,
         d6PlaneEmb_v4_inl_five, d6PlaneEmb_v4_inr_zero, d6PlaneEmb_v4_inr_one,
-        d6PlaneEmb_v4_inr_two, d6PlaneEmb_v4_inr_three, d6PlaneEmb_v4_inr_four,
+        d6PlaneEmb_v4_inr_three, d6PlaneEmb_v4_inr_four,
         d6PlaneEmb_v4_inr_five]
 
 theorem isHypPlane_planeSpan_two : IsHypPlane (planeSpan {2}) := by

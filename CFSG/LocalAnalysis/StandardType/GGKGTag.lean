@@ -146,8 +146,8 @@ theorem kg_false_of_quot_sl
       rw [CFSG.Open.StatedAPI.card_statedSL_two E, hE2] at hdvd
       norm_num at hdvd
       exact lt_of_le_of_lt (Nat.le_of_dvd (by norm_num) hdvd) (by norm_num)
-    haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hJ.2
-    haveI : Group.IsSolvable (X ⧸ Subgroup.center X) :=
+    have : IsSimpleGroup (X ⧸ Subgroup.center X) := hJ.2
+    have : Group.IsSolvable (X ⧸ Subgroup.center X) :=
       CFSG.GroupTheory.groups_order_below_sixty_solvable hcard
     exact (CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.not_isSolvable_quot_center
       (J := X) inferInstance).elim
@@ -192,11 +192,11 @@ theorem kg_false_of_quot_su
     exact kg_false_of_quot_sl hJ le_rfl hKcard ⟨φ.trans ψ⟩ hk' hC
   · by_cases h31 : a = 3 ∧ k = 1
     · obtain ⟨rfl, rfl⟩ := h31
-      haveI := CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.isSolvable_quot_heldSU_three_two
+      have := CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.isSolvable_quot_heldSU_three_two
         τ' hτ' (fun x => by simpa using hτ'k x) (by simpa using hE)
-      haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hJ.2
+      have : IsSimpleGroup (X ⧸ Subgroup.center X) := hJ.2
       exact (CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.not_isSolvable_quot_center
-        (J := X) (solvable_of_surjective (f := φ.symm.toMonoidHom)
+        (J := X) (Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom)
           φ.symm.surjective)).elim
     · have hak : (a, 2 ^ k) ≠ (3, 2) := by
         intro h

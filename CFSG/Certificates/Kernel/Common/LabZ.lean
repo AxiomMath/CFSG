@@ -221,11 +221,11 @@ theorem kByte_rep {b m : Nat} (hb : b < 256) (hm : m < 16777216) {i : Nat} (hi :
 
 theorem pwN_hi {A : Nat} (h : 4294967296 ≤ A) :
     pwN A = mkK (A - 4294967296) (rep 1 (A - 4294967296)) := by
-  simp only [pwN, if_pos h]
+  simp only [pwN, ite_eq_left h]
 
 theorem pwN_lo {A : Nat} (h : A < 4294967296) :
     pwN A = mkK (4294967296 - A) (rep 2 (4294967296 - A)) := by
-  simp only [pwN, if_neg (Nat.not_le.2 h)]
+  simp only [pwN, ite_eq_right (Nat.not_le.2 h)]
 
 theorem top_byte {b m : Nat} (hb : b = 1 ∨ b = 2) (x : Nat) (hx : x < 2) :
     Nat.beq (Nat.land (rep b m) 255) (Nat.xor x 1 + 1) =
@@ -250,13 +250,13 @@ theorem lpush_rep {b m : Nat} (hb : b = 1 ∨ b = 2) (x : Nat) (hx : x < 2) (hm 
       else mkK (m + 1) (rep b m * 256 + (x + 1)) := by
   rw [lpush_def, kCnt_mkK _ (by omega), kStk_mkK _ (by omega), top_byte hb x hx, blt0, andB_eq]
   by_cases hc : 0 < m ∧ b + x = 2
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     have e : (decide (0 < m) && (decide (0 < m) && decide (b + x = 2))) = true := by
       simp [hc.1, hc.2]
     rw [e]
     dsimp only
     rw [rep_shr8 (by omega) hc.1]
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     have e : (decide (0 < m) && (decide (0 < m) && decide (b + x = 2))) = false := by
       simp only [Bool.and_eq_false_iff, decide_eq_false_iff_not]
       omega
@@ -265,10 +265,10 @@ theorem lpush_rep {b m : Nat} (hb : b = 1 ∨ b = 2) (x : Nat) (hx : x < 2) (hm 
 theorem lpush_pw0 {A : Nat} (h1 : 4278190082 ≤ A) (h2 : A ≤ 4311744510) :
     lpush (pwN A) 0 = pwN (A + 1) := by
   by_cases hA : 4294967296 ≤ A
-  · rw [pwN_hi hA, lpush_rep (Or.inl rfl) 0 (by omega) (by omega), if_neg (by omega),
+  · rw [pwN_hi hA, lpush_rep (Or.inl rfl) 0 (by omega) (by omega), ite_eq_right (by omega),
       pwN_hi (by omega),
       show A + 1 - 4294967296 = (A - 4294967296) + 1 by omega, rep_succ, Nat.zero_add]
-  · rw [pwN_lo (by omega), lpush_rep (Or.inr rfl) 0 (by omega) (by omega), if_pos (by omega)]
+  · rw [pwN_lo (by omega), lpush_rep (Or.inr rfl) 0 (by omega) (by omega), ite_eq_left (by omega)]
     by_cases hA1 : A + 1 = 4294967296
     · rw [pwN_hi (by omega), show 4294967296 - A - 1 = 0 by omega, hA1, Nat.sub_self]
       rfl
@@ -277,14 +277,14 @@ theorem lpush_pw0 {A : Nat} (h1 : 4278190082 ≤ A) (h2 : A ≤ 4311744510) :
 theorem lpush_pw1 {A : Nat} (h1 : 4278190082 ≤ A) (h2 : A ≤ 4311744510) :
     lpush (pwN A) 1 = pwN (A - 1) := by
   by_cases hA : 4294967296 < A
-  · rw [pwN_hi (by omega), lpush_rep (Or.inl rfl) 1 (by omega) (by omega), if_pos (by omega),
+  · rw [pwN_hi (by omega), lpush_rep (Or.inl rfl) 1 (by omega) (by omega), ite_eq_left (by omega),
       pwN_hi (by omega), show A - 1 - 4294967296 = A - 4294967296 - 1 by omega]
   · by_cases hA0 : A = 4294967296
     · subst hA0
       rw [pwN_hi (Nat.le_refl _), Nat.sub_self, lpush_rep (Or.inl rfl) 1 (by omega) (by omega),
-        if_neg (by omega), pwN_lo (by omega), show 4294967296 - (4294967296 - 1) = 1 by omega]
+        ite_eq_right (by omega), pwN_lo (by omega), show 4294967296 - (4294967296 - 1) = 1 by omega]
       rfl
-    · rw [pwN_lo (by omega), lpush_rep (Or.inr rfl) 1 (by omega) (by omega), if_neg (by omega),
+    · rw [pwN_lo (by omega), lpush_rep (Or.inr rfl) 1 (by omega) (by omega), ite_eq_right (by omega),
         pwN_lo (by omega), show 4294967296 - (A - 1) = (4294967296 - A) + 1 by omega, rep_succ,
         show (1 : Nat) + 1 = 2 from rfl]
 
@@ -306,12 +306,12 @@ theorem iter_pw (g : Nat → Nat) (ℓ : Nat) (hℓ : ℓ = 0 ∨ ℓ = 1) :
     rcases hℓ with rfl | rfl
     · rw [lpush_pw0 (by omega) (by omega),
         iter_pw g 0 (Or.inl rfl) m (fun k hk => hg k (by omega)) (A + 1) (by omega) (by omega)]
-      simp only [if_true]
+      simp only [ite_true]
       congr 1
       omega
     · rw [lpush_pw1 (by omega) (by omega),
         iter_pw g 1 (Or.inr rfl) m (fun k hk => hg k (by omega)) (A - 1) (by omega) (by omega)]
-      simp only [Nat.one_ne_zero, if_false]
+      simp only [Nat.one_ne_zero, ite_false]
       congr 1
       omega
 
@@ -444,8 +444,8 @@ theorem pwN_code_zero (d : Nat) : Nat.beq (pwN (pcode d)) 0 = Nat.beq (Nat.land 
     rfl
   · have e : pwN (pcode d) = mkK (d % 16) (rep (if d < 16 then 1 else 2) (d % 16)) := by
       by_cases hd : d < 16
-      · rw [p1 (Or.inl hd), if_pos hd]
-      · rw [p2 hd h0, if_neg hd]
+      · rw [p1 (Or.inl hd), ite_eq_left hd]
+      · rw [p2 hd h0, ite_eq_right hd]
     rw [e, mkK_eq _ (by omega), nbeq_false (by omega), nbeq_false (by omega)]
 
 theorem mkK_ne {j b : Nat} (hj : j < 16777216) (c s : Nat) (hc : c < 16777216)

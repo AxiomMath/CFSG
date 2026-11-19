@@ -188,10 +188,10 @@ theorem qtwoDB17_x_not_mem_centralizer_J₂ (hm : 5 ≤ m) (hbase : QTwoUnitBase
     exact hinvol.symm
   have hval_a : βL (Additive.ofMul y) a = (-1 : ZMod 3) := by
     rw [hβy, qtwoDB17_dSign_one_apply]
-    exact if_pos (Or.inl rfl)
+    exact ite_eq_left (Or.inl rfl)
   have hval_k : βL (Additive.ofMul y) k = (1 : ZMod 3) := by
     rw [hβy, qtwoDB17_dSign_one_apply]
-    exact if_neg (by tauto)
+    exact ite_eq_right (by tauto)
   have hne : (-1 : ZMod 3) ≠ 1 := by decide
   exact hne ((hval_a.symm.trans hval).trans hval_k)
 
@@ -200,8 +200,8 @@ theorem qtwoDB17_not_centralizes
     (hbase : QTwoUnitBase p B Bs x L ψ ε)
     (hcoords : QTwoUnitCoords Bs x L 𝒦 M e e' ψ ε βL ω) (hdel : QTwoUnitDel Bs βL a b c α g b')
     (hb'B : (b' : G) ∈ B) {N : Subgroup G}
-    (hN : LargeEvenPComponent 3 (Subgroup.centralizer ({(b' : G)} : Set G)) N)
-    (hJ₁ : qtwoDelJ ψ c ≤ N) (hJ₂ : (qtwoDelJ ψ c).map (MulAut.conj g).toMonoidHom ≤ N) :
+    (_hN : LargeEvenPComponent 3 (Subgroup.centralizer ({(b' : G)} : Set G)) N)
+    (_hJ₁ : qtwoDelJ ψ c ≤ N) (hJ₂ : (qtwoDelJ ψ c).map (MulAut.conj g).toMonoidHom ≤ N) :
     ¬ (⁅N, Subgroup.zpowers x⁆ : Subgroup G) ≤ LargeEvenPPrimeCoreOf 3 N := by
   classical
   intro hle
@@ -221,7 +221,7 @@ theorem qtwoDB17_not_centralizes
     rw [hcardJ₂]
     exact qtwoDB17_three_dvd_J (by omega) hbase hdel.hca hdel.hcb hdel.hab
   have hOcop : Nat.Coprime 3 (Nat.card ↥O) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcard : Nat.card ↥O = Nat.card ↥(CFSG.pPrimeCore 3 ↥N) := by
       change Nat.card ↥((CFSG.pPrimeCore 3 ↥N).map N.subtype) =
         Nat.card ↥(CFSG.pPrimeCore 3 ↥N)

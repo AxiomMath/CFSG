@@ -141,7 +141,7 @@ theorem pow_card_active_le_prod_orbitSize {n f : ℕ} (hn : 2 ≤ n) (ε : Fin f
       = ∏ _i ∈ univ.filter (fun i => ε i ≠ ∅), n :=
         (Finset.prod_const (s := univ.filter fun i => ε i ≠ ∅) n).symm
     _ ≤ ∏ i ∈ univ.filter (fun i => ε i ≠ ∅), orbitSize (ε i) :=
-        Finset.prod_le_prod' fun i hi =>
+        prod_le_prod fun i hi =>
           n_le_orbitSize hn (h0 i) (Finset.mem_filter.mp hi).2
 
 theorem sq_le_orbitSize_of_two_le_card {n : ℕ} {S : Finset (Fin n)} (hn : 5 ≤ n)

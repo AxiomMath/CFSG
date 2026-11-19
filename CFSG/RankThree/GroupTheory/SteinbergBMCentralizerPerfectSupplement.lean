@@ -155,7 +155,7 @@ theorem coprime_two_commutator_centralizer_perfect_supplement [Finite G] {p : �
     exact Subgroup.smul_mem_pointwise_smul x b _ hx
   set P := (P₀ : Subgroup D).map D.subtype with hPdef
   have hPD : P ≤ D := map_subtype_le _
-  have hP2 : IsPGroup 2 P := P₀.isPGroup'.map D.subtype
+  have hP2 : IsPGroup 2 P := P₀.isPGroup.map D.subtype
   have hRP : R ≤ P := fun r hr => ⟨⟨r, (le_sup_right : R ≤ D) hr⟩, hRP₀ hr, rfl⟩
   have hBP : B ≤ normalizer (P : Set G) := by
     refine le_normalizer_of_forall_conj_mem fun b hb x hx => ?_

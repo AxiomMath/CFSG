@@ -22,7 +22,7 @@ theorem eqP_eq {p q : Nat × Nat} (h : eqP p q = true) : p = q := by
   obtain ⟨q1, q2⟩ := q
   have h' : andB (Nat.beq p1 q1) (Nat.beq p2 q2) = true := h
   cases h1 : Nat.beq p1 q1 <;> cases h2 : Nat.beq p2 q2 <;> rw [h1, h2] at h' <;>
-    first | exact absurd h' Bool.false_ne_true | skip
+    try exact absurd h' Bool.false_ne_true
   rw [Nat.eq_of_beq_eq_true h1, Nat.eq_of_beq_eq_true h2]
 
 theorem pairOK_of {P : Pair} {p : Nat × Nat} {a b : Nat} (hP : PairOK P a b)

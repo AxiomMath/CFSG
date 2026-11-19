@@ -15,6 +15,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor (PointConfig pointConfig
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x : G}
   {J : Subgroup G}
 
+omit [Finite G] in
 private theorem dec_exists_conj_hom (J H : Subgroup G) (hH : H ≤ Subgroup.normalizer (J : Set G)) :
     ∃ ι : H →* MulAut J, ∀ (c : H) (j : J), ((ι c j : J) : G) = (c : G) * j * (c : G)⁻¹ := by
   let f : ∀ c : G, c ∈ Subgroup.normalizer (J : Set G) → MulAut J := fun c hc =>
@@ -64,9 +65,9 @@ theorem u3_P_decomp_core {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hc : Po
       ∀ S : Subgroup (MulAut K), IsPGroup p S → Nat.card S ∣ p ^ k) :
     (P : Subgroup G) ≤ u3T P x J ⊔ ((P : Subgroup G) ⊓ u3K0 p x J) := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hPN : (P : Subgroup G) ≤ Subgroup.normalizer (J : Set G) := hP.trans hc.cent_le
   obtain ⟨ι, hι⟩ := dec_exists_conj_hom J (P : Subgroup G) hPN
   have hOker : ∀ j : J, ψ j = 1 ↔ (j : G) ∈ rankThreePrimeCore p J := by
@@ -104,8 +105,8 @@ theorem u3_P_decomp_core {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hc : Po
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTP).toEquiv]
     exact hTcard
   have hSp : IsPGroup p θ.range :=
-    P.isPGroup'.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
-  haveI : Finite θ.range := Finite.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
+    P.isPGroup.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
+  have : Finite θ.range := Finite.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
   have hOJ : rankThreePrimeCore p J ≤ J := CFSG.AGLEmbedding.glbPrimeCore_le p J
   have hZ : Subgroup.center Q = ⊥ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.u3main_center_bot hOJ hc.perfect hc.lt hc.minimal ψ hψ hker
@@ -133,10 +134,10 @@ theorem u3_P_decomp_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hc : Poi
 
 private theorem dec_inf_core (hp : p.Prime) :
     (P : Subgroup G) ⊓ rankThreePrimeCore p J = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hOcop : p.Coprime (Nat.card (rankThreePrimeCore p J)) :=
     CFSG.AGLEmbedding.glbPrimeCore_coprime p J
-  have hPp : IsPGroup p ↥((P : Subgroup G) ⊓ rankThreePrimeCore p J) := P.isPGroup'.to_inf_left
+  have hPp : IsPGroup p ↥((P : Subgroup G) ⊓ rankThreePrimeCore p J) := P.isPGroup.to_inf_left
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hPp
   have hdvd : Nat.card ((P : Subgroup G) ⊓ rankThreePrimeCore p J : Subgroup G) ∣
       Nat.card (rankThreePrimeCore p J) := Subgroup.card_dvd_of_le inf_le_right
@@ -147,6 +148,7 @@ private theorem dec_inf_core (hp : p.Prime) :
   rw [hk0, pow_zero] at hk
   exact Subgroup.eq_bot_of_card_eq _ hk
 
+omit [Finite G] in
 private theorem dec_mem_sup_of_commute {A B : Subgroup G} (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     {s : G} (hs : s ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, s = a * b := by
   have hr := MonoidHom.noncommCoprod_range A.subtype B.subtype (fun a b => h a a.2 b b.2)
@@ -164,7 +166,7 @@ theorem u3_pdata_common {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hc : Poi
       (∀ t ∈ u3T P x J, ∀ d ∈ (P : Subgroup G) ⊓ u3K0 p x J, t * d = d * t) ∧
       IsCyclic ↥((P : Subgroup G) ⊓ u3K0 p x J) ∧ x ∈ (P : Subgroup G) ⊓ u3K0 p x J ∧ orderOf x = p := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hTP : u3T P x J ≤ (P : Subgroup G) := (inf_le_left : u3T P x J ≤ u3S P x).trans inf_le_left
   have hPN : (P : Subgroup G) ≤ Subgroup.normalizer (J : Set G) := hP.trans hc.cent_le
   have hPO := dec_inf_core (P := P) (J := J) hp
@@ -195,9 +197,9 @@ theorem u3_pdata_common {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hc : Poi
     obtain ⟨Z, hZc, -, hZS, hZT, -, hTZS⟩ := hSdec
     have hS : u3S P x = (P : Subgroup G) := inf_eq_left.mpr hP
     rw [hS] at hZS hTZS
-    haveI := hZc
+    have := hZc
     let T₀ : Subgroup (P : Subgroup G) := (u3T P x J).subgroupOf (P : Subgroup G)
-    haveI hT₀n : T₀.Normal := ⟨fun n hn g => hTconj g g.2 n hn⟩
+    have hT₀n : T₀.Normal := ⟨fun n hn g => hTconj g g.2 n hn⟩
     let q : (P : Subgroup G) →* (P : Subgroup G) ⧸ T₀ := QuotientGroup.mk' T₀
     let g : Z →* (P : Subgroup G) ⧸ T₀ := q.comp (Subgroup.inclusion hZS)
     have hg : Function.Surjective g := by
@@ -211,7 +213,7 @@ theorem u3_pdata_common {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hc : Poi
       show (QuotientGroup.mk (⟨z, hZS hz⟩ : (P : Subgroup G)) : (P : Subgroup G) ⧸ T₀) =
         QuotientGroup.mk s
       rw [hsz', QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff (N := T₀) _).mpr hts, one_mul]
-    haveI : IsCyclic ((P : Subgroup G) ⧸ T₀) := isCyclic_of_surjective g hg
+    have : IsCyclic ((P : Subgroup G) ⧸ T₀) := isCyclic_of_surjective g hg
     let f : ↥((P : Subgroup G) ⊓ u3K0 p x J) →* (P : Subgroup G) ⧸ T₀ :=
       q.comp (Subgroup.inclusion hDP)
     have hf : Function.Injective f := by

@@ -42,7 +42,7 @@ theorem ne_empty_comp :
   funext l
   cases l with
   | nil => rfl
-  | cons c l => simpa using ofList_ne_empty (List.cons_ne_nil c l)
+  | cons c l => simp
 
 theorem outerParseWord_ofList (L : List Char) (h : owOK L = true) :
     outerParseWord (String.ofList L) = owK L := by

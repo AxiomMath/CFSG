@@ -18,7 +18,7 @@ open FieldFixOmegaPlus
 theorem exists_odd_prime_dvd_card_sub_one {k : Type} [Field k] [Finite k] [CharP k 2]
     (hk : 4 ≤ Nat.card k) : ∃ r : ℕ, r.Prime ∧ r ≠ 2 ∧ r ∣ Nat.card k - 1 := by
   have hcard : 2 ∣ Nat.card k := by
-    haveI := Fintype.ofFinite k
+    have := Fintype.ofFinite k
     obtain ⟨n, -, hn⟩ := FiniteField.card k 2
     rw [Nat.card_eq_fintype_card, hn]
     exact dvd_pow_self 2 (PNat.ne_zero n)
@@ -75,7 +75,7 @@ theorem exists_fixGeom (hm : 4 ≤ m) {n p : ℕ} (hn : 1 ≤ n) (hp : p.Prime) 
     rw [mem_range_subfieldInj_iff k hp hp2 hσ hσk hm3 hσf r, mem_ggFixSub]
   let e : LargeEvenProj (LargeEvenOmega (LargeEvenQPlus k m)) ≃* ↥(ggFixSub f) :=
     (MonoidHom.ofInjective (subfieldInj_injective k hm1)).trans (MulEquiv.subgroupCongr hrange)
-  haveI := hS₀
+  have := hS₀
   exact ⟨k, inferInstance, inferInstance, hcard, hS₀, hna₀,
     ggFixGeom_of_inn hna₀ hZ (fun _ h => h) (fun _ h => h) e⟩
 

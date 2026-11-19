@@ -132,7 +132,7 @@ public theorem firstCase_cyclic_layer_quotient_isASeven_of_od
     intro htop
     have hMtop : M = ⊤ := le_antisymm le_top (by
       intro x hx
-      exact hRleM (by simpa [htop] using hx))
+      exact hRleM (by simp [htop]))
     exact hMmax.1 hMtop
   have hDR : IsDGroup (↥R) := properSubgroups_areDGroups hmin R hRproper
   have hEleR : E ≤ R := le_sup_left
@@ -209,7 +209,7 @@ public theorem firstCase_cyclic_layer_quotient_isASeven_of_od
     let : Group.IsPerfect E := hEperf
     exact Group.IsPerfect.ofSurjective
       (f := eER.symm.toMonoidHom) eER.symm.surjective
-  have hOsolv : IsSolvable O := odd_order_theorem O hOodd
+  have hOsolv : Group.IsSolvable O := odd_order_theorem O hOodd
   have hEbarData : Ebar ≠ ⊥ ∧ Group.IsPerfect Ebar ∧
       Ebar.IsSubnormal := by
     have h := perfect_subnormal_image_le_normal_odd_index

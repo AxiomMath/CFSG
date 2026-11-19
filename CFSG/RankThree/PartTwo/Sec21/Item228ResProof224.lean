@@ -113,7 +113,7 @@ theorem item224_of (h310 : CFSG.RankThree.GF2n.Item3_10_small) (h612 : Item612Se
     with hS'
   have hS'1 : S' ≠ ⊥ := fun h =>
     hS1 ((Subgroup.map_eq_bot_iff_of_injective _ (Subgroup.subtype_injective _)).mp h)
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map _
   have hAN : A ≤ Subgroup.normalizer (S' : Set G) :=
     (Subgroup.le_centralizer_iff.mp (Subgroup.map_subtype_le _)).trans
       (Subgroup.centralizer_le_normalizer _)

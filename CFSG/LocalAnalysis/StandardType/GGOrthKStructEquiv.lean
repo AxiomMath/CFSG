@@ -173,7 +173,7 @@ theorem ggOrthKStruct_isRefl_iff {G : Type} [Group G] [Finite G] {Bs K : Subgrou
     rw [← hcardBs, hcard1, hcardV]
   have hV : Nat.card (Fin ((n + 1) / 2) → Multiplicative (ZMod 3)) = 3 ^ ((n + 1) / 2) :=
     okEq_card_coords ((n + 1) / 2)
-  haveI : Nonempty ↥(Bs ⊓ Subgroup.centralizer (K : Set G)) :=
+  have : Nonempty ↥(Bs ⊓ Subgroup.centralizer (K : Set G)) :=
     ⟨⟨1, Subgroup.one_mem _⟩⟩
   have hmpos : 0 < Nat.card ↥(Bs ⊓ Subgroup.centralizer (K : Set G)) := Nat.card_pos
   have hcardiff : Nat.card {b : ↥Bs // σ b = b} * 3 = Nat.card ↥Bs ↔

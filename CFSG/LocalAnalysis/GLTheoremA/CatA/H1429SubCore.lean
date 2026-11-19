@@ -52,7 +52,7 @@ theorem eq_of_component {T : Type} [Group T] [Finite T] {C J I : Subgroup T} (hJ
 
 theorem primeCore_eq_bot {T : Type} [Group T] [Finite T] {J : Subgroup T} (hJs : IsSimpleGroup ↥J)
     (hdvd : 3 ∣ Nat.card ↥J) : GLAPPrimeCore 3 ↥J = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore 3 ↥J) with h0 | h0
   · exact h0
   · exfalso
@@ -78,7 +78,7 @@ theorem exists_equiv_of_conj {S T : Type} [Group S] [Finite S] [Group T] (ψ : S
     (hsolv : Group.IsSolvable (↥(fixSubgroup a) ⧸ J.subgroupOf (fixSubgroup a)))
     (hJs : IsSimpleGroup ↥J) (hnc : ∃ x y : ↥J, x * y ≠ y * x) (hdvd : 3 ∣ Nat.card ↥J) {I : Subgroup S}
     (hI : GLAPComponent 3 (fixSubgroup β) I) : Nonempty (PSimple 3 I ≃* ↥J) := by
-  haveI : Finite T := Finite.of_equiv S ψ.toEquiv
+  have : Finite T := Finite.of_equiv S ψ.toEquiv
   obtain ⟨hI', ⟨e⟩⟩ := component_transport ψ h hI
   have hIJ := eq_of_component hJC hsolv hJs hI'
   rw [hIJ] at e

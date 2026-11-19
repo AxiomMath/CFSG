@@ -15,7 +15,7 @@ open CFSG.Sporadic.Fi23.Native CFSG.Sporadic.Th.Native CFSG.KS.Fi22LH
 theorem ap_set!_self {r : Table} {i : Nat} (hi : i < r.size) (v : UInt32) :
     ap (r.set! i v) i = v.toNat := by
   unfold ap
-  rw [get!_set! _ hi hi, if_pos rfl]
+  rw [get!_set! _ hi hi, ite_eq_left rfl]
 
 theorem ap_set!_ne {r : Table} {i j : Nat} (hij : i ≠ j) (v : UInt32) :
     ap (r.set! i v) j = ap r j := by
@@ -44,7 +44,7 @@ theorem setFold_spec (P : Nat → Bool) (F : Nat → Nat) (v : UInt32) (N : Nat)
       else r) (Array.replicate N v) = r at h1 h2
     by_cases hp : P n = false
     · have hc : (!P n) = true := by rw [hp]; rfl
-      rw [if_pos hc]
+      rw [ite_eq_left hc]
       have hFn := hF n (by omega) hp
       refine ⟨by rw [Array.size_set!, h1], fun y hy => ?_⟩
       by_cases e : F n = y
@@ -63,7 +63,7 @@ theorem setFold_spec (P : Nat → Bool) (F : Nat → Nat) (v : UInt32) (N : Nat)
         cases h : P n
         · exact absurd h hp
         · simp
-      rw [if_neg hc]
+      rw [ite_eq_right hc]
       refine ⟨h1, fun y hy => ?_⟩
       rcases h2 y hy with ⟨g1, g2⟩ | ⟨g1, g2, g3⟩
       · refine Or.inl ⟨g1, fun f hf hpf => ?_⟩
@@ -142,8 +142,8 @@ theorem posFold_spec {α : Type} [Inhabited α] (ord : Array Nat) (f : Nat → �
       · have : ord[n]! ≠ ord[i]! := fun e => by
           have := hd n (by omega) i (by omega) e
           omega
-        rw [if_neg this, h2 i hi]
-      · rw [hi, if_pos rfl]
+        rw [ite_eq_right this, h2 i hi]
+      · rw [hi, ite_eq_left rfl]
     · rw [Array.getElem!_set!_ne _ _ _ _ (hne n (by omega))]
       exact h3 y hy fun i hi => hne i (by omega)
 
@@ -230,11 +230,11 @@ theorem mkMu_inv (O : WOrbit) (o : TrOrb) (D bi rowInv : Table) (v0 : Nat)
     unfold muStep
     dsimp only
     by_cases hV : (!pBit o.sets[v0]! n) = true
-    · rw [if_pos hV]
+    · rw [ite_eq_left hV]
       have hV' : pBit o.sets[v0]! n = false := by simpa using hV
       have hm := hF n (by omega) hV'
       by_cases hc : (rowInv[trAct O o D bi n v0]! != none32 && !seen[trAct O o D bi n v0]!) = true
-      · rw [if_pos hc]
+      · rw [ite_eq_left hc]
         rw [Bool.and_eq_true, bne_iff_ne, Bool.not_eq_true'] at hc
         obtain ⟨hr, hns⟩ := hc
         have hnew : ∀ i < ms.size, ms[i]! ≠ trAct O o D bi n v0 := by
@@ -246,23 +246,23 @@ theorem mkMu_inv (O : WOrbit) (o : TrOrb) (D bi rowInv : Table) (v0 : Nat)
             (a.push x)[k]! = if k < a.size then a[k]! else x := by
           intro α _ a x k hk
           by_cases hk' : k < a.size
-          · rw [if_pos hk', get!_push_lt _ _ hk']
-          · rw [if_neg hk', get!_push_of (by omega)]
+          · rw [ite_eq_left hk', get!_push_lt _ _ hk']
+          · rw [ite_eq_right hk', get!_push_of (by omega)]
         refine ⟨by simp [h1], by rw [Array.size_set!, h2], fun i hi => ?_, fun m hm' => ?_,
           fun i hi j hj e => ?_, fun h hh hVh hrh => ?_⟩
         · rw [Array.size_push] at hi
           rw [hpush _ _ i (by rw [h1]; exact hi), hpush _ _ i hi, h1]
           by_cases hi' : i < ms.size
-          · rw [if_pos hi', if_pos hi']
+          · rw [ite_eq_left hi', ite_eq_left hi']
             obtain ⟨a1, a2, a3, a4, a5⟩ := h3 i hi'
             exact ⟨by omega, a2, a3, a4, a5⟩
-          · rw [if_neg hi', if_neg hi']
+          · rw [ite_eq_right hi', ite_eq_right hi']
             exact ⟨by omega, hV', rfl, hr, hm⟩
         · rw [get!_set! _ (by rw [h2]; exact hm) (by rw [h2]; exact hm'), Array.size_push]
           by_cases e : trAct O o D bi n v0 = m
-          · rw [if_pos e]
+          · rw [ite_eq_left e]
             exact ⟨fun _ => ⟨ms.size, by omega, by rw [get!_push_eq, e]⟩, fun _ => rfl⟩
-          · rw [if_neg e, h4 m hm']
+          · rw [ite_eq_right e, h4 m hm']
             constructor
             · rintro ⟨i, hi, e'⟩
               exact ⟨i, by omega, by rw [get!_push_lt _ _ hi, e']⟩
@@ -274,11 +274,11 @@ theorem mkMu_inv (O : WOrbit) (o : TrOrb) (D bi rowInv : Table) (v0 : Nat)
         · rw [Array.size_push] at hi hj
           rw [hpush _ _ i hi, hpush _ _ j hj] at e
           by_cases hi' : i < ms.size <;> by_cases hj' : j < ms.size
-          · rw [if_pos hi', if_pos hj'] at e
+          · rw [ite_eq_left hi', ite_eq_left hj'] at e
             exact h5 i hi' j hj' e
-          · rw [if_pos hi', if_neg hj'] at e
+          · rw [ite_eq_left hi', ite_eq_right hj'] at e
             exact absurd e (hnew i hi')
-          · rw [if_neg hi', if_pos hj'] at e
+          · rw [ite_eq_right hi', ite_eq_left hj'] at e
             exact absurd e.symm (hnew j hj')
           · omega
         · rcases Nat.lt_succ_iff_lt_or_eq.1 hh with hh | hh
@@ -286,7 +286,7 @@ theorem mkMu_inv (O : WOrbit) (o : TrOrb) (D bi rowInv : Table) (v0 : Nat)
             exact ⟨i, by simp; omega, by rw [get!_push_lt _ _ hi, e]⟩
           · subst hh
             exact ⟨ms.size, by simp, get!_push_eq _ _⟩
-      · rw [if_neg hc]
+      · rw [ite_eq_right hc]
         unfold MInv
         dsimp only
         refine ⟨h1, h2, fun i hi => ?_, h4, h5, fun h hh hVh hrh => ?_⟩
@@ -301,7 +301,7 @@ theorem mkMu_inv (O : WOrbit) (o : TrOrb) (D bi rowInv : Table) (v0 : Nat)
               · exact absurd ⟨hrh, e⟩ hc
               · rfl
             exact (h4 _ hm).1 hs
-    · rw [if_neg hV]
+    · rw [ite_eq_right hV]
       unfold MInv
       dsimp only
       refine ⟨h1, h2, fun i hi => ?_, h4, h5, fun h hh hVh hrh => ?_⟩
@@ -402,8 +402,8 @@ theorem MT.mem' {O : WOrbit} {o : TrOrb} {D bi : Table} {ms hs ord par wit hw : 
 theorem push_get {α : Type} [Inhabited α] (a : Array α) (x : α) {k : Nat} (hk : k < a.size + 1) :
     (a.push x)[k]! = if k < a.size then a[k]! else x := by
   by_cases hk' : k < a.size
-  · rw [if_pos hk', get!_push_lt _ _ hk']
-  · rw [if_neg hk', get!_push_of (by omega)]
+  · rw [ite_eq_left hk', get!_push_lt _ _ hk']
+  · rw [ite_eq_right hk', get!_push_of (by omega)]
 
 theorem mtStep_inv {O : WOrbit} {o : TrOrb} {D bi : Table} {ms hs hOf : Array Nat}
     (hlt : ∀ i < ms.size, ms[i]! < 137632)
@@ -425,7 +425,7 @@ theorem mtStep_inv {O : WOrbit} {o : TrOrb} {D bi : Table} {ms hs hOf : Array Na
   unfold mtStep
   dsimp only
   by_cases hc : (!seen[y]! && decide (ap (nbrWit O o D bi ord[h]!) y < 31671)) = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     dsimp only
     rw [Bool.and_eq_true, Bool.not_eq_true', decide_eq_true_eq] at hc
     obtain ⟨hns, hadj⟩ := hc
@@ -441,16 +441,16 @@ theorem mtStep_inv {O : WOrbit} {o : TrOrb} {D bi : Table} {ms hs hOf : Array Na
     · rw [Array.size_push] at hk
       rw [push_get _ _ hk, push_get _ _ (by rw [H.hw_size]; exact hk), H.hw_size]
       by_cases hk' : k < ord.size
-      · rw [if_pos hk', if_pos hk']
+      · rw [ite_eq_left hk', ite_eq_left hk']
         exact H.mem k hk'
-      · rw [if_neg hk', if_neg hk']
+      · rw [ite_eq_right hk', ite_eq_right hk']
         exact ⟨i0, hi0, hy, by rw [← hy, hOfs i0 hi0]⟩
     · rw [get!_set! _ (by rw [H.seen_size]; exact hy137) (by rw [H.seen_size]; exact hm),
         Array.size_push]
       by_cases e : y = m
-      · rw [if_pos e]
+      · rw [ite_eq_left e]
         exact ⟨fun _ => ⟨ord.size, by omega, by rw [get!_push_eq, e]⟩, fun _ => rfl⟩
-      · rw [if_neg e, H.seen m hm]
+      · rw [ite_eq_right e, H.seen m hm]
         constructor
         · rintro ⟨k, hk, e'⟩
           exact ⟨k, by omega, by rw [get!_push_lt _ _ hk, e']⟩
@@ -462,11 +462,11 @@ theorem mtStep_inv {O : WOrbit} {o : TrOrb} {D bi : Table} {ms hs hOf : Array Na
     · rw [Array.size_push] at hi hj
       rw [push_get _ _ hi, push_get _ _ hj] at e
       by_cases hi' : i < ord.size <;> by_cases hj' : j < ord.size
-      · rw [if_pos hi', if_pos hj'] at e
+      · rw [ite_eq_left hi', ite_eq_left hj'] at e
         exact H.inj i hi' j hj' e
-      · rw [if_pos hi', if_neg hj'] at e
+      · rw [ite_eq_left hi', ite_eq_right hj'] at e
         exact absurd e (hnew i hi')
-      · rw [if_neg hi', if_pos hj'] at e
+      · rw [ite_eq_right hi', ite_eq_left hj'] at e
         exact absurd e.symm (hnew j hj')
       · omega
     · rw [Array.size_push] at hk
@@ -481,7 +481,7 @@ theorem mtStep_inv {O : WOrbit} {o : TrOrb} {D bi : Table} {ms hs hOf : Array Na
         rw [get!_push_of H.par_size, get!_push_eq, get!_push_lt _ _ hh,
           get!_push_of H.wit_size]
         exact ⟨hh, hadj, rfl⟩
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     dsimp only
     refine ⟨H, Nat.le_refl _, fun _ _ => rfl, fun hadj => ?_⟩
     rw [Bool.and_eq_true, Bool.not_eq_true', decide_eq_true_eq] at hc
@@ -585,7 +585,7 @@ theorem mkMuTree_end (O : WOrbit) (o : TrOrb) (D bi : Table) {ms hs : Array Nat}
     unfold mtBody
     dsimp only
     by_cases hc : (decide (ord.size < ms.size) && decide (q < ord.size)) = true
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       rw [Bool.and_eq_true, decide_eq_true_eq, decide_eq_true_eq] at hc
       change OInvT O o D bi ms hs (q + 1) _
       rw [mtInner]
@@ -613,7 +613,7 @@ theorem mkMuTree_end (O : WOrbit) (o : TrOrb) (D bi : Table) {ms hs : Array Nat}
             rw [getElem!_pos ms i hi]
             exact Array.getElem_mem hi
           exact r4 _ (List.mem_append_right _ (Array.mem_toList_iff.2 hmi)) ha
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       change OEndT O o D bi ms hs (ord, par, wit, hw, seen, nbrs)
       unfold OEndT
       dsimp only
@@ -649,9 +649,9 @@ theorem mkMuTree_end (O : WOrbit) (o : TrOrb) (D bi : Table) {ms hs : Array Nat}
       exact ⟨0, hms, rfl, rfl⟩
     · rw [get!_set! _ (by simp; omega) (by simp; omega)]
       by_cases e : ms[0]! = m
-      · rw [if_pos e]
+      · rw [ite_eq_left e]
         exact ⟨fun _ => ⟨0, by simp, e⟩, fun _ => rfl⟩
-      · rw [if_neg e, getElem!_pos _ m (by simp; omega)]
+      · rw [ite_eq_right e, getElem!_pos _ m (by simp; omega)]
         simp only [Array.getElem_replicate, Bool.false_eq_true, false_iff]
         rintro ⟨k, hk, e'⟩
         have hk' : k < 1 := hk
@@ -790,10 +790,10 @@ theorem todoOf_spec (O : WOrbit) (o : TrOrb) (D bi rowInv : Table) (v0 : Nat) :
       generalize (List.range n).foldl (fun t h => if (!pBit o.sets[v0]! h) = true then
         (if trIsFar rowInv (trAct O o D bi h v0) = true then t.push h else t) else t) #[] = t at i1 i2
       by_cases c1 : (!pBit o.sets[v0]! n) = true
-      · rw [if_pos c1]
+      · rw [ite_eq_left c1]
         have c1' : pBit o.sets[v0]! n = false := by simpa using c1
         by_cases c2 : trIsFar rowInv (trAct O o D bi n v0) = true
-        · rw [if_pos c2]
+        · rw [ite_eq_left c2]
           refine ⟨fun h hh => ?_, fun h hh hV hf => ?_⟩
           · rcases Array.mem_push.1 hh with hh | hh
             · obtain ⟨a, b, c⟩ := i1 h hh
@@ -803,7 +803,7 @@ theorem todoOf_spec (O : WOrbit) (o : TrOrb) (D bi rowInv : Table) (v0 : Nat) :
           · rcases Nat.lt_succ_iff_lt_or_eq.1 hh with hh | hh
             · exact Array.mem_push.2 (Or.inl (i2 h hh hV hf))
             · exact Array.mem_push.2 (Or.inr hh)
-        · rw [if_neg c2]
+        · rw [ite_eq_right c2]
           refine ⟨fun h hh => ?_, fun h hh hV hf => ?_⟩
           · obtain ⟨a, b, c⟩ := i1 h hh
             exact ⟨by omega, b, c⟩
@@ -811,7 +811,7 @@ theorem todoOf_spec (O : WOrbit) (o : TrOrb) (D bi rowInv : Table) (v0 : Nat) :
             · exact i2 h hh hV hf
             · subst hh
               exact absurd hf c2
-      · rw [if_neg c1]
+      · rw [ite_eq_right c1]
         refine ⟨fun h hh => ?_, fun h hh hV hf => ?_⟩
         · obtain ⟨a, b, c⟩ := i1 h hh
           exact ⟨by omega, b, c⟩
@@ -892,8 +892,8 @@ theorem edFold_inv {O : WOrbit} {o : TrOrb} {D bi : Table} {v0 : Nat} {ord pos :
       have hgood : EdGood O o D bi v0 ord (ex.set! h pos[ord[i]!]!)
           (ek.set! h (ap (nbrWit O o D bi ord[i]!) (trAct O o D bi h v0))) h := by
         unfold EdGood
-        rw [get!_set! _ (by omega) (by omega), if_pos rfl, get!_set! _ (by omega) (by omega),
-          if_pos rfl, hpos i hio]
+        rw [get!_set! _ (by omega) (by omega), ite_eq_left rfl, get!_set! _ (by omega) (by omega),
+          ite_eq_left rfl, hpos i hio]
         rcases (nbrWit_spec O o D bi ord[i]! (hF i hio)).2 _ (hw h hh hV) with ⟨g1, -⟩ | ⟨g1, g2, g3⟩
         · omega
         · exact ⟨hio, g1, g2, g3⟩
@@ -1026,13 +1026,13 @@ theorem mkEd_spec (O : WOrbit) (o : TrOrb) (D bi rowInv : Table) (v0 : Nat) {ord
     unfold edBody
     dsimp only
     by_cases he : todo.isEmpty = true
-    · rw [if_pos he]
+    · rw [ite_eq_left he]
       right
       intro h hh hV hf
       rcases s7 h hh hV hf with g | g
       · exact g
       · exact absurd g (not_mem_of_isEmpty he)
-    · rw [if_neg he]
+    · rw [ite_eq_right he]
       have he' : todo.isEmpty = false := by simpa using he
       rw [edInner]
       obtain ⟨a1, a2, a3, a4, a5⟩ := edFold_inv (O := O) (o := o) (D := D) (bi := bi) (v0 := v0)
@@ -1068,7 +1068,7 @@ theorem mkEd_spec (O : WOrbit) (o : TrOrb) (D bi rowInv : Table) (v0 : Nat) {ord
         · exact Or.inl (a3 h g)
         · exact a5 h (by simpa using g)
       by_cases hc : (!rest.isEmpty && decide (next < ord.size)) = true
-      · rw [if_pos hc]
+      · rw [ite_eq_left hc]
         rw [Bool.and_eq_true, Bool.not_eq_true', decide_eq_true_eq] at hc
         refine ⟨a1, a2, by simp; omega, fun i hi => ?_, by simp [s5], fun h hh => s6 h (hrest h hh),
           h7, fun _ => by have := s8 he'; simp; omega, h9⟩
@@ -1076,7 +1076,7 @@ theorem mkEd_spec (O : WOrbit) (o : TrOrb) (D bi rowInv : Table) (v0 : Nat) {ord
         rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | hi
         · rw [get!_push_lt _ _ hi, s4 i hi]
         · rw [hi, get!_push_eq, s5]
-      · rw [if_neg hc]
+      · rw [ite_eq_right hc]
         rw [Bool.and_eq_true, Bool.not_eq_true', decide_eq_true_eq] at hc
         refine ⟨a1, a2, s3, s4, s5, fun h hh => s6 h (hrest h hh), h7, fun hne => ?_, h9⟩
         change min ord.size (nbrs0.size + (r + 1)) ≤ nbrs.size

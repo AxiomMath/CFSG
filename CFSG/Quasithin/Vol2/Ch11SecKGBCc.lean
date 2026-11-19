@@ -50,7 +50,7 @@ theorem isPGroup_commutator_of_weyl_data [Finite Y] [Finite Y'] (φ : Y →* Y')
     rw [Subgroup.mem_comap, Subgroup.mem_comap, Subgroup.mem_map_equiv]
     rfl
   rw [hN]
-  refine isPGroup_commutator_comap φ' hφ's (hker ▸ hZ) (hker ▸ hodd) U.isPGroup' le_rfl hAN
+  refine isPGroup_commutator_comap φ' hφ's (hker ▸ hZ) (hker ▸ hodd) U.isPGroup le_rfl hAN
     hdec ?_
   exact comap_comm_of_weyl φ' hφ's (hker ▸ hZ) (hker ▸ hodd) h₁ h₂ h12 hw₁ hw₂
 

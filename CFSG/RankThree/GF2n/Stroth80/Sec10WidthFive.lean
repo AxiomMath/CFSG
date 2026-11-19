@@ -32,6 +32,7 @@ private theorem width_le_five_of_rootPair (h34 : Stroth34Statement)
     hym).2.2.2
   omega
 
+omit [Finite G] in
 private theorem noFuse_of_not_rootPair {t : G} (ht : Good101 M Q Z B t) {Y : Subgroup G}
     (hs : Sit M Q Z Y t)
     (hI : ¬ ∃ y ∈ Y, y ≠ 1 ∧ ∃ z₀ ∈ Z, z₀ ≠ 1 ∧
@@ -82,7 +83,7 @@ private theorem width_le_five_of_noRootPair (h34 : Stroth34Statement)
   have hz₀L := hz103.1.mem_LB
   have hle := Q1_swap_le_of_noFuse hc hcY hQB hz₀ hz₀1 hz₀L
     (noFuse_swap_of_not_rootPair hs hz₀ hz₀1 (conjSubgroup g Q) hI)
-  haveI : (Y.subgroupOf (Ut (conjSubgroup g Q) Y z₀)).Normal :=
+  have : (Y.subgroupOf (Ut (conjSubgroup g Q) Y z₀)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hcY.hyp.Z_normal.2 (hcY.hyp.Q_normal.1 (hcY.Ut_le_Q (hcY.LB_le_M hz₀L) hv)))
   have hχ := card_mul_card_of_isChiIso (hcY.isChiIso_Q1_Ut hz₀L) (fun x hx => hx.1)

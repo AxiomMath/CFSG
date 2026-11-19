@@ -21,20 +21,20 @@ private lemma coxeter_reindex_refl {ι : Type} (M : CoxeterMatrix ι) :
 
 theorem ggResXDatumE6x_of_wit_of_mem {G : Type} [Group G] [Finite G] {p m : ℕ} [Fact p.Prime]
     (hp2 : p ≠ 2) (hm : Odd m) (hpm : p ∣ m) {Bs X : Subgroup G}
-    (hM : GGIsWeylMatrix CoxeterMatrix.E₆) (hMC : GGIntCartan CoxeterMatrix.E₆ CartanMatrix.E₆)
+    (hM : GGIsWeylMatrix CoxeterMatrix.E₆) (hMC : GGIntCartan CoxeterMatrix.E₆ (CartanMatrix.E 6))
     (hBs : IsElemAbelian p Bs)
     (hS : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs)
     (hN : Bs ≤ Subgroup.normalizer (X : Set G))
     (w : GGTorusTorWit m 6 ↥X (ggGamma X hN).range)
-    (hw : w.Holds CartanMatrix.E₆ CoxeterMatrix.E₆) (z : G)
+    (hw : w.Holds (CartanMatrix.E 6) CoxeterMatrix.E₆) (z : G)
     (hInd : z ∈ X → ∀ c : Fin 6 → ZMod p,
       (List.ofFn fun k => w.cor k (ggZetaP p m ^ (c k).val)).prod = 1 → c = 0) :
     GGResXDatumE6x p Bs X z := by
   by_cases hz : z ∈ X
   · exact ggResXDatumE6x_of_wit hp2 hm hpm hM hMC hBs hS hN w hw (hInd hz) z
   obtain ⟨V, hVadd, hVmod, hι⟩ := exists_ggLinData (p := p) (G := G) (Bs := Bs) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
   obtain ⟨ι⟩ := hι
   obtain ⟨hnk, hbk, α, hlin, hpair, -, -⟩ := ggTD_linearData hm hpm hBs hS hN w hw V ι
   obtain ⟨e, he⟩ := ggTD_weyl hN hw hp2 hBs hnk
@@ -43,7 +43,7 @@ theorem ggResXDatumE6x_of_wit_of_mem {G : Type} [Group G] [Finite G] {p m : ℕ}
     intro i
     rw [hpair i i, hMC.1 i]
     norm_num
-  refine ⟨Fin 6, inferInstance, inferInstance, CoxeterMatrix.E₆, CartanMatrix.E₆, V, hVadd,
+  refine ⟨Fin 6, inferInstance, inferInstance, CoxeterMatrix.E₆, (CartanMatrix.E 6), V, hVadd,
     hVmod, ι, (fun k => ggTDρB X Bs (ggTDnH w hnk k)),
     (fun k => ι (Additive.ofMul (⟨_, hbk k⟩ : ↥Bs))), α, Equiv.refl _,
     coxeter_reindex_refl _, hM, hMC, hlin, ?_, hpair, ⟨e, he⟩, hcl, fun h => absurd h hz⟩

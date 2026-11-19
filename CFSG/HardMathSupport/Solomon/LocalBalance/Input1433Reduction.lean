@@ -42,7 +42,7 @@ theorem input14_33TypeSameField_iff :
 
 theorem card_center_eq_three {Q : Type*} [Group Q] [Finite Q] (hc : Nat.card Q = 27)
     (hna : ¬ ∀ a c : Q, a * c = c * a) : Nat.card (Subgroup.center Q) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 Q := IsPGroup.of_card (n := 3) (by simpa using hc)
   have hQnt : Nontrivial Q := by
     refine Finite.one_lt_card_iff_nontrivial.1 ?_
@@ -62,9 +62,9 @@ theorem card_center_eq_three {Q : Type*} [Group Q] [Finite Q] (hc : Nat.card Q =
       have h := (Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center Q))
       rw [hc, hZ] at h
       omega
-    haveI : IsCyclic (Q ⧸ Subgroup.center Q) := isCyclic_of_prime_card hcard
-    exact commutative_of_cyclic_center_quotient (QuotientGroup.mk' (Subgroup.center Q))
-      (by simp)
+    have : IsCyclic (Q ⧸ Subgroup.center Q) := isCyclic_of_prime_card hcard
+    exact (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' (Subgroup.center Q))
+      (by simp)).is_comm.comm
   · exfalso
     apply hna
     have : Subgroup.center Q = ⊤ := by
@@ -121,9 +121,9 @@ theorem I1433Cfg.card_zq (c : I1433Cfg K Q₁ Q J t q) : Nat.card (ZQ Q) = 3 := 
 
 theorem I1433Cfg.exists_gen (c : I1433Cfg K Q₁ Q J t q) :
     ∃ z : X, z ∈ K ∧ orderOf z = 3 ∧ ZQ Q = Subgroup.zpowers z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc3 := c.card_zq
-  haveI : IsCyclic (ZQ Q) := isCyclic_of_prime_card hc3
+  have : IsCyclic (ZQ Q) := isCyclic_of_prime_card hc3
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(ZQ Q))
   have hord : orderOf g = 3 := by rw [orderOf_eq_card_of_forall_mem_zpowers hg, hc3]
   refine ⟨(g : X), c.setup.containedZ g.2, ?_, ?_⟩
@@ -134,6 +134,7 @@ theorem I1433Cfg.exists_gen (c : I1433Cfg K Q₁ Q J t q) :
       exact Subgroup.mem_zpowers_iff.2 ⟨n, by simpa using congrArg Subtype.val hn⟩
     · exact Subgroup.zpowers_le.2 g.2
 
+omit [Finite X] in
 theorem centralizer_zpowers_eq (z : X) :
     Subgroup.centralizer ((Subgroup.zpowers z : Subgroup X) : Set X) =
       Subgroup.centralizer ({z} : Set X) := by
@@ -165,7 +166,7 @@ theorem I1433Cfg.comp3 (c : I1433Cfg K Q₁ Q J t q) {z : X} (hz : ZQ Q = Subgro
   exact i253_glaPComponent_of_subnormal hJle hsn hcomp.2.2 h3
 
 theorem I1433Cfg.primeCore_K (c : I1433Cfg K Q₁ Q J t q) : GLAPPrimeCore 3 ↥K = ⊥ := by
-  haveI := c.setup.normal
+  have := c.setup.normal
   have hcop : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 ↥K)) :=
     CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥K)
   have hM : ((GLAPPrimeCore 3 ↥K).map K.subtype).Normal := by
@@ -183,7 +184,7 @@ theorem I1433Cfg.primeCore_K (c : I1433Cfg K Q₁ Q J t q) : GLAPPrimeCore 3 ↥
 
 theorem I1433Cfg.zq_inf_center (c : I1433Cfg K Q₁ Q J t q) :
     ZQ Q ⊓ (Subgroup.center ↥K).map K.subtype = ⊥ := by
-  haveI : Fact (Nat.card ↥(ZQ Q)).Prime := ⟨by rw [c.card_zq]; exact Nat.prime_three⟩
+  have : Fact (Nat.card ↥(ZQ Q)).Prime := ⟨by rw [c.card_zq]; exact Nat.prime_three⟩
   have h := Subgroup.eq_bot_or_eq_top_of_prime_card
     (((Subgroup.center ↥K).map K.subtype).subgroupOf (ZQ Q))
   rcases h with h | h
@@ -192,12 +193,12 @@ theorem I1433Cfg.zq_inf_center (c : I1433Cfg K Q₁ Q J t q) :
 
 theorem I1433Cfg.faithful (c : I1433Cfg K Q₁ Q J t q) :
     Q ⊓ Subgroup.centralizer (K : Set X) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := c.setup.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := c.setup.normal
   have hQ3 : IsPGroup 3 ↥Q := IsPGroup.of_card (n := 3) (by simpa using c.setup.orderQ)
-  haveI : Group.IsNilpotent ↥Q := hQ3.isNilpotent
-  haveI hCn : (Subgroup.centralizer (K : Set X)).Normal := inferInstance
-  haveI : ((Subgroup.centralizer (K : Set X)).subgroupOf Q).Normal := hCn.subgroupOf Q
+  have : Group.IsNilpotent ↥Q := hQ3.isNilpotent
+  have hCn : (Subgroup.centralizer (K : Set X)).Normal := inferInstance
+  have : ((Subgroup.centralizer (K : Set X)).subgroupOf Q).Normal := hCn.subgroupOf Q
   by_contra hne
   have hne' : (Subgroup.centralizer (K : Set X)).subgroupOf Q ≠ ⊥ := by
     intro h
@@ -311,7 +312,7 @@ theorem exists_order_three_of_centralizerRank
 theorem I1433Cfg.rank_le (c : I1433Cfg K Q₁ Q J t q) :
     GLATwoLocalRank 3 ↥K ≤ CFSG.Open.pRank 3 ((Subgroup.center ↥K).map K.subtype) + 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨c₀, hc₀C, hc₀1, hc₀3⟩ := exists_order_three_of_centralizerRank c.setup.centralizerRank
   have hX4 := c.setup.localRank
   have hc₀ord : orderOf c₀ = 3 := orderOf_eq_prime hc₀3 hc₀1
@@ -375,7 +376,7 @@ theorem I1433Cfg.rank_le (c : I1433Cfg K Q₁ Q J t q) :
         obtain ⟨ε, -, hε⟩ := e.2
         rw [← hε]; exact ε.2
       exact (Subgroup.mem_centralizer_iff.1 hz) (e : X) heK
-    haveI : Fact (Nat.card ↥(Subgroup.zpowers c₀)).Prime := ⟨by rw [hcyc3]; exact Nat.prime_three⟩
+    have : Fact (Nat.card ↥(Subgroup.zpowers c₀)).Prime := ⟨by rw [hcyc3]; exact Nat.prime_three⟩
     have hdisj : ∀ z ∈ Subgroup.zpowers c₀, z ∈ E' → z = 1 := by
       rcases Subgroup.eq_bot_or_eq_top_of_prime_card
           (E'.subgroupOf (Subgroup.zpowers c₀)) with h | h
@@ -452,7 +453,7 @@ theorem i1433_chev (hS : ∀ s, SporL3Down s) (hL : LieL3Down) (c : I1433Cfg K Q
   ∀ (p q' : ℕ) (H : Type) [Group H], p.Prime → IsL3Kind p H →
     CFSG.Yardstones.Md0ec50421ce4.IsChevSimple q' (H ⧸ Subgroup.center H) → q' = p
 
-theorem lieL3Down_of_lieComp (h : LieComp.LieComp) (hu : L3CharUnique) : LieL3Down := by
+theorem lieL3Down_of_lieComp (h : LieComp.LieCompAll) (hu : L3CharUnique) : LieL3Down := by
   intro S _ _ hs hna idx he β hβ J hJ p hp hk
   exact hu p _ (barOf 3 J) hp hk (h S hs hna idx he β hβ J hJ).1.chev
 

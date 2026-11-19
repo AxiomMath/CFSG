@@ -78,7 +78,7 @@ theorem commutator_mem_pCoreOf_of_not_mem_normalizer_of_coprime {M L : Subgroup 
 variable {P : Sylow 3 G} {M H Q : Subgroup G}
   {K : Subgroup (H ⧸ primeComplementCore (G := H) 3)}
 
-theorem mem_normalizer_of_xPart (hA6 : IsAltTwoP 3 K) {L : Subgroup G}
+theorem mem_normalizer_of_xPart (_hA6 : IsAltTwoP 3 K) {L : Subgroup G}
     (hL : IsTwoPrimeComponent M L) {I₁ : Subgroup G} (hI₁ : I₁ ∈ cZero (H ⊓ L))
     (hX : oUpperTwo I₁ ≤ d1PlusCore 3 H K) (h3 : 3 ∣ Nat.card (oUpperTwo I₁)) {t : G}
     (htM : t ∈ M) (htK : t ∈ hyp111Pre 3 H K) : t ∈ Subgroup.normalizer (L : Set G) := by
@@ -230,7 +230,7 @@ theorem agl81TwelveCaseNotLe_of_kfacts (h85 : Asc81bEightFive) (h93 : Asc81bNine
   have hbL : b ∈ normalizer (L : Set G) := hn hS P M H Q K b L hc' (mem_zpowers b)
   have h3 : ∀ I ∈ cZero (H ⊓ L), 3 ∣ Nat.card (oUpperTwo I) := fun I hI =>
     h1031 hS 3 P M H Q K hd L hL I hI
-  haveI := normal_of_cfg hd hA6
+  have := normal_of_cfg hd hA6
   have hZK := center_eq_bot_of_isAltTwoP hA6
   obtain ⟨S, hSK⟩ := hd.sylowK
   have hLM : L ≤ M := hL.le
@@ -327,7 +327,7 @@ theorem agl81TwelveCaseNotLe_of_kfacts (h85 : Asc81bEightFive) (h93 : Asc81bNine
       rw [← hOI, sup_eq_left.mpr (CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_le 2 I)] at hle
       have hle2 : oUpperTwo I₁ ≤ oUpperTwo I :=
         closure_mono fun x hx => ⟨hle hx.1, hx.2⟩
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 (h3 I₁ hI₁)
       have hcx := coprime_orderOf_of_mem_hyp111Pre_d1PlusCore hZK (hIK (hle2 x.2)) (hI₁X x.2)
       rw [Subgroup.orderOf_coe, hx] at hcx

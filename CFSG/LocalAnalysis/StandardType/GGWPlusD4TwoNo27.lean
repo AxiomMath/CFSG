@@ -22,10 +22,10 @@ open Module CFSG.Assembly CFSG.StandardType.NoOffOm CFSG.StandardType.Triality
 private theorem card_two_eq_one {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
     {x : K} (hx : x ≠ 0) : x = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hunit : Fintype.card Kˣ = 1 := by rw [Fintype.card_units, hcard]
-  haveI : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp (le_of_eq hunit)
+  have : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp (le_of_eq hunit)
   have h1 : Units.mk0 x hx = 1 := Subsingleton.elim _ _
   simpa using congrArg (fun u : Kˣ => (u : K)) h1
 

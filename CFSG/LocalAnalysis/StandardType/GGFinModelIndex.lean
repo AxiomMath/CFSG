@@ -79,17 +79,17 @@ private theorem g4bRelIndexF4
     (hΦ : D.Φ = Units.map (entrywiseHom (ggFrobT f))) :
     ((adjointGroup Tag.F4 (GaloisField 2 f)).map (baseChangeGL (ggRatEmb f))).relIndex D.fix =
       1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hFr : ∀ c : GGL, ggFrobT f c = c ^ Nat.card (GaloisField 2 f) := fun c => by
     rw [hKcard]
     exact ggFrobT_apply f c
-  letI : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
-  haveI : IsScalarTower (ZMod 2) (GaloisField 2 f) GGL :=
+  let : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
+  have : IsScalarTower (ZMod 2) (GaloisField 2 f) GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : Algebra.IsAlgebraic (GaloisField 2 f) GGL :=
+  have : Algebra.IsAlgebraic (GaloisField 2 f) GGL :=
     Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := GaloisField 2 f) (A := GGL)
-  haveI : IsAlgClosure (GaloisField 2 f) GGL :=
+  have : IsAlgClosure (GaloisField 2 f) GGL :=
     ⟨IsAlgClosure.isAlgClosed (ZMod 2), inferInstance⟩
   have hex := (CFSG.RankThree.Chevalley.G2_F4_exact_finite_field_fixed_root_matrices
     Tag.F4 (Or.inr rfl) (GaloisField 2 f) GGL (ggFrobT f) hFr).1
@@ -109,17 +109,17 @@ private theorem g4bRelIndexUntw
     (hf : 1 ≤ f) (D : LangDatum τ GGL)
     (hΦ : D.Φ = Units.map (entrywiseHom (ggFrobT f))) :
     ((adjointGroup τ (GaloisField 2 f)).map (baseChangeGL (ggRatEmb f))).relIndex D.fix ∣ d := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hFr : ∀ c : GGL, ggFrobT f c = c ^ Nat.card (GaloisField 2 f) := fun c => by
     rw [hKcard]
     exact ggFrobT_apply f c
-  letI : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
-  haveI : IsScalarTower (ZMod 2) (GaloisField 2 f) GGL :=
+  let : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
+  have : IsScalarTower (ZMod 2) (GaloisField 2 f) GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : Algebra.IsAlgebraic (GaloisField 2 f) GGL :=
+  have : Algebra.IsAlgebraic (GaloisField 2 f) GGL :=
     Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := GaloisField 2 f) (A := GGL)
-  haveI : IsAlgClosure (GaloisField 2 f) GGL :=
+  have : IsAlgClosure (GaloisField 2 f) GGL :=
     ⟨IsAlgClosure.isAlgClosed (ZMod 2), inferInstance⟩
   have hfixmem : ∀ x, x ∈ D.fix ↔ x ∈ adjointGroup τ GGL ∧
       Units.map (entrywiseHom (ggFrobT f)) x = x := fun x => by
@@ -146,17 +146,17 @@ private theorem g4bRelIndexE6
     (hΦ : D.Φ = Units.map (entrywiseHom (ggFrobT f))) (h3 : ¬ 3 ∣ 2 ^ f - 1) :
     ((adjointGroup Tag.E6 (GaloisField 2 f)).map (baseChangeGL (ggRatEmb f))).relIndex D.fix =
       1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hFr : ∀ c : GGL, ggFrobT f c = c ^ Nat.card (GaloisField 2 f) := fun c => by
     rw [hKcard]
     exact ggFrobT_apply f c
-  letI : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
-  haveI : IsScalarTower (ZMod 2) (GaloisField 2 f) GGL :=
+  let : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
+  have : IsScalarTower (ZMod 2) (GaloisField 2 f) GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : Algebra.IsAlgebraic (GaloisField 2 f) GGL :=
+  have : Algebra.IsAlgebraic (GaloisField 2 f) GGL :=
     Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := GaloisField 2 f) (A := GGL)
-  haveI : IsAlgClosure (GaloisField 2 f) GGL :=
+  have : IsAlgClosure (GaloisField 2 f) GGL :=
     ⟨IsAlgClosure.isAlgClosed (ZMod 2), inferInstance⟩
   have hfixmem : ∀ x, x ∈ D.fix ↔ x ∈ adjointGroup Tag.E6 GGL ∧
       Units.map (entrywiseHom (ggFrobT f)) x = x := fun x => by
@@ -187,13 +187,13 @@ private theorem g4bRelIndexTwE6
   classical
   let F := GaloisField 2 (2 * f)
   let σ : F →+* F := frobQ 2 f
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra F GGL := (ggRatEmb (2 * f)).toAlgebra
-  haveI : IsScalarTower (ZMod 2) F GGL :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra F GGL := (ggRatEmb (2 * f)).toAlgebra
+  have : IsScalarTower (ZMod 2) F GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : Algebra.IsAlgebraic F GGL :=
+  have : Algebra.IsAlgebraic F GGL :=
     Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := F) (A := GGL)
-  haveI : IsAlgClosure F GGL := ⟨IsAlgClosure.isAlgClosed (ZMod 2), inferInstance⟩
+  have : IsAlgClosure F GGL := ⟨IsAlgClosure.isAlgClosed (ZMod 2), inferInstance⟩
   let R : Subgroup (ModGL TwistTag.E6.tag GGL) := twistedFixedGroup TwistTag.E6 GGL (ggFrobT f)
   let C : Subgroup (ModGL TwistTag.E6.tag GGL) :=
     (graphFixedRootGroup TwistTag.E6 F σ).map (baseChangeGL (algebraMap F GGL))
@@ -349,8 +349,8 @@ theorem coprime_relIndex_of_not_corner
   have hle : N ≤ 3 := by
     rw [hN]
     exact (M.torusData (n := n) hf hp hp2 hreg).pkg.index_le
-  haveI : Nonempty M.D.fix := ⟨1⟩
-  haveI : Finite M.D.fix := (M.torusData (n := n) hf hp hp2 hreg).pkg.desc.finite_fix
+  have : Nonempty M.D.fix := ⟨1⟩
+  have : Finite M.D.fix := (M.torusData (n := n) hf hp hp2 hreg).pkg.desc.finite_fix
   have hcard : 0 < Nat.card M.D.fix := Nat.card_pos
   have hne : N ≠ 0 := by
     intro h0

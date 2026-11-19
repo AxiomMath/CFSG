@@ -48,7 +48,7 @@ theorem rankBound_l28_three {S : Type} [Group S] [Finite S] (h : catalogIs S fL2
   intro E T hE hT2 hT hET
   have hm := statedClassicalModel_of_fL28 h
   obtain ⟨⟨-, hf1, -⟩, K, _, _, hK, ⟨e⟩⟩ := hm
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf1 hK
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf1 hK
   let φ : SL(2, K) ≃* S := (e.trans ((projectiveSpecialLinearGroupEquivStatedProj 2 K).symm.trans
     ((LinearCover.projectiveSpecialLinearEquivProjectiveSL 2 K).trans
       (LinearCover.projectiveSLTwoEquivSL K)))).symm
@@ -77,7 +77,7 @@ theorem kDescFam_l28 (p : ℕ) : KDescFam p fL28 := by
   have hAut := card_mulAut_fL28 hc
   by_cases hp3 : p = 3
   · subst hp3
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.qs.2
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.qs.2
     have hZ : Subgroup.center (↥K ⧸ Subgroup.center ↥K) = ⊥ :=
       center_eq_bot_of_simple_nonprime hcard (by norm_num)
     have hOutc : Nat.card (Outer (↥K ⧸ Subgroup.center ↥K)) = 3 := by

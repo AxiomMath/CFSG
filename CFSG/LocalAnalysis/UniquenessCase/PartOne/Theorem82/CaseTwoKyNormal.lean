@@ -50,8 +50,8 @@ theorem center_Lb_eq_bot (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     (hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) (i : Fin 3) :
     Subgroup.center ↥(t.d.Lb i) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hqsOpen : CFSG.Open.IsQuasisimple ↥(t.d.Lb i) := isQuasisimple_Lb t i
   have hqs : CFSG.IsQuasisimple ↥(t.d.Lb i) :=
     CFSG.Quasithin.A3.isQuasisimple_iff_open.mpr hqsOpen
@@ -473,8 +473,8 @@ theorem le_N_or_eq_Ky (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     {N : Subgroup G} (hNK : N ≤ t.Ky) (hN : t.Ky ≤ Subgroup.normalizer (N : Set G)) :
     N ≤ t.d.N ∨ N = t.Ky := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hsimple : IsSimpleGroup ↥((phiKy t).range) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hsimple : IsSimpleGroup ↥((phiKy t).range) :=
     isSimpleGroup_Kyhat t hK32 hGA hSp
   let f : ↥t.Ky →* ↥((phiKy t).range) := (phiKy t).rangeRestrict
   have hf : Function.Surjective f := (phiKy t).rangeRestrict_surjective
@@ -498,8 +498,8 @@ theorem le_N_or_eq_Ky (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
   have hNnormal : (N.subgroupOf t.Ky).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr hN
   let N₀ : Subgroup ↥t.Ky := N.subgroupOf t.Ky
-  haveI : N₀.Normal := hNnormal
-  haveI : (N₀.map f).Normal := hNnormal.map f hf
+  have : N₀.Normal := hNnormal
+  have : (N₀.map f).Normal := hNnormal.map f hf
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N₀.map f) with hbot | htop
   · left
     intro x hx
@@ -537,7 +537,7 @@ theorem le_N_or_eq_Ky (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     obtain ⟨k, hk⟩ := hquotP.exists_card_eq
     have hindex : N₀.index = 2 ^ k := by
       rw [Subgroup.index_eq_card, hk]
-    haveI : Group.IsPerfect ↥t.Ky := Subgroup.isPerfect_iff.mpr t.commutator_Ky
+    have : Group.IsPerfect ↥t.Ky := Subgroup.isPerfect_iff.mpr t.commutator_Ky
     have hperfTop : ⁅(⊤ : Subgroup ↥t.Ky), (⊤ : Subgroup ↥t.Ky)⁆ = ⊤ :=
       Group.IsPerfect.commutator_eq_top
     have hle := Subgroup.le_of_commutator_eq_self_of_index_eq_prime_pow

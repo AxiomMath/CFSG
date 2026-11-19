@@ -15,8 +15,8 @@ structure w1369_ta_Proj {Q : Type} [CommGroup Q] {k : ℕ} (I : Fin k → Subgro
     (Λ : Subgroup (MulAut Q)) where
   e : Fin k → Q →* Q
   e_mem : ∀ i x, e i x ∈ I i
-  e_self : ∀ i x (hx : x ∈ I i), e i x = x
-  e_other : ∀ i j, j ≠ i → ∀ x (hx : x ∈ I j), e i x = 1
+  e_self : ∀ i x (_hx : x ∈ I i), e i x = x
+  e_other : ∀ i j, j ≠ i → ∀ x (_hx : x ∈ I j), e i x = 1
   e_prod : ∀ x, ∏ i, e i x = x
   e_equiv : ∀ i, ∀ g ∈ Λ, ∀ x, e i (g x) = g (e i x)
 
@@ -152,7 +152,7 @@ lemma w1369_simple_map {Q : Type} [CommGroup Q] {Λ N : Subgroup (MulAut Q)}
         exact happ n y
       rw [Subgroup.map_map, hcomp, Subgroup.map_id]
 
-lemma w1369_orbit_span {Q : Type} [CommGroup Q] {Λ N : Subgroup (MulAut Q)}
+lemma w1369_orbit_span {Q : Type} [CommGroup Q] {_Λ N : Subgroup (MulAut Q)}
     (hirr : ∀ M : Subgroup Q, StableUnder N M → M = ⊥ ∨ M = ⊤)
     {S : Subgroup Q} (hS : S ≠ ⊥) :
     (⨆ n : N, S.map ((n : MulAut Q)).toMonoidHom) = ⊤ := by

@@ -62,7 +62,7 @@ theorem gen_at {k : ℕ}
   rw [Bool.and_eq_true] at h
   have hb : Nat.blt k 8 = true := Nat.blt_eq.mpr hk
   unfold k7bGen
-  rw [hb, cond_true]
+  rw [hb, _root_.Bool.cond_true]
   exact ⟨h.1, Nat.eq_of_beq_eq_true h.2⟩
 
 theorem gen_ok : ∀ k, canon14 (genArr k).toList = true ∧ pk (genArr k).toList = k7bGen K7G k
@@ -79,7 +79,7 @@ theorem gen_ok : ∀ k, canon14 (genArr k).toList = true ∧ pk (genArr k).toLis
     have hb : Nat.blt (k + 8) 8 = false :=
       Bool.eq_false_iff.mpr fun h => absurd (Nat.blt_eq.mp h) (by omega)
     unfold k7bGen
-    rw [e, hb, cond_false]
+    rw [e, hb, Bool.cond_false]
     exact ⟨canon_idArr, pk_idArr⟩
 
 theorem canon_gen (k : ℕ) : canon14 (genArr k).toList = true := (gen_ok k).1

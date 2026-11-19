@@ -59,7 +59,7 @@ theorem pk5_testBit (y : ℕ → ℕ) (hy : ∀ t < 5, y t < 4096) (j : ℕ) :
     ← testBit_shl (hy 4 (by norm_num))]
   simp only [pk5, Nat.testBit_or, Nat.mul_zero, Nat.shiftLeft_zero]
 
-theorem term_eq {x : ℕ} (hx : x < 4096) (s t : ℕ) {i : ℕ} (hi : i < 12) :
+theorem term_eq {x : ℕ} (_hx : x < 4096) (s t : ℕ) {i : ℕ} (hi : i < 12) :
     (decide (12 * s ≤ 12 * t + i ∧ 12 * t + i < 12 * s + 12) && x.testBit (12 * t + i - 12 * s)) =
       (decide (s = t) && x.testBit i) := by
   by_cases h : s = t
@@ -303,7 +303,7 @@ theorem tabData_of {key pp pj g sg : ℕ → ℕ} {lt : ℕ → ℕ → ℕ} {k0
       have h2 := h.2
       have hb : Nat.blt (Nat.succ m) nS = true := (blt_iff _ _).2 hm1
       rw [hb] at h2
-      simp only [sB_eq, blt_iff] at h2
+      simp only [blt_iff] at h2
       exact h2
     refine inj_of_sorted (fun m hm => (hs m hm).1) (fun m hm => (hs m (by omega)).2 hm) i hi k hk ?_
     rw [hkey i hi, hkey k hk, e]

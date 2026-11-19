@@ -72,7 +72,7 @@ private theorem card_dvd_mul_of_normalizes {G : Type*} [Group G] [Finite G] (p :
     (K N : Subgroup G) (hNK : N ≤ K) (hxK : x ∈ K) (hKle : K ≤ Subgroup.normalizer N)
     (hgen : ∀ k ∈ K, ∃ m : ℤ, (x ^ m)⁻¹ * k ∈ N) (hxp : x ^ p ∈ N) :
     Nat.card K ∣ p * Nat.card N := by
-  haveI : (N.subgroupOf K).Normal :=
+  have : (N.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr hKle
   let x' : K := ⟨x, hxK⟩
   have hy : ∀ q : K ⧸ N.subgroupOf K,

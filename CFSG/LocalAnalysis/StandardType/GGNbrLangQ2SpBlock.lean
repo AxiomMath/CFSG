@@ -176,7 +176,7 @@ private theorem l02qq2spb_not_iso_A1_Ad {f d k : ℕ} (hd : 3 ≤ d) :
   · exact (by cases h.1)
   · exact (by cases h.1)
 
-private theorem l02qq2spb_not_iso_B2der_A {d k : ℕ} (hd : 3 ≤ d) :
+private theorem l02qq2spb_not_iso_B2der_A {d k : ℕ} (_hd : 3 ≤ d) :
     ¬ GGLabelIso (⟨.B2der, 0, 1⟩ : LargeEvenLabel) ⟨.A, d - 1, k⟩ := by
   rintro (h | h | h | h | h | h | h | h)
   · exact (by cases h)
@@ -335,7 +335,7 @@ theorem l02qq2spb_symp_excl {G : Type} [Group G] {d n₁ : ℕ} (hd : 3 ≤ d)
     by_cases hn1' : n₁ = 1
     · subst hn1'
       have hf2 : 2 ≤ f := by
-        by_contra hlt; push_neg at hlt
+        by_contra hlt; push Not at hlt
         have hf1' : f = 1 := by omega
         rw [hf1', pow_one] at hKf
         exact h1s ⟨rfl, hKf⟩
@@ -367,7 +367,7 @@ theorem l02qq2spb_symp_excl {G : Type} [Group G] {d n₁ : ℕ} (hd : 3 ≤ d)
         ggHasLabel_typeB hKf eX
       have hB_lambda : LargeEvenInLambda2 (⟨.B, n₁, f⟩ : LargeEvenLabel) :=
         largeEvenInLambda2_typeB hf1 hn2 (fun h => by
-          by_contra hlt; push_neg at hlt
+          by_contra hlt; push Not at hlt
           have hf1' : f = 1 := by omega
           rw [hf1', pow_one] at hKf
           exact h42 ⟨h, hKf⟩)
@@ -423,14 +423,14 @@ theorem l02qq2spb_unitary_excl {G : Type} [Group G] {d : ℕ} (hd : 3 ≤ d)
           (MulEquiv.subgroupCongr hCbGL_eq)))
   have hqSU : CFSG.Assembly.IsQuasisimple ↥(StatedSU m Q E) :=
     CFSG.Assembly.IsQuasisimple.of_mulEquiv hCiso.symm hCε.2.2
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   obtain ⟨fU, hQf, hUF⟩ := CFSG.GroupTheory.WeirSylow.exists_unitaryFieldData E (q := Q)
     (by rw [← Nat.card_eq_fintype_card]; exact hEcard)
   have hp2 : ringChar E = 2 := CharP.eq E hUF.charP ‹CharP E 2›
   have hQ2 : Q = 2 ^ fU := by rw [hQf, hp2]
   by_cases hm1 : m ≤ 1
   · exact (ResU3Three.not_isSolvable_of_isQuasisimple hqSU (by
-      haveI : Subsingleton ↥(StatedSU m Q E) := by
+      have : Subsingleton ↥(StatedSU m Q E) := by
         have := CFSG.LieType.SemisimpleCentralizers.Held.hct_subsingleton_statedSL_of_le_one
           (K := E) (d := m) hm1
         refine ⟨fun x y => ?_⟩
@@ -445,7 +445,7 @@ theorem l02qq2spb_unitary_excl {G : Type} [Group G] {d : ℕ} (hd : 3 ≤ d)
     by_cases hQsmall : Q = 2
     · subst hQsmall
       exact (ResU3Three.not_isSolvable_of_isQuasisimple hqSU (by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         have hcard : Nat.card ↥(StatedSU 2 2 E) = 2 * (2 ^ 2 - 1) :=
           CFSG.RankThree.SubgroupLists.card_statedSU_two (K := E) (r := 2) (f := 1) (by
             rw [hEcard]; norm_num)
@@ -453,7 +453,7 @@ theorem l02qq2spb_unitary_excl {G : Type} [Group G] {d : ℕ} (hd : 3 ≤ d)
           (p := 2) (q := 3) (a := 1) (b := 1) Nat.prime_two Nat.prime_three (by norm_num)
           (by rw [hcard]; norm_num))).elim
     · have hfU2 : 2 ≤ fU := by
-        by_contra hlt; push_neg at hlt
+        by_contra hlt; push Not at hlt
         interval_cases fU
         · rw [pow_zero] at hQ2
           have h2 : 2 ≤ Nat.card E := Finite.one_lt_card
@@ -466,7 +466,7 @@ theorem l02qq2spb_unitary_excl {G : Type} [Group G] {d : ℕ} (hd : 3 ≤ d)
       have hUF2 : UnitaryFieldData 2 fU E := by
         rw [hp2] at hUF
         exact hUF
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨eSL⟩ := CFSG.ClassicalInvolution.Q3.TA3.Q5U3.nonempty_slPart_equiv
         (p := 2) (f := fU) (K := E) hUF2
       have hmem : ∀ A : GL (Fin 2) E,
@@ -529,7 +529,7 @@ theorem l02qq2spb_unitary_excl {G : Type} [Group G] {d : ℕ} (hd : 3 ≤ d)
         rw [hm3', hQ2'']
         exact CFSG.Quasithin.isSolvable_statedSU_one (F := E) (by rw [hEcard, hQ2'']; norm_num))).elim
     · have hfU1 : 1 ≤ fU := by
-        by_contra hf0; push_neg at hf0
+        by_contra hf0; push Not at hf0
         have h0 : fU = 0 := by omega
         rw [h0, pow_zero] at hQ2
         have h2 : 2 ≤ Nat.card E := Finite.one_lt_card
@@ -560,7 +560,7 @@ theorem l02qq2spb_unitary_excl {G : Type} [Group G] {d : ℕ} (hd : 3 ≤ d)
           change m - 1 = 2 at h
           have hm3' : m = 3 := by omega
           subst hm3'
-          by_contra hlt; push_neg at hlt
+          by_contra hlt; push Not at hlt
           have hfU1' : fU = 1 := by omega
           rw [hfU1'] at hQ2
           exact h32 ⟨rfl, hQ2⟩)
@@ -585,7 +585,7 @@ theorem q2Sp_block {d : ℕ} (hd : 3 ≤ d) {K : Type} [Field K] [Finite K] [Cha
               (LargeEvenProjMk (LargeEvenSpGroup K d) (h : ↥(LargeEvenSpGroup K d)))⁻¹ →
           TableB.linConjAut (Fin m) D (π h) (ψ (QuotientGroup.mk j)) = ψ (QuotientGroup.mk j') := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcenter : Subgroup.center ↥(LargeEvenSpGroup K d) = ⊥ :=
     CFSG.ClassicalGroups.Symplectic.center_statedSp_eq_bot_of_charP_two (F := K) (by omega)
   have hπmk_inj : Function.Injective (LargeEvenProjMk (LargeEvenSpGroup K d)) := by

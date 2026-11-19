@@ -63,7 +63,7 @@ theorem a5Normalizer_psu3_two {S : Type} [Group S] [Finite S] {f : ℕ}
     (hT : (T : Subgroup S) ≤ normalizer (K : Set S)) : False := by
   have h8 := card_dvd_eight_of_isAlt_five (fun W X hW hWp hX hXW =>
     CFSG.LocalAnalysis.EvenBN.GMSK.eq_bot_of_isPerfect_of_le_normalizer_of_lieModel_PSU3 hS hWp hW
-      (Subgroup.isPerfect_iff.mpr hX) hXW) hA5 T.isPGroup' hT
+      (Subgroup.isPerfect_iff.mpr hX) hXW) hA5 T.isPGroup hT
   rw [T.card_eq_multiplicity,
     CFSG.LocalAnalysis.EvenBN.GMSK.factorization_two_card_of_lieModel_PSU3 hS] at h8
   have h3 : 3 * f ≤ 3 :=

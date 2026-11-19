@@ -33,8 +33,10 @@ section
 variable (hc : sh0Chk = true) (hn : ((sh0C.map ev).map pcode).Nodup)
 include hc hn
 
+omit hc in
 theorem sh0_codes : (Sh0L.map pcode).Nodup := by rw [sh0L_eq]; exact hn
 
+omit hn in
 theorem mF_spec {a b : Nat} (ha : a < 128) (hb : b < 128) :
     mF a b < 128 ∧ Sh0L.getD a 1 * Sh0L.getD b 1 = Sh0L.getD (mF a b) 1 := by
   unfold sh0Chk at hc
@@ -44,6 +46,7 @@ theorem mF_spec {a b : Nat} (ha : a < 128) (hb : b < 128) :
   refine ⟨h1, ?_⟩
   rw [sh0L_getD, sh0L_getD, sh0L_getD, ← ev_mul, h2]
 
+omit hn in
 theorem iF_spec {a : Nat} (ha : a < 128) :
     iF a < 128 ∧ (Sh0L.getD a 1)⁻¹ = Sh0L.getD (iF a) 1 := by
   unfold sh0Chk at hc
@@ -52,19 +55,20 @@ theorem iF_spec {a : Nat} (ha : a < 128) :
   refine ⟨h1, ?_⟩
   rw [sh0L_getD, sh0L_getD, ← ev_inv, h2]
 
+omit hc in
 theorem sh0Idx_getD {k : Nat} (hk : k < 128) : sh0Idx (Sh0L.getD k 1) = k := by
   have hk' : k < Sh0L.length := by rw [sh0L_length]; exact hk
-  rw [List.getD_eq_getElem _ _ hk', KT.sh0Idx_getElem (sh0_codes hc hn) hk']
+  rw [List.getD_eq_getElem _ _ hk', KT.sh0Idx_getElem (sh0_codes hn) hk']
 
 theorem mt0_getD_eq (n : Nat) : mt0.getD n 0 = tF n := by
   unfold tF
   split_ifs with h
   · have ha : n / 128 < 128 := by omega
     have hb : n % 128 < 128 := Nat.mod_lt _ (by norm_num)
-    obtain ⟨h1, h2⟩ := mF_spec hc hn ha hb
+    obtain ⟨h1, h2⟩ := mF_spec hc ha hb
     have e : n = n / 128 * 128 + n % 128 := by omega
     conv_lhs => rw [e]
-    rw [KT.mt0_getD ha hb, h2, sh0Idx_getD hc hn h1]
+    rw [KT.mt0_getD ha hb, h2, sh0Idx_getD hn h1]
   · unfold mt0
     simp only [KT.getD_toArray]
     rw [List.getD_eq_default _ _ (by rw [KT.length_flatMap_range]; omega)]
@@ -72,8 +76,8 @@ theorem mt0_getD_eq (n : Nat) : mt0.getD n 0 = tF n := by
 theorem inv0_getD_eq (n : Nat) : inv0.getD n 0 = iT n := by
   unfold iT
   split_ifs with h
-  · obtain ⟨h1, h2⟩ := iF_spec hc hn h
-    rw [KT.inv0_getD (by rw [sh0L_length]; exact h), h2, sh0Idx_getD hc hn h1]
+  · obtain ⟨h1, h2⟩ := iF_spec hc h
+    rw [KT.inv0_getD (by rw [sh0L_length]; exact h), h2, sh0Idx_getD hn h1]
   · unfold inv0
     rw [KT.getD_toArray, List.getD_eq_default _ _ (by rw [List.length_map, sh0L_length]; omega)]
 

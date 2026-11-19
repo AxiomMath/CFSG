@@ -25,7 +25,7 @@ theorem centralizer_le_narrowGamma_of_commute {p : ℕ} {X : Type*} [Group X] [F
     (hp : p.Prime) {Q : Subgroup X} {w u : X} (hwQ : w ∈ Q) (huQ : u ∈ Q) (hw : w ^ p = 1)
     (hu : u ^ p = 1) (hw1 : w ≠ 1) (hwu : Commute w u) (huw : ∀ k < p, u ≠ w ^ k) :
     Subgroup.centralizer ({w} : Set X) ≤ narrowGamma p Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have huz : u ∉ Subgroup.zpowers w := by
     classical
     intro hz

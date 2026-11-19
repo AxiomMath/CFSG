@@ -13,7 +13,7 @@ theorem exists_isPGroup_of_coprime_kernel (N : Subgroup Y) [N.Normal] {p : ℕ} 
     (hcop : p.Coprime (Nat.card N)) {K : Subgroup (Y ⧸ N)} (hK : IsPGroup p ↥K) :
     ∃ D : Subgroup Y, IsPGroup p ↥D ∧ Nonempty (↥D ≃* ↥K) ∧
       D ⊔ N = K.comap (QuotientGroup.mk' N) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨D, hDp, hDmap, hDinf⟩ :=
     CFSG.GH74.GLS.Stage1.Thm6.exists_lift_pSubgroup N
       ((Nat.Prime.coprime_iff_not_dvd hp).mp hcop) K hK
@@ -48,7 +48,7 @@ theorem exists_isPGroup_of_coprime_kernel (N : Subgroup Y) [N.Normal] {p : ℕ} 
 theorem two_le_pRank_of_quotient (N : Subgroup Y) [N.Normal] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (Y ⧸ N))) :
     2 ≤ CFSG.Open.pRank p (⊤ : Subgroup Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.Quasithin.H13.Ch4.T425C27.two_le_pRank_of_surjective (K := ⊤)
     ((QuotientGroup.mk' N).comp Subgroup.topEquiv.toMonoidHom) ?_ hp2 h
   intro y

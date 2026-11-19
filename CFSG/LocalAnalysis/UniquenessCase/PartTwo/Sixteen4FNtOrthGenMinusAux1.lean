@@ -104,7 +104,7 @@ theorem w183MinusForm {m : ℕ} {K : Type} [Field K] {b c : K}
   simp only [CFSG.MatrixModel.minusQuadCore, Fin.sum_univ_castSucc, Pi.add_apply, Pi.smul_apply,
     smul_eq_mul, w183MinusExt_inl, w183MinusExt_inr_inl, w183MinusExt_inr_inr,
     w183MinusExt_last_inl, w183MinusExt_last_inr]
-  simp [w183MinusX, w183MinusY, Pi.single_apply, add_mul]
+  simp [w183MinusX, w183MinusY]
   ring
 
 theorem w183QuadMinusPolarForm {m : ℕ} {K : Type} [Field K] {b c : K}
@@ -120,7 +120,7 @@ theorem w183QuadMinusPolarForm {m : ℕ} {K : Type} [Field K] {b c : K}
   simp only [w183MinusPolarCore, Fin.sum_univ_castSucc, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
     w183MinusExt_inl, w183MinusExt_inr_inl, w183MinusExt_inr_inr, w183MinusExt_last_inl,
     w183MinusExt_last_inr]
-  simp [w183MinusX, w183MinusY, Pi.single_apply]
+  simp [w183MinusX, w183MinusY]
   ring
 
 theorem w183QuadMinusPolarExt {m : ℕ} {K : Type} [Field K] {b c : K}
@@ -162,12 +162,12 @@ theorem w183MinusDecomp {m : ℕ} {K : Type} [Field K]
   ext i
   rcases i with i | i
   · induction i using Fin.lastCases <;>
-      simp [w183MinusExt, w183MinusX, w183MinusY, Pi.single_apply]
+      simp [w183MinusExt, w183MinusX, w183MinusY]
   · rcases i with i | i
     · induction i using Fin.lastCases <;>
-        simp [w183MinusExt, w183MinusX, w183MinusY, Pi.single_apply]
+        simp [w183MinusExt, w183MinusX, w183MinusY]
     · induction i using Fin.lastCases <;>
-        simp [w183MinusExt, w183MinusX, w183MinusY, Pi.single_apply]
+        simp [w183MinusExt, w183MinusX, w183MinusY]
 
 theorem w183QaddM {m : ℕ} {K : Type} [Field K] [Finite K] {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
@@ -415,7 +415,7 @@ theorem w183MinusStep {K : Type} [Field K] [Finite K] (hK : ∀ c : K, c = 0 ∨
           rw [show w183MinusY m K + w183MinusExt m K (w + w₁) =
             w183MinusExt m K (w + w₁) + w183MinusY m K from add_comm _ _]
           have h := w183MinusForm (b := b) (c := c) (w + w₁) 0 1
-          simp only [one_smul, zero_smul, add_zero, zero_mul, mul_zero] at h
+          simp only [one_smul, zero_smul, add_zero, zero_mul] at h
           rw [h, hw₂]
         have hp : quadMinusPolar (m + 3) K b c (w183MinusX m K + w183MinusExt m K w₁)
             (w183MinusY m K + w183MinusExt m K (w + w₁)) = 1 := by
@@ -461,7 +461,7 @@ theorem w183MinusStep {K : Type} [Field K] [Finite K] (hK : ∀ c : K, c = 0 ∨
       exact hNW _ (by simpa using hQz)
     · rw [hα, hβ] at hQz
       rw [hα, hβ]
-      simp only [zero_smul, add_zero, one_smul, mul_zero] at hQz ⊢
+      simp only [zero_smul, add_zero, one_smul] at hQz ⊢
       rw [show w183MinusExt m K (fun p => z (Sum.map Fin.castSucc (Sum.map Fin.castSucc id) p)) +
           w183MinusY m K = w183MinusY m K +
           w183MinusExt m K (fun p => z (Sum.map Fin.castSucc (Sum.map Fin.castSucc id) p))

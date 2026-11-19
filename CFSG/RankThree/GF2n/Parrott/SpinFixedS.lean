@@ -296,10 +296,10 @@ private theorem rhoA_mul_mulVec_of_fix {a a' : A45} (ha : ∀ w ∈ spinFixS, Sp
   rw [Matrix.mulVec_add, h2, add_comm]
 
 private def fixSubgroupS : Subgroup A45 where
-  carrier := {a | ∀ w ∈ spinFixS, SpinFixes a w}
-  mul_mem' := fun {a b} ha hb w hw => spinFixes_mul (ha w hw) (hb w hw)
+  carrier := {_a | ∀ w ∈ spinFixS, SpinFixes _a w}
+  mul_mem' := fun {_a _b} ha hb w hw => spinFixes_mul (ha w hw) (hb w hw)
   one_mem' := fun w _ => spinFixes_one w
-  inv_mem' := fun {a} ha w hw =>
+  inv_mem' := fun {_a} ha w hw =>
     mem_spinStab_iff.1 ((spinStab w).inv_mem (mem_spinStab_iff.2 (ha w hw)))
 
 private theorem isElemAbelian_fixSubgroupS : IsElemAbelian 2 fixSubgroupS := by

@@ -27,8 +27,8 @@ theorem asch1413_sp4_false (h64o : Asch6_4Odd) (h64s : Asch6_4Seven)
   classical
   obtain ⟨-, -, K, hKf, hKfin, hKcard, hne⟩ :=
     CFSG.GH74.Generic.lieModel_psp_data hmodel
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   obtain ⟨e⟩ := hne
   have hKp : Nat.card K = p := by simpa using hKcard
   have hp2 : p ≠ 2 := by omega
@@ -45,7 +45,7 @@ theorem asch1413_sp4_false (h64o : Asch6_4Odd) (h64s : Asch6_4Seven)
   have hLn : (genFittingFStar Q).Normal :=
     CFSG.ClassicalInvolution.genFittingFStar_normal Q
   have hsimp := shape1413Prime_simple_nonab (Or.inr ⟨p, hp, hp5, hmodel⟩)
-  haveI := hsimp.1
+  have := hsimp.1
   have hcent : Subgroup.centralizer (genFittingFStar Q : Set Q) = ⊥ :=
     CFSG.ClassicalInvolution.centralizer_genFittingFStar_eq_bot hsimp.2
   have hc : Subgroup.centralizer (genFittingFStar Q : Set Q) ≤ genFittingFStar Q := by
@@ -76,7 +76,7 @@ theorem asch1413_redfor_prime (h64o : Asch6_4Odd) (h64s : Asch6_4Seven) :
   rcases hS with h33 | ⟨p, hp, hp5, hmodel⟩
   · exact asch1413_L33_of_model hV hρ hF h33 hA hAe hq
   · obtain ⟨hsimp, hnab⟩ := shape1413Prime_simple_nonab (Or.inr ⟨p, hp, hp5, hmodel⟩)
-    haveI := hsimp
+    have := hsimp
     have hZL : Subgroup.center ↥L = ⊥ :=
       CFSG.ComponentClassification.Helpers.center_eq_bot ↥L hnab
     exact asch1413_sp4_false h64o h64s hV hρ hF hZL hp hp5 hmodel hC hA hAe hq

@@ -82,7 +82,7 @@ theorem ggLineE6Three_holds
   intro p hp hp2 X _ _ A Ab σ J n hd hk labJ labX hΛJ hΛX hr hhJ hhX
   obtain ⟨⟨-, hn5, T, hTJ⟩, htagX, hp3, hpair⟩ := hr
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨D, hDval, ha, hb, hc, he⟩ := ggTPNExcKac_datum hBS hd hΛX hpair hhX
   obtain ⟨hlocCore, -, -, -, -, -, honly, hmarked⟩ := hd.1
   have hperfX : commutator X = ⊤ := hmarked.1
@@ -96,7 +96,7 @@ theorem ggLineE6Three_holds
   obtain ⟨f, hf⟩ := he
   have hEqJ : ∀ J' (hJ' : IsComponentOf J' (ggFixSub σ)), J' = J :=
     fun J' hJ' => eq_of_isComponentOf_of_ggTPNOnlyComp honly (hfix ▸ hJ') (hc J' hJ')
-  haveI : Subsingleton {J' : Subgroup X // IsComponentOf J' (ggFixSub σ)} :=
+  have : Subsingleton {J' : Subgroup X // IsComponentOf J' (ggFixSub σ)} :=
     ⟨fun a b => Subtype.ext (by rw [hEqJ a.1 a.2, hEqJ b.1 b.2])⟩
   have hpos : ∀ i j : Fin D.orbits.length, D.orbits[i].qs = true →
       D.orbits[j].qs = true → i = j := by

@@ -41,7 +41,7 @@ theorem ggTypeANbr_core (hCD : GGTypeACompatDiagBInput) (hRig : GGLabelRigidInpu
   have hpf : p ∣ 2 ^ f - 1 := h.dvd_two_pow_sub_one
   have hn : 3 ≤ n := h.three_le
   have hf : 2 ≤ f := two_le_of_dvd_two_pow_sub_one hp h.one_le_f hpf
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hBsAb, -, -, -⟩ := hcfg.tableB_facts
   have hcard𝒜 : Nat.card ↥(ggAutomizer L Bs ⊔ ggAutomizer K' Bs) = (m + 1).factorial :=
     ggWeylOfType_A_card hgate

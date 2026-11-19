@@ -18,7 +18,7 @@ namespace CFSG.LinearAlgebra.CoprimeActions.SmallFaithfulTwoGroups
 theorem not_orderOf_le_two {q : ℕ} (hq : q.Prime) (hq3 : 3 < q) :
     ¬ orderOf (2 : ZMod q) ≤ 2 := by
   intro h
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have h2' : ((2 : ℕ) : ZMod q) ≠ 0 := fun hz => by
     have := Nat.le_of_dvd (by norm_num) ((ZMod.natCast_eq_zero_iff _ _).1 hz); omega
   have h2'' : (2 : ZMod q) ≠ 0 := by simpa using h2'
@@ -67,7 +67,7 @@ theorem false_of_dim_le_three {F : Type*} [Field F] [IsAlgClosed F] (hF : (2 : F
   obtain ⟨J, _, _, W', _, _, _, _, τ, Q, X, hτ, hWV, hQ, hQ2, hX, hQX, hirr⟩ :=
     IrreduciblePrimeNormalizerImage.exists_image τ hτ E D hE hE2 q hD hq hq3 hED hF
       hlt
-  haveI : Small.{0} J := inferInstance
+  have : Small.{0} J := inferInstance
   let e : Shrink.{0} J ≃* J := Shrink.mulEquiv
   let τ' : Representation F (Shrink.{0} J) W' := τ.comp e.toMonoidHom
   have hτ' : Function.Injective τ' := hτ.comp e.injective
@@ -100,10 +100,10 @@ theorem false_of_dim_le_three {F : Type*} [Field F] [IsAlgClosed F] (hF : (2 : F
     Subgroup.map_injective Q'.subtype_injective h2
   let eQ : Q' ≃* Q := (MulEquiv.subgroupMap (e.symm : J ≃* Shrink.{0} J) Q).symm
   obtain ⟨hZC2, hZF2⟩ := special_transfer eQ ⟨hZC, hZF⟩
-  haveI : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQ
+  have : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQ
   let σ : Representation F Q W' := τ.comp Q.subtype
   have hσ : Function.Injective σ := fun a b h => Subtype.ext (hτ h)
-  haveI : IsCyclic (Subgroup.center Q) :=
+  have : IsCyclic (Subgroup.center Q) :=
     CFSG.GroupTheory.CoprimeActionSupport.FaithfulIrreducibleFiniteCenterCyclic.cyclic_center σ hσ hirr
   have hext := CFSG.LargeExtraspecial.isExtraspecialPGroup_of_cyclic_center Nat.prime_two hQ2 hZC2 hZF2 this
   obtain ⟨w, hw0, hcard⟩ :=

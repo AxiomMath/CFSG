@@ -84,7 +84,7 @@ theorem aVec_mem_commSpace_of_mem_closure_Eset_diff (S : Setting z E F) {a : G} 
     (hK : kernelTwo S a β = ⊥) {ω : Hbar z}
     (hω : ω ∈ Subgroup.closure (Eset S a \ ncComp (A2set S) β)) (hω3 : orderOf ω = 3) :
     aVec S h.mem_Q ∈ commSpace (rhoLin S ω) := by
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hβA2 : β ∈ A2set S := Tset_subset_A2set S a (h.mem_Tset_of_mem_Rbar hβR hβ1)
   have hWdim : finrank (ZMod 2) (commSpace (rhoLin S β)) = 2 :=
     finrank_commSpace_rhoLin_eq_two S hβA2
@@ -155,7 +155,7 @@ theorem conj_eq_or_eq_inv_of_mem_Lbar (S : Setting z E F) {a : G} {w : ℕ}
     (hω : ω ∈ Subgroup.closure (Eset S a \ ncComp (A2set S) β)) (hω3 : orderOf ω = 3)
     {ℓ : Hbar z} (hℓ : ℓ ∈ Lbar S a) :
     ℓ * ω * ℓ⁻¹ = ω ∨ ℓ * ω * ℓ⁻¹ = ω⁻¹ := by
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hβA2 : β ∈ A2set S := Tset_subset_A2set S a (h.mem_Tset_of_mem_Rbar hβR hβ1)
   have hℓβ : ℓ * β = β * ℓ :=
     commute_of_mem_Lbar S h.mem_Q h.isConj hℓ (Rbar_le_Lbar S a hβR)
@@ -204,7 +204,7 @@ theorem card_Lbar_le_four_of_mem_Eset_diff (S : Setting z E F) {a : G} {w : ℕ}
     rw [← rhoLin_mul, orderOf_rhoLin, h3]
   have h4 : finrank (ZMod 2) (commSpace (rhoLin S (γ * c))) = 4 := by
     have h := (CFSG.LargeExtraspecial.commSpace_mul_of_orderOf_eq_three
-      (q := qS S) (hq := by letI := modAbF S; exact q_nondegenerate S) htypeγ htypec h3lin).2.2.1
+      (q := qS S) (hq := by let := modAbF S; exact q_nondegenerate S) htypeγ htypec h3lin).2.2.1
     rw [rhoLin_mul]
     exact h
   have hωmem : γ * c ∈ Subgroup.closure (Eset S a \ ncComp (A2set S) β) :=

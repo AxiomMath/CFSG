@@ -117,6 +117,7 @@ theorem exists_lin_eq_of_mem_elementaryGroup (hZ : blockZ J = ⊥)
   rw [congrArg Subtype.val hℓ]
   exact MulEquiv.apply_symm_apply _ _
 
+omit [Finite G] in
 private theorem conj_eq_of_mem_sup {J T : Subgroup G} {u : G}
     (hTu : ∀ t ∈ T, t * u * t⁻¹ = u) {s : G}
     (hs : s ∈ T ⊔ (J ⊓ Subgroup.centralizer ({u} : Set G))) :
@@ -132,6 +133,7 @@ private theorem conj_eq_of_mem_sup {J T : Subgroup G} {u : G}
   calc s * u * s⁻¹ = (u * s) * s⁻¹ := by rw [hcomm]
     _ = u := by rw [mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite G] in
 private theorem sup_le_normalizer {J T : Subgroup G} {u : G}
     (hTu : ∀ t ∈ T, t * u * t⁻¹ = u)
     (hTn : ∀ ℓ ∈ J, ℓ * u * ℓ⁻¹ = u → ∀ t ∈ T, ℓ * t * ℓ⁻¹ ∈ T) :

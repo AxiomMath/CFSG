@@ -43,7 +43,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem noTrialityMarking_of_inner {X L : Subgroup G} (hL : GLAPComponent 3 X L)
     (hD4 : catalogIs (PSimple 3 L) S9.isD4two) {b : G}
     (hbN : b ∈ Subgroup.normalizer (L : Set G)) (hin : InducesInnerMod 3 L b) :
-    CFSG.Assembly.LargeEvenMarking (PQuot 3 L) fun lab R _ I F θ =>
+    CFSG.Assembly.LargeEvenMarking (PQuot 3 L) fun _lab R _ I _F θ =>
       ∀ φ : MulAut R, LargeEvenInduces θ (CFSG.LocalAnalysis.GLTheoremA.S10.indRel 3 L b) φ →
         CentralMod I φ := by
   classical
@@ -67,9 +67,9 @@ theorem noTrialityMarking_of_inner {X L : Subgroup G} (hL : GLAPComponent 3 X L)
   have h0 := Canonical.largeEvenMarking_of_lieModel_centerQuot hq.1 (t := .POmegaPlus) (n := 4)
     (f := 1) (Or.inl ⟨by simp [CFSG.Blueprint.classicalTags], hmodel⟩)
   have h1 := canon_marking_and_labelAll_simple (P' := RawInnBody 3)
-    (fun lab hlab => canonRawInn' hp3 (by norm_num) hlab) h0
+    (fun _lab hlab => canonRawInn' hp3 (by norm_num) hlab) h0
   refine Canonical.largeEvenMarking_mono ?_ h1
-  rintro lab R _ I F θ ⟨-, hmul, hinv, hinn, -⟩ φ hφ
+  rintro _lab R _ I _F θ ⟨-, hmul, hinv, hinn, -⟩ φ hφ
   have e := (induces_indRel_iff hbN θ).1 hφ
   obtain ⟨s, hs⟩ := (indAut_mem_inner_iff hp3 hL hbN).2 hin
   have hφc : φ = MulAut.conj (θ s) := by rw [e, ← hs, MI.congr_conj]
@@ -85,7 +85,7 @@ theorem noTrialityMarking_of_inner {X L : Subgroup G} (hL : GLAPComponent 3 X L)
   ∀ (B : Subgroup G) (x : G) (L : Subgroup G), IsSTriple 3 B x L →
     CFSG.Open.IsKGroup ↥(Subgroup.centralizer ({x} : Set G)) → IsChevSimple 2 (PSimple 3 L) →
     catalogIs (PSimple 3 L) isD4any → ¬ catalogIs (PSimple 3 L) S9.isD4two → ∀ b ∈ B,
-      CFSG.Assembly.LargeEvenMarking (PQuot 3 L) fun lab R _ I F θ =>
+      CFSG.Assembly.LargeEvenMarking (PQuot 3 L) fun _lab R _ I _F θ =>
         ∀ φ : MulAut R, LargeEvenInduces θ (CFSG.LocalAnalysis.GLTheoremA.S10.indRel 3 L b) φ →
           CentralMod I φ
 

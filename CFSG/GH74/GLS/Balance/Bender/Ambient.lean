@@ -51,7 +51,7 @@ theorem exists_isSylowIn (p : ℕ) [Fact p.Prime] (N : Subgroup G) :
     ∃ T : Subgroup G, IsSylowIn p T N := by
   obtain ⟨S⟩ := (Sylow.nonempty : Nonempty (Sylow p ↥N))
   refine ⟨(S : Subgroup ↥N).map N.subtype, Subgroup.map_subtype_le _,
-    S.isPGroup'.map N.subtype, fun T hTN hT2 => ?_⟩
+    S.isPGroup.map N.subtype, fun T hTN hT2 => ?_⟩
   have hT' : IsPGroup p (T.subgroupOf N) := hT2.comap_of_injective N.subtype N.subtype_injective
   obtain ⟨S', hS'⟩ := hT'.exists_le_sylow
   have e1 : Nat.card T = Nat.card (T.subgroupOf N) :=
@@ -64,7 +64,7 @@ theorem exists_isSylowIn (p : ℕ) [Fact p.Prime] (N : Subgroup G) :
 
 theorem isSylowIn_of_sylow (p : ℕ) [Fact p.Prime] {N : Subgroup G} (S : Sylow p ↥N) :
     IsSylowIn p ((S : Subgroup ↥N).map N.subtype) N := by
-  refine ⟨Subgroup.map_subtype_le _, S.isPGroup'.map N.subtype, fun T hTN hT2 => ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, S.isPGroup.map N.subtype, fun T hTN hT2 => ?_⟩
   have hT' : IsPGroup p (T.subgroupOf N) := hT2.comap_of_injective N.subtype N.subtype_injective
   obtain ⟨S', hS'⟩ := hT'.exists_le_sylow
   have e1 : Nat.card T = Nat.card (T.subgroupOf N) :=
@@ -84,7 +84,7 @@ theorem exists_sylow_of_isSylowIn (p : ℕ) [Fact p.Prime] {N T : Subgroup G} (h
   have h1 : T ≤ (S : Subgroup ↥N).map N.subtype := by
     rw [← hmap]; exact Subgroup.map_mono hS
   have h2 : Nat.card ((S : Subgroup ↥N).map N.subtype) ≤ Nat.card T :=
-    hTs _ (Subgroup.map_subtype_le _) (S.isPGroup'.map N.subtype)
+    hTs _ (Subgroup.map_subtype_le _) (S.isPGroup.map N.subtype)
   exact ⟨S, (Subgroup.eq_of_le_of_card_ge h1 h2).symm⟩
 
 omit [Finite G] in
@@ -121,7 +121,7 @@ theorem IsPStar.mul_centralizer {p : ℕ} [Fact p.Prime] {Y N Q : Subgroup G} (h
   have hT''N : T'' ≤ N := by
     rintro _ ⟨_, ⟨s, _, rfl⟩, rfl⟩
     exact s.2
-  have hT''2 : IsPGroup p T'' := (S.isPGroup'.map N'.subtype).map Y.subtype
+  have hT''2 : IsPGroup p T'' := (S.isPGroup.map N'.subtype).map Y.subtype
   have hQT'' : Q ≤ T'' := by
     intro q hq
     have hq' : (⟨⟨q, hQY hq⟩, hQN hq⟩ : ↥N') ∈ Q' := hq

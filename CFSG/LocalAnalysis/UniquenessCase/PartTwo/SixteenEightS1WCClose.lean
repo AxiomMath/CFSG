@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {D : Data G} {V₀ V L : Subgroup G}
   {hV : IsElemAbelian 2 V}
 
 theorem S16gRowCtx.factor_permuting_three (h : S16gRowCtx D V₀ V L hV) (hV₀ : V₀ = ⊥)
-    (hm : MBarGT D.M V₀ V 2) {Y : Subgroup G} (hYM : Y ≤ D.M) (hY3 : IsPGroup 3 ↥Y)
+    (hm : MBarGT D.M V₀ V 2) {Y : Subgroup G} (_hYM : Y ≤ D.M) (hY3 : IsPGroup 3 ↥Y)
     (hperm : Permutes Y D.T) :
     ((Y ⊔ D.T) ⊓ Subgroup.centralizer (E3.cClos V 1 D.T : Set G)) ⊔
       ((Y ⊔ D.T) ⊓ Subgroup.normalizer (E3.wClos V 0 D.T : Set G)) = Y ⊔ D.T := by
@@ -40,8 +40,8 @@ theorem S16gRowCtx.factor_permuting_three (h : S16gRowCtx D V₀ V L hV) (hV₀ 
     simpa [heq] using hspos'
   have hS : IsSylowIn 2 D.T (Y ⊔ D.T) := isSylowIn_of_le D le_sup_right
   have hT2 : IsPGroup 2 D.T := D.sylowM.isPGroup
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hY3
   obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp hT2
   have hdisj : Y ⊓ D.T = ⊥ :=
@@ -82,8 +82,8 @@ theorem S16gRowCtx.false_of_permuting_three_good (h : S16gRowCtx D V₀ V L hV)
   have hHM : Y ⊔ D.T ≤ D.M := sup_le hYM D.sylowM.le
   have hfac := factor_permuting_three h hV₀ hm hYM hY3 hperm
   have hT2 : IsPGroup 2 D.T := D.sylowM.isPGroup
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hY3
   obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp hT2
   have hdisj : Y ⊓ D.T = ⊥ :=

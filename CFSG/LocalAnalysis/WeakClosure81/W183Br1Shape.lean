@@ -122,8 +122,7 @@ theorem w183_actsOnDynkinMod_subgroupOf {W : Type} [Group W] {Y L : Subgroup W} 
           exact (hxnorm ⟨s, hsY⟩).mpr (Subgroup.mem_subgroupOf.mpr hs)
         exact Subgroup.mem_subgroupOf.mp hs'
 
-  · intro l' hl'
-    intro hEq
+  · intro l' hl' hEq
     let u : ↥Y := (⟨τ, hτ⟩ : ↥Y)⁻¹ * l'
     have hmap := congrArg (Subgroup.map Y.subtype) hEq
     rw [w183_map_conjSubgroup_subgroupOf hPY u.2,
@@ -135,6 +134,7 @@ namespace Assumption131
 variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ} {A : Subgroup (LGL 2 V)}
 
+omit [Finite V] in
 theorem isTISub_member (h : Assumption131 G Γ VA i) (hA : A ∈ Γ) (hr : mRank A ≤ i) :
     IsTISub ↥G (A.subgroupOf G) := by
   have hAG : A ≤ G := h.le_G A hA
@@ -154,8 +154,8 @@ theorem br1_false_of_L32 (hfin : FinL32) (h : Assumption131 Y Γ VA i)
     (hτ : ∃ τ ∈ Y, ActsOnDynkinMod ⊥ L τ) (hA : A ∈ Γ) (hr : mRank A ≤ i)
     (hcard : Nat.card ↥A = 4) (hel : IsElemAbelian 2 A) : False := by
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
-  haveI : Finite ↥Y := Subtype.finite
+  have : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite ↥Y := Subtype.finite
   obtain ⟨hN, hC⟩ := w183_restrict_normal_cent hLY hLn hcent
   have hshape' : IsL3 ↥(L.subgroupOf Y) 1 :=
     CFSG.Blueprint.LieModel.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLY).symm hshape
@@ -174,8 +174,8 @@ theorem br1_false_of_A6 (hfin : FinA6) (h : Assumption131 Y Γ VA i)
     (hτ : ∃ τ ∈ Y, ActsOnDynkinMod ⊥ L τ) (hA : A ∈ Γ) (hr : mRank A ≤ i)
     (hcard : Nat.card ↥A = 4) (hel : IsElemAbelian 2 A) : False := by
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
-  haveI : Finite ↥Y := Subtype.finite
+  have : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite ↥Y := Subtype.finite
   obtain ⟨hN, hC⟩ := w183_restrict_normal_cent hLY hLn hcent
   have hshape' : IsAlt ↥(L.subgroupOf Y) 6 := by
     obtain ⟨e⟩ := hshape
@@ -196,8 +196,8 @@ theorem br1_false_of_Sp44 (hfin : FinG2Y) (h : Assumption131 Y Γ VA i)
     (hτ : ∃ τ ∈ Y, ActsOnDynkinMod ⊥ L τ) (hA : A ∈ Γ) (hr : mRank A ≤ i)
     (hcard : Nat.card ↥A = 4) (hel : IsElemAbelian 2 A) : False := by
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
-  haveI : Finite ↥Y := Subtype.finite
+  have : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite ↥Y := Subtype.finite
   obtain ⟨hN, hC⟩ := w183_restrict_normal_cent hLY hLn hcent
   have hshape' : IsSp4 ↥(L.subgroupOf Y) 2 :=
     CFSG.Blueprint.LieModel.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLY).symm hshape
@@ -223,8 +223,8 @@ theorem br1_false_of_L34 (h65f : Asch6_5Four) (hfin : FinG1) (h : Assumption131 
     (hA : A ∈ Γ) (hr : mRank A ≤ i) (hcard : Nat.card ↥A = 4) (hel : IsElemAbelian 2 A) :
     False := by
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
-  haveI : Finite ↥Y := Subtype.finite
+  have : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite ↥Y := Subtype.finite
   obtain ⟨hN, hC⟩ := w183_restrict_normal_cent hLY hLn hcent
   have hshape' : IsL3 ↥(L.subgroupOf Y) 2 :=
     CFSG.Blueprint.LieModel.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLY).symm hshape
@@ -287,8 +287,8 @@ theorem br1_sylow_of_L24 (hfin : FinA5) (h : Assumption131 Y Γ VA i)
     (hA : A ∈ Γ) (hr : mRank A ≤ i) (hcard : Nat.card ↥A = 4) (hel : IsElemAbelian 2 A) :
     IsSylowIn 2 A L := by
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
-  haveI : Finite ↥Y := Subtype.finite
+  have : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite ↥Y := Subtype.finite
   obtain ⟨hN, hC⟩ := w183_restrict_normal_cent hLY hLn hcent
   have hshape' : IsL2 ↥(L.subgroupOf Y) 2 :=
     CFSG.Blueprint.LieModel.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLY).symm hshape
@@ -305,8 +305,8 @@ theorem br1_center_of_U34 (hfin : FinU34) (h : Assumption131 Y Γ VA i)
     (hA : A ∈ Γ) (hr : mRank A ≤ i) (hcard : Nat.card ↥A = 4) (hel : IsElemAbelian 2 A) :
     ∃ S : Subgroup (LGL 2 V), IsSylowIn 2 S L ∧ A = (Subgroup.center ↥S).map S.subtype := by
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
-  haveI : Finite ↥Y := Subtype.finite
+  have : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite ↥Y := Subtype.finite
   obtain ⟨hN, hC⟩ := w183_restrict_normal_cent hLY hLn hcent
   have hshape' : IsU3 ↥(L.subgroupOf Y) 2 :=
     CFSG.Blueprint.LieModel.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLY).symm hshape

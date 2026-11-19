@@ -19,7 +19,7 @@ private theorem kdc_exists_central_order_three {G : Type} [Group G] [Finite G]
     {X J : Subgroup G} (hX : GLAPPrimeCoreOf 3 X = ⊥) (hJ : GLAPComponent 3 X J)
     (hZ : Subgroup.center (PQuot 3 J) ≠ ⊥) :
     ∃ u ∈ J, (∀ j ∈ J, j * u = u * j) ∧ orderOf u = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hOJ : GLAPPrimeCore 3 ↥J = ⊥ := by
     have h1 := CFSG.HardMathSupport.Solomon.LocalBalance.glaPPrimeCoreOf_le_of_isSubnormal 3
       hJ.2.1
@@ -43,7 +43,7 @@ private theorem kdc_exists_central_order_three {G : Type} [Group G] [Finite G]
     CFSG.isPGroup_of_nilpotent_normal (Subgroup.center ↥J) inferInstance inferInstance hOJ
   have hdvd : 3 ∣ Nat.card ↥(Subgroup.center ↥J) := by
     refine hcz.card_eq_or_dvd.resolve_left fun h1 => hz1 ?_
-    haveI : Subsingleton ↥(Subgroup.center ↥J) := (Nat.card_eq_one_iff_unique.1 h1).1
+    have : Subsingleton ↥(Subgroup.center ↥J) := (Nat.card_eq_one_iff_unique.1 h1).1
     exact congrArg Subtype.val (Subsingleton.elim (⟨z, hzc⟩ : ↥(Subgroup.center ↥J)) 1)
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' 3 hdvd
   refine ⟨((w : ↥J) : G), (w : ↥J).2, fun j hj => ?_, ?_⟩
@@ -71,17 +71,17 @@ open CFSG.HardMathSupport.Dickson.I271 (conj_mem_centralizer_iff)
 theorem kdOutChevCentre_holds : KDOutChevCentre := by
   intro S _ _ d hd e β hβ3 hout J hJ
   by_contra hZJ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut S) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut S) :=
     Finite.of_injective (fun f : MulAut S => (f : S → S)) DFunLike.coe_injective
   obtain ⟨-, hsimp, hnab⟩ := (outerCentAll_holds (CFSG.Yardstones.Md42047359a2a.lieFamily d.1)).1
     d rfl (by rw [hd]; norm_num)
-  haveI := hsimp
+  have := hsimp
   have hs : IsSimpleGroup S := e.isSimpleGroup
   have hnabS : ∃ a b : S, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center S = ⊥ :=
     CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hnabS
   have hout' : β ∉ CFSG.HardMathSupport.Solomon.LocalBalance.innerAut S := hout

@@ -76,7 +76,7 @@ theorem kF88Case1NontrivOne_of_classB (hB : KF88Case1ClassB) : KF88Case1NontrivO
     hne hE
   obtain ⟨e⟩ := hB G A c L a b X 1 h1 Y hY hIJ x hx hxY A₀ d' m hodd hc1 d hdcl hdx hdA hd3 hdN
     hin hne hE
-  haveI := Sec19.Item19Res7Proof.nontrivial_of_isQuasisimple (Item87Proof.isQuasisimple_projSL_two
+  have := Sec19.Item19Res7Proof.nontrivial_of_isQuasisimple (Item87Proof.isQuasisimple_projSL_two
     (by have := hodd.pos; omega : 2 ≤ 3 * m))
   exact Item83Proof.ne_bot_of_mulEquiv e
 

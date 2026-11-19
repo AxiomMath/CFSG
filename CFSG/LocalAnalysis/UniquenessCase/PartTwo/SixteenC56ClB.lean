@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem C33Core.swap_hyp (hc : C33Core M V g) :
     C33Hyp (conjSubgroup M g) (conjSubgroup V g) g⁻¹ where
   mQuot_le := by

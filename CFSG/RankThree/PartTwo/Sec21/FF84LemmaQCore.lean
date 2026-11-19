@@ -44,7 +44,7 @@ theorem lemmaQ_sup_eq {X : Type} [Group X] [Finite X] (P A B : Subgroup X) (hP9 
 theorem lemmaQ_conj_of_card_three {Γ : Type*} [Group Γ] [Finite Γ] (hΓ : ¬ 9 ∣ Nat.card Γ)
     (M T : Subgroup Γ) (hM : Nat.card M = 3) (hT : Nat.card T = 3) :
     ∃ g : Γ, ∀ x ∈ T, ∃ m ∈ M, x = g * m * g⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsyl : ∀ S : Subgroup Γ, Nat.card S = 3 → ∃ Syl : Sylow 3 Γ, (Syl : Subgroup Γ) = S := by
     intro S hS
     have hpg : IsPGroup 3 S := (IsPGroup.iff_card).2 ⟨1, by rw [hS]; norm_num⟩
@@ -72,7 +72,7 @@ theorem lemmaQ_core (hKF1 : FF84KF1) (hKS : FF84KSOut) {X : Type} [Group X] [Fin
     (hKs : IsSimpleGroup K) (hAK : A ≤ K) (hiii : ¬ ∃ g : X, conjBy g A = B) :
     (K ⊔ pPrimeCore 3 X).Normal := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPgrp : IsPGroup 3 P := hP.2.1
   obtain ⟨a, ha, ha1⟩ : ∃ a ∈ A, a ≠ 1 := by
     by_contra hcon
@@ -116,8 +116,8 @@ theorem lemmaQ_core (hKF1 : FF84KF1) (hKS : FF84KSOut) {X : Type} [Group X] [Fin
   set NB : Subgroup (X ⧸ pPrimeCore 3 X) :=
     Subgroup.normalClosure ((B.map π : Subgroup _) : Set _) with hNBdef
   have hNAB : NA ⊓ NB = ⊥ := hquot
-  haveI hNAn : NA.Normal := by rw [hNAdef]; infer_instance
-  haveI hNBn : NB.Normal := by rw [hNBdef]; infer_instance
+  have hNAn : NA.Normal := by rw [hNAdef]; infer_instance
+  have hNBn : NB.Normal := by rw [hNBdef]; infer_instance
   have hKA : K ≤ Subgroup.normalClosure (A : Set X) := by
     let L : Subgroup K := (Subgroup.normalClosure (A : Set X)).subgroupOf K
     rcases hKs.eq_bot_or_eq_top_of_normal L with h | h

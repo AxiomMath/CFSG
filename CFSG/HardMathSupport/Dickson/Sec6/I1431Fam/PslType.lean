@@ -47,9 +47,9 @@ theorem not_isTypeL2_specialLinear (hO : CFSG.ComponentClassification.CatLeaf.Li
   have hmodel : LieModel (StatedProj (StatedSL m E)) .PSL m (ringChar E) f :=
     (lieModel_classical_iff (by decide)).mpr
       ⟨hadm, E, inferInstance, inferInstance, hcard, ⟨MulEquiv.refl _⟩⟩
-  haveI hsP : IsSimpleGroup (projectiveSL m E) :=
+  have hsP : IsSimpleGroup (projectiveSL m E) :=
     CFSG.RankThree.PartOne.KCLinearSubfield.isSimpleGroup_projectiveSL hm
-  haveI hs : IsSimpleGroup (StatedProj (StatedSL m E)) :=
+  have hs : IsSimpleGroup (StatedProj (StatedSL m E)) :=
     (CFSG.ComponentClassification.RankTwoClassical.statedProjEquiv m E).isSimpleGroup
   have hnab : ∃ a b : StatedProj (StatedSL m E), a * b ≠ b * a := by
     have h3 := CFSG.RankThree.PartOne.KCLinearSubfield.not_commutative_projectiveSL (n := m)
@@ -87,8 +87,8 @@ theorem pslBlock_multiplicity_eq_two (hO : CFSG.ComponentClassification.CatLeaf.
     rcases hgood with h3 | ⟨h2, -⟩
     · exact h3
     · omega
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   have hsq := squarefree_minpoly_slGL hpk hap
   set F' := (linearSpecialBlock (slGL n K a) h).comap (slGL n K) with hF'
   obtain ⟨eF⟩ := comap_linearSpecialBlock_mulEquiv hsq hh

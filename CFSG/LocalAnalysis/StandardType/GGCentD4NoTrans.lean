@@ -100,7 +100,7 @@ open CFSG.HardMathSupport.Lang.D4Three
 open CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.OuterFourSeitz
 
 theorem ntpD4_no_transposition
-    {f : ℕ} (hf : 1 ≤ f) {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
+    {f : ℕ} (_hf : 1 ≤ f) {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
     (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ ((2 : ℕ) ^ f))
     (hout : ∀ ε : ℕ, (ε = 1 ∨ ε = 2) → ∀ h : ↥(adjointGroup Tag.D4 L), MulAut.conj h ≠ d4Graph L ε)
     (r : ℕ) (c g : ↥(adjointGroup Tag.D4 L)) (ε : ℕ) (hε : ε = 1 ∨ ε = 2)

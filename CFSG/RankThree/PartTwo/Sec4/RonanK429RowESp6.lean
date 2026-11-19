@@ -56,7 +56,7 @@ theorem y0M_pow_seven : y0M ^ 7 = 1 := by decide +kernel
 theorem y0M_ne_one : y0M ≠ 1 := by decide +kernel
 
 theorem orderOf_y0 : orderOf y0 = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine orderOf_eq_prime (matH_injective ?_) fun h => y0M_ne_one ?_
   · rw [map_pow, matH_y0, y0M_pow_seven, map_one]
   · rw [← matH_y0, h, map_one]
@@ -122,7 +122,7 @@ theorem noCfgS429_sp62 {S : Type} [Group S] [Finite S] (hna : ∃ a b : S, a * b
 
 theorem eight_Sp6 : RowSOf429 (projSp 3 (GaloisField 2 1)) :=
   rowSOf429_of_noCfg fun S _ _ hs hna ⟨e⟩ => by
-    haveI := hs
+    have := hs
     exact noCfgS429_sp62 hna e
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK429E

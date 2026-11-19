@@ -23,7 +23,7 @@ theorem exists_injective_psl_two_galoisField_to_ree {d : TauCeti.ValidLieTypeInd
     (TauCeti.LieTypeIndex.inStandardRange_iff _).1
       ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
   refine ⟨ha, ?_⟩
-  haveI : CharP (GaloisField 3 (2 * m + 1)) CFSG.LieType.Ree.ReeTag.G2.prime :=
+  have : CharP (GaloisField 3 (2 * m + 1)) CFSG.LieType.Ree.ReeTag.G2.prime :=
     inferInstanceAs (CharP (GaloisField 3 (2 * m + 1)) 3)
   have hK : Nat.card (GaloisField 3 (2 * m + 1)) = 3 ^ (2 * m + 1) :=
     GaloisField.card 3 (2 * m + 1) (by omega)

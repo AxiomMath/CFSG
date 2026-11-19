@@ -76,7 +76,7 @@ theorem iotaTab_get (mul : ℕ → ℕ → ℕ) {j : ℕ} (h : iotaOK mul j = tr
     obtain ⟨he, ha⟩ := nf_lt hc
     have hE : sAutData.nfE c = nfEK c := by simp only [sAutData, sNfTab_get]
     have hA : sAutData.nfA c = nfAK c := by simp only [sAutData, sNfTab_get]
-    rw [hE, hA, if_pos he, if_pos ha, getElem!_pos _ _ (by simpa using he),
+    rw [hE, hA, ite_eq_left he, ite_eq_left ha, getElem!_pos _ _ (by simpa using he),
       getElem!_pos _ _ (by simpa using ha), Array.getElem_map, Array.getElem_map]
     simp only [List.getElem_toArray, List.getElem_range]
     rw [beq_iff_eq.1 (h.1 _ (List.mem_range.2 he)), beq_iff_eq.1 (h.2 _ (List.mem_range.2 ha))]

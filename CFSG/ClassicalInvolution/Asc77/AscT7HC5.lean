@@ -34,7 +34,7 @@ theorem layer_frame (hs : Hyp23Setting p f Ω K K' z) (hd : Hyp23bData Ω K K' W
   have hR'D : R' ∈ DSet Ω W :=
     Thompson.mem_DSet_of_le_sylow hp hq hΩ hd.hW hWS (mem_RSet_of_isSylow2In hK' hR') hR'S
   have hc : Commutes R R' := hΩ.commutes_of_twin_of_isPGroup hK hK' hs.hne.symm hz hz' hR.1 hR'.1
-    (S.isPGroup'.to_le (sup_le hRS hR'S))
+    (S.isPGroup.to_le (sup_le hRS hR'S))
   obtain ⟨b, hbRW, hb4⟩ := Thompson.exists_orderOf_four hp hq hΩ hd.hW hRD
   obtain ⟨b', hb'RW, hb'4⟩ := Thompson.exists_orderOf_four hp hq hΩ hd.hW hR'D
   have hWab := Thompson.commutes_of_mem_WSet hp hq hΩ hd.hW

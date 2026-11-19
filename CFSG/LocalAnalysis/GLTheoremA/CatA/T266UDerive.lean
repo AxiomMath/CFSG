@@ -18,6 +18,7 @@ section Helper
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_inf_centralizer_single (X : Subgroup G) (S : Subgroup X) (y : X) :
     (S ⊓ Subgroup.centralizer ({y} : Set X)).map X.subtype =
       S.map X.subtype ⊓ Subgroup.centralizer ({(y : G)} : Set G) := by
@@ -46,7 +47,7 @@ theorem i266U6_of_fact (n : ℕ) (hF : T266U6Fact n) (hDisj : T266G2NotU6)
       ∃ T : Subgroup G, T ≤ K ⊓ Subgroup.centralizer ({y} : Set G) ∧ IsPGroup 2 T ∧
         B ≤ Subgroup.normalizer (T : Set G) ∧ (⁅T, B⁆ : Subgroup G) ≠ ⊥ ∧ IsEmpty (T ≃* QuaternionGroup 2) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Y, hY⟩ : ∃ Y : Subgroup G, Y = K ⊔ B := ⟨_, rfl⟩
   have hKY : K ≤ Y := hY ▸ le_sup_left
   have hBY : B ≤ Y := hY ▸ le_sup_right

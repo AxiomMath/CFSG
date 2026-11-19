@@ -15,6 +15,7 @@ open CFSG.StandardType CFSG.Blueprint CFSG.Open
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem qTwoDeg_eq_N_of_dim_pred
     {Bs L : Subgroup G} {x : G} {k : QTwoRowKind} {m d c : ℕ}
     (hrow : QTwoRowData k m d c Bs L x) (hm : 5 ≤ m)
@@ -26,7 +27,7 @@ theorem qTwoDeg_eq_N_of_dim_pred
     omega
   have h3m : 3 ∣ m := hrow.dvd hk
   by_cases h3N : 3 ∣ N
-  · rw [if_pos h3N] at hbound
+  · rw [ite_eq_left h3N] at hbound
     have hNle : N ≤ m + 1 := by omega
     have hsplit : N = m ∨ N = m + 1 := by omega
     rcases hsplit with h | h
@@ -34,9 +35,9 @@ theorem qTwoDeg_eq_N_of_dim_pred
     · exfalso
       subst h
       have hsub := Nat.dvd_sub h3N h3m
-      have h31 : 3 ∣ 1 := by simpa using hsub
+      have h31 : 3 ∣ 1 := by simp at hsub
       exact absurd h31 (by norm_num)
-  · rw [if_neg h3N] at hbound
+  · rw [ite_eq_right h3N] at hbound
     omega
 
 theorem qTwoDeg_window
@@ -63,13 +64,13 @@ theorem qTwoDeg_window
     · exact le_of_eq (hrow.dc.2.2.2.2 rfl).1
   refine ⟨hmN, ?_, ?_⟩
   · by_cases h3 : 3 ∣ N
-    · rw [if_pos h3] at hbound
+    · rw [ite_eq_left h3] at hbound
       omega
-    · rw [if_neg h3] at hbound
+    · rw [ite_eq_right h3] at hbound
       omega
   · intro hNm2
     by_contra h3
-    rw [if_neg h3] at hbound
+    rw [ite_eq_right h3] at hbound
     omega
 
 theorem qTwoDeg_weylAt_of_spanning
@@ -160,7 +161,7 @@ theorem qTwo_proper_model_of_row
       rw [h] at h3N
       have h32 : 3 ∣ 2 := by
         have hsub := Nat.dvd_sub h3N h3m
-        simpa using hsub
+        simp at hsub
       exact absurd h32 (by norm_num)
 
 end CFSG.StandardType.QTwo

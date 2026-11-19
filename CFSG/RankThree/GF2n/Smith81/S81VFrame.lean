@@ -54,8 +54,10 @@ theorem cT_fromBlocks (A B C D : Matrix (Fin 3) (Fin 3) F) :
 @[expose] def Jm (F : Type) [Field F] : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F :=
   Matrix.fromBlocks 0 1 1 0
 
+omit [Field F] in
 private theorem fam_inl (i : Fin 3) : fam a b (Sum.inl i) = a i := rfl
 
+omit [Field F] in
 private theorem fam_inr (i : Fin 3) : fam a b (Sum.inr i) = b i := rfl
 
 private theorem herm_sum_right_S {ι : Type*} (s : Finset ι) (x : Fin 6 → F) (f : ι → Fin 6 → F) :

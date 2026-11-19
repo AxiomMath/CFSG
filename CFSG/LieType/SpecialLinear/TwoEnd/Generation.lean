@@ -116,8 +116,8 @@ theorem twoEnd_decomp_first {G : Matrix (Fin (m+3)) (Fin (m+3)) F}
       simp [twoEndRowCoeff, hl0']
     · by_cases hjl : j = Fin.last (m+2)
       · rw [hjl]
-        simp only [twoEndRowCoeff, twoEndColCoeff, Matrix.one_apply, hl0, hl0', if_false,
-          if_true, zero_add, and_self]
+        simp only [twoEndRowCoeff, twoEndColCoeff, Matrix.one_apply, hl0, hl0', ite_false,
+          ite_true, zero_add, and_self]
         ring
       · rw [twoEndRowCoeff_of_ne hj hjl]
         simp [hj, hjl, eq_comm]

@@ -51,7 +51,7 @@ theorem s3_sq_mem_Q_of_Z2 (hS : HRSetting G L)
     (hOut : (innerAut (L ⧸ center L)).index = 2) (hRT : s.R ≠ s.T) {x : G} (hx : x ∈ s.T)
     (hx2 : ∀ y ∈ s.T, x * y * x⁻¹ * y⁻¹ ∈ cen s.T) :
     x ^ 2 ∈ s.T ⊓ centralizer (L : Set G) := by
-  haveI hperf : Group.IsPerfect ↥L := isPerfect_of_hrSetting (L := L) hS
+  have hperf : Group.IsPerfect ↥L := isPerfect_of_hrSetting (L := L) hS
   let φ : ↥s.T →* MulAut (L ⧸ center L) := jOn L (s3_T_le_N s hS)
   have hrange : φ.range = s.fr'.Sσ := by
     change (jOn L (s3_T_le_N s hS)).range = s.fr'.Sσ

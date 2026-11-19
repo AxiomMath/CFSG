@@ -60,7 +60,7 @@ private theorem corner_hasLabel_C_J {G : Type} [Group G] {Bs L J : Subgroup G} {
   have hlabel : (planeEntry .symplectic (n - 1)).label (.zero (Finset.univ.erase k)) =
       ⟨.C, n - 2, 1⟩ := by
     change PlaneRaw.label .symplectic (.zero (Finset.univ.erase k)) = ⟨.C, n - 2, 1⟩
-    simp only [PlaneRaw.label, hcard, if_neg hne]
+    simp only [PlaneRaw.label, hcard, ite_eq_right hne]
   have hlabC : GGHasLabel ⟨.C, n - 2, 1⟩ (↥A ⧸ Subgroup.center ↥A) := by
     rw [hP, hlabel] at hlab
     exact hlab

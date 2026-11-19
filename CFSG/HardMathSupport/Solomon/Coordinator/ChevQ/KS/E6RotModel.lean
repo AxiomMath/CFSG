@@ -188,7 +188,7 @@ theorem swapMat_mul_diagonal {F : Type} [Field F] {d : Fin 3 → F} (hd : d 0 = 
       Matrix.diagonal d * swapMat := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [swapMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, hd]
+    simp [swapMat, Matrix.mul_apply, Matrix.diagonal_apply, hd]
 
 theorem swapGL_comm_diagGL {F : Type} [Field F] {y : Fin 3 → Fˣ} (hy : y 0 = y 1) :
     swapGL * diagGL y = diagGL y * swapGL := by
@@ -223,7 +223,7 @@ theorem swapEl_not_central {F : Type} [Field F] (h : UnitaryFieldData 2 3 F) :
   rintro ⟨c, -, -, hc⟩
   have h01 := congrArg (fun g : GL (Fin 3) F => (g : Matrix (Fin 3) (Fin 3) F) 0 1) hc
   simp [coe_swapEl, coe_swapGL, swapMat, Matrix.GeneralLinearGroup.coe_scalar,
-    Matrix.scalar_apply, Matrix.diagonal_apply] at h01
+    Matrix.scalar_apply] at h01
 
 theorem rot_center_card {F : Type} [Field F] (h : UnitaryFieldData 2 3 F) :
     Nat.card (Subgroup.center (unitarySU 2 3 F 3)) ≤ 3 := by
@@ -263,13 +263,13 @@ theorem rotDataOf_field {F : Type} [Field F] (h : UnitaryFieldData 2 3 F) (ζ : 
       ← map_zpow]
     congr 1
     funext k
-    fin_cases k <;> simp [hu, inv_zpow]
+    fin_cases k <;> simp [hu]
   · apply Subtype.ext
     rw [coe_suField, coe_torusGen₂, glAut_diagGL, SubgroupClass.coe_zpow, coe_torusGen₂,
       ← map_zpow]
     congr 1
     funext k
-    fin_cases k <;> simp [hu, inv_zpow]
+    fin_cases k <;> simp [hu]
   · apply Subtype.ext
     rw [coe_suField, coe_swapEl, glAut_swapGL]
 

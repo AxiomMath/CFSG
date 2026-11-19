@@ -64,13 +64,13 @@ private theorem orbitSearch_eq_loop (n : Nat) (gens : Array (Array Nat)) :
   rfl
 
 
-private theorem getSet {xs : Array Nat} {i j : Nat} (hi : i < xs.size) (hj : j < xs.size)
+private theorem getSet {xs : Array Nat} {i j : Nat} (_hi : i < xs.size) (hj : j < xs.size)
     (v : Nat) : (xs.set! i v)[j]! = if i = j then v else xs[j]! := by
   rw [Array.set!_eq_setIfInBounds, getElem!_pos _ j (by rw [Array.size_setIfInBounds]; exact hj)]
   by_cases e : i = j
   · subst e
-    rw [if_pos rfl, Array.getElem_setIfInBounds_self]
-  · rw [if_neg e, Array.getElem_setIfInBounds_ne hj e, getElem!_pos xs j hj]
+    rw [ite_eq_left rfl, Array.getElem_setIfInBounds_self]
+  · rw [ite_eq_right e, Array.getElem_setIfInBounds_ne hj e, getElem!_pos xs j hj]
 
 private theorem sizeSet (xs : Array Nat) (i v : Nat) : (xs.set! i v).size = xs.size := by
   rw [Array.set!_eq_setIfInBounds, Array.size_setIfInBounds]
@@ -139,12 +139,12 @@ private theorem slot_eq {a b c d M : Nat} (hc : c < M) (hd : d < M) (h : a * M +
 
 private theorem key_root {y : Nat} (h : D y = 1) : key m D P V pos y = pos y * (m + 1) := by
   unfold key
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem key_step {y : Nat} (h : D y ≠ 1) :
     key m D P V pos y = pos (P y) * (m + 1) + V y + 1 := by
   unfold key
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
 private theorem key_slot (hF : Facts n m T L D P V pts pos) {z p k : Nat} (hz : z < n)
     (hk : k < m) (h : key m D P V pos z = p * (m + 1) + k + 1) :
@@ -193,7 +193,7 @@ private abbrev RInv (n m : Nat) (L D P V pts pos : Nat → Nat) (r : Nat) (t : S
     ∀ v < r, pos v < c
 
 private theorem ent_init {f : Nat → Nat} (d : Nat) : Ent n pos 0 f d (Array.replicate n d) :=
-  ⟨Array.size_replicate, fun z hz => by rw [getReplicate hz, if_neg (Nat.not_lt_zero _)]⟩
+  ⟨Array.size_replicate, fun z hz => by rw [getReplicate hz, ite_eq_right (Nat.not_lt_zero _)]⟩
 
 private theorem ent_set (hF : Facts n m T L D P V pts pos) {c d y v : Nat} {f : Nat → Nat}
     {xs : Array Nat} (h : Ent n pos c f d xs) (hy : y < n) (hc : pos y = c) (hv : v = f y) :
@@ -203,13 +203,13 @@ private theorem ent_set (hF : Facts n m T L D P V pts pos) {c d y v : Nat} {f : 
   rw [getSet (by rw [hs]; exact hy) (by rw [hs]; exact hz)]
   by_cases e : y = z
   · subst e
-    rw [if_pos rfl, if_pos (by omega), hv]
-  · rw [if_neg e, he z hz]
+    rw [ite_eq_left rfl, ite_eq_left (by omega), hv]
+  · rw [ite_eq_right e, he z hz]
     have hne : pos z ≠ c := fun h' =>
       e (by rw [← (pos_lt hF hy).2, ← (pos_lt hF hz).2, hc, h'])
     by_cases h1 : pos z < c
-    · rw [if_pos h1, if_pos (by omega)]
-    · rw [if_neg h1, if_neg (by omega)]
+    · rw [ite_eq_left h1, ite_eq_left (by omega)]
+    · rw [ite_eq_right h1, ite_eq_right (by omega)]
 
 private theorem ent_keep (hF : Facts n m T L D P V pts pos) {c d y : Nat} {f : Nat → Nat}
     {xs : Array Nat} (h : Ent n pos c f d xs) (hy : y < n) (hc : pos y = c) (hv : d = f y) :
@@ -219,19 +219,19 @@ private theorem ent_keep (hF : Facts n m T L D P V pts pos) {c d y : Nat} {f : N
   rw [he z hz]
   by_cases e : y = z
   · subst e
-    rw [if_neg (by omega), if_pos (by omega), hv]
+    rw [ite_eq_right (by omega), ite_eq_left (by omega), hv]
   · have hne : pos z ≠ c := fun h' =>
       e (by rw [← (pos_lt hF hy).2, ← (pos_lt hF hz).2, hc, h'])
     by_cases h1 : pos z < c
-    · rw [if_pos h1, if_pos (by omega)]
-    · rw [if_neg h1, if_neg (by omega)]
+    · rw [ite_eq_left h1, ite_eq_left (by omega)]
+    · rw [ite_eq_right h1, ite_eq_right (by omega)]
 
 private theorem ent_full (hF : Facts n m T L D P V pts pos) {d : Nat} {f : Nat → Nat}
     {xs : Array Nat} (h : Ent n pos n f d xs) : xs = Array.ofFn (n := n) fun i => f i.val := by
   apply Array.ext (by rw [h.1, Array.size_ofFn])
   intro i hi1 _
   have hin : i < n := h.1 ▸ hi1
-  rw [Array.getElem_ofFn, ← getElem!_pos xs i hi1, h.2 i hin, if_pos (pos_lt hF hin).1]
+  rw [Array.getElem_ofFn, ← getElem!_pos xs i hi1, h.2 i hin, ite_eq_left (pos_lt hF hin).1]
 
 private theorem bd_succ (hF : Facts n m T L D P V pts pos) {c b : Nat}
     (hB : Bd n m D P V pts pos c (b * (m + 1))) (hbc : b < c) :
@@ -252,7 +252,7 @@ private theorem bd_succ (hF : Facts n m T L D P V pts pos) {c b : Nat}
         (by rw [Nat.add_zero, ← Nat.add_assoc]; exact hk)).2
       omega
 
-private theorem bd_next (hF : Facts n m T L D P V pts pos) {c p : Nat}
+private theorem bd_next (_hF : Facts n m T L D P V pts pos) {c p : Nat}
     (hB : Bd n m D P V pts pos c (p * (m + 1) + m + 1)) :
     Bd n m D P V pts pos c ((p + 1) * (m + 1)) := by
   have e : (p + 1) * (m + 1) = p * (m + 1) + m + 1 := by
@@ -272,13 +272,13 @@ private theorem kStep (hF : Facts n m T L D P V pts pos) {gens : Array (Array Na
   unfold kBody
   rw [hy]
   by_cases hc : (decide (T k (pts p) < n) && t.2.1[T k (pts p)]! == 0) = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     rw [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at hc
     obtain ⟨hyn, hd0⟩ := hc
     obtain ⟨he1, he2⟩ := hF.edge k hk (pts p) hx hyn
     have hdy : ¬ pos (T k (pts p)) < c := by
       intro hlt
-      rw [hEd.2 _ hyn, if_pos hlt] at hd0
+      rw [hEd.2 _ hyn, ite_eq_left hlt] at hd0
       have := hF.dep_pos _ hyn
       omega
     obtain ⟨hpy, hpty⟩ := pos_lt hF hyn
@@ -307,7 +307,7 @@ private theorem kStep (hF : Facts n m T L D P V pts pos) {gens : Array (Array Na
     obtain ⟨-, hPn, -, hLy, hDy, -⟩ := hF.step _ hyn hdne
     have hPx : P (T k (pts p)) = pts p := by
       rw [← (pos_lt hF hPn).2, hPy]
-    have hdx : t.2.1[pts p]! = D (pts p) := by rw [hEd.2 _ hx, if_pos (by omega)]
+    have hdx : t.2.1[pts p]! = D (pts p) := by rw [hEd.2 _ hx, ite_eq_left (by omega)]
     have hLr : L (T k (pts p)) = r := by rw [hLy, hPx, hql p hsp hpc]
     refine lstep_yield ⟨c + 1, by omega, ⟨ent_set hF hEl hyn hposy hLr.symm,
       ent_set hF hEd hyn hposy (by rw [hdx, hDy, hPx]), ent_set hF hEp hyn hposy hPx.symm,
@@ -343,7 +343,7 @@ private theorem kStep (hF : Facts n m T L D P V pts pos) {gens : Array (Array Na
             omega
           have := eq_of_key hF hj (by omega) e
           omega
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     refine lstep_yield ⟨c, hpc, ⟨hEl, hEd, hEp, hEv⟩, ⟨hsc, hqs, hqe, hql⟩, hcn, fun j hj => ?_⟩
     constructor
     · intro h1
@@ -361,7 +361,7 @@ private theorem kStep (hF : Facts n m T L D P V pts pos) {gens : Array (Array Na
       apply hc
       rw [hTz, Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
       refine ⟨hz, ?_⟩
-      rw [hEd.2 _ hz, if_neg (by rw [hF.pos_pts j hj]; omega)]
+      rw [hEd.2 _ hz, ite_eq_right (by rw [hF.pos_pts j hj]; omega)]
 
 private theorem qStep (hF : Facts n m T L D P V pts pos) {gens : Array (Array Nat)}
     (hT : ∀ k < m, ∀ x < n, (gens[k]!)[x]! = T k x) (hgs : gens.size = m) {r s i : Nat}
@@ -388,7 +388,7 @@ private theorem qStep (hF : Facts n m T L D P V pts pos) {gens : Array (Array Na
         ⟨c, hic, hA, ⟨hsc, hqs, hqe, hql⟩, hB1 hic⟩
     have hstep : qBody n gens r i t =
         pure (ForInStep.yield (u.1, u.2.1, u.2.2.1, u.2.2.2.1, u.2.2.2.2, t.2.2.2.2.2 + 1)) := by
-      simp only [qBody, hlt, ↓reduceIte, hx, hu] <;> rfl
+      simp only [qBody, hlt, ↓reduceIte, hx, hu]; rfl
     rw [hstep]
     obtain ⟨c', hpc', hA', hQ', hB'⟩ := hK
     have hB'' := bd_next hF hB'
@@ -400,7 +400,7 @@ private theorem qStep (hF : Facts n m T L D P V pts pos) {gens : Array (Array Na
       exact hB''
   · have hstep : qBody n gens r i t = pure (ForInStep.done
         (t.1, t.2.1, t.2.2.1, t.2.2.2.1, t.2.2.2.2.1, t.2.2.2.2.2)) := by
-      simp only [qBody, hlt, ↓reduceIte] <;> rfl
+      simp only [qBody, hlt, ↓reduceIte]
     rw [hstep]
     have hsi : s + i = c := by
       rw [hqs, hhi] at hlt
@@ -416,7 +416,7 @@ private theorem rStep (hF : Facts n m T L D P V pts pos) {gens : Array (Array Na
   · have hd0 : t.2.1[r]! = 0 := beq_iff_eq.1 hd
     have hrc : ¬ pos r < c := by
       intro h
-      rw [hEd.2 r hr, if_pos h] at hd0
+      rw [hEd.2 r hr, ite_eq_left h] at hd0
       have := hF.dep_pos r hr
       omega
     have hcn' : c < n := by
@@ -491,7 +491,7 @@ private theorem rStep (hF : Facts n m T L D P V pts pos) {gens : Array (Array Na
       · exact ⟨c', hsc', hA', hB2' (by omega)⟩
     have hstep : rBody n gens (pts c) t =
         pure (ForInStep.yield (u.1, u.2.1, u.2.2.1, u.2.2.2.1)) := by
-      simp only [rBody, hd, ↓reduceIte, hu] <;> rfl
+      simp only [rBody, hd, ↓reduceIte, hu]; rfl
     rw [hstep]
     obtain ⟨c', hcc', hA', hB'⟩ := hQ
     refine lstep_yield ⟨c', hA', hB', fun v hv => ?_⟩
@@ -502,12 +502,12 @@ private theorem rStep (hF : Facts n m T L D P V pts pos) {gens : Array (Array Na
       rw [e, hzp]
       exact hcc'
   · have hstep : rBody n gens r t = pure (ForInStep.yield (t.1, t.2.1, t.2.2.1, t.2.2.2)) := by
-      simp only [rBody, hd, ↓reduceIte] <;> rfl
+      simp only [rBody, hd]; rfl
     rw [hstep]
     have hrc : pos r < c := by
       by_contra h
       apply hd
-      rw [beq_iff_eq, hEd.2 r hr, if_neg h]
+      rw [beq_iff_eq, hEd.2 r hr, ite_eq_right h]
     refine lstep_yield ⟨c, ⟨hEl, hEd, hEp, hEv⟩, ⟨hcn, hBi⟩, fun v hv => ?_⟩
     rcases Nat.lt_or_ge v r with h | h
     · exact hlow v h

@@ -14,6 +14,7 @@ open Polynomial Module Matrix CFSG.Open CFSG.LocalAnalysis.ComponentInitial.Symp
 
 variable {F : Type} [Field F] [Finite F] {p : ℕ}
 
+omit [Finite F] in
 private theorem nsCore_eq_of_modEq {e s r : ℕ} {C : Matrix (Fin e) (Fin e) F}
     (hCp : C ^ p = 1) {k k' : Fin s → ℕ} (h : ∀ i, k i % p = k' i % p) :
     SLNS.nsCore (r := r) C k = SLNS.nsCore (r := r) C k' := by
@@ -24,6 +25,7 @@ private theorem nsCore_eq_of_modEq {e s r : ℕ} {C : Matrix (Fin e) (Fin e) F}
   funext i
   rw [hpow (k i), hpow (k' i), h i]
 
+omit [Finite F] in
 private theorem exists_card_le_pow_of_frame (hp : p.Prime)
     {n : ℕ} {E : Subgroup (StatedSp n F)}
     {D : Type} [AddCommGroup D] [Module F D] [FiniteDimensional F D] [Nontrivial D]
@@ -36,7 +38,7 @@ private theorem exists_card_le_pow_of_frame (hp : p.Prime)
     (hSJ : ∀ x, (mat x)ᵀ * jMat n F * mat x = jMat n F) :
     ∃ s : ℕ, Nat.card E ≤ p ^ s ∧ s * e ≤ 2 * n := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hSc' : ∀ x ∈ Set.range mat, ∀ y ∈ Set.range mat, Commute x y := by
     rintro _ ⟨X, rfl⟩ _ ⟨Y, rfl⟩
     exact hSc X Y
@@ -96,10 +98,10 @@ theorem exists_card_le_pow_of_isElemAbelian (hp : p.Prime) (hp2 : p ≠ 2) (hpF 
     norm_cast
     omega
   obtain ⟨g, hgirr, hgd⟩ := WfDvdMonoid.exists_irreducible_factor hne (cyclotomic_ne_zero p F)
-  haveI : Fact (Irreducible g) := ⟨hgirr⟩
+  have : Fact (Irreducible g) := ⟨hgirr⟩
   have hζ := NSFrame.root_isPrimitiveRoot (g := g) hp hpF hgd
   have hdeg : g.natDegree = ordQ F p := OrdPNS.natDegree_eq_ordQ hp hpF hgirr hgd
-  haveI : Module.Finite F (AdjoinRoot g) := (AdjoinRoot.powerBasis hgirr.ne_zero).finite
+  have : Module.Finite F (AdjoinRoot g) := (AdjoinRoot.powerBasis hgirr.ne_zero).finite
   let mat : E → Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F :=
     fun X => (((X : StatedSp n F) : GL (Fin n ⊕ Fin n) F) :
       Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
@@ -209,12 +211,12 @@ theorem dvd_card_sub_one_or_add_one_of_pow_le_card (hp : p.Prime) (hp2 : p ≠ 2
     (hpF : (p : F) ≠ 0) {n : ℕ} (hn : 1 ≤ n) (E : Subgroup (StatedSp n F))
     (hE : IsElemAbelian p E) (hcard : p ^ n ≤ Nat.card E) :
     p ∣ Nat.card F - 1 ∨ p ∣ Nat.card F + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hle : ordQ F p ≤ 2 := ordQ_le_two_of_pow_le_card hp hp2 hpF hn E hE hcard
   have hpos : 0 < ordQ F p := OrdPNS.ordQ_pos hp hpF
   have hdvdQ : ordQ F p ∣ 2 := by
     have hcases : ordQ F p = 1 ∨ ordQ F p = 2 := by omega
-    rcases hcases with h | h <;> rw [h] <;> norm_num
+    rcases hcases with h | h <;> rw [h]; norm_num
   have hdvd : orderOf ((Nat.card F : ℕ) : ZMod p) ∣ 2 := by
     rw [← OrdPNS.ordQ_def F p]
     exact hdvdQ

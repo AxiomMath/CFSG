@@ -20,8 +20,8 @@ section Helpers
 
 private lemma tf_exists_pow_eq_of_ne_one {p : ℕ} (hp : p.Prime)
     {a b : Multiplicative (ZMod p)} (ha : a ≠ 1) : ∃ c : ℕ, a ^ c = b := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hA : a.toAdd ≠ 0 := fun h => ha (toAdd_eq_zero.mp h)
   refine ⟨(b.toAdd / a.toAdd).val, ?_⟩
   apply (Multiplicative.toAdd).injective
@@ -61,8 +61,8 @@ private lemma tf_coordInv_apply_of_eq_one {N p : ℕ} (i : Fin N)
   funext t
   rw [coordInv_apply, Function.update_apply]
   by_cases h : t = i
-  · subst h; rw [if_pos rfl, hv, inv_one]
-  · rw [if_neg h]
+  · subst h; rw [ite_eq_left rfl, hv, inv_one]
+  · rw [ite_eq_right h]
 
 private lemma tf_pow_eq_one_of_zpow_neg_two_mul {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {g : Multiplicative (ZMod p)} {i : ℤ} (h : g ^ (-(2*i)) = 1) : g ^ i = 1 := by
@@ -220,7 +220,7 @@ private lemma fr_axial_support {N p : ℕ} {v : Fin N → Multiplicative (ZMod p
     ∃ i0, v i0 ≠ 1 ∧ ∀ i, i ≠ i0 → v i = 1 := by
   obtain ⟨i0, hi0⟩ : ∃ i, v i ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hv1 (funext fun i => h i)
   refine ⟨i0, hi0, fun i hi => ?_⟩
   rcases hv i i0 hi with h | h
@@ -240,13 +240,14 @@ private lemma fr_coordPerm_apply_axial {N p : ℕ} (a c : Fin N)
       apply ht
       have h2 := congrArg (Equiv.swap a c) h
       rwa [Equiv.swap_apply_self, Equiv.swap_apply_left] at h2
-    rw [if_neg ht, hXoff _ hne]
+    rw [ite_eq_right ht, hXoff _ hne]
 
 private lemma fr_coordInv_mulSingle {N p : ℕ} (c : Fin N) (γ : Multiplicative (ZMod p)) :
     coordInv N p c (Pi.mulSingle c γ) = Pi.mulSingle c γ⁻¹ := by
   funext t
-  by_cases ht : t = c <;> simp [coordInv_apply, Pi.mulSingle_apply, ht]
+  by_cases ht : t = c <;> simp [coordInv_apply, ht]
 
+omit [Finite G] in
 private lemma fr_phi_mem_orbit {p m : ℕ}
     {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)}
     (Φ : (Fin (m + 1) → Multiplicative (ZMod p)) ≃* ↥Bs)
@@ -323,7 +324,7 @@ private lemma fr_two_mul_le_card_orbit {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     have hb : b = b' := by
       have h := congrFun hv c
       rw [hc, hvf_self (c', b), hvf_self (c', b')] at h
-      cases b <;> cases b' <;> simp_all [hαne]
+      cases b <;> cases b' <;> simp_all
     exact Prod.ext hc hb
   have hcarddom : Nat.card (Fin (m + 1) × Bool) = 2 * (m + 1) := by
     rw [Nat.card_prod, Nat.card_fin, Nat.card_eq_fintype_card, Fintype.card_bool]
@@ -408,8 +409,8 @@ private lemma fr_inv_eq_self_iff {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
 
 private lemma fr_exists_pow_eq_of_ne_one {p : ℕ} (hp : p.Prime)
     {a b : Multiplicative (ZMod p)} (ha : a ≠ 1) : ∃ c : ℕ, a ^ c = b := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hA : a.toAdd ≠ 0 := fun h => ha (toAdd_eq_zero.mp h)
   refine ⟨(b.toAdd / a.toAdd).val, ?_⟩
   apply (Multiplicative.toAdd).injective
@@ -548,13 +549,13 @@ private lemma fr_coordPerm_mulSingle {N p : ℕ} (σ : Equiv.Perm (Fin N))
   rw [coordPerm_apply, Pi.mulSingle_apply, Pi.mulSingle_apply]
   have hiff : σ.symm t = i ↔ t = σ i := Equiv.symm_apply_eq σ
   by_cases ht : t = σ i
-  · rw [if_pos (hiff.mpr ht), if_pos ht]
-  · rw [if_neg (fun h => ht (hiff.mp h)), if_neg ht]
+  · rw [ite_eq_left (hiff.mpr ht), ite_eq_left ht]
+  · rw [ite_eq_right (fun h => ht (hiff.mp h)), ite_eq_right ht]
 
 private lemma fr_axial_eq_mulSingle {N p : ℕ} {v : Fin N → Multiplicative (ZMod p)}
     {i : Fin N} (hv : ∀ j, j ≠ i → v j = 1) : v = Pi.mulSingle i (v i) := by
   funext t
-  by_cases ht : t = i <;> simp [Pi.mulSingle_apply, ht, hv]
+  by_cases ht : t = i <;> simp [ht, hv]
 
 private lemma fr_coordInv_two {N p : ℕ} {a c : Fin N} (hca : c ≠ a)
     (γ δ : Multiplicative (ZMod p)) :
@@ -564,13 +565,13 @@ private lemma fr_coordInv_two {N p : ℕ} {a c : Fin N} (hca : c ≠ a)
   rw [coordInv_apply]
   by_cases ht : t = c
   · subst ht
-    rw [Function.update_apply, if_pos rfl]
-    simp [Pi.mul_apply, Pi.mulSingle_apply, hca]
+    rw [Function.update_apply, ite_eq_left rfl]
+    simp [Pi.mul_apply, hca]
   · rw [Function.update_of_ne ht]
     by_cases ha : t = a
     · subst ha
-      simp [Pi.mul_apply, Pi.mulSingle_apply, ht, hca]
-    · simp [Pi.mul_apply, Pi.mulSingle_apply, ht, ha]
+      simp [Pi.mul_apply, ht]
+    · simp [Pi.mul_apply, ht, ha]
 
 private lemma fr_sgnAut_eq_coordInv (k p : ℕ) (i : Fin k) :
     sgnAut (p := p) i = coordInv k p i := by
@@ -582,6 +583,7 @@ private lemma fr_permAut_eq_coordPerm (k p : ℕ) (σ : Equiv.Perm (Fin k)) :
   ext f
   rfl
 
+omit [Finite G] in
 private lemma fr_congr_apply {p N : ℕ} {Bs : Subgroup G}
     (Φ : (Fin N → Multiplicative (ZMod p)) ≃* ↥Bs)
     (u : MulAut (Fin N → Multiplicative (ZMod p)))
@@ -590,6 +592,7 @@ private lemma fr_congr_apply {p N : ℕ} {Bs : Subgroup G}
   rw [MulAut.congr_apply]
   simp [MulEquiv.trans_apply]
 
+omit [Finite G] in
 private lemma fr_isReflection_congr {p N : ℕ} {Bs : Subgroup G}
     (Φ : (Fin N → Multiplicative (ZMod p)) ≃* ↥Bs)
     {u : MulAut (Fin N → Multiplicative (ZMod p))}
@@ -618,7 +621,7 @@ private lemma fr_orderOf_sgnAut_mul_permAut_swap {p k : ℕ} (hp : p.Prime) (hp2
     {c d : Fin k} (hcd : c ≠ d) :
     orderOf (sgnAut c * permAut (Equiv.swap c d) :
       MulAut (Fin k → Multiplicative (ZMod p))) = 4 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let w : MulAut (Fin k → Multiplicative (ZMod p)) := sgnAut c * permAut (Equiv.swap c d)
   have hwc : ∀ a : Multiplicative (ZMod p),
       w (Pi.mulSingle c a) = Pi.mulSingle d a := by
@@ -876,17 +879,17 @@ theorem two_mul_le_card_orbit_of_frame {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     funext i
     by_cases hia : i = a
     · subst hia
-      simp [γ, Pi.mul_apply, Pi.mulSingle_apply, Ne.symm hba]
+      simp [γ, Pi.mul_apply, Ne.symm hba]
     · by_cases hib : i = b
       · subst hib
-        simp [δ, Pi.mul_apply, Pi.mulSingle_apply, hba]
+        simp [δ, Pi.mul_apply, hba]
       · rw [hZoff i hia hib]
-        simp [Pi.mul_apply, Pi.mulSingle_apply, hia, hib]
+        simp [Pi.mul_apply, hia, hib]
   let vec : Fin n × Bool → Fin (n + 1) → Multiplicative (ZMod p) :=
     fun q => Pi.mulSingle a γ * Pi.mulSingle (a.succAbove q.1) (if q.2 then δ⁻¹ else δ)
   have hvec_self : ∀ q, vec q (a.succAbove q.1) = if q.2 then δ⁻¹ else δ := by
     intro q
-    simp [vec, Pi.mul_apply, Pi.mulSingle_apply, Fin.succAbove_ne]
+    simp [vec, Pi.mul_apply, Fin.succAbove_ne]
   have hmem : ∀ q, Φ (vec q) ∈ MulAction.orbit AL (⟨y', hy'⟩ : ↥Bs) := by
     rintro ⟨c, s⟩
     have hc'a : a.succAbove c ≠ a := Fin.succAbove_ne a c
@@ -941,14 +944,14 @@ theorem two_mul_le_card_orbit_of_frame {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
       have h1 : vec (c', s') (a.succAbove c) = 1 := by
         dsimp only [vec]
         simp only [Pi.mul_apply, Pi.mulSingle_apply]
-        rw [if_neg (Fin.succAbove_ne a c),
-          if_neg (fun h => hne (Fin.succAbove_right_injective h)), mul_one]
+        rw [ite_eq_right (Fin.succAbove_ne a c),
+          ite_eq_right (fun h => hne (Fin.succAbove_right_injective h)), mul_one]
       rw [h1] at hval
-      cases s <;> simp_all [hδ, inv_ne_one.mpr hδ]
+      cases s <;> simp_all
     have hss' : s = s' := by
       rw [← hcc'] at hval
       rw [hvec_self (c, s')] at hval
-      cases s <;> cases s' <;> simp_all [hδne]
+      cases s <;> cases s' <;> simp_all
     exact Prod.ext hcc' hss'
   have hcarddom : Nat.card (Fin n × Bool) = 2 * n := by
     rw [Nat.card_prod, Nat.card_fin, Nat.card_eq_fintype_card, Fintype.card_bool]
@@ -1045,7 +1048,7 @@ theorem zpowers_eq_of_two_frames {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hm 
     rw [coordInv_apply, Function.update_apply, Pi.inv_apply]
     by_cases ht : t = c'
     · subst ht; simp
-    · rw [if_neg ht, hZ'off t ht, inv_one]
+    · rw [ite_eq_right ht, hZ'off t ht, inv_one]
   have hσz : σ zb = zb⁻¹ := by
     have h1 : σ (Φ' Z') = Φ' (coordInv (m + 1) p c' Z') := hσval Z'
     rw [hciZ', map_inv, hΦ'Z'] at h1

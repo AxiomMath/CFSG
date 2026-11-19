@@ -52,7 +52,7 @@ theorem u62lb_noNormal_of_phi
       Nat.Coprime 3 (Nat.card N) → NoCommutingPlane h N) :
     ∀ N : Subgroup (primeFormP h (idGram K 6)), TorusInv h N → Nat.Coprime 3 (Nat.card N) →
       N = ⊥ := by
-  haveI := u62lb_finite h
+  have := u62lb_finite h
   suffices H : ∀ k : ℕ, ∀ N : Subgroup (primeFormP h (idGram K 6)), Nat.card N = k →
       TorusInv h N → Nat.Coprime 3 (Nat.card N) → N = ⊥ from fun N => H _ N rfl
   intro k

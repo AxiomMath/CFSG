@@ -108,8 +108,7 @@ theorem w183_dynkin_subgroupOf {Y L : Subgroup W} (hLY : L ≤ Y)
           rw [Subgroup.mem_subgroupOf]
           exact (hxnorm ⟨s, hsY⟩).mpr (Subgroup.mem_subgroupOf.mpr hs)
         exact Subgroup.mem_subgroupOf.mp hs'
-  · intro l' hl'
-    intro hEq
+  · intro l' hl' hEq
     let u : ↥Y := (⟨τ, hτ⟩ : ↥Y)⁻¹ * l'
     have hmap := congrArg (Subgroup.map Y.subtype) hEq
     rw [w183_conjSubgroup_map_subgroupOf hPY u.2,

@@ -75,36 +75,36 @@ theorem exists_semiFrame {F : Type} [Field F] [Finite F] {P : Type} [CommGroup P
     (hP : (Nat.card P : F) ≠ 0) {V : Type} [AddCommGroup V] [Module F V] [Module.Finite F V]
     (ρ : P →* (V ≃ₗ[F] V)) : Nonempty (SemiFrame F ρ) := by
   classical
-  haveI : NeZero (Nat.card P : F) := ⟨hP⟩
+  have : NeZero (Nat.card P : F) := ⟨hP⟩
   let A := MonoidAlgebra F P
-  haveI hss : IsSemisimpleRing A := inferInstance
-  haveI : IsReduced A := inferInstance
-  haveI : IsArtinianRing A := inferInstance
-  haveI : IsNoetherianRing A := inferInstance
-  haveI : Module.Finite F A := inferInstance
-  haveI : Finite A := Module.finite_of_finite F
-  haveI : Finite (MaximalSpectrum A) := inferInstance
-  haveI : Fintype (MaximalSpectrum A) := Fintype.ofFinite _
+  have hss : IsSemisimpleRing A := inferInstance
+  have : IsReduced A := inferInstance
+  have : IsArtinianRing A := inferInstance
+  have : IsNoetherianRing A := inferInstance
+  have : Module.Finite F A := inferInstance
+  have : Finite A := Module.finite_of_finite F
+  have : Finite (MaximalSpectrum A) := inferInstance
+  have : Fintype (MaximalSpectrum A) := Fintype.ofFinite _
   let ρ' : Representation F P V :=
     (LinearEquiv.automorphismGroup.toLinearMapMonoidHom (R := F) (M := V)).comp ρ
   let M := ρ'.asModule
-  haveI : Module.Finite F M := inferInstance
-  haveI : Module.Finite A M := Module.Finite.of_restrictScalars_finite F A M
+  have : Module.Finite F M := inferInstance
+  have : Module.Finite A M := Module.Finite.of_restrictScalars_finite F A M
   let r : ℕ := Fintype.card (MaximalSpectrum A)
   let eqv : Fin r ≃ MaximalSpectrum A := (Fintype.equivFin (MaximalSpectrum A)).symm
   let Ept : MaximalSpectrum A → Type := fun I => A ⧸ I.asIdeal
-  letI hEfield : ∀ I, Field (Ept I) := fun I => Ideal.Quotient.field I.asIdeal
-  letI hEalg : ∀ I, Algebra F (Ept I) := fun I => inferInstance
-  letI hEmod : ∀ I, Module F (Ept I) := fun I => Algebra.toModule
-  haveI hEfin : ∀ I, Finite (Ept I) := fun I =>
+  let hEfield : ∀ I, Field (Ept I) := fun I => Ideal.Quotient.field I.asIdeal
+  let hEalg : ∀ I, Algebra F (Ept I) := fun I => inferInstance
+  let hEmod : ∀ I, Module F (Ept I) := fun I => Algebra.toModule
+  have hEfin : ∀ I, Finite (Ept I) := fun I =>
     Finite.of_surjective (Ideal.Quotient.mk I.asIdeal) Ideal.Quotient.mk_surjective
   let T : MaximalSpectrum A → Submodule A M := fun I => Submodule.torsionBySet A M I.asIdeal
-  haveI hTfin : ∀ I, Module.Finite A (T I) := fun I =>
+  have hTfin : ∀ I, Module.Finite A (T I) := fun I =>
     Module.Finite.iff_fg.mpr (Submodule.FG.of_le
       (Module.Finite.iff_fg.mp (inferInstance : Module.Finite A (⊤ : Submodule A M))) le_top)
-  haveI hTEfin : ∀ I, Module.Finite (Ept I) (T I) := fun I =>
+  have hTEfin : ∀ I, Module.Finite (Ept I) (T I) := fun I =>
     Module.Finite.of_restrictScalars_finite A (Ept I) (T I)
-  haveI hTEfree : ∀ I, Module.Free (Ept I) (T I) := fun I =>
+  have hTEfree : ∀ I, Module.Free (Ept I) (T I) := fun I =>
     Module.Free.of_basis (Module.Basis.ofVectorSpace (Ept I) (T I))
   let m : MaximalSpectrum A → ℕ := fun I => Module.finrank (Ept I) (T I)
   let coordA : ∀ I, T I ≃ₗ[A] (Fin (m I) → Ept I) := fun I =>
@@ -213,7 +213,7 @@ theorem exists_semiFrame {F : Type} [Field F] [Finite F] {P : Type} [CommGroup P
             by_cases h : j = i
             · subst h; simp
             · have h' : eqv j ≠ eqv i := fun hh => h (eqv.injective hh)
-              simp [Pi.single_eq_of_ne (Ne.symm h'), h]
+              simp [h]
           have he_smul : ∀ (i : Fin r) (y : ∀ j : Fin r, Fin (mfun j) → Efun j),
               e i • y = Pi.single i (y i) := by
             intro i y
@@ -223,7 +223,7 @@ theorem exists_semiFrame {F : Type} [Field F] [Finite F] {P : Type} [CommGroup P
             rw [hact, he_i i j]
             by_cases h : j = i
             · subst h; simp
-            · simp [Pi.single_eq_of_ne h, h]
+            · simp [h]
           intro i
           refine ⟨{ toFun := fun w => hlin (Pi.single i w) i
                     map_add' := ?_

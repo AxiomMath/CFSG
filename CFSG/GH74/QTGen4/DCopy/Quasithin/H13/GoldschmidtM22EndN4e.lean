@@ -51,7 +51,7 @@ theorem inf_le_centralizerMod_F4 (h621 : Stmt6_2_1_F4) (h6211 : Stmt6_2_11_F4) {
       have := (V ⊔ conjSubgroup V g).mul_mem hkK hxk
       simpa [mul_assoc] using this
     · have hkx : k * x * k⁻¹ ∈ CHU T L V :=
-        (Subgroup.mem_normalizer_iff.mp (HH_le_normalizer_CHU h hZ hkH) x).mp hxCHU
+        (Subgroup.mem_normalizer_iff.mp (HH_le_normalizer_CHU hZ hkH) x).mp hxCHU
       exact (CHU T L V).mul_mem hkx ((CHU T L V).inv_mem hxCHU)
   set e := k * x * k⁻¹ * x⁻¹ with hedef
   set v := k * w * k⁻¹ with hvdef

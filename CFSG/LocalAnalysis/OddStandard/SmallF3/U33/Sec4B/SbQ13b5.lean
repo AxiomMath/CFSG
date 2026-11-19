@@ -56,8 +56,8 @@ theorem q13b_normalIn_of_unique {𝒮 Y : Subgroup G} (m : ℕ) (hY : CFSG.Open.
           exact Subgroup.mem_map.mpr ⟨x, hx, rfl⟩
       have hR1normalIn : (R₁.subgroupOf R).Normal := by
         rw [hsub]
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-        haveI : Group.IsNilpotent ↥R := IsPGroup.isNilpotent hR
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Group.IsNilpotent ↥R := IsPGroup.isNilpotent hR
         exact Group.normalizerCondition_of_isNilpotent.normal_of_coatom M hMcoat
       have hR1conj : ∀ h k : G, h ∈ R₁ → k ∈ R → k * h * k⁻¹ ∈ R₁ :=
         (Subgroup.normal_subgroupOf_iff hR1le).mp hR1normalIn
@@ -78,7 +78,7 @@ theorem q13b_normalIn_of_unique {𝒮 Y : Subgroup G} (m : ℕ) (hY : CFSG.Open.
           simpa only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] using
             hR1conj y r hyR1 hr
         have hAelem : CFSG.Open.IsElemAbelian 2 A := by
-          haveI : IsMulCommutative Y := hY.1
+          have : IsMulCommutative Y := hY.1
           refine ⟨?_, ?_⟩
           · change IsMulCommutative (Y.map (MulAut.conj r).toMonoidHom)
             infer_instance

@@ -66,7 +66,7 @@ theorem D1OneSmallData.odd_card_primeCore_cz (hd : D1OneSmallData p P M H R Rbar
   have hRC' : R ≤ C := hd.le_centralizer_czElt hz
   have hCM : ¬ C ≤ M := hd.centralizer_not_le hz
   set T : Subgroup G := (P' : Subgroup G) ⊓ C
-  have hTp : IsPGroup p T := P'.isPGroup'.to_le inf_le_left
+  have hTp : IsPGroup p T := P'.isPGroup.to_le inf_le_left
   have hTM : T ≤ M := inf_le_left.trans hP'M
   have hT4 : 4 ≤ Open.pRank p T := by
     have h4 := hRC.four_le_pRank

@@ -54,7 +54,7 @@ theorem Bender39Conditions.ne_bot {t : G} {H T V : Subgroup G} {p : ℕ}
 theorem qCoreOf_two_le_sylow {M : Subgroup G} (T : Sylow 2 G) (hTM : (T : Subgroup G) ≤ M) :
     qCoreOf M 2 ≤ T := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have h := T.isPGroup'.to_sup_of_normal_right' (qCoreOf_isPGroup M 2)
+  have h := T.isPGroup.to_sup_of_normal_right' (qCoreOf_isPGroup M 2)
     (hTM.trans (le_normalizer_of_isNormalIn (qCoreOf_normal_in M 2)))
   have heq := T.maximal_isPGroup.eq_of_le h le_sup_left
   exact le_sup_right.trans heq.ge

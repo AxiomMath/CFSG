@@ -28,7 +28,7 @@ theorem eq_one_of_pElement_mem_closure_twoElements {p : ℕ} (hp : p.Prime) (hp2
   obtain ⟨P, -⟩ := hpg.exists_le_sylow
   have hPc : ∀ g ∈ (P : Subgroup G), g ∈ Subgroup.center G := by
     intro g hg
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨g, hg⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨g, hg⟩
     exact hcent g ⟨m, congrArg Subtype.val hm⟩
   have hN : Subgroup.normalizer (P : Set G) ≤ Subgroup.centralizer (P : Set G) :=
     fun n _ g hg => ((Subgroup.mem_center_iff.1 (hPc g hg)) n).symm
@@ -38,7 +38,7 @@ theorem eq_one_of_pElement_mem_closure_twoElements {p : ℕ} (hp : p.Prime) (hp2
     rintro a ⟨j, hj⟩
     rw [SetLike.mem_coe, MonoidHom.mem_ker]
     have h1 : (φ a) ^ 2 ^ j = 1 := by rw [← map_pow, hj, map_one]
-    obtain ⟨m, hm⟩ := P.isPGroup' (φ a)
+    obtain ⟨m, hm⟩ := P.isPGroup (φ a)
     have hcop : Nat.Coprime (p ^ m) (2 ^ j) :=
       Nat.Coprime.pow m j ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
     have h2 : orderOf (φ a) ∣ p ^ m := orderOf_dvd_of_pow_eq_one hm

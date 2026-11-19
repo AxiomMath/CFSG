@@ -169,7 +169,7 @@ theorem exists_sylow_fusion_of_field (hcat : L3TwoPowProperFixedCatalog)
     exact (Subgroup.map_mono hAn).trans (Subgroup.le_normalizer_map _)
   have hS12 : IsPGroup 2 S1 := by
     obtain ⟨Q1, hQ1⟩ := hSyl1.2
-    have hQ2 : IsPGroup 2 (S1.subgroupOf (normalizer (W : Set G))) := hQ1 ▸ Q1.isPGroup'
+    have hQ2 : IsPGroup 2 (S1.subgroupOf (normalizer (W : Set G))) := hQ1 ▸ Q1.isPGroup
     have := hQ2.map (normalizer (W : Set G)).subtype
     rwa [subgroupOf_map_subtype, inf_of_le_left hSyl1.1] at this
   have h3 : IsThreeConnected S1 :=
@@ -218,8 +218,8 @@ theorem hom_eq_one_of_field_signalizer (hcat : L3TwoPowProperFixedCatalog)
     (χ : ↥(normalizer (W : Set G)) →* B) : χ ⟨t, htM⟩ = 1 := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hsimple : IsSimpleGroup G := hset.1.1
-  haveI hperf : Group.IsPerfect G :=
+  have hsimple : IsSimpleGroup G := hset.1.1
+  have hperf : Group.IsPerfect G :=
     Group.IsPerfect.mk
       (CFSG.SignalizerFunctorTheorem.IsSectionOf.commutator_eq_top_of_simple hset.1.2.1)
   obtain ⟨S, -, hSM, ⟨A, hAS, hSnA, hA, hA32⟩, hfus⟩ :=

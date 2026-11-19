@@ -103,7 +103,7 @@ theorem exists_conj_mem_of_sylow {X : Type} [Group X] [Finite X] {U V : Subgroup
   have hmemU' : ∀ v ∈ U', ∃ u ∈ U, k * u * k⁻¹ = v := by
     rintro _ ⟨u, hu, rfl⟩
     exact ⟨u, hu, rfl⟩
-  have hQ3 : IsPGroup 3 (Q : Subgroup X) := Q.isPGroup'
+  have hQ3 : IsPGroup 3 (Q : Subgroup X) := Q.isPGroup
   have hne : U' ⊓ V ≠ ⊥ := by
     rcases hX with hQ9 | ⟨hQ27, hV9⟩
     · have heq : U' = Q := Subgroup.eq_of_le_of_card_ge hk (by rw [hU'9]; exact hQ9 Q)
@@ -171,7 +171,7 @@ theorem exists_conj_mem_zpowers {C : Subgroup G}
   obtain ⟨Q, hcQ⟩ := ((hz3 hc3).comap_subtype (K := C)).exists_le_sylow
   obtain ⟨y, hy⟩ := Late.exists_map_conj_le_sylow ((hz3 hw3).comap_subtype (K := C)) Q
   set Q' : Subgroup G := (Q : Subgroup C).map C.subtype with hQ'
-  have hQ'3 : IsPGroup 3 Q' := Q.isPGroup'.map C.subtype
+  have hQ'3 : IsPGroup 3 Q' := Q.isPGroup.map C.subtype
   have hQ'C : Q' ≤ C := Subgroup.map_subtype_le _
   have hcyc : IsCyclic Q' := isCyclic_of_forall_elemAbelian_card_le_three hQ'3 fun X hX hXe =>
     hC X (hX.trans hQ'C) hXe

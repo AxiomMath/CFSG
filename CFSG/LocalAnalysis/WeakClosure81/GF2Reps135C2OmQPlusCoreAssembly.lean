@@ -23,24 +23,24 @@ theorem omq_omPlus_core_of_interfaces (h1 : OmqPlusWeightVector) (h2 : OmqRankFr
       T (ρ s v) =
         (spinMatrix (quadPlus n F) s : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) *ᵥ T v := by
   have hn3 : 3 ≤ n := by omega
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hF4 : 4 ≤ Nat.card F := by
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
-  haveI : ρ.IsIrreducible :=
+  have : ρ.IsIrreducible :=
     (CFSG.QuasithinUnique.Setup.SL2Modules.isIrreducible_iff ρ).mpr hρ
-  haveI : Finite (CFSG.LieType.RootSystem.coxeterMatrix (isFiniteType_cartanD n)).Group :=
+  have : Finite (CFSG.LieType.RootSystem.coxeterMatrix (isFiniteType_cartanD n)).Group :=
     CFSG.LieType.RootSystem.finite_group (isFiniteType_cartanD n)
   let D := omPlusCurtisDatum n F hn3
   obtain ⟨k, _hk, _hkc, _hka, _halg, ι, s, y₀, χ, μ, hs, hE, hsimp, ht, hfrob, hrank, htriv⟩ :=
     omq_endfield_scaffold D (F := F) ρ
   let σ := CFSG.Theory.Representation.extendScalars k (CFSG.endFieldRep ρ)
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
-  haveI : FiniteDimensional (Module.End (MonoidAlgebra (ZMod 2) (spinGroup (quadPlus n F)))
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : FiniteDimensional (Module.End (MonoidAlgebra (ZMod 2) (spinGroup (quadPlus n F)))
       ρ.asModule) ρ.asModule :=
     CFSG.HardMathSupport.GuralnickMalle.finiteDimensional_endField ρ
-  haveI : Module.Finite k (k ⊗[Module.End (MonoidAlgebra (ZMod 2) (spinGroup (quadPlus n F)))
+  have : Module.Finite k (k ⊗[Module.End (MonoidAlgebra (ZMod 2) (spinGroup (quadPlus n F)))
       ρ.asModule] ρ.asModule) := inferInstance
   have hy1 : y ≠ 1 := fun h => hρy (by rw [h, map_one])
   have hσy : σ y ≠ 1 := fun h => hρy ((htriv y).mp h)

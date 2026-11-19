@@ -89,10 +89,10 @@ theorem kd264Y1OutExc_holds : KD264Y1OutExc := by
     ·
       obtain ⟨K, hfield, hfinite, σ, hK, hσ, -, ⟨eB⟩⟩ :=
         CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
-      letI := hfield
-      letI := hfinite
-      haveI : Finite (ModGL Tag.D4 K) := finite_modGL
-      haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+      let := hfield
+      let := hfinite
+      have : Finite (ModGL Tag.D4 K) := finite_modGL
+      have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
       have hCE : ChevalleyExceptionalModel ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)
           .trialityD4 q.p q.exponent :=
         CFSG.HardMathSupport.Dickson.Sec6.chevalleyExceptionalModel_trialityD4_of_equiv

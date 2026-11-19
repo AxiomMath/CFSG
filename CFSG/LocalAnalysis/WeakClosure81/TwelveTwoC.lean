@@ -15,6 +15,7 @@ section TwoC
 variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {n m : ℕ}
 
+omit [Finite V] in
 theorem Setting12One.exists_nontrivial_of_cartan [Finite G]
     {ρ : G →* LGL 2 V} {B A : Subgroup G} {Z : Submodule (ZMod 2) V}
     (h : Setting12One ρ B Z A n m) {S : Sylow 2 G} (hSB : B = normalizer (S : Set G))
@@ -59,7 +60,7 @@ theorem sylow_trivial_of_regular (ρ : G →* LGL 2 V) {S : Sylow 2 G} {T : Subg
     {Z : Submodule (ZMod 2) V} (hT : T ≤ normalizer (S : Set G))
     (hSZ : ∀ s ∈ (S : Subgroup G), ∀ z ∈ Z, ρ s z ∈ Z) (hZ0 : Z ≠ ⊥)
     (hreg : RegularOnNonzero ρ T Z) : ∀ s ∈ (S : Subgroup G), ∀ z ∈ Z, ρ s z = z := by
-  obtain ⟨w, hwZ, hw0, hwfix⟩ := exists_fixed_vector_of_isPGroup ρ S.isPGroup' hSZ hZ0
+  obtain ⟨w, hwZ, hw0, hwfix⟩ := exists_fixed_vector_of_isPGroup ρ S.isPGroup hSZ hZ0
   intro s hs z hz
   by_cases hz0 : z = 0
   · rw [hz0, map_zero]
@@ -79,6 +80,7 @@ theorem odd_orderOf_of_odd_card {T : Subgroup G} (hT : Odd (Nat.card T)) {x : G}
   rw [Subgroup.orderOf_mk] at h1
   exact hT.of_dvd_nat h1
 
+omit [Finite V] in
 theorem eq_zero_of_fixed_of_odd_mem_borel (ρ : G →* LGL 2 V) {S : Sylow 2 G}
     {B T : Subgroup G} {Z : Submodule (ZMod 2) V} (hTB : T ≤ B)
     (hBZ : ∀ b ∈ B, ∀ z ∈ Z, ρ b z ∈ Z)
@@ -98,7 +100,7 @@ theorem eq_zero_of_fixed_of_odd_mem_borel (ρ : G →* LGL 2 V) {S : Sylow 2 G}
     apply hx1
     rw [hy1, mul_one] at hodd ⊢
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf (p := 2) (G := ↥(S : Subgroup G))).mp
-      S.isPGroup' ⟨s, hs⟩
+      S.isPGroup ⟨s, hs⟩
     have hk' : orderOf s = 2 ^ k := by simpa using hk
     rw [hk'] at hodd
     have hk0 : k = 0 := by

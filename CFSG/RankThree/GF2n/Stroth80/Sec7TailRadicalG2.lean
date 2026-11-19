@@ -103,7 +103,7 @@ private theorem nonempty_mulEquiv_levi_singleton_sl2 [CharP K 2] (i : Fin τ.ran
     rw [hrange]
     congr 1
     ext g
-    simp only [Set.mem_singleton_iff, exists_eq_left, Set.mem_setOf_eq, Set.mem_union,
+    simp only [Set.mem_singleton_iff, exists_eq_left, Set.mem_ofPred_eq, Set.mem_union,
       Set.mem_range]
     constructor
     · rintro ⟨c, rfl | rfl⟩
@@ -162,7 +162,7 @@ private theorem exists_mulEquiv_map_eq_parabolicSubgroup {X : Type} [Group X] [F
         parabolicSubgroup τ K
           {i | weylElt τ K i 1 ∈ (P.map ψ'.toMonoidHom).map (adjointGroup τ K).subtype} := by
   classical
-  haveI : Finite ↥(adjointGroup τ K) := Finite.of_equiv X ψ.toEquiv
+  have : Finite ↥(adjointGroup τ K) := Finite.of_equiv X ψ.toEquiv
   obtain ⟨w₀, hw₀, -⟩ := weyl_longest_element τ
   obtain ⟨⟨U₀, hU₀⟩, -⟩ := exceptional_ordinary_Sylow_opposition τ K p w₀ hw₀
   let S' : Sylow p ↥(adjointGroup τ K) := Sylow.mapSurjective (f := ψ.toMonoidHom) ψ.surjective S₂
@@ -214,14 +214,14 @@ theorem radicalTwoSubgroup_g2 :
                 Nonempty ((S ⧸ Z') ≃* StatedProj (StatedSL 2 K)) := by
   classical
   rintro X _ _ ⟨m, -, hX⟩ U hU1 hU2 hrad S - hSq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.chevalleyExceptionalModel hX (by decide)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := m) (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := m) (by rw [← Nat.card_eq_fintype_card, hK])
   let ψ : X ≃* ↥(adjointGroup .G2 K) :=
     e.trans ((QuotientGroup.quotientMulEquivOfEq center_adjointGroup_eq_bot).trans
       QuotientGroup.quotientBot)
-  haveI : Finite ↥(adjointGroup .G2 K) := Finite.of_equiv X ψ.toEquiv
+  have : Finite ↥(adjointGroup .G2 K) := Finite.of_equiv X ψ.toEquiv
   obtain ⟨S₂, P, hPtop, hNP, -, -, hSP⟩ :=
     (CFSG.LieType.BorelTits.Holds.of_mulEquiv ψ.symm (holds_adjointGroup_tag .G2 K 2)) U hU1 hU2
   obtain ⟨ψ', hP'⟩ := exists_mulEquiv_map_eq_parabolicSubgroup ψ S₂ hSP

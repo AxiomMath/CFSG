@@ -17,6 +17,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_coord_eq_zero_of_cent (hK : Nat.card K = 4) {L Bs : Subgroup G}
     {Q : Type} [Group Q] {f : ↥(Subgroup.normalizer (L : Set G)) →* Q} {ψ : Su K 2 1 6 →* Q}
     (hD : NsQuot.Datum 3 (Subgroup.normalizer (L : Set G)) f L Bs (twoCentral L))
@@ -66,15 +67,16 @@ theorem ggQTwoDUnitSix_coord_eq_zero_of_cent (hK : Nat.card K = 4) {L Bs : Subgr
   have hkc : k ≠ c := (Finset.mem_erase.mp hkS).1
   have haS : a ∈ Finset.univ.erase c := Finset.mem_erase.mpr ⟨hac, Finset.mem_univ a⟩
   have hsk := congrFun hdS k
-  rw [dSign_apply_vec, if_neg (not_or.mpr ⟨hka, hkc⟩)] at hsk
+  rw [dSign_apply_vec, ite_eq_right (not_or.mpr ⟨hka, hkc⟩)] at hsk
   have hsa := congrFun hdS a
-  rw [dSign_apply_vec, if_pos (Or.inl rfl), hconst_y a haS k hkS, hsk,
+  rw [dSign_apply_vec, ite_eq_left (Or.inl rfl), hconst_y a haS k hkS, hsk,
     ← hconst_s a haS k hkS] at hsa
   have ht : βL (Additive.ofMul s) a = 0 :=
     (by decide : ∀ t : ZMod 3, -t = t → t = 0) _ hsa
   intro j hj
   rw [hconst_s j (Finset.mem_erase.mpr ⟨hj, Finset.mem_univ j⟩) a haS, ht]
 
+omit [Finite G] in
 theorem ggQTwoDUnitSix_cent_E (hK : Nat.card K = 4) {L Bs : Subgroup G} {Q : Type} [Group Q]
     {f : ↥(Subgroup.normalizer (L : Set G)) →* Q} {ψ : Su K 2 1 6 →* Q}
     (hD : NsQuot.Datum 3 (Subgroup.normalizer (L : Set G)) f L Bs (twoCentral L))

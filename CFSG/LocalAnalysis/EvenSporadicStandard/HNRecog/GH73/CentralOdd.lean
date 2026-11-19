@@ -31,7 +31,7 @@ theorem eq_of_central_odd_section {X : Type*} [Group X] [Finite X] (V M : Subgro
     intro hp2
     have h2 : 2 ∣ V.relIndex M := hp2 ▸ hp_dvd_rel
     exact (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr h2)
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   have hp_dvd_card : p ∣ Nat.card M := hp_dvd_rel.trans (Subgroup.relIndex_dvd_card V M)
   obtain ⟨gm, hgm_order⟩ := exists_prime_orderOf_dvd_card' (G := ↥M) p hp_dvd_card
   let g : X := (gm : X)
@@ -46,8 +46,8 @@ theorem eq_of_central_odd_section {X : Type*} [Group X] [Finite X] (V M : Subgro
   have hgA : g ∈ A := by rw [hA]; exact Subgroup.mem_zpowers g
   have hA_le_M : A ≤ M := by rw [hA]; exact Subgroup.zpowers_le.mpr hgM
   have hcardA : Nat.card A = p := by rw [hA, Nat.card_zpowers, hg_order]
-  have hVp : IsPGroup 2 V := S.isPGroup'.to_le hVS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hVp : IsPGroup 2 V := S.isPGroup.to_le hVS
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hVp.exists_card_eq
   have hcop : Nat.Coprime (Nat.card A) (Nat.card V) := by
     rw [hcardA, hn]
@@ -56,8 +56,8 @@ theorem eq_of_central_odd_section {X : Type*} [Group X] [Finite X] (V M : Subgro
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   have hVab' : ∀ x y : ↥V, x * y = y * x := fun x y => Subtype.ext (hVab x.1 x.2 y.1 y.2)
-  haveI : Finite ↥V := Finite.of_injective (Subtype.val : ↥V → X) Subtype.val_injective
-  haveI : Finite ↥A := Finite.of_injective (Subtype.val : ↥A → X) Subtype.val_injective
+  have : Finite ↥V := Finite.of_injective (Subtype.val : ↥V → X) Subtype.val_injective
+  have : Finite ↥A := Finite.of_injective (Subtype.val : ↥A → X) Subtype.val_injective
   obtain ⟨-, hdisj⟩ :=
     CFSG.QuasithinUnique.Setup.Layer.coprime_abelian_decomp V A hAN hVab' hcop
   set W : Subgroup X := ⁅V, A⁆ with hW
@@ -110,9 +110,9 @@ theorem eq_of_central_odd_section {X : Type*} [Group X] [Finite X] (V M : Subgro
         _ = W := by rw [hVV, hW]; simp
     have hmem := Subgroup.mem_map_of_mem (MulAut.conj x : X →* X) hn
     exact hmap hmem
-  haveI : W.Normal := hWnormal
+  have : W.Normal := hWnormal
   set GS : Subgroup X := (S : Subgroup X) with hGS
-  haveI : Group.IsNilpotent ↥GS := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥GS := S.isPGroup.isNilpotent
   have hGWne : W.subgroupOf GS ≠ ⊥ := by
     intro h
     apply hWne

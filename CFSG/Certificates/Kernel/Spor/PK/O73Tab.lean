@@ -164,8 +164,8 @@ theorem evalW_tabOf (Ms : List (Matrix Idx Idx (ZMod 3))) (w : List Nat) :
       unfold letterOf
       by_cases hc : c < Ms.length
       · have hc0 : Ms.getD c 1 = Ms[c] := by simp [List.getD_eq_getElem?_getD, hc]
-        rw [if_pos (by simpa using hc), if_pos hc, map_toArray_get _ _ hc, hc0]
-      · rw [if_neg (by simpa using hc), if_neg hc, tabOf_one]
+        rw [ite_eq_left (by simpa using hc), ite_eq_left hc, map_toArray_get _ _ hc, hc0]
+      · rw [ite_eq_right (by simpa using hc), ite_eq_right hc, tabOf_one]
     show compA 2187 (letterOf 2187 (Ms.map tabOf).toArray c)
       (evalW 2187 (Ms.map tabOf).toArray w) =
       tabOf ((if c < Ms.length then Ms.getD c 1 else 1) * wordMat Ms w)
@@ -183,7 +183,7 @@ theorem permsOK_unpack {n w : Nat} {Ps : List Nat} (h : ∀ P ∈ Ps, permK n w 
   have hP := (permK_iff.1 (h _ (List.getElem_mem hc'))).2
   exact isInvA_ofFn (T := fd w Ps[c]) hP
 
-private theorem wordPF_lt' {n w : Nat} (hw : n ≤ 2 ^ w) (Ps : List Nat)
+private theorem wordPF_lt' {n w : Nat} (_hw : n ≤ 2 ^ w) (Ps : List Nat)
     (hPs : ∀ c < Ps.length, ∀ x < n, fd w (Ps.getD c 0) x < n) (wd : List Nat) :
     ∀ x < n, wordPF w Ps wd x < n := by
   induction wd with
@@ -192,9 +192,9 @@ private theorem wordPF_lt' {n w : Nat} (hw : n ≤ 2 ^ w) (Ps : List Nat)
     intro x hx
     show (if c < Ps.length then fd w (Ps.getD c 0) (wordPF w Ps wd x) else wordPF w Ps wd x) < n
     by_cases hc : c < Ps.length
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       exact hPs c hc _ (ih x hx)
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       exact ih x hx
 
 theorem evalW_unpack {n w : Nat} (hw : n ≤ 2 ^ w) {Ps : List Nat} (h : ∀ P ∈ Ps, permK n w P = true)
@@ -226,9 +226,9 @@ theorem evalW_unpack {n w : Nat} (hw : n ≤ 2 ^ w) {Ps : List Nat} (h : ∀ P �
       unfold letterOf
       by_cases hc : c < Ps.length
       · have hc0 : Ps.getD c 0 = Ps[c] := by simp [List.getD_eq_getElem?_getD, hc]
-        rw [if_pos (by simpa using hc), if_pos hc, map_toArray_get _ _ hc, unpackA,
+        rw [ite_eq_left (by simpa using hc), ite_eq_left hc, map_toArray_get _ _ hc, unpackA,
           getElem!_ofFn' _ hxn, hc0]
-      · rw [if_neg (by simpa using hc), if_neg hc, idA_get' hxn]
+      · rw [ite_eq_right (by simpa using hc), ite_eq_right hc, idA_get' hxn]
   rw [wordP_eq_of_maps hw Ps hPs wd, key wd, unpackA]
   refine congrArg Array.ofFn (funext fun i => ?_)
   exact (fd_enc (fun j hj => Nat.lt_of_lt_of_le (hlt wd j hj) hw) i.2).symm

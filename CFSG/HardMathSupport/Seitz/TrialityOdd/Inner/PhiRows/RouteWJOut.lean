@@ -96,10 +96,10 @@ theorem exists_phi6_J_datum {ℓ f : ℕ} [Fact ℓ.Prime] (hf : 1 ≤ f)
   have he : 1 ≤ (d4T36d (-1) (ℓ ^ f)).factorization r :=
     hr.factorization_pos_of_dvd hd0 hdvd
   let S : Sylow r 𝒞[K, σ] := default
-  obtain ⟨φ⟩ := hshape (S : Subgroup 𝒞[K, σ]) S.isPGroup' S.not_dvd_index
+  obtain ⟨φ⟩ := hshape (S : Subgroup 𝒞[K, σ]) S.isPGroup S.not_dvd_index
   obtain ⟨E₁, hE₁S, hE₁p, hE₁c, hE₁Ω, hScomm⟩ := exists_plane_of_sylowShape_omega he
     (S : Subgroup 𝒞[K, σ]) φ
-  have hE₁P : IsPGroup r E₁ := S.isPGroup'.to_le hE₁S
+  have hE₁P : IsPGroup r E₁ := S.isPGroup.to_le hE₁S
   obtain ⟨c, hc⟩ := F.hconj E₁ hE₁P
   set E : Subgroup 𝒞[K, σ] := E₁.map (MulAut.conj c).toMonoidHom with hEdef
   have htor : ∀ y ∈ E, F.g0⁻¹ * triEmb K σ L y * F.g0 ∈

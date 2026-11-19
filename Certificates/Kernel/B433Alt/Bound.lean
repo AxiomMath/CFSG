@@ -116,7 +116,7 @@ theorem nodeAt_mem (i : Fin 46) : nodeAt i ∈ liveL := by
 theorem nodeAt_idxOf {n : ℕ} (hn : n ∈ liveL) : nodeAt (idxOf n) = n := by
   have hlt : liveL.idxOf n < 46 := by rw [← liveL_len]; exact List.idxOf_lt_length_iff.2 hn
   unfold idxOf nodeAt
-  rw [dif_pos hlt]
+  rw [dite_eq_left hlt]
   simp only
   rw [List.getD_eq_getElem _ _ (by rw [liveL_len]; exact hlt), List.getElem_idxOf]
 
@@ -250,11 +250,11 @@ theorem T_le : Y442Tw.lsub CertificateChecks.KernelY442.yL ≤ T432 := by
       rfl
   tgtElt_mem i k hk := by
     unfold tgtEltN
-    rw [dif_pos hk]
+    rw [dite_eq_left hk]
     exact ⟨_, rfl⟩
   tgt_spec i k hk := by
     unfold tgtN tgtEltN
-    rw [dif_pos hk, dif_pos hk]
+    rw [dite_eq_left hk, dite_eq_left hk]
     obtain ⟨he, hent, hk'⟩ := Classical.choose_spec hk
     set e := Classical.choose hk
     have hmem := nodeAt_mem i

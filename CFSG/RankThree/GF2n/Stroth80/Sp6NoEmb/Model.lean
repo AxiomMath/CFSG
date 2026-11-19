@@ -35,11 +35,11 @@ theorem slotSL_commute {l m : Fin 3} (hlm : l ≠ m) (g h : SL(2, K)) :
   funext i
   by_cases hil : i = l
   · subst hil
-    simp [Pi.mulSingle_apply, hlm]
+    simp [hlm]
   · by_cases him : i = m
     · subst him
-      simp [Pi.mulSingle_apply, hil]
-    · simp [Pi.mulSingle_apply, hil, him]
+      simp [hil]
+    · simp [hil, him]
 
 @[expose] noncomputable def levi : GL (Fin 3) K →* StatedSp 3 K where
   toFun A := leviSp (A : Matrix (Fin 3) (Fin 3) K) ((A⁻¹ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)
@@ -93,7 +93,7 @@ theorem levi_diagGL (τ : Fin 3 → Kˣ) : levi (diagGL τ) = block fun i => dEl
   apply Units.ext
   rw [coe_levi, coe_block, coe_diagGL, coe_diagGL_inv]
   ext (i | i) (j | j) <;> by_cases hij : i = j <;>
-    simp [blockMatrix, dElt, hij, diagonal_apply, fromBlocks_apply₁₁, fromBlocks_apply₁₂,
+    simp [blockMatrix, dElt, hij, fromBlocks_apply₁₁, fromBlocks_apply₁₂,
       fromBlocks_apply₂₁, fromBlocks_apply₂₂]
 
 theorem dSlot_eq_levi (l : Fin 3) (c : Kˣ) : dSlot l c = levi (diagGL (Pi.mulSingle l c)) := by
@@ -103,7 +103,7 @@ theorem dSlot_eq_levi (l : Fin 3) (c : Kˣ) : dSlot l c = levi (diagGL (Pi.mulSi
   by_cases hil : i = l
   · subst hil
     simp
-  · rw [Pi.mulSingle_apply, Pi.mulSingle_apply, if_neg hil, if_neg hil]
+  · rw [Pi.mulSingle_apply, Pi.mulSingle_apply, ite_eq_right hil, ite_eq_right hil]
     exact dElt_one.symm
 
 theorem zeta_eq_levi_diagGL (c : Kˣ) : zeta c = levi (diagGL fun _ => c) := by
@@ -118,7 +118,7 @@ theorem zeta_eq_mul (c : Kˣ) : zeta c = dSlot 0 c * dSlot 1 c * dSlot 2 c := by
     diagonal_mul_diagonal, diagonal_mul_diagonal]
   congr 1
   funext i
-  fin_cases i <;> simp [Pi.mulSingle_apply]
+  fin_cases i <;> simp
 
 theorem levi_diagGL_commute (τ σ : Fin 3 → Kˣ) : Commute (levi (diagGL τ)) (levi (diagGL σ)) := by
   rw [Commute, SemiconjBy, ← map_mul, ← map_mul]
@@ -166,7 +166,7 @@ theorem levi_permGL_conj_block (σ : Equiv.Perm (Fin 3)) (g : Fin 3 → SL(2, K)
     Matrix.transpose_permMatrix]
   unfold blockMatrix
   rw [fromBlocks_multiply, fromBlocks_multiply]
-  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add, inv_inv]
+  simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add]
   rw [permMatrix_mul_diagonal_mul, permMatrix_mul_diagonal_mul, permMatrix_mul_diagonal_mul,
     permMatrix_mul_diagonal_mul]
   rfl
@@ -180,7 +180,7 @@ theorem wSwap_conj_slotSL (i j : Fin 3) (h : SL(2, K)) :
   by_cases hx : x = j
   · subst hx
     simp
-  · rw [if_neg hx, if_neg]
+  · rw [ite_eq_right hx, ite_eq_right]
     intro h'
     apply hx
     have := congrArg (Equiv.swap i j) h'
@@ -192,7 +192,7 @@ theorem coe_mulSingle_apply (l i : Fin 3) (g : SL(2, K)) :
       if i = l then (g : Matrix (Fin 2) (Fin 2) K) else 1 := by
   by_cases h : i = l
   · subst h; simp
-  · simp [Pi.mulSingle_apply, h]
+  · simp [h]
 
 theorem mat_slotSL (l : Fin 3) (g : SL(2, K)) :
     mat (slotSL l g) = blockMatrix fun i => if i = l then (g : Matrix (Fin 2) (Fin 2) K) else 1 := by
@@ -205,13 +205,13 @@ theorem mat_slotSL_uElt (c : K) :
     mat (slotSL 0 (uElt c)) = Matrix.transvection (Sum.inl 0 : Fin 3 ⊕ Fin 3) (Sum.inr 0) c := by
   rw [mat_slotSL]
   ext (a | a) (b | b) <;> fin_cases a <;> fin_cases b <;>
-    simp [Matrix.transvection, blockMatrix, uElt, Matrix.single_apply, Matrix.one_apply]
+    simp [Matrix.transvection, blockMatrix, uElt]
 
 theorem mat_slotSL_lElt (c : K) :
     mat (slotSL 0 (lElt c)) = Matrix.transvection (Sum.inr 0 : Fin 3 ⊕ Fin 3) (Sum.inl 0) c := by
   rw [mat_slotSL]
   ext (a | a) (b | b) <;> fin_cases a <;> fin_cases b <;>
-    simp [Matrix.transvection, blockMatrix, lElt, Matrix.single_apply, Matrix.one_apply]
+    simp [Matrix.transvection, blockMatrix, lElt]
 
 theorem mat_rootE {i j : Fin 3} (hij : i ≠ j) (c : K) :
     mat (rootE hij c) = Matrix.transvection (Sum.inl i : Fin 3 ⊕ Fin 3) (Sum.inl j) c *
@@ -228,7 +228,7 @@ theorem mat_rootE {i j : Fin 3} (hij : i ≠ j) (c : K) :
   rw [hz, add_zero]
   ext (a | a) (b | b) <;>
     simp [Matrix.single_apply, Matrix.one_apply, Matrix.add_apply, fromBlocks_apply₁₁,
-      fromBlocks_apply₁₂, fromBlocks_apply₂₁, fromBlocks_apply₂₂] <;> grind
+      fromBlocks_apply₁₂, fromBlocks_apply₂₁, fromBlocks_apply₂₂]
 
 open TauCeti.GLSymplecticFin in
 theorem closure_slot_rootE_eq_top :

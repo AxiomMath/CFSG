@@ -121,7 +121,7 @@ theorem quasisimple_commutator_of_isTripleCover_A6 {X : Type} [Group X] [Finite 
     ext k
     simp only [hf, MonoidHom.mem_ker, MonoidHom.comp_apply, Subgroup.coe_subtype,
       QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, hS, Subgroup.mem_subgroupOf]
-  haveI : S.Normal := by rw [← hker]; infer_instance
+  have : S.Normal := by rw [← hker]; infer_instance
   have hSZ : S ≤ Subgroup.center ↥K := by
     intro k hk
     rw [Subgroup.mem_center_iff]
@@ -562,7 +562,7 @@ section Certificates
 
 
 theorem center_eq_zpowers_of_mem148 {A L : Subgroup G} {c : G} (hS : Sec14Std G A c L)
-    {Y : Subgroup G} [(ker148 A Y).Normal] {J : Subgroup G} (hJM : J ≤ Y ⊔ A) {d : G}
+    {Y : Subgroup G} [(ker148 A Y).Normal] {J : Subgroup G} (_hJM : J ≤ Y ⊔ A) {d : G}
     (hdA : d ∈ A) (hd1 : d ≠ 1) (hdc : d ∈ Late.sectionCentralizer A J (pPrimeCoreOf 3 Y))
     (hdJ : alpha148 A Y d hdA ∈ img148 A Y J)
     (hZ3 : Nat.card ↥(Subgroup.center ↥(img148 A Y J)) = 3) :

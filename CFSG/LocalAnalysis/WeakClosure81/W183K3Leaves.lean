@@ -42,7 +42,7 @@ open W183K3
 
 @[expose] def Br3CoverOne : Prop :=
   ∀ (_rows : Br3Rows) {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
-    {Y T L : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
+    {Y _T L : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
     {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ},
     Assumption131 Y Γ VA i → QuasiCore Y L (quasiCentre L) →
       (∃ p : ℕ, p.Prime ∧ 5 ≤ p ∧ (LieModel (↥L ⧸ Subgroup.center ↥L) .PSL 3 p 1 ∨

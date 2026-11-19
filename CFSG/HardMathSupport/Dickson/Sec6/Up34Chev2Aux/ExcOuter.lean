@@ -36,7 +36,7 @@ theorem noL34Layer_entrywise {τ : Tag} {K : Type} [Field K] [Finite K] (σ : K 
     (adjointGroup τ (fixSubfield σ)).equivMapOfInjective _ hinj
   let e : ↥S ≃* ↥(adjointGroup τ (fixSubfield σ)) :=
     (Subgroup.subgroupOfEquivOfLe hJC).trans eJ.symm
-  haveI : IsSimpleGroup ↥S := e.isSimpleGroup
+  have : IsSimpleGroup ↥S := e.isSimpleGroup
   refine noL34_of_simple_normal_comm _ S ?_ ?_ inferInstance ?_ ?_
   · rw [I923.fixSubgroup_entrywiseAdjointAut]
     intro x hx
@@ -92,7 +92,7 @@ theorem up34C2Out_g2 : Up34Chev2Out FamG2 := by
     have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).mp
       ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
     have hq3 : 3 ≤ q.p ^ q.exponent := by rw [← TauCeti.PrimePower.card_def]; exact hr
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hf : 1 ≤ q.exponent := q.exponent_pos
     have hm := blueprintLieModel_G2 q hv e
     have hU : UntwistedChevalleyModel S .G2 (q.p ^ q.exponent) := by
@@ -108,7 +108,7 @@ theorem up34C2Out_g2 : Up34Chev2Out FamG2 := by
     obtain ⟨d, T, δ, hfd, hTo, hTc, hδ⟩ :=
       I923.G2_descent q.prime_p hf hq3 F hFcard _ hβ3 hβinn
     have hd : 1 ≤ d := by omega
-    haveI : Finite ↥(fixSubfield T) := Subtype.finite
+    have : Finite ↥(fixSubfield T) := Subtype.finite
     have hNo : NoL34Layer (entrywiseAdjointAut Tag.G2 T) := by
       by_cases h3 : 3 ≤ q.p ^ d
       · have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.G2 ↥(fixSubfield T)) .G2 q.p d :=
@@ -140,7 +140,7 @@ theorem up34C2Out_f4 : Up34Chev2Out FamF4 := by
   cases d with
   | F4 q =>
     exfalso
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hf : 1 ≤ q.exponent := q.exponent_pos
     have hm := blueprintLieModel_F4 q hv e
     have hU : UntwistedChevalleyModel S .F4 (q.p ^ q.exponent) := by
@@ -156,7 +156,7 @@ theorem up34C2Out_f4 : Up34Chev2Out FamF4 := by
       hα ((I923.congr_mem_inner_iff_of_equiv θ α).mp hin)
     obtain ⟨d, T, δ, hfd, hTo, hTc, hδ⟩ := I923.F4_descent hf F hFcard _ hβ3 hβinn
     have hd : 1 ≤ d := by omega
-    haveI : Finite ↥(fixSubfield T) := Subtype.finite
+    have : Finite ↥(fixSubfield T) := Subtype.finite
     have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.F4 ↥(fixSubfield T)) .F4 q.p d :=
       ⟨⟨q.prime_p, hd, rfl⟩, I923.untwisted_adjointGroup hTc⟩
     obtain ⟨hnt, hsimp⟩ := CFSG.LieType.Simplicity.fam_f4_simplicity _ q.p d hM
@@ -177,7 +177,7 @@ theorem up34C2Out_e7 : Up34Chev2Out FamE7 := by
   cases d with
   | E7 q =>
     exfalso
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hf : 1 ≤ q.exponent := q.exponent_pos
     have hm := blueprintLieModel_E7 q hv e
     have hU : UntwistedChevalleyModel S .E7 (q.p ^ q.exponent) := by
@@ -198,7 +198,7 @@ theorem up34C2Out_e7 : Up34Chev2Out FamE7 := by
       exists_conj_entrywise_of_outer_E Tag.E7 (Or.inr (Or.inl rfl)) hf F hFcard Nat.prime_three
         (by norm_num) hdet _ hβ3 hβinn
     have hd : 1 ≤ d := by omega
-    haveI : Finite ↥(fixSubfield T) := Subtype.finite
+    have : Finite ↥(fixSubfield T) := Subtype.finite
     have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E7 ↥(fixSubfield T)) .E7 q.p d :=
       ⟨⟨q.prime_p, hd, rfl⟩, I923.untwisted_adjointGroup hTc⟩
     obtain ⟨hnt, hsimp⟩ := CFSG.LieType.Simplicity.fam_e7_simplicity _ q.p d hM
@@ -218,7 +218,7 @@ theorem up34C2Out_e8 : Up34Chev2Out FamE8 := by
   cases d with
   | E8 q =>
     exfalso
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hf : 1 ≤ q.exponent := q.exponent_pos
     have hm := blueprintLieModel_E8 q hv e
     have hU : UntwistedChevalleyModel S .E8 (q.p ^ q.exponent) := by
@@ -239,7 +239,7 @@ theorem up34C2Out_e8 : Up34Chev2Out FamE8 := by
       exists_conj_entrywise_of_outer_E Tag.E8 (Or.inr (Or.inr rfl)) hf F hFcard Nat.prime_three
         (by norm_num) hdet _ hβ3 hβinn
     have hd : 1 ≤ d := by omega
-    haveI : Finite ↥(fixSubfield T) := Subtype.finite
+    have : Finite ↥(fixSubfield T) := Subtype.finite
     have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E8 ↥(fixSubfield T)) .E8 q.p d :=
       ⟨⟨q.prime_p, hd, rfl⟩, I923.untwisted_adjointGroup hTc⟩
     obtain ⟨hnt, hsimp⟩ := CFSG.LieType.Simplicity.fam_e8_simplicity _ q.p d hM

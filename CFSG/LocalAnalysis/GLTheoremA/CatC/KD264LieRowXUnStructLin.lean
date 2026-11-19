@@ -76,7 +76,7 @@ theorem prod_range_succ_gl (m : ℕ) :
 
 theorem padicValNat_prod_eq (m : ℕ) :
     padicValNat 3 (∏ i ∈ Finset.range m, (4 ^ m - 4 ^ i)) = m + padicValNat 3 m.factorial := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   induction m with
   | zero => simp
   | succ m ih =>
@@ -112,9 +112,9 @@ theorem finite_linearEquiv [Finite K] {N : Type*} [AddCommGroup N] [Module K N]
 theorem card_le_of_isPGroup (hK : Nat.card K = 4) {N : Type*} [AddCommGroup N] [Module K N]
     [Module.Finite K N] {m : ℕ} (hN : Module.finrank K N = m) (H : Subgroup (N ≃ₗ[K] N))
     (hH : IsPGroup 3 H) : Nat.card H ≤ 3 ^ (m + m / 2) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfin : Finite K := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Finite (N ≃ₗ[K] N) := finite_linearEquiv
+  have : Finite (N ≃ₗ[K] N) := finite_linearEquiv
   obtain ⟨n, hn⟩ := hH.exists_card_eq
   have hdvd : 3 ^ n ∣ Nat.card (N ≃ₗ[K] N) := hn ▸ Subgroup.card_subgroup_dvd_card H
   rw [card_linearEquiv_eq hK hN,

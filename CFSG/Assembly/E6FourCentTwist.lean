@@ -48,7 +48,7 @@ private theorem ofFn_sub_smul (c : ℤ) (β v : Fin Tag.E6.rank → ℤ) :
     vsub (List.ofFn v) ((List.ofFn β).map (fun t => c * t)) = List.ofFn (v - c • β) := by
   rw [vsub, List.map_ofFn, zipWith_sub_ofFn, List.ofFn_injective.eq_iff]
   funext i
-  simp [Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
+  simp [Pi.sub_apply]
 
 private theorem rootReflection_smul_E6 {β : Fin Tag.E6.rank → ℤ} (hβ : IsRoot Tag.E6 β)
     (v : Fin Tag.E6.rank → ℤ) :
@@ -285,7 +285,7 @@ theorem e6Four_d4_twist {ρ : Equiv.Perm (Fin Tag.E6.rank → ℤ)}
       ring
     rw [hcoord]
     exact Int.emod_eq_zero_of_dvd ⟨z i, by ring⟩
-  exact (by simpa [hzero] using ha_odd)
+  exact (by simp [hzero] at ha_odd)
 
 end CFSG.Assembly
 

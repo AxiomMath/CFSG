@@ -199,12 +199,10 @@ theorem cycle_step {u0 : ↥(evenSub d)} {a b c : Fin d} (hba : b ≠ a) (hac : 
       · subst hib
         rw [swap_apply_left, swap_apply_of_ne_of_ne hac.symm hbc.symm, hb, hc]
         simp [pairVec, hbc]
-        try decide
       · by_cases hic : i = c
         · subst hic
           rw [swap_apply_right, swap_apply_right, ha, hc]
           simp [pairVec, hbc.symm]
-          try decide
         · rw [swap_apply_of_ne_of_ne hib hic, swap_apply_of_ne_of_ne hia hib]
           simp [pairVec, hib, hic]
           rcases zmod_two_cases (u0.1 i) with h | h <;> rw [h] <;> decide

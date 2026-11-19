@@ -85,7 +85,7 @@ private theorem fec_exists_normal_index_two {G : Type} [Group G] [Finite G] (h2 
   have P : Sylow 2 G := Classical.arbitrary _
   have hidx := Subgroup.card_mul_index (H := (P : Subgroup G))
   have hnd : ¬ 2 ∣ (P : Subgroup G).index := Sylow.not_dvd_index P
-  obtain ⟨e, he⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨e, he⟩ := IsPGroup.iff_card.mp P.isPGroup
   rw [he] at hidx
   have hdvd : 2 ^ e ∣ Nat.card G := Dvd.intro _ hidx
   have he1 : e = 1 := by
@@ -114,7 +114,7 @@ theorem odd_mem_oddCoreIn_of_normal {Y : Type} [Group Y] [Finite Y] (S₁ : Sylo
     (hodd : ∀ x ∈ C, Odd (orderOf x) → x ∈ D) {t : Y} (ht2 : orderOf t = 2) (htD : t ∈ D)
     (hSD : (S₁ : Subgroup Y) ⊓ D = Subgroup.zpowers t) :
     ∀ x ∈ C, Odd (orderOf x) → x ∈ Balance.oddCoreIn C := by
-  haveI hDCn : (D.subgroupOf C).Normal := ⟨fun n hn g => by
+  have hDCn : (D.subgroupOf C).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hDn (g : Y) g.2 (n : Y) hn⟩
   obtain ⟨b, hb⟩ := fec_index_eq_two_pow (D.subgroupOf C) (fun c => by
@@ -218,7 +218,7 @@ theorem exists_oddCore_mul_of_normal {Y : Type} [Group Y] [Finite Y] (S₁ : Syl
     (hSD : (S₁ : Subgroup Y) ⊓ D = Subgroup.zpowers t) :
     ∀ k ∈ C, ∃ o ∈ Balance.oddCoreIn C, ∃ s ∈ (S₁ : Subgroup Y), k = o * s := by
   have hA := odd_mem_oddCoreIn_of_normal S₁ C D hSC hDC hDn hodd ht2 htD hSD
-  haveI hOn : ((Balance.oddCoreIn C).subgroupOf C).Normal := ⟨fun n hn g => by
+  have hOn : ((Balance.oddCoreIn C).subgroupOf C).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact Balance.conj_mem_oddCoreIn g.2 hn⟩
   obtain ⟨e, he⟩ := fec_index_eq_two_pow ((Balance.oddCoreIn C).subgroupOf C) (fun c => by

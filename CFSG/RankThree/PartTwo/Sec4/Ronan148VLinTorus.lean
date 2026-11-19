@@ -261,9 +261,9 @@ theorem exists_fixed_diagTorus {m k : ℕ} (hm : Nat.Coprime m 3) (hk : k = 1 �
     intro k' hk' X a b e hX
     rw [coe_theta_diag k' w₀ w₁ w₂ ρ hX]
     rcases hk' with rfl | rfl
-    · rw [if_pos rfl, pow_one, cycThree_conj_diagUnits, coe_diagUnits]
+    · rw [ite_eq_left rfl, pow_one, cycThree_conj_diagUnits, coe_diagUnits]
       rfl
-    · rw [if_neg (by norm_num), cycThree_sq_conj_diagUnits, coe_diagUnits]
+    · rw [ite_eq_right (by norm_num), cycThree_sq_conj_diagUnits, coe_diagUnits]
       rfl
   have hcomm : ∀ X Y : SpecialLinearGroup (Fin 3) F, X ∈ torusSL (F := F) m →
       Y ∈ torusSL (F := F) m → X * Y = Y * X := by
@@ -281,7 +281,7 @@ theorem exists_fixed_diagTorus {m k : ℕ} (hm : Nat.Coprime m 3) (hk : k = 1 �
     rcases hk with rfl | rfl
     ·
       have h1 := hc 1 (Or.inl rfl) t lam lam⁻¹ 1 rfl
-      rw [if_pos rfl] at h1
+      rw [ite_eq_left rfl] at h1
       have h1' : ((θ t : SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
           diagonal ![((1 : Fˣ) : F), (Units.map (ρ : F →* F) lam : Fˣ),
             (Units.map (ρ : F →* F) lam⁻¹ : Fˣ)] := by
@@ -289,21 +289,21 @@ theorem exists_fixed_diagTorus {m k : ℕ} (hm : Nat.Coprime m 3) (hk : k = 1 �
         simp
       have h2 := hc 1 (Or.inl rfl) (θ t) 1 (Units.map (ρ : F →* F) lam)
         (Units.map (ρ : F →* F) lam⁻¹) h1'
-      rw [if_pos rfl, ← hθapp] at h2
+      rw [ite_eq_left rfl, ← hθapp] at h2
       have h2' : ((θ (θ t) : SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
           diagonal ![(Units.map (ρ : F →* F) (Units.map (ρ : F →* F) lam⁻¹) : F),
             ((1 : Fˣ) : F), (Units.map (ρ : F →* F) (Units.map (ρ : F →* F) lam) : F)] := by
         rw [h2]
         simp
       have h3 := hc 1 (Or.inl rfl) (θ (θ t)) _ _ _ h2'
-      rw [if_pos rfl, ← hθapp] at h3
+      rw [ite_eq_left rfl, ← hθapp] at h3
       refine ⟨(lam : F) * (ρ (ρ (lam : F)))⁻¹, (lam : F)⁻¹ * ρ lam, (ρ lam)⁻¹ * ρ (ρ lam),
         ?_, ?_, ?_⟩
       · rw [hN, Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, h1', h2']
         simp only [ht, diagonal_mul_diagonal]
         congr 1
         funext i
-        fin_cases i <;> simp [hinv, hρinv] <;> ring
+        fin_cases i <;> simp [hinv]
       · apply Subtype.ext
         rw [h3]
         simp [ht, hρ3, hinv, hρinv]
@@ -316,28 +316,28 @@ theorem exists_fixed_diagTorus {m k : ℕ} (hm : Nat.Coprime m 3) (hk : k = 1 �
         · rw [div_eq_mul_inv, div_eq_mul_inv, mul_comm, e2, mul_comm]
     ·
       have h1 := hc 2 (Or.inr rfl) t lam lam⁻¹ 1 rfl
-      rw [if_neg (by norm_num)] at h1
+      rw [ite_eq_right (by norm_num)] at h1
       have h1' : ((θ t : SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
           diagonal ![(Units.map (ρ : F →* F) lam⁻¹ : F), ((1 : Fˣ) : F),
             (Units.map (ρ : F →* F) lam : F)] := by
         rw [hθapp, h1]
         simp
       have h2 := hc 2 (Or.inr rfl) (θ t) _ _ _ h1'
-      rw [if_neg (by norm_num), ← hθapp] at h2
+      rw [ite_eq_right (by norm_num), ← hθapp] at h2
       have h2' : ((θ (θ t) : SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
           diagonal ![((1 : Fˣ) : F), (Units.map (ρ : F →* F) (Units.map (ρ : F →* F) lam) : F),
             (Units.map (ρ : F →* F) (Units.map (ρ : F →* F) lam⁻¹) : F)] := by
         rw [h2]
         simp
       have h3 := hc 2 (Or.inr rfl) (θ (θ t)) _ _ _ h2'
-      rw [if_neg (by norm_num), ← hθapp] at h3
+      rw [ite_eq_right (by norm_num), ← hθapp] at h3
       refine ⟨(lam : F) * (ρ (lam : F))⁻¹, (lam : F)⁻¹ * ρ (ρ lam), ρ lam * (ρ (ρ lam))⁻¹,
         ?_, ?_, ?_⟩
       · rw [hN, Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, h1', h2']
         simp only [ht, diagonal_mul_diagonal]
         congr 1
         funext i
-        fin_cases i <;> simp [hinv, hρinv] <;> ring
+        fin_cases i <;> simp [hinv]
       · apply Subtype.ext
         rw [h3]
         simp [ht, hρ3, hinv, hρinv]

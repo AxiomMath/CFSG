@@ -504,14 +504,14 @@ theorem closure_orderOf_eq_five_eq_top (Ω : Finset (Fin 9))
     | inv x hx ih =>
         rw [show g * x⁻¹ * g⁻¹ = (g * x * g⁻¹)⁻¹ by group]
         exact Subgroup.inv_mem _ ih
-  haveI : (Subgroup.closure S).Normal := hnormal
+  have : (Subgroup.closure S).Normal := hnormal
   have hdvd : 5 ∣ Fintype.card (alternatingGroup Ω) := by
-    haveI : Nontrivial ↥Ω :=
+    have : Nontrivial ↥Ω :=
       ⟨Fintype.one_lt_card_iff.mp (by rw [Fintype.card_coe]; omega)⟩
     rw [← Nat.card_eq_fintype_card, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
       Fintype.card_coe]
     interval_cases hc : Ω.card <;> norm_num [Nat.factorial]
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card 5 hdvd
   have hxS : x ∈ Subgroup.closure S := Subgroup.subset_closure hx
   have hxne : x ≠ 1 := by

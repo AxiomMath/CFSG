@@ -73,7 +73,7 @@ theorem two_pow_four_le_index_of_witness {U : Type} [CommGroup U] [Finite U]
     (hφ : Function.Surjective φ) (hker : φ.ker = Subgroup.center L)
     (hZ : Nat.card (Subgroup.center L) = 3) (hperf : Group.IsPerfect L)
     (ρ : L →* MulAut U) (hρ : Function.Injective ρ) {ζ : L} (hζ : ζ ∈ Subgroup.center L)
-    (hζ1 : ζ ≠ 1) (hfix : ∀ w : U, ρ ζ w = w → w = 1) (hcard : 2 ^ 54 ≤ Nat.card U)
+    (_hζ1 : ζ ≠ 1) (hfix : ∀ w : U, ρ ζ w = w → w = 1) (hcard : 2 ^ 54 ≤ Nat.card U)
     {t : L} (ht2 : t * t = 1) (hw : InvolutionWitness (φ t)) :
     2 ^ 4 ≤ (fixV (zpowers (ρ t))).index := by
   set d : ℕ := (fixV (Subgroup.zpowers (ρ t))).index with hd
@@ -113,7 +113,7 @@ theorem two_pow_four_le_index_of_witness {U : Type} [CommGroup U] [Finite U]
         rwa [hordy] at this
       norm_num at hdvd
     have hxord : orderOf x = 13 := by
-      haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
       exact orderOf_eq_prime hx13 hx1
     have ht_inv : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht2
     have ht'_inv : t'⁻¹ = t' := inv_eq_of_mul_eq_one_right ht'2
@@ -135,7 +135,7 @@ theorem two_pow_four_le_index_of_witness {U : Type} [CommGroup U] [Finite U]
     have hx13A : (ρ x) ^ 13 = 1 := by rw [← map_pow, hx13, map_one]
     have htxA : ρ t * ρ x * (ρ t)⁻¹ = (ρ x)⁻¹ := by
       rw [← map_inv, ← map_mul, ← map_mul, htx, map_inv]
-    haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
     have h12 : 2 ^ 12 ≤ (fixV (Subgroup.zpowers (ρ x))).index := by
       have h := CFSG.QuasithinUnique.Setup.X1.two_pow_orderOf_le_index_fixV hU
         (p := 13) (by norm_num) (g := ρ x) hxordA
@@ -185,7 +185,7 @@ theorem two_pow_four_le_index_of_witness {U : Type} [CommGroup U] [Finite U]
         rwa [hordy] at this
       norm_num at hdvd
     have hxord : orderOf x = 5 := by
-      haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       exact orderOf_eq_prime hx5 hx1
     have ht_inv : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht2
     have ht'_inv : t'⁻¹ = t' := inv_eq_of_mul_eq_one_right ht'2

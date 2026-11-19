@@ -87,7 +87,7 @@ theorem natCard_lambdaW_eq_two (c : Sit16 Ω K K' W z u e g)
     rw [hcard1] at hbound
     simpa using hbound
   have hge : 2 ≤ Nat.card ↥(lambdaW Ω W) := by
-    haveI : Nontrivial ↥(lambdaW Ω W) :=
+    have : Nontrivial ↥(lambdaW Ω W) :=
       ⟨⟨⟨e, e_mem_lambdaW c h h9 h13⟩, 1, fun h' => c.data.he1 (congrArg Subtype.val h')⟩⟩
     exact Finite.one_lt_card
   omega
@@ -113,6 +113,7 @@ theorem natCard_zGroup_eq_sixtyFour_of_frame
   have hD64 : Nat.card (zGroup Ω) = 64 := by omega
   exact ⟨hD64, by omega, hiff.mp rfl⟩
 
+omit [Finite G] in
 private theorem e16j_comm_of_unique {K : Subgroup G} {q : G} (hq : IsUniqueInvolution K q)
     {x : G} (hx : x ∈ K) : x * q = q * x := by
   have hy : x * q * x⁻¹ ∈ K := K.mul_mem (K.mul_mem hx hq.mem) (K.inv_mem hx)
@@ -239,7 +240,7 @@ private theorem e16j_ae5_not_normalizing {α β : Finset (Fin 5)} (hα : α.card
     exact ha2 (AE.vecSub_mul_self (show a ∈ AE.vecSub 5 from ha1))
 
 private theorem e16j_dSet_line (c : Sit16 Ω K K' W z u e g) (h : EndHyp Ω) (h9 : Perp9 Ω)
-    (h13 : zGroup Ω ≠ eGroup Ω K) {r : G} (hr : r = z ∨ r = u * e ∨ r = z * (u * e)) :
+    (_h13 : zGroup Ω ≠ eGroup Ω K) {r : G} (hr : r = z ∨ r = u * e ∨ r = z * (u * e)) :
     ∃ R ∈ DSet Ω W, IsUniqueInvolution R r := by
   rcases hr with h1 | h1 | h1
   · exact ⟨K, h.mem_dSet_of_mem c.data.hW c.twin.mem c.twin.isInv c.data.hzW,
@@ -281,6 +282,7 @@ private theorem e16j_aeIdent_line (c : Sit16 Ω K K' W z u e g)
     rw [h1, hid2]
     exact exists_aeIdent_five_Y c₂ h h9 h13
 
+omit [Finite G] in
 private theorem e16j_map_conjSub {P : Set (Subgroup G)} (I : AEIdent P 5) {L : Subgroup G}
     {x : G} (hx : x ∈ pSpan P)
     (hcomm : ∀ y ∈ (L.subgroupOf (pSpan P)).map I.φ, I.φ ⟨x, hx⟩ * y = y * I.φ ⟨x, hx⟩) :
@@ -354,7 +356,7 @@ private theorem e16j_ae5_false {P : Set (Subgroup G)} (h : EndHyp Ω) (h9 : Perp
   ·
     obtain ⟨-, -, U, hU, hUM, hUN⟩ := hOm
     obtain ⟨S, hS, hUS, hUcyc, hrel⟩ := hU
-    haveI := hUcyc
+    have := hUcyc
     have hS8 : Nat.card S = 8 := perpW_card_of_mem_RSet h hS
     have hU4 : Nat.card U = 4 := by
       have hm := Subgroup.relIndex_mul_card U S
@@ -543,6 +545,7 @@ private theorem e16j_normalizer_iff_image {Ω P : Set (Subgroup G)} {n : ℕ} (h
     have heq := StarHyp.aeIdent_map_injective hΩ hP I hc hL hmap
     exact mem_normalizer_iff_conjSub_eq.mpr heq
 
+omit [Finite G] in
 private theorem e16j_mem_normalizer_of_le {R : Subgroup G} {x : G}
     (hRC : R ≤ Subgroup.centralizer ({x} : Set G)) : x ∈ Subgroup.normalizer (R : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -577,6 +580,7 @@ theorem e16j_mem_sigma_iff [hh : Fact (EndHyp Ω)] [hh9 : Fact (Perp9 Ω)]
   · intro hRC
     exact ⟨hpS, (hbf.spec R hR p hp ⟨e, heD⟩).mpr (e16j_mem_normalizer_of_le hRC)⟩
 
+omit [Finite G] in
 private theorem e16j_psi_inv {P : Set (Subgroup G)} (I : AEIdent P 6)
     (ψ : ↥(pSpan P) ≃* ↥(AE.aeSub 6))
     (hψ : ∀ L ∈ P, ∀ (α : Finset (Fin 6)) (hα : α.card = 4) (b : Bool),
@@ -622,6 +626,7 @@ private theorem e16j_orth (h : EndHyp Ω) {bf : zGroup Ω → zGroup Ω → ZMod
   unfold TC.Thin.indv
   rw [Finset.sum_boole]
 
+omit [Finite G] in
 private theorem e16j_hinv_centMembers {a : G} (hΩ : ConjInvariant Ω) :
     ∀ L ∈ centMembers Ω a, ∀ x ∈ pSpan (centMembers Ω a), conjSub x L ∈ centMembers Ω a := by
   intro L hL x hx
@@ -764,7 +769,7 @@ private theorem e16j_zOf_mul {α β γ : Finset (Fin 6)} (hα : α.card = 4) (h�
       exact Finset.mem_coe
     have hsym : ∀ y : Fin 6, (Equiv.symm (1 : Equiv.Perm (Fin 6))) y = y := fun y => rfl
     simp only [AE.Wr.mul_vec, AE.zOf_perm, AE.zOf_vec_apply, hmem, hsym, h, Finset.mem_symmDiff]
-    by_cases hxa : x ∈ α <;> by_cases hxb : x ∈ β <;> simp [hxa, hxb] <;> decide
+    by_cases hxa : x ∈ α <;> by_cases hxb : x ∈ β <;> simp [hxa, hxb]; decide
   · rw [AE.Wr.mul_perm, AE.zOf_perm, AE.zOf_perm, AE.zOf_perm, mul_one]
 
 private theorem e16j_noplane_comb : ∀ α β γ : {α : Finset (Fin 6) // α.card = 4},
@@ -855,7 +860,7 @@ theorem e16j_noplane [hh : Fact (EndHyp Ω)] [hh9 : Fact (Perp9 Ω)]
 
 theorem e16j_unique [hh : Fact (EndHyp Ω)] [hh9 : Fact (Perp9 Ω)]
     (c : Sit16 Ω K K' W z u e g) (h13 : zGroup Ω ≠ eGroup Ω K)
-    {bf : zGroup Ω → zGroup Ω → ZMod 2} (hbf : IsEndForm Ω bf) (heD : e ∈ zGroup Ω)
+    {bf : zGroup Ω → zGroup Ω → ZMod 2} (hbf : IsEndForm Ω bf) (_heD : e ∈ zGroup Ω)
     {p x : zGroup Ω} (hp : p ∈ zPoints Ω) (hx : x ∈ Polar.nbr bf (zPoints Ω) p) :
     ∃! E : zGroup Ω, (∃ y : G, E.1 = y * e * y⁻¹) ∧ p ∈ Polar.sigma bf (zPoints Ω) E ∧
       x ∈ Polar.sigma bf (zPoints Ω) E := by
@@ -1037,8 +1042,8 @@ theorem inf_normalizer_eq_eGroup (c : Sit16 Ω K K' W z u e g)
     (h : EndHyp Ω) (h9 : Perp9 Ω) (h13 : zGroup Ω ≠ eGroup Ω K) :
     zGroup Ω ⊓ Subgroup.normalizer (K : Set G) = eGroup Ω K ∧
       Nat.card (zGroup Ω) = 2 * Nat.card (eGroup Ω K) := by
-  haveI : Fact (EndHyp Ω) := ⟨h⟩
-  haveI : Fact (Perp9 Ω) := ⟨h9⟩
+  have : Fact (EndHyp Ω) := ⟨h⟩
+  have : Fact (Perp9 Ω) := ⟨h9⟩
   obtain ⟨bf, hbf⟩ := h.exists_endForm h9 c.twin h13
   obtain ⟨hPS, hSec, hcard⟩ := e16j_pointSet_nine c h13 hbf
   have hzD : z ∈ zGroup Ω := Subgroup.subset_closure ⟨K, c.twin.mem, c.twin.isInv⟩

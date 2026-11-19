@@ -40,7 +40,7 @@ theorem sec128_normalClosure_perfect (X : Subgroup H) (hX : ⁅X, X⁆ = X) :
     ⁅normalClosure (X : Set H), normalClosure (X : Set H)⁆ = normalClosure (X : Set H) := by
   have hXN : X ≤ normalClosure (X : Set H) := Subgroup.le_normalClosure
   refine le_antisymm (Subgroup.commutator_le_left _ _) ?_
-  haveI : ⁅normalClosure (X : Set H), normalClosure (X : Set H)⁆.Normal :=
+  have : ⁅normalClosure (X : Set H), normalClosure (X : Set H)⁆.Normal :=
     Subgroup.commutator_normal _ _
   refine Subgroup.normalClosure_le_normal fun x hx => ?_
   have hx' : x ∈ ⁅X, X⁆ := by rw [hX]; exact hx
@@ -57,9 +57,9 @@ theorem sec128_perfect_le_ker {A : Type*} [Group A] (hA : ∀ a b : A, a * b = b
 
 theorem sec128_perfect_le_index_two (E : Subgroup H) [E.Normal] (hE : E.index = 2)
     (P : Subgroup H) (hP : ⁅P, P⁆ = P) : P ≤ E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (H ⧸ E) = 2 := hE
-  haveI : IsCyclic (H ⧸ E) := isCyclic_of_prime_card hcard
+  have : IsCyclic (H ⧸ E) := isCyclic_of_prime_card hcard
   have hcomm : ∀ a b : H ⧸ E, a * b = b * a :=
     fun a b => (inferInstance : IsMulCommutative (H ⧸ E)).is_comm.comm a b
   have := sec128_perfect_le_ker hcomm P hP (QuotientGroup.mk' E)
@@ -67,7 +67,7 @@ theorem sec128_perfect_le_index_two (E : Subgroup H) [E.Normal] (hE : E.index = 
 
 theorem sec128_eq_of_simple (E : Subgroup H) [IsSimpleGroup ↥E] (P : Subgroup H) [hPn : P.Normal]
     (hPE : P ≤ E) (hP1 : P ≠ ⊥) : P = E := by
-  haveI : (P.subgroupOf E).Normal := hPn.subgroupOf E
+  have : (P.subgroupOf E).Normal := hPn.subgroupOf E
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (P.subgroupOf E) with h | h
   · exfalso
     apply hP1

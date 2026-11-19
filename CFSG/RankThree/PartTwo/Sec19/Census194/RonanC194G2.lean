@@ -28,7 +28,7 @@ theorem idG2_holds :
     ⟨GaloisField 2 q.exponent, inferInstance, inferInstance, hK, ⟨e₁.trans e₂.symm⟩⟩
   have hS : CFSG.Blueprint.ChevalleyExceptionalModel (Y ⧸ Subgroup.center Y) .G2 2 q.exponent :=
     ⟨⟨Nat.prime_two, hf, rfl, h3'⟩, hM⟩
-  haveI : Group.IsPerfect Y := hR.quasisimple.1
+  have : Group.IsPerfect Y := hR.quasisimple.1
   have hcen : Subgroup.center Y = ⊥ := by
     have hker := CFSG.SectionRank.g2_even_perfect_odd_cover_trivial hS
       (QuotientGroup.mk' (Subgroup.center Y)) (QuotientGroup.mk'_surjective _)

@@ -82,7 +82,7 @@ theorem card_le_three_pow_finrank_div_three [Finite K] (hK : Nat.card K = 4)
     (hc3 : ∀ v, (c ^ 3) v = l • v) :
     Nat.card T ≤ 3 ^ (Module.finrank K V / 3) := by
   classical
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_three hK
   have hcomm : ∀ s t : T, Commute ((s : V ≃ₗ[K] V) : V →ₗ[K] V) ((t : V ≃ₗ[K] V) : V →ₗ[K] V) := by
     intro s t
@@ -142,7 +142,7 @@ theorem three_dvd_finrank_and_card_le_of_abelian_cube [Finite K] (hK : Nat.card 
     (hab : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x) {x : V ≃ₗ[K] V} (hx : x ∈ Q) (hx3 : x ^ 3 ≠ 1) :
     3 ∣ Module.finrank K V ∧ Nat.card Q ≤ 3 ^ (1 + Module.finrank K V / 3) := by
   classical
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
   have hZ := scalarLike_scalars (V := V) hK
   obtain ⟨T, hTQ, hT3, -, hTcard⟩ := exists_cube_kernel_of_good hZ hQ
   obtain ⟨ω, hω⟩ := mem_scalars_iff.1 (hQ.2 x hx)

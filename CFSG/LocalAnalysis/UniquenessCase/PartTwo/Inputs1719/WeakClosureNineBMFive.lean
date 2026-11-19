@@ -99,7 +99,7 @@ theorem T0_le_normL01 : closureC t0Gen ≤ normalizer ((L01 : Subgroup P16) : Se
   apply mem_normalizer_of_map_le
   rw [L01, MonoidHom.map_closure, closure_le]
   rintro _ ⟨x, hx, rfl⟩
-  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hx
+  simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hx
   obtain ⟨ha, hb⟩ := (t0chk_parts h0).2.2.1 _ hg
   rcases hx with rfl | rfl
   · rw [← code_conj] at ha

@@ -11,11 +11,13 @@ open CFSG.LieType.BorelTits
 
 variable {F : Type} [Field F] [Finite F] {V : Type} [AddCommGroup V] [Module F V] [Finite V]
 
+omit [Finite F] [Finite V] in
 private theorem β_lin_comb_eq_zero (Φ : ReflForm F V) {ι : Type} [Fintype ι] (u : ι → V)
     (h : ∀ i j, Φ.β (u i) (u j) = 0) (a a' : ι → F) :
     Φ.β (∑ i, a i • u i) (∑ j, a' j • u j) = 0 := by
   simp [β_sum_left, β_sum_right, Φ.smul_left, Φ.smul_right, h]
 
+omit [Finite F] [Finite V] in
 private theorem Q_lin_comb_eq_zero (Φ : QuadForm F V) {ι : Type} [Fintype ι] (u : ι → V)
     (hQ : ∀ i, Φ.Q (u i) = 0) (hβ : ∀ i j, Φ.polar.β (u i) (u j) = 0) (a : ι → F) :
     Φ.Q (∑ i, a i • u i) = 0 := by
@@ -31,6 +33,7 @@ private theorem Q_lin_comb_eq_zero (Φ : QuadForm F V) {ι : Type} [Fintype ι] 
       simp
   exact key Finset.univ
 
+omit [Finite F] [Finite V] in
 private theorem graph_eq_sum {ι : Type} [Fintype ι] {Cc : Submodule F V}
     (b : Module.Basis ι F Cc) (s : V →ₗ[F] V) {x : V} (hx : x ∈ Cc) :
     x + s x = ∑ i, (b.repr ⟨x, hx⟩ i) • ((b i : V) + s (b i : V)) := by
@@ -65,6 +68,7 @@ theorem exists_graph_halfform (Φ : ReflForm F V) (hσ : ∀ c, Φ.σ (Φ.σ c) 
     rw [LinearMap.comp_apply, Submodule.projectionOnto_apply_left hC.symm (b j),
       Module.Basis.constr_basis, hsymm (w j) (b i), hw j (b i), Module.Basis.constr_basis, hσ]
 
+omit [Finite F] [Finite V] in
 theorem β_graph_of_basis (Φ : ReflForm F V) {Cc : Submodule F V} {ι : Type} [Fintype ι]
     (b : Module.Basis ι F Cc) (s : V →ₗ[F] V)
     (h : ∀ i j, Φ.β ((b i : V) + s (b i : V)) ((b j : V) + s (b j : V)) = 0) :
@@ -74,6 +78,7 @@ theorem β_graph_of_basis (Φ : ReflForm F V) {Cc : Submodule F V} {ι : Type} [
   exact β_lin_comb_eq_zero Φ (fun i => (b i : V) + s (b i : V)) h
     (fun i => b.repr ⟨c, hc⟩ i) (fun i => b.repr ⟨c', hc'⟩ i)
 
+omit [Finite F] [Finite V] in
 theorem Q_graph_of_basis (Φ : QuadForm F V) {Cc : Submodule F V} {ι : Type} [Fintype ι]
     (b : Module.Basis ι F Cc) (s : V →ₗ[F] V)
     (hQ : ∀ i, Φ.Q ((b i : V) + s (b i : V)) = 0)

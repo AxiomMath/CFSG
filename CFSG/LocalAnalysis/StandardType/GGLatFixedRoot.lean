@@ -508,7 +508,7 @@ theorem fixed_core {k : ℕ} (hk : 0 < k)
     let X' : Set (Fin Tag.E6.rank → ℤ) := {x | x ∈ O ∧ x ∈ X}
     let Eqv : (Fin Tag.E6.rank → ℤ) → (Fin Tag.E6.rank → ℤ) → Prop :=
       fun a b => (a ∈ X' ↔ b ∈ X')
-    haveI : IsEquiv (Fin Tag.E6.rank → ℤ) Eqv :=
+    have : IsEquiv (Fin Tag.E6.rank → ℤ) Eqv :=
       { refl := fun _ => Iff.rfl
         symm := fun _ _ h => h.symm
         trans := fun _ _ _ h1 h2 => h1.trans h2 }
@@ -767,7 +767,7 @@ section E6
 theorem exists_fixed_root_of_stable_component_E6 (n f : ℕ)
     (S : Matrix (Fin (ggU .E6 n f).D.rank) (Fin (ggU .E6 n f).D.rank) ℤ)
     (hS : IsRootGram (ggU .E6 n f).D S)
-    (π : Equiv.Perm (Fin (ggU .E6 n f).D.rank)) (hπ : IsDiagAut (ggU .E6 n f).D π)
+    (π : Equiv.Perm (Fin (ggU .E6 n f).D.rank)) (_hπ : IsDiagAut (ggU .E6 n f).D π)
     {Φ O : Set (Fin (ggU .E6 n f).D.rank → ℤ)}
     (hΦ : Φ ⊆ (ggU .E6 n f).D.roots) (hrefl : ∀ α ∈ Φ, ∀ β ∈ Φ, latRefl S α β ∈ Φ)
     (hadd : ∀ α ∈ Φ, ∀ β ∈ Φ, α + β ∈ (ggU .E6 n f).D.roots → α + β ∈ Φ)

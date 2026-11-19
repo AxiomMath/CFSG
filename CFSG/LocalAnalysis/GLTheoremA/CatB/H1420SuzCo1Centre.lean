@@ -26,7 +26,7 @@ theorem suzCo1_threeB_data {x : GL24} (hx : MRep (rootRows3B ()) x) :
     and_assoc, List.all_eq_true] at h
   obtain ⟨hD, hwx, hw1, hxr, hx1, hx3, hz3, hxa, hxb, hza, hzb, hxz, hwab, hwba, hab, hZok, hZsz,
     hrels, hiu1, hiv1, hiu2, hiv2, hcm1, hcm2, hb1, hcnt1, hb2, hcnt2⟩ := h
-  haveI : Finite GL24 := inferInstance
+  have : Finite GL24 := inferInstance
   have ra := rep_nd (ext := TabCo1ThreeB.ext) hD 88
   have rb := rep_nd (ext := TabCo1ThreeB.ext) hD 89
   have rx := rep_nd (ext := TabCo1ThreeB.ext) hD 90
@@ -281,7 +281,7 @@ theorem suzCo1_threeB_data {x : GL24} (hx : MRep (rootRows3B ()) x) :
       ⟨Subgroup.mem_centralizer_iff.2 hcl, (Subgroup.mem_inf.1 hc).2⟩
     rw [← hZseq] at hcZ
     exact pow_three_of_mem_closure_pair hx3' hz3' cxz hcZ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ⟨J, hJC, conj_mem_of_card_le_two_mul hJC hCcard, hq, by rw [cardJ]; norm_num,
     IsPGroup.of_card (n := 2) (by rw [hcard3]; norm_num), hcentJ, ⟨eT⟩, hcard3⟩
 

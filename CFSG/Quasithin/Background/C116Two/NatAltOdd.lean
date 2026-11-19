@@ -434,7 +434,7 @@ theorem perm_module_noOffender (X : Type) [Fintype X] [DecidableEq X]
     (B : Subgroup (Equiv.Perm X)) (hB : IsElemAbelian 2 B) :
     Nat.card B * Nat.card {x : X → ZMod 2 // ∀ σ ∈ B, ∀ i, x (σ⁻¹ i) = x i} ≤
       2 ^ Fintype.card X := by
-  haveI : Fintype (Quotient (pmoSetoid B)) := Fintype.ofFinite _
+  have : Fintype (Quotient (pmoSetoid B)) := Fintype.ofFinite _
   have hsum : ∑ q : Quotient (pmoSetoid B), Nat.card (pmoFiber B q) = Nat.card X := by
     rw [← Nat.card_sigma]
     exact Nat.card_congr (Equiv.sigmaFiberEquiv (Quotient.mk (pmoSetoid B)))
@@ -479,7 +479,7 @@ theorem card_fixed_perm_two_mul {m : ℕ} (B : Subgroup (Equiv.Perm (Fin m))) {i
     · have hne : σ⁻¹ i ≠ i₀ := fun hc => hi (by
         rw [Equiv.Perm.inv_eq_iff_eq, h σ hσ] at hc
         exact hc)
-      simp only [Pi.single_apply, if_neg hne, if_neg hi]
+      simp only [Pi.single_apply, ite_eq_right hne, ite_eq_right hi]
   have hsum1 : ∀ c : ZMod 2, ∑ i, (Pi.single i₀ c : Fin m → ZMod 2) i = c := by
     intro c
     simp [Pi.single_apply]

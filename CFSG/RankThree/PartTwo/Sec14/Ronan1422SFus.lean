@@ -69,7 +69,7 @@ theorem fus_not_dvd_index_of_maximal {K : Type} [Group K] [Finite K] {p : ℕ} [
     (hmax : ∀ T : Subgroup K, IsPGroup p T → A ≤ T → T = A) : ¬ p ∣ A.index := by
   intro hdvd
   obtain ⟨T, hAT⟩ := IsPGroup.exists_le_sylow hA
-  have hTA : (T : Subgroup K) = A := hmax _ T.isPGroup' hAT
+  have hTA : (T : Subgroup K) = A := hmax _ T.isPGroup hAT
   exact Sylow.not_dvd_index T (by rw [hTA]; exact hdvd)
 
 theorem fus_card_le_of_normalizer {G : Type} [Group G] [Finite G] {c : G} {A : Subgroup G}
@@ -258,8 +258,8 @@ theorem exists_inverting_of_fusion {G : Type} [Group G] [Finite G] (hG : IsSimpl
         rw [htop]
         exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp hmem
-    haveI : Group.IsNilpotent (T : Subgroup G) := T.isPGroup'.isNilpotent
-    obtain ⟨x, hxN, hxH⟩ := SetLike.exists_of_lt
+    have : Group.IsNilpotent (T : Subgroup G) := T.isPGroup.isNilpotent
+    obtain ⟨x, hxN, hxH⟩ := _root_.IsConcreteLE.exists_of_lt
       (Group.normalizerCondition_of_isNilpotent _ hlt)
     have hxP : (x : G) ∉ P := fun h => hxH (Subgroup.mem_subgroupOf.mpr h)
     have hcT : c ∈ (T : Subgroup G) := hPT hcP
@@ -299,7 +299,7 @@ theorem exists_inverting_of_fusion {G : Type} [Group G] [Finite G] (hG : IsSimpl
       exact (T : Subgroup G).mul_mem x.2 (hPT hpP)
     have hQT : A ⊔ Subgroup.zpowers y ≤ (T : Subgroup G) :=
       sup_le (le_trans hAP hPT) (Subgroup.zpowers_le.mpr hyT)
-    have hQ3 : IsPGroup 3 (↥(A ⊔ Subgroup.zpowers y)) := T.isPGroup'.to_le hQT
+    have hQ3 : IsPGroup 3 (↥(A ⊔ Subgroup.zpowers y)) := T.isPGroup.to_le hQT
     have hQN : A ⊔ Subgroup.zpowers y ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G) :=
       sup_le hAN (Subgroup.zpowers_le.mpr hy_norm)
     have hQeq : A ⊔ Subgroup.zpowers y = A := hsyl _ hQ3 le_sup_left hQN

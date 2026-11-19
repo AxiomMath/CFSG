@@ -236,10 +236,10 @@ theorem exists_normOmega_chart_calibrated {G : Type} [Group G] [Finite G] {L Bs 
   congr 3
   by_cases hiS : i ∈ S
   · have hεi : ε' i = -1 := (Finset.mem_filter.mp hiS).2
-    rw [if_pos hiS, toAdd_inv, hi, hεi, neg_one_mul]
+    rw [ite_eq_left hiS, toAdd_inv, hi, hεi, neg_one_mul]
   · have hεi : ε' i = 1 := (hε' i).resolve_right fun h =>
       hiS (Finset.mem_filter.mpr ⟨Finset.mem_univ _, h⟩)
-    rw [if_neg hiS, hi, hεi, one_mul]
+    rw [ite_eq_right hiS, hi, hεi, one_mul]
 
 theorem exists_omKFrame_calibrated {G : Type} [Group G] [Finite G] {L Bs : Subgroup G}
     {x : G} {n : ℕ} (hn : 4 ≤ n) (eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod 3))) {i0 : Fin n}
@@ -384,11 +384,11 @@ theorem exists_omKFrame_of_qTwoOrth_over {G : Type} [Group G] [Finite G] {p : �
       exact hxcenter
     have hxeq1 : (⟨x, hxL⟩ : ↥L) = 1 := Subgroup.mem_bot.mp hxbot
     exact hx1 (congrArg Subtype.val hxeq1)
-  letI : Fintype F₀ := Fintype.ofFinite F₀
+  let : Fintype F₀ := Fintype.ofFinite F₀
   have hF0card : Fintype.card F₀ = 2 := by
     rw [← Nat.card_eq_fintype_card, hF2]
   let σ : ZMod 2 ≃+* F₀ := ZMod.ringEquivOfPrime F₀ Nat.prime_two hF0card
-  letI algF₀K : Algebra F₀ K :=
+  let algF₀K : Algebra F₀ K :=
     ((ZMod.castHom (dvd_refl 2) K).comp σ.symm.toRingHom).toAlgebra
   have hF2_1 : Nat.card F₀ = 2 ^ 1 := by rw [hF2]; norm_num
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num

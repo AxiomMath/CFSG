@@ -19,12 +19,14 @@ private def adP (σ : K ≃+* K) (M : Matrix (Fin p) (Fin p) K) :
     Module.End K (Matrix (Fin p) (Fin p) K) :=
   LinearMap.mulLeft K M ∘ₗ LinearMap.mulRight K (adjP σ M)
 
+omit [NeZero p] in
 private theorem twistP_ne_zero {α : K} (hα : α ≠ 0) (b : Fin p) : twistP α b ≠ 0 := by
   unfold twistP
   split_ifs
   · exact hα
   · exact one_ne_zero
 
+omit [NeZero p] in
 private theorem star_twistP (σ : K ≃+* K) {α : K} (hασ : σ α * α = 1) (b : Fin p) :
     σ (twistP α b) * twistP α b = 1 := by
   unfold twistP
@@ -40,14 +42,17 @@ private theorem Gj_zero_apply (ζ α : K) (a b : Fin p) :
   rw [Gj_apply']
   simp
 
+omit [NeZero p] in
 private theorem Zm_pow_apply' (ζ : K) (k : ℕ) :
     Zm ζ ^ k = Matrix.diagonal fun a : Fin p => (ζ ^ (a : ℕ)) ^ k := by
   rw [Zm, Matrix.diagonal_pow]
   rfl
 
+omit [NeZero p] in
 private theorem wh_pow_p {ζ : K} (hζ : ζ ^ p = 1) (n : ℕ) : (ζ ^ n) ^ p = 1 := by
   rw [← pow_mul, mul_comm, pow_mul, hζ, one_pow]
 
+omit [NeZero p] in
 private theorem Zm_pow_p' {ζ : K} (hζ : ζ ^ p = 1) : Zm (p := p) ζ ^ p = 1 := by
   rw [Zm_pow_apply', ← Matrix.diagonal_one]
   congr 1
@@ -58,11 +63,12 @@ private theorem Gj_eq_mul_Zm_pow' (ζ α : K) (j : ℕ) :
     Gj (p := p) ζ α j = Gj ζ α 0 * Zm ζ ^ j := by
   ext a b
   rw [Zm_pow_apply', Matrix.mul_diagonal]
-  simp only [Gj_apply', Gj_zero_apply, zero_mul, pow_zero, one_mul]
+  simp only [Gj_apply', zero_mul, pow_zero, one_mul]
   split_ifs
   · ring
   · ring
 
+omit [NeZero p] in
 private theorem diagonal_mul_Zm (v : Fin p → K) (ζ : K) :
     Matrix.diagonal v * Zm ζ = Zm ζ * Matrix.diagonal v := by
   rw [Zm, Matrix.diagonal_mul_diagonal, Matrix.diagonal_mul_diagonal]
@@ -70,6 +76,7 @@ private theorem diagonal_mul_Zm (v : Fin p → K) (ζ : K) :
   funext a
   exact mul_comm _ _
 
+omit [NeZero p] in
 private theorem wh_pow_mod {ζ : K} (hζ : ζ ^ p = 1) (n : ℕ) : ζ ^ (n % p) = ζ ^ n := by
   conv_rhs => rw [← Nat.mod_add_div n p, pow_add, pow_mul, hζ, one_pow, mul_one]
 
@@ -83,7 +90,7 @@ private theorem Zm_mul_Gj_zero {ζ α : K} (hζ : ζ ^ p = 1) :
     Gj_zero_apply]
   by_cases h : a = b + 1
   · subst h
-    rw [if_pos rfl, wh_val_add_one, wh_pow_mod hζ, pow_succ]
+    rw [ite_eq_left rfl, wh_val_add_one, wh_pow_mod hζ, pow_succ]
     ring
   · simp [h]
 
@@ -129,11 +136,11 @@ private theorem Gj_pow_p_diag_succ {ζ α : K} (hα : α ≠ 0) (x : Fin p) :
       = Gj ζ α 0 (x + 1) x * (Gj ζ α 0 ^ p) x x := by
     apply Finset.sum_eq_single x
     · intro k _ hk
-      simp [Gj_zero_apply, hk, Ne.symm hk]
+      simp [Gj_zero_apply, Ne.symm hk]
     · intro h
       exact absurd (Finset.mem_univ _) h
   rw [e1, e2] at hc
-  simp only [Gj_zero_apply, eq_self_iff_true, if_true] at hc
+  simp only [Gj_zero_apply, ite_true] at hc
   exact mul_right_cancel₀ (twistP_ne_zero hα x) (hc.trans (mul_comm _ _))
 
 private theorem Gj_pow_p_diag_const {ζ α : K} (hα : α ≠ 0) (x : Fin p) :
@@ -156,15 +163,18 @@ private theorem Gj_pow_p_eq_smul {ζ α : K} (hζ : IsPrimitiveRoot ζ p) (hα :
     simp [Gj_pow_p_diag_const hα a]
   · simp [h, Gj_pow_p_offdiag hζ a b h]
 
+omit [NeZero p] in
 private theorem adjP_apply (σ : K ≃+* K) (M : Matrix (Fin p) (Fin p) K) (a b : Fin p) :
     adjP σ M a b = σ (M b a) := rfl
 
+omit [NeZero p] in
 private theorem adjP_mul (σ : K ≃+* K) (M N : Matrix (Fin p) (Fin p) K) :
     adjP σ (M * N) = adjP σ N * adjP σ M := by
   ext a b
   simp only [adjP_apply, Matrix.mul_apply, map_sum, map_mul]
   exact Finset.sum_congr rfl fun k _ => mul_comm _ _
 
+omit [NeZero p] in
 private theorem adjP_one (σ : K ≃+* K) : adjP σ (1 : Matrix (Fin p) (Fin p) K) = 1 := by
   ext a b
   rw [adjP_apply, Matrix.one_apply, Matrix.one_apply]
@@ -173,41 +183,48 @@ private theorem adjP_one (σ : K ≃+* K) : adjP σ (1 : Matrix (Fin p) (Fin p) 
     simp
   · simp [h, Ne.symm h]
 
+omit [NeZero p] in
 private theorem adjP_pow (σ : K ≃+* K) (M : Matrix (Fin p) (Fin p) K) (k : ℕ) :
     adjP σ (M ^ k) = adjP σ M ^ k := by
   induction k with
   | zero => simp [adjP_one]
   | succ k ih => rw [pow_succ, adjP_mul, ih, pow_succ']
 
+omit [NeZero p] in
 private theorem adjP_adjP (σ : K ≃+* K) (hσ : ∀ c, σ (σ c) = c)
     (M : Matrix (Fin p) (Fin p) K) : adjP σ (adjP σ M) = M := by
   ext a b
   simp [adjP_apply, hσ]
 
+omit [NeZero p] in
 private theorem adjP_smul (σ : K ≃+* K) (c : K) (M : Matrix (Fin p) (Fin p) K) :
     adjP σ (c • M) = σ c • adjP σ M := by
   ext a b
   simp [adjP_apply]
 
+omit [NeZero p] in
 private theorem adjP_sub (σ : K ≃+* K) (X Y : Matrix (Fin p) (Fin p) K) :
     adjP σ (X - Y) = adjP σ X - adjP σ Y := by
   ext a b
   simp [adjP_apply]
 
+omit [NeZero p] in
 private theorem adjP_sum (σ : K ≃+* K) {ι : Type*} (s : Finset ι)
     (X : ι → Matrix (Fin p) (Fin p) K) :
     adjP σ (∑ i ∈ s, X i) = ∑ i ∈ s, adjP σ (X i) := by
   ext a b
   simp [adjP_apply, Matrix.sum_apply]
 
+omit [NeZero p] in
 private theorem adjP_diagonal (σ : K ≃+* K) (v : Fin p → K) :
     adjP σ (Matrix.diagonal v) = Matrix.diagonal fun a => σ (v a) := by
   ext a b
   by_cases h : a = b
   · subst h
     simp [adjP_apply]
-  · simp [adjP_apply, Matrix.diagonal_apply, h, Ne.symm h]
+  · simp [adjP_apply, h, Ne.symm h]
 
+omit [NeZero p] in
 private theorem adjP_eq_iff (σ : K ≃+* K) (X : Matrix (Fin p) (Fin p) K) :
     adjP σ X = X ↔ ∀ a b, σ (X b a) = X a b := by
   constructor
@@ -220,29 +237,34 @@ private theorem adjP_eq_iff (σ : K ≃+* K) (X : Matrix (Fin p) (Fin p) K) :
     rw [adjP_apply]
     exact h a b
 
+omit [NeZero p] in
 private theorem adP_apply (σ : K ≃+* K) (M S : Matrix (Fin p) (Fin p) K) :
     adP σ M S = M * (S * adjP σ M) := rfl
 
+omit [NeZero p] in
 private theorem adP_mul (σ : K ≃+* K) (M N : Matrix (Fin p) (Fin p) K) :
     adP σ (M * N) = adP σ M * adP σ N := by
   ext S : 1
   simp only [Module.End.mul_apply, adP_apply, adjP_mul, Matrix.mul_assoc]
 
+omit [NeZero p] in
 private theorem adP_one (σ : K ≃+* K) : adP σ (1 : Matrix (Fin p) (Fin p) K) = 1 := by
   ext S : 1
   simp [adP_apply, adjP_one]
 
+omit [NeZero p] in
 private theorem adP_pow (σ : K ≃+* K) (M : Matrix (Fin p) (Fin p) K) (k : ℕ) :
     adP σ (M ^ k) = adP σ M ^ k := by
   induction k with
   | zero => simp [adP_one]
   | succ k ih => rw [pow_succ, adP_mul, ih, pow_succ]
 
+omit [NeZero p] in
 private theorem adP_smul_of_unit (σ : K ≃+* K) {c : K} (hc : σ c * c = 1)
     (M : Matrix (Fin p) (Fin p) K) : adP σ (c • M) = adP σ M := by
   have hc' : c * σ c = 1 := by rw [mul_comm]; exact hc
   ext S : 1
-  simp only [adP_apply, adjP_smul, smul_mul_assoc, mul_smul_comm, smul_smul, hc, hc', one_smul]
+  simp only [adP_apply, adjP_smul, smul_mul_assoc, mul_smul_comm, smul_smul, hc, one_smul]
 
 private theorem commute_adP_T_Z (σ : K ≃+* K) {ζ α : K} (hζ : ζ ^ p = 1)
     (hζσ : σ ζ * ζ = 1) : Commute (adP σ (Gj (p := p) ζ α 0)) (adP σ (Zm ζ)) := by
@@ -255,10 +277,12 @@ private theorem adP_Gj_pow (σ : K ≃+* K) {ζ α : K} (hζ : ζ ^ p = 1) (hζ�
   rw [Gj_eq_mul_Zm_pow' ζ α j, adP_mul, adP_pow,
     ((commute_adP_T_Z σ hζ hζσ).pow_right j).mul_pow, ← pow_mul]
 
+omit [NeZero p] in
 private theorem adP_Zm_pow_p (σ : K ≃+* K) {ζ : K} (hζ : ζ ^ p = 1) :
     adP σ (Zm (p := p) ζ) ^ p = 1 := by
   rw [← adP_pow, Zm_pow_p' hζ, adP_one]
 
+omit [NeZero p] in
 private theorem adjP_pow_mul_pow (σ : K ≃+* K) (M : Matrix (Fin p) (Fin p) K) (k : ℕ)
     (hM : adjP σ M * M = 1) : adjP σ (M ^ k) * M ^ k = 1 := by
   have hM' : M * adjP σ M = 1 := mul_eq_one_comm.mp hM
@@ -277,7 +301,7 @@ private theorem adjP_mul_Gj (σ : K ≃+* K) {ζ α : K} (hζσ : σ ζ * ζ = 1
       have e1 : σ ζ ^ (j * (a : ℕ)) * ζ ^ (j * (a : ℕ)) = 1 := by
         rw [← mul_pow, hζσ, one_pow]
       have e2 := star_twistP σ hασ a
-      simp only [adjP_apply, Gj_apply', eq_self_iff_true, if_true, map_mul, map_pow]
+      simp only [adjP_apply, Gj_apply', ite_true, map_mul, map_pow]
       linear_combination (σ (twistP α a) * twistP α a) * e1 + e2
     · simp [adjP_apply, Gj_apply', hab]
   · intro k _ hk
@@ -294,7 +318,7 @@ private theorem adP_Gj_zero_pow_p (σ : K ≃+* K) {ζ α : K} (hζ : IsPrimitiv
   rw [hu, adjP_smul, adjP_one] at hpow
   have hσu : σ u * u = 1 := by
     have h0 := congrArg (fun M : Matrix (Fin p) (Fin p) K => M 0 0) hpow
-    simp [Matrix.smul_mul, Matrix.mul_smul, smul_smul] at h0
+    simp at h0
     linear_combination h0
   rw [← adP_pow, hu, adP_smul_of_unit σ hσu, adP_one]
 
@@ -304,6 +328,7 @@ private theorem adP_Gj_pow_p (σ : K ≃+* K) {ζ α : K} (hζ : IsPrimitiveRoot
   rw [adP_Gj_pow σ hζ.pow_eq_one hζσ j p, adP_Gj_zero_pow_p σ hζ hα hζσ hασ, one_mul,
     pow_mul', adP_Zm_pow_p σ hζ.pow_eq_one, one_pow]
 
+omit [NeZero p] in
 private theorem adP_Zm_pow_apply (σ : K ≃+* K) {ζ : K} (hζσ : σ ζ = ζ⁻¹) (k : ℕ)
     (S : Matrix (Fin p) (Fin p) K) (a b : Fin p) :
     (adP σ (Zm ζ) ^ k) S a b = (ζ ^ (a : ℕ) * (ζ ^ (b : ℕ))⁻¹) ^ k * S a b := by
@@ -312,6 +337,7 @@ private theorem adP_Zm_pow_apply (σ : K ≃+* K) {ζ : K} (hζσ : σ ζ = ζ�
   rw [mul_pow]
   ring
 
+omit [NeZero p] in
 private theorem sum_adP_Zm_pow (σ : K ≃+* K) {ζ : K} (hζ : IsPrimitiveRoot ζ p) (hp : p.Prime)
     (hζσ : σ ζ = ζ⁻¹) (i : ℕ) (hi : ¬ p ∣ i) (S : Matrix (Fin p) (Fin p) K) :
     ∑ j : Fin p, (adP σ (Zm ζ) ^ ((j : ℕ) * i)) S
@@ -363,15 +389,15 @@ private theorem adP_T_diagonal (σ : K ≃+* K) {ζ α : K} (hασ : σ α * α 
   simp only [Matrix.diagonal_mul, adjP_apply, Gj_zero_apply]
   by_cases hab : a = b
   · subst hab
-    rw [if_pos rfl, Finset.sum_eq_single (a - 1)]
-    · simp only [sub_add_cancel, eq_self_iff_true, if_true]
+    rw [ite_eq_left rfl, Finset.sum_eq_single (a - 1)]
+    · simp only [sub_add_cancel, ite_true]
       linear_combination (d (a - 1)) * star_twistP σ hασ (a - 1)
     · intro l _ hl
       have hne : ¬ a = l + 1 := fun h => hl (by rw [h, add_sub_cancel_right])
       simp [hne]
     · intro h
       exact absurd (Finset.mem_univ _) h
-  · rw [if_neg hab]
+  · rw [ite_eq_right hab]
     apply Finset.sum_eq_zero
     intro l _
     by_cases h1 : a = l + 1
@@ -401,9 +427,9 @@ private theorem sum_adP_T_diagonal (σ : K ≃+* K) {ζ α : K} (hασ : σ α *
   rw [Matrix.sum_apply, Matrix.smul_apply, smul_eq_mul, Matrix.one_apply]
   by_cases h : a = b
   · subst h
-    simp only [Matrix.diagonal_apply_eq, eq_self_iff_true, if_true, mul_one]
+    simp only [Matrix.diagonal_apply_eq, ite_true, mul_one]
     exact Equiv.sum_comp (Equiv.subLeft a) d
-  · simp [Matrix.diagonal_apply, h]
+  · simp [h]
 
 private theorem sum_Gj_twirl (σ : K ≃+* K) {ζ α : K} (hζ : IsPrimitiveRoot ζ p) (hp : p.Prime)
     (hpK : (p : K) ≠ 0) (hζσ : σ ζ = ζ⁻¹) (hζσ' : σ ζ * ζ = 1) (hασ : σ α * α = 1)
@@ -419,12 +445,12 @@ private theorem sum_Gj_twirl (σ : K ≃+* K) {ζ α : K} (hζ : IsPrimitiveRoot
       have h0 : ∀ j : Fin p, (adP σ (Zm ζ) ^ ((j : ℕ) * ((0 : Fin p) : ℕ))) S = S := by
         intro j
         simp
-      simp only [h0, eq_self_iff_true, if_true]
+      simp only [h0, ite_true]
       rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, ← Nat.cast_smul_eq_nsmul K,
         ← smul_add]
       congr 1
       abel
-    · rw [if_neg hi, add_zero]
+    · rw [ite_eq_right hi, add_zero]
       exact sum_adP_Zm_pow σ hζ hp hζσ (i : ℕ)
         (fun hd => hi (Fin.ext (Nat.eq_zero_of_dvd_of_lt hd i.isLt))) S
   have hL : ∑ j : Fin p, (p : K)⁻¹ • ∑ i : Fin p, (adP σ (Gj ζ α j) ^ (i : ℕ)) S
@@ -450,7 +476,7 @@ private theorem sum_Gj_twirl (σ : K ≃+* K) {ζ α : K} (hζ : IsPrimitiveRoot
     · intro h
       exact absurd (Finset.mem_univ _) h
   rw [hL, hR]
-  simp only [smul_add, smul_smul, inv_mul_cancel₀ hpK, inv_mul_cancel_left₀ hpK, one_mul, one_smul]
+  simp only [smul_add, smul_smul, inv_mul_cancel₀ hpK, inv_mul_cancel_left₀ hpK, one_smul]
 
 private theorem sum_range_shift {M : Type*} [AddCommGroup M] (f : ℕ → M) (n : ℕ)
     (hn : f n = f 0) : ∑ i ∈ Finset.range n, f (i + 1) = ∑ i ∈ Finset.range n, f i := by
@@ -460,6 +486,7 @@ private theorem sum_range_shift {M : Type*} [AddCommGroup M] (f : ℕ → M) (n 
   rw [h1] at h2
   exact add_right_cancel h2
 
+omit [NeZero p] in
 private theorem sum_fin_shift {M : Type*} [AddCommGroup M] (f : ℕ → M) (hf : f p = f 0) :
     ∑ i : Fin p, f ((i : ℕ) + 1) = ∑ i : Fin p, f i := by
   have h1 : ∑ i : Fin p, f ((i : ℕ) + 1) = ∑ i ∈ Finset.range p, f (i + 1) :=
@@ -469,10 +496,12 @@ private theorem sum_fin_shift {M : Type*} [AddCommGroup M] (f : ℕ → M) (hf :
   rw [h1, h2]
   exact sum_range_shift f p hf
 
+omit [NeZero p] in
 private theorem adjP_adP (σ : K ≃+* K) (hσ : ∀ c, σ (σ c) = c) (M X : Matrix (Fin p) (Fin p) K)
     (hX : adjP σ X = X) : adjP σ (adP σ M X) = adP σ M X := by
   simp only [adP_apply, adjP_mul, adjP_adjP σ hσ, hX, Matrix.mul_assoc]
 
+omit [NeZero p] in
 private theorem adjP_adP_pow (σ : K ≃+* K) (hσ : ∀ c, σ (σ c) = c) (M S : Matrix (Fin p) (Fin p) K)
     (hS : adjP σ S = S) (i : ℕ) : adjP σ ((adP σ M ^ i) S) = (adP σ M ^ i) S := by
   induction i with
@@ -481,6 +510,7 @@ private theorem adjP_adP_pow (σ : K ≃+* K) (hσ : ∀ c, σ (σ c) = c) (M S 
     rw [pow_succ', Module.End.mul_apply]
     exact adjP_adP σ hσ M _ ih
 
+omit [NeZero p] in
 private theorem fix_sum_pow {F : Module.End K (Matrix (Fin p) (Fin p) K)} (hF : F ^ p = 1)
     (S : Matrix (Fin p) (Fin p) K) (c : K) :
     F (c • ∑ i : Fin p, (F ^ (i : ℕ)) S) = c • ∑ i : Fin p, (F ^ (i : ℕ)) S := by
@@ -492,6 +522,7 @@ private theorem fix_sum_pow {F : Module.End K (Matrix (Fin p) (Fin p) K)} (hF : 
   simp only [h]
   exact sum_fin_shift (fun m => (F ^ m) S) hfp
 
+omit [NeZero p] in
 private theorem commute_of_fix {σ : K ≃+* K} {G Q : Matrix (Fin p) (Fin p) K}
     (hunit : adjP σ G * G = 1) (hfix : adP σ G Q = Q) : Q * G = G * Q := by
   rw [adP_apply] at hfix
@@ -499,6 +530,7 @@ private theorem commute_of_fix {σ : K ≃+* K} {G Q : Matrix (Fin p) (Fin p) K}
     _ = G * (Q * (adjP σ G * G)) := by simp only [Matrix.mul_assoc]
     _ = G * Q := by rw [hunit, mul_one]
 
+omit [NeZero p] in
 private theorem adjP_fix_sum (σ : K ≃+* K) (hσ : ∀ c, σ (σ c) = c) (M S : Matrix (Fin p) (Fin p) K)
     (hS : adjP σ S = S) (c : K) (hc : σ c = c) :
     adjP σ (c • ∑ i : Fin p, (adP σ M ^ (i : ℕ)) S)
@@ -507,7 +539,7 @@ private theorem adjP_fix_sum (σ : K ≃+* K) (hσ : ∀ c, σ (σ c) = c) (M S 
   congr 1
   exact Finset.sum_congr rfl fun i _ => adjP_adP_pow σ hσ M S hS i
 
-theorem decompP {σ : K ≃+* K} (hσ : ∀ c, σ (σ c) = c) (hp : p.Prime) (hp2 : p ≠ 2)
+theorem decompP {σ : K ≃+* K} (hσ : ∀ c, σ (σ c) = c) (hp : p.Prime) (_hp2 : p ≠ 2)
     (hpK : (p : K) ≠ 0) {ζ α : K} (hζ : IsPrimitiveRoot ζ p) (hζσ : σ ζ = ζ⁻¹) (hα : α ≠ 0)
     (hασ : σ α = α⁻¹) (S : Matrix (Fin p) (Fin p) K) (hS : ∀ a b, σ (S b a) = S a b) :
     ∃ Q : Fin (p + 1) → Matrix (Fin p) (Fin p) K, (∀ i a b, σ (Q i b a) = Q i a b) ∧

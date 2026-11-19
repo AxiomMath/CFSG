@@ -99,7 +99,7 @@ theorem exists_perfect_of_twistedE6_langFrame_three {ℓ f : ℕ} (hℓ : ℓ.Pr
     refine ⟨y, ?_⟩
     rw [hψ, ← hφ, hy]
   have hRperf : ⁅R, R⁆ = R := by
-    haveI : Group.IsPerfect ↥R := hq.1
+    have : Group.IsPerfect ↥R := hq.1
     exact Subgroup.commutator_eq_self
   have hRcent : R ≤ Subgroup.centralizer ({rootDiagUnit TwistTag.E6.tag a} :
       Set (ModGL TwistTag.E6.tag L)) := fun r hr => (Subgroup.mem_inf.1 (hRC hr)).2

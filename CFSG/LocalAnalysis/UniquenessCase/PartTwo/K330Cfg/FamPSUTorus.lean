@@ -216,7 +216,7 @@ private theorem k330c_index_hypTorus_two_one {p f : ℕ} {K : Type} [Field K]
   · exact k330c_not_dvd_three_pow_add_one hq (k := 5) h5'
 
 private theorem k330c_card_map_hypProj_ge {p f : ℕ} {K : Type} [Field K]
-    (h : UnitaryFieldData p f K) {ε n : ℕ} (hnpos : 0 < n)
+    (h : UnitaryFieldData p f K) {ε n : ℕ} (_hnpos : 0 < n)
     (hker : Nat.card ((hypProj h 2 ε).ker) ≤ n) :
     Nat.card (hypTorus h 2 ε) / n ≤
       Nat.card ((hypTorus h 2 ε).map (hypProj h 2 ε)) := by
@@ -256,7 +256,7 @@ private theorem k330c_exists_conj_le_of_not_dvd_index {G : Type*} [Group G] [Fin
     ∃ c : G, R.map (MulAut.conj c).toMonoidHom ≤ M := by
   obtain ⟨S0⟩ : Nonempty (Sylow p M) := inferInstance
   set S1 : Subgroup G := (S0 : Subgroup M).map M.subtype with hS1def
-  have hS1 : IsPGroup p S1 := S0.isPGroup'.map M.subtype
+  have hS1 : IsPGroup p S1 := S0.isPGroup.map M.subtype
   have hidx : ¬ p ∣ S1.index := by
     rw [hS1def, Subgroup.index_map_subtype]
     intro h
@@ -275,8 +275,8 @@ theorem torusBig_PSU (n : ℕ) (hn : n = 4 ∨ n = 5) {J : Type} [Group J] [Fini
   rcases hn with rfl | rfl
   ·
     obtain ⟨-, K, hfield, hfin, hKcard, ⟨eJ⟩⟩ := e.statedClassicalModel (by decide)
-    letI : Field K := hfield
-    letI : Finite K := hfin
+    let : Field K := hfield
+    let : Finite K := hfin
     have hcard : Nat.card K = p ^ (2 * f) := by
       rw [hKcard, ← pow_mul, show f * 2 = 2 * f by omega]
     have h : UnitaryFieldData p f K := ⟨hp, hf, hcard⟩
@@ -334,8 +334,8 @@ theorem torusBig_PSU (n : ℕ) (hn : n = 4 ∨ n = 5) {J : Type} [Group J] [Fini
       _ ≤ Nat.card (Subgroup.normalizer (Z : Set J)) := hbound
   ·
     obtain ⟨-, K, hfield, hfin, hKcard, ⟨eJ⟩⟩ := e.statedClassicalModel (by decide)
-    letI : Field K := hfield
-    letI : Finite K := hfin
+    let : Field K := hfield
+    let : Finite K := hfin
     have hcard : Nat.card K = p ^ (2 * f) := by
       rw [hKcard, ← pow_mul, show f * 2 = 2 * f by omega]
     have h : UnitaryFieldData p f K := ⟨hp, hf, hcard⟩

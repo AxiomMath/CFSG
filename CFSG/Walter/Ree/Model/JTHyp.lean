@@ -80,7 +80,7 @@ theorem closure_three_sylow {G : Type*} [Group G] [Finite G] {x y z : G}
     Monoid.exponent_dvd_iff_forall_pow_eq_one.mp (@IsElementaryAbelian.exponent_dvd_p 2 S _ hE) g
   have hP2 : IsPGroup 2 S := fun g => ⟨1, by rw [pow_one]; exact hsq' g⟩
   obtain ⟨P, hSP⟩ := hP2.exists_le_sylow
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 P.isPGroup
   obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 hP2
   have hk3 : k ≤ 3 := by
     by_contra hk4

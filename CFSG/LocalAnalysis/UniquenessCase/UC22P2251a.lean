@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22p2251a_pRank_sub_one_le (D : Data G) (h61 : UC6.R6_1 D) {V : Subgroup G}
     (hV : InCalV D.M V) (hTI : ¬ IsTI V) {p : ℕ} (hp : p ∈ D.sig) :
     CFSG.Open.pRank p D.M - 1 ≤ CFSG.pRank p (MBar D.M V) := by
-  haveI := cTilde_bot_normal D.M V hV.2.2.1
+  have := cTilde_bot_normal D.M V hV.2.2.1
   rw [pRank_mbar D.M V p]
   refine uc22p22q_pRank_sub_one_le (D.sig_prime p hp).1 ?_
   rw [cTilde_bot]

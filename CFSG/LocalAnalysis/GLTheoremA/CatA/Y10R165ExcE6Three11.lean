@@ -62,7 +62,7 @@ theorem e6Three_concl_data (F : Type) [Field F] [Finite F] [CharP F 2]
     (D₁ : E6ThreeFrameData F n p q Ã)
     (D₂ : E6ThreeLayerData F n p q Ã D₁)
     (D₃ : E6ThreeCentreData F n p q Ã D₁ D₂)
-    {xt zt : ↥(e6Data_valid.minGroup F)} (hxtÃ : xt ∈ Ã) (hztÃ : zt ∈ Ã)
+    {xt zt : ↥(e6Data_valid.minGroup F)} (_hxtÃ : xt ∈ Ã) (_hztÃ : zt ∈ Ã)
     (hxtπ : e6Isogeny F xt = D₁.x) (hztπ : e6Isogeny F zt = D₁.z) :
     Nonempty (E6ThreeConclData F n p q Ã D₁ D₂ D₃ xt zt) := by
   obtain ⟨Q, hQdef, hQel, hker, g0, c,
@@ -421,7 +421,7 @@ theorem e6Three_coprime_concl (F : Type) [Field F] [Finite F] [CharP F 2]
 theorem e6Model165At_three_of_coprime (F : Type) [Field F] [Finite F] [CharP F 2]
     (n p q : ℕ) (hcard : Nat.card F = 2 ^ n) (hn : 2 ≤ n)
     (hp : p.Prime) (hp2 : p ≠ 2) (hrk : rk2Ord p n = 3)
-    (hq : q.Prime) (hq2 : q ≠ 2) (hqp : q ≠ p)
+    (hq : q.Prime) (_hq2 : q ≠ 2) (_hqp : q ≠ p)
     (hqdiv : q ∣ 2 ^ n - 1 ∨ n = 1 ∧ q = 3)
     (hqZ : ¬ q ∣ Nat.card (e6Isogeny F).ker) :
     letI : Finite ↥(e6Data_valid.minGroup F) :=
@@ -433,7 +433,7 @@ theorem e6Model165At_three_of_coprime (F : Type) [Field F] [Finite F] [CharP F 2
       3 ≤ CFSG.Open.pRank p Ã →
       Concl165Avoid ↥(e6Data_valid.minGroup F) p q Ã
         (Subgroup.center ↥(e6Data_valid.minGroup F)) := by
-  letI : Finite ↥(e6Data_valid.minGroup F) :=
+  let : Finite ↥(e6Data_valid.minGroup F) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid F
   intro Ã hAe _hASC hmax hA3
   classical

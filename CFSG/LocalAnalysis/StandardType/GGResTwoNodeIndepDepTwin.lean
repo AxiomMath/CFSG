@@ -30,9 +30,9 @@ theorem ggTwoNodeAtL_false_of_dep (hKG : GGReflClassLargeInput') (hOrb : GGResCe
     (hK : GGResSideDatum p Bs K J ∨ GGResTwoNodeSideDatum p Bs K J ∨
       GGResLeviSideDatumLE3 p Bs K J) : False := by
   have hN5 : 5 ≤ N := by omega
-  haveI : Fintype ↥Bs := Fintype.ofFinite ↥Bs
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Fintype ↥Bs := Fintype.ofFinite ↥Bs
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   let F : GGDepAFrame p N (fun i => h (e i)) (fun i => α (e i))
       (ι (Additive.ofMul ⟨x, hx⟩)) :=
     ggXDatumA_frame hFix hp2 hH hx hN5 hpN e hML hCL hφ hpair hAL hdep
@@ -81,9 +81,9 @@ theorem ggTwoNodeAtK_false_of_dep (hKG : GGReflClassLargeInput') (hOrbK : GGResC
     (hL : GGResSideDatum p Bs L J ∨ GGResTwoNodeSideDatum p Bs L J ∨
       GGResLeviSideDatumLE3 p Bs L J) : False := by
   have hN5 : 5 ≤ N := by omega
-  haveI : Fintype ↥Bs := Fintype.ofFinite ↥Bs
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Fintype ↥Bs := Fintype.ofFinite ↥Bs
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   let F : GGDepAFrame p N (fun i => h (e i)) (fun i => α (e i))
       (ι (Additive.ofMul ⟨y, hy⟩)) :=
     ggXDatumA_frame_K hp2 hH hy (fun b hb => hFixK.2 G p B Bs x L D J y K hH hrow b hb)

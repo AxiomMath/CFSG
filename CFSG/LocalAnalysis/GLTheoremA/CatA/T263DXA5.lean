@@ -127,8 +127,8 @@ theorem card_le_three_mul_of_a5 {J B : Subgroup Ω} (hJq : CFSG.Open.IsQuasisimp
     (h60 : Nat.card (↥J ⧸ Subgroup.center ↥J) = 60) (hB : IsElemAbelian 3 B)
     (hBJ : B ≤ Subgroup.normalizer (J : Set Ω)) :
     Nat.card ↥B ≤ 3 * Nat.card ↥(B ⊓ Subgroup.centralizer (J : Set Ω)) := by
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJq.2
-  haveI : Group.IsPerfect ↥J := ⟨hJq.1⟩
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJq.2
+  have : Group.IsPerfect ↥J := ⟨hJq.1⟩
   set ρ := (CFSG.GH74.GLS.Stage2.Bender.Thm1.actCenterQuot J).comp (Subgroup.inclusion hBJ)
   have hker : ρ.ker ≤ (Subgroup.centralizer (J : Set Ω) ⊓ B).subgroupOf B := by
     intro x hx
@@ -139,7 +139,7 @@ theorem card_le_three_mul_of_a5 {J B : Subgroup Ω} (hJq : CFSG.Open.IsQuasisimp
   have hrel : (Subgroup.centralizer (J : Set Ω)).relIndex B ≤ Nat.card ρ.range := by
     rw [← Subgroup.inf_relIndex_right, Subgroup.relIndex,
       Nat.card_congr (QuotientGroup.quotientKerEquivRange ρ).toEquiv.symm]
-    haveI : ρ.ker.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+    have : ρ.ker.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
     exact Subgroup.index_antitone hker
   have hp3 : IsPGroup 3 ρ.range := by
     rintro ⟨y, x, rfl⟩
@@ -148,7 +148,7 @@ theorem card_le_three_mul_of_a5 {J B : Subgroup Ω} (hJq : CFSG.Open.IsQuasisimp
     simp only [pow_one, Subgroup.coe_pow, Subgroup.coe_one]
     rw [← map_pow, hx, map_one]
   have hcard : Nat.card ρ.range ≤ 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨n, hn⟩ := hp3.exists_card_eq
     have hdvd : Nat.card ρ.range ∣ 120 :=
       (card_mulAut_of_card_sixty h60) ▸ Subgroup.card_subgroup_dvd_card _
@@ -173,7 +173,7 @@ private theorem glaPLayer_ne_bot_of_a5 {X J : Subgroup Ω} (hJ : IsComponentOf J
   have hle : J ≤ GLAPLayer 3 X := le_sSup hcomp
   intro hbot
   rw [hbot, le_bot_iff] at hle
-  haveI := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
+  have := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
   exact (Subgroup.nontrivial_iff_ne_bot J).1 this hle
 
 private theorem exists_layer_of_extend {S B D J : Subgroup Ω} (hBel : IsElemAbelian 3 B)
@@ -314,7 +314,7 @@ theorem exists_layer_of_a5 {S B D J : Subgroup Ω} (hSn : S.Normal) (hBel : IsEl
     · exact exists_layer_of_extend hBel hB hDB hD hJ h60 (Or.inr hBJ)
     by_cases h27 : Nat.card ↥D = 3 ^ 3
     · exact exists_layer_of_extend hBel hB hDB hD hJ h60 (Or.inl h27)
-    obtain ⟨e, heB, heJ⟩ := SetLike.not_le_iff_exists.1 hBJ
+    obtain ⟨e, heB, heJ⟩ := IsConcreteLE.not_le_iff_exists.1 hBJ
     obtain ⟨D', J', hD'B, hlt, hD'dvd, hJ', h60'⟩ :=
       exists_larger_of_a5 hSn hBel hDB hD h27 hJ h60 heB heJ
     refine ih D' J' ?_ hD'B hD'dvd hJ' h60'

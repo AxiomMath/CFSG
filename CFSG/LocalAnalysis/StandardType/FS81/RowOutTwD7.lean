@@ -207,7 +207,7 @@ theorem mem_evenFix0_of_mulVec_mapsTo_twD7 (M : Matrix (Fin 8) (Fin 8) (ZMod 3))
     by_contra hne
     have h := congrFun (hs_eq 0) 0
     simp only [h0, Pi.single_eq_same, Pi.smul_apply, Pi.single_apply, smul_eq_mul] at h
-    rw [if_neg (fun hh : (0 : Fin 8) = i 0 => hne hh.symm), mul_zero] at h
+    rw [ite_eq_right (fun hh : (0 : Fin 8) = i 0 => hne hh.symm), mul_zero] at h
     exact zmod3_one_ne_zero h
   have hs0 : s 0 = 1 := by
     have h := congrFun (hs_eq 0) 0
@@ -220,7 +220,7 @@ theorem mem_evenFix0_of_mulVec_mapsTo_twD7 (M : Matrix (Fin 8) (Fin 8) (ZMod 3))
     rw [hT (Pi.single j 1) (Pi.single_eq_of_ne (Ne.symm hj) 1), Pi.smul_apply,
       Pi.single_apply, smul_eq_mul] at h
     intro hij
-    rw [hij, if_pos rfl, mul_one] at h
+    rw [hij, ite_eq_left rfl, mul_one] at h
     exact hs_ne j h.symm
   have hinj_i : Function.Injective i := by
     intro a b hab

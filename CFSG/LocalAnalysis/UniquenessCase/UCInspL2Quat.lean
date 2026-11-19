@@ -31,7 +31,7 @@ theorem entries_of_mem_center {x : SL(2, K)} (hx : x ∈ Subgroup.center SL(2, K
   have h10 := congrFun (congrFun hr 1) 0
   have h00 := congrFun (congrFun hr 0) 0
   have h11 := congrFun (congrFun hr 1) 1
-  simp [Matrix.scalar_apply, Matrix.diagonal_apply] at h01 h10 h00 h11
+  simp [Matrix.scalar_apply] at h01 h10 h00 h11
   exact ⟨h01.symm, h10.symm, h00.symm.trans h11⟩
 
 theorem mem_center_of_scalar {x : SL(2, K)} (r : K) (hr : r ^ 2 = 1)
@@ -90,7 +90,6 @@ theorem qU_mul_qI (hab : a ^ 2 + b ^ 2 = -1) :
   fin_cases i <;> fin_cases j <;> simp [qI, qJ, qU, Matrix.mul_apply, Fin.sum_univ_two]
   all_goals
     first
-    | ring1
     | linear_combination h * hab
     | linear_combination (-h) * hab
 
@@ -99,17 +98,15 @@ theorem qU_mul_qJ (hab : a ^ 2 + b ^ 2 = -1) : qU a b h * qJ a b = qI * qU a b h
   fin_cases i <;> fin_cases j <;> simp [qI, qJ, qU, Matrix.mul_apply, Fin.sum_univ_two]
   all_goals
     first
-    | ring1
     | linear_combination h * hab
     | linear_combination (-h) * hab
 
 theorem qU_sq (hab : a ^ 2 + b ^ 2 = -1) (hh : 2 * h = 1) :
     qU a b h * qU a b h + qU a b h + 1 = 0 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [qU, Matrix.mul_apply, Fin.sum_univ_two]
+  fin_cases i <;> fin_cases j <;> simp [qU]
   all_goals
     first
-    | ring1
     | linear_combination h * hab + (a ^ 2 * h + b ^ 2 * h - a * h - b * h - 1) * hh
     | linear_combination (a * h - b * h - h) * hh
     | linear_combination (a * h - b * h + h) * hh

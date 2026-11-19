@@ -65,7 +65,7 @@ theorem crossAtOn_B_odd {r : ℕ} {q : TauCeti.PrimePower}
     ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
   have hr1 : 1 ≤ r := by omega
   refine crossAtOn_of_core fun L _ _ p hp hp5 hS hdp ⟨e⟩ => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdp' : q.p ≠ p := by simpa [TauCeti.LieTypeIndex.characteristic_B] using hdp
   rcases CFSG.Models.lieModel_B r q hv e with h | h
   · obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := statedClassicalModel_of_lieModel_of_ne_zero (by omega) h
@@ -102,7 +102,7 @@ theorem crossAtOn_twistedD_odd {r : ℕ} {q : TauCeti.PrimePower}
     ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
   have hr1 : 1 ≤ r := by omega
   refine crossAtOn_of_core fun L _ _ p hp hp5 hS hdp ⟨e⟩ => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdp' : q.p ≠ p := by simpa [TauCeti.LieTypeIndex.characteristic_twistedD] using hdp
   have hmod : StatedClassicalModel L .POmegaMinus r q.p q.exponent :=
     statedClassicalModel_of_lieModel_of_ne_zero (by omega) (CFSG.Models.lieModel_twistedD r q hv e)

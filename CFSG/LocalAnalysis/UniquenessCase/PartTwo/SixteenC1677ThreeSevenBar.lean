@@ -34,7 +34,7 @@ theorem s168e3_seven_card_le {D : Data G} {V₀ V : Subgroup G} {hV : IsElemAbel
     have h := Subgroup.card_map_dvd (H := D.T.subgroupOf (stabTil V₀ V)) (actTil V₀ V hV)
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTst).toEquiv] at h
     exact h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 D.sylowM.isPGroup
   have hb2 : b ∣ 2 ^ n := by rw [← hn]; exact hbT
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hb2

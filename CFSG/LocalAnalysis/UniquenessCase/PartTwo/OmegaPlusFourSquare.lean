@@ -64,7 +64,7 @@ noncomputable def statedProjStatedOmegaFourEquiv (K : Type) [Field K] [CharP K 2
   have hv : ∃ v, CFSG.LieType.Universal.Spin.quadPlus 2 K v ≠ 0 := by
     refine ⟨Pi.single (Sum.inl (0 : Fin 2)) 1 + Pi.single (Sum.inr (0 : Fin 2)) 1, ?_⟩
     rw [CFSG.LieType.Universal.Spin.quadPlus_apply]
-    simp [Pi.single_apply, Fin.sum_univ_two]
+    simp [Pi.single_apply]
   exact (QuotientGroup.quotientMulEquivOfEq
     (CFSG.SectionRank.EvenCover.statedScalars_subgroupOf_statedOmega_eq_bot
       (Q := CFSG.LieType.Universal.Spin.quadPlus 2 K) (Q₀ := StatedQuadPlus 2 K)
@@ -82,15 +82,15 @@ theorem nonempty_statedOmegaFour_mulEquiv_prod {K : Type} [Field K] [Finite K] [
 theorem isL2Square_of_isOmegaPlus {X : Type} [Group X] {a : ℕ} (ha : 2 ≤ a)
     (h : IsOmegaPlus X 4 a) : UC22.IsL2Square X a := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have h4a : 4 ≤ 2 ^ a := by
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ a := Nat.pow_le_pow_right (by norm_num) ha
   have h4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     exact h4a
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hKcard
   have hadm : StatedLieAdmissible .PSL 2 2 a := by
     refine ⟨Nat.prime_two, by omega, le_rfl, ?_, ?_⟩
@@ -114,8 +114,8 @@ theorem isL2Square_of_isOmegaPlus {X : Type} [Group X] {a : ℕ} (ha : 2 ≤ a)
 theorem isOmegaPlus_of_isL2Square {X : Type} [Group X] {a : ℕ} (ha : 2 ≤ a)
     (h : UC22.IsL2Square X a) : IsOmegaPlus X 4 a := by
   obtain ⟨A, B, hAg, hBg, ⟨e⟩, hLA, hLB⟩ := h
-  letI := hAg
-  letI := hBg
+  let := hAg
+  let := hBg
   have hSA : StatedClassicalModel A .PSL 2 2 a :=
     (isL2_iff_statedClassicalModel (X := A) (a := a)).1 hLA
   have hSB : StatedClassicalModel B .PSL 2 2 a :=
@@ -123,13 +123,13 @@ theorem isOmegaPlus_of_isL2Square {X : Type} [Group X] {a : ℕ} (ha : 2 ≤ a)
   obtain ⟨eBA⟩ :=
     CFSG.Blueprint.EvenSource.nonempty_mulEquiv_of_statedClassicalModel hSB hSA
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨eA⟩⟩ := hSA
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have h4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ a := Nat.pow_le_pow_right (by norm_num) ha
-  haveI hchar : CharP K 2 :=
+  have hchar : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hKcard
   obtain ⟨eΩ⟩ := nonempty_statedOmegaFour_mulEquiv_prod (K := K) h4
   have eFull : StatedProj (StatedSL 2 K) × StatedProj (StatedSL 2 K) ≃*

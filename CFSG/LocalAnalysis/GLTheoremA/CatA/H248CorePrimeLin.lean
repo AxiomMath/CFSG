@@ -28,7 +28,7 @@ open CFSG.ComponentClassification.UnbalancedCatalog
 
 private theorem index_linearAutGroup_three_dvd_two {K : Type} [Field K] [Finite K] {q : ℕ}
     (hq : q.Prime) (hK : Nat.card K = q) : (linearAutGroup 3 K).index ∣ 2 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hsub : Subsingleton (K ≃+* K) :=
     CFSG.RankThree.PartOne.CTP.subsingleton_ringEquiv_of_card_eq_prime hK
   have hEeq : semilinearAutGroup 3 K = linearAutGroup 3 K :=
@@ -50,12 +50,12 @@ private theorem index_linearAutGroup_three_dvd_two {K : Type} [Field K] [Finite 
     exact hRE
   have hne : (linearAutGroup 3 K).index ≠ 0 := Subgroup.index_ne_zero_of_finite
   rcases (by omega : (linearAutGroup 3 K).index = 1 ∨
-    (linearAutGroup 3 K).index = 2) with h | h <;> rw [h] <;> norm_num
+    (linearAutGroup 3 K).index = 2) with h | h <;> rw [h]; norm_num
 
 private theorem pRank_linearAutGroup_three_le_two_of_dvd {K : Type} [Field K] [Finite K]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hdiv : p ∣ Nat.card Kˣ) :
     CFSG.Open.pRank p (linearAutGroup 3 K) ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.SectionRank.pRank_le hp.one_lt (fun E hE hEea => ?_)
   set U := (⊤ : Subgroup (GL (Fin 3) K))
   set ρ : U →* MulAut (projectiveSL 3 K) := (conjAut 3 K).comp U.subtype
@@ -82,7 +82,7 @@ private theorem pRank_linearAutGroup_three_le_two_of_not_dvd {K : Type} [Field K
     {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : q.Prime) (hK : Nat.card K = q)
     (hpq : q ≠ p) (hndiv : ¬ p ∣ Nat.card Kˣ) :
     CFSG.Open.pRank p (linearAutGroup 3 K) ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hpK : ¬ p ∣ Nat.card K := by
     rw [hK]
@@ -135,10 +135,10 @@ private theorem index_inner_statedProj_statedSp_two_dvd_two {K : Type} [Field K]
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hK : Nat.card K = q) :
     (CFSG.ComponentClassification.OuterAutomorphisms.inner
       (StatedProj (StatedSp 2 K))).index ∣ 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Nat.card K = q ^ 1 := by rw [hK, pow_one]
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : CharP K q := charP_of_card_eq_prime_pow (f := 1)
+  have : Fact q.Prime := ⟨hq⟩
+  have : CharP K q := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_one])
   have h2 : (2 : K) ≠ 0 := by
     refine Ring.two_ne_zero ?_
@@ -146,7 +146,7 @@ private theorem index_inner_statedProj_statedSp_two_dvd_two {K : Type} [Field K]
     exact hq2
   obtain ⟨hgenTop, -⟩ := CFSG.RankThree.PartOne.AUTSL.SpTwo.automorphism_generation_two
     (K := K) h2
-  haveI : Subsingleton (K ≃+* K) :=
+  have : Subsingleton (K ≃+* K) :=
     CFSG.RankThree.PartOne.CTP.subsingleton_ringEquiv_of_card_eq_prime hK
   have hDtop : CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.spLinearAutGroup 2 K = ⊤ := by
     rw [eq_top_iff]
@@ -177,7 +177,7 @@ private theorem index_inner_statedProj_statedSp_two_dvd_two {K : Type} [Field K]
 private theorem pRank_statedProj_statedSp_two_le_two {K : Type} [Field K] [Finite K]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpK : ¬ p ∣ Nat.card K) :
     CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSp 2 K))) ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsp := CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD291OL.pRank_statedProj_Sp_formula
     (n := 2) (F := K) hp hp2 hpK
   rw [hsp]
@@ -228,7 +228,7 @@ theorem card_lt_of_elemAbelian_mulAut_linThree {p q : ℕ} (hp : p.Prime) (hp2 :
     Nat.card A < p ^ 3 := by
   classical
   have hq : q.Prime := hQ ▸ Q.prime_p
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hv : (TauCeti.LieTypeIndex.A 2 Q).Valid := hd ▸ d.2
   have hdeq : d = ⟨TauCeti.LieTypeIndex.A 2 Q, hv⟩ := by
     cases d
@@ -265,7 +265,7 @@ theorem card_lt_of_elemAbelian_mulAut_spFour {p q : ℕ} (hp : p.Prime) (hp2 : p
     Nat.card A < p ^ 3 := by
   classical
   have hq : q.Prime := hQ ▸ Q.prime_p
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hv : (TauCeti.LieTypeIndex.B 2 Q).Valid := hd ▸ d.2
   have hdeq : d = ⟨TauCeti.LieTypeIndex.B 2 Q, hv⟩ := by
     cases d

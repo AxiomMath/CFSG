@@ -42,7 +42,7 @@ theorem le_rLayerSub {V R : Subgroup G} (hR : R ∈ RSet Ω)
 theorem isPGroup_of_mem_RSet {R : Subgroup G} (hR : R ∈ RSet Ω) : IsPGroup 2 R := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨J, -, P, rfl⟩ := hR
-  exact P.isPGroup'.map _
+  exact P.isPGroup.map _
 
 theorem mem_normalizer_rLayer (hΩ : HypOmegaGen Ω) {x g : G}
     (hg : g ∈ Subgroup.centralizer ({x} : Set G)) :

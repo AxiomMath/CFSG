@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G] {t z z₁ : G} {ι : Elem2 6 →* G} {z
   {R0 F : Subgroup G} (h : Setting25 G t z z₁ ι zv R0 F)
   {φ : ↥(normalizer (Rgrp h : Set G)) →* A5WrTwo}
 
+omit [Finite G] in
 private theorem z_mem_Cgrp (h : Setting25 G t z z₁ ι zv R0 F) : z ∈ Cgrp ι zv := by
   rw [← h.coord_z]
   exact (coordElt_mem_Cgrp h.injective_ι).mpr (bil_self zv)
@@ -29,7 +30,7 @@ private theorem card_ker_piq_inf_Cgrp (h : Setting25 G t z z₁ ι zv R0 F) :
   have hzM : zpowers z ≤ Mgrp z :=
     Subgroup.zpowers_le.mpr (Subgroup.mem_centralizer_singleton_iff.mpr (Commute.refl z))
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hzM).toEquiv]
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   rw [Nat.card_eq_fintype_card, Fintype.card_zpowers]
   exact orderOf_eq_prime h.z_sq h.z_ne_one
 

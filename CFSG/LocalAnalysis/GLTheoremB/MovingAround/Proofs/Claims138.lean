@@ -29,7 +29,7 @@ theorem inputI181_holds
 theorem inputI113p_of_inputs (h : CFSG.LocalAnalysis.GLTheoremB.Input11_3) :
     Lemma138.InputI113p := by
   intro X _ _ hK p hp hp2 B hB L hL hnL
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ := h X (CFSG.KCore.KGroupAllSimple.kGroupNonab hK) p hp hp2 B hB L hL hnL
   by_contra hndvd
   apply hZ
@@ -55,6 +55,7 @@ section Rank
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem card_sup_mul_card_inf {A N : Subgroup X} (hAN : A ≤ Subgroup.normalizer (N : Set X)) :
     Nat.card (A ⊔ N : Subgroup X) * Nat.card (A ⊓ N : Subgroup X) = Nat.card A * Nat.card N := by
   have := Subgroup.normal_subgroupOf_of_le_normalizer hAN
@@ -70,6 +71,7 @@ theorem card_sup_mul_card_inf {A N : Subgroup X} (hAN : A ≤ Subgroup.normalize
   rw [h2, h4, h1, h3, Nat.card_congr e.toEquiv]
   ring
 
+omit [Finite X] in
 theorem elem_comm {E : Subgroup X} (hE : IsElemAbelian p E) {a b : X} (ha : a ∈ E) (hb : b ∈ E) :
     a * b = b * a := by
   have := hE.1.is_comm.comm (⟨a, ha⟩ : ↥E) ⟨b, hb⟩
@@ -77,7 +79,7 @@ theorem elem_comm {E : Subgroup X} (hE : IsElemAbelian p E) {a b : X} (ha : a �
 
 theorem card_eq_pow_pRank (hp : p.Prime) {E : Subgroup X} (hE : IsElemAbelian p E) :
     Nat.card E = p ^ CFSG.Open.pRank p E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := (CFSG.Open.IsElemAbelian.isPGroup hE).exists_card_eq
   have h1 : k ≤ CFSG.Open.pRank p E := CFSG.SectionRank.le_pRank hp.one_lt le_rfl hE hk
   have h2 : CFSG.Open.pRank p E ≤ k := CFSG.SectionRank.pRank_le hp.one_lt fun F hFE _ =>
@@ -108,6 +110,7 @@ theorem eq_gamma_of_two_le_pRank {J B : Subgroup X}
 
 variable {J B : Subgroup X}
 
+omit [Finite X] in
 theorem card_split (hB : IsElemAbelian p B)
     (hsplit : (B ⊓ J) ⊔ (B ⊓ Subgroup.centralizer (J : Set X)) = B)
     (hint : (B ⊓ J) ⊓ (B ⊓ Subgroup.centralizer (J : Set X)) = ⊥) :
@@ -189,7 +192,7 @@ theorem le_pRank_of_mulEquiv_alt {X : Type} [Group X] [Finite X] {p : ℕ} (hp :
     (hp2 : p ≠ 2) {J : Subgroup X} {n : ℕ} (e : ↥J ≃* alternatingGroup (Fin n)) :
     n / p ≤ CFSG.Open.pRank p J := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨emb⟩ : Nonempty ((Fin (n / p) × ZMod p) ↪ Fin n) :=
     Function.Embedding.nonempty_of_card_le (by
@@ -249,7 +252,7 @@ theorem mem_fixSet_pairStab_right (R : Subgroup (Perm (Fin n))) (ω ω' : Fin n)
 theorem card_orbit_le_of_rank (hp : p.Prime) (hp3 : 3 ≤ p) {R : Subgroup (Perm (Fin n))}
     (hR : IsElemAbelian p R) {r : ℕ} (hRcard : Nat.card R = p ^ r) (hnr : n / p ≤ r)
     (ω : Fin n) : Nat.card (orbit R ω) ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨s, hs⟩ := (CFSG.Open.IsElemAbelian.isPGroup hR).card_orbit ω
   by_contra hlt
   have hs2 : 2 ≤ s := by
@@ -315,7 +318,7 @@ theorem alternatingGroup_le_of_pairs {R : Subgroup (Perm (Fin n))}
       GL83.altOn (GL83.PiGen.fixSet (pairStab R ω ω')) ≤ Γ') :
     alternatingGroup (Fin n) ≤ Γ' := by
   classical
-  haveI : Nonempty (Fin n) := ⟨ω₀⟩
+  have : Nonempty (Fin n) := ⟨ω₀⟩
   let S : {q : Fin n × Fin n // q.1 ∉ GL83.PiGen.fixSet R} → Set (Fin n) := fun i =>
     GL83.PiGen.fixSet (pairStab R i.1.1 i.1.2)
   have horbS : ∀ i, orbit R i.1.1 ⊆ S i := by
@@ -347,7 +350,7 @@ theorem eq_gamma_of_isAltType {X : Type} [Group X] [Finite X] (hp : p.Prime) (hp
     J = ⨆ (U : Subgroup X) (_ : U ≤ B) (_ : 2 ≤ CFSG.Open.pRank p U),
       J ⊓ Subgroup.normalizer (U : Set X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   by_cases hc2 : 2 ≤ CFSG.Open.pRank p (B ⊓ Subgroup.centralizer (J : Set X))
   · exact eq_gamma_of_two_le_pRank hc2
@@ -540,6 +543,7 @@ section TwoSix
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isComponentOf_top_subgroupOf {L R : Subgroup G} (h : IsComponentOf L R) :
     IsComponentOf (L.subgroupOf R) ⊤ := by
   refine ⟨le_top, ?_, CFSG.ComponentClassification.Components.quasisimple_of_equiv
@@ -564,7 +568,7 @@ theorem le_centralizer_of_components {Y C C' : Subgroup G} (hC : IsComponentOf C
 theorem le_or_le_centralizer {Y C M : Subgroup G} (hC : IsComponentOf C Y) (hMY : M ≤ Y)
     (hYM : Y ≤ Subgroup.normalizer (M : Set G)) :
     C ≤ M ∨ C ≤ Subgroup.centralizer (M : Set G) := by
-  haveI : (M.subgroupOf Y).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hMY).2 hYM
+  have : (M.subgroupOf Y).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hMY).2 hYM
   rcases CFSG.ComponentClassification.LocalComponents.normal_contains_or_commutes
       (C.subgroupOf Y) (M.subgroupOf Y) (isComponentOf_top_subgroupOf hC) with h | h
   · left
@@ -576,6 +580,7 @@ theorem le_or_le_centralizer {Y C M : Subgroup G} (hC : IsComponentOf C Y) (hMY 
       Subgroup.map_subgroupOf_eq_of_le hMY, Subgroup.map_bot] at hmap
     exact Subgroup.commutator_eq_bot_iff_le_centralizer.1 hmap
 
+omit [Finite G] in
 theorem isComponentOf_gLBConj_of_mem {Y C : Subgroup G} (hC : IsComponentOf C Y) {g : G}
     (hg : g ∈ Subgroup.normalizer (Y : Set G)) : IsComponentOf (GLBConj g C) Y := by
   have hY : GLBConj g Y = Y := gLBConj_eq_of_mem_normalizer hg
@@ -586,6 +591,7 @@ theorem isComponentOf_gLBConj_of_mem {Y C : Subgroup G} (hC : IsComponentOf C Y)
   · exact CFSG.ComponentClassification.Components.quasisimple_of_equiv
       (C.equivMapOfInjective _ (MulAut.conj g⁻¹).injective).symm hC.2.2
 
+omit [Finite G] in
 theorem gLBConj_eq_of_mem_centralizer {H : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.centralizer (H : Set G)) : GLBConj g H = H := by
   have hc : ∀ x ∈ H, x * g = g * x := fun x hx => Subgroup.mem_centralizer_iff.1 hg x hx
@@ -606,11 +612,13 @@ theorem gLBConj_eq_of_mem_centralizer {H : Subgroup G} {g : G}
     rw [e]
     exact hx
 
+omit [Finite G] in
 theorem gLBConj_iSup_mem (g : G) (S : Set (Subgroup G)) :
     GLBConj g (⨆ C ∈ S, C) = ⨆ C ∈ S, GLBConj g C := by
   unfold GLBConj
   simp only [Subgroup.map_iSup]
 
+omit [Finite G] in
 theorem gLBConj_iSup_conj_le {Y J : Subgroup G} {q : G}
     (hqY : q ∈ Subgroup.normalizer (Y : Set G)) (hqJ : GLBConj q J = J) :
     GLBConj q (⨆ g ∈ Y, GLBConj g J) ≤ ⨆ g ∈ Y, GLBConj g J := by
@@ -642,6 +650,7 @@ theorem le_normalizer_iSup {Y : Subgroup G} (hYL : GLALayer Y = Y) {S : Set (Sub
       exact le_centralizer_of_components (hS C hC) hK (fun h => hKS (h ▸ hC))
   rwa [hYL] at h
 
+omit [Finite G] in
 theorem le_sup_compl {Y : Subgroup G} (hYL : GLALayer Y = Y) (S : Set (Subgroup G)) :
     Y ≤ (⨆ C ∈ S, C) ⊔ ⨆ C ∈ {C : Subgroup G | IsComponentOf C Y ∧ C ∉ S}, C := by
   have h : GLALayer Y ≤
@@ -662,11 +671,13 @@ theorem iSup_le_centralizer_compl {Y : Subgroup G} {S : Set (Subgroup G)}
   refine Subgroup.le_centralizer_iff.2 (iSup₂_le fun C hC => ?_)
   exact le_centralizer_of_components (hS C hC) hC'.1 (fun h => hC'.2 (h ▸ hC))
 
+omit [Finite G] in
 theorem conj_commutatorElement (q x y : G) :
     q * ⁅x, y⁆ * q⁻¹ = ⁅q * x * q⁻¹, q * y * q⁻¹⁆ := by
   simp only [commutatorElement_def]
   group
 
+omit [Finite G] in
 theorem commutatorElement_mul_right {a₁ a₂ z₁ z₂ : G} (h1 : z₁ * a₂ = a₂ * z₁)
     (h2 : z₂ * a₁ = a₁ * z₂) (h3 : z₁ * z₂ = z₂ * z₁) :
     ⁅a₁ * z₁, a₂ * z₂⁆ = ⁅a₁, a₂⁆ := by
@@ -684,6 +695,7 @@ theorem commutatorElement_mul_right {a₁ a₂ z₁ z₂ : G} (h1 : z₁ * a₂ 
     _ = a₁ * a₂ * (a₁⁻¹ * z₂) * z₂⁻¹ * a₂⁻¹ := by rw [h2']
     _ = a₁ * a₂ * a₁⁻¹ * a₂⁻¹ := by group
 
+omit [Finite G] in
 theorem commutatorElement_mul_mul {A A'' : Subgroup G}
     (hAA : A ≤ Subgroup.centralizer (A'' : Set G)) {a₁ a₂ b₁ b₂ : G} (ha₁ : a₁ ∈ A) (ha₂ : a₂ ∈ A)
     (hb₁ : b₁ ∈ A'') (hb₂ : b₂ ∈ A'') : ⁅a₁ * b₁, a₂ * b₂⁆ = ⁅a₁, a₂⁆ * ⁅b₁, b₂⁆ := by

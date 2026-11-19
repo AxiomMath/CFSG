@@ -33,7 +33,7 @@ theorem centRow_of_centShapeRk {s : TauCeti.SporadicName} {Q : Type} [Group Q] [
     (hC : CentShapeRk 3 Good Rk Q) : CentRow s Rk := by
   intro S _ _ ⟨e⟩ β hβ hβ1 J hJ
   let φ : S ≃* Q := e.trans b.symm
-  haveI : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
+  have : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
   have hncS : ∃ a c : S, a * c ≠ c * a := by
     obtain ⟨a, c, hac⟩ := hnc
     refine ⟨φ.symm a, φ.symm c, fun h' => hac ?_⟩

@@ -20,8 +20,8 @@ theorem uc22pw_rank_of_cyclic_squarefree {X : Type} [Group X] [Finite X] {E : Su
     (hcyc : IsCyclic E) (hsq : Squarefree (Nat.card E)) :
     ∀ p : ℕ, p.Prime → ∃ Q : Sylow p E, IsElemAbelian p (Q : Subgroup E) ∧ Nat.card Q ≤ p ^ 2 := by
   intro p hp
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative E := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative E := inferInstance
   obtain ⟨Q⟩ : Nonempty (Sylow p E) := inferInstance
   have hcard : Nat.card Q = p ^ (Nat.card E).factorization p := Sylow.card_eq_multiplicity Q
   have hle : (Nat.card E).factorization p ≤ 1 := Squarefree.natFactorization_le_one p hsq
@@ -77,8 +77,8 @@ theorem uc22pw_exists_noncomm_of_quasisimple {Y : Type} [Group Y] (hq : CFSG.Ope
   push Not at h
   have hc : Subgroup.center Y = ⊤ :=
     (Subgroup.eq_top_iff' _).2 fun z => Subgroup.mem_center_iff.2 fun g => h g z
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
-  haveI : Subsingleton (Y ⧸ Subgroup.center Y) := by
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+  have : Subsingleton (Y ⧸ Subgroup.center Y) := by
     rw [hc]
     exact QuotientGroup.subsingleton_quotient_top
   exact not_subsingleton _ ‹Subsingleton (Y ⧸ Subgroup.center Y)›
@@ -97,15 +97,15 @@ theorem uc22pw_bar2_nonabelian (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.
 theorem uc22pw_isQuasisimple_of_single (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.M) {n : ℕ}
     (h : NParamSingle (Bar2 L) n) : CFSG.Open.IsQuasisimple (Bar2 L) := by
   rcases h with hSz | hL2 | hSU | hSL | hSp
-  · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
+  · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
     exact CFSG.Quasithin.A3.isQuasisimple_iff_open.mp
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (uc22pw_bar2_nonabelian D hL)).1
-  · haveI := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
+  · have := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
     exact CFSG.Quasithin.A3.isQuasisimple_iff_open.mp
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (uc22pw_bar2_nonabelian D hL)).1
   · exact hSU.1
   · exact hSL.1
-  · haveI := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hSp
+  · have := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hSp
     exact CFSG.Quasithin.A3.isQuasisimple_iff_open.mp
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (uc22pw_bar2_nonabelian D hL)).1
 

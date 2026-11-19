@@ -95,6 +95,7 @@ theorem labL_lt (PT : ℕ → ℕ) (b r : ℕ) : labL PT b r < 2 := by
   have := Nat.mod_lt (PT b / 2 ^ (21 * r)) (Nat.two_pow_pos 21)
   omega
 
+set_option exponentiation.threshold 2331 in
 theorem getRec_lt (KX : ℕ → ℕ) (j : ℕ) : getRec KX 2331 j < 2 ^ 2331 := by
   unfold getRec
   rw [strictN_eq, fldW_eq]
@@ -159,8 +160,8 @@ private theorem lc_walk (C : Consts) (PT : ℕ → ℕ) (n b Y0 Y1 XC : ℕ)
           rw [← hc0]
           exact beq_iff.1 hmul
         · refine ih (c0 + 1) c1 ?_ ?_ hnext r (by omega) h2 hch
-          · rw [cnt_succ, if_pos ⟨hc, hl⟩, hc0]
-          · rw [cnt_succ, if_neg (fun h => by rw [hl] at h; exact absurd h.2 (by norm_num)), hc1,
+          · rw [cnt_succ, ite_eq_left ⟨hc, hl⟩, hc0]
+          · rw [cnt_succ, ite_eq_right (fun h => by rw [hl] at h; exact absurd h.2 (by norm_num)), hc1,
               Nat.add_zero]
       · have hl1 : labL PT b (63 - m) = 1 := by have := labL_lt PT b (63 - m); omega
         have hb : Nat.beq (labL PT b (63 - m)) 0 = false :=
@@ -173,16 +174,16 @@ private theorem lc_walk (C : Consts) (PT : ℕ → ℕ) (n b Y0 Y1 XC : ℕ)
           rw [← hc1]
           exact beq_iff.1 hmul
         · refine ih c0 (c1 + 1) ?_ ?_ hnext r (by omega) h2 hch
-          · rw [cnt_succ, if_neg (fun h => hl h.2), hc0, Nat.add_zero]
-          · rw [cnt_succ, if_pos ⟨hc, hl1⟩, hc1]
+          · rw [cnt_succ, ite_eq_right (fun h => hl h.2), hc0, Nat.add_zero]
+          · rw [cnt_succ, ite_eq_left ⟨hc, hl1⟩, hc1]
     · have hcf : isChild n (64 * b + (63 - m)) = false := by simpa using hc
       rw [hcf] at h
       rcases Nat.eq_or_lt_of_le (show 63 - m ≤ r by omega) with hr | hr
       · subst hr
         exact absurd hch hc
       · refine ih c0 c1 ?_ ?_ h r (by omega) h2 hch
-        · rw [cnt_succ, if_neg (fun h => hc h.1), hc0, Nat.add_zero]
-        · rw [cnt_succ, if_neg (fun h => hc h.1), hc1, Nat.add_zero]
+        · rw [cnt_succ, ite_eq_right (fun h => hc h.1), hc0, Nat.add_zero]
+        · rw [cnt_succ, ite_eq_right (fun h => hc h.1), hc1, Nat.add_zero]
 
 theorem leafCmp_walk {C : Consts} {PT : ℕ → ℕ} {n b Y0 Y1 XC : ℕ}
     (h : leafCmp C PT n b Y0 Y1 XC = true) :
@@ -210,7 +211,7 @@ private theorem or_eq {a K W c : ℕ} (ha : a < 2 ^ (W * c)) :
   change a ||| K <<< (W * c) = _
   rw [Nat.lor_comm, ← Nat.shiftLeft_add_eq_or_of_lt ha, Nat.shiftLeft_eq, Nat.add_comm]
 
-private theorem blk_lo {a K W c c' : ℕ} (ha : a < 2 ^ (W * c)) (hc : c' < c) :
+private theorem blk_lo {a K W c c' : ℕ} (_ha : a < 2 ^ (W * c)) (hc : c' < c) :
     (a + K * 2 ^ (W * c)) / 2 ^ (W * c') % 2 ^ W = a / 2 ^ (W * c') % 2 ^ W := by
   have e : K * 2 ^ (W * c) = 2 ^ (W * c') * (K * 2 ^ (W * (c - c'))) := by
     rw [← Nat.mul_assoc, Nat.mul_comm (2 ^ (W * c')), Nat.mul_assoc, ← Nat.pow_add]
@@ -257,7 +258,7 @@ private theorem g_walk (KX PT : ℕ → ℕ) (n b s : ℕ)
     obtain ⟨hA, hblk, hex⟩ := h
     split_ifs with hcs
     · have hcnt : cntL PT n b s (63 - m + 1) = cntL PT n b s (63 - m) + 1 := by
-        rw [cnt_succ, if_pos hcs]
+        rw [cnt_succ, ite_eq_left hcs]
       rw [or_eq hA, ← hcnt]
       apply ih
       have hK := getRec_lt KX (parL PT b (63 - m))
@@ -275,7 +276,7 @@ private theorem g_walk (KX PT : ℕ → ℕ) (n b s : ℕ)
       · rcases Nat.lt_succ_iff_lt_or_eq.1 hr' with hr' | hr'
         · have hlt : cntL PT n b s r' < cntL PT n b s (63 - m) := by
             have h1 : cntL PT n b s (r' + 1) = cntL PT n b s r' + 1 := by
-              rw [cnt_succ, if_pos ⟨hc, hl⟩]
+              rw [cnt_succ, ite_eq_left ⟨hc, hl⟩]
             have := cnt_mono PT n b s (show r' + 1 ≤ 63 - m by omega)
             omega
           rw [blk_lo hA hlt]
@@ -289,7 +290,7 @@ private theorem g_walk (KX PT : ℕ → ℕ) (n b s : ℕ)
         · subst hc
           exact ⟨_, hpar _ (by omega) hcs.1, blk_hi hA hK⟩
     · have hcnt : cntL PT n b s (63 - m + 1) = cntL PT n b s (63 - m) := by
-        rw [cnt_succ, if_neg hcs, Nat.add_zero]
+        rw [cnt_succ, ite_eq_right hcs, Nat.add_zero]
       rw [← hcnt]
       apply ih
       refine ⟨hcnt ▸ hA, fun r' hr' hc hl => ?_, fun c hc => hex c (hcnt ▸ hc)⟩
@@ -333,13 +334,13 @@ theorem gather_spec {KX PT : ℕ → ℕ} {n b : ℕ} (s : ℕ)
   rw [lo_eq]
   by_cases hc : isChild n (64 * b + (63 - k)) = true
   · by_cases hl : labL PT b (63 - k) = s
-    · rw [if_pos ⟨hc, hl⟩, hc, beq_iff.2 hl]
+    · rw [ite_eq_left ⟨hc, hl⟩, hc, beq_iff.2 hl]
       rfl
     · have hb : Nat.beq (labL PT b (63 - k)) s = false :=
         Bool.eq_false_iff.2 fun hh => hl (beq_iff.1 hh)
-      rw [if_neg (fun h => hl h.2), hc, hb]
+      rw [ite_eq_right (fun h => hl h.2), hc, hb]
   · have hcf : isChild n (64 * b + (63 - k)) = false := by simpa using hc
-    rw [if_neg (fun h => hc h.1), hcf]
+    rw [ite_eq_right (fun h => hc h.1), hcf]
 
 end CFSG.KS.LyOm.TreeCore
 

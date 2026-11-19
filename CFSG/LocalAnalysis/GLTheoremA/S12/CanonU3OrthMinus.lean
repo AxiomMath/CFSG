@@ -69,7 +69,7 @@ theorem U3CoreHyp.exists_orthMinus_model {S : Type} [Group S] [Finite S] {labL :
     {β : MulAut S} {n : ℕ} {J : Subgroup S} (h : U3CoreHyp S labL β n J)
     (hD : labL.tag = .twD) (hr2 : labL.rank ≠ 2) (hr3 : labL.rank ≠ 3) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (b c : K)
-      (e : S ≃* ProjOrthDerived (CFSG.LieType.Universal.Spin.quadMinus 4 K b c)),
+      (_e : S ≃* ProjOrthDerived (CFSG.LieType.Universal.Spin.quadMinus 4 K b c)),
       Nat.card K = 2 ^ labL.n ∧ Odd labL.n ∧
       (∃ s : S, MulAut.conj s = β ∧ orderOf s = 3) ∧
       (QuadraticMap.polarBilin (CFSG.LieType.Universal.Spin.quadMinus 4 K b c)).Nondegenerate ∧
@@ -97,7 +97,7 @@ theorem U3CoreHyp.exists_orthMinus_model {S : Type} [Group S] [Finite S] {labL :
   have hT := ggTorusLift_of_labelAll h.center_eq_bot h.innDiagKind hl
   have hrankle := h.rank_le _ hT
   have hl_eq : l = 4 := by omega
-  obtain ⟨K, hKf, hKfin, b, c, hKcard, hbc, ⟨e⟩, ⟨s, hs⟩⟩ :=
+  obtain ⟨K, hKf, hKfin, b, c, hKcard, hbc, ⟨_e⟩, ⟨s, hs⟩⟩ :=
     innDiagKind_twD_data_orthMinus h.center_eq_bot rfl hr2 hr3 h.innDiagKind
   have hs3 : s ^ 3 = 1 := by
     apply CFSG.HardMathSupport.Lang.Triality.conj_injective_of_center_eq_bot h.center_eq_bot
@@ -109,8 +109,8 @@ theorem U3CoreHyp.exists_orthMinus_model {S : Type} [Group S] [Finite S] {labL :
   have hsord : orderOf s = 3 := orderOf_eq_prime hs3 hs1
   have e3 : S ≃* LargeEvenProj (LargeEvenOmega (LargeEvenQMinus 3 b c)) := by
     have h3 : (4 - 1 : ℕ) = 3 := by norm_num
-    rw [hl_eq, h3] at e
-    exact e
+    rw [hl_eq, h3] at _e
+    exact _e
   let Q : QuadraticForm K (Fin 3 ⊕ Fin 3 ⊕ Fin 2 → K) :=
     CFSG.LieType.Universal.Spin.quadMinus 4 K b c
   let e' : S ≃* ProjOrthDerived Q :=

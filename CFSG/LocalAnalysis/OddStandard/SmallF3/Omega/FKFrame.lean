@@ -26,6 +26,7 @@ private noncomputable def fkRefl {ε : ZMod 3} (hε : ε ≠ 0)
   @TauCeti.QuadraticMap.reflectionOrthogonal (ZMod 3) U _ _ _ R (b i)
     (invertibleOfNonzero (by rw [hb i]; exact hε))
 
+omit [FiniteDimensional (ZMod 3) U] in
 private lemma fkRefl_self {ε : ZMod 3} (hε : ε ≠ 0) (b : Module.Basis (Fin 3) (ZMod 3) U)
     (hb : ∀ i, R (b i) = ε) (i : Fin 3) :
     ((fkRefl hε b hb i : OGroup R) : U ≃ₗ[ZMod 3] U) (b i) = -b i := by
@@ -33,6 +34,7 @@ private lemma fkRefl_self {ε : ZMod 3} (hε : ε ≠ 0) (b : Module.Basis (Fin 
   exact @TauCeti.QuadraticMap.reflection_apply_self (ZMod 3) U _ _ _ R (b i)
     (invertibleOfNonzero (by rw [hb i]; exact hε))
 
+omit [FiniteDimensional (ZMod 3) U] in
 private lemma fkRefl_of_ne {ε : ZMod 3} (hε : ε ≠ 0) (b : Module.Basis (Fin 3) (ZMod 3) U)
     (hb : ∀ i, R (b i) = ε)
     (hbo : ∀ i j, i ≠ j → QuadraticMap.polar R (b i) (b j) = 0)
@@ -46,13 +48,14 @@ private lemma fkRefl_detSpinor {ε : ZMod 3} (hR : R.Nondegenerate) (hε : ε �
     (b : Module.Basis (Fin 3) (ZMod 3) U) (hb : ∀ i, R (b i) = ε) (i : Fin 3) :
     detSpinorNorm hR (fkRefl hε b hb i) =
       ((-1 : (ZMod 3)ˣ), TauCeti.squareClassHom (Units.mk0 ε hε)) := by
-  letI : Invertible (R (b i)) := invertibleOfNonzero (by rw [hb i]; exact hε)
+  let : Invertible (R (b i)) := invertibleOfNonzero (by rw [hb i]; exact hε)
   rw [fkRefl, detSpinorNorm_reflectionOrthogonal]
   have hu : unitOfInvertible (R (b i)) = Units.mk0 ε hε := by
     apply Units.ext
     rw [Units.val_mk0, val_unitOfInvertible, hb i]
   rw [hu]
 
+omit [FiniteDimensional (ZMod 3) U] in
 private lemma fk_norm {ε : ZMod 3} (b : Module.Basis (Fin 3) (ZMod 3) U) (hb : ∀ i, R (b i) = ε)
     (hbo : ∀ i j, i ≠ j → QuadraticMap.polar R (b i) (b j) = 0) (v : U) :
     R v = ε * (b.repr v 0 ^ 2 + b.repr v 1 ^ 2 + b.repr v 2 ^ 2) := by
@@ -68,6 +71,7 @@ private lemma fk_coords_cases (a0 a1 a2 : ZMod 3) (h : a0 ^ 2 + a1 ^ 2 + a2 ^ 2 
   revert a0 a1 a2
   decide
 
+omit [FiniteDimensional (ZMod 3) U] in
 private lemma fk_norm_eq_eps {ε : ZMod 3} (hε : ε ≠ 0) (b : Module.Basis (Fin 3) (ZMod 3) U)
     (hb : ∀ i, R (b i) = ε)
     (hbo : ∀ i j, i ≠ j → QuadraticMap.polar R (b i) (b j) = 0) {v : U}
@@ -87,6 +91,7 @@ private lemma fk_norm_eq_eps {ε : ZMod 3} (hε : ε ≠ 0) (b : Module.Basis (F
   · exact ⟨2, 1, Or.inl rfl, by rw [hvsum, Fin.sum_univ_three]; simp [h0, h1, h2]⟩
   · exact ⟨2, -1, Or.inr rfl, by rw [hvsum, Fin.sum_univ_three]; simp [h0, h1, h2]⟩
 
+omit [FiniteDimensional (ZMod 3) U] in
 private lemma fk_isometry_basis {ε : ZMod 3} (hε : ε ≠ 0) (b : Module.Basis (Fin 3) (ZMod 3) U)
     (hb : ∀ i, R (b i) = ε)
     (hbo : ∀ i j, i ≠ j → QuadraticMap.polar R (b i) (b j) = 0) (g : OGroup R) (i : Fin 3) :
@@ -95,9 +100,10 @@ private lemma fk_isometry_basis {ε : ZMod 3} (hε : ε ≠ 0) (b : Module.Basis
   refine fk_norm_eq_eps (R := R) hε b hb hbo ?_
   rw [TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup g.2 (b i), hb i]
 
+omit [FiniteDimensional (ZMod 3) U] in
 private lemma fk_same_line_false (b : Module.Basis (Fin 3) (ZMod 3) U)
     {i j : Fin 3} (hij : i ≠ j) (c : OGroup R)
-    {l : Fin 3} {a d : ZMod 3} (ha : a ≠ 0) (hd : d ≠ 0)
+    {l : Fin 3} {a d : ZMod 3} (_ha : a ≠ 0) (hd : d ≠ 0)
     (hi : (c : U ≃ₗ[ZMod 3] U) (b i) = a • b l)
     (hj : (c : U ≃ₗ[ZMod 3] U) (b j) = d • b l) : False := by
   have hrel : d • b i - a • b j = 0 := by
@@ -108,6 +114,7 @@ private lemma fk_same_line_false (b : Module.Basis (Fin 3) (ZMod 3) U)
   simp [map_sub, map_smul, Module.Basis.repr_self, hij] at hcoeff
   exact hd hcoeff
 
+omit [FiniteDimensional (ZMod 3) U] in
 private lemma fkSign_pair_eq_refl_mul {ε : ZMod 3} (hε : ε ≠ 0)
     (b : Module.Basis (Fin 3) (ZMod 3) U) (hb : ∀ i, R (b i) = ε)
     (hbo : ∀ i j, i ≠ j → QuadraticMap.polar R (b i) (b j) = 0)
@@ -170,6 +177,7 @@ private lemma fkE_le_omega {ε : ZMod 3} (hR : R.Nondegenerate) (hε : ε ≠ 0)
   · exact fkSign_pair_mem_omega hR hε b hb hbo (by decide)
   · exact fkSign_pair_mem_omega hR hε b hb hbo (by decide)
 
+omit [FiniteDimensional (ZMod 3) U] in
 private lemma fkE_nontrivial {ε : ZMod 3} (b : Module.Basis (Fin 3) (ZMod 3) U)
     (hb : ∀ i, R (b i) = ε)
     (hbo : ∀ i j, i ≠ j → QuadraticMap.polar R (b i) (b j) = 0) :
@@ -209,10 +217,10 @@ theorem fkFrame_exists_of_basis (hR : R.Nondegenerate)
     rw [show (c : U ≃ₗ[ZMod 3] U) (fr.b i) = s i • fr.b (σ i) from by
       simpa [fr, fkFrame] using hcσ i]
     by_cases hi : i ∈ J
-    · rw [if_pos hi, map_neg, fkPerm_basis]
+    · rw [ite_eq_left hi, map_neg, fkPerm_basis]
       rw [show s i = -1 from by simpa [J] using hi]
       simp [σe]
-    · rw [if_neg hi, fkPerm_basis]
+    · rw [ite_eq_right hi, fkPerm_basis]
       rcases hs i with h | h
       · rw [h]
         simp [σe]

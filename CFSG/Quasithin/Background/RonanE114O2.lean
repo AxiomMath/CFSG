@@ -162,15 +162,18 @@ theorem le_nParam_of_normalTwo_model {T : Subgroup G} {n : ℕ} (hn : 2 ≤ n)
   · intro R hRL hAR
     exact NormalTwoDichotomy.map hθ'i hθ'r hRL (hdich (R.comap θ') fun x hx => hAR ⟨x, hx, rfl⟩)
 
+omit [Finite G] in
 theorem mem_conjSub_inv_iff {c x : G} {P : Subgroup G} :
     x ∈ A1b.conjSub c⁻¹ P ↔ c * x * c⁻¹ ∈ P := by
   rw [A1b.mem_conjSub_iff]
   simp
 
+omit [Finite G] in
 theorem conjSub_inf (g : G) (X Y : Subgroup G) :
     A1b.conjSub g (X ⊓ Y) = A1b.conjSub g X ⊓ A1b.conjSub g Y :=
   Subgroup.map_inf _ _ _ (MulAut.conj g).injective
 
+omit [Finite G] in
 theorem conjSub_bot (g : G) : A1b.conjSub g (⊥ : Subgroup G) = ⊥ :=
   Subgroup.map_bot _
 
@@ -301,7 +304,7 @@ theorem subgroupOf_le_normalizer_of_forward {M : Type} [Group M] {Γ B Y : Subgr
     have := h _ hbinv _ hy'
     exact Subgroup.mem_subgroupOf.mpr (by simpa [mul_assoc] using this)
 
-theorem dichotomy_subgroupOf {M : Type} [Group M] {Γ T Y : Subgroup M} (hT : T ≤ Γ) (hY : Y ≤ Γ)
+theorem dichotomy_subgroupOf {M : Type} [Group M] {Γ T Y : Subgroup M} (hT : T ≤ Γ) (_hY : Y ≤ Γ)
     (h : ∀ O' : Subgroup M, (∀ t ∈ T, ∀ z ∈ O', t * z * t⁻¹ ∈ O') → Y ⊓ O' = ⊥ ∨ Y ≤ O') :
     ∀ O : Subgroup ↥Γ, T.subgroupOf Γ ≤ Subgroup.normalizer (O : Set ↥Γ) →
       Y.subgroupOf Γ ⊓ O = ⊥ ∨ Y.subgroupOf Γ ≤ O := by

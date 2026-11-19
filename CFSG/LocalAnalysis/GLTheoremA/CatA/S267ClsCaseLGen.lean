@@ -21,7 +21,7 @@ variable {β : (ι → K) →ₗ[K] (ι → K) →ₛₗ[τ] K}
 private theorem zpowers_inf_eq_bot_of_not_mem (hp : p.Prime) {G : Type*} [Group G] [Finite G]
     {x : G} (hxp : x ^ p = 1) {L : Subgroup G} (hxL : x ∉ L) :
     Subgroup.zpowers x ⊓ L = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := fun h => hxL (h ▸ L.one_mem)
   have hcard : Nat.card (Subgroup.zpowers x) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime hxp hx1]
@@ -102,7 +102,7 @@ theorem biInf_sdiff_le_of_supported (hp : p.Prime) (hA : ∀ a : ↥Aε, a ^ p =
         card_biInf_sdiff β (glRep Aε) hp hA hpK hρ hmax h𝒮 h𝒮W (glRep_injective Aε) T hT hST',
         card_biInf_sdiff β (glRep Aε) hp hA hpK hρ hmax h𝒮 h𝒮W (glRep_injective Aε) T hT hST,
         Finset.card_insert_of_notMem hHS, pow_succ]
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hx1 : x H ≠ 1 := fun h => hxG (h ▸ G.one_mem)
       rw [Nat.card_zpowers, orderOf_eq_prime (hA (x H)) hx1]
     have heq : G ⊔ Subgroup.zpowers (x H) = G' :=
@@ -258,7 +258,7 @@ variable [Finite K] {p : ℕ} {Aε : Subgroup (GL ι K)} [IsMulCommutative Aε]
 variable {β : (ι → K) →ₗ[K] (ι → K) →ₛₗ[τ] K}
 
 theorem glaPLayer_ne_bot_of_subBlock_supp (hp : p.Prime) (hA : ∀ a : ↥Aε, a ^ p = 1)
-    (hpK : (p : K) ≠ 0) (hAεβ : Aε ≤ isomGL β) [DecidableEq (Hyperplane ↥Aε p)]
+    (hpK : (p : K) ≠ 0) (_hAεβ : Aε ≤ isomGL β) [DecidableEq (Hyperplane ↥Aε p)]
     (I : Finset (Hyperplane ↥Aε p)) {H₂ : Hyperplane ↥Aε p} (hH₂ : H₂ ∉ I) {x : ↥Aε}
     (hx₂ : x ∉ H₂.1)
     (hxU : ∀ H'' : Hyperplane ↥Aε p, H'' ∉ insert H₂ I →
@@ -393,6 +393,7 @@ section Semi
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem semiMap_preserves_of_semiConj (A : GL ι K) (σ : K ≃+* K) {y : GL ι K} {c : Kˣ}
     (hconj : ModelGen.semiConj A σ y = Matrix.GeneralLinearGroup.scalar ι c * y)
     {U W : Submodule K (ι → K)} (hUW : IsCompl U W) (hyU : ∀ u ∈ U, glEquiv y u = u)
@@ -448,13 +449,13 @@ theorem semiMap_preserves_of_semiConj (A : GL ι K) (σ : K ≃+* K) {y : GL ι 
       rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
       rintro ⟨w', hw'⟩ h0
       have h1 := congrArg Subtype.val h0
-      simp only [T, LinearMap.restrict_coe_apply, LinearMap.sub_apply, LinearMap.id_apply,
+      simp only [T, _root_.LinearMap.coe_restrict_apply, LinearMap.sub_apply, LinearMap.id_apply,
         ZeroMemClass.coe_zero, LinearEquiv.coe_coe] at h1
       exact Subtype.ext (hyW' w' hw' (sub_eq_zero.mp h1))
     obtain ⟨⟨w₁, hw₁⟩, hTw₁⟩ := (LinearMap.injective_iff_surjective.mp hTinj) ⟨w, hw⟩
     have hw₁e : w = glEquiv y w₁ - w₁ := by
       have h1 := congrArg Subtype.val hTw₁
-      simp only [T, LinearMap.restrict_coe_apply, LinearMap.sub_apply, LinearMap.id_apply,
+      simp only [T, _root_.LinearMap.coe_restrict_apply, LinearMap.sub_apply, LinearMap.id_apply,
         LinearEquiv.coe_coe] at h1
       exact h1.symm
     rw [hw₁e, map_sub, hcomm]

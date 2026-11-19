@@ -13,7 +13,7 @@ open scoped Pointwise
 theorem burnsideA315y_mem_of_coprime {G : Type} [Group G] {S N : Subgroup G} [Finite ↥S]
     (hSN : S ≤ Subgroup.normalizer (N : Set G)) {x : G} (hx : x ∈ S ⊔ N)
     (hcop : Nat.Coprime (orderOf x) (Nat.card ↥S)) : x ∈ N := by
-  haveI : (N.subgroupOf (S ⊔ N)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hSN
+  have : (N.subgroupOf (S ⊔ N)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hSN
   let f : ↥S →* ↥(S ⊔ N) ⧸ N.subgroupOf (S ⊔ N) :=
     (QuotientGroup.mk' _).comp (Subgroup.inclusion le_sup_left)
   have hf : Function.Surjective f := by
@@ -213,7 +213,7 @@ theorem burnsideA315y_finish {G P : Type} [Group G] [Group P] [Finite P] {L T B 
           C = ⊥ ∨ C = B')
     (hab : IsMulCommutative ↥B) :
     CFSG.Quasithin.A315Case2 L T B ∨ CFSG.Quasithin.A315Case3 L T B := by
-  haveI := h.sqtk.finite
+  have := h.sqtk.finite
   obtain ⟨R, hR, hRS⟩ := hSsyl
   obtain ⟨e', he'⟩ := burnsideA315y_exists_alpha_sylow e h.sylow hR
   have hαinj := burnsideA315y_alpha_injective L e' (burnsideA315x_centralizer_eq_bot h)

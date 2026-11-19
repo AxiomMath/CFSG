@@ -89,32 +89,30 @@ theorem profile2_t120 (h : 3 ≤ s + 3) :
   · refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;>
     first
     | (apply odd_of_cast_two; simp [Type120.uvM, Type120.uvA, Type120.tM, Type120.ρM, ofCols_apply,
-        Matrix.mulVec, dotProduct, Fin.sum_univ_three, hi, hF, hG] <;> decide)
+        hi, hF]; try decide)
     | (apply even_of_cast_two; simp [Type120.uvM, Type120.uvA, Type120.tM, Type120.ρM,
-        ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three, hi, hF, hG] <;> decide)
+        ofCols_apply, hi, hF]; decide)
   · refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;>
     first
     | (apply odd_of_cast_two; simp [Type120.tM, Type120.uvA, Type120.ρM, ofCols_apply,
-        Matrix.mulVec, dotProduct, Fin.sum_univ_three, hi, hF, hG] <;> decide)
+        hi]; decide)
     | (apply even_of_cast_two; simp [Type120.tM, Type120.uvA, Type120.ρM, ofCols_apply,
-        Matrix.mulVec, dotProduct, Fin.sum_univ_three, hi, hF, hG] <;> decide)
+        hi]; decide)
   · refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;>
     first
-    | (apply odd_of_cast_two; simp [Type120.uM, uMat, ofCols_apply, hF] <;> decide)
-    | (apply even_of_cast_two; simp [Type120.uM, uMat, ofCols_apply, hF] <;> decide)
+    | (apply odd_of_cast_two; simp [Type120.uM, uMat, ofCols_apply])
+    | (apply even_of_cast_two; simp [Type120.uM, uMat, ofCols_apply])
   · refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;>
     first
-    | (apply odd_of_cast_two; simp [Type120.ρM, ofCols_apply] <;> decide)
-    | (apply even_of_cast_two; simp [Type120.ρM, ofCols_apply] <;> decide)
+    | (apply odd_of_cast_two; simp [Type120.ρM, ofCols_apply])
+    | (apply even_of_cast_two; simp [Type120.ρM, ofCols_apply])
   · refine ⟨?_, ?_⟩ <;> apply even_of_cast_two <;>
-      simp [Type120.uvM, Type120.uvA, Type120.tM, Type120.ρM, ofCols_apply, Matrix.mulVec,
-        dotProduct, Fin.sum_univ_three, hi, hF, hG] <;> decide
+      simp [Type120.uvM, Type120.uvA, Type120.tM, Type120.ρM, ofCols_apply, hi, hF, hG] <;> decide
   · refine ⟨?_, ?_⟩ <;> apply even_of_cast_two <;>
-      simp [Type120.tM, Type120.uvA, Type120.ρM, ofCols_apply, Matrix.mulVec, dotProduct,
-        Fin.sum_univ_three, hi, hF, hG] <;> decide
+      simp [Type120.tM, Type120.uvA, Type120.ρM, ofCols_apply, hi, hF, hG] <;> decide
   · refine ⟨?_, ?_⟩ <;> apply even_of_cast_two <;>
       simp [Type120.uM, uMat, ofCols_apply, hF] <;> decide
-  · refine ⟨?_, ?_⟩ <;> apply even_of_cast_two <;> simp [Type120.ρM, ofCols_apply] <;> decide
+  · refine ⟨?_, ?_⟩ <;> apply even_of_cast_two <;> simp [Type120.ρM, ofCols_apply]; decide
   · exact ⟨1, -1, by simp [Type120.uvM, ofCols_apply], by simp [Type120.uvM, ofCols_apply],
       by decide, by decide⟩
   · exact ⟨1, 2, by simp [Type120.tM, ofCols_apply], by simp [Type120.tM, ofCols_apply],
@@ -143,48 +141,46 @@ theorem twist2_t120 (h : 3 ≤ s + 3) :
     rw [matAct_gen_eq, matAct_gen_eq, h0, h1, h2]
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · refine matAct_gen_eq_add_tw _ _ 0 0 1 0 ?_ ?_ ?_ <;>
-      simp [hK0, hK1, hK2, hK0', hK1', hK2', t120_uv_eq3, t130_uv_eq3, Type120.uvM, Type130.uvM,
+      simp [hK0', hK1', hK2', t120_uv_eq3, t130_uv_eq3, Type120.uvM, Type130.uvM,
         ofCols_apply]
   · exact e0 _ _ 1 (by simp [t120_uv_eq3, t130_uv_eq3, Type120.uvM, Type130.uvM, Type120.uvA,
       Type130.uvA, ofCols_apply]) (by simp [t120_uv_eq3, t130_uv_eq3, Type120.uvM, Type130.uvM,
       Type120.uvA, Type130.uvA, ofCols_apply]) (by simp [t120_uv_eq3, t130_uv_eq3, Type120.uvM,
       Type130.uvM, Type120.uvA, Type130.uvA, ofCols_apply])
   · refine matAct_gen_eq_of_dvd _ _ 2 ?_ ?_ ?_ <;>
-      simp only [hK0, hK1, hK2, hK0', hK1', hK2', t120_uv_eq3, t130_uv_eq3]
+      simp only [hK0', hK1', hK2', t120_uv_eq3, t130_uv_eq3]
     · exact ⟨4 * ι * φ, by
         simp [Type120.uvM, Type130.uvM, Type120.uvA, Type130.uvA, Type120.tM, Type130.tM,
-          Type120.ρM, Type130.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          Type120.ρM, Type130.ρM, ofCols_apply]
         ring⟩
     · exact ⟨ι * φ, by
         simp [Type120.uvM, Type130.uvM, Type120.uvA, Type130.uvA, Type120.tM, Type130.tM,
-          Type120.ρM, Type130.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          Type120.ρM, Type130.ρM, ofCols_apply]
         ring⟩
     · exact ⟨ι * φ, by
         simp [Type120.uvM, Type130.uvM, Type120.uvA, Type130.uvA, Type120.tM, Type130.tM,
-          Type120.ρM, Type130.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          Type120.ρM, Type130.ρM, ofCols_apply]
         ring⟩
   · refine matAct_gen_eq_add_tw _ _ 0 0 0 1 ?_ ?_ ?_ <;>
-      simp [hK0, hK1, hK2, hK0', hK1', hK2', t120_t_eq3, t130_t_eq3, Type120.tM, Type130.tM,
+      simp [hK0', hK1', hK2', t120_t_eq3, t130_t_eq3, Type120.tM, Type130.tM,
         ofCols_apply]
   · exact e0 _ _ 1 (by simp [t120_t_eq3, t130_t_eq3, Type120.tM, Type130.tM, ofCols_apply])
       (by simp [t120_t_eq3, t130_t_eq3, Type120.tM, Type130.tM, ofCols_apply])
       (by simp [t120_t_eq3, t130_t_eq3, Type120.tM, Type130.tM, ofCols_apply])
   · exact e0 _ _ 2 (by simp [t120_t_eq3, t130_t_eq3, Type120.tM, Type130.tM, Type120.uvA,
-      Type130.uvA, Type120.ρM, Type130.ρM, ofCols_apply, Matrix.mulVec, dotProduct,
-      Fin.sum_univ_three])
+      Type130.uvA, Type120.ρM, Type130.ρM, ofCols_apply])
       (by simp [t120_t_eq3, t130_t_eq3, Type120.tM, Type130.tM, Type120.uvA, Type130.uvA,
-        Type120.ρM, Type130.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three])
+        Type120.ρM, Type130.ρM, ofCols_apply])
       (by simp [t120_t_eq3, t130_t_eq3, Type120.tM, Type130.tM, Type120.uvA, Type130.uvA,
-        Type120.ρM, Type130.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three])
+        Type120.ρM, Type130.ρM, ofCols_apply])
   · refine matAct_gen_eq_add_tw _ _ 0 1 0 0 ?_ ?_ ?_ <;>
-      simp [hK0, hK1, hK2, hK0', hK1', hK2', t120_u_eq3, t130_u_eq3, Type120.uM, Type130.uM,
-        uMat, ofCols_apply] <;>
-      ring_nf <;> simp
+      simp [hK0', hK1', hK2', t120_u_eq3, t130_u_eq3, Type120.uM, Type130.uM,
+        uMat, ofCols_apply]
   · exact e0 _ _ 1 (by simp [t120_u_eq3, t130_u_eq3, Type120.uM, Type130.uM, uMat, ofCols_apply])
       (by simp [t120_u_eq3, t130_u_eq3, Type120.uM, Type130.uM, uMat, ofCols_apply])
       (by simp [t120_u_eq3, t130_u_eq3, Type120.uM, Type130.uM, uMat, ofCols_apply])
   · refine matAct_gen_eq_of_dvd _ _ 2 ?_ ?_ ?_ <;>
-      simp only [hK0, hK1, hK2, hK0', hK1', hK2', t120_u_eq3, t130_u_eq3]
+      simp only [hK0', hK1', hK2', t120_u_eq3, t130_u_eq3]
     · exact ⟨-2 * φ, by simp [Type120.uM, Type130.uM, uMat, ofCols_apply]; ring⟩
     · simp [Type120.uM, Type130.uM, uMat, ofCols_apply]
     · simp [Type120.uM, Type130.uM, uMat, ofCols_apply]
@@ -221,7 +217,7 @@ theorem restrict_t220_t120 (h : 3 ≤ s + 3) (hs : 1 ≤ s) :
     fin_cases a <;> fin_cases b <;>
     simp [diag2, Matrix.mul_diagonal, Matrix.diagonal_mul, Type120.uvM, Type120.uvA, Type120.tM,
       Type120.ρM, Type120.uM, Type220.uvM, Type220.uvA, Type220.tM, Type220.ρM, Type220.uM, uMat,
-      ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three] <;> ring
+      ofCols_apply] <;> ring
 
 end Target
 

@@ -23,7 +23,7 @@ theorem omega8MinusK6rFacts_holds : Omega8MinusK6rFacts := by
   intro K _ _ h3 b c hbc
   refine ⟨c₀ h3 hbc, c₀_signedCoords h3 hbc, ?_⟩
   intro r hr hc h5
-  haveI : CharP K r := hc
+  have : CharP K r := hc
   have hr2 : r ≠ 2 := by omega
   refine ⟨⟨?_, ?_, ?_⟩, ?_, ?_⟩
   · exact two_le_pRank_centralizer_c₀_point h3 hbc hr (Multiplicative.ofAdd ![1, 0, 0]) rfl

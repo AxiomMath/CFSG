@@ -112,7 +112,7 @@ theorem centralizer_eq_top_of_isolated {G : Type} [Group G] [Finite G]
   set PG := (P : Subgroup H).map H.subtype with hPG
   have hPGH : PG ≤ H := map_subtype_le _
   have hzPG : z ∈ PG := ⟨_, hzP, rfl⟩
-  obtain ⟨S, hPS⟩ := (P.isPGroup'.map H.subtype).exists_le_sylow
+  obtain ⟨S, hPS⟩ := (P.isPGroup.map H.subtype).exists_le_sylow
   have hnorm : ∀ n : G, n ∈ normalizer (PG : Set G) → n ∈ H := by
     intro n hn
     have h1 : n * z * n⁻¹ ∈ PG := (mem_normalizer_iff.1 hn z).1 hzPG
@@ -131,7 +131,7 @@ theorem centralizer_eq_top_of_isolated {G : Type} [Group G] [Finite G]
       have : (⟨x, hx⟩ : S) ∈ PG.subgroupOf S := htop ▸ mem_top _
       exact this
     obtain ⟨n, hn, hnU⟩ := IsConcreteLE.exists_of_lt
-      (p_group_normalizer_condition S.isPGroup' hlt)
+      (p_group_normalizer_condition S.isPGroup hlt)
     set Q : Subgroup G :=
       (normalizer ((PG.subgroupOf S : Subgroup S) : Set S)).map (S : Subgroup G).subtype
     have hQH : Q ≤ H := by
@@ -151,7 +151,7 @@ theorem centralizer_eq_top_of_isolated {G : Type} [Group G] [Finite G]
         have := (mem_normalizer_iff.1 hm ⟨y, hyS⟩).2 (mem_subgroupOf.2 hy)
         rwa [mem_subgroupOf] at this
     have hQp : IsPGroup 2 (Q.subgroupOf H) :=
-      (S.isPGroup'.to_le (map_subtype_le _)).comap_subtype
+      (S.isPGroup.to_le (map_subtype_le _)).comap_subtype
     have hPQ : (P : Subgroup H) ≤ Q.subgroupOf H := by
       intro x hx
       rw [mem_subgroupOf]
@@ -390,7 +390,7 @@ theorem standard_binary_symplectic_six_sylow_eq {G : Type} [Group G] [Finite G]
     standard_binary_symplectic_six_initial hG hL hLn hZ hmodel T hT hzT hz hH
   set TG := (T : Subgroup (centralizer (L : Set G))).map (centralizer (L : Set G)).subtype
     with hTG
-  have hTG2 : IsPGroup 2 TG := T.isPGroup'.map _
+  have hTG2 : IsPGroup 2 TG := T.isPGroup.map _
   have hz2 : z ^ 2 = 1 := by
     have h := pow_orderOf_eq_one z
     rwa [hz] at h

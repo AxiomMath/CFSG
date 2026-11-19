@@ -40,8 +40,8 @@ theorem pSolv3_A' (h : FF84Sec4 b L B K b₁ b₂) (hA : A8Model L) :
     simp only [map_mul, hc, hd] at this
     exact this
   have hsolv : Group.IsSolvable ↥f.range := by
-    haveI := solvable_cent_sig
-    exact solvable_of_solvable_injective (Subgroup.inclusion_injective hrange)
+    have := solvable_cent_sig
+    exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hrange)
   have hker' : ∀ x : ↥f.ker, x.1.1 ∈ CenS L := fun x =>
     (hker ⟨x.1.1, hAN x.1.2⟩).1 (MonoidHom.mem_ker.1 x.2)
   let g : ↥f.ker →* ↥(Cen b ⊓ CenS L) :=
@@ -88,7 +88,7 @@ theorem pSolv3_G1 (h : FF84Sec4 b L B K b₁ b₂) (hA : A8Model L) :
   have hsub : Cen (b * b₁) ⊓ Cen b₂ ≤ A'.map (MulAut.conj n⁻¹).toMonoidHom := by
     intro a ha
     refine Subgroup.mem_map.2 ⟨n * a * n⁻¹, hmem a ha, ?_⟩
-    simp [MulAut.conj_apply]
+    simp
     group
   exact isPSolvable_of_le
     (isPSolvable_map (MulAut.conj n⁻¹).toMonoidHom (pSolv3_A' h hA)) hsub

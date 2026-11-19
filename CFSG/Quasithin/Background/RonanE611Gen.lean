@@ -13,6 +13,7 @@ section Sylow
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isSylowTwoOf_of_le {S P L : Subgroup G} (hS : IsSylowTwoOf S L) (hSP : S ≤ P)
     (hPL : P ≤ L) : IsSylowTwoOf S P := by
   refine ⟨hSP, hS.2.1, fun h => hS.2.2 ?_⟩

@@ -47,7 +47,7 @@ theorem normalizer_zpowers_of_commute {g t : Γ} (h : g * t = t * g) :
 theorem fusionIsSylowIn_imgIn [Finite Γ] (V : Subgroup Γ) {S L : Subgroup Γ}
     (hS : fusionIsSylowIn 2 S L) (hL : L ≤ normalizer (V : Set Γ)) :
     fusionIsSylowIn 2 (imgIn V S) (imgIn V L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 := CFSG.Goldschmidt.G310.fusionIsSylowIn_subgroupOf hS hL
   exact CFSG.Holt.fusionIsSylowIn_map (conjActHom V) h1
 
@@ -56,8 +56,8 @@ theorem fpf_of_commutator [Finite Γ] {W₀ W : Subgroup Γ} {x : Γ} (hW₀ : I
     (hW : W = ⁅W₀, zpowers x⁆) (hWab : IsElemAbelian 2 W) :
     ∀ w ∈ W, x * w * x⁻¹ = w → w = 1 := by
   intro w hw hxw
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hord : orderOf x = 5 := orderOf_eq_prime hx5 hx1
   have hX : IsPGroup 5 (zpowers x) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord]; norm_num)
@@ -90,7 +90,7 @@ theorem isSolvable_of_card_dvd_two_pow_mul_five {X : Type*} [Group X] [Finite X]
     Nat.prime_five (by norm_num) (by rw [← Nat.card_eq_fintype_card, ← hk])
 
 theorem le_centralizer_of_isElemAbelian {W : Subgroup Γ} (h : IsElemAbelian 2 W) :
-    W ≤ centralizer (W : Set Γ) := fun w hw =>
-  mem_centralizer_iff.2 fun v hv => h.comm hv hw
+    W ≤ centralizer (W : Set Γ) := fun _w hw =>
+  mem_centralizer_iff.2 fun _v hv => h.comm hv hw
 
 end CFSG.LocalAnalysis.EvenBN.Tits.N.P5

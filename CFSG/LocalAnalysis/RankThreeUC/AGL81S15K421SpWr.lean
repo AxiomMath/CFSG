@@ -28,7 +28,7 @@ theorem isCyclic_center_regularWreathProduct_aux3 {D Q : Type} [CommGroup D] [Gr
   have h1 : (Pi.mulSingle (1 : Q) d₀ : Q → D) 1 * z.left (1⁻¹ * 1) =
       z.left 1 * (Pi.mulSingle (1 : Q) d₀ : Q → D) (z.right⁻¹ * 1) :=
     congrFun (congrArg RegularWreathProduct.left h) 1
-  simp only [inv_one, mul_one, one_mul, Pi.mulSingle_eq_same] at h1
+  simp only [inv_one, mul_one, Pi.mulSingle_eq_same] at h1
   have h1' : z.left 1 * d₀ = z.left 1 * (Pi.mulSingle (1 : Q) d₀ : Q → D) z.right⁻¹ := by
     rw [mul_comm (z.left 1) d₀]
     exact h1
@@ -51,15 +51,15 @@ theorem isCyclic_center_regularWreathProduct {D Q : Type} [CommGroup D] [IsCycli
   let f : D →* Subgroup.center (D ≀ᵣ Q) :=
     { toFun := fun d => ⟨⟨fun _ => d, 1⟩, isCyclic_center_regularWreathProduct_aux1 d⟩
       map_one' := Subtype.ext (by ext <;> simp)
-      map_mul' := fun a b => Subtype.ext (by ext <;> simp [mul_comm]) }
+      map_mul' := fun a b => Subtype.ext (by ext <;> simp) }
   apply isCyclic_of_surjective f
   rintro ⟨z, hz⟩
   exact ⟨z.left 1, Subtype.ext (isCyclic_center_regularWreathProduct_aux4 z hz).symm⟩
 
 theorem isCyclic_center_wreath_zmod {k : ℕ} (hk : 1 ≤ k) :
     IsCyclic ↥(Subgroup.center (Multiplicative (ZMod (3 ^ k)) ≀ᵣ Multiplicative (ZMod 3))) := by
-  haveI : Fact (1 < 3 ^ k) := ⟨one_lt_pow₀ (by norm_num) (by omega)⟩
-  haveI : Fact (1 < 3) := ⟨by norm_num⟩
+  have : Fact (1 < 3 ^ k) := ⟨one_lt_pow₀ (by norm_num) (by omega)⟩
+  have : Fact (1 < 3) := ⟨by norm_num⟩
   exact isCyclic_center_regularWreathProduct
 
 theorem isCyclic_center_of_mulEquiv {P W : Type} [Group P] [Group W] (e : P ≃* W)

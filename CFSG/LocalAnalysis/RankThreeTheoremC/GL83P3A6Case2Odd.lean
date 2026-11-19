@@ -21,8 +21,8 @@ theorem a6_odd_involution (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLo
     (hJ : IsA6Normal M x J) :
     ∀ w ∈ GLBPrimeCore 3 M, w ^ 2 = 1 → w * x = x * w → w = 1 := by
   classical
-  haveI hf3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hf2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hf3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hf2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA1 : A6SylowData := a6SylowData_proved
   set C : Subgroup G := centralizer ({x} : Set G) with hC
   set O : Subgroup G := GLBPrimeCore 3 M with hO
@@ -31,7 +31,7 @@ theorem a6_odd_involution (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLo
   have hJC : J ≤ C := hJ.le_centralizer
   have hDM : D ≤ M := inf_le_left.trans hPM
   have hDC : D ≤ C := inf_le_right.trans hJC
-  have hD3 : IsPGroup 3 D := P.isPGroup'.to_le inf_le_left
+  have hD3 : IsPGroup 3 D := P.isPGroup.to_le inf_le_left
   have hO3 : ¬ 3 ∣ Nat.card O :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp (glbPrimeCore_coprime 3 M)
   set Z : Subgroup G := O ⊓ C with hZ

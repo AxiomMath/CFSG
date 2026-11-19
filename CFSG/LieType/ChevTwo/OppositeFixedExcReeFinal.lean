@@ -50,7 +50,7 @@ theorem oppositeFixedInner_reeGamma_zero {K : Type} [Field K] [Finite K]
     [CharP K ReeTag.F4.prime] (hK2 : Nat.card K = 2) :
     OppositeFixedInner ↥(ReeTag.F4.reeGamma K 0) := by
   have hK : Nat.card K = 2 ^ (2 * 0 + 1) := by simpa using hK2
-  haveI : CharP K 2 := ‹CharP K ReeTag.F4.prime›
+  have : CharP K 2 := ‹CharP K ReeTag.F4.prime›
   have hZ : Subgroup.center ↥(ReeTag.F4.reeGamma K 0) = ⊥ :=
     large_Ree_fixed_group_center_trivial 0 K hK
   intro p hp hp2 R hR hRinn Q hQ hQ2 hcore hne hRQ hC
@@ -65,7 +65,7 @@ theorem oppositeFixedInner_reeGamma_zero {K : Type} [Field K] [Finite K]
 theorem oppositeFixed_of_reeTitsModel_twistedF4 {S : Type} [Group S] {a : ℕ} (ha : 1 ≤ a)
     (h : ReeTitsModel S .twistedF4 2 (2 * a + 1)) : OppositeFixed S := by
   obtain ⟨K, _, _, _, hK, ⟨e⟩⟩ := exists_mulEquiv_reeGamma ha h
-  haveI : CharP K 2 := ‹CharP K ReeTag.F4.prime›
+  have : CharP K 2 := ‹CharP K ReeTag.F4.prime›
   exact oppositeFixed_of_mulEquiv e (oppositeFixed_reeGamma ha hK
     (fun {A} {S} hS hodd {u} hu hu1 hfix => exists_fixed_mem_oppRadical_F4 hS hodd hu hu1 hfix)
     ree_hstd_F4)

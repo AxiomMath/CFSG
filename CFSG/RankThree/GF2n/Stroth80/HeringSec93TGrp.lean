@@ -41,10 +41,11 @@ namespace CFSG.RankThree.GF2n.Stroth80.HS9
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf_of_le_normalizer {A F : Subgroup G}
     (hA : A ≤ Subgroup.normalizer (F : Set G)) :
     Nat.card ↥(A ⊔ F) * Nat.card ↥(A ⊓ F) = Nat.card ↥A * Nat.card ↥F := by
-  haveI : (F.subgroupOf (A ⊔ F)).Normal :=
+  have : (F.subgroupOf (A ⊔ F)).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hA
   have h3 : A.subgroupOf (A ⊔ F) ⊔ F.subgroupOf (A ⊔ F) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup (le_sup_left : A ≤ A ⊔ F) (le_sup_right : F ≤ A ⊔ F)]
@@ -97,7 +98,7 @@ theorem exists_conj_mem_of_odd_index {X P P' : Subgroup G} (hPX : P ≤ X) (hP'X
     rintro ⟨c, hc⟩
     omega
   let S₀ : Sylow 2 ↥X := hP₀2.toSylow hnd
-  haveI : Finite (Sylow 2 ↥X) :=
+  have : Finite (Sylow 2 ↥X) :=
     Finite.of_injective (fun Q : Sylow 2 ↥X => (Q : Set ↥X)) fun Q R h => SetLike.coe_injective h
   obtain ⟨S', hS'⟩ := hP'₀2.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥X S₀ S'
@@ -110,7 +111,7 @@ theorem exists_conj_mem_of_odd_index {X P P' : Subgroup G} (hPX : P ≤ X) (hP'X
   simpa using Subgroup.mem_subgroupOf.mp hy'
 
 theorem card_dvd_of_isPGroup_of_odd {X P F : Subgroup G} (hPX : P ≤ X) (hP2 : IsPGroup 2 ↥P)
-    (hF2 : IsPGroup 2 ↥F) {q m : ℕ} (hq : ∃ e : ℕ, q = 2 ^ e) (hm : Odd m)
+    (_hF2 : IsPGroup 2 ↥F) {q m : ℕ} (_hq : ∃ e : ℕ, q = 2 ^ e) (hm : Odd m)
     (hcard : Nat.card ↥X = Nat.card ↥F * (q * m)) : Nat.card ↥P ∣ Nat.card ↥F * q := by
   have hdvd : Nat.card ↥P ∣ Nat.card ↥F * (q * m) := by
     rw [← hcard]

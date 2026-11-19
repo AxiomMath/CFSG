@@ -53,7 +53,7 @@ theorem burnsideAut_d5_isPerfect {S : Type*} [Group S] [IsSimpleGroup S]
 theorem burnsideAut_d5_sylow_eq_of_mem {X : Type} [Group X] [Finite X] {q k : ℕ}
     (hB : fusionBenderBorel X q k) {P Q : Sylow 2 X} {t : X} (ht : t ≠ 1)
     (htP : t ∈ (P : Subgroup X)) (htQ : t ∈ (Q : Subgroup X)) : P = Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq X P Q
   by_cases hg : g ∈ Subgroup.normalizer ((P : Subgroup X) : Set X)
   · exact (Sylow.smul_eq_iff_mem_normalizer.2 hg).symm
@@ -67,7 +67,7 @@ theorem burnsideAut_d5_sylow_eq_of_mem {X : Type} [Group X] [Finite X] {q k : �
       rw [Sylow.coe_subgroup_smul, Subgroup.mem_smul_pointwise_iff_exists] at htQ
       obtain ⟨s, hs, rfl⟩ := htQ
       exact ⟨s, Subgroup.le_normalizer hs, rfl⟩
-    obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨t, htP⟩
+    obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨t, htP⟩
     have hj' : orderOf t = 2 ^ j :=
       (Subgroup.orderOf_coe (⟨t, htP⟩ : ↥(P : Subgroup X))).trans hj
     have hj0 : j ≠ 0 := by
@@ -85,7 +85,7 @@ theorem burnsideAut_d5_map_sylow_eq {X : Type} [Group X] [Finite X] {q k : ℕ}
     (X := (Q : Subgroup X)) (Y := ⊤)).2 (CFSG.QuasithinUnique.isSylowTwoOf_top_of_sylow Q)
   rw [Subgroup.map_top_of_surjective _ φ.surjective] at h1
   obtain ⟨h2, h3⟩ := CFSG.Quasithin.H13.FiveNorm.isSylowTwoOf_top_index h1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4 : h2.toSylow h3 = Q := by
     refine burnsideAut_d5_sylow_eq_of_mem hB ht ?_ htQ
     rw [IsPGroup.toSylow_coe]
@@ -107,7 +107,7 @@ theorem burnsideAut_d5u3_fusionIsBender [Finite K] (hu : UnitaryFieldData 2 n K)
 
 theorem burnsideAut_d5u3_exists_fixed_involution (hu : UnitaryFieldData 2 n K) :
     ∃ t : unitaryPSU hu 3, t ≠ 1 ∧ t ^ 2 = 1 ∧ ∀ σ : K ≃+* K, psuField hu σ t = t := by
-  haveI : CharP K 2 := hu.charP
+  have : CharP K 2 := hu.charP
   set P : Matrix (Fin 3) (Fin 3) K := !![0, 1, 0; 1, 0, 0; 0, 0, 1] with hPdef
   have hPP : P * P = 1 := by
     rw [hPdef]
@@ -161,11 +161,11 @@ theorem burnsideAut_d5u3_inn_relIndex_odd (hu : UnitaryFieldData 2 n K)
     [Finite (unitaryPSU hu 3)] :
     ¬ 2 ∣ (MulAut.conj : unitaryPSU hu 3 →* MulAut (unitaryPSU hu 3)).range.relIndex
       (psuConj hu).range := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut (unitaryPSU hu 3)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut (unitaryPSU hu 3)) :=
     Finite.of_injective (fun e : MulAut (unitaryPSU hu 3) => (e : unitaryPSU hu 3 → unitaryPSU hu 3))
       (fun a b hab => MulEquiv.ext (congrFun hab))
-  haveI := burnsideAut_inn_normal' (unitaryPSU hu 3)
+  have := burnsideAut_inn_normal' (unitaryPSU hu 3)
   have hpow : ∀ A : unitaryIsom3 hu, (psuConj hu A) ^ (2 ^ n + 1) ∈
       (MulAut.conj : unitaryPSU hu 3 →* MulAut (unitaryPSU hu 3)).range := by
     intro A
@@ -200,27 +200,27 @@ end D5U3Model
 theorem burnsideAut_a315_U3 {G : Type} [Group G] {L T B : Subgroup G}
     (h : CFSG.Quasithin.A315Hyp L T B) {n : ℕ} (hn : 2 ≤ n)
     (hL : CFSG.Quasithin.IsPSU 3 2 n ↥L) : ChA.A315Case5Concrete L T B := by
-  haveI := h.sqtk.finite
-  haveI hLn : L.Normal := burnsideA315x_normal h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.sqtk.finite
+  have hLn : L.Normal := burnsideA315x_normal h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLie : CFSG.Quasithin.A315.IsLieChar2 n ↥L := Or.inr (Or.inr (Or.inl hL))
   obtain ⟨-, K, _, _, hK, ⟨e₀⟩⟩ := id hL
   have hu : UnitaryFieldData 2 n K := ⟨Nat.prime_two, by omega, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI : CharP K 2 := hu.charP
+  have : CharP K 2 := hu.charP
   have hq : 2 < 2 ^ n := by
     calc 2 < 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   obtain ⟨e₁⟩ : Nonempty (↥L ≃* unitaryPSU hu 3) :=
     ⟨e₀.trans (unitaryPSUEquiv hu (by norm_num : 1 ≤ 3)).symm⟩
-  haveI : Finite (unitaryPSU hu 3) := Finite.of_equiv _ e₁.toEquiv
-  haveI : IsSimpleGroup (unitaryPSU hu 3) := by
-    haveI := h.simple
+  have : Finite (unitaryPSU hu 3) := Finite.of_equiv _ e₁.toEquiv
+  have : IsSimpleGroup (unitaryPSU hu 3) := by
+    have := h.simple
     exact MulEquiv.isSimpleGroup e₁.symm
   have hnab : ∃ a b : unitaryPSU hu 3, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := h.nonabelian
     exact ⟨e₁ a, e₁ b, fun h' => hab (e₁.injective (by rw [map_mul, map_mul, h']))⟩
   have hMZ : Subgroup.center (unitaryPSU hu 3) = ⊥ := burnsideAut_center_eq_bot hnab
-  haveI : Group.IsPerfect (unitaryPSU hu 3) := burnsideAut_d5_isPerfect hnab
+  have : Group.IsPerfect (unitaryPSU hu 3) := burnsideAut_d5_isPerfect hnab
   have hBen := burnsideAut_d5u3_fusionIsBender hu hn
   obtain ⟨qB, kB, -, hBor⟩ :=
     CFSG.QuasithinUnique.Unc25G2.BenderBorel.exists_borel_of_bender hBen
@@ -271,7 +271,7 @@ theorem burnsideAut_a315_U3 {G : Type} [Group G] {L T B : Subgroup G}
     exact h1
   · rintro _ ⟨σ, rfl⟩ _ ⟨τ, rfl⟩
     rw [← map_mul, ← map_mul, CFSG.LocalAnalysis.ComponentInitial.ringAut_mul_comm K σ τ]
-  · haveI : (psuConj hu).range.Normal := (stdPinnedPSU3_stable (h := hu) hq).normal
+  · have : (psuConj hu).range.Normal := (stdPinnedPSU3_stable (h := hu) hq).normal
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   · rw [eq_bot_iff]

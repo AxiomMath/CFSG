@@ -24,8 +24,8 @@ theorem Rk1Block.exists_algebra_linearEquiv (hc : Rk1Block c p) {f : ℕ} (hf : 
       ζ ^ 2 + algebraMap K K' t * ζ + 1 = 0 ∧
       unitaryInvolution K' 2 f ζ * ζ = 1 ∧
       ∀ a : K, unitaryInvolution K' 2 f (algebraMap K K' a) = algebraMap K K' a := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype K' := Fintype.ofFinite K'
   let t : K := LinearMap.trace K D (c : D →ₗ[K] D)
   have ht_def : t = LinearMap.trace K D (c : D →ₗ[K] D) := rfl
   have ht : t ≠ 0 := by rw [ht_def]; exact Rk1Block.trace_ne_zero hc
@@ -104,7 +104,7 @@ theorem Rk1Block.exists_algebra_linearEquiv (hc : Rk1Block c p) {f : ℕ} (hf : 
       simp only [g, map_sub, Polynomial.aeval_X, Polynomial.aeval_C,
         Algebra.algebraMap_eq_smul_one]
     have hfg : f * g = 0 := by simpa only [← hf0, ← hg0] using hfac
-    haveI : Nontrivial D := Module.nontrivial_of_finrank_pos (by rw [hc.finrank_eq]; norm_num)
+    have : Nontrivial D := Module.nontrivial_of_finrank_pos (by rw [hc.finrank_eq]; norm_num)
     obtain ⟨x, hx⟩ := exists_ne (0 : D)
     have heigen : ∃ u : D, u ≠ 0 ∧ ∃ μ : K, μ ^ 2 + t * μ + 1 = 0 ∧ c u = μ • u := by
       by_cases hy : g x = 0
@@ -121,7 +121,7 @@ theorem Rk1Block.exists_algebra_linearEquiv (hc : Rk1Block c p) {f : ℕ} (hf : 
     obtain ⟨u, hu, μ, hμroot, heig⟩ := heigen
     have hμne : μ ≠ 0 := by
       intro h
-      have h1 : (1 : K) = 0 := by simpa [h] using hμroot
+      have h1 : (1 : K) = 0 := by simp [h] at hμroot
       exact one_ne_zero h1
     have hμpow : μ ^ p = 1 := by
       have hcp : ((c ^ p : D ≃ₗ[K] D) : D → D) u = u := by rw [hc.pow_eq]; rfl
@@ -168,21 +168,21 @@ theorem Rk1Block.exists_algebra_linearEquiv (hc : Rk1Block c p) {f : ℕ} (hf : 
     exact two_ne_zero hm_nat.symm
   have hm_irr : Irreducible m :=
     Polynomial.irreducible_of_degree_le_three_of_not_isRoot (by rw [hm_nat]; norm_num) hno
-  haveI : Fact (Irreducible m) := ⟨hm_irr⟩
+  have : Fact (Irreducible m) := ⟨hm_irr⟩
   let pb₀ : PowerBasis K (AdjoinRoot m) := AdjoinRoot.powerBasis hm_ne
-  haveI : Module.Finite K (AdjoinRoot m) := pb₀.finite
+  have : Module.Finite K (AdjoinRoot m) := pb₀.finite
   have hA_dim : Module.finrank K (AdjoinRoot m) = 2 := by
     rw [pb₀.finrank, show pb₀.dim = m.natDegree from rfl, hm_nat]
   have hA_card : Nat.card (AdjoinRoot m) = Nat.card K' := by
     rw [Module.natCard_eq_pow_finrank (K := K), hA_dim, hf, hK']
-  haveI : Fintype (AdjoinRoot m) :=
+  have : Fintype (AdjoinRoot m) :=
     Fintype.ofEquiv (Fin pb₀.dim → K) pb₀.basis.equivFun.toEquiv.symm
   have hcardA : Fintype.card (AdjoinRoot m) = Fintype.card K' := by
     rw [Fintype.card_eq_nat_card, hA_card, Fintype.card_eq_nat_card]
   let e : AdjoinRoot m ≃+* K' := FiniteField.ringEquivOfCardEq hcardA
   let alg : Algebra K K' :=
     (e.toRingHom.comp (algebraMap K (AdjoinRoot m))).toAlgebra
-  letI : Algebra K K' := alg
+  let : Algebra K K' := alg
   have he_alg : ∀ a : K, e (algebraMap K (AdjoinRoot m) a) = algebraMap K K' a :=
     fun _ => rfl
   let eA : AdjoinRoot m ≃ₐ[K] K' := AlgEquiv.ofRingEquiv (f := e) he_alg
@@ -195,7 +195,7 @@ theorem Rk1Block.exists_algebra_linearEquiv (hc : Rk1Block c p) {f : ℕ} (hf : 
     rw [show pb.gen = eA pb₀.gen from PowerBasis.map_gen pb₀ eA,
       show pb₀.gen = AdjoinRoot.root m from rfl]
     rfl
-  haveI : NeZero pb.dim := ⟨by rw [hpb_dim]; norm_num⟩
+  have : NeZero pb.dim := ⟨by rw [hpb_dim]; norm_num⟩
   let b' : Basis (Fin 2) K K' := pb.basis.reindex (finCongr hpb_dim)
   have hb'0 : b' 0 = 1 := by
     dsimp only [b']

@@ -269,7 +269,7 @@ theorem ree_pCharData (ha : 1 ≤ a) (hK : Nat.card K = 3 ^ (2 * a + 1)) :
       exact (inv_mem_iff).1 hxinv
   have hP : P = B' := le_antisymm hPB hNP
   subst hP
-  refine ⟨(U : Subgroup (ReeTag.G2.reeGamma K a)), ?_, ?_, U.isPGroup', ?_⟩
+  refine ⟨(U : Subgroup (ReeTag.G2.reeGamma K a)), ?_, ?_, U.isPGroup, ?_⟩
   · rw [hU]
     exact hUB
   · rw [hU]

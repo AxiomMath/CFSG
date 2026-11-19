@@ -69,7 +69,7 @@ theorem exists_two_subgroup_of_model {F G : Type} [Field F] [Finite F] [Group G]
   · exact (Subgroup.map_subtype_le _).trans (Subgroup.map_le_range ψ N)
   · intro t ht
     exact hRc t (Subgroup.map_subtype_le _ ht)
-  · exact P.isPGroup'.map R.subtype
+  · exact P.isPGroup.map R.subtype
   · rw [Subgroup.card_map_of_injective R.subtype_injective, Sylow.card_eq_multiplicity]
     exact Nat.pow_le_pow_right (by norm_num) hvR
 

@@ -70,7 +70,7 @@ theorem t2_bad3 (hSet : Ch6Setup G Gs q₁ q₂ z K₁ K₂ F₁ F₂) (hBad : C
   have hxodd : Odd (orderOf x) := by
     obtain ⟨y, hy, rfl⟩ := hx
     have hy3 : ∃ k : ℕ, y ^ 3 ^ k = 1 := by
-      obtain ⟨k, hk⟩ := (P.isPGroup') ⟨y, hy⟩
+      obtain ⟨k, hk⟩ := (P.isPGroup) ⟨y, hy⟩
       exact ⟨k, by simpa using congrArg Subtype.val hk⟩
     obtain ⟨k, hk⟩ := hy3
     have hdvd : orderOf (f y) ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one (by

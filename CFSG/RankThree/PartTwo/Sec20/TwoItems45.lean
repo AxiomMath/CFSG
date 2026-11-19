@@ -49,6 +49,7 @@ private theorem kData_of_item1923 (h194 : Sec19.Item194UsedWide3) (h23 : Item192
   obtain ⟨hPM, -, hΩ, -⟩ := h6 P hP hAP
   exact ⟨hPM, hΩ⟩
 
+omit [Finite G] in
 private theorem not_four_dvd_relIndex {M N : Subgroup G} {n ε : ℕ} (hn : Odd n)
     (hε : ε = 1 ∨ ε = 2)
     (h : (M ⊓ N).relIndex M = ((2 ^ n) ^ 2 + 2 ^ n + 1) * ε) : ¬ 4 ∣ (M ⊓ N).relIndex M := by

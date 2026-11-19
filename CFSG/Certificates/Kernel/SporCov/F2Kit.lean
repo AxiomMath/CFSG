@@ -140,10 +140,10 @@ theorem kitF_J (D : VecData) {csA csB : List Char} {MA MB eA eB : ℕ}
     · rw [← hMA, ← MatP_mul, Nat.eq_of_beq_eq_true h.1, MatP_id]
     · rw [← hMB, ← MatP_mul, Nat.eq_of_beq_eq_true h.2.1, MatP_id]
   have hA : MatP D.d MA = matOf (J D).subtype (a D) := by
-    rw [matOf, Subgroup.subtype_apply, a, Subtype.coe_mk, gA, dif_pos hdet.1,
+    rw [matOf, Subgroup.subtype_apply, a, Subtype.coe_mk, gA, dite_eq_left hdet.1,
       Matrix.GeneralLinearGroup.val_mkOfDetNeZero, hMA]
   have hB : MatP D.d MB = matOf (J D).subtype (b D) := by
-    rw [matOf, Subgroup.subtype_apply, b, Subtype.coe_mk, gB, dif_pos hdet.2,
+    rw [matOf, Subgroup.subtype_apply, b, Subtype.coe_mk, gB, dite_eq_left hdet.2,
       Matrix.GeneralLinearGroup.val_mkOfDetNeZero, hMB]
   exact kitF_sound Subtype.val_injective hA hB h
 

@@ -53,7 +53,7 @@ theorem zStar_iso {z : M} (hz2 : z * z = 1) (hz1 : z ≠ 1) {T : Subgroup M} (hT
   have hST : (S : Subgroup M) ≤ T := by
     by_contra hnot
     have hne : T ≠ (S : Subgroup M) := fun h => hnot (h ▸ le_rfl)
-    obtain ⟨n, hnS, hnT, hnN⟩ := exists_mem_normalizer_of_lt (p := 2) S.isPGroup' hTS hne
+    obtain ⟨n, hnS, hnT, hnN⟩ := exists_mem_normalizer_of_lt (p := 2) S.isPGroup hTS hne
     have hz' : n⁻¹ * z * n ∈ T := by
       have := (Subgroup.mem_normalizer_iff.mp (inv_mem hnN) z).mp hzT
       simpa using this
@@ -64,7 +64,7 @@ theorem zStar_iso {z : M} (hz2 : z * z = 1) (hz1 : z ≠ 1) {T : Subgroup M} (hT
         _ = z * n := by group
     have hPS : T ⊔ zpowers n ≤ (S : Subgroup M) :=
       sup_le hTS (Subgroup.zpowers_le.mpr hnS)
-    have hP2 : IsPGroup 2 ↥(T ⊔ zpowers n) := S.isPGroup'.to_le hPS
+    have hP2 : IsPGroup 2 ↥(T ⊔ zpowers n) := S.isPGroup.to_le hPS
     have hPC : T ⊔ zpowers n ≤ centralizer ({z} : Set M) :=
       sup_le hTc (Subgroup.zpowers_le.mpr hnC)
     have hPT := hTmax _ hP2 hPC le_sup_left
@@ -101,7 +101,7 @@ theorem exists_max_two_subgroup (D : Subgroup M) {z : M} (hzD : z ∈ D) (hz2 : 
     apply IsPGroup.of_card (n := 1)
     rw [Nat.card_zpowers, orderOf_eq_prime h2 h1]; simp
   obtain ⟨S, hS⟩ := hzp.exists_le_sylow
-  refine ⟨(S : Subgroup ↥D).map D.subtype, Subgroup.map_subtype_le _, S.isPGroup'.map D.subtype,
+  refine ⟨(S : Subgroup ↥D).map D.subtype, Subgroup.map_subtype_le _, S.isPGroup.map D.subtype,
     ⟨zD, hS (Subgroup.mem_zpowers zD), rfl⟩, ?_⟩
   intro P hPD hP hTP
   have hP' : IsPGroup 2 ↥(P.subgroupOf D) :=

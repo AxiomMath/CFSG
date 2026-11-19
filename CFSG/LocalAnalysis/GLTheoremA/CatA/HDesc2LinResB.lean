@@ -145,7 +145,7 @@ theorem exists_pow_of_diag_eq {a b : Fin 3 → k} {i j : Fin 3} (hij : i ≠ j) 
     (hbij : b i = b j) (ha3 : ∀ t, a t ^ 3 = 1) (hb3 : ∀ t, b t ^ 3 = 1) (hnc : ∃ t, a t ≠ a i) :
     ∃ (m : ℕ) (s : k), s ≠ 0 ∧ ∀ t, b t = s * a t ^ m := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨l, hli, hlj, hcov⟩ := exists_third_index hij
   have hne0 : ∀ {x : k}, x ^ 3 = 1 → x ≠ 0 := fun hx h => by
     rw [h] at hx
@@ -192,7 +192,7 @@ theorem card_le_three_of_le_linearAutGroup [Finite k] [CharP k 2] (h3 : 3 ∣ Na
     (hEl : E ≤ linearAutGroup 3 k) {t : projectiveSL 3 k} (ht : orderOf t = 2)
     (hfix : ∀ e ∈ E, e t = t) : Nat.card E ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hlt
   push Not at hlt
   have hpE : IsPGroup 3 E := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 g g.2)⟩
@@ -263,7 +263,7 @@ theorem card_le_three_of_le_linearAutGroup [Finite k] [CharP k 2] (h3 : 3 ∣ Na
     · rfl
   have hcomm : ∀ x ∈ Subgroup.closure s, ∀ y ∈ Subgroup.closure s, x * y = y * x := by
     intro x hx y hy
-    haveI : IsMulCommutative (Subgroup.closure s) :=
+    have : IsMulCommutative (Subgroup.closure s) :=
       Subgroup.isMulCommutative_closure (k := s) (fun x hx y hy _ => hss x hx y hy)
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : Subgroup.closure s) ⟨y, hy⟩)
   have hexp : ∀ x ∈ Subgroup.closure s, x ^ 3 = 1 := by
@@ -550,7 +550,7 @@ theorem glaPLayer_ne_bot_of_diagonal [Finite k] [CharP k 2] {σ : k ≃+* k} {f�
       fin_cases i <;> fin_cases j <;> simp [blkMat, Matrix.SpecialLinearGroup.map_apply_coe]
     ext i j
     rw [he, hcg]
-    fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply]
+    fin_cases i <;> fin_cases j <;> simp
   have hJY : φ.range ≤ Y := by
     rintro _ ⟨g, rfl⟩
     refine Subgroup.mem_inf.2 ⟨?_, ?_⟩
@@ -645,12 +645,12 @@ theorem glaPLayer_ne_bot_of_diagonal [Finite k] [CharP k 2] {σ : k ≃+* k} {f�
       (eq_zero_of_diagonal_commute hXZm hd12.symm) hZ22
     refine ⟨g', ?_⟩
     rw [hφ g', hg', hZ, map_mul, map_mul, map_inv, hφ g, ← hB]
-  haveI : Fintype k₀ := Fintype.ofFinite k₀
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) k₀) :=
+  have : Fintype k₀ := Fintype.ofFinite k₀
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) k₀) :=
     CFSG.Quasithin.R3c21.isSimpleGroup_sl2_of_card_two_pow hf₀
       (by rw [← Nat.card_eq_fintype_card, hk₀])
   let eJ : Matrix.SpecialLinearGroup (Fin 2) k₀ ≃* φ.range := MonoidHom.ofInjective hφinj
-  haveI : IsSimpleGroup φ.range := eJ.symm.isSimpleGroup
+  have : IsSimpleGroup φ.range := eJ.symm.isSimpleGroup
   have hnc : ∃ a b : φ.range, a * b ≠ b * a := by
     let t1 : Matrix.SpecialLinearGroup (Fin 2) k₀ := ⟨!![1, 1; 0, 1], by simp [Matrix.det_fin_two]⟩
     let t2 : Matrix.SpecialLinearGroup (Fin 2) k₀ := ⟨!![1, 0; 1, 1], by simp [Matrix.det_fin_two]⟩
@@ -664,13 +664,13 @@ theorem glaPLayer_ne_bot_of_diagonal [Finite k] [CharP k 2] {σ : k ≃+* k} {f�
     simp [Matrix.mul_apply, Fin.sum_univ_two] at h'
   have h3J : 3 ∣ Nat.card φ.range := by
     rw [← Nat.card_congr eJ.toEquiv]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨ζ, hζ⟩ := exists_primitiveRoot_of_dvd (F := k₀) Nat.prime_three h3
     have hζ3 : ζ ^ 3 = 1 := hζ.pow_eq_one
     have hζ6 : (ζ ^ 2) ^ 3 = 1 := by rw [← pow_mul, mul_comm, pow_mul, hζ3, one_pow]
     let t3 : Matrix.SpecialLinearGroup (Fin 2) k₀ := ⟨diagonal ![ζ, ζ ^ 2], by
       rw [Matrix.det_diagonal, Fin.prod_univ_two]
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
       rw [← pow_succ', hζ3]⟩
     have ht3 : t3 ^ 3 = 1 := by
       apply Subtype.ext
@@ -750,7 +750,7 @@ theorem exists_conj_diagonal_of_pow_three {F : Type} [Field F] {ζ : F}
     (hζ : IsPrimitiveRoot ζ 3) {M : GL (Fin 3) F} (hM3 : M ^ 3 = 1) :
     ∃ P : GL (Fin 3) F, ((P * M * P⁻¹ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
       diagonal (fun l => ((P * M * P⁻¹ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) l l) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := exists_conj_diagonal_of_exponent_prime (n := 3) (p := 3) ⟨ζ, hζ⟩
     (Subgroup.zpowers M)
     (fun x hx y hy => by
@@ -853,7 +853,7 @@ theorem glaPLayer_ne_bot_of_fieldAut_conjAut [Finite k] [CharP k 2] {σ : k ≃+
     {t : projectiveSL 3 k} (ht : orderOf t = 2) (hfix : LinearFlag.conjAut 3 k M t = t) :
     GLAPLayer 3 (fixSubgroup (fieldAut 3 k σ) ⊓ fixSubgroup (LinearFlag.conjAut 3 k M)) ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set k₀ := semilinearFixedSubfield σ with hk₀def
   have hσk₀ : ∀ c ∈ k₀, σ c = c := fun c hc => RingHom.mem_eqLocusField.mp hc
   have htr := (LinearFlag.standard_automorphism_transport (K := k) (n := 3)).2.2.1
@@ -996,7 +996,7 @@ theorem card_le_three_mul_card_inf_linear {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf :
   classical
   obtain ⟨-, -, -, -, -, hnorm, -, -⟩ :=
     CFSG.RankThree.LinearDescent.higher_linear_prime_semilinear_field_descent hℓ hf (le_refl 3) hK
-  haveI := hnorm
+  have := hnorm
   let π : MulAut (projectiveSL 3 k) →* MulAut (projectiveSL 3 k) ⧸ linearAutGroup 3 k :=
     QuotientGroup.mk' (linearAutGroup 3 k)
   let φ : B →* MulAut (projectiveSL 3 k) ⧸ linearAutGroup 3 k := π.comp B.subtype
@@ -1008,12 +1008,12 @@ theorem card_le_three_mul_card_inf_linear {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf :
       exact QuotientGroup.eq_one_iff _
     rw [h1, ← Subgroup.inf_subgroupOf_left]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
-  haveI : IsCyclic (k ≃+* k) := by
+  have : IsCyclic (k ≃+* k) := by
     obtain ⟨σ₀, -, -, htop, -⟩ :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality hℓ hf hK
     exact isCyclic_iff_exists_zpowers_eq_top.mpr ⟨σ₀, htop⟩
   let ψ : (k ≃+* k) →* MulAut (projectiveSL 3 k) ⧸ linearAutGroup 3 k := π.comp (fieldAut 3 k)
-  haveI : IsCyclic ψ.range := isCyclic_of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+  have : IsCyclic ψ.range := isCyclic_of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   have hle : φ.range ≤ ψ.range := by
     rintro _ ⟨b, rfl⟩
     have hb : (b : MulAut (projectiveSL 3 k)) ∈ semilinearAutGroup 3 k :=
@@ -1024,7 +1024,7 @@ theorem card_le_three_mul_card_inf_linear {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf :
     have hA1 : π (LinearFlag.conjAut 3 k A) = 1 :=
       (QuotientGroup.eq_one_iff _).2 (mem_linearAutGroup_iff.2 ⟨A, rfl⟩)
     rw [hAτ, map_mul, hA1, one_mul]
-  haveI : IsCyclic φ.range := Subgroup.isCyclic_of_le hle
+  have : IsCyclic φ.range := Subgroup.isCyclic_of_le hle
   have hrange : Nat.card φ.range ∣ 3 := by
     rw [← IsCyclic.exponent_eq_card]
     refine Monoid.exponent_dvd_of_forall_pow_eq_one fun x => ?_
@@ -1067,13 +1067,13 @@ theorem exists_hyperplane_fix_involution {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
   have hmem : ∀ β ∈ D, ∀ x ∈ T, β x ∈ T := fun β hβ x hx => by
     rw [← hDT β hβ]
     exact Subgroup.mem_map_of_mem _ hx
-  haveI : IsMulCommutative D := hD.1
+  have : IsMulCommutative D := hD.1
   let _ : CommGroup D := IsMulCommutative.instCommGroup
-  haveI : CFSG.IsElementaryAbelian p D :=
+  have : CFSG.IsElementaryAbelian p D :=
     { toIsMulCommutative := hD.1
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
         Subtype.ext (by simpa using hD.2 x x.2) }
-  haveI : Nontrivial D := (Subgroup.nontrivial_iff_ne_bot D).2 hD1
+  have : Nontrivial D := (Subgroup.nontrivial_iff_ne_bot D).2 hD1
   let α := restrictToStableB D T hmem
   have hcop : ¬ p ∣ Nat.card T := by
     intro h
@@ -1089,7 +1089,7 @@ theorem exists_hyperplane_fix_involution {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     by_contra hne
     set F := CFSG.SolvableSignalizer.fixedBySubgroup α B with hF
     have hF2 : IsPGroup 2 F := hT2.to_subgroup F
-    haveI : Nontrivial F := (Subgroup.nontrivial_iff_ne_bot F).2 hne
+    have : Nontrivial F := (Subgroup.nontrivial_iff_ne_bot F).2 hne
     have h2F : 2 ∣ Nat.card F := by
       obtain ⟨n, hn⟩ := hF2.exists_card_eq
       have h1 : 1 < Nat.card F := Finite.one_lt_card
@@ -1098,7 +1098,7 @@ theorem exists_hyperplane_fix_involution {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
         rintro rfl
         simp at h1
       exact dvd_pow_self 2 this
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2F
     have ho : orderOf ((x : T) : S) = 2 := by
       rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe, hx]
@@ -1240,7 +1240,7 @@ theorem closure_eq_of_card_nine_not_mem {G : Type*} [Group G] {B L : Subgroup G}
   have hlt : Subgroup.zpowers x < Subgroup.closure {x, e} :=
     lt_of_le_of_ne hz (fun h => hne (h ▸ Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)))
   have h3 : 3 < Nat.card (Subgroup.closure ({x, e} : Set G)) := by
-    haveI : Finite (Subgroup.closure ({x, e} : Set G)) := Finite.of_injective _
+    have : Finite (Subgroup.closure ({x, e} : Set G)) := Finite.of_injective _
       (Subgroup.inclusion_injective hle)
     rw [← hxo, ← Nat.card_zpowers]
     exact Subgroup.card_lt_of_lt hlt
@@ -1365,12 +1365,12 @@ end Model
 theorem goodSubAt_linear (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.A 2 q).Valid)
     (hq : q.p = 2) (he : Even q.exponent) : HDesc.GoodSubAt 3 ⟨.A 2 q, hv⟩ 2 := by
   intro _ _ A hA hcard T hT2 hT hAT
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let k := GaloisField q.p q.exponent
   have hK : Nat.card k = 2 ^ q.exponent := by
     dsimp only [k]
     rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', hq]
-  haveI : CharP k 2 := CharP.congr q.p hq
+  have : CharP k 2 := CharP.congr q.p hq
   let eModel : (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.A 2 q, hv⟩).Group ≃*
       LinearFlag.projectiveSL 3 k :=
     (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 q hv).trans

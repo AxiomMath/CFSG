@@ -19,10 +19,12 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
     Submodule K V :=
   ⨆ (y : N) (_ : y ≠ 0 ∧ BN y a = 0), pt hBN ρ y
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K N] [FiniteDimensional K V] in
 theorem pt_le_perpPts (hBN : BN.IsAlt) (ρ : Gsp BN →* (V ≃ₗ[K] V)) {a y : N} (hy0 : y ≠ 0)
     (hy : BN y a = 0) : pt hBN ρ y ≤ perpPts hBN ρ a :=
   le_iSup₂ (f := fun (y : N) (_ : y ≠ 0 ∧ BN y a = 0) => pt hBN ρ y) y ⟨hy0, hy⟩
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem sup_sup_eq_of_le {A B C : Submodule K V} (h : C ≤ A) : A ⊔ (B ⊔ C) = A ⊔ B :=
   le_antisymm (sup_le le_sup_left (sup_le le_sup_right (h.trans le_sup_left)))
     (sup_le_sup_left le_sup_left _)
@@ -142,6 +144,7 @@ theorem finrank_movedSpace_Tsp_le_one {a : N} (ha : a ≠ 0) (μ : K) :
     _ = 1 := finrank_pt hs hcopl hx₀0
 
 omit hs hcopl in
+omit [Finite K] [CharP K 2] in
 theorem finrank_movedSpace_pos_of_ne_one {u : V ≃ₗ[K] V} (hu : u ≠ 1) :
     0 < finrank K (movedSpace u) := by
   by_contra h
@@ -155,11 +158,11 @@ theorem finrank_movedSpace_pos_of_ne_one {u : V ≃ₗ[K] V} (hu : u ≠ 1) :
 
 theorem not_copl_all : False := by
   have hNpos : 0 < finrank K N := by have := hs.dimN; omega
-  haveI : Nontrivial N := Module.nontrivial_of_finrank_pos hNpos
+  have : Nontrivial N := Module.nontrivial_of_finrank_pos hNpos
   obtain ⟨a, ha⟩ := exists_ne (0 : N)
   obtain ⟨l, hl0, hl1⟩ : ∃ l : K, l ≠ 0 ∧ l ≠ 1 := by
     classical
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcard : ({0, 1} : Finset K).card < (Finset.univ : Finset K).card := by
       have h1 : ({0, 1} : Finset K).card ≤ 2 := Finset.card_le_two
       rw [Finset.card_univ, ← Nat.card_eq_fintype_card]

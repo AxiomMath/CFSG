@@ -153,11 +153,11 @@ theorem sign_mem_evenN0 {i j : Fin 7} (hi : i ≠ 0) (hj : j ≠ 0) (hij : i ≠
     rw [← Finset.mul_prod_erase _ _ (Finset.mem_univ i'), ← Finset.mul_prod_erase _ _
       (Finset.mem_erase.mpr ⟨Ne.symm hij', Finset.mem_univ j'⟩)]
     rw [Finset.prod_eq_one fun l hl => ?_]
-    · simp only [true_or, or_true, if_true]
+    · simp only [true_or, or_true, ite_true]
       decide
     · have hl1 := Finset.ne_of_mem_erase hl
       have hl2 := Finset.ne_of_mem_erase (Finset.mem_of_mem_erase hl)
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro (h | h)
       · exact hl2 (Fin.succ_injective _ h)
       · exact hl1 (Fin.succ_injective _ h)
@@ -286,7 +286,7 @@ theorem of_o6_rep2_coeff (h : N6MatHyp Xg) (h2 : O6 Xg (rep6 false 2 1)) :
       a i = 0 := by
     intro i j hi hj hij hMv
     have e := coeff_rel hinv (sign_mem_evenN0 hi hj hij) hMv (l := i) (m := i) (c := -1)
-      (by rw [spMat_mulVec_single, Equiv.Perm.one_apply, if_pos (Or.inl rfl), mul_one])
+      (by rw [spMat_mulVec_single, Equiv.Perm.one_apply, ite_eq_left (Or.inl rfl), mul_one])
     rw [mul_neg_one] at e
     exact zmod3_eq_zero_of_eq_neg e.symm
   have ha3 : a 3 = 0 := hzero (j := 4) (by decide) (by decide) (by decide)
@@ -375,7 +375,7 @@ theorem sign_eq_of_spMat_eq7 {σ τ : Equiv.Perm (Fin 7)} {s t : Fin 7 → ZMod 
   subst hστ
   funext j
   have e := congrFun (congrFun h (σ j)) j
-  rwa [spMat_apply, spMat_apply, if_pos rfl, if_pos rfl] at e
+  rwa [spMat_apply, spMat_apply, ite_eq_left rfl, ite_eq_left rfl] at e
 
 theorem ncard_of_card7 {p : (Fin 7 → ZMod 3) → Prop} [DecidablePred p] {n : ℕ}
     (h : (Finset.univ.filter p).card = n) : {v : Fin 7 → ZMod 3 | p v}.ncard = n := by
@@ -505,7 +505,7 @@ theorem card_eq_orbit (h : N6MatHyp Xg) :
   rw [MulAction.index_stabilizer, h.card_stab] at h1
   have h2 : MulAction.orbit ↥Xg (Pi.single 0 1 : Fin 7 → ZMod 3) = {v | O6 Xg v} := by
     ext v
-    simp only [MulAction.mem_orbit_iff, Set.mem_setOf_eq, O6, Subgroup.smul_def,
+    simp only [MulAction.mem_orbit_iff, Set.mem_ofPred_eq, O6, Subgroup.smul_def,
       Units.smul_def, Matrix.smul_eq_mulVec]
     constructor
     · rintro ⟨⟨A, hA⟩, rfl⟩
@@ -520,7 +520,7 @@ theorem u2_sub (h : N6MatHyp Xg) {v : Fin 7 → ZMod 3} (hv0 : v 0 = 0)
   obtain ⟨u, hu, hu0, hwu⟩ := h.exists_U2
   refine (h.o6_iff_of_rep6_eq ?_).mpr hu
   have hwr : ∀ w : Fin 7 → ZMod 3, w 0 = 0 → wt w = 2 → wtR w = 2 := fun w hw0 hw => by
-    rw [wt_eq_wtR, if_neg (not_not.mpr hw0), zero_add] at hw
+    rw [wt_eq_wtR, ite_eq_right (not_not.mpr hw0), zero_add] at hw
     exact hw
   rw [hwr v hv0 hv, hwr u hu0 hwu, decide_eq_true hv0, decide_eq_true hu0]
   exact rep6_indep (by norm_num) _ _
@@ -643,7 +643,7 @@ theorem orbit_shape_iff (v : Fin 7 → ZMod 3) (δ : ZMod 3) :
   have hle := wtR_le v
   rw [wt_eq_wtR]
   by_cases hv0 : v 0 = 0
-  · have e : (if v 0 ≠ 0 then 1 else 0) = 0 := if_neg (not_not.mpr hv0)
+  · have e : (if v 0 ≠ 0 then 1 else 0) = 0 := ite_eq_right (not_not.mpr hv0)
     rw [e, zero_add]
     constructor
     · rintro (⟨h1, -⟩ | ⟨-, h2⟩ | ⟨h1, -⟩)
@@ -654,7 +654,7 @@ theorem orbit_shape_iff (v : Fin 7 → ZMod 3) (δ : ZMod 3) :
       · exact absurd hv0 h1
       · exact Or.inr (Or.inl ⟨hv0, h2⟩)
       · omega
-  · have e : (if v 0 ≠ 0 then 1 else 0) = 1 := if_pos hv0
+  · have e : (if v 0 ≠ 0 then 1 else 0) = 1 := ite_eq_left hv0
     rw [e]
     constructor
     · rintro (⟨-, h0⟩ | ⟨h1, -⟩ | ⟨-, h6, hp⟩)

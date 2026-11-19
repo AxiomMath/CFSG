@@ -67,7 +67,7 @@ theorem sylow_five_card_twenty_five_local_normalizer_ge_three_hundred
         (Subgroup.normalizer
           (S : Set (fixingSubgroup P s))) := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let N : Subgroup P := sylowNormalizer X P s S
   let SN : Subgroup N := sylowInNormalizer X P s S
@@ -120,7 +120,7 @@ theorem sylow_five_card_twenty_five_local_normalizer_ge_three_hundred
         (MulAction.toPermHom J F))
   have hAltCard :
       Nat.card (alternatingGroup F) = 181440 := by
-    letI : Nontrivial F :=
+    let : Nontrivial F :=
       Fintype.one_lt_card_iff_nontrivial.mp (by
         rw [hFtype]
         norm_num)

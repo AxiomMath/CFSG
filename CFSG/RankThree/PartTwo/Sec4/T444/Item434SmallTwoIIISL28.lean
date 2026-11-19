@@ -302,9 +302,9 @@ theorem sl28_eq_bot_of_normalizes_coprime {x : SL(2, GaloisField 2 3)} (hx3 : x 
     rintro r _ P hP _ ⟨y, hy, rfl⟩
     exact ⟨φ y, hP y hy, hφy y⟩
   have h2 : ¬ 2 ∣ Nat.card W := hkill 2 P2 hP2 (sl28_eq_bot_of_normalizes_two hx3 hx1
-    (P2.isPGroup'.map _) (hinv 2 P2 hP2))
+    (P2.isPGroup.map _) (hinv 2 P2 hP2))
   have h7 : ¬ 7 ∣ Nat.card W := hkill 7 P7 hP7 (sl28_eq_bot_of_normalizes_seven hK hx3 hx1
-    (P7.isPGroup'.map _) (hinv 7 P7 hP7))
+    (P7.isPGroup.map _) (hinv 7 P7 hP7))
   exact Subgroup.card_eq_one.mp ((divisors_fiftySix _ hW56).2.2 h2 h7)
 
 end CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIII

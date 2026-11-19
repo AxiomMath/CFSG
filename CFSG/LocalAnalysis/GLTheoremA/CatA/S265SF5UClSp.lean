@@ -173,9 +173,9 @@ theorem false_of_classicalModel_psp {G : Type} [Group G] [Finite G] {n f : ℕ}
     (hZ : Subgroup.center ↥J = ⊥) {e : ℕ} (h5 : 5 ∣ 2 ^ e + 1)
     (hJc : Nat.card J = ordTwistedA 4 (2 ^ e)) : False := by
   obtain ⟨⟨-, hf, hn, hne⟩, K, _, _, hK, ⟨θ⟩⟩ := hG
-  haveI : NeZero n := ⟨by omega⟩
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have : NeZero n := ⟨by omega⟩
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hπ : Function.Bijective (SymplecticFlag.proj n K) :=
     UnitaryHigher.proj_bijective_of_charTwo
   have hβi : MulAut.congr θ β ∈ inner (StatedProj (StatedSp n K)) := by

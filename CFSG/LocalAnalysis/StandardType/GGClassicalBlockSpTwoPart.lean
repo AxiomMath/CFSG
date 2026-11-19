@@ -132,8 +132,8 @@ private lemma ggJSt1_formAdj_mem {K : Type} [Field K] [Finite K] {n : ℕ}
   exact ggJSt1_gram b hb
 
 private lemma ggJSt1_formAdj_formAdj {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
-    (b : GL (Fin n ⊕ Fin n) K) (hb : b ∈ StatedSp n K)
-    {a : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K} (ha : a ∈ ggJSt1_A b) :
+    (b : GL (Fin n ⊕ Fin n) K) (_hb : b ∈ StatedSp n K)
+    {a : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K} (_ha : a ∈ ggJSt1_A b) :
     formAdj (RingHom.id K) (ggJSt1_G K n) (formAdj (RingHom.id K) (ggJSt1_G K n) a) = a := by
   refine CFSG.StandardType.ClassicalPosition.Geo.formAdj_formAdj (RingHom.id K) (fun x => rfl)
     (ggJSt1_isUnit_det_G K n) ?_ a
@@ -565,9 +565,9 @@ private lemma ggJSt1_eigDimOn_one_prim {K : Type} [Field K] [Finite K] [CharP K 
         Module.finrank K (LinearMap.range (Matrix.toLin' e)) else 0 := by
   classical
   by_cases h : (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * e = e
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact (eigDimOn_one_of_isPrimIdemIn (K := K) hodd he).1 h
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact (eigDimOn_one_of_isPrimIdemIn (K := K) hodd he).2 h
 
 private lemma ggJSt1_eigDimOn_primAdj_one {K : Type} [Field K] [Fintype K] [CharP K 2] {n : ℕ}
@@ -633,13 +633,13 @@ private lemma ggJSt1_eigDimOn_primAdj_one {K : Type} [Field K] [Fintype K] [Char
           formAdj (RingHom.id K) (ggJSt1_G K n) e =
           formAdj (RingHom.id K) (ggJSt1_G K n) e :=
         (ggJSt1_b_mul_formAdj_iff b hb he.1).2 h
-      rw [if_pos h, if_pos hAdj, if_pos (hbε.2 h)]
+      rw [ite_eq_left h, ite_eq_left hAdj, ite_eq_left (hbε.2 h)]
       exact (ggJSt1_finrank_range_add_matrix he.2.1 heAdjPrim.2.1 horth horth').symm
     · have hAdj : ¬ ((b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) *
           formAdj (RingHom.id K) (ggJSt1_G K n) e =
           formAdj (RingHom.id K) (ggJSt1_G K n) e) :=
         fun hc => h ((ggJSt1_b_mul_formAdj_iff b hb he.1).1 hc)
-      rw [if_neg h, if_neg hAdj, if_neg (fun hc => h (hbε.1 hc))]
+      rw [ite_eq_right h, ite_eq_right hAdj, ite_eq_right (fun hc => h (hbε.1 hc))]
 
 private noncomputable def ggJSt1_R {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
     (b : Matrix ι ι K) : Finset (AlgebraicClosure K) :=
@@ -672,7 +672,7 @@ private lemma ggJSt1_isSemisimple {ι K : Type} [Fintype ι] [DecidableEq ι] [F
   refine Module.End.isSemisimple_of_squarefree_aeval_eq_zero
     (p := (Polynomial.X : Polynomial (AlgebraicClosure K)) ^ n - 1) ?_ ?_
   · exact (Polynomial.X_pow_sub_one_separable_iff.mpr hn).squarefree
-  · simpa [Polynomial.aeval_X, hfpow]
+  · simp [Polynomial.aeval_X, hfpow]
 
 private lemma ggJSt1_eigDim_eq_rootMultiplicity {ι K : Type} [Fintype ι] [DecidableEq ι]
     [Field K] (M : Matrix ι ι K) (n : ℕ) (hn : (n : AlgebraicClosure K) ≠ 0)
@@ -712,7 +712,7 @@ private lemma ggJSt1_matrix_pow_orderOf {ι K : Type} [Fintype ι] [DecidableEq 
 private lemma ggJSt1_cast_orderOf_ne_zero {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K]
     [CharP K 2] {b : GL ι K} (hodd : Odd (orderOf b)) :
     (orderOf b : AlgebraicClosure K) ≠ 0 := by
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   intro h0
   have h2 : (2 : ℕ) ∣ orderOf b :=
@@ -723,7 +723,7 @@ private lemma ggJSt1_finrank_range_toLin'_ne_zero {K : Type} [Field K] {m : Type
     [Fintype m] [DecidableEq m] {e : Matrix m m K} (he : e ≠ 0) :
     Module.finrank K (LinearMap.range (Matrix.toLin' e)) ≠ 0 := by
   intro h0
-  haveI : Subsingleton ↥(LinearMap.range (Matrix.toLin' e)) := (Module.finrank_zero_iff).mp h0
+  have : Subsingleton ↥(LinearMap.range (Matrix.toLin' e)) := (Module.finrank_zero_iff).mp h0
   have hbot : LinearMap.range (Matrix.toLin' e) = ⊥ := by
     rw [Submodule.eq_bot_iff]
     intro v hv
@@ -806,7 +806,7 @@ private lemma ggJSt1_eigDim_one {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
 
 private lemma ggJSt1_blockDegree_pos {K : Type} [Field K] {n : ℕ}
     {b : GL (Fin n ⊕ Fin n) K} {e : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K}
-    (he : e ∈ ggJSt1_A b) (he0 : e ≠ 0) :
+    (_he : e ∈ ggJSt1_A b) (he0 : e ≠ 0) :
     0 < blockDegree (ggJSt1_A b) e := by
   have hmem : e ∈ (Subalgebra.toSubmodule (ggJSt1_A b)).map (LinearMap.mulRight K e) :=
     ⟨1, (ggJSt1_A b).one_mem, by rw [LinearMap.mulRight_apply, one_mul]⟩
@@ -874,8 +874,8 @@ private lemma ggJSt1_block_data {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
         if l ∈ S then t else 0 := by
     intro e₀ S t hon hoff l
     by_cases hl : l ∈ S
-    · rw [if_pos hl]; exact hon l hl
-    · rw [if_neg hl]; exact hoff l hl
+    · rw [ite_eq_left hl]; exact hon l hl
+    · rw [ite_eq_right hl]; exact hoff l hl
   have hRcomb := hcombine e R m hRon hRoff
   have hR'comb := hcombine (formAdj (RingHom.id K) (ggJSt1_G K n) e) R' m' hR'on hR'off
   rcases hcase with hcase | ⟨hne, hneadj, hεeq⟩
@@ -912,13 +912,13 @@ private lemma ggJSt1_block_data {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
         (ggJSt1_commute b (Algebra.subset_adjoin (by simp)) heAdj.1) horth horth' l]
       rw [hRcomb l, hR'comb l, ← hmEq]
       by_cases hl : l ∈ R
-      · rw [if_pos hl, if_pos (Finset.mem_union_left _ hl),
-          if_neg (Finset.disjoint_left.mp hdisj hl)]
+      · rw [ite_eq_left hl, ite_eq_left (Finset.mem_union_left _ hl),
+          ite_eq_right (Finset.disjoint_left.mp hdisj hl)]
         ring
       · by_cases hl' : l ∈ R'
-        · rw [if_neg hl, if_pos hl', if_pos (Finset.mem_union_right _ hl'), zero_add]
-        · rw [if_neg hl, if_neg hl',
-            if_neg (fun h => (Finset.mem_union.mp h).elim hl hl'), add_zero]
+        · rw [ite_eq_right hl, ite_eq_left hl', ite_eq_left (Finset.mem_union_right _ hl'), zero_add]
+        · rw [ite_eq_right hl, ite_eq_right hl',
+            ite_eq_right (fun h => (Finset.mem_union.mp h).elim hl hl'), add_zero]
     · have hR'm : R'.card * m = Module.finrank K (LinearMap.range
           (Matrix.toLin' (formAdj (RingHom.id K) (ggJSt1_G K n) e))) := by
         rw [hmEq, hR'm']
@@ -1097,36 +1097,36 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
   have hOf : ∀ ε (hε : ε ∈ P), ∀ l, eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) ε l =
       if l ∈ ROf ε then mOf ε else 0 := by
     intro ε hε l
-    simp only [ROf, mOf, dif_pos hε]
+    simp only [ROf, mOf, dite_eq_left hε]
     by_cases h1 : (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε = ε
-    · simp only [dif_pos h1]
+    · simp only [dite_eq_left h1]
       by_cases hl : l = 1
       · subst hl
-        rw [if_pos (Finset.mem_singleton_self 1)]
-        exact (ggJSt1_eigDimOn_primAdj_one b hb hodd (hPprim ε hε)).trans (if_pos h1)
-      · rw [if_neg (fun h => hl (Finset.mem_singleton.mp h))]
+        rw [ite_eq_left (Finset.mem_singleton_self 1)]
+        exact (ggJSt1_eigDimOn_primAdj_one b hb hodd (hPprim ε hε)).trans (ite_eq_left h1)
+      · rw [ite_eq_right (fun h => hl (Finset.mem_singleton.mp h))]
         exact ggJSt1_eigDimOn_eq_zero_of_b_mul_eq hodd
           (ggJSt1_one_block_prim b hb hodd (hPprim ε hε) h1) h1 hl
-    · simp only [dif_neg h1]
+    · simp only [dite_eq_right h1]
       exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
         (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))).2.2.2.1 l
   have hOf_one : ∀ ε (hε : ε ∈ P),
       (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε ≠ ε → 1 ∉ ROf ε := by
     intro ε hε h1
-    simp only [ROf, dif_pos hε, dif_neg h1]
+    simp only [ROf, dite_eq_left hε, dite_eq_right h1]
     exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
       (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))).2.2.2.2.2.1
   have hOf_pos : ∀ ε (hε : ε ∈ P),
       (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε ≠ ε → 0 < mOf ε := by
     intro ε hε h1
-    simp only [mOf, dif_pos hε, dif_neg h1]
+    simp only [mOf, dite_eq_left hε, dite_eq_right h1]
     exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
       (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))).2.2.2.2.2.2.1
   have hOf_mul : ∀ ε (hε : ε ∈ P),
       (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε ≠ ε →
       (ROf ε).card * mOf ε = Module.finrank K (LinearMap.range (Matrix.toLin' ε)) := by
     intro ε hε h1
-    simp only [ROf, mOf, dif_pos hε, dif_neg h1]
+    simp only [ROf, mOf, dite_eq_left hε, dite_eq_right h1]
     exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
       (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))).2.2.2.2.1
   have hpart : ggJSt1_R (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) =
@@ -1150,7 +1150,7 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
         hPcomm hPorth hPsum l
       have hex : ∃ ε ∈ P, eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) ε l ≠ 0 := by
         by_contra h
-        push_neg at h
+        push Not at h
         rw [hsum] at hd
         exact hd (Finset.sum_eq_zero fun ε hε => h ε hε)
       obtain ⟨ε, hεP, hεne⟩ := hex
@@ -1158,15 +1158,15 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
         intro h1
         have hlR : l ∈ ROf ε := by
           by_contra hlR
-          exact hεne (by rw [hOf ε hεP l, if_neg hlR])
-        simp only [ROf, dif_pos hεP, dif_pos h1] at hlR
+          exact hεne (by rw [hOf ε hεP l, ite_eq_right hlR])
+        simp only [ROf, dite_eq_left hεP, dite_eq_left h1] at hlR
         exact hl1 (Finset.mem_singleton.mp hlR)
       refine ⟨ε, ⟨hεP, hbne⟩, ?_⟩
       by_contra hlR
-      exact hεne (by rw [hOf ε hεP l, if_neg hlR])
+      exact hεne (by rw [hOf ε hεP l, ite_eq_right hlR])
     · rintro ⟨ε, ⟨hεP, hbne⟩, hlR⟩
       have hne0 : eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) ε l ≠ 0 := by
-        rw [hOf ε hεP l, if_pos hlR]
+        rw [hOf ε hεP l, ite_eq_left hlR]
         exact (hOf_pos ε hεP hbne).ne'
       have hd : eigDim (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) l ≠ 0 := by
         intro h0
@@ -1187,7 +1187,7 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
       (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))
     have hROf : ROf ε = Classical.choose (Classical.choose_spec
         (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)) := by
-      simp only [ROf, dif_pos hε, dif_neg h1]
+      simp only [ROf, dite_eq_left hε, dite_eq_right h1]
     rw [hROf]
     rcases hspec.2.2.1 with hcase | ⟨hne, hneadj, hεeq⟩
     · obtain ⟨d, m', E, instF, instFin, h1d, hcardE, hdm, hdeg, ⟨eG⟩⟩ :=
@@ -1212,9 +1212,9 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
       (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))
     have hROf : ROf ε = Classical.choose (Classical.choose_spec
         (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)) := by
-      simp only [ROf, dif_pos hε, dif_neg h1]
+      simp only [ROf, dite_eq_left hε, dite_eq_right h1]
     have hne : eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) ε a ≠ 0 := by
-      rw [hspec.2.2.2.1 a, if_pos (by rwa [← hROf])]
+      rw [hspec.2.2.2.1 a, ite_eq_left (by rwa [← hROf])]
       exact hspec.2.2.2.2.2.2.1.ne'
     rcases hspec.2.2.1 with hcase | ⟨hne', hneadj, hεeq⟩
     · refine ⟨Classical.choose (ggJSt1_block_data b hb hodd (hPprim ε hε) h1),
@@ -1229,7 +1229,7 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
       by_cases h0 : eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K)
           (Classical.choose (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)) a ≠ 0
       · exact ⟨_, hspec.1, hspec.2.1, h0⟩
-      · push_neg at h0
+      · push Not at h0
         refine ⟨formAdj (RingHom.id K) (ggJSt1_G K n)
           (Classical.choose (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)), heAdj, ?_, ?_⟩
         · have hεadj : formAdj (RingHom.id K) (ggJSt1_G K n) ε = ε := (hPprim ε hε).2.2.2.1
@@ -1291,16 +1291,16 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
       · intro ε' hε' hne'
         rw [hOf ε' hε' l]
         by_cases h1' : (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε' = ε'
-        · rw [if_neg]
+        · rw [ite_eq_right]
           intro hl'
           have hR : ROf ε' = ({1} : Finset (AlgebraicClosure K)) := by
-            simp only [ROf, dif_pos hε', dif_pos h1']
+            simp only [ROf, dite_eq_left hε', dite_eq_left h1']
           have hl1 : l = 1 := Finset.mem_singleton.mp (hR ▸ hl')
           exact hOf_one ε hε h1 (hl1 ▸ hl)
-        · rw [if_neg]
+        · rw [ite_eq_right]
           intro hl'
           exact (Finset.disjoint_left.mp (hdisjR ε hε h1 ε' hε' h1' (Ne.symm hne')) hl) hl'
-      · rw [hOf ε hε l, if_pos hl]
+      · rw [hOf ε hε l, ite_eq_left hl]
     have hsum1 : ∑ l ∈ ggJSt1_R (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K),
           eigDim (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) l *
             (eigDim (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) l - 1) / 2 =
@@ -1340,10 +1340,10 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
         (Nat.card ↥((Subgroup.centralizer {b}).comap (StatedSp n K).subtype)).factorization 2 =
         ∑ ε ∈ P, (Nat.card ↥(glBlockCentralizer (StatedSp n K).subtype {b} ε)).factorization 2 := by
       rw [hPcard, Nat.factorization_prod (fun ε _ => by
-        haveI : Nonempty ↥(glBlockCentralizer (StatedSp n K).subtype {b} ε) :=
+        have : Nonempty ↥(glBlockCentralizer (StatedSp n K).subtype {b} ε) :=
           ⟨⟨1, (glBlockCentralizer (StatedSp n K).subtype {b} ε).one_mem⟩⟩
         exact Nat.card_pos.ne')]
-      simp only [Finsupp.coe_finset_sum, Finset.sum_apply]
+      simp only [_root_.Finsupp.coe_finsetSum, Finset.sum_apply]
     have hblock : ∀ ε (hε : ε ∈ P),
         (Nat.card ↥(glBlockCentralizer (StatedSp n K).subtype {b} ε)).factorization 2 =
           f * (if (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε = ε then
@@ -1351,14 +1351,14 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
             else (ROf ε).card / 2 * (mOf ε * (mOf ε - 1) / 2)) := by
       intro ε hε
       by_cases h1 : (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε = ε
-      · rw [if_pos h1]
+      · rw [ite_eq_left h1]
         obtain ⟨n₁, hn₁, ⟨eG⟩⟩ := blockGroup_iso_Sp_one b hb hodd (hPprim ε hε) h1
         rw [Nat.card_congr eG.toEquiv,
           ggJSt1_factorization_two_card_statedSp (K := K) (n := n₁) (f := f) hf]
         congr 1
         rw [← hn₁, Nat.mul_div_cancel_left _ (by norm_num : 0 < 2)]
         ring
-      · rw [if_neg h1]
+      · rw [ite_eq_right h1]
         set e := Classical.choose (ggJSt1_block_data b hb hodd (hPprim ε hε) h1) with hedef
         set R := Classical.choose (Classical.choose_spec
           (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)) with hRdef
@@ -1369,7 +1369,7 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
             (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))
         have hROf : ROf ε = R := by
           rw [hRdef]
-          simp only [ROf, dif_pos hε, dif_neg h1]
+          simp only [ROf, dite_eq_left hε, dite_eq_right h1]
         rcases hcase with hcase | ⟨hne, hneadj, hεeq⟩
         · obtain ⟨d, m, E, instF, instFin, h1d, hcardE, hdim, hdeg, ⟨eG⟩⟩ :=
             blockGroup_iso_Sp_unitary b hb hodd (hPprim ε hε) (hcase ▸ he) h1
@@ -1423,7 +1423,7 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
           (Module.finrank K (LinearMap.range (Matrix.toLin' ε)) / 2) ^ 2
           else (ROf ε).card / 2 * (mOf ε * (mOf ε - 1) / 2))]
       congr 1
-      · rw [Finset.sum_congr rfl (fun ε hε => if_pos (Finset.mem_filter.mp hε).2)]
+      · rw [Finset.sum_congr rfl (fun ε hε => ite_eq_left (Finset.mem_filter.mp hε).2)]
         have hf1 : eigDim (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) 1 =
             ∑ ε ∈ P.filter (fun ε => (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε = ε),
               Module.finrank K (LinearMap.range (Matrix.toLin' ε)) := by
@@ -1441,7 +1441,7 @@ theorem two_part_centralizer_Sp {K : Type} [Field K] [Fintype K] [CharP K 2] {n 
             exact ggJSt1_unique_one_block b hb hodd hPprim hPorth (Finset.mem_filter.mp hε).1
               (Finset.mem_filter.mp hε₁).1 (Finset.mem_filter.mp hε).2 (Finset.mem_filter.mp hε₁).2
           rw [hsingle, Finset.sum_singleton, Finset.sum_singleton]
-      · rw [Finset.sum_congr rfl (fun ε hε => if_neg (Finset.mem_filter.mp hε).2)]
+      · rw [Finset.sum_congr rfl (fun ε hε => ite_eq_right (Finset.mem_filter.mp hε).2)]
     rw [hcardprod]
     rw [Finset.sum_congr rfl hblock]
     rw [← Finset.mul_sum, hsum]
@@ -1476,36 +1476,36 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
   have hOf : ∀ ε (hε : ε ∈ P), ∀ l, eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) ε l =
       if l ∈ ROf ε then mOf ε else 0 := by
     intro ε hε l
-    simp only [ROf, mOf, dif_pos hε]
+    simp only [ROf, mOf, dite_eq_left hε]
     by_cases h1 : (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε = ε
-    · simp only [dif_pos h1]
+    · simp only [dite_eq_left h1]
       by_cases hl : l = 1
       · subst hl
-        rw [if_pos (Finset.mem_singleton_self 1)]
-        exact (ggJSt1_eigDimOn_primAdj_one b hb hodd (hPprim ε hε)).trans (if_pos h1)
-      · rw [if_neg (fun h => hl (Finset.mem_singleton.mp h))]
+        rw [ite_eq_left (Finset.mem_singleton_self 1)]
+        exact (ggJSt1_eigDimOn_primAdj_one b hb hodd (hPprim ε hε)).trans (ite_eq_left h1)
+      · rw [ite_eq_right (fun h => hl (Finset.mem_singleton.mp h))]
         exact ggJSt1_eigDimOn_eq_zero_of_b_mul_eq hodd
           (ggJSt1_one_block_prim b hb hodd (hPprim ε hε) h1) h1 hl
-    · simp only [dif_neg h1]
+    · simp only [dite_eq_right h1]
       exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
         (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))).2.2.2.1 l
   have hOf_one : ∀ ε (hε : ε ∈ P),
       (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε ≠ ε → 1 ∉ ROf ε := by
     intro ε hε h1
-    simp only [ROf, dif_pos hε, dif_neg h1]
+    simp only [ROf, dite_eq_left hε, dite_eq_right h1]
     exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
       (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))).2.2.2.2.2.1
   have hOf_pos : ∀ ε (hε : ε ∈ P),
       (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε ≠ ε → 0 < mOf ε := by
     intro ε hε h1
-    simp only [mOf, dif_pos hε, dif_neg h1]
+    simp only [mOf, dite_eq_left hε, dite_eq_right h1]
     exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
       (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))).2.2.2.2.2.2.1
   have hOf_mul : ∀ ε (hε : ε ∈ P),
       (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε ≠ ε →
       (ROf ε).card * mOf ε = Module.finrank K (LinearMap.range (Matrix.toLin' ε)) := by
     intro ε hε h1
-    simp only [ROf, mOf, dif_pos hε, dif_neg h1]
+    simp only [ROf, mOf, dite_eq_left hε, dite_eq_right h1]
     exact (Classical.choose_spec (Classical.choose_spec (Classical.choose_spec
       (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))).2.2.2.2.1
   have hpart : ggJSt1_R (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) =
@@ -1529,7 +1529,7 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
         hPcomm hPorth hPsum l
       have hex : ∃ ε ∈ P, eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) ε l ≠ 0 := by
         by_contra h
-        push_neg at h
+        push Not at h
         rw [hsum] at hd
         exact hd (Finset.sum_eq_zero fun ε hε => h ε hε)
       obtain ⟨ε, hεP, hεne⟩ := hex
@@ -1537,15 +1537,15 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
         intro h1
         have hlR : l ∈ ROf ε := by
           by_contra hlR
-          exact hεne (by rw [hOf ε hεP l, if_neg hlR])
-        simp only [ROf, dif_pos hεP, dif_pos h1] at hlR
+          exact hεne (by rw [hOf ε hεP l, ite_eq_right hlR])
+        simp only [ROf, dite_eq_left hεP, dite_eq_left h1] at hlR
         exact hl1 (Finset.mem_singleton.mp hlR)
       refine ⟨ε, ⟨hεP, hbne⟩, ?_⟩
       by_contra hlR
-      exact hεne (by rw [hOf ε hεP l, if_neg hlR])
+      exact hεne (by rw [hOf ε hεP l, ite_eq_right hlR])
     · rintro ⟨ε, ⟨hεP, hbne⟩, hlR⟩
       have hne0 : eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) ε l ≠ 0 := by
-        rw [hOf ε hεP l, if_pos hlR]
+        rw [hOf ε hεP l, ite_eq_left hlR]
         exact (hOf_pos ε hεP hbne).ne'
       have hd : eigDim (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) l ≠ 0 := by
         intro h0
@@ -1566,7 +1566,7 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
       (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))
     have hROf : ROf ε = Classical.choose (Classical.choose_spec
         (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)) := by
-      simp only [ROf, dif_pos hε, dif_neg h1]
+      simp only [ROf, dite_eq_left hε, dite_eq_right h1]
     rw [hROf]
     rcases hspec.2.2.1 with hcase | ⟨hne, hneadj, hεeq⟩
     · obtain ⟨d, m', E, instF, instFin, h1d, hcardE, hdm, hdeg, ⟨eG⟩⟩ :=
@@ -1591,9 +1591,9 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
       (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))
     have hROf : ROf ε = Classical.choose (Classical.choose_spec
         (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)) := by
-      simp only [ROf, dif_pos hε, dif_neg h1]
+      simp only [ROf, dite_eq_left hε, dite_eq_right h1]
     have hne : eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) ε a ≠ 0 := by
-      rw [hspec.2.2.2.1 a, if_pos (by rwa [← hROf])]
+      rw [hspec.2.2.2.1 a, ite_eq_left (by rwa [← hROf])]
       exact hspec.2.2.2.2.2.2.1.ne'
     rcases hspec.2.2.1 with hcase | ⟨hne', hneadj, hεeq⟩
     · refine ⟨Classical.choose (ggJSt1_block_data b hb hodd (hPprim ε hε) h1),
@@ -1608,7 +1608,7 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
       by_cases h0 : eigDimOn (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K)
           (Classical.choose (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)) a ≠ 0
       · exact ⟨_, hspec.1, hspec.2.1, h0⟩
-      · push_neg at h0
+      · push Not at h0
         refine ⟨formAdj (RingHom.id K) (ggJSt1_G K n)
           (Classical.choose (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)), heAdj, ?_, ?_⟩
         · have hεadj : formAdj (RingHom.id K) (ggJSt1_G K n) ε = ε := (hPprim ε hε).2.2.2.1
@@ -1670,16 +1670,16 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
       · intro ε' hε' hne'
         rw [hOf ε' hε' l]
         by_cases h1' : (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε' = ε'
-        · rw [if_neg]
+        · rw [ite_eq_right]
           intro hl'
           have hR : ROf ε' = ({1} : Finset (AlgebraicClosure K)) := by
-            simp only [ROf, dif_pos hε', dif_pos h1']
+            simp only [ROf, dite_eq_left hε', dite_eq_left h1']
           have hl1 : l = 1 := Finset.mem_singleton.mp (hR ▸ hl')
           exact hOf_one ε hε h1 (hl1 ▸ hl)
-        · rw [if_neg]
+        · rw [ite_eq_right]
           intro hl'
           exact (Finset.disjoint_left.mp (hdisjR ε hε h1 ε' hε' h1' (Ne.symm hne')) hl) hl'
-      · rw [hOf ε hε l, if_pos hl]
+      · rw [hOf ε hε l, ite_eq_left hl]
     have hsum1 : ∑ l ∈ ggJSt1_R (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K),
           eigDim (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) l *
             (eigDim (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) l - 1) / 2 =
@@ -1716,9 +1716,9 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
     rw [← hblockExp]
     exact h0
   have hfirst : (eigDim (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) 1 / 2) ^ 2 = 0 :=
-    (Nat.add_eq_zero.mp hzero).1
+    (_root_.Nat.add_eq_zero_iff.mp hzero).1
   have hsum0 : ∑ ε ∈ P.filter (fun ε => (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε ≠ ε),
-        (ROf ε).card / 2 * (mOf ε * (mOf ε - 1) / 2) = 0 := (Nat.add_eq_zero.mp hzero).2
+        (ROf ε).card / 2 * (mOf ε * (mOf ε - 1) / 2) = 0 := (_root_.Nat.add_eq_zero_iff.mp hzero).2
   have hhalf : ∀ ε (hε : ε ∈ P), (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε ≠ ε →
       (ROf ε).card / 2 ≠ 0 := by
     intro ε hε h1 hc
@@ -1737,7 +1737,7 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
       · exact h
     have hle : mOf ε ≤ 1 := by
       by_contra h
-      push_neg at h
+      push Not at h
       have h2 : 2 ≤ mOf ε * (mOf ε - 1) := by
         have h1' : 1 ≤ mOf ε - 1 := by omega
         calc 2 = 2 * 1 := by norm_num
@@ -1757,11 +1757,11 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
         Finset.sum_eq_single ε
           (fun ε' hε' hne' => by
             by_cases h1' : (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) * ε' = ε'
-            · rw [if_pos h1']
+            · rw [ite_eq_left h1']
               exact absurd (ggJSt1_unique_one_block b hb hodd hPprim hPorth hε' hε h1' h1) hne'
-            · rw [if_neg h1'])
+            · rw [ite_eq_right h1'])
           (fun hnot => absurd hε hnot)
-      rw [heig1, hsingle, if_pos h1]
+      rw [heig1, hsingle, ite_eq_left h1]
     obtain ⟨n₁, hn₁, ⟨eG⟩⟩ := blockGroup_iso_Sp_one b hb hodd (hPprim ε hε) h1
     have hlt : eigDim (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) 1 < 2 := by
       have h0' : eigDim (b : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K) 1 / 2 = 0 :=
@@ -1784,7 +1784,7 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
         (ggJSt1_block_data b hb hodd (hPprim ε hε) h1)))
     have hROf : ROf ε = R := by
       rw [hRdef]
-      simp only [ROf, dif_pos hε, dif_neg h1]
+      simp only [ROf, dite_eq_left hε, dite_eq_right h1]
     rcases hcase with hcase | ⟨hne, hneadj, hεeq⟩
     · obtain ⟨d, mm, E, instF, instFin, h1d, hcardE, hdim, hdeg, ⟨eG⟩⟩ :=
         blockGroup_iso_Sp_unitary b hb hodd (hPprim ε hε) (hcase ▸ he) h1
@@ -1848,8 +1848,7 @@ theorem commutative_centralizer_of_blockExp_eq_zero_Sp {K : Type} [Field K] [Fin
       · intro i x hx
         refine Subgroup.iSup_induction' (fun (_ : i ∈ P) => H i)
           (C := fun x _ => ∀ y ∈ (⨆ ε ∈ P, H ε), x * y = y * x) ?_ ?_ ?_ hx
-        · intro hi x hx
-          intro y hy
+        · intro hi x hx y hy
           refine Subgroup.iSup_induction' (fun ε => ⨆ (_ : ε ∈ P), H ε)
             (C := fun y _ => x * y = y * x) ?_ ?_ ?_ hy
           · intro j y hy

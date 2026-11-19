@@ -85,7 +85,7 @@ theorem smul_dec_frameQ {j : ℕ} (hj : j < 15) (x : ℕ) :
     (actQ (frameQ j)).unop • dec x = dec (VisCert.Native.actRows VisCert.Native.frameRows[j]! x) := by
   rw [actQ_frameQ hj, kGen_smul_dec, native_actRows_eq, native_frameRows_eq]
 
-@[expose] def rowsMap (rows : Array ℕ) : Module.End (ZMod 2) L2 :=
+def rowsMap (rows : Array ℕ) : Module.End (ZMod 2) L2 :=
   ellBasis.constr (ZMod 2) fun k => dec rows[(k : ℕ)]!
 
 theorem rowsMap_ellCls (rows : Array ℕ) (k : Fin 24) : rowsMap rows (ellCls k) = dec rows[(k : ℕ)]! := by
@@ -133,7 +133,7 @@ theorem recordWordOK_spec {r : Native.GenRecord} (h : Native.recordWordOK r = tr
       simp only [Bool.and_eq_true, decide_eq_true_eq] at this
       exact this
 
-@[expose] def vShort : L2 := dec 12288
+def vShort : L2 := dec 12288
 
 theorem vShort_eq : vShort = classOf (Griess.vMinus 0 1) := CFSG.Monster.B.Short.dec_shortSeed
 
@@ -178,7 +178,7 @@ theorem bL_quotBasis_vShort (t : Fin 22) :
   rw [quotBasis, bL_dec_vShort]
   exact quotBasis_bL_check t
 
-@[expose] def coordDot (m : ℕ) : L2 →ₗ[ZMod 2] ZMod 2 :=
+def coordDot (m : ℕ) : L2 →ₗ[ZMod 2] ZMod 2 :=
   ∑ k : Fin 24, bvec 24 m k • ellBasis.coord k
 
 theorem coord_dec (k : Fin 24) (x : ℕ) : ellBasis.coord k (dec x) = bvec 24 x k := by
@@ -191,7 +191,7 @@ theorem coordDot_dec (m x : ℕ) : coordDot m (dec x) = (popc 24 (m &&& x) : ZMo
   refine Finset.sum_congr rfl fun k _ => ?_
   rw [LinearMap.smul_apply, coord_dec, smul_eq_mul]
 
-@[expose] def qbDual : List ℕ :=
+def qbDual : List ℕ :=
   [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 12288, 16384, 32768, 65536, 131072, 262144,
     524288, 1048576, 2097152, 4194304, 8388608, 8192]
 
@@ -208,7 +208,7 @@ theorem qbDual_last : (∀ t : Fin 22,
     (popc 24 (qbDual.getD 22 0 &&& 12288) : ZMod 2) = 1 := by
   decide +kernel
 
-@[expose] def qbFamily : Option (Fin 22) → L2
+def qbFamily : Option (Fin 22) → L2
   | none => vShort
   | some t => dec (quotBasis t)
 
@@ -242,12 +242,12 @@ theorem linearIndependent_qbFamily : LinearIndependent (ZMod 2) qbFamily := by
 theorem xor_eq_of_xor_eq {a b c : ℕ} (h : a ^^^ b = c) : a = b ^^^ c := by
   rw [← h, Nat.xor_comm a b, ← Nat.xor_assoc, Nat.xor_self, Nat.zero_xor]
 
-@[expose] def pLetter (l : ℤ) : Equiv.Perm Ω :=
+def pLetter (l : ℤ) : Equiv.Perm Ω :=
   if 0 < l then pPermN (l.natAbs - 1) else (pPermN (l.natAbs - 1))⁻¹
 where
   pPermN (i : ℕ) : Equiv.Perm Ω := if h : i < 24 then pPerm ⟨i, h⟩ else 1
 
-@[expose] def pairWordPerm : List ℤ → Equiv.Perm Ω
+def pairWordPerm : List ℤ → Equiv.Perm Ω
   | [] => 1
   | l :: w => pairWordPerm w * pLetter l
 

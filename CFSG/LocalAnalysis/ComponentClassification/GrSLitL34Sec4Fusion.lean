@@ -39,7 +39,7 @@ theorem exists_extremal_normalizer_conj (T : Sylow 2 G) {a : G}
       _ = g * (b * z) * g⁻¹ := by rw [hzb]
       _ = g * b * g⁻¹ * (g * z * g⁻¹) := by group
   have hVp : IsPGroup 2 (P.map (MulAut.conj g).toMonoidHom) :=
-    (T.isPGroup'.to_le inf_le_left).map _
+    (T.isPGroup.to_le inf_le_left).map _
   obtain ⟨c, hc, hcT⟩ := exists_conj_le_sylow T hTa hV hVp
   have hca : c⁻¹ * a * c = a := by
     have := mem_centralizer_singleton_iff.mp hc

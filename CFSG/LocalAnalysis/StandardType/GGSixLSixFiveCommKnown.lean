@@ -83,7 +83,7 @@ theorem GGSixCtxV2.ggCommutator_le_of_known (hctx : GGSixCtxV2 p B Bs x L D J Δ
     ⁅V, pCoreOf 2 (Subgroup.centralizer ({r} : Set G)) ⊓ Subgroup.centralizer {e}⁆ ≤
       Subgroup.zpowers r := by
   have hp : p.Prime := hctx.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hr1 : r ≠ 1 := fun h => hrZ (h ▸ Subgroup.one_mem _)
   have hr2 : r ^ 2 = 1 := hV2.2 r hrV
   have hrJ : r ∈ J := hVJ hrV

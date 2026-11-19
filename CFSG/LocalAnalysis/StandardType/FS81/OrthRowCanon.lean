@@ -131,15 +131,15 @@ theorem fs81_orth_row_canon
   · subst hrD
     have h1 : markTag lab = .POmegaPlus := by simp [markTag, hD, hr6]
     have h2 : markRank lab = 6 := by simp [markRank, hD, hr6]
-    have h3 : markChar lab = 2 := by simp [markChar, hD, hr6]
-    have h4 : markDeg lab = 1 := by simp [markDeg, hD, hr6, hn1]
+    have h3 : markChar lab = 2 := by simp [markChar, hD]
+    have h4 : markDeg lab = 1 := by simp [markDeg, hD, hn1]
     have hmR : LieModel ↥K .POmegaPlus 6 2 1 := by
       have h := hmodK
       unfold MarkedModel at h
       rwa [h1, h2, h3, h4] at h
     have hst : StatedClassicalModel ↥K .POmegaPlus 6 2 1 :=
       hmR.statedClassicalModel (by decide)
-    haveI : Nonempty (Fin 6 ⊕ Fin 6) := ⟨.inl 0⟩
+    have : Nonempty (Fin 6 ⊕ Fin 6) := ⟨.inl 0⟩
     have hQ : (QuadraticMap.polarBilin (quadPlus 6 (ZMod 2))).Nondegenerate :=
       nondegenerate_polarBilin_quadPlus 6 (ZMod 2)
     have hdim : finrank (ZMod 2) (Fin 6 ⊕ Fin 6 → ZMod 2) = 2 * 6 := by
@@ -156,7 +156,7 @@ theorem fs81_orth_row_canon
   · subst hrt
     have h1 : markTag lab = .POmegaMinus := by simp [markTag, htwD, hr7]
     have h2 : markRank lab = 7 := by simp [markRank, htwD, hr7]
-    have h3 : markChar lab = 2 := by simp [markChar, htwD, hr7]
+    have h3 : markChar lab = 2 := by simp [markChar, htwD]
     have h4 : markDeg lab = 1 := by simp [markDeg, htwD, hr7, hn1]
     have hmR : LieModel ↥K .POmegaMinus 7 2 1 := by
       have h := hmodK
@@ -164,7 +164,7 @@ theorem fs81_orth_row_canon
       rwa [h1, h2, h3, h4] at h
     have hst : StatedClassicalModel ↥K .POmegaMinus 7 2 1 :=
       hmR.statedClassicalModel (by decide)
-    haveI : Nonempty (Fin (7 - 1) ⊕ Fin (7 - 1) ⊕ Fin 2) := ⟨.inr (.inr 0)⟩
+    have : Nonempty (Fin (7 - 1) ⊕ Fin (7 - 1) ⊕ Fin 2) := ⟨.inr (.inr 0)⟩
     have hirr : ∀ s : ZMod 2, s ^ 2 + 1 * s + 1 ≠ 0 := by decide
     have hQ : (QuadraticMap.polarBilin (quadMinus 7 (ZMod 2) 1 1)).Nondegenerate :=
       nondegenerate_polarBilin_quadMinus_of_finite 7 (ZMod 2) hirr

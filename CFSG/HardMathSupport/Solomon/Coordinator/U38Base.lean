@@ -73,7 +73,7 @@ theorem u38_mem_U {g : GL (Fin 3) K}
     u38_mem_U h (unitary_mA ω hω (u38_two_eq_zero h) h.bar (u38_bar_omega h hω))⟩
 
 @[expose] def uP : primeFormUnitary h (idGram K 3) :=
-  ⟨glP, u38_mem_U h (unitary_mP ω hω (u38_two_eq_zero h) h.bar (u38_bar_omega h hω))⟩
+  ⟨glP, u38_mem_U h (unitary_mP h.bar)⟩
 
 @[expose] def uF : primeFormUnitary h (idGram K 3) :=
   ⟨glF ω hω (u38_two_eq_zero h),
@@ -92,7 +92,7 @@ theorem coe_uA :
   rfl
 
 theorem coe_uP :
-    (((uP h hω : primeFormUnitary h (idGram K 3)) : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) = mP :=
+    (((uP h : primeFormUnitary h (idGram K 3)) : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) = mP :=
   rfl
 
 theorem coe_uQ :
@@ -107,8 +107,8 @@ theorem coe_uR :
   Units.mk0 ω (fun h0 => by rw [h0] at hω; norm_num at hω)
 
 theorem uA_mul_uP :
-    ((uA h hω : primeFormUnitary h (idGram K 3)) : GL (Fin 3) K) * (uP h hω : GL (Fin 3) K) =
-      (uP h hω : GL (Fin 3) K) * (uA h hω : GL (Fin 3) K) *
+    ((uA h hω : primeFormUnitary h (idGram K 3)) : GL (Fin 3) K) * (uP h : GL (Fin 3) K) =
+      (uP h : GL (Fin 3) K) * (uA h hω : GL (Fin 3) K) *
         GeneralLinearGroup.scalar (Fin 3) (uω hω) := by
   apply Units.ext
   rw [Units.val_mul, Units.val_mul, Units.val_mul, GeneralLinearGroup.coe_scalar]

@@ -27,8 +27,8 @@ theorem core_main_U (hσ : IsUnitaryInvolution σ) (e₀ : K ≃+* Fσ σ) (hq :
       (∀ g v, ψ (A g v) = e3uWact σ e' g (ψ v)) ∧
         (fixU σ A).map (ψ : V →ₗ[K] E3UWspace σ e') = Submodule.span K {e3uP0 σ e'} := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  haveI hKchar : CharP K 2 := by
+  let : Fintype K := Fintype.ofFinite K
+  have hKchar : CharP K 2 := by
     exact (((Fσ σ).subtype.comp (e₀ : K →+* Fσ σ) : K →+* F).charP_iff_charP 2).2 inferInstance
   obtain ⟨n, -, hKn⟩ := FiniteField.card K 2
   have hKcard : Fintype.card K = 2 ^ (n : ℕ) := hKn
@@ -39,7 +39,7 @@ theorem core_main_U (hσ : IsUnitaryInvolution σ) (e₀ : K ≃+* Fσ σ) (hq :
     have h1 : 2 ^ (n : ℕ) ≤ 2 ^ 1 := Nat.pow_le_pow_right (by norm_num) this
     omega
   have hVpos : 0 < finrank K V := by omega
-  haveI : FiniteDimensional K V := Module.finite_of_finrank_pos hVpos
+  have : FiniteDimensional K V := Module.finite_of_finrank_pos hVpos
   obtain ⟨b, hf⟩ := exists_frame_T0 hσ
   set R := rootDatumU hσ hf e₀ with hR
   set D := R.toRankOne A with hD
@@ -110,9 +110,9 @@ theorem core_main_U (hσ : IsUnitaryInvolution σ) (e₀ : K ≃+* Fσ σ) (hq :
     have : Nat.card (Fσ σ) = Nat.card K := Nat.card_congr e₀.symm.toEquiv
     omega
   obtain ⟨Pi, hPi20, hGen⟩ := hGen_U hσ hq3
-  haveI : Finite (A5Cube.Cube F) := Module.finite_of_finite F
-  haveI : Finite (E3UWspace σ e') := (Subtype.finite : Finite (Wform σ))
-  haveI : FiniteDimensional K (E3UWspace σ e') := Module.Finite.of_finite
+  have : Finite (A5Cube.Cube F) := Module.finite_of_finite F
+  have : Finite (E3UWspace σ e') := (Subtype.finite : Finite (Wform σ))
+  have : FiniteDimensional K (E3UWspace σ e') := Module.Finite.of_finite
   have hfixspan : fixU σ A = Submodule.span K {v₀} := by
     symm
     apply Submodule.eq_of_le_of_finrank_eq

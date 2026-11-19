@@ -50,7 +50,7 @@ theorem uc22p2213t_not_stronglyEmbedded_three (D : Data G) (Ch : Choice2011 G)
     have h := Nat.dvd_sub_mod (n := 3) (2 ^ c.n)
     rwa [CFSG.two_pow_mod_three_of_even hev] at h
   obtain ⟨b, hb, hbo⟩ := uc22p22i_exists_elt_of_mem_piSet h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAB : zpowers b ≤ c.B0 := zpowers_le.2 hb
   have hA1 : zpowers b ≠ ⊥ := by
     rw [Ne, zpowers_eq_bot]
@@ -69,11 +69,11 @@ theorem uc22p2213t_l2sz (D : Data G) (Ch : Choice2011 G) (h117 : R117W D)
       (IsSz (Bar2 L) n ∧ (2 : ℤ) ^ (2 * n) ≡ -1 [ZMOD (p : ℤ)])) : K2213 D c p L n := by
   have hLV := uc22p2213a_not_le_centralizer D Ch h117 hV h1930 c hL hc2
   rcases h with ⟨hL2, hcong⟩ | ⟨hSz, hcong⟩
-  · haveI : IsSimpleGroup (Bar2 L) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
+  · have : IsSimpleGroup (Bar2 L) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
     obtain ⟨e⟩ := uc22p2213c_bar2_equiv D hV h1930 c hL hLV
     exact ⟨hL, Or.inr (Or.inl hcong), Or.inr (Or.inr (Or.inl
       ⟨Or.inl ⟨hn2, Or.inl (CFSG.Blueprint.LieModel.of_mulEquiv e hL2)⟩, hc2⟩))⟩
-  · haveI : IsSimpleGroup (Bar2 L) :=
+  · have : IsSimpleGroup (Bar2 L) :=
       CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
     obtain ⟨e⟩ := uc22p2213c_bar2_equiv D hV h1930 c hL hLV
     have hSz' : IsSz ↥(mbarImage D.M c.V L) n := CFSG.Blueprint.LieModel.of_mulEquiv e hSz
@@ -84,7 +84,7 @@ theorem uc22p2213t_j1 (D : Data G) (Ch : Choice2011 G) (h117 : R117W D)
     (hV : S22_V D Ch) (h17J : S21_17J D Ch) (h1930 : H1930 D) (c : Ctx22b D Ch) {p : ℕ}
     (hp : p ∈ D.sig) {L : Subgroup G} (hL : L ∈ calC D.M) (hc2 : (conjSetOf D.M L).ncard = 2)
     (hJ : IsJ1 (Bar2 L)) (hn : c.n = 3) : K2213 D c p L 3 := by
-  haveI : IsSimpleGroup (Bar2 L) := (kJ1_holds (Bar2 L) hJ).2.1
+  have : IsSimpleGroup (Bar2 L) := (kJ1_holds (Bar2 L) hJ).2.1
   obtain ⟨e⟩ := uc22p2213c_bar2_equiv D hV h1930 c hL
     (uc22p2213a_not_le_centralizer D Ch h117 hV h1930 c hL hc2)
   have hJ' : IsJ1 ↥(mbarImage D.M c.V L) := by

@@ -31,6 +31,7 @@ theorem l114_glbCore_mono {p : ℕ} {P Q : Subgroup G} (h : P ≤ Q) :
   rintro _ ⟨R, hR, hk, rfl⟩
   exact le_sSup ⟨R, hR.trans h, hk, rfl⟩
 
+omit [Finite G] in
 theorem l114_card_hyperplane {p : ℕ} [hp : Fact p.Prime] {A₁ : Subgroup G} {s : ℕ}
     (hcard : Nat.card A₁ = p ^ s) (hs : 1 ≤ s) {B : Subgroup ↥A₁} (hB : B.index = p) :
     Nat.card B = p ^ (s - 1) := by
@@ -59,8 +60,8 @@ theorem l114_core_le_glbCore {p : ℕ} [hp : Fact p.Prime] {e a : G} {A₁ : Sub
     refine Finite.one_lt_card_iff_nontrivial.mp ?_
     rw [hcard]
     exact Nat.one_lt_pow (by omega) hp.out.one_lt
-  letI : MulDistribMulAction ↥A₁ ↥X := Subgroup.conjMulDistribMulActionOfLeNormalizer A₁ X hAN
-  haveI : CFSG.IsElementaryAbelian p ↥A₁ := CFSG.Open.IsElemAbelian.isElementaryAbelian hA₁
+  let : MulDistribMulAction ↥A₁ ↥X := Subgroup.conjMulDistribMulActionOfLeNormalizer A₁ X hAN
+  have : CFSG.IsElementaryAbelian p ↥A₁ := CFSG.Open.IsElemAbelian.isElementaryAbelian hA₁
   have hgen := CFSG.SolvableHall.coprime_hyperplane_generation (p := p) (A := ↥A₁) (H := ↥X) hcop
   have key : ∀ B : Subgroup ↥A₁, B.index = p → ∀ y ∈ CFSG.fixedPointSubgroup B ↥X,
       (y : G) ∈ GLBCore p 2 A₁ := by

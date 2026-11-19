@@ -69,10 +69,10 @@ theorem rckRowK1IIISU_holds
   have hperf : Group.IsPerfect (SUG k) :=
     (CFSG.LieType.Universal.Unitary.isQuasisimple_SU (p := 2) (f := 1) hF (by omega)
       (by intro h; have h3 := congrArg Prod.fst h; simp only at h3; omega)).1
-  haveI : Group.IsPerfect (SUG k) := hperf
+  have : Group.IsPerfect (SUG k) := hperf
   have hZ2 : Subgroup.center (SUG k ⧸ Subgroup.center (SUG k)) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot _
-  haveI : Group.IsPerfect Jb := Group.IsPerfect.ofSurjective (f := φ) hsurj
+  have : Group.IsPerfect Jb := Group.IsPerfect.ofSurjective (f := φ) hsurj
   have hJ2 : Subgroup.center (Jb ⧸ Subgroup.center Jb) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot _
   let ψ : SUG k →* Jb ⧸ Subgroup.center Jb := (QuotientGroup.mk' (Subgroup.center Jb)).comp φ

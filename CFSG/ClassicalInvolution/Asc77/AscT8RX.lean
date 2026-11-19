@@ -25,9 +25,9 @@ variable {G : Type} [Group G] [Finite G] {p f : ℕ} [Fact p.Prime] {Ω : Set (S
 theorem eq_of_isSylow2In_of_le_sylow {M P Q : Subgroup G} (hP : IsSylow2In P M)
     (hQ : IsSylow2In Q M) (hPS : P ≤ (S : Subgroup G)) (hQS : Q ≤ (S : Subgroup G)) : P = Q := by
   have h1 : M ⊓ (S : Subgroup G) = P :=
-    hP.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hP.1 hPS)
+    hP.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hP.1 hPS)
   have h2 : M ⊓ (S : Subgroup G) = Q :=
-    hQ.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hQ.1 hQS)
+    hQ.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hQ.1 hQS)
   exact h1.symm.trans h2
 
 theorem R_ne_T (hs : Std8 p f Ω K J S R T W z t) : R ≠ T := by
@@ -76,7 +76,7 @@ theorem eq_or_eq_of_mem_RSet_of_le (hs : Std8 p f Ω K J S R T W z t)
   have hJX : J ≤ omegaNbrGen Ω K :=
     le_iSup₂ (f := fun N (_ : N ∈ omegaNbr Ω K) => N) J hs.hJ
   have hTX : IsSylow2In T (omegaNbrGen Ω K) := isSylow2In_of_eq_sup_oddCoreOf hJX hX hTsyl
-  have hQ2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ omegaNbrGen Ω K) := S.isPGroup'.to_inf_left
+  have hQ2 : IsPGroup 2 ↥((S : Subgroup G) ⊓ omegaNbrGen Ω K) := S.isPGroup.to_inf_left
   have hQle : Nat.card ↥((S : Subgroup G) ⊓ omegaNbrGen Ω K) ≤ Nat.card T :=
     natCard_le_of_eq_sup_oddCoreOf hJX hX hTsyl inf_le_right hQ2
   have hTQ : T ≤ (S : Subgroup G) ⊓ omegaNbrGen Ω K := le_inf hTS (hTsyl.1.trans hJX)

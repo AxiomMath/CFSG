@@ -14,6 +14,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem pi_mem_ker_iff (H : StrothHyp M Q Z) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
     (m : H0 M Z) {h : G} (hh : h ∈ Q) :
@@ -23,6 +24,7 @@ private theorem pi_mem_ker_iff (H : StrothHyp M Q Z) (φ : ↥(H0 M Z) →* (M�
     Tim79.QuadModel.comm_mem_iff (M₀ := M₀) hh hmQ, hφπ m h hh]
   rfl
 
+omit [Finite K] [CharP K 2] [Finite G] in
 private theorem sub_one_apply_pi (H : StrothHyp M Q Z) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
     (m : H0 M Z) {h : G} (hh : h ∈ Q) :
@@ -32,6 +34,7 @@ private theorem sub_one_apply_pi (H : StrothHyp M Q Z) (φ : ↥(H0 M Z) →* (M
     hφπ m h hh, LinearMap.sub_apply, Module.End.one_apply, sub_eq_add_neg]
   rfl
 
+omit [CharP K 2] in
 private theorem card_map_ker_le (hc : Ctx M Q Z B) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
     {Y : Subgroup G} {t : G} (hs : Sit M Q Z Y t) (T S : H0 M Z) (hT : (T : G) = t)
@@ -73,13 +76,14 @@ private theorem card_map_ker_le (hc : Ctx M Q Z B) (φ : ↥(H0 M Z) →* (M₀.
       rw [← hT]
       exact (pi_mem_ker_iff hc.hyp φ hφπ T hh).mp he
     exact ⟨⟨h, hQ1h⟩, by rw [← hed]; rfl⟩
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   refine le_trans (Nat.card_le_card_of_injective
     (fun d => (⟨Multiplicative.ofAdd (d : M₀.E), hmem d d.2⟩ : ↥ψ.range)) ?_) hψ
   intro a b hab
   have h1 := congrArg (fun x : ↥ψ.range => Multiplicative.toAdd (x : Multiplicative M₀.E)) hab
   exact Subtype.ext h1
 
+omit [Finite K] [CharP K 2] in
 private theorem act_comm_of_mem_QB (hc : Ctx M Q Z B) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφQ : ∀ m : H0 M Z, φ m = 1 ↔ (m : G) ∈ Q) {Y : Subgroup G} {t : G} (hs : Sit M Q Z Y t)
     {X : Subgroup G} (hX : Ctx M Q Z X) (hXY : X ≤ QB Y) (L S : H0 M Z) (hL : (L : G) ∈ QB X)
@@ -131,7 +135,7 @@ private theorem comm_mem_Z_of_mem_map (hc : Ctx M Q Z B) (hD : GlobalModelData M
       simp only [LinearMap.sub_apply, Module.End.one_apply, LinearEquiv.coe_coe, h2, map_sub]
   have hcardK : Nat.card ↥((LinearMap.ker ((φ T : M₀.E →ₗ[K] M₀.E) - 1)).map
       ((φ S : M₀.E →ₗ[K] M₀.E) - 1)) ≤ Nat.card K := hD.card ▸ hcard
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hfix := involution_apply_eq_self_of_card_le hcardK (φ L : M₀.E →ₗ[K] M₀.E) hinv hL2 hud
   have hlQ : l * u * l⁻¹ ∈ Q := conj_mem_Q hc.hyp hl.2 hu
   rw [Tim79.QuadModel.comm_mem_iff (M₀ := M₀) hu hlQ]

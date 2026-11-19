@@ -290,7 +290,7 @@ theorem exists_inv_data_of_check {a b : K0} (V : Subgroup K0)
     exact absurd hNc (by decide)
   refine ⟨x, invGroup V (Subgroup.zpowers a), ?_, ?_, ?_, ?_⟩
   · intro h2
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hord : orderOf (⟨z, hzV⟩ : ↥(V ⊔ conjSubgroup x V)) = 3 := by
       apply orderOf_eq_prime
       · apply Subtype.ext

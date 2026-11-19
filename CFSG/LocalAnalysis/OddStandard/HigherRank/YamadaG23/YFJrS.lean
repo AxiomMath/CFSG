@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} (s : Setting3 G L)
 private theorem s3_jOn_mem_Z_iff (hS : HRSetting G L) (h31 : s.Fact31) (hA : LFactsA s)
     {x : ↥s.T} :
     jOn L (s3_T_le_N s hS) x ∈ s.fr'.Z ↔ (x : G) ∈ zt s := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   have hzT : s.fr.z ∈ s.T := s3_z_mem_T s
   have htT : s.t ∈ s.T := s3_t_mem_T s
   have hzJ : jOn L (s3_T_le_N s hS) ⟨s.fr.z, hzT⟩ = s.fr'.z :=
@@ -61,10 +61,10 @@ private theorem s3_jOn_mem_Z_iff (hS : HRSetting G L) (h31 : s.Fact31) (hA : LFa
       rw [map_mul, hzJ, htJ, mul_one]
       exact Subgroup.mem_zpowers s.fr'.z
 
-private theorem s3_jOn_mem_A_iff (hS : HRSetting G L) (h31 : s.Fact31) (hA : LFactsA s)
+private theorem s3_jOn_mem_A_iff (hS : HRSetting G L) (h31 : s.Fact31) (_hA : LFactsA s)
     {x : ↥s.T} :
     jOn L (s3_T_le_N s hS) x ∈ s.fr'.A ↔ (x : G) ∈ s.fr.A ⊔ zpowers s.t := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   have htT : s.t ∈ s.T := s3_t_mem_T s
   have htJ : jOn L (s3_T_le_N s hS) ⟨s.t, htT⟩ = 1 :=
     actsAs_unique L (jOn_actsAs L (s3_T_le_N s hS) ⟨s.t, htT⟩)
@@ -131,8 +131,8 @@ theorem s3_jr_section (hS : HRSetting G L) (hOut : (innerAut (L ⧸ center L)).i
     rw [Subgroup.mem_comap, Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
     exact s3_jOn_mem_A_iff s hS h31 hA
   have hZ : ((zt s).subgroupOf s.T).Normal := hM_eq.symm ▸ hN'.comap φ
-  haveI := hN'
-  haveI := hZ
+  have := hN'
+  have := hZ
   refine ⟨hZ, ?_⟩
   have hpull := thompsonRank_top_pullback φ hφ hNA (M := (zt s).subgroupOf s.T) hM_eq hJ'
   rw [hA_eq] at hpull

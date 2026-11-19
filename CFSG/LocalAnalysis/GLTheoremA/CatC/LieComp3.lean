@@ -24,14 +24,14 @@ private theorem lc3_fixSubgroup_one {K : Type} [Group K] :
 private theorem lc3_five_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) : 5 ≤ p := by
   have h2 := hp.two_le
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   interval_cases p <;> first | exact absurd rfl hp2 | exact absurd rfl hp3 | norm_num at hp
 
 section ChevDownThree
 
 set_option linter.unusedSectionVars false
 
-theorem kdChevDownQ_three_of_lieComp (h : LieComp.LieComp) (q : ℕ) : KDChevDownQ 3 q := by
+theorem kdChevDownQ_three_of_lieComp (h : LieComp.LieCompAll) (q : ℕ) : KDChevDownQ 3 q := by
   intro S _ _ hS hna hchev α hα I hI
   by_cases hα1 : α = 1
   · subst hα1
@@ -65,11 +65,11 @@ set_option linter.unusedSectionVars false
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem chevClosureQAt_three_of_lieComp (h : LieComp.LieComp) : ChevClosureQAt G 3 :=
+theorem chevClosureQAt_three_of_lieComp (h : LieComp.LieCompAll) : ChevClosureQAt G 3 :=
   chevClosureQAt_of_kdChevDownQ CFSG.LocalAnalysis.GLTheoremA.input18_3_4_holds
     (fun q _ => kdChevDownQ_three_of_lieComp h q)
 
-theorem chevClosureQAt_of_lieComp_lieComps (h3 : LieComp.LieComp)
+theorem chevClosureQAt_of_lieComp_lieComps (h3 : LieComp.LieCompAll)
     (h5 : ∀ p : ℕ, p.Prime → 5 ≤ p → ∀ F, LieComp.LieCompsOn p F)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : ChevClosureQAt G p := by
   by_cases hp3 : p = 3

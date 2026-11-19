@@ -165,6 +165,7 @@ private theorem s16t_ten_fix_of_conj_eq {ι : Type} {Y : ι → Subgroup T} {s :
   · exact haz
 
 
+omit [Finite T] in
 private theorem s16t_ten_phi_fix {ι : Type} {A : Subgroup (MulAut T)} {Y : ι → Subgroup T}
     (hAY : ∀ a ∈ A, ∀ s, (Y s).map a.toMonoidHom = Y s) {c : MulAut T} {a : ↥A} {s : ι}
     (hcl : ∀ v ∈ Y s, c v = v) :
@@ -189,7 +190,7 @@ theorem s16t_ten_false_of_involution_on_two (hT : ∀ t : T, t ^ 2 = 1) {ι : Ty
     {Y : ι → Subgroup T} {X A : Subgroup (MulAut T)} (hY : S16tTenBlocks X A Y 3)
     (hA : IsElemAbelianOfRank 3 3 ↥A) (hAn : ∀ m ∈ X, ∀ a ∈ A, m * a * m⁻¹ ∈ A)
     {c : MulAut T} (hcX : c ∈ X) (hc2 : c ^ 2 = 1) (hcY : ∀ s, (Y s).map c.toMonoidHom = Y s)
-    {i j l m : ι} (hij : i ≠ j) (hil : i ≠ l) (him : i ≠ m) (hjl : j ≠ l) (hjm : j ≠ m)
+    {i j l m : ι} (hij : i ≠ j) (_hil : i ≠ l) (_him : i ≠ m) (_hjl : j ≠ l) (_hjm : j ≠ m)
     (hlm : l ≠ m) (hci : ∃ y ∈ Y i, c y ≠ y) (hcj : ∃ y ∈ Y j, c y ≠ y)
     (hcl : ∀ y ∈ Y l, c y = y) (hcm : ∀ y ∈ Y m, c y = y) : False := by
   classical
@@ -212,7 +213,7 @@ theorem s16t_ten_false_of_involution_on_two (hT : ∀ t : T, t ^ 2 = 1) {ι : Ty
     intro s s' hss'
     have h := hY.card_inf_ker s s' hss'
     omega
-  letI : CommGroup ↥A := { (inferInstance : Group ↥A) with mul_comm := hAcomm }
+  let : CommGroup ↥A := { (inferInstance : Group ↥A) with mul_comm := hAcomm }
   let conj : ↥A →* ↥A :=
     { toFun := fun a => ⟨c * (a : MulAut T) * c⁻¹, hAn c hcX a.1 a.2⟩
       map_one' := by ext; simp

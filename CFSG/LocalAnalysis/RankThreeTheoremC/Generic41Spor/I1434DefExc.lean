@@ -31,12 +31,12 @@ theorem chevalley_five_false
     {K : Type} [Group K] [Finite K] {t : StatedLieTag} {f : ℕ}
     (hM : CFSG.Blueprint.ChevalleyExceptionalModel K t 5 f)
     {Q : Sylow 5 K} {x : K} {J₁ J₂ : Subgroup K} (hD : I1434.Data K Q x J₁ J₂) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨-, hf, -⟩, hm⟩ := hM
   cases t
   case G2 =>
     obtain ⟨F, _, _, hF, ⟨e⟩⟩ := (hm : CFSG.Blueprint.UntwistedChevalleyModel K .G2 (5 ^ f))
-    haveI : CharP F 5 := CFSG.SectionRank.charP_of_natCard_eq_pow hF
+    have : CharP F 5 := CFSG.SectionRank.charP_of_natCard_eq_pow hF
     exact hD.false_of_hasNoncommPair
       (hasNoncommPair_adjointQuotient_G2.map e.symm.toMonoidHom e.symm.injective)
   case F4 =>

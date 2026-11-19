@@ -203,7 +203,7 @@ theorem l17_8_of_hyp25 [Finite G] [IsSimpleGroup G] {Ω : Set (Subgroup G)} {K K
     Subgroup.mem_centralizer_singleton_iff.mpr (hyp.hzS _ ((S : Subgroup G).mul_mem hxS hu₂S))
   have hbC : y * u₂ ∈ Subgroup.centralizer ({z} : Set G) :=
     Subgroup.mem_centralizer_singleton_iff.mpr (hyp.hzS _ ((S : Subgroup G).mul_mem hyS hu₂S))
-  have hR2 : IsPGroup 2 R := S.isPGroup'.to_le hyp.hR.2.2
+  have hR2 : IsPGroup 2 R := S.isPGroup.to_le hyp.hR.2.2
   have hR8 : 8 ≤ Nat.card R := le_of_eq h8.symm
   have hRu : ∀ a ∈ R, ∀ b ∈ R, orderOf a = 2 → orderOf b = 2 → a = b := by
     intro a ha b hb ha2 hb2

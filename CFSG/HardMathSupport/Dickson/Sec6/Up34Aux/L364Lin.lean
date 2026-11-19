@@ -64,7 +64,7 @@ theorem perfect_hom_trivial {G A : Type*} [Group G] [CommGroup A] {D : Subgroup 
     rw [Subgroup.commutator_le]
     intro a _ b _
     rw [MonoidHom.mem_ker, map_commutatorElement]
-    simp [commutatorElement_def, mul_comm]
+    simp [commutatorElement_def]
   rw [hD] at h
   exact h hd
 
@@ -76,8 +76,7 @@ variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
 theorem sub_mul_quad (T : Module.End K V) (μ : K) :
     (T - μ • (1 : Module.End K V)) * (T * T + μ • T + (μ ^ 2) • 1) =
       T * T * T - (μ ^ 3) • 1 := by
-  simp only [sub_mul, mul_add, smul_mul_assoc, mul_smul_comm, one_mul, mul_one, mul_assoc,
-    smul_smul]
+  simp only [sub_mul, mul_add, smul_mul_assoc, mul_smul_comm, one_mul, mul_one, mul_assoc]
   module
 
 
@@ -90,14 +89,14 @@ theorem isCompl_ker_eigen (T : Module.End K V) (μ c : K) (hμ : μ ≠ 0) (h3 :
   have hcomm : (T * T + μ • T + (μ ^ 2) • (1 : Module.End K V)) * (T - μ • 1) =
       (T - μ • 1) * (T * T + μ • T + (μ ^ 2) • 1) := by
     simp only [sub_mul, mul_add, add_mul, mul_sub, smul_mul_assoc, mul_smul_comm, one_mul,
-      mul_one, mul_assoc, smul_smul]
+      mul_one, mul_assoc]
     module
   have hprod' : (T * T + μ • T + (μ ^ 2) • (1 : Module.End K V)) * (T - μ • 1) = 0 := by
     rw [hcomm, hprod]
   have hid : (T * T + μ • T + (μ ^ 2) • (1 : Module.End K V)) -
       (T + (2 * μ) • 1) * (T - μ • 1) = (3 * μ ^ 2) • 1 := by
-    simp only [sub_mul, mul_add, add_mul, mul_sub, smul_mul_assoc, mul_smul_comm, one_mul,
-      mul_one, mul_assoc, smul_smul]
+    simp only [add_mul, mul_sub, smul_mul_assoc, mul_smul_comm, one_mul,
+      mul_one]
     module
   have hc3 : (3 * μ ^ 2 : K) ≠ 0 := mul_ne_zero h3 (pow_ne_zero 2 hμ)
   have happly : ∀ x : V, (T * T + μ • T + (μ ^ 2) • (1 : Module.End K V)) x -
@@ -135,7 +134,7 @@ theorem isCompl_ker_eigen (T : Module.End K V) (μ c : K) (hμ : μ ≠ 0) (h3 :
         have hc2 : (T * T + μ • T + (μ ^ 2) • (1 : Module.End K V)) * (T + (2 * μ) • 1) =
             (T + (2 * μ) • 1) * (T * T + μ • T + (μ ^ 2) • 1) := by
           simp only [mul_add, add_mul, smul_mul_assoc, mul_smul_comm, one_mul, mul_one,
-            mul_assoc, smul_smul]
+            mul_assoc]
           module
         rw [hc2, mul_assoc, hprod', mul_zero]
       have := congrArg (fun f : Module.End K V => f x) hq
@@ -155,7 +154,7 @@ theorem commutant_comm [Module.Finite K V] (hV : Module.finrank K V = 3) (T : Mo
   have hev : aeval T p₀ = 0 := by
     simp only [hp₀, map_sub, map_pow, aeval_X, aeval_C, Algebra.algebraMap_eq_smul_one]
     rw [pow_three', hT3, sub_self]
-  haveI : Nontrivial V := Module.finrank_pos_iff.1 (by rw [hV]; norm_num)
+  have : Nontrivial V := Module.finrank_pos_iff.1 (by rw [hV]; norm_num)
   obtain ⟨v, hv⟩ := exists_ne (0 : V)
   have hli : LinearIndependent K (fun i : Fin 3 => (T ^ (i : ℕ)) v) := by
     rw [Fintype.linearIndependent_iff]
@@ -171,7 +170,7 @@ theorem commutant_comm [Module.Finite K V] (hV : Module.finrank K V = 3) (T : Mo
     by_cases hq0 : q = 0
     · intro i
       have := congrArg (fun r => r.coeff (i : ℕ)) hq0
-      simpa [hq, Polynomial.finset_sum_coeff, coeff_C_mul, coeff_X_pow, Fin.val_inj] using this
+      simpa [hq, finsetSum_coeff, coeff_C_mul, coeff_X_pow, Fin.val_inj] using this
     · exfalso
       have hnd : ¬ p₀ ∣ q := by
         intro hd
@@ -233,21 +232,21 @@ theorem exists_common_eigenvectors {M : Type*} [AddCommGroup M] [Module K M]
     ∃ m₁ m₂ : M, LinearIndependent K ![m₁, m₂] ∧
       ∀ s : S, ∃ a₁ a₂ : Kˣ, ρ s m₁ = (a₁ : K) • m₁ ∧ ρ s m₂ = (a₂ : K) • m₂ := by
   classical
-  haveI : Module.Finite K M := Module.finite_of_finrank_pos (by omega)
-  haveI : Finite M := Module.finite_of_finite K
-  letI : MulAction S (ℙ K M) := MulAction.compHom (ℙ K M) ρ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Module.Finite K M := Module.finite_of_finrank_pos (by omega)
+  have : Finite M := Module.finite_of_finite K
+  let : MulAction S (ℙ K M) := MulAction.compHom (ℙ K M) ρ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card (ℙ K M) = Nat.card K + 1 := Projectivization.card_of_finrank_two K M hM
   have hmod := hS.card_modEq_card_fixedPoints (α := ℙ K M)
   have hfix : 1 < Nat.card (MulAction.fixedPoints S (ℙ K M)) := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 : Nat.card (MulAction.fixedPoints S (ℙ K M)) = 0 ∨
         Nat.card (MulAction.fixedPoints S (ℙ K M)) = 1 := by omega
     rw [hcard] at hmod
     unfold Nat.ModEq at hmod
     rcases h1 with h1 | h1 <;> rw [h1] at hmod <;> omega
-  haveI : Nontrivial (MulAction.fixedPoints S (ℙ K M)) := Finite.one_lt_card_iff_nontrivial.1 hfix
+  have : Nontrivial (MulAction.fixedPoints S (ℙ K M)) := Finite.one_lt_card_iff_nontrivial.1 hfix
   obtain ⟨⟨x₁, hx₁⟩, ⟨x₂, hx₂⟩, hne⟩ := exists_pair_ne (MulAction.fixedPoints S (ℙ K M))
   have hx12 : x₁ ≠ x₂ := fun h => hne (Subtype.ext h)
   refine ⟨x₁.rep, x₂.rep, ?_, fun s => ?_⟩
@@ -298,8 +297,7 @@ theorem cyclic_of_eigen {M : Type*} [AddCommGroup M] [Module K M] (hM : Module.f
         Matrix.diagonal ![(a₁ s : K), (a₂ s : K)] := by
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [LinearMap.toMatrix_apply, e1, e2, Module.Basis.repr_self, Finsupp.single_apply,
-          Matrix.diagonal_apply]
+        simp [LinearMap.toMatrix_apply, e1, e2, Module.Basis.repr_self]
     rw [hmat, Matrix.det_diagonal, Fin.prod_univ_two] at h2
     simpa using h2
   let f : S →* Kˣ :=
@@ -313,7 +311,7 @@ theorem cyclic_of_eigen {M : Type*} [AddCommGroup M] [Module K M] (hM : Module.f
         have : ρ (s * t) m₁ = ρ s (ρ t m₁) := by rw [map_mul]; rfl
         rw [← h₁ (s * t), this, h₁ t, map_smul, h₁ s, smul_smul]
         simp [mul_comm] }
-  haveI : IsCyclic Kˣ := inferInstance
+  have : IsCyclic Kˣ := inferInstance
   refine isCyclic_of_injective f ?_
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
   intro s hs
@@ -346,14 +344,15 @@ theorem perfect_hom_trivial' {G A : Type*} [Group G] [CommGroup A] [hG : Group.I
     rw [commutator_def, Subgroup.commutator_le]
     intro a _ b _
     rw [MonoidHom.mem_ker, map_commutatorElement]
-    simp [commutatorElement_def, mul_comm]
+    simp [commutatorElement_def]
   exact h hx
 
+omit [Finite K] in
 theorem perfect_fixes_line {D : Subgroup (Module.End K V)ˣ} (hD : ⁅D, D⁆ = D) {L : Submodule K V}
     (hL : Module.finrank K L = 1)
     (hLD : ∀ d ∈ D, ∀ x ∈ L, ((d : Module.End K V)) x ∈ L) :
     ∀ d ∈ D, ∀ x ∈ L, (d : Module.End K V) x = x := by
-  haveI : Group.IsPerfect D := Subgroup.isPerfect_iff.2 hD
+  have : Group.IsPerfect D := Subgroup.isPerfect_iff.2 hD
   obtain ⟨l, hl0, hl⟩ := finrank_eq_one_iff'.1 hL
   have hℓ0 : (l : V) ≠ 0 := fun h => hl0 (Subtype.ext h)
   have hex : ∀ d : D, ∃ a : Kˣ, ((d : (Module.End K V)ˣ) : Module.End K V) (l : V) =
@@ -400,13 +399,13 @@ theorem exists_omega (hK : Nat.card K % 3 = 1) :
   constructor
   · intro h
     have hp : CharP K 3 := (CharP.charP_iff_prime_eq_zero Nat.prime_three).2 (by exact_mod_cast h)
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 3
     have : 3 ∣ Nat.card K := by
       rw [Nat.card_eq_fintype_card, hn]
       exact dvd_pow_self 3 (by exact n.ne_zero)
     omega
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hdvd : 3 ∣ Nat.card Kˣ := by
       rw [Nat.card_units]
       have : 0 < Nat.card K := Nat.card_pos
@@ -435,22 +434,22 @@ variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
 
 @[expose] noncomputable def restrictHom (S : Subgroup (Module.End K V)ˣ) (M : Submodule K V)
     (hSM : ∀ s ∈ S, ∀ x ∈ M, ((s : Module.End K V)) x ∈ M) : S →* (M ≃ₗ[K] M) where
-  toFun s := LinearEquiv.ofLinear
+  toFun s := LinearEquiv.ofLinearMap
     (LinearMap.restrict (s.1 : Module.End K V) (hSM s.1 s.2))
     (LinearMap.restrict ((s.1⁻¹ : (Module.End K V)ˣ) : Module.End K V)
       (hSM s.1⁻¹ (S.inv_mem s.2)))
     (LinearMap.ext fun x => Subtype.ext (by
-      simp only [LinearMap.comp_apply, LinearMap.restrict_coe_apply, LinearMap.id_apply]
+      simp only [LinearMap.comp_apply, _root_.LinearMap.coe_restrict_apply, LinearMap.id_apply]
       rw [← Module.End.mul_apply, ← Units.val_mul, mul_inv_cancel]; rfl))
     (LinearMap.ext fun x => Subtype.ext (by
-      simp only [LinearMap.comp_apply, LinearMap.restrict_coe_apply, LinearMap.id_apply]
+      simp only [LinearMap.comp_apply, _root_.LinearMap.coe_restrict_apply, LinearMap.id_apply]
       rw [← Module.End.mul_apply, ← Units.val_mul, inv_mul_cancel]; rfl))
   map_one' := by
     ext x
-    simp [LinearEquiv.ofLinear_apply]
+    simp [LinearEquiv.coe_ofLinearMap]
   map_mul' := fun s t => by
     ext x
-    simp [LinearEquiv.ofLinear_apply]
+    simp [LinearEquiv.coe_ofLinearMap]
 
 theorem restrictHom_apply (S : Subgroup (Module.End K V)ˣ) (M : Submodule K V)
     (hSM : ∀ s ∈ S, ∀ x ∈ M, ((s : Module.End K V)) x ∈ M) (s : S) (x : M) :
@@ -464,6 +463,7 @@ section Reducible
 variable {K : Type*} [Field K] [Finite K] {V : Type*} [AddCommGroup V] [Module K V]
   [Module.Finite K V]
 
+omit [Finite K] in
 theorem det_eq_det_restrict {L M : Submodule K V} (hLM : IsCompl L M)
     (u : (Module.End K V)ˣ) (hL : ∀ x ∈ L, (u : Module.End K V) x = x)
     (hM : ∀ x ∈ M, (u : Module.End K V) x ∈ M) :
@@ -499,7 +499,7 @@ theorem cyclic_of_reducible (hK : Nat.card K % 3 = 1) {L M : Submodule K V} (hLM
   let ρ := restrictHom S M hSM
   have hdetD : ∀ d ∈ D, LinearMap.det (d : Module.End K V) = 1 := by
     intro d hd
-    haveI : Group.IsPerfect D := Subgroup.isPerfect_iff.2 hD
+    have : Group.IsPerfect D := Subgroup.isPerfect_iff.2 hD
     have := perfect_hom_trivial' ((Units.map (LinearMap.det : Module.End K V →* K)).comp D.subtype)
       ⟨d, hd⟩
     simpa using congrArg (fun u : Kˣ => (u : K)) this
@@ -543,7 +543,7 @@ theorem exists_eigenvalue (hK : Nat.card K % 3 = 1) (hV : Module.finrank K V = 3
     (T : Module.End K V) (c r : K) (hT3 : T * T * T = c • (1 : Module.End K V)) (hr : r ^ 3 = c) :
     ∃ μ : K, μ ^ 3 = c ∧ ∃ v : V, v ≠ 0 ∧ T v = μ • v := by
   obtain ⟨-, ω, hω3, -, hω⟩ := exists_omega hK
-  haveI : Nontrivial V := Module.finrank_pos_iff.1 (by rw [hV]; norm_num)
+  have : Nontrivial V := Module.finrank_pos_iff.1 (by rw [hV]; norm_num)
   have h1 : (1 : K[X]) + C ω + C ω ^ 2 = 0 := by
     have := congrArg C hω
     simpa using this
@@ -562,7 +562,7 @@ theorem exists_eigenvalue (hK : Nat.card K % 3 = 1) (hV : Module.finrank K V = 3
     simp only [map_mul, map_sub, aeval_X, aeval_C, map_pow, Algebra.algebraMap_eq_smul_one] at this
     rw [this, pow_three', hT3, sub_self]
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have key : ∀ x : K, x ^ 3 = c → Function.Injective ⇑(T - x • (1 : Module.End K V)) := by
     intro x hx
     refine (injective_iff_map_eq_zero _).2 fun v hv => ?_
@@ -649,7 +649,7 @@ theorem three_subgroup_cyclic (hK : Nat.card K % 3 = 1) (hV : Module.finrank K V
           intro a ha b hb
           rw [Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm]
           exact Units.ext (hcomm a b (hDT a ha) (hDT b hb))
-    haveI : Subsingleton S := ⟨fun a b => by
+    have : Subsingleton S := ⟨fun a b => by
       have ha : (a : (Module.End K V)ˣ) ∈ (⊥ : Subgroup _) := hDbot ▸ hSD a.2
       have hb : (b : (Module.End K V)ˣ) ∈ (⊥ : Subgroup _) := hDbot ▸ hSD b.2
       exact Subtype.ext ((Subgroup.mem_bot.1 ha).trans (Subgroup.mem_bot.1 hb).symm)⟩

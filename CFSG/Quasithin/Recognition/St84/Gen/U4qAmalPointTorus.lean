@@ -117,7 +117,7 @@ theorem coe_conj_sMat_of_diag {d g : hypSU h 2 0} {q : Ix → K}
   ext i j
   rw [mul_diagonal, diagonal_mul]
   rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-    simp [sMat_apply, one_apply, map_mul, map_inv₀, b1, b2, b3, b4, n1, n2, n3, n4] <;> ring
+    simp [sMat_apply, one_apply, map_mul, map_inv₀, b1, b2, b4, n1, n2, n3, n4] <;> ring
 
 theorem coe_conj_sMat_of_mem_u4PtTorus {d g : hypSU h 2 0} (hd : d ∈ u4PtTorus h) {x y c : K}
     (hg : ((g : GL Ix K) : Matrix Ix Ix K) = sMat h x y c) :

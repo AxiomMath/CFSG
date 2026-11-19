@@ -40,7 +40,7 @@ theorem autData_conjNormal_aux_hasQ8 {G P : Type} [Group G] [Group P] (ρ : G �
   refine ⟨⟨ρ m, Subgroup.le_normalizer_map ρ ⟨m, m.2, rfl⟩⟩, ⟨m, hm, rfl⟩, ?_⟩
   ext y
   obtain ⟨a, rfl⟩ := e.surjective y
-  simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.congr_apply,
+  simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.congr_apply,
     MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
   rw [K21bRedProof.normalizerMonoidHom_coe, he, he, K21bRedProof.normalizerMonoidHom_coe]
   simp
@@ -54,7 +54,7 @@ theorem autData_conjNormal_aux_isSylowOf_map {G G' : Type*} [Group G] [Group G']
   rfl
 
 theorem autData_conjNormal {Y : Type} [Group Y] [Finite Y] (π : X →* Y) {Jn : Subgroup X}
-    (hJn : Jn.Normal) [hN : (Jn.map π).Normal] {T R A : Subgroup X} (hA : AConfig T R A)
+    (_hJn : Jn.Normal) [hN : (Jn.map π).Normal] {T R A : Subgroup X} (hA : AConfig T R A)
     (hT : CFSG.QuasithinUnique.IsSylowTwoOf T ⊤) (hnc : ⁅Jn.map π, A.map π⁆ ≠ ⊥) :
     AutData ↥(Jn.map π)
       (A.map ((MulAut.conjNormal : Y →* MulAut ↥(Jn.map π)).comp π))
@@ -82,8 +82,8 @@ theorem autData_conjNormal {Y : Type} [Group Y] [Finite Y] (π : X →* Y) {Jn :
   · have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤ :=
       CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨hT.1, hT.2.1, hT.2.2⟩
     have hmap := autData_conjNormal_aux_isSylowOf_map ρ hSyl
-    haveI := K21bRedProof.finite_mulAut ↥(Jn.map π)
-    haveI := K21bRedProof.innAut_normal ↥(Jn.map π)
+    have := K21bRedProof.finite_mulAut ↥(Jn.map π)
+    have := K21bRedProof.innAut_normal ↥(Jn.map π)
     refine CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer hmap ?_ ?_
     · rintro _ ⟨k, rfl⟩
       obtain ⟨j, hj, hjk⟩ := k.2
@@ -102,7 +102,7 @@ theorem autData_conjNormal {Y : Type} [Group Y] [Finite Y] (π : X →* Y) {Jn :
 theorem false_of_autData_outer (k420 : K420) {J : Type} [Group J] [Finite J]
     (hJ : CFSG.Open.IsQuasisimple J) (hS : IsClassicalTwoOrG2 (J ⧸ Subgroup.center J))
     {E T' : Subgroup (MulAut J)} (h : AutData J E T') (hE : E ⊓ innAut J = ⊥) : False := by
-  haveI := K21bRedProof.innAut_normal J
+  have := K21bRedProof.innAut_normal J
   obtain ⟨a, ha, b, hb, hab⟩ := hasQ8_exists_noncomm h.quaternion
   refine hab (K21bRedProof.autInduced_comm T' E ?_ a ha b hb)
   intro s hs t ht hsN htN e he

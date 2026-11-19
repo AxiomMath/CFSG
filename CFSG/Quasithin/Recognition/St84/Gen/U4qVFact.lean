@@ -28,11 +28,11 @@ private theorem parP_inf_parP2_eq_hypBorel : parP h ⊓ parP2 h = hypBorel h 2 0
       MulAction.mem_stabilizer_iff.mpr (hg 2 (by norm_num) le_rfl)⟩
 
 private theorem isSolvable_hypBorel : Group.IsSolvable ↥(hypBorel h 2 0) := by
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
-  haveI hU : Group.IsSolvable ↥((hypUnitriangular h 2 0).subgroupOf (hypBorel h 2 0)) :=
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have hU : Group.IsSolvable ↥((hypUnitriangular h 2 0).subgroupOf (hypBorel h 2 0)) :=
     @IsNilpotent.to_isSolvable _ _ ((isSylowTwoOf_hypUnitriangular h).2.1.of_equiv
       (Subgroup.subgroupOfEquivOfLe (hypUnitriangular_le_hypBorel h)).symm).isNilpotent
-  haveI hK : Group.IsSolvable (Fin 2 → Kˣ) :=
+  have hK : Group.IsSolvable (Fin 2 → Kˣ) :=
     Group.isSolvable_of_comm fun a b => mul_comm a b
   have hker : (hypDiagHom h 2 0 (Nat.zero_le 1)).ker ≤
       ((hypUnitriangular h 2 0).subgroupOf (hypBorel h 2 0)).subtype.range := by
@@ -52,7 +52,7 @@ private theorem genComm_perfectCore_parP (hm : 2 ≤ m) :
 
 private theorem radQ2_le_commutator_radQ2_perfectCore (hm : 2 ≤ m) :
     radQ2 h ≤ ⁅radQ2 h, perfectCore (parP2 h)⁆ := by
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   obtain ⟨c, hc0, hc1, hc2⟩ := exists_torus_param h hm
   set d : Matrix.SpecialLinearGroup (Fin 2) K :=
     ⟨!![c, 0; 0, c⁻¹], by simp [det_fin_two_of, hc0]⟩ with hd
@@ -93,12 +93,12 @@ private theorem genComm_perfectCore_parP2 (hm : 2 ≤ m) :
   exact radQ2_le_commutator_radQ2_perfectCore h hm
 
 private theorem vFact_parP (hm : 2 ≤ m) : VFact (parP h) := by
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   refine ⟨not_two_dvd_relIndex (isSylowTwoOf_hypUnitriangular h)
     (hypUnitriangular_le_perfectCore_parP h hm), genComm_perfectCore_parP h hm⟩
 
 private theorem vFact_parP2 (hm : 2 ≤ m) : VFact (parP2 h) := by
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   refine ⟨not_two_dvd_relIndex (isSylowTwoOf_hypUnitriangular h)
     (hypUnitriangular_le_perfectCore_parP2 h hm), genComm_perfectCore_parP2 h hm⟩
 
@@ -106,7 +106,7 @@ theorem eq_parP_or_parP2_of_isYAmalgamPair
     {T M1 M2 : Subgroup (hypSU h 2 0)} (hpair : IsYAmalgamPair T M1 M2)
     (hT : T = hypUnitriangular h 2 0) :
     (M1 = parP h ∧ M2 = parP2 h) ∨ (M1 = parP2 h ∧ M2 = parP h) := by
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   subst hT
   have hrange : (MonoidHom.id (hypSU h 2 0)).range = ⊤ :=
     MonoidHom.range_eq_top.mpr Function.surjective_id
@@ -135,8 +135,8 @@ theorem isSolvable_inf_and_vFact_of_isYAmalgamPair {Y : Type} [Group Y] {n : ℕ
     {T M1 M2 : Subgroup Y} (hpair : IsYAmalgamPair T M1 M2) :
     Group.IsSolvable ↥(M1 ⊓ M2) ∧ VFact M1 ∧ VFact M2 := by
   obtain ⟨K, _, h, ⟨e⟩⟩ := exists_hypSU_equiv_of_lieModel hY
-  haveI : Finite Y := Finite.of_equiv _ e.toEquiv
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have : Finite Y := Finite.of_equiv _ e.toEquiv
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have hpair0 : IsYAmalgamPair (T.map e.symm.toMonoidHom)
       (M1.map e.symm.toMonoidHom) (M2.map e.symm.toMonoidHom) :=
     IsYAmalgamPair.map e.symm hpair
@@ -164,7 +164,7 @@ theorem isSolvable_inf_and_vFact_of_isYAmalgamPair {Y : Type} [Group Y] {n : ℕ
       (M1.map e.symm.toMonoidHom).map (MulAut.conj c).toMonoidHom ⊓
         (M2.map e.symm.toMonoidHom).map (MulAut.conj c).toMonoidHom :=
     Subgroup.map_inf _ _ _ (MulAut.conj c).injective
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       ↥(((M1.map e.symm.toMonoidHom) ⊓ (M2.map e.symm.toMonoidHom)).map
         (MulAut.conj c).toMonoidHom) := hmap1.symm ▸ hsolv1
   have hsolv2 : Group.IsSolvable
@@ -176,7 +176,7 @@ theorem isSolvable_inf_and_vFact_of_isYAmalgamPair {Y : Type} [Group Y] {n : ℕ
   have hmap2 : (M1 ⊓ M2).map e.symm.toMonoidHom =
       M1.map e.symm.toMonoidHom ⊓ M2.map e.symm.toMonoidHom :=
     Subgroup.map_inf _ _ _ e.symm.injective
-  haveI : Group.IsSolvable ↥((M1 ⊓ M2).map e.symm.toMonoidHom) := hmap2.symm ▸ hsolv2
+  have : Group.IsSolvable ↥((M1 ⊓ M2).map e.symm.toMonoidHom) := hmap2.symm ▸ hsolv2
   have hsolv : Group.IsSolvable ↥(M1 ⊓ M2) :=
     Group.isSolvable_of_isSolvable_injective
       (f := e.symm.toMonoidHom.subgroupMap (M1 ⊓ M2))
@@ -207,11 +207,11 @@ theorem perfectOver_u4q {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
   obtain ⟨Y, _, hY, T, M1, M2, hpair, ⟨iso⟩⟩ := hA
   have hY' : CFSG.Blueprint.LieModel Y .PSU 4 2 f := hY
   obtain ⟨_, _, h, ⟨e⟩⟩ := CFSG.Quasithin.H13.U4Par.exists_hypSU_equiv_of_lieModel hY'
-  haveI : Finite Y := Finite.of_equiv _ e.toEquiv
+  have : Finite Y := Finite.of_equiv _ e.toEquiv
   obtain ⟨hsolv, hV1, hV2⟩ :=
     isSolvable_inf_and_vFact_of_isYAmalgamPair hY' hf hpair
-  haveI : Group.IsSolvable (RankTwoAmalgam.ofSubgroups M1 M2).G12 := hsolv
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable (RankTwoAmalgam.ofSubgroups M1 M2).G12 := hsolv
+  have : Group.IsSolvable
       ↥((L1 ⊔ bigB L1 L2 S) ⊓ (L2 ⊔ bigB L1 L2 S)) :=
     Group.isSolvable_of_isSolvable_injective (f := iso.φ12.toMonoidHom) iso.φ12.injective
   have hB : Group.IsSolvable ↥(bigB L1 L2 S) :=

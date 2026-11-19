@@ -431,11 +431,11 @@ private theorem commute_diagSp_shortBlock {t : Fin N → Fˣ} {i j : Fin N} (hij
     funext m
     show t m = (if m = i ∨ m = j then t i else 1) * (if m = i ∨ m = j then 1 else t m)
     by_cases h : m = i ∨ m = j
-    · rw [if_pos h, if_pos h, mul_one]
+    · rw [ite_eq_left h, ite_eq_left h, mul_one]
       rcases h with rfl | rfl
       · rfl
       · exact ht.symm
-    · rw [if_neg h, if_neg h, one_mul]
+    · rw [ite_eq_right h, ite_eq_right h, one_mul]
   have h2 : t' = fun m => if m = i then t i else if m = j then t i else 1 := by
     funext m
     by_cases h : m = i <;> by_cases h2 : m = j <;> simp [t', h, h2]
@@ -464,6 +464,12 @@ private theorem commute_diagSp_shortBlock {t : Fin N → Fˣ} {i j : Fin N} (hij
       (diagSp_mul t' t'').symm]
   exact hcomm1.mul_left hcomm2
 
+private theorem longBlock_torus_eq_diagSp {p r f : ℕ}
+    {χ : Multiplicative (ZMod p) →* (GaloisField 2 f)ˣ} (d : Fin (r + 1)) :
+    longBlock (GaloisField 2 f) (r + 1) d
+        (CFSG.ClassicalInvolution.WeakCT.torusHom (GaloisField 2 f) (ggSecFiveBZeta (χ := χ))) =
+      diagSp (fun m => if m = d then ggSecFiveBZeta (χ := χ) else 1) :=
+  (diagSp_eq_longBlock d (ggSecFiveBZeta (χ := χ))).symm
 
 section KFrame
 
@@ -574,12 +580,6 @@ private theorem commute_torus_of_mem_centralizer (hF : GGSecFiveBPermSpKFrame Bs
   exact h3.symm
 
 
-private theorem longBlock_torus_eq_diagSp (d : Fin (r + 1)) :
-    longBlock (GaloisField 2 f) (r + 1) d
-        (CFSG.ClassicalInvolution.WeakCT.torusHom (GaloisField 2 f) (ggSecFiveBZeta (χ := χ))) =
-      diagSp (fun m => if m = d then ggSecFiveBZeta (χ := χ) else 1) :=
-  (diagSp_eq_longBlock d (ggSecFiveBZeta (χ := χ))).symm
-
 private theorem fun_single_pow (d : Fin (r + 1)) :
     (fun m : Fin (r + 1) => if m = d then ggSecFiveBZeta (χ := χ) else 1) ^ p = 1 := by
   funext m
@@ -629,9 +629,9 @@ private theorem hgen_short (hp2 : p ≠ 2)
       ggSecFiveBEta_subtype_mul_inv_pow he htB _
     have hji : j ≠ i := hij.symm
     have e_i : (eta ⟨t, htB⟩) (π i.succ) = Multiplicative.ofAdd 1 := by
-      rw [hηt i, if_pos rfl]
+      rw [hηt i, ite_eq_left rfl]
     have e_j : (eta ⟨t, htB⟩) (π j.succ) = Multiplicative.ofAdd (-1) := by
-      rw [hηt j, if_neg hji, if_pos rfl]
+      rw [hηt j, ite_eq_right hji, ite_eq_left rfl]
     have hk : (↑kk.val : ZMod p) = kk := ZMod.natCast_zmod_val kk
     have h4 : (2 : ZMod p) * kk = Multiplicative.toAdd (eta ⟨e, he⟩ (π i.succ)) -
         Multiplicative.toAdd (eta ⟨e, he⟩ (π j.succ)) := by
@@ -780,23 +780,23 @@ private theorem c2_column_zero_of_commute_planeTorusElt {F : Type} [Field F] {N 
     (hxi : x ≠ Sum.inl i) (hxj : x ≠ Sum.inl j) :
     Symplectic.SpExtras.mat N F g x (Sum.inl u) = 0 := by
   have hD : planeTorusDiag i j a a (Sum.inl u) = (a : F) := by
-    rw [planeTorusDiag_inl_same, if_pos hu]
+    rw [planeTorusDiag_inl_same, ite_eq_left hu]
   have hDx : planeTorusDiag i j a a x ≠ (a : F) := by
     rcases x with y | y
     · rw [planeTorusDiag_inl_same]
       by_cases h : y = i ∨ y = j
       · rcases h with h | h
-        · rw [if_pos (Or.inl h)]
+        · rw [ite_eq_left (Or.inl h)]
           exact (hxi (by rw [h])).elim
-        · rw [if_pos (Or.inr h)]
+        · rw [ite_eq_left (Or.inr h)]
           exact (hxj (by rw [h])).elim
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         exact fun e => c2_val_ne_one ha e.symm
     · rw [planeTorusDiag_inr_same]
       by_cases h : y = i ∨ y = j
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact fun e => ha e.symm
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         exact fun e => c2_val_ne_one ha e.symm
   have h := (commute_planeTorusElt_iff hij a a g).1 hg x (Sum.inl u)
   rw [hD] at h
@@ -903,7 +903,7 @@ private theorem c2_hm_mem {i j m : Fin (r + 1)} (hmi : m ≠ i) (hmj : m ≠ j) 
   rw [show eta (c2_hm eta π m) = c2_um π m from MulEquiv.apply_symm_apply eta (c2_um π m)]
   have hπi : π i.succ ≠ π m.succ := fun h => hmi (Fin.succ_inj.mp (π.injective h)).symm
   have hπj : π j.succ ≠ π m.succ := fun h => hmj (Fin.succ_inj.mp (π.injective h)).symm
-  simp only [c2_um, Pi.mulSingle_apply, hπi, hπj, if_false]
+  simp only [c2_um, Pi.mulSingle_apply, hπi, hπj, ite_false]
 
 private theorem c2_hij_mem {i j : Fin (r + 1)} (hij : i ≠ j) :
     ((c2_hij eta π i j : ↥Bs) : G) ∈ ggBsCoordEq Bs eta (π i.succ) (π j.succ) := by
@@ -911,7 +911,7 @@ private theorem c2_hij_mem {i j : Fin (r + 1)} (hij : i ≠ j) :
   show eta (c2_hij eta π i j) (π i.succ) = eta (c2_hij eta π i j) (π j.succ)
   rw [show eta (c2_hij eta π i j) = c2_uij π i j from MulEquiv.apply_symm_apply eta (c2_uij π i j)]
   have hπ : π i.succ ≠ π j.succ := fun h => hij (Fin.succ_inj.mp (π.injective h))
-  simp only [c2_uij, Pi.mul_apply, Pi.mulSingle_apply, hπ, hπ.symm, if_true, if_false,
+  simp only [c2_uij, Pi.mul_apply, Pi.mulSingle_apply, hπ, hπ.symm, ite_true, ite_false,
     mul_one, one_mul]
 
 private theorem c2_tau_hm (m : Fin (r + 1)) :
@@ -924,11 +924,11 @@ private theorem c2_tau_hm (m : Fin (r + 1)) :
     rw [show eta (c2_hm eta π m) = c2_um π m from MulEquiv.apply_symm_apply eta (c2_um π m)]
     show χ (c2_um π m (π m'.succ)) = (if m' = m then ggSecFiveBZeta (χ := χ) else 1)
     by_cases h : m' = m
-    · rw [if_pos h, h]
-      simp only [c2_um, Pi.mulSingle_apply, if_true, ggSecFiveBZeta]
+    · rw [ite_eq_left h, h]
+      simp only [c2_um, Pi.mulSingle_apply, ite_true, ggSecFiveBZeta]
     · have hπ : π m'.succ ≠ π m.succ := fun hh => h (Fin.succ_inj.mp (π.injective hh))
-      rw [if_neg h]
-      simp only [c2_um, Pi.mulSingle_apply, hπ, if_false, map_one]
+      rw [ite_eq_right h]
+      simp only [c2_um, Pi.mulSingle_apply, hπ, ite_false, map_one]
   have h1 : ggSecFiveBPermSpKTorus eta π χ (c2_hm eta π m) =
       diagSp (fun m' => if m' = m then ggSecFiveBZeta (χ := χ) else 1) := by
     rw [ggSecFiveBPermSpKTorus_eq_diagSp]
@@ -949,17 +949,17 @@ private theorem c2_tau_hij {i j : Fin (r + 1)} (hij : i ≠ j) :
     have hπij : π i.succ ≠ π j.succ := fun h => hij (Fin.succ_inj.mp (π.injective h))
     have hπji : π j.succ ≠ π i.succ := hπij.symm
     by_cases hi : m' = i
-    · rw [if_pos hi, hi]
-      simp only [c2_uij, Pi.mul_apply, Pi.mulSingle_apply, hπij, if_true, if_false,
+    · rw [ite_eq_left hi, hi]
+      simp only [c2_uij, Pi.mul_apply, Pi.mulSingle_apply, hπij, ite_true, ite_false,
         mul_one, ggSecFiveBZeta]
     · by_cases hj : m' = j
-      · rw [if_neg hi, if_pos hj, hj]
-        simp only [c2_uij, Pi.mul_apply, Pi.mulSingle_apply, hπji, if_false, if_true,
+      · rw [ite_eq_right hi, ite_eq_left hj, hj]
+        simp only [c2_uij, Pi.mul_apply, Pi.mulSingle_apply, hπji, ite_false, ite_true,
           one_mul, ggSecFiveBZeta]
       · have hπi : π m'.succ ≠ π i.succ := fun h => hi (Fin.succ_inj.mp (π.injective h))
         have hπj : π m'.succ ≠ π j.succ := fun h => hj (Fin.succ_inj.mp (π.injective h))
-        rw [if_neg hi, if_neg hj]
-        simp only [c2_uij, Pi.mul_apply, Pi.mulSingle_apply, hπi, hπj, if_false,
+        rw [ite_eq_right hi, ite_eq_right hj]
+        simp only [c2_uij, Pi.mul_apply, Pi.mulSingle_apply, hπi, hπj, ite_false,
           map_one, mul_one]
   have h1 : ggSecFiveBPermSpKTorus eta π χ (c2_hij eta π i j) =
       diagSp (fun m' => if m' = i then ggSecFiveBZeta (χ := χ) else
@@ -995,10 +995,10 @@ private theorem c2_tL_pow (i j : Fin (r + 1)) : c2_tL (χ := χ) i j ^ p = 1 := 
   show (if m = i then ggSecFiveBZeta (χ := χ) else if m = j then (ggSecFiveBZeta (χ := χ))⁻¹
     else 1) ^ p = 1
   by_cases hi : m = i
-  · rw [if_pos hi, ggSecFiveBZeta_pow_p (χ := χ)]
+  · rw [ite_eq_left hi, ggSecFiveBZeta_pow_p (χ := χ)]
   · by_cases hj : m = j
-    · rw [if_neg hi, if_pos hj, inv_pow, ggSecFiveBZeta_pow_p, inv_one]
-    · rw [if_neg hi, if_neg hj, one_pow]
+    · rw [ite_eq_right hi, ite_eq_left hj, inv_pow, ggSecFiveBZeta_pow_p, inv_one]
+    · rw [ite_eq_right hi, ite_eq_right hj, one_pow]
 
 private theorem c2_t_mem_Bs (hF : GGSecFiveBPermSpKFrame Bs K eta π κ χ)
     (hBs : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs)
@@ -1025,11 +1025,11 @@ private theorem c2_eta_t (hF : GGSecFiveBPermSpKFrame Bs K eta π κ χ) (hp2 : 
       χ (if m = i then Multiplicative.ofAdd 1 else
         if m = j then Multiplicative.ofAdd (-1) else 1)
     by_cases hi : m = i
-    · rw [if_pos hi, if_pos hi]
+    · rw [ite_eq_left hi, ite_eq_left hi]
     · by_cases hj : m = j
-      · rw [if_neg hi, if_pos hj, if_neg hi, if_pos hj, ofAdd_neg]
+      · rw [ite_eq_right hi, ite_eq_left hj, ite_eq_right hi, ite_eq_left hj, ofAdd_neg]
         exact (map_inv χ (Multiplicative.ofAdd 1)).symm
-      · rw [if_neg hi, if_neg hj, if_neg hi, if_neg hj, map_one]
+      · rw [ite_eq_right hi, ite_eq_right hj, ite_eq_right hi, ite_eq_right hj, map_one]
   · rw [hb]
     exact congrArg κ h1
 
@@ -1046,8 +1046,8 @@ private theorem c2_r'mem (hF : GGSecFiveBPermSpKFrame Bs K eta π κ χ) (hp2 : 
         ↥Bs) (π m.succ) = if m = d then Multiplicative.ofAdd 1 else 1 :=
     eta_of_longBlock_torus hF hp2 rfl
   exact (coe_mem_ggBsCoordEq (b := ⟨_, hr'B⟩)).2 (by
-    rw [hcoord i, hcoord j, if_neg (fun h : i = d => hdi h.symm),
-      if_neg (fun h : j = d => hdj h.symm)])
+    rw [hcoord i, hcoord j, ite_eq_right (fun h : i = d => hdi h.symm),
+      ite_eq_right (fun h : j = d => hdj h.symm)])
 
 private theorem c2_y_mem (hF : GGSecFiveBPermSpKFrame Bs K eta π κ χ) (hp2 : p ≠ 2)
     (hK : LargeEvenPComponent p (Subgroup.centralizer {y}) K) (hyB : y ∈ Bs)
@@ -1226,7 +1226,7 @@ private theorem c1_longBlock_torus_mem_ggBsCoordZero (hF : GGSecFiveBPermSpKFram
   rw [mem_ggBsCoordZero]
   refine ⟨hB, ?_⟩
   have h := eta_of_longBlock_torus hF hp2 (b := ⟨_, hB⟩) rfl j
-  rw [if_neg hjd] at h
+  rw [ite_eq_right hjd] at h
   exact h
 
 private theorem c1_kframe_normalizes_zero [Finite G]
@@ -1263,8 +1263,8 @@ private theorem c1_commute_of_mem_centralizer_zero (hF : GGSecFiveBPermSpKFrame 
     rw [hbdef, MulEquiv.apply_symm_apply]
     by_cases h : m' = m
     · subst h
-      rw [if_pos rfl, Pi.mulSingle_eq_same]
-    · rw [if_neg h, Pi.mulSingle_eq_of_ne (by
+      rw [ite_eq_left rfl, Pi.mulSingle_eq_same]
+    · rw [ite_eq_right h, Pi.mulSingle_eq_of_ne (by
         intro he
         exact h (Fin.succ_inj.mp (π.injective he))), map_one]
   have hτ : CFSG.StandardType.ggSecFiveBPermSpKTorus eta π χ b =

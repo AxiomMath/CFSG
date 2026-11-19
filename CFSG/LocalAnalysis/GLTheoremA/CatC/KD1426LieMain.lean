@@ -25,6 +25,7 @@ theorem onLie_k3Lie_le_k3NoA10 {i : TauCeti.CFSGIndex} (h : onLie k3Lie i) : k3N
   | lie d => simpa [onLie, k3NoA10] using h
   | sporadic s => exact h.elim
 
+omit [Finite Y] in
 theorem catalogIs_pSimple_k3NoA10 {K : Subgroup Y} (hcore : GLAPPrimeCore 3 ↥K = ⊥)
     (hcat : catalogIs (↥K ⧸ Subgroup.center ↥K) (onLie k3Lie)) :
     catalogIs (PSimple 3 K) k3NoA10 := by
@@ -32,12 +33,14 @@ theorem catalogIs_pSimple_k3NoA10 {K : Subgroup Y} (hcore : GLAPPrimeCore 3 ↥K
   exact ⟨i, onLie_k3Lie_le_k3NoA10 hi,
     ⟨(CFSG.LocalAnalysis.GLTheoremA.pSimpleEquiv hcore).trans e⟩⟩
 
+omit [Finite Y] in
 theorem inf_centralizer_eq_self_of_le_centralizer {K A : Subgroup Y}
     (hA : A ≤ Subgroup.centralizer (K : Set Y)) :
     K ⊓ Subgroup.centralizer (A : Set Y) = K := by
   rw [inf_eq_left]
   exact (Subgroup.le_centralizer_iff).mpr hA
 
+omit [Finite Y] in
 private theorem sup_zpowers_facts {B A : Subgroup Y} {b : Y} (hB : IsElemAbelian 3 B)
     (hAB : A ≤ B) (hb : b ∈ B) (hbA : b ∉ A) (hAcard : Nat.card ↥A = 9) :
     A ⊔ Subgroup.zpowers b ≤ B ∧ IsElemAbelian 3 (A ⊔ Subgroup.zpowers b) ∧
@@ -50,6 +53,7 @@ private theorem sup_zpowers_facts {B A : Subgroup Y} {b : Y} (hB : IsElemAbelian
     (hB.2 b hb) hbA hcomm, hAcard]
   norm_num
 
+omit [Finite Y] in
 private theorem card_of_relIndex_eq {A B : Subgroup Y} (hAB : A ≤ B)
     (hA : Nat.card ↥A = 9) (hrel : A.relIndex B = 9) : Nat.card ↥B = 81 := by
   have hmul := Subgroup.relIndex_mul_card A B

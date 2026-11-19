@@ -23,7 +23,7 @@ theorem omegaFourInput_holds : OmegaFourInput := by
         rw [h]
         norm_num [Finset.Icc_self]
       exact_mod_cast this
-    haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q₀) :=
+    have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q₀) :=
       Nat.finite_of_card_ne_zero (by rw [h72]; norm_num)
     have hsolv : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup Q₀) :=
       isSolvable_of_card_primeFactors_le_two (by
@@ -34,8 +34,8 @@ theorem omegaFourInput_holds : OmegaFourInput := by
         decide)
     have hDle : D ≤ TauCeti.QuadraticMap.orthogonalGroup Q₀ :=
       hDΩ.trans orthDerived_le_orthogonalGroup
-    haveI : Group.IsSolvable ↥D :=
-      solvable_of_solvable_injective (f := Subgroup.inclusion hDle)
+    have : Group.IsSolvable ↥D :=
+      Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hDle)
         (Subgroup.inclusion_injective hDle)
     exact not_isSolvable_of_isQuasisimple hDq this
   · have h := natCard_orthogonalGroup_of_type hQ hdim' (ε := -1) (Or.inr ⟨rfl, hplus⟩)
@@ -45,7 +45,7 @@ theorem omegaFourInput_holds : OmegaFourInput := by
         rw [h]
         norm_num [Finset.Icc_self]
       exact_mod_cast this
-    haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q₀) :=
+    have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q₀) :=
       Nat.finite_of_card_ne_zero (by rw [h120]; norm_num)
     have := Subgroup.card_dvd_of_le hTO
     rw [hT9, h120] at this

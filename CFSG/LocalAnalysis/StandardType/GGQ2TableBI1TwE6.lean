@@ -52,10 +52,10 @@ theorem ggQ2TableBI1FailOn_twE6
   obtain ⟨e, he⟩ := ggTwE6Bad_weylOfType hset.1 hTw
   obtain ⟨Φ, T, w, hm⟩ := ggTwE6Bad_model hset.1 hTw hN
   obtain ⟨V, iadd, imod, ⟨ιV⟩⟩ := exists_ggLinData (p := 3) hBs
-  letI : AddCommGroup V := iadd
-  letI : Module (ZMod 3) V := imod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let : AddCommGroup V := iadd
+  let : Module (ZMod 3) V := imod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   obtain ⟨cor, α, hα, hrefl, hpair⟩ :=
     SecFiveRootRefl.exists_cartan_pairing_of_iso (p := 3) (by norm_num) hNoTr ggIntCartan_E₆
       (SecFiveRootRefl.entries_E 6) (SecFiveRootRefl.cartanTree_E 6 (by norm_num)) e he

@@ -91,7 +91,7 @@ theorem noPerfectTwoCoreSection_m22_alt7 :
   ·
     have hbot : CFSG.pCore 2 ↥H = ⊥ := by
       rw [htop]
-      haveI : IsSimpleGroup CFSG.ComponentClassification.WittDesign.M22 :=
+      have : IsSimpleGroup CFSG.ComponentClassification.WittDesign.M22 :=
         CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2
       have hnot2 : ¬ IsPGroup 2 CFSG.ComponentClassification.WittDesign.M22 := by
         simpa only [CFSG.Blueprint.NativeSporadic.Carrier] using
@@ -103,7 +103,7 @@ theorem noPerfectTwoCoreSection_m22_alt7 :
   ·
     have hbot : CFSG.pCore 2 ↥H = ⊥ := by
       rw [hg]
-      haveI : IsSimpleGroup
+      have : IsSimpleGroup
           (MulAction.stabilizer CFSG.ComponentClassification.WittDesign.M22
             (0 : Fin 22)) :=
         CFSG.ComponentClassification.WittDesign.isSimpleGroup_stabilizer (a := 0)
@@ -151,7 +151,7 @@ theorem noPerfectTwoCoreSection_congr {S S' T T' : Type} [Group S] [Group S'] [G
   let eH : ↥H ≃* ↥H' :=
     (MulEquiv.subgroupMap e H).trans (MulEquiv.subgroupCongr hHmap)
   have hperf : Group.IsPerfect ↥H := by
-    haveI := hperf'
+    have := hperf'
     exact Group.IsPerfect.ofSurjective (f := eH.symm.toMonoidHom) eH.symm.surjective
   have hcore : CFSG.pCore 2 ↥H ≠ ⊥ := by
     intro hbot

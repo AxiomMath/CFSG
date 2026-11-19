@@ -57,7 +57,7 @@ theorem eq_one_of_conj_mem (H : SzSylowData K q S) {B : Subgroup K}
       Subgroup.le_normalizer hxg, ?_⟩⟩
     simp [MulAut.conj_apply, mul_assoc]
   have h1 := Subgroup.orderOf_dvd_natCard _ hmem
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup') ⟨x, hx⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup) ⟨x, hx⟩
   have h2 : orderOf x = 2 ^ k := by simpa using hk
   have h3 : Odd (orderOf x) := Odd.of_dvd_nat hodd h1
   rw [h2] at h3

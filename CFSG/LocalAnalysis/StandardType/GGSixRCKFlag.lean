@@ -22,12 +22,12 @@ namespace CFSG.StandardType.RCKFlag
 open CFSG.Assembly CFSG.Blueprint CFSG.StandardType CFSG.StandardType.RCKC1 CFSG.Open
   CFSG.LieType.Universal
 
-theorem rckFlag_oddCenter_SL (m g : ℕ) (hg : 1 ≤ g) :
+theorem rckFlag_oddCenter_SL (m g : ℕ) (_hg : 1 ≤ g) :
     OddCenterOf (Matrix.SpecialLinearGroup.toGL (n := Fin (m + 1)) (R := GaloisField 2 g)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.StandardType.SLRest.odd_card_center_SL (K := GaloisField 2 g) (d := m + 1)
 
-theorem rckFlag_oddCenter_SU (n g : ℕ) (hg : 1 ≤ g) :
+theorem rckFlag_oddCenter_SU (n g : ℕ) (_hg : 1 ≤ g) :
     OddCenterOf (Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
       (GaloisField 2 (2 * g)) 2 g) n).subtype := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -37,7 +37,7 @@ theorem rckFlag_oddCenter_SU (n g : ℕ) (hg : 1 ≤ g) :
     (H := Subgroup.center (Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
       (GaloisField 2 (2 * g)) 2 g) n)) le_rfl
 
-theorem rckFlag_oddCenter_Sp (n g : ℕ) (hg : 1 ≤ g) :
+theorem rckFlag_oddCenter_Sp (n g : ℕ) (_hg : 1 ≤ g) :
     OddCenterOf (CFSG.Open.StatedSp n (GaloisField 2 g)).subtype := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold OddCenterOf
@@ -49,7 +49,7 @@ theorem rckFlag_oddCenter_Sp (n g : ℕ) (hg : 1 ≤ g) :
   ∀ g : ℕ, 1 ≤ g → OddCenterOf (Spin.spinMatrix (Spin.quadPlus 2 (GaloisField 2 g)))
 
 theorem rckFlag_oddCenter_quadMinus_two
-    (g : ℕ) (hg : 1 ≤ g) :
+    (g : ℕ) (_hg : 1 ≤ g) :
     OddCenterOf (Spin.spinMatrix (Spin.quadMinus 2 (GaloisField 2 g)
       (minusCoeffs 2 g).1 (minusCoeffs 2 g).2)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -57,7 +57,7 @@ theorem rckFlag_oddCenter_quadMinus_two
   have hinj : Function.Injective (Spin.spinMatrix (Spin.quadMinus 2 (GaloisField 2 g)
       (minusCoeffs 2 g).1 (minusCoeffs 2 g).2)) :=
     (MonoidHom.ker_eq_bot_iff _).1 (Spin.ker_spinMatrix_quadMinus_eq_bot (minusCoeffs_irr 2 g) h2)
-  haveI : Finite (spinGroup (Spin.quadMinus 2 (GaloisField 2 g)
+  have : Finite (spinGroup (Spin.quadMinus 2 (GaloisField 2 g)
       (minusCoeffs 2 g).1 (minusCoeffs 2 g).2)) := Finite.of_injective _ hinj
   exact CFSG.StandardType.LieKnownR2.OddCenter.odd_card_center_of_centerPPrime_two
     (CFSG.StandardType.RCKC1.rckGL4_centerPPrime_spinMinus_two (minusCoeffs_irr 2 g))

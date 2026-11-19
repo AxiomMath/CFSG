@@ -37,7 +37,7 @@ theorem false_of_linear (hd : Sec23Data V H)
         (Vtilde V H).map e.toMonoidHom = transvImage n K (transvCenter n K c)) ∨
       (∃ a : Fin n → K, a ≠ 0 ∧
         (Vtilde V H).map e.toMonoidHom = transvImage n K (transvAxis n K a))) : False := by
-  haveI : IsSimpleGroup (StatedProj (StatedSL n K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL n K)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (by omega) (Or.inl (by omega))
       (Or.inl (by omega))
   have hsimple : IsSimpleGroup (Xbar V H ⧸ Subgroup.center (Xbar V H)) := e.isSimpleGroup

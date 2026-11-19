@@ -42,17 +42,20 @@ theorem support_shiftPerm (q : ℕ) (hq : 2 ≤ q) [NeZero q] :
   rw [shiftPerm_eq_finRotate]
   exact support_finRotate
 
-variable {L : Type u} [Group L] {p q : ℕ} [Fact p.Prime] {H U B H0 : Subgroup L}
-  [H.Normal] [H0.Normal] {Eline : ZMod q → Subgroup (↥H ⧸ H0.subgroupOf H)}
-  {W : Type u} [AddCommGroup W] [Module (ZMod p) W]
-
-noncomputable def factorLinearActOn (p : ℕ) [Module (ZMod p) W] (B : Subgroup L)
+noncomputable def factorLinearActOn {L : Type u} [Group L] {W : Type u} [AddCommGroup W]
+    (p : ℕ) [Module (ZMod p) W] (B : Subgroup L)
     (H H0 : Subgroup L) [H.Normal] [H0.Normal]
     (e : (↥H ⧸ H0.subgroupOf H) ≃* Multiplicative W) : ↥B →* (W ≃ₗ[ZMod p] W) :=
   (factorLinearAut p H H0 e).comp B.subtype
 
-theorem factorLinearActOn_apply (e : (↥H ⧸ H0.subgroupOf H) ≃* Multiplicative W) (g : ↥B) :
+theorem factorLinearActOn_apply {L : Type u} [Group L] {p : ℕ} {H B H0 : Subgroup L}
+    [H.Normal] [H0.Normal] {W : Type u} [AddCommGroup W] [Module (ZMod p) W]
+    (e : (↥H ⧸ H0.subgroupOf H) ≃* Multiplicative W) (g : ↥B) :
     factorLinearActOn p B H H0 e g = factorLinearAut p H H0 e (g : L) := (rfl)
+
+variable {L : Type u} [Group L] {p q : ℕ} [Fact p.Prime] {H U B H0 : Subgroup L}
+  [H.Normal] [H0.Normal] {Eline : ZMod q → Subgroup (↥H ⧸ H0.subgroupOf H)}
+  {W : Type u} [AddCommGroup W] [Module (ZMod p) W]
 
 noncomputable def autBOfNormalizer (U : Subgroup L) {B : Subgroup L}
     (hB : B ≤ Subgroup.normalizer (U : Set L)) : ↥B →* MulAut ↥U :=

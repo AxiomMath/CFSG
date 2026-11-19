@@ -104,7 +104,7 @@ theorem w16g_rk_eq_finrank [Finite W] (hW : ∀ w : W, w ^ 2 = 1) (S : Subgroup 
         left_inv := fun x => by ext; simp
         right_inv := fun s => by ext; simp }
   have h1 : Nat.card S = 2 ^ rk S := card_eq_two_pow hW S
-  haveI : Fintype (w16g_toSub S) := Fintype.ofFinite _
+  have : Fintype (w16g_toSub S) := Fintype.ofFinite _
   have h2 : Fintype.card (w16g_toSub S) =
       2 ^ Module.finrank (ZMod 2) (w16g_toSub S) := by
     simpa using Module.card_eq_pow_finrank (K := ZMod 2) (V := w16g_toSub S)

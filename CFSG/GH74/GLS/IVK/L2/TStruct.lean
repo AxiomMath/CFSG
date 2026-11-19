@@ -37,7 +37,7 @@ theorem T_decomp (N : L2Notation e) (τ : MulAut K) (hτ : τ ∈ (N.T : Subgrou
   set σ : F ≃+* F := fieldProj e τ with hσ
   set φ : MulAut K := fieldAutHom e σ with hφ
   have hφF : φ ∈ fieldAutSub e := ⟨σ, rfl⟩
-  obtain ⟨k, hk⟩ := N.T.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := N.T.isPGroup.exists_card_eq
   have hτo : orderOf τ ∣ 2 ^ k := by
     rw [← hk]
     exact Subgroup.orderOf_dvd_natCard _ hτ

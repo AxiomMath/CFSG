@@ -44,7 +44,7 @@ private theorem q13dO_conjIn_y_ncard_le (h : Q13Om t L S x₁ x₂ lam rho tau o
     have hconjV : s * x₁ ^ 2 * s⁻¹ ∈ fourGrp x₁ x₂ := (hB𝒮.V_normal).2 s hs (x₁ ^ 2) hyV
     have hz_cent : s * (x₁ * x₂) ^ 2 = (x₁ * x₂) ^ 2 * s := q13b_z_central h h𝒮 hU s hs
     have hcomm_yz : x₁ ^ 2 * (x₁ * x₂) ^ 2 = (x₁ * x₂) ^ 2 * x₁ ^ 2 := by
-      haveI : IsMulCommutative ↥(fourGrp x₁ x₂) := (h.c11.wreath.fourGrp_eq_omega).2.1.1
+      have : IsMulCommutative ↥(fourGrp x₁ x₂) := (h.c11.wreath.fourGrp_eq_omega).2.1.1
       exact congrArg Subtype.val (mul_comm' ⟨x₁ ^ 2, hyV⟩ ⟨(x₁ * x₂) ^ 2, hzV⟩)
     have hy2 : x₁ ^ 2 * x₁ ^ 2 = 1 := by
       have h4 : x₁ ^ 4 = 1 := by

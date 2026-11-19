@@ -124,7 +124,7 @@ theorem overgroup_of_catalog {Y : Type} [Group Y] [Finite Y] {N' : Subgroup Y}
     {P : Subgroup Y} (hP : SolStd P) (hq : CFSG.IsQuasisimple ↥P)
     (hU : IsU62 (↥P ⧸ center ↥P)) (hodd : Odd (Nat.card ↥(center ↥P))) :
     LieModel ↥N' .PSL 6 2 2 ∨ IsSporadic ↥N' .Fi23 ∨ IsSporadic ↥N' .Fi24Prime := by
-  haveI : N'.Normal := hN.normal
+  have : N'.Normal := hN.normal
   have hSimple := hN.isSimpleGroup
   have hna := hN.nonabelian
   have hPN : P ≤ N' := Hyp.le_of_perfect_of_index_le_two hidx hq.1

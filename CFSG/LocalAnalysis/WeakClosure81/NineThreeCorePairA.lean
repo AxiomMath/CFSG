@@ -34,7 +34,7 @@ theorem nine3_pair_P_disjoint (hc : Nine3Choice V T A K S X p g x) {n : ℕ}
     by_cases hk : k = 0
     · subst hk
       have hl : l ≠ 0 := fun h => hkl h.symm
-      simp only [if_pos rfl, if_neg hl]
+      simp only [ite_eq_right hl]
       rw [eq_bot_iff]
       intro x hx
       have hxV : x ∈ V := hx.1.1
@@ -47,7 +47,7 @@ theorem nine3_pair_P_disjoint (hc : Nine3Choice V T A K S X p g x) {n : ℕ}
         exact absurd ((ha l).trans heq.symm) (hVne l hl)
     · by_cases hl : l = 0
       · subst hl
-        simp only [if_neg hk, if_pos rfl]
+        simp only [ite_eq_right hk]
         rw [eq_bot_iff]
         intro x hx
         have hxBk : x ∈ B k := hx.1.1
@@ -58,7 +58,7 @@ theorem nine3_pair_P_disjoint (hc : Nine3Choice V T A K S X p g x) {n : ℕ}
           exact Subgroup.mem_bot.mp (by rw [← hbot]; exact ⟨hxV, hxBk⟩)
         · rw [CFSG.Quasithin.conjSubgroup_one] at heq
           exact absurd ((ha k).trans heq.symm) (hVne k hk)
-      · simp only [if_neg hk, if_neg hl]
+      · simp only [ite_eq_right hk, ite_eq_right hl]
         rw [eq_bot_iff]
         intro x hx
         have hxBk : x ∈ B k := hx.1.1
@@ -76,9 +76,9 @@ theorem nine3_pair_P_le_W (hc : Nine3Choice V T A K S X p g x) {n : ℕ}
     nine3_pair_P V K g B k ≤ nineW V S := by
   by_cases hk : k = 0
   · subst hk
-    simp only [nine3_pair_P, if_pos rfl]
+    simp only [nine3_pair_P]
     exact le_sup_left.trans hc.nineW0_le_nineW
-  · simp only [nine3_pair_P, if_neg hk]
+  · simp only [nine3_pair_P, ite_eq_right hk]
     exact inf_le_left.trans (le_iSup₂_of_le (B k) (hBΔ k) le_rfl)
 
 structure Nine3PairEnum (V K S A : Subgroup G) (g : G) (n : ℕ) (B : Fin (n + 1) → Subgroup G)
@@ -144,11 +144,12 @@ theorem nine3_pair_rank (hc : Nine3Choice V T A K S X p g x) {U : Subgroup G}
     omega
   have hnotle : ¬ (⊤ : Subgroup ↥(U ⊓ pCoreOf 2 K)) ≤ Subgroup.zpowers i₁ :=
     fun hle => hcyc_ne_top (top_le_iff.mp hle)
-  obtain ⟨i₂, -, hi₂not⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨i₂, -, hi₂not⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hi₂1 : i₂ ≠ 1 := fun h => hi₂not (by rw [h]; exact Subgroup.one_mem _)
   have hi₂i₁ : i₂ ≠ i₁ := fun h => hi₂not (by rw [h]; exact Subgroup.mem_zpowers i₁)
   exact ⟨i₁, i₂, hi₁, hi₂1, hi₂i₁.symm⟩
 
+omit [Finite G] in
 private theorem nine3_pair_list_prod_mem {W : Subgroup G} (l : List G) (f : G → G)
     (h : ∀ x ∈ l, f x ∈ W) : (l.map f).prod ∈ W := by
   induction l with
@@ -157,6 +158,7 @@ private theorem nine3_pair_list_prod_mem {W : Subgroup G} (l : List G) (f : G �
       rw [List.map_cons, List.prod_cons]
       exact W.mul_mem (h x (by simp)) (ih fun y hy => h y (by simp [hy]))
 
+omit [Finite G] in
 private theorem nine3_pair_comm_list {W : Subgroup G}
     (hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a) {i : G} (l : List G)
     (hl : ∀ x ∈ l, x ∈ W) (hlc : ∀ x ∈ l, ⁅i, x⁆ ∈ W) :
@@ -235,15 +237,15 @@ theorem nine3_pair_hs (hc : Nine3Choice V T A K S X p g x)
     obtain ⟨k, -, hk⟩ := List.mem_map.mp hx
     rw [← hk]
     by_cases hε : ε k = true
-    · rw [if_pos hε]; exact hbbW k
-    · rw [if_neg hε]; exact (nineW V S).one_mem
+    · rw [ite_eq_left hε]; exact hbbW k
+    · rw [ite_eq_right hε]; exact (nineW V S).one_mem
   have hPlc : ∀ x ∈ Plist, ⁅i, x⁆ ∈ nineW V S := by
     intro x hx
     obtain ⟨k, -, hk⟩ := List.mem_map.mp hx
     rw [← hk]
     by_cases hε : ε k = true
-    · rw [if_pos hε]; exact hbb_comm_W k
-    · rw [if_neg hε, commutatorElement_one_right]; exact (nineW V S).one_mem
+    · rw [ite_eq_left hε]; exact hbb_comm_W k
+    · rw [ite_eq_right hε, commutatorElement_one_right]; exact (nineW V S).one_mem
   have hPcomm : ⁅i, Plist.prod⁆ = (Plist.map (fun x => ⁅i, x⁆)).prod :=
     nine3_pair_comm_list (fun a ha b hb => hc.core.nineW_mul_comm ha hb) Plist hPl hPlc
   have hPcommW : ⁅i, Plist.prod⁆ ∈ nineW V S := by

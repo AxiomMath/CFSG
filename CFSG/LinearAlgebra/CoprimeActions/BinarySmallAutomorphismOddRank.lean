@@ -47,7 +47,7 @@ theorem card_mulAut_dvd_GL [Finite E] {n : ℕ} (hE : Nat.card E = p ^ n) :
     rw [hE] at h
     exact (Nat.pow_right_injective hp.out.two_le h).symm
   let b := Module.finBasisOfFinrankEq (ZMod p) (Additive E) hdim
-  haveI : Fintype (ZMod p) := ZMod.fintype p
+  have : Fintype (ZMod p) := ZMod.fintype p
   have hGL := Matrix.card_GL_field n (𝔽 := ZMod p)
   rw [ZMod.card] at hGL
   rw [← hGL]
@@ -57,7 +57,7 @@ end General
 
 theorem card_mulAut_dvd_168 {V : Type*} [Group V] [Finite V] [CFSG.IsElementaryAbelian 2 V]
     (h : CFSG.pRank 2 V ≤ 3) : Nat.card (MulAut V) ∣ 168 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (CFSG.IsElementaryAbelian.isPGroup 2 V)
   have hn3 : n ≤ 3 := by
     rw [CFSG.SectionRank.pRank_eq_open_pRank_top] at h
@@ -84,7 +84,7 @@ theorem pRank_le_one_of_card_dvd_168 {A : Type*} [Group A] [Finite A] (hdvd : Na
   have h2 : p ^ 2 ∣ 168 := h1.trans ((Subgroup.card_subgroup_dvd_card E).trans hdvd)
   have h3 : p ^ 2 ≤ 168 := Nat.le_of_dvd (by norm_num) h2
   have h4 : p ≤ 12 := by nlinarith
-  interval_cases p <;> first | exact absurd rfl hp2 | (exfalso; norm_num at hp; done) | (exfalso; norm_num at h2; done)
+  interval_cases p <;> first | exact absurd rfl hp2 | (exfalso; norm_num at hp; done) | (exfalso; norm_num at h2)
 
 theorem pRank_le_one_of_injective {V : Type*} [Group V] [Finite V] [CFSG.IsElementaryAbelian 2 V]
     (h : CFSG.pRank 2 V ≤ 3) {H : Type*} [Group H] [Finite H] (f : H →* MulAut V)

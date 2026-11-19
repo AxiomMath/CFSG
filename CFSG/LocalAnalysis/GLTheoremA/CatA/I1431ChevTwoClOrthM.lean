@@ -28,8 +28,8 @@ theorem orthm_mem_inner_of_twistedD_four {S : Type} [Group S] [Finite S] {q : Ta
   have hG := CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeTwistedD_even 4 q hv hp e
   have hG' := hG
   obtain ⟨-, K, hfield, hfinite, hK, b, c, hirr, ⟨e₀⟩⟩ := hG'
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hn1 : 1 ≤ 4 := by norm_num
   obtain ⟨-, -, -, hinner⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.KD264Lie.matrixModel_facts_pomegaMinus hG hK hn1 b c hirr e₀

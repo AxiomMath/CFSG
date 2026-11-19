@@ -22,8 +22,8 @@ variable {G : Type} [Group G] [Finite G]
 private theorem one_le_of_isOmegaMinus_four {X : Type} [Group X] {k : ℕ}
     (h : IsOmegaMinus X 4 k) : 1 ≤ k := by
   obtain ⟨-, K, hKf, hKfin, b, c, hcard, hbc, -⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have h2 : 1 < Nat.card K := Finite.one_lt_card
   have hk : 1 < 2 ^ k := hcard ▸ h2
   by_contra hk1
@@ -114,7 +114,7 @@ private theorem Ctx23L.false_of_parabolic_proper {D : Data G} {Ch : Choice2011 G
     (c : Ctx23L D Ch) {A P : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V)
     (hAne : A ≠ ⊥) (hAN : c.N ≤ Subgroup.normalizer (A : Set G))
     (hPL : P ≤ c.L) (hL0P : c.L0 = Hinf P)
-    (hLstab : c.L ≤ stabTil (⊥ : Subgroup G) A)
+    (_hLstab : c.L ≤ stabTil (⊥ : Subgroup G) A)
     (hL0stab : c.L0 ≤ stabTil (⊥ : Subgroup G) A)
     {S_A : Sylow 2 ↥(barSub (⊥ : Subgroup G) A hA c.L)}
     (hSA : (S_A : Subgroup ↥(barSub (⊥ : Subgroup G) A hA c.L)) ≤
@@ -302,11 +302,11 @@ private theorem inf_centralizer_le_pCoreOf_of_schur {D : Data G} {Ch : Choice201
   classical
   have hNleK : schurN c ≤ K.subgroupOf c.L0 := fun x hx =>
     Subgroup.mem_subgroupOf.mpr (hO2le ((CFSG.mem_openPCoreOf_iff x).2 hx))
-  haveI : (schurZ c K).Normal :=
+  have : (schurZ c K).Normal :=
     hKnormalL0.map (QuotientGroup.mk' (schurN c)) (QuotientGroup.mk'_surjective _)
   obtain ⟨hZcenter, hZodd⟩ := schurZ_center_odd c hA hL0stab hK hcomm
-  haveI : Group.IsPerfect ↥c.L0 := Subgroup.isPerfect_iff.mpr c.hL0.1.2.1
-  haveI : Group.IsPerfect (schurX c) :=
+  have : Group.IsPerfect ↥c.L0 := Subgroup.isPerfect_iff.mpr c.hL0.1.2.1
+  have : Group.IsPerfect (schurX c) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (schurN c))
       (QuotientGroup.mk'_surjective _)
   have hperfX : ⁅(⊤ : Subgroup (schurX c)), (⊤ : Subgroup (schurX c))⁆ = ⊤ :=

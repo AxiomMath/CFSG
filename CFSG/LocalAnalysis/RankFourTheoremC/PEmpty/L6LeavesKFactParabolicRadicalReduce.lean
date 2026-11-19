@@ -22,7 +22,7 @@ theorem ne_bot_of_parabolic {A : Type} [Group A] {K K₀ U : Subgroup A} (hK₀K
 theorem pCoreOf_ne_bot_of_overgroups {A : Type} [Group A] [Finite A] {K K₀ : Subgroup A}
     (hov : Overgroups ↥K) (hpar : IsParabolicTwo A K K₀) (hne : K₀ ≠ K) :
     pCoreOf 2 K₀ ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hK₀K, U, hU, hUN⟩ := hpar
   obtain ⟨Q, hQ⟩ := hU.exists_sylow_eq_subgroupOf
   have hUK₀ : U ≤ K₀ := fun u hu => hUN ⟨Subgroup.le_normalizer hu, hU.le hu⟩

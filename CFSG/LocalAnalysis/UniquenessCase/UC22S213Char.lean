@@ -47,7 +47,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22s213_inf_centralizerBar_eq_bot_of_prime {P Q L : Subgroup G} {r : ℕ} (hr : r.Prime)
     (hr2 : r ≠ 2) (hQL : Q ≤ L) (hQr : IsPGroup r Q) (hZ : ¬ r ∣ Nat.card (center (Bar2 L))) :
     Q ⊓ PartOne.Section8.centralizerBar P L = ⊥ := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hQO2 : Q ⊓ CFSG.Open.pCoreOf 2 L = ⊥ :=
     (IsPGroup.disjoint_of_ne r 2 hr2 _ _ hQr (UC6S846.isPGroup_pCoreOf L)).eq_bot
   rw [eq_bot_iff]
@@ -59,7 +59,7 @@ theorem uc22s213_inf_centralizerBar_eq_bot_of_prime {P Q L : Subgroup G} {r : �
   have hdvdr : orderOf (QuotientGroup.mk (⟨z, hQL hzQ⟩ : ↥L) : Bar2 L) ∣ r ^ k := by
     refine (orderOf_map_dvd (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) _).trans ?_
     have h := orderOf_dvd_of_pow_eq_one hk
-    rwa [Subgroup.orderOf_mk] at h ⊢
+    rw [Subgroup.orderOf_mk] at h ⊢; assumption
   have hcop : Nat.Coprime (r ^ k) (Nat.card (center (Bar2 L))) :=
     ((Nat.Prime.coprime_iff_not_dvd hr).2 hZ).pow_left k
   have h1 : orderOf (QuotientGroup.mk (⟨z, hQL hzQ⟩ : ↥L) : Bar2 L) = 1 :=
@@ -78,8 +78,8 @@ theorem uc22s213_strong_of_pRank_le (hS : Standing4 G) (hU : uniqueFourUnique G)
     (h2 : 2 ≤ CFSG.Open.pRank r L) (hmr : CFSG.Open.pRank r S.M ≤ CFSG.Open.pRank r L)
     (hrσ : r ∉ uniqueFourSigma S.M) (hp : CFSG.Open.pRank S.p L ≤ 1) :
     IsStronglyPEmbedded r S.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hLM : L ≤ S.M := CFSG.Quasithin.A3.subnormal_le hL.1
   have hMN : S.M ≤ normalizer (L : Set G) :=
     uc22s213_le_normalizer_of_not_mem_sigma hU S.maxLocal hL hr hr2 h2 hZ hrσ
@@ -130,7 +130,7 @@ theorem uc22s213_strong_of_pRank_le (hS : Standing4 G) (hU : uniqueFourUnique G)
     le_antisymm inf_le_left (by simpa only [hC1, sup_bot_eq] using hdec)
   have hpp : S.p.Prime := S.hp.1.1
   have hp2 : S.p ≠ 2 := S.hp.1.2.1
-  haveI : Fact S.p.Prime := ⟨hpp⟩
+  have : Fact S.p.Prime := ⟨hpp⟩
   have hsp := PartOne.Section8.isStronglyPEmbedded_of_mem_sigma_of_calC hS hU S hL S.hp
   have h76 : Conclusion76 S.M S.p := by
     by_cases h3 : 3 ∈ uniqueFourBeta G

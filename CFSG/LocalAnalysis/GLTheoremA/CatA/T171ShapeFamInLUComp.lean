@@ -24,6 +24,7 @@ open Polynomial
 
 variable {N n : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem projConj_recipe (D : GL (Fin N) K)
     (hD : D ∈ Subgroup.normalizer (LargeEvenSLGroup (Fin N) K : Set (GL (Fin N) K))) :
     MulAut.congr (CFSG.LocalAnalysis.GLTheoremA.I2015.linRecipeEquiv N K).symm
@@ -59,11 +60,11 @@ theorem specialFactor_of_component
           (CFSG.LocalAnalysis.GLTheoremA.I2015.linRecipeEquiv N K).symm.toMonoidHom =
         (specialFactor D h.1.1).map (proj N K) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hchar : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [← Nat.card_eq_fintype_card]; exact hn)
-  haveI := hchar
+  have := hchar
   have hpk : (p : K) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff K 2]
     intro hdvd

@@ -33,7 +33,7 @@ theorem res1AutCent_projSL_three_of_odd {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 
   have hS : StatedClassicalModel ↥(CFSG.PGLModel.projSL 3 (GaloisField p f)) .PSL 3 p f :=
     CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSL
       ⟨Fact.out, hf, by norm_num, by simp, by simp⟩ (MulEquiv.refl _)
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) (GaloisField p f)) :=
+  have : Finite (Matrix.ProjGenLinGroup (Fin 3) (GaloisField p f)) :=
     Finite.of_surjective
       (Matrix.ProjGenLinGroup.mk : Matrix.GeneralLinearGroup (Fin 3) (GaloisField p f) →* _)
       Matrix.ProjGenLinGroup.mk_surjective
@@ -48,7 +48,7 @@ theorem res1AutCent_projSU_three_of_odd {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 
     have h2 := congrArg Prod.snd h
     simp only at h2
     omega
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) (GaloisField p (2 * f))) :=
+  have : Finite (Matrix.ProjGenLinGroup (Fin 3) (GaloisField p (2 * f))) :=
     Finite.of_surjective
       (Matrix.ProjGenLinGroup.mk : Matrix.GeneralLinearGroup (Fin 3) (GaloisField p (2 * f)) →* _)
       Matrix.ProjGenLinGroup.mk_surjective

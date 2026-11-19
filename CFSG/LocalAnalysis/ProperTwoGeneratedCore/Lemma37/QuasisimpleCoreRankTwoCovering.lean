@@ -53,7 +53,7 @@ theorem false_of_not_mem_fourGroup (hz : FourGen Q z) (h : Setting J Q B) {w : J
           _ = w * s := by rw [h1])
   set T := (Q : Subgroup J) ⊓ quasiNormalizer w with hT
   have hQT : ¬ (Q : Subgroup J) ≤ T := fun hle => hQX (hle.trans inf_le_right)
-  obtain ⟨r₀, hr₀Q, hr₀T, hr₀N⟩ := exists_mem_normalizer_not_mem Q.isPGroup' inf_le_left hQT
+  obtain ⟨r₀, hr₀Q, hr₀T, hr₀N⟩ := exists_mem_normalizer_not_mem Q.isPGroup inf_le_left hQT
   have htT : t ∈ T := ⟨htQ, htX⟩
   obtain ⟨r, hrQ, hrT, hrN, hrz⟩ : ∃ r ∈ (Q : Subgroup J), r ∉ T ∧
       r ∈ Subgroup.normalizer (T : Set J) ∧ r * z = z * r := by

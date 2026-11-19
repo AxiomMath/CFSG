@@ -14,7 +14,7 @@ theorem genPlaneCompOn_A : GenPlaneCompOn PlaneIdxA := by
   obtain ⟨d, hv⟩ := d
   cases d with
   | A r q =>
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hr : 1 ≤ r := ((TauCeti.LieTypeIndex.inStandardRange_iff _).mp
       ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1).1
     let e' : (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group ≃*
@@ -29,7 +29,7 @@ theorem genPlaneCompOn_A : GenPlaneCompOn PlaneIdxA := by
       intro h0
       rw [CharP.cast_eq_zero_iff (GaloisField q.p q.exponent) q.p] at h0
       exact hpq ((Nat.prime_dvd_prime_iff_eq q.prime_p hd.prime).mp h0).symm
-    haveI : Finite (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group := Finite.of_equiv _ e'.symm.toEquiv
+    have : Finite (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group := Finite.of_equiv _ e'.symm.toEquiv
     refine PlaneNoComp.of_mulEquiv hd.prime e' ?_
     rcases Nat.lt_or_ge r 2 with hr2 | hr2
     · obtain rfl : r = 1 := by omega

@@ -75,16 +75,15 @@ theorem largeEvenProjEquiv_comp_unitaryProj (hK : Nat.card K = 4) :
 theorem tZeroSU_eq_tvTransSU (hK : Nat.card K = 4) :
     tZeroSU hK = CFSG.SeitzReduction.UnitaryPilot.tvTransSU (fieldDataFour hK)
       (by decide : (0 : Fin 6) ≠ 1) := by
-  haveI := charP_two_of_card_four hK
+  have := charP_two_of_card_four hK
   refine Subtype.ext (Units.ext (Matrix.ext fun a b => ?_))
   rw [tZeroSU, CFSG.SeitzReduction.UnitaryPilot.coe_permSU,
     CFSG.SeitzReduction.UnitaryPilot.coe_tvTransSU]
   fin_cases a <;> fin_cases b <;>
     simp [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, Equiv.toPEquiv_apply,
-      Equiv.swap_apply_def, CFSG.SeitzReduction.UnitaryPilot.tvE,
-      CFSG.SeitzReduction.UnitaryPilot.tvNil,
-      CFSG.SeitzReduction.UnitaryPilot.tvVec, Matrix.one_apply, Matrix.vecMulVec_apply,
-      CharTwo.add_self_eq_zero, Pi.single_apply] <;> decide
+      Equiv.swap_apply_def, CFSG.SeitzReduction.UnitaryPilot.tvNil,
+      CFSG.SeitzReduction.UnitaryPilot.tvVec, Matrix.vecMulVec_apply,
+      CharTwo.add_self_eq_zero]
 
 theorem tZero_eq_largeEvenProjEquiv_stdTransvection (hK : Nat.card K = 4) :
     tZero hK = largeEvenProjEquiv hK
@@ -108,7 +107,7 @@ theorem blockFourU_eq_map_blockSU (hK : Nat.card K = 4) :
 theorem isSimpleGroup_of_center_eq_bot {G : Type*} [Group G]
     (hZ : Subgroup.center G = ⊥)
     (h : IsSimpleGroup (G ⧸ Subgroup.center G)) : IsSimpleGroup G := by
-  haveI : Nontrivial G :=
+  have : Nontrivial G :=
     Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center G))
   refine IsSimpleGroup.mk ?_
   intro H hH
@@ -220,7 +219,7 @@ theorem TvCore.exists_scalar_mul_mem_sup (hK : Nat.card K = 4)
             ({0, 1}ᶜ : Finset (Fin 6)) ⊔
           CFSG.SeitzReduction.UnitaryPilot.tvRadical (fieldDataFour hK)
             (by decide : (0 : Fin 6) ≠ 1) := by
-  haveI : Finite K := (fieldDataFour hK).finite
+  have : Finite K := (fieldDataFour hK).finite
   set h := fieldDataFour hK with hh
   set hij : (0 : Fin 6) ≠ 1 := by decide
   have hsZ : TvCore.sZ hK = CFSG.SeitzReduction.UnitaryPilot.tvTransSU h hij := rfl
@@ -423,7 +422,7 @@ theorem TvCore.inf_normal_subgroupOf {G : Type*} [Group G]
 
 theorem TvCore.pCoreOf_eq_Q (hK : Nat.card K = 4) :
     pCoreOf 2 (TvCore.C hK) = TvCore.Q hK := by
-  haveI : Finite K := (fieldDataFour hK).finite
+  have : Finite K := (fieldDataFour hK).finite
   have hQC : TvCore.Q hK ≤ TvCore.C hK := TvCore.Q_le_C hK
   have hQnorm : TvCore.C hK ≤ Subgroup.normalizer ((TvCore.Q hK : Set _)) :=
     TvCore.C_le_normalizer_Q hK
@@ -444,8 +443,8 @@ theorem TvCore.pCoreOf_eq_Q (hK : Nat.card K = 4) :
   have hPBnormal : ((pCoreOf 2 (TvCore.C hK) ⊓ TvCore.B hK).subgroupOf
       (TvCore.B hK)).Normal := TvCore.inf_normal_subgroupOf hBC hPnorm
   have hPBbot : pCoreOf 2 (TvCore.C hK) ⊓ TvCore.B hK = ⊥ := by
-    haveI : IsSimpleGroup (TvCore.B hK) := isSimpleGroup_blockSU hK
-    haveI : ((pCoreOf 2 (TvCore.C hK) ⊓ TvCore.B hK).subgroupOf (TvCore.B hK)).Normal :=
+    have : IsSimpleGroup (TvCore.B hK) := isSimpleGroup_blockSU hK
+    have : ((pCoreOf 2 (TvCore.C hK) ⊓ TvCore.B hK).subgroupOf (TvCore.B hK)).Normal :=
       hPBnormal
     rcases Subgroup.Normal.eq_bot_or_eq_top ((pCoreOf 2 (TvCore.C hK) ⊓ TvCore.B hK).subgroupOf
       (TvCore.B hK)) with hbot | htop
@@ -544,7 +543,7 @@ noncomputable def TvCore.admEquivR (hK : Nat.card K = 4) : TvCore.Adm hK ≃ TvC
     refine ⟨⟨(x, s), hxs⟩, ?_⟩
     exact Subtype.ext hr.symm
 
-abbrev TvCore.X (hK : Nat.card K = 4) : Type :=
+abbrev TvCore.X (_hK : Nat.card K = 4) : Type :=
   {x : Fin 6 → K // x 0 = 0 ∧ x 1 = 0}
 
 noncomputable def TvCore.XEquivJ (hK : Nat.card K = 4) :
@@ -553,16 +552,16 @@ noncomputable def TvCore.XEquivJ (hK : Nat.card K = 4) :
   invFun f := ⟨fun a => if h : a ∈ ({0, 1}ᶜ : Finset (Fin 6)) then f ⟨a, h⟩ else 0,
     by
       show (if h : (0 : Fin 6) ∈ ({0, 1}ᶜ : Finset (Fin 6)) then f ⟨0, h⟩ else 0) = 0
-      rw [dif_neg (show (0 : Fin 6) ∉ ({0, 1}ᶜ : Finset (Fin 6)) by decide)],
+      rw [dite_eq_right (show (0 : Fin 6) ∉ ({0, 1}ᶜ : Finset (Fin 6)) by decide)],
     by
       show (if h : (1 : Fin 6) ∈ ({0, 1}ᶜ : Finset (Fin 6)) then f ⟨1, h⟩ else 0) = 0
-      rw [dif_neg (show (1 : Fin 6) ∉ ({0, 1}ᶜ : Finset (Fin 6)) by decide)]⟩
+      rw [dite_eq_right (show (1 : Fin 6) ∉ ({0, 1}ᶜ : Finset (Fin 6)) by decide)]⟩
   left_inv x := by
     ext a
     show (if h : a ∈ ({0, 1}ᶜ : Finset (Fin 6)) then x.1 a else 0) = x.1 a
     by_cases ha : a ∈ ({0, 1}ᶜ : Finset (Fin 6))
-    · rw [dif_pos ha]
-    · rw [dif_neg ha]
+    · rw [dite_eq_left ha]
+    · rw [dite_eq_right ha]
       have hmem : a ∈ ({0, 1} : Finset (Fin 6)) := by
         by_contra h
         exact ha (by simpa [Finset.mem_compl] using h)
@@ -573,7 +572,7 @@ noncomputable def TvCore.XEquivJ (hK : Nat.card K = 4) :
   right_inv f := by
     ext j
     show (if h : (j : Fin 6) ∈ ({0, 1}ᶜ : Finset (Fin 6)) then f ⟨j, h⟩ else 0) = f j
-    rw [dif_pos j.2]
+    rw [dite_eq_left j.2]
 
 theorem TvCore.card_X (hK : Nat.card K = 4) : Nat.card (TvCore.X hK) = 4 ^ 4 := by
   rw [Nat.card_congr (TvCore.XEquivJ hK), Nat.card_fun, hK]
@@ -589,7 +588,7 @@ theorem TvCore.trHom_apply (hK : Nat.card K = 4) (s : K) :
 
 theorem TvCore.mem_trHom_ker (hK : Nat.card K = 4) {s : K} :
     s ∈ (TvCore.trHom hK).ker ↔ s = 0 ∨ s = 1 := by
-  haveI := charP_two_of_card_four hK
+  have := charP_two_of_card_four hK
   rw [AddMonoidHom.mem_ker, TvCore.trHom_apply, add_eq_zero_iff_eq_neg]
   constructor
   · intro h
@@ -603,7 +602,7 @@ theorem TvCore.mem_trHom_ker (hK : Nat.card K = 4) {s : K} :
     · exact Or.inr (sub_eq_zero.mp h1)
   · rintro (rfl | rfl)
     · simp
-    · simp [fieldDataFour_bar hK, CharTwo.neg_eq, one_add_one_eq_zero hK]
+    · simp [fieldDataFour_bar hK, CharTwo.neg_eq]
 
 noncomputable def TvCore.trKerEquivFin2 (hK : Nat.card K = 4) :
     (TvCore.trHom hK).ker ≃ Fin 2 := by
@@ -636,7 +635,7 @@ noncomputable def TvCore.omegaSix (hK : Nat.card K = 4) : K :=
 
 theorem TvCore.omegaSix_spec (hK : Nat.card K = 4) :
     (TvCore.omegaSix hK) ^ 2 + TvCore.omegaSix hK + 1 = 0 := by
-  letI : Finite K := (fieldDataFour hK).finite
+  let : Finite K := (fieldDataFour hK).finite
   exact Classical.choose_spec (exists_root_omega hK)
 
 noncomputable def TvCore.s0 (hK : Nat.card K = 4) (x : TvCore.X hK) : K := by
@@ -667,7 +666,7 @@ theorem TvCore.dotProduct_tvBar_self_eq_zero_or_one (hK : Nat.card K = 4)
 theorem TvCore.s0_spec (hK : Nat.card K = 4) (x : TvCore.X hK) :
     TvCore.trHom hK (TvCore.s0 hK x) =
       CFSG.SeitzReduction.UnitaryPilot.tvBar (fieldDataFour hK) x.1 ⬝ᵥ x.1 := by
-  letI : Finite K := (fieldDataFour hK).finite
+  let : Finite K := (fieldDataFour hK).finite
   have hω := TvCore.omegaSix_spec hK
   by_cases h0 : CFSG.SeitzReduction.UnitaryPilot.tvBar (fieldDataFour hK) x.1 ⬝ᵥ x.1 = 0
   · simp [TvCore.s0, h0, TvCore.trHom]
@@ -675,7 +674,7 @@ theorem TvCore.s0_spec (hK : Nat.card K = 4) (x : TvCore.X hK) :
       (TvCore.dotProduct_tvBar_self_eq_zero_or_one hK x.1).resolve_left h0
     have hωsum : TvCore.omegaSix hK + TvCore.omegaSix hK ^ 2 = 1 :=
       omega_add_sq hK hω
-    rw [TvCore.s0, if_neg h0, TvCore.trHom_apply, fieldDataFour_bar hK, hωsum]
+    rw [TvCore.s0, ite_eq_right h0, TvCore.trHom_apply, fieldDataFour_bar hK, hωsum]
     exact h1.symm
 
 noncomputable def TvCore.admEquivProd (hK : Nat.card K = 4) :
@@ -799,7 +798,7 @@ theorem TvCore.R_inf_ker (hK : Nat.card K = 4) :
       have hv0 : CFSG.SeitzReduction.UnitaryPilot.tvVec (K := K) 0 1 0 = 1 :=
         CFSG.SeitzReduction.UnitaryPilot.tvVec_left (by decide : (0 : Fin 6) ≠ 1)
       have hone : (1 : Matrix (Fin 6) (Fin 6) K) a 0 = 0 := by
-        simp [Matrix.one_apply, ha0]
+        simp [ha0]
       simp [CFSG.SeitzReduction.UnitaryPilot.tvE_apply, hone, hv, hv0,
         Matrix.scalar_apply, ha0] at h
       exact h
@@ -872,7 +871,7 @@ theorem TvCore.card_Q (hK : Nat.card K = 4) : Nat.card (TvCore.Q hK) = 2 ^ 9 := 
 
 theorem TvCore.omega_cube (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     ω ^ 2 * ω = 1 := by
-  letI : Finite K := (fieldDataFour hK).finite
+  let : Finite K := (fieldDataFour hK).finite
   have hsq : ω + ω ^ 2 = 1 := omega_add_sq hK hω
   linear_combination ω * hω + hsq - (ω ^ 2 + ω) * two_eq_zero hK
 
@@ -907,7 +906,7 @@ theorem TvCore.E_zero_one_not_scalar (hK : Nat.card K = 4) :
 
 theorem TvCore.Q_not_commutative (hK : Nat.card K = 4) :
     ∃ a ∈ TvCore.Q hK, ∃ b ∈ TvCore.Q hK, a * b ≠ b * a := by
-  letI : Finite K := (fieldDataFour hK).finite
+  let : Finite K := (fieldDataFour hK).finite
   let ω := TvCore.omegaSix hK
   have hω : ω ^ 2 + ω + 1 = 0 := TvCore.omegaSix_spec hK
   have hωsq : ω + ω ^ 2 = 1 := omega_add_sq hK hω
@@ -951,8 +950,7 @@ theorem TvCore.Q_not_commutative (hK : Nat.card K = 4) :
       rw [add_comm]
     · simp only [x, x', CFSG.SeitzReduction.UnitaryPilot.tvBar_single,
         single_dotProduct, Pi.single_eq_same,
-        CFSG.SeitzReduction.UnitaryPilot.tvBar_zero, zero_dotProduct, zero_add,
-        mul_one, one_mul, map_one, map_add, fieldDataFour_bar hK]
+        CFSG.SeitzReduction.UnitaryPilot.tvBar_zero, zero_dotProduct, mul_one, fieldDataFour_bar hK]
       simp only [one_pow, one_mul, add_zero]
       linear_combination hωsq - (ω ^ 2) * two_eq_zero hK
   have hcab : ⁅a, b⁆ = CFSG.SeitzReduction.UnitaryPilot.tvESU (fieldDataFour hK)
@@ -1069,7 +1067,7 @@ theorem TvCore.bar_commutator_scalar (hK : Nat.card K = 4) (x x' : Fin 6 → K) 
 theorem TvCore.tvAdm_zero_of_bar_eq_self (hK : Nat.card K = 4) {t : K}
     (ht : (fieldDataFour hK).bar t = t) :
     CFSG.SeitzReduction.UnitaryPilot.TvAdm (fieldDataFour hK) (0 : Fin 6) 1 0 t := by
-  haveI := charP_two_of_card_four hK
+  have := charP_two_of_card_four hK
   refine ⟨rfl, rfl, ?_⟩
   rw [CFSG.SeitzReduction.UnitaryPilot.tvBar_zero, zero_dotProduct, ht]
   exact CharTwo.add_self_eq_zero t
@@ -1094,8 +1092,7 @@ theorem TvCore.commutator_tvESU (hK : Nat.card K = 4)
   refine CFSG.SeitzReduction.UnitaryPilot.tvESU_congr (fieldDataFour hK)
     (by decide : (0 : Fin 6) ≠ 1) ?_ ?_ _ _
   · rw [zero_add, add_comm]
-  · simp only [CFSG.SeitzReduction.UnitaryPilot.tvBar_zero, zero_dotProduct, zero_add,
-      add_assoc]
+  · simp only [CFSG.SeitzReduction.UnitaryPilot.tvBar_zero, zero_dotProduct, add_assoc]
     have h2 : (2 : K) = 0 := two_eq_zero hK
     linear_combination
       -(CFSG.SeitzReduction.UnitaryPilot.tvBar (fieldDataFour hK) x' ⬝ᵥ x) * two_eq_zero hK
@@ -1184,7 +1181,7 @@ theorem TvCore.card_C (hK : Nat.card K = 4) :
     rw [← Subgroup.subgroupOf_sup hBC hQC]
     exact Subgroup.subgroupOf_eq_top.mpr (by
       rw [show C = B ⊔ Q from TvCore.centralizer_eq_sup hK])
-  haveI : (Q.subgroupOf C).Normal :=
+  have : (Q.subgroupOf C).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQC).mpr hQnorm
   let f : (B × Q) → C := fun p => ⟨(p.1 : _) * (p.2 : _), C.mul_mem (hBC p.1.2) (hQC p.2.2)⟩
   have hf_inj : Function.Injective f := by
@@ -1256,7 +1253,7 @@ theorem TvCore.card_sup_XQ (hK : Nat.card K = 4)
   have hsup : X.subgroupOf XQ ⊔ Q.subgroupOf XQ = ⊤ := by
     rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right]
     exact Subgroup.subgroupOf_eq_top.mpr le_rfl
-  haveI : (Q.subgroupOf XQ).Normal :=
+  have : (Q.subgroupOf XQ).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_right).mpr hQnorm
   let f : (X × Q) → XQ :=
     fun p => ⟨(p.1 : CFSG.ClassicalGroups.UnitaryFlag.unitaryPSU (fieldDataFour hK) 6) *
@@ -1321,7 +1318,7 @@ theorem TvCore.XQ_eq_C (hK : Nat.card K = 4)
     (hXC : X ≤ TvCore.C hK) (hXc : Nat.card X = 25920)
     (hXQ : X ⊓ TvCore.Q hK = ⊥) :
     X ⊔ TvCore.Q hK = TvCore.C hK := by
-  haveI : Finite ↥(TvCore.C hK) :=
+  have : Finite ↥(TvCore.C hK) :=
     Nat.finite_of_card_ne_zero (by rw [TvCore.card_C hK]; norm_num)
   apply Subgroup.eq_of_le_of_card_ge (sup_le hXC (TvCore.Q_le_C hK))
   rw [TvCore.card_sup_XQ hK hXC hXc hXQ, TvCore.card_C hK]
@@ -1341,7 +1338,7 @@ theorem TvCore.exists_mul_of_mem_C (hK : Nat.card K = 4)
   have hsup : X.subgroupOf C ⊔ Q.subgroupOf C = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hXC' hQC]
     exact Subgroup.subgroupOf_eq_top.mpr (by rw [TvCore.XQ_eq_C hK hXC hXc hXQ])
-  haveI : (Q.subgroupOf C).Normal :=
+  have : (Q.subgroupOf C).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQC).mpr (TvCore.C_le_normalizer_Q hK)
   have hc' : (⟨c, hc⟩ : C) ∈ X.subgroupOf C ⊔ Q.subgroupOf C := by
     rw [hsup]; exact Subgroup.mem_top _
@@ -1425,7 +1422,7 @@ theorem TvCore.mem_unitaryBlock_mulVec_support (hK : Nat.card K = 4)
       have hij : i ≠ j := by
         rintro rfl
         exact hi hjJ
-      simp [Matrix.one_apply, hij]
+      simp [hij]
     rw [hM, zero_mul]
 
 noncomputable def TvCore.V (hK : Nat.card K = 4)
@@ -1456,7 +1453,7 @@ noncomputable def TvCore.V (hK : Nat.card K = 4)
   neg_mem' := by
     intro x hx
     obtain ⟨hxsupp, s, hxs, hxY⟩ := hx
-    haveI := charP_two_of_card_four hK
+    have := charP_two_of_card_four hK
     have hneg : (-x : Fin 6 → K) = x := by
       ext i
       exact (eq_neg_of_add_eq_zero_left (CharTwo.add_self_eq_zero (x i))).symm
@@ -1524,12 +1521,12 @@ theorem TvCore.tvBlock_unitaryBlockEquiv (hK : Nat.card K = 4)
     CFSG.SeitzReduction.UnitaryPilot.coe_unitaryBlockEquiv,
     CFSG.SeitzReduction.UnitaryPilot.coe_unitaryBlockEmbed,
     CFSG.SeitzReduction.LinearPilot.blockMatrix_apply]
-  rw [dif_pos ⟨i.2, j.2⟩]
+  rw [dite_eq_left ⟨i.2, j.2⟩]
 
 noncomputable def TvCore.restrictJ : (Fin 6 → K) →+ (TvCore.J6 → K) where
   toFun x := fun j => x j
   map_zero' := rfl
-  map_add' x y := rfl
+  map_add' _x _y := rfl
 
 noncomputable abbrev TvCore.blockEmbedBlock (hK : Nat.card K = 4)
     (g : CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 K TvCore.J6.card) :
@@ -1639,8 +1636,8 @@ theorem TvCore.W_eq_bot_or_top (hK : Nat.card K = 4)
     (hY₁ : Subgroup.zpowers (TvCore.uZ hK) ≤ Y)
     (hY₂ : Y ≤ TvCore.Q hK) :
     TvCore.W hK Y = ⊥ ∨ TvCore.W hK Y = ⊤ := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : CharP K 2 := charP_two_of_card_four hK
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : CharP K 2 := charP_two_of_card_four hK
   let σ : K ≃+* K := CFSG.LieType.BorelTits.unitaryInvolution K 2 1
   have hσ : CFSG.ClassicalGroups.Unitary.IsUnitaryInvolution σ :=
     CFSG.ClassicalGroups.Unitary.isUnitaryInvolution_unitaryInvolution
@@ -1743,7 +1740,7 @@ theorem TvCore.E_mul_E_inv_mem_zpowers (hK : Nat.card K = 4)
         (CFSG.SeitzReduction.UnitaryPilot.tvESU (fieldDataFour hK)
           (by decide : (0 : Fin 6) ≠ 1) x s0 hxs0))⁻¹ ∈
       Subgroup.zpowers (TvCore.uZ hK) := by
-  haveI := charP_two_of_card_four hK
+  have := charP_two_of_card_four hK
   let T : K := CFSG.SeitzReduction.UnitaryPilot.tvBar (fieldDataFour hK) x ⬝ᵥ x
   let t : K := s + (fieldDataFour hK).bar s0 + T
   have hT : (fieldDataFour hK).bar T = T := by
@@ -1787,7 +1784,7 @@ theorem TvCore.eq_or_eq_of_le_Q (hK : Nat.card K = 4)
     (hY₂ : Y ≤ TvCore.Q hK)
     (hXY : X ≤ Subgroup.normalizer (Y : Set _)) :
     Y = Subgroup.zpowers (TvCore.uZ hK) ∨ Y = TvCore.Q hK := by
-  haveI := charP_two_of_card_four hK
+  have := charP_two_of_card_four hK
   have hW := TvCore.W_eq_bot_or_top hK hXC hXc hXQ hXY hY₁ hY₂
   rcases hW with hW | hW
   · left
@@ -1923,7 +1920,7 @@ theorem TvCore.eq_or_eq_of_le_pCoreOf_centralizer_tZero (hK : Nat.card K = 4)
   have hY1' : Subgroup.zpowers (TvCore.uZ hK) ≤ Y' := by
     have hmapz : (Subgroup.zpowers (tZero hK)).map e.symm.toMonoidHom =
         Subgroup.zpowers (TvCore.uZ hK) := by
-      simpa [huZ] using MonoidHom.map_zpowers e.symm.toMonoidHom (tZero hK)
+      simp [huZ]
     rw [← hmapz]
     exact Subgroup.map_mono hY₁
   have hY2' : Y' ≤ TvCore.Q hK := by
@@ -1938,7 +1935,7 @@ theorem TvCore.eq_or_eq_of_le_pCoreOf_centralizer_tZero (hK : Nat.card K = 4)
       rw [← h, Subgroup.map_map]
       simp
     rw [hYmap]
-    simpa [heuZ] using MonoidHom.map_zpowers e.toMonoidHom (TvCore.uZ hK)
+    simp [heuZ]
   · right
     have hYmap : Y = (TvCore.Q hK).map e.toMonoidHom := by
       rw [← h, Subgroup.map_map]
@@ -1960,7 +1957,7 @@ noncomputable abbrev TvCore.diagTwoU [Finite K] {ω : K} {i j : Fin 6} (hω : ω
     (hij : i ≠ j) : CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 K 6 :=
   diagTwoSU hω hij
 
-abbrev TvCore.torSUU (hK : Nat.card K = 4) :
+abbrev TvCore.torSUU (_hK : Nat.card K = 4) :
     Subgroup (CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 K 6) :=
   show Subgroup (CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 K 6) from torSU K
 
@@ -2045,7 +2042,7 @@ theorem TvCore.centralizer_inf_Q (hK : Nat.card K = 4) :
     Subgroup.centralizer ((TvCore.torU hK ⊓ TvCore.C hK : Subgroup _) :
         Set (CFSG.ClassicalGroups.UnitaryFlag.unitaryPSU (fieldDataFour hK) 6)) ⊓
       TvCore.Q hK = Subgroup.zpowers (TvCore.uZ hK) := by
-  letI : Finite K := (fieldDataFour hK).finite
+  let : Finite K := (fieldDataFour hK).finite
   let ω := TvCore.omegaSix hK
   have hω : ω ^ 2 + ω + 1 = 0 := TvCore.omegaSix_spec hK
   apply le_antisymm
@@ -2261,7 +2258,7 @@ theorem isSimpleGroup_blockFourU (hK : Nat.card K = 4) : IsSimpleGroup (blockFou
   exact (MulEquiv.isSimpleGroup_congr e).mp hblock
 
 theorem unitaryBlock_commute_threeAMatrix (hK : Nat.card K = 4) {ω : K}
-    (hω : ω ^ 2 + ω + 1 = 0) {m : LargeEvenSUGroup (Fin 6) K (2 ^ 1)}
+    (_hω : ω ^ 2 + ω + 1 = 0) {m : LargeEvenSUGroup (Fin 6) K (2 ^ 1)}
     (hm : m ∈ tvBlockSix hK) :
     ((m : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) * threeAMatrix ω =
       threeAMatrix ω * ((m : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) := by
@@ -2270,7 +2267,7 @@ theorem unitaryBlock_commute_threeAMatrix (hK : Nat.card K = 4) {ω : K}
   ext a b
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
   fin_cases a <;> fin_cases b <;>
-    simp [hM, Matrix.one_apply]
+    simp [hM]
 
 theorem blockFourU_le_centralizer_threeA (hK : Nat.card K = 4) {ω : K}
     (hω : ω ^ 2 + ω + 1 = 0) : blockFourU hK ≤ Subgroup.centralizer {threeA hω} := by

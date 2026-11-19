@@ -23,7 +23,7 @@ theorem normalizer_root_eq {k : Type} [Field k] [Finite k] (J : HermitianForm 3 
     -⟩ := unitary_three_point_structure J f hf hcard hfixed hJ
   have hUB : (hermitianUnipotentPSU J hJ).range ≤ unitaryCoordinateStabilizer J 0 :=
     hUT ▸ le_sup_left
-  refine le_antisymm (normalizer_le_of_stronglyEmbedded hSE (hS ▸ S.isPGroup') ?_ hUB)
+  refine le_antisymm (normalizer_le_of_stronglyEmbedded hSE (hS ▸ S.isPGroup) ?_ hUB)
     ((normal_subgroupOf_iff_le_normalizer hUB).1 hnormal)
   intro h
   rw [h, card_bot] at hUcard

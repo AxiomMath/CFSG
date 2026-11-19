@@ -26,7 +26,7 @@ theorem stroth12Omega6_of_order_core
     (hq : Sec12Omega6PlusQStatement) (hF : Stroth12FStarIiiStatement) :
     Stroth12Omega6OrderStatement := by
   intro G _ _ M Q Z B hc n hM hS hhyp t ht htQ htype hsub
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have hsubS := hsub.satz_of_orderBelow hc.hyp hS
   rcases htype with h | h
   · refine hF G M Q Z B hc n hhyp t ht htQ (Or.inr ⟨h, ?_⟩)

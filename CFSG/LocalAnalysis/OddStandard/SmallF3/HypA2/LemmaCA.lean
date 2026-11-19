@@ -16,7 +16,7 @@ theorem inSA_of_properFixedComp (hC : ClosureLeaves) {S : Type} [Group S] [Finit
   unfold InSA at h ⊢
   obtain ⟨_, h20, hodd, hL34, _, _, _⟩ := h
   have hPne : P ≠ ⊤ := hP.2.2.1
-  haveI : Nonempty ↥P := ⟨⟨1, P.one_mem⟩⟩
+  have : Nonempty ↥P := ⟨⟨1, P.one_mem⟩⟩
   have hcardP : Nat.card ↥P < Nat.card S := by
     rw [← P.card_mul_index]
     exact lt_mul_of_one_lt_right Nat.card_pos (P.one_lt_index_of_ne_top hPne)

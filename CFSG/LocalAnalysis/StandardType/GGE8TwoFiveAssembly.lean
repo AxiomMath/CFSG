@@ -120,7 +120,7 @@ theorem e8TwoFiveCentInput_holds :
   · obtain ⟨K₀, hK₀, _⟩ := hB
     exact Or.inl ⟨K₀, hK₀⟩
   · obtain ⟨F, _, _, hF, ⟨ε⟩⟩ := hA
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hqs := (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
       (n := 5) (p := 2) (f := 2) hF (by norm_num) (by norm_num)).1
     exact Or.inr (CFSG.LocalCores.isQuasisimple_of_mulEquiv ε.symm hqs)

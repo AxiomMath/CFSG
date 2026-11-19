@@ -17,6 +17,7 @@ open CFSG.Assembly.LowTwoRank
 variable {G : Type} [Group G] [Finite G]
 variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {m : ℕ}
 
+omit [Finite G] in
 theorem qtwoDB3_exists_aut (hK : Nat.card F0 = (2 ^ 1) ^ 2) (hm : 5 ≤ m) {ψ : Su F0 2 1 m →* G}
     (hker : ψ.ker ≤ Subgroup.center (Su F0 2 1 m)) :
     ∃ Φ : ↥(Subgroup.normalizer (ψ.range : Set G)) →*
@@ -33,8 +34,8 @@ theorem qtwoDB3_exists_aut (hK : Nat.card F0 = (2 ^ 1) ^ 2) (hm : 5 ≤ m) {ψ :
     exact (by omega : m ≠ 3) (congrArg Prod.fst h)
   have hperfSu : Group.IsPerfect (Su F0 2 1 m) :=
     (CFSG.GH74.L5U5.isQuasisimple_su hK hd hdq).1
-  haveI : Group.IsPerfect (Su F0 2 1 m) := hperfSu
-  haveI hperfL : Group.IsPerfect ↥ψ.range := Group.IsPerfect.range ψ
+  have : Group.IsPerfect (Su F0 2 1 m) := hperfSu
+  have hperfL : Group.IsPerfect ↥ψ.range := Group.IsPerfect.range ψ
   let q : Su F0 2 1 m →* ↥ψ.range := ψ.rangeRestrict
   have hq : Function.Surjective q := ψ.rangeRestrict_surjective
   have hqker : q.ker ≤ Subgroup.center (Su F0 2 1 m) := by

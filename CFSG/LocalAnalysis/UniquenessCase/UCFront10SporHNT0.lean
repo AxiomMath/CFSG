@@ -44,7 +44,7 @@ theorem hnT0_le_centralizer :
       · exact inv_mem (Subgroup.subset_closure ⟨⟨(-l).toNat - 1, by omega⟩, rfl⟩)
   rw [hnT0, Subgroup.closure_le]
   intro x hx
-  simp only [t0Gens, Set.mem_setOf_eq, List.mem_cons, List.mem_map] at hx
+  simp only [t0Gens, Set.mem_ofPred_eq, List.mem_cons, List.mem_map] at hx
   rcases hx with rfl | ⟨w, hw', rfl⟩
   · exact Subgroup.mem_centralizer_singleton_iff.2 rfl
   · exact hg4 (hw w (by revert w; decide))

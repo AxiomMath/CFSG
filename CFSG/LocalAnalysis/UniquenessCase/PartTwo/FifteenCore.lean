@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s15_Core_imgTil_iSup {ι : Sort*} (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (U : ι → Subgroup G) (hU : ∀ i, U i ≤ V) :
     imgTil V₀ V hV (⨆ i, U i) = ⨆ i, imgTil V₀ V hV (U i) := by
@@ -29,6 +30,7 @@ theorem s15_Core_imgTil_iSup {ι : Sort*} (V₀ V : Subgroup G) (hV : IsElemAbel
   simp only [hcomap, Subgroup.map_comap_eq, hrange]
   rw [inf_eq_right.mpr (iSup_le hU), iSup_congr fun i => inf_eq_right.mpr (hU i)]
 
+omit [Finite G] in
 theorem s15_Core_imgTil_sup {V₀ V A B : Subgroup G} (hV : IsElemAbelian 2 V) (hA : A ≤ V)
     (hB : B ≤ V) :
     imgTil V₀ V hV (A ⊔ B) = imgTil V₀ V hV A ⊔ imgTil V₀ V hV B := by
@@ -45,6 +47,7 @@ theorem s15_Core_imgTil_sup {V₀ V A B : Subgroup G} (hV : IsElemAbelian 2 V) (
   simp only [hcomap, Subgroup.map_comap_eq, hrange]
   rw [inf_eq_right.mpr (sup_le hA hB), inf_eq_right.mpr hA, inf_eq_right.mpr hB]
 
+omit [Finite G] in
 theorem s15_Core_imgTil_eq_bot_of_le {V₀ V U : Subgroup G} (hV : IsElemAbelian 2 V)
     (hU : U ≤ V₀) : imgTil V₀ V hV U = ⊥ := by
   rw [eq_bot_iff]
@@ -68,17 +71,17 @@ theorem s15_Core_commSub_map_conj {W : Type*} [CommGroup W]
     obtain ⟨w₀, hw₀, rfl⟩ := hw
     refine ⟨x₀ w₀ * w₀⁻¹, ⟨x₀, hx₀, w₀, hw₀, rfl⟩, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MulAut.mul_apply,
-      MulAut.apply_inv_self, MulAut.inv_apply_self, map_mul, map_inv]
+      MulAut.inv_apply_self, map_mul, map_inv]
   · rintro ⟨s, hs, rfl⟩
     obtain ⟨x₀, hx₀, w₀, hw₀, rfl⟩ := hs
     refine ⟨MulAut.conj α x₀, ⟨x₀, hx₀, rfl⟩, α w₀, ⟨w₀, hw₀, rfl⟩, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MulAut.mul_apply,
-      MulAut.apply_inv_self, MulAut.inv_apply_self, map_mul, map_inv]
+      MulAut.inv_apply_self, map_mul, map_inv]
 
 theorem s15_Core_map_eq_self_of_card_le_two {A : Type*} [Group A] [Finite A] (U : Subgroup A)
     (e : MulAut A) (hU : Nat.card U ≤ 2) (hmap : ∀ u ∈ U, e u ∈ U) : ∀ u ∈ U, e u = u := by
   classical
-  haveI := Fintype.ofFinite U
+  have := Fintype.ofFinite U
   intro u hu
   by_cases hu1 : u = 1
   · rw [hu1, map_one]

@@ -45,9 +45,9 @@ theorem l2NoPauliPSU_of_table
       (CFSG.Open.StatedAPI.statedScalars_subgroupOf_le_center _ hmc)) x).symm
   obtain ⟨a₁, b₁, a₂, b₂, ha₁, hb₁, ha₂, hb₂, hab₁, hab₂, hc₁₂, hc₁₂', hc₂₁, hcbb, hgen⟩ :=
     l2_symp_basis (ρ.comp α) hπs hE hmcen hm1 hm2 hcen hP1 hP2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K p := charP_of_card_eq_prime_pow (f := 2 * f)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K p := charP_of_card_eq_prime_pow (f := 2 * f)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, mul_comm])
   let σ : K →+* K := iterateFrobenius K p f
   have hσ : ∀ x : K, σ x = x ^ p ^ f := fun x => rfl

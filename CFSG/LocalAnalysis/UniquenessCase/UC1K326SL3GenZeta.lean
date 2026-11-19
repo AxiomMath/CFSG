@@ -123,7 +123,7 @@ theorem exists_zeta_linear {K : Type} [Field K] [Finite K] (h3 : 3 ∣ Nat.card 
     ∃ ζ : Kˣ, (∃ n : ℕ, ζ ^ (3 ^ n) = 1) ∧ σ (ζ : K) ≠ ζ ∧ σ (ζ : K) ≠ ((ζ⁻¹ : Kˣ) : K) ∧
       σ (ζ : K) ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, -, F, hp, hFcard⟩ := FiniteField.card' K
   have hFpos : 1 ≤ (F : ℕ) := F.pos
   have hKcard : Nat.card K = p ^ (F : ℕ) := by rw [Nat.card_eq_fintype_card, hFcard]
@@ -150,7 +150,7 @@ theorem exists_zeta_linear {K : Type} [Field K] [Finite K] (h3 : 3 ∣ Nat.card 
   let k := padicValNat 3 (r ^ 3 - 1)
   have hk1 : 3 ^ k ∣ r ^ 3 - 1 := by simpa [k] using pow_padicValNat_dvd
   have hk2 : ¬ 3 ^ (k + 1) ∣ r ^ 3 - 1 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hne : r ^ 3 - 1 ≠ 0 := by
       have : 1 < r ^ 3 := Nat.one_lt_pow (by norm_num) hr1
       omega
@@ -166,8 +166,8 @@ theorem exists_zeta_unitary {p f : ℕ} {K : Type} [Field K] (h : UnitaryFieldDa
     ∃ ζ : Kˣ, ζ ^ (p ^ f + 1) = 1 ∧ (∃ n : ℕ, ζ ^ (3 ^ n) = 1) ∧ σ (ζ : K) ≠ ζ ∧
       σ (ζ : K) ≠ ((ζ⁻¹ : Kˣ) : K) ∧ σ (ζ : K) ≠ 1 := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := h.finite
+  have : Fintype K := Fintype.ofFinite K
   have hf1 : 1 ≤ f := h.one_le
   have hFpos : 1 ≤ 2 * f := by omega
   have hKcard : Nat.card K = p ^ (2 * f) := h.card
@@ -189,7 +189,7 @@ theorem exists_zeta_unitary {p f : ℕ} {K : Type} [Field K] (h : UnitaryFieldDa
   let k := padicValNat 3 (r ^ 3 + 1)
   have hk1 : 3 ^ k ∣ r ^ 3 + 1 := by simpa [k] using pow_padicValNat_dvd
   have hk2 : ¬ 3 ^ (k + 1) ∣ r ^ 3 + 1 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hne : r ^ 3 + 1 ≠ 0 := by positivity
     simpa [k] using pow_succ_padicValNat_not_dvd (p := 3) (n := r ^ 3 + 1) hne
   obtain ⟨e, -, hσe, he3⟩ := frobenius_pow_unitary hrdef h3f hcases

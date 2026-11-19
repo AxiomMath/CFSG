@@ -131,7 +131,7 @@ theorem keyT_mul (t : ℕ) : ∀ l : List ℕ, (∀ x ∈ l, x < 2 ^ 11 ∧ x * 
 @[expose] noncomputable def bitsL (K' k : ℕ) : List ℕ :=
   (List.range 11).map fun j => if K'.testBit (11 * j + k) then 1 else 0
 
-theorem mask_eq_keyT {K' k : ℕ} (hk : k < 11) : (K' >>> k) &&& e11 = keyT (bitsL K' k) := by
+theorem mask_eq_keyT {K' k : ℕ} (_hk : k < 11) : (K' >>> k) &&& e11 = keyT (bitsL K' k) := by
   apply Nat.eq_of_testBit_eq
   intro n
   rw [Nat.testBit_and, Nat.testBit_shiftRight, testBit_e11, testBit_keyT]
@@ -229,7 +229,7 @@ theorem prodK_spec {K K' : ℕ} :
     simp only [Option.map_some, Option.getD_some, h, decide_true, Bool.true_and]
     unfold actT
     rw [testBit_rowsXor]
-    exact xr_congr fun j hj => by rw [getD_dec, if_pos hj]
+    exact xr_congr fun j hj => by rw [getD_dec, ite_eq_left hj]
   · have e : (dec K')[n / 11]? = none := by simp [dec, show ¬ n / 11 < 11 by omega]
     rw [e]
     simp [show ¬ n < 121 by omega]
@@ -276,7 +276,7 @@ theorem testBit_planeN (j c : ℕ) : ∀ m, (planeN j m).testBit c = (decide (c 
       · subst hc
         simp [hb]
       · have : c < m + 1 ↔ c < m := by omega
-        simp [this, hc, Ne.symm hc]
+        simp [this, Ne.symm hc]
     · rw [Nat.zero_testBit]
       by_cases hc : c = m
       · subst hc
@@ -314,7 +314,7 @@ theorem testBit_actT_dec (K c i : ℕ) :
     (actT (dec K) c).testBit i = xr (fun j => c.testBit j && (fld 11 K j).testBit i) 11 := by
   unfold actT
   rw [testBit_rowsXor]
-  exact xr_congr fun j hj => by rw [getD_dec, if_pos hj]
+  exact xr_congr fun j hj => by rw [getD_dec, ite_eq_left hj]
 
 @[expose] noncomputable def diffN (XP K m : ℕ) : ℕ :=
   Nat.rec (motive := fun _ => ℕ) 0

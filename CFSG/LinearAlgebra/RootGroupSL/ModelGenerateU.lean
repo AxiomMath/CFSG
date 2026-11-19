@@ -12,15 +12,18 @@ variable {k E VJ V₀ : Type} [Field k] [Field E] [Algebra k E]
   [AddCommGroup V₀] [Module k V₀] [Finite k] [Finite E] [CharP k 2]
   [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀]
 
+omit [Finite k] [CharP k 2] in
 private lemma blockSLk_transvecSL_apply {w : VJ} {f : VJ →ₗ[k] k} (hf : f w = 0)
     (v : VJ) (w' : V₀) :
     blockSLk k V₀ (transvecSL w f) (v, w') = (v + f v • w, w') := by
   rw [blockSLk_apply, transvecSL_apply hf]
 
+omit [Finite k] [Finite E] [CharP k 2] [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] in
 private lemma trace_comp_restrictScalars_apply_eq_zero {l : VJ →ₗ[E] E} {w : VJ}
     (h : l w = 0) : ((Algebra.trace k E).comp (l.restrictScalars k)) w = 0 := by
   rw [LinearMap.comp_apply, LinearMap.restrictScalars_apply, h, map_zero]
 
+omit [Finite k] [Finite E] [CharP k 2] [Module.Finite k E] [Module.Finite E VJ] in
 theorem modelA1Elt_smulRight_mem_datumU1 (e₀ : VJ) (f : V₀ →ₗ[k] k) :
     modelA1Elt (f.smulRight e₀) ∈ datumU1 (modelIota (E := E) k V₀ e₀) := by
   constructor
@@ -38,6 +41,7 @@ theorem modelA1Elt_smulRight_mem_datumU1 (e₀ : VJ) (f : V₀ →ₗ[k] k) :
     rw [modelIota_apply]
     exact hx
 
+omit [Finite k] [Finite E] [CharP k 2] [Module.Finite k E] [Module.Finite E VJ] in
 theorem blockSLk_transvecSL_mem_datumU1 (e₀ : VJ) {l : VJ →ₗ[E] E} (h : l e₀ = 0) :
     blockSLk k V₀ (transvecSL e₀ ((Algebra.trace k E).comp (l.restrictScalars k))) ∈
       datumU1 (modelIota (E := E) k V₀ e₀) := by
@@ -65,6 +69,7 @@ theorem blockSLk_transvecSL_mem_datumU1 (e₀ : VJ) {l : VJ →ₗ[E] E} (h : l 
     rw [modelIota_apply]
     exact hx
 
+omit [Finite k] [Finite E] [CharP k 2] [Module.Finite k E] [Module.Finite E VJ] in
 theorem modelA2Elt_smulRight_mem_datumU2 (l₀ : VJ →ₗ[E] E) (w : V₀) :
     modelA2Elt (((Algebra.trace k E).comp (l₀.restrictScalars k)).smulRight w) ∈
       datumU2 (modelPi k V₀ l₀) := by
@@ -83,6 +88,7 @@ theorem modelA2Elt_smulRight_mem_datumU2 (l₀ : VJ →ₗ[E] E) (w : V₀) :
     rw [modelA2Elt_apply, LinearMap.smulRight_apply, LinearMap.comp_apply,
       LinearMap.restrictScalars_apply, hv, map_zero, zero_smul, add_zero]
 
+omit [Finite k] [Finite E] [CharP k 2] [Module.Finite k E] [Module.Finite E VJ] in
 theorem blockSLk_transvecSL_mem_datumU2 (l₀ : VJ →ₗ[E] E) {w : VJ} (h : l₀ w = 0) :
     blockSLk k V₀ (transvecSL w ((Algebra.trace k E).comp (l₀.restrictScalars k))) ∈
       datumU2 (modelPi k V₀ l₀) := by

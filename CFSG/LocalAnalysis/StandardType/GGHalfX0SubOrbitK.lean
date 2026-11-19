@@ -46,7 +46,7 @@ theorem getD_reverse_take (R : List (List ℕ)) {i j : ℕ} (hj : j < i) (hi : i
 
 theorem reverse_take_succ (R : List (List ℕ)) {i : ℕ} (hi : i < R.length) :
     (R.take (i + 1)).reverse = R.getD i [] :: (R.take i).reverse := by
-  rw [List.take_succ, List.reverse_append, List.getElem?_eq_getElem hi, List.getD_eq_getElem _ _ hi]
+  rw [List.take_add_one, List.reverse_append, List.getElem?_eq_getElem hi, List.getD_eq_getElem _ _ hi]
   rfl
 
 theorem aux_eq (gens R : List (List ℕ)) (f : List (List ℕ) → ℕ → List ℕ → List (List ℕ))

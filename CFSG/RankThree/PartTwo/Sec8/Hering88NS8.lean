@@ -42,7 +42,7 @@ theorem card_quot_theta_eq_of_isSimpleGroup {W M : Subgroup G} (hWM : W ≤ M)
     (hW : imageModTheta M W = inSubgroup perfectResidual R)
     (hS : IsSimpleGroup (inSubgroup perfectResidual R)) :
     Nat.card (W ⧸ aschbacherSolvableCore 3 W) = Nat.card (inSubgroup perfectResidual R) := by
-  haveI := hS
+  have := hS
   have hθ : NoThetaNormal ↥(imageModTheta M W) :=
     Item87Proof.NoThetaNormal.of_mulEquiv (MulEquiv.subgroupCongr hW)
       (Item812Res10.noThetaNormal_of_isSimpleGroup_of_isPerfect (Item87Proof.isPerfect_residual R))
@@ -55,29 +55,32 @@ section PGU
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem nonempty_inSubgroup_perfectResidual_mulEquiv_of_isoPGUThree {R : Subgroup Q} {m : ℕ}
     (hm : 2 ≤ m) (h : IsoPGUThree R (2 ^ m)) :
-    ∃ (K : Type) (_ : Field K) (_ : Finite K) (hPi : Sec4.PiField false 2 m K),
+    ∃ (K : Type) (_ : Field K) (_ : Finite K) (_hPi : Sec4.PiField false 2 m K),
       Nonempty (inSubgroup perfectResidual R ≃* projImage (Sec4.slPi false 3 (2 ^ m) K)) := by
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := h
-  have hPi : Sec4.PiField false 2 m K := ⟨Nat.prime_two, by omega, hK⟩
+  have _hPi : Sec4.PiField false 2 m K := ⟨Nat.prime_two, by omega, hK⟩
   have hq2 : 2 < 2 ^ m := lt_of_lt_of_le (by norm_num) (Nat.pow_le_pow_right (by norm_num) hm)
-  have hU := hPi.unitary
+  have hU := _hPi.unitary
   have hSP : projImage (Sec4.slPi false 3 (2 ^ m) K) ≤ projImage (Sec4.glPi false 3 (2 ^ m) K) :=
     Subgroup.map_mono (Sec4.slPi_le_glPi (fun _ => hU))
-  refine ⟨K, inferInstance, inferInstance, hPi, ⟨?_⟩⟩
+  refine ⟨K, inferInstance, inferInstance, _hPi, ⟨?_⟩⟩
   exact ((perfectResidual R).equivMapOfInjective R.subtype R.subtype_injective).symm.trans
     ((Item8KFacts2Proof.perfectResidualEquivOfMulEquiv e).trans
-      ((MulEquiv.subgroupCongr (Item8KFacts2Proof.perfectResidual_projImage_glPi_eq hPi hq2)).trans
+      ((MulEquiv.subgroupCongr (Item8KFacts2Proof.perfectResidual_projImage_glPi_eq _hPi hq2)).trans
         (Subgroup.subgroupOfEquivOfLe hSP)))
 
+omit [Finite Q] in
 theorem isSimpleGroup_inSubgroup_perfectResidual_of_isoPGUThree {R : Subgroup Q} {m : ℕ}
     (hm : 2 ≤ m) (h : IsoPGUThree R (2 ^ m)) : IsSimpleGroup (inSubgroup perfectResidual R) := by
   obtain ⟨K, _, _, hPi, ⟨e⟩⟩ := nonempty_inSubgroup_perfectResidual_mulEquiv_of_isoPGUThree hm h
   have hq2 : 2 < 2 ^ m := lt_of_lt_of_le (by norm_num) (Nat.pow_le_pow_right (by norm_num) hm)
-  haveI := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hPi hq2
+  have := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hPi hq2
   exact e.isSimpleGroup
 
+omit [Finite Q] in
 theorem card_le_three_mul_card_inSubgroup_perfectResidual_of_isoPGUThree {R : Subgroup Q} {m : ℕ}
     (hm : 2 ≤ m) (h : IsoPGUThree R (2 ^ m)) :
     Nat.card R ≤ 3 * Nat.card (inSubgroup perfectResidual R) := by
@@ -106,7 +109,7 @@ theorem isSimpleGroup_commutator_reeFixed_zero (hk : Nat.card k = 2) :
     IsSimpleGroup (commutator (reeFixed ReeTag.F4 k 0)) := by
   have hT := CFSG.LieType.Simplicity.titsData k hk
   set D := commutator (reeFixed ReeTag.F4 k 0) with hD
-  haveI : Nontrivial D := ⟨⟨⟨hT.g₀, hT.g₀_mem⟩, 1, fun h => hT.g₀_ne_one (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial D := ⟨⟨⟨hT.g₀, hT.g₀_mem⟩, 1, fun h => hT.g₀_ne_one (congrArg Subtype.val h)⟩⟩
   refine ⟨fun N hN => ?_⟩
   rcases hT.eq_bot_or_eq_of_le hk (N.map D.subtype) (Subgroup.map_subtype_le N)
       (by
@@ -166,17 +169,19 @@ theorem card_commutator_reeFixed_zero (hk : Nat.card k = 2) :
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem isSimpleGroup_inSubgroup_perfectResidual_of_reeGamma_zero {C : Subgroup Q}
     (hk : Nat.card k = 2) (φ : C ≃* ReeTag.F4.reeGamma k 0) :
     IsSimpleGroup (inSubgroup perfectResidual C) := by
   set ψ : C ≃* reeFixed ReeTag.F4 k 0 := φ.trans (ReeTag.reeFixedEquivReeGamma k 0).symm
-  haveI := isSimpleGroup_commutator_reeFixed_zero hk
+  have := isSimpleGroup_commutator_reeFixed_zero hk
   have e : inSubgroup perfectResidual C ≃* commutator (reeFixed ReeTag.F4 k 0) :=
     ((perfectResidual C).equivMapOfInjective C.subtype C.subtype_injective).symm.trans
       ((Item8KFacts2Proof.perfectResidualEquivOfMulEquiv ψ).trans
         (MulEquiv.subgroupCongr (perfectResidual_reeFixed_zero hk)))
   exact e.isSimpleGroup
 
+omit [Finite Q] in
 theorem card_inSubgroup_perfectResidual_of_reeGamma_zero {C : Subgroup Q}
     (hk : Nat.card k = 2) (φ : C ≃* ReeTag.F4.reeGamma k 0) :
     17971200 ≤ Nat.card (inSubgroup perfectResidual C) ∧

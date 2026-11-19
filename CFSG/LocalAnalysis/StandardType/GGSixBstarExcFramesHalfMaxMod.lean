@@ -188,7 +188,7 @@ theorem modMat_weylMatrix_mul_self_eq_one {τ : Tag} (hτ : τ = .E7 ∨ τ = .E
     (hge : p ^ (τ.rank - 1) ≤ Nat.card {z : Fin τ.rank → ZMod p //
       (modMat p (weylMatrix w))ᵀ *ᵥ z = (-1 : ZMod p) • z}) :
     modMat p (weylMatrix (w * w)) = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let N : Matrix (Fin τ.rank) (Fin τ.rank) (ZMod p) := modMat p (weylMatrix w)
   let B : Matrix (Fin τ.rank) (Fin τ.rank) (ZMod p) := modMat p (τ.symmetrizedCartan)
   have hBsymm : Bᵀ = B := by

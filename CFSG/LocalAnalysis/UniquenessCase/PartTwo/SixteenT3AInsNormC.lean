@@ -18,7 +18,7 @@ theorem s16t_a_exists_fixed_vector {T : Type} [CommGroup T] [Finite T] (hT : ∀
     (hBa : ∀ b ∈ B, b * a * b⁻¹ ∈ Subgroup.zpowers a) :
     ∃ n : T, n ≠ 1 ∧ a n = n ∧ ∀ b ∈ B, b n = n := by
   classical
-  haveI : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
+  have : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
   let i₀ : ι := Classical.arbitrary ι
   obtain ⟨v, hv, hv1⟩ := (Subgroup.bot_or_exists_ne_one (Y i₀)).resolve_left (hY i₀)
   obtain ⟨j₁, hj₁⟩ := hperm i₀
@@ -90,14 +90,14 @@ theorem s16t_a_exists_fixed_vector {T : Type} [CommGroup T] [Finite T] (hT : ∀
     { carrier := {x : T | a x = x}
       mul_mem' := by
         intro x y hx hy
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         rw [map_mul, hx, hy]
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         exact map_one a
       inv_mem' := by
         intro x hx
-        simp only [Set.mem_setOf_eq] at hx ⊢
+        simp only [Set.mem_ofPred_eq] at hx ⊢
         rw [map_inv, hx] }
   have hnC : n ∈ C := han
   let S : SubMulAction ↥B T :=
@@ -135,7 +135,7 @@ theorem s16t_a_exists_fixed_vector {T : Type} [CommGroup T] [Finite T] (hT : ∀
       have hne : (⟨n, hnC⟩ : ↥C) ≠ 1 := by
         intro h
         exact hn1 (congrArg Subtype.val h)
-      haveI : Nontrivial ↥C := ⟨⟨n, hnC⟩, 1, hne⟩
+      have : Nontrivial ↥C := ⟨⟨n, hnC⟩, 1, hne⟩
       exact Finite.one_lt_card
     rw [hm] at hlt
     by_contra h

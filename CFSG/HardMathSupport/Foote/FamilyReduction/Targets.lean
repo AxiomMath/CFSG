@@ -19,7 +19,7 @@ theorem lieModel_of_classical {Q : Type} [Group Q] {t : StatedLieTag} {n p f : â
   have h2 := hm.2
   cases t <;> first | exact h2.elim | simp [CFSG.Blueprint.classicalTags]
 
-theorem altTarget : AltTarget := fun n hn =>
+theorem altTarget : AltTarget := fun _n hn =>
   end415K_of_not_compIn5 fun _ hc => not_comp5_alternating hn (MulEquiv.refl _) hc.toComp5
 
 theorem lieModel_of_suzuki {Q : Type} [Group Q] {p f : â„•} (hm : SuzukiModel Q p f) :

@@ -14,6 +14,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22.F12 (InCalA)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem normalizer_le_normalizer_centralizer (X : Subgroup G) :
     Subgroup.normalizer (X : Set G) ≤
       Subgroup.normalizer (Subgroup.centralizer (X : Set G) : Set G) :=
@@ -21,6 +22,7 @@ private theorem normalizer_le_normalizer_centralizer (X : Subgroup G) :
     (K := Subgroup.normalizer (X : Set G))
     (Subgroup.centralizer_le_normalizer (X : Set G))
 
+omit [Finite G] in
 private theorem conjSub_centralizer (g : G) (X : Subgroup G) :
     A1b.conjSub g (Subgroup.centralizer (X : Set G)) =
       Subgroup.centralizer ((A1b.conjSub g X : Subgroup G) : Set G) := by
@@ -38,10 +40,12 @@ private theorem conjSub_centralizer (g : G) (X : Subgroup G) :
       _ = g⁻¹ * (y * (g * x * g⁻¹)) * g := by rw [h1]
       _ = (g⁻¹ * y * g) * x := by group
 
+omit [Finite G] in
 private theorem conjSub_eq_self_of_mem_normalizer {X : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (X : Set G)) : A1b.conjSub g X = X := by
   simpa [A1b.conjSub] using Subgroup.mem_normalizer_iff_map_conj_eq.mp hg
 
+omit [Finite G] in
 private theorem conjSub_inf_centralizer {H E : Subgroup G} {h : G} (hh : h ∈ H)
     (hEH : H ≤ Subgroup.normalizer (E : Set G)) :
     A1b.conjSub h (H ⊓ Subgroup.centralizer (E : Set G)) =
@@ -53,6 +57,7 @@ private theorem conjSub_inf_centralizer {H E : Subgroup G} {h : G} (hh : h ∈ H
     conjSub_eq_self_of_mem_normalizer (H.le_normalizer hh), conjSub_centralizer,
     conjSub_eq_self_of_mem_normalizer (hEH hh)]
 
+omit [Finite G] in
 private theorem inf_centralizer_sup_eq_of_le_centralizer {E X C : Subgroup G}
     (hEC : E ≤ Subgroup.centralizer (C : Set G)) :
     E ⊓ Subgroup.centralizer ((X ⊔ C : Subgroup G) : Set G) =
@@ -90,6 +95,7 @@ private theorem relIndex_sup_sup_le {H A B C : Subgroup G} (hAH : A ≤ H) (hCH 
   exact Nat.le_of_dvd
     (Nat.pos_of_ne_zero (Subgroup.index_ne_zero_of_finite (H := B.subgroupOf A))) hkey
 
+omit [Finite G] in
 private theorem inCalA_conjSub {k : ℕ} {H E A : Subgroup G}
     (hEH : H ≤ Subgroup.normalizer (E : Set G)) {h : G} (hh : h ∈ H)
     (hA : InCalA k H E A) : InCalA k H E (A1b.conjSub h A) := by

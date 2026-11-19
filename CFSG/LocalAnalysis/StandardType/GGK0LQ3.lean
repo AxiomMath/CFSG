@@ -38,7 +38,7 @@ private theorem lk0xlq3_isSolvable_of_commutator {G : Type*} [Group G] (H : Subg
   exact Group.isSolvable_commutator_iff.1 key
 
 theorem k0_rationalSpan_solvable
-    (hlab : LargeEvenInLambda2 lab) (hpair : GGKacExcPair lab p)
+    (_hlab : LargeEvenInLambda2 lab) (hpair : GGKacExcPair lab p)
     (A : K0LangMark Omega lab p R I phi) (P : K0Positions A) (j : Fin A.row.D.orbits.length)
     (hj : A.row.D.orbits[j].qs = false) :
     Group.IsSolvable (rationalSpan A.setup.ρ A.setup.Γ (rootCharHom A.a) (P.repr j)) := by

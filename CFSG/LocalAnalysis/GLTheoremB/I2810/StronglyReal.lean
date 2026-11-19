@@ -24,7 +24,7 @@ theorem strongly_real_small {V : Type} [Group V] [Finite V]
     (h2 : ∀ v : V, v * v = 1) {τ y : MulAut V} (hτ : τ * τ = 1) (hinv : τ * y * τ⁻¹ = y⁻¹)
     (hy : Odd (orderOf y)) (hidx : (fixV' (Subgroup.zpowers τ)).index ≤ 4) :
     orderOf y = 1 ∨ orderOf y = 3 ∨ orderOf y = 5 := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hc }
+  let : CommGroup V := { ‹Group V› with mul_comm := hc }
   exact strongly_real_small_comm h2 hτ hinv hy hidx
 
 theorem inverts_to_aut (h : Setup28 W K S) (hR : Red28 W K S) {a : X} (haS : a ∈ S) (ha2 : a ^ 2 = 1)

@@ -67,7 +67,7 @@ private theorem rowZeroAtZero_inv {A : GL (Fin 6) (ZMod 3)} (hA : RowZeroAtZero 
     have := congrFun (congrFun hAA 0) j
     rw [Matrix.mul_apply] at this
     rw [Finset.sum_eq_single 0] at this
-    · rw [Matrix.one_apply, if_neg (Ne.symm hj)] at this
+    · rw [Matrix.one_apply, ite_eq_right (Ne.symm hj)] at this
       exact this
     · intro k _ hk
       rw [hA k hk, zero_mul]
@@ -211,9 +211,9 @@ theorem spMat_one_eq_permMatrix (σ : Equiv.Perm (Fin k)) :
   rw [congrFun h j, Pi.single_apply]
   by_cases hij : i = σ j
   · subst hij
-    rw [if_pos rfl, if_pos (Equiv.symm_apply_apply σ j).symm]
+    rw [ite_eq_left rfl, ite_eq_left (Equiv.symm_apply_apply σ j).symm]
   · have hne : j ≠ σ.symm i := fun hh => hij (by rw [← Equiv.apply_symm_apply σ i, hh])
-    rw [if_neg hij, if_neg hne]
+    rw [ite_eq_right hij, ite_eq_right hne]
 
 theorem det_spMat (σ : Equiv.Perm (Fin k)) (s : Fin k → ZMod 3) :
     (spMat σ s).det = (Equiv.Perm.sign σ : ZMod 3) * ∏ j, s j := by

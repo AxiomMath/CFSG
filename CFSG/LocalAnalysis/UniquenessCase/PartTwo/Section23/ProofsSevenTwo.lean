@@ -17,6 +17,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_uniqueSet_of_le_of_inf_conj_eq_bot {M Q X : Subgroup G} (hXQ : X ≤ Q) (hXM : X ≤ M)
     (hXne : X ≠ ⊥) (hU : ∀ g : G, g ∉ M → Q ⊓ M.map (MulAut.conj g).toMonoidHom = ⊥) :
     X ∈ uniqueSet M := by
@@ -30,12 +31,12 @@ theorem mem_uniqueSet_of_le_of_inf_conj_eq_bot {M Q X : Subgroup G} (hXQ : X ≤
   exact Subgroup.mem_normalizer_iff_map_conj_eq.mp (Subgroup.le_normalizer hgM)
 
 private theorem uc22s2372_noncyclic
-    (D : Data G) (Ch : Choice2011 G) (h63 : UC6.R6_3 D)
+    (D : Data G) (_Ch : Choice2011 G) (h63 : UC6.R6_3 D)
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {Q : Subgroup G} (hQM : Q ≤ D.M)
     (hQq : IsPGroup q ↥Q) (hΓ : rankThreeGamma 1 q Q ≤ D.M)
     {N : Subgroup G} (hN : N ∈ calMOf D.T) (hNM : N ≠ D.M)
-    (hXne : Q ⊓ N ≠ ⊥) (hXnc : ¬ IsCyclic ↥(Q ⊓ N)) : False := by
-  haveI : Fact q.Prime := ⟨hq⟩
+    (_hXne : Q ⊓ N ≠ ⊥) (hXnc : ¬ IsCyclic ↥(Q ⊓ N)) : False := by
+  have : Fact q.Prime := ⟨hq⟩
   let X : Subgroup G := Q ⊓ N
   obtain ⟨E, hEX, hEel, hEcard⟩ :=
     CFSG.Quasithin.A1c.exists_isElemAbelian_card_sq hq2 hQq.to_inf_left hXnc
@@ -56,7 +57,7 @@ private theorem uc22s2372_cyclic
     (hN : N ∈ calMOf D.T) (hNM : N ≠ D.M) (hTQ : Permutes D.T Q)
     (hXne : Q ⊓ N ≠ ⊥) (hXcyc : IsCyclic ↥(Q ⊓ N)) : False := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let X : Subgroup G := Q ⊓ N
   have hTN : D.T ≤ N := hN.2
   have hXQ : X ≤ Q := inf_le_left
@@ -164,7 +165,7 @@ private theorem uc22s2372_cyclic
   have hcardY : Nat.card ↥(X ⊔ D.T : Subgroup G) = Nat.card D.T * q := by
     rw [hY_eq_K, hcardK]
   have hYsolv : Group.IsSolvable ↥(X ⊔ D.T) := by
-    haveI : Fintype ↥(X ⊔ D.T) := Fintype.ofFinite _
+    have : Fintype ↥(X ⊔ D.T) := Fintype.ofFinite _
     obtain ⟨k, hk⟩ := D.sylowM.isPGroup.exists_card_eq
     refine CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       (a := k) (b := 1) Nat.prime_two hq (by omega) ?_
@@ -247,8 +248,8 @@ theorem gamma_le_of_s23_7 (D : Data G) (h77 : F07.R77Eq D) (hσ : D.sig ⊆ D.si
   · have hpp : p.Prime := (D.sig_prime p hp).1
     have hp2 : p ≠ 2 := (D.sig_prime p hp).2
     have hpq : p ≠ q := fun h => hqσ (h ▸ hp)
-    haveI : Fact p.Prime := ⟨hpp⟩
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact p.Prime := ⟨hpp⟩
+    have : Fact q.Prime := ⟨hq⟩
     have hspp : CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M := hsp p hp
     have hrkM : 3 ≤ CFSG.Open.pRank p D.M := hrk p hp
     obtain ⟨E, hEM, hEel, hEcard⟩ :=
@@ -262,8 +263,8 @@ theorem gamma_le_of_s23_7 (D : Data G) (h77 : F07.R77Eq D) (hσ : D.sig ⊆ D.si
     have hcopEP : Nat.Coprime (Nat.card E) (Nat.card P) := by
       rw [hEcard]
       exact Nat.Coprime.pow_left _ hPcop
-    haveI : IsMulCommutative ↥E := hEel.1
-    haveI : Group.IsSolvable ↥E := inferInstance
+    have : IsMulCommutative ↥E := hEel.1
+    have : Group.IsSolvable ↥E := inferInstance
     obtain ⟨P', hP'Syl, hEP'⟩ :=
       CFSG.GH74.Uniqueness.exists_sylow_normalized_of_coprime hEP hcopEP q
     obtain ⟨y, hyP, hconj⟩ := hQ0.exists_mem_conj hP'Syl

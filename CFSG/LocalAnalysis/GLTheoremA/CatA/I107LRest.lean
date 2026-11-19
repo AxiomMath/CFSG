@@ -33,7 +33,7 @@ theorem twoRankLow_twA_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (h
     CFSG.Assembly.LargeEvenRecipeUnitary] at hraw
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI : Finite (LargeEvenProj (LargeEvenSUGroup (Fin (rank + 1)) K (2 ^ n))) :=
+  have : Finite (LargeEvenProj (LargeEvenSUGroup (Fin (rank + 1)) K (2 ^ n))) :=
     Finite.of_equiv _ θ.toEquiv
   rw [pRank_eq_of_quotient θ hna]
   exact pRank_herm_ge hn (by omega) (by omega) hK
@@ -53,10 +53,10 @@ theorem twoRankLow_twD3_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (
   refine le_trans hkey ?_
   dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum,
     CFSG.Assembly.LargeEvenRecipeUnitary] at hraw
-  simp only [show ¬ (3 : ℕ) = 2 by norm_num, if_false, if_true] at hraw
+  simp only [show ¬ (3 : ℕ) = 2 by norm_num, ite_false, ite_true] at hraw
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI : Finite (LargeEvenProj (LargeEvenSUGroup (Fin 4) K (2 ^ n))) :=
+  have : Finite (LargeEvenProj (LargeEvenSUGroup (Fin 4) K (2 ^ n))) :=
     Finite.of_equiv _ θ.toEquiv
   rw [pRank_eq_of_quotient θ hna]
   exact pRank_herm_ge hn (by norm_num) (by norm_num) hK
@@ -75,11 +75,11 @@ theorem twoRankLow_D_ge4 (S : Type) [Group S] [Finite S] (lab : GLALabel) (hS : 
     simp only [twoRankLow107, Nat.choose_two_right]
   rw [hkey]
   dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hraw
-  rw [if_neg hne] at hraw
+  rw [ite_eq_right hne] at hraw
   dsimp only [CFSG.Assembly.LargeEvenRecipeOmegaPlus] at hraw
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K rank))) :=
+  have : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K rank))) :=
     Finite.of_equiv _ θ.toEquiv
   rw [pRank_eq_of_quotient θ hna]
   exact pRank_alt_plus_ge hn (by omega) hK
@@ -102,11 +102,11 @@ theorem twoRankLow_twD_ge4 (S : Type) [Group S] [Finite S] (lab : GLALabel) (hS 
     rw [h12]
   rw [hkey]
   dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hraw
-  rw [if_neg (show ¬ (m + 1 = 2) by omega), if_neg (show ¬ (m + 1 = 3) by omega)] at hraw
+  rw [ite_eq_right (show ¬ (m + 1 = 2) by omega), ite_eq_right (show ¬ (m + 1 = 3) by omega)] at hraw
   dsimp only [CFSG.Assembly.LargeEvenRecipeOmegaMinus] at hraw
   obtain ⟨K, hf, hfin, hK, b, c, hirr, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
+  have : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
     Finite.of_equiv _ θ.toEquiv
   rw [pRank_eq_of_quotient θ hna]
   rcases Nat.lt_or_ge m 5 with hm5 | hm5

@@ -56,6 +56,7 @@ theorem four_le_pRank_of_scalarKer {H : Subgroup (GL ι K)} {Q : Type*} [Group Q
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem torusVec_indep {ζ : Kˣ} (hζ : orderOf ζ = 3) {i₀ i₁ i₂ i₃ i₄ : ι}
     (h01 : i₀ ≠ i₁) (h02 : i₀ ≠ i₂) (h03 : i₀ ≠ i₃) (h04 : i₀ ≠ i₄)
     (h12 : i₁ ≠ i₂) (h13 : i₁ ≠ i₃) (h14 : i₁ ≠ i₄)
@@ -127,6 +128,7 @@ theorem torusVec_indep {ζ : Kˣ} (hζ : orderOf ζ = 3) {i₀ i₁ i₂ i₃ i�
     rw [hζ] at hdvd
     norm_num at hdvd
 
+omit [Finite K] in
 theorem four_le_pRank_torus_of_scalarKer {H : Subgroup (GL ι K)} {Q : Type*} [Group Q] [Finite Q]
     (π : H →* Q) (hπ : π.ker ≤ (StatedScalars ι K).subgroupOf H) {ζ : Kˣ} (hζ : orderOf ζ = 3)
     {i₀ i₁ i₂ i₃ i₄ : ι}
@@ -134,7 +136,7 @@ theorem four_le_pRank_torus_of_scalarKer {H : Subgroup (GL ι K)} {Q : Type*} [G
     (h12 : i₁ ≠ i₂) (h13 : i₁ ≠ i₃) (h14 : i₁ ≠ i₄)
     (h23 : i₂ ≠ i₃) (h24 : i₂ ≠ i₄) (h34 : i₃ ≠ i₄)
     (hH : ∀ j, torusDiag (torusVec ζ j i₄) ∈ H) : 4 ≤ pRank 3 (⊤ : Subgroup Q) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpow (j : ι) : torusDiag (torusVec ζ j i₄) ^ 3 = 1 := by
     rw [← map_pow, torusVec_pow, ← hζ, pow_orderOf_eq_one, torusVec_one, map_one]
   have hcomm (a b : ι → Kˣ) : Commute (torusDiag a) (torusDiag b) :=

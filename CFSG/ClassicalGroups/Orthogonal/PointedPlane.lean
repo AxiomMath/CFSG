@@ -48,7 +48,7 @@ theorem exists_eichler_apply_fixed_mark
       ((polar_comm Q r u).trans hu_r) hrr
   have hmove : eichler Q u r v = w + b • r := by
     rw [eichler_apply huQ hu_r v]
-    simp only [hvu, hvr, hr, zero_smul, smul_zero, add_zero, mul_zero, one_mul, one_smul]
+    simp only [hvu, hvr, hr, zero_smul, add_zero, mul_zero, one_smul]
     rw [sub_eq_add_neg, hneg_u]
     calc
       v + u = v + (v + w + b • r) := by rw [hu]
@@ -114,7 +114,7 @@ theorem exists_mem_elementaryGroup_apply_span_pair
   refine ⟨g, hg, hgr, ?_⟩
   rw [Submodule.map_span, Set.image_pair, hgr']
   rcases hgv' with h | h
-  · simpa [h]
+  · simp [h]
   · rw [h]
     apply le_antisymm
     · rw [Submodule.span_le]

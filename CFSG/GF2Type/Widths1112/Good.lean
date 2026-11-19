@@ -233,7 +233,7 @@ theorem isGood_O2 (S : Setting G) {v : S.Qt} (hv : IsGood S v)
     have h0 : 2 * S.width - 2 = 0 := by omega
     rw [h0, pow_zero]
     exact one_dvd _
-  haveI hfin : Finite S.Qt := Nat.finite_of_card_ne_zero (by rw [S.card_Qt]; positivity)
+  have hfin : Finite S.Qt := Nat.finite_of_card_ne_zero (by rw [S.card_Qt]; positivity)
   obtain ⟨Y, hYdef⟩ : ∃ Y : Submodule (ZMod 2) S.Qt,
       Y = LinearMap.ker (QuadraticMap.polarBilin S.q v) := ⟨_, rfl⟩
   obtain ⟨L, hLdef⟩ : ∃ L : Submodule (ZMod 2) S.Qt,
@@ -373,7 +373,7 @@ theorem Qx_eq_clPre (S : Setting G) {x : G} (hxQ : x ∈ S.QG) :
 
 theorem card_Qx (S : Setting G) {x : G} (hxQ : x ∈ S.QG) (hx : S.cl x ≠ 0) :
     Nat.card (S.QG ⊓ centralizer ({x} : Set G) : Subgroup G) = 2 ^ (2 * S.width) := by
-  haveI : Finite S.Qt := Nat.finite_of_card_ne_zero (by rw [S.card_Qt]; positivity)
+  have : Finite S.Qt := Nat.finite_of_card_ne_zero (by rw [S.card_Qt]; positivity)
   obtain ⟨y, hy⟩ := exists_polar_eq_one S.q_nondegenerate hx
   have h1 := finrank_ker_polarBilin hy
   rw [S.finrank_Qt_eq_two_mul_width] at h1
@@ -384,7 +384,7 @@ theorem exists_comm_pair_Qx (S : Setting G) {x : G} (hxQ : x ∈ S.QG)
     (hgood : IsGood S (S.cl x)) :
     S.z ∈ ⁅(S.QG ⊓ centralizer ({x} : Set G) : Subgroup G),
       (S.QG ⊓ centralizer ({x} : Set G) : Subgroup G)⁆ := by
-  haveI : Finite S.Qt := Nat.finite_of_card_ne_zero (by rw [S.card_Qt]; positivity)
+  have : Finite S.Qt := Nat.finite_of_card_ne_zero (by rw [S.card_Qt]; positivity)
   have hw2 : 2 ≤ S.width := two_le_width_of_isGood S hgood
   have hx0 : S.cl x ≠ 0 := by
     obtain ⟨h0, -⟩ := hgood
@@ -393,7 +393,7 @@ theorem exists_comm_pair_Qx (S : Setting G) {x : G} (hxQ : x ∈ S.QG)
   have hstep1 : ∃ a ∈ LinearMap.ker (QuadraticMap.polarBilin S.q (S.cl x)),
       ∃ b ∈ LinearMap.ker (QuadraticMap.polarBilin S.q (S.cl x)), polar S.q a b = 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨y, hy⟩ := exists_polar_eq_one S.q_nondegenerate hx0
     have h1 := finrank_ker_polarBilin hy
     rw [S.finrank_Qt_eq_two_mul_width] at h1
@@ -429,7 +429,8 @@ theorem exists_comm_pair_Qx (S : Setting G) {x : G} (hxQ : x ∈ S.QG)
     rw [commutatorElement_def, h] at hmem
     exact hmem
 
-theorem hnorm_Qx (S : Setting G) {x : G} (hxQ : x ∈ S.QG) :
+omit [Finite G] in
+theorem hnorm_Qx (S : Setting G) {x : G} (_hxQ : x ∈ S.QG) :
     centralizer ({x} : Set G) ⊓ centralizer ({S.z} : Set G) ≤
       normalizer ((S.QG ⊓ centralizer ({x} : Set G) : Subgroup G) : Set G) := by
   have key : ∀ c ∈ centralizer ({x} : Set G), c ∈ centralizer ({S.z} : Set G) →
@@ -599,7 +600,7 @@ private theorem he_isGood_stab_le (S : Setting G) {x : G} (hxQ : x ∈ S.QG)
 
 private theorem he_isGood_conj (S : Setting G) {x : G} (hxQ : x ∈ S.QG) (hgood : IsGood S (S.cl x))
     (P : Subgroup G)
-    (hPC : P ≤ centralizer ({x} : Set G) ⊓ centralizer ({S.z} : Set G))
+    (_hPC : P ≤ centralizer ({x} : Set G) ⊓ centralizer ({S.z} : Set G))
     (hn : centralizer ({x} : Set G) ⊓ centralizer ({S.z} : Set G) ≤ normalizer (P : Set G)) :
     ∀ s ∈ stabL S (S.cl x), ∀ n ∈ (P.subgroupOf S.M).map (S.O.subtype.comp S.ρ),
       s * n * s⁻¹ ∈ (P.subgroupOf S.M).map (S.O.subtype.comp S.ρ) := by
@@ -742,6 +743,7 @@ theorem hc_of_isGood (S : Setting G) {x : G} (hxQ : x ∈ S.QG) (hgood : IsGood 
           exact mul_mem (mul_mem (Subgroup.mem_sup_right hxT) (Subgroup.mem_sup_left hpP))
             (Subgroup.mem_sup_right hzT)
 
+omit [Finite G] in
 theorem pCoreOf_facts (K : Subgroup G) :
     IsPGroup 2 (CFSG.Open.pCoreOf 2 K) ∧ CFSG.Open.pCoreOf 2 K ≤ K ∧
       ∀ k ∈ K, ∀ r ∈ CFSG.Open.pCoreOf 2 K, k * r * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K := by
@@ -755,6 +757,7 @@ theorem pCoreOf_facts (K : Subgroup G) :
     obtain ⟨o', ho', rfl⟩ := hr
     exact ⟨⟨k, hk⟩ * o' * ⟨k, hk⟩⁻¹, CFSG.pCore_normal.conj_mem o' ho' _, rfl⟩
 
+omit [Finite G] in
 private theorem zpow_eq_one_or_self_S5f {x : G} (hx2 : orderOf x = 2) (k : ℤ) :
     x ^ k = 1 ∨ x ^ k = x := by
   have h2 : ((orderOf x : ℕ) : ℤ) = 2 := by exact_mod_cast hx2
@@ -766,6 +769,7 @@ private theorem zpow_eq_one_or_self_S5f {x : G} (hx2 : orderOf x = 2) (k : ℤ) 
   · right
     rw [← h, h1, zpow_one]
 
+omit [Finite G] in
 private theorem normalizer_zpowers_eq_centralizer_S5f {x : G} (hx2 : orderOf x = 2) :
     Subgroup.normalizer (Subgroup.zpowers x : Set G) = Subgroup.centralizer ({x} : Set G) := by
   have hx1 : x ≠ 1 := by
@@ -802,6 +806,7 @@ private theorem normalizer_zpowers_eq_centralizer_S5f {x : G} (hx2 : orderOf x =
       exact (hcomm.zpow_left k).eq
     exact (Subgroup.centralizer_le_normalizer _) hg
 
+omit [Finite G] in
 theorem hCR_of_charTwo (hchar : CFSG.Open.IsCharTwoType G) {x : G} (hx2 : orderOf x = 2) :
     ∀ y ∈ centralizer ({x} : Set G),
       (∀ r ∈ CFSG.Open.pCoreOf 2 (centralizer ({x} : Set G)), y * r = r * y) →
@@ -914,9 +919,9 @@ theorem exists_good_mem_inf (S : Setting G) (hF3 : GoodThroughSingular S)
       2 ^ (2 * S.width) := by
     rw [S.card_Lbar_mul g, S.card_L0 haQ hne]
   obtain ⟨j, hj⟩ : ∃ j : ℕ, Nat.card (S.Lbar g) = 2 ^ j := by
-    haveI := S.isElementaryAbelian_Lbar haQ
+    have := S.isElementaryAbelian_Lbar haQ
     exact (IsPGroup.iff_card).mp (CFSG.IsElementaryAbelian.isPGroup 2 ↥(S.Lbar g))
-  haveI : Finite S.Mbar := Finite.of_surjective _ S.ρ.rangeRestrict_surjective
+  have : Finite S.Mbar := Finite.of_surjective _ S.ρ.rangeRestrict_surjective
   have hMpos : Nat.card S.Mbar ≠ 0 := Nat.card_pos.ne'
   have hdvd : 2 ^ j ∣ Nat.card S.Mbar := by
     rw [← hj]

@@ -57,19 +57,19 @@ noncomputable def modO2PerfectCoreParPEquivSL2 (hm : 2 ≤ m) :
 
 theorem isSimpleGroup_modO2_perfectCore_parP (hm : 2 ≤ m) :
     IsSimpleGroup (CFSG.Quasithin.ModO2 (perfectCore (parP h))) := by
-  haveI := isSimpleGroup_sl2 h hm
+  have := isSimpleGroup_sl2 h hm
   exact (modO2PerfectCoreParPEquivSL2 h hm).isSimpleGroup
 
 theorem perfectCore_parP_eq_bot (hm : m = 1) : perfectCore (parP h) = ⊥ := by
   subst hm
-  haveI := h.finite
-  haveI := finite_hypSU h
+  have := h.finite
+  have := finite_hypSU h
   by_contra hne
-  haveI : Nontrivial ↥(perfectCore (parP h)) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
-  haveI : Group.IsPerfect ↥(perfectCore (parP h)) :=
+  have : Nontrivial ↥(perfectCore (parP h)) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+  have : Group.IsPerfect ↥(perfectCore (parP h)) :=
     Subgroup.isPerfect_iff.mpr (perfectCore_perfect (parP h))
-  haveI : Group.IsSolvable ↥(parP h) := CFSG.Quasithin.H13.U4V.isSolvable_parP_one h
-  haveI : Group.IsSolvable ↥(perfectCore (parP h)) :=
+  have : Group.IsSolvable ↥(parP h) := CFSG.Quasithin.H13.U4V.isSolvable_parP_one h
+  have : Group.IsSolvable ↥(perfectCore (parP h)) :=
     Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective (perfectCore_le (parP h)))
   exact Group.IsPerfect.not_isSolvable ↥(perfectCore (parP h)) inferInstance

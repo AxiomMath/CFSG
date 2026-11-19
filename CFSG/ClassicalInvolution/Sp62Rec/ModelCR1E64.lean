@@ -17,7 +17,7 @@ theorem wcode_get (a : Wr 7) {p : ℕ} (hp : p < 64) :
     (wcode a)[p]! = if p < 14 then wPt a p else p :=
   getElem!_ofFn_nat _ hp
 
-theorem wPt_eq (a : Wr 7) (i : Fin 7) {c : ℕ} (hc : c < 2) :
+theorem wPt_eq (a : Wr 7) (i : Fin 7) {c : ℕ} (_hc : c < 2) :
     wPt a (i.val + 7 * c) = (a.perm i).val + 7 * ((c + (a.vec (a.perm i)).val) % 2) := by
   have h1 : (⟨(i.val + 7 * c) % 7, Nat.mod_lt _ (by decide)⟩ : Fin 7) = i :=
     Fin.ext (by show (i.val + 7 * c) % 7 = i.val; omega)
@@ -52,27 +52,27 @@ theorem wcode_mul (a b : Wr 7) : wcode (a * b) = compA (wcode a) (wcode b) := by
   rw [compA_get _ _ hp, wcode_get _ hp, wcode_get b hp]
   by_cases h14 : p < 14
   · have h := wPt_lt b h14
-    rw [if_pos h14, if_pos h14, wcode_get a (by omega), if_pos h, wPt_mul a b h14]
-  · rw [if_neg h14, if_neg h14, wcode_get a hp, if_neg h14]
+    rw [ite_eq_left h14, ite_eq_left h14, wcode_get a (by omega), ite_eq_left h, wPt_mul a b h14]
+  · rw [ite_eq_right h14, ite_eq_right h14, wcode_get a hp, ite_eq_right h14]
 
 theorem wcode_one : wcode 1 = idA () := by
   refine ext64 (size_wcode _) size_idA fun p hp => ?_
   rw [wcode_get _ hp, idA_get hp]
   by_cases h14 : p < 14
-  · rw [if_pos h14]
+  · rw [ite_eq_left h14]
     obtain ⟨i, c, hc, rfl⟩ := exists_pt h14
     rw [wPt_eq _ i hc]
     show i.val + 7 * ((c + (0 : ZMod 2).val) % 2) = i.val + 7 * c
     rw [ZMod.val_zero, add_zero, Nat.mod_eq_of_lt hc]
-  · rw [if_neg h14]
+  · rw [ite_eq_right h14]
 
 theorem wcode_injective : Function.Injective wcode := by
   intro a b h
   have hpt : ∀ i : Fin 7, wPt a i.val = wPt b i.val := by
     intro i
     have := congrArg (fun t => t[i.val]!) h
-    rwa [wcode_get _ (by omega), wcode_get _ (by omega), if_pos (by omega),
-      if_pos (by omega)] at this
+    rwa [wcode_get _ (by omega), wcode_get _ (by omega), ite_eq_left (by omega),
+      ite_eq_left (by omega)] at this
   have hpt0 : ∀ i : Fin 7, (a.perm i).val + 7 * ((a.vec (a.perm i)).val % 2) =
       (b.perm i).val + 7 * ((b.vec (b.perm i)).val % 2) := by
     intro i
@@ -206,12 +206,12 @@ theorem exists_wrHom_of_autOK {E : Enum} {gs hs F : Array (Array ℕ)}
     · intro x hx
       obtain ⟨m, -, hme⟩ := hex x hx
       have hx' : ∃ m, wcode m = appF E F (code x) := ⟨m, hme⟩
-      simp only [dif_pos hx']
+      simp only [dite_eq_left hx']
       exact hx'.choose_spec
     · intro x hx
       obtain ⟨m, hm, hme⟩ := hex x hx
       have hx' : ∃ m, wcode m = appF E F (code x) := ⟨m, hme⟩
-      simp only [dif_pos hx']
+      simp only [dite_eq_left hx']
       rw [wcode_injective (hx'.choose_spec.trans hme.symm)]
       exact hm
   have hf1 : f 1 = 1 := by

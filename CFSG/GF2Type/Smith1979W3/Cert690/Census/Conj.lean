@@ -48,7 +48,6 @@ theorem map_centralizer_mulEquiv {G' : Type*} [Group G'] (e : G ≃* G') (S : Se
     intro s hs
     have h := hx (e s) (Set.mem_image_of_mem e hs)
     apply e.injective
-    change e (s * e.symm x) = e (e.symm x * s)
     rw [map_mul, map_mul, e.apply_symm_apply]
     exact h
   · rintro ⟨y, hy, rfl⟩ z hz
@@ -110,7 +109,7 @@ theorem noNormalTwo_conjSub {H : Subgroup G} {g : G} (h : NoNormalTwo H) :
   apply le_antisymm _ bot_le
   intro x hx
   have hy : g⁻¹ * x * g ∈ N' :=
-    Subgroup.mem_map.mpr ⟨x, hx, by simp [MulAut.conj_apply]⟩
+    Subgroup.mem_map.mpr ⟨x, hx, by simp⟩
   rw [hbot, Subgroup.mem_bot] at hy
   rw [Subgroup.mem_bot]
   calc x = g * (g⁻¹ * x * g) * g⁻¹ := by group
@@ -149,7 +148,7 @@ theorem irreducibleSub_conj {H : Subgroup (V₀ ≃ₗ[ZMod 2] V₀)}
     rw [hW', htop, Submodule.map_top, LinearMap.range_eq_top.mpr g.surjective]
 
 theorem censusCond_conj {minus : Bool} {H L : Subgroup (V₀ ≃ₗ[ZMod 2] V₀)} {b : V₀}
-    {g : V₀ ≃ₗ[ZMod 2] V₀} (h : CensusCond minus H L b) (hg : g ∈ O₀ minus) :
+    {g : V₀ ≃ₗ[ZMod 2] V₀} (h : CensusCond minus H L b) (_hg : g ∈ O₀ minus) :
     CensusCond minus (conjSub H g) (conjSub L g) (g b) := by
   unfold CensusCond at h ⊢
   obtain ⟨hLH, hfix, hinv, hcard, hnorm, hpgr⟩ := h
@@ -157,7 +156,7 @@ theorem censusCond_conj {minus : Bool} {H L : Subgroup (V₀ ≃ₗ[ZMod 2] V₀
   · intro x hx
     obtain ⟨y, hy, rfl⟩ := hx
     change (g * y * g⁻¹) (g b) = g b
-    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, LinearEquiv.mul_apply]
+    simp only [LinearEquiv.mul_apply]
     simp [hfix y hy]
   · intro x hx
     obtain ⟨y, hy, rfl⟩ := hx
@@ -182,7 +181,7 @@ theorem censusCond_conj {minus : Bool} {H L : Subgroup (V₀ ≃ₗ[ZMod 2] V₀
     rw [h1, h2, hnorm h hh]
     change h b = b ↔ (g * h * g⁻¹) (g b) = g b
     have heq : (g * h * g⁻¹) (g b) = g (h b) := by
-      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, LinearEquiv.mul_apply]
+      simp only [LinearEquiv.mul_apply]
       rw [show g⁻¹ (g b) = b by simp]
     rw [heq]
     exact ⟨fun hb => congrArg g hb, fun hb => g.injective hb⟩

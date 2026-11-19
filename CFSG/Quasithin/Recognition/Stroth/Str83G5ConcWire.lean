@@ -33,7 +33,7 @@ theorem str83G5ConcreteGoal_holds
   have hB : bigB L1 L2 S ≤ normalizer (S : Set G) := hfr.2.1
   obtain ⟨d⟩ := str83G4Data_nonempty hfr
   have hn0 : 2 * a + 1 ≠ 0 := by omega
-  haveI : NeZero (2 ^ (2 * a + 1) - 1) := ⟨by have := Nat.one_lt_two_pow hn0; omega⟩
+  have : NeZero (2 ^ (2 * a + 1) - 1) := ⟨by have := Nat.one_lt_two_pow hn0; omega⟩
   have hodd : Odd (2 ^ (2 * a + 1) - 1) :=
     Nat.Even.sub_odd Nat.one_le_two_pow (Nat.even_pow.mpr ⟨even_two, hn0⟩) odd_one
   obtain ⟨ζ, hζ⟩ := exists_galoisField_orderOf_eq hn0

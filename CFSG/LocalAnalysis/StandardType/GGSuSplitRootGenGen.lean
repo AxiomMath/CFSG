@@ -42,15 +42,15 @@ private theorem reindex_hypGram_eq_antidiag (hε : ε ≤ 1) :
       (j = Fin.rev i) := by
     rw [Equiv.symm_apply_eq, hypEquivFin_hypPartner hε, Equiv.apply_symm_apply]
   by_cases h : j = Fin.rev i
-  · rw [if_pos (hiff.mpr h), if_pos h]
-  · rw [if_neg (fun hh => h (hiff.mp hh)), if_neg h]
+  · rw [ite_eq_left (hiff.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun hh => h (hiff.mp hh)), ite_eq_right h]
 
 private theorem map_hypSU_eq_SU (h : UnitaryFieldData 2 n K) [Finite K] [CharP K 2]
     (hε : ε ≤ 1) :
     (hypSU h r ε).map (hypReindexGL r ε K).toMonoidHom =
       SU (unitaryInvolution K 2 n) (2 * r + ε) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
   have hbar : ⇑h.bar = ⇑(unitaryInvolution K 2 n) := by
     funext c; exact bar_eq_unitaryInvolution h c
   have hgram : hypGram r ε K =
@@ -173,12 +173,12 @@ private theorem signedPerm_conj_apply {π : Equiv.Perm (HypIndex r ε)}
     · simp
     · intro b _ hb
       have h1 : y ≠ π b := fun h => hb (by rw [h]; exact (Equiv.symm_apply_apply π b).symm)
-      rw [if_neg (fun h => h1 h.2.symm)]
+      rw [ite_eq_right (fun h => h1 h.2.symm)]
     · intro h; exact absurd (Finset.mem_univ _) h
   · intro a _ ha
     have h1 : x ≠ π a := fun h => ha (by rw [h]; exact (Equiv.symm_apply_apply π a).symm)
     refine Finset.sum_eq_zero fun c _ => ?_
-    rw [if_neg (fun h => h1 h.1.symm)]
+    rw [ite_eq_right (fun h => h1 h.1.symm)]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 theorem isHypBlockOn_signedPerm_conj {T : Set (HypIndex r ε)}
@@ -196,8 +196,8 @@ theorem isHypBlockOn_signedPerm_conj {T : Set (HypIndex r ε)}
       M (π.symm x) (π.symm y) := signedPerm_conj_apply (π := π) (M := M) x y
   rw [h1, Matrix.one_apply, hM (π.symm x) (π.symm y) hxy', Matrix.one_apply]
   by_cases h : x = y
-  · rw [if_pos (by rw [h]), if_pos h]
-  · rw [if_neg (fun hh => h (π.symm.injective hh)), if_neg h]
+  · rw [ite_eq_left (by rw [h]), ite_eq_left h]
+  · rw [ite_eq_right (fun hh => h (π.symm.injective hh)), ite_eq_right h]
 
 private noncomputable def linePerm (m : Fin r) : Equiv.Perm (HypIndex r ε) :=
   weylPerm (ε := ε) (swapSet {m})
@@ -284,12 +284,12 @@ private theorem pairPerm_symm_image_lineCoords (i j : Fin r) :
     (pairPerm (ε := ε) j i).symm '' lineCoords (ε := ε) i = lineCoords (ε := ε) j := by
   have h1 : pairPerm (ε := ε) j i (.inl j) = .inl i := by
     rw [pairPerm_inl]
-    simp [Equiv.swap_apply_right]
+    simp
   have h2 : ∀ k : Fin ε, pairPerm (ε := ε) j i (.inr (.inl k)) = .inr (.inl k) :=
     fun k => pairPerm_inr_inl (i := j) (j := i) (k := k)
   have h3 : pairPerm (ε := ε) j i (.inr (.inr j)) = .inr (.inr i) := by
     rw [pairPerm_inr_inr]
-    simp [Equiv.swap_apply_right]
+    simp
   ext a
   constructor
   · rintro ⟨b, hb, rfl⟩
@@ -386,7 +386,7 @@ private theorem longRootMatrix_apply_of_not_mem {N : ℕ} {i : Fin N} (c : K) {u
     rcases huv with hu | hv
     · exact hu (by simp)
     · exact hv (by simp)
-  rw [longRootMatrix, Matrix.add_apply, Matrix.single_apply, if_neg hne, add_zero]
+  rw [longRootMatrix, Matrix.add_apply, Matrix.single_apply, ite_eq_right hne, add_zero]
 
 private theorem heisenbergMatrix_apply_of_not_mem (σ : K ≃+* K) {N : ℕ} {i k : Fin N} (a b : K)
     {u v : Fin N}
@@ -402,7 +402,7 @@ private theorem heisenbergMatrix_apply_of_not_mem (σ : K ≃+* K) {N : ℕ} {i 
   have h2 : ¬ (k = u ∧ Fin.rev i = v) := fun hh => hmem (by simp) (by simp) hh.1 hh.2
   have h3 : ¬ (i = u ∧ Fin.rev i = v) := fun hh => hmem (by simp) (by simp) hh.1 hh.2
   rw [heisenbergMatrix, Matrix.add_apply, Matrix.sub_apply, Matrix.add_apply, Matrix.single_apply,
-    Matrix.single_apply, Matrix.single_apply, if_neg h1, if_neg h2, if_neg h3]
+    Matrix.single_apply, Matrix.single_apply, ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
   simp
 
 private noncomputable def hypRoot (h : UnitaryFieldData 2 n K) (a b : HypIndex r ε) (c : K) :
@@ -432,7 +432,7 @@ private theorem signedPerm_conj_hypRoot (h : UnitaryFieldData 2 n K)
   ext x y
   rw [signedPerm_conj_apply]
   simp only [hypRoot, Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply, Matrix.single_apply,
-    EmbeddingLike.apply_eq_iff_eq, ← hπ, Equiv.eq_symm_apply, Equiv.apply_symm_apply]
+    ← hπ, Equiv.eq_symm_apply, Equiv.apply_symm_apply]
 
 private theorem coe_leviSU_transvection (h : UnitaryFieldData 2 n K) {k l : Fin r} (hkl : k ≠ l)
     (c : K) :
@@ -449,13 +449,13 @@ private theorem coe_leviSU_transvection (h : UnitaryFieldData 2 n K) {k l : Fin 
   ext x y
   rcases x with x | z | x <;> rcases y with y | w | y
   · simp [hypRoot, Matrix.single_apply, Matrix.one_apply]
-  · simp [hypRoot, Matrix.single_apply, Matrix.one_apply]
-  · simp [hypRoot, Matrix.single_apply, Matrix.one_apply]
-  · simp [hypRoot, Matrix.single_apply, Matrix.one_apply]
-  · simp [hypRoot, Matrix.single_apply, Matrix.one_apply]
-  · simp [hypRoot, Matrix.single_apply, Matrix.one_apply]
-  · simp [hypRoot, Matrix.single_apply, Matrix.one_apply]
-  · simp [hypRoot, Matrix.single_apply, Matrix.one_apply]
+  · simp [hypRoot]
+  · simp [hypRoot]
+  · simp [hypRoot]
+  · simp [hypRoot, Matrix.one_apply]
+  · simp [hypRoot]
+  · simp [hypRoot]
+  · simp [hypRoot]
   · simp only [blk3_inr_inr_inr_inr, Matrix.transpose_apply, Matrix.map_apply, hypRoot,
       Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply, Matrix.single_apply, map_add,
       Sum.inr.injEq, hypPartner_inl]
@@ -468,7 +468,7 @@ private theorem coe_leviSU_transvection (h : UnitaryFieldData 2 n K) {k l : Fin 
     · have hxy' : ¬ x = y := fun hh => hxy hh.symm
       by_cases h1 : l = x ∧ k = y
       · have h2 : k = y ∧ l = x := ⟨h1.2, h1.1⟩
-        simp [h1, h2, hxy, hxy']
+        simp [h1, hxy, hxy']
       · have h2 : ¬ (k = y ∧ l = x) := fun hh => h1 ⟨hh.2, hh.1⟩
         simp [h1, h2, hxy, hxy']
 
@@ -506,8 +506,8 @@ private theorem lineBlock_le_of_levi (h : UnitaryFieldData 2 n K) {R : Subgroup 
 theorem eq_top_of_levi_lineBlock (h : UnitaryFieldData 2 n K) (hε : ε ≤ 1)
     {R : Subgroup (hypSU h r ε)} (hL : (leviSU h ε).range ≤ R) (m₀ : Fin r)
     (hm : lineBlock h m₀ ≤ R) : R = ⊤ := by
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
   have hF : Nat.card K = (2 ^ n) ^ 2 := by rw [h.card, ← pow_mul, mul_comm]
   have hall : ∀ m, lineBlock h m ≤ R := lineBlock_le_of_levi h hL hm
   have hW : ∀ m, lineWeyl h ε m ∈ R := fun m => hall m (lineWeyl_mem_lineBlock h m)
@@ -602,9 +602,9 @@ theorem iSup_blocks_avoid_pair_eq_top (h : UnitaryFieldData 2 n K) (hε : ε ≤
     (i₀ j₀ : Fin r) :
     (⨆ (i : Fin r) (j : Fin r) (_ : i ≠ j ∧ ({i, j} : Finset (Fin r)) ≠ {i₀, j₀}),
       pairBlock h ε i j) ⊔ (⨆ m : Fin r, lineBlock h m) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
   have hpair := iSup_pairBlock_eq_range (ε := ε) h
     (s := fun i j => i ≠ j ∧ ({i, j} : Finset (Fin r)) ≠ {i₀, j₀})
     (TypeA.iSup_coordBlockSL_pairs (K := K) (d := r) hr i₀ j₀)
@@ -616,9 +616,9 @@ theorem iSup_blocks_avoid_line_eq_top (h : UnitaryFieldData 2 n K) (hε : ε ≤
     (m₀ : Fin r) :
     (⨆ (i : Fin r) (j : Fin r) (_ : i ≠ j), pairBlock h ε i j) ⊔
       (⨆ (m : Fin r) (_ : m ≠ m₀), lineBlock h m) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
   obtain ⟨m₁, hm₁⟩ : ∃ m₁ : Fin r, m₁ ≠ m₀ :=
     Fintype.exists_ne_of_one_lt_card (by rw [Fintype.card_fin]; omega) m₀
   have hpair_avoid := iSup_pairBlock_eq_range (ε := ε) h

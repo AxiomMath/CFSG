@@ -15,6 +15,7 @@ section Config
 variable {X : Type} [Group X] [Finite X] (V E K : Subgroup X)
   [hN : ((ggRCSU V E K).subgroupOf (E ⊔ K)).Normal]
 
+omit [Finite X] in
 theorem ggSum_rho_eq_one_of_mem_U (h : ↥(E ⊔ (K ⊓ V))) (hh : (h : X) ∈ ggRCSU V E K) :
     ggSumRho V E K h = 1 := by
   change QuotientGroup.mk' (CFSG.pCore 2 ↥(ggSumT V E K)) (ggSumSigma V E K h) = 1

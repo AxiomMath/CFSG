@@ -13,6 +13,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] {B N : Subgroup G} [(cartan B N).Normal]
   {S : Set (WeylGroup B N)}
 
+omit [(cartan B N).Normal] in
 theorem k108big_exists_eq_mul_of_mem_dc {w : WeylGroup B N} {y z : G} (hy : y ∈ dc B N w)
     (hz : z ∈ dc B N w) : ∃ b ∈ B, ∃ b' ∈ B, y = b * z * b' := by
   obtain ⟨n, hn, c, hc, c', hc', rfl⟩ := mem_dc_iff.1 hz
@@ -221,7 +222,7 @@ theorem k108big_sup_conj_eq_top [IsSimpleGroup G] (h : IsBNPair B N S) {U : Subg
     have := hmax (w₀ * s)
     omega
   have hP : (U ⊔ V) ⊔ (B ⊓ N) = ⊤ := by rw [hPJ, hJS, h.parabolic_univ]
-  haveI : (U ⊔ V).Normal := Subgroup.normalizer_eq_top_iff.1
+  have : (U ⊔ V).Normal := Subgroup.normalizer_eq_top_iff.1
     (eq_top_iff.2 (hP.symm.le.trans (sup_le Subgroup.le_normalizer hHY)))
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (U ⊔ V) with hbot | htop
   · exact absurd (eq_bot_iff.2 (le_sup_left.trans hbot.le)) hU

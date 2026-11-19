@@ -41,7 +41,7 @@ theorem pPrimeCore_three_reeGamma_zero {k : Type} [Field k] [Finite k]
   let C := ReeTag.F4.reeGamma k 0
   let T : Subgroup C := commutator C
   have hTnorm : T.Normal := inferInstance
-  haveI : IsSimpleGroup ↥T := hsimple
+  have : IsSimpleGroup ↥T := hsimple
   have hZ : Subgroup.center C = ⊥ := ReeTag.large_Ree_fixed_group_center_trivial 0 k hk
   have hCcard : Nat.card C = 35942400 := by
     rw [(CFSG.RankThree.LargeReeOrder.large_Ree_exact_native_order_and_prime_factor_exhaustion 0 k hk).1]
@@ -53,10 +53,10 @@ theorem pPrimeCore_three_reeGamma_zero {k : Type} [Field k] [Finite k]
     omega
   rw [CFSG.pPrimeCore_eq_bot_iff]
   intro N hN hcop
-  haveI := hN
-  haveI := hTnorm
+  have := hN
+  have := hTnorm
   have hMn : (N ⊓ T).Normal := inferInstance
-  haveI := hMn
+  have := hMn
   have hMTn : ((N ⊓ T).subgroupOf T).Normal := inferInstance
   have hNT : N ⊓ T = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N ⊓ T).subgroupOf T) with h | h
@@ -155,7 +155,7 @@ theorem oddCoreFact_three_reeGamma_one {K : Type} [Field K] [Finite K]
         simpa using hkcard
       obtain ⟨b', hkcard', hchar', ⟨eC⟩⟩ :=
         exists_fixSubgroup_fieldAut_equiv' (a := 1) hK Nat.prime_three (by norm_num) σ hσ
-      haveI := hchar'
+      have := hchar'
       have hb0' : b' = 0 := by
         have h1 : 2 ^ (2 * b' + 1) = 2 ^ 1 := by
           rw [← hkcard', hk2]

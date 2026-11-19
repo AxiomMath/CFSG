@@ -90,12 +90,12 @@ theorem commutator_fixSubgroup_fieldAut_le (σ : F ≃+* F) :
 theorem s2019LinOuter : S2019LinOuter := by
   intro p q hp hp2 hq hq2 hqp F _ _ _ n hn β hβp hβ
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite F
-  haveI : Finite (Matrix.SpecialLinearGroup (Fin n) F) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite F
+  have : Finite (Matrix.SpecialLinearGroup (Fin n) F) :=
     Finite.of_injective (fun g : Matrix.SpecialLinearGroup (Fin n) F =>
       (g : Matrix (Fin n) (Fin n) F)) Subtype.val_injective
-  haveI : Finite (projectiveSL n F) := Finite.of_surjective (proj n F) (proj_surjective n F)
+  have : Finite (projectiveSL n F) := Finite.of_surjective (proj n F) (proj_surjective n F)
   obtain ⟨e, -, hcard⟩ := FiniteField.card F q
   have hβE : β ∈ semilinearAutGroup n F :=
     mem_semilinearAutGroup_of_pow_odd hn (hp.odd_of_ne_two hp2) hβp

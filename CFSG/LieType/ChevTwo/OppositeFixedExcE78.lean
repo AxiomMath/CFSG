@@ -440,7 +440,7 @@ theorem charP_two_of_card_two_pow {f : ℕ} [Finite K] (h : Nat.card K = 2 ^ f) 
 theorem oppositeFixed_adjointGroup_E78 [Finite K] {f : ℕ} (hf : 1 ≤ f)
     (hK : Nat.card K = 2 ^ f) (hτ : τ = Tag.E7 ∨ τ = Tag.E8) :
     OppositeFixed ↥(adjointGroup τ K) := by
-  haveI : CharP K 2 := charP_two_of_card_two_pow hK
+  have : CharP K 2 := charP_two_of_card_two_pow hK
   exact oppositeFixed_adjointGroup_of_normalForm
     (hτ.elim (fun h => Or.inr (Or.inr (Or.inl h))) (fun h => Or.inr (Or.inr (Or.inr h))))
     (uniqueNormalForm_E78 hf hK hτ)

@@ -15,7 +15,7 @@ open Subgroup
 theorem sec8t84FactS4_holds :
     Sec8T84FactS4 := by
   intro Y _ _ E H P F hE hEn hH hEH hEH' htr hP hF
-  haveI := hEn
+  have := hEn
   obtain ⟨rr, C⟩ := sec8t84ts4_coord Certificates.certificate442349 hE hH hEH hEH' htr hP hF
   have S := Certificates.certificate442352
   have hM := sec8t84ts4_twoRes_iff S C

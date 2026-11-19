@@ -12,6 +12,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 theorem mem_zL_iff {x : G} : x ∈ zL L ↔ x ∈ L ∧ x ∈ centralizer (L : Set G) := by
   rw [zL, Subgroup.mem_map]
   constructor
@@ -25,6 +26,7 @@ theorem mem_zL_iff {x : G} : x ∈ zL L ↔ x ∈ L ∧ x ∈ centralizer (L : S
     intro g
     exact Subtype.ext (by simpa using Subgroup.mem_centralizer_iff.mp hxC (g : G) g.2)
 
+omit [Finite G] in
 theorem zL_le : zL L ≤ L := Subgroup.map_subtype_le (center ↥L)
 
 theorem actsAs_one_iff_mem_zL [Group.IsPerfect ↥L] {x : G} (hx : x ∈ L) :
@@ -48,6 +50,7 @@ theorem jSub_bot : jSub L (⊥ : Subgroup G) = ⊥ := by
     exact actsAs_unique L hag (actsAs_one L)
   · exact bot_le
 
+omit [Finite G] in
 theorem jSub_sup {V W : Subgroup G} (hV : V ≤ normalizer (L : Set G))
     (hW : W ≤ normalizer (L : Set G)) : jSub L (V ⊔ W) = jSub L V ⊔ jSub L W := by
   simp only [jSub, Subgroup.subgroupOf_sup hV hW, Subgroup.map_sup]
@@ -71,6 +74,7 @@ theorem mem_zL_sup_of_actsAs [Group.IsPerfect ↥L] {V : Subgroup G} (hV : V ≤
   rw [this]
   exact Subgroup.mul_mem_sup hz hv
 
+omit [Finite G] in
 private lemma exists_mul_of_mem_zL_sup {V : Subgroup G} (hVL : V ≤ L) {x : G}
     (hx : x ∈ zL L ⊔ V) : ∃ c ∈ zL L, ∃ v ∈ V, c * v = x := by
   rw [Subgroup.sup_eq_closure] at hx
@@ -211,7 +215,7 @@ theorem jSub_inf [Group.IsPerfect ↥L] {V W : Subgroup G} (hV : V ≤ L) (hW : 
       exact hmem
     exact (mem_jSub L).mpr ⟨w, ⟨hwV, hwW⟩, hwα⟩
 
-theorem jSub_closure_of_actsAs (S : Set G) (hS : ∀ x ∈ S, x ∈ normalizer (L : Set G))
+theorem jSub_closure_of_actsAs (S : Set G) (_hS : ∀ x ∈ S, x ∈ normalizer (L : Set G))
     (f : G → MulAut (L ⧸ center L)) (hf : ∀ x ∈ S, ActsAs L x (f x)) :
     jSub L (closure S) = closure (f '' S) := by
   apply le_antisymm

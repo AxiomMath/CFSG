@@ -18,7 +18,7 @@ section Aux
 
 variable {Q : Type} [Group Q]
 
-theorem index_map_subgroupOf_dvd {Lb P E : Subgroup Q} (hPL : P ≤ Lb) (hEP : E ≤ P) :
+theorem index_map_subgroupOf_dvd {Lb P E : Subgroup Q} (hPL : P ≤ Lb) (_hEP : E ≤ P) :
     (((E.subgroupOf Lb).map (QuotientGroup.mk' (Subgroup.center ↥Lb))).subgroupOf
       ((P.subgroupOf Lb).map (QuotientGroup.mk' (Subgroup.center ↥Lb)))).index ∣
       E.relIndex P := by

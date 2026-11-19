@@ -107,7 +107,7 @@ theorem h0_twist : h0 * z7 * h0⁻¹ = z7 ^ 3 := by
 
 theorem exists_conj_generator (γ : H6) (hγ : orderOf γ = 7) :
     ∃ (g w : H6), g * w * g⁻¹ = z7 ∧ Subgroup.zpowers w = Subgroup.zpowers γ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hzc : Nat.card (Subgroup.zpowers γ) = 7 := by rw [Nat.card_zpowers, hγ]
   have hz7c : Nat.card (Subgroup.zpowers z7) = 7 := by rw [Nat.card_zpowers, orderOf_z7]
   have hzP : IsPGroup 7 (Subgroup.zpowers γ) :=

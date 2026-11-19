@@ -37,7 +37,6 @@ theorem hasLabel_adjointGroup_E6 {F : Type} [Field F] [Finite F] {n : ℕ}
     obtain ⟨t, r, k⟩ := lab
     have ht : t = .E6 := by
       cases t <;> simp only [CFSG.StandardType.markTag] at htag ⊢
-      all_goals try rfl
       all_goals try split_ifs at htag
       all_goals simp_all
     subst ht

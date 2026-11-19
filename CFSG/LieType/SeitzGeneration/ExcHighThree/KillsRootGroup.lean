@@ -476,7 +476,7 @@ theorem canonicalRep_closure_mem_familyGroup {L : Type} [Field L] [IsAlgClosed L
 
 theorem card_eq_pow_ringChar (K : Type) [Field K] [Finite K] :
     ∃ e : ℕ, 1 ≤ e ∧ Nat.card K = ringChar K ^ e := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K (ringChar K)
   exact ⟨(n : ℕ), n.pos, by rw [Nat.card_eq_fintype_card, hn]⟩
 
@@ -551,7 +551,7 @@ theorem kill_core (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
           ((D.c * y * D.c⁻¹ : adjointGroup τ K) : ModGL τ K) * uL := by
   classical
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   have hFrEq : D.Fr = iterateFrobenius (AlgebraicClosure K) (ringChar K) e :=
     RingHom.ext fun c => by rw [D.hFr c, iterateFrobenius_def, hcard]
   have hFrob : ∀ g : ModGL τ (AlgebraicClosure K),
@@ -749,7 +749,7 @@ theorem langPlaneKillsRoot_E7 : LangPlaneKillsRoot Tag.E7 := by
   obtain ⟨uL, huLad, huL1, huLp, huLF, huLc⟩ :=
     kill_core (τ := Tag.E7) (Or.inr (Or.inr (Or.inl rfl))) K A D α hα hk
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   have hodd : Odd (Nat.card K) → Odd (orderOf uL) := by
     intro hK
     rw [orderOf_eq_prime huLp huL1]

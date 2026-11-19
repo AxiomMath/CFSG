@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.WeakClosure81.SevenK
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_isBarMap_subgroupOf {K H : Subgroup G} (hKH : K ≤ H) {K' : Subgroup ↥H}
     (hK' : K' = K.subgroupOf H) {X : Type} [Group X] {φ : ↥K →* X}
     (hφ : IsBarMap K (pCoreOf 2 K) φ) :
@@ -48,6 +49,7 @@ theorem dispatchConcl_of_barConcl {V H T : Subgroup G} (h : Hyp83 V H T)
   · exact ⟨m, n, hm, Or.inr (h.kBarCenterShape_of_ambient hKT
       (hasQuotShape_centerPre_of_isBarMap hφ (P := fun Y _ => IsPSUGp Y m n) hpsu))⟩
 
+omit [Finite G] in
 theorem kBarShape_of_central {V H T : Subgroup G} {X : Type} [Group X]
     {φ : ↥(kGenIn V H) →* X} (hφ : IsBarMap (kGenIn V H) (pCoreOf 2 (kGenIn V H)) φ)
     {Z₁ : Subgroup X}

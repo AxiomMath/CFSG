@@ -32,7 +32,7 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Spin CFSG.Monster.SpinLattice
   CFSG.Monster.B CFSG.Monster.B.TwoA CFSG.Monster.B.TwoA.Co2Inv CFSG.Monster.B.Rep4371
   CFSG.Monster.Lifts CFSG.Monster.VisQuot CFSG.Monster.ScalarKernel CFSG.Monster.B.Co2
 
-@[expose] def signProd (as : List ℕ) : Pvis := (as.map signPair).prod
+def signProd (as : List ℕ) : Pvis := (as.map signPair).prod
 
 theorem pauliQ_D (d : ℕ) : pauliQ (false, 0, d) = DQ (toD d) := by
   rw [pauliQ, DQ_eq]

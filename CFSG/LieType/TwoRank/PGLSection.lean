@@ -59,7 +59,7 @@ private lemma exists_invariant_line {F : Type*} [Field F] [IsAlgClosed F] (h2 : 
   have hAnn'_apply : ∀ v : n → F, (T + μ • 1) ((T - μ • 1) v) = 0 := by
     intro v
     simp only [LinearMap.sub_apply, LinearMap.add_apply, LinearMap.smul_apply,
-      Module.End.one_apply, map_add, map_sub, map_smul, hTT v]
+      Module.End.one_apply, map_sub, map_smul, hTT v]
     rw [smul_add, smul_smul, sq]
     abel
   set Vp : Submodule F (n → F) := LinearMap.ker (T - μ • 1) with hVp

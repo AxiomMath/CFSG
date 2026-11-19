@@ -86,7 +86,7 @@ theorem fstdSymp_su_case {S : Type} [Group S] {I : Subgroup S} (hord : SmallOrd 
     {E : Type} [Field E] [Finite E] (hm : 3 ≤ m) (hk : 1 ≤ k) (hmq : (m, 2 ^ k) ≠ (3, 2))
     (hE : Nat.card E = (2 ^ k) ^ 2) (eX : X ≃* ↥(StatedSU m (2 ^ k) E)) :
     m = 4 ∧ k = 1 ∧ Nat.card (↥I ⧸ Subgroup.center ↥I) = 25920 ∧ Subgroup.center X = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hZ⟩ :=
     CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 2) (f := k) hE hm hmq
   obtain ⟨e1⟩ := hQ
@@ -129,12 +129,12 @@ theorem fstdSymp_a6_case {S : Type} [Group S] {I : Subgroup S} {X : Type} [Group
   obtain ⟨eC⟩ := fstdSymp_commutator_sp_four_equiv hK
   let eA : X ≃* alternatingGroup (Fin 6) :=
     (eX.trans eC).trans CFSG.ComponentClassification.PresentationLocal.commutatorEquivAlternating
-  haveI : IsSimpleGroup ↥(commutator CFSG.ComponentClassification.PresentationLocal.sympFour) :=
+  have : IsSimpleGroup ↥(commutator CFSG.ComponentClassification.PresentationLocal.sympFour) :=
     CFSG.ComponentClassification.PresentationLocal.isSimpleGroup_commutator_sympFour
-  haveI : Group.IsPerfect ↥(commutator CFSG.ComponentClassification.PresentationLocal.sympFour) :=
+  have : Group.IsPerfect ↥(commutator CFSG.ComponentClassification.PresentationLocal.sympFour) :=
     CFSG.ComponentClassification.PresentationLocal.isPerfect_commutator_sympFour
-  haveI : IsSimpleGroup X := (eX.trans eC).isSimpleGroup
-  haveI : Group.IsPerfect X :=
+  have : IsSimpleGroup X := (eX.trans eC).isSimpleGroup
+  have : Group.IsPerfect X :=
     Group.IsPerfect.ofSurjective (f := (eX.trans eC).symm.toMonoidHom)
       (eX.trans eC).symm.surjective
   have hcen : Subgroup.center X = ⊥ := by

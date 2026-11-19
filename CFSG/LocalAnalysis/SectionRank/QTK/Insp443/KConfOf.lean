@@ -89,7 +89,7 @@ theorem kConf (h : Hyp G T M L B Tp VB K) (h37 : A37ForSQTK) (h38 : A38ForSQTK)
   have hσ_apply : ∀ (x : G) (hx : x ∈ Subgroup.normalizer (K : Set G)) (q : ↥K),
       ((K.normalizerMonoidHom ⟨x, hx⟩) q : G) = x * (q : G) * x⁻¹ := by
     intro x hx q
-    simpa using Subgroup.normalizerMonoidHom_apply_apply_coe K ⟨x, hx⟩ q
+    simp
   have hcomp_conj : ∀ (x : G) (hx : x ∈ Subgroup.normalizer (K : Set G)),
       K.subtype.comp (K.normalizerMonoidHom ⟨x, hx⟩).toMonoidHom =
         (MulAut.conj x).toMonoidHom.comp K.subtype := by

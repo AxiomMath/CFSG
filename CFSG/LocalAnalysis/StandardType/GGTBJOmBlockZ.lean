@@ -98,7 +98,7 @@ private theorem tbjOmBlkZ_sgnAut_apply {n : ℕ} {i : Fin n} {f : Fin n → Mult
     (h : f i = 1) : sgnAut i f = f := by
   rw [sgnAut_apply, h, inv_one, ← h, Function.update_eq_self]
 
-private theorem tbjOmBlkZ_dinv_apply {n : ℕ} {i k : Fin n} (hik : i ≠ k)
+private theorem tbjOmBlkZ_dinv_apply {n : ℕ} {i k : Fin n} (_hik : i ≠ k)
     {f : Fin n → Multiplicative (ZMod p)} (hi : f i = 1) (hk : f k = 1) :
     dinv i k f = f := by
   funext j
@@ -175,6 +175,7 @@ private theorem tbjOmBlkZ_mem_supportedFixedDerived {x g : V ≃ₗ[K] V}
     (tbjOmBlkZ_X_sub_one_mem_primaryFactors (by omega)) hg
     (mem_supportedBlock_of_fixes hx (orthDerived_le_orthogonalGroup hg) hgx hgR)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.piece_le_fixedSpace (Δ : TBJOmData Q p A r)
     (f₀ : Fin r → Multiplicative (ZMod p)) {i : Fin r} (hi : toAdd (f₀ i) = 0) :
     Δ.F.U i ≤ fixedSpace (Δ.τ f₀) := by
@@ -183,6 +184,7 @@ theorem TBJOmData.piece_le_fixedSpace (Δ : TBJOmData Q p A r)
   intro j hj u' hu'
   exact Δ.F.orth j i (fun h => hj (h ▸ hi)) u' hu' u hu
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjOmBlkZ_polar_piece_eq_zero [Fact p.Prime] (Δ : TBJOmData Q p A r) {v : V}
     (hv : ∀ a ∈ A, a v = v) (j : Fin r) {u : V} (hu : u ∈ Δ.F.U j) :
     QuadraticMap.polar Q u v = 0 := by
@@ -196,6 +198,7 @@ theorem TBJOmData.finrank_piece (Δ : TBJOmData Q p A r) (j : Fin r) :
     finrank K (Δ.F.U j) = 2 := by
   rw [← Δ.θ_range j, LinearMap.finrank_range_of_inj (Δ.θ_inj j), Δ.finrank_D]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.fixedSpace_eq_polarPerp (Δ : TBJOmData Q p A r)
     (f₀ : Fin r → Multiplicative (ZMod p)) :
     fixedSpace (Δ.τ f₀) =
@@ -218,6 +221,7 @@ theorem TBJOmData.fixedSpace_eq_polarPerp (Δ : TBJOmData Q p A r)
       (f := fun j (_ : j ∈ Finset.univ.filter (fun j => toAdd (f₀ j) ≠ 0)) => Δ.F.U j)
       j (Finset.mem_filter.mpr ⟨Finset.mem_univ j, hj⟩) le_rfl hu)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem TBJOmData.fixedSpace_eq_polarPerp_one_active (Δ : TBJOmData Q p A r)
     {f0 : Fin r → Multiplicative (ZMod p)} {j : Fin r}
     (hj : f0 j ≠ 1) (hf : ∀ i, i ≠ j → f0 i = 1) :
@@ -238,6 +242,7 @@ theorem TBJOmData.fixedSpace_eq_polarPerp_one_active (Δ : TBJOmData Q p A r)
       exact hj (toAdd.injective (h0.trans toAdd_one.symm))
   rw [hfilter, Finset.iSup_singleton]
 
+omit [Finite K] in
 theorem TBJOmData.finrank_fixedSpace_one_active (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate)
     {f0 : Fin r → Multiplicative (ZMod p)} {j : Fin r}
@@ -339,6 +344,7 @@ theorem TBJOmData.isPlusType_piece_iff_dvd_card_sub_one [Fact p.Prime] (hp2 : p 
     have h := Int.natCast_dvd_natCast.mpr hdvd
     rwa [Nat.cast_sub hq, Nat.cast_one] at h
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem tbjOmBlkZ_tau_apply_of_mem_fixedSpace (Δ : TBJOmData Q p A r)
     {f₀ f : Fin r → Multiplicative (ZMod p)} (hf : ∀ i, toAdd (f₀ i) = 0 → f i = 1) {v : V}
     (hv : v ∈ fixedSpace (Δ.τ f₀)) : Δ.τ f v = v := by
@@ -347,6 +353,7 @@ private theorem tbjOmBlkZ_tau_apply_of_mem_fixedSpace (Δ : TBJOmData Q p A r)
     hv j (fun h0 => hj ?_) u hu)
   rw [hf j h0, toAdd_one]
 
+omit [Finite K] in
 private theorem tbjOmBlkZ_five_le_finrank [Fact p.Prime] (Δ : TBJOmData Q p A r)
     (hW : ∃ v : V, v ≠ 0 ∧ ∀ a ∈ A, a v = v) (f₀ : Fin r → Multiplicative (ZMod p))
     {i k : Fin r} (hik : i ≠ k) (hi : toAdd (f₀ i) = 0) (hk : toAdd (f₀ k) = 0) :
@@ -363,6 +370,7 @@ private theorem tbjOmBlkZ_five_le_finrank [Fact p.Prime] (Δ : TBJOmData Q p A r
   have := Submodule.finrank_mono hle
   omega
 
+omit [Finite K] in
 private theorem tbjOmBlkZ_five_le_finrank_of_three (Δ : TBJOmData Q p A r)
     (f₀ : Fin r → Multiplicative (ZMod p)) {i k l : Fin r} (hik : i ≠ k) (hli : l ≠ i)
     (hlk : l ≠ k) (hi : toAdd (f₀ i) = 0) (hk : toAdd (f₀ k) = 0) (hl : toAdd (f₀ l) = 0) :
@@ -395,6 +403,7 @@ private theorem tbjOmBlkZ_swap [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q 
   exact hwfix v (fun u hu => hv u (TBJOmData.piece_le_fixedSpace Δ f₀ hi hu))
     (fun u hu => hv u (TBJOmData.piece_le_fixedSpace Δ f₀ hk hu))
 
+omit [Finite K] in
 theorem TBJOmData.blockZ_comm [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f₀ f : Fin r → Multiplicative (ZMod p)) (hf : ∀ i, toAdd (f₀ i) = 0 → f i = 1) :
@@ -612,7 +621,7 @@ theorem TBJOmData.inactive_plane_of_minus [Fact p.Prime] (hp2 : p ≠ 2)
       have hwQ : ∀ i, Q (w i) = 0 := fun i => hvQ i
       have hli : LinearIndependent K w :=
         iSupIndep.linearIndependent (p := Δ.F.U) hIndep (v := w)
-          (fun i => by simpa [w] using (v i).2) hw0
+          (fun i => by simp [w]) hw0
       let T : Submodule K V := Submodule.span K (Set.range w)
       have hTsing : ∀ x ∈ T, Q x = 0 := by
         intro x hx

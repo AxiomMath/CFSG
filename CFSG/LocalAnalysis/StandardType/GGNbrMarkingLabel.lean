@@ -24,38 +24,38 @@ theorem largeEvenRawDatum_of_ggLabelIso {lab lab' : LargeEvenLabel} (h : GGLabel
     rw [h1] at hQ
     rw [h2]
     dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_pos rfl] at hQ
+    rw [ite_eq_left rfl] at hQ
     exact hQ
   · obtain ⟨h1, h2⟩ := hAD
     rw [h1] at hQ
     rw [h2]
     dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact hQ
   · obtain ⟨h1, h2⟩ := hD3A3
     rw [h1] at hQ
     rw [h2]
     dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg (by decide : ¬ (3 = 2)), if_pos rfl] at hQ
+    rw [ite_eq_right (by decide : ¬ (3 = 2)), ite_eq_left rfl] at hQ
     exact hQ
   · obtain ⟨h1, h2⟩ := hA3D3
     rw [h1] at hQ
     rw [h2]
     dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg (by decide : ¬ (3 = 2)), if_pos rfl]
+    rw [ite_eq_right (by decide : ¬ (3 = 2)), ite_eq_left rfl]
     exact hQ
   · obtain ⟨h1, h2⟩ := hD2A1
     rw [h1] at hQ
     rw [h2]
     dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_pos rfl] at hQ
+    rw [ite_eq_left rfl] at hQ
     rw [mul_comm 2 lab.n, pow_mul]
     exact hQ
   · obtain ⟨h1, h2⟩ := hA1D2
     rw [h2] at hQ
     rw [h1]
     dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rw [mul_comm 2 lab'.n, pow_mul] at hQ
     exact hQ
 
@@ -78,11 +78,11 @@ theorem largeEvenMarking_of_hasLabel {X : Type} [Group X] {lab : LargeEvenLabel}
     (hhas : GGHasLabel lab (X ⧸ Subgroup.center X)) :
     LargeEvenMarking X (fun lab' _ _ _ _ _ => lab' = lab) := by
   obtain ⟨hsimple, hna⟩ := ggQuasisimple_centerQuot hq
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hsimple
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hsimple
   unfold GGHasLabel at hhas
   refine ⟨hq.1, lab, hlab, largeEvenRawDatum_mono ?_ hhas⟩
   rintro R _ I F ⟨e⟩
-  haveI : IsSimpleGroup R := e.symm.isSimpleGroup
+  have : IsSimpleGroup R := e.symm.isSimpleGroup
   obtain ⟨a, b, hab⟩ := hna
   refine ⟨inferInstance, ⟨e a, e b, ?_⟩, e, rfl⟩
   intro h

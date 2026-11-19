@@ -14,6 +14,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {hc : Ctx M Q Z B} {t : G} {Y : Subgroup G}
 
+omit [Finite G] in
 theorem Sec108Data.phi_comm_of_comm_mem (AM : Smith81.Smith23E1.ActionModel M Q Z)
     {m m' : ↥(H0 M Z)} (h : ⁅(m : G), (m' : G)⁆ ∈ Q) (e : AM.M₀.E) :
     AM.φ m (AM.φ m' e) = AM.φ m' (AM.φ m e) := by

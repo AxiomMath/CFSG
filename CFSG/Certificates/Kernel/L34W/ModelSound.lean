@@ -69,7 +69,6 @@ theorem t1Entry_of_hex {cs : List Char} {F : ℕ → ℕ} (hs : realT1Hex = Stri
     (h : CFSG.KC.Misc.HexFlat.hexFlat cs 3 64 12 64 F = true) : T1Of F := by
   intro k l hk hl
   rw [t1Entry, realT1]
-  try simp only
   rw [ofFn_get! _ (show 64 * k + l < 4096 by omega)]
   exact congrArg quad (hex3_of_hex hs h hk hl)
 
@@ -77,7 +76,6 @@ theorem alphaEntry_of_hex {cs : List Char} {F : ℕ → ℕ} (hs : realAlphaHex 
     (h : CFSG.KC.Misc.HexFlat.hexFlat cs 3 66 12 36 F = true) : AlOf F := by
   intro i k hi hk
   rw [alphaEntry, realAlpha]
-  try simp only
   rw [ofFn_get! _ (show 66 * i + k < 2376 by omega)]
   exact congrArg quad (hex3_of_hex hs h hi hk)
 
@@ -122,12 +120,12 @@ theorem firstC_succ (p : ℕ → Bool) (n : ℕ) : firstC p (n + 1) =
   change strictN (firstC p n) (fun r => nIf(Nat.blt r n, r, nIf(p n, n, Nat.succ n))) = _
   rw [strictN_eq']
   by_cases h1 : firstC p n < n
-  · rw [if_pos h1, Nat.blt_eq.mpr h1]
+  · rw [ite_eq_left h1, Nat.blt_eq.mpr h1]
   · have h2 : Nat.blt (firstC p n) n = false := by
       cases h : Nat.blt (firstC p n) n
       · rfl
       · exact absurd (Nat.blt_eq.mp h) h1
-    rw [if_neg h1, h2]
+    rw [ite_eq_right h1, h2]
     cases p n <;> rfl
 
 theorem firstC_spec (p : ℕ → Bool) : ∀ n, firstC p n ≤ n ∧
@@ -137,10 +135,10 @@ theorem firstC_spec (p : ℕ → Bool) : ∀ n, firstC p n ≤ n ∧
     obtain ⟨h1, h2⟩ := firstC_spec p n
     rw [firstC_succ, List.range_succ, List.find?_append, h2]
     by_cases h : firstC p n < n
-    · rw [if_pos h, if_pos h, if_pos (by omega)]
+    · rw [ite_eq_left h, ite_eq_left h, ite_eq_left (by omega)]
       exact ⟨by omega, rfl⟩
     · have e : firstC p n = n := by omega
-      rw [if_neg h, if_neg h]
+      rw [ite_eq_right h, ite_eq_right h]
       cases hp : p n
       · simp [hp]
       · simp [hp]
@@ -165,13 +163,13 @@ theorem invIdxC_eq (hT : T1Of T) {k : ℕ} (hk : k < 64) : invIdxC T k = invIdx 
   rw [strictN_eq', e, (firstC_spec _ 64).2]
   change nIf(Nat.blt (firstC (fun k' => Nat.beq (ent T k k' / 48) 0) 64) 64, _, _) = _
   by_cases h : firstC (fun k' => Nat.beq (ent T k k' / 48) 0) 64 < 64
-  · rw [if_pos h, Nat.blt_eq.mpr h]
+  · rw [ite_eq_left h, Nat.blt_eq.mpr h]
     rfl
   · have h2 : Nat.blt (firstC (fun k' => Nat.beq (ent T k k' / 48) 0) 64) 64 = false := by
       cases h' : Nat.blt (firstC (fun k' => Nat.beq (ent T k k' / 48) 0) 64) 64
       · rfl
       · exact absurd (Nat.blt_eq.mp h') h
-    rw [if_neg h, h2]
+    rw [ite_eq_right h, h2]
     rfl
 
 theorem invIdxC_lt (k : ℕ) : invIdxC T k < 64 := by

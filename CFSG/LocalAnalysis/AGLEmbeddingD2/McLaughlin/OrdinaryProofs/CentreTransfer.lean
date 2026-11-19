@@ -49,7 +49,7 @@ theorem not_dvd_card_center_of_perfect {G : Type*} [Group G] [Finite G]
   intro hpZ
   have hpp : p.Prime := Fact.out
   obtain ⟨P⟩ : Nonempty (Sylow p G) := inferInstance
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp P.isPGroup
   let f0 : P.toSubgroup →* G ⧸ Subgroup.center G :=
     (QuotientGroup.mk' (Subgroup.center G)).comp P.toSubgroup.subtype
   have hRdvd : Nat.card f0.range ∣ p ^ n := by

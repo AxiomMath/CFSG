@@ -55,7 +55,7 @@ theorem inPStar_of_cyclic_sylow_frattini (D : Data G) {V₀ V : Subgroup G}
       rw [h3] at h2
       rw [hK]
       exact h2
-  haveI hIK : (K.subgroupOf D.M).Normal :=
+  have hIK : (K.subgroupOf D.M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).2 hMK
   have hO_le_T : O ≤ D.T := by
     have hO2 : IsPGroup 2 O := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 D.M
@@ -91,7 +91,7 @@ theorem inPStar_of_cyclic_sylow_frattini (D : Data G) {V₀ V : Subgroup G}
           = (x * d * x⁻¹ * d⁻¹) * (d * (x * z * x⁻¹ * z⁻¹) * d⁻¹) := by group
         _ = d * (x * z * x⁻¹ * z⁻¹) * d⁻¹ := by rw [hxd, one_mul]
     rwa [heq]
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hXK_sylow : CFSG.ABGLocalTools.IsSylowOf q X K := hX.of_le hXK hKM
   have hFr : D.M ≤ K ⊔ (D.M ⊓ Subgroup.normalizer (X : Set G)) :=
     uc22p22t_frattini_sup hKM hMK hXK_sylow
@@ -135,7 +135,7 @@ theorem inPStar_of_cyclic_sylow_frattini (D : Data G) {V₀ V : Subgroup G}
     rwa [Subgroup.map_top, MonoidHom.range_eq_top.mpr hfsurj] at h
   have hSsubcyc : IsCyclic ↥(S.subgroupOf L) :=
     (Subgroup.subgroupOfEquivOfLe hSL).isCyclic.mpr hScyc
-  haveI : IsCyclic ↥(S.subgroupOf L) := hSsubcyc
+  have : IsCyclic ↥(S.subgroupOf L) := hSsubcyc
   have hSmapcyc : IsCyclic ↥((S.subgroupOf L).map f) :=
     isCyclic_of_surjective (f.subgroupMap (S.subgroupOf L))
       (MonoidHom.subgroupMap_surjective f (S.subgroupOf L))
@@ -167,7 +167,7 @@ theorem inPStar_of_cyclic_sylow_frattini (D : Data G) {V₀ V : Subgroup G}
   have hTbar2 : IsPGroup 2 Tbar := by
     rw [hgrange]
     exact (D.sylowM.isPGroup.comap_subtype).map π
-  haveI hTbarcyc : IsCyclic ↥Tbar :=
+  have hTbarcyc : IsCyclic ↥Tbar :=
     CFSG.LocalAnalysis.RankThreeTheoremC.isCyclic_of_isPGroup_of_isCyclic_sylow
       Q hQcyc hTbar2
   let φ : ↥D.T →* ↥Tbar :=

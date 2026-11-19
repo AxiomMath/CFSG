@@ -85,7 +85,7 @@ theorem covWC_sound (L R : List (CV n)) (wit : List (ℕ × ℕ)) (h : covWC L R
   simp only [covAt] at hc
   rw [Bool.or_eq_true]
   by_cases hi : wit[k].1 < R.length
-  · simp only [hi, decide_true, cond_true, Bool.and_eq_true, decide_eq_true_eq] at hc
+  · simp only [hi, decide_true, _root_.Bool.cond_true, Bool.and_eq_true, decide_eq_true_eq] at hc
     obtain ⟨hj, he⟩ := hc
     rw [eq22C_eq, decide_eq_true_eq, List.getD_eq_getElem _ _ hj,
       List.getD_eq_getElem _ _ hi] at he
@@ -95,7 +95,7 @@ theorem covWC_sound (L R : List (CV n)) (wit : List (ℕ × ℕ)) (h : covWC L R
     rw [List.any_eq_true]
     refine ⟨ev L[wit[k].2], List.mem_map_of_mem (List.getElem_mem hj), ?_⟩
     rw [decide_eq_true_eq, ev_inv', ev_mul', ev_mul', ev_eq_iff, he, mul_inv_cancel_right]
-  · simp only [hi, decide_false, cond_false, Bool.not_eq_true', Bool.and_eq_false_iff,
+  · simp only [hi, decide_false, Bool.cond_false, Bool.not_eq_true', Bool.and_eq_false_iff,
       Bool.not_eq_false', decide_eq_true_eq, powOneC_eq, decide_eq_false_iff_not] at hc
     left
     rw [Bool.not_eq_true', decide_eq_false_iff_not, not_and, not_not, ev_mul', one_eq_ev,

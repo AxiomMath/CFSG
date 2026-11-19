@@ -147,7 +147,7 @@ theorem conjugate_eq_of_ne_of_ne {a : K} (ha : orderOf a = 2) (haZ : a ∈ cente
       intro t ht
       have h1 : ((t : X) : K) ∈ pPrimeCore 2 K :=
         (QuotientGroup.eq_one_iff _).mp (MonoidHom.mem_ker.mp ht)
-      have hbot := eq_bot_of_le_two_group_of_le_odd (T.isPGroup'.map X.subtype) hOodd
+      have hbot := eq_bot_of_le_two_group_of_le_odd (T.isPGroup.map X.subtype) hOodd
         (X := (T : Subgroup X).map X.subtype ⊓ pPrimeCore 2 K) inf_le_left inf_le_right
       have hmem : ((t : X) : K) ∈ (T : Subgroup X).map X.subtype ⊓ pPrimeCore 2 K :=
         mem_inf.mpr ⟨⟨t, t.2, rfl⟩, h1⟩

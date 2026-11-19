@@ -57,12 +57,12 @@ theorem fzl_card_K8 : Nat.card fzlK8 = 8 := by
   norm_num [ZMod.card]
 
 theorem fzl_K4_normal : fzlK4.Normal := by
-  haveI : fzlV4.Normal := fzlV4_normal
+  have : fzlV4.Normal := fzlV4_normal
   unfold fzlK4
   infer_instance
 
 theorem fzl_K8_normal : fzlK8.Normal := by
-  haveI : fzlV4.Normal := fzlV4_normal
+  have : fzlV4.Normal := fzlV4_normal
   unfold fzlK8
   infer_instance
 

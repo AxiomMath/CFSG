@@ -15,7 +15,7 @@ open CFSG.RankThree.E6 (charVal)
 
 theorem exists_pow_eq_of_pow_seven {L : Type} [Field L] {ζ : Lˣ} (hζ : orderOf ζ = 7) {b : Lˣ}
     (hb : b ^ 7 = 1) : ∃ n : ℕ, b = ζ ^ n := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hprim : IsPrimitiveRoot ((ζ : Lˣ) : L) 7 :=
     IsPrimitiveRoot.coe_units_iff.2 (IsPrimitiveRoot.iff_orderOf.2 hζ)
   have hi : ((b : Lˣ) : L) ^ 7 = 1 := by
@@ -40,7 +40,7 @@ theorem e7SevenPlaneWeyl_holds :
   ·
     push Not at hall
     obtain ⟨s₀, i₀, hne⟩ := hall
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hζ : orderOf (a s₀ i₀) = 7 := orderOf_eq_prime (ha s₀ i₀) hne
     have hexp : ∀ (s : Fin 2) (i : Fin Tag.E7.rank), ∃ n : ℕ, a s i = (a s₀ i₀) ^ n :=
       fun s i => exists_pow_eq_of_pow_seven hζ (ha s i)

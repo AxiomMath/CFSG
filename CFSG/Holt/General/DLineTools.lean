@@ -117,7 +117,7 @@ theorem false_of_fusionIsBenderGroup_of_le {T : Type} [Group T] [Finite T]
     (twoRankAtLeastTwo_of_fusionBenderBorel_two_pow hf hBB) N (hBB P).1
   have hMN : M = N := (hcoat.le_iff.mp hNM).resolve_left hM.1
   exact CFSG.QuasithinUnique.Lin2.false_of_benderBorel hBB (P.ne_bot_of_dvd_card h2T)
-    P.isPGroup' (hYM.trans hMN.le) hY
+    P.isPGroup (hYM.trans hMN.le) hY
 
 end Bender
 

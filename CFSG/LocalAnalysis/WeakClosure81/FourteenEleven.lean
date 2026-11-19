@@ -14,11 +14,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjSubgroup_mul_eq_of_mem_normalizer {A : Subgroup G} {m : G}
     (hm : m ∈ Subgroup.normalizer (A : Set G)) (g : G) :
     conjSubgroup A (m * g) = conjSubgroup A g := by
   rw [← conjSubgroup_conjSubgroup, conjSubgroup_eq_iff_mem_normalizer.2 hm]
 
+omit [Finite G] in
 theorem commutator_conjSubgroup_le {M V₀ V X : Subgroup G} {g m : G}
     (hM : M ≤ Subgroup.normalizer (V : Set G))
     (hN₀ : Subgroup.normalizer (V₀ : Set G) = M)
@@ -34,7 +36,7 @@ theorem commutator_conjSubgroup_le {M V₀ V X : Subgroup G} {g m : G}
 
 theorem card_eq_two_of_le_of_rk_le_one {D A : Subgroup G} (hD : IsPGroup 2 D)
     (hDA : D ≤ A) (hne : D ≠ ⊥) (hA : rk ↥A ≤ 1) : Nat.card D = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).1 hD
   have hkpos : 1 ≤ k := by
     have hlt : 1 < Nat.card ↥D := (Subgroup.one_lt_card_iff_ne_bot D).2 hne
@@ -70,7 +72,7 @@ theorem exists_ne_one_mem_inf_centralizer {W R C : Subgroup G} (hRW : R ≤ W)
     intro hb
     rw [hb, Subgroup.card_bot] at hcard
     omega
-  haveI : Nontrivial ↥(C ⊓ R) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+  have : Nontrivial ↥(C ⊓ R) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
   obtain ⟨z, hz⟩ := exists_ne (1 : ↥(C ⊓ R))
   refine ⟨(z : G), Subgroup.mem_inf.2 ⟨(Subgroup.mem_inf.1 z.2).2,
     (Subgroup.mem_inf.1 z.2).1⟩, ?_⟩
@@ -101,7 +103,7 @@ theorem rk_conjSubgroup_V₀_inf_le_one {M V₀ V X : Subgroup G}
     {g : G} (hg : g ∉ M) (hXM : X ≤ M)
     (hX2 : (Subgroup.centralizer (X : Set G)).relIndex V = 2) (hXV₀ : ⁅V, X⁆ ≤ V₀) :
     rk ↥(conjSubgroup V₀ g ⊓ V) ≤ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVnotC : ¬ V ≤ Subgroup.centralizer (X : Set G) := by
     intro hle
     have h1 : (Subgroup.centralizer (X : Set G)).relIndex V = 1 :=
@@ -151,6 +153,7 @@ theorem rk_conjSubgroup_V₀_inf_le_one {M V₀ V X : Subgroup G}
   exact (mQuot_centralizer_ge_rk_conjSubgroup_inf hV hV₀ hM hN₀ hTI hgen hg hxTil hxV).trans
     hbound
 
+omit [Finite G] in
 theorem exists_mem_not_le_centralizer_conjSubgroup {M V₀ V X S : Subgroup G} {g : G}
     (hM : M ≤ Subgroup.normalizer (V : Set G)) (hgen : ConjGenerated M V₀ V)
     (hXV : ¬ V ≤ Subgroup.centralizer (X : Set G))
@@ -211,8 +214,7 @@ theorem exists_mem_not_le_centralizer_conjSubgroup {M V₀ V X S : Subgroup G} {
     exact Subgroup.mem_inf.2 ⟨(Subgroup.mem_normalizer_iff.1 (hM hm) w).1 hwV,
       hconj m hm w hwC⟩
   have hMW : M ≤ Subgroup.normalizer (V ⊓ Subgroup.centralizer (T : Set G)) := by
-    intro m hm
-    intro w
+    intro m hm w
     exact ⟨fun hw => hconjW m hm w hw,
       fun hw => by
         have h' := hconjW m⁻¹ (M.inv_mem hm) (m * w * m⁻¹) hw
@@ -232,6 +234,7 @@ theorem exists_mem_not_le_centralizer_conjSubgroup {M V₀ V X S : Subgroup G} {
   have hxT : ∃ m ∈ M, x ∈ conjSubgroup X m := ⟨1, M.one_mem, by rwa [conjSubgroup_one]⟩
   exact hxT
 
+omit [Finite G] in
 theorem commutator_eq_of_relIndex_two {W Y S : Subgroup G} (hW : IsMulCommutative W)
     (hY : Y ≤ Subgroup.normalizer (W : Set G))
     (hidx : (Subgroup.centralizer (Y : Set G)).relIndex W = 2)
@@ -278,7 +281,7 @@ theorem commutator_eq_of_relIndex_two {W Y S : Subgroup G} (hW : IsMulCommutativ
       have h2 : s * (y * s⁻¹ * y⁻¹) ∈ W := W.mul_mem hHs h1
       simpa [commutatorElement_def, mul_assoc] using h2
     have hcommW : (w * s⁻¹) * ⁅s, y⁆ = ⁅s, y⁆ * (w * s⁻¹) := by
-      haveI : IsMulCommutative ↥W := hW
+      have : IsMulCommutative ↥W := hW
       exact congrArg Subtype.val (mul_comm' (⟨w * s⁻¹, hcW⟩ : ↥W) ⟨⁅s, y⁆, hsyW⟩)
     have hcomm : (w * s⁻¹) * ⁅s, y⁆ * (w * s⁻¹)⁻¹ = ⁅s, y⁆ := by
       rw [hcommW, mul_assoc, mul_inv_cancel, mul_one]
@@ -335,7 +338,7 @@ theorem fourteen_eleven {M V₀ V X R : Subgroup G} {g : G}
     (hXM : X ≤ M) (hX2 : (Subgroup.centralizer (X : Set G)).relIndex V = 2)
     (hXV₀ : ⁅V, X⁆ ≤ V₀) :
     Nat.card ↥⁅V, X⁆ = 2 ∧ g ^ 2 ∉ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRV_V : R ≤ V := hRV.trans inf_le_left
   have hRVg : R ≤ conjSubgroup V g := hRV.trans inf_le_right
   have hVnotC : ¬ V ≤ Subgroup.centralizer (X : Set G) := by
@@ -411,7 +414,7 @@ theorem fourteen_eleven {M V₀ V X R : Subgroup G} {g : G}
   refine ⟨hcard, ?_⟩
   intro hg2
   have hDne' : ∃ d, d ∈ ⁅R, Y⁆ ∧ d ≠ 1 := by
-    haveI : Nontrivial ↥⁅R, Y⁆ := (Subgroup.nontrivial_iff_ne_bot _).2 hDne
+    have : Nontrivial ↥⁅R, Y⁆ := (Subgroup.nontrivial_iff_ne_bot _).2 hDne
     obtain ⟨d, hd⟩ := exists_ne (1 : ↥⁅R, Y⁆)
     exact ⟨(d : G), d.2, fun hd1 => hd (Subtype.ext (by simpa using hd1))⟩
   obtain ⟨d, hdD, hd1⟩ := hDne'

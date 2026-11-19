@@ -28,6 +28,7 @@ def Msub (c : CritData D E R z) : Subgroup P where
     rw [h1, h2]
     exact inv_mem (hm y hy)
 
+omit [Finite P] in
 theorem Msub_char (c : CritData D E R z) : (Msub c).Characteristic := by
   refine characteristic_of_forall_mem fun φ m hm y hy => ?_
   have hy' : φ.symm y ∈ Zof D := char_apply_mem c.char φ.symm hy
@@ -41,6 +42,7 @@ theorem Msub_char (c : CritData D E R z) : (Msub c).Characteristic := by
   obtain ⟨n, hn⟩ := mem_zpowers_iff.mp h
   exact mem_zpowers_iff.mpr ⟨n, by rw [← hn, map_zpow, hz]⟩
 
+omit [Finite P] in
 theorem D_le_Msub (c : CritData D E R z) : D ≤ Msub c := by
   intro d hd y hy
   have : d * y * d⁻¹ = y := by
@@ -49,11 +51,13 @@ theorem D_le_Msub (c : CritData D E R z) : D ≤ Msub c := by
   rw [this, mul_inv_cancel]
   exact one_mem _
 
+omit [Finite P] in
 theorem Gen.zpow_z (c : CritData D E R z) (hg : Gen c a k) (hk : 1 ≤ k) (n : ℤ) :
     z ^ n = a ^ ((2 : ℤ) ^ (k - 1) * n) := by
   rw [hg.z_eq c hk, ← zpow_natCast, ← zpow_mul]
   congr 1
 
+omit [Finite P] in
 theorem Gen.tau_eq (c : CritData D E R z) (hg : Gen c a k) (hk : 1 ≤ k) :
     a ^ ((1 : ℤ) + 2 ^ (k - 1)) = a * z := by
   rw [zpow_add, zpow_one]
@@ -62,6 +66,7 @@ theorem Gen.tau_eq (c : CritData D E R z) (hg : Gen c a k) (hk : 1 ≤ k) :
   rw [zpow_one, mul_one] at this
   exact this.symm
 
+omit [Finite P] in
 theorem Gen.x_mem_Msub (c : CritData D E R z) (hg : Gen c a k) (hk : 1 ≤ k) {x : P}
     (hxτ : x * a * x⁻¹ = a ^ ((1 : ℤ) + 2 ^ (k - 1))) : x ∈ Msub c := by
   intro y hy
@@ -73,6 +78,7 @@ theorem Gen.x_mem_Msub (c : CritData D E R z) (hg : Gen c a k) (hk : 1 ≤ k) {x
   rw [conj_zpow_eq hxτ n, h]
   exact zpow_mem (mem_zpowers z) n
 
+omit [Finite P] in
 theorem Gen.Msub_cases (c : CritData D E R z) (hg : Gen c a k) (hk : 2 ≤ k) {x : P}
     (hxτ : x * a * x⁻¹ = a ^ ((1 : ℤ) + 2 ^ (k - 1))) {m : P} (hm : m ∈ Msub c) :
     m ∈ D ∨ x⁻¹ * m ∈ D := by
@@ -99,6 +105,7 @@ theorem Gen.Msub_cases (c : CritData D E R z) (hg : Gen c a k) (hk : 2 ≤ k) {x
       _ = z * (a * z) := by rw [hxinv, hg.tau_eq c (by omega)]
       _ = a := by rw [← mul_assoc, hza, mul_assoc, hz2, mul_one]
 
+omit [Finite P] in
 theorem Gen.Msub_comm_C2 (c : CritData D E R z) (hg : Gen c a k) {m : P} (hm : m ∈ Msub c)
     {w : P} (hw : w ∈ zpowers (a ^ 2)) : m * w = w * m := by
   have hza : z * a = a * z := (CritData.Z_comm D c.z_mem (CritData.Z_le_D D hg.mem)).symm
@@ -119,6 +126,7 @@ theorem Gen.Msub_comm_C2 (c : CritData D E R z) (hg : Gen c a k) {m : P} (hm : m
   rw [mul_inv_eq_iff_eq_mul] at this
   exact this
 
+omit [Finite P] in
 theorem Gen.comm_Msub (c : CritData D E R z) (hg : Gen c a k) (hk : 3 ≤ k) {x : P} (hxR : x ∈ R)
     (hxτ : x * a * x⁻¹ = a ^ ((1 : ℤ) + 2 ^ (k - 1))) (hx2 : x ^ 2 ∈ D) (f : P) {m : P}
     (hm : m ∈ Msub c) : f * m * f⁻¹ * m⁻¹ ∈ zpowers (a ^ 2) := by
@@ -167,7 +175,7 @@ theorem critical_Msub (hP : IsPGroup 2 P) (c : CritData D E R z) (hg : Gen c a k
     fun f m hm => hC2 (hg.comm_Msub c hk hxR hxτ hx2 f hm)
   unfold ThompsonCritical IsThompsonCritical
   refine ⟨Msub_char c, ?_, ?_, ?_⟩
-  · haveI : Fact (IsPGroup 2 ↥(Msub c)) := ⟨hP.to_subgroup _⟩
+  · have : Fact (IsPGroup 2 ↥(Msub c)) := ⟨hP.to_subgroup _⟩
     refine le_trans ?_ hC2
     rw [Subgroup.map_le_iff_le_comap, frattini_eq_closure_commutator_union_powers (p := 2),
       Subgroup.closure_le]
@@ -208,7 +216,7 @@ theorem hallR (hP : IsPGroup 2 P) (c : CritData D E R z)
     rw [← hag.card] at this
     omega
   by_contra hgD
-  haveI := c.R_normal
+  have := c.R_normal
   have hgER : g ∈ E ⊔ R := by rw [c.ER]; exact mem_top g
   obtain ⟨e, he, r, hr, rfl⟩ := mem_sup_of_normal_right.mp hgER
   have hrD : r ∉ D := fun h => hgD (mul_mem (c.E_le_D he) h)

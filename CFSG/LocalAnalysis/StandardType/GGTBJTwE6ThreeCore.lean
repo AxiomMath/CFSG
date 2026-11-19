@@ -35,21 +35,21 @@ theorem ggTBJ_twE6Three_core {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 2 �
       GGIsReflection 3 (ggConjAut A h₁) ∧ GGIsReflection 3 (ggConjAut A h₂) ∧
       ggConjAut A h₁ * ggConjAut A h₂ ≠ ggConjAut A h₂ * ggConjAut A h₁ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut L') :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f.toEquiv : Equiv.Perm L'))
       fun f f' h => MulEquiv.ext fun x => congrArg (fun e : Equiv.Perm L' => e x) h
   have hn1 : 1 ≤ n := by omega
   obtain ⟨ζ, Fr, hζ, hζo, hFr⟩ : ∃ (ζ : (AlgebraicClosure K)ˣ)
       (Fr : AlgebraicClosure K →+* AlgebraicClosure K),
       ζ ^ 3 = 1 ∧ orderOf ζ = 3 ∧ ∀ c, Fr c = c ^ 2 ^ n := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
       (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-    haveI : CharP (AlgebraicClosure K) 2 :=
+    have : CharP (AlgebraicClosure K) 2 :=
       charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-    haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+    have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
     obtain ⟨ζ, hζp⟩ := CFSG.LieType.SeitzGeneration.exists_primitiveRoot_units
       (L := AlgebraicClosure K) (ℓ := 2) Nat.prime_two Nat.prime_three (by norm_num)
     exact ⟨ζ, iterateFrobenius (AlgebraicClosure K) 2 n, hζp.pow_eq_one, hζp.eq_orderOf.symm,

@@ -93,7 +93,7 @@ private theorem covfacts_gamma_eq_of_normalizer_le {H : Type} [Group H] [Finite 
       exact Subgroup.mem_top _
     exact hxQ
   have : Group.IsNilpotent T := hT.isNilpotent
-  obtain ⟨y, hyN, hyQ⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q hQlt)
+  obtain ⟨y, hyN, hyQ⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q hQlt)
   let B : Subgroup H := (Subgroup.normalizer (Q : Set T)).map T.subtype
   have hBN : B ≤ Subgroup.normalizer (A : Set H) := by
     rintro _ ⟨w, hw, rfl⟩

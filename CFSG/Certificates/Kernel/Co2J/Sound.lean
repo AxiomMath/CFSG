@@ -89,12 +89,12 @@ theorem bitProd_high {v m : Nat} (hv : v < 2 ^ m) : ∀ n, m ≤ n → bitProd g
     · simp only [bitProd]
       have hb : v.testBit n = false :=
         Nat.testBit_eq_false_of_lt (lt_of_lt_of_le hv (Nat.pow_le_pow_right (by norm_num) hn))
-      rw [hb, if_neg Bool.false_ne_true, mul_one, bitProd_high hv n hn]
+      rw [hb, ite_eq_right Bool.false_ne_true, mul_one, bitProd_high hv n hn]
 
 theorem bitProd_zero : ∀ n, bitProd g n 0 = 1
   | 0 => rfl
   | n + 1 => by
-    simp only [bitProd, Nat.zero_testBit, Bool.false_eq_true, if_false, mul_one]
+    simp only [bitProd, Nat.zero_testBit, Bool.false_eq_true, ite_false, mul_one]
     exact bitProd_zero n
 
 theorem bitProd_gray {i u : Nat} (hi : i < 10) (hu : u < 2 ^ i) :
@@ -102,7 +102,7 @@ theorem bitProd_gray {i u : Nat} (hi : i < 10) (hu : u < 2 ^ i) :
   have h1 : 2 ^ i + u < 2 ^ (i + 1) := by rw [pow_succ]; omega
   rw [bitProd_high g h1 10 (by omega), bitProd_high g hu 10 (by omega)]
   simp only [bitProd]
-  rw [Nat.testBit_two_pow_add_eq, Nat.testBit_eq_false_of_lt hu, Bool.not_false, if_pos rfl,
+  rw [Nat.testBit_two_pow_add_eq, Nat.testBit_eq_false_of_lt hu, Bool.not_false, ite_eq_left rfl,
     bitProd_congr g i fun k hk => Nat.testBit_two_pow_add_gt hk u]
 
 end BitProd
@@ -160,7 +160,7 @@ theorem jEnum_sound (h : jEnumK GJ JE JS = true) :
   have hlt : ∀ i, i + 1 < 1024 → JE (JS i) < JE (JS (i + 1)) := fun i hi => by
     have := hsort i (by omega)
     unfold jSortK at this
-    rw [andK_eq, Bool.and_eq_true, implK_eq, blt_iff.2 hi, if_pos rfl] at this
+    rw [andK_eq, Bool.and_eq_true, implK_eq, blt_iff.2 hi, ite_eq_left rfl] at this
     exact blt_iff.1 this.2
   exact sorted_inj (σ := JS) (f := JE) hσ hlt a ha b hb
     (MatP_inj' (he a ha).1 (he b hb).1 e)
@@ -213,7 +213,7 @@ variable {PE PM PS : Nat → Nat} {PT : Nat → Nat → Nat} {MK : Nat → Nat}
 theorem edgeI_spec {m X g t : Nat} (h : edgeI PE m X g t = true) (hm : m ≤ t) :
     t < 256 ∧ PE t = mulT X g := by
   unfold edgeI at h
-  rw [implK_eq, notK_eq, blt_false (Nat.not_lt.2 hm), Bool.not_false, if_pos rfl, andK_eq,
+  rw [implK_eq, notK_eq, blt_false (Nat.not_lt.2 hm), Bool.not_false, ite_eq_left rfl, andK_eq,
     Bool.and_eq_true] at h
   exact ⟨blt_iff.1 h.1, Nat.eq_of_beq_eq_true h.2⟩
 
@@ -360,7 +360,7 @@ theorem invHit_spec {INV : Nat → Nat} {t : Nat} : ∀ {NI : Nat}, invHit INV N
     rw [bIf_eq'] at h'
     by_cases e : Nat.beq (INV NI) t = true
     · exact ⟨NI, by omega, Nat.eq_of_beq_eq_true e⟩
-    · rw [if_neg e] at h'
+    · rw [ite_eq_right e] at h'
       obtain ⟨q, hq, e'⟩ := invHit_spec h'
       exact ⟨q, by omega, e'⟩
 
@@ -377,10 +377,10 @@ theorem invAll_sound (hR : TreeI PE PM PS PT MK) (h : invAllK PE INV NI = true) 
     have hl := blt_iff.1 this.1
     exact ⟨hl, (involT_iff (treeI_mem hR _ hl).1).1 this.2⟩
   · have := allK_spec h.2 t ht
-    rw [implK_eq, if_pos ((involT_iff (treeI_mem hR t ht).1).2 ⟨h1, h2⟩)] at this
+    rw [implK_eq, ite_eq_left ((involT_iff (treeI_mem hR t ht).1).2 ⟨h1, h2⟩)] at this
     exact invHit_spec this
 
-theorem tab_sound (hR : TreeI PE PM PS PT MK) {q : Nat} (hq : INV q < 256)
+theorem tab_sound (_hR : TreeI PE PM PS PT MK) {q : Nat} (_hq : INV q < 256)
     (h : tabRowK PE INV MR CM q = true) : ∀ t < 256, MR q t < 256 ∧
       MatP 10 (PE (MR q t)) = MatP 10 (PE (INV q)) * MatP 10 (PE t) ∧
       ((CM q).testBit t = true ↔
@@ -462,7 +462,7 @@ theorem testBit_imgMask (MR : Nat → Nat → Nat) (EL : Nat → Nat) (q i s : N
 theorem ea_exists (hR : TreeI PE PM PS PT MK) (hI : invAllK PE INV NI = true)
     (hT : ∀ q < NI, tabRowK PE INV MR CM q = true) (h0 : SM 0 = 1) (hNS : 0 < NS)
     (hS : ∀ i < NS, setK PE SM EL INV CM RC EX MR NS NI i = true)
-    (X : Set (Matrix (Fin 10) (Fin 10) (ZMod 2))) (hX : ∀ x ∈ X, ∃ s < 256, MatP 10 (PE s) = x)
+    (X : Set (Matrix (Fin 10) (Fin 10) (ZMod 2))) (_hX : ∀ x ∈ X, ∃ s < 256, MatP 10 (PE s) = x)
     (h1 : 1 ∈ X) (hmul : ∀ x ∈ X, ∀ y ∈ X, x * y ∈ X) (hcomm : ∀ x ∈ X, ∀ y ∈ X, x * y = y * x)
     (hsq : ∀ x ∈ X, x * x = 1) :
     ∃ i < NS, ∀ s < 256, ((SM i).testBit s = true ↔ MatP 10 (PE s) ∈ X) := by
@@ -523,7 +523,7 @@ theorem ea_exists (hR : TreeI PE PM PS PT MK) (hI : invAllK PE INV NI = true)
       have he := allK_spec hext q hq
       unfold extK at he
       simp only [letB_eq, andK_eq, implK_eq, notK_eq, bit_eq, hqm, hland, Nat.beq_refl, hbm',
-        Bool.not_false, Bool.true_and, if_true, Bool.and_eq_true] at he
+        Bool.not_false, Bool.and_eq_true] at he
       have he' : andK (Nat.blt (EX i q) NS)
           (Nat.beq (SM (EX i q)) (Nat.lor (SM i) (imgMask MR EL q i (elN EL i)))) = true := he
       rw [andK_eq, Bool.and_eq_true] at he'
@@ -572,7 +572,7 @@ theorem el_count {i : Nat} (h : setK PE SM EL INV CM RC EX MR NS NI i = true) :
   have hstep : ∀ c, Nat.succ c < elN EL i → elAt EL i c < elAt EL i (Nat.succ c) := by
     intro c hc
     have := allK_spec hinc c (by omega)
-    rw [implK_eq, blt_iff.2 hc, if_pos rfl] at this
+    rw [implK_eq, blt_iff.2 hc, ite_eq_left rfl] at this
     exact blt_iff.1 this
   have hmono : ∀ b, b < elN EL i → ∀ a < b, elAt EL i a < elAt EL i b := by
     intro b
@@ -622,7 +622,7 @@ theorem condRec_xorJ (g : Nat → Nat) (a b : Nat → Bool) : ∀ m,
           (fun k acc => if b k = true then g k ^^^ acc else acc) m
   | 0 => (Nat.zero_xor 0).symm
   | m + 1 => by
-    simp only [Nat.rec_add_one]
+    simp only
     rw [condRec_xorJ g a b m]
     exact ite_xor_xorJ _ _ _ _ _
 
@@ -700,7 +700,7 @@ theorem phi_condRec (φ : Nat → Bool)
     rw [Nat.xor_self, Bool.xor_self] at h
     exact h
   | m + 1 => by
-    simp only [Nat.rec_add_one]
+    simp only
     rw [← phi_condRec φ hφ g hg c m]
     have hl := condRec_lt g c hg m
     cases c m
@@ -712,7 +712,7 @@ theorem rec_lowestJ (t : Nat → Bool) (k : Nat) (h0 : ∀ k' < k, t k' = false)
     (Nat.rec (motive := fun _ => Bool) false (fun k' b => t k' ^^ b) m : Bool) = decide (k < m)
   | 0, _ => by simp
   | m + 1, hm => by
-    simp only [Nat.rec_add_one]
+    simp only
     rw [rec_lowestJ t k h0 h1 r h2 m (by omega)]
     rcases lt_trichotomy m k with hlt | heq | hgt
     · have a1 : ¬ k < m := by omega
@@ -733,7 +733,7 @@ theorem rank_sound {i : Nat} (h : setK PE SM EL INV CM RC EX MR NS NI i = true) 
     cases e : Nat.beq (SM i) 1
     · rfl
     · exact absurd (Nat.eq_of_beq_eq_true e) hne
-  rw [implK_eq, notK_eq, hb, Bool.not_false, if_pos rfl] at hrk
+  rw [implK_eq, notK_eq, hb, Bool.not_false, ite_eq_left rfl] at hrk
   unfold rankK at hrk
   simp only [letB_eq, andK_eq, Bool.and_eq_true] at hrk
   obtain ⟨hlab, -, hn, hpiv⟩ := hrk
@@ -746,7 +746,7 @@ theorem rank_sound {i : Nat} (h : setK PE SM EL INV CM RC EX MR NS NI i = true) 
         (fixImg PE RC i (rcVec RC i k')).testBit (rcPiv RC i k) = false := by
     intro k hk
     have h' := allK_spec hpiv k hk
-    simp only [letB_eq, andK_eq, Bool.and_eq_true, bit_eq] at h'
+    simp only [Bool.and_eq_true, bit_eq] at h'
     refine ⟨h'.1, fun k' hk' hkk' => ?_⟩
     have h'' := allK_spec h'.2 k' hk'
     simpa [implK_eq, notK_eq, bit_eq, blt_iff.2 hkk'] using h''
@@ -868,7 +868,7 @@ theorem ea_bound (hR : TreeI PE PM PS PT MK) (hI : invAllK PE INV NI = true)
         fun s => MatP 10 (PE s)) := by
       ext x
       simp only [Finset.coe_image, Finset.coe_filter, Finset.mem_range, Set.mem_image,
-        Set.mem_setOf_eq]
+        Set.mem_ofPred_eq]
       constructor
       · intro hx
         obtain ⟨s, hs, rfl⟩ := hX x hx
@@ -877,7 +877,7 @@ theorem ea_bound (hR : TreeI PE PM PS PT MK) (hI : invAllK PE INV NI = true)
         exact (hiff s hs).1 hb
     rw [hXe, Nat.card_coe_set_eq, Set.ncard_coe_finset, Finset.card_image_of_injOn]
     intro a ha b hb e
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at ha hb
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at ha hb
     exact treeI_inj hR a ha.1 b hb.1 e
   rw [hcard, fixSet_congr fun s hs => (hiff s hs).symm, (el_count (hS i hi)).1]
   exact rank_sound (hS i hi) hSi

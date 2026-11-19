@@ -83,7 +83,7 @@ theorem five_le_sum_of_orderOf_eq_four {p : ℕ} [hp : Fact p.Prime] {D : Type*}
     (m : D → ℕ) (hm : ∀ χ, m χ ≤ m (u • χ))
     (hS : AddSubgroup.closure {χ | χ ≠ 0 ∧ m χ ≠ 0} = ⊤) : 5 ≤ ∑ χ, m χ := by
   classical
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   set S : Set D := {χ | χ ≠ 0 ∧ m χ ≠ 0} with hSdef
   have hline : ∀ χ : D, AddSubgroup.zmultiples χ ≠ ⊤ := by
     intro χ htop
@@ -151,9 +151,9 @@ theorem false_of_unitary_lift {r p : ℕ} [Fact r.Prime] [hpf : Fact p.Prime] (h
     rintro rfl
     have h1 : p ∣ 1 := (Nat.dvd_add_right (dvd_pow_self p two_ne_zero)).mp hpr
     exact hp.one_lt.ne' (Nat.dvd_one.mp h1)
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite (Additive Γ →+ ZMod p) := Finite.of_injective _ DFunLike.coe_injective
-  haveI : Fintype (Additive Γ →+ ZMod p) := Fintype.ofFinite _
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite (Additive Γ →+ ZMod p) := Finite.of_injective _ DFunLike.coe_injective
+  have : Fintype (Additive Γ →+ ZMod p) := Fintype.ofFinite _
   have hDcard : Nat.card (Additive Γ →+ ZMod p) = p ^ 2 := by
     rw [natCard_char hp hexp, Nat.card_eq_fintype_card, hcard]
   set L := AlgebraicClosure K with hL
@@ -161,15 +161,15 @@ theorem false_of_unitary_lift {r p : ℕ} [Fact r.Prime] [hpf : Fact p.Prime] (h
     intro h
     rw [CharP.cast_eq_zero_iff K r] at h
     exact hpr' ((Nat.prime_dvd_prime_iff_eq hrp hp).mp h).symm
-  haveI : NeZero (p : K) := ⟨hpK⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  have : NeZero (p : K) := ⟨hpK⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   have hpL : (p : L) ≠ 0 := by
     rw [← map_natCast (algebraMap K L)]
     exact (map_ne_zero _).mpr hpK
   have hΓL : (Fintype.card Γ : L) ≠ 0 := by
     rw [hcard, Nat.cast_pow]
     exact pow_ne_zero 2 hpL
-  haveI : CharP L r := charP_of_injective_algebraMap (algebraMap K L).injective r
+  have : CharP L r := charP_of_injective_algebraMap (algebraMap K L).injective r
   let σ : L ≃+* L := iterateFrobeniusEquiv L r 1
   have hσ : ∀ x : L, σ x = x ^ r := fun x => by
     rw [iterateFrobeniusEquiv_apply, iterateFrobenius_def, pow_one]
@@ -239,7 +239,7 @@ theorem false_of_unitary_lift {r p : ℕ} [Fact r.Prime] [hpf : Fact p.Prime] (h
     have hset : {χ : Additive Γ →+ ZMod p | χ ≠ 0 ∧ m χ ≠ 0} =
         {χ | χ ≠ 0 ∧ charSpace ρ ζ χ ≠ ⊥} := by
       ext χ
-      simp only [hm, Set.mem_setOf_eq, ne_eq, Submodule.finrank_eq_zero]
+      simp only [hm, Set.mem_ofPred_eq, ne_eq, Submodule.finrank_eq_zero]
     rw [hset]
     exact hcl
   have hr2 : (r : ZMod p) ^ 2 = -1 := by
@@ -247,10 +247,10 @@ theorem false_of_unitary_lift {r p : ℕ} [Fact r.Prime] [hpf : Fact p.Prime] (h
     push_cast at h
     exact eq_neg_of_add_eq_zero_left h
   have hu : orderOf (-(r : ZMod p)) = 4 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h1 : ¬ (-(r : ZMod p)) ^ 2 ^ 1 = 1 := by
       rw [pow_one, neg_sq, hr2]
-      haveI : Fact (2 < p) := ⟨by omega⟩
+      have : Fact (2 < p) := ⟨by omega⟩
       exact ZMod.neg_one_ne_one
     have h2 : (-(r : ZMod p)) ^ 2 ^ (1 + 1) = 1 := by
       rw [show (2 : ℕ) ^ (1 + 1) = 2 * 2 by norm_num, pow_mul, neg_sq, hr2]
@@ -260,7 +260,7 @@ theorem false_of_unitary_lift {r p : ℕ} [Fact r.Prime] [hpf : Fact p.Prime] (h
   have h5 := five_le_sum_of_orderOf_eq_four hDcard hu m hstep hS
   omega
 
-theorem false_of_elemAbelian_psu4 {r p : ℕ} [Fact r.Prime] [Fact p.Prime] (hr : 3 < r)
+theorem false_of_elemAbelian_psu4 {r p : ℕ} [Fact r.Prime] [Fact p.Prime] (_hr : 3 < r)
     (hp7 : 7 ≤ p) (hpr : p ∣ r ^ 2 + 1) (A : Subgroup (projSU 4 r 1))
     (hA : CFSG.Open.IsElemAbelian p A) (hAc : Nat.card A = p ^ 2) : False := by
   have hp : p.Prime := Fact.out
@@ -311,8 +311,8 @@ theorem false_of_elemAbelian_psu4 {r p : ℕ} [Fact r.Prime] [Fact p.Prime] (hr 
     exact Nat.Coprime.pow_left m ((Nat.coprime_primes Nat.prime_two hp).mpr (Ne.symm hp2))
   obtain ⟨Ã, -, -, e, -⟩ := exists_sylow_lift_of_ker_le_center hp π hπs hc hcop A₁
     hA₁e.isPGroup
-  letI : CommGroup A₁ := { (inferInstance : Group A₁) with mul_comm := hA₁e.1.is_comm.comm }
-  haveI : Fintype A₁ := Fintype.ofFinite A₁
+  let : CommGroup A₁ := { (inferInstance : Group A₁) with mul_comm := hA₁e.1.is_comm.comm }
+  have : Fintype A₁ := Fintype.ofFinite A₁
   have hU : ∀ g ∈ G, ((g : Matrix (Fin 4) (Fin 4) K).map (frobenius K r))ᵀ *
       (g : Matrix (Fin 4) (Fin 4) K) = 1 := fun g hg =>
     (unitary_det_of_mem_statedSU (frobenius K r) hfrob hg).1

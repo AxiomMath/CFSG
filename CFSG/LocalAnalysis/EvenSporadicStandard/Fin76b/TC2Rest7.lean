@@ -72,10 +72,10 @@ theorem fin76bOuterRest_of_rest₇
       (mem_centralizer_singleton_iff.1 (hB.B_cent hB.beta_mem)) hB.beta_order) ?_
     hTQ hxQ hxT hxN hxz hxt htQ hQz hcomm
   intro S hS2 hSC hSmax hzS
-  exact ⟨⟨hE.sylow_centralizer_shape' hzt haut hT Q.isPGroup' hTQ hxQ hxT hxN hS2 hSC hSmax hzS,
+  exact ⟨⟨hE.sylow_centralizer_shape' hzt haut hT Q.isPGroup hTQ hxQ hxT hxN hS2 hSC hSmax hzS,
     fun k hk hSd => hE.centralizer_oddCore_dihedral hS2 hSC hSmax hk hSd,
-    fun g hg => hE.fusion_in_sylow hzt hW haut hT Q.isPGroup' hTQ hxQ hxT hxN hS2 hSC hSmax hzS
+    fun g hg => hE.fusion_in_sylow hzt hW haut hT Q.isPGroup hTQ hxQ hxT hxN hS2 hSC hSmax hzS
       hg⟩,
-    hE.B_centralizes_S hzt hW haut hT Q.isPGroup' hTQ hxQ hxT hxN hB hS2 hSC hSmax hzS⟩
+    hE.B_centralizes_S hzt hW haut hT Q.isPGroup hTQ hxQ hxT hxN hB hS2 hSC hSmax hzS⟩
 
 end CFSG.EvenSporadicStandard.Fin76b

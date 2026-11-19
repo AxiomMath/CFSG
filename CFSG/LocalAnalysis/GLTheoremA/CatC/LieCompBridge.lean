@@ -25,7 +25,7 @@ theorem lieCompsExport_isChevSimple {p q : ℕ} (hp : p.Prime) {S : Type} [Group
   have hO : GLAPPrimeCore p ↥J ≤ Subgroup.center ↥J := by
     by_cases htop : GLAPPrimeCore p ↥J = ⊤
     · exfalso
-      haveI := isQuasisimple_nontrivial hq
+      have := isQuasisimple_nontrivial hq
       obtain ⟨a, b, hab⟩ := exists_pair_ne (PQuot p J)
       obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
       obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b

@@ -47,7 +47,7 @@ private theorem irgTG_mem_center_range_iff {K G : Type*} [Group K] [Group G] (φ
               mul_one]
           simp only [mul_assoc]
           rw [hcw] }
-    haveI : IsMulCommutative ↥(Subgroup.center K) := Subgroup.center.isMulCommutative K
+    have : IsMulCommutative ↥(Subgroup.center K) := Subgroup.center.isMulCommutative K
     have hfker : f.ker = ⊤ := by
       rw [eq_top_iff, ← hperf]
       exact Abelianization.commutator_subset_ker f

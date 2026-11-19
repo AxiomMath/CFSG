@@ -456,7 +456,7 @@ theorem l66iMainGen (h62 : L6_2Gen) (hΩ : HypOmegaGen Ω) :
 
 theorem l67Gen : L67Gen := by
   intro G _ _ Ω hΩ S R hR R' hR' hRS hR'S hne
-  refine l66iMainGen l6_2Gen hΩ _ (S : Subgroup G) rfl S.isPGroup'
+  refine l66iMainGen l6_2Gen hΩ _ (S : Subgroup G) rfl S.isPGroup
     {A | A ∈ RSet Ω ∧ A ≤ (S : Subgroup G)} (fun A hA => hA.2) ?_ (fun A hA => hA.1)
     R ⟨hR, hRS⟩ R' ⟨hR', hR'S⟩ hne
   intro A hA s hs

@@ -47,7 +47,7 @@ theorem center_eq_bot_of_quasisimple_simple {C : Type*} [Group C] (hq : CFSG.IsQ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center C) with h | h
   · exact h
   · exfalso
-    haveI : IsSimpleGroup (C ⧸ center C) := hq.2.1
+    have : IsSimpleGroup (C ⧸ center C) := hq.2.1
     have hsub : Subsingleton (C ⧸ center C) := QuotientGroup.subsingleton_iff.mpr h
     exact not_subsingleton _ hsub
 
@@ -140,7 +140,7 @@ theorem lift_layer (hI : GL83I66Two) {f : ℕ} (hf : f.Prime) (hf5 : 5 ≤ f)
         ∀ s ∈ (S : Subgroup C.1), coord hZ C ⟨z, hzΛ⟩ * s = s * coord hZ C ⟨z, hzΛ⟩) :
     ∃ w : Γ, w ^ f = 1 ∧ φ w = z := by
   classical
-  haveI := Fact.mk hf
+  have := Fact.mk hf
   choose K hKperf hKmap hKlift using fun C : ComponentIndex V =>
     lift_component hI hf hf5 hΓ φ hker C.1 C.2.1 (hC C) ((component_le_layer C.2).trans hΛ)
   have hw : ∀ C : ComponentIndex V, ∃ w ∈ K C, w ^ f = 1 ∧

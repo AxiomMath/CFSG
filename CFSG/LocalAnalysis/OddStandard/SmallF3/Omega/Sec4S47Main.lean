@@ -27,7 +27,7 @@ theorem Sec4FSetup.split47 (h : Sec4FSetup t L S z A B φ)
     Subgroup.mem_centralizer_iff.mpr fun a ha => h.A_comm ha h.t_mem_A
   let H : Subgroup ↥(normalizer (A : Set G)) :=
     (B ⊔ oddCoreIn (centralizer (A : Set G))).subgroupOf (normalizer (A : Set G))
-  haveI hHn : H.Normal := ⟨fun x hx g => by
+  have hHn : H.Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     simpa [mul_assoc] using h.conj_mem_BO g.2 hx⟩
   let t' : ↥(normalizer (A : Set G)) := ⟨t, htM⟩

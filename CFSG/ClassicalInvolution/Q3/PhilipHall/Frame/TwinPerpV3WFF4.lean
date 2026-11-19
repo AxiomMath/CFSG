@@ -157,9 +157,9 @@ theorem frame_prod_ne {J₁ J₂ J₃ J₄ : Subgroup Y} {b₁ b₂ b₃ b₄ : 
       exact hb1 this
 
 theorem f4_core {J₁ J₂ J₃ J₄ : Subgroup Y} {b₁ b₂ b₃ b₄ x : Y} (hq₃ : Q8Facts J₃ t)
-    (hq₄ : Q8Facts J₄ t) (hb₁ : b₁ ∈ J₁) (hb₂ : b₂ ∈ J₂) (hb₃ : b₃ ∈ J₃) (hb₄ : b₄ ∈ J₄)
-    (hb₃2 : b₃ * b₃ = t) (hb₄2 : b₄ * b₄ = t) (h13 : Commutes J₁ J₃) (h14 : Commutes J₁ J₄)
-    (h23 : Commutes J₂ J₃) (h24 : Commutes J₂ J₄) (h34 : Commutes J₃ J₄)
+    (hq₄ : Q8Facts J₄ t) (_hb₁ : b₁ ∈ J₁) (_hb₂ : b₂ ∈ J₂) (hb₃ : b₃ ∈ J₃) (hb₄ : b₄ ∈ J₄)
+    (hb₃2 : b₃ * b₃ = t) (hb₄2 : b₄ * b₄ = t) (_h13 : Commutes J₁ J₃) (_h14 : Commutes J₁ J₄)
+    (_h23 : Commutes J₂ J₃) (_h24 : Commutes J₂ J₄) (h34 : Commutes J₃ J₄)
     (hxo : Odd (orderOf x)) (hxt : x * t = t * x)
     (hx₃ : ∀ m ∈ J₃, x * m * x⁻¹ ∈ J₃) (hx₄ : ∀ m ∈ J₄, x * m * x⁻¹ ∈ J₄)
     (hx₁ : x * b₁ = b₁ * x) (hx₂ : x * b₂ = b₂ * x)

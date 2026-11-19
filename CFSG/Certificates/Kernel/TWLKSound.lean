@@ -97,7 +97,7 @@ theorem twlk_sum_ite (n k : ℕ) (hk : k < n) (g : Fin n → ZMod p) :
   rw [Finset.sum_eq_single ⟨k, hk⟩]
   · simp
   · intro b _ hb
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hbk
     exact hb (Fin.ext hbk)
   · simp
@@ -117,12 +117,11 @@ theorem twlk_dotA (c : Fin (N - 1)) (hc : c.val + 3 ≤ N) (v : GGTWE p N) :
   rw [ggTWdot, ggDepAdot, Finset.sum_congr rfl (fun j _ => hsplit j), Finset.sum_sub_distrib,
     Finset.sum_sub_distrib, twlk_sum_ite _ _ (by omega)]
   by_cases h1 : 1 ≤ c.val <;> by_cases h2 : 2 ≤ c.val <;>
-    simp only [h1, h2, if_true, if_false, Finset.sum_const_zero] <;>
+    simp only [h1, h2, ite_true, ite_false, Finset.sum_const_zero] <;>
     first
     | (rw [twlk_sum_ite _ _ (by omega), twlk_sum_ite _ _ (by omega), vAt_lt _ (by omega),
         vAt_lt _ (by omega), vAt_lt _ (by omega)])
     | (rw [twlk_sum_ite _ _ (by omega), vAt_lt _ (by omega), vAt_lt _ (by omega)])
-    | (exfalso; omega)
     | (rw [vAt_lt _ (by omega)])
 
 theorem twlk_dotH (c : Fin (N - 1)) (hc : 1 ≤ c.val) (v : GGTWE p N) :
@@ -201,12 +200,10 @@ theorem kSolH_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (tgt : ℕ 
     have h := hv ⟨c, by omega⟩ hJ
     rw [twlk_dotA ⟨c, by omega⟩ hc, twlk_vAt_toZ l (by omega)] at h
     by_cases h1 : 1 ≤ c <;> by_cases h2 : 2 ≤ c <;>
-      simp only [h1, h2, if_true, if_false] at h ⊢ <;>
+      simp only [h1, h2, ite_true, ite_false] at h ⊢ <;>
       first
       | (rw [twlk_vAt_toZ l (by omega), twlk_vAt_toZ l (by omega)] at h; exact h)
       | (rw [twlk_vAt_toZ l (by omega)] at h; exact h)
-      | exact h
-      | (exfalso; omega)
   set g : ℕ → ZMod p := fun k => if k = 0 then 0 else F (k - 1) with hg
   cases pos with
   | ends =>
@@ -214,15 +211,14 @@ theorem kSolH_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (tgt : ℕ 
         (tgt (1 + i) : ZMod p) := by
       intro i hi
       have h := hdot (i + 1) (by omega) (by simp only [ggTWInJ]; omega)
-      simp only [hg, show 0 + i + 2 = i + 2 by omega, show 0 + i + 1 = i + 1 by omega,
-        show 1 + i = i + 1 by omega, zero_add, Nat.add_sub_cancel, show i + 2 - 1 = i + 1 by omega,
-        show (i + 2 = 0) = False by simp, show (i + 1 = 0) = False by simp, if_false,
-        show 1 ≤ i + 1 by omega, if_true] at h ⊢
+      simp only [hg, show 1 + i = i + 1 by omega, zero_add, Nat.add_sub_cancel, show i + 2 - 1 = i + 1 by omega,
+        show (i + 2 = 0) = False by simp, show (i + 1 = 0) = False by simp, ite_false,
+        show 1 ≤ i + 1 by omega, ite_true] at h ⊢
       by_cases hi0 : i = 0
       · subst hi0
-        simp only [if_true, show ¬ (2 ≤ 0 + 1) by omega, if_false] at h ⊢
+        simp only [ite_true, show ¬ (2 ≤ 0 + 1) by omega, ite_false] at h ⊢
         linear_combination -h
-      · simp only [hi0, if_false, show 2 ≤ i + 1 by omega, if_true,
+      · simp only [hi0, ite_false, show 2 ≤ i + 1 by omega, ite_true,
           show i + 1 - 2 = i - 1 by omega] at h ⊢
         linear_combination -h
     have hch := kChainH_cast tgt g (N - 3) 1 0 (l.getD 0 0) 0 (by simp [hg])
@@ -231,7 +227,7 @@ theorem kSolH_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (tgt : ℕ 
       refine twlk_list_eq (n := N - 1) hlen ?_ hlt ?_ ?_
       · simp [kChainH_length]; omega
       · intro x hx
-        simp only [List.mem_cons, List.mem_append, List.mem_singleton, List.not_mem_nil,
+        simp only [List.mem_cons, List.mem_append, List.not_mem_nil,
           or_false] at hx
         rcases hx with rfl | hx | rfl
         · exact twlk_getD_lt hlt hp 0
@@ -248,11 +244,11 @@ theorem kSolH_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (tgt : ℕ 
             List.getD_append_right _ _ _ _ (by rw [kChainH_length]), kChainH_length]
           simp
     rw [hcand]
-    simp only [kCandH, ggTWPosNat, if_true, List.mem_flatMap, List.mem_map, List.mem_range]
+    simp only [kCandH, ggTWPosNat, ite_true, List.mem_flatMap, List.mem_map, List.mem_range]
     exact ⟨_, twlk_getD_lt hlt hp 0, _, twlk_getD_lt hlt hp _, rfl⟩
   | adj =>
     have h00 := hdot 0 (by omega) (by simp only [ggTWInJ]; omega)
-    simp only [show ¬ (1 ≤ 0) by omega, show ¬ (2 ≤ 0) by omega, if_false, zero_sub,
+    simp only [show ¬ (1 ≤ 0) by omega, show ¬ (2 ≤ 0) by omega, ite_false, zero_sub,
       sub_zero] at h00
     set v0 := (p - tgt 0 % p) % p with hv0
     have hv0F : (v0 : ZMod p) = F 0 := by
@@ -261,15 +257,14 @@ theorem kSolH_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (tgt : ℕ 
         (tgt (1 + i) : ZMod p) := by
       intro i hi
       have h := hdot (i + 1) (by omega) (by simp only [ggTWInJ]; omega)
-      simp only [hg, show 0 + i + 2 = i + 2 by omega, show 0 + i + 1 = i + 1 by omega,
-        show 1 + i = i + 1 by omega, zero_add, Nat.add_sub_cancel, show i + 2 - 1 = i + 1 by omega,
-        show (i + 2 = 0) = False by simp, show (i + 1 = 0) = False by simp, if_false,
-        show 1 ≤ i + 1 by omega, if_true] at h ⊢
+      simp only [hg, show 1 + i = i + 1 by omega, zero_add, Nat.add_sub_cancel, show i + 2 - 1 = i + 1 by omega,
+        show (i + 2 = 0) = False by simp, show (i + 1 = 0) = False by simp, ite_false,
+        show 1 ≤ i + 1 by omega, ite_true] at h ⊢
       by_cases hi0 : i = 0
       · subst hi0
-        simp only [if_true, show ¬ (2 ≤ 0 + 1) by omega, if_false] at h ⊢
+        simp only [ite_true, show ¬ (2 ≤ 0 + 1) by omega, ite_false] at h ⊢
         linear_combination -h
-      · simp only [hi0, if_false, show 2 ≤ i + 1 by omega, if_true,
+      · simp only [hi0, ite_false, show 2 ≤ i + 1 by omega, ite_true,
           show i + 1 - 2 = i - 1 by omega] at h ⊢
         linear_combination -h
     have hch := kChainH_cast tgt g (N - 4) 1 0 v0 0 (by simp [hg]) (by simp [hg, hv0F]) hrec
@@ -278,7 +273,7 @@ theorem kSolH_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (tgt : ℕ 
       refine twlk_list_eq (n := N - 1) hlen ?_ hlt ?_ ?_
       · simp [kChainH_length]; omega
       · intro x hx
-        simp only [List.mem_cons, List.mem_append, List.mem_singleton, List.not_mem_nil,
+        simp only [List.mem_cons, List.mem_append, List.not_mem_nil,
           or_false] at hx
         rcases hx with rfl | hx | rfl | rfl
         · exact Nat.mod_lt _ hp
@@ -301,7 +296,7 @@ theorem kSolH_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (tgt : ℕ 
           simp [show N - 4 + 1 + 1 = N - 2 by omega]
     rw [hcand]
     simp only [kCandH, ggTWPosNat, List.mem_flatMap, List.mem_map, List.mem_range,
-      show ¬ ((1 : ℕ) = 0) by omega, if_false]
+      show ¬ ((1 : ℕ) = 0) by omega, ite_false]
     exact ⟨_, twlk_getD_lt hlt hp _, _, twlk_getD_lt hlt hp _, rfl⟩
 
 theorem kSolA_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (tgt : ℕ → ℕ) {l : List ℕ}
@@ -340,7 +335,7 @@ theorem kSolA_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (tgt : ℕ 
         · rw [List.getD_append_right _ _ _ _ (by simp; omega)]
           simp [show N - 2 - (N - 3) = 1 by omega]
     rw [hcand]
-    simp only [kCandA, ggTWPosNat, if_true, List.mem_flatMap, List.mem_map, List.mem_range]
+    simp only [kCandA, ggTWPosNat, ite_true, List.mem_flatMap, List.mem_map, List.mem_range]
     exact ⟨_, twlk_getD_lt hlt hp _, _, twlk_getD_lt hlt hp _, rfl⟩
   | adj =>
     have hcand : l = (List.range (N - 4)).map (fun j => tgt (j + 1) % p) ++
@@ -368,7 +363,7 @@ theorem kSolA_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (tgt : ℕ 
           simp [show N - 2 - (N - 4) = 2 by omega]
     rw [hcand]
     simp only [kCandA, ggTWPosNat, List.mem_flatMap, List.mem_map, List.mem_range,
-      show ¬ ((1 : ℕ) = 0) by omega, if_false]
+      show ¬ ((1 : ℕ) = 0) by omega, ite_false]
     exact ⟨_, twlk_getD_lt hlt hp _, _, twlk_getD_lt hlt hp _, _, twlk_getD_lt hlt hp _, rfl⟩
 
 theorem pat1_of_cover {RF : List (List ℕ)} {rt : ℕ → List GGDepANPair → ℕ → ℕ → Bool}
@@ -818,7 +813,7 @@ theorem kPZTest_facts [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ N) (pos : GGTWPo
     have hglt' : g < N - 1 := by omega
     refine ⟨by omega, ?_⟩
     have hgen : ggTWNGen p N news g = (ggTWNH p N g, ggTWNA p N g) := by
-      rw [ggTWNGen, if_pos hglt]
+      rw [ggTWNGen, ite_eq_left hglt]
     rw [hgen]
     refine Submonoid.subset_closure ⟨⟨⟨g, hglt'⟩, hgJ⟩, Set.mem_univ _, ?_⟩
     change ggTWRefl (ggTWh p N ⟨g, hglt'⟩) (ggTWα p N ⟨g, hglt'⟩) =
@@ -1034,7 +1029,7 @@ theorem kE8Test_facts {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGTWNVa
     · obtain ⟨i, rfl⟩ := hx
       have hiv : i.val + 1 < 9 := by have := i.isLt; omega
       have hgen : ggTWNGen 3 9 news i.val = (ggTWNH 3 9 i.val, ggTWNA 3 9 i.val) := by
-        simp only [ggTWNGen, if_pos hiv]
+        simp only [ggTWNGen, ite_eq_left hiv]
       have h1 := hS_mem i.val (by have := i.isLt; omega)
       rw [hgen] at h1
       simp only [ggTWNRflOf] at h1
@@ -1043,7 +1038,7 @@ theorem kE8Test_facts {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGTWNVa
       obtain ⟨q, hq, rfl⟩ := ht
       obtain ⟨k, hk, rfl⟩ := List.mem_iff_getElem.mp hq
       have hgen : ggTWNGen 3 9 news (8 + k) = news[k] := by
-        rw [ggTWNGen, if_neg (by omega), show 8 + k + 1 - 9 = k by omega,
+        rw [ggTWNGen, ite_eq_right (by omega), show 8 + k + 1 - 9 = k by omega,
           List.getD_eq_getElem _ _ hk]
       have h1 := hS_mem (8 + k) (by omega)
       rw [hgen] at h1
@@ -1186,19 +1181,19 @@ theorem twlk_surv2 [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ N)
     cases c₂ with
     | none =>
       simp only [Option.map_none] at H2 A2 hd2 hd4 ⊢
-      simp only [kCells2, List.mem_flatMap, List.mem_filterMap]
+      simp only [kCells2, List.mem_flatMap]
       refine ⟨lh1, H1, la1, A1, ?_⟩
-      rw [if_pos (beq_iff_eq.mpr hd1), List.mem_flatMap]
+      rw [ite_eq_left (beq_iff_eq.mpr hd1), List.mem_flatMap]
       refine ⟨lh2, H2, ?_⟩
-      rw [if_pos (beq_iff_eq.mpr hd2), List.mem_filterMap]
+      rw [ite_eq_left (beq_iff_eq.mpr hd2), List.mem_filterMap]
       exact ⟨la2, A2, by simp [hd3, hd4, hx_list, hdet]⟩
     | some c' =>
       simp only [Option.map_some] at H2 A2 hd2 hd4 ⊢
-      simp only [kCells2, List.mem_flatMap, List.mem_filterMap]
+      simp only [kCells2, List.mem_flatMap]
       refine ⟨lh1, H1, la1, A1, ?_⟩
-      rw [if_pos (beq_iff_eq.mpr hd1), List.mem_flatMap]
+      rw [ite_eq_left (beq_iff_eq.mpr hd1), List.mem_flatMap]
       refine ⟨lh2, H2, ?_⟩
-      rw [if_pos (beq_iff_eq.mpr hd2), List.mem_filterMap]
+      rw [ite_eq_left (beq_iff_eq.mpr hd2), List.mem_filterMap]
       exact ⟨la2, A2, by simp [hd3, hd4, hx_list, hdet]⟩
   obtain ⟨code, hcode⟩ := twlk_all2_mem _ _ ents hchk _ hmem
   have hvalid : ∀ q ∈ [(lh1, la1), (lh2, la2)], GGTWNValid p N q := by

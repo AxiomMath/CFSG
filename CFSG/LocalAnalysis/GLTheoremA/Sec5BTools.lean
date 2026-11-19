@@ -136,7 +136,7 @@ theorem exists_sylow_ge {p : ℕ} (hp : p.Prime) {W P₀ : Subgroup G} (hP₀W :
   have hP₀' : IsPGroup p (P₀.subgroupOf W) := hP₀.comap_subtype
   obtain ⟨Q, hQ⟩ := hP₀'.exists_le_sylow
   refine ⟨(Q : Subgroup W).map W.subtype, ?_, Subgroup.map_subtype_le _,
-    Q.isPGroup'.map W.subtype, ?_⟩
+    Q.isPGroup.map W.subtype, ?_⟩
   · intro a ha
     exact ⟨⟨a, hP₀W ha⟩, hQ (Subgroup.mem_subgroupOf.2 ha), rfl⟩
   · rw [Subgroup.relIndex, ← Subgroup.comap_subtype,

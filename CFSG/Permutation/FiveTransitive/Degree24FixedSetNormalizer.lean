@@ -80,8 +80,8 @@ theorem five_point_stabilizer_fixed_points_card_eq_five_six_or_seven
             _ = (n : P) • x.1 :=
               congrArg (fun y : X => (n : P) • y)
                 (MulAction.mem_fixedPoints.mp x.2 h')⟩ }
-    letI : SMul N F := fixedSmul
-    letI : MulAction N F :=
+    let : SMul N F := fixedSmul
+    let : MulAction N F :=
       Subtype.coe_injective.mulAction
         Subtype.val (fun _ _ => rfl)
     let φ : N →* Equiv.Perm F :=

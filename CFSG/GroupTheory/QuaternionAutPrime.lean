@@ -52,8 +52,7 @@ theorem exists_mulAut_comp_eq_of_ker_le {H K : Type*} [Group H] [Group K] [Finit
   have hψ : Function.RightInverse ψ φ := Function.rightInverse_surjInv hφ
   let β : K →* K := MonoidHom.liftOfRightInverse φ ψ hψ ⟨g, hgker⟩
   have hβcomp : β.comp φ = g := by
-    simpa [β] using
-      MonoidHom.liftOfRightInverse_comp (f := φ) (f_inv := ψ) hψ ⟨g, hgker⟩
+    simp [β]
   have hgsurj : Function.Surjective g := by
     simpa [g] using hφ.comp c.surjective
   have hβsurj : Function.Surjective β := by
@@ -119,7 +118,7 @@ theorem mulAut_quaternion_eq_one_of_pow_eq_one {r : ℕ} (hr : r.Prime) (hr5 : 5
       (G := MulAut (QuaternionGroup 2)) (α := QuaternionGroup 2)
       (by simpa [MulAut.smul_def] using mulAut_quaternion_apply_a_two σ)
   have hFcard : Nat.card F = Nat.card (MulAction.fixedPoints H (QuaternionGroup 2)) := rfl
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hcong : 8 ≡ Nat.card F [MOD r] := by
     have h := hHpg.card_modEq_card_fixedPoints (QuaternionGroup 2)
     rw [hQcard, ← hFcard] at h
@@ -127,7 +126,7 @@ theorem mulAut_quaternion_eq_one_of_pow_eq_one {r : ℕ} (hr : r.Prime) (hr5 : 5
   have hdvd : Nat.card F ∣ 8 := by
     rw [← hQcard]
     exact Subgroup.card_subgroup_dvd_card F
-  haveI : Nontrivial F := by
+  have : Nontrivial F := by
     refine ⟨⟨⟨a 2, ha2F⟩, ⟨1, F.one_mem⟩, ?_⟩⟩
     intro h
     exact ha2ne (congrArg Subtype.val h)

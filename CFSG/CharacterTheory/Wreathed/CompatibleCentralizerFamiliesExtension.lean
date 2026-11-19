@@ -93,7 +93,7 @@ theorem exists_extension_of_family (hn : 2 ≤ n) {η : G}
   have hBS : modelBase S e ≤ (S : Subgroup G) := modelBase_le_sylow S e
   have hJ1 : J ≠ 1 := ne_one_of_orderOf (orderOf_x S e hn)
   have hZp : IsPGroup 2 (Subgroup.zpowers J) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (hBS hJB))
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr (hBS hJB))
   have hZ1 : Subgroup.zpowers J ≠ ⊥ := by
     rw [Ne, Subgroup.zpowers_eq_bot]
     exact hJ1
@@ -123,7 +123,7 @@ theorem exists_extension_of_family (hn : 2 ≤ n) {η : G}
       ⟨v, hcz ▸ v.2⟩
     rw [hlam v g' rfl]
     exact hψ.2.2.1 _ _ hZp hZ1 hQ₁ hle g g' hg.symm
-  have hBp : IsPGroup 2 (modelBase S e) := S.isPGroup'.to_le hBS
+  have hBp : IsPGroup 2 (modelBase S e) := S.isPGroup.to_le hBS
   have hB1 : modelBase S e ≠ ⊥ := by
     intro h
     apply hJ1
@@ -142,7 +142,7 @@ theorem exists_extension_of_family (hn : 2 ≤ n) {η : G}
   ·
     intro v y hvy
     have hyS : (y : G) ∈ Subgroup.centralizer ((S : Subgroup G) : Set G) := hE y.2
-    rw [hres _ S.isPGroup' (hBS hJB) v ⟨y, hyS⟩ hvy.symm,
+    rw [hres _ S.isPGroup (hBS hJB) v ⟨y, hyS⟩ hvy.symm,
       hψ.2.2.2 ⟨y, hyS⟩, hθt ⟨y, hyS⟩ y rfl]
   ·
     apply apply_sylow_of_base_swap S e hn lam hlamU

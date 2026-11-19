@@ -44,7 +44,7 @@ private theorem two_pow_mod_three_of_odd {n : ℕ} (hn : Odd n) : 2 ^ n % 3 = 2 
   | zero => norm_num
   | succ k ih =>
     have h4 : 2 ^ (2 * (k + 1) + 1) = 2 ^ (2 * k + 1) * 4 := by ring
-    rw [h4, Nat.mul_mod, ih] <;> norm_num
+    rw [h4, Nat.mul_mod, ih]
 
 private theorem hasNormalSimpleCentralizer_fixedSubgroup_psuField {f : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 f K) (hodd : Odd f) (h9 : 9 ≤ f) {τ : K ≃+* K}

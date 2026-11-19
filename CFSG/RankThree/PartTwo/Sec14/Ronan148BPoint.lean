@@ -68,6 +68,7 @@ variable {G : Type} [Group G] [Finite G]
 
 section Certs
 
+omit [Finite G] in
 theorem mem_of_mem_centralizer148 {A : Subgroup G} (hAF : A ∈ partTwoF G) :
     ∀ x ∈ Subgroup.centralizer (A : Set G), x ^ 3 = 1 → x ∈ A := by
   intro x hx hx3

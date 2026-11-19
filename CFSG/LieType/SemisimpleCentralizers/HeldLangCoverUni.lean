@@ -15,9 +15,9 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremA.KD264Lie CFSG.LocalAnalysis.Compone
 theorem center_statedSU_eq {K : Type} [Field K] {p f N : ℕ} (hdat : UnitaryFieldData p f K) (hN : 3 ≤ N) :
     Subgroup.center ↥(StatedSU N (p ^ f) K) =
       (StatedScalars (Fin N) K).subgroupOf (StatedSU N (p ^ f) K) := by
-  haveI : Finite K := hdat.finite
-  haveI : Fact p.Prime := ⟨hdat.prime⟩
-  haveI : CharP K p := hdat.charP
+  have : Finite K := hdat.finite
+  have : Fact p.Prime := ⟨hdat.prime⟩
+  have : CharP K p := hdat.charP
   have hK : Nat.card K = (p ^ f) ^ 2 := by rw [hdat.card, ← pow_mul, Nat.mul_comm]
   have hbar : IsUnitaryInvolution (unitaryInvolution K p f) := isUnitaryInvolution_unitaryInvolution hK
   have hS : StatedSU N (p ^ f) K = SUid (unitaryInvolution K p f) N := (SUid_eq_statedSU hK N).symm
@@ -31,9 +31,9 @@ theorem isI5UniversalCover_SU (n : ℕ) (q : TauCeti.PrimePower) (hd : (TauCeti.
     (hsimple : IsSimpleGroup (↥(StatedSU (n + 1) (q.p ^ q.exponent) F) ⧸
       Subgroup.center ↥(StatedSU (n + 1) (q.p ^ q.exponent) F))) :
     IsI5UniversalCover ⟨.twistedA n q, hd⟩ ↥(StatedSU (n + 1) (q.p ^ q.exponent) F) := by
-  haveI : Finite F := hdat.finite
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : CharP F q.p := hdat.charP
+  have : Finite F := hdat.finite
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : CharP F q.p := hdat.charP
   have hK : Nat.card F = (q.p ^ q.exponent) ^ 2 := by rw [hdat.card, ← pow_mul, Nat.mul_comm]
   have hNq := not_three_two_of_valid n q hd hN
   have hperf : Group.IsPerfect ↥(StatedSU (n + 1) (q.p ^ q.exponent) F) :=
@@ -97,8 +97,8 @@ theorem kd264I5CoverLift_unitary (hSU : I5SUClosed) (n : ℕ) (q : TauCeti.Prime
       ⟨q.prime_p, q.exponent_pos, by rw [hFcard, ← pow_mul, mul_comm]⟩
     have hNq := not_three_two_of_valid n q hd hN
     have hK' : Nat.card F = (q.p ^ q.exponent) ^ 2 := by rw [hdat.card, ← pow_mul, Nat.mul_comm]
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-    haveI : CharP F q.p := hdat.charP
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : CharP F q.p := hdat.charP
     have hc := center_statedSU_eq hdat hN
     let ι : ↥(StatedSU (n + 1) (q.p ^ q.exponent) F) ⧸ Subgroup.center ↥(StatedSU (n + 1) (q.p ^ q.exponent) F) ≃*
         K ⧸ Subgroup.center K :=
@@ -113,7 +113,7 @@ theorem kd264I5CoverLift_unitary (hSU : I5SUClosed) (n : ℕ) (q : TauCeti.Prime
         ∃ s : ↥(StatedSU (n + 1) (q.p ^ q.exponent) F) →* E, ∀ g, π (s g) = g :=
       fun E _ _ π hπ hc' => hSU F q.p q.exponent (n + 1) hdat hN hq8' E π hπ hc'
     obtain ⟨π, βL, hπ, hπc, hβL3, hβL⟩ := exists_cover_lift_of_equiv hK hperf ι hsec β hβ3
-    haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2
+    have : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2
     refine ⟨_, inferInstance, inferInstance, π, βL, hπ, hπc, ?_, hβL3, hβL⟩
     exact isI5UniversalCover_SU n q hd hN hdat eM ι.isSimpleGroup
 

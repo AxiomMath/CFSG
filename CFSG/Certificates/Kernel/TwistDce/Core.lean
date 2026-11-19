@@ -248,7 +248,6 @@ theorem step_core (hx : ∀ c, x c * x c = 1) (hu : u * u = 1)
   obtain ⟨c4, e4⟩ := hw'.cat gth (by norm_num)
   refine ⟨?_, c4.mono (by norm_num)⟩
   have hv := val_one hone c3.lt h1
-  unfold cat4 at hv
   rw [val_cat e3, val_cat e2, val_cat e1, val_rev hx, val_rev hx, val_rev hx] at hv
   have ea : val x a = val x Sw * val x w * val x tw := by
     have := congrArg (fun z => val x Sw * (val x w * (val x tw * z))) hv
@@ -313,7 +312,7 @@ theorem step_spec (hx : ∀ c, x c * x c = 1) (hu : u * u = 1)
     have hfa' : dKind (RD (hNat J 20)) < 3 := Nat.blt_eq.mp hfa
     have hk' := Nat.eq_of_beq_eq_true hk
     obtain ⟨hSg, hSc⟩ := hpath _ _ hm (Nat.blt_eq.mp hS)
-    rw [(wsMk_spec (by first | exact dN1_lt _ | exact dN2_lt _) (by norm_num) _).1]
+    rw [(wsMk_spec (by first | exact dN1_lt _) (by norm_num) _).1]
   · subst hk'
     exact step_core F THM BS NB H x u hx hu hθ hone (hR.fact hfa') hR.rw hR.ra hT
       (hWord_spec _).1 hSg hSc ha h1

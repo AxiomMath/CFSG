@@ -81,6 +81,7 @@ private theorem ne_bot_of_isComponentOf {G : Type*} [Group G] {L A : Subgroup G}
   (Subgroup.nontrivial_iff_ne_bot L).mp
     (CFSG.LocalCores.isQuasisimple_nontrivial (isQuasisimple_of_open h.2.2))
 
+omit [Finite W] in
 theorem Conc4_136W.le (h : Conc4_136W A t L) : L ≤ A := by
   rcases h with ⟨-, -, hC1 | ⟨K, hK, g, hg, -, rfl, -⟩ | ⟨hL, -⟩ | ⟨-, -, hL, -⟩⟩
   · obtain ⟨p, hp, hLp, -⟩ := hC1
@@ -93,6 +94,7 @@ theorem Conc4_136W.le (h : Conc4_136W A t L) : L ≤ A := by
   · exact hL.1
   · exact hL.1
 
+omit [Finite W] in
 theorem Conc4_136W.ne_bot (h : Conc4_136W A t L) : L ≠ ⊥ := by
   rcases h with ⟨-, -, hC1 | ⟨K, hK, -, -, -, rfl, -⟩ | ⟨hL, -⟩ | ⟨-, -, hL, -⟩⟩
   · obtain ⟨p, hp, -, hne, -, -⟩ := hC1
@@ -133,11 +135,11 @@ theorem Conc4_136W.twoResidual_eq (h : Conc4_136W A t L) : twoResidual L = L := 
 theorem Conc4_136W.fstar_eq (h : Conc4_136W A t L) : Fstar L = L := by
   rcases h with ⟨-, -, hC1 | ⟨K, hK, g, hg, hne, rfl, -⟩ | ⟨hL, -⟩ | ⟨-, -, hL, -⟩⟩
   · obtain ⟨p, hp, hLp, -⟩ := hC1
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hcore : IsPGroup p (CFSG.Open.pCoreOf p A) := by
       show IsPGroup p ((CFSG.pCore p A).map A.subtype)
       exact IsPGroup.map (CFSG.pCore_isPGroup (p := p) (G := A)) A.subtype
-    haveI : Group.IsNilpotent ↥L := (hcore.to_le hLp).isNilpotent
+    have : Group.IsNilpotent ↥L := (hcore.to_le hLp).isNilpotent
     exact fstar_eq_self_of_genFittingFStar_eq_top
       (genFittingFStar_eq_top_of_nilpotent (G := ↥L))
   · let K' : Subgroup (MulAut W) := K.map (MulAut.conj g).toMonoidHom

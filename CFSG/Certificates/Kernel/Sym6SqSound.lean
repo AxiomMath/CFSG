@@ -154,9 +154,9 @@ theorem addK_rel {acc0 acc : List (S24 × Perm (Fin 6))}
     rw [List.any_eq_true]
     exact (hM x.2).trans (by simp)
   by_cases hb : M.testBit (key6 (cpair x).2) = true
-  · rw [if_pos hb, addNew, if_pos (hiff.1 hb)]
+  · rw [ite_eq_left hb, addNew, ite_eq_left (hiff.1 hb)]
     exact ⟨M, rfl, hM, hl⟩
-  · rw [if_neg hb, addNew, if_neg fun e => hb (hiff.2 e)]
+  · rw [ite_eq_right hb, addNew, ite_eq_right fun e => hb (hiff.2 e)]
     refine ⟨M ||| 2 ^ key6 (cpair x).2, ?_, ?_, ?_⟩
     · rw [List.drop_append_of_le_length hl]
       simp
@@ -411,8 +411,8 @@ theorem linK_cons (a : ℕ) (y : List ℕ) (d : ℕ) :
       (Bool.rec (motive := fun _ => ℕ) 0 a (Nat.beq (d % 2) 1)) ^^^ linK y (d / 2) := rfl
   rw [e, Nat.testBit_zero]
   by_cases h : d % 2 = 1
-  · rw [LQT.P.beq_iff.2 h, if_pos (decide_eq_true h)]
-  · rw [Bool.eq_false_iff.2 fun e => h (LQT.P.beq_iff.1 e), if_neg (by simpa using h)]
+  · rw [LQT.P.beq_iff.2 h, ite_eq_left (decide_eq_true h)]
+  · rw [Bool.eq_false_iff.2 fun e => h (LQT.P.beq_iff.1 e), ite_eq_right (by simpa using h)]
 
 theorem linK_lt : ∀ (y : List ℕ), (∀ a ∈ y, a < 64) → ∀ d, linK y d < 64
   | [], _, _ => by
@@ -586,8 +586,8 @@ theorem lift_sound (h : S24) (σ : Perm (Fin 6)) (e o : ℕ)
       have := hev.2 e'
       rw [hb'] at this
       exact Bool.false_ne_true this
-    rw [if_neg this]
-  · rw [if_pos (hev.1 hb')]
+    rw [ite_eq_right this]
+  · rw [ite_eq_left (hev.1 hb')]
 
 theorem codeW {G : List ℕ}
     (hG : [m24a, m24b].map (fun x : S24 => codeP (x : Perm (Fin 24))) = G) (w : List ℤ) :

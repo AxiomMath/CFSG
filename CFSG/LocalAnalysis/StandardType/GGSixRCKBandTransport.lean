@@ -25,9 +25,9 @@ theorem isToral_ggFixGp_of_maxElem
     (hcard : p ^ excDegCount (langTag t) (orderOf ((2 ^ f : ℕ) : ZMod p)) ≤ Nat.card A) :
     IsToralSubgroup (langTag t) GGL A := by
   classical
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   let K := GaloisField 2 f
-  letI : Algebra K GGL := (ggRatEmb f).toAlgebra
+  let : Algebra K GGL := (ggRatEmb f).toAlgebra
   have hcardK : Nat.card K = 2 ^ f := GaloisField.card 2 f (Nat.pos_iff_ne_zero.mp hf)
   have hτ : langTag t = .F4 ∨ langTag t = .E7 ∨ langTag t = .E8 := by
     rcases ht with rfl | rfl | rfl <;> simp [langTag]

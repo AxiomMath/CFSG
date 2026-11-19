@@ -32,10 +32,10 @@ theorem eq_one_of_mem_center_of_cube {L : Subgroup Y} (hperf : Group.IsPerfect �
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := (isPGroup_zpowers_of_cube hz3).exists_le_sylow
   have hcycP : IsCyclic ↥(P : Subgroup ↥L) :=
-    isCyclic_of_isPGroup_of_pRank_eq_one h1 P.isPGroup'
+    isCyclic_of_isPGroup_of_pRank_eq_one h1 P.isPGroup
   have : IsMulCommutative (P : Subgroup ↥L) :=
     ⟨⟨fun a b => (IsCyclic.commGroup (α := ↥(P : Subgroup ↥L))).mul_comm a b⟩⟩
-  exact eq_one_of_mem_center_of_perfect (p := 3) hperf P.isPGroup' P.not_dvd_index hz
+  exact eq_one_of_mem_center_of_perfect (p := 3) hperf P.isPGroup P.not_dvd_index hz
     (hP (Subgroup.mem_zpowers z))
 
 end Cyclic
@@ -110,7 +110,7 @@ theorem exists_elemAbelian_twentySeven_of_inf_eq_bot
   obtain ⟨R, hBR⟩ := hBpG.exists_le_sylow
   set R' : Subgroup Y := (R : Subgroup ↥G).map G.subtype with hR'
   have hR'G : R' ≤ G := Subgroup.map_subtype_le _
-  have hR'3 : IsPGroup 3 ↥R' := R.isPGroup'.map G.subtype
+  have hR'3 : IsPGroup 3 ↥R' := R.isPGroup.map G.subtype
   have hBR' : B ≤ R' := fun b hb => ⟨⟨b, hBG hb⟩, hBR (Subgroup.mem_subgroupOf.mpr hb), rfl⟩
   set P : Subgroup Y := R' ⊓ L with hP
   have hPne : P ≠ ⊥ := inf_sylow_ne_bot hLG (sup_le Subgroup.le_normalizer hBN) hL3 R

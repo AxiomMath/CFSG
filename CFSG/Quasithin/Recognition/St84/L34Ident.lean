@@ -31,7 +31,7 @@ structure L34LocalData (L1 L2 S : Subgroup G) : Prop where
 
 private theorem exists_orderOf_eq_three_of_isL2Quot [Finite G] {L : Subgroup G}
     (h : IsL2Quot 2 (oTwoQuot ↥L)) : ∃ x ∈ L, orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h60 : Nat.card (oTwoQuot ↥L) = 60 := by
     rw [CFSG.Quasithin.IsL2Quot.card (by norm_num : 1 ≤ 2) h]
     norm_num
@@ -47,8 +47,8 @@ theorem isAmalgamOfGroup_psl3_of_l34LocalData [Finite G]
     {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S) (h1 : VA5 L1) (h2 : VA5 L2)
     (hD : L34LocalData L1 L2 S) :
     IsAmalgamOfGroup (f112Amalgam L1 L2 S) (IsLieOverTwo .PSL 3 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   have hSB : S ≤ bigB L1 L2 S := le_sup_right
   have hSL1 : S ≤ L1 := hSB.trans (hD.bigB_le.trans inf_le_left)
@@ -89,7 +89,7 @@ theorem isAmalgamOfGroup_psl3_of_l34LocalData [Finite G]
     L34Loc.nontriv_of_natSec hD.nat_right hQ2c hx2L hx2_3
   let Mdl : L34Model := L34.mdlPSL
   have hMdl : L34ModelFacts Mdl := L34.mdl_facts
-  haveI : Finite Mdl.Y := by
+  have : Finite Mdl.Y := by
     obtain ⟨_, F, hFF, hFfin, _, _, hiso⟩ :=
       CFSG.Quasithin.H13.F431.L3.exists_equiv_projSL3 Mdl.lie
     obtain ⟨e⟩ := hiso
@@ -167,7 +167,7 @@ theorem isAmalgamOfGroup_psl3_of_l34LocalData [Finite G]
     intro x
     rw [hQ2eq]
     exact hQ2mem x
-  haveI : DSLeaf LeafL34DC := ⟨leafL34DC⟩
+  have : DSLeaf LeafL34DC := ⟨leafL34DC⟩
   have iso := leafL34Glue Mdl hMdl ψ₁ ψ₂ hSL1 hSL2 hQ1S' hQ2S' hQ1e' hQ1c' hne'
     hS1mem hS2mem hB1mem hB2mem hQ1glue hQ2glue
   exact ⟨Mdl.Y, Mdl.grp, Mdl.lie, Mdl.T0, Mdl.M1, Mdl.M2, Mdl.pair, iso⟩

@@ -17,6 +17,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma s16c1_conjSubgroup_coe_mul (A B U : Subgroup G) (k : G)
     (h : (A : Set G) = (B : Set G) * (U : Set G)) :
     (conjSubgroup A k : Set G) = (conjSubgroup B k : Set G) * (conjSubgroup U k : Set G) := by
@@ -25,20 +26,24 @@ private lemma s16c1_conjSubgroup_coe_mul (A B U : Subgroup G) (k : G)
       (U.map (MulAut.conj k⁻¹).toMonoidHom : Set G)
   simp only [Subgroup.coe_map, h, Set.image_mul]
 
+omit [Finite G] in
 private lemma s16c1_conjSubgroup_sup (A B : Subgroup G) (k : G) :
     conjSubgroup A k ⊔ conjSubgroup B k = conjSubgroup (A ⊔ B) k :=
   (Subgroup.map_sup A B (MulAut.conj k⁻¹).toMonoidHom).symm
 
+omit [Finite G] in
 private lemma s16c1_sup_conj (A B : Subgroup G) (k : G) (hA : conjSubgroup A k = A) :
     A ⊔ conjSubgroup B k = conjSubgroup (A ⊔ B) k := by
   rw [← s16c1_conjSubgroup_sup A B k, hA]
 
+omit [Finite G] in
 private lemma s16c1_conjSubgroup_injective (k : G) :
     Function.Injective fun A : Subgroup G => conjSubgroup A k := by
   intro A B h
   have := congrArg (fun X : Subgroup G => conjSubgroup X k⁻¹) h
   simpa only [conjSubgroup_conjSubgroup, mul_inv_cancel, conjSubgroup_one] using this
 
+omit [Finite G] in
 theorem s16c1_normal_conj {L K : Subgroup G} (h : (K.subgroupOf L).Normal) (k : G) :
     ((conjSubgroup K k).subgroupOf (conjSubgroup L k)).Normal := by
   refine ⟨fun x hx l => ?_⟩
@@ -50,7 +55,7 @@ theorem s16c1_normal_conj {L K : Subgroup G} (h : (K.subgroupOf L).Normal) (k : 
     (by simpa [Subgroup.mem_subgroupOf] using hx) (⟨k * (l : G) * k⁻¹, hll⟩ : L)
   rw [Subgroup.mem_subgroupOf] at hres
   convert hres using 1
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   group
 
 private lemma s16c1_quotShape_map {L K : Subgroup G} (k : G) [(K.subgroupOf L).Normal]
@@ -112,6 +117,7 @@ theorem s16c1_quotShape_conj {L K : Subgroup G} (k : G) [(K.subgroupOf L).Normal
         (L.map (MulAut.conj k⁻¹).toMonoidHom)).Normal from
       (inferInstance : ((conjSubgroup K k).subgroupOf (conjSubgroup L k)).Normal)) d h
 
+omit [Finite G] in
 theorem s16c1_inCalO_mul {n : ℕ} {M V₀ V : Subgroup G} {g k : G} (hk : k ∈ M)
     (hkV : k ∈ normalizer (V : Set G)) (hkV₀ : k ∈ normalizer (V₀ : Set G))
     (hO : InCalO n M V₀ V g) : InCalO n M V₀ V (g * k) := by

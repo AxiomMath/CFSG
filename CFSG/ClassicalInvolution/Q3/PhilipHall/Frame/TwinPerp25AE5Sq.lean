@@ -138,7 +138,7 @@ theorem sqOK_spec (c : Wr 5)
   have hs := hcheck.2
   unfold sqOK at hs
   have h1 := (finAll_iff.1 ((finAll_iff.1 hs) c.perm (Finset.mem_univ _))) c.vec (Finset.mem_univ _)
-  simp only [Bool.or_eq_true, Bool.not_eq_true', Bool.and_eq_true] at h1
+  simp only [Bool.or_eq_true, Bool.not_eq_true'] at h1
   rcases h1 with h1 | h1
   · exfalso
     revert h1

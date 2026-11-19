@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 private theorem centerOf_eq_map_center_subtype (Q : Subgroup G) :
     centerOf Q = (Subgroup.center ↥Q).map Q.subtype := by
   ext z
@@ -24,12 +25,14 @@ private theorem centerOf_eq_map_center_subtype (Q : Subgroup G) :
     exact ⟨z'.2, Subgroup.mem_centralizer_iff.mpr fun y hy =>
       congrArg Subtype.val (Subgroup.mem_center_iff.mp hz' ⟨y, hy⟩)⟩
 
+omit [Finite G] in
 private theorem U4qLocalData.card_centerOf_pCoreOf_left (hD : U4qLocalData L1 L2 S f) :
     Nat.card (centerOf (pCoreOf 2 L1)) = 2 ^ f := by
   rw [centerOf_eq_map_center_subtype,
     Subgroup.card_map_of_injective (pCoreOf 2 L1).subtype_injective]
   exact hD.special_left.2.2
 
+omit [Finite G] in
 private theorem U4qLocalData.commutator_eq_center_pCoreOf_left (hD : U4qLocalData L1 L2 S f) :
     commutator ↥(pCoreOf 2 L1) = Subgroup.center ↥(pCoreOf 2 L1) := by
   rcases hD.special_left.1.2 with ⟨hab, -⟩ | ⟨hc, -, -⟩
@@ -47,6 +50,7 @@ private theorem U4qLocalData.commutator_eq_center_pCoreOf_left (hD : U4qLocalDat
     omega
   · exact hc
 
+omit [Finite G] in
 private theorem U4qLocalData.centerOf_le_commutator_left (hD : U4qLocalData L1 L2 S f) :
     centerOf (pCoreOf 2 L1) ≤ ⁅pCoreOf 2 L1, pCoreOf 2 L1⁆ := by
   intro z hz
@@ -61,6 +65,7 @@ private theorem U4qLocalData.centerOf_le_commutator_left (hD : U4qLocalData L1 L
     exact Subgroup.commutator_mem_commutator a.2 b.2
   exact key hzc
 
+omit [Finite G] in
 private theorem U4qLocalData.mul_self_eq_one_of_mem_centerOf (hD : U4qLocalData L1 L2 S f) :
     ∀ z ∈ centerOf (pCoreOf 2 L1), z * z = 1 := by
   intro z hz
@@ -74,6 +79,7 @@ private theorem U4qLocalData.mul_self_eq_one_of_mem_centerOf (hD : U4qLocalData 
   have h3 := congrArg Subtype.val h2
   simpa [pow_two] using h3
 
+omit [Finite G] in
 theorem U4qLocalData.exists_pointFormData (hD : U4qLocalData L1 L2 S f) {F : Type*} [Field F]
     [Finite F] [CharP F 2] (hFcard : Nat.card F = 2 ^ f)
     (α : L1 →* SpecialLinearGroup (Fin 2) F) (hα : Function.Surjective α)

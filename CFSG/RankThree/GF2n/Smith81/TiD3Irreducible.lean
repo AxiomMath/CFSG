@@ -13,7 +13,7 @@ open scoped MatrixGroups
 theorem d3_of_irreducible {K F : Type} [Field K] [Fintype K] [CharP K 2] [Field F] [Finite F]
     [Algebra K F] (hcard : Nat.card F = Nat.card K ^ 3) (hK4 : 4 ≤ Nat.card K)
     {E : Type} [AddCommGroup E] [Module K E] [FiniteDimensional K E]
-    (B : LinearMap.BilinForm K E) (Qf : E → K) (halt : ∀ e, B e e = 0)
+    (B : LinearMap.BilinForm K E) (Qf : E → K) (_halt : ∀ e, B e e = 0)
     (hnd : ∀ e, (∀ f, B e f = 0) → e = 0) (hQadd : ∀ e f, Qf (e + f) = Qf e + Qf f + B e f)
     (hQsmul : ∀ (a : K) e, Qf (a • e) = a ^ 2 * Qf e) (hdim : Module.finrank K E = 8)
     (ρ : SL(2, F) →* (E ≃ₗ[K] E)) (hρQ : ∀ g e, Qf (ρ g e) = Qf e)
@@ -24,8 +24,8 @@ theorem d3_of_irreducible {K F : Type} [Field K] [Fintype K] [CharP K 2] [Field 
         ((D2.slMap σ g : SL(2, F)) : Mat2 F) (θ e : Hyp F)) ∧
       ∀ e, algebraMap K F (Qf e) = quad (θ e : Hyp F) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_injective_algebraMap (algebraMap K F).injective 2
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_injective_algebraMap (algebraMap K F).injective 2
   obtain ⟨k, -, hk⟩ := FiniteField.card K 2
   have hkK : Fintype.card K = 2 ^ (k : ℕ) := hk
   have hK4' : 4 ≤ Fintype.card K := by rwa [Nat.card_eq_fintype_card] at hK4
@@ -38,10 +38,10 @@ theorem d3_of_irreducible {K F : Type} [Field K] [Fintype K] [CharP K 2] [Field 
     rw [← Nat.card_eq_fintype_card, hcard, Nat.card_eq_fintype_card]
   let ρ' : Representation K SL(2, F) E :=
     LinearEquiv.automorphismGroup.toLinearMapMonoidHom.comp ρ
-  haveI : Nontrivial E := Module.nontrivial_of_finrank_eq_succ (n := 7) hdim
+  have : Nontrivial E := Module.nontrivial_of_finrank_eq_succ (n := 7) hdim
   have hirr' : ρ'.IsIrreducible :=
     (isIrreducible_iff ρ').mpr ⟨inferInstance, fun W hW => hirr W hW⟩
-  haveI : Fact ρ'.IsIrreducible := ⟨hirr'⟩
+  have : Fact ρ'.IsIrreducible := ⟨hirr'⟩
   have hnt' : ∃ g, ρ' g ≠ 1 := by
     obtain ⟨g, hg⟩ := hnt
     exact ⟨g, fun h => hg (LinearEquiv.toLinearMap_injective h)⟩

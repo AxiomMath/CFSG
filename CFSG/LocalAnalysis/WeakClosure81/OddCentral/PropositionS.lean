@@ -32,12 +32,12 @@ theorem frame_commute_hat {G M : Type} [Group G] [Finite G] [AddCommGroup M] [Fi
         d i * x * (d i)⁻¹ * x⁻¹ ∈ Q₀)) :
     ∀ i, ∀ y ∈ R, d i * y = y * d i := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨i₀, y₀, hy₀, hne₀⟩ := hcon
   obtain ⟨r, hr, hrM, Q, Q₀, hQn, hQR, hQ₀Q, hQ', hQ₀Z, hQ₀p, hQr, hchief, hS1⟩ :=
     exists_S1 hfaith hirr hRodd hd ht hgen ⟨y₀, hy₀, i₀, hne₀⟩
-  haveI := hQn
-  haveI hQ₀n : Q₀.Normal := ⟨fun n hn g => by
+  have := hQn
+  have hQ₀n : Q₀.Normal := ⟨fun n hn g => by
     rw [mem_center_iff.mp (hQ₀Z hn) g, mul_inv_cancel_right]; exact hn⟩
   have hQodd : Odd (Nat.card Q) := Odd.of_dvd_nat hRodd (card_dvd_of_le hQR)
   have hdn : ∀ i j, i ≠ j → d i ≠ d j := by
@@ -91,7 +91,7 @@ theorem odd_card_fusionOddCore (H : Type) [Group H] [Finite H] :
     ext N
     exact and_congr Iff.rfl Nat.coprime_two_left.symm
   rw [e]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact Nat.coprime_two_left.mp CFSG.pPrimeCore_coprime_card
 
 variable [Finite Y]
@@ -103,19 +103,19 @@ theorem comm_of_chief_odd {A B : Subgroup Y} [hA : A.Normal] [hB : B.Normal] (hB
   let f := QuotientGroup.mk' B
   have hf : Function.Surjective f := QuotientGroup.mk'_surjective B
   have hfB : ∀ g, f g = 1 ↔ g ∈ B := fun g => QuotientGroup.eq_one_iff g
-  haveI hAn : (A.map f).Normal := hA.map f hf
+  have hAn : (A.map f).Normal := hA.map f hf
   have hsol : Group.IsSolvable (A.map f) :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Odd.of_dvd_nat hAodd (card_map_dvd A f))
   have hne : A.map f ≠ ⊥ := by
     obtain ⟨a, ha, haB⟩ : ∃ a ∈ A, a ∉ B := by
-      by_contra h; push_neg at h; exact hBA.ne (le_antisymm hBA.le h)
+      by_contra h; push Not at h; exact hBA.ne (le_antisymm hBA.le h)
     intro h
     have : f a ∈ A.map f := mem_map_of_mem f ha
     rw [h, mem_bot, hfB] at this
     exact haB this
   have hmin' : ∀ M' ≤ A.map f, M'.Normal → M' ≠ ⊥ → M' = A.map f := by
     intro M' hM' hM'n hM'1
-    haveI := hM'n
+    have := hM'n
     have hK := hmin (M'.comap f) inferInstance
       (fun b hb => by rw [mem_comap, (hfB b).mpr hb]; exact M'.one_mem)
       (fun k hk => by
@@ -148,7 +148,7 @@ theorem propS_module {D : Set Y} (hD : IsOddTransp D)
     (ht : ∀ i, t * d i * t⁻¹ = d (i + 1))
     (hcO : ∀ g : Y, (d 0 * d 1 * d 2)⁻¹ * (g * (d 0 * d 1 * d 2) * g⁻¹) ∈ O)
     (hgen : normalClosure ({d 0} : Set Y) = ⊤)
-    {A B : Subgroup Y} [hA : A.Normal] [hB : B.Normal]
+    {A B : Subgroup Y} [_hA : A.Normal] [_hB : B.Normal]
     {M : Type} [AddCommGroup M] [Finite M] [DistribMulAction Y M] (hModd : Odd (Nat.card M))
     (htriv : ∀ y : Y, (∀ m : M, y • m = m) ↔ ∀ a ∈ A, y * a * y⁻¹ * a⁻¹ ∈ B)
     (hirrY : ∀ N : AddSubgroup M, (∀ y : Y, ∀ m ∈ N, y • m ∈ N) → N = ⊥ ∨ N = ⊤)
@@ -183,12 +183,12 @@ theorem propS_module {D : Set Y} (hD : IsOddTransp D)
       exact map_top_of_surjective _ hρs)
     (by
       intro Q Q₀ hQn hQ₀n hQR hQ₀Q hQ' hchief hS1
-      haveI := hQn
-      haveI := hQ₀n
+      have := hQn
+      have := hQ₀n
       let At : Subgroup Y := Q.comap (imgHom Y M) ⊓ O
       let Bt : Subgroup Y := Q₀.comap (imgHom Y M) ⊓ O
-      haveI hAtn : At.Normal := inferInstance
-      haveI hBtn : Bt.Normal := inferInstance
+      have hAtn : At.Normal := inferInstance
+      have hBtn : Bt.Normal := inferInstance
       have hAtodd : Odd (Nat.card At) := Odd.of_dvd_nat hOodd (card_dvd_of_le inf_le_right)
       have hBtAt : Bt ≤ At := fun y hy => ⟨hQ₀Q hy.1, hy.2⟩
       have hAtO : At ≤ O := inf_le_right
@@ -201,7 +201,7 @@ theorem propS_module {D : Set Y} (hD : IsOddTransp D)
       have hBtlt : Bt < At := lt_of_le_of_ne hBtAt fun h => ha₀Bt (h ▸ ha₀At)
       have hminT : ∀ N : Subgroup Y, N.Normal → Bt ≤ N → N ≤ At → N = Bt ∨ N = At := by
         intro N hN h1 h2
-        haveI := hN
+        have := hN
         have hNm : (N.map (imgHom Y M)).Normal := hN.map _ hρs
         have hQ₀N : Q₀ ≤ N.map (imgHom Y M) := fun q hq => by
           obtain ⟨a, haO, rfl⟩ := hQR (hQ₀Q hq)
@@ -296,9 +296,9 @@ theorem propS_step {D : Set Y} (hD : IsOddTransp D)
       (d i * r * (d i)⁻¹ * r⁻¹) * a * (d i * r * (d i)⁻¹ * r⁻¹)⁻¹ * a⁻¹ ∈ B := by
   have hAodd : Odd (Nat.card A) := Odd.of_dvd_nat hOodd (card_dvd_of_le hAO)
   have hab := comm_of_chief_odd hBA hAodd hmin
-  letI iC : CommGroup (A ⧸ B.subgroupOf A) := secCommGroup A B hab
-  letI iA : AddCommGroup (Additive (A ⧸ B.subgroupOf A)) := Additive.addCommGroup
-  letI iM : @DistribMulAction Y (Additive (A ⧸ B.subgroupOf A)) _
+  let iC : CommGroup (A ⧸ B.subgroupOf A) := secCommGroup A B hab
+  let iA : AddCommGroup (Additive (A ⧸ B.subgroupOf A)) := Additive.addCommGroup
+  let iM : @DistribMulAction Y (Additive (A ⧸ B.subgroupOf A)) _
       (@AddCommMonoid.toAddMonoid _ (@AddCommGroup.toAddCommMonoid _ iA)) :=
     { smul := (secAct A B).smul
       one_smul := (secAct A B).one_smul
@@ -378,8 +378,8 @@ theorem propS_aux {D : Set Y} (hD : IsOddTransp D)
   induction n using Nat.strong_induction_on with
   | _ n ih =>
     intro A B hn hA hB hBA hAO hmin
-    haveI := hA
-    haveI := hB
+    have := hA
+    have := hB
     refine propS_step hD hDc hOodd hdD hdc hdn ht hcO hgen hBA hAO hmin ?_
     intro A' B' hA' hB' hBA' hAO' hmin' hss
     refine ih _ ?_ A' B' rfl hA' hB' hBA' hAO' hmin'

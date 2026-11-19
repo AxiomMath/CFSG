@@ -17,7 +17,7 @@ theorem exists_sylow_isMulCommutative_of_ker_le_center {E L : Type*} [Group E] [
     ∃ P : Sylow p E, IsMulCommutative (P : Subgroup E) := by
   obtain ⟨P⟩ : Nonempty (Sylow p E) := inferInstance
   refine ⟨P, ?_⟩
-  obtain ⟨Q, hQ⟩ := (P.isPGroup'.map π).exists_le_sylow
+  obtain ⟨Q, hQ⟩ := (P.isPGroup.map π).exists_le_sylow
   let f := (π.comp (P : Subgroup E).subtype).rangeRestrict
   have : IsCyclic (π.comp (P : Subgroup E).subtype).range := by
     refine Bender.isCyclic_of_le_isCyclic (hcyc Q) ?_
@@ -54,7 +54,7 @@ theorem BenderType.isCyclic_sylow_of_odd
     (h : BenderType K n i e) (hi : i = 1 ∨ i = 2) {p : ℕ} [Fact p.Prime] (hp : p ≠ 2)
     (P : Sylow p K) : IsCyclic (P : Subgroup K) := by
   have hodd : Odd (Nat.card (P : Subgroup K)) := by
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     rw [hk]
     exact (Fact.out (p := p.Prime)).odd_of_ne_two hp |>.pow
   have htriv : Nat.card (P : Subgroup K) = 1 → IsCyclic (P : Subgroup K) := fun h1 =>

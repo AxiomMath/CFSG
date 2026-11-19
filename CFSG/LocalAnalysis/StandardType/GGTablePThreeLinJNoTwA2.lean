@@ -48,10 +48,10 @@ theorem linJNoTwA2_holds :
   obtain ⟨-, htag⟩ := hPlab
   obtain ⟨hcomm, -, -, R, instR, -, -, θ, hRsimple, hnonab, -⟩ :=
     CFSG.StandardType.Canonical.largeEvenMarking_exists hHas
-  letI := instR
-  haveI : IsSimpleGroup R := hRsimple
+  let := instR
+  have : IsSimpleGroup R := hRsimple
   have hJZsimple : IsSimpleGroup (J ⧸ Subgroup.center J) := MulEquiv.isSimpleGroup θ
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hJZsimple
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hJZsimple
   obtain ⟨k, -, hEcard⟩ := CFSG.RankThree.PartOne.CTP.exists_card_eq_two_pow E
   obtain ⟨ψ⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.largeEvenProj_equiv_statedProj
     (a := m) (E := E) (CFSG.Assembly.largeEvenSLGroup_eq_statedSL m)

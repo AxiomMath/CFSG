@@ -26,9 +26,9 @@ theorem solvable_of_card_two_three {G : Type*} [Group G] {a b : ℕ}
 theorem not_solvable_of_quasisimple {Q : Type*} [Group Q] (hQ : CFSG.IsQuasisimple Q)
     (hs : Group.IsSolvable Q) : False := by
   obtain ⟨hp, hsimp, -⟩ := hQ
-  haveI : Group.IsPerfect Q := hp
-  haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hsimp.toNontrivial
-  haveI : Nontrivial Q := (QuotientGroup.mk_surjective (s := Subgroup.center Q)).nontrivial
+  have : Group.IsPerfect Q := hp
+  have : Nontrivial (Q ⧸ Subgroup.center Q) := hsimp.toNontrivial
+  have : Nontrivial Q := (QuotientGroup.mk_surjective (s := Subgroup.center Q)).nontrivial
   exact Group.IsPerfect.not_isSolvable Q hs
 
 theorem fixed_factor_iso [Finite K] {ℓ f : ℕ} {x : StatedSp 3 K}
@@ -63,7 +63,7 @@ theorem gu_card_two_three {G : Type*} [Group G] {n f : ℕ} (hn : n ≤ 3) (hn1 
 theorem selfDual_solvable [Finite K] (hK : Nat.card K = 2) {x : StatedSp 3 K}
     (blocks : SpPrimaryBlocks 2 1 3 x (proj 3 K x)) (hmem : (X2K : K[X]) ∈ primaryFactors (spEnd x)) :
     Group.IsSolvable ↥(spSupported x {(X2K : K[X])}) := by
-  haveI : Fact (Irreducible (X2K : K[X])) := ⟨X2K_irreducible hK⟩
+  have : Fact (Irreducible (X2K : K[X])) := ⟨X2K_irreducible hK⟩
   have hdeg : (X2K : K[X]).natDegree = 2 := by unfold X2K; compute_degree!
   have hne : (X2K : K[X]) ≠ X - 1 := by
     intro h
@@ -90,10 +90,10 @@ theorem selfDual_solvable [Finite K] (hK : Nat.card K = 2) {x : StatedSp 3 K}
   ·
     have hV : ∀ v : ↥(primaryComponent (spEnd x) (X2K : K[X])), v = 0 := by
       exact (finrank_zero_iff_forall_zero (K := K)).1 (by omega)
-    haveI : Subsingleton ↥(sesqUnitaryGroup Hf) :=
+    have : Subsingleton ↥(sesqUnitaryGroup Hf) :=
       ⟨fun a b => Subtype.ext (Units.ext (LinearMap.ext fun v => by
         rw [hV v, map_zero, map_zero]))⟩
-    haveI : Nonempty ↥(sesqUnitaryGroup Hf) := ⟨1⟩
+    have : Nonempty ↥(sesqUnitaryGroup Hf) := ⟨1⟩
     have h1 : Nat.card (spSupported x {(X2K : K[X])}) = 1 := by
       rw [hcardφ]
       exact Nat.card_of_subsingleton (1 : ↥(sesqUnitaryGroup Hf))

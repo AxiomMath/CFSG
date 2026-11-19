@@ -68,14 +68,14 @@ private theorem char_arith {r v M : ℕ} (hr : r.Prime) (h : 9828 = r ^ v * M)
         have : 7 ^ 2 ∣ 7 ^ v := Nat.pow_dvd_pow 7 (by omega)
         have := this.trans hvd
         norm_num at this
-      interval_cases v <;> omega
+      interval_cases v; omega
     · exfalso
       have hv2 : v ≤ 1 := by
         by_contra hv3
         have : 13 ^ 2 ∣ 13 ^ v := Nat.pow_dvd_pow 13 (by omega)
         have := this.trans hvd
         norm_num at this
-      interval_cases v <;> omega
+      interval_cases v; omega
 
 theorem not_isChevSimple_L227 {r : ℕ} (hr3 : r ≠ 3) {X : Type} [Group X] [Finite X]
     (hX : catalogIs X (onLie (isL2 27))) : ¬ IsChevSimple r X := by
@@ -184,14 +184,14 @@ theorem catalog_iso_psl {S : Type} [Group S] (h : catalogIs S (onLie (isL2 27)))
     obtain ⟨p, f, hpp, hff⟩ := q
     have hpf : p ^ f = 27 := (TauCeti.PrimePower.card_def _).symm.trans hq
     obtain ⟨rfl, rfl⟩ := prime_pow_27 hpp hff hpf
-    haveI : Fact (Nat.Prime 3) := ⟨hpp⟩
+    have : Fact (Nat.Prime 3) := ⟨hpp⟩
     exact ⟨e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 ⟨3, 3, hpp, hff⟩ hv)⟩
   | sporadic name => exact False.elim hi
 
 theorem isL227_of_catalogIs {X : Type} [Group X] (h : catalogIs X (onLie (isL2 27))) :
     CFSG.HardMathSupport.Solomon.Coordinator.IsLTwoTwentySeven X := by
   obtain ⟨e⟩ := catalog_iso_psl h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨GaloisField 3 3, inferInstance, inferInstance, ?_, ⟨e.trans
     (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 (GaloisField 3 3))⟩⟩
   rw [GaloisField.card 3 3 (by norm_num)]
@@ -219,7 +219,7 @@ theorem lie_three_outer_case {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup
     (I : Subgroup S) (hI : GLAPComponent 3 (fixSubgroup β) I)
     (hL : catalogIs (PSimple 3 I) (onLie (isL2 27))) (hN : I.map ξ.toMonoidHom = I) :
     ∃ i ∈ I, ∀ y ∈ I, ξ y * (i * y * i⁻¹)⁻¹ ∈ GLAPPrimeCoreOf 3 I := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf β = 3 := orderOf_eq_prime hβ hβ1
   have hdata := ((CFSG.HardMathSupport.Dickson.DefCharOuter.Export.outerCentAll_holds
     (CFSG.Yardstones.Md42047359a2a.lieFamily d.1)).2 S hs hna d rfl ⟨e⟩ 3 Nat.prime_three
@@ -282,7 +282,7 @@ theorem _root_.CFSG.LocalAnalysis.GLTheoremA.kdL227Pump_of_spor (hSpor : KDL227S
     KDL227Pump := by
   intro Y _ _ S hSn hSs hSna hSc hSC I b x hb3 hx3 hbx hI hL hxN hind
   by_contra hb1
-  haveI := hSn
+  have := hSn
   set β : MulAut ↥S := MulAut.conjNormal (H := S) b with hβdef
   set ξ : MulAut ↥S := MulAut.conjNormal (H := S) x⁻¹ with hξdef
   have hβ3 : β ^ 3 = 1 := by rw [hβdef, ← map_pow, hb3, map_one]

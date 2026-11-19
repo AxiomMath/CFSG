@@ -20,7 +20,7 @@ theorem diagonal_mul_vandermonde_five {K : Type} [Field K] {ω : K} (hω : ω ^ 
   ext i k
   rw [Matrix.diagonal_mul, Matrix.mul_apply]
   simp only [Matrix.vandermonde_apply, Matrix.of_apply, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   rw [← pow_mul, ← pow_mul, ← pow_add]
   apply hexp
   rw [Fin.val_add, Nat.mul_mod_mod]

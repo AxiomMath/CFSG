@@ -20,6 +20,7 @@ section Core
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem card_singular_coordinate_mod (hQ3 : Nat.card K % 3 = 2) :
     Nat.card {v : Fin (2 * 4) → K // coordinateQuadPlus 4 K v = 0} % 3 = 1 := by
   have h := card_singular_coordinate_gen (K := K)
@@ -36,7 +37,7 @@ theorem core_odd (hQ3 : Nat.card K % 3 = 2) {α : MulAut (Om8 K)} (hα3 : α ^ 3
     False := by
   have hd := fixDim_two_or_four ggD4TrialityClassInput_holds α hα3 hns E hE hfix
   obtain ⟨Z, hZne, hZs, hZE⟩ := exists_totallySingular R hR2 hR
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   have hnd : ∀ v : Fin (2 * 4) → K, (∀ w, QuadraticMap.polar (coordinateQuadPlus 4 K) v w = 0) →
       v = 0 := fun v hv =>
     (regular_coordinateQuadPlus 4 K (by norm_num)).1.1 v fun w => by
@@ -65,7 +66,7 @@ theorem P_mul_pow {T P : G} (h2 : P * P = 1) (h3 : P * T * P = T⁻¹) (k : ℕ)
     _ = (T ^ k)⁻¹ * P := by rw [hk]
 
 theorem comm_calc {T P f f₀ : G} (hT3 : T ^ 3 = 1) (h2 : P * P = 1) (h3 : P * T * P = T⁻¹)
-    (h4 : f * T = T * f) (h5 : f * P = P * f) (h6 : f₀ * T = T * f₀) (h7 : f₀ * P = P * f₀)
+    (h4 : f * T = T * f) (_h5 : f * P = P * f) (h6 : f₀ * T = T * f₀) (h7 : f₀ * P = P * f₀)
     (h8 : f₀ * f = f * f₀) (k m : ℕ) :
     (T ^ k * f₀) * (T ^ m * (P * f)) = T ^ (2 * k) * ((T ^ m * (P * f)) * (T ^ k * f₀)) := by
   have c4 : ∀ n : ℕ, f * T ^ n = T ^ n * f := fun n =>
@@ -158,7 +159,7 @@ theorem not_conjAct_of_not_mem_sup {α : MulAut (Om8 K)} (hα3 : α ^ 3 = 1)
 theorem commutator_mem_inner_of_mem_sup (hcomm : ∀ σ τ : K ≃+* K, σ * τ = τ * σ)
     {α : MulAut (Om8 K)} (hα : α ∈ Inn (Om8 K) ⊔ (AutOm.fieldAutP (K := K) 4).range)
     (γ : MulAut (Om8 K)) : γ * α * γ⁻¹ * α⁻¹ ∈ Inn (Om8 K) := by
-  haveI : (Inn (Om8 K)).Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
+  have : (Inn (Om8 K)).Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   set π : MulAut (Om8 K) →* MulAut (Om8 K) ⧸ Inn (Om8 K) := QuotientGroup.mk' (Inn (Om8 K)) with hπ
   have hπ1 : ∀ x ∈ Inn (Om8 K), π x = 1 := fun x hx => (QuotientGroup.eq_one_iff x).2 hx
   obtain ⟨ι, hι, _, ⟨σ, rfl⟩, hιa⟩ := Subgroup.mem_sup_of_normal_left.1 hα
@@ -197,8 +198,8 @@ theorem two_subgroup_le_inner (hGal : Odd (Nat.card (K ≃+* K)))
     (hα : α ∉ Inn (Om8 K) ⊔ (AutOm.fieldAutP (K := K) 4).range)
     {S : Subgroup (MulAut (Om8 K))} (hS2 : IsPGroup 2 S)
     (hαS : α ∈ Subgroup.normalizer (S : Set (MulAut (Om8 K)))) : S ≤ Inn (Om8 K) := by
-  haveI : (Inn (Om8 K)).Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (Inn (Om8 K)).Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π : MulAut (Om8 K) →* MulAut (Om8 K) ⧸ Inn (Om8 K) := QuotientGroup.mk' (Inn (Om8 K)) with hπ
   have hπ1 : ∀ x ∈ Inn (Om8 K), π x = 1 := fun x hx => (QuotientGroup.eq_one_iff x).2 hx
   have hπ1' : ∀ x, π x = 1 → x ∈ Inn (Om8 K) := fun x hx => (QuotientGroup.eq_one_iff x).1 hx
@@ -359,7 +360,7 @@ theorem card_inf_inner_le_three (hQ3 : Nat.card K % 3 = 2) (hGal : Odd (Nat.card
   by_contra hgt
   have hEgt : 3 < Nat.card E := by rw [hEcard]; omega
   have hEp : IsPGroup 3 E := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 g g.2)⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨j, hj⟩ := hEp.exists_card_eq
   have h9 : 9 ≤ Nat.card E := by
     rw [hj] at hEgt ⊢

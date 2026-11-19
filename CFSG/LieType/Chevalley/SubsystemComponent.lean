@@ -31,7 +31,7 @@ theorem subsystemGroup_union (A B : Set (Fin τ.rank)) :
   rw [subsystemGroup, subsystemGroup, subsystemGroup, ← Subgroup.closure_union]
   congr 1
   ext g
-  simp only [Set.mem_union, Set.mem_setOf_eq]
+  simp only [Set.mem_union, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨i, hi | hi, c, hg⟩
     · exact Or.inl ⟨i, hi, c, hg⟩
@@ -142,7 +142,7 @@ theorem exists_connected_dvd_card_subsystemGroup [Finite K] {J : Set (Fin τ.ran
       exact card_sup_dvd_mul_of_commute (commute_of_cartan_eq_zero hdisj h0)
     have hss₁ : J ∩ S ⊂ J := Set.inter_subset_left.ssubset_of_not_subset fun hsub =>
       hJS fun a ha => (hsub ha).2
-    have hss₂ : J \ S ⊂ J := Set.diff_subset.ssubset_of_not_subset fun hsub =>
+    have hss₂ : J \ S ⊂ J := Set.sdiff_subset.ssubset_of_not_subset fun hsub =>
       (hsub hi₀).2 hi₀S
     rcases (Nat.Prime.dvd_mul hp).1 (h.trans hcard) with h₁ | h₂
     · obtain ⟨C, hCJ, hCne, hCconn, hCdvd⟩ := ih (J ∩ S).ncard
@@ -150,7 +150,7 @@ theorem exists_connected_dvd_card_subsystemGroup [Finite K] {J : Set (Fin τ.ran
       exact ⟨C, hCJ.trans Set.inter_subset_left, hCne, hCconn, hCdvd⟩
     · obtain ⟨C, hCJ, hCne, hCconn, hCdvd⟩ := ih (J \ S).ncard
         (hn ▸ Set.ncard_lt_ncard hss₂) (J \ S) rfl h₂
-      exact ⟨C, hCJ.trans Set.diff_subset, hCne, hCconn, hCdvd⟩
+      exact ⟨C, hCJ.trans Set.sdiff_subset, hCne, hCconn, hCdvd⟩
 
 end Certified
 

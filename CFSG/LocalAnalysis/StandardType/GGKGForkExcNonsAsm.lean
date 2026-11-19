@@ -68,7 +68,7 @@ theorem excSCTorusInput_nons_of_toral {τ : Tag}
           baseChangeGL (algebraMap K L) (y : ModGL τ K) := by
       rw [show ((y⁻¹ * x * y : adjointGroup τ K) : ModGL τ K) =
           (y : ModGL τ K)⁻¹ * (x : ModGL τ K) * (y : ModGL τ K) by
-        simp [Subgroup.coe_mul, Subgroup.coe_inv]]
+        simp [Subgroup.coe_mul]]
       rw [map_mul, map_mul, map_inv]
     have hconj : g0'⁻¹ * baseChangeGL (algebraMap K L) (x : ModGL τ K) * g0' =
         g0⁻¹ * baseChangeGL (algebraMap K L)

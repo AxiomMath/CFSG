@@ -11,6 +11,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjSubgroup_eq_conjSubgroup_iff_mul_inv_mem {K : Subgroup G} {x y : G} :
     conjSubgroup K x = conjSubgroup K y ↔ x * y⁻¹ ∈ Subgroup.normalizer (K : Set G) := by
   rw [← conjSubgroup_eq_iff_mem_normalizer]
@@ -26,6 +27,7 @@ theorem conjSubgroup_eq_conjSubgroup_iff_mul_inv_mem {K : Subgroup G} {x y : G} 
           rw [CFSG.Quasithin.conjSubgroup_conjSubgroup, inv_mul_cancel_right]
       _ = conjSubgroup K y := by rw [hK]
 
+omit [Finite G] in
 theorem mem_centralizer_of_mul_eq_mul {K₁ K₂ K₃ K₄ : Subgroup G}
     (h2 : K₂ ≤ Subgroup.centralizer (K₁ : Set G)) (h3 : K₃ ≤ Subgroup.centralizer (K₁ : Set G))
     (h4 : K₄ ≤ Subgroup.centralizer (K₁ : Set G)) {a b c d : G} (hb : b ∈ K₂) (hc : c ∈ K₃)
@@ -38,6 +40,7 @@ namespace Hyp83
 
 variable {V H T : Subgroup G}
 
+omit [Finite G] in
 theorem eSub_inf_eq_bot_of_inf_centralizer_eq_bot (h : Hyp83 V H T) {U : Subgroup G}
     (hUE : U ⊓ Subgroup.centralizer (eSub V H T : Set G) = ⊥) : eSub V H T ⊓ U = ⊥ := by
   refine le_bot_iff.mp fun e he => ?_
@@ -61,6 +64,7 @@ theorem commutator_conjSubgroup_kGen_eq_bot (h : Hyp83 V H T)
   apply hne
   rw [h.conjSubgroup_kGen hOmH hx, h.conjSubgroup_kGen hOmH hy, hyk, kOrbSub_conjSubgroup hk]
 
+omit [Finite G] in
 theorem eSub_mul_conj_eq (h : Hyp83 V H T) {U : Subgroup G}
     (hUV : ∃ g, U = conjSubgroup V g) (hUH : U ≤ H)
     (hUE : U ⊓ Subgroup.centralizer (eSub V H T : Set G) = ⊥) {u u' z : G} (hu : u ∈ U)

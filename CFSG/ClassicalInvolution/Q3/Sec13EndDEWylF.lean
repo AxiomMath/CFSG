@@ -20,6 +20,7 @@ namespace DE4Hyp
 variable {Ω : Set (Subgroup G)} (h : DE4Hyp Ω)
 include h
 
+omit [Finite G] h in
 theorem dewPair_shift (S : TwinShift Ω) {K L : Subgroup G} {u v : G} (sp : DewPair Ω K L u v)
     (m m' : Lab2) : DewPair Ω (S.shift m K) (S.shift m' L) u v := by
   obtain ⟨hKΩ, z, hKz, hzK⟩ := S.shift_mem m K sp.memK

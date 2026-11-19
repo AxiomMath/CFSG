@@ -18,7 +18,7 @@ open CFSG
 namespace CFSG.BenderSuzuki
 namespace PFchapter1section3
 
-open PFchapter1section1 PFAppendixIII MatrixGroups
+open PFchapter1section1 PFAppendixIII _root_.CFSG.BenderSuzuki.MatrixGroups
 open scoped LinearAlgebra.Projectivization
 
 universe u v
@@ -169,14 +169,14 @@ private theorem proposition_2_induction_context_obligation
         eΩ ((l : G) • ω) = rho (eL l) (eΩ ω)))) := by
   classical
   rcases hnonsimple with ⟨L, hLnormal, hL_ne_bot, hL_ne_top⟩
-  letI : L.Normal := hLnormal
+  let : L.Normal := hLnormal
   have hcore_bot : pPrimeCore 2 G = ⊥ := by
     rw [PFchapter1section1.proposition_1_e H D Q t
       hsec.section2.hA.A1 hsec.section2.hA.A3]
     apply le_antisymm
     · intro x hx
       rw [Subgroup.mem_bot]
-      letI : FaithfulSMul G Ω := hsec.section2.hA.A2
+      let : FaithfulSMul G Ω := hsec.section2.hA.A2
       apply eq_of_smul_eq_smul (α := Ω)
       intro ω
       have hxall : ∀ ω : Ω, x • ω = ω := by
@@ -454,7 +454,7 @@ private theorem proposition_2_induction_context_obligation
       have h2 : x ∈ QL.subgroupOf HL ↔ (x : G) ∈ Q := by
         rfl
       rw [h1, h2]
-    haveI : (Q.subgroupOf H).Normal := hsec.section2.hA.A1.Q_normal_in_H
+    have : (Q.subgroupOf H).Normal := hsec.section2.hA.A1.Q_normal_in_H
     have h_norm_comap : ((Q.subgroupOf H).comap f).Normal :=
       Subgroup.normal_comap (f := f)
     rw [h_eq] at h_norm_comap
@@ -471,7 +471,7 @@ private theorem proposition_2_induction_context_obligation
     · intro x hxHL
       let QH : Subgroup H := Q.subgroupOf H
       let DH : Subgroup H := D.subgroupOf H
-      letI : QH.Normal := hsec.section2.hA.A1.Q_normal_in_H
+      let : QH.Normal := hsec.section2.hA.A1.Q_normal_in_H
       have hsupH : QH ⊔ DH = ⊤ := by
         rw [← Subgroup.subgroupOf_sup hsec.section2.hA.A1.Q_le_H
           hsec.section2.hA.A1.D_le_H, hsec.section2.hA.A1.Q_sup_D]
@@ -633,7 +633,7 @@ private theorem proposition_2_induction_context_obligation
   refine ⟨L, inferInstance, inferInstance, Ω, inferInstance, inferInstance,
     HL, DL, QL, tL, hlt, hAL, ?_⟩
   rintro ⟨M, hMnormal, q, hoddM, hq, hq_gt, hmodel⟩
-  letI : M.Normal := hMnormal
+  let : M.Normal := hMnormal
   have hres_eq : twoPrimeResidual L = M :=
     (hypothesisA_model_subgroup_eq_twoPrimeResidual
       HL DL QL tL hAL M hMnormal q hoddM hq hq_gt hmodel).2
@@ -651,12 +651,12 @@ private theorem proposition_2_induction_context_obligation
     change (Pφ : Subgroup L) ≤
       ⨆ S : Sylow 2 L, (S : Subgroup L)
     exact le_iSup (fun S : Sylow 2 L => (S : Subgroup L)) Pφ
-  letI : R.Characteristic := hRchar
+  let : R.Characteristic := hRchar
   let N : Subgroup G := R.map L.subtype
   have hNnormal : N.Normal := by
     dsimp [N]
     exact External.hkt_map_characteristic_of_normal_normal L R
-  letI : N.Normal := hNnormal
+  let : N.Normal := hNnormal
   have hoddN : Odd (Nat.card (G ⧸ N)) := by
     have hRindex : Odd R.index := by
       rw [Subgroup.index_eq_card]
@@ -702,8 +702,8 @@ private theorem proposition_2_induction_context_obligation
   · rcases hunitary with
       ⟨E, hEfield, hEfinite, J, hJstandard, hEcard, hfixedCard,
         eR, rho, eΩ, hrho, haction⟩
-    letI : Field E := hEfield
-    letI : Finite E := hEfinite
+    let : Field E := hEfield
+    let : Finite E := hEfinite
     let eN : N ≃* ProjectiveSpecialUnitaryMatrixGroup J :=
       eRN.symm.trans eR
     refine Or.inr <| Or.inr
@@ -868,10 +868,10 @@ public theorem proposition_2
       H D Q K V W Q0 S Q1 t s hsec hnonsimple with
     ⟨L, hLgroup, hLfinite, ΩL, hLaction, hΩLfinite, HL, DL, QL, tL,
       hlt, hA, htransport⟩
-  letI : Group L := hLgroup
-  letI : Finite L := hLfinite
-  letI : MulAction L ΩL := hLaction
-  letI : Finite ΩL := hΩLfinite
+  let : Group L := hLgroup
+  let : Finite L := hLfinite
+  let : MulAction L ΩL := hLaction
+  let : Finite ΩL := hΩLfinite
   exact htransport (hind L ΩL HL DL QL tL hlt hA)
 
 end PFchapter1section3

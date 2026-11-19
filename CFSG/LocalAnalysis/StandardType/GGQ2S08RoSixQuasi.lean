@@ -61,8 +61,8 @@ private lemma ggQ2s08r6_isPerfect_of_commutator_eq_self {G : Type*} [Group G]
 
 private lemma ggQ2s08r6_center_eq_bot_of_isSimpleGroup (S : Subgroup R)
     (hS : ⁅S, S⁆ = S) (hSs : IsSimpleGroup ↥S) : Subgroup.center ↥S = ⊥ := by
-  haveI : IsSimpleGroup ↥S := hSs
-  haveI : Group.IsPerfect ↥S := ggQ2s08r6_isPerfect_of_commutator_eq_self hS
+  have : IsSimpleGroup ↥S := hSs
+  have : Group.IsPerfect ↥S := ggQ2s08r6_isPerfect_of_commutator_eq_self hS
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥S) with h | h
   · exact h
   · exact absurd (Subgroup.center_eq_top_iff.mp h)
@@ -174,6 +174,6 @@ theorem ggQ2s08r6_comm_comap_sup {π : L →* R} (hπ : Function.Surjective π)
 theorem ggQ2s08r6_isQuasisimple_map_subtype {G : Type*} [Group G] {H : Subgroup G}
     {Q : Subgroup ↥H} (hQ : IsQuasisimple ↥Q) : IsQuasisimple ↥(Q.map H.subtype) :=
   Assembly.IsQuasisimple.of_mulEquiv
-    (Subgroup.equivMapOfInjective Q H.subtype (fun a b h => Subtype.ext h)).symm hQ
+    (Subgroup.equivMapOfInjective Q H.subtype (fun _a _b h => Subtype.ext h)).symm hQ
 
 end CFSG.StandardType

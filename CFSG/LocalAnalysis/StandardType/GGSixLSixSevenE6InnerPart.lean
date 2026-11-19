@@ -48,7 +48,7 @@ theorem ggPsiInnerDiag_E6_two_exists_centralizing {G : Type} [Group G] {n : ℕ}
   have hcard : Nat.card (GaloisField 2 1) = 2 := by
     rw [GaloisField.card 2 1 (by norm_num)]
     norm_num
-  haveI : Subsingleton (GaloisField 2 1)ˣ :=
+  have : Subsingleton (GaloisField 2 1)ˣ :=
     (Nat.card_eq_one_iff_unique.mp (by rw [Nat.card_units, hcard])).1
   have hker' : ψ'.ker ≤ Subgroup.center ↥(e6Data_valid.minGroup (GaloisField 2 1)) := hker
   have hc' : GGPsiInnerDiag (e6Datum (GaloisField 2 1)) ψ' c := hc

@@ -134,7 +134,7 @@ theorem KFactL32OddFix_holds : KFactL32OddFix := by
   unfold KFactL32OddFix
   intro Y _ _ hY a ha S hS I _ _ hcomm hexp ρ hfix x hx
   obtain ⟨p, hp, hp2, hpI⟩ := hexp
-  letI : CommGroup I := { ‹Group I› with mul_comm := hcomm }
+  let : CommGroup I := { ‹Group I› with mul_comm := hcomm }
   set P := CFSG.pCore 2 Y
   have hPn : P.Normal := CFSG.pCore_normal
   have hP2 : IsPGroup 2 P := CFSG.pCore_isPGroup

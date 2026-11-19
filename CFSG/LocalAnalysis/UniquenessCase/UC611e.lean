@@ -28,7 +28,7 @@ theorem uc611_comm_ne_one {P Q : Subgroup G} (e : ↥P ≃* W₃) (hQ2 : IsPGrou
     ∃ r ∈ Q ⊓ centralizer (X : Set G), ∃ z ∈ (Subgroup.center ↥P).map P.subtype, z * r ≠ r * z := by
   by_contra hno
   push Not at hno
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hyX, hXy, hy3, hyJ⟩ := uc611_exists_gen_of_card_three hXP hX3 hXA
   have hyP : y ∈ P := hXP hyX
   have hy1 : y ≠ 1 := fun h => hyJ (h ▸ Subgroup.one_mem _)
@@ -152,6 +152,7 @@ theorem uc611_comm_ne_one {P Q : Subgroup G} (e : ↥P ≃* W₃) (hQ2 : IsPGrou
 
 @[expose] def Cen611 (S : Subgroup G) (k : G) : Prop := ∀ t ∈ S, k * t = t * k
 
+omit [Finite G] in
 theorem cen611_conj {P S : Subgroup G} (hPS : P ≤ normalizer (S : Set G)) {k : G} (hk : Cen611 S k)
     {g : G} (hg : g ∈ P) : Cen611 S (g * k * g⁻¹) := by
   intro t ht
@@ -162,6 +163,7 @@ theorem cen611_conj {P S : Subgroup G} (hPS : P ≤ normalizer (S : Set G)) {k :
     _ = g * ((g⁻¹ * t * g) * k) * g⁻¹ := by rw [h1]
     _ = t * (g * k * g⁻¹) := by group
 
+omit [Finite G] in
 theorem cen611_mul {S : Subgroup G} {k k' : G} (hk : Cen611 S k) (hk' : Cen611 S k') :
     Cen611 S (k * k') := by
   intro t ht
@@ -171,6 +173,7 @@ theorem cen611_mul {S : Subgroup G} {k k' : G} (hk : Cen611 S k) (hk' : Cen611 S
     _ = (t * k) * k' := by rw [hk t ht]
     _ = t * (k * k') := by group
 
+omit [Finite G] in
 theorem cen611_inv {S : Subgroup G} {k : G} (hk : Cen611 S k) : Cen611 S k⁻¹ := by
   intro t ht
   have := hk t ht
@@ -190,6 +193,7 @@ theorem uc611_cen_le_thompson {P S : Subgroup G} (e : ↥P ≃* W₃) (hPS : P �
   rw [h1]
   exact cen611_mul hk (cen611_conj hPS (cen611_inv hk) (CFSG.Open.thompsonSubgroup_le_self P hy'J))
 
+omit [Finite G] in
 theorem uc611_exists_acting {P S : Subgroup G} {x b : G} (hxP : x ∈ P)
     (hb : b ∈ (Subgroup.upperCentralSeries ↥P 2).map P.subtype) (hbs : ¬ Cen611 S b) :
     ∃ w : G, w ∈ (Subgroup.upperCentralSeries ↥P 2).map P.subtype ∧ ¬ Cen611 S w ∧
@@ -223,14 +227,14 @@ theorem uc611_noncyclic_centralizer {P S : Subgroup G} (e : ↥P ≃* W₃) (hSc
     (hwB : w ∈ (Subgroup.upperCentralSeries ↥P 2).map P.subtype) (hxy : x * y * x⁻¹ * y⁻¹ = w)
     (hwtriv : ¬ Cen611 S w) (hwcomm : Cen611 S (w * x * w⁻¹ * x⁻¹)) :
     ¬ IsCyclic ↥(S ⊓ centralizer ({x} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJP : thompsonSubgroup P ≤ P := CFSG.Open.thompsonSubgroup_le_self P
   have hwJ : w ∈ thompsonSubgroup P := uc611_ucs_two_le_thompson e hwB
   have hw3 : w ^ 3 = 1 := uc611_thompson_exp3 e w hwJ
   have hwP : w ∈ P := hJP hwJ
   have hyP : y ∈ P := hJP hyJ
-  haveI := hSc
-  letI : CommGroup ↥S := IsMulCommutative.instCommGroup
+  have := hSc
+  let : CommGroup ↥S := IsMulCommutative.instCommGroup
   let α : ↥P →* MulAut ↥S := S.normalizerMonoidHom.comp (Subgroup.inclusion hPS)
   have hα : ∀ (p : ↥P) (t : ↥S), ((α p t : ↥S) : G) = (p : G) * (t : G) * (p : G)⁻¹ := by
     intro p t
@@ -327,7 +331,7 @@ theorem uc611_B_centralizes {P Q S : Subgroup G} (e : ↥P ≃* W₃) (hQ2 : IsP
     ∀ b ∈ (Subgroup.upperCentralSeries ↥P 2).map P.subtype, ∀ s ∈ S, b * s = s * b := by
   intro b hb s hs
   by_contra hbs
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hxX, hXx, hx3, hxJ⟩ := uc611_exists_gen_of_card_three hXP hX3 hXA
   have hxP : x ∈ P := hXP hxX
   have hx1 : x ≠ 1 := fun h => hxJ (h ▸ Subgroup.one_mem _)
@@ -354,7 +358,7 @@ theorem uc611_B_centralizes {P Q S : Subgroup G} (e : ↥P ≃* W₃) (hQ2 : IsP
     exact uc611_centralizer_zpowers_eq x
   have hTR : S ⊓ centralizer ({x} : Set G) ≤ Q ⊓ centralizer (X : Set G) :=
     le_inf (inf_le_left.trans hSQ) (hXC ▸ inf_le_right)
-  haveI hTc : IsMulCommutative ↥(S ⊓ centralizer ({x} : Set G)) := ⟨⟨fun a b => Subtype.ext (by
+  have hTc : IsMulCommutative ↥(S ⊓ centralizer ({x} : Set G)) := ⟨⟨fun a b => Subtype.ext (by
     have h0 := congrArg Subtype.val (hSc.is_comm.comm ⟨a, a.2.1⟩ ⟨b, b.2.1⟩)
     exact h0)⟩⟩
   have hzT : z₀ ∈ normalizer ((S ⊓ centralizer ({x} : Set G) : Subgroup G) : Set G) := by

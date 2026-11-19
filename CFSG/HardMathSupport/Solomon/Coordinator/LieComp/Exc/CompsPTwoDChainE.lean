@@ -140,16 +140,16 @@ theorem exists_cover_of_chain_even {k : Type} [Field k] {G : Type} [Group G] {n 
     intro i j hij u hu v hv
     have hi2 : i.val + 2 < n := by have := j.isLt; omega
     refine Subtype.ext ?_
-    simp only [hU, hnodeG, if_pos hi2, Subgroup.mem_subgroupOf] at hu
+    simp only [hU, hnodeG, ite_eq_left hi2, Subgroup.mem_subgroupOf] at hu
     obtain ⟨A, hA⟩ := hu
     by_cases hj2 : j.val + 2 < n
-    · simp only [hU, hnodeG, if_pos hj2, Subgroup.mem_subgroupOf] at hv
+    · simp only [hU, hnodeG, ite_eq_left hj2, Subgroup.mem_subgroupOf] at hv
       obtain ⟨B, hB⟩ := hv
       rw [Subgroup.coe_mul, Subgroup.coe_mul, ← hA, ← hB]
       exact hcomm i.val j.val (by omega) (by omega) (by omega)
         (by simp only [CompsPTwoDChain.dEdge]; omega)
         (by simp only [CompsPTwoDChain.dEdge]; omega) _ _
-    · simp only [hU, hnodeG, if_neg hj2, Subgroup.mem_subgroupOf, hVg] at hv
+    · simp only [hU, hnodeG, ite_eq_right hj2, Subgroup.mem_subgroupOf, hVg] at hv
       obtain ⟨B, hB⟩ := hv
       rw [Subgroup.coe_mul, Subgroup.coe_mul, ← hA, ← hB]
       exact hlongVg i.val (by have := j.isLt; omega) _ _
@@ -159,7 +159,7 @@ theorem exists_cover_of_chain_even {k : Type} [Field k] {G : Type} [Group G] {n 
     have hi' : (⟨i, by omega⟩ : Fin (n - 1)).val + 2 < n := hi
     have hle : nodeG ⟨i, by omega⟩ ≤ C := hN _
     have h1 : ((ρ i).comp (Matrix.SpecialLinearGroup.map ιF)).range ≤ C := by
-      simpa only [hnodeG, if_pos hi'] using hle
+      simpa only [hnodeG, ite_eq_left hi'] using hle
     exact h1 ⟨A, rfl⟩
   let ρ' : Fin (n - 2) → (SL(2, F) →* ↥C) := fun i =>
     ((ρ i.val).comp (Matrix.SpecialLinearGroup.map ιF)).codRestrict C
@@ -177,7 +177,7 @@ theorem exists_cover_of_chain_even {k : Type} [Field k] {G : Type} [Group G] {n 
           ρ i.val (Matrix.SpecialLinearGroup.map ιF B) := congrArg Subtype.val h
       exact CompsPTwoDChain.map_injective_sl ιF 2 (hρ i.val (by have := i.2; omega) h')
     · ext x
-      simp only [hU, hnodeG, if_pos hi2, Subgroup.mem_subgroupOf, MonoidHom.mem_range]
+      simp only [hU, hnodeG, ite_eq_left hi2, Subgroup.mem_subgroupOf, MonoidHom.mem_range]
       constructor
       · rintro ⟨A, rfl⟩
         exact ⟨A, rfl⟩
@@ -233,7 +233,7 @@ theorem exists_cover_of_chain_even {k : Type} [Field k] {G : Type} [Group G] {n 
             show ¬ n - 2 + 2 < n
             omega
           have := hN ⟨n - 2, by omega⟩
-          simpa only [hnodeG, if_neg hnV] using this
+          simpa only [hnodeG, ite_eq_right hnV] using this
         exact h2 h1
     exact hle hs
   let θ' : spinGroup (quadMinus 3 F b c) →* ↥C := θ0.codRestrict C hθC
@@ -242,7 +242,7 @@ theorem exists_cover_of_chain_even {k : Type} [Field k] {G : Type} [Group G] {n 
       show ¬ n - 2 + 2 < n
       omega
     rw [CompsPTwoDChain.map_codRestrict_eq_subgroupOf']
-    simp only [hU, hnodeG, if_neg hnV]
+    simp only [hU, hnodeG, ite_eq_right hnV]
     congr 1
     rw [← MonoidHom.range_comp]
     exact hθsb
@@ -293,7 +293,7 @@ theorem lieModel_of_chain_even {k : Type} [Field k] {G : Type} [Group G] {n f : 
       else ((Φ.comp (Matrix.SpecialLinearGroup.map ι)).comp
         (usbSL σ₀.toRingHom (CompsPTwoDPairE.σσ' D))).range) = C) :
     LieModel (↥C ⧸ Subgroup.center ↥C) .POmegaMinus n 2 f ∧ CFSG.IsQuasisimple ↥C := by
-  haveI : Fact (∀ r : F, r ^ 2 ≠ -c + b * r) := fact_shortField hirr
+  have : Fact (∀ r : F, r ^ 2 ≠ -c + b * r) := fact_shortField hirr
   obtain ⟨Ψ, -, -, hqs, hmodel, -, -⟩ :=
     exists_cover_of_chain_even hadm hF D hirr ι ρ hρ hcomm hfr Φ hΦ0 hΦ1 hΦ2 C hC
   exact ⟨hmodel, hqs⟩
@@ -309,7 +309,7 @@ theorem twoDChainRecog_even {L : Type} [Field L] [CharP L 2] [IsAlgClosed L] {e 
   intro G _ ρ Φ C hρinj hcomm hfr hΦ0 hΦ1 hΦ2 hC
   obtain ⟨bb, cc, hirr, ⟨KD⟩⟩ :=
     CompsPTwoDKleinE.exists_kleinDataEven_frob (k := L) (p := 2) he
-  haveI hFfin : Finite ↥(frobeniusFixedField L 2 e) :=
+  have hFfin : Finite ↥(frobeniusFixedField L 2 e) :=
     Nat.finite_of_card_ne_zero (by
       rw [card_frobeniusFixedField he]
       exact (pow_pos Nat.prime_two.pos _).ne')

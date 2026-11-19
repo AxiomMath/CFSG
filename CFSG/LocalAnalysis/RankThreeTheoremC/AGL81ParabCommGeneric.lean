@@ -78,7 +78,7 @@ theorem commutator_le_centralizer_of_pairComm {p : ℕ} {Y P B : Subgroup A}
 
 theorem ParabCommOn.group {𝔉 : ∀ (X : Type) [Group X], Prop} (h : ParabCommOn 𝔉) :
     ParabCommGroupOn 𝔉 :=
-  fun A _ _ Y P B p hp hp2 hY h2 hF hpar hne hna hB hBY hBP hW =>
+  fun A _ _ Y P _B p hp hp2 hY h2 hF hpar hne hna hB hBY hBP hW =>
     (h A Y P p hp hp2 hY h2 hF hpar hne hna).imp
       (fun hc => commutator_le_centralizer_of_pairComm hc hB hBY hBP hW) id
 

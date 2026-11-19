@@ -187,7 +187,7 @@ theorem leaf_core_eq_bot_D2_aux {ζ : Lˣ} (hζ : orderOf ζ = 5) [Finite (Wm L)
     show ψ' (g * x * g⁻¹) ∈ O
     rw [map_mul, map_mul, map_inv]
     exact gLAPPrimeCoreOf_conj_mem' (ψ' g) (hψ'C g) (ψ' x) hx⟩
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   rcases hsimple.eq_bot_or_eq_top_of_normal N with hN0 | hN1
   · refine eq_bot_iff.2 fun o ho => ?_
     obtain ⟨B, hB⟩ := hOψ o ho
@@ -235,7 +235,7 @@ theorem gLAPPrimeCoreOf_centralizer_phiW {ζ : Lˣ} (hζ : orderOf ζ = 5) [Fini
     {y : Fin 4 → ZMod 5} (hy : y ≠ 0) :
     GLAPPrimeCoreOf 5 (Subgroup.centralizer {phiAdd (phiW (L := L) ζ hζ) y}) = ⊥ :=
   gLAPPrimeCoreOf_centralizer_of_hyperplanes (phiW ζ hζ) (phiW_injective hζ)
-    (fun f hN => leaf_core_eq_bot hζ hN) hy
+    (fun _f hN => leaf_core_eq_bot hζ hN) hy
 
 end Leaf
 

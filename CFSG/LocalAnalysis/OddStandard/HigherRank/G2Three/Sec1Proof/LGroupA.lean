@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 lemma conjSub_mul (a b : Γ) (H : Subgroup Γ) :
     conjSub a (conjSub b H) = conjSub (a * b) H := by
   have hf : (MulAut.conj a).toMonoidHom.comp (MulAut.conj b).toMonoidHom =
@@ -20,6 +21,7 @@ lemma conjSub_mul (a b : Γ) (H : Subgroup Γ) :
     group
   rw [conjSub, conjSub, conjSub, Subgroup.map_map, hf]
 
+omit [Finite Γ] in
 private lemma mem_normalizer_self {H : Subgroup Γ} {g : Γ} (hg : g ∈ H) :
     g ∈ normalizer (H : Set Γ) := by
   rw [Subgroup.mem_set_normalizer_iff]
@@ -31,6 +33,7 @@ private lemma mem_normalizer_self {H : Subgroup Γ} {g : Γ} (hg : g ∈ H) :
     have := H.mul_mem (H.mul_mem (H.inv_mem hg) hx) hg
     simpa [mul_assoc] using this
 
+omit [Finite Γ] in
 private lemma mem_normalizer_inf {A B : Subgroup Γ} {g : Γ}
     (hA : g ∈ normalizer (A : Set Γ)) (hB : g ∈ normalizer (B : Set Γ)) :
     g ∈ normalizer ((A ⊓ B : Subgroup Γ) : Set Γ) := by
@@ -42,6 +45,7 @@ private lemma mem_normalizer_inf {A B : Subgroup Γ} {g : Γ}
   · intro hx
     exact ⟨(hA x).mpr hx.1, (hB x).mpr hx.2⟩
 
+omit [Finite Γ] in
 private lemma mem_normalizer_centralizer {X : Subgroup Γ} {g : Γ}
     (hg : g ∈ normalizer (X : Set Γ)) :
     g ∈ normalizer ((Subgroup.centralizer (X : Set Γ) : Subgroup Γ) : Set Γ) := by
@@ -67,11 +71,12 @@ private lemma mem_normalizer_centralizer {X : Subgroup Γ} {g : Γ}
     have := fwd hginv hx
     simpa [mul_assoc] using this
 
+omit [Finite Γ] in
 theorem card_invols_mul {L : Subgroup Γ} {u : Γ} (hu : u ∈ invols L)
     (hconj : ∀ v ∈ invols L, ∃ l ∈ L, v = l * u * l⁻¹) :
     Nat.card (invols L) * Nat.card (centEl L u) = Nat.card L := by
   classical
-  letI : MulAction ↥L Γ := MulAction.compHom Γ (MulAut.conj.comp L.subtype)
+  let : MulAction ↥L Γ := MulAction.compHom Γ (MulAut.conj.comp L.subtype)
   have hsmul : ∀ (l : ↥L) (x : Γ), l • x = (l : Γ) * x * (l : Γ)⁻¹ := by
     intro l x
     change (MulAut.conj (l : Γ)) x = _
@@ -171,6 +176,7 @@ theorem sup_closure_eq_top {L : Subgroup Γ} {σ : Γ} (hΓ : Nat.card Γ = 2 * 
   have hidx1 : (L ⊔ closure {σ}).index = 1 := by omega
   simpa only [Subgroup.index_eq_one] using hidx1
 
+omit [Finite Γ] in
 theorem centIn_eq_centIn_centEl {L X : Subgroup Γ} {z : Γ} (hz : z ∈ X) :
     centIn L X = centIn (centEl L z) X := by
   rw [centIn, centIn, centEl]
@@ -180,6 +186,7 @@ theorem centIn_eq_centIn_centEl {L X : Subgroup Γ} {z : Γ} (hz : z ∈ X) :
   · exact le_inf (inf_le_inf_left L hle) inf_le_right
   · exact le_inf (le_trans inf_le_left inf_le_left) inf_le_right
 
+omit [Finite Γ] in
 theorem normIn_eq_normIn_centEl {L X : Subgroup Γ} {z : Γ} (hcen : cen X = zpowers z)
     (h1 : z ≠ 1) (h2 : z * z = 1) : normIn L X = normIn (centEl L z) X := by
   apply le_antisymm
@@ -188,9 +195,11 @@ theorem normIn_eq_normIn_centEl {L X : Subgroup Γ} {z : Γ} (hcen : cen X = zpo
   · intro g hg
     exact ⟨hg.1.1, hg.2⟩
 
+omit [Finite Γ] in
 theorem centEl_inf_eq {L N : Subgroup Γ} (z : Γ) (hN : N ≤ L) : centEl L z ⊓ N = centEl N z := by
   rw [centEl, centEl, inf_assoc, inf_left_comm, inf_eq_right.mpr hN, inf_comm]
 
+omit [Finite Γ] in
 theorem mem_normalizer_cen {T : Subgroup Γ} {g : Γ} (hg : g ∈ normalizer (T : Set Γ)) :
     g ∈ normalizer ((cen T : Subgroup Γ) : Set Γ) := by
   have h2 : g ∈ normalizer ((Subgroup.centralizer (T : Set Γ) : Subgroup Γ) : Set Γ) :=
@@ -199,6 +208,7 @@ theorem mem_normalizer_cen {T : Subgroup Γ} {g : Γ} (hg : g ∈ normalizer (T 
   rw [hcen]
   exact mem_normalizer_inf hg h2
 
+omit [Finite Γ] in
 theorem normIn_cen_le {L B : Subgroup Γ} (hcen : centIn L (cen B) = B) :
     normIn L (cen B) ≤ normIn L B := by
   intro g hg
@@ -212,6 +222,7 @@ theorem normIn_cen_le {L B : Subgroup Γ} (hcen : centIn L (cen B) = B) :
   rw [hB]
   exact mem_normalizer_inf hgLnorm hgCnorm
 
+omit [Finite Γ] in
 theorem normIn_le_normIn_cen {L B : Subgroup Γ} : normIn L B ≤ normIn L (cen B) := by
   intro g hg
   exact ⟨hg.1, mem_normalizer_cen hg.2⟩

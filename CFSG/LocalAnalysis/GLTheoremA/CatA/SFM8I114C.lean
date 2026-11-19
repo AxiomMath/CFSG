@@ -62,7 +62,7 @@ private theorem sfm8_su3_lt_gl3_succ {q : ℕ} (hq : 2 ≤ q) :
     exact Nat.mul_le_mul (Nat.mul_le_mul h1 h2) h3
   exact lt_of_lt_of_le hA hB
 
-private theorem sfm8_su_ne_gl3 {q x : ℕ} (hq : 2 ≤ q) (hx : 2 ≤ x) :
+private theorem sfm8_su_ne_gl3 {q x : ℕ} (hq : 2 ≤ q) (_hx : 2 ≤ x) :
     q ^ 3 * (q ^ 2 - 1) * (q ^ 3 + 1) ≠ x ^ 3 * (x ^ 2 - 1) * (x ^ 3 - 1) := by
   intro h
   rcases le_or_gt x q with hxq | hxq

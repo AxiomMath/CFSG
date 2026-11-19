@@ -25,7 +25,7 @@ theorem fourB_case_i (H : FourBHyps a z) (P : FourBPair a p q) {t : G}
     t * (p * q) ^ 2 ∈ fourBSetP a z p q 2 ∧ Gxyz p t q = Gxyz p (t * (p * q) ^ 2) q ∧
       IsShapeTwoTwoTimesD8 ↥(Gxyz p t q) := by
   have hsub := fourB_set_subset H P 1 ht
-  simp only [Set.mem_setOf_eq] at hsub
+  simp only [Set.mem_ofPred_eq] at hsub
   obtain ⟨htK, ht2⟩ := hsub
   refine ⟨fourB_mul_b_one H P t ht, fourB_Gxyz_mul_b p t q, ?_⟩
   have htb : t ≠ (p * q) ^ 2 := fourB_ne_b_of_mem (by decide) ht H P
@@ -40,7 +40,7 @@ theorem fourB_case_ii (H : FourBHyps a z) (P : FourBPair a p q) {t : G}
     t * (p * q) ^ 2 ∈ fourBSetP a z p q 3 ∧ Gxyz p t q = Gxyz p (t * (p * q) ^ 2) q ∧
       IsShapeTwoTwoTimesS4 ↥(Gxyz p t q) := by
   have hsub := fourB_set_subset H P 4 ht
-  simp only [Set.mem_setOf_eq] at hsub
+  simp only [Set.mem_ofPred_eq] at hsub
   obtain ⟨htK, ht2⟩ := hsub
   refine ⟨fourB_mul_b_four H P t ht, fourB_Gxyz_mul_b p t q, ?_⟩
   have htb : t ≠ (p * q) ^ 2 := fourB_ne_b_of_mem (by decide) ht H P
@@ -57,7 +57,7 @@ theorem fourB_case_iii (H : FourBHyps a z) (P : FourBPair a p q) {t : G}
     t * (p * q) ^ 2 ∈ fourBSetP a z p q 5 ∧ Gxyz p t q = Gxyz p (t * (p * q) ^ 2) q ∧
       IsShapeTwoTwoTimesS4 ↥(Gxyz p t q) := by
   have hsub := fourB_set_subset H P 6 ht
-  simp only [Set.mem_setOf_eq] at hsub
+  simp only [Set.mem_ofPred_eq] at hsub
   obtain ⟨htK, ht2⟩ := hsub
   refine ⟨fourB_mul_b_six H P t ht, fourB_Gxyz_mul_b p t q, ?_⟩
   have htb : t ≠ (p * q) ^ 2 := fourB_ne_b_of_mem (by decide) ht H P

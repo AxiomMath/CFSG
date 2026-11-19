@@ -14,10 +14,12 @@ section GroupFacts
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_mono' {H K : Subgroup G} (h : H ≤ K) (g : G) :
     CFSG.conjugate H g ≤ CFSG.conjugate K g :=
   Subgroup.map_mono h
 
+omit [Finite G] in
 theorem mem_conj' {H : Subgroup G} {g x : G} : x ∈ CFSG.conjugate H g ↔ g * x * g⁻¹ ∈ H := by
   unfold CFSG.conjugate
   rw [Subgroup.mem_map]
@@ -40,7 +42,7 @@ theorem zU_le_W {T L V V₁ V₂ : Subgroup G} (hs : Setting1282One G T L V 4 V�
     (le_conjClosure V _ (hs.v2.1 hv))
   exact hc
 
-theorem pCore_i128_le_T (h1222 : Stmt12_2_2) (h1289 : Lemma12_8_9W)
+theorem pCore_i128_le_T (_h1222 : Stmt12_2_2) (h1289 : Lemma12_8_9W)
     {T L V V₁ V₂ : Subgroup G} (hcx : Cx1291 G T L V 4) (hs : Setting1282One G T L V 4 V₁ V₂)
     {g : G} (hgP : g ∈ p128 T L V) (hgN : g ∉ Subgroup.normalizer (V₁ : Set G)) :
     pCoreOf 2 (i128 T L V V₁) ≤ T := by
@@ -118,6 +120,7 @@ variable {G : Type} [Group G] [Finite G]
       rw [L128A.HatU.π_inv D hx.1]
       exact Submodule.neg_mem _ hx.2⟩
 
+omit [Finite G] in
 theorem mem_piSub {V V₁ : Subgroup G} (D : HatModelU (u128 V V₁)) (a x : G) :
     x ∈ piSub D a ↔ x ∈ u128 V V₁ ∧ D.π x ∈ Submodule.span (ZMod 2) {D.π a} := Iff.rfl
 
@@ -158,7 +161,7 @@ theorem zU_sup_V2_le_piSub (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13)
       exact Submodule.subset_span rfl
 
 theorem rho_Dg_sub_mem_span (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13) (h12810 : Lemma12_8_10)
-    {T L V V₁ V₂ : Subgroup G} (hcx : Cx1291 G T L V 4) (hs : Setting1282One G T L V 4 V₁ V₂)
+    {T L V V₁ V₂ : Subgroup G} (_hcx : Cx1291 G T L V 4) (hs : Setting1282One G T L V 4 V₁ V₂)
     {g : G} (hgP : g ∈ p128 T L V) (hgN : g ∉ Subgroup.normalizer (V₁ : Set G))
     (D : HatModelU (u128 V V₁)) {a : G} (haV₂ : a ∈ V₂) (haV₁ : a ∉ V₁)
     {d : G} (hdD : d ∈ CFSG.conjugate (zU128 V V₁) g)
@@ -219,6 +222,7 @@ theorem piW_perp (h1222 : Stmt12_2_2) (h12213 : Stmt12_2_13)
     calc u * a * u⁻¹ * a⁻¹ = (a * u) * u⁻¹ * a⁻¹ := by rw [hau]
       _ = 1 := by group
 
+omit [Finite G] in
 theorem rho_fix_pi_of_centralizer {V V₁ : Subgroup G} (D : HatModelU (u128 V V₁)) {d : G}
     (hdC : d ∈ Subgroup.centralizer (V : Set G))
     (hdN : d ∈ Subgroup.normalizer (u128 V V₁ : Set G)) {v : G} (hv : v ∈ V) :

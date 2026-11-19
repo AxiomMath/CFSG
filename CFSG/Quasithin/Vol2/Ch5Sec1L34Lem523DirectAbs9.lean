@@ -25,7 +25,7 @@ theorem case_b_false (hH47 : CFSG.ASVolI.H_4_7) (K : Type) [Field K] [Finite K] 
     obtain ⟨g, hg⟩ := exists_ne (1 : ↥𝒦)
     exact ⟨g.1, g.2, fun h => hg (Subtype.ext h)⟩
   have hperf : ⁅(⊤ : Subgroup ↥𝒦), (⊤ : Subgroup ↥𝒦)⁆ = ⊤ := by
-    haveI : Group.IsPerfect ↥𝒦 := perfect_of_simple_nonab ↥𝒦 hab
+    have : Group.IsPerfect ↥𝒦 := perfect_of_simple_nonab ↥𝒦 hab
     exact Group.IsPerfect.commutator_eq_top
   obtain ⟨Y₀, Y₁, hlt, hY₀, hY₁, hirr, hnt'⟩ := exists_section 𝒦 v hvN hperf hnt
   obtain ⟨hY₀i, hY₀v⟩ := hY₀
@@ -76,7 +76,7 @@ theorem case_b_false (hH47 : CFSG.ASVolI.H_4_7) (K : Type) [Field K] [Finite K] 
   have hisoV : Nonempty (↥ψ.range ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 3) K) := by
     obtain ⟨e⟩ := hiso
     exact ⟨(MonoidHom.ofInjective hψinj).symm.trans e⟩
-  haveI := hsimpV
+  have := hsimpV
   let vV : MulAut (Vsec Y₀ Y₁) := secHom Y₀ Y₁ ⟨v, hvstab⟩
   have hvvV : vV * vV = 1 := by
     show secHom Y₀ Y₁ ⟨v, hvstab⟩ * secHom Y₀ Y₁ ⟨v, hvstab⟩ = 1
@@ -128,7 +128,7 @@ theorem case_b_false (hH47 : CFSG.ASVolI.H_4_7) (K : Type) [Field K] [Finite K] 
     exact h2
   have hV2 : ∀ x : Vsec Y₀ Y₁, x ^ 2 = 1 := Vsec_sq Y₀ Y₁ hE2
   have hVne : (⊤ : Subgroup (Vsec Y₀ Y₁)) ≠ ⊥ := by
-    obtain ⟨y, hyY₁, hyY₀⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨y, hyY₁, hyY₀⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     intro h
     have hmem : vec Y₀ y hyY₁ ∈ (⊤ : Subgroup (Vsec Y₀ Y₁)) := Subgroup.mem_top _
     rw [h, Subgroup.mem_bot] at hmem
@@ -213,7 +213,7 @@ theorem case_b_false (hH47 : CFSG.ASVolI.H_4_7) (K : Type) [Field K] [Finite K] 
       have hy1 : y * (v y)⁻¹ ∈ Y₁ := Y₁.mul_mem hy (Y₁.inv_mem (hY₁v y hy))
       refine ⟨y * (v y)⁻¹, hcm y, ?_⟩
       show (f (y * (v y)⁻¹))⁻¹ = w
-      simp only [f, dif_pos hy1]
+      simp only [f, dite_eq_left hy1]
       rw [hu, huy, vec_mul Y₀ hy (Y₁.inv_mem (hY₁v y hy)), vec_inv Y₀ (hY₁v y hy)]
       rw [secHom_vec ⟨v, hvstab⟩ hy, mul_inv, inv_inv]
       exact mul_comm _ _

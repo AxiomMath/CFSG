@@ -82,7 +82,7 @@ theorem inf_centralizer_eq_bot_of_inverts {F R : Subgroup G} {f : ℕ} (hf : f.P
     R ⊓ centralizer (F : Set G) = ⊥ := by
   classical
   by_contra hne
-  haveI hKn : ((R ⊓ centralizer (F : Set G)).subgroupOf R).Normal := by
+  have hKn : ((R ⊓ centralizer (F : Set G)).subgroupOf R).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     rw [Subgroup.mem_inf] at hn ⊢
@@ -94,7 +94,7 @@ theorem inf_centralizer_eq_bot_of_inverts {F R : Subgroup G} {f : ℕ} (hf : f.P
     have h0 := Subgroup.map_subgroupOf_eq_of_le (inf_le_left : R ⊓ centralizer (F : Set G) ≤ R)
     rw [h, Subgroup.map_bot] at h0
     exact h0.symm
-  haveI : Group.IsNilpotent R := hRp.isNilpotent
+  have : Group.IsNilpotent R := hRp.isNilpotent
   obtain ⟨a, ha1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
     (Group.IsNilpotent.inf_center_ne_bot_of_normal hKne)
   have hmem : a.1 ∈ (R ⊓ centralizer (F : Set G)).subgroupOf R ∧
@@ -147,16 +147,19 @@ theorem zpowers_le_normalizer_smallRankS {p : ℕ} {P : Sylow p G} {M : Subgroup
   have hxz : z * x = x * z := (mem_centralizer_iff.mp hz.centralizes x hx).symm
   exact mem_normalizer_inf_of hzT (mem_normalizer_centralizer_singleton hxz)
 
+omit [Finite G] in
 theorem smallRankR_eq_comm (x z : G) (T : Subgroup G) :
     smallRankR x z T = ⁅smallRankS x T, zpowers z⁆ := by
   rw [smallRankR, commutator_comm]
 
+omit [Finite G] in
 theorem smallRankR_le_smallRankS {x z : G} {T : Subgroup G}
     (hzS : zpowers z ≤ normalizer ((smallRankS x T : Subgroup G) : Set G)) :
     smallRankR x z T ≤ smallRankS x T := by
   rw [smallRankR_eq_comm]
   exact Subgroup.le_normalizer_iff_commutator_le_left.mp hzS
 
+omit [Finite G] in
 theorem zpowers_le_normalizer_smallRankR {x z : G} {T : Subgroup G} :
     zpowers z ≤ normalizer ((smallRankR x z T : Subgroup G) : Set G) := by
   rw [smallRankR_eq_comm]
@@ -164,7 +167,7 @@ theorem zpowers_le_normalizer_smallRankR {x z : G} {T : Subgroup G} :
 
 theorem not_five_dvd_card_of_isPGroup_two {H : Subgroup G} (hH : IsPGroup 2 H) :
     ¬ 5 ∣ Nat.card H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hH
   rw [hk]
   intro h
@@ -180,6 +183,7 @@ theorem commutator_smallRankR_zpowers {x z : G} {T : Subgroup G}
   rw [← smallRankR_eq_comm] at hidem
   exact hidem
 
+omit [Finite G] in
 theorem conj_fixes_central_involution {F R : Subgroup G} {z c : G}
     (hzR : z ∈ normalizer (R : Set G)) (hcR : c ∈ R) (hc1 : c ≠ 1) (hc2 : c ^ 2 = 1)
     (hcc : ∀ r ∈ R, c * r = r * c)
@@ -228,10 +232,11 @@ theorem conj_fixes_central_involution {F R : Subgroup G} {z c : G}
     _ = (z * c * z⁻¹ * c) * c := by group
     _ = c := by rw [hmem, one_mul]
 
+omit [Finite G] in
 theorem centralizer_singleton_le_of_involution {M : Subgroup G}
     {x z c : G} (h614 : Prop614At M x z) (hc2 : c ^ 2 = 1) (hc1 : c ≠ 1) (hcM : c ∈ M)
     (hxc : x * c = c * x) (hzc : z * c = c * z) : centralizer ({c} : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hne : zpowers c ≠ ⊥ := zpowers_eq_bot.not.mpr hc1
   have hp2 : IsPGroup 2 (zpowers c) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, orderOf_eq_prime hc2 hc1]; norm_num)
@@ -276,11 +281,11 @@ theorem stepApplyI2026_holds :
     have h2 := hL.lemma628.1
     omega
   subst hp5
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hf5 : Nat.Prime 5 := by norm_num
   have hf : f.Prime := hL.prime
   have hf2 : f ≠ 2 := hL.ne_two
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hz5 : z ^ 5 = 1 := hL.central.pow_eq_one
   have hz1 : z ≠ 1 := hL.central.ne_one
   have hx : x ∈ (P : Subgroup G) := hL.point.mem
@@ -301,7 +306,7 @@ theorem stepApplyI2026_holds :
   have hC_z : centralizer ({z} : Set G) ≤ M := centralizer_singleton_le hL.situation hL.central
   have hodd : Odd (Nat.card (centralizer (smallRankF 5 f x : Set G))) :=
     odd_card_centralizer_of_rank hf hFe hFc hloc
-  haveI : Finite (MulAut (smallRankF 5 f x)) :=
+  have : Finite (MulAut (smallRankF 5 f x)) :=
     Finite.of_injective (fun e : MulAut (smallRankF 5 f x) => e.toEquiv)
       (fun a b h => MulEquiv.ext fun y =>
         congrArg (fun e : smallRankF 5 f x ≃ smallRankF 5 f x => e y) h)
@@ -366,7 +371,7 @@ theorem stepApplyI2026_holds :
       have hc : (a : G) * g = g * a := (mem_centralizer_iff.mp hg) a a.2
       calc (g : G) * (a : G) * (g : G)⁻¹ = ((a : G) * (g : G)) * (g : G)⁻¹ := by rw [← hc]
         _ = (a : G) := by group
-  haveI hCn : (C.subgroupOf N).Normal := ⟨fun n hn g => by
+  have hCn : (C.subgroupOf N).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using conj_mem_centralizer_of_mem_normalizer g.2 hn⟩
   have hodd' : Odd (Nat.card (C.subgroupOf N)) := by

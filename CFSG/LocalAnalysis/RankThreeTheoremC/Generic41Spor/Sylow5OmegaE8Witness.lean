@@ -179,7 +179,7 @@ private theorem e8Witness_core (F : Type) [Field F] [Finite F] (r : ℤ)
     have h2 : ringChar F = 5 := (Nat.prime_dvd_prime_iff_eq hℓ Nat.prime_five).1 h1
     rw [hq, h2]
     exact dvd_pow_self 5 f.ne_zero)⟩
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure F) 5
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure F) 5
   obtain ⟨ζ, hζ⟩ : ∃ ζ : Lˣ, IsPrimitiveRoot ζ 5 := ⟨_, hζ0.isUnit_unit (by norm_num)⟩
   have hζ5 : ζ ^ (5 : ℤ) = 1 := by exact_mod_cast hζ.zpow_eq_one
   have hFrζ : Units.map Fr.toMonoidHom ζ = ζ ^ Nat.card F := CTTorus.map_units_eq_pow hFr ζ

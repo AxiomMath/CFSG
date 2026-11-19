@@ -148,7 +148,7 @@ theorem heSub_sound {NL : Nat} {letters : Array Table} {lv : Array Nat}
   obtain ⟨-, hlab⟩ := hlab
   refine ⟨?_, hlab⟩
   unfold subChecks
-  simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
+  simp only [Bool.and_eq_true, beq_iff_eq]
   refine ⟨⟨⟨⟨⟨hSs, subRoots_size⟩, rfl⟩, ?_⟩, ?_⟩, hsizes⟩
   · rw [allIn_iff]
     intro j hj

@@ -18,6 +18,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c167_preBarSub_bot_eq {V A : Subgroup G} (hV : IsElemAbelian 2 V)
     (hA : A ≤ stabTil ⊥ V) : preBarSub A ⊥ V hV ⊥ = A ⊓ centralizer (V : Set G) := by
   ext g
@@ -40,6 +41,7 @@ theorem s16c167_preBarSub_bot_eq {V A : Subgroup G} (hV : IsElemAbelian 2 V)
     rw [Subgroup.mem_bot, ← h1]
     group
 
+omit [Finite G] in
 theorem s16c167_rk_barSub_eq_mQuot {V A : Subgroup G} (hV : IsElemAbelian 2 V)
     (hA : A ≤ stabTil ⊥ V) :
     rk ↥(barSub ⊥ V hV A) = E3.mQuot A (A ⊓ centralizer (V : Set G)) := by

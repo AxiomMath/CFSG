@@ -99,9 +99,9 @@ theorem bmS_dist (cnt : Nat) (J : Nat → Nat) (F : Nat → Nat → Nat)
         change (X ||| Y).testBit i = true
         rw [Nat.testBit_or, hi, Bool.or_true]
     by_cases hb : (l.foldr F 0).testBit (J a) = true
-    · rw [if_pos hb] at h
+    · rw [ite_eq_left hb] at h
       exact absurd (Nat.lt_of_le_of_lt (hle' _ _) h) (Nat.lt_irrefl _)
-    · rw [if_neg hb] at h ⊢
+    · rw [ite_eq_right hb] at h ⊢
       obtain ⟨ih1, ih2, ih3⟩ := bmS_dist cnt J F hF l (Nat.lt_of_le_of_lt (hle _ _) h)
       have ha : J a < cnt := by
         by_contra hc

@@ -28,13 +28,13 @@ theorem twE6_derived_ggFixGp_eq
     ⁅ggFixGp .twistedE6 f, ggFixGp .twistedE6 f⁆ =
       graphFixedRootGroup TwistTag.E6 GGL (ggFrobT f) := by
   let K := GaloisField 2 (2 * f)
-  letI : Algebra K GGL := (ggRatEmb (2 * f)).toAlgebra
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : CharP K 2 := inferInstance
-  haveI : CharP GGL 2 := inferInstance
-  haveI : IsScalarTower (ZMod 2) K GGL :=
+  let : Algebra K GGL := (ggRatEmb (2 * f)).toAlgebra
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : CharP K 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
+  have : IsScalarTower (ZMod 2) K GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : IsAlgClosure K GGL :=
+  have : IsAlgClosure K GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := K) }
   have hK : Nat.card K = (2 ^ f) ^ 2 := by
@@ -55,7 +55,7 @@ theorem twE6_derived_ggFixGp_eq
 theorem twE6_model_decomp
     {X : Type} [Group X] {n f p : ℕ} {ψ : (ggU .twistedE6 n f).K →* X}
     {G₀ B₁ D J : Subgroup X} {x : X} (B : ExcBase .E6 f p G₀ B₁ D J x)
-    (hB : TwE6BaseCompat n f p ψ B) (hψr : ψ.range = G₀)
+    (hB : TwE6BaseCompat n f p ψ B) (_hψr : ψ.range = G₀)
     (a : Fin Tag.E6.rank → ℤ) (ha : IsRoot Tag.E6 a) :
     ∀ h ∈ B.Δ.model, ∃ t ∈ B.Δ.model, ∃ γ ∈ B.Δ.Γ, h = t * γ ∧
       (excCurve a B.Δ.g0⁻¹).map (MulAut.conj t).toMonoidHom = excCurve a B.Δ.g0⁻¹ ∧
@@ -69,7 +69,7 @@ theorem twE6_model_decomp
   have hf' : ∀ y : ModGL Tag.E6 (ExcOmega f), f' y = g₀⁻¹ * y * g₀ := by
     intro y
     show (MulAut.conj g₀⁻¹) y = g₀⁻¹ * y * g₀
-    simp [MulAut.conj_apply]
+    simp
   have hσsurj : Function.Surjective (ggFrobT f) := ggFrobT_surjective f
   have hRR : ⁅R, R⁆ = graphFixedRootGroup TwistTag.E6 GGL (ggFrobT f) :=
     twE6_derived_ggFixGp_eq B.one_le_f

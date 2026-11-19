@@ -40,8 +40,8 @@ private theorem q2cFPj_blockRev_eq (hd : IsCut (m + 1) d) :
 
 theorem isMinimalCosetRep_blockRev (hd : IsCut (m + 1) d) :
     (symCox m).IsMinimalCosetRep (cutTypes m d) (blockRev hd)⁻¹ := by
-  haveI : Finite ((symCox m).parabolic Set.univ) := Subtype.finite
-  haveI : Finite ((symCox m).parabolic (cutTypes m d)) := Subtype.finite
+  have : Finite ((symCox m).parabolic Set.univ) := Subtype.finite
+  have : Finite ((symCox m).parabolic (cutTypes m d)) := Subtype.finite
   rw [(symCox m).isMinimalCosetRep_iff]
   intro i hi hdesc
   have hτ := q2cFPj_blockRev_eq hd
@@ -131,8 +131,8 @@ theorem isFar_iff_mem_farSet (hd : IsCut (m + 1) d) {E x₀ : FlagK K (m + 1)}
       E ∈ farSet (m + 1) d := by
   have hB : IsWeylDistanceBuilding (symCox m) (flagδ (K := K) m) :=
     isWeylDistanceBuilding_flag (K := K) (m := m)
-  haveI : Finite ((symCox m).parabolic (cutTypes m d)) := Subtype.finite
-  haveI : Finite ((symCox m).parabolic Set.univ) := Subtype.finite
+  have : Finite ((symCox m).parabolic (cutTypes m d)) := Subtype.finite
+  have : Finite ((symCox m).parabolic Set.univ) := Subtype.finite
   have hτ := q2cFPj_blockRev_eq hd
   constructor
   · intro hfar

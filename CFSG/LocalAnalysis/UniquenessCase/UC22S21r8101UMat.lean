@@ -35,7 +35,7 @@ namespace U81Frame
 variable {B : Subgroup G} {b : Fin 3 → G}
 
 theorem comm (hF : U81Frame r B b) {x y : G} (hx : x ∈ B) (hy : y ∈ B) : x * y = y * x := by
-  haveI := hF.elem.1
+  have := hF.elem.1
   exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : B) ⟨y, hy⟩)
 
 theorem pow_eq_one (hF : U81Frame r B b) (i : Fin 3) : b i ^ r = 1 :=

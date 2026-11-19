@@ -23,14 +23,14 @@ theorem normalizer_conjSubgroup (g : G) (X : Subgroup G) :
   constructor
   · intro h y
     have := h (g * y * g⁻¹)
-    simp only [SetLike.mem_coe, mem_conjSubgroup] at this ⊢
+    simp only [mem_conjSubgroup] at this ⊢
     rw [show g⁻¹ * (g * y * g⁻¹) * g = y by group,
       show g⁻¹ * (c * (g * y * g⁻¹) * c⁻¹) * g = (g⁻¹ * c * g) * y * (g⁻¹ * c * g)⁻¹ by group]
       at this
     exact this
   · intro h y
     have := h (g⁻¹ * y * g)
-    simp only [SetLike.mem_coe, mem_conjSubgroup] at this ⊢
+    simp only [mem_conjSubgroup] at this ⊢
     rw [show (g⁻¹ * c * g) * (g⁻¹ * y * g) * (g⁻¹ * c * g)⁻¹ = g⁻¹ * (c * y * c⁻¹) * g by group]
       at this
     exact this

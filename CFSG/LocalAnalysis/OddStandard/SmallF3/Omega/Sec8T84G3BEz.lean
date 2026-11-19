@@ -16,7 +16,7 @@ namespace Sec8T84G3BSide
 theorem exists_z (hP : Sec8T84FactP) (S : Sec8T84G3BSide G E E0 Y Y' V V' F F' P H) :
     ∃ z ∈ sec8t84g_Q E E0, z ∈ Y ∧ (∀ u ∈ V' ⊔ F', z * u = u * z) ∧
       z ∉ oddCoreIn (normalizer (E : Set G)) ∧ z ^ 3 ∈ oddCoreIn (sec8t84g_Q E E0) := by
-  haveI hNn : ((oddCoreIn (normalizer (E : Set G))).subgroupOf Y).Normal := S.ydata.O_norm
+  have hNn : ((oddCoreIn (normalizer (E : Set G))).subgroupOf Y).Normal := S.ydata.O_norm
   let π : ↥Y →* ↥Y ⧸ (oddCoreIn (normalizer (E : Set G))).subgroupOf Y := QuotientGroup.mk' _
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : ∀ x : ↥Y, π x = 1 ↔ (x : G) ∈ oddCoreIn (normalizer (E : Set G)) :=

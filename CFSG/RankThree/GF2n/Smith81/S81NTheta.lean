@@ -17,6 +17,7 @@ variable {G : Type} [Group G] {M Q Z X : Subgroup G} {x : G} {K : Type} [Field K
 section Theta
 variable [Finite G] [CharP K 2]
 
+omit [CharP K 2] in
 theorem theta_surj_of_root (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x) (Tx : XAct M₀ x)
     {A : Subgroup G} (hA : IsZConjugate Z A) (hAQ : A ≤ Q) (hAZ : A ≠ Z) {a : G} (haA : a ∈ A)
     (haC : M₀.π a ∈ Cs Tx) (ha1 : ⁅a, x⁆ ≠ 1) : CaseI Q Z x := by
@@ -81,6 +82,7 @@ theorem theta_surj_of_root (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z 
   obtain ⟨γ₁, hγ₁⟩ := hbij.2 ⟨z, hz⟩
   exact ⟨γ₁, hAQ γ₁.2, congrArg Subtype.val hγ₁⟩
 
+omit [Finite G] [CharP K 2] in
 theorem RootPt.smul (hD : GlobalModelData M Q Z γ M₀) {e : M₀.E} (he : RootPt M₀ e) (s : K) :
     RootPt M₀ (s • e) := by
   unfold RootPt at he ⊢
@@ -94,6 +96,7 @@ theorem RootPt.smul (hD : GlobalModelData M Q Z γ M₀) {e : M₀.E} (he : Root
     obtain ⟨a', ha'A, -, ha'π⟩ := (Tim79.QuadModel.mem_img M₀).mp hmem
     exact Or.inr ⟨conjSubgroup g Z, ⟨g, rfl⟩, hAQ, hAZ, a', ha'A, ha'π⟩
 
+omit [CharP K 2] in
 theorem theta_dichotomy (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x) (Tx : XAct M₀ x)
     (hP1 : Cs Tx ≤ Submodule.span K {e | e ∈ Cs Tx ∧ RootPt M₀ e}) :
     CaseI Q Z x ∨ CaseII Q Z x := by

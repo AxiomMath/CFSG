@@ -15,7 +15,7 @@ private theorem lift_segment {X : Type} [Group X] {P1 P2 : Subgroup X}
     {Y : Type} [Group Y] {c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y}
     {n : ℕ} (hn : 3 ≤ n) {V : Type} [Fintype V] {Δ : SimpleGraph V} [DecidableRel Δ.Adj]
     (ι : c.Γ → V) (hconn : c.graph.Connected)
-    (hInjOn : Set.InjOn ι (edgeBall (n - 1) c))
+    (_hInjOn : Set.InjOn ι (edgeBall (n - 1) c))
     (hSurj : ∀ y : V, ∃ w ∈ edgeBall (n - 1) c, ι w = y)
     (hE2 : ∀ w w', w ∈ edgeBall (n - 2) c → w' ∈ edgeBall (n - 1) c →
       (Δ.Adj (ι w) (ι w') ↔ c.graph.Adj w w'))
@@ -176,7 +176,7 @@ theorem rootGroupLift (n : ℕ) : RootGroupLift n := by
       · simp [xL, h, hιx]
       · have hv : p j = v := hpj.resolve_left h
         have hvu : v ≠ u := by intro hvu; exact h (hv.trans hvu)
-        simp [xL, h, hv, hvu, hιl]
+        simp [xL, hv, hvu, hιl]
     have hxRι : ι xR = p (j + 1) := by
       by_cases h : p j = u
       · have hv : p (j + 1) = v := by
@@ -249,19 +249,17 @@ theorem rootGroupLift (n : ℕ) : RootGroupLift n := by
             have h2 : i + 1 ≤ j := by omega
             change c.graph.Adj (if i ≤ j then qL i else qR (i - (j + 1)))
               (if i + 1 ≤ j then qL (i + 1) else qR (i + 1 - (j + 1)))
-            rw [if_pos h1, if_pos h2]
+            rw [ite_eq_left h1, ite_eq_left h2]
             exact qL.adj i hij
           · by_cases heq : i = j
             · subst i
-              change c.graph.Adj (if j ≤ j then qL j else qR (j - (j + 1)))
-                (if j + 1 ≤ j then qL (j + 1) else qR (j + 1 - (j + 1)))
-              rw [if_pos le_rfl, if_neg (by omega), Nat.sub_self, hqLj, hqR0]
+              rw [ite_eq_left le_rfl, ite_eq_right (by omega), Nat.sub_self, hqLj, hqR0]
               exact hxLR
             · have h1 : ¬ i ≤ j := by omega
               have h2 : ¬ i + 1 ≤ j := by omega
               change c.graph.Adj (if i ≤ j then qL i else qR (i - (j + 1)))
                 (if i + 1 ≤ j then qL (i + 1) else qR (i + 1 - (j + 1)))
-              rw [if_neg h1, if_neg h2]
+              rw [ite_eq_right h1, ite_eq_right h2]
               have e : i + 1 - (j + 1) = (i - (j + 1)) + 1 := by omega
               rw [e]
               exact qR.adj (i - (j + 1)) (by omega)
@@ -270,23 +268,23 @@ theorem rootGroupLift (n : ℕ) : RootGroupLift n := by
           have h1 : ¬ i ≤ j := by omega
           change (if i ≤ j then qL i else qR (i - (j + 1))) =
             (if n ≤ j then qL n else qR (n - (j + 1)))
-          rw [if_neg h1, if_neg (by omega)]
+          rw [ite_eq_right h1, ite_eq_right (by omega)]
           exact qR.tail (i - (j + 1)) (by omega) }
     have hqj : q j = xL := by
       dsimp only [q]
-      rw [if_pos le_rfl, hqLj]
+      rw [ite_eq_left le_rfl, hqLj]
     have hqj1 : q (j + 1) = xR := by
       dsimp only [q]
-      rw [if_neg (by omega), Nat.sub_self, hqR0]
+      rw [ite_eq_right (by omega), Nat.sub_self, hqR0]
     have hqι : ∀ i, i ≤ n → ι (q i) = p i := by
       intro i hi
       by_cases hij : i ≤ j
       · dsimp only [q]
-        rw [if_pos hij]
+        rw [ite_eq_left hij]
         exact hqLι' i hij
       · have h1 : ¬ i ≤ j := hij
         dsimp only [q]
-        rw [if_neg h1]
+        rw [ite_eq_right h1]
         rw [hqRι (i - (j + 1))]
         rw [GPath.drop_apply p (j + 1) (by omega) (by omega)]
         congr 1
@@ -297,13 +295,13 @@ theorem rootGroupLift (n : ℕ) : RootGroupLift n := by
       · have e1 : i ≤ j := by omega
         have e2 : i + 2 ≤ j := h1
         dsimp only [q]
-        rw [if_pos e1, if_pos e2]
+        rw [ite_eq_left e1, ite_eq_left e2]
         exact hqLnb i h1
       · by_cases h2 : i + 1 ≤ j
         · have e1 : i ≤ j := by omega
           have e2 : ¬ i + 2 ≤ j := h1
           dsimp only [q]
-          rw [if_pos e1, if_neg e2]
+          rw [ite_eq_left e1, ite_eq_right e2]
           have hi' : i = j - 1 := by omega
           subst hi'
           intro heq
@@ -318,7 +316,7 @@ theorem rootGroupLift (n : ℕ) : RootGroupLift n := by
             have e1 : j ≤ j := le_rfl
             have e2 : ¬ j + 2 ≤ j := by omega
             dsimp only [q]
-            rw [if_pos e1, if_neg e2, hqLj]
+            rw [ite_eq_left e1, ite_eq_right e2, hqLj]
             intro heq
             have hιeq := congrArg ι heq
             rw [show j + 2 - (j + 1) = 1 by omega] at hιeq
@@ -329,22 +327,22 @@ theorem rootGroupLift (n : ℕ) : RootGroupLift n := by
             have e2 : ¬ i + 1 ≤ j := h2
             have e3 : ¬ i + 2 ≤ j := h1
             dsimp only [q]
-            rw [if_neg e1, if_neg e3,
+            rw [ite_eq_right e1, ite_eq_right e3,
               show i + 2 - (j + 1) = (i - (j + 1)) + 2 by omega]
             exact hqRnb (i - (j + 1)) (by omega)
     have hqinner : ∀ i, 1 ≤ i → i ≤ n - 1 → q i ∈ edgeBall (n - 2) c := by
       intro i hi1 hi2
       by_cases hij : i ≤ j
       · dsimp only [q]
-        rw [if_pos hij]
+        rw [ite_eq_left hij]
         exact hqLmem i hi1 hij
       · dsimp only [q]
-        rw [if_neg hij]
+        rw [ite_eq_right hij]
         exact hqRmem (i - (j + 1)) (by omega)
     have hqn_inner : q n ∈ edgeBall (n - 2) c := by
       have h1 : ¬ n ≤ j := by omega
       dsimp only [q]
-      rw [if_neg h1]
+      rw [ite_eq_right h1]
       exact hqRmem (n - (j + 1)) (by omega)
     have hfixL : ∀ h ∈ pathRootGroup (↥(c.φ1.range ⊔ c.φ2.range)) c.graph q,
         h • xL = xL := by

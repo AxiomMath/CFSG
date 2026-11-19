@@ -81,7 +81,7 @@ theorem step78_of_data {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K] [Fi
     rw [card_Ut_conj hc hg s, hZV G M Q Z B hc n t hs Z0 hZ0 s hsZ0 hsQ]
   have hSecQ : SecHyp (Rt M (LB M Q B) t) Q Z := sec7ctr_secHyp hc hRM
   obtain ⟨Md, iA, iD, κ, hκ⟩ := exists_sectionModule hSecQ
-  haveI : Finite Md := hκ.finite
+  have : Finite Md := hκ.finite
   have hP := hSecQ.normP
   have hWQ : Wt Q (Vt M (LB M Q B) B Z t) ≤ Q := inf_le_left
   have hVW : Vt M (LB M Q B) B Z t ≤ Wt Q (Vt M (LB M Q B) B Z t) := hd.1.trans hd.2.1
@@ -160,7 +160,7 @@ theorem step78_of_data {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K] [Fi
       Nat.card ↥(Vt M (LB M Q B) B Z t) * c := hf.trans hcW
   have h1 : Nat.card Z ^ 4 * c ≤ Nat.card Z ^ (2 * m) :=
     step78_arith2 hq ha hb he' hf' key hVc
-  haveI : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
+  have : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hVQ hv)))
   have hcQ := card_mul_card_of_isChiIso hchi hWQ hZV'

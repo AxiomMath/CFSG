@@ -103,7 +103,7 @@ theorem D1OneSmallData.false_of_b0_cube (hAE : KFactL34AutExp)
     Subgroup.centralizer (K : Set (H ⧸ primeComplementCore (G := H) 3)) with hYb
   obtain ⟨z₀, hz₀R, hz₀K, hz₀p, hz₀c⟩ := hd.z
   have hKX₀ := (hd.cfg.red.rankOne_principle hd.comp hd.noncyclic hz₀R hz₀K hz₀p hz₀c).2
-  have hYbp : IsPGroup 3 Yb := Rbar.isPGroup'.to_le inf_le_left
+  have hYbp : IsPGroup 3 Yb := Rbar.isPGroup.to_le inf_le_left
   have hYcyc : IsCyclic Yb := by
     by_contra hnc
     have h2 := two_le_pRank_of_isPGroup_not_isCyclic hp hd.cfg.red.ne_two hYbp hnc
@@ -137,21 +137,21 @@ theorem D1OneSmallData.false_of_b0_cube (hAE : KFactL34AutExp)
     intro s hs
     set sH : H := ⟨s, hd.cfg.ext.le_H hs⟩ with hsH
     have hsR : sH ∈ R.subgroupOf H := hs
-    obtain ⟨n, hn⟩ := Rbar.isPGroup' ⟨π sH, hmemRb sH hsR⟩
+    obtain ⟨n, hn⟩ := Rbar.isPGroup ⟨π sH, hmemRb sH hsR⟩
     have hC := pow_three_mem_centralizer_of_isLinThreeFour hAE hL
       (hd.cfg.red.sylow_le_normalizer_component hd.comp (hmemRb sH hsR)) (n := n)
       (by simpa using congrArg Subtype.val hn)
     rw [← map_pow] at hC
     exact ⟨⟨sH ^ 3, hC, by simp [hsH]⟩, R.pow_mem hs 3⟩
   have hPR : (P : Subgroup G) = R := by
-    refine eq_of_isPGroup_of_le_of_normalizer P.isPGroup' hd.cfg.ext.le_P fun x hxP hxN => ?_
+    refine eq_of_isPGroup_of_le_of_normalizer P.isPGroup hd.cfg.ext.le_P fun x hxP hxN => ?_
     have hxz := conj_mem_zpowers_of_cubes hYp hΩ hz.2.1 hcube hr hr3 hxN
     have hxzN : x ∈ Subgroup.normalizer (Subgroup.zpowers z : Set G) := by
       refine Subgroup.mem_normalizer_fintype fun y hy => ?_
       obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
       rw [← conj_zpow]
       exact Subgroup.zpow_mem _ hxz n
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hxP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hxP⟩
     have hxk : x ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hc := commute_of_mem_normalizer_zpowers_of_pow_prime_pow hp hz.2.1 hxzN hxk
     exact hd.inf_centralizer_le_of_b0 hB0

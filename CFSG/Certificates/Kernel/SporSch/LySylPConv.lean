@@ -36,7 +36,7 @@ private theorem aux_step (sep : String) (p r : List Char) (c : Char) (b j : Pos.
     simp only [atEnd_iff, rawEndPos_ofList, utf8Len_append, utf8Len_cons, Pos.Raw.mk_le_mk]
     have := c.utf8Size_pos
     omega
-  rw [if_neg hne, get_of_valid, next_of_valid]
+  rw [ite_eq_right hne, get_of_valid, next_of_valid]
   rfl
 
 private theorem aux_end (sep : String) (p : List Char) (b j : Pos.Raw) (acc : List String) :
@@ -45,7 +45,7 @@ private theorem aux_end (sep : String) (p : List Char) (b j : Pos.Raw) (acc : Li
   rw [splitOnAux]
   have he : (⟨utf8Len p⟩ : Pos.Raw).atEnd (ofList p) := by
     simp
-  rw [if_pos he]
+  rw [ite_eq_left he]
 
 private theorem sep_get0 : Pos.Raw.get " : " 0 = ' ' := rfl
 private theorem sep_get1 : Pos.Raw.get " : " ⟨1⟩ = ':' := rfl
@@ -74,7 +74,7 @@ private theorem split_tail : ∀ (r : List Char), (∀ c ∈ r, c ≠ ':') → �
     rw [e1, (by simp : utf8Len l + utf8Len m = utf8Len (l ++ m)), aux_step]
     by_cases hc : c = ' '
     · subst hc
-      rw [sep_get0, sep_next0, if_pos (by decide), if_neg sep_end1, sp_size]
+      rw [sep_get0, sep_next0, ite_eq_left (by decide), ite_eq_right sep_end1, sp_size]
       cases r with
       | nil =>
         have e2 : l ++ m ++ [' '] = l ++ (m ++ [' ']) := by simp
@@ -87,7 +87,7 @@ private theorem split_tail : ∀ (r : List Char), (∀ c ∈ r, c ≠ ':') → �
         have hd : d ≠ ':' := hr d (by simp)
         have e2 : l ++ m ++ ' ' :: d :: r' = (l ++ m ++ [' ']) ++ d :: r' := by simp
         rw [e2, (by simp [sp_size]; omega : utf8Len (l ++ m) + 1 = utf8Len (l ++ m ++ [' '])),
-          aux_step, sep_get1, if_neg (by simpa using hd)]
+          aux_step, sep_get1, ite_eq_right (by simpa using hd)]
         have hp : ((⟨utf8Len (l ++ m ++ [' '])⟩ : Pos.Raw).unoffsetBy ⟨1⟩) = ⟨utf8Len (l ++ m)⟩ := by
           simp [Pos.Raw.unoffsetBy, sp_size]
         rw [hp, ← e2, next_of_valid, sp_size]
@@ -96,7 +96,7 @@ private theorem split_tail : ∀ (r : List Char), (∀ c ∈ r, c ≠ ':') → �
           show utf8Len l + utf8Len (m ++ [' ']) = utf8Len (l ++ m) + 1 by simp [sp_size]; omega,
           show m ++ [' '] ++ d :: r' = m ++ ' ' :: d :: r' by simp] at this
         exact this
-    · rw [if_neg (by simpa [sep_get0] using hc)]
+    · rw [ite_eq_right (by simpa [sep_get0] using hc)]
       have hp : ((⟨utf8Len (l ++ m)⟩ : Pos.Raw).unoffsetBy 0) = ⟨utf8Len (l ++ m)⟩ := by
         simp [Pos.Raw.unoffsetBy]
       rw [hp, next_of_valid]
@@ -114,14 +114,14 @@ private theorem split_head : ∀ (ds : List Char), (∀ c ∈ ds, c ≠ ' ') →
     have e1 : l ++ m ++ ([] ++ ' ' :: ':' :: ' ' :: w) = (l ++ m) ++ ' ' :: ':' :: ' ' :: w := by
       simp
     rw [e1, (by simp : utf8Len l + utf8Len m = utf8Len (l ++ m)), aux_step, sep_get0, sep_next0,
-      if_pos (by decide), if_neg sep_end1, sp_size]
+      ite_eq_left (by decide), ite_eq_right sep_end1, sp_size]
     have e2 : (l ++ m) ++ ' ' :: ':' :: ' ' :: w = (l ++ m ++ [' ']) ++ ':' :: ' ' :: w := by simp
     rw [e2, (by simp [sp_size]; omega : utf8Len (l ++ m) + 1 = utf8Len (l ++ m ++ [' '])),
-      aux_step, sep_get1, sep_next1, if_pos (by decide), if_neg sep_end2, colon_size]
+      aux_step, sep_get1, sep_next1, ite_eq_left (by decide), ite_eq_right sep_end2, colon_size]
     have e3 : (l ++ m ++ [' ']) ++ ':' :: ' ' :: w = (l ++ m ++ [' ', ':']) ++ ' ' :: w := by simp
     rw [e3, (by simp [sp_size, colon_size]; omega :
         utf8Len (l ++ m ++ [' ']) + 1 = utf8Len (l ++ m ++ [' ', ':'])),
-      aux_step, sep_get2, sep_next2, if_pos (by decide), if_pos sep_end3, sp_size]
+      aux_step, sep_get2, sep_next2, ite_eq_left (by decide), ite_eq_left sep_end3, sp_size]
     have hp : ((⟨utf8Len (l ++ m ++ [' ', ':']) + 1⟩ : Pos.Raw).unoffsetBy ⟨3⟩) =
         ⟨utf8Len l + utf8Len m⟩ := by
       simp [Pos.Raw.unoffsetBy, sp_size, colon_size]
@@ -142,7 +142,7 @@ private theorem split_head : ∀ (ds : List Char), (∀ c ∈ ds, c ≠ ' ') →
     have e1 : l ++ m ++ (c :: ds ++ ' ' :: ':' :: ' ' :: w) =
         (l ++ m) ++ c :: (ds ++ ' ' :: ':' :: ' ' :: w) := by simp
     rw [e1, (by simp : utf8Len l + utf8Len m = utf8Len (l ++ m)), aux_step,
-      if_neg (by simpa [sep_get0] using hc)]
+      ite_eq_right (by simpa [sep_get0] using hc)]
     have hp : ((⟨utf8Len (l ++ m)⟩ : Pos.Raw).unoffsetBy 0) = ⟨utf8Len (l ++ m)⟩ := by
       simp [Pos.Raw.unoffsetBy]
     rw [hp, next_of_valid]
@@ -156,7 +156,7 @@ private theorem split_head : ∀ (ds : List Char), (∀ c ∈ ds, c ≠ ' ') →
 private theorem splitOn_sep {ds w : List Char} (hds : ∀ c ∈ ds, c ≠ ' ') (hw : ∀ c ∈ w, c ≠ ':') :
     (ofList (ds ++ ' ' :: ':' :: ' ' :: w)).splitOn " : " = [ofList ds, ofList w] := by
   unfold String.splitOn
-  rw [if_neg (by decide)]
+  rw [ite_eq_right (by decide)]
   have := split_head ds hds w hw [] [] []
   simpa using this
 
@@ -230,13 +230,13 @@ private theorem run_dig {ch : Char} {cs : List Char} {ph v len : Nat} {ws : List
   rw [run_cons]
   simp only [strictB_eqT, bAnd_eqT]
   simp only [bIf_eqT]
-  rw [if_pos hd]
+  rw [ite_eq_left hd]
   rcases hph with rfl | rfl | rfl
-  · rw [if_pos b00]
+  · rw [ite_eq_left b00]
     rfl
-  · rw [if_neg (by simp [b20]), if_pos (by simp [b22])]
+  · rw [ite_eq_right (by simp [b20]), ite_eq_left (by simp)]
     rfl
-  · rw [if_neg (by simp [b50]), if_neg (by simp [b52]), b55, Bool.true_and]
+  · rw [ite_eq_right (by simp [b50]), ite_eq_right (by simp [b52]), b55, Bool.true_and]
     rfl
 
 private theorem run_dig_bad {ch : Char} {cs : List Char} {ph v len : Nat} {ws : List Int}
@@ -245,11 +245,11 @@ private theorem run_dig_bad {ch : Char} {cs : List Char} {ph v len : Nat} {ws : 
   rw [run_cons]
   simp only [strictB_eqT, bAnd_eqT]
   simp only [bIf_eqT]
-  rw [if_pos hd]
+  rw [ite_eq_left hd]
   rcases hph with rfl | rfl
-  · rw [if_neg (by simp [b30])]
+  · rw [ite_eq_right (by simp [b30])]
     simp [b32, b35]
-  · rw [if_neg (by simp [b40])]
+  · rw [ite_eq_right (by simp [b40])]
     simp [b42, b45]
 
 private theorem run0_nd {ch : Char} {cs : List Char} {v len : Nat} {ws : List Int}
@@ -258,7 +258,7 @@ private theorem run0_nd {ch : Char} {cs : List Char} {v len : Nat} {ws : List In
     ch = ' ' ∧ 0 < len ∧ ∃ w CL', CL = (v, w) :: CL' ∧ convRun cs 3 0 0 w CL = true := by
   rw [run_cons] at h
   simp only [strictB_eqT, bAnd_eqT] at h
-  simp only [bIf_eqT, hd, Bool.false_eq_true, ↓reduceIte, b00] at h
+  simp only [bIf_eqT, hd, b00] at h
   simp only [Bool.and_eq_true] at h
   obtain ⟨h32, hlen, h⟩ := h
   refine ⟨char_of_beq h32 (by decide), by simpa [Nat.blt_eq] using hlen, ?_⟩
@@ -277,7 +277,7 @@ private theorem run3 {ch : Char} {cs : List Char} {v len : Nat} {ws : List Int}
   cases hd : (Nat.ble 48 ch.toNat && Nat.ble ch.toNat 57)
   · rw [run_cons] at h
     simp only [strictB_eqT, bAnd_eqT] at h
-    simp only [bIf_eqT, hd, Bool.false_eq_true, ↓reduceIte, b30, b33] at h
+    simp only [bIf_eqT, hd, b30, b33] at h
     simp only [Bool.and_eq_true] at h
     exact ⟨char_of_beq h.1 (by decide), h.2⟩
   · rw [run_dig_bad hd (Or.inl rfl)] at h
@@ -289,7 +289,7 @@ private theorem run4 {ch : Char} {cs : List Char} {v len : Nat} {ws : List Int}
   cases hd : (Nat.ble 48 ch.toNat && Nat.ble ch.toNat 57)
   · rw [run_cons] at h
     simp only [strictB_eqT, bAnd_eqT] at h
-    simp only [bIf_eqT, hd, Bool.false_eq_true, ↓reduceIte, b40, b43, b44] at h
+    simp only [bIf_eqT, hd, b40, b43, b44] at h
     simp only [Bool.and_eq_true] at h
     exact ⟨char_of_beq h.1 (by decide), h.2⟩
   · rw [run_dig_bad hd (Or.inr rfl)] at h
@@ -301,7 +301,7 @@ private theorem run5_nd {ch : Char} {cs : List Char} {v len : Nat} {ws : List In
     ch = '\n' ∧ ws = [] ∧ ∃ e CL', CL = e :: CL' ∧ convRun cs 0 0 0 [] CL' = true := by
   rw [run_cons] at h
   simp only [strictB_eqT, bAnd_eqT] at h
-  simp only [bIf_eqT, hd, Bool.false_eq_true, ↓reduceIte, b50, b53, b54, b55] at h
+  simp only [bIf_eqT, hd, b50, b53, b54, b55] at h
   simp only [Bool.and_eq_true] at h
   obtain ⟨h10, hws, h⟩ := h
   refine ⟨char_of_beq h10 (by decide), ?_, ?_⟩
@@ -320,7 +320,7 @@ private theorem run2_nd {ch : Char} {cs : List Char} {v len : Nat} {ws : List In
         (ch = '\n' ∧ rest = [] ∧ ∃ e CL', CL = e :: CL' ∧ convRun cs 0 0 0 [] CL' = true)) := by
   rw [run_cons] at h
   simp only [strictB_eqT, bAnd_eqT] at h
-  simp only [bIf_eqT, hd, Bool.false_eq_true, ↓reduceIte, b20, b23, b24, b25, b22] at h
+  simp only [bIf_eqT, hd, b20, b23, b24, b25, b22] at h
   simp only [Bool.and_eq_true] at h
   obtain ⟨-, hlen, h⟩ := h
   refine ⟨by simpa [Nat.blt_eq] using hlen, ?_⟩
@@ -331,9 +331,9 @@ private theorem run2_nd {ch : Char} {cs : List Char} {v len : Nat} {ws : List In
     obtain ⟨hz, h⟩ := h
     refine ⟨z, rest, rfl, Nat.eq_of_beq_eq_true hz, ?_⟩
     by_cases h32 : Nat.beq ch.toNat 32 = true
-    · rw [if_pos h32] at h
+    · rw [ite_eq_left h32] at h
       exact Or.inl ⟨char_of_beq h32 (by decide), h⟩
-    · rw [if_neg h32] at h
+    · rw [ite_eq_right h32] at h
       simp only [Bool.and_eq_true] at h
       obtain ⟨h10, hr, h⟩ := h
       refine Or.inr ⟨char_of_beq h10 (by decide), ?_, ?_⟩
@@ -393,7 +393,7 @@ private theorem word_inv : ∀ (cs cur : List Char) (v len : Nat) (ws : List Int
       · refine ⟨[], cs, rfl, by simp, ?_, e, CL', rfl, h1⟩
         rw [List.splitOnPPrepend_nil, List.reverse_reverse, List.filterMap_cons, htv,
           List.filterMap_nil]
-    · rw [run_dig hdg (Or.inr (Or.inl rfl)), if_neg (by decide)] at h
+    · rw [run_dig hdg (Or.inr (Or.inl rfl)), ite_eq_right (by decide)] at h
       obtain ⟨h1, h2, h3⟩ := ne_of_dig hdg
       obtain ⟨wd, rest, rfl, hw, hf, he⟩ := word_inv cs (cur ++ [ch]) _ _ ws CL
         (fun c hc => by
@@ -422,7 +422,7 @@ private theorem word5 {cs : List Char} {ws : List Int} {CL : List (Nat × List I
     · obtain ⟨rfl, rfl, e, CL', rfl, h1⟩ := run5_nd hdg h
       refine ⟨[], cs, rfl, by simp, ?_, e, CL', rfl, h1⟩
       simp [tv_nil]
-    · rw [run_dig hdg (Or.inr (Or.inr rfl)), if_neg (by decide)] at h
+    · rw [run_dig hdg (Or.inr (Or.inr rfl)), ite_eq_right (by decide)] at h
       obtain ⟨h1, h2, h3⟩ := ne_of_dig hdg
       obtain ⟨wd, rest, rfl, hw, hf, he⟩ := word_inv cs [ch] _ _ ws CL
         (fun c hc => by
@@ -467,7 +467,7 @@ private theorem line_inv : ∀ (cs ds : List Char) (v len : Nat) (ws : List Int)
             omega
           refine Or.inr ⟨[], wd, rest, w, CL', by simp, by simp, by simpa using hne, ?_, hw, hf, h4⟩
           rw [List.append_nil, hv]
-    · rw [run_dig hdg (Or.inl rfl), if_pos rfl] at h
+    · rw [run_dig hdg (Or.inl rfl), ite_eq_left rfl] at h
       rcases line_inv cs (ds ++ [ch]) _ _ ws CL
         (fun c hc => by
           rcases List.mem_append.1 hc with hc | hc

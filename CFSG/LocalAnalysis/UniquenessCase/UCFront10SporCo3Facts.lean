@@ -126,20 +126,20 @@ theorem rep_co3KW {t : ℕ} (ht : t < 72) :
   rw [co3KW, getElem!_ofFn' _ ht]
   dsimp only
   by_cases h : t < 64
-  · rw [if_pos h, co3Kw, if_pos h, commA]
+  · rw [ite_eq_left h, co3Kw, ite_eq_left h, commA]
     have h1 : t / 8 < 8 := by omega
     have h2 : t % 8 < 8 := Nat.mod_lt _ (by norm_num)
     exact rep_compA (rep_compA (rep_compA (rep_co3KGens h2) (rep_co3KGens h1))
       (rep_invCand_co3KGens h2)) (rep_invCand_co3KGens h1)
-  · rw [if_neg h, co3Kw, if_neg h]
+  · rw [ite_eq_right h, co3Kw, ite_eq_right h]
     exact rep_co3KPow (rep_co3KGens (by omega)) 4
 
 theorem co3Kw_cases {t : ℕ} (ht : t < 72) :
     (∃ a < 8, ∃ b < 8, co3Kw t = co3TGen a * co3TGen b * (co3TGen a)⁻¹ * (co3TGen b)⁻¹) ∨
       ∃ a < 8, co3Kw t = co3TGen a ^ 4 := by
   by_cases h : t < 64
-  · exact Or.inl ⟨t % 8, Nat.mod_lt _ (by norm_num), t / 8, by omega, by rw [co3Kw, if_pos h]⟩
-  · exact Or.inr ⟨t - 64, by omega, by rw [co3Kw, if_neg h]⟩
+  · exact Or.inl ⟨t % 8, Nat.mod_lt _ (by norm_num), t / 8, by omega, by rw [co3Kw, ite_eq_left h]⟩
+  · exact Or.inr ⟨t - 64, by omega, by rw [co3Kw, ite_eq_right h]⟩
 
 theorem co3KAllProd3_spec
     {p : Array ℕ → Bool} (h : co3KAllProd3 co3TLevels p = true) {x : Equiv.Perm (Fin 276)}

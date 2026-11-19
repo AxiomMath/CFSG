@@ -218,17 +218,17 @@ theorem card_le_pow_rank_of_isUnit_det {p : ℕ} [Fact p.Prime] {Bs : Subgroup G
 
 theorem pow_rank_le_card_of_cartan_pairing {p : ℕ} [Fact p.Prime] {Bs : Subgroup G}
     (hBs : IsElemAbelian p Bs) {ι : Type} [Fintype ι] [DecidableEq ι] {C : Matrix ι ι ℤ}
-    (hpair : ∀ {V : Type} [AddCommGroup V] [Module (ZMod p) V] (ιV : Additive ↥Bs ≃+ V),
+    (hpair : ∀ {V : Type} [AddCommGroup V] [Module (ZMod p) V] (_ιV : Additive ↥Bs ≃+ V),
       ∃ (h : ι → V) (α : ι → Module.Dual (ZMod p) V), ∀ i j, α i (h j) = (C i j : ZMod p)) :
     p ^ (C.map (Int.castRingHom (ZMod p))).rank ≤ Nat.card Bs := by
   have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  obtain ⟨V, hVadd, hVmod, ⟨ιV⟩⟩ := exists_ggLinData (p := p) hBs
+  obtain ⟨V, hVadd, hVmod, ⟨_ιV⟩⟩ := exists_ggLinData (p := p) hBs
   let : AddCommGroup V := hVadd
   let : Module (ZMod p) V := hVmod
-  have : Finite V := Finite.of_equiv _ ιV.toEquiv
+  have : Finite V := Finite.of_equiv _ _ιV.toEquiv
   let : Fintype V := Fintype.ofFinite V
-  obtain ⟨h, α, hP⟩ := hpair ιV
-  rw [card_eq_of_ggLin ιV, Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod p),
+  obtain ⟨h, α, hP⟩ := hpair _ιV
+  rw [card_eq_of_ggLin _ιV, Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod p),
     ZMod.card]
   exact Nat.pow_le_pow_right (Fact.out : p.Prime).pos
     ((cartan_rank_le_finrank_span h α hP).trans (Submodule.finrank_le _))

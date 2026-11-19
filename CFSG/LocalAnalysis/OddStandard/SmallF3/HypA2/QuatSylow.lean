@@ -19,7 +19,7 @@ theorem exists_quaternion_sylow {K : Type} [Group K] [Finite K] (hK : Group.IsPe
   have hrank : CFSG.Open.twoRank K ≤ 1 := by
     rw [CFSG.Open.twoRank]
     exact (CFSG.SectionRank.pRank_eq_open_pRank_top 2 K) ▸ hr
-  haveI : Group.IsPerfect K := hK
+  have : Group.IsPerfect K := hK
   obtain ⟨T⟩ : Nonempty (Sylow 2 K) := inferInstance
   obtain ⟨r, hr3, e⟩ :=
     CFSG.TwoRankLowerBound.Helpers.sylow_two_quaternion_of_perfect_rank_one K hev hrank T

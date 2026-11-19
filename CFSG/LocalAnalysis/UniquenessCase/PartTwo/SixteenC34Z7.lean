@@ -21,7 +21,7 @@ theorem s16c34_four_le_rk_vtil (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
   set hV := h.hyp125.isElemAbelian with hVdef
   set hpf := h.hyp125.pairFacts with hpfdef
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hpf.le_normalizer hpf.le_normalizer₀
-  haveI := s15_Three_cTilde_normal (D := D) hV hMs
+  have := s15_Three_cTilde_normal (D := D) hV hMs
   by_contra hlt
   have hrk3 : rk (Vtil V₀ V hV) ≤ 3 := by omega
   obtain ⟨p, hp⟩ := hx.sig_nonempty

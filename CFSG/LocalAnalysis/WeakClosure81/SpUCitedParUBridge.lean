@@ -112,7 +112,7 @@ private theorem spUCited_suTv_coe {F : Type} [Field F] [Finite F] [CharP F 2] {n
         ↥(SUid (unitaryInvolution F 2 n) m)) : GL (Fin m) F) :
       Matrix (Fin m) (Fin m) F) = tvMat (unitaryInvolution F 2 n) e s := by
   unfold suTv
-  rw [dif_pos ⟨he, hs⟩]
+  rw [dite_eq_left ⟨he, hs⟩]
   rfl
 
 private theorem spUCited_kFactsSuProjTv_eq {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}

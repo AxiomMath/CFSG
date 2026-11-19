@@ -66,11 +66,11 @@ theorem le_normalizer_map (K : Subgroup G') {D : Subgroup G'} (hDK : D ≤ K) {T
       apply Subtype.ext
       simp only [ht'def, Subgroup.coe_mul, Subgroup.coe_inv]
       rw [← hsd]
-      simp [mul_assoc]
+      simp
     rw [h2]
     exact hs
 
-theorem subgroupOf_le_normalizer {K D T : Subgroup G'} (hDK : D ≤ K) (hTK : T ≤ K)
+theorem subgroupOf_le_normalizer {K D T : Subgroup G'} (_hDK : D ≤ K) (_hTK : T ≤ K)
     (hDN : D ≤ Subgroup.normalizer (T : Set G')) :
     D.subgroupOf K ≤ Subgroup.normalizer ((T.subgroupOf K : Subgroup K) : Set K) := by
   intro d hd

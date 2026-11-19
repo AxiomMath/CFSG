@@ -76,6 +76,7 @@ section CubePat
 variable {K : Type} [Field K] [Fintype K] [CharP K 2] {V W : Type} [AddCommGroup V] [Module K V]
   [AddCommGroup W] [Module K W]
 
+omit [Fintype K] in
 theorem pat_prod [Module.Finite K V] [Module.Finite K W] (ρ : Representation K (Cube K) V)
     (σ : Representation K (Cube K) W) (J : Fin 3 → Finset ℕ) :
     pat (ρ.prod σ) J = pat ρ J + pat σ J := by
@@ -96,6 +97,7 @@ theorem pat_prod [Module.Finite K V] [Module.Finite K W] (ρ : Representation K 
   exact repMultiplicity_eq_add_of_exact f g' (LinearMap.inl_injective) (LinearMap.snd_surjective)
     hex _
 
+omit [Fintype K] in
 theorem pat_quot_inf_le [Module.Finite K V] (ρ : Representation K (Cube K) V)
     (A B : Subrepresentation ρ) (J : Fin 3 → Finset ℕ) :
     pat (A ⊓ B).quotient J ≤ pat A.quotient J + pat B.quotient J := by
@@ -117,13 +119,14 @@ theorem pat_quot_inf_le [Module.Finite K V] (ρ : Representation K (Cube K) V)
   rw [← pat_prod]
   exact pat_le_of_injective ψ hψ J
 
+omit [Fintype K] in
 theorem pat_quot_interSub_le [Module.Finite K V] (ρ : Representation K (Cube K) V)
     (U : ℕ → Subrepresentation ρ) (m : ℕ) (J : Fin 3 → Finset ℕ) :
     pat (interSub ρ U m).quotient J ≤ ∑ i ∈ Finset.range m, pat (U i).quotient J := by
   induction m with
   | zero =>
     rw [Finset.sum_range_zero]
-    haveI : Subsingleton (V ⧸ (interSub ρ U 0).toSubmodule) :=
+    have : Subsingleton (V ⧸ (interSub ρ U 0).toSubmodule) :=
       Submodule.Quotient.subsingleton_iff.mpr rfl
     exact (pat_of_subsingleton _ J).le
   | succ m ih =>
@@ -153,6 +156,7 @@ variable {K : Type} [Field K] [Fintype K] [CharP K 2] [Algebra (ZMod 2) K]
     rw [map_mul, Module.End.mul_eq_comp, LinearMap.baseChange_comp]
     rfl
 
+omit [Fintype K] [CharP K 2] in
 theorem baseChangeRep_apply (ρ : Representation (ZMod 2) G N) (g : G) :
     baseChangeRep (K := K) ρ g = (ρ g).baseChange K := rfl
 
@@ -211,7 +215,7 @@ theorem interSub_frobIter_eq_bot {n : ℕ} (hK : Fintype.card K = 2 ^ n) (hn : 1
     (hW : IsSimpleModule (MonoidAlgebra (ZMod 2) G) ρ.asModule)
     (U₀ : Subrepresentation (baseChangeRep (K := K) ρ)) (hU : U₀.toSubmodule ≠ ⊤) :
     (interSub _ (frobIter ρ U₀) n).toSubmodule = ⊥ := by
-  haveI : Finite K := inferInstance
+  have : Finite K := inferInstance
   have hΦ : ∀ x ∈ (interSub _ (frobIter ρ U₀) n).toSubmodule,
       Φ x ∈ (interSub _ (frobIter ρ U₀) n).toSubmodule := by
     intro x hx

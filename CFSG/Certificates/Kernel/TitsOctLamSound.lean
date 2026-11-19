@@ -46,15 +46,13 @@ theorem recPK_sound {A : ℕ → ℕ} {k root cnt LAY l ORD PR LB PS : ℕ}
     fun x hx hl => ?_⟩
   · have hi' := hst i hi
     by_cases hi0 : i = 0
-    · simp only [bIf_d, blt_d, beq_d, hi0, decide_true, if_true, Bool.and_true,
-        decide_eq_true_eq] at hi'
+    · simp only [blt_d, beq_d, hi0, decide_true, decide_eq_true_eq] at hi'
       rw [hi0]
       exact ⟨hi'.1, fun h => absurd rfl h⟩
-    · simp only [bIf_d, bAnd_eq', blt_d, beq_d, hi0, decide_false, Bool.false_eq_true, if_false,
-        Bool.and_eq_true, decide_eq_true_eq] at hi'
+    · simp only [blt_d, beq_d, hi0, decide_false, Bool.and_eq_true, decide_eq_true_eq] at hi'
       exact ⟨hi'.1, fun _ => hi'.2⟩
   · have hx' := hcov x hx
-    simp only [bIf_d, bAnd_eq', blt_d, beq_d, hl, decide_true, if_true, Bool.and_eq_true,
+    simp only [blt_d, beq_d, hl, decide_true, Bool.and_eq_true,
       decide_eq_true_eq] at hx'
     exact hx'
 
@@ -88,7 +86,7 @@ theorem cmpK_sound {L0 LX LY : ℕ} (h : cmpK L0 LX LY = true) :
   unfold cmpK at h
   have hc' := allN_iff'.1 h c hc
   clear h
-  simp only [bIf_d, beq_d, h8, decide_true, if_true] at hc'
+  simp only [bIf_d, beq_d, h8, decide_true] at hc'
   cases hY : midL LY c <;> cases hX : midL LX c <;> simp_all
 
 theorem walkK_sound {L0 LX : ℕ} {P : List ℕ} (h : walkK lp L0 LX P = true) :
@@ -123,8 +121,7 @@ theorem starts_sound {L0 xp : ℕ} {W : List (List ℕ)} (h : starts L0 xp W = t
   unfold starts at h
   have hW := allN_iff'.1 h y hy
   clear h
-  simp only [bIf_d, beq_d, h2, hne, decide_true, decide_false, Bool.false_eq_true, if_true,
-    if_false] at hW
+  simp only [bIf_d, beq_d, h2, hne, decide_true, decide_false] at hW
   induction W with
   | nil => simp at hW
   | cons P W ih =>

@@ -70,6 +70,7 @@ end Components
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pPrimeCore_map_le_of_commutator_eq_bot {p : ℕ} {M C : Subgroup G}
     (hM : IsStronglyPEmbedded p M) (hθM : inSubgroup (aschbacherSolvableCore 3) C ≤ M)
     {Q : Subgroup G} (hQC : Q ≤ C) (hQM : Q ≤ M) (hpQ : p ∣ Nat.card Q)

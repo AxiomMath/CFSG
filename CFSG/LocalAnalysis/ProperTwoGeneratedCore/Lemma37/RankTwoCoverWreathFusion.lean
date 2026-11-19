@@ -106,7 +106,7 @@ theorem false_of_wreathed (hperf : commutator J = ⊤) (hZ : IsPGroup 2 (Subgrou
     obtain ⟨Bh, hBh⟩ : ∃ Bh : Subgroup (Q : Subgroup J),
         Bh = (baseSubgroup (2 ^ (k + 1))).comap ψ := ⟨_, rfl⟩
     obtain ⟨P, hPdef⟩ : ∃ P : Subgroup J, P = Bh.map (Q : Subgroup J).subtype := ⟨_, rfl⟩
-    have hP2 : IsPGroup 2 P := hPdef ▸ (Q.isPGroup'.to_subgroup Bh).map _
+    have hP2 : IsPGroup 2 P := hPdef ▸ (Q.isPGroup.to_subgroup Bh).map _
     have hPy : ∀ p ∈ P, p * y = y * p := by
       rw [hPdef]
       rintro _ ⟨g, hg, rfl⟩

@@ -31,7 +31,7 @@ private theorem q2nPE_entrywiseAdjointAut_steinberg (i : Fin τ.rank) (t : kˣ) 
         (Units.map (θ : k →* k) t) := by
   unfold CFSG.LieType.Steinberg.weylElement
   simp only [map_mul, adj_phi_xPar θ hθ]
-  simp [map_neg, map_inv₀, Units.coe_map, Units.val_neg, Units.val_inv_eq_inv_val]
+  simp [map_neg, map_inv₀, Units.coe_map, Units.val_inv_eq_inv_val]
 
 theorem adj_phi_nm (i : Fin τ.rank) :
     entrywiseAdjointAut τ (involEquiv θ hθ) (weylElement τ k i) = weylElement τ k i := by

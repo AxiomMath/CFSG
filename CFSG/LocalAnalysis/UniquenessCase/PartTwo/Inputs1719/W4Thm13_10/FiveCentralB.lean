@@ -18,8 +18,8 @@ theorem eq_one_of_mem_centQuot_fixV {W : Type} [CommGroup W] [Finite W]
     (hxc : x ∈ centQuot (fixV L)) : x = 1 := by
   set C := fixV L with hC
   obtain ⟨e⟩ := hL
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI : IsSimpleGroup ↥L := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have : IsSimpleGroup ↥L := MulEquiv.isSimpleGroup e
   have htop : commutator ↥L = ⊤ :=
     (CFSG.Fischer.commutator_eq_top_congr e).mpr
       (commutator_alternatingGroup_eq_top (α := Fin 5) (by simp))
@@ -30,7 +30,7 @@ theorem eq_one_of_mem_centQuot_fixV {W : Type} [CommGroup W] [Finite W]
     refine Subgroup.mem_subgroupOf.mpr ?_
     simpa using conj_mem_centQuot
       (fun c hc => by rw [mem_fixV.mp hc g.1 g.2]; exact hc) hnc
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hNcomm : ∀ a ∈ N, ∀ b ∈ N, a * b = b * a := by
     intro a ha b hb
     have haL : (a : MulAut W) ∈ L := a.2
@@ -281,7 +281,7 @@ theorem commSub_le_fixV_of_isAlt_five_pair {W : Type} [CommGroup W] [Finite W]
   have hcardK : Nat.card ↥K = 60 := by
     rw [Nat.card_congr eK.toEquiv, nat_card_alternatingGroup]
     norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨k, hk⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 5 (by rw [hcardK]; norm_num)
   have hc5 : (k : MulAut W) ^ 5 = 1 := by
     have hord : orderOf (k : MulAut W) = 5 := by rwa [Subgroup.orderOf_coe]
@@ -300,7 +300,7 @@ theorem commSub_le_fixV_of_isAlt_five_pair {W : Type} [CommGroup W] [Finite W]
     hKnorm.trans (le_stabSub_fixV (Y := Subgroup.normalizer (L : Set (MulAut W))) (H := L)
       (fun y hy h hl => (Subgroup.mem_set_normalizer_iff.mp hy h).mp hl))
   have hKsimple : IsSimpleGroup ↥K := by
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     exact MulEquiv.isSimpleGroup eK
   have hc1 : (k : MulAut W) ≠ 1 := by
     intro h

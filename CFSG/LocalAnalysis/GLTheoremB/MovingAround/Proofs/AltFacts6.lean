@@ -28,18 +28,22 @@ variable {p n : ℕ} {K : Subgroup G}
   (alternatingGroup (Fin n)).subtype.comp
     (e.toMonoidHom.comp (QuotientGroup.mk' (GLAPPrimeCore p ↥K)))
 
+omit [Finite G] in
 theorem permHom_apply (e : barOf p K ≃* alternatingGroup (Fin n)) (x : ↥K) :
     permHom e x = ((e (QuotientGroup.mk x) : alternatingGroup (Fin n)) : Perm (Fin n)) := rfl
 
+omit [Finite G] in
 theorem permHom_mem (e : barOf p K ≃* alternatingGroup (Fin n)) (x : ↥K) :
     permHom e x ∈ alternatingGroup (Fin n) := (e (QuotientGroup.mk x)).2
 
+omit [Finite G] in
 theorem exists_permHom_eq (e : barOf p K ≃* alternatingGroup (Fin n)) {σ : Perm (Fin n)}
     (hσ : σ ∈ alternatingGroup (Fin n)) : ∃ x : ↥K, permHom e x = σ := by
   obtain ⟨y, hy⟩ := QuotientGroup.mk_surjective (e.symm ⟨σ, hσ⟩)
   refine ⟨y, ?_⟩
   rw [permHom_apply, hy, MulEquiv.apply_symm_apply]
 
+omit [Finite G] in
 theorem permHom_eq_one_iff (e : barOf p K ≃* alternatingGroup (Fin n)) (x : ↥K) :
     permHom e x = 1 ↔ x ∈ GLAPPrimeCore p ↥K := by
   rw [← QuotientGroup.eq_one_iff, permHom_apply]
@@ -51,6 +55,7 @@ theorem permHom_eq_one_iff (e : barOf p K ≃* alternatingGroup (Fin n)) (x : �
     rw [h, map_one]
     rfl
 
+omit [Finite G] in
 theorem ker_permHom (e : barOf p K ≃* alternatingGroup (Fin n)) :
     (permHom e).ker = GLAPPrimeCore p ↥K := by
   ext x
@@ -97,6 +102,7 @@ theorem card_pullback {X Y : Type*} [Group X] [Group Y] (f : X →* Y) {H : Subg
   rw [hmap] at h
   exact h.symm
 
+omit [Finite G] in
 theorem map_normalizer_le {K : Subgroup G} (X' : Subgroup ↥K) :
     (Subgroup.normalizer (X' : Set ↥K)).map K.subtype ≤
       Subgroup.normalizer ((X'.map K.subtype : Subgroup G) : Set G) ⊓ K :=
@@ -158,7 +164,7 @@ theorem succ_mul_le_pow {p m : ℕ} (hp : 3 ≤ p) (hm : 2 ≤ m) : (m + 1) * p 
 
 theorem input24_1K_holds : Lemma118T.Input24_1K := by
   intro G _ _ p n hp hp2 hpn hn2 K hK E hEK hE hEr
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   classical
   obtain ⟨e⟩ := hK
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
@@ -271,6 +277,7 @@ end I241
 
 section Local
 
+omit [Finite G] in
 theorem le_normalizer_of_conj {D T : Subgroup G} (h : ∀ d ∈ D, ∀ t ∈ T, d * t * d⁻¹ ∈ T) :
     D ≤ Subgroup.normalizer (T : Set G) := by
   intro d hd
@@ -284,9 +291,9 @@ theorem exists_two_sub_normalized {p : ℕ} [hp : Fact p.Prime] (V D : Subgroup 
     (hDN : D ≤ Subgroup.normalizer (V : Set G)) (hD : IsPGroup p ↥D) (hV : ¬ p ∣ Nat.card V)
     (h2 : 2 ∣ Nat.card V) :
     ∃ T : Subgroup G, T ≠ ⊥ ∧ IsPGroup 2 ↥T ∧ D ≤ Subgroup.normalizer (T : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ψ : ↥D →* MulAut ↥V := (V.normalizerMonoidHom).comp (Subgroup.inclusion hDN)
-  letI : MulAction ↥D (Sylow 2 ↥V) := MulAction.compHom (Sylow 2 ↥V) ψ
+  let : MulAction ↥D (Sylow 2 ↥V) := MulAction.compHom (Sylow 2 ↥V) ψ
   have hnd : ¬ p ∣ Nat.card (Sylow 2 ↥V) := by
     obtain ⟨P⟩ : Nonempty (Sylow 2 ↥V) := inferInstance
     intro hd
@@ -305,7 +312,7 @@ theorem exists_two_sub_normalized {p : ℕ} [hp : Fact p.Prime] (V D : Subgroup 
       Subgroup.smul_mem_pointwise_smul y _ _ hy
     rw [hsub] at hmem
     exact ⟨(ψ ⟨d, hd⟩) y, hmem, rfl⟩
-  refine ⟨(P : Subgroup ↥V).map V.subtype, ?_, P.isPGroup'.map _, le_normalizer_of_conj hconj⟩
+  refine ⟨(P : Subgroup ↥V).map V.subtype, ?_, P.isPGroup.map _, le_normalizer_of_conj hconj⟩
   intro hbot
   have h2P : 2 ∣ Nat.card P := P.dvd_card_of_dvd_card h2
   have hc : Nat.card ((P : Subgroup ↥V).map V.subtype) = Nat.card P :=
@@ -440,7 +447,7 @@ theorem not_isSolvable_of_isQuasisimple {X : Type*} [Group X] (hX : CFSG.Open.Is
     have h1 : x ∈ (⊤ : Subgroup X) := Subgroup.mem_top x
     rw [hbot] at h1
     exact (Subgroup.mem_bot).1 h1
-  haveI := hsimp.toNontrivial
+  have := hsimp.toNontrivial
   obtain ⟨u, w, huw⟩ := exists_pair_ne (X ⧸ Subgroup.center X)
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective u
   obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective w
@@ -450,10 +457,10 @@ theorem not_isSolvable_of_isQuasisimple {X : Type*} [Group X] (hX : CFSG.Open.Is
 theorem five_le_of_isQuasisimple {X : Type*} [Group X] {n : ℕ} (hX : CFSG.Open.IsQuasisimple X)
     (e : X ≃* alternatingGroup (Fin n)) : 5 ≤ n := by
   by_contra hn
-  haveI : Group.IsSolvable (alternatingGroup (Fin n)) :=
+  have : Group.IsSolvable (alternatingGroup (Fin n)) :=
     alternatingGroup.isSolvable (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
   exact not_isSolvable_of_isQuasisimple hX
-    (solvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective)
+    (Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective)
 
 theorem isQuasisimple_barOf_of_pComponent {p : ℕ} (hp : p.Prime) {X K : Subgroup G}
     (hK : GLAPComponent p X K) : CFSG.Open.IsQuasisimple (barOf p K) :=
@@ -464,7 +471,7 @@ theorem input118Local_holds : Lemma118T.Input118Local := by
   intro G _ _ m p B M E A a K h n Q₁ Q₂ hn hpn hT
   have hp : p.Prime := h.standing.prime
   have hp2 : p ≠ 2 := h.standing.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   classical
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   obtain ⟨e⟩ := id hn
@@ -649,7 +656,7 @@ theorem ne_bot_of_pComponent {p : ℕ} (hp : p.Prime) {X J : Subgroup G}
     (hJ : GLAPComponent p X J) : J ≠ ⊥ := by
   intro hbot
   have hq := isQuasisimple_barOf_of_pComponent hp hJ
-  haveI := hq.2.toNontrivial
+  have := hq.2.toNontrivial
   obtain ⟨u, w, huw⟩ := exists_pair_ne (barOf p J ⧸ Subgroup.center (barOf p J))
   obtain ⟨u', rfl⟩ := QuotientGroup.mk_surjective u
   obtain ⟨w', rfl⟩ := QuotientGroup.mk_surjective w
@@ -670,7 +677,7 @@ theorem diag_iso_of_family {p : ℕ} (hp : p.Prime) {X : Subgroup G} {t : G} (ht
     (hcase : GLBConj t L ≠ L ∨ CFSG.Yardstones.Md0ec50421ce4.CentMod p L t) :
     Nonempty (barOf p J ⧸ Subgroup.center (barOf p J) ≃*
       barOf p L ⧸ Subgroup.center (barOf p L)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   classical
   set F : ↥𝒞 → Subgroup G := fun i => (i : Subgroup G) with hF
   have hKeq : (⨆ L ∈ 𝒞, L) = ⨆ i, F i := by
@@ -812,7 +819,7 @@ theorem altBalanceInput_of_inputs
   intro G _ _ m p B M E A h t J n htM htp ht1 hJM hJ hJn hn10
   have hp : p.Prime := h.standing.prime
   have hp2 : p ≠ 2 := h.standing.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hMK : CFSG.Open.IsKGroup ↥M :=
     h.standing.kProper.isKGroup M (isTwoLocal_ne_top h.standing h.pre.1.1)
   have hJM' : GLAPComponent p (M ⊓ Subgroup.centralizer ({t} : Set G)) J :=

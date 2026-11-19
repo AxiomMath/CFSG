@@ -22,7 +22,7 @@ theorem conj_injective_of_center {G : Type} [Group G] (h : Subgroup.center G = �
     rw [Subgroup.mem_center_iff]
     intro g
     have hg := congrArg (fun φ : MulAut G => φ g) hk
-    simp only [MulAut.conj_apply, map_one, MulAut.one_apply] at hg
+    simp only [MulAut.conj_apply, MulAut.one_apply] at hg
     exact ((mul_inv_eq_iff_eq_mul).1 hg).symm
   rw [h, Subgroup.mem_bot] at hcen
   exact hcen

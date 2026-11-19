@@ -37,7 +37,7 @@ theorem zBar_of_mem_six {δ : Finset (Fin 8)} (hδ : δ ∈ six) (h : δ.card = 
       zBar δ h = zBar d0 card_d0 * zBar b0 card_b0 := by
   rw [zBar_d0_mul_b0]
   rw [six_eq] at hδ
-  simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hδ
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at hδ
   rcases hδ with rfl | rfl | rfl | rfl | rfl | rfl
   · exact Or.inl rfl
   · exact Or.inl (zBar_compl _ card_d0 h).symm

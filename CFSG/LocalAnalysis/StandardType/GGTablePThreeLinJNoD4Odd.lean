@@ -32,8 +32,8 @@ theorem linJNoD4Odd_holds :
     CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw
   obtain ⟨hRsimple, -, θ, hP⟩ := hQ
   obtain ⟨htag, hrank, -⟩ := hP
-  haveI : IsSimpleGroup R := hRsimple
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := MulEquiv.isSimpleGroup θ
+  have : IsSimpleGroup R := hRsimple
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := MulEquiv.isSimpleGroup θ
   have hquis : CFSG.IsQuasisimple J :=
     CFSG.RankThree.PartOne.S11d.isQuasisimple_of_perfect_of_simple ⟨hc⟩ inferInstance
   have hraw' : CFSG.Assembly.LargeEvenRawDatum lab
@@ -43,7 +43,7 @@ theorem linJNoD4Odd_holds :
   have hHas : CFSG.LocalAnalysis.GLTheoremA.Y10F.HasLabel J
       (fun l : CFSG.Open.GLALabel => l = lab) :=
     CFSG.LocalAnalysis.GLTheoremA.Y10F.hasLabel_of_quasisimple_rawDatum hquis hlab hraw'
-  haveI : Finite J :=
+  have : Finite J :=
     CFSG.RankThree.PerfectCover.finite_of_quasisimple_finite_central_quotient hquis e
   obtain ⟨k, -, hk⟩ := CFSG.ABGLocalTools.card_eq_ringChar_pow (F := E)
   have hrc : ringChar E = 2 := ringChar.eq_iff.mpr hchar

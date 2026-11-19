@@ -28,7 +28,7 @@ theorem exists_conj_extremal_univ {G : Type*} [Group G] [Finite G] {S : Subgroup
       ∀ c ∈ S ⊓ Subgroup.centralizer ({u} : Set G),
         g⁻¹ * c * g ∈ S ⊓ Subgroup.centralizer ({v} : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup G := S ⊓ Subgroup.centralizer ({u} : Set G)
   set P' : Subgroup G := P.map (MulAut.conj h).toMonoidHom
   have hP'K : P' ≤ Subgroup.centralizer ({v} : Set G) := by
@@ -109,7 +109,7 @@ theorem transvection_conj_apply {A : Type*} [Group A] {τ x : MulAut A} {z : A}
     rw [hz]
 
 theorem transvection_center_unique {A : Type*} [Group A] {τ : MulAut A} {z z' : A}
-    (h : ∀ v : A, v⁻¹ * τ v = 1 ∨ v⁻¹ * τ v = z)
+    (_h : ∀ v : A, v⁻¹ * τ v = 1 ∨ v⁻¹ * τ v = z)
     (h' : ∀ v : A, v⁻¹ * τ v = 1 ∨ v⁻¹ * τ v = z')
     {w : A} (hw : w⁻¹ * τ w = z) (hz1 : z ≠ 1) : z = z' := by
   rcases h' w with h0 | hz
@@ -148,15 +148,15 @@ namespace Sec3Setting
 variable {G : Type*} [Group G] [Finite G]
 
 theorem exists_conj_mem_normalizer_of_isConj_center (𝔖 : Sec3Setting G) {A : Subgroup G}
-    (hAS : A ≤ (𝔖.S : Subgroup G)) (hA : IsE16 A) {v w : G} (hv : v ∈ A) (hw : w ∈ A)
-    (hwS : (𝔖.S : Subgroup G) ≤ C w) (hv2 : orderOf v = 2) (hw2 : orderOf w = 2)
+    (hAS : A ≤ (𝔖.S : Subgroup G)) (hA : IsE16 A) {v w : G} (hv : v ∈ A) (_hw : w ∈ A)
+    (hwS : (𝔖.S : Subgroup G) ≤ C w) (_hv2 : orderOf v = 2) (_hw2 : orderOf w = 2)
     (hconj : IsConj v w) :
     ∃ g ∈ normalizer (A : Set G), g * v * g⁻¹ = w := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htop : CFSG.ABGLocalTools.IsSylowOf 2 (𝔖.S : Subgroup G) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, 𝔖.S.isPGroup', by simpa using 𝔖.S.not_dvd_index⟩
+    exact ⟨le_top, 𝔖.S.isPGroup, by simpa using 𝔖.S.not_dvd_index⟩
   have hwsyl : CFSG.ABGLocalTools.IsSylowOf 2
       ((𝔖.S : Subgroup G) ⊓ C w) (C w) := by
     have h := htop.of_le hwS le_top
@@ -166,7 +166,7 @@ theorem exists_conj_mem_normalizer_of_isConj_center (𝔖 : Sec3Setting G) {A : 
     calc c⁻¹ * w * c = c⁻¹ * (c * v * c⁻¹) * c := by rw [hc]
       _ = v := by group
   obtain ⟨g, hgv, hgC⟩ := exists_conj_extremal_univ
-    (S := (𝔖.S : Subgroup G)) 𝔖.S.isPGroup' hwsyl hch
+    (S := (𝔖.S : Subgroup G)) 𝔖.S.isPGroup hwsyl hch
   have hAconv : A.map (MulAut.conj g⁻¹).toMonoidHom ≤ (𝔖.S : Subgroup G) := by
     intro x hx
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp hx
@@ -199,7 +199,7 @@ theorem exists_conj_mem_normalizer_of_isConj_center (𝔖 : Sec3Setting G) {A : 
   · refine Subgroup.mem_normalizer_iff.mpr fun x => ⟨?_, ?_⟩
     · intro hx
       refine hBmapA ▸ Subgroup.mem_map.mpr
-        ⟨g⁻¹ * x * g, Subgroup.mem_map.mpr ⟨x, hx, by simp [MulAut.conj_apply]⟩, ?_⟩
+        ⟨g⁻¹ * x * g, Subgroup.mem_map.mpr ⟨x, hx, by simp⟩, ?_⟩
       show (MulAut.conj s⁻¹) (g⁻¹ * x * g) = (s⁻¹ * g⁻¹) * x * (s⁻¹ * g⁻¹)⁻¹
       rw [MulAut.conj_apply]
       group
@@ -252,7 +252,7 @@ theorem lemma_3_10 (𝔖 : Sec3Setting G) (h₁ : IsDihNonab 𝔖.S₁)
     ∀ v ∈ A, ∀ w ∈ A, orderOf v = 2 → orderOf w = 2 → v ∉ 𝔖.S₁ → v ∉ 𝔖.S₂ → w ∉ 𝔖.S₁ →
       w ∉ 𝔖.S₂ → ∃ g ∈ Subgroup.normalizer (A : Set G), g * v * g⁻¹ = w := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hh₁ := h₁
   obtain ⟨k₁, hk₁, ⟨e₁⟩⟩ := hh₁
   obtain ⟨k₂, hk₂, ⟨e₂⟩⟩ := 𝔖.decomp.dih₂
@@ -1220,7 +1220,7 @@ theorem lemma_3_10 (𝔖 : Sec3Setting G) (h₁ : IsDihNonab 𝔖.S₁)
   have hσ₂odd : Odd (orderOf σ₂) :=
     hQbar_odd.of_dvd_nat (hQbarAmb_card' ▸
       Subgroup.orderOf_dvd_natCard (s := QbarAmb) (x := σ₂) hσ₂mem)
-  haveI : IsMulCommutative ↥QbarAmb :=
+  have : IsMulCommutative ↥QbarAmb :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by
       rw [hQbarAmb_card9]; norm_num)
   have hσcomm : σ₁ * σ₂ = σ₂ * σ₁ :=
@@ -1287,8 +1287,8 @@ theorem lemma_3_10 (𝔖 : Sec3Setting G) (h₁ : IsDihNonab 𝔖.S₁)
     simpa [mul_assoc] using hcomm.symm
   have hA₁cardX : Nat.card X = 4 := hXcard
   have hA₁_le_X : A₁ ≤ X := by
-    haveI : Fintype A₁ := Fintype.ofFinite A₁
-    haveI : IsKleinFour ↥A₁ := isKleinFour_of_isFourIn hV₁
+    have : Fintype A₁ := Fintype.ofFinite A₁
+    have : IsKleinFour ↥A₁ := isKleinFour_of_isFourIn hV₁
     intro y hy
     have hy' : (⟨y, hy⟩ : A₁) ∈ (Finset.univ : Finset A₁) := Finset.mem_univ _
     have huniv := IsKleinFour.eq_finset_univ (G := ↥A₁)
@@ -1363,8 +1363,8 @@ theorem lemma_3_10 (𝔖 : Sec3Setting G) (h₁ : IsDihNonab 𝔖.S₁)
     have hcomm := congrArg (fun x => x * u₂) hu₂z
     simpa [mul_assoc] using hcomm.symm
   have hA₂_le_Y : A₂ ≤ Y := by
-    haveI : Fintype A₂ := Fintype.ofFinite A₂
-    haveI : IsKleinFour ↥A₂ := isKleinFour_of_isFourIn hV₂
+    have : Fintype A₂ := Fintype.ofFinite A₂
+    have : IsKleinFour ↥A₂ := isKleinFour_of_isFourIn hV₂
     intro y hy
     have hy' : (⟨y, hy⟩ : A₂) ∈ (Finset.univ : Finset A₂) := Finset.mem_univ _
     have huniv := IsKleinFour.eq_finset_univ (G := ↥A₂)

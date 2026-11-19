@@ -72,7 +72,7 @@ theorem s9g_K_le_closure_conj {G : Type} [Group G] [Finite G] {M H K T : Subgrou
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have h1 := hCinv (g : G) g.2 (n : G) hn
     simpa using h1
-  haveI := hC'n
+  have := hC'n
   set X : Set ↥K := {y : ↥K | ∃ k ∈ K, (y : G) = ⁅v, k⁆}
   have hR : Subgroup.normalClosure X ≤ (Subgroup.closure gens).subgroupOf K := by
     apply Subgroup.normalClosure_le_normal

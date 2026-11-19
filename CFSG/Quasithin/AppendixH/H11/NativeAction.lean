@@ -156,7 +156,7 @@ theorem four_le_rkIdx_of_involution [Finite V]
     rwa [hprod_eq] at hmem'
   exact hind S hS hmem
 
-theorem orderOf_m12a (hV : ∀ v : V, v ^ 2 = 1) :
+theorem orderOf_m12a (_hV : ∀ v : V, v ^ 2 = 1) :
     orderOf (c.π CFSG.Sporadic.Mathieu.m12a : MulAut V) = 2 := by
   have hmul : CFSG.Sporadic.Mathieu.m12a * CFSG.Sporadic.Mathieu.m12a = 1 := by
     apply Subtype.ext

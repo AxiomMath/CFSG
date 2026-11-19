@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.LocalAnalysis.UniquenessCase.PartTwo
 
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)} {t : MulAut W}
 
+omit [Finite W] in
 private lemma w135c2_mem_fixV_zpowers {w : W} :
     w ∈ fixV (Subgroup.zpowers t) ↔ t w = w := by
   refine ⟨fun h => h t (Subgroup.mem_zpowers t), fun h x hx => ?_⟩
@@ -17,6 +18,7 @@ private lemma w135c2_mem_fixV_zpowers {w : W} :
     Subgroup.zpowers_le.mpr (MulAction.mem_stabilizer_iff.mpr h)
   exact MulAction.mem_stabilizer_iff.mp (hle hx)
 
+omit [Finite W] in
 private lemma w135c2_char_two (hW : ∀ w : W, w ^ 2 = 1) :
     ∀ x : ↥(LEnd L), x + x = 0 := by
   have h2W : ∀ y : Additive W, y + y = 0 := by
@@ -33,14 +35,18 @@ private lemma w135c2_char_two (hW : ∀ w : W, w ^ 2 = 1) :
 private def w135c2_smul (e : ↥(LEnd L)) (v : W) : W :=
   Additive.toMul ((e : AddMonoid.End (Additive W)) (Additive.ofMul v))
 
+omit [Finite W] in
 private lemma w135c2_smul_add (e₁ e₂ : ↥(LEnd L)) (v : W) :
     w135c2_smul (e₁ + e₂) v = w135c2_smul e₁ v * w135c2_smul e₂ v := rfl
 
+omit [Finite W] in
 private lemma w135c2_smul_one (v : W) : w135c2_smul (1 : ↥(LEnd L)) v = v := rfl
 
+omit [Finite W] in
 private lemma w135c2_smul_neg (e : ↥(LEnd L)) (v : W) :
     w135c2_smul (-e) v = (w135c2_smul e v)⁻¹ := rfl
 
+omit [Finite W] in
 private lemma w135c2_smul_semilinear (σ : ↥(LEnd L) ≃+* ↥(LEnd L)) (hσ : SemilinearBy t σ)
     (e : ↥(LEnd L)) (v : W) :
     w135c2_smul (σ e) (t v) = t (w135c2_smul e v) := by
@@ -51,7 +57,7 @@ private lemma w135c2_exists_add_sigma_eq_one (hW : ∀ w : W, w ^ 2 = 1) (hirr :
     (σ : ↥(LEnd L) ≃+* ↥(LEnd L)) (hσ2 : ∀ φ, σ (σ φ) = φ) (hne : ∃ φ, σ φ ≠ φ) :
     ∃ e0 : ↥(LEnd L), e0 + σ e0 = 1 := by
   classical
-  letI : Field ↥(LEnd L) := (w135c2_lend_isField hW hirr).toField
+  let : Field ↥(LEnd L) := (w135c2_lend_isField hW hirr).toField
   have h2 := w135c2_char_two (L := L) hW
   obtain ⟨φ, hφ⟩ := hne
   have hc_ne : φ + σ φ ≠ 0 := by
@@ -72,6 +78,7 @@ private def w135c2_speiserHom (t : MulAut W) : W →* W where
     simp only [map_mul, mul_inv_rev]
     ac_rfl
 
+omit [Finite W] in
 private lemma w135c2_speiserHom_ker (t : MulAut W) :
     (w135c2_speiserHom t).ker = fixV (Subgroup.zpowers t) := by
   ext w
@@ -80,6 +87,7 @@ private lemma w135c2_speiserHom_ker (t : MulAut W) :
   rw [mul_inv_eq_one]
   exact eq_comm
 
+omit [Finite W] in
 private lemma w135c2_speiserHom_range_le (hW : ∀ w : W, w ^ 2 = 1) (ht2 : orderOf t = 2) :
     (w135c2_speiserHom t).range ≤ fixV (Subgroup.zpowers t) := by
   rintro x ⟨w, rfl⟩
@@ -96,6 +104,7 @@ private lemma w135c2_speiserHom_range_le (hW : ∀ w : W, w ^ 2 = 1) (ht2 : orde
     _ = w * t w := by rw [mul_comm]
     _ = w * (t w)⁻¹ := by rw [hinv (t w)]
 
+omit [Finite W] in
 private lemma w135c2_speiserHom_range_ge (hW : ∀ w : W, w ^ 2 = 1) (t : MulAut W)
     (σ : ↥(LEnd L) ≃+* ↥(LEnd L)) (hσ : SemilinearBy t σ)
     {e0 : ↥(LEnd L)} (he0 : e0 + σ e0 = 1) :
@@ -115,9 +124,9 @@ theorem w135c2_semilinear (hW : ∀ w : W, w ^ 2 = 1) (hirr : IsIrrOn L ⊤ ⊥)
     (hσ : SemilinearBy t σ) (hσ2 : ∀ φ, σ (σ φ) = φ) (hne : ∃ φ, σ φ ≠ φ) :
     Even k ∧ rk W = 2 * E3.mQuot ⊤ (fixV (Subgroup.zpowers t)) := by
   classical
-  letI : Field ↥(LEnd L) := (w135c2_lend_isField hW hirr).toField
-  haveI : Finite (AddMonoid.End (Additive W)) := DFunLike.finite _
-  haveI : Finite ↥(LEnd L) := inferInstance
+  let : Field ↥(LEnd L) := (w135c2_lend_isField hW hirr).toField
+  have : Finite (AddMonoid.End (Additive W)) := DFunLike.finite _
+  have : Finite ↥(LEnd L) := inferInstance
   have hσsq : σ * σ = 1 := by
     apply RingEquiv.ext
     intro φ
@@ -127,12 +136,12 @@ theorem w135c2_semilinear (hW : ∀ w : W, w ^ 2 = 1) (hirr : IsIrrOn L ⊤ ⊥)
     obtain ⟨φ, hφ⟩ := hne
     exact hφ (by simpa using congrArg (fun f : ↥(LEnd L) ≃+* ↥(LEnd L) => f φ) h)
   have hEven : Even k := by
-    haveI : Finite (↥(LEnd L) ≃+* ↥(LEnd L)) := by
+    have : Finite (↥(LEnd L) ≃+* ↥(LEnd L)) := by
       refine Finite.of_injective
         (fun f : ↥(LEnd L) ≃+* ↥(LEnd L) => (f : ↥(LEnd L) → ↥(LEnd L))) ?_
       intro a b h
       exact RingEquiv.ext (congrFun h)
-    haveI : Fintype ↥(Subgroup.zpowers σ) := Fintype.ofFinite _
+    have : Fintype ↥(Subgroup.zpowers σ) := Fintype.ofFinite _
     have hcardσ : Fintype.card ↥(Subgroup.zpowers σ) = 2 := by
       rw [← Nat.card_eq_fintype_card, Nat.card_zpowers]
       exact orderOf_eq_prime (p := 2) (by rwa [pow_two]) hσne

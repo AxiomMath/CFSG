@@ -13,7 +13,7 @@ theorem ncard_conjugatesOf_le_seven {X : Type} [Group X] [Finite X] {E : Subgrou
     intro x hx
     have hx' : IsConj t x := hx
     obtain ⟨c, rfl⟩ := isConj_iff.1 hx'
-    rw [Set.mem_diff, Set.mem_singleton_iff, SetLike.mem_coe]
+    rw [Set.mem_sdiff, Set.mem_singleton_iff, SetLike.mem_coe]
     refine ⟨hE.normal c (Subgroup.mem_top c) t htE, fun h => ht1 ?_⟩
     simpa using h
   have hEcard : (E : Set X).ncard = 8 :=

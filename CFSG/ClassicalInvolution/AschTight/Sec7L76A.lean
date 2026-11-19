@@ -15,7 +15,7 @@ omit [Finite G] in
 theorem isPGroup_of_mem_WSet {W : Subgroup G} (hW : W ∈ WSet Ω) : IsPGroup 2 W := by
   obtain ⟨η, hη, rfl⟩ := hW
   obtain ⟨S, hS⟩ := exists_sylow_of_mem_etaG hη
-  exact S.isPGroup'.to_le (iSup₂_le hS)
+  exact S.isPGroup.to_le (iSup₂_le hS)
 
 omit [Finite G] in
 theorem isPGroup_of_mem_RSet {R : Subgroup G} (hR : R ∈ RSet Ω) : IsPGroup 2 R := by

@@ -25,8 +25,8 @@ theorem svRankG2_holds :
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hq'⟩ := hQ
   refine ⟨K, i1, i2, hK, hq', fun _ _ B hB hBI => ?_⟩
-  haveI : CharP K 2 := charP_two_of_card hK
-  haveI := TableBExc.finite_recipeGroup .G2 K
+  have : CharP K 2 := charP_two_of_card hK
+  have := TableBExc.finite_recipeGroup .G2 K
   have hI := chevIDImage_subset_inn_of_top (τ := .G2) (K := K)
     (TableB.torusSubgroup_eq_top_of_mul_eq_smul _ K TableB.cartanG2_inv fun s => ⟨s, pow_one s⟩)
   have hBinn := fun φ (hφ : φ ∈ B) => ((Subgroup.closure_le _).mpr hI) (hBI hφ)

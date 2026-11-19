@@ -41,8 +41,8 @@ theorem le_or_le_of_subset_union {Y M₁ M₂ : Subgroup Q}
   by_contra hcon
   rw [not_or] at hcon
   obtain ⟨h1, h2⟩ := hcon
-  obtain ⟨y₁, hy₁, hy₁M⟩ := SetLike.not_le_iff_exists.1 h1
-  obtain ⟨y₂, hy₂, hy₂M⟩ := SetLike.not_le_iff_exists.1 h2
+  obtain ⟨y₁, hy₁, hy₁M⟩ := IsConcreteLE.not_le_iff_exists.1 h1
+  obtain ⟨y₂, hy₂, hy₂M⟩ := IsConcreteLE.not_le_iff_exists.1 h2
   have hy₁' : y₁ ∈ M₂ := (h hy₁).resolve_left hy₁M
   have hy₂' : y₂ ∈ M₁ := (h hy₂).resolve_right hy₂M
   rcases h (Y.mul_mem hy₁ hy₂) with hm | hm

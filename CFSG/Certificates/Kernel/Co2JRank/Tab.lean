@@ -61,8 +61,8 @@ theorem cntJ_eq (K1 K3 vr c : Nat) :
   refine Finset.sum_congr rfl fun v _ => ?_
   rw [oneIf_eq]
   by_cases h : clsJ K1 K3 vr v = c
-  · rw [if_pos h, h, Nat.beq_refl, if_pos rfl]
-  · rw [if_neg h, beq_false h, if_neg Bool.false_ne_true]
+  · rw [ite_eq_left h, h, Nat.beq_refl, ite_eq_left rfl]
+  · rw [ite_eq_right h, beq_false h, ite_eq_right Bool.false_ne_true]
 
 theorem cntK_sound {K1 K3 vr CNT : Nat} (h : cntK K1 K3 vr CNT = true) :
     ∀ c < 10, ((Finset.range 1024).filter fun v => clsJ K1 K3 vr v = c).card =
@@ -110,7 +110,7 @@ theorem olK_sound {OM OL m : Nat} (h : olK OM OL m = true) :
   have hinc : ∀ i, i + 1 < m → fldJ OL i < fldJ OL (i + 1) := fun i hi => by
     have := hl' i (by omega)
     rw [andK_eq, Bool.and_eq_true, implK_eq,
-      if_pos (blt_iff.2 (show Nat.succ i < m from hi))] at this
+      ite_eq_left (blt_iff.2 (show Nat.succ i < m from hi))] at this
     exact blt_iff.1 this.2
   have hinj : Set.InjOn (fldJ OL) (Finset.range m) := by
     intro a ha b hb e
@@ -143,7 +143,7 @@ theorem nK_sound {K1 K3 vr OM OL m NT : Nat} (hom : omK K1 K3 vr OM = true)
   obtain ⟨himg, hinj⟩ := olK_sound hol
   have e := allBelow_spec h y hy (lt_of_lt_of_le hy (by decide))
   simp only [letB_eq, implK_eq] at e
-  rw [if_pos (blt_iff.2 hc)] at e
+  rw [ite_eq_left (blt_iff.2 hc)] at e
   have hs : (∑ i ∈ Finset.range m, if OM.testBit (fldJ OL i ^^^ y) then 1 else 0) =
       ∑ t ∈ (Finset.range m).image (fldJ OL), if OM.testBit (t ^^^ y) then 1 else 0 :=
     (Finset.sum_image (f := fun t => if OM.testBit (t ^^^ y) then 1 else 0) hinj).symm
@@ -217,8 +217,8 @@ theorem xsub_xor (C u w : Nat) : ∀ n, xsub C n (u ^^^ w) = xsub C n u ^^^ xsub
     apply Nat.eq_of_testBit_eq
     intro i
     cases u.testBit n <;> cases w.testBit n <;>
-      simp only [Bool.xor_false, Bool.xor_true, Bool.false_xor, Bool.true_xor, Bool.not_false,
-        Bool.not_true, Bool.false_eq_true, if_true, if_false, Nat.testBit_xor, Nat.zero_testBit] <;>
+      simp only [Bool.xor_false, Bool.xor_true, Bool.not_false,
+        Bool.not_true, Bool.false_eq_true, ite_true, ite_false, Nat.testBit_xor, Nat.zero_testBit] <;>
       cases (xsub C n u).testBit i <;> cases (xsub C n w).testBit i <;>
       cases (fldJ C n).testBit i <;> rfl
 
@@ -268,7 +268,7 @@ theorem spK_sound {K1 K3 vr C : Nat} (h : spK K1 K3 vr C = true) :
   · rw [himg, ← popJ_eq]
     exact Nat.eq_of_beq_eq_true hp
   · have := allBelow_spec hv v hv' (lt_of_lt_of_le hv' (by decide))
-    rw [implK_eq, if_pos hvc, tbK_eq, spanJ_testBit] at this
+    rw [implK_eq, ite_eq_left hvc, tbK_eq, spanJ_testBit] at this
     exact this
 
 theorem evenK_eq (n v : Nat) :
@@ -281,9 +281,9 @@ theorem evenK_eq (n v : Nat) :
     change bIf(tbK v n, notK (evenK n v), evenK n v) = _
     rw [bIf_eq', tbK_eq, notK_eq, ih, Finset.range_add_one, Finset.filter_insert]
     by_cases hb : v.testBit n = true
-    · rw [if_pos hb, if_pos hb, Finset.card_insert_of_notMem (by simp)]
-      simp [Nat.even_add_one, ← Nat.not_even_iff_odd]
-    · rw [if_neg hb, if_neg hb]
+    · rw [ite_eq_left hb, ite_eq_left hb, Finset.card_insert_of_notMem (by simp)]
+      simp [Nat.even_add_one, -Nat.not_even_iff_odd]
+    · rw [ite_eq_right hb, ite_eq_right hb]
 
 theorem parK_sound {K1 n : Nat} (h : parK K1 n = true) (hn : 2 ^ n ≤ 64) :
     ∀ v < 2 ^ n, ((v ≠ 0 ∧ Even ((Finset.range n).filter fun i => v.testBit i = true).card) ↔
@@ -307,6 +307,7 @@ section Transfer
 
 variable {M : Type*} [Monoid M] {e : ℕ → M}
 
+omit [Monoid M] in
 theorem card_image_sub (hinj : ∀ s < 1024, ∀ t < 1024, e s = e t → s = t) (P : M → Prop) :
     Nat.card {x // (∃ v < 1024, e v = x) ∧ P x} = Nat.card {v // v < 1024 ∧ P (e v)} := by
   let F : {v // v < 1024 ∧ P (e v)} → {x // (∃ v < 1024, e v = x) ∧ P x} :=

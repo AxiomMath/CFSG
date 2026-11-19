@@ -14,6 +14,7 @@ namespace Stroth47Core
 
 variable {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t200 m)) {e : G} {p : ℕ}
 
+omit [Finite G] in
 theorem t200_u_mul_c : dD.u * (dD.c : G) = (dD.c : G) * dD.u := by
   have h := dD.conj_ofTorus dD.u_mem dD.u_conj Torus.c
   rw [show (StrothTypeIndex.t200 m).action.φu Torus.c = Torus.c from by
@@ -21,11 +22,13 @@ theorem t200_u_mul_c : dD.u * (dD.c : G) = (dD.c : G) * dD.u := by
   calc dD.u * (dD.c : G) = dD.u * (dD.u⁻¹ * (dD.c : G) * dD.u) := by rw [h]
     _ = (dD.c : G) * dD.u := by group
 
+omit [Finite G] in
 theorem t200inv_e_conj_c₂ {p : ℕ}
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) :
     e⁻¹ * (dD.c : G) ^ 2 ^ (m - 2) * e = ((dD.c : G) ^ 2 ^ (m - 2))⁻¹ := by
   rw [← Stroth43Sc.conj_pow_eq, hrel.c_conj, inv_pow]
 
+omit [Finite G] in
 theorem t200inv_c₂_ne_inv (hm : 2 ≤ m) :
     (dD.c : G) ^ 2 ^ (m - 2) ≠ ((dD.c : G) ^ 2 ^ (m - 2))⁻¹ := by
   intro h
@@ -36,12 +39,14 @@ theorem t200inv_c₂_ne_inv (hm : 2 ≤ m) :
     rw [← H47_c₂_sq dD hm, h2]
   exact Stroth47Fus.t200_c₁_ne_one dD (by omega) h1
 
+omit [Finite G] in
 theorem t200inv_ofTorus_comm_c₂ (v : Torus (StrothTypeIndex.t200 m).k) :
     dD.ofTorus v * (dD.c : G) ^ 2 ^ (m - 2) =
       (dD.c : G) ^ 2 ^ (m - 2) * dD.ofTorus v :=
   congrArg Subtype.val (dD.isMulCommutative.is_comm.comm
     ⟨dD.ofTorus v, dD.ofTorus_mem v⟩ ⟨(dD.c : G) ^ 2 ^ (m - 2), D.pow_mem dD.c.2 _⟩)
 
+omit [Finite G] in
 theorem t200inv_u_comm_c₂ :
     dD.u * (dD.c : G) ^ 2 ^ (m - 2) = (dD.c : G) ^ 2 ^ (m - 2) * dD.u := by
   have h : Commute dD.u (dD.c : G) := by
@@ -49,6 +54,7 @@ theorem t200inv_u_comm_c₂ :
     exact t200_u_mul_c dD
   exact (h.pow_right (2 ^ (m - 2))).eq
 
+omit [Finite G] in
 theorem t200inv_d8_comm_c₂ (l : Bool) :
     dD.d8 false false l * (dD.c : G) ^ 2 ^ (m - 2) =
       (dD.c : G) ^ 2 ^ (m - 2) * dD.d8 false false l := by
@@ -57,6 +63,7 @@ theorem t200inv_d8_comm_c₂ (l : Bool) :
   · rw [dD.d8_fft]
     exact t200inv_u_comm_c₂ dD
 
+omit [Finite G] in
 theorem t200inv_comm_c₂_nf (hm : 2 ≤ m) {p : ℕ}
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p)
     {v : Torus (StrothTypeIndex.t200 m).k} {l k : Bool}
@@ -90,6 +97,7 @@ theorem t200inv_comm_c₂_nf (hm : 2 ≤ m) {p : ℕ}
     rw [t200inv_e_conj_c₂ dD hrel] at hce
     exact t200inv_c₂_ne_inv dD hm hce.symm
 
+omit [Finite G] in
 theorem t200inv_mul_self_mem (hm : 2 ≤ m)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) :
     ∀ s ∈ (D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u} ⊔ Subgroup.zpowers e) ⊓
@@ -103,6 +111,7 @@ theorem t200inv_mul_self_mem (hm : 2 ≤ m)
   rw [dD.nf_mul_self]
   cases l <;> simp [dD.d8_fff, dD.ofTorus_mem]
 
+omit [Finite G] in
 theorem t200inv_w₀_eq :
     (dD.a : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1) =
       dD.ofTorus (om200 m ![0, 1, 1]) := by
@@ -111,6 +120,7 @@ theorem t200inv_w₀_eq :
   funext i
   fin_cases i <;> simp
 
+omit [Finite G] in
 theorem t200inv_d₂_sq :
     ((dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m) *
         ((dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m) =
@@ -134,6 +144,7 @@ theorem t200inv_d₂_sq :
     _ = (dD.a : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1) := by
         rw [← pow_mul, ← pow_mul, h2]
 
+omit [Finite G] in
 theorem t200inv_w₀_mul_self :
     ((dD.a : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1)) *
         ((dD.a : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1)) = 1 := by
@@ -155,6 +166,7 @@ theorem t200inv_w₀_mul_self :
     _ = 1 := by
         rw [Stroth47Fus.t200_a₁_mul_self dD, Stroth47Fus.t200_b₁_mul_self dD, mul_one]
 
+omit [Finite G] in
 theorem t200inv_w₀_ne_one (hm : 1 ≤ m) :
     (dD.a : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1) ≠ 1 := by
   intro h
@@ -163,9 +175,10 @@ theorem t200inv_w₀_ne_one (hm : 1 ≤ m) :
     simpa [om200_zero] using h
   have h' := (om200_eq_iff hm ![0, 1, 1] 0).mp (dD.ofTorus_inj hh)
   have h1 := h' 1
-  simp only [Matrix.cons_val_one, Matrix.head_cons, Pi.zero_apply] at h1
+  simp only [Matrix.cons_val_one, Pi.zero_apply] at h1
   norm_num [Int.ModEq] at h1
 
+omit [Finite G] in
 theorem t200inv_w₀_ne_c₁ (hm : 1 ≤ m) :
     (dD.a : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1) ≠
       (dD.c : G) ^ 2 ^ (m - 1) := by
@@ -173,9 +186,10 @@ theorem t200inv_w₀_ne_c₁ (hm : 1 ≤ m) :
   rw [t200inv_w₀_eq dD, dD.t200_c_pow] at h
   have h' := (om200_eq_iff hm ![0, 1, 1] ![1, 0, 0]).mp (dD.ofTorus_inj h)
   have h1 := h' 1
-  simp only [Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_zero] at h1
+  simp only [Matrix.cons_val_one, Matrix.cons_val_zero] at h1
   norm_num [Int.ModEq] at h1
 
+omit [Finite G] in
 theorem t200inv_u_a₁ :
     dD.u * (dD.a : G) ^ 2 ^ (m + 1) = (dD.b : G) ^ 2 ^ (m + 1) * dD.u := by
   calc dD.u * (dD.a : G) ^ 2 ^ (m + 1)
@@ -186,6 +200,7 @@ theorem t200inv_u_a₁ :
           dD.u⁻¹ * (dD.a : G) ^ 2 ^ (m + 1) * dD.u from by rw [dD.u_inv],
           Stroth47Fus.t200_u_a₁ dD]
 
+omit [Finite G] in
 theorem t200inv_u_b₁ :
     dD.u * (dD.b : G) ^ 2 ^ (m + 1) = (dD.a : G) ^ 2 ^ (m + 1) * dD.u := by
   calc dD.u * (dD.b : G) ^ 2 ^ (m + 1)
@@ -196,6 +211,7 @@ theorem t200inv_u_b₁ :
           dD.u⁻¹ * (dD.b : G) ^ 2 ^ (m + 1) * dD.u from by rw [dD.u_inv],
           ← Stroth43Sc.conj_pow_eq, Stroth47Fus.t200_u_conj_b]
 
+omit [Finite G] in
 theorem t200inv_u_w₀ :
     dD.u * ((dD.a : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1)) =
       ((dD.a : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1)) * dD.u := by
@@ -218,6 +234,7 @@ theorem t200inv_u_w₀ :
     _ = ((dD.a : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1)) * dD.u := by
         rw [hcomm]
 
+omit [Finite G] in
 theorem t200inv_e_comm_om (hm : 1 ≤ m) {p : ℕ}
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p)
     (ε : Fin 3 → ℤ) :
@@ -229,18 +246,21 @@ theorem t200inv_e_comm_om (hm : 1 ≤ m) {p : ℕ}
     simpa [mul_assoc] using this
   exact h2.symm
 
+omit [Finite G] in
 theorem t200inv_e_a₁ (hm : 1 ≤ m) {p : ℕ}
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) :
     e * (dD.a : G) ^ 2 ^ (m + 1) = (dD.a : G) ^ 2 ^ (m + 1) * e := by
   rw [dD.t200_a_pow]
   exact t200inv_e_comm_om dD hm hrel _
 
+omit [Finite G] in
 theorem t200inv_e_b₁ (hm : 1 ≤ m) {p : ℕ}
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) :
     e * (dD.b : G) ^ 2 ^ (m + 1) = (dD.b : G) ^ 2 ^ (m + 1) * e := by
   rw [dD.t200_b_pow]
   exact t200inv_e_comm_om dD hm hrel _
 
+omit [Finite G] in
 theorem t200inv_e_w₀ (hm : 1 ≤ m) {p : ℕ}
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) :
     e * ((dD.a : G) ^ 2 ^ (m + 1) * (dD.b : G) ^ 2 ^ (m + 1)) =
@@ -248,6 +268,7 @@ theorem t200inv_e_w₀ (hm : 1 ≤ m) {p : ℕ}
   rw [t200inv_w₀_eq dD]
   exact t200inv_e_comm_om dD hm hrel _
 
+omit [Finite G] in
 theorem t200inv_e_conj_d₂ (hm : 1 ≤ m) {p : ℕ}
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) :
     e⁻¹ * ((dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m) * e =
@@ -273,18 +294,17 @@ theorem t200inv_e_conj_d₂ (hm : 1 ≤ m) {p : ℕ}
     rw [← pow_add, ← pow_add]
     congr 1
     omega
-  refine ⟨⟨0, by simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.head_cons, Matrix.tail_cons]; ring⟩, ⟨-(2 ^ (m - 1)), ?_⟩,
+  refine ⟨⟨0, by simp only [Matrix.cons_val_zero]; ring⟩, ⟨-(2 ^ (m - 1)), ?_⟩,
     ⟨-(2 ^ (m - 1)), ?_⟩⟩
-  · simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-      Matrix.head_cons, Matrix.tail_cons]
+  · simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [hd, h1]
     ring
-  · simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
+  · simp only [Matrix.cons_val_two,
       Matrix.head_cons, Matrix.tail_cons]
     rw [hd, h1]
     ring
 
+omit [Finite G] in
 theorem t200inv_conj_sq (hm : 2 ≤ m)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) :
     ∀ y ∈ (D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u} ⊔ Subgroup.zpowers e) ⊓
@@ -374,6 +394,7 @@ theorem t200inv_conj_sq (hm : 2 ≤ m)
   · rw [hd₂sq]
     simpa [ha₁, hb₁] using t200inv_w₀_ne_c₁ dD hm1
 
+omit [Finite G] in
 theorem t200inv_conj_inv (hm : 2 ≤ m)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) :
     ∀ y ∈ (D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u} ⊔ Subgroup.zpowers e) ⊓

@@ -47,7 +47,7 @@ theorem GGFarCtx.permAut₂_last_commute {G : Type} [Group G] {p : ℕ} {Bs : Su
   have hi0 : i = ⟨0, by omega⟩ := Fin.ext (by simpa using hi)
   have hj0 : j = ⟨n - 1, by omega⟩ := by
     apply Fin.ext
-    simp only [Fin.val_mk]
+    simp only
     omega
   have hn2 : 2 ≤ n := by
     have h := hC.three_le
@@ -85,7 +85,7 @@ theorem GGFarCtx.permAut₂_swap_ne_of_cross {G : Type} [Group G] [Finite G] {p 
     hX₃.permAut₂ (Equiv.swap j.castSucc j.succ) ≠ hX.permAut₂ (Equiv.swap j.castSucc j.succ) := by
   classical
   intro hEq
-  haveI : Fact p.Prime := ⟨hX.prime⟩
+  have : Fact p.Prime := ⟨hX.prime⟩
   have hyfix : ∀ τ : Equiv.Perm (Fin (n + 1)),
       hX.permAut₂ τ ⟨y, hX.y_mem⟩ = ⟨y, hX.y_mem⟩ := by
     intro τ

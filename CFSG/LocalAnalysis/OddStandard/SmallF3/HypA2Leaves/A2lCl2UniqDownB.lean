@@ -21,14 +21,14 @@ private lemma cl24_triality_factor (j : ℕ) :
     Nat.cast_pow]
   ring
 
-theorem cl24_ppd_dvd_G2 {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .G2 n 3 j) (hℓ : ℓ.Prime)
+theorem cl24_ppd_dvd_G2 {n j k ℓ : ℕ} (_hadm : StatedLieAdmissible .G2 n 3 j) (_hℓ : ℓ.Prime)
     (hk : ∀ i : ℕ, ℓ ∣ 3 ^ i - 1 ↔ k ∣ i) (hke : k = j * cl24E .G2 n) :
     ℓ ∣ lieOrderCofactor .G2 n (3 ^ j) := by
   have hke' : k = j * 6 := by simpa [cl24E] using hke
   have h : ℓ ∣ (3 ^ j) ^ 6 - 1 := cl24_dvd_sub_of hk (by rw [hke'])
   simpa only [lieOrderCofactor] using h.mul_right ((3 ^ j) ^ 2 - 1)
 
-theorem cl24_ppd_dvd_F4 {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .F4 n 3 j) (hℓ : ℓ.Prime)
+theorem cl24_ppd_dvd_F4 {n j k ℓ : ℕ} (_hadm : StatedLieAdmissible .F4 n 3 j) (_hℓ : ℓ.Prime)
     (hk : ∀ i : ℕ, ℓ ∣ 3 ^ i - 1 ↔ k ∣ i) (hke : k = j * cl24E .F4 n) :
     ℓ ∣ lieOrderCofactor .F4 n (3 ^ j) := by
   have hke' : k = j * 12 := by simpa [cl24E] using hke
@@ -37,7 +37,7 @@ theorem cl24_ppd_dvd_F4 {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .F4 n 3 j)
     ((h.mul_right ((3 ^ j) ^ 8 - 1)).mul_right ((3 ^ j) ^ 6 - 1)).mul_right
       ((3 ^ j) ^ 2 - 1)
 
-theorem cl24_ppd_dvd_E6 {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .E6 n 3 j) (hℓ : ℓ.Prime)
+theorem cl24_ppd_dvd_E6 {n j k ℓ : ℕ} (_hadm : StatedLieAdmissible .E6 n 3 j) (_hℓ : ℓ.Prime)
     (hk : ∀ i : ℕ, ℓ ∣ 3 ^ i - 1 ↔ k ∣ i) (hke : k = j * cl24E .E6 n) :
     ℓ ∣ lieOrderCofactor .E6 n (3 ^ j) := by
   have hke' : k = j * 12 := by simpa [cl24E] using hke
@@ -46,7 +46,7 @@ theorem cl24_ppd_dvd_E6 {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .E6 n 3 j)
     ((((h.mul_right ((3 ^ j) ^ 9 - 1)).mul_right ((3 ^ j) ^ 8 - 1)).mul_right
       ((3 ^ j) ^ 6 - 1)).mul_right ((3 ^ j) ^ 5 - 1)).mul_right ((3 ^ j) ^ 2 - 1)
 
-theorem cl24_ppd_dvd_E7 {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .E7 n 3 j) (hℓ : ℓ.Prime)
+theorem cl24_ppd_dvd_E7 {n j k ℓ : ℕ} (_hadm : StatedLieAdmissible .E7 n 3 j) (_hℓ : ℓ.Prime)
     (hk : ∀ i : ℕ, ℓ ∣ 3 ^ i - 1 ↔ k ∣ i) (hke : k = j * cl24E .E7 n) :
     ℓ ∣ lieOrderCofactor .E7 n (3 ^ j) := by
   have hke' : k = j * 18 := by simpa [cl24E] using hke
@@ -56,7 +56,7 @@ theorem cl24_ppd_dvd_E7 {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .E7 n 3 j)
       ((3 ^ j) ^ 10 - 1)).mul_right ((3 ^ j) ^ 8 - 1)).mul_right
       ((3 ^ j) ^ 6 - 1)).mul_right ((3 ^ j) ^ 2 - 1)
 
-theorem cl24_ppd_dvd_E8 {n j k ℓ : ℕ} (hadm : StatedLieAdmissible .E8 n 3 j) (hℓ : ℓ.Prime)
+theorem cl24_ppd_dvd_E8 {n j k ℓ : ℕ} (_hadm : StatedLieAdmissible .E8 n 3 j) (_hℓ : ℓ.Prime)
     (hk : ∀ i : ℕ, ℓ ∣ 3 ^ i - 1 ↔ k ∣ i) (hke : k = j * cl24E .E8 n) :
     ℓ ∣ lieOrderCofactor .E8 n (3 ^ j) := by
   have hke' : k = j * 30 := by simpa [cl24E] using hke

@@ -174,7 +174,7 @@ theorem uc22s2122np_exists_mulEquiv_prod_of_isComplement {H : Type} [Group H]
       map_mul' := fun x y => by
         apply h.equiv.symm.injective
         rw [IsComplement.equiv_symm_apply, IsComplement.equiv_symm_apply]
-        simp only [Prod.fst_mul, Prod.snd_mul, Subgroup.coe_mul]
+        simp only [Prod.fst_mul, Prod.snd_mul]
         rw [h.equiv_fst_mul_equiv_snd (x * y)]
         conv_lhs => rw [← h.equiv_fst_mul_equiv_snd x,
           ← h.equiv_fst_mul_equiv_snd y]
@@ -198,12 +198,14 @@ theorem uc22s2122np_card_barImage_of_isJ1 {M L : Subgroup G} (hL : L ∈ calC M)
   rw [← Nat.card_congr e.toEquiv]
   exact (kJ1_holds (Bar2 L) hJ).1
 
+omit [Finite G] in
 theorem uc22s2122np_isJ1_barImage {M L : Subgroup G} (hL : L ∈ calC M)
     (hJ : IsJ1 (Bar2 L)) : IsJ1 (barImage M L) := by
   obtain ⟨e, -⟩ := uc22p22l_barImage_equiv (L := M) (K := L) hL
   obtain ⟨φ⟩ := hJ
   exact ⟨e.symm.trans φ⟩
 
+omit [Finite G] in
 theorem uc22s2122np_barImage_conjClosure_eq_sup {M L L' : Subgroup G}
     (hL : L ∈ calC M) (hL' : L' ∈ calC M) (hK : conjClosure M L = L ⊔ L') :
     barImage M (conjClosure M L) = barImage M L ⊔ barImage M L' := by
@@ -211,6 +213,7 @@ theorem uc22s2122np_barImage_conjClosure_eq_sup {M L L' : Subgroup G}
   have hL'M : L' ≤ M := CFSG.Quasithin.A3.subnormal_le hL'.1
   simp only [barImage, hK, Subgroup.subgroupOf_sup hLM hL'M, Subgroup.map_sup]
 
+omit [Finite G] in
 theorem uc22s2122np_barImage_conjClosure_normal {M L : Subgroup G} (hL : L ∈ calC M) :
     (barImage M (conjClosure M L)).Normal := by
   have hLM : L ≤ M := CFSG.Quasithin.A3.subnormal_le hL.1
@@ -243,7 +246,7 @@ theorem uc22s2122np_card_barImage_conjClosure {M L L' : Subgroup G}
 
 theorem uc22s2122np_isSylowOf_barImage_T (D : Data G) :
     CFSG.ABGLocalTools.IsSylowOf 2 (barImage D.M D.T) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT : CFSG.ABGLocalTools.IsSylowOf 2 (D.T.subgroupOf D.M) ⊤ := by
     rw [← CFSG.ABGLocalTools.isSylowOf_map_subtype_iff (p := 2) D.M]
     rw [Subgroup.subgroupOf_map_subtype, Subgroup.map_top, Subgroup.range_subtype,
@@ -254,11 +257,11 @@ theorem uc22s2122np_isSylowOf_barImage_T (D : Data G) :
     (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥D.M))] using hmap
 
 theorem uc22s2122np_isSylowOf_inf_barImage_T (D : Data G) {L L' : Subgroup G}
-    (hL : L ∈ calC D.M) (hL' : L' ∈ calC D.M) (hK : conjClosure D.M L = L ⊔ L') :
+    (hL : L ∈ calC D.M) (_hL' : L' ∈ calC D.M) (_hK : conjClosure D.M L = L ⊔ L') :
     CFSG.ABGLocalTools.IsSylowOf 2
       (barImage D.M D.T ⊓ barImage D.M (conjClosure D.M L))
       (barImage D.M (conjClosure D.M L)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKbar : (barImage D.M (conjClosure D.M L)).Normal :=
     uc22s2122np_barImage_conjClosure_normal hL
   have hnorm : (⊤ : Subgroup (Bar2 D.M)) ≤
@@ -274,7 +277,7 @@ theorem uc22s2122np_card_inf_barImage_T (D : Data G) {L L' : Subgroup G}
     (hJ : IsJ1 (Bar2 L)) (hJ' : IsJ1 (Bar2 L'))
     (hK : conjClosure D.M L = L ⊔ L') :
     Nat.card ↥(barImage D.M D.T ⊓ barImage D.M (conjClosure D.M L)) = 64 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ := uc22s2122np_isSylowOf_inf_barImage_T D hL hL' hK
   have hcardK := uc22s2122np_card_barImage_conjClosure hL hL' hne hJ hJ' hK
   have hfact : (Nat.card (barImage D.M (conjClosure D.M L))).factorization 2 = 6 := by
@@ -307,8 +310,8 @@ theorem uc22s2122np_card_normalizer_subgroupOf_prod {H : Type} [Group H] [Finite
   have hJA : IsJ1 ↥(A.subgroupOf K) := by
     obtain ⟨φ⟩ := hA
     exact ⟨(Subgroup.subgroupOfEquivOfLe hAK).trans φ⟩
-  haveI : Finite ↥(A.subgroupOf K) := Subtype.finite
-  haveI : Finite ↥(B.subgroupOf K) := Subtype.finite
+  have : Finite ↥(A.subgroupOf K) := Subtype.finite
+  have : Finite ↥(B.subgroupOf K) := Subtype.finite
   have hprod : Nat.card ↥(Subgroup.normalizer
       (Qm : Set (↥(A.subgroupOf K) × ↥(B.subgroupOf K)))) = 168 * 168 :=
     uc22s2122np_card_normalizer_prod_of_isJ1 hQmp hQmcard hJA hJB
@@ -321,11 +324,11 @@ theorem uc22s2122np_card_normalizer_subgroupOf_prod {H : Type} [Group H] [Finite
 
 theorem uc22s2122np_sylow_seven_normal_of_card_dvd_441 {H : Type} [Group H] [Finite H]
     (hcard : Nat.card H ∣ 441) (P : Sylow 7 H) : (P : Subgroup H).Normal := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   by_cases hP1 : Nat.card P = 1
   · rw [Subgroup.eq_bot_of_card_eq (P : Subgroup H) hP1]
     infer_instance
-  · obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  · obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     have hkpos : 0 < k := by
       rcases Nat.eq_zero_or_pos k with rfl | h
       · rw [pow_zero] at hk; exact absurd hk hP1
@@ -350,12 +353,12 @@ theorem uc22s2122np_sylow_seven_normal_of_card_dvd_441 {H : Type} [Group H] [Fin
     interval_cases n <;> norm_num at hmod
     all_goals norm_num at hn63'
     have hn1 : Nat.card (Sylow 7 H) = 1 := by omega
-    haveI : Subsingleton (Sylow 7 H) := (Nat.card_eq_one_iff_unique.mp hn1).1
+    have : Subsingleton (Sylow 7 H) := (Nat.card_eq_one_iff_unique.mp hn1).1
     exact P.normal_of_subsingleton
 
 theorem uc22s2122np_isComplement_barImage_pair {M L L' : Subgroup G}
     (hL : L ∈ calC M) (hL' : L' ∈ calC M) (hne : L ≠ L')
-    (hJ : IsJ1 (Bar2 L)) (hJ' : IsJ1 (Bar2 L'))
+    (hJ : IsJ1 (Bar2 L)) (_hJ' : IsJ1 (Bar2 L'))
     (hK : conjClosure M L = L ⊔ L') :
     ((barImage M L).subgroupOf (barImage M (conjClosure M L))).IsComplement'
       ((barImage M L').subgroupOf (barImage M (conjClosure M L))) := by
@@ -446,14 +449,14 @@ theorem uc22s2122np_mem_comap_of_pow_seven {N : Type} [Group N] [Finite N]
   have hP : IsPGroup 7 (Subgroup.zpowers (QuotientGroup.mk' QN x)) :=
     IsPGroup.of_card (p := 7) (n := k) (by rw [Nat.card_zpowers, hk])
   obtain ⟨Q', hQ'⟩ := hP.exists_le_sylow
-  haveI : Unique (Sylow 7 (N ⧸ QN)) := Sylow.unique_of_normal P hPnorm
+  have : Unique (Sylow 7 (N ⧸ QN)) := Sylow.unique_of_normal P hPnorm
   have hQeq : Q' = P := Subsingleton.elim _ _
   rw [← hQeq]
   exact hQ' (Subgroup.mem_zpowers _)
 
 theorem uc22s2122np_card_sylow_seven_of_card_441 {H : Type} [Group H] [Finite H]
     (hH : Nat.card H = 441) (P : Sylow 7 H) : Nat.card P = 49 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have h441 : (441 : ℕ).factorization 7 = 2 :=
     CFSG.GroupTheory.factorization_eq_of_pow_dvd Nat.prime_seven (by norm_num)
       (by norm_num) (by norm_num)
@@ -529,7 +532,7 @@ theorem uc22s2122np_map_comap_of_sylow_normal {N : Type} [Group N] [Finite N]
     Subgroup.map ψ.toMonoidHom
         (Subgroup.comap (QuotientGroup.mk' Q) (P : Subgroup (N ⧸ Q))) =
       Subgroup.comap (QuotientGroup.mk' Q) (P : Subgroup (N ⧸ Q)) := by
-  haveI : Finite (Sylow 7 (N ⧸ Q)) := inferInstance
+  have : Finite (Sylow 7 (N ⧸ Q)) := inferInstance
   have hPchar : (P : Subgroup (N ⧸ Q)).Characteristic :=
     Sylow.characteristic_of_normal P hPnorm
   let φ : MulAut (N ⧸ Q) := CFSG.OrderReductions.InvariantQuotient.quotientAutomorphism
@@ -567,7 +570,7 @@ theorem uc22s2122np_exists_sylow_preimage {N : Type} [Group N] [Finite N]
     ∃ (P : Sylow 7 (N ⧸ Q)) (R : Subgroup N),
       (P : Subgroup (N ⧸ Q)).Normal ∧ Nat.card P = 49 ∧ Nat.card R = 49 * 64 ∧
       R = Subgroup.comap (QuotientGroup.mk' Q) (P : Subgroup (N ⧸ Q)) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hindex : Q.index = 441 := by
     have h := Subgroup.card_mul_index Q
     rw [hQcard, hNcard] at h

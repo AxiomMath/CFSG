@@ -315,8 +315,8 @@ theorem exists_innerFrame138 {A : Subgroup G} {c : G} {L E : Subgroup G} (hH : H
   have hπ : π = false → UnitaryFieldData p f K := fun h => by subst h; exact hK.unitary
   have hq' : π = false → ModThree false (p ^ f) := fun h => by subst h; exact hq
   have hLq := Sec6.isQuasisimple_of_mem_thetaComponentsAt h.mem_thetaComponentsAt
-  haveI : Group.IsPerfect (L ⧸ aschbacherSolvableCore 3 L) := hLq.1
-  haveI : Group.IsPerfect (projImage (slPi π 3 (p ^ f) K)) :=
+  have : Group.IsPerfect (L ⧸ aschbacherSolvableCore 3 L) := hLq.1
+  have : Group.IsPerfect (projImage (slPi π 3 (p ^ f) K)) :=
     Group.IsPerfect.ofSurjective (f := φ.toMonoidHom) φ.surjective
   have hq2 := two_lt_of_mulEquiv hLq hK hq φ
   have hZ := Sec13.center_eq_bot_of_mulEquiv φ (Sec13.center_projImage_slPi hK hq hq2)
@@ -946,7 +946,7 @@ theorem exists_innerFrame138 {A : Subgroup G} {c : G} {L E : Subgroup G} (hH : H
     have := eq_of_mk_eq_of_mem (a := ⟨t * a * t⁻¹ * a⁻¹, hkL⟩) (b := y₁' ^ m) hEp hkE
       (by simpa using zpow_mem hy₁E m) (by rw [hkm, QuotientGroup.mk_zpow, hy₁'b'])
     rw [show t * a * t⁻¹ * a⁻¹ = ((y₁' ^ m : L) : G) from this]
-    simpa using zpow_mem (Subgroup.mem_zpowers (y₁' : G)) m
+    simp
   refine ⟨F, x, y, t, n', ⟨⟨hH, hF, hxE, hyF, hframe, hd₀1, hd₀L, hcF, h81, h9, hEFL, htL, htN,
     htd, hLc t htL, hEt⟩, hle, n'.2, hnC, hn9, hn3, ?_, hbE, ?_⟩⟩
   · rw [hn3y, ← hzd]

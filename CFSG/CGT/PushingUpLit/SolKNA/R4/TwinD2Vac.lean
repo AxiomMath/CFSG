@@ -13,7 +13,7 @@ open CFSG.ClassicalInvolution.Q3 CFSG.ClassicalInvolution.Q3.TC.Thin
 
 theorem pow_four_eq_one_of_card_eight {M : Type*} [Group M] (hM : Nat.card M = 8)
     (hnc : ∃ x y : M, x * y ≠ y * x) (g : M) : g ^ 4 = 1 := by
-  haveI : Finite M := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite M := Nat.finite_of_card_ne_zero (by omega)
   have hd : orderOf g ∣ 2 ^ 3 := by
     have := orderOf_dvd_natCard g
     rwa [hM] at this
@@ -33,8 +33,8 @@ theorem commute_map_quaternion {k : ℕ} (hk : 2 ≤ k) {H : Type*} [Group H]
     (ψ : QuaternionGroup (2 ^ k) →* H) (hexp : ∀ g, ψ g ^ 4 = 1)
     (hcen : ∀ g, ψ g * ψ g = 1 → ∀ g', ψ g * ψ g' = ψ g' * ψ g)
     (g g' : QuaternionGroup (2 ^ k)) : ψ g * ψ g' = ψ g' * ψ g := by
-  haveI : NeZero (2 ^ k) := ⟨by positivity⟩
-  haveI : NeZero (2 * 2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 * 2 ^ k) := ⟨by positivity⟩
   set u : H := ψ (QuaternionGroup.a 1) with hu
   have hpow : 2 ^ k = 4 * 2 ^ (k - 2) := by
     rw [show (4 : ℕ) = 2 ^ 2 by norm_num, ← pow_add]
@@ -80,7 +80,7 @@ theorem card_eq_eight_of_map_memBar {n : ℕ} (hn : 5 ≤ n) {X L : Subgroup G} 
     (hq : IsQuatSub L) (φ : ↥X →* AE.AEQ n) {α : Finset (Fin n)} {h : α.card = 4} {b : Bool}
     (hlab : (L.subgroupOf X).map φ = AE.memBar α h b) : Nat.card L = 8 := by
   obtain ⟨k, hk1, ⟨e⟩⟩ := hq
-  haveI : NeZero (2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 ^ k) := ⟨by positivity⟩
   have hcard : Nat.card L = 2 ^ (k + 2) := by
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
     ring

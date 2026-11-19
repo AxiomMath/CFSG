@@ -207,7 +207,7 @@ private theorem exists_isPGroup_normalized {X : Type*} [Group X]
   · intro x hx x' hx'
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx hx'
     rcases hx with h | h | h <;> rcases hx' with h' | h' | h' <;> rw [h, h'] <;>
-      first | rfl | exact hrc₁ | exact hrc₁.symm | exact hc₂r | exact hc₂r.symm |
+      first | exact hrc₁ | exact hrc₁.symm | exact hc₂r | exact hc₂r.symm |
         exact hc₁c₂ | exact hc₁c₂.symm
   · intro h
     apply hr1

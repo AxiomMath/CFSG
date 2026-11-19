@@ -16,7 +16,7 @@ variable {V : Type} [CommGroup V]
 theorem c23a_modPair_rankLe [Finite V] {Mb L₁ L₂ : Subgroup (MulAut V)}
     {E₁ E₂ Z₁ Z₂ : Subgroup V} (h : C23AModPair Mb L₁ L₂ E₁ E₂ Z₁ Z₂)
     {A : Subgroup (MulAut V)} (hA : A ≤ Mb) (hel : IsElemAbelian 2 A)
-    (hnorm : ∀ a ∈ A, ∀ e ∈ E₁, a e ∈ E₁) (hcent : ∀ a ∈ A, ∀ y ∈ E₂, a y = y) :
+    (_hnorm : ∀ a ∈ A, ∀ e ∈ E₁, a e ∈ E₁) (hcent : ∀ a ∈ A, ∀ y ∈ E₂, a y = y) :
     rk ↥A ≤ 2 := by
   classical
   obtain ⟨D⟩ := h.blk₁.nat
@@ -42,7 +42,7 @@ theorem c23a_modPair_rankLe [Finite V] {Mb L₁ L₂ : Subgroup (MulAut V)}
       have hcardE : Nat.card ↥E₁ = 2 ^ 3 * Nat.card ↥Z₁ := c23a_block_card_eq h.blk₁
       have hZpos : 0 < Nat.card ↥Z₁ := Nat.card_pos
       have hlt : Nat.card ↥Z₁ < 2 ^ 3 * Nat.card ↥Z₁ := by
-        simpa using Nat.mul_lt_mul_of_pos_right (show (1 : ℕ) < 2 ^ 3 by norm_num) hZpos
+        simp
       have hlt' : Nat.card ↥Z₁ < Nat.card ↥E₁ := by
         rw [hcardE]
         exact hlt

@@ -31,7 +31,7 @@ theorem caseB_glue {G : Type} [Group G] [Finite G]
     hW0W1, -, -, hΛW1, -, hWX⟩ := h'
   obtain ⟨-, hTN, -, p, hp, hp2, hpow, hidx, -⟩ := hXi
   obtain ⟨-, hKperf, -, -⟩ := hK
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKN : K ≤ Subgroup.normalizer (X : Set G) := Subgroup.le_normalizer.trans hNKX
   have hKK₀ : K ≤ CFSG.Quasithin.conjClosure K T := CFSG.Quasithin.le_conjClosure K T
   have hK₀N : CFSG.Quasithin.conjClosure K T ≤ Subgroup.normalizer (X : Set G) :=
@@ -47,11 +47,11 @@ theorem caseB_glue {G : Type} [Group G] [Finite G]
     exact hVsq v hvV
   have hK₀perf : ⁅CFSG.Quasithin.conjClosure K T, CFSG.Quasithin.conjClosure K T⁆ =
       CFSG.Quasithin.conjClosure K T := conjClosure_commutator_glue2 hKperf
-  haveI : Group.IsPerfect (CFSG.Quasithin.conjClosure K T) := Subgroup.isPerfect_iff.mpr hK₀perf
+  have : Group.IsPerfect (CFSG.Quasithin.conjClosure K T) := Subgroup.isPerfect_iff.mpr hK₀perf
   obtain ⟨hYidx, hS⟩ := index_Yof_of_relIndex_glue2 hidx
   obtain ⟨E, hAddG, hMod, hfin, hE, q, hq_add, hq_surj, hq_ker⟩ :=
     exists_quot_glue2 hYidx (pow_mem_Yof_glue2 hpow)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   let σ : (CFSG.Quasithin.conjClosure K T) →* (E ≃ₗ[ZMod p] E) :=
     sigmaGlue2 p hq_surj hq_add hq_ker hK₀N
   have hσ : ∀ (γ : CFSG.Quasithin.conjClosure K T) (x : X),
@@ -136,7 +136,7 @@ theorem caseB_glue {G : Type} [Group G] [Finite G]
       (e₀ - conjLEGlue2 p hq_surj hq_add hq_ker hvN e₀) =
       -(e₀ - conjLEGlue2 p hq_surj hq_add hq_ker hvN e₀) := by
     rw [map_sub, hgg, neg_sub]
-  haveI : Nontrivial W := hR.1
+  have : Nontrivial W := hR.1
   exact CFSG.Quasithin.H13.L827X.LBCaseB.caseB_eight_le hp5 hE σ
     (τ.comp (Subgroup.inclusion hK₀Λ)) (rhoGlue3 τ hXΛ hq_surj)
     hρ0 hρadd hcompat hC hO2 hO3 hy hVV hVg hgy

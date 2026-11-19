@@ -42,6 +42,7 @@ theorem twist2 : X ^ 11 * q2 = p1 + (X ^ 23 - 1) * (X^9 + X^7 + X^6 + X^5 + X + 
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem double_eq_zero (v : V) : v + v = 0 := by
   rw [← two_smul (ZMod 2)]
   have h2 : (2 : ZMod 2) = 0 := by decide
@@ -49,6 +50,7 @@ theorem double_eq_zero (v : V) : v + v = 0 := by
 
 noncomputable def toEnd (g : GLV V) : Module.End (ZMod 2) V := (g : V →ₗ[ZMod 2] V)
 
+omit [Finite V] in
 theorem toEnd_pow (g : GLV V) (n : ℕ) (x : V) : (toEnd g ^ n) x = (g ^ n : GLV V) x := by
   induction n generalizing x with
   | zero => simp
@@ -56,6 +58,7 @@ theorem toEnd_pow (g : GLV V) (n : ℕ) (x : V) : (toEnd g ^ n) x = (g ^ n : GLV
     rw [pow_succ, Module.End.mul_apply, ih, pow_succ]
     rfl
 
+omit [Finite V] in
 theorem toEnd_pow_eq_one {g : GLV V} {n : ℕ} (h : g ^ n = 1) : toEnd g ^ n = 1 := by
   ext x
   rw [toEnd_pow, h]
@@ -84,7 +87,7 @@ theorem eq_top_of_invariant [Fact (Nat.Prime 23)] (hd : Module.finrank (ZMod 2) 
   have hg'pow : g' ^ 23 = 1 := by
     rw [← map_pow]
     have : (⟨g, Subgroup.mem_zpowers g⟩ : ↥(Subgroup.zpowers g)) ^ 23 = 1 :=
-      Subtype.ext (by simpa [← hg] using pow_orderOf_eq_one g)
+      Subtype.ext (by simp [← hg])
     rw [this, map_one]
   have hdvd : orderOf g' ∣ 23 := orderOf_dvd_of_pow_eq_one hg'pow
   rcases (Nat.dvd_prime (Fact.out : Nat.Prime 23)).1 hdvd with h1 | h23
@@ -191,7 +194,7 @@ theorem false_of_invariant_form [Fact (Nat.Prime 23)] (hd : Module.finrank (ZMod
   have hadj1 : ∀ x y, B (aeval T p1 x) y = B x (aeval T q1 y) := by
     intro x y
     simp only [p1, q1, map_add, map_pow, aeval_X, map_one, LinearMap.add_apply,
-      Module.End.one_apply, LinearMap.map_add₂, map_add]
+      Module.End.one_apply, map_add]
     have h1 : B (T x) y = B x ((T ^ 22) y) := by
       simpa using hadj 1 22 (by norm_num) x y
     rw [hadj 11 12 (by norm_num), hadj 9 14 (by norm_num), hadj 7 16 (by norm_num),
@@ -199,7 +202,7 @@ theorem false_of_invariant_form [Fact (Nat.Prime 23)] (hd : Module.finrank (ZMod
   have hadj2 : ∀ x y, B (aeval T p2 x) y = B x (aeval T q2 y) := by
     intro x y
     simp only [p2, q2, map_add, map_pow, aeval_X, map_one, LinearMap.add_apply,
-      Module.End.one_apply, LinearMap.map_add₂, map_add]
+      Module.End.one_apply, map_add]
     rw [hadj 11 12 (by norm_num), hadj 10 13 (by norm_num), hadj 6 17 (by norm_num),
       hadj 5 18 (by norm_num), hadj 4 19 (by norm_num), hadj 2 21 (by norm_num)]
   have hP2of1 : aeval T p1 = 0 → aeval T p2 = 0 := by

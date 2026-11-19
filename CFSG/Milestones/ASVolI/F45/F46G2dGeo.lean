@@ -254,6 +254,7 @@ theorem ln_F35 {a : c.Γ} (ha : CosetGeom.vtype a = true) {p : GPath c.graph 5}
     (hp : p ∈ GPath.nbPaths c.graph a 5) : GPath.F35Conclusion c.graph c.G0 a 4 p :=
   GPath.lemma_F35 (m := 4) D.hval (D.transLn ha) (connected_graph c) (hbip c) (by norm_num) hp
 
+omit D in
 theorem nb_of_geod {n : ℕ} {t : GPath c.graph n} (ht : t.IsGeodesic) :
     t ∈ GPath.nbPaths c.graph (t 0) n :=
   ⟨rfl, GPath.noBack_of_dist_eq (connected_graph c) t ht⟩
@@ -263,7 +264,7 @@ theorem uniq_of_F35 {u : c.Γ} {m : ℕ}
     {i : ℕ} (hi : i < m) {s t : GPath c.graph i} (hs : s.IsGeodesic) (ht : t.IsGeodesic)
     (hs0 : s 0 = u) (ht0 : t 0 = u) (he : s i = t i) : s = t := by
   have hsnb : s ∈ GPath.nbPaths c.graph u i := by
-    have := D.nb_of_geod hs
+    have := burnsideF46_g2d_Data.nb_of_geod hs
     rwa [hs0] at this
   obtain ⟨p, hp, hps⟩ := GPath.exists_extend_to D.hval (show i ≤ m + 1 by omega) hsnb
   have h := (hF p hp).2.2.2.1 i hi t ht0
@@ -294,7 +295,7 @@ theorem uniq_ln4 {a : c.Γ} (ha : CosetGeom.vtype a = true) {s t : GPath c.graph
     (hs : s.IsGeodesic) (ht : t.IsGeodesic) (hs0 : s 0 = a) (ht0 : t 0 = a) (he : s 4 = t 4) :
     s = t := by
   have hsnb : s ∈ GPath.nbPaths c.graph a 4 := by
-    have := D.nb_of_geod hs
+    have := burnsideF46_g2d_Data.nb_of_geod hs
     rwa [hs0] at this
   obtain ⟨p, hp, hps⟩ := GPath.exists_extend_to D.hval (show 4 ≤ 5 by norm_num) hsnb
   rcases (D.ln_F35 ha hp).2.2.2.2.2.1 with h | ⟨hd, -⟩
@@ -420,7 +421,7 @@ theorem uniq_pt5 {u : c.Γ} (hu : CosetGeom.vtype u = false) {s t : GPath c.grap
     (hs : s.IsGeodesic) (ht : t.IsGeodesic) (hs0 : s 0 = u) (ht0 : t 0 = u) (he : s 5 = t 5) :
     s = t := by
   have hsnb : s ∈ GPath.nbPaths c.graph u 5 := by
-    have := D.nb_of_geod hs
+    have := burnsideF46_g2d_Data.nb_of_geod hs
     rwa [hs0] at this
   obtain ⟨p, hp, hps⟩ := GPath.exists_extend_to D.hval (show 5 ≤ 6 by norm_num) hsnb
   have h := (D.pt_alt_i hu hp p hp).2 t ht0 ht
@@ -505,6 +506,7 @@ theorem mem_geods {a : c.Γ} {p : GPath c.graph 6} (hp : p ∈ GPath.nbPaths c.g
   rw [hp.1]
   exact D.dist_m hp
 
+omit D in
 theorem nbPaths_of_geods {a b : c.Γ} {t : GPath c.graph 6} (ht : t ∈ c.geods 6 a b) :
     t ∈ GPath.nbPaths c.graph a 6 :=
   ⟨ht.1, GPath.noBack_of_dist_eq (connected_graph c) t ht.2.2⟩

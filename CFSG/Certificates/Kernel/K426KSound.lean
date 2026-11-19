@@ -195,7 +195,7 @@ theorem derivedLeOK_of {M ND ngC ngD : ℕ} {gC gD : Array (Array ℕ)} {ps : Li
     rw [hgC.1] at hl
     have pk := hGCp k hk
     have pl := hGCp l hl
-    rw [hgC.2 k hk, hgC.2 l hl, commutatorA, inv_unpack hw pk, inv_unpack hw pl,
+    rw [hgC.2 k hk, hgC.2 l hl, commutatorA, inv_unpack pk, inv_unpack pl,
       comp_unpack' hw pk pl, comp_unpack' hw (permB_pinvS hw pk) (permB_pinvS hw pl),
       comp_unpack' hw (permB_pcomp hw pk pl) (permB_pcomp hw (permB_pinvS hw pk)
         (permB_pinvS hw pl))]

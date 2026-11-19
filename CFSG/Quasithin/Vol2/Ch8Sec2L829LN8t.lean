@@ -31,7 +31,7 @@ theorem transv_of_conj
     {Sg Gg Tg Vg : Subgroup (W ≃ₗ[ZMod 2] W)} {WB : Submodule (ZMod 2) W}
     (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W)) (hA : A = algOf Sg)
     (h : TransvConfig Sg Gg Tg Vg WB)
-    (X : Submodule A W) [IsSimpleModule A X] (hXWB : ∀ x ∈ X, x ∈ WB)
+    (X : Submodule A W) [IsSimpleModule A X] (_hXWB : ∀ x ∈ X, x ∈ WB)
     (hdim : Nat.card ↥X = 2 ∨ Nat.card ↥X = 16)
     (htop : isotypicComponent A W X = ⊤)
     (g : W ≃ₗ[ZMod 2] W) (hg : g ∈ Gg)
@@ -75,8 +75,8 @@ theorem transv_of_conj
   have hiso : IsIsotypicOfType A W ↥X := IsIsotypicOfType.of_isotypicComponent_eq_top htop
   have hisoΘ : IsIsotypicOfType A ↥Θ ↥X :=
     isIsotypicOfType_submodule_iff.mpr fun m _ _ => hiso m
-  haveI : Finite ↥Θ := inferInstance
-  haveI : Module.Finite A ↥Θ := Module.Finite.of_finite
+  have : Finite ↥Θ := inferInstance
+  have : Module.Finite A ↥Θ := Module.Finite.of_finite
   obtain ⟨k, ⟨e⟩⟩ := hisoΘ.linearEquiv_fun
   have hcardΘ : Nat.card ↥Θ = Nat.card ↥X ^ k := by
     rw [Nat.card_congr e.toEquiv, Nat.card_fun, Nat.card_fin]

@@ -8,7 +8,7 @@ namespace CFSG.RankThree.GF2n.Stroth80
 
 theorem sec7_induced_form {K E : Type*} [Field K] [AddCommGroup E] [Module K E]
     [FiniteDimensional K E] (f : LinearMap.BilinForm K E) (hf : f.Nondegenerate)
-    (hr : f.IsRefl) (U : Submodule K E) (ψ : E →ₗ[K] E)
+    (_hr : f.IsRefl) (U : Submodule K E) (ψ : E →ₗ[K] E)
     (hr1 : LinearMap.range ψ = U) (hk1 : LinearMap.ker ψ = f.orthogonal U) :
     ∃ β : LinearMap.BilinForm K U, β.Nondegenerate ∧
       ∀ (x y : U) (c : E), ψ c = (y : E) → β x y = f x c := by

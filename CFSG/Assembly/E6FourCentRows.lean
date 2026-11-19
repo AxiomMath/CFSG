@@ -19,7 +19,7 @@ theorem e6Four_kernelRoots {L : Type} [Field L] (ζ : Lˣ) (hζ : IsPrimitiveRoo
       {γ | IsRoot Tag.E6 γ ∧ e6Pair v γ = 0} := by
   rw [kernelRoots_rootCharHom]
   ext γ
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [e6Four_rootChar_eq_one_iff ζ hζ v γ]
 
 private abbrev e6Chi {L : Type} [Field L] (ζ : Lˣ) (v : Fin Tag.E6.rank → ZMod 5) :

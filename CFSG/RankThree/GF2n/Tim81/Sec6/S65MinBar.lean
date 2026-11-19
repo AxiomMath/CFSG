@@ -85,10 +85,12 @@ private theorem eu_involution (hS : Sec6Hyp M V) {x : G} (hx : x ∈ EU V U) : x
   obtain ⟨-, A, hA, -, hxA⟩ := hx
   exact hS.sec5.toRootHyp.mul_self_of_mem hA hxA
 
+omit [Finite G] in
 private theorem eu_mem_U {x : G} (hx : x ∈ EU V U) : x ∈ U := by
   obtain ⟨-, A, -, hAU, hxA⟩ := hx
   exact hAU hxA
 
+omit [Finite G] in
 private theorem ebar_mk_mem {u : ↥U} (hu : (u : G) ∈ EU V U) : (u : UBar U) ∈ EBar V U :=
   ⟨u, hu, rfl⟩
 
@@ -138,6 +140,7 @@ private theorem ebar_oddT (hS : Sec6Hyp M V) (h64 : OmegaM M V) (hm : MinBad V U
       · exact Or.inl (hdvd.trans h2)
       · exact Or.inr (hodd.of_dvd_nat hdvd)
 
+omit [Finite G] in
 private theorem eu_conj_mem {w : ↥U} (hw : (w : G) ∈ EU V U)
     (u : ↥U) : ((u * w * u⁻¹ : ↥U) : G) ∈ EU V U := by
   obtain ⟨hwD, A, hA, hAU, hwA⟩ := hw
@@ -157,6 +160,7 @@ private theorem eu_conj_mem {w : ↥U} (hw : (w : G) ∈ EU V U)
       group]
     exact hwA
 
+omit [Finite G] in
 private theorem ebar_conj_mem {z : UBar U} (hz : z ∈ EBar V U)
     (k : UBar U) : k * z * k⁻¹ ∈ EBar V U := by
   obtain ⟨w, hw, rfl⟩ := hz
@@ -164,6 +168,7 @@ private theorem ebar_conj_mem {z : UBar U} (hz : z ∈ EBar V U)
   refine ⟨u * w * u⁻¹, eu_conj_mem hw u, ?_⟩
   rw [QuotientGroup.mk_mul, QuotientGroup.mk_mul, QuotientGroup.mk_inv]
 
+omit [Finite G] in
 private theorem ebar_isConj_of_not_commute
     (hoddT : Asc72.IsOddTransp (EBar V U)) {x y : UBar U}
     (hx : x ∈ EBar V U) (hy : y ∈ EBar V U) (hnc : ¬ Commute x y) : IsConj x y := by
@@ -511,9 +516,9 @@ theorem MinBad.meetsSq (hS : Sec6Hyp M V) (h64 : OmegaM M V) (hm : MinBad V U B 
   have hroot := hS.sec5.toRootHyp
   have hα1 : α ≠ 1 := hm.alpha_ne_one hS
   have hα2 : α * α = 1 := hroot.mul_self_of_mem (mem_omegaSet_self V) hm.memα
-  letI : Fintype ↥V := Fintype.ofFinite _
-  letI : Fintype {v : ↥V // v ≠ 1} := Fintype.ofFinite _
-  letI : Fintype {v : ↥V // v = 1} := Fintype.ofFinite _
+  let : Fintype ↥V := Fintype.ofFinite _
+  let : Fintype {v : ↥V // v ≠ 1} := Fintype.ofFinite _
+  let : Fintype {v : ↥V // v = 1} := Fintype.ofFinite _
   have hcard : 1 < Fintype.card {v : ↥V // v ≠ 1} := by
     have hcompl := Fintype.card_subtype_compl (α := ↥V) (p := fun v => v = 1)
     have hone : Fintype.card {v : ↥V // v = 1} = 1 := Fintype.card_subtype_eq 1

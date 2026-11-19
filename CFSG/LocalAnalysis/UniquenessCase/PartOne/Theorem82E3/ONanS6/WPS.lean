@@ -32,6 +32,7 @@ theorem perfectCoreL_isPerfect (c : Ctx82E3 D) (a : G) :
     (perfectResidual ↥K).equivMapOfInjective K.subtype K.subtype_injective
   exact Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
 
+omit [Finite G] in
 theorem a_mem_normalizer_of_mem_thetaComponentsAt {p : ℕ} {a : G} {J : Subgroup G}
     (hJ : J ∈ thetaComponentsAt p a) : a ∈ Subgroup.normalizer (J : Set G) := by
   obtain ⟨L, hL, rfl⟩ := hJ

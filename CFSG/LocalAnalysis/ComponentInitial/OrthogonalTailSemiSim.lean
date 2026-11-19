@@ -274,11 +274,10 @@ theorem SemiSim.exists_extension_prod_isometric
   let e : E ≃ₗ[K] U := j.toLinearEquiv
   let j₁ : SemiSim R (Q.comp U.subtype) :=
     SemiSim.ofLinear e one_ne_zero (fun v => by
-      simpa [e] using (j.map_app v).trans (one_mul (R v)).symm)
+      simp [e])
   let j₂ : SemiSim (Q.comp U.subtype) R :=
     SemiSim.ofLinear e.symm one_ne_zero (fun u => by
-      simpa [e] using (j.symm.map_app u).trans
-        (one_mul ((Q.comp U.subtype) u)).symm)
+      simp [e])
   let SU : SemiSim (Q.comp U.subtype) (Q.comp U.subtype) := S.restrict U U hU
   let D : SemiSim R (Q.comp U.subtype) := j₁.trans SU
   let C : SemiSim R R := D.trans j₂

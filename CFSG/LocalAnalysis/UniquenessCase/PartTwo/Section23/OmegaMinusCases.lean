@@ -222,9 +222,9 @@ private theorem commute_of_fix_mkTil (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V
 
 private theorem family_one_centralizes_preTil (c : Ctx23L D Ch)
     (hV : IsElemAbelian 2 c.V) (h4 : S23_4 D Ch) (h1930 : H1930 D)
-    (hframe : OmegaMinusFrame (c.H hV) (CFSG.Open.pRank 2 D.Z)
+    (_hframe : OmegaMinusFrame (c.H hV) (CFSG.Open.pRank 2 D.Z)
       (c.sylowStar hV) (c.Tstar hV))
-    (hKB : KOmB) {A₀ : Subgroup (c.W hV)}
+    (_hKB : KOmB) {A₀ : Subgroup (c.W hV)}
     (hA₀fix : ∀ E' : Subgroup (MulAut (c.W hV)), E' ≤ c.Tstar hV → IsElemAbelian 2 E' →
       Nat.card (c.W hV) ≤ 2 * (Nat.card ↥E' *
         Nat.card ↥(CFSG.Quasithin.fixV E')) →

@@ -50,6 +50,6 @@ theorem mem_partTwoE_of_thetaCen {E : Subgroup G} {X : Set G}
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
       3 2 Nat.prime_three Nat.prime_two E (thetaCen X) hE3 hEN
       ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hΘ3) h2
-  exact ⟨hE, hE27, _, hT1, T.isPGroup'.map _, hET⟩
+  exact ⟨hE, hE27, _, hT1, T.isPGroup.map _, hET⟩
 
 end CFSG.RankThree.PartTwo.Sec16

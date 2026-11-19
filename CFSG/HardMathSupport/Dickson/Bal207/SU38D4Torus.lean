@@ -23,9 +23,9 @@ theorem su38FrameD4_of_torus (hTor : OrthFix.OrthSU38ToralInput)
     SU38FrameD4 NonSemilinD4Eight := by
   refine su38FrameD4_of_inner fun Y _ _ _ K B A ctx hK hN _ a haA ha1 ha s hs J hJ hsu hBJ => ?_
   obtain ⟨F₀, _, _, hF₀, ⟨e₀⟩⟩ := exists_d4Eight_model hK
-  haveI : CharP F₀ 2 := by
-    haveI := Fintype.ofFinite F₀
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F₀ 2 := by
+    have := Fintype.ofFinite F₀
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (f := 3) (by rw [Fintype.card_eq_nat_card, hF₀]; norm_num)
   have hd : 0 < 2 * 4 := by norm_num
   obtain ⟨hQ, hT⟩ := regular_coordinateQuadPlus 4 F₀ (by norm_num)
@@ -46,7 +46,7 @@ theorem su38FrameD4_of_torus (hTor : OrthFix.OrthSU38ToralInput)
   have hS := KCOrthogonalD4.conj_injective_projOrthDerived (coordinateQuadPlus 4 F₀) hQ hT
   have ht3 : e s ^ 3 = 1 := hS (by rw [map_pow, map_one, ← hat]; exact hβ3)
   have ht1 : e s ≠ 1 := fun h => hβ1 (by rw [hat, h, map_one])
-  haveI : Nontrivial (Fin (2 * 4) → F₀) := by
+  have : Nontrivial (Fin (2 * 4) → F₀) := by
     obtain ⟨U, hU3, -⟩ := hT
     exact Module.nontrivial_of_finrank_pos (R := F₀)
       (lt_of_lt_of_le (by norm_num : 0 < 3) (hU3 ▸ Submodule.finrank_le U))

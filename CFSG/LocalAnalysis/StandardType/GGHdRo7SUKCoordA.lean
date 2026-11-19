@@ -137,7 +137,7 @@ private noncomputable def hdRo7SUKCoordAux_conjAut {G : Type} [Group G] (K : Sub
   invFun y := ⟨g⁻¹ * (y : G) * g, by
     simpa only [inv_inv] using
       (Subgroup.mem_normalizer_iff.mp ((Subgroup.normalizer (K : Set G)).inv_mem hg) (y : G)).mp y.2⟩
-  left_inv y := Subtype.ext (by simp only [inv_inv]; group)
+  left_inv y := Subtype.ext (by simp only; group)
   right_inv y := Subtype.ext (by group)
   map_mul' y z := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
 

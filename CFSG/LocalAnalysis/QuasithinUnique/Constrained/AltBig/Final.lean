@@ -30,8 +30,8 @@ theorem nat_card_alt_three : Nat.card (alternatingGroup (Fin 3)) = 3 := by
 
 theorem alt_equiv_inj {n k : ℕ} (hn : 5 ≤ n) (hk : 5 ≤ k)
     (e : alternatingGroup (Fin n) ≃* alternatingGroup (Fin k)) : n = k := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
-  haveI : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.2 (by omega)
   have hc := Nat.card_congr e.toEquiv
   rw [nat_card_alternatingGroup, nat_card_alternatingGroup] at hc
   simp only [Nat.card_eq_fintype_card, Fintype.card_fin] at hc

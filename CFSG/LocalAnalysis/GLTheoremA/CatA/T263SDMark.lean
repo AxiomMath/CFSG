@@ -34,7 +34,7 @@ theorem sdPSimpleEquiv_mk {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : Subg
 theorem sd_marking_on_S {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B₀ : Subgroup Ω}
     (hSp : GLAPPrimeCore p ↥S = ⊥) (hInn : InnDiagOn p B₀ S) :
     ∃ lab : GLALabel, LargeEvenInLambda2 lab ∧
-      LargeEvenRawDatum lab fun R _ I F => IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
+      LargeEvenRawDatum lab fun R _ I _F => IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
         ∃ θ : ↥S ⧸ Subgroup.center ↥S ≃* R, ∀ b ∈ B₀, ∃ φ ∈ I,
           LargeEvenInduces θ (fun s s' : ↥S => (s' : Ω) = b * s * b⁻¹) φ := by
   obtain ⟨-, -, lab, hΛ, hraw⟩ := hInn

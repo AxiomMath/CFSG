@@ -79,6 +79,7 @@ section Lift
 variable {W : Type} [Group W] [Finite W] {Φ : Set (Subgroup W)} {K K' : Subgroup W} {k k' : W}
   {σ : MulAut W} {Q : Type} [Group Q]
 
+omit [Finite W] in
 theorem conjSub_fixSylGen_le (hΦ : ConjInvariant Φ) {c : W} (hc : σ c = c) :
     conjSub c (fixSylGen Φ σ) ≤ fixSylGen Φ σ := by
   rw [conjSub, Subgroup.map_iSup]

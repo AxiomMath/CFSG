@@ -49,12 +49,12 @@ theorem burnsideF429a_ctr_L3 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
     (hyp : HypF_4_4 .L3 2 f Gp M₁ M₂) (hf : 2 ≤ f) {T : Subgroup E}
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : ctr T ≤ Gp := by
   intro z hz
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨F, hFf, hFfin, hFchar, Φ, ρ, R₁, R₂, s₁, s₂, hFcard, hΦ, hrange, hρ, hΦρ, hE, hD, hO,
     h₁, h₂, -⟩ := burnsideF447_setup hf hyp.toHypF_4_4g
-  haveI : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
-  haveI : Φ.range.Normal := by rw [hrange]; infer_instance
+  have : Finite (projectiveSL 3 F) := Finite.of_injective Φ hΦ
+  have : Φ.range.Normal := by rw [hrange]; infer_instance
   have hNp := burnsideF4d_Y2_pCore_eq Φ hΦ hD hO h₁ h₂
   have hUT : pCoreOf 2 (M₁ ⊓ M₂) ≤ T :=
     CFSG.QuasithinUnique.IsSylowTwoOf.le_of_normalizes hT

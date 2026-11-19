@@ -26,11 +26,11 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
   val_inv := by
     rw [Matrix.diagonal_mul_diagonal]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply] <;> decide
+    fin_cases i <;> fin_cases j <;> simp
   inv_val := by
     rw [Matrix.diagonal_mul_diagonal]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply] <;> decide
+    fin_cases i <;> fin_cases j <;> simp
 
 @[expose] def dB : GL (Fin 3) (ZMod 3) where
   val := Matrix.diagonal ![1, 1, -1]
@@ -38,11 +38,11 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
   val_inv := by
     rw [Matrix.diagonal_mul_diagonal]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply] <;> decide
+    fin_cases i <;> fin_cases j <;> simp
   inv_val := by
     rw [Matrix.diagonal_mul_diagonal]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply] <;> decide
+    fin_cases i <;> fin_cases j <;> simp
 
 @[expose] def xiK (k : Fin 3) (hk : k ≠ 0) : GL (Fin 3) (ZMod 3) :=
   Matrix.SpecialLinearGroup.toGL (Matrix.SpecialLinearGroup.transvection hk (1 : ZMod 3))

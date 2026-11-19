@@ -108,7 +108,7 @@ theorem commutator_mem_upperS {i : ℕ} {u s : H} (hu : u ∈ h.upperS (i + 1)) 
 private theorem isPGroup_S_aux : IsPGroup 2 h.S := by
   obtain ⟨R, hR⟩ := h.S_sylow
   have h1 : IsPGroup 2 (h.S.subgroupOf (centralizer ({h.a} : Set H) ⊓
-      normalizer (h.J : Set H))) := hR ▸ R.isPGroup'
+      normalizer (h.J : Set H))) := hR ▸ R.isPGroup
   have h2 := h1.map (centralizer ({h.a} : Set H) ⊓ normalizer (h.J : Set H)).subtype
   rwa [map_subgroupOf_eq_of_le h.S_le] at h2
 

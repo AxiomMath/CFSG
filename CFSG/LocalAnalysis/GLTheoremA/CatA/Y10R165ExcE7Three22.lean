@@ -61,8 +61,7 @@ private theorem mem_normalizer_e7T3QLayer {K : Type} [Field K] {L : Type} [Field
     · rintro ⟨hα, h⟩
       have h0 := h 0
       have h1 := h 1
-      simp only [a, Fin.isValue, Fin.zero_eta, if_pos, if_neg, Fin.mk_one,
-        one_ne_zero, not_false_eq_true] at h0 h1
+      simp only [a, Fin.isValue, ite_eq_left, ite_eq_right, one_ne_zero, not_false_eq_true] at h0 h1
       exact (hker α hα).1 ⟨⟨hα, h1⟩, ⟨hα, h0⟩⟩
     · intro hα
       refine ⟨isRoot_of_mem_e7T3A5SubA2 hα, fun i => ?_⟩
@@ -96,7 +95,7 @@ private theorem e7T3_JQ_of_layers {K : Type} [Field K] [Finite K] {ℓ f p : ℕ
     (hPeq : P = (fixSubgroup Φ').map
       ((MulAut.conj (canonicalRep (coxeterSystem Tag.E7) L v)).toMonoidHom.comp (a5Frame L)))
     (hψinj : Function.Injective ψ)
-    (hψeq : ∀ y : ↥(Subgroup.centralizer ({x} : Set (adjointGroup Tag.E7 K))),
+    (_hψeq : ∀ y : ↥(Subgroup.centralizer ({x} : Set (adjointGroup Tag.E7 K))),
       ψ y = F.g0⁻¹ * adjEmb Tag.E7 K L (y : adjointGroup Tag.E7 K) * F.g0)
     (hψR : ∀ y : ↥(Subgroup.centralizer ({x} : Set (adjointGroup Tag.E7 K))),
       F.n * Units.map (entrywiseHom (iterateFrobenius L ℓ f)) (ψ y) * F.n⁻¹ = ψ y)
@@ -125,7 +124,7 @@ private theorem e7T3_JQ_of_layers {K : Type} [Field K] [Finite K] {ℓ f p : ℕ
       ((CFSG.Foundations.SteinbergCA.quasisimple_iff ↥(fixSubgroup Φ')).2.2.1.mpr hfixq)
       hΦ' hPeq
   have hQLqs : CFSG.IsQuasisimple ↥QL :=
-    isQuasisimple_e7T3QLayer (L := L) (p := p) hf hK hε hq2 F.n F.hnm
+    isQuasisimple_e7T3QLayer (L := L) (_p := p) hf hK hε hq2 F.n F.hnm
       (monomialSubgroup_le_adjointGroup' F.hnm) (fun x => F.hnW x)
   have hpQL : p ∣ Nat.card ↥QL :=
     dvd_card_e7T3QLayer F hf hK hp hp3 hε hpf
@@ -179,8 +178,8 @@ theorem exists_e7T3_JQ_split {K : Type} [Field K] [Finite K] {ℓ f p : ℕ} [Fa
         ({z} : Set (adjointGroup Tag.E7 K)))).Normal ∧
       CFSG.Open.IsQuasisimple ↥Q ∧ p ∣ Nat.card Q := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   have hFr : ∀ c, Fr c = c ^ Nat.card K := fun c => by
     rw [hFrdef, iterateFrobenius_def, hK]
@@ -272,8 +271,8 @@ theorem exists_e7T3_JQ_unitary {K : Type} [Field K] [Finite K] {ℓ f p : ℕ} [
         ({z} : Set (adjointGroup Tag.E7 K)))).Normal ∧
       CFSG.Open.IsQuasisimple ↥Q ∧ p ∣ Nat.card Q := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   have hFr : ∀ c, Fr c = c ^ Nat.card K := fun c => by
     rw [hFrdef, iterateFrobenius_def, hK]

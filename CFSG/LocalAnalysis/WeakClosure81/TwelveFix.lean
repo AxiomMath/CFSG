@@ -14,6 +14,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 @[expose] def Fix121 (G A : Subgroup (LGL 2 V)) (a : LGL 2 V) : Prop :=
   fixMod (cE G) a ⊓ commSub G = commSub A ⊔ cE G
 
+omit [Finite V] in
 theorem fix121_of_gen {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A g)
     {a : LGL 2 V} (ha : a ∈ A) (hgen : G = Subgroup.zpowers a ⊔ cj g A) : Fix121 G A a := by
   unfold Fix121
@@ -62,6 +63,7 @@ theorem fix121_of_gen {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A 
         (by rw [twelveOneK_sum h]; exact Submodule.mem_sup_left huA)
         (cE_le_commSub G hwW)
 
+omit [Finite V] in
 theorem twelveOneK_aa {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A g)
     {a : LGL 2 V} (ha : a ∈ A) (hfa : Fix121 G A a)
     (hfb : Fix121 G (cj g A) ((MulAut.conj g) a)) :
@@ -93,7 +95,7 @@ theorem twelveOneK_aa {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A 
     have h2 : a ((a * ag) x - x) = (ag u - u) - (a v - v) := by
       have hss' : ∀ y : V, a (a y) = y := fun y => by rw [← LinearEquiv.mul_apply, hss]; rfl
       rw [show x = u + v from huv.symm]
-      simp only [LinearEquiv.mul_apply, map_add, map_sub, hss', hagv, haav, hau]
+      simp only [LinearEquiv.mul_apply, map_add, map_sub, hss', hagv, hau]
       abel
     rwa [h2] at h1
   have hzA : ag u - u ∈ commSub (cj g A) := sub_mem_commSub (cj g A) hb u
@@ -134,6 +136,7 @@ theorem twelveOneK_aa {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A 
   (∀ a ∈ A, P a → fixMod (cE G) a ⊓ commSub G = commSub A ⊔ cE G) ∧
   (∀ a ∈ A, P a → fixMod (cE G) (a * (MulAut.conj g) a) ⊓ commSub G ≤ cE G)
 
+omit [Finite V] in
 theorem conclusion121_of_gen {G A : Subgroup (LGL 2 V)} {g : LGL 2 V} (h : Hyp121K G A g)
     {P : LGL 2 V → Prop} (hP : ∀ a ∈ A, P a → G = Subgroup.zpowers a ⊔ cj g A)
     (hP' : ∀ a ∈ A, P a → G = Subgroup.zpowers ((MulAut.conj g) a) ⊔ A) :

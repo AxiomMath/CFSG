@@ -91,7 +91,7 @@ private lemma s16kPoly_irreducible : Irreducible s16kPoly := by
     norm_num
   · intro x
     have hx : x = 0 ∨ x = 1 := by revert x; decide
-    rcases hx with rfl | rfl <;> simp [Polynomial.IsRoot, s16kPoly] <;> decide
+    rcases hx with rfl | rfl <;> simp [Polynomial.IsRoot, s16kPoly]; decide
 
 private instance s16kFact : Fact (Irreducible s16kPoly) := ⟨s16kPoly_irreducible⟩
 
@@ -276,7 +276,7 @@ private lemma s16kBM_one : s16kBM (1 : s16kC) = 1 := by
     apply Subtype.ext
     ext a b
     fin_cases i <;> fin_cases j <;>
-      simp [s16kBlocks, Matrix.one_apply, Subalgebra.coe_one, Subalgebra.coe_zero]
+      simp [s16kBlocks, Matrix.one_apply]
   change RingHom.mapMatrix s16kToF (s16kBlocks (1 : S16kGL6) _) = 1
   rw [hb, map_one]
 

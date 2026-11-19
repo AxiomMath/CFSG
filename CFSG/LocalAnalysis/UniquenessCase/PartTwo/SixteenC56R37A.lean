@@ -21,7 +21,7 @@ theorem exists_b_of_not_oneFirst {M V₀ V : Subgroup G} {g : G} {n : ℕ}
     ∃ b ∈ conjSubgroup V g ⊓ M, b ∉ F11.CTilde M V₀ V ∧
       E3.mQuot V (V ⊓ centralizer ({b} : Set G)) ≤ n := by
   unfold OneFirst at h
-  obtain ⟨b, hb, hbC⟩ := SetLike.not_le_iff_exists.1 h
+  obtain ⟨b, hb, hbC⟩ := IsConcreteLE.not_le_iff_exists.1 h
   rw [Subgroup.mem_inf] at hb
   obtain ⟨hbVM, hbcent⟩ := hb
   refine ⟨b, hbVM, hbC, ?_⟩
@@ -45,9 +45,9 @@ theorem exists_b_of_twoFirst {M V : Subgroup G} (hV : IsPGroup 2 V) {g : G} {n :
       E3.mQuot V (V ⊓ centralizer ({b} : Set G)) ≤ n := by
   unfold TwoFirst at h
   obtain ⟨I, hI, hne⟩ := h
-  simp only [E3.gammaSet, Set.mem_setOf_eq] at hI
+  simp only [E3.gammaSet, Set.mem_ofPred_eq] at hI
   obtain ⟨hIX, t, hIt, hmt⟩ := hI
-  obtain ⟨b, hb, hbV⟩ := SetLike.not_le_iff_exists.1 hne
+  obtain ⟨b, hb, hbV⟩ := IsConcreteLE.not_le_iff_exists.1 hne
   rw [Subgroup.mem_inf] at hb
   obtain ⟨hbVM, hbCI⟩ := hb
   refine ⟨b, hbVM, hbV, ?_⟩

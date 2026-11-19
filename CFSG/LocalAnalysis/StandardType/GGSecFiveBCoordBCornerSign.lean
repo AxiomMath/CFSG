@@ -225,8 +225,8 @@ private theorem negEquiv_apply (r : ℕ) (k : Fin r) (u : PlaneRaw.V r) (i : Fin
     PlaneRaw.negEquiv r k u i = if i = k then -u i else u i := by
   simp only [PlaneRaw.negEquiv, LinearEquiv.piCongrRight_apply]
   by_cases h : i = k
-  · simp only [h, if_true, LinearEquiv.neg_apply]
-  · simp only [h, if_false, LinearEquiv.refl_apply]
+  · simp only [h, ite_true, LinearEquiv.neg_apply]
+  · simp only [h, ite_false, LinearEquiv.refl_apply]
 
 private theorem negEquiv_toAdd_sgnAut {G : Type} [Group G] {Bs L : Subgroup G} {r : ℕ}
     (R : Realization (⊤ : Subgroup ↥L) (Bs.subgroupOf L) (planeEntry .symplectic r))
@@ -237,8 +237,8 @@ private theorem negEquiv_toAdd_sgnAut {G : Type} [Group G] {Bs L : Subgroup G} {
   funext i
   rw [SpCoord.sgnAut_apply]
   by_cases h : i = k
-  · rw [h, negEquiv_apply, if_pos rfl, Function.update_self, toAdd_inv]
-  · rw [negEquiv_apply, if_neg h, Function.update_of_ne h]
+  · rw [h, negEquiv_apply, ite_eq_left rfl, Function.update_self, toAdd_inv]
+  · rw [negEquiv_apply, ite_eq_right h, Function.update_of_ne h]
 
 private theorem swapEquiv_apply (r : ℕ) (a b : Fin r) (u : PlaneRaw.V r) (i : Fin r) :
     PlaneRaw.swapEquiv r a b u i = u (Equiv.swap a b i) := by
@@ -467,11 +467,11 @@ private theorem cornerFrame_iota_injective {G : Type} [Group G] {Bs : Subgroup G
   have hL : Multiplicative.toAdd
       ((SpCoord.sgnAut k (Pi.mulSingle k (Multiplicative.ofAdd (1 : ZMod 3)))) k) = -1 := by
     rw [SpCoord.sgnAut_mulSingle_self, ← Pi.mulSingle_inv, ← ofAdd_neg,
-      SpCoord.toAdd_mulSingle, if_pos rfl]
+      SpCoord.toAdd_mulSingle, ite_eq_left rfl]
   have hR : Multiplicative.toAdd
       ((SpCoord.sgnAut l (Pi.mulSingle k (Multiplicative.ofAdd (1 : ZMod 3)))) k) = 1 := by
     rw [SpCoord.sgnAut_mulSingle_of_ne (i := l) (j := k) hne,
-      SpCoord.toAdd_mulSingle, if_pos rfl]
+      SpCoord.toAdd_mulSingle, ite_eq_left rfl]
   rw [hL, hR] at h5
   exact (by decide : (-1 : ZMod 3) ≠ 1) h5
 

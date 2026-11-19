@@ -50,7 +50,7 @@ lemma hdRo7CKCoordAux_single_eq_smul {n : ℕ} (k : Fin n) (c : ZMod 3) :
   · subst hl; simp [Pi.single_eq_same]
   · simp [Pi.single_eq_of_ne hl]
 
-lemma hdRo7CKCoordAux_arith_step {n t : ℕ} (h2 : 2 ≤ t) (ht : t + 2 ≤ n) :
+lemma hdRo7CKCoordAux_arith_step {n t : ℕ} (_h2 : 2 ≤ t) (ht : t + 2 ≤ n) :
     (n - t) * 2 ^ t ≤ (n - (t + 1)) * 2 ^ (t + 1) := by
   have hnt : n - t = (n - (t + 1)) + 1 := by omega
   have hle : (n - (t + 1)) + 1 ≤ 2 * (n - (t + 1)) := by omega

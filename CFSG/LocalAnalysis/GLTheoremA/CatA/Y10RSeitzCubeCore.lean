@@ -314,7 +314,7 @@ section Certs
 theorem seitzTwoGen_of_oppRadGood {S : Type} [Group S] [Finite S]
     (h : ∀ Q : Subgroup S, Q ≠ ⊥ → GGRadicalTwo ⊤ Q → GGOppRadGood ⊤ Q) : SeitzTwoGen S := by
   intro q hq hq2 E hE ⟨U, hU0, hU2, hUinv⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hψinj : Function.Injective (SemidirectProduct.inl : S →* Hol S E) :=
     SemidirectProduct.inl_injective
   set T : Subgroup (Hol S E) := U.map (SemidirectProduct.inl : S →* Hol S E) with hT
@@ -365,7 +365,7 @@ theorem seitzSimpleStmt_of_vacuous {S : Type} [Group S] [Finite S] (hs : IsSimpl
       ∀ U : Subgroup S, IsPGroup 2 ↥U → (∀ φ ∈ E, ∀ u ∈ U, φ u ∈ U) → U = ⊥) :
     SeitzSimpleStmt S := by
   intro q hq hq2 E hE hE0 _ ⟨U, hU0, hU2, hUinv⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   by_cases hbig : q ^ 2 ≤ Nat.card E
   · exact absurd (hv q hq hq2 E hE hbig U hU2 hUinv) hU0
   · push Not at hbig

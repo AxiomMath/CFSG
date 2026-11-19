@@ -26,7 +26,7 @@ theorem dcProp_of_forall_exists_extend {Y : Type} [Group Y] {A B : Subgroup Y}
   obtain ⟨Ψ, hA, hB, hΨ⟩ := h σ hσ
   let a₁ : MulAut ↥A :=
     { toFun := fun m => ⟨Ψ m, (hA m).mp m.2⟩
-      invFun := fun m => ⟨Ψ⁻¹ m, (hA _).mpr (by simpa using m.2)⟩
+      invFun := fun m => ⟨Ψ⁻¹ m, (hA _).mpr (by simp)⟩
       left_inv := fun m => Subtype.ext (by simp)
       right_inv := fun m => Subtype.ext (by simp)
       map_mul' := fun m n => Subtype.ext (map_mul Ψ _ _) }
@@ -147,7 +147,7 @@ private theorem fieldAut_dMat {F : Type} [Field F] (ρ : F ≃+* F) (t1 t2 : Fˣ
   ext i j
   rw [coe_sl_map_apply, coe_dMat, coe_dMat]
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.diagonal_apply, Units.coe_map, map_mul]
+    simp [Units.coe_map, map_mul]
 
 private theorem conjAut_fieldAut_mem_torus {F : Type} [Field F] (s t : Fˣ) (ρ : F ≃+* F)
     {g : projectiveSL 3 F} (hg : g ∈ torus3 F) :
@@ -207,7 +207,7 @@ private theorem eq_one_of_mem_torus_centralizer {F : Type} [Field F] [CharP F 2]
   refine ⟨t1, h3u, ?_⟩
   rw [coe_dMat, hsq]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply, Matrix.scalar_apply]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply]
 
 theorem eq_on_inf_of_roots {F : Type} [Field F] [Finite F] [CharP F 2]
     (σ : MulAut ↥(Ln F ⊓ Pt F)) {u : projectiveSL 3 F}
@@ -279,7 +279,7 @@ theorem eq_on_inf_of_roots {F : Type} [Field F] [Finite F] [CharP F 2]
             (u * Φ (yP c) * u⁻¹)⁻¹ * (u * Φ (xP 1) * u⁻¹)⁻¹ := by rw [hY, hX]
       _ = u * Φ (wP c) * u⁻¹ := by
             rw [hW]
-            simp only [map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv]
+            simp only [map_mul, map_inv]
             group
   have hσU : ∀ v : B0, (v : projectiveSL 3 F) ∈ U →
       ((σ v : B0) : projectiveSL 3 F) = u * Φ (v : projectiveSL 3 F) * u⁻¹ := by
@@ -300,7 +300,7 @@ theorem eq_on_inf_of_roots {F : Type} [Field F] [Finite F] [CharP F 2]
             rw [hσwP c, hσxP a, hσyP b]
       _ = u * Φ ((⟨wP c, hwP_mem c⟩ : B0) * (⟨xP a, hxP_mem a⟩ : B0) *
             (⟨yP b, hyP_mem b⟩ : B0) : projectiveSL 3 F) * u⁻¹ := by
-            simp only [map_mul, Subgroup.coe_mul]
+            simp only [map_mul]
             group
       _ = u * Φ (v : projectiveSL 3 F) * u⁻¹ := by
             rw [hvsub]

@@ -37,7 +37,7 @@ theorem nonempty_spFrame {p : ℕ} [Fact p.Prime] (K : Type) [Field K] [Fintype 
     exact pow_padicValNat_dvd
   by_cases hev : Even e
   ·
-    rw [if_pos hev]
+    rw [ite_eq_left hev]
     obtain ⟨f, hf⟩ := hev
     have hfe : e = 2 * f := by omega
     have hf0 : 0 < f := by omega
@@ -80,7 +80,7 @@ theorem nonempty_spFrame {p : ℕ} [Fact p.Prime] (K : Type) [Field K] [Fintype 
         fun _ => hS₀) (isSymplecticSpace_stdSympSpace _)) hdim
     exact ⟨F.map χ (hχ.comp F.T_injective)⟩
   ·
-    rw [if_neg hev]
+    rw [ite_eq_right hev]
     obtain ⟨S₀, ρ, J₀, hS₀, hS₀dim, hρ, hJ⟩ :=
       exists_spBlock_split K (L := L) (m := p ^ a) hdvdL
     have hS₀e : finrank K S₀.V = 2 * e := by rw [hS₀dim, hLdim]

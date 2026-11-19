@@ -44,7 +44,7 @@ variable {D : Data G} {V₀ V H : Subgroup G} {i : ℕ}
 
 theorem w183b2_pair_ext_abs_data
     (x : Ctx188 D V₀ V H i 3) (M : ModDataE H (eOmegaZ H D.T))
-    (hKsol : IsSolvable ↥(H ⊓ Subgroup.centralizer (eOmegaZ H D.T : Set G)))
+    (hKsol : Group.IsSolvable ↥(H ⊓ Subgroup.centralizer (eOmegaZ H D.T : Set G)))
     {g h : G} (hg : Gam183 V H (eOmegaZ H D.T) i g) (hh : h ∈ H)
     (hnot1 : ¬ M.img (vInH V H (g * h)) ≤ Subgroup.normalizer (M.img (vInH V H g) : Set _))
     (hnot2 : ¬ M.img (vInH V H g) ≤ Subgroup.normalizer (M.img (vInH V H (g * h)) : Set _))
@@ -58,7 +58,7 @@ theorem w183b2_pair_ext_abs_data
       (ψ : ↥(vInH V H g ⊔ vInH V H (g * h)) →* ↥(M.img H))
       (Ah' Bh' : Subgroup ↥(vInH V H g ⊔ vInH V H (g * h))) (k₁ k₂ d : ℕ)
       (P₁ P₂ : Subgroup Lb),
-      IsPGroup 2 π.ker ∧ IsSolvable ψ.ker ∧ Ah' ⊔ Bh' = ⊤ ∧
+      IsPGroup 2 π.ker ∧ Group.IsSolvable ψ.ker ∧ Ah' ⊔ Bh' = ⊤ ∧
       (1 ≤ k₁ ∧ k₁ ≤ 2) ∧ (1 ≤ k₂ ∧ k₂ ≤ 2) ∧
       (k₁ ≤ d ∧ d ≤ k₁ + 1) ∧ (k₂ ≤ d ∧ d ≤ k₂ + 1) ∧
       (IsL2 Lb d ∨ IsSz Lb d ∨ ∃ m : ℕ, Odd m ∧ Nonempty (Lb ≃* DihedralGroup m)) ∧
@@ -74,7 +74,7 @@ theorem w183b2_pair_ext_abs_data
   have hg' : Gam183 V H (eOmegaZ H D.T) i (g * h) :=
     Gam183.conj (Hyp183.normalizer_eOmegaZ H D.T) hh hg
   obtain ⟨hOcal, K, hKnorm, hKset, hQuot, hconj, -, -, -⟩ := hO
-  haveI := hKnorm
+  have := hKnorm
   have hPe : IsElemAbelian 2 (conjSubgroup V g) :=
     E3.isElemAbelian_conjSubgroup x.hyp.setting.isElemAbelian g
   have hQe : IsElemAbelian 2 (conjSubgroup (conjSubgroup V g) h) :=
@@ -128,7 +128,7 @@ theorem w183b2_pair_ext_abs_data
 theorem pair_ext
     (hL28 : FinPairGenL28) (hSz8 : FinPairGenSz8)
     (x : Ctx188 D V₀ V H i 3) (M : ModDataE H (eOmegaZ H D.T))
-    (hK : IsSolvable ↥(H ⊓ Subgroup.centralizer (eOmegaZ H D.T : Set G)))
+    (hK : Group.IsSolvable ↥(H ⊓ Subgroup.centralizer (eOmegaZ H D.T : Set G)))
     (h13 : ¬ 13 ∣ Nat.card (M.img H))
     {g h : G} (hg : Gam183 V H (eOmegaZ H D.T) i g) (hh : h ∈ H)
     (hnot1 : ¬ M.img (vInH V H (g * h)) ≤ Subgroup.normalizer (M.img (vInH V H g) : Set _))
@@ -149,8 +149,8 @@ theorem pair_ext
     hAc, hBc, hk₁eq, hk₂eq, e⟩ :=
     w183b2_pair_ext_abs_data (D := D) (V₀ := V₀) (V := V) (H := H) (i := i)
       x M hK hg hh hnot1 hnot2 hk1 hk2 hO
-  letI := hGLb
-  letI := hFLb
+  let := hGLb
+  let := hFLb
   obtain ⟨e⟩ := e
   have hPQ := w183b2_pair_abs hL28 hSz8 π hπker ψ hψker h13 Ah' Bh' hgen k₁ k₂ d
     hk₁ hk₂ hd₁ hd₂ hshape P₁ P₂ hP₁ hP₂ hc₁ hc₂ hP hAP hBP hAc hBc

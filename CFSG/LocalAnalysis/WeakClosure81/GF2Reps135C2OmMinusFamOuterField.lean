@@ -90,8 +90,7 @@ private theorem w135c2_omfMField_baseChange_intertwine {G V : Type} [Group G] [A
       (T_E.baseChange k) (CFSG.Theory.Representation.extendScalars k σ g u) =
         CFSG.Theory.Representation.extendScalars k σ (α g) ((T_E.baseChange k) u) := by
   intro g u
-  induction u using TensorProduct.induction_on with
-  | zero => simp
+  induction u using TensorProduct.inductionOn with
   | tmul c x =>
       rw [CFSG.Theory.Representation.extendScalars_apply,
         CFSG.Theory.Representation.extendScalars_apply]

@@ -27,7 +27,7 @@ theorem slMat_mul_inv (g : ↥(StatedSL n K)) : slMat g * slMat g⁻¹ = 1 := by
 
 theorem isPGroup_unitri [Finite K] [CharP K 2] (hn : 1 ≤ n) : IsPGroup 2 ↥(unitri n K) := by
   obtain ⟨P, hP⟩ := LinearFlag.exists_sylow_unitriangular (K := K) 2 hn
-  have h := P.isPGroup'
+  have h := P.isPGroup
   rw [hP] at h
   exact h.map _
 

@@ -18,7 +18,7 @@ theorem exists_not_comm_of_two_le_pRank {K : Type} [Group K] [Finite K] (hK : Is
   have hcomm' : ∀ a b : K, a * b = b * a := fun a b => by
     by_contra h
     exact hcomm ⟨a, b, h⟩
-  letI : CommGroup K := { ‹Group K› with mul_comm := hcomm' }
+  let : CommGroup K := { ‹Group K› with mul_comm := hcomm' }
   have hprime : (Nat.card K).Prime := CommGroup.is_simple_iff_prime_card.mp hK
   obtain ⟨E, -, -, hc⟩ := CFSG.SectionRank.exists_pRank hr.one_lt (⊤ : Subgroup K)
   have h1 : r ^ 2 ∣ r ^ CFSG.Open.pRank r (⊤ : Subgroup K) := pow_dvd_pow r h

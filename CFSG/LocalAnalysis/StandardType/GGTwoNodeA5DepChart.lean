@@ -20,7 +20,7 @@ theorem a5Dep_chart {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V]
       (∀ i : Fin 5, ε (h i) = (a5DepPt ()).vec (a5DepH i)) ∧
       (∀ (i : Fin 5) w, α i w = (a5DepPt ()).dot ((a5DepPt ()).vec (a5DepF i)) (ε w)) ∧
       ε x = (a5DepPt ()).vec [0, 0, 0, 0, 0, 1] := by
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   obtain ⟨hrel, -, -⟩ :=
     @CFSG.StandardType.ggDepA_relation 3 6 ⟨Nat.prime_three⟩ V _ _ h α x hfr
   have h4rel : h 4 = h 0 + (2 : ZMod 3) • h 1 + h 3 := by
@@ -34,7 +34,7 @@ theorem a5Dep_chart {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V]
     have e4 : (5 : ZMod 3) • h 4 = (2 : ZMod 3) • h 4 := by
       rw [show (5 : ZMod 3) = 2 from by decide]
     rw [e2, e3, e4] at h5
-    try simp only [one_smul, zero_smul, add_zero, zero_add] at h5
+    try simp only [add_zero] at h5
     have h2 : (2 : ZMod 3) • h 4 = -(h 0 + (2 : ZMod 3) • h 1 + h 3) :=
       eq_neg_of_add_eq_zero_right h5
     calc h 4 = (2 * 2 : ZMod 3) • h 4 := by
@@ -217,7 +217,7 @@ theorem a5Dep_chart {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V]
     rw [Module.Basis.equivFun_self b j j']
     by_cases h : j = j'
     · subst h; simp
-    · rw [if_neg h, Pi.single_eq_of_ne (Ne.symm h)]
+    · rw [ite_eq_right h, Pi.single_eq_of_ne (Ne.symm h)]
   have hαb_eval : ∀ (i : Fin 5) (j : Fin 6),
       α i (b j) = ((a5DepPt ()).vec (a5DepF i)) j := by
     intro i j
@@ -251,7 +251,7 @@ theorem a5Dep_chart {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V]
       funext j; fin_cases j <;> decide
   · intro i w
     have hw : w = ∑ j : Fin 6, b.equivFun w j • b j := by
-      simpa [Module.Basis.equivFun_apply] using (b.sum_repr w).symm
+      simp [Module.Basis.equivFun_apply]
     conv_lhs => rw [hw]
     rw [map_sum, Pt.dot]
     simp only [map_smul, smul_eq_mul]

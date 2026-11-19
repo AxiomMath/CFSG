@@ -84,10 +84,10 @@ private noncomputable def perpEquivMinusTwo_T2J2 (F : Type) [Field F] (b c : F) 
   · intro y
     funext j
     rcases j with i | i
-    · fin_cases i <;>
+    · fin_cases i;
         simp [projMinusTwo_T2J2, insMinusTwo_T2J2, LinearMap.pi_apply, LinearMap.proj_apply]
     · rcases i with i | k
-      · fin_cases i <;>
+      · fin_cases i;
           simp [projMinusTwo_T2J2, insMinusTwo_T2J2, LinearMap.pi_apply, LinearMap.proj_apply]
       · simp [projMinusTwo_T2J2, insMinusTwo_T2J2, LinearMap.pi_apply, LinearMap.proj_apply]
 
@@ -101,7 +101,7 @@ private theorem quadMinus_proj_T2J2 (F : Type) [Field F] (b c : F)
     Fin.sum_univ_two (fun i : Fin 2 => x (Sum.inl i) * x (Sum.inr (Sum.inl i)))]
   simp only [projMinusTwo_T2J2, LinearMap.pi_apply, LinearMap.proj_apply]
   rw [h0, h1]
-  have hidx : (⟨1, projMinusTwo_T2J2._proof_1⟩ : Fin (3 - 1)) = 1 := Fin.ext rfl
+  have hidx : (⟨1, by decide⟩ : Fin (3 - 1)) = 1 := Fin.ext rfl
   rw [hidx]
   ring
 

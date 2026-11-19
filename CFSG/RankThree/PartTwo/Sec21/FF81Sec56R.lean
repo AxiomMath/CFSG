@@ -44,6 +44,7 @@ theorem exists_coord {Z : Subgroup G} (hZ : CFSG.Open.IsElemAbelian 2 Z) (hc : N
 
 variable {s₀ : G}
 
+omit [Finite G] in
 theorem center_conj : ∀ g ∈ Cen s₀, ∀ z ∈ Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀)),
     g * z * g⁻¹ ∈ Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀)) := fun _ hg _ hz => conj_mem_center hg hz
 
@@ -51,6 +52,7 @@ noncomputable def rho7 (κ : ↥(Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀))) ≃
     ↥(Cen s₀) →* GL7 :=
   Sp6Over.rhoT center_conj κ
 
+omit [Finite G] in
 theorem rho7_mulVec (κ : ↥(Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀))) ≃* Multiplicative V7)
     {g : G} (hg : g ∈ Cen s₀) {z : G} (hz : z ∈ Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀))) :
     ((rho7 κ ⟨g, hg⟩ : GL7) : M7) *ᵥ Multiplicative.toAdd (κ ⟨z, hz⟩) =
@@ -61,6 +63,7 @@ variable (hs : orderOf s₀ = 2) (κ : ↥(Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s
   (hκ : κ ⟨s₀, s₀_mem_center hs⟩ = Multiplicative.ofAdd (Pi.single 0 1))
 
 include hκ in
+omit [Finite G] in
 theorem rho7_mem_stab (g : ↥(Cen s₀)) : rho7 κ g ∈ stab7 := by
   rw [Sp6Over.mem_stab7]
   have h := rho7_mulVec κ g.2 (s₀_mem_center hs)
@@ -75,10 +78,12 @@ theorem rho7_mem_stab (g : ↥(Cen s₀)) : rho7 κ g ∈ stab7 := by
 noncomputable def rhoBar : ↥(Cen s₀) →* GL6 :=
   piHom.comp ((rho7 κ).codRestrict stab7 (rho7_mem_stab hs κ hκ))
 
+omit [Finite G] in
 theorem coe_rhoBar (g : ↥(Cen s₀)) :
     ((rhoBar hs κ hκ g : GL6) : M6) = piM ((rho7 κ g : GL7) : M7) := rfl
 
 include hκ in
+omit [Finite G] in
 theorem conj_of_rhoBar_eq_one {g : G} (hg : g ∈ Cen s₀) (h1 : rhoBar hs κ hκ ⟨g, hg⟩ = 1)
     {z : G} (hz : z ∈ Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀))) :
     g * z * g⁻¹ = z ∨ g * z * g⁻¹ = z * s₀ := by
@@ -109,12 +114,13 @@ theorem conj_of_rhoBar_eq_one {g : G} (hg : g ∈ Cen s₀) (h1 : rhoBar hs κ h
       ext i
       refine Fin.cases ?_ (fun i => ?_) i
       · simp [h0]
-      · simp [htail i, Pi.single_apply, Fin.succ_ne_zero]
+      · simp [htail i, Fin.succ_ne_zero]
     rw [heq, ← hs', hw, ← toAdd_mul, ← map_mul] at hAw
     have := congrArg Subtype.val (κ.injective (Multiplicative.toAdd.injective hAw))
     exact this.symm
 
 include hκ in
+omit [Finite G] in
 theorem card_cen_le {g : G} (hg : g ∈ Cen s₀) :
     Nat.card ↥((Op 2 (Cen s₀) ⊓ CenS (Op 2 (Cen s₀))) ⊓ Cen g) ≤
       2 * Nat.card {v : Fin 6 → ZMod 2 // ((rhoBar hs κ hκ ⟨g, hg⟩ : GL6) : M6) *ᵥ v = v} := by

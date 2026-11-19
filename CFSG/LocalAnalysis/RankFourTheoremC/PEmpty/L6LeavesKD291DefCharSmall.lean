@@ -77,7 +77,7 @@ variable {K : Type} [Field K] [Finite K] {p : ℕ} [hp : Fact p.Prime]
 theorem pRank_le_two_statedSL_three_prime (hK : Nat.card K = p) {S : Type} [Group S] [Finite S]
     (e : S ≃* StatedProj (StatedSL 3 K)) : CFSG.Open.pRank p (⊤ : Subgroup S) ≤ 2 := by
   have hK1 : Nat.card K = p ^ 1 := by rw [hK, pow_one]
-  haveI : CharP K p := charP_of_card_eq_prime_pow (le_refl 1) hK1
+  have : CharP K p := charP_of_card_eq_prime_pow (le_refl 1) hK1
   let φ := specialLinearGroupEquivStatedSL 3 K
   let π : Matrix.SpecialLinearGroup (Fin 3) K →* S :=
     e.symm.toMonoidHom.comp ((QuotientGroup.mk' ((StatedScalars (Fin 3) K).subgroupOf
@@ -117,7 +117,7 @@ theorem three_le_pRank_centralizer_of_statedSL_three_of_three_le (hf : 1 ≤ f)
     subst hf1
     have := pRank_le_two_statedSL_three_prime (by rw [hK, pow_one]) e
     omega
-  haveI : CharP K p := charP_of_card_eq_prime_pow hf hK
+  have : CharP K p := charP_of_card_eq_prime_pow hf hK
   let φ := specialLinearGroupEquivStatedSL 3 K
   let π : Matrix.SpecialLinearGroup (Fin 3) K →* StatedProj (StatedSL 3 K) :=
     (QuotientGroup.mk' ((StatedScalars (Fin 3) K).subgroupOf (StatedSL 3 K))).comp φ.toMonoidHom
@@ -159,7 +159,7 @@ variable {K : Type} [Field K] [Finite K] {p f : ℕ} [hp : Fact p.Prime]
 theorem pRank_le_two_statedSU_three_prime (hp2 : p ≠ 2) (hK : Nat.card K = (p ^ 1) ^ 2)
     {S : Type} [Group S] [Finite S] (e : S ≃* StatedProj (StatedSU 3 (p ^ 1) K)) :
     CFSG.Open.pRank p (⊤ : Subgroup S) ≤ 2 := by
-  haveI : CharP K p :=
+  have : CharP K p :=
     charP_of_card_eq_prime_pow (f := 2 * 1) (by omega) (by rw [hK, pow_mul'])
   have H : SUInv (CFSG.LieType.BorelTits.unitaryInvolution K p 1) := suInv_unitary hK hp2
   let φ := equivStatedSU hK 3
@@ -210,7 +210,7 @@ theorem three_le_pRank_centralizer_of_statedSU_three_of_three_le (hp2 : p ≠ 2)
     subst hf1
     have := pRank_le_two_statedSU_three_prime hp2 hK e
     omega
-  haveI : CharP K p :=
+  have : CharP K p :=
     charP_of_card_eq_prime_pow (f := 2 * f) (by omega) (by rw [hK, pow_mul'])
   have H : SUInv (CFSG.LieType.BorelTits.unitaryInvolution K p f) := suInv_unitary hK hp2
   let φ := equivStatedSU hK 3

@@ -62,7 +62,7 @@ theorem commutator_le_pCoreOf_of_mem_inv9' {M L B : Subgroup G} (hL : L ∈ calC
   have hLsimpleBar : IsSimpleGroup (Bar2 L) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
   have hLqsimple : IsSimpleGroup Lq := by
-    haveI := hLsimpleBar
+    have := hLsimpleBar
     exact MulEquiv.isSimpleGroup e.symm
   have hcardBar : Nat.card (Bar2 L) = 504 := by
     rw [CFSG.Blueprint.LieModel.card_eq_lieOrd (by norm_num) hL2]
@@ -137,7 +137,7 @@ theorem commutator_le_pCoreOf_of_mem_inv9' {M L B : Subgroup G} (hL : L ∈ calC
         have hcommxy : Commute x (MulAut.conj b x) := hcommute
         rw [show c = x⁻¹ * MulAut.conj b x from rfl]
         rw [(hcommxy.inv_left).mul_pow]
-        simp [hx3', hy3]
+        simp [hx3']
       have hc_dvd3 : orderOf c ∣ 3 := orderOf_dvd_of_pow_eq_one hc3
       have hc_dvdB : orderOf c ∣ Nat.card Bq := by
         simpa [Subgroup.orderOf_coe] using Subgroup.orderOf_dvd_natCard Bq hcB
@@ -167,7 +167,7 @@ theorem commutator_le_pCoreOf_of_mem_inv9' {M L B : Subgroup G} (hL : L ∈ calC
     exact (le_inf hLq_le_norm_Bq Subgroup.le_normalizer).trans
       (Subgroup.inf_normalizer_le_normalizer_inf (H := Bq) (K := Lq))
   have hCbot : Bq ⊓ Lq = ⊥ := by
-    haveI := hC_normal
+    have := hC_normal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((Bq ⊓ Lq).subgroupOf Lq) with h | h
     · have hdisj := Subgroup.subgroupOf_eq_bot.mp h
       have h' : (Bq ⊓ Lq) ⊓ Lq = ⊥ := disjoint_iff.mp hdisj

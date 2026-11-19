@@ -61,7 +61,7 @@ theorem H17_25_one_le_M {D : Data G} {V₀ V L : Subgroup G} (h : Hyp125 D V₀ 
 theorem sig_eq_five_of_J2 {D : Data G} {V₀ V L : Subgroup G}
     (h17_22 : R17_22At D V₀ V) (h17_23 : R17_23At D V₀ V) (c : Ctx17_17 D V₀ V L) :
     D.sig = {5} := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 L
   rcases h17_22 L P (centerOf P) c hP rfl with hHe | ⟨-, hsig5, -⟩
   · exact absurd (h17_23 L c) (not_isSpor_He_of_isSpor_J2 (Bar2 L) hHe)
@@ -121,12 +121,12 @@ theorem mem_pCoreOf_of_mem_centralizer_barSub {D : Data G}
     apply Subtype.ext
     change actTil V₀ V hV ⟨(g : G), hLstab hgL⟩ = (z : MulAut _)
     rwa [show (⟨(g : G), hLstab hgL⟩ : stabTil V₀ V) = g from rfl]
-  haveI : IsSimpleGroup ↥(barSub V₀ V hV L) := by
+  have : IsSimpleGroup ↥(barSub V₀ V hV L) := by
     obtain ⟨e⟩ := isSpor_barSub_of_J2 h c hJ2 hL1
     exact (MulEquiv.isSimpleGroup_congr e).mpr CFSG.Sporadic.J2.isSimpleGroup_J2
   have hcenter : Subgroup.center ↥(barSub V₀ V hV L) = ⊥ := by
     obtain ⟨e⟩ := isSpor_barSub_of_J2 h c hJ2 hL1
-    haveI : IsSimpleGroup ↥(barSub V₀ V hV L) :=
+    have : IsSimpleGroup ↥(barSub V₀ V hV L) :=
       (MulEquiv.isSimpleGroup_congr e).mpr CFSG.Sporadic.J2.isSimpleGroup_J2
     refine CFSG.Quasithin.H13.FiveNorm.center_eq_bot_of_card_not_prime ?_
     rw [(Nat.card_congr e.toEquiv).trans CFSG.Sporadic.J2.card_J2]
@@ -257,10 +257,10 @@ theorem not_isCyclic_closure_pair_of_J2 {D : Data G}
     ¬ IsCyclic ↥(Subgroup.closure ({x, y} : Set G)) := by
   classical
   intro hcyc
-  haveI : IsCyclic ↥(Subgroup.closure ({x, y} : Set G)) := hcyc
+  have : IsCyclic ↥(Subgroup.closure ({x, y} : Set G)) := hcyc
   let E : Subgroup G := Subgroup.closure ({x, y} : Set G)
-  have hxE : x ∈ E := Subgroup.subset_closure (by simp [E])
-  have hyE : y ∈ E := Subgroup.subset_closure (by simp [E])
+  have hxE : x ∈ E := Subgroup.subset_closure (by simp)
+  have hyE : y ∈ E := Subgroup.subset_closure (by simp)
   have hxordE : orderOf (⟨x, hxE⟩ : ↥E) = 5 := by
     rw [← Subgroup.orderOf_coe (⟨x, hxE⟩ : ↥E)]
     exact hxord
@@ -436,7 +436,7 @@ theorem exists_five_mem_H17_25_one_commute
     ∃ x, x ∈ L ∧ x ∈ H17_25_one D V₀ V L h.isElemAbelian ∧
       orderOf x = 5 ∧ x * y = y * x := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hV := h.isElemAbelian
   have hpair := h.pairFacts
   have hLM : L ≤ D.M := c.mem_calC.1.le
@@ -578,7 +578,6 @@ theorem exists_five_mem_H17_25_one_commute
     refine (mem_preBarSub (L ⊔ D.T) V₀ V hV _).2
       ⟨Subgroup.mem_sup_left (z : ↥L).2, hLstab (z : ↥L).2, ?_⟩
     convert hcent using 2
-    change actTil V₀ V hV ⟨((z : ↥L) : G), hLstab (z : ↥L).2⟩ = (φ (z : ↥L) : MulAut _)
     rfl
   · rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe]
     exact hzord
@@ -665,7 +664,7 @@ theorem seventeen_twentyfive
       have hA₀card : Nat.card ↥(Subgroup.zpowers y) = 5 := by
         rw [Nat.card_zpowers, hyord]
       have hA₀inf : Subgroup.zpowers y ⊓ D.T = ⊥ := by
-        refine Subgroup.inf_eq_bot_of_coprime ?_
+        refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
         rw [hA₀card]
         obtain ⟨k, hk⟩ := D.sylowM.isPGroup.exists_card_eq
         rw [hk]
@@ -701,8 +700,8 @@ theorem seventeen_twentyfive
         exists_five_mem_H17_25_one_commute hJ2center c.hyp125 c (h17_23 L c) hL1 hMnorm
           hyM hys hyord hyC
       let E : Subgroup G := Subgroup.closure ({x, y} : Set G)
-      have hxE : x ∈ E := Subgroup.subset_closure (by simp [E])
-      have hyE : y ∈ E := Subgroup.subset_closure (by simp [E])
+      have hxE : x ∈ E := Subgroup.subset_closure (by simp)
+      have hyE : y ∈ E := Subgroup.subset_closure (by simp)
       have hEM : E ≤ D.M := by
         refine (Subgroup.closure_le D.M).mpr ?_
         intro z hz

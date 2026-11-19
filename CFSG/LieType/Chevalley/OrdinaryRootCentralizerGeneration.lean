@@ -90,7 +90,7 @@ theorem exists_conj_le_of_not_dvd_index [Finite G] {p : ℕ} [Fact p.Prime] {P M
     ∃ y ∈ P, A.map (MulAut.conj y).toMonoidHom ≤ M := by
   obtain ⟨S₀⟩ := (inferInstance : Nonempty (Sylow p (M.subgroupOf P)))
   have hS₁p : IsPGroup p ((S₀ : Subgroup (M.subgroupOf P)).map (M.subgroupOf P).subtype) :=
-    S₀.isPGroup'.map _
+    S₀.isPGroup.map _
   have hS₁i : ¬ p ∣ ((S₀ : Subgroup (M.subgroupOf P)).map (M.subgroupOf P).subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact fun h => ((Nat.Prime.dvd_mul Fact.out).1 h).elim (Sylow.not_dvd_index S₀) hindex

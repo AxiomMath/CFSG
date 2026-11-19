@@ -55,9 +55,11 @@ private noncomputable def resAut (H : Subgroup W) (g : MulAut W)
     (hg : H.map g.toMonoidHom = H) : MulAut ↥H :=
   (g.subgroupMap H).trans (MulEquiv.subgroupCongr hg)
 
+omit [Finite W] in
 private theorem resAut_apply (H : Subgroup W) (g : MulAut W) (hg : H.map g.toMonoidHom = H)
     (v : H) : ((resAut H g hg v : H) : W) = g v := rfl
 
+omit [Finite W] in
 private theorem map_eq_of_mapsTo {H : Subgroup W} {g : MulAut W} (h1 : ∀ a ∈ H, g a ∈ H)
     (h2 : ∀ a ∈ H, g⁻¹ a ∈ H) : H.map g.toMonoidHom = H := by
   ext a
@@ -69,6 +71,7 @@ private theorem map_eq_of_mapsTo {H : Subgroup W} {g : MulAut W} (h1 : ∀ a ∈
     change g (g⁻¹ a) = a
     rw [← MulAut.mul_apply, mul_inv_cancel, MulAut.one_apply]
 
+omit [Finite W] in
 private theorem apply_mem_eigE_zero {x z g : MulAut W} (hgz : g * z = z * g) (hgx : g * x = x * g)
     {t : W} (ht : t ∈ eigE x z 0) : g t ∈ eigE x z 0 := by
   obtain ⟨htT, htx⟩ := mem_eigE.1 ht

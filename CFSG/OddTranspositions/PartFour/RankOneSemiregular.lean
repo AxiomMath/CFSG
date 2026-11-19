@@ -13,11 +13,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 private theorem rankOneSemiregular_pCore_normal (hC : HypothesisC D)
     (S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))) :
     ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
   (CFSG.pCore_normal (G := Halpha D hC.alpha) (p := 2)).subgroupOf (rootLiftSubgroup hC S₀)
 
+omit [Finite G] in
 private theorem rankOneSemiregular_pCore_isPGroup (hC : HypothesisC D)
     (S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))) :
     IsPGroup 2 ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)) :=
@@ -41,7 +43,7 @@ private theorem rankOneSemiregular_N_le_Malpha (hC : HypothesisC D)
   intro x hx
   obtain ⟨xH, hxH, rfl⟩ := Subgroup.mem_map.mp hx
   obtain ⟨xK, hxK, rfl⟩ := Subgroup.mem_map.mp hxH
-  haveI : ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
+  have : ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
     rankOneSemiregular_pCore_normal hC S₀
   have hxQ : xK ∈ (CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀) :=
     Subgroup.commutator_le_left (H₁ := (CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf
@@ -50,13 +52,14 @@ private theorem rankOneSemiregular_N_le_Malpha (hC : HypothesisC D)
     ⟨(xK : Halpha D hC.alpha),
       CFSG.pCore_le_solvableRadical 2 (Halpha D hC.alpha) (Subgroup.mem_subgroupOf.mp hxQ), rfl⟩
 
+omit [Finite G] in
 private theorem rankOneSemiregular_F_commute (hC : HypothesisC D)
     {S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     {wK : ↥(rootLiftSubgroup hC S₀)} (hS : Setup ↥(rootLiftSubgroup hC S₀) (rootLiftClass hC S₀))
     (hwK : wK ∈ rootLiftClass hC S₀)
     {x y : ↥(rootLiftSubgroup hC S₀)} (hx : x ∈ rankOneSemiregular_F hC S₀ wK)
     (hy : y ∈ rankOneSemiregular_F hC S₀ wK) : Commute x y := by
-  haveI : ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
+  have : ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
     rankOneSemiregular_pCore_normal hC S₀
   have hQKp := rankOneSemiregular_pCore_isPGroup hC S₀
   rw [rankOneSemiregular_F, Subgroup.commutator_def] at hx hy
@@ -66,6 +69,7 @@ private theorem rankOneSemiregular_F_commute (hC : HypothesisC D)
     (Subgroup.commutator_mem_commutator hq ht)
     (Subgroup.commutator_mem_commutator hq' ht')
 
+omit [Finite G] in
 private theorem rankOneSemiregular_gen_sq_eq_one (hC : HypothesisC D)
     {S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     {wK : ↥(rootLiftSubgroup hC S₀)} (hS : Setup ↥(rootLiftSubgroup hC S₀) (rootLiftClass hC S₀))
@@ -74,7 +78,7 @@ private theorem rankOneSemiregular_gen_sq_eq_one (hC : HypothesisC D)
     (hq : q ∈ (CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀))
     {t : ↥(rootLiftSubgroup hC S₀)} (ht : t ∈ Subgroup.zpowers wK) :
     ⁅q, t⁆ * ⁅q, t⁆ = 1 := by
-  haveI : ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
+  have : ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
     rankOneSemiregular_pCore_normal hC S₀
   have hw2 : wK * wK = 1 := hS.oddT.mul_self_eq_one hwK
   rcases (mem_zpowers_of_mul_self hw2).mp ht with h1 | h2
@@ -93,12 +97,13 @@ private theorem rankOneSemiregular_gen_sq_eq_one (hC : HypothesisC D)
         rw [show (q * wK * q⁻¹) ^ 2 = 1 by rw [pow_two]; exact h2,
           show wK ^ 2 = 1 by rw [pow_two]; exact hw2, mul_one]
 
+omit [Finite G] in
 private theorem rankOneSemiregular_F_sq_eq_one (hC : HypothesisC D)
     {S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     {wK : ↥(rootLiftSubgroup hC S₀)} (hS : Setup ↥(rootLiftSubgroup hC S₀) (rootLiftClass hC S₀))
     (hwK : wK ∈ rootLiftClass hC S₀) {x : ↥(rootLiftSubgroup hC S₀)}
     (hx : x ∈ rankOneSemiregular_F hC S₀ wK) : x * x = 1 := by
-  haveI : ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
+  have : ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
     rankOneSemiregular_pCore_normal hC S₀
   rw [rankOneSemiregular_F, Subgroup.commutator_def] at hx
   induction hx using Subgroup.closure_induction with
@@ -121,6 +126,7 @@ private theorem rankOneSemiregular_F_sq_eq_one (hC : HypothesisC D)
       calc a⁻¹ * a⁻¹ = (a * a)⁻¹ := by group
         _ = 1 := by rw [iha, inv_one]
 
+omit [Finite G] in
 private theorem rankOneSemiregular_exists_preimage (hC : HypothesisC D)
     (S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)))
     (wK : ↥(rootLiftSubgroup hC S₀)) {x : G} (hx : x ∈ rankOneSemiregular_N hC S₀ wK) :
@@ -129,6 +135,7 @@ private theorem rankOneSemiregular_exists_preimage (hC : HypothesisC D)
   obtain ⟨xK, hxK, rfl⟩ := Subgroup.mem_map.mp hxH
   exact ⟨xK, hxK, rfl⟩
 
+omit [Finite G] in
 private theorem rankOneSemiregular_sq_eq_one (hC : HypothesisC D)
     {S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     {wK : ↥(rootLiftSubgroup hC S₀)} (hS : Setup ↥(rootLiftSubgroup hC S₀) (rootLiftClass hC S₀))
@@ -139,6 +146,7 @@ private theorem rankOneSemiregular_sq_eq_one (hC : HypothesisC D)
   rw [← hxval]
   simpa using congrArg (fun z : ↥(rootLiftSubgroup hC S₀) => (z : G)) h
 
+omit [Finite G] in
 private theorem rankOneSemiregular_exists_lift (hC : HypothesisC D)
     {S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     (hS₀ : S₀ ⊆ imageClass hC)
@@ -177,6 +185,7 @@ private theorem rankOneSemiregular_lift_mem_blockLine (h89 : PartThree.Lemma8_9)
   have hS : QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) dH ∈ S₀ := hVS₀ hV
   exact ⟨⟨dH, Subgroup.subset_closure ⟨hdHD, hS⟩⟩, ⟨hdHD, hS⟩, rfl, hV⟩
 
+omit [Finite G] in
 private theorem rankOneSemiregular_not_commute_of_mem_Vmem (hC : HypothesisC D)
     {S₀ : Set (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha))}
     {wK bK : ↥(rootLiftSubgroup hC S₀)} (hwK : wK ∈ rootLiftClass hC S₀)
@@ -272,7 +281,7 @@ private theorem rankOneSemiregular_mem_center (h113 : PartThree.Theorem11_3)
     (hdw : ¬ Commute dK wK)
     {xK : ↥(rootLiftSubgroup hC S₀)} (hxF : xK ∈ rankOneSemiregular_F hC S₀ wK)
     (hxd : Commute xK dK) : xK ∈ Subgroup.center ↥(rootLiftSubgroup hC S₀) := by
-  haveI : ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
+  have : ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
     rankOneSemiregular_pCore_normal hC S₀
   have htop := closure_insert_rootLiftClass_eq_top h113 hC hrad hn3 hHns hS₀ hgen hconj
     hwK hdK (fun h => hdw h.symm)
@@ -372,7 +381,7 @@ private theorem rankOneSemiregular_conj_class_eq (h113 : PartThree.Theorem11_3)
       (fun y : ↥(rootLiftSubgroup hC S₀) => y * bK * y⁻¹) ''
         ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀) :
           Set ↥(rootLiftSubgroup hC S₀)) := by
-  haveI : ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
+  have : ((CFSG.pCore 2 (Halpha D hC.alpha)).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
     rankOneSemiregular_pCore_normal hC S₀
   have hgen' : Subgroup.closure
       (insert wK {f | f ∈ rootLiftClass hC S₀ ∧ Commute f bK}) = ⊤ :=
@@ -407,7 +416,7 @@ private theorem rankOneSemiregular_conj_mul_inv_mem_Malpha (hC : HypothesisC D)
       ((yK : G) * (bK : G) * (yK : G)⁻¹) ∈ Malpha D hC.alpha := by
   let H := Halpha D hC.alpha
   let R := CFSG.solvableRadical H
-  haveI : ((CFSG.pCore 2 H).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
+  have : ((CFSG.pCore 2 H).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
     rankOneSemiregular_pCore_normal hC S₀
   have hxKR : (xK : H) ∈ R :=
     CFSG.pCore_le_solvableRadical 2 H (Subgroup.mem_subgroupOf.mp
@@ -448,14 +457,14 @@ private theorem rankOneSemiregular_conj_eq_of_cimg_eq (h89 : PartThree.Lemma8_9)
     {β : Set G} (hβ : β ∈ Dalpha D hC.alpha)
     {bK : ↥(rootLiftSubgroup hC S₀)} (hb : (bK : G) ∈ β)
     {x y : G} (hxN : x ∈ rankOneSemiregular_N hC S₀ wK)
-    (hyN : y ∈ rankOneSemiregular_N hC S₀ wK) (hxy : cimg x β = cimg y β)
+    (_hyN : y ∈ rankOneSemiregular_N hC S₀ wK) (hxy : cimg x β = cimg y β)
     {xK yK : ↥(rootLiftSubgroup hC S₀)} (hxK : xK ∈ rankOneSemiregular_F hC S₀ wK)
     (hyK : yK ∈ rankOneSemiregular_F hC S₀ wK) (hxval : (xK : G) = x)
     (hyval : (yK : G) = y) :
     xK * bK * xK⁻¹ = yK * bK * yK⁻¹ := by
   let H := Halpha D hC.alpha
   let R := CFSG.solvableRadical H
-  haveI : ((CFSG.pCore 2 H).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
+  have : ((CFSG.pCore 2 H).subgroupOf (rootLiftSubgroup hC S₀)).Normal :=
     rankOneSemiregular_pCore_normal hC S₀
   have hxM : x ∈ Malpha D hC.alpha := rankOneSemiregular_N_le_Malpha hC S₀ wK hxN
   have hxline : cimg x β ∈ blockLine D hC.alpha β :=

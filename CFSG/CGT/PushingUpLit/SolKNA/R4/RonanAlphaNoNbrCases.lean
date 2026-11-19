@@ -68,7 +68,7 @@ theorem exit_cases (hr : 4 ≤ r) (hA : CIT3Below n) (hB : TightBelowR r n)
     exact Nat.mul_div_cancel 2 (by positivity)
   obtain ⟨L, hLn, hLq, hLC, hzn, hnt, hd', hc', hnO', hE', hTs, hab, hTC, hfamL⟩ :=
     layerIdent hr hA hB (smallListR_of_gh74 hG) (noDatumOtherR_holds r) h6 hn hd hc hnO hE
-  haveI := hLn
+  have := hLn
   have hdich := (Perp22Rest.layerAut hr hA hB (smallListR_of_gh74 hG) (noDatumOtherR_holds r) h6
     (TwinSocF4.model163R_of_socF4 (TwinSocF4.socF4L3_holds r) (TwinSocF4.socF4U3_holds r)) hn hd hc
     hnO hE).1

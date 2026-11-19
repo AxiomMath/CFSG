@@ -46,8 +46,8 @@ theorem s168e3_threeNat_of_s15_eq_one
         (lBar V₀ V hV L : Set (MulAut (Vtil V₀ V hV))), I₂ = I₁.map g.toMonoidHom)
     (hs : s15 D.M V₀ V hV L = 1) :
     ThreeNat (Mbar D.M V₀ V hV) (lBar V₀ V hV L) (barSub V₀ V hV D.T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Vtil V₀ V hV) := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Vtil V₀ V hV) := inferInstance
   have hwT : wTil V₀ V hV L = ⊤ := wTil_eq_top_of_case163_2 c.conc hs
   have hcomm : commSub (⊤ : Subgroup (Vtil V₀ V hV)) (lBar V₀ V hV L) = ⊤ := by
     simpa [wTil, lBar] using hwT

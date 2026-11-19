@@ -26,6 +26,7 @@ variable {e : ↥K ≃* L'} {hτ : Function.Injective (w.e7Tau hcomm)}
 variable {hb₀ : orderOf b₀ = 3} {hKC : K ≤ Subgroup.centralizer ({b₀} : Set G)}
 variable {hdisj : Disjoint (Subgroup.zpowers b₀) K}
 
+omit [Finite G] [Finite L'] in
 private theorem conj_apply_eq_of_inner
     {hKN : Subgroup.centralizer ({b₀} : Set G) ≤ Subgroup.normalizer (K : Set G)}
     {g : G} (hgC : g ∈ Subgroup.centralizer ({b₀} : Set G)) {y : L'}
@@ -42,6 +43,7 @@ private theorem conj_apply_eq_of_inner
   rw [← ggConjAut_apply K (hKN hgC) x, h3]
   rfl
 
+omit [Finite G] [Finite L'] in
 private theorem acts_of_acts_of_inner
     {hKN : Subgroup.centralizer ({b₀} : Set G) ≤ Subgroup.normalizer (K : Set G)}
     {g : G} (hgC : g ∈ Subgroup.centralizer ({b₀} : Set G)) {y : L'}
@@ -80,6 +82,7 @@ private theorem acts_of_acts_of_inner
     rw [torusBasis_b_succ]
     exact hx.symm.trans hActs'
 
+omit [Finite G] [Finite L'] in
 private theorem conj_mem_of_mem_normalizer
     (hA'E : ∀ x : ↥K, e x ∈ A' ↔ (x : G) ∈ E) {z : L'}
     (hz : ((e.symm z : ↥K) : G) ∈
@@ -96,6 +99,7 @@ private theorem conj_mem_of_mem_normalizer
   rw [heq]
   exact (hA'E _).mpr (by simpa using (Subgroup.mem_inf.mp hmem).1)
 
+omit [Finite L'] in
 private theorem conj_mem_normalizer_of_acts
     (hspan : (torusBasis e hτ hb₀ hKC hdisj).span = E)
     (hA'E : ∀ x : ↥K, e x ∈ A' ↔ (x : G) ∈ E)
@@ -140,6 +144,7 @@ private theorem conj_mem_normalizer_of_acts
     rw [hb]
     exact Subgroup.mem_map_of_mem _ (hAyinv t ht)
 
+omit [Finite L'] in
 private theorem realized_centralizer_subset_closure
     (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇)
     (hKN : Subgroup.centralizer ({b₀} : Set G) ≤ Subgroup.normalizer (K : Set G))
@@ -178,6 +183,7 @@ private theorem realized_centralizer_subset_closure
   rw [hMM]
   exact hM'
 
+omit [Finite G] [Finite L'] in
 private theorem closure_subset_realized_centralizer
     (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇)
     (hZ : Subgroup.center L' = ⊥) :
@@ -199,6 +205,7 @@ private theorem closure_subset_realized_centralizer
     obtain ⟨h, hhC, hActs'⟩ := hNN
     exact ⟨g * h, Subgroup.mul_mem _ hgC hhC, Basis3.acts_mul _ hActs hActs'⟩
 
+omit [Finite L'] in
 theorem realized_centralizer_eq_closure
     (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇)
     (hKN : Subgroup.centralizer ({b₀} : Set G) ≤ Subgroup.normalizer (K : Set G))
@@ -220,6 +227,7 @@ abbrev e7FrameAut (A' : Subgroup L') :
   ggAutomizer (MulAut.conj : L' →* MulAut L').range
     (A'.map (MulAut.conj : L' →* MulAut L'))
 
+omit [Finite G] [Finite L'] in
 private theorem exists_realized_of_aut
     (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇)
     (hZ : Subgroup.center L' = ⊥) (φ : ↥(e7FrameAut A')) :
@@ -247,6 +255,7 @@ private noncomputable def autMatrix
     (Classical.choose_spec (exists_realized_of_aut (e := e) (hτ := hτ) (hb₀ := hb₀)
       (hKC := hKC) (hdisj := hdisj) (w := w) (hcomm := hcomm) hw hZ φ)).1⟩
 
+omit [Finite G] [Finite L'] in
 private theorem autMatrix_eq
     (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇)
     (hZ : Subgroup.center L' = ⊥)
@@ -273,6 +282,7 @@ private theorem autMatrix_eq
     (conj_mem_normalizer_of_mem_closure (w := w) (fun k => w.hn k) y₀ hy₀)
     hrange (heq.symm.trans heq₀) hActs hActs₀).symm
 
+omit [Finite G] [Finite L'] in
 private theorem autMatrix_injective
     (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇)
     (hZ : Subgroup.center L' = ⊥)
@@ -311,6 +321,7 @@ private theorem autMatrix_injective
   apply Subtype.ext
   rw [heq, heq', heqAut]
 
+omit [Finite L'] in
 private theorem autMatrix_surjective
     (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇)
     (hKN : Subgroup.centralizer ({b₀} : Set G) ≤ Subgroup.normalizer (K : Set G))
@@ -359,6 +370,7 @@ private theorem autMatrix_surjective
     exact Subtype.ext hMM
   simpa using hfin
 
+omit [Finite L'] in
 theorem card_realized_centralizer
     (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇)
     (hKN : Subgroup.centralizer ({b₀} : Set G) ≤ Subgroup.normalizer (K : Set G))
@@ -378,6 +390,7 @@ theorem card_realized_centralizer
       autMatrix_surjective hw hKN hOut hZ hrange hspan hA'E⟩)]
   exact hAutCard
 
+omit [Finite L'] in
 theorem card_closure_eq_2903040
     (hw : w.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇)
     (hKN : Subgroup.centralizer ({b₀} : Set G) ≤ Subgroup.normalizer (K : Set G))
@@ -392,6 +405,7 @@ theorem card_closure_eq_2903040
     (realized_centralizer_eq_closure hw hKN hOut hZ hrange hspan hA'E).symm)).trans ?_
   exact card_realized_centralizer hw hKN hOut hZ hrange hspan hA'E hAutCard
 
+omit [Finite L'] in
 theorem card_e7FrameAut_eq_2903040
     (hAut : Nonempty ((CoxeterMatrix.E₇).Group ≃* ↥(e7FrameAut A'))) :
     Nat.card ↥(e7FrameAut A') = 2903040 := by

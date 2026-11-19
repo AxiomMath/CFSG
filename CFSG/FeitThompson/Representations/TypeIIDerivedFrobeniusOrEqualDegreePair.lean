@@ -366,7 +366,7 @@ theorem exists_monoidHom_apply_ne_one_of_isMulCommutative {Q : Type*} [Group Q]
 theorem eq_one_of_comp_aut_eq_of_fixedPointFree {Q : Type*} [Group Q] [IsMulCommutative Q]
     [Finite Q] {u : MulAut Q} (hu : MonoidHom.FixedPointFree u) {ν : Q →* ℂˣ}
     (hν : ν.comp (u : Q →* Q) = ν) : ν = 1 := by
-  letI : CommGroup Q := { mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
+  let : CommGroup Q := { mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
   have h : linearCharFun ν = 1 := by
     refine eq_one_of_forall_apply_aut_eq hu (linearCharFun_mem_Irr ν) fun x => ?_
     rw [linearCharFun_apply, linearCharFun_apply]
@@ -472,8 +472,8 @@ theorem exists_weakPair_of_invariant_of_apply_ne_zero
         (x : G) ∈ (hallCore M).map M.subtype ∧ x ∉ charValueKernel b) ∧
       (∀ w : W₁, charConj hc.le_normalizer_commutator_W₁ w a = a) ∧
       ∃ w : W₁, charConj hc.le_normalizer_commutator_W₁ w b ≠ b := by
-  letI := hc.normal_subgroupOf_hallCore
-  letI := hc.isMulCommutative_quotient_hallCore hUab
+  let := hc.normal_subgroupOf_hallCore
+  let := hc.isMulCommutative_quotient_hallCore hUab
   have hnt : Nontrivial W₁ := Subgroup.nontrivial_iff_ne_bot W₁ |>.2 hc.ne_bot_W₁
   obtain ⟨w₀, hw₀⟩ := exists_ne (1 : W₁)
   have hv1 : w₀⁻¹ ≠ 1 := fun hcon => hw₀ (by simpa using congrArg (·⁻¹) hcon)
@@ -739,7 +739,7 @@ theorem semidirectQuotientEquiv_inl (hc : IsWitnessedPConfiguration M U W₁ W�
     letI := hc.normal_subgroupOf_hallCore
     semidirectQuotientEquiv hc hAH (SemidirectProduct.inl (QuotientGroup.mk h))
       = QuotientGroup.mk (h : ↥(⁅M, M⁆ : Subgroup G)) := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   simp only [semidirectQuotientEquiv, MulEquiv.trans_apply]
   rw [show (SemidirectProduct.congr (MulEquiv.refl _)
       (quotientBotSubgroupOfEquiv (U.subgroupOf (⁅M, M⁆ : Subgroup G))).symm _)
@@ -758,7 +758,7 @@ theorem semidirectQuotientEquiv_inr (hc : IsWitnessedPConfiguration M U W₁ W�
     letI := hc.normal_subgroupOf_hallCore
     semidirectQuotientEquiv hc hAH (SemidirectProduct.inr u)
       = QuotientGroup.mk (u : ↥(⁅M, M⁆ : Subgroup G)) := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   simp only [semidirectQuotientEquiv, MulEquiv.trans_apply]
   rw [show (SemidirectProduct.congr (MulEquiv.refl _)
       (quotientBotSubgroupOfEquiv (U.subgroupOf (⁅M, M⁆ : Subgroup G))).symm _)
@@ -816,7 +816,7 @@ theorem semidirectQuotientEquiv_symm_mk_coe_inl (hc : IsWitnessedPConfiguration 
     letI := hc.normal_subgroupOf_hallCore
     (semidirectQuotientEquiv hc hAH).symm (QuotientGroup.mk (h : ↥(⁅M, M⁆ : Subgroup G)))
       = SemidirectProduct.inl (QuotientGroup.mk h) := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   rw [← semidirectQuotientEquiv_inl hc hAH h, MulEquiv.symm_apply_apply]
 
 theorem semidirectQuotientEquiv_symm_mk_coe_inr (hc : IsWitnessedPConfiguration M U W₁ W₂)
@@ -826,7 +826,7 @@ theorem semidirectQuotientEquiv_symm_mk_coe_inr (hc : IsWitnessedPConfiguration 
     letI := hc.normal_subgroupOf_hallCore
     (semidirectQuotientEquiv hc hAH).symm (QuotientGroup.mk (u : ↥(⁅M, M⁆ : Subgroup G)))
       = SemidirectProduct.inr u := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   rw [← semidirectQuotientEquiv_inr hc hAH u, MulEquiv.symm_apply_apply]
 
 noncomputable def semidirectQuotientConjAut (hc : IsWitnessedPConfiguration M U W₁ W₂)
@@ -854,7 +854,7 @@ theorem semidirectQuotientConjAut_symm_mk (hc : IsWitnessedPConfiguration M U W�
         ((semidirectQuotientEquiv hc hAH).symm (QuotientGroup.mk x))
       = (semidirectQuotientEquiv hc hAH).symm (QuotientGroup.mk
           (conjOnNormalized (⁅M, M⁆ : Subgroup G) hc.le_normalizer_commutator_W₁ w x)) := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   simp only [semidirectQuotientConjAut, MulEquiv.trans_apply, MulEquiv.apply_symm_apply]
   rw [quotientAutOfMapEq_mk]
 
@@ -867,7 +867,7 @@ theorem semidirectQuotientConjAut_pow_symm_mk (hc : IsWitnessedPConfiguration M 
         ((semidirectQuotientEquiv hc hAH).symm (QuotientGroup.mk x))
       = (semidirectQuotientEquiv hc hAH).symm (QuotientGroup.mk
           ((conjOnNormalized (⁅M, M⁆ : Subgroup G) hc.le_normalizer_commutator_W₁ w ^ n) x)) := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   induction n generalizing x with
   | zero => simp
   | succ n ih =>
@@ -879,7 +879,7 @@ theorem semidirectQuotientConjAut_pow_natCard_eq_one (hc : IsWitnessedPConfigura
     (hA : W₁ ≤ normalizer (A : Set G)) [(A.subgroupOf (⁅M, M⁆ : Subgroup G)).Normal] (w : W₁) :
     letI := hc.normal_subgroupOf_hallCore
     semidirectQuotientConjAut hc hprime hAH hA w ^ Nat.card W₁ = 1 := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   refine MulEquiv.ext fun y => ?_
   obtain ⟨x, hx⟩ := QuotientGroup.mk_surjective (semidirectQuotientEquiv hc hAH y)
   have hyx : y = (semidirectQuotientEquiv hc hAH).symm (QuotientGroup.mk x) := by
@@ -893,7 +893,7 @@ theorem semidirectQuotientConjAut_pow_natCard_eq_one (hc : IsWitnessedPConfigura
     (hA : W₁ ≤ normalizer (A : Set G)) [(A.subgroupOf (⁅M, M⁆ : Subgroup G)).Normal] :
     letI := hc.normal_subgroupOf_hallCore
     semidirectQuotientConjAut hc hprime hAH hA 1 = 1 := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   refine MulEquiv.ext fun y => ?_
   obtain ⟨x, hx⟩ := QuotientGroup.mk_surjective (semidirectQuotientEquiv hc hAH y)
   have hyx : y = (semidirectQuotientEquiv hc hAH).symm (QuotientGroup.mk x) := by
@@ -961,7 +961,7 @@ theorem exists_weakPairSemidirect_of_comp_semidirectQuotientConjAut
         b'' ((semidirectQuotientEquiv hc hAH).symm (QuotientGroup.mk
             (conjOnNormalized (⁅M, M⁆ : Subgroup G) hc.le_normalizer_commutator_W₁ w x)))
           ≠ b'' ((semidirectQuotientEquiv hc hAH).symm (QuotientGroup.mk x)) := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   refine ⟨a', ha', b', hb', hdeg, ?_, ?_, ?_, ?_⟩
   · obtain ⟨h, hh⟩ := hdeta'
     exact ⟨(h : ↥(⁅M, M⁆ : Subgroup G)), Subgroup.mem_subgroupOf.1 h.2,
@@ -1020,8 +1020,8 @@ theorem exists_actsReducibly_or_isIrreducible_actionKernel_ne_bot (h : IsTypeII 
   obtain ⟨hpc, hUne, -, -, -, -⟩ := h.clauses_of_isWitnessedPConfiguration hsolv hc
   have hq : (Nat.card W₁).Prime := hpc.prime_natCard_W₁
   have hptype := hc.isPTypeConfig hsolv hq hUne
-  letI := hchief.normal_num
-  letI := hchief.normal_den
+  let := hchief.normal_num
+  let := hchief.normal_den
   have hqcard : Nat.card (W₁.subgroupOf M) = Nat.card W₁ :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hc.le_M_W₁).toEquiv
   have hfq : Fact (Nat.card W₁).Prime := Fact.mk hq
@@ -1042,9 +1042,9 @@ theorem exists_actsReducibly_or_isIrreducible_actionKernel_ne_bot (h : IsTypeII 
   rcases Dm.xor_actsReducibly_isIrreducible with ⟨hred, -⟩ | ⟨hirr, -⟩
   · exact Or.inl (hA ▸ hred)
   · refine Or.inr ⟨hA ▸ hirr, fun hker => ?_⟩
-    letI : IsMulCommutative ↥(ChiefFactorFaithfulImage.factorLinearImage p (hallCore ↥M) H₀
+    let : IsMulCommutative ↥(ChiefFactorFaithfulImage.factorLinearImage p (hallCore ↥M) H₀
         (U.subgroupOf M) e) := hA ▸ Dm.isMulCommutative_A
-    letI : (linearGroupRep (ChiefFactorFaithfulImage.factorLinearImage p (hallCore ↥M) H₀
+    let : (linearGroupRep (ChiefFactorFaithfulImage.factorLinearImage p (hallCore ↥M) H₀
         (U.subgroupOf M) e)).IsIrreducible := hA ▸ hirr
     have hUsc : IsCyclic ↥(U.subgroupOf M) :=
       isCyclic_of_isIrreducible_of_actionKernel_eq_bot e hker
@@ -1116,8 +1116,8 @@ theorem hallCoreQuotientEquiv_mk (hc : IsWitnessedPConfiguration M U W₁ W₂)
     letI := hc.normal_subgroupOf_hallCore
     letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
     hallCoreQuotientEquiv hc hAeq hAH hAM (QuotientGroup.mk x) = QuotientGroup.mk m := by
-  letI := hc.normal_subgroupOf_hallCore
-  letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
+  let := hc.normal_subgroupOf_hallCore
+  let := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
   simp only [hallCoreQuotientEquiv, QuotientGroup.congr_mk]
   rw [hallCoreSubgroupOfEquiv_eq hc hm]
 
@@ -1153,8 +1153,8 @@ theorem hallCoreQuotientEquiv_conj (hc : IsWitnessedPConfiguration M U W₁ W₂
     hallCoreQuotientEquiv hc hAeq hAH hAM (QuotientGroup.mk x')
       = ChiefFactorLinearAction.factorConjAut (hallCore ↥M) H₀ ⟨(w : G), hc.le_M_W₁ w.2⟩
           (hallCoreQuotientEquiv hc hAeq hAH hAM (QuotientGroup.mk x)) := by
-  letI := hc.normal_subgroupOf_hallCore
-  letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
+  let := hc.normal_subgroupOf_hallCore
+  let := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
   rw [hallCoreQuotientEquiv_mk hc hAeq hAH hAM x (m := hallCoreSubgroupOfEquiv hc x)
       (coe_hallCoreSubgroupOfEquiv hc x),
     ChiefFactorLinearAction.factorConjAut_mk,
@@ -1180,8 +1180,8 @@ theorem hallCoreQuotientEquiv_conj_of_mem_M (hc : IsWitnessedPConfiguration M U 
     hallCoreQuotientEquiv hc hAeq hAH hAM (QuotientGroup.mk x')
       = ChiefFactorLinearAction.factorConjAut (hallCore ↥M) H₀ ⟨g, hg⟩
           (hallCoreQuotientEquiv hc hAeq hAH hAM (QuotientGroup.mk x)) := by
-  letI := hc.normal_subgroupOf_hallCore
-  letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
+  let := hc.normal_subgroupOf_hallCore
+  let := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
   rw [hallCoreQuotientEquiv_mk hc hAeq hAH hAM x (m := hallCoreSubgroupOfEquiv hc x)
       (coe_hallCoreSubgroupOfEquiv hc x),
     ChiefFactorLinearAction.factorConjAut_mk,
@@ -1220,8 +1220,8 @@ theorem hallCoreQuotientEquiv_conjQuotAutRestrict (hc : IsWitnessedPConfiguratio
           (A.subgroupOf (⁅M, M⁆ : Subgroup G)) (U.subgroupOf (⁅M, M⁆ : Subgroup G)) u y)
       = factorConjAutRestrictM M U H₀ (subgroupOfCommutatorEquivSubgroupOfM hc u)
           (hallCoreQuotientEquiv hc hAeq hAH hAM y) := by
-  letI := hc.normal_subgroupOf_hallCore
-  letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
+  let := hc.normal_subgroupOf_hallCore
+  let := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
   induction y using QuotientGroup.induction_on with
   | _ x =>
     rw [conjQuotAutRestrict_apply, conjQuotientAut_apply_mk, factorConjAutRestrictM_apply]
@@ -1269,8 +1269,8 @@ theorem modelEquivM_inl (hc : IsWitnessedPConfiguration M U W₁ W₂)
     letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
     modelEquivM hc hAeq hAH hAM (SemidirectProduct.inl y)
       = SemidirectProduct.inl (hallCoreQuotientEquiv hc hAeq hAH hAM y) := by
-  letI := hc.normal_subgroupOf_hallCore
-  letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
+  let := hc.normal_subgroupOf_hallCore
+  let := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
   refine SemidirectProduct.ext ?_ ?_
   · exact SemidirectProduct.congr_apply_left _ _ _ (SemidirectProduct.inl y)
   · refine (SemidirectProduct.congr_apply_right _ _ _ (SemidirectProduct.inl y)).trans ?_
@@ -1284,8 +1284,8 @@ theorem modelEquivM_inr (hc : IsWitnessedPConfiguration M U W₁ W₂)
     letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
     modelEquivM hc hAeq hAH hAM (SemidirectProduct.inr u)
       = SemidirectProduct.inr (subgroupOfCommutatorEquivSubgroupOfM hc u) := by
-  letI := hc.normal_subgroupOf_hallCore
-  letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
+  let := hc.normal_subgroupOf_hallCore
+  let := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
   refine SemidirectProduct.ext ?_ ?_
   · refine (SemidirectProduct.congr_apply_left _ _ _ (SemidirectProduct.inr u)).trans ?_
     rw [SemidirectProduct.left_inr, map_one, SemidirectProduct.left_inr]
@@ -1316,7 +1316,7 @@ theorem semidirectQuotientConjAut_inl (hc : IsWitnessedPConfiguration M U W₁ W
     letI := hc.normal_subgroupOf_hallCore
     semidirectQuotientConjAut hc hprime hAH hA w (SemidirectProduct.inl (QuotientGroup.mk x))
       = SemidirectProduct.inl (QuotientGroup.mk x') := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   rw [← semidirectQuotientEquiv_symm_mk_coe_inl hc hAH x,
     semidirectQuotientConjAut_symm_mk hc hprime hAH hA w, ← hval]
   exact semidirectQuotientEquiv_symm_mk_coe_inl hc hAH x'
@@ -1331,7 +1331,7 @@ theorem semidirectQuotientConjAut_inr (hc : IsWitnessedPConfiguration M U W₁ W
     letI := hc.normal_subgroupOf_hallCore
     semidirectQuotientConjAut hc hprime hAH hA w (SemidirectProduct.inr u)
       = SemidirectProduct.inr u' := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   rw [← semidirectQuotientEquiv_symm_mk_coe_inr hc hAH u,
     semidirectQuotientConjAut_symm_mk hc hprime hAH hA w, ← hval]
   exact semidirectQuotientEquiv_symm_mk_coe_inr hc hAH u'
@@ -1358,7 +1358,7 @@ theorem semidirectQuotientConjAut_mul (hc : IsWitnessedPConfiguration M U W₁ W
     semidirectQuotientConjAut hc hprime hAH hA (v * w)
       = semidirectQuotientConjAut hc hprime hAH hA v *
         semidirectQuotientConjAut hc hprime hAH hA w := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   refine MulEquiv.ext fun y => ?_
   obtain ⟨x, hx⟩ := QuotientGroup.mk_surjective (semidirectQuotientEquiv hc hAH y)
   have hyx : y = (semidirectQuotientEquiv hc hAH).symm (QuotientGroup.mk x) := by
@@ -1374,7 +1374,7 @@ theorem semidirectQuotientConjAut_pow (hc : IsWitnessedPConfiguration M U W₁ W
     letI := hc.normal_subgroupOf_hallCore
     semidirectQuotientConjAut hc hprime hAH hA (w ^ n)
       = semidirectQuotientConjAut hc hprime hAH hA w ^ n := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   induction n with
   | zero => simp [semidirectQuotientConjAut_one hc hprime hAH hA]
   | succ n ih => rw [pow_succ, semidirectQuotientConjAut_mul hc hprime hAH hA, ih, pow_succ]
@@ -1393,8 +1393,8 @@ theorem forall_comp_semidirectQuotientConjAut_eq_of_ne_one
           ↥(U.subgroupOf (⁅M, M⁆ : Subgroup G))) → ℂ}
     (hinv : a' ∘ semidirectQuotientConjAut hc hprime hAH hA w₀ = a') (w : W₁) :
     a' ∘ semidirectQuotientConjAut hc hprime hAH hA w = a' := by
-  letI := hc.normal_subgroupOf_hallCore
-  letI : Fact (Nat.card W₁).Prime := ⟨hprime⟩
+  let := hc.normal_subgroupOf_hallCore
+  let : Fact (Nat.card W₁).Prime := ⟨hprime⟩
   obtain ⟨n, hn⟩ := (Submonoid.mem_powers_iff w w₀).1 (mem_powers_of_prime_card rfl hw₀)
   rw [← hn, semidirectQuotientConjAut_pow hc hprime hAH hA w₀ n]
   exact comp_mulAut_pow_eq_self hinv n
@@ -1443,7 +1443,7 @@ theorem exists_modelPair_of_mulEquiv_of_comp
         b' (SemidirectProduct.inl (QuotientGroup.mk hh)) ≠ b' 1) ∧
       (∀ w : W₁, a' ∘ semidirectQuotientConjAut hc hprime hAH hA w = a') ∧
       ∃ w : W₁, b' ∘ semidirectQuotientConjAut hc hprime hAH hA w ≠ b' := by
-  letI := hc.normal_subgroupOf_hallCore
+  let := hc.normal_subgroupOf_hallCore
   refine ⟨α ∘ f.symm, FrobeniusInduction.mem_Irr_comp_mulEquiv hα f.symm,
     β ∘ f.symm, FrobeniusInduction.mem_Irr_comp_mulEquiv hβ f.symm, by simpa using hdeg,
     ?_, ?_, ?_, ?_⟩
@@ -1496,8 +1496,8 @@ theorem modelEquivM_semidirectQuotientConjAut (hc : IsWitnessedPConfiguration M 
     modelEquivM hc hAeq hAH hAM
         (semidirectQuotientConjAut hc hprime hAH (hc.le_M_W₁.trans hAM) w x)
       = modelConjAutM hc hprime hAeq hAH hAM w (modelEquivM hc hAeq hAH hAM x) := by
-  letI := hc.normal_subgroupOf_hallCore
-  letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
+  let := hc.normal_subgroupOf_hallCore
+  let := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
   simp only [modelConjAutM, MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
 
 theorem modelConjAutM_inl (hc : IsWitnessedPConfiguration M U W₁ W₂)
@@ -1508,8 +1508,8 @@ theorem modelConjAutM_inl (hc : IsWitnessedPConfiguration M U W₁ W₂)
     modelConjAutM hc hprime hAeq hAH hAM w (SemidirectProduct.inl y)
       = SemidirectProduct.inl (ChiefFactorLinearAction.factorConjAut (hallCore ↥M) H₀
           ⟨(w : G), hc.le_M_W₁ w.2⟩ y) := by
-  letI := hc.normal_subgroupOf_hallCore
-  letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
+  let := hc.normal_subgroupOf_hallCore
+  let := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
   obtain ⟨z, hz⟩ := (hallCoreQuotientEquiv hc hAeq hAH hAM).surjective y
   obtain ⟨x, hx⟩ := QuotientGroup.mk_surjective z
   subst hz
@@ -1530,8 +1530,8 @@ theorem modelConjAutM_inr (hc : IsWitnessedPConfiguration M U W₁ W₂)
       = SemidirectProduct.inr (conjOnNormalized (U.subgroupOf M)
           (le_normalizer_subgroupOf_E_W₁ hc)
           ⟨⟨(w : G), hc.le_M_W₁ w.2⟩, (Subgroup.mem_subgroupOf).2 w.2⟩ u) := by
-  letI := hc.normal_subgroupOf_hallCore
-  letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
+  let := hc.normal_subgroupOf_hallCore
+  let := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
   obtain ⟨v, hv⟩ := (subgroupOfCommutatorEquivSubgroupOfM hc).surjective u
   subst hv
   rw [← modelEquivM_inr hc hAeq hAH hAM, ← modelEquivM_semidirectQuotientConjAut hc hprime hAeq
@@ -1582,8 +1582,8 @@ theorem exists_modelPair_of_modelM (hc : IsWitnessedPConfiguration M U W₁ W₂
         a' ∘ semidirectQuotientConjAut hc hprime hAH (hc.le_M_W₁.trans hAM) w = a') ∧
       ∃ w : W₁,
         b' ∘ semidirectQuotientConjAut hc hprime hAH (hc.le_M_W₁.trans hAM) w ≠ b' := by
-  letI := hc.normal_subgroupOf_hallCore
-  letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
+  let := hc.normal_subgroupOf_hallCore
+  let := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
   refine exists_modelPair_of_mulEquiv_of_comp hc hprime hAH (hc.le_M_W₁.trans hAM) hw₀
     (modelEquivM hc hAeq hAH hAM).symm (modelConjAutM hc hprime hAeq hAH hAM w₀) (fun x => ?_)
     hα hβ hdeg ?_ ?_ hinvα hmovβ
@@ -2199,7 +2199,7 @@ theorem exists_pair_of_mulEquiv_diagonal {p q : ℕ} [Fact p.Prime] (hp : Odd p)
     rfl
 
 theorem exists_modelPair_of_actsReducibly (h : IsTypeII M) (hodd : Odd (Nat.card G))
-    (hsolv : Group.IsSolvable M) (hc : IsWitnessedPConfiguration M U W₁ W₂) (hUnc : ¬ IsCyclic U)
+    (hsolv : Group.IsSolvable M) (hc : IsWitnessedPConfiguration M U W₁ W₂) (_hUnc : ¬ IsCyclic U)
     (hprime : (Nat.card W₁).Prime)
     {H₀ : Subgroup ↥M} [H₀.Normal] (hchief : IsChiefFactor (hallCore ↥M) H₀)
     (hCU : hallCore ↥M ⊓ centralizer ((U.subgroupOf M : Subgroup ↥M) : Set ↥M) ≤ H₀)
@@ -2328,7 +2328,7 @@ theorem exists_modelPair_of_actsReducibly (h : IsTypeII M) (hodd : Odd (Nat.card
     exact ⟨e.symm (Multiplicative.ofAdd v), by rwa [← modelEquivLinear_symm_inl p M U e]⟩
 
 theorem exists_modelPair_of_isIrreducible (h : IsTypeII M)
-    (hsolv : Group.IsSolvable M) (hc : IsWitnessedPConfiguration M U W₁ W₂) (hUnc : ¬ IsCyclic U)
+    (hsolv : Group.IsSolvable M) (hc : IsWitnessedPConfiguration M U W₁ W₂) (_hUnc : ¬ IsCyclic U)
     (hprime : (Nat.card W₁).Prime)
     {H₀ : Subgroup ↥M} [H₀.Normal] (hchief : IsChiefFactor (hallCore ↥M) H₀)
     (hCU : hallCore ↥M ⊓ centralizer ((U.subgroupOf M : Subgroup ↥M) : Set ↥M) ≤ H₀)
@@ -2438,8 +2438,8 @@ theorem exists_weakPairSemidirect_of_isChiefFactor (h : IsTypeII M) (hodd : Odd 
         b' ((semidirectQuotientEquiv hc hAH).symm (QuotientGroup.mk
             (conjOnNormalized (⁅M, M⁆ : Subgroup G) hc.le_normalizer_commutator_W₁ w x)))
           ≠ b' ((semidirectQuotientEquiv hc hAH).symm (QuotientGroup.mk x)) := by
-  letI := hc.normal_subgroupOf_hallCore
-  letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
+  let := hc.normal_subgroupOf_hallCore
+  let := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
   have hprime : (Nat.card W₁).Prime :=
     (h.clauses_of_isWitnessedPConfiguration hsolv hc).1.prime_natCard_W₁
   obtain ⟨a', ha', b', hb', hdeg, hdeta', hdetb', hinva', hmovb'⟩ :=
@@ -2450,11 +2450,11 @@ theorem exists_weakPairSemidirect_of_isChiefFactor (h : IsTypeII M) (hodd : Odd 
 theorem exists_weakEqualDegreeCharacterPair_of_forall_apply_eq_zero (h : IsTypeII M)
     (hodd : Odd (Nat.card G))
     (hsolv : Group.IsSolvable M) (hc : IsWitnessedPConfiguration M U W₁ W₂) (hUnc : ¬ IsCyclic U)
-    {α : ↥(⁅M, M⁆ : Subgroup G) → ℂ} (hα : α ∈ Irr (⁅M, M⁆ : Subgroup G)) (hα1 : α ≠ 1)
-    (hdetα : ∃ x : ↥(⁅M, M⁆ : Subgroup G),
+    {α : ↥(⁅M, M⁆ : Subgroup G) → ℂ} (_hα : α ∈ Irr (⁅M, M⁆ : Subgroup G)) (_hα1 : α ≠ 1)
+    (_hdetα : ∃ x : ↥(⁅M, M⁆ : Subgroup G),
       (x : G) ∈ (hallCore M).map M.subtype ∧ x ∉ charValueKernel α)
-    (hinvα : ∀ w : W₁, charConj hc.le_normalizer_commutator_W₁ w α = α)
-    (hvan : ∀ x : ↥(⁅M, M⁆ : Subgroup G), (x : G) ∉ (hallCore M).map M.subtype → α x = 0) :
+    (_hinvα : ∀ w : W₁, charConj hc.le_normalizer_commutator_W₁ w α = α)
+    (_hvan : ∀ x : ↥(⁅M, M⁆ : Subgroup G), (x : G) ∉ (hallCore M).map M.subtype → α x = 0) :
     ∃ a ∈ Irr (⁅M, M⁆ : Subgroup G), ∃ b ∈ Irr (⁅M, M⁆ : Subgroup G),
       a 1 = b 1 ∧
       (∃ x : ↥(⁅M, M⁆ : Subgroup G),
@@ -2466,12 +2466,12 @@ theorem exists_weakEqualDegreeCharacterPair_of_forall_apply_eq_zero (h : IsTypeI
   obtain ⟨hpc, hUne, -, -, -, -⟩ := h.clauses_of_isWitnessedPConfiguration hsolv hc
   obtain ⟨H₀, hchief, hCU⟩ :=
     (hc.isPTypeConfig hsolv hpc.prime_natCard_W₁ hUne).exists_isChiefFactor
-  letI := hchief.normal_den
+  let := hchief.normal_den
   have hAH : H₀.map M.subtype ≤ (hallCore M).map M.subtype := Subgroup.map_mono hchief.le
   have hAM : M ≤ normalizer ((H₀.map M.subtype : Subgroup G) : Set G) :=
     le_normalizer_map_subtype_of_normal ‹H₀.Normal›
-  letI := hc.normal_subgroupOf_hallCore
-  letI := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
+  let := hc.normal_subgroupOf_hallCore
+  let := normal_subgroupOf_commutator_of_le_normalizer hc hAH hAM
   obtain ⟨a', ha', b', hb', hdeg, hdeta', hdetb', hinva', hmovb'⟩ :=
     exists_weakPairSemidirect_of_isChiefFactor h hodd hsolv hc hUnc hchief hCU rfl hAH hAM
   exact exists_weakPair_of_mulEquiv hc (semidirectQuotientEquiv hc hAH)

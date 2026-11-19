@@ -142,6 +142,7 @@ section Scalars
 
 variable {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Prime] [CharP K ℓ] {n : ℕ}
 
+omit [Finite K] in
 theorem eq_one_of_pow_eq_one_of_coprime {p : ℕ} (hpn : Nat.Coprime p n) {l : K}
     (hlp : l ^ p = 1) (hln : l ^ n = 1) : l = 1 := by
   have h : l ^ Nat.gcd p n = 1 := pow_gcd_eq_one.mpr ⟨hlp, hln⟩
@@ -224,14 +225,15 @@ section CoordBlocks
 
 variable {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Prime] [CharP K ℓ] {n : ℕ}
 
+omit [Finite K] in
 theorem compIndicator_mul_self (J : Finset (Fin n)) :
     compIndicator K J * compIndicator K J = compIndicator K J := by
   ext i j
   rw [compIndicator_mul_apply]
   by_cases hi : i ∈ J
-  · rw [if_pos hi, compIndicator_apply]
+  · rw [ite_eq_left hi, compIndicator_apply]
     simp [hi]
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
 
 theorem commute_of_idempotent {R : Type*} [Ring R] {c g h : R} (hc : c * c = c)
     (hcg : c * g = c) (hgc : g * c = c) (heh : (1 - c) * h = 1 - c) (hhe : h * (1 - c) = 1 - c) :
@@ -548,6 +550,7 @@ variable (K) in
   (Units.map (Matrix.diagonalRingHom (Fin n) K).toMonoidHom).comp
     (MulEquiv.piUnits).symm.toMonoidHom
 
+omit [Finite K] in
 theorem coe_diagGL {n : ℕ} (a : Fin n → Kˣ) :
     ((diagGL K n a : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = diagonal fun i => (a i : K) :=
   rfl
@@ -572,14 +575,17 @@ variable (c : Kˣ) (hc : orderOf c = p)
 @[expose] noncomputable def diagTuple (x : Fin 5 → Multiplicative (ZMod p)) : Fin 6 → Kˣ :=
   fun i => if h : (i : ℕ) < 5 then powHom c hc (x ⟨i, h⟩) else (∏ j, powHom c hc (x j))⁻¹
 
+omit [Finite K] in
 theorem diagTuple_castSucc (x : Fin 5 → Multiplicative (ZMod p)) (j : Fin 5) :
     diagTuple c hc x j.castSucc = powHom c hc (x j) := by
   simp [diagTuple, j.is_lt]
 
+omit [Finite K] in
 theorem diagTuple_last (x : Fin 5 → Multiplicative (ZMod p)) :
     diagTuple c hc x (Fin.last 5) = (∏ j, powHom c hc (x j))⁻¹ := by
   simp [diagTuple]
 
+omit [Finite K] in
 theorem prod_diagTuple (x : Fin 5 → Multiplicative (ZMod p)) : ∏ i, diagTuple c hc x i = 1 := by
   rw [Fin.prod_univ_castSucc, diagTuple_last]
   simp only [diagTuple_castSucc]
@@ -598,6 +604,7 @@ theorem prod_diagTuple (x : Fin 5 → Multiplicative (ZMod p)) : ∏ i, diagTupl
     · rfl
     · rw [Finset.prod_mul_distrib, mul_inv]
 
+omit [Finite K] in
 theorem diagTuple_pow_eq_one (x : Fin 5 → Multiplicative (ZMod p)) (i : Fin 6) :
     diagTuple c hc x i ^ p = 1 := by
   have hx : x ^ p = 1 := by
@@ -649,7 +656,7 @@ theorem diagSUHom_diagGen_mem (hpQ : p ∣ ℓ ^ f + 1) :
   have hprod : ∏ j, (diagGen : Fin 5 → Multiplicative (ZMod p)) j = 1 := by
     simp only [diagGen, Pi.mul_apply]
     rw [Finset.prod_mul_distrib, Finset.prod_pi_mulSingle', Finset.prod_pi_mulSingle',
-      if_pos (Finset.mem_univ _), if_pos (Finset.mem_univ _), ofAdd_neg]
+      ite_eq_left (Finset.mem_univ _), ite_eq_left (Finset.mem_univ _), ofAdd_neg]
     exact mul_inv_cancel _
   have hlast : diagTuple c hc diagGen (Fin.last 5) = 1 := by
     rw [diagTuple_last, ← map_prod, hprod, map_one, inv_one]

@@ -60,7 +60,7 @@ theorem famL2 {n : ℕ} (hn : 2 ≤ n) (h : IsPSL 2 2 n X) (hle : Nat.card X ≤
   have hn12 := l2_le h1 hle
   interval_cases n <;> norm_num at h1 <;>
     refine ⟨by simp only [famOrders, List.mem_cons, List.not_mem_nil, or_false]; omega,
-      fun h20 => ?_⟩ <;> first | exact h | (exfalso; omega)
+      fun h20 => ?_⟩ <;> (exfalso; omega)
 
 theorem famU3 {n : ℕ} (hn : 2 ≤ n) (h : IsPSU 3 2 n X) (hle : Nat.card X ≤ orderBound) :
     Nat.card X ∈ famOrders ∧ (Nat.card X = 20160 → IsPSL 3 2 2 X) := by

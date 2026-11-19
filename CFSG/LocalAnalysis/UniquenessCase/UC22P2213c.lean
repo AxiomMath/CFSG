@@ -93,7 +93,7 @@ theorem uc22p2213c_witness (D : Data G) (Ch : Choice2011 G)
       K2213 D c p L m := by
   have hKV := uc22p2213a_not_le_centralizer D Ch h117 hV h1930 c hL hc2
   rcases h15 h1930 c.toCtx21 L hL hc2 n hLS p hp with ⟨hL2, hcong⟩ | ⟨hSz, hcong⟩
-  · haveI : IsSimpleGroup (Bar2 L) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
+  · have : IsSimpleGroup (Bar2 L) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
     obtain ⟨e⟩ := uc22p2213c_bar2_equiv D hV h1930 c hL hKV
     have hL2' : IsL2 ↥(mbarImage D.M c.V L) n := CFSG.Blueprint.LieModel.of_mulEquiv e hL2
     have hst : (¬ IsSz ↥(mbarImage D.M c.V L) n ∧ (2 : ℤ) ^ n ≡ -1 [ZMOD (p : ℤ)]) ∨
@@ -101,7 +101,7 @@ theorem uc22p2213c_witness (D : Data G) (Ch : Choice2011 G)
       Or.inl ⟨fun hS => uc22p22g_isSz_isL2_false hS hL2', hcong⟩
     exact ⟨n, hst, hL, uc22p2213c_literal hst,
       Or.inr (Or.inr (Or.inl ⟨Or.inl ⟨hn2, Or.inl hL2'⟩, hc2⟩))⟩
-  · haveI : IsSimpleGroup (Bar2 L) :=
+  · have : IsSimpleGroup (Bar2 L) :=
       CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
     obtain ⟨e⟩ := uc22p2213c_bar2_equiv D hV h1930 c hL hKV
     have hSz' : IsSz ↥(mbarImage D.M c.V L) n := CFSG.Blueprint.LieModel.of_mulEquiv e hSz

@@ -30,13 +30,13 @@ private lemma l05nK43f_diagMap_apply {p : ℕ} [Fact p.Prime] {V : Type} [AddCom
     funext j
     rw [Module.Basis.equivFun_self, Pi.single_apply]
     by_cases h : k = j
-    · rw [if_pos h, if_pos h.symm]
-    · rw [if_neg h, if_neg (fun hh => h hh.symm)]
+    · rw [ite_eq_left h, ite_eq_left h.symm]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h hh.symm)]
   rw [hk]
   funext j
   by_cases h : j = k
   · subst h; rfl
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 private lemma l05nK43f_permMap_apply {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
@@ -90,7 +90,7 @@ private lemma l05nK43f_Tw_symm {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup
     simp [hij]
   · by_cases hk' : k = j
     · subst k
-      simp [hij, Ne.symm hij]
+      simp [Ne.symm hij]
     · simp [Equiv.swap_comm, hk, hk']
 
 private def l05nK43f_E {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
@@ -174,13 +174,13 @@ private lemma l05nK43f_permMap_update_swap_vw_eq_Tw {p : ℕ} [Fact p.Prime] {V 
   rw [l05nK43f_permMap_unitsSMul_apply, l05nK43f_Tw_apply]
   by_cases hk : k = v
   · subst k
-    simp [hvw, Ne.symm hvw, inv_mul_cancel]
+    simp [hvw]
   · by_cases hk' : k = w
     · subst k
-      simp [hvw, Ne.symm hvw, mul_inv_rev, inv_mul_cancel]
+      simp [hvw, Ne.symm hvw, mul_inv_rev]
     · rw [Equiv.swap_apply_of_ne_of_ne hk hk']
       rw [Function.update_of_ne hk']
-      rw [if_neg hk, if_neg hk']
+      rw [ite_eq_right hk, ite_eq_right hk']
       simp
 
 private lemma l05nK43f_swap_mw_mem {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
@@ -279,8 +279,8 @@ private lemma l05nK43f_graph_connected {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) 
         rw [hrb k, hσ, Equiv.Perm.one_apply]
         by_cases hk : k = i
         · subst k
-          rw [if_pos rfl, hci]
-        · rw [if_neg hk, hcj k hk]
+          rw [ite_eq_left rfl, hci]
+        · rw [ite_eq_right hk, hcj k hk]
       have hsub : W.map (r : V →ₗ[ZMod p] V) ≤ W := by
         rw [Submodule.map_le_iff_le_comap, Submodule.span_le]
         rintro x ⟨k, hkS, rfl⟩
@@ -303,7 +303,7 @@ private lemma l05nK43f_graph_connected {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) 
         · by_cases hk' : k = j
           · subst k
             simp [u, Units.smul_def, hcinv, Units.val_mk0, Units.val_inv_eq_inv_val, Ne.symm hij]
-          · rw [Equiv.swap_apply_of_ne_of_ne hk hk', if_neg hk, if_neg hk',
+          · rw [Equiv.swap_apply_of_ne_of_ne hk hk', ite_eq_right hk, ite_eq_right hk',
               hck k hk hk']
             simp
       have hE : l05nK43f_E f A i j := ⟨u, by rw [← hrTw]; exact hrA⟩

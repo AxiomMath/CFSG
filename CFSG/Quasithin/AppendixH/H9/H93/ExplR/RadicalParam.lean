@@ -115,7 +115,7 @@ private theorem ofAdd_decomp (ε : Fin 4 → ZMod 2) :
   apply Multiplicative.toAdd.injective
   simp only [toAdd_mul, toAdd_ofAdd]
   funext i
-  fin_cases i <;> simp [Pi.single_apply]
+  fin_cases i <;> simp
 
 private theorem radicalHom_single_mem (i : Fin 4)
     (hi : radicalHom (Multiplicative.ofAdd (Pi.single i 1 : Fin 4 → ZMod 2)) ∈ Rg4)

@@ -105,8 +105,8 @@ section Generic
 theorem burnsideF4m_le_of_simple {H : Type} [Group H] {N N' : Subgroup H} [hN : N.Normal]
     [hN' : N'.Normal] (hs : IsSimpleGroup ↥N) (hC : Subgroup.centralizer (N : Set H) = ⊥)
     (hne : N' ≠ ⊥) : N ≤ N' := by
-  haveI hn : (N'.subgroupOf N).Normal := Subgroup.Normal.subgroupOf hN' N
-  haveI := hs
+  have hn : (N'.subgroupOf N).Normal := Subgroup.Normal.subgroupOf hN' N
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N'.subgroupOf N) with h | h
   · exfalso
     apply hne
@@ -198,8 +198,8 @@ theorem burnsideF4m_sp4_core_of_outCtx [Finite E] [Gp.Normal]
   have hθM1 : M₁.map θ.toMonoidHom = N 0 := burnsideF4m_core_map_eq_of_iff θ hθ1
   have hθM2 : M₂.map θ.toMonoidHom = N 1 := burnsideF4m_core_map_eq_of_iff θ hθ2
   set Inn : Subgroup H := Gp.map θ.toMonoidHom with hInn
-  haveI hInnN : Inn.Normal := Subgroup.Normal.map inferInstance θ.toMonoidHom θ.surjective
-  haveI hRN : Φ.range.Normal := C.P.range_normal
+  have hInnN : Inn.Normal := Subgroup.Normal.map inferInstance θ.toMonoidHom θ.surjective
+  have hRN : Φ.range.Normal := C.P.range_normal
   have hCR : Subgroup.centralizer (Φ.range : Set H) = ⊥ := by
     rw [eq_bot_iff]
     intro k hk
@@ -220,10 +220,10 @@ theorem burnsideF4m_sp4_core_of_outCtx [Finite E] [Gp.Normal]
     rw [hcen, Subgroup.mem_bot] at hk'
     simpa using congrArg θ hk'
   have hsR : IsSimpleGroup ↥Φ.range := by
-    haveI := (CFSG.Quasithin.F7Two.isSimpleGroup_antiSp (K := F) hF4).1
+    have := (CFSG.Quasithin.F7Two.isSimpleGroup_antiSp (K := F) hF4).1
     exact (MonoidHom.ofInjective C.P.inj).symm.isSimpleGroup
   have hsI : IsSimpleGroup ↥Inn := by
-    haveI := hsGp
+    have := hsGp
     exact (θ.subgroupMap Gp).symm.isSimpleGroup
   have hneR : Φ.range ≠ ⊥ := by
     intro h0
@@ -292,12 +292,12 @@ theorem burnsideF4m_sp4_core [Finite E] (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) (
       GLKind.Sp4 = .Sp4 ∧ x ∈ ctr (oPPrime 2 (Gp ⊓ M₂))) ∧
     pCoreOf 2 M₁ = pCoreOf 2 (Gp ⊓ M₁) ∧ pCoreOf 2 M₂ = pCoreOf 2 (Gp ⊓ M₂) ∧
     pCoreOf 2 (M₁ ⊓ M₂) = pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .Sp4) hyp.toHypF_4_4g
   obtain ⟨TD, hTD⟩ := burnsideF4gSp_yam_of_marking hf marking
   rw [← h1, ← h2] at hTD
   obtain ⟨θ, hθ1, hθ2, -⟩ := burnsideF4m_core_theta hyp.toHypF_4_4g hTD
-  haveI : Finite ↥(burnsideF4d_lieExtE hyp.toHypF_4_4g hTD).K := Finite.of_equiv E θ.toEquiv
+  have : Finite ↥(burnsideF4d_lieExtE hyp.toHypF_4_4g hTD).K := Finite.of_equiv E θ.toEquiv
   have hD := burnsideF4g_lieModel_Sp4 hf hyp.model
   have hev : ¬ Odd (Nat.card ↥(burnsideF4d_lieExtE hyp.toHypF_4_4g hTD).K / Nat.card ↥Gp) := by
     have hK : Nat.card ↥(burnsideF4d_lieExtE hyp.toHypF_4_4g hTD).K = Nat.card E :=
@@ -313,7 +313,7 @@ theorem burnsideF4m_sp4_core [Finite E] (hyp : HypF_4_4 .Sp4 2 f Gp M₁ M₂) (
       rw [hF']
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
-    haveI := (CFSG.Quasithin.F7Two.isSimpleGroup_antiSp (K := F') hF'4).1
+    have := (CFSG.Quasithin.F7Two.isSimpleGroup_antiSp (K := F') hF'4).1
     exact e'.isSimpleGroup
   obtain ⟨m, F, fF, finF, cF, Φ, ψ, k₀, R, i, -, C, -, -⟩ :=
     SpOut2.exists_outCtx hD (burnsideF4d_lieExtE hyp.toHypF_4_4g hTD).toLieAmalgamExt hev

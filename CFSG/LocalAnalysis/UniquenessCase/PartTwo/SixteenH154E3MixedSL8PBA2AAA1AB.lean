@@ -37,7 +37,7 @@ theorem s16h_sl28_seven_kbar_ker_rank_le_one
       centSub (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L)))
     (hEab : IsElemAbelian 7 E) :
     Nat.card ↥E ≤ 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hK := s16h_sl28_seven_kbar_ker_pRank_le_one D S hσ hJP h hs2 ht ht2 ht1 htr
     hW hcomp hthin hZ hbad hrow hZ4 h7
   have hEp : IsPGroup 7 E := hEab.isPGroup

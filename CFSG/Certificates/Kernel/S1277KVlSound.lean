@@ -29,6 +29,7 @@ section E
 
 variable {G : Type} [Group G] [Finite G] {H K Q : Subgroup G} {M : Mdl} {κ : G → ℕ}
 
+omit [Finite G] in
 theorem e_sound (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e0 : ℕ}
     (hN : nodeChk M kg m gs ts e0 = true) (hQK : Q ≤ K)
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ m.testBit n = true) {p TP d : ℕ} {pg pr pt ws : List ℕ}
@@ -296,6 +297,7 @@ section AB
 
 variable {G : Type} [Group G] [Finite G] {H K Q : Subgroup G} {M : Mdl} {κ : G → ℕ}
 
+omit [Finite G] in
 theorem card_codes (hκ : MCod K M κ) {A : Subgroup G} (hAK : A ≤ K) {l : List ℕ} (hnd : l.Nodup)
     (hA : ∀ n, (∃ a ∈ A, κ a = n) ↔ n ∈ l) : Nat.card A = l.length := by
   let f : ↥A → {n : ℕ // n ∈ l} := fun x => ⟨κ x.1, (hA _).1 ⟨x.1, x.2, rfl⟩⟩
@@ -324,6 +326,7 @@ theorem nodeL_spec {kg gs ts : List ℕ} {m e : ℕ} (hN : nodeChk M kg m gs ts 
     exact absurd this (by simp)
   · rw [hiff, hid, nodeL, List.mem_cons]
 
+omit [Finite G] in
 theorem sub_sound (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e0 : ℕ}
     (hN : nodeChk M kg m gs ts e0 = true) (hQK : Q ≤ K)
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ m.testBit n = true) {TP : ℕ}

@@ -61,7 +61,7 @@ private theorem s16t3_linBlockLen_slCuts (n : ℕ) (a : Fin n) :
     linBlockLen n (s16t3SlCuts n) a =
       if Even (a : ℕ) then min 2 (n - (a : ℕ)) else 0 := by
   by_cases hev : Even (a : ℕ)
-  · rw [if_pos hev]
+  · rw [ite_eq_left hev]
     have han : (a : ℕ) < n := a.isLt
     have h1 : 1 ≤ min 2 (n - (a : ℕ)) := by omega
     have h2 : (a : ℕ) + min 2 (n - (a : ℕ)) ≤ n := by omega
@@ -86,7 +86,7 @@ private theorem s16t3_linBlockLen_slCuts (n : ℕ) (a : Fin n) :
     have hfin := linBlockLen_eq_of_maxBlock (n := n) (I := s16t3SlCuts n)
       (a := (a : ℕ)) (m := min 2 (n - (a : ℕ))) han h2 hs he hno h1
     simpa using hfin.symm
-  · rw [if_neg hev]
+  · rw [ite_eq_right hev]
     have hns : ¬ ((a : ℕ) = 0 ∨ (a : ℕ) ∈ s16t3SlCuts n) := by
       rintro (h | h)
       · exact hev (by rw [h]; norm_num)
@@ -97,23 +97,23 @@ private theorem s16t3_linBlockLen_slCuts_le_two (n : ℕ) (a : Fin n) :
     linBlockLen n (s16t3SlCuts n) a ≤ 2 := by
   rw [s16t3_linBlockLen_slCuts]
   by_cases hev : Even (a : ℕ)
-  · rw [if_pos hev]
+  · rw [ite_eq_left hev]
     exact min_le_left 2 (n - (a : ℕ))
-  · rw [if_neg hev]
+  · rw [ite_eq_right hev]
     exact Nat.zero_le 2
 
 private theorem s16t3_linBlockLen_slCuts_eq_two (n : ℕ) (a : Fin n) :
     linBlockLen n (s16t3SlCuts n) a = 2 ↔ Even (a : ℕ) ∧ (a : ℕ) + 2 ≤ n := by
   rw [s16t3_linBlockLen_slCuts]
   by_cases hev : Even (a : ℕ)
-  · rw [if_pos hev]
+  · rw [ite_eq_left hev]
     constructor
     · intro h
       have han : (a : ℕ) < n := a.isLt
       exact ⟨hev, by have := min_eq_left_iff.1 h; omega⟩
     · rintro ⟨-, h2⟩
       exact min_eq_left_iff.2 (by omega)
-  · rw [if_neg hev]
+  · rw [ite_eq_right hev]
     constructor
     · intro h; exact absurd h (by norm_num)
     · rintro ⟨h, -⟩; exact absurd h hev
@@ -162,14 +162,14 @@ private theorem s16t3SlStarts_card (n : ℕ) : (s16t3SlStarts n).card = n / 2 :=
 
 private theorem s16t3_card_gl_le_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
     {k : ℕ} (hk : k ≤ 2) : Nat.card (GL (Fin k) K) = if k = 2 then 6 else 1 := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hq : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   rcases (by omega : k = 0 ∨ k = 1 ∨ k = 2) with rfl | rfl | rfl
-  · rw [if_neg (by norm_num : ¬ (0 : ℕ) = 2), Matrix.card_GL_field]
+  · rw [ite_eq_right (by norm_num : ¬ (0 : ℕ) = 2), Matrix.card_GL_field]
     simp
-  · rw [if_neg (by norm_num : ¬ (1 : ℕ) = 2), Matrix.card_GL_field, Fin.prod_univ_one]
+  · rw [ite_eq_right (by norm_num : ¬ (1 : ℕ) = 2), Matrix.card_GL_field, Fin.prod_univ_one]
     norm_num [hq, Fin.val_zero]
-  · rw [if_pos rfl, Matrix.card_GL_field, Fin.prod_univ_two]
+  · rw [ite_eq_left rfl, Matrix.card_GL_field, Fin.prod_univ_two]
     norm_num [hq, Fin.val_zero, Fin.val_one]
 
 private theorem s16t3_levi_card {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) (n : ℕ) :
@@ -186,8 +186,8 @@ private theorem s16t3_levi_card {K : Type} [Field K] [Finite K] (hK : Nat.card K
       rw [s16t3_linBlockLen_slCuts_eq_two]
       simp only [s16t3SlStarts, Finset.mem_filter, Finset.mem_univ, true_and]
     by_cases h : linBlockLen n (s16t3SlCuts n) a = 2
-    · rw [if_pos h, if_pos (hiff.mp h)]
-    · rw [if_neg h, if_neg (fun hc => h (hiff.mpr hc))]
+    · rw [ite_eq_left h, ite_eq_left (hiff.mp h)]
+    · rw [ite_eq_right h, ite_eq_right (fun hc => h (hiff.mpr hc))]
   calc ∏ a : Fin n, Nat.card (GL (Fin (linBlockLen n (s16t3SlCuts n) a)) K)
       = ∏ a : Fin n, (if a ∈ s16t3SlStarts n then 6 else 1) :=
         Finset.prod_congr rfl fun a _ => hterm a
@@ -206,7 +206,7 @@ private theorem s16t3_gl_le_two_exp {K : Type} [Field K] [Finite K] (hK : Nat.ca
         simpa using s16t3_card_gl_le_two hK (show 2 ≤ 2 by norm_num)
       simpa [hc] using pow_card_eq_one' (x := g)
     · have hcard := s16t3_card_gl_le_two hK hk
-      rw [if_neg hk2] at hcard
+      rw [ite_eq_right hk2] at hcard
       have h1 : g = 1 := by
         have := pow_card_eq_one' (x := g)
         rwa [hcard, pow_one] at this
@@ -244,9 +244,9 @@ theorem s16t3_sl_std {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {n : 
       Nat.card ↥P = 3 ^ (n / 2) * 2 ^ (Nat.card ↥(StatedSL n K)).factorization 2 ∧
       ∀ p ∈ P, ∀ k : ℕ, p ^ 3 ^ k = 1 → p ^ 3 = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
     rw [← Nat.card_eq_fintype_card]; exact hK)
   obtain ⟨S, hS⟩ := exists_sylow_unitriangular (K := K) 2 hn
   let Q : Subgroup (SpecialLinearGroup (Fin n) K) := flagStabilizer n K (s16t3SlCuts n)
@@ -258,7 +258,7 @@ theorem s16t3_sl_std {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {n : 
     rw [hS]
   have hYp : IsPGroup 2 Y := by
     rw [hYeq]
-    exact S.isPGroup'.map SpecialLinearGroup.toGL
+    exact S.isPGroup.map SpecialLinearGroup.toGL
   have hPle : P ≤ StatedSL n K := by
     change Q.map SpecialLinearGroup.toGL ≤ StatedSL n K
     rw [CFSG.Open.StatedAPI.statedSL_eq_range_toGL n K]

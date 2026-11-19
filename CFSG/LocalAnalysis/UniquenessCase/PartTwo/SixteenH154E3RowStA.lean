@@ -79,7 +79,7 @@ private theorem s16h_e3_not_sq_dvd_336 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
 
 private theorem s16h_e3_isElemAbelian_top {G : Type*} [Group G] {p : ℕ} {E : Subgroup G}
     (h : IsElemAbelian p E) : IsElemAbelian p (⊤ : Subgroup ↥E) := by
-  haveI : IsMulCommutative ↥E := h.1
+  have : IsMulCommutative ↥E := h.1
   refine ⟨⟨⟨fun a b => Subtype.ext (mul_comm' (a : ↥E) (b : ↥E))⟩⟩,
     fun x _ => Subtype.ext (h.2 (x : ↥E) (x : ↥E).2)⟩
 
@@ -100,12 +100,12 @@ theorem s16h_H5_rowSt8_autSub_inf_centralizer_eq_bot [Finite W]
     (hc : s16h_H5Cfg A L t)
     (h : s16h_H5RowSt8 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L))
     (hirr : commSub ⊤ L ∈ irrSet L)
-    {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
-    (hE : E ≤ A ⊓ normalizer (L : Set (MulAut W))) (hEab : IsElemAbelian q E) :
+    {q : ℕ} (_hq : q.Prime) (_hq2 : q ≠ 2) {E : Subgroup (MulAut W)}
+    (hE : E ≤ A ⊓ normalizer (L : Set (MulAut W))) (_hEab : IsElemAbelian q E) :
     autSub E (commSub ⊤ L) ⊓
       Subgroup.centralizer (autSub L (commSub ⊤ L) : Set (MulAut ↥(commSub ⊤ L))) = ⊥ := by
   classical
-  haveI : Finite (MulAut W) := s16h_e3_finite_mulAut (X := W)
+  have : Finite (MulAut W) := s16h_e3_finite_mulAut (X := W)
   set U : Subgroup W := commSub ⊤ L with hU
   set Z : Subgroup W := U ⊓ fixV L with hZ
   have hEN : E ≤ normalizer (L : Set (MulAut W)) :=
@@ -203,7 +203,7 @@ theorem s16h_H5_rowSt8_autSub_le_one [Finite W] {A L : Subgroup (MulAut W)} {t :
     (hE : E ≤ A ⊓ normalizer (L : Set (MulAut W))) (hEab : IsElemAbelian q E) :
     Nat.card ↥(autSub E (commSub ⊤ L)) ≤ q := by
   classical
-  haveI : Finite (MulAut W) := s16h_e3_finite_mulAut (X := W)
+  have : Finite (MulAut W) := s16h_e3_finite_mulAut (X := W)
   set U : Subgroup W := commSub ⊤ L with hU
   set Λ : Subgroup (MulAut U) := autSub L U with hΛ
   set Ē : Subgroup (MulAut U) := autSub E U with hĒ
@@ -252,7 +252,7 @@ theorem s16h_H5_rowSt8_autSub_le_one [Finite W] {A L : Subgroup (MulAut W)} {t :
     rw [← MonoidHom.range_eq_map] at h
     exact h
   have hkerL : ((resHom U).comp (Subgroup.inclusion hLU)).ker = ⊥ := by
-    haveI : IsSimpleGroup ↥L := isSimpleGroup_of_isL3 h.1
+    have : IsSimpleGroup ↥L := isSimpleGroup_of_isL3 h.1
     by_contra hne
     have hker_top : ((resHom U).comp (Subgroup.inclusion hLU)).ker = ⊤ := by
       rcases Subgroup.Normal.eq_bot_or_eq_top
@@ -286,7 +286,7 @@ theorem s16h_H5_rowSt8_autSub_le_one [Finite W] {A L : Subgroup (MulAut W)} {t :
   have hq2not : ¬ q ^ 2 ∣ Nat.card (MulAut Λ) := by
     rw [hcard_aut]; exact s16h_e3_not_sq_dvd_336 hq hq2
   have hrange_le : Nat.card ρ.range ≤ q := by
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     have h := CFSG.LargeExtraspecial.S63.card_le_of_isPGroup_of_not_dvd
       (G := MulAut Λ) (p := q) (k := 1) hq2not ρ.range hρab.isPGroup
     simpa using h

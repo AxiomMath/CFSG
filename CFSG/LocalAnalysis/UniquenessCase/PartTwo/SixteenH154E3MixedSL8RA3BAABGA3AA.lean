@@ -46,7 +46,7 @@ theorem s16h_sl28_involution_of_index_two_normalizer
       TL.map (MulAut.conj τ).toMonoidHom = TLx ∧
       T = (T ⊓ Subgroup.normalizer (A : Set X)) ⊔ Subgroup.zpowers τ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let NA : Subgroup X := Subgroup.normalizer (A : Set X)
   let P : Subgroup X := T ⊓ NA
   have hPrel : P.relIndex T = 2 := hP
@@ -54,7 +54,7 @@ theorem s16h_sl28_involution_of_index_two_normalizer
     intro hle
     have h1 : P.relIndex T = 1 := Subgroup.relIndex_eq_one.mpr hle
     omega
-  obtain ⟨t, htT, htP⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨t, htT, htP⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have htNA : t ∉ NA := fun ht => htP (Subgroup.mem_inf.mpr ⟨htT, ht⟩)
   have ht2P : t ^ 2 ∈ P := by
     have h := Subgroup.sq_mem_of_index_two (H := P.subgroupOf T) hPrel (⟨t, htT⟩ : T)

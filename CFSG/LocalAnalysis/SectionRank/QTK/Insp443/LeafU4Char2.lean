@@ -19,7 +19,7 @@ theorem forK_U4char2 :
   obtain ⟨-, hXs, -⟩ := hK.quasisimple
   refine hK.conclK_of_bar_psl2 fun L' V' MK' hc => ?_
   obtain ⟨F, hF, h, e, hpar⟩ := KConfig.exists_u4_coords hXs hm hc
-  letI : Field F := hF
+  let : Field F := hF
   have hc' : KConfig (CFSG.ClassicalGroups.UnitaryFlag.hypSU h 2 0) (L'.map e.toMonoidHom)
       (V'.map e.toMonoidHom) (MK'.map e.toMonoidHom) := hc.map_mulEquiv e
   rcases hpar with hpar | hpar

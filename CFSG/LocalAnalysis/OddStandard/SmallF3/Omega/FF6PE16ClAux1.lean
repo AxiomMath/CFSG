@@ -12,6 +12,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFF6PE16Cl_hat_conv (fr : PFrame Q (Option (Fin 5)) ffC)
     (τ : Equiv.Perm (Fin 5)) (K : Finset (Option (Fin 5))) :
     ffHat fr τ * fr.signChange K =
@@ -19,11 +20,13 @@ theorem ffOutFF6PE16Cl_hat_conv (fr : PFrame Q (Option (Fin 5)) ffC)
         (symmDiff (if Equiv.Perm.sign τ = 1 then ∅ else {none}) K) := by
   rw [ffHat, mul_assoc, fr.signChange_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFF6PE16Cl_hat_inv (fr : PFrame Q (Option (Fin 5)) ffC)
     (τ : Equiv.Perm (Fin 5)) : (ffHat fr τ)⁻¹ = ffHat fr τ⁻¹ := by
   apply inv_eq_of_mul_eq_one_right
   rw [ffHat_mul, mul_inv_cancel, ffHat_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFF6PE16Cl_conj_hat (fr : PFrame Q (Option (Fin 5)) ffC)
     (τ σ : Equiv.Perm (Fin 5)) (J : Finset (Fin 5)) :
     ffHat fr τ * (ffHat fr σ * fr.signChange (ffOpt J)) * (ffHat fr τ)⁻¹ =
@@ -52,7 +55,7 @@ theorem ffOutFF6PE16Cl_hat_mem_P (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (
 
 theorem ffOutFF6PE16Cl_sq_fix (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5)) ffC)
     {U : Subgroup (OGroup Q)} (hU : IsNormalE16In (ffP0p hQ fr) U)
-    {σ : Equiv.Perm (Fin 5)} (hσ : σ ∈ ffD8p) {J : Finset (Fin 5)}
+    {σ : Equiv.Perm (Fin 5)} (_hσ : σ ∈ ffD8p) {J : Finset (Fin 5)}
     (hu : ffHat fr σ * fr.signChange (ffOpt J) ∈ U) :
     σ * σ = 1 ∧ symmDiff (ffAct σ⁻¹ J) J = ∅ ∧
       ∀ K : Finset (Fin 5), fr.signChange (ffOpt K) ∈ U → ffAct σ K = K := by
@@ -77,12 +80,12 @@ theorem ffOutFF6PE16Cl_sq_fix (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin
     exact hEq
   obtain ⟨hsq, hsymm⟩ := ffMonoP_unique fr hkey
   have hX : symmDiff (ffAct σ⁻¹ J) J = ∅ := by
-    rw [hsq, Equiv.Perm.sign_one, if_pos rfl] at hsymm
+    rw [hsq, Equiv.Perm.sign_one, ite_eq_left rfl] at hsymm
     rw [← Finset.bot_eq_empty, bot_symmDiff, bot_symmDiff] at hsymm
     exact ffOpt_injective hsymm
   refine ⟨hsq, hX, ?_⟩
   intro K hK
-  haveI : IsMulCommutative U := hU.2.1.1.1
+  have : IsMulCommutative U := hU.2.1.1.1
   have hcomm := setLike_mul_comm (s := U) hu hK
   have htJ : (fr.signChange (ffOpt J))⁻¹ = fr.signChange (ffOpt J) :=
     inv_eq_of_mul_eq_one_right (fr.signChange_mul_self (ffOpt J))

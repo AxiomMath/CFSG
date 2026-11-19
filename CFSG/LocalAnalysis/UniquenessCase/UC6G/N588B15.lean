@@ -26,7 +26,7 @@ theorem conj_inv_ι_mem_L (hr : m.r = 5) {w : G}
     w⁻¹ * D.ι σ * w ∈ m.L := by
   set φ : A10 →* G := (MulAut.conj w⁻¹).toMonoidHom.comp D.ι with hφ
   have hφinj : Function.Injective φ := (MulAut.conj w⁻¹).injective.comp D.ι_injective
-  have hφapp : ∀ τ, φ τ = w⁻¹ * D.ι τ * w := fun τ => by simp [hφ, MulAut.conj_apply]
+  have hφapp : ∀ τ, φ τ = w⁻¹ * D.ι τ * w := fun τ => by simp [hφ]
   set Y := (altA T5).map φ with hY
   have hYH : Y ≤ m.H := by
     rintro _ ⟨τ, hτ, rfl⟩
@@ -126,7 +126,7 @@ theorem three_dvd_normalClosure (hr : m.r = 5) {w : G}
 end A10Setup
 
 theorem c623_of_A10 (hK2 : UCK.K322) (hK4 : UCK.K324) (m : Mz614 Dat)
-    (h67 : R6_7 Dat) (h69 : R6_9 Dat)
+    (_h67 : R6_7 Dat) (h69 : R6_9 Dat)
     (h619 : m.C619) (h620 : m.C620) (hr : m.r = 5) (hL : UC22.IsAlt ↥m.L 10) : m.C623 := by
   by_contra hne
   obtain ⟨D⟩ := exists_A10Setup m h620 hr hL
@@ -147,7 +147,7 @@ theorem c623_of_A10 (hK2 : UCK.K322) (hK4 : UCK.K324) (m : Mz614 Dat)
       m.Z ⊔ line₁.map D.ι := by
     rw [Subgroup.subgroupOf_map_subtype, inf_of_le_left hle]
   have hsyl : IsSylowOf 5 ((m.Z ⊔ line₁.map D.ι).subgroupOf D.Ka) ⊤ := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     rw [← isSylowOf_map_subtype_iff D.Ka, hE'map, ← MonoidHom.range_eq_map,
       Subgroup.range_subtype]
     exact D.isSylowOf_Ka h69 h620 hr hw₁' hw₂'

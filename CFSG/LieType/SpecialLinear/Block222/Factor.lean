@@ -79,12 +79,12 @@ private theorem eq_fromBlocks_lower
 
 private theorem det_eq_one_of_upper {n : ℕ} (A : Matrix (Fin n) (Fin n) F)
     (hup : A.IsUpperTriangular) (hd : ∀ i, A i i = 1) : A.det = 1 := by
-  rw [Matrix.det_of_upperTriangular hup]
+  rw [det_of_isUpperTriangular hup]
   simp [hd]
 
 private theorem det_eq_one_of_lower {n : ℕ} (A : Matrix (Fin n) (Fin n) F)
     (hlo : A.IsLowerTriangular) (hd : ∀ i, A i i = 1) : A.det = 1 := by
-  rw [Matrix.det_of_lowerTriangular A hlo]
+  rw [det_of_isLowerTriangular A hlo]
   simp [hd]
 
 private theorem inv_triDiagMat (A : Matrix (Fin 2) (Fin 2) F) (D : Matrix (Fin c) (Fin c) F)

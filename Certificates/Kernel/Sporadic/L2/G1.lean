@@ -106,7 +106,7 @@ theorem getElem!_map_g {α β : Type} [Inhabited α] [Inhabited β] {L : Array �
 theorem getElem!_map_range {α : Type} [Inhabited α] {f : Nat → α} {n i : Nat} (hi : i < n) :
     ((Array.range n).map f)[i]! = f i := by
   rw [getElem!_map_g f (by simpa using hi)]
-  simp [Array.getElem!_eq_getD, hi]
+  simp [hi]
 
 theorem gens_get {s : Nat} (hs : s < 2) : gens[s]! = CFSG.Sporadic.SuzRecog.Q3A.Check.xA s := by
   interval_cases s
@@ -175,7 +175,7 @@ theorem pA (hv : ∀ i < 2835, aVt i = true) {i : Nat} (hi : i < 2835) : P aPts[
       exact p_of_eq pT1 (h0 rfl)
     · obtain ⟨hp, hl, he⟩ := hstep hpos
       rw [aPar_get hi, aLab_get hi]
-      rw [if_pos ⟨hpos, hp⟩]
+      rw [ite_eq_left ⟨hpos, hp⟩]
       exact p_of_eq (p_conj (pG hl) (pGI hl) (ih _ hp (by omega))) he
 
 theorem wAt_eq (j : Nat) : wAt j =
@@ -223,7 +223,7 @@ theorem pW (hw : ∀ j < 162, tVt j = true) {j : Nat} (hj : j < 162) : P wPts[j]
       exact p_of_eq pW0 (h0 rfl)
     · obtain ⟨hp, hl, he⟩ := hstep hpos
       rw [wPar_get hj, wLab_get hj]
-      rw [if_pos ⟨hpos, hp⟩]
+      rw [ite_eq_left ⟨hpos, hp⟩]
       exact p_of_eq (p_conj (pG hl) (pGI hl) (ih _ hp (by omega))) he
 
 theorem trip_eq {j : Nat} (hj : j < 162) : trip j = tripOf wPts[j]! := by

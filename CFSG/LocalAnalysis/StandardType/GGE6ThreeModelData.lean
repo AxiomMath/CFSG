@@ -110,7 +110,7 @@ theorem GGE6ThreeActData.card_cases (h : GGE6ThreeActData A Φ w) :
     · rw [hcard, hr, Subgroup.card_top]
       change Nat.card (Fin 6 → ZMod 3) = 3 ^ 6
       rw [Nat.card_pi]
-      simp [Nat.card_zmod, Finset.prod_const, Fintype.card_fin]
+      simp [Finset.prod_const, Fintype.card_fin]
     · intro v
       have hv' : Multiplicative.ofAdd v ∈ Φ.range := by rw [hr]; exact Subgroup.mem_top _
       obtain ⟨a, ha⟩ := MonoidHom.mem_range.mp hv'
@@ -124,7 +124,7 @@ theorem GGE6ThreeActData.card_cases (h : GGE6ThreeActData A Φ w) :
           { toFun := fun x =>
               ⟨Multiplicative.toAdd (x : Multiplicative (Fin 6 → ZMod 3)),
                 (hr (Multiplicative.toAdd (x : Multiplicative (Fin 6 → ZMod 3)))).mp
-                  (by simpa using x.2)⟩
+                  (by simp)⟩
             invFun := fun y =>
               ⟨Multiplicative.ofAdd (y : Fin Tag.E6.rank → ZMod 3),
                 (hr (y : Fin Tag.E6.rank → ZMod 3)).mpr y.2⟩
@@ -151,7 +151,7 @@ theorem mem_normalizer_of_conj_mem {f : MulAut L'} [Finite L']
   constructor
   · exact hf h
   · intro hh
-    haveI : Finite A := inferInstance
+    have : Finite A := inferInstance
     let c : A → A := fun a => ⟨f * (a : MulAut L') * f⁻¹, hf a a.2⟩
     have hc : Function.Injective c := by
       intro a b hab

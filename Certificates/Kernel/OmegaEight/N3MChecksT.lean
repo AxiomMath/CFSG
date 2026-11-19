@@ -38,8 +38,7 @@ theorem s3_okN3M : sChk3 wN3M = true := by
     quickRfl
   · simp only [wN3M, avoidCheck, ← Array.all_toList]
     simp only [candB, fixCountF_eqM PnSW_eq, fixVecs_eq, commCount_eq, zfixCount, zfixOn,
-      decE_toList, decE_getD, decE_keys_size, mulK_eq, mulVecK_eq, idK_eq, ← Array.all_toList,
-      List.all_map]
+      decE_toList, decE_getD, decE_keys_size, mulK_eq, mulVecK_eq, idK_eq, List.all_map]
     refine all_range_of_blocks (m := EnN3MM3.m) (s := 3) (nb := 32) (by decide +kernel)
       fun b hb => ?_
     interval_cases b <;> decide +kernel

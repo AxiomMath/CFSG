@@ -41,7 +41,7 @@ theorem diffSpan_invariant_Y (S : Setting z E F) (Y : Subgroup (Hbar z)) :
     exact (diffSpan S Y).sub_mem
       (Submodule.subset_span ⟨y * y₀, Y.mul_mem hy hy₀, v, rfl⟩)
       (Submodule.subset_span ⟨y, hy, v, rfl⟩)
-  · simpa using (diffSpan S Y).zero_mem
+  · simp
   · intro x z _ _ hx hz
     simpa only [map_add] using (diffSpan S Y).add_mem hx hz
   · intro c x _ hx
@@ -339,7 +339,7 @@ theorem eq_one_of_mem_Y_of_fixes_diffSpan (S : Setting z E F) (Y : Subgroup (Hba
 
 theorem commutator_Lbar_Y_eq_one_of_O2_of_le_normalizer
     (S : Setting z E F) {a : G}
-    (haQ : a ∈ Q z) (hconj : IsConj z a) (hza : z ∈ QaOf a)
+    (_haQ : a ∈ Q z) (_hconj : IsConj z a) (_hza : z ∈ QaOf a)
     (Y : Subgroup (Hbar z))
     (hO2 : ∀ P : Subgroup (Hbar z), P ≤ Y → IsPGroup 2 P →
       Y ≤ Subgroup.normalizer (P : Set (Hbar z)) → P = ⊥)

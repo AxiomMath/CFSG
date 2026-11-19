@@ -30,7 +30,7 @@ theorem card_hopfMultiplier_psl2 (hGA : GriessAllModelsStatement) {X : Type} [Gr
   have hgen : genericOrders .PSL 2 2 f = (Nat.gcd 2 (2 ^ f - 1), 1) := rfl
   have hexc : (exceptionalOrders .PSL 2 2 f).1 * (exceptionalOrders .PSL 2 2 f).2 ∣ 2 := by
     unfold exceptionalOrders
-    split <;> first | omega | contradiction | norm_num
+    split <;> first | omega | norm_num
   have hg : Nat.gcd 2 (2 ^ f - 1) * 1 ∣ 2 := by
     rw [mul_one]
     exact Nat.gcd_dvd_left 2 (2 ^ f - 1)
@@ -68,7 +68,7 @@ theorem card_hopfMultiplier_psu3 (hGA : GriessAllModelsStatement) {X : Type} [Gr
   have hgen : genericOrders .PSU 3 2 f = (Nat.gcd 3 (2 ^ f + 1), 1) := rfl
   have hexc : (exceptionalOrders .PSU 3 2 f).1 * (exceptionalOrders .PSU 3 2 f).2 = 1 := by
     unfold exceptionalOrders
-    split <;> first | omega | contradiction | norm_num
+    split <;> first | omega | contradiction
   rw [hcard, hgen, hexc]
   simp
 

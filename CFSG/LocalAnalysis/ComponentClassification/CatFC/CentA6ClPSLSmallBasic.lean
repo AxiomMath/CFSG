@@ -14,9 +14,11 @@ section Basic
 
 variable {S : Type} [Group S] [Finite S] {σ : MulAut S} {D : Subgroup ↥(fixedSubgroup σ)}
 
+omit [Finite S] in
 theorem _root_.CFSG.ComponentClassification.CatFC.A6Hyp.perfect_D (h : A6Hyp σ D) : ⁅D, D⁆ = D :=
   Subgroup.isPerfect_iff.mp h.component.1.1.1
 
+omit [Finite S] in
 theorem map_eq_one_of_mem {A : Type*} [CommGroup A] (h : A6Hyp σ D)
     (ψ : ↥(fixedSubgroup σ) →* A) {d : ↥(fixedSubgroup σ)} (hd : d ∈ D) : ψ d = 1 := by
   have h1 : ⁅D, D⁆ ≤ ψ.ker := by
@@ -27,6 +29,7 @@ theorem map_eq_one_of_mem {A : Type*} [CommGroup A] (h : A6Hyp σ D)
   have h2 : d ∈ ⁅D, D⁆ := by rw [h.perfect_D]; exact hd
   exact MonoidHom.mem_ker.mp (h1 h2)
 
+omit [Finite S] in
 theorem not_mem_of_character {A : Type*} [CommGroup A] (h : A6Hyp σ D)
     (ψ : ↥(fixedSubgroup σ) →* A) {x : ↥(fixedSubgroup σ)} (hx : ψ x ≠ 1) : x ∉ D :=
   fun hxD => hx (map_eq_one_of_mem h ψ hxD)
@@ -64,6 +67,7 @@ theorem smallConcl_of_evidence (h : A6Hyp σ D) (hev : OuterEvidence σ)
     A6SmallConcl t n f σ D :=
   ⟨hin, fun _ hle => outer_concl h hev t n f hle⟩
 
+omit [Finite S] in
 theorem smallConcl_of_big {t : StatedLieTag} {n f : ℕ}
     (hbig : 1440 < Nat.card (fixedSubgroup σ)) : A6SmallConcl t n f σ D :=
   ⟨fun _ => hbig, fun _ hle => absurd hle (by omega)⟩

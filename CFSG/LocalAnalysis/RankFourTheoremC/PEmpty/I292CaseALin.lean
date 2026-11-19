@@ -29,8 +29,8 @@ theorem kd292CaseALin_of_input (hinp : KD292LinLangInput) : KD292CaseALin := by
   have hp2 : p ≠ 2 := by omega
   have hL := hcfg.comp
   have hLu := hcfg.uniq
-  haveI hLn : L.Normal := I291.normal_of_unique hL hLu
-  haveI : Fact p.Prime := ⟨hp⟩
+  have hLn : L.Normal := I291.normal_of_unique hL hLu
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
   have hCp : IsPGroup p (centralizer (L : Set Y)) :=
     I292.centralizer_isPGroup hY.core hL hLu hzero.pCore_cyclic hzero.omega_le

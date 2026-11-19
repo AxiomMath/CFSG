@@ -54,7 +54,7 @@ theorem r3_1_holds :
       · refine Or.inr (Or.inr (Or.inr (Or.inr ⟨Or.inr hH9, ?_⟩)))
         unfold ThreeOne.IsE8L3 at hE8
         exact hE8
-    · obtain ⟨k, hkK, hkα⟩ := SetLike.not_le_iff_exists.mp hKα
+    · obtain ⟨k, hkK, hkα⟩ := IsConcreteLE.not_le_iff_exists.mp hKα
       have hkα' : k α ≠ α := by
         intro h
         exact hkα (MulAction.mem_stabilizer_iff.mpr (by simpa [Equiv.Perm.smul_def] using h))

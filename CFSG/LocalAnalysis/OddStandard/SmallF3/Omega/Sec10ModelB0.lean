@@ -161,7 +161,7 @@ theorem eq_B0_of_abelian
   by_cases hAB : A ≤ B0
   · exact Subgroup.eq_of_le_of_card_ge hAB (by rw [card_B0, hcard])
   · exfalso
-    obtain ⟨a, haA, haB⟩ := SetLike.not_le_iff_exists.1 hAB
+    obtain ⟨a, haA, haB⟩ := IsConcreteLE.not_le_iff_exists.1 hAB
     obtain ⟨hle16, hcases⟩ := sylowChk_at (hA haA) haB
     have hAle : A ≤ QT0.originalSubgroup ⊓ centralizer ({a} : Set P45) := fun x hx =>
       Subgroup.mem_inf.2 ⟨hA hx, Subgroup.mem_centralizer_singleton_iff.2 (hc x hx a haA)⟩
@@ -179,7 +179,7 @@ theorem card_le_of_abelian
   by_cases hAB : A ≤ B0
   · have := Subgroup.card_le_of_le hAB
     rwa [card_B0] at this
-  · obtain ⟨a, haA, haB⟩ := SetLike.not_le_iff_exists.1 hAB
+  · obtain ⟨a, haA, haB⟩ := IsConcreteLE.not_le_iff_exists.1 hAB
     obtain ⟨hle16, -⟩ := sylowChk_at (hA haA) haB
     have hAle : A ≤ QT0.originalSubgroup ⊓ centralizer ({a} : Set P45) := fun x hx =>
       Subgroup.mem_inf.2 ⟨hA hx, Subgroup.mem_centralizer_singleton_iff.2 (hc x hx a haA)⟩

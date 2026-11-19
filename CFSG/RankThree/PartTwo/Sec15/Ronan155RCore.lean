@@ -233,7 +233,7 @@ theorem le_normalizer_inf' {X H K : Subgroup G} (hH : X ≤ Subgroup.normalizer 
   intro x hx
   rw [Subgroup.mem_normalizer_iff]
   intro y
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   rw [Subgroup.mem_normalizer_iff.mp (hH hx) y, Subgroup.mem_normalizer_iff.mp (hK hx) y]
 
 theorem le_normalizer_centralizer' {X W : Subgroup G} (hW : X ≤ Subgroup.normalizer (W : Set G)) :
@@ -266,7 +266,7 @@ theorem index_subgroupOf_dvd_two {H K : Subgroup G} (hHK : H ≤ K)
   have hKpos : 0 < Nat.card K := Nat.card_pos
   have hle : H.relIndex K ≤ 2 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have : 3 * Nat.card H ≤ H.relIndex K * Nat.card H := Nat.mul_le_mul_right _ hc
     omega
   have hne : H.relIndex K ≠ 0 := by
@@ -277,6 +277,7 @@ theorem index_subgroupOf_dvd_two {H K : Subgroup G} (hHK : H ≤ K)
   rcases (by omega : H.relIndex K = 1 ∨ H.relIndex K = 2) with h1 | h1 <;> rw [h1]
   · exact one_dvd 2
 
+omit [Finite G] in
 theorem card_le_two_mul_of_index_dvd_two {H K : Subgroup G} (hHK : H ≤ K)
     (h : (H.subgroupOf K).index ∣ 2) : Nat.card K ≤ 2 * Nat.card H := by
   have hrel := Subgroup.relIndex_mul_card H K
@@ -285,13 +286,14 @@ theorem card_le_two_mul_of_index_dvd_two {H K : Subgroup G} (hHK : H ≤ K)
   rw [← hrel]
   exact Nat.mul_le_mul_right _ hle
 
+omit [Finite G] in
 theorem pow_twelve_mem_centralizer {Z : Subgroup G} (hZ : IsElementaryAbelian 2 Z) {b c : G}
     (hb : b ∈ Subgroup.normalizer (Z : Set G)) (hc : c ∈ Subgroup.normalizer (Z : Set G))
     {w₁ w₂ : G} (hw₁ : w₁ ∈ Z) (hw₂ : w₂ ∈ Z)
     (h₁ : ∀ z ∈ Z, b * z * b⁻¹ = z ∨ b * z * b⁻¹ = z * w₁)
     (h₂ : ∀ z ∈ Z, c * z * c⁻¹ = z ∨ c * z * c⁻¹ = z * w₂) :
     (b * c) ^ 12 ∈ Subgroup.centralizer (Z : Set G) := by
-  haveI : IsMulCommutative ↥Z := hZ.toIsMulCommutative
+  have : IsMulCommutative ↥Z := hZ.toIsMulCommutative
   have hW : ∀ w : ↥Z, w ^ 2 = 1 := fun w =>
     Subtype.ext (by simpa using (isElementaryAbelian_iff.mp hZ).2 w w.2)
   set t₁ : MulAut ↥Z := Subgroup.normalizerMonoidHom Z ⟨b, hb⟩ with ht₁
@@ -347,7 +349,7 @@ theorem le_secCent_of_mem_elemFamilyIn {R J V : Subgroup G} (hVR : V ≤ R)
   have hAcomm := (isElementaryAbelian_iff.mp hAe).1
   have hA2 := (isElementaryAbelian_iff.mp hAe).2
   by_contra hAD
-  obtain ⟨b, hbA, hbD⟩ := SetLike.not_le_iff_exists.mp hAD
+  obtain ⟨b, hbA, hbD⟩ := IsConcreteLE.not_le_iff_exists.mp hAD
   have hbR : b ∈ R := hAR hbA
   have hb2 : b ^ 2 = 1 := hA2 b hbA
   set A₀ := A ⊓ D with hA₀

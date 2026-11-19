@@ -4,7 +4,7 @@ public import CFSG.LocalAnalysis.SignalizerFunctor.ClassSumIntegrality
 public import CFSG.LocalAnalysis.SignalizerFunctor.RegularCharacterValues
 public import Mathlib.Algebra.Order.Ring.Star
 public import Mathlib.Analysis.CStarAlgebra.Classes
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.RingTheory.Coalgebra.CoassocSimps
 
 public section

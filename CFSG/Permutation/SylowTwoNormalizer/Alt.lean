@@ -74,7 +74,7 @@ theorem eq_one_or_exists_orbit_of_not_isPretransitive (h4 : 4 ≤ Nat.card Ω)
     rw [hs]
     intro h
     exact hntr ((MulAction.isPretransitive_iff_orbit_eq_univ x).mpr h)
-  haveI hneT : Nonempty ↥(sᶜ) := by
+  have hneT : Nonempty ↥(sᶜ) := by
     obtain ⟨y, hy⟩ := (Set.ne_univ_iff_exists_notMem s).mp hSn
     exact ⟨⟨y, hy⟩⟩
   have hRs : R ≤ stabilizer (Perm Ω) s := by
@@ -208,9 +208,9 @@ theorem eq_one_or_exists_orbit_of_not_isPretransitive (h4 : 4 ≤ Nat.card Ω)
         rw [← hp, hcardS, hcard, hp_eq]
       have hcardΩ : Nat.card s = Nat.card Ω - 1 := by omega
       have hds : Nat.card s ∣ Nat.card (restr R s) := by
-        haveI : MulAction.IsPretransitive (restr R s) s := htrS
+        have : MulAction.IsPretransitive (restr R s) s := htrS
         have hx : x ∈ s := by rw [hs]; exact MulAction.mem_orbit_self x
-        haveI : Nonempty s := ⟨⟨x, hx⟩⟩
+        have : Nonempty s := ⟨⟨x, hx⟩⟩
         exact TauCeti.natCard_dvd_natCard_of_isPretransitive (restr R s)
       have hk : ∃ k, Nat.card s = 2 ^ k := by
         have hd : Nat.card s ∣ 2 ^ r := by rwa [hr] at hds
@@ -261,7 +261,7 @@ theorem eq_one_of_mem_normalizer_of_le_alternatingGroup (h6 : 6 ≤ Nat.card Ω)
         rw [stabilizer_compl]
         exact hσs
       have hres' : restrictHom ((MulAction.orbit R x)ᶜ) ⟨σ, hσsc⟩ = 1 := by
-        haveI : Subsingleton ↥((MulAction.orbit R x)ᶜ) := (Nat.card_eq_one_iff_unique.mp hT).1
+        have : Subsingleton ↥((MulAction.orbit R x)ᶜ) := (Nat.card_eq_one_iff_unique.mp hT).1
         exact Subsingleton.elim _ _
       exact eq_one_of_restrictHom_eq_one hσs hσsc hres hres'
 
@@ -274,7 +274,7 @@ theorem pow_three_eq_one_of_mem_normalizer_of_le_alternatingGroup (h5 : Nat.card
   obtain ⟨x, hx2⟩ := exists_orbit_card_ge_two_of_le_alternatingGroup h4 hRA hR hRi
   have hntr : ¬ MulAction.IsPretransitive R Ω := by
     intro htr
-    haveI : Nonempty Ω := ⟨x⟩
+    have : Nonempty Ω := ⟨x⟩
     have hdvd : Nat.card Ω ∣ Nat.card R := TauCeti.natCard_dvd_natCard_of_isPretransitive R
     have h5dvd : 5 ∣ Nat.card R := by
       rw [h5] at hdvd
@@ -316,7 +316,7 @@ theorem pow_three_eq_one_of_mem_normalizer_of_le_alternatingGroup (h5 : Nat.card
       rw [stabilizer_compl]
       exact hσ3s
     have hres3' : restrictHom ((MulAction.orbit R x)ᶜ) ⟨σ ^ 3, hσ3sc⟩ = 1 := by
-      haveI : Subsingleton ↥((MulAction.orbit R x)ᶜ) := (Nat.card_eq_one_iff_unique.mp hT).1
+      have : Subsingleton ↥((MulAction.orbit R x)ᶜ) := (Nat.card_eq_one_iff_unique.mp hT).1
       exact Subsingleton.elim _ _
     exact eq_one_of_restrictHom_eq_one hσ3s hσ3sc hres3 hres3'
 

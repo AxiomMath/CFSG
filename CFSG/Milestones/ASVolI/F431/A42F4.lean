@@ -36,14 +36,14 @@ theorem burnsideF4m_A42_F4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgro
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) i)
           (amalgamMap ((burnsideF4d_bOne β ε).comp (burnsideF4m_psi θ h1))
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) j) := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   obtain ⟨chart, hm⟩ := hyp.amalgam.lie_amalgam
   obtain ⟨K, fK, finK, charK, a, ha, hKsc, marking, h2, h3, -, h5⟩ :=
     burnsideF4gF4Inv_chart_data hf chart
   have hK : Nat.card K = 2 ^ (2 * a + 1) := hKsc
-  haveI : CharP K F4.prime := inferInstanceAs (CharP K 2)
-  haveI : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hK
-  haveI : Finite (Gm K a) := finite_gm K a
+  have : CharP K F4.prime := inferInstanceAs (CharP K 2)
+  have : IsSimpleGroup (Gm K a) := isSimpleGroup_gm ha hK
+  have : Finite (Gm K a) := finite_gm K a
   obtain ⟨Φ, hΦ⟩ := burnsideF4gF4Inv_exists_iso ha hK marking
   have hP1 : M₁.subgroupOf Gp = (Pg K a ⟨1, by decide⟩).map Φ.toMonoidHom := by
     have h : Gp ⊓ M₁ = ((Pg K a ⟨1, by decide⟩).map Φ.toMonoidHom).map Gp.subtype := by
@@ -111,7 +111,7 @@ theorem burnsideF4m_A42_F4 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgro
         rwa [S1.t_two, pow_two] at this
       rw [← map_mul, h2t, map_one]
       rfl
-    · rw [if_pos rfl, one_mul, inv_one, mul_one, hS]
+    · rw [ite_eq_left rfl, one_mul, inv_one, mul_one, hS]
       exact ⟨Φ (tg hK), ⟨tg hK, burnsideF4gF4Inv_tg_SR hK, rfl⟩, rfl⟩
 
 end F4

@@ -224,12 +224,12 @@ public theorem huppert_II_10_4_a_orthonormal_basis
       J.conjTranspose (P : Matrix (Fin n) (Fin n) K) * J.form *
           (P : Matrix (Fin n) (Fin n) K) = 1 := by
   classical
-  letI : Star K := ⟨J.conj⟩
-  letI : InvolutiveStar K := ⟨J.conj_involutive⟩
-  letI : StarMul K := ⟨fun r s => by
+  let : Star K := ⟨J.conj⟩
+  let : InvolutiveStar K := ⟨J.conj_involutive⟩
+  let : StarMul K := ⟨fun r s => by
     change J.conj (r * s) = J.conj s * J.conj r
     rw [map_mul, mul_comm]⟩
-  letI : StarRing K := ⟨fun r s => by
+  let : StarRing K := ⟨fun r s => by
     change J.conj (r + s) = J.conj r + J.conj s
     rw [map_add]⟩
   have htrace_nonzero : ∃ a : K, a + J.conj a ≠ 0 := by

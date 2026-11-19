@@ -42,7 +42,7 @@ theorem commutator_eq_bot_of_isNilpotent_of_isPGroup {H : Type*} [Group H] [Fini
   have hSn : (S : Subgroup H).Normal := inferInstance
   have hTn : (T : Subgroup H).Normal := inferInstance
   have hdisj : Disjoint (S : Subgroup H) (T : Subgroup H) :=
-    IsPGroup.disjoint_of_ne p q hpq _ _ S.isPGroup' T.isPGroup'
+    IsPGroup.disjoint_of_ne p q hpq _ _ S.isPGroup T.isPGroup
   refine le_bot_iff.1 ?_
   calc ⁅A, B⁆ ≤ ⁅(S : Subgroup H), (T : Subgroup H)⁆ := Subgroup.commutator_mono hS hT
     _ ≤ (S : Subgroup H) ⊓ (T : Subgroup H) := Subgroup.commutator_le_inf _ _
@@ -100,7 +100,7 @@ theorem FTS_beta_prime_centralizing_sylow
       have hPM : (S : Subgroup ↥W).map W.subtype ≤ M :=
         (Subgroup.map_subtype_le _).trans (hWY.trans hYM)
       refine le_sigmaCore_of_isPiSubgroup hHallOf hPM (isPiSubgroup_iff.2 fun r hr => ?_)
-      obtain ⟨k, hk⟩ := (S.isPGroup'.map W.subtype).exists_card_eq
+      obtain ⟨k, hk⟩ := (S.isPGroup.map W.subtype).exists_card_eq
       rw [hk] at hr
       obtain ⟨hr1, hr2, -⟩ := Nat.mem_primeFactors.1 hr
       rwa [(Nat.prime_dvd_prime_iff_eq hr1 hp).1 (hr1.dvd_of_dvd_pow hr2)]
@@ -122,7 +122,7 @@ theorem FTS_beta_prime_centralizing_sylow
     ·
       have hcomm : ⁅X.subgroupOf W, (S : Subgroup ↥W)⁆ = ⊥ :=
         commutator_eq_bot_of_isNilpotent_of_isPGroup hpq.symm
-          (hXq.of_equiv (Subgroup.subgroupOfEquivOfLe hXW).symm) S.isPGroup'
+          (hXq.of_equiv (Subgroup.subgroupOfEquivOfLe hXW).symm) S.isPGroup
       have h := congrArg (Subgroup.map W.subtype) hcomm
       rwa [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hXW, Subgroup.map_bot] at h
   ·

@@ -25,8 +25,8 @@ theorem GGConfig.not_orthMinus_of_eq_bstar_card_five
     (hEq : B = Bs) (hCard : Nat.card Bs = 3 ^ 5)
     (hmark : GGInnerDiagOnLabel ggRowP_EOmM 3 Bs L) : False := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Group.IsPerfect ↥L := Group.IsPerfect.mk hcfg.data_L.2.2.2
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Group.IsPerfect ↥L := Group.IsPerfect.mk hcfg.data_L.2.2.2
   have hsplit : GGInnerDiagOnLabel (fun p lab =>
       (ggRowP_EOmM p lab ∧ lab.n = 1) ∨
       (ggRowP_EOmM p lab ∧ 2 ≤ lab.n)) 3 Bs L :=

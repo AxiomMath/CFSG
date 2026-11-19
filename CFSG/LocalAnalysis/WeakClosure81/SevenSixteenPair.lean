@@ -28,7 +28,7 @@ structure PairHyp (V A : Subgroup G) : Prop where
 
 theorem s716P_card_eq_two_pow_pRank {W : Subgroup G} (hW : IsElemAbelian 2 W) :
     Nat.card ↥W = 2 ^ CFSG.pRank 2 ↥W := by
-  haveI : CFSG.IsElementaryAbelian 2 W := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hW
+  have : CFSG.IsElementaryAbelian 2 W := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hW
   obtain ⟨m, hm⟩ := (CFSG.IsElementaryAbelian.isPGroup 2 W).exists_card_eq
   rw [CFSG.pRank_eq_of_card_eq_pow one_lt_two hm]
   exact hm
@@ -181,14 +181,14 @@ theorem pair_nIn_le (hP : PairHyp A V) {W : Subgroup G} (hVW : NIn V A ≤ W)
     (hAW : A ≤ Subgroup.normalizer (W : Set G)) : NIn A V ≤ W := by
   obtain ⟨hdp, -, hv⟩ := pairHyp_part_a hP
   obtain ⟨hcomm, -, -⟩ := hdp
-  obtain ⟨v, hvA, hvN⟩ := SetLike.exists_of_lt hP.nIn_lt
+  obtain ⟨v, hvA, hvN⟩ := _root_.IsConcreteLE.exists_of_lt hP.nIn_lt
   rw [(hv v hvA hvN).2, Subgroup.commutator_le]
   intro y hy u hu
   have hy' : y ∈ ((NIn A V ⊔ NIn V A : Subgroup G) : Set G) := hy
   rw [Subgroup.coe_mul_of_left_le_normalizer_right _ _ (nIn_le_normalizer_nIn hP)] at hy'
   obtain ⟨n₁, hn₁, n₂, hn₂, rfl⟩ := Set.mem_mul.mp hy'
   have huA : u ∈ A := Subgroup.zpowers_le.mpr hvA hu
-  haveI := hP.elemAbelian_left.1
+  have := hP.elemAbelian_left.1
   have hn₁A : n₁ ∈ A := (inf_le_left : NIn A V ≤ A) hn₁
   have h1 : n₁ * u = u * n₁ := setLike_mul_comm hn₁A huA
   have h2 : n₁ * n₂ = n₂ * n₁ := hcomm n₁ hn₁ n₂ hn₂

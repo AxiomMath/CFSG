@@ -127,7 +127,7 @@ public theorem theorem_6_2_obstruction_data
               χA ∈ S1 ∧
                 Section1.degree χA = (K.relIndex (⊤ : Subgroup L) : ℂ) := by
   classical
-  haveI : K.Normal := h61.2.1
+  have : K.Normal := h61.2.1
   rcases hypothesis_6_1_hypothesis_5_2 h61 with ⟨hsetup, _R, h52a, _h52b,
     _h52c, _h52d, _h52e⟩
   have hSBsub : SB ⊆ S :=
@@ -253,7 +253,7 @@ public theorem theorem_6_2_pf18_degree_upper
     simp [dψ, Subgroup.relIndex_top_right, Nat.cast_mul]
   have hdvd : K.relIndex (⊤ : Subgroup L) ∣ dψ := by
     exact dvd_mul_right _ _
-  haveI : Representation.IsIrreducible ρ := hρirr
+  have : Representation.IsIrreducible ρ := hρirr
   have hθkerρ : Section1.subgroupInKernel' ρ.character (B.subgroupOf K) := by
     simpa [hθeq] using hθker
   have hBker : Section1.subgroupInRepresentationKernel ρ (B.subgroupOf K) :=
@@ -265,7 +265,7 @@ public theorem theorem_6_2_pf18_degree_upper
   have hDC_K : D.subgroupOf K ≤ C.subgroupOf K := by
     intro d hd
     exact centralQuotient_D_lt_C hcent hd
-  haveI : (B.subgroupOf K).Normal := (centralQuotient_B_normal hcent).subgroupOf K
+  have : (B.subgroupOf K).Normal := (centralQuotient_B_normal hcent).subgroupOf K
   have hBnormal : ((B.subgroupOf K).subgroupOf (C.subgroupOf K)).Normal := by
     infer_instance
   have hn_bound_raw :
@@ -353,7 +353,7 @@ private theorem theorem_6_2_isIrreducible_comp_surjective
     (ρ : Representation k H V) (φ : G →* H) (hφ : Function.Surjective φ)
     (hρ : Representation.IsIrreducible ρ) :
     Representation.IsIrreducible (ρ.comp φ) := by
-  haveI : Representation.IsIrreducible ρ := hρ
+  have : Representation.IsIrreducible ρ := hρ
   exact OrderIso.isSimpleOrder
     (theorem_6_2_subrepresentationCompOrderIso ρ φ hφ)
 
@@ -372,8 +372,8 @@ private theorem theorem_6_2_quotient_irreducible_degree_data
   classical
   rcases Theory.Character.second_orthogonality (G := Q) with
     ⟨ι, hι, χ, hχ, horth⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := Classical.decEq ι
+  let : Fintype ι := hι
+  let : DecidableEq ι := Classical.decEq ι
   let d : ι → ℕ := fun i => Classical.choose (hχ.1 i).1
   have hd_eval : ∀ i : ι, χ i (ConjClasses.mk (1 : Q)) = (d i : ℂ) := by
     intro i
@@ -427,7 +427,7 @@ public theorem theorem_6_2_pf15_orbit_contribution
     simp
   · rw [hθeq, Section1.degree_inducedClassFunction, Section1.degree_representation_character]
     simp [Subgroup.relIndex_top_right, Nat.cast_mul]
-  · letI orbitFintype : Fintype (Section1.conjugateOrbitIndex K ρ.character) :=
+  · let orbitFintype : Fintype (Section1.conjugateOrbitIndex K ρ.character) :=
       Fintype.ofFinite _
     have hd :=
       Section1.proposition_1_5_d_rep_orbit_relIndex_canonical K ρ hρirr
@@ -552,17 +552,17 @@ public theorem theorem_6_2_pf15_degree_lower
         (((dS1 Y : ℝ) ^ (2 : ℕ)) /
           Section5.cfNormSq (Y : Section1.ClassFunction L)) := by
   classical
-  haveI : K.Normal := h61.2.1
-  letI : (A.subgroupOf K).Normal := hAnorm.subgroupOf K
+  have : K.Normal := h61.2.1
+  let : (A.subgroupOf K).Normal := hAnorm.subgroupOf K
   let Q := K ⧸ A.subgroupOf K
   rcases theorem_6_2_quotient_irreducible_degree_data Q with
     ⟨ι, hι, hιdec, χQ, hχQ, dQ, i0, hdQ_eval, hχQ0, _hdQ0,
       _hsum_all, hsum_nonprincipal⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := hιdec
+  let : Fintype ι := hι
+  let : DecidableEq ι := hιdec
   let I := {i : ι // i ≠ i0}
-  letI : Fintype I := Fintype.ofFinite I
-  letI : DecidableEq I := Classical.decEq I
+  let : Fintype I := Fintype.ofFinite I
+  let : DecidableEq I := Classical.decEq I
   let nQ : ι → ℕ := fun i => Classical.choose (hχQ.1 i).1
   let ρQ : (i : ι) → Representation ℂ Q (Fin (nQ i) → ℂ) :=
     fun i => Classical.choose (Classical.choose_spec (hχQ.1 i).1)
@@ -722,7 +722,7 @@ public theorem theorem_6_2_pf15_degree_lower
       have hji : YS1 j = YS1 i := by
         simpa [fiber] using hj
       dsimp [orbitOf]
-      rw [dif_pos hji]
+      rw [dite_eq_left hji]
       exact Classical.choose_spec (hconjS1 i j hji)
     have hinj : Set.InjOn orbitOf (fiber : Set I) := by
       intro j hj k hk heq
@@ -848,7 +848,7 @@ public theorem theorem_6_2
     theorem_6_2_statement K A B C D S SA SB T := by
   classical
   intro h61 hSA hSB hAnorm hAltK hcent hcohSA hSBne hnotSB
-  haveI : K.Normal := h61.2.1
+  have : K.Normal := h61.2.1
   have hSbot : inducedKernelFamily K ⊥ S :=
     hypothesis_6_1_inducedKernelFamily_bot h61
   have hSAsubS : SA ⊆ S :=

@@ -73,7 +73,7 @@ theorem pinnedX_mem_Lθ_S2 {γ : Fin Tag.F4.rank → ℤ} (hγ : γ ∈ f4ShortL
 
 theorem exists_two_ne_of_card [Finite K] (hK : 3 ≤ Nat.card K) : ∃ t : K, t ≠ 0 ∧ t ≠ 1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   by_contra h
   push Not at h
   have hsub : (Finset.univ : Finset K) ⊆ {0, 1} := fun t _ => by
@@ -167,7 +167,7 @@ theorem lemma3 [Finite K] (hK : 3 ≤ Nat.card K) {H : Subgroup (ModGL Tag.F4 K)
       refine mem_X1_of_coord_M_zero K hsQ fun β' hβ' => ?_
       rw [hsc]
       simp only [f]
-      rw [if_neg]
+      rw [ite_eq_right]
       push Not
       exact mRoots_ne β' hβ'
     have hsH : s ∈ H := hX (X1_le_XS K hsX1)
@@ -176,9 +176,9 @@ theorem lemma3 [Finite K] (hK : 3 ≤ Nat.card K) {H : Subgroup (ModGL Tag.F4 K)
     · rw [hs.mul q hqQ _ (inv_mem hsQ), heisCoord_inv hsQ, hsc]
       simp only [Pi.add_apply, Pi.neg_apply, f]
       by_cases hν' : ν = alpha1 ∨ ν = root1342
-      · rw [if_pos hν']
+      · rw [ite_eq_left hν']
         ring
-      · rw [if_neg hν']
+      · rw [ite_eq_right hν']
         by_cases hD : ν ∈ Deg1 Tag.F4
         · rcases Deg1_cases hD with h | h | h
           · exact absurd (Or.inl h) hν'
@@ -189,7 +189,7 @@ theorem lemma3 [Finite K] (hK : 3 ≤ Nat.card K) {H : Subgroup (ModGL Tag.F4 K)
     · have := congrFun h0 β
       rw [hs.mul q hqQ _ (inv_mem hsQ), heisCoord_inv hsQ, hsc] at this
       simp only [Pi.add_apply, Pi.neg_apply, f, Pi.zero_apply] at this
-      rw [if_neg (by push Not; exact mRoots_ne β hβM)] at this
+      rw [ite_eq_right (by push Not; exact mRoots_ne β hβM)] at this
       simpa using this
   obtain ⟨ν, hν, e, he, hW⟩ := LA_core hK' h1 h2 W hadd hneg hsupp hstab hne
   obtain ⟨q, hqH, hqQ, hqc, -⟩ := hW

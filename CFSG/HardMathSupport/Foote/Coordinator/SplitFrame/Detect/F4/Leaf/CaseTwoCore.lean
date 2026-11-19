@@ -286,7 +286,7 @@ theorem transported_coord {γ δ : Fin Tag.F4.rank → ℤ}
             have ha1 : ((a1 (s ν₁) δ : ℤ) : K) ≠ 0 := by
               have hsum : s ν₁ + δ ∈ rootFinset .F4 := by rw [hsν]; exact hroot
               have habs := (h1 (s ν₁) hρR hρ0 δ D.δ_deg1).1 hsum
-              rw [if_neg hδρ] at habs
+              rw [ite_eq_right hδρ] at habs
               rcases (abs_eq zero_le_one).1 habs with h | h <;> rw [h] <;> simp
             have hcμ : heisCoord Tag.F4 K w' μ₀ = c := by rw [← hνμ, hc]
             rw [hcoordy]

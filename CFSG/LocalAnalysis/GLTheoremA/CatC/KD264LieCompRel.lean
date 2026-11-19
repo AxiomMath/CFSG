@@ -264,7 +264,7 @@ theorem catalogueOver_sl (E : Type) [Field E] [Fintype E] (m : ℕ) (hm : 2 ≤ 
     (h4 : m = 2 → 4 ≤ Fintype.card E) :
     CatalogueOver (ringChar E) (Fintype.card E) (Matrix.SpecialLinearGroup (Fin m) E) := by
   classical
-  haveI := ringChar.charP E
+  have := ringChar.charP E
   obtain ⟨n, hp, hcard⟩ := FiniteField.card E (ringChar E)
   have hn : 0 < (n : ℕ) := n.pos
   let q : TauCeti.PrimePower := ⟨ringChar E, n, hp, hn⟩
@@ -328,7 +328,7 @@ theorem catalogueOver_sp (E : Type) [Field E] [Fintype E] (m : ℕ) (hm : 2 ≤ 
     (hne : (m, Fintype.card E) ≠ (2, 2)) :
     CatalogueOver (ringChar E) (Fintype.card E) ↥(StatedSp m E) := by
   classical
-  haveI := ringChar.charP E
+  have := ringChar.charP E
   obtain ⟨n, hp, hcard⟩ := FiniteField.card E (ringChar E)
   have hn : 0 < (n : ℕ) := n.pos
   let q : TauCeti.PrimePower := ⟨ringChar E, n, hp, hn⟩

@@ -128,7 +128,7 @@ theorem heC0Words_sound {g : Array (Array ℕ)} (h : heC0Words g = true) :
 theorem permsA_three {n : ℕ} {gs : Array (Array ℕ)} (h : gs.size = 3) :
     permsA n gs = {permOfArr n gs[0]!, permOfArr n gs[1]!, permOfArr n gs[2]!} := by
   ext x
-  simp only [permsA, h, Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff,
+  simp only [permsA, h, Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff,
     Set.mem_singleton_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩

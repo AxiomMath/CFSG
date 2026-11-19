@@ -78,7 +78,7 @@ theorem card_ge_32_aux [Finite G] (hcomm : ∀ a b : G, a * b = b * a) (hsq : �
     (hf : ∀ x ∈ ({f₀, f₁, f₂} : Set G), x ≠ 1 ∧ x ≠ t ∧ x ≠ e₀ ∧ x ≠ e₁ ∧ x ≠ e₂ ∧ x ≠ t * e₀ ∧
       x ≠ t * e₁ ∧ x ≠ t * e₂) : 32 ≤ Nat.card G := by
   classical
-  letI : CommGroup G := { ‹Group G› with mul_comm := hcomm }
+  let : CommGroup G := { ‹Group G› with mul_comm := hcomm }
   have hinv : ∀ a : G, a⁻¹ = a := fun a => inv_eq_of_mul_eq_one_right (hsq a)
   have key : ∀ a b : G, a * b = 1 → a = b := fun a b h => by
     rw [mul_eq_one_iff_eq_inv, hinv] at h

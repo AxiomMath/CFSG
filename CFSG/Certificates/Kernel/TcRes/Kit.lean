@@ -248,7 +248,7 @@ theorem lanes_eq_of_eq (w K : ℕ) {c d : ℕ → ℕ} (hc : ∀ k < K, c k < 2 
     (h : ∑ k ∈ Finset.range K, c k * 2 ^ (w * k) = ∑ k ∈ Finset.range K, d k * 2 ^ (w * k))
     {k : ℕ} (hk : k < K) : c k = d k := by
   have h1 := fld_sum_lanes w K c hc k
-  rw [h, fld_sum_lanes w K d hd k, if_pos hk, if_pos hk] at h1
+  rw [h, fld_sum_lanes w K d hd k, ite_eq_left hk, ite_eq_left hk] at h1
   exact h1.symm
 
 theorem ones_eq (n : ℕ) : ones n = ∑ k ∈ Finset.range n, 1 * 2 ^ (16 * k) := by
@@ -265,7 +265,7 @@ theorem ones_eq (n : ℕ) : ones n = ∑ k ∈ Finset.range n, 1 * 2 ^ (16 * k) 
 theorem fld_mul_ones (c n m : ℕ) (hc : c < 2 ^ 16) (hm : m < n) : fld (c * ones n) 16 m = c := by
   rw [ones_eq, Finset.mul_sum]
   simp_rw [← mul_assoc, mul_one]
-  rw [fld_sum_lanes 16 n (fun _ => c) (fun _ _ => hc), if_pos hm]
+  rw [fld_sum_lanes 16 n (fun _ => c) (fun _ _ => hc), ite_eq_left hm]
 
 theorem fld_land_eq_zero {z c n m : ℕ} (h : z &&& (c * ones n) = 0) (hc : c < 2 ^ 16)
     (hm : m < n) : fld z 16 m &&& c = 0 := by
@@ -273,7 +273,7 @@ theorem fld_land_eq_zero {z c n m : ℕ} (h : z &&& (c * ones n) = 0) (hc : c < 
   simp only [fld_land, fld_zero, fld_mul_ones c n m hc hm] at h1
   exact h1
 
-theorem lt_of_land_eq_zero {x c b : ℕ} (hx : x < 2 ^ 16) (hb : b ≤ 16)
+theorem lt_of_land_eq_zero {x c b : ℕ} (hx : x < 2 ^ 16) (_hb : b ≤ 16)
     (hc : ∀ i, b ≤ i → i < 16 → c.testBit i = true) (h : x &&& c = 0) : x < 2 ^ b := by
   apply Nat.lt_pow_two_of_testBit
   intro i hi
@@ -301,7 +301,7 @@ theorem fld_mul (w A B x y : ℕ) (hx : x < 2 ^ (w * A)) (hy : y < 2 ^ (w * B))
   let Q : Polynomial ℕ := ∑ a ∈ Finset.range B, Polynomial.C (fld y w a) * Polynomial.X ^ a
   have hPc : ∀ i, P.coeff i = fld x w i := by
     intro i
-    simp only [P, Polynomial.finset_sum_coeff, Polynomial.coeff_C_mul_X_pow]
+    simp only [P, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul_X_pow]
     rw [Finset.sum_ite_eq (Finset.range A) i (fun a => fld x w a)]
     split_ifs with h
     · rfl
@@ -309,18 +309,18 @@ theorem fld_mul (w A B x y : ℕ) (hx : x < 2 ^ (w * A)) (hy : y < 2 ^ (w * B))
       exact (fld_eq_zero_of_lt w A x hx (by omega)).symm
   have hQc : ∀ i, Q.coeff i = fld y w i := by
     intro i
-    simp only [Q, Polynomial.finset_sum_coeff, Polynomial.coeff_C_mul_X_pow]
+    simp only [Q, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul_X_pow]
     rw [Finset.sum_ite_eq (Finset.range B) i (fun a => fld y w a)]
     split_ifs with h
     · rfl
     · rw [Finset.mem_range] at h
       exact (fld_eq_zero_of_lt w B y hy (by omega)).symm
   have hPe : P.eval (2 ^ w) = x := by
-    simp only [P, Polynomial.eval_finset_sum, Polynomial.eval_mul, Polynomial.eval_C,
+    simp only [P, Polynomial.eval_finsetSum, Polynomial.eval_mul, Polynomial.eval_C,
       Polynomial.eval_pow, Polynomial.eval_X, ← pow_mul]
     exact (eq_sum_lanes w A x hx).symm
   have hQe : Q.eval (2 ^ w) = y := by
-    simp only [Q, Polynomial.eval_finset_sum, Polynomial.eval_mul, Polynomial.eval_C,
+    simp only [Q, Polynomial.eval_finsetSum, Polynomial.eval_mul, Polynomial.eval_C,
       Polynomial.eval_pow, Polynomial.eval_X, ← pow_mul]
     exact (eq_sum_lanes w B y hy).symm
   have hPQc : ∀ k, (P * Q).coeff k = conv k := by
@@ -424,7 +424,7 @@ theorem mul_ones (c n : ℕ) : c * ones n = ∑ k ∈ Finset.range n, c * 2 ^ (1
 theorem fld_add {L a b m : ℕ} (ha : a < 2 ^ (16 * L)) (hb : b < 2 ^ (16 * L))
     (hc : ∀ k < L, fld a 16 k + fld b 16 k < 2 ^ 16) (hm : m < L) :
     fld (a + b) 16 m = fld a 16 m + fld b 16 m := by
-  rw [add_lanes L a b ha hb, fld_sum_lanes 16 L _ hc, if_pos hm]
+  rw [add_lanes L a b ha hb, fld_sum_lanes 16 L _ hc, ite_eq_left hm]
 
 theorem lanes_lin {n A A' B c c' d d' : ℕ} (hA : A < 2 ^ (16 * n)) (hA' : A' < 2 ^ (16 * n))
     (hB : B < 2 ^ (16 * n)) (h1 : ∀ k < n, fld A 16 k + c * fld B 16 k + d < 2 ^ 16)
@@ -445,7 +445,7 @@ theorem fld_two_pow {n i m : ℕ} (hi : i < n) :
   classical
   have e : 1 <<< (16 * i) = ∑ k ∈ Finset.range n, (if k = i then 1 else 0) * 2 ^ (16 * k) := by
     rw [Nat.shiftLeft_eq, one_mul]
-    simp only [ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_range, if_pos hi]
+    simp only [ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_range, ite_eq_left hi]
   rw [e, fld_sum_lanes 16 n _ (fun k _ => by split_ifs <;> norm_num)]
   split_ifs with h1 h2 h2 <;> first | rfl | omega
 
@@ -526,7 +526,7 @@ theorem fld_mul_low (hw : 1 ≤ w) {c k : ℕ} (hc : c < 2 ^ w) (hk : k < K) :
     fld (c * lowW w K) w k = c := by
   rw [lowW_eq w K hw, Finset.mul_sum]
   simp_rw [← mul_assoc, mul_one]
-  rw [fld_sum_lanes w K (fun _ => c) (fun _ _ => hc), if_pos hk]
+  rw [fld_sum_lanes w K (fun _ => c) (fun _ _ => hc), ite_eq_left hk]
 
 theorem mul_low_lt (hw : 1 ≤ w) {c : ℕ} (hc : c < 2 ^ w) : c * lowW w K < 2 ^ (w * K) := by
   rw [lowW_eq w K hw, Finset.mul_sum]
@@ -540,10 +540,10 @@ theorem fld_add_w {a b k : ℕ} (ha : a < 2 ^ (w * K)) (hb : b < 2 ^ (w * K))
     conv_lhs => rw [eq_sum_lanes w K a ha, eq_sum_lanes w K b hb]
     rw [← Finset.sum_add_distrib]
     exact Finset.sum_congr rfl fun k _ => (add_mul _ _ _).symm
-  rw [e, fld_sum_lanes w K _ hc, if_pos hk]
+  rw [e, fld_sum_lanes w K _ hc, ite_eq_left hk]
   exact ⟨rfl, sum_lanes_lt w K _ hc⟩
 
-theorem fld_sub_low (hw : 1 ≤ w) {z c k : ℕ} (hz : z < 2 ^ (w * K)) (hc : c < 2 ^ w)
+theorem fld_sub_low (hw : 1 ≤ w) {z c k : ℕ} (hz : z < 2 ^ (w * K)) (_hc : c < 2 ^ w)
     (hle : ∀ k < K, c ≤ fld z w k) (hk : k < K) :
     fld (z - c * lowW w K) w k = fld z w k - c ∧ z - c * lowW w K < 2 ^ (w * K) := by
   have hl : ∀ k < K, fld z w k - c < 2 ^ w := fun k _ => lt_of_le_of_lt (Nat.sub_le _ _)
@@ -556,7 +556,7 @@ theorem fld_sub_low (hw : 1 ≤ w) {z c k : ℕ} (hz : z < 2 ^ (w * K)) (hc : c 
       have := hle k (Finset.mem_range.1 hk)
       rw [one_mul, ← add_mul, Nat.sub_add_cancel this]
     omega
-  rw [e, fld_sum_lanes w K _ hl, if_pos hk]
+  rw [e, fld_sum_lanes w K _ hl, ite_eq_left hk]
   exact ⟨rfl, sum_lanes_lt w K _ hl⟩
 
 theorem fld_shr_div {y s k : ℕ} (hy : y < 2 ^ (w * K)) (hd : ∀ k < K, 2 ^ s ∣ fld y w k)
@@ -570,7 +570,7 @@ theorem fld_shr_div {y s k : ℕ} (hy : y < 2 ^ (w * K)) (hd : ∀ k < K, 2 ^ s 
       Dvd.dvd.mul_right (hd k (Finset.mem_range.1 hk)) _), Finset.sum_mul]
     refine Finset.sum_congr rfl fun k hk => ?_
     rw [mul_right_comm, Nat.div_mul_cancel (hd k (Finset.mem_range.1 hk))]
-  rw [e, fld_sum_lanes w K _ hl, if_pos hk]
+  rw [e, fld_sum_lanes w K _ hl, ite_eq_left hk]
   exact ⟨rfl, sum_lanes_lt w K _ hl⟩
 
 theorem fld_lor (a b w i : ℕ) : fld (a ||| b) w i = fld a w i ||| fld b w i := by
@@ -653,7 +653,7 @@ theorem fld_smul_low {a c u : ℕ} (hc : ∀ k ≤ u, c * fld a w k < 2 ^ w) :
     conv_lhs => rw [← Nat.mod_add_div a (2 ^ (w * (u + 1)))]
     ring
   rw [← fld_mod (K := u + 1) hu, e2, Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt hlt, e,
-    fld_sum_lanes w _ _ hc', if_pos hu]
+    fld_sum_lanes w _ _ hc', ite_eq_left hu]
 
 theorem fld_zl (hw : 5 ≤ w) {x k : ℕ} (hx : x < 2 ^ (w * K)) (hxl : ∀ k < K, fld x w k ≤ 28)
     (hk : k < K) : fld (zl (lowW w K) x) w k = if fld x w k % 3 = 0 then 1 else 0 := by

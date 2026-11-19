@@ -19,17 +19,17 @@ theorem q2U_m_ne_one_of_quasisimple {X : Type} [Group X] (hX : CFSG.Open.IsQuasi
     (θ : X ⧸ Subgroup.center X ≃* LargeEvenProj (LargeEvenSUGroup (Fin 3) E (2 ^ m))) :
     m ≠ 1 := by
   rintro rfl
-  haveI : Finite E := hE.finite
+  have : Finite E := hE.finite
   have hcardE : Nat.card E = (2 ^ 1) ^ 2 := by rw [hE.card, ← pow_mul, mul_comm]
-  haveI : Group.IsSolvable (LargeEvenSUGroup (Fin 3) E (2 ^ 1)) :=
+  have : Group.IsSolvable (LargeEvenSUGroup (Fin 3) E (2 ^ 1)) :=
     Quasithin.isSolvable_statedSU_one hcardE
-  haveI : Group.IsSolvable (LargeEvenProj (LargeEvenSUGroup (Fin 3) E (2 ^ 1))) :=
+  have : Group.IsSolvable (LargeEvenProj (LargeEvenSUGroup (Fin 3) E (2 ^ 1))) :=
     Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective _)
-  haveI hsolv : Group.IsSolvable (X ⧸ Subgroup.center X) :=
+  have hsolv : Group.IsSolvable (X ⧸ Subgroup.center X) :=
     Group.isSolvable_of_isSolvable_injective (f := θ.toMonoidHom) θ.injective
-  haveI : Nontrivial (X ⧸ Subgroup.center X) := hX.2.toNontrivial
-  haveI : Group.IsPerfect X := ⟨hX.1⟩
-  haveI : Group.IsPerfect (X ⧸ Subgroup.center X) :=
+  have : Nontrivial (X ⧸ Subgroup.center X) := hX.2.toNontrivial
+  have : Group.IsPerfect X := ⟨hX.1⟩
+  have : Group.IsPerfect (X ⧸ Subgroup.center X) :=
     RankThree.PartOne.KCUnitary.isPerfect_of_surjective (QuotientGroup.mk' _)
       (QuotientGroup.mk'_surjective _)
   exact Group.IsPerfect.not_isSolvable _ hsolv

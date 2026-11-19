@@ -55,9 +55,9 @@ section Gen
 
 variable {K : Type} [Field K] [Finite K] (D : LangLevi TwClass.e8Ten.tag K TwClass.e8Ten.w)
 
-theorem exists_omega (hK : Nat.card K = 2) : ∃ ω : D.L, ω ^ 2 + ω + 1 = 0 := by
-  haveI hcL : CharP D.L 2 := charP_L D hK
-  haveI hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+theorem exists_omega (_hK : Nat.card K = 2) : ∃ ω : D.L, ω ^ 2 + ω + 1 = 0 := by
+  have hcL : CharP D.L 2 := charP_L D _hK
+  have hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hdeg : (Polynomial.X ^ 2 + Polynomial.X + 1 : Polynomial D.L).degree ≠ 0 := by
     have : (Polynomial.X ^ 2 + Polynomial.X + 1 : Polynomial D.L).degree = 2 := by
       compute_degree!
@@ -71,8 +71,8 @@ theorem exists_gen (hK : Nat.card K = 2) {ω : D.L} (hω : ω ^ 2 + ω + 1 = 0) 
     ∃ ℓ : ModGL Tag.E8 K, ℓ ∈ TwClass.e8Ten.X₂ D ∧
       ΨE D ℓ = pinnedX Tag.E8 D.L (trRoot t 0) 1 * pinnedX Tag.E8 D.L (trRoot t 1) 1 *
         pinnedX Tag.E8 D.L (trRoot t 2) ω := by
-  haveI hcL : CharP D.L 2 := charP_L D hK
-  haveI hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have hcL : CharP D.L 2 := charP_L D hK
+  have hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set S := toSetup D ⊥ with hS
   have ht' : t ∈ List.range 4 := List.mem_range.2 ht
   obtain ⟨hr0, hd0⟩ := trRoot_P1 t ht' 0 (List.mem_range.2 (by norm_num))
@@ -174,7 +174,7 @@ theorem Rz_comp {ω : D.L} {f₁ f₂ : ℕ → ℕ} (h₁ : Rz D ω f₁) (h₂
 theorem Rz_gen (hK : Nat.card K = 2) {ω : D.L} (hω : ω ^ 2 + ω + 1 = 0)
     (hrat : ratOk () = true) (hcols : colsOk () = true) {g : ℕ} (hg : g < 8) :
     Rz D ω (applyCols (gcols g)) := by
-  haveI hcL : CharP D.L 2 := charP_L D hK
+  have hcL : CharP D.L 2 := charP_L D hK
   have hbound : ∀ j, (gcols g).getD j 0 < 2 ^ 20 := by
     intro j
     have := colsOk_spec hcols g j
@@ -206,7 +206,7 @@ theorem Rz_gen (hK : Nat.card K = 2) {ω : D.L} (hω : ω ^ 2 + ω + 1 = 0)
       exact mul_mem (mul_mem (hL0 1) (hL1 1)) (hL2 ω)
     · rw [hΨ]
       unfold genOp
-      rw [if_pos hg4]
+      rw [ite_eq_left hg4]
       simp only [emb_one, emb_two]
       rw [Nat.mod_eq_of_lt hg4] at hr0 hr1 hr2 hd0 hd1 hd2
       have h := ((actsBy_pinnedX hr0 hd0 (1 : D.L)).mul (actsBy_pinnedX hr1 hd1 (1 : D.L))).mul
@@ -222,7 +222,7 @@ theorem Rz_gen (hK : Nat.card K = 2) {ω : D.L} (hω : ω ^ 2 + ω + 1 = 0)
           CharTwo.neg_eq, CharTwo.neg_eq]
       rw [hinv]
       unfold genOp
-      rw [if_neg hg4]
+      rw [ite_eq_right hg4]
       simp only [emb_one, emb_two]
       exact (actsBy_pinnedX hr2 hd2 ω).mul ((actsBy_pinnedX hr1 hd1 (1 : D.L)).mul
         (actsBy_pinnedX hr0 hd0 (1 : D.L)))

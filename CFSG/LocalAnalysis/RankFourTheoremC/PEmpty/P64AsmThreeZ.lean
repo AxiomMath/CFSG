@@ -16,6 +16,7 @@ open scoped MatrixGroups
 
 variable {Z : Type} [Group Z] [Finite Z] {p : ℕ}
 
+omit [Finite Z] in
 theorem not_isCyclic_of_elemAbelian (hp : p.Prime) {C : Subgroup Z} (hC : IsElemAbelian p C)
     (hcard : p ^ 2 ≤ Nat.card C) : ¬ IsCyclic ↥C := by
   intro hcyc
@@ -39,6 +40,7 @@ theorem not_isCyclic_of_three_le_pRank (hp : p.Prime) {Q : Subgroup Z}
   rw [hEc]
   exact Nat.pow_le_pow_right hp.pos (by norm_num)
 
+omit [Finite Z] in
 theorem normal_of_unique_component {L : Subgroup Z} (hL : IsComponentOf L ⊤)
     (huniq : ∀ K : Subgroup Z, IsComponentOf K ⊤ → K = L) : L.Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -46,24 +48,25 @@ theorem normal_of_unique_component {L : Subgroup Z} (hL : IsComponentOf L ⊤)
     (map_conj_eq_self_iff g L).1 (huniq _ (isComponentOf_map_conj hL g))
   exact ((Subgroup.mem_normalizer_iff.mp hg) n).mp hn
 
+omit [Finite Z] in
 theorem layer_eq_of_unique_component {L : Subgroup Z} (hL : IsComponentOf L ⊤)
     (huniq : ∀ K : Subgroup Z, IsComponentOf K ⊤ → K = L) : CFSG.layer Z = L := by
   rw [CFSG.layer.eq_sSup]
   have : {K : Subgroup Z | CFSG.IsComponent K} = {L} := by
     ext K
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     rw [CFSG.isComponent_iff_open]
     exact ⟨fun h => huniq K h, fun h => h ▸ hL⟩
   rw [this, sSup_singleton]
 
-theorem center_eq_bot_of_L2pp (hp : p.Prime) (hp5 : 5 ≤ p) {L : Type} [Group L]
+theorem center_eq_bot_of_L2pp (_hp : p.Prime) (hp5 : 5 ≤ p) {L : Type} [Group L]
     (hL : P64IsL2pp p L) : Subgroup.center L = ⊥ := by
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hL
   have hK4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc 4 ≤ p := by omega
       _ ≤ p ^ p := Nat.le_self_pow (by omega) p
-  haveI : IsSimpleGroup PSL(2, K) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hK4
+  have : IsSimpleGroup PSL(2, K) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hK4
   obtain ⟨a, b, hab⟩ := CFSG.Walter.psl2_exists_mul_ne_mul K hK4
   have hcen : Subgroup.center PSL(2, K) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center PSL(2, K)) with h | h
@@ -89,7 +92,7 @@ theorem three_Z (hI291 : KDL64I291) (hI246 : KDL64I246) (hRank : KDL64TypeRank)
     (hΓ2 : ∀ S : Subgroup Z, S ≤ Q → 2 ≤ Open.pRank p S → normalizer (S : Set Z) ≤ Y)
     (hΓ1 : ∀ E : Subgroup Z, E ≤ (Q : Subgroup Z) → IsElemAbelian p E → Nat.card E = p ^ 3 →
       ∀ S : Subgroup Z, S ≤ E → 1 ≤ Open.pRank p S → normalizer (S : Set Z) ≤ Y)
-    (hBQ : B ≤ Q) (hBel : IsElemAbelian p B) (hBcard : Nat.card B = p ^ 2) (hxB : x ∈ B)
+    (_hBQ : B ≤ Q) (hBel : IsElemAbelian p B) (hBcard : Nat.card B = p ^ 2) (hxB : x ∈ B)
     (hx1 : x ≠ 1) (hsc : ∀ y ∈ centralizer (B : Set Z), y ^ p = 1 → y ∈ B)
     (hcx : Open.pRank p (centralizer ({x} : Set Z)) ≤ 2) :
     (∃ N : Subgroup Z, N.Normal ∧ N.index = p) ∧
@@ -98,7 +101,7 @@ theorem three_Z (hI291 : KDL64I291) (hI246 : KDL64I246) (hRank : KDL64TypeRank)
       ∃ Q₀ : Subgroup Z, Q₀ ≤ (Q : Subgroup Z) ∧ IsElemAbelian p Q₀ ∧ Nat.card Q₀ = p ^ p ∧
         ∀ a ∈ Q₀, a ≠ 1 → ∀ b ∈ Q₀, b ≠ 1 →
           ∃ g ∈ normalizer (Q₀ : Set Z), g * a * g⁻¹ ∈ zpowers b := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨L, hL⟩ := exists_isComponentOf_Z hp hp2 hZ Q (not_isCyclic_of_three_le_pRank hp h3) hQY
     hΓ2 hY
@@ -132,7 +135,7 @@ theorem three_Z (hI291 : KDL64I291) (hI246 : KDL64I246) (hRank : KDL64TypeRank)
       exact P.not_dvd_index
     have hLY : L ≤ Y :=
       hI246 p hp hp5 Z hcat hZ L hL htype ((Q : Subgroup Z) ⊓ L) inf_le_right
-        (Q.isPGroup'.to_le inf_le_left) hidx hrk Y
+        (Q.isPGroup.to_le inf_le_left) hidx hrk Y
         (fun S hS hS2 => hΓ2 S (hS.trans inf_le_left) hS2)
         (fun E hE hEel hEc S hSE hS1 => hΓ1 E (hE.trans inf_le_left) hEel hEc S hSE hS1)
     exact hY (top_le_of_normal hp Q hLY (hrk.trans' (by norm_num)) hΓ2)

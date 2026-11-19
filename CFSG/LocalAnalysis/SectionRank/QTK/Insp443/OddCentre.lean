@@ -52,7 +52,7 @@ theorem center_eq_bot_of_psl4 {K : Type} [Group K] [Finite K] (hK : CFSG.IsQuasi
     (hodd : Odd (Nat.card (Subgroup.center K))) {F : Type} [Field F] [Finite F]
     (hF : 3 ≤ Nat.card F) (e : K ⧸ Subgroup.center K ≃* CFSG.Open.StatedProj (CFSG.Open.StatedSL 4 F)) :
     Subgroup.center K = ⊥ := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hM : Nat.card (CFSG.Open.griessHopfMultiplier
       (CFSG.Open.StatedProj (CFSG.Open.StatedSL 4 F))) ∣ 4 := by
     obtain ⟨eM⟩ := (SLClosed.psl_hopfMultiplier_of_three_le (k := F) (n := 4) (by norm_num)
@@ -91,8 +91,8 @@ theorem center_eq_bot_of_psu4
     Subgroup.center K = ⊥ := by
   obtain ⟨p, f, hp, -, hpf⟩ := (isPrimePow_nat_iff q).mp hqp
   subst hpf
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP F p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := p) (f := f) hF
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP F p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := p) (f := f) hF
   exact center_eq_bot_of_psu4_of_prime_pow hK hodd hF hq e
 
 end CFSG.SectionRank.QTK.Insp443

@@ -15,6 +15,7 @@ variable {H : Type} [Group H] [Finite H]
 
 abbrev zjAct (Y : Subgroup H) [Y.Normal] : H →* MulAut ↥Y := MulAut.conjNormal
 
+omit [Finite H] in
 theorem zjAct_ker (Y : Subgroup H) [Y.Normal] : (zjAct Y).ker = centralizer (Y : Set H) := by
   ext g
   rw [MonoidHom.mem_ker, Subgroup.mem_centralizer_iff]
@@ -34,6 +35,7 @@ theorem zjAct_ker (Y : Subgroup H) [Y.Normal] : (zjAct Y).ker = centralizer (Y :
     rw [← hy]
     group
 
+omit [Finite H] in
 theorem card_range_mul_card_E (Y : Subgroup H) [Y.Normal] :
     Nat.card (zjAct Y).range * Nat.card (centralizer (Y : Set H)) = Nat.card H := by
   rw [← zjAct_ker Y, mul_comm]

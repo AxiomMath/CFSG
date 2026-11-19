@@ -14,6 +14,7 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
   (hK : Nat.card K = (3 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (3 ^ f))
 include hf hK hσ
 
+omit [CharP K 3] in
 theorem exists_layer_cob {k : ℕ} (hk : k < (maxHeight TwistTag.D4.tag).toNat)
     (a : LayerCoord (K := K) k)
     (hN : a * layerTau σ k a * layerTau σ k (layerTau σ k a) = 1)

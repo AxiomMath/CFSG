@@ -121,7 +121,7 @@ variable {Γ : Type*} [Group Γ]
 
 theorem isElemAbelian2_autOn_of_le {S W W' : Subgroup Γ} (hW : IsElemAbelian 2 W)
     (hW' : IsElemAbelian 2 W') (hWW' : W ≤ W')
-    (hSW : S ≤ Subgroup.normalizer (W : Set Γ)) (hSW' : S ≤ Subgroup.normalizer (W' : Set Γ))
+    (_hSW : S ≤ Subgroup.normalizer (W : Set Γ)) (hSW' : S ≤ Subgroup.normalizer (W' : Set Γ))
     (hA : @IsElemAbelian2 ↥W' (commGroupOfElemAbelian hW') (autOn S W')) :
     @IsElemAbelian2 ↥W (commGroupOfElemAbelian hW) (autOn S W) := by
   let _ : CommGroup ↥W := commGroupOfElemAbelian hW
@@ -182,7 +182,7 @@ theorem commutator_commutator_mem_of_isQuadratic {K E B : Subgroup G}
   have hfix := hq (Subgroup.subset_closure ⟨conjAct W ⟨_, hn₁⟩, hA₁, ⟨_, hw⟩, rfl⟩)
     (conjAct W ⟨_, hn₂⟩) hA₂
   have h3 := congrArg (fun y : ↥W => (y : SecQuot (Subgroup.normalizer (K : Set G)) K)) hfix
-  simp only [map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv, conjAct_apply_coe'] at h3
+  simp only [map_mul, Subgroup.coe_mul, Subgroup.coe_inv, conjAct_apply_coe'] at h3
   have h3' : secMk (Subgroup.normalizer (K : Set G)) K a₂ *
         (secMk (Subgroup.normalizer (K : Set G)) K a₁ * secMk (Subgroup.normalizer (K : Set G)) K x *
           (secMk (Subgroup.normalizer (K : Set G)) K a₁)⁻¹ *
@@ -273,7 +273,7 @@ theorem F918_3_general (h : HypF918 T V L V₁ Vp H K) {I B X : Subgroup G}
     (HypF918.relIndex_centralizerMod_le V₁ (conjClosure Vp H) (conjClosure I X) B hIX_U).trans hrU
   have hquadU : ∀ b₁ ∈ B, ∀ b₂ ∈ B, ∀ e ∈ conjClosure Vp H,
       b₂ * (b₁ * e * b₁⁻¹ * e⁻¹) * b₂⁻¹ * (b₁ * e * b₁⁻¹ * e⁻¹)⁻¹ ∈ V₁ := by
-    letI : CommGroup ↥(secImg (Subgroup.normalizer (V₁ : Set G)) V₁ (conjClosure Vp H)) :=
+    let : CommGroup ↥(secImg (Subgroup.normalizer (V₁ : Set G)) V₁ (conjClosure Vp H)) :=
       commGroupOfElemAbelian hE
     exact commutator_commutator_mem_of_isQuadratic (K := V₁) (E := conjClosure Vp H)
       (B := B) hUN hBN hBU hE ((isQuadratic_iff_commSeries_two _).mpr hQ.2)

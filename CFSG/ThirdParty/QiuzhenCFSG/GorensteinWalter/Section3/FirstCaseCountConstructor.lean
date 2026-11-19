@@ -34,7 +34,7 @@ private abbrev localPairFiber {Ω α : Type u} (π : α → Ω) (ω : Ω) :=
 private theorem sum_local_coset_pair_counts
     {Ω α : Type u} [Finite Ω] [Finite α]
     (π : α → Ω) (ω0 : Ω)
-    (hbound : ∀ ω : {ω : Ω // ω ≠ ω0},
+    (_hbound : ∀ ω : {ω : Ω // ω ≠ ω0},
       Nat.card {a : α // π a = ω.1} ≤ 4)
     (hlocal : ∀ ω : {ω : Ω // ω ≠ ω0},
       Nat.card (localPairFiber π ω.1) = if Nat.card {a : α // π a = ω.1} = 2 then 2

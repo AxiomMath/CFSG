@@ -26,7 +26,7 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 
 @[expose] def Gap19_3At (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L K : Subgroup G)
-    (h : Ctx19_1 D V₀ V p L K) : Prop :=
+    (_h : Ctx19_1 D V₀ V p L K) : Prop :=
   3 < mSub V₀ →
     ∀ J : Subgroup G, (J = K ∨ (J = L ∧ IsL2 (Bar2 L) 2 ∧ ⁅K, V₀⁆ = ⊥)) → ⁅J, V₀⁆ ≠ ⊥ →
       ∃ Y : Subgroup G, Y ≤ D.M ∧ Nat.card Y = 5 ∧ (Y : Set G) * D.T = D.T * Y ∧
@@ -116,7 +116,7 @@ theorem le_centralizer_V0_of_isU3 (D : Data G) (h61 : UC6.R6_1 D) (h127 : R127 D
     CFSG.LocalAnalysis.RankThreeUC.S15.not_isCyclic_of_isElemAbelian Nat.prime_five
       (by norm_num) hEel hEcard
   have : IsMulCommutative ↥E := hEel.1
-  have : ((E ⊓ centralizer (V₀ : Set G)).subgroupOf E).Normal := Subgroup.normal_of_comm _
+  have : ((E ⊓ centralizer (V₀ : Set G)).subgroupOf E).Normal := normal_of_isMulCommutative _
   have hcyc := ElevenFourteen.eleven_four_one_of_sig D h61 (Hyp125.hyp11 h127 h.hyp.hyp125)
     (h.p_eq ▸ h.hyp.hp) (hEL.trans hLM) hEp
   have hEC : E ⊓ centralizer (V₀ : Set G) ≠ ⊥ := by

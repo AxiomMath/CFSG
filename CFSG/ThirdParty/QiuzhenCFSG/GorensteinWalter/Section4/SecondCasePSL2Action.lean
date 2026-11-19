@@ -63,7 +63,7 @@ private theorem central_automorphism_eq_one_local
           rw [(Subgroup.mem_center_iff.mp hz ⁅x, y⁆).symm]
           simp
         rw [hxy]
-        simpa [mul_assoc] using hzc
+        simp [mul_assoc]
       rw [hleft za (β a) (zb * β b) hza_center]
       rw [show zb * β b = β b * zb by
         exact (Subgroup.mem_center_iff.mp hzb_center (β b)).symm]
@@ -192,8 +192,7 @@ public theorem secondCase_psl2_action_data
     apply semie.injective
     simp only [fmap, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
       MulEquiv.apply_symm_apply]
-    simp only [semie, pGammaL2EquivMulAutPSL2,
-      MulEquiv.ofBijective_apply]
+    simp only [semie, pGammaL2EquivMulAutPSL2]
     change autPSL m = pGammaL2ToMulAutPSL2 K hK' hcard
       (SemidirectProduct.inl (Matrix.ProjectiveSpecialLinearGroup.toPGL y))
     rw [pGammaL2ToMulAutPSL2_inl]
@@ -209,7 +208,7 @@ public theorem secondCase_psl2_action_data
   have hqMsurj : Function.Surjective qM := by
     exact QuotientGroup.mk'_surjective O
   have hqMker : qM.ker = O := by
-    simpa [qM] using (QuotientGroup.ker_mk' O)
+    simp [qM]
   have hqMkerodd : Odd (Nat.card qM.ker) := by
     rw [hqMker]
     exact hOodd
@@ -233,7 +232,7 @@ public theorem secondCase_psl2_action_data
     exact Group.IsPerfect.ofSurjective
       (f := eE0.symm.toMonoidHom) eE0.symm.surjective
   have hE0sn : E0.IsSubnormal := d.E_component.2.1
-  have hOsolv : IsSolvable O := odd_order_theorem O hOodd
+  have hOsolv : Group.IsSolvable O := odd_order_theorem O hOodd
   let Ebar : Subgroup (M0 ⧸ O) := E0.map qM
   have hEbarData := perfect_subnormal_image_le_normal_odd_index
     E0 hE0perf hE0ne hE0sn O hOsolv
@@ -348,7 +347,6 @@ public theorem secondCase_psl2_action_data
         _ = 1 := by simp
     have hqActionone : qAction m = 1 := by
       apply (MulAut.congr e.some).injective
-      change MulAut.congr e.some (qAction m) = MulAut.congr e.some 1
       have hcongr_one : MulAut.congr e.some (1 : MulAut (d.E ⧸
           Subgroup.center d.E)) = 1 := by
         apply MulEquiv.ext
@@ -395,7 +393,7 @@ public theorem secondCase_psl2_action_data
       have hconj' : m * (z : M0) * m⁻¹ = (z : M0) := by
         calc
           m * (z : M0) * m⁻¹ = ((conj0 m) z : M0) := by
-            simpa [conj0] using hconj.symm
+            simp [conj0]
           _ = (z : M0) := congrArg Subtype.val hz0
       calc
         m * (z : M0) = (m * (z : M0) * m⁻¹) * m := by group

@@ -42,7 +42,7 @@ theorem dihedral_conj_pow {G : Type*} [Group G] {t u : G} (ht : t * t = 1) (hu :
     _ = (t * u) ^ m * t * ((t * u) ^ m)⁻¹ := by rw [h2]
 
 theorem exists_conj_of_mk_conj {K : Type} [Group K] [Finite K] {z α : K} (hz : z * z = 1)
-    (hα : α * α = 1) (hα1 : α ≠ 1) (k : K)
+    (hα : α * α = 1) (_hα1 : α ≠ 1) (k : K)
     (h : (QuotientGroup.mk (k * z * k⁻¹) : K ⧸ fusionOddCore K) = QuotientGroup.mk α) :
     ∃ g : K, g * z * g⁻¹ = α := by
   have hy : k * z * k⁻¹ * (k * z * k⁻¹) = 1 := by

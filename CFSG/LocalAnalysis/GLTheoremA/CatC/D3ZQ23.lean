@@ -30,8 +30,8 @@ theorem parabolicDegree_permLattice {J : Set (Fin Tag.D4.rank)} {ε : ℕ}
     rw [Equiv.apply_symm_apply] at this
     exact this.symm
   by_cases h : i ∈ J
-  · rw [if_pos h, if_pos (hi.1 h)]
-  · rw [if_neg h, if_neg (fun h' => h (hi.2 h'))]
+  · rw [ite_eq_left h, ite_eq_left (hi.1 h)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (hi.2 h'))]
     rfl
 
 theorem permLattice_degSet {J : Set (Fin Tag.D4.rank)} {ε : ℕ}

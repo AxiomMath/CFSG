@@ -108,7 +108,7 @@ private theorem card_center_sylow_eq
     · exact card_center_sylow_quot_g2 hr hr2 (ne_three_of_lieModel_G2 hr hZ hrank h)
         (LieModel.chevalleyExceptionalModel h (by decide)).2 T
     · exact card_center_sylow_quot_psp hr2 (LieModel.statedClassicalModel h (by decide)) T
-  exact (CFSG.GroupTheory.card_center_map_mk_of_isPGroup hZ R.isPGroup').symm.trans hT
+  exact (CFSG.GroupTheory.card_center_map_mk_of_isPGroup hZ R.isPGroup).symm.trans hT
 
 private theorem not_dvd_card_outer_psp {X : Type} [Group X] {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (h : CFSG.Open.StatedClassicalModel X .PSp 2 r 1) :
@@ -176,7 +176,7 @@ theorem k_G176ExcRankThree_holds :
     fun R => card_center_sylow_eq hr hr2 hZ hrank hmodel R,
     not_dvd_card_outer hr hr2 hX hZ hrank hmodel⟩
   have hR := (CFSG.SectionRank.pRank_sylow R).1
-  exact CFSG.GroupTheory.exists_isElemAbelian_card_sq_of_mem_of_orderOf R.isPGroup' (by omega)
+  exact CFSG.GroupTheory.exists_isElemAbelian_card_sq_of_mem_of_orderOf R.isPGroup (by omega)
     hy hyord
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719

@@ -38,7 +38,7 @@ theorem PA5.s7_cent_cent_t_mem_V' (hb : PAB G L t E W z) (a : PA5 L t E z) {g : 
   exact S5.cent_cent_t_mem_V hb a.toPA0 hgJ hgt
 
 theorem PA5.s7_mem_F₀_of_sig (hb : PAB G L t E W z) (a : PA5 L t E z) (hd : a.dcase = DCase.d8)
-    {w : G} (hw2 : w * w = 1) (hwb : w * a.ub = a.ub * w)
+    {w : G} (hw2 : w * w = 1) (_hwb : w * a.ub = a.ub * w)
     (hwJ : w ∈ centralizer ((derivedIn a.Abar : Subgroup G) : Set G))
     (hwt : t * w * t⁻¹ = a.ub * w) : w ∈ a.F₀ := by
   have htt := hb.t_mul_t
@@ -136,7 +136,7 @@ theorem PA5.s7_Abar_le_N₁ (hb : PAB G L t E W z) (a : PA5 L t E z) : a.Abar �
     intro y hy f hf
     have hyub : y * a.ub = a.ub * y := S5.ub_comm_Abar hb a.toPA0 a.ub_cases hy
     rcases (a.s7_mem_F₀_iff hb f).1 hf with h | h | ⟨hd, h | h⟩
-    · rw [h]; simpa using one_mem _
+    · rw [h]; simp
     · rw [h]
       have : y * a.ub * y⁻¹ = a.ub := by rw [hyub]; group
       rw [this]; exact a.s7_ub_mem_F₀ hb

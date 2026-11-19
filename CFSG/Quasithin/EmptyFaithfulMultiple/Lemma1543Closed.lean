@@ -236,7 +236,7 @@ theorem mem_pCore_of_pow_eq_one (hsolv : Group.IsSolvable Q) {p : ℕ} [hp : Fac
     obtain ⟨S', hS'⟩ := hgp.exists_le_sylow
     have hS'eq : S' = Syl := Subsingleton.elim _ _
     exact ⟨⟨g, hgW⟩, hS'eq ▸ hS' (Subgroup.mem_zpowers _), rfl⟩
-  have hWp' : IsPGroup p W := (Syl.isPGroup'.map W.subtype).to_le hWle
+  have hWp' : IsPGroup p W := (Syl.isPGroup.map W.subtype).to_le hWle
   exact CFSG.LieType.BorelTits.le_pCore p hWn hWp' hxW
 
 end Abstract

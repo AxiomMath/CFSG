@@ -147,8 +147,9 @@ theorem exists_of_sweep (k : G) (C : Finset G) (hC : ∀ a ∈ C, ∀ b ∈ C, a
   obtain ⟨c, hc, h⟩ := mem_image.mp hy
   exact ⟨j, hj, c, hc, h.symm⟩
 
+omit [DecidableEq G] [Fintype G] in
 theorem overgroup_of_sweep (k : G) (C : Finset G) (hk : ∀ c ∈ C, c * k = k * c)
-    (hcent : ∀ x, x * k = k * x → x ∈ C) {ι : Type*} (J : Finset ι) (d : ι → G)
+    (_hcent : ∀ x, x * k = k * x → x ∈ C) {ι : Type*} (J : Finset ι) (d : ι → G)
     (hcov : ∀ g : G, ∃ j ∈ J, ∃ c ∈ C, g * k * g⁻¹ = c * (d j * k * (d j)⁻¹) * c⁻¹)
     (hgen : ∀ j ∈ J, d j * k * (d j)⁻¹ = k ∨ d j * k * (d j)⁻¹ = k * k ∨
       ∀ H : Subgroup G, (∀ c ∈ C, c ∈ H) → d j ∈ H → H = ⊤)

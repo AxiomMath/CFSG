@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -58,7 +58,7 @@ theorem sylow_isMulCommutative [Finite K] (Z : Subgroup K) [Z.Normal]
   let f : (P : Subgroup K) →* K ⧸ Z := (QuotientGroup.mk' Z).comp (P : Subgroup K).subtype
   have hrange : Nat.card f.range ∣ p := by
     obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp
-      (P.isPGroup'.of_surjective f.rangeRestrict f.rangeRestrict_surjective)
+      (P.isPGroup.of_surjective f.rangeRestrict f.rangeRestrict_surjective)
     have hdvd : Nat.card f.range ∣ 60 := hcard ▸ Subgroup.card_subgroup_dvd_card f.range
     rw [hj] at hdvd ⊢
     rcases Nat.lt_or_ge j 2 with hj2 | hj2

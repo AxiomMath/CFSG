@@ -100,11 +100,10 @@ private lemma normalizerAlpha_conj {X : Type*} [Group X] (J : Subgroup X) (c : �
   rw [← map_mul, ← map_inv, ← map_mul]
   apply congrArg (QuotientGroup.mk' (Subgroup.center ↥J))
   apply Subtype.ext
-  simpa using Subgroup.normalizerMonoidHom_apply_apply_coe J
-    ⟨(c : X), Subgroup.le_normalizer c.2⟩ a
+  simp
 
 theorem lemmaK {X : Type*} [Group X] [Finite X] {J : Subgroup X}
-    (hJ : IsQuasisimple ↥J) (hZ : Odd (Nat.card (Subgroup.center ↥J)))
+    (_hJ : IsQuasisimple ↥J) (hZ : Odd (Nat.card (Subgroup.center ↥J)))
     {Vb : Subgroup (↥J ⧸ Subgroup.center ↥J)} {rb : ↥J ⧸ Subgroup.center ↥J}
     (hrb : rb ∈ Vb) (hrb1 : rb ≠ 1) (hVb : IsElemAbelian 2 Vb) (hVb4 : Nat.card Vb = 4)
     (hconj : ∀ v ∈ Vb, v ≠ 1 → ∃ j : ↥J ⧸ Subgroup.center ↥J, v = j * rb * j⁻¹)

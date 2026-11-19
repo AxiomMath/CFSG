@@ -69,7 +69,7 @@ theorem stmtReeBlockData_of (hRB : StmtReeBorel) : StmtReeBlockData := by
   have hXb : (X.subgroupOf H).map π = Zb := by
     rw [hXdef, map_inf_centralizer_eq hUH hUp, hUb]
   have hNHM : GLBPrimeCore 3 H ≤ H ⊓ M := h.ext.primeCore_le_inf'.1
-  have hZbp : IsPGroup 3 Zb := Rbar.isPGroup'.to_le (inf_le_left.trans inf_le_left)
+  have hZbp : IsPGroup 3 Zb := Rbar.isPGroup.to_le (inf_le_left.trans inf_le_left)
   have hn0 : d.1.fieldExponent ≠ 0 := by omega
   have hZbcard := (isElemAbelian_range_galoisField hn0 ψ hψ).2
   rw [hψZ] at hZbcard

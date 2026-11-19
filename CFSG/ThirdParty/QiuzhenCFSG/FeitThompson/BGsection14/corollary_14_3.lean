@@ -48,7 +48,7 @@ public theorem CFSG.corollary_14_3
             p ∈ section10SigmaPrimes L → ∀ a : G,
               p ∈ section10SigmaPrimes (L.conjBy a) := by
         intro L p hpσ a
-        haveI : Fact p.val.Prime := ⟨p.property⟩
+        have : Fact p.val.Prime := ⟨p.property⟩
         rcases hpσ with ⟨hpL, P, hN⟩
         let PG : Subgroup G := section10AmbientSylowSubgroup L P
         let PGa : Subgroup G := PG.conjBy a
@@ -124,13 +124,13 @@ public theorem CFSG.corollary_14_3
       let q : Nat.Primes := ⟨p, hpprime⟩
       have hqSupp : q ∈ section14ElementPrimeSupport x' := hpdiv
       have hqτ2 : q ∈ section12Tau2Primes M := hτ2 hqSupp
-      letI : MulDistribMulAction Unit M := {
+      let : MulDistribMulAction Unit M := {
         smul := fun _ y => y
         one_smul := fun _ => rfl
         mul_smul := fun _ _ _ => rfl
         smul_mul := fun _ _ _ => rfl
         smul_one := fun _ => rfl }
-      have hsolvM : IsSolvable M :=
+      have hsolvM : Group.IsSolvable M :=
         IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.mpr hM.1)
       have hcop : Nat.Coprime (Nat.card Unit) (Nat.card M) := by simp
       obtain ⟨Esub, hEHall, _hEInv⟩ :=
@@ -155,7 +155,7 @@ public theorem CFSG.corollary_14_3
       have hNormA_proper : Subgroup.normalizer (A : Set G) ≠ ⊤ := by
         intro hnorm_top
         have hA_normal : A.Normal := Subgroup.normalizer_eq_top_iff.mp hnorm_top
-        letI : IsSimpleGroup G := IsMinCE.simple
+        let : IsSimpleGroup G := IsMinCE.simple
         rcases (haveI := hA_normal; IsSimpleGroup.eq_bot_or_eq_top_of_normal A) with hAbot | hAtop
         · exact (section12_rankTwo_ne_bot hA) hAbot
         · have htop_le_M : (⊤ : Subgroup G) ≤ M := by
@@ -213,13 +213,13 @@ public theorem CFSG.corollary_14_3
           exact ⟨q, hqSupp, hsupp_sigma_star hqSupp⟩
       simp [section14SigmaLength, hSigmaSupport_eq]
     · classical
-      letI : MulDistribMulAction Unit M := {
+      let : MulDistribMulAction Unit M := {
         smul := fun _ y => y
         one_smul := fun _ => rfl
         mul_smul := fun _ _ _ => rfl
         smul_mul := fun _ _ _ => rfl
         smul_one := fun _ => rfl }
-      have hsolvM : IsSolvable M :=
+      have hsolvM : Group.IsSolvable M :=
         IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.mpr hM.1)
       have hcop : Nat.Coprime (Nat.card Unit) (Nat.card M) := by simp
       obtain ⟨Esub, hEHall, _hEInv⟩ :=
@@ -280,9 +280,9 @@ public theorem CFSG.corollary_14_3
     have hpκ : p ∈ section14KappaPrimes M := by
       exact ⟨hpτ13, ⟨X, hXprimeM, hCXne⟩⟩
     have hMP : M ∈ section14MFamilyP G := ⟨hM, ⟨p, hpκ⟩⟩
-    have hsolvM : IsSolvable M :=
+    have hsolvM : Group.IsSolvable M :=
       IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.mpr hM.1)
-    letI : MulDistribMulAction Unit M := {
+    let : MulDistribMulAction Unit M := {
       smul := fun _ y => y
       one_smul := fun _ => rfl
       mul_smul := fun _ _ _ => rfl
@@ -352,7 +352,7 @@ public theorem CFSG.corollary_14_3
       simpa [section14Z, sup_comm,
         natCard_subgroupOf_eq K (section14KStar M K ⊔ K) le_sup_right,
         natCard_subgroupOf_eq (section14KStar M K) (section14KStar M K ⊔ K) le_sup_left,
-        Nat.mul_comm] using hcompZ.card_mul
+        Nat.mul_comm] using hcompZ.card_mul_card
     have hsuppκ : section14ElementPrimeSupport x' ⊆ section14KappaPrimes M := by
       intro r hrSupp
       have hrnotσ : r ∉ section10SigmaPrimes M := hx'sigma' hrSupp

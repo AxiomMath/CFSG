@@ -132,7 +132,7 @@ theorem bad1517_aux_field {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 1 ≤ 
       · calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hge
           _ = Nat.card K := hK.symm
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset K)) (n := 4)
       (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact h4)
     exact ⟨s, hs⟩
@@ -148,13 +148,13 @@ theorem bad1517_aux_typeA {S : Type} [Group S] {r : ℕ} {Q : TauCeti.PrimePower
     (e : S ≃* (TauCeti.CFSGIndex.lie ⟨.A r Q, hv⟩).Group) :
     IsSimpleGroup S ∧ ∃ a b : S, a * b ≠ b * a := by
   have hmod := CFSG.RankThree.PartOne.N143.statedClassicalModel_of_isoLie_A hv e
-  haveI hsS := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmod
+  have hsS := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmod
   obtain ⟨-, K, hF, hfin, -, ⟨eK⟩⟩ := hmod
   let f : S ≃* Matrix.ProjectiveSpecialLinearGroup (Fin (r + 1)) K :=
     eK.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj (r + 1) K).symm
-  haveI := CFSG.LinearGroups.linear_projective_perfect (K := K) (n := r + 1) (by omega)
+  have := CFSG.LinearGroups.linear_projective_perfect (K := K) (n := r + 1) (by omega)
     (Or.inl (by omega))
-  haveI : Group.IsPerfect S :=
+  have : Group.IsPerfect S :=
     Group.IsPerfect.ofSurjective (f := f.symm.toMonoidHom) f.symm.surjective
   exact ⟨hsS, bad1517_aux_nonabelian_of_perfect inferInstance⟩
 
@@ -167,24 +167,24 @@ theorem bad1517_aux_simple_nonabelian {p : ℕ} {S : Type} [Group S] (h : Bad151
       (MulEquiv.refl _)
     have hsL := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmod
     obtain ⟨-, K, hF, hfin, hK, ⟨eK⟩⟩ := hmod
-    haveI := hsL
-    haveI : IsSimpleGroup (StatedProj (StatedSp 3 K)) := eK.symm.isSimpleGroup
+    have := hsL
+    have : IsSimpleGroup (StatedProj (StatedSp 3 K)) := eK.symm.isSimpleGroup
     have hcond : (∃ s : Finset K, s.card = 4) ∨ (Nat.card K = 3 ∧ 2 ≤ 3) ∨
         (Nat.card K = 2 ∧ 3 ≤ 3) := by
       rcases bad1517_aux_field (K := K) Q.exponent_pos (by rw [hK, hQ]) with h4 | h2
       · exact Or.inl h4
       · exact Or.inr (Or.inr ⟨h2, le_rfl⟩)
-    haveI := CFSG.ClassicalGroups.Symplectic.isPerfect_statedSp 3 K hcond
+    have := CFSG.ClassicalGroups.Symplectic.isPerfect_statedSp 3 K hcond
     exact bad1517_aux_transfer (e.trans eK)
       (CFSG.LieType.Universal.Spin.exists_mul_ne_mul_statedProj (H := StatedSp 3 K))
   · have hmod := CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeTwistedD_even 4 Q hv hQ
       (MulEquiv.refl _)
     have hsL := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hmod
     obtain ⟨-, K, hF, hfin, -, b, c, hirr, ⟨eK⟩⟩ := hmod
-    haveI := hsL
-    haveI : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus 4 K b c))) :=
+    have := hsL
+    have : IsSimpleGroup (StatedProj (StatedOmega (StatedQuadMinus 4 K b c))) :=
       eK.symm.isSimpleGroup
-    haveI := CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadMinus (K := K) (b := b) (c := c)
+    have := CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadMinus (K := K) (b := b) (c := c)
       (n := 4) le_rfl hirr
     exact bad1517_aux_transfer (e.trans eK)
       (CFSG.LieType.Universal.Spin.exists_mul_ne_mul_statedProj
@@ -227,7 +227,7 @@ theorem lift_centre_trivial_of_bad (hKSM : KSMOdd) {T L : Subgroup X} {Ls : Subg
     Subgroup.center ↥(barO2 L) = ⊥ ∧ Nonempty (↥(barO2 L) ≃* ↥Ls) := by
   obtain ⟨d, hd, ⟨e⟩⟩ := bad1517_iff.1 hbad
   obtain ⟨hsimple, hnab⟩ := bad1517_aux_simple_nonabelian hbad
-  haveI := hsimple
+  have := hsimple
   have hZLs : Subgroup.center ↥Ls = ⊥ := bad1517_aux_center_eq_bot hnab
   obtain ⟨f, hf, hker⟩ := barO2_centralExt hX hLs hL
   have hK : CFSG.Open.IsQuasisimple ↥(barO2 L) := hL.1.component.2.2
@@ -259,7 +259,7 @@ theorem pRank_lift_three_of_bad (hRank : LieOddRankChev) {T L : Subgroup X}
   obtain ⟨d, hd, ⟨e⟩⟩ := bad1517_iff.1 hbad
   obtain ⟨hcl, hrk2, hlist⟩ := pRank_lift_three_of_bad_aux1 hd
   obtain ⟨hsimple, hnab⟩ := bad1517_aux_simple_nonabelian hbad
-  haveI := hsimple
+  have := hsimple
   have hZLs : Subgroup.center ↥Ls = ⊥ := bad1517_aux_center_eq_bot hnab
   obtain ⟨⟨eQ⟩, -, -⟩ := centre_of_lift hX hLs hL
   have hK : CFSG.Open.IsQuasisimple ↥(barO2 L) := hL.1.component.2.2
@@ -328,7 +328,7 @@ theorem bad_pRank_or_out_aux3 (hRank : LieOddRankChev) {S : Type} [Group S] [Fin
     (hd : d.1 = .B 3 Q ∨ d.1 = .twistedD 4 Q) (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) :
     CFSG.Open.pRank p (⊤ : Subgroup S) = 3 := by
   obtain ⟨hsimple, hnab⟩ := bad1517_aux_simple_nonabelian hbad
-  haveI := hsimple
+  have := hsimple
   have hq := bad1517_aux_isQuasisimple hnab
   have hZ := bad1517_aux_center_eq_bot hnab
   have hp2 : p ≠ 2 := bad_pRank_or_out_aux1 hQ hdvd
@@ -348,7 +348,7 @@ theorem bad_pRank_or_out_aux3 (hRank : LieOddRankChev) {S : Type} [Group S] [Fin
   · rw [hd]
     show rkOmMinus 4 Q.card p = 3
     unfold rkOmMinus
-    rw [hS1, if_pos (hP2.trans (by norm_num))]
+    rw [hS1, ite_eq_left (hP2.trans (by norm_num))]
 
 theorem bad_pRank_or_out (hRank : LieOddRankChev) (hOut : KOutLin) {S : Type} [Group S] [Finite S]
     {p : ℕ} (hp : p.Prime) (hbad : Bad1517 p S) :

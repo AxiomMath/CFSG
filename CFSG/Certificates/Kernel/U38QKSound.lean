@@ -76,7 +76,7 @@ theorem filter_of_selL {q : Nat → Bool} : ∀ {L S : List Nat}, selL q L S = t
       | nil => exact absurd (h' : false = true) Bool.false_ne_true
       | cons y ys =>
         obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 h'
-        rw [if_pos rfl, Nat.eq_of_beq_eq_true h1, filter_of_selL h2]
+        rw [ite_eq_left rfl, Nat.eq_of_beq_eq_true h1, filter_of_selL h2]
 
 end CFSG.KC.U38QK
 

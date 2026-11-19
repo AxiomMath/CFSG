@@ -85,7 +85,7 @@ theorem ord3_exists_T4_mem_K4 : ∃ y ∈ ord3K4, orderOf y = 3 ∧ IsConj ord3T
 theorem card_fixedPoints_of_orderOf_eq_three {α : Type*} [Finite α] (hα : Nat.card α = 5)
     {π : Equiv.Perm α} (hπ : orderOf π = 3) : Nat.card (Function.fixedPoints π) = 2 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 (Subgroup.zpowers π) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hπ, pow_one])
   have hfix : MulAction.fixedPoints (Subgroup.zpowers π) α = Function.fixedPoints π := by
@@ -170,8 +170,8 @@ theorem ord3_K4_equiv : Nonempty (ord3K4 ≃* Matrix.SpecialLinearGroup (Fin 2) 
 
 theorem ord3_exists_T2_mem_K5 : ∃ y ∈ ord3K5, orderOf y = 3 ∧ IsConj ord3T2 y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F4 := Fintype.ofFinite F4
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F4 := Fintype.ofFinite F4
   obtain ⟨A, hA⟩ := exists_prime_orderOf_dvd_card' (G := Matrix.SpecialLinearGroup (Fin 2) F4) 3
     (by rw [ord3_card_SL2_F4]; norm_num)
   set y := ord3P1Hom A with hy

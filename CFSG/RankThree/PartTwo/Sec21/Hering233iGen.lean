@@ -10,14 +10,14 @@ open CFSG CFSG.Open
 
 theorem le_iSup_inf_centralizer_of_cover {G : Type*} [Group G] [Finite G] {D A B : Subgroup G}
     (hAN : A ≤ Subgroup.normalizer (D : Set G)) (hAe : IsElemAbelian 3 A)
-    (hA27 : Nat.card A = 27) (hBA : B ≤ A) (hB3 : Nat.card B = 3)
+    (hA27 : Nat.card A = 27) (_hBA : B ≤ A) (hB3 : Nat.card B = 3)
     (hBD : ∀ b ∈ B, ∀ d ∈ D, b * d = d * b) (hD : ¬ 3 ∣ Nat.card D) {ι : Type*} (r : ι → G)
     (hr : ∀ h ∈ A, h ∉ B → ∃ i, r i ∈ B ⊔ Subgroup.zpowers h) :
     D ≤ ⨆ i, D ⊓ Subgroup.centralizer ({r i} : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsMulCommutative A := hAe.1
-  letI : CommGroup A := IsMulCommutative.instCommGroup
-  letI act : MulDistribMulAction A D :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsMulCommutative A := hAe.1
+  let : CommGroup A := IsMulCommutative.instCommGroup
+  let act : MulDistribMulAction A D :=
     MulDistribMulAction.compHom D (D.normalizerMonoidHom.comp (Subgroup.inclusion hAN))
   have hsmul : ∀ (a : A) (d : D), ((a • d : D) : G) = (a : G) * d * (a : G)⁻¹ := fun a d => rfl
   have hpow : ∀ a : A, a ^ 3 = 1 := fun a => Subtype.ext (by simpa using hAe.2 a a.2)

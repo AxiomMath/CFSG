@@ -53,6 +53,7 @@ theorem sec7_psi_apply_comm [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {K : Ty
   have e2 : ⁅s, x⁆ = (s * x * s⁻¹) * x⁻¹ := rfl
   rw [hψs, e2, M₀.π_mul _ hsxQ _ (Q.inv_mem hxQ), M₀.pi_inv hxQ, ← e1, sub_eq_add_neg]
 
+omit [Finite G] in
 theorem sec7_comm_mem_Q (hc : Ctx M Q Z B) {s x : G} (hsM : s ∈ M) (hxQ : x ∈ Q) :
     ⁅s, x⁆ ∈ Q := by
   have e2 : ⁅s, x⁆ = (s * x * s⁻¹) * x⁻¹ := rfl
@@ -194,7 +195,7 @@ theorem sec7_pair_section [(Q.subgroupOf M).Normal] (h71 : Stroth71Statement)
   exact ⟨hUperp, hRW, hYinv⟩
 
 theorem sec7_section_pre [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : ℕ} {t : G}
-    (hs : Sec7Hyp hc n t) {K : Type} [Field K] [Finite K] {γ : G → K}
+    (_hs : Sec7Hyp hc n t) {K : Type} [Field K] [Finite K] {γ : G → K}
     (M₀ : Tim79.QuadModel Q Z K γ) (ρ : Mbar M Q →* Multiplicative (AddAut M₀.E)) (b : M₀.E)
     (hS : IsTensorSetup hc n M₀ ρ b) (ψ : M₀.E →ₗ[K] M₀.E)
     (hW : ∀ x ∈ Q, x ∈ Wt Q (Vt M (LB M Q B) B Z t) ↔ ψ (M₀.π x) = 0)
@@ -230,7 +231,7 @@ theorem step77OneWildCase_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310
     Step77OneWildCaseStatement := by
   intro G _ _ M Q Z B hc n t hs hno hom Z0 hZ0 g hgM s hs1 hs2 hs3 hVne ⟨w₀, hw₀W, hw₀⟩
   classical
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   have hguM : g * t * g⁻¹ ∈ M := M.mul_mem (M.mul_mem hgM htM) (M.inv_mem hgM)
@@ -247,7 +248,7 @@ theorem step77OneWildCase_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310
   obtain ⟨hc1, hd4, hd⟩ := sec7_pair_card_meet hc M₀ ρ b hS hgM ψs hrs hUcard
   obtain ⟨hf, hr⟩ := sec7_model_form M₀
   have hk1 := sec7_ker_psi_eq_orth hc M₀ ρ b hS ψ hW
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card
   obtain ⟨hUperp, hRW, hYinv⟩ := sec7_pair_section h71 h310chi h52a hA hc hs hno hZ0 M₀ ρ b hS ψ
     hψ hW hgM hsM hs1 hs2 ψs hψs

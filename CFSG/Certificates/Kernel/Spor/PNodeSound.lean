@@ -28,7 +28,7 @@ theorem pathK_succ (PL : Nat → Nat) (f i : Nat) :
   by_cases h : i = 0
   · subst h
     rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hb : Nat.beq i 0 = false := beq_false h
     rw [hb]
 

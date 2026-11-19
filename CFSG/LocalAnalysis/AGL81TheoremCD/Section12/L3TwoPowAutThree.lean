@@ -48,14 +48,14 @@ theorem exists_orderOf_eq_three_psl_three (F : Type) [Field F] :
         Equiv.toPEquiv_apply]
       simp [w]
     have : (0 : F) = 1 := by
-      simpa [g, Matrix.scalar_apply, hP10] using hentry
+      simp [g, Matrix.scalar_apply, hP10] at hentry
     exact zero_ne_one this
   exact ⟨x, orderOf_eq_prime hx3 hx1⟩
 
 theorem exists_orderOf_three_fixed_of_isL3TwoPow {n : ℕ} {X : Type} [Group X] [Finite X]
     (hX : IsL3TwoPow n X) (φ : MulAut X) (hφ : φ ^ 3 = 1) :
     ∃ x : X, orderOf x = 3 ∧ φ x = x := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX' : IsPSLType 3 (GaloisField 2 n) X := hX
   obtain ⟨e⟩ := hX'
   obtain ⟨y, hy⟩ := exists_orderOf_eq_three_psl_three (GaloisField 2 n)

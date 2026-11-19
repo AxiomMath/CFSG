@@ -230,7 +230,7 @@ theorem exists_lift_scalar {C : Type*} [Group C] [Finite C] {p : ℕ} [Fact p.Pr
   obtain ⟨u, huUh, hucN⟩ := exists_mul_mem_normalizer_sylow_of_mem_normalizer A₀ hcN
   set A : Subgroup C := (A₀ : Subgroup Uh).map Uh.subtype with hA
   have hAUh : A ≤ Uh := Subgroup.map_subtype_le _
-  have hAp : IsPGroup p A := A₀.isPGroup'.map _
+  have hAp : IsPGroup p A := A₀.isPGroup.map _
   have hinj : ∀ a ∈ A, ρ a = 1 → a = 1 := by
     intro a ha h1
     obtain ⟨k, hk⟩ := hAp ⟨a, ha⟩

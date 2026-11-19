@@ -57,7 +57,7 @@ theorem isComponentOf_map_centralizer {φ : H →* R} (hφs : Function.Surjectiv
 theorem dvd_card_map [Finite H] {φ : H →* R} (hp : p.Prime)
     (hkerp : ∀ z ∈ φ.ker, z ^ p = 1 → z = 1) {S : Subgroup H} (hdvd : p ∣ Nat.card S) :
     p ∣ Nat.card (S.map φ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := S) p hdvd
   have hxH : orderOf (x : H) = p := by rw [Subgroup.orderOf_coe]; exact hx
   have hxp : (x : H) ^ p = 1 := by rw [← hxH]; exact pow_orderOf_eq_one _

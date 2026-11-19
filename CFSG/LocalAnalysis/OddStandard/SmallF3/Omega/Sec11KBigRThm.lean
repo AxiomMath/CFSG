@@ -25,7 +25,7 @@ theorem s900_witness_of_semidihedral [Finite G] {X P : Subgroup G} {n : ℕ} (hn
       ∃ Sy : Sylow 2 J, (∃ r : ℕ, 3 ≤ r ∧
         Nonempty ((Sy : Subgroup J) ≃* QuaternionGroup (2 ^ (r - 2)))) ∧
       CFSG.Open.classicalInvolutionWitness J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzc : ∀ x ∈ X, x * z = z * x := fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.mp (hXH hx)
   have huniq : ∀ s ∈ oTwoRes X, orderOf s = 2 → s = z :=

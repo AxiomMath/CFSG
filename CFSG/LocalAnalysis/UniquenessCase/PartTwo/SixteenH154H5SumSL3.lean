@@ -99,11 +99,11 @@ private theorem s16h_sec_end_eq_one_or_id_of_natReal
     by_cases hc0 : c = 0
     · exact Or.inl hc0
     · right
-      haveI : Finite Kˣ :=
+      have : Finite Kˣ :=
         Finite.of_injective (fun u : Kˣ => (u : K)) (fun _ _ h => Units.ext h)
       have hunits : Nat.card Kˣ = 1 := by
         simp [Nat.card_units, hK2]
-      haveI : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp hunits.le
+      have : Subsingleton Kˣ := Finite.card_le_one_iff_subsingleton.mp hunits.le
       exact congrArg Units.val (Subsingleton.elim (Units.mk0 c hc0) 1)
   rcases hc01 with hc0 | hc1
   · have hf'1 : f' = 1 := by
@@ -141,8 +141,8 @@ theorem s16h_simpleScalar_binarySL3 [Finite W] {L : Subgroup (MulAut W)} {U Z : 
     (hq : CFSG.Open.IsQuasisimple ↥L) (hs : IsSLn ↥L 3 1) (h : BinaryNaturalSL L U Z 3 1) :
     s16h_SimpleScalar L U Z := by
   obtain ⟨K, hKfield, hKfin, hKcard, hReal⟩ := h
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have hK2 : Nat.card K = 2 := by simpa using hKcard
   have hnat : BinaryNaturalSL L U Z 3 1 := ⟨K, hKfield, hKfin, hKcard, hReal⟩
   obtain ⟨π, hπ⟩ := hReal

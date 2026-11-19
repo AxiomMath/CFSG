@@ -29,7 +29,7 @@ theorem s16h_e3_CycTwoP3M4AA2AA_pCore_structure
       (Subgroup.centralizer (pCoreOf 3 (Mbar D.M V₀ V hV) : Set (MulAut (Vtil V₀ V hV))) ⊓
         Mbar D.M V₀ V hV ≤ pCoreOf 3 (Mbar D.M V₀ V hV)) ∧
       ¬ 3 ∣ (pCoreOf 3 (Mbar D.M V₀ V hV)).relIndex (Mbar D.M V₀ V hV) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hσ3 : D.sig = {3} :=
     (s16h_e3_CycTwoP3M4AA2AAA_sigma_eq_three D S hr3 hσ hV h hc hp hLp hχ hs2 hres hp3 hm hW).1
   obtain ⟨P, hPle, hPn, hPrel, hPgrp, hPabel⟩ :=
@@ -70,7 +70,7 @@ theorem s16h_e3_CycTwoP3M4A_normSylow_selfCent
       Subgroup.centralizer (P : Set (MulAut (Vtil V₀ V hV))) ⊓ Mbar D.M V₀ V hV ≤ P := by
   obtain ⟨helem, hcent, hrel⟩ :=
     s16h_e3_CycTwoP3M4AA2AA_pCore_structure D S hr3 hσ hV h hc hp hLp hχ hs2 hres hp3 hm hW
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ⟨pCoreOf 3 (Mbar D.M V₀ V hV),
     CFSG.LieType.BorelTits.pCoreOf_le 3 _,
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 3 _,

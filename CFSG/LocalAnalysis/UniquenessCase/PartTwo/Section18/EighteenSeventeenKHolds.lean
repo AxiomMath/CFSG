@@ -84,7 +84,7 @@ theorem k_K_SU4_minComm_holds :
   have hne : ∃ x : Fin 4 → F, α x ≠ x := by
     obtain ⟨w, hw⟩ : ∃ w : W, t w ≠ w := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact htne (MulEquiv.ext h)
     refine ⟨e w, ?_⟩
     rw [hαapply]

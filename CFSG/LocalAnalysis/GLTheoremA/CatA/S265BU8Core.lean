@@ -27,8 +27,8 @@ theorem exists_layer_of_fieldHom_u8 {K : Type} [Field K] (h : UnitaryFieldData 2
     ∃ c ∈ E₀, c ≠ 1 ∧ GLAPLayer 3
       (fixSubgroup (primeFormFieldHom h (isPrimeFormGram_idGram (K := K) (n := n)) σ) ⊓
         fixSubgroup c) ≠ ⊥ := by
-  haveI := h.finite
-  haveI : CharP K 2 := h.charP
+  have := h.finite
+  have : CharP K 2 := h.charP
   have hn3 : 3 ≤ n := by omega
   obtain ⟨T₂, hT2, hT, hTU, hTE⟩ :=
     exists_two_lift_of_le_primeFormD h hn3 (by norm_num) hV2 hV hVD hEV

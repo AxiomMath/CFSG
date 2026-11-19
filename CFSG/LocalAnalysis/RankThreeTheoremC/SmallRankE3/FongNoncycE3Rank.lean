@@ -54,8 +54,8 @@ theorem four_le_pRank_three_of_big {K : Type} [Group K] [Finite K]
       rcases hm with hm | ⟨h0, -⟩
       · obtain ⟨-, F, _, _, hF, ⟨eF⟩⟩ := hm
         have hF2 : Nat.card F = 2 ^ q.exponent := by rw [hF, hp2]
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-        haveI : CharP F 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hF2
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : CharP F 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hF2
         rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3) eF]
         exact omegaPlus_four_le_pRank_three_F2 hn4
       · omega
@@ -65,8 +65,8 @@ theorem four_le_pRank_three_of_big {K : Type} [Group K] [Finite K]
       rcases hm with hm | ⟨h0, -⟩
       · obtain ⟨-, F, _, _, hF, b, c, hirr, ⟨eF⟩⟩ := hm
         have hF2 : Nat.card F = 2 ^ q.exponent := by rw [hF, hp2]
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-        haveI : CharP F 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hF2
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : CharP F 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card hF2
         rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3) eF]
         exact omegaMinus_four_le_pRank_three_F2 hn5 b c
       · omega

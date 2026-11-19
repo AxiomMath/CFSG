@@ -37,6 +37,7 @@ def scalarWitness {m : ℕ} (e : CFSG.LieType.Steinberg.normOne θ ≃* Multipli
   hn := hn
   Tsc := (φ.comp (langTorusHom K θ hθ l hl)).range
 
+omit [Finite K] in
 theorem scalarWitness_n {m : ℕ} (e : CFSG.LieType.Steinberg.normOne θ ≃* Multiplicative (ZMod m))
     (A : Subgroup (MulAut L))
     (hn : ∀ i : Fin Tag.E6.rank, MulAut.conj (φ (langWeylHom K θ.toRingHom hθ hl (simple .E6 i))) ∈
@@ -45,12 +46,14 @@ theorem scalarWitness_n {m : ℕ} (e : CFSG.LieType.Steinberg.normOne θ ≃* Mu
       fun i => φ (langWeylHom K θ.toRingHom hθ hl (simple .E6 i)) := by
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem scalarRoot_apply {m : ℕ} (e : CFSG.LieType.Steinberg.normOne θ ≃* Multiplicative (ZMod m))
     (hδ : Function.Injective δ) (i : Fin Tag.E6.rank)
     (b : Fin Tag.E6.rank → CFSG.LieType.Steinberg.normOne θ) :
     scalarRoot θ δ e i (δ b) = e (b i) := by
   rw [scalarRoot, Function.leftInverse_invFun hδ b]
 
+omit [Finite K] [CharP K 2] in
 theorem scalarRoot_mul {m : ℕ} (e : CFSG.LieType.Steinberg.normOne θ ≃* Multiplicative (ZMod m))
     (hδ : Function.Injective δ) (i : Fin Tag.E6.rank) {τ υ : MulAut L}
     (hτ : τ ∈ δ.range) (hυ : υ ∈ δ.range) :
@@ -61,12 +64,14 @@ theorem scalarRoot_mul {m : ℕ} (e : CFSG.LieType.Steinberg.normOne θ ≃* Mul
     scalarRoot_apply θ δ e hδ]
   exact map_mul e _ _
 
+omit [Finite K] [CharP K 2] in
 theorem scalar_torus_comm {τ υ : MulAut L} (hτ : τ ∈ δ.range) (hυ : υ ∈ δ.range) :
     τ * υ = υ * τ := by
   obtain ⟨b, rfl⟩ := hτ
   obtain ⟨c, rfl⟩ := hυ
   rw [← map_mul, ← map_mul, mul_comm]
 
+omit [Finite K] [CharP K 2] in
 theorem scalarRoot_separates {m : ℕ} (e : CFSG.LieType.Steinberg.normOne θ ≃* Multiplicative (ZMod m))
     (hδ : Function.Injective δ) {τ : MulAut L} (hτ : τ ∈ δ.range)
     (h : ∀ i, scalarRoot θ δ e i τ = 1) : τ = 1 := by
@@ -144,7 +149,7 @@ theorem scalar_holdsOne {f m : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 
     (A : Subgroup (MulAut L)) (hA : A ≤ δ.range)
     (hn : ∀ i : Fin Tag.E6.rank, MulAut.conj (φ (langWeylHom K θ.toRingHom hθ hl (simple .E6 i))) ∈
       Subgroup.normalizer (A : Set (MulAut L))) :
-    GGTDHoldsOne (scalarWitness θ hθ l hl φ δ e A hn) CartanMatrix.E₆ := by
+    GGTDHoldsOne (scalarWitness θ hθ l hl φ δ e A hn) (CartanMatrix.E 6) := by
   have hconj := scalar_descent_conj θ hθ l hl φ δ hK hφs hδ
   have hfix := (scalar_descent_formulas θ hθ l hl φ δ hK hδ).1
   refine ⟨fun x hx y hy => scalar_torus_comm θ δ hx hy, hA, ?_,
@@ -161,14 +166,13 @@ theorem scalar_holdsOne {f m : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 
     exact hfix b i (e.symm s)
   · intro i j s
     change scalarRoot θ δ e i (MulAut.conj (φ (langCoroot K θ hθ l hl j (e.symm s)))) =
-      s ^ CartanMatrix.E₆ i j
+      s ^ (CartanMatrix.E 6) i j
     rw [← hconj j (e.symm s)]
     have he := scalarRoot_apply θ δ e hδi i (fun j₁ => e.symm s ^ Tag.E6.cartan j j₁)
     rw [he, map_zpow, e.apply_symm_apply]
     congr 1
-    change Tag.E6.cartan j i = CartanMatrix.E₆ i j
     calc Tag.E6.cartan j i = Tag.E6.cartan i j := cartan_E6_symm j i
-      _ = CartanMatrix.E₆ i j := congrFun (congrFun (cartanE_eq 6) i) j
+      _ = (CartanMatrix.E 6) i j := congrFun (congrFun (cartanE_eq 6) i) j
 
 theorem scalar_holdsTwo {f m : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
     (hδi : Function.Injective δ)
@@ -194,6 +198,7 @@ theorem scalar_holdsTwo {f m : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
   obtain ⟨b, rfl⟩ := hτ
   exact TBE6.reflection_of_coboundary (hfix b i _ ) (hcb i (δ b) ⟨b, rfl⟩)
 
+omit [Finite K] [CharP K 2] in
 theorem scalar_iSup_coroot_range {m : ℕ}
     (e : CFSG.LieType.Steinberg.normOne θ ≃* Multiplicative (ZMod m)) :
     (⨆ i : Fin Tag.E6.rank, (((φ.comp (langCoroot K θ hθ l hl i)).comp e.symm.toMonoidHom)).range) =
@@ -304,6 +309,7 @@ theorem scalar_holdsThree {f m p : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f
   scalar_holdsThree_of_cent θ hθ l hl φ δ hK hδ e A hAD hn
     (fun x hx => scalar_inner_centralizer θ hθ l hl φ hf hK hθq hp hp2 hp3 hφs hφc ζ hζ hζo A hA x hx)
 
+omit [CharP K 2] in
 theorem scalar_frame_torsion {f p : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
     (hθq : ∀ c, θ.toRingHom c = c ^ (2 ^ f)) (hp : p.Prime) (hp3 : p ≠ 3) [NeZero p]
     (hφc : φ.ker ≤ Subgroup.center (fixedGroup K θ.toRingHom))
@@ -325,8 +331,8 @@ theorem scalar_holdsFour {f m p : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f)
     (ψ : L →* graphFixedRootGroup TwistTag.E6 K θ.toRingHom)
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L)
     (hφ : ∀ x, ψ (φ x) = CFSG.SeitzReduction.F4Pilot.twistedIsogenyC hf hK θ.toRingHom hθq x)
-    (hφs : Function.Surjective φ)
-    (hφc : φ.ker ≤ Subgroup.center (fixedGroup K θ.toRingHom))
+    (_hφs : Function.Surjective φ)
+    (_hφc : φ.ker ≤ Subgroup.center (fixedGroup K θ.toRingHom))
     (ζ : CFSG.LieType.Steinberg.normOne θ) (hζ : ζ ^ p = 1) (hζo : orderOf (ζ : Kˣ) = p)
     (e : CFSG.LieType.Steinberg.normOne θ ≃* Multiplicative (ZMod m))
     (A : Subgroup (MulAut L))
@@ -422,6 +428,7 @@ theorem scalar_inner_torus_le {f m : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
   exact ⟨fun j => e.symm s ^ Tag.E6.cartan i j,
     scalar_descent_conj θ hθ l hl φ δ hK hφs hδ i (e.symm s)⟩
 
+omit [Finite K] [CharP K 2] in
 theorem scalar_frame_le_torus {p : ℕ} [NeZero p]
     (ζ : CFSG.LieType.Steinberg.normOne θ) (hζ : ζ ^ p = 1) :
     (φ.comp (langPFrame K θ hθ l hl ζ hζ)).range ≤
@@ -479,7 +486,7 @@ theorem scalar_torData_aligned {f m p : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (
     (e : CFSG.LieType.Steinberg.normOne θ ≃* Multiplicative (ZMod m))
     (A : Subgroup (MulAut L))
     (hA : ((φ.comp (langPFrame K θ hθ l hl ζ hζ)).range).map (MulAut.conj : L →* MulAut L) = A) :
-    GGTorusTorData m 6 CartanMatrix.E₆ CoxeterMatrix.E₆ L A := by
+    GGTorusTorData m 6 (CartanMatrix.E 6) CoxeterMatrix.E₆ L A := by
   have hδi := scalar_descent_injective θ hθ l hl φ δ hK hθq hf ψ hφ hδ
   have hAD : A ≤ δ.range := by
     rw [← hA]

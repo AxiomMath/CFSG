@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 
 section GroupHelpers
 
+omit [Finite G] in
 private theorem conj_conj_of_comm {q x m : G} (hmq : m * q = q * m) :
     q * (m * x * m⁻¹) * q⁻¹ = m * (q * x * q⁻¹) * m⁻¹ := by
   have h1 : q * m = m * q := hmq.symm
@@ -24,6 +25,7 @@ private theorem conj_conj_of_comm {q x m : G} (hmq : m * q = q * m) :
     _ = (m * q) * x * (q⁻¹ * m⁻¹) := by rw [h1, h2]
     _ = m * (q * x * q⁻¹) * m⁻¹ := by group
 
+omit [Finite G] in
 private theorem comm_of_conj_eq {a b : G} (h : a * b * a⁻¹ = b) : a * b = b * a := by
   calc a * b = (a * b * a⁻¹) * a := by group
     _ = b * a := by rw [h]
@@ -137,16 +139,16 @@ theorem exists_u_cent {n : G} (hnN : n ∈ normalizer ((ctxU t tau x₁ x₂ lam
       _ = b⁻¹ * q' * b := by rw [hq'_def]
       _ = (t * lam) * x := hbx
   rcases x_one_or_z hc hxX hinv hcl with hx1 | hxz
-  · refine ⟨b⁻¹, O_le_U hc (inv_mem hb), ?_⟩
+  · refine ⟨b⁻¹, O_le_U (inv_mem hb), ?_⟩
     calc (b⁻¹ * n) * (t * lam) * (b⁻¹ * n)⁻¹
         = b⁻¹ * q' * b := by rw [hq'_def]; group
       _ = (t * lam) * x := hbx
       _ = t * lam := by rw [hx1, mul_one]
   · refine ⟨(x₁ ^ 2)⁻¹ * b⁻¹, ?_, ?_⟩
     · exact mul_mem
-        (inv_mem (O_le_U hc (hc.toCtx4Q.Q_le_O
+        (inv_mem (O_le_U (hc.toCtx4Q.Q_le_O
           (hc.toCtx4Q.V_le_Q (subset_closure (by simp))))))
-        (inv_mem (O_le_U hc hb))
+        (inv_mem (O_le_U hb))
     · have hgt : (b⁻¹ * n) * (t * lam) * (b⁻¹ * n)⁻¹ = (t * lam) * (x₁ * x₂) ^ 2 := by
         calc (b⁻¹ * n) * (t * lam) * (b⁻¹ * n)⁻¹
             = b⁻¹ * q' * b := by rw [hq'_def]; group

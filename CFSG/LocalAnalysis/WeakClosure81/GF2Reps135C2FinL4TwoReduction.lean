@@ -64,21 +64,21 @@ theorem finRowStmt_psl_four_two_of_ranks
   have hZ : Fintype.card (ZMod 2) = 2 := ZMod.card 2
   let φ : K ≃+* ZMod 2 := FiniteField.ringEquivOfCardEq (hK.trans hZ.symm)
   let σ : SL4 ≃* ↥L := (CFSG.CGT.T75N.slRingEquiv 4 φ.symm).trans σK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hW2 : ∀ a : Additive W, (2 : ℕ) • a = 0 := fun a => by
     apply Additive.toMul.injective
     show (Additive.toMul a) ^ 2 = 1
     exact hW _
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
-  haveI : Finite (Additive W) := ‹Finite W›
-  haveI : FiniteDimensional (ZMod 2) (Additive W) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
+  have : Finite (Additive W) := ‹Finite W›
+  have : FiniteDimensional (ZMod 2) (Additive W) := Module.Finite.of_finite
   have hLY : L ≤ Y := hctx.2.2.1
   have hirr : IsIrredGen (slLinearHom σ) := isIrredGen_slLinearHom hctx σ
   have hcardA : Nat.card (Additive W) = 2 ^ D := by
     rw [← hcard]
     exact Nat.card_congr Additive.toMul
   have hfin : finrank (ZMod 2) (Additive W) = D := by
-    haveI : Fintype (Additive W) := Fintype.ofFinite _
+    have : Fintype (Additive W) := Fintype.ofFinite _
     have h1 : Fintype.card (Additive W) = 2 ^ finrank (ZMod 2) (Additive W) := by
       rw [Module.card_eq_pow_finrank (K := ZMod 2), ZMod.card 2]
     rw [Nat.card_eq_fintype_card, h1] at hcardA

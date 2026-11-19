@@ -43,8 +43,8 @@ theorem GGOmA3Hyp.comm_of_mem (H : GGOmA3Hyp F E J) {e g : V ≃ₗ[K] V} (he : 
   (Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp (H.isComponent.1 hg)).2 e he).symm
 
 theorem GGOmA3Hyp.le_centralizer (H : GGOmA3Hyp F E J) :
-    E ≤ Subgroup.centralizer (J : Set (V ≃ₗ[K] V)) := fun e he =>
-  Subgroup.mem_centralizer_iff.mpr fun g hg => H.comm_of_mem he hg
+    E ≤ Subgroup.centralizer (J : Set (V ≃ₗ[K] V)) := fun _e he =>
+  Subgroup.mem_centralizer_iff.mpr fun _g hg => H.comm_of_mem he hg
 
 end Hyp
 

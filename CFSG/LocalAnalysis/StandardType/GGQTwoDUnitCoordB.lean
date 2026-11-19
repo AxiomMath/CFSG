@@ -160,6 +160,7 @@ lemma qtwoDB19_ggPermSU_mulVec (σ : Equiv.Perm (Fin m)) (i : Fin m) :
   simp only [Function.comp_apply, Pi.single_apply]
   exact if_congr (Equiv.symm_apply_eq σ) rfl rfl
 
+omit [Finite F0] [CharP F0 2] in
 lemma qtwoDB19_diag_const_comm (lam : F0ˣ) (u : GL (Fin m) F0) :
     qTwoChartTwoThree_diag (fun _ : Fin m => lam) * u =
       u * qTwoChartTwoThree_diag (fun _ : Fin m => lam) := by
@@ -169,6 +170,7 @@ lemma qtwoDB19_diag_const_comm (lam : F0ˣ) (u : GL (Fin m) F0) :
   simp only [Matrix.diagonal_mul, Matrix.mul_diagonal]
   ring
 
+omit [Finite G] in
 lemma qtwoDB19_induces_scalar_iff {ψ : Su F0 2 1 m →* G} {b : G} {c : Fin m → F0ˣ}
     (lam : F0ˣ) :
     qTwoChartTwoThree_induces ψ b (fun i => lam * c i) ↔
@@ -220,6 +222,7 @@ lemma qtwoDB19_pow_val_mul {F0 : Type} [Field F0] [Finite F0] [CharP F0 2]
   rw [ZMod.val_mul]
   exact Nat.mod_mod _ _
 
+omit [Finite G] in
 lemma qtwoDB19_ggLin_trans {Bs : Subgroup G} {m : ℕ} (β : Additive ↥Bs ≃+ DVec m)
     (P : DVec m ≃ₗ[ZMod 3] DVec m) (φ : MulAut ↥Bs) :
     ggLin (p := 3) (β.trans P.toAddEquiv) φ = P * ggLin (p := 3) β φ * P⁻¹ := by

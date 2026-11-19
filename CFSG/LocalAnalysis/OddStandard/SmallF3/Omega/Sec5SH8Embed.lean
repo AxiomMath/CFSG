@@ -28,7 +28,7 @@ theorem sec5sh8_embed
     · exact CFSG.ABGDGroups.pGammaL2PSLRange_normal hF
     · infer_instance
   let N : Subgroup X := M.comap ι
-  haveI : N.Normal := hMn.comap ι
+  have : N.Normal := hMn.comap ι
   have hNidx : N.index = M.relIndex ι.range := Subgroup.index_comap M ι
   have hNodd : Odd N.index := hNidx ▸ hodd
   have hPN : (P : Subgroup X) ≤ N :=

@@ -83,7 +83,7 @@ theorem a_ne_zero : D.a ≠ 0 := by
   refine mat_mulVec_ne_zero' D.g ?_
   intro h
   have := congrFun h (Sum.inl D.k)
-  simpa using this
+  simp at this
 
 theorem theta_zero : D.θ 0 = 1 := by
   have h : D.θ 0 * D.θ 0 = D.θ 0 := by
@@ -100,10 +100,11 @@ theorem w0_ne_one : D.w0 ≠ 1 := by
   have h0 : (![1, 0] : Fin 2 → GaloisField 2 D.f) = 0 :=
     D.hinj (h.trans D.theta_zero.symm)
   have h1 := congrFun h0 0
-  simpa using h1
+  simp at h1
 
 end BigNatData
 
+omit [Finite G] in
 theorem commutator_mem_wOf_of_centralizes_Vy (hVH : V ≤ H) {x : G} (hx : x ∈ xOf V H)
     (hxVy : xToXbar hVH ⟨x, hx⟩ ∈
       Subgroup.centralizer (Vy V H : Set (Xbar V H))) :
@@ -262,7 +263,7 @@ theorem psi0_conj {v : Fin D.n ⊕ Fin D.n → GaloisField 2 D.f}
         rw [map_mul, hx, hx₀, map_mul]
       have hval := D.psi0_eq_conj hmat hx'
       rw [hval, hy]
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, _root_.mul_inv_rev]
+      simp only [Subgroup.coe_mul, _root_.mul_inv_rev]
       group
 
 theorem psi0_plane (u : Fin 2 → GaloisField 2 D.f) :
@@ -275,7 +276,7 @@ theorem psi0_plane (u : Fin 2 → GaloisField 2 D.f) :
       (D.Φ (D.g * longBlock (GaloisField 2 D.f) D.n D.k s * D.g⁻¹))
     have h10 : (![1, 0] : Fin 2 → GaloisField 2 D.f) = Pi.single 0 1 := by
       funext i
-      fin_cases i <;> simp [Pi.single_apply]
+      fin_cases i <;> simp
     have hs' : (s : Matrix (Fin 2) (Fin 2) (GaloisField 2 D.f)) *ᵥ ![1, 0] = u := by
       rw [h10, hs]
     have hmat : SpExtras.mat D.n (GaloisField 2 D.f)
@@ -439,7 +440,7 @@ theorem exists_spTrans_of_mem_omegaOf {U : Subgroup G} (hU : U ∈ omegaOf V H) 
     simpa [t] using D.mem_T_of_mem_V vx hv
   have hsu : D.Φ.symm (xToXbar h.setup.mc.toMinCex.V_le_H ux) = s₀ * t * s₀⁻¹ := by
     rw [hux]
-    simpa [s₀, t] using D.conj_symm_eq x₀ vx
+    simp [s₀, t]
   rw [hsu]
   exact D.exists_spTrans_of_conj_mem_T (s₀ := s₀) (t := t) htT
 
@@ -462,10 +463,11 @@ theorem exists_conj_action {U : Subgroup G} (hU : U ∈ omegaOf V H) {u : G} (hu
     simpa [s, ux] using D.psi0_conj_x ux y]
   rw [hsp, D.psi0_transvection]
 
+omit [Finite G] in
 theorem psi0_add_conj_key (A B C p q t : ↥(wOf V H)) (ht : t = p * q)
     (hcomm : ∀ x y : ↥(wOf V H), x * y = y * x) :
     (A * t) * (B * p)⁻¹ * (C * q)⁻¹ = A * B⁻¹ * C⁻¹ := by
-  letI : CommGroup ↥(wOf V H) :=
+  let : CommGroup ↥(wOf V H) :=
     { (inferInstance : Group ↥(wOf V H)) with mul_comm := hcomm }
   rw [ht]
   apply Additive.ofMul.injective

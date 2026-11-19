@@ -19,8 +19,8 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 theorem y54_F_le_L (s : Setting3 G L) : s.fr.F ≤ L :=
   (s3_F_le_A s).trans (s3_A_le_L s)
 
-theorem y54_t_comm_F (s : Setting3 G L) : ∀ f ∈ s.fr.F, f * s.t = s.t * f :=
-  fun f hf => s3_comm_t_of_mem_L s (y54_F_le_L s hf)
+theorem y54_t_comm_F (s : Setting3 G L) : ∀ _f ∈ s.fr.F, _f * s.t = s.t * _f :=
+  fun _f hf => s3_comm_t_of_mem_L s (y54_F_le_L s hf)
 
 theorem y54_F_isE3 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     IsE 3 ↥s.fr.F :=
@@ -90,7 +90,7 @@ theorem y54_mem_P (s : Setting3 G L) {p : G} (hp : p ∈ f4P s) :
         _ = s.t * b⁻¹ := by rw [inv_eq_of_mul_eq_one_right htt]
         _ = b⁻¹ * s.t := htb
 
-theorem y54_mem_P_not_L {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) {p : G}
+theorem y54_mem_P_not_L {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e) {p : G}
     (hp : p ∈ f4P s) (hpL : p ∉ L) : ∃ f ∈ s.fr.F, p = f * s.t := by
   rcases y54_mem_P s hp with h | h
   · exact absurd (y54_F_le_L s h) hpL

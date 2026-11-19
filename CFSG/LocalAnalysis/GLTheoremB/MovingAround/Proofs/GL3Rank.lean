@@ -50,9 +50,9 @@ theorem gl3_exists_fixed_mod {A V : Type*} [Group A] [AddCommGroup V] [Module (Z
     [FiniteDimensional (ZMod p) V] (hA : IsPGroup p A) (ρ : A →* Module.End (ZMod p) V)
     (W : Submodule (ZMod p) V) (hW : ∀ a : A, ∀ w ∈ W, ρ a w ∈ W) (hWtop : W ≠ ⊤) :
     ∃ v : V, v ∉ W ∧ ∀ a : A, ρ a v - v ∈ W := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  letI := gl3QuotAction ρ W hW
-  haveI : Finite (V ⧸ W) := Module.finite_of_finite (ZMod p)
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  let := gl3QuotAction ρ W hW
+  have : Finite (V ⧸ W) := Module.finite_of_finite (ZMod p)
   have hfin := Submodule.finrank_quotient_add_finrank W
   have hlt := Submodule.finrank_lt hWtop
   have hpos : 0 < Module.finrank (ZMod p) (V ⧸ W) := by omega
@@ -78,7 +78,7 @@ theorem gl3_core {A V : Type*} [Group A] [AddCommGroup V] [Module (ZMod p) V]
     [FiniteDimensional (ZMod p) V] (hV : Module.finrank (ZMod p) V = 3) (hA : IsPGroup p A)
     (hcomm : ∀ a b : A, a * b = b * a) (ρ : A →* Module.End (ZMod p) V) :
     Nat.card (A ⧸ ρ.ker) ≤ p ^ 2 := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hbot : (⊥ : Submodule (ZMod p) V) ≠ ⊤ := by
     intro h
     have h1 : Module.finrank (ZMod p) (⊥ : Submodule (ZMod p) V) =
@@ -211,7 +211,7 @@ theorem gl3_core {A V : Type*} [Group A] [AddCommGroup V] [Module (ZMod p) V]
     fin_cases i
     · simp [hfix1]
     · simp [hα, h1]
-    · simp [hβγ, h1, h2, h3]
+    · simp [hβγ, h2, h3]
   obtain ⟨x0, hx0⟩ : ∃ x0 : ZMod p × ZMod p, ∀ a : A,
       ∃ t : ZMod p, α a = t * x0.1 ∧ β a = t * x0.2 := by
     by_cases h : ∃ a0 : A, (α a0 ≠ 0 ∨ β a0 ≠ 0)
@@ -259,19 +259,19 @@ theorem input31_GL3Rank_body :
         A ≤ Subgroup.normalizer (N : Set G) →
           Nat.card A ≤ p ^ 2 * Nat.card (A ⊓ Subgroup.centralizer (N : Set G) : Subgroup G) := by
   intro G _ _ p hp A N hA hN hNcard hAN
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : IsMulCommutative ↥N := hN.1
-  haveI : IsMulCommutative ↥A := hA.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : IsMulCommutative ↥N := hN.1
+  have : IsMulCommutative ↥A := hA.1
   have hexp : ∀ x : Additive ↥N, p • x = 0 := by
     intro x
     apply Additive.toMul.injective
     rw [toMul_nsmul, toMul_zero]
     apply Subtype.ext
     simpa using hN.2 (x.toMul : G) x.toMul.2
-  haveI : Module (ZMod p) (Additive ↥N) := AddCommGroup.zmodModule hexp
-  haveI : Finite (Additive ↥N) := Finite.of_equiv ↥N Additive.ofMul
-  haveI : Module.Finite (ZMod p) (Additive ↥N) := Module.Finite.of_finite
+  have : Module (ZMod p) (Additive ↥N) := AddCommGroup.zmodModule hexp
+  have : Finite (Additive ↥N) := Finite.of_equiv ↥N Additive.ofMul
+  have : Module.Finite (ZMod p) (Additive ↥N) := Module.Finite.of_finite
   have hrank : Module.finrank (ZMod p) (Additive ↥N) = 3 := by
     have h1 : Nat.card (Additive ↥N) = Nat.card (ZMod p) ^ Module.finrank (ZMod p) (Additive ↥N) :=
       @Module.natCard_eq_pow_finrank (ZMod p) (Additive ↥N) _ _ _ _
@@ -286,10 +286,10 @@ theorem input31_GL3Rank_body :
   let ρ : A →* Module.End (ZMod p) (Additive ↥N) :=
     { toFun := fun a => AddMonoidHom.toZModLinearMap p (MonoidHom.toAdditive (cjH a))
       map_one' := LinearMap.ext fun y =>
-        Additive.toMul.injective (Subtype.ext (by simp [cjH] <;> rfl))
+        Additive.toMul.injective (Subtype.ext (by simp [cjH]))
       map_mul' := fun a b => LinearMap.ext fun y =>
         Additive.toMul.injective (Subtype.ext (by
-          simp [cjH, Module.End.mul_apply, mul_assoc] <;> group)) }
+          simp [cjH, Module.End.mul_apply, mul_assoc])) }
   have hcore := gl3_core hrank (IsElemAbelian.isPGroup hA) (fun a b => mul_comm a b) ρ
   have hker : Subgroup.map A.subtype ρ.ker = A ⊓ Subgroup.centralizer (N : Set G) := by
     ext x

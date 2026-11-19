@@ -37,14 +37,14 @@ theorem IT.find_node (l : IT) (k v : Nat) (r : IT) (x d : Nat) :
       intro h
       simp only [Nat.beq_eq] at h
       exact h1 h
-    rw [e1, if_neg h1]
+    rw [e1, ite_eq_right h1]
     by_cases h2 : x < k
     · have e2 : Nat.blt x k = true := by simpa using h2
-      rw [e2, if_pos h2]
+      rw [e2, ite_eq_left h2]
     · have e2 : Nat.blt x k = false := by
         rw [Bool.eq_false_iff, Ne, Nat.blt_eq]
         exact h2
-      rw [e2, if_neg h2]
+      rw [e2, ite_eq_right h2]
 
 theorem lookup_cons' (k v x : Nat) (L : List (Nat × Nat)) :
     ((k, v) :: L).lookup x = if x = k then some v else L.lookup x := by
@@ -52,7 +52,7 @@ theorem lookup_cons' (k v x : Nat) (L : List (Nat × Nat)) :
   by_cases h : x = k
   · subst h
     simp
-  · rw [beq_false_of_ne h, if_neg h]
+  · rw [beq_false_of_ne h, ite_eq_right h]
 
 theorem lookup_append_of_none {L M : List (Nat × Nat)} {x : Nat} (h : L.lookup x = none) :
     (L ++ M).lookup x = M.lookup x := by
@@ -63,9 +63,9 @@ theorem lookup_append_of_none {L M : List (Nat × Nat)} {x : Nat} (h : L.lookup 
     rw [lookup_cons'] at h
     rw [List.cons_append, lookup_cons']
     by_cases hx : x = k
-    · rw [if_pos hx] at h
+    · rw [ite_eq_left hx] at h
       exact absurd h (by simp)
-    · rw [if_neg hx] at h ⊢
+    · rw [ite_eq_right hx] at h ⊢
       exact ih h
 
 theorem lookup_append_of_some {L M : List (Nat × Nat)} {x v : Nat} (h : L.lookup x = some v) :
@@ -77,9 +77,9 @@ theorem lookup_append_of_some {L M : List (Nat × Nat)} {x v : Nat} (h : L.looku
     rw [lookup_cons'] at h
     rw [List.cons_append, lookup_cons']
     by_cases hx : x = k
-    · rw [if_pos hx] at h ⊢
+    · rw [ite_eq_left hx] at h ⊢
       exact h
-    · rw [if_neg hx] at h ⊢
+    · rw [ite_eq_right hx] at h ⊢
       exact ih h
 
 theorem lookup_none {L : List (Nat × Nat)} {x : Nat} (h : ∀ a ∈ L, a.1 ≠ x) :
@@ -89,7 +89,7 @@ theorem lookup_none {L : List (Nat × Nat)} {x : Nat} (h : ∀ a ∈ L, a.1 ≠ 
   | cons a L ih =>
     obtain ⟨k, w⟩ := a
     have hk : x ≠ k := fun e => h _ List.mem_cons_self e.symm
-    rw [lookup_cons', if_neg hk]
+    rw [lookup_cons', ite_eq_right hk]
     exact ih fun b hb => h b (List.mem_cons_of_mem _ hb)
 
 theorem mem_of_lookup {L : List (Nat × Nat)} {x v : Nat} (h : L.lookup x = some v) :
@@ -100,11 +100,11 @@ theorem mem_of_lookup {L : List (Nat × Nat)} {x v : Nat} (h : L.lookup x = some
     obtain ⟨k, w⟩ := a
     rw [lookup_cons'] at h
     by_cases hx : x = k
-    · rw [if_pos hx] at h
+    · rw [ite_eq_left hx] at h
       cases h
       subst hx
       exact List.mem_cons_self
-    · rw [if_neg hx] at h
+    · rw [ite_eq_right hx] at h
       exact List.mem_cons_of_mem _ (ih h)
 
 theorem find_eq_lookup : ∀ (t : IT), t.toList.Pairwise (fun a b => a.1 < b.1) →
@@ -119,12 +119,12 @@ theorem find_eq_lookup : ∀ (t : IT), t.toList.Pairwise (fun a b => a.1 < b.1) 
     simp only [IT.toList]
     by_cases h1 : x = k
     · subst h1
-      rw [if_pos rfl, lookup_append_of_none (lookup_none fun a ha => (hlk a ha).ne),
-        lookup_cons', if_pos rfl]
+      rw [ite_eq_left rfl, lookup_append_of_none (lookup_none fun a ha => (hlk a ha).ne),
+        lookup_cons', ite_eq_left rfl]
       rfl
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
       by_cases h2 : x < k
-      · rw [if_pos h2, find_eq_lookup l hl x d]
+      · rw [ite_eq_left h2, find_eq_lookup l hl x d]
         cases e : l.toList.lookup x with
         | some w => rw [lookup_append_of_some e]
         | none =>
@@ -135,10 +135,10 @@ theorem find_eq_lookup : ∀ (t : IT), t.toList.Pairwise (fun a b => a.1 < b.1) 
               · exact Ne.symm h1
               · exact (lt_trans h2 (hk a ha)).ne'
           rw [this]
-      · rw [if_neg h2, find_eq_lookup r hr x d,
+      · rw [ite_eq_right h2, find_eq_lookup r hr x d,
           lookup_append_of_none (lookup_none fun a ha => by
             have := hlk a ha
-            omega), lookup_cons', if_neg h1]
+            omega), lookup_cons', ite_eq_right h1]
 
 theorem bt_zero (xs : List (Nat × Nat)) : bt 0 xs = (IT.leaf, xs) := rfl
 
@@ -247,7 +247,7 @@ theorem posPairs_lookup (E : List Nat) : ∀ s i, (posPairs E s).lookup (s + i) 
     cases i with
     | zero => simp
     | succ i =>
-      rw [if_neg (by omega), List.getElem?_cons_succ, show s + (i + 1) = (s + 1) + i by omega, ih]
+      rw [ite_eq_right (by omega), List.getElem?_cons_succ, show s + (i + 1) = (s + 1) + i by omega, ih]
 
 theorem find_posT {E : List Nat} (hE : E.length ≤ 65535) (i d : Nat) :
     (posT E).find i d = E.getD i d := by

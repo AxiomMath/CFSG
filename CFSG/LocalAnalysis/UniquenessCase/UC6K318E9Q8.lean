@@ -20,7 +20,7 @@ theorem exists_isPrimitiveRoot_three [IsAlgClosed K] (h3 : (3 : K) ≠ 0) :
     norm_num
   obtain ⟨ω, hω⟩ := IsAlgClosed.exists_root (X ^ 2 + X + 1 : K[X]) hdeg
   have h : ω ^ 2 + ω + 1 = 0 := by simpa [Polynomial.IsRoot] using hω
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨ω, IsPrimitiveRoot.iff_orderOf.2 (orderOf_eq_prime ?_ ?_)⟩
   · linear_combination (ω - 1) * h
   · intro h1
@@ -200,12 +200,12 @@ theorem exists_jointE_ne_bot_of_eigenspace [IsAlgClosed K] [FiniteDimensional K 
     intro x hx
     rw [mem_eigenspace_iff] at hx ⊢
     rw [← Module.End.mul_apply, hAB, Module.End.mul_apply, hx, map_smul]
-  haveI : Nontrivial (A.eigenspace (cr ω s)) := Submodule.nontrivial_iff_ne_bot.2 hs
+  have : Nontrivial (A.eigenspace (cr ω s)) := Submodule.nontrivial_iff_ne_bot.2 hs
   obtain ⟨ν, hν⟩ := Module.End.exists_eigenvalue (B.restrict hBE)
   obtain ⟨v, hv⟩ := hν.exists_hasEigenvector
   have hBv : B v = ν • (v : V) := by
     have := congrArg Subtype.val (mem_eigenspace_iff.1 hv.1)
-    simpa [LinearMap.restrict_coe_apply] using this
+    simpa [_root_.LinearMap.coe_restrict_apply] using this
   have hv0 : (v : V) ≠ 0 := fun h => hv.2 (Subtype.ext h)
   have hν3 : ν ^ 3 = 1 :=
     pow_three_of_hasEigenvector hB (hasEigenvector_iff.2 ⟨mem_eigenspace_iff.2 hBv, hv0⟩)

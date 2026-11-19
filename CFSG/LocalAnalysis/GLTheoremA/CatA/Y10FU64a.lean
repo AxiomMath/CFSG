@@ -14,9 +14,9 @@ variable {G : Type} [Group G] [Finite G]
 theorem glaPPrimeCore_ne_top {r : ℕ} (hr : r.Prime) {X K : Subgroup G} (hKr : GLAPComponent r X K) :
     GLAPPrimeCore r ↥K ≠ ⊤ := by
   have hQr : CFSG.Open.IsQuasisimple (PQuot r K) := isQuasisimple_pQuot_of_glaPComponent hr hKr
-  haveI : Nontrivial (PQuot r K) := isQuasisimple_nontrivial hQr
+  have : Nontrivial (PQuot r K) := isQuasisimple_nontrivial hQr
   intro htop
-  haveI : Subsingleton (↥K ⧸ GLAPPrimeCore r ↥K) := by
+  have : Subsingleton (↥K ⧸ GLAPPrimeCore r ↥K) := by
     rw [htop]; exact QuotientGroup.subsingleton_quotient_top
   exact (not_subsingleton _ ‹Subsingleton (↥K ⧸ GLAPPrimeCore r ↥K)›)
 

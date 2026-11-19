@@ -30,7 +30,7 @@ theorem commute_lift (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 : W16One G) (h5 : 
       ∀ y ∈ hatBarSub Mo V (V ⊔ conjSubgroup V g), x * y = y * x) :
     (∀ a ∈ Mo.img (conjSubgroup V h), ∀ l ∈ Mo.img (V ⊔ conjSubgroup V g), a * l = l * a) ∧
       IsPGroup 2 ↥(Mo.img (V ⊔ conjSubgroup V h)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVH : V ≤ H := c.cex.V_le_S.trans (c.S_le.trans c.mem.1)
   have hWhH : conjSubgroup V h ≤ H := by
     intro z hz
@@ -62,7 +62,7 @@ theorem commute_lift (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 : W16One G) (h5 : 
       have hker : ⁅incl z, a'⁆ ∈ (hatBar Mo V).ker := by
         rw [MonoidHom.mem_ker]; exact hbar_one
       rwa [ker_hatBar hn h1 h5 h15 hS c Mo] at hker
-    haveI : Group.IsPerfect ↥(Mo.img (V ⊔ conjSubgroup V g)) :=
+    have : Group.IsPerfect ↥(Mo.img (V ⊔ conjSubgroup V g)) :=
       isPerfect_hatL hn h1 h5 h15 hS c Mo
     let φ : ↥(Mo.img (V ⊔ conjSubgroup V g)) →* ↥(Subgroup.center ↥(hatK Mo V)) :=
       { toFun := fun z => ⟨⁅incl z, a'⁆, hcenter z⟩
@@ -70,7 +70,7 @@ theorem commute_lift (hn : 2 ≤ E3.mQuot V (U ⊔ V₀)) (h1 : W16One G) (h5 : 
         map_mul' := by
           intro x y
           apply Subtype.ext
-          simp only [map_mul, Subgroup.coe_mul, Subtype.coe_mk]
+          simp only [map_mul, Subgroup.coe_mul]
           rw [commutatorElement_mul_left_eq_conj_mul]
           have hcx : incl x * ⁅incl y, a'⁆ = ⁅incl y, a'⁆ * incl x :=
             Subgroup.mem_center_iff.mp (hcenter y) (incl x)

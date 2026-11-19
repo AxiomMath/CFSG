@@ -8,7 +8,7 @@ public section
 namespace CFSG.SmithL6.K
 
 theorem drop_drop_add {α : Type} (l : List α) (a n : Nat) : (l.drop a).drop n = l.drop (a + n) := by
-  simp [List.drop_drop, Nat.add_comm]
+  simp [List.drop_drop]
 
 theorem pinMapR_add {β α : Type} [BEq α] [LawfulBEq α] (f : β → α) (src : List β) (dst : List α)
     (a n m : Nat) (h1 : pinMapR f src dst a n = true) (h2 : pinMapR f src dst (a + n) m = true) :

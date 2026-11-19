@@ -27,7 +27,7 @@ theorem false_of_centralProd_aux_k21a {Y : Type} [Group Y] [Finite Y] {K B P : S
     (hB : B ≤ Subgroup.normalizer (K : Set Y)) (hB9 : Nat.card B = 9) (hperm : Permutable B P)
     (hBK : B ⊓ Subgroup.centralizer (K : Set Y) = ⊥) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup Y := Subgroup.normalizer (K : Set Y) with hN
   have hPN : P ≤ N := hP.le
   have hKN : K ≤ N := Subgroup.le_normalizer
@@ -54,8 +54,8 @@ theorem false_of_centralProd_aux_k21a {Y : Type} [Group Y] [Finite Y] {K B P : S
   · have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 (P.subgroupOf N) ⊤ :=
       K21bRedProof.isSylowOf_subgroupOf_top hP
     have hmap := autData_conjNormal_aux_isSylowOf_map ρ hSyl
-    haveI := K21bRedProof.finite_mulAut ↥K
-    haveI := K21bRedProof.innAut_normal ↥K
+    have := K21bRedProof.finite_mulAut ↥K
+    have := K21bRedProof.innAut_normal ↥K
     refine CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer hmap ?_ ?_
     · rintro _ ⟨k, rfl⟩
       refine ⟨⟨k, hKN k.2⟩, trivial, ?_⟩
@@ -253,10 +253,10 @@ theorem false_of_centralProd {T R A J : Subgroup X} (hA : AConfig T R A)
     (hT : CFSG.QuasithinUnique.IsSylowTwoOf T ⊤) (hJ : J.Normal)
     (hcp : IsCentralProdA6Z3 ↥(barO2 J)) (hnc : ⁅barO2 J, barO2 A⁆ ≠ ⊥) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : X →* X ⧸ CFSG.pCore 2 X := QuotientGroup.mk' (CFSG.pCore 2 X) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
-  haveI hJb : (barO2 J).Normal := hJ.map π hπs
+  have hJb : (barO2 J).Normal := hJ.map π hπs
   obtain ⟨K₁, K₂, hK₁, hK₂, hsup, hcomm, hi1, hi2⟩ := hcp
   have hcomm' : K₂ ≤ Subgroup.centralizer (K₁ : Set ↥(barO2 J)) := Subgroup.le_centralizer_iff.1 hcomm
   set Kb₁ : Subgroup (X ⧸ CFSG.pCore 2 X) := K₁.map (barO2 J).subtype with hKb₁def
@@ -274,7 +274,7 @@ theorem false_of_centralProd {T R A J : Subgroup X} (hA : AConfig T R A)
     rw [false_of_centralProd_aux_card hK₁, card_centerIn_s15, hK₁.2.1] at h3
     omega
   obtain ⟨hNeq, hNnorm⟩ := false_of_centralProd_aux_normalizer hne hswap₁ hswap₂
-  haveI := hNnorm
+  have := hNnorm
   have hKb₁ : IsAltSixCoverThree ↥Kb₁ :=
     isAltSixCoverThree_of_mulEquiv (K₁.equivMapOfInjective _ (barO2 J).subtype_injective).symm hK₁
   have hKb₂ : IsAltSixCoverThree ↥Kb₂ :=
@@ -437,7 +437,7 @@ theorem isLThreeTwoProd_gnImg_aux_inj_gen {T T₁ T₂ : Subgroup X} {Ls : Subgr
     rw [← this]
     exact h1
   have hyC : y ∈ gnC T := (QuotientGroup.eq_one_iff y).1 hy
-  haveI : (Subgroup.normalClosure (L : Set X) ⊓ gnC T).Normal := inferInstance
+  have : (Subgroup.normalClosure (L : Set X) ⊓ gnC T).Normal := inferInstance
   have hcent := commute_barO2_of_commute_star_aux_centralizes_gen hl
     (Subgroup.normalClosure (L : Set X) ⊓ gnC T) inf_le_right
   have hz2 : (QuotientGroup.mk' (CFSG.pCore 2 X)) y ∈
@@ -453,7 +453,7 @@ theorem isLThreeTwoProd_gnImg_aux_inj_gen {T T₁ T₂ : Subgroup X} {Ls : Subgr
   rw [hZ, Subgroup.mem_bot] at hmem
   exact congrArg Subtype.val hmem
 
-theorem isLThreeTwoProd_gnImg_gen (hKSML3 : KSML3) {T T₁ T₂ : Subgroup X}
+theorem isLThreeTwoProd_gnImg_gen (_hKSML3 : KSML3) {T T₁ T₂ : Subgroup X}
     {Ls : Subgroup (X ⧸ gnC T)}
     {L : Subgroup X} (hl : LiftCtxGen X T T₁ T₂ Ls L)
     (hne : L ≠ Subgroup.normalClosure (L : Set X))
@@ -462,7 +462,7 @@ theorem isLThreeTwoProd_gnImg_gen (hKSML3 : KSML3) {T T₁ T₂ : Subgroup X}
     IsLThreeTwoProd 2 ↥(gnImg T (Subgroup.normalClosure (L : Set X))) ∨
       IsLThreeTwoProd 3 ↥(gnImg T (Subgroup.normalClosure (L : Set X))) := by
   classical
-  clear hKSML3
+  clear _hKSML3
   set J : Subgroup X := Subgroup.normalClosure (L : Set X) with hJdef
   have hL : IsC2 L := hl.lift.1
   have hZ : Subgroup.center ↥(barO2 L) = ⊥ := by

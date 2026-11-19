@@ -105,7 +105,7 @@ theorem inf_centralizer_eq (hHat : HatM22SmallModules) (hw : S.width = 6) (hc : 
       have h2 := congrArg Subtype.val h1
       exact h2
     have hU : finrank (ZMod 2) S.Qt = 12 := by rw [S.finrank_Qt_eq_two_mul_width, hw]
-    haveI : Finite S.Qt := Module.finite_of_finite (ZMod 2)
+    have : Finite S.Qt := Module.finite_of_finite (ZMod 2)
     have h0 := center_fixedPointFree hHat hU (cMbar S θ) hL (self_mem_center_cMbar hθ) hne
       (S.cl q) hfix
     rcases (S.cl_eq_zero_iff hq).mp h0 with rfl | rfl
@@ -160,7 +160,7 @@ theorem HypJ4.nonempty_data41 (hHat : HatM22SmallModules) {z : G}
   obtain ⟨c, hc3, hc⟩ := exists_pow3_lift hθM hθ3
   have hU : finrank (ZMod 2) h.setting.Qt = 12 := by
     rw [h.setting.finrank_Qt_eq_two_mul_width, h.setting_width]
-  haveI : Finite h.setting.Qt := Module.finite_of_finite (ZMod 2)
+  have : Finite h.setting.Qt := Module.finite_of_finite (ZMod 2)
   obtain ⟨ψ, hψ1, hψ2⟩ := exists_hatM22_realization hHat hU (cMbar h.setting θ) hL
   exact ⟨⟨θ, hθM, hθ3, hθ1, hθn, hL, hτ, hcard, c, hc3, hc, ψ, hψ1, hψ2⟩⟩
 
@@ -170,14 +170,14 @@ theorem Data41.c_ne (D : Data41 h) : (D.c : G) ≠ 1 := fun h1 =>
   D.θ_ne (by rw [← D.ρ_c, show D.c = 1 from Subtype.ext h1, map_one])
 
 theorem Data41.orderOf_c (D : Data41 h) : orderOf (D.c : G) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (by rw [← Subgroup.coe_pow, D.c_pow, Subgroup.coe_one]) D.c_ne
 
 theorem Data41.orderOf_θ (D : Data41 h) : orderOf D.θ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime D.θ_pow D.θ_ne
 
-theorem Data41.card_QG (D : Data41 h) : Nat.card h.setting.QG = 2 ^ 13 := by
+theorem Data41.card_QG (_D : Data41 h) : Nat.card h.setting.QG = 2 ^ 13 := by
   rw [h.setting.card_QG_eq_card_Q, h.setting.card_Q_eq, h.setting_width]
 
 @[expose] noncomputable def Data41.toLoc41 (D : Data41 h) (hHat : HatM22SmallModules) :

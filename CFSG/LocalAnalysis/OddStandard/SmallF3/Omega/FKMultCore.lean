@@ -33,14 +33,14 @@ theorem fk_mult_core
     (c : ∀ v, g₂ (g₃ v) = g₃ (g₂ v)) :
     μ = ε₂ * ε₃ := by
   classical
-  haveI : Fintype (GaloisField 3 1) := Fintype.ofFinite _
+  have : Fintype (GaloisField 3 1) := Fintype.ofFinite _
   let e : fk_V := Pi.single (Sum.inl 2) 1
   set ε : GaloisField 3 1 := ε₂ * ε₃ with hε
   have he : e ≠ 0 := by
     intro h
     have h1 : (1 : GaloisField 3 1) = 0 := by
       have := congrFun h (Sum.inl 2)
-      simpa [e] using this
+      simp [e] at this
     exact one_ne_zero h1
   have hp : A e ≠ 0 := by
     intro h
@@ -194,7 +194,7 @@ theorem fk_mult_core
     rcases hεcases with h | h <;> rw [h] <;> ring
   have hεne : ε ≠ 0 := by
     intro h
-    have h' : (0 : GaloisField 3 1) = 1 := by simpa [h] using hεsq
+    have h' : (0 : GaloisField 3 1) = 1 := by simp [h] at hεsq
     exact zero_ne_one h'
   have hεμ : ε * μ = 1 := by
     have h := congrArg (fun x => x * μ) hminv

@@ -88,11 +88,11 @@ private theorem endU_mul_memBar_vec {α : Finset (Fin 5)} (hα : α.card = 4) {b
       · have hx' : x ∈ Set.range (emb α hα) := by
           rw [range_emb]
           exact hx
-        rw [if_pos hx, if_pos hx']
+        rw [ite_eq_left hx, ite_eq_left hx']
       · have hx' : x ∉ Set.range (emb α hα) := by
           rw [range_emb]
           exact hx
-        rw [if_neg hx, if_neg hx']
+        rw [ite_eq_right hx, ite_eq_right hx']
     exact congrArg (mkQ 5) h1
   · right
     right
@@ -165,7 +165,7 @@ private theorem endU_permBar_eq_one_of_two_normal {X : Type} [Group X] (φ : X �
     rw [map_mul, map_mul, map_inv, hPx]
   have hA : ∀ c : Equiv.Perm (Fin 5), c ∈ N.map P → Equiv.Perm.sign c = 1 → c = 1 := by
     intro c hc hsign
-    haveI hTn : ((N.map P).subgroupOf (alternatingGroup (Fin 5))).Normal :=
+    have hTn : ((N.map P).subgroupOf (alternatingGroup (Fin 5))).Normal :=
       ⟨fun t ht g => by
         rw [Subgroup.mem_subgroupOf] at ht ⊢
         have h1 : ((g * t * g⁻¹ : alternatingGroup (Fin 5)) : Equiv.Perm (Fin 5)) =
@@ -224,9 +224,10 @@ private theorem endU_permBar_eq_one_of_two_normal {X : Type} [Group X] (φ : X �
   exact endU_eq_one_of_centralizes_alt (P n) hcent
 
 
+omit [Finite G] in
 private theorem endU_mem_RSet (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J) {R : Subgroup G} (hR : R ∈ Ω) :
     R ∈ RSet Ω :=
-  mem_RSet_iff.mpr ⟨R, hR, le_rfl, h2 R hR, fun R' hR'R _ hle => le_antisymm hR'R hle⟩
+  mem_RSet_iff.mpr ⟨R, hR, le_rfl, h2 R hR, fun _R' hR'R _ hle => le_antisymm hR'R hle⟩
 
 private theorem endU_commutes_of_two_group (hΩ : HypOmegaGen Ω) (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J)
     {T : Subgroup G} (hT : IsPGroup 2 ↥T) {R R' : Subgroup G} (hR : R ∈ Ω) (hR' : R' ∈ Ω)
@@ -235,9 +236,11 @@ private theorem endU_commutes_of_two_group (hΩ : HypOmegaGen Ω) (h2 : ∀ J �
   exact Q3CP.l67Gen G Ω hΩ S R (endU_mem_RSet h2 hR) R' (endU_mem_RSet h2 hR')
     (hRT.trans hS) (hR'T.trans hS) hne
 
+omit [Finite G] in
 private theorem endU_comm_symm {A B : Subgroup G} (h : Commutes A B) : Commutes B A :=
   fun x hx y hy => (h y hy x hx).symm
 
+omit [Finite G] in
 private theorem endU_conj_fix {M : Subgroup G} {x : G} (hc : ∀ a ∈ M, a * x = x * a) :
     conjSub x M = M := by
   ext m
@@ -273,22 +276,25 @@ private theorem endU_comm_of_omegaNbr (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J) (hΩ 
   TC.Thin.comm_of_mem_omegaNbr hΩ h2 hM hX
 
 private theorem endU_mem_kperp_of_comm (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J) (hΩ : HypOmegaGen Ω)
-    {M X : Subgroup G} (hM : M ∈ Ω) (hX : X ∈ Ω) (hc : Commutes M X) : X ∈ KPerp Ω M := by
+    {M X : Subgroup G} (_hM : M ∈ Ω) (hX : X ∈ Ω) (hc : Commutes M X) : X ∈ KPerp Ω M := by
   by_cases hXM : X = M
   · rw [hXM]
     exact Set.mem_insert _ _
   · exact Set.mem_insert_of_mem _ (endU_omegaNbr_of_comm h2 hΩ hX hXM hc)
 
+omit [Finite G] in
 private theorem endU_dComp_of_omegaNbr {M X : Subgroup G} (hX : X ∈ omegaNbr Ω M) :
     X ∈ dComp Ω M :=
   Relation.ReflTransGen.single ⟨hX.1, Or.inl hX⟩
 
+omit [Finite G] in
 private theorem endU_mem_Omega_of_dComp {K X : Subgroup G} (hX : X ∈ dComp Ω K) (hne : X ≠ K) :
     X ∈ Ω := by
   rcases Relation.ReflTransGen.cases_tail hX with h | ⟨Y, -, hY⟩
   · exact absurd h hne
   · exact hY.1
 
+omit [Finite G] in
 private theorem endU_dComp_eq {K L : Subgroup G} (hK : K ∈ Ω) (hL : L ∈ dComp Ω K) :
     dComp Ω L = dComp Ω K := by
   ext J
@@ -310,6 +316,7 @@ private theorem endU_not_disjoint {α β : Finset (Fin 5)} (hα : α.card = 4) (
   simp only [Fintype.card_fin] at h2
   omega
 
+omit [Finite G] in
 private theorem endU_same_set {L L' : Subgroup G} (hL : L ∈ P) (hL' : L' ∈ P)
     {α β : Finset (Fin 5)} {hα : α.card = 4} {hβ : β.card = 4} {b c : Bool}
     (hlab : (L.subgroupOf (pSpan P)).map I.φ = AE.memBar α hα b)
@@ -399,6 +406,7 @@ private theorem endU_eq_of_map_eq (hI : I.φ.ker = ⊥) (h8 : ∀ L ∈ P, Nat.c
 
 end AELayer
 
+omit [Finite G] in
 private theorem endU_isSylow2_self (h2 : ∀ J ∈ Ω, IsPGroup 2 ↥J) {K : Subgroup G}
     (hK : K ∈ Ω) : IsSylow2In K K :=
   ⟨le_rfl, h2 K hK, fun _ hVK _ hKV => le_antisymm hVK hKV⟩
@@ -413,6 +421,7 @@ private noncomputable def endU_rep (h : EndHyp Ω) {W R : Subgroup G} (hW : W �
   endU_repOf h hR (Q3CL.Thompson.exists_not_mem_of_mem_D h.thmD.hyp hW hR).choose_spec.1
     (Q3CL.Thompson.exists_not_mem_of_mem_D h.thmD.hyp hW hR).choose_spec.2
 
+omit [Finite G] in
 private theorem endU_mem_kperp_iff {R T : Subgroup G} :
     T ∈ KPerp Ω R ↔ T = R ∨ T ∈ omegaNbr Ω R :=
   Iff.rfl
@@ -490,7 +499,7 @@ private theorem endU_two_more {C : Set (Subgroup G)} {K Ks : Subgroup G} (hC : C
   have hsub : ({K, Ks} : Set (Subgroup G)) ⊆ C :=
     Set.insert_subset_iff.mpr ⟨hK, Set.singleton_subset_iff.mpr hKs⟩
   have hdiff : (C \ {K, Ks}).ncard = 2 := by
-    rw [Set.ncard_diff hsub (Set.toFinite _), hC, Set.ncard_pair hne]
+    rw [Set.ncard_sdiff hsub (Set.toFinite _), hC, Set.ncard_pair hne]
   obtain ⟨J, J', hJJ', heq⟩ := Set.ncard_eq_two.mp hdiff
   have hJmem : J ∈ C \ {K, Ks} := by
     rw [heq]
@@ -508,6 +517,7 @@ private theorem endU_two_more {C : Set (Subgroup G)} {K Ks : Subgroup G} (hC : C
   · intro e
     exact hJ'mem.2 (by rw [e]; exact Set.mem_insert_of_mem _ rfl)
 
+omit [Finite G] in
 private theorem endU_comm_identity {x a bb : G} (h : x * bb = bb * x) :
     x * (a * bb) * x⁻¹ * (a * bb)⁻¹ = x * a * x⁻¹ * a⁻¹ := by
   have hbx : bb * x⁻¹ = x⁻¹ * bb := by
@@ -518,6 +528,7 @@ private theorem endU_comm_identity {x a bb : G} (h : x * bb = bb * x) :
     _ = x * a * (x⁻¹ * bb) * bb⁻¹ * a⁻¹ := by rw [hbx]
     _ = x * a * x⁻¹ * a⁻¹ := by group
 
+omit [Finite G] in
 private theorem endU_comm_pSpan (c : CaseBSit Ω K P₁ P₂ g) {L : Subgroup G} (hL : L ∈ P₂)
     {y : G} (hy : y ∈ L) : ∀ x ∈ pSpan P₁, x * y = y * x := by
   have hcent : pSpan P₁ ≤ Subgroup.centralizer ({y} : Set G) :=
@@ -526,6 +537,7 @@ private theorem endU_comm_pSpan (c : CaseBSit Ω K P₁ P₂ g) {L : Subgroup G}
   intro x hx
   exact Subgroup.mem_centralizer_singleton_iff.mp (hcent hx)
 
+omit [Finite G] in
 private theorem endU_lift {P : Set (Subgroup G)} (I : AEIdent P 5) {x : AEQ 5}
     (hx : x ∈ TL4.aeModel 5) : ∃ y : ↥(pSpan P), I.φ y = x := by
   have hr : x ∈ I.φ.range := by
@@ -533,6 +545,7 @@ private theorem endU_lift {P : Set (Subgroup G)} (I : AEIdent P 5) {x : AEQ 5}
     exact hx
   exact MonoidHom.mem_range.mp hr
 
+omit [Finite G] in
 private theorem endU_permBar_of_comm_pCore {P : Set (Subgroup G)} (I : AEIdent P 5)
     {a : G} (ha : a ∈ pSpan P) (hc : ∀ x ∈ pSpan P, x * a * x⁻¹ * a⁻¹ ∈ pCore 2 G) :
     TL4.permBar 5 (I.φ ⟨a, ha⟩) = 1 := by
@@ -576,11 +589,12 @@ private theorem endU_permBar_of_comm_pCore {P : Set (Subgroup G)} (I : AEIdent P
   rw [← hx]
   exact (hcomm x).symm
 
+omit [Finite G] in
 private theorem endU_u_form (I : AEIdent P₁ 5) (hI : I.φ.ker = ⊥) {K Ks : Subgroup G}
     (hK : K ∈ P₁) (hKs : Ks ∈ P₁) {α : Finset (Fin 5)} (hα : α.card = 4) {b : Bool}
     (hlabK : (K.subgroupOf (pSpan P₁)).map I.φ = AE.memBar α hα b)
     (hlabKs : (Ks.subgroupOf (pSpan P₁)).map I.φ = AE.memBar α hα (!b))
-    {x y : G} (hx : x ∈ K) (hy : y ∈ Ks) (hx4 : orderOf x = 4) (hy4 : orderOf y = 4)
+    {x y : G} (hx : x ∈ K) (hy : y ∈ Ks) (_hx4 : orderOf x = 4) (hy4 : orderOf y = 4)
     (hxy : x * y ∈ pSpan P₁) (hperm : TL4.permBar 5 (I.φ ⟨x * y, hxy⟩) = 1) :
     I.φ ⟨x * y, hxy⟩ ≠ 1 ∧ ∃ i j : Fin 5, i ∈ α ∧ j ∈ α ∧ i ≠ j ∧
       I.φ ⟨x * y, hxy⟩ = AE.mkQ 5 (Wr.ofVec (Pi.single i 1 + Pi.single j 1)) := by
@@ -744,6 +758,7 @@ private theorem endU_exists_T (h : EndHyp Ω) {W K Ks : Subgroup G} (hW : W ∈ 
     exact hT₂
   · exact ⟨ρ₁.K, ρ₁.hK, hT₁C.2, hT₁⟩
 
+omit [Finite G] in
 private theorem endU_K_mem_Omega (c : CaseBSit Ω K P₁ P₂ g) : K ∈ Ω := by
   have hne : conjSub g K ≠ K := fun e => Set.disjoint_left.mp c.disj c.hK (e ▸ c.gP)
   have hmem : conjSub g K ∈ dComp Ω K := by

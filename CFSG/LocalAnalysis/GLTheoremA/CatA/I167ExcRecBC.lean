@@ -50,10 +50,10 @@ theorem excRec_F4_B3C3 {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p₀ : 
   · omega
   obtain ⟨K, hfin, hcard, g, hg, hker⟩ := l154f4_exists_spSurj S hT i hinner (m := 3)
     (fun K hfin hK => by
-      haveI := hfin
+      have := hfin
       obtain ⟨hch, f, hf, hKf, hadm, -⟩ :=
         l154f4_subfield_params K (m := 3) (by norm_num) hK (fun h => absurd h (by norm_num))
-      haveI := hch
+      have := hch
       refine ⟨Group.isPerfect_def.mp
         (CFSG.LieType.Universal.Symplectic.isQuasisimple_of_admissible 3 ↥K hadm hKf).1, ?_⟩
       obtain ⟨Ψ, hΨk, hΨr⟩ := l154f4_cover_levi hJ hf hKf
@@ -62,7 +62,7 @@ theorem excRec_F4_B3C3 {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p₀ : 
       rw [hr']
       show _ = rootSpan Tag.F4 ↥K (componentRoots (rootCharHom a) i)
       rw [hroots])
-  haveI := hfin
+  have := hfin
   obtain ⟨-, f, hf, hKf, hadm, -⟩ :=
     l154f4_subfield_params K (m := 3) (by norm_num) hcard (fun h => absurd h (by norm_num))
   have hperf : commutator (StatedSp 3 ↥K) = ⊤ := Group.isPerfect_def.mp

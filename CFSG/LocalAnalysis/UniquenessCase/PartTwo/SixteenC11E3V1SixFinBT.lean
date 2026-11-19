@@ -43,143 +43,117 @@ private theorem s1611e3_sixDest_low (c : s1611e3_SixCode) {j : Nat} (hj : j < 6)
   have hfin : (⟨j % 6, Nat.mod_lt j (by norm_num)⟩ : Fin 6) = ⟨j, hj⟩ :=
     Fin.ext (Nat.mod_eq_of_lt hj)
   unfold s1611e3_sixDest
-  rw [if_pos hj, hfin]
+  rw [ite_eq_left hj, hfin]
 
 private theorem s1611e3_sixDest_high (c : s1611e3_SixCode) {j : Nat} (hj : ¬ j < 6) :
     s1611e3_sixDest c j =
       (if c.eps then 0 else 6) + (c.tau ⟨j % 6, Nat.mod_lt j (by norm_num)⟩).val := by
   unfold s1611e3_sixDest
-  rw [if_neg hj]
+  rw [ite_eq_right hj]
 
-private theorem s1611e3_sixDest_mul (c d : s1611e3_SixCode) {j : Nat} (hj : j < 12) :
+private theorem s1611e3_sixDest_mul (c d : s1611e3_SixCode) {j : Nat} (_hj : j < 12) :
     s1611e3_sixDest (s1611e3_sixCodeMul c d) j = s1611e3_sixDest c (s1611e3_sixDest d j) := by
   obtain ⟨σ1, τ1, ε1⟩ := c
   obtain ⟨σ2, τ2, ε2⟩ := d
   by_cases hj6 : j < 6
   · cases ε1 <;> cases ε2 <;>
-      simp only [s1611e3_sixCodeMul, Bool.false_eq_true, if_true, if_false, reduceIte]
+      simp only [s1611e3_sixCodeMul, Bool.false_eq_true, ite_true, ite_false]
     · rw [s1611e3_sixDest_low (⟨σ1 * σ2, τ1 * τ2, false⟩ : s1611e3_SixCode) hj6,
           s1611e3_sixDest_low (⟨σ2, τ2, false⟩ : s1611e3_SixCode) hj6]
-      simp only [Bool.false_eq_true, if_false, reduceIte, Nat.zero_add]
+      simp only [Bool.false_eq_true, ite_false, Nat.zero_add]
       have hdl : (σ2 ⟨j, hj6⟩).val < 6 := (σ2 ⟨j, hj6⟩).isLt
       rw [s1611e3_sixDest_low (⟨σ1, τ1, false⟩ : s1611e3_SixCode) hdl]
-      simp only [Bool.false_eq_true, if_false, reduceIte, Nat.zero_add]
+      simp only [Bool.false_eq_true, ite_false, Nat.zero_add]
       all_goals
         try simp only [Equiv.Perm.mul_apply]
-        try rw [Nat.add_right_inj]
-        try apply congrArg Fin.val
-        try congr 1
-        try apply Fin.ext
-        try simp only [Fin.val_mk]
-        try omega
     · rw [s1611e3_sixDest_low (⟨τ1 * σ2, σ1 * τ2, true⟩ : s1611e3_SixCode) hj6,
           s1611e3_sixDest_low (⟨σ2, τ2, true⟩ : s1611e3_SixCode) hj6]
-      simp only [if_true, reduceIte]
+      simp only [ite_true]
       have hv : (σ2 ⟨j, hj6⟩).val < 6 := (σ2 ⟨j, hj6⟩).isLt
       have hdge : ¬ (6 + (σ2 ⟨j, hj6⟩).val < 6) := by omega
       rw [s1611e3_sixDest_high (⟨σ1, τ1, false⟩ : s1611e3_SixCode) hdge]
-      simp only [Bool.false_eq_true, if_false, reduceIte]
+      simp only [Bool.false_eq_true, ite_false]
       all_goals
         try simp only [Equiv.Perm.mul_apply]
         try rw [Nat.add_right_inj]
         try apply congrArg Fin.val
         try congr 1
         try apply Fin.ext
-        try simp only [Fin.val_mk]
+        try simp only
         try omega
     · rw [s1611e3_sixDest_low (⟨σ1 * σ2, τ1 * τ2, true⟩ : s1611e3_SixCode) hj6,
           s1611e3_sixDest_low (⟨σ2, τ2, false⟩ : s1611e3_SixCode) hj6]
-      simp only [Bool.false_eq_true, if_true, if_false, reduceIte, Nat.zero_add]
+      simp only [Bool.false_eq_true, ite_true, ite_false, Nat.zero_add]
       have hdl : (σ2 ⟨j, hj6⟩).val < 6 := (σ2 ⟨j, hj6⟩).isLt
       rw [s1611e3_sixDest_low (⟨σ1, τ1, true⟩ : s1611e3_SixCode) hdl]
-      simp only [if_true, reduceIte]
+      simp only [ite_true]
       all_goals
         try simp only [Equiv.Perm.mul_apply]
-        try rw [Nat.add_right_inj]
-        try apply congrArg Fin.val
-        try congr 1
-        try apply Fin.ext
-        try simp only [Fin.val_mk]
-        try omega
     · rw [s1611e3_sixDest_low (⟨τ1 * σ2, σ1 * τ2, false⟩ : s1611e3_SixCode) hj6,
           s1611e3_sixDest_low (⟨σ2, τ2, true⟩ : s1611e3_SixCode) hj6]
-      simp only [Bool.false_eq_true, if_true, if_false, reduceIte]
+      simp only [Bool.false_eq_true, ite_true, ite_false]
       have hv : (σ2 ⟨j, hj6⟩).val < 6 := (σ2 ⟨j, hj6⟩).isLt
       have hdge : ¬ (6 + (σ2 ⟨j, hj6⟩).val < 6) := by omega
       rw [s1611e3_sixDest_high (⟨σ1, τ1, true⟩ : s1611e3_SixCode) hdge]
-      simp only [if_true, reduceIte, Nat.zero_add]
+      simp only [ite_true, Nat.zero_add]
       all_goals
         try simp only [Equiv.Perm.mul_apply]
-        try rw [Nat.add_right_inj]
         try apply congrArg Fin.val
         try congr 1
         try apply Fin.ext
-        try simp only [Fin.val_mk]
+        try simp only
         try omega
   · cases ε1 <;> cases ε2 <;>
-      simp only [s1611e3_sixCodeMul, Bool.false_eq_true, if_true, if_false, reduceIte]
+      simp only [s1611e3_sixCodeMul, Bool.false_eq_true, ite_true, ite_false]
     · rw [s1611e3_sixDest_high (⟨σ1 * σ2, τ1 * τ2, false⟩ : s1611e3_SixCode) hj6,
           s1611e3_sixDest_high (⟨σ2, τ2, false⟩ : s1611e3_SixCode) hj6]
-      simp only [Bool.false_eq_true, if_false, reduceIte]
+      simp only [Bool.false_eq_true, ite_false]
       have hv : (τ2 ⟨j % 6, Nat.mod_lt j (by norm_num)⟩).val < 6 :=
         (τ2 ⟨j % 6, Nat.mod_lt j (by norm_num)⟩).isLt
       have hdge : ¬ (6 + (τ2 ⟨j % 6, Nat.mod_lt j (by norm_num)⟩).val < 6) := by omega
       rw [s1611e3_sixDest_high (⟨σ1, τ1, false⟩ : s1611e3_SixCode) hdge]
-      simp only [Bool.false_eq_true, if_false, reduceIte]
+      simp only [Bool.false_eq_true, ite_false]
       all_goals
         try simp only [Equiv.Perm.mul_apply]
         try rw [Nat.add_right_inj]
         try apply congrArg Fin.val
         try congr 1
         try apply Fin.ext
-        try simp only [Fin.val_mk]
+        try simp only
         try omega
     · rw [s1611e3_sixDest_high (⟨τ1 * σ2, σ1 * τ2, true⟩ : s1611e3_SixCode) hj6,
           s1611e3_sixDest_high (⟨σ2, τ2, true⟩ : s1611e3_SixCode) hj6]
-      simp only [if_true, reduceIte, Nat.zero_add]
+      simp only [ite_true, Nat.zero_add]
       have hdl : (τ2 ⟨j % 6, Nat.mod_lt j (by norm_num)⟩).val < 6 :=
         (τ2 ⟨j % 6, Nat.mod_lt j (by norm_num)⟩).isLt
       rw [s1611e3_sixDest_low (⟨σ1, τ1, false⟩ : s1611e3_SixCode) hdl]
-      simp only [Bool.false_eq_true, if_false, reduceIte, Nat.zero_add]
+      simp only [Bool.false_eq_true, ite_false, Nat.zero_add]
       all_goals
         try simp only [Equiv.Perm.mul_apply]
-        try rw [Nat.add_right_inj]
-        try apply congrArg Fin.val
-        try congr 1
-        try apply Fin.ext
-        try simp only [Fin.val_mk]
-        try omega
     · rw [s1611e3_sixDest_high (⟨σ1 * σ2, τ1 * τ2, true⟩ : s1611e3_SixCode) hj6,
           s1611e3_sixDest_high (⟨σ2, τ2, false⟩ : s1611e3_SixCode) hj6]
-      simp only [Bool.false_eq_true, if_true, if_false, reduceIte, Nat.zero_add]
+      simp only [Bool.false_eq_true, ite_true, ite_false, Nat.zero_add]
       have hv : (τ2 ⟨j % 6, Nat.mod_lt j (by norm_num)⟩).val < 6 :=
         (τ2 ⟨j % 6, Nat.mod_lt j (by norm_num)⟩).isLt
       have hdge : ¬ (6 + (τ2 ⟨j % 6, Nat.mod_lt j (by norm_num)⟩).val < 6) := by omega
       rw [s1611e3_sixDest_high (⟨σ1, τ1, true⟩ : s1611e3_SixCode) hdge]
-      simp only [if_true, reduceIte, Nat.zero_add]
+      simp only [ite_true, Nat.zero_add]
       all_goals
         try simp only [Equiv.Perm.mul_apply]
-        try rw [Nat.add_right_inj]
         try apply congrArg Fin.val
         try congr 1
         try apply Fin.ext
-        try simp only [Fin.val_mk]
+        try simp only
         try omega
     · rw [s1611e3_sixDest_high (⟨τ1 * σ2, σ1 * τ2, false⟩ : s1611e3_SixCode) hj6,
           s1611e3_sixDest_high (⟨σ2, τ2, true⟩ : s1611e3_SixCode) hj6]
-      simp only [Bool.false_eq_true, if_true, if_false, reduceIte, Nat.zero_add]
+      simp only [Bool.false_eq_true, ite_true, ite_false, Nat.zero_add]
       have hdl : (τ2 ⟨j % 6, Nat.mod_lt j (by norm_num)⟩).val < 6 :=
         (τ2 ⟨j % 6, Nat.mod_lt j (by norm_num)⟩).isLt
       rw [s1611e3_sixDest_low (⟨σ1, τ1, true⟩ : s1611e3_SixCode) hdl]
-      simp only [if_true, reduceIte]
+      simp only [ite_true]
       all_goals
         try simp only [Equiv.Perm.mul_apply]
-        try rw [Nat.add_right_inj]
-        try apply congrArg Fin.val
-        try congr 1
-        try apply Fin.ext
-        try simp only [Fin.val_mk]
-        try omega
 
 private theorem s1611e3_eps_eq_of_sixDest (c d : s1611e3_SixCode)
     (h : s1611e3_sixDest c 0 = s1611e3_sixDest d 0) : c.eps = d.eps := by
@@ -189,22 +163,22 @@ private theorem s1611e3_eps_eq_of_sixDest (c d : s1611e3_SixCode)
   · exfalso
     have h1 : s1611e3_sixDest (⟨σ1, τ1, false⟩ : s1611e3_SixCode) 0 < 6 := by
       rw [s1611e3_sixDest_low (⟨σ1, τ1, false⟩ : s1611e3_SixCode) (by norm_num)]
-      simp only [Bool.false_eq_true, if_false, reduceIte, Nat.zero_add]
+      simp only [Bool.false_eq_true, ite_false, Nat.zero_add]
       exact (σ1 (0 : Fin 6)).isLt
     have h2 : ¬ s1611e3_sixDest (⟨σ2, τ2, true⟩ : s1611e3_SixCode) 0 < 6 := by
       rw [s1611e3_sixDest_low (⟨σ2, τ2, true⟩ : s1611e3_SixCode) (by norm_num)]
-      simp only [if_true]
+      simp only [ite_true]
       have := (σ2 (0 : Fin 6)).isLt
       omega
     omega
   · exfalso
     have h2 : s1611e3_sixDest (⟨σ2, τ2, false⟩ : s1611e3_SixCode) 0 < 6 := by
       rw [s1611e3_sixDest_low (⟨σ2, τ2, false⟩ : s1611e3_SixCode) (by norm_num)]
-      simp only [Bool.false_eq_true, if_false, reduceIte, Nat.zero_add]
+      simp only [Bool.false_eq_true, ite_false, Nat.zero_add]
       exact (σ2 (0 : Fin 6)).isLt
     have h1 : ¬ s1611e3_sixDest (⟨σ1, τ1, true⟩ : s1611e3_SixCode) 0 < 6 := by
       rw [s1611e3_sixDest_low (⟨σ1, τ1, true⟩ : s1611e3_SixCode) (by norm_num)]
-      simp only [if_true]
+      simp only [ite_true]
       have := (σ1 (0 : Fin 6)).isLt
       omega
     omega
@@ -295,7 +269,7 @@ private theorem s1611e3_tab_eq_orShift (c : s1611e3_SixCode) :
   obtain ⟨σ, τ, ε⟩ := c
   cases ε <;>
     simp [sixCodeTab, s1611e3_orShift, s1611e3_range12, s1611e3_sixDest, List.foldl_cons,
-      List.foldl_nil, Nat.zero_or, Nat.shiftLeft_zero, Nat.zero_add, Nat.mod_eq_of_lt]
+      List.foldl_nil, Nat.zero_or, Nat.shiftLeft_zero, Nat.mod_eq_of_lt]
 
 private theorem s1611e3_testBit_sixTabDigit (t j p : Nat) :
     (sixTabDigit t j).testBit p = (decide (p < 4) && t.testBit (4 * j + p)) := by
@@ -309,7 +283,7 @@ private theorem s1611e3_sixTabDigit_sixCodeTab (c : s1611e3_SixCode) (j : Nat) (
   intro p
   rw [s1611e3_testBit_sixTabDigit]
   by_cases hp : p < 4
-  · simp only [hp, decide_true, Bool.and_true]
+  · simp only [hp, decide_true]
     rw [s1611e3_tab_eq_orShift]
     exact s1611e3_orShift_testBit (s1611e3_sixDest c) 12
       (fun i _ => by have := s1611e3_sixDest_lt c i; omega) j p hj hp
@@ -361,7 +335,7 @@ private theorem s1611e3_sixTabDigit_tabComp (a b : Nat) (j : Nat) (hj : j < 12) 
   intro p
   rw [s1611e3_testBit_sixTabDigit]
   by_cases hp : p < 4
-  · simp only [hp, decide_true, Bool.and_true]
+  · simp only [hp, decide_true]
     rw [s1611e3_tabComp_eq_orShift]
     exact s1611e3_orShift_testBit (fun i => sixTabDigit a (sixTabDigit b i)) 12
       (fun i _ => s1611e3_sixTabDigit_lt a (sixTabDigit b i)) j p hj hp
@@ -435,9 +409,9 @@ private theorem s1611e3_sixTabImg_zero_eq (c : s1611e3_SixCode) (x : Nat) (hx : 
       (if c.eps then s1611e3_sixBitAct c.sigma x <<< 6 else s1611e3_sixBitAct c.sigma x) := by
   rw [s1611e3_sixTabImg_digits c 0 x (by norm_num)]
   by_cases hc : c.eps = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     simpa [s1611e3_sixDest, hc] using s1611e3_imgShift c.sigma 6 (Or.inr rfl) (⟨x, hx⟩ : Fin 64)
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     simpa [s1611e3_sixDest, hc] using s1611e3_imgShift c.sigma 0 (Or.inl rfl) (⟨x, hx⟩ : Fin 64)
 
 private theorem s1611e3_sixTabImg_six_eq (c : s1611e3_SixCode) (x : Nat) (hx : x < 64) :
@@ -445,9 +419,9 @@ private theorem s1611e3_sixTabImg_six_eq (c : s1611e3_SixCode) (x : Nat) (hx : x
       (if c.eps then s1611e3_sixBitAct c.tau x else s1611e3_sixBitAct c.tau x <<< 6) := by
   rw [s1611e3_sixTabImg_digits c 6 x (by norm_num)]
   by_cases hc : c.eps = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     simpa [s1611e3_sixDest, hc] using s1611e3_imgShift c.tau 0 (Or.inl rfl) (⟨x, hx⟩ : Fin 64)
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     simpa [s1611e3_sixDest, hc] using s1611e3_imgShift c.tau 6 (Or.inr rfl) (⟨x, hx⟩ : Fin 64)
 
 private def s1611e3_pack (a : Nat → Nat) (n : Nat) : Nat :=
@@ -555,10 +529,10 @@ private theorem s1611e3_sixBitAct_testBit (σ : Perm (Fin 6)) (x : Nat) (p : Fin
     · have hc : c i = true := by simp [c, h]
       simp [hc, Nat.and_one_is_mod, h]
     · have h0 : (x >>> ((Equiv.symm σ i : Fin 6) : Nat)) % 2 = 0 := by omega
-      have hc : c i = false := by simp [c, h, h0]
+      have hc : c i = false := by simp [c, h0]
       simp [hc, Nat.and_one_is_mod, h0]
   rw [hsum, s1611e3_bitSum_testBit]
-  simp [c, Nat.and_one_is_mod, beq_iff_eq]
+  simp [c, Nat.and_one_is_mod]
 
 private theorem s1611e3_sixBitAct_lt (σ : Perm (Fin 6)) (x : Nat) :
     s1611e3_sixBitAct σ x < 64 := by
@@ -632,7 +606,7 @@ theorem sixCodeAct_eq_tab (c : s1611e3_SixCode) (m : Nat) :
       s1611e3_pack_extract _ hb6 ((m >>> 6) &&& 63) hy, himg0, himg6]
   rw [s1611e3_sixBitAct_mod τ (m >>> 6)]
   cases ε
-  · simp only [Bool.false_eq_true, if_false, reduceIte]
+  · simp only [Bool.false_eq_true, ite_false]
     have hltA : s1611e3_sixBitAct σ (m &&& 63) < 2 ^ 6 := by
       have := s1611e3_sixBitAct_lt σ (m &&& 63)
       norm_num at this ⊢
@@ -642,7 +616,7 @@ theorem sixCodeAct_eq_tab (c : s1611e3_SixCode) (m : Nat) :
       rw [Nat.shiftLeft_eq, Nat.mul_comm]
     rw [show (64 : Nat) = 2 ^ 6 by norm_num, hshift, Nat.add_comm, Nat.or_comm]
     exact Nat.two_pow_add_eq_or_of_lt hltA (s1611e3_sixBitAct τ ((m >>> 6) &&& 63))
-  · simp only [if_true, reduceIte]
+  · simp only [ite_true]
     have hltB : s1611e3_sixBitAct τ ((m >>> 6) &&& 63) < 2 ^ 6 := by
       have := s1611e3_sixBitAct_lt τ ((m >>> 6) &&& 63)
       norm_num at this ⊢

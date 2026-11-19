@@ -16,7 +16,7 @@ theorem lift_of_maximal {M : Type*} [Group M] [Finite M] (N : Subgroup M) [N.Nor
     (hmax : ∀ x : M, orderOf x = 3 → x ∈ Subgroup.centralizer (A : Set M) → x ∈ A)
     (x : M ⧸ N) (hx : orderOf x = 3) (hxA : ∀ a ∈ A, Commute x (a : M ⧸ N)) :
     ∃ y ∈ A, (y : M ⧸ N) = x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : ¬ 3 ∣ Nat.card (QuotientGroup.mk' N).ker := by
     rw [QuotientGroup.ker_mk']
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hN.symm
@@ -102,7 +102,7 @@ section ObsFixNC
 theorem core_central {G : Type*} [Group G] [Finite G] (N A : Subgroup G) [N.Normal]
     (hNA : N ⊔ A = ⊤) (hA : IsPGroup 3 A) (hN3 : 3 ∣ Nat.card N) :
     ∃ x ∈ N, orderOf x = 3 ∧ ∀ a ∈ A, Commute x a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨c, hc⟩ : ∃ c : ℕ, N.index = 3 ^ c := by
     obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hA
     have h1 : N.index = N.relIndex A := by
@@ -113,7 +113,7 @@ theorem core_central {G : Type*} [Group G] [Finite G] (N A : Subgroup G) [N.Norm
     exact ⟨i, h1.trans hi⟩
   obtain ⟨P, hPp, hAP, hPidx⟩ : ∃ P : Subgroup G, IsPGroup 3 P ∧ A ≤ P ∧ ¬ 3 ∣ P.index := by
     obtain ⟨S, hAS⟩ := IsPGroup.exists_le_sylow hA
-    exact ⟨(S : Subgroup G), S.isPGroup', hAS, Sylow.not_dvd_index S⟩
+    exact ⟨(S : Subgroup G), S.isPGroup, hAS, Sylow.not_dvd_index S⟩
   have hGdiv : 3 ^ (c + 1) ∣ Nat.card G := by
     rw [← Subgroup.card_mul_index N, hc, pow_succ']
     exact mul_dvd_mul_right hN3 _
@@ -137,8 +137,8 @@ theorem core_central {G : Type*} [Group G] [Finite G] (N A : Subgroup G) [N.Norm
     have h5 : 0 < 3 ^ c := by positivity
     rw [pow_succ'] at h4
     linarith
-  haveI : Group.IsNilpotent P := IsPGroup.isNilpotent hPp
-  haveI : (N.subgroupOf P).Normal := inferInstance
+  have : Group.IsNilpotent P := IsPGroup.isNilpotent hPp
+  have : (N.subgroupOf P).Normal := inferInstance
   have hX : N.subgroupOf P ⊓ Subgroup.center ↥P ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hT0
   have hXdvd : 3 ∣ Nat.card ↥(N.subgroupOf P ⊓ Subgroup.center ↥P) := by
@@ -164,15 +164,15 @@ theorem core_central {G : Type*} [Group G] [Finite G] (N A : Subgroup G) [N.Norm
     exact h1.symm
 
 theorem exists_fixed_noncentral_of_coprime_center {Q : Type*} [Group Q] [Finite Q]
-    (K Abar : Subgroup Q) (hKperf : ⁅K, K⁆ = K)
-    (hKq : ∀ H : Subgroup Q, H ≤ K → (H.subgroupOf K).Normal → H = K ∨ H ≤ Subgroup.centralizer (K : Set Q))
+    (K Abar : Subgroup Q) (_hKperf : ⁅K, K⁆ = K)
+    (_hKq : ∀ H : Subgroup Q, H ≤ K → (H.subgroupOf K).Normal → H = K ∨ H ≤ Subgroup.centralizer (K : Set Q))
     (h3K : 3 ∣ Nat.card K) (hZ : ¬ 3 ∣ Nat.card (K ⊓ Subgroup.centralizer (K : Set Q) : Subgroup Q))
     (hA : IsPGroup 3 Abar) (hAK : Abar ≤ Subgroup.normalizer (K : Set Q)) :
     ∃ x ∈ K, orderOf x = 3 ∧ x ∉ Subgroup.centralizer (K : Set Q) ∧ ∀ a ∈ Abar, Commute x a := by
   have hKM : (K.subgroupOf (K ⊔ Abar)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2
       (sup_le Subgroup.le_normalizer hAK)
-  haveI := hKM
+  have := hKM
   have hNA : K.subgroupOf (K ⊔ Abar) ⊔ Abar.subgroupOf (K ⊔ Abar) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.subgroupOf_self]
   have hA' : IsPGroup 3 (Abar.subgroupOf (K ⊔ Abar)) := IsPGroup.comap_subtype hA
@@ -212,7 +212,7 @@ theorem exists_centralizing_not_mem_of_index_two {M : Type*} [Group M] [Finite M
     rw [inf_of_le_left hR₀R, hidx] at h
     omega
   have hcardS : Nat.card ↥((R : Set M) \ (R₀ : Set M)) + Nat.card R₀ = Nat.card R := by
-    have h1 := Set.ncard_diff_add_ncard_of_subset (SetLike.coe_subset_coe.mpr hR₀R)
+    have h1 := Set.ncard_sdiff_add_ncard_of_subset (SetLike.coe_subset_coe.mpr hR₀R)
     have h2 : Nat.card ↥((R : Set M) \ (R₀ : Set M)) = ((R : Set M) \ (R₀ : Set M)).ncard :=
       Nat.card_coe_set_eq _
     have h3 : Nat.card R₀ = (R₀ : Set M).ncard := Nat.card_coe_set_eq (R₀ : Set M)
@@ -227,7 +227,7 @@ theorem exists_centralizing_not_mem_of_index_two {M : Type*} [Group M] [Finite M
     have h1 := Subgroup.mem_set_normalizer_iff.mp (hAR a.2) (x : M)
     have h2 := Subgroup.mem_set_normalizer_iff.mp (hAR₀ a.2) (x : M)
     exact ⟨h1.mp x.2.1, fun h => x.2.2 (h2.mpr h)⟩
-  letI : MulAction A ↥((R : Set M) \ (R₀ : Set M)) :=
+  let : MulAction A ↥((R : Set M) \ (R₀ : Set M)) :=
     { smul := fun a x => ⟨(a : M) * (x : M) * (a : M)⁻¹, hmem a x⟩
       one_smul := fun x => Subtype.ext (by
         show ((1 : A) : M) * (x : M) * ((1 : A) : M)⁻¹ = (x : M)
@@ -535,7 +535,7 @@ theorem exists_elemAbelian_lift {M : Type*} [Group M] [Finite M] (N X : Subgroup
     · rw [Subgroup.card_map_of_injective E'.subtype_injective]
       exact hP
   have hFN : F ⊓ N = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     rw [hFcard]
     exact Nat.Coprime.pow_left a hN.symm
   have hker : ∀ x ∈ F, QuotientGroup.mk' N x = 1 → x = 1 := by
@@ -575,12 +575,14 @@ variable {M : Type*} [Group M] [Finite M]
 
 
 
+omit [Finite M] in
 theorem map_conj_map_mk (N Y : Subgroup M) [N.Normal] (s : M) :
     (Y.map (MulAut.conj s).toMonoidHom).map (QuotientGroup.mk' N) =
       (Y.map (QuotientGroup.mk' N)).map (MulAut.conj (QuotientGroup.mk' N s)).toMonoidHom := by
   rw [Subgroup.map_map, Subgroup.map_map]
   congr 1
 
+omit [Finite M] in
 theorem le_normalizer_conj (X Y : Subgroup M) [X.Normal]
     (hXY : X ≤ Subgroup.normalizer (Y : Set M)) (s : M) :
     X ≤ Subgroup.normalizer ((Y.map (MulAut.conj s).toMonoidHom : Subgroup M) : Set M) := by
@@ -603,6 +605,7 @@ theorem le_normalizer_conj (X Y : Subgroup M) [X.Normal]
       have : h = x⁻¹ * (s * y * s⁻¹) * x := by rw [← h2]; group
       rw [this]; simp [MulAut.conj_apply]; group
 
+omit [Finite M] in
 theorem normal_map_of_le_normalizer (N X Y : Subgroup M) [N.Normal] (hYX : Y ≤ X)
     (hXY : X ≤ Subgroup.normalizer (Y : Set M)) :
     ((Y.map (QuotientGroup.mk' N)).subgroupOf (X.map (QuotientGroup.mk' N))).Normal := by
@@ -673,6 +676,7 @@ theorem conj_eq_of_mem_centralizer (N X Y A : Subgroup M) [N.Normal] (hN : (Nat.
     simpa using h1
   exact this.symm
 
+omit [Finite M] in
 theorem map_conj_map_conj (Y : Subgroup M) (a b : M) :
     (Y.map (MulAut.conj b).toMonoidHom).map (MulAut.conj a).toMonoidHom =
       Y.map (MulAut.conj (a * b)).toMonoidHom := by
@@ -747,6 +751,7 @@ theorem false_of_four_conj (N X Y : Subgroup M) [N.Normal] (hN : (Nat.card N).Co
   have := h3 F hFX hF3 hFc
   omega
 
+omit [Finite M] in
 theorem mem_normalizer_of_map_conj_eq {Y : Subgroup M} {g : M}
     (h : Y.map (MulAut.conj g).toMonoidHom = Y) : g ∈ Subgroup.normalizer (Y : Set M) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -764,6 +769,7 @@ theorem mem_normalizer_of_map_conj_eq {Y : Subgroup M} {g : M}
       simpa [MulAut.conj_apply] using hwz
     exact this ▸ hw
 
+omit [Finite M] in
 theorem map_conj_eq_iff_mem {Y : Subgroup M} (a b : M) :
     Y.map (MulAut.conj a).toMonoidHom = Y.map (MulAut.conj b).toMonoidHom ↔
       b⁻¹ * a ∈ Subgroup.normalizer (Y : Set M) := by
@@ -771,7 +777,7 @@ theorem map_conj_eq_iff_mem {Y : Subgroup M} (a b : M) :
   · intro h
     apply mem_normalizer_of_map_conj_eq
     rw [← map_conj_map_conj, h, map_conj_map_conj, inv_mul_cancel]
-    ext z; simp [MulAut.conj_apply]
+    ext z; simp
   · intro h
     have hY : Y.map (MulAut.conj (b⁻¹ * a)).toMonoidHom = Y := by
       ext z
@@ -810,12 +816,12 @@ theorem normalizes_of_coprime_invariant (N X Y A R : Subgroup M) [N.Normal]
     exact orderOf_eq_prime hpow hne
   have hle3 : R₀.relIndex R ≤ 3 := by
     by_contra hgt
-    push_neg at hgt
+    push Not at hgt
     set Q := ↥R ⧸ R₀.subgroupOf R
     have hcardQ : 4 ≤ Nat.card Q := by
       have hQ : Nat.card Q = R₀.relIndex R := rfl
       omega
-    haveI : Fintype Q := Fintype.ofFinite Q
+    have : Fintype Q := Fintype.ofFinite Q
     obtain ⟨f⟩ : Nonempty (Fin 4 ↪ Q) :=
       Function.Embedding.nonempty_of_card_le (by simpa [Nat.card_eq_fintype_card] using hcardQ)
     let s : Fin 4 → M := fun i => ((f i).out : R)

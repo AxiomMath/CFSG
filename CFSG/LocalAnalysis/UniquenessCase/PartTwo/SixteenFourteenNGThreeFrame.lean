@@ -20,12 +20,12 @@ theorem s1614_torus_frame {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x
       ∀ i, ∃ B : Subgroup (MulAut W), B ≤ M ∧ IsPGroup 3 ↥B ∧ ¬ IsCyclic ↥B ∧
         ∀ y ∈ Y i, y ∈ fixV B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hext : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hext : CFSG.IsExtraspecial 3 ↥L := hL.1
   have hLcard : Nat.card ↥L = 27 := by
     rw [hL.2.1]
     norm_num
-  haveI : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hLcard]; norm_num)
+  have : Finite ↥L := Nat.finite_of_card_ne_zero (by rw [hLcard]; norm_num)
   have hZcard : Nat.card (Subgroup.center ↥L) = 3 := CFSG.IsExtraspecial.center_order_p 3 ↥L
   obtain ⟨ℓ, hℓ, hℓ1⟩ : ∃ ℓ : ↥L, ℓ ∈ Subgroup.center ↥L ∧ ℓ ≠ 1 := by
     have hnt : Nontrivial (Subgroup.center ↥L) := by

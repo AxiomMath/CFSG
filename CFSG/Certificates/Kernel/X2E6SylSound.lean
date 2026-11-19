@@ -166,7 +166,7 @@ theorem qOK_props {gw : List (List ℕ)} (h : qOK gw = true) :
     gw.length = 4 ∧ (∀ w ∈ gw, pwL (wordL w) 3 = idL) ∧ (qEls gw).length = 81 ∧
       (qEls gw).Nodup ∧ ∀ A ∈ qEls gw, ∀ w ∈ gw, mulL A (wordL w) ∈ qEls gw := by
   simp only [qOK, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, decide_eq_true_eq,
-    List.contains_iff] at h
+    _root_.List.contains_iff_mem] at h
   obtain ⟨⟨⟨⟨⟨h1, -⟩, h3⟩, h4⟩, h5⟩, h6⟩ := h
   exact ⟨h1, h3, h4, h5, h6⟩
 
@@ -260,7 +260,7 @@ theorem famOK_props {gw : List (List ℕ)} {mel : List (List ℕ)} (hf : famOK g
         ∃ K ∈ mel.map (famM (qEls gw)), K.length = 3 * H.length ∧
           (∀ A ∈ K, A ∈ extL H x) ∧ ∀ A ∈ extL H x, A ∈ K := by
   simp only [famOK, Bool.and_eq_true, beq_iff_eq, List.all_eq_true, decide_eq_true_eq,
-    Bool.or_eq_true, List.any_eq_true, Bool.not_eq_true', List.contains_iff, sameSet] at hf
+    Bool.or_eq_true, List.any_eq_true, Bool.not_eq_true', _root_.List.contains_iff_mem, sameSet] at hf
   obtain ⟨⟨h0, hnod⟩, hcl⟩ := hf
   refine ⟨List.mem_of_mem_head? (by rw [h0]; rfl), hnod, fun H hH x hx hxH hc => ?_⟩
   rcases hcl H hH x hx with (h1 | h2) | h3
@@ -369,7 +369,7 @@ theorem exists_fam {gw : List (List ℕ)} {mel : List (List ℕ)} (hq : qOK gw =
     have hKlt : Nat.card K < Nat.card R := by
       have : 0 < 3 ^ n := by positivity
       omega
-    obtain ⟨x, hxR, hxK⟩ : ∃ x ∈ R, x ∉ K := SetLike.not_le_iff_exists.1 fun hRK =>
+    obtain ⟨x, hxR, hxK⟩ : ∃ x ∈ R, x ∉ K := IsConcreteLE.not_le_iff_exists.1 fun hRK =>
       lt_irrefl _ (hKlt.trans_le (Subgroup.card_le_of_le hRK))
     have hHQ : ∀ B ∈ H, B ∈ qEls gw := by
       obtain ⟨m, -, rfl⟩ := List.mem_map.1 hH
@@ -427,7 +427,7 @@ theorem exists_fam {gw : List (List ℕ)} {mel : List (List ℕ)} (hq : qOK gw =
     refine ⟨H'', hH'', ?_⟩
     rw [hset]
     ext M
-    simp only [FamSet, extL, List.mem_append, List.mem_map, Set.mem_setOf_eq]
+    simp only [FamSet, extL, List.mem_append, List.mem_map, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨g, hgR, rfl⟩
       obtain ⟨k, hkK, i, hi, rfl⟩ := exists_decomp' hA hKR hxR hxK hcardK g hgR
@@ -513,7 +513,7 @@ theorem card_fixVec_le {R : Subgroup GL6} {H : List (List (List ℕ))} (hMat : M
     exact Subtype.ext (sub_eq_zero.1 h0)
   calc Nat.card (fixVec R) ≤ Nat.card (Fin S.length → ZMod 3) :=
         Nat.card_le_card_of_injective φ hinj
-    _ = 3 ^ S.length := by simp [Nat.card_eq_fintype_card, Fintype.card_fun, ZMod.card]
+    _ = 3 ^ S.length := by simp [Nat.card_eq_fintype_card, ZMod.card]
 
 @[expose] def vecF (f : List ℕ) : Fin 6 → ZMod 3 := fun i => ((f.getD i 0 : ℕ) : ZMod 3)
 
@@ -651,11 +651,11 @@ theorem rootGood_of_three (F : Set (Fin 6 → ZMod 3)) {a0 b2 b3 : Fin 6 → ℤ
       exact Relation.ReflTransGen.tail ih ⟨hab, Relation.ReflTransGen.tail hab hbc, hbc.2.2⟩
   have hconn : IsRootConnected (compC' F a0) := by
     intro x hx y hy
-    have hsymm : Symmetric (fun a b => a ∈ compC' F a0 ∧ b ∈ compC' F a0 ∧ cartanForm a b ≠ 0) :=
+    have hsymm : (∀ ⦃a₀ b₀⦄, (fun a b => a ∈ compC' F a0 ∧ b ∈ compC' F a0 ∧ cartanForm a b ≠ 0) a₀ b₀ → (fun a b => a ∈ compC' F a0 ∧ b ∈ compC' F a0 ∧ cartanForm a b ≠ 0) b₀ a₀) :=
       fun a b hab => ⟨hab.2.1, hab.1, by rw [cartanForm_comm]; exact hab.2.2⟩
-    haveI : Std.Symm (fun a b => a ∈ compC' F a0 ∧ b ∈ compC' F a0 ∧ cartanForm a b ≠ 0) :=
+    have : Std.Symm (fun a b => a ∈ compC' F a0 ∧ b ∈ compC' F a0 ∧ cartanForm a b ≠ 0) :=
       ⟨hsymm⟩
-    have hx' := (Relation.ReflTransGen.symmetric (r := fun a b => a ∈ compC' F a0 ∧
+    have hx' := (Relation.ReflTransGen.stdSymm (r := fun a b => a ∈ compC' F a0 ∧
       b ∈ compC' F a0 ∧ cartanForm a b ≠ 0)).symm _ _ (hchain x hx)
     exact hx'.trans (hchain y hy)
   have hmem : ∀ b, b ∈ rootsE6 ∧ (∀ f ∈ F, ∑ i, ((b i : ℤ) : ZMod 3) * f i = 0) →
@@ -741,14 +741,14 @@ def addSubOf' (fs : List (List ℕ)) (h : fsOK fs = true) : AddSubgroup (Fin 6 �
   carrier := vecF '' {f | f ∈ fs}
   add_mem' := by
     rintro _ _ ⟨a, ha, rfl⟩ ⟨b, hb, rfl⟩
-    simp only [fsOK, Bool.and_eq_true, List.all_eq_true, List.contains_iff] at h
+    simp only [fsOK, Bool.and_eq_true, List.all_eq_true, _root_.List.contains_iff_mem] at h
     exact ⟨addV a b, h.1.2 a ha b hb, vecF_addV a b⟩
   zero_mem' := by
-    simp only [fsOK, Bool.and_eq_true, List.contains_iff] at h
+    simp only [fsOK, Bool.and_eq_true, _root_.List.contains_iff_mem] at h
     exact ⟨_, h.1.1.2, vecF_zero⟩
   neg_mem' := by
     rintro _ ⟨a, ha, rfl⟩
-    simp only [fsOK, Bool.and_eq_true, List.all_eq_true, List.contains_iff] at h
+    simp only [fsOK, Bool.and_eq_true, List.all_eq_true, _root_.List.contains_iff_mem] at h
     exact ⟨negV a, h.2 a ha, vecF_negV a⟩
 
 theorem card_addSubOf' (fs : List (List ℕ)) (h : fsOK fs = true) :
@@ -791,12 +791,12 @@ theorem fixOK_props {gw : List (List ℕ)} {mel fixS : List (List ℕ)}
   rw [List.getD_eq_getElem _ _ hm] at hm'
   simp only [Bool.and_eq_true] at hm'
   obtain ⟨⟨⟨⟨⟨hY, hEq⟩, hS⟩, hcol⟩, hb⟩, hw⟩ := hm'
-  simp only [List.all_eq_true, List.contains_iff] at hY
+  simp only [List.all_eq_true, _root_.List.contains_iff_mem] at hY
   rw [beq_iff_eq] at hEq
   simp only [List.all_eq_true, decide_eq_true_eq] at hS
   refine ⟨fixS.getD m [], fixE.getD m [], fixY.getD m [], hY, hEq, hS, ?_, ?_⟩
   · intro i j hj
-    simp only [colsZero, List.all_eq_true, List.mem_range, Bool.or_eq_true, List.contains_iff,
+    simp only [colsZero, List.all_eq_true, List.mem_range, Bool.or_eq_true, _root_.List.contains_iff_mem,
       beq_iff_eq] at hcol
     exact (hcol i i.isLt j j.isLt).resolve_left hj
   · simp only [boundOK, Bool.and_eq_true, decide_eq_true_eq, Bool.or_eq_true, bne_iff_ne,

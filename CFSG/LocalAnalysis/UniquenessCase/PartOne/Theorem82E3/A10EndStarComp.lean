@@ -243,7 +243,7 @@ private lemma le_centralizer_fittingSubgroup {X : Type} [Group X] [Finite X] {W 
     exact hcore
   · have hqprime : (q : ℕ).Prime := Nat.prime_of_mem_primeFactors q.2
     have hqcop : Nat.Coprime 3 (Nat.card (CFSG.pCore (q : ℕ) X)) := by
-      haveI : Fact (Nat.Prime (q : ℕ)) := ⟨hqprime⟩
+      have : Fact (Nat.Prime (q : ℕ)) := ⟨hqprime⟩
       obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (p := (q : ℕ)) (G := X)).exists_card_eq
       rw [hn]
       exact ((Nat.coprime_primes Nat.prime_three hqprime).2 (fun h => hq3 h.symm)).pow_right n

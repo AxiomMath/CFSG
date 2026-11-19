@@ -74,6 +74,7 @@ theorem exists_ffOpt_of_none_notMem {K : Finset (Option (Fin 5))} (h : none ∉ 
       rw [mem_ffOpt_some]
       simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_ffB0p_iff_ffOpt (fr : PFrame Q (Option (Fin 5)) ffC) {g : OGroup Q} :
     g ∈ ffB0p fr ↔ ∃ J : Finset (Fin 5), Even J.card ∧ g = fr.signChange (ffOpt J) := by
   rw [mem_ffB0p_iff fr]
@@ -84,6 +85,7 @@ theorem mem_ffB0p_iff_ffOpt (fr : PFrame Q (Option (Fin 5)) ffC) {g : OGroup Q} 
   · rintro ⟨J, hJ, rfl⟩
     exact ⟨ffOpt J, none_notMem_ffOpt J, by rwa [ffOpt_card], rfl⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOpt_signChange_eq_iff (fr : PFrame Q (Option (Fin 5)) ffC) {J K : Finset (Fin 5)} :
     fr.signChange (ffOpt J) = fr.signChange (ffOpt K) ↔ J = K := by
   constructor
@@ -92,12 +94,14 @@ theorem ffOpt_signChange_eq_iff (fr : PFrame Q (Option (Fin 5)) ffC) {J K : Fins
   · intro h
     rw [h]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffHat_conj_signChange_ffOpt (fr : PFrame Q (Option (Fin 5)) ffC)
     (σ : Equiv.Perm (Fin 5)) (J : Finset (Fin 5)) :
     ffHat fr σ * fr.signChange (ffOpt J) * (ffHat fr σ)⁻¹ =
       fr.signChange (ffOpt (ffAct σ J)) := by
   rw [ffHat_conj_signChange fr σ (ffOpt J), ffOpt_map_optionCongr]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffHat_mul_ffOpt (fr : PFrame Q (Option (Fin 5)) ffC) (σ τ : Equiv.Perm (Fin 5))
     (J K : Finset (Fin 5)) :
     (ffHat fr σ * fr.signChange (ffOpt J)) * (ffHat fr τ * fr.signChange (ffOpt K)) =
@@ -140,6 +144,7 @@ theorem mem_ffP0p_iff_hatOpt (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 
     exact ⟨σ, hσ, fr.signChange (ffOpt J),
       (mem_ffB0p_iff_ffOpt fr).mpr ⟨J, hJ, rfl⟩, rfl⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffMonoPRho_eq_of_hat (fr : PFrame Q (Option (Fin 5)) ffC) {g : ↥(ffMonoP fr)}
     {σ : Equiv.Perm (Fin 5)} {K : Finset (Option (Fin 5))}
     (h : (g : OGroup Q) = ffHat fr σ * fr.signChange K) : ffMonoPRho fr g = σ := by
@@ -165,6 +170,7 @@ theorem ff6p_B0_normalE16 (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5))
 @[expose] noncomputable def ffZ0p (fr : PFrame Q (Option (Fin 5)) ffC) : OGroup Q :=
   fr.signChange (ffOpt {0, 1, 2, 3})
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffZ0p_mem_ffB0p (fr : PFrame Q (Option (Fin 5)) ffC) : ffZ0p fr ∈ ffB0p fr := by
   rw [ffZ0p]
   exact (mem_ffB0p_iff_ffOpt fr).mpr ⟨{0, 1, 2, 3}, ⟨2, by decide⟩, rfl⟩
@@ -173,6 +179,7 @@ theorem ffZ0p_mem_ffP0p (hQ : Q.Nondegenerate) (fr : PFrame Q (Option (Fin 5)) f
     ffZ0p fr ∈ ffP0p hQ fr :=
   ffB0p_le_ffP0p hQ fr (ffZ0p_mem_ffB0p fr)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffZ0p_ne_one (fr : PFrame Q (Option (Fin 5)) ffC) : ffZ0p fr ≠ 1 := by
   intro h
   rw [ffZ0p] at h
@@ -181,6 +188,7 @@ theorem ffZ0p_ne_one (fr : PFrame Q (Option (Fin 5)) ffC) : ffZ0p fr ≠ 1 := by
   have hJ := (ffOpt_signChange_eq_iff fr).mp h'
   exact absurd hJ (by decide)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffZ0p_mul_self (fr : PFrame Q (Option (Fin 5)) ffC) : ffZ0p fr * ffZ0p fr = 1 := by
   rw [ffZ0p, fr.signChange_mul_self]
 

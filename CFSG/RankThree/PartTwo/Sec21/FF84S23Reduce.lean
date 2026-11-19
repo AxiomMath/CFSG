@@ -48,7 +48,7 @@ open scoped Pointwise in
 private lemma ff84r_conj_into {Γ : Type*} [Group Γ] [Finite Γ] (N S T : Subgroup Γ) [N.Normal]
     (hcop : Nat.Coprime 3 (Nat.card N)) (hS : IsPGroup 3 S) (hT : IsPGroup 3 T)
     (hTle : T ≤ S ⊔ N) : ∃ n ∈ N, ∀ t ∈ T, n * t * n⁻¹ ∈ S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSM : S ≤ S ⊔ N := le_sup_left
   have hcardM : Nat.card ↥(S ⊔ N) = Nat.card S * Nat.card N :=
     ff84r_card_sup S N (ff84r_inf_eq_bot hS hcop)
@@ -58,7 +58,7 @@ private lemma ff84r_conj_into {Γ : Type*} [Group Γ] [Finite Γ] (N S T : Subgr
   obtain ⟨P₁, hP₁le⟩ := hS'.exists_le_sylow
   have hP₁ : (P₁ : Subgroup ↥(S ⊔ N)) = S.subgroupOf (S ⊔ N) := by
     refine (Subgroup.eq_of_le_of_card_ge hP₁le ?_).symm
-    obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 P₁.isPGroup'
+    obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 P₁.isPGroup
     have hdvd : Nat.card (P₁ : Subgroup ↥(S ⊔ N)) ∣ Nat.card S * Nat.card N := by
       rw [← hcardM]; exact Subgroup.card_subgroup_dvd_card _
     rw [ha] at hdvd
@@ -114,9 +114,9 @@ private lemma ff84r_card_map {H : Type} [Group H] (O K : Subgroup H) [O.Normal]
 
 theorem ff84_2_3_of_reduced (h : FF84_2_3_Reduced) : FF84_2_3 := by
   intro H _ _ hK P P₁ P₂ hP hP9 hP1 hP2 hsup hinf hsc1 hsc2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O : Subgroup H := pPrimeCore 3 H with hOdef
-  haveI hOn : O.Normal := pPrimeCore_normal (p := 3) (G := H)
+  have hOn : O.Normal := pPrimeCore_normal (p := 3) (G := H)
   have hOcop : Nat.Coprime 3 (Nat.card O) := pPrimeCore_coprime_card (p := 3) (G := H)
   set π : H →* H ⧸ O := QuotientGroup.mk' O with hπdef
   have hmk : ∀ a b : H, π a = π b ↔ a⁻¹ * b ∈ O := fun a b => QuotientGroup.eq

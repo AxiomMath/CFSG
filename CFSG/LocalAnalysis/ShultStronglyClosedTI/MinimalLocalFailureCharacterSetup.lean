@@ -197,7 +197,7 @@ theorem minimalLocalFailure_root_centralizer_quotient_character_setup_of_conclus
     have h1 := pow_orderOf_eq_one (π u)
     rwa [hubar2, pow_two] at h1
   let S : Sylow 2 J := default
-  obtain ⟨m, hm⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨m, hm⟩ := S.isPGroup.exists_card_eq
   have hm1 : m ≠ 0 := by
     rintro rfl
     apply S.ne_bot_of_dvd_card (even_iff_two_dvd.mp heven)

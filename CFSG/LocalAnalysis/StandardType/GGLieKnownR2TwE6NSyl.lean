@@ -36,8 +36,6 @@ private theorem teNSyl_reflection_fix_w0L :
 private theorem teNSyl_w0L_alpha
     {k : Type} [Field k] (θ : k →+* k) :
     weylAction (twistedDatum k θ).isFiniteType (twE6W0L k θ) twE6Alpha = twE6Alpha := by
-  change weylAction (twistedDatum k θ).isFiniteType (twE6W0L k θ)
-      (twE6Alpha : Fin (twistedDatum k θ).rank → ℤ) = twE6Alpha
   rw [twE6W0L]
   set ω : List (Fin (twistedDatum k θ).rank) :=
     [nf 0, nf 1, nf 2, nf 0, nf 1, nf 2, nf 0, nf 1, nf 2] with hω
@@ -53,7 +51,7 @@ private theorem teNSyl_longPos0_cases {γ : Fin (Tag.rank .F4) → ℤ}
     (hγ : γ ∈ twE6LongPos0) :
     γ = ![0, 1, 0, 0] ∨ γ = ![0, 1, 2, 0] ∨ γ = ![1, 0, 0, 0] ∨ γ = ![1, 1, 0, 0] ∨
       γ = ![1, 1, 2, 0] ∨ γ = ![1, 2, 2, 0] := by
-  simp only [twE6LongPos0, Set.mem_insert_iff, Set.mem_singleton_iff] at hγ
+  simp only [twE6LongPos0] at hγ
   tauto
 
 private theorem teNSyl_longPos0_isRoot
@@ -123,17 +121,17 @@ private theorem teNSyl_openCone_empty
   rintro ε ⟨hε, a, b, ha, hb, rfl⟩
   rw [twistedDatum_roots] at hε
   have hlev : (a • γ + b • twE6Alpha) twE6Last = (b : ℤ) * 2 := by
-    simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, teNSyl_longPos0_last hγ,
-      teNSyl_alpha_last, mul_zero, zero_add]
+    simp only [Pi.add_apply, Pi.smul_apply, teNSyl_longPos0_last hγ,
+      teNSyl_alpha_last]
     ring
   have hb1 : b = 1 := by
     have h := teNSyl_f4_level_le_two _ (mem_rootFinset.2 hε)
     omega
   have hht : ht (a • γ + b • twE6Alpha) =
       (a : ℤ) * ht γ + (b : ℤ) * ht twE6Alpha := by
-    simp only [ht, Pi.add_apply, Pi.smul_apply, smul_eq_mul, Finset.sum_add_distrib,
+    simp only [ht, Pi.add_apply, Pi.smul_apply, Finset.sum_add_distrib,
       Finset.mul_sum]
-    congr 1 <;> try exact Finset.sum_congr rfl fun x _ => by ring
+    congr 1
   have ha3 : a ≤ 3 := by
     have hle := teNSyl_f4_height_le _ (mem_rootFinset.2 hε)
     have hle' : (a : ℤ) * ht γ + (b : ℤ) * ht twE6Alpha ≤ 11 := hht ▸ hle
@@ -220,7 +218,7 @@ theorem twE6_exists_conj_sylow
       ∀ γ ∈ (twistedDatum k θ).roots, γ ∈ twE6Psi →
         (twistedDatum k θ).rootGroup γ ≤ twE6Cj g (twE6PosUnip θ) := by
   classical
-  haveI : Finite (fixedGroup k θ) := by
+  have : Finite (fixedGroup k θ) := by
     have : Finite (Module.End k (Fin e6Data.d →₀ k)) := Module.finite_of_finite k
     have : Finite ↥(e6Data_valid.minGroup k) := inferInstance
     infer_instance

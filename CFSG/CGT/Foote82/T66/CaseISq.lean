@@ -23,9 +23,9 @@ theorem Hyp.z_comm_L (h : Hyp G L z v H₁ m ψ) {l : GLV V} (hl : l ∈ L) : l 
   (Subgroup.mem_centralizer_iff.1 (h.setup6.component.1 hl).2 z (Subgroup.mem_zpowers z)).symm
 
 theorem Hyp.z_mem_K (h : Hyp G L z v H₁ m ψ) : z ∈ KK G L :=
-  ⟨h.z_mem_G, Subgroup.mem_centralizer_iff.2 fun l hl => h.z_comm_L hl⟩
+  ⟨h.z_mem_G, Subgroup.mem_centralizer_iff.2 fun _l hl => h.z_comm_L hl⟩
 
-theorem Hyp.K_le_N (h : Hyp G L z v H₁ m ψ) : KK G L ≤ NN G L := fun x hx =>
+theorem Hyp.K_le_N (_h : Hyp G L z v H₁ m ψ) : KK G L ≤ NN G L := fun _x hx =>
   ⟨hx.1, Subgroup.centralizer_le_normalizer _ hx.2⟩
 
 theorem Hyp.z_mem_N (h : Hyp G L z v H₁ m ψ) : z ∈ NN G L := h.K_le_N h.z_mem_K
@@ -85,7 +85,7 @@ theorem eq_sq_of_mem_zpowers {Γ : Type*} [Group Γ] {w x : Γ} (hw : orderOf w 
 theorem Hyp.not_sq (h : Hyp G L z v H₁ m ψ)
     (hK2 : ∀ Q : Subgroup (GLV V), Q ≤ KK G L → IsPGroup 2 Q → Nat.card Q ≤ 2)
     {w : GLV V} (hwG : w ∈ G) (hw : w * w = z) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz2 := h.std.orderOf_s
   have hz1 : z ≠ 1 := fun h1 => by rw [h1, orderOf_one] at hz2; exact absurd hz2 (by norm_num)
   have hwz : w * z = z * w := by rw [← hw]; group
@@ -227,7 +227,7 @@ theorem Hyp.not_sq (h : Hyp G L z v H₁ m ψ)
   have hcardP : ∀ P : Sylow 2 ↥M, Nat.card P ≤ 4 := by
     intro P
     have := hbound ((P : Subgroup ↥M).map M.subtype) (Subgroup.map_subtype_le _)
-      (P.isPGroup'.map _)
+      (P.isPGroup.map _)
     rwa [Subgroup.card_map_of_injective M.subtype_injective] at this
   have hW'card : Nat.card W' = 4 := by
     rw [Nat.card_zpowers, Subgroup.orderOf_mk, hw4]

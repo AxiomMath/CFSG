@@ -47,11 +47,13 @@ private def DA (X A : Subgroup Q) : Subgroup Q :=
   ⨆ (E : Subgroup Q) (_ : E ≤ A) (_ : Nat.card A ≤ 2 * Nat.card E),
     ⁅X ⊓ Subgroup.centralizer (E : Set Q), A⁆
 
+omit [Finite Q] in
 private theorem commutator_le_DA {X A E : Subgroup Q} (hE : E ≤ A)
     (hcard : Nat.card A ≤ 2 * Nat.card E) :
     ⁅X ⊓ Subgroup.centralizer (E : Set Q), A⁆ ≤ DA X A :=
   le_iSup_of_le E (le_iSup_of_le hE (le_iSup_of_le hcard le_rfl))
 
+omit [Finite Q] in
 private theorem DA_le {X N A : Subgroup Q} (hAX : A ≤ Subgroup.normalizer (X : Set Q))
     (hN : ∀ E : Subgroup Q, E ≤ A → Nat.card A ≤ 2 * Nat.card E →
       ∀ q ∈ X ⊓ Subgroup.centralizer (E : Set Q), ∀ a ∈ A, q * a * q⁻¹ * a⁻¹ ∈ N) :
@@ -63,6 +65,7 @@ private theorem DA_le {X N A : Subgroup Q} (hAX : A ≤ Subgroup.normalizer (X :
     intro q hq a ha
     exact hN E hE hcard q hq a ha
 
+omit [Finite Q] in
 private theorem map_conj_eq_of_mem_centralizer {A : Subgroup Q} {g : Q}
     (hg : g ∈ Subgroup.centralizer (A : Set Q)) : A.map (MulAut.conj g).toMonoidHom = A := by
   ext y
@@ -77,6 +80,7 @@ private theorem map_conj_eq_of_mem_centralizer {A : Subgroup Q} {g : Q}
     show g * y * g⁻¹ = y
     rw [← h]; group
 
+omit [Finite Q] in
 private theorem conj_mem_inf_centralizer {X E : Subgroup Q} {t q : Q}
     (ht : t ∈ Subgroup.normalizer (X : Set Q)) (hq : q ∈ X ⊓ Subgroup.centralizer (E : Set Q)) :
     (MulAut.conj t).toMonoidHom q ∈
@@ -91,6 +95,7 @@ private theorem conj_mem_inf_centralizer {X E : Subgroup Q} {t q : Q}
     _ = t * (q * e) * t⁻¹ := by rw [h]
     _ = t * q * t⁻¹ * (t * e * t⁻¹) := by group
 
+omit [Finite Q] in
 private theorem map_conj_DA_le {X A : Subgroup Q} {t : Q}
     (ht : t ∈ Subgroup.normalizer (X : Set Q)) :
     (DA X A).map (MulAut.conj t).toMonoidHom ≤ DA X (A.map (MulAut.conj t).toMonoidHom) := by
@@ -110,6 +115,7 @@ private theorem map_conj_DA_le {X A : Subgroup Q} {t : Q}
     Subgroup.card_map_of_injective (MulAut.conj t).injective]
   exact hcard
 
+omit [Finite Q] in
 private theorem conj_mem_DA {X A : Subgroup Q} {g : Q} (hgX : g ∈ Subgroup.normalizer (X : Set Q))
     (hgA : g ∈ Subgroup.centralizer (A : Set Q)) {d : Q} (hd : d ∈ DA X A) :
     g * d * g⁻¹ ∈ DA X A := by
@@ -117,6 +123,7 @@ private theorem conj_mem_DA {X A : Subgroup Q} {g : Q} (hgX : g ∈ Subgroup.nor
   rw [map_conj_eq_of_mem_centralizer hgA] at hmap
   exact hmap ⟨d, hd, rfl⟩
 
+omit [Finite Q] in
 private theorem mem_normalizer_DA {X A : Subgroup Q} {g : Q}
     (hgX : g ∈ Subgroup.normalizer (X : Set Q)) (hgA : g ∈ Subgroup.centralizer (A : Set Q)) :
     g ∈ Subgroup.normalizer (DA X A : Set Q) := by
@@ -126,12 +133,14 @@ private theorem mem_normalizer_DA {X A : Subgroup Q} {g : Q}
   have := conj_mem_DA (inv_mem hgX) (inv_mem hgA) h
   simpa [mul_assoc] using this
 
+omit [Finite Q] in
 private theorem DA_le_left {X A : Subgroup Q} (hAX : A ≤ Subgroup.normalizer (X : Set Q)) :
     DA X A ≤ X :=
-  iSup_le fun E => iSup_le fun _ => iSup_le fun _ =>
+  iSup_le fun _E => iSup_le fun _ => iSup_le fun _ =>
     (Subgroup.commutator_mono inf_le_left le_rfl).trans
       (Subgroup.le_normalizer_iff_commutator_le_left.1 hAX)
 
+omit [Finite Q] in
 private theorem normalizer_inf_centralizer_of_abelian {X A E : Subgroup Q}
     (hA : IsElemAbelian 2 A) (hAX : A ≤ Subgroup.normalizer (X : Set Q)) (hE : E ≤ A) :
     A ≤ Subgroup.normalizer ((X ⊓ Subgroup.centralizer (E : Set Q) : Subgroup Q) : Set Q) := by
@@ -200,6 +209,7 @@ private theorem inv_mul_conj_mem_DA {X A : Subgroup Q} (hA : IsElemAbelian 2 A)
   rw [heq]
   exact mul_mem (inv_mem hd) (conj_mem_DA (hAX ha) haC hd)
 
+omit [Finite Q] in
 private theorem le_normalizer_of_forall {S H : Subgroup Q} (h : ∀ g ∈ S, ∀ d ∈ H, g * d * g⁻¹ ∈ H) :
     S ≤ Subgroup.normalizer (H : Set Q) := by
   intro g hg
@@ -209,6 +219,7 @@ private theorem le_normalizer_of_forall {S H : Subgroup Q} (h : ∀ g ∈ S, ∀
   have := h g⁻¹ (inv_mem hg) _ hd
   simpa [mul_assoc] using this
 
+omit [Finite Q] in
 private theorem conj_mem_iSup {𝒜 : Set (Subgroup Q)} {F : Subgroup Q → Subgroup Q} {g : Q}
     (h : ∀ A ∈ 𝒜, ∀ d ∈ F A, g * d * g⁻¹ ∈ ⨆ A ∈ 𝒜, F A) :
     ∀ d ∈ ⨆ A ∈ 𝒜, F A, g * d * g⁻¹ ∈ ⨆ A ∈ 𝒜, F A := by
@@ -266,7 +277,7 @@ theorem mem_centralizer_mul_of_commutators {X N : Subgroup Q} {𝒜 : Set (Subgr
     exact ⟨h𝒜X A hA ha, hTDn (hAT ha),
       fun x hx => hDA A hA (inv_mul_conj_mem_DA (h𝒜 A hA) (h𝒜X A hA) hX hx ha)⟩
   intro x hx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hDodd : ¬ 2 ∣ Nat.card D := by
     intro h2
     exact (Nat.not_even_iff_odd.2 hX) (even_iff_two_dvd.2 (h2.trans (Subgroup.card_dvd_of_le hDX)))

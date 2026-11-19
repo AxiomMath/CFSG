@@ -149,7 +149,7 @@ theorem cover : ∀ T ∈ cosetOrderTables (sylQ ()) 1 4,
   rw [enumeration_trL chainS (by decide) (by decide)] at hmem
   simp only [Nat.zero_add] at hc
   have hq := List.countP_eq_zero.1 hc.symm h hmem
-  simp only [qY, ho, decide_true, Bool.true_and, Bool.not_eq_true', Bool.not_eq_false'] at hq
+  simp only [qY, ho, decide_true, Bool.true_and, Bool.not_eq_true'] at hq
   obtain ⟨hP, sP⟩ := prep_packL (w := 6) (g := h) (by norm_num)
   exact ⟨_, PP_of_prep hP sP, eq_tabP_of_rep (by norm_num) hs hTh
     (CFSG.KC.KGC31P.imageList_of_prep hP), by simpa using hq⟩

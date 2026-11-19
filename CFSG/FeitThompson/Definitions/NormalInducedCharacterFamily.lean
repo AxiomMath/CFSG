@@ -18,9 +18,9 @@ variable {L : Type*} [Group L] (K : Subgroup L)
 private theorem extend_subtype_apply (θ : K → ℂ) (z : L) [Decidable (z ∈ K)] :
     Function.extend K.subtype θ 0 z = if h : z ∈ K then θ ⟨z, h⟩ else 0 := by
   by_cases h : z ∈ K
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     exact K.subtype_injective.extend_apply θ 0 ⟨z, h⟩
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     refine Function.extend_apply' _ _ _ ?_
     rintro ⟨a, rfl⟩
     exact h a.2
@@ -60,7 +60,7 @@ theorem indClassFun_eq_zero_of_notMem [K.Normal] (θ : K → ℂ) {y : L} (hy : 
   classical
   have h : ∀ t : L, Function.extend K.subtype θ 0 (t⁻¹ * y * t) = 0 := by
     intro t
-    rw [extend_subtype_apply, dif_neg]
+    rw [extend_subtype_apply, dite_eq_right]
     intro hmem
     have := ‹K.Normal›.conj_mem _ hmem t
     rw [show t * (t⁻¹ * y * t) * t⁻¹ = y by group] at this

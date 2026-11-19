@@ -44,8 +44,8 @@ theorem eq_zero_of_card_le_three_mul_card_mul_card [Finite V]
       _ ≤ 3 ^ Module.finrank (ZMod 3) b.range :=
           Nat.pow_le_pow_right (by norm_num) hfin
   have hkerpos : 0 < Nat.card b.ker := by
-    haveI : Nonempty b.ker := ⟨⟨0, by simp⟩⟩
-    haveI : Finite b.ker := Subtype.finite
+    have : Nonempty b.ker := ⟨⟨0, by simp⟩⟩
+    have : Finite b.ker := Subtype.finite
     exact Nat.card_pos
   have hle : Nat.card b.ker * Nat.card b.range ≤ 3 * Nat.card b.ker := by
     calc Nat.card b.ker * Nat.card b.range = Nat.card V := hVcard.symm

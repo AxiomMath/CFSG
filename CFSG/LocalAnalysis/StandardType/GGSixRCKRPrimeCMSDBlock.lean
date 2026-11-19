@@ -155,9 +155,7 @@ private noncomputable def rckSD_rEquiv
             (w : Fin n → PSUF g)) = (w : Fin n → PSUF g)
       have hxx : ((x : rckSD_G (s := s) ε).1 : Matrix (Fin n) (Fin n) (PSUF g)) *
           (((x⁻¹ : rckSD_G (s := s) ε).1) : Matrix (Fin n) (Fin n) (PSUF g)) = 1 := by
-        simpa using
-          congrArg (fun u : GL (Fin n) (PSUF g) => (u : Matrix (Fin n) (Fin n) (PSUF g)))
-            (mul_inv_cancel ((x : rckSD_G (s := s) ε).1))
+        simp
       rw [Matrix.mulVec_mulVec, hxx, Matrix.one_mulVec])
     (by
       apply LinearMap.ext
@@ -169,11 +167,10 @@ private noncomputable def rckSD_rEquiv
             (w : Fin n → PSUF g)) = (w : Fin n → PSUF g)
       have hxx : (((x⁻¹ : rckSD_G (s := s) ε).1) : Matrix (Fin n) (Fin n) (PSUF g)) *
           ((x : rckSD_G (s := s) ε).1 : Matrix (Fin n) (Fin n) (PSUF g)) = 1 := by
-        simpa using
-          congrArg (fun u : GL (Fin n) (PSUF g) => (u : Matrix (Fin n) (Fin n) (PSUF g)))
-            (inv_mul_cancel ((x : rckSD_G (s := s) ε).1))
+        simp
       rw [Matrix.mulVec_mulVec, hxx, Matrix.one_mulVec])
 
+omit [Finite K] [IsScalarTower (PSUF g) K ↥(rckSD_W ε)] in
 private lemma rckSD_hForm_trace
     (hB : ∀ x y : rckSD_W ε,
       uForm (PSUσ g) (x : Fin n → PSUF g) (y : Fin n → PSUF g) =
@@ -255,10 +252,12 @@ private noncomputable def rckSD_extMap (γ : rckSD_W ε ≃ₗ[K] rckSD_W ε) :
     rw [hγs, Matrix.mulVec_smul]
     simp only [Submodule.coe_smul, smul_add, smul_sub]
 
+omit [Finite K] in
 private lemma rckSD_extMap_apply (γ : rckSD_W ε ≃ₗ[K] rckSD_W ε) (v : Fin n → PSUF g) :
     rckSD_extMap (ε := ε) γ v =
       (γ (rckSD_epsV (ε := ε) v) : Fin n → PSUF g) + (v - Matrix.mulVec ε v) := rfl
 
+omit [Finite K] in
 private lemma rckSD_extMap_eps (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
       (Unitary.antidiag n)
       (Algebra.adjoin (PSUF g) (Units.val '' ({s} : Set (GL (Fin n) (PSUF g))))) ε)
@@ -270,6 +269,7 @@ private lemma rckSD_extMap_eps (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
     rckSD_eps_mulVec_of_mem hε (show Matrix.mulVec ε v ∈ rckSD_W ε from ⟨v, rfl⟩)]
   abel
 
+omit [Finite K] in
 private lemma rckSD_extMap_one_sub (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
       (Unitary.antidiag n)
       (Algebra.adjoin (PSUF g) (Units.val '' ({s} : Set (GL (Fin n) (PSUF g))))) ε)
@@ -284,6 +284,7 @@ private lemma rckSD_extMap_one_sub (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
     Matrix.one_mulVec, Matrix.mulVec_mulVec, hε.2.1.eq]
   abel
 
+omit [Finite K] in
 private lemma rckSD_extMap_comp (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
       (Unitary.antidiag n)
       (Algebra.adjoin (PSUF g) (Units.val '' ({s} : Set (GL (Fin n) (PSUF g))))) ε)
@@ -306,6 +307,7 @@ private lemma rckSD_extMap_comp (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
   change Matrix.mulVec ε v + Matrix.mulVec (1 - ε) v = v
   rw [← Matrix.add_mulVec, add_sub_cancel, Matrix.one_mulVec]
 
+omit [Finite K] in
 private lemma rckSD_extMap_comp_symm (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
       (Unitary.antidiag n)
       (Algebra.adjoin (PSUF g) (Units.val '' ({s} : Set (GL (Fin n) (PSUF g))))) ε)
@@ -313,6 +315,7 @@ private lemma rckSD_extMap_comp_symm (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
     (rckSD_extMap (ε := ε) γ.symm).comp (rckSD_extMap (ε := ε) γ) = LinearMap.id := by
   simpa [LinearEquiv.symm_symm] using rckSD_extMap_comp hε γ.symm
 
+omit [Finite K] in
 private lemma rckSD_extMap_smul_s (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
       (Unitary.antidiag n)
       (Algebra.adjoin (PSUF g) (Units.val '' ({s} : Set (GL (Fin n) (PSUF g))))) ε)
@@ -356,6 +359,7 @@ private lemma rckSD_extMap_smul_s (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
   conv_rhs => rw [rckSD_extMap_apply]
   rw [Matrix.mulVec_add, hγs, hslin]
 
+omit [Finite K] in
 private lemma rckSD_extMap_apply_one_sub (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
       (Unitary.antidiag n)
       (Algebra.adjoin (PSUF g) (Units.val '' ({s} : Set (GL (Fin n) (PSUF g))))) ε)
@@ -386,6 +390,7 @@ private noncomputable def rckSD_unit (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
        Matrix.toLin'_one]
      exact rckSD_extMap_comp_symm hε γ⟩
 
+omit [Finite K] in
 private lemma rckSD_unit_apply (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
       (Unitary.antidiag n)
       (Algebra.adjoin (PSUF g) (Units.val '' ({s} : Set (GL (Fin n) (PSUF g))))) ε)
@@ -398,6 +403,7 @@ private lemma rckSD_unit_apply (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
     rckSD_extMap_apply, hεw, show rckSD_epsV (ε := ε) w = ⟨w, hw⟩ from Subtype.ext hεw,
     sub_self, add_zero]
 
+omit [Finite K] in
 private lemma rckSD_unit_fix (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
       (Unitary.antidiag n)
       (Algebra.adjoin (PSUF g) (Units.val '' ({s} : Set (GL (Fin n) (PSUF g))))) ε)
@@ -415,6 +421,7 @@ private lemma rckSD_unit_fix (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
     LinearMap.toMatrix'_mulVec _ _]
   exact rckSD_extMap_apply_one_sub hε γ v
 
+omit [Finite K] in
 private lemma rckSD_unit_mem_centralizer (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
       (Unitary.antidiag n)
       (Algebra.adjoin (PSUF g) (Units.val '' ({s} : Set (GL (Fin n) (PSUF g))))) ε)
@@ -553,7 +560,7 @@ private noncomputable def rckSD_hom (hε : IsPrimAdjIdemIn (PSUσ g).toRingHom
     apply Subtype.ext
     change Matrix.mulVec (((1 : rckSD_G (s := s) ε).1) : Matrix (Fin n) (Fin n) (PSUF g))
       (w : Fin n → PSUF g) = (w : Fin n → PSUF g)
-    simp [rckSD_rMap]
+    simp
   map_mul' x y := by
     apply Subtype.ext
     apply Units.ext

@@ -31,7 +31,7 @@ private theorem wreath_central_card {A Q : Type} [Group A] [Group Q] [Finite A] 
       have h := congrArg (fun w : A ≀ᵣ Q => w.left 1)
         (hx ⟨fun k => if k = 1 then a else 1, 1⟩)
       simp only [RegularWreathProduct.mul_left, Pi.mul_apply, inv_one, mul_one, one_mul,
-        inv_eq_one, hq, if_true, if_false] at h
+        inv_eq_one, hq, ite_true, ite_false] at h
       exact ha (by simpa using h.symm)
     refine ⟨hq, fun k => ?_⟩
     have h := congrArg (fun w : A ≀ᵣ Q => w.left 1) (hx ⟨1, k⁻¹⟩)
@@ -62,7 +62,7 @@ private theorem card_le_three_of_mulEquiv {Q : Type} [Group Q] (e : Q ≃* Wr3) 
 private theorem card_le_three_of_sylowModel {S : Type} [Group S] [Finite S]
     (hS : SylowModel S Wr3) (P D : Subgroup S) (hP : Nat.card P = 81) (hDP : D ≤ P)
     (hc : ∀ x ∈ D, ∀ y ∈ P, x * y = y * x) : Nat.card D ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hW : Nat.card Wr3 = 3 ^ (Nat.card S).factorization 3 := by
     obtain ⟨Φ, -, hW⟩ := hS
     exact hW
@@ -104,10 +104,10 @@ theorem sp62_not_dvd_243 : ¬ 243 ∣ Nat.card (projSp 3 (GaloisField 2 1)) := b
   norm_num
 
 theorem sp62_sylow_center
-    (P D : Subgroup (projSp 3 (GaloisField 2 1))) (hP : IsPGroup 3 P)
-    (hP81 : Nat.card P = 81) (hDP : D ≤ P) (hD : CFSG.Open.IsElemAbelian 3 D)
+    (P D : Subgroup (projSp 3 (GaloisField 2 1))) (_hP : IsPGroup 3 P)
+    (hP81 : Nat.card P = 81) (hDP : D ≤ P) (_hD : CFSG.Open.IsElemAbelian 3 D)
     (hc : ∀ x ∈ D, ∀ y ∈ P, x * y = y * x) : Nat.card D ≤ 3 := by
-  haveI : Finite (projSp 3 (GaloisField 2 1)) := Finite.of_equiv _ sp62Equiv.symm.toEquiv
+  have : Finite (projSp 3 (GaloisField 2 1)) := Finite.of_equiv _ sp62Equiv.symm.toEquiv
   have hS : SylowModel CFSG.RankThree.PartTwo.Census.Carrier.Sp6Two.H6 Wr3 :=
     sylowModel_of_wreathFacts wreathFacts_zH (by rw [factorization_card_H6, card_wr3]; norm_num)
   exact card_le_three_of_sylowModel (hS.of_mulEquiv sp62Equiv.symm) P D hP81 hDP hc
@@ -142,11 +142,11 @@ theorem om8m_not_dvd_243 {b c : GaloisField 2 1}
 
 theorem om8m_sylow_center
     {b c : GaloisField 2 1} (hbc : ∀ s : GaloisField 2 1, s ^ 2 + b * s + c ≠ 0)
-    (P D : Subgroup (projOmegaMinus 3 (GaloisField 2 1) b c)) (hP : IsPGroup 3 P)
-    (hP81 : Nat.card P = 81) (hDP : D ≤ P) (hD : CFSG.Open.IsElemAbelian 3 D)
+    (P D : Subgroup (projOmegaMinus 3 (GaloisField 2 1) b c)) (_hP : IsPGroup 3 P)
+    (hP81 : Nat.card P = 81) (hDP : D ≤ P) (_hD : CFSG.Open.IsElemAbelian 3 D)
     (hc : ∀ x ∈ D, ∀ y ∈ P, x * y = y * x) : Nat.card D ≤ 3 := by
   obtain ⟨θ⟩ := nonempty_mulEquiv_omegaT_of_irreducible hbc
-  haveI : Finite (projOmegaMinus 3 (GaloisField 2 1) b c) := Finite.of_equiv _ θ.symm.toEquiv
+  have : Finite (projOmegaMinus 3 (GaloisField 2 1) b c) := Finite.of_equiv _ θ.symm.toEquiv
   have hS : SylowModel omegaT Wr3 :=
     sylowModel_of_wreathFacts wreathFacts_omegaT
       (by rw [factorization_card_omegaT, card_wr3]; norm_num)

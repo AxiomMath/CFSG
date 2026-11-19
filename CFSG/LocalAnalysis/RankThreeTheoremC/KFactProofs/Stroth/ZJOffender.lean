@@ -17,6 +17,7 @@ section Setup
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem zj_pCore_le_gnC {S : Subgroup X} (hcore : CFSG.pCore 2 X ≤ S)
     (hcent : centralizer (CFSG.pCore 2 X : Set X) ≤ CFSG.pCore 2 X) :
     CFSG.pCore 2 X ≤ gnC S := by
@@ -40,7 +41,7 @@ theorem zj_exists_offender [Nontrivial X] {p : ℕ} {K S : Subgroup X} (hS2 : Is
     unfold thompsonJ
     exact iSup₂_le fun A hA => h A hA
   have hJeq : thompsonJ S = thompsonJ (CFSG.pCore 2 X) := thompsonJ_eq_of_le hJQ hcore
-  haveI : (CFSG.pCore 2 X).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 X).Normal := CFSG.pCore_normal
   have hJn : (thompsonJ S).Normal := by
     rw [hJeq]
     refine ⟨fun n hn g => ?_⟩
@@ -105,6 +106,7 @@ variable {X : Type} [Group X] [Finite X]
   (Subgroup.centralizer (↑(K.map (QuotientGroup.mk' (CFSG.pPrimeCore p X))) :
     Set (X ⧸ CFSG.pPrimeCore p X))).comap (QuotientGroup.mk' (CFSG.pPrimeCore p X))
 
+omit [Finite X] in
 theorem mem_zjCentK {p : ℕ} {K : Subgroup X} {x : X} :
     x ∈ zjCentK p K ↔ ∀ k ∈ K, QuotientGroup.mk' (CFSG.pPrimeCore p X) k *
       QuotientGroup.mk' (CFSG.pPrimeCore p X) x =
@@ -118,17 +120,18 @@ theorem mem_zjCentK {p : ℕ} {K : Subgroup X} {x : X} :
     exact h k hk
 
 instance zjCentK_normal (p : ℕ) (K : Subgroup X) [K.Normal] : (zjCentK p K).Normal := by
-  haveI : (K.map (QuotientGroup.mk' (CFSG.pPrimeCore p X))).Normal :=
+  have : (K.map (QuotientGroup.mk' (CFSG.pPrimeCore p X))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
-  haveI := zj_normal_centralizer (K.map (QuotientGroup.mk' (CFSG.pPrimeCore p X)))
+  have := zj_normal_centralizer (K.map (QuotientGroup.mk' (CFSG.pPrimeCore p X)))
   unfold zjCentK
   exact Subgroup.Normal.comap inferInstance _
 
+omit [Finite X] in
 theorem zj_not_le_zjCentK {p : ℕ} {K : Subgroup X} (hK : CFSG.IsPComponent p K) :
     ¬ K ≤ zjCentK p K := by
   intro hle
   obtain ⟨K₀, hK₀, -, hmap, -⟩ := hK
-  haveI := zj_quasisimple_nontrivial hK₀.1
+  have := zj_quasisimple_nontrivial hK₀.1
   have hK0bot : K₀ ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K₀).mp inferInstance
   apply hK0bot
   have hperf : ⁅K₀, K₀⁆ = K₀ := Subgroup.isPerfect_iff.mp hK₀.1.1
@@ -145,6 +148,7 @@ theorem zj_zjCentK_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Subgroup X} 
     zjCentK p K ≤ CFSG.GH74.GLS.pPrimePCore p X :=
   zj_normal_le_pPrimeP hp hp2 hK T hKT (zj_not_le_zjCentK hK)
 
+omit [Finite X] in
 theorem zj_commutator_eq_of_not_le_zjCentK {p : ℕ} {K : Subgroup X} [K.Normal]
     (hK : CFSG.IsPComponent p K) {A : Subgroup X} (hA : ¬ A ≤ zjCentK p K) : ⁅K, A⁆ = K := by
   by_contra hne
@@ -158,7 +162,7 @@ theorem zj_commutator_eq_of_not_le_zjCentK {p : ℕ} {K : Subgroup X} [K.Normal]
     exact (Subgroup.normal_subgroupOf_of_le_normalizer
       (Subgroup.normalizer_commutator_ge_left K A)).isSubnormal
   have hne' := hmin _ hlt hsub
-  haveI : (K.map (QuotientGroup.mk' (CFSG.pPrimeCore p X))).Normal :=
+  have : (K.map (QuotientGroup.mk' (CFSG.pPrimeCore p X))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have hne2 : ⁅K.map (QuotientGroup.mk' (CFSG.pPrimeCore p X)),
       A.map (QuotientGroup.mk' (CFSG.pPrimeCore p X))⁆ ≠

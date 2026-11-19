@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 theorem pt_eq_one_or_sq_of_mem_zpowers {w x : G} (hw : orderOf w = 4) (hx : x ∈ zpowers w)
     (hxx : x * x = 1) : x = 1 ∨ x = w ^ 2 := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -44,6 +45,7 @@ theorem pt_eq_one_or_sq_of_mem_zpowers {w x : G} (hw : orderOf w = 4) (hx : x �
     rw [h0]
     simp
 
+omit [Finite G] in
 theorem pt_commutator_mul {p₁ p₂ u₁ u₂ : G} (h₁₁ : Commute p₁ u₁) (h₁₂ : Commute p₁ u₂)
     (h₂₁ : Commute p₂ u₁) (h₂₂ : Commute p₂ u₂) (h₁₂' : Commute p₁ p₂) :
     ⁅p₁ * u₁, p₂ * u₂⁆ = ⁅u₁, u₂⁆ := by
@@ -63,7 +65,7 @@ theorem pt_center (h : Ctx0 t L S x₁ x₂ lam rho) :
     (twoCore t ⊔ wreathGrp x₁ x₂ lam) ⊓
         centralizer ((twoCore t ⊔ wreathGrp x₁ x₂ lam : Subgroup G) : Set G) =
       twoCore t ⊔ zpowers (x₁ * x₂) := by
-  haveI := h.hyp.isCyclic
+  have := h.hyp.isCyclic
   have hPP : ∀ a ∈ twoCore t, ∀ b ∈ twoCore t, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : twoCore t) ⟨b, hb⟩)
   have hZT : wreathGrp x₁ x₂ lam ⊓ centralizer (wreathGrp x₁ x₂ lam : Set G) =
@@ -164,7 +166,7 @@ theorem pt_center_omega (h : Ctx0 t L S x₁ x₂ lam rho) :
 theorem pt_deriv (h : Ctx0 t L S x₁ x₂ lam rho) :
     ⁅twoCore t ⊔ wreathGrp x₁ x₂ lam, twoCore t ⊔ wreathGrp x₁ x₂ lam⁆ =
       ⁅wreathGrp x₁ x₂ lam, wreathGrp x₁ x₂ lam⁆ := by
-  haveI := h.hyp.isCyclic
+  have := h.hyp.isCyclic
   have hPP : ∀ a ∈ twoCore t, ∀ b ∈ twoCore t, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : twoCore t) ⟨b, hb⟩)
   apply le_antisymm

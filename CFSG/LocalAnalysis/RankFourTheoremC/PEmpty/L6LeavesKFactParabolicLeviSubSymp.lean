@@ -18,7 +18,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {r : ℕ} {I : Set ℕ}
 theorem dvd_card_of_comp_ne_one {G H E : Type} [Group G] [Group H] [Group E] [Finite H]
     (φ : G →* H) (ε : H →* E) {g : G} {p : ℕ} (hp : p.Prime) (hg : g ^ p = 1)
     (h : ε (φ g) ≠ 1) : p ∣ Nat.card H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : φ g ≠ 1 := fun h' => h (by rw [h', map_one])
   have h2 : (φ g) ^ p = 1 := by rw [← map_pow, hg, map_one]
   rw [← orderOf_eq_prime h2 h1]
@@ -35,7 +35,7 @@ theorem sp_levi_block_exists (hI : ∀ i ∈ I, i ≤ r) (hI1 : ∀ i ∈ I, 1 �
         Subgroup.center ↥(spFlagLeviBlock (K := K) hI t j))) ∧
       (Nat.card K = 2 → 3 ∣ Nat.card (↥(spFlagLeviBlock (K := K) hI t j) ⧸
         Subgroup.center ↥(spFlagLeviBlock (K := K) hI t j))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥(flagStabilizer r K I)) p hpQ
   have hgp : g ^ p = 1 := hg ▸ pow_orderOf_eq_one g
   have hker := isPGroup_ker_spFlagLeviHom (K := K) hI htI hI1
@@ -62,7 +62,7 @@ theorem sp_levi_block_exists (hI : ∀ i ∈ I, i ≤ r) (hI1 : ∀ i ∈ I, 1 �
     rw [SymplecticFlag.card_statedSp] at hdvd
     rcases (Nat.Prime.dvd_mul hp).1 hdvd with h1 | h1
     · exact absurd (hp.dvd_of_dvd_pow h1) hpq
-    · obtain ⟨i, hi, hpi⟩ := (Prime.dvd_finset_prod_iff hp.prime _).1 h1
+    · obtain ⟨i, hi, hpi⟩ := (Prime.dvd_finsetProd_iff hp.prime _).1 h1
       rw [Finset.mem_Icc] at hi
       exact sp_res_block_data hI t hj0 hp h5 hi.1 hi.2 hpi
   · by_cases hjI : (j : ℕ) ∈ I
@@ -78,7 +78,7 @@ theorem sp_levi_block_exists (hI : ∀ i ∈ I, i ≤ r) (hI1 : ∀ i ∈ I, 1 �
       rw [LinearFlag.card_GL_eq] at hdvd
       rcases (Nat.Prime.dvd_mul hp).1 hdvd with h1 | h1
       · exact absurd (hp.dvd_of_dvd_pow h1) hpq
-      · obtain ⟨i, hi, hpi⟩ := (Prime.dvd_finset_prod_iff hp.prime _).1 h1
+      · obtain ⟨i, hi, hpi⟩ := (Prime.dvd_finsetProd_iff hp.prime _).1 h1
         rw [Finset.mem_Icc] at hi
         have hi2 : 2 ≤ i := by
           by_contra hlt
@@ -135,7 +135,7 @@ theorem leviAt_sp (hr : 2 ≤ r) (K₀ : Subgroup (StatedSp r K)) (p : ℕ)
   have hpW : ¬ p ∣ Nat.card W := hWr p hp hp2 hpZ
   by_cases hq2 : Nat.card K = 2
   ·
-    haveI : NeZero r := ⟨by omega⟩
+    have : NeZero r := ⟨by omega⟩
     have hrk : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (StatedSp r K)) := by
       rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3)
         (MulEquiv.ofBijective (SymplecticFlag.proj r K)
@@ -163,7 +163,7 @@ theorem leviAt_sp (hr : 2 ≤ r) (K₀ : Subgroup (StatedSp r K)) (p : ℕ)
       exact hpT
 
 theorem leviSubAt_sp (hr : 2 ≤ r) : LeviSubAt (StatedSp r K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T₀, hT₀⟩ := SymplecticFlag.exists_sylow_unipotent (K := K) 2 r
   refine leviSubAt_of_standard_sylow T₀ fun K₀ p hN => leviAt_sp hr K₀ p ?_
   rw [hT₀, SymplecticHigher.normalizer_unipotent] at hN
@@ -175,11 +175,11 @@ theorem leviSubAt_of_psp {S : Type} [Group S] [Finite S] {n f : ℕ}
   have hn2 : 2 ≤ n := by
     obtain ⟨-, -, h2n, -⟩ := hadm
     exact h2n
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := f)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hcard)
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   exact LeviSubAt.of_mulEquiv
     (e.trans (MulEquiv.ofBijective (SymplecticFlag.proj n K)
       UnitaryHigher.proj_bijective_of_charTwo).symm)

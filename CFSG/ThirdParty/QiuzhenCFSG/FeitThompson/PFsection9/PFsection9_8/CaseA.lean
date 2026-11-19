@@ -202,7 +202,7 @@ public theorem theorem_9_8_H0C_normal_ambientDerived_subgroupOf_sec9
   intro hcase
   have hH0CnormalM : ((H0 ⊔ C).subgroupOf M).Normal :=
     theorem_9_8_H0C_normal_M_of_case_a_sec9 M MF U W1 W2 H0 C p q a hcase
-  letI : ((H0 ⊔ C).subgroupOf M).Normal := hH0CnormalM
+  let : ((H0 ⊔ C).subgroupOf M).Normal := hH0CnormalM
   exact Section1.subgroupOf_normal_of_normal ((H0 ⊔ C).subgroupOf M)
     ((ambientDerivedSubgroup M).subgroupOf M)
 
@@ -396,7 +396,7 @@ public theorem theorem_9_8_MF_C_isComplement_HC_of_case_a_sec9
     rw [← Subgroup.subgroupOf_sup (A := MF) (A' := C) (B := MF ⊔ C)
       le_sup_left le_sup_right]
     exact Subgroup.subgroupOf_eq_top.2 le_rfl
-  letI : (MF.subgroupOf (MF ⊔ C)).Normal := hMFnormalHC
+  let : (MF.subgroupOf (MF ⊔ C)).Normal := hMFnormalHC
   exact isComplement'_of_disjoint_sup_eq_top_of_normal
     (MF.subgroupOf (MF ⊔ C)) (C.subgroupOf (MF ⊔ C))
     hdisjMFC_sub hMF_C_supTop
@@ -436,12 +436,12 @@ public theorem degree_eq_one_of_irreducible_subgroupInKernel_commutator_sec9
     apply Section6.representation_isIrreducible_of_comp_surjective ρq q
       (QuotientGroup.mk'_surjective (_root_.commutator G))
     simpa [hcomp_eq] using hρirr
-  haveI : IsMulCommutative (G ⧸ _root_.commutator G) :=
+  have : IsMulCommutative (G ⧸ _root_.commutator G) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr (by
       intro x hx
       exact hx)
   have hn : n = 1 := by
-    haveI : Representation.IsIrreducible ρq := hρqirr
+    have : Representation.IsIrreducible ρq := hρqirr
     simpa using
       (Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative (ρ := ρq))
   rw [hθeq, Section1.degree_representation_character]
@@ -632,15 +632,15 @@ public theorem theorem_9_8_HC_commutator_le_H0Cprime_subgroupOf_case_a_sec9
     dsimp [N, HC]
     exact theorem_9_8_H0Cprime_normal_HC_of_case_a_sec9
       M MF U W1 W2 H0 C Cprime p q a hcase hCprimeEq
-  letI : (N.subgroupOf HC).Normal := hNnormalHC
+  let : (N.subgroupOf HC).Normal := hNnormalHC
   have hMFroot_le_H0sub : _root_.commutator MF ≤ H0.subgroupOf MF := by
     rcases case_9_7_a_hoReductionData_sec9 hcase with ⟨hp, _hpval, hpData⟩
     rcases hpData with
       ⟨_hH0MF, _hMFM, _hH0normalM, _hH0normalMF, _hH0ltMF, hElem,
         _hrest⟩
     rcases hElem with ⟨hnormal, hbarElem⟩
-    letI : (H0.subgroupOf MF).Normal := hnormal
-    letI : IsElementaryAbelian hp.val (MF ⧸ H0.subgroupOf MF) := hbarElem
+    let : (H0.subgroupOf MF).Normal := hnormal
+    let : IsElementaryAbelian hp.val (MF ⧸ H0.subgroupOf MF) := hbarElem
     rw [← Subgroup.Normal.quotient_commutative_iff_commutator_le]
     infer_instance
   have hAA : ⁅MF, MF⁆ ≤ N := by
@@ -718,7 +718,7 @@ public theorem irreducible_degree_nat_le_induced_linear_index_of_inner_sec9
   rcases hψirr with ⟨nψ, ρψ, _hρψirr, hψeq⟩
   let indρψ : Representation ℂ L (Representation.IndV K.subtype ρψ) :=
     Representation.ind K.subtype ρψ
-  haveI : FiniteDimensional ℂ (Representation.IndV K.subtype ρψ) :=
+  have : FiniteDimensional ℂ (Representation.IndV K.subtype ρψ) :=
     Theory.Representation.finiteDimensional_ind K ρψ
   have hθclass : Section1.IsClassFunction θ := by
     intro x g
@@ -747,7 +747,7 @@ public theorem irreducible_degree_nat_le_induced_linear_index_of_inner_sec9
   rw [Module.finrank_pos_iff_exists_ne_zero] at hfinrank_pos
   rcases hfinrank_pos with ⟨f, hf⟩
   have hf_inj : Function.Injective f := by
-    letI : Representation.IsIrreducible ρθ := hρθirr
+    let : Representation.IsIrreducible ρθ := hρθirr
     rcases (Representation.IsIrreducible.injective_or_eq_zero
         (ρ := ρθ) (σ := indρψ) f) with hinj | hzero
     · exact hinj
@@ -921,8 +921,8 @@ public theorem theorem_9_8_H0C_subgroupOf_HC_relIndex_eq_p_pow_q_sec9
       M MF U W1 W2 H0 C p q a hcase
   have hH0normalMF : (H0.subgroupOf MF).Normal :=
     case_9_7_a_H0_normal_MF_sec9 hcase
-  letI : (H0.subgroupOf MF).Normal := hH0normalMF
-  letI : (H0C.subgroupOf HC).Normal := hH0CnormalHC
+  let : (H0.subgroupOf MF).Normal := hH0normalMF
+  let : (H0C.subgroupOf HC).Normal := hH0CnormalHC
   have hH0CinfMF : H0C ⊓ MF = H0 := by
     dsimp [H0C]
     rcases hcase with ⟨h92, hH0MF, hC, hpprime, _hqprime, hpData, _hrest⟩

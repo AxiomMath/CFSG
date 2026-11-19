@@ -50,12 +50,13 @@ theorem centralizes_omegaG_pCore_of_noSmall1412 (hQS : CFSG.pCore 2 X ≤ S)
     ∀ l ∈ L, ∀ v ∈ Sec3.omegaG (CFSG.pCore 2 X), l * v * l⁻¹ = v := by
   by_contra hnc
   push Not at hnc
-  obtain ⟨t, htB, htQ⟩ := SetLike.not_le_iff_exists.mp hBQ
+  obtain ⟨t, htB, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hBQ
   have h16 := hNS _ (Sec3.omegaG_normal CFSG.pCore_normal) (Sec3.isElemTwo_omegaG _) hnc t
     (hB.1 htB) htQ (hB.2.1.2 t htB)
   have h := relIndex_centralizer_omegaG_le_sixteen hQS hi hB (hidx B hB.1 hB.2.1) htB
   omega
 
+omit [Finite X] in
 theorem exists_relIndex_eq_two_pow_of_famG_zero {Q A : Subgroup X} (hA : A ∈ Sec3.famG S 0) :
     ∃ r, r ≤ CFSG.pRank 2 S ∧ Q.relIndex A = 2 ^ r := by
   have hdvd : Q.relIndex A ∣ 2 ^ CFSG.pRank 2 S := by
@@ -64,6 +65,7 @@ theorem exists_relIndex_eq_two_pow_of_famG_zero {Q A : Subgroup X} (hA : A ∈ S
   obtain ⟨r, hr, hrA⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdvd
   exact ⟨r, hr, hrA⟩
 
+omit [Finite X] in
 theorem inf_mem_famG_of_relIndex_eq_two_pow {Q A : Subgroup X} {r : ℕ}
     (hr : r ≤ CFSG.pRank 2 S) (hA : A ∈ Sec3.famG S 0) (h2 : Q.relIndex A = 2 ^ r) :
     A ⊓ Q ∈ Sec3.famG S r := by
@@ -93,7 +95,7 @@ theorem normal_omegaG_jG_of_noSmall1412 (hS2 : IsPGroup 2 S)
     exact Subgroup.normal_bot
   push Not at hrS
   by_contra hEnn
-  obtain ⟨t, htA, htQ⟩ := SetLike.not_le_iff_exists.mp hAQ
+  obtain ⟨t, htA, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hAQ
   have hAQ' : A ⊓ Q ∈ Sec3.famG S r := inf_mem_famG_of_relIndex_eq_two_pow hrS.le hA hrA
   have hO2 : ∀ K : Subgroup X, K ≤ ⊤ → (∀ h ∈ (⊤ : Subgroup X), ∀ k ∈ K, h * k * h⁻¹ ∈ K) →
       IsPGroup 2 K → K ≤ Q := fun K _ hK hK2 =>

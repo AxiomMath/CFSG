@@ -382,7 +382,7 @@ theorem exists_E6_two_sylow {F : Type} [Field F] [Finite F] {L : Type} [Field L]
   refine ⟨ι, hι, ?_⟩
   obtain ⟨S⟩ : Nonempty (Sylow 3 (NFix (canonicalRep (coxeterSystem Tag.E6) L
       ((coxeterSystem Tag.E6).wordProd e6TwoWord)) Fr)) := inferInstance
-  refine ⟨(S : Subgroup _), S.isPGroup', ?_⟩
+  refine ⟨(S : Subgroup _), S.isPGroup, ?_⟩
   rw [Sylow.card_eq_multiplicity]
   congr 1
   have hJ : Nat.card ↥(adjointGroup Tag.E6 F) ≠ 0 := Nat.card_pos.ne'

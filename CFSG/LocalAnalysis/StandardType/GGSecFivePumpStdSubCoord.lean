@@ -22,7 +22,7 @@ theorem ggDk_exists_coord_fix {G : Type} [Group G] {p : ℕ} (hp : p.Prime) (hp2
     ∃ θ : Additive ↥Bs ≃+ (Fin k → ZMod p), ∀ (u : M.Group) (η : Fin k → ℤ),
       GGDReflRoot k (φ u) η → ∀ b : ↥Bs,
         (((e u : ↥A) : MulAut ↥Bs) b = b ↔ ∑ a, θ (Additive.ofMul b) a * (η a : ZMod p) = 0) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let ρ : ggWeylD k →* MulAut ↥Bs := A.subtype.comp (e.toMonoidHom.comp φ.symm.toMonoidHom)
   have hρu : ∀ u, ρ (φ u) = ((e u : ↥A) : MulAut ↥Bs) := fun u => by simp [ρ]
   have hρ : Function.Injective ρ := fun w w' h =>
@@ -55,7 +55,7 @@ theorem ggDk_coord_shift {G : Type} [Group G] {p : ℕ} (hp : p.Prime) {Bs : Sub
       (ε b : ZMod p) * θ (Additive.ofMul x) b) (d : ↥Bs) (c : ZMod p) :
     ∃ n : ℕ, ∀ a, θ (Additive.ofMul (d * (x ^ n)⁻¹)) a =
       (ε a : ZMod p) * ((ε a : ZMod p) * θ (Additive.ofMul d) a - c) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hεsq : ∀ a, (ε a : ZMod p) * ε a = 1 := fun a => by rcases hε a with h | h <;> simp [h]
   obtain ⟨a₁, ha₁⟩ : ∃ a, θ (Additive.ofMul x) a ≠ 0 := by
     by_contra h

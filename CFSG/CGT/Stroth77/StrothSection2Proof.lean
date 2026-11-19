@@ -33,7 +33,7 @@ theorem item224_of_centralizerInMho_eq (Z : StrothDatum X)
           (Z.D ⊔ Subgroup.zpowers s) ∧
         ⁅Subgroup.zpowers s, Z.D⁆ =
           ⁅Subgroup.zpowers (Z.dataD.ρ : G), omegaIn 1 Z.D⁆) := by
-  haveI : IsMulCommutative Z.D := Z.dataD.isMulCommutative
+  have : IsMulCommutative Z.D := Z.dataD.isMulCommutative
   have hDleC : Z.D ≤
       Subgroup.centralizer (((omegaIn (Z.τ.n - 1) Z.D : Subgroup G) : Set G)) :=
     (Subgroup.le_centralizer (H := Z.D)).trans
@@ -122,7 +122,7 @@ theorem item225_of_centralizerInMho_eq (Z : StrothDatum X)
           (Z.D ⊔ Subgroup.zpowers s) ∧
         ⁅Subgroup.zpowers s, Z.D⁆ =
           ⁅Subgroup.zpowers (Z.dataD.ρ : G), omegaIn 1 Z.D⁆) := by
-  haveI : IsMulCommutative Z.D := Z.dataD.isMulCommutative
+  have : IsMulCommutative Z.D := Z.dataD.isMulCommutative
   have hDleC : Z.D ≤
       Subgroup.centralizer (((omegaIn (Z.τ.n - 2) Z.D : Subgroup G) : Set G)) :=
     (Subgroup.le_centralizer (H := Z.D)).trans

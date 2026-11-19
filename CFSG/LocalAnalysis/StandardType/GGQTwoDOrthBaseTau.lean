@@ -23,12 +23,12 @@ private lemma qtwoDOrthBase_tau_perm_sign_zero {n : ℕ}
     have h := congrFun (hact 0) 0
     rw [hfix] at h
     simp only [Pi.smul_apply, dBasis, Pi.basisFun_apply, Pi.single_apply] at h
-    rw [if_neg (fun hh : (0 : Fin (n + 1)) = σ 0 => hσ hh.symm), smul_zero] at h
+    rw [ite_eq_right (fun hh : (0 : Fin (n + 1)) = σ 0 => hσ hh.symm), smul_zero] at h
     exact absurd h (by decide)
   have hc0 : c 0 = 1 := by
     have h := congrFun (hact 0) 0
     rw [hfix, hσ0] at h
-    simp only [Pi.smul_apply, dBasis, Pi.basisFun_apply, Pi.single_eq_same, mul_one] at h
+    simp only [Pi.smul_apply, dBasis, Pi.basisFun_apply, Pi.single_eq_same] at h
     simpa using h.symm
   exact ⟨hσ0, hc0⟩
 

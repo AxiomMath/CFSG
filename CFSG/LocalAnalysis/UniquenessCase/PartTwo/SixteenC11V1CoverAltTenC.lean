@@ -41,7 +41,7 @@ theorem s16c11_v1_h_nine : (s16c11_v1_h : Perm (Fin 10)) 9 = 0 := by decide
 @[expose] def s16c11_v1_A8 : Finset (Fin 10) := s16c11_v1_T.erase 9
 
 theorem s16c11_v1_mem_A8 {i : Fin 10} : i ∈ s16c11_v1_A8 ↔ i ≠ 0 ∧ i ≠ 9 := by
-  simp only [s16c11_v1_A8, s16c11_v1_T, Finset.mem_erase, Finset.mem_univ, and_true, true_and]
+  simp only [s16c11_v1_A8, s16c11_v1_T, Finset.mem_erase, Finset.mem_univ, and_true]
   exact and_comm
 
 theorem s16c11_v1_conj_h_mem_A8 {κ : ↥(alternatingGroup (Fin 10))}
@@ -243,7 +243,7 @@ theorem inf_ker [Finite W] (hW2 : ∀ v : W, v ^ 2 = 1) : C.Y ⊓ C.β.ker = ⊥
     (C.bijective_Y hW2 |>.1 (a₁ := ⟨y, hy1⟩) (a₂ := ⟨1, one_mem _⟩) ?_))
   simp [hy2]
 
-theorem sup_ker [Finite W] (hW2 : ∀ v : W, v ^ 2 = 1) : C.Y ⊔ C.β.ker = ⊤ := by
+theorem sup_ker [Finite W] (_hW2 : ∀ v : W, v ^ 2 = 1) : C.Y ⊔ C.β.ker = ⊤ := by
   rw [eq_top_iff]
   intro v _
   obtain ⟨y, hy, hβ⟩ := C.exists_mem_Y (C.β v)
@@ -425,7 +425,7 @@ local instance s16c11_v1_instCommGroupDnQuotTen : CommGroup (DnQuot 10) :=
         QuotientGroup.mk y * QuotientGroup.mk x
       rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, mul_comm] }
 
-theorem s16c11_v1_card_commV_A8_ge [Finite W] (hW2 : ∀ v : W, v ^ 2 = 1) :
+theorem s16c11_v1_card_commV_A8_ge [Finite W] (_hW2 : ∀ v : W, v ^ 2 = 1) :
     2 ^ 7 ≤ Nat.card ↥(C.s16c11_v1_commV_A8) := by
   classical
   have hex : ∀ i : Fin 7, ∃ g : W, g ∈ C.s16c11_v1_commV_A8 ∧
@@ -452,8 +452,8 @@ theorem s16c11_v1_card_commV_A8_ge [Finite W] (hW2 : ∀ v : W, v ^ 2 = 1) :
       rw [s16c11_v1_commV_A8]
       refine Finset.prod_induction _ _ (fun a b ha hb => mul_mem ha hb) (one_mem _) (fun i _ => ?_)
       by_cases h : c i = 0
-      · rw [if_pos h]; exact one_mem _
-      · rw [if_neg h]; exact hgmem i⟩
+      · rw [ite_eq_left h]; exact one_mem _
+      · rw [ite_eq_right h]; exact hgmem i⟩
   have hβprod : ∀ c : Fin 7 → ZMod 2, C.β (f c).1 = QuotientGroup.mk
       (s16c11_v1_gensProd c) := by
     intro c
@@ -463,8 +463,8 @@ theorem s16c11_v1_card_commV_A8_ge [Finite W] (hW2 : ∀ v : W, v ^ 2 = 1) :
       rw [map_prod]
       refine Finset.prod_congr rfl fun i _ => ?_
       by_cases h : c i = 0
-      · rw [if_pos h, if_pos h]; exact map_one C.β
-      · rw [if_neg h, if_neg h, hgβ i]
+      · rw [ite_eq_left h, ite_eq_left h]; exact map_one C.β
+      · rw [ite_eq_right h, ite_eq_right h, hgβ i]
     have h2 : (QuotientGroup.mk (s16c11_v1_gensProd c) : DnQuot 10) =
         ∏ i, QuotientGroup.mk (if c i = 0 then 1 else
           (⟨s16c11_v1_gens i, s16c11_v1_gens_mem i⟩ : ↥(coreMod 10))) := by
@@ -573,7 +573,7 @@ theorem s16c11_v1_coreMod_ten_gen (m : ↥(coreMod 10)) :
           (⟨s16c11_v1_ev10 8 0, h80⟩ : ↥(coreMod 10))⁻¹) := by
       apply Subtype.ext
       simp only [s16c11_v1_act10, MonoidHom.comp_apply, coreAct, Subgroup.coe_mul,
-        Subgroup.coe_inv, Subtype.coe_mk]
+        Subgroup.coe_inv]
       exact s16c11_v1_allOnes_ten_eq
     rw [e]
     exact mul_mem (mul_mem (hg _ _) (hg _ _)) (hg _ _)

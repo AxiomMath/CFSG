@@ -57,7 +57,7 @@ theorem five_point_stabilizer_card_ne_eight_thousand_six_hundred_forty
       Nat.card (fixingSubgroup P s) = 8640) :
     False := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let S : Sylow 5 H := Sylow.nonempty.some
   have hScard : Nat.card S = 5 := by
@@ -65,9 +65,9 @@ theorem five_point_stabilizer_card_ne_eight_thousand_six_hundred_forty
       sylow_card_eq_prime_of_card_eq_prime_mul
         H 5 1728 (by norm_num) (by norm_num)
           (by simpa only [H] using hHcard) S
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   let C : Subgroup H :=
     Subgroup.centralizer (S : Set H)
@@ -129,7 +129,7 @@ theorem five_point_stabilizer_card_ne_eight_thousand_six_hundred_forty
   have hrDvd : r ∣ 4 := by
     rw [hrEq]
     exact hrangeDvd
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hrPos : 0 < r :=
     Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero

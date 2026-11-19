@@ -214,7 +214,7 @@ theorem yGL_comm_sGL : yGL * sGL = sGL * yGL := by
 
 theorem om8_exists_order3_normalizes_two : ∃ y : Om8, orderOf y = 3 ∧
     ∃ W : Subgroup Om8, IsPGroup 2 W ∧ W ≠ ⊥ ∧ y ∈ Subgroup.normalizer (W : Set Om8) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let y : Om8 := ⟨yGL, yGL_mem⟩
   let s : Om8 := ⟨sGL, sGL_mem⟩
   have hy3 : y ^ 3 = 1 := Subtype.ext (by simpa using yGL_pow_three)

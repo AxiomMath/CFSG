@@ -23,7 +23,7 @@ theorem exists_layer_commute_of_involution (k : Sec7Core4 G) (h75 : Step75 k) {H
     (htA : ∀ a ∈ A, a * t = t * a) (htK : t ∉ (CFSG.pPrimeCore k.p ↥H).map H.subtype) :
     ∃ j ∈ layerLift k.p H, j ∉ k.M ∧ j * t = t * j := by
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
   let π : ↥H →* (↥H ⧸ K₀) := QuotientGroup.mk' K₀
   let Nbar : Subgroup (↥H ⧸ K₀) := ((H ⊓ k.M).subgroupOf H).map π
@@ -43,7 +43,7 @@ theorem exists_layer_commute_of_involution (k : Sec7Core4 G) (h75 : Step75 k) {H
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAH).toEquiv, hAc]
   have hA'K : A' ⊓ π.ker = ⊥ := by
     rw [QuotientGroup.ker_mk']
-    exact Subgroup.inf_eq_bot_of_coprime (by rw [hA'c]; exact (hKcop.pow_left 2))
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hA'c]; exact (hKcop.pow_left 2))))
   have hAbarc : Nat.card Abar = k.p ^ 2 := by
     have hinj : Function.Injective (π.comp A'.subtype) := by
       rw [injective_iff_map_eq_one]
@@ -73,7 +73,7 @@ theorem exists_layer_commute_of_involution (k : Sec7Core4 G) (h75 : Step75 k) {H
     rw [← map_mul, ← map_mul, h]
   obtain ⟨cc, hccL, hcct, hccp, hccN⟩ := hC2 Abar hAN hAbar hAbarc tbar htN ht2bar htAbar
   have hsimple := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI : IsSimpleGroup ↥Lbar := hsimple.1
+  have : IsSimpleGroup ↥Lbar := hsimple.1
   have hLbarperf : ⁅Lbar, Lbar⁆ = Lbar :=
     Subgroup.isPerfect_iff.mp
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hsimple.2.1).1.1

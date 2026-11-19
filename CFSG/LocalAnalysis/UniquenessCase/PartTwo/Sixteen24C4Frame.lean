@@ -22,15 +22,16 @@ section Frame
 
 variable {X V L : Subgroup G} {hV : IsElemAbelian 2 V}
 
+omit [Finite G] in
 theorem exists_uFrame_of_natSUn
     (h : NatSUn (barSub X V hV L) (⊤ : Subgroup (Vtil X V hV)) ⊥ 4 1) :
     Nonempty (UFrame X V hV L) := by
   obtain ⟨K, instK, hFin, hK, hReal⟩ := h
-  letI : Field K := instK
-  letI : Finite K := hFin
+  let : Field K := instK
+  let : Finite K := hFin
   have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_sq (p := 2) (f := 1) hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_sq (p := 2) (f := 1) hK
   set σ : K ≃+* K := CFSG.LieType.BorelTits.unitaryInvolution K 2 1 with hσdef
   have hσ : IsUnitaryInvolution σ := isUnitaryInvolution_unitaryInvolution hK
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
@@ -127,6 +128,7 @@ theorem exists_uFrame_of_natSUn
     rw [MulEquiv.subgroupCongr_apply hS γ]
   exact ⟨⟨K, hK4, σ, hσ, h2, hnorm, β, π, hequiv⟩⟩
 
+omit [Finite G] in
 theorem UFrame.card_V_of_le (F : UFrame X V hV L) (hle : X ≤ V) :
     Nat.card V = 2 ^ 8 * Nat.card X := by
   have hq := Subgroup.card_eq_card_quotient_mul_card_subgroup (modNull X V hV)
@@ -135,6 +137,7 @@ theorem UFrame.card_V_of_le (F : UFrame X V hV L) (hle : X ≤ V) :
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv
   rw [h1, F.card_Vtil, h2]
 
+omit [Finite G] in
 theorem UFrame.rho_semilinear_of_mem_normalizer (F : UFrame X V hV L)
     {φ : MulAut (Vtil X V hV)}
     (hφN : φ ∈ normalizer (lBar X V hV L : Set (MulAut (Vtil X V hV)))) :
@@ -172,6 +175,7 @@ theorem UFrame.rho_semilinear_of_mem_normalizer (F : UFrame X V hV L)
       ← F.vec_action γ' (φ⁻¹ (F.ofVec x)), hπγ']
     simp [MulAut.mul_apply]
 
+omit [Finite G] in
 theorem UFrame.four_mul_card_centMod_le (F : UFrame X V hV L) (hle : X ≤ V) {m : G}
     (hms : m ∈ stabTil X V)
     (hN : actTil X V hV ⟨m, hms⟩ ∈ normalizer (lBar X V hV L : Set (MulAut (Vtil X V hV))))

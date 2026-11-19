@@ -54,10 +54,10 @@ theorem kleinFinset_sign : ∀ a ∈ kleinFinset, Perm.sign a = 1 := by
   intro a ha
   simp only [kleinFinset, Finset.mem_insert, Finset.mem_singleton] at ha
   rcases ha with rfl | rfl | rfl | rfl <;>
-    simp [Perm.sign_mul, Perm.sign_swap]
+    simp [Perm.sign_mul]
 
 theorem cyc123P_sign : Perm.sign cyc123P = 1 := by
-  simp [cyc123P, Perm.sign_mul, Perm.sign_swap]
+  simp [cyc123P, Perm.sign_mul]
 
 theorem cyc123P_pow_three : cyc123P ^ 3 = 1 := by
   decide
@@ -91,7 +91,7 @@ theorem card_kleinA5 : Nat.card kleinA5 = 4 := by
   ⟨cyc123P, Perm.mem_alternatingGroup.mpr cyc123P_sign⟩
 
 theorem orderOf_cyc123 : orderOf cyc123 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine orderOf_eq_prime (Subtype.ext ?_) (fun h => cyc123P_ne_one (congrArg Subtype.val h))
   change cyc123P ^ 3 = 1
   exact cyc123P_pow_three
@@ -121,7 +121,7 @@ variable {H : Type} [Group H] [Finite H]
 
 theorem card_eq_sixty_mul_pCore (φ : H ⧸ CFSG.pCore 2 H ≃* alternatingGroup (Fin 5)) :
     ∃ a : ℕ, Nat.card (CFSG.pCore 2 H) = 2 ^ a ∧ Nat.card H = 60 * 2 ^ a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 H)).exists_card_eq
   refine ⟨a, ha, ?_⟩
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 H), ha,
@@ -129,7 +129,7 @@ theorem card_eq_sixty_mul_pCore (φ : H ⧸ CFSG.pCore 2 H ≃* alternatingGroup
 
 theorem exists_sylow_two_three_dvd (φ : H ⧸ CFSG.pCore 2 H ≃* alternatingGroup (Fin 5)) :
     ∃ S : Sylow 2 H, 3 ∣ Nat.card (Subgroup.normalizer ((S : Subgroup H) : Set H)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, hO, hH⟩ := card_eq_sixty_mul_pCore φ
   set π : H →* H ⧸ CFSG.pCore 2 H := QuotientGroup.mk' (CFSG.pCore 2 H) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -184,7 +184,7 @@ theorem exists_sylow_two_three_dvd (φ : H ⧸ CFSG.pCore 2 H ≃* alternatingGr
 
 theorem not_three_dvd_card_sylow_two (φ : H ⧸ CFSG.pCore 2 H ≃* alternatingGroup (Fin 5)) :
     ¬ 3 ∣ Nat.card (Sylow 2 H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, -, hH⟩ := card_eq_sixty_mul_pCore φ
   obtain ⟨S, hS⟩ := exists_sylow_two_three_dvd φ
   rw [Sylow.card_eq_index_normalizer]
@@ -210,8 +210,8 @@ theorem exists_sylow_two_normalized {K A : Subgroup G}
     (φ : K ⧸ CFSG.pCore 2 K ≃* alternatingGroup (Fin 5))
     (hAK : A ≤ Subgroup.normalizer (K : Set G)) (hA : IsPGroup 3 A) :
     ∃ U : Subgroup G, U ≤ K ∧ U ≠ ⊥ ∧ IsPGroup 2 U ∧ A ≤ Subgroup.normalizer (U : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N : Subgroup G := Subgroup.normalizer (K : Set G) with hN
   set A' : Subgroup N := A.subgroupOf N with hA'
   have hA'p : IsPGroup 3 A' := hA.comap_subtype (K := N)
@@ -228,7 +228,7 @@ theorem exists_sylow_two_normalized {K A : Subgroup G}
   obtain ⟨b, hb⟩ := (show ∃ b, Nat.card K = 60 * 2 ^ b from by
     obtain ⟨b, -, hb⟩ := card_eq_sixty_mul_pCore φ
     exact ⟨b, hb⟩)
-  refine ⟨(S : Subgroup K).map K.subtype, Subgroup.map_subtype_le _, ?_, S.isPGroup'.map _, ?_⟩
+  refine ⟨(S : Subgroup K).map K.subtype, Subgroup.map_subtype_le _, ?_, S.isPGroup.map _, ?_⟩
   · intro h0
     have hc : Nat.card ((S : Subgroup K).map K.subtype) = 1 := by rw [h0, Subgroup.card_bot]
     rw [Subgroup.card_map_of_injective K.subtype_injective, Sylow.card_eq_multiplicity, hb,

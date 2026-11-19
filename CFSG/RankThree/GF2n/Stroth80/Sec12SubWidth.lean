@@ -12,6 +12,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem not_omegaPlusNat_two_of {hc : Ctx M Q Z B} {t : G} {m : ℕ} (hm : 3 ≤ m)
     (h : OmegaPlusNat hc t m ∨ OmegaMinusNat hc t m) : ¬ OmegaPlusNat hc t 2 := by
   intro h2

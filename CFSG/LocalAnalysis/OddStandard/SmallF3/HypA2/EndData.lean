@@ -20,7 +20,7 @@ theorem exists_endData (hI : Phase1Inputs) (hA7 : TwoA7RankOne) (hP : Phase2Inpu
     (hy : orderOf y = 2) {K : Subgroup G}
     (hK : Omega.IsComponentIn K (centralizer ({y} : Set G))) (hres : IsResidualA2 ↥K) :
     ∃ (x : G) (Y : Subgroup G), EndData G x Y := by
-  haveI := hG.simple
+  have := hG.simple
   obtain ⟨hIL, h3⟩ := isILo_of_residual hL.residualRank hG.balanced hy hK hres
   have hKS : InS (↥K ⧸ center ↥K) :=
     inS_of_isResidualA2 hL.residualNotChevOdd hP.a8 hP.orders hP.g2Four hres

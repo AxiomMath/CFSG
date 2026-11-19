@@ -79,16 +79,16 @@ theorem mat_longBlock_mulVec_plane (k : Fin n) (s : SL(2, F)) (u : Fin 2 → F) 
   rcases r with i | i
   · by_cases hik : i = k
     · subst hik
-      simp [CFSG.LieType.Steinberg.Sp.blockMat, Matrix.mulVec, Fin.sum_univ_two]
+      simp [CFSG.LieType.Steinberg.Sp.blockMat, Matrix.mulVec]
       ring
     · simp [CFSG.LieType.Steinberg.Sp.blockMat, hik, Pi.single_eq_of_ne,
-        Matrix.one_apply, Matrix.mulVec, Fin.sum_univ_two]
+        Matrix.one_apply, Matrix.mulVec]
   · by_cases hik : i = k
     · subst hik
-      simp [CFSG.LieType.Steinberg.Sp.blockMat, Matrix.mulVec, Fin.sum_univ_two]
+      simp [CFSG.LieType.Steinberg.Sp.blockMat, Matrix.mulVec]
       ring
     · simp [CFSG.LieType.Steinberg.Sp.blockMat, hik, Pi.single_eq_of_ne,
-        Matrix.one_apply, Matrix.mulVec, Fin.sum_univ_two]
+        Matrix.one_apply, Matrix.mulVec]
 
 theorem mat_longBlock_mulVec_perp (k : Fin n) (s : SL(2, F)) {x : Fin n ⊕ Fin n → F}
     (hx₁ : x (Sum.inl k) = 0) (hx₂ : x (Sum.inr k) = 0) :
@@ -132,7 +132,7 @@ theorem spForm_single_inl_single_inr (k : Fin n) :
     spForm (Pi.single (Sum.inl k) (1 : F) : Fin n ⊕ Fin n → F)
       (Pi.single (Sum.inr k) (1 : F) : Fin n ⊕ Fin n → F) = 1 := by
   rw [spForm, Matrix.mulVec_single_one, dotProduct, Finset.sum_eq_single (Sum.inl k)]
-  · simp [spGram, fromBlocks, Matrix.one_apply]
+  · simp [spGram, fromBlocks]
   · intro b _ hb
     simp [Pi.single_eq_of_ne hb]
   · simp

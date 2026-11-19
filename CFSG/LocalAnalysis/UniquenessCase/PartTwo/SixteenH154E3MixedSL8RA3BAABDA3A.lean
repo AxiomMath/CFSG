@@ -15,7 +15,7 @@ theorem s16h_autSub_card_map_conj (X : Subgroup (MulAut W)) (U : Subgroup W) (t 
       Nat.card ↥(autSub X U) := by
   have hcongr : congrHom t = (MulAut.conj t).toMonoidHom :=
     MonoidHom.ext fun x => MulEquiv.ext fun w => by
-      simp [congrHom_apply, MulAut.conj_apply]
+      simp [MulAut.conj_apply]
   have hU : ∀ v, v ∈ U ↔ t v ∈ U.map t.toMonoidHom := by
     intro v
     rw [Subgroup.mem_map]

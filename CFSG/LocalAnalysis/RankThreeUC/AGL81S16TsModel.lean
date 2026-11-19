@@ -90,7 +90,7 @@ private theorem two_finrank_le_of_isotropic {K V : Type*} [Field K] [AddCommGrou
 theorem totally_singular_card_le {n : ℕ} (hn : 1 ≤ n) {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = (2 ^ n) ^ 2) (S : AddSubgroup (Fin 4 → F))
     (hS : ∀ x ∈ S, x ≠ 0 → ∑ i, x i ^ (2 ^ n + 1) = 0) : Nat.card S ≤ 2 ^ (4 * n) := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hFcard : Fintype.card F = 2 ^ (2 * n) := by
     rw [← Nat.card_eq_fintype_card, hF]
     ring
@@ -98,11 +98,11 @@ theorem totally_singular_card_le {n : ℕ} (hn : 1 ≤ n) {F : Type} [Field F] [
     FiniteField.even_card_iff_char_two.mpr (by
       rw [hFcard]
       exact Nat.mod_eq_zero_of_dvd (dvd_pow_self 2 (by omega)))
-  haveI : CharP F 2 := by
+  have : CharP F 2 := by
     rw [← hchar]
     infer_instance
-  letI : Algebra (ZMod 2) F := (ZMod.castHom (dvd_refl 2) F).toAlgebra
-  haveI : Module.Finite (ZMod 2) F := Module.finite_iff_finite.mpr inferInstance
+  let : Algebra (ZMod 2) F := (ZMod.castHom (dvd_refl 2) F).toAlgebra
+  have : Module.Finite (ZMod 2) F := Module.finite_iff_finite.mpr inferInstance
   have hZ2 : Nat.card (ZMod 2) = 2 := Nat.card_zmod 2
   have hfrF : Module.finrank (ZMod 2) F = 2 * n := by
     have h1 := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := F)
@@ -183,7 +183,7 @@ theorem totally_singular_card_le {n : ℕ} (hn : 1 ≤ n) {F : Type} [Field F] [
     by_contra hx0
     obtain ⟨i, hi⟩ : ∃ i, x i ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hx0 (funext h)
     have ha : x i ^ (2 ^ n) ≠ 0 := pow_ne_zero _ hi
     have hy := hx (Pi.single i ((x i ^ (2 ^ n))⁻¹ * d₀) : Fin 4 → F)

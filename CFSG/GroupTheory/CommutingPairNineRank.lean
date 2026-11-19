@@ -110,7 +110,7 @@ theorem exists_elemAbelian_card_eightyOne_of_commuting_pair
           (fun e f hef => Subtype.ext (congrArg (fun z : ↥D => (z : H)) hef))
       rw [hE₂c, hDcard'] at hcard
       norm_num at hcard
-    obtain ⟨e₂, he₂E, he₂D⟩ := SetLike.not_le_iff_exists.mp hE₂notle
+    obtain ⟨e₂, he₂E, he₂D⟩ := IsConcreteLE.not_le_iff_exists.mp hE₂notle
     have he₂3 : e₂ ^ 3 = 1 := hE₂el.2 e₂ he₂E
     have he₂1 : e₂ ≠ 1 := fun h => he₂D (h ▸ D.one_mem)
     have he₂o : orderOf e₂ = 3 := by

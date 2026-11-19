@@ -20,6 +20,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 private theorem mem_of_map_mem_of_card_eq {G' : Type} [Group G'] [Finite G']
     {P : Subgroup G} {M : Subgroup G'} (ψ : ↥P ≃* ↥M) {X : Subgroup G} {Y : Subgroup G'}
     (hX : X ≤ P) (hY : Y ≤ M)
@@ -482,6 +483,7 @@ private def hallPreimage {K : Type} [Field K]
   ((Subgroup.comap (g2ParB K).subtype (torusSub Tag.G2 K)).map ψ₂.symm.toMonoidHom).map
     (L2 ⊔ bigB L1 L2 S).subtype
 
+omit [Finite G] in
 private theorem mem_hallPreimage {K : Type} [Field K]
     (ψ₂ : ↥(L2 ⊔ bigB L1 L2 S) ≃* ↥(g2ParB K))
     (x : ↥(L2 ⊔ bigB L1 L2 S)) :
@@ -518,6 +520,7 @@ private theorem mem_hallPreimage {K : Type} [Field K]
       exact ⟨ψ₂ x, hx, by simp⟩
   exact h1.trans (h2.trans (hTmodel (ψ₂ x)))
 
+omit [Finite G] in
 private theorem card_hallPreimage {K : Type} [Field K] {f : ℕ}
     (hK : Nat.card K = 2 ^ f)
     (ψ₂ : ↥(L2 ⊔ bigB L1 L2 S) ≃* ↥(g2ParB K)) :
@@ -566,6 +569,7 @@ private theorem hallPreimage_le_bigB (hH : Hyp111 L1 L2 S) (hD : G2qLocalData L1
   simpa [xP] using
     (hD.mem_bigB_iff_of_vertexTwo hH h1 h2 hK ψ₂ hψ₂S xP).2 hxBorel
 
+omit [Finite G] in
 private theorem comm_hallPreimage {K : Type} [Field K]
     (ψ₂ : ↥(L2 ⊔ bigB L1 L2 S) ≃* ↥(g2ParB K))
     {a b : G} (ha : a ∈ hallPreimage ψ₂) (hb : b ∈ hallPreimage ψ₂) :
@@ -592,6 +596,7 @@ private theorem comm_hallPreimage {K : Type} [Field K]
     ψ₂.injective (by rw [map_mul, map_mul]; exact hcommTor)
   simpa [aP, bP] using congrArg Subtype.val hcommP
 
+omit [Finite G] in
 private theorem inf_hallPreimage_eq_bot {K : Type} [Field K]
     (ψ₂ : ↥(L2 ⊔ bigB L1 L2 S) ≃* ↥(g2ParB K))
     (hψ₂S : ∀ x : ↥(L2 ⊔ bigB L1 L2 S), (x : G) ∈ S ↔

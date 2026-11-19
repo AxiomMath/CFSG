@@ -34,10 +34,10 @@ theorem kgfniRee_layer_ge5 {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite
       (Nonempty (Matrix.SpecialLinearGroup (Fin 2) K ≃* ↥J) ∨
         Nonempty (CFSG.Blueprint.suzukiGroup a K ≃* ↥J)) := by
   classical
-  haveI : Finite (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) := Subtype.finite
   rw [CFSG.HardMathSupport.Dickson.SuzukiReeB.fixSubgroup_conj] at hJ
   have hnt : Nontrivial ↥J := by
-    haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
+    have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
     exact Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥J))
   have htop : (⁅(⊤ : Subgroup ↥J), (⊤ : Subgroup ↥J)⁆) = ⊤ := by
     simpa [commutator_def] using hJ.2.2.1
@@ -50,12 +50,12 @@ theorem kgfniRee_layer_ge5 {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite
   rcases CFSG.LocalAnalysis.GLTheoremB.MovingAround.Claims1116b.largeRee_layer_typed
     ha hK hp hp3 s hs with hsolv | ⟨N, hNC, hCN, hNsimple, hty⟩
   · exfalso
-    haveI := hsolv
+    have := hsolv
     have hJsolv : Group.IsSolvable ↥J :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJ.1)
         (Subgroup.inclusion_injective hJ.1)
-    haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
-    haveI : Nontrivial ↥J := hnt
+    have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+    have : Nontrivial ↥J := hnt
     exact Group.IsPerfect.not_isSolvable ↥J hJsolv
   · have hJN : J ≤ N := by
       calc J = ⁅J, J⁆ := hperfJ.symm
@@ -97,11 +97,11 @@ theorem kgfniRee_label_A_one_of_markPSL {a : ℕ} {lab : LargeEvenLabel}
     subst hl
     rw [hd]
   case D =>
-    split_ifs at ht hr <;> first | omega | exact absurd ht (by decide)
+    split_ifs at ht hr; first | omega
   case twD =>
-    split_ifs at ht hr hd <;> first | omega | exact absurd ht (by decide)
+    split_ifs at ht hr hd; first | omega
   case B2der => omega
-  all_goals exfalso; simpa [markTag] using ht
+  all_goals exfalso; simp at ht
 
 theorem kgfniRee_label_twB2_of_mark {lab : LargeEvenLabel}
     (h : markTag lab = .twistedB2) : lab.tag = .twB2 := by
@@ -110,10 +110,10 @@ theorem kgfniRee_label_twB2_of_mark {lab : LargeEvenLabel}
   | twB2 => rfl
   | D =>
     simp only [markTag] at h
-    split_ifs at h <;> exact absurd h (by decide)
+    split_ifs at h
   | twD =>
     simp only [markTag] at h
-    split_ifs at h <;> exact absurd h (by decide)
+    split_ifs at h
   | _ => simp [markTag] at h
 
 theorem kgfniRee_innerDiagInn_A_one {a : ℕ} :
@@ -192,7 +192,7 @@ theorem kgfniRee_component_three {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [
     (hJ : CFSG.Open.IsComponentOf J
       (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (MulAut.conj s))) :
     J = Subgroup.centralizer ({s} : Set (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a)) := by
-  haveI : Finite (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) := Subtype.finite
   have hCq : CFSG.IsQuasisimple ↥(Subgroup.centralizer
       ({s} : Set (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a))) :=
     CFSG.RankThree.PartTwo.Sec19.SimsC198.reeGamma_isQuasisimple_centralizer ha hK s hs
@@ -201,7 +201,7 @@ theorem kgfniRee_component_three {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.open_isQuasisimple hCq
   rw [CFSG.HardMathSupport.Dickson.SuzukiReeB.fixSubgroup_conj] at hJ
   have hnt : Nontrivial ↥J := by
-    haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
+    have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
     exact Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥J))
   have hperfJ : ⁅J, J⁆ = J := by
     have htop : (⁅(⊤ : Subgroup ↥J), (⊤ : Subgroup ↥J)⁆) = ⊤ := by

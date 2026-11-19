@@ -33,6 +33,7 @@ noncomputable abbrev ggZ (Bs : Subgroup G)
     ggConjPreimage Bs ((TypeDDatum.evenSignedSupportedAut n 3 P).comap
       (MulAut.congr eta).toMonoidHom)
 
+omit [Finite G] in
 theorem mem_ggZ {Bs : Subgroup G} {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod 3))}
     {P : Finset (Fin n)} {g : G} :
     g ∈ ggZ Bs eta P ↔
@@ -41,6 +42,7 @@ theorem mem_ggZ {Bs : Subgroup G} {eta : ↥Bs ≃* (Fin n → Multiplicative (Z
           (MulAut.congr eta).toMonoidHom) :=
   Iff.rfl
 
+omit [Finite G] in
 theorem ggZ_map_conj {Bs : Subgroup G}
     {eta : ↥Bs ≃* (Fin n → Multiplicative (ZMod 3))} {g : G}
     (hg : g ∈ Subgroup.normalizer (Bs : Set G))
@@ -61,7 +63,7 @@ theorem ggZ_map_conj {Bs : Subgroup G}
     rw [Subgroup.comap_comap]
     congr 1
     ext x
-    simp [MulAut.conj_apply, map_mul, map_inv, mul_assoc]
+    simp [map_mul, map_inv, mul_assoc]
 
 private theorem moveExp_symm_apply {r : ℕ} (σ : Equiv.Perm (Fin r)) (ε : Fin r → ZMod 3)
     (hε : ∀ i, ε i = 1 ∨ ε i = -1) (f : Fin r → ZMod 3) (i : Fin r) :
@@ -161,7 +163,7 @@ theorem normBlock_commute_of_disjoint_of_fix_anchor {S T : Finset (Fin r)} (hdis
   let V := (F × F) × (Fin r → K)
   let X : Submodule F V :=
     coordSupport (LinearEquiv.refl F V) T
-  haveI : FiniteDimensional F K := finiteDimensional_of_quadExt E
+  have : FiniteDimensional F K := finiteDimensional_of_quadExt E
   have hXpolar : PolarNondegOn (normHypForm E r) X :=
     polarNondegOn_of_nondegenerate
       (coordSupport_nondegenerate (ψ := LinearEquiv.refl F V)
@@ -227,7 +229,7 @@ theorem normOmega_mem_normBlock_and_fixes_anchor_of_mem_ggZ
     a ∈ normBlock E r S ∧
       ∀ w : F × F, a.1 (w, (0 : Fin r → K)) = (w, 0) := by
   classical
-  letI : CharP F 2 := (Algebra.charP_iff F K 2).mpr inferInstance
+  let : CharP F 2 := (Algebra.charP_iff F K 2).mpr inferInstance
   let ι : Fin r → Fin n := fun i => π i.castSucc
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs :=
     hcfg.2.1.2.2.2
@@ -740,7 +742,7 @@ theorem GGSecFiveBPermOmKFrame.normPerm_swap_commute_of_componentFrame
     Commute (κ (normPerm E hr (Equiv.swap i j)))
       (κ' (normPerm E' hs (Equiv.swap u v))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   let z : G := κ (normPerm E hr (Equiv.swap i j))
   have hzY : z ∈ ggBlockComm Bs eta
       ({π i.castSucc, π j.castSucc} : Set (Fin n)) :=

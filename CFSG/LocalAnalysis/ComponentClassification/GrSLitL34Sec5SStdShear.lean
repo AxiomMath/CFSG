@@ -61,7 +61,7 @@ theorem false_of_sylow_of_conj_eq_mul (S : Sylow 2 G) {t z : G} (htS : t ∈ (S 
   have hSylN : CFSG.ABGLocalTools.IsSylowOf 2 (S : Subgroup G)
       (normalizer ((S : Subgroup G) : Set G)) := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨Subgroup.le_normalizer, S.isPGroup', ?_⟩
+    refine ⟨Subgroup.le_normalizer, S.isPGroup, ?_⟩
     intro hdvd
     exact Sylow.not_dvd_index S
       (hdvd.trans (Subgroup.relIndex_dvd_index_of_le Subgroup.le_normalizer))
@@ -77,7 +77,7 @@ theorem false_of_sylow_of_conj_eq_mul (S : Sylow 2 G) {t z : G} (htS : t ∈ (S 
   have hNB : Subgroup.zpowers (n ^ m) ≤ normalizer ((S : Subgroup G) : Set G) :=
     Subgroup.zpowers_le.mpr (Subgroup.pow_mem _ hnN m)
   have hsup2 : IsPGroup 2 ↥((S : Subgroup G) ⊔ Subgroup.zpowers (n ^ m)) :=
-    IsPGroup.to_sup_of_normal_left' S.isPGroup' hzpg hNB
+    IsPGroup.to_sup_of_normal_left' S.isPGroup hzpg hNB
   have hsup_le : (S : Subgroup G) ⊔ Subgroup.zpowers (n ^ m) ≤
       normalizer ((S : Subgroup G) : Set G) :=
     sup_le Subgroup.le_normalizer hNB

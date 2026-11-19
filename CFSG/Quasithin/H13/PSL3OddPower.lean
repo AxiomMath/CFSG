@@ -184,7 +184,7 @@ theorem exists_monomial_sylow_of_permutable [Finite F] [CharP F 2] {p : ℕ} [Fa
     intro h
     exact hp3 ((Nat.prime_dvd_prime_iff_eq Nat.prime_three (Fact.out : p.Prime)).1
       (Nat.prime_three.dvd_of_dvd_pow h)).symm
-  have hUp : IsPGroup 2 (projUnitriangular 3 F) := hQ₀ ▸ Q₀.isPGroup'
+  have hUp : IsPGroup 2 (projUnitriangular 3 F) := hQ₀ ▸ Q₀.isPGroup
   have hperm := NQTerm.not_three_dvd_card_permProd Pd' (projUnitriangular 3 F) hPU' h3 hUp
   have hle := le_projUpperTriangular_of_not_three_dvd (NQTerm.le_permProd_right _ _ hPU') hperm
   have hPd'B : Pd' ≤ projUpperTriangular 3 F := (NQTerm.le_permProd_left _ _ hPU').trans hle

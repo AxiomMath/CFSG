@@ -34,9 +34,11 @@ section Pos
 
 variable {R : List P}
 
+omit [DecidableEq P] in
 theorem el_of_lt {k : Nat} (hk : k < R.length) : el R k = R[k] := by
   simp [el, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hk]
 
+omit [DecidableEq P] in
 theorem el_of_le {k : Nat} (hk : R.length ≤ k) : el R k = 1 := by
   simp [el, List.getD_eq_getElem?_getD, List.getElem?_eq_none hk]
 
@@ -58,9 +60,10 @@ theorem el_idxOf {x : P} (hx : x ∈ R ∨ x = 1) : el R (R.idxOf x) = x := by
     · rw [el_of_lt (List.idxOf_lt_length_iff.2 h), List.getElem_idxOf]
     · rw [el_of_le (by rw [List.idxOf_eq_length h])]
 
+omit [Group P] in
 theorem idxOf_le (x : P) : R.idxOf x ≤ R.length := List.idxOf_le_length
 
-theorem idxOf_inj {cmR mkR : Nat → Nat} (T : GTabs R cmR mkR) {x y : P} (hx : x ∈ R ∨ x = 1)
+theorem idxOf_inj {cmR mkR : Nat → Nat} (_T : GTabs R cmR mkR) {x y : P} (hx : x ∈ R ∨ x = 1)
     (hy : y ∈ R ∨ y = 1) (h : R.idxOf x = R.idxOf y) : x = y := by
   rw [← el_idxOf hx, ← el_idxOf hy, h]
 
@@ -92,7 +95,7 @@ theorem idxOf_mul {cmR mkR : Nat → Nat} (T : GTabs R cmR mkR) {x s : P} (hx : 
     obtain ⟨hle, he⟩ := T.prod _ hxl _ hsl hc'
     rw [el_idxOf (Or.inl hx), el_idxOf (Or.inl hs)] at he
     rw [← he, idxOf_el T hle]
-  · rw [mul_one, List.idxOf_eq_length (one_notMem T), mkF, if_neg (Nat.ne_of_lt hxl), if_pos rfl]
+  · rw [mul_one, List.idxOf_eq_length (one_notMem T), mkF, ite_eq_right (Nat.ne_of_lt hxl), ite_eq_left rfl]
 
 end Pos
 
@@ -100,6 +103,7 @@ section Ext
 
 variable {R : List P} {cmR mkR : Nat → Nat}
 
+omit [Group P] in
 theorem map_idxOf_drop (hR : R.Nodup) (s : Nat) :
     (R.drop s).map R.idxOf = List.range' s (R.length - s) := by
   have hmap : R.map R.idxOf = List.range R.length := by
@@ -317,7 +321,7 @@ theorem candR_eq {m : Nat} {mkR : Nat → Nat} {c x : Nat} (hx : x < m) (S : Lis
           simp
         · rw [beq_false_of_ne hm]
           have hmF : mkF mkR m x s = Nat.land (Nat.shiftRight (mkR x) (8 * s)) 255 := by
-            rw [mkF, if_neg (Nat.ne_of_lt hx), if_neg hm]
+            rw [mkF, ite_eq_right (Nat.ne_of_lt hx), ite_eq_right hm]
           have hb : Nat.blt x (Nat.land (Nat.shiftRight (mkR x) (Nat.mul 8 s)) 255) =
               decide (x < mkF mkR m x s) := by
             rw [hmF, Bool.eq_iff_iff, Nat.blt_eq, decide_eq_true_iff]
@@ -402,11 +406,11 @@ theorem gAllR_eq {σ : Type} {D : List (Nat × Nat)} {m : Nat} (hD : D.length = 
       have hmap : (S.map fun s => nIf(Nat.beq s m, y,
           Nat.land (Nat.shiftRight (mkD D y) (Nat.mul 8 s)) 255)) = S.map (mkF (mkD D) m y) := by
         refine List.map_congr_left fun s _ => ?_
-        rw [mkF, if_neg (Nat.ne_of_lt hy)]
+        rw [mkF, ite_eq_right (Nat.ne_of_lt hy)]
         by_cases hs : s = m
         · subst hs
-          rw [if_pos rfl, Nat.beq_refl]
-        · rw [if_neg hs, beq_false_of_ne hs]
+          rw [ite_eq_left rfl, Nat.beq_refl]
+        · rw [ite_eq_right hs, beq_false_of_ne hs]
           rfl
       rw [hmap]
       cases candR m c y (mkD D y) S <;> rfl

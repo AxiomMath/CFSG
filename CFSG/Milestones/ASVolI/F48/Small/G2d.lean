@@ -447,14 +447,14 @@ theorem burnsideF48s_g2d_core {Y : Type} [Group Y] (f₁ : ↥u33Data.B →* Y) 
       rw [h]
       exact hcandY
   obtain ⟨hfin, hcardP⟩ := burnsideF48s_g2d_card_PG j hj
-  haveI := hfin
+  have := hfin
   have hYle := burnsideF48s_core_card_le (L := L) (f₁ := f₁) (f₂ := f₂) h12' hgen
     burnsideF48s_g2d_covB burnsideF48s_g2d_covA hY
   have hj13 : j % 2 = 1 := by
     by_contra hne
-    rw [if_neg hne] at hcardP
+    rw [ite_eq_right hne] at hcardP
     omega
-  rw [if_pos hj13] at hcardP
+  rw [ite_eq_left hj13] at hcardP
   have hcandU : burnsideF48s_ev L (burnsideF48s_g2dCand j) = 1 := by
     apply u33PresHom_injective
     rw [burnsideF48s_g2d_hom_ev, map_one]
@@ -468,7 +468,7 @@ theorem burnsideF48s_g2d_core {Y : Type} [Group Y] (f₁ : ↥u33Data.B →* Y) 
     · rw [List.mem_singleton] at h
       rw [h]
       exact hcandU
-  haveI : Finite U33G := Nat.finite_of_card_ne_zero (by rw [card_u33Pres]; norm_num)
+  have : Finite U33G := Nat.finite_of_card_ne_zero (by rw [card_u33Pres]; norm_num)
   exact burnsideF48s_core_gen h12' hgen burnsideF48s_g2d_sup burnsideF48s_g2d_covB
     burnsideF48s_g2d_covA hD hY (by rw [card_u33Pres]; exact hcardP)
     (by rw [card_u33Pres]; exact hcard)
@@ -479,7 +479,7 @@ section Main
 
 theorem burnsideF48s_small_G2d (h45 : F_4_5) (h46 : F_4_6) {p f : ℕ} {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 .G2d p f Gp M₁ M₂) : F48Concl .G2d p f Gp M₁ M₂ := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hext := burnsideF48s_isLieExtGroup_E ChF.nativeChartCompatibility hyp
   have hGp : Gp = ⊤ := hyp.canonical (Or.inl rfl)
   subst hGp
@@ -495,7 +495,7 @@ theorem burnsideF48s_small_G2d (h45 : F_4_5) (h46 : F_4_6) {p f : ℕ} {E : Type
   intro Y _ β hβ hs
   have h13 := (burnside_as_F_4_13_of h45 h46 .G2d 2 1 E ⊤ M₁ M₂ hyp Y β hβ hs).2
   rw [card_G0, hcardE] at h13
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by rw [h13]; norm_num)
+  have : Finite Y := Nat.finite_of_card_ne_zero (by rw [h13]; norm_num)
   obtain ⟨u, v, w, huM, hvM, hwM, hu2, hv2, hrel⟩ := burnsideF48s_g2d_rel h45 h46 hyp β hβ hs
   have hmemΦ : ∀ {P : Subgroup U33G} {M : Subgroup E}, P.map Φ.toMonoidHom = M →
       ∀ z : U33G, Φ z ∈ M ↔ z ∈ P := by

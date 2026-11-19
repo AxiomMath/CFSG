@@ -25,7 +25,7 @@ private theorem wc819sb_le_sup_of_map_mk'_eq {X : Type*} [Group X] [Finite X]
     (S : Sylow p M) (T : Sylow p X)
     (hST : (S : Subgroup M).map M.subtype ≤ (T : Subgroup X)) :
     (T : Subgroup X) ≤ K ⊔ (S : Subgroup M).map M.subtype := by
-  haveI : K.Normal := hK
+  have : K.Normal := hK
   let π : X →* X ⧸ K := QuotientGroup.mk' K
   have hsurj : Function.Surjective (π.comp M.subtype) := by
     intro y
@@ -57,7 +57,7 @@ theorem eq_inf_mul_inf_of_isSylowIn {J D N T : Subgroup G} (hJD : J ≤ D)
     (hDJ : D ≤ normalizer (J : Set G)) (hND : N ≤ D) (hDN : D = J ⊔ N)
     (hT : IsSylowIn 2 T D) (hTN : IsSylowIn 2 (T ⊓ N) N) :
     ∀ t ∈ T, ∃ n ∈ T ⊓ N, ∃ j ∈ T ⊓ J, t = n * j := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let J' : Subgroup D := J.subgroupOf D
   let N' : Subgroup D := N.subgroupOf D
   let S' : Subgroup D := (T ⊓ N).subgroupOf D
@@ -79,7 +79,7 @@ theorem eq_inf_mul_inf_of_isSylowIn {J D N T : Subgroup G} (hJD : J ≤ D)
   have hmem : (⟨t, hT.le ht⟩ : D) ∈ S' ⊔ J' := by
     have h1 := hsup htD
     rwa [sup_comm] at h1
-  haveI : J'.Normal := hJ'norm
+  have : J'.Normal := hJ'norm
   obtain ⟨n, hn, j, hj, hnj⟩ :=
     (Subgroup.mem_sup_of_normal_right (s := S') (t := J')).1 hmem
   obtain ⟨hnT, hnN⟩ := Subgroup.mem_inf.mp (Subgroup.mem_subgroupOf.mp hn)

@@ -25,7 +25,7 @@ theorem exists_fixed_lift_center (hodd : Odd (Nat.card (center E))) {w : M} (hw2
     ∃ e : E, (QuotientGroup.mk e : E ⧸ center E) = x ∧ MulAut.conjNormal w e = e := by
   obtain ⟨d, rfl⟩ := QuotientGroup.mk_surjective x
   let N : Subgroup M := (center E).map E.subtype
-  haveI : N.Normal := ConjAct.normal_of_characteristic_of_normal
+  have : N.Normal := ConjAct.normal_of_characteristic_of_normal
   have hNodd : Odd (Nat.card N) := by rwa [card_subtype]
   rw [S11.barAct_mk, QuotientGroup.eq_iff_div_mem] at hx
   have hd : w * d * w⁻¹ * (d : M)⁻¹ ∈ N := by
@@ -46,7 +46,7 @@ theorem exists_two_lift (hodd : Odd (Nat.card (center E))) {t : M} (ht2 : t * t 
       ∀ m : M, m * t = t * m → (∀ y ∈ T, S11.barAct E m y ∈ T) →
         ∀ e ∈ T₀, MulAut.conjNormal m e ∈ T₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let W : Subgroup E := T.comap (QuotientGroup.mk' (center E)) ⊓ (centralizer {t}).subgroupOf E
   have hWT : ∀ w : W, (QuotientGroup.mk' (center E)) (w : E) ∈ T := fun w => (mem_inf.mp w.2).1
   have hWt : ∀ w : W, ((w : E) : M) * t = t * (w : E) := fun w =>
@@ -63,15 +63,15 @@ theorem exists_two_lift (hodd : Odd (Nat.card (center E))) {t : M} (ht2 : t * t 
     have hwZ : (w : E) ∈ center E :=
       (QuotientGroup.eq_one_iff (w : E)).mp (congrArg Subtype.val hw)
     exact mem_center_iff.mpr fun v => Subtype.ext (mem_center_iff.mp hwZ v)
-  haveI : Group.IsNilpotent T := hT2.isNilpotent
-  haveI : Group.IsNilpotent W := Subgroup.isNilpotent_of_ker_le_center φ hker
+  have : Group.IsNilpotent T := hT2.isNilpotent
+  have : Group.IsNilpotent W := Subgroup.isNilpotent_of_ker_le_center φ hker
   obtain ⟨Q⟩ := Sylow.nonempty (p := 2) (G := W)
-  haveI : Subsingleton (Sylow 2 W) :=
+  have : Subsingleton (Sylow 2 W) :=
     (Sylow.unique_of_normal Q instNormalOfIsNilpotentOfFactPrime).instSubsingleton
   have hQ : (Q : Subgroup W).map φ = ⊤ := by
     rw [← Sylow.coe_mapSurjective hφ]
     exact ((Q.mapSurjective hφ).maximal_isPGroup.eq_of_ge (hT2.of_equiv topEquiv.symm) le_top).symm
-  refine ⟨(Q : Subgroup W).map W.subtype, Q.isPGroup'.map _, le_antisymm ?_ ?_, ?_, ?_⟩
+  refine ⟨(Q : Subgroup W).map W.subtype, Q.isPGroup.map _, le_antisymm ?_ ?_, ?_, ?_⟩
   · rintro _ ⟨_, ⟨w, -, rfl⟩, rfl⟩
     exact hWT w
   · intro y hy
@@ -89,7 +89,7 @@ theorem exists_two_lift (hodd : Odd (Nat.card (center E))) {t : M} (ht2 : t * t 
       · rw [MulAut.conjNormal_apply]
         exact Commute.mul_left (Commute.mul_left hmt (hWt w)) (Commute.inv_left hmt)
     let α : W →* W := ((MulAut.conjNormal m).toMonoidHom.comp W.subtype).codRestrict W hW
-    obtain ⟨R, hR⟩ := (Q.isPGroup'.map α).exists_le_sylow
+    obtain ⟨R, hR⟩ := (Q.isPGroup.map α).exists_le_sylow
     rw [Subsingleton.elim R Q] at hR
     rintro _ ⟨w, hw, rfl⟩
     exact ⟨α w, hR ⟨w, hw, rfl⟩, rfl⟩
@@ -113,7 +113,7 @@ theorem core_of_layer (hι : Function.Injective ι) (hodd : Odd (Nat.card (cente
     Nat.card T ≤ 4 ∧ (Nat.card T = 4 → ∃ y₁ ∈ T, ∃ y₂ ∈ T, orderOf y₁ = 2 ∧ orderOf y₂ = 2 ∧
       ¬ IsConj y₁ y₂) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T₀, hT₀2, hT₀T, hT₀t, hT₀m⟩ := exists_two_lift hodd ht2 hT2 hTfix
   let f : E →* O := ι.comp E.subtype
   have hf : Function.Injective f := hι.comp E.subtype_injective
@@ -137,14 +137,14 @@ theorem core_of_layer (hι : Function.Injective ι) (hodd : Odd (Nat.card (cente
   obtain ⟨et, het, hett⟩ := hKt _ hCt' hTriv (by rw [card_map_of_injective hf, hT₀4])
   have hT₀Z : ∀ e ∈ T₀, (QuotientGroup.mk e : E ⧸ center E) = 1 → e = 1 := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hT₀2
-    have hbot : T₀ ⊓ center E = ⊥ := inf_eq_bot_of_coprime (by
+    have hbot : T₀ ⊓ center E = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by
       rw [hk]
-      exact Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr hodd))
+      exact Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr hodd))))
     intro e he h1
     rw [← mem_bot, ← hbot]
     exact mem_inf.mpr ⟨he, (QuotientGroup.eq_one_iff e).mp h1⟩
   have h3 : 1 < ((T₀ : Set E) \ {1}).ncard := by
-    rw [Set.ncard_diff_singleton_of_mem T₀.one_mem, ← Nat.card_coe_set_eq]
+    rw [Set.ncard_sdiff_singleton_of_mem T₀.one_mem, ← Nat.card_coe_set_eq]
     change 1 < Nat.card T₀ - 1
     omega
   obtain ⟨eu, ⟨heu, heu1⟩, heut⟩ := Set.exists_ne_of_one_lt_ncard h3 et
@@ -201,7 +201,7 @@ theorem layerData_of_layer (hι : Function.Injective ι) (hodd : Odd (Nat.card (
     (hEtop : 15120 < Nat.card E → E = ⊤) (hZ : ∃ e : E, ι e ∈ P ∧ e ∉ center E) :
     LayerData (E ⧸ center E) ((S11.barAct E).comp (L₀.comap ι).subtype).range (S11.barAct E t)
       ((P.comap (ι.comp E.subtype)).map (QuotientGroup.mk' (center E))) := by
-  haveI : Group.IsPerfect E := ⟨hE⟩
+  have : Group.IsPerfect E := ⟨hE⟩
   have htL : ι t ∈ L₀ := ht₀ ▸ ht
   have ht2 : t * t = 1 := hι (by rw [map_mul, ht₀, hLsq t₀ ht, map_one])
   have hfix : ∀ e : E, MulAut.conjNormal t e = e ↔ (e : M) * t = t * e := fun e => by
@@ -218,10 +218,10 @@ theorem layerData_of_layer (hι : Function.Injective ι) (hodd : Odd (Nat.card (
     intro l hl
     exact mem_bot.mpr (Subtype.ext (hkey l l.2 hl))
   have hPcomm : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     intro x hx y hy
     exact congrArg Subtype.val
-      (IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (hP9.trans (by norm_num)) ⟨x, hx⟩
+      ((IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (hP9.trans (by norm_num))).is_comm.comm ⟨x, hx⟩
         ⟨y, hy⟩)
   have hf : Function.Injective (ι.comp E.subtype) := hι.comp E.subtype_injective
   refine

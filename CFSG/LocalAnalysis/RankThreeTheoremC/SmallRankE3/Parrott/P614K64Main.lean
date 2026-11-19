@@ -19,7 +19,7 @@ theorem kFact64iii_of_l34 : KFact278L34 → KFact64iii := by
   obtain ⟨K, hKX, hKn, hKp, hKlt, hKmax, hcov, ⟨e⟩, hSidx⟩ :=
     h A X Q B U Y hK hrk hQ hZ hBQ hB hB9 hUQ hU hU9 hBU hwc hYX hYne hU1 hQ2
   rw [hcore] at hKlt hKmax hcov hSidx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O : Subgroup A := pCoreOf 2 X with hOdef
   have hO2 : IsPGroup 2 O := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 X
   have hOX : O ≤ X := CFSG.LieType.BorelTits.pCoreOf_le 2 X
@@ -38,7 +38,7 @@ theorem kFact64iii_of_l34 : KFact278L34 → KFact64iii := by
       ¬ K ≤ normalizer (Z₀ : Set A) := by
     intro Z₀ hZS hZ1 hZc hKZ
     apply hfail
-    haveI := hZc
+    have := hZc
     have hSZ : S ≤ normalizer (Z₀ : Set A) :=
       (normal_subgroupOf_iff_le_normalizer hZS).mp inferInstance
     refine ⟨Z₀, hZS, hZ1, hZc, hcov.trans (sup_le (sup_le le_sup_left ?_) ?_)⟩
@@ -86,7 +86,7 @@ theorem kFact64iii_of_l34 : KFact278L34 → KFact64iii := by
   obtain ⟨A₀, hA₀, hA₀O⟩ := exists_offender hOS hXO hKX fun hKJ =>
     hK' _ (thompsonJ_le_self S) (CFSG.QuasithinUnique.Setup.thompsonJ_ne_bot hS2 hS1)
       (CFSG.QuasithinUnique.Setup.characteristic_thompsonJ S) hKJ
-  obtain ⟨a, haA, haO⟩ := SetLike.not_le_iff_exists.mp hA₀O
+  obtain ⟨a, haA, haO⟩ := IsConcreteLE.not_le_iff_exists.mp hA₀O
   have haS : a ∈ S := hA₀.1 haA
   have haX : a ∈ X := hSX haS
   have haC : a ∉ centralizer (V : Set A) := fun h => haO (hSCV ▸ ⟨haS, h⟩)
@@ -101,8 +101,8 @@ theorem kFact64iii_of_l34 : KFact278L34 → KFact64iii := by
   have hidxA : ∀ W : Subgroup A, O ≤ centralizer (W : Set A) →
       (A₀ ⊓ centralizer (W : Set A)).relIndex A₀ ≤ 2 := by
     intro W hOW
-    haveI : (A₀ ⊓ O).IsFiniteRelIndex A₀ := isFiniteRelIndex_of_finiteIndex
-    haveI : O.IsFiniteRelIndex S := isFiniteRelIndex_of_finiteIndex
+    have : (A₀ ⊓ O).IsFiniteRelIndex A₀ := isFiniteRelIndex_of_finiteIndex
+    have : O.IsFiniteRelIndex S := isFiniteRelIndex_of_finiteIndex
     calc (A₀ ⊓ centralizer (W : Set A)).relIndex A₀ ≤ (A₀ ⊓ O).relIndex A₀ :=
           relIndex_le_of_le_left (inf_le_inf_left _ hOW) relIndex_ne_zero
       _ = O.relIndex A₀ := inf_relIndex_left A₀ O
@@ -138,7 +138,7 @@ theorem kFact64iii_of_l34 : KFact278L34 → KFact64iii := by
     rw [← map_mul]
     rfl
   obtain ⟨hs, hc, hi⟩ := autI_facts hO2 hKO hKlt hKmax e hV hKV hOV hKC
-  haveI := hs
+  have := hs
   have hz := center_eq_bot_of_l34 hc hi
   have hcK : ∀ k ∈ K, (g : A) * a * k * ((g : A) * a)⁻¹ * k⁻¹ ∈ centralizer (V : Set A) := by
     intro k hk

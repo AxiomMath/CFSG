@@ -15,7 +15,7 @@ section Classification
 theorem zero_of_cfg {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x z : Y}
     {L : Subgroup Y} (cfg : K62B.Cfg p P x z) (hLcomp : IsComponentOf L ⊤)
     (huniq : ∀ K : Subgroup Y, IsComponentOf K ⊤ → K = L) : LinUniZero p L := by
-  haveI : Fact p.Prime := ⟨cfg.prime⟩
+  have : Fact p.Prime := ⟨cfg.prime⟩
   have hp5 : 5 ≤ p := cfg.five_le
   have hp2 : p ≠ 2 := by omega
   have hLq : CFSG.Open.IsQuasisimple ↥L := hLcomp.2.2
@@ -48,7 +48,7 @@ theorem zero_of_cfg {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {
       exact ⟨k, Subtype.ext (by simpa using congrArg Subtype.val hk)⟩
     have hRLc : ∀ g ∈ CFSG.pCore p Y, g ∈ L → ∀ h ∈ L, g * h = h * g := by
       intro g hg hgL h hh
-      haveI : ((CFSG.pCore p Y).subgroupOf L).Normal := hRn.subgroupOf L
+      have : ((CFSG.pCore p Y).subgroupOf L).Normal := hRn.subgroupOf L
       have hNtop : (CFSG.pCore p Y).subgroupOf L ≠ ⊤ := by
         intro htop
         apply hLnR

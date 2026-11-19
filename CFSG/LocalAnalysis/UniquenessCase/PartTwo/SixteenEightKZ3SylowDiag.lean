@@ -29,24 +29,23 @@ private noncomputable def s16k_d (i : Fin 3) : S16kGL6 where
     ((s16k_d i : S16kGL6) : Matrix (Fin 6) (Fin 6) (ZMod 2)) = s16kBlockMat i := rfl
 
 private lemma s16k_d_cubed (i : Fin 3) : (s16k_d i) ^ 3 = 1 := by
-  ext r c <;> fin_cases i <;> fin_cases r <;> fin_cases c <;>
-    simp only [s16k_d, Matrix.mul_apply, s16kBlockMat, Matrix.of_apply, Matrix.one_apply,
-      Units.val_pow_eq_pow_val] <;>
+  ext r c; fin_cases i <;> fin_cases r <;> fin_cases c <;>
+    simp only [s16k_d, s16kBlockMat, Units.val_pow_eq_pow_val] <;>
     decide
 
 private lemma s16k_d_ne_one (i : Fin 3) : s16k_d i ≠ 1 := by
   fin_cases i <;> decide
 
 private lemma s16k_d_comm (i j : Fin 3) : Commute (s16k_d i) (s16k_d j) := by
-  ext r c <;> fin_cases i <;> fin_cases j <;> fin_cases r <;> fin_cases c <;>
-    simp only [s16k_d, Matrix.mul_apply, s16kBlockMat, Matrix.of_apply] <;>
+  ext r c; fin_cases i <;> fin_cases j <;> fin_cases r <;> fin_cases c <;>
+    simp only [s16k_d, s16kBlockMat] <;>
     decide
 
 private lemma s16k_diag_gen_eq :
     {g : S16kGL6 | ∃ i : Fin 3, (g : Matrix (Fin 6) (Fin 6) (ZMod 2)) = s16kBlockMat i}
       = ({s16k_d 0, s16k_d 1, s16k_d 2} : Set S16kGL6) := by
   ext g
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨i, hi⟩
     fin_cases i
@@ -145,7 +144,7 @@ theorem s16k_diag_card : Nat.card ↥s16kDiag = 27 := by
     exact ⟨p, Subtype.ext hp⟩
   calc Nat.card ↥s16kDiag = Nat.card (Fin 3 × Fin 3 × Fin 3) :=
         (Nat.card_congr (Equiv.ofBijective _ hbij)).symm
-    _ = 27 := by simp [Nat.card_prod, Nat.card_fin]
+    _ = 27 := by simp
 
 
 theorem s16k_z3_elem3_diag {E : Subgroup S16kGL6}

@@ -41,6 +41,7 @@ omit [Finite G] in
 theorem IsElem3.toIsElemAbelian {D : Subgroup G} (h : IsElem3 D) : CFSG.Open.IsElemAbelian 3 D :=
   ⟨⟨⟨fun a b => Subtype.ext (h.comm a a.2 b b.2)⟩⟩, h.pow3⟩
 
+omit [Finite G] in
 theorem mem_normalizer_zpowers_of_mul_eq {x τ : G} (h : x * τ = τ * x) :
     x ∈ Subgroup.normalizer (Subgroup.zpowers τ : Set G) := by
   have hxτ : Commute x τ := h
@@ -75,7 +76,7 @@ theorem odd_card_centralizer (hloc : localRank 3 G = 3) {D : Subgroup G} (hD : I
     rcases Nat.even_or_odd (Nat.card (Subgroup.centralizer (D : Set G))) with h | h
     · exact even_iff_two_dvd.mp h
     · exact absurd h hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨τ, hτ⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have hτK : (τ : G) ∈ Subgroup.centralizer (D : Set G) := τ.2
   have hτ2 : (τ : G) ^ 2 = 1 := by
@@ -137,7 +138,7 @@ theorem exists_invariant_sylow {S R : Subgroup G} (hS : IsPGroup 2 S) (hR : Odd 
     exact (Nat.not_even_iff_odd.2 hR) (even_iff_two_dvd.2 (h.trans h1))
   obtain ⟨P, hP⟩ := hS.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 3 R) h2
   refine ⟨(P : Subgroup R).map R.subtype, Subgroup.map_subtype_le _,
-    P.isPGroup'.map R.subtype, ?_, ?_⟩
+    P.isPGroup.map R.subtype, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective R.subtype_injective, Sylow.card_eq_multiplicity]
   · rintro s hs _ ⟨y, hy, rfl⟩
     have hfix : (⟨s, hs⟩ : S) • P = P := hP ⟨s, hs⟩
@@ -346,9 +347,9 @@ theorem false_of_omega (hloc : localRank 3 G = 3) {T Ω : Subgroup G} (hΩ : IsE
     (hat : a * a = t) (hbt : b * b = t) (hct : c * c = t)
     (hab : a * b = t * (b * a)) (hac : a * c = c * a) (hbc : b * c = c * b) : False := by
   classical
-  haveI : Fact (IsElem3 Ω) := ⟨hΩ⟩
-  haveI : Finite (Vec Ω) := inferInstanceAs (Finite (Additive Ω))
-  haveI : Module.Finite F3 (Vec Ω) := Module.Finite.of_finite
+  have : Fact (IsElem3 Ω) := ⟨hΩ⟩
+  have : Finite (Vec Ω) := inferInstanceAs (Finite (Additive Ω))
+  have : Module.Finite F3 (Vec Ω) := Module.Finite.of_finite
   have hTN : T ≤ Subgroup.normalizer (Ω : Set G) := fun s hs => by
     rw [Subgroup.mem_normalizer_iff]
     intro g
@@ -408,8 +409,8 @@ theorem false_of_omega (hloc : localRank 3 G = 3) {T Ω : Subgroup G} (hΩ : IsE
     constructor
     · intro h
       have h1 := congrArg (fun w => ((Vec.toD w : Ω) : G)) h
-      simp only [LinearMap.sub_apply, Module.End.mul_apply, Module.End.one_apply, sub_eq_add_neg,
-        Vec.toD_add, Vec.toD_neg, Subgroup.coe_mul, Subgroup.coe_inv, Vec.toD_zero,
+      simp only [sub_eq_add_neg,
+        Vec.toD_zero,
         OneMemClass.coe_one] at h1
       change a * (c * (Vec.toD v : Ω) * c⁻¹) * a⁻¹ * ((Vec.toD v : Ω) : G)⁻¹ = 1 at h1
       have h2 := mul_inv_eq_one.mp h1
@@ -419,8 +420,8 @@ theorem false_of_omega (hloc : localRank 3 G = 3) {T Ω : Subgroup G} (hΩ : IsE
     · intro h
       apply Vec.toD_injective
       apply Subtype.ext
-      simp only [LinearMap.sub_apply, Module.End.mul_apply, Module.End.one_apply, sub_eq_add_neg,
-        Vec.toD_add, Vec.toD_neg, Subgroup.coe_mul, Subgroup.coe_inv, Vec.toD_zero,
+      simp only [sub_eq_add_neg,
+        Vec.toD_zero,
         OneMemClass.coe_one]
       change a * (c * (Vec.toD v : Ω) * c⁻¹) * a⁻¹ * ((Vec.toD v : Ω) : G)⁻¹ = 1
       have h2 : a * (c * (Vec.toD v : Ω) * c⁻¹) * a⁻¹ = (Vec.toD v : Ω) := by

@@ -75,6 +75,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.AlgebraicGroup
 variable {Omega : Type} [Field Omega] [IsAlgClosed Omega] [CharP Omega 2]
   {lab : LargeEvenLabel} {p : ℕ} {R : Type} [Group R] {I : Set (MulAut R)} {phi : MulAut R}
 
+omit [CharP Omega 2] in
 theorem lq_K1 (hlab : LargeEvenInLambda2 lab) (A : K0LangMark Omega lab p R I phi)
     (P : K0Positions A) (j : Fin A.row.D.orbits.length) (hj : A.row.D.orbits[j].qs = true) :
     (twistKind A.setup.ρ (rootCharHom A.a) (P.repr j) = .inner →
@@ -119,7 +120,7 @@ theorem lq_K1 (hlab : LargeEvenInLambda2 lab) (A : K0LangMark Omega lab p R I ph
     have hpair := lq_pair_ncard A P j hlen
     have hfam : (k0CompType (k0DiagOf A.row.T) (lqNodes A P j)).1 = .A := by
       by_contra hne
-      rw [if_neg hne] at hpair
+      rw [ite_eq_right hne] at hpair
       rw [hrk] at hnc
       omega
     have htw : lqTw A P j ≠ 1 := fun h1 => by
@@ -132,6 +133,7 @@ theorem lq_K1 (hlab : LargeEvenInLambda2 lab) (A : K0LangMark Omega lab p R I ph
       exact Nat.pow_right_injective (le_refl 2) h2
     exact hnot ⟨hfam, Or.inr ⟨htw, by rw [lq_compType_A_rank _ _ hfam, hlen]⟩, hn1⟩
 
+omit [CharP Omega 2] in
 theorem lq_K2 (A : K0LangMark Omega lab p R I phi)
     (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) (hj : A.row.D.orbits[j].qs = false) :

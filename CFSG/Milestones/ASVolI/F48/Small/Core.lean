@@ -49,7 +49,7 @@ theorem burnsideF48s_ev_yL_B (h12 : ∀ (t : D) (h : t ∈ A ⊓ B), f₁ ⟨t, 
     refine (burnsideF48s_ev_congr w fun l hl => ?_).trans (burnsideF48s_ev_map f₂ LB w)
     have hB := hw l hl
     by_cases hA : L l.1 ∈ A
-    · simp only [burnsideF48s_yL, LB, dif_pos hA, dif_pos hB]
+    · simp only [burnsideF48s_yL, LB, dite_eq_left hA, dite_eq_left hB]
       exact h12 _ ⟨hA, hB⟩
     · simp [burnsideF48s_yL, LB, hA, hB]
   rw [e2]

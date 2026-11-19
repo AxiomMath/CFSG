@@ -57,7 +57,7 @@ theorem f112_oTwoRes_le_of_le_mul {L1 L2 S : Subgroup H} {n : ℕ}
     · rintro ⟨hy₀, hyM⟩
       exact ⟨(Subgroup.mem_normalizer_iff.mp hxM₀ y).mpr hy₀,
         (Subgroup.mem_normalizer_iff.mp hxMM y).mpr hyM⟩
-  haveI hNnormI : (N.subgroupOf M).Normal := hNnorm
+  have hNnormI : (N.subgroupOf M).Normal := hNnorm
   obtain ⟨eM⟩ := pCore_quotient_mulEquiv_of_sup_pCoreOf hML (le_normalizer_oTwoRes L2)
     (f112sl_oTwoRes_sup_pCoreOf hn h2)
   have hsimpleL : IsSimpleGroup (oTwoQuot ↥L2) := by
@@ -66,15 +66,15 @@ theorem f112_oTwoRes_le_of_le_mul {L1 L2 S : Subgroup H} {n : ℕ}
       rw [GaloisField.card 2 n (by omega)]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-    haveI : IsSimpleGroup
+    have : IsSimpleGroup
         (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcard
     exact e.isSimpleGroup
-  haveI hsimpleM : IsSimpleGroup (↥M ⧸ CFSG.pCore 2 ↥M) := eM.isSimpleGroup
+  have hsimpleM : IsSimpleGroup (↥M ⧸ CFSG.pCore 2 ↥M) := eM.isSimpleGroup
   let π : ↥M →* ↥M ⧸ CFSG.pCore 2 ↥M := QuotientGroup.mk' _
   have hmapN : ((N.subgroupOf M).map π).Normal :=
     hNnorm.map π (QuotientGroup.mk'_surjective _)
-  haveI : ((N.subgroupOf M).map π).Normal := hmapN
+  have : ((N.subgroupOf M).map π).Normal := hmapN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N.subgroupOf M).map π) with hbot | htop
   ·
     have hNleQ : N ≤ Q := by

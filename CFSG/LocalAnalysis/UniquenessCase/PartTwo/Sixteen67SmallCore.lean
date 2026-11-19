@@ -60,7 +60,7 @@ theorem Loc67.card_le (hL : Loc67 Hh V₀ V H₀) : Nat.card V ≤ 64 := by
   omega
 
 theorem not_three_dvd_card_pPrimeCore : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 Hh) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card
 
 theorem exists_socle67 (hL : Loc67 Hh V₀ V H₀) (hTI : K67ThreeIndex) :
@@ -74,7 +74,7 @@ theorem exists_socle67 (hL : Loc67 Hh V₀ V H₀) (hTI : K67ThreeIndex) :
     Nat.prime_three hL.strong hK hne
   obtain ⟨J, hJn, hJs, hJnab, hJr, hJc⟩ :=
     exists_simple_normal_of_stronglyPEmbedded _ hQO hQr hY
-  haveI := hJn
+  have := hJn
   have hJK : CFSG.Open.IsKGroup ↥J :=
     ((hL.kGroup.quotient (CFSG.pPrimeCore 3 Hh)).subgroup J)
   exact ⟨J, ⟨hJn, hJK, hJs, hJnab, hJr, hJc,
@@ -99,6 +99,7 @@ theorem pCore_two_le_pPrimeCore_three : CFSG.pCore 2 Hh ≤ CFSG.pPrimeCore 3 Hh
   rw [hn]
   exact Nat.Coprime.pow_right n (by norm_num)
 
+omit [Finite Hh] in
 theorem le_pCore_two_of_normal {W : Subgroup Hh} (hW : W.Normal) (hp : IsPGroup 2 W) :
     W ≤ CFSG.pCore 2 Hh :=
   le_sSup ⟨hW, hp⟩
@@ -118,14 +119,16 @@ theorem mem_normalizer_map {X Y : Type} [Group X] [Group Y] (f : X →* Y) {A : 
     rw [map_mul, map_mul, map_inv, hfa]
     group
 
+omit [Finite Hh] in
 theorem mem_normalizer_inf {A B : Subgroup Hh} {n : Hh} (hA : n ∈ normalizer (A : Set Hh))
     (hB : n ∈ normalizer (B : Set Hh)) : n ∈ normalizer ((A ⊓ B : Subgroup Hh) : Set Hh) := by
   have hA1 := Subgroup.mem_normalizer_iff.1 hA
   have hB1 := Subgroup.mem_normalizer_iff.1 hB
   refine Subgroup.mem_normalizer_iff.2 fun x => ?_
-  simp only [SetLike.mem_coe, Subgroup.mem_inf] at hA1 hB1 ⊢
+  simp only [Subgroup.mem_inf] at hA1 hB1 ⊢
   exact and_congr (hA1 x) (hB1 x)
 
+omit [Finite Hh] in
 theorem mem_normalizer_centralizer_singleton {c h : Hh}
     (hh : h ∈ normalizer ((Subgroup.zpowers c : Subgroup Hh) : Set Hh)) :
     h ∈ normalizer ((centralizer ({c} : Set Hh) : Subgroup Hh) : Set Hh) := by
@@ -136,7 +139,7 @@ theorem mem_normalizer_centralizer_singleton {c h : Hh}
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 h1
   obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.1 h2
   refine Subgroup.mem_normalizer_iff.2 fun x => ?_
-  simp only [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
+  simp only [Subgroup.mem_centralizer_singleton_iff]
   constructor
   · intro hx
     have hxm : x * c ^ m = c ^ m * x := (show Commute x c from hx).zpow_right m
@@ -181,7 +184,7 @@ theorem no_small_commutator_13 (hL : Loc67 Hh V₀ V H₀)
       rfl
     rw [e, Subgroup.orderOf_coe, hg]
   obtain ⟨y, hyx, hy13, hyK⟩ := exists_pow_isPGroup_thirteen (CFSG.pPrimeCore 3 Hh) hab
-  haveI hRn : (CFSG.pCore 2 Hh).Normal := CFSG.pCore_normal
+  have hRn : (CFSG.pCore 2 Hh).Normal := CFSG.pCore_normal
   have hRp : IsPGroup 2 (CFSG.pCore 2 Hh) := CFSG.pCore_isPGroup
   have hRK : CFSG.pCore 2 Hh ≤ CFSG.pPrimeCore 3 Hh := pCore_two_le_pPrimeCore_three
   have hRV : ∀ r ∈ CFSG.pCore 2 Hh, ∀ v ∈ V, r * v * r⁻¹ ∈ V := fun r hr v hv =>
@@ -228,7 +231,7 @@ theorem no_small_commutator_13 (hL : Loc67 Hh V₀ V H₀)
     have hr' : x⁻¹ * r * x ∈ CFSG.pCore 2 Hh := by
       simpa using hRn.conj_mem r hr x⁻¹
     refine ⟨(x⁻¹ * r * x)⁻¹ * (u * (x⁻¹ * r * x) * u⁻¹), hcomm _ hr', ?_⟩
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     group
   have hy : y ∈ Subgroup.closure ({u, x * u * x⁻¹} : Set Hh) := by
     have hab_mem : u * (x * u * x⁻¹) ∈ Subgroup.closure ({u, x * u * x⁻¹} : Set Hh) :=
@@ -246,7 +249,7 @@ theorem coreA (hL : Loc67 Hh V₀ V H₀) (hBP : K67BPrimeOne) (hTI : K67ThreeIn
     (CFSG.pPrimeCore 3 Hh).relIndex V ≤ 2 := by
   classical
   obtain ⟨J, hJ⟩ := exists_socle67 hL hTI
-  haveI := hJ.normal
+  have := hJ.normal
   have hc3' : c ^ 3 = 1 := by
     rw [← hc3]
     exact pow_orderOf_eq_one c
@@ -299,7 +302,7 @@ theorem coreB (hL : Loc67 Hh V₀ V H₀) (hIII : K67CaseIII) (hTI : K67ThreeInd
     (hV₀K : ¬ V₀ ≤ CFSG.pPrimeCore 3 Hh) (hV₀c : ¬ ∀ w ∈ V₀, c * w = w * c) : False := by
   classical
   obtain ⟨J, hJ⟩ := exists_socle67 hL hTI
-  haveI := hJ.normal
+  have := hJ.normal
   have hc3' : c ^ 3 = 1 := by
     rw [← hc3]
     exact pow_orderOf_eq_one c

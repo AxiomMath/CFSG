@@ -88,8 +88,7 @@ theorem piScalarRight_baseChange_mulVec {F k : Type*} [Field F] [Field k] [Algeb
     simp only [TensorProduct.piScalarRight_apply, TensorProduct.piScalarRightHom_tmul]
     funext i
     rw [Algebra.smul_def]
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | add t₁ t₂ h₁ h₂ =>
       rw [map_add, map_add, map_add, h₁, h₂, Matrix.mulVec_add]
   | tmul a x =>

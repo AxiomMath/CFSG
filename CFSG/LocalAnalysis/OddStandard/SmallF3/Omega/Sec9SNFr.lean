@@ -38,7 +38,7 @@ theorem sec9n_frattini [Finite G] {K A : Subgroup G} (hA : IsSylow2Of A K) {m : 
         intro a ha
         refine Subgroup.mem_map.2 ⟨m * a * m⁻¹,
           hle (Subgroup.mem_map.2 ⟨a, ha, rfl⟩), ?_⟩
-        simp [MulAut.conj_apply, mul_assoc]
+        simp [mul_assoc]
       have hQK : P'.map (MulAut.conj m⁻¹).toMonoidHom ≤ K := by
         intro x hx
         obtain ⟨p, hp, rfl⟩ := Subgroup.mem_map.1 hx
@@ -123,8 +123,8 @@ theorem sec9n_P_twoTrans [Finite G] {A8 A : Subgroup G} {T : Set G} (hTA8 : T �
         _ = c₀ * d * c₀⁻¹ := by rw [hnb]
         _ = d := by rw [← hdd₀]; group
 
-theorem sec9n_M_le_normalizer_B {t : G} {B : Subgroup G} (ht2 : t * t = 1)
-    (htB : ∀ b ∈ B, t * b = b * t)
+theorem sec9n_M_le_normalizer_B {t : G} {B : Subgroup G} (_ht2 : t * t = 1)
+    (_htB : ∀ b ∈ B, t * b = b * t)
     (hM : ConjTwoTransOn (normalizer ((zpowers t ⊔ B : Subgroup G) : Set G)) (cosetSet t B)) :
     normalizer ((zpowers t ⊔ B : Subgroup G) : Set G) ≤ normalizer (B : Set G) := by
   have hconj : ∀ m ∈ normalizer ((zpowers t ⊔ B : Subgroup G) : Set G),

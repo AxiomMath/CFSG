@@ -19,13 +19,13 @@ include hG hone in
 theorem ngGen_data (i : ℕ) : canon14 (y2l_ngGen i) = true ∧ pk (y2l_ngGen i) = ngGenK G i := by
   rw [y2l_ngGen, ngGenK]
   by_cases hi : i < 4
-  · rw [Nat.blt_eq.mpr hi, cond_true]
+  · rw [Nat.blt_eq.mpr hi, _root_.Bool.cond_true]
     exact hG i hi
   · have e : Nat.blt i 4 = false := by
       rw [Bool.eq_false_iff]
       intro h
       exact hi (Nat.blt_eq.mp h)
-    rw [e, cond_false, List.getD_eq_default _ _ (by simp; omega)]
+    rw [e, Bool.cond_false, List.getD_eq_default _ _ (by simp; omega)]
     exact ⟨canon14_one14, hone⟩
 
 include hc hG hone in

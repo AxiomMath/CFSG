@@ -20,6 +20,7 @@ variable {J : Type*} [Group J] [Finite J]
 
 variable {Γ : Type*} [Group Γ] [Finite Γ]
 
+omit [Finite J] in
 theorem exists_orderOf_prime_conj_sq_normalClosure_of_central_ext (hJ : IsAlternatingEightCover J)
     (π : Γ →* J) (hπ : Function.Surjective π) (hker : π.ker ≤ Subgroup.center Γ)
     (hperf : commutator Γ = ⊤) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
@@ -27,7 +28,7 @@ theorem exists_orderOf_prime_conj_sq_normalClosure_of_central_ext (hJ : IsAltern
     (hxy : y * x * y⁻¹ = x ^ 2) :
     ∃ x' y' : Γ, orderOf x' = p ∧ y' * x' * y'⁻¹ = x' ^ 2 ∧
       Subgroup.normalClosure ({x'} : Set Γ) = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let K := π.ker
   let m := Nat.card K
   have hp_notdvd : ¬ p ∣ m := by
@@ -121,7 +122,7 @@ theorem exists_orderOf_prime_conj_sq_normalClosure_of_central_ext (hJ : IsAltern
     have hg : g = n * (n⁻¹ * g) := by group
     rw [hg]
     exact Subgroup.mul_mem_sup hnN hz
-  haveI : IsMulCommutative ↥π.ker :=
+  have : IsMulCommutative ↥π.ker :=
     { is_comm :=
         { comm := fun a b => Subtype.ext (Subgroup.mem_center_iff.mp (hker b.2) (a : Γ)) } }
   have hle : commutator Γ ≤ N :=
@@ -157,6 +158,7 @@ section Small
 variable {Γ : Type*} [Group Γ] [Finite Γ] {E : Type*} [Field E] [IsAlgClosed E] [CharP E 2]
   {ι : Type*} [Fintype ι] [DecidableEq ι]
 
+omit [Finite Γ] in
 theorem HasOrderFiveData.map_eq_one_of_card_le_three (h : HasOrderFiveData Γ)
     (hι : Fintype.card ι ≤ 3) (ρ : Γ →* Matrix ι ι E) (g : Γ) : ρ g = 1 := by
   obtain ⟨x, y, hx, hxy, htop⟩ := h
@@ -181,6 +183,7 @@ theorem HasOrderFiveData.map_eq_one_of_card_le_three (h : HasOrderFiveData Γ)
     congrArg Units.val h1'
   rwa [MonoidHom.coe_toHomUnits, Units.val_one] at this
 
+omit [Finite Γ] in
 theorem HasOrderSevenData.map_eq_one_of_card_le_five_of_form (h : HasOrderSevenData Γ)
     (σ : E ≃+* E) (hσ : ∀ η : E, η ^ 7 = 1 → ∃ k : ℕ, σ η = η ^ 2 ^ k) {G : Matrix ι ι E}
     (hG : IsUnit G) (hι : Fintype.card ι ≤ 5) (ρ : Γ →* Matrix ι ι E)
@@ -214,6 +217,7 @@ namespace SpBlocks
 variable {Γ : Type*} [Group Γ] [Finite Γ] {Ω : Type*} [Field Ω] [IsAlgClosed Ω] [CharP Ω 2]
   {ι : Type*} [Fintype ι] [DecidableEq ι]
 
+omit [Finite Γ] in
 theorem HasOrderFiveData.blk_eq_one_of_card_le_three (h : HasOrderFiveData Γ) (I : Finset ι)
     (Q : Γ →* Matrix ι ι Ω) (hQ : ∀ g, Splits I (Q g)) (hI : I.card ≤ 3) (g : Γ) :
     blk I (Q g) = 1 := by
@@ -224,6 +228,7 @@ theorem HasOrderFiveData.blk_eq_one_of_card_le_three (h : HasOrderFiveData Γ) (
   rw [blkHom_apply] at hh
   exact hh
 
+omit [Finite Γ] in
 theorem HasOrderSevenData.blk_eq_one_of_card_le_five (h : HasOrderSevenData Γ) (I : Finset ι)
     (Q : Γ →* Matrix ι ι Ω) (hQ : ∀ g, Splits I (Q g)) (σ : Ω ≃+* Ω)
     (hσ : ∀ η : Ω, η ^ 7 = 1 → ∃ k : ℕ, σ η = η ^ 2 ^ k) {H : Matrix ι ι Ω} (hH : Splits I H)
@@ -259,16 +264,16 @@ theorem eq_one_of_forall_blk_eq_one {κ : Type*} [DecidableEq κ] {K : Type*} [F
     rw [h, Matrix.one_apply, Matrix.one_apply]
     by_cases hab : a = b
     · have hsub : (⟨a, ha⟩ : F) = ⟨b, hb⟩ := Subtype.ext hab
-      rw [if_pos hsub, if_pos hab]
+      rw [ite_eq_left hsub, ite_eq_left hab]
     · have hne : ¬ (⟨a, ha⟩ : F) = ⟨b, hb⟩ := fun hh => hab (Subtype.ext_iff.mp hh)
-      rw [if_neg hne, if_neg hab]
+      rw [ite_eq_right hne, ite_eq_right hab]
   · let F := Finset.univ.filter (fun x => c x = c a)
     have ha : a ∈ F := by simp [F]
     have hb : b ∉ F := by
       simp only [F, Finset.mem_filter, Finset.mem_univ, true_and]
       exact fun h => hc h.symm
     have hzero : M a b = 0 := hs (c a) a b ⟨fun _ => hb, fun _ => ha⟩
-    rw [hzero, Matrix.one_apply, if_neg (fun hab => hc (by rw [hab]))]
+    rw [hzero, Matrix.one_apply, ite_eq_right (fun hab => hc (by rw [hab]))]
 
 end SpBlocks
 

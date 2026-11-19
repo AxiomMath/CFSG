@@ -214,7 +214,7 @@ theorem omegaOne_eq_omegaZ
   have hp2 : p ≠ 2 := by omega
   set W := omegaZ (P : Subgroup G) p
   set P₀ := omegaOne (P : Subgroup G) p
-  have hPp := P.isPGroup'
+  have hPp := P.isPGroup
   have hNW := normalizer_le_normalizer_omegaZ (H := (P : Subgroup G)) (r := p)
   have hNP₀ := normalizer_le_normalizer_omegaOne (P : Subgroup G) p
   have hP₀p : IsPGroup p P₀ := hPp.to_le (omegaOne_le _ _)

@@ -24,9 +24,9 @@ theorem felschW_add (P : Params) (fuel : Nat) : ∀ (a b c : Nat) (s : StW),
   | a + 1, b, c, s => by
     rw [show a + 1 + b = (a + b) + 1 by omega, felschW_succ, felschW_succ]
     by_cases hc : (decide (c < s.next) && !s.overflow) = true
-    · rw [if_pos hc, if_pos hc, felschW_add P fuel a b (c + 1), show c + 1 + a = c + (a + 1) by omega]
+    · rw [ite_eq_left hc, ite_eq_left hc, felschW_add P fuel a b (c + 1), show c + 1 + a = c + (a + 1) by omega]
     · have hc' : (decide (c < s.next) && !s.overflow) = false := by simpa using hc
-      rw [if_neg hc, if_neg hc]
+      rw [ite_eq_right hc, ite_eq_right hc]
       have h2 : (decide (c + (a + 1) < s.next) && !s.overflow) = false := by
         cases hov : s.overflow
         · simp only [hov, Bool.not_false, Bool.and_true, decide_eq_false_iff_not] at hc' ⊢

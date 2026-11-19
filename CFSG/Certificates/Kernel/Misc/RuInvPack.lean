@@ -167,11 +167,11 @@ theorem slotP_step {a : List (Nat × Nat)} {s : List (Nat × G)} (h : SlotP a s)
   by_cases h0 : c = 0
   · subst h0
     exact List.Forall₂.cons ⟨rfl, prep_mulP (slotP_read h i) (slotP_read h j)⟩ h
-  · rw [show Nat.beq c 0 = false from beq_false_of_ne h0, if_neg h0]
+  · rw [show Nat.beq c 0 = false from beq_false_of_ne h0, ite_eq_right h0]
     by_cases h1 : c = 1
     · subst h1
       exact List.Forall₂.cons ⟨rfl, prep_invP (slotP_read h i)⟩ h
-    · rw [show Nat.beq c 1 = false from beq_false_of_ne h1, if_neg h1]
+    · rw [show Nat.beq c 1 = false from beq_false_of_ne h1, ite_eq_right h1]
       exact List.Forall₂.cons ⟨rfl, prep_powP (slotP_read h j) i⟩ h
 
 theorem prep_slotK (rows : List (Nat × Nat × Nat × Nat)) {t₁ t₂ : Nat} {g₁ g₂ : G}

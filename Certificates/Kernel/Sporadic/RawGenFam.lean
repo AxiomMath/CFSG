@@ -170,7 +170,7 @@ elab "#ks_rawchain_fam " pre:ident nn:num ww:num ch:num sId:ident bId:ident kId:
     addDef (P ++ `kS) fnT (sel natT fun j => lit SF[j]!.length)
     addDef (P ++ `kO) fnT (sel natT fun j => lit KF[j]!)
     addDef (P ++ `nb) fnT (sel natT fun j => lit BF[j]!.length)
-    addDef (P ++ `NS) fnT (sel natT fun j => lit ((n + CH - 1) / CH))
+    addDef (P ++ `NS) fnT (sel natT fun _j => lit ((n + CH - 1) / CH))
     let rawAt := fun (kE : Expr) => mkAppN (mkConst ``CFSG.KS.Raw.RawK)
       #[lit n, lit w, mkApp (mkConst (P ++ `S)) kE, mkApp (mkConst (P ++ `SI)) kE,
         mkApp (mkConst (P ++ `LR)) kE, mkApp (mkConst (P ++ `TR)) kE,

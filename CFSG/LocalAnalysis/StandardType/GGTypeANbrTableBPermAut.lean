@@ -52,7 +52,7 @@ theorem perm_eq_one_of_pairVec_of_coprime (hd : 3 ≤ d) (hcp : Nat.Coprime d p)
   by_cases hsk : σ k = k
   · exact hsk
   · by_cases hsl : σ k = l
-    · simp [ggPairVec_apply, hsk, hsl, hlk.1] at he
+    · simp [ggPairVec_apply, hsl, hlk.1] at he
       exact (hζinv he.symm).elim
     · simp [ggPairVec_apply, hsk, hsl] at he
       exact (hζ1 he.symm).elim
@@ -205,8 +205,8 @@ theorem permAut_mem_ggAutomizer {L' : Type} [Group L'] {φ' : SpecialLinearGroup
 
 theorem permAut_injective [Finite K] (hp : p.Prime) (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K - 1)
     (hd : 4 ≤ d) {L' : Type} [Group L'] [Finite L'] {φ' : SpecialLinearGroup (Fin d) K →* L'}
-    (hφ's : Function.Surjective φ') (hφker : ∀ g, φ' g = 1 → g ∈ scalars d K)
-    {A : Subgroup (MulAut L')} (hA : IsElemAbelian p A) (hsc : GGTorusSelfCent p A)
+    (_hφ's : Function.Surjective φ') (hφker : ∀ g, φ' g = 1 → g ∈ scalars d K)
+    {A : Subgroup (MulAut L')} (_hA : IsElemAbelian p A) (hsc : GGTorusSelfCent p A)
     (hdiag : ∀ a ∈ A, ∃ t : Fin d → K, ActsDiag φ' a t)
     (hN : ∀ σ, NbrInnerWeylA.permConj φ' σ ∈ Subgroup.normalizer (A : Set (MulAut L'))) :
     Function.Injective (permAut φ' A hN) := by
@@ -232,7 +232,7 @@ theorem permAut_injective [Finite K] (hp : p.Prime) (hp2 : p ≠ 2) (hpK : p ∣
     · exact mul_ne_zero hζ0 (inv_ne_zero hζ0)
     · simpa using hζ0
     · simpa using inv_ne_zero hζ0
-    · simpa using one_ne_zero
+    · simp
   let D : SpecialLinearGroup (Fin d) K :=
     ⟨diagonal v, by rw [det_diagonal, hv, prod_ggPairVec ζ hζ0]⟩
   have hDm : (D : Matrix (Fin d) (Fin d) K) = diagonal v := rfl
@@ -341,7 +341,7 @@ private theorem lam_injective
     {φ' : SpecialLinearGroup (Fin 3) K →* L'} {A : Subgroup (MulAut L')}
     {t : ↥A → Fin 3 → K}
     (hφ's : Function.Surjective φ')
-    (hφker : ∀ g, φ' g = 1 → g ∈ scalars 3 K)
+    (_hφker : ∀ g, φ' g = 1 → g ∈ scalars 3 K)
     (ht : ∀ a : ↥A, ActsDiag φ' (a : MulAut L') (t a))
     (lam : ↥A → K)
     (hlam : ∀ (a : ↥A) (i : Fin 3),

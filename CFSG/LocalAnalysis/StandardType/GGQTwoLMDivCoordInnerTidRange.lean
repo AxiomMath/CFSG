@@ -14,6 +14,7 @@ open CFSG.StandardType CFSG.Blueprint CFSG.Open CFSG.StandardType.UCoord
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem qTwoLMDivCoordInner_tid_range {B Bs L : Subgroup G} (hBs : GGBstar 3 B Bs)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) {m : ℕ} (hm : 4 ≤ m) (h3 : 3 ∣ m)
     {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {L0 : Type} [Group L0]
@@ -66,8 +67,7 @@ theorem qTwoLMDivCoordInner_tid_range {B Bs L : Subgroup G} (hBs : GGBstar 3 B B
     intro hc
     have hkt : ((k : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) *
         (((k⁻¹ : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0)) = 1 := by
-      simpa using congrArg (fun x : GL (Fin m) F0 =>
-        ((x : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0)) (mul_inv_cancel k)
+      simp
     have hzero : ((k : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) = 0 := by
       rw [hk₀, hc]
       simp

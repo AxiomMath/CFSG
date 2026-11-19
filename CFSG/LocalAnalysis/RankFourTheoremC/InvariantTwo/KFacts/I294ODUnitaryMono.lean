@@ -50,7 +50,7 @@ theorem odKappaFun_mul (r n : ℕ) (c d : Fin r → Multiplicative (ZMod p)) :
   by_cases h1 : (i : ℕ) < r
   · simp [odKappaFun, h1]
   · by_cases h2 : (i : ℕ) = r
-    · simp [odKappaFun, h1, h2, Finset.prod_mul_distrib]
+    · simp [odKappaFun, h2, Finset.prod_mul_distrib]
       exact mul_comm _ _
     · simp [odKappaFun, h1, h2]
 
@@ -96,7 +96,7 @@ theorem od_monomial_diag (u : Fin n → K) (π : Equiv.Perm (Fin n)) (s : Fin n 
       diagonal (fun i => s (π.symm i)) * (Matrix.of fun i j => if i = π j then u j else 0) := by
   ext i j
   simp only [Matrix.mul_apply, Matrix.of_apply, Matrix.diagonal_apply, mul_ite, mul_zero,
-    ite_mul, zero_mul, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   by_cases h : i = π j
   · subst h
     simp [mul_comm]
@@ -181,7 +181,7 @@ theorem od_torus_of_basis [Finite K] [Fact p.Prime] [NeZero p] (hn : p + 3 ≤ n
     have h3 : odKappaFun (p + 1) n x ⟨i, by omega⟩ = 1 := eq_one_of_charHom_eq_one hζ h2
     have h4 : odKappaFun (p + 1) n x ⟨i, by omega⟩ = x i := by
       unfold odKappaFun
-      rw [dif_pos i.2]
+      rw [dite_eq_left i.2]
     rw [← h4]
     exact h3
   refine ⟨F.range, ?_, ?_, ?_⟩
@@ -226,11 +226,13 @@ variable {K : Type} [Field K] [Finite K] {r e0 p n : ℕ} [Fact r.Prime] [CharP 
   [hpf : Fact p.Prime] {c : K} [hirr : Fact (Irreducible (X ^ p - C c : K[X]))]
   {σ : K ≃+* K} {B : GL (Fin n) K}
 
+omit [Finite K] in
 theorem odBv_succ (j : ℕ) (y : Fin n → K) :
     odBv B ((j + 1 : ℕ) : ℤ) y =
       ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ odBv B (j : ℤ) y := by
   rw [odBv_natCast, odBv_natCast, pow_succ', ← Matrix.mulVec_mulVec]
 
+omit [Fact (Nat.Prime r)] [CharP K r] hirr [Finite K] in
 theorem od_basis_of_family (S : OdSetup r e0 p c σ B) {m : ℕ} (hm : p * m = n)
     {w : Fin m → Fin n → K}
     (hw : ∀ (i i' : Fin m) (j j' : Fin p),
@@ -239,7 +241,7 @@ theorem od_basis_of_family (S : OdSetup r e0 p c σ B) {m : ℕ} (hm : p * m = n
     ∃ (b : Fin n → Fin n → K) (u : Fin n → K) (π : Equiv.Perm (Fin n)),
       (∀ a a', herm σ (b a) (b a') = if a = a' then 1 else 0) ∧
       ∀ a, ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ b a = u a • b (π a) := by
-  haveI : NeZero p := ⟨hpf.out.ne_zero⟩
+  have : NeZero p := ⟨hpf.out.ne_zero⟩
   have hcard : Fintype.card (Fin m × Fin p) = n := by
     rw [Fintype.card_prod, Fintype.card_fin, Fintype.card_fin, mul_comm, hm]
   let e : Fin m × Fin p ≃ Fin n := Fintype.equivFinOfCardEq hcard
@@ -257,12 +259,12 @@ theorem od_basis_of_family (S : OdSetup r e0 p c σ B) {m : ℕ} (hm : p * m = n
     have hval : ((j + 1 : Fin p) : ℕ) = ((j : ℕ) + 1) % p := by
       rw [Fin.val_add, Fin.val_one', Nat.mod_eq_of_lt hpf.out.one_lt]
     by_cases hj : (j : ℕ) + 1 < p
-    · rw [if_pos hj, one_smul, hval, Nat.mod_eq_of_lt hj, odBv_succ]
+    · rw [ite_eq_left hj, one_smul, hval, Nat.mod_eq_of_lt hj, odBv_succ]
     · have hjp : (j : ℕ) + 1 = p := by have := j.2; omega
-      rw [if_neg hj, hval, hjp, Nat.mod_self, Nat.cast_zero, odBv_zero, ← odBv_succ, hjp,
+      rw [ite_eq_right hj, hval, hjp, Nat.mod_self, Nat.cast_zero, odBv_zero, ← odBv_succ, hjp,
         odBv_p S.hBp]
 
-theorem od_exists_zeta {f : ℕ} (hp : p.Prime) (hK : Nat.card K = (r ^ f) ^ 2)
+theorem od_exists_zeta {f : ℕ} (_hp : p.Prime) (hK : Nat.card K = (r ^ f) ^ 2)
     (hpq : p ∣ r ^ f + 1) :
     ∃ ζ : K, IsPrimitiveRoot ζ p ∧ unitaryInvolution K r f ζ = ζ⁻¹ := by
   have hq : 1 < r ^ f := CFSG.ClassicalGroups.Unitary.one_lt_pow_of_card hK
@@ -277,6 +279,7 @@ theorem od_exists_zeta {f : ℕ} (hp : p.Prime) (hK : Nat.card K = (r ^ f) ^ 2)
   have h3 := congrArg (fun u : Kˣ => (u : K)) h2
   simpa [Units.val_pow_eq_pow_val, Units.val_inv_eq_inv_val] using h3
 
+omit [Finite K] hpf hirr in
 theorem od_exists_dim [NeZero p] (hp : p.Prime) (hnp : ∀ b : K, b ^ p ≠ c)
     {M : Matrix (Fin n) (Fin n) K} (hM : M ^ p = Matrix.scalar (Fin n) c) :
     ∃ m, p * m = n := by
@@ -299,9 +302,9 @@ open CFSG.ComponentClassification.CatalogueBUnitaryIsometry (Uid mem_Uid_iff)
 
 theorem i294ODUnitaryMonomial_holds : I294ODUnitaryMonomial := by
   intro p n r f _ K _ _ _ hp hp2 hK hpq hn B hB c hBp hnp
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact (Irreducible (X ^ p - C (c : K) : K[X])) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact (Irreducible (X ^ p - C (c : K) : K[X])) :=
     ⟨X_pow_sub_C_irreducible_of_prime hp hnp⟩
   have hn1 : 1 ≤ n := by omega
   have hσ := CFSG.ClassicalGroups.Unitary.isUnitaryInvolution_unitaryInvolution hK

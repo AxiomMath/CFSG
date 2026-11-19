@@ -17,6 +17,7 @@ noncomputable section
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 theorem restrictCent_mem (φ : ↥L →* SU4) {y : G} (hyL : y ∈ L) {z : SU4} (hz : φ ⟨y, hyL⟩ = z)
     (x : ↥(L ⊓ cx y)) :
     φ (Subgroup.inclusion (inf_le_left : L ⊓ cx y ≤ L) x) ∈
@@ -47,6 +48,7 @@ theorem restrictCent_surjective (φ : ↥L →* SU4) (hφ : Function.Surjective 
     exact this
   exact ⟨⟨l, hl⟩, Subtype.ext hlc⟩
 
+omit [Finite G] in
 theorem restrictCent_ker (φ : ↥L →* SU4) (hker : ¬ 3 ∣ Nat.card φ.ker) {y : G} (hyL : y ∈ L)
     {z : SU4} (hz : φ ⟨y, hyL⟩ = z) : ¬ 3 ∣ Nat.card (restrictCent φ hyL hz).ker := by
   intro h3
@@ -80,8 +82,8 @@ theorem catalogIs_u3eight_of_statedProj {X : Type} [Group X] {K : Type} [Field K
       ValidLieTypeIndex.fieldExponent ⟨.twistedA 2 pp8, valid_twistedA_two_eight⟩ = 2 ^ 3 := by
     rw [hc2, hf2]
   rw [← hq] at e
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField (ValidLieTypeIndex.characteristic
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField (ValidLieTypeIndex.characteristic
     ⟨.twistedA 2 pp8, valid_twistedA_two_eight⟩)
       (2 * ValidLieTypeIndex.fieldExponent ⟨.twistedA 2 pp8, valid_twistedA_two_eight⟩)) :=
     Fintype.ofFinite _
@@ -98,6 +100,7 @@ theorem catalogIs_u3eight_of_statedProj {X : Type} [Group X] {K : Type} [Field K
   · exact (e.trans (CFSG.Open.StatedSUFieldChange.statedProjSUEquiv
       (FiniteField.ringEquivOfCardEq hc) 3 _)).trans eq.symm
 
+omit [Finite G] in
 theorem catalogIs_psimple_of_pquot {J : Subgroup G}
     (ε : PQuot 3 J ≃* CFSG.ClassicalInvolution.Phan.Su K 2 3 3) :
     catalogIs (PSimple 3 J) S9.isU3eight := by

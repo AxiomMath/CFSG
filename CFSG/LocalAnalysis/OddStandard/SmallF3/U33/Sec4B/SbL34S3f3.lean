@@ -144,7 +144,7 @@ theorem exists_Z_P (ha : Ctx4A t L S x₁ x₂ lam rho tau) (σ : Sig4 t tau x�
     have hoQ : ((w⁻¹ * ⟨q, hqLO⟩ : ↥(ctxLO t tau x₁ x₂)) : G) ∈ Qset := hOsub _ hoO
     have hqeq : q = (w : G) * ((w⁻¹ * ⟨q, hqLO⟩ : ↥(ctxLO t tau x₁ x₂)) : G) := by
       have heq_sub : (⟨q, hqLO⟩ : ↥(ctxLO t tau x₁ x₂)) = w * (w⁻¹ * ⟨q, hqLO⟩) := by group
-      simpa using congrArg Subtype.val heq_sub
+      simp
     rw [hqeq]
     exact hmul _ hwQ _ hoQ
   exact ⟨A, hVA, hAO.trans (O_le_ctxPL ha), hcardA, fun x hx q hq => (hall q hq).2 x hx⟩

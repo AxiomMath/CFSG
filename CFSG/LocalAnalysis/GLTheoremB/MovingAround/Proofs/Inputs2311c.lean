@@ -62,6 +62,7 @@ section LiftQ
 
 variable {Y : Type*} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem exists_lift_fixed {q : ℕ} (hcop : Nat.Coprime (Nat.card (Subgroup.center Y)) q) (φ : MulAut Y)
     (y₀ : Y) {n : ℕ} (hu : (QuotientGroup.mk y₀ : Y ⧸ Subgroup.center Y) ^ (q ^ n) = 1)
     (hφ : (QuotientGroup.mk (φ y₀) : Y ⧸ Subgroup.center Y) = QuotientGroup.mk y₀) :
@@ -93,6 +94,7 @@ theorem exists_lift_fixed {q : ℕ} (hcop : Nat.Coprime (Nat.card (Subgroup.cent
       ((Subgroup.mem_center_iff.1 hc1) y₀)
     rw [map_pow, map_pow, hφy, hcomm.mul_pow, hcN _ hc1, mul_one]
 
+omit [Finite Y] in
 theorem eq_top_of_sup_center (hperf : commutator Y = ⊤) {H : Subgroup Y}
     (h : H ⊔ Subgroup.center Y = ⊤) : H = ⊤ := by
   rw [eq_top_iff, ← hperf, commutator_def, Subgroup.commutator_le]
@@ -110,12 +112,12 @@ theorem eq_top_of_sup_center (hperf : commutator Y = ⊤) {H : Subgroup Y}
 
 theorem coprime_card_center {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hqp : q ≠ p)
     (hO : GLAPPrimeCore p Y = ⊥) : Nat.Coprime (Nat.card (Subgroup.center Y)) q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   rw [Nat.coprime_comm, Nat.Prime.coprime_iff_not_dvd hq]
   intro hdvd
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' q hdvd
   have hcen : ∀ k : ℤ, ((c : Y) ^ k) ∈ Subgroup.center Y := fun k => Subgroup.zpow_mem _ c.2 k
-  haveI hnorm : (Subgroup.zpowers (c : Y)).Normal := by
+  have hnorm : (Subgroup.zpowers (c : Y)).Normal := by
     refine ⟨fun x hx g => ?_⟩
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
     have h1 := (Subgroup.mem_center_iff.1 (hcen k)) g
@@ -144,6 +146,7 @@ variable {G : Type} [Group G] [Finite G]
     ↥(Subgroup.normalizer (K : Set G)) →* MulAut (Cat d) :=
   (MulAut.congr θ).toMonoidHom.comp ((quotientCenterAut' (barOf p K)).comp (barAut p K))
 
+omit [Finite G] in
 theorem catAct_apply {p : ℕ} {K : Subgroup G} {d : TauCeti.ValidLieTypeIndex}
     (θ : barOf p K ⧸ Subgroup.center (barOf p K) ≃* Cat d) (x : ↥(Subgroup.normalizer (K : Set G)))
     (y : barOf p K) :
@@ -159,7 +162,7 @@ theorem le_iSup_of_uniPlaneGen {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hqp : 
       CFSG.GH74.GLS.oPrimeResidualOf q (barX p (Cg a) K ⊓ Subgroup.centralizer
         ({QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) z} : Set (↥(Cg a) ⧸ GLAPPrimeCore p ↥(Cg a)))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hYq : CFSG.Open.IsQuasisimple (barOf p K) := l119_isQuasisimple_barOf hp hK
   have hperf : commutator (barOf p K) = ⊤ := hYq.1
   have hO : GLAPPrimeCore p (barOf p K) = ⊥ := glaPPrimeCore_quotient_eq_bot hp
@@ -292,7 +295,7 @@ theorem le_iSup_of_uni {S : ∀ d : TauCeti.ValidLieTypeIndex, ℕ → Subgroup 
     barX p (Cg a) K ≤ ⨆ (z : ↥(Cg a)) (_ : (z : G) ∈ A0) (_ : z ≠ 1),
       CFSG.GH74.GLS.oPrimeResidualOf q (barX p (Cg a) K ⊓ Subgroup.centralizer
         ({QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) z} : Set (↥(Cg a) ⧸ GLAPPrimeCore p ↥(Cg a)))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨D, hDA, hDel, hDc⟩ := CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank hA0r
   obtain ⟨hEel, hEc⟩ := catAct_plane hp hK θ hN hF hDA hDel hDc
   have hgen := hU d p hp hp2 (by rw [hdq]; exact Ne.symm hqp) hex _ hEel hEc (hS _)

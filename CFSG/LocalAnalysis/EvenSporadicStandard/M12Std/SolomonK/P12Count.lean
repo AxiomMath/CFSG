@@ -12,7 +12,7 @@ theorem card_le_length_of_injective {α : Type} [Finite α] (f : α → Array �
     (hf : Function.Injective f) (l : List (Array ℕ)) (hl : l.Nodup) (hmem : ∀ a, f a ∈ l) :
     Nat.card α ≤ l.length := by
   classical
-  haveI := Fintype.ofFinite α
+  have := Fintype.ofFinite α
   rw [Nat.card_eq_fintype_card]
   calc Fintype.card α = (Finset.univ.image f).card :=
         (Finset.card_image_of_injective _ hf).symm

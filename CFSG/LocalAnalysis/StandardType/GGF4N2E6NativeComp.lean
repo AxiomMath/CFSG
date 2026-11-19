@@ -130,17 +130,17 @@ theorem lang_isComponentOf_unique (S : LangSetup Tag.E6 L 5) {b : Fin Tag.E6.ran
   have hq : CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom b) c) := by
     refine (hTame c).resolve_right fun hs => ?_
     set R := rationalComponent S.ρ S.Γ (rootCharHom b) c
-    haveI := hsimp
+    have := hsimp
     have hsQ : Group.IsSolvable (↥R ⧸ Subgroup.center ↥R) := inferInstance
     have hcomm : ∀ x y : ↥R ⧸ Subgroup.center ↥R, x * y = y * x :=
       IsSimpleGroup.comm_iff_isSolvable.mpr hsQ
-    haveI : IsMulCommutative (↥R ⧸ Subgroup.center ↥R) := ⟨⟨hcomm⟩⟩
-    letI : CommGroup (↥R ⧸ Subgroup.center ↥R) := IsMulCommutative.instCommGroup
-    haveI : IsCyclic (↥R ⧸ Subgroup.center ↥R) := IsSimpleGroup.isCyclic
+    have : IsMulCommutative (↥R ⧸ Subgroup.center ↥R) := ⟨⟨hcomm⟩⟩
+    let : CommGroup (↥R ⧸ Subgroup.center ↥R) := IsMulCommutative.instCommGroup
+    have : IsCyclic (↥R ⧸ Subgroup.center ↥R) := IsSimpleGroup.isCyclic
     have hRcomm : ∀ x y : ↥R, x * y = y * x :=
-      commutative_of_cyclic_center_quotient (QuotientGroup.mk' (Subgroup.center ↥R))
-        (by rw [QuotientGroup.ker_mk'])
-    haveI : IsMulCommutative ↥R := ⟨⟨hRcomm⟩⟩
+      (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' (Subgroup.center ↥R))
+        (by rw [QuotientGroup.ker_mk'])).is_comm.comm
+    have : IsMulCommutative ↥R := ⟨⟨hRcomm⟩⟩
     have htop : Subgroup.center ↥R = ⊤ := Subgroup.center_eq_top
     exact not_subsingleton (↥R ⧸ Subgroup.center ↥R) (QuotientGroup.subsingleton_iff.mpr htop)
   refine ⟨?_, fun J hJ => ?_⟩

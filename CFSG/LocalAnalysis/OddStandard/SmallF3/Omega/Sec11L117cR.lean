@@ -70,7 +70,7 @@ theorem sec11c_t_ne_z [Finite G] (hp : Asc82Pre11) {t : G} {L S : Subgroup G} {z
     (sec11_Q_facts hp hctx.toSec10Ctx).1
   exact htL (h.symm ▸ hzL)
 
-theorem sec11c_cl [Finite G] (hp : Asc82Pre11) {t : G} {L S : Subgroup G} {z : G}
+theorem sec11c_cl [Finite G] (_hp : Asc82Pre11) {t : G} {L S : Subgroup G} {z : G}
     {K1 K2 T R : Subgroup G} (hctx : Sec11Ctx G t L S z K1 K2 T R) :
     ∀ g ∈ R, g * t * g⁻¹ ∈ conjClassIn (secD K1 K2 R) t → g ∈ T ⊔ secD K1 K2 R := by
   intro g hgR hconj

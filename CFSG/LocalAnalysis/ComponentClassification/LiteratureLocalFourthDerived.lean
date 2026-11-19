@@ -226,7 +226,7 @@ theorem exists_normal_le_card_prime [Finite C] {V : Subgroup C} (hVn : V.Normal)
     (hsyl : ∀ e, e ∣ d → e % q = 1 → e = 1) :
     ∃ N : Subgroup C, N ≤ V ∧ N.Normal ∧ Nat.card N = q := by
   obtain ⟨P⟩ : Nonempty (Sylow q V) := inferInstance
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hindex := (P : Subgroup V).index_mul_card
   have hk1 : k = 1 := by
     have hnot := P.not_dvd_index

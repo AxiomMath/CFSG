@@ -62,18 +62,18 @@ theorem exists_invariant_complement_of_odd {J T F L : Subgroup G} (hTcard : Nat.
         _ = (t * t') * (f * f') := by group
     have hF1 : φ₀ (t * f) = if t = 1 then 0 else 1 := by
       by_cases h : t = 1
-      · simp only [φ₀, h, one_mul, hf, if_pos]
-      · simp only [φ₀, h, (hmemF t ht f hf).not.mpr h, if_neg, not_false_eq_true]
+      · simp only [φ₀, h, one_mul, hf, ite_eq_left]
+      · simp only [φ₀, h, (hmemF t ht f hf).not.mpr h, ite_eq_right, not_false_eq_true]
     have hF2 : φ₀ (t' * f') = if t' = 1 then 0 else 1 := by
       by_cases h : t' = 1
-      · simp only [φ₀, h, one_mul, hf', if_pos]
-      · simp only [φ₀, h, (hmemF t' ht' f' hf').not.mpr h, if_neg, not_false_eq_true]
+      · simp only [φ₀, h, one_mul, hf', ite_eq_left]
+      · simp only [φ₀, h, (hmemF t' ht' f' hf').not.mpr h, ite_eq_right, not_false_eq_true]
     have hF3 : φ₀ ((t * t') * (f * f')) = if t * t' = 1 then 0 else 1 := by
       have htt' : t * t' ∈ T := T.mul_mem ht ht'
       have hff' : f * f' ∈ F := F.mul_mem hf hf'
       by_cases h : t * t' = 1
-      · simp only [φ₀, h, one_mul, hff', if_pos]
-      · simp only [φ₀, h, (hmemF _ htt' _ hff').not.mpr h, if_neg, not_false_eq_true]
+      · simp only [φ₀, h, one_mul, hff', ite_eq_left]
+      · simp only [φ₀, h, (hmemF _ htt' _ hff').not.mpr h, ite_eq_right, not_false_eq_true]
     rw [hprod, hF3, hF1, hF2]
     rcases hTcases t ht with rfl | rfl <;> rcases hTcases t' ht' with rfl | rfl
     · simp
@@ -114,7 +114,7 @@ theorem exists_invariant_complement_of_odd {J T F L : Subgroup G} (hTcard : Nat.
       rw [hdisj] at this
       exact hz₁1 this
     simp only [hfix]
-    simp only [φ₀, hz₁F, if_false, Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_one]
+    simp only [φ₀, hz₁F, ite_false, Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_one]
     obtain ⟨k, hk⟩ := hL
     rw [Nat.card_eq_fintype_card] at hk
     rw [hk]

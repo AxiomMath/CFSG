@@ -10,6 +10,7 @@ open Subgroup CFSG.Blueprint.NativeSporadic
 
 variable {G : Type} [Group G] [Finite G] {E : Subgroup G} {t : G}
 
+omit [Finite G] in
 theorem sq_eq_one_comm {H : Subgroup G} (hH : ∀ a ∈ H, a ^ 2 = 1) :
     ∀ a ∈ H, ∀ b ∈ H, a * b = b * a := by
   intro a ha b hb
@@ -25,6 +26,7 @@ theorem sq_eq_one_comm {H : Subgroup G} (hH : ∀ a ∈ H, a ^ 2 = 1) :
   rw [mul_inv_rev, ha', hb'] at hab
   exact hab
 
+omit [Finite G] in
 theorem card_Nrm (h : M24Out G E t) :
     Nat.card ↥(Nrm E) = 2 ^ 21 * 3 ^ 3 * 5 * 7 * 11 * 23 := by
   have hquot : Nat.card (↥(Nrm E) ⧸ E.subgroupOf (Nrm E)) = 244823040 := by
@@ -77,7 +79,7 @@ theorem eq_of_sylow_le (hC : CocodeFacts) (h : M24Out G E t) (T : Sylow 2 ↥(Nr
     have hp : IsPGroup 2 (E.subgroupOf (Nrm E)) := by
       have hE2 : IsPGroup 2 (E : Subgroup G) := IsPGroup.of_card h.card_E
       exact hE2.of_equiv (Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer : E ≤ Nrm E)).symm
-    haveI hN : (E.subgroupOf (Nrm E)).Normal := by
+    have hN : (E.subgroupOf (Nrm E)).Normal := by
       unfold Nrm
       infer_instance
     have h2 : E.subgroupOf (Nrm E) ≤ (T : Subgroup ↥(Nrm E)) :=
@@ -90,8 +92,8 @@ theorem eq_of_sylow_le (hC : CocodeFacts) (h : M24Out G E t) (T : Sylow 2 ↥(Nr
     refine lt_top_iff_ne_top.mpr fun htop => hne (le_antisymm hle' fun y hy => ?_)
     have : (⟨y, hy⟩ : ↥T₁) ∈ T'.subgroupOf T₁ := htop ▸ mem_top _
     exact this
-  haveI : Finite ↥T₁ := inferInstance
-  haveI : Group.IsNilpotent ↥T₁ := hT₁.isNilpotent
+  have : Finite ↥T₁ := inferInstance
+  have : Group.IsNilpotent ↥T₁ := hT₁.isNilpotent
   obtain ⟨n, hnN, hnT'⟩ :=
     IsConcreteLE.exists_of_lt
       (Group.normalizerCondition_of_isNilpotent (G := ↥T₁) (T'.subgroupOf T₁) hlt)
@@ -146,10 +148,10 @@ theorem card_sylow (hC : CocodeFacts) (h : M24Out G E t)
     (S : Sylow 2 G) : Nat.card ↥S = 2 ^ 21 := by
   obtain ⟨T : Sylow 2 ↥(Nrm E)⟩ := (Sylow.nonempty : Nonempty (Sylow 2 ↥(Nrm E)))
   have hT'p : IsPGroup 2 ((T : Subgroup ↥(Nrm E)).map (Nrm E).subtype) :=
-    T.isPGroup'.map (Nrm E).subtype
+    T.isPGroup.map (Nrm E).subtype
   obtain ⟨S', hS'le⟩ := hT'p.exists_le_sylow
   have heq : (T : Subgroup ↥(Nrm E)).map (Nrm E).subtype = (S' : Subgroup G) :=
-    eq_of_sylow_le hC h T S'.isPGroup' hS'le
+    eq_of_sylow_le hC h T S'.isPGroup hS'le
   have hfacN : (Nat.card ↥(Nrm E)).factorization 2 = 21 := by
     rw [card_Nrm h]
     rw [show 2 ^ 21 * 3 ^ 3 * 5 * 7 * 11 * 23 = 2 ^ 21 * (3 ^ 3 * 5 * 7 * 11 * 23) by ring]

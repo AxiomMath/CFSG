@@ -79,7 +79,7 @@ public theorem CFSG.section14_exists_sigma_complement_containing
     (hKπ : IsPiSubgroup (G := G) (section10SigmaPrimes M)ᶜ K) :
     ∃ E : Subgroup G, section12ComplementToMsigma M E ∧ K ≤ E := by
   classical
-  letI : MulDistribMulAction Unit M := {
+  let : MulDistribMulAction Unit M := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -94,7 +94,7 @@ public theorem CFSG.section14_exists_sigma_complement_containing
     refine ⟨?_⟩
     intro _ x
     simp [Ksub]
-  have hsolvM : IsSolvable M :=
+  have hsolvM : Group.IsSolvable M :=
     IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.mpr hM.1)
   have hcop : Nat.Coprime (Nat.card Unit) (Nat.card M) := by simp
   obtain ⟨Esub, hEHall, _hEInv, hKsubE⟩ :=
@@ -216,10 +216,10 @@ public theorem CFSG.section14_hallSubgroupIn_map_subtype
 
 omit [IsMinCE G] in
 public theorem CFSG.section14_exists_hallSubgroupIn
-    {H : Subgroup G} (hsolvH : IsSolvable H) (π : Set Nat.Primes) :
+    {H : Subgroup G} (hsolvH : Group.IsSolvable H) (π : Set Nat.Primes) :
     ∃ L : Subgroup G, section12HallSubgroupIn π L H := by
   classical
-  letI : MulDistribMulAction Unit H := {
+  let : MulDistribMulAction Unit H := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -234,7 +234,7 @@ public theorem CFSG.section14_exists_hallSubgroupIn
 public theorem CFSG.section14_solvable_of_le_maximal
     {M H : Subgroup G}
     (hM : M ∈ section9MaximalSubgroups G) (hHM : H ≤ M) :
-    IsSolvable H := by
+    Group.IsSolvable H := by
   have hHne : H ≠ ⊤ := by
     intro hHtop
     have hMtop : M = ⊤ := top_le_iff.mp (by simpa [hHtop] using hHM)
@@ -247,13 +247,13 @@ public theorem CFSG.section14_exists_EData_of_complement
     (hcomp : section12ComplementToMsigma M E) :
     ∃ E₁₂ E₁ E₂ E₃ : Subgroup G, section12EData M E E₁₂ E₁ E₂ E₃ := by
   classical
-  have hsolvE : IsSolvable E :=
+  have hsolvE : Group.IsSolvable E :=
     section14_solvable_of_le_maximal hM hcomp.2.1
   obtain ⟨E₁₂, hE₁₂⟩ :=
     section14_exists_hallSubgroupIn
       (G := G) hsolvE (section12Tau1Primes M ∪ section12Tau2Primes M)
   have hE₁₂M : E₁₂ ≤ M := hE₁₂.1.trans hcomp.2.1
-  have hsolvE₁₂ : IsSolvable E₁₂ :=
+  have hsolvE₁₂ : Group.IsSolvable E₁₂ :=
     section14_solvable_of_le_maximal hM hE₁₂M
   obtain ⟨E₁, hE₁⟩ :=
     section14_exists_hallSubgroupIn
@@ -307,9 +307,9 @@ private theorem CFSG.section14_exists_EData_with_kappa_in_E1_of_tau1
     section14_exists_sigma_complement_containing_hall_kappa
       (G := G) (M := M) (K := K) hM hK
   rcases hK with ⟨hKM, hKHallM⟩
-  have hsolvE : IsSolvable E :=
+  have hsolvE : Group.IsSolvable E :=
     section14_solvable_of_le_maximal hM.1 hEcomp.2.1
-  letI : MulDistribMulAction Unit E := {
+  let : MulDistribMulAction Unit E := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -347,9 +347,9 @@ private theorem CFSG.section14_exists_EData_with_kappa_in_E1_of_tau1
       ⟨⟨x, hKE hxK⟩,
         hKsubE_E₁₂sub (show (⟨x, hKE hxK⟩ : E) ∈ KsubE from hxK), rfl⟩
   have hE₁₂M : E₁₂ ≤ M := hE₁₂.1.trans hEcomp.2.1
-  have hsolvE₁₂ : IsSolvable E₁₂ :=
+  have hsolvE₁₂ : Group.IsSolvable E₁₂ :=
     section14_solvable_of_le_maximal hM.1 hE₁₂M
-  letI : MulDistribMulAction Unit E₁₂ := {
+  let : MulDistribMulAction Unit E₁₂ := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -489,7 +489,7 @@ public theorem CFSG.section14_isMulCommutative_of_le
     {H K : Subgroup G} (hH : IsMulCommutative H) (hKH : K ≤ H) :
     IsMulCommutative K := by
   classical
-  letI : IsMulCommutative H := hH
+  let : IsMulCommutative H := hH
   refine ⟨⟨fun x y => ?_⟩⟩
   apply Subtype.ext
   exact setLike_mul_comm (s := H) (hKH x.property) (hKH y.property)
@@ -508,7 +508,7 @@ public theorem CFSG.section14_exists_primeOrderSubgroupIn_of_dvd_card
     (hpA : p.val ∣ Nat.card A) :
     ∃ P : Subgroup G, P ∈ section10PrimeOrderSubgroupsIn p A := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := A) p.val hpA
   refine ⟨Subgroup.zpowers (a : G), ?_⟩
   refine ⟨?_, ?_⟩
@@ -591,7 +591,7 @@ private theorem CFSG.section14_not_regular_of_primeOrder_centralizer_ne_bot
   classical
   intro hreg
   have hPne : P ≠ ⊥ := section12_primeOrder_ne_bot hP
-  haveI : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
+  have : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).2 hPne
   obtain ⟨xP, hxPne⟩ := exists_ne (1 : P)
   let x : G := xP
   have hxP : x ∈ P := xP.property
@@ -602,7 +602,7 @@ private theorem CFSG.section14_not_regular_of_primeOrder_centralizer_ne_bot
     intro hx
     exact hxPne (Subtype.ext hx)
   have hCne : subgroupCentralizerIn R P ≠ ⊥ := hCP
-  haveI : Nontrivial (subgroupCentralizerIn R P) :=
+  have : Nontrivial (subgroupCentralizerIn R P) :=
     (Subgroup.nontrivial_iff_ne_bot (H := subgroupCentralizerIn R P)).2 hCne
   obtain ⟨yC, hyCne⟩ := exists_ne (1 : subgroupCentralizerIn R P)
   let y : G := yC
@@ -783,7 +783,7 @@ private theorem CFSG.section14_unique_subgroup_of_prime_order_in_cyclic
         simp [hbot]
       rw [hL] at hcard1
       exact hp_prime.ne_one hcard1
-    haveI : Nontrivial L := (Subgroup.nontrivial_iff_ne_bot L).mpr hL_ne_bot
+    have : Nontrivial L := (Subgroup.nontrivial_iff_ne_bot L).mpr hL_ne_bot
     obtain ⟨h, hh⟩ := IsCyclic.exists_monoid_generator (α := L)
     have hh_order_L : orderOf (h : L) = p := by
       have h_eq : orderOf (h : L) = Nat.card L :=
@@ -833,10 +833,10 @@ public theorem CFSG.section14_primeRank_at_least_two_of_rankTwo
     (hA : A ∈ section12RankTwoElementaryAbelianIn p M) :
     2 ≤ primeRank p.val M := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   have hAM : A ≤ M := section12_rankTwo_le hA
   rcases section12_rankTwo_elementary hA with ⟨hcard, hElem⟩
-  haveI : IsElementaryAbelian p.val A := hElem
+  have : IsElementaryAbelian p.val A := hElem
   have hAcomm : IsMulCommutative A := inferInstance
   let A' : Subgroup M := A.subgroupOf M
   have hA'p : IsPGroup p.val A' :=
@@ -894,7 +894,7 @@ public theorem CFSG.section14_conjBy_exists_of_primeOrderIn_primeRank_eq_one
     (hQ : Q ∈ section10PrimeOrderSubgroupsIn p M) :
     ∃ m : M, P.conjBy (m : G) = Q := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   let Psub : Subgroup M := P.subgroupOf M
   let Qsub : Subgroup M := Q.subgroupOf M
   have hPsub_card : Nat.card Psub = p.val := by
@@ -948,7 +948,7 @@ public theorem CFSG.section14_conjBy_exists_of_primeOrderIn_primeRank_eq_one
   have h_eq_in_SQ :
       Psub_m.subgroupOf (SQ : Subgroup M) =
         Qsub.subgroupOf (SQ : Subgroup M) := by
-    letI : IsCyclic (SQ : Subgroup M) := hSylowCyclic SQ
+    let : IsCyclic (SQ : Subgroup M) := hSylowCyclic SQ
     exact
       section14_unique_subgroup_of_prime_order_in_cyclic
         (A := Psub_m.subgroupOf (SQ : Subgroup M))
@@ -1039,7 +1039,7 @@ public theorem CFSG.section14_primeRank_le_of_equiv
     have hA'q : IsPGroup q A' :=
       IsPGroup.map (p := q) (H := A) hAq e.symm.toMonoidHom
     have hA'comm : IsMulCommutative A' := by
-      letI : IsMulCommutative A := hAcomm
+      let : IsMulCommutative A := hAcomm
       infer_instance
     have hgen_le : generatorRank A ≤ generatorRank A' := by
       let eA : A ≃* A' :=
@@ -1080,7 +1080,7 @@ public theorem CFSG.section14_hall_kappa_isZGroup
   rcases hK with ⟨hKM, hHallK⟩
   refine ⟨fun q hq Q => ?_⟩
   let p : Nat.Primes := ⟨q, hq⟩
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   by_cases hpK : p.val ∣ Nat.card K
   · have hpκ : p ∈ section14KappaPrimes M := by
       exact hHallK.p_in_pi_of_p_dvd_card p
@@ -1092,7 +1092,7 @@ public theorem CFSG.section14_hall_kappa_isZGroup
     let f : K →* M := K.subtype.codRestrict M (fun x => hKM x.property)
     let Qmap : Subgroup M := (Q : Subgroup K).map f
     have hQmap_p : IsPGroup p.val Qmap :=
-      IsPGroup.map (p := p.val) (H := (Q : Subgroup K)) Q.isPGroup' f
+      IsPGroup.map (p := p.val) (H := (Q : Subgroup K)) Q.isPGroup f
     obtain ⟨S, hQmap_le_S⟩ := IsPGroup.exists_le_sylow (G := M) (p := p.val) hQmap_p
     have hrankM : primeRank p.val M ≤ 1 := by
       have h := section12_tau13_primeRank_eq_one hpτ13
@@ -1100,7 +1100,7 @@ public theorem CFSG.section14_hall_kappa_isZGroup
     have hS_cyc : IsCyclic (S : Subgroup M) :=
       section12_sylow_cyclic_of_primeRank_le_one hpodd hrankM S
     have hQmap_cyc : IsCyclic Qmap := by
-      letI : IsCyclic (S : Subgroup M) := hS_cyc
+      let : IsCyclic (S : Subgroup M) := hS_cyc
       exact Subgroup.isCyclic_of_le hQmap_le_S
     have hf_inj : Function.Injective f := by
       intro x y hxy
@@ -1111,13 +1111,13 @@ public theorem CFSG.section14_hall_kappa_isZGroup
     exact e.isCyclic.2 hQmap_cyc
   · have hQbot : (Q : Subgroup K) = ⊥ := by
       by_contra hQne
-      haveI : Nontrivial (Q : Subgroup K) :=
+      have : Nontrivial (Q : Subgroup K) :=
         (Subgroup.nontrivial_iff_ne_bot (H := (Q : Subgroup K))).2 hQne
       have hpQ : p.val ∣ Nat.card (Q : Subgroup K) :=
         section12_prime_dvd_card_of_nontrivial_pSubgroup
-          (p := p) (B := (Q : Subgroup K)) Q.isPGroup' inferInstance
+          (p := p) (B := (Q : Subgroup K)) Q.isPGroup inferInstance
       exact hpK (hpQ.trans (Subgroup.card_subgroup_dvd_card (Q : Subgroup K)))
-    haveI : Subsingleton (Q : Subgroup K) := by
+    have : Subsingleton (Q : Subgroup K) := by
       rw [hQbot]
       infer_instance
     exact isCyclic_of_subsingleton (α := (Q : Subgroup K))
@@ -1135,7 +1135,7 @@ public theorem CFSG.section14_conjugate_kappa_witness_into_hall
   rcases (by simpa [section10PrimeOrderSubgroupsIn] using hP₀prime) with
     ⟨hP₀M, hP₀card⟩
   rcases hK with ⟨hKM, hKHall⟩
-  letI : MulDistribMulAction Unit M := {
+  let : MulDistribMulAction Unit M := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -1156,7 +1156,7 @@ public theorem CFSG.section14_conjugate_kappa_witness_into_hall
     refine ⟨?_⟩
     intro _ x
     simp [P₀sub]
-  have hsolvM : IsSolvable M :=
+  have hsolvM : Group.IsSolvable M :=
     IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.mpr hM.1.1)
   have hcop : Nat.Coprime (Nat.card Unit) (Nat.card M) := by simp
   obtain ⟨L, hLHall, _hLInv, hP₀L⟩ :=
@@ -1193,7 +1193,7 @@ public theorem CFSG.section14_conjugate_kappa_witness_into_hall
 omit [IsMinCE G] in
 private theorem CFSG.section14_conjugate_prime_witness_into_hall
     {R A H P : Subgroup G} {π : Set Nat.Primes} {p : Nat.Primes}
-    (hsolvA : IsSolvable A)
+    (hsolvA : Group.IsSolvable A)
     (hA_norm : A ≤ Subgroup.normalizer (R : Set G))
     (hH : section12HallSubgroupIn π H A)
     (hpπ : p ∈ π)
@@ -1204,7 +1204,7 @@ private theorem CFSG.section14_conjugate_prime_witness_into_hall
   classical
   rcases (by simpa [section10PrimeOrderSubgroupsIn] using hP) with ⟨hPA, hPcard⟩
   rcases hH with ⟨hHA, hHHall⟩
-  letI : MulDistribMulAction Unit A := {
+  let : MulDistribMulAction Unit A := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -1273,7 +1273,7 @@ private theorem CFSG.section14_tau3_witness_in_E3
     rcases (by simpa [section10PrimeOrderSubgroupsIn] using hPK) with ⟨hPK_le, hPcard⟩
     simpa [section10PrimeOrderSubgroupsIn] using ⟨hPK_le.trans hKE, hPcard⟩
   rcases hE with ⟨hcomp, _hE12, _hE1, _hE2, hE3⟩
-  have hsolvE : IsSolvable E :=
+  have hsolvE : Group.IsSolvable E :=
     section14_solvable_of_le_maximal hM.1 hcomp.2.1
   have hE_norm : E ≤ Subgroup.normalizer (section10Msigma M : Set G) :=
     hcomp.2.1.trans (section12_le_normalizer_msigma (M := M))
@@ -1636,7 +1636,7 @@ public theorem CFSG.section14_prime_dvd_card_of_primeRank_pos
     intro hAbot
     have hAle0 : generatorRank A ≤ 0 := by
       rw [generatorRank_eq_group_rank]
-      haveI : Subsingleton A := by
+      have : Subsingleton A := by
         rw [hAbot]
         infer_instance
       have hclosure_empty : Subgroup.closure (∅ : Set A) = ⊤ := by
@@ -1653,7 +1653,7 @@ public theorem CFSG.section14_prime_dvd_card_of_primeRank_pos
           simpa using hclosure_empty))
     have hAgen_pos : 1 ≤ generatorRank A := hpos.trans hgen
     omega
-  haveI : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot (H := A)).2 hAne
+  have : Nontrivial A := (Subgroup.nontrivial_iff_ne_bot (H := A)).2 hAne
   have hpA : p.val ∣ Nat.card A :=
     section12_prime_dvd_card_of_nontrivial_pSubgroup
       (p := p) (B := A) hAp inferInstance
@@ -1870,7 +1870,7 @@ public theorem CFSG.section14_exists_primeOrder_zpowers_in
     exact hxne (by simpa using hxbot)
   rcases Nat.exists_prime_and_dvd hcard_ne_one with ⟨q, hqprime, hqdiv⟩
   let q' : Nat.Primes := ⟨q, hqprime⟩
-  haveI : Fact q.Prime := ⟨hqprime⟩
+  have : Fact q.Prime := ⟨hqprime⟩
   obtain ⟨z₀, hz₀_order⟩ :=
     exists_prime_orderOf_dvd_card' (G := Subgroup.zpowers x) q hqdiv
   let z : G := z₀
@@ -2043,7 +2043,7 @@ public theorem CFSG.section14_subgroupCentralizerIn_eq_bot_of_regular
   classical
   apply le_bot_iff.mp
   intro y hy
-  haveI : Nontrivial X := (Subgroup.nontrivial_iff_ne_bot (H := X)).2 hXne
+  have : Nontrivial X := (Subgroup.nontrivial_iff_ne_bot (H := X)).2 hXne
   obtain ⟨xX, hxXne⟩ := exists_ne (1 : X)
   let x : G := xX
   have hxX : x ∈ X := xX.property
@@ -2083,7 +2083,7 @@ private theorem CFSG.section14_tau1_case_U_regular
   by_contra hCne
   let C : Subgroup G := elementCentralizerIn U x
   have hCne' : C ≠ ⊥ := by simpa [C] using hCne
-  haveI : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot (H := C)).2 hCne'
+  have : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot (H := C)).2 hCne'
   obtain ⟨yC, hyCne⟩ := exists_ne (1 : C)
   let y : G := yC
   have hyC : y ∈ C := yC.property
@@ -2156,7 +2156,7 @@ private theorem CFSG.section14_tau1_case_U_regular
       have hcard : Nat.card (Q.subgroupOf E) = Nat.card Q :=
         section12_card_subgroupOf_eq hQ_E
       simp [hcard, hQcard, pow_one]
-    haveI : (E₃.subgroupOf E).Normal := hE3norm.2
+    have : (E₃.subgroupOf E).Normal := hE3norm.2
     have hQsub_le_E3sub : Q.subgroupOf E ≤ E₃.subgroupOf E :=
       section12_pSubgroup_le_normal_hall_of_prime_mem
         (R := E) (π := section12Tau3Primes M) (H := E₃.subgroupOf E)
@@ -2224,7 +2224,7 @@ private theorem CFSG.section14_tau1_case_U_abelian
       hHallU.p_in_pi_of_p_dvd_card q'
         (by simpa [section12_card_subgroupOf_eq hUM, q'] using hqU)
     exact hqπ (Or.inl hqκ)
-  have hsolvU : IsSolvable U :=
+  have hsolvU : Group.IsSolvable U :=
     section14_solvable_of_le_maximal hM.1 hUM
   have hU_le_comm : U ≤ ⁅U, K⁆ :=
     section8_le_commutator_of_subgroupCentralizerIn_eq_bot
@@ -2262,7 +2262,7 @@ public theorem CFSG.section14_msigma_sup_normalIn_of_complement_normal
     section14_complement_to_msigma_isComplement' hcomp
   have hE_norm_U : E ≤ Subgroup.normalizer (U : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUnorm.1).1 hUnorm.2
-  haveI : S.Normal := by
+  have : S.Normal := by
     simpa [S, section14_msigma_subgroupOf_eq] using
       (section14_msigma_normalIn (G := G) (M := M)).2
   have hEc_norm_S : Ec ≤ Subgroup.normalizer (S : Set M) := by
@@ -2293,7 +2293,7 @@ public theorem CFSG.section14_msigma_sup_normalIn_of_complement_normal
   have hEc_norm_N : Ec ≤ Subgroup.normalizer (N : Set M) := by
     refine subgroup_le_normalizer_of_conj_mem N Ec ?_
     intro e x hxN
-    haveI : S.Normal := by
+    have : S.Normal := by
       simpa [S, section14_msigma_subgroupOf_eq] using
         (section14_msigma_normalIn (G := G) (M := M)).2
     rcases (Subgroup.mem_sup_of_normal_left (x := x) (s := S) (t := Uc)).1 hxN with
@@ -2430,7 +2430,7 @@ private theorem CFSG.section14_tau1_case_normal_complement
         simp [N]
       have hN_norm_σ : N ≤ Subgroup.normalizer (section10Msigma M : Set G) :=
         hNM.trans (section12_le_normalizer_msigma (M := M))
-      haveI : ((section10Msigma M).subgroupOf N).Normal := by
+      have : ((section10Msigma M).subgroupOf N).Normal := by
         exact (Subgroup.normal_subgroupOf_iff_le_normalizer hσN).2 hN_norm_σ
       let xN : N := ⟨x, hxN'⟩
       have htop : U.subgroupOf N ⊔ (section10Msigma M).subgroupOf N = ⊤ := by
@@ -2617,10 +2617,10 @@ private theorem CFSG.section14_b1_tau1_case_normalIn
       (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) hM.1 hE).1
   let Xsub : Subgroup E₁ := X.subgroupOf E₁
   have hXchar : Xsub.Characteristic := by
-    letI : IsCyclic E₁ := hE₁cyc
+    let : IsCyclic E₁ := hE₁cyc
     exact section12_subgroup_characteristic_of_cyclic Xsub
   have hXnormE₁ : E₁ ≤ Subgroup.normalizer (X : Set G) := by
-    letI : Xsub.Characteristic := hXchar
+    let : Xsub.Characteristic := hXchar
     have hmap : Xsub.map E₁.subtype = X := by
       exact Subgroup.map_subgroupOf_eq_of_le (by simpa [hKEq] using hX.1)
     exact
@@ -2686,7 +2686,7 @@ public theorem CFSG.section14_b1_subgroupCentralizerIn_sup_eq_of_regular
     let T : Subgroup G := U ⊔ S
     let Usub : Subgroup T := U.subgroupOf T
     let Ssub : Subgroup T := S.subgroupOf T
-    haveI : Ssub.Normal := by
+    have : Ssub.Normal := by
       simpa [T, Ssub] using
         (Subgroup.normal_subgroupOf_sup_of_le_normalizer (H := U) (N := S) hUnormS)
     let yT : T := ⟨y, hy.1⟩
@@ -2770,7 +2770,7 @@ private theorem CFSG.section14_b1_normalizer_eq_sup_centralizer_of_normal_comple
     rcases mem_subgroupNormalizerIn.mp hx with ⟨hxNorm, hxM⟩
     let Ksub : Subgroup M := K.subgroupOf M
     let Nsub : Subgroup M := N.subgroupOf M
-    haveI : Nsub.Normal := by
+    have : Nsub.Normal := by
       simpa [Nsub] using hNnormal
     let xM : M := ⟨x, hxM⟩
     have htop : Ksub ⊔ Nsub = ⊤ := by
@@ -3412,11 +3412,11 @@ public theorem CFSG.proposition_14_2_d
     obtain ⟨S, hXsub_le_S⟩ := IsPGroup.exists_le_sylow (G := K) (p := p.val) hXsub_p
     obtain ⟨Sinv, hXinvsub_le_Sinv⟩ :=
       IsPGroup.exists_le_sylow (G := K) (p := p.val) hXinvsub_p
-    haveI : IsZGroup K := hKZ
+    have : IsZGroup K := hKZ
     have hS_cyc : IsCyclic (S : Subgroup K) :=
-      IsPGroup.isCyclic_of_isZGroup (G := K) (P := (S : Subgroup K)) S.isPGroup'
+      IsPGroup.isCyclic_of_isZGroup (G := K) (P := (S : Subgroup K)) S.isPGroup
     have hSinv_cyc : IsCyclic (Sinv : Subgroup K) :=
-      IsPGroup.isCyclic_of_isZGroup (G := K) (P := (Sinv : Subgroup K)) Sinv.isPGroup'
+      IsPGroup.isCyclic_of_isZGroup (G := K) (P := (Sinv : Subgroup K)) Sinv.isPGroup
     obtain ⟨k, hkS⟩ := MulAction.exists_smul_eq K Sinv S
     have h_Xinvsub_k_le_S : (MulAut.conj (k : K)) • Xinvsub ≤ (S : Subgroup K) := by
       calc
@@ -3439,7 +3439,7 @@ public theorem CFSG.proposition_14_2_d
     have hXinvsub_k_le_S : Xinvsub_k ≤ (S : Subgroup K) := h_Xinvsub_k_le_S
     have h_eq_in_S :
         Xinvsub_k.subgroupOf (S : Subgroup K) = Xsub.subgroupOf (S : Subgroup K) := by
-      letI : IsCyclic (S : Subgroup K) := hS_cyc
+      let : IsCyclic (S : Subgroup K) := hS_cyc
       have huniq :=
         section14_unique_subgroup_of_prime_order_in_cyclic
           (A := Xinvsub_k.subgroupOf (S : Subgroup K))
@@ -3880,7 +3880,7 @@ public theorem CFSG.section14_exists_conjugating_element_of_sigmaSubgroup
     have hXq : IsPGroup q.val X := by
       simpa [X, PF] using
         IsPGroup.map (p := q.val) (H := PF)
-          (IsPGroup.map (p := q.val) (H := (P : Subgroup F)) P.isPGroup' F.subtype)
+          (IsPGroup.map (p := q.val) (H := (P : Subgroup F)) P.isPGroup F.subtype)
           Y.subtype
     have hNormY_le_NormX :
         Subgroup.normalizer (Y : Set G) ≤ Subgroup.normalizer (X : Set G) := by
@@ -4319,7 +4319,7 @@ public theorem CFSG.proposition_14_2_g
         subgroupCentralizerIn (section10Msigma M) U = ⊥ := by
     obtain ⟨p, P, hP⟩ :=
       section14_c_exists_primeOrderSubgroupIn_of_ne_bot (G := G) (A := U) hUne
-    haveI : Fact p.val.Prime := ⟨p.2⟩
+    have : Fact p.val.Prime := ⟨p.2⟩
     have hpU : p.val ∣ Nat.card U := by
       rw [← hP.2]
       exact Subgroup.card_dvd_of_le hP.1
@@ -4337,7 +4337,7 @@ public theorem CFSG.proposition_14_2_g
     let Tmap : Subgroup M := (T : Subgroup Usub).map Usub.subtype
     have hTmap_p : IsPGroup p.val Tmap := by
       simpa [Tmap] using
-        IsPGroup.map (p := p.val) (H := (T : Subgroup Usub)) T.isPGroup' Usub.subtype
+        IsPGroup.map (p := p.val) (H := (T : Subgroup Usub)) T.isPGroup Usub.subtype
     have hUsub_not_index : ¬ p.val ∣ Usub.index := by
       intro hpUidx
       exact (hUhall.2.p_in_pi_of_p_dvd_index p hpUidx) hpπc
@@ -4406,7 +4406,7 @@ public theorem CFSG.proposition_14_2_g
         hHallU.p_in_pi_of_p_dvd_card q'
           (by simpa [section12_card_subgroupOf_eq hUM, q'] using hqU)
       exact hqπ (Or.inl hqκ)
-    have hsolvU : IsSolvable U :=
+    have hsolvU : Group.IsSolvable U :=
       section14_solvable_of_le_maximal hM.1.1 hUM
     have hU_le_comm : U ≤ ⁅U, K⁆ :=
       section8_le_commutator_of_subgroupCentralizerIn_eq_bot
@@ -4739,7 +4739,7 @@ public theorem CFSG.proposition_14_2_g
         · have hpU : p.val ∣ Nat.card U := by
             have hcardS : Nat.card U * Nat.card K = Nat.card S := by
               simpa [S, natCard_subgroupOf_eq U S le_sup_right,
-                natCard_subgroupOf_eq K S le_sup_left, Nat.mul_comm] using hcompS.card_mul
+                natCard_subgroupOf_eq K S le_sup_left, Nat.mul_comm] using hcompS.card_mul_card
             have hpProd : p.val ∣ Nat.card U * Nat.card K := by
               exact hcardS ▸ hpS
             rcases p.2.dvd_mul.mp hpProd with hpU | hpK'

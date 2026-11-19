@@ -52,7 +52,7 @@ private lemma mem_normalizer_iff_conjugate_eq {G : Type*} [Group G] {H : Subgrou
     g ∈ Subgroup.normalizer (H : Set G) ↔ CFSG.conjugate H g = H := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq, CFSG.conjugate]
   have hsymm : MulAut.conj (g⁻¹) = (MulAut.conj g)⁻¹ := by
-    ext x; simp [MulAut.conj_apply]
+    ext x; simp
   rw [hsymm]
   exact map_aut_eq_iff_map_inv_eq H (MulAut.conj g)
 
@@ -439,7 +439,7 @@ theorem nonempty_mulEquiv_alternatingGroup_five_of_two_components
             rw [← hmapA, Subgroup.card_map_of_injective (MulAut.conj c).injective]
           have hK_simple : IsSimpleGroup ↥K := by
             obtain ⟨ee⟩ := nonempty_mulEquiv_alternatingGroup_comap_altSubgroup e
-            exact (MulEquiv.isSimpleGroup_congr ee).mpr alternatingGroup.isSimpleGroup_five
+            exact (MulEquiv.isSimpleGroup_congr ee).mpr (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
           have hK_normal : K.Normal := inferInstance
           have hKnonab : ∃ a b : ↥K, a * b ≠ b * a := by
             obtain ⟨ee⟩ := nonempty_mulEquiv_alternatingGroup_comap_altSubgroup e
@@ -532,7 +532,7 @@ theorem nonempty_mulEquiv_alternatingGroup_five_of_two_components
               rw [hfiso]
               change ((iso.symm (inc k)).1 : ↥C) * ((iso.symm (inc k)).2 : ↥C) ∈ A'
               rw [h1]
-              simpa using (iso.symm (inc k)).2.2
+              simp
             by_cases htriv : ∀ k : ↥K, projA (inc k) = 1
             · exfalso
               have hKleA' : K ≤ A' := by
@@ -546,7 +546,7 @@ theorem nonempty_mulEquiv_alternatingGroup_five_of_two_components
                   _ ≤ A := hmapA'_le
               exact hK_ne (le_bot_iff.mp (hdisj ▸ le_inf hKleA hKleA'))
             · exfalso
-              push_neg at htriv
+              push Not at htriv
               obtain ⟨k0, hk0⟩ := htriv
               have hker_ne_top : (projA.comp inc).ker ≠ ⊤ := by
                 intro htop
@@ -666,7 +666,7 @@ theorem nonempty_mulEquiv_alternatingGroup_five_of_two_components
               have hh := congrArg Subtype.val hpowA
               simpa only [Subgroup.coe_pow, Subgroup.coe_one] using hh
             have hordC : orderOf (x.1 : ↥C) = 2 := by
-              haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+              have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
               exact orderOf_eq_prime hpowC hx1_ne
             have hAzp : A = Subgroup.zpowers (x.1 : ↥C) := by
               symm
@@ -711,7 +711,7 @@ theorem nonempty_mulEquiv_alternatingGroup_five_of_two_components
                 have hh := congrArg Subtype.val hpowC
                 simpa only [Subgroup.coe_pow, Subgroup.coe_one] using hh
               have hne : (x.1 : X) ≠ 1 := fun h => hx1_ne (Subtype.ext h)
-              haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+              have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
               exact orderOf_eq_prime hpow hne
             exact (CFSG.GroupTheory.not_four_dvd_card_of_inf_centralizer_eq_zpowers
               hx1T1 hordX hcent) h4T1

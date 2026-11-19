@@ -31,7 +31,7 @@ theorem crMat_mem_Cm (x : Cr) : crMat x ∈ Cm := by
     have hj' : j < 21 := hj
     have e : letterCr j = gC j := by
       unfold letterCr
-      rw [if_pos hj']
+      rw [ite_eq_left hj']
     rw [← e, crMat_eq_of_hasRows (hasRows_letterCr (by omega))]
     exact letterMat_mem_Cm (by omega)
   exact hle (closure_gC ▸ Subgroup.mem_top x)

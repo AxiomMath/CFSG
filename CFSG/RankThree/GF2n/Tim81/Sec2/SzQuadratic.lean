@@ -28,7 +28,7 @@ theorem isSzNatural_of_commSub_le_fixedSub
   let A : Subgroup ↥(suzukiGroup a K) :=
     CFSG.CGT.Timmesfeld75.conjSubgroup x (szZ a K)
   change commSub ρ A ≤ fixedSub ρ A at hquad
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   have hAcard : Nat.card A = 2 ^ (2 * a + 1) := by
     change Nat.card ((szZ a K).map (MulAut.conj x).toMonoidHom) = 2 ^ (2 * a + 1)
     rw [Subgroup.card_map_of_injective (MulAut.conj x).injective, card_szZ hK]

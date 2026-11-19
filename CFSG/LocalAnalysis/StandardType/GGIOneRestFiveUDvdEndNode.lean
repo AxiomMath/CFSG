@@ -79,14 +79,14 @@ theorem exists_endNode_of_finrank {ι : Type} [Fintype ι] [DecidableEq ι] (hp2
       x = g c' • Pi.single c (1 : ZMod p) + (-g c) • Pi.single c' (1 : ZMod p) := ⟨_, rfl⟩
   have hxc : x c = g c' := by
     rw [hx]
-    simp [Pi.single_apply, hcc']
+    simp [hcc']
   have hxc' : x c' = -g c := by
     rw [hx]
-    simp [Pi.single_apply, hcc'.symm]
+    simp [hcc'.symm]
   have hx0 : ∀ k, k ≠ c → k ≠ c' → x k = 0 := by
     intro k hk1 hk2
     rw [hx]
-    simp [Pi.single_apply, hk1, hk2]
+    simp [hk1, hk2]
   have hxmem : x ∈ A := by
     rw [hmemA, hx, map_add, map_smul, map_smul, smul_eq_mul, smul_eq_mul, ← hg c, ← hg c']
     ring
@@ -105,11 +105,11 @@ theorem exists_endNode_of_finrank {ι : Type} [Fintype ι] [DecidableEq ι] (hp2
       funext k
       by_cases hkc : k = c
       · rw [hkc]
-        simp [Pi.single_apply, hcc']
+        simp [hcc']
       · by_cases hkc' : k = c'
         · rw [hkc']
-          simp [Pi.single_apply, hcc', hkc]
-        · simp [Pi.single_apply, hkc, hkc', hsupp k hkc hkc']
+          simp [hcc']
+        · simp [hkc, hkc', hsupp k hkc hkc']
     have hyf : y c * g c + y c' * g c' = 0 := by
       have h := hy0
       rw [hyeq, map_add, map_smul, map_smul, smul_eq_mul, smul_eq_mul, ← hg c, ← hg c'] at h

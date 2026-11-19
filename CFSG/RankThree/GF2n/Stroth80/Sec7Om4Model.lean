@@ -67,6 +67,7 @@ theorem sec7_Hset_conj (hc : Ctx M Q Z B) {n : ℕ} {K : Type} [Field K] [Finite
   rw [conjSubgroup_mul, sec7H_conj x V Z (conjSubgroup g B) hxV (hc.conj_Z_eq hx)]
   exact sec7_img_conj_iff hc M₀ ρ b hS hx le_sup_right e
 
+omit [(Q.subgroupOf M).Normal] in
 theorem sec7_Hset_eq_of_img_le (hc : Ctx M Q Z B) {K : Type} [Field K] [Finite K]
     {γ : G → K} (M₀ : Tim79.QuadModel Q Z K γ) {g g' : G} (hg : g ∈ M) (hg' : g' ∈ M)
     (V : Subgroup G) (hZV : Z ≤ V) (hVQ : V ≤ Q)
@@ -238,12 +239,12 @@ theorem sec7_om4_setup (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement
             polar (quadMinus 2 K' b' c') (Ψ ⟨e₀, he₀⟩) w = 0) := by
   classical
   obtain ⟨K', fK', finK', hK', b', c', hirr, hnat⟩ := hom
-  haveI : CharP K' 2 := by
+  have : CharP K' 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK'.trans he)
-  haveI : Nonempty Sec7Om4Idx := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty Sec7Om4Idx := ⟨Sum.inr (Sum.inr 0)⟩
   obtain ⟨φ, hφ, hker, hnorm, hn, ψs, hψs⟩ := hnat
-  haveI := hn
+  have := hn
   have hnatSO : SpNat hc t ∨ OmegaNat hc t := Or.inr hs.omegaNat
   have h3 : 3 ≤ Module.finrank K' (Sec7Om4Idx → K') := by
     rw [Module.finrank_fintype_fun_eq_card]

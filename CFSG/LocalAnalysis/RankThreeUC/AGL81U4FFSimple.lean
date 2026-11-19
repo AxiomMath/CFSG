@@ -41,7 +41,7 @@ theorem exists_statedSU4_iso_twistedA3 (q : TauCeti.PrimePower) (hq : q.p = 2)
         ↥(StatedSU 4 (2 ^ q.exponent) F)) := by
   obtain ⟨-, K, hK, hKf, hcard, ⟨e⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 3 q hv (MulEquiv.refl _)
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hchar : CharP K q.p := CFSG.ClassicalGroups.Unitary.charP_of_card_sq hcard
   rw [hq] at hchar hcard e
   exact ⟨K, hK, hKf, hcard, ⟨e.trans (statedProj_statedSU4_equiv K (2 ^ q.exponent))⟩⟩
@@ -55,14 +55,14 @@ theorem isSimpleGroup_twistedA3 (q : TauCeti.PrimePower)
 theorem exists_noncomm_of_isPerfect (G : Type) [Group G] [Nontrivial G] [Group.IsPerfect G] :
     ∃ a b : G, a * b ≠ b * a := by
   by_contra h
-  push_neg at h
+  push Not at h
   exact Group.IsPerfect.not_isMulCommutative G ⟨⟨fun a b => h a b⟩⟩
 
 theorem isPerfect_twistedA3 (q : TauCeti.PrimePower) (hq : q.p = 2)
     (hv : (TauCeti.LieTypeIndex.twistedA 3 q).Valid) :
     Group.IsPerfect (TauCeti.ValidLieTypeIndex.Group ⟨.twistedA 3 q, hv⟩) := by
   obtain ⟨F, hF, hFf, hcard, ⟨e⟩⟩ := exists_statedSU4_iso_twistedA3 q hq hv
-  haveI : Group.IsPerfect ↥(StatedSU 4 (2 ^ q.exponent) F) :=
+  have : Group.IsPerfect ↥(StatedSU 4 (2 ^ q.exponent) F) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hcard (by norm_num) (by simp)
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
@@ -72,6 +72,7 @@ variable {d : TauCeti.ValidLieTypeIndex} {q : TauCeti.PrimePower} (hq : q.p = 2)
   (hd : d.1 = .twistedA 3 q)
 include hq hd
 
+omit hq in
 theorem u4Group_isSimple : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := by
   obtain ⟨d1, hv⟩ := d
   have hd' : d1 = TauCeti.LieTypeIndex.twistedA 3 q := hd
@@ -82,8 +83,8 @@ theorem u4Group_nonabelian : ∃ a b : (TauCeti.CFSGIndex.lie d).Group, a * b �
   obtain ⟨d1, hv⟩ := d
   have hd' : d1 = TauCeti.LieTypeIndex.twistedA 3 q := hd
   subst hd'
-  haveI := isSimpleGroup_twistedA3 q hv
-  haveI := isPerfect_twistedA3 q hq hv
+  have := isSimpleGroup_twistedA3 q hv
+  have := isPerfect_twistedA3 q hq hv
   exact exists_noncomm_of_isPerfect (TauCeti.ValidLieTypeIndex.Group ⟨.twistedA 3 q, hv⟩)
 
 end Main

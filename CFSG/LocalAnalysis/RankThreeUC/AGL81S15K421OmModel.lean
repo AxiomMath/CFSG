@@ -51,9 +51,10 @@ variable {F : Type} [Field F] [CharP F 2] {b c : F}
 
 @[expose] def eU : OmI → F := Pi.single (Sum.inr (Sum.inr 0)) 1
 
+omit [CharP F 2] in
 theorem quadMinus_eU : StatedQuadMinus 4 F b c eU = 1 := by
   rw [quadMinus_apply]
-  simp [eU, Pi.single_apply, Fin.sum_univ_three]
+  simp [eU]
 
 theorem scalars_subgroupOf_omega :
     (StatedScalars OmI F).subgroupOf (StatedOmega (StatedQuadMinus 4 F b c)) = ⊥ := by
@@ -90,15 +91,15 @@ section Transport
 
 theorem charP_two_of_card_pow {K : Type} [Field K] [Finite K] {f : ℕ} (hK : Nat.card K = 2 ^ f) :
     CharP K 2 := by
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
 
 theorem b_ne_zero {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) : b ≠ 0 := by
   intro hb
   subst hb
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨r, hr⟩ := K421SpCountProof.spc_sq_exists (F := F) c
   have h2 := K421SpProof.two_eq_zero_F F
   exact hirr r (by linear_combination hr + c * h2)
@@ -116,7 +117,7 @@ theorem exists_model {c : ℕ → Prop} {S : Type} [Group S] (h : IsOmegaEightMi
   rw [hQ2] at hm
   have hcard := (CFSG.Timmesfeld.card_statedClassicalModel_two hm).2.2.2.2 rfl
   obtain ⟨-, K, hKf, hKfin, hK, b, d', hirr, ⟨e'⟩⟩ := hm
-  haveI := charP_two_of_card_pow hK
+  have := charP_two_of_card_pow hK
   refine ⟨K, hKf, hKfin, this, b, d', hirr, ?_, ⟨Q.exponent, Q.exponent_pos, hK⟩, ?_,
     ⟨e'.trans projEquivOmega⟩⟩
   · rw [hK]

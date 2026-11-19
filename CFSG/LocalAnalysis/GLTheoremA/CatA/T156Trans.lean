@@ -74,6 +74,7 @@ section Transfer
 
 variable {G : Type} [Group G] [Finite G] {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite G] [Finite Ω] in
 theorem innDiagOn_of_Omega {p : ℕ} {X : Subgroup G} {S' : Subgroup Ω} {A : Subgroup G} {A' : Subgroup Ω}
     (e : PQuot p X ≃* PQuot p S') (hAX : A ≤ Subgroup.normalizer (X : Set G))
     (hcorr : ∀ a ∈ A, ∃ a' ∈ A', ∀ x x', indRel p X a x x' ↔ indRel p S' a' (e x) (e x'))
@@ -86,6 +87,7 @@ theorem innDiagOn_of_Omega {p : ℕ} {X : Subgroup G} {S' : Subgroup Ω} {A : Su
   obtain ⟨φ, hφ, hφ'⟩ := hθ a' ha'
   exact ⟨φ, hφ, (glaInduces_centerQuot e (indRel p X a) (indRel p S' a') hiff θ φ).2 hφ'⟩
 
+omit [Finite G] [Finite Ω] in
 theorem innDiagOn_to_Omega {p : ℕ} {X : Subgroup G} {S' : Subgroup Ω} {A : Subgroup G} {A' : Subgroup Ω}
     (e : PQuot p X ≃* PQuot p S') (hA'S : A' ≤ Subgroup.normalizer (S' : Set Ω))
     (hcorr : ∀ a' ∈ A', ∃ a ∈ A, ∀ x x', indRel p X a x x' ↔ indRel p S' a' (e x) (e x'))
@@ -104,6 +106,7 @@ theorem innDiagOn_to_Omega {p : ℕ} {X : Subgroup G} {S' : Subgroup Ω} {A : Su
     exact this.symm
   exact (glaInduces_centerQuot e.symm (indRel p S' a') (indRel p X a) hrel θ φ).2 hφ'
 
+omit [Finite G] [Finite Ω] in
 theorem fieldOn_to_Omega {p : ℕ} {X : Subgroup G} {S' : Subgroup Ω} {g : G} {w : Ω}
     (e : PQuot p X ≃* PQuot p S') (hw : w ∈ Subgroup.normalizer (S' : Set Ω))
     (hiff : ∀ x x', indRel p X g x x' ↔ indRel p S' w (e x) (e x'))
@@ -116,6 +119,7 @@ section Layers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizes_inf_centralizer_singleton {L : Subgroup G} {c b : G}
     (hcL : c ∈ Subgroup.normalizer (L : Set G)) (hcb : c * b = b * c) :
     c ∈ Subgroup.normalizer ((L ⊓ Subgroup.centralizer ({b} : Set G) : Subgroup G) : Set G) := by

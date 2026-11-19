@@ -135,8 +135,7 @@ theorem curtisEval_nRel (gens : List G) (c d i j : ℕ) :
         (gens.getD (2 * c) 1 * gens.getD (2 * c + 1) 1 * gens.getD (2 * c) 1) *
           ((gens.getD (2 * i) 1 * gens.getD (2 * j) 1) ^ 2)⁻¹ := by
   simp only [curtisNRel, curtisEval_append, curtisEval_nWord, curtisEval_invWord,
-    curtisEval_powWord, curtisEval_two_a, curtisEval_letterA, List.cons_append, List.nil_append,
-    curtisEval_cons_letterA, curtisEval_nil, mul_one]
+    curtisEval_powWord, curtisEval_cons_letterA, curtisEval_nil, mul_one]
 
 theorem curtisRankOne_iff (gens : List G) (i : ℕ) :
     (∀ r ∈ curtisRankOne i, curtisEval gens r = 1) ↔

@@ -36,10 +36,12 @@ variable {G : Type} [Group G] [Finite G]
     rw [e2]
     exact I.inv_mem h
 
+omit [Finite G] in
 theorem mem_trivSub {Z I : Subgroup G} {k : G} :
     k ∈ trivSub Z I ↔ k ∈ Subgroup.normalizer (Z : Set G) ∧ k ∈ Subgroup.normalizer (I : Set G) ∧
       ∀ z ∈ Z, k * z * k⁻¹ * z⁻¹ ∈ I := Iff.rfl
 
+omit [Finite G] in
 theorem trivSub_conj {Z I : Subgroup G} {h : G} (hhZ : h ∈ Subgroup.normalizer (Z : Set G))
     (hhI : h ∈ Subgroup.normalizer (I : Set G)) {k : G} (hk : k ∈ trivSub Z I) :
     h * k * h⁻¹ ∈ trivSub Z I := by

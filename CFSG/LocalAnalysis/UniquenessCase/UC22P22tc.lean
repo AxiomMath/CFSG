@@ -92,7 +92,7 @@ theorem uc22p22tc_exists_hasUniqueMaxOver_bar {H T N : Subgroup G} (hT : IsSylow
     (hNH : N < H) (hTN : T ≤ N) (hmax : ∀ Y : Subgroup G, T ≤ Y → Y < H → Y ≤ N) :
     ∃ T' : Subgroup (Bar2 H), CFSG.ABGLocalTools.IsSylowOf 2 T' ⊤ ∧ HasUniqueMaxOver T' := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y : Subgroup ↥H := CFSG.pCore 2 ↥H with hY
   set π : ↥H →* ↥H ⧸ Y := QuotientGroup.mk' Y with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Y

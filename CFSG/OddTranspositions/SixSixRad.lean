@@ -18,7 +18,7 @@ theorem blockKernel_eq_bot_of_simple_minimalNormal (hC : HypothesisC D)
     (hMc : Subgroup.centralizer (M : Set G) = ⊥) : blockKernel hC.alpha = ⊥ := by
   classical
   by_contra hK
-  haveI : M.Normal := hM.1
+  have : M.Normal := hM.1
   have hMK : M ≤ blockKernel hC.alpha := le_blockKernel_of_ne_bot hC hrad hK hM
   have hMα : M ≤ Subgroup.normalizer hC.alpha := hMK.trans (blockKernel_le_normalizer hC)
   have hMcl := le_closure_alpha_of_le_normalizer hC hMs hMc hMα

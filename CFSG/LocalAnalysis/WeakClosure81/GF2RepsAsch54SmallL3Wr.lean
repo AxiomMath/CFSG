@@ -93,7 +93,7 @@ theorem asch54Case_l3EpsWr (hS : CFSG.AGLEmbedding.KFactCatalogSchreier) :
   set T₀ := (S : Subgroup Q) ⊓ L with hT₀
   set Z := T₀ ⊓ centralizer (T₀ : Set Q) with hZ
   have hT₀syl : IsSylowIn 2 (T ⊓ L) L := CFSG.Quasithin.Shult.isSylowTwoOf_inf_normal hT
-  have hT₀2 : IsPGroup 2 ↥T₀ := S.isPGroup'.to_inf_left
+  have hT₀2 : IsPGroup 2 ↥T₀ := S.isPGroup.to_inf_left
   have hTN : T ≤ normalizer (T₀ : Set Q) := Asch80Wr.le_normalizer_inf_of_normal
   have hlt : ∀ {C : Subgroup Q}, C ≤ T₀ → C ≠ ⊥ → normalizer (C : Set Q) < ⊤ := fun hC hC1 =>
     lt_top_iff_ne_top.2

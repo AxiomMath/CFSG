@@ -33,7 +33,7 @@ theorem prod_weights2 (u : Kˣ) : ∏ i, weights2 u i = 1 := by
       CFSG.LieType.SeitzGeneration.toGL_diagSLn, CFSG.LieType.SeitzGeneration.toGL_diagSLn]
     have : weights2 (u * v) = weights2 u * weights2 v := by
       funext i
-      fin_cases i <;> simp [weights2, mul_inv, mul_comm]
+      fin_cases i <;> simp [weights2, mul_comm]
     rw [this, CFSG.RankThree.PartOne.KFU.diagU_mul])
 
 theorem torus2_injective : Function.Injective (torus2 (K := K)) := by
@@ -54,13 +54,13 @@ variable {K : Type} [Field K] [Finite K]
 theorem isCyclic_sylow_SL2_of_dvd {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpK : p ∣ Nat.card K - 1) (P : Sylow p (SpecialLinearGroup (Fin 2) K)) : IsCyclic P := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq1 : 1 < Nat.card K := Finite.one_lt_card
   set T : Subgroup (SpecialLinearGroup (Fin 2) K) := (torus2 (K := K)).range with hT
   have hTcard : Nat.card T = Nat.card K - 1 := by
     rw [hT, ← Nat.card_units]
     exact (Nat.card_congr (MonoidHom.ofInjective torus2_injective).toEquiv).symm
-  haveI : IsCyclic T := isCyclic_of_surjective (torus2 (K := K)).rangeRestrict
+  have : IsCyclic T := isCyclic_of_surjective (torus2 (K := K)).rangeRestrict
     (MonoidHom.rangeRestrict_surjective _)
   have hpq : ¬ p ∣ Nat.card K := by
     intro hd
@@ -110,8 +110,8 @@ theorem false_of_elemAbelian_sq_SL2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp
     {W : Subgroup (SpecialLinearGroup (Fin 2) K)} (hW : IsElemAbelian p W)
     (hWc : Nat.card W = p ^ 2) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := isElementaryAbelian_of_isElemAbelian hW
+  have : Fact p.Prime := ⟨hp⟩
+  have := isElementaryAbelian_of_isElemAbelian hW
   have hWp : IsPGroup p W := IsPGroup.of_card hWc
   by_cases hpK : p ∣ Nat.card K - 1
   · obtain ⟨P, hP⟩ := hWp.exists_le_sylow
@@ -124,7 +124,7 @@ theorem false_of_elemAbelian_sq_SL2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp
     have hW'c : Nat.card W' = p ^ 2 := by
       rw [hW', Subgroup.card_map_of_injective CFSG.LieType.SeitzGeneration.toGL_injective']
       exact hWc
-    haveI := isElementaryAbelian_of_isElemAbelian
+    have := isElementaryAbelian_of_isElemAbelian
       (CFSG.Open.IsElemAbelian.map hW (SpecialLinearGroup.toGL :
         SpecialLinearGroup (Fin 2) K →* GL (Fin 2) K))
     obtain ⟨hpos, -⟩ := orderOf_card_spec (K := K) hp hpc
@@ -147,7 +147,7 @@ theorem false_of_elemAbelian_sq_projectiveSL_two [CharP K 2] {p : ℕ} (hp : p.P
     (hp2 : p ≠ 2) {E : Subgroup (projectiveSL 2 K)} (hE : IsElemAbelian p E)
     (hEc : Nat.card E = p ^ 2) : False := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hcard : Nat.card K = 2 ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hm]
   have hpc : ¬ p ∣ Nat.card K := by

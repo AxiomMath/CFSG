@@ -103,7 +103,7 @@ theorem index_le_two_of_le_swapStabilizer {c₁ w₀ : G} {hw₀ : w₀ * w₀ =
   by_cases htop : KP = ⊤
   · rw [htop, Subgroup.index_top]
     omega
-  obtain ⟨a, -, haKP⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr htop)
+  obtain ⟨a, -, haKP⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr htop)
   have haP : (a : G) ∈ P := a.2
   have haK : (a : G) ∉ K := fun h => haKP (Subgroup.mem_subgroupOf.mpr h)
   have haR : (a : G) ∉ Subgroup.centralizer {c₁} := fun h =>
@@ -269,7 +269,7 @@ theorem exists_conj_le_of_swap {S W : Subgroup G} {c₁ w₀ x₀ : G} (hS : IsP
   have hUH2 : IsPGroup 2 UH := hU2.of_equiv (Subgroup.subgroupOfEquivOfLe hUH).symm
   obtain ⟨P, hUP⟩ := hUH2.exists_le_sylow
   let PG : Subgroup G := (P : Subgroup ↥H).map H.subtype
-  have hPG2 : IsPGroup 2 PG := P.isPGroup'.map H.subtype
+  have hPG2 : IsPGroup 2 PG := P.isPGroup.map H.subtype
   have hPGH : PG ≤ H := Subgroup.map_subtype_le _
   have hUPG : U ≤ PG := by
     intro u hu

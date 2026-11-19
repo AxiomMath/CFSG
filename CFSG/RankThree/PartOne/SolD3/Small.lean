@@ -32,7 +32,7 @@ theorem sectionalTwoRankLE_four_of_noE32G [Finite G] (T : Sylow 2 G)
     (h : NoE32G (T : Subgroup G)) : SectionalTwoRankLE G 4 := by
   refine sectionalTwoRankLE_of_sylow T ?_
   intro P _
-  exact gen4_of_noE32 T.isPGroup' (noE32_of_noE32G h) P
+  exact gen4_of_noE32 T.isPGroup (noE32_of_noE32G h) P
 
 theorem noE32G_of_card_le_32 [Finite G] {S : Subgroup G} (h : Nat.card S ≤ 32)
     (h32 : Nat.card S = 32 → ∃ x ∈ S, ∃ y ∈ S, x * y ≠ y * x) : NoE32G S := by

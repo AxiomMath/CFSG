@@ -11,12 +11,14 @@ open Module CFSG.EvenSporadicStandard.HNRecog.Fpf
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)} {c : ℕ} {Fp Fm : Submodule (ZMod 2) V}
 
+omit [Finite V] in
 private lemma pow_fst (n : ℕ) :
     σ (a₀, 1) ^ n = σ (a₀ ^ n, 1) := by
   have h1 : (a₀, (1 : A5)) ^ n = (a₀ ^ n, 1) := by
     rw [Prod.pow_mk, one_pow]
   rw [← h1, map_pow]
 
+omit [Finite V] in
 private lemma pow_mem_fm (hE : EigenData σ c Fp Fm) (m : ℕ) :
     ∀ v ∈ Fm, ((σ (a₀, 1)) ^ m) v ∈ Fm := by
   induction m with
@@ -61,7 +63,7 @@ theorem EigenData.bilin_plus_minus (hS : StdHyp σ) (hE : EigenData σ c Fp Fm)
         rw [← LinearEquiv.mul_apply, ← pow_add, hc2]
       rw [harg1, harg2]
     rw [e1, e2]
-  haveI : FiniteDimensional (ZMod 2) V :=
+  have : FiniteDimensional (ZMod 2) V :=
     FiniteDimensional.of_finrank_pos (by rw [hS.finrank_eq]; norm_num)
   let g : Fm →ₗ[ZMod 2] Fm :=
     ((((σ (a₀ ^ (10 - 2 * c), 1) : V →ₗ[ZMod 2] V)).comp Fm.subtype)).codRestrict Fm

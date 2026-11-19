@@ -31,7 +31,7 @@ theorem sec1011_LC_conj {n x : G} (hn : n ∈ normalizer (L : Set G))
 
 private theorem sec1011_inv_eq_of_orderOf_eq_two {A : Type*} [Group A] [Finite A] [IsCyclic A]
     {x y : A} (hx : orderOf x = 2) (hy : orderOf y = 2) : x = y := by
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hd : 2 ∣ Fintype.card A := hx ▸ orderOf_dvd_card
   have h := IsCyclic.card_orderOf_eq_totient (α := A) (d := 2) hd
   rw [Nat.totient_two] at h
@@ -46,7 +46,7 @@ theorem sec1011_C_invol_unique [Finite G]
       IsCyclic (P : Subgroup ↥(centralizer (L : Set G)))) {D : Subgroup G}
     (hD : D ≤ centralizer (L : Set G)) (hsq : ∀ x ∈ D, x * x = 1) {x y : G} (hx : x ∈ D)
     (hy : y ∈ D) (hx1 : x ≠ 1) (hy1 : y ≠ 1) : x = y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hD2 : IsPGroup 2 ↥D := fun g => ⟨1, by
     have h := hsq (g : G) g.2
     simp only [pow_one]
@@ -54,11 +54,11 @@ theorem sec1011_C_invol_unique [Finite G]
   have hD'2 : IsPGroup 2 (D.subgroupOf (centralizer (L : Set G))) :=
     hD2.of_equiv (Subgroup.subgroupOfEquivOfLe hD).symm
   obtain ⟨Q, hQle⟩ := hD'2.exists_le_sylow
-  haveI : IsCyclic ↥(Q : Subgroup ↥(centralizer (L : Set G))) := h102 Q
+  have : IsCyclic ↥(Q : Subgroup ↥(centralizer (L : Set G))) := h102 Q
   have hD'cyc : IsCyclic ↥(D.subgroupOf (centralizer (L : Set G))) :=
     Subgroup.isCyclic_of_le hQle
-  haveI : IsCyclic ↥(D.subgroupOf (centralizer (L : Set G))) := hD'cyc
-  haveI : IsCyclic ↥D := isCyclic_of_surjective
+  have : IsCyclic ↥(D.subgroupOf (centralizer (L : Set G))) := hD'cyc
+  have : IsCyclic ↥D := isCyclic_of_surjective
     (Subgroup.subgroupOfEquivOfLe hD) (Subgroup.subgroupOfEquivOfLe hD).surjective
   have hx2 : orderOf (⟨x, hx⟩ : ↥D) = 2 := by
     rw [orderOf_eq_prime_iff]
@@ -95,7 +95,7 @@ theorem sec1011_proj_unique [Finite G] (hLC : L ⊓ centralizer (L : Set G) = �
   let D : Subgroup G :=
     { carrier := {d | d ∈ centralizer (L : Set G) ∧ ∃ l ∈ L, l * d ∈ B'}
       one_mem' := ⟨(centralizer (L : Set G)).one_mem,
-        ⟨1, L.one_mem, by simpa using B'.one_mem⟩⟩
+        ⟨1, L.one_mem, by simp⟩⟩
       mul_mem' := by
         rintro d1 d2 ⟨hd1C, l1, hl1, hb1⟩ ⟨hd2C, l2, hl2, hb2⟩
         refine ⟨(centralizer (L : Set G)).mul_mem hd1C hd2C, l1 * l2, L.mul_mem hl1 hl2, ?_⟩

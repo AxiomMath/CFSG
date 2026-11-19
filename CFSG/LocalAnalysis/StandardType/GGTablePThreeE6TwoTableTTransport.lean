@@ -51,7 +51,7 @@ private theorem e6tTrans_e6chiZ_one_iff
 private theorem e6tTrans_mem_kernelRoots_iff
     (v : Fin Tag.E6.rank → ZMod 3) (x : Fin Tag.E6.rank → ℤ) :
     x ∈ kernelRoots (e6Chi v) ↔ IsRoot Tag.E6 x ∧ e6tTrans_chiZ v x = 0 := by
-  simp only [kernelRoots, Set.mem_setOf_eq, e6tTrans_e6chiZ]
+  simp only [kernelRoots, Set.mem_ofPred_eq]
   exact and_congr_right fun _ => e6tTrans_e6chiZ_one_iff v x
 
 private theorem e6tTrans_chiZ_add (v : Fin Tag.E6.rank → ZMod 3) (x y : Fin Tag.E6.rank → ℤ) :
@@ -389,7 +389,7 @@ private theorem e6tTrans_twistInner_neg_image
   · rintro ⟨w, hw, hact⟩
     refine ⟨w, hw, fun δ hδ => ?_⟩
     have h := hact (-δ) ⟨δ, hδ, rfl⟩
-    simp only [Pi.neg_apply, neg_neg] at h
+    simp only [neg_neg] at h
     rw [smul_neg] at h
     exact neg_injective h
   · rintro ⟨w, hw, hact⟩
@@ -495,7 +495,7 @@ private theorem e6tTrans_componentOrbitLength_conj
   unfold componentOrbitLength
   congr 1
   ext s
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [e6tTrans_conjPerm_iter_image]
   constructor
   · rintro ⟨hs, he⟩

@@ -13,19 +13,24 @@ open CFSG.ClassicalGroups.Unitary CFSG.LieType.Universal.Unitary CFSG.RankThree.
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F} {b : Fin 3 → Fin 6 → F}
   {K : Type} [Field K]
 
+omit [Finite F] [CharP F 2] in
 theorem e3uVal_injective {e : K ≃+* Fσ σ} : Function.Injective (e3uVal : E3UWspace σ e → Cube F) := by
   intro w w' h
   exact Subtype.ext h
 
+omit [Finite F] [CharP F 2] in
 theorem e3uVal_smul {e : K ≃+* Fσ σ} (c : K) (w : E3UWspace σ e) :
     e3uVal (c • w) = ((e c : Fσ σ) : F) • e3uVal w :=
   rfl
 
+omit [Finite F] [CharP F 2] in
 theorem e3uVal_add {e : K ≃+* Fσ σ} (w w' : E3UWspace σ e) : e3uVal (w + w') = e3uVal w + e3uVal w' :=
   rfl
 
+omit [Finite F] [CharP F 2] in
 theorem e3uVal_P0 {e : K ≃+* Fσ σ} : e3uVal (e3uP0 σ e) = pt0 F := rfl
 
+omit [Finite F] in
 theorem e3u_R1M (hσ : IsUnitaryInvolution σ) (hf : Frame σ e3uT0Vec b) (e₀ e' : K ≃+* Fσ σ) (ψ : K ≃+* K)
     (he' : ∀ t, e' t = e₀ (ψ t)) (t : K) :
     e3uWact σ e' (uK hσ.invol hf (ψ t • n1K σ e₀))
@@ -35,6 +40,7 @@ theorem e3u_R1M (hσ : IsUnitaryInvolution σ) (hf : Frame σ e3uT0Vec b) (e₀ 
   simp only [e3uVal_add, e3uVal_smul, e3uWact_val, e3uVal_P0, he']
   exact rho_uK_sU_pt0 hσ.invol hf e₀ (ψ t)
 
+omit [Finite F] in
 theorem e3u_spanM (hσ : IsUnitaryInvolution σ) (e' : K ≃+* Fσ σ) :
     Submodule.span K (Set.range fun g : SUid σ 6 => e3uWact σ e' g (e3uP0 σ e')) = ⊤ := by
   have key : ∀ x : Wform σ, (x : E3UWspace σ e') ∈
@@ -61,7 +67,7 @@ theorem e3u_spanM (hσ : IsUnitaryInvolution σ) (e' : K ≃+* Fσ σ) :
   exact key w
 
 theorem e3u_finrank (hσ : IsUnitaryInvolution σ) (e' : K ≃+* Fσ σ) : 20 ≤ finrank K (E3UWspace σ e') := by
-  haveI : Module.Finite K (E3UWspace σ e') :=
+  have : Module.Finite K (E3UWspace σ e') :=
     Module.Finite.of_fg_top (by
       rw [← e3u_spanM hσ e']
       exact Submodule.fg_span (Set.finite_range _))

@@ -21,7 +21,7 @@ theorem isSylowTwoOf_inf_of_normal {S X N : Subgroup G} [Finite ↥X]
   let SX : Subgroup ↥X := S.subgroupOf X
   let NX : Subgroup ↥X := N.subgroupOf X
   have hNXn : NX.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNX).mpr hN
-  haveI : NX.Normal := hNXn
+  have : NX.Normal := hNXn
   have hSXle : SX ≤ Subgroup.normalizer (NX : Set ↥X) := by
     rw [Subgroup.normalizer_eq_top_iff.mpr hNXn]
     exact le_top

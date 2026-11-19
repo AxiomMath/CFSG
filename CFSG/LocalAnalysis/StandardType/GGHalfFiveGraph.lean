@@ -14,7 +14,7 @@ private theorem one_add_one_f2 : (1 : F2) + 1 = 0 := CharTwo.add_self_eq_zero 1
 private theorem Q_mul_self : (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) F2) * !![1, 1; 0, 1] = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply, one_add_one_f2]
+    simp [Matrix.mul_apply, Fin.sum_univ_two, one_add_one_f2]
 
 private theorem f2_eq_zero_or_one (z : F2) : z = 0 ∨ z = 1 := by
   have hcard : Nat.card F2 = 2 := by

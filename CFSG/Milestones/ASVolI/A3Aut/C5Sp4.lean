@@ -66,12 +66,12 @@ theorem burnsideAut_c5Sp4_odd_mem [CharP K 2] {α : MulAut (StatedProj (StatedSp
 theorem burnsideAut_a315_Sp4 {G : Type} [Group G] {L T B : Subgroup G}
     (h : CFSG.Quasithin.A315Hyp L T B) {n : ℕ} (hn : 2 ≤ n)
     (hL : CFSG.Quasithin.IsPSp4 2 n ↥L) : ChA.A315Case5Concrete L T B := by
-  haveI := h.sqtk.finite
-  haveI hLn : L.Normal := burnsideA315x_normal h
+  have := h.sqtk.finite
+  have hLn : L.Normal := burnsideA315x_normal h
   have hLie : CFSG.Quasithin.A315.IsLieChar2 n ↥L := Or.inr (Or.inr (Or.inr (Or.inl hL)))
   obtain ⟨-, K, _, _, hK, ⟨e₀⟩⟩ := id hL
-  haveI : CharP K 2 := burnsideA26_charP_two hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := burnsideA26_charP_two hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUsyl := burnsideAut_c5Sp4_isSylow (K := K)
   obtain ⟨e, he⟩ := burnsideAut_exists_equiv_sylow e₀
     (burnsideAut_isSylowTwoOf_subgroupOf h.sylow) hUsyl
@@ -89,7 +89,7 @@ theorem burnsideAut_a315_Sp4 {G : Type} [Group G] {L T B : Subgroup G}
   · exact burnsideAut_map_inn_le_innDiag e
   · rintro _ ⟨σ, rfl⟩ _ ⟨τ, rfl⟩
     rw [← map_mul, ← map_mul, ringAut_mul_comm K σ τ]
-  · haveI := burnsideAut_inn_normal' (StatedProj (StatedSp 2 K))
+  · have := burnsideAut_inn_normal' (StatedProj (StatedSp 2 K))
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   · rintro _ ⟨σ, rfl⟩

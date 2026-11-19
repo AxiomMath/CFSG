@@ -15,6 +15,7 @@ variable {Y : Type} [Group Y] [Finite Y] {Pb : Subgroup Y} {a c y : Y}
 theorem szh1_Q0_le (hY : Sz32Case2Data Pb a c y) : sz32Q0 a c ≤ Pb :=
   sup_le (Subgroup.zpowers_le.mpr hY.pres.a_mem) (Subgroup.zpowers_le.mpr hY.pres.c_mem)
 
+omit [Finite Y] in
 theorem szh1_Z_le_Q0 (a c : Y) : sz32Z a c ≤ sz32Q0 a c := by
   refine sup_le ?_ ?_
   · exact Subgroup.zpowers_le.mpr
@@ -25,10 +26,13 @@ theorem szh1_Z_le_Q0 (a c : Y) : sz32Z a c ≤ sz32Q0 a c := by
 theorem szh1_Z_le (hY : Sz32Case2Data Pb a c y) : sz32Z a c ≤ Pb :=
   (szh1_Z_le_Q0 a c).trans (szh1_Q0_le hY)
 
+omit [Finite Y] in
 theorem szh1_a_mem_Q0 (a c : Y) : a ∈ sz32Q0 a c := Subgroup.mem_sup_left (Subgroup.mem_zpowers a)
 
+omit [Finite Y] in
 theorem szh1_c_mem_Q0 (a c : Y) : c ∈ sz32Q0 a c := Subgroup.mem_sup_right (Subgroup.mem_zpowers c)
 
+omit [Finite Y] in
 theorem szh1_c5_mem_Z (a c : Y) : c ^ 5 ∈ sz32Z a c :=
   Subgroup.mem_sup_right (Subgroup.mem_zpowers (c ^ 5))
 
@@ -53,7 +57,7 @@ theorem szh1_inf_Z_ne_bot (hY : Sz32Case2Data Pb a c y) {N : Subgroup Y} (hN : N
     exact hn1' this
   · have hnc : ¬ ∀ q ∈ Pb, q * n = n * q := fun hc =>
       hnZ ((hY.facts.center n (hN hnN)).mp hc)
-    push_neg at hnc
+    push Not at hnc
     obtain ⟨q, hq, hqn⟩ := hnc
     intro h
     have h1 : q * n * q⁻¹ * n⁻¹ ∈ N ⊓ sz32Z a c :=
@@ -71,7 +75,7 @@ theorem szh1_Z_card (hY : Sz32Case2Data Pb a c y) : Nat.card (sz32Z a c) = 25 :=
 theorem szh1_pow_pElement (hY : Sz32Case2Data Pb a c y) {g : Y} (hg : g ∈ Pb) :
     ∃ k : ℕ, g ^ (5 ^ k) = 1 := by
   obtain ⟨S, hS⟩ := hY.sylow
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨g, by rw [hS]; exact hg⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨g, by rw [hS]; exact hg⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 theorem szh1_Om_comm (hY : Sz32Case2Data Pb a c y) {g h : Y} (hg : g ∈ Pb) (hh : h ∈ Pb)
@@ -85,7 +89,7 @@ theorem szh1_y_ne_one (hY : Sz32Case2Data Pb a c y) : y ≠ 1 := fun h =>
   hY.pres.y_not (h ▸ Subgroup.one_mem _)
 
 theorem szh1_y_order (hY : Sz32Case2Data Pb a c y) : orderOf y = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact orderOf_eq_prime hY.pres.y5 (szh1_y_ne_one hY)
 
 theorem szh1_y_norm_Q0 (hY : Sz32Case2Data Pb a c y) {q : Y} (hq : q ∈ sz32Q0 a c) :

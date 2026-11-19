@@ -15,7 +15,7 @@ theorem sz32_graph_core {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] {T Z H : 
     (ht : t ∈ T) (ht1 : t ≠ 1) (hid : ∀ h ∈ H, h * t * h⁻¹ * t⁻¹ ∈ Z) : T ≤ Z := by
   by_contra hnot
   have hp : p.Prime := Fact.out
-  haveI hTfin : Finite T :=
+  have hTfin : Finite T :=
     Nat.finite_of_card_ne_zero (by rw [hTcard]; exact pow_ne_zero 2 hp.ne_zero)
   have hcomm : ∀ a ∈ T, ∀ b ∈ T, a * b = b * a := by
     intro a ha b hb
@@ -37,7 +37,7 @@ theorem sz32_graph_core {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] {T Z H : 
       A = Subgroup.zpowers s := by
     intro A hAT hAcard s hsA hs1
     have hord : orderOf s = p := orderOf_eq_prime (hTel.2 s (hAT hsA)) hs1
-    haveI : Finite A :=
+    have : Finite A :=
       Finite.of_injective (Subgroup.inclusion hAT) (Subgroup.inclusion_injective hAT)
     refine (Subgroup.eq_of_le_of_card_ge ((Subgroup.zpowers_le).2 hsA) ?_).symm
     rw [Nat.card_zpowers, hord, hAcard]
@@ -58,7 +58,7 @@ theorem sz32_graph_core {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] {T Z H : 
               one_mem' := ?one, mul_mem' := ?mul, inv_mem' := ?inv }, fun s => Iff.rfl⟩
     case one =>
       refine ⟨one_mem T, fun h _ => ?_⟩
-      simpa using one_mem (Z ⊓ T)
+      simp
     case mul =>
       rintro a b ⟨haT, ha⟩ ⟨hbT, hb⟩
       refine ⟨mul_mem haT hbT, fun h hh => ?_⟩
@@ -115,7 +115,7 @@ theorem sz32_graph_core {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] {T Z H : 
     | mem x hx =>
         obtain ⟨h₁, hh₁, rfl⟩ := hx
         exact Subgroup.subset_closure ⟨h * h₁, mul_mem hh hh₁, by group⟩
-    | one => simpa using one_mem _
+    | one => simp
     | mul x y _ _ hx hy =>
         have key : h * (x * y) * h⁻¹ = (h * x * h⁻¹) * (h * y * h⁻¹) := by group
         rw [key]

@@ -91,7 +91,7 @@ theorem no_nonabelian_simple_order_dividing_33792 {S : Type*} [Group S] [Finite 
   have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨P⟩ : Nonempty (Sylow 11 S) := inferInstance
   have hPcard : Nat.card (P : Subgroup S) = 11 := by
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     have hk0 : k ≠ 0 := by
       rintro rfl
       exact P.ne_bot_of_dvd_card h11 (card_eq_one.mp hk)

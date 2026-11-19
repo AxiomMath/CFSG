@@ -128,7 +128,7 @@ theorem exists_matrix_of_invariant [FiniteDimensional K X] {ρX : H →* (X ≃�
     by_cases hk : k = i
     · subst hk
       simp
-    · simp [Pi.single_apply, hk]
+    · simp [hk]
   have hblock : ∀ i j : Fin 2, ∃ c : K, ∀ x x' : X,
       P (Pi.single i x) (Pi.single j x') = c * QuadraticMap.polar q x x' := by
     intro i j
@@ -150,29 +150,29 @@ theorem exists_matrix_of_invariant [FiniteDimensional K X] {ρX : H →* (X ≃�
 
 @[expose] noncomputable def matrixActFin2 (A : Matrix (Fin 2) (Fin 2) K) (hA : IsUnit A.det) :
     (Fin 2 → X) ≃ₗ[K] (Fin 2 → X) :=
-  LinearEquiv.ofLinear
+  LinearEquiv.ofLinearMap
     (LinearMap.pi fun i => ∑ j, A i j • LinearMap.proj j)
     (LinearMap.pi fun i => ∑ j, A⁻¹ i j • LinearMap.proj j)
     (LinearMap.ext fun m => funext fun i => by
       simp only [LinearMap.comp_apply, LinearMap.pi_apply, LinearMap.sum_apply,
-        Finset.sum_apply, LinearMap.smul_apply, LinearMap.proj_apply, Finset.smul_sum, smul_smul,
+        LinearMap.smul_apply, LinearMap.proj_apply, Finset.smul_sum, smul_smul,
         LinearMap.id_apply]
       rw [Finset.sum_comm]
       simp only [← Finset.sum_smul, ← Matrix.mul_apply, Matrix.mul_nonsing_inv A hA,
         Matrix.one_apply, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq, Finset.mem_univ,
-        if_true])
+        ite_true])
     (LinearMap.ext fun m => funext fun i => by
       simp only [LinearMap.comp_apply, LinearMap.pi_apply, LinearMap.sum_apply,
-        Finset.sum_apply, LinearMap.smul_apply, LinearMap.proj_apply, Finset.smul_sum, smul_smul,
+        LinearMap.smul_apply, LinearMap.proj_apply, Finset.smul_sum, smul_smul,
         LinearMap.id_apply]
       rw [Finset.sum_comm]
       simp only [← Finset.sum_smul, ← Matrix.mul_apply, Matrix.nonsing_inv_mul A hA,
         Matrix.one_apply, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq, Finset.mem_univ,
-        if_true])
+        ite_true])
 
 theorem matrixActFin2_apply (A : Matrix (Fin 2) (Fin 2) K) (hA : IsUnit A.det) (m : Fin 2 → X)
     (i : Fin 2) : matrixActFin2 A hA m i = ∑ j, A i j • m j := by
-  simp [matrixActFin2, LinearMap.pi_apply, Finset.sum_apply]
+  simp [matrixActFin2, LinearMap.pi_apply]
 
 theorem five_le_finrank_sup [FiniteDimensional K X] {A B : Submodule K X}
     (hA : finrank K A = 4) (hB : finrank K B = 4) (hodd : Odd (finrank K ↥(A ⊓ B))) :

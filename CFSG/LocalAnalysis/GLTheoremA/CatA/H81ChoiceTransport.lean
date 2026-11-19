@@ -13,6 +13,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 
 variable {H H' : Type} [Group H] [Group H'] [Finite H] [Finite H']
 
+omit [Finite H] [Finite H'] in
 private theorem centralizer_singleton_map (e : H ≃* H') (x : H) :
     Subgroup.centralizer ({e x} : Set H') =
       (Subgroup.centralizer ({x} : Set H)).map e.toMonoidHom := by
@@ -27,12 +28,14 @@ private theorem centralizer_singleton_map (e : H ≃* H') (x : H) :
     have := congrArg e hy
     simpa only [map_mul, MulEquiv.apply_symm_apply] using this
 
+omit [Finite H] [Finite H'] in
 private theorem ker_central (e : H ≃* H') (X : Subgroup H) :
     ∀ y ∈ X ⊓ e.toMonoidHom.ker, ∀ x ∈ X, x * y = y * x := by
   intro y hy x _
   have hy1 : y = 1 := e.injective (by simpa using hy.2)
   rw [hy1, mul_one, one_mul]
 
+omit [Finite H'] [Finite H] in
 private theorem glaPPrimeCoreOf_map_mulEquiv (p : ℕ) (e : H ≃* H') (M : Subgroup H) :
     GLAPPrimeCoreOf p (M.map e.toMonoidHom) = (GLAPPrimeCoreOf p M).map e.toMonoidHom :=
   CFSG.LocalAnalysis.GLTheoremA.T123C.glaPPrimeCoreOf_map e.injective p M
@@ -90,10 +93,12 @@ private noncomputable def pQuotMapEquiv (p : ℕ) (e : H ≃* H') (J : Subgroup 
   QuotientGroup.congr _ _ (Subgroup.equivMapOfInjective J e.toMonoidHom e.injective).symm
     (CFSG.LocalAnalysis.GLTheoremA.T123C.map_glaPPrimeCore_equiv p _)
 
+omit [Finite H] [Finite H'] in
 theorem isSL3Type_map_mulEquiv {p q : ℕ} (e : H ≃* H') {J : Subgroup H} (h : IsSL3Type p q J) :
     IsSL3Type p q (J.map e.toMonoidHom) :=
   isSL3Type_of_mulEquiv (pQuotMapEquiv p e J) h
 
+omit [Finite H] [Finite H'] in
 theorem isOmegaType_map_mulEquiv {p q : ℕ} (e : H ≃* H') {J : Subgroup H}
     (h : IsOmegaType p q J) : IsOmegaType p q (J.map e.toMonoidHom) :=
   isOmegaType_of_mulEquiv (pQuotMapEquiv p e J) h

@@ -154,7 +154,7 @@ theorem lin_s39a1_sylowE₅ (hl : d.LinCtx) :
       exact hcS
     rw [hc1, one_mul]
     exact hn.2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := (hX2.comap_subtype (K := d.M₅)).exists_le_sylow
   have hQS : IsSylowOf 2 ((Q : Subgroup d.M₅).map d.M₅.subtype) d.M₅ := ⟨Q, rfl⟩
   have hXQ : d.E ⊓ centralizer (d.I₅ : Set G) ≤ (Q : Subgroup d.M₅).map d.M₅.subtype :=

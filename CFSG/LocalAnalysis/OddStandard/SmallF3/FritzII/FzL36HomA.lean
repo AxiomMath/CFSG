@@ -115,7 +115,7 @@ private theorem fzl_ofAdd_ne_one : (Multiplicative.ofAdd (1 : ZMod 2)) ≠ 1 := 
 
 @[simp] theorem fzl_lamHom_gen (lam : G) (h : lam ^ 2 = 1) :
     fzl_lamHom lam h (Multiplicative.ofAdd 1) = lam := by
-  simp [fzl_lamHom, fzl_ofAdd_ne_one]
+  simp [fzl_lamHom]
 
 private theorem fzl_lam_conj₁ (hsh : FzSpShape t x₁ x₂ lam T₂ a₁₂ a₂₂ a₃₂) (q : Q8) :
     lam * q8Hom hsh.quat₁ q * lam⁻¹ = q8Hom hsh.quat₂ q := by
@@ -185,10 +185,10 @@ private theorem fzl_coherence (hsh : FzSpShape t x₁ x₂ lam T₂ a₁₂ a₂
   ext n
   obtain ⟨a, b, c⟩ := n
   rcases fzl_forall_eq e with rfl | rfl
-  · simp [fzl_lamHom_one, act, MulAut.conj_apply]
+  · simp [fzl_lamHom_one, act]
   · have hact : (MulEquiv.toMonoidHom (act (Multiplicative.ofAdd 1))) (a, b, c)
         = (b, a, c) := by
-      simp [act, fzl_ofAdd_ne_one, swapAut]
+      simp [act, swapAut]
     simp only [MonoidHom.comp_apply, fzl_lamHom_gen, hact, fzl_fn_apply,
       MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     exact (fzl_lam_conj_triple hsh a b c).symm

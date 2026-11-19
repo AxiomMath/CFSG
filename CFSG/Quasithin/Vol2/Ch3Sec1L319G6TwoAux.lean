@@ -31,7 +31,7 @@ theorem card_autOn_zpowers_three {G : Type} [Group G] {V : Subgroup G} {y : G}
     (hyN : y ∈ Subgroup.normalizer (V : Set G)) (hy3 : y ^ 3 ∈ Subgroup.centralizer (V : Set G))
     (hy1 : y ∉ Subgroup.centralizer (V : Set G)) :
     Nat.card (autOn (Subgroup.zpowers y) V) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ : ∃ g : ↥(Subgroup.normalizer (V : Set G)), (g : G) = y := ⟨⟨y, hyN⟩, rfl⟩
   have hK : (Subgroup.zpowers y).subgroupOf (Subgroup.normalizer (V : Set G)) =
       Subgroup.zpowers g := by

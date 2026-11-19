@@ -30,7 +30,7 @@ theorem UnitaryHeisenberg.exists_abelian_normalized_pGroup [Finite Y] {C N : Sub
   obtain ⟨R, hR⟩ := CFSG.exists_invariant_sylow_of_solvable_operator_coprime (G := N) (A := C)
     hCcop (p := ℓ)
   set R₁ : Subgroup Y := (R : Subgroup N).map N.subtype with hR₁
-  have hR₁p : IsPGroup ℓ R₁ := R.isPGroup'.map N.subtype
+  have hR₁p : IsPGroup ℓ R₁ := R.isPGroup.map N.subtype
   have hR₁ne : R₁ ≠ ⊥ := by
     intro h
     have h1 : Nat.card R₁ = 1 := Subgroup.card_eq_one.mpr h

@@ -62,7 +62,7 @@ theorem D1PhaseThree.false_of_threeASix_mem (h : D1PhaseThree 3 P M H R)
       mk ⟨g, hgM⟩ ∈ Subgroup.normalizer (A₀ : Set (↥M ⧸ CFSG.pCore 2 ↥M)) := by
     intro g hgP hgM
     have hg3 : IsPGroup 3 (Subgroup.zpowers g) :=
-      P.isPGroup'.to_le ((Subgroup.zpowers_le).mpr hgP)
+      P.isPGroup.to_le ((Subgroup.zpowers_le).mpr hgP)
     exact mem_normalizer_barM hgM (D1PhaseThree.mem_normalizer_of_threeASix h hThree hcyc hzM
       hz3 hCz hin hrk hL hZ hA6 hgM hg3)
   obtain ⟨E, hEP, hEe, hEc⟩ := CFSG.SectionRank.exists_pRank (by norm_num : 1 < 3)

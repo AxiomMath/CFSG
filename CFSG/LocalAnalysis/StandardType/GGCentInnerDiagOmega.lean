@@ -51,6 +51,7 @@ private theorem even_card_of_polarBilin_nondegenerate (Φ : QuadraticForm K (ι 
   Module.finrank_fintype_fun_eq_card (R := K) (η := ι) ▸
     CFSG.ComponentClassification.UnbalancedCatalog.even_finrank_of_charTwo Φ hΦ
 
+omit [Finite K] in
 theorem not_isComponentOf_statedOmega_of_card_le_three (Φ : QuadraticForm K (ι → K))
     (hΦ : (QuadraticMap.polarBilin Φ).Nondegenerate) (h3 : Fintype.card ι ≤ 3)
     (C : Subgroup (GL ι K)) : ¬ IsComponentOf C (StatedOmega ⇑Φ) := by
@@ -166,12 +167,12 @@ theorem largeEvenMarking_omegaPlus_inn
   have hraw : LargeEvenRawDatum (⟨.D, m, f⟩ : LargeEvenLabel) (fun R _ I _ =>
       Nonempty (X ⧸ Subgroup.center X ≃* R) ∧ I = LargeEvenInnSet R) := by
     rw [LargeEvenRawDatum]
-    simp only [if_neg (by omega : m ≠ 3)]
+    simp only [ite_eq_right (by omega : m ≠ 3)]
     obtain ⟨K, hF, hfin, hK, hQ⟩ := recipeOmegaPlus_of_statedClassicalModel hM
     exact ⟨K, hF, hfin, hK, ⟨hQ, rfl⟩⟩
   refine largeEvenRawDatum_mono (fun R _ I F hRI => ?_) hraw
   obtain ⟨⟨e⟩, hI⟩ := hRI
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
   refine ⟨e.symm.isSimpleGroup, ?_, e, hChev, hI⟩
   obtain ⟨a, b, hab⟩ := exists_mul_ne_mul_centerQuot_of_perfect hX.1 inferInstance
   exact ⟨e a, e b, fun h => hab (e.injective (by simpa using h))⟩
@@ -233,12 +234,12 @@ theorem largeEvenMarking_omegaMinus_inn
   have hraw : LargeEvenRawDatum (⟨.twD, m, f⟩ : LargeEvenLabel) (fun R _ I _ =>
       Nonempty (X ⧸ Subgroup.center X ≃* R) ∧ I = LargeEvenInnSet R) := by
     rw [LargeEvenRawDatum]
-    simp only [if_neg (by omega : m ≠ 2), if_neg (by omega : m ≠ 3)]
+    simp only [ite_eq_right (by omega : m ≠ 2), ite_eq_right (by omega : m ≠ 3)]
     obtain ⟨K, hF, hfin, hK, b, c, hirr, hQ⟩ := recipeOmegaMinus_of_statedClassicalModel hM
     exact ⟨K, hF, hfin, hK, b, c, hirr, ⟨hQ, rfl⟩⟩
   refine largeEvenRawDatum_mono (fun R _ I F hRI => ?_) hraw
   obtain ⟨⟨e⟩, hI⟩ := hRI
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
   refine ⟨e.symm.isSimpleGroup, ?_, e, hChev, hI⟩
   obtain ⟨a, b, hab⟩ := exists_mul_ne_mul_centerQuot_of_perfect hX.1 inferInstance
   exact ⟨e a, e b, fun h => hab (e.injective (by simpa using h))⟩
@@ -276,7 +277,7 @@ theorem largeEvenMarking_D3_inn {X : Type} [Group X]
     · exact innSet_subset_matConjImage (LargeEvenSLGroup (Fin 4) K) Set.univ (fun _ _ => Set.mem_univ _)
   refine largeEvenRawDatum_mono (fun R _ I F hRI => ?_) hraw
   obtain ⟨⟨e⟩, hI⟩ := hRI
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
   refine ⟨e.symm.isSimpleGroup, ?_, e, hChev, hI⟩
   obtain ⟨a, b, hab⟩ := exists_mul_ne_mul_centerQuot_of_perfect hX.1 inferInstance
   exact ⟨e a, e b, fun h => hab (e.injective (by simpa using h))⟩
@@ -320,7 +321,7 @@ theorem largeEvenMarking_A1_inn {X : Type} [Group X]
     · exact innSet_subset_matConjImage (LargeEvenSLGroup (Fin 2) K) Set.univ (fun _ _ => Set.mem_univ _)
   refine largeEvenRawDatum_mono (fun R _ I F hRI => ?_) hraw
   obtain ⟨⟨e⟩, hI⟩ := hRI
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
   refine ⟨e.symm.isSimpleGroup, ?_, e, hChev, hI⟩
   obtain ⟨a, b, hab⟩ := exists_mul_ne_mul_centerQuot_of_perfect hX.1 inferInstance
   exact ⟨e a, e b, fun h => hab (e.injective (by simpa using h))⟩
@@ -357,7 +358,7 @@ theorem exists_largeEvenMarking_fixedFactor_left_not_mem_inner
             (fun j k : ↥(fixedFactorImage hx (splitFourFactors M.e 0)) => k = f' j) φ) := by
   let C := ↥(fixedFactorImage hx (splitFourFactors M.e 0))
   let : Fintype K := Fintype.ofFinite K
-  haveI : Fintype V := by
+  have : Fintype V := by
     classical
     let b := Module.finBasis K V
     exact Fintype.ofEquiv (Fin (Module.finrank K V) → K) b.equivFun.symm
@@ -465,7 +466,7 @@ theorem exists_largeEvenMarking_fixedFactor_right_not_mem_inner
             (fun j k : ↥(fixedFactorImage hx (splitFourFactors M.e 1)) => k = f' j) φ) := by
   let C := ↥(fixedFactorImage hx (splitFourFactors M.e 1))
   let : Fintype K := Fintype.ofFinite K
-  haveI : Fintype V := by
+  have : Fintype V := by
     classical
     let b := Module.finBasis K V
     exact Fintype.ofEquiv (Fin (Module.finrank K V) → K) b.equivFun.symm
@@ -585,7 +586,7 @@ theorem largeEvenMarking_twD2_inn {X : Type} [Group X]
     · exact innSet_subset_matConjImage (LargeEvenSLGroup (Fin 2) K) Set.univ (fun _ _ => Set.mem_univ _)
   refine largeEvenRawDatum_mono (fun R _ I F hRI => ?_) hraw
   obtain ⟨⟨e⟩, hI⟩ := hRI
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
   refine ⟨e.symm.isSimpleGroup, ?_, e, hChev, hI⟩
   obtain ⟨a, b, hab⟩ := exists_mul_ne_mul_centerQuot_of_perfect hX.1 inferInstance
   exact ⟨e a, e b, fun h => hab (e.injective (by simpa using h))⟩
@@ -653,11 +654,11 @@ theorem kgFieldRestriction_statedOmegaFourComponent_of_semilinearPair
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ e := Nat.pow_le_pow_right (by norm_num) he2
-  haveI : Nontrivial V := inferInstance
+  have : Nontrivial V := inferInstance
   have hx1 : OddOrderIsometry Q 1 (1 : V ≃ₗ[K] V) :=
     { mem := one_mem _
       pow_eq_one := one_pow 1
-      cast_ne_zero := by simpa using (one_ne_zero : (1 : K) ≠ 0)
+      cast_ne_zero := by simp
       regular := fun v hv => hQ.1 v (by
         simpa only [QuadraticMap.polarBilin_apply_apply] using hv) }
   have hfix : fixedSpace (1 : V ≃ₗ[K] V) = ⊤ := by

@@ -18,7 +18,7 @@ variable {W : Type} [CommGroup W]
 
 private theorem s16h_nontrivial_of_isQuasisimple {X : Type} [Group X]
     (h : CFSG.Open.IsQuasisimple X) : Nontrivial X := by
-  haveI : Nontrivial (X ⧸ Subgroup.center X) := h.2.toNontrivial
+  have : Nontrivial (X ⧸ Subgroup.center X) := h.2.toNontrivial
   exact (QuotientGroup.mk'_surjective (Subgroup.center X)).nontrivial
 
 private theorem s16h_isSolvable_of_mulEquiv {G H : Type} [Group G] [Group H] (e : G ≃* H)
@@ -73,13 +73,13 @@ private theorem s16h_oddRankTwo_statedSp {m : ℕ} (hm : 2 ≤ m) {K : Type} [Fi
 
 private theorem s16h_subsingleton_statedSp_zero (K : Type) [Field K] :
     Subsingleton ↥(StatedSp 0 K) := by
-  haveI : IsEmpty (Fin 0 ⊕ Fin 0) := inferInstance
-  haveI : Subsingleton (GL (Fin 0 ⊕ Fin 0) K) := inferInstance
+  have : IsEmpty (Fin 0 ⊕ Fin 0) := inferInstance
+  have : Subsingleton (GL (Fin 0 ⊕ Fin 0) K) := inferInstance
   exact ⟨fun a b => Subtype.ext (Subsingleton.elim (a : GL (Fin 0 ⊕ Fin 0) K) b)⟩
 
 private theorem s16h_subsingleton_statedSL_le_one {n : ℕ} (hn : n ≤ 1) (K : Type) [Field K] :
     Subsingleton ↥(StatedSL n K) := by
-  haveI : Subsingleton (Fin n) := ⟨fun a b => Fin.ext (by have := a.isLt; have := b.isLt; omega)⟩
+  have : Subsingleton (Fin n) := ⟨fun a b => Fin.ext (by have := a.isLt; have := b.isLt; omega)⟩
   rw [CFSG.Open.StatedAPI.statedSL_eq_range_toGL]
   refine ⟨fun a b => ?_⟩
   obtain ⟨x, hx⟩ := MonoidHom.mem_range.mp a.2
@@ -88,17 +88,17 @@ private theorem s16h_subsingleton_statedSL_le_one {n : ℕ} (hn : n ≤ 1) (K : 
 
 private theorem s16h_isSolvable_GL_two_of_card_two {K : Type} [Field K] (hK : Nat.card K = 2) :
     Group.IsSolvable (GL (Fin 2) K) := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  letI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  let : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   obtain ⟨e⟩ := TauCeti.nonempty_mulEquiv_permFinThree hcard
-  haveI : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
+  have : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
   exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 private theorem s16h_isSolvable_statedSp_one_of_card_two {K : Type} [Field K]
     (hK : Nat.card K = 2) : Group.IsSolvable ↥(StatedSp 1 K) := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Group.IsSolvable (GL (Fin 2) K) := s16h_isSolvable_GL_two_of_card_two hK
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Group.IsSolvable (GL (Fin 2) K) := s16h_isSolvable_GL_two_of_card_two hK
   have htop : (SpecialLinearGroup.toGL :
       Matrix.SpecialLinearGroup (Fin 2) K →* GL (Fin 2) K).range = ⊤ := by
     rw [← CFSG.Open.StatedAPI.statedSL_eq_range_toGL,
@@ -108,7 +108,7 @@ private theorem s16h_isSolvable_statedSp_one_of_card_two {K : Type} [Field K]
     MonoidHom.range_eq_top.mp htop
   let e1 : Matrix.SpecialLinearGroup (Fin 2) K ≃* GL (Fin 2) K :=
     MulEquiv.ofBijective _ ⟨SpecialLinearGroup.toGL_injective, hsurj⟩
-  haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) :=
+  have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) :=
     Group.isSolvable_of_surjective (f := e1.symm.toMonoidHom) e1.symm.surjective
   exact Group.isSolvable_of_surjective
     (f := (CFSG.ClassicalInvolution.Models.SymplecticPairs.longBlockEquivOne K).toMonoidHom)
@@ -129,7 +129,7 @@ theorem s16h_H5_oddRankTwo_statedSL_three {a : ℕ} (ha : 2 ≤ a) {K : Type} [F
     intro h2
     rw [h2] at hqdvd
     exact (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr hqdvd)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) q
     (by rw [Nat.card_units, hK]; exact hqdvd)
   have hω1 : ω ≠ 1 := by
@@ -180,11 +180,11 @@ theorem s16h_H5_oddRankTwo_statedSL_three {a : ℕ} (ha : 2 ≤ a) {K : Type} [F
 theorem s16h_H5_not_quasisimple_of_isSLn_small [Finite W] {A L : Subgroup (MulAut W)}
     {t : MulAut W} (hc : s16h_H5Cfg A L t) {n a : ℕ} (hn : n ≤ 1) (h : IsSLn ↥L n a) : False := by
   obtain ⟨K, hF, hFin, -, ⟨e⟩⟩ := h
-  letI := hF
-  letI := hFin
-  haveI hN : Nontrivial ↥L := s16h_nontrivial_of_isQuasisimple hc.comp.2.2
-  haveI : Subsingleton ↥(StatedSL n K) := s16h_subsingleton_statedSL_le_one hn K
-  haveI : Subsingleton ↥L :=
+  let := hF
+  let := hFin
+  have hN : Nontrivial ↥L := s16h_nontrivial_of_isQuasisimple hc.comp.2.2
+  have : Subsingleton ↥(StatedSL n K) := s16h_subsingleton_statedSL_le_one hn K
+  have : Subsingleton ↥L :=
     ⟨fun a b => e.injective (Subsingleton.elim (e a) (e b))⟩
   obtain ⟨a, b, hab⟩ := hN
   exact hab (Subsingleton.elim a b)
@@ -192,34 +192,34 @@ theorem s16h_H5_not_quasisimple_of_isSLn_small [Finite W] {A L : Subgroup (MulAu
 theorem s16h_H5_not_quasisimple_of_isSLn_two_one [Finite W] {A L : Subgroup (MulAut W)}
     {t : MulAut W} (hc : s16h_H5Cfg A L t) (h : IsSLn ↥L 2 1) : False := by
   obtain ⟨K, hF, hFin, hKcard, ⟨e⟩⟩ := h
-  letI := hF
-  letI := hFin
+  let := hF
+  let := hFin
   have hK : Nat.card K = 2 := by rw [hKcard]; norm_num
-  haveI hN : Nontrivial ↥L := s16h_nontrivial_of_isQuasisimple hc.comp.2.2
-  haveI : Group.IsPerfect ↥L := ⟨hc.comp.2.2.1⟩
-  haveI : Group.IsSolvable (GL (Fin 2) K) := s16h_isSolvable_GL_two_of_card_two hK
+  have hN : Nontrivial ↥L := s16h_nontrivial_of_isQuasisimple hc.comp.2.2
+  have : Group.IsPerfect ↥L := ⟨hc.comp.2.2.1⟩
+  have : Group.IsSolvable (GL (Fin 2) K) := s16h_isSolvable_GL_two_of_card_two hK
   have htop : StatedSL 2 K = ⊤ := CFSG.Open.StatedAPI.statedSL_eq_top_of_card_two hK 2
   let e2 : ↥(StatedSL 2 K) ≃* GL (Fin 2) K :=
     (MulEquiv.subgroupCongr htop).trans Subgroup.topEquiv
-  haveI : Group.IsSolvable ↥(StatedSL 2 K) :=
+  have : Group.IsSolvable ↥(StatedSL 2 K) :=
     Group.isSolvable_of_surjective (f := e2.symm.toMonoidHom) e2.symm.surjective
-  haveI : Group.IsSolvable ↥L := s16h_isSolvable_of_mulEquiv e
+  have : Group.IsSolvable ↥L := s16h_isSolvable_of_mulEquiv e
   exact (Group.IsPerfect.not_isSolvable ↥L) inferInstance
 
 theorem s16h_H5_isSpn_class [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W}
     (hc : s16h_H5Cfg A L t) {n a : ℕ} (ha : a ≤ 3) (h : IsSpn ↥L n a) :
     (n = 2 ∧ a = 2) ∨ (n = 2 ∧ a = 3) := by
   obtain ⟨hEven, K, hF, hFin, hKcard, ⟨e⟩⟩ := h
-  letI := hF
-  letI := hFin
+  let := hF
+  let := hFin
   rcases Nat.lt_or_ge n 4 with hn | hn
   · have hn' : n = 0 ∨ n = 2 := by
       obtain ⟨k, hk⟩ := hEven
       omega
     rcases hn' with rfl | rfl
-    · haveI hN : Nontrivial ↥L := s16h_nontrivial_of_isQuasisimple hc.comp.2.2
-      haveI : Subsingleton ↥(StatedSp (0 / 2) K) := s16h_subsingleton_statedSp_zero K
-      haveI : Subsingleton ↥L :=
+    · have hN : Nontrivial ↥L := s16h_nontrivial_of_isQuasisimple hc.comp.2.2
+      have : Subsingleton ↥(StatedSp (0 / 2) K) := s16h_subsingleton_statedSp_zero K
+      have : Subsingleton ↥L :=
         ⟨fun a b => e.injective (Subsingleton.elim (e a) (e b))⟩
       obtain ⟨a, b, hab⟩ := hN
       exact (hab (Subsingleton.elim a b)).elim
@@ -230,11 +230,11 @@ theorem s16h_H5_isSpn_class [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W
         rw [hKcard] at h1
         norm_num at h1
       · exfalso
-        haveI hN : Nontrivial ↥L := s16h_nontrivial_of_isQuasisimple hc.comp.2.2
-        haveI : Group.IsPerfect ↥L := ⟨hc.comp.2.2.1⟩
-        haveI : Group.IsSolvable ↥(StatedSp (2 / 2) K) :=
+        have hN : Nontrivial ↥L := s16h_nontrivial_of_isQuasisimple hc.comp.2.2
+        have : Group.IsPerfect ↥L := ⟨hc.comp.2.2.1⟩
+        have : Group.IsSolvable ↥(StatedSp (2 / 2) K) :=
           s16h_isSolvable_statedSp_one_of_card_two (by rw [hKcard]; norm_num)
-        haveI : Group.IsSolvable ↥L := s16h_isSolvable_of_mulEquiv e
+        have : Group.IsSolvable ↥L := s16h_isSolvable_of_mulEquiv e
         exact (Group.IsPerfect.not_isSolvable ↥L) inferInstance
       · exact Or.inl ⟨rfl, rfl⟩
       · exact Or.inr ⟨rfl, rfl⟩
@@ -246,11 +246,11 @@ theorem s16h_H5_not_quasisimple_of_isAlt_le_four [Finite W] {A L : Subgroup (Mul
     {t : MulAut W} (hc : s16h_H5Cfg A L t) {n : ℕ} (h : UC22.IsAlt ↥L n) (hn : n ≤ 4) :
     False := by
   obtain ⟨e⟩ := h
-  haveI hN : Nontrivial ↥L := s16h_nontrivial_of_isQuasisimple hc.comp.2.2
-  haveI : Group.IsPerfect ↥L := ⟨hc.comp.2.2.1⟩
-  haveI : Group.IsSolvable (alternatingGroup (Fin n)) :=
+  have hN : Nontrivial ↥L := s16h_nontrivial_of_isQuasisimple hc.comp.2.2
+  have : Group.IsPerfect ↥L := ⟨hc.comp.2.2.1⟩
+  have : Group.IsSolvable (alternatingGroup (Fin n)) :=
     alternatingGroup.isSolvable (by rwa [Nat.card_fin])
-  haveI : Group.IsSolvable ↥L := s16h_isSolvable_of_mulEquiv e
+  have : Group.IsSolvable ↥L := s16h_isSolvable_of_mulEquiv e
   exact (Group.IsPerfect.not_isSolvable ↥L) inferInstance
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

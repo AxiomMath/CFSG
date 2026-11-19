@@ -214,8 +214,8 @@ theorem excKac_of_checks {τ : Tag}
     (hQ3 : (τ = Tag.E6 ∨ τ = Tag.E7) → BoxAll K.θ bnd fun μ => Q3 K.θ μ E) :
     ExcKac τ := by
   intro L _ _ h3 a ha _
-  haveI : NeZero ((3 : ℕ) : L) := ⟨by simpa using h3⟩
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  have : NeZero ((3 : ℕ) : L) := ⟨by simpa using h3⟩
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   obtain ⟨ζ, hζ⟩ := hζ0.isUnit (by norm_num)
   have hζ' : IsPrimitiveRoot (ζ : L) 3 := hζ ▸ hζ0
   obtain ⟨v, μ, hμ, hcls⟩ := K.exists_smul_rootsOf hK (N := 3) (by norm_num) hζ' a ha

@@ -32,7 +32,7 @@ private theorem psp_card_ne_sixty {E : Type} [Field E] [Finite E] {m : ℕ} (hm 
   have hq : 2 ≤ Nat.card E := Nat.succ_le_of_lt Finite.one_lt_card
   have hlt := lt_order_sp (Nat.card E) m hq hm hne
   by_cases h2 : ringChar E = 2
-  · haveI : CharP E 2 := h2 ▸ ringChar.charP E
+  · have : CharP E 2 := h2 ▸ ringChar.charP E
     have := CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedSp_of_charTwo (K := E) m
     omega
   · have := CFSG.ClassicalInvolution.card_statedProj_statedSp_of_two_ne_zero (K := E) (n := m)
@@ -51,7 +51,7 @@ private theorem paired_a5 {G : Type*} [Group G] {E : Type} [Field E] [Fintype E]
     omega
   have hm : 2 ≤ m := by
     by_contra hlt
-    haveI := isSolvable_gl_of_le_one (E := E) (Nat.lt_succ_iff.1 (not_le.1 hlt))
+    have := isSolvable_gl_of_le_one (E := E) (Nat.lt_succ_iff.1 (not_le.1 hlt))
     exact not_isSolvable_of_isQuasisimple_commutator hQ
       (Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective)
   have hperf : commutator (Matrix.SpecialLinearGroup (Fin m) E) = ⊤ := by
@@ -89,15 +89,15 @@ private theorem fixed_a5 {G : Type*} [Group G] {F : Type} [Field F] [Fintype F] 
   rcases Nat.lt_or_ge s 2 with hs | hs
   · interval_cases s
     · exfalso
-      haveI : Subsingleton (StatedSp 0 F) := inferInstance
-      haveI : Subsingleton A := φ.toEquiv.subsingleton
+      have : Subsingleton (StatedSp 0 F) := inferInstance
+      have : Subsingleton A := φ.toEquiv.subsingleton
       have hsub : Subsingleton ↥⁅A, A⁆ := ⟨fun x y => Subtype.ext (by
         have hx : (x : G) ∈ A := commutator_le_self' A x.2
         have hy : (y : G) ∈ A := commutator_le_self' A y.2
         have hxy : (⟨x, hx⟩ : A) = ⟨y, hy⟩ := Subsingleton.elim _ _
         exact congrArg (Subtype.val : A → G) hxy)⟩
       have : Nat.card (↥⁅A, A⁆ ⧸ Subgroup.center ↥⁅A, A⁆) = 1 := by
-        haveI : Subsingleton (↥⁅A, A⁆ ⧸ Subgroup.center ↥⁅A, A⁆) := by
+        have : Subsingleton (↥⁅A, A⁆ ⧸ Subgroup.center ↥⁅A, A⁆) := by
           refine ⟨fun a b => ?_⟩
           obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
           obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -123,8 +123,8 @@ private theorem fixed_a5 {G : Type*} [Group G] {F : Type} [Field F] [Fintype F] 
       have hk : Nat.card F = 2 := by rwa [Nat.card_eq_fintype_card]
       obtain ⟨e⟩ := derived_equiv φ (commutator (StatedSp 2 F)).subtype Subtype.val_injective
         (Subgroup.range_subtype _)
-      haveI : IsSimpleGroup ↥(commutator sympFour) := isSimpleGroup_commutator_sympFour
-      haveI : Group.IsPerfect ↥(commutator sympFour) := isPerfect_commutator_sympFour
+      have : IsSimpleGroup ↥(commutator sympFour) := isSimpleGroup_commutator_sympFour
+      have : Group.IsPerfect ↥(commutator sympFour) := isPerfect_commutator_sympFour
       have hcen : Subgroup.center ↥(commutator sympFour) = ⊥ := by
         rcases (inferInstance : (Subgroup.center ↥(commutator sympFour)).Normal).eq_bot_or_eq_top
           with h | h
@@ -176,22 +176,22 @@ private theorem selfdual_a5 {ℓ g : ℕ} {E : Type} [Field E] (hE : UnitaryFiel
   have hfin : Module.finrank E V = m := by rw [Module.finrank_eq_card_basis b, Fintype.card_fin]
   have hsolv : ¬ (Module.finrank E V ≤ 1 ∨ ¬ ((Module.finrank E V = 2 → 4 ≤ ℓ ^ g) ∧
       (Module.finrank E V = 3 → 3 ≤ ℓ ^ g))) := fun h => by
-    haveI := isSolvable_sesqUnitaryGroup_of_small hE hHf hHfl h
+    have := isSolvable_sesqUnitaryGroup_of_small hE hHf hHfl h
     exact not_isSolvable_of_isQuasisimple_commutator hQ
       (Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective)
   rw [hfin] at hsolv
   push Not at hsolv
   obtain ⟨hm, hq2, hq3⟩ := hsolv
-  haveI := hE.finite
-  haveI := Fintype.ofFinite E
-  haveI : Fact ℓ.Prime := ⟨hE.prime⟩
-  haveI : CharP E ℓ := hE.charP
+  have := hE.finite
+  have := Fintype.ofFinite E
+  have : Fact ℓ.Prime := ⟨hE.prime⟩
+  have : CharP E ℓ := hE.charP
   have hEcard : Nat.card E = (ℓ ^ g) ^ 2 := hE.card_eq_sq
   rcases Nat.lt_or_ge m 3 with hm3 | hm3
   · obtain rfl : m = 2 := by omega
     obtain ⟨e⟩ := nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hfin
-    haveI : Finite ↥hE.fixedField := inferInstance
-    haveI : Fintype ↥hE.fixedField := Fintype.ofFinite _
+    have : Finite ↥hE.fixedField := inferInstance
+    have : Fintype ↥hE.fixedField := Fintype.ofFinite _
     have hFcard : Nat.card ↥hE.fixedField = ℓ ^ g := hE.card_fixedField
     have hperf := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card ↥hE.fixedField
       (by rw [hFcard]; exact hq2 rfl)
@@ -253,7 +253,7 @@ private theorem sp_orbit_a5 [Finite F] {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ5 :
       ∃ d : ℕ, (h : F[X]).natDegree = 2 * d ∧ (ℓ ^ f) ^ d = 4 ∧
         primaryMultiplicity (spEnd x) (h : F[X]) = 2) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   by_cases hself : reciprocalPolynomial (h : F[X]) = h
   · have hO : ({(h : F[X]), reciprocalPolynomial (h : F[X])} : Set F[X]) = {(h : F[X])} := by
       rw [hself, Set.pair_eq_singleton]
@@ -284,8 +284,8 @@ private theorem sp_orbit_a5 [Finite F] {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ5 :
   · exfalso
     have hP := blocks.paired h (fun e => hself e.symm)
     obtain ⟨φ⟩ := hP.matrixFactor
-    haveI : Finite (AdjoinRoot (h : F[X])) := Module.finite_of_finite F
-    haveI := Fintype.ofFinite (AdjoinRoot (h : F[X]))
+    have : Finite (AdjoinRoot (h : F[X])) := Module.finite_of_finite F
+    have := Fintype.ofFinite (AdjoinRoot (h : F[X]))
     have hdvd : 5 ∣ Fintype.card (AdjoinRoot (h : F[X])) - 1 := by
       rw [Fintype.card_eq_nat_card, hP.card_field]
       exact hP.dvd
@@ -457,13 +457,13 @@ theorem i1434Cl_PSp {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
   classical
   obtain ⟨⟨hℓp, hf, hn2, hnq⟩, F, _, _, hF, ⟨eT⟩⟩ := hm
   have hq2 : 2 ≤ ℓ ^ f := hℓp.two_le.trans (Nat.le_self_pow (by omega) ℓ)
-  haveI : Fact ℓ.Prime := ⟨hℓp⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact ℓ.Prime := ⟨hℓp⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hFfin : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; exact pow_ne_zero _ hℓp.ne_zero)
-  haveI := hFfin
-  haveI : Fintype F := Fintype.ofFinite F
+  have := hFfin
+  have : Fintype F := Fintype.ofFinite F
   have hcardF : Fintype.card F = ℓ ^ f := by rw [Fintype.card_eq_nat_card, hF]
-  haveI : CharP F ℓ := charP_of_card_eq_prime_pow (f := f) hcardF
+  have : CharP F ℓ := charP_of_card_eq_prime_pow (f := f) hcardF
   have hpℓ : 5 ≠ ℓ := Ne.symm hℓ
   have hr : 1 ≤ n := by omega
   have hx1 := D.ne_one
@@ -494,7 +494,7 @@ theorem i1434Cl_PSp {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
   have hZc : (SymplecticFlag.proj n F).ker ≤ Subgroup.center (StatedSp n F) := by
     rw [SymplecticHigher.ker_proj]
     exact SymplecticHigher.spScalars_le_center
-  haveI : Finite (reciprocalOrbits (spEnd A)) :=
+  have : Finite (reciprocalOrbits (spEnd A)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   have hcomp := components_conj_of_orbit_family (SymplecticFlag.proj n F)
@@ -561,7 +561,7 @@ theorem i1434Cl_PSp {K : Type} [Group K] [Finite K] {n ℓ f : ℕ}
   · have h1 : spEnd A - 1 = Matrix.toLin' (((A : GL (Fin 3 ⊕ Fin 3) F) :
         Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F) - 1) := by
       ext v i
-      simp [spEnd_apply, Matrix.sub_mulVec]
+      simp [spEnd_apply]
     rw [← h1, ← blocks.fixed_eq]
     exact hfin2
 

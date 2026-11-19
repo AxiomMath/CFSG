@@ -18,8 +18,8 @@ private theorem fi24QR_center :
     timmesfeldIsExtraspecial ↥(fi24QC.map fi24CR) ∧
       (Subgroup.center ↥(fi24QC.map fi24CR)).map (fi24QC.map fi24CR).subtype =
         Subgroup.zpowers zR := by
-  haveI := fi24C_finite
-  haveI := fi24QC_extraspecial
+  have := fi24C_finite
+  have := fi24QC_extraspecial
   have hQC : timmesfeldIsExtraspecial ↥fi24QC :=
     (CFSG.LargeExtraspecial.Bridge.timmesfeldIsExtraspecial_iff _).2
       (CFSG.IsExtraspecial.isExtraspecialPGroup (p := 2) (P := ↥fi24QC))
@@ -59,7 +59,7 @@ private theorem fi24QR_at {F : Subgroup R} (hFJ : F ≤ jR.range)
       (∀ T : Subgroup R, IsPGroup 2 T → T ≤ Subgroup.centralizer ({zR} : Set R) →
         F ≤ Subgroup.normalizer (T : Set R) → T ≤ fi24QC.map fi24CR) ∧
       F ≤ Subgroup.normalizer ((fi24QC.map fi24CR : Subgroup R) : Set R) := by
-  haveI := fi24C_finite
+  have := fi24C_finite
   have hrange : ∀ X : Subgroup R, X ≤ jR.range → X ≤ Subgroup.centralizer ({zR} : Set R) →
       X ≤ fi24CR.range := fun X hXJ hXz => by
     rw [fi24CR_range, ← range_jR]
@@ -106,7 +106,7 @@ private theorem fi24QR_at {F : Subgroup R} (hFJ : F ≤ jR.range)
       (hT.comap_of_injective fi24CR fi24CR_injective)
       ((Subgroup.comap_mono hFT).trans (Subgroup.le_normalizer_comap fi24CR)))
   ·
-    haveI := fi24QC_normal
+    have := fi24QC_normal
     rw [← hF'map]
     refine (Subgroup.map_mono ?_).trans (Subgroup.le_normalizer_map fi24CR)
     rw [Subgroup.normalizer_eq_top]

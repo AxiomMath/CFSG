@@ -39,7 +39,7 @@ theorem exists_isPGroup_perfect_supplement [Group.IsPerfect G] (ψ : K →* G)
     exact Subgroup.mem_map.mpr
       ⟨⟨x, hRN hx⟩, hRQ (Subgroup.mem_comap.mpr hx), rfl⟩
   have hSN : S ≤ N := Subgroup.map_subtype_le _
-  have hSp : IsPGroup r S := Q.isPGroup'.map N.subtype
+  have hSp : IsPGroup r S := Q.isPGroup.map N.subtype
   have hfr : normalizer (S : Set K) ⊔ N = ⊤ :=
     Sylow.normalizer_sup_eq_top (N := N) Q
   have hNbot : N.map ψ = ⊥ := by

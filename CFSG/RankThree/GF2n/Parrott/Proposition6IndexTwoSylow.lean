@@ -33,11 +33,11 @@ theorem exists_sylow_eq_of_center_le_zpowers
     rw [lt_top_iff_ne_top]
     intro htop
     exact hST (Subgroup.subgroupOf_eq_top.mp htop)
-  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   have hNlt : T.subgroupOf (S : Subgroup G) <
       Subgroup.normalizer (T.subgroupOf (S : Subgroup G) : Set (S : Subgroup G)) :=
     Group.normalizerCondition_of_isNilpotent _ hT'lt
-  obtain ⟨n, hnN, hnT⟩ := SetLike.exists_of_lt hNlt
+  obtain ⟨n, hnN, hnT⟩ := _root_.IsConcreteLE.exists_of_lt hNlt
   have hnNorm : (n : G) ∈ Subgroup.normalizer (T : Set G) := by
     have hn : n ∈ (Subgroup.normalizer (T : Set G)).subgroupOf (S : Subgroup G) := by
       rw [Subgroup.subgroupOf_normalizer_eq hTS]
@@ -83,7 +83,7 @@ theorem exists_sylow_eq_of_center_le_zpowers
   have hP2 : IsPGroup 2 P := by
     have hPS : P ≤ (S : Subgroup G) :=
       sup_le hTS (Subgroup.zpowers_le.mpr n.2)
-    exact S.isPGroup'.to_le hPS
+    exact S.isPGroup.to_le hPS
   have hPC : P ≤ Subgroup.centralizer ({z} : Set G) :=
     sup_le hTH (Subgroup.zpowers_le.mpr hnC)
   have hlt : T < P := lt_of_le_of_ne hTP (by

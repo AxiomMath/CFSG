@@ -14,7 +14,8 @@ open CFSG.RankThree.OrthogonalInvolutions (commSpace mem_commSpace sub_mem_commS
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
-private theorem commSp_simAct (γ : simGroup Q) (t : OGroup Q) :
+omit [FiniteDimensional (ZMod 3) V] in
+private theorem commSp_simAct [FiniteDimensional (ZMod 3) V] (γ : simGroup Q) (t : OGroup Q) :
     commSp (simAct Q γ t) = (commSp t).map (γ : V →ₗ[ZMod 3] V) := by
   change commSpace ((simAct Q γ t : OGroup Q) : V ≃ₗ[ZMod 3] V) =
     (commSpace (t : V ≃ₗ[ZMod 3] V)).map (γ : V →ₗ[ZMod 3] V)
@@ -38,7 +39,8 @@ private theorem invDim_simAct (γ : simGroup Q) (t : OGroup Q) :
   rw [commSp_simAct]
   exact LinearEquiv.finrank_map_eq _ _
 
-private theorem orthToSim_simAct (γ : simGroup Q) (t : OGroup Q) :
+omit [FiniteDimensional (ZMod 3) V] in
+private theorem orthToSim_simAct [FiniteDimensional (ZMod 3) V] (γ : simGroup Q) (t : OGroup Q) :
     orthToSim Q (simAct Q γ t) = γ * orthToSim Q t * γ⁻¹ := by
   apply Subtype.ext
   apply LinearEquiv.ext

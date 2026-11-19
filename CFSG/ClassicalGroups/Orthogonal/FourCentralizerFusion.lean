@@ -24,6 +24,8 @@ private noncomputable def unitVec (F : FrameData Q) (i : Fin 4) : U F :=
     rw [F.z_e]
     simp⟩
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem unitVec_linearIndependent (F : FrameData Q) :
     LinearIndependent K (unitVec F) := by
   apply LinearIndependent.of_comp (U F).subtype
@@ -33,18 +35,21 @@ private noncomputable def fourUnitBasis (F : FrameData Q) : Module.Basis (Fin 4)
   basisOfLinearIndependentOfCardEqFinrank (unitVec_linearIndependent F) (by
     rw [Fintype.card_fin, finrank_U F])
 
+omit [Finite K] in
 private theorem fourUnitBasis_apply (F : FrameData Q) (i : Fin 4) :
     fourUnitBasis F i = unitVec F i := by
   have h := coe_basisOfLinearIndependentOfCardEqFinrank (unitVec_linearIndependent F)
     (by rw [Fintype.card_fin, finrank_U F])
-  simpa [fourUnitBasis] using congrFun h i
+  simp [fourUnitBasis]
 
+omit [Finite K] in
 private theorem fourUnitBasis_norm (F : FrameData Q) (i : Fin 4) :
     (Q.comp (U F).subtype) (fourUnitBasis F i) = 1 := by
   rw [fourUnitBasis_apply]
   change Q (F.e (Fin.castAdd 1 i)) = 1
   exact F.norm (Fin.castAdd 1 i) (by simp)
 
+omit [Finite K] in
 private theorem fourUnitBasis_orth (F : FrameData Q) (i j : Fin 4) (hij : i ≠ j) :
     (Q.comp (U F).subtype).polarBilin (fourUnitBasis F i) (fourUnitBasis F j) = 0 := by
   rw [fourUnitBasis_apply, fourUnitBasis_apply]
@@ -55,9 +60,11 @@ private noncomputable def centralizerEquivU (F : FrameData Q) :
     C0 F ≃* TauCeti.QuadraticMap.orthogonalGroup (Q.comp (U F).subtype) :=
   (centralizerSubtypeEquiv F).symm.trans (centralizerEquiv F)
 
+omit [Finite K] in
 private theorem centralizerEquivU_apply (F : FrameData Q) (c : C0 F) :
     centralizerEquivU F c = restrictU F (C0toH F c) := rfl
 
+omit [Finite K] in
 private theorem restrictU_action (F : FrameData Q) (c : C0 F) (x : U F) :
     (((centralizerEquivU F c : U F ≃ₗ[K] U F) x : U F) : V) =
       ((c : TauCeti.QuadraticMap.orthogonalGroup Q) : V ≃ₗ[K] V) (x : V) := by
@@ -72,9 +79,11 @@ private theorem restrictU_action (F : FrameData Q) (c : C0 F) (x : U F) :
 private def zC0 (F : FrameData Q) : C0 F :=
   ⟨F.zO, F.z_so, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
 
+omit [Finite K] in
 private theorem zC0_val (F : FrameData Q) :
     ((zC0 F : C0 F) : TauCeti.QuadraticMap.orthogonalGroup Q) = F.zO := rfl
 
+omit [Finite K] in
 private theorem centralizerEquivU_zC0_eq_neg_one (F : FrameData Q) :
     ((centralizerEquivU F (zC0 F) : U F ≃ₗ[K] U F) : U F →ₗ[K] U F) = -1 := by
   ext x
@@ -88,6 +97,7 @@ private theorem centralizerEquivU_zC0_eq_neg_one (F : FrameData Q) :
 
 
 
+omit [Finite K] in
 private theorem iota_eq_subtype_comp_centralizerEquivU (F : FrameData Q) :
     iota F = (C0 F).subtype.comp (centralizerEquivU F).symm.toMonoidHom := by
   ext h
@@ -105,6 +115,7 @@ private noncomputable def centralizerEquivOfCentralizer (F : FrameData Q) (a : C
       rw [← MulEquiv.toMonoidHom_eq_coe]
       exact CFSG.centralizer_singleton_map (centralizerEquivU F) a))
 
+omit [Finite K] in
 private theorem centralizerEquivU_apply_ne_neg_one
     (F : FrameData Q) (a : C0 F)
     (haz : (a : TauCeti.QuadraticMap.orthogonalGroup Q) ≠ F.zO) :
@@ -156,6 +167,7 @@ private noncomputable def sylowMapImage (F : FrameData Q) (a : C0 F)
 -- equalities in these proofs need larger budgets than the defaults.
 set_option maxHeartbeats 800000 in
 set_option synthInstance.maxHeartbeats 200000 in
+omit [Finite K] in
 private theorem exists_center_preimage_frame
     (F : FrameData Q) (a : C0 F)
     (R0 : Sylow 2 (Subgroup.centralizer ({a} : Set (C0 F))))
@@ -201,7 +213,7 @@ private theorem iota_mem_center_map_of_mem_center_map
         ((Subgroup.centralizer ({a} : Set (C0 F))).subtype.comp
           (R0 : Subgroup (Subgroup.centralizer ({a} : Set (C0 F)))).subtype)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Ca0 : Subgroup (C0 F) := Subgroup.centralizer ({a} : Set (C0 F))
   let CA : Subgroup (TauCeti.QuadraticMap.orthogonalGroup (Q.comp (U F).subtype)) :=
     Subgroup.centralizer ({centralizerEquivU F a} :
@@ -248,7 +260,7 @@ theorem exists_C0_conj_tO_mem_center_sylow
       (Subgroup.center R0).map
         ((C0 F).subtype.comp (Ca0.subtype.comp (R0 : Subgroup Ca0).subtype)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro Ca0
   let CA : Subgroup (TauCeti.QuadraticMap.orthogonalGroup (Q.comp (U F).subtype)) :=
     Subgroup.centralizer ({centralizerEquivU F a} :
@@ -298,7 +310,7 @@ theorem exists_conj_tO_mem_center_sylow
             (h : TauCeti.QuadraticMap.orthogonalGroup Q)⁻¹ ∈
               (Subgroup.center R).map incl := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro HG a ha2 ha1 haz Ca R incl
   let j : HG →* C0 F :=
     { toFun := fun x => ⟨(x : TauCeti.QuadraticMap.orthogonalGroup Q),

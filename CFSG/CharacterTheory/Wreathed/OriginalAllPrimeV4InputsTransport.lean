@@ -28,7 +28,7 @@ theorem map_le_modelC_of_odd (hW : IsWModel σ φ) (h4 : 4 ∣ m)
   obtain ⟨d, hdD, hdN, -, -, X, hdX, hX⟩ := hW.exists_swap_iota
   have hcN : c ∈ σ.N := hW.D_le_N hcD
   have hx₂N : σ.x₂ ∈ σ.N := hW.model.x₂_mem
-  obtain ⟨k, hk⟩ := σ.S.isPGroup' ⟨c, σ.D_le_S hcD⟩
+  obtain ⟨k, hk⟩ := σ.S.isPGroup ⟨c, σ.D_le_S hcD⟩
   have hck : (⟨c, hcN⟩ : σ.N) ^ 2 ^ k = 1 :=
     Subtype.ext (by simpa using congrArg Subtype.val hk)
   obtain ⟨v, hv⟩ := mem_modelBase_of_two_pow hW.sigma_odd (g := φ ⟨c, hcN⟩) (k := k)

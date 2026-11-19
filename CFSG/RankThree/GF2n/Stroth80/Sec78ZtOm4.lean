@@ -19,6 +19,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec7ctr_charP (hc : Ctx M Q Z B) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = Nat.card Z) :
     CharP K 2 := by
@@ -65,7 +66,7 @@ theorem sec7ctr_Rt_le_om4 (h34 : Stroth34Statement) (h310 : Stroth310Statement)
   obtain ⟨d, hd4, hVcard, hLcard⟩ := sec7ctr_card_LB hPtsΩ hc hs hr
   have hnatom := hom
   obtain ⟨K, fK, finK, hK, b, c, hirr, hrep⟩ := hom
-  haveI : CharP K 2 := sec7ctr_charP hc hK
+  have : CharP K 2 := sec7ctr_charP hc hK
   have hrep' := hrep
   obtain ⟨φ, hφr, hφk, -⟩ := hrep
   have hd : d = 4 := by
@@ -104,7 +105,7 @@ theorem sec7ctr_Rt_le_om4 (h34 : Stroth34Statement) (h310 : Stroth310Statement)
       Nat.mul_le_mul_left _ (by omega)
     rw [← hF] at h6
     omega
-  · haveI : CharP K' 2 := sec7ctr_charP hc hK'
+  · have : CharP K' 2 := sec7ctr_charP hc hK'
     rcases hfam with ⟨m', hm', hnat'⟩ | ⟨m', hm', hnat'⟩ | ⟨m', hm', hnat'⟩ |
       ⟨m', b', c', hm', hirr', hnat'⟩
     ·
@@ -184,7 +185,7 @@ theorem sec7ctr_Rt_le_om4 (h34 : Stroth34Statement) (h310 : Stroth310Statement)
         exact hk
       have hnotP : ¬ OmegaPlusNat hc s 2 := by
         rintro ⟨K'', fK'', finK'', hK'', hnatP⟩
-        haveI : CharP K'' 2 := sec7ctr_charP hc hK''
+        have : CharP K'' 2 := sec7ctr_charP hc hK''
         obtain ⟨φ'', hφ''r, hφ''k, -⟩ := hnatP
         have e1 := sec7ctr_card_eq_mul_range hNsR φ'' hφ''k
         have e2 := sec7ctr_card_eq_mul_range hNsR φ' hφ'k

@@ -14,7 +14,7 @@ section Core
 theorem noThetaNormal_of_isSimpleGroup {Q : Type*} [Group Q] [IsSimpleGroup Q]
     (hQ : ¬ Group.IsSolvable Q) : NoThetaNormal Q := by
   intro N hN hNs _
-  haveI := hN
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · exact h
   · exfalso
@@ -62,7 +62,7 @@ theorem Cfg.exists_mulEquiv_of_simple_core (c : Cfg L K a b)
   have hKq := Sec6.isQuasisimple_of_mem_thetaComponentsIn hK
   have hle : Sec8.imageModTheta L K ≤ Sec8.barCentralizer (Subgroup.zpowers b) L :=
     imageModTheta_le_barCentralizer_of_le c.hbL c.hb3 c.hKL c.hKb
-  haveI hP := isPerfect_imageModTheta hK
+  have hP := isPerfect_imageModTheta hK
   have hcomm : ⁅Sec8.imageModTheta L K, Sec8.imageModTheta L K⁆ = Sec8.imageModTheta L K :=
     Subgroup.commutator_eq_self
   have hleQ : Sec8.imageModTheta L K ≤ Q := by
@@ -81,7 +81,7 @@ theorem Cfg.exists_mulEquiv_of_simple_core (c : Cfg L K a b)
     exact hsub.comap (Subgroup.inclusion hQC)
   have hne : Sec8.imageModTheta L K ≠ ⊥ := imageModTheta_ne_bot c.hKL hKq
   have hY : Sec8.imageModTheta L K = Q := by
-    haveI := hQs
+    have := hQs
     rcases hsubQ.eq_bot_or_top_of_isSimpleGroup hQs with h | h
     · exfalso
       apply hne
@@ -95,7 +95,7 @@ theorem Cfg.exists_mulEquiv_of_simple_core (c : Cfg L K a b)
     · refine le_antisymm hleQ fun x hx => ?_
       have : (⟨x, hx⟩ : ↥Q) ∈ (Sec8.imageModTheta L K).subgroupOf Q := by rw [h]; trivial
       exact Subgroup.mem_subgroupOf.mp this
-  haveI := hQs
+  have := hQs
   exact c.exists_mulEquiv_of_imageModTheta_eq hY (noThetaNormal_of_isSimpleGroup hQns)
 
 end Core

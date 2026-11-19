@@ -45,7 +45,7 @@ theorem Sec7Hyp.mem_gammaStab_of_conj_mem (hS : Sec7Hyp M V n f) (h75 : Sec7.Stm
     (hH0 : ∀ B ∈ omegaSet V, ⁅V, B⁆ = ⊥ → B ∈ gammaAt V) {v x : G} (hv : v ∈ V) (hv1 : v ≠ 1)
     (hx : x⁻¹ * v * x ∈ gammaStab V) : x ∈ gammaStab V := by
   have hroot := hS.sec5.toRootHyp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set y : G := x⁻¹ * v * x with hydef
   have hyV : y ∈ conjSubgroup x⁻¹ V := by
     rw [mem_conjSubgroup]
@@ -260,9 +260,9 @@ theorem Sec7Hyp.exists_isHoltTriple_gammaStab (hS : Sec7Hyp M V n f) (h75 : Sec7
   have hTne : (T : Subgroup G) ≠ ⊥ := by
     intro hbot
     exact hQne (le_bot_iff.mp (hQT.trans_eq hbot))
-  haveI : Nontrivial ↥(T : Subgroup G) := (Subgroup.nontrivial_iff_ne_bot (T : Subgroup G)).mpr hTne
-  haveI : Nontrivial ↥(Subgroup.center ↥(T : Subgroup G)) :=
-    T.isPGroup'.center_nontrivial
+  have : Nontrivial ↥(T : Subgroup G) := (Subgroup.nontrivial_iff_ne_bot (T : Subgroup G)).mpr hTne
+  have : Nontrivial ↥(Subgroup.center ↥(T : Subgroup G)) :=
+    T.isPGroup.center_nontrivial
   obtain ⟨w, hw1⟩ := exists_ne (1 : Subgroup.center ↥(T : Subgroup G))
   let z : G := (((w : Subgroup.center ↥(T : Subgroup G)) : ↥(T : Subgroup G)) : G)
   have hzT : z ∈ (T : Subgroup G) := ((w : Subgroup.center ↥(T : Subgroup G)) : ↥(T : Subgroup G)).2
@@ -271,7 +271,7 @@ theorem Sec7Hyp.exists_isHoltTriple_gammaStab (hS : Sec7Hyp M V n f) (h75 : Sec7
     intro t ht
     exact congrArg (fun x : ↥(T : Subgroup G) => (x : G))
       (Subgroup.mem_center_iff.mp w.2 (⟨t, ht⟩ : ↥(T : Subgroup G)))
-  have hzV : z ∈ V := hroot.center_sylow_le hTM T.isPGroup' hQT
+  have hzV : z ∈ V := hroot.center_sylow_le hTM T.isPGroup hQT
     (Subgroup.mem_inf.mpr ⟨hzT, hzCent⟩)
   have hz1 : z ≠ 1 := by
     intro hz
@@ -294,7 +294,7 @@ private theorem false_of_inf_generalizedFitting_eq_bot
   have hO : jOddCore G (G ⧸ gammaStab V) = ⊥ := hS.toSec6Hyp.jOddCore_eq_bot _
   have hFnormal : (generalizedFitting G).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := G)).2
-  haveI : (generalizedFitting G).Normal := hFnormal
+  have : (generalizedFitting G).Normal := hFnormal
   set F := generalizedFitting G with hFdef
   have hcent : D.L i ≤ Subgroup.centralizer (F : Set G) := by
     intro l hl
@@ -339,7 +339,7 @@ theorem Sec7Hyp.generalizedFitting_le_L (hS : Sec7Hyp M V n f)
   set F := generalizedFitting G with hFdef
   have hFnormal : F.Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := G)).2
-  haveI : F.Normal := hFnormal
+  have : F.Normal := hFnormal
   have hVH : V ≤ jHull G (G ⧸ gammaStab V) := by
     intro v hv
     by_cases hv1 : v = 1
@@ -361,9 +361,9 @@ theorem Sec7Hyp.generalizedFitting_le_L (hS : Sec7Hyp M V n f)
       rw [← hnc]
       exact Subgroup.le_normalClosure
     exact hroot.toHyp.ne_bot (le_bot_iff.mp (hVF.trans_eq hbot))
-  haveI : IsSimpleGroup ↥F :=
+  have : IsSimpleGroup ↥F :=
     (hroot.toHyp.isSimpleGroup_generalizedFitting hS.sec5.toRootHyp.four_le_card).1
-  haveI : ((D.L i).subgroupOf F).Normal := by
+  have : ((D.L i).subgroupOf F).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer_inf]
     intro f hf
     rw [mem_normalizer_iff_conjSubgroup_eq]
@@ -434,7 +434,7 @@ theorem Sec7Hyp.false_of_isNaturalSE (hS : Sec7Hyp M V n f)
     · calc U' = (U'.subgroupOf (D.L i₀)).map (D.L i₀).subtype :=
             (Subgroup.map_subgroupOf_eq_of_le hU'L).symm
         _ ≤ _ := Subgroup.map_mono hU'Q
-  exact hUU'.not_isPGroup (Q.isPGroup'.map (D.L i₀).subtype |>.to_le hsup)
+  exact hUU'.not_isPGroup (Q.isPGroup.map (D.L i₀).subtype |>.to_le hsup)
 
 private theorem exists_two_ne_one (hroot : RootHyp M V) :
     ∃ v w : G, v ∈ V ∧ w ∈ V ∧ v ≠ 1 ∧ w ≠ 1 ∧ w ≠ v := by
@@ -510,12 +510,12 @@ theorem Sec7Hyp.false_of_alternating (hS : Sec7Hyp M V n f) (h75 : Sec7.Stmt75 V
   have hroot := hS.sec5.toRootHyp.toHyp
   have hO : jOddCore G (G ⧸ gammaStab V) = ⊥ := hS.toSec6Hyp.jOddCore_eq_bot _
   have hcore : (gammaStab V).normalCore = ⊥ := hS.normalCore_gammaStab h75 hH0 hne
-  haveI : FaithfulSMul G (G ⧸ gammaStab V) := by
+  have : FaithfulSMul G (G ⧸ gammaStab V) := by
     apply faithfulSMul_of_ker_eq_bot
     rw [← Subgroup.normalCore_eq_ker]
     exact hcore
-  haveI : Fintype (G ⧸ gammaStab V) := Fintype.ofFinite _
-  haveI : DecidableEq (G ⧸ gammaStab V) := Classical.decEq _
+  have : Fintype (G ⧸ gammaStab V) := Fintype.ofFinite _
+  have : DecidableEq (G ⧸ gammaStab V) := Classical.decEq _
   let A : G →* Equiv.Perm (G ⧸ gammaStab V) := MulAction.toPermHom G (G ⧸ gammaStab V)
   have hAker : A.ker = ⊥ := by
     have h1 : A.ker = (gammaStab V).normalCore :=
@@ -565,7 +565,7 @@ theorem Sec7Hyp.stmt77a (hS : Sec7Hyp M V n f)
     by_contra hΓ
     exact absurd hcomm (hno B hB hΓ)
   have hcore : (gammaStab V).normalCore = ⊥ := hS.normalCore_gammaStab h75 hH0 hne
-  haveI : FaithfulSMul G (G ⧸ gammaStab V) := by
+  have : FaithfulSMul G (G ⧸ gammaStab V) := by
     apply faithfulSMul_of_ker_eq_bot
     rw [← Subgroup.normalCore_eq_ker]
     exact hcore
@@ -574,7 +574,7 @@ theorem Sec7Hyp.stmt77a (hS : Sec7Hyp M V n f)
   have hstar : IsStarGroup G (G ⧸ gammaStab V) := IsHoltTriple.isStarGroup hT h3
   obtain ⟨D⟩ := hHolt G (G ⧸ gammaStab V) hstar
   have hO : jOddCore G (G ⧸ gammaStab V) = ⊥ := hS.toSec6Hyp.jOddCore_eq_bot _
-  haveI : Nontrivial (G ⧸ gammaStab V) := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial (G ⧸ gammaStab V) := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   have hFne : generalizedFitting G ≠ ⊥ := by
     intro hbot
     have hVF : V ≤ generalizedFitting G := by

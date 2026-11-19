@@ -47,7 +47,7 @@ private lemma s3vec_ext {M N : S3M2} (h : ∀ v : ZMod 4 × ZMod 4, s3vec M v = 
   have h2 := h (0, 1)
   obtain ⟨a, b, c, d⟩ := M
   obtain ⟨a', b', c', d'⟩ := N
-  simp only [s3vec, Prod.mk.injEq, mul_one, mul_zero, add_zero, zero_mul, zero_add] at h1 h2
+  simp only [s3vec, Prod.mk.injEq, mul_one, mul_zero, add_zero, zero_add] at h1 h2
   exact Prod.ext h1.1 (Prod.ext h2.1 (Prod.ext h1.2 h2.2))
 
 private lemma s3Add_eq_sum (e : B ≃* Outside.Z4pow 2) (φ : MulAut B) (v : Fin 2 → ZMod 4) :

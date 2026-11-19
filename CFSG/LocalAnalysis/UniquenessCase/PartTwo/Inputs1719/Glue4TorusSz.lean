@@ -30,7 +30,7 @@ private theorem g4sz_relIndex (hK : Nat.card K = 2 ^ (2 * a + 1)) :
 
 private theorem g4sz_pow_mem (hK : Nat.card K = 2 ^ (2 * a + 1)) {x : suzukiGroup a K}
     (hx : x ∈ suzukiB a K) : x ^ (2 ^ (2 * a + 1) - 1) ∈ suzukiU a K := by
-  haveI : ((suzukiU a K).subgroupOf (suzukiB a K)).Normal :=
+  have : ((suzukiU a K).subgroupOf (suzukiB a K)).Normal :=
     (normal_subgroupOf_iff_le_normalizer (suzukiU_le_suzukiB a K)).mpr
       (uc22pwr1_sz_normalizer hK).ge
   have h := Subgroup.pow_index_mem ((suzukiU a K).subgroupOf (suzukiB a K))
@@ -49,7 +49,7 @@ private theorem g4sz_torus_equiv (hK : Nat.card K = 2 ^ (2 * a + 1)) :
 
 private theorem g4sz_isSylowOf [Finite (suzukiGroup a K)] (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     CFSG.ABGLocalTools.IsSylowOf 2 (suzukiU a K) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, CFSG.LieType.SteinbergBR.isPGroup_suzukiU hK,
     ?_⟩
   rw [relIndex_top_right]
@@ -81,7 +81,7 @@ theorem cartanAt_of_isSz {Y : Type} [Group Y] [Finite Y] {n : ℕ}
       CartanAt U n (Multiplicative (ZMod (2 ^ n - 1))) := by
   obtain ⟨-, -, a, -, K, _, _, hn, hcard, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.suzukiModel h
   subst hn
-  haveI : Finite (CFSG.Blueprint.suzukiGroup a K) := Finite.of_equiv Y e.toEquiv
+  have : Finite (CFSG.Blueprint.suzukiGroup a K) := Finite.of_equiv Y e.toEquiv
   exact ⟨_, isSylowOf_map_equiv (g4sz_isSylowOf hcard) e.symm, (g4sz_cartanAt hcard).map e.symm⟩
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719

@@ -33,7 +33,7 @@ private lemma lk0xlcleaf_toralCentralizer_eq_toralRootGroup
 theorem k0_centralizer_generated {Omega : Type} [Field Omega] [IsAlgClosed Omega]
     [CharP Omega 2]
     {lab : LargeEvenLabel} {p : ℕ} {R : Type} [Group R]
-    {I : Set (MulAut R)} {phi : MulAut R} (hlab : LargeEvenInLambda2 lab)
+    {I : Set (MulAut R)} {phi : MulAut R} (_hlab : LargeEvenInLambda2 lab)
     (hpair : GGKacExcPair lab p) (A : K0LangMark Omega lab p R I phi)
     (hc : GGKacCentred lab p) :
     adjointGroup A.tau Omega ⊓ Subgroup.centralizer {rootDiagUnit A.tau A.a} ≤

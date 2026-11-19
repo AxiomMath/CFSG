@@ -425,7 +425,7 @@ theorem involution_conj_std (hK : Nat.card K = 3 ^ (2 * a + 1)) (t : ↥(ReeTag.
     exact Subtype.ext (ReeTag.eq_one_of_mem_reeFixedPosUnipotent_of_mem_reeFixedTorus
       (Subgroup.mem_subgroupOf.1 hx) (Subgroup.mem_subgroupOf.1 hx'))
   · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 P.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 P.isPGroup
     rw [← hP, hn]
     exact Odd.pow (by decide)
   · intro x hx hxx

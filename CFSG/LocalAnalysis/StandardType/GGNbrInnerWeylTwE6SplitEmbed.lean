@@ -20,7 +20,7 @@ theorem exists_mulEquiv_recipeR_twistedE6RootGroup {K : Type} [Field K] [Finite 
     (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
     ∃ σ : K ≃+* K, (∀ c, σ c = c ^ 2 ^ n) ∧
       Nonempty (TwE6Delta.RecipeR K n ≃* twistedE6RootGroup K σ) := by
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   refine ⟨iterateFrobeniusEquiv K 2 n, ?_, ?_⟩
   · intro c
     rw [iterateFrobeniusEquiv_apply, iterateFrobenius_def]
@@ -43,16 +43,16 @@ theorem exists_injective_f4_recipeR {K : Type} [Field K] [Finite K] {n : ℕ} (h
     ∃ (k : Type) (_ : Field k) (_ : Finite k) (_ : CharP k 2)
       (ι : adjointGroup .F4 k →* TwE6Delta.RecipeR K n),
       Nat.card k = 2 ^ n ∧ Function.Injective ι := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hK2 : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hK2 : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   obtain ⟨σ, hσ, ⟨e⟩⟩ := exists_mulEquiv_recipeR_twistedE6RootGroup (K := K) hn hK
   have hkcard : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   obtain ⟨φ⟩ := CFSG.HardMathSupport.Lang.AnisoE6.nonempty_ringHom_of_card_sq
     (ℓ := 2) (f := n) (k := GaloisField 2 n) (K := K) hkcard hK
-  letI : Algebra (GaloisField 2 n) K := φ.toAlgebra
+  let : Algebra (GaloisField 2 n) K := φ.toAlgebra
   have hpow : ∀ c : GaloisField 2 n, c ^ 2 ^ n = c := by
     intro c
-    letI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+    let : Fintype (GaloisField 2 n) := Fintype.ofFinite _
     have hq : Fintype.card (GaloisField 2 n) = 2 ^ n := by
       rw [← Nat.card_eq_fintype_card]; exact hkcard
     rw [← hq]

@@ -80,7 +80,7 @@ theorem Ctx215.odd_n (e : Ctx215 D Ch) (h1930 : H1930 D)
   have h3eta : 3 ∈ etaSet e.n :=
     ⟨by norm_num, CFSG.LocalAnalysis.UniquenessCase.UCK.UC46.three_dvd_two_pow_sub_one hev⟩
   have h3pi : 3 ∈ piSet e.B0 := by rw [e.hpi]; exact h3eta
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨b, hbo⟩ := exists_prime_orderOf_dvd_card' (G := ↥e.B0) 3 h3pi.2
   have hbG : orderOf (b : G) = 3 := by rw [Subgroup.orderOf_coe, hbo]
   let A₃ : Subgroup G := Subgroup.zpowers (b : G)

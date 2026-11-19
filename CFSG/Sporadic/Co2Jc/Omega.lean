@@ -19,7 +19,7 @@ theorem tA_mem_O1 : tA ∈ O1 := by
 
 theorem jcA_mem_O1_iff {m : ℕ} (hm : m < 1024) : jcA m ∈ O1 ↔ m ∈ Native.glNJOm := by
   rw [O1]
-  simp only [Set.mem_setOf_eq, coe_jcA]
+  simp only [Set.mem_ofPred_eq, coe_jcA]
   constructor
   · rintro ⟨k, hk⟩
     exact (jcElt_mem_range_omK hm).1 ⟨k, hk.symm⟩
@@ -93,7 +93,7 @@ private theorem normalizerMonoidHom_eq_one_of_mem_Jc {n : normalizer (Jc : Set K
 
 private theorem normalizerMonoidHom_qN {k : ℕ} (hk : k < 3) :
     Jc.normalizerMonoidHom (qN k) = qA k := by
-  rw [qA, dif_pos hk]
+  rw [qA, dite_eq_left hk]
   have hq : qN k = (⟨qK k, qK_mem_N hk⟩ : normalizer (Jc : Set K)) := Subtype.ext (qN_val hk)
   rw [hq]
 

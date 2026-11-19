@@ -126,8 +126,8 @@ theorem torusGroup_le_frameSpan (hsq : ∀ x : L, ∃ z : L, z ^ 2 = x) :
       intro j
       rw [← frameN_mul_frameM j k, zpow_finsetSum_frame]
     rw [Finset.prod_congr rfl fun j _ => hcol j]
-    rw [Finset.prod_eq_single k (fun j _ hj => by rw [if_neg hj, zpow_zero])
-      (fun h => absurd (Finset.mem_univ k) h), if_pos rfl]
+    rw [Finset.prod_eq_single k (fun j _ hj => by rw [ite_eq_right hj, zpow_zero])
+      (fun h => absurd (Finset.mem_univ k) h), ite_eq_left rfl]
     rw [zpow_two, ← pow_two, hs k]
   have hmem : b ∈ (frameSpan L).comap (rootDiagHomE7 L) := by
     rw [hb]

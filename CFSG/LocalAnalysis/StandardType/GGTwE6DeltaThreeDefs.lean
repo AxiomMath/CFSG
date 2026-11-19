@@ -37,6 +37,7 @@ noncomputable def recipeISub : Subgroup (MulAut (TwE6Delta.RecipeR K n)) :=
   Subgroup.closure (LargeEvenInnSet (TwE6Delta.RecipeR K n) ∪
     LargeEvenChevDiagImage (LargeEvenCartanE 6) K (TwE6Delta.RecipeH K n))
 
+omit [Finite K] in
 theorem mem_recipeISub {φ : MulAut (TwE6Delta.RecipeR K n)} :
     φ ∈ recipeISub K n ↔ φ ∈ TwE6Delta.RecipeI K n := Iff.rfl
 
@@ -60,6 +61,7 @@ noncomputable def inducedSub (ψ : L' →* TwE6Delta.RecipeR K n) : Subgroup (Mu
     rw [MulAut.inv_apply, MulEquiv.symm_apply_apply] at h2
     exact h2.symm
 
+omit [Finite K] in
 theorem mem_inducedSub {ψ : L' →* TwE6Delta.RecipeR K n} {a : MulAut L'} :
     a ∈ inducedSub ψ ↔ Induces ψ a := Iff.rfl
 

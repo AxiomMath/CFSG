@@ -51,7 +51,7 @@ theorem rankThreeGamma_two_le {p : ℕ} [Fact p.Prime] {M E : Subgroup G}
     (hX : ∀ X : Subgroup G, X ≤ E → Nat.card X = 2 →
       1 < CFSG.Open.pRank p (M ⊓ Subgroup.normalizer (X : Set G))) :
     CFSG.Open.rankThreeGamma 1 2 E ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine rankThreeGamma_le_of_forall_normalizer_le (p := p) (r := 2) hM hE hX ?_
   intro X hXE hXcard
   refine huniq X ?_ ?_ ?_
@@ -71,7 +71,7 @@ theorem exists_card_eq_not_le_centralizer_pCoreOf_inf_centralizer
       ¬ E ≤ Subgroup.centralizer
         ((CFSG.Open.pCoreOf 2 M ⊓ Subgroup.centralizer (Y : Set G) : Subgroup G) : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q : Subgroup G := CFSG.Open.pCoreOf 2 M
   have hQp : IsPGroup 2 Q := CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) M
   have hEQ : E ≤ Subgroup.normalizer (Q : Set G) :=

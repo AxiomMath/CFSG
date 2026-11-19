@@ -25,6 +25,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal]
 
+omit [(Q.subgroupOf M).Normal] in
 theorem sec713_Q_le_NormH0 (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) : Q ≤ NormH0 M Z Z0 :=
   fun _ hx => sec8_Rt_le_NormH0 hc hZ0 (hc.Q_le_Rt ht hx)
@@ -145,7 +146,7 @@ theorem sec713_comm_Wt_of_O2 (h52a : Stroth52aStatement) (h52b : Stroth52bStatem
   have hVc : Nat.card ↥(Vt M (LB M Q B) B Z t) = Nat.card Z * Nat.card Z ^ (2 * m) :=
     n12N_card_V hc t m hm2 hmO
   have hQc : Nat.card Q = Nat.card Z ^ (2 * n + 1) := h5.width
-  haveI : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
+  have : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hVQ hv)))
   have hchi := card_mul_card_of_isChiIso

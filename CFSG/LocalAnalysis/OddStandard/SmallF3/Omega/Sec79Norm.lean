@@ -17,11 +17,11 @@ theorem exists_conj_involution_of_cyclic_sylow [Finite G] {K : Subgroup G}
     (hcyc : ∀ P : Subgroup G, IsSylow2Of P K → IsCyclic P) {a b : G} (ha : a ∈ K) (hb : b ∈ K)
     (ha2 : orderOf a = 2) (hb2 : orderOf b = 2) : ∃ k ∈ K, k * a * k⁻¹ = b := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 (↥K)) := inferInstance
   have hP' : IsSylow2Of (((P : Subgroup ↥K).map K.subtype)) K := isSylow2Of_map_sylow P
   have hPcyc : IsCyclic ↥(((P : Subgroup ↥K).map K.subtype)) := hcyc _ hP'
-  haveI : IsCyclic ↥(((P : Subgroup ↥K).map K.subtype)) := hPcyc
+  have : IsCyclic ↥(((P : Subgroup ↥K).map K.subtype)) := hPcyc
   have hAcard : Nat.card (Subgroup.zpowers a) = 2 := by
     rw [Nat.card_zpowers, ha2]
   have hA : IsPGroup 2 (Subgroup.zpowers a) :=
@@ -76,7 +76,7 @@ theorem sec7_normalizer_decomp [Finite G] (h72 : Asc82Lemma72) {t : G} {L S : Su
         simpa only [mul_assoc] using congrArg (fun x => n⁻¹ * x * n) hcomm
       _ = (n⁻¹ * t * n) * l := by group
   have ht'2 : orderOf (n⁻¹ * t * n) = 2 := by
-    rw [show n⁻¹ * t * n = (MulAut.conj n⁻¹) t by simp [MulAut.conj_apply]]
+    rw [show n⁻¹ * t * n = (MulAut.conj n⁻¹) t by simp]
     rw [MulEquiv.orderOf_eq, hctx.involution]
   obtain ⟨k, hkK, hk⟩ := exists_conj_involution_of_cyclic_sylow hcyc
     hctx.t_mem_centralizer ht'C hctx.involution ht'2

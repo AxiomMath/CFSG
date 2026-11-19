@@ -18,15 +18,18 @@ variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G}
     (Wb : Subgroup X) : Subgroup G :=
   ⨆ (U : Subgroup G) (_ : U ∈ omegaSet V H E ∧ barSub (kSub V H E) φ U ≤ Wb), U
 
+omit [Finite G] in
 theorem le_omegaUnder {X : Type} [Group X] {φ : ↥(kSub V H E) →* X} {Wb : Subgroup X}
     {U : Subgroup G} (hU : U ∈ omegaSet V H E) (hUW : barSub (kSub V H E) φ U ≤ Wb) :
     U ≤ omegaUnder V H E φ Wb := by
   exact le_iSup₂_of_le U ⟨hU, hUW⟩ le_rfl
 
+omit [Finite G] in
 theorem omegaUnder_le_kSub {X : Type} [Group X] (φ : ↥(kSub V H E) →* X) (Wb : Subgroup X) :
     omegaUnder V H E φ Wb ≤ kSub V H E := by
   exact iSup₂_le fun U hU => le_kSub hU.1
 
+omit [Finite G] in
 theorem mem_normalizer_omegaUnder (h : Hyp711 V H E) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} {Wb : Subgroup X} {g : ↥(kSub V H E)}
     (hg : φ g ∈ Subgroup.normalizer (Wb : Set X)) :
@@ -84,9 +87,10 @@ theorem mem_normalizer_omegaUnder (h : Hyp711 V H E) {X : Type} [Group X]
     rw [Subgroup.coe_inv, inv_inv, hx'] at h
     exact h
 
+omit [Finite G] in
 theorem omegaUnder_le_sup_pCoreOf {X : Type} [Group X] {φ : ↥(kSub V H E) →* X}
     (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ) {Wb : Subgroup X} {Y : Subgroup G}
-    (hY : Y ≤ kSub V H E) (hWY : Wb ≤ barSub (kSub V H E) φ Y) :
+    (_hY : Y ≤ kSub V H E) (hWY : Wb ≤ barSub (kSub V H E) φ Y) :
     omegaUnder V H E φ Wb ≤ Y ⊔ pCoreOf 2 (kSub V H E) := by
   unfold omegaUnder
   refine iSup₂_le fun U hU => ?_
@@ -110,8 +114,8 @@ theorem omegaUnder_le_sup_pCoreOf {X : Type} [Group X] {φ : ↥(kSub V H E) →
 theorem isPGroup_barPre {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
     (hφ : IsBarMap K (pCoreOf 2 K) φ) {Tb : Subgroup X} (hT : IsPGroup 2 Tb) :
     IsPGroup 2 ↥(barPre K φ Tb) := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card).mp hT
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card).mp
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) K)
@@ -126,6 +130,7 @@ theorem isPGroup_barPre {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
   exact IsPGroup.of_card hcard
 
 
+omit [Finite G] in
 private theorem seven_twelve_root_mem_normalizer_inf {A B : Subgroup G} {x : G}
     (hA : x ∈ Subgroup.normalizer (A : Set G)) (hB : x ∈ Subgroup.normalizer (B : Set G)) :
     x ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -133,6 +138,7 @@ private theorem seven_twelve_root_mem_normalizer_inf {A B : Subgroup G} {x : G}
   intro y
   rw [Subgroup.mem_inf, Subgroup.mem_inf, hA y, hB y]
 
+omit [Finite G] in
 private theorem seven_twelve_root_mem_sup_of_mem_barSub {K : Subgroup G} {X : Type} [Group X]
     {φ : ↥K →* X} (hφ : IsBarMap K (pCoreOf 2 K) φ) {V : Subgroup G} {y : G}
     (hyK : y ∈ K) (hy : φ ⟨y, hyK⟩ ∈ barSub K φ V) : y ∈ V ⊔ pCoreOf 2 K := by
@@ -256,6 +262,7 @@ theorem commutator_iSubFix_eq_commutator (h : Hyp711 V H E) {V₂ V₃ : Subgrou
     exact h3
   · exact Subgroup.commutator_mono_left hAF
 
+omit [Finite G] in
 theorem barPre_le_normalizer_commutator_iSubFix (h : Hyp711 V H E) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     {Tb : Subgroup X} (hTV : Tb ≤ Subgroup.normalizer (barSub (kSub V H E) φ V : Set X)) :

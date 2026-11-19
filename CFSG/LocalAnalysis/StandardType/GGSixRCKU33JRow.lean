@@ -17,7 +17,7 @@ theorem tag_eq_g2der_of_row {lab : LargeEvenLabel}
     | rfl
     | (dsimp only [CFSG.StandardType.ggSixRCKLabelRow] at h
        first
-         | (split_ifs at h <;> exact absurd h (by decide))
+         | (split_ifs at h)
          | exact absurd h (by decide))
 
 
@@ -32,11 +32,6 @@ theorem card_centerQuot_of_jRow_U33
   first
     | (obtain ⟨-, lab, -, hraw⟩ := CFSG.StandardType.largeEvenMarking_markedModel h
        obtain ⟨R, _, I, F, -, -, θ, hrow, hm⟩ := CFSG.StandardType.largeEvenRawDatum_exists hraw
-       exact CFSG.LocalAnalysis.GLTheoremA.MI.card_markedModel_g2der (tag_eq_g2der_of_row hrow)
-         (CFSG.StandardType.MarkedModel.of_mulEquiv θ.symm hm))
-    | (obtain ⟨-, lab, -, hraw⟩ := CFSG.StandardType.Canonical.largeEvenMarking_markedModel h
-       obtain ⟨R, _, I, F, -, -, θ, hrow, hm⟩ :=
-         CFSG.StandardType.Canonical.largeEvenRawDatum_exists hraw
        exact CFSG.LocalAnalysis.GLTheoremA.MI.card_markedModel_g2der (tag_eq_g2der_of_row hrow)
          (CFSG.StandardType.MarkedModel.of_mulEquiv θ.symm hm))
 

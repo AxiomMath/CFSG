@@ -22,8 +22,8 @@ theorem finite_of_le_of_finite {E H : Subgroup G} [Finite E] (h : H ≤ E) : Fin
 theorem plane_closure_of_ne_one {E : Subgroup G} (hE : Nat.card E = 3 ^ 2)
     (hexp : ∀ x ∈ E, x ^ 3 = 1) {e : G} (he : e ∈ E) (he1 : e ≠ 1) :
     ∃ e' ∈ E, E = Subgroup.closure {e, e'} := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
   have hord : orderOf e = 3 := orderOf_eq_prime (hexp e he) he1
   have hcardZ : Nat.card (Subgroup.zpowers e) = 3 := by rw [Nat.card_zpowers, hord]
   have hex : ∃ e' ∈ E, e' ∉ Subgroup.zpowers e := by
@@ -31,7 +31,7 @@ theorem plane_closure_of_ne_one {E : Subgroup G} (hE : Nat.card E = 3 ^ 2)
     have hle : E ≤ Subgroup.zpowers e := fun x hx => by
       by_contra h
       exact hcon ⟨x, hx, h⟩
-    haveI : Finite (Subgroup.zpowers e) := finite_of_le_of_finite (Subgroup.zpowers_le.2 he)
+    have : Finite (Subgroup.zpowers e) := finite_of_le_of_finite (Subgroup.zpowers_le.2 he)
     have := Subgroup.card_le_of_le hle
     rw [hE, hcardZ] at this
     norm_num at this
@@ -42,11 +42,11 @@ theorem plane_closure_of_ne_one {E : Subgroup G} (hE : Nat.card E = 3 ^ 2)
     rcases hx with rfl | rfl
     · exact he
     · exact he'E)
-  haveI : Finite H := finite_of_le_of_finite hHE
+  have : Finite H := finite_of_le_of_finite hHE
   have hZH : Subgroup.zpowers e ≤ H := by
     rw [Subgroup.zpowers_le]
     exact Subgroup.subset_closure (by simp)
-  haveI : Finite (Subgroup.zpowers e) := finite_of_le_of_finite (Subgroup.zpowers_le.2 he)
+  have : Finite (Subgroup.zpowers e) := finite_of_le_of_finite (Subgroup.zpowers_le.2 he)
   have he'H : e' ∈ H := Subgroup.subset_closure (by simp)
   have hne : Subgroup.zpowers e ≠ H := fun h => he'Z (h ▸ he'H)
   have hdvdE : Nat.card H ∣ 3 ^ 2 := hE ▸ Subgroup.card_dvd_of_le hHE
@@ -172,11 +172,11 @@ theorem weylAct_twice_threeA {Ω : Type} [Field Ω] (ω : Ωˣ) (hω : orderOf �
   rw [Pi.pow_apply, rootChar_mulSingle_eq_zpow]
   have hm := f4Six_row' i
   by_cases hi : i = (⟨1, by decide⟩ : Fin TwClass.f4Six.tag.rank)
-  · rw [if_pos hi] at hm
-    rw [Pi.mulSingle_apply, if_pos hi, zpow_eq_of_emod hω (n := 2) (hm.trans (by norm_num)),
+  · rw [ite_eq_left hi] at hm
+    rw [Pi.mulSingle_apply, ite_eq_left hi, zpow_eq_of_emod hω (n := 2) (hm.trans (by norm_num)),
       zpow_ofNat]
-  · rw [if_neg hi] at hm
-    rw [Pi.mulSingle_apply, if_neg hi, one_pow, zpow_eq_of_emod hω (n := 0) (hm.trans (by norm_num)),
+  · rw [ite_eq_right hi] at hm
+    rw [Pi.mulSingle_apply, ite_eq_right hi, one_pow, zpow_eq_of_emod hω (n := 0) (hm.trans (by norm_num)),
       zpow_zero]
 
 theorem lang_centralizer {Ω : Type} [Field Ω] [IsAlgClosed Ω] {p : ℕ} [Fact p.Prime]

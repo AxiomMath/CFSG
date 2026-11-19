@@ -244,9 +244,9 @@ theorem sec53_sp_comm_CN_vone_le_Z (h34 : Stroth34Statement) (h51 : Stroth51Stat
     ((Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 hlBM) _).mp hLCZ) hLBZ
 
 theorem Ctx.centLam_sp_vone_of_counts
-    (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec5Hyp hc n t)
-    {m : ℕ} (hm : 2 ≤ m) (hV : SpMNat hc t m) {r : G}
-    (hr : r ∈ Rt M (LB M Q B) t)
+    (hc : Ctx M Q Z B) {n : ℕ} {t : G} (_hs : Sec5Hyp hc n t)
+    {m : ℕ} (_hm : 2 ≤ m) (_hV : SpMNat hc t m) {r : G}
+    (_hr : r ∈ Rt M (LB M Q B) t)
     (hV1N : ∀ s ∈ hc.CN t,
       ∀ x ∈ Vone Q B (conjSubgroup r B) (Vt M (LB M Q B) B Z t), ⁅s, x⁆ ∈ Z)
     (hV1card : Nat.card ↥(Vone Q B (conjSubgroup r B) (Vt M (LB M Q B) B Z t) ⊓ QB B)

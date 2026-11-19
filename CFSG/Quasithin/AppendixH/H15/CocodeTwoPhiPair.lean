@@ -46,17 +46,17 @@ private theorem eY_mul_eq_pair (X Y : Finset (Fin 24)) : eY X * eY Y = eY (symmD
   apply Multiplicative.toAdd.injective
   funext i
   simp only [toAdd_mul, Pi.add_apply, toAdd_eY, Finset.mem_symmDiff]
-  by_cases hx : i ∈ X <;> by_cases hy : i ∈ Y <;> simp [hx, hy] <;> decide
+  by_cases hx : i ∈ X <;> by_cases hy : i ∈ Y <;> simp [hx, hy]; decide
 
 private theorem ker_eq_of_ne22 (hd : d ≠ 22) :
     (mathModel false d a b Γ).ker = golayC := by
   unfold mathModel FFModel.golaySec
-  exact if_neg hd
+  exact ite_eq_right hd
 
 private theorem ker_eq_of_eq22 (hd : d = 22) :
     (mathModel false d a b Γ).ker = golayC ⊔ Subgroup.zpowers (pairVec a b) := by
   unfold mathModel FFModel.golaySec
-  exact if_pos hd
+  exact ite_eq_left hd
 
 private theorem fin8_eq_zero_or_one_of_not_two_le {p : Fin 8} (hp : ¬ 2 ≤ p.val) :
     p = 0 ∨ p = 1 := by

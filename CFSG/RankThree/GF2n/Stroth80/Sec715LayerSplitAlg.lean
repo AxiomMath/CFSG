@@ -48,7 +48,7 @@ theorem avgUnits_smul (p : X →+ X) (a : K) (v : X) :
 
 theorem avgUnits_mem (p : X →+ X) (W : Submodule K X) (hpW : ∀ v, p v ∈ W) (v : X) :
     avgUnits K p v ∈ W :=
-  W.smul_mem _ (W.sum_mem fun c _ => W.smul_mem _ (hpW _))
+  W.smul_mem _ (W.sum_mem fun _c _ => W.smul_mem _ (hpW _))
 
 theorem avgUnits_eq_self (p : X →+ X) (W : Submodule K X) (hp : ∀ w ∈ W, p w = w) {w : X}
     (hw : w ∈ W) : avgUnits K p w = w := by
@@ -58,6 +58,7 @@ theorem avgUnits_eq_self (p : X →+ X) (W : Submodule K X) (hp : ∀ w ∈ W, p
   simp only [avgUnits, h, Finset.sum_const, Finset.card_univ]
   rw [← Nat.cast_smul_eq_nsmul K, smul_smul, inv_mul_cancel₀ card_units_ne_zero, one_smul]
 
+omit [Group H] in
 theorem exists_linear_proj (W : Submodule K X) (p : X →+ X) (hpW : ∀ v, p v ∈ W)
     (hp : ∀ w ∈ W, p w = w) (T : H → X →ₗ[K] X) (hT : ∀ h v, p (T h v) = T h (p v)) :
     ∃ pK : X →ₗ[K] X, (∀ v, pK v ∈ W) ∧ (∀ w ∈ W, pK w = w) ∧
@@ -180,6 +181,7 @@ theorem exists_isIrrSub_le {U : Submodule K X} (hU : IsInvSub act U) (hU0 : U �
       Nat.find_min' hP ⟨Y', hY'Y.trans hYU, hY'inv, h0, rfl⟩
     exact Submodule.eq_of_le_of_finrank_le hY'Y (hYk ▸ hle)
 
+omit [FiniteDimensional K X] in
 theorem exists_invSub_finrank_one_of_trivial {Y : Submodule K X} (hY0 : Y ≠ ⊥)
     (htriv : ∀ h : H, ∀ y ∈ Y, act h y = y) :
     ∃ U : Submodule K X, IsInvSub act U ∧ U ≠ ⊥ ∧ Module.finrank K U = 1 := by
@@ -226,7 +228,7 @@ theorem exists_split (hRoot8 : Omega8LongRootRankStatement) (hq : 4 ≤ Nat.card
     ∃ Y₁ Y₂ : Submodule K X, IsCompl Y₁ Y₂ ∧ IsIrrSub act Y₁ ∧ IsIrrSub act Y₂ ∧
       Module.finrank K Y₁ = 8 ∧ Module.finrank K Y₂ = 8 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have htop : (⊤ : Submodule K X) ≠ ⊥ := by
     intro h
     have : Module.finrank K (⊤ : Submodule K X) = 0 := by rw [h, finrank_bot]

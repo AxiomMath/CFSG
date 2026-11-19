@@ -96,13 +96,11 @@ theorem isInvReps_config (h : F5Std a z) {t t' x : G} (ht : t ∈ orb2A a a) (ht
       have hgen := cp_s7_cent_gen φ htK ht'K hcomm h1 h2 h3
       have hcent_t : (Gxy a x ⊓ Subgroup.centralizer {t} : Subgroup G) = Gxyz a t x := by
         ext g
-        simp only [Subgroup.mem_inf, mem_Gxyz, mem_Gxy, mem_Gx,
-          Subgroup.mem_centralizer_singleton_iff]
+        simp only [Subgroup.mem_inf, mem_Gxyz, mem_Gxy, mem_Gx]
         tauto
       have hcent_t' : (Gxy a x ⊓ Subgroup.centralizer {t'} : Subgroup G) = Gxyz a t' x := by
         ext g
-        simp only [Subgroup.mem_inf, mem_Gxyz, mem_Gxy, mem_Gx,
-          Subgroup.mem_centralizer_singleton_iff]
+        simp only [Subgroup.mem_inf, mem_Gxyz, mem_Gxy, mem_Gx]
         tauto
       have hsub : (((Gxy a x ⊓ Subgroup.centralizer {t} : Subgroup G) : Set G) ∪
           ((Gxy a x ⊓ Subgroup.centralizer {t'} : Subgroup G) : Set G)) ⊆

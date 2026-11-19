@@ -84,11 +84,11 @@ theorem exists_prime_commutator_ne_bot {G : Type*} [Group G] [Finite G] (hO2 : C
     rw [CFSG.fitting_eq_sup_pCore]
     refine iSup_le fun r => ?_
     have hr : r.1.1.Prime := Nat.prime_of_mem_primeFactors r.1.2
-    haveI : Fact r.1.1.Prime := ⟨hr⟩
+    have : Fact r.1.1.Prime := ⟨hr⟩
     by_cases hr2 : r.1.1 = 2
     · rw [hr2, hO2]
       exact bot_le
-    · haveI := CFSG.LieType.BorelTits.pCore_normal (G := G) r.1.1
+    · have := CFSG.LieType.BorelTits.pCore_normal (G := G) r.1.1
       have hsub : CFSG.pCore r.1.1 G ≤ CFSG.Open.pCoreOf r.1.1 (⊤ : Subgroup G) :=
         CFSG.LieType.BorelTits.le_pCoreOf _ le_top inferInstance (CFSG.LieType.BorelTits.pCore_isPGroup _)
       have h1 := hno _ hr hr2
@@ -105,10 +105,10 @@ theorem exists_inverted_of_not_mem_alphaSet {G : Type} [Group G] [Finite G] {V :
     (hirr : ρ.IsIrreducible) {t : G} (ht : t * t = 1) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hqα : q ∉ alphaSet G) (hOt : ⁅CFSG.Open.pCoreOf q (⊤ : Subgroup G), Subgroup.zpowers t⁆ ≠ ⊥) :
     ∃ c : G, t * c * t⁻¹ = c⁻¹ ∧ Odd (orderOf c) ∧ ∀ v : V, ρ c v = v → v = 0 := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI hKn : (CFSG.Open.pCoreOf q (⊤ : Subgroup G)).Normal :=
+  have : Fact q.Prime := ⟨hq⟩
+  have hKn : (CFSG.Open.pCoreOf q (⊤ : Subgroup G)).Normal :=
     show ((CFSG.pCore q ↥(⊤ : Subgroup G)).map (⊤ : Subgroup G).subtype).Normal from inferInstance
-  haveI hRn : (CFSG.Open.pCoreOf q (commutator G)).Normal :=
+  have hRn : (CFSG.Open.pCoreOf q (commutator G)).Normal :=
     show ((CFSG.pCore q ↥(commutator G)).map (commutator G).subtype).Normal from inferInstance
   have hKp : IsPGroup q (CFSG.Open.pCoreOf q (⊤ : Subgroup G)) := CFSG.LieType.BorelTits.pCoreOf_isPGroup q ⊤
   obtain ⟨x, hxK, hxt⟩ : ∃ x ∈ CFSG.Open.pCoreOf q (⊤ : Subgroup G), x * t ≠ t * x := by
@@ -132,7 +132,7 @@ theorem exists_inverted_of_not_mem_alphaSet {G : Type} [Group G] [Finite G] {V :
   have hcR : c ∈ CFSG.Open.pCoreOf q (commutator G) :=
     CFSG.LieType.BorelTits.le_pCoreOf q (N := CFSG.Open.pCoreOf q (⊤ : Subgroup G) ⊓ commutator G) inf_le_right
       inferInstance (hKp.to_le inf_le_left) (Subgroup.mem_inf.mpr ⟨hcK, hcG⟩)
-  haveI hRcyc : IsCyclic ↥(CFSG.Open.pCoreOf q (commutator G)) := by
+  have hRcyc : IsCyclic ↥(CFSG.Open.pCoreOf q (commutator G)) := by
     refine CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.Parrott.P614.P614H.isCyclic_of_pRank_le_one hq hq2
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup q (commutator G)) ?_
     by_contra h
@@ -143,7 +143,7 @@ theorem exists_inverted_of_not_mem_alphaSet {G : Type} [Group G] [Finite G] {V :
     apply hxt
     rw [hcdef, mul_inv_eq_one, mul_inv_eq_iff_eq_mul] at h
     exact h
-  haveI : (Subgroup.zpowers c).Normal := by
+  have : (Subgroup.zpowers c).Normal := by
     have h := CFSG.GorensteinWalter.normalizer_le_normalizer_of_le_cyclic hRcyc (Subgroup.zpowers_le.mpr hcR)
     rw [Subgroup.normalizer_eq_top] at h
     exact Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h)
@@ -173,10 +173,10 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P T B : Subgroup G} {e : ℕ
 theorem two_mul_card_Delta_le_finrank (hc : BinaryActionRankCounterexample G p P T B e ρ) :
     2 * Nat.card ↥(Delta p P ρ) ≤ Module.finrank (ZMod 2) V := by
   classical
-  haveI : FiniteDimensional (ZMod 2) V :=
+  have : FiniteDimensional (ZMod 2) V :=
     CFSG.LinearAlgebra.CoprimeActions.IrreducibleFiniteGroupFiniteDimensional.finiteDimensional_of_irreducible
       ρ hc.faithfulBinaryIrreducibleAction.irreducible
-  haveI : Fintype ↥(Delta p P ρ) := Fintype.ofFinite _
+  have : Fintype ↥(Delta p P ρ) := Fintype.ofFinite _
   have hdec := isInternal_hyperplane_fixedSubmodule_of_binary_rank_counterexample hc
   rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top] at hdec
   choose f hf hfW using fun E : ↥(Delta p P ρ) =>
@@ -188,7 +188,7 @@ theorem lt_commRank_of_not_mem_alphaSet (hc : BinaryActionRankCounterexample G p
     (ht : orderOf t = 2) {q : ℕ} (hq : q.Prime) (hqα : q ∉ alphaSet G)
     (hOt : ⁅CFSG.Open.pCoreOf q (⊤ : Subgroup G), Subgroup.zpowers t⁆ ≠ ⊥) : e + 1 < commRank ρ t := by
   have hF := hc.faithfulBinaryIrreducibleAction
-  haveI : FiniteDimensional (ZMod 2) V :=
+  have : FiniteDimensional (ZMod 2) V :=
     CFSG.LinearAlgebra.CoprimeActions.IrreducibleFiniteGroupFiniteDimensional.finiteDimensional_of_irreducible
       ρ hF.irreducible
   have htt : t * t = 1 := by rw [← pow_two, ← ht, pow_orderOf_eq_one]

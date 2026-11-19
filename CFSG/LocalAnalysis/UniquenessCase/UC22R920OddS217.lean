@@ -28,7 +28,7 @@ theorem uc22s217l2_not_isL2Odd_r920odd (D : Data G) (Ch : Choice2011 G) (h212 : 
   have hLM : L ≤ D.M := hL.1.le
   have hnN' : ¬ D.M ≤ normalizer (L : Set G) := fun h =>
     hnN ((Subgroup.normal_subgroupOf_iff_le_normalizer hLM).2 h)
-  obtain ⟨m, hmM, hmN⟩ := SetLike.not_le_iff_exists.1 hnN'
+  obtain ⟨m, hmM, hmN⟩ := IsConcreteLE.not_le_iff_exists.1 hnN'
   let f : MulAut G := MulAut.conj m
   have hMf : D.M.map f.toMonoidHom = D.M :=
     UC6S846.mem_normalizer_iff_map_conj.1 (Subgroup.le_normalizer hmM)
@@ -43,7 +43,7 @@ theorem uc22s217l2_not_isL2Odd_r920odd (D : Data G) (Ch : Choice2011 G) (h212 : 
     (Or.inr (Or.inr (Or.inr ⟨q, hq, hKq⟩)))
   have h3L : 3 ∣ Nat.card L :=
     CFSG.GroupTheory.dvd_card_of_one_le_pRank Nat.prime_three (by rw [hL3.1])
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 3 h3L
   have hD₃L : zpowers ((x : ↥L) : G) ≤ L := Subgroup.zpowers_le.mpr x.2
   have hD₃3 : Nat.card (zpowers ((x : ↥L) : G)) = 3 := by

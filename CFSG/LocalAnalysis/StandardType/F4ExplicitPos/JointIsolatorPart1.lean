@@ -112,7 +112,7 @@ theorem exists_primitiveRoot_unit (Ω : Type) [Field Ω] [IsAlgClosed Ω] (ℓ :
     (hℓΩ : (ℓ : Ω) ≠ 0) : ∃ lam : Ωˣ, IsPrimitiveRoot lam ℓ := by
   have : IsSepClosed Ω := IsSepClosed.of_isAlgClosed Ω
   have : NeZero (ℓ : Ω) := ⟨hℓΩ⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω ℓ
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω ℓ
   exact ⟨(hζ.isUnit (NeZero.ne ℓ)).unit, hζ.isUnit_unit (NeZero.ne ℓ)⟩
 
 theorem kernelRoots_lamDiag_eq_parabolicRoots
@@ -149,7 +149,7 @@ theorem kernelRoots_lamDiag_mul_eq_inter {Ω : Type} [Field Ω] {J : Set (Fin Ta
       parabolicRoots Tag.F4 J ∩ kernelRoots (rootCharHom d') := by
   ext α
   rw [kernelRoots_rootCharHom]
-  simp only [Set.mem_setOf_eq, Set.mem_inter_iff, parabolicRoots]
+  simp only [Set.mem_ofPred_eq, Set.mem_inter_iff, parabolicRoots]
   constructor
   · rintro ⟨hroot, hchar⟩
     rw [rootChar_mul_tuple_fam] at hchar
@@ -193,7 +193,7 @@ theorem lamDiag_mul_pow {Ω : Type} [Field Ω] {J : Set (Fin Tag.F4.rank)} {p �
   have hz : (lamDiag (K := Ω) J lam i) ^ (p * ℓ) = 1 := by
     by_cases hi : i ∈ J
     · simp [lamDiag, hi]
-    · simp only [lamDiag, if_neg hi]
+    · simp only [lamDiag, ite_eq_right hi]
       rw [pow_mul', hlam.pow_eq_one, one_pow]
   have hd : (d' i) ^ (p * ℓ) = 1 := by
     rw [pow_mul, hd' i, one_pow]

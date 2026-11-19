@@ -295,7 +295,7 @@ theorem oPrimeResidual_sup_E (hF : L2Field F) (N : L2Notation e) :
     fun x hx => Subgroup.subset_closure hx
   have hTQ : (N.T : Subgroup (MulAut K)) ≤ Q := by
     intro x hx
-    obtain ⟨k, hk⟩ := N.T.isPGroup' (⟨x, hx⟩ : ↥(N.T : Subgroup (MulAut K)))
+    obtain ⟨k, hk⟩ := N.T.isPGroup (⟨x, hx⟩ : ↥(N.T : Subgroup (MulAut K)))
     exact hmemQ x ⟨k, congrArg Subtype.val hk⟩
   have hsimple : IsSimpleGroup ↥(innAut K) := by
     have : IsSimpleGroup (PSL2 F) :=

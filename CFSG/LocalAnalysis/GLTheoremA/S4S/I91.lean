@@ -66,8 +66,7 @@ private theorem i91_inducesInnerMod_of_barAut {G : Type} [Group G] {p : ℕ} {L 
   simp only [barAut_mk, MulAut.conj_apply, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_inv] at h1
   rw [QuotientGroup.eq] at h1
   refine Subgroup.mem_map.2 ⟨_, Subgroup.inv_mem _ h1, ?_⟩
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, i91_coe_normalizerMonoidHom, Subgroup.coe_mk,
-    Subgroup.coe_subtype]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv, i91_coe_normalizerMonoidHom, Subgroup.coe_subtype]
   group
 
 private theorem i91_barAut_eq_conj_of_inducesInnerMod {G : Type} [Group G] {p : ℕ}
@@ -85,14 +84,14 @@ private theorem i91_barAut_eq_conj_of_inducesInnerMod {G : Type} [Group G] {p : 
     have hu : a * (x : G) * a⁻¹ ∈ L := (Subgroup.mem_normalizer_iff.1 ha (x : G)).1 x.2
     have e : (((L.normalizerMonoidHom ⟨a, ha⟩ x)⁻¹ * (⟨l, hl⟩ * x * (⟨l, hl⟩ : ↥L)⁻¹) : ↥L) : G) =
         l * ((l⁻¹ * (a * (x : G) * a⁻¹) * l)⁻¹ * (a⁻¹ * (a * (x : G) * a⁻¹) * a)) * l⁻¹ := by
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, i91_coe_normalizerMonoidHom, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, i91_coe_normalizerMonoidHom]
       group
     rw [e]
     exact i91_conj_mem hl (hy _ hu)
 
 private theorem i91_coprime_O {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (L : Subgroup G) : Nat.Coprime p (Nat.card ↥(GLAPPrimeCoreOf p L)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   unfold GLAPPrimeCoreOf
   rw [Subgroup.card_map_of_injective L.subtype_injective]
   exact CFSG.pPrimeCore_coprime_card
@@ -106,7 +105,7 @@ private theorem i91_fixed_lift {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p
   have hOL : GLAPPrimeCoreOf p L ≤ L := Subgroup.map_subtype_le _
   have hOle : GLAPPrimeCoreOf p L ≤ Subgroup.normalizer (L : Set G) := fun x hx =>
     Subgroup.le_normalizer (hOL hx)
-  haveI hNn : ((GLAPPrimeCoreOf p L).subgroupOf (Subgroup.normalizer (L : Set G))).Normal :=
+  have hNn : ((GLAPPrimeCoreOf p L).subgroupOf (Subgroup.normalizer (L : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hOle).2
       (normalizer_le_normalizer_glaPPrimeCoreOf p L)
   have hcop : Nat.Coprime p (Nat.card ((GLAPPrimeCoreOf p L).subgroupOf
@@ -117,7 +116,7 @@ private theorem i91_fixed_lift {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p
     rw [barAut_mk, QuotientGroup.eq] at hfix
     have h1 := (i91_mem_core_iff _).1 hfix
     convert h1 using 1
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, i91_coe_normalizerMonoidHom, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, i91_coe_normalizerMonoidHom]
   have hcoset : (⟨a, ha⟩ : ↥(Subgroup.normalizer (L : Set G))) * ⟨x0, Subgroup.le_normalizer hx0⟩ *
       (⟨a, ha⟩ : ↥(Subgroup.normalizer (L : Set G)))⁻¹ * (⟨x0, Subgroup.le_normalizer hx0⟩)⁻¹ ∈
       (GLAPPrimeCoreOf p L).subgroupOf (Subgroup.normalizer (L : Set G)) := by
@@ -156,10 +155,10 @@ private theorem i91_quasisimple_of_simple (T : Type) [Group T] [IsSimpleGroup T]
 private theorem i91_ker_eq_core {p : ℕ} (hp : p.Prime) {A S : Type} [Group A] [Finite A] [Group S]
     [IsSimpleGroup S] (ψ : A →* S) (hψ : Function.Surjective ψ) (hpS : p ∣ Nat.card S)
     (hker : Nat.Coprime p (Nat.card ψ.ker)) : ψ.ker = GLAPPrimeCore p A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · exact le_sSup (show ψ.ker ∈ normalPPrimeSubgroups p A from ⟨inferInstance, hker⟩)
-  · haveI := Subgroup.Normal.map (GLAPPrimeCore.normal p A) ψ hψ
+  · have := Subgroup.Normal.map (GLAPPrimeCore.normal p A) ψ hψ
     rcases Subgroup.Normal.eq_bot_or_eq_top ((GLAPPrimeCore p A).map ψ) with h1 | h1
     · intro x hx
       have hx' : ψ x ∈ (GLAPPrimeCore p A).map ψ := Subgroup.mem_map_of_mem ψ hx
@@ -182,7 +181,7 @@ private theorem i91_pow_eq {M : Type*} [Monoid M] {α : M} {k : ℕ} (h3 : α ^ 
 theorem i91At_of {G : Type} [Group G] [Finite G] (h : KD91) : I91At G := by
   intro X L b hL hcat hbN hb3 hbni
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple (PQuot 3 L) := isQuasisimple_pQuot_of_glaPComponent hp hL
   have hZ : Subgroup.center (PQuot 3 L) = ⊥ :=
     (h (PSimple 3 L) hcat).1 (PQuot 3 L) hq (I2611.isPGroup_center_pQuot' hp L) ⟨MulEquiv.refl _⟩
@@ -319,7 +318,7 @@ theorem i91At_of {G : Type} [Group G] [Finite G] (h : KD91) : I91At G := by
     rw [hrange]
     exact hgcat
   obtain ⟨hTsimp, hTnon, hT3⟩ := (h (PQuot 3 L) hQcat).2.2 ↥(ρ.range) hTcat
-  haveI := hTsimp
+  have := hTsimp
   have hTq : CFSG.Open.IsQuasisimple ↥(ρ.range) := i91_quasisimple_of_simple _ hTnon
   have hkerρ : ρ.ker = GLAPPrimeCore 3 ↥Xs := by
     have hcopK : Nat.Coprime 3 (Nat.card ρ.ker) := by
@@ -349,7 +348,7 @@ theorem i91At_of {G : Type} [Group G] [Finite G] (h : KD91) : I91At G := by
     sup_glaPPrimeCoreOf_eq_of_barX_eq_top hJX hJbar
   obtain ⟨-, ⟨e4⟩⟩ := cover_facts hp hJX hsup
   let e5 : PQuot 3 (GLAPLayer 3 Xs) ≃* ↥(ρ.range) := e4.trans eX
-  haveI : IsSimpleGroup (PQuot 3 (GLAPLayer 3 Xs)) := e5.isSimpleGroup
+  have : IsSimpleGroup (PQuot 3 (GLAPLayer 3 Xs)) := e5.isSimpleGroup
   have hJnon : ∃ a b : PQuot 3 (GLAPLayer 3 Xs), a * b ≠ b * a := by
     obtain ⟨a, c, hac⟩ := hTnon
     refine ⟨e5.symm a, e5.symm c, fun heq => hac ?_⟩

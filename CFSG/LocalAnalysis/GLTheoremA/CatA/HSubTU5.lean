@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.GLTheoremA.LevelLieU
 theorem u5_holds : KSubT.CompFact S9.isU5two S9.isU4two := by
   intro H _ _ J B d hJq hcat hdB hI hd3 hdJ K hK
   obtain ⟨e0⟩ := bridge_u5two_stated hcat
-  haveI := M5_nontrivial
+  have := M5_nontrivial
   exact comp_of_inner hJq (hI.1 hdB) hd3 hdJ e0
     (fun α h => exists_conj_of_pow_three α h)
     (fun s h3 h1 L hL => M5_comp h3 h1 hL) K hK

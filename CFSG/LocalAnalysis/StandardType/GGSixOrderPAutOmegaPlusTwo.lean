@@ -20,7 +20,7 @@ theorem ggPsiInnerDiag_of_cube_of_label_omegaPlus_two {m : ℕ} (hm : 5 ≤ m)
     GGPsiInnerDiag Δ ψ c := by
   classical
   have hm3 : ¬ m = 3 := by omega
-  simp only [GGHasLabel, LargeEvenRawDatum, if_neg hm3, pow_one] at hlabel
+  simp only [GGHasLabel, LargeEvenRawDatum, ite_eq_right hm3, pow_one] at hlabel
   obtain ⟨K, _, _, hK, ⟨θ⟩⟩ := hlabel
   have := Fintype.ofFinite K
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

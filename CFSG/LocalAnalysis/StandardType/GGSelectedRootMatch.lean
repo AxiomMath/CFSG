@@ -49,7 +49,7 @@ theorem torusClause_of_sl2Embedding
     (model' : SelectedSL2Model D' k' delta)
     (ψ : K →* G) (ψ' : K' →* G) (u : K)
     (hΦ : Function.Injective ((ψ.comp (MulAut.conj u).toMonoidHom).comp phi))
-    (hΦ' : Function.Injective (ψ'.comp model'.phi))
+    (_hΦ' : Function.Injective (ψ'.comp model'.phi))
     (hY : (sl2UpperUniSub k).map ((ψ.comp (MulAut.conj u).toMonoidHom).comp phi) =
       (sl2UpperUniSub k').map (ψ'.comp model'.phi))
     (hS : ((ψ.comp (MulAut.conj u).toMonoidHom).comp phi).range =

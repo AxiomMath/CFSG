@@ -53,7 +53,7 @@ theorem exists_odd_normal_complement (P : Sylow 2 G) (hP : Nat.card (P : Subgrou
     MonoidHom.not_dvd_card_ker_transferSylow P hle, ?_, ?_⟩
   · intro g hg
     rw [MonoidHom.mem_ker]
-    obtain ⟨k, hk⟩ := P.isPGroup' (MonoidHom.transferSylow P hle g)
+    obtain ⟨k, hk⟩ := P.isPGroup (MonoidHom.transferSylow P hle g)
     have h1 := orderOf_dvd_of_pow_eq_one hk
     have h2 := orderOf_map_dvd (MonoidHom.transferSylow P hle) g
     exact orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes (hg.pow_right k) h2 h1)
@@ -123,7 +123,7 @@ theorem card_sylow_coreActionKernel (h : Config t L p f) {S : Subgroup X}
   rw [Sylow.card_eq_multiplicity P, ← Sylow.card_eq_multiplicity P₁]
   set A := (P₁ : Subgroup ↥(coreActionKernel L)).map (coreActionKernel L).subtype with hA
   have htA : t ∈ A := ⟨⟨t, htK⟩, hP₁ (mem_subgroupOf.mpr (mem_zpowers t)), rfl⟩
-  have hA2 : IsPGroup 2 A := P₁.isPGroup'.map _
+  have hA2 : IsPGroup 2 A := P₁.isPGroup.map _
   have hAK : A ≤ coreActionKernel L := map_subtype_le _
   have hcent : ∀ a ∈ A, a * t = t * a := by
     have hA2' : IsPGroup 2 ↥A := hA2

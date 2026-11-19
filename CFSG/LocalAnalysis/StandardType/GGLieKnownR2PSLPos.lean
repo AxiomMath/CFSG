@@ -115,9 +115,9 @@ theorem ggSixLieKnownPos_PSL_of_explicit
   obtain ⟨φJ, hφJrange, hφJker, uJ, hRJdef⟩ := hvia
   have hJns : ¬ Group.IsSolvable ↥φJ.range := by
     rw [hφJrange]
-    haveI : Group.IsPerfect ↥J := Group.isPerfect_def.mpr h15.2.2.1
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := h15.2.2.2
-    haveI : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
+    have : Group.IsPerfect ↥J := Group.isPerfect_def.mpr h15.2.2.1
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := h15.2.2.2
+    have : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
     exact Group.IsPerfect.not_isSolvable ↥J
   have hB₁p : IsPGroup p B₁ := by
     intro b
@@ -142,7 +142,7 @@ theorem ggSixLieKnown_PSL_of_explicit
 
 theorem ggSixLieKnown_PSL :
     GGSixLieKnown .PSL :=
-  ggSixLieKnown_PSL_of_explicit (fun X _ _ n f ψ p G₀ B₁ D J L x hH =>
+  ggSixLieKnown_PSL_of_explicit (fun _X _ _ n f ψ p G₀ B₁ D J L x hH =>
     CFSG.StandardType.ClassicalPosition.ggSixPSLPosExplicit_holds n f ψ p G₀ B₁ D J L x hH)
 
 end CFSG.StandardType.LieKnownR2.PSL

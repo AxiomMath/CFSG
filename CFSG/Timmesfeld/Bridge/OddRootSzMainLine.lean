@@ -22,10 +22,12 @@ variable {G : Type} [Group G] [Finite G] {D : Set G} {d e : G} {E : Set G} {n : 
 @[expose] def szLineStab (D : Set G) (d e : G) : Subgroup G :=
   Subgroup.normalizer (szLineSet D d e) ⊓ Subgroup.normalizer D
 
+omit [Finite G] in
 theorem conj_mem_szLineSet (r : ↥(szLineStab D d e)) {a : G} (ha : a ∈ szLineSet D d e) :
     (r : G) * a * (r : G)⁻¹ ∈ szLineSet D d e :=
   (Subgroup.mem_set_normalizer_iff.mp r.2.1 a).mp ha
 
+omit [Finite G] in
 private theorem conjSet_mem_line (r : ↥(szLineStab D d e)) {X : Set G}
     (hX : X ∈ szLine D d e) : OddLocal.conjSet (r : G) X ∈ szLine D d e := by
   obtain ⟨a, ha, rfl⟩ := hX
@@ -65,6 +67,7 @@ def szLineHom (D : Set G) (d e : G) :
     ext x
     simp [OddLocal.conjSet, mul_assoc]
 
+omit [Finite G] in
 theorem szLineHom_apply (r : ↥(szLineStab D d e)) (X : ↥(szLine D d e)) :
     ((szLineHom D d e r X : ↥(szLine D d e)) : Set G) =
       (fun x => (r : G) * x * (r : G)⁻¹) '' (X : Set G) := by simp [szLineHom, OddLocal.conjSet]
@@ -72,6 +75,7 @@ theorem szLineHom_apply (r : ↥(szLineStab D d e)) (X : ↥(szLine D d e)) :
 @[expose] def szLinePt (D : Set G) (d e a : G) (ha : a ∈ szLineSet D d e) : ↥(szLine D d e) :=
   ⟨rootSet D a, a, ha, rfl⟩
 
+omit [Finite G] in
 theorem szLineHom_szLinePt (r : ↥(szLineStab D d e)) {a : G} (ha : a ∈ szLineSet D d e) :
     szLineHom D d e r (szLinePt D d e a ha) =
       szLinePt D d e ((r : G) * a * (r : G)⁻¹) (conj_mem_szLineSet r ha) := by
@@ -86,21 +90,26 @@ theorem szLineHom_szLinePt (r : ↥(szLineStab D d e)) {a : G} (ha : a ∈ szLin
   have h := CFSG.Timmesfeld.rootSet_map (MulAut.conj (r : G)) (E := D) himage a
   simpa [hfun] using h.symm
 
+omit [Finite G] in
 theorem szLinePt_eq_iff {a b : G} (ha : a ∈ szLineSet D d e) (hb : b ∈ szLineSet D d e) :
     szLinePt D d e a ha = szLinePt D d e b hb ↔ rootSet D a = rootSet D b :=
   Subtype.mk_eq_mk
 
+omit [Finite G] in
 theorem exists_szLinePt (X : ↥(szLine D d e)) :
     ∃ a, ∃ ha : a ∈ szLineSet D d e, X = szLinePt D d e a ha := by
   obtain ⟨a, ha, hX⟩ := X.2
   exact ⟨a, ha, Subtype.ext hX⟩
 
+omit [Finite G] in
 theorem SzCfg.d_mem_szLineSet (c : SzCfg G D d E e n) : d ∈ szLineSet D d e :=
   ⟨c.d_mem, Commute.refl d, ((c.subset_commSet c.e_mem).2.1).symm⟩
 
+omit [Finite G] in
 theorem SzCfg.e_mem_szLineSet (c : SzCfg G D d E e n) : e ∈ szLineSet D d e :=
   ⟨(c.subset_commSet c.e_mem).1, (c.subset_commSet c.e_mem).2.1, Commute.refl e⟩
 
+omit [Finite G] in
 private theorem mem_normalizer_D (c : SzCfg G D d E e n) (g : G) :
     g ∈ Subgroup.normalizer D := by
   rw [Subgroup.mem_set_normalizer_iff]
@@ -111,12 +120,14 @@ private theorem mem_normalizer_D (c : SzCfg G D d E e n) (g : G) :
     have h := c.hyp.setup.normal g⁻¹ (g * x * g⁻¹) hx
     simpa [mul_assoc] using h
 
+omit [Finite G] in
 private theorem closure_le_centralizer_d (c : SzCfg G D d E e n) :
     Subgroup.closure E ≤ Subgroup.centralizer ({d} : Set G) := by
   rw [Subgroup.closure_le]
   intro x hx
   exact Subgroup.mem_centralizer_singleton_iff.mpr (c.subset_commSet hx).2.1
 
+omit [Finite G] in
 theorem SzCfg.conj_d_eq_of_mem_closure (c : SzCfg G D d E e n) {h : G}
     (hh : h ∈ Subgroup.closure E) : h * d * h⁻¹ = d := by
   have hcomm : h * d = d * h :=
@@ -124,6 +135,7 @@ theorem SzCfg.conj_d_eq_of_mem_closure (c : SzCfg G D d E e n) {h : G}
   rw [hcomm]
   group
 
+omit [Finite G] in
 theorem SzCfg.szLineHom_fix_of_mem_closure (c : SzCfg G D d E e n) {r : ↥(szLineStab D d e)}
     (hr : (r : G) ∈ Subgroup.closure E) :
     szLineHom D d e r (szLinePt D d e d c.d_mem_szLineSet) =
@@ -149,6 +161,7 @@ theorem SzCfg.szLineSet_eq (c : SzCfg G D d E e n) :
         hxsub e (c.subset_commSet c.e_mem).1 ((c.subset_commSet c.e_mem).2.1).symm⟩
     · exact ⟨(c.subset_commSet hxcomp.1).1, (c.subset_commSet hxcomp.1).2.1, hxcomp.2⟩
 
+omit [Finite G] in
 private theorem mem_normalizer_szLineSet_of_swap (c : SzCfg G D d E e n) {g : G}
     (hgd : g * d * g⁻¹ = e) (hge : g * e * g⁻¹ = d) :
     g ∈ Subgroup.normalizer (szLineSet D d e) := by
@@ -339,16 +352,19 @@ theorem SzCfg.szN_trans (c : SzCfg G D d E e n) (P : Sylow 2 (SzBar E)) (hP : e 
   change (fun x => h * x * h⁻¹) '' rootSet D a = rootSet D b
   rw [← CFSG.Timmesfeld.rootSet_conj c.hyp.setup.isClass h a, hconj]
 
+omit [Finite G] in
 private theorem szLineHom_conj_apply (r s : ↥(szLineStab D d e)) (X : ↥(szLine D d e)) :
     szLineHom D d e (r * s * r⁻¹) X =
       szLineHom D d e r (szLineHom D d e s (szLineHom D d e r⁻¹ X)) := by
   rw [map_mul, map_mul, Equiv.Perm.mul_apply, Equiv.Perm.mul_apply]
 
+omit [Finite G] in
 private theorem szLineHom_inv_apply (r : ↥(szLineStab D d e)) (X : ↥(szLine D d e)) :
     szLineHom D d e r⁻¹ (szLineHom D d e r X) = X := by
   rw [← Equiv.Perm.mul_apply, ← map_mul, inv_mul_cancel, map_one]
   rfl
 
+omit [Finite G] in
 private theorem szLineHom_apply_inv_apply (r : ↥(szLineStab D d e)) (X : ↥(szLine D d e)) :
     szLineHom D d e r (szLineHom D d e r⁻¹ X) = X := by
   rw [← Equiv.Perm.mul_apply, ← map_mul, mul_inv_cancel, map_one]
@@ -497,7 +513,7 @@ theorem SzCfg.conj_mem_szQ_of_fix (c : SzCfg G D d E e n) {r : ↥(szLineStab D 
       · exact absurd hx hxnot
       · exact hx
   have himageE : (fun x => (r : G) * x * (r : G)⁻¹) '' E = E := by
-    rw [hEeq, Set.image_diff (fun x y hxy => by simpa [mul_assoc] using hxy),
+    rw [hEeq, Set.image_sdiff (fun x y hxy => by simpa [mul_assoc] using hxy),
       himageCD, himage_root]
   exact conj_mem_szQ himageE hy
 

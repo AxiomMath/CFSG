@@ -37,7 +37,7 @@ theorem exists_matrixTorus_of_sl2Cube [Finite K] [CharP K 2] {p : ℕ} (hp : p.P
       (∀ c, X c ∈ H) ∧ X (Multiplicative.ofAdd 1) ∉ LargeEvenScalars ι K ∧
       (∀ c, X c ^ 2 = 1) ∧ (∀ f c, ∃ c', τ f * X c * (τ f)⁻¹ = X c') := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨s, n, hso, hn⟩ :=
     CFSG.StandardType.GGPlusLiftSL2.exists_order_p_inverting_sl2 hp hp2 hpq
   have hsp : s ^ p = 1 := by rw [← hso]; exact pow_orderOf_eq_one s

@@ -93,7 +93,7 @@ theorem treeK_spec {UL gw : List Nat} {N root KP PL PI : Nat}
     refine ⟨fun i hi => Nat.blt_eq.mp (Raw.Orb.allN_iff.1 hinc i hi), Nat.blt_eq.mp hlast, ?_, ?_⟩
     · intro hkr
       have hb : Nat.beq k root = true := Nat.beq_eq.mpr hkr
-      rw [if_pos hb] at hrest
+      rw [ite_eq_left hb] at hrest
       unfold rootK at hrest
       rw [bAnd_iff] at hrest
       refine ⟨Nat.beq_eq.mp hrest.1, fun i hi => ?_⟩
@@ -105,7 +105,7 @@ theorem treeK_spec {UL gw : List Nat} {N root KP PL PI : Nat}
         cases e : Nat.beq k root
         · rfl
         · exact absurd (Nat.beq_eq.mp e) hkr
-      rw [if_neg (by rw [hb]; decide)] at hrest
+      rw [ite_eq_right (by rw [hb]; decide)] at hrest
       unfold edgeK at hrest
       rw [Raw.Orb.strictB_eq, Raw.Orb.strictB_eq, bAnd_iff, bAnd_iff, bAnd_iff, bAnd_iff,
         Nat.blt_eq, Nat.beq_eq, Nat.blt_eq, Nat.beq_eq] at hrest
@@ -146,8 +146,8 @@ theorem PP_eq (p1 p2 : List Nat) (c j : Nat) : PP p1 p2 c j = if c = 0 then gD p
   unfold PP
   rw [Raw.Orb.nIf_eq]
   by_cases hc : c = 0
-  · rw [if_pos (Nat.beq_eq.mpr hc), if_pos hc]
-  · rw [if_neg (by intro e; exact hc (Nat.beq_eq.mp e)), if_neg hc]
+  · rw [ite_eq_left (Nat.beq_eq.mpr hc), ite_eq_left hc]
+  · rw [ite_eq_right (by intro e; exact hc (Nat.beq_eq.mp e)), ite_eq_right hc]
 
 theorem levelK_spec {p1 p2 : List Nat} {W : List (List Nat)} {O P G : List Nat} {i : Nat}
     (h : levelK p1 p2 W O P G i = true) :
@@ -347,8 +347,7 @@ theorem dc_le {G X : Type*} [Group G] [MulAction G X] [Fintype X] [DecidableEq X
         rw [mul_smul]
         change h • U = V at hh
         rw [hh]
-      · change x ∈ g • V
-        rw [← hg]
+      · rw [← hg]
         exact Finset.smul_mem_smul_finset hx0
     · intro V _ W _ e
       have := congrArg (fun Z => g⁻¹ • Z) e
@@ -525,11 +524,9 @@ variable {G X : Type*} [Group G] [MulAction G X]
 @[expose] def preS (t : Nat → X) (i : Nat) : Subgroup G where
   carrier := {g | ∀ j < i, g • t j = t j}
   mul_mem' {a b} ha hb j hj := by
-    change (a * b) • t j = t j
     rw [mul_smul, hb j hj, ha j hj]
   one_mem' j _ := one_smul G (t j)
   inv_mem' {a} ha j hj := by
-    change a⁻¹ • t j = t j
     rw [inv_smul_eq_iff, ha j hj]
 
 theorem mem_preS {t : Nat → X} {i : Nat} {g : G} : g ∈ preS t i ↔ ∀ j < i, g • t j = t j :=
@@ -639,18 +636,18 @@ theorem orbit_ge_of_chainK [Finite G] {UL w1 w2 p1 p2 : List Nat}
   have hψH : ∀ c, ψ c ∈ H := by
     intro c
     by_cases hc : c = 0
-    · simp only [ψ, if_pos hc]; exact h1
-    · simp only [ψ, if_neg hc]; exact h2
+    · simp only [ψ, ite_eq_left hc]; exact h1
+    · simp only [ψ, ite_eq_right hc]; exact h2
   have hψ : ∀ c < 2, ∀ j < 22, PP p1 p2 c j < 22 ∧ ψ c • tP UL j = tP UL (PP p1 p2 c j) := by
     intro c hc j hj
     obtain ⟨hj1, hj2, hv1, hv2⟩ := traceK_spec htr j hj
     rw [PP_eq]
     by_cases hc0 : c = 0
-    · simp only [ψ, if_pos hc0]
+    · simp only [ψ, ite_eq_left hc0]
       refine ⟨hj1, Fin.ext ?_⟩
       have e : tP UL j = ⟨gD UL j, hUlt j hj⟩ := Fin.ext (htP j hj)
       rw [e, s1, hv1, htP _ hj1]
-    · simp only [ψ, if_neg hc0]
+    · simp only [ψ, ite_eq_right hc0]
       refine ⟨hj2, Fin.ext ?_⟩
       have e : tP UL j = ⟨gD UL j, hUlt j hj⟩ := Fin.ext (htP j hj)
       rw [e, pow_smul_val s2 2 _ (hUlt j hj), Function.iterate_succ_apply, Function.iterate_one,

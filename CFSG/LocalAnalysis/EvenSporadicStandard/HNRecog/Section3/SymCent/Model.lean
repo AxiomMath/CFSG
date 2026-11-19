@@ -86,7 +86,7 @@ theorem sym6_involution_types {σ : Sym 6} (h : σ ^ 2 = 1) :
     σ = 1 ∨ (σ.cycleType = {2} ∧ Equiv.Perm.sign σ = -1) ∨
       (σ.cycleType = {2, 2} ∧ Equiv.Perm.sign σ = 1) ∨
       (σ.cycleType = {2, 2, 2} ∧ Equiv.Perm.sign σ = -1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcyc : σ.cycleType = Multiset.replicate σ.cycleType.card 2 :=
     Equiv.Perm.cycleType_of_pow_prime_eq_one h
   have hsum : σ.cycleType.sum = 2 * σ.cycleType.card := by
@@ -182,7 +182,7 @@ theorem symModel_central {u : Z 2 × Sym 6} (hu : orderOf u = 2)
     by_contra hne
     have hex : ∃ i : Fin 6, σ i ≠ i := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hne (Equiv.ext h)
     obtain ⟨i, hik⟩ := hex
     have hexj : ∃ j : Fin 6, j ≠ i ∧ j ≠ (σ i) := by

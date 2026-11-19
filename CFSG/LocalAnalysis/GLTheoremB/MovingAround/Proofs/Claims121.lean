@@ -37,14 +37,14 @@ theorem card_map_mk_of_coprime [Finite G] {J E : Subgroup G} (N : Subgroup ↥J)
 theorem input2027L34_holds : Prop121.Input2027L34 := by
   intro G _ _ J B T hJ hBJ hB hBc hTJ hT hBT
   set N : Subgroup ↥J := CFSG.pCore 2 ↥J with hN
-  haveI : N.Normal := CFSG.pCore_normal
+  have : N.Normal := CFSG.pCore_normal
   set π : ↥J →* ↥J ⧸ N := QuotientGroup.mk' N with hπ
   have hTb : IsPGroup 2 ((T.subgroupOf J).map π) := (hT.comap_subtype).map π
   have hBb : IsElemAbelian 3 ((B.subgroupOf J).map π) :=
     CFSG.SectionRank.isElemAbelian_map (isElemAbelian_subgroupOf hB J) π
   have hN2 : IsPGroup 2 N := CFSG.pCore_isPGroup
   have hcop : Nat.Coprime (Nat.card B) (Nat.card N) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := hN2.exists_card_eq
     rw [hBc, hk]
     exact Nat.Coprime.pow_right k (by norm_num)
@@ -119,7 +119,7 @@ theorem eq_one_of_pow_three_of_coprime [Finite G] {O : Subgroup G}
 theorem coprime_three_of_isPGroup_two {H : Type*} [Group H] [Finite H] {T : Subgroup H}
     (hT : IsPGroup 2 T) :
     Nat.Coprime 3 (Nat.card T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hT.exists_card_eq
   rw [hk]
   exact Nat.Coprime.pow_right k (by norm_num)
@@ -136,7 +136,7 @@ theorem center_eq_bot_of_simple {Q : Type*} [Group Q] (hs : IsSimpleGroup Q)
 theorem eq_one_of_commutator_mem [Finite G] {X J : Subgroup G} (hJX : J ≤ X)
     (hJ : IsLThreeFour (↥J ⧸ GLAPPrimeCore 3 ↥J)) {b : G} (hbJ : b ∈ J) (hb3 : b ^ 3 = 1)
     (hc : ∀ j ∈ J, b * j * b⁻¹ * j⁻¹ ∈ pCoreOf 2 X) : b = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O : Subgroup ↥J := GLAPPrimeCore 3 ↥J with hOdef
   have hY : (pCoreOf 2 X).subgroupOf J ≤ O := by
     refine CFSG.le_pPrimeCore_of_normal_coprime ?_ ?_
@@ -218,7 +218,7 @@ theorem le_normalizer_of_twoPrimeComp {X J Js P : Subgroup G} (hJX : J ≤ X)
     exact P.mul_mem h1 (P.inv_mem hu)
   obtain ⟨k, hk⟩ := hP ⟨_, hw⟩
   set N : Subgroup ↥X := CFSG.pCore 2 ↥X with hNdef
-  haveI : N.Normal := CFSG.pCore_normal
+  have : N.Normal := CFSG.pCore_normal
   have memN : ∀ z : ↥X, (z : G) ∈ pCoreOf 2 X → z ∈ N := by
     rintro z ⟨z', hz', hzz⟩
     rwa [show z = z' from Subtype.ext hzz.symm]
@@ -256,7 +256,7 @@ theorem printedOJNorm_of_inputs (h123 : Lemma123Statement) (h124 : Lemma124State
   obtain ⟨hp3, -⟩ := h123 h
   subst hp3
   obtain ⟨⟨-, -, -, -, hcard, -, -⟩, -, ⟨hJL3, -⟩, -⟩ := h124 h hK hK3 hKM hu₀ hA0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAM : A ≤ M := h.pair.1.2.1.1.1.1
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
   have hcard' : Nat.card ↥(A ⊓ GLAPLayer 3 (K ⊓ Subgroup.centralizer (centBar 3 A K : Set G))) = 9 :=
@@ -329,19 +329,19 @@ theorem centralizer_pCoreOf_le [Finite G] {L : Subgroup G}
     (hL : IsSimpleGroup (↥L ⧸ CFSG.pCore 2 ↥L)) {q : G} (hqL : q ∈ L) (hq3 : q ^ 3 = 1)
     (hq : q ∉ Subgroup.centralizer (pCoreOf 2 L : Set G)) :
     Subgroup.centralizer (pCoreOf 2 L : Set G) ⊓ L ≤ pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro d₀ hd₀
   by_contra hd₀O
   set D := Subgroup.centralizer (pCoreOf 2 L : Set G) ⊓ L with hDdef
   set N : Subgroup ↥L := CFSG.pCore 2 ↥L with hNdef
-  haveI : N.Normal := CFSG.pCore_normal
+  have : N.Normal := CFSG.pCore_normal
   have hDn : (D.subgroupOf L).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right]
     intro l hl
     exact Prop121.normalizer_inf_mem
       (mem_normalizer_centralizer (le_normalizer_pCoreOf 2 L hl)) (Subgroup.le_normalizer hl)
   have himg : (D.subgroupOf L).map (QuotientGroup.mk' N) = ⊤ := by
-    haveI : ((D.subgroupOf L).map (QuotientGroup.mk' N)).Normal :=
+    have : ((D.subgroupOf L).map (QuotientGroup.mk' N)).Normal :=
       hDn.map _ (QuotientGroup.mk'_surjective N)
     rcases hL.eq_bot_or_eq_top_of_normal ((D.subgroupOf L).map (QuotientGroup.mk' N)) with h | h
     · exfalso
@@ -378,11 +378,11 @@ theorem centralizer_pCoreOf_le [Finite G] {L : Subgroup G}
 theorem isPGroup_two_of_le_sup [Finite G] {P L C R : Subgroup G} (hP : IsPGroup 2 P)
     (hPL : P ≤ Subgroup.normalizer (L : Set G)) (hCY : C ≤ P ⊔ L) (hR : IsPGroup 2 R)
     (hCL : ∀ c ∈ C, c ∈ L → c ∈ R) : IsPGroup 2 C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y := P ⊔ L with hYdef
   have hYN : Y ≤ Subgroup.normalizer (L : Set G) := sup_le hPL Subgroup.le_normalizer
   have hLY : L ≤ Y := le_sup_right
-  haveI : (L.subgroupOf Y).Normal :=
+  have : (L.subgroupOf Y).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLY).2 hYN
   let φ : ↥C →* ↥Y ⧸ L.subgroupOf Y :=
     (QuotientGroup.mk' (L.subgroupOf Y)).comp (Subgroup.inclusion hCY)
@@ -417,7 +417,7 @@ theorem centralizer_pCoreOf_sup_le [Finite G] {P L : Subgroup G} (hP : IsPGroup 
     (hPL : P ≤ Subgroup.normalizer (L : Set G))
     (hL : Subgroup.centralizer (pCoreOf 2 L : Set G) ⊓ L ≤ pCoreOf 2 L) :
     Subgroup.centralizer (pCoreOf 2 (P ⊔ L) : Set G) ⊓ (P ⊔ L) ≤ pCoreOf 2 (P ⊔ L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y := P ⊔ L with hYdef
   have hYN : Y ≤ Subgroup.normalizer (L : Set G) := sup_le hPL Subgroup.le_normalizer
   have hLY : L ≤ Y := le_sup_right
@@ -448,7 +448,7 @@ theorem printedY2c_of_inputs (h123 : Lemma123Statement) (h124 : Lemma124Statemen
   obtain ⟨hp3, -⟩ := h123 h
   subst hp3
   obtain ⟨⟨-, -, -, -, hcard, -, -⟩, -, ⟨hJL3, -⟩, -⟩ := h124 h hK hK3 hKM hu₀ hA0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAM : A ≤ M := h.pair.1.2.1.1.1.1
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
   set Q : Subgroup G := A ⊓ GLAPLayer 3 (K ⊓ Subgroup.centralizer (centBar 3 A K : Set G)) with hQdef
@@ -593,13 +593,13 @@ theorem coe_mem_normalizer_map {W : Subgroup G} {K : Subgroup W} {n : W}
 
 theorem glaPPrimeCore_eq_pCore_two_of_L34 [Finite G] {J : Subgroup G}
     (hJ : IsLThreeFour (↥J ⧸ CFSG.pCore 2 ↥J)) : GLAPPrimeCore 3 ↥J = CFSG.pCore 2 ↥J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle1 : CFSG.pCore 2 ↥J ≤ GLAPPrimeCore 3 ↥J :=
     CFSG.le_pPrimeCore_of_normal_coprime CFSG.pCore_normal
       (coprime_three_of_isPGroup_two CFSG.pCore_isPGroup)
   refine le_antisymm (fun x hx => ?_) hle1
   set f : ↥J →* ↥J ⧸ CFSG.pCore 2 ↥J := QuotientGroup.mk' (CFSG.pCore 2 ↥J) with hf
-  haveI : ((GLAPPrimeCore 3 ↥J).map f).Normal :=
+  have : ((GLAPPrimeCore 3 ↥J).map f).Normal :=
     Subgroup.Normal.map inferInstance f (QuotientGroup.mk'_surjective _)
   obtain ⟨hs, -⟩ := CFSG.HardMathSupport.Solomon.UniquenessMaximal.isSimpleGroup_of_isLThreeFour hJ
   rcases hs.eq_bot_or_eq_top_of_normal ((GLAPPrimeCore 3 ↥J).map f) with h | h
@@ -663,8 +663,8 @@ end Pushing
 theorem input28_8Cons_of_inputs (h28 : CFSG.HardMathSupport.Solomon.UniquenessMaximal.Input28_8) :
     Prop121.Input28_8Cons := by
   intro G _ _ Y J T B hKP hYtop hJY hYJ hJL3 hBJ hB hBc hTY hT hBT hTmax hYJT hOT hY2c
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTN : T ≤ Subgroup.normalizer (J : Set G) := hTY.trans hYJ
   have hYTJ : Y ≤ T ⊔ J := hYJT.trans (le_of_eq (sup_comm J T))
   have hBY : B ≤ Y := hBJ.trans hJY

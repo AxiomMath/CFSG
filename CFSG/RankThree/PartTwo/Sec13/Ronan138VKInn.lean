@@ -49,6 +49,7 @@ theorem eq_one_of_mem_inSubgroup_theta {L : Subgroup G} {x : G}
   have : t = 1 := congrArg Subtype.val h3
   simp [this]
 
+omit [Finite G] in
 theorem mem_normalizer_zpowers_of_commute {e g : G} (h : e * g = g * e) :
     g ∈ Subgroup.normalizer (Subgroup.zpowers e : Set G) := by
   refine Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr ?_)
@@ -56,6 +57,7 @@ theorem mem_normalizer_zpowers_of_commute {e g : G} (h : e * g = g * e) :
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
   exact (Commute.zpow_left (show Commute e g from h) k).eq
 
+omit [Finite G] in
 theorem exists_isSylowOf_ge {p : ℕ} [Fact p.Prime] {X D : Subgroup G} (hX : IsPGroup p X)
     (hXD : X ≤ D) : ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P D ∧ X ≤ P := by
   have hX' : IsPGroup p (X.subgroupOf D) := hX.comap_subtype
@@ -113,7 +115,7 @@ theorem card_le_27_of_hyp138 (hH : Hyp138 A c L E) (hPGL : Sec8.IsZ3PGLThreePi (
   obtain ⟨π, K, _, hK, hq, ⟨φ⟩⟩ := Sec13.exists_projImage_model he hiso
   have hq2 : 2 < p ^ e := Item138Proof.two_lt_of_mulEquiv hLq hK hq φ
   have h9' : ¬ Sec4.ModNine π (p ^ e) := by
-    cases π <;> simp only [Sec4.ModNine, cond_true, cond_false] <;> omega
+    cases π <;> simp only [Sec4.ModNine, _root_.Bool.cond_true, Bool.cond_false] <;> omega
   have h1 := Sec11.AutThree1129.card_le_27_of_model hK hq hq2 h9'
     (R.map (MulAut.congr φ).toMonoidHom) (hR.map _)
   rwa [Subgroup.card_map_of_injective (MulAut.congr φ).injective] at h1
@@ -206,7 +208,7 @@ theorem commute_and_mem_zpowers (hH : Hyp138 A c L E) (hF : IsF138N L E F)
     (hFmax : ∀ F' : Subgroup G, CFSG.Assembly.IsElemAbelian 3 F' → F ≤ F' → F' = F)
     {X : Subgroup G} (hX3 : IsPGroup 3 X) (hFX : F ≤ X)
     (hXc : X ≤ Subgroup.centralizer ({c} : Set G))
-    (hXN : X ≤ Subgroup.normalizer (L : Set G)) :
+    (_hXN : X ≤ Subgroup.normalizer (L : Set G)) :
     (∀ v ∈ X ⊓ Sec4.thetaQuotCentralizer L, ∀ f ∈ F, f * v = v * f) ∧
       ∀ v ∈ X ⊓ Sec4.thetaQuotCentralizer L, v ^ 3 = 1 → v ∈ Subgroup.zpowers c := by
   obtain ⟨-, hFeq, hθL, hcθ, -⟩ := facts_F_of_hyp138 hH hF hPGL
@@ -367,8 +369,8 @@ theorem not_modNine_of_cfg (h131 : Item131)
   obtain ⟨heK, hautIn, -⟩ :=
     Ronan138S.facts131_of_isZ3PGLThreePi h131 sporadicModels131 hD hPGLK
   have hKq := Sec6.isQuasisimple_of_mem_thetaComponentsAt hK.1
-  haveI : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
-  haveI : Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) Fld)) :=
+  have : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
+  have : Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) Fld)) :=
     Group.IsPerfect.ofSurjective (f := ψ.toMonoidHom) ψ.surjective
   have hCeN : ∀ g : G, g * e = e * g → g ∈ Subgroup.normalizer (K : Set G) := fun g hg =>
     normalizer_zpowers_le_normalizer_of_not_mem h131 sporadicModels131 hD heK
@@ -583,7 +585,7 @@ theorem step138KInndiag_holds (h131 : Item131) : Step138KInndiag := by
   have h9 : ¬ Sec4.ModNine π (p ^ f) := fun h9 =>
     h9₀ (Sec13.modNine_of_mulEquiv hPi hq hPi₀ hq₀ ψ ψ₀ h9)
   have h9' : ¬ (p ^ f % 9 = 1 ∨ p ^ f % 9 = 8) := by
-    cases π <;> simp only [Sec4.ModNine, Sec4.ModThree, cond_true, cond_false] at h9 hq <;> omega
+    cases π <;> simp only [Sec4.ModNine, Sec4.ModThree, _root_.Bool.cond_true, Bool.cond_false] at h9 hq <;> omega
   have hf3 : ¬ 3 ∣ f := Sec15.Proof158Cartan.not_three_dvd_of_not_modNine hq h9'
   have hKq := Sec6.isQuasisimple_of_mem_thetaComponentsAt hK.1
   have hq2 : 2 < p ^ f := Item138Proof.two_lt_of_mulEquiv hKq hPi hq ψ

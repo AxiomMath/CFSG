@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.WeakClosure81.SevenElevenTri
 
 open Subgroup
 theorem braid_of_disjoint_range {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
-    {a b : Module.End (ZMod 2) W} (ha : a * a = 1) (hb : b * b = 1) (hab : a * b * a = b * a * b)
+    {a b : Module.End (ZMod 2) W} (ha : a * a = 1) (_hb : b * b = 1) (hab : a * b * a = b * a * b)
     (hdisj : ∀ w : W, (∃ x, (a - 1) x = w) → (∃ y, (b - 1) y = w) → w = 0) :
     (a - 1) * (b - 1) * (a - 1) = a - 1 := by
   set A : Module.End (ZMod 2) W := a - 1 with hA
@@ -24,13 +24,13 @@ theorem braid_of_disjoint_range {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
       ac_rfl
     rw [h1]
     simp only [add_mul, mul_add, one_mul, mul_one, ha]
-    simp only [add_assoc, add_comm, add_left_comm, ZModModule.add_self, add_zero, zero_add]
+    simp only [add_assoc, add_comm, add_left_comm, ZModModule.add_self, add_zero]
     rw [hadd_cancel]
   have hAB : A * B * A + A = B * (a * b + a + 1) := by
     rw [hA', hB']
     rw [h_expand, hab]
     simp only [mul_add, add_mul, one_mul, mul_one]
-    simp only [add_assoc, add_comm, add_left_comm, ZModModule.add_self, add_zero, zero_add]
+    simp only [add_assoc, add_comm, add_left_comm]
     rw [← mul_assoc]
   have hkey : ∀ u : W, A (B (A u)) = A u := by
     intro u
@@ -141,7 +141,7 @@ private theorem exists_equivariant_family {X : Type} [Group X] {W : Type} [AddCo
     have hd : IsConj s d := isConj_iff.mpr ⟨g, hgd⟩
     have hc := Classical.choose_spec (isConj_iff.mp hd)
     dsimp only [w]
-    rw [dif_pos hd]
+    rw [dite_eq_left hd]
     exact w_eq_of_conj (hc.trans hgd.symm)
   refine ⟨w, ?_, ?_⟩
   · intro d hd

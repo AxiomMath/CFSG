@@ -44,9 +44,9 @@ theorem one_le_of_not_isSolvable_psl {k g : ℕ} {X : Type} [Group X]
   by_contra h
   have hk : k = 0 := by omega
   subst hk
-  haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin (0 + 1)) (GaloisField 2 g)) :=
+  have : Subsingleton (Matrix.SpecialLinearGroup (Fin (0 + 1)) (GaloisField 2 g)) :=
     CFSG.StandardType.subsingleton_specialLinear_of_card_le_one (Q := GaloisField 2 g) (by simp)
-  haveI : Subsingleton ↥φ.range := by
+  have : Subsingleton ↥φ.range := by
     refine ⟨fun a b => ?_⟩
     obtain ⟨x, hx⟩ := a.2
     obtain ⟨y, hy⟩ := b.2
@@ -58,7 +58,7 @@ theorem sq_dvd_card_mulAut_of_normalizing {X : Type} [Group X] [Finite X] {J B�
     (hB₁ : B₁ ≤ Subgroup.normalizer (J : Set X))
     (hBD : B₁ ⊓ Subgroup.centralizer (J : Set X) = D) (hcard : p ^ 4 ≤ Nat.card B₁)
     (hD : Nat.card D = p ^ 2) : p ^ 2 ∣ Nat.card (MulAut ↥J) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let ψ : B₁ →* MulAut J := (CFSG.LocalAnalysis.ComponentInitial.normalizerConjHom J).comp
     (Subgroup.inclusion hB₁)
   have hmap : ψ.ker.map B₁.subtype = B₁ ⊓ Subgroup.centralizer (J : Set X) := by
@@ -114,7 +114,7 @@ private theorem lr2d1_not_sq_336 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p
     have : p ^ 2 ≤ 336 := Nat.le_of_dvd (by norm_num) h
     nlinarith [hp.two_le]
   interval_cases p <;>
-    first | omega | (norm_num at hp; done) | (norm_num at h; done) | (norm_num at hp2; done)
+    first | omega | (norm_num at hp)
 
 theorem three_le_of_not_isSolvable_psl_two {k : ℕ} {X : Type} [Group X] [Finite X]
     (φ : Matrix.SpecialLinearGroup (Fin (k + 1)) (GaloisField 2 1) →* X)
@@ -128,7 +128,7 @@ theorem three_le_of_not_isSolvable_psl_two {k : ℕ} {X : Type} [Group X] [Finit
   have hk2 : k ≤ 2 := by omega
   interval_cases k
   · exact absurd (one_le_of_not_isSolvable_psl φ hns) (by omega)
-  · haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin (1 + 1)) (GaloisField 2 1)) :=
+  · have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin (1 + 1)) (GaloisField 2 1)) :=
       CFSG.StandardType.isSolvable_specialLinear_of_card_eq_two (ι := Fin (1 + 1))
         (Q := GaloisField 2 1) (by simp) (by simpa using GaloisField.card 2 1 one_ne_zero)
     exact hns (Group.isSolvable_of_surjective φ.rangeRestrict_surjective)
@@ -169,7 +169,7 @@ private theorem lr2d2_small_not_sq_120 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     have : p ^ 2 ≤ 120 := Nat.le_of_dvd (by norm_num) h
     nlinarith [hp.two_le]
   interval_cases p <;>
-    first | omega | (norm_num at hp; done) | (norm_num at h; done) | (norm_num at hp2; done)
+    first | omega | (norm_num at hp)
 
 theorem two_le_of_not_isSolvable_psl_four {k : ℕ} {X : Type} [Group X] [Finite X]
     (φ : Matrix.SpecialLinearGroup (Fin (k + 1)) (GaloisField 2 2) →* X)

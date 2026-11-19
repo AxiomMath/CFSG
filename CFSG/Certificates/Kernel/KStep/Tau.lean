@@ -78,7 +78,7 @@ theorem scat_zero {p k : ℕ} (h : ¬ TG p k) : scat (Native.tauT tb) p k = 0 :=
   rw [scat_eq]
   refine List.sum_eq_zero fun x hx => ?_
   obtain ⟨t, ht, rfl⟩ := List.mem_map.1 hx
-  exact if_neg fun hk => h (tauT_targets ht hk)
+  exact ite_eq_right fun hk => h (tauT_targets ht hk)
 
 theorem sum_supp {R : Type} [AddCommMonoid R] {N : ℕ} (s : Finset ℕ) (f : ℕ → R)
     (hs : ∀ p ∈ s, p < N) (hz : ∀ p < N, p ∉ s → f p = 0) :
@@ -90,7 +90,7 @@ theorem scat_lo {p : ℕ} (h1 : p < 24) (k : ℕ) :
     scat (Native.tauT tb) p k = (if p = k then 8 else 0) + 0 := by
   rw [scat_eq]
   unfold Native.tauT
-  rw [if_pos h1]
+  rw [ite_eq_left h1]
   simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil]
 
 theorem scat_H {p : ℕ} (h1 : 24 ≤ p) (h2 : p < 300) (k : ℕ) :
@@ -98,7 +98,7 @@ theorem scat_H {p : ℕ} (h1 : 24 ≤ p) (h2 : p < 300) (k : ℕ) :
       ((if 300 + 2 * (p - 24) + 1 = k then -8 else 0) + 0) := by
   rw [scat_eq]
   unfold Native.tauT
-  rw [if_neg (by omega), if_pos h2]
+  rw [ite_eq_right (by omega), ite_eq_left h2]
   simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil]
 
 theorem scat_Xe {p : ℕ} (h1 : 300 ≤ p) (h2 : p < 852) (h3 : (p - 300) % 2 = 0) (k : ℕ) :
@@ -107,7 +107,7 @@ theorem scat_Xe {p : ℕ} (h1 : 300 ≤ p) (h2 : p < 852) (h3 : (p - 300) % 2 = 
       ((if 300 + 2 * ((p - 300) / 2) + 1 = k then 4 else 0) + 0)) := by
   rw [scat_eq]
   unfold Native.tauT
-  rw [if_neg (by omega), if_neg (by omega), if_pos h2, if_pos h3]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left h2, ite_eq_left h3]
   simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil]
 
 theorem scat_Xo {p : ℕ} (h1 : 300 ≤ p) (h2 : p < 852) (h3 : (p - 300) % 2 = 1) (k : ℕ) :
@@ -116,7 +116,7 @@ theorem scat_Xo {p : ℕ} (h1 : 300 ≤ p) (h2 : p < 852) (h3 : (p - 300) % 2 = 
       ((if 300 + 2 * ((p - 300) / 2) + 1 = k then -4 else 0) + 0)) := by
   rw [scat_eq]
   unfold Native.tauT
-  rw [if_neg (by omega), if_neg (by omega), if_pos h2, if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left h2, ite_eq_right (by omega)]
   simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil]
 
 theorem scat_odd {p : ℕ} (h1 : 852 ≤ p) (h2 : p < 50004) (k : ℕ) :
@@ -125,7 +125,7 @@ theorem scat_odd {p : ℕ} (h1 : 852 ≤ p) (h2 : p < 50004) (k : ℕ) :
         8 * sgnI (tb.w[(p - 852) / 24]!.testBit ((p - 852) % 24)) else 0) + 0 := by
   rw [scat_eq]
   unfold Native.tauT
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_pos h2]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left h2]
   simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil]
 
 set_option maxRecDepth 100000 in
@@ -135,8 +135,8 @@ theorem scat_Wlo {p : ℕ} (h1 : 98580 ≤ p) (h2 : (p - 98580) / 24 < 2048) (k 
         8 * sgnI tb.pb[(p - 98580) / 24]! else 0) + 0 := by
   rw [scat_eq]
   unfold Native.tauT
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega),
-    if_neg (by omega), if_pos h2]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega),
+    ite_eq_right (by omega), ite_eq_left h2]
   simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil]
 
 set_option maxRecDepth 100000 in
@@ -147,8 +147,8 @@ theorem scat_Whi {p : ℕ} (h1 : 98580 ≤ p) (h2 : 2048 ≤ (p - 98580) / 24) (
           sgnI tb.pb[(p - 98580) / 24 - 2048]! else 0) + 0 := by
   rw [scat_eq]
   unfold Native.tauT
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega),
-    if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega),
+    ite_eq_right (by omega), ite_eq_right (by omega)]
   simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil]
 
 theorem sum_range_map (B k : ℕ) (g : ℕ → ℤ) : ∀ n,
@@ -159,13 +159,13 @@ theorem sum_range_map (B k : ℕ) (g : ℕ → ℤ) : ∀ n,
     rw [List.range_succ, List.map_append, List.map_append, List.sum_append, sum_range_map B k g n]
     simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, add_zero]
     by_cases h : B + n = k
-    · rw [if_pos h, if_neg (by omega), if_pos (by omega), zero_add]
+    · rw [ite_eq_left h, ite_eq_right (by omega), ite_eq_left (by omega), zero_add]
       congr 1
       omega
-    · rw [if_neg h, add_zero]
+    · rw [ite_eq_right h, add_zero]
       by_cases h' : B ≤ k ∧ k < B + n
-      · rw [if_pos h', if_pos (by omega)]
-      · rw [if_neg h', if_neg (by omega)]
+      · rw [ite_eq_left h', ite_eq_left (by omega)]
+      · rw [ite_eq_right h', ite_eq_right (by omega)]
 
 theorem scat_oct {p : ℕ} (h1 : 50004 ≤ p) (h2 : p < 98580) (k : ℕ) :
     scat (Native.tauT tb) p k =
@@ -173,7 +173,7 @@ theorem scat_oct {p : ℕ} (h1 : 50004 ≤ p) (h2 : p < 98580) (k : ℕ) :
         tb.S[(p - 50004) % 64 * 64 + (k - (50004 + (p - 50004) / 64 * 64))]! else 0 := by
   rw [scat_eq]
   unfold Native.tauT
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega), if_pos h2,
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left h2,
     sum_range_map]
 
 variable {M : ℕ}
@@ -185,7 +185,7 @@ theorem tsum_diag (r : ℕ → ZMod M) {k : ℕ} (hk : k < 24) : tsum r k = 8 * 
   unfold tsum
   rw [sum_supp {k} _ (fun p hp => by simp at hp; omega) fun p hp hn => by
     rw [scat_zero (by simp at hn; unfold TG; omega)]; simp, Finset.sum_singleton,
-    scat_lo hk, if_pos rfl]
+    scat_lo hk, ite_eq_left rfl]
   simp
 
 theorem tsum_pairA (r : ℕ → ZMod M) {tp : ℕ} (htp : tp < 276) :
@@ -261,7 +261,7 @@ theorem tsum_odd (r : ℕ → ZMod M) {t i : ℕ} (ht : t < 2048) (hi : i < 24) 
     rw [scat_zero (by simp at hn; unfold TG; omega)]; simp, Finset.sum_singleton,
     scat_Wlo (by omega) (by omega)]
   have e1 : (98580 + 24 * t + i - 98580) / 24 = t := by omega
-  rw [e1, if_pos (by omega), add_zero]
+  rw [e1, ite_eq_left (by omega), add_zero]
 
 theorem tsum_Wlo (r : ℕ → ZMod M) {t j : ℕ} (ht : t < 2048) (hj : j < 24) :
     tsum r (98580 + 24 * t + j) = ((8 * sgnI (tb.w[t]!.testBit j) * sgnI tb.pb[t]! : ℤ) : ZMod M) *
@@ -272,7 +272,7 @@ theorem tsum_Wlo (r : ℕ → ZMod M) {t j : ℕ} (ht : t < 2048) (hj : j < 24) 
     scat_Whi (by omega) (by omega)]
   have e1 : (98580 + 24 * (2048 + t) + j - 98580) / 24 - 2048 = t := by omega
   have e2 : (98580 + 24 * (2048 + t) + j - 98580) % 24 = j := by omega
-  rw [e1, e2, if_pos (by omega), add_zero]
+  rw [e1, e2, ite_eq_left (by omega), add_zero]
 
 theorem tsum_Whi (r : ℕ → ZMod M) {t j : ℕ} (ht : t < 2048) (hj : j < 24) :
     tsum r (98580 + 24 * (2048 + t) + j) =
@@ -283,7 +283,7 @@ theorem tsum_Whi (r : ℕ → ZMod M) {t j : ℕ} (ht : t < 2048) (hj : j < 24) 
     scat_odd (by omega) (by omega)]
   have e1 : (852 + 24 * t + j - 852) / 24 = t := by omega
   have e2 : (852 + 24 * t + j - 852) % 24 = j := by omega
-  rw [e1, e2, if_pos (by omega), add_zero]
+  rw [e1, e2, ite_eq_left (by omega), add_zero]
 
 theorem tsum_oct (r : ℕ → ZMod M) {o n : ℕ} (ho : o < 759) (hn : n < 64) :
     tsum r (50004 + 64 * o + n) =
@@ -301,7 +301,7 @@ theorem tsum_oct (r : ℕ → ZMod M) {o n : ℕ} (ho : o < 759) (hn : n < 64) :
     Finset.sum_image (fun a _ b _ h => by simpa using h)]
   refine Finset.sum_congr rfl fun m hm => ?_
   simp only [Finset.mem_range] at hm
-  rw [scat_oct (by omega) (by omega), if_pos (by omega)]
+  rw [scat_oct (by omega) (by omega), ite_eq_left (by omega)]
   have e1 : (50004 + 64 * o + m - 50004) % 64 = m := by omega
   have e2 : 50004 + 64 * o + n - (50004 + (50004 + 64 * o + m - 50004) / 64 * 64) = n := by omega
   rw [e1, e2]
@@ -469,7 +469,7 @@ theorem Hn_zero (hO : PLaw np O) {p : ℕ} (hp : p < SX) (hr : regOct.testBit p 
 theorem bit_blk {B c : ℕ} (hc : c < 64) {n : ℕ} (hn : n < 6) :
     (64 * B + c).testBit n = c.testBit n := by
   rw [show 64 * B + c = 2 ^ 6 * B + c from rfl, Nat.testBit_two_pow_mul_add B (by simpa using hc),
-    if_pos hn]
+    ite_eq_left hn]
 
 open CFSG.KC.KDense.InitAux in
 theorem bfly_blk (hO : PLaw np O) {n x B c : ℕ} (hn : n < 6) (hx : Bd np SX x) (hB1 : 1024 ≤ B)
@@ -481,10 +481,10 @@ theorem bfly_blk (hO : PLaw np O) {n x B c : ℕ} (hn : n < 6) (hx : Bd np SX x)
   have r1 : regOct.testBit (64 * B + c) = true := by rw [testBit_regOct]; omega
   rw [hO.bfly_res (k := 17) SX_eq (by omega) regOct_lt (oct_closed hn) hx (by change _ < 131072; omega),
     r1, bit_blk hc hn]
-  rw [if_neg (by simp)]
+  rw [ite_eq_right (by simp)]
   cases e : c.testBit n
-  · rw [if_pos rfl, h1 e]
-    simp only [Bool.false_eq_true, if_false, Int.cast_one, one_mul]
+  · rw [ite_eq_left rfl, h1 e]
+    simp only [Bool.false_eq_true, ite_false, Int.cast_one, one_mul]
     rw [Nat.add_assoc]
   · obtain ⟨h3, h4⟩ := h2 e
     have h5 : 2 ^ n ≤ 32 := by interval_cases n <;> decide
@@ -492,8 +492,8 @@ theorem bfly_blk (hO : PLaw np O) {n x B c : ℕ} (hn : n < 6) (hx : Bd np SX x)
       rw [testBit_regOct]
       generalize 2 ^ n = d at h3 h5 ⊢
       omega
-    rw [if_neg (by simp), r2, if_pos rfl, h4]
-    simp only [if_true, Int.cast_neg, Int.cast_one, neg_one_mul]
+    rw [ite_eq_right (by simp), r2, ite_eq_left rfl, h4]
+    simp only [ite_true, Int.cast_neg, Int.cast_one, neg_one_mul]
     rw [show 64 * B + c - 2 ^ n = 64 * B + (c - 2 ^ n) by omega]
     ring
 
@@ -503,7 +503,7 @@ theorem Hn_res (hO : PLaw np O) : ∀ n ≤ 6, ∀ x, Bd np SX x → ∀ B, 1024
   | 0, _, x, _, B, _, _, q, hq => by
     rw [Finset.sum_congr rfl fun c hc => by rw [Kz_zero q hq c (Finset.mem_range.1 hc)]]
     simp only [Int.cast_ite, Int.cast_one, Int.cast_zero, ite_mul, one_mul, zero_mul,
-      Finset.sum_ite_eq, Finset.mem_range, if_pos hq]
+      Finset.sum_ite_eq, Finset.mem_range, ite_eq_left hq]
     rfl
   | n + 1, hn, x, hx, B, hB1, hB2, q, hq => by
     have hy := hO.bfly_bd (k := 17) (b := n) SX_eq (by omega) regOct_lt hx
@@ -676,7 +676,7 @@ theorem pi6_perm {F : Fix} (h6 : pi6OK F = true) {r : ℕ} (hr : r < SX) :
       · rw [hbig r hr u (by omega), hbig s hs u (by omega)]
     rw [← ers] at hm
     unfold phi
-    rw [hm, if_neg (by simp), ers]
+    rw [hm, ite_eq_right (by simp), ers]
   · have ers : r = s ^^^ 63 := by
       apply Nat.eq_of_testBit_eq
       intro u
@@ -692,10 +692,10 @@ theorem pi6_perm {F : Fix} (h6 : pi6OK F = true) {r : ℕ} (hr : r < SX) :
       · rw [hbig r hr u (by omega), hbig s hs u (by omega), Nat.testBit_lt_two_pow
           (lt_of_lt_of_le (show 63 < 2 ^ 6 by decide) (Nat.pow_le_pow_right (by decide) (by omega)))]
         rfl
-    have hphi : phi s = r := by unfold phi; rw [hm, if_pos rfl, ers]
+    have hphi : phi s = r := by unfold phi; rw [hm, ite_eq_left rfl, ers]
     have hm' : mk6.testBit r = true := by rw [← hphi, mk6_phi hs, hm]
     unfold phi
-    rw [hm', if_pos rfl, ers, Nat.xor_assoc, Nat.xor_self, Nat.xor_zero]
+    rw [hm', ite_eq_left rfl, ers, Nat.xor_assoc, Nat.xor_self, Nat.xor_zero]
 
 @[expose] noncomputable def POCT : ℕ :=
   Nat.rec (motive := fun _ => Nat) (nat_lit 0)
@@ -854,6 +854,7 @@ theorem bdL {np S x y : ℕ} (h : Bd np S x) : Bd np S (Nat.land x y) := bd_land
 theorem POCT_lt : POCT < 2 ^ 64 := by decide +kernel
 
 open CFSG.KC.KDense.InitAux in
+set_option exponentiation.threshold 48576 in
 theorem doct_bit (y : ℕ) :
     (Nat.shiftLeft (Nat.mul POCT (Nat.div (ones (nat_lit 48576)) (ones (nat_lit 64))))
       (nat_lit 65536)).testBit y = (decide (65536 ≤ y ∧ y < 114112) && POCT.testBit (y % 64)) := by
@@ -939,7 +940,7 @@ theorem octZ_res (hO : PLaw np O) {F : Fix} (h6 : pi6OK F = true) (hm : tauMasks
   have hy : Bd np SX (Hn O 6 X) := Hn_bd hO 6 le_rfl _ hX
   unfold octZ
   rw [res_land_rep' hO regOct_lt hpS,
-    (CFSG.KC.KDense.InitAux.testBit_regOct _).mpr ⟨by omega, by omega⟩, if_pos rfl]
+    (CFSG.KC.KDense.InitAux.testBit_regOct _).mpr ⟨by omega, by omega⟩, ite_eq_left rfl]
   rw [hd, wht6G_eq, hO.half_res (by decide) (by decide)
     (hO.neg_bd doct_lt (hO.net_bd (k := 17) SX_eq hk hy)) hpS,
     hO.neg_res doct_lt (hO.net_bd (k := 17) SX_eq hk hy) hpS,
@@ -1114,7 +1115,7 @@ theorem T1_res (hW : Bd np SX W) {p : ℕ} (hp : p < 65536) : resPN np SX (T1 O 
   unfold T1
   rw [(masks_spec hm).2.2.1, hO.neg_res sgL_lt (bdL hW)
     (by rw [SX_v]; omega), res_land_rep' hO lo16_lt (by rw [SX_v]; omega), lo16_bit,
-    decide_eq_true hp, if_pos rfl]
+    decide_eq_true hp, ite_eq_left rfl]
 
 theorem T1_zero (hW : Bd np SX W) {p : ℕ} (hp : p < SX) (hp' : 65536 ≤ p) :
     Zero np SX (T1 O F W) p := by
@@ -1134,7 +1135,7 @@ theorem P0_res (hX : Bd np SX X) {p : ℕ} (hp : p < 65536) : resPN np SX (P0 O 
   unfold P0
   rw [(masks_spec hm).2.1, hO.neg_res sgU_lt (bdL hX)
     (by rw [SX_v]; omega), res_land_rep' hO lo16_lt (by rw [SX_v]; omega), lo16_bit,
-    decide_eq_true hp, if_pos rfl]
+    decide_eq_true hp, ite_eq_left rfl]
 
 theorem P0_zero (hX : Bd np SX X) {p : ℕ} (hp : p < SX) (hp' : 65536 ≤ p) :
     Zero np SX (P0 O F X) p := by
@@ -1144,22 +1145,23 @@ theorem P0_zero (hX : Bd np SX X) {p : ℕ} (hp : p < SX) (hp' : 65536 ≤ p) :
     (rowF_hi (g := gU) gU_lt' hp') (zero_land_rep hO lo16_lt hp (by
       rw [lo16_bit, decide_eq_false (by omega)]))
 
+omit hO hm in
 theorem shr_bd (hW : Bd np SX W) : Bd np SX (Nat.shiftRight W (nat_lit 65536)) :=
   lt_of_le_of_lt (Nat.shiftRight_le W 65536) hW
 
 theorem P1_bd (hW : Bd np SX W) : Bd np SX (P1 O F W) := by
   unfold P1
   rw [(masks_spec hm).2.2.2]
-  exact hO.neg_bd sgH_lt (bdL (shr_bd hO hm hW))
+  exact hO.neg_bd sgH_lt (bdL (shr_bd hW))
 
 theorem P1_res (hW : Bd np SX W) {p : ℕ} (hp : p < 65536) : resPN np SX (P1 O F W) p =
     if (rowF gH 2048).testBit p then -resPN np SX W (p + 65536) else resPN np SX W (p + 65536) := by
   unfold P1
   rw [(masks_spec hm).2.2.2, hO.neg_res sgH_lt
-    (bdL (shr_bd hO hm hW)) (by rw [SX_v]; omega)]
+    (bdL (shr_bd hW)) (by rw [SX_v]; omega)]
   have e := res_shr_land hO (o := 65536) (m := lo16) (x := W) (S := SX) (by rw [SX_v]; omega)
     lo16_lt' hW (p := p) (by rw [SX_v]; omega)
-  rw [lo16_bit, decide_eq_true hp, if_pos rfl] at e
+  rw [lo16_bit, decide_eq_true hp, ite_eq_left rfl] at e
   change resPN np SX ((W >>> 65536) &&& O.rep SX lo16) p = _ at e
   rw [show Nat.land (Nat.shiftRight W (nat_lit 65536)) (O.rep SX lo16) =
     (W >>> 65536) &&& O.rep SX lo16 from rfl, e]
@@ -1168,7 +1170,7 @@ theorem P1_zero (hW : Bd np SX W) {p : ℕ} (hp : p < SX) (hp' : 65536 ≤ p) :
     Zero np SX (P1 O F W) p := by
   unfold P1
   rw [(masks_spec hm).2.2.2]
-  exact hO.neg_zero sgH_lt (bdL (shr_bd hO hm hW)) hp
+  exact hO.neg_zero sgH_lt (bdL (shr_bd hW)) hp
     (rowF_hi (g := gH) gH_lt' hp') (zero_land_rep hO lo16_lt hp (by
       rw [lo16_bit, decide_eq_false (by omega)]))
 
@@ -1195,47 +1197,55 @@ section Comp2
 variable (hO : PLaw np O) {X A W : ℕ} (hX : Bd np SX X) (hA : Bd np SA A) (hW : Bd np SX W)
 include hO hX hA
 
+omit hX in
 theorem I3_bd : Bd np SA (Nat.land (O.add SA A (dd2 O X)) (O.rep SA upA)) :=
   bdL (hO.add_bd hA (dd2_bd hO))
 
+omit hX in
 theorem I4_bd : Bd np SA (Nat.land (O.add SA (O.neg SA upA A) (dd2 O X)) (O.rep SA upA)) :=
   bdL (hO.add_bd (hO.neg_bd upA_lt hA) (dd2_bd hO))
 
-theorem T3_bd : Bd np SX (T3 O X A) := hO.expand_bd (by decide) (I3_bd hO hX hA)
+omit hX in
+theorem T3_bd : Bd np SX (T3 O X A) := hO.expand_bd (by decide) (I3_bd hO hA)
 
-theorem T4_bd : Bd np SX (T4 O X A) := hO.expand_bd (by decide) (I4_bd hO hX hA)
+omit hX in
+theorem T4_bd : Bd np SX (T4 O X A) := hO.expand_bd (by decide) (I4_bd hO hA)
 
+omit hX in
 theorem T3_res {p : ℕ} (h1 : 114688 ≤ p) (h2 : p < 115712) (hu : upA.testBit (p - 114688) = true) :
     resPN np SX (T3 O X A) p = resPN np SA A (p - 114688) + resPN np SA (dd2 O X) (p - 114688) := by
   unfold T3
-  rw [hO.expand_res (by decide) (I3_bd hO hX hA) (by rw [SX_v]; omega), if_pos (by rw [SA_v]; omega),
-    res_land_rep' hO upA_lt (by rw [SA_v]; omega), hu, if_pos rfl,
+  rw [hO.expand_res (by decide) (I3_bd hO hA) (by rw [SX_v]; omega), ite_eq_left (by rw [SA_v]; omega),
+    res_land_rep' hO upA_lt (by rw [SA_v]; omega), hu, ite_eq_left rfl,
     hO.add_res hA (dd2_bd hO) (by rw [SA_v]; omega)]
 
+omit hX in
 theorem T4_res {p : ℕ} (h1 : 115712 ≤ p) (h2 : p < 116736) (hu : upA.testBit (p - 115712) = true) :
     resPN np SX (T4 O X A) p = -resPN np SA A (p - 115712) + resPN np SA (dd2 O X) (p - 115712) := by
   unfold T4
-  rw [hO.expand_res (by decide) (I4_bd hO hX hA) (by rw [SX_v]; omega), if_pos (by rw [SA_v]; omega),
-    res_land_rep' hO upA_lt (by rw [SA_v]; omega), hu, if_pos rfl,
+  rw [hO.expand_res (by decide) (I4_bd hO hA) (by rw [SX_v]; omega), ite_eq_left (by rw [SA_v]; omega),
+    res_land_rep' hO upA_lt (by rw [SA_v]; omega), hu, ite_eq_left rfl,
     hO.add_res (hO.neg_bd upA_lt hA) (dd2_bd hO) (by rw [SA_v]; omega),
-    hO.neg_res upA_lt hA (by rw [SA_v]; omega), hu, if_pos rfl]
+    hO.neg_res upA_lt hA (by rw [SA_v]; omega), hu, ite_eq_left rfl]
 
+omit hX in
 theorem T3_zero {p : ℕ} (hp : p < SX)
     (h : ¬ (114688 ≤ p ∧ p < 115712 ∧ upA.testBit (p - 114688) = true)) :
     Zero np SX (T3 O X A) p := by
   unfold T3
-  refine hO.expand_zero (by decide) (I3_bd hO hX hA) hp fun hw => ?_
+  refine hO.expand_zero (by decide) (I3_bd hO hA) hp fun hw => ?_
   rw [SA_v] at hw
   exact zero_land_rep hO upA_lt (by rw [SA_v]; omega) (by
     cases e : upA.testBit (p - 114688)
     · rfl
     · exact absurd ⟨hw.1, by omega, e⟩ h)
 
+omit hX in
 theorem T4_zero {p : ℕ} (hp : p < SX)
     (h : ¬ (115712 ≤ p ∧ p < 116736 ∧ upA.testBit (p - 115712) = true)) :
     Zero np SX (T4 O X A) p := by
   unfold T4
-  refine hO.expand_zero (by decide) (I4_bd hO hX hA) hp fun hw => ?_
+  refine hO.expand_zero (by decide) (I4_bd hO hA) hp fun hw => ?_
   rw [SA_v] at hw
   exact zero_land_rep hO upA_lt (by rw [SA_v]; omega) (by
     cases e : upA.testBit (p - 115712)
@@ -1253,50 +1263,55 @@ include hO h6 hm hX hA hW
 local notation "XN" => Nat.lor (T1 O F W) (Nat.lor (octZ O F X) (Nat.lor (T3 O X A) (T4 O X A)))
 
 theorem XN_bd : Bd np SX XN :=
-  bd_lor (T1_bd hO hm hW) (bd_lor (octZ_bd hO h6 hm hX) (bd_lor (T3_bd hO hX hA) (T4_bd hO hX hA)))
+  bd_lor (T1_bd hO hm hW) (bd_lor (octZ_bd hO h6 hm hX) (bd_lor (T3_bd hO hA) (T4_bd hO hA)))
 
+omit hW in
 theorem XN_lo {p : ℕ} (hp : p < 65536) : resPN np SX XN p = resPN np SX (T1 O F W) p := by
   have hpS : p < SX := by rw [SX_v]; omega
   exact res_lor_l hpS (zero_lor (octZ_zero hO h6 hm hX hpS (by omega))
-    (zero_lor (T3_zero hO hX hA hpS (by omega)) (T4_zero hO hX hA hpS (by omega))))
+    (zero_lor (T3_zero hO hA hpS (by omega)) (T4_zero hO hA hpS (by omega))))
 
+omit h6 hX in
 theorem XN_oct {p : ℕ} (h1 : 65536 ≤ p) (h2 : p < 114112) :
     resPN np SX XN p = resPN np SX (octZ O F X) p := by
   have hpS : p < SX := by rw [SX_v]; omega
   rw [res_lor_r hpS (T1_zero hO hm hW hpS h1)]
-  exact res_lor_l hpS (zero_lor (T3_zero hO hX hA hpS (by omega)) (T4_zero hO hX hA hpS (by omega)))
+  exact res_lor_l hpS (zero_lor (T3_zero hO hA hpS (by omega)) (T4_zero hO hA hpS (by omega)))
 
 theorem XN_3 {p : ℕ} (h1 : 114688 ≤ p) (h2 : p < 115712) :
     resPN np SX XN p = resPN np SX (T3 O X A) p := by
   have hpS : p < SX := by rw [SX_v]; omega
   rw [res_lor_r hpS (T1_zero hO hm hW hpS (by omega)),
     res_lor_r hpS (octZ_zero hO h6 hm hX hpS (by omega))]
-  exact res_lor_l hpS (T4_zero hO hX hA hpS (by omega))
+  exact res_lor_l hpS (T4_zero hO hA hpS (by omega))
 
 theorem XN_4 {p : ℕ} (h1 : 115712 ≤ p) (h2 : p < 116736) :
     resPN np SX XN p = resPN np SX (T4 O X A) p := by
   have hpS : p < SX := by rw [SX_v]; omega
   rw [res_lor_r hpS (T1_zero hO hm hW hpS (by omega)),
     res_lor_r hpS (octZ_zero hO h6 hm hX hpS (by omega))]
-  exact res_lor_r hpS (T3_zero hO hX hA hpS (by omega))
+  exact res_lor_r hpS (T3_zero hO hA hpS (by omega))
 
 theorem XN_zero {p : ℕ} (hp : p < SX) (h0 : 65536 ≤ p) (h1 : ¬ (65536 ≤ p ∧ p < 114112))
     (h3 : ¬ (114688 ≤ p ∧ p < 115712 ∧ upA.testBit (p - 114688) = true))
     (h4 : ¬ (115712 ≤ p ∧ p < 116736 ∧ upA.testBit (p - 115712) = true)) :
     resPN np SX XN p = 0 :=
   res_of_zero (zero_lor (T1_zero hO hm hW hp h0) (zero_lor (octZ_zero hO h6 hm hX hp h1)
-    (zero_lor (T3_zero hO hX hA hp h3) (T4_zero hO hX hA hp h4))))
+    (zero_lor (T3_zero hO hA hp h3) (T4_zero hO hA hp h4))))
 
 local notation "WN" => Nat.lor (P1 O F W) (Nat.shiftLeft (P0 O F X) (nat_lit 65536))
 
+omit h6 hA in
 theorem WN_bd : Bd np SX WN := bd_lor (P1_bd hO hm hW) (P2_bd hO hm hX)
 
+omit h6 hA hW in
 theorem WN_lo {p : ℕ} (hp : p < 65536) : resPN np SX WN p = resPN np SX (P1 O F W) p :=
   res_lor_l (by rw [SX_v]; omega) (P2_zero hO hm hX hp)
 
+omit h6 hA in
 theorem WN_hi {p : ℕ} (hp : p < SX) (h : 65536 ≤ p) :
     resPN np SX WN p = resPN np SX (P0 O F X) (p - 65536) := by
-  rw [res_lor_r hp (P1_zero hO hm hW hp h), P2_res hO hm hX hp, if_pos h]
+  rw [res_lor_r hp (P1_zero hO hm hW hp h), P2_res hO hm hX hp, ite_eq_left h]
 
 end New
 
@@ -1308,9 +1323,11 @@ section NewA
 variable (hO : PLaw np O) {X A : ℕ} (hX : Bd np SX X) (hA : Bd np SA A)
 include hO hX hA
 
+omit hX in
 theorem AN_bd : Bd np SA (AN O X A) :=
   bd_lor (bdL hA) (bd_lor (UU_bd hO) (by rw [transpG_eq]; exact Tn_bd hO 5 le_rfl _ (UU_bd hO)))
 
+omit hX hA in
 theorem AN_diag {i : ℕ} (hi : i < 24) : resPN np SA (AN O X A) (32 * i + i) = resPN np SA A (32 * i + i) := by
   have hq : 32 * i + i < SA := by rw [SA_v]; omega
   have hu : upA.testBit (32 * i + i) = false := by
@@ -1326,8 +1343,9 @@ theorem AN_diag {i : ℕ} (hi : i < 24) : resPN np SA (AN O X A) (32 * i + i) = 
   unfold AN
   rw [res_lor_l hq (zero_lor (UU_zero hO hq hu) (transp_zero hO (by omega) (by
     rw [e1, e2]
-    exact UU_zero hO hq hu))), res_land_rep' hO diagA_lt hq, hd, if_pos rfl]
+    exact UU_zero hO hq hu))), res_land_rep' hO diagA_lt hq, hd, ite_eq_left rfl]
 
+omit hX hA in
 theorem AN_up {i j : ℕ} (hij : i < j) (hj : j < 24) :
     resPN np SA (AN O X A) (32 * i + j) = resPN np SA (UU O X) (32 * i + j) := by
   have hq : 32 * i + j < SA := by rw [SA_v]; omega
@@ -1348,6 +1366,7 @@ theorem AN_up {i j : ℕ} (hij : i < j) (hj : j < 24) :
   rw [res_lor_r hq (zero_land_rep hO diagA_lt hq hd),
     res_lor_l hq (transp_zero hO (by omega) (by rw [e1, e2]; exact UU_zero hO hq' hu))]
 
+omit hX hA in
 theorem AN_low {i j : ℕ} (hij : j < i) (hi : i < 24) :
     resPN np SA (AN O X A) (32 * i + j) = resPN np SA (UU O X) (32 * j + i) := by
   have hq : 32 * i + j < SA := by rw [SA_v]; omega
@@ -1365,6 +1384,7 @@ theorem AN_low {i j : ℕ} (hij : j < i) (hi : i < 24) :
   rw [res_lor_r hq (zero_land_rep hO diagA_lt hq hd),
     res_lor_r hq (UU_zero hO hq hu), transp_res hO (by omega), e1, e2]
 
+omit hX hA in
 theorem AN_zero {p : ℕ} (hp : p < SA) (h : 24 ≤ p % 32 ∨ 24 ≤ p / 32) :
     resPN np SA (AN O X A) p = 0 := by
   have hpS := hp
@@ -1396,27 +1416,27 @@ open CFSG.KC.KDense.InitAux
 theorem xposK_even {tp : ℕ} (htp : tp < 276) :
     xposK (2 * tp) = 114688 + 32 * (Native.pairTab ())[tp]!.1 + (Native.pairTab ())[tp]!.2 := by
   unfold xposK
-  rw [if_pos (by omega), if_pos (by omega), show 2 * tp / 2 = tp by omega]
+  rw [ite_eq_left (by omega), ite_eq_left (by omega), show 2 * tp / 2 = tp by omega]
 
 theorem xposK_odd' {tp : ℕ} (htp : tp < 276) :
     xposK (2 * tp + 1) = 115712 + 32 * (Native.pairTab ())[tp]!.1 + (Native.pairTab ())[tp]!.2 := by
   unfold xposK
-  rw [if_pos (by omega), if_neg (by omega), show (2 * tp + 1) / 2 = tp by omega]
+  rw [ite_eq_left (by omega), ite_eq_right (by omega), show (2 * tp + 1) / 2 = tp by omega]
 
 theorem xposK_oddc {t i : ℕ} (ht : t < 2048) (hi : i < 24) : xposK (552 + 24 * t + i) = 32 * t + i := by
   unfold xposK
-  rw [if_neg (by omega), if_pos (by omega), show (552 + 24 * t + i - 552) / 24 = t by omega,
+  rw [ite_eq_right (by omega), ite_eq_left (by omega), show (552 + 24 * t + i - 552) / 24 = t by omega,
     show (552 + 24 * t + i - 552) % 24 = i by omega]
 
 theorem xposK_oct {o n : ℕ} (ho : o < 759) (hn : n < 64) :
     xposK (49704 + 64 * o + n) = 64 * (1024 + o) + n := by
   unfold xposK
-  rw [if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega)]
   omega
 
 theorem aIdx_pair {i j : ℕ} (h : i < j) : Native.aIdx i j = 24 + Native.pairIdx i j := by
   unfold Native.aIdx
-  rw [if_neg (by omega), min_eq_left h.le, max_eq_right h.le]
+  rw [ite_eq_right (by omega), min_eq_left h.le, max_eq_right h.le]
 
 theorem not_xpos {p : ℕ} (h : validX.testBit p = false) : ∀ q < 98280, xposK q ≠ p :=
   fun q hq e => by
@@ -1460,8 +1480,8 @@ theorem tau_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F : F
   dsimp only
   rw [e]
   refine ⟨fun q hq => ?_, fun p hp hq => ?_, XN_bd hO h6 hm hXb hAb hWb, fun i hi j hj => ?_,
-    fun p hp hq => AN_zero hO hXb hAb hp hq, AN_bd hO hXb hAb, fun r hr j hj => ?_, fun p hp hq => ?_,
-    WN_bd hO h6 hm hXb hAb hWb⟩
+    fun p hp hq => AN_zero hO hp hq, AN_bd hO hAb, fun r hr j hj => ?_, fun p hp hq => ?_,
+    WN_bd hO hm hXb hWb⟩
   ·
     rw [hnat _ (by omega)]
     rcases Nat.lt_or_ge q 552 with h1 | h1
@@ -1490,7 +1510,7 @@ theorem tau_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F : F
         have haa : resPN np SA A (32 * i + j) = resN np v (24 + tp) := by
           rw [hA1 i (by omega) j o2, aIdx_pair o1, hpi]
         have hd := dd2_res hO hXb (q := 32 * i + j) (by rw [SA_v]; omega)
-        rw [hua, if_pos rfl, hxa, hxb] at hd
+        rw [hua, ite_eq_left rfl, hxa, hxb] at hd
         have s3 : 114688 + 32 * i + j - 114688 = 32 * i + j := by
           rw [Nat.add_assoc, Nat.add_sub_cancel_left]
         have s4 : 115712 + 32 * i + j - 115712 = 32 * i + j := by
@@ -1498,29 +1518,29 @@ theorem tau_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F : F
         have hua3 : upA.testBit (114688 + 32 * i + j - 114688) = true := by rw [s3]; exact hua
         have hua4 : upA.testBit (115712 + 32 * i + j - 115712) = true := by rw [s4]; exact hua
       · rw [ex, XN_3 hO h6 hm hXb hAb hWb (by omega) (by omega),
-          T3_res hO hXb hAb (by omega) (by omega) hua3, s3, haa, hd, tsum_pairX _ htp]
+          T3_res hO hAb (by omega) (by omega) hua3, s3, haa, hd, tsum_pairX _ htp]
         linear_combination (-(resN np v (24 + tp))) * c8 -
           (resN np v (300 + 2 * tp) - resN np v (300 + 2 * tp + 1)) * c4
       · rw [ex1, XN_4 hO h6 hm hXb hAb hWb (by omega) (by omega),
-          T4_res hO hXb hAb (by omega) (by omega) hua4, s4,
+          T4_res hO hAb (by omega) (by omega) hua4, s4,
           haa, hd, show 300 + (2 * tp + 1) = 300 + 2 * tp + 1 by omega, tsum_pairX1 _ htp]
         linear_combination (resN np v (24 + tp)) * c8 -
           (resN np v (300 + 2 * tp) - resN np v (300 + 2 * tp + 1)) * c4
     rcases Nat.lt_or_ge q 49704 with h2' | h2'
     · obtain ⟨t, i, ht, hi, rfl⟩ : ∃ t i, t < 2048 ∧ i < 24 ∧ q = 552 + 24 * t + i :=
         ⟨(q - 552) / 24, (q - 552) % 24, by omega, by omega, by omega⟩
-      rw [xposK_oddc ht hi, XN_lo hO h6 hm hXb hAb hWb (by omega), T1_res hO hm hWb (by omega),
+      rw [xposK_oddc ht hi, XN_lo hO h6 hm hXb hAb (by omega), T1_res hO hm hWb (by omega),
         rowF_lo (g := gL) gL_lt' ht hi, gL_bit ht hi, hW1 t (by omega) i hi,
         show 300 + (552 + 24 * t + i) = 852 + 24 * t + i by omega, tsum_odd _ ht hi, tb_pb ht]
       push_cast [sgn_cast]
       cases pN (2 * t)
-      · simp only [Bool.false_eq_true, if_false]
+      · simp only [Bool.false_eq_true, ite_false]
         linear_combination (-(resN np v (98580 + 24 * t + i))) * c8
-      · simp only [if_true]
+      · simp only [ite_true]
         linear_combination (resN np v (98580 + 24 * t + i)) * c8
     · obtain ⟨o, n, ho, hn, rfl⟩ : ∃ o n, o < 759 ∧ n < 64 ∧ q = 49704 + 64 * o + n :=
         ⟨(q - 49704) / 64, (q - 49704) % 64, by omega, by omega, by omega⟩
-      rw [xposK_oct ho hn, XN_oct hO h6 hm hXb hAb hWb (by omega) (by omega),
+      rw [xposK_oct ho hn, XN_oct hO hm hAb hWb (by omega) (by omega),
         octZ_res hO h6 hm hXb (by omega) (by omega) hn,
         show 300 + (49704 + 64 * o + n) = 50004 + 64 * o + n by omega, tsum_oct _ ho hn]
       refine congrArg (hN np ^ 3 * ·) ?_
@@ -1540,7 +1560,7 @@ theorem tau_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F : F
     rw [hv] at hvx
     simp only [Bool.false_eq_true, false_iff] at hvx
     rcases Nat.lt_or_ge p 65536 with h1 | h1
-    · rw [XN_lo hO h6 hm hXb hAb hWb h1, T1_res hO hm hWb h1, hW2 p hp (by omega)]
+    · rw [XN_lo hO h6 hm hXb hAb h1, T1_res hO hm hWb h1, hW2 p hp (by omega)]
       split_ifs <;> simp
     · refine XN_zero hO h6 hm hXb hAb hWb hp h1 (fun h => hvx (Or.inr (Or.inl h))) ?_ ?_
       · rintro ⟨a, b, c⟩
@@ -1565,13 +1585,13 @@ theorem tau_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F : F
         rw [upA_bits _ (by omega), e1, e2]
         simp only [decide_eq_true_eq]
         omega
-      rw [AN_up hO hXb hAb hij hj, UU_res hO hXb (by rw [SA_v]; omega), hua, if_pos rfl,
+      rw [AN_up hO hij hj, UU_res hO hXb (by rw [SA_v]; omega), hua, ite_eq_left rfl,
         ← Nat.add_assoc, ← Nat.add_assoc, ← ex, ← ex1, hX1 _ (by omega), hX1 _ (by omega),
         aIdx_pair hij, tsum_pairA _ htp, show 300 + (2 * Native.pairIdx i j + 1) =
           300 + 2 * Native.pairIdx i j + 1 by omega]
       linear_combination (-(resN np v (300 + 2 * Native.pairIdx i j) +
         resN np v (300 + 2 * Native.pairIdx i j + 1))) * c4
-    · rw [AN_diag hO hXb hAb hi, hA1 i hi i hi, show Native.aIdx i i = i by simp [Native.aIdx],
+    · rw [AN_diag hO hi, hA1 i hi i hi, show Native.aIdx i i = i by simp [Native.aIdx],
         tsum_diag _ hi]
       linear_combination (-(resN np v i)) * c8
     · obtain ⟨htp, hpt⟩ := pairTab_idx j hj i hi hij
@@ -1585,7 +1605,7 @@ theorem tau_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F : F
         rw [upA_bits _ (by omega), e1, e2]
         simp only [decide_eq_true_eq]
         omega
-      rw [AN_low hO hXb hAb hij hi, UU_res hO hXb (by rw [SA_v]; omega), hua, if_pos rfl,
+      rw [AN_low hO hij hi, UU_res hO hXb (by rw [SA_v]; omega), hua, ite_eq_left rfl,
         ← Nat.add_assoc, ← Nat.add_assoc, ← ex, ← ex1, hX1 _ (by omega), hX1 _ (by omega),
         CFSG.KC.KDenseP.ListAux.aIdx_comm i hi j hj, aIdx_pair hij, tsum_pairA _ htp, show 300 + (2 * Native.pairIdx j i + 1) =
           300 + 2 * Native.pairIdx j i + 1 by omega]
@@ -1594,35 +1614,35 @@ theorem tau_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F : F
   ·
     rw [hnat _ (by omega)]
     rcases Nat.lt_or_ge r 2048 with hr' | hr'
-    · rw [WN_lo hO h6 hm hXb hAb hWb (by omega), P1_res hO hm hWb (by omega),
+    · rw [WN_lo hO hm hXb (by omega), P1_res hO hm hWb (by omega),
         rowF_lo (g := gH) gH_lt' hr' hj, gH_bit hr' hj,
         show 32 * r + j + 65536 = 32 * (2048 + r) + j by omega, hW1 (2048 + r) (by omega) j hj,
         tsum_Wlo _ hr' hj, tb_w hr', tb_pb hr']
       push_cast [sgn_cast]
       cases (wordN (2 * r)).testBit j <;> cases pN (2 * r)
-      · simp only [Bool.false_eq_true, if_false, Bool.xor_false]
+      · simp only [Bool.false_eq_true, ite_false, Bool.xor_false]
         linear_combination (-(resN np v (98580 + 24 * (2048 + r) + j))) * c8
-      · simp only [Bool.false_eq_true, if_false, if_true, Bool.false_xor]
+      · simp only [Bool.false_eq_true, ite_false, ite_true, Bool.false_xor]
         linear_combination (resN np v (98580 + 24 * (2048 + r) + j)) * c8
-      · simp only [Bool.false_eq_true, if_false, if_true, Bool.xor_false]
+      · simp only [Bool.false_eq_true, ite_false, ite_true, Bool.xor_false]
         linear_combination (resN np v (98580 + 24 * (2048 + r) + j)) * c8
-      · simp only [if_true, Bool.xor_self, Bool.false_eq_true, if_false]
+      · simp only [ite_true, Bool.xor_self, Bool.false_eq_true, ite_false]
         linear_combination (-(resN np v (98580 + 24 * (2048 + r) + j))) * c8
     · obtain ⟨t, ht, rfl⟩ : ∃ t, t < 2048 ∧ r = 2048 + t := ⟨r - 2048, by omega, by omega⟩
       have hx := hX1 (552 + 24 * t + j) (by omega)
       rw [xposK_oddc ht hj, show 300 + (552 + 24 * t + j) = 852 + 24 * t + j by omega] at hx
-      rw [WN_hi hO h6 hm hXb hAb hWb (by rw [SX_v]; omega) (by omega),
+      rw [WN_hi hO hm hXb hWb (by rw [SX_v]; omega) (by omega),
         show 32 * (2048 + t) + j - 65536 = 32 * t + j by omega, P0_res hO hm hXb (by omega),
         rowF_lo (g := gU) gU_lt' ht hj, gU_bit ht j, hx, tsum_Whi _ ht hj, tb_w ht]
       push_cast [sgn_cast]
       cases (wordN (2 * t)).testBit j
-      · simp only [Bool.false_eq_true, if_false]
+      · simp only [Bool.false_eq_true, ite_false]
         linear_combination (-(resN np v (852 + 24 * t + j))) * c8
-      · simp only [if_true]
+      · simp only [ite_true]
         linear_combination (resN np v (852 + 24 * t + j)) * c8
   ·
     rcases Nat.lt_or_ge p 65536 with h1 | h1
-    · rw [WN_lo hO h6 hm hXb hAb hWb h1, P1_res hO hm hWb h1,
+    · rw [WN_lo hO hm hXb h1, P1_res hO hm hWb h1,
         hW2 (p + 65536) (by rw [SX_v]; omega) (by omega)]
       split_ifs <;> simp
     · have hv : validX.testBit (p - 65536) = false := by
@@ -1631,7 +1651,7 @@ theorem tau_sound {np : ℕ} {O : POps} (hO : PLaw np O) (hnp : 2 ≤ np) {F : F
         · rw [testBit_validX] at h
           rw [SX_v] at hp
           omega
-      rw [WN_hi hO h6 hm hXb hAb hWb hp h1, P0_res hO hm hXb (by rw [SX_v] at hp; omega),
+      rw [WN_hi hO hm hXb hWb hp h1, P0_res hO hm hXb (by rw [SX_v] at hp; omega),
         hX2 (p - 65536) (by rw [SX_v] at hp ⊢; omega) (not_xpos hv)]
       split_ifs <;> simp
 

@@ -50,6 +50,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B C : Subgroup G}
 
+omit [Finite G] in
 theorem QB_Z_eq (hc : Ctx M Q Z B) : QB Z = Q := by
   unfold QB
   rw [hc.hyp.normalizer_Z.1, hc.hyp.hQ]
@@ -123,7 +124,7 @@ theorem Ctx.exists_mem_QB_comm_eq_one (hC : Ctx M Q Z C) {t x c : G} (ht : t ∈
 
 theorem Ctx.core_3_6 (hB : Ctx M Q Z B) (hC : Ctx M Q Z C)
     (hBC : ∃ b ∈ B, ∃ c ∈ C, b * c ≠ c * b)
-    {x : G} (hxC : x ∈ QB C) (hxM : x ∈ M) (hxQ : x ∉ Q) (hxB : ∀ b ∈ B, ⁅x, b⁆ ∈ Z) :
+    {x : G} (hxC : x ∈ QB C) (_hxM : x ∈ M) (hxQ : x ∉ Q) (hxB : ∀ b ∈ B, ⁅x, b⁆ ∈ Z) :
     False := by
   obtain ⟨b, hb, c, hc, hbc⟩ := hBC
   obtain ⟨g, hg⟩ := hC.conj
@@ -200,7 +201,7 @@ theorem stroth_3_6_of_3_5 (hc : Ctx M Q Z B)
   have hQle : Q ≤ conjSubgroup h (LB M Q B) ⊓ Subgroup.normalizer (LB M Q B : Set G) := by
     refine le_inf ((hc.conj_Q_eq hh).symm.le.trans (Subgroup.map_mono le_sup_left)) ?_
     exact fun y hy => Subgroup.le_normalizer (le_sup_left (a := Q) hy)
-  obtain ⟨x, hx, hxQ⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hQle (Ne.symm hne))
+  obtain ⟨x, hx, hxQ⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hQle (Ne.symm hne))
   have hxLC : x ∈ LB M Q (conjSubgroup h B) := by rw [hc.LB_conj hh]; exact hx.1
   obtain ⟨s, hs, y, hy, rfl⟩ := hC.exists_mul_of_mem_LB hxLC
   have hsQ : s ∉ Q := fun h' => hxQ (Q.mul_mem h' hy)

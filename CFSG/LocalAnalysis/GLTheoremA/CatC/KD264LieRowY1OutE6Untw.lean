@@ -44,7 +44,7 @@ theorem inner_of_pow_three_adjointE6 {K : Type} [Field K] [Finite K] {p n : ℕ}
   classical
   obtain ⟨Θ, -, -, hker, -⟩ :=
     ordinary_E_field_graph_quotient_and_involutions Tag.E6 (Or.inl rfl) K
-  haveI : IsCyclic (RingAut K) := (card_ringAut_and_isCyclic hp K hK).2
+  have : IsCyclic (RingAut K) := (card_ringAut_and_isCyclic hp K hK).2
   have hH : ∀ a b : RingAut K × Multiplicative (ZMod (exactE Tag.E6)), a * b = b * a := by
     intro a b
     exact Prod.ext (y1out_mul_comm_of_isCyclic a.1 b.1) (mul_comm a.2 b.2)
@@ -83,8 +83,8 @@ theorem kd264Y1OutE6_untwisted (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIn
     omega
   · obtain ⟨K, hfield, hfin, hK, -, ⟨eA⟩⟩ :=
       exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e6 q hv
-    letI := hfield
-    letI := hfin
+    let := hfield
+    let := hfin
     have hK' : Nat.card K = q.p ^ q.exponent := hK.trans q.card_def
     have h3K : ¬ 3 ∣ Nat.card K - 1 := by rw [hK]; exact h3
     have ha' : MulAut.congr eA a ∈ innAutDerived (adjointGroup Tag.E6 K) :=

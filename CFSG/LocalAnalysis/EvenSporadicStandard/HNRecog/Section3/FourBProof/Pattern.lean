@@ -109,8 +109,8 @@ theorem fourB_no_BAA (H : FourBHyps a z) (P : FourBPair a p q) {t : G} (ht : t �
     rwa [hb_eq_t] at h'
   exact fourB_not_both H hAt hzt
 
-theorem fourB_AAA (H : FourBHyps a z) (P : FourBPair a p q) {t : G} (ht : t ∈ Gxy p q)
-    (ht2 : orderOf t = 2) (h1 : IsConj a t) (h2 : IsConj a (p * t)) (h3 : IsConj a (q * t)) :
+theorem fourB_AAA (H : FourBHyps a z) (P : FourBPair a p q) {t : G} (_ht : t ∈ Gxy p q)
+    (_ht2 : orderOf t = 2) (h1 : IsConj a t) (h2 : IsConj a (p * t)) (h3 : IsConj a (q * t)) :
     t = (p * q) ^ 2 := by
   have htpp : t ∈ orb2A p p :=
     ⟨(fourB_isConj_iff P.hp).mpr h1, (fourB_isConj_iff P.hp).mpr h2⟩

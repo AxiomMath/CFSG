@@ -78,7 +78,7 @@ theorem reindex_borelGraph_blockEmbed222
         (Matrix.fromBlocks (borelGraph c F g.2.1 : Matrix (Fin c) (Fin c) F) 0 0
           (borelGraph 2 F g.1 : Matrix (Fin 2) (Fin 2) F)) := by
   ext x y
-  rw [Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply]
+  rw [Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply]
   simp only [Equiv.symm_symm, Matrix.submatrix_apply]
   rw [coe_borelGraph_apply]
   rw [show ((blockEmbed222 c F g)⁻¹) = blockEmbed222 c F g⁻¹ from

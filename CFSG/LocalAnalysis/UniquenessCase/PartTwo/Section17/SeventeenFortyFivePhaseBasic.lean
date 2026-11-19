@@ -46,8 +46,8 @@ theorem phase45_sup_le_of_isPByAbelian_outer {X : Type} [Group X] [Finite X]
     (hcomm : ⁅A₁ ⊔ A₂, B⁆ = A₁ ⊔ A₂)
     (hout : CFSG.LocalAnalysis.RankThreeTheoremC.ChevTwoOuter.IsPByAbelian 3 (Outer ↥L)) :
     A₁ ⊔ A₂ ≤ L := by
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨N, _, hN3, hNcom⟩ := hout
   let φ : X →* Outer ↥L := CFSG.RankThree.PartOne.CTP.outerHom L
   have hker : φ.ker = L := CFSG.RankThree.PartOne.CTP.ker_outerHom L hCL

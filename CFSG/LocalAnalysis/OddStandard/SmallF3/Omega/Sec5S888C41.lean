@@ -19,10 +19,12 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r : G}
   {B A K₁ K₂ : Subgroup G} {h : G}
 
+omit [Finite G] in
 private theorem s888c41_twoCoreIn_le_self (X : Subgroup G) : twoCoreIn X ≤ X := by
   unfold twoCoreIn CFSG.inSubgroup
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 private lemma s888c41_zpow_eq_one_or_self {a : G} (ha : a * a = 1) {x : G}
     (hx : x ∈ zpowers a) : x = 1 ∨ x = a := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -36,12 +38,16 @@ private lemma s888c41_zpow_eq_one_or_self {a : G} (ha : a * a = 1) {x : G}
     show a ^ (k % (2 : ℤ)) = a
     rw [hk]; simp
 
+omit [Finite G] in
 private lemma s888c41_kfam_zero : Kfam5 K₁ K₂ h 0 = K₁ := by simp [Kfam5]
 
+omit [Finite G] in
 private lemma s888c41_kfam_one : Kfam5 K₁ K₂ h 1 = K₂ := by simp [Kfam5]
 
+omit [Finite G] in
 private lemma s888c41_kfam_two : Kfam5 K₁ K₂ h 2 = CFSG.conjugate K₁ h := by simp [Kfam5]
 
+omit [Finite G] in
 private lemma s888c41_kfam_three : Kfam5 K₁ K₂ h 3 = CFSG.conjugate K₂ h := by simp [Kfam5]
 
 private lemma s888c41_t_not_mem_zpowers_z (h37 : Asc82Lemma37)
@@ -68,6 +74,7 @@ private lemma s888c41_z_not_mem_centralizer (h37 : Asc82Lemma37)
   rw [c.centre] at hzZ
   exact s888c41_z_not_mem_zpowers_t h37 c hzZ
 
+omit [Finite G] in
 private lemma s888c41_pair_le_centralizer_sup {K : Fin 4 → Subgroup G} {z : G}
     (hq : Sec5B517Quad K z) {i j i' j' : Fin 4} (hij : i ≠ j) (hi'j' : i' ≠ j')
     (hii' : i ≠ i') (hij' : i ≠ j') (hji' : j ≠ i') (hjj' : j ≠ j') :

@@ -102,9 +102,9 @@ theorem le_of_three_dvd_card_centralizer {K Y₀ E : Subgroup Y} [K.Normal] (R :
       else GLBCore 3 1 E) ≤ Y₀)
     (h3 : 3 ∣ Nat.card (centralizer (K : Set Y))) : K ≤ Y₀ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   have hKC : K ⊓ C = ⊥ :=
     CFSG.QuasithinUnique.RankOneRecog.inf_centralizer_eq_bot_of_center_eq_bot hZ
   have hRC : (R : Subgroup Y) ⊓ C ≠ ⊥ := by
@@ -116,9 +116,9 @@ theorem le_of_three_dvd_card_centralizer {K Y₀ E : Subgroup Y} [K.Normal] (R :
     exact P.ne_bot_of_dvd_card h3 hP1
   obtain ⟨z, hzR, hzC, hz1, hz3, hzc⟩ : ∃ z ∈ (R : Subgroup Y), z ∈ C ∧ z ≠ 1 ∧ z ^ 3 = 1 ∧
       ∀ g ∈ (R : Subgroup Y), g * z = z * g := by
-    haveI : Group.IsNilpotent (R : Subgroup Y) := R.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (R : Subgroup Y) := R.isPGroup.isNilpotent
     set H : Subgroup (R : Subgroup Y) := C.subgroupOf R with hH
-    haveI : H.Normal := Subgroup.normal_subgroupOf
+    have : H.Normal := Subgroup.normal_subgroupOf
     have hH1 : H ≠ ⊥ := by
       intro h
       apply hRC
@@ -129,7 +129,7 @@ theorem le_of_three_dvd_card_centralizer {K Y₀ E : Subgroup Y} [K.Normal] (R :
       simpa using congrArg Subtype.val this
     have hHZ := Group.IsNilpotent.inf_center_ne_bot_of_normal hH1
     have hp : IsPGroup 3 ↥(H ⊓ center (R : Subgroup Y)) :=
-      R.isPGroup'.to_subgroup _
+      R.isPGroup.to_subgroup _
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3
       ((hp.card_eq_or_dvd).resolve_left fun h =>
         hHZ (Subgroup.eq_bot_of_card_eq _ h))

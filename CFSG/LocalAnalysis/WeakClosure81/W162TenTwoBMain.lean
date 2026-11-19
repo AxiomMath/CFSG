@@ -25,8 +25,8 @@ theorem w162_oddCoreShape15_of_shape {I Q₀ : Subgroup G} [(I.subgroupOf Q₀).
   rcases hshape with h1 | ⟨h3, y, hy, z, hz, hnot⟩
   · exact Or.inl (hcard.trans h1)
   · have hcard3 : Nat.card (↥Q₀ ⧸ I.subgroupOf Q₀) = p ^ 3 := hcard.trans h3
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Fact (IsPGroup p (↥Q₀ ⧸ I.subgroupOf Q₀)) := ⟨IsPGroup.of_card hcard3⟩
+    have : Fact p.Prime := ⟨hp⟩
+    have : Fact (IsPGroup p (↥Q₀ ⧸ I.subgroupOf Q₀)) := ⟨IsPGroup.of_card hcard3⟩
     have hpow' : ∀ g : ↥Q₀ ⧸ I.subgroupOf Q₀, g ^ p = 1 := by
       intro g
       obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective g
@@ -66,7 +66,7 @@ theorem w15Ten2b_of_eight1 (hI : NamedInputs15 G) (hW : W15Eight1 G) : W15Ten2b 
   intro M V₀ V U S H P Q₀ hS h hP hQ
   obtain ⟨p, hp, hp2, hpow, hcl⟩ := hP.w162_exp_class hI hW hS h hQ
   refine ⟨p, hp, ?_⟩
-  haveI := hQ.normal_subgroupOf hP
+  have := hQ.normal_subgroupOf hP
   exact w162_oddCoreShape15_of_shape hp hpow
     (hP.w162_relIndex_shape hI hW hS h hQ hp hp2 hpow hcl)
 

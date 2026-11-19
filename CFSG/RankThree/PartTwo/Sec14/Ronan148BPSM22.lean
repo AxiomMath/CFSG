@@ -111,16 +111,16 @@ theorem false_of_card_dvd {K Y : Subgroup G22} (hdvd : Nat.card Y ∣ 576) (hKY 
     rintro rfl
     rw [Subgroup.card_bot] at h3
     norm_num at h3
-  haveI : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hK1
-  haveI := hKp
+  have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hK1
+  have := hKp
   exact Group.IsPerfect.not_isSolvable K hKs
 
 theorem eq_A_of_normal {K : Subgroup G22} {k : Fin 4} (hKA : K ≤ A k)
     (hn : (K.subgroupOf (A k)).Normal) (hK1 : K ≠ ⊥) : K = A k := by
   obtain ⟨e⟩ := nonempty_A_equiv k
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (A k) := e.isSimpleGroup
-  haveI := hn
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (A k) := e.isSimpleGroup
+  have := hn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.subgroupOf (A k)) with h | h
   · exfalso
     apply hK1
@@ -171,8 +171,8 @@ theorem sigGenConcl_core {K Q : Subgroup G22} (hh : SigGenHyp P0 K Q (zpowers X)
       (hsig _ (hKeq ▸ (le_sup_right : V (pairSnd k) ≤ A k))))
   rcases Certificates.certificate148010 _ hSN with hNt | hNA | hNA | hNN | hdvd
   ·
-    haveI : K.Normal := Subgroup.normalizer_eq_top_iff.mp hNt
-    haveI : IsSimpleGroup G22 := fam_m22_simplicity.2.2
+    have : K.Normal := Subgroup.normalizer_eq_top_iff.mp hNt
+    have : IsSimpleGroup G22 := fam_m22_simplicity.2.2
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with h | h
     · exact absurd h hK1
     · unfold SigGenConcl

@@ -19,7 +19,7 @@ theorem z4i_isSylow_map {Qg L : Subgroup G} (hL : L = normalizer (Qg : Set G)) (
     (hP : IsPGroup 2 P) (hmax : ∀ P'' : Subgroup L, IsPGroup 2 P'' → P ≤ P'' → P'' ≤ P)
     (hQf : S4B.z4iQf P = Qg.subgroupOf L) :
     ∃ S : Sylow 2 G, (S : Subgroup G) = P.map L.subtype := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQleL : Qg ≤ L := by rw [hL]; exact Subgroup.le_normalizer
   have hQfmap : S4B.z4iQf (P.map L.subtype) = Qg := by
     rw [S4B.z4iQf_map L.subtype L.subtype_injective P, hQf,
@@ -54,6 +54,7 @@ variable {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 namespace Ctx4Z
 
 
+omit [Finite G] in
 private lemma isElemAbelian_zpowers_of_mul_self {a : G} (ha : a * a = 1) :
     CFSG.Open.IsElemAbelian 2 (zpowers a) := by
   have ha2 : a ^ 2 = 1 := by rwa [pow_two]

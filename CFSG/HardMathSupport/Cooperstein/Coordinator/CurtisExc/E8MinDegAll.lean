@@ -59,7 +59,7 @@ theorem noIrrFFOffender_E8_allq
     (q : PrimePower) (hv : (LieTypeIndex.E8 q).Valid)
     (hq : q.p = 2) : NoIrrFFOffender (CFSGIndex.lie ⟨.E8 q, hv⟩).Group :=
   noIrrFFOffender_E8_of_typeBound
-    (fun K _ _ _ n hn hK => typeBound_of_minDeg hn hK (e8MinDeg K)) q hv hq
+    (fun K _ _ _ _n hn hK => typeBound_of_minDeg hn hK (e8MinDeg K)) q hv hq
 
 end MinDegAll
 

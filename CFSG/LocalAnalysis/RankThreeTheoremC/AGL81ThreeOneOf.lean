@@ -56,9 +56,9 @@ theorem kFactThreeOne_of_sporPlane
     (hS : KFactThreeOneSporPlane) : KFactThreeOne := by
   refine kFactThreeOne_of_hyp fun p G _ _ K P E H hnot => ?_
   by_cases h3 : 3 ≤ Open.pRank p (P : Subgroup G)
-  · rw [if_pos h3] at hnot
+  · rw [ite_eq_left h3] at hnot
     exact H.threeOne_of_three h3 hnot
-  · rw [if_neg h3] at hnot
+  · rw [ite_eq_right h3] at hnot
     exact H.threeOne_of_two hS h3 hnot
 
 end AssemblyCert

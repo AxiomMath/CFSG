@@ -69,7 +69,7 @@ theorem kdSporB_McL
     (hC : Subgroup.centralizer (K : Set Z) = ⊥) : OneClassE 5 Z := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.McL.nonempty_mulEquiv
   have e : ↥K ≃* NativeSporadic.McL := eK.trans b.symm
-  haveI : Finite NativeSporadic.McL :=
+  have : Finite NativeSporadic.McL :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.McL.card_McL]; norm_num)
   have hOut : ¬ 5 ∣ Nat.card (Outer NativeSporadic.McL) := by
     have h2 := CFSG.RankThree.PartTwo.Sec4.card_outer_McL

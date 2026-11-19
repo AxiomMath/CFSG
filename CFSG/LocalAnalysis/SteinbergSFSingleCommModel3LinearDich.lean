@@ -44,7 +44,7 @@ theorem model3LinDich_double {F' : Type} [Field F'] [CharP F' 2]
     rw [← _root_.add_smul, CharTwo.add_self_eq_zero, _root_.zero_smul]
   calc (x • p + y • q + z • (q * p)) + (x • p + y • q + z • (q * p))
       = (x • p + x • p) + (y • q + y • q) + (z • (q * p) + z • (q * p)) := by abel
-    _ = 0 := by simp only [hr, _root_.add_zero, _root_.zero_add]
+    _ = 0 := by simp only [hr, _root_.add_zero]
 
 theorem model3LinDich_mul {F' : Type} [Field F'] {p q : Matrix (Fin 3) (Fin 3) F'}
     (hpp : p * p = 0) (hqq : q * q = 0) (hpq : p * q = 0) (x y z x' y' z' : F') :

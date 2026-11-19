@@ -26,10 +26,12 @@ variable {n : ℕ}
 
 @[expose] def code (e : ι ≃ Fin n) (w : ι → ZMod 2) : ℕ := ofV (w ∘ e.symm)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem pt_code (e : ι ≃ Fin n) (w : ι → ZMod 2) : pt e (code e w) = w := by
   funext i
   simp only [pt, code, Function.comp_apply, toV_ofV, Equiv.symm_apply_apply]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem code_lt (e : ι ≃ Fin n) (w : ι → ZMod 2) : code e w < 2 ^ n :=
   ofV_lt _
 
@@ -169,7 +171,7 @@ theorem reflM_mulVec (hQ : ⇑Q = Q₀) (v x : ι → ZMod 2) :
           rw [← hx, QuadraticMap.polarBilin_apply_apply]
   funext i
   simp only [Matrix.mulVec, dotProduct, reflM, Matrix.of_apply, add_mul, Finset.sum_add_distrib,
-    Matrix.one_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true,
+    Matrix.one_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true,
     Pi.add_apply, Pi.smul_apply, smul_eq_mul, hp]
   rw [← hsum, Finset.sum_mul]
   congr 1

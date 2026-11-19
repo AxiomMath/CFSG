@@ -41,7 +41,7 @@ theorem countP_nfix (n w p : Nat) :
   congr 1
   apply List.filter_congr
   intro x hx
-  rw [CFSG.KC.BfsPin.unpack_getElem!, if_pos (List.mem_range.1 hx), Bool.eq_iff_iff, beq_iff_eq,
+  rw [CFSG.KC.BfsPin.unpack_getElem!, ite_eq_left (List.mem_range.1 hx), Bool.eq_iff_iff, beq_iff_eq,
     Nat.beq_eq]
 
 theorem fixedCount_fx (p : Nat) :

@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section3.CyclicTwoCoreInvertedFitting
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section3.FirstCaseCyclicTwoCoreInfra
@@ -324,7 +324,7 @@ public theorem firstCase_cyclic_a7_theoremC_data_of_a7model
         _ = qCoreOf U 3 ⊔ ⊥ := by rw [hQ3bot]
         _ = qCoreOf U 3 := by simp
         _ = P := hP3eq.symm
-    have hCsolv : IsSolvable (↥U) := odd_order_theorem U hUodd
+    have hCsolv : Group.IsSolvable (↥U) := odd_order_theorem U hUodd
     have hCleF := fact_1_2_centralizer_fitting_le_fitting U hCsolv
     have hFU2 : fittingSubgroupOf U = P := hFUeq.symm.trans hFUeq_P
     have hCleP : U ⊓ Subgroup.centralizer (P : Set G) ≤ P := by

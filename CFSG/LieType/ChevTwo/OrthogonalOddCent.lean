@@ -157,14 +157,14 @@ theorem cs_restrict_eq_two {W : Submodule (ZMod 2) V} (hW : finrank (ZMod 2) W =
     intro y
     by_cases hy : y = ⟨u, hu⟩
     · subst hy
-      simp only [QuadraticMap.restrict_apply, hu1, if_true]
+      simp only [QuadraticMap.restrict_apply, hu1, ite_true]
       decide
     · have hq0 : q.restrict W y = 0 := by
         rcases CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.zmod_two_cases
           (q.restrict W y) with h | h
         · exact h
         · exact absurd (Subtype.ext (huniq y y.2 h)) hy
-      rw [hq0, if_neg hy]
+      rw [hq0, ite_eq_right hy]
       decide
   rw [Finset.sum_congr rfl fun y _ => h y]
   simp [Finset.sum_sub_distrib, hcard]

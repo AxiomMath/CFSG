@@ -78,7 +78,7 @@ theorem exists_twoSubgroup_lift {G : Type*} [Group G] [Finite G] {M : Subgroup G
       Nat.Prime.factorization_pow Nat.prime_two, Finsupp.single_eq_same,
       Nat.factorization_eq_zero_of_not_dvd hodd, add_zero]
   have hRker : (R : Subgroup M') ⊓ f.ker = ⊥ := by
-    apply eq_bot_of_isPGroup_two_of_coprime (R.isPGroup'.to_le inf_le_left)
+    apply eq_bot_of_isPGroup_two_of_coprime (R.isPGroup.to_le inf_le_left)
     exact Nat.Coprime.coprime_dvd_right (Subgroup.card_dvd_of_le inf_le_right) hkerodd
   have hinj : ∀ u ∈ (R : Subgroup M'), ∀ v ∈ (R : Subgroup M'), f u = f v → u = v := by
     intro u hu v hv huv

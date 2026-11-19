@@ -64,7 +64,7 @@ theorem dagI_D0 (h : UnitaryFieldData p f K) : dagI h (D0 K) = D0 K := by
   ext i j
   by_cases hij : i = j
   · subst hij
-    simp [dagI, D0, Matrix.diagonal_apply]
+    simp [dagI, D0]
   · simp [dagI, D0, Matrix.diagonal_apply_ne _ hij, Matrix.diagonal_apply_ne _ (Ne.symm hij)]
 
 theorem dagI_submatrix {ι κ : Type} (h : UnitaryFieldData p f K) (M : Matrix ι ι K) (e : κ ≃ ι) :
@@ -126,7 +126,7 @@ theorem exists_unitary_frame (h : UnitaryFieldData p f K) (e : Matrix (Fin 7) (F
     ∃ R : GL (Fin 7) K, dagI h (R : Matrix (Fin 7) (Fin 7) K) * (R : Matrix (Fin 7) (Fin 7) K) = 1 ∧
       ((R⁻¹ : GL (Fin 7) K) : Matrix (Fin 7) (Fin 7) K) * e * (R : Matrix (Fin 7) (Fin 7) K) =
         D0 K := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   set Mm : Matrix (Fin 7) (Fin 7) K := ((A₀⁻¹ : GL (Fin 7) K) : Matrix (Fin 7) (Fin 7) K) with hMm
   set Am : Matrix (Fin 7) (Fin 7) K := (A₀ : Matrix (Fin 7) (Fin 7) K) with hAm
   have hMA : Mm * Am = 1 := Units.inv_mul A₀
@@ -167,9 +167,9 @@ theorem exists_unitary_frame (h : UnitaryFieldData p f K) (e : Matrix (Fin 7) (F
     ext s t
     rcases s with a | a <;> rcases t with b | b
     · rfl
-    · simp only [Matrix.submatrix_apply, Matrix.fromBlocks_apply₁₂, Pi.zero_apply]
+    · simp only [Matrix.submatrix_apply, Matrix.fromBlocks_apply₁₂]
       exact hGoff _ _ (by simp [sumEq7_symm_inl_val, sumEq7_symm_inr_val])
-    · simp only [Matrix.submatrix_apply, Matrix.fromBlocks_apply₂₁, Pi.zero_apply]
+    · simp only [Matrix.submatrix_apply, Matrix.fromBlocks_apply₂₁]
       exact hGoff _ _ (by simp [sumEq7_symm_inl_val, sumEq7_symm_inr_val])
     · rfl
   have hGblk : G = (Matrix.fromBlocks G11 0 0 G22).submatrix sumEq7 sumEq7 := by

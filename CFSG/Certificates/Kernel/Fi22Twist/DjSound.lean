@@ -45,7 +45,7 @@ theorem pt_ext {x y : Equiv.Perm (Fin 3510)}
   ext ⟨z, hz⟩
   have e := h z hz
   unfold pt at e
-  rw [dif_pos hz, dif_pos hz] at e
+  rw [dite_eq_left hz, dite_eq_left hz] at e
   exact e
 
 theorem kAp_base_eq {d d' : ℕ} (h : ∀ z < 3510, ap d z = ap d' z) :

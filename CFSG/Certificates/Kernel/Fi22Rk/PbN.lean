@@ -178,8 +178,8 @@ theorem outerN (hN1 : 1 ≤ N) : forIn (m := Id) [:243] (#[idA 243], #[0], #[0],
         exact (pbStep_cases h0).2.1
       have hin := innerN hM hMc h hN1 hq
       refine ⟨ostN N MUK LK EK PLK (s + 1), ?_, rfl⟩
-      simp only [oStep, ostN, st3]
-      rw [if_pos (by rw [ofN_size]; exact hqc), hMs]
+      simp only [oStep, ostN]
+      rw [ite_eq_left (by rw [ofN_size]; exact hqc), hMs]
       simp only [st3] at hin
       rw [hin]
       have e : min (s + 1) N = min s N + 1 := by omega
@@ -188,11 +188,11 @@ theorem outerN (hN1 : 1 ≤ N) : forIn (m := Id) [:243] (#[idA 243], #[0], #[0],
     · have e1 : min s N = N := by omega
       have e2 : min (s + 1) N = N := by omega
       refine ⟨ostN N MUK LK EK PLK (s + 1), ?_, rfl⟩
-      simp only [oStep, ostN, st3]
-      rw [if_neg (by rw [ofN_size, e1, hRN]; exact lt_irrefl N), e1, e2]
+      simp only [oStep, ostN]
+      rw [ite_eq_right (by rw [ofN_size, e1, hRN]; exact lt_irrefl N), e1, e2]
       rfl
   · have hid : idA 243 = unpack 243 8 (LK 0) := by rw [hL0]; exact idA_eq (by decide)
-    simp only [ostN, st3]
+    simp only [ostN]
     rw [show min 0 N = 0 from Nat.zero_min N, R_zero, ofN_one, ofN_one, ofN_one, ← hid]
     have e0 : parP PLK 0 = 0 := by unfold parP; rw [hP0]; rfl
     have e1 : labP PLK 0 = 0 := by unfold labP; rw [hP0]; rfl
@@ -203,7 +203,7 @@ theorem pbBFS_eqN (hN1 : 1 ≤ N) (hN2 : N ≤ 243) : pbBFS mus =
     (ofN N fun k => unpack 243 8 (LK k), ofN N (parP PLK), ofN N (labP PLK)) := by
   have hRN := (run_factsN h).2.2.2.2
   rw [pbBFS_eq_forIn, outerN hMs hM hMc h hN1]
-  simp only [ostN, st3]
+  simp only
   rw [show min 243 N = N from Nat.min_eq_right hN2, hRN]
 
 end CFSG.KC.Fi22RkS

@@ -46,7 +46,7 @@ theorem mat_levSU_det_one_block (A : Matrix (Fin 2) (Fin 2) F4) (hA : IsUnit A.d
   all_goals
     rw [mat_levSU, hdet, map_one, div_one, CFSG.ClassicalGroups.UnitaryFlag.oddDiag,
       barInvT_eq_of_det_one A hdet]
-    simp [yIdx, blk3, Matrix.fromBlocks]
+    simp [yIdx]
 
 theorem mat_levSLHom_block (V : Matrix.SpecialLinearGroup (Fin 2) F4) :
     mat (levSLHom V) 0 0 = bar ((V : Matrix (Fin 2) (Fin 2) F4) 1 1) ∧

@@ -12,19 +12,23 @@ open CFSG.RankThree.PartTwo CFSG.HardMathSupport.Cooperstein.Coordinator
 
 variable {G : Type} [Group G] [Finite G] {E : Subgroup G}
 
+omit [Finite G] in
 theorem mul_comm_of_isE {n : ℕ} (hE : IsE n ↥E) {x y : G} (hx : x ∈ E) (hy : y ∈ E) :
     x * y = y * x := by
   have h := hE.1.1.is_comm.comm ⟨⟨x, hx⟩, trivial⟩ ⟨⟨y, hy⟩, trivial⟩
   exact congrArg (fun z : (⊤ : Subgroup ↥E) => ((z : ↥E) : G)) h
 
+omit [Finite G] in
 theorem mul_self_of_isE {n : ℕ} (hE : IsE n ↥E) {x : G} (hx : x ∈ E) : x * x = 1 := by
   have h := hE.1.2 ⟨x, hx⟩ trivial
   rw [← pow_two]
   exact congrArg Subtype.val h
 
+omit [Finite G] in
 theorem isPGroup_of_isE {n : ℕ} (hE : IsE n ↥E) : IsPGroup 2 E :=
   IsPGroup.of_card hE.2
 
+omit [Finite G] in
 theorem centralizer_le_normalizer_set : Subgroup.centralizer (E : Set G) ≤
     Subgroup.normalizer (E : Set G) := by
   intro c hc
@@ -59,7 +63,7 @@ theorem exists_odd_complement_centralizer (hE : IsE 4 ↥E)
       (∀ c ∈ Subgroup.centralizer (E : Set G), ∃ e ∈ E, ∃ k ∈ K, c = e * k) ∧
       Subgroup.centralizer (E : Set G) = E ⊔ K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C := Subgroup.centralizer (E : Set G) with hC
   have hEC : E ≤ C := hsyl.1
   have hP2 : IsPGroup 2 (E.subgroupOf C) :=
@@ -143,6 +147,7 @@ theorem exists_odd_complement_centralizer (hE : IsE 4 ↥E)
       exact Subgroup.mul_mem _ (Subgroup.mem_sup_left he) (Subgroup.mem_sup_right hk)
     · exact sup_le hEC hKC
 
+omit [Finite G] in
 theorem oddCore_normalizer_eq (hE : IsE 4 ↥E) {K : Subgroup G}
     (hKC : K ≤ Subgroup.centralizer (E : Set G)) (hKodd : Odd (Nat.card K))
     (hKiff : ∀ c : G, c ∈ K ↔ c ∈ Subgroup.centralizer (E : Set G) ∧ Odd (orderOf c)) :
@@ -259,10 +264,10 @@ theorem stroth10_aux (hE : IsE 4 ↥E) {N : Subgroup G} (hNE : N = Subgroup.norm
       rw [hck, map_mul, hk1, mul_one]
     · rintro _ ⟨e, he, rfl⟩
       exact ⟨e, Subgroup.mem_subgroupOf.mpr (hsyl.1 (Subgroup.mem_subgroupOf.mp he)), rfl⟩
-  haveI hEn : (E.subgroupOf N).Normal := by
+  have hEn : (E.subgroupOf N).Normal := by
     subst hNE
     exact Subgroup.normal_in_normalizer
-  letI : CommGroup ↥(E.subgroupOf N) :=
+  let : CommGroup ↥(E.subgroupOf N) :=
     { (inferInstance : Group ↥(E.subgroupOf N)) with
       mul_comm := fun x y => Subtype.ext (Subtype.ext (mul_comm_of_isE hE
         (Subgroup.mem_subgroupOf.mp x.2) (Subgroup.mem_subgroupOf.mp y.2))) }

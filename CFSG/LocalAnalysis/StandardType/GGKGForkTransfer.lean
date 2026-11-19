@@ -380,7 +380,7 @@ theorem ggTorusRootSL2_of_rootDatum {p r : ℕ} {R : Type} [Group R] {I : Set (M
       calc x' * (u * x⁻¹) * x'⁻¹ = ((u * x⁻¹) * x') * x'⁻¹ := by rw [hcx']
         _ = u * x⁻¹ := by group
   have hwE : w ∈ Subgroup.normalizer (E : Set R) := by
-    haveI : Finite R := Finite.of_surjective ψ hψ
+    have : Finite R := Finite.of_surjective ψ hψ
     have hle : E.map (MulAut.conj w).toMonoidHom ≤ E := by
       rw [Subgroup.map_le_iff_le_comap]
       intro e he

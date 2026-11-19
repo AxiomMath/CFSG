@@ -41,6 +41,7 @@ theorem commutator_mem_blockQ_of_mem_pCoreOf {H B : Subgroup G} (hB : IsBlock2 H
       le_normalizer_pCoreOf 2 H hbH
     exact mul_mem ((Subgroup.mem_normalizer_iff.mp hON y).mp hy) (inv_mem hy)
 
+omit [Finite G] in
 theorem charTwo_of_pCoreOf_le {K X : Subgroup G} (hK : CharTwo K) (hOX : pCoreOf 2 K ≤ X)
     (hXK : X ≤ K) : CharTwo X := CFSG.QuasithinUnique.CharTwo.of_pCoreOf_le hK hXK hOX
 

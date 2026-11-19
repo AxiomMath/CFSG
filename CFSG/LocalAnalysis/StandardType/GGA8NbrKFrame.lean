@@ -399,7 +399,7 @@ private theorem a8kf_eVFun_mem {G : Type} [Group G] {Bs K : Subgroup G}
   obtain ⟨e, he, heq⟩ := Subgroup.mem_map.mp ht
   have hsymm : ρ.symm (ggSL9TorusCoord (Multiplicative.ofAdd (fun i : Fin 3 => v i.succ))) = e := by
     rw [← heq]
-    simpa using MulEquiv.symm_apply_apply ρ e
+    simp
   change ((ρ.symm (ggSL9TorusCoord (Multiplicative.ofAdd (fun i : Fin 3 => v i.succ))) : ↥K) : G) ∈ Bs
   rw [hsymm]
   exact he.1
@@ -601,9 +601,9 @@ private theorem a8kf_Phi_surjective {G : Type} [Group G] [Finite G] {Bs K : Subg
     have h := AddSubgroup.card_ker_mul_card_range (a8kf_Phi ρ hρE hy hy7 hyK)
     rw [hker, AddSubgroup.card_bot, one_mul, hcard_dom] at h
     rw [h, Nat.card_congr Additive.toMul, hcardBs]
-  haveI : Finite ↥Bs := Finite.of_injective (fun x : ↥Bs => (x : G)) Subtype.coe_injective
-  haveI : Finite (Additive ↥Bs) := Finite.of_equiv ↥Bs Additive.ofMul
-  haveI : Finite (a8kf_Phi ρ hρE hy hy7 hyK).range :=
+  have : Finite ↥Bs := Finite.of_injective (fun x : ↥Bs => (x : G)) Subtype.coe_injective
+  have : Finite (Additive ↥Bs) := Finite.of_equiv ↥Bs Additive.ofMul
+  have : Finite (a8kf_Phi ρ hρE hy hy7 hyK).range :=
     Finite.of_injective (fun x : ↥(a8kf_Phi ρ hρE hy hy7 hyK).range => (x : Additive ↥Bs))
       Subtype.coe_injective
   have htop : (a8kf_Phi ρ hρE hy hy7 hyK).range = ⊤ :=
@@ -637,7 +637,7 @@ theorem ggA8Nbr_kFrame
   let A : ↥Bs → GL (Fin 9) F2 := fun b => Classical.choose (hAex b)
   have hA : ∀ b : ↥Bs, ((b : G), A b) ∈ LinFusion.ggInducedPairs φ :=
     fun b => Classical.choose_spec (hAex b)
-  haveI : IsMulCommutative ↥Bs := hcfg.2.1.2.1.1
+  have : IsMulCommutative ↥Bs := hcfg.2.1.2.1.1
   have hcomm : ∀ a b : ↥Bs, a * b = b * a :=
     fun a b => Subtype.ext (setLike_mul_comm a.2 b.2)
   have hpow : ∀ b : ↥Bs, (b : G) ^ 7 = 1 := fun b => hcfg.2.1.2.1.2 b b.2
@@ -747,7 +747,7 @@ theorem ggA8Nbr_kFrame
         exact a8kf_eVFun_zero ρ
       simp only [a8kf_PhiFun, Subgroup.coe_mk]
       rw [heV]
-      haveI : Fact (1 < 7) := ⟨by norm_num⟩
+      have : Fact (1 < 7) := ⟨by norm_num⟩
       simp [ZMod.val_one]
     exact (Φe.symm_apply_eq).mpr hsingle.symm
   ·

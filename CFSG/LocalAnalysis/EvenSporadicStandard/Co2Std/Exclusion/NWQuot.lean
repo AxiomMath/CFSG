@@ -13,6 +13,7 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G] {L A T : Subgroup G} {z t : G}
   {W W₁ W₂ : Subgroup G}
 
+omit [Finite G] in
 private theorem conj_mul_conj_eq_of_sub_mem {A W : Subgroup G} [IsMulCommutative ↥W]
     {s z : G} (hAW : A ≤ W) (hsA : s ∈ centralizer (A : Set G))
     (hzA : z ∈ centralizer (A : Set G))
@@ -61,7 +62,7 @@ private theorem WHyp.conj_eq_one_or_conj_z (h : WHyp G L A T z t W W₁ W₂) {r
     rwa [h.R₀_eq] at hr
   obtain ⟨v, hv, k, hk, rfl⟩ := hr'
   obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 hk
-  haveI : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
+  have : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
   have hvfix : ∀ w ∈ W, v * w * v⁻¹ = w := by
     intro w hw
     have hcomm : v * w = w * v :=
@@ -98,7 +99,7 @@ theorem WHyp.exists_mem_M_of_commute (h : WHyp G L A T z t W W₁ W₂) {n : G}
   have hnC : n ∈ normalizer (C : Set G) :=
     CFSG.BenderSuzuki.normalizer_le_normalizer_centralizer W hn
   have hWcent : W ≤ C := by
-    haveI : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
+    have : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
     exact Subgroup.le_centralizer (H := W)
   have hEC : E ≤ centralizer (A : Set G) :=
     sup_le (Subgroup.centralizer_le h.e3.A_le) h.hyp.zpowers_le_centralizer_A
@@ -193,7 +194,7 @@ theorem WHyp.exists_mem_M_of_mem_centralizer (h : WHyp G L A T z t W W₁ W₂) 
     (hn : n ∈ normalizer (W : Set G)) (hnA : n ∈ centralizer (A : Set G)) :
     ∃ m ∈ M A z, ∀ w ∈ W, n * w * n⁻¹ = m * w * m⁻¹ := by
   classical
-  haveI : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
+  have : IsMulCommutative ↥W := h.elemAb.toIsMulCommutative
   let s : G := n * z * n⁻¹
   have hzA : z ∈ centralizer (A : Set G) :=
     h.hyp.zpowers_le_centralizer_A (mem_zpowers z)

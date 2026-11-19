@@ -13,6 +13,7 @@ namespace Data0
 variable {b b₁ b₂ b₃ : G} (D : Data0 b b₁ b₂ b₃)
 include D
 
+omit [Finite G] D in
 theorem inv_inverts {τ : G} (hτ : ∀ y ∈ BO b₁ b₂ b₃, τ * y * τ⁻¹ = y⁻¹) :
     ∀ y ∈ BO b₁ b₂ b₃, τ⁻¹ * y * τ⁻¹⁻¹ = y⁻¹ := by
   intro y hy
@@ -30,7 +31,7 @@ theorem fix_tau {τ : G} (hτb : τ * b * τ⁻¹ = b) (hτ : ∀ y ∈ BO b₁ 
       hτb, hτ y hy]
   rw [e] at hzτ
   have hyy : y⁻¹ = y := mul_left_cancel hzτ
-  rw [D.eq_one_of_eq_inv (D.B₁3 y hy) hyy, mul_one]
+  rw [CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.eq_one_of_eq_inv (D.B₁3 y hy) hyy, mul_one]
 
 theorem exists_frattini {τ : G}
     (hτN : τ ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G))
@@ -40,7 +41,7 @@ theorem exists_frattini {τ : G}
       (a⁻¹ * g) * τ * (a⁻¹ * g)⁻¹ * τ⁻¹ ∈
         Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) := by
   set δ := g * τ * g⁻¹ * τ⁻¹ with hδdef
-  have hτ' := D.inv_inverts hτ
+  have hτ' := Data0.inv_inverts hτ
   have hg' := inv_mem hg
   have hδA : δ ∈ Ahat (BO b₁ b₂ b₃) b := by
     refine ⟨fun y hy => ?_, ?_⟩
@@ -50,7 +51,7 @@ theorem exists_frattini {τ : G}
         rw [hδdef]; group
       rw [e, hτ' y hy, hτ _ hy₁]
       group
-    · have hz : g⁻¹ * b * g⁻¹⁻¹ ∈ BB b b₁ b₂ b₃ := D.conj_mem_B hg' D.b_mem_B
+    · have hz : g⁻¹ * b * g⁻¹⁻¹ ∈ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.conj_mem_B hg' (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃))
       obtain ⟨n, -, y, hy, hzy⟩ := D.exists_of_mem_B hz
       have hτz : τ * (g⁻¹ * b * g⁻¹⁻¹) * τ⁻¹ = (g⁻¹ * b * g⁻¹⁻¹) * (y⁻¹ * y⁻¹) := by
         rw [hzy, show τ * (b ^ n * y) * τ⁻¹ = (τ * b * τ⁻¹) ^ n * (τ * y * τ⁻¹) by
@@ -97,7 +98,7 @@ theorem conj_b_pm {τ c : G}
     (hc : c ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G))
     (hcτ : c * τ * c⁻¹ * τ⁻¹ ∈ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G)) :
     c * b * c⁻¹ = b ∨ c * b * c⁻¹ = b⁻¹ := by
-  have hz : c * b * c⁻¹ ∈ BB b b₁ b₂ b₃ := D.conj_mem_B hc D.b_mem_B
+  have hz : c * b * c⁻¹ ∈ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.conj_mem_B hc (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃))
   have hfix : τ * (c * b * c⁻¹) * τ⁻¹ = c * b * c⁻¹ := by
     have h := Subgroup.mem_centralizer_iff.mp hcτ _ hz
     have e1 : (c * τ * c⁻¹) * (c * b * c⁻¹) * (c * τ * c⁻¹)⁻¹ = c * b * c⁻¹ := by
@@ -108,7 +109,7 @@ theorem conj_b_pm {τ c : G}
     rw [e2] at e1
     have e3 : (c * τ * c⁻¹ * τ⁻¹) * (τ * (c * b * c⁻¹) * τ⁻¹) * (c * τ * c⁻¹ * τ⁻¹)⁻¹ =
         τ * (c * b * c⁻¹) * τ⁻¹ := by
-      have hz' : τ * (c * b * c⁻¹) * τ⁻¹ ∈ BB b b₁ b₂ b₃ := D.conj_mem_B hτN hz
+      have hz' : τ * (c * b * c⁻¹) * τ⁻¹ ∈ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.conj_mem_B hτN hz
       have h2 := Subgroup.mem_centralizer_iff.mp hcτ _ hz'
       rw [← h2, mul_inv_cancel_right]
     rw [e3] at e1
@@ -149,11 +150,13 @@ theorem mono_of_mem {τ : G}
 
 end Data0
 
+omit [Finite G] in
 theorem eq_pow_sq {n : G} {k : ℕ} (hn : n ^ (3 ^ k) = 1) : n = (n ^ 2) ^ ((3 ^ k + 1) / 2) := by
   have hodd : Odd (3 ^ k) := Odd.pow (by decide)
   obtain ⟨m, hm⟩ := hodd
   rw [← pow_mul, show 2 * ((3 ^ k + 1) / 2) = 3 ^ k + 1 by omega, pow_succ, hn, one_mul]
 
+omit [Finite G] in
 theorem fix_of_pm {n x : G} {k : ℕ} (hn : n ^ (3 ^ k) = 1)
     (hx : n * x * n⁻¹ = x ∨ n * x * n⁻¹ = x⁻¹) : n * x * n⁻¹ = x := by
   have h2 : n ^ 2 * x * (n ^ 2)⁻¹ = x := by
@@ -169,6 +172,7 @@ namespace Data0
 variable {b b₁ b₂ b₃ : G} (D : Data0 b b₁ b₂ b₃)
 include D
 
+omit [Finite G] in
 theorem triv_mul {g h : G} (hg : g ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G))
     (hgb : g * b * g⁻¹ * b⁻¹ ∈ BO b₁ b₂ b₃) (hhb : h * b * h⁻¹ * b⁻¹ ∈ BO b₁ b₂ b₃) :
     (g * h) * b * (g * h)⁻¹ * b⁻¹ ∈ BO b₁ b₂ b₃ := by
@@ -177,6 +181,7 @@ theorem triv_mul {g h : G} (hg : g ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃
   rw [e]
   exact mul_mem (D.B₁N g hg _ hhb) hgb
 
+omit [Finite G] in
 theorem triv_pow {g : G} (hg : g ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G))
     (hgb : g * b * g⁻¹ * b⁻¹ ∈ BO b₁ b₂ b₃) (m : ℕ) :
     g ^ m * b * (g ^ m)⁻¹ * b⁻¹ ∈ BO b₁ b₂ b₃ := by
@@ -186,7 +191,7 @@ theorem triv_pow {g : G} (hg : g ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ :
 
 theorem triv_of_three {n : G} (hnN : n ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G))
     {k : ℕ} (hn3 : n ^ (3 ^ k) = 1) : n * b * n⁻¹ * b⁻¹ ∈ BO b₁ b₂ b₃ := by
-  obtain ⟨j, hj, y, hy, hjy⟩ := D.exists_of_mem_B (D.conj_mem_B hnN D.b_mem_B)
+  obtain ⟨j, hj, y, hy, hjy⟩ := D.exists_of_mem_B (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.conj_mem_B hnN (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃)))
   have hj0 : j ≠ 0 := by
     rintro rfl
     rw [pow_zero, one_mul] at hjy
@@ -290,6 +295,7 @@ theorem mem_Ahat_of_three {n : G}
 
 end Data0
 
+omit [Finite G] in
 theorem line_conj {r x y v : G} (h : r * x * r⁻¹ = y ∨ r * x * r⁻¹ = y⁻¹)
     (hv : v = y ∨ v = y⁻¹) : r⁻¹ * v * r = x ∨ r⁻¹ * v * r = x⁻¹ := by
   rcases hv with hv | hv <;> rw [hv] <;> rcases h with h | h
@@ -303,6 +309,7 @@ namespace Data0
 variable {b b₁ b₂ b₃ : G} (D : Data0 b b₁ b₂ b₃)
 include D
 
+omit [Finite G] in
 theorem exists_normalize {τ ι₁ ι₂ ι₃ σ₁₂ σ₂₃ γ : G} (M : Mono b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁₂ σ₂₃ γ)
     (hN : ∀ n ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G),
       ∀ x ∈ ({b₁, b₂, b₃} : Set G), n * x * n⁻¹ ∈ ({b₁, b₁⁻¹, b₂, b₂⁻¹, b₃, b₃⁻¹} : Set G))
@@ -405,7 +412,7 @@ theorem gen_of_no_inv {τ ι₁ ι₂ ι₃ σ₁₂ σ₂₃ γ : G} (M : Mono 
   have hhN := hNLN hhL
   have hhb := hNLb h hhL
   have hhc : h * (a⁻¹ * n) ∈ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) := by
-    refine D.mem_cen_of_gens ?_
+    refine CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem_cen_of_gens ?_
     intro z hz
     rcases hz with hz | hz
     · rw [hz, show h * (a⁻¹ * n) * b * (h * (a⁻¹ * n))⁻¹ =
@@ -414,7 +421,7 @@ theorem gen_of_no_inv {τ ι₁ ι₂ ι₃ σ₁₂ σ₂₃ γ : G} (M : Mono 
   refine ⟨h⁻¹, inv_mem hhL, ?_⟩
   have e : n * h⁻¹⁻¹ = a * (h⁻¹ * (h * (a⁻¹ * n)) * h⁻¹⁻¹) := by group
   rw [e]
-  exact mul_mem haA (D.conj_mem_Ahat (inv_mem hhN) (D.cen_le_Ahat hhc))
+  exact mul_mem haA (D.conj_mem_Ahat (inv_mem hhN) (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.cen_le_Ahat hhc))
 
 theorem surj_of_move {τ ι₁ ι₂ ι₃ σ₁₂ σ₂₃ γ : G} (M : Mono b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁₂ σ₂₃ γ)
     (hirr : ∀ H : Subgroup G, H ≤ BO b₁ b₂ b₃ → H ≠ ⊥ →
@@ -425,7 +432,7 @@ theorem surj_of_move {τ ι₁ ι₂ ι₃ σ₁₂ σ₂₃ γ : G} (M : Mono b
     ∀ y ∈ BO b₁ b₂ b₃, ∃ a : G, (∀ z ∈ BO b₁ b₂ b₃, a * z * a⁻¹ = z) ∧ a * b * a⁻¹ = y * b := by
   let I : Subgroup G :=
     { carrier := {y | ∃ a ∈ Ahat (BO b₁ b₂ b₃) b, beta b a = y}
-      one_mem' := ⟨1, one_mem _, D.beta_one⟩
+      one_mem' := ⟨1, one_mem _, CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.beta_one⟩
       mul_mem' := fun {x y} hx hy => by
         obtain ⟨a, ha, rfl⟩ := hx
         obtain ⟨a', ha', rfl⟩ := hy
@@ -495,7 +502,7 @@ theorem card_le_of_isPGroup {τ : G}
     (R : Subgroup G) (hRN : R ≤ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G))
     (hR : IsPGroup 3 R) : Nat.card R ≤ 3 ^ 8 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Â := Ahat (BO b₁ b₂ b₃) b with hÂdef
   have hBp : IsPGroup 3 ↥((BB b b₁ b₂ b₃).subgroupOf Â) := D.isPGroup_B.comap_subtype
   obtain ⟨S, hSle⟩ := hBp.exists_le_sylow
@@ -521,10 +528,10 @@ theorem card_le_of_isPGroup {τ : G}
       (f r = 2 ∧ ((r : G) * b₁ * (r : G)⁻¹ = b₃ ∨ (r : G) * b₁ * (r : G)⁻¹ = b₃⁻¹)) := by
     intro r
     by_cases h1 : (r : G) * b₁ * (r : G)⁻¹ = b₁ ∨ (r : G) * b₁ * (r : G)⁻¹ = b₁⁻¹
-    · exact Or.inl ⟨by rw [hfdef, if_pos h1], h1⟩
+    · exact Or.inl ⟨by rw [hfdef, ite_eq_left h1], h1⟩
     by_cases h2 : (r : G) * b₁ * (r : G)⁻¹ = b₂ ∨ (r : G) * b₁ * (r : G)⁻¹ = b₂⁻¹
-    · exact Or.inr (Or.inl ⟨by rw [hfdef, if_neg h1, if_pos h2], h2⟩)
-    refine Or.inr (Or.inr ⟨by rw [hfdef, if_neg h1, if_neg h2], ?_⟩)
+    · exact Or.inr (Or.inl ⟨by rw [hfdef, ite_eq_right h1, ite_eq_left h2], h2⟩)
+    refine Or.inr (Or.inr ⟨by rw [hfdef, ite_eq_right h1, ite_eq_right h2], ?_⟩)
     rcases D.mono_of_mem hτN hτb hτ hmono (hRN r.2) b₁ (by simp) with e | e | e | e | e | e
     · exact absurd (Or.inl e) h1
     · exact absurd (Or.inr e) h1
@@ -555,7 +562,7 @@ theorem card_le_of_isPGroup {τ : G}
     rw [show (r : G)⁻¹ * s * b₁ * ((r : G)⁻¹ * s)⁻¹ =
       (r : G)⁻¹ * ((s : G) * b₁ * (s : G)⁻¹) * r by group]
     exact line_conj hy hy'
-  haveI : Nonempty ↥R := ⟨1⟩
+  have : Nonempty ↥R := ⟨1⟩
   let rep : Fin 3 → ↥R := Function.invFun f
   have hrep : ∀ r : ↥R, f (rep (f r)) = f r := fun r => Function.invFun_eq ⟨r, rfl⟩
   let φ : ↥R → Fin 3 × ↥(R ⊓ Â) := fun r =>
@@ -616,7 +623,7 @@ theorem four_le_localRank_of_mono {b b₁ b₂ b₃ τ ι₁ ι₂ ι₃ σ₁�
       CK := hCK
       NLN := hNLN
       NLb := hNLb
-      NLC := fun x hx => hself ⟨hx.1.1.1, Subgroup.centralizer_le D.B₁_le_B hx.2⟩
+      NLC := fun x hx => hself ⟨hx.1.1.1, Subgroup.centralizer_le CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B hx.2⟩
       gen := fun n hn => D.gen_of_no_inv M hmono hno hNLN hNLb hNL hn }⟩
 
 end CFSG.RankThree.PartTwo.Sec21.FF81.Lift

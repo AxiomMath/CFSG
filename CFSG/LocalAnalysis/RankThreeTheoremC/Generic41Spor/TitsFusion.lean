@@ -35,7 +35,7 @@ theorem plane_fusion_core (hS : Setting G) (hD1 : TheoremD1 G) (hSig : Signalize
     (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) ∧ U3LineWC x (P : Subgroup G) := by
   classical
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := hc.generic.2.1.2.1
   have hxp : x ^ p = 1 := hc.generic.2.1.2.2.1
   obtain ⟨hTcard, hTel, hxJ⟩ := plane_T_structure hsyl hc
@@ -82,7 +82,7 @@ end Plane
 
 variable {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
 
-theorem tits_fusion_core (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
+theorem tits_fusion_core (hS : Setting G) (hD1 : TheoremD1 G) (_hU0 : FullCoreLocal G)
     (hSig : SignalizerTwoGroupKFact) (hX : TitsFacts) (hc : PointConfig IsTitsType G 5 P M x J) :
     (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) ∧ U3LineWC x (P : Subgroup G) :=
   plane_fusion_core hS hD1 hSig hX.sylow hX.noOuter hX.trans typeSE_tits hc

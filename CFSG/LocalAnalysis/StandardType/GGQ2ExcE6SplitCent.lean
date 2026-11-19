@@ -37,9 +37,9 @@ private theorem e6SplitWeyl_mem_rootSpan {L : Type} [Field L]
     · exact ⟨i, hi, Or.inr (Or.inr (Or.inl rfl))⟩
     · exact ⟨i, hi, Or.inr (Or.inr (Or.inr rfl))⟩
   by_cases hfix : ExcRaw.tabFix1.getD i.val false = true
-  · rw [e6SplitWeyl, if_pos hfix]
+  · rw [e6SplitWeyl, ite_eq_left hfix]
     exact rootSpan_mono hsub (rootSL2_mem_rootSpan_pair (isRoot_e6SplitRoot i) WSL)
-  · rw [e6SplitWeyl, if_neg hfix]
+  · rw [e6SplitWeyl, ite_eq_right hfix]
     exact mul_mem (rootSpan_mono hsub
         (rootSL2_mem_rootSpan_pair (isRoot_e6SplitRoot i) WSL))
       (rootSpan_mono hsubσ

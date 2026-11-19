@@ -43,7 +43,7 @@ private theorem section13_natCard_actor_dvd_group_card_sub_one
     Nat.card A ∣ Nat.card Q - 1 := by
   classical
   let α := {q : Q // q ≠ 1}
-  letI : MulAction A α :=
+  let : MulAction A α :=
     { smul := fun a x => ⟨a • (x : Q), by
         intro h
         apply x.2
@@ -74,8 +74,8 @@ private theorem section13_natCard_actor_dvd_group_card_sub_one
     exact x.2 (hfree a ha_ne (x : Q) hfix)
   have hcard_equiv := Nat.card_congr (MulAction.selfEquivOrbitsQuotientProd hstab)
   have hcardα : Nat.card α = Nat.card Q - 1 := by
-    letI : Fintype Q := Fintype.ofFinite Q
-    letI : Fintype α := Fintype.ofFinite α
+    let : Fintype Q := Fintype.ofFinite Q
+    let : Fintype α := Fintype.ofFinite α
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     change Fintype.card {q : Q // q ≠ 1} = Fintype.card Q - 1
     simp
@@ -160,7 +160,7 @@ private theorem section13_theorem_13_12_q_dvd_c_sub_one_of_sourceContext
     simpa [hC] using
       (section13_le_normalizer_subgroupCentralizerIn_of_le_normalizers
         (X := W1) (U := U) (P := P) hW1normU hW1normP)
-  haveI : Subgroup.Normalizes W1 C := ⟨hW1normC⟩
+  have : Subgroup.Normalizes W1 C := ⟨hW1normC⟩
   have hregular : section14ActsRegularlyOn W1 U :=
     source_typeP_W1_actsRegularlyOn_U hptypeSOrig
   have hfree : ∀ a : W1, a ≠ 1 → ∀ y : C, a • y = y → y = 1 := by
@@ -481,7 +481,7 @@ private theorem section13_theorem_13_12_linearComparisonPrereqs_of_sourceContext
       simpa [hpq] using hcop_qp
     exact hqPrime.ne_one (Nat.Coprime.eq_one_of_dvd hcop_qq dvd_rfl)
   have hoddG : Odd (Nat.card G) := by
-    letI : IsMinCE G :=
+    let : IsMinCE G :=
       section13_theorem_13_2_global_isMinCE_of_sourceContext
         Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT
         p q u v c d hsourceOrig
@@ -524,7 +524,7 @@ private theorem section13_theorem_13_12_c_lower_bound_of_sourceContext
       _hd_card, _hU_card, _hV_card, _hSfam, _hTfam, _hDadeS, _hDadeT,
       _hnotationData, _hchoiceData, _hminCE⟩
   have hoddG : Odd (Nat.card G) := by
-    letI : IsMinCE G :=
+    let : IsMinCE G :=
       section13_theorem_13_2_global_isMinCE_of_sourceContext
         Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT
         p q u v c d hsourceOrig
@@ -555,7 +555,7 @@ private theorem section13_theorem_13_12_c_eq_seven_or_thirteen_le_of_q_eq_three_
       _hd_card, _hU_card, _hV_card, _hSfam, _hTfam, _hDadeS, _hDadeT,
       _hnotationData, _hchoiceData, _hminCE⟩
   have hoddG : Odd (Nat.card G) := by
-    letI : IsMinCE G :=
+    let : IsMinCE G :=
       section13_theorem_13_2_global_isMinCE_of_sourceContext
         Smax Tmax W W1 W2 P Q U V C D Sfam Tfam τS τT
         p q u v c d hsourceOrig

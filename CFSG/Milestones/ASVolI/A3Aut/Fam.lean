@@ -30,8 +30,8 @@ theorem burnsideAut_map_inn_congr' {S M : Type*} [Group S] [Group M] (e : S ≃*
 theorem burnsideAut_ne_top_of_isSolvable {X : Type*} [Group X] [Nontrivial X] [Group.IsPerfect X]
     {Y : Subgroup X} (hY : Group.IsSolvable ↥Y) : Y ≠ ⊤ := by
   rintro rfl
-  haveI : Group.IsSolvable X :=
-    solvable_of_surjective (f := (⊤ : Subgroup X).subtype) (fun x => ⟨⟨x, trivial⟩, rfl⟩)
+  have : Group.IsSolvable X :=
+    Group.isSolvable_of_surjective (f := (⊤ : Subgroup X).subtype) (fun x => ⟨⟨x, trivial⟩, rfl⟩)
   have hc := Group.IsSolvable.commutator_lt_top_of_nontrivial X
   rw [(inferInstance : Group.IsPerfect X).commutator_eq_top] at hc
   exact lt_irrefl _ hc
@@ -39,7 +39,7 @@ theorem burnsideAut_ne_top_of_isSolvable {X : Type*} [Group X] [Nontrivial X] [G
 theorem burnsideAut_nonabelian_of_perfect {X : Type*} [Group X] [Nontrivial X]
     [Group.IsPerfect X] : ∃ a b : X, a * b ≠ b * a := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have h1 : commutator X = ⊥ := by
     rw [commutator_def, eq_bot_iff, Subgroup.commutator_le]
     intro a _ b _

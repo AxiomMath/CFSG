@@ -45,6 +45,7 @@ private lemma conj_eq_self_of_mem_centerIn_of_mem_centralizer_z1
   · calc g * (z * z₁) * g⁻¹ = (g * z * g⁻¹) * (g * z₁ * g⁻¹) := by group
       _ = z * z₁ := by rw [hgz, hgz₁']
 
+omit [Finite G] hN in
 private lemma exists_conj_eq_of_mem_outer {σ τ : G} {N : Subgroup G} {e : G}
     (he : e ∈ centerIn (J z))
     (hQN : ∀ q ∈ J z ⊓ centralizer ({σ} : Set G), q ∈ N)
@@ -70,6 +71,7 @@ private lemma exists_conj_eq_of_mem_outer {σ τ : G} {N : Subgroup G} {e : G}
           _ = q₂ * τ * (q₂⁻¹ * e) := by rw [← he₂]
           _ = q₂ * τ * q₂⁻¹ * e := by group
 
+omit [Finite G] hN in
 private lemma isLemma54Label_conj_of_not_mem_centralizer {σ τ g e e' ℓ₀ z₁ : G}
     {N : Subgroup G}
     (hlabel : ∀ g ∈ N, g ∉ centralizer ({z₁} : Set G) → ∀ x e,
@@ -83,15 +85,18 @@ private lemma isLemma54Label_conj_of_not_mem_centralizer {σ τ g e e' ℓ₀ z�
   have h := hlabel g hgN hgz₁ x e hx
   rwa [heq] at h
 
+omit hN in
+omit [Finite G] in
 private lemma isLemma54Label_conj_of_mem_centralizer {σ τ g x e : G}
     (hgH : g ∈ H z) (hgσ : g ∈ centralizer ({σ} : Set G))
     (hgτ : IsLemma54Label (z := z) σ τ (g * τ * g⁻¹) 1)
-    (he : e ∈ centerIn (J z)) (hefix : g * e * g⁻¹ = e)
+    (_he : e ∈ centerIn (J z)) (hefix : g * e * g⁻¹ = e)
     (hx : IsLemma54Label (z := z) σ τ x e) :
     IsLemma54Label (z := z) σ τ (g * x * g⁻¹) e := by
   have h := isLemma54Label_conj hgH hgσ (Subgroup.one_mem _) hgτ hx
   simpa [hefix] using h
 
+omit [Finite G] hN in
 private lemma outer_label_equations {g ℓ₀ lam z₁ : G}
     (hkey : ℓ₀ * (g * lam * g⁻¹) = lam * z)
     (hgz : g * z * g⁻¹ = z) (hgz₁ : g * z₁ * g⁻¹ = z₁ * z)
@@ -126,6 +131,7 @@ private lemma outer_label_equations {g ℓ₀ lam z₁ : G}
       _ = ((lam * z) * (z₁ * z)) * z := by rw [hkey]
       _ = (lam * z₁) * z := by rw [h2eq]
 
+omit [Finite G] hN in
 private lemma conj_eq_self_of_mem_centerIn {e q : G}
     (he : e ∈ centerIn (J z)) (hq : q ∈ J z) :
     q * e * q⁻¹ = e := by
@@ -133,11 +139,13 @@ private lemma conj_eq_self_of_mem_centerIn {e q : G}
   rw [hcomm]
   group
 
+omit [Finite G] in
 private lemma conj_mul_eq_of_conj_eq {g a b : G}
     (ha : g * a * g⁻¹ = a) (hb : g * b * g⁻¹ = b) :
     g * (a * b) * g⁻¹ = a * b := by
   rw [← conj_mul, ha, hb]
 
+omit [Finite G] hN in
 private lemma disjoint_outer {σ τ e e' : G}
     (hunique : ∀ {x : G}, e ∈ centerIn (J z) → e' ∈ centerIn (J z) →
       IsLemma54Label (z := z) σ τ x e → IsLemma54Label (z := z) σ τ x e' → e = e')
@@ -178,31 +186,37 @@ private lemma mem_lemma54O3F {z σ τ z₁ a : G} :
     a ∈ lemma54O3F z σ τ z₁ ↔ a ∈ lemma54O3 (z := z) σ τ z₁ := by
   simp [lemma54O3F]
 
+omit [Finite G] hN in
 private lemma lemma54_z_sq (h : Tim79a.ParrottHyp z) : z * z = 1 := by
   have := pow_orderOf_eq_one z
   rwa [h.1, pow_two] at this
 
+omit [Finite G] in
 private lemma lemma54_z₁_sq {z₁ : G} (hord : orderOf z₁ = 2) : z₁ * z₁ = 1 := by
   have := pow_orderOf_eq_one z₁
   rwa [hord, pow_two] at this
 
+omit hN [Finite G] in
 private lemma lemma54_z_comm_z₁ (h : Tim79a.ParrottHyp z) {z₁ : G}
     (hz₁ : z₁ ∈ centerIn (J z)) : z * z₁ = z₁ * z :=
   (Subgroup.mem_centralizer_iff.mp (z_centralizes_H h) z₁ (J_le_H hz₁.1)).symm
 
+omit [Finite G] hN in
 private lemma lemma54_z_ne_one (h : Tim79a.ParrottHyp z) : z ≠ 1 := by
   intro hz
   have := h.1
   rw [hz, orderOf_one] at this
   norm_num at this
 
+omit [Finite G] in
 private lemma lemma54_z₁_ne_one {z₁ : G} (hord : orderOf z₁ = 2) : z₁ ≠ 1 := by
   intro hz
   rw [hz, orderOf_one] at hord
   norm_num at hord
 
+omit [Finite G] hN in
 private lemma lemma54_z₁z_ne_one (h : Tim79a.ParrottHyp z) {z₁ : G}
-    (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) :
+    (_hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) :
     z₁ * z ≠ 1 := by
   intro hz
   have hz₁eq : z₁ = z := by
@@ -215,7 +229,8 @@ private lemma lemma54_tA_ne_one : (⟨t, t_mem_A⟩ : A45) ≠ 1 := by
   intro hq
   exact t_ne_one (congrArg Subtype.val hq)
 
-private lemma lemma54_tau_not_mem_J (h : Tim79a.ParrottHyp z) {τ : ↥(H z)}
+omit [Finite G] in
+private lemma lemma54_tau_not_mem_J (_h : Tim79a.ParrottHyp z) {τ : ↥(H z)}
     (hqτ : qH (z := z) D τ = tA) : (τ : G) ∉ J z := by
   intro hτJ
   have hq : qH (z := z) D τ = 1 :=
@@ -250,22 +265,22 @@ private lemma lemma54_outer_label_data [DecidableEq G]
   let lam : G := if ℓ₀ = z then 1 else z₁
   have hlam : lam = 1 ∨ lam = z₁ := by
     by_cases hℓz : ℓ₀ = z
-    · left; simp only [lam, if_pos hℓz]
-    · right; simp only [lam, if_neg hℓz]
+    · left; simp only [lam, ite_eq_left hℓz]
+    · right; simp only [lam, ite_eq_right hℓz]
   have hkey : ∀ g ∈ lemma54N₀ (z := z) σ τG, g ∉ centralizer ({z₁} : Set G) →
       ℓ₀ * (g * lam * g⁻¹) = lam * z := by
     intro g hgN hgz₁
     rcases hlam with hlam1 | hlamz₁
     · have hℓz : ℓ₀ = z := by
         by_contra hℓz
-        have hlam_eq : lam = z₁ := by simp only [lam, if_neg hℓz]
+        have hlam_eq : lam = z₁ := by simp only [lam, ite_eq_right hℓz]
         rw [hlam_eq] at hlam1
         exact lemma54_z₁_ne_one hord hlam1
       rw [hlam1, hℓz]; simp
     · have hℓ1 : ℓ₀ = 1 := by
         by_contra hℓ1
         have hℓz : ℓ₀ = z := hℓ₀.resolve_left hℓ1
-        have hlam_eq : lam = 1 := by simp only [lam, if_pos hℓz]
+        have hlam_eq : lam = 1 := by simp only [lam, ite_eq_left hℓz]
         rw [hlam_eq] at hlamz₁
         exact lemma54_z₁_ne_one hord hlamz₁.symm
       have hgH : g ∈ H z := (Subgroup.mem_inf.mp hgN).2
@@ -373,6 +388,7 @@ private structure Lemma54Context (z z₁ σ τG ℓ₀ lam μ : G) : Prop where
   blackA : Lemma54BlackA z z₁ σ τG
   blackB : Lemma54BlackB z z₁ σ τG
 
+omit [Finite G] in
 private lemma lemma54_basic [DecidableEq G] (h : Tim79a.ParrottHyp z)
     {z₁ : G} (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z)
     (hord : orderOf z₁ = 2) {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA)
@@ -820,6 +836,7 @@ private theorem lemma54_hcard [DecidableEq G] {z z₁ σ τG ℓ₀ lam μ : G}
   · exact (lemma54_hcard_5_6 C).1
   · exact (lemma54_hcard_5_6 C).2
 
+omit [Group G] [Finite G] in
 private lemma lemma54_disjoint_of_subset_not {s t : Finset G} {A : Set G}
     (hs : ∀ x ∈ s, x ∈ A) (ht : ∀ x ∈ t, x ∉ A) : Disjoint s t := by
   rw [Finset.disjoint_left]
@@ -1413,7 +1430,7 @@ private lemma lemma54_y_mem_H [DecidableEq G] {z z₁ σ τG ℓ₀ lam μ : G}
   exact (H z).mul_mem (J_le_H hq₁.1) ((H z).inv_mem (J_le_H hq₂.1))
 
 private lemma lemma54_y_centralizes [DecidableEq G] {z z₁ σ τG ℓ₀ lam μ : G}
-    (C : Lemma54Context z z₁ σ τG ℓ₀ lam μ) {a e q₁ q₂ : G}
+    (_C : Lemma54Context z z₁ σ τG ℓ₀ lam μ) {a e q₁ q₂ : G}
     (he : e ∈ centerIn (J z))
     (hq₁ : q₁ ∈ J z ⊓ centralizer ({σ} : Set G))
     (hq₂ : q₂ ∈ J z ⊓ centralizer ({σ} : Set G))
@@ -1526,7 +1543,7 @@ private theorem lemma54_hO56 [DecidableEq G] {z z₁ σ τG ℓ₀ lam μ : G}
 private theorem lemma54_hT1O [DecidableEq G]
     (h : Tim79a.ParrottHyp z) {z₁ : G} (hz₁ : z₁ ∈ centerIn (J z))
     (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
-    {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA)
+    {τ : ↥(H z)} (_hqτ : qH (z := z) D τ = tA)
     {S₀ : Subgroup G} (hS₀H : S₀ ≤ H z) (hτz₁ : (τ : G) * z₁ ∈ centerIn S₀)
     (hZS₀ : ∀ e ∈ centerIn S₀, e = 1 ∨ e = z ∨ e = (τ : G) * z₁ ∨ e = (τ : G) * z₁ * z)
     (hy : ∃ y ∈ S₀, y ∉ centralizer ({z₁} : Set G))
@@ -1581,7 +1598,7 @@ private lemma lemma54_setup_data [DecidableEq G]
     {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (hτ : τ * τ = 1)
     (hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ) (hτ₂ : τ * σ₂ = σ₂ * τ) :
     ∃ (ℓ₀ lam μ : G),
-      ∃ C : Lemma54Context z z₁ ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G)
+      ∃ _C : Lemma54Context z z₁ ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G)
         ℓ₀ lam μ, True := by
   obtain ⟨ℓ₀, lam, hℓ₀, hlam, hlabel, hkey⟩ :=
     lemma54_outer_label_data (D := D) h hZ hz₁ hz₁z hord P hP hσ₂ hq₂ hc₂ hqτ hτ hτ₁ hτ₂
@@ -1589,12 +1606,12 @@ private lemma lemma54_setup_data [DecidableEq G]
   obtain ⟨μ, hμN, hμz₁, hμH, hμz, hμz₁'⟩ :=
     lemma54_mu_data (D := D) h hZ hz₁ hz₁z hord P hP hσ₂ hq₂ hc₂ hqτ hτ hτ₁ hτ₂
       ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G) rfl rfl
-  let C : Lemma54Context z z₁ ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G)
+  let _C : Lemma54Context z z₁ ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G)
       ℓ₀ lam μ :=
     lemma54_context (D := D) h hZ hz₁ hz₁z hord P hP hσ₂ hq₂ hc₂ hqτ hτ hτ₁ hτ₂
       ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G) ℓ₀ lam μ rfl rfl
       hℓ₀ hlam hlabel hkey hμN hμz₁ hμH hμz hμz₁'
-  exact ⟨ℓ₀, lam, μ, C, trivial⟩
+  exact ⟨ℓ₀, lam, μ, _C, trivial⟩
 
 theorem exists_lemma54_orbits [DecidableEq G]
     (h : Tim79a.ParrottHyp z)

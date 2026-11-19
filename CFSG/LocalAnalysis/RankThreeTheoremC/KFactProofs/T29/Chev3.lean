@@ -15,7 +15,7 @@ section Certified
 theorem t29Chev3_holds : T29Chev3 := by
   intro X _ _ L x h hm
   obtain ⟨m, hm3, ⟨e⟩⟩ := hm
-  haveI : L.Normal := h.normal
+  have : L.Normal := h.normal
   by_cases hZ : center ↥L = ⊥
   · have hle3 : CFSG.Open.pRank 3 (⊤ : Subgroup ↥L) ≤ 3 := h.pRank_component_le
     rcases rank_dichotomy m hm3 ((mulEquivQuotientCenter hZ).trans e) with

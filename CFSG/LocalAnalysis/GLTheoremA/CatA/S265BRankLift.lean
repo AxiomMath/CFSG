@@ -16,7 +16,7 @@ theorem exists_elem_lift {J D : Subgroup Ω} (hD : IsElemAbelian 3 D)
     (hEb : IsElemAbelian 3 Eb) {k : ℕ}
     (hk : 3 ^ k * Nat.card (Subgroup.center (PQuot 3 J)) ≤ Nat.card Eb) :
     ∃ E : Subgroup Ω, E ≤ D ⊔ J ∧ IsElemAbelian 3 E ∧ 3 ^ k * Nat.card D ≤ Nat.card E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π : ↥J →* PQuot 3 J := QuotientGroup.mk' (GLAPPrimeCore 3 ↥J) with hπ
   have hk3 : ¬ 3 ∣ Nat.card π.ker := by
     rw [hπ, QuotientGroup.ker_mk']

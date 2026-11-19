@@ -36,6 +36,7 @@ private theorem pls2a_cutTypes_013 : cutTypes 2 [0, 1, 3] = {1} := by
   ext j
   fin_cases j <;> simp [cutTypes] <;> decide
 
+omit [Finite K] [CharP K 2] in
 private theorem pls2a_blockSL_le_range
     (β : SpecialLinearGroup (Fin 2) K →* SpecialLinearGroup (Fin 3) K)
     (hβ : ∀ B : SpecialLinearGroup (Fin 2) K,
@@ -54,18 +55,17 @@ private theorem pls2a_blockSL_le_range
     rw [hβ]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [emb21, SpecialLinearGroup.transvection_coe, Matrix.transvection,
-        CFSG.LieType.Steinberg.CentralExt.SLClosed.tv_of_ne (by decide : (0:Fin 2) ≠ 1) c,
+      simp [emb21, SpecialLinearGroup.transvection_coe, CFSG.LieType.Steinberg.CentralExt.SLClosed.tv_of_ne (by decide : (0:Fin 2) ≠ 1) c,
         CFSG.LieType.Steinberg.CentralExt.SLClosed.tv_of_ne (by decide : (1:Fin 3) ≠ 2) c]
   · refine ⟨CFSG.LieType.Steinberg.CentralExt.SLClosed.tv K 1 0 c, ?_⟩
     apply Subtype.ext
     rw [hβ]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [emb21, SpecialLinearGroup.transvection_coe, Matrix.transvection,
-        CFSG.LieType.Steinberg.CentralExt.SLClosed.tv_of_ne (by decide : (1:Fin 2) ≠ 0) c,
+      simp [emb21, SpecialLinearGroup.transvection_coe, CFSG.LieType.Steinberg.CentralExt.SLClosed.tv_of_ne (by decide : (1:Fin 2) ≠ 0) c,
         CFSG.LieType.Steinberg.CentralExt.SLClosed.tv_of_ne (by decide : (2:Fin 3) ≠ 1) c]
 
+omit [Finite K] [CharP K 2] in
 private theorem pls2a_flagAct_mem_refSet_iff {n : ℕ} {d : List ℕ} {g : GL (Fin n) K}
     (hg : StabV n d g) (x : FlagK K n) :
     flagAct g x ∈ refSet K n d ↔ x ∈ refSet K n d := by

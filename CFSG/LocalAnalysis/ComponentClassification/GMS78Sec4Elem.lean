@@ -184,7 +184,7 @@ theorem isSylowOf_top
   have hzU : z ∈ normalizer (U₁ : Set G) := by
     have h1 := (rightConjugate_eq_self_iff _ _).mp (hE.rightConjugate_eq h hF hf e hX h313 hnf hle)
     simpa using inv_mem h1
-  exact hzS₀ (hE.inf_normalizer_le h hF hf e h313 hnf S.isPGroup' hS₀S (mem_inf.mpr ⟨hzS, hzU⟩))
+  exact hzS₀ (hE.inf_normalizer_le h hF hf e h313 hnf S.isPGroup hS₀S (mem_inf.mpr ⟨hzS, hzU⟩))
 
 theorem false_of_noFusion
     (hE : Sec4Elem L T U₁ (2 ^ f)) (h : Sec3 G L T) (hF : Foundation) (hf : 3 ≤ f)

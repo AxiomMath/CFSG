@@ -55,7 +55,7 @@ theorem false_of_tM_twelve (h : Ctx t L S x₁ x₂ lam rho tau) (h43 : twoCore 
     let f : G →* G := (MulAut.conj g₀⁻¹).toMonoidHom
     have hf : ∀ x, f x = g₀⁻¹ * x * g₀ := by
       intro x
-      simp [f, MulAut.conj_apply]
+      simp [f]
     have hE'H : E.map f ≤ invCent t := by
       rintro _ ⟨e, he, rfl⟩
       rw [mem_invCent_iff, hf]

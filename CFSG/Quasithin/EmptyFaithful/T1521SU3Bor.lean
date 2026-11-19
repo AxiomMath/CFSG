@@ -80,7 +80,7 @@ theorem centralizer_eq_one_of_not_centralizes {T : Sylow 2 X} {D : Subgroup X}
     · by_contra hcon
       push Not at hcon
       obtain ⟨c₁, hc₁, hc₁1⟩ := hcon
-      have hCp : IsPGroup 2 C := T.isPGroup'.to_le hCle
+      have hCp : IsPGroup 2 C := T.isPGroup.to_le hCle
       have : Nontrivial ↥C := ⟨⟨⟨c₁, hc₁⟩, 1, fun h => hc₁1 (congrArg Subtype.val h)⟩⟩
       have hnt := hCp.center_nontrivial
       obtain ⟨z', hz'⟩ := exists_ne (1 : ↥(Subgroup.center ↥C))

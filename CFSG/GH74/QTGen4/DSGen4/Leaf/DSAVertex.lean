@@ -137,9 +137,9 @@ theorem leafDSAVertex [DSLeaf LeafDSANoField] [DSLeaf LeafDSACaseIOffender] [DSL
     rw [← hcn']
     exact hc
   obtain ⟨e⟩ := CFSG.Quasithin.S1421QA17.nonempty_mulEquiv_alt5_of_isL2Quot_two hq
-  haveI hA5 : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+  have hA5 : Group.IsPerfect (alternatingGroup (Fin 5)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
-  haveI hQp : Group.IsPerfect (oTwoQuot ↥L1) :=
+  have hQp : Group.IsPerfect (oTwoQuot ↥L1) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hcommL1 : commutator ↥L1 = ⊤ :=
     dsa_commutator_eq_top_of_quotient (pCore 2 ↥L1) hN (Group.isPerfect_def.mp hQp)

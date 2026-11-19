@@ -74,7 +74,7 @@ theorem citedBlockTransvectionCyclic_of (hTPLT : CitedBlockTransvectionPLType)
         rintro _ ⟨_, ⟨b, -, rfl⟩, rfl⟩
         exact Subgroup.mem_subgroupOf.mp b.2.1
       have hAc := isCyclic_of_le_blockPL hTPLT hK hA hL hX hS h3 hp hp2 hperf hAP
-        ((P.isPGroup'.map _).map _)
+        ((P.isPGroup.map _).map _)
       have e1 : ↥(P : Subgroup ↥B) ≃* ↥A :=
         ((P : Subgroup ↥B).equivMapOfInjective _ B.subtype_injective).trans
           (((P : Subgroup ↥B).map B.subtype).equivMapOfInjective _ NL.subtype_injective)

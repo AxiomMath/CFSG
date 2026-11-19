@@ -126,6 +126,7 @@ section ModelAPI
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {t : G}
 
+omit [Finite G] in
 theorem E1Hyp.sec (h : E1Hyp M Q Z B t) : Sec5Hyp h.ctx 4 t :=
   ⟨h.case.width, by norm_num, h.noA2, h.gen, h.mem, h.notQ⟩
 
@@ -642,9 +643,9 @@ theorem internalProd_holds :
   intro G _ S Y X Q P₁ P₂ hQS hQY hQX hYS hXS hYX hsup hcomm hY hX
   obtain ⟨hNY, hP₁⟩ := hY
   obtain ⟨hNX, hP₂⟩ := hX
-  haveI hNS : (Q.subgroupOf S).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQS
-  haveI := hNY
-  haveI := hNX
+  have hNS : (Q.subgroupOf S).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQS
+  have := hNY
+  have := hNX
   refine ⟨hNS, ↥Y ⧸ Q.subgroupOf Y, ↥X ⧸ Q.subgroupOf X, inferInstance, inferInstance, hP₁, hP₂,
     ?_⟩
   let iY : (↥Y ⧸ Q.subgroupOf Y) →* (↥S ⧸ Q.subgroupOf S) :=

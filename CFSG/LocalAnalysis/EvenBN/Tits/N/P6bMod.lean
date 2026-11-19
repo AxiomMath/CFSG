@@ -23,6 +23,7 @@ theorem submodule_eq_top_of_card (hQ : Nat.card Q = 2 ^ 8) {U : Submodule (ZMod 
   have hv : v ∈ U.toAddSubgroup := by rw [this]; trivial
   exact ⟨fun _ => trivial, fun _ => hv⟩
 
+omit [Finite Q] in
 theorem submodule_eq_bot_of_card {U : Submodule (ZMod 2) Q} (h : Nat.card U = 1) : U = ⊥ := by
   have : Subsingleton U := (Nat.card_eq_one_iff_unique.1 h).1
   exact (Submodule.subsingleton_iff_eq_bot).1 this
@@ -103,7 +104,7 @@ theorem irreducible_of_modData (hQ : Nat.card Q = 2 ^ 8)
 theorem normal_exponent_two_acts_trivially (hQ : Nat.card Q = 2 ^ 8)
     (hirr : ∀ U : Submodule (ZMod 2) Q, (∀ b : B, ∀ u ∈ U, ρ b u ∈ U) → U = ⊥ ∨ U = ⊤)
     (N : Subgroup B) [N.Normal] (hN2 : ∀ n ∈ N, n * n = 1) : ∀ n ∈ N, ρ n = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Submodule (ZMod 2) Q :=
     { carrier := {v | ∀ n ∈ N, ρ n v = v}
       add_mem' := fun {a b} ha hb n hn => by rw [map_add, ha n hn, hb n hn]
@@ -123,7 +124,7 @@ theorem normal_exponent_two_acts_trivially (hQ : Nat.card Q = 2 ^ 8)
   have hpg : IsPGroup 2 N := fun n => ⟨1, by
     have := hN2 n n.2
     simpa [pow_two] using (Subtype.ext this : n * n = 1)⟩
-  letI : MulAction N Q := MulAction.compHom Q (ρ.comp N.subtype)
+  let : MulAction N Q := MulAction.compHom Q (ρ.comp N.subtype)
   have hmod := hpg.card_modEq_card_fixedPoints Q
   have hne : C ≠ ⊥ := by
     intro hC
@@ -175,6 +176,7 @@ theorem MData.finrank (M : MData Z B x t z h) : finrank (ZMod 2) (Additive (V �
   rw [Nat.card_zmod, M.card] at h1
   exact Nat.pow_right_injective (le_refl 2) h1.symm
 
+omit [Finite V] in
 theorem MData.fix (M : MData Z B x t z h) (q : Additive (V ⧸ Z))
     (hq : quotRep Z B hB x q = q) : q = 0 := by
   obtain ⟨v, rfl⟩ := cls_surjective Z q
@@ -185,8 +187,9 @@ theorem MData.fix (M : MData Z B x t z h) (q : Additive (V ⧸ Z))
   have h3 : v ∈ Z := M.xfix v (by rw [h2]; exact inv_mem h1)
   exact (cls_eq_zero_iff Z v).2 h3
 
+omit [Finite V] in
 theorem MData.orderOf_x (M : MData Z B x t z h) : orderOf (quotRep Z B hB x) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h5 : quotRep Z B hB x ^ 5 = 1 := by rw [← map_pow, M.x5, map_one]
   refine orderOf_eq_prime h5 ?_
   intro h1
@@ -231,7 +234,7 @@ theorem eq_or_top_of_simple_quotient {Γ : Type*} [Group Γ] (N K : Subgroup Γ)
     (hNK : N ≤ K) (hs : IsSimpleGroup (Γ ⧸ N)) : K = N ∨ K = ⊤ := by
   have hn : (K.map (QuotientGroup.mk' N)).Normal :=
     Subgroup.Normal.map ‹K.Normal› _ (QuotientGroup.mk'_surjective N)
-  haveI := hn
+  have := hn
   rcases hs.eq_bot_or_eq_top_of_normal (K.map (QuotientGroup.mk' N)) with h | h
   · left
     refine le_antisymm (fun k hk => ?_) hNK
@@ -274,6 +277,7 @@ variable {x t z h : ↥B}
     (∀ g ∈ (normalClosure ({x} : Set B')).map ρ, (∀ v ∈ V₁, g v = v) → g = 1) ∧
     (∀ g ∈ (normalClosure ({x} : Set B')).map ρ, (∀ v ∈ V₂, g v = v) → g = 1)
 
+omit [Finite V] in
 theorem MData.ker_inf_eq (M : MData Z B x t z h) (Wb : Subgroup ↥B) [Wb.Normal]
     (hWtriv : ∀ w ∈ Wb, quotRep Z B hB w = 1)
     (hWJ : Wb ≤ normalClosure ({x} : Set ↥B))
@@ -300,6 +304,7 @@ theorem MData.ker_inf_eq (M : MData Z B x t z h) (Wb : Subgroup ↥B) [Wb.Normal
     omega
 
 
+omit [Finite V] in
 theorem MData.range_equiv (M : MData Z B x t z h) (Wb : Subgroup ↥B) [Wb.Normal]
     (hWtriv : ∀ w ∈ Wb, quotRep Z B hB w = 1)
     (hWJ : Wb ≤ normalClosure ({x} : Set ↥B))
@@ -348,7 +353,7 @@ theorem A6_branch (M : MData Z B x t z h) (Wb : Subgroup ↥B) [Wb.Normal]
   classical
   set ρ := quotRep Z B hB with hρ
   set Jb := normalClosure ({x} : Set ↥B) with hJb
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   obtain ⟨e⟩ := hA6
   have hs : IsSimpleGroup (↥Jb ⧸ Wb.subgroupOf Jb) := e.isSimpleGroup
   have hWtriv : ∀ w ∈ Wb, ρ w = 1 := normal_exponent_two_acts_trivially ρ M.card
@@ -376,7 +381,7 @@ theorem A6_branch (M : MData Z B x t z h) (Wb : Subgroup ↥B) [Wb.Normal]
     exact hlift σ hσ V₂ ((hstab (ρ σ) (Subgroup.mem_map_of_mem _ hσ)).2) v hv
   ·
     ext v
-    simp only [Subgroup.mem_map, MonoidHom.coe_coe, mem_liftAdd, Submodule.mem_toAddSubgroup]
+    simp only [Subgroup.mem_map, _root_.MonoidHom.coe_ofClass, mem_liftAdd, Submodule.mem_toAddSubgroup]
     constructor
     · intro hv
       rw [hV2] at hv
@@ -390,7 +395,7 @@ theorem A6_branch (M : MData Z B x t z h) (Wb : Subgroup ↥B) [Wb.Normal]
       · rw [cls_mul, (cls_eq_zero_iff Z _).2 hzz, add_zero]; exact hu
       · have hinv : ∀ w : V, (t : MulAut V) (((t⁻¹ : ↥B) : MulAut V) w) = w := fun w => by
           have := congrArg (fun σ : ↥B => (σ : MulAut V) w) (mul_inv_cancel t)
-          simpa using this
+          simp
         rw [map_mul, hinv]; group
     · rintro ⟨v', hv', rfl⟩
       rw [hV2]
@@ -493,6 +498,7 @@ theorem A6_branch (M : MData Z B x t z h) (Wb : Subgroup ↥B) [Wb.Normal]
       rw [map_inv, mul_inv, inv_inv]
     rw [this]; exact inv_mem (ha σ hσ)
 
+omit [Finite V] [Fact (∀ (a : V), a * a = 1)] in
 theorem le_centModSub (hB : ∀ σ ∈ B, Z.map (σ : V →* V) = Z) (J' : Subgroup ↥B) :
     Z ≤ centModSub Z J' := fun z' hz' σ _ => by
   have hz'' : (σ : MulAut V) z' ∈ Z := (hB σ σ.2) ▸ ⟨z', hz', rfl⟩
@@ -647,7 +653,7 @@ theorem E25_branch (M : MData Z B x t z h) (Wb : Subgroup ↥B) [Wb.Normal]
   · rw [← hV₂, relIndex_liftAdd, card_toAddSubgroup_eq V₂ hd2]
   · rw [← hV₁, ← hV₂]
     ext v
-    simp only [Subgroup.mem_map, MonoidHom.coe_coe, mem_liftAdd, Submodule.mem_toAddSubgroup]
+    simp only [Subgroup.mem_map, _root_.MonoidHom.coe_ofClass, mem_liftAdd, Submodule.mem_toAddSubgroup]
     constructor
     · intro hv
       rw [hV2] at hv
@@ -661,7 +667,7 @@ theorem E25_branch (M : MData Z B x t z h) (Wb : Subgroup ↥B) [Wb.Normal]
       · rw [cls_mul, (cls_eq_zero_iff Z _).2 hzz, add_zero]; exact hu
       · have hinv : ∀ w : V, (t : MulAut V) (((t⁻¹ : ↥B) : MulAut V) w) = w := fun w => by
           have := congrArg (fun σ : ↥B => (σ : MulAut V) w) (mul_inv_cancel t)
-          simpa using this
+          simp
         rw [map_mul, hinv]; group
     · rintro ⟨v', hv', rfl⟩
       rw [hV2]

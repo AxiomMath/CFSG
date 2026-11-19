@@ -52,6 +52,7 @@ section Interface
 
 variable {V : Type} [CommGroup V] [Finite V]
 
+omit [Finite V] in
 theorem Om_comap_of_mem_aSet [Finite G] {ρ : G →* MulAut V} (hρ : Function.Injective ρ) {n : ℕ}
     {A' : Subgroup (MulAut V)} (hA' : A' ∈ aSet n ρ.range) : Om ρ n (A'.comap ρ) := by
   obtain ⟨hle, hne, ⟨hcomm, hsq⟩, hfix⟩ := hA'
@@ -89,12 +90,13 @@ theorem Om_comap_of_mem_aSet [Finite G] {ρ : G →* MulAut V} (hρ : Function.I
     rw [hmap]
     exact hfixB
 
+omit [Finite V] in
 theorem aParam_le_of_aSet_empty (X : Subgroup (MulAut V)) (k : ℕ)
     (h : ∀ A : Subgroup (MulAut V), A ∉ aSet (k + 1) X) : aParam X ≤ k := by
   unfold aParam
   split_ifs with heven
   · by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hne : ({k : ℕ | 0 < k ∧ (aSet k X).Nonempty} : Set ℕ).Nonempty := by
       by_contra hem
       rw [Set.not_nonempty_iff_eq_empty] at hem

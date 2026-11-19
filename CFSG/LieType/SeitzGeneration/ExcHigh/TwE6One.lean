@@ -91,7 +91,7 @@ theorem normalizer_graphFixedRootTorus_le (K : Type) [Field K] (σ : K →+* K) 
   intro n
   have hx' : (x : ModGL TwistTag.E6.tag K) ∈ graphFixedRootTorus TwistTag.E6 K σ :=
     Subgroup.mem_subgroupOf.1 hx
-  simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
+  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
   constructor
   · intro hn
     exact graphFixedRootTorus_conj_mem_posUnipotent K σ hx' hn

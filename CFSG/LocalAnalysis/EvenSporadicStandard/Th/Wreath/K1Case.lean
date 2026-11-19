@@ -38,7 +38,7 @@ theorem ThCyc.card_le_mul_card_inf_K (H : ThCyc G L R t) (W : ThLocalIn L S A B 
     Nat.card T ≤ 128 * Nat.card ↥(T ⊓ (normalizer (D : Set G) ⊓
       centralizer (omega1 D hD.comm : Set G))) := by
   classical
-  haveI : IsElementaryAbelian 2 A :=
+  have : IsElementaryAbelian 2 A :=
     IsElementaryAbelian.two_of_forall_mul_self W.A_comm fun a ha => by
       simpa [pow_two] using W.A_sq a ha
   have hNA : T ⊓ M0 L A D hD.comm ≤ normalizer (A : Set G) := by
@@ -78,8 +78,8 @@ theorem ThCyc.card_le_mul_card_inf_K (H : ThCyc G L R t) (W : ThLocalIn L S A B 
     _ = 128 * Nat.card ↥(T ⊓ (normalizer (D : Set G) ⊓
           centralizer (omega1 D hD.comm : Set G))) := by ring
 
-private theorem THyp.conj_mem_Q_of_mem_T (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
-    (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
+private theorem THyp.conj_mem_Q_of_mem_T (_H : ThCyc G L R t) (_W : ThLocalIn L S A B z)
+    (_W2 : ThLocalIn2 B A Aa b) (_hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
     (hT : THyp S D Q t T) {x q : G} (hx : x ∈ T) (hq : q ∈ Q) : x * q * x⁻¹ ∈ Q := by
   rw [← THyp.inf_centralizer_eq hQ hT]
   exact ⟨T.mul_mem (T.mul_mem hx (hT.Q_le hq)) (T.inv_mem hx),
@@ -109,7 +109,7 @@ private theorem THyp.commutator_mul_mem_Q (H : ThCyc G L R t) (W : ThLocalIn L S
   rw [e]
   exact Q.mul_mem hab hbc
 
-private theorem ThCyc.Q_inf_L_eq_Aa (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
+private theorem ThCyc.Q_inf_L_eq_Aa (_H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q) :
     Q ⊓ L = Aa := by
   refine le_antisymm ?_ ?_
@@ -464,7 +464,7 @@ private theorem ThCyc.Pcomm_le_centralizer_A (H : ThCyc G L R t)
 
 private theorem ThCyc.A_le_Pcomm (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     (W2 : ThLocalIn2 B A Aa b) (hD : DHyp A Aa t D) (hQ : QHyp L A D t Q)
-    (hT : THyp S D Q t T) : A ≤ Pcomm H W W2 hD hQ hT := fun a ha =>
+    (hT : THyp S D Q t T) : A ≤ Pcomm H W W2 hD hQ hT := fun _a ha =>
   H.Q_le_Pcomm W W2 hD hQ hT (hQ.D_le (hD.Aa_le (W2.A_le ha)))
 
 private theorem ThCyc.A_le_centralizer_Pcomm (H : ThCyc G L R t)

@@ -163,7 +163,7 @@ theorem orderOf_minusRefl_mul_eq_three {i j k : Fin 65} (hik : i ≠ k)
   have hkj' : ((minusTable[(k : ℕ)]!)[(j : ℕ)]! == (j : ℕ)) = false :=
     Bool.eq_false_iff.mpr fun h => hkj ((minusTable_beq_commute_iff k j).1 h)
   have hcond := minusSecondKindCheck_condition (i := i) (k := k) (j := j) h4
-  simp only [hik', hck', hij', hkj', hcond, if_true, if_false, Bool.false_eq_true] at hspec
+  simp only [hik', hck', hij', hkj', hcond, ite_true, ite_false, Bool.false_eq_true] at hspec
   obtain ⟨h3i, h3k⟩ := Bool.and_eq_true_iff.mp hspec
   exact ⟨orderOf_minusRefl_mul_eq_three_of_cube hij h3i,
     orderOf_minusRefl_mul_eq_three_of_cube hkj h3k⟩

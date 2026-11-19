@@ -14,7 +14,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UCK
 theorem center_le_commutator_of_card_center_eq_prime {p : ℕ} [Fact p.Prime] {T : Type} [Group T]
     [Finite T] (hT : IsPGroup p T) (hnc : ¬ IsMulCommutative T)
     (hZ : Nat.card (Subgroup.center T) = p) : Subgroup.center T ≤ commutator T := by
-  haveI : Group.IsNilpotent T := hT.isNilpotent
+  have : Group.IsNilpotent T := hT.isNilpotent
   have hne : commutator T ≠ ⊥ := fun h => hnc ((commutator_eq_bot_iff T).mp h)
   have h1 : commutator T ⊓ Subgroup.center T ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hne

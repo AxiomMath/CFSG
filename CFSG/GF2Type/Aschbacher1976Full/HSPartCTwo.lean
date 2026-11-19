@@ -67,7 +67,7 @@ theorem orderOf_yBar_mul_ne_four (hD : Width.Z4Data z 2 Z A) (hz : orderOf z = 2
     (hF2 : IsPGroup 2 (Fz z)) (hti : HSTI z) {u u' : G} (hu : u ∈ Dinv z) (hu' : u' ∈ Dinv z) :
     orderOf (yBar z u * yBar z u') ≠ 4 := by
   intro h4
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hy⟩ := exists_gen_H hD hz hF2 hu
   obtain ⟨y', hy'⟩ := exists_gen_H hD hz hF2 hu'
   have ha : yBar z u = qmk z y := yBar_eq hD hz hF2 hti hu hy

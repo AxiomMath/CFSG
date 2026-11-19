@@ -50,7 +50,7 @@ theorem a0_inv_class :
   have hb0 := a0_base_lt 0 (by norm_num)
   have hbF : baseF (by norm_num : 0 < 8330) (getS a0Base) 0 = ⟨getS a0Base 0, hb0⟩ := by
     unfold baseF
-    rw [dif_pos hb0]
+    rw [dite_eq_left hb0]
   have hcc := ch7222cc
   simp only [Bool.and_eq_true] at hcc
   have hPH : centralizerIn heP (heGenPerm 0) ≤ heP := inf_le_left
@@ -131,7 +131,7 @@ theorem t1_inv_class :
   have hb0 := t1_base_lt 0 (by norm_num)
   have hbF : baseF (by norm_num : 0 < 8330) (getS t1Base) 0 = ⟨getS t1Base 0, hb0⟩ := by
     unfold baseF
-    rw [dif_pos hb0]
+    rw [dite_eq_left hb0]
   have hcc := ch7222cc
   simp only [Bool.and_eq_true] at hcc
   have hPH : centralizerIn heP heT1P ≤ heP := inf_le_left

@@ -49,6 +49,7 @@ private noncomputable def gkA_centralizerEquiv (e : K ≃* K') (x : K) :
     (MulEquiv.subgroupCongr
       (CFSG.Fischer.Classification.Recognition.map_centralizer_singleton e x))
 
+omit [Finite K] [Finite K'] in
 private theorem gkA_centralizerEquiv_coe (e : K ≃* K') (x : K)
     (z : ↥(Subgroup.centralizer ({x} : Set K))) :
     ((gkA_centralizerEquiv e x z : ↥(Subgroup.centralizer ({e x} : Set K'))) : K') = e z.1 := by
@@ -59,6 +60,7 @@ private theorem gkA_centralizerEquiv_coe (e : K ≃* K') (x : K)
   rw [MulEquiv.subgroupCongr_apply]
   exact Subgroup.coe_equivMapOfInjective_apply _ _ _ z
 
+omit [Finite K] [Finite K'] in
 private theorem gkA_subgroupOf_map_centralizerEquiv (e : K ≃* K') (x : K) {J : Subgroup K}
     (hJ : J ≤ Subgroup.centralizer ({x} : Set K)) :
     Subgroup.map (gkA_centralizerEquiv e x).toMonoidHom
@@ -111,6 +113,7 @@ private theorem gkA_not_largeEvenPComponent_centralizer_of_map (p : ℕ) (e : K 
   intro C hC
   exact h (Subgroup.map e C) ((gkA_largeEvenPComponent_map_centralizer_iff p e x C).mpr hC)
 
+omit [Finite K] [Finite K'] in
 theorem bmOpCent_map_mulEquiv (p : ℕ) (e : K ≃* K') (x : K) :
     BMOpCent p (e x) = (BMOpCent p x).map e.toMonoidHom := by
   have hcoe : ∀ z : ↥(Subgroup.centralizer ({x} : Set K)),

@@ -212,7 +212,7 @@ theorem exists_sylow_E {ℓ : ℕ} [Fact ℓ.Prime] (hℓ : ℓ ∣ Nat.card s.f
       ℓ ^ (Nat.card s.fr.E).factorization ℓ := by
     rw [Subgroup.card_map_of_injective s.fr.E.subtype_injective, Q.card_eq_multiplicity]
   refine ⟨(Q : Subgroup s.fr.E).map s.fr.E.subtype, Subgroup.map_subtype_le _,
-    Q.isPGroup'.map _, ?_, hcard⟩
+    Q.isPGroup.map _, ?_, hcard⟩
   intro h
   rw [h, Subgroup.card_bot] at hcard
   have hpos : 0 < (Nat.card s.fr.E).factorization ℓ :=
@@ -236,7 +236,7 @@ theorem dvd_card_K
       hK (h.trans (Subgroup.card_dvd_of_le inf_le_left))
   rw [hK0, zero_add] at hfac
   obtain ⟨R, hR⟩ := hP₀ℓ.exists_le_sylow
-  have heq : P₀ = R := eq_of_le_of_factorization_le R.isPGroup' hR (by
+  have heq : P₀ = R := eq_of_le_of_factorization_le R.isPGroup hR (by
     rw [hP₀card, Nat.factorization_pow_self Fact.out]
     exact hfac)
   refine false_of_perfect_of_le_centralizer s.perfect hℓ2 R (heq ▸ hP₀ne) ?_

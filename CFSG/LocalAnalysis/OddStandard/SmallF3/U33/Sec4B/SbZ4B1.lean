@@ -11,6 +11,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 theorem schur_V {y z w ρ σ a b : G} (hy : y * y = 1) (hz : z * z = 1) (hyz : y * z = w)
     (hzy : z * y = w) (hw1 : w ≠ 1) (hyz' : y ≠ z)
     (ha : a = 1 ∨ a = y ∨ a = z ∨ a = w)
@@ -95,12 +96,14 @@ theorem tau_comm_V : ∀ v ∈ fourGrp x₁ x₂, tau * v = v * tau := by
   intro v hv
   exact (mem_centralizer_iff.mp h.2 v hv).symm
 
+omit [Finite G] hc in
 theorem y_mem_V : x₁ ^ 2 ∈ fourGrp x₁ x₂ := subset_closure (by simp)
 
+omit [Finite G] hc in
 theorem z_mem_V : (x₁ * x₂) ^ 2 ∈ fourGrp x₁ x₂ := subset_closure (by simp)
 
 theorem w_mem_V : x₂ ^ 2 ∈ fourGrp x₁ x₂ := by
-  rw [hc.x₂_sq]; exact mul_mem hc.y_mem_V hc.z_mem_V
+  rw [hc.x₂_sq]; exact mul_mem CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.z_mem_V
 
 theorem y_comm_z : x₁ ^ 2 * (x₁ * x₂) ^ 2 = (x₁ * x₂) ^ 2 * x₁ ^ 2 :=
   ((Commute.refl x₁).mul_right hc.x₁_comm_x₂).pow_pow 2 2
@@ -133,14 +136,14 @@ theorem lam_conj_x₂ : lam * x₂ * lam⁻¹ = x₁ :=
     _ = x₁ := by rw [hc.lam_mul_self]; group
 
 theorem sigma_y : (lam * t) * x₁ ^ 2 * (lam * t)⁻¹ = x₂ ^ 2 := by
-  have h : t * x₁ ^ 2 * t⁻¹ = x₁ ^ 2 := by rw [hc.t_comm_V _ hc.y_mem_V]; group
+  have h : t * x₁ ^ 2 * t⁻¹ = x₁ ^ 2 := by rw [hc.t_comm_V _ CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V]; group
   calc (lam * t) * x₁ ^ 2 * (lam * t)⁻¹ = lam * (t * x₁ ^ 2 * t⁻¹) * lam⁻¹ := by group
     _ = lam * x₁ ^ 2 * lam⁻¹ := by rw [h]
     _ = (lam * x₁ * lam⁻¹) ^ 2 := conj_pow.symm
     _ = x₂ ^ 2 := by rw [hc.wreath.conj_x₁]
 
 theorem sigma_z : (lam * t) * (x₁ * x₂) ^ 2 * (lam * t)⁻¹ = (x₁ * x₂) ^ 2 := by
-  have h : t * (x₁ * x₂) ^ 2 * t⁻¹ = (x₁ * x₂) ^ 2 := by rw [hc.t_comm_V _ hc.z_mem_V]; group
+  have h : t * (x₁ * x₂) ^ 2 * t⁻¹ = (x₁ * x₂) ^ 2 := by rw [hc.t_comm_V _ CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.z_mem_V]; group
   calc (lam * t) * (x₁ * x₂) ^ 2 * (lam * t)⁻¹ = lam * (t * (x₁ * x₂) ^ 2 * t⁻¹) * lam⁻¹ := by
         group
     _ = lam * (x₁ * x₂) ^ 2 * lam⁻¹ := by rw [h]
@@ -175,16 +178,16 @@ theorem rho_V :
   have hinj : ∀ a b : G, rho * a * rho⁻¹ = rho * b * rho⁻¹ → a = b := fun a b h => by
     have h1 := mul_right_cancel h
     exact mul_left_cancel h1
-  have hy := hc.rho_conj_V hc.y_mem_V
-  have hz := hc.rho_conj_V hc.z_mem_V
+  have hy := hc.rho_conj_V CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V
+  have hz := hc.rho_conj_V CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.z_mem_V
   have hw := hc.rho_conj_V hc.w_mem_V
   rw [hc.mem_V_iff] at hy hz hw
   have hy1 : rho * x₁ ^ 2 * rho⁻¹ ≠ 1 := fun h => hc.y_ne_one (hinj _ 1 (by rw [h]; group))
   have hz1 : rho * (x₁ * x₂) ^ 2 * rho⁻¹ ≠ 1 := fun h => hc.z_ne_one (hinj _ 1 (by rw [h]; group))
   have hw1 : rho * x₂ ^ 2 * rho⁻¹ ≠ 1 := fun h => hc.x₂_sq_ne_one (hinj _ 1 (by rw [h]; group))
-  have hy2 : rho * x₁ ^ 2 * rho⁻¹ ≠ x₁ ^ 2 := fun h => hc.y_ne_one (hc.rho_fpf_V hc.y_mem_V h)
+  have hy2 : rho * x₁ ^ 2 * rho⁻¹ ≠ x₁ ^ 2 := fun h => hc.y_ne_one (hc.rho_fpf_V CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V h)
   have hz2 : rho * (x₁ * x₂) ^ 2 * rho⁻¹ ≠ (x₁ * x₂) ^ 2 := fun h =>
-    hc.z_ne_one (hc.rho_fpf_V hc.z_mem_V h)
+    hc.z_ne_one (hc.rho_fpf_V CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.z_mem_V h)
   have hw2 : rho * x₂ ^ 2 * rho⁻¹ ≠ x₂ ^ 2 := fun h =>
     hc.x₂_sq_ne_one (hc.rho_fpf_V hc.w_mem_V h)
   have hcube : ∀ a : G, rho * (rho * (rho * a * rho⁻¹) * rho⁻¹) * rho⁻¹ = a := fun a => by

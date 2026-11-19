@@ -18,7 +18,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_sl4_exists_conj_of_mem_mbar {D : Data G} {V₀ V L : Subgroup G}
-    (h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V) {φ : MulAut (Vtil V₀ V hV)}
+    (_h : Hyp151 D V₀ V L) (hV : IsElemAbelian 2 V) {φ : MulAut (Vtil V₀ V hV)}
     (hφ : φ ∈ Mbar D.M V₀ V hV) :
     ∃ m : G, m ∈ D.M ∧ barSub V₀ V hV (conjSubgroup L m) =
       (barSub V₀ V hV L).map (MulAut.conj φ).toMonoidHom := by

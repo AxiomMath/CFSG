@@ -72,7 +72,7 @@ theorem three_le_pRank_centralizer_of_mem_L227 {X : Type} [Group X] [Finite X] {
     (e : ↥L ≃* PSL(2, GaloisField 3 3)) (hr : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup ↥L)) {x : X}
     (hx : orderOf x = 3) (hxL : x ∈ L) :
     3 ≤ CFSG.Open.pRank 3 (centralizer ({x} : Set X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E₀, -, hE₀, hcard₀⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 3) (H := (⊤ : Subgroup ↥L)) hr
   have hEL : E₀.map L.subtype ≤ L := fun g ⟨y, _, hy⟩ => hy ▸ y.2
@@ -93,7 +93,7 @@ theorem nonempty_mulEquiv_psl2_27 {L : Type} [Group L] {q : PrimePower}
   change p = 3 at hp
   change f = 3 at hf
   subst hp hf
-  haveI : Fact (Nat.Prime 3) := ⟨hpr⟩
+  have : Fact (Nat.Prime 3) := ⟨hpr⟩
   exact ⟨e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 ⟨3, 3, hpr, hfpos⟩ hv)⟩
 
 end Field
@@ -108,7 +108,7 @@ theorem inducesFieldAutL227_of_setup {L : Subgroup X} {x : X} (h : T29Setup X L 
     (hr : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup ↥L))
     (e : (↥L ⧸ center ↥L) ≃* ValidLieTypeIndex.Group ⟨.A 1 q, hv⟩) :
     InducesFieldAutL227 L x := by
-  haveI : L.Normal := h.normal
+  have : L.Normal := h.normal
   have hC := h.centralizer_eq_bot hZ
   have hf : q.exponent = 3 := by
     have h1 : 3 ^ q.exponent = 3 ^ 3 := by

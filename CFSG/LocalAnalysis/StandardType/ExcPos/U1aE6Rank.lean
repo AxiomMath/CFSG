@@ -26,7 +26,7 @@ theorem excU1a_e6_twoLocalRank
     5 ≤ CFSG.Assembly.LargeEvenTwoLocalRank 3 ↥H := by
   classical
   let K := GaloisField 2 f
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmodel : ChevalleyExceptionalModel
       (↥G₀ ⧸ Subgroup.center ↥G₀) .E6 2 f :=
     hLie.chevalleyExceptionalModel (by decide)
@@ -37,7 +37,7 @@ theorem excU1a_e6_twoLocalRank
     have h2f : 2 ∣ f := even_iff_two_dvd.mp hfe
     simpa using Nat.pow_sub_one_dvd_pow_sub_one (x := 2) (m := 2) (k := f) h2f
   have hperfU : commutator (ggU .E6 n f).K = ⊤ := by
-    haveI : Group.IsPerfect (ggU .E6 n f).K :=
+    have : Group.IsPerfect (ggU .E6 n f).K :=
       CFSG.LieType.CurtisTits.isPerfect_e6 K
     exact Group.IsPerfect.commutator_eq_top
   have hsurj : Function.Surjective ψ.rangeRestrict := by
@@ -49,8 +49,8 @@ theorem excU1a_e6_twoLocalRank
     rw [hperfU, Subgroup.map_top, MonoidHom.range_eq_top.mpr hsurj, ← commutator_def] at h
     exact hrange ▸ h.symm
   have hperfX : commutator (G₀.subgroupOf H) = ⊤ := by
-    haveI : Group.IsPerfect ↥G₀ := Group.isPerfect_def.mpr hperfG₀
-    haveI : Group.IsPerfect ↥(G₀.subgroupOf H) :=
+    have : Group.IsPerfect ↥G₀ := Group.isPerfect_def.mpr hperfG₀
+    have : Group.IsPerfect ↥(G₀.subgroupOf H) :=
       Group.IsPerfect.ofSurjective
         (f := (Subgroup.subgroupOfEquivOfLe hGH).symm.toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hGH).symm.surjective

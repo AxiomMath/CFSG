@@ -71,8 +71,8 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
     U3Setup Γ L K B y n → ∀ g₁ g₂ : Γ, g₁ ∈ B → g₂ ∈ B →
       g₁ ∉ B ⊓ Subgroup.centralizer (K : Set Γ) →
       g₂ ∉ (B ⊓ Subgroup.centralizer (K : Set Γ)) ⊔ Subgroup.zpowers g₁ →
-        ¬ (IsSolvable ↥(K ⊓ Subgroup.centralizer ({g₁} : Set Γ)) ∧
-            IsSolvable ↥(K ⊓ Subgroup.centralizer ({g₂} : Set Γ)))
+        ¬ (Group.IsSolvable ↥(K ⊓ Subgroup.centralizer ({g₁} : Set Γ)) ∧
+            Group.IsSolvable ↥(K ⊓ Subgroup.centralizer ({g₂} : Set Γ)))
 
 structure TriFacts : Prop where
   schur : TriD4Schur

@@ -178,7 +178,7 @@ theorem burnsideC4h_card_quot_eq {G X : Type} [Group G] [Group X] {K : Subgroup 
 
 theorem burnsideC4h_card_alt {m : ℕ} (hm : 2 ≤ m) :
     Nat.card (alternatingGroup (Fin m)) = m.factorial / 2 := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
 
 open CFSG.Quasithin CFSG.Quasithin.SmithC27 CFSG.QuasithinUnique in
@@ -415,7 +415,8 @@ theorem burnsideC4h_cent_le_sup {K R S : Subgroup G}
     exact Nat.Coprime.eq_one_of_dvd hcop h1
   exact Subgroup.relIndex_eq_one.mp h8
 
-theorem burnsideC4h_cs_eq {X K : Subgroup G} (hXN : X ≤ Subgroup.normalizer (K : Set G)) :
+omit [Finite G] in
+theorem burnsideC4h_cs_eq {X K : Subgroup G} (_hXN : X ≤ Subgroup.normalizer (K : Set G)) :
     centralizerSection X K (pCoreOf 2 K) = X ⊓ C41Pf.centModO2 K := by
   ext g
   constructor
@@ -734,6 +735,7 @@ open CFSG.Quasithin CFSG.QuasithinUnique CFSG.ASVolI.ChC
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem burnsideC4h_not_le_normalizer_line {K V : Subgroup G} (hK : IsShort2 K) {ι : Type}
     [Fintype ι] {F : Type} [Field F] {β : ↥(blockU K) →* Multiplicative (ι → F)}
     (hβs : Function.Surjective β) (hβk : β.ker = (blockZ K).subgroupOf (blockU K))
@@ -770,6 +772,7 @@ theorem burnsideC4h_not_le_normalizer_line {K V : Subgroup G} (hK : IsShort2 K) 
     rw [hWtop, finrank_top, Module.finrank_fintype_fun_eq_card] at hW
     exact hι hW
 
+omit [Finite G] in
 theorem burnsideC4h_case2_bridge {H R M L V K : Subgroup G}
     (h : CFSG.Quasithin.C41Case2 H R M L V K) : C41Case2 M L V K := by
   obtain ⟨hSp, F, iF, fF, α, β, hF, hAB, hline, hmax, hMV, hpsl⟩ := h
@@ -1095,6 +1098,7 @@ open CFSG.Quasithin CFSG.QuasithinUnique CFSG.Quasithin.SmithC27
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem burnsideC4h_exists_elemAbelian_of_caseII {R K V : Subgroup G} {n : ℕ}
     (C : CaseIICtx R K V n) (hn : n = 6 ∨ n = 8) :
     ∃ E : Subgroup ↥(autOn K V), IsElemAbelian 3 E ∧ Nat.card ↥E = 3 ^ 2 := by

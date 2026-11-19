@@ -18,7 +18,7 @@ theorem exists_isElemAbelian_card_pow_three_ne_of_lt {p : ℕ} [Fact p.Prime] {A
   classical
   have hp := (Fact.out : p.Prime)
   have hAlt : A < E := lt_of_le_of_ne hAE fun h => absurd hlt (by rw [h]; exact lt_irrefl _)
-  obtain ⟨-, x, hxE, hxA⟩ := SetLike.lt_iff_le_and_exists.mp hAlt
+  obtain ⟨-, x, hxE, hxA⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hAlt
   have hx1 : x ≠ 1 := fun h => hxA (h ▸ A.one_mem)
   have hxpow : x ^ p = 1 := hE.2 x hxE
   have hxord : orderOf x = p := orderOf_eq_prime hxpow hx1

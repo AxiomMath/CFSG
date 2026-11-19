@@ -20,11 +20,13 @@ section KLevel
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem le_normalizer_of_normal {K B : Subgroup Y} (hK : K.Normal) :
     B ≤ Subgroup.normalizer (K : Set Y) := fun g _ => by
   rw [Subgroup.normalizer_eq_top_iff.2 hK]
   exact Subgroup.mem_top g
 
+omit [Finite Y] in
 theorem isKGroup_of_le (hY : CFSG.Open.IsKGroup Y) (H : Subgroup Y) : CFSG.Open.IsKGroup ↥H :=
   CFSG.KCore.KGroupNonab.subgroup CFSG.Assembly.inCatalog_isoInvariant hY H
 
@@ -80,6 +82,7 @@ theorem exists_stable_two_subgroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B
     show (kd264Rho hBN e b) ((kd264Rho hBN e b⁻¹) x) = x
     rw [← MulAut.mul_apply, ← map_mul, mul_inv_cancel, map_one, MulAut.one_apply]
 
+omit [Finite Y] in
 theorem isElemAbelian_range {p : ℕ} {K B : Subgroup Y} (hB : IsElemAbelian p B)
     (hBN : B ≤ Subgroup.normalizer (K : Set Y)) {S : Type} [Group S]
     (e : ↥K ⧸ Subgroup.center ↥K ≃* S) : IsElemAbelian p (kd264Rho hBN e).range := by
@@ -94,7 +97,7 @@ theorem card_range_ge {p : ℕ} (hp : p.Prime) {K B : Subgroup Y} (h : KHyp p K 
     (hc : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) < p ^ 3) :
     p ^ 2 ≤ Nat.card (kd264Rho hBN e).range ∧
       ∃ c : ℕ, c ≤ 2 ∧ Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) = p ^ c := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : Group.IsPerfect ↥K := Group.isPerfect_def.mpr h.qs.1
   have hmul := card_range_kd264Rho_mul hperf hBN e
   obtain ⟨c, hcc⟩ := exists_card_eq_pow_of_isElemAbelian hp
@@ -128,7 +131,7 @@ theorem kConcl_of_good_element_of_cTwo {p : ℕ} (hp : p.Prime) {K B : Subgroup 
     (hCcard : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) = p ^ 2) {α : MulAut S}
     (hαA : α ∈ (kd264Rho hBN e).range) (hαp : orderOf α = p)
     (hgood : GLAPLayer p (fixSubgroup α) ≠ ⊥) : KConcl p K B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : Group.IsPerfect ↥K := Group.isPerfect_def.mpr h.qs.1
   set F : Subgroup (MulAut S) := Subgroup.zpowers α with hF
   have hFA : F ≤ (kd264Rho hBN e).range := Subgroup.zpowers_le.2 hαA
@@ -168,7 +171,7 @@ theorem kConcl_of_good_element {p : ℕ} (hp : p.Prime) {K B : Subgroup Y} (h : 
     (hαA : α ∈ (kd264Rho hBN e).range) (hαp : orderOf α = p)
     (hAcard : Nat.card (kd264Rho hBN e).range = p ^ 2)
     (hgood : GLAPLayer p (fixSubgroup α) ≠ ⊥) : KConcl p K B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, c, hc2, hcc⟩ := card_range_ge hp h hBN e hc
   have hperf : Group.IsPerfect ↥K := Group.isPerfect_def.mpr h.qs.1
   have hmul := card_range_kd264Rho_mul hperf hBN e

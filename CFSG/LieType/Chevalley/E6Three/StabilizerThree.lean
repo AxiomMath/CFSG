@@ -24,11 +24,11 @@ theorem isSolvable_of_card_eq_eighteen {G : Type*} [Group G] [Finite G]
     have := P.card_mul_index
     rw [hP, h] at this
     omega
-  haveI : P.Normal := Subgroup.normal_of_index_eq_two hidx
-  haveI : IsMulCommutative P := IsPGroup.isMulCommutative_of_card_eq_prime_sq hP
-  haveI : IsCyclic (G ⧸ P) :=
+  have : P.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : IsMulCommutative P := IsPGroup.isMulCommutative_of_card_eq_prime_sq hP
+  have : IsCyclic (G ⧸ P) :=
     isCyclic_of_prime_card (p := 2) (by rw [← Subgroup.index_eq_card, hidx])
-  exact solvable_of_ker_le_range P.subtype (QuotientGroup.mk' P) fun x hx =>
+  exact Group.isSolvable_of_ker_le_range P.subtype (QuotientGroup.mk' P) fun x hx =>
     ⟨⟨x, (QuotientGroup.eq_one_iff x).1 hx⟩, rfl⟩
 
 @[expose] def orbThreeCodesOne : List ℕ := [

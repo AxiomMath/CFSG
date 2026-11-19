@@ -148,14 +148,14 @@ theorem exists_isEvenSet_orbit (hH : IsPGroup 2 H) (hrad : IsRadical H) :
       exact (hO hn y).mpr hyO
     rcases IsEvenSet.of_union hH hrad (orbit_mem_setStab y)
       (O₂ := O \ orbit (normalizer (H : Set (Perm α))) y)
-      (by rwa [Set.union_diff_cancel hsub]) with h1 | h2
+      (by rwa [Set.union_sdiff_cancel hsub]) with h1 | h2
     · exact ⟨y, hyO, h1⟩
     · have hO₂ : normalizer (H : Set (Perm α)) ≤
           setStab (O \ orbit (normalizer (H : Set (Perm α))) y) := fun n hn z => by
-        simp only [Set.mem_diff, (hO hn z), (orbit_mem_setStab y hn z)]
+        simp only [Set.mem_sdiff, (hO hn z), (orbit_mem_setStab y hn z)]
       have hlt : (O \ orbit (normalizer (H : Set (Perm α))) y).ncard < m := by
         rw [← hOm]
-        exact Set.ncard_lt_ncard (Set.ssubset_iff_of_subset Set.diff_subset |>.mpr
+        exact Set.ncard_lt_ncard (Set.ssubset_iff_of_subset Set.sdiff_subset |>.mpr
           ⟨y, hyO, fun h => h.2 (mem_orbit_self y)⟩) (Set.toFinite O)
       obtain ⟨x, hx, hxe⟩ := ih _ hlt _ rfl hO₂ h2
       exact ⟨x, hx.1, hxe⟩

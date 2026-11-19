@@ -43,7 +43,7 @@ theorem FFNotWeaklyClosed.notStronglyClosed [Finite G] {b : G} (h : FFNotWeaklyC
   refine ⟨b, Subgroup.mem_zpowers b, g⁻¹, ?_, fun hmem => hne ?_⟩
   · apply hle
     refine ⟨b, Subgroup.mem_zpowers b, ?_⟩
-    simp [MulAut.conj_apply]
+    simp
   · have hle' : conjugate (Subgroup.zpowers b) g ≤ Subgroup.zpowers b := by
       rintro _ ⟨y, hy, rfl⟩
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy

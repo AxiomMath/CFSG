@@ -47,20 +47,20 @@ theorem not_isMulCommutative_of_isSylowOf {L T : Subgroup G} (hL : CFSG.Open.IsQ
     ¬ IsMulCommutative ↥T := by
   intro hcomm
   obtain ⟨Q, hQ⟩ := hT
-  haveI hTcomm : IsMulCommutative ↥T := hcomm
-  haveI hQcomm : IsMulCommutative (Q : Subgroup ↥L) := by
+  have hTcomm : IsMulCommutative ↥T := hcomm
+  have hQcomm : IsMulCommutative (Q : Subgroup ↥L) := by
     have hQc : IsMulCommutative (T.comap L.subtype) :=
       Subgroup.comap_injective_isMulCommutative T L.subtype_injective
     rw [← hQ, Subgroup.comap_map_eq_self_of_injective L.subtype_injective
       (Q : Subgroup ↥L)] at hQc
     exact hQc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hno : ∀ H : Subgroup ↥L, H.Normal → H.index ≠ 3 := by
     intro H hHn hHidx
-    haveI : H.Normal := hHn
+    have : H.Normal := hHn
     have hcard : Nat.card (↥L ⧸ H) = 3 := by
       rw [← Subgroup.index_eq_card, hHidx]
-    haveI : IsCyclic (↥L ⧸ H) := isCyclic_of_prime_card hcard
+    have : IsCyclic (↥L ⧸ H) := isCyclic_of_prime_card hcard
     have hle : commutator ↥L ≤ H :=
       Subgroup.Normal.quotient_commutative_iff_commutator_le.mp inferInstance
     have htop : H = ⊤ := by
@@ -87,9 +87,9 @@ theorem not_isMulCommutative_of_isSylowOf {L T : Subgroup G} (hL : CFSG.Open.IsQ
 theorem zOf_le_center (h : Hyp326 G n P) {L : Subgroup G} (hLn : L.Normal)
     (hz : Nat.card (Subgroup.center ↥L) = 3) :
     zOf L ≤ P ∧ zOf L ≤ Subgroup.centralizer (P : Set G) := by
-  haveI : L.Normal := hLn
-  haveI : (Subgroup.center ↥L).Characteristic := Subgroup.centerCharacteristic
-  haveI hzn : (zOf L).Normal := ConjAct.normal_of_characteristic_of_normal
+  have : L.Normal := hLn
+  have : (Subgroup.center ↥L).Characteristic := Subgroup.centerCharacteristic
+  have hzn : (zOf L).Normal := ConjAct.normal_of_characteristic_of_normal
   have hzcard : Nat.card (zOf L) = 3 := by
     rw [zOf, Subgroup.card_map_of_injective L.subtype_injective, hz]
   have hzp : IsPGroup 3 (zOf L) := IsPGroup.of_card (n := 1) (by rw [hzcard, pow_one])
@@ -98,7 +98,7 @@ theorem zOf_le_center (h : Hyp326 G n P) {L : Subgroup G} (hLn : L.Normal)
     exact le_sSup ⟨hzn, hzp⟩
   have hleP : zOf L ≤ P := hleCore.trans (pCore_le_sylow h.sylow)
   refine ⟨hleP, ?_⟩
-  haveI hNn : ((zOf L).subgroupOf P).Normal := inferInstance
+  have hNn : ((zOf L).subgroupOf P).Normal := inferInstance
   have hNcard : Nat.card ((zOf L).subgroupOf P) = 3 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hleP).toEquiv, hzcard]
   have hNne : (zOf L).subgroupOf P ≠ ⊥ := by
@@ -107,7 +107,7 @@ theorem zOf_le_center (h : Hyp326 G n P) {L : Subgroup G} (hLn : L.Normal)
     norm_num at hNcard
   obtain ⟨e⟩ := h.wr
   obtain ⟨-, -, hcent⟩ := zwr_card_center h.one_le e
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3dvd : 3 ∣ Nat.card (Subgroup.center ↥P) := by
     rw [hcent]
     simpa only [pow_one] using pow_dvd_pow 3 h.one_le

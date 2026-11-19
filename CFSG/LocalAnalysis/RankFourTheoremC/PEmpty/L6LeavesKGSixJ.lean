@@ -66,6 +66,7 @@ theorem exists_isEmax (T : Subgroup G) : ∃ E, IsEmax T E := by
       (Set.toFinite _) ⟨⊥, bot_le, isElemAbelian_bot 2⟩
   exact ⟨E, hET, hEe, fun E' h1 h2 => hmax E' ⟨h1, h2⟩⟩
 
+omit [Finite G] in
 theorem thompson_char (T : Subgroup G) : ((thompson T).subgroupOf T).Characteristic := by
   rw [characteristic_iff_le_comap]
   intro ϕ x hx
@@ -121,11 +122,11 @@ theorem thompson_eq_of_forall {S D : Subgroup G} (hDS : D ≤ S)
   unfold thompson
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq, hiff]
+  simp only [Set.mem_ofPred_eq, hiff]
 
 theorem exists_sq_eq_one_ne_one {S : Subgroup G} (hS : IsPGroup 2 S) (hS1 : S ≠ ⊥) :
     ∃ s ∈ S, s ^ 2 = 1 ∧ s ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hS
   have hk0 : k ≠ 0 := by
     rintro rfl
@@ -152,7 +153,7 @@ theorem exists_isEmax_not_le {S D H L M : Subgroup G} (hDS : D ≤ S)
   push Not at hcon
   have hJ := thompson_eq_of_forall hDS hcon
   have hJne : thompson S ≠ ⊥ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨s, hsS, hs2, hs1⟩ := exists_sq_eq_one_ne_one hS2 hS1
     obtain ⟨E, hE⟩ := exists_isEmax S
     have hzs : Nat.card ↥(zpowers s) ≤ Nat.card E :=

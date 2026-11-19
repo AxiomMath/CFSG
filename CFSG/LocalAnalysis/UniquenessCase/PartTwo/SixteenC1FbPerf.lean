@@ -120,14 +120,14 @@ theorem s16c1_perfect_of_kit {H : Subgroup (MulAut W)} [Finite W] (hirr : OmegaI
     ⁅ptCent H z, ptCent H z⁆ = ptCent H z := by
   by_contra hperf
   have hXcard : Nat.card ↥(ptCent H z) = 960 := s16c1_card_of_isE16A5 hP
-  haveI hXfin : Finite ↥(ptCent H z) :=
+  have hXfin : Finite ↥(ptCent H z) :=
     Nat.finite_of_card_ne_zero (by rw [hXcard]; norm_num)
   have hnp : commutator ↥(ptCent H z) ≠ ⊤ := by
     intro hc
     exact hperf ((Subgroup.isPerfect_iff (H := ptCent H z)).mp
       (Group.isPerfect_def.mpr hc))
   obtain ⟨N, hNnorm, hN, hA⟩ := hP
-  haveI := hNnorm
+  have := hNnorm
   have hcent : N ≤ Subgroup.center ↥(ptCent H z) :=
     s16c1_central_of_not_perfect N hN hA hnp
   obtain ⟨e⟩ := hN
@@ -136,7 +136,7 @@ theorem s16c1_perfect_of_kit {H : Subgroup (MulAut W)} [Finite W] (hirr : OmegaI
       Nat.card_congr (Multiplicative.toAdd : Multiplicative (Fin 4 → ZMod 2) ≃ (Fin 4 → ZMod 2)),
       Nat.card_fun, Nat.card_fin, Nat.card_zmod]
     norm_num
-  haveI hNfin : Finite ↥N := Nat.finite_of_card_ne_zero (by rw [hNcard]; norm_num)
+  have hNfin : Finite ↥N := Nat.finite_of_card_ne_zero (by rw [hNcard]; norm_num)
   have hNne : N ≠ ⊥ :=
     (Subgroup.one_lt_card_iff_ne_bot (H := N)).mp (by rw [hNcard]; norm_num)
   obtain ⟨n', hn'⟩ := (Subgroup.ne_bot_iff_exists_ne_one (H := N)).mp hNne

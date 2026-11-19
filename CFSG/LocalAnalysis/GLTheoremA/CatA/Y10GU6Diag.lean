@@ -14,20 +14,25 @@ variable {F : Type} [Field F] [DecidableEq F] [CharP F 2]
 @[expose] def tt (l0 : F) (i l : Fin 6) : Fin 6 → F :=
   fun k => if k = i then l0 else if k = l then l0⁻¹ else 1
 
+omit [DecidableEq F] [CharP F 2] in
 theorem tt_i (l0 : F) (i l : Fin 6) : tt l0 i l i = l0 := by simp [tt]
 
+omit [DecidableEq F] [CharP F 2] in
 theorem tt_l (l0 : F) {i l : Fin 6} (hil : i ≠ l) : tt l0 i l l = l0⁻¹ := by
   simp [tt, Ne.symm hil]
 
+omit [DecidableEq F] [CharP F 2] in
 theorem tt_other (l0 : F) {i l k : Fin 6} (hki : k ≠ i) (hkl : k ≠ l) : tt l0 i l k = 1 := by
   simp [tt, hki, hkl]
 
+omit [DecidableEq F] [CharP F 2] in
 theorem tt_prod (l0 : F) {i l : Fin 6} (hil : i ≠ l) : ∏ k, tt l0 i l k = l0 * l0⁻¹ := by
   rw [Fintype.prod_eq_mul i l hil]
   · rw [tt_i, tt_l l0 hil]
   · intro x hx
     exact tt_other l0 hx.1 hx.2
 
+omit [DecidableEq F] [CharP F 2] in
 theorem tt_pow5 {l0 : F} (hl5 : l0 ^ 5 = 1) (i l k : Fin 6) : tt l0 i l k ^ 5 = 1 := by
   unfold tt
   split_ifs
@@ -35,16 +40,19 @@ theorem tt_pow5 {l0 : F} (hl5 : l0 ^ 5 = 1) (i l k : Fin 6) : tt l0 i l k ^ 5 = 
   · rw [inv_pow, hl5, inv_one]
   · exact one_pow 5
 
+omit [DecidableEq F] [CharP F 2] in
 theorem tt_ne_zero {l0 : F} (hl0 : l0 ≠ 0) (i l k : Fin 6) : tt l0 i l k ≠ 0 := by
   unfold tt
   split_ifs <;> simp [hl0]
 
+omit [Field F] [CharP F 2] in
 theorem card_add_card_compl (d : Fin 6 → F) (l0 : F) :
     (Eset d l0).card + (Finset.univ.filter fun k : Fin 6 => ¬ d k = l0).card = 6 := by
   have := Finset.card_filter_add_card_filter_not (s := (Finset.univ : Finset (Fin 6)))
     (fun k : Fin 6 => d k = l0)
   simpa using this
 
+omit [Field F] [CharP F 2] in
 theorem mem_of_ne_pair {d : Fin 6 → F} {l0 : F} (hW : (Eset d l0).card = 5) {r s : Fin 6}
     (hrs : r ≠ s) : d r = l0 ∨ d s = l0 := by
   by_contra h
@@ -60,6 +68,7 @@ theorem mem_of_ne_pair {d : Fin 6 → F} {l0 : F} (hW : (Eset d l0).card = 5) {r
   rw [Finset.card_pair hrs] at h1
   omega
 
+omit [CharP F 2] in
 theorem exists_avoid {d : Fin 6 → F} {l0 : F} (hW : (Eset d l0).card = 5) (r s : Fin 6) :
     ∃ l, d l = l0 ∧ l ≠ r ∧ l ≠ s := by
   by_contra h
@@ -75,6 +84,7 @@ theorem exists_avoid {d : Fin 6 → F} {l0 : F} (hW : (Eset d l0).card = 5) (r s
   have h2 := Finset.card_le_two (a := r) (b := s)
   omega
 
+omit [Field F] [CharP F 2] in
 theorem eq_of_not_mem {d : Fin 6 → F} {l0 : F} (hW : (Eset d l0).card = 5) {r s : Fin 6}
     (hr : ¬ d r = l0) (hs : ¬ d s = l0) : r = s := by
   by_contra hrs
@@ -89,6 +99,7 @@ theorem eq_of_not_mem {d : Fin 6 → F} {l0 : F} (hW : (Eset d l0).card = 5) {r 
   rw [Finset.card_pair hrs] at h1
   omega
 
+omit [DecidableEq F] [CharP F 2] in
 theorem entry_rel {m : Matrix (Fin 6) (Fin 6) F} {φ : F ≃+* F} {t : Fin 6 → F}
     (h : m * (Matrix.diagonal t).map φ = Matrix.diagonal t * m) (r s : Fin 6) :
     m r s * φ (t s) = t r * m r s := by
@@ -96,6 +107,7 @@ theorem entry_rel {m : Matrix (Fin 6) (Fin 6) F} {φ : F ≃+* F} {t : Fin 6 →
   have := congrFun (congrFun h r) s
   simpa [Matrix.mul_diagonal, Matrix.diagonal_mul] using this
 
+omit [Field F] [DecidableEq F] [CharP F 2] in
 theorem swap_hd {d : Fin 6 → F} {i j : Fin 6} (hdij : d i = d j) (s : Fin 6) :
     d (Equiv.swap i j s) = d s := by
   rw [Equiv.swap_apply_def]
@@ -106,6 +118,7 @@ theorem swap_hd {d : Fin 6 → F} {i j : Fin 6} (hdij : d i = d j) (s : Fin 6) :
     exact hdij
   · rfl
 
+omit [Field F] [DecidableEq F] [CharP F 2] in
 theorem swap_move {d : Fin 6 → F} {l0 : F} {i j : Fin 6} (hi : d i = l0) (hj : d j = l0)
     (s : Fin 6) (hs : Equiv.swap i j s ≠ s) : d s = l0 := by
   rw [Equiv.swap_apply_def] at hs
@@ -131,7 +144,7 @@ theorem diag_fix [Finite F] (hF : Nat.card F = (2 ^ 2) ^ 2) {d : Fin 6 → F} {l
   have hl0z : l0 ≠ 0 := by
     rintro rfl
     norm_num at hl5
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set m : Matrix (Fin 6) (Fin 6) F := (A : Matrix (Fin 6) (Fin 6) F) with hm
   have hT : ∀ i l : Fin 6, d i = l0 → d l = l0 → i ≠ l →
       m * (Matrix.diagonal (tt l0 i l)).map φ = Matrix.diagonal (tt l0 i l) * m := by
@@ -217,8 +230,8 @@ theorem diag_fix [Finite F] (hF : Nat.card F = (2 ^ 2) ^ 2) {d : Fin 6 → F} {l
       intro k
       rw [eq_comm, Equiv.swap_apply_eq_iff, Equiv.swap_apply_left]
     simp only [Matrix.mul_apply, permM, Matrix.of_apply, key, Equiv.swap_apply_right,
-      Equiv.swap_apply_left, mul_ite, mul_one, mul_zero, ite_mul, one_mul, zero_mul,
-      Finset.sum_ite_eq', Finset.sum_ite_eq, Finset.mem_univ, if_true] at h
+      mul_ite, mul_one, mul_zero, ite_mul, one_mul, zero_mul,
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h
     exact h
   obtain ⟨i0, hi0⟩ : ∃ r : Fin 6, d r = l0 := ⟨r0, hr0⟩
   have hWconst : ∀ r, d r = l0 → m r r = m i0 i0 := by

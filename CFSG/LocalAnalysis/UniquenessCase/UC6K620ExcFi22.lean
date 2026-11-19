@@ -17,11 +17,11 @@ variable {p : ℕ} {H : Type*} [Group H] [Finite H] {Y : Subgroup H}
 theorem IsStronglyPEmbedded.index_modEq_card [Fact p.Prime] (hY : IsStronglyPEmbedded p Y)
     {P : Subgroup H} (hP : IsPGroup p P) (hPY : P ≤ Y) : Y.index ≡ 1 [MOD Nat.card P] := by
   classical
-  haveI : Fintype H := Fintype.ofFinite H
-  haveI : Fintype P := Fintype.ofFinite P
-  haveI : Fintype (H ⧸ Y) := Fintype.ofFinite _
-  haveI : Fintype (MulAction.orbitRel.Quotient P (H ⧸ Y)) := Fintype.ofFinite _
-  haveI : ∀ x : H ⧸ Y, Fintype (MulAction.stabilizer P x) := fun x => Fintype.ofFinite _
+  have : Fintype H := Fintype.ofFinite H
+  have : Fintype P := Fintype.ofFinite P
+  have : Fintype (H ⧸ Y) := Fintype.ofFinite _
+  have : Fintype (MulAction.orbitRel.Quotient P (H ⧸ Y)) := Fintype.ofFinite _
+  have : ∀ x : H ⧸ Y, Fintype (MulAction.stabilizer P x) := fun x => Fintype.ofFinite _
   set base : H ⧸ Y := QuotientGroup.mk 1 with hbase_def
   have hbase : ∀ q : P, q • base = base := fun q => by
     change ((q : H) • (QuotientGroup.mk 1 : H ⧸ Y)) = QuotientGroup.mk 1
@@ -143,7 +143,7 @@ theorem no_divisor_modEq_one (d : ℕ) (hd : d ∣ 3280076800) (h : d ≡ 1 [MOD
 theorem not_isStronglyPEmbedded_three_of_fi22 {X : Type} [Group X] [Finite X]
     (h : IsSpor X .Fi22) (N : Subgroup X) : ¬ IsStronglyPEmbedded 3 N := by
   intro hN
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := h
   have hX0 : Nat.card X = 64561751654400 := by
     rw [Nat.card_congr e.toEquiv]

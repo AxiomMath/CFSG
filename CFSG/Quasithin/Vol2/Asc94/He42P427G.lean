@@ -16,7 +16,7 @@ theorem p427_open427 (T : HeSetup G) (hB : T.BaseFacts) {z : G} (P : P427 T z) :
     ∀ c : G, c * T.a = T.a * c → c ∈ normalizer (T.B : Set G) := by
   classical
   have haZ : T.a ∈ T.Z := T.hD.ha
-  have haB : T.a ∈ T.B := T.hD.a_mem_B T.hxN T.hxa T.hx3
+  have haB : T.a ∈ T.B := T.hD.a_mem_B T.hxa
   have ha1 : T.a ≠ 1 := p427_a_ne_one T
   obtain ⟨b, hbB, hb1, hba, hbm⟩ := p427_exists_b T
   have hbZ : b ∈ T.Z := hB.B_le_Z hbB
@@ -24,21 +24,21 @@ theorem p427_open427 (T : HeSetup G) (hB : T.BaseFacts) {z : G} (P : P427 T z) :
   have haa : T.a * T.a = 1 := hB.A_sq T.a (hB.Z_le_A haZ)
   have hba_comm : b * T.a = T.a * b := hB.A_comm b (hB.Z_le_A hbZ) T.a (hB.Z_le_A haZ)
   have hbM : b ∈ centralizer ({T.a} : Set G) := mem_centralizer_singleton_iff.2 hba_comm
-  have hg3 : T.g ^ 3 = 1 := T.hD.g_pow_three T.hxN T.hxa T.hx3
+  have hg3 : T.g ^ 3 = 1 := T.hD.g_pow_three T.hxN T.hx3
   have hg1 : T.g ≠ 1 := T.hD.g_ne_one T.hxN T.hxa T.hx3
   let t0 : ↥(centralizer ({T.a} : Set G)) := ⟨T.a, mem_centralizer_singleton_iff.2 rfl⟩
   have ht0 : t0 * t0 = 1 := Subtype.ext (by simpa using haa)
   have ht1 : t0 ≠ 1 := fun h => ha1 (congrArg Subtype.val h)
   have hcentM : ∀ h : ↥(centralizer ({T.a} : Set G)), h * t0 = t0 * h := fun h =>
     Subtype.ext (mem_centralizer_singleton_iff.1 h.2)
-  haveI hQnorm : (Subgroup.zpowers t0).Normal := by
+  have hQnorm : (Subgroup.zpowers t0).Normal := by
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hn
     have hc : Commute g t0 := hcentM g
     rw [(hc.zpow_right k).eq, mul_inv_cancel_right]
     exact hn
   set Γ := ↥(centralizer ({T.a} : Set G)) ⧸ Subgroup.zpowers t0 with hΓdef
-  letI : Fintype Γ := Fintype.ofFinite Γ
+  let : Fintype Γ := Fintype.ofFinite Γ
   let β : Γ := QuotientGroup.mk ⟨b, hbM⟩
   have hβ1 : β ≠ 1 := by
     intro h
@@ -150,7 +150,7 @@ theorem p427_open427 (T : HeSetup G) (hB : T.BaseFacts) {z : G} (P : P427 T z) :
       show (QuotientGroup.mk ⟨x * b * x⁻¹, hcM⟩ : Γ) = QuotientGroup.mk ⟨b, hbM⟩
       rw [hel, QuotientGroup.mk_mul, ha1', one_mul]
   obtain ⟨N, hNn, hNodd, hNc⟩ := CFSG.ZStar.glauberman_zStar Γ β hβ1 hβ2 hiso
-  haveI := hNn
+  have := hNn
   have hK : ∀ K : Subgroup ↥(centralizer ({T.a} : Set G)),
       (∀ h : ↥(centralizer ({T.a} : Set G)), ∀ k ∈ K, h * k * h⁻¹ ∈ K) →
         Odd (Nat.card ↥K) → K = ⊥ := by

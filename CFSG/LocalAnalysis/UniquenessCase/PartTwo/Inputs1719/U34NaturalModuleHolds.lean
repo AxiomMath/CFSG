@@ -175,7 +175,7 @@ theorem k_U34NonsingularStab_holds : K_U34NonsingularStab := by
   have hx0_e0 : x₀ • e0 = e0 := by
     funext i
     rw [CFSG.LieType.SeitzGeneration.UnitaryTwo.diagSU_smul]
-    fin_cases i <;> simp [d, e0, Pi.single_apply]
+    fin_cases i <;> simp [d, e0]
   have hpow : ∀ (k : ℕ) (w : Fin 3 → K) (i : Fin 3),
       ((x₀ ^ k) • w) i = (d i) ^ k * w i := by
     intro k
@@ -200,7 +200,7 @@ theorem k_U34NonsingularStab_holds : K_U34NonsingularStab := by
     have h1 : ((x₀ • e1) 1) =
         (((1 : CFSG.LieType.Universal.Unitary.SUid σ 3) • e1) 1) := by rw [h]
     rw [CFSG.LieType.SeitzGeneration.UnitaryTwo.diagSU_smul] at h1
-    simp [d, e1, Pi.single_apply] at h1
+    simp [d, e1] at h1
     exact hζne (congrArg Units.val h1)
   have hx0_ord : orderOf x₀ = 5 := orderOf_eq_prime hx0_pow hx0_ne
   have hex : ∃ s : K, s ≠ 0 ∧ σ s * s ≠ 1 :=

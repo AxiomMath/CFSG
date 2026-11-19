@@ -45,7 +45,7 @@ theorem s16c11_v1_cover_section_alt_eight (D : Data G) (hin : In10 D) (h1217 : R
     {V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D ⊥ V L hV)
     (hs : s15 D.M ⊥ V hV L = 1)
-    (hK : IsSym ↥(kBar D.M ⊥ V hV L) 3) (hA : UC22.IsAlt ↥(lBar ⊥ V hV L) 8)
+    (_hK : IsSym ↥(kBar D.M ⊥ V hV L) 3) (hA : UC22.IsAlt ↥(lBar ⊥ V hV L) 8)
     (hsum : SumOfNat (fun H U Z => AlternatingNatural H U Z 8) (lStar D.M ⊥ V hV L)
       (⊤ : Subgroup (vStar D.M ⊥ V hV L)) ⊥ 2)
     (hV1 : v1Sub D.M ⊥ V hV L ≠ ⊥) {J₀ : Subgroup (Vtil ⊥ V hV)}
@@ -79,13 +79,13 @@ theorem s16c11_v1_cover_section_alt_eight (D : Data G) (hin : In10 D) (h1217 : R
   · exact ⟨φ, hev, hcomm, hfix, hJcard, hR⟩
 
 theorem s16c11_v1_alt_eight_exists_B (D : Data G) (hin : In10 D) (h1217 : R1217 D)
-    (h1610 : R16_10_2 D) {V L : Subgroup G}
+    (_h1610 : R16_10_2 D) {V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D ⊥ V L hV)
-    (hs : s15 D.M ⊥ V hV L = 1) (hout : Out10 D ⊥ V hV)
-    (hsig : D.sig = {3}) (hK : IsSym ↥(kBar D.M ⊥ V hV L) 3)
+    (hs : s15 D.M ⊥ V hV L = 1) (_hout : Out10 D ⊥ V hV)
+    (_hsig : D.sig = {3}) (hK : IsSym ↥(kBar D.M ⊥ V hV L) 3)
     {L₀ : Subgroup (MulAut (Vtil ⊥ V hV))}
-    (hdir : IsInternalDirect (kBar D.M ⊥ V hV L) L₀ (Mbar D.M ⊥ V hV))
-    (hL₀ : IsSym ↥L₀ 8) (hA : UC22.IsAlt ↥(lBar ⊥ V hV L) 8)
+    (_hdir : IsInternalDirect (kBar D.M ⊥ V hV L) L₀ (Mbar D.M ⊥ V hV))
+    (_hL₀ : IsSym ↥L₀ 8) (hA : UC22.IsAlt ↥(lBar ⊥ V hV L) 8)
     (hsum : SumOfNat (fun H U Z => AlternatingNatural H U Z 8) (lStar D.M ⊥ V hV L)
       (⊤ : Subgroup (vStar D.M ⊥ V hV L)) ⊥ 2)
     (hV1 : v1Sub D.M ⊥ V hV L ≠ ⊥) {J₀ : Subgroup (Vtil ⊥ V hV)}
@@ -114,9 +114,9 @@ theorem s16c11_v1_alt_eight_exists_B (D : Data G) (hin : In10 D) (h1217 : R1217 
     s16c11_v1_exists_B_alt 3 hM hLX hLK hJ hEL hE3 hEnc hEcard
   have hperfect : ⁅(lBar ⊥ V hV L), (lBar ⊥ V hV L)⁆ = lBar ⊥ V hV L := by
     obtain ⟨e⟩ := hA
-    haveI : Group.IsPerfect (alternatingGroup (Fin 8)) :=
+    have : Group.IsPerfect (alternatingGroup (Fin 8)) :=
       Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
-    haveI : Group.IsPerfect ↥(lBar ⊥ V hV L) :=
+    have : Group.IsPerfect ↥(lBar ⊥ V hV L) :=
       Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
     exact Subgroup.commutator_eq_self
   have hcardbot : Nat.card (⊥ : Subgroup G) ≤ 4 := by
@@ -129,7 +129,7 @@ theorem s16c11_v1_alt_eight_exists_B (D : Data G) (hin : In10 D) (h1217 : R1217 
     have hcard : Nat.card ↥(fixV Bb) = 2 ^ 6 := by simpa using hBbcard
     unfold rk
     rw [hcard]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact padicValNat.prime_pow 6
   rw [hBbar]
   exact hrk
@@ -165,10 +165,10 @@ theorem s16c11_v1_alt_eight_rank (D : Data G) (hin : In10 D) (h1217 : R1217 D)
   exact lt_of_lt_of_le (by exact_mod_cast hp) hle
 
 theorem s16c11_v1_alt_eight_aSet_fixV (D : Data G) (hin : In10 D) (h1217 : R1217 D)
-    (h1610 : R16_10_2 D) {V L : Subgroup G}
+    (_h1610 : R16_10_2 D) {V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D ⊥ V L hV)
-    (hs : s15 D.M ⊥ V hV L = 1) (hout : Out10 D ⊥ V hV)
-    (hsig : D.sig = {3}) (hK : IsSym ↥(kBar D.M ⊥ V hV L) 3)
+    (hs : s15 D.M ⊥ V hV L = 1) (_hout : Out10 D ⊥ V hV)
+    (_hsig : D.sig = {3}) (hK : IsSym ↥(kBar D.M ⊥ V hV L) 3)
     {L₀ : Subgroup (MulAut (Vtil ⊥ V hV))}
     (hdir : IsInternalDirect (kBar D.M ⊥ V hV L) L₀ (Mbar D.M ⊥ V hV))
     (hL₀ : IsSym ↥L₀ 8) (hA : UC22.IsAlt ↥(lBar ⊥ V hV L) 8)

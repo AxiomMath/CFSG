@@ -56,7 +56,7 @@ theorem mem_commutator_sylow_of_mem_commutator {G : Type*} [Group G] [Finite G] 
   have hcop : Nat.Coprime p (P : Subgroup G).index :=
     (Nat.Prime.coprime_iff_not_dvd hp.out).mpr P.not_dvd_index
   have hgcd : ((P : Subgroup G).index).gcd (orderOf (⟨z, hzP⟩ : (P : Subgroup G))) = 1 :=
-    (P.isPGroup'.orderOf_coprime hcop _).symm
+    (P.isPGroup.orderOf_coprime hcop _).symm
   have h := (Subgroup.zpowers_le.mpr hpow) (mem_zpowers_pow_iff.mpr hgcd)
   have hmap := Subgroup.mem_map_of_mem (P : Subgroup G).subtype h
   rwa [commutator_def, Subgroup.map_commutator, ← MonoidHom.range_eq_map,

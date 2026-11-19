@@ -47,14 +47,14 @@ theorem Hyp78.exists_map_conj_eq {V H E J L : Subgroup G} (h : Hyp78 V H E J L)
   have hKH : kSub V H E ≤ H := kSub_le_of_forall_le h.omega_le
   have hHnormJ : H ≤ Subgroup.normalizer (J : Set G) :=
     le_normalizer_of_subgroupOf_normal hJH h.jnormal
-  haveI : (J.subgroupOf H).Normal := h.jnormal
+  have : (J.subgroupOf H).Normal := h.jnormal
   let Ob : Subgroup Q := barSub H φ (pCoreOf 2 L)
   let vb : Q := φ ⟨v, hvH⟩
   let Δ : Type := ↥(deltaSet Ob vb)
   let dbar : Q := φ ⟨g₀, hg₀H⟩
   have hXp : IsPGroup p Xb := fun x => ⟨1, by rw [pow_one]; exact Subtype.ext (hexp (x : Q) x.2)⟩
   have hoddXb : Odd (Nat.card Xb) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hXp
     rw [hn]
     exact (hp.odd_of_ne_two hp2).pow
@@ -232,7 +232,7 @@ theorem Hyp78.exists_map_conj_eq {V H E J L : Subgroup G} (h : Hyp78 V H E J L)
       have hmulX := Subgroup.relIndex_mul_relIndex ⊥ (hCbar i) Xb bot_le (hCbar_le_Xb i)
       rw [Subgroup.relIndex_bot_left, Subgroup.relIndex_bot_left] at hmulX
       have hpos : Nat.card (hCbar i) ≠ 0 := by
-        haveI : Nonempty (hCbar i) := ⟨1⟩
+        have : Nonempty (hCbar i) := ⟨1⟩
         exact Nat.card_pos.ne'
       have key : Nat.card (hCbar i) * (Cf i).relIndex Y = Nat.card (hCbar i) * p := by
         calc Nat.card (hCbar i) * (Cf i).relIndex Y

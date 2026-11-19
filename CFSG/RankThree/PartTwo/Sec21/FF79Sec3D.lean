@@ -101,9 +101,11 @@ theorem card_mp : Nat.card {E : Z3 × Z3 // E ∈ mpList} = 8 := by
 
 variable {u v : G}
 
+omit [Finite G] in
 theorem act_conj (h : E9Data u v) {g : G} {E : Z3 × Z3} (hg : Act u v g E) (p : Z3) :
     g * ψ u v p * g⁻¹ = ψ u v (lin E.1 E.2 p) := conj_ψ h hg.1 hg.2 p
 
+omit [Finite G] in
 theorem act_mul (h : E9Data u v) {g k : G} {E F : Z3 × Z3} (hg : Act u v g E)
     (hk : Act u v k F) : Act u v (g * k) (comp E F) := by
   constructor
@@ -112,18 +114,22 @@ theorem act_mul (h : E9Data u v) {g k : G} {E F : Z3 × Z3} (hg : Act u v g E)
   · calc g * k * v * (g * k)⁻¹ = g * (k * v * k⁻¹) * g⁻¹ := by group
       _ = _ := by rw [hk.2, act_conj h hg]; rfl
 
+omit [Finite G] in
 theorem act_one : Act u v (1 : G) idp := ⟨by simp [idp], by simp [idp]⟩
 
+omit [Finite G] in
 theorem act_pow (h : E9Data u v) {g : G} {E : Z3 × Z3} (hg : Act u v g E) (n : ℕ) :
     Act u v (g ^ n) (cpow E n) := by
   induction n with
   | zero => simpa [cpow] using act_one
   | succ n ih => rw [pow_succ, cpow]; exact act_mul h ih hg
 
+omit [Finite G] in
 theorem act_unique (h : E9Data u v) {g : G} {E F : Z3 × Z3} (hE : Act u v g E)
     (hF : Act u v g F) : E = F :=
   Prod.ext (ψ_inj h (hE.1.symm.trans hF.1)) (ψ_inj h (hE.2.symm.trans hF.2))
 
+omit [Finite G] in
 theorem act_inv_comp (h : E9Data u v) {g : G} {E F : Z3 × Z3} (hE : Act u v g E)
     (hF : Act u v g⁻¹ F) : comp E F = idp := by
   have := act_mul h hE hF
@@ -143,6 +149,7 @@ variable {b : G} {J B : Subgroup G} {r₁ r₂ w : G} {P : Subgroup G} {x y : G}
   (K : PCtx b J B u v r₁ r₂ w P x y)
 include K
 
+omit [Finite G] K in
 theorem H_b {g : G} (hg : g ∈ Cen b ⊓ Nor (Agrp x y u v)) : g * b * g⁻¹ = b := by
   have := Subgroup.mem_centralizer_singleton_iff.mp hg.1
   rw [this]; group
@@ -150,9 +157,9 @@ theorem H_b {g : G} (hg : g ∈ Cen b ⊓ Nor (Agrp x y u v)) : g * b * g⁻¹ =
 theorem H_R {g : G} (hg : g ∈ Cen b ⊓ Nor (Agrp x y u v)) {r : G} (hr : r ∈ R u v) :
     g * r * g⁻¹ ∈ R u v := by
   have hA : g * r * g⁻¹ ∈ Agrp x y u v :=
-    (Subgroup.mem_normalizer_iff.mp hg.2 r).mp (K.R_le_A hr)
+    (Subgroup.mem_normalizer_iff.mp hg.2 r).mp (CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.R_le_A hr)
   refine K.A_inf_B hA (K.toCtx.P_cen K.hP (K.A_le_P hA) ?_)
-  have hgb := K.H_b hg
+  have hgb := PCtx.H_b hg
   have hrb := K.toCtx.comm_bR hr
   calc g * r * g⁻¹ * b = g * r * (g⁻¹ * b * g) * g⁻¹ := by group
     _ = g * r * b * g⁻¹ := by rw [comm_conj hgb]
@@ -162,7 +169,7 @@ theorem H_R {g : G} (hg : g ∈ Cen b ⊓ Nor (Agrp x y u v)) {r : G} (hr : r �
 
 theorem exists_act {g : G} (hg : g ∈ Cen b ⊓ Nor (Agrp x y u v)) :
     ∃ E ∈ mpList, Act u v g E := by
-  have hgJ : g ∈ Nor J := L13b.mem_nor_of_forall (K.toCtx.D.hnormJ g (Or.inl (K.H_b hg)))
+  have hgJ : g ∈ Nor J := L13b.mem_nor_of_forall (K.toCtx.D.hnormJ g (Or.inl (PCtx.H_b hg)))
   have hgR : g ∈ Nor (R u v) := L13b.mem_nor_of_forall fun r hr => K.H_R hg hr
   obtain ⟨hu, hv⟩ := K.toCtx.mono g hgJ hgR
   obtain ⟨e₁, he₁, h1⟩ := isMono_of_inBlocks hu
@@ -181,6 +188,7 @@ theorem H_of_realize {m : G} (hmP : m ∈ Nor P) (hmB : m ∈ Nor B) (hmb : m * 
   calc m * b = (m * b * m⁻¹) * m := by group
     _ = b * m := by rw [hmb]
 
+omit [Finite G] in
 theorem eq_one_of_act_idp (hodd : Odd (Nat.card (CenS B))) {c : G} (hcb : c * b = b * c)
     (hc : Act u v c idp) {k : ℕ} (hk : c ^ (2 ^ k) = 1) : c = 1 := by
   have hcB : c ∈ CenS B := by
@@ -205,7 +213,7 @@ theorem exists_D (hodd : Odd (Nat.card (CenS B))) (hJ : J = OUpp 2 (Cen b)) :
       Nat.card D = 8 ∧ ¬ IsMulCommutative D ∧
       ∀ z ∈ Subgroup.center D, z ≠ 1 → (∀ p, z * ψ u v p * z⁻¹ = ψ u v (-p)) ∧ z ^ 2 = 1 ∧
         ∀ a ∈ Agrp x y u v, z * a * z⁻¹ = a⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hE := K.toCtx.E
   set H := Cen b ⊓ Nor (Agrp x y u v) with hH
   obtain ⟨m₁, hm₁P, hm₁B, hm₁b, hm₁R⟩ := K.toCtx.realize K.hP K.toCtx.r₁N (n := 1)
@@ -222,9 +230,9 @@ theorem exists_D (hodd : Odd (Nat.card (CenS B))) (hJ : J = OUpp 2 (Cen b)) :
   rw [ψ_10, lin_10] at c₁₁ cw₁
   rw [ψ_01, lin_01] at c₁₂ cw₂
   have hA₁ : Act u v m₁ R1 :=
-    ⟨by rw [hm₁R u K.toCtx.uR]; exact c₁₁, by rw [hm₁R v K.toCtx.vR]; exact c₁₂⟩
+    ⟨by rw [hm₁R u CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR]; exact c₁₁, by rw [hm₁R v CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.vR]; exact c₁₂⟩
   have hAw : Act u v mw W1 :=
-    ⟨by rw [hmwR u K.toCtx.uR]; exact cw₁, by rw [hmwR v K.toCtx.vR]; exact cw₂⟩
+    ⟨by rw [hmwR u CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR]; exact cw₁, by rw [hmwR v CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.vR]; exact cw₂⟩
   have hm₄H : m₁ * mw ∈ H := H.mul_mem hm₁H hmwH
   have hA₄ := act_mul hE hA₁ hAw
   obtain ⟨s₁, a₁, hs₁, h₁⟩ := exists_two_part m₁
@@ -238,7 +246,7 @@ theorem exists_D (hodd : Odd (Nat.card (CenS B))) (hJ : J = OUpp 2 (Cen b)) :
     have : s₄ % 4 < 4 := Nat.mod_lt _ (by norm_num)
     have : s₄ % 4 ≠ 0 := fun h => hs₄ (by omega)
     have : s₄ % 4 ≠ 2 := fun h => hs₄ (by omega)
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false]; omega
+    simp only [List.mem_cons, List.not_mem_nil, or_false]; omega
   have hQ : IsPGroup 2 (Subgroup.zpowers ((m₁ * mw) ^ s₄)) := isPGroup_zpowers_of_pow h₄
   obtain ⟨D, hD, hQD⟩ := exists_sylowOf_le
     ((Subgroup.zpowers_le).mpr (H.pow_mem hm₄H s₄)) hQ
@@ -266,8 +274,8 @@ theorem exists_D (hodd : Odd (Nat.card (CenS B))) (hJ : J = OUpp 2 (Cen b)) :
       exact act_unique hE h1 act_one
     rw [hcomp] at hc
     have hcb : (g⁻¹ * h) * b = b * (g⁻¹ * h) := by
-      have e1 := K.H_b (H.inv_mem (hDH hg))
-      have e2 := K.H_b (hDH hh)
+      have e1 := PCtx.H_b (H.inv_mem (hDH hg))
+      have e2 := PCtx.H_b (hDH hh)
       calc g⁻¹ * h * b = g⁻¹ * (h * b * h⁻¹) * h := by group
         _ = (g⁻¹ * b * g⁻¹⁻¹) * (g⁻¹ * h) := by rw [e2]; group
         _ = b * (g⁻¹ * h) := by rw [e1]
@@ -306,13 +314,13 @@ theorem exists_D (hodd : Odd (Nat.card (CenS B))) (hJ : J = OUpp 2 (Cen b)) :
       omega
     interval_cases n
     · exfalso; apply hnab
-      haveI : Subsingleton D := (Nat.card_eq_one_iff_unique.mp hn).1
+      have : Subsingleton D := (Nat.card_eq_one_iff_unique.mp hn).1
       exact ⟨⟨fun a b => Subsingleton.elim _ _⟩⟩
     · exfalso; apply hnab
-      haveI : IsCyclic D := isCyclic_of_prime_card (p := 2) (by simpa using hn)
+      have : IsCyclic D := isCyclic_of_prime_card (p := 2) (by simpa using hn)
       infer_instance
     · exfalso; apply hnab
-      exact ⟨⟨IsPGroup.commutative_of_card_eq_prime_sq (p := 2) hn⟩⟩
+      exact ⟨⟨(IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) hn).is_comm.comm⟩⟩
     · simpa using hn
   refine ⟨D, hD, fun g hg => ?_, hcard, hnab, ?_⟩
   · obtain ⟨n, hn⟩ := h2el g hg
@@ -348,13 +356,13 @@ theorem exists_D (hodd : Odd (Nat.card (CenS B))) (hJ : J = OUpp 2 (Cen b)) :
     rw [pow_two]
     exact hinj _ (D.mul_mem z.2 z.2) _ D.one_mem _ h1 act_one
   refine ⟨hneg, Subtype.ext (by simpa using hz2), fun a ha => ?_⟩
-  have hzb := K.H_b hzH
+  have hzb := PCtx.H_b hzH
   have haT := K.A_le_T ha
   have ha' : (z : G) * a * (z : G)⁻¹ ∈ Agrp x y u v :=
     (Subgroup.mem_normalizer_iff.mp hzH.2 a).mp ha
-  obtain ⟨q, hq⟩ := exists_ψ hE (K.toCtx.θ_mem haT)
+  obtain ⟨q, hq⟩ := exists_ψ hE (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem haT)
   have hθ' : θ b ((z : G) * a * (z : G)⁻¹) = (θ b a)⁻¹ := by
-    rw [K.toCtx.θ_conj_of_cen _ _ hzb, hq, hneg, ψ_neg hE]
+    rw [CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_conj_of_cen _ _ hzb, hq, hneg, ψ_neg hE]
   have hrA : (z : G) * a * (z : G)⁻¹ * a ∈ Agrp x y u v := (Agrp x y u v).mul_mem ha' ha
   have hrR : (z : G) * a * (z : G)⁻¹ * a ∈ R u v := by
     refine K.A_inf_B hrA (K.toCtx.θ_eq_one_mem_B K.hP (K.A_le_P hrA) ?_)

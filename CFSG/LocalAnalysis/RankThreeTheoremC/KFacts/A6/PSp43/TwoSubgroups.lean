@@ -13,11 +13,12 @@ namespace PSp43
 
 variable {T : Type*} [Group T] [Finite T] {L : Subgroup T} [L.Normal]
 
+omit [Finite T] in
 theorem exists_fixed_conj {U : Subgroup T} (hU : IsPGroup 3 U) (s : T → Prop)
     (hs : ∀ u ∈ U, ∀ y, s y → s (u * y * u⁻¹)) (hcard : ¬ 3 ∣ Nat.card {y // s y}) :
     ∃ y, s y ∧ ∀ u ∈ U, u * y * u⁻¹ = y := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : MulAction U {y // s y} :=
+  let : MulAction U {y // s y} :=
     { smul := fun u y => ⟨(u : T) * y.1 * (u : T)⁻¹, hs u u.2 y.1 y.2⟩
       one_smul := fun y => Subtype.ext (by
         show ((1 : U) : T) * y.1 * ((1 : U) : T)⁻¹ = y.1

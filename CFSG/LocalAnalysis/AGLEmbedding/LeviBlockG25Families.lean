@@ -112,7 +112,7 @@ theorem card_alternatingGroup_not_isG25Order (n : ℕ) :
     rintro h
     change (1 : ℕ) = 5859000000 at h
     omega
-  · haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
+  · have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
     have hAc := nat_card_alternatingGroup (α := Fin n)
     rw [Nat.card_eq_fintype_card (α := Fin n), Fintype.card_fin] at hAc
     rw [hAc]

@@ -176,7 +176,7 @@ theorem ncard_delta {l : Finset (Finset (Fin 24))} (hl : IsTrio l) (i : Fin 5) :
     have hset : {k | IsTrio k ∧ Delta (g • l) k i} =
         (fun k => g • k) '' {k | IsTrio k ∧ Delta l k i} := by
       ext k
-      simp only [Set.mem_setOf_eq, Set.mem_image]
+      simp only [Set.mem_ofPred_eq, Set.mem_image]
       constructor
       · rintro ⟨hk, hd⟩
         refine ⟨g⁻¹ • k, ⟨(isTrio_smul_iff (M24g.inv_mem hg)).2 hk, ?_⟩, smul_inv_smul g k⟩

@@ -82,7 +82,7 @@ theorem fx_data {hc : Ctx M Q Z B} {n : ℕ} {t : G} (hs : Sec9Hyp hc n t)
   have hq4 : 4 ≤ Nat.card Z := hc.hyp.q4
   have hK4 : 4 ≤ Nat.card K := P.card ▸ hq4
   obtain ⟨c0, hc0, hc1⟩ := exists_ne_zero_ne_one_of_nat_card_ge_four hK4
-  haveI : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
   have hX := addCommutantScalar_statedOmegaPlus_two ⟨c0, hc0, hc1⟩
   obtain ⟨Fx, hFx⟩ := exists_fx_sec9 hc ht P.card hX φ P.range ψ P.act hxM hxH hxV
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
@@ -193,7 +193,7 @@ theorem exists_adjust (h34 : Stroth34Statement) (hCentre : Step95CentreStatement
     exact notSing_inf_conj h1 hCentre hs hr hZ0 hsc hT _
       ⟨hkV, comm_mem_conj_Vt hCentre hs hZ0 hT hk⟩ hsk
   obtain ⟨K, fK, finK, chK, E, hn, φ, ψ, u, P⟩ := HS9.exists_pts91 h34 hs
-  haveI := hn
+  have := hn
   obtain ⟨Fx, hFx, hFFx, iso, hFne, hns⟩ := fx_data hs P hxM hxH hx2 hxV hxR hsing hne
   obtain ⟨c, hc0, hFxform⟩ := exists_reflection_form (quadPlus 2 K) Fx iso hFFx hFne hns
   have hrR : r ∈ Rt M (LB M Q B) t := hr.mem

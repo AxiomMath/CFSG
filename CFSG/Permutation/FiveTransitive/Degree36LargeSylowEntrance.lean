@@ -100,7 +100,7 @@ theorem fixed_and_image
   have hle := Set.ncard_le_ncard hsub
   rw [← Nat.card_coe_set_eq,← Nat.card_coe_set_eq] at hle
   have hfix := element_fixed_lt_five P hcard h5 hnotAlt hp u.val huP
-  have hm := S.isPGroup'.card_modEq_card_fixedPoints X
+  have hm := S.isPGroup.card_modEq_card_fixedPoints X
   change Nat.card X % p = Nat.card (fixedPoints S X) % p at hm
   rw [Nat.card_eq_fintype_card,hcard] at hm
   have hfixed : Nat.card (fixedPoints S X) = 36 % p := by

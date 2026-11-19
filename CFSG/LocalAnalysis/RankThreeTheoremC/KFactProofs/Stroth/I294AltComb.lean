@@ -179,8 +179,8 @@ private theorem altComb_exists_elemAbelian {n p : ℕ} (hp : p.Prime) (hodd : p 
     ∃ E : Subgroup (Equiv.Perm (Fin n)),
       E ≤ Subgroup.centralizer ({x} : Set (Equiv.Perm (Fin n))) ⊓ alternatingGroup (Fin n) ∧
       CFSG.Open.IsElemAbelian p E ∧ Nat.card E = p ^ 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hodd' : Odd p := hp.odd_of_ne_two hodd
   have hord : ∀ i, orderOf (s i) = p := fun i => by
     rw [(hs i).1.orderOf, (hs i).2.1]
@@ -289,14 +289,14 @@ private theorem altComb_exists_elemAbelian {n p : ℕ} (hp : p.Prime) (hodd : p 
       exact Nat.card_congr (Equiv.subtypeEquivRight
         fun y => MonoidHom.mem_range.trans Set.mem_range.symm)
     rw [e, Nat.card_pi]
-    simp [hcardZ]
+    simp
 
 theorem exists_elemAbelian_three_of_pow_eq_one {n p : ℕ} (hp : p.Prime) (hodd : p ≠ 2)
     (hn : 3 * p ≤ n) {x : Equiv.Perm (Fin n)} (hxp : x ^ p = 1) (hx1 : x ≠ 1) :
     ∃ E : Subgroup (Equiv.Perm (Fin n)),
       E ≤ Subgroup.centralizer ({x} : Set (Equiv.Perm (Fin n))) ⊓ alternatingGroup (Fin n) ∧
       CFSG.Open.IsElemAbelian p E ∧ Nat.card E = p ^ 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨s, hs, hdisj⟩ := altComb_exists_three_pcycles hp hn (orderOf_eq_prime hxp hx1) hx1
   exact altComb_exists_elemAbelian hp hodd s hs hdisj
 

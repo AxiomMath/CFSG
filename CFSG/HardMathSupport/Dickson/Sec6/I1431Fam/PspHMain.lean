@@ -32,7 +32,7 @@ theorem t6psph_center_statedProj_statedSp {r : ℕ} {K : Type} [Field K] [Finite
       · exact Or.inr (Or.inr ⟨h, hr⟩)
       · exact Or.inr (Or.inl ⟨h, by omega⟩)
   obtain ⟨-, hsimple, hnab⟩ := CFSG.LieType.Universal.Symplectic.isQuasisimple r K (by omega) hq
-  haveI := hsimple
+  have := hsimple
   have hc := center_eq_bot_of_simple hnab
   rw [← Subgroup.map_center_eq (CFSG.LieType.Universal.Symplectic.centerQuotientEquiv r K), hc,
     Subgroup.map_bot]

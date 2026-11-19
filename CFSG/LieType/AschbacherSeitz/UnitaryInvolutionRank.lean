@@ -13,7 +13,7 @@ open Matrix Module CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.Component
 
 variable {p f : ℕ} {K : Type} [Field K]
 
-theorem finrank_le_two_of_totallyIsotropic (h : UnitaryFieldData p f K) (p2 : p = 2)
+theorem finrank_le_two_of_totallyIsotropic (h : UnitaryFieldData p f K) (_p2 : p = 2)
     (U : Submodule K (Fin 4 → K))
     (hU : ∀ x ∈ U, ∀ y ∈ U, stdHermForm h 4 x y = 0) :
     Module.finrank K U ≤ 2 := by

@@ -142,7 +142,7 @@ theorem rckRet_tw_modelFacts
       CFSG.SeitzReduction.UnitaryPilot.OddCentralSplit (ggU .twistedE6 0 h).K ∧
       StandardReturnAt (ggU .twistedE6 0 h) h ∧ RCKADEModel (ggU .twistedE6 0 h) h := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : StatedLieAdmissible .twistedE6 0 2 h := ⟨Nat.prime_two, hh, rfl⟩
   have hrk : 2 ≤ (ggU .twistedE6 0 h).D.rank := by
     change 2 ≤ Tag.rank .F4

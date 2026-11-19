@@ -53,9 +53,9 @@ theorem MinCE.exists_hat (h : MinCE G T S₁ S₂) {L R₁ R₂ : Subgroup G} (h
       fusionStronglyClosed ((Q₂.subgroupOf L : Subgroup L) : Set L) P ∧
       Q₁ ≤ centralizer (Q₂ : Set G) ∧ Q₁ ⊓ Q₂ = ⊥ := by
   have hp : IsPGroup 2 ((R₁ ⊔ R₂).subgroupOf L) :=
-    (T.isPGroup'.to_le (sup_le (hR₁.trans h.le₁) (hR₂.trans h.le₂))).comap_subtype
+    (T.isPGroup.to_le (sup_le (hR₁.trans h.le₁) (hR₂.trans h.le₂))).comap_subtype
   obtain ⟨P, hPR⟩ := hp.exists_le_sylow
-  obtain ⟨T', hT'⟩ := (P.isPGroup'.map L.subtype).exists_le_sylow
+  obtain ⟨T', hT'⟩ := (P.isPGroup.map L.subtype).exists_le_sylow
   obtain ⟨x₁, hx₁, hx₁c, hx₁m⟩ := exists_conj_le_sylow T T' h.le₁ h.sc₁
   obtain ⟨x₂, hx₂, hx₂c, hx₂m⟩ := exists_conj_le_sylow T T' h.le₂ h.sc₂
   have hRT' : ∀ {R : Subgroup G}, R ≤ R₁ ⊔ R₂ → R ≤ L → R ≤ T' := fun hR hRL x hx =>

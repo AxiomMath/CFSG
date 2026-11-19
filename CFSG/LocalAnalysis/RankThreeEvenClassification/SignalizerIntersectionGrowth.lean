@@ -95,7 +95,7 @@ theorem signalizer_prime_compatible_intersection_growth
   have hproductPartLe : productPart ≤ overgroup := Subgroup.map_subtype_le _
   have hproductPartCompatible : SignalizerPrimeCompatible prime subgroupPrime actor signalizer productPart :=
     ⟨SignalizerCompatible.of_le prime actor signalizer overgroup productPart hovergroupCompatible
-      hproductPartLe hsecondSylowNormalized, secondSylow.isPGroup'.map overgroup.subtype⟩
+      hproductPartLe hsecondSylowNormalized, secondSylow.isPGroup.map overgroup.subtype⟩
   have hproductPartNormalizes : productPart ≤ Subgroup.normalizer (lower : Set G) :=
     hproductPartLe.trans inf_le_left
   have hproductCompatible := SignalizerPrimeCompatible.normalized_sup prime hprime subgroupPrime

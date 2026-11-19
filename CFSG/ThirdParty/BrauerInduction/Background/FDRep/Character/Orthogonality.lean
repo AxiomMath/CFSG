@@ -95,7 +95,7 @@ lemma finrank_hom_eq_of_char_eq
     (S V W : FDRep k G)
     (h : V.character = W.character) :
     Module.finrank k (S ⟶ V) = Module.finrank k (S ⟶ W) := by
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   have hV :
       ((Fintype.card G : k)⁻¹) *
           (∑ g : G, V.character g * S.character g⁻¹)

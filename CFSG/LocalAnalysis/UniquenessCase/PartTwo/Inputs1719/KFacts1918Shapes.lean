@@ -78,8 +78,8 @@ theorem kFacts1918_of_isSimpleGroup (Y : Subgroup X) (hY : IsSimpleGroup ↥Y)
     (∀ Nn : Subgroup X, Nn ≤ Opp 2 Y → (Nn.subgroupOf (Opp 2 Y)).Normal →
       ¬ Nn ≤ pCoreOf 2 (Opp 2 Y) → S17.oUpperTwo (Opp 2 Y) ≤ Nn ⊔ pCoreOf 2 (Opp 2 Y)) ∧
     Nat.card (Bar2 (S17.oUpperTwo (Opp 2 Y))) = Nat.card Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nonempty ↥Y := ⟨1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nonempty ↥Y := ⟨1⟩
   have hOpp : Opp 2 Y = Y := by
     refine le_antisymm ?_ ?_
     · unfold Opp CFSG.RankThree.PartOne.pElementSubgroup
@@ -94,7 +94,7 @@ theorem kFacts1918_of_isSimpleGroup (Y : Subgroup X) (hY : IsSimpleGroup ↥Y)
         refine Subgroup.subset_closure ⟨z.2, 1, ?_⟩
         rw [Subgroup.orderOf_coe, hz, pow_one]
       have hN := opp_subgroupOf_normal_self Y
-      haveI : ((Opp 2 Y).subgroupOf Y).Normal := hN
+      have : ((Opp 2 Y).subgroupOf Y).Normal := hN
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((Opp 2 Y).subgroupOf Y) with h | h
       · exfalso
         have hmem : z ∈ (Opp 2 Y).subgroupOf Y :=
@@ -122,7 +122,7 @@ theorem kFacts1918_of_isSimpleGroup (Y : Subgroup X) (hY : IsSimpleGroup ↥Y)
           by_contra hd2
           exact hcon ⟨d, hd, hd2, hdn⟩)
     obtain ⟨p, hpp, hp2, hpdvd⟩ := hOddPrime
-    haveI : Fact p.Prime := ⟨hpp⟩
+    have : Fact p.Prime := ⟨hpp⟩
     obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y) p hpdvd
     have hpodd : Odd p := hpp.odd_of_ne_two hp2
     have hw1 : w ≠ 1 := by
@@ -136,7 +136,7 @@ theorem kFacts1918_of_isSimpleGroup (Y : Subgroup X) (hY : IsSimpleGroup ↥Y)
       rw [S17.oUpperTwo_eq_closure]
       exact Subgroup.subset_closure ⟨w.2, hwodd⟩
     have hN := oUpperTwo_subgroupOf_normal_self Y
-    haveI : ((S17.oUpperTwo Y).subgroupOf Y).Normal := hN
+    have : ((S17.oUpperTwo Y).subgroupOf Y).Normal := hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((S17.oUpperTwo Y).subgroupOf Y) with h | h
     · exfalso
       have hmem : w ∈ (S17.oUpperTwo Y).subgroupOf Y :=
@@ -151,7 +151,7 @@ theorem kFacts1918_of_isSimpleGroup (Y : Subgroup X) (hY : IsSimpleGroup ↥Y)
   · intro Nn hNnOpp hNnNorm hNnNot
     have hNnY : Nn ≤ Y := hOpp ▸ hNnOpp
     have hNnNormY : (Nn.subgroupOf Y).Normal := by rwa [hOpp] at hNnNorm
-    haveI : (Nn.subgroupOf Y).Normal := hNnNormY
+    have : (Nn.subgroupOf Y).Normal := hNnNormY
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Nn.subgroupOf Y) with h | h
     · exfalso
       apply hNnNot
@@ -212,7 +212,7 @@ theorem kFacts1918_of_shape (hΩ : OmegaCentralizerShape) (Y : Subgroup X)
       · have hSimple : IsSimpleGroup ↥Y := (hΩ X ε 4 Y hΩX hCent).2 rfl
         obtain ⟨τ, hτ2, hτout, hYfix, hYcard⟩ := hCent
         have hYc : Nat.card Y = 1451520 := by
-          rw [if_neg (by norm_num : ¬ (4 = 3))] at hYcard
+          rw [ite_eq_right (by norm_num : ¬ (4 = 3))] at hYcard
           exact hYcard
         have h2 : 2 ∣ Nat.card Y := by rw [hYc]; norm_num
         have hY2 : ¬ IsPGroup 2 ↥Y := by

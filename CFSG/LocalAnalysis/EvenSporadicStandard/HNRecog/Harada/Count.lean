@@ -152,7 +152,7 @@ theorem HData.card_normalizer_eq [Finite G] (hD : HData G t z b z₁ S Eg T T' W
     Nat.card (normalizer (ι.range : Set G)) =
       Nat.card {v : V6 // IsConj t (coordElt ι v)} * 46080 := by
   let N : Subgroup G := normalizer (ι.range : Set G)
-  letI : MulAction ↥N G :=
+  let : MulAction ↥N G :=
     MulAction.compHom G (ConjAct.toConjAct.toMonoidHom.comp N.subtype)
   have smul_eq : ∀ (n : ↥N) (x : G), n • x = n.1 * x * n.1⁻¹ := by
     intro n x

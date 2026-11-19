@@ -280,14 +280,14 @@ theorem exists_fixed_hypPair_or_swap_of_maxEA_orthF2 (hQ : (polarBilin Q).Nondeg
     (finrank (ZMod 2) V ≤ 8 ∧ ∃ F : Subgroup (V ≃ₗ[ZMod 2] V), F ≤ D ∧ 27 ≤ Nat.card F ∧
       ∃ u ∈ elementaryGroup Q, u ≠ 1 ∧ u * u = 1 ∧ ∀ g ∈ F, g * u = u * g) := by
   classical
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := ClassicalEA.finite_linearEquiv
+  have : Finite (V ≃ₗ[ZMod 2] V) := ClassicalEA.finite_linearEquiv
   have hBs := polarBilin_symm Q
   have horthTop : ∀ x ∈ LinearMap.BilinForm.orthogonal (polarBilin Q) ⊤, x = 0 := fun x hx =>
     hQ.2 x fun u => hx u Submodule.mem_top
   have hDU : D ≤ TauCeti.QuadraticMap.orthogonalGroup Q ⊓ ptw (LinearMap.BilinForm.orthogonal (polarBilin Q) ⊤) :=
     fun g hg => ⟨hDO hg, fun x hx => by rw [horthTop x hx, map_zero]⟩
   obtain ⟨r', b, W, hbD, hblock, -, horth, hDcl, hDc'⟩ := hasBlocks_of_max hBs hQ Nat.prime_three
-    (by norm_num) (isRestrClosed_orthogonalGroup Q) _ ⊤ rfl (nondeg_top hBs hQ) D hDU hD
+    (by norm_num) (isRestrClosed_orthogonalGroup Q) _ ⊤ rfl (nondeg_top hQ) D hDU hD
     (fun F hF hFe => hmax F (hF.trans inf_le_left) hFe)
   have hrr : r' = r := by
     rw [hDc] at hDc'
@@ -702,8 +702,8 @@ theorem le_glbCore_of_orthF2 {X : Type} [Group X] [Finite X]
     (hBN : B ≤ Subgroup.normalizer (K : Set X)) (hC : B ⊓ Subgroup.centralizer (K : Set X) = ⊥) :
     K ≤ GLBCore 3 2 B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := ClassicalEA.finite_linearEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (V ≃ₗ[ZMod 2] V) := ClassicalEA.finite_linearEquiv
   set E := elementaryGroup Q with hEdef
   let α : ↥B →* MulAut ↥K := K.normalizerMonoidHom.comp (Subgroup.inclusion hBN)
   let ψα : ↥B →* MulAut ↥E := (MulAut.congr φ).toMonoidHom.comp
@@ -976,7 +976,7 @@ theorem le_glbCore_of_omegaEightTwo {X : Type} [Group X] [Finite X] (hcore : GLA
     (hBN : B ≤ Subgroup.normalizer (K : Set X)) (hC : B ⊓ Subgroup.centralizer (K : Set X) = ⊥) :
     K ≤ GLBCore 3 2 B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Subgroup.center ↥K = ⊥ := by
     by_contra hZ
     exact InputsSeitz7.cen_ne_bot_of_center_ne_bot hcore hB hrk hK hZ hBN hC
@@ -1007,8 +1007,8 @@ theorem le_glbCore_of_omegaEightTwo {X : Type} [Group X] [Finite X] (hcore : GLA
   have hQ : (polarBilin Q).Nondegenerate := nondegenerate_polarBilin_quadPlus 4 (ZMod 2)
   have hstd : IsPlusSpace Q 4 := ⟨LinearEquiv.refl _ _, fun v => rfl⟩
   set E := elementaryGroup Q with hEdef
-  haveI : Finite (Fin 4 ⊕ Fin 4 → ZMod 2) := inferInstance
-  haveI : Finite ((Fin 4 ⊕ Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 4 ⊕ Fin 4 → ZMod 2)) :=
+  have : Finite (Fin 4 ⊕ Fin 4 → ZMod 2) := inferInstance
+  have : Finite ((Fin 4 ⊕ Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 4 ⊕ Fin 4 → ZMod 2)) :=
     ClassicalEA.finite_linearEquiv
   have hconj : Function.Injective (MulAut.conj : ↥K →* MulAut ↥K) := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff, ← hZ]
@@ -1208,7 +1208,7 @@ theorem card_le_three_mul_inner_of_hom_orthF2 {C : Type} [Group C] [Finite C] {L
     (hΘ : Θ.ker = (MulAut.conj : C →* MulAut C).range) (D : Subgroup (MulAut C))
     (hD : IsElemAbelian 3 D) :
     Nat.card D ≤ 3 * Nat.card ↥(D ⊓ (MulAut.conj : C →* MulAut C).range) := by
-  haveI : Finite (MulAut C) := MulEquiv.finite_left
+  have : Finite (MulAut C) := MulEquiv.finite_left
   rw [← hΘ]
   have hidx : Θ.ker.index ∣ 3 := by
     rw [Subgroup.index_ker, ← hL]
@@ -1247,7 +1247,7 @@ theorem card_le_27_triD4Two_orthF2 {q : TauCeti.PrimePower} (hv : (TauCeti.LieTy
     (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_two L
       (by rw [hL]; norm_num)).1
   let ψ := eS.trans eC
-  haveI := Finite.of_equiv S ψ.toEquiv
+  have := Finite.of_equiv S ψ.toEquiv
   obtain ⟨eT, hT⟩ := CFSG.HardMathSupport.Seitz.TrialityEven.exists_equiv_trialityGroup8 hqp hqe hv
   refine card_le_27_of_rank_out_orthF2 hZ (fun F hF => ?_)
     (InputsSeitz7.card_le_three_mul_inner_of_mulEquiv ψ
@@ -1271,7 +1271,7 @@ theorem card_le_27_g2Eight_orthF2 {q : TauCeti.PrimePower} (hv : (TauCeti.LieTyp
   have hL3 : Nat.card (L ≃+* L) = 3 :=
     (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_two L hL').1
   let ψ := eS.trans eA
-  haveI := Finite.of_equiv S ψ.toEquiv
+  have := Finite.of_equiv S ψ.toEquiv
   exact card_le_27_of_rank_out_orthF2 hZ
     (CFSG.LieType.SeitzGeneration.RankLE2.of_mulEquiv eS.symm
       (CFSG.HardMathSupport.Curtis.Coordinator.rankLE2_cat_G2 q hv hqp Nat.prime_three (by norm_num)))

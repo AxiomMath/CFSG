@@ -28,14 +28,14 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Mathieu
 theorem icode_eq (z : Int) : icode z = if 0 ≤ z then 2 * z.natAbs else 2 * z.natAbs + 1 := by
   cases z with
   | ofNat k =>
-    have h : (0 : Int) ≤ Int.ofNat k := Int.ofNat_nonneg k
+    have h : (0 : Int) ≤ Int.ofNat k := Int.natCast_nonneg k
     show k + k = _
-    rw [if_pos h]
+    rw [ite_eq_left h]
     simp only [Int.natAbs_ofNat']
     omega
   | negSucc k =>
     show k + 1 + (k + 1) + 1 = _
-    rw [if_neg (Int.not_le.2 (Int.negSucc_lt_zero k))]
+    rw [ite_eq_right (Int.not_le.2 (Int.negSucc_lt_zero k))]
     simp only [Int.natAbs_negSucc]
     omega
 
@@ -66,7 +66,7 @@ private theorem chkZ_iff (j : Nat) (z : Int) (ih : Bool) :
     chkZ j z ih = true ↔
       (z ≠ 0 ∧ (z.natAbs ≤ 2 ∨ z.natAbs < j + 3) ∧ (j < 2 ∨ 3 ≤ z.natAbs)) ∧ ih = true := by
   unfold chkZ
-  simp only [strictB_eq, bAnd_eq, bIf_eq, Nat.blt_eq, Nat.ble_eq, icode_shiftRight, icode_pos]
+  simp only [strictB_eq, bIf_eq, Nat.blt_eq, Nat.ble_eq, icode_shiftRight, icode_pos]
   by_cases h0 : z = 0
   · simp [h0]
   by_cases h1 : z.natAbs ≤ 2 <;> by_cases h2 : z.natAbs < j + 3 <;> by_cases h3 : j < 2 <;>
@@ -156,15 +156,15 @@ private theorem getD_append_pair (L : List (Nat → Nat)) (a b : Nat → Nat) (l
     (L ++ [a, b]).getD l id = if l < L.length then L.getD l id
       else if l = L.length then a else if l = L.length + 1 then b else id := by
   by_cases h : l < L.length
-  · rw [if_pos h, getD_append_left' _ _ _ h]
-  · rw [if_neg h, getD_append_right' _ _ _ (Nat.not_lt.1 h)]
+  · rw [ite_eq_left h, getD_append_left' _ _ _ h]
+  · rw [ite_eq_right h, getD_append_right' _ _ _ (Nat.not_lt.1 h)]
     obtain ⟨k, rfl⟩ : ∃ k, l = L.length + k := ⟨l - L.length, by omega⟩
     rw [Nat.add_sub_cancel_left]
     rcases k with _ | _ | k
     · simp
     · simp
-    · rw [if_neg (by omega), if_neg (by omega)]
-      simp [List.getD_cons_succ]
+    · rw [ite_eq_right (by omega), ite_eq_right (by omega)]
+      simp
 
 private theorem isPermN_getD_append {n : Nat} {L : List (Nat → Nat)} {a b : Nat → Nat}
     (hL : ∀ l, IsPermN n (L.getD l id)) (ha : IsPermN n a) (hb : IsPermN n b) (l : Nat) :
@@ -211,7 +211,7 @@ private theorem lettersFrom_isPermN {n : Nat} {gens : Int → Nat → Nat}
 
 theorem lettersFn_isPermN {n : Nat} {gens : Int → Nat → Nat}
     (hg : ∀ z : Int, z ≠ 0 → z.natAbs ≤ 2 → IsPermN n (gens z)) {ws : List (List Int)}
-    (hws : wordsOK ws 0 = true) {l : Nat} (hl : l < 2 * ws.length) :
+    (hws : wordsOK ws 0 = true) {l : Nat} (_hl : l < 2 * ws.length) :
     IsPermN n ((lettersFn n gens ws).getD l id) :=
   lettersFrom_isPermN hg ws 0 [] (fun l => by rw [List.getD_nil]; exact isPermN_id n) hws l
 
@@ -225,7 +225,7 @@ private theorem letterP_big (nw pm A Ai B Bi LT : Nat) {z : Int} (hz : 3 ≤ z.n
       blk LT nw pm (2 * (z.natAbs - 3) + if 0 ≤ z then 0 else 1) := by
   unfold letterP
   simp only [strictN_eq, nIf_eq, Nat.ble_eq, icode_shiftRight, icode_land_one]
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
   congr 1
 
 private theorem enc_lt_of_isPermN {n w : Nat} (hw : n < 2 ^ w) {g : Nat → Nat} (hg : IsPermN n g) :
@@ -242,7 +242,7 @@ private theorem fd_letterTable {n w : Nat} (hw : n < 2 ^ w) {L : List (Nat → N
 private theorem fd_letterP {n w A Ai B Bi : Nat} {gens : Int → Nat → Nat} (hw : n < 2 ^ w)
     (hA : ∀ x < n, gens 1 x = fd w A x) (hAi : ∀ x < n, gens (-1) x = fd w Ai x)
     (hB : ∀ x < n, gens 2 x = fd w B x) (hBi : ∀ x < n, gens (-2) x = fd w Bi x)
-    {L : List (Nat → Nat)} (hL : ∀ l, IsPermN n (L.getD l id)) {j : Nat} (hlen : L.length = 2 * j)
+    {L : List (Nat → Nat)} (hL : ∀ l, IsPermN n (L.getD l id)) {j : Nat} (_hlen : L.length = 2 * j)
     {z : Int} (hz0 : z ≠ 0) (hz : z.natAbs ≤ 2 ∨ z.natAbs < j + 3) {LT : Nat}
     (hLT : LT = enc (n * w) (fun l => enc w (L.getD l id) n) (2 * j)) {x : Nat} (hx : x < n) :
     fd w (letterP (n * w) (mask (n * w)) A Ai B Bi LT z) x = letFn gens L z x := by
@@ -250,7 +250,7 @@ private theorem fd_letterP {n w A Ai B Bi : Nat} {gens : Int → Nat → Nat} (h
   · have hz' : z = 1 ∨ z = -1 ∨ z = 2 ∨ z = -2 := by omega
     have hlet : letFn gens L z x = gens z x := by
       unfold letFn
-      rw [if_pos h]
+      rw [ite_eq_left h]
     rw [hlet]
     obtain ⟨e1, e2, e3, e4⟩ := letterP_small (n * w) (mask (n * w)) A Ai B Bi LT
     rcases hz' with rfl | rfl | rfl | rfl
@@ -261,15 +261,15 @@ private theorem fd_letterP {n w A Ai B Bi : Nat} {gens : Int → Nat → Nat} (h
   · rw [letterP_big _ _ _ _ _ _ _ (by omega), blk_eq]
     have hzj : z.natAbs - 3 < j := by omega
     unfold letFn
-    rw [if_neg h]
+    rw [ite_eq_right h]
     by_cases hp : 0 ≤ z
     · have hp' : 0 < z := by omega
-      rw [if_pos hp, if_pos hp', Nat.add_zero]
+      rw [ite_eq_left hp, ite_eq_left hp', Nat.add_zero]
       change fd w (fd (n * w) LT (2 * (z.natAbs - 3))) x = _
       rw [hLT]
       exact fd_letterTable hw hL (by omega) hx
     · have hp' : ¬ 0 < z := by omega
-      rw [if_neg hp, if_neg hp']
+      rw [ite_eq_right hp, ite_eq_right hp']
       change fd w (fd (n * w) LT (2 * (z.natAbs - 3) + 1)) x = _
       rw [hLT]
       exact fd_letterTable hw hL (by omega) hx
@@ -339,9 +339,9 @@ private theorem letterTable_append {n w : Nat} (hw : n < 2 ^ w) {L : List (Nat �
     refine enc_congr fun l hl => ?_
     rw [getD_append_left' _ _ _ (by omega)]
   have eW : (L ++ [W, Wi]).getD (2 * j) id = W := by
-    rw [getD_append_pair, if_neg (by omega), if_pos (by omega)]
+    rw [getD_append_pair, ite_eq_right (by omega), ite_eq_left (by omega)]
   have eWi : (L ++ [W, Wi]).getD (2 * j + 1) id = Wi := by
-    rw [getD_append_pair, if_neg (by omega), if_neg (by omega), if_pos (by omega)]
+    rw [getD_append_pair, ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left (by omega)]
   have h1 : enc (n * w) (fun l => enc w ((L ++ [W, Wi]).getD l id) n) (2 * j + 1) =
       enc (n * w) (fun l => enc w (L.getD l id) n) (2 * j) + enc w W n * 2 ^ (n * w * (j + j)) := by
     rw [enc_succ, ← e0, eW, ← Nat.two_mul]

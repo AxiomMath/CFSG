@@ -148,7 +148,7 @@ theorem eq_one_of_r0Aut_pow_comm
 theorem exists_conj_r0
     {σ : MulAut W11} (hσ : σ ∈ img11 KSp ⊔ zpowers r0Aut) (h3 : σ ^ 3 = 1) (h1 : σ ≠ 1) :
     ∃ g ∈ img11 KSp, ∃ j : ℕ, (j = 1 ∨ j = 2) ∧ σ = g * r0Aut ^ j * g⁻¹ := by
-  haveI : Finite (MulAut W11) :=
+  have : Finite (MulAut W11) :=
     Finite.of_injective (fun f : MulAut W11 => (⇑f : W11 → W11)) fun f g h => MulEquiv.ext (congrFun h)
   have hnorm : zpowers r0Aut ≤ normalizer ((img11 KSp : Subgroup (MulAut W11)) : Set _) := by
     rw [Subgroup.zpowers_le]

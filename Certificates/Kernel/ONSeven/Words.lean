@@ -74,7 +74,7 @@ theorem WW_inv' {w : List Int} (hw : LetM 7 w) {x : Nat} (hx : x < 245520) :
   have h := WW_inv (letM_invW hw) hx
   have e : invW (invW w) = w := by
     unfold invW
-    simp [List.map_reverse, Function.comp_def]
+    simp [List.map_reverse]
   rwa [e] at h
 
 theorem pcomp_get {t u : Array Nat} {i : Nat} (hi : i < 245520) :
@@ -87,8 +87,8 @@ theorem inv_get {w : List Int} (hw : LetM 7 w) {y : Nat} (hy : y < 245520) :
 
 theorem pisInv_word {w : List Int} (hw : LetM 7 w) :
     pisInv 245520 (onSevenArr w) (pinvCand 245520 (onSevenArr w)) = true :=
-  CertificateChecks.KernelSpor.ON5K.pisInv_of (arr_size w) (fun x hx => arr_get hw hx)
-    fun x hx => ⟨WW_lt hx, WW_inv hw hx⟩
+  CertificateChecks.KernelSpor.ON5K.pisInv_of (arr_size w) (fun _x hx => arr_get hw hx)
+    fun _x hx => ⟨WW_lt hx, WW_inv hw hx⟩
 
 end CertificateChecks.KernelSpor.ONS
 

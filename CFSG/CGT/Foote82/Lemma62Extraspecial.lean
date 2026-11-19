@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {G L K : Subgroup (GLV V)} {s : GLV V} {p : ℕ}
 
+omit [Finite V] in
 private theorem mem_fixedSpace_zpowers_iff {g : GLV V} {v : V} :
     v ∈ fixedSpace (Subgroup.zpowers g) ↔ g v = v := by
   constructor
@@ -23,8 +24,10 @@ private theorem mem_fixedSpace_zpowers_iff {g : GLV V} {v : V} :
       Subgroup.zpowers_le.2 (MulAction.mem_stabilizer_iff.2 h) ht
     exact MulAction.mem_stabilizer_iff.1 this
 
+omit [Finite V] in
 private theorem glv_mul_apply (a b : GLV V) (v : V) : (a * b) v = a (b v) := rfl
 
+omit [Finite V] in
 private theorem glv_inv_apply_of_apply_eq {a : GLV V} {v : V} (h : a v = v) : a⁻¹ v = v := by
   have : a⁻¹ v = a⁻¹ (a v) := by rw [h]
   rw [this]
@@ -129,7 +132,7 @@ theorem Core62.centralizes_fixedSpace (hc : Core62 G L K s p) {e : GLV V} (he : 
   have hLfrat : L ≤ Subgroup.normalizer (frat K : Set (GLV V)) :=
     hc.conf.L_le.trans (normalizer_le_normalizer_frat K)
   have hLM : L ≤ Subgroup.normalizer ((M₀ ⊔ frat K : Subgroup (GLV V)) : Set (GLV V)) :=
-    (le_inf hLM₀ hLfrat).trans (Subgroup.normalizer_inf_normalizer_le_normalizer_sup _ _)
+    (le_inf hLM₀ hLfrat).trans (Subgroup.inf_normalizer_le_normalizer_sup _ _)
   have hMK : M₀ ⊔ frat K = K := by
     rcases hc.irreducible (M₀ ⊔ frat K) le_sup_right (sup_le hM₀K (frat_le K)) hLM with h | h
     · exact absurd (h ▸ (Subgroup.mem_sup_left heM₀)) heK
@@ -141,7 +144,7 @@ theorem Core62.centralizes_fixedSpace (hc : Core62 G L K s p) {e : GLV V} (he : 
 
 private theorem Core62.false_of_pow_four_le (hc : Core62 G L K s p) (h4 : p ^ 4 ≤ Nat.card K) :
     False := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   have hp := hc.prime
   have hfrat : Nat.card (frat K) = p := hc.card_frat
   have hKne : K ≠ ⊥ := by
@@ -150,7 +153,7 @@ private theorem Core62.false_of_pow_four_le (hc : Core62 G L K s p) (h4 : p ^ 4 
     rw [hfrat, hK, Subgroup.card_bot] at h1
     have := hp.two_le
     omega
-  obtain ⟨k₀, hk₀K, hk₀⟩ := SetLike.exists_of_lt (frat_lt hc.pgroup hKne)
+  obtain ⟨k₀, hk₀K, hk₀⟩ := _root_.IsConcreteLE.exists_of_lt (frat_lt hc.pgroup hKne)
   obtain ⟨d₀, hd₀, hinv₀⟩ := hc.exists_inverted k₀ hk₀K
   have hk₁K : k₀ * d₀ ∈ K := K.mul_mem hk₀K (frat_le K hd₀)
   have hk₁ : k₀ * d₀ ∉ frat K := fun h => hk₀ (by
@@ -221,7 +224,7 @@ private theorem Core62.false_of_pow_four_le (hc : Core62 G L K s p) (h4 : p ^ 4 
   have hAK : A ≤ K := by
     rw [hA, Subgroup.closure_le]
     rintro x (rfl | rfl) <;> assumption
-  haveI hAcomm : IsMulCommutative A := by
+  have hAcomm : IsMulCommutative A := by
     rw [hA]
     refine Subgroup.isMulCommutative_closure ?_
     intro x hx y hy hxy
@@ -325,7 +328,7 @@ private theorem Core62.false_of_pow_four_le (hc : Core62 G L K s p) (h4 : p ^ 4 
   omega
 
 theorem Core62.card_eq (hc : Core62 G L K s p) : Nat.card K = p ^ 3 := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   have hp := hc.prime
   have hfrat : Nat.card (frat K) = p := hc.card_frat
   obtain ⟨n, hn⟩ := hc.pgroup.exists_card_eq
@@ -349,7 +352,7 @@ theorem Core62.card_eq (hc : Core62 G L K s p) : Nat.card K = p ^ 3 := by
       · simp at hlt
       · rfl
     subst hn2
-    haveI hcomm : IsMulCommutative K := IsPGroup.isMulCommutative_of_card_eq_prime_sq hn
+    have hcomm : IsMulCommutative K := IsPGroup.isMulCommutative_of_card_eq_prime_sq hn
     have h1 : frat K = ⊥ := by
       rw [hc.frat_eq_commutator, eq_bot_iff, Subgroup.commutator_le]
       intro a ha b hb

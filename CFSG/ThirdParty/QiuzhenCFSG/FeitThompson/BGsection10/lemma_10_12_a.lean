@@ -27,12 +27,12 @@ private theorem CFSG.section10_alpha_sigma_primes_disjoint_of_nonconj
   classical
   rw [Set.disjoint_left]
   intro p hpα hpσH
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let P : Sylow p.val M := Classical.choice (Sylow.nonempty (p := p.val) (G := M))
   let PG : Subgroup G := section10AmbientSylowSubgroup M P
   have hPGp : IsPGroup p.val PG := by
     change IsPGroup p.val ((P : Subgroup M).map M.subtype)
-    exact IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup' M.subtype
+    exact IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup M.subtype
   have hPG_le_M : PG ≤ M := by
     simpa [PG] using section10_ambient_sylow_le_base (G := G) P
   rcases section10_exists_conjBy_le_of_isPGroup_of_sigma

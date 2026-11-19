@@ -17,7 +17,7 @@ theorem burnsideSp4H_ringHom_eq {F : Type} [Field F] [Finite F] [CharP F 2] {σ 
     (hσ : ∀ x, σ (σ x) = x) (hτ : ∀ x, τ (τ x) = x) (hσ1 : ∃ x, σ x ≠ x)
     (hτ1 : ∃ x, τ x ≠ x) : ∀ x, σ x = τ x := by
   classical
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hcomm : ∀ (ρ : F →+* F) (r : ZMod 2),
       ρ (algebraMap (ZMod 2) F r) = algebraMap (ZMod 2) F r := fun ρ r =>
     DFunLike.congr_fun
@@ -33,10 +33,10 @@ theorem burnsideSp4H_ringHom_eq {F : Type} [Field F] [Finite F] [CharP F 2] {σ 
   have hne : ∀ ρ : F →+* F, (∃ x, ρ x ≠ x) → e ρ ≠ 1 := fun ρ ⟨x, hx⟩ h1 => hx (by
     have := congrArg (fun φ : F ≃ₐ[ZMod 2] F => φ x) h1
     simpa [he] using this)
-  haveI : Finite (F ≃ₐ[ZMod 2] F) :=
+  have : Finite (F ≃ₐ[ZMod 2] F) :=
     Finite.of_injective (fun φ : F ≃ₐ[ZMod 2] F => (φ : F → F)) fun a b hab =>
       AlgEquiv.ext (congrFun hab)
-  haveI : Fintype (F ≃ₐ[ZMod 2] F) := Fintype.ofFinite _
+  have : Fintype (F ≃ₐ[ZMod 2] F) := Fintype.ofFinite _
   by_contra hστ
   push Not at hστ
   obtain ⟨x₀, hx₀⟩ := hστ

@@ -56,7 +56,7 @@ public theorem lemma115_BOne_coprime_card
     {X : Type u} [Group X] [Finite X]
     (B : Subgroup X) {f : ℕ} (hf : f.Prime) :
     Nat.Coprime f (Nat.card (lemma115BOne B f)) := by
-  letI : Fact f.Prime := ⟨hf⟩
+  let : Fact f.Prime := ⟨hf⟩
   rw [show Nat.card (lemma115BOne B f) = Nat.card (pPrimeCore f B) by
     simpa [lemma115BOne] using
       (Subgroup.card_map_of_injective
@@ -69,7 +69,7 @@ public theorem lemma115_BOne_normalized
     {B P : Subgroup X} {f : ℕ}
     (hPnorm : P ≤ Subgroup.normalizer (B : Set X)) :
     P ≤ Subgroup.normalizer (lemma115BOne B f : Set X) := by
-  letI : (pPrimeCore f B).Characteristic := pPrimeCore_characteristic
+  let : (pPrimeCore f B).Characteristic := pPrimeCore_characteristic
   exact hPnorm.trans
     (section8_normalizer_map_subtype_le_of_characteristic (H := B)
       (K := pPrimeCore f B))
@@ -82,7 +82,7 @@ public theorem lemma115_BOne_inf_centralizer_eq_bot
     (hf : f.Prime)
     (hH : IsPGroup f ↥(B ⊓ Subgroup.centralizer (P : Set X))) :
     lemma115BOne B f ⊓ Subgroup.centralizer (P : Set X) = ⊥ := by
-  letI : Fact f.Prime := ⟨hf⟩
+  let : Fact f.Prime := ⟨hf⟩
   let O : Subgroup X := lemma115BOne B f
   let H : Subgroup X := B ⊓ Subgroup.centralizer (P : Set X)
   let I : Subgroup X := O ⊓ Subgroup.centralizer (P : Set X)
@@ -117,15 +117,15 @@ public theorem lemma115_pPrimeCore_ne_bot_of_cyclic_not_isPGroup
     pPrimeCore p G ≠ ⊥ := by
   intro hcore
   apply hnot
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsCyclic G := hcyc
-  letI : IsMulCommutative G := hcyc.isMulCommutative
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsCyclic G := hcyc
+  let : IsMulCommutative G := hcyc.isMulCommutative
   let pPrime : Nat.Primes := ⟨p, hp⟩
   have htop : IsPGroup p (⊤ : Subgroup G) := by
     apply isPGroup_of_isPiSubgroup_singleton (q := pPrime)
     intro q hq
     by_contra hqne
-    letI : Fact q.val.Prime := ⟨q.property⟩
+    let : Fact q.val.Prime := ⟨q.property⟩
     let Q : Sylow q.val G := default
     have hqG : q.val ∣ Nat.card G := by simpa using hq
     have hQne : (Q : Subgroup G) ≠ ⊥ := Q.ne_bot_of_dvd_card hqG
@@ -135,7 +135,7 @@ public theorem lemma115_pPrimeCore_ne_bot_of_cyclic_not_isPGroup
         apply hqne
         exact Subtype.ext hpq.symm)
     have hQcop : Nat.Coprime p (Nat.card (Q : Subgroup G)) := by
-      rcases Q.isPGroup'.exists_card_eq with ⟨n, hn⟩
+      rcases Q.isPGroup.exists_card_eq with ⟨n, hn⟩
       rw [hn]
       exact hpq.pow_right n
     have hQbot : (Q : Subgroup G) = ⊥ :=
@@ -152,8 +152,8 @@ public theorem lemma115_BOne_ne_bot_of_cyclic_subgroup_not_isPGroup
     (hTB : T ≤ B) (hTcyc : IsCyclic T)
     (hTnot : ¬ IsPGroup f T) :
     lemma115BOne B f ≠ ⊥ := by
-  letI : Fact f.Prime := ⟨hf⟩
-  letI : IsMulCommutative B := hBcomm
+  let : Fact f.Prime := ⟨hf⟩
+  let : IsMulCommutative B := hBcomm
   let K : Subgroup X := (pPrimeCore f T).map T.subtype
   have hKne : K ≠ ⊥ := by
     intro hKbot
@@ -165,7 +165,7 @@ public theorem lemma115_BOne_ne_bot_of_cyclic_subgroup_not_isPGroup
   have hKleB : K ≤ B := by
     exact (Subgroup.map_subtype_le (pPrimeCore f T)).trans hTB
   have hKnormal : (K.subgroupOf B).Normal := by infer_instance
-  letI : (K.subgroupOf B).Normal := hKnormal
+  let : (K.subgroupOf B).Normal := hKnormal
   have hKcop : Nat.Coprime f (Nat.card K) := by
     rw [show Nat.card K = Nat.card (pPrimeCore f T) by
       simpa [K] using

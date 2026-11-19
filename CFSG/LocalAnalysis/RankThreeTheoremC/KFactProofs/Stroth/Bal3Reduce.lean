@@ -130,7 +130,7 @@ theorem Lemma212Config.reduce [hp : Fact p.Prime] (hodd : p ≠ 2) {P : Sylow p 
   set O : Subgroup H := primeComplementCore (G := H) p with hOdef
   have hO : p.Coprime (Nat.card O) := primeComplementCore_coprime p
   set π := QuotientGroup.mk' O with hπ
-  have hPp : IsPGroup p (P : Subgroup H) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup H) := P.isPGroup
   have hDp : IsPGroup p D := elementary_isPGroup p D h.elem
   have hinj : ∀ a ∈ (P : Subgroup H), ∀ b ∈ (P : Subgroup H), π a = π b → a = b :=
     fun a ha b hb hab => eq_of_mk_eq_of_isPGroup hp' O hO hPp ha hb hab

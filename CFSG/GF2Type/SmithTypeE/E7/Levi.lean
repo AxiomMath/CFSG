@@ -32,7 +32,7 @@ theorem isSimpleGroup_timmesfeldOmegaPlus_six : IsSimpleGroup (timmesfeldOmegaPl
 
 variable {G : Type} [Group G]
 
-theorem levi_of_le_M_E7 [Finite G] (S : Setting G) (hw : S.width = 16)
+theorem levi_of_le_M_E7 [Finite G] (S : Setting G) (_hw : S.width = 16)
     (hU : Nonempty (S.Mbar ≃* timmesfeldOmegaPlus 6)) {N : Subgroup G} (hNM : N ≤ S.M)
     (hN : Nonempty (N ≃* timmesfeldOmegaPlus 6)) (hNQ : ¬ N ≤ S.QG) :
     (∀ n ∈ N, n ∈ S.QG → n = 1) ∧ (toMbar S hNM).range = ⊤ := by

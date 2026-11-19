@@ -86,7 +86,7 @@ theorem heNoE16_of_order (h : He_order) :
     eq_top_of_transfer (G := G) (H := CFSG.Blueprint.NativeSporadic.He) (gH := inferInstance) e
       (2 ^ 10 * 3 ^ 2 * 5 * 7) h _ hdvd
   have hEnorm : E.Normal := Subgroup.normalizer_eq_top_iff.1 hNtop
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.He :=
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.He :=
     CFSG.Sporadic.He.fam_he_simplicity.2.2
   refine false_of_normal_card (G := G) (H := CFSG.Blueprint.NativeSporadic.He)
     (gH := inferInstance) e E hEnorm hE16 ?_

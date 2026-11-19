@@ -341,7 +341,7 @@ theorem rowData_of {p : ℕ} {U : Type} [AddCommGroup U] [Module (ZMod p) U] {A 
   let H : Subgroup (owEm_GL 4) := Subgroup.closure {g | ∃ s < S.length, g = gu s}
   have hguv : ∀ s < S.length, (gu s : Mat 4) = toM 4 (S.getD s []) := fun s hs => by simp [gu, hs, owEm_unit]
   have hgu : ∀ s < S.length, gu s ∈ H ∧ (gu s)⁻¹ = gu s := fun s hs =>
-    ⟨Subgroup.subset_closure ⟨s, hs, rfl⟩, by simp only [gu, hs, dif_pos, owEm_unit_inv]⟩
+    ⟨Subgroup.subset_closure ⟨s, hs, rfl⟩, by simp only [gu, hs, dite_eq_left, owEm_unit_inv]⟩
   have htab' : ∀ i < V.length, ∀ s < S.length, (tab.getD i []).getD s 0 < V.length ∧
       (gu s : Mat 4) * Lm 4 V i * (gu s : Mat 4) = Lm 4 V ((tab.getD i []).getD s 0) := by
     intro i hi s hs
@@ -804,7 +804,7 @@ theorem en4_model {M : Subgroup (owEm_GL 4)} {r0 : owEm_GL 4} (hd : RowData M EN
     rcases hj with rfl | rfl | rfl
     · have h := en4_c0
       rw [er0, er2, e3, ea, eb] at h
-      simp only [List.getD_cons_zero, List.getD_cons_succ] at h
+      simp only [List.getD_cons_zero] at h
       exact ck51_core hd h (by omega) (by omega) (hd.wf _ (by omega)) h2r h3r h2v h3v
     · have h := en4_c1
       rw [er0, er2, e3, ea, eb] at h

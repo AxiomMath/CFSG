@@ -136,7 +136,7 @@ theorem three_le_pRank_diagonalTorus_sp {m : ℕ} (hm : 3 ≤ m) {F : Type} [Fie
     {q : ℕ} (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1) :
     3 ≤ CFSG.Open.pRank q (TauCeti.GLSymplecticFin.diagonalTorus F m) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hdvd' : q ∣ Nat.card Fˣ := by
     rw [Nat.card_units]
     exact hdvd

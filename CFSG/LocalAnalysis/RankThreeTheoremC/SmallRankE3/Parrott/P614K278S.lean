@@ -49,6 +49,7 @@ theorem card_le_27_of_dvd {P : Subgroup X} (hP : IsPGroup 3 P) (hdvd : Nat.card 
   calc 3 ^ k ≤ 3 ^ 3 := Nat.pow_le_pow_right (by norm_num) hk3
     _ = 27 := by norm_num
 
+omit [Finite X] in
 theorem eq_one_of_mem_of_mem {S U : Subgroup X} (hS : IsPGroup 2 S) (hU : ∀ u ∈ U, u ^ 3 = 1)
     {w : X} (hwS : w ∈ S) (hwU : w ∈ U) : w = 1 := by
   obtain ⟨m, hm⟩ := hS ⟨w, hwS⟩
@@ -78,7 +79,7 @@ theorem card_le_two_of_l34 (hO : KFactL34Outer) (hI : KFactL34Inner) {R : Sylow 
   obtain ⟨F, _, hF, ⟨ψ⟩⟩ := Tits.S3AmalgamBound.exists_equiv_projectiveSL_of_l34Index hd e
   obtain ⟨ι, hι, -, hιk⟩ := k1Core_exists_action h.centralizer_eq_bot ψ
   have hR27 : Nat.card (R : Subgroup X) ≤ 27 := by
-    refine card_le_27_of_dvd R.isPGroup' ?_
+    refine card_le_27_of_dvd R.isPGroup ?_
     rw [← CFSG.RankThree.PartTwo.KFacts.L34.card_mulAut hF,
       ← card_map_of_injective hι]
     exact card_subgroup_dvd_card _

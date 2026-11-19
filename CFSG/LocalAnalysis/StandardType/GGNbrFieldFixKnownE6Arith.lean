@@ -14,7 +14,7 @@ theorem two_lt_two_pow_div_of_dvd {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp
     rintro rfl
     simp at hn
   rw [Nat.mul_div_cancel_left m hp_pos]
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ 2 ^ m - 1 := by
     have h0 : ((2 ^ (p * m) - 1 : ℕ) : ZMod p) = 0 :=
       (ZMod.natCast_eq_zero_iff _ _).mpr hF

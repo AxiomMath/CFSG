@@ -34,7 +34,7 @@ theorem langRatRouteC_e6_pinned
       (by decide)]
     congr 2
     ext j
-    simp only [Set.mem_setOf_eq, CFSG.RankThree.PartOne.KE6.e6Nodes]
+    simp only [Set.mem_ofPred_eq, CFSG.RankThree.PartOne.KE6.e6Nodes]
     fin_cases j <;> decide
   · obtain ⟨v, μ, -, hpinned⟩ :=
       CFSG.LocalAnalysis.GLTheoremA.T171Sh.excTri_exists_pinned_of_pos hN hNL
@@ -48,7 +48,7 @@ theorem langRatRouteC_e6_pinned
       (by decide)]
     congr 2
     ext j
-    simp only [Set.mem_setOf_eq, CFSG.RankThree.PartOne.KE6.e6Nodes]
+    simp only [Set.mem_ofPred_eq, CFSG.RankThree.PartOne.KE6.e6Nodes]
     fin_cases j <;> decide
 
 theorem langRatRouteC_modelPerfect_e6

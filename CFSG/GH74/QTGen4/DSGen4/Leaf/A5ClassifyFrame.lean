@@ -139,7 +139,7 @@ theorem actHom_mk {P E K : Subgroup G} [(K.subgroupOf E).Normal]
 theorem exists_elemFrame [Finite G] {P E K : Subgroup G} (hs : IsElemSec K E) (hc : K.relIndex E = 16)
     (hPE : P ≤ Subgroup.normalizer (E : Set G)) (hPK : P ≤ Subgroup.normalizer (K : Set G)) :
     Nonempty (ElemFrame P E K) := by
-  haveI : (K.subgroupOf E).Normal := hs.normal_subgroupOf
+  have : (K.subgroupOf E).Normal := hs.normal_subgroupOf
   have hcomm : ∀ a b : ↥E ⧸ K.subgroupOf E, a * b = b * a := by
     intro a b
     induction a using QuotientGroup.induction_on with

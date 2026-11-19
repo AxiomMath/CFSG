@@ -30,7 +30,7 @@ private theorem q2cF4N_centerQuot_statedSp {X : Type} [Group X] {m k : ℕ}
     (hg : Function.Surjective g)
     (hker : g.ker ≤ Subgroup.center (CFSG.Open.StatedSp m K)) :
     Nonempty (X ⧸ Subgroup.center X ≃* CFSG.Open.StatedProj (CFSG.Open.StatedSp m K)) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hne' : (m, Fintype.card K) ≠ (2, 2) := fun h =>
     hne ⟨(Prod.mk.inj h).1, by rw [Nat.card_eq_fintype_card]; exact (Prod.mk.inj h).2⟩
   have hSpPerf : commutator (CFSG.Open.StatedSp m K) = ⊤ :=
@@ -72,7 +72,7 @@ theorem q2cF4_langN_not_psl5
       · obtain ⟨K', hfin, hne, g, hg, hker⟩ :=
           exists_spCover_of_spRange S hT i hinner (m := 2) le_rfl
             (fun K' hfin hcardK' => by
-              haveI := hfin
+              have := hfin
               obtain ⟨k, hk⟩ := card_subfield_eq_two_pow hch K'
               have h3 : 3 ≤ Nat.card ↥K' := hcardK' ▸ hQ
               have h4 : 4 ≤ Nat.card ↥K' := by
@@ -81,7 +81,7 @@ theorem q2cF4_langN_not_psl5
                 · interval_cases k <;> omega
                 · calc 4 = 2 ^ 2 := by norm_num
                     _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk2
-              haveI : CharP ↥K' 2 := ringChar.of_eq (by rw [ringChar_subfield' K', hch])
+              have : CharP ↥K' 2 := ringChar.of_eq (by rw [ringChar_subfield' K', hch])
               refine ⟨fun h => by omega, ?_⟩
               obtain ⟨Ψ, hΨker, hΨrange⟩ := spRange_f4_B2 h4
               rw [CFSG.RankThree.Chevalley.subsystemGroup_eq_iSup_rootSubgroup (τ := Tag.F4)
@@ -92,7 +92,7 @@ theorem q2cF4_langN_not_psl5
               rw [hr']
               show _ = rootSpan Tag.F4 ↥K' (componentRoots (rootCharHom a) i)
               rw [hroots])
-        haveI := hfin
+        have := hfin
         obtain ⟨k, hk⟩ := card_subfield_eq_two_pow hch K'
         have h3 : 3 ≤ Nat.card ↥K' := by
           have h2 : 2 ≤ Nat.card ↥K' := by
@@ -136,7 +136,7 @@ theorem q2cF4_langN_not_psl5
         exact (q2cF4N_labelIso_BA_false (d := 5) hiso).elim
       · obtain ⟨K', hfin, hK2, ⟨eR⟩⟩ :=
           exists_sp42_equiv_rationalComponent S hT i v hroots hinner (not_le.1 hQ) hqs
-        haveI := hfin
+        have := hfin
         have eA6 : ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ≃*
             alternatingGroup (Fin 6) :=
           eR.symm.trans (CFSG.SignalizerFunctorTheorem.NonLocal.commutatorSpTwoEquiv hK2)
@@ -173,7 +173,7 @@ theorem q2cF4_langN_not_psl5
         exact hne360 ((Nat.card_congr θ.toEquiv).symm.trans hcardR)
     · obtain ⟨K', hfin, hne, g, hg, hker⟩ := exists_spCover_of_spRange S hT i hinner (m := 3)
         (by norm_num) (fun K' hfin hcardK' => by
-          haveI := hfin
+          have := hfin
           obtain ⟨k, hk⟩ := card_subfield_eq_two_pow hch K'
           have hk0 : 0 < k := by
             rcases Nat.eq_zero_or_pos k with h0 | h0
@@ -191,7 +191,7 @@ theorem q2cF4_langN_not_psl5
           rw [hr']
           show _ = rootSpan Tag.F4 ↥K' (componentRoots (rootCharHom a) i)
           rw [hroots])
-      haveI := hfin
+      have := hfin
       obtain ⟨k, hk⟩ := card_subfield_eq_two_pow hch K'
       have hk1 : 1 ≤ k := by
         rcases Nat.eq_zero_or_pos k with h0 | h0

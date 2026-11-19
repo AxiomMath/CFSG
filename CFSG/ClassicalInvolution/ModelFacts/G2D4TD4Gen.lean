@@ -91,10 +91,8 @@ theorem toralSignsTD4_cover {a b c : Fin d4.rank → Kˣ} (ha : a ∈ toralSigns
     | exact Or.inr (Or.inl rfl)
     | exact Or.inr (Or.inr rfl)
     | exact Or.inr (Or.inr h3)
-    | exact Or.inr (Or.inr h3.symm)
     | exact Or.inr (Or.inr (by rw [h1]))
     | exact Or.inr (Or.inr (by rw [h2]))
-    | exact Or.inr (Or.inr (by rw [h3, h1]))
     | exact Or.inr (Or.inr (by rw [h4]))
     | exact Or.inr (Or.inr (by rw [h5]))
 

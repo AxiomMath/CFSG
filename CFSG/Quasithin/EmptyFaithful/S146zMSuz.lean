@@ -97,7 +97,7 @@ theorem solvable_normalizer_of_cyclic_complement (S : Sylow 2 J) {D : Subgroup J
   have hDN : D ≤ N := hSD ▸ le_sup_right
   set S' : Subgroup ↥N := (S : Subgroup J).subgroupOf N with hS'
   have hSn : S'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hSN).mpr le_rfl
-  have hS'p : IsPGroup 2 ↥S' := S.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hSN).symm
+  have hS'p : IsPGroup 2 ↥S' := S.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSN).symm
   have hS's : Group.IsSolvable ↥S' := by
     have : Group.IsNilpotent ↥S' := hS'p.isNilpotent
     infer_instance

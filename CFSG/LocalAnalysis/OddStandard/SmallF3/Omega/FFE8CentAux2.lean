@@ -14,12 +14,14 @@ open Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Cent_polar_sim {γ : V ≃ₗ[ZMod 3] V} {μ : (ZMod 3)ˣ}
     (hγ : IsSimilitude Q γ μ) (x y : V) :
     QuadraticMap.polar Q (γ x) (γ y) = (μ : ZMod 3) * QuadraticMap.polar Q x y := by
   rw [QuadraticMap.polar, QuadraticMap.polar, ← map_add, hγ (x + y), hγ x, hγ y]
   ring
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Cent_mult (γ : simGroup Q) :
     IsSimilitude Q (γ : V ≃ₗ[ZMod 3] V) 1 ∨ IsSimilitude Q (γ : V ≃ₗ[ZMod 3] V) (-1) := by
   obtain ⟨c, hc⟩ := γ.2
@@ -27,6 +29,7 @@ theorem ffOutFFE8Cent_mult (γ : simGroup Q) :
   · exact Or.inl hc
   · exact Or.inr hc
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Cent_simInGStar {γ : simGroup Q}
     (hγ : IsSimilitude Q (γ : V ≃ₗ[ZMod 3] V) 1) :
     SimInGStar (QuotientGroup.mk γ : ProjSim Q) := by
@@ -35,7 +38,8 @@ theorem ffOutFFE8Cent_simInGStar {γ : simGroup Q}
   rw [projOrthToProjSim_toProj]
   exact congrArg QuotientGroup.mk (Subtype.ext rfl)
 
-private lemma fk3_conj_apply_of_mul_eq {e e'' : OGroup Q} {δ : simGroup Q}
+omit [FiniteDimensional (ZMod 3) V] in
+private lemma fk3_conj_apply_of_mul_eq [FiniteDimensional (ZMod 3) V] {e e'' : OGroup Q} {δ : simGroup Q}
     (h : δ⁻¹ * orthToSim Q e * δ = orthToSim Q e'') (v : V) :
     (e : V ≃ₗ[ZMod 3] V) ((δ : V ≃ₗ[ZMod 3] V) v) =
       (δ : V ≃ₗ[ZMod 3] V) ((e'' : V ≃ₗ[ZMod 3] V) v) := by
@@ -50,7 +54,8 @@ private lemma fk3_conj_apply_of_mul_eq {e e'' : OGroup Q} {δ : simGroup Q}
   simpa only [LinearEquiv.mul_apply] using
     congrArg (fun g : V ≃ₗ[ZMod 3] V => g v) hconj
 
-private lemma fk3_conj_apply_of_mul_eq_neg {e e'' : OGroup Q} {δ : simGroup Q}
+omit [FiniteDimensional (ZMod 3) V] in
+private lemma fk3_conj_apply_of_mul_eq_neg [FiniteDimensional (ZMod 3) V] {e e'' : OGroup Q} {δ : simGroup Q}
     (h : δ⁻¹ * orthToSim Q e * δ = orthToSim Q e'' * orthToSim Q (piOrth Q)) (v : V) :
     (e : V ≃ₗ[ZMod 3] V) ((δ : V ≃ₗ[ZMod 3] V) v) =
       -((δ : V ≃ₗ[ZMod 3] V) ((e'' : V ≃ₗ[ZMod 3] V) v)) := by

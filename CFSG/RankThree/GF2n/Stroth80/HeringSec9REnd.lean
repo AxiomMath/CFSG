@@ -44,13 +44,14 @@ theorem conj_normalizer (g : G) (Y : Subgroup G) :
   Subgroup.map_normalizer_eq_of_bijective (f := (MulAut.conj g).toMonoidHom) Y
     (MulAut.conj g).bijective
 
+omit [Finite G] in
 theorem mem_of_comm_mem_Q {Y Q : Subgroup G} {q : ℕ} (h4 : 4 ≤ q) (hq2 : ∃ s : ℕ, q = 2 ^ s)
     (h : QuotSat Y Q (IsSLModel 2 q)) {c : G} (hcY : c ∈ Y) (hc : ∀ y ∈ Y, ⁅c, y⁆ ∈ Q) :
     c ∈ Q := by
   obtain ⟨hn, hmod⟩ := h
-  haveI := hn
+  have := hn
   obtain ⟨hcard, hsimple⟩ := isSLModel_two_data h4 hq2 hmod
-  haveI := hsimple
+  have := hsimple
   let cbar : ↥Y ⧸ Q.subgroupOf Y := QuotientGroup.mk ⟨c, hcY⟩
   have hcent : cbar ∈ Subgroup.center (↥Y ⧸ Q.subgroupOf Y) := by
     rw [Subgroup.mem_center_iff]
@@ -78,7 +79,7 @@ theorem mem_of_comm_mem_Q {Y Q : Subgroup G} {q : ℕ} (h4 : 4 ≤ q) (hq2 : ∃
     intro hbot
     rw [hbot] at hcent
     exact hne (Subgroup.mem_bot.mp hcent)
-  letI : CommGroup (↥Y ⧸ Q.subgroupOf Y) := Group.commGroupOfCenterEqTop hctop
+  let : CommGroup (↥Y ⧸ Q.subgroupOf Y) := Group.commGroupOfCenterEqTop hctop
   have hp := IsSimpleGroup.prime_card (α := ↥Y ⧸ Q.subgroupOf Y)
   rw [hcard] at hp
   have hq1 : q ≠ 1 := by omega
@@ -87,6 +88,7 @@ theorem mem_of_comm_mem_Q {Y Q : Subgroup G} {q : ℕ} (h4 : 4 ≤ q) (hq2 : ∃
     omega
   exact Nat.not_prime_mul hq1 hq2' hp
 
+omit [Finite G] in
 theorem normalizer_centMod {hQ : M ≤ Subgroup.normalizer (Q : Set G)} {Y : Subgroup G} {g : G}
     (hgM : g ∈ M) (hgY : g ∈ Subgroup.normalizer (Y : Set G)) :
     g ∈ Subgroup.normalizer (centMod M Q Y hQ : Set G) := by
@@ -108,6 +110,7 @@ theorem normalizer_centMod {hQ : M ≤ Subgroup.normalizer (Q : Set G)} {Y : Sub
   have := key g⁻¹ (M.inv_mem hgM) ((Subgroup.normalizer (Y : Set G)).inv_mem hgY) _ hz
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem centMod_le_normalizer {hQ : M ≤ Subgroup.normalizer (Q : Set G)} {Y K : Subgroup G}
     (hQK : Q ≤ K) (hKY : K ≤ Y) :
     centMod M Q Y hQ ≤ Subgroup.normalizer (K : Set G) :=
@@ -119,14 +122,17 @@ theorem centMod_le_normalizer {hQ : M ≤ Subgroup.normalizer (Q : Set G)} {Y K 
   ⨆ (g : G) (_ : g ∈ M) (_ : conjSubgroup g Y = Y) (_ : y ∈ conjSubgroup g (LB M Q B)),
     conjSubgroup g (LB M Q B ⊓ Y)
 
+omit [Finite G] in
 theorem DY_le_Y (M Q B Y : Subgroup G) (y : G) : DY M Q B Y y ≤ Y := by
   refine iSup_le fun g => iSup_le fun hg => iSup_le fun hgY => iSup_le fun hy => ?_
   exact (Subgroup.map_mono inf_le_right).trans hgY.le
 
+omit [Finite G] in
 theorem DY_le_Lgen (M Q B Y : Subgroup G) (y : G) : DY M Q B Y y ≤ Lgen M (LB M Q B) := by
   refine iSup_le fun g => iSup_le fun hg => iSup_le fun hgY => iSup_le fun hy => ?_
   exact (Subgroup.map_mono inf_le_left).trans (le_iSup₂_of_le g hg le_rfl)
 
+omit [Finite G] in
 theorem LB_inf_Y_le_DY (M Q B Y : Subgroup G) {y : G} (hy : y ∈ LB M Q B) :
     LB M Q B ⊓ Y ≤ DY M Q B Y y := by
   have h1 : y ∈ conjSubgroup (1 : G) (LB M Q B) := by rw [conjSubgroup_one]; exact hy

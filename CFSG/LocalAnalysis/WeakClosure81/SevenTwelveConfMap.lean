@@ -27,7 +27,7 @@ theorem sevenTwelve_map_conjSubgroup (φ : X →* X') (A : Subgroup X) (g : X) :
   congr 1
   ext x
   simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, map_inv, MulAut.conj_inv_apply,
-    MulAut.conj_apply, inv_inv, map_mul]
+    map_mul]
 
 theorem map_sevenTwelveGen (φ : X →* X') (S : Subgroup X) (g₂ g₃ : X) :
     (sevenTwelveGen S g₂ g₃).map φ = sevenTwelveGen (S.map φ) (φ g₂) (φ g₃) := by
@@ -54,7 +54,7 @@ private lemma sevenTwelveMap_conj_sq_eq_one {t g : X} (ht : t * t = 1) :
 
 private lemma sevenTwelveMap_commute_of_commutator_mem_ker {φ : X →* X'}
     (hcen : φ.ker ≤ Subgroup.center X) (hinv : ∀ z ∈ φ.ker, z * z = 1 → z = 1)
-    {a b : X} (ha : a * a = 1) (hb : b * b = 1) (hc : ⁅a, b⁆ ∈ φ.ker) :
+    {a b : X} (_ha : a * a = 1) (hb : b * b = 1) (hc : ⁅a, b⁆ ∈ φ.ker) :
     Commute a b := by
   have hcent : ⁅a, b⁆ ∈ Subgroup.center X := hcen hc
   have hbc : b * ⁅a, b⁆ = ⁅a, b⁆ * b := Subgroup.mem_center_iff.mp hcent b

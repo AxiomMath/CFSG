@@ -16,6 +16,7 @@ variable {G : Type*} [Group G] [Finite G] {P S Q W Z M D : Subgroup G} {g y z : 
 variable (h : QD P S Q W Z M D g y z)
 include h
 
+omit [Finite G] in
 theorem zg_ne_one : g * z * g⁻¹ ≠ 1 := by
   intro h1
   apply h.hz1
@@ -23,6 +24,7 @@ theorem zg_ne_one : g * z * g⁻¹ ≠ 1 := by
   rw [this, h1]
   group
 
+omit [Finite G] in
 theorem cent_V_of_three {T : G} (hTV : T ∈ Subgroup.normalizer ((Z ⊔ conjSub g Z : Subgroup G) : Set G))
     (hTZ : ∀ s ∈ Z, T * s = s * T) (hT3 : T ^ 3 = 1) :
     ∀ v ∈ Z ⊔ conjSub g Z, T * v * T⁻¹ = v := by

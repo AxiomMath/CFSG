@@ -31,8 +31,8 @@ private theorem Zv_add_two_le_pCoreOf {a f : ℕ}
   have h := h0'.le_Gw
   refine h.trans (win_mono (a := (ε + 2) - (b₀ : ℤ)) (b := (ε + 2) + (b₀ : ℤ))
     (a' := ε + b₀ + 1) (b' := ε + b₀ + 2) ?_ ?_)
-  · push_cast; omega
-  · push_cast; omega
+  · omega
+  · omega
 
 private theorem Zv_two_mul_le_pCoreOf {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {ε : ℤ} {b₀ b : ℕ} (hb : b = b₀ + 1) (hb2 : 2 ≤ b)
@@ -45,8 +45,8 @@ private theorem Zv_two_mul_le_pCoreOf {a f : ℕ}
   have h := h0'.le_Gw
   refine h.trans (win_mono (a := (ε + 2 * (b : ℤ)) - (b₀ : ℤ))
     (b := (ε + 2 * (b : ℤ)) + (b₀ : ℤ)) (a' := ε + 1 + b) (b' := ε + 2 + b) ?_ ?_)
-  · push_cast; omega
-  · push_cast; omega
+  · omega
+  · omega
 
 private theorem Lv_le_sup_Zv_pair
     {a f : ℕ} (hfr : Frame L1 L2 S a f) {ε : ℤ} {b₀ b : ℕ} (hb : b = b₀ + 1)
@@ -79,7 +79,7 @@ private theorem Lv_le_sup_Zv_pair
     have h := hle.trans (t.Qv_le_Gv hfr c).2
     refine hA0.not_le_Gv ?_
     dsimp only [A, c] at h ⊢
-    convert h using 2 <;> omega
+    convert h using 2; omega
   have hB0 : t.IsFixRadius (ε + 2 * b) b₀ := by
     have h := IsFixRadius.shift t h₀ (b : ℤ)
     rwa [show ε + 2 * (b : ℤ) = ε + 2 * b by ring] at h
@@ -88,7 +88,7 @@ private theorem Lv_le_sup_Zv_pair
     have h := hle.trans (t.Qv_le_Gv hfr c).1
     refine IsFixRadius.not_le_Gv_sub t hB0 ?_
     dsimp only [B, c] at h ⊢
-    convert h using 2 <;> omega
+    convert h using 2; omega
   have hAGv : A ≤ t.Gv c :=
     (hA.trans (pCoreOf_le 2 _)).trans
       (win_le_qv (a := c - 1) (b := c) (i := c) (by omega) le_rfl)
@@ -140,7 +140,7 @@ private theorem sup_Zv_pair_le_Lv {a f : ℕ}
 
 private theorem pCoreOf_le_centralizer_Zv_pair
     {a f : ℕ} (hfr : Frame L1 L2 S a f) {ε : ℤ} {n b : ℕ}
-    (h : t.IsMaxArc ε n) (hn : n = 2 * b + 2) (hb2 : 2 ≤ b) :
+    (_h : t.IsMaxArc ε n) (hn : n = 2 * b + 2) (hb2 : 2 ≤ b) :
     pCoreOf 2 (t.Gw ε (ε + n)) ≤
       centralizer (((t.Zv (ε + 2) ⊔ t.Zv (ε + 2 * b)) : Subgroup G) : Set G) := by
   have hQ : pCoreOf 2 (t.Gw ε (ε + n)) ≤ t.Gw ε (ε + n) := pCoreOf_le 2 _
@@ -240,7 +240,7 @@ private theorem Kc_le_sup_Zv_pair
 
 
 private theorem Lv_le_sup_normalizer_zpowers
-    {a f : ℕ} (hfr : Frame L1 L2 S a f) {v : ℤ} {k : G}
+    {a f : ℕ} (_hfr : Frame L1 L2 S a f) {v : ℤ} {k : G}
     (hkK : k ∈ t.K) (hodd : Odd (orderOf k))
     (hcent : ∀ l ∈ t.Lv v, ⁅k, l⁆ ∈ t.Qv v) :
     t.Lv v ≤ (t.Gv v ⊓ normalizer ((Subgroup.zpowers k : Subgroup G) : Set G)) ⊔ t.Qv v := by
@@ -277,6 +277,7 @@ private theorem Lv_le_sup_normalizer_zpowers
   rw [hl_eq]
   exact Subgroup.mul_mem_sup ⟨hlnGv, hlnN⟩ ((t.Qv v).inv_mem hnQ)
 
+omit [Finite G] in
 private theorem reflection_image_facts {w : ℤ} {X : Subgroup G} {y : G}
     (hyK : y ∈ normalizer (t.K : Set G))
     (hQv : (t.Qv w).map (MulAut.conj y).toMonoidHom = t.Qv w)
@@ -311,8 +312,8 @@ theorem IsFixRadius.Lv_add_le_centralizer
     refine t.le_pCoreOf_Gw hfr (by omega) (t.isPGroup_Zv u) ?_
     refine hd.le_Gw.trans (win_mono (a := u - d) (b := u + d)
       (a' := (u + d) - 1) (b' := u + d) ?_ ?_)
-    · push_cast; omega
-    · push_cast; omega
+    · omega
+    · omega
   have hXK : t.K ≤ normalizer (t.Zv u : Set G) :=
     (t.K_le_Gv u).trans (t.Gv_le_normalizer_Zv u)
   have hXQ : ¬ t.Zv u ≤ t.Qv (u + d) := by
@@ -351,7 +352,7 @@ theorem IsFixRadius.Lv_sub_le_centralizer
     refine t.le_pCoreOf_Gw hfr (by omega) (t.isPGroup_Zv u) ?_
     refine hd.le_Gw.trans (win_mono (a := u - d) (b := u + d)
       (a' := u - d) (b' := (u - d) + 1) le_rfl ?_)
-    push_cast; omega
+    omega
   have hXK : t.K ≤ normalizer (t.Zv u : Set G) :=
     (t.K_le_Gv u).trans (t.Gv_le_normalizer_Zv u)
   have hXQ : ¬ t.Zv u ≤ t.Qv (u - d) := by
@@ -421,7 +422,7 @@ theorem IsFixRadius.Zv_le_and_lt
   have hleGv : t.Zv (ε + 1) ≤ t.Gv ((ε + 1) - (b₁ : ℤ) - 1) := by
     have h := hZleZ.trans (h₀.le_Gw.trans (win_mono (a := ε - (b₀ : ℤ))
       (b := ε + (b₀ : ℤ)) (a' := (ε + 1) - (b₁ : ℤ) - 1)
-      (b' := (ε + 1) - (b₁ : ℤ) - 1) (by push_cast; omega) (by push_cast; omega)))
+      (b' := (ε + 1) - (b₁ : ℤ) - 1) (by omega) (by omega)))
     rwa [win_self] at h
   exact IsFixRadius.not_le_Gv_sub t h₁ hleGv
 

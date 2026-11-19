@@ -26,7 +26,7 @@ theorem Ctx.three_pow_le (hC : Ctx Γ A) {n : ℕ} (hn : 3 ^ n ∣ Nat.card ↥�
   have hS := S.card_eq_multiplicity
   have hSle : Nat.card (S : Subgroup ↥Γ) ≤ 27 := by
     have := hC.three ((S : Subgroup ↥Γ).map Γ.subtype) (Subgroup.map_subtype_le _)
-      (S.isPGroup'.map Γ.subtype)
+      (S.isPGroup.map Γ.subtype)
     rwa [Subgroup.card_map_of_injective Γ.subtype_injective] at this
   have hv : n ≤ (Nat.card ↥Γ).factorization 3 :=
     (Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_three Nat.card_pos.ne').1 hn

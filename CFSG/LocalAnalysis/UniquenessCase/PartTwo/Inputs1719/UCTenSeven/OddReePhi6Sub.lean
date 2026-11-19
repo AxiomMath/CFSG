@@ -316,7 +316,7 @@ theorem tiCountHyp_subgroup {X : Type} [Group X] [Finite X] {T M : Subgroup X}
       have hrel' : P.relIndex M * M.index = P.index := Subgroup.relIndex_mul_index hPM
       rw [← hrel']
       exact dvd_mul_of_dvd_left h2 M.index
-    have hPP : IsPGroup 2 (P : Subgroup X) := P.isPGroup'
+    have hPP : IsPGroup 2 (P : Subgroup X) := P.isPGroup
     have hP'P : IsPGroup 2 (P.subgroupOf M) := hPP.comap_subtype
     let P' : Sylow 2 ↥M := hP'P.toSylow hidxP
     have hP'coe : (P' : Subgroup ↥M) = P.subgroupOf M := IsPGroup.toSylow_coe hP'P hidxP

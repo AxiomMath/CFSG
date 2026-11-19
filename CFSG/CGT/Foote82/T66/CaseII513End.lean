@@ -30,7 +30,7 @@ theorem sylow_equiv_of_max {Γ : Type*} [Group Γ] [Finite Γ] {G T : Subgroup �
     refine (Subgroup.eq_of_le_of_card_ge hSy ?_).symm
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTG).toEquiv]
     have h1 := hmax ((Sy : Subgroup ↥G).map G.subtype) (Subgroup.map_subtype_le _)
-      (Sy.isPGroup'.map _)
+      (Sy.isPGroup.map _)
     rwa [Subgroup.card_map_of_injective G.subtype_injective] at h1
   exact ⟨((Sylow.equiv P Sy).trans (MulEquiv.subgroupCongr hSyeq)).trans
     (Subgroup.subgroupOfEquivOfLe hTG)⟩
@@ -148,21 +148,26 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V] {G : Subgrou
 
 abbrev iotaA : ↥G →* Perm (Fin m) := (alternatingGroup (Fin m)).subtype.comp e.toMonoidHom
 
+omit [Finite V] in
 theorem iotaA_injective : Function.Injective (iotaA e) :=
   (alternatingGroup (Fin m)).subtype_injective.comp e.injective
 
+omit [Finite V] in
 theorem iotaA_mem (g : ↥G) : iotaA e g ∈ alternatingGroup (Fin m) := (e g).2
 
+omit [Finite V] in
 theorem iotaA_symm {σ : Perm (Fin m)} (hσ : σ ∈ alternatingGroup (Fin m)) :
     iotaA e (e.symm ⟨σ, hσ⟩) = σ := by
   simp
 
 abbrev imgA (H : Subgroup (GLV V)) : Subgroup (Perm (Fin m)) := (H.subgroupOf G).map (iotaA e)
 
+omit [Finite V] in
 theorem mem_imgA {H : Subgroup (GLV V)} {σ : Perm (Fin m)} :
     σ ∈ imgA e H ↔ ∃ g : ↥G, (g : GLV V) ∈ H ∧ iotaA e g = σ := by
   simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite V] in
 theorem imgA_inf_centralizer (t : ↥G) :
     imgA e (G ⊓ Subgroup.centralizer ({(t : GLV V)} : Set (GLV V))) =
       alternatingGroup (Fin m) ⊓ Subgroup.centralizer ({iotaA e t} : Set (Perm (Fin m))) := by
@@ -182,6 +187,7 @@ theorem imgA_inf_centralizer (t : ↥G) :
       exact Subgroup.mem_centralizer_singleton_iff.1 hc
     exact congrArg Subtype.val (iotaA_injective e hc')
 
+omit [Finite V] in
 theorem isComponentOf_imgA {L K : Subgroup (GLV V)} (hL : L ≤ G) (hK : K ≤ G)
     (h : IsComponentOf L K) : IsComponentOf (imgA e L) (imgA e K) := by
   rw [← CFSG.Assembly.isComponentOf_iff_open] at h ⊢

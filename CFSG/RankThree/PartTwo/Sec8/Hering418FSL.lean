@@ -51,7 +51,7 @@ theorem dichotomy_slThreeSixEven {G : Type} [Group G] [Finite G] {L : Subgroup G
   have hIso : ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = 2 ^ (3 * m) ∧
       Nonempty (L ⧸ aschbacherSolvableCore 3 L ≃* StatedSL 3 K) := ⟨K, hKf, hKfin, hK, ⟨φ⟩⟩
   have hm3 : 3 ≤ 3 * m := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h3 : (3 : K) ≠ 0 := Sec4.three_ne_zero_of_card Nat.prime_two (by norm_num) hK
   let e' : L ⧸ aschbacherSolvableCore 3 L ≃* Matrix.SpecialLinearGroup (Fin 3) K :=
     φ.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 3 K).symm
@@ -92,7 +92,7 @@ theorem dichotomy_slThreeSixEven {G : Type} [Group G] [Finite G] {L : Subgroup G
         ⟨e', hx, KFacts.isField_of_pow_three_eq_one le_rfl hτ3 hD⟩)⟩
 
 theorem kF418OuterOn_slThreeSixEven : KF418OuterOn (fun X _ => IsSLThreeSixEven X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro G _ _ L hL hl a b ha3 hb3 hab hb1 habz haN hbN hbC haC K hK n hn htype hKa hbk
   obtain ⟨k, hk, ⟨m, rfl⟩, he, F, hFf, hFfin, hF, ⟨φ⟩⟩ := hl
   have c := Cfg.of_model hK ha3 hb3 hab haN hbN hbC haC hKa

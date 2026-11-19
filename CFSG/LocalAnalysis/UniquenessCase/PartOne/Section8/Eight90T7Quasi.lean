@@ -21,13 +21,13 @@ private theorem r890t7q_isQuasisimple_of {T : Type} [Group T] [Finite T] {n : �
     (hF : CFSG.generalizedFitting T ≠ CFSG.pCore 2 T) :
     CFSG.Open.IsQuasisimple T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect T := Group.isPerfect_def.mpr hperf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect T := Group.isPerfect_def.mpr hperf
   let K : Subgroup T := CFSG.pCore 2 T
   let π : T →* T ⧸ K := QuotientGroup.mk' K
   have hker : π.ker = K := QuotientGroup.ker_mk' (N := K)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective K
-  haveI : IsSimpleGroup (T ⧸ K) :=
+  have : IsSimpleGroup (T ⧸ K) :=
     CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
   have hCenterBot : Subgroup.center (T ⧸ K) = ⊥ :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.FourteenEight.center_eq_bot_of_isSz hSz
@@ -46,7 +46,7 @@ private theorem r890t7q_isQuasisimple_of {T : Type} [Group T] [Finite T] {n : �
       rwa [hker] at h
     exact hFne (le_antisymm hFK hK_le_F)
   have hFmap_top : (CFSG.generalizedFitting T).map π = ⊤ := by
-    haveI : ((CFSG.generalizedFitting T).map π).Normal := hFmap_normal
+    have : ((CFSG.generalizedFitting T).map π).Normal := hFmap_normal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((CFSG.generalizedFitting T).map π) with h | h
     · exact absurd h hFmap_ne_bot
@@ -73,7 +73,7 @@ private theorem r890t7q_isQuasisimple_of {T : Type} [Group T] [Finite T] {n : �
   have hcenter_le : Subgroup.center T ≤ K := by
     have hCnorm : ((Subgroup.center T).map π).Normal :=
       (inferInstance : (Subgroup.center T).Normal).map π hπ
-    haveI : ((Subgroup.center T).map π).Normal := hCnorm
+    have : ((Subgroup.center T).map π).Normal := hCnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((Subgroup.center T).map π) with hbot | htop
     · have h := (Subgroup.map_eq_bot_iff (H := Subgroup.center T) (f := π)).mp hbot
@@ -88,13 +88,13 @@ private theorem r890t7q_isQuasisimple_of {T : Type} [Group T] [Finite T] {n : �
       have hcomm_bot : _root_.commutator T = ⊥ :=
         (commutator_eq_bot_iff_center_eq_top (G := T)).mpr hcenter_top
       have hcomm_le : _root_.commutator T ≤ K := hcomm_bot.le.trans bot_le
-      haveI : IsMulCommutative (T ⧸ K) :=
+      have : IsMulCommutative (T ⧸ K) :=
         Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hcomm_le
       obtain ⟨a, b, hab⟩ :=
         CFSG.LocalAnalysis.EvenBN.GMSK.exists_mul_ne_of_lieModel_twistedB2 hSz
       exact hab (mul_comm' a b)
   have hcenter_eq : Subgroup.center T = K := le_antisymm hcenter_le hK_le_center
-  haveI : IsSimpleGroup (T ⧸ Subgroup.center T) :=
+  have : IsSimpleGroup (T ⧸ Subgroup.center T) :=
     (QuotientGroup.quotientMulEquivOfEq (M := Subgroup.center T) (N := K)
       hcenter_eq).isSimpleGroup
   exact ⟨hperf, inferInstance⟩

@@ -320,7 +320,7 @@ private theorem pce6_position_data {G : Type*} [Group G] {Y L : Subgroup G} {b t
 
 theorem pCore_centralizer_eq_in_Y_of_e6
     (G : Type) [Group G] [Finite G] [IsSimpleGroup G]
-    (hnonab : ∃ x y : G, x * y ≠ y * x)
+    (_hnonab : ∃ x y : G, x * y ≠ y * x)
     (hchar : IsCharTwoType G)
     (n : ℕ) (b : G) (L : Subgroup G) (hA : HypA G n b L)
     (K : ℕ → Subgroup G) (t : G) (hup : Upstream n b L K t)

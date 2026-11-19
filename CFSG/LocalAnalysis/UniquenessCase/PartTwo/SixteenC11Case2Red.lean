@@ -34,7 +34,7 @@ theorem s16c11_model_of_cfg2 [Finite W] {X L K : Subgroup (MulAut W)} {J₀ J₁
 
 theorem s16c11_exists_fixed_of_isPGroup_two {P : Subgroup (Equiv.Perm (Fin 3))}
     (hP : IsPGroup 2 ↥P) : ∃ k : Fin 3, ∀ a ∈ P, a k = k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hP.nonempty_fixed_point_of_prime_not_dvd_card (Fin 3)
     (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; decide)
   exact ⟨k, fun a ha => by simpa using hk ⟨a, ha⟩⟩
@@ -134,7 +134,7 @@ theorem s16c11_fix_of_smul_vec {X K L₀ : Subgroup (MulAut W)} {J₀ : Subgroup
   have hA : (s κ)⁻¹ k = k := by
     by_contra hne
     have h1 := key k
-    rw [if_pos rfl, if_neg hne] at h1
+    rw [ite_eq_left rfl, ite_eq_right hne] at h1
     exact hy1 (ξ.injective (by rw [map_one, h1])).symm
   have hsk : s κ k = k := ((Equiv.Perm.inv_eq_iff_eq (f := s κ)).1 hA).symm
   obtain ⟨i₀, hi₀⟩ : ∃ i : Fin 3, i ≠ k := by fin_cases k <;> decide
@@ -145,7 +145,7 @@ theorem s16c11_fix_of_smul_vec {X K L₀ : Subgroup (MulAut W)} {J₀ : Subgroup
     simpa using congrArg (s κ) hEq
   have hξy : ξ y = y := by
     have h1 := key i₀
-    rw [if_neg hi₀, if_neg hne'] at h1
+    rw [ite_eq_right hi₀, ite_eq_right hne'] at h1
     exact h1.symm
   exact ⟨hsk, hξy⟩
 
@@ -259,8 +259,8 @@ theorem s16c11_nine_dvd_card_sup {A : Type} [Group A] [Finite A] {K X₀ : Subgr
 
 theorem s16c11_padicValNat_three_of_isPGroup_two {A : Type*} [Group A] {P : Subgroup A}
     [Finite P] (hP : IsPGroup 2 ↥P) : padicValNat 3 (Nat.card ↥P) = 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := hP.exists_card_eq
   refine padicValNat.eq_zero_of_not_dvd ?_
   rw [hm]
@@ -334,7 +334,7 @@ theorem s16c11_routeF_data_of_rf3 [Finite W] {X K L₀ T : Subgroup (MulAut W)} 
     rw [hcard]
     exact ⟨1, by ring⟩
   · exact s16c11_exponent_three hK hKX₀ hinf' ha
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h2 : IsPGroup 2 ↥((K ⊔ X₀) ⊓ centSub (fixV T)) :=
       s16c11_isPGroup_inf_centSub_fixV hsq s ψ hs hg hKL hL₀X hX₀L hTp hTdec hT₀X₀ h3 hy hfix hmov
     rw [s16c11_padicValNat_three_of_isPGroup_two h2]

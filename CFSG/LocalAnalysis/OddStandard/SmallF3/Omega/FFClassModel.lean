@@ -48,8 +48,8 @@ theorem ff_KM1_ne_one {x : ProjSim Q} (h : KM1 x) : x ≠ 1 :=
 theorem ff_KM1_sq {x : ProjSim Q} (h : KM1 x) : x * x = 1 :=
   simHasType_sq h
 
-theorem ff_KM0_inner (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = 1) {x : ProjSim Q} (h : KM0 x) : SimInOmegaStar hQ x := by
+theorem ff_KM0_inner (hQ : Q.Nondegenerate) (_hdim : Module.finrank (ZMod 3) V = 6)
+    (_hsgn : quadSign Q = 1) {x : ProjSim Q} (h : KM0 x) : SimInOmegaStar hQ x := by
   obtain ⟨y, hyx, hy1, t, htt, hty, htoy⟩ := h
   refine ⟨y, ?_, hyx⟩
   rw [mem_omegaProj_iff]
@@ -59,8 +59,8 @@ theorem ff_KM0_inner (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 
     by rw [show invSign t = 1 from congrArg Prod.snd hty,
       show invDim t = 4 from congrArg Prod.fst hty]; decide⟩
 
-theorem ff_KM1_inner (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = 1) {x : ProjSim Q} (h : KM1 x) : SimInOmegaStar hQ x := by
+theorem ff_KM1_inner (hQ : Q.Nondegenerate) (_hdim : Module.finrank (ZMod 3) V = 6)
+    (_hsgn : quadSign Q = 1) {x : ProjSim Q} (h : KM1 x) : SimInOmegaStar hQ x := by
   obtain ⟨y, hyx, hy1, t, htt, hty, htoy⟩ := h
   refine ⟨y, ?_, hyx⟩
   rw [mem_omegaProj_iff]
@@ -71,7 +71,7 @@ theorem ff_KM1_inner (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 
       show invDim t = 2 from congrArg Prod.fst hty]; decide⟩
 
 theorem ff_KM2_not_inner (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = 1) {x : ProjSim Q} (h : KM2 x) : ¬ SimInOmegaStar hQ x := by
+    (_hsgn : quadSign Q = 1) {x : ProjSim Q} (h : KM2 x) : ¬ SimInOmegaStar hQ x := by
   rintro ⟨y', hy'om, hy'x⟩
   obtain ⟨_, y, hyx, hy1, t, htt, hty, htoy⟩ := h
   have hyy : y' = y := projOrthToProjSim_injective (by rw [hy'x, hyx])
@@ -82,7 +82,7 @@ theorem ff_KM2_not_inner (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
   exact not_mem_omegaProj_of_odd_invDim hQ hdim hyom htt htoy hodd
 
 theorem ff_KM3_not_inner (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = 1) {x : ProjSim Q} (h : KM3 x) : ¬ SimInOmegaStar hQ x := by
+    (_hsgn : quadSign Q = 1) {x : ProjSim Q} (h : KM3 x) : ¬ SimInOmegaStar hQ x := by
   rintro ⟨y', hy'om, hy'x⟩
   obtain ⟨_, y, hyx, hy1, t, htt, hty, htoy⟩ := h
   have hyy : y' = y := projOrthToProjSim_injective (by rw [hy'x, hyx])

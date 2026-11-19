@@ -68,9 +68,9 @@ theorem sylowTwo_cyclic_or_quaternion_of_not_twoRank
       exact hX (twoRankAtLeastTwo_of_injective
         (S : Subgroup X).subtype Subtype.val_injective hrank)
     have hunique := PFAppendixII.unique_order_two_subgroup_of_not_twoRank
-      S.isPGroup' hrank
+      S.isPGroup hrank
     exact (External.huppert_III_8_2_pgroup_unique_order_prime_subgroup
-      Nat.prime_two S.isPGroup' hunique).2 rfl
+      Nat.prime_two S.isPGroup hunique).2 rfl
   · let : Subsingleton S := not_nontrivial_iff_subsingleton.mp hS
     exact Or.inl inferInstance
 

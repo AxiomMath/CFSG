@@ -91,8 +91,8 @@ theorem ggSporKRest_component_transfer {W : Type} [Group W] [Finite W] {H N : Su
       Nat.pos_of_ne_zero (Subgroup.index_ne_zero_of_finite (H := N.subgroupOf H))
     exact le_trans (Nat.le_of_dvd hpos hdvd) hidx
   have hC_le_R : C ≤ (N.subgroupOf H).map π := by
-    haveI : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
-    haveI : ((N.subgroupOf H).map π).Normal := hRnorm
+    have : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
+    have : ((N.subgroupOf H).map π).Normal := hRnorm
     have hDindex : (((N.subgroupOf H).map π).subgroupOf C).index ≤ 2 := by
       have hdvd : ((N.subgroupOf H).map π).relIndex C ∣ ((N.subgroupOf H).map π).index :=
         Subgroup.relIndex_dvd_index_of_normal _ _
@@ -124,15 +124,15 @@ theorem ggSporKRest_component_transfer {W : Type} [Group W] [Finite W] {H N : Su
 theorem ggSporKRest_unmarked_of_solvable {X : Type} [Group X] (h : Group.IsSolvable X) :
     SporKRestUnmarked X := by
   intro C hC hmark
-  haveI : Group.IsSolvable X := h
-  haveI : Group.IsSolvable (X ⧸ CFSG.pCore 2 X) :=
+  have : Group.IsSolvable X := h
+  have : Group.IsSolvable (X ⧸ CFSG.pCore 2 X) :=
     Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective _)
-  haveI : Group.IsSolvable ↥C := inferInstance
-  haveI : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
+  have : Group.IsSolvable ↥C := inferInstance
+  have : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
   rcases subsingleton_or_nontrivial ↥C with hsub | hnt
-  · haveI : Subsingleton ↥C := hsub
-    haveI : Subsingleton (↥C ⧸ Subgroup.center ↥C) := inferInstance
-    haveI : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
+  · have : Subsingleton ↥C := hsub
+    have : Subsingleton (↥C ⧸ Subgroup.center ↥C) := inferInstance
+    have : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
     obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (↥C ⧸ Subgroup.center ↥C)).exists_pair_ne
     exact hab (Subsingleton.elim a b)
   · exact (Group.IsPerfect.not_isSolvable ↥C) inferInstance

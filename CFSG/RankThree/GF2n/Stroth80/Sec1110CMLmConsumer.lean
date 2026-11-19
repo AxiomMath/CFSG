@@ -64,7 +64,7 @@ theorem sectionAct_of_ringEquiv {ι : Type} [Fintype ι] [DecidableEq ι]
     (h : SectionAct K S V Z φ act) :
     SectionAct L S V Z ((glCongr (ι := ι) e).toMonoidHom.comp φ) actL := by
   obtain ⟨hnorm, hN, ψ, hψ⟩ := h
-  letI := hN
+  let := hN
   let ψL : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → L) :=
     ψ.trans (funAddEquiv e).toMultiplicative
   refine ⟨hnorm, hN, ψL, ?_⟩
@@ -275,13 +275,13 @@ theorem caseVICore_of_CMLmChain [Finite G]
   rcases hC' with hLmBranch | hL4Branch
   · obtain ⟨X₁, X₂, X₃, X₄, hX₁, h₁₂, h₂₃, h₃₄, hX₄Q, hcomm, hX₂, hX₃, hX₄,
       K', hK'f, hK'fin, hK'card, nat2, nat4⟩ := hLmBranch
-    letI : Field K' := hK'f
-    letI : Finite K' := hK'fin
+    let : Field K' := hK'f
+    let : Finite K' := hK'fin
     have hX₂Q' : X₂ ≤ Q := by rw [← hX₄Q]; exact h₂₃.trans h₃₄
     have hx : 2 ^ x = Nat.card Z :=
       two_pow_eq_card_Z_of_naturalRep hc (by omega) hX₁ hX₂Q' nat2 hLm hK'card
-    letI : Fintype K' := Fintype.ofFinite K'
-    letI : Fintype (GaloisField 2 n₀) := Fintype.ofFinite _
+    let : Fintype K' := Fintype.ofFinite K'
+    let : Fintype (GaloisField 2 n₀) := Fintype.ofFinite _
     have hcardEq : Fintype.card K' = Fintype.card (GaloisField 2 n₀) := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK'card, hK₀card]
     let e : K' ≃+* GaloisField 2 n₀ := FiniteField.ringEquivOfCardEq hcardEq
@@ -319,14 +319,14 @@ theorem caseVICore_of_CMLmChain [Finite G]
     exact ⟨(bar_Lgen_eq_Xbar hc hLgen).symm, hcore'⟩
   · obtain ⟨hm4, X₁, X₂, hX₁, h₁₂, hX₂Q, hcomm, hX₂,
       K', hK'f, hK'fin, hK'card, nat⟩ := hL4Branch
-    letI : Field K' := hK'f
-    letI : Finite K' := hK'fin
-    letI : Fintype K' := Fintype.ofFinite K'
-    letI : Fintype (GaloisField 2 n₀) := Fintype.ofFinite _
+    let : Field K' := hK'f
+    let : Finite K' := hK'fin
+    let : Fintype K' := Fintype.ofFinite K'
+    let : Fintype (GaloisField 2 n₀) := Fintype.ofFinite _
     have hcardEq : Fintype.card K' = Fintype.card (GaloisField 2 n₀) := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK'card, hK₀card]
     let e : K' ≃+* GaloisField 2 n₀ := FiniteField.ringEquivOfCardEq hcardEq
-    haveI : CharP K' 2 := by
+    have : CharP K' 2 := by
       apply charP_of_card_eq_prime_pow (p := 2) (f := n₀)
       rw [Fintype.card_eq_nat_card, hK'card, hZcard]
     have natQ : NaturalRep (ι := Fin 3 ⊕ Fin 3) K' (StatedOmega (StatedQuadPlus 3 K'))
@@ -343,7 +343,7 @@ theorem caseVICore_of_CMLmChain [Finite G]
           e (StatedQuadPlus 3 K' v) := by
       intro v
       unfold StatedQuadPlus
-      simp [CFSG.MatrixModel.plusQuadCore, map_sum, map_mul]
+      simp [map_sum, map_mul]
     have hΩmap := CFSG.ClassicalInvolution.Upgrade.map_statedOmega (K := K')
       (L := GaloisField 2 n₀) (QK := StatedQuadPlus 3 K')
       (QL := StatedQuadPlus 3 (GaloisField 2 n₀)) e hQmap

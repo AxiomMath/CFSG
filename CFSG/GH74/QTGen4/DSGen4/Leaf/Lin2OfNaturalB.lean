@@ -64,6 +64,7 @@ section Natural
 
 variable {F : Type*} [Field F] [CharP F 2] [Algebra (ZMod 2) F] [Module.Finite (ZMod 2) F]
 
+omit [Module.Finite (ZMod 2) F] in
 theorem natMat_fixFree (κ : (Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 2 → F))
     (g : Matrix.SpecialLinearGroup (Fin 2) F) (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1)
     (x : Fin 4 → ZMod 2) (hx : natMat F κ g *ᵥ x = x) : x = 0 := by
@@ -81,6 +82,7 @@ theorem natMat_fixFree (κ : (Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 2 → F))
   have hk : κ x = 0 := fixed_eq_zero (g : Matrix (Fin 2) (Fin 2) F) g.2 h3 h1' (κ x) h2
   simpa using hk
 
+omit [CharP F 2] [Module.Finite (ZMod 2) F] in
 theorem eq_one_of_natMat_eq_one (κ : (Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 2 → F))
     {g : Matrix.SpecialLinearGroup (Fin 2) F} (h : natMat F κ g = 1) : g = 1 := by
   apply eq_one_of_natLin_eq_one F

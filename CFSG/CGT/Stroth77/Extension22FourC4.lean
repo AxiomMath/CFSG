@@ -8,6 +8,7 @@ namespace CFSG.CGT.Stroth77
 
 variable {S : Type*} [Group S] [Finite S] {B C S' : Subgroup S} {m : ℕ}
 
+omit [Finite S] in
 theorem pow_four_mem_fourB {τ : StrothTypeIndex} (D : StrothTypeData B τ) (b : B) :
     b ^ 4 ∈ fourB D := by
   rw [mem_fourB_iff]
@@ -23,10 +24,12 @@ theorem pow_four_mem_fourB {τ : StrothTypeIndex} (D : StrothTypeData B τ) (b :
     simp [conjBy]
     group
 
+omit [Finite S] in
 @[simp]
 theorem conjByHom_apply (g : S) (hg : g ∈ Subgroup.normalizer C) (x : C) :
     conjByHom g hg x = conjBy hg x := rfl
 
+omit [Finite S] in
 theorem conjByHom_mul (g h : S) (hg : g ∈ Subgroup.normalizer C)
     (hh : h ∈ Subgroup.normalizer C) :
     conjByHom (g * h) (Subgroup.mul_mem _ hg hh) =
@@ -35,6 +38,7 @@ theorem conjByHom_mul (g h : S) (hg : g ∈ Subgroup.normalizer C)
   simp only [MonoidHom.comp_apply, conjByHom_apply, conjBy]
   group
 
+omit [Finite S] in
 theorem conjByHom_mul_eq {g h g' h' : S}
     (hg : g ∈ Subgroup.normalizer C) (hh : h ∈ Subgroup.normalizer C)
     (hg' : g' ∈ Subgroup.normalizer C) (hh' : h' ∈ Subgroup.normalizer C)
@@ -45,12 +49,14 @@ theorem conjByHom_mul_eq {g h g' h' : S}
   simp only [conjByHom_apply, conjBy]
   rw [hgh]
 
+omit [Finite S] in
 theorem conjByHom_comp_inv (g : S) (hg : g ∈ Subgroup.normalizer C) :
     (conjByHom g hg).comp (conjByHom g⁻¹ (Subgroup.inv_mem _ hg)) = MonoidHom.id C := by
   ext x
   simp only [MonoidHom.comp_apply, conjByHom_apply, conjBy, MonoidHom.id_apply]
   group
 
+omit [Finite S] in
 theorem conjByHom_inv_comp (g : S) (hg : g ∈ Subgroup.normalizer C) :
     (conjByHom g⁻¹ (Subgroup.inv_mem _ hg)).comp (conjByHom g hg) = MonoidHom.id C := by
   ext x
@@ -71,6 +77,7 @@ noncomputable def conjByQuotientMap (g : S) (hgC : g ∈ Subgroup.normalizer C)
     simp only [conjByHom_apply, conjBy]
     exact (Subgroup.mem_normalizer_iff''.mp hgB (x : S)).mp hx)
 
+omit [Finite S] in
 @[simp]
 theorem conjByQuotientMap_mk (g : S) (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) (x : C) :
@@ -78,6 +85,7 @@ theorem conjByQuotientMap_mk (g : S) (hgC : g ∈ Subgroup.normalizer C)
       QuotientGroup.mk (conjByHom g hgC x) :=
   QuotientGroup.map_mk _ _ _ _ x
 
+omit [Finite S] in
 theorem conjByQuotientMap_left_inv (g : S) (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) :
     Function.LeftInverse
@@ -91,6 +99,7 @@ theorem conjByQuotientMap_left_inv (g : S) (hgC : g ∈ Subgroup.normalizer C)
     have h := DFunLike.congr_fun (conjByHom_inv_comp g hgC) x
     simpa using h
 
+omit [Finite S] in
 theorem conjByQuotientMap_right_inv (g : S) (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) :
     Function.RightInverse
@@ -110,6 +119,7 @@ noncomputable def conjByAutQuotient (g : S) (hgC : g ∈ Subgroup.normalizer C)
     ⟨(conjByQuotientMap_left_inv g hgC hgB).injective,
      (conjByQuotientMap_right_inv g hgC hgB).surjective⟩
 
+omit [Finite S] in
 @[simp]
 theorem conjByAutQuotient_apply_mk (g : S) (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) (x : C) :
@@ -118,6 +128,7 @@ theorem conjByAutQuotient_apply_mk (g : S) (hgC : g ∈ Subgroup.normalizer C)
   show conjByQuotientMap g hgC hgB (QuotientGroup.mk x) = _
   exact conjByQuotientMap_mk g hgC hgB x
 
+omit [Finite S] in
 theorem conjByAutQuotient_one :
     conjByAutQuotient (B := B) (C := C) (1 : S) (Subgroup.one_mem _) (Subgroup.one_mem _) = 1 := by
   apply MulEquiv.ext
@@ -125,8 +136,9 @@ theorem conjByAutQuotient_one :
   induction q using QuotientGroup.induction_on with
   | H x =>
     simp only [conjByAutQuotient_apply_mk, MulAut.one_apply, conjByHom_apply, conjBy,
-      Subgroup.coe_mk, inv_one, one_mul, mul_one]
+      inv_one, one_mul, mul_one]
 
+omit [Finite S] in
 theorem conjByAutQuotient_mul (g h : S) (hgC : g ∈ Subgroup.normalizer C)
     (hhC : h ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B)
     (hhB : h ∈ Subgroup.normalizer B) :
@@ -142,6 +154,7 @@ theorem conjByAutQuotient_mul (g h : S) (hgC : g ∈ Subgroup.normalizer C)
     have h := DFunLike.congr_fun (conjByHom_mul g h hgC hhC) x
     simpa using h
 
+omit [Finite S] in
 theorem conjByAutQuotient_pow (g : S) (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) (n : ℕ) :
     conjByAutQuotient (g ^ n) (Subgroup.pow_mem _ hgC n) (Subgroup.pow_mem _ hgB n) =
@@ -159,6 +172,7 @@ theorem conjByAutQuotient_pow (g : S) (hgC : g ∈ Subgroup.normalizer C)
       _ = conjByAutQuotient g hgC hgB * (conjByAutQuotient g hgC hgB) ^ n := by rw [ih]
       _ = (conjByAutQuotient g hgC hgB) ^ (n + 1) := by rw [pow_succ']
 
+omit [Finite S] in
 theorem exists_mul_of_conjByAutQuotient_eq_one [IsMulCommutative C]
     {g : S} (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B)
     (hA : conjByAutQuotient g hgC hgB = 1) (x : C) :
@@ -166,7 +180,7 @@ theorem exists_mul_of_conjByAutQuotient_eq_one [IsMulCommutative C]
   classical
   let aC : C := conjByHom g hgC x
   have haC : (aC : S) = g⁻¹ * (x : S) * g := by
-    simp [aC, conjByHom, conjBy]
+    simp [aC, conjBy]
   have hmk : QuotientGroup.mk' (B.subgroupOf C) aC = QuotientGroup.mk' (B.subgroupOf C) x := by
     have h := congrArg (fun σ : MulAut (C ⧸ B.subgroupOf C) =>
       σ (QuotientGroup.mk' (B.subgroupOf C) x)) hA
@@ -189,6 +203,7 @@ theorem exists_mul_of_conjByAutQuotient_eq_one [IsMulCommutative C]
 
 end QuotientAction
 
+omit [Finite S] in
 theorem conjBy_pow_four_mem_fourB
     {τ : StrothTypeIndex} {D : StrothTypeData B τ} {g : S}
     (hgB : g ∈ Subgroup.normalizer B) (z : C) (b : B)
@@ -204,8 +219,7 @@ theorem conjBy_pow_four_mem_fourB
     exact hcomm.mul_pow 4
   have hconj : conjBy hgB yB * yB⁻¹ = b ^ 4 := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_pow, conjBy, Subgroup.coe_mk]
-    change (g⁻¹ * (yB : S) * g) * (yB : S)⁻¹ = (b : S) ^ 4
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_pow, conjBy]
     have hy : (yB : S) = (z : S) ^ 4 := rfl
     rw [hy, hconjpow, (hcomm.pow_pow 4 4).eq]
     group
@@ -218,8 +232,8 @@ theorem not_cyclic_quotient_four_zero
     (hcyc : ∃ z : C, Subgroup.zpowers z = ⊤) : False := by
   subst m
   let D := hB.data
-  haveI : IsCyclic C := isCyclic_iff_exists_zpowers_eq_top.mpr hcyc
-  haveI : IsCyclic B := Subgroup.isCyclic_of_le hBC
+  have : IsCyclic C := isCyclic_iff_exists_zpowers_eq_top.mpr hcyc
+  have : IsCyclic B := Subgroup.isCyclic_of_le hBC
   have hna : orderOf D.a = 2 := by
     rw [D.orderOf_a, n_t100]
     norm_num
@@ -249,11 +263,11 @@ theorem not_cyclic_quotient_four_zero
       simpa [StrothTypeData.a, StrothTypeData.b] using this
     have hne : (Torus.a : Torus (StrothTypeIndex.t100 0).k) 1 ≠
         (Torus.b : Torus (StrothTypeIndex.t100 0).k) 1 := by
-      simp [Torus.a, Torus.b, gen, Pi.single_apply]
+      simp [Torus.a, Torus.b, gen]
       decide
     exact hne (congrFun h' 1)
   classical
-  haveI : Fintype B := Fintype.ofFinite B
+  have : Fintype B := Fintype.ofFinite B
   have hle : (Finset.univ.filter (fun x : B => x ^ 2 = 1)).card ≤ 2 :=
     IsCyclic.card_pow_eq_one_le (α := B) (n := 2) (by norm_num)
   have h1a : (1 : B) ≠ D.a := fun h => ha1 h.symm
@@ -284,15 +298,15 @@ theorem not_cyclic_quotient_four_of_pos
     (hcyc : ∃ z : C, Subgroup.zpowers z = ⊤) : False := by
   classical
   let D := hB.data
-  haveI hN : (B.subgroupOf C).Normal :=
+  have hN : (B.subgroupOf C).Normal :=
     Subgroup.normal_of_le_center (subgroupOf_le_center hBC hC)
-  haveI : IsCyclic C := isCyclic_iff_exists_zpowers_eq_top.mpr hcyc
-  letI : CommGroup C := IsCyclic.commGroup
+  have : IsCyclic C := isCyclic_iff_exists_zpowers_eq_top.mpr hcyc
+  let : CommGroup C := IsCyclic.commGroup
   obtain ⟨z, hz⟩ := hcyc
   let q : C ⧸ B.subgroupOf C := QuotientGroup.mk' (B.subgroupOf C) z
   have hQcard : Nat.card (C ⧸ B.subgroupOf C) = 4 :=
     card_quotient_four hBC hC hrel
-  haveI : IsCyclic (C ⧸ B.subgroupOf C) :=
+  have : IsCyclic (C ⧸ B.subgroupOf C) :=
     isCyclic_of_surjective (QuotientGroup.mk' (B.subgroupOf C))
       (QuotientGroup.mk'_surjective _)
   have hq_gen : Subgroup.zpowers q = ⊤ := by
@@ -382,14 +396,14 @@ theorem not_cyclic_quotient_four_of_pos
     intro q
     induction q using QuotientGroup.induction_on with
     | H x =>
-      simp only [MulAut.mul_apply, conjByAutQuotient_apply_mk]
+      simp only [MulAut.mul_apply]
       exact congrArg QuotientGroup.mk (by simpa using DFunLike.congr_fun hcomp1 x)
   have hAt_Ar : Ar * At = At * Auv * Ar := by
     apply MulEquiv.ext
     intro q
     induction q using QuotientGroup.induction_on with
     | H x =>
-      simp only [MulAut.mul_apply, conjByAutQuotient_apply_mk]
+      simp only [MulAut.mul_apply]
       exact congrArg QuotientGroup.mk
         (by simpa [MonoidHom.comp_apply] using DFunLike.congr_fun hcomp2 x)
   have hAuv_eq_At : Auv = At := by
@@ -472,7 +486,7 @@ theorem not_cyclic_quotient_four_of_pos
         _ = yC * (yC * cC ^ (-2 : ℤ))⁻¹ := by rw [hz4C, hsC4]
         _ = cC ^ 2 := by
             have hcinv : (cC ^ (-2 : ℤ))⁻¹ = cC ^ 2 := by
-              simpa using (zpow_neg cC (-2 : ℤ)).symm
+              simp
             rw [mul_inv_rev, hcinv]
             calc yC * (cC ^ 2 * yC⁻¹) = (yC * cC ^ 2) * yC⁻¹ := by rw [mul_assoc]
               _ = (cC ^ 2 * yC) * yC⁻¹ := by rw [mul_comm yC (cC ^ 2)]
@@ -515,7 +529,7 @@ theorem not_cyclic_quotient_four
     (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 4 * Nat.card B)
     (hL : hB.data.L ≤ Subgroup.normalizer C)
-    (hH : NoInvolutionsCentralizing S' B) (hcS : C ≤ S') (hne : C ≠ B)
+    (hH : NoInvolutionsCentralizing S' B) (hcS : C ≤ S') (_hne : C ≠ B)
     (hcyc : ∃ z : C, Subgroup.zpowers z = ⊤) : False := by
   rcases Nat.eq_zero_or_pos m with hm0 | hpos
   · exact not_cyclic_quotient_four_zero hB hBC hm0 hcyc

@@ -21,7 +21,7 @@ theorem gl83P3U3_remark_of_kfacts (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : Fu
     GL83GenericPrimeThreeU3RemarkCond G := by
   intro p hp P M hM hfail hIH x hgen hp3 J hJC hCJ hperf hlt hmin hnot Q _ ψ hψ hker hQ h34
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : PointConfig3 (fun p K _ => IsU3Pred p K) G 3 P M x J :=
     ⟨hp, hM, hfail, hIH, hgen, rfl, hJC, hCJ, hperf, hlt, hmin, hnot,
       ⟨Q, inferInstance, ψ, hψ, hker, hQ⟩⟩

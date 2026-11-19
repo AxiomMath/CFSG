@@ -90,7 +90,7 @@ theorem isSylowOf_two_map_surjective {G H : Type} [Group G] [Group H] [Finite G]
     (f : G →* H) (hf : Function.Surjective f) {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf 2 P ⊤) :
     CFSG.ABGLocalTools.IsSylowOf 2 (P.map f) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at hP ⊢
   obtain ⟨-, hPp, hdvd⟩ := hP
   refine ⟨le_top, hPp.map f, ?_⟩

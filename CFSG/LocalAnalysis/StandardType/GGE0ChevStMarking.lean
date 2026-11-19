@@ -56,7 +56,7 @@ theorem ggChevStMarking_of_compFieldDataQ
     obtain ⟨hcomm0, lab0, hlab0, hraw0⟩ := hm
     obtain ⟨R0, _, I0, F0, hs0, hna0, hθ0⟩ := largeEvenRawDatum_exists hraw0
     obtain ⟨θ0, -⟩ := hθ0
-    haveI : IsSimpleGroup R0 := hs0
+    have : IsSimpleGroup R0 := hs0
     refine ⟨hcomm0, lab, hlab, ?_⟩
     refine largeEvenRawDatum_mono (fun R' _ I' F' he => ?_) hhas
     obtain ⟨e⟩ := he

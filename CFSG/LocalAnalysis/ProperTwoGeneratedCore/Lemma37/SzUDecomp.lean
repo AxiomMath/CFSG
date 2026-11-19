@@ -27,7 +27,7 @@ theorem exists_mul_eq_of_le_sup_centralizer [Finite X] (Sb : Sylow 2 X) {J : Sub
     calc x * y * x⁻¹ = x * (y * k) * k⁻¹ * x⁻¹ := by group
       _ = x * (k * y) * k⁻¹ * x⁻¹ := by rw [hky]
       _ = x * k * y * (x * k)⁻¹ := by group
-  obtain ⟨a, ha⟩ := Sb.isPGroup' ⟨w, hw⟩
+  obtain ⟨a, ha⟩ := Sb.isPGroup ⟨w, hw⟩
   have hwa : w ^ 2 ^ a = 1 := by simpa using congrArg Subtype.val ha
   have hxa : x ^ 2 ^ a = 1 := by
     rw [← hxk, Commute.mul_pow hcxk] at hwa

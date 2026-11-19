@@ -91,7 +91,7 @@ theorem chainK_pk {P : Pt} {p : Nat} (hp : P.p = p) (hp57 : p = 5 ∨ p = 7) (hD
     rw [ih (fun i hi => hw i (List.mem_cons_of_mem _ hi)), nthK_eq, getD_map_packR,
       getD_of_lt _ _ hj]
     unfold packR
-    rw [conjKP_pk hp hp57 hD, dualWord_cons_some hj', applyWord_cons_some hj'] <;> rfl
+    rw [conjKP_pk hp hp57 hD, dualWord_cons_some hj', applyWord_cons_some hj']
 
 @[expose] def zdot (P : Pt) (f v : Vec) : ZMod P.p :=
   ((List.range P.D).map fun i => (f.getD i 0 : ZMod P.p) * v.getD i 0).sum
@@ -291,7 +291,7 @@ theorem getD_append_single {α : Type} (l : List α) (x d : α) (n : Nat) (hl : 
   rw [List.getD_eq_getElem?_getD, List.getElem?_append_right (by omega), hl, Nat.sub_self]
   rfl
 
-@[expose] def vvOf (lift : Bool) (p N s : Nat) (o : Nat × Nat × Nat) (fr : Vec) : Vec :=
+@[expose] def vvOf (lift : Bool) (_p N s : Nat) (o : Nat × Nat × Nat) (fr : Vec) : Vec :=
   extOf lift ((List.range (N - 1)).map fun k =>
     if inJ N s k then (if k - s = o.1 then o.2.2 else 0)
     else if (outsOf N s).head? = some k then fr.getD 0 0 else fr.getD 1 0) 0
@@ -349,13 +349,13 @@ theorem rv_unit (D o a : Nat) (ho : o < D) :
   | succ D ih =>
     rw [rv_succ_last]
     rcases Nat.lt_or_ge o D with h | h
-    · rw [ih h, if_neg (by omega)]
+    · rw [ih h, ite_eq_right (by omega)]
       have e : D + 1 - 1 - o = (D - 1 - o) + 1 := by omega
       rw [e, pow_succ]
       ring
     · have hoD : o = D := by omega
       subst hoD
-      rw [rv_eq_zero o _ (fun j hj => if_neg (by omega)), if_pos rfl]
+      rw [rv_eq_zero o _ (fun j hj => ite_eq_right (by omega)), ite_eq_left rfl]
       simp
 
 theorem rv_two (D o0 o1 a b : Nat) (h0 : o0 < D) (h1 : o1 < D) (x y : Nat → Nat)
@@ -388,16 +388,16 @@ theorem getD_extOf {N : Nat} (lift : Bool) (g : Nat → Nat) (i : Nat) (hi : i <
       rw [List.getElem?_map, List.getElem?_range h]
       rfl
     cases lift with
-    | false => simp only [extOf, Bool.false_eq_true, if_false, e, Option.getD_some]
-    | true => simp only [extOf, if_true, List.getElem?_append_left (hL ▸ h), e, Option.getD_some]
+    | false => simp only [extOf, Bool.false_eq_true, ite_false, e, Option.getD_some]
+    | true => simp only [extOf, ite_true, List.getElem?_append_left (hL ▸ h), e, Option.getD_some]
   · rename_i h
     cases lift with
     | false =>
-      simp only [dimOf, Bool.false_eq_true, if_false] at hi
+      simp only [dimOf, Bool.false_eq_true, ite_false] at hi
       omega
     | true =>
-      simp only [dimOf, if_true] at hi
-      simp only [extOf, if_true]
+      simp only [dimOf, ite_true] at hi
+      simp only [extOf, ite_true]
       rw [List.getElem?_append_right (by omega), hL]
       have e : i - (N - 1) = 0 := by omega
       rw [e]

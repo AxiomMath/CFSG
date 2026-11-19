@@ -19,7 +19,7 @@ theorem exists_z_of_quotient {X : Type} [Group X] [Finite X] (N : Subgroup X) [N
           ∃ y ∈ Pb, ∃ x : X, (QuotientGroup.mk x : X ⧸ N) = y ∧ (QuotientGroup.mk (φ x) : X ⧸ N) ≠ y) :
     ∃ (z : X) (v k : ℕ), 2 ≤ v ∧ orderOf z = 3 ^ v ∧ z ∈ Subgroup.centralizer ({d} : Set X) ∧
       z ^ 3 ^ (v - 1) = d ∧ φ z = z ^ k ∧ 3 ^ (v - 1) ∣ k - 1 ∧ ¬ 3 ^ v ∣ k - 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hPle, hPcard, hPφ⟩ := exists_invariant_sylow_centralizer φ hφ3 hφd
   obtain ⟨hcardbar, hPN⟩ := card_map_mk_sylow N hN hd3 P hPle hPcard
   have hPmap_le : P.map (QuotientGroup.mk' N) ≤
@@ -40,8 +40,8 @@ theorem exists_z_of_quotient {X : Type} [Group X] [Finite X] (N : Subgroup X) [N
   let e : P ≃* P.map (QuotientGroup.mk' N) :=
     MulEquiv.ofBijective ((QuotientGroup.mk' N).subgroupMap P)
       ⟨hinj, (QuotientGroup.mk' N).subgroupMap_surjective P⟩
-  haveI hPcyc : IsCyclic P := by
-    haveI := hcyc
+  have hPcyc : IsCyclic P := by
+    have := hcyc
     exact isCyclic_of_injective e.toMonoidHom e.injective
   have hcardP : Nat.card P = Nat.card (P.map (QuotientGroup.mk' N)) := Nat.card_congr e.toEquiv
   obtain ⟨v, hv⟩ : ∃ v, Nat.card P = 3 ^ v :=

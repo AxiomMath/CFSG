@@ -15,7 +15,7 @@ theorem lieOuterIdx_classicalBCD :
   | B n q =>
     change p ≠ (TauCeti.LieTypeIndex.B n q).characteristic at hpc
     rw [TauCeti.LieTypeIndex.characteristic_B] at hpc
-    haveI : Finite (TauCeti.CFSGIndex.lie ⟨.B n q, hd⟩).Group := by
+    have : Finite (TauCeti.CFSGIndex.lie ⟨.B n q, hd⟩).Group := by
       rcases CFSG.Models.lieModel_B n q hd (MulEquiv.refl _) with
         ⟨hadm, hSC | ⟨h0, -⟩⟩ | ⟨hadm, hSC | ⟨h0, -⟩⟩
       · exact CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
@@ -27,7 +27,7 @@ theorem lieOuterIdx_classicalBCD :
     by_cases hB : n = 2 ∨ q.p = 2
     · exact outerIdxAt_B_PSp hp hp2 hd hB (MulEquiv.refl _) hpc hpdvd
     ·
-      push_neg at hB
+      push Not at hB
       have hn3 : 3 ≤ n := by
         have h2n := ((TauCeti.LieTypeIndex.inStandardRange_iff _).1
           ((TauCeti.LieTypeIndex.valid_iff _).1 hd).1).1
@@ -45,7 +45,7 @@ theorem lieOuterIdx_classicalBCD :
     change p ≠ (TauCeti.LieTypeIndex.C n q).characteristic at hpc
     rw [TauCeti.LieTypeIndex.characteristic_C] at hpc
     obtain ⟨hadm, hSC | ⟨h0, -⟩⟩ := CFSG.Models.lieModel_C n q hd (MulEquiv.refl _)
-    · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.C n q, hd⟩).Group :=
+    · have : Finite (TauCeti.CFSGIndex.lie ⟨.C n q, hd⟩).Group :=
         CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
       exact outerIdxAt_C hp hp2 hd (MulEquiv.refl _) hpc hpdvd
     · have h2n : 2 ≤ n := hadm.2.2.1
@@ -54,7 +54,7 @@ theorem lieOuterIdx_classicalBCD :
     change p ≠ (TauCeti.LieTypeIndex.D n q).characteristic at hpc
     rw [TauCeti.LieTypeIndex.characteristic_D] at hpc
     obtain ⟨hadm, hSC | ⟨h0, -⟩⟩ := CFSG.Models.lieModel_D n q hd (MulEquiv.refl _)
-    · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.D n q, hd⟩).Group :=
+    · have : Finite (TauCeti.CFSGIndex.lie ⟨.D n q, hd⟩).Group :=
         CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
       by_cases h43 : n = 4 ∧ p = 3
       · obtain ⟨rfl, rfl⟩ := h43
@@ -70,7 +70,7 @@ theorem lieOuterIdx_classicalBCD :
     change p ≠ (TauCeti.LieTypeIndex.twistedD n q).characteristic at hpc
     rw [TauCeti.LieTypeIndex.characteristic_twistedD] at hpc
     obtain ⟨hadm, hSC | ⟨h0, -⟩⟩ := CFSG.Models.lieModel_twistedD n q hd (MulEquiv.refl _)
-    · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.twistedD n q, hd⟩).Group :=
+    · have : Finite (TauCeti.CFSGIndex.lie ⟨.twistedD n q, hd⟩).Group :=
         CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
       exact outerIdxAt_pomegaMinus hSC hp hp2 hpc hpdvd q.card_def hd
     · have h4n : 4 ≤ n := hadm.2.2

@@ -17,9 +17,9 @@ theorem rank_ge_three_of_in1512_auxLin {m : ℕ} (hm : m ≤ 7) {eps : Bool} {Q 
   · subst he
     left
     refine ⟨rfl, ?_⟩
-    rw [if_pos rfl] at h
+    rw [ite_eq_left rfl] at h
     split_ifs at h <;> omega
-  · rw [if_neg he] at h
+  · rw [ite_eq_right he] at h
     right
     rcases Nat.lt_or_ge e 2 with he2 | he2
     · have he0 : e = 0 := by omega
@@ -123,7 +123,7 @@ theorem rank_ge_three_of_in1512 {d : TauCeti.LieTypeIndex} (hd : In1512 d) {p z 
       exact Or.inr (Or.inr (Or.inl ⟨Q, Or.inl rfl, (eS_eq_one_iff hQ).mp h1⟩))
   | twistedD rank Q =>
     have hr : rank = 4 := by
-      rcases rank with _ | _ | _ | _ | _ | n <;> simp only [In1512] at hd <;> omega
+      rcases rank with _ | _ | _ | _ | _ | n <;> simp only [In1512] at hd; omega
     have hQ := rank_ge_three_of_in1512_auxCard Q
     subst hr
     change 3 ≤ 4 / eS Q.card p - (if eP Q.card p ∣ 4 then 1 else 0) at h

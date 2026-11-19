@@ -25,20 +25,20 @@ theorem card_U (h : FF84Sec4 b L B K b₁ b₂) :
   omega
 
 theorem orderOf_bb₁sq (h : FF84Sec4 b L B K b₁ b₂) : orderOf (b * b₁ ^ 2) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (bb₁sq_cube h) (bb₁sq_ne_one h)
 
 theorem orderOf_b₂ (h : FF84Sec4 b L B K b₁ b₂) : orderOf b₂ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (pow3_of_mem h (mem_b₂ h)) (b₂_ne_one h)
 
-theorem bb₁sq_mem_E (h : FF84Sec4 b L B K b₁ b₂) :
+theorem bb₁sq_mem_E (_h : FF84Sec4 b L B K b₁ b₂) :
     b * b₁ ^ 2 ∈ Subgroup.closure ({b, b₁} : Set G) :=
   mul_mem (Subgroup.subset_closure (by simp)) (pow_mem (Subgroup.subset_closure (by simp)) 2)
 
 theorem P₁_inf_P₂ (h : FF84Sec4 b L B K b₁ b₂) :
     Subgroup.zpowers (b * b₁ ^ 2) ⊓ Subgroup.zpowers b₂ = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := Subgroup.zpowers (b * b₁ ^ 2) ⊓ Subgroup.zpowers b₂ with hCdef
   have hC : C ≤ Subgroup.zpowers b₂ := inf_le_right
   have hc2 : Nat.card (Subgroup.zpowers b₂) = 3 := by rw [Nat.card_zpowers, orderOf_b₂ h]
@@ -51,6 +51,7 @@ theorem P₁_inf_P₂ (h : FF84Sec4 b L B K b₁ b₂) :
     have hb : b₂ ∈ C := heq ▸ Subgroup.mem_zpowers b₂
     exact b₂_notin_E h ((Subgroup.zpowers_le.2 (bb₁sq_mem_E h)) hb.1)
 
+omit [Finite G] in
 theorem zpowers_sup_eq (x y : G) :
     Subgroup.zpowers x ⊔ Subgroup.zpowers y = Subgroup.closure ({x, y} : Set G) := by
   apply le_antisymm
@@ -67,7 +68,7 @@ theorem S41_J (h23 : FF84_2_3) (h : FF84Sec4 b L B K b₁ b₂) {D₀ : Subgroup
     ∃ J₁ J₂ : Subgroup G, J₁ ≤ D₀ ∧ J₂ ≤ D₀ ∧ (∀ g ∈ D₀, ∀ x ∈ J₁, g * x * g⁻¹ ∈ J₁) ∧
       (∀ g ∈ D₀, ∀ x ∈ J₂, g * x * g⁻¹ ∈ J₂) ∧ Subgroup.zpowers (b * b₁ ^ 2) ≤ J₁ ∧
       Subgroup.zpowers b₂ ≤ J₂ ∧ J₁ ⊓ J₂ ≤ Opp 3 D₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set U := Subgroup.closure ({b * b₁ ^ 2, b₂} : Set G) with hU
   set P₁ := Subgroup.zpowers (b * b₁ ^ 2) with hP₁
   set P₂ := Subgroup.zpowers b₂ with hP₂

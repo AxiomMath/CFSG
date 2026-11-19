@@ -58,8 +58,8 @@ theorem aParam_le_one_of_free_of_card_fixV {U : Type} [CommGroup U] [Finite U]
         Nat.card (fixV P) = 2) :
     E3.aParam N ≤ 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut U) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut U) :=
     Finite.of_injective (fun φ : MulAut U => (φ : U → U)) DFunLike.coe_injective
   have hfix4 : ∀ a ∈ N, orderOf a = 2 → rk ↥(fixV (Subgroup.zpowers a)) = 4 := by
     intro a haN ha
@@ -158,9 +158,9 @@ theorem aParam_le_one_of_free_of_card_fixV {U : Type} [CommGroup U] [Finite U]
 theorem k_L28SmallM_holds : K_L28SmallM := by
   intro U _ _ hU N S hSN hnorm h3 hirr
   classical
-  haveI : Finite (MulAut U) :=
+  have : Finite (MulAut U) :=
     Finite.of_injective (fun φ : MulAut U => (φ : U → U)) DFunLike.coe_injective
-  haveI : Finite ↥S := Subtype.finite
+  have : Finite ↥S := Subtype.finite
   have hZ : Subgroup.center ↥S = ⊥ := center_eq_bot_of_isL2_three h3
   have hout := odd_card_outer_of_isL2_three h3
   have hinS : ∀ t ∈ N, orderOf t = 2 → t ∈ S := fun t htN ht =>

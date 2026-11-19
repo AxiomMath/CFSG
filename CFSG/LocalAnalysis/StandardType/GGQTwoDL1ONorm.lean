@@ -58,12 +58,12 @@ private theorem p9uONrm_commSpace_conj {K : Type*} [Field K] {V W : Type*}
   · rintro ⟨v, rfl⟩
     refine ⟨g (e v) - e v, sub_mem_commSpace g _, ?_⟩
     simp only [map_sub, LinearEquiv.trans_apply, LinearEquiv.coe_coe,
-      LinearEquiv.apply_symm_apply, LinearEquiv.symm_apply_apply]
+      LinearEquiv.symm_apply_apply]
   · rintro ⟨y, hy, rfl⟩
     obtain ⟨w, rfl⟩ := mem_commSpace.mp hy
     refine ⟨e.symm w, ?_⟩
     simp only [map_sub, LinearEquiv.trans_apply, LinearEquiv.coe_coe,
-      LinearEquiv.symm_apply_apply, LinearEquiv.apply_symm_apply]
+      LinearEquiv.apply_symm_apply]
 
 private theorem p9uONrm_commSpace_conj_symm {K : Type*} [Field K] {V W : Type*}
     [AddCommGroup V] [Module K V] [AddCommGroup W] [Module K W] (e : V ≃ₗ[K] W)
@@ -75,7 +75,7 @@ private theorem p9uONrm_commSpace_conj_symm {K : Type*} [Field K] {V W : Type*}
   · rintro ⟨w, rfl⟩
     refine ⟨(e.trans (g.trans e.symm)) (e.symm w) - e.symm w, sub_mem_commSpace _ _, ?_⟩
     simp only [map_sub, LinearEquiv.trans_apply, LinearEquiv.coe_coe,
-      LinearEquiv.apply_symm_apply, LinearEquiv.symm_apply_apply]
+      LinearEquiv.apply_symm_apply]
   · rintro ⟨y, hy, rfl⟩
     obtain ⟨v, rfl⟩ := mem_commSpace.mp hy
     refine ⟨e v, ?_⟩
@@ -148,7 +148,7 @@ theorem qtwoDL1_oChart_witness (Φ : OrthTorus.OrthFrameCore p Bs L)
       rw [show s = C.χ.trans ((tauAt C.E i₀).trans C.χ.symm) from rfl]
       exact p9uONrm_commSpace_conj C.χ (tauAt C.E i₀)
     rw [hconj, LinearEquiv.finrank_map_eq]
-    haveI : Invertible (Qn C.E Φ.r (Pi.single i₀ 1)) :=
+    have : Invertible (Qn C.E Φ.r (Pi.single i₀ 1)) :=
       invertibleOfNonzero (by rw [Qn_single_one C.E i₀]; exact one_ne_zero)
     have hrefl : tauAt C.E i₀ =
         TauCeti.QuadraticMap.reflection (Qn C.E Φ.r) (Pi.single i₀ 1) := by
@@ -218,7 +218,7 @@ theorem qtwoDL1_oChart_block (Φ : OrthTorus.OrthFrameCore p Bs L) [Fact p.Prime
     simp only [g', LinearEquiv.trans_apply, LinearEquiv.symm_apply_apply]
   · rw [mem_omegaGroup]
     refine ⟨hgO, ?_⟩
-    haveI : FiniteDimensional Φ.F (GaloisField 2 2) :=
+    have : FiniteDimensional Φ.F (GaloisField 2 2) :=
       FiniteDimensional.of_finrank_pos (by rw [C.E.finrank_eq]; norm_num)
     have hKlin : ∀ (a : GaloisField 2 2) (x : Fin Φ.r → GaloisField 2 2),
         g' (a • x) = a • g' x := by

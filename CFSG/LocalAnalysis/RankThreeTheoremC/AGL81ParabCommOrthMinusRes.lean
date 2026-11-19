@@ -21,6 +21,7 @@ section Perp
 
 variable {t : ℕ} (S : SemiData K r b c)
 
+omit [Finite K] [CharP K 2] in
 theorem isResPerp_iff (ht : t ≤ r)
     (hflag : ∀ v : 𝕍, S.F v ∈ tailFlag K (Fin 2 → K) r t ↔ v ∈ tailFlag K (Fin 2 → K) r t)
     (v : 𝕍) : IsResPerp ht (S.F v) ↔ IsResPerp ht v := by
@@ -52,10 +53,12 @@ variable {t : ℕ} (S : SemiData K r b c) (ht : t ≤ r)
     (Fin (r - t) ⊕ Fin (r - t) → K) × (Fin 2 → K) :=
   orthResProj K (Fin 2 → K) ht (S.F (orthResIncl K (Fin 2 → K) ht u))
 
+omit [Finite K] [CharP K 2] in
 theorem resFun_add (u v : (Fin (r - t) ⊕ Fin (r - t) → K) × (Fin 2 → K)) :
     resFun S ht (u + v) = resFun S ht u + resFun S ht v := by
   simp only [resFun, map_add]
 
+omit [Finite K] [CharP K 2] in
 theorem resFun_smul (a : K) (u : (Fin (r - t) ⊕ Fin (r - t) → K) × (Fin 2 → K)) :
     resFun S ht (a • u) = S.σ a • resFun S ht u := by
   rw [resFun, map_smul, S.hF, map_smul]
@@ -65,6 +68,7 @@ variable (hflag : ∀ v : (Fin r ⊕ Fin r → K) × (Fin 2 → K),
   S.F v ∈ tailFlag K (Fin 2 → K) r t ↔ v ∈ tailFlag K (Fin 2 → K) r t)
 include hflag
 
+omit [Finite K] [CharP K 2] in
 theorem resFun_inj : Function.Injective (resFun S ht) := by
   have hadd := resFun_add S ht
   have hinj : Function.Injective (AddMonoidHom.mk' (resFun S ht) hadd) := by
@@ -79,6 +83,7 @@ theorem resFun_inj : Function.Injective (resFun S ht) := by
     rwa [orthResProj_orthResIncl] at h3
   exact hinj
 
+omit [Finite K] [CharP K 2] in
 theorem resFun_quad (u : (Fin (r - t) ⊕ Fin (r - t) → K) × (Fin 2 → K)) :
     quadTail (r - t) (minusTailForm K b c) (resFun S ht u) =
       S.μ * S.σ (quadTail (r - t) (minusTailForm K b c) u) := by
@@ -106,6 +111,7 @@ variable (S : SemiData K r b c) (hd : OrthCuts r d)
     v ∈ tailFlag K (Fin 2 → K) r (d (Fin.last s)))
 include hflag
 
+omit [Finite K] [CharP K 2] in
 theorem resFun_comm (g : ((Fin (r - d (Fin.last s)) ⊕ Fin (r - d (Fin.last s)) → K) ×
       (Fin 2 → K)) ≃ₗ[K] ((Fin (r - d (Fin.last s)) ⊕ Fin (r - d (Fin.last s)) → K) ×
       (Fin 2 → K)))
@@ -159,6 +165,7 @@ variable (S : SemiData K r b c) (hd : OrthCuts r d)
     v ∈ tailFlag K (Fin 2 → K) r (d (Fin.last s)))
 include hflag
 
+omit [CharP K 2] in
 theorem res_sigma_and_scalar (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0)
     (hm : 1 ≤ r - d (Fin.last s))
     (hrel : ∀ g ∈ orthDerived (quadTail (r - d (Fin.last s)) (minusTailForm K b c)),
@@ -167,6 +174,7 @@ theorem res_sigma_and_scalar (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0)
   schur_tail hm hirr (resEquiv S hd.last hflag) S.σ (fun a v => resFun_smul S hd.last a v) S.μ
     (fun v => resFun_quad S hd.last hflag v) hrel
 
+omit [Finite K] [CharP K 2] in
 theorem scalarMod_res {a : K} (ha : ∀ u, resFun S hd.last u = a • u) {v : 𝕍}
     (hv : IsResPerp hd.last v) :
     S.F v - a • v ∈ tailFlag K (Fin 2 → K) r (d (Fin.last s)) := by

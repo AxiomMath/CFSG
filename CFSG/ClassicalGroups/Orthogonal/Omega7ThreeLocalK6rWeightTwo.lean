@@ -73,8 +73,8 @@ private theorem siegelT_add (l₁ l₂ : K) :
     siegelT l₁ l₂ + siegelT' l₁ l₂ + siegelT'' l₁ l₂ = 0 := by
   funext a
   rcases a with i | i | u
-  · fin_cases i <;> simp [siegelT, siegelT', siegelT''] <;> ring
-  · fin_cases i <;> simp [siegelT, siegelT', siegelT''] <;> ring
+  · fin_cases i <;> simp [siegelT, siegelT', siegelT'']; ring
+  · fin_cases i <;> simp [siegelT, siegelT', siegelT'']
   · simp [siegelT, siegelT', siegelT'', vecOf]
 
 private theorem siegelT_modelPolar_x0 (a l₁ l₂ : K) :
@@ -93,37 +93,37 @@ private theorem siegel_rot_zero_T (l₁ l₂ : K) {v : Fin 3 → ZMod 3} (h0 : v
     (h1 : v 1 = 0) : rotMat K v *ᵥ siegelT l₁ l₂ = siegelT l₁ l₂ := by
   rw [siegelT, rotMat_mulVec_vecOf, vecOf_eq_iff]
   refine ⟨funext fun i => ?_, funext fun i => ?_, rfl⟩ <;> fin_cases i <;>
-    simp [planeRot_zero, h0, h1] <;> ring
+    simp [planeRot_zero, h0, h1]
 
 private theorem siegel_rot_zero_T' (l₁ l₂ : K) {v : Fin 3 → ZMod 3} (h0 : v 0 = 0)
     (h1 : v 1 = 0) : rotMat K v *ᵥ siegelT' l₁ l₂ = siegelT' l₁ l₂ := by
   rw [siegelT', rotMat_mulVec_vecOf, vecOf_eq_iff]
   refine ⟨funext fun i => ?_, funext fun i => ?_, rfl⟩ <;> fin_cases i <;>
-    simp [planeRot_zero, h0, h1] <;> ring
+    simp [planeRot_zero, h0, h1]
 
 private theorem siegel_rot_one_T (l₁ l₂ : K) {v : Fin 3 → ZMod 3} (h0 : v 0 = 1)
     (h1 : v 1 = 1) : rotMat K v *ᵥ siegelT l₁ l₂ = siegelT' l₁ l₂ := by
   rw [siegelT, siegelT', rotMat_mulVec_vecOf, vecOf_eq_iff]
   refine ⟨funext fun i => ?_, funext fun i => ?_, rfl⟩ <;> fin_cases i <;>
-    simp [planeRot_one, h0, h1] <;> ring
+    simp [planeRot_one, h0, h1]; ring
 
 private theorem siegel_rot_one_T' (l₁ l₂ : K) {v : Fin 3 → ZMod 3} (h0 : v 0 = 1)
     (h1 : v 1 = 1) : rotMat K v *ᵥ siegelT' l₁ l₂ = siegelT'' l₁ l₂ := by
   rw [siegelT', siegelT'', rotMat_mulVec_vecOf, vecOf_eq_iff]
   refine ⟨funext fun i => ?_, funext fun i => ?_, rfl⟩ <;> fin_cases i <;>
-    simp [planeRot_one, h0, h1] <;> ring
+    simp [planeRot_one, h0, h1]; ring
 
 private theorem siegel_rot_two_T (l₁ l₂ : K) {v : Fin 3 → ZMod 3} (h0 : v 0 = 2)
     (h1 : v 1 = 2) : rotMat K v *ᵥ siegelT l₁ l₂ = siegelT'' l₁ l₂ := by
   rw [siegelT, siegelT'', rotMat_mulVec_vecOf, vecOf_eq_iff]
   refine ⟨funext fun i => ?_, funext fun i => ?_, rfl⟩ <;> fin_cases i <;>
-    simp [planeRot_two, h0, h1] <;> ring
+    simp [planeRot_two, h0, h1]; ring
 
 private theorem siegel_rot_two_T' (l₁ l₂ : K) {v : Fin 3 → ZMod 3} (h0 : v 0 = 2)
     (h1 : v 1 = 2) : rotMat K v *ᵥ siegelT' l₁ l₂ = siegelT l₁ l₂ := by
   rw [siegelT', siegelT, rotMat_mulVec_vecOf, vecOf_eq_iff]
   refine ⟨funext fun i => ?_, funext fun i => ?_, rfl⟩ <;> fin_cases i <;>
-    simp [planeRot_two, h0, h1] <;> ring
+    simp [planeRot_two, h0, h1]
 
 theorem exists_siegel_pair_planes_zero_one [Finite K] (F : Frame K) :
     ∃ t t' : Idx → K, modelQuad K F.a t = 0 ∧ modelPolar K F.a t t' = 0 ∧

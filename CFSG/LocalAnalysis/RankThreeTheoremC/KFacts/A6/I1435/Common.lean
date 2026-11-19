@@ -85,7 +85,7 @@ theorem nonempty_mulEquiv_W3 {P : Sylow 3 X} (e : ↥(P : Subgroup X) ≃* W3) {
   have hHQ : H = (Q : Subgroup X) := eq_of_le_of_card_ge hQ (by rw [hQc, h81])
   exact ⟨(MulEquiv.subgroupCongr hHQ).trans ((Sylow.equiv Q P).trans e)⟩
 
-theorem conjLinesIn_ne_three {L : Type*} [Group L] {K E : Subgroup X} (hEK : E ≤ K)
+theorem conjLinesIn_ne_three {L : Type*} [Group L] {K E : Subgroup X} (_hEK : E ≤ K)
     (ψ : ↥K →* L) (hψ : Function.Injective ψ) {x : X} (hx : x ∈ K) (k : Fin 4 → ↥K)
     (hle : ∀ i, ψ (k i * ⟨x, hx⟩ * (k i)⁻¹) ∈ (E.subgroupOf K).map ψ)
     (hinj : ∀ i j, zpowers (ψ (k i * ⟨x, hx⟩ * (k i)⁻¹)) =
@@ -141,6 +141,7 @@ theorem not_isPSolvable_centralizer {K : Subgroup X} {x : X} (hx : x ∈ K) (H :
   have h1 := CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.PSolvableClosure.isPSolvable_of_le hs hle
   exact hns (isPSolvable_of_equiv (equivMapOfInjective H K.subtype K.subtype_injective).symm h1)
 
+omit [Finite X] in
 theorem card_inf_centralizer_eq {L : Type*} [Group L] {K : Subgroup X} (ψ : ↥K ≃* L) {x : X}
     (hx : x ∈ K) :
     Nat.card ↥(K ⊓ centralizer ({x} : Set X)) = Nat.card ↥(centralizer ({ψ ⟨x, hx⟩} : Set L)) := by
@@ -171,6 +172,7 @@ section Conj
 
 variable {L : Type*} [Group L] [Finite L]
 
+omit [Finite L] in
 theorem map_trans_conj {K : Type*} [Group K] (ψ : K ≃* L) (E' : Subgroup K) {F₀ : Subgroup L}
     {g : L} (h : E'.map ψ.toMonoidHom = F₀.map (MulAut.conj g).toMonoidHom) :
     E'.map (ψ.trans (MulAut.conj g⁻¹)).toMonoidHom = F₀ := by

@@ -23,6 +23,7 @@ theorem exists_isMaxTwoLocal_ge_of_isTwoLocal {H : Subgroup G} (hH : IsTwoLocal 
   obtain ⟨N, hHN, hN⟩ := Finite.exists_le_maximal (p := IsTwoLocal) hH
   exact ⟨N, ⟨hN.1, fun K hK hNK => le_antisymm (hN.2 hK hNK) hNK⟩, hHN⟩
 
+omit [Finite G] in
 theorem mem_pCoreOf_top_of_mem_pCore {r : ℕ} {x : G} (hx : x ∈ CFSG.pCore r G) :
     x ∈ pCoreOf r (⊤ : Subgroup G) := by
   have h1 : (⟨x, Subgroup.mem_top x⟩ : (⊤ : Subgroup G)) ∈ CFSG.pCore r (⊤ : Subgroup G) := by
@@ -51,7 +52,7 @@ theorem comm_pCoreOf_two_of_normal_odd {M K : Subgroup G} [K.Normal] (hKM : K �
       rw [pCoreOf]
       exact CFSG.pCore_isPGroup.map _
     obtain ⟨a, ha⟩ := hQ2.exists_card_eq
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [ha]
     exact Nat.Coprime.pow_left _ ((Nat.Prime.coprime_iff_not_dvd Nat.prime_two).2 hK)
   rw [hcoprime, Subgroup.mem_bot] at hc
@@ -69,7 +70,7 @@ variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ} (h : Hyp36
 include h
 
 theorem pPrimeCore_le : relPPrimeCore p (⊤ : Subgroup G) ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact CFSG.LocalAnalysis.AGL81TheoremC.relPPrimeCore_le_of_glbCore_le (k := 1) h.elem
     (by rw [h.card]) le_top h.gamma
 
@@ -87,7 +88,7 @@ theorem not_dvd_card_pPrimeCore : ¬ p ∣ Nat.card (relPPrimeCore p (⊤ : Subg
 theorem exists_invariant_sylow_two :
     ∃ S : Subgroup G, fusionIsSylowIn 2 S (relPPrimeCore p (⊤ : Subgroup G)) ∧
       E ≤ normalizer (S : Set G) := by
-  haveI := h.normal_pPrimeCore
+  have := h.normal_pPrimeCore
   have hEX : E ≤ normalizer ((relPPrimeCore p (⊤ : Subgroup G) : Subgroup G) : Set G) := by
     rw [Subgroup.normalizer_eq_top_iff.2
       (inferInstance : (relPPrimeCore p (⊤ : Subgroup G)).Normal)]
@@ -102,8 +103,8 @@ theorem exists_invariant_sylow_two :
 
 theorem not_dvd_two_card_pPrimeCore : ¬ 2 ∣ Nat.card (relPPrimeCore p (⊤ : Subgroup G)) := by
   intro h2
-  haveI := h.normal_pPrimeCore
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.normal_pPrimeCore
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS, hES⟩ := h.exists_invariant_sylow_two
   obtain ⟨T, hT⟩ := CFSG.Goldschmidt.G310.exists_sylow_of_fusionIsSylowIn hS
   have hfr : normalizer (S : Set G) ⊔ relPPrimeCore p (⊤ : Subgroup G) = ⊤ := by
@@ -130,7 +131,7 @@ theorem not_dvd_two_card_pPrimeCore : ¬ 2 ∣ Nat.card (relPPrimeCore p (⊤ : 
 
 theorem comm_pPrimeCore {q x : G} (hq : q ∈ pCoreOf 2 M)
     (hx : x ∈ relPPrimeCore p (⊤ : Subgroup G)) : q * x = x * q := by
-  haveI := h.normal_pPrimeCore
+  have := h.normal_pPrimeCore
   exact comm_pCoreOf_two_of_normal_odd h.pPrimeCore_le h.not_dvd_two_card_pPrimeCore hq hx
 
 theorem comm_fittingSubgroup {q x : G} (hq : q ∈ pCoreOf 2 M) (hx : x ∈ CFSG.fittingSubgroup G) :
@@ -144,7 +145,7 @@ theorem comm_fittingSubgroup {q x : G} (hq : q ∈ pCoreOf 2 M) (hx : x ∈ CFSG
     by_cases hrp : r.1.1 = p
     · have hy' : y ∈ CFSG.pCore p G := hrp ▸ hy
       exact (h.comm_pCoreOf_top hq (mem_pCoreOf_top_of_mem_pCore hy')).symm
-    · haveI : Fact r.1.1.Prime := ⟨hr⟩
+    · have : Fact r.1.1.Prime := ⟨hr⟩
       have hyX : y ∈ relPPrimeCore p (⊤ : Subgroup G) := by
         refine (le_sSup (s := {N : Subgroup G | N ≤ ⊤ ∧ (N.subgroupOf ⊤).Normal ∧
             Nat.Coprime p (Nat.card N)}) ⟨le_top, ?_, ?_⟩ : CFSG.pCore r.1.1 G ≤ _) hy

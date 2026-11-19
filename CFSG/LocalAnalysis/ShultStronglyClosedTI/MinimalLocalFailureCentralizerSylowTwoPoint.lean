@@ -70,7 +70,7 @@ theorem two_point_centralizer_sylow_promotion
       ((hQB.trans inf_le_left).trans inf_le_right)
   let QD := QG.subgroupOf D
   have hQDmap : QD.map D.subtype = QG := Subgroup.map_subgroupOf_eq_of_le hQD
-  have hQp : IsPGroup p QG := Q.isPGroup'.map B.subtype
+  have hQp : IsPGroup p QG := Q.isPGroup.map B.subtype
   let P : Sylow p D := ⟨QD, hQp.comap_subtype, by
     intro S hSp hQDS
     let SG := S.map D.subtype

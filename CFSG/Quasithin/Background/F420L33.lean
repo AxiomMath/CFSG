@@ -403,7 +403,7 @@ theorem noFourCentralizing_projectiveSL_three (hK : Nat.card K = 3) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hTQ⟩ := (isPGroup_l33T hK).exists_le_sylow
   have hQ : CFSG.QuasithinUnique.IsSylowTwoOf (Q : Subgroup (projectiveSL 3 K)) ⊤ :=
-    isSylowTwoOf_top_iff.mpr ⟨Q.isPGroup', Q.not_dvd_index⟩
+    isSylowTwoOf_top_iff.mpr ⟨Q.isPGroup, Q.not_dvd_index⟩
   refine sylowCentralizingAutInner_of_sylow _ hQ (fun β hβ => ?_) S
     (isSylowTwoOf_top_iff.mpr hS) α hα
   exact inner_of_fix_T_l33 hK β (hβ _ (hTQ (Subgroup.subset_closure (Set.mem_insert _ _))))

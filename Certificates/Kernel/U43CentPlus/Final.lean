@@ -97,7 +97,7 @@ theorem map_conj_inv {M N : Subgroup G} {x : G} (h : M.map (MulAut.conj x).toMon
   ext z
   constructor
   · intro hz
-    exact mem_map.2 ⟨z, hz, by simp [MulAut.conj_apply]⟩
+    exact mem_map.2 ⟨z, hz, by simp⟩
   · intro hz
     obtain ⟨w, hw, e⟩ := mem_map.1 hz
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_one, one_mul, mul_one] at e

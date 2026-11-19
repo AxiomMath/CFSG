@@ -55,7 +55,7 @@ theorem exists_two_subgroup_lift (π : U →* P) (hπ : Function.Surjective π) 
     omega
   have hT₂n : (T₂ : Subgroup ↥H).Normal :=
     ((Group.isNilpotent_of_finite_tfae (G := ↥H)).out 1 4 rfl rfl).mp hnil 2 ⟨Nat.prime_two⟩ T₂
-  have hle : (T₂ : Subgroup ↥H) ≤ pCore 2 ↥H := le_pCore 2 hT₂n T₂.isPGroup'
+  have hle : (T₂ : Subgroup ↥H) ≤ pCore 2 ↥H := le_pCore 2 hT₂n T₂.isPGroup
   have hKne : pCore 2 ↥H ≠ ⊥ := fun h => hT₂ne (le_bot_iff.mp (h ▸ hle))
   have hchar : (pCore 2 ↥H).Characteristic := pCore_characteristic 2
   refine ⟨(pCore 2 ↥H).map H.subtype, ?_, (pCore_isPGroup 2).map H.subtype, ?_⟩

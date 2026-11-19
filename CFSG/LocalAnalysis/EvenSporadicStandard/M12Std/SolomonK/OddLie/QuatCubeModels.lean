@@ -47,8 +47,7 @@ theorem quatCube_eq_of_scalar {K : Type*} [Field K] (hK : ringChar K ≠ 2) {a b
         | exact hc.symm.trans hc'
         | exact hc''.symm.trans hc
         | exact hc.symm.trans hc''
-        | exact hc''.symm.trans hc'
-        | exact hc'.symm.trans hc'')
+)
 
 theorem exists_quatCube_statedProj {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     {H : Subgroup (GL ι K)}

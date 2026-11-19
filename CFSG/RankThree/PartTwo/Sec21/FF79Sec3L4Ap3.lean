@@ -45,7 +45,7 @@ theorem sec34_K1_a5 (hU : FF79Sec34UFacts b a J A) (hK : IsLnq 2 2 2 (Lay (J ⊓
 theorem sec34_K_inf_core (hU : FF79Sec34UFacts b a J A) (hK : IsLnq 2 2 2 (Lay (J ⊓ Cen a))) :
     ∀ x ∈ (Lay (J ⊓ Cen a)).subgroupOf (CenS (U34 b a J A)),
       x ∈ pPrimeCore 3 ↥(CenS (U34 b a J A)) → x = 1 := by
-  haveI : (pPrimeCore 3 ↥(CenS (U34 b a J A))).Normal := pPrimeCore_normal
+  have : (pPrimeCore 3 ↥(CenS (U34 b a J A))).Normal := pPrimeCore_normal
   have e := sec34_K1_a5 hU hK
   refine a5_inf_eq_bot _ _ e fun hle => ?_
   have h60 : Nat.card ((Lay (J ⊓ Cen a)).subgroupOf (CenS (U34 b a J A))) = 60 :=
@@ -87,8 +87,8 @@ theorem sec34_ap_K_nor (h : FF79Sec34In b J B A P D) (hU : FF79Sec34UFacts b a J
   rw [← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
   exact mk_mem_cqImg (c * d * c⁻¹) hcd
 
-theorem sec34_ap_K (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D)
-    (hU : FF79Sec34UFacts b a J A) (hoa : orderOf a = 3)
+theorem sec34_ap_K (_hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D)
+    (hU : FF79Sec34UFacts b a J A) (_hoa : orderOf a = 3)
     (hK : IsLnq 2 2 2 (Lay (J ⊓ Cen a))) :
     Nonempty (cqImg (U34 b a J A) (Lay (J ⊓ Cen a)) ≃* alternatingGroup (Fin 5)) ∧
     (∀ k ∈ cqImg (U34 b a J A) (Lay (J ⊓ Cen a)),
@@ -112,7 +112,7 @@ theorem sec34_ap_K (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D)
         (Subgroup.inv_mem _ hyR) k
       have h2 := Subgroup.mul_mem _ hyR this
       simpa [mul_assoc] using h2
-    haveI : (pCore 3 (CQ (U34 b a J A))).Normal := pCore_normal
+    have : (pCore 3 (CQ (U34 b a J A))).Normal := pCore_normal
     have hKR : ¬ cqImg (U34 b a J A) (Lay (J ⊓ Cen a)) ≤ pCore 3 (CQ (U34 b a J A)) := by
       intro hle
       have h60 : Nat.card (cqImg (U34 b a J A) (Lay (J ⊓ Cen a))) = 60 :=

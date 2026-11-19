@@ -17,7 +17,7 @@ namespace CFSG.LieType.SeitzGeneration.ExcOuterLeOne
 
 
 theorem exists_irrational_longRootElt_of_not_mem {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
-    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hσ : orderOf σ = p) (hpK : p ≠ ringChar K)
+    {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hσ : orderOf σ = p) (_hpK : p ≠ ringChar K)
     (hD : ringChar K ≠ 2 ∨ 4 ∣ Nat.card (fixSubfield σ)) (g : ↥(adjointGroup .F4 K))
     (hg : g ∉ subfieldGroup .F4 σ) :
     ∃ r ∈ subfieldGroup .F4 σ, ∃ r' ∈ subfieldGroup .F4 σ,

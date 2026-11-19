@@ -18,6 +18,7 @@ variable {G : Type*} [Group G] [Finite G] {S : Setting G} {A : Subgroup G}
 
 namespace MaxEA
 
+omit [Finite G] [IsElementaryAbelian 2 ↥A] in
 private theorem conjSub_mul (g k : G) :
     conjSub A (g * k) = conjSub (conjSub A k) g := by
   ext b
@@ -25,7 +26,8 @@ private theorem conjSub_mul (g k : G) :
   have e : (g * k)⁻¹ * b * (g * k) = k⁻¹ * (g⁻¹ * b * g) * k := by group
   rw [e]
 
-theorem conjSub_eq_self_of_good (hA : MaxEA S A) (hM : S.M ≤ normalizer (A : Set G))
+omit [IsElementaryAbelian 2 ↥A] in
+theorem conjSub_eq_self_of_good (_hA : MaxEA S A) (_hM : S.M ≤ normalizer (A : Set G))
     (hII : ∀ g : G, g * S.z * g⁻¹ ∈ S.QG → g * S.z * g⁻¹ ∈ A)
     (hconj : ∀ a ∈ A, a ≠ 1 → ∃ g : G, g * S.z * g⁻¹ = a)
     (hgood : ∀ g : G, g * S.z * g⁻¹ ∈ A → A ≤ S.Qa g) {g : G}
@@ -54,8 +56,9 @@ theorem conjSub_eq_self_of_good (hA : MaxEA S A) (hM : S.M ≤ normalizer (A : S
     rw [conjSub]
     exact Subgroup.card_map_of_injective
       (f := (MulAut.conj g).toMonoidHom) (MulAut.conj g).injective
-  simpa [hcard]
+  simp [hcard]
 
+omit [IsElementaryAbelian 2 A] in
 theorem conjSub_eq_or_inf_eq_bot (hA : MaxEA S A) (hM : S.M ≤ normalizer (A : Set G))
     (hII : ∀ g : G, g * S.z * g⁻¹ ∈ S.QG → g * S.z * g⁻¹ ∈ A)
     (hconj : ∀ a ∈ A, a ≠ 1 → ∃ g : G, g * S.z * g⁻¹ = a)

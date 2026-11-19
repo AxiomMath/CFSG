@@ -29,7 +29,7 @@ private noncomputable instance fkInvertibleTwo : Invertible (2 : 𝔽₃) :=
     exact neg_ne_zero.mpr one_ne_zero)
 
 private lemma fk_unit_sq_one (u : 𝔽₃ˣ) : u * u = 1 := by
-  haveI : Fintype 𝔽₃ := Fintype.ofFinite _
+  have : Fintype 𝔽₃ := Fintype.ofFinite _
   have hcard : Fintype.card 𝔽₃ = 3 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 3 1 one_ne_zero, pow_one]
   have h := FiniteField.pow_card (u : 𝔽₃)
@@ -79,8 +79,8 @@ private lemma fkD0_det_units : LinearEquiv.det (fkDiag fkD0) = 1 := by
   rw [Units.coe_prod, Units.val_one, Fintype.prod_sum_type]
   have h4 : ((-1 : 𝔽₃) ^ 4) = 1 := by
     rw [show (4 : ℕ) = 2 * 2 by norm_num, pow_mul]
-    simp [pow_two, neg_mul_neg]
-  simp [fkD0, h4, one_mul]
+    simp [pow_two]
+  simp [fkD0, h4]
 
 private noncomputable def fkV1 : Fin 4 ⊕ Fin 4 → 𝔽₃ :=
   Pi.single (Sum.inl 0) 1 - Pi.single (Sum.inr 0) 1
@@ -147,7 +147,7 @@ private lemma fkDiag_dk_eq_reflection :
   funext i
   rw [LinearEquiv.mul_apply, fk_reflect_v1, fk_reflect_v2, fkDiag_apply]
   rcases i with m | m <;> fin_cases m <;>
-    simp [fkV1, fkV2, fkDK, Pi.single_apply] <;> ring
+    simp [fkV1, fkV2, fkDK]
 
 private lemma fkDK_mul (m : Fin 4) : (fkDK (.inl m) : 𝔽₃) * fkDK (.inr m) = 1 := by
   fin_cases m <;> simp [fkDK]
@@ -197,7 +197,7 @@ private lemma fkKO_eq : fkKO = TauCeti.QuadraticMap.reflectionOrthogonal Q₄ fk
 
 private lemma fk_neg_one_units_mul : (-1 : 𝔽₃ˣ) * (-1) = 1 := by
   ext
-  simp [Units.val_mul, Units.val_neg, Units.val_one, neg_mul_neg]
+  simp [Units.val_one]
 
 private lemma fk_detSpinorNorm_KO (hQ : (quadPlus 4 𝔽₃).Nondegenerate) :
     detSpinorNorm hQ fkKO = (1, TauCeti.squareClassHom (-1 : 𝔽₃ˣ)) := by
@@ -207,7 +207,7 @@ private lemma fk_detSpinorNorm_KO (hQ : (quadPlus 4 𝔽₃).Nondegenerate) :
   have hu2 : unitOfInvertible (Q₄ fkV2) = (1 : 𝔽₃ˣ) :=
     Units.ext (by simp [val_unitOfInvertible, fk_quad_v2])
   rw [hu1, hu2, map_one]
-  ext <;> simp [fk_neg_one_units_mul]
+  ext <;> simp
 
 theorem fk_coset
     (a : (Fin 4 ⊕ Fin 4 → GaloisField 3 1) ≃ₗ[GaloisField 3 1] (Fin 4 ⊕ Fin 4 → GaloisField 3 1))

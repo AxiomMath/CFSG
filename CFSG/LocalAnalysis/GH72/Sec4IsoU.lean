@@ -25,7 +25,7 @@ theorem hasDihedralSylowTwo_bar {U : Subgroup Z} (hD : HasDihedralSylowTwo U) :
   obtain ⟨m, hm, ⟨e⟩⟩ := hD T
   set K : Subgroup Z := (T : Subgroup U).map U.subtype with hK
   have hKU : K ≤ U := map_subtype_le _
-  have hK2 : IsPGroup 2 K := T.isPGroup'.map _
+  have hK2 : IsPGroup 2 K := T.isPGroup.map _
   obtain ⟨eb⟩ := nonempty_mulEquiv_bar hKU hK2
   have hT : K.subgroupOf U = (T : Subgroup U) := by
     rw [hK, subgroupOf, comap_map_eq_self_of_injective U.subtype_injective]

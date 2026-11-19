@@ -105,9 +105,9 @@ theorem v2N_ofFn (f : Nat → Bool) : v2N (V2.ofFn f) = bitsJ f := by
       rw [V2.toVec_apply] at hv'
       cases h1 : (V2.ofFn f).testBit j <;> cases h2 : f j <;>
         simp [h1, h2] at hv' ⊢
-    rw [if_pos hj, ← testBit_v2N _ (by omega)]
+    rw [ite_eq_left hj, ← testBit_v2N _ (by omega)]
     exact hv
-  · rw [if_neg hj, Nat.testBit_lt_two_pow
+  · rw [ite_eq_right hj, Nat.testBit_lt_two_pow
       (hlt.trans_le (Nat.pow_le_pow_right (by norm_num) (by omega)))]
 
 theorem wf_ofFn (f : Nat → Bool) : (V2.ofFn f).wf = true := by

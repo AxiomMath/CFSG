@@ -145,7 +145,7 @@ theorem ncard_inI : {v : V12 | InI v}.ncard = 64 := by
   rw [← Nat.card_coe_set_eq, ← iOK43_spec.1]
   refine card_of_codes (P := fun v => v ∈ {v : V12 | InI v}) (List.nodup_range.filter _)
     (fun n hn => List.mem_range.1 (List.mem_of_mem_filter hn)) (fun y => ?_)
-  simp only [Set.mem_setOf_eq, List.mem_filter, List.mem_range, InI, decide_eq_true_eq]
+  simp only [Set.mem_ofPred_eq, List.mem_filter, List.mem_range, InI]
   exact ⟨fun h => ⟨codeOf_lt y, h⟩, fun h => h.2⟩
 
 theorem eq_inI {W : Set V12}
@@ -223,9 +223,10 @@ theorem card_Lbar_le (S : Setting G) {g : G} (haQ : g * S.z * g⁻¹ ∈ S.QG)
         Nat.card P ≤ n) :
     Nat.card (S.Lbar g) ≤ n := by
   refine hle _ (Lbar_le_stab S haQ) (fun s hs p hp => Lbar_conj_mem S haQ ha1 hne hs hp) ?_
-  haveI := S.isElementaryAbelian_Lbar haQ
+  have := S.isElementaryAbelian_Lbar haQ
   exact CFSG.IsElementaryAbelian.isPGroup 2 _
 
+omit [Finite G] in
 theorem mem_Qa_iff_conj (S : Setting G) (k x : G) : x ∈ S.Qa k ↔ k⁻¹ * x * k ∈ S.QG := by
   rw [Setting.Qa_eq_map]
   constructor
@@ -483,6 +484,7 @@ theorem rep3_mem_Zinf : D.rep 3 ∈ Zinf (h := h) g₁ s₀ :=
   (D.mem_Zinf_iff hOut hTw hg₁ hs₀).mpr ⟨D.rep_mem 3, by
     rw [ψV_cl_rep, Two.inZ_vecOf_iff (by norm_num)]; decide⟩
 
+omit hOut hTw hg₁ in
 theorem ψV_cl_conj_rep3 :
     D.ψV (h.setting.cl ((s₀ : G) * D.rep 3 * (s₀ : G)⁻¹)) = vecOf 192 := by
   rw [← h.setting.ρ_cl s₀ (D.rep_mem 3), ← Φo_apply_ψV, ψV_cl_rep, hs₀, Two.tE_three,
@@ -491,7 +493,7 @@ theorem ψV_cl_conj_rep3 :
 
 theorem conj_rep3_mem_Zinf : (s₀ : G) * D.rep 3 * (s₀ : G)⁻¹ ∈ Zinf (h := h) g₁ s₀ :=
   (D.mem_Zinf_iff hOut hTw hg₁ hs₀).mpr ⟨h.setting.conj_mem_QG s₀.2 (D.rep_mem 3), by
-    rw [D.ψV_cl_conj_rep3 hOut hTw hg₁ hs₀, Two.inZ_vecOf_iff (by norm_num)]; decide⟩
+    rw [D.ψV_cl_conj_rep3 hs₀, Two.inZ_vecOf_iff (by norm_num)]; decide⟩
 
 theorem card_Zinf : Nat.card (Zinf (h := h) g₁ s₀) = 8 := by
   have hZQ : Zinf (h := h) g₁ s₀ ≤ h.setting.QG := fun x hx =>
@@ -537,7 +539,7 @@ theorem closure_eq_Zinf :
     obtain ⟨hxQ, hxZ⟩ := (D.mem_Zinf_iff hOut hTw hg₁ hs₀).mp hx
     exact D.mem_of_classes (subset_closure (by simp)) (subset_closure (by simp))
       (subset_closure (by simp)) (D.rep_mem 3) (h.setting.conj_mem_QG s₀.2 (D.rep_mem 3))
-      (D.ψV_cl_rep 3) (D.ψV_cl_conj_rep3 hOut hTw hg₁ hs₀) (by decide) hxQ hxZ
+      (D.ψV_cl_rep 3) (D.ψV_cl_conj_rep3 hs₀) (by decide) hxQ hxZ
 
 theorem c_conj_mem_Zinf {y : G} (hy : y ∈ Zinf (h := h) g₁ s₀) :
     (D.c : G) * y * (D.c : G)⁻¹ ∈ Zinf (h := h) g₁ s₀ := by

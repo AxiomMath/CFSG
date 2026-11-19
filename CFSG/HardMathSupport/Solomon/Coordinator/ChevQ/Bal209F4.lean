@@ -275,7 +275,7 @@ theorem mem_normalizer_inf_centralizer {K : Subgroup X} {x w : X}
       _ = w * (x * g * x⁻¹) * w⁻¹ := by rw [hdk]; group
   rw [Subgroup.mem_normalizer_iff]
   intro g
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   constructor
   · rintro ⟨hgK, hgC⟩
     have hgC' : x * g = g * x := Subgroup.mem_centralizer_iff.1 hgC x (Set.mem_singleton x)
@@ -303,7 +303,7 @@ theorem mem_normalizer_inf_centralizer {K : Subgroup X} {x w : X}
 theorem exists_ne_one_of_isQuasisimple {G : Type*} [Group G]
     (h : CFSG.Open.IsQuasisimple G) : ∃ g : G, g ≠ 1 := by
   obtain ⟨-, hs⟩ := h
-  haveI := hs
+  have := hs
   obtain ⟨q, hq⟩ := exists_ne (1 : G ⧸ Subgroup.center G)
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective q
   exact ⟨g, fun hg => hq (by rw [hg]; rfl)⟩

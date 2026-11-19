@@ -84,7 +84,7 @@ theorem exists_twoFrame (h : PerpHypR r n Y R S t) (h2 : TwinPerp.TwoTwins R) {W
   have hz : IsUniqueInvolution K t := hs.hz
   have hz' : IsUniqueInvolution K' t := isUniqueInvolution_of_mem_twinSet hz hs.hK'
   have hP : Q3CL.PartIHypG Ω := h.partIHypG
-  haveI : Fact (Q3CL.ClassicalClause Ω) := ⟨h.partIHypG.cls⟩
+  have : Fact (Q3CL.ClassicalClause Ω) := ⟨h.partIHypG.cls⟩
   have c : Q3CL.Thompson.Ctx Ω W :=
     CFSG.ClassicalInvolution.T7F25.Asc77.T7D.ctx_of_stand hst hW
   obtain ⟨e, he⟩ :=

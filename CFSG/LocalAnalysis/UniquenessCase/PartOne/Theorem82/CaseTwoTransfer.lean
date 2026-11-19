@@ -41,7 +41,7 @@ theorem conj_ne_inv_of_inducesAlternating (hIIa : t.InducesAlternating)
       ≤ c.S.M) (g : G) :
     g * t.y * g⁻¹ ≠ t.y⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hconj
   set C : Subgroup G := Subgroup.centralizer ({t.y} : Set G) with hCdef
   set T : Subgroup G := t.P ⊓ C with hTdef
@@ -130,7 +130,7 @@ theorem conj_ne_inv_of_inducesAlternating (hIIa : t.InducesAlternating)
   have hσne : σ ≠ 1 := by
     intro h1
     rw [h1] at hσ0
-    exact (by decide : (0 : Fin 3) ≠ 1) (by simpa using hσ0)
+    exact (by decide : (0 : Fin 3) ≠ 1) (by simp at hσ0)
   have hσsign : Equiv.Perm.sign σ = 1 := by
     have hsign3 : Equiv.Perm.sign σ ^ 3 = 1 := by
       rw [← map_pow, hσ3, map_one]
@@ -155,8 +155,8 @@ theorem conj_ne_inv_of_inducesAlternating (hIIa : t.InducesAlternating)
 theorem false_of_forall_conj_y {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNormalizerLe p)
     (hF1 : ∀ g : G, g * t.y * g⁻¹ ∉ t.d.AA) (hF2 : ∀ g : G, g * t.y * g⁻¹ ≠ t.y⁻¹) : False := by
   classical
-  haveI : IsSimpleGroup G := c.standing.simple
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup G := c.standing.simple
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPtop : CFSG.ABGLocalTools.IsSylowOf 3 t.P ⊤ := t.isSylowOf_top (p := p) hp hN
   have hPidx : ¬ 3 ∣ t.P.index := by
     have h := (CFSG.ABGLocalTools.isSylowOf_iff.mp hPtop).2.2

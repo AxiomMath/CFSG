@@ -60,7 +60,7 @@ theorem two_le_pRank_of_quotient_center {T : Type} [Group T] {A : Subgroup B}
     (e : ↥A ⧸ center ↥A ≃* T) (hZ : Odd (Nat.card (center ↥A)))
     (hT : ∃ V : Subgroup T, IsKleinFour ↥V) : 2 ≤ CFSG.pRank 2 ↥A := by
   obtain ⟨V, hV⟩ := hT
-  haveI : Finite T := Finite.of_surjective e e.surjective
+  have : Finite T := Finite.of_surjective e e.surjective
   have hEA : IsElementaryAbelian 2 ↥V :=
     { toIsMulCommutative := IsKleinFour.isMulCommutative
       exponent_dvd_p := by rw [hV.exponent_two] }

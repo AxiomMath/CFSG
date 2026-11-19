@@ -104,12 +104,12 @@ theorem minor_diagonal (d : Fin m → R) {n : ℕ} (s t : Set.powersetCard (Fin 
     minor (Matrix.diagonal d) s t = if s = t then ∏ a ∈ (s : Finset (Fin m)), d a else 0 := by
   by_cases hst : s = t
   · subst hst
-    rw [if_pos rfl, minor,
+    rw [ite_eq_left rfl, minor,
       Matrix.submatrix_diagonal _ _ (Set.powersetCard.ofFinEmbEquiv.symm s).injective,
       Matrix.det_diagonal]
     simpa only [Set.powersetCard.ofFinEmbEquiv_symm_apply, Function.comp_apply] using
       prod_orderEmbOfFin s.val s.prop d
-  · rw [if_neg hst, minor]
+  · rw [ite_eq_right hst, minor]
     obtain ⟨a, has, hat⟩ := (Set.powersetCard.exists_mem_notMem_iff_ne s t).mp hst
     have has' : a ∈ (s : Finset (Fin m)) := has
     obtain ⟨i, hi⟩ := Set.mem_range.mp
@@ -221,7 +221,7 @@ theorem minor_one_add_single (h2 : (2 : R) = 0) {r c : Fin m} (hrc : r ≠ c) (x
   by_cases hst : s = t
   ·
     subst hst
-    rw [if_pos rfl, minor]
+    rw [ite_eq_left rfl, minor]
     set es : Fin n → Fin m := (Set.powersetCard.ofFinEmbEquiv.symm s : Fin n → Fin m) with hes
     have hes_inj : Function.Injective es := by
       rw [hes]
@@ -259,7 +259,7 @@ theorem minor_one_add_single (h2 : (2 : R) = 0) {r c : Fin m} (hrc : r ≠ c) (x
         simp [hne]
       rw [hB, smul_zero, add_zero, Matrix.det_one]
   ·
-    rw [if_neg hst, minor]
+    rw [ite_eq_right hst, minor]
     set es : Fin n → Fin m := (Set.powersetCard.ofFinEmbEquiv.symm s : Fin n → Fin m) with hes
     set et : Fin n → Fin m := (Set.powersetCard.ofFinEmbEquiv.symm t : Fin n → Fin m) with het
     have hes_inj : Function.Injective es := by
@@ -281,7 +281,7 @@ theorem minor_one_add_single (h2 : (2 : R) = 0) {r c : Fin m} (hrc : r ≠ c) (x
     rw [submatrix_one_add_single]
     have hI : ((1 : Matrix (Fin m) (Fin m) R).submatrix es et).det = 0 := by
       have h := minor_one (n := n) (m := m) (R := R) s t
-      rw [if_neg hst] at h
+      rw [ite_eq_right hst] at h
       simpa [minor, hes, het] using h
     by_cases hr : r ∈ (s : Finset (Fin m))
     · by_cases hc : c ∈ (t : Finset (Fin m))
@@ -346,7 +346,7 @@ theorem minor_one_add_single (h2 : (2 : R) = 0) {r c : Fin m} (hrc : r ≠ c) (x
                 rw [hs]
                 simp [hrc.symm]
               exact hcs hc'
-            rw [hRdet, mul_zero, if_neg hcond]
+            rw [hRdet, mul_zero, ite_eq_right hcond]
           · have hf : Function.Injective f := by
               intro a b hab
               by_cases ha : a = i_r
@@ -431,7 +431,7 @@ theorem minor_one_add_single (h2 : (2 : R) = 0) {r c : Fin m} (hrc : r ≠ c) (x
             have hcond : c ∈ (t : Finset (Fin m)) ∧ r ∉ (t : Finset (Fin m)) ∧
                 (s : Finset (Fin m)) = insert r ((t : Finset (Fin m)).erase c) :=
               ⟨hc, hrt, hs_eq⟩
-            rw [hRdet, mul_one, if_pos hcond]
+            rw [hRdet, mul_one, ite_eq_left hcond]
         · obtain ⟨k, hk⟩ := not_forall.mp h1
           obtain ⟨hkir, hkt⟩ := not_imp.mp hk
           have hRdet : Rmat.det = 0 := by
@@ -446,7 +446,7 @@ theorem minor_one_add_single (h2 : (2 : R) = 0) {r c : Fin m} (hrc : r ≠ c) (x
             rcases Finset.mem_insert.mp hks with h | h
             · exact hkir (hes_inj (by rw [h, hi_r]))
             · exact hkt (Finset.mem_of_mem_erase h)
-          rw [hRdet, mul_zero, if_neg hcond]
+          rw [hRdet, mul_zero, ite_eq_right hcond]
       · have hB : (Matrix.single r c (1 : R)).submatrix es et = 0 := by
           ext a b
           simp only [Matrix.submatrix_apply, Matrix.single_apply]
@@ -457,7 +457,7 @@ theorem minor_one_add_single (h2 : (2 : R) = 0) {r c : Fin m} (hrc : r ≠ c) (x
         have hcond : ¬ (c ∈ (t : Finset (Fin m)) ∧ r ∉ (t : Finset (Fin m)) ∧
             (s : Finset (Fin m)) = insert r ((t : Finset (Fin m)).erase c)) :=
           fun h => hc h.1
-        rw [hB, smul_zero, add_zero, hI, if_neg hcond]
+        rw [hB, smul_zero, add_zero, hI, ite_eq_right hcond]
     · have hB : (Matrix.single r c (1 : R)).submatrix es et = 0 := by
         ext a b
         simp only [Matrix.submatrix_apply, Matrix.single_apply]
@@ -469,6 +469,6 @@ theorem minor_one_add_single (h2 : (2 : R) = 0) {r c : Fin m} (hrc : r ≠ c) (x
           (s : Finset (Fin m)) = insert r ((t : Finset (Fin m)).erase c)) := by
         rintro ⟨-, -, hs⟩
         exact hr (by rw [hs]; exact Finset.mem_insert_self _ _)
-      rw [hB, smul_zero, add_zero, hI, if_neg hcond]
+      rw [hB, smul_zero, add_zero, hI, ite_eq_right hcond]
 
 end CFSG.LieType.SpecialLinear.ExteriorModel

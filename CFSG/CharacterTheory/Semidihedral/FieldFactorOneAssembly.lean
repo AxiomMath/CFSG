@@ -91,7 +91,7 @@ theorem field_group_card_eq_one {G : Type} [Group G] (n p f : ℕ) (S : Sylow 2 
     exact h2
   have hS : ∀ c : C t, (c : G) ∈ (S : Subgroup G) → π c = 1 := by
     intro c hc
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨c, hc⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨c, hc⟩
     have hck : c ^ 2 ^ k = 1 := by
       apply Subtype.ext
       simpa using congrArg Subtype.val hk

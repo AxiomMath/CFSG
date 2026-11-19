@@ -82,7 +82,7 @@ theorem mem_Qθ_of_baseChange_mem (σ : L ≃+* L) (hσ : ∀ c : L, σ c = c �
     exact (fixedFieldImage_le hmem).2
   set S := parabolicRadicalRoots τ (Jθ τ) with hSdef
   have hSfin : S.Finite := (finite_setOf_isRoot τ).subset fun β hβ => hβ.1.1
-  haveI : Finite S := hSfin.to_subtype
+  have : Finite S := hSfin.to_subtype
   obtain ⟨n, ⟨e⟩⟩ := Finite.exists_equiv_fin S
   set α : Fin n → Fin τ.rank → ℤ := fun k => (e.symm k : Fin τ.rank → ℤ) with hαdef
   have hα : Function.Injective α := fun k k' h => e.symm.injective (Subtype.ext h)
@@ -184,9 +184,9 @@ theorem exists_goodC {w : WeylGroup Tag.E8} (D : LangLevi Tag.E8 K w) (hK : Nat.
     E8Two.GoodC (D.frame S) := by
   classical
   have hK2 : ∀ s : K, s = 0 ∨ s = 1 := E8Two.eq_zero_or_one_of_card_two hK
-  haveI hcK : CharP K 2 := E8Two.charP_two_of_card_two hK
-  haveI hcL : CharP D.L 2 := charP_of_injective_algebraMap (algebraMap K D.L).injective 2
-  haveI hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have hcK : CharP K 2 := E8Two.charP_two_of_card_two hK
+  have hcL : CharP D.L 2 := charP_of_injective_algebraMap (algebraMap K D.L).injective 2
+  have hAC : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hFr2 : ∀ c : D.L, D.Fr c = c ^ 2 := fun c => by rw [D.hFr, hK]
   have hbij : Function.Bijective D.Fr := by
     refine ⟨D.Fr.injective, fun a => ?_⟩

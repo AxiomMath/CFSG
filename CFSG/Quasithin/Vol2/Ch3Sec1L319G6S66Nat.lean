@@ -99,7 +99,7 @@ theorem natBlock_isSimpleGroup {V : Type} [CommGroup V] {H : Subgroup (MulAut V)
   obtain ⟨K, instK, instF, hK, π, β, hπs, hβ, hβeq⟩ := hN
   have hinj : Function.Injective π := (injective_iff_map_eq_one π).mpr fun γ hγ =>
     s66nat_eq_one_of_fix π β hβ hβeq γ (fun w => by simp [hγ])
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 ^ e := by
     rw [← Nat.card_eq_fintype_card]
     exact hK
@@ -110,8 +110,8 @@ theorem natBlock_isSimpleGroup {V : Type} [CommGroup V] {H : Subgroup (MulAut V)
 theorem natBlock_not_isMulCommutative {V : Type} [CommGroup V] {H : Subgroup (MulAut V)} {U : Subgroup V}
     {e : ℕ} (he : 2 ≤ e) (hN : Ch3z.NatBlockData H U e) : ¬ IsMulCommutative ↥H := by
   intro hcomm
-  haveI := natBlock_isSimpleGroup he hN
-  haveI : Group.IsPerfect ↥H := Ch3z.NatBlockData.isPerfect he hN
+  have := natBlock_isSimpleGroup he hN
+  have : Group.IsPerfect ↥H := Ch3z.NatBlockData.isPerfect he hN
   exact Group.IsPerfect.not_isMulCommutative ↥H hcomm
 
 theorem natBlock_card {V : Type} [CommGroup V] {H : Subgroup (MulAut V)} {U : Subgroup V} {e : ℕ}
@@ -119,7 +119,7 @@ theorem natBlock_card {V : Type} [CommGroup V] {H : Subgroup (MulAut V)} {U : Su
   obtain ⟨K, instK, instF, hK, π, β, hπs, hβ, hβeq⟩ := hN
   have hinj : Function.Injective π := (injective_iff_map_eq_one π).mpr fun γ hγ =>
     s66nat_eq_one_of_fix π β hβ hβeq γ (fun w => by simp [hγ])
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 ^ e := by
     rw [← Nat.card_eq_fintype_card]
     exact hK

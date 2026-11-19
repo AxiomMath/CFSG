@@ -133,7 +133,7 @@ theorem kDiag_hypPSU {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
       exact hSθ y hy
     · rw [Subgroup.card_map_of_injective θ.injective]
   have hSP' : (S : Subgroup (hypPSU h r ε)) ≤ P :=
-    IsParabolicTwo.le_of_le_normalizer hP S.isPGroup' hSP
+    IsParabolicTwo.le_of_le_normalizer hP S.isPGroup hSP
   have hNS : Subgroup.normalizer (S : Set (hypPSU h r ε)) ≤ P :=
     hP.normalizer_le S hSP'
   have hmem : Subgroup.normalizer (S : Set (hypPSU h r ε)) ∈ sylowNormalizers h r ε :=
@@ -149,7 +149,7 @@ theorem kDiag_hypPSU {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
         (MulEquiv.toMonoidHom (MulAut.conj x₀)) = MonoidHom.id _ := by
       ext z
       simp [he, MulAut.conj_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.comp_apply,
-        MonoidHom.id_apply, mul_assoc]
+        mul_assoc]
     rw [hcomp, Subgroup.map_id]
   have hP'B : hypProjBorel h r ε ≤ P' := by
     rw [hP'def, ← hNmap]
@@ -232,13 +232,13 @@ theorem kDiag_hypPSU {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
         (MulEquiv.toMonoidHom e) = MonoidHom.id _ := by
       ext z
       simp [he, MulAut.conj_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.comp_apply,
-        MonoidHom.id_apply, mul_assoc]
+        mul_assoc]
     rw [hcomp, Subgroup.map_id]
   have hθconj : ∀ z : hypPSU h r ε,
       θ (x₀ * z * x₀⁻¹) = x₀ * θ' z * x₀⁻¹ := by
     intro z
     have hz : θ' z = x₀⁻¹ * θ (x₀ * z * x₀⁻¹) * x₀ := by
-      simp only [hθ', MulAut.mul_apply, MulAut.conj_apply, MulEquiv.toMonoidHom_eq_coe]
+      simp only [hθ', MulAut.mul_apply, MulAut.conj_apply]
       group
     rw [hz]
     group
@@ -279,9 +279,9 @@ theorem kDiag_of_lieModel_psu4 {n : ℕ} {X : Type} [Group X] [Finite X]
     CFSG.Blueprint.LieModel.statedClassicalModel hX ht
   rw [CFSG.Open.StatedClassicalModel] at hmodel
   obtain ⟨hadm, K, hfield, hfinite, hcard, ⟨e₀⟩⟩ := hmodel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : Fintype K := Fintype.ofFinite K
   rw [CFSG.Open.StatedLieAdmissible] at hadm
   have hcard' : Nat.card K = 2 ^ (2 * n) := by
     rw [hcard, ← pow_mul, Nat.mul_comm]
@@ -306,9 +306,9 @@ theorem kDiag_of_lieModel_psu5 {n : ℕ} {X : Type} [Group X] [Finite X]
     CFSG.Blueprint.LieModel.statedClassicalModel hX ht
   rw [CFSG.Open.StatedClassicalModel] at hmodel
   obtain ⟨hadm, K, hfield, hfinite, hcard, ⟨e₀⟩⟩ := hmodel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : Fintype K := Fintype.ofFinite K
   rw [CFSG.Open.StatedLieAdmissible] at hadm
   have hcard' : Nat.card K = 2 ^ (2 * n) := by
     rw [hcard, ← pow_mul, Nat.mul_comm]

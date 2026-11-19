@@ -33,6 +33,7 @@ theorem z18_wmod_check (g : WMod) (hc : 16 ≤ Nat.card ↥(centralizer ({g} : S
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem z18_Tcent_lemma {x₁ x₂ lam : G} (h : WreathRel x₁ x₂ lam) {w : G}
     (hw : w ∈ wreathGrp x₁ x₂ lam)
     (hc : 16 ≤ Nat.card ↥(wreathGrp x₁ x₂ lam ⊓ centralizer ({w} : Set G))) : w ^ 4 = 1 := by

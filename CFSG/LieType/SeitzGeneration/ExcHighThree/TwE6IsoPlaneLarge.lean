@@ -267,7 +267,7 @@ theorem planeGen_twE6_of_isotropic_plane {q : TauCeti.PrimePower}
   have hqc : (q.p ^ q.exponent) % 3 = 2 := by rw [← TauCeti.PrimePower.card_def]; exact hq
   have hTw : IsTwistedE6Index (TauCeti.LieTypeIndex.twistedE6 q) := ⟨q, rfl⟩
   have hcomm : IsMulCommutative E₀ := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard
   have hE₀el : IsElemAbelian 3 E₀ := ⟨hcomm, hexp⟩
   set E : Subgroup (MulAut (Cat ⟨.twistedE6 q, hv⟩)) :=
@@ -311,10 +311,10 @@ theorem exists_planeGen_of_large_twE6 {q : TauCeti.PrimePower}
       Nat.card E = 3 ^ 2 ∧ PlaneGen E := by
   classical
   obtain ⟨K, _, σ, hK, hσ, ⟨e⟩⟩ := exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKchar : CharP K q.p := charP_of_card_eq_prime_pow (f := q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   have hq3 : 3 ≠ q.p := three_ne_p_of_card_mod_three_eq_two hq
@@ -342,7 +342,7 @@ theorem exists_planeGen_of_large_twE6 {q : TauCeti.PrimePower}
     have hcard₀ : Nat.card E₀ = 3 ^ 2 := by
       rw [← hcardP, ← hmap, Subgroup.card_map_of_injective e.injective]
     have hcomm : IsMulCommutative E₀ := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard₀
     have hE₀el : IsElemAbelian 3 E₀ := ⟨hcomm, hexp⟩
     refine ⟨E₀.map (MulAut.conj : Cat ⟨.twistedE6 q, hv⟩ →* MulAut (Cat ⟨.twistedE6 q, hv⟩)), ?_,
@@ -362,7 +362,7 @@ theorem exists_planeGen_of_large_twE6 {q : TauCeti.PrimePower}
         rw [hcardn]
         exact le_trans (Nat.pow_le_pow_right (by norm_num) (by norm_num)) hcard) hdiag
     have hEnel : IsElemAbelian 3 En := hĒnel.mono hEnle
-    haveI : CFSG.IsElementaryAbelian 3 En := hEnel.isElementaryAbelian
+    have : CFSG.IsElementaryAbelian 3 En := hEnel.isElementaryAbelian
     have hK2 : Nat.card K = q.p ^ (2 * q.exponent) := by rw [hK, ← pow_mul, mul_comm]
     have hgen : Subgroup.closure (fixUnion En) = ⊤ :=
       ExcWideThree.twistedE6_fieldPlanes_three ExcWideThree.twistedE6KernelLemma_holds q.prime_p

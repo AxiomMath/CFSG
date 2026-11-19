@@ -30,6 +30,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {φ : Lgen M (LB M Q B) →* (V ≃ₗ[K] V)} {Γ : Subgroup (V ≃ₗ[K] V)} {p₀ : V}
   {U₀ : Subgroup (V ≃ₗ[K] V)}
 
+omit [Finite K] in
 theorem Ctx.psi_pi_ne_zero (ψ : M₀.E ≃ₗ[K] V) {C : Subgroup G} (hC : Ctx M Q Z C) {w : G}
     (hw : w ∈ C) (hw1 : w ≠ 1) : ψ (M₀.π w) ≠ 0 := by
   intro h0

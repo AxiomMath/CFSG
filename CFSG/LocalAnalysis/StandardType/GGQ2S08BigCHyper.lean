@@ -100,8 +100,8 @@ private lemma ggQ2s08ch_inv_le_line_absurd {V : Type} [AddCommGroup V] [Module (
 theorem ggQ2s08_bigC_hyper (hKG : GGReflClassLargeThree) {V : Type} [AddCommGroup V]
     [Module (ZMod 3) V] {n : ℕ} (hn : Module.finrank (ZMod 3) V = n) (h3 : 3 ∣ n) (h12 : 12 ≤ n)
     {W R : Subgroup (V ≃ₗ[ZMod 3] V)} {H : Submodule (ZMod 3) V} {xv : V}
-    (hfinH : Module.finrank (ZMod 3) H = n - 2) (hxH : xv ∉ H)
-    (hWH : ∀ w ∈ W, ∀ v, w v - v ∈ H) (hWcard : Nat.card W = n.factorial) (hWR : W ≤ R)
+    (hfinH : Module.finrank (ZMod 3) H = n - 2) (_hxH : xv ∉ H)
+    (_hWH : ∀ w ∈ W, ∀ v, w v - v ∈ H) (hWcard : Nat.card W = n.factorial) (hWR : W ≤ R)
     (hWfaith : ∀ w ∈ W, (∀ u ∈ H, w u = u) → w = 1)
     (hdich : ∀ S : Submodule (ZMod 3) V, (∀ w ∈ W, ∀ u ∈ S, w u ∈ S) →
       S ≤ Submodule.span (ZMod 3) {xv} ∨ H ≤ S)
@@ -111,9 +111,9 @@ theorem ggQ2s08_bigC_hyper (hKG : GGReflClassLargeThree) {V : Type} [AddCommGrou
     (hred : ¬ ∀ S : Submodule (ZMod 3) V, (∀ a ∈ R, ∀ u ∈ S, a u ∈ S) → S = ⊥ ∨ S = ⊤) :
     ∀ g ∈ R, ∀ u ∈ H, g u ∈ H := by
   classical
-  haveI : FiniteDimensional (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
-  haveI : Fintype V := Module.fintypeOfFintype (Module.Basis.ofVectorSpace (ZMod 3) V)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : FiniteDimensional (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
+  have : Fintype V := Module.fintypeOfFintype (Module.Basis.ofVectorSpace (ZMod 3) V)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e1 e2 h => LinearEquiv.ext (fun v => congrFun h v))
   obtain ⟨S, hSnot⟩ := not_forall.mp hred
@@ -133,9 +133,9 @@ theorem ggQ2s08_bigC_hyper (hKG : GGReflClassLargeThree) {V : Type} [AddCommGrou
     ·
       have hHltS : H < S := lt_of_le_of_ne hHle (Ne.symm hSH)
       have hSltTop : S < ⊤ := lt_of_le_of_ne le_top hS1
-      haveI : FiniteDimensional (ZMod 3) ↥S :=
+      have : FiniteDimensional (ZMod 3) ↥S :=
         FiniteDimensional.finiteDimensional_submodule S
-      haveI : Finite (↥S ≃ₗ[ZMod 3] ↥S) :=
+      have : Finite (↥S ≃ₗ[ZMod 3] ↥S) :=
         Finite.of_injective (fun e : ↥S ≃ₗ[ZMod 3] ↥S => (e : ↥S → ↥S))
           (fun e1 e2 h => LinearEquiv.ext (fun v => congrFun h v))
       have h1 : Module.finrank (ZMod 3) H < Module.finrank (ZMod 3) S :=
@@ -254,7 +254,7 @@ theorem ggQ2s08_bigC_hyper (hKG : GGReflClassLargeThree) {V : Type} [AddCommGrou
         rw [not_or] at hTnotor
         obtain ⟨hT0, hT1⟩ := hTnotor
         let S' : Submodule (ZMod 3) V := T.map S.subtype
-        haveI : FiniteDimensional (ZMod 3) ↥S' :=
+        have : FiniteDimensional (ZMod 3) ↥S' :=
           FiniteDimensional.finiteDimensional_submodule S'
         have hS'leS : S' ≤ S := by
           rintro y ⟨t, _, rfl⟩

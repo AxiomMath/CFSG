@@ -26,7 +26,7 @@ theorem fr_dichotomy_N [Fact p.Prime] (hG : FrobGlobal G) (hl : FrobLocal p P M 
   set U := frU P x
   set Z := centralizer ((layerOf x : Subgroup G) : Set G)
   have hUP : U ≤ P := inf_le_left
-  obtain ⟨Q, hQN, hUQ⟩ := exists_isSylowOf_ge_of_le hUN (P.isPGroup'.to_le hUP)
+  obtain ⟨Q, hQN, hUQ⟩ := exists_isSylowOf_ge_of_le hUN (P.isPGroup.to_le hUP)
   by_cases hQU : Q = U
   · exact Or.inl (hQU ▸ hQN)
   right
@@ -61,7 +61,7 @@ theorem fr_dichotomy_N [Fact p.Prime] (hG : FrobGlobal G) (hl : FrobLocal p P M 
     rw [mul_one, mul_inv_cancel] at hc
     rw [(inv_mul_eq_one.mp hc.symm).symm] at hqU
     exact hqU hu
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (P.isPGroup'.to_le (zpowers_le.mpr hz.1))
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (P.isPGroup.to_le (zpowers_le.mpr hz.1))
   have hn0 : n ≠ 0 := by
     rintro rfl
     rw [pow_zero, Nat.card_zpowers, orderOf_eq_one_iff] at hn
@@ -99,7 +99,7 @@ theorem fr_fpf_gen [Fact p.Prime] (hK : FrobKFacts) (hG : FrobGlobal G) (hl : Fr
       have : v = d * v' * d⁻¹ := by rw [hv']; group
       rw [this, h]; group)
     have hv'p : ¬ p ∣ orderOf v' := by
-      have : v' = MulAut.conj d⁻¹ v := by simp [hv', MulAut.conj_apply]
+      have : v' = MulAut.conj d⁻¹ v := by simp [hv']
       rwa [this, MulEquiv.orderOf_eq]
     have hv'U : ∀ u ∈ frU P x, u * v' = v' * u := by
       intro u hu

@@ -22,7 +22,7 @@ theorem kerOn_eq (E : Enum) (s : ℕ) (vs : List ℕ) : kerOn E s vs =
 
 theorem fixCountF_eqM {SW : List ℕ} (hSW : SW = swarK) (k : ℕ) :
     fixCountF k = popcM SW (fixMaskW SW k) := by
-  apply fixCountF_eqM_proved <;> assumption
+  apply fixCountF_eqM_proved; assumption
 
 @[expose] noncomputable def relPairK (a b c d : ℕ) : Bool :=
   ((mul12K a b == mul12K b a) == (mul12K c d == mul12K d c)) &&

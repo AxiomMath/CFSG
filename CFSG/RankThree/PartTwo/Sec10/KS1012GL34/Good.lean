@@ -68,7 +68,7 @@ theorem exists_good_involution (X : Matrix.GeneralLinearGroup (Fin 3) F4)
     (T : Subgroup (Matrix.GeneralLinearGroup (Fin 3) F4)) (hT : T ≠ ⊥) (hT2 : IsPGroup 2 T)
     (hXT : X ∈ Subgroup.normalizer (T : Set (Matrix.GeneralLinearGroup (Fin 3) F4))) :
     ∃ t ∈ T, Good3 (t : Matrix (Fin 3) (Fin 3) F4) := by
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin 3) F4) :=
+  have : Finite (Matrix.GeneralLinearGroup (Fin 3) F4) :=
     Finite.of_injective (fun u : Matrix.GeneralLinearGroup (Fin 3) F4 =>
       (u : Matrix (Fin 3) (Fin 3) F4)) (fun a b h => Units.ext h)
   have hnt : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).mpr hT

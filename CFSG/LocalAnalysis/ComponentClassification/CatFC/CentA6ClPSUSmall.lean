@@ -20,7 +20,7 @@ theorem oddA6Small_PSU
   apply oddA6Small_of_concrete
   intro S _ _ n p f hp hp2 hadm hm hp3 hs
   obtain ⟨K, _, h, ⟨ψ⟩⟩ := nonempty_mulEquiv_primeFormP_of_lieModel' hadm hm
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   refine ⟨primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K), inferInstance,
     inferInstance, ψ, ?_⟩
   intro σ D hσ hA

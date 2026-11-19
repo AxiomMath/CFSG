@@ -299,20 +299,20 @@ theorem centralizer_mat_eq_sup (hm : 1 ≤ m) :
     set d : Matrix (Fin (m + 1)) (Fin (m + 1)) K := blockDiagPart P B with hd
     have hdT : d.BlockTriangular P.level := by
       intro i j hij
-      rw [hd, blockDiagPart_apply, if_neg (fun h => hij.ne h.symm)]
+      rw [hd, blockDiagPart_apply, ite_eq_right (fun h => hij.ne h.symm)]
     have h1 : d (P.u 0) (P.u 0) =
         (B : Matrix (Fin (m + 1)) (Fin (m + 1)) K) (P.u 0) (P.u 0) := by
-      rw [hd, blockDiagPart_apply, if_pos rfl]
+      rw [hd, blockDiagPart_apply, ite_eq_left rfl]
     have h2 : d.submatrix (Subtype.val : P.free → Fin (m + 1))
         (Subtype.val : P.free → Fin (m + 1)) =
         (B : Matrix (Fin (m + 1)) (Fin (m + 1)) K).submatrix
           (Subtype.val : P.free → Fin (m + 1)) (Subtype.val : P.free → Fin (m + 1)) := by
       ext i j
       rw [Matrix.submatrix_apply, Matrix.submatrix_apply, hd, blockDiagPart_apply,
-        if_pos (by rw [(InvPlacement.mem_free P).1 i.2, (InvPlacement.mem_free P).1 j.2])]
+        ite_eq_left (by rw [(InvPlacement.mem_free P).1 i.2, (InvPlacement.mem_free P).1 j.2])]
     have h3 : d (P.w 0) (P.w 0) =
         (B : Matrix (Fin (m + 1)) (Fin (m + 1)) K) (P.w 0) (P.w 0) := by
-      rw [hd, blockDiagPart_apply, if_pos rfl]
+      rw [hd, blockDiagPart_apply, ite_eq_left rfl]
     have hdetd : d.det = (B : Matrix (Fin (m + 1)) (Fin (m + 1)) K).det := by
       rw [LinFusion.det_eq_of_blockTriangular_one P hdT,
         LinFusion.det_eq_of_blockTriangular_one P hBT, h1, h2, h3]
@@ -324,12 +324,12 @@ theorem centralizer_mat_eq_sup (hm : 1 ≤ m) :
     have hdSLD : dSL ∈ P.blockDiag K := by
       rw [InvPlacement.mem_blockDiag]
       intro i j hij
-      rw [hcoe, hd, blockDiagPart_apply, if_neg hij]
+      rw [hcoe, hd, blockDiagPart_apply, ite_eq_right hij]
     have hcd : ((dSL : SpecialLinearGroup (Fin (m + 1)) K) :
           Matrix (Fin (m + 1)) (Fin (m + 1)) K) (Fin.last m) (Fin.last m) =
         ((dSL : SpecialLinearGroup (Fin (m + 1)) K) :
           Matrix (Fin (m + 1)) (Fin (m + 1)) K) 0 0 := by
-      rw [hcoe, hd, blockDiagPart_apply, blockDiagPart_apply, if_pos rfl, if_pos rfl]
+      rw [hcoe, hd, blockDiagPart_apply, blockDiagPart_apply, ite_eq_left rfl, ite_eq_left rfl]
       exact hcorner.symm
     have hdSL : dSL ∈ leviSL hm :=
       mem_leviSL.2 ⟨hdSLD, blockDiag_mem_centralizer_dual hm hdSLD hcd⟩
@@ -348,8 +348,8 @@ theorem centralizer_mat_eq_sup (hm : 1 ≤ m) :
         rw [Matrix.sub_apply, hd, blockDiagPart_apply]
         by_cases hik : (LinFusion.ggTransPlacement hm).level i =
             (LinFusion.ggTransPlacement hm).level k
-        · rw [if_pos hik, sub_self]
-        · rw [if_neg hik]
+        · rw [ite_eq_left hik, sub_self]
+        · rw [ite_eq_right hik]
           have hle : (LinFusion.ggTransPlacement hm).level k <
               (LinFusion.ggTransPlacement hm).level i := by
             rcases lt_or_gt_of_ne hik with hlt | hgt
@@ -412,11 +412,11 @@ theorem scalars_le_leviSL (hm : 1 ≤ m) :
     rw [hcoe, Matrix.scalar_apply, Matrix.diagonal_apply]
     by_cases h : i = j
     · exact absurd (by rw [h]) hij
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
   · rw [Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_center_iff.mp (scalars_le_center (m + 1) K hz) _).symm
 
-private theorem scalars_le_centralizer (hm : 1 ≤ m) (T : SpecialLinearGroup (Fin (m + 1)) K) :
+private theorem scalars_le_centralizer (_hm : 1 ≤ m) (T : SpecialLinearGroup (Fin (m + 1)) K) :
     scalars (m + 1) K ≤ Subgroup.centralizer
       ({T} : Set (SpecialLinearGroup (Fin (m + 1)) K)) := by
   intro z hz
@@ -463,7 +463,7 @@ private theorem centralizer_dualRootInv_eq_map [CharP K 2] (hm : 1 ≤ m) :
   rwa [MonoidHom.range_eq_top.mpr (proj_surjective _ _), top_inf_eq] at h
 
 private theorem map_inf_map_eq_of_ker_le {G H : Type*} [Group G] [Group H] (f : G →* H)
-    (hf : Function.Surjective f) {A B : Subgroup G} (hA : f.ker ≤ A) :
+    (_hf : Function.Surjective f) {A B : Subgroup G} (hA : f.ker ≤ A) :
     A.map f ⊓ B.map f = (A ⊓ B).map f := by
   refine le_antisymm ?_ (le_inf (Subgroup.map_mono inf_le_left)
     (Subgroup.map_mono inf_le_right))
@@ -782,7 +782,7 @@ private theorem normal_twoSubgroup_leviFull_eq_bot (hm : 1 ≤ m) [Finite K] [Ch
       exact Subtype.ext (Subgroup.mem_center_iff.mp
         (scalars_le_center (m + 1) K hscal) (z : SpecialLinearGroup (Fin (m + 1)) K))
     exact Subtype.ext (Subgroup.mem_center_iff.mp hx1 (y : leviSL (K := K) hm))
-  haveI : Group.IsNilpotent H := hH2.isNilpotent
+  have : Group.IsNilpotent H := hH2.isNilpotent
   have hTnil : Group.IsNilpotent T :=
     Subgroup.isNilpotent_of_ker_le_center f hker_center
   let S : Subgroup T := CFSG.pCore 2 T

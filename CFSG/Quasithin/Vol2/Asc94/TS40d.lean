@@ -16,17 +16,17 @@ theorem Frame4.card_Gz (F : Frame4 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z
   have hsum := F.sum_Gz hU1 hU2
   by_cases h4 : F.Γ 4 ⊆ F.Gz <;> by_cases h5 : F.Γ 5 ⊆ F.Gz
   · exfalso
-    simp only [h4, h5, if_true] at hsum
-    haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+    simp only [h4, h5, ite_true] at hsum
+    have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
     refine F.not_prime_dvd_card_normalizer_J 13 (by norm_num) hcong16_13 ?_
     rw [F.card_normalizer_J, hsum]
     exact Dvd.dvd.mul_right (by norm_num : 13 ∣ 13) _
-  · simp only [h4, h5, if_true, if_false] at hsum
+  · simp only [h4, h5, ite_true, ite_false] at hsum
     omega
-  · simp only [h4, h5, if_true, if_false] at hsum
+  · simp only [h4, h5, ite_true, ite_false] at hsum
     omega
   · exfalso
-    simp only [h4, h5, if_false] at hsum
+    simp only [h4, h5, ite_false] at hsum
     exact F.false_of_card_Gz_5 (by omega) h4 h5
 
 theorem Frame4.exists_Δ12 (F : Frame4 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → InZG z u)
@@ -41,7 +41,7 @@ theorem Frame4.exists_Δ12 (F : Frame4 G z) (hU1 : ∀ u ∈ F.U, u ≠ 1 → In
     · by_cases h5 : F.Γ 5 ⊆ F.Gz
       · exact ⟨5, by decide, h5⟩
       · exfalso
-        simp only [h4, h5, if_false] at hsum
+        simp only [h4, h5, ite_false] at hsum
         omega
   obtain ⟨k, hk4, hkS⟩ := hk
   obtain ⟨b, hb⟩ := F.Γ_nonempty k

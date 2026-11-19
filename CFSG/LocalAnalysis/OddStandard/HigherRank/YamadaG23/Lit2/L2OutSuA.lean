@@ -85,7 +85,7 @@ theorem l2out_three_central {H : Type} [Group H] [Finite H] (τ : H ≃* H) {z :
       rw [hcomm.mul_pow (2 ^ k), inv_pow, hk, inv_one, hτk, one_mul]
     have hone : z⁻¹ * τ z = 1 := l2out_two_elt_oddCore hmem hpow
     exact hτ (inv_mul_eq_one.mp hone).symm
-  haveI : Fintype ↥(center (H ⧸ O)) := Fintype.ofFinite _
+  have : Fintype ↥(center (H ⧸ O)) := Fintype.ofFinite _
   rw [Nat.card_eq_fintype_card]
   let s : Finset ↥(center (H ⧸ O)) := {1, ⟨bar z, hbz⟩, ⟨bar (τ z), hbτz⟩}
   have hs : s.card = 3 := by

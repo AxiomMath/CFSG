@@ -79,7 +79,7 @@ theorem exists_mem_normalizer_not_mem_of_two_dvd_index
     exact Subgroup.map_subtype_le _
   have hSp : IsPGroup 2 S := by
     rw [hSdef]
-    exact (Sylow.isPGroup' Q).of_equiv
+    exact (Sylow.isPGroup Q).of_equiv
       (Subgroup.equivMapOfInjective _ H.subtype Subtype.val_injective)
   have hTS : T ≤ S := by
     rw [hSdef]

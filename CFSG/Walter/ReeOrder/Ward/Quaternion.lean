@@ -49,7 +49,7 @@ theorem qw_mul_qi : qw a b h2 h * qi = qj a b h * qw a b h2 h := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [coe_qi, coe_qj, coe_qw, Matrix.mul_apply, Fin.sum_univ_two]
   all_goals field_simp
-  all_goals first | ring1 | linear_combination h | linear_combination -h
+  all_goals first | linear_combination h | linear_combination -h
 
 theorem qw_mul_qj : qw a b h2 h * qj a b h = (qi * qj a b h) * qw a b h2 h := by
   ext i j

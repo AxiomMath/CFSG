@@ -29,7 +29,7 @@ theorem frameDiag_mem_twistedTorus_iff_of_weyl (hp2 : p ≠ 2) (w : WeylGroup Ta
         CFSG.RankThree.PartOne.KE.twistedTorus
           (canonicalRep (coxeterSystem Tag.E8) L w) Fr ↔
       s ∈ NoOffRest.eigSp (NoOffRest.torusLin .E8 p w) lam := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hdet : IsUnit (((Tag.E8).symmetrizedCartan.det : ℤ) : ZMod p) :=
     ExcFrames.isUnit_det_symmetrizedCartan (Or.inr (Or.inr rfl)) hp2
   have hinj : Function.Injective (ExcFrames.frameDiag (τ := Tag.E8) ζ hζ) :=
@@ -120,7 +120,7 @@ theorem exists_langTorsionHom_of_weyl (hp2 : p ≠ 2) (hp3 : 3 < p) (w : WeylGro
           g₀ * ExcFrames.frameDiag (τ := Tag.E8) ζ hζ
             (s : Fin Tag.E8.rank → ZMod p) * g₀⁻¹ := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let n : ModGL Tag.E8 L := canonicalRep (coxeterSystem Tag.E8) L w
   let F : ModGL Tag.E8 L →* ModGL Tag.E8 L := Units.map (entrywiseHom Fr)
   have hFg₀ : F g₀ = g₀ * n := hg₀
@@ -189,7 +189,7 @@ theorem exists_langTorsionHom_of_weyl (hp2 : p ≠ 2) (hp3 : 3 < p) (w : WeylGro
     apply Subtype.ext
     rw [Subgroup.coe_pow, OneMemClass.coe_one]
     exact hXp x x.2
-  haveI : Finite X := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+  have : Finite X := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   have frameElt_injective : Function.Injective
       (frameEltOfWeyl (L := L) (p := p) (lam := lam) ζ hζ w) := by
     intro a b hab

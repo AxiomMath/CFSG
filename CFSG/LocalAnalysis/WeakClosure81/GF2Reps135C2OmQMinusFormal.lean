@@ -13,8 +13,8 @@ private lemma c2slomqmfo_spIsSign_ite_one {n : ℕ} (a : Fin n) {e : ℤ}
   intro x
   change (if x = a then e else 1) = 1 ∨ (if x = a then e else 1) = -1
   by_cases hx : x = a
-  · rw [if_pos hx]; exact he
-  · rw [if_neg hx]; exact Or.inl rfl
+  · rw [ite_eq_left hx]; exact he
+  · rw [ite_eq_right hx]; exact Or.inl rfl
 
 private lemma c2slomqmfo_spIsSign_ite_two {n : ℕ} (a b : Fin n) {e e' : ℤ}
     (he : e = 1 ∨ e = -1) (he' : e' = 1 ∨ e' = -1) :
@@ -23,11 +23,11 @@ private lemma c2slomqmfo_spIsSign_ite_two {n : ℕ} (a b : Fin n) {e e' : ℤ}
   change (if x = a then e else if x = b then e' else 1) = 1 ∨
     (if x = a then e else if x = b then e' else 1) = -1
   by_cases hx : x = a
-  · rw [if_pos hx]; exact he
-  · rw [if_neg hx]
+  · rw [ite_eq_left hx]; exact he
+  · rw [ite_eq_right hx]
     by_cases hx' : x = b
-    · rw [if_pos hx']; exact he'
-    · rw [if_neg hx']; exact Or.inl rfl
+    · rw [ite_eq_left hx']; exact he'
+    · rw [ite_eq_right hx']; exact Or.inl rfl
 
 private lemma c2slomqmfo_spIsSign_mul {n : ℕ} {s u : Fin n → ℤ} (hs : SpIsSign s)
     (hu : SpIsSign u) : SpIsSign (fun c => s c * u c) := by
@@ -85,7 +85,7 @@ private lemma c2slomqmfo_ne_shapeC {l : ℕ} (z : Fin l) {s : Fin l → ℤ} (hz
   norm_num at hval
 
 theorem omq_minus_exists_four_flag {l : ℕ} (hl : 3 ≤ l) {j : ℕ} (hj1 : 1 ≤ j) (hj2 : j + 2 ≤ l)
-    {π : Equiv.Perm (Fin l)} {s : Fin l → ℤ} (hs : SpIsSign s)
+    {π : Equiv.Perm (Fin l)} {s : Fin l → ℤ} (_hs : SpIsSign s)
     (hsh : OmqMinusShape (by omega : 2 ≤ l) π s) :
     ∃ u : Fin 4 → Fin l → ℤ, Function.Injective u ∧
       (∀ i, OmqFormalInOrbit (omqMinusFlag l j) (u i)) ∧
@@ -94,15 +94,15 @@ theorem omq_minus_exists_four_flag {l : ℕ} (hl : 3 ≤ l) {j : ℕ} (hj1 : 1 �
   let z : Fin l := ⟨0, by omega⟩
   let p : Fin l := ⟨1, by omega⟩
   let q : Fin l := ⟨2, by omega⟩
-  have hzp : z ≠ p := c2slomqmfo_fin_ne (by simp only [z, p, Fin.val_mk]; omega)
-  have hzq : z ≠ q := c2slomqmfo_fin_ne (by simp only [z, q, Fin.val_mk]; omega)
-  have hpq : p ≠ q := c2slomqmfo_fin_ne (by simp only [p, q, Fin.val_mk]; omega)
+  have hzp : z ≠ p := c2slomqmfo_fin_ne (by simp only [z, p]; omega)
+  have hzq : z ≠ q := c2slomqmfo_fin_ne (by simp only [z, q]; omega)
+  have hpq : p ≠ q := c2slomqmfo_fin_ne (by simp only [p, q]; omega)
   rcases hsh with ⟨hs1, hπ2, hπz, hπp⟩ | ⟨hπ1, hsz, hodd⟩
   ·
     let v : Fin l → ℤ := omqMinusFlag l j
     let w : Fin l := ⟨j + 1, by omega⟩
-    have hwp : w ≠ p := c2slomqmfo_fin_ne (by simp only [w, p, Fin.val_mk]; omega)
-    have hwz : w ≠ z := c2slomqmfo_fin_ne (by simp only [w, z, Fin.val_mk]; omega)
+    have hwp : w ≠ p := c2slomqmfo_fin_ne (by simp only [w, p]; omega)
+    have hwz : w ≠ z := c2slomqmfo_fin_ne (by simp only [w, z]; omega)
     have hπz' : π z = p := by simpa [z, p] using hπz
     let π' : Equiv.Perm (Fin l) := Equiv.swap p w
     have hπ'symm_z : π'.symm z = z := by
@@ -211,7 +211,7 @@ theorem omq_minus_exists_four_flag {l : ℕ} (hl : 3 ≤ l) {j : ℕ} (hj1 : 1 �
       have hv_z : v z = 1 := by simp [v, omqMinusFlag, z]
       have hv_p : v p = 1 := by simp [v, omqMinusFlag, p, hj1]
       have hv_q : v q = 0 := by
-        have h : ¬ (q.val ≤ j) := by simp only [q, Fin.val_mk]; omega
+        have h : ¬ (q.val ≤ j) := by simp only [q]; omega
         simp [v, omqMinusFlag, q, h]
       have hfA_z : ∀ e, fA e z = 1 := by
         intro e; change t e z * v z = 1; simp [t, hzp, hv_z]
@@ -259,7 +259,7 @@ theorem omq_minus_exists_four_flag {l : ℕ} (hl : 3 ≤ l) {j : ℕ} (hj1 : 1 �
         exact c2slomqmfo_ne_shapeC z hsz' (huz i) (huz i')
 
 theorem omq_minus_exists_four_cube {l : ℕ} (hl : 3 ≤ l) {π : Equiv.Perm (Fin l)}
-    {s : Fin l → ℤ} (hs : SpIsSign s) (hsh : OmqMinusShape (by omega : 2 ≤ l) π s)
+    {s : Fin l → ℤ} (_hs : SpIsSign s) (hsh : OmqMinusShape (by omega : 2 ≤ l) π s)
     (hc : 4 ≤ l ∨ π = 1) :
     ∃ u : Fin 4 → Fin l → ℤ, Function.Injective u ∧
       (∀ i, OmqFormalInOrbit (omqMinusCube l) (u i)) ∧
@@ -268,9 +268,9 @@ theorem omq_minus_exists_four_cube {l : ℕ} (hl : 3 ≤ l) {π : Equiv.Perm (Fi
   let z : Fin l := ⟨0, by omega⟩
   let p : Fin l := ⟨1, by omega⟩
   let q : Fin l := ⟨2, by omega⟩
-  have hzp : z ≠ p := c2slomqmfo_fin_ne (by simp only [z, p, Fin.val_mk]; omega)
-  have hzq : z ≠ q := c2slomqmfo_fin_ne (by simp only [z, q, Fin.val_mk]; omega)
-  have hpq : p ≠ q := c2slomqmfo_fin_ne (by simp only [p, q, Fin.val_mk]; omega)
+  have hzp : z ≠ p := c2slomqmfo_fin_ne (by simp only [z, p]; omega)
+  have hzq : z ≠ q := c2slomqmfo_fin_ne (by simp only [z, q]; omega)
+  have hpq : p ≠ q := c2slomqmfo_fin_ne (by simp only [p, q]; omega)
   rcases hsh with ⟨hs1, hπ2, hπz, hπp⟩ | ⟨hπ1, hsz, hodd⟩
   ·
     have hl4 : 4 ≤ l := by
@@ -281,9 +281,9 @@ theorem omq_minus_exists_four_cube {l : ℕ} (hl : 3 ≤ l) {π : Equiv.Perm (Fi
         rw [hπz] at hz_eq
         exact hzp hz_eq.symm
     let r : Fin l := ⟨3, by omega⟩
-    have hzr : z ≠ r := c2slomqmfo_fin_ne (by simp only [z, r, Fin.val_mk]; omega)
-    have hpr : p ≠ r := c2slomqmfo_fin_ne (by simp only [p, r, Fin.val_mk]; omega)
-    have hqr : q ≠ r := c2slomqmfo_fin_ne (by simp only [q, r, Fin.val_mk]; omega)
+    have hzr : z ≠ r := c2slomqmfo_fin_ne (by simp only [z, r]; omega)
+    have hpr : p ≠ r := c2slomqmfo_fin_ne (by simp only [p, r]; omega)
+    have hqr : q ≠ r := c2slomqmfo_fin_ne (by simp only [q, r]; omega)
     have hπz' : π z = p := by simpa [z, p] using hπz
     let v : Fin l → ℤ := omqMinusCube l
     let t : ℤ → ℤ → Fin l → ℤ := fun e e' b =>
@@ -374,7 +374,7 @@ theorem omq_minus_exists_four_cube {l : ℕ} (hl : 3 ≤ l) {π : Equiv.Perm (Fi
       exact c2slomqmfo_ne_shapeC z hsz' (huz i) (huz i')
 
 theorem omq_minus_exists_two_cube {l : ℕ} (hl : 3 ≤ l) {π : Equiv.Perm (Fin l)}
-    {s : Fin l → ℤ} (hs : SpIsSign s) (hsh : OmqMinusShape (by omega : 2 ≤ l) π s) :
+    {s : Fin l → ℤ} (_hs : SpIsSign s) (hsh : OmqMinusShape (by omega : 2 ≤ l) π s) :
     ∃ u : Fin 2 → Fin l → ℤ, Function.Injective u ∧
       (∀ i, OmqFormalInOrbit (omqMinusCube l) (u i)) ∧
       ∀ i i', u i ≠ omqSignedActZ π s (u i') := by
@@ -382,9 +382,9 @@ theorem omq_minus_exists_two_cube {l : ℕ} (hl : 3 ≤ l) {π : Equiv.Perm (Fin
   let z : Fin l := ⟨0, by omega⟩
   let p : Fin l := ⟨1, by omega⟩
   let q : Fin l := ⟨2, by omega⟩
-  have hzp : z ≠ p := c2slomqmfo_fin_ne (by simp only [z, p, Fin.val_mk]; omega)
-  have hzq : z ≠ q := c2slomqmfo_fin_ne (by simp only [z, q, Fin.val_mk]; omega)
-  have hpq : p ≠ q := c2slomqmfo_fin_ne (by simp only [p, q, Fin.val_mk]; omega)
+  have hzp : z ≠ p := c2slomqmfo_fin_ne (by simp only [z, p]; omega)
+  have hzq : z ≠ q := c2slomqmfo_fin_ne (by simp only [z, q]; omega)
+  have hpq : p ≠ q := c2slomqmfo_fin_ne (by simp only [p, q]; omega)
   rcases hsh with ⟨hs1, hπ2, hπz, hπp⟩ | ⟨hπ1, hsz, hodd⟩
   ·
     let v : Fin l → ℤ := omqMinusCube l
@@ -449,7 +449,7 @@ theorem omq_minus_exists_four_two_one_one {l : ℕ} (hl : 3 ≤ l) {π : Equiv.P
   classical
   let z : Fin l := ⟨0, by omega⟩
   let p : Fin l := ⟨1, by omega⟩
-  have hzp : z ≠ p := c2slomqmfo_fin_ne (by simp only [z, p, Fin.val_mk]; omega)
+  have hzp : z ≠ p := c2slomqmfo_fin_ne (by simp only [z, p]; omega)
   have hπp : π p = z := by simpa [z, p] using hA.2.2.2
   let v : Fin l → ℤ := fun b => if b.val = 0 then 2 else 1
   let t : ℤ → ℤ → Fin l → ℤ :=

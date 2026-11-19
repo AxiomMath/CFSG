@@ -155,7 +155,7 @@ theorem herm_semilinRestrict_finite [Finite F]
     (u w : primaryComponent xe.toLinearMap φ) :
     H (semilinRestrict hS hSx hφ u) (semilinRestrict hS hSx hφ w) =
       extAut φ σ hφ (H u w) := by
-  letI : Finite (AdjoinRoot φ) := Module.finite_of_finite F
+  let : Finite (AdjoinRoot φ) := Module.finite_of_finite F
   exact traceTransfer_semilin F (AdjoinRoot φ) σ (extAut φ σ hφ)
     (fun c => extAut_of hφ c) (semilinRestrict hS hSx hφ)
     (semilinRestrict_smul hS hSx hφ)
@@ -198,6 +198,7 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Uni
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {x : V ≃ₗ[F] V}
 
+omit [CharP F 2] in
 theorem exists_phiFrame {f : ℕ} (hFf : Nat.card F = 2 ^ f) (hf1 : 1 ≤ f)
     (hx : OddOrderIsometry Q 3 x) {φ : F[X]} [Fact (Irreducible φ)] (hφ : φ = X ^ 2 + X + 1)
     (hmem : φ ∈ primaryFactors x.toLinearMap) {m : ℕ}
@@ -265,8 +266,9 @@ theorem exists_phiFrame {f : ℕ} (hFf : Nat.card F = 2 ^ f) (hf1 : 1 ≤ f)
       ((specialBlock_le_isometryCentralizer φ).trans fun _ hg => (Subgroup.mem_inf.mp hg).1)
   obtain ⟨b₀, hb₀⟩ := hU.exists_orthonormal_basis hBsymm hBl
   refine ⟨hU, B, b₀.reindex (finCongr hfin), hH, fun i j => ?_, hrange, hspec⟩
-  simp [Module.Basis.reindex_apply, hb₀, Equiv.apply_eq_iff_eq]
+  simp [Module.Basis.reindex_apply, hb₀]
 
+omit [CharP F 2] in
 theorem supportedBlock_le_orthDerived (hQ : (polarBilin Q).Nondegenerate)
     (hT : ∃ U : Submodule F V, finrank F U = 3 ∧ ∀ u ∈ U, Q u = 0) {f m : ℕ} {φ : F[X]}
     [Fact (Irreducible φ)] (hU : UnitaryFieldData 2 f (AdjoinRoot φ))
@@ -539,7 +541,7 @@ theorem exists_phiBlockData_of_semilin [Nontrivial V] {G : Type} [Group G] {K B 
   classical
   obtain ⟨φ, hφ⟩ : ∃ φ : F[X], φ = X ^ 2 + X + 1 := ⟨_, rfl⟩
   rw [← hφ] at hmem hm hJx
-  haveI : Fact (Irreducible φ) := ⟨irreducible_of_mem_primaryFactors hmem⟩
+  have : Fact (Irreducible φ) := ⟨irreducible_of_mem_primaryFactors hmem⟩
   obtain ⟨hU, H, b, htr, hb, hrange, hspec⟩ :=
     exists_phiFrame hFf (by omega) hx hφ hmem hm hm3 hmq
   have hsupp := supportedBlock_le_orthDerived hQ hT hU b hb hrange hspec
@@ -637,7 +639,7 @@ theorem blockFrame_of_mem_E {F : Type} [Field F] [Finite F] [CharP F 2] {d : ℕ
     rcases hF with hF | hF
     · exact ⟨1, by rw [hF]; norm_num, Or.inl rfl⟩
     · exact ⟨3, by rw [hF]; norm_num, Or.inr rfl⟩
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   have hpl : 3 ≠ ringChar F := by
     rw [ringChar.eq F 2]
     norm_num
@@ -671,7 +673,7 @@ theorem su38Toral_of_mem_E {F : Type} [Field F] [Finite F] [CharP F 2] {d : ℕ}
       componentImage Q (x : (Fin d → F) ≃ₗ[F] (Fin d → F)) (X ^ 2 + X + 1))
     (hBx : ∀ b : ↥B, uniAut e ⟨b, hBK b.2⟩ (piOrth Q x) = piOrth Q x) :
     SU38Toral B J := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   have hpl : 3 ≠ ringChar F := by
     rw [ringChar.eq F 2]
     norm_num

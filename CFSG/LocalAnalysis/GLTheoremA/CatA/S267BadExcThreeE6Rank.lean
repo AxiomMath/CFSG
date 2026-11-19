@@ -56,9 +56,9 @@ theorem card_le_pow_four_twistedE6_three_of_mod_one {F₀ K : Type} [Field F₀]
     (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ q) (hq3 : q % 3 = 1)
     {F : Subgroup ↥(twistedE6RootGroup K σ)} (hF : IsElemAbelian 3 F) :
     Nat.card F ≤ 3 ^ 4 := by
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨H, ⟨e⟩, hH⟩ :=
     CFSG.HardMathSupport.Lang.AnisoE6.exists_f4_in_twistedE6 hF₀ hK σ hσ hq3
   have hHi : ¬ 3 ∣ H.index := by rwa [← Subgroup.relIndex_top_right]

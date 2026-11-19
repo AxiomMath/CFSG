@@ -24,7 +24,7 @@ theorem exists_elemAbelian_q_Jsub_of_split [Fintype F]
     ∃ Q : Subgroup (SpecialLinearGroup F V),
       Q ≤ Jsub A hp hpF hA t ht D ∧ IsElemAbelian q Q ∧ 3 ≤ CFSG.Open.pRank q Q := by
   classical
-  haveI : Fintype V := by
+  have : Fintype V := by
     haveI : Module.Free F V := Module.Free.of_divisionRing F V
     exact Fintype.ofEquiv (Fin (Module.finrank F V) → F)
       (Module.finBasis F V).equivFun.symm.toEquiv

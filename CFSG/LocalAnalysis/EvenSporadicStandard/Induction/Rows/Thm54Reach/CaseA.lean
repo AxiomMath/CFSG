@@ -35,7 +35,7 @@ theorem reach_of_catalog (I : CatInputs) {Y : Type} [Group Y] [Finite Y] {N' : S
     ⟨n, k, -, hk5, -, -, -, ⟨eA⟩⟩ | ⟨hodd, hOddD⟩ | ⟨heven, hout, -⟩ | ⟨s, ⟨es⟩⟩
   ·
     exfalso
-    haveI : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin k) := Fin.nontrivial_iff_two_le.2 (by omega)
     have hk : Nat.card (↥D ⧸ center ↥D) = k.factorial / 2 := by
       rw [Nat.card_congr eA.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     exact hc.ne_factorial_div_two hk5 (hk.symm.trans hcD)
@@ -93,7 +93,7 @@ theorem reach_of_catalog (I : CatInputs) {Y : Type} [Group Y] [Finite Y] {N' : S
         rw [Subgroup.orderOf_mk]
         exact ht2
       have hXperf : Group.IsPerfect ↥(P.subgroupOf N') := by
-        haveI : Group.IsPerfect ↥P := hq.1
+        have : Group.IsPerfect ↥P := hq.1
         exact Group.IsPerfect.ofSurjective
           (f := (Subgroup.subgroupOfEquivOfLe hPN).symm.toMonoidHom)
           (Subgroup.subgroupOfEquivOfLe hPN).symm.surjective

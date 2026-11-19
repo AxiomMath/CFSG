@@ -97,7 +97,7 @@ theorem false_of_alt (h : K372Setting X p K E S) {n : ℕ} (hn : 5 ≤ n)
     obtain ⟨V, E₀, -, -, hV1, hV2, hE₀, hE₀N, hcard⟩ :=
       GL83.PiGen.exists_klein_elem_in_component (p := p) (by omega) (by omega)
         (((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.trans φ)
-    rw [if_neg (show p ≠ 3 by omega), add_zero] at hcard
+    rw [ite_eq_right (show p ≠ 3 by omega), add_zero] at hcard
     obtain ⟨k, hk⟩ := GL83.CompFam.exists_card_eq_pow hE₀
     have hr := h.rank23 V hV1 hV2.isPGroup
     rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at hr

@@ -137,9 +137,9 @@ theorem card_map_projOf_mul {Y S : Type*} [Group Y] [Group S] [Finite Y]
     (e : (Y ⧸ Subgroup.center Y) ≃* S) (J : Subgroup Y) :
     Nat.card ↥(J.map (projOf e)) * Nat.card ↥(J ⊓ Subgroup.center Y) = Nat.card J := by
   have h := Subgroup.card_ker_mul_card_range ((projOf e).domRestrict J)
-  rw [MonoidHom.restrict_range] at h
+  rw [MonoidHom.domRestrict_range] at h
   have hk : Nat.card ((projOf e).domRestrict J).ker = Nat.card ↥(J ⊓ Subgroup.center Y) := by
-    rw [MonoidHom.ker_restrict, ker_projOf]
+    rw [MonoidHom.ker_domRestrict, ker_projOf]
     exact Nat.card_congr
       { toFun := fun a => ⟨a.1.1, a.1.2, a.2⟩
         invFun := fun b => ⟨⟨b.1, b.2.1⟩, b.2.2⟩

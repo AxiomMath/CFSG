@@ -65,11 +65,11 @@ theorem exists_inverted_translate [Finite G] {θ : MulAut G} (H : Subgroup G) :
       exact h.1.2
     · intro y
       apply Subtype.ext
-      simp only [Subtype.coe_mk]
+      simp only
       group
     · intro h
       apply Subtype.ext
-      simp only [Subtype.coe_mk]
+      simp only
       group
   rw [heq] at hxcard
   exact hxcard

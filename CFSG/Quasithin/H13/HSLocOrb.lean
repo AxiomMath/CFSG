@@ -19,12 +19,15 @@ variable {Γ : Type} [Group Γ] [MulAction Γ (Fin 100)] [FaithfulSMul Γ (Fin 1
 
 @[expose] def Pres (g : Γ) : Prop := ∀ f ∈ F0, act 100 g f ∈ F0
 
+omit [FaithfulSMul Γ (Fin 100)] in
 theorem Pres.one : Pres (1 : Γ) := fun f hf => by rw [act_one (F0_lt f hf)]; exact hf
 
+omit [FaithfulSMul Γ (Fin 100)] in
 theorem Pres.mul {g h : Γ} (hg : Pres g) (hh : Pres h) : Pres (g * h) := fun f hf => by
   rw [act_mul _ _ (F0_lt f hf)]
   exact hg _ (hh f hf)
 
+omit [FaithfulSMul Γ (Fin 100)] in
 theorem Pres.inv {g : Γ} (hg : Pres g) : Pres g⁻¹ := by
   classical
   let S : Finset ℕ := F0.toFinset

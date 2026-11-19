@@ -84,7 +84,7 @@ private theorem fniEU_hOne_chev {τ : Tag} {K : Type} [Field K] [Finite K]
       dsimp only [kgfniExcUntwTag, LargeEvenRawDatum, LargeEvenRecipeChevalley]
       refine ⟨MulEquiv.refl _, ?_⟩
       ext φ
-      simp only [Set.mem_image, Set.mem_setOf_eq]
+      simp only [Set.mem_image]
       constructor
       · intro h
         exact ⟨φ, h, rfl⟩
@@ -245,7 +245,7 @@ theorem kgFieldRestriction_of_langSetup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     have hcomm : ((MulAut.congr eC (f ^ k) : C →* C).comp eC.toMonoidHom) =
         (eC.toMonoidHom.comp (f ^ k).toMonoidHom) := by
       ext x
-      simp [MulAut.congr_apply, MulEquiv.trans_apply]
+      simp [MulAut.congr_apply]
     rw [hcomm, ← Subgroup.map_map, hsurjJ]
   let ψJ : MulAut JP :=
     ((MulAut.congr eC (f ^ k)).subgroupMap JP).trans (MulEquiv.subgroupCongr hstabJP)
@@ -324,7 +324,7 @@ theorem kgFieldRestrictionCont_excUntw {τ : Tag} {K : Type} [Field K] [Finite K
     KGFieldRestrictionCont p (LargeEvenCenterQuot (adjointGroup τ K))
       (RecipeExcLang.markIDImage (IsRoot τ) K (adjointGroup τ K))
       (RecipeFieldExcInn.markFieldImage (IsRoot τ) K (adjointGroup τ K)) := by
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK
   have hOneChev := fniEU_hOne_chev hτ hn hK hp hp2
   have hOneModel : kgfni_hOneProp p (LargeEvenCenterQuot (adjointGroup τ K))
       (RecipeExcLang.markIDImage (IsRoot τ) K (adjointGroup τ K))
@@ -401,7 +401,7 @@ theorem kgFieldRestrictionCont_excUntw {τ : Tag} {K : Type} [Field K] [Finite K
         (by rw [← Subgroup.coe_pow, hwpow]; rfl) (fun h1 => hw1 (Subtype.ext h1)) hfix
     let eC : LargeEvenCenterQuot (adjointGroup τ K) ≃* ↥(adjointGroup τ K) :=
       centerQuotEquivOfBot center_adjointGroup_eq_bot
-    haveI : Finite ↥(adjointGroup τ K) :=
+    have : Finite ↥(adjointGroup τ K) :=
       Finite.of_injective (Subtype.val : ↥(adjointGroup τ K) → ModGL τ K) Subtype.val_injective
     have hEh : MulAut.congr eC h = RecipeExcLang.inndiagConj τ K w := by
       change RecipeExcLang.autEquiv τ K h = RecipeExcLang.inndiagConj τ K w
@@ -429,8 +429,8 @@ theorem kgFieldRestrictionOn_of_excUntw_model {τ : Tag} {p n : ℕ}
     intro Q hraw
     dsimp only [kgfniExcUntwTag, LargeEvenRawDatum, LargeEvenRecipeChevalley] at hraw ⊢
     obtain ⟨K, hF, hfin, hK, hQ⟩ := hraw
-    letI := hF
-    haveI := hfin
+    let := hF
+    have := hfin
     have hCore : KGFieldRestrictionCont p (LargeEvenCenterQuot (adjointGroup .G2 K))
         (RecipeExcLang.markIDImage (IsRoot .G2) K (adjointGroup .G2 K))
         (RecipeFieldExcInn.markFieldImage (IsRoot .G2) K (adjointGroup .G2 K)) :=
@@ -448,8 +448,8 @@ theorem kgFieldRestrictionOn_of_excUntw_model {τ : Tag} {p n : ℕ}
     intro Q hraw
     dsimp only [kgfniExcUntwTag, LargeEvenRawDatum, LargeEvenRecipeChevalley] at hraw ⊢
     obtain ⟨K, hF, hfin, hK, hQ⟩ := hraw
-    letI := hF
-    haveI := hfin
+    let := hF
+    have := hfin
     have hCore : KGFieldRestrictionCont p (LargeEvenCenterQuot (adjointGroup .F4 K))
         (RecipeExcLang.markIDImage (IsRoot .F4) K (adjointGroup .F4 K))
         (RecipeFieldExcInn.markFieldImage (IsRoot .F4) K (adjointGroup .F4 K)) :=
@@ -468,8 +468,8 @@ theorem kgFieldRestrictionOn_of_excUntw_model {τ : Tag} {p n : ℕ}
     intro Q hraw
     dsimp only [kgfniExcUntwTag, LargeEvenRawDatum, LargeEvenRecipeChevalley] at hraw ⊢
     obtain ⟨K, hF, hfin, hK, hQ⟩ := hraw
-    letI := hF
-    haveI := hfin
+    let := hF
+    have := hfin
     have hCore : KGFieldRestrictionCont p (LargeEvenCenterQuot (adjointGroup .E6 K))
         (RecipeExcLang.markIDImage (IsRoot .E6) K (adjointGroup .E6 K))
         (RecipeFieldExcInn.markFieldImage (IsRoot .E6) K (adjointGroup .E6 K)) :=
@@ -488,8 +488,8 @@ theorem kgFieldRestrictionOn_of_excUntw_model {τ : Tag} {p n : ℕ}
     intro Q hraw
     dsimp only [kgfniExcUntwTag, LargeEvenRawDatum, LargeEvenRecipeChevalley] at hraw ⊢
     obtain ⟨K, hF, hfin, hK, hQ⟩ := hraw
-    letI := hF
-    haveI := hfin
+    let := hF
+    have := hfin
     have hCore : KGFieldRestrictionCont p (LargeEvenCenterQuot (adjointGroup .E7 K))
         (RecipeExcLang.markIDImage (IsRoot .E7) K (adjointGroup .E7 K))
         (RecipeFieldExcInn.markFieldImage (IsRoot .E7) K (adjointGroup .E7 K)) :=
@@ -508,8 +508,8 @@ theorem kgFieldRestrictionOn_of_excUntw_model {τ : Tag} {p n : ℕ}
     intro Q hraw
     dsimp only [kgfniExcUntwTag, LargeEvenRawDatum, LargeEvenRecipeChevalley] at hraw ⊢
     obtain ⟨K, hF, hfin, hK, hQ⟩ := hraw
-    letI := hF
-    haveI := hfin
+    let := hF
+    have := hfin
     have hCore : KGFieldRestrictionCont p (LargeEvenCenterQuot (adjointGroup .E8 K))
         (RecipeExcLang.markIDImage (IsRoot .E8) K (adjointGroup .E8 K))
         (RecipeFieldExcInn.markFieldImage (IsRoot .E8) K (adjointGroup .E8 K)) :=

@@ -15,6 +15,7 @@ open Subgroup
 
 variable {Y : Type*} [Group Y] [Finite Y] {N : Subgroup Y} [N.Normal]
 
+omit [Finite Y] in
 private theorem w183K3Lift_ker_odd (hN : Odd (Nat.card ↥N)) :
     Odd (Nat.card (QuotientGroup.mk' N).ker) := by
   rwa [QuotientGroup.ker_mk']
@@ -24,7 +25,7 @@ theorem card_map_mk_of_isPGroup (hN : Odd (Nat.card ↥N)) {A : Subgroup Y} (hA 
   CFSG.OddStandard.Solomon75.Sec6SigOdd.card_map_of_inf_ker
     (CFSG.OddStandard.Solomon75.Sec6SigOdd.inf_ker_eq_bot (w183K3Lift_ker_odd hN) hA)
 
-theorem exists_isPGroup_map_mk_eq (hN : Odd (Nat.card ↥N)) {R : Subgroup (Y ⧸ N)}
+theorem exists_isPGroup_map_mk_eq (_hN : Odd (Nat.card ↥N)) {R : Subgroup (Y ⧸ N)}
     (hR : IsPGroup 2 R) :
     ∃ A : Subgroup Y, IsPGroup 2 A ∧ A.map (QuotientGroup.mk' N) = R :=
   CFSG.RankThree.PartTwo.Sec15.KS1424.exists_isPGroup_map_eq (QuotientGroup.mk' N)

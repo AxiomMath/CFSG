@@ -103,7 +103,7 @@ theorem insA_eq
         · rw [hgk, hcomp _ _ hCk hgp]
           simp
         · intro x hx
-          simp only [cond_false, List.mem_append, List.mem_singleton] at hx
+          simp only [Bool.cond_false, List.mem_append, List.mem_singleton] at hx
           rcases hx with hx | rfl
           · exact hLp x hx
           · exact hh
@@ -136,13 +136,13 @@ theorem closureList_eq_closK
       have hin := insA_eq hcomp heq hC hg hC0 (List.range' 0 gens.size)
         (fun k hk => by simpa using (List.mem_range'_1.mp hk).2) Lp h3
       have hr : List.range gens.size = List.range' 0 gens.size := List.range_eq_range'
-      rw [if_pos hlt, hb, cond_true, hget, hr, hin.1]
+      rw [ite_eq_left hlt, hb, _root_.Bool.cond_true, hget, hr, hin.1]
       exact ⟨rfl, hin.2⟩
     · have hb : Nat.blt hp Lp.length = false := by
         rw [Bool.eq_false_iff]
         intro h
         exact hlt (Nat.blt_eq.mp h)
-      rw [if_neg hlt, hb, cond_false]
+      rw [ite_eq_right hlt, hb, Bool.cond_false]
       exact ⟨rfl, h3⟩
   have key : ∀ (l : List ℕ) (Lp : List ℕ) (hp : ℕ), (∀ x ∈ Lp, C x) →
       l.foldl (fun s _ => stepA n gens s) ((Lp.map u).toArray, hp) =
@@ -172,7 +172,7 @@ theorem lEq_spec (f : ℕ → ℕ) : ∀ (L : List ℕ) (j m : ℕ), lEq f L j m
     cases hx : Nat.beq x (f j)
     · rw [hx] at h
       exact absurd h Bool.false_ne_true
-    · rw [hx, cond_true] at h
+    · rw [hx, _root_.Bool.cond_true] at h
       obtain ⟨ih1, ih2⟩ := lEq_spec f xs (j + 1) m h
       refine ⟨by simp only [List.length_cons]; omega, ?_⟩
       rw [List.length_cons, List.range'_succ, List.map_cons, ← ih2, Nat.eq_of_beq_eq_true hx]

@@ -44,6 +44,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L Y₀ : Subgroup G}
 
+omit [Finite G] in
 private theorem thetaSubgroupOf_sup_eq_top {J X : Subgroup G} (hJX : J ≤ X)
     (hX : X = J ⊔ inSubgroup (aschbacherSolvableCore 3) X) :
     J.subgroupOf X ⊔ aschbacherSolvableCore 3 ↥X = ⊤ := by
@@ -56,6 +57,7 @@ private noncomputable def thetaQuotHom {J X : Subgroup G} (hJX : J ≤ X) :
     ↥J →* (↥X ⧸ aschbacherSolvableCore 3 ↥X) :=
   (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥X)).comp (Subgroup.inclusion hJX)
 
+omit [Finite G] in
 private theorem thetaQuotHom_surjective {J X : Subgroup G} (hJX : J ≤ X)
     (hX : X = J ⊔ inSubgroup (aschbacherSolvableCore 3) X) :
     Function.Surjective (thetaQuotHom hJX) := by
@@ -121,6 +123,7 @@ theorem nonempty_thetaQuot_mulEquiv_of_eq_sup {J X₁ X₂ : Subgroup G} (h₁ :
         (thetaQuotHom_surjective h₂ hX₂))
   exact ⟨E₁.symm.trans E₂⟩
 
+omit [Finite G] in
 private lemma mem_of_pow_mem {d : G} (hd3 : d ^ 3 = 1) {k : ℕ} (hk : k = 1 ∨ k = 2)
     {H : Subgroup G} (h : d ^ k ∈ H) : d ∈ H := by
   rcases hk with rfl | rfl
@@ -197,6 +200,7 @@ theorem isHyperplane_closure_cd (h : Sec17Std G A c L Y₀)
     exact hd1 hmem
   exact isHyperplane_closure_pair hA hcA hdA hc1 hd_c
 
+omit [Finite G] in
 lemma closure_pair_cd_pow {c d : G} (hd3 : d ^ 3 = 1)
     {k : ℕ} (hk : k = 1 ∨ k = 2) :
     Subgroup.closure {c * d ^ k, c} = Subgroup.closure {c, d} := by
@@ -314,6 +318,7 @@ private lemma false_of_delta_eq_pPrimeCoreOf (h : Sec17Std G A c L Y₀)
   exact absurd (h3lB.trans (Subgroup.card_dvd_of_le hle))
     ((isPiSubgroup_piCompl_iff Nat.prime_three _).mp hOU3)
 
+omit [Finite G] in
 private lemma false_of_zpowers_eq_at_cd {d d' : G} {k : ℕ} (hdL : d ∈ L) (hcL : c ∉ L)
     (hd'L : d' ∈ L) (heq : Subgroup.zpowers (c * d ^ k) = Subgroup.zpowers d') : False := by
   have hbL : c * d ^ k ∈ L := by
@@ -357,7 +362,7 @@ private lemma exists_Kd_data (h : Sec17Std G A c L Y₀)
     rw [hcard]
     exact hKdc
   have hdvd : 3 ∣ Nat.card (Subgroup.center (↥Ld ⧸ aschbacherSolvableCore 3 ↥Ld)) := by
-    simpa [hcenter] using dvd_refl 3
+    simp [hcenter]
   have h3Ld : 3 ∣ Nat.card Ld :=
     hdvd.trans ((Subgroup.card_subgroup_dvd_card _).trans (Subgroup.card_quotient_dvd_card _))
   obtain ⟨-, h9, -⟩ := Sec14.j2_point_facts h.toSec13Data hJ
@@ -374,7 +379,7 @@ private lemma isTripleCover_thetaQuot_at_cd (h : Sec17Std G A c L Y₀)
     (hd1 : d ≠ 1) (hdc : IsThreeCentralIn L d)
     (hLdEq : lB A (Subgroup.closure {c, d}) =
       inSubgroup perfectResidual (L ⊓ Subgroup.centralizer ({d} : Set G)))
-    {k : ℕ} {X : Subgroup G} (hX : X ∈ thetaComponentsAt 3 (c * d ^ k))
+    {k : ℕ} {X : Subgroup G} (_hX : X ∈ thetaComponentsAt 3 (c * d ^ k))
     (hXL : X = lB A (Subgroup.closure {c, d}) ⊔
       inSubgroup (aschbacherSolvableCore 3) X)
     {Kd : Subgroup G} (hKd : Kd ∈ thetaComponentsAt 3 d)

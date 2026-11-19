@@ -311,7 +311,7 @@ theorem lemma_7_10
     let e : Z ≃* ι.range := MonoidHom.ofInjective hι
     set V' : Subgroup Z := (V : Subgroup ι.range).comap e.toMonoidHom with hV'def
     have hV'n : V'.Normal := hVn.comap _
-    have hV'p : IsPGroup 2 V' := V.isPGroup'.comap_of_injective _ e.injective
+    have hV'p : IsPGroup 2 V' := V.isPGroup.comap_of_injective _ e.injective
     have hV'card : Nat.card V' = 4 := by
       have hc : Nat.card V' = Nat.card (V : Subgroup ι.range) := by
         calc Nat.card V' = Nat.card (V'.map e.toMonoidHom) :=

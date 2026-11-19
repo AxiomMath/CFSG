@@ -17,7 +17,7 @@ theorem uc22p2214_out_mem_of_mem_sup {Y H : Type*} [Group Y] [Group H] (φ : H �
     (hI : (MulAut.conj : Y →* MulAut Y).range ⊓ φ.range = ⊥) {r : ℕ} (hr : r.Prime) (hrH : ¬ r ∣ Nat.card H)
     {α : MulAut Y} (hmem : α ∈ (MulAut.conj : Y →* MulAut Y).range ⊔ φ.range) (hα : α ^ r = 1) :
     α ∈ (MulAut.conj : Y →* MulAut Y).range := by
-  haveI : (MulAut.conj : Y →* MulAut Y).range.Normal := inner_normal Y
+  have : (MulAut.conj : Y →* MulAut Y).range.Normal := inner_normal Y
   rw [← SetLike.mem_coe, Subgroup.normal_mul] at hmem
   obtain ⟨y, hy, z, ⟨h, rfl⟩, rfl⟩ := Set.mem_mul.1 hmem
   have h1 : φ h ^ r ∈ (MulAut.conj : Y →* MulAut Y).range := by
@@ -78,7 +78,7 @@ theorem uc22p2214_inner_of_prime_Sz (hX : IsSz X n) (hr : r.Prime) (hrn : ¬ r �
 theorem uc22p2214_inner_of_prime_Sp4 (hX : IsSp4 X n) (hr : r.Prime) (hrn : ¬ r ∣ 2 * n) {α : MulAut X}
     (hα : α ^ r = 1) : α ∈ (MulAut.conj : X →* MulAut X).range := by
   obtain ⟨⟨-, hn, -⟩, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  haveI : CharP K 2 := uc22p22d_charP_two hn hK
+  have : CharP K 2 := uc22p22d_charP_two hn hK
   have hβ : MulAut.congr e α ^ r = 1 := by rw [← map_pow, hα, map_one]
   have hodd : Odd r := hr.odd_of_ne_two (by rintro rfl; exact hrn (dvd_mul_right 2 n))
   refine uc22p2214_out_mem_of_congr e (uc22p2214_out_mem_of_mem_sup

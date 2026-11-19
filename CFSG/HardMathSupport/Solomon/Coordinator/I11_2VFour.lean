@@ -50,7 +50,7 @@ theorem lemma27_input11_2Four_of_tables (T : Tables112) (TL : TableL2) (TT : Tab
   have hker : Nat.Coprime 3 (Nat.card f.ker) := by
     rw [hfdef, QuotientGroup.ker_mk']
     exact CFSG.pPrimeCore_coprime_card
-  have hRp : IsPGroup 3 (R : Subgroup ↥L) := R.isPGroup'
+  have hRp : IsPGroup 3 (R : Subgroup ↥L) := R.isPGroup
   refine ⟨?_, ?_, ?_, hZR, ?_⟩
   · exact (i112v_card_map_eq f hker hRp).symm.trans hc
   · intro hcomm

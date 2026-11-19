@@ -17,7 +17,7 @@ theorem noTwist_of_hyperplane {r : ℕ} (hr : 1 ≤ r)
     (E₀ : Subgroup K) (hE₀ : IsElemAbelian 3 E₀) (hcard : 3 ^ r ≤ Nat.card E₀) (T : Subgroup K)
     (hT : IsPGroup 2 T) (hET : E₀ ≤ Subgroup.normalizer (T : Set K)) :
     ∀ e ∈ E₀, ∀ t ∈ T, e * t = t * e := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro e he t ht
   have hE₀p : IsPGroup 3 E₀ := fun g => ⟨1, Subtype.ext (by simpa using hE₀.2 g g.2)⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hE₀p
@@ -64,7 +64,7 @@ theorem noTwist_of_hyperplane {r : ℕ} (hr : 1 ≤ r)
     rw [Subgroup.mem_normalizer_iff]
     intro x
     have hxT := Subgroup.mem_normalizer_iff.1 (hEN ha) x
-    simp only [SetLike.mem_coe, Subgroup.mem_inf] at hxT ⊢
+    simp only [Subgroup.mem_inf] at hxT ⊢
     constructor
     · rintro ⟨hx, hxD⟩
       exact ⟨hxT.1 hx, Subgroup.mul_mem _ (Subgroup.mul_mem _ haD hxD) (Subgroup.inv_mem _ haD)⟩
@@ -167,7 +167,7 @@ theorem comm_of_pow_mul_index_two {r : ℕ} (hr : 1 ≤ r) {Q H E T : Subgroup K
     rw [Subgroup.mem_normalizer_iff]
     intro x
     have hxT := Subgroup.mem_normalizer_iff.1 (hET (Subgroup.mem_inf.1 ha).1) x
-    simp only [SetLike.mem_coe, Subgroup.mem_inf] at hxT ⊢
+    simp only [Subgroup.mem_inf] at hxT ⊢
     constructor
     · rintro ⟨hx, hxH⟩
       exact ⟨hxT.1 hx, H.mul_mem (H.mul_mem haH hxH) (H.inv_mem haH)⟩

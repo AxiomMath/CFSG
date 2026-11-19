@@ -28,7 +28,7 @@ theorem L_le_calLJoin (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch) :
 
 theorem calLJoin_le_normalizer_L (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch) :
     calLJoin D Ch c ≤ Subgroup.normalizer (c.L : Set G) :=
-  iSup_le fun K => iSup_le fun hK => hK.2.le
+  iSup_le fun _K => iSup_le fun hK => hK.2.le
 
 theorem normalizer_calLJoin_eq_N (D : Data G) (Ch : Choice2011 G) (h208 : S20_8 D)
     (h1930 : H1930 D) (c : Ctx23L D Ch) :
@@ -65,7 +65,7 @@ theorem conj_L_le (D : Data G) (Ch : Choice2011 G) (h208 : S20_8 D)
 
 private theorem le_of_not_inf_le_pCoreOf (D : Data G) (Ch : Choice2011 G)
     (h23 : S23_23 D Ch) (h1930 : H1930 D) (c : Ctx23L D Ch)
-    {Lg : Subgroup G} (hLgX : Lg ≤ calLJoin D Ch c)
+    {Lg : Subgroup G} (_hLgX : Lg ≤ calLJoin D Ch c)
     (hXleNLg : calLJoin D Ch c ≤ Subgroup.normalizer (Lg : Set G))
     (hne : Lg ≠ c.L) (hcard : Nat.card Lg = Nat.card c.L)
     (hnot : ¬ c.L ⊓ Lg ≤ CFSG.Open.pCoreOf 2 c.L) : False := by
@@ -79,9 +79,9 @@ private theorem le_of_not_inf_le_pCoreOf (D : Data G) (Ch : Choice2011 G)
     · exact c.L.mul_mem (c.L.mul_mem l.2 hxK.1) (c.L.inv_mem l.2)
     · exact (Subgroup.mem_normalizer_iff.mp (hXleNLg (L_le_calLJoin D Ch c l.2)) (x : G)).mp hxK.2
   obtain ⟨-, hL2, -⟩ := h23 h1930 c
-  haveI : IsSimpleGroup (Bar2 c.L) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
+  have : IsSimpleGroup (Bar2 c.L) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
   have hsimple : IsSimpleGroup (↥c.L ⧸ CFSG.pCore 2 ↥c.L) := inferInstance
-  haveI : (K.subgroupOf c.L).Normal := hKnormal
+  have : (K.subgroupOf c.L).Normal := hKnormal
   rcases CFSG.GroupTheory.le_or_sup_eq_top_of_normal_of_isSimpleGroup_quotient
     (H := ↥c.L) (N := CFSG.pCore 2 ↥c.L) (K := K.subgroupOf c.L) hsimple with hle | hsup
   · exact hnot fun x hx => by
@@ -101,7 +101,7 @@ private theorem le_of_not_inf_le_pCoreOf (D : Data G) (Ch : Choice2011 G)
     have hquotP : IsPGroup 2 (↥c.L ⧸ K.subgroupOf c.L) := by
       have hmapP : IsPGroup 2 ((CFSG.pCore 2 ↥c.L).map π) := hO2.map π
       rw [hmap_top] at hmapP
-      letI : IsPGroup 2 ↥(⊤ : Subgroup (↥c.L ⧸ K.subgroupOf c.L)) := hmapP
+      let : IsPGroup 2 ↥(⊤ : Subgroup (↥c.L ⧸ K.subgroupOf c.L)) := hmapP
       exact IsPGroup.of_injective hmapP
         (Subgroup.topEquiv (G := ↥c.L ⧸ K.subgroupOf c.L)).symm.toMonoidHom
         (Subgroup.topEquiv (G := ↥c.L ⧸ K.subgroupOf c.L)).symm.injective
@@ -269,10 +269,10 @@ private theorem le_centralizer_V_of_commutator_le (D : Data G) (Ch : Choice2011 
     Lg ≤ Subgroup.centralizer (c.V : Set G) := by
   classical
   obtain ⟨B⟩ := nonempty_b2Data D Ch c h4 h23 h1930
-  letI : Group.IsPerfect ↥Lg := hLgperf
+  let : Group.IsPerfect ↥Lg := hLgperf
   let χ : ↥Lg →* B.κ.Kˣ := scalarChar B hLgN hLgNL hcommC
-  haveI : Group.IsPerfect ↥χ.range := Group.IsPerfect.range χ
-  haveI : IsMulCommutative ↥χ.range := inferInstance
+  have : Group.IsPerfect ↥χ.range := Group.IsPerfect.range χ
+  have : IsMulCommutative ↥χ.range := inferInstance
   have hsub : Subsingleton ↥χ.range := Group.IsPerfect.subsingleton_of_isMulCommutative
   intro y hy
   have hχ : χ ⟨y, hy⟩ = 1 := by
@@ -338,7 +338,7 @@ private theorem map_conj_eq_self_of_mem_N (D : Data G) (Ch : Choice2011 G)
     hLgX.trans (calLJoin_le_normalizer_L D Ch c)
   have hLgperf : Group.IsPerfect ↥Lg := by
     rw [show Lg = c.L.map (MulAut.conj g).toMonoidHom from rfl]
-    haveI : Group.IsPerfect ↥c.L := Subgroup.isPerfect_iff.mpr c.hL.1.2.1
+    have : Group.IsPerfect ↥c.L := Subgroup.isPerfect_iff.mpr c.hL.1.2.1
     exact Group.IsPerfect.map (MulAut.conj g).toMonoidHom
   have hne' : c.L.map (MulAut.conj g).toMonoidHom ≠ c.L := by simpa [Lg] using hne
   have hK_le_O : c.L ⊓ c.L.map (MulAut.conj g).toMonoidHom ≤

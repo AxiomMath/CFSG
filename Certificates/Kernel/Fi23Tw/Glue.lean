@@ -211,7 +211,7 @@ theorem hK4 : ∀ (t : Fin chainQ.size) (c' : Fin 31671),
   have h3 := x_cube (cPt 4 t)
   have h4 := x_cube (t3 2 • cPt 4 t)
   rcases hc' with h1 | h1 | h1 <;> rcases hr with h2 | h2 | h2 <;> rw [h1, h2] <;>
-    simp only [h3, h4, true_or, or_true]
+    simp only [h3, true_or, or_true]
 
 theorem fi23C_ok : fi23COK orb = true := by
   have hT : Rep 31671 ((t3Tabs orb (chainLetters orb))[2]!) (t3 2) := rep_t3Tabs 2

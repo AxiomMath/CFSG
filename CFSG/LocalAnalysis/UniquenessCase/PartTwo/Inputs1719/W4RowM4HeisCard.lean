@@ -23,12 +23,12 @@ private def m4suppA (v : Fin 4 → ZMod 3) : Fin (4 + 4) → ZMod 3 :=
 private theorem m4suppA_castAdd (v : Fin 4 → ZMod 3) (i : Fin 4) :
     m4suppA v (Fin.castAdd 4 i) = v i := by
   simp only [m4suppA, Fin.val_castAdd]
-  rw [dif_pos i.isLt]
+  rw [dite_eq_left i.isLt]
 
 private theorem m4suppA_natAdd (v : Fin 4 → ZMod 3) (j : Fin 4) :
     m4suppA v (Fin.natAdd 4 j) = 0 := by
   simp only [m4suppA, Fin.val_natAdd]
-  rw [dif_neg (by omega : ¬ 4 + j.val < 4)]
+  rw [dite_eq_right (by omega : ¬ 4 + j.val < 4)]
 
 private theorem m4suppA_zero : m4suppA (0 : Fin 4 → ZMod 3) = 0 := by
   funext k
@@ -54,7 +54,7 @@ private noncomputable def m4psiA (h : HeisCfg 3 4 x y z) (hy : ∀ i, y i ^ 3 = 
         Finset.sum_eq_zero (fun j _ => by rw [m4suppA_natAdd, zero_mul])
       unfold heisCocycle
       rw [hsum, mul_zero]
-    simp only [Prod.fst_mul, Prod.snd_mul, toAdd_mul, Pi.add_apply]
+    simp only [Prod.fst_mul, Prod.snd_mul, toAdd_mul]
     rw [heisNF_mul h hy, m4suppA_add, hβ, add_zero]
 
 private theorem m4psiA_mem_A (h : HeisCfg 3 4 x y z) (hy : ∀ i, y i ^ 3 = 1)
@@ -78,7 +78,7 @@ private theorem m4suppA_single (i : Fin 4) (a : ZMod 3) :
     m4suppA (Pi.single i a) = Pi.single (Fin.castAdd 4 i) a := by
   funext k
   by_cases hk : k.val < 4
-  · rw [m4suppA, dif_pos hk]
+  · rw [m4suppA, dite_eq_left hk]
     by_cases hik : k.val = i.val
     · have h1 : (⟨k.val, hk⟩ : Fin 4) = i := Fin.ext hik
       have h2 : k = (Fin.castAdd 4 i : Fin (4 + 4)) :=
@@ -87,7 +87,7 @@ private theorem m4suppA_single (i : Fin 4) (a : ZMod 3) :
     · have h1 : (⟨k.val, hk⟩ : Fin 4) ≠ i := fun e => hik (congrArg Fin.val e)
       have h2 : k ≠ (Fin.castAdd 4 i : Fin (4 + 4)) := fun e => hik (by rw [e]; rfl)
       rw [Pi.single_eq_of_ne h1, Pi.single_eq_of_ne h2]
-  · rw [m4suppA, dif_neg hk]
+  · rw [m4suppA, dite_eq_right hk]
     have h2 : k ≠ (Fin.castAdd 4 i : Fin (4 + 4)) := fun e => hk (by rw [e]; exact i.isLt)
     rw [Pi.single_eq_of_ne h2]
 
@@ -231,7 +231,7 @@ private theorem m4y0_not_mem_A (h : HeisCfg 3 4 x y z) :
 
 private theorem m4A_disjoint_zpowers (h : HeisCfg 3 4 x y z) (hy : ∀ i, y i ^ 3 = 1) :
     Disjoint (m4A (x := x) (z := z)) (Subgroup.zpowers (y 0)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hy1 : y 0 ≠ 1 := by
     intro h1
     have h2 := h.yx 0
@@ -241,7 +241,7 @@ private theorem m4A_disjoint_zpowers (h : HeisCfg 3 4 x y z) (hy : ∀ i, y i ^ 
     exact h.z1 h4.symm
   have horder : orderOf (y 0) = 3 := orderOf_eq_prime (hy 0) hy1
   have hcard : Nat.card (Subgroup.zpowers (y 0)) = 3 := by rw [Nat.card_zpowers, horder]
-  haveI : Finite ↥(Subgroup.zpowers (y 0)) :=
+  have : Finite ↥(Subgroup.zpowers (y 0)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   rw [disjoint_iff_inf_le]
   intro g hg
@@ -294,7 +294,7 @@ private theorem m4card (h : HeisCfg 3 4 x y z) (hy : ∀ i, y i ^ 3 = 1) :
     (m4A (x := x) (z := z)) (Subgroup.zpowers (y 0))
     (m4A_le_normalizer h) (m4A_disjoint_zpowers h hy)
   rw [hcard, m4A_card h hy]
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have horder : orderOf (y 0) = 3 := orderOf_eq_prime (hy 0) (m4y0_ne_one h)
   rw [Nat.card_zpowers, horder]
   norm_num

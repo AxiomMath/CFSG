@@ -41,7 +41,7 @@ theorem dec6_surj (v : Fin 6 → ZMod 2) : ∃ n < 64, dec6 n = v := by
     intro m n hmn
     exact Fin.ext (dec6_inj m.isLt n.isLt hmn)
   have hcard : Fintype.card (Fin 64) = Fintype.card (Fin 6 → ZMod 2) := by
-    simp [Fintype.card_fun, ZMod.card]
+    simp [ZMod.card]
   obtain ⟨n, hn⟩ := ((Fintype.bijective_iff_injective_and_card
     (fun n : Fin 64 => dec6 n.val)).2 ⟨hf, hcard⟩).2 v
   exact ⟨n.val, n.isLt, hn⟩
@@ -142,7 +142,7 @@ theorem eq_top_of_elementary (S : Subgroup SL(6, ZMod 2))
       apply Subtype.ext
       ext k l
       by_cases hkl : k = l <;>
-        simp [SpecialLinearGroup.diag2n_coe, Matrix.diagonal_apply, Matrix.one_apply, hkl]
+        simp [SpecialLinearGroup.diag2n_coe, hkl]
     rw [hone]
     exact S.one_mem
   ·

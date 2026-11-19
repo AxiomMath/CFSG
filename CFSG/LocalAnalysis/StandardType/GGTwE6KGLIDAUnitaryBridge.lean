@@ -238,8 +238,8 @@ theorem ggUnitaryOn_of_sesqSUConj {G : Type} [Group G] {J : Subgroup G} {t : Mul
     (hker : π'.ker ≤ Subgroup.center ↥(sesqSpecialUnitaryGroup B)) (g : ↥(sesqUnitaryGroup B))
     (hconj : ∀ s, t (π' s) = (π' (sesqSUConj g s) : G)) : GGUnitaryOn J t := by
   classical
-  haveI := hE.finite
-  haveI := hE.charP
+  have := hE.finite
+  have := hE.charP
   have hF : Nat.card E = (2 ^ f) ^ 2 := by rw [hE.card, ← pow_mul, mul_comm]
   obtain ⟨e, he⟩ := hE.exists_orthonormal_basis (M := W) hBs hBl
   have he' : ∀ i j, B (e i) (e j) =

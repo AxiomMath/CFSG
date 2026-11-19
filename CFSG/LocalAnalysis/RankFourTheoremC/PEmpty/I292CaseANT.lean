@@ -54,7 +54,7 @@ theorem trivial_of_two_power {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.P
     (hp2 : p ≠ 2) (Q : Sylow p Kˣ) (α : Kˣ →* Kˣ) {m : ℤ} (hαm : ∀ x, α x = x ^ m) {j : ℕ}
     (hn : (Nat.card Kˣ : ℤ) ∣ m ^ (2 ^ j) - 1) {d : Kˣ} (hd : ∀ b : Kˣ, b ^ p ≠ d)
     (hαd : ∃ l : Kˣ, α d = l ^ p * d) : ∀ x ∈ (Q : Subgroup Kˣ), α x = x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Kˣ)
   set N := Nat.card Kˣ with hN
   have hog : orderOf g = N := orderOf_eq_card_of_forall_mem_zpowers hg

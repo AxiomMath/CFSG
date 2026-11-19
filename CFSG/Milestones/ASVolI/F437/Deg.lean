@@ -76,8 +76,8 @@ theorem burnsideF437_F437KindDeg_ofIII (hcompat : NativeChartCompatibilityGoal) 
     (hfix : burnsideF437_FixedInputDeg κ degree) (h4 : burnsideF437_SylowInputDegIII κ degree) :
     burnsideF437_F437KindDeg κ degree := by
   intro E _ Gp M₁ M₂ Y _ β M _ ε z hyp chart Tb hTb fb hfbT hfbS hsq hiii hsyl
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
   have hfG : (fb : E) ∉ Gp := burnsideF437_not_mem_Gp hsyl (fun h => hfbS h.1) hsq
   have hf1 : (fb : E) ≠ 1 := burnsideF437_ne_one hfbS
   have hcls' := hcls E Gp M₁ M₂ hyp.amalgam Tb hTb fb hfbT hfbS hsq

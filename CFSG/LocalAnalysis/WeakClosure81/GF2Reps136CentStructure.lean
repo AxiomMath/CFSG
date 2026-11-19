@@ -20,7 +20,7 @@ theorem cent_structure {Q : Type} [CommGroup Q] [Finite Q] (hQ : ∀ x : Q, x ^ 
       (∀ g ∈ Λ, ∀ x, f (g x) = g (f x)) → (∀ x ∈ I i, f x ∈ I i) →
       (∀ j', j' ≠ i → ∀ x ∈ I j', f x = 1) → (∀ x ∈ I i, f x = x) ∨ (∀ x ∈ I i, f x = 1))
     {X : Subgroup (MulAut Q)} (hXc : X ≤ Subgroup.centralizer (Λ : Set (MulAut Q)))
-    (hXp : ⁅X, X⁆ = X) (hiso : ∀ i j, SecIsoOn Λ (I i) ⊥ (I j) ⊥)
+    (_hXp : ⁅X, X⁆ = X) (hiso : ∀ i j, SecIsoOn Λ (I i) ⊥ (I j) ⊥)
     (hcardX : Nat.card X = 168) :
     (∃ x ∈ X, orderOf x = 7 ∧ ∀ q : Q, x q = q → q = 1) ∧
     (∀ N : Subgroup Q, StableUnder Λ N → StableUnder X N → N = ⊥ ∨ N = ⊤) ∧

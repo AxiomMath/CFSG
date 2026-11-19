@@ -121,7 +121,7 @@ theorem leviCentral_acts {d : ℕ} (hd : d = 1 ∨ d = 2) (c : Kˣ) :
         mul_inv_cancel, Units.val_one, one_smul]
   · rw [hcoe, mem_flagSpace]
     intro j hj
-    rw [Pi.sub_apply, hv, Pi.smul_apply, smul_eq_mul, if_neg (not_lt.mpr hj), sub_self]
+    rw [Pi.sub_apply, hv, Pi.smul_apply, smul_eq_mul, ite_eq_right (not_lt.mpr hj), sub_self]
 
 theorem leviCentral_commutator_mem {d : ℕ} (hd : d = 1 ∨ d = 2) (c : Kˣ)
     {k : Matrix.SpecialLinearGroup (Fin 3) K} (hk : k ∈ stabilizer (flagSpace 3 K d)) :
@@ -150,7 +150,7 @@ theorem orderOf_proj_leviCentral {d : ℕ} (hd : d = 1 ∨ d = 2) {c : Kˣ} {r :
     rw [leviMatrix, Matrix.diagonal_pow, ← Matrix.diagonal_one]
     congr 1
     funext j
-    simp only [Pi.pow_apply, Pi.one_apply]
+    simp only [Pi.pow_apply]
     split_ifs
     · rw [← Units.val_pow_eq_pow_val, hα, Units.val_one]
     · rw [← Units.val_pow_eq_pow_val, hβ, Units.val_one]
@@ -192,6 +192,7 @@ section Parabolic
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem map_elationSubgroup_le_pCoreOf [CharP K 2] {d : ℕ} :
     (elationSubgroup (flagSpace 3 K d)).map (proj 3 K) ≤
       CFSG.Open.pCoreOf 2 (projStabilizer (flagSpace 3 K d)) :=
@@ -206,7 +207,7 @@ theorem exists_levi_central [CharP K 2] {d : ℕ} (hd : d = 1 ∨ d = 2) {r : �
     ∃ g ∈ projStabilizer (flagSpace 3 K d), orderOf g = r ∧
       ∀ k ∈ projStabilizer (flagSpace 3 K d),
         g * k * g⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 (projStabilizer (flagSpace 3 K d)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) r (by rwa [Nat.card_units])
   refine ⟨proj 3 K (leviCentral hd c), Subgroup.mem_map_of_mem _ (leviCentral_acts hd c).1,
     orderOf_proj_leviCentral hd hr h5 hc, ?_⟩

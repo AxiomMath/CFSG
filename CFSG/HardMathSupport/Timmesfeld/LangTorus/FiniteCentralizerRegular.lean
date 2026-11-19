@@ -30,12 +30,12 @@ theorem hasCoord_list_prod (i : Fin τ.rank) (l : List (Fin τ.rank)) :
       by_cases h : j = i
       · subst h
         simpa using hasCoord_xUnit j (1 : K)
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         have hr : IsRoot τ (Pi.single j 1 : Fin τ.rank → ℤ) := isRoot_single τ j
         have hne : (Pi.single j 1 : Fin τ.rank → ℤ) ≠ Pi.single i 1 := by
           intro e
           have := congrFun e j
-          simp [Pi.single_apply, h] at this
+          simp [h] at this
         have hpos : 0 < height (Pi.single j 1 : Fin τ.rank → ℤ) := by
           rw [height_single]; exact one_pos
         have hle : rootSpan τ K {(Pi.single j 1 : Fin τ.rank → ℤ)} ≤ unipComplement τ K i :=

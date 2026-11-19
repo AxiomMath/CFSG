@@ -97,7 +97,7 @@ theorem bender_borel_data (h : CFSG.BenderSuzuki.IsBenderGroup G) (S : Sylow 2 G
       have : Finite (PSU3 2 n) := Finite.of_surjective e' e'.surjective
       exact ⟨_, _, (bender_psu3_borel_full n hn).map_mulEquiv e'.symm⟩
   obtain ⟨hSE, ⟨D, hDcyc, -, -, hSD⟩, -⟩ := hB S
-  exact ⟨hSE, isSolvable_normalizer_of_cyclic S.isPGroup' hDcyc hSD⟩
+  exact ⟨hSE, isSolvable_normalizer_of_cyclic S.isPGroup hDcyc hSD⟩
 
 theorem delta_nonempty (hZD : S_CorZD) (hs : IsSimpleGroup G) (hnonab : ∃ a b : G, a * b ≠ b * a)
     {L : Subgroup G} (hS : IsStandardSubgroup L) :

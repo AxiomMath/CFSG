@@ -70,7 +70,7 @@ theorem mem_commComponent_of_normalizer [Finite G] {z y z₀ : G} {S : Sylow 2 G
     (hz₀ : z₀ ∈ commComponent z) (hz₀S : ∀ s ∈ (S : Subgroup G), s * z₀ = z₀ * s)
     (hy : y ∈ conjClassSet z) (hyN : y ∈ Subgroup.normalizer (commComponent z))
     (hy2 : y * y = 1) : y ∈ commComponent z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hW : IsPGroup 2 (Subgroup.zpowers y) := by
     have h1 : orderOf y ∣ 2 ^ 1 := by
       rw [pow_one]
@@ -105,7 +105,7 @@ variable [Finite G] {M Q Z : Subgroup G}
 theorem exists_sylow_le_M_of_strothHyp (H : StrothHyp M Q Z) :
     ∃ (S : Sylow 2 G) (z₀ : G), z₀ ∈ Z ∧ z₀ ≠ 1 ∧ (S : Subgroup G) ≤ M ∧
       ∀ s ∈ (S : Subgroup G), s * z₀ = z₀ * s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hQS⟩ := (isPGroup_Q' H).exists_le_sylow
   have hZQ : Z ≤ Q := H.Z_normal.1
   have hZne : Z ≠ ⊥ := by
@@ -119,7 +119,7 @@ theorem exists_sylow_le_M_of_strothHyp (H : StrothHyp M Q Z) :
     rw [hQS, le_bot_iff] at hZQ
     exact hZne hZQ
   obtain ⟨⟨z₀, hz₀⟩, hz₀1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
-    (inf_centralizer_ne_bot_of_isPGroup S.isPGroup' hSne)
+    (inf_centralizer_ne_bot_of_isPGroup S.isPGroup hSne)
   have hz₀S : ∀ s ∈ (S : Subgroup G), s * z₀ = z₀ * s := fun s hs =>
     Subgroup.mem_centralizer_iff.mp hz₀.2 s hs
   have hz₀Z : z₀ ∈ Z := by

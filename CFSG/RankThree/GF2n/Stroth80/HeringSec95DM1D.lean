@@ -66,7 +66,7 @@ theorem B_V2_ker {s : G} (hsH : s ∈ H0 M Z) (hss : s * s ∈ Q) {e e' : M₀.E
   rw [h0, map_zero]
 
 theorem conj_LB_eq_of_line {g₁ g₂ : G} (hg₁ : g₁ ∈ Rt M (LB M Q B) t)
-    (hg₂ : g₂ ∈ Rt M (LB M Q B) t) {κ : K} (hκ : κ ≠ 0) {b : M₀.E} (hb0 : b ≠ 0)
+    (hg₂ : g₂ ∈ Rt M (LB M Q B) t) {κ : K} (_hκ : κ ≠ 0) {b : M₀.E} (hb0 : b ≠ 0)
     (hB : ∀ e, e ∈ M₀.img B ↔ ∃ c : K, e = c • b)
     (h : actM φ g₁ b = κ • actM φ g₂ b) :
     conjSubgroup g₁ (LB M Q B) = conjSubgroup g₂ (LB M Q B) := by
@@ -153,7 +153,7 @@ theorem exists_pure_in_N1 [CharP K 2] (hq4 : 4 ≤ Nat.card K) (h34 : Stroth34St
       S.theta x₀ (0, w) = !![a (w 0) + b (w 1), a (w 1); 0, 0]) ∧
       ∃ d ∈ N1 hc t, S.theta d = M1.pureMap a := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hB : ∀ (s s' : K) (y : M1.Wd K Y₁ Y₂), S.theta x₀ (M1.actW (M1.uMat s) (M1.uMat s') y) =
       M1.uMat s * S.theta x₀ y * (M1.uMat s')ᵀ :=
     fun s s' y => S.theta_comm_LB h34 hs hx₀N hx₀L s s' y
@@ -267,7 +267,7 @@ theorem mem_LB_conj_of_pure [CharP K 2] {d r : G} (hdN1 : d ∈ N1 hc t) {a : Y�
         κ • Matrix.single 0 0 1 := by
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.single_apply, hg10, hκdef]
+        simp [Matrix.mul_apply, Matrix.single_apply, hg10, hκdef]
     rw [hgE, Matrix.smul_mul] at h1
     have h3 : S.desc.cV (actM φ r p) = S.desc.cV (κ • actM φ (g' : G) p) := by
       rw [map_smul, actM_of_mem hrH, actM_of_mem hg'H]
@@ -315,12 +315,12 @@ theorem mem_LB_conj_of_pure [CharP K 2] {d r : G} (hdN1 : d ∈ N1 hc t) {a : Y�
   exact (LB M Q B).mul_mem hmL hdL
 
 theorem finite_Y2 : Module.Finite K Y₂ := by
-  haveI : Module.Finite K S.Wsub := inferInstance
+  have : Module.Finite K S.Wsub := inferInstance
   let f : S.Wsub →ₗ[K] (Fin 2 → Y₁) × (Fin 2 → Y₂) := S.desc.cW.comp S.Wsub.subtype
   have hf : Function.Surjective f := fun y => by
     obtain ⟨w, hw, h⟩ := S.desc.cW_surj y
     exact ⟨⟨w, hw⟩, h⟩
-  haveI : Module.Finite K ((Fin 2 → Y₁) × (Fin 2 → Y₂)) := Module.Finite.of_surjective f hf
+  have : Module.Finite K ((Fin 2 → Y₁) × (Fin 2 → Y₂)) := Module.Finite.of_surjective f hf
   let ι : Y₂ →ₗ[K] (Fin 2 → Y₁) × (Fin 2 → Y₂) :=
     (LinearMap.inr K (Fin 2 → Y₁) (Fin 2 → Y₂)) ∘ₗ (LinearMap.single K (fun _ : Fin 2 => Y₂) 0)
   have hι : Function.Injective ι := by
@@ -338,7 +338,7 @@ theorem core_A [CharP K 2] (hq4 : 4 ≤ Nat.card K) (h34 : Stroth34Statement) {n
     (hP : ∃ e ∈ V2 φ s₂, S.desc.cV (actM φ x₀ e - e) = Matrix.single 0 1 1) :
     ∃ d ∈ N1 hc t, d ∈ LB M Q (conjSubgroup r B) ∧ ∃ e ∈ V2 φ s₂, actM φ d e ≠ e := by
   classical
-  haveI := S.finite_Y2
+  have := S.finite_Y2
   have hs₂N : s₂ ∈ hc.CN t := (Subgroup.mem_inf.mp hs₂).2
   have hs₂L : s₂ ∈ LB M Q B := (Subgroup.mem_inf.mp hs₂).1
   have hx₀N : x₀ ∈ hc.CN t := (Subgroup.mem_inf.mp hx₀).2
@@ -370,7 +370,7 @@ theorem core_A [CharP K 2] (hq4 : 4 ≤ Nat.card K) (h34 : Stroth34Statement) {n
     refine ⟨S.desc.cW e, ⟨e, he, rfl⟩, ?_⟩
     rw [S.theta_apply hx₀N (S.V2_le_W hs₂N hss he), hecv]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+    fin_cases i <;> fin_cases j <;> simp
   obtain ⟨x₂, ⟨e₂, he₂, rfl⟩, hx₂⟩ := M1.pure_ne_zero S.desc.β₁ S.desc.β₂ S.desc.β₁_nd
     S.desc.β₂_nd aₜ X₂ hort a b (S.theta x₀) hab hP'
   refine ⟨d, hdN1, S.mem_LB_conj_of_pure hdN1 hdθ hrR hg10 hK, e₂, he₂, ?_⟩

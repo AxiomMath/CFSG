@@ -49,7 +49,7 @@ theorem frameCoordHom_form (hsym : ∀ i, τ.symmetrizer i i = 1) (F : OrthFrame
       rw [Finset.mul_sum]
       exact Finset.sum_congr rfl fun i _ => by ring
   rw [key]
-  simp only [hform, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [hform, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   rw [dotProduct, Finset.mul_sum]
   exact Finset.sum_congr rfl fun i _ => by ring
 
@@ -62,7 +62,7 @@ theorem normIsometry_of_frame (hτ : τ = .E7 ∨ τ = .E8) (F : OrthFrame τ d)
   classical
   set L := FiniteField.Extension K 2 2 with hL
   have h3 : 3 ∣ Nat.card L - 1 := three_dvd_natCard_ext_sub_one hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hωo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := L) (p := 3) h3
   have hω3 : ω ^ 3 = 1 := hωo ▸ pow_orderOf_eq_one ω
   have hsym := F.symm_one
@@ -131,9 +131,9 @@ theorem normIsometry_of_frame (hτ : τ = .E7 ∨ τ = .E8) (F : OrthFrame τ d)
     rw [← hT'eq]
     constructor
     · rintro ⟨_, ⟨y, hy, rfl⟩, rfl⟩
-      exact ⟨y, hy, by simp [MulAut.conj_apply]⟩
+      exact ⟨y, hy, by simp⟩
     · rintro ⟨y, hy, rfl⟩
-      exact ⟨ι y, ⟨y, hy, rfl⟩, by simp [MulAut.conj_apply]⟩
+      exact ⟨ι y, ⟨y, hy, rfl⟩, by simp⟩
   have hnorm : ∀ x : adjointGroup τ L,
       x ∈ TableBExc.torusPow τ L 3 ↔ a * x * a⁻¹ ∈ TableBExc.torusPow τ L 3 := by
     intro x

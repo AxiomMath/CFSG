@@ -25,7 +25,7 @@ theorem treeGauge_of_ne_root {K : Type*} [Field K] {ι : Type*} [DecidableEq ι]
     (hdepth : ∀ i, i ≠ root → depth (par i) < depth i) {i : ι} (hi : i ≠ root) :
     treeGauge A P par root depth hdepth i =
       treeGauge A P par root depth hdepth (par i) * P i (par i) * ((A i (par i) : K))⁻¹ := by
-  rw [treeGauge.eq_1, dif_neg hi]
+  rw [treeGauge.eq_1, dite_eq_right hi]
 
 theorem exists_gauge_of_tree {K : Type*} [Field K] {ι : Type*} [DecidableEq ι]
     (A : ι → ι → ℤ) (P : ι → ι → K) (par : ι → ι) (root : ι) (depth : ι → ℕ)
@@ -56,7 +56,7 @@ theorem exists_gauge_of_tree {K : Type*} [Field K] {ι : Type*} [DecidableEq ι]
     induction hd : depth i using Nat.strong_induction_on generalizing i with
     | _ n ih =>
       by_cases hi : i = root
-      · rw [hcdef, treeGauge.eq_1, dif_pos hi]; exact one_ne_zero
+      · rw [hcdef, treeGauge.eq_1, dite_eq_left hi]; exact one_ne_zero
       · rw [hcdef, treeGauge_of_ne_root A P par root depth hdepth hi]
         have hlt : depth (par i) < n := hd ▸ hdepth i hi
         refine mul_ne_zero (mul_ne_zero (ih _ hlt (par i) rfl)
@@ -203,7 +203,7 @@ theorem exists_cartan_pairing_of_weylOfType' [Finite G] (hp2 : p ≠ 2)
     rw [hrefl i]
     ext v
     rw [Module.reflection_apply, Module.reflection_apply]
-    simp only [LinearMap.smul_apply, map_smul, smul_eq_mul]
+    simp only [LinearMap.smul_apply, smul_eq_mul]
     rw [smul_smul]
     congr 1
     rw [mul_assoc, mul_comm ((α i) v) (c i), ← mul_assoc, inv_mul_cancel₀ (hc0 i), one_mul]
@@ -246,7 +246,7 @@ theorem exists_pairing_of_iso [Finite G] (hp2 : p ≠ 2) (hNT : GGNoTransvection
       (∀ i j, i ≠ j → M i j = 3 → α i (h j) * α j (h i) = 1) ∧
       (∀ i j, i ≠ j → M i j = 4 → α i (h j) * α j (h i) = 2) := by
   classical
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
   let φ : ι → MulAut ↥Bs := fun i => ((e (M.simple i) : ↥A) : MulAut ↥Bs)
   let Φ : M.Group →* MulAut ↥Bs := (Subgroup.subtype A).comp e.toMonoidHom
   have hφeq : ∀ i, φ i = Φ (M.simple i) := fun _ => rfl
@@ -395,7 +395,7 @@ theorem exists_cartan_pairing_of_iso [Finite G] (hp2 : p ≠ 2)
     rw [hrefl i]
     ext v
     rw [Module.reflection_apply, Module.reflection_apply]
-    simp only [LinearMap.smul_apply, map_smul, smul_eq_mul]
+    simp only [LinearMap.smul_apply, smul_eq_mul]
     rw [smul_smul]
     congr 1
     rw [mul_assoc, mul_comm ((α i) v) (c i), ← mul_assoc, inv_mul_cancel₀ (hc0 i), one_mul]
@@ -422,7 +422,7 @@ theorem rootRefl_of_cartan [Finite G] (hp2 : p ≠ 2) (hNT : GGNoTransvection p 
   obtain ⟨h, α, hα, hrefl, hP⟩ := exists_cartan_pairing_of_iso hp2 hNT hC hent hT f hf hind ιV
   have hMeq : coxeterMatrix hFT = M := coxeterMatrix_eq_of_ggIntCartan hFT hC
   subst hMeq
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
   let ρ : (coxeterMatrix hFT).Group →* (V ≃ₗ[ZMod p] V) :=
     (ggLin (p := p) ιV).comp ((Subgroup.subtype A).comp f.toMonoidHom)
   have hρapp : ∀ w, ρ w = ggLin (p := p) ιV ((f w : ↥A) : MulAut ↥Bs) := fun _ => rfl
@@ -477,7 +477,7 @@ theorem CartanTree.reindex {n : ℕ} {ι : Type} (e : Fin n ≃ ι) {C : Matrix 
     have key : ∀ a b : ι, (a ≠ e root ∧ e (par (e.symm a)) = b) ↔
         (e.symm a ≠ root ∧ par (e.symm a) = e.symm b) := by
       intro a b
-      rw [Equiv.apply_eq_iff_eq_symm_apply]
+      rw [← _root_.Equiv.eq_symm_apply]
       have : (a ≠ e root) ↔ (e.symm a ≠ root) := not_congr (Equiv.symm_apply_eq e).symm
       rw [this]
     simp only [Matrix.reindex_apply, Matrix.submatrix_apply]
@@ -510,14 +510,14 @@ theorem cartanTree_chain {n : ℕ} (hn : 1 ≤ n) (C : Matrix (Fin n) (Fin n) �
 theorem cartanTree_A (n : ℕ) (hn : 1 ≤ n) : CartanTree (CartanMatrix.A n) :=
   cartanTree_chain hn _ fun i j hij => by
     have hij' : i.val ≠ j.val := fun h => hij (Fin.ext h)
-    simp only [CartanMatrix.A, Matrix.of_apply, if_neg hij]
+    simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hij]
     split_ifs with h <;> simp_all
 
 theorem cartanTree_B (n : ℕ) (hn : 1 ≤ n) : CartanTree (CartanMatrix.B n) :=
   cartanTree_chain hn _ fun i j hij => by
     have hij' : i.val ≠ j.val := fun h => hij (Fin.ext h)
-    simp only [CartanMatrix.B, Matrix.of_apply, if_neg hij]
-    split_ifs <;> simp_all <;> omega
+    simp only [CartanMatrix.B, Matrix.of_apply, ite_eq_right hij]
+    split_ifs <;> simp_all
 
 theorem cartanTree_F₄ : CartanTree CartanMatrix.F₄ :=
   cartanTree_chain (by norm_num) _ fun i j => by fin_cases i <;> fin_cases j <;> decide
@@ -529,7 +529,7 @@ theorem cartanTree_D (n : ℕ) (hn : 4 ≤ n) : CartanTree (CartanMatrix.D n) :=
     have hij' : i.val ≠ j.val := fun h => hij (Fin.ext h)
     have hi := i.isLt
     have hj := j.isLt
-    simp only [CartanMatrix.D, Matrix.of_apply, if_neg hij, if_neg (show ¬ n ≤ 2 by omega),
+    simp only [CartanMatrix.D, Matrix.of_apply, ite_eq_right (show ¬ n ≤ 2 by omega),
       ne_eq, Fin.ext_iff]
     split_ifs <;> simp_all <;> omega
   · intro i hi
@@ -547,7 +547,7 @@ theorem cartanTree_E (n : ℕ) (hn : 4 ≤ n) : CartanTree (CartanMatrix.E n) :=
     have hij' : i.val ≠ j.val := fun h => hij (Fin.ext h)
     have hi := i.isLt
     have hj := j.isLt
-    simp only [CartanMatrix.E, Matrix.of_apply, if_neg hij, ne_eq, Fin.ext_iff]
+    simp only [CartanMatrix.E, Matrix.of_apply, ne_eq, Fin.ext_iff]
     split_ifs <;> simp_all <;> omega
   · intro i hi
     have : i.val ≠ 0 := fun h => hi (Fin.ext h)
@@ -558,25 +558,25 @@ theorem cartanTree_E (n : ℕ) (hn : 4 ≤ n) : CartanTree (CartanMatrix.E n) :=
 theorem entries_A (n : ℕ) : ∀ i j : Fin n, i ≠ j →
     CartanMatrix.A n i j = 0 ∨ CartanMatrix.A n i j = -1 ∨ CartanMatrix.A n i j = -2 := by
   intro i j hij
-  simp only [CartanMatrix.A, Matrix.of_apply, if_neg hij]
+  simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hij]
   split_ifs <;> simp
 
 theorem entries_B (n : ℕ) : ∀ i j : Fin n, i ≠ j →
     CartanMatrix.B n i j = 0 ∨ CartanMatrix.B n i j = -1 ∨ CartanMatrix.B n i j = -2 := by
   intro i j hij
-  simp only [CartanMatrix.B, Matrix.of_apply, if_neg hij]
+  simp only [CartanMatrix.B, Matrix.of_apply, ite_eq_right hij]
   split_ifs <;> simp
 
 theorem entries_D (n : ℕ) : ∀ i j : Fin n, i ≠ j →
     CartanMatrix.D n i j = 0 ∨ CartanMatrix.D n i j = -1 ∨ CartanMatrix.D n i j = -2 := by
   intro i j hij
-  simp only [CartanMatrix.D, Matrix.of_apply, if_neg hij]
+  simp only [CartanMatrix.D, Matrix.of_apply, ite_eq_right hij]
   split_ifs <;> simp
 
 theorem entries_E (n : ℕ) : ∀ i j : Fin n, i ≠ j →
     CartanMatrix.E n i j = 0 ∨ CartanMatrix.E n i j = -1 ∨ CartanMatrix.E n i j = -2 := by
   intro i j hij
-  simp only [CartanMatrix.E, Matrix.of_apply, if_neg hij]
+  simp only [CartanMatrix.E, Matrix.of_apply, ite_eq_right hij]
   split_ifs <;> simp
 
 theorem entries_F₄ : ∀ i j : Fin 4, i ≠ j →
@@ -587,7 +587,7 @@ end Types
 
 theorem ggSecFiveRootReflInput_holds : GGSecFiveRootReflInput := by
   intro G _ _ p Bs hp hp2 hEl hNT A hAind ι M hM hG2 f hf a ha
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   classical
   obtain ⟨V, _, _, ⟨ιV⟩⟩ := exists_ggLinData (p := p) hEl
   have hind : ∀ φ ∈ A, φ ∈ ggInduced ⊤ Bs := fun φ h => hAind h
@@ -596,7 +596,7 @@ theorem ggSecFiveRootReflInput_holds : GGSecFiveRootReflInput := by
       TauCeti.IsFiniteType C₀ → (∀ i j, i ≠ j → C₀ i j = 0 ∨ C₀ i j = -1 ∨ C₀ i j = -2) →
       CartanTree C₀ → ∃ (i : ι) (g : M.Group), a = f (g * M.simple i * g⁻¹) := by
     intro n e M₀ C₀ hMe hC₀ hFT₀ hent hT
-    haveI : Fintype ι := Fintype.ofEquiv _ e
+    have : Fintype ι := Fintype.ofEquiv _ e
     have hC : GGIntCartan M (Matrix.reindex e e C₀) := hMe ▸ hC₀.reindex e
     have hFT : TauCeti.IsFiniteType (Matrix.reindex e e C₀) := by
       rw [Matrix.reindex_apply]

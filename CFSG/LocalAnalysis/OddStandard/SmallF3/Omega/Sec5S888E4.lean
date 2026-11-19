@@ -47,13 +47,13 @@ private theorem zmod_two_ite_add {c p q : Prop} [Decidable c] [Decidable p] [Dec
       (if p then 1 else 0) + (if q then 1 else 0) := by
   by_cases hp : p <;> by_cases hq : q
   · have hc : ¬c := fun hc => (h.mp hc).mp hp hq
-    simp only [if_neg hc, if_pos hp, if_pos hq, one_add_one_eq_two, CharTwo.two_eq_zero]
+    simp only [ite_eq_right hc, ite_eq_left hp, ite_eq_left hq, one_add_one_eq_two, CharTwo.two_eq_zero]
   · have hc : c := h.mpr ⟨fun _ => hq, fun _ => hp⟩
-    simp only [if_pos hc, if_pos hp, if_neg hq, add_zero]
+    simp only [ite_eq_left hc, ite_eq_left hp, ite_eq_right hq, add_zero]
   · have hc : c := h.mpr ⟨fun hp' => absurd hp' hp, fun hnq => absurd hq hnq⟩
-    simp only [if_pos hc, if_neg hp, if_pos hq, zero_add]
+    simp only [ite_eq_left hc, ite_eq_right hp, ite_eq_left hq, zero_add]
   · have hc : ¬c := fun hc => hp ((h.mp hc).mpr hq)
-    simp only [if_neg hc, if_neg hp, if_neg hq, add_zero]
+    simp only [ite_eq_right hc, ite_eq_right hp, ite_eq_right hq, add_zero]
 
 theorem actsNontriv_conj (hS : PlaneSys V W) (τ : normalizer (V : Set X)) (i : Fin 4)
     (y : X) :
@@ -171,7 +171,7 @@ theorem suppSet_subspace (hS : PlaneSys V W) (hE : ActsElemAb V E) :
     have h1 : ¬ ActsNontriv (W i) (((1 : normalizer (V : Set X))) : X) :=
       not_actsNontriv_iff.mpr (fun a ha => by simp)
     simp only [suppVec]
-    rw [if_neg h1]
+    rw [ite_eq_right h1]
     rfl
   · intro x hx z hz
     rw [mem_suppSet] at hx hz ⊢

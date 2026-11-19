@@ -57,6 +57,7 @@ private theorem isPGroup_three_of_card_nine {B : Subgroup G} (hB : Nat.card B = 
     IsPGroup 3 B :=
   IsPGroup.iff_card.mpr ⟨2, by simp [hB]⟩
 
+omit [Finite G] in
 private theorem not_three_dvd_index_of_card {X B : Subgroup G} (hBX : B ≤ X)
     (hB : Nat.card B = 9) (hX : Nat.card X = 360) : ¬ 3 ∣ (B.subgroupOf X).index := by
   have h1 := (B.subgroupOf X).card_mul_index
@@ -157,7 +158,7 @@ private theorem card_a9Alt6 : Nat.card a9fAlt6 = 360 := by
   have h2 : Fintype.card ↥a9fS = 6 := by
     rw [Fintype.card_coe]
     decide
-  haveI : Nontrivial ↥a9fS := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial ↥a9fS := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
   rw [h1, nat_card_alternatingGroup, Nat.card_eq_fintype_card, h2]
   decide
 

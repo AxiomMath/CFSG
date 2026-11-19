@@ -101,7 +101,7 @@ private theorem closure_conj_le_map {M R : Type} [Group M] [Group R] {L' : Subgr
   obtain ⟨nbar, hnbar, _, ⟨s, hs, rfl⟩, rfl⟩ := hx
   obtain ⟨n, rfl⟩ := hψ nbar
   refine ⟨n * s * n⁻¹, Subgroup.mem_subgroupOf.mpr (Subgroup.subset_closure ?_), ?_⟩
-  · simp only [Set.mem_iUnion, Set.mem_image, Set.mem_setOf_eq]
+  · simp only [Set.mem_iUnion, Set.mem_image, Set.mem_ofPred_eq]
     exact ⟨n, ⟨n.2, hnbar⟩, s, ⟨s, hs, rfl⟩, rfl⟩
   · simp only [map_mul, map_inv]
 

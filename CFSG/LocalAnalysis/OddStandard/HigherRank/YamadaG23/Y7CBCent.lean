@@ -81,7 +81,7 @@ theorem y7c_coset_cent (c : Ctx7 G L) (hb : B7Std c) {y : G}
     rw [hu]; group
   have hconj : y * c.s.t * y⁻¹ ∈ conjClass (M3 c.s) c.s.t := by
     rwa [y54_conjClass_M3 c.toCtx5 hb.hH]
-  simp only [conjClass, Set.mem_setOf_eq] at hconj
+  simp only [conjClass, Set.mem_ofPred_eq] at hconj
   obtain ⟨w, hwM, hwconj⟩ := hconj
   refine ⟨w, hwM, ?_⟩
   rw [Setting3.H, Subgroup.mem_centralizer_singleton_iff]
@@ -106,7 +106,7 @@ theorem y7c_comm_mem_M3 (c : Ctx7 G L) (hb : B7Std c) {y : G} (hy : y ∈ y7cX c
   have hx : (⟨y * c.s.t * y⁻¹ * c.s.t⁻¹, hmem⟩ : ↥(y7cX c.s)) =
       ⟨y, hy⟩ * ⟨c.s.t, htX⟩ * ⟨y, hy⟩⁻¹ * ⟨c.s.t, htX⟩⁻¹ := by
     ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   simp only [hx, map_mul, map_inv]
   rw [h]
   group
@@ -141,7 +141,7 @@ theorem y7c_B_cent (c : Ctx7 G L) (hb : B7Std c) :
       rw [← hn_eq]; group
     have hsub : (y : ↥(y7cX c.s)) = ⟨w, hwX⟩ * ⟨n₁, hn₁X⟩ * ⟨x₀, hx₀X⟩ := by
       ext
-      simp only [Subgroup.coe_mul, Subtype.coe_mk, hy_eq]
+      simp only [Subgroup.coe_mul, hy_eq]
       group
     have hw1 : y7cPi c.s ⟨w, hwX⟩ = 1 := (y7cPi_eq_one_iff c.s ⟨w, hwX⟩).mpr hwM
     simp only [hsub, map_mul, hw1, one_mul]

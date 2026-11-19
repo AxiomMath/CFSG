@@ -352,7 +352,7 @@ theorem centralizer_le_normalizer_E₁
   have hIH : IH (Nat.card C + 1) := fun Z _ _ _ =>
     coreStatement_iff.mp (coreStatement_of_goldschmidtTheoremA hGold) Z
   have hTsyl : fusionIsSylowIn 2 (T₀ : Subgroup C) ⊤ :=
-    ⟨le_top, T₀.isPGroup', fun P' _ hP' hTP => le_antisymm (T₀.maximal_isPGroup.2 hP' hTP) hTP⟩
+    ⟨le_top, T₀.isPGroup, fun P' _ hP' hTP => le_antisymm (T₀.maximal_isPGroup.2 hP' hTP) hTP⟩
   obtain ⟨hConc, -, -, hC3, -⟩ := N16_of N1 _ hIH C T₀ Q' ⊤ T₀ hQ'T hQab hcl hQ'T hTsyl
     (by rw [card_top]; omega)
   set M : Subgroup C := normalClosureIn ⊤ Q' with hMdef

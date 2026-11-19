@@ -186,7 +186,7 @@ theorem sec7l771_nu_to_l [Finite G] {K : Subgroup G}
 
 theorem sec7l771_le_sylow [Finite G] {K P D : Subgroup G} (hP : IsSylow2Of P K) (hDK : D ≤ K)
     (hD : IsPGroup 2 D) (hN : P ≤ normalizer (D : Set G)) : D ≤ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPSyl : CFSG.ABGLocalTools.IsSylowOf 2 P K :=
     CFSG.ABGLocalTools.isSylowOf_iff.mpr hP
   have hsup : IsPGroup 2 ↥(P ⊔ D) := IsPGroup.to_sup_of_normal_right' hP.2.1 hD hN

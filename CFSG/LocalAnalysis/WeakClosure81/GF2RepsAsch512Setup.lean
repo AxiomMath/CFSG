@@ -14,6 +14,7 @@ open CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isSolvable_of_isSolvable_quot {H R : Subgroup G} (hRH : R ≤ H)
     (hRs : Group.IsSolvable ↥R)
     (hY : Group.IsSolvable (↥H ⧸ (R.subgroupOf H).normalCore)) : Group.IsSolvable ↥H := by
@@ -22,7 +23,7 @@ theorem isSolvable_of_isSolvable_quot {H R : Subgroup G} (hRH : R ≤ H)
     (Subgroup.subgroupOfEquivOfLe hRH).toMonoidHom.comp (Subgroup.inclusion hle)
   have hf : Function.Injective f :=
     (Subgroup.subgroupOfEquivOfLe hRH).injective.comp (Subgroup.inclusion_injective hle)
-  haveI : Group.IsSolvable ↥(R.subgroupOf H).normalCore :=
+  have : Group.IsSolvable ↥(R.subgroupOf H).normalCore :=
     Group.isSolvable_of_isSolvable_injective hf
   exact Group.isSolvable_of_subgroup_quotient (R.subgroupOf H).normalCore
 
@@ -33,7 +34,7 @@ theorem isCompositionFactor_self_of_normal {Y : Type} [Group Y] (E : Subgroup Y)
 
 theorem one_le_pRank_three_of_three_dvd {X : Type} [Group X] [Finite X]
     (h : 3 ∣ Nat.card X) : 1 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := X) 3 h
   have hE : CFSG.Open.IsElemAbelian 3 (Subgroup.zpowers x) := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => ?_⟩
@@ -50,23 +51,23 @@ theorem one_le_pRank_three_of_three_dvd {X : Type} [Group X] [Finite X]
 theorem isSylowIn_top_map {H T : Subgroup G} {Y : Type} [Group Y] (π : ↥H →* Y)
     (hπ : Function.Surjective π) (hT : IsSylowIn 2 T H) :
     IsSylowIn 2 ((T.subgroupOf H).map π) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite Y := Finite.of_surjective π hπ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Y := Finite.of_surjective π hπ
   let S' : Sylow 2 Y := hT.toSylow.mapSurjective hπ
   have hS' : (S' : Subgroup Y) = (T.subgroupOf H).map π := by
     simp only [S', Sylow.coe_mapSurjective, IsSylowIn.coe_toSylow]
   rw [← hS']
-  exact ⟨le_top, S'.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S'.not_dvd_index⟩
+  exact ⟨le_top, S'.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S'.not_dvd_index⟩
 
 theorem lt_top_of_isSylowIn_of_not_isSolvable {Y : Type} [Group Y] [Finite Y] {Tb : Subgroup Y}
     (hT : IsSylowIn 2 Tb ⊤) (hns : ¬ Group.IsSolvable Y) : Tb < ⊤ := by
   refine lt_top_iff_ne_top.2 fun h => hns ?_
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 Y := by
     have h2 := hT.isPGroup
     rw [h] at h2
     exact h2.of_equiv Subgroup.topEquiv
-  haveI := hp.isNilpotent
+  have := hp.isNilpotent
   infer_instance
 
 end CFSG.LocalAnalysis.WeakClosure81

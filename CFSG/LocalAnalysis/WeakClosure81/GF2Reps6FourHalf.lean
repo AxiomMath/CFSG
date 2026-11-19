@@ -65,17 +65,17 @@ theorem exists_odd_orderOf_mul_conj_eq [Finite V] {L A : Subgroup (MulAut V)}
       orderOf (β * (MulAut.conj (QuotientGroup.mk g : ↥L ⧸ center ↥L) * β *
         (MulAut.conj (QuotientGroup.mk g : ↥L ⧸ center ↥L))⁻¹)) * r := by
   classical
-  haveI hAutFin : Finite (MulAut V) := Finite.of_injective _ DFunLike.coe_injective
-  haveI hLfin : Finite ↥L := Finite.of_injective ((↑) : ↥L → MulAut V) Subtype.coe_injective
+  have hAutFin : Finite (MulAut V) := Finite.of_injective _ DFunLike.coe_injective
+  have hLfin : Finite ↥L := Finite.of_injective ((↑) : ↥L → MulAut V) Subtype.coe_injective
   let X := ↥L ⧸ center ↥L
-  haveI hXfin : Finite X :=
+  have hXfin : Finite X :=
     Finite.of_surjective (QuotientGroup.mk' (center ↥L)) (QuotientGroup.mk'_surjective _)
-  haveI hAutXfin : Finite (MulAut X) := Finite.of_injective _ DFunLike.coe_injective
+  have hAutXfin : Finite (MulAut X) := Finite.of_injective _ DFunLike.coe_injective
   have hperfL : Group.IsPerfect ↥L := ⟨hL.1⟩
-  haveI : IsSimpleGroup X := hL.2
+  have : IsSimpleGroup X := hL.2
   have hZcenter : Subgroup.center X = ⊥ := by
-    letI := hperfL
-    haveI : Group.IsPerfect X :=
+    let := hperfL
+    have : Group.IsPerfect X :=
       Group.IsPerfect.ofSurjective (f := (QuotientGroup.mk' (center ↥L) : ↥L →* X))
         (QuotientGroup.mk'_surjective (center ↥L))
     exact TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
@@ -311,16 +311,16 @@ theorem commV_inf_commV_mul_pow_half_eq_bot [Finite V] {L A : Subgroup (MulAut V
     commV (zpowers a) ⊓ commV (zpowers (a * (a * ((g : MulAut V) * a * (g : MulAut V)⁻¹)) ^
       (orderOf (a * ((g : MulAut V) * a * (g : MulAut V)⁻¹)) / 2))) = ⊥ := by
   classical
-  haveI hAutFin : Finite (MulAut V) := Finite.of_injective _ DFunLike.coe_injective
-  haveI hLfin : Finite ↥L := Finite.of_injective ((↑) : ↥L → MulAut V) Subtype.coe_injective
+  have hAutFin : Finite (MulAut V) := Finite.of_injective _ DFunLike.coe_injective
+  have hLfin : Finite ↥L := Finite.of_injective ((↑) : ↥L → MulAut V) Subtype.coe_injective
   let X := ↥L ⧸ center ↥L
-  haveI hXfin : Finite X :=
+  have hXfin : Finite X :=
     Finite.of_surjective (QuotientGroup.mk' (center ↥L)) (QuotientGroup.mk'_surjective _)
   have hperfL : Group.IsPerfect ↥L := ⟨hL.1⟩
-  haveI : IsSimpleGroup X := hL.2
+  have : IsSimpleGroup X := hL.2
   have hZcenter : Subgroup.center X = ⊥ := by
-    letI := hperfL
-    haveI : Group.IsPerfect X :=
+    let := hperfL
+    have : Group.IsPerfect X :=
       Group.IsPerfect.ofSurjective (f := (QuotientGroup.mk' (center ↥L) : ↥L →* X))
         (QuotientGroup.mk'_surjective (center ↥L))
     exact TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative

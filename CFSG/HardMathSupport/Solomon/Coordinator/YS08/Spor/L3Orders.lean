@@ -32,7 +32,7 @@ theorem isL3Kind_card_forms {p : ℕ} {X : Type} [Group X] [Finite X] (h : IsL3K
   rcases h with hSL | ⟨W, hW, hWSL, ⟨f⟩⟩
   · obtain ⟨r, ε, hc, hcard⟩ := sl3Eps_card_forms hSL
     exact ⟨r, ε, 1, Or.inl rfl, hc, by rw [mul_one, hcard]⟩
-  · haveI : Finite W := by
+  · have : Finite W := by
       rcases hWSL with ⟨F, hF, hfin, -, -, ⟨e⟩⟩ | ⟨F, hF, hfin, q, -, -, -, -, ⟨e⟩⟩
       · exact Finite.of_equiv _ e.symm.toEquiv
       · exact Finite.of_equiv _ e.symm.toEquiv

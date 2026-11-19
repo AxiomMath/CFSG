@@ -36,7 +36,7 @@ theorem fniUni_good_block (hn : 1 ≤ n) (hd : 3 ≤ d) (h : UnitaryFieldData 2 
         u (LargeEvenProjMk (StatedSU d (2 ^ n) K) g) = LargeEvenProjMk (StatedSU d (2 ^ n) K) g')
     (JP : Subgroup (StatedProj (StatedSU d (2 ^ n) K)))
     (hJP : CFSG.Open.IsComponentOf JP (fixSubgroup u)) :
-    ∃ (H : UnitaryPrimaryData h.bar (idForm h d) (Matrix.GeneralLinearGroup.toLin A))
+    ∃ (_H : UnitaryPrimaryData h.bar (idForm h d) (Matrix.GeneralLinearGroup.toLin A))
       (a : {a : primaryFactors ((Matrix.GeneralLinearGroup.toLin A :
           LinearMap.GeneralLinearGroup K (Fin d → K)) : Module.End K (Fin d → K)) //
         IsGoodBlock h (Matrix.GeneralLinearGroup.toLin A) a}),
@@ -46,7 +46,7 @@ theorem fniUni_good_block (hn : 1 ≤ n) (hd : 3 ≤ d) (h : UnitaryFieldData 2 
           ∃ hg : g ∈ StatedSU d (2 ^ n) K,
             LargeEvenProjMk (StatedSU d (2 ^ n) K) ⟨g, hg⟩ = z := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hd1 : 1 ≤ d := by omega
   have hq : 2 ≤ 2 ^ n := by
     have := Nat.one_lt_pow (by omega : n ≠ 0) Nat.one_lt_two
@@ -64,7 +64,7 @@ theorem fniUni_good_block (hn : 1 ≤ n) (hd : 3 ≤ d) (h : UnitaryFieldData 2 
     have : uConjAut h hd1 A' = (MulAut.congr (uTransport h hd1)).symm
         (primeFormConjHom h (idGram K d) A') := rfl
     rw [this]
-    simp [MulAut.congr_apply]
+    simp
   have hfix : (fixSubgroup u).map (uTransport h hd1).toMonoidHom =
       fixSubgroup (primeFormConjHom h (idGram K d) A') := by
     ext y
@@ -76,9 +76,9 @@ theorem fniUni_good_block (hn : 1 ≤ n) (hd : 3 ≤ d) (h : UnitaryFieldData 2 
       (fixSubgroup (primeFormConjHom h (idGram K d) A')) := by
     have := CFSG.isComponentOf_map_mulEquiv (uTransport h hd1) hJP
     rwa [hfix] at this
-  have H := primaryData_toLin' h hA hp hp2 hAc
-  obtain ⟨a, hLeq⟩ := exists_good_block_of_component hq A' rfl H _ hcomp
-  refine ⟨H, a, ?_⟩
+  have _H := primaryData_toLin' h hA hp hp2 hAc
+  obtain ⟨a, hLeq⟩ := exists_good_block_of_component hq A' rfl _H _ hcomp
+  refine ⟨_H, a, ?_⟩
   exact l154_JP_iff hd1 h JP _
     ((specialBlock (idForm h d) (Matrix.GeneralLinearGroup.toLin A) (a.1 : K[X])).comap
       (Matrix.GeneralLinearGroup.toLin :
@@ -416,9 +416,9 @@ theorem fniUni_neg_su [Finite K] (h : UnitaryFieldData 2 n K) (σ : K ≃+* K)
       exact ⟨⟨t, ht⟩, (hΨ ⟨t, ht⟩).trans hz⟩
     · rintro ⟨t, hz⟩
       exact ⟨t.1, t.2, hmem t.1 t.2, (hΨ t).symm.trans hz⟩
-  haveI : IsSimpleGroup (LargeEvenProj (StatedSU m (2 ^ k) E)) := hsimple
-  haveI : Group.IsPerfect ↥(StatedSU m (2 ^ k) E) := Group.isPerfect_def.mpr hperfM
-  haveI : Group.IsPerfect (LargeEvenProj (StatedSU m (2 ^ k) E)) :=
+  have : IsSimpleGroup (LargeEvenProj (StatedSU m (2 ^ k) E)) := hsimple
+  have : Group.IsPerfect ↥(StatedSU m (2 ^ k) E) := Group.isPerfect_def.mpr hperfM
+  have : Group.IsPerfect (LargeEvenProj (StatedSU m (2 ^ k) E)) :=
     Group.IsPerfect.ofSurjective (f := LargeEvenProjMk _) (QuotientGroup.mk'_surjective _)
   have hna : ∃ a b : LargeEvenProj (StatedSU m (2 ^ k) E), a * b ≠ b * a := by
     have hnc := Group.IsPerfect.not_isMulCommutative (G := LargeEvenProj (StatedSU m (2 ^ k) E))
@@ -448,7 +448,7 @@ theorem fniUni_neg_su [Finite K] (h : UnitaryFieldData 2 n K) (σ : K ≃+* K)
     obtain ⟨c, hc⟩ := hscal (t : GL (Fin m) E) z⁻¹ hz'
     refine (projMk_eq_iff_uni (StatedSU m (2 ^ k) E) t 1).2 ⟨c⁻¹, ?_⟩
     rw [hc]
-    simpa using (map_inv (Matrix.GeneralLinearGroup.scalar (Fin m)) c).symm
+    simp
   obtain ⟨e₀, he₀⟩ := fniUni_centerQuot_equiv Ψ (LargeEvenProjMk (StatedSU m (2 ^ k) E))
     (QuotientGroup.mk'_surjective _) (ker_projMk_uni_le_center _) hcenter hker hJ
   have hnorm : ∀ P ∈ LargeEvenGUSet (Fin m) E (2 ^ k),
@@ -534,9 +534,9 @@ theorem fniUni_neg_sl [Finite K] (h : UnitaryFieldData 2 n K) (σ : K ≃+* K)
       exact ⟨⟨t, ht⟩, (hΨ ⟨t, ht⟩).trans hz⟩
     · rintro ⟨t, hz⟩
       exact ⟨t.1, t.2, hmem t.1 t.2, (hΨ t).symm.trans hz⟩
-  haveI : IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin m) E)) := hsimple
-  haveI : Group.IsPerfect ↥(LargeEvenSLGroup (Fin m) E) := Group.isPerfect_def.mpr hperfM
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenSLGroup (Fin m) E)) :=
+  have : IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin m) E)) := hsimple
+  have : Group.IsPerfect ↥(LargeEvenSLGroup (Fin m) E) := Group.isPerfect_def.mpr hperfM
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenSLGroup (Fin m) E)) :=
     Group.IsPerfect.ofSurjective (f := LargeEvenProjMk _) (QuotientGroup.mk'_surjective _)
   have hna : ∃ a b : LargeEvenProj (LargeEvenSLGroup (Fin m) E), a * b ≠ b * a := by
     have hnc := Group.IsPerfect.not_isMulCommutative
@@ -567,11 +567,11 @@ theorem fniUni_neg_sl [Finite K] (h : UnitaryFieldData 2 n K) (σ : K ≃+* K)
     obtain ⟨c, hc⟩ := hscal (t : GL (Fin m) E) z⁻¹ hz'
     refine (projMk_eq_iff_uni (LargeEvenSLGroup (Fin m) E) t 1).2 ⟨c⁻¹, ?_⟩
     rw [hc]
-    simpa using (map_inv (Matrix.GeneralLinearGroup.scalar (Fin m)) c).symm
+    simp
   obtain ⟨e₀, he₀⟩ := fniUni_centerQuot_equiv Ψ
     (LargeEvenProjMk (LargeEvenSLGroup (Fin m) E))
     (QuotientGroup.mk'_surjective _) (ker_projMk_uni_le_center _) hcenter hker hJ
-  haveI : (LargeEvenSLGroup (Fin m) E).Normal := by
+  have : (LargeEvenSLGroup (Fin m) E).Normal := by
     rw [largeEvenSLGroup_eq_statedSL (K := E) m]
     infer_instance
   obtain ⟨r, rfl⟩ : ∃ r, m = r + 1 := ⟨m - 1, by omega⟩
@@ -617,9 +617,9 @@ theorem fniUni_neg_sl2 [Finite K] (h : UnitaryFieldData 2 n K) (σ : K ≃+* K)
   obtain ⟨F, instF, finF, k, ι, N, hk2, hcardF, hN, hinj, hline, hmem, hcen,
     hJPiff⟩ := hblock
   have h4 : 2 ^ 2 ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := k)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := k)
     (by rw [← Nat.card_eq_fintype_card]; exact hcardF)
   have hF2 : (2 : F) = 0 := by exact_mod_cast CharP.cast_eq_zero F 2
   have h22 : (2 : ℕ) ≠ 2 ∨ Nat.card F ≠ 2 := Or.inr (by rw [hcardF]; omega)
@@ -643,9 +643,9 @@ theorem fniUni_neg_sl2 [Finite K] (h : UnitaryFieldData 2 n K) (σ : K ≃+* K)
       exact ⟨t, (hΨ t).trans hz⟩
     · rintro ⟨t, hz⟩
       exact ⟨t, hmem t, (hΨ t).symm.trans hz⟩
-  haveI : IsSimpleGroup (LargeEvenProj (StatedSL 2 F)) := hsimple
-  haveI : Group.IsPerfect ↥(StatedSL 2 F) := Group.isPerfect_def.mpr hperfM
-  haveI : Group.IsPerfect (LargeEvenProj (StatedSL 2 F)) :=
+  have : IsSimpleGroup (LargeEvenProj (StatedSL 2 F)) := hsimple
+  have : Group.IsPerfect ↥(StatedSL 2 F) := Group.isPerfect_def.mpr hperfM
+  have : Group.IsPerfect (LargeEvenProj (StatedSL 2 F)) :=
     Group.IsPerfect.ofSurjective (f := LargeEvenProjMk _) (QuotientGroup.mk'_surjective _)
   have hna : ∃ a b : LargeEvenProj (StatedSL 2 F), a * b ≠ b * a := by
     have hnc := Group.IsPerfect.not_isMulCommutative (G := LargeEvenProj (StatedSL 2 F))
@@ -698,9 +698,9 @@ theorem fniUni_neg_sl2 [Finite K] (h : UnitaryFieldData 2 n K) (σ : K ≃+* K)
   have hsimpleL : IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin 2) F)) := by
     rw [largeEvenSLGroup_eq_statedSL (K := F) 2]
     exact hsimple
-  haveI : IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin 2) F)) := hsimpleL
-  haveI : Group.IsPerfect ↥(LargeEvenSLGroup (Fin 2) F) := Group.isPerfect_def.mpr hperfL
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenSLGroup (Fin 2) F)) :=
+  have : IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin 2) F)) := hsimpleL
+  have : Group.IsPerfect ↥(LargeEvenSLGroup (Fin 2) F) := Group.isPerfect_def.mpr hperfL
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenSLGroup (Fin 2) F)) :=
     Group.IsPerfect.ofSurjective (f := LargeEvenProjMk _) (QuotientGroup.mk'_surjective _)
   have hnaL : ∃ a b : LargeEvenProj (LargeEvenSLGroup (Fin 2) F), a * b ≠ b * a := by
     have hnc := Group.IsPerfect.not_isMulCommutative

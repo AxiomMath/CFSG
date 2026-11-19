@@ -126,7 +126,7 @@ theorem exists_mem_M_conj_eq_mul (h1 : W16One G) (h5 : W16Five G) (h15 : W16Fift
     have hboth : u ∈ U ⊓ V₀ := ⟨hu, hmem⟩
     rw [h.inf_eq_bot, Subgroup.mem_bot] at hboth
     exact hu1 hboth
-  obtain ⟨g, hg, hgM⟩ := SetLike.not_le_iff_exists.1 h.not_le
+  obtain ⟨g, hg, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 h.not_le
   obtain ⟨m, hmM, hmv⟩ := exists_conj_not_mem_sup h152 h huV huV₀
   have hmN : m ∈ normalizer (V : Set G) := by
     rw [h.hyp.h6.normalizer_eq]
@@ -161,7 +161,7 @@ theorem not_centralizer_le_of_mem_sup (h1 : W16One G) (h5 : W16Five G) (h15 : W1
     rw [← huw, hu1, one_mul]
     exact hw
   obtain ⟨c, hcM, hc⟩ := h.exists_mem_M_conj_eq_mul h1 h5 h15 hS h152 hu hu1 hw
-  obtain ⟨y, hy, hyM⟩ := SetLike.not_le_iff_exists.1 h.not_le
+  obtain ⟨y, hy, hyM⟩ := IsConcreteLE.not_le_iff_exists.1 h.not_le
   intro hle
   have hcx : c * u * c⁻¹ = x := hc.trans huw
   have hcyc : c * y * c⁻¹ ∈ centralizer ({x} : Set G) := by

@@ -41,10 +41,10 @@ theorem isSLModel_two_data {X : Type} [Group X] {q : ℕ} (h4 : 4 ≤ q)
     Nat.card X = q * (q ^ 2 - 1) ∧ IsSimpleGroup X := by
   obtain ⟨K, fK, finK, hK, ⟨e⟩⟩ := h
   obtain ⟨s, hs⟩ := hq2
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hs)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hs)
   refine ⟨?_, ?_⟩
   · rw [Nat.card_congr e.toEquiv, card_statedSL_two, hK]
-  · haveI := isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl (hK ▸ h4))
+  · have := isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl (hK ▸ h4))
     exact e.isSimpleGroup
 
 theorem card_omegaPlus_four {K : Type} [Field K] [Finite K] [CharP K 2]
@@ -105,7 +105,7 @@ theorem sec97Head_of (h34 : Stroth34Statement) (h311a : Stroth311aStatement) :
     rw [h1, HS9.relIndex_sup_right_of_le_normalizer hYX, ← Subgroup.inf_relIndex_right, hXYQ,
       hQY_idx]
   obtain ⟨K, fK, finK, hK, φ, hφ, hker, -⟩ := hs.plus4
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hRN_idx : N.relIndex R = (Nat.card Z * (Nat.card Z ^ 2 - 1)) ^ 2 := by

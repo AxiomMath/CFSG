@@ -112,6 +112,7 @@ section Normalizer
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem normalizerMonoidHom_eq_one_iff (K : Subgroup Ω)
     (g : ↥(Subgroup.normalizer (K : Set Ω))) :
     K.normalizerMonoidHom g = 1 ↔ (g : Ω) ∈ Subgroup.centralizer (K : Set Ω) := by
@@ -127,6 +128,7 @@ theorem normalizerMonoidHom_eq_one_iff (K : Subgroup Ω)
       exact hg
     exact hm
 
+omit [Finite Ω] in
 theorem normalizer_action_eq_one_iff {K : Subgroup Ω} [Group.IsPerfect ↥K]
     (g : ↥(Subgroup.normalizer (K : Set Ω))) :
     centerQuotientHom ↥K (K.normalizerMonoidHom g) = 1 ↔

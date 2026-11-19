@@ -35,13 +35,14 @@ private theorem symmetrized_apply {A : Matrix I I ℤ} (hA : TauCeti.IsFiniteTyp
     symmetrized hA i j = symmetrizer hA i * (A i j : ℚ) := by
   have h1 : form hA (Pi.single i 1) (Pi.single j 1) = symmetrized hA i j := by
     rw [form_apply, single_dotProduct, one_mul, Matrix.mulVec]
-    simp [Pi.single_apply]
+    simp
   have h2 : form hA (Pi.single i 1) (Pi.single j 1) = symmetrizer hA i * (A i j : ℚ) := by
     rw [CFSG.LieType.RootSystem.form_single_left]
     congr 1
     simp [Pi.single_apply]
   rw [← h1, h2]
 
+omit [Fintype I] in
 private theorem cartan_symm_of_conn {A : Matrix I I ℤ} (hA : TauCeti.IsFiniteType A)
     (hconn : GGSimplyLacedConnected (coxeterMatrix hA)) : A.IsSymm := by
   refine Matrix.IsSymm.ext ?_
@@ -258,7 +259,7 @@ private theorem ggRefl_neg {A : Matrix I I ℤ} (hsymm : A.IsSymm) (u : I → �
   apply LinearMap.ext
   intro v
   rw [ggRefl_apply hsymm, ggRefl_apply hsymm, map_neg]
-  simp only [neg_smul, neg_neg]
+  simp only [neg_smul]
   module
 
 private theorem ggRefl_sq {A : Matrix I I ℤ} (hA : A.IsSymm) {u : I → ℤ} (hu : ggQ A u u = 2) :
@@ -273,13 +274,13 @@ private theorem ggRefl_sq {A : Matrix I I ℤ} (hA : A.IsSymm) {u : I → ℤ} (
   module
 
 private theorem ggRefl_comm_of_orthogonal {A : Matrix I I ℤ} (hA : A.IsSymm) {u u' : I → ℤ}
-    (hu : ggQ A u u = 2) (hu' : ggQ A u' u' = 2) (hc : ggQ A u u' = 0) :
+    (_hu : ggQ A u u = 2) (_hu' : ggQ A u' u' = 2) (hc : ggQ A u u' = 0) :
     ggRefl (A := A) u * ggRefl (A := A) u' = ggRefl (A := A) u' * ggRefl (A := A) u := by
   have hc' : ggQ A u' u = 0 := (ggQ_comm hA u' u).trans hc
   apply LinearMap.ext
   intro v
   simp only [Module.End.mul_apply, ggRefl_apply hA, map_sub, map_smul,
-    LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, hu, hu', hc, hc']
+    LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, hc, hc']
   module
 
 private theorem ggRefl_braid {A : Matrix I I ℤ} (hA : A.IsSymm) {u u' : I → ℤ}

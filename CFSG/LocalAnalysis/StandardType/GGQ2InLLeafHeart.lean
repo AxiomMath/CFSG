@@ -42,9 +42,9 @@ theorem unitHeart_noInternal {N : ℕ} (h3 : 3 ∣ N) (S : Finset (Fin N)) (hS :
   have hwdef : ∀ i, w i = if i ∈ S then lam else 0 := by
     intro i
     by_cases hi : i ∈ S
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       exact hconst i hi i0 hi0
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       exact hw0 i hi
   have hsum : ∑ i, w i = (S.card : ZMod 3) * lam := by
     simp_rw [hwdef]
@@ -87,7 +87,7 @@ theorem unitHeart_noInternal {N : ℕ} (h3 : 3 ∣ N) (S : Finset (Fin N)) (hS :
       have hib : i ≠ b := fun h => (Finset.mem_compl.1 hb) (h ▸ hi)
       have hja : j ≠ a := fun h => (Finset.mem_compl.1 ha) (h ▸ hj)
       have hjb : j ≠ b := fun h => (Finset.mem_compl.1 hb) (h ▸ hj)
-      simp [hu, Pi.single_apply, hia, hib, hja, hjb]
+      simp [hu, hia, hib, hja, hjb]
     rw [hcent] at hucent
     obtain ⟨μ, hμ⟩ := Submodule.mem_span_singleton.1 hucent
     have hμ' : μ • (UnitRaw.oneLine N).mkQ w = (UnitRaw.oneLine N).mkQ u := by
@@ -103,7 +103,7 @@ theorem unitHeart_noInternal {N : ℕ} (h3 : 3 ∣ N) (S : Finset (Fin N)) (hS :
     have hB := congrFun hc2 b
     have hwa : w a = 0 := hw0 a (Finset.mem_compl.1 ha)
     have hwb : w b = 0 := hw0 b (Finset.mem_compl.1 hb)
-    simp [hu, Pi.single_apply, hwa, hwb, hab, Ne.symm hab] at hA hB
+    simp [hu, hwa, hwb, hab, Ne.symm hab] at hA hB
     have : (1 : ZMod 3) = -1 := by
       rw [← neg_neg (1 : ZMod 3)]
       linear_combination hB - hA
@@ -116,7 +116,7 @@ theorem unitHeart_noInternal {N : ℕ} (h3 : 3 ∣ N) (S : Finset (Fin N)) (hS :
     apply hvx
     have hw : w ∈ UnitRaw.oneLine N := by
       rw [UnitRaw.mem_oneLine]
-      exact ⟨lam, funext fun i => by rw [hwdef i, if_pos (hSall i)]⟩
+      exact ⟨lam, funext fun i => by rw [hwdef i, ite_eq_left (hSall i)]⟩
     have : (vx : UnitRaw.Vfull N) = 0 := by
       rw [← hwv]
       exact (Submodule.Quotient.mk_eq_zero _).2 hw

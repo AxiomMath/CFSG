@@ -93,10 +93,10 @@ inductive S2V (n : ℕ) where
 @[expose] def AlphOK (alph : List (Vn n × Vn n)) : Prop := ∀ l ∈ alph, l.2 ⬝ᵥ l.1 = 2
 
 theorem letLin_of (l : Vn n × Vn n) (h : l.2 ⬝ᵥ l.1 = 2) : letLin l = refl l.1 l.2 h :=
-  dif_pos h
+  dite_eq_left h
 
 theorem letLin_zero : letLin ((0 : Vn n), (0 : Vn n)) = 1 :=
-  dif_neg (by rw [dotProduct_zero]; decide)
+  dite_eq_right (by rw [dotProduct_zero]; decide)
 
 theorem letLin_mul_self (l : Vn n × Vn n) : letLin l * letLin l = 1 := by
   unfold letLin
@@ -258,7 +258,7 @@ theorem TestHyp.false_of_exclB (hT : TestHyp W x₀ A M) {alph gens : List (Vn n
     (wLin_mem halph h) ?_ (hgW _ hgk) (s := v) hv ?_
   · rw [FixesLine, wLin_apply hA]
     exact fixesLine_of_pmB hfix
-  · simp only [Set.mem_setOf_eq, LinearEquiv.mul_apply]
+  · simp only [Set.mem_ofPred_eq, LinearEquiv.mul_apply]
     rw [wLin_inv_apply hA, letLin_letAt_apply hgens, wLin_apply hA]
     exact hout
 

@@ -51,15 +51,15 @@ private lemma l937z_gl_centralizer_semisimple
       _ = 1 := by rw [Units.val_one, map_one]
   have hredT : IsReduced (Algebra.adjoin K T) :=
     CFSG.StandardType.ClassicalPosition.isReduced_adjoin_of_commute_of_odd T hcommT hTodd
-  letI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hpair
-  letI : CommRing A := IsMulCommutative.instCommRing
-  haveI : Module.Finite K A := inferInstance
-  haveI : IsArtinianRing A := IsArtinianRing.of_finite K A
-  haveI hAsemi : IsSemisimpleRing A := IsArtinianRing.isSemisimpleRing_of_isReduced A
-  haveI : IsSemisimpleModule A V := IsSemisimpleRing.isSemisimpleModule
-  haveI : Finite V := inferInstance
-  haveI : Module.Finite A V := Module.Finite.of_finite
-  haveI hEsemi : IsSemisimpleRing (Module.End A V) := IsSemisimpleRing.moduleEnd A V
+  let : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hpair
+  let : CommRing A := IsMulCommutative.instCommRing
+  have : Module.Finite K A := inferInstance
+  have : IsArtinianRing A := IsArtinianRing.of_finite K A
+  have hAsemi : IsSemisimpleRing A := IsArtinianRing.isSemisimpleRing_of_isReduced A
+  have : IsSemisimpleModule A V := IsSemisimpleRing.isSemisimpleModule
+  have : Finite V := inferInstance
+  have : Module.Finite A V := Module.Finite.of_finite
+  have hEsemi : IsSemisimpleRing (Module.End A V) := IsSemisimpleRing.moduleEnd A V
   let Ψ₁ : Subalgebra.centralizer K (Units.val '' S) ≃+* Subalgebra.centralizer K T :=
   { toFun := fun g => ⟨e (g : Matrix (Fin n) (Fin n) K), by
       rw [Subalgebra.mem_centralizer_iff]
@@ -122,8 +122,8 @@ private lemma l937z_gl_centralizer_wedderburn
         (∀ i, Matrix (Fin (d i)) (Fin (d i)) (D i))) := by
   classical
   let C := Subalgebra.centralizer K (Units.val '' S)
-  haveI : IsSemisimpleRing C := l937z_gl_centralizer_semisimple S hS hodd
-  haveI : Module.Finite K C := inferInstance
+  have : IsSemisimpleRing C := l937z_gl_centralizer_semisimple S hS hodd
+  have : Module.Finite K C := inferInstance
   obtain ⟨r, D, d, hDdiv, hDalg, hRest⟩ :=
     IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing_finite K C
   obtain ⟨hDfinF, hd, ⟨Φ⟩⟩ := hRest
@@ -134,7 +134,7 @@ private lemma l937z_gl_wedderburn_factors_finite
     [∀ i, Algebra K (D i)] [∀ i, Module.Finite K (D i)] :
     ∀ i, Finite (D i) := by
   intro i
-  haveI : Finite K := inferInstance
+  have : Finite K := inferInstance
   obtain ⟨k, g, hg⟩ := Module.Finite.exists_fin' K (D i)
   exact Finite.of_surjective (g : (Fin k → K) → D i) hg
 
@@ -160,11 +160,11 @@ private lemma l937z_gl_centralizer_pi_matrix
         (∀ i, Matrix (Fin (d i)) (Fin (d i)) (D i))) := by
   obtain ⟨r, D, hDdiv, hDalg, hDfinF, d, hd, hAlg⟩ :=
     l937z_gl_centralizer_wedderburn S hS hodd
-  letI : ∀ i, DivisionRing (D i) := hDdiv
-  letI : ∀ i, Algebra K (D i) := hDalg
-  letI : ∀ i, Module.Finite K (D i) := hDfinF
+  let : ∀ i, DivisionRing (D i) := hDdiv
+  let : ∀ i, Algebra K (D i) := hDalg
+  let : ∀ i, Module.Finite K (D i) := hDfinF
   have hFinite : ∀ i, Finite (D i) := l937z_gl_wedderburn_factors_finite (K := K) D
-  haveI : ∀ i, Finite (D i) := hFinite
+  have : ∀ i, Finite (D i) := hFinite
   have hRing : Nonempty ((Subalgebra.centralizer K (Units.val '' S)) ≃+*
       (∀ i, Matrix (Fin (d i)) (Fin (d i)) (D i))) :=
     l937z_gl_wedderburn_ringEquiv (S := S) (D := D) (d := d) hAlg
@@ -234,10 +234,10 @@ private theorem l937z_gl_pCoreOf_centralizer_eq_bot
     pCoreOf 2 (Subgroup.centralizer S) = ⊥ := by
   obtain ⟨r, D, hDfield, hDfin, hDalg, d, hd, hiso⟩ :=
     l937z_gl_centralizer_pi_matrix S hS hodd
-  letI : ∀ i, Field (D i) := hDfield
-  letI : ∀ i, Finite (D i) := hDfin
-  letI : ∀ i, Algebra K (D i) := hDalg
-  haveI hchar : ∀ i, CharP (D i) 2 := fun i => l937z_gl_charP_of_algebra (K := K) (D := D i)
+  let : ∀ i, Field (D i) := hDfield
+  let : ∀ i, Finite (D i) := hDfin
+  let : ∀ i, Algebra K (D i) := hDalg
+  have hchar : ∀ i, CharP (D i) 2 := fun i => l937z_gl_charP_of_algebra (K := K) (D := D i)
   have hGLbot : ∀ i, pCore 2 (GL (Fin (d i)) (D i)) = ⊥ := fun i =>
     pCore_two_GL_eq_bot (E := D i) (m := d i)
   have hPib : pCore 2 (∀ i, GL (Fin (d i)) (D i)) = ⊥ :=

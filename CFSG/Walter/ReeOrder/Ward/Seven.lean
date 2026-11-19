@@ -75,7 +75,7 @@ theorem ε_eq_ε' : D.ε = D.ε' ∧ ∀ k, D.η k 1 = D.η' k 1 := by
     have h1 := hpos _ (D.mem k)
     have h2 := hpos _ (D.mem' k)
     rcases D.ε_eq with he | he <;> rcases D.ε'_eq with he' | he' <;> rw [he, he'] at h ⊢ <;>
-      push_cast at h <;> first | rfl | (exfalso; linarith)
+      push_cast at h <;> (exfalso; linarith)
   refine ⟨hεε, fun k => ?_⟩
   have h := hk k
   rw [← hεε] at h

@@ -14,7 +14,7 @@ theorem eq_of_normalizer_le {K : Type} [Group K] [Finite K]
     {C E : Subgroup K} (hC : C.Normal) (hEC : E ≤ C) (hE2 : IsPGroup 2 E)
     (hEab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
     (hN : ∀ g ∈ C, g ∈ normalizer (E : Set K) → g ∈ E) : C = E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let E' : Subgroup C := E.subgroupOf C
   have hE'2 : IsPGroup 2 E' := hE2.comap_subtype (K := C)
   obtain ⟨T, hE'T⟩ := hE'2.exists_le_sylow
@@ -25,12 +25,12 @@ theorem eq_of_normalizer_le {K : Type} [Group K] [Finite K]
       have hHne : H ≠ ⊤ := fun hHtop =>
         hne (le_antisymm hE'T (Subgroup.subgroupOf_eq_top.mp hHtop))
       exact lt_of_le_of_ne le_top hHne
-    haveI : Group.IsNilpotent (T : Subgroup C) := T.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (T : Subgroup C) := T.isPGroup.isNilpotent
     have hHnorm : H < normalizer H :=
       Group.normalizerCondition_of_isNilpotent (G := (T : Subgroup C)) H hHlt
     obtain ⟨hle, hne'⟩ := lt_iff_le_and_ne.mp hHnorm
     have hnotle : ¬ normalizer H ≤ H := fun hHle => hne' (le_antisymm hle hHle)
-    obtain ⟨t, ht_norm, ht_not⟩ := SetLike.not_le_iff_exists.mp hnotle
+    obtain ⟨t, ht_norm, ht_not⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
     have ht_norm' : (t : C) ∈ normalizer (E' : Set C) := by
       have : t ∈ (normalizer E').subgroupOf (T : Subgroup C) := by
         rw [Subgroup.subgroupOf_normalizer_eq hE'T]
@@ -66,8 +66,8 @@ theorem eq_of_normalizer_le {K : Type} [Group K] [Finite K]
       (c : K) (Subgroup.mem_subgroupOf.mp hcE'))
   obtain ⟨M, hMnorm, hModd, -, -, hMchar, -, hMsup, -, -, -⟩ :=
     CFSG.GroupTheory.burnside_normal_complement (p := 2) T hNT
-  haveI : C.Normal := hC
-  haveI : M.Characteristic := hMchar
+  have : C.Normal := hC
+  have : M.Characteristic := hMchar
   have hMK_normal : (M.map C.subtype).Normal := inferInstance
   have hMK_odd : Odd (Nat.card (M.map C.subtype)) := by
     rw [Subgroup.card_subtype C M]

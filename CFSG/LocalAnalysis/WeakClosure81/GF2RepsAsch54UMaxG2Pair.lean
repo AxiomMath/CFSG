@@ -20,7 +20,7 @@ theorem sq_mem_sqCent {E : Subgroup Y} {z g : Y} (hg : g ∈ E) (hgz : g * z = z
   subset_closure ⟨g, hg, hgz, rfl⟩
 
 theorem sqCent_le (E : Subgroup Y) (z : Y) : sqCent E z ≤ E :=
-  (closure_le E).2 fun _ ⟨g, hg, _, hx⟩ => hx ▸ E.mul_mem hg hg
+  (closure_le E).2 fun _ ⟨_g, hg, _, hx⟩ => hx ▸ E.mul_mem hg hg
 
 theorem sqCent_le_centralizer (E : Subgroup Y) (z : Y) :
     sqCent E z ≤ centralizer ({z} : Set Y) := by
@@ -56,7 +56,7 @@ theorem exists_le_normalizer_of_odd_card [Finite Y] {T : Subgroup Y} (hT : IsPGr
     (h𝒮 : ∀ t ∈ T, ∀ V ∈ 𝒮, V.map (MulAut.conj t).toMonoidHom ∈ 𝒮)
     (hodd : Odd (Nat.card ↥𝒮)) : ∃ V ∈ 𝒮, T ≤ normalizer (V : Set Y) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction ↥T ↥𝒮 :=
+  let : MulAction ↥T ↥𝒮 :=
     { smul := fun t V => ⟨V.1.map (MulAut.conj (t : Y)).toMonoidHom, h𝒮 t t.2 V.1 V.2⟩
       one_smul := fun V => Subtype.ext <| by
         change V.1.map (MulAut.conj ((1 : ↥T) : Y)).toMonoidHom = V.1

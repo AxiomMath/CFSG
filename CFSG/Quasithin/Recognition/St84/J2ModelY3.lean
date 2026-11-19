@@ -122,7 +122,7 @@ theorem Km_isSimple :
       (b := (pb : Equiv.Perm (Fin 5))) (by simpa using pa_sq)
       hpb3 papb_pow_five closure_pa_pb
       (by rw [nat_card_alternatingGroup, Nat.card_fin]; norm_num)
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   exact MulEquiv.isSimpleGroup (eKm.symm.trans eA5)
 
 theorem nonempty_C2_equiv_Y3 :
@@ -184,16 +184,16 @@ theorem exists_complement_Y3 :
     rw [← Nat.card_congr eqKmK.toEquiv]
     exact Km_card
   have hKsimple : IsSimpleGroup ↥K := by
-    haveI : IsSimpleGroup ↥Km := Km_isSimple
+    have : IsSimpleGroup ↥Km := Km_isSimple
     exact MulEquiv.isSimpleGroup eqKmK.symm
   have hKQ : K ⊓ pCoreOf 2 (j2CtxA.Y 3) = ⊥ := by
-    haveI : IsSimpleGroup ↥K := hKsimple
+    have : IsSimpleGroup ↥K := hKsimple
     have hnorm : ((K ⊓ pCoreOf 2 (j2CtxA.Y 3)).subgroupOf K).Normal := by
       refine (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr ?_
       refine (le_inf Subgroup.le_normalizer
         (hKle.trans (le_normalizer_pCoreOf (r := 2) (j2CtxA.Y 3)))).trans ?_
       exact Subgroup.inf_normalizer_le_normalizer_inf
-    haveI := hnorm
+    have := hnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((K ⊓ pCoreOf 2 (j2CtxA.Y 3)).subgroupOf K) with hbot | htop
     · exact (Subgroup.subgroupOf_eq_bot.mp hbot).eq_bot_of_le inf_le_left
@@ -212,9 +212,9 @@ theorem eq_pCoreOf_or_eq_of_normal_Y3
     (hN : (N.subgroupOf (j2CtxA.Y 3)).Normal) :
     N = pCoreOf 2 (j2CtxA.Y 3) ∨ N = j2CtxA.Y 3 := by
   obtain ⟨V, hVnormal, hVext, hValt⟩ := j2_Y3_ext.1
-  haveI : V.Normal := hVnormal
+  have : V.Normal := hVnormal
   have hVp : IsPGroup 2 ↥V := by
-    haveI : CFSG.IsExtraspecial 2 ↥V := hVext.1
+    have : CFSG.IsExtraspecial 2 ↥V := hVext.1
     exact CFSG.IsExtraspecial.isPGroup 2 ↥V
   have hVcard : Nat.card ↥V = 32 := by
     simpa using hVext.2
@@ -231,9 +231,9 @@ theorem eq_pCoreOf_or_eq_of_normal_Y3
   have hVeq : V.map (j2CtxA.Y 3).subtype = pCoreOf 2 (j2CtxA.Y 3) := by
     refine Subgroup.eq_of_le_of_card_ge hVcore ?_
     rw [hVcorecard, Subgroup.card_map_of_injective (j2CtxA.Y 3).subtype_injective, hVcard]
-  haveI : IsSimpleGroup (↥(j2CtxA.Y 3) ⧸ V) := by
+  have : IsSimpleGroup (↥(j2CtxA.Y 3) ⧸ V) := by
     obtain ⟨e⟩ := hValt
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
     exact MulEquiv.isSimpleGroup e
   let N' : Subgroup ↥(j2CtxA.Y 3) := N.subgroupOf (j2CtxA.Y 3)
   have hN'norm : N'.Normal := hN
@@ -245,7 +245,7 @@ theorem eq_pCoreOf_or_eq_of_normal_Y3
     exact hQN hv'
   have hMnorm : (N'.map (QuotientGroup.mk' V)).Normal :=
     hN'norm.map (QuotientGroup.mk' V) (QuotientGroup.mk'_surjective V)
-  haveI := hMnorm
+  have := hMnorm
   have hNkeq : N = N'.map (j2CtxA.Y 3).subtype :=
     (Subgroup.map_subgroupOf_eq_of_le hNP).symm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N'.map (QuotientGroup.mk' V)) with

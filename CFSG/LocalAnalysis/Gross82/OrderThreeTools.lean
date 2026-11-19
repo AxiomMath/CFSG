@@ -48,8 +48,8 @@ theorem card_fixedSubgroup_pglFieldAut {F : Type} [Field F] [Finite F] {n : ℕ}
         (CFSG.ComponentClassification.CatalogueBHigherLinearField.pglFieldAut (Fin n) F σ)) =
       lieOrderNumerator .PSL n
         (Nat.card (CFSG.ComponentClassification.CatalogueBHigherLinearField.fixedField F σ)) := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
-  haveI : Finite (fixedField F σ) :=
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Finite (fixedField F σ) :=
     Finite.of_injective (fixedField F σ).subtype (fixedField F σ).subtype_injective
   have hq : 0 < Nat.card (fixedField F σ) - 1 := by
     have h2 : 1 < Nat.card (fixedField F σ) := Finite.one_lt_card

@@ -24,7 +24,7 @@ theorem normalizer_map_le_map_normalizer (O : Subgroup G) [O.Normal] (hO : ¬ 3 
     {S : Subgroup G} (hS : IsPGroup 3 S) :
     normalizer ((S.map (QuotientGroup.mk' O) : Subgroup (G ⧸ O)) : Set (G ⧸ O)) ≤
       (normalizer (S : Set G)).map (QuotientGroup.mk' O) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact (CFSG.GroupTheory.normal_coprime_quotient_normalizer 3 O hO S hS).ge
 
 theorem qb_inf_eq_bot_of_pGroup {p : ℕ} (hp : p.Prime) {H : Type*} [Group H] [Finite H]
@@ -42,7 +42,7 @@ theorem qb_pRank_map_eq_of_kernel {p : ℕ} (hp : p.Prime) {H H' : Type*} [Group
     [Group H'] [Finite H'] (f : H →* H') (A : Subgroup H)
     (hY : ¬ p ∣ Nat.card ↥(A ⊓ f.ker)) :
     CFSG.Open.pRank p (A.map f) = CFSG.Open.pRank p A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hker : ∀ (E : Subgroup H), E ≤ A → ∀ k : ℕ, Nat.card E = p ^ k → E ⊓ f.ker = ⊥ := by
     intro E hEA k hk
@@ -139,7 +139,7 @@ theorem centralizer_map_quotient (O : Subgroup G) [O.Normal] (hO : ¬ 3 ∣ Nat.
     (hx : orderOf x = 3) :
     centralizer ({QuotientGroup.mk' O x} : Set (G ⧸ O)) =
       (centralizer ({x} : Set G)).map (QuotientGroup.mk' O) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.GH74.centralizer_singleton_quotient_eq_map 3 O
     ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hO) ⟨1, by rw [hx, pow_one]⟩
 
@@ -183,6 +183,7 @@ variable {G : Type} [Group G] [Finite G] {Y Q : Subgroup G}
 theorem qs_not_dvd_core : ¬ 3 ∣ Nat.card (primeComplementCore (G := G) 3) :=
   (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 (primeComplementCore_coprime 3)
 
+omit [Finite G] in
 theorem qs_ker : (barMk G).ker = primeComplementCore (G := G) 3 :=
   QuotientGroup.ker_mk' _
 
@@ -224,6 +225,7 @@ theorem qs_pRank (hQ : IsPGroup 3 Q) {T : Subgroup G} (hT : T ≤ Q) :
   rw [qs_inf_ker hQ hT, Subgroup.card_bot]
   omega
 
+omit [Finite G] in
 theorem qs_preimage {T : Subgroup G} {Sb : Subgroup (Bar G)}
     (hSb : Sb ≤ T.map (barMk G)) :
     ∃ S : Subgroup G, S ≤ T ∧ S.map (barMk G) = Sb := by

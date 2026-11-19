@@ -336,7 +336,7 @@ theorem not_three_dvd_index_graphFixed_sup (K : Type) [Field K] [Finite K] (σ :
     (J : Set (Fin TwistTag.E6.foldedTag.rank)) :
     ¬ 3 ∣ ((graphFixedParabolicLevi TwistTag.E6 K σ.toRingHom J ⊔ twistedE6DiagGL K σ).subgroupOf
       (graphFixedParabolic TwistTag.E6 K σ.toRingHom J ⊔ twistedE6DiagGL K σ)).index := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, -, -, -, -, -, -, hQP, hQnorm, hLP, -, -, -, -, -, hfin, -⟩ :=
     diagram_fixed_parabolic_root_radical_Levi_factors TwistTag.E6 K σ J
   have hQp : IsPGroup (ringChar K) (graphFixedParabolicRadical TwistTag.E6 K σ.toRingHom J) :=
@@ -494,18 +494,18 @@ theorem twE6InndiagCentralizerGeneration_aux (K : Type) [Field K] [Finite K] (σ
         (twistedE6RootGroup K σ : Subgroup (ModGL (TwTag K σ hσ) K)) ⊓
           Subgroup.centralizer ({a} : Set (ModGL (TwTag K σ hσ) K))) =
       (twistedE6RootGroup K σ : Subgroup (ModGL (TwTag K σ hσ) K)) := by
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_modGL (τ := TwTag K σ hσ) (K := K)
-  haveI := hAEA
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_modGL (τ := TwTag K σ hσ) (K := K)
+  have := hAEA
   have hcardTw : Nat.card K = (ringChar K ^ f) ^ TwistTag.E6.order := hKq
   have hperf := finite_fixed_root_group_perfect TwistTag.E6 hp hf K hcardTw σ.toRingHom hσq
   have hZ : Subgroup.center ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) = ⊥ :=
     center_graphFixedRootGroup_eq_bot σ.surjective
   obtain ⟨ψ⟩ := CFSG.LieType.SeitzGeneration.nonempty_derivedCentralQuotient_equiv _ _
     hperf.2.2.1 hZ
-  haveI hSimple : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) :=
+  have hSimple : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) :=
     (CFSG.LieType.Simplicity.fam_2e6_simplicity
       ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) (ringChar K) f
       ⟨⟨hp, hf, rfl⟩, K, inferInstance, inferInstance, hcardTw, σ.toRingHom, hσq,
@@ -610,14 +610,14 @@ theorem twE6InndiagCentralizerGeneration_aux (K : Type) [Field K] [Finite K] (σ
     have h := hstabG x hx
     rw [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
     exact h
-  haveI hA0e : IsElementaryAbelian 3 (A.map (MulAut.conj g₀⁻¹).toMonoidHom) :=
+  have hA0e : IsElementaryAbelian 3 (A.map (MulAut.conj g₀⁻¹).toMonoidHom) :=
     IsElementaryAbelian.map _
   have hA0p : IsPGroup 3 (A.map (MulAut.conj g₀⁻¹).toMonoidHom) :=
     IsElementaryAbelian.isPGroup 3 _
   have hindex := not_three_dvd_index_graphFixed_sup K σ hK3 J₀
   obtain ⟨y, hyPh, hyA⟩ := exists_conj_le_of_not_dvd_index hA0 hA0p hindex
   set A₁ := (A.map (MulAut.conj g₀⁻¹).toMonoidHom).map (MulAut.conj y).toMonoidHom with hA₁
-  haveI hA₁e : IsElementaryAbelian 3 A₁ := IsElementaryAbelian.map _
+  have hA₁e : IsElementaryAbelian 3 A₁ := IsElementaryAbelian.map _
   have hA₁card : 3 ^ 2 ≤ Nat.card A₁ := by
     rw [hA₁, Subgroup.card_map_of_injective (MulAut.conj y).injective,
       Subgroup.card_map_of_injective (MulAut.conj g₀⁻¹).injective]
@@ -656,7 +656,7 @@ theorem twE6InndiagCentralizerGeneration_holds : TwE6InndiagCentralizerGeneratio
     have hsq : σ ^ 2 = 1 := by
       refine RingEquiv.ext fun c => ?_
       have hσσ : σ (σ c) = c := by
-        haveI := Fintype.ofFinite K
+        have := Fintype.ofFinite K
         rw [hσq (σ c), hσq c, ← pow_mul, ← sq, ← hKq, Nat.card_eq_fintype_card]
         exact FiniteField.pow_card c
       simpa only [pow_two, RingAut.mul_apply, RingAut.one_apply] using hσσ

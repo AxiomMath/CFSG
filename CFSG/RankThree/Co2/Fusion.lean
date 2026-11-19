@@ -94,7 +94,7 @@ theorem one_class : ∀ A : Subgroup G, A ≤ Subgroup.centralizer {h.z} → Ele
   have hAH' : AH = A'.map h.φ.symm.toMonoidHom := by
     rw [Subgroup.map_map]
     ext x
-    simp [A']
+    simp
   have hA_eq : A = AH.map h.H.subtype := (Subgroup.map_subgroupOf_eq_of_le hAH).symm
   rw [hA_eq, hAH', hc, map_map_conj, map_subtype_conj]
   rfl
@@ -102,7 +102,7 @@ theorem one_class : ∀ A : Subgroup G, A ≤ Subgroup.centralizer {h.z} → Ele
 @[expose] def Ω : Set G := {t | t ∈ h.JG ∧ IsConj h.z t}
 
 theorem card_Ω_dvd : Nat.card h.Ω ∣ Nat.card (Subgroup.normalizer (h.JG : Set G)) := by
-  letI := conjActG (Subgroup.normalizer (h.JG : Set G))
+  let := conjActG (Subgroup.normalizer (h.JG : Set G))
   have horb : MulAction.orbit (Subgroup.normalizer (h.JG : Set G)) h.z = h.Ω := by
     ext t
     constructor

@@ -307,7 +307,7 @@ theorem sylow_not_le_normalizer_suzuki_of_goldschmidt
   refine false_of_sylow_of_commute_sq_eq_one hGold h (Or.inr (Or.inr ⟨f, hL⟩)) S ?_
   intro x hx y hy hx2 hy2
   refine commute_of_sq_eq_one_of_le_normalizer h.center_eq_bot
-    (odd_card_outer_of_lieModel_twistedB2 hL) ?_ ?_ S.isPGroup' hSN hx hy hx2 hy2
+    (odd_card_outer_of_lieModel_twistedB2 hL) ?_ ?_ S.isPGroup hSN hx hy hx2 hy2
   · intro Q hQL hQ x hx y hy hx2 _
     have key := commute_of_isPGroup_of_lieModel_twistedB2 hL (hQ.comap_subtype (K := L))
       (x := ⟨x, hQL hx⟩) (y := ⟨y, hQL hy⟩) (mem_subgroupOf.2 hx) (mem_subgroupOf.2 hy)

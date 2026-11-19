@@ -85,20 +85,20 @@ private theorem sl2sq_le_center_prod {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hF
         (by rw [← hM₂def]; exact htop)))
   exact le_prod_center_of_map_le_center (by rwa [← hM₁def]) (by rwa [← hM₂def])
 
-theorem sl2sq_perfect {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hF : Nat.card F = r)
+theorem sl2sq_perfect {r : ℕ} (_hr : r.Prime) (h5 : 5 ≤ r) (hF : Nat.card F = r)
     {K₁ : Subgroup H}
     (e : K₁ ≃* Matrix.SpecialLinearGroup (Fin 2) F × Matrix.SpecialLinearGroup (Fin 2) F) :
-    ⁅K₁, K₁⁆ = K₁ ∧ ¬ IsSolvable K₁ ∧ Nat.card K₁ = (r * (r ^ 2 - 1)) ^ 2 := by
+    ⁅K₁, K₁⁆ = K₁ ∧ ¬ Group.IsSolvable K₁ ∧ Nat.card K₁ = (r * (r ^ 2 - 1)) ^ 2 := by
   have h4 : 4 ≤ Nat.card F := by rw [hF]; omega
   have hperfP : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F h4
   have hperfPP :
       Group.IsPerfect
         (Matrix.SpecialLinearGroup (Fin 2) F × Matrix.SpecialLinearGroup (Fin 2) F) := by
-    haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) := hperfP
+    have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) := hperfP
     rw [Group.isPerfect_def, _root_.commutator_def, ← Subgroup.top_prod_top,
       Subgroup.commutator_prod_prod, Subgroup.commutator_eq_self, Subgroup.top_prod_top]
-  haveI : Group.IsPerfect
+  have : Group.IsPerfect
       (Matrix.SpecialLinearGroup (Fin 2) F × Matrix.SpecialLinearGroup (Fin 2) F) := hperfPP
   have hperfK : Group.IsPerfect ↥K₁ :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -110,7 +110,7 @@ theorem sl2sq_perfect {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hF : Nat.card F =
   have hcardK : Nat.card K₁ = (r * (r ^ 2 - 1)) ^ 2 := by
     rw [Nat.card_congr e.toEquiv, Nat.card_prod, hcardP]
     ring
-  haveI : Nontrivial ↥K₁ := by
+  have : Nontrivial ↥K₁ := by
     refine Finite.one_lt_card_iff_nontrivial.mp ?_
     rw [hcardK]
     have h24 : 24 ≤ r ^ 2 - 1 := by
@@ -120,13 +120,13 @@ theorem sl2sq_perfect {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hF : Nat.card F =
       calc 120 = 5 * 24 := by norm_num
         _ ≤ r * (r ^ 2 - 1) := Nat.mul_le_mul h5 h24
     exact one_lt_pow₀ (by omega) (by norm_num)
-  haveI : Group.IsPerfect ↥K₁ := hperfK
+  have : Group.IsPerfect ↥K₁ := hperfK
   exact ⟨Subgroup.isPerfect_iff.mp hperfK, Group.IsPerfect.not_isSolvable ↥K₁, hcardK⟩
 
 theorem sl2sq_odd {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hF : Nat.card F = r)
     {K₁ : Subgroup H}
     (e : K₁ ≃* Matrix.SpecialLinearGroup (Fin 2) F × Matrix.SpecialLinearGroup (Fin 2) F)
-    {Z : Subgroup H} (hZ : Z ≤ K₁) (hZc : Z ≤ Subgroup.center H) (hZ2 : Nat.card Z = 2) :
+    {Z : Subgroup H} (_hZ : Z ≤ K₁) (_hZc : Z ≤ Subgroup.center H) (hZ2 : Nat.card Z = 2) :
     ∀ N : Subgroup H, N ≤ K₁ → (N.subgroupOf K₁).Normal → Z ≤ N → Odd (Nat.card N / 2) →
       N ≤ Z := by
   intro N hNK hNnorm hZN hodd
@@ -166,11 +166,11 @@ theorem sl2sq_odd {r : ℕ} (hr : r.Prime) (h5 : 5 ≤ r) (hF : Nat.card F = r)
 
 theorem quasisimple_facts {K₃ : Subgroup H} (hperf : ⁅K₃, K₃⁆ = K₃)
     (hsimple : IsSimpleGroup (K₃ ⧸ Subgroup.center K₃)) (hev : 2 ∣ Nat.card K₃) :
-    ¬ IsSolvable K₃ ∧ ∀ N : Subgroup H, N ≤ K₃ → (N.subgroupOf K₃).Normal → Odd (Nat.card N) →
+    ¬ Group.IsSolvable K₃ ∧ ∀ N : Subgroup H, N ≤ K₃ → (N.subgroupOf K₃).Normal → Odd (Nat.card N) →
       N ≤ Subgroup.centralizer (K₃ : Set H) := by
   have hperfK : Group.IsPerfect ↥K₃ := Subgroup.isPerfect_iff.mpr hperf
-  haveI : Group.IsPerfect ↥K₃ := hperfK
-  haveI : Nontrivial ↥K₃ := by
+  have : Group.IsPerfect ↥K₃ := hperfK
+  have : Nontrivial ↥K₃ := by
     refine Finite.one_lt_card_iff_nontrivial.mp ?_
     obtain ⟨k, hk⟩ := hev
     have := Nat.card_pos (α := ↥K₃)
@@ -178,13 +178,13 @@ theorem quasisimple_facts {K₃ : Subgroup H} (hperf : ⁅K₃, K₃⁆ = K₃)
   have hcomm : commutator ↥K₃ = ⊤ := hperfK.commutator_eq_top
   refine ⟨Group.IsPerfect.not_isSolvable ↥K₃, ?_⟩
   intro N hNK hNnorm hNodd
-  haveI : IsSimpleGroup (K₃ ⧸ Subgroup.center K₃) := hsimple
-  letI : (N.subgroupOf K₃).Normal := hNnorm
+  have : IsSimpleGroup (K₃ ⧸ Subgroup.center K₃) := hsimple
+  let : (N.subgroupOf K₃).Normal := hNnorm
   let f : ↥K₃ →* ↥K₃ ⧸ Subgroup.center ↥K₃ := QuotientGroup.mk' (Subgroup.center ↥K₃)
   have hker : f.ker = Subgroup.center ↥K₃ := QuotientGroup.ker_mk' _
   have hmapnorm : ((N.subgroupOf K₃).map f).Normal :=
     hNnorm.map f (QuotientGroup.mk'_surjective _)
-  haveI := hmapnorm
+  have := hmapnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N.subgroupOf K₃).map f) with h | h
   · have hle : N.subgroupOf K₃ ≤ Subgroup.center ↥K₃ := by
       rwa [Subgroup.map_eq_bot_iff, hker] at h

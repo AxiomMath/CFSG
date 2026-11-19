@@ -32,7 +32,7 @@ theorem transversal_inj {G : Type} [Group G] (M K₀ : Subgroup G)
 theorem exists_norm_fixed {G : Type} [Group G] (M W K₀ : Subgroup G) [Finite M]
     [Fintype (↥M ⧸ K₀.subgroupOf M)]
     (hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a)
-    (hMW : ∀ m ∈ M, ∀ w ∈ W, m * w * m⁻¹ ∈ W) (hK₀M : K₀ ≤ M)
+    (hMW : ∀ m ∈ M, ∀ w ∈ W, m * w * m⁻¹ ∈ W) (_hK₀M : K₀ ≤ M)
     (r : (↥M ⧸ K₀.subgroupOf M) → ↥M)
     (hr : ∀ q, (QuotientGroup.mk (r q) : ↥M ⧸ K₀.subgroupOf M) = q)
     (w : G) (hw : w ∈ W)
@@ -43,7 +43,7 @@ theorem exists_norm_fixed {G : Type} [Group G] (M W K₀ : Subgroup G) [Finite M
       (∀ {V' : Type} [CommGroup V'] (ψ : ↥W →* V'),
         ψ u = ∏ q, ψ ⟨(r q : G) * w * (r q : G)⁻¹, hmem q⟩) := by
   classical
-  letI : CommGroup ↥W :=
+  let : CommGroup ↥W :=
     { (inferInstance : Group ↥W) with
       mul_comm := fun a b => Subtype.ext (hW (a : G) a.2 (b : G) b.2) }
   have hmem : ∀ q, ((r q : G) * w * (r q : G)⁻¹) ∈ W :=
@@ -154,7 +154,6 @@ theorem fh7_normalizer_of_conj_eq {G : Type} [Group G] {K : Subgroup G} {s : G}
     (h : conjByElt s K = K) : s ∈ Subgroup.normalizer (K : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
   intro x
-  change x ∈ K ↔ s * x * s⁻¹ ∈ K
   have e : s⁻¹ * (s * x * s⁻¹) * s = x := by group
   constructor
   · intro hx
@@ -179,7 +178,6 @@ theorem fh7_inv_mul_normalizer {G : Type} [Group G] {K : Subgroup G} {s t : G}
     exact hy'
   rw [Subgroup.mem_normalizer_iff]
   intro x
-  change x ∈ K ↔ s⁻¹ * t * x * (s⁻¹ * t)⁻¹ ∈ K
   have e1 : s⁻¹ * t * x * (s⁻¹ * t)⁻¹ = s⁻¹ * (t * x * t⁻¹) * s := by group
   have e2 : t⁻¹ * (t * x * t⁻¹) * t = x := by group
   have h2 := hy (t * x * t⁻¹)
@@ -266,7 +264,7 @@ theorem fh7_closure_conj {G : Type} [Group G] {S : Set G} {m : G}
   exact Subgroup.mem_comap.mp (hle hw)
 
 theorem exists_central_not_centralized {G : Type} [Group G] [Finite G] {P T K : Subgroup G}
-    (hP : CharTwo P) (hT2 : IsPGroup 2 T) (hTP : T ≤ P) (hKP : IsBlock2 P K)
+    (hP : CharTwo P) (_hT2 : IsPGroup 2 T) (hTP : T ≤ P) (hKP : IsBlock2 P K)
     (hUT : blockU K ≤ T) {u : G} (hu : u ∈ blockU K) (huZ : u ∉ blockZ K)
     (hfix : ∀ x ∈ T ⊓ Subgroup.normalizer (K : Set G), x * u * x⁻¹ = u) :
     ∃ z ∈ quasithinOmegaOneCenter T, ∃ k ∈ K, z * k ≠ k * z := by
@@ -310,8 +308,8 @@ theorem exists_central_not_centralized {G : Type} [Group G] [Finite G] {P T K : 
     fun m hm => fh7_closure_conj (fun x hx => Subgroup.subset_closure (hSconj m hm x hx))
   have hw : u ∈ Subgroup.closure S := Subgroup.subset_closure huS
   have hK₀M : T ⊓ Subgroup.normalizer (K : Set G) ≤ T := inf_le_left
-  haveI : Finite (↥T ⧸ (T ⊓ Subgroup.normalizer (K : Set G)).subgroupOf T) := inferInstance
-  haveI : Fintype (↥T ⧸ (T ⊓ Subgroup.normalizer (K : Set G)).subgroupOf T) :=
+  have : Finite (↥T ⧸ (T ⊓ Subgroup.normalizer (K : Set G)).subgroupOf T) := inferInstance
+  have : Fintype (↥T ⧸ (T ⊓ Subgroup.normalizer (K : Set G)).subgroupOf T) :=
     Fintype.ofFinite _
   obtain ⟨r, hr⟩ : ∃ r : (↥T ⧸ (T ⊓ Subgroup.normalizer (K : Set G)).subgroupOf T) → ↥T,
       ∀ q, (QuotientGroup.mk (r q) : ↥T ⧸ (T ⊓ Subgroup.normalizer (K : Set G)).subgroupOf T) = q :=
@@ -326,7 +324,7 @@ theorem exists_central_not_centralized {G : Type} [Group G] [Finite G] {P T K : 
   have hzmem : (z' : G) ∈ quasithinOmegaOneCenter T := by
     unfold quasithinOmegaOneCenter
     refine Subgroup.subset_closure ?_
-    rw [Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq]
     exact ⟨Subgroup.mem_inf.mpr ⟨hzT, hzC⟩, hzQ⟩
   have hCclause : ∀ m ∈ T, m ∉ T ⊓ Subgroup.normalizer (K : Set G) →
       m * u * m⁻¹ ∈ Subgroup.centralizer (K : Set G) := by

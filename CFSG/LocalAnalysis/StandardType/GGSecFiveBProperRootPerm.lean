@@ -73,12 +73,12 @@ private lemma negTrans_mulSingle_self {n p : ℕ} (a b : Fin n) (hab : a ≠ b) 
   funext k
   rw [negTrans_apply a b hab]
   by_cases hka : k = a
-  · rw [if_pos hka, hka, Pi.mulSingle_eq_of_ne (Ne.symm hab), Pi.mulSingle_eq_of_ne hab]
+  · rw [ite_eq_left hka, hka, Pi.mulSingle_eq_of_ne (Ne.symm hab), Pi.mulSingle_eq_of_ne hab]
     simp
-  · rw [if_neg hka]
+  · rw [ite_eq_right hka]
     by_cases hkb : k = b
-    · rw [if_pos hkb, hkb, Pi.mulSingle_eq_same, Pi.mulSingle_eq_same, ← ofAdd_neg]
-    · rw [if_neg hkb, Pi.mulSingle_eq_of_ne hka, Pi.mulSingle_eq_of_ne hkb]
+    · rw [ite_eq_left hkb, hkb, Pi.mulSingle_eq_same, Pi.mulSingle_eq_same, ← ofAdd_neg]
+    · rw [ite_eq_right hkb, Pi.mulSingle_eq_of_ne hka, Pi.mulSingle_eq_of_ne hkb]
 
 private lemma prod_negTrans_mulSingle_self {n p : ℕ} (a b : Fin n) (hab : a ≠ b) :
     ∏ k, ((sgnAut a * permAut (Equiv.swap a b) * (sgnAut a)⁻¹ :

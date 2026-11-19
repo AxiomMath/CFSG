@@ -85,10 +85,10 @@ theorem wTab_unpack {m : Nat} {Gs GIs : Array Tab} {G GI : Nat → Nat}
         pc (Bool.rec (motive := fun _ => Nat) (GI l.1.val) (G l.1.val) l.2) (wK G GI w) := rfl
     rw [e1, e2, ih1]
     cases l.2
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       rw [a3]
       exact ⟨compU a4 ih2, cpc a4 ih2⟩
-    · simp only [if_true]
+    · simp only [ite_true]
       rw [a1]
       exact ⟨compU a2 ih2, cpc a2 ih2⟩
 
@@ -297,11 +297,11 @@ theorem iota_ok : iotaCheck () = true := by
     subst hj
     obtain ⟨a5, b5, c5, d5⟩ := let_get (j := 5) (by decide)
     have e5 : (((⟨5, by decide⟩ : Fin 6) : Nat) == 5) = true := rfl
-    rw [if_pos e5, a5, c5, conjB c1 c2 b5 d5]
+    rw [ite_eq_left e5, a5, c5, conjB c1 c2 b5 d5]
     exact h
   · obtain ⟨a, b, c, d⟩ := let_get j.isLt
     have e5 : ¬ (j.val == 5) = true := by simpa using h5
-    rw [if_neg e5, a, conjB c1 c2 b b]
+    rw [ite_eq_right e5, a, conjB c1 c2 b b]
     have e : Nat.beq j.val 5 = false := by
       cases hb : Nat.beq j.val 5
       · rfl
@@ -380,13 +380,13 @@ theorem decW_eq : ∀ w : List (Fin 8 × Bool),
     have hg := g.isLt
     unfold CFSG.KC.Th.Hsw.code
     cases b
-    · simp only [Bool.false_eq_true, if_false, Prod.mk.injEq]
+    · simp only [Bool.false_eq_true, ite_false, Prod.mk.injEq]
       refine ⟨Fin.ext ?_, ?_⟩
       · simp only [Fin.val_ofNat]
         omega
       · simp only [beq_eq_false_iff_ne, ne_eq]
         omega
-    · simp only [if_true, Prod.mk.injEq]
+    · simp only [ite_true, Prod.mk.injEq]
       refine ⟨Fin.ext ?_, ?_⟩
       · simp only [Fin.val_ofNat]
         omega
@@ -458,11 +458,11 @@ theorem hgen_ok : hGenCheck () = true := by
   obtain ⟨w1, w2⟩ := wTab_unpack (pair_get cH0 cH1 cHI0 cHI1) (lW j)
   rw [w1, a, beqU w2 b]
   have := CFSG.KS.Raw.Orb.allN_iff.1 hw j.val j.isLt
-  have e : Fin.ofNat 6 j.val = j := by ext; simp [Nat.mod_eq_of_lt j.isLt]
+  have e : Fin.ofNat 6 j.val = j := by ext; simp
   rwa [e] at this
 
 theorem gensL : GensOK 51 6 6 L letArr :=
-  ⟨rfl, fun j hj => ⟨(let_get hj).1, (let_get hj).2.1⟩⟩
+  ⟨rfl, fun _j hj => ⟨(let_get hj).1, (let_get hj).2.1⟩⟩
 
 theorem gensLI : GensOK 51 6 6 LI (letInv ()) :=
   ⟨by simp [letInv, letArr], fun j hj => ⟨(let_get hj).2.2.1, (let_get hj).2.2.2⟩⟩

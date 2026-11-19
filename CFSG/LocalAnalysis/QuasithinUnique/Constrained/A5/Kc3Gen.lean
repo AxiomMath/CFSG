@@ -107,7 +107,7 @@ theorem exists_sylowTwoOf_le [Finite G] {X S₀ : Subgroup G} (hSX : S₀ ≤ X)
   refine ⟨(P' : Subgroup ↥X).map X.subtype, ?_, Subgroup.map_subtype_le _, ?_, ?_⟩
   · intro x hx
     exact ⟨⟨x, hSX hx⟩, hP' (Subgroup.mem_subgroupOf.2 hx), rfl⟩
-  · exact P'.isPGroup'.map X.subtype
+  · exact P'.isPGroup.map X.subtype
   · have e : ((P' : Subgroup ↥X).map X.subtype).subgroupOf X = (P' : Subgroup ↥X) := by
       show (((P' : Subgroup ↥X).map X.subtype).comap X.subtype) = _
       rw [Subgroup.comap_map_eq_self_of_injective X.subtype_injective]

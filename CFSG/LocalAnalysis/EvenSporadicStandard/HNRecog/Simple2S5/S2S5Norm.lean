@@ -50,7 +50,7 @@ section Cert
 theorem good_basic (hΛ : HSCtx) {S : Subgroup (Equiv.Perm (Fin 1408))}
     {t : Equiv.Perm (Fin 1408)} (h : Good S t) :
     S ≤ pPrime ∧ S ⊓ Subgroup.zpowers elemA = ⊥ ∧ Nat.card ↥S ∣ 44352000 := by
-  haveI := h.simple
+  have := h.simple
   have hYcard : Nat.card ↥(S ⊓ Subgroup.centralizer ({t} : Set (Equiv.Perm (Fin 1408)))) =
       240 :=
     (step2 (Y := S ⊓ Subgroup.centralizer ({t} : Set (Equiv.Perm (Fin 1408)))) h.cover
@@ -78,7 +78,7 @@ theorem exists_normalized (hΛ : HSCtx) (hF : YFacts) {S₁ : Subgroup (Equiv.Pe
   obtain ⟨hSP₁, haS₁, -⟩ := good_basic hΛ h
   have hSQ₁ : S₁ ≤ blocks1408 := fun x hx => (Subgroup.mem_inf.mp (hSP₁ hx)).2
   have ht2 : orderOf t₁ = 2 := by
-    haveI : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
+    have : Fact (Nat.Prime 2) := Fact.mk Nat.prime_two
     exact orderOf_eq_prime (by rw [pow_two]; exact h.sq) h.ne
   obtain ⟨c, hc, hct⟩ := exists_conj_t₀ hΛ h.le hSQ₁ haS₁ h.mem ht2
   let S₂ : Subgroup (Equiv.Perm (Fin 1408)) := S₁.map (MulAut.conj c).toMonoidHom

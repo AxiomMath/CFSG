@@ -19,7 +19,7 @@ theorem s16h_hyp154_of_component_nonthin
     (h880 : F08.R880 D) (h163 : R16_3FComp D) (hSchur : RSchur153)
     {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
     (hs : 1 < s15 D.M V₀ V h.hyp151.isElemAbelian L)
-    (hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
+    (_hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
     (hδ : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2 →
       delta15 D.M V₀ V h.hyp151.isElemAbelian L < gamma15 D.M V₀ V h.hyp151.isElemAbelian L - 1)
     {t : MulAut (Vtil V₀ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M V₀ V h.hyp151.isElemAbelian)

@@ -118,7 +118,7 @@ theorem survE_heP : SurvE heP (alternatingGroup (Fin 7)) := by
     have hφs : φ s = heY := by
       apply Subtype.ext
       have h1 : ((φ s : heP) : Equiv.Perm (Fin 8330)) = c⁻¹ * (s : Equiv.Perm (Fin 8330)) * c := by
-        simp [hφ, hgP, MulAut.conj_apply]
+        simp [hφ, hgP]
       rw [h1, hcx]
       show c⁻¹ * (c * bOf heThreeWordsA * c⁻¹) * c = bOf heThreeWordsA
       group
@@ -130,7 +130,7 @@ theorem survE_heP : SurvE heP (alternatingGroup (Fin 7)) := by
     set φ : heP ≃* heP := MulAut.conj gP⁻¹ with hφ
     have hφs : ((φ s : heP) : Equiv.Perm (Fin 8330)) = bOf heThreeWordsB := by
       have h1 : ((φ s : heP) : Equiv.Perm (Fin 8330)) = c⁻¹ * (s : Equiv.Perm (Fin 8330)) * c := by
-        simp [hφ, hgP, MulAut.conj_apply]
+        simp [hφ, hgP]
       rw [h1, hcx]
       group
     have hcard : Nat.card ↥(Subgroup.centralizer ({φ s} : Set heP)) = 504 := by
@@ -158,7 +158,7 @@ theorem rankTwo_spor_he : RankTwoData (Spor .He) := by
   have hcard : Nat.card (Spor .He) = 4030387200 := by
     rw [← Nat.card_congr b'.toEquiv]
     exact CFSG.Sporadic.He.card_He
-  haveI : Finite (Spor .He) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Spor .He) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hrank : CFSG.pRank 3 (Spor .He) = 2 :=
     (CFSG.RankThree.Asc83Table.He.table (L := Spor .He) ⟨b'.symm⟩).2.1
   refine ⟨cubeInner_of_not_three_dvd_card_outer spor_he.1, fun E hE => ?_, ?_⟩

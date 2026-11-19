@@ -50,8 +50,7 @@ private theorem steinberg_aux {i j k : Fin 6} (hjk : j ≠ k) (hik : i ≠ k) (a
       Matrix.transvection i k (a * b) * Matrix.transvection j k b * Matrix.transvection i j a := by
   have hkj : k ≠ j := hjk.symm
   have hki : k ≠ i := hik.symm
-  simp only [Matrix.transvection, add_mul, mul_add, one_mul, mul_one, add_zero, zero_add,
-    zero_mul, mul_zero, Matrix.single_mul_single_same,
+  simp only [Matrix.transvection, add_mul, mul_add, one_mul, mul_one, add_zero, Matrix.single_mul_single_same,
     Matrix.single_mul_single_of_ne _ _ _ _ hkj, Matrix.single_mul_single_of_ne _ _ _ _ hki]
   abel
 

@@ -56,7 +56,7 @@ theorem sympPi_surjective {r : ℕ} {K : Type} [Field K] {S : Type} [Group S]
 theorem sympPi_ker {r : ℕ} {K : Type} [Field K] {S : Type} [Group S]
     (e : S ≃* StatedProj (StatedSp r K)) : (sympPi e).ker = (SymplecticFlag.proj r K).ker := by
   ext g
-  simp only [MonoidHom.mem_ker, sympPi, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
+  simp only [MonoidHom.mem_ker, sympPi, MonoidHom.comp_apply]
   exact ⟨fun h => (MulEquiv.map_eq_one_iff e.symm).mp h, fun h => by rw [h, map_one]⟩
 
 theorem sympPi_ker_le_center {r : ℕ} {K : Type} [Field K] {S : Type} [Group S]
@@ -142,7 +142,7 @@ theorem exists_noncomm_of_isQuasisimple {P : Type*} [Group P] (h : CFSG.IsQuasis
   exact ⟨a, b, fun h' => hab (by rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, h'])⟩
 
 theorem spSupported_le_centralizer {r : ℕ} {K : Type} [Field K] (X : StatedSp r K) (O : Set K[X]) :
-    spSupported X O ≤ Subgroup.centralizer ({X} : Set (StatedSp r K)) := fun g hg =>
+    spSupported X O ≤ Subgroup.centralizer ({X} : Set (StatedSp r K)) := fun _g hg =>
   Subgroup.mem_centralizer_singleton_iff.mpr (mem_spSupported.mp hg).1
 
 theorem eq_one_of_mem_spSupported_fixed {r ℓ f : ℕ} {K : Type} [Field K] {x : StatedSp r K}
@@ -176,13 +176,13 @@ theorem eq_one_of_mem_spSupported_fixed {r ℓ f : ℕ} {K : Type} [Field K] {x 
 
 theorem sympl_hasLowRankBlock {ℓ f r : ℕ} {K : Type} [Field K] (hℓ : ℓ.Prime) (hf : 1 ≤ f)
     (hr : 2 ≤ r) (hK : Nat.card K = ℓ ^ f) (hℓ3 : ℓ ≠ 3)
-    (hne : ¬(r = 2 ∧ ℓ ^ f = 2)) {S : Type} [Group S] [Finite S]
+    (_hne : ¬(r = 2 ∧ ℓ ^ f = 2)) {S : Type} [Group S] [Finite S]
     (e : S ≃* StatedProj (StatedSp r K)) (X : StatedSp r K) (hX3 : X ^ 3 = 1)
     (hX1 : sympPi e X ≠ 1) (J : Subgroup S)
     (hJ : IsComponentOf J (Subgroup.centralizer ({sympPi e X} : Set S))) (hXJ : sympPi e X ∈ J) :
     HasLowRankBlock (sympPi e) X J := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hℓ.ne_zero)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hℓ.ne_zero)
   have hr1 : 1 ≤ r := by omega
   have hX1' : SymplecticFlag.proj r K X ≠ 1 := fun h => hX1 (by simp [sympPi, h])
   have hX1'' : X ≠ 1 := fun h => hX1' (by rw [h, map_one])
@@ -200,7 +200,7 @@ theorem sympl_hasLowRankBlock {ℓ f r : ℕ} {K : Type} [Field K] (hℓ : ℓ.P
     rw [CharP.cast_eq_zero_iff K ℓ] at h
     exact hℓ3 ((Nat.prime_dvd_prime_iff_eq hℓ Nat.prime_three).mp h)
   have hsq := (altPrimaryData_spLin hpK hX3).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd X)) :=
+  have : Finite (reciprocalOrbits (spEnd X)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   have hq : 2 ≤ ℓ ^ f := hℓ.two_le.trans (Nat.le_self_pow (by omega) ℓ)
@@ -247,7 +247,7 @@ theorem sympl_hasLowRankBlock {ℓ f r : ℕ} {K : Type} [Field K] (hℓ : ℓ.P
       rw [hrec, Set.pair_eq_singleton, hc1] at h1
       exact h1
     exact hX1'' (eq_one_of_mem_spSupported_fixed blocks hXF)
-  · haveI : Fact (Irreducible c) := ⟨irreducible_of_mem_primaryFactors hcP⟩
+  · have : Fact (Irreducible c) := ⟨irreducible_of_mem_primaryFactors hcP⟩
     have hord : orderOf (AdjoinRoot.root c) = 3 := blocks.nontrivial c hcP hc1
     have hω3 : (AdjoinRoot.root c) ^ 3 = 1 := by
       have := pow_orderOf_eq_one (AdjoinRoot.root c)
@@ -283,8 +283,8 @@ theorem sympl_hasLowRankBlock {ℓ f r : ℕ} {K : Type} [Field K] (hℓ : ℓ.P
       · rw [hρφ g₁ h₁, hρφ g₂ h₂] at h
         exact congrArg Subtype.val (φ.injective (Subtype.ext h))
       · exact exists_lowRank_of_normal_nonabelian_unitary eb heb hω1 hωn hN hna
-    · have hne : c ≠ reciprocalPolynomial c := fun h => hself h.symm
-      obtain ⟨φ, hφ, -⟩ := (blocks.paired ⟨c, hcP⟩ hne).factor
+    · have _hne : c ≠ reciprocalPolynomial c := fun h => hself h.symm
+      obtain ⟨φ, hφ, -⟩ := (blocks.paired ⟨c, hcP⟩ _hne).factor
       have hρφ : ∀ g (hg : g ∈ spSupported X {c, reciprocalPolynomial c}),
           sympBlockRestrict X c ⟨g, hFC hg⟩ = φ ⟨g, hg⟩ := by
         intro g hg
@@ -309,8 +309,8 @@ theorem sympl_contra {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
     (c : I1433SCfg Q x J q) : False := by
   obtain ⟨⟨hℓ, hf, hr, hne⟩, K, _, _, hK, ⟨e⟩⟩ := hG
   have hne' : ¬(r = 2 ∧ ℓ ^ f = 2) := fun h => hne (Prod.ext h.1 h.2)
-  haveI := hs
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hℓ.ne_zero)
+  have := hs
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hℓ.ne_zero)
   have hS : Subgroup.center S = ⊥ := b3Lie_center_eq_bot hna
   have hinn : ∀ β ∈ Q, ∃ t : S, MulAut.conj t = β := fun β hβ =>
     sympl_inner_of_mem_commutator hℓ hf hr hK e (c.derived hβ) (c.exponent β hβ)

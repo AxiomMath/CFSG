@@ -262,7 +262,7 @@ theorem exists_lift_Tg {H : Type*} [Group H] [Finite H]
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup
     rw [hk]
     exact Nat.Coprime.pow_left _ (Nat.coprime_two_left.mpr (odd_card_oddCore_frame H))
-  have hinf : (T : Subgroup H) ⊓ CFSG.oddCore H = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hinf : (T : Subgroup H) ⊓ CFSG.oddCore H = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hinj : Function.Injective
       ((QuotientGroup.mk' (CFSG.oddCore H)).comp (T : Subgroup H).subtype) := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -459,7 +459,7 @@ theorem exists_weakDataA {H : Type*} [Group H] [Finite H] (e : Mns ≃* H ⧸ CF
     have hm2 : l m ∈ (EH ⊔ l.range : Subgroup H) := Subgroup.mem_sup_right ⟨m, rfl⟩
     have h3 : ε⁻¹ * l m ∈ (EH ⊔ l.range : Subgroup H) ⊓ CFSG.oddCore H :=
       Subgroup.mem_inf.2 ⟨mul_mem (inv_mem hε') hm2, h1⟩
-    rw [Subgroup.inf_eq_bot_of_coprime hcopE, Subgroup.mem_bot, inv_mul_eq_one] at h3
+    rw [(Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcopE)), Subgroup.mem_bot, inv_mul_eq_one] at h3
     exact h3 ▸ hε
   have hcopE' : Nat.Coprime (Nat.card EH) (Nat.card (CFSG.oddCore H)) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hEH
@@ -470,7 +470,7 @@ theorem exists_weakDataA {H : Type*} [Group H] [Finite H] (e : Mns ≃* H ⧸ CF
     intro x y hx hy h
     have h1 : x⁻¹ * y ∈ EH ⊓ CFSG.oddCore H := Subgroup.mem_inf.2 ⟨mul_mem (inv_mem hx) hy,
       (QuotientGroup.eq (s := CFSG.oddCore H)).mp h⟩
-    rw [Subgroup.inf_eq_bot_of_coprime hcopE', Subgroup.mem_bot, inv_mul_eq_one] at h1
+    rw [(Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcopE')), Subgroup.mem_bot, inv_mul_eq_one] at h1
     exact h1
   have hconjE : ∀ {x : H}, x ∈ EH → ρH⁻¹ * x * ρH ∈ EH := fun hx => by
     simpa using (inferInstance : EH.Normal).conj_mem _ hx ρH⁻¹
@@ -543,7 +543,7 @@ theorem Ag_le_NAg : Ag ≤ NAg := Subgroup.le_normalizer
 theorem Tg_le_NAg : Tg ≤ NAg := by
   rw [Tg, Subgroup.closure_le]
   intro g hg
-  simp only [gensT, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+  simp only [gensT, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
   rcases hg with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   · exact Ag_le_NAg mnsX1_mem_Ag
   · exact Ag_le_NAg mnsY1_mem_Ag

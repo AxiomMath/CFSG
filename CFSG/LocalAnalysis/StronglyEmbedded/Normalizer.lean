@@ -10,6 +10,7 @@ open Subgroup
 
 variable {G : Type*} [Group G] [Finite G] {p : ℕ} {M : Subgroup G}
 
+omit [Finite G] in
 theorem IsStronglyPEmbedded.centralizer_le_of_isPGroup [Fact p.Prime]
     {Y : Subgroup G} (hY : IsStronglyPEmbedded p Y) {Q : Subgroup G} (hQ : Q ≠ ⊥)
     (hQp : IsPGroup p Q) (hQY : Q ≤ Y) :
@@ -27,7 +28,7 @@ theorem IsStronglyPEmbedded.normalizer_le_of_centralizer_le [Fact p.Prime]
   have hCM : C ≤ M := hC
   have hCN : C ≤ N := Subgroup.centralizer_le_normalizer (B : Set G)
   let C' : Subgroup N := C.subgroupOf N
-  haveI : C'.Normal := by
+  have : C'.Normal := by
     dsimp [C', C, N]
     rw [← Subgroup.normalizerMonoidHom_ker]
     exact MonoidHom.normal_ker _
@@ -38,7 +39,7 @@ theorem IsStronglyPEmbedded.normalizer_le_of_centralizer_le [Fact p.Prime]
   have hRne : (R : Subgroup C') ≠ ⊥ := Sylow.ne_bot_of_dvd_card R hdvd'
   let R₁ : Subgroup N := (R : Subgroup C').map C'.subtype
   let R₀ : Subgroup G := R₁.map N.subtype
-  have hR₀p : IsPGroup p R₀ := (R.isPGroup'.map C'.subtype).map N.subtype
+  have hR₀p : IsPGroup p R₀ := (R.isPGroup.map C'.subtype).map N.subtype
   have hR₀ne : R₀ ≠ ⊥ := by
     intro h
     apply hRne
@@ -69,6 +70,7 @@ theorem IsStronglyPEmbedded.normalizer_le_of_centralizer_le [Fact p.Prime]
   rw [hn_eq]
   exact M.mul_mem (hN₀ haG) (hCM hcG)
 
+omit [Finite G] in
 theorem IsStronglyPEmbedded.subgroupOf [Fact p.Prime] (hM : IsStronglyPEmbedded p M)
     {H : Subgroup G} (hH : ¬ H ≤ M) (hdvd : p ∣ Nat.card (H ⊓ M : Subgroup G)) :
     IsStronglyPEmbedded p ((H ⊓ M).subgroupOf H) := by
@@ -106,7 +108,7 @@ theorem IsStronglyPEmbedded.le_of_isPGroup_inf [Fact p.Prime]
     exact (Subgroup.mem_subgroupOf.mp hxQ).2
   let : Group.IsNilpotent P := hP.isNilpotent
   obtain ⟨y, hyN, hyQ⟩ :=
-    SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q hQlt)
+    _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q hQlt)
   let R : Subgroup G := (Subgroup.normalizer (Q : Set P)).map P.subtype
   have hyR : (y : G) ∈ R := ⟨y, hyN, rfl⟩
   have hRN : R ≤ Subgroup.normalizer ((P ⊓ Y : Subgroup G) : Set G) := by

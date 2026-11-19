@@ -37,18 +37,22 @@ theorem le_center_of_card_dvd_two {G : Type*} [Group G] {N : Subgroup G} [hN : N
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem center_statedSp_eq_bot (m : ℕ) : Subgroup.center (StatedSp m K) = ⊥ :=
   (CFSG.LieType.Universal.Symplectic.center_eq m K).trans
     (CFSG.Timmesfeld.ClassicalOrders.statedScalars_subgroupOf_statedSp_eq_bot m)
 
+omit [Finite K] [CharP K 2] in
 theorem subsingleton_statedSp_zero : Subsingleton (StatedSp 0 K) :=
   ⟨fun _ _ => Subtype.ext (Units.ext (Matrix.ext fun i _ => by
     rcases i with i | i <;> exact i.elim0))⟩
 
+omit [CharP K 2] in
 theorem card_statedSp_one_of_card_two (hK : Nat.card K = 2) : Nat.card (StatedSp 1 K) = 6 := by
   rw [SymplecticFlag.card_statedSp, hK]
   decide
 
+omit [CharP K 2] in
 theorem card_statedSp_two_of_card_two (hK : Nat.card K = 2) : Nat.card (StatedSp 2 K) = 720 := by
   rw [SymplecticFlag.card_statedSp, hK]
   decide
@@ -70,7 +74,7 @@ theorem center_commutator_statedSp_two (hK : Nat.card K = 2) :
   set Zg : Subgroup (StatedSp 2 K) := Z.map G'.subtype with hZg
   have hZgcard : Nat.card ↥Zg = Nat.card ↥Z :=
     Subgroup.card_map_of_injective (Subgroup.subtype_injective G')
-  haveI hZgn : Zg.Normal := by
+  have hZgn : Zg.Normal := by
     refine ⟨?_⟩
     rintro _ ⟨z, hz, rfl⟩ g
     have hmem : g * (z : StatedSp 2 K) * g⁻¹ ∈ G' :=
@@ -83,7 +87,7 @@ theorem center_commutator_statedSp_two (hK : Nat.card K = 2) :
       Subgroup.Normal.conj_mem inferInstance (w : StatedSp 2 K) w.2 g⁻¹
     have hc := Subgroup.mem_center_iff.mp hz ⟨_, hgw⟩
     have hc' := congrArg Subtype.val hc
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv] at hc' ⊢
+    simp only [Subgroup.coe_mul] at hc' ⊢
     calc (w : StatedSp 2 K) * (g * z * g⁻¹)
         = g * ((g⁻¹ * w * g) * z) * g⁻¹ := by group
       _ = g * (z * (g⁻¹ * w * g)) * g⁻¹ := by rw [hc']
@@ -110,16 +114,16 @@ theorem eq_one_of_commute_spResBlock (m : ℕ) {γ : StatedSp m K}
     γ = 1 := by
   classical
   rcases Nat.eq_zero_or_pos m with rfl | hm
-  · haveI := subsingleton_statedSp_zero (K := K)
+  · have := subsingleton_statedSp_zero (K := K)
     exact Subsingleton.elim _ _
   by_cases hs : m = 1 ∧ Nat.card K = 2
   · have hγc : γ ∈ Subgroup.center (StatedSp m K) := by
       rw [Subgroup.mem_center_iff]
       intro c
-      exact (h c (by rw [spResBlock, if_pos hs]; trivial)).symm
+      exact (h c (by rw [spResBlock, ite_eq_left hs]; trivial)).symm
     rw [center_statedSp_eq_bot] at hγc
     exact Subgroup.mem_bot.mp hγc
-  have hres : spResBlock K m = commutator (StatedSp m K) := by rw [spResBlock, if_neg hs]
+  have hres : spResBlock K m = commutator (StatedSp m K) := by rw [spResBlock, ite_eq_right hs]
   by_cases h22 : m = 2 ∧ Nat.card K = 2
   · obtain ⟨rfl, hK⟩ := h22
     have hmem : (⟨γ, hγ⟩ : commutator (StatedSp 2 K)) ∈
@@ -143,9 +147,9 @@ theorem eq_one_of_commute_spResBlock (m : ℕ) {γ : StatedSp m K}
 theorem eq_bot_of_isPGroup_normal_statedSp (m : ℕ) {N : Subgroup (StatedSp m K)} [hN : N.Normal]
     (hP : IsPGroup 2 N) : N = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.eq_zero_or_pos m with rfl | hm
-  · haveI := subsingleton_statedSp_zero (K := K)
+  · have := subsingleton_statedSp_zero (K := K)
     exact Subsingleton.elim _ _
   by_cases hs : m = 1 ∧ Nat.card K = 2
   · obtain ⟨rfl, hK⟩ := hs
@@ -180,7 +184,7 @@ theorem eq_bot_of_isPGroup_normal_statedSp (m : ℕ) {N : Subgroup (StatedSp m K
         have hP' : IsPGroup 2 ↥G' := by
           rw [htop] at hpg
           exact hpg.of_equiv Subgroup.topEquiv
-        haveI := hP'.isNilpotent
+        have := hP'.isNilpotent
         exact not_isSolvable_of_isQuasisimple hq inferInstance
       · have hx : (⟨x, hxG⟩ : ↥G') ∈ N.subgroupOf G' := hxN
         have := hc hx
@@ -214,7 +218,7 @@ theorem eq_bot_of_isPGroup_normal_statedSp (m : ℕ) {N : Subgroup (StatedSp m K
       have hP' : IsPGroup 2 (StatedSp m K) := by
         rw [htop] at hP
         exact hP.of_equiv Subgroup.topEquiv
-      haveI := hP'.isNilpotent
+      have := hP'.isNilpotent
       exact not_isSolvable_of_isQuasisimple hq inferInstance
     · rw [center_statedSp_eq_bot] at hc
       exact le_bot_iff.mp hc

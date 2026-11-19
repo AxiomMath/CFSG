@@ -15,7 +15,7 @@ theorem centralizes_of_fixes_index_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
     (hY2 : IsPGroup 2 Y) (hD : IsPGroup p D) (hDY : D ≤ Subgroup.normalizer (Y : Set G))
     (hFY : F ≤ Y) (hidx : (F.subgroupOf Y).index = 2)
     (hF : F ≤ Subgroup.centralizer (D : Set G)) : Y ≤ Subgroup.centralizer (D : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfix : ∀ f ∈ F, ∀ a ∈ D, a * f * a⁻¹ = f := by
     intro f hf a ha
     have h := Subgroup.mem_centralizer_iff.mp (hF hf) a ha
@@ -97,6 +97,7 @@ section Q8
 
 open QuaternionGroup
 
+omit [Finite G] in
 theorem exists_q8_data {Y : Subgroup G} (e : Y ≃* QuaternionGroup 2) :
     ∃ i j z : G, i ∈ Y ∧ j ∈ Y ∧ z ∈ Y ∧ orderOf z = 2 ∧ i ^ 2 = z ∧ j ^ 2 = z ∧
       i * j = z * (j * i) ∧ (∀ y ∈ Y, y ^ 2 = 1 → y = 1 ∨ y = z) := by
@@ -138,6 +139,7 @@ theorem exists_q8_data {Y : Subgroup G} (e : Y ≃* QuaternionGroup 2) :
       have : (⟨y, hy⟩ : ↥Y) = e.symm (a 2) := e.injective (by rw [h, MulEquiv.apply_symm_apply])
       simpa using congrArg Subtype.val this
 
+omit [Finite G] in
 theorem card_eq_eight_of_q8 {Y : Subgroup G} (e : Y ≃* QuaternionGroup 2) : Nat.card Y = 8 := by
   rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
 

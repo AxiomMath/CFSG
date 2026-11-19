@@ -24,11 +24,13 @@ variable {K V H : Type*} [Field K] [AddCommGroup V] [Module K V] [Group H] [Char
 @[expose] def lineFlag (v : V) : ℕ → Submodule K V :=
   flag3 (K ∙ v) (D.F.perp (K ∙ v))
 
+omit [CharP K 2] in
 theorem β_span_singleton {v : V} (hv : D.F.β v v = 0) {w : V} (hw : w ∈ K ∙ v) :
     D.F.β v w = 0 := by
   obtain ⟨a, rfl⟩ := Submodule.mem_span_singleton.mp hw
   rw [D.F.smul_right, hv, mul_zero]
 
+omit [CharP K 2] in
 theorem β_perp_span {v : V} {w : V} (hw : w ∈ D.F.perp (K ∙ v)) : D.F.β v w = 0 :=
   hw v (Submodule.mem_span_singleton_self v)
 
@@ -86,12 +88,14 @@ theorem eq_one_of_mul_self_eq_one {c : K} (h : c * c = 1) : c = 1 := by
   have := pow_eq_zero_iff (two_ne_zero) |>.mp this
   exact sub_eq_zero.mp this
 
+omit [CharP K 2] in
 theorem rep_cube {k : H} (hk3 : k ^ 3 = 1) (x : V) :
     D.ρ k (D.ρ k (D.ρ k x)) = x := by
   have : k * k * k = 1 := by rw [← pow_three']; exact hk3
   have h := congrArg (fun g => D.ρ g x) this
   simpa [map_mul, Module.End.mul_apply] using h
 
+omit [CharP K 2] in
 theorem rep_inv_eq {k : H} (hk3 : k ^ 3 = 1) (x : V) : D.ρ k⁻¹ x = D.ρ k (D.ρ k x) := by
   have h := D.rep_inv_apply k (D.ρ k (D.ρ k x))
   rw [D.rep_cube hk3] at h
@@ -112,7 +116,7 @@ theorem exists_move_of_eigen_ne_one {k : H} {v : V} (hv0 : v ≠ 0) {c : K}
     rw [smul_smul] at h1'
     rw [sub_eq_zero]
     rw [← h1']
-    simp [mul_comm, mul_assoc, mul_left_comm, smul_smul]
+    simp [mul_comm]
   rcases smul_eq_zero.mp h2 with h3 | h3
   · have : c * c = 1 := by
       have h4 : (c * c - 1) * D.F.β v x = 0 := by linear_combination h3
@@ -188,7 +192,7 @@ theorem exists_move_of_no_eigen [Finite K] [FiniteDimensional K V] {k : H} (hk3 
   have hexists : ∃ x : V, x ≠ 0 ∧ D.F.β x (D.ρ k x) = 0 := by
     by_contra hcon
     push Not at hcon
-    haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (M := V) (by omega)
+    have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (M := V) (by omega)
     obtain ⟨x₁, hx₁⟩ := exists_ne (0 : V)
     let ψ : V →ₗ[K] K × K := LinearMap.prod (D.F.toDual x₁) (D.F.toDual (D.ρ k x₁))
     have hψ : LinearMap.ker ψ ≠ ⊥ := LinearMap.ker_ne_bot_of_finrank_lt (by
@@ -206,7 +210,7 @@ theorem exists_move_of_no_eigen [Finite K] [FiniteDimensional K V] {k : H} (hk3 
     have hcross1 : D.F.β x₁ (D.ρ k y) = 0 := by
       rw [D.β_rep_right, D.rep_inv_eq hk3, hker, D.F.add_left, hy2, hy1, add_zero]
     have hcross2 : D.F.β y (D.ρ k x₁) = 0 := by rw [D.β_swap, hy2]
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨c, hc⟩ := FiniteField.isSquare_of_char_two (ringChar.eq K 2)
       (D.F.β x₁ (D.ρ k x₁) / D.F.β y (D.ρ k y))
     have hzQ : D.F.β (x₁ + c • y) (D.ρ k (x₁ + c • y)) = 0 := by
@@ -280,6 +284,7 @@ theorem exists_move_of_no_eigen [Finite K] [FiniteDimensional K V] {k : H} (hk3 
   calc D.ρ k x = a'⁻¹ • (a' • D.ρ k x) := by rw [smul_smul, inv_mul_cancel₀ ha'0, one_smul]
     _ = a'⁻¹ • x := by rw [← hxa]
 
+omit [CharP K 2] in
 theorem lineFlag_stab {k : H} {v : V} (hv0 : v ≠ 0) {c : K} (hc : D.ρ k v = c • v) :
     k ∈ flagStab D.ρ (D.lineFlag v) := by
   have hc0 : c ≠ 0 := by
@@ -312,7 +317,7 @@ theorem exists_two_subgroup_of_order_three [Finite K] [FiniteDimensional K V]
     (hdim : 3 ≤ Module.finrank K V) {k : H} (hk3 : k ^ 3 = 1) (hk1 : k ≠ 1) :
     ∃ T : Subgroup H, IsPGroup 2 T ∧ (∀ t ∈ T, k * t * k⁻¹ ∈ T) ∧
       ∃ t ∈ T, k * t * k⁻¹ ≠ t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hev : ∃ v : V, v ≠ 0 ∧ ∃ c : K, D.ρ k v = c • v
   · obtain ⟨v, hv0, c, hc⟩ := hev
     refine ⟨flagKernel D.ρ (D.lineFlag v),

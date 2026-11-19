@@ -57,7 +57,7 @@ theorem borel_true : borelOK = true := by
     rfl
   · obtain ⟨a, h⟩ := andB_iff.1 h
     obtain ⟨b, c⟩ := andB_iff.1 h
-    simp only [List.all_cons, List.all_nil, Bool.and_true, (htg 4).2, (htg 8).2, (htg 12).2,
+    simp only [List.all_cons, List.all_nil, (htg 4).2, (htg 8).2, (htg 12).2,
       ncomm_of hx (htg 4).1 a, ncomm_of hx (htg 8).1 b, ncomm_of hx (htg 12).1 c, Bool.and_self,
       Bool.or_true]
 

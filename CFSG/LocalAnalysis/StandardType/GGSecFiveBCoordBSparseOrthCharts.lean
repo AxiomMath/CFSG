@@ -72,7 +72,6 @@ private theorem exists_viaEmbeddingHom_of_fixing {m : ℕ}
           exact fun h => h rfl)]
       first
       | exact congrArg Fin.val hσd.symm
-      | exact Fin.ext (congrArg Fin.val hσd.symm)
 
 private theorem exists_permHom_of_point_stabilizers_with_enumeration
     {m : ℕ} {G : Type*} [Group G]
@@ -216,7 +215,7 @@ private theorem exists_permHom_of_point_stabilizers_with_enumeration
     change viaEmbeddingHom iL (adjSwap (m + 2) 0) = Equiv.swap u v
     rw [adjSwap_of_lt (show 0 < m + 2 by omega)]
     rw [CFSG.Permutation.viaEmbeddingHom_swap]
-    simp [iL, Fin.castSucc_mk, hq0, hq1]
+    simp [iL, hq0, hq1]
   have heKswap : eK (adjSwap (m + 2) (m + 1)) = ⟨Equiv.swap cc 0, hC0⟩ := by
     apply Subtype.ext
     change viaEmbeddingHom iK (adjSwap (m + 2) (m + 1)) = Equiv.swap cc 0
@@ -350,8 +349,7 @@ theorem exists_permHom_of_point_stabilizers
   have hstd : Function.Injective std := by
     intro x y h
     fin_cases x <;> fin_cases y <;>
-      simp [std] at h ⊢ <;>
-      omega
+      simp [std] at h ⊢
   have hlab : Function.Injective lab := by
     intro x y h
     fin_cases x <;> fin_cases y <;>
@@ -594,6 +592,7 @@ private theorem sparse_swap_images
   · simpa [Sv] using hswapV
   · simpa [Scc] using hswapCC
 
+omit [Finite G] in
 private theorem sparse_block0
     (Bs : Subgroup G) (eta : Bs ≃* (I → Multiplicative (ZMod p)))
     (ell : Equiv.Perm I) {cc d u v : I}
@@ -613,6 +612,7 @@ private theorem sparse_block0
   rw [hswap] at h
   exact h
 
+omit [Finite G] in
 private theorem sparse_blockUV
     (Bs : Subgroup G) (eta : Bs ≃* (I → Multiplicative (ZMod p)))
     (ell : Equiv.Perm I) {cc d u v : I}
@@ -632,6 +632,7 @@ private theorem sparse_blockUV
   rw [hswap] at h
   exact h
 
+omit [Finite G] in
 private theorem sparse_blockV
     (Bs : Subgroup G) (eta : Bs ≃* (I → Multiplicative (ZMod p)))
     (ell : Equiv.Perm I) {cc d u v : I}
@@ -651,6 +652,7 @@ private theorem sparse_blockV
   rw [hswap] at h
   exact h
 
+omit [Finite G] in
 private theorem sparse_blockCC
     (Bs : Subgroup G) (eta : Bs ≃* (I → Multiplicative (ZMod p)))
     (ell : Equiv.Perm I) {cc d u v : I}
@@ -670,6 +672,7 @@ private theorem sparse_blockCC
   rw [hswap] at h
   exact h
 
+omit [Finite G] in
 private theorem sparse_blockA0
     (Bs : Subgroup G) (eta : Bs ≃* (I → Multiplicative (ZMod p)))
     (ell : Equiv.Perm I) {cc v : I} {g : G}
@@ -738,6 +741,7 @@ private theorem sparse_anchor_phi
   intro s
   rfl
 
+omit [Finite G] in
 private theorem sparse_anchor_phiA
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     {v cc : I} (h0v : (0 : I) ≠ v) (hcc0 : cc ≠ 0)
@@ -804,6 +808,7 @@ private theorem sparse_anchor_phiA
   exact ⟨hmemM Sv hSvne hSvcard hSvD hsSv,
     hmemM Scc hSccne hScccard hSccD hsScc⟩
 
+omit [Finite G] [Finite F] [CharP F 2] in
 private theorem sparse_anchor_centralizer
     (a : C D0 →* G) (ha : Function.Injective a)
     {xdom : C D0} {z' : G} {A0 : Subgroup G}
@@ -836,6 +841,7 @@ private theorem sparse_anchor_centralizer
   rw [commute_iff_eq]
   simpa [hsdom] using h
 
+omit [Finite G] in
 private theorem sparse_marked_transport
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     {u v cc d : I}
@@ -971,6 +977,7 @@ private theorem sparse_marked_transport
     simpa only [hz_inv, hy_inv] using hcomm
   simpa [Suv] using hfinal
 
+omit [Finite G] in
 theorem ggBlockComm_commute_of_marked_split_involution
     (hr : 4 ≤ r)
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
@@ -1257,6 +1264,7 @@ private theorem splitMinusRho_eq_splitMinusRhoOfTwoLe
   apply Subtype.ext
   rw [coe_splitMinusRho_apply, coe_splitMinusRhoOfTwoLe_apply]
 
+omit [Finite G] in
 private theorem native_marked_deletion_crossing
     (hr : 4 ≤ r)
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
@@ -1307,7 +1315,6 @@ private theorem native_marked_deletion_crossing
     refine hmarkK ({cc, 0} : Finset I) ?_ ?_ ?_
     · exact ⟨cc, by simp⟩
     · rw [Finset.card_pair hcc0]
-      try omega
     · intro x hx
       simp only [Finset.mem_insert, Finset.mem_singleton] at hx
       rcases hx with rfl | rfl
@@ -1360,7 +1367,6 @@ private theorem native_marked_deletion_crossing
     · exact Subgroup.mem_map_of_mem a (Subgroup.mem_subgroupOf.mpr x.2)
     · exact ⟨u, by simp⟩
     · rw [Finset.card_pair huv]
-      try omega
     · intro y hy
       simp only [Finset.mem_insert, Finset.mem_singleton] at hy
       rcases hy with rfl | rfl
@@ -1368,6 +1374,7 @@ private theorem native_marked_deletion_crossing
       · simp [h0v.symm]
   exact hzCross _ (by simpa only [Finset.coe_insert, Finset.coe_singleton] using hxM)
 
+omit [Finite G] in
 private theorem range_deletion_chart_le_sup_perm_range
     (hr : 3 ≤ r)
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
@@ -1438,11 +1445,9 @@ private theorem range_deletion_chart_le_sup_perm_range
     ·
       have herase : ((P : Finset (Fin (m + 4))).erase (0 : Fin (m + 4))).card = 1 := by
         rw [Finset.card_erase_of_mem h0P, P.2.2]
-        try omega
       obtain ⟨i, hi⟩ := Finset.card_eq_one.mp herase
       have hPpair : (P : Finset (Fin (m + 4))) = {0, i} := by
         rw [← Finset.insert_erase h0P, hi]
-        try simp
       have hi0 : i ≠ 0 := by
         have hi' : i ∈ (P : Finset (Fin (m + 4))).erase (0 : Fin (m + 4)) := by
           rw [hi]
@@ -1589,6 +1594,7 @@ private theorem range_deletion_chart_le_sup_perm_range
   intro P
   exact hpairle P
 
+omit [Finite G] in
 private theorem coherent_sparse_gluing_stage2
     (hr : 3 ≤ r)
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
@@ -1801,6 +1807,7 @@ private theorem coherent_sparse_gluing_stage2
     exact sup_le_sup haP_le hkP_le
   exact ⟨t, hRestrL, hRestrK, hcross, ht_le⟩
 
+omit [Finite G] in
 theorem exists_permHom_of_coherent_sparse_split_charts_of_three_le
     (hr : 3 ≤ r)
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
@@ -1854,6 +1861,7 @@ theorem exists_permHom_of_coherent_sparse_split_charts_of_three_le
     le_antisymm (sup_le le_sup_left ht_le) (sup_le le_sup_left hK_le)
   exact ⟨t, hRestrL, hRestrK, hcross, hrange⟩
 
+omit [Finite G] in
 theorem exists_permHom_of_coherent_marked_sparse_split_charts
     (hr : 4 ≤ r)
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)

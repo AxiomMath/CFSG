@@ -231,7 +231,7 @@ theorem U3C1OuterLevelData.muOneCent_false_of_sylow {G : Type}
         rw [hs₀', e]
         exact hby
     obtain ⟨S, hSeq⟩ := hsyl
-    have hP2 : IsPGroup 2 (U ⊔ T : Subgroup G) := hSeq ▸ S.isPGroup'
+    have hP2 : IsPGroup 2 (U ⊔ T : Subgroup G) := hSeq ▸ S.isPGroup
     have hPidx : ¬ 2 ∣ (U ⊔ T).index := hSeq ▸ S.not_dvd_index
     have hG : IsSimpleGroup G := h.setting.1
     obtain ⟨a₀, b₀, hab⟩ : ∃ a b : G, a * b ≠ b * a := h.setting.2.1

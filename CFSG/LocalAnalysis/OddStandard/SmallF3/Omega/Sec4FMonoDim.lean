@@ -43,18 +43,21 @@ private def sec4FOnPiv {a b : Fin 7} {u : Fin 7 → ZMod 2} : sec4FOnIdx a b u �
   | none => a
   | some k => k.1
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec4F_repr_sub (fr : Sec4IFrame Q) {a b : Fin 7} (eps : ZMod 3) (j : Fin 7) :
     fr.b.repr (fr.b a - eps • fr.b b) j =
       (if a = j then 1 else 0) - eps * (if b = j then 1 else 0) := by
   simp only [map_sub, map_smul, Module.Basis.repr_self, Finsupp.sub_apply, Finsupp.smul_apply,
     Finsupp.single_apply, smul_eq_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec4F_repr_add (fr : Sec4IFrame Q) {a b : Fin 7} (eps : ZMod 3) (j : Fin 7) :
     fr.b.repr (fr.b a + eps • fr.b b) j =
       (if a = j then 1 else 0) + eps * (if b = j then 1 else 0) := by
   simp only [map_add, map_smul, Module.Basis.repr_self, Finsupp.add_apply, Finsupp.smul_apply,
     Finsupp.single_apply, smul_eq_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec4F_linearIndependent_of_pivot (fr : Sec4IFrame Q) {ι : Type} [Fintype ι]
     (v : ι → V) (p : ι → Fin 7) (hdiag : ∀ i, fr.b.repr (v i) (p i) = 1)
     (hoff : ∀ i j, i ≠ j → fr.b.repr (v i) (p j) = 0) :
@@ -89,20 +92,22 @@ private lemma sec4F_card_le_finrank {ι : Type} [Fintype ι] {v : ι → V}
         (finrank_span_eq_card hv).symm
     _ ≤ Module.finrank (ZMod 3) W := Submodule.finrank_mono hle
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec4F_offFam_diag (fr : Sec4IFrame Q) {a b : Fin 7} (hab : a ≠ b)
     (eps : ZMod 3) (u : Fin 7 → ZMod 2) (i : sec4FOffIdx a b u) :
     fr.b.repr (sec4FOffFam fr a b eps u i) (sec4FOffPiv i) = 1 := by
   cases i with
   | none =>
     change fr.b.repr (fr.b a - eps • fr.b b) a = 1
-    rw [sec4F_repr_sub, if_pos rfl, if_neg (Ne.symm hab)]
+    rw [sec4F_repr_sub, ite_eq_left rfl, ite_eq_right (Ne.symm hab)]
     simp
   | some k =>
     change fr.b.repr (fr.b (k : Fin 7)) (k : Fin 7) = 1
     rw [Module.Basis.repr_self]
     simp
 
-private lemma sec4F_offFam_off (fr : Sec4IFrame Q) {a b : Fin 7} (hab : a ≠ b)
+omit [FiniteDimensional (ZMod 3) V] in
+private lemma sec4F_offFam_off (fr : Sec4IFrame Q) {a b : Fin 7} (_hab : a ≠ b)
     (eps : ZMod 3) (u : Fin 7 → ZMod 2) {i j : sec4FOffIdx a b u} (hij : i ≠ j) :
     fr.b.repr (sec4FOffFam fr a b eps u i) (sec4FOffPiv j) = 0 := by
   cases i with
@@ -111,35 +116,37 @@ private lemma sec4F_offFam_off (fr : Sec4IFrame Q) {a b : Fin 7} (hab : a ≠ b)
     | none => exact absurd rfl hij
     | some k =>
       change fr.b.repr (fr.b a - eps • fr.b b) (k : Fin 7) = 0
-      rw [sec4F_repr_sub, if_neg (Ne.symm k.2.1), if_neg (Ne.symm k.2.2.1)]
+      rw [sec4F_repr_sub, ite_eq_right (Ne.symm k.2.1), ite_eq_right (Ne.symm k.2.2.1)]
       simp
   | some k =>
     cases j with
     | none =>
       change fr.b.repr (fr.b (k : Fin 7)) a = 0
       rw [Module.Basis.repr_self]
-      simp [Finsupp.single_apply, k.2.1]
+      simp [k.2.1]
     | some k' =>
       change fr.b.repr (fr.b (k : Fin 7)) (k' : Fin 7) = 0
       rw [Module.Basis.repr_self]
       have hkk' : (k : Fin 7) ≠ (k' : Fin 7) :=
         fun h => hij (congrArg Option.some (Subtype.ext h))
-      simp [Finsupp.single_apply, hkk']
+      simp [hkk']
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec4F_onFam_diag (fr : Sec4IFrame Q) {a b : Fin 7} (hab : a ≠ b)
     (eps : ZMod 3) (u : Fin 7 → ZMod 2) (i : sec4FOnIdx a b u) :
     fr.b.repr (sec4FOnFam fr a b eps u i) (sec4FOnPiv i) = 1 := by
   cases i with
   | none =>
     change fr.b.repr (fr.b a + eps • fr.b b) a = 1
-    rw [sec4F_repr_add, if_pos rfl, if_neg (Ne.symm hab)]
+    rw [sec4F_repr_add, ite_eq_left rfl, ite_eq_right (Ne.symm hab)]
     simp
   | some k =>
     change fr.b.repr (fr.b (k : Fin 7)) (k : Fin 7) = 1
     rw [Module.Basis.repr_self]
     simp
 
-private lemma sec4F_onFam_off (fr : Sec4IFrame Q) {a b : Fin 7} (hab : a ≠ b)
+omit [FiniteDimensional (ZMod 3) V] in
+private lemma sec4F_onFam_off (fr : Sec4IFrame Q) {a b : Fin 7} (_hab : a ≠ b)
     (eps : ZMod 3) (u : Fin 7 → ZMod 2) {i j : sec4FOnIdx a b u} (hij : i ≠ j) :
     fr.b.repr (sec4FOnFam fr a b eps u i) (sec4FOnPiv j) = 0 := by
   cases i with
@@ -148,20 +155,20 @@ private lemma sec4F_onFam_off (fr : Sec4IFrame Q) {a b : Fin 7} (hab : a ≠ b)
     | none => exact absurd rfl hij
     | some k =>
       change fr.b.repr (fr.b a + eps • fr.b b) (k : Fin 7) = 0
-      rw [sec4F_repr_add, if_neg (Ne.symm k.2.1), if_neg (Ne.symm k.2.2.1)]
+      rw [sec4F_repr_add, ite_eq_right (Ne.symm k.2.1), ite_eq_right (Ne.symm k.2.2.1)]
       simp
   | some k =>
     cases j with
     | none =>
       change fr.b.repr (fr.b (k : Fin 7)) a = 0
       rw [Module.Basis.repr_self]
-      simp [Finsupp.single_apply, k.2.1]
+      simp [k.2.1]
     | some k' =>
       change fr.b.repr (fr.b (k : Fin 7)) (k' : Fin 7) = 0
       rw [Module.Basis.repr_self]
       have hkk' : (k : Fin 7) ≠ (k' : Fin 7) :=
         fun h => hij (congrArg Option.some (Subtype.ext h))
-      simp [Finsupp.single_apply, hkk']
+      simp [hkk']
 
 private lemma sec4F_card_offpair {a b : Fin 7} (hab : a ≠ b) :
     (Finset.univ.filter (fun k : Fin 7 => k ≠ a ∧ k ≠ b)).card = 5 := by

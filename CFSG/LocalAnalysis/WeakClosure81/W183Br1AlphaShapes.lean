@@ -31,6 +31,7 @@ structure Br1Alpha (Y T L₁ L₂ A : Subgroup (LGL 2 V)) (Γ : Set (Subgroup (L
 variable {Y T L₁ L₂ A : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
+omit [Finite V] in
 private theorem w183_alphaC_inf_eq_bot {Y T L₁ L₂ : Subgroup (LGL 2 V)}
     (htwo : Br2TwoComp Y T L₁ L₂) :
     alphaC Y L₁ ⊓ (Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V))) = ⊥ := by
@@ -44,6 +45,7 @@ private theorem w183_alphaC_inf_eq_bot {Y T L₁ L₂ : Subgroup (LGL 2 V)}
     (fun l hl => ((Subgroup.mem_centralizer_iff.mp hyC₁) l hl).symm)
     (fun l hl => ((Subgroup.mem_centralizer_iff.mp hyC₂) l hl).symm)
 
+omit [Finite V] in
 private theorem w183_alphaMk_injective_on_G₂ {Y T L₁ L₂ : Subgroup (LGL 2 V)}
     (htwo : Br2TwoComp Y T L₁ L₂) :
     Function.Injective ((alphaMk Y L₁).comp
@@ -73,6 +75,7 @@ private theorem w183_isSylowIn_map_of_injective {Q Q' : Type} [Group Q] [Group Q
   refine and_congr Iff.rfl (and_congr ?_ Iff.rfl)
   exact ⟨fun h => h.of_equiv (Subgroup.equivMapOfInjective P f hf).symm, fun h => h.map _⟩
 
+omit [Finite V] in
 private theorem w183_le_centralizer_of_comm {Y T L₁ L₂ : Subgroup (LGL 2 V)}
     (htwo : Br2TwoComp Y T L₁ L₂) :
     L₁ ≤ Subgroup.centralizer (L₂ : Set (LGL 2 V)) := by
@@ -81,14 +84,17 @@ private theorem w183_le_centralizer_of_comm {Y T L₁ L₂ : Subgroup (LGL 2 V)}
   intro b hb
   exact (htwo.comm l hl b hb).symm
 
+omit [Finite V] in
 private theorem w183_le_alphaX {Y T L₁ L₂ : Subgroup (LGL 2 V)} (htwo : Br2TwoComp Y T L₁ L₂) :
     L₁ ≤ alphaX Y L₁ := le_inf htwo.le₁ Subgroup.le_normalizer
 
+omit [Finite V] in
 private theorem w183_le_alphaX_of_mem {Y T L₁ L₂ A : Subgroup (LGL 2 V)}
     {Γ : Set (Subgroup (LGL 2 V))} {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
     (c : Br1Alpha Y T L₁ L₂ A Γ VA i) : A ≤ alphaX Y L₁ :=
   le_inf (c.h.le_G A c.mem) c.norm₁
 
+omit [Finite V] in
 private theorem w183_isSylowIn_of_alpha {Y T L₁ L₂ A : Subgroup (LGL 2 V)}
     {Γ : Set (Subgroup (LGL 2 V))} {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
     (c : Br1Alpha Y T L₁ L₂ A Γ VA i) (hSyl : IsSylowIn 2 (alphaA Y L₁ A) (alphaL Y L₁)) :
@@ -151,7 +157,7 @@ private theorem w183_isSylowIn_of_alpha {Y T L₁ L₂ A : Subgroup (LGL 2 V)}
 theorem br1_alpha_false_L32 (hfin : FinL32) (c : Br1Alpha Y T L₁ L₂ A Γ VA i)
     (hshape : IsL3 ↥L₁ 1) (hτ : ∃ τ ∈ Y, ActsOnDynkinMod ⊥ L₁ τ) : False := by
   classical
-  haveI : Finite (alphaQuot Y L₁) := w183_alpha_finite Y L₁
+  have : Finite (alphaQuot Y L₁) := w183_alpha_finite Y L₁
   obtain ⟨hN, hC⟩ := w183_alpha_normal_cent c.two
   obtain ⟨e⟩ := w183_alpha_shape c.two
   have hshape' : IsL3 ↥(alphaL Y L₁) 1 := LieModel.of_mulEquiv e hshape
@@ -167,7 +173,7 @@ theorem br1_alpha_false_L32 (hfin : FinL32) (c : Br1Alpha Y T L₁ L₂ A Γ VA 
 theorem br1_alpha_false_A6 (hfin : FinA6) (c : Br1Alpha Y T L₁ L₂ A Γ VA i)
     (hshape : IsAlt ↥L₁ 6) (hτ : ∃ τ ∈ Y, ActsOnDynkinMod ⊥ L₁ τ) : False := by
   classical
-  haveI : Finite (alphaQuot Y L₁) := w183_alpha_finite Y L₁
+  have : Finite (alphaQuot Y L₁) := w183_alpha_finite Y L₁
   obtain ⟨hN, hC⟩ := w183_alpha_normal_cent c.two
   obtain ⟨e⟩ := w183_alpha_shape c.two
   obtain ⟨e'⟩ := hshape
@@ -184,7 +190,7 @@ theorem br1_alpha_false_A6 (hfin : FinA6) (c : Br1Alpha Y T L₁ L₂ A Γ VA i)
 theorem br1_alpha_false_Sp44 (hfin : FinG2Y) (c : Br1Alpha Y T L₁ L₂ A Γ VA i)
     (hshape : IsSp4 ↥L₁ 2) (hτ : ∃ τ ∈ Y, ActsOnDynkinMod ⊥ L₁ τ) : False := by
   classical
-  haveI : Finite (alphaQuot Y L₁) := w183_alpha_finite Y L₁
+  have : Finite (alphaQuot Y L₁) := w183_alpha_finite Y L₁
   obtain ⟨hN, hC⟩ := w183_alpha_normal_cent c.two
   obtain ⟨e⟩ := w183_alpha_shape c.two
   have hshape' : IsSp4 ↥(alphaL Y L₁) 2 := LieModel.of_mulEquiv e hshape
@@ -210,7 +216,7 @@ theorem br1_alpha_false_Sp44 (hfin : FinG2Y) (c : Br1Alpha Y T L₁ L₂ A Γ VA
 theorem br1_alpha_false_L34 (h65f : Asch6_5Four) (hfin : FinG1)
     (c : Br1Alpha Y T L₁ L₂ A Γ VA i) (hshape : IsL3 ↥L₁ 2) : False := by
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite (LGL 2 V) := w183_finite_lgl
   have hAY : A ≤ Y := c.h.le_G A c.mem
   let Y' : Subgroup (LGL 2 V) := A ⊔ L₁
   have hY'Y : Y' ≤ Y := sup_le hAY c.two.le₁
@@ -230,7 +236,7 @@ theorem br1_alpha_false_L34 (h65f : Asch6_5Four) (hfin : FinG1)
     have hc2 : ∀ l ∈ L₂, y * l = l * y :=
       fun l hl => ((Subgroup.mem_centralizer_iff.mp (hY'C₂ hy)) l hl).symm
     exact c.two.cent y (hY'Y hy) hc1 hc2
-  haveI : Finite ↥Y' := Subtype.finite
+  have : Finite ↥Y' := Subtype.finite
   obtain ⟨hN, hC⟩ := w183_restrict_normal_cent hLY' hLn' hcent'
   have hshape' : IsL3 ↥(L₁.subgroupOf Y') 2 :=
     LieModel.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLY').symm hshape
@@ -289,7 +295,7 @@ theorem br1_alpha_false_L34 (h65f : Asch6_5Four) (hfin : FinG1)
 theorem br1_alpha_sylow_L24 (hfin : FinA5) (c : Br1Alpha Y T L₁ L₂ A Γ VA i)
     (hshape : IsL2 ↥L₁ 2) : IsSylowIn 2 A L₁ := by
   classical
-  haveI : Finite (alphaQuot Y L₁) := w183_alpha_finite Y L₁
+  have : Finite (alphaQuot Y L₁) := w183_alpha_finite Y L₁
   obtain ⟨hN, hC⟩ := w183_alpha_normal_cent c.two
   obtain ⟨e⟩ := w183_alpha_shape c.two
   have hshape' : IsL2 ↥(alphaL Y L₁) 2 := LieModel.of_mulEquiv e hshape

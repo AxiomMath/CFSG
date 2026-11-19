@@ -33,13 +33,13 @@ theorem sigma3Std_of_eq (hS : CFSG.LocalAnalysis.RankThreeUC.Standing G) (D : Da
   exists_clauseC h3 := by
     rw [h] at h3
     obtain ⟨-, hq, Q, hw, hc⟩ := h3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact ⟨(Q : Subgroup G), uc22p22q_isSylowOf_of_sylow Q (hw.sylow_le hS hq), hc⟩
 
 theorem r6_11Used_of (D : Data G) (hstd : Sigma23Std D) (hs3 : Sigma3Std D) (h61 : R6_1 D) :
     R6_11Used D := by
   intro h3 P hP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpσ : 3 ∈ D.sig := by
     rw [D.sig_sub]
     exact Or.inr h3
@@ -79,7 +79,7 @@ theorem r6_11Used_of (D : Data G) (hstd : Sigma23Std D) (hs3 : Sigma3Std D) (h61
     have hZcard : Nat.card ↥Zs = 3 := by
       rw [hZs, Subgroup.card_map_of_injective P.subtype_injective]
       exact uc611_card_center e
-    haveI : IsCyclic ↥Zs := isCyclic_of_prime_card hZcard
+    have : IsCyclic ↥Zs := isCyclic_of_prime_card hZcard
     obtain ⟨⟨z, hzZ⟩, hg⟩ := IsCyclic.exists_generator (α := ↥Zs)
     have hZeq : Zs = zpowers z := by
       ext w

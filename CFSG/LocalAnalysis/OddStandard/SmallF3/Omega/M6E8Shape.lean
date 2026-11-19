@@ -133,7 +133,7 @@ theorem m6e8_shape_of_suzuki {K : Type} [Group K] [Finite K] (hK : IsPGroup 2 K)
       CFSG.GF2Type.Aschbacher1976Common.TwoGenSubgroups K := by
   rcases CFSG.ComponentClassification.AschbacherToolkit.suzuki_two_group hK hcard hexp with
     ⟨n, hn, ⟨e⟩⟩ | ⟨n, hn, ⟨e⟩⟩
-  · haveI : NeZero (2 ^ (n - 1)) := ⟨pow_ne_zero _ (by norm_num)⟩
+  · have : NeZero (2 ^ (n - 1)) := ⟨pow_ne_zero _ (by norm_num)⟩
     have hcardK : Nat.card K = 2 * 2 ^ (n - 1) := by
       rw [Nat.card_congr e.toEquiv, DihedralGroup.nat_card]
     have hm4 : 4 ≤ 2 ^ (n - 1) := by omega

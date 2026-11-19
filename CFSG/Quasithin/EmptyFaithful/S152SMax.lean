@@ -520,7 +520,7 @@ theorem false_of_inducesInner_borel {I S Mi L₀ : Subgroup G} {z : G}
     rw [← map_mul, ← map_mul]
     congr 1
     exact Subtype.ext h3.symm
-  exact hlb1 (hR1 _ Ub.isPGroup' (Sylow.not_dvd_index Ub) lb hcent)
+  exact hlb1 (hR1 _ Ub.isPGroup (Sylow.not_dvd_index Ub) lb hcent)
 
 
 end CFSG.Quasithin

@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {K K' : Type} [Group K] [Finite K] [Group K'] [Finite K']
 
+omit [Finite K] [Finite K'] in
 private theorem gkB_simple_pullback (e : K ≃* K') {L' : Subgroup K'} (hL' : IsSimpleGroup ↥L') :
     IsSimpleGroup ↥(L'.map e.symm.toMonoidHom) :=
   (L'.equivMapOfInjective e.symm.toMonoidHom e.symm.injective).symm.isSimpleGroup

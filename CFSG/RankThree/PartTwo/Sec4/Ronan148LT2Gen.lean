@@ -79,7 +79,7 @@ theorem rowOf425_of_lie_card {X : Type} [Group X] (idx : ValidLieTypeIndex)
   exact (Subgroup.card_subgroup_dvd_card _).trans (hM S ⟨e⟩)
 
 theorem kT2_eight_SU5 : RowOf425 (projSU 5 2 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hv : (LieTypeIndex.twistedA 4 ⟨2, 1, Fact.out, Nat.one_pos⟩).Valid :=
     valid_twistedA (by norm_num) (by omega)
   refine rowOf425_of_lie_card ⟨_, hv⟩

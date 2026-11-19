@@ -21,7 +21,7 @@ set_option linter.unusedSectionVars false
 
 theorem e8SplitFrame (K : Type) [Field K] [Finite K] (hK : 5 ∣ Nat.card K - 1) :
     ∃ ζ : Kˣ, orderOf ζ = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hdvd : 5 ∣ Nat.card Kˣ := by
     rw [Nat.card_units]
     exact hK
@@ -90,14 +90,14 @@ theorem e8SplitFrame_of (K : Type) [Field K] [Finite K] (hK : 5 ∣ Nat.card K -
       exact this
     · refine nonsolvable_frameIn hXS ?_
       intro hs
-      haveI := hs
-      haveI h2 : Group.IsSolvable ↥(X2 K) :=
-        solvable_of_solvable_injective (Subgroup.inclusion_injective (X2_le_XS K))
+      have := hs
+      have h2 : Group.IsSolvable ↥(X2 K) :=
+        Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective (X2_le_XS K))
       obtain ⟨hperf, -, a₀, b₀, hab⟩ := X2_quasisimple K
       obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a₀
       obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b₀
-      haveI : Nontrivial ↥(X2 K) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
-      exact (IsSolvable.commutator_lt_top_of_nontrivial (↥(X2 K))).ne hperf.commutator_eq_top
+      have : Nontrivial ↥(X2 K) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
+      exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (↥(X2 K))).ne hperf.commutator_eq_top
     · exact closing_of_twFrameClosing hXS
         ((frameClosing_iff Tag.E8 K _).1
           (frameClosing_of_detection_E8 K (frameDetection_E8 K)))

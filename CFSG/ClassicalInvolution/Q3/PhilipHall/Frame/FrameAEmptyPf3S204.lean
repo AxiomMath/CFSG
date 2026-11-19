@@ -22,7 +22,7 @@ theorem frameC204 : FrameC204 := by
   have hH := hexAllF G K K' J S R R' W V z t d
   refine d.concl20_4_of_98 hH ?_ (d.late_tor hH.JW hH.hW)
   exact (d.late_98 hH.JW hH.hW (X := centralizerModOdd (S : Subgroup G) (K ⊔ K'))
-    (S.isPGroup'.to_le (fun x hx => hx.1)) (fun x hx => hx.1) (fun x hx => d.cent_comm_t hx)
+    (S.isPGroup.to_le (fun x hx => hx.1)) (fun x hx => hx.1) (fun x hx => d.cent_comm_t hx)
     (fun x hx => mem_normalizer_iff_conjSub_eq.mp (d.cent_le_normalizer hx))).2
 
 end CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.FrameAEmptyPf

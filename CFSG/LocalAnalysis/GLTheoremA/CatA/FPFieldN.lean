@@ -82,7 +82,7 @@ theorem phiQ_orderOf_dvd {n j : ℕ} (hn4 : 4 ≤ n) {K : Type} [Field K] [Finit
   | .triD4 => 3 * lab.n
   | _ => lab.n
 
-@[expose] def FieldDegDvd (lab : LargeEvenLabel) : LargeEvenRawCont := fun R _ _ F =>
+@[expose] def FieldDegDvd (lab : LargeEvenLabel) : LargeEvenRawCont := fun _R _ _ F =>
   ∀ f ∈ F, orderOf f ∣ fieldDeg lab
 
 abbrev DegCont (j : ℕ) (Q : LargeEvenRawCont) : LargeEvenRawCont :=
@@ -143,7 +143,7 @@ theorem recOmegaMinus_deg {n j : ℕ} (hn4 : 4 ≤ n) (Q : LargeEvenRawCont)
     (h : LargeEvenRecipeOmegaMinus (n - 1) (2 ^ j) Q) :
     LargeEvenRecipeOmegaMinus (n - 1) (2 ^ j) (DegCont (2 * j) Q) := by
   obtain ⟨K, hF, hfin, hK, b, c, hirr, hQ⟩ := h
-  haveI : CharP K 2 := charP_two_of_card_two_pow hK
+  have : CharP K 2 := charP_two_of_card_two_pow hK
   exact ⟨K, hF, hfin, hK, b, c, hirr, hQ, phiQ_orderOf_dvd hn4 hirr hK⟩
 
 theorem recChevalley_deg {r : ℕ} (A : Matrix (Fin r) (Fin r) ℤ) {j : ℕ} (derived : Bool)
@@ -275,6 +275,7 @@ theorem catalog_TD4_of_lieModel {R : Type} [Group R] {f : ℕ}
   · exact absurd h2 (by decide)
   · exact absurd h3 (by decide)
 
+omit [Finite G] in
 theorem fieldNAt_marking {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G} {g : G}
     (hF : FieldOn p g L) {P : LargeEvenMarkProp (PQuot p L)}
     (hP : CFSG.Assembly.LargeEvenMarking (PQuot p L) P) :
@@ -298,7 +299,7 @@ theorem fieldNAt_marking {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup 
     exact dvd_n_of_dvd_fieldDeg hp hp2 h3 this
   · exfalso
     obtain ⟨ht, hp3⟩ : lab.tag = .triD4 ∧ p = 3 := by
-      push_neg at hne
+      push Not at hne
       exact hne
     subst hp3
     obtain ⟨tg, rk, nn⟩ := lab

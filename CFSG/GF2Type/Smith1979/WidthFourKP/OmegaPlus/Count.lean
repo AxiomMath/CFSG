@@ -27,7 +27,7 @@ theorem card_Mbar_inf_normalizer_le (hCE : CentralExtInput.{0}) (hw : S.width = 
     (hP3 : ∀ x ∈ P, x ^ 3 = 1) (hPn : ∀ c ∈ S14.Ct S t, ∀ x ∈ P, c * x * c⁻¹ ∈ P) :
     Nat.card (S.Mbar ⊓ normalizer (S.Lbar g : Set S.O) : Subgroup S.O) ≤ 224 := by
   let N : Subgroup S.O := S.Mbar ⊓ normalizer (S.Lbar g : Set S.O)
-  letI : MulAction N (S.Lbar g) :=
+  let : MulAction N (S.Lbar g) :=
     { smul := fun n x => ⟨(n : S.O) * (x : S.O) * (n : S.O)⁻¹,
         (Subgroup.mem_normalizer_iff.mp n.2.2 x).mp x.2⟩
       one_smul := fun x => by
@@ -52,7 +52,7 @@ theorem card_Mbar_inf_normalizer_le (hCE : CentralExtInput.{0}) (hw : S.width = 
   have horbit_card : (MulAction.orbit N tL).ncard ≤ 7 := by
     have hsub := Set.ncard_le_ncard horbit
     have hset : ({x : S.Lbar g | x ≠ 1}).ncard = 7 := by
-      have h := Set.ncard_diff_singleton_add_one (s := (Set.univ : Set ↥(S.Lbar g)))
+      have h := Set.ncard_sdiff_singleton_add_one (s := (Set.univ : Set ↥(S.Lbar g)))
         (a := 1) (Set.mem_univ _) (Set.finite_univ)
       rw [Set.ncard_univ, C.card_Lbar, hw] at h
       have hEq : ({x : ↥(S.Lbar g) | x ≠ 1}) = Set.univ \ {1} := by ext x; simp
@@ -116,7 +116,7 @@ theorem card_Mbar_le (hCE : CentralExtInput.{0}) (hw : S.width = 4) (H : Hyp4 S 
       (∀ σ ∈ T, ∀ v ∈ Vt S g t, (σ : S.Qt ≃ₗ[ZMod 2] S.Qt) v = v) → Nat.card T ∣ 4)
     (hP3 : ∀ x ∈ P, x ^ 3 = 1) (hPn : ∀ c ∈ S14.Ct S t, ∀ x ∈ P, c * x * c⁻¹ ∈ P) :
     Nat.card S.Mbar ≤ 30240 := by
-  letI : MulAction S.Mbar S.Qt :=
+  let : MulAction S.Mbar S.Qt :=
     { smul := fun m v => ((m : S.O) : S.Qt ≃ₗ[ZMod 2] S.Qt) v
       one_smul := fun v => rfl
       mul_smul := fun m n v => rfl }
@@ -145,8 +145,8 @@ theorem card_Mbar_le (hCE : CentralExtInput.{0}) (hw : S.width = 4) (H : Hyp4 S 
       rw [← Nat.card_coe_set_eq]
       exact hsing
     have h0 : (0 : S.Qt) ∈ {v : S.Qt | S.q v = 0} := by
-      simpa using S4.q_cl_conj_z S H.conj_mem
-    have h := Set.ncard_diff_singleton_add_one (s := {v : S.Qt | S.q v = 0})
+      simp
+    have h := Set.ncard_sdiff_singleton_add_one (s := {v : S.Qt | S.q v = 0})
       (a := 0) h0 (Set.toFinite _)
     rw [hcard] at h
     have hset : ({v : S.Qt | S.q v = 0} \ {0}).ncard = 135 := by omega

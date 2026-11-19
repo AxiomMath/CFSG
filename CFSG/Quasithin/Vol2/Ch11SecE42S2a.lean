@@ -19,7 +19,7 @@ private theorem eleven_le_of_mod_five {p : ℕ} (hp : p.Prime) (h5 : p % 5 = 1 �
 theorem sl2NegOne_mulVec {p : ℕ} [Fact p.Prime] (v : Fin 2 → ZMod p) :
     Matrix.mulVec ((A1c.sl2NegOne p : SL(2, ZMod p)) : Matrix (Fin 2) (Fin 2) (ZMod p)) v = -v := by
   ext i
-  fin_cases i <;> simp [A1c.sl2NegOne, Matrix.mulVec, dotProduct, Fin.sum_univ_two] <;> rfl
+  fin_cases i <;> simp [A1c.sl2NegOne, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
 
 theorem not_isQuasisimple_of_sl2pE {X : Type} [Group X] [Finite X] (hE : IsSL2pE X) :
     ¬ CFSG.IsQuasisimple X := by

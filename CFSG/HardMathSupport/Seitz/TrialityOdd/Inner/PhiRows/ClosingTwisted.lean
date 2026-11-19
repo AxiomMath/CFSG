@@ -32,7 +32,7 @@ theorem diagSL_conj_sl2Upper (l : Kˣ) (c : K) :
     !![1, (l : K) ^ 2 * c; 0, 1] * !![(l : K), 0; 0, ((l⁻¹ : Kˣ) : K)]
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
-  all_goals first | ring1 | (have hl := l.ne_zero; field_simp)
+  all_goals (have hl := l.ne_zero; field_simp)
 
 theorem d4X_zero_eq (c : K) : d4X hσ 0 c = slShort σ hσ (sl2Upper c) := by
   apply Subtype.ext

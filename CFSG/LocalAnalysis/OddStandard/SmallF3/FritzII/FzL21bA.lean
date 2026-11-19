@@ -12,7 +12,7 @@ open scoped IsMulCommutative
 
 
 lemma fzl21b_stage1_strong (N : Type) [Group N] (φ : N →* MulAut fz21b_X)
-    (N₀ : Subgroup N) [N₀.Normal] (e : N ⧸ N₀ ≃* FzSigma4) (hφ : Function.Injective φ)
+    (N₀ : Subgroup N) [N₀.Normal] (e : N ⧸ N₀ ≃* FzSigma4) (_hφ : Function.Injective φ)
     (hInv : ∀ n ∈ N₀, n ≠ 1 → ∀ x : fz21b_X, φ n x = x⁻¹) :
     ∃ N₁ : Subgroup N, N₁.Normal ∧ (∀ n ∈ N₁, n ^ 2 = 1) ∧ N₀ ≤ N₁ ∧
       N₁ = fz21b_V.comap (e.toMonoidHom.comp (QuotientGroup.mk' N₀)) ∧

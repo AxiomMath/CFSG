@@ -71,6 +71,7 @@ theorem card_Vt_orthogonal (hc : Ctx M Q Z B) {t : G} {m : ℕ} (hm : 2 ≤ m)
       omega
     rwa [hι] at h1
 
+omit [Finite G] in
 theorem Ctx.Z_le_conjSubgroup (hc : Ctx M Q Z B) {V : Subgroup G} (hZV : Z ≤ V) {g : G}
     (hg : g ∈ M) : Z ≤ conjSubgroup g V := by
   intro z hz
@@ -80,6 +81,7 @@ theorem Ctx.Z_le_conjSubgroup (hc : Ctx M Q Z B) {V : Subgroup G} (hZV : Z ≤ V
     exact hz
   exact hZV (mem_conjSubgroup.mp hzZ)
 
+omit [Finite G] in
 theorem Ctx.conjSubgroup_le_Q (hc : Ctx M Q Z B) {V : Subgroup G} (hVQ : V ≤ Q) {g : G}
     (hg : g ∈ M) : conjSubgroup g V ≤ Q := by
   intro x hx
@@ -252,8 +254,8 @@ theorem card_Vt_inf_QB_omegaMinus (h34 : Stroth34Statement) (hRoot : Stroth310Ro
   have hs5 := hs.toSec5
   have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
     Or.inr ⟨K, fK, finK, hK, Or.inr ⟨m, b, c, hm, hirr, hnat⟩⟩
-  haveI : CharP K 2 := sec7ctr_charP hc hK
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : CharP K 2 := sec7ctr_charP hc hK
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum,
       Fintype.card_fin, Fintype.card_fin]; omega
@@ -261,7 +263,7 @@ theorem card_Vt_inf_QB_omegaMinus (h34 : Stroth34Statement) (hRoot : Stroth310Ro
   have hX := addCommutantScalar_statedOmegaMinus hm hirr
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have hsing := hc.omega_singular h34 hRoot hs5 hnatSO hK (ElemMatrixIso.minus hm hirr) hQ h3
     hX φ hφ ψ hψ
   obtain ⟨u, -, hu0, -, hW, -, -⟩ := hc.omega_points_core h34 hRoot hs5 hnatSO hK

@@ -27,7 +27,7 @@ theorem catHarrisAS_of_parts
     (wO7 : HarrisOmegaLarge .POmegaOdd 3 1) (wO8 : HarrisOmegaLarge .POmegaMinus 4 1) :
     CatHarrisAS := by
   intro G _ _ S hSn hS hna hcat hc t ht ⟨ζ⟩
-  haveI := hSn
+  have := hSn
   have h : Cfg G S t := ⟨hS, hna, hc, ht⟩
   rcases (CFSG.Milestones.ct_catalog_nonabelian_type_partition ↥S hna).1 hcat with
     ⟨n, hn, ⟨θ⟩⟩ | hodd | heven | ⟨s, ⟨es⟩⟩

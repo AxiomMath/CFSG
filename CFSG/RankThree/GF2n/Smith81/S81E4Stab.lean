@@ -80,7 +80,7 @@ theorem nW_mem_LamG_of_preserves_node1 {w : W7 K}
     rw [Set.mem_singleton_iff.1 hj]
     exact hw δ hδ)
   rintro _ ⟨i, hi, rfl⟩
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff] at hi
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff] at hi
   refine nm_mem_LamG i ?_
   have h0 : i.val ≠ 0 := fun h => hi (Fin.ext h)
   omega
@@ -167,7 +167,7 @@ theorem nW_mem_charSubG (χ : ↥(StabP0 K) →* Kˣ) {w : W7 K}
   refine (Subgroup.closure_le _).2 ?_ (nW_mem_closure_of_preserves _ hw)
   rintro _ ⟨i, hi, rfl⟩
   have hi2 : 2 ≤ i.val := by
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff, not_or] at hi
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff, not_or] at hi
     have h0 : i.val ≠ 0 := fun h => hi.1 (Fin.ext h)
     have h1 : i.val ≠ 1 := fun h => hi.2 (Fin.ext h)
     omega

@@ -34,9 +34,7 @@ private theorem coe_statedSpCongr_apply {K L : Type} [Field K] [Field L] (σ : K
 private lemma vecMul_fromBlocks_inl (a : Fin 3 ⊕ Fin 3 → ZMod 2) (i : Fin 3) :
     (a ᵥ* (fromBlocks 0 1 (-1) 0 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2)))
         (Sum.inl i) = a (Sum.inr i) := by
-  simp only [vecMul, dotProduct, Fintype.sum_sum_type, fromBlocks_apply₁₁, fromBlocks_apply₁₂,
-    fromBlocks_apply₂₁, fromBlocks_apply₂₂, Matrix.of_apply, Matrix.one_apply,
-    Matrix.zero_apply, Pi.zero_apply, mul_zero, Finset.sum_const_zero, add_zero]
+  simp only [vecMul, dotProduct, Fintype.sum_sum_type, fromBlocks_apply₁₁, fromBlocks_apply₂₁, Matrix.zero_apply, mul_zero, Finset.sum_const_zero]
   rw [Finset.sum_eq_single i]
   · simp
   · intro b _ hb
@@ -47,11 +45,11 @@ private lemma vecMul_fromBlocks_inl (a : Fin 3 ⊕ Fin 3 → ZMod 2) (i : Fin 3)
 private lemma vecMul_fromBlocks_inr (a : Fin 3 ⊕ Fin 3 → ZMod 2) (i : Fin 3) :
     (a ᵥ* (fromBlocks 0 1 (-1) 0 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2)))
         (Sum.inr i) = a (Sum.inl i) := by
-  simp only [vecMul, dotProduct, Fintype.sum_sum_type, fromBlocks_apply₁₁, fromBlocks_apply₁₂,
-    fromBlocks_apply₂₁, fromBlocks_apply₂₂, Matrix.of_apply, Matrix.one_apply,
-    Matrix.zero_apply, Pi.zero_apply, mul_zero, Finset.sum_const_zero, zero_add]
+  simp only [vecMul, dotProduct, Fintype.sum_sum_type, fromBlocks_apply₁₂,
+    fromBlocks_apply₂₂, Matrix.one_apply,
+    Matrix.zero_apply, mul_zero, Finset.sum_const_zero]
   rw [Finset.sum_eq_single i]
-  · simp [ZMod.neg_eq_self_mod_two]
+  · simp
   · intro b _ hb
     simp [hb]
   · intro h
@@ -88,9 +86,9 @@ private theorem toMatrix_binarySymplecticTransvection
 private theorem map_fromBlocks_J (σ : GaloisField 2 1 ≃+* ZMod 2) :
     (fromBlocks 0 1 (-1) 0 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (GaloisField 2 1)).map σ =
       (fromBlocks 0 1 (-1) 0 : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) (ZMod 2)) := by
-  haveI : CharP (GaloisField 2 1) 2 := inferInstance
+  have : CharP (GaloisField 2 1) 2 := inferInstance
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [fromBlocks, CharTwo.neg_eq, ZMod.neg_eq_self_mod_two]
+  fin_cases i <;> fin_cases j <;> simp [fromBlocks, CharTwo.neg_eq]
 
 private theorem map_vecMul_J (σ : GaloisField 2 1 ≃+* ZMod 2)
     (v : Fin 3 ⊕ Fin 3 → GaloisField 2 1) :
@@ -286,8 +284,8 @@ theorem sp62CoverLiftStatement_holds :
     Sp62CoverLiftStatement := by
   intro Γ _ _ φ hφ hcen hcard hperf t s v w hv hw ht hs
   classical
-  haveI : Group.IsPerfect Γ := ⟨hperf⟩
-  haveI : Fintype (GaloisField 2 1) := Fintype.ofFinite _
+  have : Group.IsPerfect Γ := ⟨hperf⟩
+  have : Fintype (GaloisField 2 1) := Fintype.ofFinite _
   have hGal : Fintype.card (GaloisField 2 1) = Fintype.card (ZMod 2) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     rw [GaloisField.card 2 1 one_ne_zero, Nat.card_zmod]

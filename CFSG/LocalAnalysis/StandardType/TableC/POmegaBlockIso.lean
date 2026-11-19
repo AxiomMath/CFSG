@@ -31,8 +31,8 @@ private lemma j1c_prim_orthogonal {ι K : Type} [Fintype ι] [DecidableEq ι] [F
     (hne : e ≠ e') (hεe : ε = e + e') :
     e * e' = 0 ∧ e * ε = e ∧ e' * ε = e' := by
   let A : Subalgebra K (Matrix ι ι K) := Algebra.adjoin K (Units.val '' S)
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K (j1c_pairwise_commute hS)
-  letI : CommRing A := IsMulCommutative.instCommRing
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin K (j1c_pairwise_commute hS)
+  let : CommRing A := IsMulCommutative.instCommRing
   have heA : IsIdempotentElem (⟨e, he.1⟩ : A) := by
     rw [isIdempotentElem_iff]
     exact Subtype.ext he.2.1.eq
@@ -70,8 +70,8 @@ private lemma j1c_fixed_prim_idem_eq {ι K : Type} [Fintype ι] [DecidableEq ι]
     (hfix : ∀ s ∈ S, (s : Matrix ι ι K) * e = e ∧ (s : Matrix ι ι K) * e' = e') :
     e = e' := by
   let A : Subalgebra K (Matrix ι ι K) := Algebra.adjoin K (Units.val '' S)
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K (j1c_pairwise_commute hS)
-  letI : CommRing A := IsMulCommutative.instCommRing
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin K (j1c_pairwise_commute hS)
+  let : CommRing A := IsMulCommutative.instCommRing
   have hP : ∀ x ∈ A, ∃ c : K, x * e = c • e ∧ x * e' = c • e' := by
     intro x hx
     refine Algebra.adjoin_induction
@@ -112,8 +112,8 @@ private lemma j1c_nontrivial_of_dual {ι K : Type} [Fintype ι] [DecidableEq ι]
   push Not at h
   have hcommP := j1c_pairwise_commute hS
   let A : Subalgebra K (Matrix ι ι K) := Algebra.adjoin K (Units.val '' S)
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
-  letI : CommRing A := IsMulCommutative.instCommRing
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin K hcommP
+  let : CommRing A := IsMulCommutative.instCommRing
   obtain ⟨hee', heε, he'ε⟩ := j1c_prim_orthogonal hS he he' hne hεe
   have hzero' : e' * e = 0 := by
     have h := mul_comm (⟨e', he'.1⟩ : A) (⟨e, he.1⟩ : A)
@@ -287,7 +287,7 @@ theorem blockGroup_iso_Omega_one_S {ι K U : Type} [Fintype ι] [DecidableEq ι]
       ((Nonempty (↥(glBlockCentralizer j S ε) ≃* ↥(StatedOmega Q₁)) ∧
           ¬ (Fintype.card K = 2 ∧ Fintype.card ι₁ = 4 ∧
               ∃ T : Submodule K (ι₁ → K), Module.finrank K T = 2 ∧ ∀ x ∈ T, Q₁ x = 0)) ∨
-        (Fintype.card K = 2 ∧ Fintype.card ι₁ = 4 ∧ IsSolvable ↥(glBlockCentralizer j S ε) ∧
+        (Fintype.card K = 2 ∧ Fintype.card ι₁ = 4 ∧ Group.IsSolvable ↥(glBlockCentralizer j S ε) ∧
           padicValNat 2 (Nat.card ↥(glBlockCentralizer j S ε)) = 2)) := by
   have hSΩ : ∀ s ∈ S, s ∈ StatedOmega ⇑Φ := fun s hs => hrange.le (hSU s hs)
   obtain ⟨b, hb, hbodd, hbε, hb1, hcent⟩ :=
@@ -301,8 +301,8 @@ theorem blockGroup_iso_Omega_one_S {ι K U : Type} [Fintype ι] [DecidableEq ι]
     exact ⟨⟨(j1c_block_equiv Φ j hj hrange hcent).trans hiso⟩, hnot⟩
   · right
     refine ⟨hK2, hι14, ?_, ?_⟩
-    · haveI : Group.IsSolvable ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) := hsol
-      exact solvable_of_surjective
+    · have : Group.IsSolvable ↥(glBlockCentralizer (StatedOmega ⇑Φ).subtype {b} ε) := hsol
+      exact Group.isSolvable_of_surjective
         (f := (j1c_block_equiv Φ j hj hrange hcent).symm.toMonoidHom)
         (j1c_block_equiv Φ j hj hrange hcent).symm.surjective
     · rw [Nat.card_congr (j1c_block_equiv Φ j hj hrange hcent).toEquiv]

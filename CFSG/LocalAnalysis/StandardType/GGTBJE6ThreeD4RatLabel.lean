@@ -66,7 +66,7 @@ theorem e6D4_label_of_rationalComponent
       rootSpan Tag.E6 L (famOrbit S.ρ a' i') := by
     have hforb : famOrbit S.ρ a' i' = rationalRoots S.ρ (rootCharHom a) i := by
       ext γ
-      simp only [famOrbit, rationalRoots, Set.mem_setOf_eq]
+      simp only [famOrbit, rationalRoots, Set.mem_ofPred_eq]
       rw [hi']
     rw [hforb]
     exact (Subgroup.commutator_le_self _).trans inf_le_left

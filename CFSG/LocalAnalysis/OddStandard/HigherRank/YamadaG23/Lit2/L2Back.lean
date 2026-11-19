@@ -89,7 +89,7 @@ theorem gomi1RKP_of_inputs (hTab : L2Tables) (hI : GomiOuterPSLU4 ∧
   have h4 := l2_order_four (Gh := Gh) hZG hZ4
   have hg : LitGam Gh Zh Ah t :=
     lit_gam_of_hyps hZG hZc hZ4 hZA hAG hrel hcomm hsyl ht ht1 ht2 h5a h5b h7
-  haveI : (Zh.subgroupOf Gh).Normal := lit_normal_Z hZc
+  have : (Zh.subgroupOf Gh).Normal := lit_normal_Z hZc
   have hc : LitCtx (Zh.subgroupOf Gh) (Ah.subgroupOf Gh) := lit_ctx_of_hyps hg hZ4 hsq heven
   obtain ⟨φ, hφs, hφk⟩ := lit_phi_of_quotIso hZc hAG hq
   have hO := lit_hO hc hg hq hT φ hφs hφk

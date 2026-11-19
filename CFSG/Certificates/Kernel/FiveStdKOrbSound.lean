@@ -20,9 +20,9 @@ open CFSG.GH74.GLS.LU.Local.FiveStd CFSG.GH74.GLS.LU.Local.Five.FiveStdBase
 theorem codeE_decE {p : Nat} (h : p < 781250) : codeE (decE p) = p := by
   simp only [codeE, decE, fA0, fA1, fA2, fA3, fB0, fB1, fB2, fB3, fS, nat_div, nat_mod]
   by_cases hs : p / 390625 = 1
-  · simp only [hs, decide_true, if_true]
+  · simp only [hs, decide_true, ite_true]
     omega
-  · simp only [hs, decide_false, Bool.false_eq_true, if_false]
+  · simp only [hs, decide_false, Bool.false_eq_true, ite_false]
     omega
 
 theorem decE_codeE (x : E) : decE (codeE x) = x :=

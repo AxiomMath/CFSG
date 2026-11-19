@@ -89,9 +89,11 @@ variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S) {X : Subgroup G}
 
 open CFSG.Quasithin.F53Push CFSG.Quasithin.St84
 
+omit [Finite G] in
 private theorem Gw_zero_one_eq : t.Gw 0 1 = t.Gv 0 ⊓ t.Gv 1 := by
   simpa using t.Gw_add_one 0
 
+omit [Finite G] in
 private theorem Gw_neg_one_one_eq : t.Gw (-1) 1 = t.Gv (-1) ⊓ t.Gv 0 ⊓ t.Gv 1 := by
   simpa using t.Gw_sub_one_add_one 0
 
@@ -254,17 +256,17 @@ private theorem exists_lift_of_sq_mem {s : G} {P N : Subgroup G}
   have hN2 : IsPGroup 2 N := (t.isPGroup_Qv 0).to_le hNleQ
   have hQ2 : IsPGroup 2 Q :=
     hN2.of_surjective (QuotientGroup.mk' (P.subgroupOf N)) (QuotientGroup.mk'_surjective _)
-  haveI : Finite Q := Finite.of_surjective (QuotientGroup.mk' (P.subgroupOf N))
+  have : Finite Q := Finite.of_surjective (QuotientGroup.mk' (P.subgroupOf N))
     (QuotientGroup.mk'_surjective _)
   have hQne : Nontrivial Q := by
-    obtain ⟨x, hxN, hxP⟩ := SetLike.exists_of_lt hPN
+    obtain ⟨x, hxN, hxP⟩ := _root_.IsConcreteLE.exists_of_lt hPN
     refine ⟨⟨QuotientGroup.mk (s := P.subgroupOf N) ⟨x, hxN⟩, 1, ?_⟩⟩
     intro h
     apply hxP
     have hx1 : QuotientGroup.mk (s := P.subgroupOf N) ⟨x, hxN⟩ = 1 := h
     rw [QuotientGroup.eq_one_iff] at hx1
     exact Subgroup.mem_subgroupOf.mp hx1
-  haveI : Nontrivial Q := hQne
+  have : Nontrivial Q := hQne
   obtain ⟨w, hworder, hwfix⟩ :=
     CFSG.GroupTheory.exists_orderOf_eq_forall_smul_eq (A := A) (p := 2) hA2 hQ2
   have hwfixβ : ∀ a : Subgroup.zpowers s, β a w = w := fun a => hwfix a

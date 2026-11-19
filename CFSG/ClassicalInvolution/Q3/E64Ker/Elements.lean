@@ -154,7 +154,7 @@ theorem central_L (H : Hyp φ Q) (j : ℕ) :
     _ = F.T j * (F.z1 * k') * (F.T j)⁻¹ := by rw [hc]
     _ = F.T j * F.z1 * (F.T j)⁻¹ * (F.T j * k' * (F.T j)⁻¹) := by group
 
-theorem n0_mem_ker (H : Hyp φ Q) : F.n0 ∈ φ.ker := by
+theorem n0_mem_ker (_H : Hyp φ Q) : F.n0 ∈ φ.ker := by
   rw [MonoidHom.mem_ker]
   show φ (F.z1⁻¹ * F.zj e64JStar) = 1
   rw [map_mul, map_inv, el_phi_z1 F, el_phi_zj F, inv_mul_cancel]

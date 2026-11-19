@@ -25,7 +25,7 @@ theorem uB_zero {K : Type} [Field K] : uB (0 : K) = AddEquiv.refl _ := by
 theorem exists_sq_ne {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) :
     ∃ x : K, x ^ 2 ≠ x := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (Set.univ : Set K) ⊆ ({0, 1} : Set K) := by
     intro x _
     have hx : x * (x - 1) = 0 := by linear_combination h x
@@ -42,7 +42,7 @@ theorem exists_sq_ne {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) :
 theorem exists_ne_ne {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) (c : K) :
     ∃ β : K, β ≠ 0 ∧ β ≠ c := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (Set.univ : Set K) ⊆ ({0, c} : Set K) := by
     intro x _
     by_cases hx : x = 0
@@ -63,7 +63,7 @@ theorem U_action_list (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 : Stmt5_
     (hV2 : ∀ v ∈ conjClosure Z₁ D₃, ∃ hv : v ∈ N, ∃ μ : D.K, μ ^ 4 = μ ∧
       coordN D v hv = μ • coordN D z hzN) :
     ∃ a₀ : D.K, a₀ ≠ 0 ∧ coordN D z hzN = a₀ • Direct523Semi.e₁ ∧
-    ∃ (uA : G) (huA : uA ∈ Ugrp Z₁ D₃) (huAN : uA ∈ Subgroup.normalizer (N : Set G))
+    ∃ (uA : G) (_huA : uA ∈ Ugrp Z₁ D₃) (huAN : uA ∈ Subgroup.normalizer (N : Set G))
       (σA : D.K ≃+* D.K), IsSemi (D.conj ⟨uA, huAN⟩) σA ∧ (∀ x, σA x = x ^ 2) ∧
     ∃ c : D.K, c ≠ 0 ∧
       (∀ β : D.K, (uB β).trans (D.conj ⟨uA, huAN⟩) = (D.conj ⟨uA, huAN⟩).trans (uB β) →
@@ -73,10 +73,10 @@ theorem U_action_list (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 : Stmt5_
           D.conj ⟨u, hu⟩ = (D.conj ⟨uA, huAN⟩).trans (uB 0) ∨
           D.conj ⟨u, hu⟩ = (D.conj ⟨uA, huAN⟩).trans (uB c) := by
   obtain ⟨a₀, ha₀, hwa⟩ := coord_z_eq s D hroot hTN hz hz1 hzN
-  obtain ⟨uA, huA, huAN, σA, hσA, hσA_ne⟩ :=
+  obtain ⟨uA, _huA, huAN, σA, hσA, hσA_ne⟩ :=
     exists_frob_semilinear s h5114 hF hU D hz hzN hTN hV2
   have hK : Nat.card D.K = 4 := by rw [D.card]; norm_num
-  haveI : CharP D.K 2 :=
+  have : CharP D.K 2 :=
     CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.char_two_of_card D.card
   have hσA2 : ∀ x, σA x = x ^ 2 := (semi_aut_cases hK σA).resolve_left hσA_ne
   have huL : ∀ u ∈ T, u ∈ Subgroup.normalizer (L : Set G) := fun u hu =>
@@ -123,10 +123,10 @@ theorem U_action_list (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 : Stmt5_
       rw [AddEquiv.trans_apply, conj_Z₁_trivial s h5114 hF D hz hz1 hzN hc (hc' := hcN) w]
     rw [← conj_mul_eq D hvn hun, ← conj_mul_eq D hun hvn]
     exact e1.symm
-  have hA : D.conj ⟨uA, huAN⟩ ∈ rhoFamily D (Ugrp Z₁ D₃) := ⟨uA, huA, huAN, rfl⟩
+  have hA : D.conj ⟨uA, huAN⟩ ∈ rhoFamily D (Ugrp Z₁ D₃) := ⟨uA, _huA, huAN, rfl⟩
   obtain ⟨c, hc0, hcomm_iff, hlist⟩ :=
     count_le_four hK ha₀ (rhoFamily D (Ugrp Z₁ D₃)) hfix hinv hsemi hcomp hcomm hA hσA hσA2
-  exact ⟨a₀, ha₀, hwa, uA, huA, huAN, σA, hσA, hσA2, c, hc0, hcomm_iff,
+  exact ⟨a₀, ha₀, hwa, uA, _huA, huAN, σA, hσA, hσA2, c, hc0, hcomm_iff,
     fun u hu hun => hlist _ ⟨u, hu, hun, rfl⟩⟩
 
 end CFSG.Quasithin.H13

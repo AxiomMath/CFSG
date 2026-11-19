@@ -311,7 +311,7 @@ theorem mem_zpowers_of_commute_swap (hv : IsOrthonormalFrame hU v) {q : ℕ} (hq
       t * QuotientGroup.mk w) :
     t ∈ zpowers (QuotientGroup.mk (ℓ : gramSU hU (1 : Matrix (Fin 3) (Fin 3) E)) :
       primeFormP hU (1 : Matrix (Fin 3) (Fin 3) E)) := by
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   obtain ⟨d, hdT, rfl, hdq⟩ := exists_lift_pow_eq_one hq hq3 ht htq
   set D : frameTorusSU hU v := ⟨d, hdT⟩ with hD
   have hY : ∀ l, frameEigHom hv l ⟨w * d * w⁻¹, conj_mem_frameTorusSU hwM hdT⟩ =
@@ -340,9 +340,9 @@ theorem mem_zpowers_of_commute_swap (hv : IsOrthonormalFrame hU v) {q : ℕ} (hq
   have hDℓ : D = ℓ ^ m := frameTorusSU_ext hv fun l => by
     rw [map_pow, hℓ]
     rcases fin3_cover i j k hij hki hkj l with rfl | rfl | rfl
-    · rw [if_neg hki.symm, hm]
-    · rw [if_neg hkj.symm, ← hij', hm]
-    · rw [if_pos rfl, hk]
+    · rw [ite_eq_right hki.symm, hm]
+    · rw [ite_eq_right hkj.symm, ← hij', hm]
+    · rw [ite_eq_left rfl, hk]
       group
   rw [mem_zpowers_iff]
   refine ⟨m, ?_⟩
@@ -377,8 +377,8 @@ theorem fix_of_normalizes_frame (hU : UnitaryFieldData 2 n E) (hn : 2 ≤ n)
     {β : MulAut (primeFormP hU (1 : Matrix (Fin 3) (Fin 3) E))} {k : ℕ} (hβ : β ^ (q ^ k) = 1)
     (hβT : ∀ t ∈ T, β t ∈ T) : ∀ t ∈ T, t ^ q = 1 → β t = t := by
   classical
-  haveI := hU.finite
-  haveI : Fact q.Prime := ⟨hq⟩
+  have := hU.finite
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨-, -, hcomm, -, -, -, π, hπ, hker⟩ := frame_group_structure hU hn hv
   have hF₀N := frameMono_eq_normalizer hn hv
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := rootsOfUnity (2 ^ n + 1) E) q
@@ -463,7 +463,7 @@ theorem fix_of_normalizes_frame (hU : UnitaryFieldData 2 n E) (hn : 2 ≤ n)
       · rw [hl, Equiv.swap_apply_of_ne_of_ne hki hkj]
       · have hl' : Equiv.swap i j l ≠ k := fun h => hl (by
           rw [← Equiv.swap_apply_self i j l, h, Equiv.swap_apply_of_ne_of_ne hki hkj])
-        rw [if_neg hl, if_neg hl']
+        rw [ite_eq_right hl, ite_eq_right hl']
     have hwℓ := conj_eq_of_invariant hv hwM hwl hsym
     have hcw : (QuotientGroup.mk w : primeFormP hU (1 : Matrix (Fin 3) (Fin 3) E)) *
         QuotientGroup.mk (ℓ : gramSU hU (1 : Matrix (Fin 3) (Fin 3) E)) =

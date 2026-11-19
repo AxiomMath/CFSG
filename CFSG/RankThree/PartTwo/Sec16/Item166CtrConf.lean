@@ -59,11 +59,11 @@ theorem le_y0 (hC : Conf166A5 A c L Y₀ X J) : J ≤ Y₀ := by
   rw [hC.std.eq_of_mem_y0Star hKmax] at hJK
   exact hJK
 
-private theorem pCore_le_theta (hC : Conf166A5 A c L Y₀ X J) :
+private theorem pCore_le_theta (_hC : Conf166A5 A c L Y₀ X J) :
     CFSG.pCore 2 ↥J ≤ aschbacherSolvableCore 3 ↥J := by
   have hchar := solvable_prime_complement_core_characterization Nat.prime_three (H := ↥J)
   refine hchar.2.2.2.1 (CFSG.pCore 2 ↥J) (CFSG.pCore_normal (p := 2) (G := ↥J)) ?_ ?_
-  · haveI : Group.IsNilpotent (CFSG.pCore 2 ↥J) :=
+  · have : Group.IsNilpotent (CFSG.pCore 2 ↥J) :=
       (CFSG.pCore_isPGroup (p := 2) (G := ↥J)).isNilpotent
     infer_instance
   · obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥J)).exists_card_eq
@@ -76,7 +76,7 @@ private theorem pCore_le_theta (hC : Conf166A5 A c L Y₀ X J) :
 private theorem theta_le_pCore (hC : Conf166A5 A c L Y₀ X J) :
     aschbacherSolvableCore 3 ↥J ≤ CFSG.pCore 2 ↥J := by
   obtain ⟨e⟩ := hC.quot_a5
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   set θ := aschbacherSolvableCore 3 ↥J
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥J)
   have hθsol : Group.IsSolvable ↥θ :=
@@ -87,7 +87,7 @@ private theorem theta_le_pCore (hC : Conf166A5 A c L Y₀ X J) :
   have hNsol : Group.IsSolvable ↥N := by
     have := hθsol
     exact Group.isSolvable_of_surjective (f := π.subgroupMap θ) (π.subgroupMap_surjective θ)
-  haveI : (N.map e.toMonoidHom).Normal := hNn.map e.toMonoidHom e.surjective
+  have : (N.map e.toMonoidHom).Normal := hNn.map e.toMonoidHom e.surjective
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map e.toMonoidHom) with hbot | htop
   · have hNbot : N = ⊥ := by
       rwa [Subgroup.map_eq_bot_iff_of_injective _ e.injective] at hbot
@@ -95,7 +95,7 @@ private theorem theta_le_pCore (hC : Conf166A5 A c L Y₀ X J) :
       QuotientGroup.ker_mk'] at hNbot
     exact hNbot
   · exfalso
-    haveI : Group.IsPerfect ↥(alternatingGroup (Fin 5)) :=
+    have : Group.IsPerfect ↥(alternatingGroup (Fin 5)) :=
       ⟨commutator_alternatingGroup_eq_top (α := Fin 5) (by simp)⟩
     have hA5sol : Group.IsSolvable ↥(alternatingGroup (Fin 5)) := by
       have := hNsol
@@ -204,6 +204,7 @@ private theorem eq_of_le_of_mem_comp3In (hC : Conf166A5 A c L Y₀ X J) {K : Sub
     _ = (J.subgroupOf X).map X.subtype := by rw [heq]
     _ = J := Subgroup.map_subgroupOf_eq_of_le hJX
 
+omit [Finite G] in
 private theorem ker_comp_inclusion_mk' {K : Subgroup G} (hKY : K ≤ Y₀) :
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀)).comp (Subgroup.inclusion hKY)).ker =
       (K ⊓ CFSG.Open.pCoreOf 2 Y₀).subgroupOf K := by
@@ -226,6 +227,7 @@ private theorem ker_comp_inclusion_mk' {K : Subgroup G} (hKY : K ≤ Y₀) :
     exact (QuotientGroup.eq_one_iff (Subgroup.inclusion hKY k)).mpr
       ((Subgroup.mem_map_iff_mem Y₀.subtype_injective).mp h2)
 
+omit [Finite G] in
 private theorem range_comp_inclusion_le_centralizer {K : Subgroup G} (hKY : K ≤ Y₀)
     (hJKQ : ⁅J, K⁆ ≤ CFSG.Open.pCoreOf 2 Y₀) :
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀)).comp (Subgroup.inclusion hKY)).range ≤
@@ -266,20 +268,20 @@ private theorem isSolvable_of_commutator_le_pCoreOf {K : Subgroup G} (hKY : K �
         Subgroup (↥Y₀ ⧸ CFSG.pCore 2 ↥Y₀))) : Set (↥Y₀ ⧸ CFSG.pCore 2 ↥Y₀)) := by
     rw [hφ]
     exact range_comp_inclusion_le_centralizer hKY hJKQ
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer
+  have : Group.IsSolvable ↥(Subgroup.centralizer
       ((((J.subgroupOf Y₀).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y₀)) :
         Subgroup (↥Y₀ ⧸ CFSG.pCore 2 ↥Y₀))) : Set (↥Y₀ ⧸ CFSG.pCore 2 ↥Y₀))) := hcent
-  haveI : Group.IsSolvable ↥φ.range :=
+  have : Group.IsSolvable ↥φ.range :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
-  haveI : Group.IsSolvable ↥φ.ker := by
+  have : Group.IsSolvable ↥φ.ker := by
     rw [hker]
     have h2 : IsPGroup 2 ↥((K ⊓ CFSG.Open.pCoreOf 2 Y₀).subgroupOf K) :=
       ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 Y₀).to_le
         (inf_le_right : K ⊓ CFSG.Open.pCoreOf 2 Y₀ ≤ CFSG.Open.pCoreOf 2 Y₀)).of_equiv
         (Subgroup.subgroupOfEquivOfLe (inf_le_left : K ⊓ CFSG.Open.pCoreOf 2 Y₀ ≤ K)).symm
-    haveI : Group.IsNilpotent ↥((K ⊓ CFSG.Open.pCoreOf 2 Y₀).subgroupOf K) := h2.isNilpotent
+    have : Group.IsNilpotent ↥((K ⊓ CFSG.Open.pCoreOf 2 Y₀).subgroupOf K) := h2.isNilpotent
     infer_instance
-  haveI : Group.IsSolvable (↥K ⧸ φ.ker) :=
+  have : Group.IsSolvable (↥K ⧸ φ.ker) :=
     Group.isSolvable_of_surjective
       (f := (QuotientGroup.quotientKerEquivRange φ).symm.toMonoidHom)
       (QuotientGroup.quotientKerEquivRange φ).symm.surjective
@@ -301,7 +303,7 @@ private theorem false_of_commutator_le_theta (hC : Conf166A5 A c L Y₀ X J)
   have hKsol : Group.IsSolvable ↥K :=
     isSolvable_of_commutator_le_pCoreOf hKY (hJKθ.trans hJQ) hCJ
   have hKperf : Group.IsPerfect ↥K := by
-    haveI : Group.IsPerfect ↥(K.subgroupOf X) := (mem_thetaComponentsIn_iff.mp hK.1).2.1
+    have : Group.IsPerfect ↥(K.subgroupOf X) := (mem_thetaComponentsIn_iff.mp hK.1).2.1
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hKX).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hKX).surjective
@@ -356,7 +358,7 @@ theorem commutator_pPrimeCore_le (hC : Conf166A5 A c L Y₀ X J) :
       (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr hNJ
     have hsol : Group.IsSolvable ↥((J ⊓ pPrimeCoreOf 3 X).subgroupOf J) := by
       have hNsol : Group.IsSolvable ↥(J ⊓ pPrimeCoreOf 3 X) := by
-        haveI := hC.solvable_core
+        have := hC.solvable_core
         exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective inf_le_right)
       have := hNsol
       exact Group.isSolvable_of_surjective
@@ -412,6 +414,7 @@ theorem pCoreOf_le_pPrimeCore (hC : Conf166A5 A c L Y₀ X J) :
   rw [hk]
   exact Nat.Coprime.pow_right k (by norm_num)
 
+omit [Finite G] in
 private theorem mem_pCoreOf_of_centralizes_quot_a5 {J : Subgroup G} {j : G} (hj : j ∈ J)
     (hquot : Nonempty (↥J ⧸ CFSG.pCore 2 ↥J ≃* alternatingGroup (Fin 5)))
     (hcomm : ∀ y ∈ J, ⁅y, j⁆ ∈ CFSG.Open.pCoreOf 2 J) : j ∈ CFSG.Open.pCoreOf 2 J := by
@@ -467,7 +470,7 @@ private theorem coprime_card_quotient_deltaZero (hC : Conf166A5 A c L Y₀ X J)
   have hDX : D ≤ X := Sec14.deltaZero_le X
   have hXeq : X = D ⊔ C₀ := by rw [hC.mem_y3Star.prop.2, h145]
   have hXND : X ≤ Subgroup.normalizer (D : Set G) := le_normalizer_deltaZero hC hbot
-  haveI : (D.subgroupOf X).Normal :=
+  have : (D.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hDX).mpr hXND
   have hC0ND : C₀ ≤ Subgroup.normalizer (D : Set G) :=
     (inf_le_right : C₀ ≤ X).trans hXND
@@ -491,7 +494,7 @@ private theorem coprime_card_quotient_deltaZero (hC : Conf166A5 A c L Y₀ X J)
     ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hC0cop) (h3.trans hdvd)
 
 private theorem inf_sup_le_pPrimeCore (hC : Conf166A5 A c L Y₀ X J)
-    (hU : Sec15.comp3In X = {J}) {y : G}
+    (_hU : Sec15.comp3In X = {J}) {y : G}
     (hyC : y ∈ CFSG.Quasithin.centralizerSection X J (CFSG.Open.pCoreOf 2 J))
     (hyJR : y ∈ J ⊔ pPrimeCoreOf 3 X) : y ∈ pPrimeCoreOf 3 X := by
   classical
@@ -537,7 +540,7 @@ private theorem coprime_card_centralizerSection (hC : Conf166A5 A c L Y₀ X J)
   have hDR : D ≤ J ⊔ R := deltaZero_le hC hRead hU
   have hDX : D ≤ X := Sec14.deltaZero_le X
   have hXND : X ≤ Subgroup.normalizer (D : Set G) := le_normalizer_deltaZero hC hbot
-  haveI : (D.subgroupOf X).Normal :=
+  have : (D.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hDX).mpr hXND
   have hCD : C ⊓ D ≤ R := fun y hy => inf_sup_le_pPrimeCore hC hU hy.1 (hDR hy.2)
   let φ : ↥C →* (↥X ⧸ D.subgroupOf X) :=

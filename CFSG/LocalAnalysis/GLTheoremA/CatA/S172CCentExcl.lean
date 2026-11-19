@@ -18,6 +18,7 @@ open Polynomial Module QuadraticMap CFSG.RankThree.Classical2 CFSG.RankThree.Par
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem mem_zpowers_of_commute {n : ℕ} {U : Fin (n - 1) → Submodule F V}
     {e : Fin (n - 1) → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
     (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)}
@@ -99,6 +100,7 @@ private lemma exists_primary_of_layerIs_aux3 {n : ℕ}
   exact Subtype.ext (commute_of_apply_eq (hF.nondeg j) (hOg g) (hfixj _ hgs)
     (hF.maps_to j) (hF.apply_of_perp j))
 
+omit [CharP F 2] in
 private lemma exists_primary_of_layerIs_aux4 {n : ℕ}
     {U : Fin (n - 1) → Submodule F V} {e : Fin (n - 1) → ↥(orthDerived Q)}
     {Bb : Subgroup ↥(orthDerived Q)} (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)}
@@ -122,6 +124,7 @@ private lemma exists_primary_of_layerIs_aux4 {n : ℕ}
   rw [fixedSpace_eq_of_mem_zpowers hp hord' hzp hd1']
   exact hF.fixedSpace_eq_polarPerp j₀
 
+omit [CharP F 2] in
 private lemma exists_primary_of_layerIs_aux5 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n : ℕ}
     (hdim : Module.finrank F V = 2 * n) (hn : 4 ≤ n) (hp : p.Prime)
     {U : Fin (n - 1) → Submodule F V} {e : Fin (n - 1) → ↥(orthDerived Q)}
@@ -170,9 +173,9 @@ theorem exists_primary_of_layerIs (hQ : (QuadraticMap.polarBilin Q).Nondegenerat
       Subgroup.zpowers d) :
     ∃ h ∈ primaryFactors (d : V ≃ₗ[F] V).toLinearMap, h ≠ X - 1 ∧
       ∀ j, U j ≤ primaryComponent (d : V ≃ₗ[F] V).toLinearMap h := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hd1 : d ≠ 1 := exists_primary_of_layerIs_aux1 hQ hdim hn hf hf1 hp hp2 hpq hb hLd
   have hord : orderOf d = p := orderOf_eq_prime (hF.isElemAbelian.2 d hd) hd1

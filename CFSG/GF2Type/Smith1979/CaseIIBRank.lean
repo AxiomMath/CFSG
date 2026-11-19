@@ -140,24 +140,30 @@ theorem A_eq_sup (C : Ctx q a E L) (X : Aux q a E) : Asp q a = E ⊔ Wsp C X := 
     V ≃ₗ[ZMod 2] V :=
   ((eqv C X).symm w : L)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Sv_mem (C : Ctx q a E L) (X : Aux q a E) (w : Wsp C X) : Sv C X w ∈ L :=
   ((eqv C X).symm w).2
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem vec_Sv (C : Ctx q a E L) (X : Aux q a E) (w : Wsp C X) : X.vec (Sv C X w) = w :=
   congrArg Subtype.val ((eqv C X).apply_symm_apply w)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Sv_vec (C : Ctx q a E L) (X : Aux q a E) {s : V ≃ₗ[ZMod 2] V} (hs : s ∈ L)
     (h : X.vec s ∈ Wsp C X) : Sv C X ⟨X.vec s, h⟩ = s :=
   X.eq_of_vec_eq C (Sv_mem C X _) hs (vec_Sv C X _)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Sv_add (C : Ctx q a E L) (X : Aux q a E) (w w' : Wsp C X) :
     Sv C X (w + w') = Sv C X w * Sv C X w' :=
   X.eq_of_vec_eq C (Sv_mem C X _) (mul_mem (Sv_mem C X w) (Sv_mem C X w'))
     (by rw [vec_Sv, X.vec_mul C (Sv_mem C X w) (Sv_mem C X w'), vec_Sv, vec_Sv]; rfl)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Sv_zero (C : Ctx q a E L) (X : Aux q a E) : Sv C X 0 = 1 :=
   X.eq_of_vec_eq C (Sv_mem C X _) (one_mem L) (by rw [vec_Sv, X.vec_one]; rfl)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem eq_zero_of_Sv_eq_one (C : Ctx q a E L) (X : Aux q a E) {w : Wsp C X}
     (h : Sv C X w = 1) : w = 0 := by
   have := vec_Sv C X w
@@ -168,6 +174,7 @@ theorem eq_zero_of_Sv_eq_one (C : Ctx q a E L) (X : Aux q a E) {w : Wsp C X}
     ZMod 2 :=
   polar q (w₂ : V) (Sv C X w₁ (w₃ : V) - w₃)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Tfun_add₁ (C : Ctx q a E L) (X : Aux q a E) (w₁ w₁' w₂ w₃ : Wsp C X) :
     Tfun C X (w₁ + w₁') w₂ w₃ = Tfun C X w₁ w₂ w₃ + Tfun C X w₁' w₂ w₃ := by
   have hs := Sv_mem C X w₁
@@ -188,22 +195,26 @@ theorem Tfun_add₁ (C : Ctx q a E L) (X : Aux q a E) (w₁ w₁' w₂ w₃ : Ws
   rw [Sv_add, h, polar_add_right, polar_add_right, ← hc, polar_smul_right, hxa, smul_zero,
     add_zero]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Tfun_smul₁ (C : Ctx q a E L) (X : Aux q a E) (c : ZMod 2) (w₁ w₂ w₃ : Wsp C X) :
     Tfun C X (c • w₁) w₂ w₃ = c • Tfun C X w₁ w₂ w₃ := by
   rcases zmod2_cases' c with rfl | rfl
   · simp [Tfun, Sv_zero]
   · simp
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Tfun_add₂ (C : Ctx q a E L) (X : Aux q a E) (w₁ w₂ w₂' w₃ : Wsp C X) :
     Tfun C X w₁ (w₂ + w₂') w₃ = Tfun C X w₁ w₂ w₃ + Tfun C X w₁ w₂' w₃ := by
   unfold Tfun
   rw [Submodule.coe_add, polar_add_left]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Tfun_smul₂ (C : Ctx q a E L) (X : Aux q a E) (c : ZMod 2) (w₁ w₂ w₃ : Wsp C X) :
     Tfun C X w₁ (c • w₂) w₃ = c • Tfun C X w₁ w₂ w₃ := by
   unfold Tfun
   rw [Submodule.coe_smul, polar_smul_left]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Tfun_add₃ (C : Ctx q a E L) (X : Aux q a E) (w₁ w₂ w₃ w₃' : Wsp C X) :
     Tfun C X w₁ w₂ (w₃ + w₃') = Tfun C X w₁ w₂ w₃ + Tfun C X w₁ w₂ w₃' := by
   unfold Tfun
@@ -212,6 +223,7 @@ theorem Tfun_add₃ (C : Ctx q a E L) (X : Aux q a E) (w₁ w₂ w₃ w₃' : Ws
   simp only [Submodule.coe_add, map_add]
   abel
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Tfun_smul₃ (C : Ctx q a E L) (X : Aux q a E) (c : ZMod 2) (w₁ w₂ w₃ : Wsp C X) :
     Tfun C X w₁ w₂ (c • w₃) = c • Tfun C X w₁ w₂ w₃ := by
   unfold Tfun
@@ -227,9 +239,11 @@ theorem Tfun_smul₃ (C : Ctx q a E L) (X : Aux q a E) (c : ZMod 2) (w₁ w₂ w
   map_add' w₁ w₁' := LinearMap.ext₂ fun w₂ w₃ => Tfun_add₁ C X w₁ w₁' w₂ w₃
   map_smul' c w₁ := LinearMap.ext₂ fun w₂ w₃ => Tfun_smul₁ C X c w₁ w₂ w₃
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Tform_apply (C : Ctx q a E L) (X : Aux q a E) (w₁ w₂ w₃ : Wsp C X) :
     Tform C X w₁ w₂ w₃ = polar q (w₂ : V) (Sv C X w₁ (w₃ : V) - w₃) := rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Tform_self₁ (C : Ctx q a E L) (X : Aux q a E) (x z : Wsp C X) : Tform C X x x z = 0 := by
   rw [Tform_apply]
   have hs := Sv_mem C X x
@@ -243,6 +257,7 @@ theorem Tform_self₁ (C : Ctx q a E L) (X : Aux q a E) (x z : Wsp C X) : Tform 
   rw [polar_comm]
   exact h2
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Tform_self₂ (C : Ctx q a E L) (X : Aux q a E) (x y : Wsp C X) : Tform C X x y y = 0 := by
   rw [Tform_apply]
   have hs := Sv_mem C X x
@@ -256,6 +271,7 @@ theorem Tform_self₂ (C : Ctx q a E L) (X : Aux q a E) (x y : Wsp C X) : Tform 
   rw [← h1]
   exact C.q_E _ hE
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem Tform_swap₁₂ (C : Ctx q a E L) (X : Aux q a E) (x y z : Wsp C X) :
     Tform C X x y z = Tform C X y x z := by
   rw [Tform_apply, Tform_apply]
@@ -314,7 +330,7 @@ theorem Rsp_eq (C : Ctx q a E L) (X : Aux q a E) (w : Wsp C X) :
     rw [trilinear_swap_right _ (Tform_self₂ C X), Tform_apply] at this
     exact this
 
-theorem finrank_Rsp [FiniteDimensional (ZMod 2) V] (C : Ctx q a E L) (X : Aux q a E)
+theorem finrank_Rsp (C : Ctx q a E L) (X : Aux q a E)
     (w : Wsp C X) :
     finrank (ZMod 2) (Rsp q a (Sv C X w)) = 6 + finrank (ZMod 2) (rad (Tform C X) w) := by
   rw [Rsp_eq C X w]
@@ -328,7 +344,7 @@ theorem finrank_Rsp [FiniteDimensional (ZMod 2) V] (C : Ctx q a E L) (X : Aux q 
   rw [hdisj, finrank_bot, Submodule.finrank_map_subtype_eq, C.finrank_E] at h
   omega
 
-theorem finrank_range_add_finrank_rad [FiniteDimensional (ZMod 2) V] (C : Ctx q a E L)
+theorem finrank_range_add_finrank_rad (C : Ctx q a E L)
     (X : Aux q a E) {w : Wsp C X} (hw : w ≠ 0) :
     finrank (ZMod 2) (LinearMap.range ((Sv C X w : V →ₗ[ZMod 2] V) - 1)) +
       finrank (ZMod 2) (rad (Tform C X) w) = 7 := by
@@ -337,7 +353,7 @@ theorem finrank_range_add_finrank_rad [FiniteDimensional (ZMod 2) V] (C : Ctx q 
   rw [finrank_Rsp C X w] at this
   omega
 
-theorem Ctx.exists_model [FiniteDimensional (ZMod 2) V] (C : Ctx q a E L) :
+theorem Ctx.exists_model (C : Ctx q a E L) :
     ∃ (W : Submodule (ZMod 2) V) (T : W →ₗ[ZMod 2] W →ₗ[ZMod 2] W →ₗ[ZMod 2] ZMod 2)
       (S : W → V ≃ₗ[ZMod 2] V),
       finrank (ZMod 2) W = 5 ∧ (∀ x z, T x x z = 0) ∧ (∀ x y, T x y y = 0) ∧

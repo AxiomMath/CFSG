@@ -35,14 +35,14 @@ public theorem suzuki_ch5_theorem_2_10_corollary_1
     (MonoidHom.transferSylow P (hP.normalizer_le_centralizer hp)).ker
   have hcomp : N.IsComplement' (P : Subgroup G) := by
     simpa [N] using hP.isComplement' hp
-  letI : N.Normal := by
+  let : N.Normal := by
     dsimp [N]
     infer_instance
   refine ⟨N, inferInstance, ?_, ?_⟩
   · change Nat.Coprime p (Nat.card ↥(N : Set G))
     rw [hcomp.card_left]
     exact (Fact.out : p.Prime).coprime_iff_not_dvd.mpr P.not_dvd_index
-  · exact P.isPGroup'.of_equiv hcomp.symm.QuotientMulEquiv.symm
+  · exact P.isPGroup.of_equiv hcomp.symm.QuotientMulEquiv.symm
 
 end V
 end Suzuki

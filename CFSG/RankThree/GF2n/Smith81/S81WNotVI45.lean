@@ -12,7 +12,7 @@ open scoped commutatorElement Matrix
 
 private theorem s81w_charP_two {K : Type} [Field K] [Finite K] {f : ℕ} (h : Nat.card K = 2 ^ f) :
     CharP K 2 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 ^ f := by rw [← Nat.card_eq_fintype_card, h]
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
   have hdvd : ringChar K ∣ 2 ^ f := by
@@ -121,7 +121,7 @@ private lemma Pf_preserve_H {K : Type} [Field K] {n : ℕ} {c H : Submodule K (F
   simpa using this
 
 private lemma Pf_mul {K : Type} [Field K] {n : ℕ} {c H : Submodule K (Fin n → K)}
-    (hcH : c ≤ H) {g h : Matrix.GeneralLinearGroup (Fin n) K} (hg : Pf c H g) (hh : Pf c H h) :
+    (_hcH : c ≤ H) {g h : Matrix.GeneralLinearGroup (Fin n) K} (hg : Pf c H g) (hh : Pf c H h) :
     Pf c H (g * h) := by
   intro v
   have e : ((g * h : Matrix.GeneralLinearGroup (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ v
@@ -386,7 +386,7 @@ theorem isPGroup_Rt (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B n V₁ V₂) (hn :
   obtain ⟨K, fK, finK, hcard, φ, hrange, hker', hZV₁, hV₁Q, hZV₂, hV₂Q, hint, hsup, hs₁, hs₂,
     hswap, hcent⟩ := id hS
   obtain ⟨f, -, hf, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := s81w_charP_two (hcard.trans hf)
+  have : CharP K 2 := s81w_charP_two (hcard.trans hf)
   have hker : ∀ s : ↥(Lgen M (LB M Q B)), φ s = 1 ↔ (s : G) ∈ Q := fun s => by
     rw [← MonoidHom.mem_ker, hker', Subgroup.mem_subgroupOf]
   have htS : t ∈ Lgen M (LB M Q B) := le_Lgen_self M (LB M Q B) ht
@@ -500,6 +500,7 @@ theorem isPGroup_Rt (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B n V₁ V₂) (hn :
         ring
     _ = 1 := hk'
 
+omit [Finite G] in
 theorem rt_quot_absurd {t : G} {m f : ℕ} (hm : 3 ≤ m) (hq4 : 4 ≤ Nat.card Z)
     (hf : Nat.card Z = 2 ^ f) (hP : IsPGroup 2 (Rt M (LB M Q B) t))
     (hR : QuotSat (Rt M (LB M Q B) t) (Nt M (LB M Q B) t) (IsOmegaPlus m (Nat.card Z))) :
@@ -524,7 +525,7 @@ theorem rt_quot_absurd {t : G} {m f : ℕ} (hm : 3 ≤ m) (hq4 : 4 ≤ Nat.card 
   unfold QuotSat IsOmegaPlus at hR
   obtain ⟨hNR', K₂, fK₂, finK₂, ⟨hK₂, hne⟩⟩ := hR
   obtain ⟨e⟩ := hne
-  haveI : CharP K₂ 2 := s81w_charP_two (hK₂.trans hf)
+  have : CharP K₂ 2 := s81w_charP_two (hK₂.trans hf)
   have hdvd := SubCfg.pow_two_mul_sub_one_dvd_card_omegaPlus (K := K₂) (m := m) hm
     (i := 1) le_rfl (by omega)
   rw [← Nat.card_congr e.toEquiv, hcard1, Nat.dvd_one] at hdvd

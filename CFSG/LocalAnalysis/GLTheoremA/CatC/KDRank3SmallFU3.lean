@@ -36,41 +36,25 @@ lemma qM_mul_qI {x y : K} (h3 : (3 : K) = 0) (h : x * y = -1) : qM x * qI y = 1 
   ext i j
   fin_cases i <;> fin_cases j <;> simp [qM, qI, Matrix.mul_apply, Fin.sum_univ_three] <;>
     first
-      | ring1
       | linear_combination h
       | linear_combination h - h3
       | linear_combination 2 * h - h3
       | linear_combination -h3
-      | linear_combination h3
-      | linear_combination -h
-      | linear_combination -h - h3
 
 lemma qI_mul_qM {x y : K} (h3 : (3 : K) = 0) (h : x * y = -1) : qI y * qM x = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [qM, qI, Matrix.mul_apply, Fin.sum_univ_three] <;>
     first
-      | ring1
       | linear_combination h
       | linear_combination h - h3
-      | linear_combination 2 * h - h3
-      | linear_combination -h3
-      | linear_combination h3
-      | linear_combination -h
-      | linear_combination -h - h3
 
 lemma qM_transpose_mul_qM {x y : K} (h3 : (3 : K) = 0) (h : x * y = -1) :
     (qM x)ᵀ * qM y = J0 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [qM, J0, Matrix.mul_apply, Fin.sum_univ_three] <;>
     first
-      | ring1
       | linear_combination h
       | linear_combination h - h3
-      | linear_combination 2 * h - h3
-      | linear_combination -h3
-      | linear_combination h3
-      | linear_combination -h
-      | linear_combination -h - h3
 
 lemma uM_mul (h3 : (3 : K) = 0) (a μ δ a' μ' : K) :
     uM a μ δ * uM a' μ' δ = uM (a + a') (μ + μ') δ := by
@@ -81,8 +65,8 @@ lemma uM_mul (h3 : (3 : K) = 0) (a μ δ a' μ' : K) :
 lemma uM_transpose_J0_mul (h3 : (3 : K) = 0) (a μ δ : K) :
     (uM a μ (-δ))ᵀ * J0 * uM a μ δ = J0 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [uM, J0, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | ring1 | linear_combination (a ^ 2) * h3
+  fin_cases i <;> fin_cases j <;> simp [uM, J0, Matrix.mul_apply, Fin.sum_univ_three];
+    linear_combination (a ^ 2) * h3
 
 lemma qM_map (σ : K →+* K) (x : K) : (qM x).map σ = qM (σ x) := by
   ext i j
@@ -181,7 +165,7 @@ noncomputable def embGF27 : GF27 →+* GF729 :=
 lemma embGF27_injective : Function.Injective embGF27 := embGF27.injective
 
 lemma pow_GF27 (y : GF27) : y ^ (3 ^ 3) = y := by
-  haveI := Fintype.ofFinite GF27
+  have := Fintype.ofFinite GF27
   have hc : Fintype.card GF27 = 3 ^ 3 := by
     rw [← Nat.card_eq_fintype_card, card_GF27]; norm_num
   have := FiniteField.pow_card y
@@ -189,7 +173,7 @@ lemma pow_GF27 (y : GF27) : y ^ (3 ^ 3) = y := by
   exact this
 
 lemma pow_GF729 (x : GF729) : x ^ 729 = x := by
-  haveI := Fintype.ofFinite GF729
+  have := Fintype.ofFinite GF729
   have hc : Fintype.card GF729 = 729 := by
     rw [← Nat.card_eq_fintype_card, card_GF729]; norm_num
   have := FiniteField.pow_card x
@@ -315,12 +299,12 @@ lemma psiHom_injective (β δ : GF729) (hβ : β * frob27 β = -1) (hδ : frob27
     simp [gHom, gUnit, Matrix.GeneralLinearGroup.scalar] at this
     rw [← this]
     ext i j
-    by_cases h : i = j <;> simp [Matrix.diagonal_apply, Matrix.smul_apply, h]
+    by_cases h : i = j <;> simp [Matrix.smul_apply, h]
   have hU := uM_eq_of_gM_scalar β δ hβ _ _ _ hv
   have h01 := congrFun (congrFun hU 0) 1
   have h02 := congrFun (congrFun hU 0) 2
   simp only [uM, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.smul_apply,
+    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.smul_apply,
     Matrix.one_apply, smul_eq_mul, Fin.isValue] at h01 h02
   have ha : embGF27 (Multiplicative.toAdd x).1 = 0 := by simpa using h01
   have hμ : embGF27 (Multiplicative.toAdd x).2 * δ = 0 := by

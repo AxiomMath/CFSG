@@ -112,7 +112,7 @@ private theorem sec124_coord_sq (F : Sec12Frame t L S) (hE : IsSylow2Of E (secCM
 
 private theorem sec124_f_sq_eq (F : Sec12Frame t L S) (hE : IsSylow2Of E (secCMB t S L))
     (hZ : IsZ4Pow4 (secV t S L E)) {φ : (Fin 5 → ZMod 2) → G}
-    (hperm : IsPermModuleVia IsEvenVec φ (secB S L) (secM t S L ⊓ L) (alternatingGroup (Fin 5)))
+    (_hperm : IsPermModuleVia IsEvenVec φ (secB S L) (secM t S L ⊓ L) (alternatingGroup (Fin 5)))
     {x x' : G} (hx : x ∈ secV t S L E) (hx' : x' ∈ secV t S L E) (hxx : x * x = x' * x') :
     sec12f t x = sec12f t x' := by
   have hBV : secB S L ≤ secV t S L E := sec121_B_le_V F hE

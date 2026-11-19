@@ -16,7 +16,7 @@ theorem ggCommonJOmMinusSplit_torus_injective (hζ : ζ ^ p = 1) (hζo : orderOf
     Function.Injective
       (omMinusTorus (p := p) b c hζ :
         (Fin m → Multiplicative (ZMod p)) →* StatedOmega (StatedQuadMinus (m + 1) K b c)) := by
-  haveI : NeZero p := ⟨by rw [← hζo]; exact (orderOf_pos ζ).ne'⟩
+  have : NeZero p := ⟨by rw [← hζo]; exact (orderOf_pos ζ).ne'⟩
   intro f g hfg
   refine omMinusTorusGL_injective hζ hζo ?_
   simpa only [coe_omMinusTorus] using
@@ -32,7 +32,7 @@ theorem ggCommonJOmMinusSplit_signed (hp : p.Prime) (hζ : ζ ^ p = 1) (hζo : o
         ∀ f, g * omMinusTorus (p := p) b c hζ f * g⁻¹ =
           omMinusTorus (p := p) b c hζ (u f) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let V := Fin m → Multiplicative (ZMod p)
   let H := StatedOmega (StatedQuadMinus (m + 1) K b c)
   let τ : V →* H := omMinusTorus (p := p) b c hζ

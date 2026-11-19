@@ -589,7 +589,7 @@ theorem exists_conj_comap [Finite K] (hn : 8 ≤ n) (hn' : n ≤ 11) (hK : IsDou
     rw [hKcard, hpow] at h1
     interval_cases n <;> norm_num [Nat.factorial] at h1 ⊢ <;> omega
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := exists_conj_of_sylow (S : Subgroup K) ((P0 n).comap C.ρ) S.isPGroup' hS₀p
+  obtain ⟨k, hk⟩ := exists_conj_of_sylow (S : Subgroup K) ((P0 n).comap C.ρ) S.isPGroup hS₀p
     S.not_dvd_index hidx
   refine ⟨C.ρ k, ?_⟩
   ext x

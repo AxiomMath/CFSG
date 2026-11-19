@@ -9,7 +9,7 @@ namespace CFSG.Sporadic.ThSchreier
 
 open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.Sporadic.Th.Max3
 
-@[expose] def invWord (w : List ℤ) : List ℤ := (w.map fun l => -l).reverse
+def invWord (w : List ℤ) : List ℤ := (w.map fun l => -l).reverse
 
 theorem pairLetters_neg {G : Type*} [Group G] (g h : G) {l : ℤ} (hl : l = 1 ∨ l = 2) :
     pairLetters g h (-l) = (pairLetters g h l)⁻¹ := by
@@ -30,10 +30,10 @@ theorem wordG_invWord {G : Type*} [Group G] (g h : G) :
 
 theorem transporterWord_letters : ∀ l ∈ transporterWord, l = 1 ∨ l = 2 := by decide
 
-@[expose] def rowsV : Array V4 := abRows transporterWord
+def rowsV : Array V4 := abRows transporterWord
 
-@[expose] def rowsVInv : Array V4 := abRows (invWord transporterWord)
+def rowsVInv : Array V4 := abRows (invWord transporterWord)
 
-@[expose] def starKey : Key := imageKey (frTable rowsVInv) wKeyRow
+def starKey : Key := imageKey (frTable rowsVInv) wKeyRow
 
 end CFSG.Sporadic.ThSchreier

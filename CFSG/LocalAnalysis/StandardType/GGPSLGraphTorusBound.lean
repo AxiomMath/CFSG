@@ -33,7 +33,7 @@ private lemma pslB3_count {A A' C D : Type*} [Group A] [Group A'] [Group C] [Gro
   have hc := Subgroup.card_ker_mul_card_range c
   have hδle : Nat.card δ.range ≤ Nat.card C := Subgroup.card_le_card_group δ.range
   have hNpos : 0 < Nat.card N.ker := by
-    haveI : Nonempty N.ker := ⟨1, N.ker.one_mem⟩
+    have : Nonempty N.ker := ⟨1, N.ker.one_mem⟩
     exact Nat.card_pos
   have key : Nat.card N.range * Nat.card N.ker ≤
       Nat.card N.ker * (Nat.card C * Nat.card c.range) := by
@@ -57,7 +57,7 @@ private lemma pslB3_alg_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) :
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  haveI : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
+  have : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
   intro a b
   exact mul_comm' a b
 
@@ -107,7 +107,7 @@ private noncomputable def pslB3_N {n : ℕ} {K : Type} [Field K] [Finite K] [Cha
       rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
       rw [Set.mem_singleton_iff] at hs hs'
       rw [hs, hs']
-    haveI : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
+    have : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
     intro s t
     apply Units.ext
     simp only [Units.val_mul]
@@ -263,7 +263,7 @@ private lemma pslB3_c_unique {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 
         ((((t⁻¹ : (pslAlg B)ˣ) : pslAlg B) : Matrix (Fin n) (Fin n) K)) =
       (d' : K) • (((t : pslAlg B) : Matrix (Fin n) (Fin n) K))) :
     d = d' := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, by have := S.three_le; omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by have := S.three_le; omega⟩⟩
   have hMne : (((t : pslAlg B) : Matrix (Fin n) (Fin n) K)) ≠ 0 := by
     rw [← pslB3_gl_val B t]
     exact Units.ne_zero (pslB3_gl B t)
@@ -404,7 +404,7 @@ private lemma pslB3_ker {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
 private lemma pslB3_roots (K : Type) [Field K] [Finite K] (n : ℕ) (H : Subgroup Kˣ)
     (hn : ∀ x ∈ H, x ^ n = 1) :
     Nat.card H ≤ Nat.gcd n (Nat.card K - 1) := by
-  haveI : IsCyclic H := isCyclic_subgroup_units H
+  have : IsCyclic H := isCyclic_subgroup_units H
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := H)
   have hgn : g ^ n = 1 := by
     apply Subtype.ext
@@ -416,7 +416,7 @@ private lemma pslB3_roots (K : Type) [Field K] [Finite K] (n : ℕ) (H : Subgrou
     have hdvd : Nat.card H ∣ Nat.card Kˣ := Subgroup.card_subgroup_dvd_card H
     rwa [Nat.card_units K] at hdvd
   have hK : 1 < Nat.card K := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have := Fintype.one_lt_card (α := K)
     rwa [← Nat.card_eq_fintype_card] at this
   have hgpos : 0 < Nat.gcd n (Nat.card K - 1) := by

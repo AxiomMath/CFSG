@@ -42,7 +42,7 @@ private theorem s16t3_two_lt_rkIdx_of_eight_mul {X : Type*} [Group X] [Finite X]
     (S : Subgroup X) (hpow : ∃ e : ℕ, S.index = 2 ^ e) (h : 8 * Nat.card S ≤ Nat.card X) :
     2 < rkIdx S := by
   obtain ⟨e, he⟩ := hpow
-  haveI : Nonempty ↥S := ⟨1⟩
+  have : Nonempty ↥S := ⟨1⟩
   have hcard : Nat.card S * S.index = Nat.card X := Subgroup.card_mul_index S
   rw [← hcard] at h
   have h8le : 8 ≤ S.index := by
@@ -53,7 +53,7 @@ private theorem s16t3_two_lt_rkIdx_of_eight_mul {X : Type*} [Group X] [Finite X]
   have h3 : 3 ≤ e := by
     have h23 : 2 ^ 3 ≤ 2 ^ e := by simpa [he] using h8le
     exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).1 h23
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrk : rkIdx S = e := by rw [rkIdx, he, padicValNat.prime_pow]
   omega
 
@@ -108,8 +108,8 @@ theorem S16gRowCtx.threeNat (h : S16gRowCtx D V₀ V L hV)
       ∃ g ∈ Mbar D.M V₀ V hV ⊓ Subgroup.normalizer
         (lBar V₀ V hV L : Set (MulAut (Vtil V₀ V hV))), I₂ = I₁.map g.toMonoidHom) :
     ThreeNat (Mbar D.M V₀ V hV) (lBar V₀ V hV L) (barSub V₀ V hV D.T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Vtil V₀ V hV) := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Vtil V₀ V hV) := inferInstance
   have hMS : D.M ≤ stabTil V₀ V := s16g_le_stabTil h.setting
   refine threeNat_of_component_data (fun w => ?_) ?_ h.mBar_le_normalizer ?_ h.quasi h.comm_top ?_ htrans
   · simpa [pow_two] using s15_Infra_vtil_sq_eq_one V₀ V hV w
@@ -130,8 +130,8 @@ theorem mBarGT_two_of_threeNat
     (hS : Setting16 D V₀ V L)
     (hT : ThreeNat (Mbar D.M V₀ V hV) (lBar V₀ V hV L)
       (barSub V₀ V hV D.T)) : MBarGT D.M V₀ V 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Vtil V₀ V hV) := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Vtil V₀ V hV) := inferInstance
   have hMS : D.M ≤ stabTil V₀ V := s16g_le_stabTil hS
   have hV₀le : V₀ ≤ V := hS.hyp16.hyp125.pairFacts.le
   unfold MBarGT

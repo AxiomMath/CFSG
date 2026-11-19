@@ -34,13 +34,13 @@ theorem k35Ω_five (hSI : CFSG.AGLEmbedding.KFactSmallIdent)
     IsSimpleGroup X ∧ (LieModel X .PSL 2 p 2 ∨ IsAlt X (2 * p) ∨
       (p = 3 ∧ (IsSpor X .M11 ∨ LieModel X .PSL 3 2 2)) ∨
       (p = 5 ∧ (LieModel X .Tits 0 2 1 ∨ IsSpor X .Fi22))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar hp hO hN
   set K := CFSG.generalizedFitting X with hKdef
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hcat : CFSG.Open.IsCatalogGroup ↥K :=
     hX.isCatalogGroup_of_surjective K hKnab (MonoidHom.id _) Function.surjective_id
   obtain ⟨U, hU⟩ := exists_sylow_coe_eq hS
@@ -61,7 +61,7 @@ theorem k35Ω_five (hSI : CFSG.AGLEmbedding.KFactSmallIdent)
       rw [hU]
       exact CFSG.SectionRank.le_pRank hp.one_lt hBS hB hBcard
     have hΓ : CFSG.Open.rankThreeGamma 1 p (U : Subgroup X) ≠ ⊤ :=
-      ne_top_of_le_ne_top hN'.1 (glbCore_le_of_isStronglyPEmbedded hN' U.isPGroup' hUN')
+      ne_top_of_le_ne_top hN'.1 (glbCore_le_of_isStronglyPEmbedded hN' U.isPGroup hUN')
     rcases hK2 X K hKn hKs hKnab hcat hKC p hp hp2 U hcyc hrk hΓ with ⟨h3, -⟩ | ⟨h5, hiso⟩
     · exact hp3 h3
     · subst h5

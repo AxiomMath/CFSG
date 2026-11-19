@@ -78,7 +78,7 @@ theorem pow_eq_pow_mod_three_aux {R : Type*} [Monoid R] {c : R} (h3 : c ^ 3 = 1)
     c ^ e = c ^ (e % 3) := by
   conv_lhs => rw [← Nat.div_add_mod e 3, pow_add, pow_mul, h3, one_pow, one_mul]
 
-theorem part7 (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
+theorem part7 (_hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
     (Odd n → Nonempty (↥(img hK) ≃* PSL(3, K))) ∧ (Even n → Nonempty (↥(img hK) ≃* SL(3, K))) := by
   have hscal : ∀ g : SpecialLinearGroup (Fin 3) K,
       g ∈ CFSG.LocalAnalysis.ComponentInitial.LinearFlag.scalars 3 K →

@@ -37,7 +37,7 @@ theorem pComponent_quotCenter_equiv {S : Type} [Group S] [Finite S] {K : Type} [
     (hψ : MulAut.congr ψ α = fieldAutT Q σ SS.hQσ) {J : Subgroup S}
     (hJ : GLAPComponent p (fixSubgroup α) J) :
     Nonempty (↥J ⧸ Subgroup.center ↥J ≃* matrixProjectiveDerived Q₀) := by
-  haveI : Finite (matrixProjectiveDerived Q) := Finite.of_equiv S ψ.toEquiv
+  have : Finite (matrixProjectiveDerived Q) := Finite.of_equiv S ψ.toEquiv
   have hN : fixSubgroup (fieldAutT Q σ SS.hQσ) = subfieldFixedGroup k Q₀ Q :=
     Subgroup.ext fun t =>
       CFSG.HardMathSupport.Solomon.Coordinator.mem_fixSubgroup.trans (fieldAutT_apply_iff SS t)
@@ -45,12 +45,12 @@ theorem pComponent_quotCenter_equiv {S : Type} [Group S] [Finite S] {K : Type} [
     rw [← hN, ← hψ, ← Y10F.fixSubgroup_map_congr]
     exact (Y10F.glaPComponent_map_iff SS.hp ψ.injective).mpr hJ
   have hd : 0 < d := three_le_of_totallySingular k SS.hT₀
-  haveI : IsSimpleGroup (matrixProjectiveDerived Q₀) :=
+  have : IsSimpleGroup (matrixProjectiveDerived Q₀) :=
     (matrix_simple_nonabelian hd SS.hnd₀ SS.hT₀).1
-  haveI := subfieldDerivedImage_normal k SS.hext
+  have := subfieldDerivedImage_normal k SS.hext
   have hsolv : Group.IsSolvable (↥(subfieldFixedGroup k Q₀ Q) ⧸
       (subfieldDerivedImage k SS.hext).subgroupOf (subfieldFixedGroup k Q₀ Q)) := by
-    haveI := (fixedGroup_quotient_isPGroup k SS.hext SS.hnd₀ SS.hT₀).isNilpotent
+    have := (fixedGroup_quotient_isPGroup k SS.hext SS.hnd₀ SS.hT₀).isNilpotent
     infer_instance
   have hEq : J.map ψ.toMonoidHom = subfieldDerivedImage k SS.hext :=
     FOB.eq_of_component (subfieldDerivedImage_le k SS.hext) hsolv
@@ -58,8 +58,8 @@ theorem pComponent_quotCenter_equiv {S : Type} [Group S] [Finite S] {K : Type} [
   let e : ↥J ≃* matrixProjectiveDerived Q₀ :=
     ((Subgroup.equivMapOfInjective J ψ.toMonoidHom ψ.injective).trans
       (MulEquiv.subgroupCongr hEq)).trans (inclEquiv k SS.hext hd).symm
-  haveI : IsSimpleGroup ↥J := e.isSimpleGroup
-  haveI : Group.IsPerfect ↥J :=
+  have : IsSimpleGroup ↥J := e.isSimpleGroup
+  have : Group.IsPerfect ↥J :=
     Subgroup.isPerfect_iff.mpr (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ)
   exact Y10GInnLinFld.nonempty_quotCenter_equiv e
 

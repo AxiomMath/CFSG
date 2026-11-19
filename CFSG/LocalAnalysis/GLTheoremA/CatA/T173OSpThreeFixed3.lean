@@ -18,6 +18,7 @@ variable {F : Type} [Field F] [Finite F] {ℓ : ℕ}
 
 local notation "V" => (Fin ℓ ⊕ Fin ℓ → F)
 
+omit [Finite F] in
 private theorem isTotallyIsotropic_spForm [CharP F 2] {W : Submodule F V}
     (h : ∀ u ∈ W, ∀ v ∈ W, spForm ℓ F u v = 0) :
     (CFSG.LieType.BorelTits.spForm ℓ F).IsTotallyIsotropic W := by
@@ -31,10 +32,11 @@ private theorem isTotallyIsotropic_spForm [CharP F 2] {W : Submodule F V}
   rw [CFSG.LieType.BorelTits.ReflForm.β_swap_of_alt (F := CFSG.LieType.BorelTits.spForm ℓ F)
     (CFSG.LieType.BorelTits.spForm_self ℓ F) w v, h', neg_zero]
 
+omit [Finite F] in
 private theorem not_isotropic_of_eq_quad [CharP F 2] {d : ↥(StatedSp ℓ F)}
     (hd3 : d ^ 3 = 1) {W : Submodule F V} (hW0 : W ≠ ⊥)
     (hWiso : ∀ u ∈ W, ∀ v ∈ W, spForm ℓ F u v = 0)
-    (hWle3 : W ≤ primaryComponent (spEnd d) (X ^ 2 + X + 1))
+    (_hWle3 : W ≤ primaryComponent (spEnd d) (X ^ 2 + X + 1))
     (hWeq : W = primaryComponent (spEnd d) (X ^ 2 + X + 1)) : False := by
   have hW3ne : primaryComponent (spEnd d) (X ^ 2 + X + 1) ≠ ⊥ := by rwa [← hWeq]
   obtain ⟨s', hs', hs0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hW3ne
@@ -89,7 +91,8 @@ private theorem mem_zpowers_of_fixes_fixed [CharP F 2] (hF : Nat.card F = 2)
     ⟨ha, haC⟩
   rwa [hd.2.2.2.2] at hmem
 
-theorem inf_quad_le_zpowers_of_std [CharP F 2] (hF : Nat.card F = 2)
+omit [Finite F] in
+theorem inf_quad_le_zpowers_of_std [CharP F 2] (_hF : Nat.card F = 2)
     {A : Subgroup ↥(StatedSp ℓ F)}
     {d : ↥(StatedSp ℓ F)} (hd : IsStdElt 3 A d)
     (hK : stdLayer d = ⁅spSupported d ({X - 1} : Set F[X]),
@@ -150,6 +153,7 @@ private theorem exists_invariant_isotropic [CharP F 2] {A : Subgroup ↥(StatedS
   obtain ⟨T, hTne, hT2, hTE⟩ := hv'
   exact exists_isotropic_of_le_normalizer hT2 hTne hTE
 
+omit [Finite F] in
 private theorem inf_fixed_eq_bot [CharP F 2] (hF : Nat.card F = 2)
     {A : Subgroup ↥(StatedSp ℓ F)} {d : ↥(StatedSp ℓ F)} (hd : IsStdElt 3 A d)
     (hK : stdLayer d = ⁅spSupported d ({X - 1} : Set F[X]),
@@ -193,6 +197,7 @@ private theorem inf_fixed_eq_bot [CharP F 2] (hF : Nat.card F = 2)
     abel
   exact false_of_isotropic_of_move hWiso hκW hu.1 hmove huv
 
+omit [Finite F] in
 private theorem le_quad_of_invariant [CharP F 2] {A : Subgroup ↥(StatedSp ℓ F)}
     {d : ↥(StatedSp ℓ F)} (hd : IsStdElt 3 A d) {W : Submodule F V}
     (hdisj1 : W ⊓ primaryComponent (spEnd d) (X - 1) = ⊥)
@@ -219,6 +224,7 @@ private theorem le_quad_of_invariant [CharP F 2] {A : Subgroup ↥(StatedSp ℓ 
   rw [h3]
   exact (split_primary hd3 w).2.1
 
+omit [Finite F] in
 private theorem finrank_quad_eq_two_mul_sub [CharP F 2] {d : ↥(StatedSp ℓ F)}
     (hd3 : d ^ 3 = 1) {s : ℕ} (hs : spFixedDim d = 2 * s) :
     Module.finrank F (primaryComponent (spEnd d) (X ^ 2 + X + 1)) = 2 * (ℓ - s) := by
@@ -226,7 +232,8 @@ private theorem finrank_quad_eq_two_mul_sub [CharP F 2] {d : ↥(StatedSp ℓ F)
   have hfin : Module.finrank F (primaryComponent (spEnd d) (X - 1)) = 2 * s := hs
   omega
 
-private theorem exists_moved_vector {d : ↥(StatedSp ℓ F)} (hd3 : d ^ 3 = 1)
+omit [Finite F] in
+private theorem exists_moved_vector {d : ↥(StatedSp ℓ F)} (_hd3 : d ^ 3 = 1)
     {W : Submodule F V} (hW0 : W ≠ ⊥)
     (hdisj1 : W ⊓ primaryComponent (spEnd d) (X - 1) = ⊥) :
     ∃ r ∈ W, r ≠ 0 ∧ spEnd d r ≠ r := by
@@ -267,7 +274,7 @@ private theorem linearIndependent_pair_of_moved [CharP F 2] (hF : Nat.card F = 2
     exact absurd hdr hrd
 
 private theorem card_bound_of_invariant_isotropic [CharP F 2] (hF : Nat.card F = 2)
-    (hℓ : 3 ≤ ℓ) {A : Subgroup ↥(StatedSp ℓ F)} (hA : GLAIsBmax 3 A)
+    (_hℓ : 3 ≤ ℓ) {A : Subgroup ↥(StatedSp ℓ F)} (hA : GLAIsBmax 3 A)
     {W : Submodule F V} (hWiso : ∀ u ∈ W, ∀ v ∈ W, spForm ℓ F u v = 0)
     (hWA : ∀ a ∈ A, ∀ w ∈ W, spEnd a w ∈ W) :
     Nat.card A ≤ 3 ^ (finrank F W / 2) * 3 ^ ((finrank F V - 2 * finrank F W) / 2) := by
@@ -334,6 +341,7 @@ private theorem dim_le_two_of_card_bound [CharP F 2] (hF : Nat.card F = 2)
     exact (not_isotropic_of_eq_quad hd3 hW0 hWiso hWle3
       (Submodule.eq_of_le_of_finrank_eq hWle3 (by rw [h4, hdimW34]))).elim
 
+omit [Finite F] in
 private theorem finrank_quad_eq_four_of_lagrangian [CharP F 2] {d : ↥(StatedSp ℓ F)}
     (hd3 : d ^ 3 = 1) {W : Submodule F V} (hW0 : W ≠ ⊥)
     (hWiso : ∀ u ∈ W, ∀ v ∈ W, spForm ℓ F u v = 0)
@@ -355,6 +363,7 @@ private theorem finrank_quad_eq_four_of_lagrangian [CharP F 2] {d : ↥(StatedSp
   rw [hdimW3]
   omega
 
+omit [Finite F] in
 private theorem quad_perp_eq_of_lagrangian [CharP F 2] {d : ↥(StatedSp ℓ F)}
     (hd3 : d ^ 3 = 1) {W : Submodule F V}
     (hWle3 : W ≤ primaryComponent (spEnd d) (X ^ 2 + X + 1))
@@ -373,6 +382,7 @@ private theorem quad_perp_eq_of_lagrangian [CharP F 2] {d : ↥(StatedSp ℓ F)}
     exact congrArg Subtype.val h1
   · rw [hdimW3', hdimW]
 
+omit [Finite F] in
 private theorem span_le_eqLocus_of_eq_on_pair {f g : Module.End F V} {x y : V}
     (hx : f x = g x) (hy : f y = g y) :
     Submodule.span F {x, y} ≤ LinearMap.eqLocus f g := by
@@ -382,11 +392,11 @@ private theorem span_le_eqLocus_of_eq_on_pair {f g : Module.End F V} {x y : V}
   · exact hy
 
 private theorem exists_pow_of_action_on_pair [CharP F 2] (hF : Nat.card F = 2)
-    {A : Subgroup ↥(StatedSp ℓ F)} {d x : ↥(StatedSp ℓ F)} (hx : x ∈ A)
+    {A : Subgroup ↥(StatedSp ℓ F)} {d x : ↥(StatedSp ℓ F)} (_hx : x ∈ A)
     {W : Submodule F V} {r : V} (hr0 : r ≠ 0)
     (hspanW : Submodule.span F {r, spEnd d r} = W) (hxrW : spEnd x r ∈ W)
     (hrW3 : r ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
-    (hdrW3 : spEnd d r ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
+    (_hdrW3 : spEnd d r ∈ primaryComponent (spEnd d) (X ^ 2 + X + 1))
     (hdx : spEnd x (spEnd d r) = spEnd d (spEnd x r)) :
     ∃ j : ℕ, j < 3 ∧ ∀ w ∈ W, spEnd x w = spEnd (d ^ j) w := by
   have hxrW' : spEnd x r ∈ Submodule.span F {r, spEnd d r} := by

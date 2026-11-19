@@ -21,6 +21,7 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
   QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha))
     ⟨d, Subgroup.subset_closure hd⟩
 
+omit [Finite G] in
 theorem DalphaStar_subset_X_of_singleton_fibres (hC : HypothesisC D)
     {X : Subgroup G}
     {e : (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) ≃*

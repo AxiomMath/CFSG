@@ -809,7 +809,7 @@ private lemma ltrb1g2_rootCharHom_eq_one_of_nodes
     obtain ⟨w, rfl⟩ := ρ.nodeMap_surj v
     have hw : w = ∑ i, w i • (Pi.single i 1 : Fin ρ.row.diagram.marks.length → ℤ) := by
       funext j
-      simp [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply]
+      simp [Finset.sum_apply, Pi.single_apply]
     rw [hw, map_sum, rootChar_sum]
     refine Finset.prod_eq_one fun i _ => ?_
     rw [map_smul, rootChar_zsmul, hnodes i, one_zpow]
@@ -1002,14 +1002,14 @@ private lemma ltrb1c4_three_le_card_range
     {K : Type} [Field K] (a : Fin Tag.E6.rank → Kˣ)
     (w : rootCharStabilizerSubgroup a) (hw : e6ShiftChar a w ≠ 1) :
     3 ≤ Nat.card ↥(e6ShiftChar a).range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsub : (e6ShiftChar a).range ≤ rootsOfUnity 3 K := by
     intro x hx
     rw [MonoidHom.mem_range] at hx
     obtain ⟨w, rfl⟩ := hx
     rw [mem_rootsOfUnity]
     exact e6ShiftChar_pow_three a w
-  haveI : Finite ↥(e6ShiftChar a).range :=
+  have : Finite ↥(e6ShiftChar a).range :=
     Finite.of_injective
       (fun x : ↥(e6ShiftChar a).range => (⟨(x : Kˣ), hsub x.2⟩ : ↥(rootsOfUnity 3 K)))
       (fun x y hxy => Subtype.ext (congrArg (fun z : ↥(rootsOfUnity 3 K) => (z : Kˣ)) hxy))
@@ -1031,7 +1031,7 @@ private lemma ltrb1c4_ncard_kernelRoots_eq_filter_card
   rw [← Set.ncard_coe_finset]
   congr 1
   ext α
-  simp only [Finset.coe_filter, Set.mem_setOf_eq, mem_rootFinset]
+  simp only [Finset.coe_filter, Set.mem_ofPred_eq, mem_rootFinset]
   exact mem_kernelRoots_triChar.symm
 
 private lemma ltrb1c4_filter_card_reps (ρ : ℕ) (hρ : ρ < 8) :
@@ -1119,7 +1119,7 @@ private theorem ltrb1c4_triPairing_e6Shift_wBeta : triPairing stdChar (e6Shift w
     refine e6Shift_eq_of_three_smul ?_
     rw [wBeta, ← ltrb1c4_wordAct_eq_smul]
     funext i
-    simp only [Pi.smul_apply, smul_eq_mul, Pi.sub_apply]
+    simp only [Pi.sub_apply]
     exact ltrb1c4_wBeta_shift_check i
   rw [h]
   exact ltrb1c4_stdChar_shift_wBeta_check
@@ -1272,14 +1272,14 @@ private lemma ltrb1g2_index_eq_stabOmega
     (kernelReflectionGroup ρ.a).relIndex (rootCharStabilizerSubgroup ρ.a) =
       (if ρ.row.s = [0, 0, 0, 0, 1, 0, 0] ∨ ρ.row.s = [1, 1, 0, 0, 0, 0, 1] then 3 else 1) := by
   by_cases h3 : ρ.row.s = [0, 0, 0, 0, 1, 0, 0]
-  · rw [if_pos (Or.inl h3)]
+  · rw [ite_eq_left (Or.inl h3)]
     exact ltrb1g2_index_three_of_count ρ hE6
       (Or.inl ((ltrb1g2_count_of_zero_count ρ hE6).1 h3))
   · by_cases h16 : ρ.row.s = [1, 1, 0, 0, 0, 0, 1]
-    · rw [if_pos (Or.inr h16)]
+    · rw [ite_eq_left (Or.inr h16)]
       exact ltrb1g2_index_three_of_count ρ hE6
         (Or.inr ((ltrb1g2_count_of_zero_count ρ hE6).2.1 h16))
-    · rw [if_neg (fun h => h.elim h3 h16)]
+    · rw [ite_eq_right (fun h => h.elim h3 h16)]
       exact ltrb1g2_index_one_of_count ρ hE6
         ((ltrb1g2_count_of_zero_count ρ hE6).2.2 h3 h16)
 

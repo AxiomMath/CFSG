@@ -157,7 +157,7 @@ theorem parabolicLevi_inf_stdFixedGroup
     exact (bijOn_bruhatCell (K := K) w).1 (Set.mk_mem_prod hhB hvU)
   obtain ⟨-, b', hb', u', hu', heq⟩ := exists_fixed_bruhat_factor barHom_surjective hgΓ hgw
   have hinj := (bijOn_bruhatCell (K := K) w).2.1 (Set.mk_mem_prod hb'.1 hu'.1)
-    (Set.mk_mem_prod hhB hvU) (heq.trans (by rw [← mul_assoc, ← mul_assoc]; try rfl))
+    (Set.mk_mem_prod hhB hvU) (heq.trans (by rw [← mul_assoc, ← mul_assoc]))
   have e : b' = h * b := congrArg Prod.fst hinj
   have hb'' : h * b ∈ graphFixedBorel TwistTag.E6 K barHom := e ▸ hb'
   have hb3 : h * b ∈ (graphFixedTorus TwistTag.E6 K barHom : Set (ModGL TwistTag.E6.tag K)) *

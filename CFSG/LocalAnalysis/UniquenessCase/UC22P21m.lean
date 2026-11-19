@@ -24,7 +24,7 @@ theorem uc22p21m_hsig3_ofSetup (hS : Standing G) (S : Setup G) (hMS : S.InMSigma
   have h3A : 3 ∈ rankThreeSigmaA G := by
     unfold rankThreeSigmaA
     simp only
-    rw [if_pos ⟨3, hS1⟩]
+    rw [ite_eq_left ⟨3, hS1⟩]
     exact hS1
   have hp3 : S.p = 3 := hMS.1 h3A
   obtain ⟨q, Q, hQ, rfl⟩ : ∃ (q : ℕ) (Q : Sylow q G), IsWitness q Q S.M ∧ q = 3 :=

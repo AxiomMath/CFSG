@@ -358,7 +358,7 @@ theorem K_inf_centralizer_eq
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTC).toEquiv, fr.card_T]
     rw [hcT]
     have h4 := PSL2Sub.card_dvd_four h.iso h.odd_p h.f_pos h.mod_eight
-      ((Subgroup.map_subtype_le (P : Subgroup C₀)).trans inf_le_left) (P.isPGroup'.map _)
+      ((Subgroup.map_subtype_le (P : Subgroup C₀)).trans inf_le_left) (P.isPGroup.map _)
     rw [Subgroup.card_map_of_injective C₀.subtype_injective] at h4
     exact Nat.le_of_dvd (by norm_num) h4
   have hN : Subgroup.normalizer ((P : Subgroup C₀) : Set C₀) ≤

@@ -47,7 +47,7 @@ private theorem innDiagKind_chevAut {G : Type} [Group G] {p : ℕ} {K : Subgroup
     ∃ labL : GLALabel, HasLabel (PQuot p K) (· = labL) ∧
       InnDiagKind (PSimple p K) labL (chevAut p K ⟨y, hy⟩) := by
   have hcen := center_centerQuot_eq_bot hq
-  haveI : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
   have hS : commutator (PSimple p K) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center (PQuot p K)))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top
@@ -75,8 +75,8 @@ private theorem nonempty_centerQuot_equiv_pSimple {S : Type} [Group S] [Finite S
   have hQ := isQuasisimple_pQuot_of_glaPComponent hp hJ
   have hne : GLAPPrimeCore p ↥J ≠ ⊤ := by
     intro htop
-    haveI : Nontrivial (PQuot p J) := isQuasisimple_nontrivial hQ
-    haveI : Subsingleton (↥J ⧸ GLAPPrimeCore p ↥J) := by
+    have : Nontrivial (PQuot p J) := isQuasisimple_nontrivial hQ
+    have : Subsingleton (↥J ⧸ GLAPPrimeCore p ↥J) := by
       rw [htop]
       exact QuotientGroup.subsingleton_quotient_top
     exact not_subsingleton (PQuot p J) ‹_›
@@ -164,10 +164,10 @@ theorem t1428FieldFact_of_inputs (hRig : GGLabelRigidInput) (hRest : GGInndiagCo
         _ < Nat.card ↥(⊤ : Subgroup (PSimple p K)) :=
           Subgroup.card_lt_of_lt (lt_top_iff_ne_top.2 hfix)
         _ = Nat.card (PSimple p K) := Subgroup.card_top
-    haveI := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
+    have := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
     have hQs := isQuasisimple_pQuot_of_glaPComponent hp hJs
-    haveI := hQs.2
-    haveI : Nontrivial (PQuot p (chevTransfer p K J)) :=
+    have := hQs.2
+    have : Nontrivial (PQuot p (chevTransfer p K J)) :=
       (QuotientGroup.mk'_surjective (Subgroup.center (PQuot p (chevTransfer p K J)))).nontrivial
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial
       (PQuot p (chevTransfer p K J))).ne hQs.1

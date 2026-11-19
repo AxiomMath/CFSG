@@ -40,7 +40,7 @@ theorem mem_C0_iff (x : G) :
   rw [C0, mem_centralizer_iff]
   constructor
   · intro h
-    exact ⟨fun i => (h _ (eps_mem_B0 hn c i)).symm, (h _ (z_mem_B0 hn c)).symm⟩
+    exact ⟨fun i => (h _ (eps_mem_B0 hn i)).symm, (h _ (z_mem_B0 hn)).symm⟩
   · rintro ⟨h1, h2⟩ y hy
     obtain ⟨i, rfl | rfl⟩ := (mem_B0_iff hn c y).1 hy
     · exact (h1 i).symm
@@ -85,19 +85,22 @@ theorem B0_le_C0 : B0 θ hn z ≤ C0 θ hn z := by
   intro y hy
   exact B0_comm hn c hy hx
 
+omit [Finite G] c in
 theorem C0_le_N0 : C0 θ hn z ≤ N0 θ hn z :=
   centralizer_le_normalizer _
 
 theorem C0_le_D0 : C0 θ hn z ≤ D0 θ hn z := by
   intro x hx
-  refine Subgroup.mem_inf.2 ⟨C0_le_N0 hn c hx, ?_⟩
+  refine Subgroup.mem_inf.2 ⟨C0_le_N0 hn hx, ?_⟩
   rw [mem_centralizer_E_iff]
   exact ((mem_C0_iff hn c x).1 hx).1
 
+omit [Finite G] c in
 theorem B0_le_N0 : B0 θ hn z ≤ N0 θ hn z := le_normalizer
 
 theorem B0_le_D0 : B0 θ hn z ≤ D0 θ hn z := (B0_le_C0 hn c).trans (C0_le_D0 hn c)
 
+omit [Finite G] c in
 theorem conj_mem_C0 {g : G} (hg : g ∈ N0 θ hn z) {x : G} (hx : x ∈ C0 θ hn z) :
     g * x * g⁻¹ ∈ C0 θ hn z := by
   rw [C0, mem_centralizer_iff] at hx ⊢
@@ -172,7 +175,7 @@ theorem exists_O0 : ∃ O : Subgroup G, O ≤ C0 θ hn z ∧ Odd (Nat.card O) �
   obtain ⟨S⟩ : Nonempty (Sylow 2 C) := inferInstance
   have hSB : ∀ x : C, x ∈ (S : Subgroup C) → (x : G) ∈ B0 θ hn z := by
     intro x hx
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
     have : (x : G) ^ 2 ^ k = 1 := by
       have := congrArg (fun y : (S : Subgroup C) => ((y : C) : G)) hk
       simpa using this
@@ -194,7 +197,7 @@ theorem exists_O0 : ∃ O : Subgroup G, O ≤ C0 θ hn z ∧ Odd (Nat.card O) �
   ·
     intro g hg o ho
     obtain ⟨k₀, hk₀, rfl⟩ := ho
-    have hgo : g * (k₀ : G) * g⁻¹ ∈ C := conj_mem_C0 hn c hg k₀.2
+    have hgo : g * (k₀ : G) * g⁻¹ ∈ C := conj_mem_C0 hn hg k₀.2
     set y : C := ⟨g * (k₀ : G) * g⁻¹, hgo⟩ with hy
     obtain ⟨⟨⟨k, hk⟩, ⟨s, hs⟩⟩, hks⟩ := hcomp.2 y
     simp only at hks
@@ -226,7 +229,7 @@ theorem exists_O0 : ∃ O : Subgroup G, O ≤ C0 θ hn z ∧ Odd (Nat.card O) �
       have := hcomp.1
       have hdisj : Disjoint K (S : Subgroup C) := by
         rw [disjoint_iff]
-        exact MonoidHom.ker_transferSylow_disjoint S hP _ S.isPGroup' |>.eq_bot
+        exact MonoidHom.ker_transferSylow_disjoint S hP _ S.isPGroup |>.eq_bot
       exact (Subgroup.disjoint_def.1 hdisj) hsm hsmS
     have hs2 : s * s = 1 := by
       apply Subtype.ext
@@ -239,7 +242,7 @@ theorem exists_O0 : ∃ O : Subgroup G, O ≤ C0 θ hn z ∧ Odd (Nat.card O) �
     refine ⟨k, hk, ?_⟩
     rw [hks]
     rfl
-  · obtain ⟨a, ha⟩ := S.isPGroup'.exists_card_eq
+  · obtain ⟨a, ha⟩ := S.isPGroup.exists_card_eq
     refine ⟨a, ?_⟩
     rw [card_map_of_injective C.subtype_injective, ← hcomp.card_mul_card, ha, mul_comm]
 

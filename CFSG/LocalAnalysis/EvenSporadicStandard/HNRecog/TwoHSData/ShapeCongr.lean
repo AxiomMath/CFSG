@@ -107,11 +107,11 @@ theorem isExtraspecial_of_mulEquiv {p : ℕ} {A B : Type*} [Group A] [Group B] (
     rw [← Nat.card_congr (Subgroup.centerCongr e).toEquiv]
     exact h.center_order_p
   quotient_elementary_abelian := by
-    haveI := h.quotient_elementary_abelian
+    have := h.quotient_elementary_abelian
     exact isElemAbelian_of_mulEquiv
       (QuotientGroup.congr (Subgroup.center A) (Subgroup.center B) e (Subgroup.map_center_eq e))
   quotient_nontrivial := by
-    haveI := h.quotient_nontrivial
+    have := h.quotient_nontrivial
     exact (QuotientGroup.congr (Subgroup.center A) (Subgroup.center B) e
       (Subgroup.map_center_eq e)).symm.toEquiv.nontrivial
 
@@ -122,7 +122,7 @@ open TwoHSData
 theorem IsExtensionShape.of_mulEquiv {A B : Type*} [Group A] [Group B] (e : X ≃* X')
     (h : IsExtensionShape X A B) : IsExtensionShape X' A B := by
   obtain ⟨N, hN, h1, h2⟩ := h
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   obtain ⟨isoN⟩ := h1
   obtain ⟨isoQ⟩ := h2
   exact ⟨N.map e.toMonoidHom, Subgroup.Normal.map hN e.toMonoidHom e.surjective,
@@ -131,8 +131,8 @@ theorem IsExtensionShape.of_mulEquiv {A B : Type*} [Group A] [Group B] (e : X �
 theorem IsShapeTwoTwoSixS5.of_mulEquiv (e : X ≃* X') (h : IsShapeTwoTwoSixS5 X) :
     IsShapeTwoTwoSixS5 X' := by
   obtain ⟨V, N, hV, hN, hVN, h1, h2, h3⟩ := h
-  haveI : V.Normal := hV
-  haveI : N.Normal := hN
+  have : V.Normal := hV
+  have : N.Normal := hN
   obtain ⟨isoV⟩ := h1
   obtain ⟨isoQ⟩ := h2
   obtain ⟨isoX⟩ := h3

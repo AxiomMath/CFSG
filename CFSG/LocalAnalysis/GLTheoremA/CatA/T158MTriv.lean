@@ -24,6 +24,7 @@ theorem t158m_unpack (h : T158Hyp p K B x₁ x₂ L₁ L₂) :
   obtain ⟨⟨hKG, hK, hBel, hBX, hrk, hx1B, hx2B, hx1, hx2, hL1, hc1, hL2, hc2⟩, hn12, hn21⟩ := h.hyp
   exact ⟨hK, hBel, hx1B, hx2B, hx1, hx2, hL1, hc1, hL2, hc2, hn12, hn21⟩
 
+omit [Finite X] in
 theorem t158m_fgOn_normalizer {g : X} {L : Subgroup X} (h : FGOn p g L) :
     g ∈ Subgroup.normalizer (L : Set X) := by
   rcases h with ⟨hN, -⟩ | ⟨⟨hN, -⟩, -, -⟩

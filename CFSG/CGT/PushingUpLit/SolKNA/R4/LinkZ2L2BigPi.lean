@@ -19,7 +19,7 @@ section Gen
 
 theorem edgeCent_isPGroup {Y : Type} [Group Y] [Finite Y] (P : Sylow 2 Y) (t u : Y) :
     IsPGroup 2 ↥(edgeCent (P : Subgroup Y) t u) :=
-  P.isPGroup'.to_le fun _ hx => hx.1.1
+  P.isPGroup.to_le fun _ hx => hx.1.1
 
 theorem Z2BigLinkModel.padicValNat_f_add_two_le {r : ℕ} (hr : 4 ≤ r) {X : Type} [Group X] [Finite X]
     {p f : ℕ} (hm : Z2BigLinkModel r X p f) : padicValNat 2 f + 2 ≤ r :=

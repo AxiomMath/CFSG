@@ -128,7 +128,7 @@ theorem exists_almostSimple {p : ℕ} [Fact p.Prime] {Y : Type} [Group Y] [Finit
   obtain ⟨Cn, hCn_mem, hCnN⟩ : ∃ Cn : Subgroup ↥(L ⊔ (S : Subgroup Y)),
       (∀ n, n ∈ Cn ↔ (n : Y) ∈ centralizer (L : Set Y)) ∧ Cn.Normal :=
     ⟨kerAct L S, fun n => Iff.rfl, kerAct_normal hN⟩
-  haveI := hCnN
+  have := hCnN
   have hLN : L ≤ L ⊔ (S : Subgroup Y) := le_sup_left
   have hSN : (S : Subgroup Y) ≤ L ⊔ (S : Subgroup Y) := le_sup_right
   have hπs : Function.Surjective (QuotientGroup.mk' Cn) := QuotientGroup.mk'_surjective Cn
@@ -154,11 +154,11 @@ theorem exists_almostSimple {p : ℕ} [Fact p.Prime] {Y : Type} [Group Y] [Finit
       exact ⟨⟨n, mem_subgroupOf.mp hn⟩, rfl⟩
   let e : (↥L ⧸ center ↥L) ≃* ↥f₀.range :=
     (QuotientGroup.quotientMulEquivOfEq hker.symm).trans (QuotientGroup.quotientKerEquivRange f₀)
-  haveI : IsSimpleGroup (↥L ⧸ center ↥L) := hL.2.2.2
-  haveI hsimple : IsSimpleGroup ↥f₀.range := e.symm.isSimpleGroup
+  have : IsSimpleGroup (↥L ⧸ center ↥L) := hL.2.2.2
+  have hsimple : IsSimpleGroup ↥f₀.range := e.symm.isSimpleGroup
   have hnonab : ∃ a b : ↥f₀.range, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : commutator ↥L ≤ center ↥L := by
       rw [← hker]
       refine Subgroup.commutator_le.mpr (fun a _ b _ => ?_)
@@ -182,7 +182,7 @@ theorem exists_almostSimple {p : ℕ} [Fact p.Prime] {Y : Type} [Group Y] [Finit
     intro n hn
     have hpg : IsPGroup p ↥Cn := by
       intro c
-      obtain ⟨k, hk⟩ := exists_pow_eq_one_of_mem_ker hcore hL S.isPGroup' hPL c.1.2
+      obtain ⟨k, hk⟩ := exists_pow_eq_one_of_mem_ker hcore hL S.isPGroup hPL c.1.2
         ((hCn_mem c.1).mp c.2)
       exact ⟨k, Subtype.ext (Subtype.ext hk)⟩
     have hle := IsPGroup.le_sylow_of_normal hpg (S.subtype hSN)

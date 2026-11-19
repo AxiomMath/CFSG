@@ -134,7 +134,7 @@ theorem exists_kleinDataEven_frob {e : ℕ} (he : 0 < e) :
     push Not at hcon
     have hle : frobeniusFixedField k p (e * 2) ≤ frobeniusFixedField k p e := fun x hx =>
       mem_frobeniusFixedField.2 (congrArg Subtype.val (hcon ⟨x, hx⟩))
-    haveI : Finite ↥(frobeniusFixedField k p e) :=
+    have : Finite ↥(frobeniusFixedField k p e) :=
       Nat.finite_of_card_ne_zero (by
         rw [card_frobeniusFixedField he]
         exact (pow_pos (Fact.out : p.Prime).pos e).ne')

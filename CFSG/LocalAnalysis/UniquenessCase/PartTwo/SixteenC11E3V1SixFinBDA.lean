@@ -159,7 +159,7 @@ private theorem s1611e3_K_invariant {K : Subgroup (SixE6 × SixE6)}
   · exact sixDiag_invariant g hg u hu
 
 private theorem s1611e3_fixMod_mul {K : Subgroup (SixE6 × SixE6)} (hK : K = ⊥ ∨ K = sixDiag)
-    {a b : MulAut (SixE6 × SixE6)} (ha : a ∈ sixGhat) (hb : b ∈ sixGhat)
+    {a b : MulAut (SixE6 × SixE6)} (ha : a ∈ sixGhat) (_hb : b ∈ sixGhat)
     {u : SixE6 × SixE6} (hua : a u * u⁻¹ ∈ K) (hub : b u * u⁻¹ ∈ K) :
     (a * b) u * u⁻¹ ∈ K := by
   have hkey : (a * b) u * u⁻¹ = a (b u * u⁻¹) * (a u * u⁻¹) := by
@@ -238,7 +238,7 @@ theorem s1611e3_sixChk3_spec (Kb : Bool) (h : sixChk3 Kb = true)
   have hkj : k ≠ j := fun h => hjk h.symm
   have h3 := List.all_eq_true.mp h2 k (List.mem_range.mpr hk)
   rw [haki, hakj] at h3
-  simp only [Bool.beq_eq_decide_eq, hki, hkj, hcomp, decide_false, Bool.not_true,
+  simp only [hki, hkj, hcomp, decide_false, Bool.not_true,
     Bool.false_or, Bool.or_false] at h3
   simpa [or_assoc, ← List.getD_eq_getElem?_getD] using h3
 
@@ -268,11 +268,11 @@ theorem s1611e3_sixChk4_spec (h : sixChk4 = true)
   have hki : k ≠ i := fun h => hik h.symm
   have hkj : k ≠ j := fun h => hjk h.symm
   have h3 := List.all_eq_true.mp h2 k (List.mem_range.mpr hk)
-  simp only [Bool.beq_eq_decide_eq, hki, hkj, decide_false, Bool.not_true,
+  simp only [hki, hkj, decide_false, Bool.not_true,
     Bool.false_or, Bool.or_false, haki, hakj, hcomp] at h3
   have h4 := List.all_eq_true.mp h3 l (List.mem_range.mpr hl)
   rw [hn] at h4
-  simp only [Bool.not_true, Bool.false_or, Bool.or_false] at h4
+  simp only [Bool.not_true, Bool.false_or] at h4
   simpa [or_assoc, Bool.beq_eq_decide_eq, ← List.getD_eq_getElem?_getD] using h4
 
 private theorem s1611e3_K_of_Kb {K : Subgroup (SixE6 × SixE6)} {Kb : Bool}
@@ -306,8 +306,8 @@ private theorem s1611e3_exists_bit_and_of_ne {e P Q : Nat}
       simp at hm
 
 private theorem s1611e3_eq_of_tab_eq {x y : MulAut (SixE6 × SixE6)}
-    {cx cy : s1611e3_SixCode} (hcx : s1611e3_sixCodeValid cx)
-    (hcy : s1611e3_sixCodeValid cy) (hgx : s1611e3_sixGhatOf cx = x)
+    {cx cy : s1611e3_SixCode} (_hcx : s1611e3_sixCodeValid cx)
+    (_hcy : s1611e3_sixCodeValid cy) (hgx : s1611e3_sixGhatOf cx = x)
     (hgy : s1611e3_sixGhatOf cy = y) (h : sixCodeTab cx = sixCodeTab cy) : x = y := by
   have hcc : cx = cy := sixCodeTab_injective h
   calc x = s1611e3_sixGhatOf cx := hgx.symm
@@ -1041,9 +1041,9 @@ theorem s1611e3_Kb_spec {K : Subgroup (SixE6 × SixE6)} (hK : K = ⊥ ∨ K = si
       (s1611e3_sixKb K = true ∧ K = sixDiag) := by
   unfold s1611e3_sixKb
   by_cases h : K = sixDiag
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact Or.inr ⟨rfl, h⟩
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     refine Or.inl ⟨rfl, ?_⟩
     rcases hK with rfl | hd
     · rfl

@@ -95,7 +95,7 @@ theorem ggLieSU3Fixed_projMk_injective {K : Type} [Field K] [Finite K] {n : ℕ}
     by_contra hlt
     have hn0 : n = 0 := by omega
     subst hn0
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcard : 1 < Nat.card K := by
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
@@ -170,7 +170,7 @@ theorem ggLieSU3Fixed_fixes_center {X : Type*} [Group X] (A : Subgroup (MulAut X
       exact hz1 (Subtype.ext_iff.mp (Subtype.ext_iff.mp hh))
     have hmem_center : (⟨⟨a z, hazJ⟩, hazZ⟩ : Subgroup.center ↥J) ∈
         Subgroup.zpowers (⟨⟨z, hzJ⟩, hzZ⟩ : Subgroup.center ↥J) := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact mem_zpowers_of_prime_card hZcard hwne1
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hmem_center
     have hkz : z ^ k = a z := by

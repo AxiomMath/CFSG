@@ -33,8 +33,9 @@ private theorem wc813pscen_pairwise_commute {G : Type*} [Group G] {u : G}
   rw [← ha, ← hb]
   have h0 : Commute (a * u * a⁻¹) (a * ((a⁻¹ * b) * u * (a⁻¹ * b)⁻¹) * a⁻¹) :=
     (h (a⁻¹ * b)).conj a
-  convert h0 using 1 <;> group
+  convert h0 using 1; group
 
+omit [Finite Q] in
 theorem central_of_commuting_conjugates {J : Subgroup Q}
     (hJ : IsComponentOf J ⊤) {s : Q} (hsJ : s ∈ J) (hs : s * s = 1)
     (h : ∀ w ∈ J, ∀ l ∈ J, ((s * (w * s * w⁻¹)) * (s * (w * s * w⁻¹))) * l =
@@ -80,14 +81,14 @@ theorem central_of_commuting_conjugates {J : Subgroup Q}
     change IsMulCommutative ↥(closure (Group.conjugatesOfSet
       ({u} : Set (↥J ⧸ Subgroup.center ↥J))))
     exact Subgroup.isMulCommutative_closure (wc813pscen_pairwise_commute hkey')
-  haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
-  haveI : Group.IsPerfect (↥J ⧸ Subgroup.center ↥J) := inferInstance
+  have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+  have : Group.IsPerfect (↥J ⧸ Subgroup.center ↥J) := inferInstance
   have hMnontop : Subgroup.normalClosure ({u} : Set (↥J ⧸ Subgroup.center ↥J)) ≠ ⊤ := by
     intro htop
     have hcommTop : IsMulCommutative ↥(⊤ : Subgroup (↥J ⧸ Subgroup.center ↥J)) :=
       htop ▸ hcomm
-    haveI : IsMulCommutative ↥(⊤ : Subgroup (↥J ⧸ Subgroup.center ↥J)) := hcommTop
+    have : IsMulCommutative ↥(⊤ : Subgroup (↥J ⧸ Subgroup.center ↥J)) := hcommTop
     have hcommJb : IsMulCommutative (↥J ⧸ Subgroup.center ↥J) :=
       (Subgroup.topEquiv (G := ↥J ⧸ Subgroup.center ↥J)).surjective.isMulCommutative
     exact Group.IsPerfect.not_isMulCommutative (↥J ⧸ Subgroup.center ↥J) hcommJb

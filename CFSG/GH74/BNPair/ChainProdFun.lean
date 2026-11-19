@@ -113,7 +113,7 @@ theorem intList_add (a b s : ℤ) :
   · simp only [intList, List.length_map]
     rw [show b + s + 1 - (a + s) = b + 1 - a by ring]
   · intro t h1 h2
-    simp only [intList, List.length_map, List.getElem_map, List.getElem_range]
+    simp only [intList, List.getElem_map, List.getElem_range]
     ring
 
 theorem intList_map_sub (a b c : ℤ) :

@@ -110,7 +110,7 @@ omit hf hK hσ in
 
 theorem longElt_mem_fix {γ : Fin TwistTag.D4.tag.rank → ℤ}
     (hγ : γ = rootB ∨ γ = rootC ∨ γ = rootD) {c : K} (hc : σ c = c) :
-    longElt hf hK σ hσ hγ c hc ∈ fixSubgroup (fieldActor (t := TwistTag.D4) σ σ) := by
+    longElt σ hγ c hc ∈ fixSubgroup (fieldActor (t := TwistTag.D4) σ σ) := by
   rw [mem_fixSubgroup]
   apply Subtype.ext
   have hmap : Units.map (entrywiseHom σ.toRingHom) (pinnedX TwistTag.D4.tag K γ c) =
@@ -134,12 +134,12 @@ theorem coe_rootEquivG2 (k : Type) [Field k] [Finite k] (hk3 : (3 : ℕ∞) ≤ 
   rfl
 
 theorem fixEquivG2_longElt_rootB (c₀ : fixSubfield σ) :
-    ((fixEquivG2 hf hK σ hσ ⟨longElt hf hK σ hσ (Or.inl rfl) (c₀ : K) c₀.2,
+    ((fixEquivG2 hf hK σ hσ ⟨longElt σ (Or.inl rfl) (c₀ : K) c₀.2,
         longElt_mem_fix hf hK σ hσ (Or.inl rfl) c₀.2⟩ : ↥(adjointGroup Tag.G2 (fixSubfield σ))) :
       ModGL Tag.G2 (fixSubfield σ)) = xUnit Tag.G2 (fixSubfield σ) ⟨0, by decide⟩ c₀ := by
   have hσ3 := ringEquiv_cube_apply_eq hK hσ
   set x : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) :=
-    ⟨longElt hf hK σ hσ (Or.inl rfl) (c₀ : K) c₀.2,
+    ⟨longElt σ (Or.inl rfl) (c₀ : K) c₀.2,
       longElt_mem_fix hf hK σ hσ (Or.inl rfl) c₀.2⟩ with hx
   have hy₁ : ((fixEquivImage σ hσ3 x : ↥(trialityFieldImage σ σ)) : ModGL TwistTag.D4.tag K) =
       pinnedX TwistTag.D4.tag K rootB (c₀ : K) := rfl
@@ -168,21 +168,21 @@ theorem fixEquivG2_longElt_rootB (c₀ : fixSubfield σ) :
 
 theorem exists_conj_g2Top {c : K} (hc : σ c = c) (hc0 : c ≠ 0) :
     ∃ (h : ↥(adjointGroup Tag.G2 (fixSubfield σ))) (c'' : fixSubfield σ), c'' ≠ 0 ∧
-      fixEquivG2 hf hK σ hσ ⟨longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc,
+      fixEquivG2 hf hK σ hσ ⟨longElt σ (Or.inr (Or.inr rfl)) c hc,
         longElt_mem_fix hf hK σ hσ (Or.inr (Or.inr rfl)) hc⟩ =
         h * g2Top (fixSubfield σ) c'' * h⁻¹ := by
   classical
-  obtain ⟨n, ε, hnfix, hε, hconj⟩ := exists_weyl_rootB_to_rootD hf hK σ hσ
+  obtain ⟨n, ε, hnfix, hε, hconj⟩ := exists_weyl_rootB_to_rootD hK σ hσ
   have hεε : ε * ε = 1 := by rcases hε with rfl | rfl <;> simp
   have hεc : σ (ε * c) = ε * c := by rcases hε with rfl | rfl <;> simp [hc]
   set c₀ : fixSubfield σ := ⟨ε * c, hεc⟩ with hc₀
   set nJ : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) := ⟨n, mem_fixSubgroup.2 hnfix⟩
     with hnJ
   set xB : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) :=
-    ⟨longElt hf hK σ hσ (Or.inl rfl) (c₀ : K) c₀.2,
+    ⟨longElt σ (Or.inl rfl) (c₀ : K) c₀.2,
       longElt_mem_fix hf hK σ hσ (Or.inl rfl) c₀.2⟩ with hxB
   set zJ : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ σ)) :=
-    ⟨longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc,
+    ⟨longElt σ (Or.inr (Or.inr rfl)) c hc,
       longElt_mem_fix hf hK σ hσ (Or.inr (Or.inr rfl)) hc⟩ with hzJ
   have hz : zJ = nJ * xB * nJ⁻¹ := by
     apply Subtype.ext

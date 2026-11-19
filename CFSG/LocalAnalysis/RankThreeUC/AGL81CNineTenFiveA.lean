@@ -11,6 +11,7 @@ open Subgroup
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem map_subtype_closure_orderOf (W : Subgroup X) (p : ℕ) :
     (closure {x : ↥W | orderOf x = p}).map W.subtype = closure {x : X | x ∈ W ∧ orderOf x = p} := by
   rw [MonoidHom.map_closure]
@@ -27,6 +28,7 @@ theorem map_subtype_closure_orderOf (W : Subgroup X) (p : ℕ) :
       rw [Subgroup.orderOf_mk]
       exact hxp, rfl⟩
 
+omit [Finite X] in
 theorem map_subtype_oPPrimeHull_top (W : Subgroup X) (p : ℕ) :
     (oPPrimeHull p (⊤ : Subgroup ↥W)).map W.subtype = oPPrimeHull p W := by
   rw [oPPrimeHull, MonoidHom.map_closure, oPPrimeHull]
@@ -43,6 +45,7 @@ theorem map_subtype_oPPrimeHull_top (W : Subgroup X) (p : ℕ) :
       rw [Subgroup.orderOf_mk]
       exact hk⟩, rfl⟩
 
+omit [Finite X] in
 theorem oPPrimeHull_eq_closure_of_le {Y W : Subgroup X} (hYW : Y ≤ W)
     (hVY : closure {x : X | x ∈ W ∧ orderOf x = p} ≤ Y)
     (hWV : oPPrimeHull p W = closure {x : X | x ∈ W ∧ orderOf x = p}) :
@@ -62,13 +65,13 @@ theorem exists_mem_inf_ne_one_of_le_sup (hp : p.Prime) {L E : Subgroup X} (hLn :
     (hE : CFSG.Open.IsElemAbelian p E) (hEc : Nat.card E = p ^ 2)
     (hEL : E ≤ L ⊔ centralizer (L : Set X)) :
     ∃ x ∈ E, x ∈ centralizer (L : Set X) ∧ x ≠ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hLn
+  have : Fact p.Prime := ⟨hp⟩
+  have := hLn
   let Y : Subgroup X := centralizer (L : Set X)
   have hYn : Y.Normal := by
     change (centralizer (L : Set X)).Normal
     infer_instance
-  haveI : Y.Normal := hYn
+  have : Y.Normal := hYn
   by_contra h
   have hEY : E ⊓ Y = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]
@@ -91,7 +94,7 @@ theorem exists_mem_inf_ne_one_of_le_sup (hp : p.Prime) {L E : Subgroup X} (hLn :
     rw [hx1, orderOf_one] at hxord
     exact hp.one_lt.ne hxord
   let N : Subgroup ↥L := Y.subgroupOf L
-  haveI : N.Normal := by change (Y.subgroupOf L).Normal; infer_instance
+  have : N.Normal := by change (Y.subgroupOf L).Normal; infer_instance
   have hN : ¬ p ∣ Nat.card N := hpN
   have hquot : CFSG.Open.pRank p (⊤ : Subgroup (↥L ⧸ N)) ≤ 1 := by
     rw [CFSG.SectionRank.pRank_quotient_eq N hN]

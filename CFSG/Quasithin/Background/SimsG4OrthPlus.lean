@@ -29,7 +29,7 @@ theorem not_isIrredOnV_of_fixed {H : Subgroup (W ≃ₗ[K] W)} (hdim : 1 < Modul
 
 theorem not_isIrredOnV_bot_of_finrank (hdim : 1 < Module.finrank K W) :
     ¬ IsIrredOnV (⊥ : Subgroup (W ≃ₗ[K] W)) := by
-  haveI : Nontrivial W :=
+  have : Nontrivial W :=
     Module.nontrivial_of_finrank_pos (R := K) (by omega : 0 < Module.finrank K W)
   obtain ⟨w, hw⟩ := exists_ne (0 : W)
   exact not_isIrredOnV_of_fixed hdim hw fun g hg => by
@@ -196,7 +196,7 @@ theorem orthPlus_core [Finite K] [CharP K 2] (Q : QuadraticForm K W)
     intro r hr r' hr'
     rw [polar_eq_trace ψ hψ (coe_sOf (hdetR r hr)) (coe_sOf (hdetR r' hr'))]
     exact hK₁ _ ⟨_, Hh.mul_mem (hsHh r hr) (Hh.inv_mem (hsHh r' hr')), rfl⟩
-  haveI : Finite W := (finite_even_card (F := K) hdim).1
+  have : Finite W := (finite_even_card (F := K) hdim).1
   have heven : Even (Nat.card W) := (finite_even_card (F := K) hdim).2
   rcases sl2_trace_field_cases L hLirr htrL with ⟨hLtop, h4⟩ |
       ⟨T, hTcomm, ⟨m, hm, hTm⟩, hTn, hTsq⟩
@@ -227,7 +227,7 @@ theorem orthPlus_core [Finite K] [CharP K 2] (Q : QuadraticForm K W)
         have hy := hgraph _ _ hz
         have htr := congrArg
           (fun x : Matrix.SpecialLinearGroup (Fin 2) K => (x : Matrix (Fin 2) (Fin 2) K).trace) hy
-        simp only [Prod.fst_mul, Prod.snd_mul, Prod.fst_inv, Prod.snd_inv, inv_inv] at htr
+        simp only [Prod.fst_inv, Prod.snd_inv, inv_inv] at htr
         rw [trace_conj_map, trace_inv_mul] at htr
         rw [polar_eq_trace ψ hψ (coe_sOf (hdetR r hr)) (coe_sOf (hdetR r' hr'))]
         exact htr.symm

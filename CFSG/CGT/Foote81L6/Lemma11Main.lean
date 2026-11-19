@@ -159,7 +159,7 @@ theorem lemma11_of (hL3 : ∀ y ∈ D.Zab, IsConj D.a y → y = D.a)
           x' * D.a * x'⁻¹ ∈ F' ∧ x' * D.a * x'⁻¹ ≠ D.a) ∧
         ((∃ h ∈ (T : Subgroup G), F = (D.Frep 0 1).map (MulAut.conj h).toMonoidHom) → False) := by
     intro x F hF hxN hxF hxa
-    haveI : IsMulCommutative ↥F :=
+    have : IsMulCommutative ↥F :=
       ⟨⟨fun u v => Subtype.ext (TStruct.comm_of_mul_self hF.mul_self u.2 v.2)⟩⟩
     have haF : D.a ∈ F := D.a_mem_E64 hF
     have hval : ∀ (gN : ↥(normalizer (F : Set G))) (v : ↥F),
@@ -396,7 +396,7 @@ theorem finalHalf_of (hcen : D.a ∈ center G)
         ((∃ h ∈ (T : Subgroup G), F = (D.Frep 0 1).map (MulAut.conj h).toMonoidHom) →
           D.Astar = oddCent F) := by
     intro x F hF hxN hxF hxA
-    haveI : IsMulCommutative ↥F :=
+    have : IsMulCommutative ↥F :=
       ⟨⟨fun u v => Subtype.ext (TStruct.comm_of_mul_self hF.mul_self u.2 v.2)⟩⟩
     have hAF : D.A ≤ F := D.A_le_E64 rfl hF
     have haF : D.a ∈ F := hAF D.a_mem

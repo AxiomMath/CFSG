@@ -117,7 +117,7 @@ theorem zcw_kc (hn : n < 16777216) (hw : n + 1 < 2 ^ w) (hw0 : 0 < w)
       have hg1i : PRep n w (P1I c 1) g1⁻¹ := by simpa using (hP1 1 (by omega)).2
       have hg2i : PRep n w (P2I c 1) g2⁻¹ := by simpa using (hP2 1 (by omega)).2
       obtain ⟨hn0, hnR, hrep⟩ := hNH c hc
-      obtain ⟨s, hs, hsimp, hncomm, hsH⟩ := hList_simple (iw := 0) (T := HT c)
+      obtain ⟨s, hs, hsimp, hncomm, hsH⟩ := hList_simple (_iw := 0) (T := HT c)
         (sh := 0) (lm := 0) (rb := 0) (rm := RH) (nw := n * w) (nH := NH c) (idn := IDN)
         (h1 := P1 c 1) (h2 := P2 c 1) (nR := nR c) (REP := REP c) (o1 := O1 c) (o2 := O2 c)
         (NC1 := NC1 c) (NC2 := NC2 c) (hH c hc) hn0 hidp hg1 hg2 ho1 ho2 he1 he2 hnR hrep

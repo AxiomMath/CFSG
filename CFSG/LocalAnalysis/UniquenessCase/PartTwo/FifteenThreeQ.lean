@@ -15,16 +15,19 @@ section Abstract
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private lemma s15_Three_conj_commut (g a k : MulAut W) :
     g * ⁅a, k⁆ * g⁻¹ = ⁅g * a, k⁆ * ⁅g, k⁆⁻¹ := by
   simp only [commutatorElement_def]
   group
 
+omit [Finite W] in
 private lemma s15_Three_conj_commut' (g a k : MulAut W) :
     g * ⁅a, k⁆ * g⁻¹ = ⁅g * a * g⁻¹, g * k * g⁻¹⁆ := by
   simp only [commutatorElement_def]
   group
 
+omit [Finite W] in
 theorem s15_Three_comm_le {A : Subgroup (MulAut W)} {t : MulAut W} (htA : s15Normalizes t A) :
     ⁅A, Subgroup.zpowers t⁆ ≤ A := by
   refine Subgroup.commutator_le.mpr ?_
@@ -39,6 +42,7 @@ theorem s15_Three_comm_le {A : Subgroup (MulAut W)} {t : MulAut W} (htA : s15Nor
   rw [heq]
   exact A.mul_mem ha hka
 
+omit [Finite W] in
 theorem s15_Three_comm_normalized {A : Subgroup (MulAut W)} {t : MulAut W}
     (htA : s15Normalizes t A) {x : MulAut W} (hx : x ∈ ⁅A, Subgroup.zpowers t⁆) :
     (∀ a ∈ A, a⁻¹ * x * a ∈ ⁅A, Subgroup.zpowers t⁆) ∧
@@ -70,8 +74,8 @@ theorem s15_Three_comm_normalized {A : Subgroup (MulAut W)} {t : MulAut W}
       rw [heq]
       exact Subgroup.commutator_mem_commutator (hta a' ha') hk
   · refine ⟨fun a _ => ?_, ?_⟩
-    · simpa using (⁅A, Subgroup.zpowers t⁆).one_mem
-    · simpa using (⁅A, Subgroup.zpowers t⁆).one_mem
+    · simp
+    · simp
   · intro x y _ _ hx' hy'
     refine ⟨fun a ha => ?_, ?_⟩
     · have heq : a⁻¹ * (x * y) * a = (a⁻¹ * x * a) * (a⁻¹ * y * a) := by group
@@ -89,6 +93,7 @@ theorem s15_Three_comm_normalized {A : Subgroup (MulAut W)} {t : MulAut W}
       rw [heq]
       exact (⁅A, Subgroup.zpowers t⁆).inv_mem hx'.2
 
+omit [Finite W] in
 theorem s15_Three_comm_le_tgroup {A : Subgroup (MulAut W)} {t : MulAut W} :
     ⁅A, Subgroup.zpowers t⁆ ≤ s15TGroup A t := by
   refine Subgroup.commutator_le.mpr ?_
@@ -164,7 +169,7 @@ theorem s15_Three_sq_eq_one (hW : ∀ w : W, w ^ 2 = 1) {t : MulAut W}
       _ = u := by rw [mul_assoc, ← sq, hW c, mul_one]
 
 theorem s15_Three_tgroup_le_sup (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut W)}
-    {t : MulAut W} (ht : InducesTransvection t ⊤) (htA : s15Normalizes t A) :
+    {t : MulAut W} (ht : InducesTransvection t ⊤) (_htA : s15Normalizes t A) :
     s15TGroup A t ≤ ⁅A, Subgroup.zpowers t⁆ ⊔ Subgroup.zpowers t := by
   have ht2 : t * t = 1 := s15_Three_sq_eq_one hW ht
   refine (Subgroup.closure_le (K := ⁅A, Subgroup.zpowers t⁆ ⊔ Subgroup.zpowers t)).mpr ?_
@@ -264,7 +269,7 @@ theorem s15_Three_B_facts (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut W)} 
     let J := s15TGroup A t
     let NB : Subgroup ↥J := (⁅A, Subgroup.zpowers t⁆).subgroupOf J
     let NT : Subgroup ↥J := (Subgroup.zpowers t).subgroupOf J
-    haveI : NB.Normal := hBnJ
+    have : NB.Normal := hBnJ
     have hztJ : Subgroup.zpowers t ≤ J := Subgroup.zpowers_le.mpr hJt
     have htop : NT ⊔ NB = ⊤ := by
       rw [← Subgroup.subgroupOf_sup hztJ hBJ, sup_comm, ← hJeq, Subgroup.subgroupOf_self]
@@ -282,7 +287,7 @@ theorem s15_Three_B_facts (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut W)} 
       simpa [pow_two] using ht2
     change NB.index ≤ 2
     rw [hrel]
-    haveI : Nonempty ↥NT := ⟨⟨1, NT.one_mem⟩⟩
+    have : Nonempty ↥NT := ⟨⟨1, NT.one_mem⟩⟩
     calc NB.relIndex NT ≤ orderOf t := by
           rw [← hcardNT]
           exact Nat.le_of_dvd Nat.card_pos (Dvd.intro _ hmul)
@@ -322,12 +327,13 @@ section Splitting
 
 variable {Γ : Type*} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem s15_Three_proj_exists {J K J₁ : Subgroup Γ} (hKJ : K ≤ J)
     (hKn : (K.subgroupOf J).Normal) (hJ₁ : J₁ ≤ J) (hdisj : J₁ ⊓ K = ⊥) (hsup : J₁ ⊔ K = J) :
     ∃ p : ↥J →* ↥J₁, (∀ x : ↥J₁, p ⟨x, hJ₁ x.2⟩ = x) ∧
       ∀ y : ↥J, (y : Γ) ∈ K → p y = 1 := by
   let N : Subgroup ↥J := K.subgroupOf J
-  haveI : N.Normal := hKn
+  have : N.Normal := hKn
   let H : Subgroup ↥J := J₁.subgroupOf J
   let f : H →* ↥J ⧸ N := (QuotientGroup.mk' N).comp H.subtype
   have hHN : H ⊓ N = ⊥ := by
@@ -388,7 +394,7 @@ theorem s15_Three_quot_group {J B K J₁ : Subgroup Γ} (hBJ : B ≤ J)
     (hno2 : ∀ N : Subgroup ↥B, N.Normal → (∃ n : ℕ, N.index = 2 ^ n) → N = ⊤) : False := by
   obtain ⟨p, hp₁, hpK⟩ := s15_Three_proj_exists hKJ hKn hJ₁ hdisj hsup
   let N : Subgroup ↥J := B.subgroupOf J
-  haveI : N.Normal := hBn
+  have : N.Normal := hBn
   let Q := ↥J ⧸ N
   let φ : ↥B →* Q :=
     (QuotientGroup.mk' N).comp ((Subgroup.inclusion hJ₁).comp (p.comp (Subgroup.inclusion hBJ)))

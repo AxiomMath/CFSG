@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite K] in
 theorem omega_of_lines (H : StrothHyp M Q Z) (hD : GlobalModelData M Q Z γ M₀) (V : Set M₀.E)
     (hV2 : ∀ v ∈ V, ∀ w ∈ V, M₀.B v w = 0 → ∃ s : K, w = s • v)
     (hV3 : ∀ A : Subgroup G, Ctx M Q Z A →

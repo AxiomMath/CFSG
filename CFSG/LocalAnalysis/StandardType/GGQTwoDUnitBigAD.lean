@@ -11,7 +11,7 @@ theorem qtwoDB41_coord_hyperplanes {m : ℕ} (hm : 6 ≤ m) {c : Fin m}
     (I : Finset (Submodule (ZMod 3) (DVec m)))
     (hI : ∀ H ∈ I, Pi.single c 1 ∈ H ∧ Module.finrank (ZMod 3) H = m - 1)
     (hcard : I.card = m - 1)
-    (hinf : ∀ v : DVec m, (∀ H ∈ I, v ∈ H) → ∀ i, i ≠ c → v i = 0)
+    (_hinf : ∀ v : DVec m, (∀ H ∈ I, v ∈ H) → ∀ i, i ≠ c → v i = 0)
     (hinv : ∀ w ∈ dEvenStab m (Pi.single c 1), ∀ H ∈ I,
       H.map (w : DVec m ≃ₗ[ZMod 3] DVec m).toLinearMap ∈ I) :
     ∀ H ∈ I, ∃ i : Fin m, i ≠ c ∧ ∀ v : DVec m, v ∈ H ↔ v i = 0 := by

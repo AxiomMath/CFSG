@@ -19,7 +19,7 @@ theorem not_commute_swap_adj {α : Type*} [DecidableEq α] {a b c : α} (hab : a
     (hbc : b ≠ c) (hac : a ≠ c) : ¬ Commute (swap a b) (swap b c) := by
   intro h
   have := congrArg (fun f : Perm α => f a) h.eq
-  simp [swap_apply_def, hab, hbc, hac, hab.symm, hbc.symm, hac.symm] at this
+  simp [swap_apply_def, hab, hbc, hac] at this
 
 theorem orderOf_swap_adj {α : Type*} [DecidableEq α] [Fintype α] {a b c : α} (hab : a ≠ b)
     (hbc : b ≠ c) (hac : a ≠ c) : orderOf (swap a b * swap b c) = 3 := by

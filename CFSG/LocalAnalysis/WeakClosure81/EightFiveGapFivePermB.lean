@@ -46,7 +46,7 @@ theorem w85g_injective_of_nodup7 {α : Type} [DecidableEq α] {a1 b1 a2 b2 a3 b3
     Function.Injective (![a1, b1, a2, b2, a3, b3, x] : Fin 7 → α) := by
   intro i j hij
   fin_cases i <;> fin_cases j <;>
-    simp_all [List.nodup_cons, List.mem_cons, List.mem_singleton]
+    simp_all [List.nodup_cons, List.mem_cons]
 
 theorem w85g_exists_fixed_embedding {α : Type} [Fintype α] [DecidableEq α] {τ : Perm α} (hτ : τ * τ
     = 1)
@@ -134,7 +134,7 @@ theorem w85g_exists_fixed_embedding {α : Type} [Fintype α] [DecidableEq α] {�
   have h53 : τ a3 ≠ x := fun h => hxnot (h ▸ hb3mem)
   have hnd : [a1, τ a1, a2, τ a2, a3, τ a3, x].Nodup := by
     simp only [List.nodup_cons, List.not_mem_nil, not_false_eq_true, and_true, List.mem_cons,
-      List.mem_singleton, not_or]
+      not_or]
     tauto
   have e0 : (swap 0 1 * swap 2 3 * swap 4 5 : Perm (Fin 7)) 0 = 1 := by decide
   have e1 : (swap 0 1 * swap 2 3 * swap 4 5 : Perm (Fin 7)) 1 = 0 := by decide
@@ -154,7 +154,7 @@ theorem w85g_injective_of_nodup10 {α : Type} [DecidableEq α]
     Function.Injective (![a1, b1, a2, b2, a3, b3, a4, b4, a5, b5] : Fin 10 → α) := by
   intro i j hij
   fin_cases i <;> fin_cases j <;>
-    simp_all [List.nodup_cons, List.mem_cons, List.mem_singleton]
+    simp_all [List.nodup_cons, List.mem_cons]
 
 theorem w85g_exists_free_embedding {α : Type} [Fintype α] [DecidableEq α] {τ : Perm α} (hτ : τ * τ =
     1)
@@ -417,7 +417,7 @@ theorem w85g_exists_free_embedding {α : Type} [Fintype α] [DecidableEq α] {τ
   have f44 : a5 ≠ τ a5 := ha5b5
   have hnd : [a1, τ a1, a2, τ a2, a3, τ a3, a4, τ a4, a5, τ a5].Nodup := by
     simp only [List.nodup_cons, List.not_mem_nil, not_false_eq_true, and_true,
-      List.mem_cons, List.mem_singleton, not_or]
+      List.mem_cons, not_or]
     tauto
   have e0 : (swap 0 1 * swap 2 3 * swap 4 5 * swap 6 7 * swap 8 9 : Perm (Fin 10)) 0 =
       1 := by decide
@@ -498,7 +498,7 @@ theorem w85g_orderOf_six_fixed {α : Type} [DecidableEq α] {τ : Perm α} (hτ 
       rw [show (f₀.viaEmbedding ⟨p, hp⟩) (p i) = p (f₀ i) from
         Equiv.Perm.viaEmbedding_apply f₀ ⟨p, hp⟩ i]
       fin_cases i <;>
-        simp [f₀, Equiv.Perm.mul_apply, Equiv.swap_inv, Equiv.swap_apply_of_ne_of_ne, hp.ne_iff]
+        simp [f₀, Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne, hp.ne_iff]
     · have hy' : y ∉ Set.range p := by simpa [Set.mem_range] using hy
       have hpy : ∀ i, y ≠ p i := fun i h => hy' ⟨i, h.symm⟩
       rw [Equiv.Perm.viaEmbedding_apply_of_notMem f₀ ⟨p, hp⟩ y hy']
@@ -585,7 +585,7 @@ theorem w85g_orderOf_six_free {α : Type} [DecidableEq α] {τ : Perm α} (hτ :
       rw [show (f₀.viaEmbedding ⟨p, hp⟩) (p i) = p (f₀ i) from
         Equiv.Perm.viaEmbedding_apply f₀ ⟨p, hp⟩ i]
       fin_cases i <;>
-        simp [f₀, Equiv.Perm.mul_apply, Equiv.swap_inv, Equiv.swap_apply_of_ne_of_ne, hp.ne_iff]
+        simp [f₀, Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne, hp.ne_iff]
     · have hy' : y ∉ Set.range p := by simpa [Set.mem_range] using hy
       have hpy : ∀ i, y ≠ p i := fun i h => hy' ⟨i, h.symm⟩
       rw [Equiv.Perm.viaEmbedding_apply_of_notMem f₀ ⟨p, hp⟩ y hy']

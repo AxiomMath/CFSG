@@ -38,7 +38,7 @@ theorem swapEquiv_mem_sup_even {t : ℕ} (ht : 3 ≤ t) {a c : Fin t} (hac : a �
   have heq : swapEquiv t c a = swapEquiv t c x * swapEquiv t a x * swapEquiv t c x := by
     ext v k
     simp only [swapEquiv, LinearEquiv.mul_apply, LinearEquiv.funCongrLeft_apply,
-      LinearMap.funLeft_apply, Function.comp_apply, Equiv.swap_apply_def]
+      LinearMap.funLeft_apply, Equiv.swap_apply_def]
     split_ifs <;> simp_all
   rw [heq]
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.mem_sup_left h1)
@@ -152,7 +152,7 @@ theorem extD5_A1 (hAmb : AmbientChainEvenSigned) {vx z : V 5} {ℓ j k : Code 5}
     have hodd : ¬ Even (Finset.univ \ {a, c} : Finset (Fin 5)).card := by
       rw [hjcard]
       decide
-    simp [PlaneRaw.label, hodd, hjcard] <;> decide
+    simp [PlaneRaw.label, hjcard]; decide
   refine ⟨W, ?_, ?_, ?_, ?_, hbasis, ⟨f, hcart, ha, Or.inl hb⟩, ?_,
     (⟨.twD, 3, 1⟩ : LargeEvenLabel), Or.inr rfl, ?_, ?_, ?_, ?_⟩
   · show W.toLin.parab {i | i ≠ W.a} = PlaneRaw.normalizerOf (.orthogonal 0) 5 k

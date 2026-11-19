@@ -65,7 +65,7 @@ theorem eq_permAut_swap_of_mem_aPermutationFull {n p : ℕ} (hp : p.Prime) (hp2 
   · exfalso
     rw [hi] at hfix₁
     have h := congrArg (fun g : Fin n → Multiplicative (ZMod p) => toAdd (g a)) hfix₁
-    rw [negTrans_apply (p := p) a b hab f₁ a, if_pos rfl, toAdd_inv, hf₁ b] at h
+    rw [negTrans_apply (p := p) a b hab f₁ a, ite_eq_left rfl, toAdd_inv, hf₁ b] at h
     exact coord_zero_ne_one hp (coord_eq_zero_of_eq_neg hp hp2 h.symm).symm
 
 theorem swap_disjoint_of_two_dvd_orderOf {n : ℕ} {a b c d : Fin n} (hab : a ≠ b) (hcd : c ≠ d)

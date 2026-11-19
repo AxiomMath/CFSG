@@ -98,7 +98,7 @@ theorem mem_center_of_orderOf_eq_two_of_alternating {t : K} (ht : orderOf t = 2)
   obtain ⟨R⟩ : Nonempty (Sylow 2 K) := inferInstance
   have hsq : ∀ r ∈ (R : Subgroup K), r * r = 1 := by
     intro r hr
-    obtain ⟨n, hn⟩ := R.isPGroup' ⟨r, hr⟩
+    obtain ⟨n, hn⟩ := R.isPGroup ⟨r, hr⟩
     have hrn : r ^ 2 ^ n = 1 := by simpa using congrArg Subtype.val hn
     have hrr := mk_mul_self_of_pow_eq_one eA hrn
     by_cases hrZ : r ∈ Subgroup.center K
@@ -124,7 +124,7 @@ theorem nonempty_sylow_mulEquiv_quaternion_of_alternating (S : Sylow 2 K) :
     Nonempty ((S : Subgroup K) ≃* QuaternionGroup 2) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (S : Subgroup K) = 8 := by
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     have hmul := Subgroup.card_mul_index (S : Subgroup K)
     rw [card_eq_of_alternating hZ2 eA, hk] at hmul
     have hodd := S.not_dvd_index
@@ -154,12 +154,12 @@ theorem nonempty_sylow_mulEquiv_quaternion_of_alternating (S : Sylow 2 K) :
         (K := (S : Subgroup K)) (by omega)
     exact hab (huniq a haR b hbR ha hb)
   rcases CFSG.TwoRankLowerBound.Helpers.rank_one_two_group_cyclic_or_quaternion _
-      S.isPGroup' hrank with hcyc | ⟨n, hn, ⟨φ⟩⟩
+      S.isPGroup hrank with hcyc | ⟨n, hn, ⟨φ⟩⟩
   ·
     exfalso
     obtain ⟨g, hg⟩ := hcyc.exists_generator
     have hord : orderOf g = 8 := by rw [orderOf_eq_card_of_forall_mem_zpowers hg, hcard]
-    obtain ⟨n, hn⟩ := S.isPGroup' g
+    obtain ⟨n, hn⟩ := S.isPGroup g
     have hgn : (g : K) ^ 2 ^ n = 1 := by simpa using congrArg Subtype.val hn
     have hgg := mk_mul_self_of_pow_eq_one eA hgn
     rw [← QuotientGroup.mk_mul, QuotientGroup.eq_one_iff] at hgg

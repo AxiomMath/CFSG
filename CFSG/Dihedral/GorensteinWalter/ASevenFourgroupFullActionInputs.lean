@@ -14,11 +14,11 @@ open DihedralBlueprint
 theorem a7U_fourgroup_cycles (V : Subgroup ASevenCertificateGroup)
     (hV : IsKleinFour V) (hcent : V ≤ Subgroup.centralizer (a7U : Set ASevenCertificateGroup)) :
     Cycles (Subgroup.normalizer (a7U : Set ASevenCertificateGroup)) V := by
-  letI a7VDecidablePred : DecidablePred (fun x : ASevenCertificateGroup => x ∈ a7V) := fun x => by
+  let a7VDecidablePred : DecidablePred (fun x : ASevenCertificateGroup => x ∈ a7V) := fun x => by
     change Decidable (x = 1 ∨ x = a7t ∨ x = a7u ∨ x = a7t * a7u)
     infer_instance
-  letI a7VFintype : Fintype a7V := Subtype.fintype _
-  letI a7VPermFintype : Fintype (Equiv.Perm a7V) := inferInstance
+  let a7VFintype : Fintype a7V := Subtype.fintype _
+  let a7VPermFintype : Fintype (Equiv.Perm a7V) := inferInstance
   rw [kleinFour_eq_a7V_of_centralizes_a7U V hV hcent]
   let x : ASevenCertificateGroup :=
     ⟨Equiv.swap (0 : Fin 7) 1 * Equiv.swap 1 2, by simp [Equiv.Perm.sign_mul]⟩

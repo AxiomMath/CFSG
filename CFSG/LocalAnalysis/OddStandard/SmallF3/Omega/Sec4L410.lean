@@ -54,7 +54,7 @@ theorem sec4_relIndex_le_two [Finite G] {A : Subgroup G} {t u : G} (ht : orderOf
     ((normalizer (A : Set G) ⊓ centralizer ({u} : Set G)) ⊓ centralizer ({t} : Set G)).relIndex
       (normalizer (A : Set G) ⊓ centralizer ({u} : Set G)) ≤ 2 := by
   let H : Subgroup G := normalizer (A : Set G) ⊓ centralizer ({u} : Set G)
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   have hut : u * t = t * u :=
     congrArg Subtype.val (mul_comm' (⟨u, huA⟩ : A) ⟨t, htA⟩)
   change (H ⊓ centralizer ({t} : Set G)).relIndex H ≤ 2

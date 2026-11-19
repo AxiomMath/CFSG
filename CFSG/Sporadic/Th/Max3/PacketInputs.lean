@@ -10,11 +10,11 @@ namespace CFSG.Sporadic.Th.Max3.Packet
 
 open CFSG.Sporadic.Th.Native CFSG.Certificates
 
-@[expose] def coreZWord : List ℤ :=
+def coreZWord : List ℤ :=
   [-2, -1, -2, -1, -2, -1, -2, -1, -2, -1, -2, -1, -1, -2, -1, -2, -1, -2, -1, -2, -1, -2, -1, -2,
     -1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, -1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1]
 
-@[expose] def coreGeneratorWords : Fin 8 → List ℤ :=
+def coreGeneratorWords : Fin 8 → List ℤ :=
   ![[1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2],
     [-1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
     [-2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2],
@@ -30,7 +30,7 @@ namespace CFSG.Sporadic.Th.Max3
 
 open CFSG.Sporadic.Th.Native CFSG.Certificates
 
-@[expose] def qPShift : Fin 8 → ZMod 2 := ![0, 0, 0, 1, 0, 0, 0, 1]
+def qPShift : Fin 8 → ZMod 2 := ![0, 0, 0, 1, 0, 0, 0, 1]
 
 end CFSG.Sporadic.Th.Max3
 
@@ -38,10 +38,10 @@ namespace CFSG.Sporadic.Th.Max3.Packet
 
 open CFSG.Sporadic.Th.Native CFSG.Certificates
 
-@[expose] def letterRows (l : ℤ) : Array V4 :=
+def letterRows (l : ℤ) : Array V4 :=
   if l = 1 ∨ l = -1 then rowsX else if l = 2 then rowsY else if l = -2 then powRows rowsY 5
   else idRows
 
-@[expose] def signedWordRows (w : List ℤ) : Array V4 := prodRows (w.map letterRows)
+def signedWordRows (w : List ℤ) : Array V4 := prodRows (w.map letterRows)
 
 end CFSG.Sporadic.Th.Max3.Packet

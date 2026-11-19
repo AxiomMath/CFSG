@@ -98,8 +98,8 @@ theorem not_isSolvable_inf_barCentralizer (h45 : Sec4.Item4_5) (hF : KF84Field)
     exact Item87Proof.isPerfect_residual _
   have hPbot : imageModTheta Y T = ⊥ := by
     by_contra hne
-    haveI : Nontrivial (imageModTheta Y T) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
-    haveI := hsolv
+    have : Nontrivial (imageModTheta Y T) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+    have := hsolv
     have hs : Group.IsSolvable (imageModTheta Y T) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hPle)
     exact Group.IsPerfect.not_isSolvable (imageModTheta Y T) hs

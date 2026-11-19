@@ -75,7 +75,7 @@ private lemma ggQ2NbG_coxeter_of_D5 {ι : Type} (N : CoxeterMatrix ι) (C : Matr
   by_cases hij : i = j
   · subst hij
     simp
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     have h1 := he i j
     have h2 := he j i
     have hne : e i ≠ e j := fun h => hij (e.injective h)
@@ -87,8 +87,8 @@ private lemma ggQ2NbG_coxeter_of_D5 {ι : Type} (N : CoxeterMatrix ι) (C : Matr
       revert hij
       fin_cases i <;> fin_cases j <;> decide
     rcases h3 with ⟨hm, hc, -⟩ | ⟨hm, hc, -⟩ | ⟨hm, hp, -⟩ | ⟨hm, hp, -⟩
-    · rw [hm, if_pos (by rw [← h1, hc])]
-    · rw [hm, if_neg (by rw [← h1, hc]; norm_num)]
+    · rw [hm, ite_eq_left (by rw [← h1, hc])]
+    · rw [hm, ite_eq_right (by rw [← h1, hc]; norm_num)]
     · exfalso
       rw [h1, h2] at hp
       rcases hD with h | h <;> rcases hDji with h' | h' <;> rw [h, h'] at hp <;>

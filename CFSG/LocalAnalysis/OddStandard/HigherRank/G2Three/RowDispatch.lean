@@ -56,7 +56,7 @@ theorem Case3RowCores.lieChar_three (hRows : Case3RowCores)
         have hJq_card : Nat.card (↥J ⧸ center ↥J) = 3265920 :=
           CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_four_three
             (hJU.statedClassicalModel (by decide))
-        haveI : Nonempty ↥J := ⟨⟨t, htJ⟩⟩
+        have : Nonempty ↥J := ⟨⟨t, htJ⟩⟩
         have hle1 : Nat.card (↥J ⧸ center ↥J) ≤ Nat.card ↥J :=
           Nat.le_of_dvd Nat.card_pos (Subgroup.card_quotient_dvd_card (center ↥J))
         have hle2 : Nat.card ↥J ≤ Nat.card S := Subgroup.card_le_card_group (H := J)

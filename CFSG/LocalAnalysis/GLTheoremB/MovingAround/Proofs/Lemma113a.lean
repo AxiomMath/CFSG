@@ -34,7 +34,7 @@ theorem l113Psi_cube (T : H →* H) (hT : ∀ x, T (T (T x)) = x) (hc : ∀ x : 
   rw [h2, l113Psi_apply]
   simp only [map_mul, map_inv, hT, mul_inv, inv_inv]
   calc _ = (x * x⁻¹) * (T x * T x * T x) * (T (T x) * T (T x) * T (T x))⁻¹ := by
-          simp only [mul_inv, inv_inv]
+          simp only [mul_inv]
           simp only [mul_comm, mul_assoc, mul_left_comm]
     _ = 1 := by simp [hu, hv]
 
@@ -182,7 +182,7 @@ variable {G : Type} [Group G]
 @[expose] def l113Act (a : G) (V : Subgroup G) (hV : ∀ v ∈ V, a * v * a⁻¹ ∈ V) : V →* V where
   toFun v := ⟨a * v * a⁻¹, hV v v.2⟩
   map_one' := by ext; simp
-  map_mul' x y := by ext; simp only [Subgroup.coe_mul, Subtype.coe_mk]; group
+  map_mul' x y := by ext; simp only [Subgroup.coe_mul]; group
 
 theorem l113Act_cube (a : G) (V : Subgroup G) (hV : ∀ v ∈ V, a * v * a⁻¹ ∈ V) (ha3 : a ^ 3 = 1)
     (x : V) : l113Act a V hV (l113Act a V hV (l113Act a V hV x)) = x := by
@@ -273,7 +273,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem lemma113_ii_piece0_of_104iv (h104iv : Lemma104_ivStatement) : Lemma113_ii_piece0Statement := by
   intro G _ _ m B M E A a e K Q h E1 hE1M hE1 hrank haN
-  haveI hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDD : IsDDpStar 3 M E A := h.pair
   have hEinD : inD 3 M E := hDD.1.1
   have hAinDp : inDp 3 M A := hDD.1.2.1
@@ -287,7 +287,7 @@ theorem lemma113_ii_piece0_of_104iv (h104iv : Lemma104_ivStatement) : Lemma113_i
   obtain ⟨haA, ha1⟩ := h.ha
   have ha3 : a ^ 3 = 1 := hAel.2 a haA
   have haM : a ∈ M := hAsc.1 haA
-  haveI : IsMulCommutative E1 := hE1.1
+  have : IsMulCommutative E1 := hE1.1
   have hcomm1 : ∀ x ∈ E1, ∀ y ∈ E1, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hE1.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hnorm1 : ∀ v ∈ E1, a * v * a⁻¹ ∈ E1 := fun v hv => (Subgroup.mem_normalizer_iff.1 haN v).1 hv

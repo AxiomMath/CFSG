@@ -35,7 +35,7 @@ theorem sec33_pair_partner {A₁ A₂ L₁ L₂ M₁ : Subgroup G} (S : Prop24Se
   have hXY : A₁ ⊔ A₂ ≤ Y := sup_le hA₁ hA₂
   obtain ⟨hN2, hO2, hmod⟩ := S.tim77_2_4_one CFSG.CGT.T75N.benderCenterInput
     CFSG.CGT.T75N.unitaryTwoGenerationInput
-  haveI := hN2
+  have := hN2
   have hJ : ∃ (f j : ℕ), (j = 1 ∨ j = 2) ∧
       BenderType (↥(A₁ ⊔ A₂) ⧸ M₁.subgroupOf (A₁ ⊔ A₂)) f j 1 := by
     rcases hmod with ⟨f, hf, hrel, ⟨e⟩⟩ | ⟨a, ha, hrel, ⟨e⟩⟩ | ⟨m, hm, h3, hrel, -⟩
@@ -61,7 +61,7 @@ theorem sec33_pair_partner {A₁ A₂ L₁ L₂ M₁ : Subgroup G} (S : Prop24Se
   obtain ⟨Q', hQ'⟩ := eq_rootCenter_of_strongWC hJ hS' hT0'
   have hQQ : Q ≠ Q' := by
     intro heq
-    obtain ⟨b₀, hb₀, hb₀L⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
+    obtain ⟨b₀, hb₀, hb₀L⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
     apply S.mk_not_mem_image hb₀ hb₀L
     have h2 : πq ⟨b₀, Subgroup.mem_sup_right hb₀⟩ ∈ (A₂.subgroupOf (A₁ ⊔ A₂)).map πq :=
       ⟨_, hb₀, rfl⟩
@@ -74,7 +74,7 @@ theorem sec33_pair_partner {A₁ A₂ L₁ L₂ M₁ : Subgroup G} (S : Prop24Se
       exact hψM (m : G) hm)
   have hφmk : ∀ y : ↥(A₁ ⊔ A₂), φ (πq y) = ψ (Subgroup.inclusion hXY y) := fun y => rfl
   have hφinj : Function.Injective φ := by
-    haveI := hJ.isSimple
+    have := hJ.isSimple
     rw [← MonoidHom.ker_eq_bot_iff]
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal φ.ker with h1 | h1
     · exact h1

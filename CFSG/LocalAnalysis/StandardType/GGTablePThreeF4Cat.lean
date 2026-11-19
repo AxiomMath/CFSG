@@ -141,7 +141,7 @@ private theorem compF4BCAt_adjointGroup
   obtain ⟨h, hh, hβh, hp1, hh1⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.KD264Lie.ExcUntw.exists_inndiag_of_mem_innAutDerived_F4
       β hβmem hβp hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card]; exact hcardK
@@ -166,7 +166,7 @@ private theorem compF4BCAt_adjointGroup
       (baseChange_mem_adjointGroup_of_mem_inndiag hh) hβh hp1 hh1
   have hℓL : ringChar (AlgebraicClosure K) = ringChar K := ringChar_algebraicClosure K
   have hℓ2 : ringChar (AlgebraicClosure K) = 2 := by rw [hℓL, hK2]
-  haveI : CharP (AlgebraicClosure K) 2 := hℓ2 ▸ ringChar.charP (AlgebraicClosure K)
+  have : CharP (AlgebraicClosure K) 2 := hℓ2 ▸ ringChar.charP (AlgebraicClosure K)
   have hpL : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 :=
     natCast_ne_zero_of_ringChar_ne Nat.prime_three (by rw [hℓL]; exact hpℓ.symm)
   have hTame := langSetup_hTame_of_prime S Nat.prime_three hpL
@@ -222,7 +222,7 @@ theorem compF4BC_cat_of_lang
   obtain ⟨K, _, _, hK, hKc, ⟨eK⟩⟩ :=
     CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
       CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
-  haveI := hKc
+  have := hKc
   have hqp : q.p = 2 := (TauCeti.LieTypeIndex.characteristic_F4 q).symm.trans hch
   have hchar : ringChar K = q.p := ringChar.eq K q.p
   have hK2 : ringChar K = 2 := hchar.trans hqp

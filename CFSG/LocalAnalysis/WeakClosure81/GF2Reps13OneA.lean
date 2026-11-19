@@ -61,7 +61,7 @@ theorem exists_inverted_orderOf_eq_prime {A : Type*} [Group A] [Finite A] {t : A
     (hn : ∀ x ∈ P, t * x * t⁻¹ ∈ P) (hc : ⁅P, Subgroup.zpowers t⁆ ≠ ⊥) :
     ∃ x ∈ P, orderOf x = p ∧ t * x * t⁻¹ = x⁻¹ := by
   obtain ⟨z, hzP, hz1, hzinv⟩ := exists_mem_ne_one_inverted ht hn hc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hP.exists_orderOf_eq_pow (⟨z, hzP⟩ : ↥P)
   have hzord : orderOf z = p ^ k := by
     rw [← Subgroup.orderOf_mk z hzP]
@@ -90,7 +90,7 @@ theorem eq_bot_of_isPGroup_two_of_comm_eq_self {A : Type*} [Group A] [Finite A] 
     (ht : t * t = 1) {P : Subgroup A} (hP : IsPGroup 2 ↥P) (hn : ∀ x ∈ P, t * x * t⁻¹ ∈ P)
     (hc : ⁅P, Subgroup.zpowers t⁆ = P) : P = ⊥ := by
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_left ht
   have ht_norm : t ∈ Subgroup.normalizer P := by
     rw [Subgroup.mem_normalizer_iff]
@@ -112,7 +112,7 @@ theorem eq_bot_of_isPGroup_two_of_comm_eq_self {A : Type*} [Group A] [Finite A] 
   have hG : IsPGroup 2 ↥G := by
     dsimp only [G]
     exact IsPGroup.to_sup_of_normal_left' (p := 2) hP hKp hK_norm
-  haveI : Finite ↥G := Finite.of_injective (Subtype.val : ↥G → A) Subtype.val_injective
+  have : Finite ↥G := Finite.of_injective (Subtype.val : ↥G → A) Subtype.val_injective
   have hnil : Group.IsNilpotent ↥G := IsPGroup.isNilpotent hG
   obtain ⟨c, hcG⟩ := (Subgroup.isNilpotent_iff_lowerCentralSeries (S := G)).mp hnil
   have hle : ∀ n, P ≤ G.lowerCentralSeries n := by
@@ -222,12 +222,12 @@ theorem le_seven_of_comm_eq_self (hW : ∀ w : W, w ^ 2 = 1) {t : MulAut W} (ht 
     rw [hc]
     exact hne
   obtain ⟨x, _hxP, hxord, hxinv⟩ := exists_inverted_orderOf_eq_prime htt hp hP hn hcne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard1 : Nat.card ↥(Subgroup.zpowers x) = p := by
     rw [Nat.card_zpowers, hxord]
   have hcard2 : Nat.card (Multiplicative (Fin 1 → ZMod p)) = p := by
     simp [Nat.card_eq_fintype_card]
-  haveI : IsCyclic (Multiplicative (Fin 1 → ZMod p)) :=
+  have : IsCyclic (Multiplicative (Fin 1 → ZMod p)) :=
     isCyclic_of_prime_card hcard2
   have hX : IsElemAbelianOfRank p 1 ↥(Subgroup.zpowers x) :=
     ⟨mulEquivOfCyclicCardEq (hcard1.trans hcard2.symm)⟩

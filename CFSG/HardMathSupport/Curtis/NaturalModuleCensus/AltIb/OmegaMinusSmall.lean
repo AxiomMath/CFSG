@@ -43,6 +43,7 @@ theorem finrank_minusSpace_small {n : ℕ} (hn : 1 ≤ n) :
     Fintype.card_fin]
   omega
 
+omit [CharP F 2] in
 theorem exists_quadMinus_ne_zero_small (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {n : ℕ}
     (hn : 1 ≤ n) (U : Submodule F (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F))
     (hU : finrank F U = n) : ∃ u ∈ U, quadMinus n F b c u ≠ 0 := by
@@ -51,6 +52,7 @@ theorem exists_quadMinus_ne_zero_small (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 
   refine CFSG.GroupTheory.WeirSylow.not_isPlusType_quadMinus hn hirr ⟨U, ?_, h⟩
   rw [hU, finrank_minusSpace_small hn]
 
+omit [Finite F] [CharP F 2] in
 theorem nonempty_range_equiv_statedOmega {n : ℕ} {S : Type} [Group S]
     (ρ : S →* ((Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F) ≃ₗ[F]
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → F)))

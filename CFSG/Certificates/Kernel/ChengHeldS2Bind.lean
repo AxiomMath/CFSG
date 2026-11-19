@@ -31,7 +31,7 @@ theorem m_eq_mK (hd : RegData n gens E p) (hE : E = penumRec n w n T PL)
   have hn : 0 < n := hd.pos
   unfold mK
   by_cases hk : a * n + b < n * n
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     have hj : (a * n + b) / n < n := (Nat.div_lt_iff_lt_mul hn).2 hk
     have hr : (a * n + b) % n < n := Nat.mod_lt _ hn
     obtain ⟨hi, h0⟩ := hIX _ hj
@@ -44,7 +44,7 @@ theorem m_eq_mK (hd : RegData n gens E p) (hE : E = penumRec n w n T PL)
     rw [getElem!_pos _ _ (by simpa using hk), Array.getElem_ofFn]
     simp only
     rw [hpe, unpack_get' hr]
-  · rw [if_neg hk]
+  · rw [ite_eq_right hk]
     unfold RegModel.m mkRegGen
     simp only
     rw [getElem!_neg _ _ (by simpa using hk)]
@@ -54,7 +54,7 @@ theorem inv_eq (hd : RegData n gens E p) {INV : ℕ → ℕ}
     (hINV : ∀ a < n, INV a < n ∧ (mkRegGen n gens E).m a (INV a) = 0) (a : ℕ) :
     (mkRegGen n gens E).inv[a]! = if a < n then INV a else 0 := by
   by_cases ha : a < n
-  · rw [if_pos ha]
+  · rw [ite_eq_left ha]
     obtain ⟨g, rfl⟩ := hd.ptOf_surj ha
     rw [hd.inv_ptOf]
     obtain ⟨h1, h2⟩ := hINV _ ha
@@ -62,7 +62,7 @@ theorem inv_eq (hd : RegData n gens E p) {INV : ℕ → ℕ}
     rw [← hg', hd.m_ptOf, ← hd.ptOf_one] at h2
     have := hd.ptOf_inj h2
     rw [← hg', eq_inv_of_mul_eq_one_right this]
-  · rw [if_neg ha]
+  · rw [ite_eq_right ha]
     unfold mkRegGen
     simp only
     rw [getElem!_neg _ _ (by simpa using ha)]
@@ -105,7 +105,7 @@ theorem testBit_clStepK (N : ℕ) (m : ℕ → ℕ → ℕ) (gs : List ℕ) (B z
     intro acc hl
     rw [List.foldl_cons, ih _ fun y hy => hl y (List.mem_cons_of_mem _ hy)]
     by_cases hb : B.testBit x = true
-    · rw [if_pos hb, testBit_foldl_or]
+    · rw [ite_eq_left hb, testBit_foldl_or]
       constructor
       · rintro ((h | ⟨g, hg, rfl⟩) | ⟨y, hy, hby, g, hg, rfl⟩)
         · exact Or.inl h
@@ -116,7 +116,7 @@ theorem testBit_clStepK (N : ℕ) (m : ℕ → ℕ → ℕ) (gs : List ℕ) (B z
         · rcases List.mem_cons.1 hy with rfl | hy
           · exact Or.inl (Or.inr ⟨g, hg, rfl⟩)
           · exact Or.inr ⟨y, hy, hby, g, hg, rfl⟩
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       constructor
       · rintro (h | ⟨y, hy, hby, g, hg, rfl⟩)
         · exact Or.inl h
@@ -127,7 +127,7 @@ theorem testBit_clStepK (N : ℕ) (m : ℕ → ℕ → ℕ) (gs : List ℕ) (B z
           · exact absurd hby hb
           · exact Or.inr ⟨y, hy, hby, g, hg, rfl⟩
 
-theorem closure_get {M : RegModel} {gs : List ℕ} (hgs : ∀ g ∈ gs, g < M.N)
+theorem closure_get {M : RegModel} {gs : List ℕ} (_hgs : ∀ g ∈ gs, g < M.N)
     (hstep : ∀ g ∈ gs, ∀ y < M.N, M.m y g < M.N) (hN0 : 0 < M.N) {K : ℕ}
     (hfix : clStepK M.N M.m gs (clIterK M.N M.m gs K) = clIterK M.N M.m gs K) :
     (M.closure gs).size = M.N ∧
@@ -206,7 +206,7 @@ theorem autMap_get {M : RegModel} (hT : TreeSpec M) (hN : 0 < M.N) (img : Array 
   intro x
   rw [autMap_eq_foldl, hT.size_order]
   by_cases hx : x < M.N
-  · rw [if_pos hx]
+  · rw [ite_eq_left hx]
     have hsurj : Function.Surjective (fun i : Fin M.N => (⟨M.order[i.1]!, hT.order_lt i.1 i.2⟩ :
         Fin M.N)) := Finite.surjective_of_injective fun i j hij =>
       Fin.ext (hT.order_inj i j i.2 j.2 (congrArg Fin.val hij))
@@ -214,7 +214,7 @@ theorem autMap_get {M : RegModel} (hT : TreeSpec M) (hN : 0 < M.N) (img : Array 
     have e : M.order[i.1]! = x := congrArg Fin.val hi
     rw [← e]
     exact h2 i (by omega)
-  · rw [if_neg hx, getElem!_neg _ _ (by rw [h1]; exact hx)]
+  · rw [ite_eq_right hx, getElem!_neg _ _ (by rw [h1]; exact hx)]
     rfl
 
 theorem tabImgs_get {M : RegModel} {m : ℕ → ℕ → ℕ} {inv g : ℕ → ℕ}
@@ -230,7 +230,7 @@ theorem tabImgs_get {M : RegModel} {m : ℕ → ℕ → ℕ} {inv g : ℕ → �
     | inv a iha => simp only [RegModel.evalT, evalK, iha, hinv]
   unfold RegModel.tabImgs imgK
   rw [getElem!_pos _ _ (by simpa using hj), Array.getElem_map, Array.getElem_range]
-  simp only [hα, if_false]
+  simp only [hα, ite_false]
   cases (actRels α k).find? (fun e => e.1 == j) with
   | none => rfl
   | some e => exact hev e.2

@@ -29,7 +29,7 @@ theorem zElt_add (c d : K) : zElt K (c + d) = zElt K c * zElt K d :=
 
 theorem zElt_zero : zElt K 0 = 1 := Subtype.ext (pinnedX_zero Tag.D4 K hrD4)
 
-theorem zElt_injective : Function.Injective (zElt K) := fun c d h =>
+theorem zElt_injective : Function.Injective (zElt K) := fun _c _d h =>
   pinnedX_injective Tag.D4 K hrD4 (congrArg Subtype.val h)
 
 theorem mem_UP_iff {u : adjointGroup Tag.D4 K} :

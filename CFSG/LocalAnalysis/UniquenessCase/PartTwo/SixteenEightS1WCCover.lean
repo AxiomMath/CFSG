@@ -20,9 +20,9 @@ theorem s16w_isPGroup_ker_of_two_multiplier {Y : Type} [Group Y] [Finite Y]
     (hz : Odd (Nat.card (Subgroup.center X)))
     (hmult : ∃ k : ℕ, Nat.card (CFSG.Open.griessHopfMultiplier X) = 2 ^ k) :
     IsPGroup 2 ↥N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect Y := hperf
-  haveI : Group.IsPerfect X := ⟨hX.1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect Y := hperf
+  have : Group.IsPerfect X := ⟨hX.1⟩
   let R : Subgroup Y := CFSG.pCore 2 Y
   let π : Y →* Y ⧸ R := QuotientGroup.mk' R
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective R
@@ -54,8 +54,8 @@ theorem s16w_isPGroup_ker_of_two_multiplier {Y : Type} [Group Y] [Finite Y]
       have h2X : IsPGroup 2 X := by
         have htop' : IsPGroup 2 ↥(⊤ : Subgroup X) := htop ▸ hP2
         exact htop'.of_equiv Subgroup.topEquiv
-      haveI : Nontrivial (X ⧸ Subgroup.center X) := hX.2.toNontrivial
-      haveI : Nontrivial X := (QuotientGroup.mk'_surjective (Subgroup.center X)).nontrivial
+      have : Nontrivial (X ⧸ Subgroup.center X) := hX.2.toNontrivial
+      have : Nontrivial X := (QuotientGroup.mk'_surjective (Subgroup.center X)).nontrivial
       exact Group.IsPerfect.not_isNilpotent X h2X.isNilpotent
     · intro y hy
       have hmem : f y ∈ R.map f := Subgroup.mem_map_of_mem f hy
@@ -109,10 +109,10 @@ theorem s16w_isPGroup_ker_of_two_multiplier {Y : Type} [Group Y] [Finite Y]
     rw [hkerS]
     exact Group.isSolvable_of_surjective (f := π.subgroupMap N)
       (MonoidHom.subgroupMap_surjective π N)
-  haveI : q.ker.Normal := MonoidHom.normal_ker q
+  have : q.ker.Normal := MonoidHom.normal_ker q
   have hSc : q.ker ≤ Subgroup.center (Y ⧸ R) :=
     close16_le_center_of_isSolvable hlayer hSsolv
-  haveI : Group.IsPerfect (Y ⧸ R) := Group.IsPerfect.ofSurjective hπ
+  have : Group.IsPerfect (Y ⧸ R) := Group.IsPerfect.ofSurjective hπ
   have hdvd : Nat.card q.ker ∣ Nat.card (CFSG.Open.griessHopfMultiplier X) := by
     obtain ⟨-, ⟨h, -, -, -, -, ⟨e', -⟩⟩, -, -⟩ :=
       CFSG.RankThree.PerfectCover.perfect_central_kernel_quotient_of_schur_multiplier
@@ -137,6 +137,7 @@ theorem s16w_isPGroup_ker_of_two_multiplier {Y : Type} [Group Y] [Finite Y]
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16w_preBarSub_mono {M V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     {Xbar Ybar : Subgroup (MulAut (Vtil V₀ V hV))} (h : Xbar ≤ Ybar) :
     preBarSub M V₀ V hV Xbar ≤ preBarSub M V₀ V hV Ybar := by
@@ -210,6 +211,7 @@ private theorem s16w_preBarSub_conj_mem {D : Data G} {V₀ V : Subgroup G} {hV :
       (hnorm (actTil_mem_barSub V₀ V hV (D.M.inv_mem hm) hmsi))
     exact (hmem (actTil V₀ V hV ⟨m * x * m⁻¹, hxs⟩)).1 hxXbar
 
+omit [Finite G] in
 private theorem s16w_layer_top_of_O2E_eq {Y : Subgroup G} (hYE : F11.O2E Y = Y) :
     CFSG.Open.rankThreeLayer (⊤ : Subgroup (Bar2 Y)) = ⊤ := by
   have hπ : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) :=
@@ -239,7 +241,7 @@ theorem S16gRowCtx.cover_of_simple (h : S16gRowCtx D V₀ V L hV)
     (hKnc : ¬ IsMulCommutative ↥Kb)
     (hmult : ∃ k : ℕ, Nat.card (CFSG.Open.griessHopfMultiplier ↥Kb) = 2 ^ k) :
     S16wCover D V₀ V hV Kb := by
-  haveI : IsSimpleGroup ↥Kb := hKs
+  have : IsSimpleGroup ↥Kb := hKs
   have hKq : CFSG.Open.IsQuasisimple ↥Kb := by
     have hperf : Group.IsPerfect ↥Kb :=
       TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hKnc
@@ -264,7 +266,7 @@ theorem S16gRowCtx.cover_of_simple (h : S16gRowCtx D V₀ V L hV)
   have hbarX : barSub V₀ V hV X = Kb := by
     rw [hXdef, barSub_preBarSub]
     exact inf_eq_left.2 hKM
-  haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     s15_Three_cTilde_normal hV hMs
   have hlayerim : rankThreeLayer (F11.barImage11 D.M V₀ V X) = F11.barImage11 D.M V₀ V X :=
     s16w_layer_barImage hMs hKM hX_le hbarX hKq
@@ -307,7 +309,7 @@ theorem S16gRowCtx.cover_of_simple (h : S16gRowCtx D V₀ V L hV)
       exact ⟨hgY, hY_le hgY, hYs hgY, congrArg Subtype.val h1⟩
     · rintro ⟨-, -, h, h1⟩
       exact Subtype.ext h1
-  haveI : N.Normal := MonoidHom.normal_ker φ
+  have : N.Normal := MonoidHom.normal_ker φ
   have hNsolv : Group.IsSolvable ↥N := by
     rw [hNker]
     have hle : (Y ⊓ F11.CTilde D.M V₀ V).subgroupOf Y ≤ CFSG.solvableRadical ↥Y := by
@@ -315,7 +317,7 @@ theorem S16gRowCtx.cover_of_simple (h : S16gRowCtx D V₀ V L hV)
       obtain ⟨z, hz, hzx⟩ := hY.2.2.2.2.1 (Subgroup.mem_subgroupOf.mp hx)
       have hzx' : z = x := Subtype.ext hzx
       exact hzx' ▸ hz
-    haveI := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := ↥Y)
+    have := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := ↥Y)
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   have hperfY : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY.2.1
@@ -362,7 +364,7 @@ theorem S16gRowCtx.cover_of_simple (h : S16gRowCtx D V₀ V L hV)
       exact ⟨hgX, hX_le hgX, hXs hgX, congrArg Subtype.val h1⟩
     · rintro ⟨-, -, h, h1⟩
       exact Subtype.ext h1
-  haveI : IsSimpleGroup ↥(barSub V₀ V hV X) := by rw [hbarX]; exact hKs
+  have : IsSimpleGroup ↥(barSub V₀ V hV X) := by rw [hbarX]; exact hKs
   have hnc : ¬ IsMulCommutative ↥(barSub V₀ V hV X) := by rw [hbarX]; exact hKnc
   obtain ⟨hXC, hXab⟩ := close16_simple_of_hom hCX hnc φX hφX
     (by rw [hkerX, inf_eq_right.2 hCX])

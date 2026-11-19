@@ -69,8 +69,7 @@ theorem mem_slQAlpha_iff {g : ↥(StatedSL k K)} :
       rwa [LinearFlag.mem_stabilizer] at hmem)
     rw [slMat_eq_symm_B01 g]
     exact h2 i j le_rfl (by simpa only [Fin.lt_def] using hj)
-  · intro h
-    intro c hc
+  · intro h c hc
     rw [LinearFlag.mem_stabilizer]
     exact (map_flagSpace_eq_iff_B01 hu c).mpr fun i j hci hjc => by
       have hij : j < i := by

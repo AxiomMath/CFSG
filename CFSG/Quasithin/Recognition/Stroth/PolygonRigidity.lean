@@ -83,7 +83,7 @@ private theorem exists_isPolygon_of_girth {m : ℕ} {c : V → Bool}
 theorem isGenPolygon_of_isGeneralizedPolygon [Fintype V] [DecidableRel Γ.Adj] {m : ℕ}
     (hm : 2 ≤ m) (hP : CFSG.Geometry.GeneralizedPolygons.IsGeneralizedPolygon Γ m)
     (hT : CFSG.Geometry.GeneralizedPolygons.IsThick Γ) : CFSG.Quasithin.IsGenPolygon Γ m := by
-  haveI : Nonempty V := hP.connected.nonempty
+  have : Nonempty V := hP.connected.nonempty
   obtain ⟨c⟩ := hP.isBipartite
   let c' : Γ.Coloring Bool := Γ.recolorOfEquiv finTwoEquiv c
   have hcb : ∀ a b, Γ.Adj a b → c' a ≠ c' b := fun _ _ h => c'.valid h

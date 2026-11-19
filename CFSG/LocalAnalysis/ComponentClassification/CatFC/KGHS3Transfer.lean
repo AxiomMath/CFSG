@@ -80,8 +80,8 @@ theorem exists_quasisimple_of_relation {G₁ G₂ : Type} [Group G₁] [Group G�
       · exact ha.trans hb.symm
     exact Group.isSolvable_of_isSolvable_injective hψ
   let N' : Subgroup ↥Y := g.ker.map fY
-  haveI : N'.Normal := Subgroup.Normal.map inferInstance fY hfY_surj
-  haveI : Group.IsSolvable ↥N' := Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective fY g.ker)
+  have : N'.Normal := Subgroup.Normal.map inferInstance fY hfY_surj
+  have : Group.IsSolvable ↥N' := Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective fY g.ker)
   have hN'c : N' ≤ center ↥Y := le_center_of_normal_isSolvable hY N'
   have hgker : g.ker ≤ center ↥Yh := by
     intro n hn

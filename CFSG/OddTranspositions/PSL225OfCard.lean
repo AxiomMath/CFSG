@@ -21,7 +21,7 @@ theorem nonempty_mulEquiv_psl225_of_card
   have hnonab : ∃ a b : L, a * b ≠ b * a := by
     by_contra h
     push Not at h
-    haveI : IsMulCommutative L := isMulCommutative_iff.mpr h
+    have : IsMulCommutative L := isMulCommutative_iff.mpr h
     have hprime : (Nat.card L).Prime :=
       (Group.is_simple_iff_prime_card (α := L)).mp inferInstance
     rw [hcard] at hprime
@@ -42,7 +42,7 @@ theorem nonempty_mulEquiv_psl225_of_card
     omega
   · obtain ⟨e⟩ := e
     let q : ℕ := Nat.card (GaloisField p k)
-    haveI : Fact p.Prime := hp
+    have : Fact p.Prime := hp
     have hk0 : k ≠ 0 := by
       intro hk
       rw [hk, pow_zero] at hpk

@@ -19,7 +19,7 @@ private theorem ggLabelIso_not_of_tagA {lab lab' : LargeEvenLabel}
     ¬ GGLabelIso lab lab' := by
   obtain ⟨t, r, n⟩ := lab
   obtain ⟨t', r', n'⟩ := lab'
-  simp only [LargeEvenLabel.tag] at hA h'
+  simp only at hA h'
   subst hA
   rcases h' with h' | h' <;> subst h'
   all_goals
@@ -72,8 +72,8 @@ theorem ggQTwoXInL_ambient_linear_false
   rw [hlabA] at hraw
   dsimp only [CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeLinear] at hraw
   obtain ⟨K, hKf, hKfin, hKcard, hQ⟩ := hraw
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   obtain ⟨-, -, θ, -, -, -⟩ := hQ
   let J' : Subgroup (LargeEvenProj (LargeEvenSLGroup (Fin (lab.rank + 1)) K)) :=
     Lbar.map θ.toMonoidHom
@@ -113,7 +113,7 @@ theorem ggQTwoXInL_ambient_linear_false
     rw [← commutator_def, hLperf,
       Subgroup.map_top_of_surjective _ eL.symm.surjective, ← commutator_def] at h
     exact h.symm
-  haveI : Group.IsPerfect ↥G' := Group.isPerfect_def.mpr hG'perf
+  have : Group.IsPerfect ↥G' := Group.isPerfect_def.mpr hG'perf
   obtain ⟨eC⟩ := TableCRes.centerQuot_equiv_map_central
     (Z := Subgroup.center ↥G0) (J := G') le_rfl (Group.isPerfect_def.mpr hG'perf)
   have hhasG' : GGHasLabel labA (↥G' ⧸ Subgroup.center ↥G') :=
@@ -124,8 +124,8 @@ theorem ggQTwoXInL_ambient_linear_false
   have hrigid : GGLabelRigidInput := ggLabelRigidInput_holds
   rcases hcase with ⟨n, K', hK'f, hK'fin, ⟨M⟩, -, h6n⟩ | he6
   ·
-    letI : Field K' := hK'f
-    letI : Finite K' := hK'fin
+    let : Field K' := hK'f
+    let : Finite K' := hK'fin
     have hΛL : LargeEvenInLambda2 (⟨.twA, n - 1, 1⟩ : LargeEvenLabel) := by
       dsimp only [LargeEvenInLambda2]
       refine ⟨le_rfl, by omega, ?_⟩

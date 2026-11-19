@@ -14,6 +14,7 @@ open CFSG.Open Subgroup CFSG.SignalizerFunctorTheorem.CatalogBridge
 
 variable {n : ℕ} {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 private theorem isElemAbelian_subgroupOf_four {U E : Subgroup H} (hEU : E ≤ U)
     (hE : IsElemAbelian 2 E) (hE4 : Nat.card E = 4) :
     IsElemAbelian 2 (E.subgroupOf U) ∧ Nat.card (E.subgroupOf U) = 4 :=
@@ -23,7 +24,7 @@ private theorem isElemAbelian_subgroupOf_four {U E : Subgroup H} (hEU : E ≤ U)
 private theorem eq_bot_of_normal_odd_of_isSz (hH : CFSG.Quasithin.IsSz n H)
     {U E : Subgroup H} (hEU : E ≤ U) (hE : IsElemAbelian 2 E) (hE4 : Nat.card E = 4)
     {M : Subgroup ↥U} (hMnorm : M.Normal) (hModd : Odd (Nat.card M)) : M = ⊥ := by
-  haveI := hMnorm
+  have := hMnorm
   obtain ⟨hV, hcardV⟩ := isElemAbelian_subgroupOf_four hEU hE hE4
   refine eq_bot_of_elemAbelian_four (G := ↥U) (M := M) (E := E.subgroupOf U)
     Subgroup.le_normalizer_of_normal hV hcardV ?_
@@ -72,7 +73,7 @@ theorem exists_normal_sz_of_forall_not_le
     exact (CFSG.Holt.not_forall_sylow_cyclic_or_quaternion hcardV hV.2) hlow
   · have hMbot : M = ⊥ := eq_bot_of_normal_odd_of_isSz hH hEU hE hE4 hMnorm hModd
     have hMsub : M.subgroupOf N = ⊥ := by rw [hMbot, Subgroup.bot_subgroupOf]
-    haveI : (M.subgroupOf N).Normal := hMNnorm
+    have : (M.subgroupOf N).Normal := hMNnorm
     have eN : (N ⧸ M.subgroupOf N) ≃* ↥N :=
       (QuotientGroup.quotientMulEquivOfEq hMsub).trans QuotientGroup.quotientBot
     have h3 : ¬ 3 ∣ Nat.card (N ⧸ M.subgroupOf N) := by

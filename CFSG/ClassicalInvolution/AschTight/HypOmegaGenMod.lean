@@ -60,7 +60,7 @@ theorem closure_twoElements_eq {K : Subgroup G} [Group.IsPerfect K] :
   have hQN : (Q : Subgroup ↥K) ≤ N.subgroupOf K := by
     intro q hq
     refine Subgroup.mem_subgroupOf.mpr (Subgroup.subset_closure ⟨q.2, ?_⟩)
-    obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.mp Q.isPGroup' ⟨q, hq⟩
+    obtain ⟨n, hn⟩ := IsPGroup.iff_orderOf.mp Q.isPGroup ⟨q, hq⟩
     refine IsPGroup.of_card (n := n) ?_
     rw [Nat.card_zpowers, Subgroup.orderOf_coe, ← Subgroup.orderOf_mk q hq, hn]
   have hodd : ¬ 2 ∣ (N.subgroupOf K).index := fun h =>

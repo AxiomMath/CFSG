@@ -62,7 +62,7 @@ theorem exists_hom_elemAbelian_commute_of_pow_eq_one {p : ℕ} [hp : Fact p.Prim
       rw [hσ, hcp, mul_one] at h1
       exact h1.symm
     let Q : α → Prop := fun y => c y = y
-    haveI : DecidablePred Q := fun y => inferInstanceAs (Decidable (c y = y))
+    have : DecidablePred Q := fun y => inferInstanceAs (Decidable (c y = y))
     have hcQ : ∀ y, Q (σ' y) ↔ Q y := by
       intro y
       have h1 : σ' (c y) = c (σ' y) := by

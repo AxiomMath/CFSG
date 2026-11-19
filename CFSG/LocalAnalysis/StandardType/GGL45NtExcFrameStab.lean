@@ -136,7 +136,7 @@ theorem frobTwistGL_mem_famZ
   set B : Matrix (Fin τ.rank) (Fin τ.rank) ℤ := (q : ℤ) • A with hB
   have hFr : ∀ t : Fin τ.rank → Lˣ,
       (fun i => Units.map (iterateFrobenius L 2 e).toMonoidHom (t i)) = t ^ q := by
-    intro t; funext i; apply Units.ext; simp [iterateFrobenius_def, q]
+    intro t; funext i; apply Units.ext; simp [q]
   have hFd : ∀ t, frobTwistGL τ L 2 e Q' (rootDiagUnit τ t) =
       rootDiagUnit τ (C14Torus.tmap B t) := by
     intro t

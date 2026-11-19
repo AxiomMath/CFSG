@@ -20,7 +20,7 @@ theorem exists_sylow_sub {K : Subgroup Y} (hp : Group.IsPerfect K) (hn : K ≠ �
   obtain ⟨Sy⟩ : Nonempty (Sylow 2 ↥K) := inferInstance
   obtain ⟨h4, hnc⟩ := sylow_perfect_facts Sy
   refine ⟨(Sy : Subgroup K).map K.subtype, Subgroup.map_subtype_le _,
-    Sy.isPGroup'.map K.subtype, ?_, ?_⟩
+    Sy.isPGroup.map K.subtype, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective K.subtype_injective]; exact h4
   · intro hcyc
     exact hnc (((Sy : Subgroup K).equivMapOfInjective K.subtype K.subtype_injective).isCyclic.mpr

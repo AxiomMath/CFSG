@@ -51,14 +51,14 @@ theorem normalClosureUnder_self_eq {G : Type} [Group G] [Finite G] (X B : Subgro
     have hNbK : Nb ≤ K := by
       rintro _ ⟨n, hn, rfl⟩
       exact hbK n (hNK hn)
-    haveI : (Nb.subgroupOf K).Normal :=
+    have : (Nb.subgroupOf K).Normal :=
       (Subgroup.normal_subgroupOf_iff hNbK).mpr fun n k hn hk => by
         obtain ⟨m, hm, rfl⟩ := hn
         have h1 : (b⁻¹ * k * b) * m * (b⁻¹ * k * b)⁻¹ ∈ N :=
           ResidualTwoExtension.conj_mem_normalClosureUnder X K (hbK' k hk) hm
         refine ⟨_, h1, ?_⟩
         simp [MulAut.conj_apply, mul_assoc]
-    haveI := hNnorm
+    have := hNnorm
     have hNbres : SourceSetting.oPrimeResidual 3 Nb = Nb := by
       rw [hNb, ← Y2ConjugationInvariance.map_oPrimeResidual, hNres]
     have hcard : Nat.card N = Nat.card Nb :=

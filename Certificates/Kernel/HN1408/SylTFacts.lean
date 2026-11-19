@@ -120,7 +120,7 @@ theorem ncard_count {G : Type*} {f : ℕ → G} {n : ℕ}
   classical
   have e : {g | (∃ i < n, f i = g) ∧ P g} = f '' (((List.range n).filter q).toFinset : Set ℕ) := by
     ext g
-    simp only [Set.mem_setOf_eq, Set.mem_image, Finset.mem_coe, List.mem_toFinset,
+    simp only [Set.mem_ofPred_eq, Set.mem_image, Finset.mem_coe, List.mem_toFinset,
       List.mem_filter, List.mem_range]
     constructor
     · rintro ⟨⟨i, hi, rfl⟩, hP⟩
@@ -173,7 +173,7 @@ theorem ent_blocks {i : ℕ} (hi : i < 2048) : x i ∈ blocks1408 ↔ halfB i = 
     (by norm_num)]
 
 theorem fm_lt {e : ℕ} (he : e < 4) : r32 SylS.FM e < 2048 := by
-  obtain ⟨-, -, -, hlt⟩ := R.member (by norm_num) R.member_V
+  obtain ⟨-, -, -, hlt⟩ := R.member (by norm_num) CFSG.KD.HN1408.SylSG.RecS.member_V
   have h := hlt e (by norm_num; omega)
   rwa [Nat.zero_add] at h
 
@@ -188,7 +188,7 @@ theorem ent_z : x (r32 SylS.FM 2) = elemZ := by
   exact R.ent_word (R.fm_lt (by norm_num)) (by decide) (Nat.eq_of_beq_eq_true h.2)
 
 theorem ent_az : x (r32 SylS.FM 3) = elemA * elemZ := by
-  have h := R.step R.member_V (e := 1) (j := 1) (by norm_num) (by norm_num)
+  have h := R.step CFSG.KD.HN1408.SylSG.RecS.member_V (e := 1) (j := 1) (by norm_num) (by norm_num)
   have e1 : (2 : ℕ) ^ 1 = 2 := rfl
   have e3 : (1 : ℕ) ^^^ 2 = 3 := by decide
   rw [e1] at h
@@ -210,6 +210,7 @@ theorem z_comm {g : Equiv.Perm (Fin 1408)} (hg : g ∈ wordSubgroup sWords) :
     exact subset_closure ⟨1, by norm_num, rfl⟩
   exact (R.V_cent hz hg).symm
 
+omit R in
 theorem tgK_parts : (∀ l < 3, r32 TG l < 2048 ∧ SylS.T (r32 TG l) = WK (tGens.getD l []) ∧
     halfB (r32 TG l) = true) ∧ halfB (r32 SylS.FM 1) = true ∧ halfB (r32 SylS.FM 2) = true := by
   have h := tg_ok
@@ -218,47 +219,49 @@ theorem tgK_parts : (∀ l < 3, r32 TG l < 2048 ∧ SylS.T (r32 TG l) = WK (tGen
   refine ⟨fun l hl => ?_, h.2.1, h.2.2⟩
   have h1 := Orb.allN_iff.1 h.1 l hl
   rw [Orb.strictB_eq] at h1
-  simp only [Orb.bAnd_eq, Bool.and_eq_true] at h1
+  simp only [Bool.and_eq_true] at h1
   exact ⟨Nat.blt_eq.mp h1.1, Nat.eq_of_beq_eq_true h1.2.1, h1.2.2⟩
 
+omit R in
 theorem tGens_letters {l : ℕ} (hl : l < 3) : lettersOK (tGens.getD l []) = true := by
   interval_cases l <;> decide
 
 theorem ent_tg {l : ℕ} (hl : l < 3) : x (r32 TG l) = elemW (tGens.getD l []) :=
-  R.ent_word (R.tgK_parts.1 l hl).1 (R.tGens_letters hl) (R.tgK_parts.1 l hl).2.1
+  R.ent_word (RecS.tgK_parts.1 l hl).1 (RecS.tGens_letters hl) (RecS.tgK_parts.1 l hl).2.1
 
 theorem tg_T {l : ℕ} (hl : l < 3) : elemW (tGens.getD l []) ∈ wordSubgroup sWords ∧
     elemW (tGens.getD l []) ∈ blocks1408 := by
   rw [← R.ent_tg hl]
-  exact ⟨R.mem_S (R.tgK_parts.1 l hl).1,
-    (R.ent_blocks (R.tgK_parts.1 l hl).1).2 (R.tgK_parts.1 l hl).2.2⟩
+  exact ⟨R.mem_S (RecS.tgK_parts.1 l hl).1,
+    (R.ent_blocks (RecS.tgK_parts.1 l hl).1).2 (RecS.tgK_parts.1 l hl).2.2⟩
 
 theorem z_blocks : elemZ ∈ blocks1408 := by
   rw [← R.ent_z]
-  exact (R.ent_blocks (R.fm_lt (by norm_num))).2 R.tgK_parts.2.2
+  exact (R.ent_blocks (R.fm_lt (by norm_num))).2 RecS.tgK_parts.2.2
 
 theorem a_blocks : elemA ∈ blocks1408 := by
   rw [← R.ent_a]
-  exact (R.ent_blocks (R.fm_lt (by norm_num))).2 R.tgK_parts.2.1
+  exact (R.ent_blocks (R.fm_lt (by norm_num))).2 RecS.tgK_parts.2.1
 
+omit R in
 theorem centRow_spec {z a c t0 t1 t2 i : ℕ} (h : centRowK z a c t0 t1 t2 i = true)
     (hh : halfB i = true) (h0 : commKeyK 11 (mask 11) 2 0 SylS.T i t0 = true)
     (h1 : commKeyK 11 (mask 11) 2 0 SylS.T i t1 = true)
     (h2 : commKeyK 11 (mask 11) 2 0 SylS.T i t2 = true) : i = 0 ∨ i = a ∨ i = z ∨ i = c := by
   unfold centRowK at h
-  rw [Orb.bIf_eq, if_pos hh, Orb.bAnd_eq, Bool.and_eq_true, Orb.bIf_eq] at h
-  rw [if_pos (by rw [Orb.bAnd_eq, Orb.bAnd_eq, h0, h1, h2]; rfl)] at h
+  rw [Orb.bIf_eq, ite_eq_left hh, Orb.bAnd_eq, Bool.and_eq_true, Orb.bIf_eq] at h
+  rw [ite_eq_left (by rw [Orb.bAnd_eq, Orb.bAnd_eq, h0, h1, h2]; rfl)] at h
   have h3 := h.2
   simp only [Orb.bIf_eq] at h3
   by_cases e0 : Nat.beq i 0 = true
   · exact Or.inl (Nat.eq_of_beq_eq_true e0)
-  rw [if_neg e0] at h3
+  rw [ite_eq_right e0] at h3
   by_cases ea : Nat.beq i a = true
   · exact Or.inr (Or.inl (Nat.eq_of_beq_eq_true ea))
-  rw [if_neg ea] at h3
+  rw [ite_eq_right ea] at h3
   by_cases ez : Nat.beq i z = true
   · exact Or.inr (Or.inr (Or.inl (Nat.eq_of_beq_eq_true ez)))
-  rw [if_neg ez] at h3
+  rw [ite_eq_right ez] at h3
   exact Or.inr (Or.inr (Or.inr (Nat.eq_of_beq_eq_true h3)))
 
 theorem centre_T {g : Equiv.Perm (Fin 1408)} (hg : g ∈ wordSubgroup sWords)
@@ -270,9 +273,9 @@ theorem centre_T {g : Equiv.Perm (Fin 1408)} (hg : g ∈ wordSubgroup sWords)
     intro l hl
     have hT := R.tg_T hl
     rw [← R.ent_tg hl] at hT
-    exact R.key_of_comm hi (R.tgK_parts.1 l hl).1 (hc _ hT.1 hT.2)
+    exact R.key_of_comm hi (RecS.tgK_parts.1 l hl).1 (hc _ hT.1 hT.2)
   have hh : halfB i = true := (R.ent_blocks hi).1 hE
-  rcases R.centRow_spec (cent_rows i hi) hh (hk 0 (by norm_num)) (hk 1 (by norm_num))
+  rcases RecS.centRow_spec (cent_rows i hi) hh (hk 0 (by norm_num)) (hk 1 (by norm_num))
       (hk 2 (by norm_num)) with e | e | e | e
   · left
     rw [e, R.one]

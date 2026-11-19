@@ -17,10 +17,12 @@ section ClassTwo
 
 variable {Ω : Subgroup K}
 
+omit [Finite K] in
 theorem commutator_mem_of_mem {x y : K} (hx : x ∈ Ω) (hy : y ∈ Ω) : ⁅x, y⁆ ∈ Ω := by
   rw [commutatorElement_def]
   exact Ω.mul_mem (Ω.mul_mem (Ω.mul_mem hx hy) (Ω.inv_mem hx)) (Ω.inv_mem hy)
 
+omit [Finite K] in
 theorem comm_mul_left (hc : ∀ x ∈ Ω, ∀ y ∈ Ω, ∀ w ∈ Ω, w * ⁅x, y⁆ = ⁅x, y⁆ * w)
     {x x' y : K} (hx : x ∈ Ω) (hx' : x' ∈ Ω) (hy : y ∈ Ω) :
     ⁅x * x', y⁆ = ⁅x, y⁆ * ⁅x', y⁆ := by
@@ -31,6 +33,7 @@ theorem comm_mul_left (hc : ∀ x ∈ Ω, ∀ y ∈ Ω, ∀ w ∈ Ω, w * ⁅x, 
     hc x hx y hy ⁅x', y⁆ (commutator_mem_of_mem hx' hy)
   rw [h2, h1, h3]
 
+omit [Finite K] in
 theorem comm_mul_right (hc : ∀ x ∈ Ω, ∀ y ∈ Ω, ∀ w ∈ Ω, w * ⁅x, y⁆ = ⁅x, y⁆ * w)
     {x y y' : K} (hx : x ∈ Ω) (hy : y ∈ Ω) (hy' : y' ∈ Ω) :
     ⁅x, y * y'⁆ = ⁅x, y⁆ * ⁅x, y'⁆ := by
@@ -39,13 +42,15 @@ theorem comm_mul_right (hc : ∀ x ∈ Ω, ∀ y ∈ Ω, ∀ w ∈ Ω, w * ⁅x,
     simp only [commutatorElement_def]; group
   rw [h2, h1]
 
-theorem comm_mul_central_left {x y m : K} (hmx : m * x = x * m) (hmy : m * y = y * m) :
+omit [Finite K] in
+theorem comm_mul_central_left {x y m : K} (_hmx : m * x = x * m) (hmy : m * y = y * m) :
     ⁅x * m, y⁆ = ⁅x, y⁆ := by
   have h : m * y * m⁻¹ = y := by rw [hmy]; group
   calc ⁅x * m, y⁆ = x * (m * y * m⁻¹) * x⁻¹ * y⁻¹ := by simp only [commutatorElement_def]; group
     _ = ⁅x, y⁆ := by rw [h]; simp only [commutatorElement_def]
 
-theorem comm_mul_central_right {x y m : K} (hmx : m * x = x * m) (hmy : m * y = y * m) :
+omit [Finite K] in
+theorem comm_mul_central_right {x y m : K} (hmx : m * x = x * m) (_hmy : m * y = y * m) :
     ⁅x, y * m⁆ = ⁅x, y⁆ := by
   have h : m * x⁻¹ * m⁻¹ = x⁻¹ := by
     have : m * x⁻¹ = x⁻¹ * m := by
@@ -61,6 +66,7 @@ section Pairing
 
 variable {f : ℕ} [Fact f.Prime] {Ω N : Subgroup K}
 
+omit [Finite K] in
 theorem commutator_le_centralizer (hc : ∀ x ∈ Ω, ∀ y ∈ Ω, ∀ w ∈ Ω, w * ⁅x, y⁆ = ⁅x, y⁆ * w) :
     ⁅Ω, Ω⁆ ≤ centralizer (Ω : Set K) := by
   rw [Subgroup.commutator_le]
@@ -69,6 +75,7 @@ theorem commutator_le_centralizer (hc : ∀ x ∈ Ω, ∀ y ∈ Ω, ∀ w ∈ Ω
   intro w hw
   exact hc a ha b hb w hw
 
+omit [Finite K] in
 theorem exists_pairing (hc : ∀ x ∈ Ω, ∀ y ∈ Ω, ∀ w ∈ Ω, w * ⁅x, y⁆ = ⁅x, y⁆ * w)
     {W W' : Type} [AddCommGroup W] [Module (ZMod f) W] [AddCommGroup W'] [Module (ZMod f) W']
     {π : K → W} {ρ : Representation (ZMod f) ↥N W}
@@ -123,6 +130,7 @@ section Linear
 variable {f : ℕ} [Fact f.Prime] {W : Type} [AddCommGroup W] [Module (ZMod f) W]
   [Module.Finite (ZMod f) W]
 
+omit [Module.Finite (ZMod f) W] in
 theorem alt_swap_zero {B : W →ₗ[ZMod f] W →ₗ[ZMod f] ZMod f} (hB : ∀ v, B v v = 0) {a b : W}
     (h : B a b = 0) : B b a = 0 := by
   have := CFSG.RankThree.PartOne.LIT.alt_skew hB b a
@@ -135,7 +143,7 @@ theorem exists_isotropic_three (hdim : Module.finrank (ZMod f) W = 4)
     ∃ U : Submodule (ZMod f) W, 3 ≤ Module.finrank (ZMod f) U ∧
       ∀ u ∈ U, ∀ u' ∈ U, B u u' = 0 := by
   classical
-  haveI : Finite W := Module.finite_of_finite (ZMod f)
+  have : Finite W := Module.finite_of_finite (ZMod f)
   have hf2 : 2 ≤ f := (Fact.out : f.Prime).two_le
   have hrad' : ∀ w, B w v₀ = 0 := fun w => alt_swap_zero hB (hrad w)
   set S₁ : Submodule (ZMod f) W := Submodule.span (ZMod f) {v₀} with hS₁
@@ -300,7 +308,7 @@ theorem exists_form (hexp : ∀ x ∈ Ω, x ^ f = 1)
       rw [Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at h3
       exact h3
     have h4 := hab _ hUle hUab
-    haveI : Finite W := Module.finite_of_finite (ZMod f)
+    have : Finite W := Module.finite_of_finite (ZMod f)
     have h5 : Nat.card U = f ^ Module.finrank (ZMod f) U := by
       rw [Module.natCard_eq_pow_finrank (K := ZMod f) (V := U), Nat.card_zmod]
     have h6 : f ^ 3 ≤ Nat.card U := by

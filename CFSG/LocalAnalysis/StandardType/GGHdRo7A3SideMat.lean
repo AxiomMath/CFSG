@@ -379,7 +379,7 @@ private theorem hdRo7A3SMAux_card_aug {m : ℕ} (hm : 1 ≤ m) :
     intro c
     refine ⟨Pi.single ⟨0, hm⟩ c, ?_⟩
     have h := Fintype.sum_pi_single (M := fun _ : Fin m => ZMod 3) ⟨0, hm⟩ (fun _ => c)
-    simpa [s, Pi.single_apply, eq_comm] using h
+    simp [s, Pi.single_apply]
   have hker : s.ker = (a3Aug 3 m).toAddSubgroup := by
     ext u
     simp [s, a3Aug, AddMonoidHom.mem_ker]
@@ -691,7 +691,7 @@ private noncomputable def hdRo7A3SMAux_proj (i0 : Fin m) :
     rw [Finset.sum_sub_distrib, ← Finset.mul_sum]
     have hs : (∑ i : Fin m, (Pi.single i0 (1 : ZMod 3) : Fin m → ZMod 3) i) = 1 := by
       have h := Fintype.sum_pi_single (M := fun _ : Fin m => ZMod 3) i0 (fun _ => (1 : ZMod 3))
-      simpa [Pi.single_apply, eq_comm] using h
+      simp [Pi.single_apply, eq_comm]
     rw [hs, mul_one, sub_self]⟩
   map_add' v w := by
     apply Subtype.ext

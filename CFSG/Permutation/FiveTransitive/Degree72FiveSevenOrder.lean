@@ -20,7 +20,7 @@ theorem sylow_card_le_five
   classical
   let _ : Fact (Nat.Prime 5) := ⟨by decide⟩
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hF : Nat.card (fixedPoints Q X) = 7 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact hF7

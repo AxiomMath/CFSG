@@ -34,7 +34,7 @@ private theorem exists_centralizing_elemAbelian_field_E8
   classical
   have hpp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hpres : GGPresentsG0 G₀ (ggU .E8 n f).D .E8 n f ψ := hS.presents
   have hrange : ψ.range = G₀ := hS.range_eq
   have hf : 1 ≤ f := hpres.1.1.2.1
@@ -119,10 +119,10 @@ private theorem exists_centralizing_elemAbelian_field_E8
     ggFieldRankTransfer_of_bounds hpp
       (fun E hE => rankLE_E8 (K := GaloisField 2 f) (p := p) (e := e) hpp hp2 rfl E hE)
       (fun σ hσp hσ1 => by
-        haveI : Finite (fixSubfield σ) :=
+        have : Finite (fixSubfield σ) :=
           Finite.of_injective (Subtype.val : fixSubfield σ → GaloisField 2 f)
             Subtype.val_injective
-        haveI : CharP (fixSubfield σ) 2 := Subfield.charP (fixSubfield σ) 2
+        have : CharP (fixSubfield σ) 2 := Subfield.charP (fixSubfield σ) 2
         exact exists_E8 (K := fixSubfield σ) (e := e) hpp hp2
           (by rw [orderOf_card_fixSubfield_eq hpp hp2 σ hσ1 hσp]))
   exact exists_elemAbelian_centralizing_of_mulAut_field (τ := .E8) (K := GaloisField 2 f)

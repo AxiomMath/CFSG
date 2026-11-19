@@ -13,7 +13,7 @@ section Holds
 
 theorem kFactSuzukiThreeFree_holds : KFactSuzukiThreeFree := by
   intro J _ _ hs hna hK h3
-  haveI : IsSimpleGroup J := hs
+  have : IsSimpleGroup J := hs
   have hab : ∃ a b : J, a * b ≠ b * a := by
     by_contra h
     push Not at h

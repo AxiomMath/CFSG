@@ -18,7 +18,7 @@ private theorem factorization_495766656000_two : (495766656000 : ℕ).factorizat
 private theorem card_le_card_T₀_of_pgroup_le_A {G : Type*} [Group G] [Finite G]
     {A : Subgroup G} {z t : G} {T₀ : Subgroup G} (hcfg : Fin76b.InnerConfig G A z t T₀)
     {S : Subgroup G} (hS : IsPGroup 2 S) (hSA : S ≤ A) : Nat.card S ≤ Nat.card T₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm, hAm⟩ := hcfg.T₀_odd
   obtain ⟨j, hj⟩ := hS.exists_card_eq
   obtain ⟨k, hk⟩ := hcfg.T₀_pgroup.exists_card_eq
@@ -38,7 +38,7 @@ section Certified
 theorem card_T₀_eq {G : Type} [Group G] [Finite G] {A T₀ : Subgroup G} {z t : G}
     (hcfg : Fin76b.InnerConfig G A z t T₀) (hA : IsSporadic ↥A .Co3) :
     Nat.card T₀ = 2 ^ 10 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardA : Nat.card ↥A = 495766656000 := by
     obtain ⟨e⟩ := hA
     rw [Nat.card_congr e.toEquiv]
@@ -66,7 +66,7 @@ theorem exists_sylow_le_centralizer {G : Type} [Group G] [Finite G] {A T₀ P : 
     (hxz : x * z * x⁻¹ = z * t) (hxt : x * t * x⁻¹ = t) :
     ∃ Q : Sylow 2 G, (Q : Subgroup G) ≤ centralizer ({t} : Set G) ∧
       4 * Nat.card T₀ ∣ Nat.card Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardP : 4 * Nat.card T₀ ∣ Nat.card P := by
     have hTP' : T₀ ⊔ zpowers z ≤ P := hTP
     have hrel := Subgroup.relIndex_mul_card (H := T₀ ⊔ zpowers z) (K := P)
@@ -94,13 +94,13 @@ theorem exists_sylow_le_centralizer {G : Type} [Group G] [Finite G] {A T₀ P : 
   have hzT : z ∈ T₀ ⊔ zpowers z := mem_sup_right (mem_zpowers z)
   have hzQ : z ∈ (Q : Subgroup G) := hPQ (hTP hzT)
   have hxQ : x ∈ (Q : Subgroup G) := hPQ hx
-  haveI : Nontrivial ↥Q :=
+  have : Nontrivial ↥Q :=
     ⟨⟨⟨z, hzQ⟩, ⟨1, (Q : Subgroup G).one_mem⟩,
       fun h => hcfg.z_ne (Subtype.ext_iff.mp h)⟩⟩
-  have hcenter : Nontrivial ↥(Subgroup.center ↥Q) := Q.isPGroup'.center_nontrivial
+  have hcenter : Nontrivial ↥(Subgroup.center ↥Q) := Q.isPGroup.center_nontrivial
   have hc2 : 2 ∣ Nat.card ↥(Subgroup.center ↥Q) := by
     obtain ⟨n, hn0, hn⟩ :=
-      (Q.isPGroup'.to_subgroup (Subgroup.center ↥Q)).nontrivial_iff_card.mp hcenter
+      (Q.isPGroup.to_subgroup (Subgroup.center ↥Q)).nontrivial_iff_card.mp hcenter
     exact hn.symm ▸ dvd_pow_self 2 hn0.ne'
   obtain ⟨c₀, hc₀ord⟩ := exists_prime_orderOf_dvd_card' 2 hc2
   let cQ : ↥Q := (c₀ : ↥Q)

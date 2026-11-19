@@ -27,7 +27,7 @@ private theorem fl_get_of_lt {S : Nat} (hS : S < 2 ^ 693) (p : Nat) :
 private theorem length_filter_cons (a : Nat) (l : List Nat) (p : Nat → Bool) :
     ((a :: l).filter p).length = (if p a = true then 1 else 0) + (l.filter p).length := by
   rw [List.filter_cons]
-  by_cases h : p a = true <;> simp [h] <;> omega
+  by_cases h : p a = true <;> simp [h]; omega
 
 private theorem filter_lineL_length (UP PP : Nat) (R x y : Nat) :
     ((lineL UP PP x y).filter (fun p => R.testBit p)).length =
@@ -85,7 +85,7 @@ private theorem rootLK_bits {UP PP : Nat} {HS : Nat → Nat} {PL : Nat → List 
   rw [hby, Bool.not_true, Bool.false_or] at h3
   rw [allL_lqt_iff] at h3
   have h4 := h3 (HS off) (by rcases hoff with rfl | rfl | rfl <;> simp)
-  simp only [letB_eq, orB_eq, Bool.or_eq_true, Nat.beq_eq] at h4
+  simp only [orB_eq, Bool.or_eq_true, Nat.beq_eq] at h4
   exact h4
 
 private theorem rootCK_img {TP HS ML : Nat → Nat} (hrC : rootCK TP HS ML = true) {off : Nat}
@@ -146,7 +146,7 @@ private theorem rootOKG_of {UL : List Nat} {UP PP : Nat} {PB TP HS ML : Nat → 
         have hlen : ((lineTabG UL.toArray (perpTabG UL.toArray))[x * 693 + y]!.toList.filter
               (fun p => (fl (HS off))[p]!)).length =
             rootLK.cnt5 (HS off) x y (line3 UP PP x y) := by
-          rw [lineTabG_perp H hP hx hy, if_pos hbit, List.toList_toArray]
+          rw [lineTabG_perp H hP hx hy, ite_eq_left hbit, List.toList_toArray]
           exact filter_lineL_fl UP PP x y hRlt
         rw [hlen, Bool.or_eq_true, beq_iff_eq, beq_iff_eq]
         exact hc

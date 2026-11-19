@@ -48,7 +48,7 @@ theorem false_of_card_45 {H : Subgroup (Perm (Fin 8))} (hH : Nat.card H = 45) {p
   classical
   have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨P⟩ : Nonempty (Sylow 5 ↥H) := inferInstance
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have hPi := (P : Subgroup ↥H).card_mul_index
   rw [hk, hH] at hPi
   have hk1 : k = 1 := by

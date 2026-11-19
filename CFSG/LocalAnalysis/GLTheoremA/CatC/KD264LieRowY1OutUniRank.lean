@@ -56,7 +56,7 @@ def kdY1UGL (m : ℕ) (x : Fin 4 → Kˣ) : GL (Fin m) K :=
   toFun x := kdY1UGL m x
   map_one' := by
     apply Units.ext
-    simp only [kdY1UGL, kdY1Diag, Units.val_one, Matrix.diagonal_one]
+    simp only [kdY1UGL, kdY1Diag, Units.val_one]
     congr 1
     funext j
     simp [kdY1Ent_one]
@@ -89,7 +89,7 @@ theorem kdY1UGL_mem_gramSU (h : UnitaryFieldData ℓ f K) (hdiv : 3 ∣ ℓ ^ f 
         fun _ => 1 := by
       funext j
       exact bar_mul_kdY1Ent h hdiv x hx j
-    simp only [Function.comp_def, this, Matrix.diagonal_one]
+    simp only [this, Matrix.diagonal_one]
   · show (kdY1Diag K m x).det = 1
     exact kdY1Diag_det K hm x
 
@@ -162,7 +162,7 @@ theorem three_dvd_sq_sub_one (a : ℕ) (ha : 1 ≤ a) (h3 : 3 ∣ a + 1) : 3 ∣
 
 theorem kdY1UPhi_card (h : UnitaryFieldData ℓ f K) (hdiv : 3 ∣ ℓ ^ f + 1) {m : ℕ}
     (hm : 6 ≤ m) : Nat.card (kdY1UPhi h hdiv hm).range = 3 ^ 4 := by
-  haveI := h.finite
+  have := h.finite
   have hsq : Nat.card K = ℓ ^ f * ℓ ^ f := by rw [h.card, two_mul, pow_add]
   have h3N : 3 ∣ Nat.card K - 1 := by
     rw [hsq]

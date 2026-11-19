@@ -76,8 +76,7 @@ theorem el_mul_zero (a b c a' b' c' : ZMod (3 ^ n)) (t : ZMod 3) :
     apply Multiplicative.toAdd.injective
     rcases ofAdd_cases q with rfl | rfl | rfl <;>
       simp +decide only [el, RegularWreathProduct.mul_def, Pi.mul_apply, toAdd_ofAdd,
-        toAdd_mul, toAdd_inv, toAdd_one, inv_one, mul_one, one_mul, if_true, if_false,
-        reduceIte, add_zero, zero_add]
+        toAdd_mul, toAdd_inv, ite_true, ite_false]
   · simp [el]
 
 theorem el_mul_one (a b c a' b' c' : ZMod (3 ^ n)) (t : ZMod 3) :
@@ -87,8 +86,7 @@ theorem el_mul_one (a b c a' b' c' : ZMod (3 ^ n)) (t : ZMod 3) :
     apply Multiplicative.toAdd.injective
     rcases ofAdd_cases q with rfl | rfl | rfl <;>
       simp +decide only [el, RegularWreathProduct.mul_def, Pi.mul_apply, toAdd_ofAdd,
-        toAdd_mul, toAdd_inv, toAdd_one, inv_one, mul_one, one_mul, if_true, if_false,
-        reduceIte, add_zero, zero_add]
+        toAdd_mul, toAdd_inv, ite_true, ite_false]
   · simp [el]
 
 theorem el_mul_two (a b c a' b' c' : ZMod (3 ^ n)) (t : ZMod 3) :
@@ -98,8 +96,7 @@ theorem el_mul_two (a b c a' b' c' : ZMod (3 ^ n)) (t : ZMod 3) :
     apply Multiplicative.toAdd.injective
     rcases ofAdd_cases q with rfl | rfl | rfl <;>
       simp +decide only [el, RegularWreathProduct.mul_def, Pi.mul_apply, toAdd_ofAdd,
-        toAdd_mul, toAdd_inv, toAdd_one, inv_one, mul_one, one_mul, if_true, if_false,
-        reduceIte, add_zero, zero_add]
+        toAdd_mul, toAdd_inv, ite_true, ite_false]
   · simp [el]
 
 theorem zmod3_cases (s : ZMod 3) : s = 0 ∨ s = 1 ∨ s = 2 := by
@@ -139,9 +136,9 @@ theorem el_mul_base (a b c d : ZMod (3 ^ n)) (s : ZMod 3) :
   rcases zmod3_cases s with rfl | rfl | rfl
   · rw [el_mul_zero]
   · rw [el_mul_one]
-    congr 1 <;> simp [add_assoc, add_comm, add_left_comm]
+    congr 1
   · rw [el_mul_two]
-    congr 1 <;> simp [add_assoc, add_comm, add_left_comm]
+    congr 1
 
 @[expose] def diagHom (n : ℕ) : Multiplicative (ZMod (3 ^ n)) →* ZWr n where
   toFun d :=
@@ -236,13 +233,13 @@ theorem zwr_card_center_Zwr (hn : 1 ≤ n) :
 theorem isPGroup_Zwr (hn : 1 ≤ n) : IsPGroup 3 (ZWr n) :=
   IsPGroup.of_card (n := 3 * n + 1) (zwr_card_center_Zwr hn).1
 
-theorem center_omega_le_of_normal {G : Type*} [Group G] [Finite G] {n : ℕ} (hn : 1 ≤ n)
+theorem center_omega_le_of_normal {G : Type*} [Group G] [Finite G] {n : ℕ} (_hn : 1 ≤ n)
     (hG : IsPGroup 3 G) (hcyc : IsCyclic (Subgroup.center G))
-    (hcard : Nat.card (Subgroup.center G) = 3 ^ n) {N : Subgroup G} (hN : N.Normal)
+    (_hcard : Nat.card (Subgroup.center G) = 3 ^ n) {N : Subgroup G} (hN : N.Normal)
     (hN1 : N ≠ ⊥) : ∀ z ∈ Subgroup.center G, z ^ 3 = 1 → z ∈ N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : N.Normal := hN
-  haveI : IsCyclic (Subgroup.center G) := hcyc
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : N.Normal := hN
+  have : IsCyclic (Subgroup.center G) := hcyc
   have hnil : Group.IsNilpotent G := hG.isNilpotent
   have hinter : N ⊓ Subgroup.center G ≠ ⊥ := hnil.inf_center_ne_bot_of_normal hN1
   let K : Subgroup (Subgroup.center G) :=
@@ -413,7 +410,7 @@ theorem el_comm_base_diag {A B C a b c : ZMod (3 ^ n)} {s : ZMod 3} (hs : s ≠ 
       (fun w : ZWr n => Multiplicative.toAdd (w.left (Multiplicative.ofAdd 0))) h
     have h1' := congrArg
       (fun w : ZWr n => Multiplicative.toAdd (w.left (Multiplicative.ofAdd 1))) h
-    simp only [el_left_zero, el_left_one, toAdd_ofAdd, zero_add, add_zero] at h0 h1'
+    simp only [el_left_zero, el_left_one, toAdd_ofAdd, add_zero] at h0 h1'
     have hca : c = a := add_right_cancel (b := A) (by simpa [add_comm] using h0)
     have hab : a = b := add_right_cancel (b := B) (by simpa [add_comm] using h1')
     exact ⟨hab, hab.symm.trans hca.symm⟩
@@ -423,7 +420,7 @@ theorem el_comm_base_diag {A B C a b c : ZMod (3 ^ n)} {s : ZMod 3} (hs : s ≠ 
       (fun w : ZWr n => Multiplicative.toAdd (w.left (Multiplicative.ofAdd 0))) h
     have h1' := congrArg
       (fun w : ZWr n => Multiplicative.toAdd (w.left (Multiplicative.ofAdd 1))) h
-    simp only [el_left_zero, el_left_one, toAdd_ofAdd, zero_add, add_zero] at h0 h1'
+    simp only [el_left_zero, el_left_one, toAdd_ofAdd, add_zero] at h0 h1'
     have hba : b = a := add_right_cancel (b := A) (by simpa [add_comm] using h0)
     have hcb : c = b := add_right_cancel (b := B) (by simpa [add_comm] using h1')
     exact ⟨hba.symm, hcb.symm⟩
@@ -482,13 +479,13 @@ theorem card_diag_inter_omegaBase_le (hn : 1 ≤ n) :
 theorem card_le_nine_of_not_le_base (hn : 1 ≤ n) {E : Subgroup (ZWr n)}
     (hE : CFSG.Open.IsElemAbelian 3 E) (hbase : ¬ E ≤ base n) : Nat.card E ≤ 9 := by
     classical
-    rw [SetLike.le_def] at hbase
+    rw [_root_.IsConcreteLE.le_iff] at hbase
     push Not at hbase
     let y := Classical.choose hbase
     have hyE : y ∈ E := (Classical.choose_spec hbase).1
     have hybase : y ∉ base n := (Classical.choose_spec hbase).2
     let K : Subgroup (ZWr n) := E ⊓ base n
-    haveI : IsMulCommutative E := hE.1
+    have : IsMulCommutative E := hE.1
     have hEcent : E ≤ Subgroup.centralizer ({y} : Set (ZWr n)) := by
       intro x hx
       rw [Subgroup.mem_centralizer_iff]
@@ -560,7 +557,7 @@ theorem zwr_elemThompson_Zwr (hn : 1 ≤ n) :
   have hfam : CFSG.elemThompsonFamily (ZWr n) 3 = {omegaBase n} := by
     ext A
     rw [CFSG.elemThompsonFamily]
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hA, hcard⟩
       rw [hpr] at hcard
@@ -594,14 +591,14 @@ theorem commutator_base_one (a b c : ZMod (3 ^ n)) :
       el n 1 (-1) 0 0 := by
   rw [el_inv_base, el_inv_one]
   simp only [el_mul_zero, el_mul_one, add_zero, zero_add]
-  congr 1 <;> first | abel | decide
+  congr 1 <;> first | abel
 
 theorem commutator_base_two (a b c : ZMod (3 ^ n)) :
     el n 1 0 0 0 * el n a b c 2 * (el n 1 0 0 0)⁻¹ * (el n a b c 2)⁻¹ =
       el n 1 0 (-1) 0 := by
   rw [el_inv_base, el_inv_two]
   simp only [el_mul_zero, el_mul_two, add_zero, zero_add]
-  congr 1 <;> first | abel | decide
+  congr 1 <;> first | abel
 
 theorem two_ne_zero_zmod (hn : 1 ≤ n) : (2 : ZMod (3 ^ n)) ≠ 0 := by
   intro h
@@ -641,13 +638,13 @@ theorem normal_elemAbelian_le_omegaBase_Zwr (hn : 1 ≤ n) {E : Subgroup (ZWr n)
   by_cases hbase : E ≤ base n
   · exact fun x hx => ⟨hbase hx, hE.2 x hx⟩
   · exfalso
-    rw [SetLike.le_def] at hbase
+    rw [_root_.IsConcreteLE.le_iff] at hbase
     push Not at hbase
     let y := Classical.choose hbase
     have hyE : y ∈ E := (Classical.choose_spec hbase).1
     have hybase : y ∉ base n := (Classical.choose_spec hbase).2
-    haveI : IsMulCommutative E := hE.1
-    haveI : (base n).Normal := base_normal n
+    have : IsMulCommutative E := hE.1
+    have : (base n).Normal := base_normal n
     set a := Multiplicative.toAdd (y.left (Multiplicative.ofAdd 0)) with ha
     set b := Multiplicative.toAdd (y.left (Multiplicative.ofAdd 1)) with hb
     set c := Multiplicative.toAdd (y.left (Multiplicative.ofAdd 2)) with hc
@@ -691,21 +688,21 @@ theorem normal_elemAbelian_le_omegaBase_Zwr (hn : 1 ≤ n) {E : Subgroup (ZWr n)
 theorem zwr_unique_E27_Zwr (hn : 1 ≤ n) :
     ∃ A : Subgroup (ZWr n), CFSG.elemThompson (ZWr n) 3 = A ∧
       CFSG.Open.IsElemAbelian 3 A ∧ Nat.card A = 27 ∧
-      (∀ E : Subgroup (ZWr n), CFSG.Open.IsElemAbelian 3 E → Nat.card E = 27 → E = A) ∧
-      (∀ E : Subgroup (ZWr n), E.Normal → CFSG.Open.IsElemAbelian 3 E → E ≤ A) :=
+      (∀ _E : Subgroup (ZWr n), CFSG.Open.IsElemAbelian 3 _E → Nat.card _E = 27 → _E = A) ∧
+      (∀ _E : Subgroup (ZWr n), _E.Normal → CFSG.Open.IsElemAbelian 3 _E → _E ≤ A) :=
   ⟨omegaBase n, zwr_elemThompson_Zwr hn, isElemAbelian_omegaBase, card_omegaBase hn,
-    fun E hE hc => unique_omegaBase hn hE hc,
-    fun E hN hE => normal_elemAbelian_le_omegaBase_Zwr hn hN hE⟩
+    fun _E hE hc => unique_omegaBase hn hE hc,
+    fun _E hN hE => normal_elemAbelian_le_omegaBase_Zwr hn hN hE⟩
 
 theorem conj_base_one (A B C a b c : ZMod (3 ^ n)) :
     el n A B C 1 * el n a b c 0 * (el n A B C 1)⁻¹ = el n c a b 0 := by
   rw [el_inv_one, el_mul_one, add_zero, el_mul_one]
-  congr 1 <;> first | abel | decide
+  congr 1 <;> first | abel
 
 theorem conj_base_two (A B C a b c : ZMod (3 ^ n)) :
     el n A B C 2 * el n a b c 0 * (el n A B C 2)⁻¹ = el n b c a 0 := by
   rw [el_inv_two, el_mul_two, add_zero, el_mul_two]
-  congr 1 <;> first | abel | decide
+  congr 1 <;> first | abel
 
 theorem el_one_neg_one_mem_commutator_Zwr :
     el n 1 (-1) 0 0 ∈ commutator (ZWr n) := by
@@ -750,9 +747,9 @@ theorem base_index (n : ℕ) : (base n).index = 3 := by
     exact ⟨RegularWreathProduct.inl q, rfl⟩
   rw [hrange, Subgroup.card_top, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
 
-theorem commutator_le_of_normal_nonabelian_Zwr (hn : 1 ≤ n) {T : Subgroup (ZWr n)}
+theorem commutator_le_of_normal_nonabelian_Zwr (_hn : 1 ≤ n) {T : Subgroup (ZWr n)}
     (hT : T.Normal) (hnab : ¬ IsMulCommutative T) : commutator (ZWr n) ≤ T := by
-  haveI := hT
+  have := hT
   have hTnotbase : ¬ T ≤ base n := by
     intro h
     apply hnab
@@ -771,7 +768,7 @@ theorem commutator_le_of_normal_nonabelian_Zwr (hn : 1 ≤ n) {T : Subgroup (ZWr
     · exact h
     · omega
   have hsup : T ⊔ base n = ⊤ := Subgroup.index_eq_one.mp h1
-  haveI hbasecomm : IsMulCommutative (base n) :=
+  have hbasecomm : IsMulCommutative (base n) :=
     ⟨⟨fun a b => Subtype.ext (base_comm a.2 b.2)⟩⟩
   exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
 
@@ -783,7 +780,7 @@ theorem zwr_centralizer_nonabelian_normal_Zwr (hn : 1 ≤ n) {T : Subgroup (ZWr 
     intro h
     apply hnab
     exact ⟨⟨fun a b => Subtype.ext (base_comm (h a.2) (h b.2))⟩⟩
-  rw [SetLike.le_def] at hTnotbase
+  rw [_root_.IsConcreteLE.le_iff] at hTnotbase
   push Not at hTnotbase
   let y := Classical.choose hTnotbase
   have hyT : y ∈ T := (Classical.choose_spec hTnotbase).1
@@ -887,8 +884,7 @@ theorem eps_ne_zero (hn : 1 ≤ n) : eps n ≠ 0 := by
   have hlt : 3 ^ (n - 1) < 3 ^ n := by
     obtain ⟨m, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : n ≠ 0)
     rw [Nat.succ_sub_one, pow_succ]
-    simpa using Nat.mul_lt_mul_of_pos_left (by norm_num : (1 : ℕ) < 3)
-      (pow_pos (by norm_num : (0 : ℕ) < 3) m)
+    simp
   exact absurd h' (Nat.not_dvd_of_pos_of_lt hpos hlt)
 
 theorem el_eps_mem_diag (n : ℕ) : el n (eps n) (eps n) (eps n) 0 ∈ diagSub n := by
@@ -904,7 +900,7 @@ theorem el_eps_ne_one (hn : 1 ≤ n) : el n (eps n) (eps n) (eps n) 0 ≠ 1 := b
   intro h
   have h0 := congrArg
     (fun w : ZWr n => Multiplicative.toAdd (w.left (Multiplicative.ofAdd 0))) h
-  simp only [el_left_zero, toAdd_ofAdd, one_left, toAdd_one] at h0
+  simp only [el_left_zero, toAdd_ofAdd, one_left] at h0
   exact eps_ne_zero hn h0
 
 @[expose] def omegaBaseOne (n : ℕ) : Subgroup (ZWr n) :=
@@ -1039,8 +1035,8 @@ theorem mem_Z2_omegaBase_iff (hn : 1 ≤ n) {a b c : ZMod (3 ^ n)}
     · rw [commutator_el_base_two, el_mem_diagSub_iff]
       exact ⟨by linear_combination hsum - h3b, by linear_combination hsum - h3c⟩
 
-theorem mem_omegaBaseTwo_iff (hn : 1 ≤ n) {a b c : ZMod (3 ^ n)}
-    (ha : 3 • a = 0) (hb : 3 • b = 0) (hc : 3 • c = 0) :
+theorem mem_omegaBaseTwo_iff (_hn : 1 ≤ n) {a b c : ZMod (3 ^ n)}
+    (ha : 3 • a = 0) (hb : 3 • b = 0) (_hc : 3 • c = 0) :
     el n a b c 0 ∈ omegaBaseTwo n ↔ a + b + c = 0 := by
   constructor
   · rintro ⟨y, hyK, hyx⟩
@@ -1102,7 +1098,7 @@ theorem deltaZ_mem_of_normal {U : Subgroup (ZWr n)} (hUn : U.Normal) {x : ZWr n}
     hUn.conj_mem x hx (el n 0 0 0 1)
   exact U.mul_mem (U.inv_mem hx) h1
 
-theorem mem_omegaBaseOne_iff_deltaZ_eq_one (hn : 1 ≤ n) {x : ZWr n}
+theorem mem_omegaBaseOne_iff_deltaZ_eq_one (_hn : 1 ≤ n) {x : ZWr n}
     (hx : x ∈ omegaBase n) : x ∈ omegaBaseOne n ↔ deltaZ n x = 1 := by
   obtain ⟨a, b, c, hx_eq⟩ := exists_el_of_mem_base hx.1
   rw [hx_eq] at hx ⊢
@@ -1328,6 +1324,7 @@ theorem zwr_A_uniserial_Zwr (hn : 1 ≤ n) :
 
 variable {P : Type*} [Group P] [Finite P]
 
+omit [Finite P] in
 theorem zwr_card_center (hn : 1 ≤ n) (e : P ≃* ZWr n) :
     Nat.card P = 3 ^ (3 * n + 1) ∧ IsCyclic (Subgroup.center P) ∧
       Nat.card (Subgroup.center P) = 3 ^ n := by
@@ -1336,7 +1333,7 @@ theorem zwr_card_center (hn : 1 ≤ n) (e : P ≃* ZWr n) :
     Subgroup.map_center_eq e
   let φ : Subgroup.center P ≃* Subgroup.center (ZWr n) :=
     (e.subgroupMap (Subgroup.center P)).trans (MulEquiv.subgroupCongr hmap)
-  haveI : IsCyclic (Subgroup.center (ZWr n)) := hcyc
+  have : IsCyclic (Subgroup.center (ZWr n)) := hcyc
   have hcycP : IsCyclic (Subgroup.center P) :=
     isCyclic_of_injective φ.toMonoidHom φ.injective
   have hcardP : Nat.card (Subgroup.center P) = Nat.card (Subgroup.center (ZWr n)) :=
@@ -1353,11 +1350,13 @@ theorem zwr_normal_contains_omega_center (hn : 1 ≤ n) (e : P ≃* ZWr n) {N : 
   have hP : IsPGroup 3 P := IsPGroup.of_card (n := 3 * n + 1) hcard
   exact center_omega_le_of_normal hn hP hcyc hcent hN hN1
 
+omit [Finite P] in
 private theorem symm_comp_self_eq_id (e : P ≃* ZWr n) :
     e.symm.toMonoidHom.comp e.toMonoidHom = MonoidHom.id P := by
   ext x
   simp
 
+omit [Finite P] in
 theorem zwr_unique_E27 (hn : 1 ≤ n) (e : P ≃* ZWr n) :
     ∃ A : Subgroup P, CFSG.elemThompson P 3 = A ∧ CFSG.Open.IsElemAbelian 3 A ∧ Nat.card A = 27 ∧
       (∀ E : Subgroup P, CFSG.Open.IsElemAbelian 3 E → Nat.card E = 27 → E = A) ∧
@@ -1379,6 +1378,7 @@ theorem zwr_unique_E27 (hn : 1 ≤ n) (e : P ≃* ZWr n) :
         Am.map e.symm.toMonoidHom := Subgroup.map_mono h1
     rwa [Subgroup.map_map, symm_comp_self_eq_id, Subgroup.map_id] at h2
 
+omit [Finite P] in
 theorem zwr_centralizer_nonabelian_normal (hn : 1 ≤ n) (e : P ≃* ZWr n) {T : Subgroup P}
     (hT : T.Normal) (hnab : ¬ IsMulCommutative T) :
     Subgroup.centralizer (T : Set P) ≤ Subgroup.center P := by
@@ -1404,6 +1404,7 @@ theorem zwr_centralizer_nonabelian_normal (hn : 1 ≤ n) (e : P ≃* ZWr n) {T :
   obtain ⟨g', hg', hgg'⟩ := Subgroup.mem_map.mp hcenter
   rwa [e.injective hgg'] at hg'
 
+omit [Finite P] in
 theorem zwr_A_uniserial (hn : 1 ≤ n) (e : P ≃* ZWr n) {A : Subgroup P}
     (hA : CFSG.elemThompson P 3 = A) :
     Nat.card (A ⊓ Subgroup.center P : Subgroup P) = 3 ∧

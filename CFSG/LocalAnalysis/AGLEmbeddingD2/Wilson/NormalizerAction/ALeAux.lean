@@ -115,7 +115,7 @@ theorem A6_aux : ∃ y : alternatingGroup (Fin 6), y ^ 3 = 1 ∧ y ≠ 1 ∧
       rcases hx with rfl | rfl
       · rw [hyu]; exact mul_mem (subset_closure (Or.inl rfl)) (subset_closure (Or.inr rfl))
       · rw [hyv]; exact subset_closure (Or.inl rfl)
-    | one => simpa using W.one_mem
+    | one => simp
     | mul a b _ _ ha hb =>
       have : y' * (a * b) * y'⁻¹ = (y' * a * y'⁻¹) * (y' * b * y'⁻¹) := by group
       rw [this]; exact mul_mem ha hb
@@ -225,7 +225,7 @@ theorem V4_aux {B : Type*} [Group B] (y u v : B) (hy3 : y ^ 3 = 1) (huv : u * v 
       rcases hx with rfl | rfl
       · rw [hyu]; exact subset_closure (Or.inr rfl)
       · rw [hyv]; exact mul_mem (subset_closure (Or.inl rfl)) (subset_closure (Or.inr rfl))
-    | one => simpa using W.one_mem
+    | one => simp
     | mul a b _ _ ha hb =>
       have : y * (a * b) * y⁻¹ = (y * a * y⁻¹) * (y * b * y⁻¹) := by group
       rw [this]; exact mul_mem ha hb
@@ -302,7 +302,7 @@ theorem card_closure_pair_of_involutions {B : Type*} [Group B] (u v : B) (huv : 
       apply hu1
       exact (mul_eq_right.1 h.symm)
     rw [hS, Set.ncard_insert_of_notMem, Set.ncard_insert_of_notMem, Set.ncard_pair h5]
-    · simp [hne, h4, hv1]
+    · simp [hne, h4]
     · simp [h1, h2, h3]
   have : (Subgroup.closure ({u, v} : Set B) : Set B) = S := Set.Subset.antisymm hsub hsup
   rw [← hncard, ← this]

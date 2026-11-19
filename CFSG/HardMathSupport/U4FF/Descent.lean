@@ -26,7 +26,7 @@ theorem exists_conj_of_conj_extend (f : E →+* k) (ρ σ : G →* GL (Fin m) E)
     ∃ M : GL (Fin m) E, ∀ g, (M : Matrix (Fin m) (Fin m) E) * (ρ g : Matrix (Fin m) (Fin m) E) =
       (σ g : Matrix (Fin m) (Fin m) E) * (M : Matrix (Fin m) (Fin m) E) := by
   classical
-  letI : Algebra E k := f.toAlgebra
+  let : Algebra E k := f.toAlgebra
   let e1 : k ⊗[E] (Fin m → E) ≃ₗ[k] (Fin m → k) := TensorProduct.piScalarRight E k k (Fin m)
   have he1 : ∀ (a : k) (x : Fin m → E), e1 (a ⊗ₜ x) = fun i => f (x i) * a := by
     intro a x
@@ -37,8 +37,7 @@ theorem exists_conj_of_conj_extend (f : E →+* k) (ρ σ : G →* GL (Fin m) E)
   have hbase : ∀ (A : Matrix (Fin m) (Fin m) E) (t : k ⊗[E] (Fin m → E)),
       e1 ((Matrix.mulVecLin A).baseChange k t) = A.map f *ᵥ e1 t := by
     intro A t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | add t₁ t₂ h₁ h₂ => rw [map_add, map_add, map_add, h₁, h₂, Matrix.mulVec_add]
     | tmul a x =>
       rw [LinearMap.baseChange_tmul, he1, he1]

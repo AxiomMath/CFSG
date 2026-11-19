@@ -89,7 +89,7 @@ theorem pF_rec {OT M : Nat → Nat} {b : Nat} (hv : NV M) (h : ∀ k < 19, genOK
   have hx' : x < 524288 := by omega
   have hlt : recF OT b x < 524288 := Nat.mod_lt _ (by decide)
   refine eq_of_planes (pF_lt hv hx') hlt fun k hk => ?_
-  rw [gen_spec hv hk (h k hk) hx', if_pos hx, testBit_recF OT b x hk]
+  rw [gen_spec hv hk (h k hk) hx', ite_eq_left hx, testBit_recF OT b x hk]
 
 theorem eE_rec {NW : Nat → Nat → Nat} {KA KB OT : Nat → Nat} {j b : Nat} (hn : netOK (NW j) = true)
     (hg : ∀ k < 19, genOK OT (NW j) b k = true) (ha : kapLinkOK OT (KA j) (b + 19) = true)

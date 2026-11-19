@@ -68,20 +68,22 @@ theorem detH_map (A : MatT α) : f (detH o A) = detH o' (A.map f) := by
 
 include ht
 
+omit ha in
 theorem bnot_map (p : α) : f (bnot o p) = bnot o' (f p) := by
   simp only [bnot, hx, ht]
 
+omit ht in
 theorem bor_map (p q : α) : f (bor o p q) = bor o' (f p) (f q) := by
   simp only [bor, ha, hx]
 
 theorem isOne_map (l h : α) : f (isOne o l h) = isOne o' (f l) (f h) := by
-  simp only [isOne, ha, bnot_map o o' f ha hx ht]
+  simp only [isOne, ha, bnot_map o o' f hx ht]
 
 theorem scal_map (A : MatT α) : f (scal o A) = scal o' (A.map f) := by
-  simp only [scal, isZero, isEq, MatT.map, ha, hx, bnot_map o o' f ha hx ht]
+  simp only [scal, isZero, isEq, MatT.map, ha, hx, bnot_map o o' f hx ht]
 
 theorem chkD_map (A : MatT α) : f (chkD o A) = chkD o' (A.map f) := by
-  simp only [chkD, bor_map o o' f ha hx ht, bnot_map o o' f ha hx ht, isOne_map o o' f ha hx ht,
+  simp only [chkD, bor_map o o' f ha hx, bnot_map o o' f hx ht, isOne_map o o' f ha hx ht,
     scal_map o o' f ha hx ht, detL_map o o' f ha hx, detH_map o o' f ha hx, mulD_map o o' f ha hx]
 
 end map
@@ -158,14 +160,14 @@ theorem pln_succ (j m : Nat) : pln j (m + 1) =
   rw [e, frcN_eq]
   by_cases h : j = m
   · subst h
-    simp only [Nat.beq_refl, if_true]
+    simp only [Nat.beq_refl, ite_true]
     change pln j j + (pln j j + (2 ^ 2 ^ j - 1)) <<< 2 ^ j = _
     rw [Nat.shiftLeft_eq]
     ring
   · have hb : Nat.beq j m = false := by
       rw [Bool.eq_false_iff]
       exact fun h' => h (Nat.eq_of_beq_eq_true h')
-    simp only [hb, h, if_false]
+    simp only [hb, h, ite_false]
     change pln j m + (pln j m + 0) <<< 2 ^ m = _
     rw [Nat.shiftLeft_eq]
     ring
@@ -184,10 +186,10 @@ theorem pln_bit (j : Nat) : ∀ m c, (pln j m).testBit c = (decide (c < 2 ^ m) &
       simp [show ¬ i < 2 ^ m by omega]
     rw [pln_succ, Nat.testBit_two_pow_mul_add _ hp]
     by_cases hc : c < 2 ^ m
-    · simp only [hc, if_true, ih, decide_true, Bool.true_and]
+    · simp only [hc, ite_true, ih, decide_true, Bool.true_and]
       have : c < 2 ^ (m + 1) := by rw [Nat.pow_succ]; omega
       simp [this]
-    · simp only [hc, if_false]
+    · simp only [hc, ite_false]
       obtain ⟨d, rfl⟩ : ∃ d, c = 2 ^ m + d := ⟨c - 2 ^ m, by omega⟩
       have hd : 2 ^ m + d - 2 ^ m = d := by omega
       rw [hd]
@@ -195,19 +197,19 @@ theorem pln_bit (j : Nat) : ∀ m c, (pln j m).testBit c = (decide (c < 2 ^ m) &
         rw [Nat.pow_succ]; apply propext; omega
       simp only [hlt]
       rcases Nat.lt_trichotomy j m with hj | rfl | hj
-      · simp only [show j ≠ m by omega, if_false, Nat.add_zero, ih,
+      · simp only [show j ≠ m by omega, ite_false, Nat.add_zero, ih,
           Nat.testBit_two_pow_add_gt hj]
       · have h0 : pln j j = 0 := Nat.eq_of_testBit_eq fun i => by
           rw [ih, Nat.zero_testBit]
           by_cases hi : i < 2 ^ j
           · simp [hi, Nat.testBit_lt_two_pow hi]
           · simp [hi]
-        simp only [h0, if_true, Nat.zero_add, Nat.testBit_two_pow_sub_one,
+        simp only [h0, ite_true, Nat.zero_add, Nat.testBit_two_pow_sub_one,
           Nat.testBit_two_pow_add_eq]
         by_cases hd : d < 2 ^ j
         · simp [hd, Nat.testBit_lt_two_pow hd]
         · simp [hd]
-      · simp only [show j ≠ m by omega, if_false, Nat.add_zero, ih]
+      · simp only [show j ≠ m by omega, ite_false, Nat.add_zero, ih]
         by_cases hd : d < 2 ^ m
         · have hmj : 2 ^ (m + 1) ≤ 2 ^ j := Nat.pow_le_pow_right (by omega) hj
           rw [Nat.pow_succ] at hmj

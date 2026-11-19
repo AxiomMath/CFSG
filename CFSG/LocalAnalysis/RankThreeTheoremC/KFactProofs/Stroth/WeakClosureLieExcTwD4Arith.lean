@@ -11,7 +11,7 @@ open CFSG.Open
 theorem tw_d4_eclass {p q : ℕ} (hp : p.Prime) (hpq : ¬ p ∣ q) (hd : p ∣ ordTrialityD4 q) :
     (orderOf (q : ZMod p) = 1 ∨ orderOf (q : ZMod p) = 2 ∨ orderOf (q : ZMod p) = 3 ∨
       orderOf (q : ZMod p) = 6) ∨ (orderOf (q : ZMod p) = 12 ∧ p ∣ q ^ 4 - q ^ 2 + 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : (q : ZMod p) ≠ 0 := fun h => hpq ((ZMod.natCast_eq_zero_iff q p).1 h)
   have hq1 : 1 ≤ q := Nat.pos_of_ne_zero (fun h => hpq (by simp [h]))
   have hcast : ((ordTrialityD4 q : ℕ) : ZMod p) = 0 := (ZMod.natCast_eq_zero_iff _ p).2 hd
@@ -47,15 +47,15 @@ theorem tw_d4_eclass {p q : ℕ} (hp : p.Prime) (hpq : ¬ p ∣ q) (hd : p ∣ o
             subst hp3
             rw [h4] at hdvd_p
             omega
-          interval_cases hc : orderOf x <;> first | omega | simp_all
+          interval_cases hc : orderOf x <;> first | omega
       · have hx6 : x ^ 6 = 1 := sub_eq_zero.1 h
         have hd6 : orderOf x ∣ 6 := orderOf_dvd_of_pow_eq_one hx6
         have hle := Nat.le_of_dvd (by norm_num) hd6
-        interval_cases hc : orderOf x <;> first | omega | simp_all
+        interval_cases hc : orderOf x <;> first | omega
     · have hx2 : x ^ 2 = 1 := sub_eq_zero.1 h
       have hd2 : orderOf x ∣ 2 := orderOf_dvd_of_pow_eq_one hx2
       have hle := Nat.le_of_dvd (by norm_num) hd2
-      interval_cases hc : orderOf x <;> first | omega | simp_all
+      interval_cases hc : orderOf x <;> first | omega
   by_cases h12 : orderOf x = 12
   · refine Or.inr ⟨h12, ?_⟩
     have hx12 : x ^ 12 = 1 := by rw [← h12]; exact pow_orderOf_eq_one x

@@ -32,7 +32,7 @@ private theorem sixThreeOneList_of_irreducible_not_quasisimple {p : ℕ} [Fact p
     (hnq : ¬ CFSG.IsQuasisimple ↥H) :
     SixThreeOneList p (↥H ⧸ CFSG.pCore p ↥H) := by
   classical
-  haveI : Finite W := Module.finite_of_finite (ZMod p)
+  have : Finite W := Module.finite_of_finite (ZMod p)
   obtain ⟨c, τ, -, hτc, hSp⟩ := exists_symplecticCoordinates hW B hBnd hBalt
   let G : Subgroup (GL (Fin 2 ⊕ Fin 2) (ZMod p)) := H.map τ.toMonoidHom
   have hGS : G ≤ CFSG.Open.StatedSp 2 (ZMod p) := by
@@ -103,7 +103,7 @@ theorem sympSplitAt_of_five_le {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
   have hBne : B ≠ 0 := by
     intro hB0
     have hpos : 0 < Module.finrank (ZMod p) W := by omega
-    haveI : Nontrivial W := Module.finrank_pos_iff.mp hpos
+    have : Nontrivial W := Module.finrank_pos_iff.mp hpos
     obtain ⟨u, hu⟩ := exists_ne (0 : W)
     exact hu (by simpa [hB0] using hBnd u (fun v => by simp [hB0]))
   have hiso : ∀ x ∈ H, ∀ u v : W,
@@ -159,7 +159,7 @@ theorem sixThreeOne_of_sympIrredNotQuasisimple
   by_cases hp3 : p = 3
   · subst hp3
     exact sixThreeOneAt_three
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have hp5 : 5 ≤ p := by
       have h2 : 2 ≤ p := hp.two_le
       have h4 : p ≠ 4 := by

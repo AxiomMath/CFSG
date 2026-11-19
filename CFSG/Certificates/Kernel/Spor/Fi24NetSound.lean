@@ -91,13 +91,13 @@ theorem tpl_testBit {k : Nat} (hk : k < 19) {y : Nat} (hy : y < 524288) :
     (tpl k).testBit y = if k = 0 then y.testBit 0 else (y.testBit k ^^ y.testBit 0) := by
   by_cases k0 : k = 0
   · subst k0
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     change (idPl 0).testBit y = _
     rw [testBit_idPl (by decide), decide_eq_true hy, Bool.true_and]
   · have e : tpl k = Nat.xor (idPl k) (idPl 0) := by
       unfold tpl
       rw [beq_false k0]
-    rw [e, if_neg k0, nxor, Nat.testBit_xor, testBit_idPl hk, testBit_idPl (by decide),
+    rw [e, ite_eq_right k0, nxor, Nat.testBit_xor, testBit_idPl hk, testBit_idPl (by decide),
       decide_eq_true hy, Bool.true_and, Bool.true_and]
 
 theorem eq_of_planes {a b : Nat} (ha : a < 524288) (hb : b < 524288)
@@ -115,15 +115,15 @@ theorem perm_of_tpl {f g : Nat → Nat} (hf : ∀ q < 524288, f q < 524288)
     ∀ q < 524288, f q = g q := by
   intro q hq
   have h0 := h 0 (by decide) q hq
-  rw [tpl_testBit (by decide) (hf q hq), tpl_testBit (by decide) (hg q hq), if_pos rfl,
-    if_pos rfl] at h0
+  rw [tpl_testBit (by decide) (hf q hq), tpl_testBit (by decide) (hg q hq), ite_eq_left rfl,
+    ite_eq_left rfl] at h0
   apply eq_of_planes (hf q hq) (hg q hq)
   intro k hk
   by_cases k0 : k = 0
   · subst k0
     exact h0
   · have e := h k hk q hq
-    rw [tpl_testBit hk (hf q hq), tpl_testBit hk (hg q hq), if_neg k0, if_neg k0, h0] at e
+    rw [tpl_testBit hk (hf q hq), tpl_testBit hk (hg q hq), ite_eq_right k0, ite_eq_right k0, h0] at e
     revert e
     cases (f q).testBit k <;> cases (g q).testBit k <;> cases (g q).testBit 0 <;> decide
 
@@ -142,7 +142,7 @@ theorem lidx_eq (m : Nat) :
     rfl
   · unfold lidx
     rw [beq_false (by omega : m ≠ 1), beq_false (by omega : m ≠ 3), ble_false (by omega : 2 < m),
-      beq_false (by omega : m ≠ 4), if_neg (by omega), if_neg (by omega)]
+      beq_false (by omega : m ≠ 4), ite_eq_right (by omega), ite_eq_right (by omega)]
     rfl
 
 theorem lidx_ge {m : Nat} (h : 3 ≤ m) : lidx m = m - 3 := by
@@ -162,12 +162,12 @@ theorem lidx_ge {m : Nat} (h : 3 ≤ m) : lidx m = m - 3 := by
 theorem LN_even (NW : Nat → Nat → Nat) (j : Nat) : LN NW (2 * j) = pF (NW j) := by
   have e1 : 2 * j % 2 = 0 := by omega
   have e2 : 2 * j / 2 = j := by omega
-  rw [LN, if_pos e1, e2]
+  rw [LN, ite_eq_left e1, e2]
 
 theorem LN_odd (NW : Nat → Nat → Nat) (j : Nat) : LN NW (2 * j + 1) = pR (NW j) := by
   have e1 : ¬ (2 * j + 1) % 2 = 0 := by omega
   have e2 : (2 * j + 1) / 2 = j := by omega
-  rw [LN, if_neg e1, e2]
+  rw [LN, ite_eq_right e1, e2]
 
 theorem testBit_appL {NW : Nat → Nat → Nat} (z : Int) (hz : NV (NW (lidx z.natAbs))) (v q : Nat) :
     (appL NW z v).testBit q = v.testBit (lP NW z q) := by
@@ -178,10 +178,10 @@ theorem testBit_appL {NW : Nat → Nat → Nat} (z : Int) (hz : NV (NW (lidx z.n
     rw [e1]
     by_cases hm : m = 0
     · subst hm
-      have e2 : lP NW (Int.ofNat 0) = pR (NW (lidx 0)) := if_pos rfl
+      have e2 : lP NW (Int.ofNat 0) = pR (NW (lidx 0)) := ite_eq_left rfl
       rw [e2]
       exact testBit_netR hz v q
-    · have e2 : lP NW (Int.ofNat m) = pF (NW (lidx m)) := if_neg hm
+    · have e2 : lP NW (Int.ofNat m) = pF (NW (lidx m)) := ite_eq_right hm
       rw [e2, beq_false hm]
       exact testBit_netF hz v q
   | negSucc n =>
@@ -190,10 +190,10 @@ theorem testBit_appL {NW : Nat → Nat → Nat} (z : Int) (hz : NV (NW (lidx z.n
     rw [e1]
     by_cases hn : n = 0
     · subst hn
-      have e2 : lP NW (Int.negSucc 0) = pF (NW 0) := if_pos rfl
+      have e2 : lP NW (Int.negSucc 0) = pF (NW 0) := ite_eq_left rfl
       rw [e2]
       exact testBit_netF hz v q
-    · have e2 : lP NW (Int.negSucc n) = pR (NW (lidx (n + 1))) := if_neg hn
+    · have e2 : lP NW (Int.negSucc n) = pR (NW (lidx (n + 1))) := ite_eq_right hn
       rw [e2, beq_false hn]
       exact testBit_netR hz v q
 
@@ -202,19 +202,19 @@ theorem lP_lt {NW : Nat → Nat → Nat} (z : Int) (hz : NV (NW (lidx z.natAbs))
   cases z with
   | ofNat m =>
     by_cases hm : m = 0
-    · have e2 : lP NW (Int.ofNat m) = pR (NW (lidx m)) := if_pos hm
+    · have e2 : lP NW (Int.ofNat m) = pR (NW (lidx m)) := ite_eq_left hm
       rw [e2]
       exact pR_lt hz hq
-    · have e2 : lP NW (Int.ofNat m) = pF (NW (lidx m)) := if_neg hm
+    · have e2 : lP NW (Int.ofNat m) = pF (NW (lidx m)) := ite_eq_right hm
       rw [e2]
       exact pF_lt hz hq
   | negSucc n =>
     by_cases hn : n = 0
     · subst hn
-      have e2 : lP NW (Int.negSucc 0) = pF (NW 0) := if_pos rfl
+      have e2 : lP NW (Int.negSucc 0) = pF (NW 0) := ite_eq_left rfl
       rw [e2]
       exact pF_lt hz hq
-    · have e2 : lP NW (Int.negSucc n) = pR (NW (lidx (n + 1))) := if_neg hn
+    · have e2 : lP NW (Int.negSucc n) = pR (NW (lidx (n + 1))) := ite_eq_right hn
       rw [e2]
       exact pR_lt hz hq
 
@@ -233,11 +233,11 @@ theorem lP_eq (NW : Nat → Nat → Nat) (z : Int) : lP NW z = slpG (GN NW) (LN 
     · have hm : m ≠ 0 := by omega
       have e1 : lP NW (Int.ofNat m) = pF (NW (m - 3)) := by
         rw [← lidx_ge h]
-        exact if_neg hm
+        exact ite_eq_right hm
       have hp : (0 : Int) < Int.ofNat m := by
-        rw [Int.ofNat_eq_coe]
+        rw [Int.ofNat_eq_natCast]
         omega
-      rw [e1, slpG, ea, if_neg (by omega), if_pos hp, LN_even]
+      rw [e1, slpG, ea, ite_eq_right (by omega), ite_eq_left hp, LN_even]
   | negSucc n =>
     have ea : (Int.negSucc n).natAbs = n + 1 := rfl
     rcases (by omega : n = 0 ∨ n = 1 ∨ 2 ≤ n) with h | h | h
@@ -248,11 +248,11 @@ theorem lP_eq (NW : Nat → Nat → Nat) (z : Int) : lP NW z = slpG (GN NW) (LN 
     · have hn : n ≠ 0 := by omega
       have e1 : lP NW (Int.negSucc n) = pR (NW (n + 1 - 3)) := by
         rw [← lidx_ge (by omega : 3 ≤ n + 1)]
-        exact if_neg hn
+        exact ite_eq_right hn
       have hp : ¬ (0 : Int) < Int.negSucc n := by
         rw [Int.negSucc_eq]
         omega
-      rw [e1, slpG, ea, if_neg (by omega), if_neg hp, LN_odd]
+      rw [e1, slpG, ea, ite_eq_right (by omega), ite_eq_right hp, LN_odd]
 
 theorem testBit_walkW {NW : Nat → Nat → Nat} : ∀ (w : List Int), (∀ z ∈ w, NV (NW (lidx z.natAbs))) →
     ∀ v q, (walkW NW w v).testBit q = v.testBit (w.foldr (lP NW) q)
@@ -403,9 +403,9 @@ theorem genOK_spec {OT M : Nat → Nat} {b k : Nat} (h : genOK OT M b k = true) 
     cases decide (x < 306936) <;> rfl
   rw [e2, nland, Nat.testBit_and, hpad]
   by_cases hp : x < 306936
-  · rw [if_pos hp, decide_eq_true hp]
+  · rw [ite_eq_left hp, decide_eq_true hp]
     simp
-  · rw [if_neg hp, decide_eq_false hp]
+  · rw [ite_eq_right hp, decide_eq_false hp]
     simp
 
 theorem gen_spec {OT M : Nat → Nat} {b k : Nat} (hv : NV M) (hk : k < 19) (h : genOK OT M b k = true)
@@ -419,18 +419,18 @@ theorem gen_spec {OT M : Nat → Nat} {b k : Nat} (hv : NV M) (hk : k < 19) (h :
     by_cases k0 : k = 0
     · subst k0
       change (netF M (tpl 0)).testBit x = _
-      rw [testBit_netF hv, tpl_testBit (by decide) hp, if_pos rfl]
+      rw [testBit_netF hv, tpl_testBit (by decide) hp, ite_eq_left rfl]
     · have e' : nIf(Nat.beq k (nat_lit 0), netF M (tpl k),
           Nat.xor (netF M (tpl k)) (netF M (idPl (nat_lit 0)))) =
           Nat.xor (netF M (tpl k)) (netF M (idPl 0)) := by
         rw [beq_false k0]
-      rw [e', nxor, Nat.testBit_xor, testBit_netF hv, testBit_netF hv, tpl_testBit hk hp, if_neg k0,
+      rw [e', nxor, Nat.testBit_xor, testBit_netF hv, testBit_netF hv, tpl_testBit hk hp, ite_eq_right k0,
         testBit_idPl (by decide), decide_eq_true hp, Bool.true_and, Bool.xor_assoc, Bool.xor_self,
         Bool.xor_false]
   rw [← lhs, e]
   by_cases hn : x < 306936
-  · rw [if_pos hn, if_pos hn]
-  · rw [if_neg hn, if_neg hn, testBit_idPl hk, decide_eq_true hx, Bool.true_and]
+  · rw [ite_eq_left hn, ite_eq_left hn]
+  · rw [ite_eq_right hn, ite_eq_right hn, testBit_idPl hk, decide_eq_true hx, Bool.true_and]
 
 @[expose] noncomputable def OLf (OT : Nat → Nat) (x : Nat) : Nat :=
   fld(OT (Nat.shiftRight x (nat_lit 9)), Nat.mul (Nat.land x (nat_lit 511)) (nat_lit 64),
@@ -452,7 +452,7 @@ theorem gen_alpha {OT M : Nat → Nat} (hv : NV M) (h : ∀ k < 19, genOK OT M 0
   have hx' : x < 524288 := by omega
   have hlt : CFSG.KC.Fi24Orb.oA (OLf OT x) < 524288 := land_ones_lt (OLf OT x) 19
   refine eq_of_planes (pF_lt hv hx') hlt fun k hk => ?_
-  rw [gen_spec hv hk (h k hk) hx', if_pos hx, Nat.zero_add]
+  rw [gen_spec hv hk (h k hk) hx', ite_eq_left hx, Nat.zero_add]
   have e3 : ∀ y, Nat.land y (nat_lit 524287) = y % 2 ^ 19 := fun y => Nat.and_two_pow_sub_one_eq_mod y 19
   unfold CFSG.KC.Fi24Orb.oA
   rw [e3, Nat.testBit_mod_two_pow, decide_eq_true hk, Bool.true_and, OLf_testBit OT x (by omega)]
@@ -462,7 +462,7 @@ theorem gen_beta {OT M : Nat → Nat} (hv : NV M) (h : ∀ k < 19, genOK OT M 19
   have hx' : x < 524288 := by omega
   have hlt : CFSG.KC.Fi24Orb.oB (OLf OT x) < 524288 := land_ones_lt _ 19
   refine eq_of_planes (pF_lt hv hx') hlt fun k hk => ?_
-  rw [gen_spec hv hk (h k hk) hx', if_pos hx]
+  rw [gen_spec hv hk (h k hk) hx', ite_eq_left hx]
   have e3 : ∀ y, Nat.land y (nat_lit 524287) = y % 2 ^ 19 := fun y => Nat.and_two_pow_sub_one_eq_mod y 19
   unfold CFSG.KC.Fi24Orb.oB
   rw [e3, Nat.testBit_mod_two_pow, decide_eq_true hk, Bool.true_and, nshr, Nat.testBit_shiftRight,

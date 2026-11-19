@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G}
 theorem hasNormalPComplement_centralizer_of_ggBstar
     (hp : p.Prime) (hp2 : p ≠ 2) (hBs : GGBstar p B Bs) :
     CFSG.HasNormalPComplement p (Subgroup.centralizer (Bs : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.HardMathSupport.Timmesfeld.ComponentBalance.hasNormalPComplement_of_central_order_p
     hp2 ?_
   intro z hz

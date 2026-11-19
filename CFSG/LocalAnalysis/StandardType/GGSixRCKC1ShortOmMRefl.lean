@@ -73,7 +73,7 @@ private theorem rckSOmMR_not_refl [CharP K 2] [FiniteDimensional K V]
     (hTe : T e = e)
     (hrefl : ∀ x, polar Q x e = 0 →
       ∃ c : K, T x - x = ((Q w)⁻¹ * polar Q x w) • w + c • e) : False := by
-  haveI : Invertible (Q w) := invertibleOfNonzero hw
+  have : Invertible (Q w) := invertibleOfNonzero hw
   have hww : polar Q w w = 0 := polar_self_eq_zero Q w
   have hwe : polar Q w e = 0 := by rw [polar_comm]; exact hew
   have hrO : TauCeti.QuadraticMap.reflection Q w ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
@@ -137,7 +137,7 @@ theorem rckSOmMR_mem_rootGroup [CharP K 2] [FiniteDimensional K V]
   have hTu0w : polar Q (T g1) w = 1 := by
     have h := hcomm g1
     rw [hEx g1, hEx (T g1), hu0e, hu0w, hTu0e] at h
-    simp only [zero_smul, add_zero, mul_zero, map_sub, map_add, one_smul, hTe] at h
+    simp only [zero_smul, add_zero, mul_zero, map_sub, one_smul, hTe] at h
     have h2 : e = polar Q (T g1) w • e := sub_right_inj.mp h
     have h3 : polar Q (T g1) w • e = (1 : K) • e := by rw [one_smul]; exact h2.symm
     exact smul_left_injective K he0 h3

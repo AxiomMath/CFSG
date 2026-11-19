@@ -74,8 +74,8 @@ theorem str83G4_exists_d1_of_d2
       exact ⟨hmemD, hmem⟩
     exact Subtype.ext (eq_of_mul_inv_eq_one (Subgroup.mem_bot.mp hbot))
   have hsurj : Function.Surjective f := by
-    letI : Fintype ↥d.D1 := Fintype.ofFinite _
-    letI : Fintype ↥d.D2 := Fintype.ofFinite _
+    let : Fintype ↥d.D1 := Fintype.ofFinite _
+    let : Fintype ↥d.D2 := Fintype.ofFinite _
     have hcard : Fintype.card ↥d.D1 = Fintype.card ↥d.D2 := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hcardD1, hcardD2]
     exact (Finite.injective_iff_surjective_of_equiv (Fintype.equivOfCardEq hcard)).mp hinj

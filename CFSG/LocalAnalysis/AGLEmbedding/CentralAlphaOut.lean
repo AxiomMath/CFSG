@@ -48,7 +48,7 @@ theorem le_inf_sup_of_le_sup_of_normal {p : ℕ} [Fact p.Prime] (P : Sylow p G)
     refine (Subgroup.relIndex_dvd_of_le_left _ (le_sup_right : C ≤ H)).trans ?_
     rw [Subgroup.relIndex_sup_right]
     exact Subgroup.relIndex_dvd_card C P
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp P.isPGroup
   rw [hn, Nat.dvd_prime_pow Fact.out] at hpow
   obtain ⟨j, -, hj⟩ := hpow
   have hj0 : j = 0 := by
@@ -108,7 +108,7 @@ theorem exists_mul_eq_of_kOutTwoGroup [Finite X] (hp : p.Prime) (hp2 : p ≠ 2) 
       ∃ c ∈ (R : Subgroup X) ⊓ Subgroup.centralizer (K : Set X), t * c = r := by
   have : Fact p.Prime := ⟨hp⟩
   exact exists_mul_eq_of_le_inf_sup (le_inf_sup_of_le_sup_of_normal R
-    (le_sup_centralizer_of_kOutTwoGroup hp hp2 hout R.isPGroup')) hr
+    (le_sup_centralizer_of_kOutTwoGroup hp hp2 hout R.isPGroup)) hr
 
 end OutTwo
 

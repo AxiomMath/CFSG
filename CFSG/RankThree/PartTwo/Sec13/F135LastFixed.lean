@@ -17,7 +17,7 @@ universe u
 
 theorem l9_odd_involution_fixed {S : Type u} [Finite S] (τ : S → S) (hτ : ∀ s, τ (τ s) = s)
     (hodd : Odd (Nat.card S)) : ∃ s, τ s = s := by
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have hndvd : ¬ 2 ∣ Fintype.card S := by
     rw [← Nat.card_eq_fintype_card]
     intro h
@@ -34,7 +34,7 @@ theorem l9_odd_involution_fixed {S : Type u} [Finite S] (τ : S → S) (hτ : �
 theorem l9_fibre_odd {P : Type u} [Group P] [Finite P] (Q : Subgroup P) (hQ : IsPGroup 3 Q)
     (v : Q ⧸ frattini Q) :
     Odd (Nat.card {y : Q // (QuotientGroup.mk y : Q ⧸ frattini Q) = v}) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 (hQ.to_subgroup (frattini Q))
   obtain ⟨y₀, hy₀⟩ := QuotientGroup.mk_surjective v
   have hmem : ∀ n : frattini Q, (QuotientGroup.mk (y₀ * n.1) : Q ⧸ frattini Q) = v := by
@@ -116,7 +116,7 @@ theorem l9_card_le_of_surj {G : Type u} [Group G] [Finite G] {A : Type u} [Group
 theorem l9_card_quot_le {G : Type u} [Group G] [Finite G] (hG : IsPGroup 3 G)
     (hexp : ∀ x : G, x ^ 3 = 1) (hclass : commutator G ≤ Subgroup.center G)
     (hrank : CFSG.pRank 3 G ≤ 3) : Nat.card (G ⧸ commutator G) ≤ 3 ^ 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hG
   have h4 : CFSG.pRank 3 (G ⧸ commutator G) ≤ 4 :=
     (CFSG.RankThree.PartTwo.class_two_small_rank_order_bounds hG hexp hclass).2.2 hrank
@@ -138,7 +138,7 @@ theorem card_fixed_le {P : Type u} [Group P] [Finite P] (hP : IsPGroup 3 P) (Q :
       ψ k (QuotientGroup.mk x) = QuotientGroup.mk x')
     (t : K) (ht : t * t = 1) (hrank : CFSG.pRank 3 (fixedSubgroup (φ t)) ≤ 3) :
     Nat.card (fixedSubgroup (ψ t)) ≤ 3 ^ 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ : IsPGroup 3 Q := hP.to_subgroup Q
   have hVab : IsMulCommutative (Q ⧸ frattini Q) :=
     (CFSG.GroupTheory.frattini_elementary_quotient hQ).2.1

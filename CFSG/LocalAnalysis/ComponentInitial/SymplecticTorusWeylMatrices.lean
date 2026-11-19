@@ -403,7 +403,7 @@ theorem coe_sl2W_inv :
     rw [Matrix.SpecialLinearGroup.coe_mul]
     fin_cases i <;> fin_cases j <;>
       simp [sl2ConjDiagElt, Matrix.SpecialLinearGroup.coe_mul, mul_apply, Fin.sum_univ_two]
-    all_goals (field_simp; try ring)
+    all_goals (field_simp)
 
 theorem coe_sl2ConjDiag (u : kˣ) (g : SpecialLinearGroup (Fin 2) k) :
     ((sl2ConjDiag u g : SpecialLinearGroup (Fin 2) k) : Matrix (Fin 2) (Fin 2) k) =

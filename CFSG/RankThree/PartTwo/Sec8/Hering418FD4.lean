@@ -107,7 +107,7 @@ theorem exists_core_of_pgl {C : Subgroup X} {f : ℕ} {π : Bool} {F : Type} [Fi
       C.subtype_injective).symm.trans
       ((Subgroup.equivMapOfInjective R Φ.symm.toMonoidHom Φ.symm.injective).symm.trans
         (Subgroup.subgroupOfEquivOfLe hSP))
-  haveI hs : IsSimpleGroup ↥P := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hPi hq2
+  have hs : IsSimpleGroup ↥P := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hPi hq2
   refine ⟨(R.map Φ.symm.toMonoidHom).map C.subtype, Subgroup.map_subtype_le _, ?_, ι.isSimpleGroup,
     ?_, ⟨ι⟩⟩
   · rw [Subgroup.commutator_le]
@@ -116,9 +116,9 @@ theorem exists_core_of_pgl {C : Subgroup X} {f : ℕ} {π : Bool} {F : Type} [Fi
     rw [map_commutatorElement, SetLike.mem_coe, ← hcomm]
     exact Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)
   · intro hsolv
-    haveI : Group.IsSolvable ↥P :=
+    have : Group.IsSolvable ↥P :=
       Group.isSolvable_of_isSolvable_injective (f := ι.symm.toMonoidHom) ι.symm.injective
-    haveI : Group.IsPerfect ↥P := Sec13.isPerfect_projImage_slPi hPi hq2
+    have : Group.IsPerfect ↥P := Sec13.isPerfect_projImage_slPi hPi hq2
     exact Group.IsPerfect.not_isSolvable ↥P inferInstance
 
 end PGL
@@ -134,7 +134,7 @@ theorem exists_fixed_order_four_pgl_model {G : Type} [Group G]
     (ha3 : a ^ 3 = 1) :
     ∃ y : K ⧸ aschbacherSolvableCore 3 K,
       Sec4.thetaQuotMulAut K (Sec4.compAction K ⟨a, haK⟩) y = y ∧ y ^ 4 = 1 ∧ y ^ 2 ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFfin := hPi.finite
   cases π with
   | true =>
@@ -172,9 +172,9 @@ theorem exists_fixed_order_four_pgl_model {G : Type} [Group G]
 
 theorem charP_two_of_piField {π : Bool} {f : ℕ} {F : Type} [Field F]
     (hPi : Sec4.PiField π 2 f F) : CharP F 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hPi.finite
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hPi.finite
+  have : Fintype F := Fintype.ofFinite F
   cases π with
   | true =>
     exact charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hPi.card]; rfl)
@@ -193,11 +193,11 @@ theorem Cfg.false_of_solvable_centralizer (c : Cfg L K a b)
   have hKq := Sec6.isQuasisimple_of_mem_thetaComponentsIn hK
   have hle : Sec8.imageModTheta L K ≤ Sec8.barCentralizer (Subgroup.zpowers b) L :=
     imageModTheta_le_barCentralizer_of_le c.hbL c.hb3 c.hKL c.hKb
-  haveI hP := isPerfect_imageModTheta hK
+  have hP := isPerfect_imageModTheta hK
   have hne : Sec8.imageModTheta L K ≠ ⊥ := imageModTheta_ne_bot c.hKL hKq
-  haveI : Nontrivial ↥(Sec8.imageModTheta L K) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
-  haveI := hsolv
-  haveI : Group.IsSolvable ↥(Sec8.imageModTheta L K) :=
+  have : Nontrivial ↥(Sec8.imageModTheta L K) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+  have := hsolv
+  have : Group.IsSolvable ↥(Sec8.imageModTheta L K) :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   exact Group.IsPerfect.not_isSolvable ↥(Sec8.imageModTheta L K) inferInstance
@@ -212,9 +212,9 @@ theorem Cfg.false_of_pgl_class (c : Cfg L K a b)
     (hpar : cond π (Even f) (Odd f))
     (Φ : ↥(Sec8.barCentralizer (Subgroup.zpowers b) L) ≃*
       ↥(projImage (Sec4.glPi π 3 (2 ^ f) F))) : False := by
-  haveI := hPi.finite
+  have := hPi.finite
   by_cases hq2 : 2 < 2 ^ f
-  · haveI := charP_two_of_piField hPi
+  · have := charP_two_of_piField hPi
     obtain ⟨Q, hQC, hQcomm, hQs, hQns, ⟨ιQ⟩⟩ := exists_core_of_pgl hPi hq2 Φ
     obtain ⟨Ψ, hΨ⟩ := c.exists_mulEquiv_of_simple_core hK hQC hQcomm hQs hQns
     obtain ⟨y, hyfix, hy4, hy2⟩ := exists_fixed_order_four_pgl_model hf hq2 hPi hpar
@@ -250,7 +250,6 @@ theorem Cfg.false_of_pgl_class (c : Cfg L K a b)
       simpa [MulAut.conj_apply] using h1
     have hxβ : c.beta x = x := by
       apply conj_injective_of_center_eq_bot hZ
-      change MulAut.conj (c.beta x) = MulAut.conj x
       rw [← KFacts.mul_mulAutConj_mul_inv c.beta x, hx]
       have hc : Commute c.beta (c.beta ^ i * c.alpha) :=
         ((Commute.refl c.beta).pow_right i).mul_right hcomm
@@ -304,7 +303,7 @@ theorem Cfg.false_of_pgl_class (c : Cfg L K a b)
     cases π with
     | true => exact absurd hpar (by rw [hf1]; decide)
     | false =>
-      haveI : Group.IsSolvable ↥(projImage (Sec4.glPi false 3 (2 ^ f) F)) :=
+      have : Group.IsSolvable ↥(projImage (Sec4.glPi false 3 (2 ^ f) F)) :=
         Sec13.isSolvable_projImage_glPi_two hPi h2
       exact c.false_of_solvable_centralizer hK
         (Group.isSolvable_of_isSolvable_injective (f := Φ.toMonoidHom) Φ.injective)

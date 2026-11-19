@@ -68,7 +68,7 @@ theorem S_le_M (hS : Setting G) (c : P622Conf p P M x z T S) : S ≤ M := by
   exact le_normalizer.trans (c.prop614 _ hH c.B_le_normalizer
     ⟨S ⊓ M, inf_le_inf le_normalizer le_rfl, c.S_isPGroup.to_le inf_le_left, hSM, hBN⟩)
 
-theorem B_le_normalizer_of_z (c : P622Conf p P M x z T S) {W : Subgroup G}
+theorem B_le_normalizer_of_z (_c : P622Conf p P M x z T S) {W : Subgroup G}
     (hWC : W ≤ centralizer ({x} : Set G)) (hz : zpowers z ≤ normalizer (W : Set G)) :
     zpowers x ⊔ zpowers z ≤ normalizer (W : Set G) := by
   refine sup_le ?_ hz
@@ -147,7 +147,7 @@ theorem p622_exists_conf (hf : Prop627Failure G p P M x z T) (h614 : P622Prop614
 theorem p622_exists_central (hS : Setting G) {q : ℕ} (Q : Sylow q G) (hq : q ∈ rankThreeSigmaA G) :
     ∃ w : G, SmallRankCentral Q w := by
   have hprime : q.Prime := sigmaA_prime q hq
-  haveI : Fact q.Prime := ⟨hprime⟩
+  have : Fact q.Prime := ⟨hprime⟩
   obtain ⟨-, -, -, -, hQ3, -⟩ := exists_isCoreMaxLocal hS hq Q
   have hQne : (Q : Subgroup G) ≠ ⊥ := by
     intro h0
@@ -155,9 +155,9 @@ theorem p622_exists_central (hS : Setting G) {q : ℕ} (Q : Sylow q G) (hq : q �
     rw [h0, h0'] at hQ3
     omega
   have hnt : Nontrivial (Q : Subgroup G) := (Subgroup.nontrivial_iff_ne_bot _).mpr hQne
-  have hZ : Nontrivial (center (Q : Subgroup G)) := Q.isPGroup'.center_nontrivial
+  have hZ : Nontrivial (center (Q : Subgroup G)) := Q.isPGroup.center_nontrivial
   have hdvd : q ∣ Nat.card (center (Q : Subgroup G)) :=
-    (Q.isPGroup'.to_subgroup _).card_eq_or_dvd.resolve_left fun h =>
+    (Q.isPGroup.to_subgroup _).card_eq_or_dvd.resolve_left fun h =>
       (Finite.one_lt_card_iff_nontrivial.mpr hZ).ne' h
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' q hdvd
   have hc' : orderOf ((c : Q) : G) = q := by
@@ -209,7 +209,7 @@ theorem p622_x_not_mem_zpowers (hS : Setting G) (hsit : SmallRankSituation G p P
   intro hxz
   have hpl := SmallRankPlane.of_situation hS hsit hx hz
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hBc := hpl.card_eq
   have hsup : zpowers x ⊔ zpowers z = zpowers z := sup_eq_right.mpr (zpowers_le.mpr hxz)
   rw [hsup, Nat.card_zpowers, orderOf_eq_prime hz.pow_eq_one hz.ne_one] at hBc
@@ -220,13 +220,13 @@ theorem p622_cover_of_hasNormalPComplement (hS : Setting G) (hsit : SmallRankSit
     (hx : SmallRankPoint P M x) (h : CFSG.HasNormalPComplement p ↥(centralizer ({x} : Set G))) :
     centralizer ({x} : Set G) ≤ (M ⊓ centralizer ({x} : Set G)) ⊔ smallRankD p x := by
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hPM : (P : Subgroup G) ≤ M :=
     (sylow_le_of_isCoreMaxLocal hS hsit.mem_sigmaA hsit.isCoreMaxLocal).1
   have hPx : CFSG.ABGLocalTools.IsSylowOf p ((P : Subgroup G) ⊓ centralizer ({x} : Set G))
       (centralizer ({x} : Set G)) :=
     CFSG.ABGLocalTools.isSylowOf_iff.mpr
-      ⟨inf_le_right, P.isPGroup'.to_inf_left, hx.sylow_centralizer⟩
+      ⟨inf_le_right, P.isPGroup.to_inf_left, hx.sylow_centralizer⟩
   exact (CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.s622_le_sup_of_hasNormalPComplement hprime
     hPx h).trans (sup_le_sup_right (inf_le_inf_right _ hPM) _)
 

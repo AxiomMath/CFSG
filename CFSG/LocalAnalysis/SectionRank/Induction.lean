@@ -88,7 +88,7 @@ theorem sqt_quotient_of_catalog_aux (hcent : OddKernelCentralization) (hcat : Ca
     intro Q
     set P2 : Subgroup G := (Q : Subgroup C).map C.subtype with hP2def
     have : P2.Normal := hCsyl 2 Q
-    have hP2 : IsPGroup 2 P2 := Q.isPGroup'.map C.subtype
+    have hP2 : IsPGroup 2 P2 := Q.isPGroup.map C.subtype
     by_contra hne
     have hP2ne : P2 ≠ ⊥ := by
       intro h

@@ -20,7 +20,7 @@ theorem f112slLQ_le_normalizer_Halpha {L1 L2 S : Subgroup H}
       Subgroup.normalizer (f112saHalpha L1 L2 S : Set (f112Gold L1 L2 S).Universal) := by
   have hNE : f112saLQ L1 L2 S ≤
       Subgroup.normalizer (f112EOdd L1 L2 S : Set (f112Gold L1 L2 S).Universal) := by
-    haveI : (f112EOdd L1 L2 S).Normal := f112sa_EOdd_normal hF h1 hn h2
+    have : (f112EOdd L1 L2 S).Normal := f112sa_EOdd_normal hF h1 hn h2
     exact Subgroup.le_normalizer_of_normal
   have hNU : f112saLQ L1 L2 S ≤
       Subgroup.normalizer ((f112Gold L1 L2 S).ofA.range :
@@ -64,8 +64,8 @@ theorem f112sl_card_oTwoQuot_Halpha {L1 L2 S : Subgroup H}
   have hpc : CFSG.pCore 2 ↥A = B.subgroupOf A := by
     rw [← CFSG.openPCoreOf_subgroupOf 2 A, f112sl_pCoreOf_Halpha hF h1 hn h2]
     exact Subgroup.inf_subgroupOf_left B A
-  letI := Subgroup.normal_subgroupOf_of_le_normalizer hAB
-  letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hAB
+  let := Subgroup.normal_subgroupOf_of_le_normalizer hAB
+  let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hAB
   calc Nat.card (oTwoQuot ↥A) = Nat.card (↥A ⧸ B.subgroupOf A) := by
         change Nat.card (↥A ⧸ CFSG.pCore 2 ↥A) = Nat.card (↥A ⧸ B.subgroupOf A)
         rw [hpc]
@@ -78,8 +78,8 @@ theorem f112sl_three_dvd_relIndex {L1 L2 S : Subgroup H}
     (hF : F112Hyp L1 L2 S) (h1 : VS3 L1) :
     3 ∣ (f112saQ1 L1 L2 S).relIndex
       (f112saHalpha L1 L2 S ⊔ f112saQ1 L1 L2 S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨y, hyL, hy3⟩ := f112sa_exists_orderThree_L1 (L2 := L2) (S := S) h1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  obtain ⟨y, hyL, hy3⟩ := f112sa_exists_orderThree_L1 (_L2 := L2) (_S := S) h1
   let X := f112Gold L1 L2 S
   let y' : ↥(f112P1 L1 L2 S) := ⟨y, Subgroup.mem_sup_left hyL⟩
   have hy'3 : orderOf y' = 3 := by
@@ -113,7 +113,7 @@ theorem f112sl_three_dvd_relIndex {L1 L2 S : Subgroup H}
   have hNorm : (B.subgroupOf (A ⊔ B)).Normal := by
     refine Subgroup.normal_subgroupOf_of_le_normalizer ?_
     exact sup_le (f112saHalpha_le_normalizer_Q1 hF) Subgroup.le_normalizer
-  haveI : (B.subgroupOf (A ⊔ B)).Normal := hNorm
+  have : (B.subgroupOf (A ⊔ B)).Normal := hNorm
   let π : ↥(A ⊔ B) →* (↥(A ⊔ B) ⧸ B.subgroupOf (A ⊔ B)) :=
     QuotientGroup.mk' (B.subgroupOf (A ⊔ B))
   have hxAB : X.ofA y' ∈ A ⊔ B := Subgroup.mem_sup_left hxA
@@ -256,7 +256,7 @@ theorem f112sl_localL2_baseA_of_sup_eq {L1 L2 S : Subgroup H}
         (Subgroup.subgroupOfEquivOfLe (f112saNlocalA_le_E L1 L2 S))).trans eN⟩
   ·
     intro a b ha hb
-    obtain ⟨y, hyL, hy3⟩ := f112sa_exists_orderThree_L1 (L2 := L2) (S := S) h1
+    obtain ⟨y, hyL, hy3⟩ := f112sa_exists_orderThree_L1 (_L2 := L2) (_S := S) h1
     let y' : ↥(f112P1 L1 L2 S) := ⟨y, Subgroup.mem_sup_left hyL⟩
     have hy'3 : orderOf y' = 3 := by
       rw [Subgroup.orderOf_mk]

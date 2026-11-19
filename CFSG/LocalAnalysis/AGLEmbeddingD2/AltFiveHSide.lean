@@ -66,7 +66,7 @@ theorem le_pRank_of_alt_section {W : Type*} [Group W] [Finite W] {N : Subgroup W
   refine ⟨hL _ 3 hL3, fun h3N => ?_⟩
   have hTne : (T : Subgroup N) ≠ ⊥ := Sylow.ne_bot_of_dvd_card T h3N
   have h3T : 3 ∣ Nat.card (T : Subgroup N) := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup
     have hk0 : k ≠ 0 := by
       rintro rfl
       exact hTne (Subgroup.eq_bot_of_card_eq _ (by simpa using hk))

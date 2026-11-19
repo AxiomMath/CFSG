@@ -19,8 +19,8 @@ variable {G : Type} [Group G] [Finite G]
 variable {L1 L2 S : Subgroup G} {a : ℕ}
 
 theorem isNaturalModule_of_relIndex_eq {H U L N : Subgroup G} {m : ℕ}
-    (hm2 : 2 ≤ m) (hmodd : Odd m) (hL2 : IsL2Quot m (oTwoQuot ↥H))
-    (hU : IsPGroup 2 U) (hUH : U ≤ H)
+    (hm2 : 2 ≤ m) (hmodd : Odd m) (_hL2 : IsL2Quot m (oTwoQuot ↥H))
+    (_hU : IsPGroup 2 U) (hUH : U ≤ H)
     (hstep : IsChiefStep H U L N) (hnc : ¬ IsCentralStep H L N)
     (hE : IsElemAbelian 2 (Ch3z.chiefMod L N))
     (e : oTwoQuot ↥H ≃* SL(2, GaloisField 2 m))
@@ -31,14 +31,14 @@ theorem isNaturalModule_of_relIndex_eq {H U L N : Subgroup G} {m : ℕ}
     CFSG.QuasithinUnique.Setup.SL2Modules.IsNaturalModule
       (l2ChiefSectionRep hstep hUH hE e) := by
   classical
-  haveI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  have : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   let ρ := l2ChiefSectionRep hstep hUH hE e
   have hHL : H ≤ Subgroup.normalizer (L : Set G) := D14.le_normalizer_of_isNormalIn hstep.2.1
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn hstep.1
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := (hstep.1.1.trans hUH).trans hHL
-  haveI : (L.subgroupOf N).Normal :=
+  have : (L.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hstep.2.2.1.le).mpr hNL
   let a' : SL(2, GaloisField 2 m) := e (QuotientGroup.mk ⟨t, htH⟩)
   have hsqfix : Nat.card (CFSG.RankThree.FFModules.fixSub ρ
@@ -119,7 +119,7 @@ theorem isNaturalModule_of_relIndex_eq {H U L N : Subgroup G} {m : ℕ}
     rw [hWcard, ← pow_mul]
     exact Nat.pow_lt_pow_right (by norm_num) (by omega)
   have hnt : ∃ g, ρ g ≠ 1 := l2ChiefSectionRep_nontrivial hstep hUH hE e hnc
-  haveI : Fact ρ.IsIrreducible := ⟨l2ChiefSectionRep_irreducible hstep hUH hE e⟩
+  have : Fact ρ.IsIrreducible := ⟨l2ChiefSectionRep_irreducible hstep hUH hE e⟩
   have hm : 1 ≤ m := by omega
   have hcardGF : Fintype.card (GaloisField 2 m) = 2 ^ m := by
     rw [Fintype.card_eq_nat_card]
@@ -145,6 +145,7 @@ theorem isNaturalModule_of_relIndex_eq {H U L N : Subgroup G} {m : ℕ}
     omega
 
 
+omit [Finite G] in
 private theorem caseA_Q2_normal_u3H'
     (F : Str83CaseAFrame L1 L2 S a) :
     u3H L1 L2 S ≤ Subgroup.normalizer (Q2 L1 L2 S : Set G) := by
@@ -312,11 +313,12 @@ private theorem caseA_szSbar_equiv_quotient
       exact (QuotientGroup.eq_one_iff _).mpr (by
         rw [← CFSG.openPCoreOf_subgroupOf 2 H1, hpCore]
         exact Subgroup.mem_subgroupOf.mpr h)
-  haveI : (Q1 L1 L2 S).subgroupOf S |>.Normal :=
+  have : (Q1 L1 L2 S).subgroupOf S |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hSNQ1
   exact ⟨(QuotientGroup.quotientKerEquivOfSurjective φ hφ).symm.trans
     (QuotientGroup.quotientMulEquivOfEq hker)⟩
 
+omit [Finite G] in
 private theorem caseA_Q2R_equiv_SQ1
     [(Q1 L1 L2 S).subgroupOf S |>.Normal]
     [(str83CaseAR L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal]
@@ -335,17 +337,17 @@ private theorem caseA_Q2R_equiv_SQ1
     ext x
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf, str83CaseAR, Subgroup.mem_inf]
     exact ⟨fun hx => ⟨hx, x.2⟩, fun hx => hx.1⟩
-  haveI : (Q1 L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
+  have : (Q1 L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQ2NQ1
   have hQ2NR : Q2 L1 L2 S ≤ Subgroup.normalizer (str83CaseAR L1 L2 S : Set G) :=
     Subgroup.le_normalizer_inf hQ2NQ1 (Subgroup.le_normalizer (H := Q2 L1 L2 S))
-  haveI : (str83CaseAR L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
+  have : (str83CaseAR L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQ2NR
   have hQ2Q1NQ1 : Q2 L1 L2 S ⊔ Q1 L1 L2 S ≤
       Subgroup.normalizer (Q1 L1 L2 S : Set G) := by
     rw [sup_comm, F.hT2]
     exact hSNQ1
-  haveI : (Q1 L1 L2 S).subgroupOf (Q2 L1 L2 S ⊔ Q1 L1 L2 S) |>.Normal :=
+  have : (Q1 L1 L2 S).subgroupOf (Q2 L1 L2 S ⊔ Q1 L1 L2 S) |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQ2Q1NQ1
   let eY : ↥(Q2 L1 L2 S ⊔ Q1 L1 L2 S) ≃* ↥S :=
     MulEquiv.subgroupCongr (by rw [sup_comm, F.hT2])
@@ -372,7 +374,7 @@ private theorem caseA_Q2R_equiv_SQ1
       hQ2NQ1).trans e3)⟩
 
 private theorem caseA_false_of_commutator_le_R
-    (F : Str83CaseAFrame L1 L2 S a) (D : Str83CaseAData F)
+    (F : Str83CaseAFrame L1 L2 S a) (_D : Str83CaseAData F)
     (hcomm : ⁅Q2 L1 L2 S, Q2 L1 L2 S⁆ ≤ str83CaseAR L1 L2 S) : False := by
   classical
   have hSP1 : S ≤ P1 L1 L2 S :=
@@ -383,9 +385,9 @@ private theorem caseA_false_of_commutator_le_R
     F.hQ2S.trans hSNQ1
   have hQ2NR : Q2 L1 L2 S ≤ Subgroup.normalizer (str83CaseAR L1 L2 S : Set G) :=
     Subgroup.le_normalizer_inf hQ2NQ1 (Subgroup.le_normalizer (H := Q2 L1 L2 S))
-  haveI : (str83CaseAR L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
+  have : (str83CaseAR L1 L2 S).subgroupOf (Q2 L1 L2 S) |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQ2NR
-  haveI : (Q1 L1 L2 S).subgroupOf S |>.Normal :=
+  have : (Q1 L1 L2 S).subgroupOf S |>.Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hSNQ1
   have hQcomm : IsMulCommutative
       (↥(Q2 L1 L2 S) ⧸ (str83CaseAR L1 L2 S).subgroupOf (Q2 L1 L2 S)) := by

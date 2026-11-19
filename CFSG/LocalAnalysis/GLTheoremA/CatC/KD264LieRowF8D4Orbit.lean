@@ -29,8 +29,8 @@ theorem exists_index_three_family {K : Type} [Field K] [Finite K] {d f : ℕ}
     ∃ A₀ : Subgroup (MulAut (matrixProjectiveDerived Q)), A₀ ≤ A ∧ Nat.card A ≤ 3 * Nat.card A₀ ∧
       A₀ ≤ matrixProjectiveImage Q := by
   classical
-  haveI : Finite (matrixProjectiveDerived Q) := inferInstance
-  haveI : Finite (MulAut (matrixProjectiveDerived Q)) := Finite.of_injective
+  have : Finite (matrixProjectiveDerived Q) := inferInstance
+  have : Finite (MulAut (matrixProjectiveDerived Q)) := Finite.of_injective
     (fun α : MulAut (matrixProjectiveDerived Q) => (α : matrixProjectiveDerived Q → matrixProjectiveDerived Q))
     (fun a b h => MulEquiv.ext (congrFun h))
   let x₀ : Set (Subgroup (matrixProjectiveDerived Q)) := projectivePointFamily Q

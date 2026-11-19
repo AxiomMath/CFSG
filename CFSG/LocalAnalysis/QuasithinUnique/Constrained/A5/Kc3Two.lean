@@ -86,7 +86,7 @@ theorem exists_conj_le {P F : Subgroup K} (hP : IsPGroup 2 P) (hPi : ¬ 2 ∣ P.
     (hF : IsPGroup 2 F) : ∃ g : K, F.map (MulAut.conj g).toMonoidHom ≤ P := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hFQ⟩ := hF.exists_le_sylow
-  obtain ⟨c, hc⟩ := exists_conj_map_eq Q.isPGroup' Q.not_dvd_index hP hPi
+  obtain ⟨c, hc⟩ := exists_conj_map_eq Q.isPGroup Q.not_dvd_index hP hPi
   exact ⟨c, hc ▸ Subgroup.map_mono hFQ⟩
 
 theorem classify_of_twoE (htwo : TwoE K) {E₁ E₂ : Subgroup K} (h1 : ElemAb E₁)

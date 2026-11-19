@@ -77,7 +77,7 @@ theorem exists_swap_lift {t s : Y} (ht : t * t = 1) (hs : ∀ y : Y, s * y = y *
         _ = o := by rw [h]; group
     refine hmemC _ ?_ ?_
     · rw [hmemO]
-      simp only [map_mul, map_inv, hx₀u, (hmemO _).mp hoO, inv_one, mul_one, huinv, hu]
+      simp only [map_mul, map_inv, hx₀u, (hmemO _).mp hoO, mul_one, huinv, hu]
     · have e1 : t⁻¹ * (x₀⁻¹ * (x₀ * (o : Y))⁻¹) * t =
           (t⁻¹ * x₀ * t)⁻¹ * (t⁻¹ * (o : Y) * t)⁻¹ * (t⁻¹ * x₀ * t)⁻¹ := by group
       rw [e1, hot, hx₀t, mul_inv_rev, hsinv]

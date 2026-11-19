@@ -54,7 +54,7 @@ private lemma not_two_dvd_oddCore : ¬ 2 ∣ Nat.card (CFSG.oddCore X) := by
 
 private lemma lit_relIndex_sup_odd (h : LitCtx Z A) :
     ¬ 2 ∣ (litC Z A).relIndex (litC Z A ⊔ litP Z) := by
-  haveI : (litP Z).Normal := Subgroup.sup_normal Z (CFSG.oddCore X)
+  have : (litP Z).Normal := Subgroup.sup_normal Z (CFSG.oddCore X)
   rw [relIndex_sup_eq_relIndex_inf (K := litC Z A) (P := litP Z)]
   have hZle : Z ≤ litP Z ⊓ litC Z A :=
     le_inf le_sup_left (le_trans h.Z_le_A (lit_A_le_litC h))
@@ -66,7 +66,7 @@ private lemma lit_relIndex_sup_odd (h : LitCtx Z A) :
 
 private lemma lit_relIndex_normalizer_sup_odd (h : LitCtx Z A) :
     ¬ 2 ∣ (normalizer (A : Set X)).relIndex (normalizer (A : Set X) ⊔ litP Z) := by
-  haveI : (litP Z).Normal := Subgroup.sup_normal Z (CFSG.oddCore X)
+  have : (litP Z).Normal := Subgroup.sup_normal Z (CFSG.oddCore X)
   rw [relIndex_sup_eq_relIndex_inf (K := normalizer (A : Set X)) (P := litP Z)]
   have hZle : Z ≤ litP Z ⊓ normalizer (A : Set X) :=
     le_inf le_sup_left (le_trans h.Z_le_A Subgroup.le_normalizer)
@@ -92,6 +92,7 @@ theorem lit_map_normalizer (h : LitCtx Z A) (hπ : Function.Surjective π)
   rw [hk]
   exact lit_A_sylow_sup h
 
+omit [Finite X] in
 theorem lit_mem_normalizer_map {n : X} (hn : n ∈ normalizer (A : Set X)) :
     π n ∈ normalizer ((A.map π : Subgroup G) : Set G) := by
   exact Subgroup.le_normalizer_map (H := A) π ⟨n, hn, rfl⟩
@@ -102,6 +103,7 @@ theorem lit_map_card (h : LitCtx Z A) (hk : π.ker = litP Z) : Nat.card (A.map �
   rw [hk, inf_comm, lit_A_inf_litP h, h.card_Z, h.card_A] at h1
   omega
 
+omit [Finite X] in
 theorem lit_map_comm (h : LitCtx Z A) (hk : π.ker = litP Z) :
     ∀ a ∈ A.map π, ∀ b ∈ A.map π, a * b = b * a := by
   intro a ha b hb
@@ -115,6 +117,7 @@ theorem lit_map_comm (h : LitCtx Z A) (hk : π.ker = litP Z) :
   rw [map_commutatorElement, commutatorElement_eq_one_iff_mul_comm] at h1
   exact h1
 
+omit [Finite X] in
 theorem lit_map_sq (h : LitCtx Z A) (hk : π.ker = litP Z) : ∀ a ∈ A.map π, a ^ 2 = 1 := by
   intro a ha
   rcases Subgroup.mem_map.mp ha with ⟨a', ha', rfl⟩
@@ -171,7 +174,7 @@ theorem lit_map_two_mem (h : LitCtx Z A) (hπ : Function.Surjective π) (hk : π
     ∀ c ∈ centralizer ((A.map π : Subgroup G) : Set G), (∃ k : ℕ, c ^ 2 ^ k = 1) →
       c ∈ A.map π := by
   intro c hc hk2
-  haveI : Finite G := Finite.of_surjective π hπ
+  have : Finite G := Finite.of_surjective π hπ
   have hcentral : centralizer ((A.map π : Subgroup G) : Set G) = (litC Z A).map π :=
     lit_map_centralizer h hπ hk
   have hAC : A.map π ≤ centralizer ((A.map π : Subgroup G) : Set G) := by

@@ -132,7 +132,7 @@ theorem mem_of_commute_of_sylow_bound {N : Subgroup Y} (hN9 : Nat.card N = 9)
         _ = g * (b * a) * g⁻¹ := by group
     simpa using h'
   have hP27 : Nat.card (P : Subgroup Y) = 27 :=
-    card_eq_of_not_comm P.isPGroup' (h27 _ P.isPGroup') hPnab
+    card_eq_of_not_comm P.isPGroup (h27 _ P.isPGroup) hPnab
   set C : Subgroup Y := (P : Subgroup Y) ⊓ Subgroup.centralizer (N : Set Y) with hC
   have hNC : N ≤ C := fun n hn => Subgroup.mem_inf.mpr ⟨hNP hn,
     Subgroup.mem_centralizer_iff.mpr fun m hm => hNab m hm n hn⟩

@@ -20,7 +20,7 @@ theorem fzl59b_not_conj_s (h : Fz59T3Set t L S T₂ x₁ x₂ lam rho tau s u b 
   have hKp : IsPGroup 2 K := h.sylow.1.to_le inf_le_left
   have hconj : ∀ q : G, (MulAut.conj g⁻¹).toMonoidHom q = g⁻¹ * q * g := by
     intro q
-    simp [MulAut.conj_apply]
+    simp
   have hQH : K.map (MulAut.conj g⁻¹).toMonoidHom ≤ invCent t := by
     rintro _ ⟨q, hq, rfl⟩
     have hqs : s * q = q * s := Subgroup.mem_centralizer_iff.mp hq.2 s (Set.mem_singleton s)

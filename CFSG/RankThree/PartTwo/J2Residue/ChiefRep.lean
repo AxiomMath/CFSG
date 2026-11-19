@@ -28,12 +28,12 @@ theorem exists_chiefRep_of_isChiefFactorUnder [Finite G] {r : ℕ} [Fact r.Prime
       (ρ : Representation (ZMod r) ↥Y V) (q : G → V),
       ρ.IsIrreducible ∧ IsChiefRep Y F₁ F₂ ρ q := by
   classical
-  haveI hnormal : (F₂.subgroupOf F₁).Normal := h.normal
-  haveI hEA : IsElementaryAbelian r (F₁ ⧸ F₂.subgroupOf F₁) := h.isElementaryAbelian
+  have hnormal : (F₂.subgroupOf F₁).Normal := h.normal
+  have hEA : IsElementaryAbelian r (F₁ ⧸ F₂.subgroupOf F₁) := h.isElementaryAbelian
   let V := Additive (F₁ ⧸ F₂.subgroupOf F₁)
-  haveI hFin : Finite V := inferInstance
-  haveI hModFin : Module.Finite (ZMod r) V := Module.Finite.of_finite
-  haveI hnt : Nontrivial V := by
+  have hFin : Finite V := inferInstance
+  have hModFin : Module.Finite (ZMod r) V := Module.Finite.of_finite
+  have hnt : Nontrivial V := by
     obtain ⟨m, hmF₁, hmF₂⟩ := IsConcreteLE.exists_of_lt h.1
     refine ⟨0, Additive.ofMul ((⟨m, hmF₁⟩ : F₁) : F₁ ⧸ F₂.subgroupOf F₁), ?_⟩
     intro hzero
@@ -49,7 +49,7 @@ theorem exists_chiefRep_of_isChiefFactorUnder [Finite G] {r : ℕ} [Fact r.Prime
       q y = Additive.ofMul ((⟨y, hy⟩ : F₁) : F₁ ⧸ F₂.subgroupOf F₁) := by
     intro y hy
     dsimp only [q]
-    rw [dif_pos hy]
+    rw [dite_eq_left hy]
   have hρapply : ∀ (y : ↥Y) (w : F₁),
       ρ y (Additive.ofMul ((w : F₁) : F₁ ⧸ F₂.subgroupOf F₁)) =
         Additive.ofMul ((⟨(y : G) * (w : G) * (y : G)⁻¹,
@@ -265,7 +265,7 @@ theorem IsChiefRep.finrank_ker_le_three [Finite G] {r : ℕ} [Fact r.Prime] (hr5
   have ht2' : IsPGroup 2 (Subgroup.zpowers (t : G)) := isPGroup_zpowers_subtype ht2
   have htnM : (t : G) ∉ F₁ := by
     intro htF
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hdisj : Disjoint (Subgroup.zpowers (t : G)) F₁ :=
       IsPGroup.disjoint_of_ne 2 r (by omega) _ _ ht2' hF₁
     rw [disjoint_iff] at hdisj

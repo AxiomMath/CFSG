@@ -20,9 +20,9 @@ theorem le_or_eq_of_normal [Finite G] {J V W : Subgroup G} (hJp : Group.IsPerfec
     W ≤ V ∨ W = J := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set W' := W.subgroupOf J with hW'
-  haveI hW'n : W'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hWJ).mpr hJW
+  have hW'n : W'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hWJ).mpr hJW
   set π := QuotientGroup.mk' (V.subgroupOf J) with hπ
-  haveI hn : (W'.map π).Normal := Subgroup.Normal.map hW'n π (QuotientGroup.mk'_surjective _)
+  have hn : (W'.map π).Normal := Subgroup.Normal.map hW'n π (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (W'.map π) with h | h
   · left
     intro w hw
@@ -77,7 +77,7 @@ theorem map_conjJ (g : ↥(Subgroup.normalizer (J : Set G) ⊓ Subgroup.normaliz
   apply le_antisymm
   · rintro _ ⟨x, hx, rfl⟩
     rw [SetLike.mem_coe, Subgroup.mem_subgroupOf] at hx
-    rw [Subgroup.mem_subgroupOf, MonoidHom.coe_coe, conjJ_apply_coe]
+    rw [Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass, conjJ_apply_coe]
     exact (Subgroup.mem_normalizer_iff.mp hgV _).mp hx
   · intro x hx
     rw [Subgroup.mem_subgroupOf] at hx
@@ -87,7 +87,7 @@ theorem map_conjJ (g : ↥(Subgroup.normalizer (J : Set G) ⊓ Subgroup.normaliz
     · rw [SetLike.mem_coe, Subgroup.mem_subgroupOf]
       exact (Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ hgV) x).mp hx
     · apply Subtype.ext
-      rw [MonoidHom.coe_coe, conjJ_apply_coe]
+      rw [_root_.MonoidHom.coe_ofClass, conjJ_apply_coe]
       group
 
 variable [(V.subgroupOf J).Normal]

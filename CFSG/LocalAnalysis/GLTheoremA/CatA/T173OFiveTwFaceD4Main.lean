@@ -36,7 +36,7 @@ theorem exists_central_witness_D4 {F : Type} [Field F] [Finite F] {n : ℕ}
     refine (Nat.modEq_iff_dvd' (Nat.one_le_pow 2 (2 ^ n) (by positivity))).1 ?_
     change 1 % 3 = (2 ^ n) ^ 2 % 3
     rw [Nat.pow_mod, hmod]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' 3 h3'
   have hω3 : ω ^ 3 = 1 := by
     rw [← hω]

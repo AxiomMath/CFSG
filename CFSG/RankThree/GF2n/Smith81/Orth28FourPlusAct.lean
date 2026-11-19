@@ -30,18 +30,22 @@ namespace Data
 
 variable (F : Data M Q Z B)
 
+omit [Finite G] in
 theorem hnd : (QuadraticMap.polarBilin F.C.qU).Nondegenerate :=
   polarBilin_nondegenerate_of_hnd F.C.hF.nondeg
 
+omit [Finite G] in
 theorem isPlus : CFSG.GroupTheory.WeirSylow.IsPlusType F.C.qU :=
   isPlusType_of_not_noTSP F.card_ι F.tsp
 
+omit [Finite G] in
 theorem four_le_card : 4 ≤ Nat.card F.C.K := by
   rw [F.C.hD.card]
   exact F.hc.ctx.hyp.q4
 
 end Data
 
+omit [Finite G] in
 theorem exists_detModel (C : OrthCtx M Q Z B) (h4 : Fintype.card C.ι = 4)
     (hTSP : ¬ NoTotallySingularPlane C.qU) :
     ∃ μ : (C.ι → C.K) ≃ₗ[C.K] Mat2 C.K, ∀ v, (μ v).det = C.qU v := by
@@ -95,6 +99,7 @@ theorem rhoC_spec (m : ↥(H0 M Z)) (x : G) (hx : x ∈ Q) :
     rhoC F m (coord F (F.C.M₀.π x)) = coord F (F.C.M₀.π ((m : G) * x * (m : G)⁻¹)) := by
   rw [rhoC_apply, LinearEquiv.symm_apply_apply, actHom_π F m x hx]
 
+omit [Finite G] in
 theorem exists_coord_π (v : Cube 3 F.C.K) : ∃ x ∈ Q, coord F (F.C.M₀.π x) = v := by
   obtain ⟨x, hx, hxe⟩ := F.C.M₀.π_surj ((coord F).symm v)
   exact ⟨x, hx, by rw [hxe, LinearEquiv.apply_symm_apply]⟩

@@ -13,17 +13,17 @@ open scoped commutatorElement
 
 theorem o6ChiefFacts : O6ChiefFacts := by
   intro G _ _ p n L U d hp hpq hn hLU S hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2 := prime_ne_two_of_dvd_two_pow_add_one hn hpq
-  haveI : CharP d.F 2 := by
-    letI : Fintype d.F := Fintype.ofFinite d.F
+  have : CharP d.F 2 := by
+    let : Fintype d.F := Fintype.ofFinite d.F
     have h : Fintype.card d.F = 2 ^ n := by
       rw [← Nat.card_eq_fintype_card]
       exact d.card_F
     exact charP_of_card_eq_prime_pow h
   obtain ⟨P, hP⟩ := hS.exists_sylow_eq_subgroupOf
   have hPpc : CFSG.pCore 2 ↥L ≤ (P : Subgroup ↥L) := by
-    have hp2g := (CFSG.pCore_isPGroup (p := 2) (G := ↥L)).to_sup_of_normal_left P.isPGroup'
+    have hp2g := (CFSG.pCore_isPGroup (p := 2) (G := ↥L)).to_sup_of_normal_left P.isPGroup
     have := P.maximal_isPGroup.eq_of_ge hp2g le_sup_right
     rw [← this]
     exact le_sup_left
@@ -32,7 +32,7 @@ theorem o6ChiefFacts : O6ChiefFacts := by
   have hE : IsSylowOf 2 E ⊤ := by
     rw [isSylowOf_iff]
     refine ⟨le_top, ?_, ?_⟩
-    · exact (hP ▸ P.isPGroup').map d.ε
+    · exact (hP ▸ P.isPGroup).map d.ε
     · have hker_le : d.ε.ker ≤ S.subgroupOf L := by rw [d.ε_ker, ← hP]; exact hPpc
       have hidx : E.index = (S.subgroupOf L).index :=
         Subgroup.index_map_eq (S.subgroupOf L) d.ε_surj hker_le

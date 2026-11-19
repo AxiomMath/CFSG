@@ -55,7 +55,7 @@ theorem tabBThree_shapeRkAt_of_decomp {G : Type} [Group G] [Finite G] {p : ℕ} 
     exact hqh
   have hcent : IsPGroup p ↥(Subgroup.centralizer ({s} : Set G) ⊓
       Subgroup.centralizer (H : Set G)) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     refine IsPGroup.iff_orderOf.2 fun g => ?_
     obtain ⟨hgC, hgH⟩ := Subgroup.mem_inf.1 g.2
     obtain ⟨k, q, hq, hgq⟩ := hdecomp _ hgC
@@ -236,7 +236,7 @@ theorem tabBThree_shapeRkAt'_of_inverted (hOut : SporadicOuterLeTwo)
     (hSpM : SporadicMultipliers) (hBr : SporadicBridges) (hA : TabBThreeACard)
     {s d : NativeSporadic.B} (hs : orderOf s = 3) (hd : BabyInv 0 d) (hinv : d * s * d⁻¹ = s⁻¹) :
     ShapeRkAt' 3 (GoodSpor 3 [.Fi22]) (RkSpor 3 [.Fi22]) s := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨v, w, hw, hvw⟩ := tabBThree_typeThree_of_inverted hs hd hinv
   have hQ := (native_order_three_common_neighbors_exact_3510.1 v w hw).2.2.2.2.2
   have hcard : Nat.card (Subgroup.centralizer ({clabelS v * clabelS w} : Set Shat)) ≤

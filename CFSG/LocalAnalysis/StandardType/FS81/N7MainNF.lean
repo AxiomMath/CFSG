@@ -35,17 +35,17 @@ private theorem nmh_nf_spMat_one_eq_nmSgn {t : Fin 8 → ZMod 3} (ht : IsSign t)
   rw [spMat_apply, Equiv.Perm.one_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     by_cases h : t i = -1
     · have hmem : i ∈ Finset.univ.filter (fun i => t i = -1) :=
         Finset.mem_filter.mpr ⟨Finset.mem_univ i, h⟩
-      simp [nmSgn, Matrix.diagonal, hmem, h]
+      simp [nmSgn, Matrix.diagonal, h]
     · rcases ht i with h1 | h1
       · have hmem : i ∉ Finset.univ.filter (fun i => t i = -1) :=
           fun hm => h (Finset.mem_filter.mp hm).2
-        simp [nmSgn, Matrix.diagonal, hmem, h1]
+        simp [nmSgn, Matrix.diagonal, h1]
       · exact absurd h1 h
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     simp [nmSgn, Matrix.diagonal, hij]
 
 private theorem nmh_spMat_mulVec_fix0 {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3}

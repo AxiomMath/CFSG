@@ -20,7 +20,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremA.S10
 @[expose] def LargeReeCentralizerActsInner : Prop :=
   ∀ (m : ℕ) (hv : (TauCeti.LieTypeIndex.reeF4 m).Valid) {S : Type} [Group S] [Finite S]
     (_ : Nonempty (S ≃* (TauCeti.CFSGIndex.lie ⟨.reeF4 m, hv⟩).Group))
-    {p : ℕ} (hp : p.Prime) (hp3 : 3 < p) (x : S) (hx : orderOf x = p) (N : Subgroup S),
+    {p : ℕ} (_hp : p.Prime) (_hp3 : 3 < p) (x : S) (_hx : orderOf x = p) (N : Subgroup S),
     N ≤ Subgroup.centralizer ({x} : Set S) →
     (∀ g ∈ Subgroup.centralizer ({x} : Set S), (∃ k : ℕ, orderOf g = 2 ^ k) → g ∈ N) →
     (∀ D : Subgroup S,

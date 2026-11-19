@@ -23,8 +23,8 @@ theorem Y_ne_bot (hc : BinaryActionRankCounterexample G p P T B e ρ) (hr : IsPr
     apply hS
     rw [OddExponentCommutatorImage.commutator_image hc.oddPrimeClassTwoAction hc.faithfulBinaryIrreducibleAction.normal he, ← hTs, h]
     simp
-  haveI : Nontrivial Ts := (Subgroup.nontrivial_iff_ne_bot Ts).mpr hTne
-  haveI : Nontrivial (Subgroup.center Ts) := hT2.center_nontrivial
+  have : Nontrivial Ts := (Subgroup.nontrivial_iff_ne_bot Ts).mpr hTne
+  have : Nontrivial (Subgroup.center Ts) := hT2.center_nontrivial
   have hZ : IsPGroup 2 (Subgroup.center Ts) := hT2.to_subgroup _ |>.to_le le_rfl
   obtain ⟨n, hn⟩ := hZ.exists_card_eq
   have hn0 : n ≠ 0 := by
@@ -32,7 +32,7 @@ theorem Y_ne_bot (hc : BinaryActionRankCounterexample G p P T B e ρ) (hr : IsPr
     have h1 := Finite.one_lt_card (α := Subgroup.center Ts)
     rw [hn] at h1
     simp at h1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center Ts) 2
     (by rw [hn]; exact dvd_pow_self 2 hn0)
   have hz1 : z ≠ 1 := by

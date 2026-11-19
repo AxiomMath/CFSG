@@ -32,7 +32,7 @@ theorem s16h_mParam_le_two_of_Z3_six_two (D : Data G) (S : s16h_Std D) (hσ : D.
   have hk : D.k = 1 := by
     have hsp := S.hSig.sig1_sp 3 (by rw [← hσ, h3]; exact Set.mem_singleton 3)
     unfold Data.k RankThreeUC.kParam
-    rw [if_pos hsp]
+    rw [ite_eq_left hsp]
   have hodd : Odd (Nat.card ↥(lBar V₀ V h.hyp151.isElemAbelian L)) := by rw [hLp.2]; norm_num
   have hfix : wTil V₀ V h.hyp151.isElemAbelian L ⊓
       fixV (lBar V₀ V h.hyp151.isElemAbelian L) = ⊥ :=

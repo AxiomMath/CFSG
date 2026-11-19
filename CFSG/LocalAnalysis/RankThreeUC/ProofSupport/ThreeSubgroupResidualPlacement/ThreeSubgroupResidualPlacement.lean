@@ -12,7 +12,7 @@ open CFSG.LocalAnalysis.RankThreeUC
 theorem card_three_le_oPrimeResidual {G : Type} [Group G] {W D : Subgroup G}
     (hDW : D ≤ W) (hD : Nat.card D = 3) : D ≤ SourceSetting.oPrimeResidual 3 W := by
   intro x hx
-  haveI : Finite D := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite D := Nat.finite_of_card_ne_zero (by omega)
   have h1 : orderOf x ∣ 3 := by
     have := orderOf_dvd_natCard (⟨x, hx⟩ : D)
     rwa [hD, Subgroup.orderOf_mk] at this

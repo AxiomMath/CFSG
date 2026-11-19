@@ -22,10 +22,10 @@ theorem statedClassicalModel_POmegaMinus_unique_even {X Y : Type} [Group X] [Gro
     (hY : StatedClassicalModel Y .POmegaMinus n 2 f) : Nonempty (X ≃* Y) := by
   obtain ⟨hadm, K₁, hF₁, hFin₁, hc₁, b₁, c₁, hirr₁, ⟨e₁⟩⟩ := hX
   obtain ⟨-, K₂, hF₂, hFin₂, hc₂, b₂, c₂, hirr₂, ⟨e₂⟩⟩ := hY
-  letI := hF₁
-  letI := hFin₁
-  letI := hF₂
-  letI := hFin₂
+  let := hF₁
+  let := hFin₁
+  let := hF₂
+  let := hFin₂
   let φ : K₁ ≃+* K₂ := CFSG.ClassicalInvolution.Upgrade.fieldIsoOfCard (hc₁.trans hc₂.symm)
   have hn : 1 ≤ n := by have := hadm.2.2; omega
   obtain ⟨e₃⟩ := CFSG.Blueprint.EvenSource.nonempty_statedOmegaMinus_equiv (n := n) hn
@@ -60,7 +60,7 @@ theorem exists_cover_POmegaMinus {n f : ℕ} (hadm : StatedLieAdmissible .POmega
       .POmegaMinus n 2 f :=
     hY.statedClassicalModel (by simp [CFSG.Blueprint.classicalTags])
   obtain ⟨E⟩ := statedClassicalModel_POmegaMinus_unique_even hYc hXc
-  haveI : IsSimpleGroup
+  have : IsSimpleGroup
       ((lieUniversal .POmegaMinus n 2 f Nat.prime_two).K ⧸
         Subgroup.center (lieUniversal .POmegaMinus n 2 f Nat.prime_two).K) := hquasi.2
   let ψ₀ : (lieUniversal .POmegaMinus n 2 f Nat.prime_two).K →* X :=
@@ -83,7 +83,7 @@ theorem exists_cover_POmegaMinus {n f : ℕ} (hadm : StatedLieAdmissible .POmega
     rw [MonoidHom.mem_ker, map_commutatorElement]
     exact commutatorElement_eq_one_iff_commute.2 (hcomm _ _)
   rw [hquasi.1] at hcom
-  haveI := (MulEquiv.isSimpleGroup E.symm).toNontrivial
+  have := (MulEquiv.isSimpleGroup E.symm).toNontrivial
   obtain ⟨x, hx⟩ := exists_ne (1 : X)
   obtain ⟨k, rfl⟩ := hsurj x
   exact hx (hcom (Subgroup.mem_top k))
@@ -97,7 +97,7 @@ theorem seitzTwoGen_of_cover {S : Type} [Group S] [Finite S] {t : StatedLieTag} 
     (hker : ψ₀.ker ≤ Subgroup.center (lieUniversal t n 2 f Nat.prime_two).K)
     (hsimple : IsSimpleGroup S) (hnab : ∃ a b : S, a * b ≠ b * a) : SeitzTwoGen S := by
   intro q hq hq2 E hE ⟨U, hU0, hU2, hUinv⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let ψ : (lieUniversal t n 2 f Nat.prime_two).K →* Hol S E :=
     (SemidirectProduct.inl : S →* Hol S E).comp ψ₀
   have hrange : ψ.range = holK S E := by
@@ -182,16 +182,16 @@ theorem seitzTwoGen_of_statedClassicalModel {S : Type} [Group S] [Finite S]
 theorem seitzTwoGen_of_G2 {S : Type} [Group S] [Finite S] {f : ℕ}
     (h : CFSG.Blueprint.ChevalleyExceptionalModel S .G2 2 f) : SeitzTwoGen S := by
   obtain ⟨⟨-, -, -, h3⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ := h
-  letI := hfield
-  letI := hfinite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.LieType.BorelTits.charP_of_natCard_eq (p := 2) (f := f) hK
+  let := hfield
+  let := hfinite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.LieType.BorelTits.charP_of_natCard_eq (p := 2) (f := f) hK
   have hcard : 3 ≤ Nat.card K := by rw [hK]; exact h3
   have hq : CFSG.IsQuasisimple ↥(CFSG.Blueprint.Chevalley.adjointGroup .G2 K) :=
     CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card K hcard
   obtain ⟨hfin, -, hH⟩ := CFSG.StandardType.GGOppRadExc.universal_conclusion_adjointGroup
     (τ := .G2) (K := K) hq
-  letI : Finite ↥(CFSG.Blueprint.Chevalley.adjointGroup .G2 K) := hfin
+  let : Finite ↥(CFSG.Blueprint.Chevalley.adjointGroup .G2 K) := hfin
   let ψ : ↥(CFSG.Blueprint.Chevalley.adjointGroup .G2 K) →* S :=
     e.symm.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center
       ↥(CFSG.Blueprint.Chevalley.adjointGroup .G2 K)))

@@ -52,7 +52,7 @@ private theorem canonLabel_of_catalog_params {lab : GLALabel} {t : StatedLieTag}
      cases tg <;>
        simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
          CFSG.StandardType.markChar, CFSG.StandardType.markDeg, canonLabel] at hP ⊢ <;>
-       (try split_ifs at hP ⊢) <;> simp_all <;> omega)
+       (try split_ifs at hP ⊢) <;> simp_all)
 
 private theorem exists_label_of_marking_aux {X : Type} [Group X] {P : GLALabel → Prop}
     (h : HasLabel X P) : ∃ lab : GLALabel, P lab ∧ HasLabel X (· = lab) := by

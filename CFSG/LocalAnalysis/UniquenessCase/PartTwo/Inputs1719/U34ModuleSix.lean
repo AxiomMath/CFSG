@@ -13,7 +13,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 theorem isIrrOn_of_isSU3_two_of_mParam_le_six
     (h128 : W4Lem12_8) {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
-    {Y K : Subgroup (MulAut W)} (hKY : K ≤ Y) (hKn : (K.subgroupOf Y).Normal)
+    {Y K : Subgroup (MulAut W)} (hKY : K ≤ Y) (_hKn : (K.subgroupOf Y).Normal)
     (hKcomp : CFSG.Open.IsComponentOf K Y) (hSU : IsSU3 ↥K 2)
     (hO2 : ∀ P : Subgroup (MulAut W), P ≤ Y → (P.subgroupOf Y).Normal → IsPGroup 2 P → P = ⊥)
     (hbasic : IsBasicModule Y) (hfix : fixV K = ⊥) (hmY : E3.mParam Y ≤ 2 * 2 + 2) :

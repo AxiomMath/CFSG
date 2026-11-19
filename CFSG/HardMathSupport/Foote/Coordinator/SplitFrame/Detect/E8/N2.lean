@@ -17,7 +17,7 @@ variable (K : Type) [Field K] [Finite K]
 
 theorem eq_zero_or_one_of_card_two (hK : Nat.card K = 2) (t : K) : t = 0 ∨ t = 1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hc : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hcard : ({0, 1} : Finset K).card = 2 := Finset.card_pair zero_ne_one
   have hu : ({0, 1} : Finset K) = Finset.univ :=

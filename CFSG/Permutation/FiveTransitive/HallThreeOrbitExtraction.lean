@@ -13,6 +13,7 @@ open MulAction
 
 variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 
+omit [Finite G] in
 theorem exists_oriented_threeCycle_of_isPGroup_orbit
     (A : Subgroup G) (hA : IsPGroup 3 A)
     (e : Fin 4 ↪ X)

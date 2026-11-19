@@ -155,7 +155,7 @@ theorem commute_of_sylowShape {p e : ℕ} {P : Subgroup (MulAut S)} {x u : MulAu
   have hQSab := isMulCommutative_of_sylowShape hshape QS
   have hRinn : R ≤ Inn := hRJ.trans inf_le_left
   have hRQ : (QS : Subgroup S).map (MulAut.conj : S →* MulAut S) = R := by
-    refine eq_of_isSylowOf_le hR ?_ (QS.isPGroup'.map _) ?_
+    refine eq_of_isSylowOf_le hR ?_ (QS.isPGroup.map _) ?_
     · rintro _ ⟨y, hy, rfl⟩
       refine Subgroup.mem_inf.mpr ⟨⟨y, rfl⟩, Subgroup.mem_centralizer_iff.mpr fun c hc => ?_⟩
       obtain ⟨c', rfl⟩ := hAinn hc
@@ -166,7 +166,7 @@ theorem commute_of_sylowShape {p e : ℕ} {P : Subgroup (MulAut S)} {x u : MulAu
     · intro r hr
       obtain ⟨r', rfl⟩ := hRinn hr
       exact ⟨r', hQS hr, rfl⟩
-  obtain ⟨φ₀⟩ := hshape QS QS.isPGroup' QS.not_dvd_index
+  obtain ⟨φ₀⟩ := hshape QS QS.isPGroup QS.not_dvd_index
   have φ : ↥R ≃* (Fin 2 → Multiplicative (ZMod (p ^ e))) :=
     ((MulEquiv.subgroupCongr hRQ).symm.trans
       ((QS : Subgroup S).equivMapOfInjective _ hinj).symm).trans φ₀

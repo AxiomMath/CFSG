@@ -112,8 +112,8 @@ theorem ok_dt : enumOK uGens DT.El DT.P DT.K DT.idx = true ∧ DT.El.size = 4096
   simp only [EnumData.ok, Bool.and_eq_true, beq_iff_eq] at h
   exact h
 
-theorem uGens_hyp' : ∀ k < uGens.size, RepE d4E uGens[k]! (uGH k) ∧ uGH k * uGH k = 1 :=
-  fun k hk => ⟨repE_uGens hk, gens_inv (uIdx_lt (uGens_size ▸ hk))⟩
+theorem uGens_hyp' : ∀ _k < uGens.size, RepE d4E uGens[_k]! (uGH _k) ∧ uGH _k * uGH _k = 1 :=
+  fun _k hk => ⟨repE_uGens hk, gens_inv (uIdx_lt (uGens_size ▸ hk))⟩
 
 theorem card_U : Nat.card (closure (genSet uGH uGens.size)) = 4096 := by
   rw [card_of_enumOK d4E_injective uGens_hyp' ok_dt.1, ok_dt.2]

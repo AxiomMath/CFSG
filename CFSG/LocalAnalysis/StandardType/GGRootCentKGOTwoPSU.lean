@@ -43,7 +43,7 @@ private theorem diag_comm_one_add_single {K : Type} [Field K] {n : ℕ} (t : Fin
     rw [h, mul_one, one_mul]
   · simp
 
-private theorem diagGL_comm_rootU (h : UnitaryFieldData 2 f K) (hm : 1 ≤ m)
+private theorem diagGL_comm_rootU (_h : UnitaryFieldData 2 f K) (hm : 1 ≤ m)
     {t : Fin (m + 1) → K} (ht : ∀ a, t a ≠ 0) (h0 : t 0 = 1) (hl : t (Fin.last m) = 1) :
     (RootDetectSU.diagGL t ht : GL (Fin (m + 1)) K) *
         (AutPSU.rootU (f := f) (K := K) m : GL (Fin (m + 1)) K) =
@@ -53,7 +53,7 @@ private theorem diagGL_comm_rootU (h : UnitaryFieldData 2 f K) (hm : 1 ≤ m)
   rw [Units.val_mul, Units.val_mul, RootDetectSU.coe_diagGL, AutPSU.coe_rootU hm]
   exact diag_comm_one_add_single t (by rw [h0, hl])
 
-private theorem diagGL_comm_lroot (h : UnitaryFieldData 2 f K)
+private theorem diagGL_comm_lroot (_h : UnitaryFieldData 2 f K)
     {hi₀ : (0 : Fin (m + 1)) ≠ Fin.rev 0}
     {t : Fin (m + 1) → K} (ht : ∀ a, t a ≠ 0) (h0 : t 0 = 1) (hl : t (Fin.last m) = 1) :
     (RootDetectSU.diagGL t ht : GL (Fin (m + 1)) K) *
@@ -208,7 +208,7 @@ theorem pCoreOf_le_range_of_rootU (h : UnitaryFieldData 2 f K) (hm : 3 ≤ m)
     rw [hαeq, hc1, mul_one]
     exact ⟨A, rfl⟩
   have hα2 : ∃ n, α ^ 2 ^ n = 1 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp
       (GGRootNorm.isPGroup_pCoreOf (Subgroup.normalizer (ψ.range : Set G) ⊓
         Subgroup.centralizer {ψ r₀})))
@@ -244,7 +244,7 @@ theorem pCoreOf_le_range_of_rootU (h : UnitaryFieldData 2 f K) (hm : 3 ≤ m)
   have hInn_normal : Inn.Normal :=
     CFSG.LieType.SeitzGeneration.ExcWideThree.Parrott.D4Graph.normal_range_conj
   have hInn_le : Inn ≤ AutPSU.inndiag h := AutPSU.inn_le_inndiag h
-  haveI : (Inn.subgroupOf (AutPSU.inndiag h)).Normal := hInn_normal.subgroupOf _
+  have : (Inn.subgroupOf (AutPSU.inndiag h)).Normal := hInn_normal.subgroupOf _
   let q : (AutPSU.inndiag h) ⧸ (Inn.subgroupOf (AutPSU.inndiag h)) :=
     QuotientGroup.mk ⟨α, hα_in⟩
   have hq_pow : q ^ 2 ^ n = 1 := by
@@ -311,7 +311,7 @@ theorem ggRootCentOTwoTag_PSU : GGRootCentOTwoTag .PSU := by
       simp only [ggU, lieUniversal, hf, ↓reduceDIte]
     rw [e]
     intro ψ hadm hrank hker _ _ hC _ r hr _
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hn : 4 ≤ n := by
       change 2 ≤ n / 2 at hrank
       omega

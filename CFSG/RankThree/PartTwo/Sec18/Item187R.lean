@@ -20,10 +20,12 @@ variable {G : Type} [Group G] [Finite G] {A M H : Subgroup G} {c : G}
 private abbrev r187Comm (H : Subgroup G) (c : G) : Subgroup G :=
   ⁅CFSG.Open.pCoreOf 2 H, Subgroup.zpowers c⁆
 
+omit [Finite G] in
 private theorem r187_conj_pCore {H : Subgroup G} {x q : G} (hx : x ∈ H)
     (hq : q ∈ CFSG.Open.pCoreOf 2 H) : x * q * x⁻¹ ∈ CFSG.Open.pCoreOf 2 H :=
   (Subgroup.mem_normalizer_iff.mp (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H hx) q).mp hq
 
+omit [Finite G] in
 private theorem r187_mem_normalizer {R : Subgroup G} {g : G}
     (h1 : ∀ x ∈ R, g * x * g⁻¹ ∈ R) (h2 : ∀ x ∈ R, g⁻¹ * x * g⁻¹⁻¹ ∈ R) :
     g ∈ Subgroup.normalizer (R : Set G) := by
@@ -34,6 +36,7 @@ private theorem r187_mem_normalizer {R : Subgroup G} {g : G}
   have e : g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x := by group
   rwa [e] at h
 
+omit [Finite G] in
 private theorem r187_conj_mem {X Y : Subgroup G} {g : G}
     (h : ∀ q ∈ X, ∀ z ∈ Y, g * ⁅q, z⁆ * g⁻¹ ∈ ⁅X, Y⁆) :
     ∀ x ∈ ⁅X, Y⁆, g * x * g⁻¹ ∈ ⁅X, Y⁆ := by
@@ -61,6 +64,7 @@ private def r187Central (H : Subgroup G) (c : G) : Subgroup G where
     rw [e]
     exact r187_conj_pCore (H.inv_mem ha) ((CFSG.Open.pCoreOf 2 H).inv_mem ha')
 
+omit [Finite G] in
 private theorem mem_r187Central {H : Subgroup G} {c x : G} :
     x ∈ r187Central H c ↔ x ∈ H ∧ x * c * x⁻¹ * c⁻¹ ∈ CFSG.Open.pCoreOf 2 H :=
   Iff.rfl
@@ -89,6 +93,7 @@ private def r187Test (H : Subgroup G) (c : G)
     exact (Subgroup.mem_normalizer_iff.mp (hN (H.inv_mem hx)) _).mp
       ((r187Comm H c).inv_mem (hxz z hz))
 
+omit [Finite G] in
 private theorem mem_r187Test {H : Subgroup G} {c x : G}
     {hN : H ≤ Subgroup.normalizer (r187Comm H c : Set G)} :
     x ∈ r187Test H c hN ↔ x ∈ H ∧ ∀ z ∈ Subgroup.zpowers c, ⁅x, z⁆ ∈ r187Comm H c :=
@@ -154,7 +159,7 @@ theorem commutator_mem_pCoreOf (h1812 : Item181_2) (hH : Sec18H G A M H c) {h : 
 theorem le_normalizer_commutator (h1812 : Item181_2) (hH : Sec18H G A M H c) :
     H ≤ Subgroup.normalizer ((⁅CFSG.Open.pCoreOf 2 H, Subgroup.zpowers c⁆ : Subgroup G) : Set G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAH : A ≤ H := r187_A_le hH
   obtain ⟨hcA, -⟩ := mem_and_commutator_mem_of_sec18H hH
   have hcH : c ∈ H := hAH hcA

@@ -18,6 +18,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 
+omit [Finite G] in
 private lemma w16l_conj_mem_centralizer {I A : Subgroup G}
     (hA : A ≤ Subgroup.normalizer (I : Set G)) {x : G}
     (hx : x ∈ Subgroup.centralizer (I : Set G)) {a : G} (ha : a ∈ A) :
@@ -163,7 +164,7 @@ theorem IsMinFam16.pCore_le_center_bar (h1 : W16One G) (h5 : W16Five G) (hS : St
         exact hcommI
       rw [← hpφ, ← hkφ]
       exact commutatorElement_eq_one_iff_mul_comm.mp hcommφ
-    haveI : (Subgroup.centralizer (N : Set X)).Normal := Subgroup.normal_centralizer
+    have : (Subgroup.centralizer (N : Set X)).Normal := Subgroup.normal_centralizer
     have htop : (⊤ : Subgroup X) ≤ Subgroup.centralizer (N : Set X) := by
       rw [← (IsMinFam16.normalClosure_barSub h1 hS h hH hV hφ).1]
       exact Subgroup.normalClosure_le_normal hA_le
@@ -210,7 +211,7 @@ theorem IsMinFam16.ker_barTheta_central (h1 : W16One G) (h5 : W16Five G) (hS : S
     (hθ : ∀ k : ↥(CFSG.Quasithin.conjClosure V H), θ (φ k) = IsMinFam16.kToHatX h hH D k) :
     θ.ker ≤ Subgroup.center X ∧
       ((QuotientGroup.mk' (Subgroup.center (hatX D V))).comp θ).ker ≤ Subgroup.center X := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have hK_le_H : CFSG.Quasithin.conjClosure V H ≤ H := IsMinFam16.conjClosure_le_H h hH
   have hgen : Subgroup.closure {x : X | x * x = 1} = ⊤ :=
     (IsMinFam16.normalClosure_barSub h1 hS h hH hV hφ).2

@@ -13,6 +13,7 @@ variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 
 @[expose] def blockTransp (i : ι) : Perm (ι × Bool) := swap (i, false) (i, true)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem blockStab_of_mem_normalizer {W : Subgroup (Perm (ι × Bool))} (hWF : W ≤ blockFix ι)
     (hWfl : ∀ i : ι, ∃ w ∈ W, w (i, false) = (i, true)) {g : Perm (ι × Bool)}
     (hg : g ∈ Subgroup.normalizer (W : Set (Perm (ι × Bool)))) : g ∈ blockStab ι := by
@@ -73,6 +74,7 @@ theorem tt_mem_iff_of_mem_normalizer {W : Subgroup (Perm (ι × Bool))}
   rw [← conj_blockTransp hgs i]
   exact Subgroup.mem_normalizer_iff.1 hg _
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem predStab_not (p : ι → Prop) : predStab (fun i => ¬ p i) = predStab p := by
   ext π
   exact forall_congr' fun i => not_iff_not

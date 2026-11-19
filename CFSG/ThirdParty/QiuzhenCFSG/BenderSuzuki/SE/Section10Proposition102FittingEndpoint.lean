@@ -93,7 +93,7 @@ public theorem proposition102_coprime_card_of_normal_disjoint_sylow
     (hCnormal : (C.subgroupOf M).Normal)
     (hinf : C ⊓ P = ⊥) :
     Nat.Coprime p (Nat.card C) := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rcases hPsyl with ⟨S, hSP⟩
   let PM : Subgroup M := P.subgroupOf M
   have hPM_eq : PM = (S : Subgroup M) := by
@@ -178,8 +178,8 @@ public theorem proposition102_fitting_complement_eq_bot
   let S2 : Subgroup X := (pPrimeCore e.r H).map H.subtype
   let C1 : Subgroup X := subgroupCentralizerIn S R
   let Kset : Set X := peterfalviKSet D t
-  letI : Fact e.r.Prime := ⟨e.r_prime⟩
-  letI : Fact d.choice.p.Prime := ⟨d.choice.p_prime⟩
+  let : Fact e.r.Prime := ⟨e.r_prime⟩
+  let : Fact d.choice.p.Prime := ⟨d.choice.p_prime⟩
   have hHleD : H ≤ D :=
     (Subgroup.map_subtype_le (derivedSubgroup E)).trans hED
   have hVleD : V ≤ D := inf_le_left
@@ -254,7 +254,7 @@ public theorem proposition102_fitting_complement_eq_bot
       d.choice.p_prime hQleV (by simpa [P, V] using d.choice.P_le_V)
       hPsylV hQnormalV (by simpa [P, inf_comm] using hPQbot)
   have hQleA1 : Q ≤ A1 := by
-    letI : (Q.subgroupOf V).Normal := hQnormalV
+    let : (Q.subgroupOf V).Normal := hQnormalV
     rw [show A1 = (pPrimeCore d.choice.p V).map V.subtype by
       simpa [A1, V] using d.A1_eq_pPrimeCore]
     exact proposition102_subgroupOf_le_pPrimeCore_map

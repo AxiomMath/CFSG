@@ -12,6 +12,7 @@ open CFSG.Open CFSG.QuasithinUnique CFSG.LieType.BorelTits CFSG.Quasithin CFSG.Q
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_quot_sup_zpowers_seven {P : Subgroup G} {t : G}
     (htP : t ∈ Subgroup.normalizer (P : Set G))
     (ht7 : orderOf t = 7) (hP7 : ¬ 7 ∣ Nat.card P) :
@@ -24,7 +25,7 @@ theorem card_quot_sup_zpowers_seven {P : Subgroup G} {t : G}
   have htH : t ∈ H := Subgroup.mem_sup_right (Subgroup.mem_zpowers t)
   have hHn : H ≤ Subgroup.normalizer (P : Set G) :=
     sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr htP)
-  haveI hN : (P.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHn
+  have hN : (P.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHn
   show Nat.card (↥H ⧸ P.subgroupOf H) = 7
   ·
     let φ : Subgroup.zpowers t →* ↥H ⧸ P.subgroupOf H :=
@@ -61,6 +62,7 @@ theorem card_quot_sup_zpowers_seven {P : Subgroup G} {t : G}
       exact hP7 this
     · exact h1
 
+omit [Finite G] in
 theorem card_sup_zpowers_seven {P : Subgroup G} {t : G} (htP : t ∈ Subgroup.normalizer (P : Set G))
     (ht7 : orderOf t = 7) (hP7 : ¬ 7 ∣ Nat.card P) :
     Nat.card ↥(P ⊔ Subgroup.zpowers t) = 7 * Nat.card P := by
@@ -69,7 +71,7 @@ theorem card_sup_zpowers_seven {P : Subgroup G} {t : G} (htP : t ∈ Subgroup.no
   have hPH : P ≤ H := le_sup_left
   have hHn : H ≤ Subgroup.normalizer (P : Set G) :=
     sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr htP)
-  haveI hN : (P.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHn
+  have hN : (P.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHn
   have hNc : Nat.card (P.subgroupOf H) = Nat.card P :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPH).toEquiv
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (P.subgroupOf H),
@@ -83,6 +85,7 @@ theorem bigB_eq_borelOf {K1 L2 S Zs : Subgroup G} (hset : R1SettingLegacyBare K1
   refine le_antisymm (sup_le (sup_le le_rfl ((F112J2.borelOf_L2_le_S hset hR).trans hSB)) hSB)
     (le_sup_left.trans le_sup_left)
 
+omit [Finite G] in
 theorem borelOf_le_normalizer_S {K1 S : Subgroup G} (hSK : S ≤ K1) :
     borelOf K1 S ≤ Subgroup.normalizer (S : Set G) := by
   have := (F1.borelOf_le_normalizer K1 S)
@@ -92,7 +95,7 @@ theorem card_borelOf {K1 L2 S Zs : Subgroup G} {Ω : Type} [Fintype Ω]
     (C : FamCtx K1 L2 S Zs Ω) (hc9 : Fintype.card Ω = 9) :
     9 * Nat.card ↥(borelOf K1 S) = Nat.card ↥K1 := by
   classical
-  letI : MulAction ↥K1 Ω := MulAction.compHom Ω C.D.act
+  let : MulAction ↥K1 Ω := MulAction.compHom Ω C.D.act
   have : MulAction.IsPretransitive ↥K1 Ω := ⟨fun x y => by
     refine ⟨C.D.kf y * (C.D.kf x)⁻¹, ?_⟩
     show C.D.act (C.D.kf y * (C.D.kf x)⁻¹) x = y
@@ -218,7 +221,7 @@ theorem pCore_L2B_eq {K1 L2 S Zs : Subgroup G} {Ω : Type} [Fintype Ω] (C : Fam
   have hXn : X ≤ Subgroup.normalizer (P : Set G) := by
     rw [hX]
     exact sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr htP)
-  haveI hN : (P.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXn
+  have hN : (P.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXn
   have hle : pCoreOf 2 X ≤ P := by
     intro x hx
     have hxX : x ∈ X := pCoreOf_le 2 X hx

@@ -21,7 +21,7 @@ theorem s16t_a_insp_of_stable_subgroup (D : Data G) {V : Subgroup G} (h : Hyp125
     (hUfix : Ut ≤ fixV (barSub ⊥ V h.isElemAbelian (E3.wClos V D.k D.T)))
     {X : Subgroup G} (hXM : X ≤ D.M) (hXp : IsPGroup p X) (hXc : ¬ IsCyclic X)
     (hstab : StableUnder (barSub ⊥ V h.isElemAbelian X) Ut) : Insp1613U D V := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have hV := h.isElemAbelian
   have hP := h.pairFacts
   have hMst : D.M ≤ stabTil ⊥ V := le_stabTil hP.le_normalizer hP.le_normalizer₀
@@ -69,7 +69,7 @@ theorem s16t_a_insp_of_fixing_lift (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1
   have hMn : D.M ≤ normalizer (V : Set G) := hpf.le_normalizer
   have hMst : D.M ≤ stabTil ⊥ V := le_stabTil hpf.le_normalizer hpf.le_normalizer₀
   have hpp : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hc4 : Nat.card (⊥ : Subgroup G) ≤ 4 := by simp
   have h115 : F11.R115 D := uc22p22q_r115_of D hx h61
   obtain ⟨E, hEel, hE3, hY⟩ := exists_rank_data h115 (Hyp125.hyp11 h127 h) hc4 hp

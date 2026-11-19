@@ -27,8 +27,8 @@ private theorem rckRPgs_trace_eq_zero_of_fixed
     (hσF : ∀ c : F, σ (algebraMap F K c) = algebraMap F K c)
     {t : K} (ht : σ t = t) : Algebra.trace F K t = 0 := by
   classical
-  haveI : Module.Finite F K := Module.Finite.of_finite
-  haveI : CharP K 2 := charP_of_injective_algebraMap (algebraMap F K).injective 2
+  have : Module.Finite F K := Module.Finite.of_finite
+  have : CharP K 2 := charP_of_injective_algebraMap (algebraMap F K).injective 2
   have hσσ : ∀ x : K, σ (σ x) = x := by
     intro x
     have h := DFunLike.congr_fun hσ2 x

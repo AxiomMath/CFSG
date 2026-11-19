@@ -135,7 +135,7 @@ theorem exists_fourier_normalizer_and_multiplicity (ζ : Kˣ) (hζ : ζ ^ 3 = 1)
       (E.pow_mem (generators_mem_range ζ hζ 0) _)
       (E.pow_mem (E.pow_mem (generators_mem_range ζ hζ 2) 2) _))
       (E.pow_mem (generators_mem_range ζ hζ 1) _)
-  letI : Fintype E := MonoidHom.fintypeRange (cubeHom ζ hζ)
+  let : Fintype E := MonoidHom.fintypeRange (cubeHom ζ hζ)
   exact ⟨n, Subgroup.mem_normalizer_fintype hclose, hg, hb, hc, h4, hm⟩
 
 end CFSG.LieType.Chevalley.E7Three.Fourier

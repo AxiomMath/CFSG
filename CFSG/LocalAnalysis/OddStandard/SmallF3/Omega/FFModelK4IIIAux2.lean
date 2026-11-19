@@ -60,7 +60,7 @@ theorem ff_K4III_C_lieModel (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 
     MonoidHom.ofInjective (f := SpecialLinearGroup.toLinearEquiv (R := ZMod 3)
       (V := T.eigenspace 1)) SpecialLinearGroup.toLinearEquiv_injective
   have hperfect_SL : Group.IsPerfect SLsub := by
-    haveI : Group.IsPerfect (SpecialLinearGroup (ZMod 3) (T.eigenspace 1)) :=
+    have : Group.IsPerfect (SpecialLinearGroup (ZMod 3) (T.eigenspace 1)) :=
       ff_specialLinear_perfect _ hfin
     exact Group.IsPerfect.ofSurjective (f := eSL.toMonoidHom)
       (fun x => ⟨eSL.symm x, eSL.apply_symm_apply x⟩)
@@ -68,12 +68,12 @@ theorem ff_K4III_C_lieModel (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 
   let Ebig : Subgroup ↥D := SLsub.comap e.toMonoidHom
   have hmapE : Ebig.map e.toMonoidHom = SLsub :=
     Subgroup.map_comap_eq_self_of_surjective e.surjective SLsub
-  haveI : Group.IsPerfect ↥Ebig := by
+  have : Group.IsPerfect ↥Ebig := by
     have h1 : ↥Ebig ≃* ↥SLsub := (e.subgroupMap Ebig).trans (MulEquiv.subgroupCongr hmapE)
     exact Group.IsPerfect.ofSurjective (f := (h1.symm : ↥SLsub →* ↥Ebig)) h1.symm.surjective
   let E : Subgroup (OGroup Q) := Ebig.map D.subtype
   have hE_le_C : E ≤ omegaGroup hQ ⊓ D := by
-    haveI : Group.IsPerfect ↥E := Group.IsPerfect.ofSurjective
+    have : Group.IsPerfect ↥E := Group.IsPerfect.ofSurjective
       (f := (Subgroup.equivMapOfInjective Ebig D.subtype D.subtype_injective).toMonoidHom)
       (fun x => ⟨(Subgroup.equivMapOfInjective Ebig D.subtype D.subtype_injective).symm x,
         (Subgroup.equivMapOfInjective Ebig D.subtype D.subtype_injective).apply_symm_apply x⟩)

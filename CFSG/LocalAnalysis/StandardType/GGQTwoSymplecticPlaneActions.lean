@@ -21,6 +21,7 @@ namespace CFSG.StandardType.SymplecticPlaneActions
 
 variable {K : Type} [Field K] [Finite K] {n : ℕ}
 
+omit [Finite K] in
 theorem pow_three_eq_one_of_sq_add_self_add_one {M : Matrix (Fin 2) (Fin 2) K}
     (hM : M * M + M + 1 = 0) : M ^ 3 = 1 := by
   have : M ^ 3 - 1 = (M - 1) * (M * M + M + 1) := by noncomm_ring
@@ -29,21 +30,20 @@ theorem pow_three_eq_one_of_sq_add_self_add_one {M : Matrix (Fin 2) (Fin 2) K}
 theorem ne_one_of_sq_add_self_add_one (hK : Nat.card K = 2)
     {M : Matrix (Fin 2) (Fin 2) K} (hM : M * M + M + 1 = 0) : M ≠ 1 := by
   intro h1
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) (by simpa using hK)
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have h2' : (1 : K) + 1 = 0 := by
     rw [← show (2 : K) = 1 + 1 by norm_num]; exact h2
   rw [h1] at hM
   have h := congrFun (congrFun hM (0 : Fin 2)) (0 : Fin 2)
-  simp [Matrix.add_apply, Matrix.mul_apply, Matrix.one_apply, Fin.sum_univ_two,
-    h2', add_assoc] at h
+  simp [Matrix.add_apply, h2'] at h
 
 theorem WSL_conj_mkSL_eq_inv (hK : Nat.card K = 2) {M : Matrix (Fin 2) (Fin 2) K}
     (hdet : M.det = 1) (hM : M * M + M + 1 = 0) :
     (WSL : SL2 K) * mkSL M hdet * (WSL : SL2 K)⁻¹ = (mkSL M hdet)⁻¹ := by
   classical
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 1) (by simpa using hK)
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have h2' : (1 : K) + 1 = 0 := by
@@ -55,30 +55,30 @@ theorem WSL_conj_mkSL_eq_inv (hK : Nat.card K = 2) {M : Matrix (Fin 2) (Fin 2) K
   have h1 : M ≠ 1 := ne_one_of_sq_add_self_add_one hK hM
   have hM1inv : (!![0, 1; 1, 1] : Matrix (Fin 2) (Fin 2) K)⁻¹ = !![1, 1; 1, 0] := by
     rw [Matrix.inv_eq_right_inv (A := !![0, 1; 1, 1])]
-    ext i j <;> fin_cases i <;> fin_cases j <;>
+    ext i j; fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, h2']
   have hM2inv : (!![1, 1; 1, 0] : Matrix (Fin 2) (Fin 2) K)⁻¹ = !![0, 1; 1, 1] := by
     rw [Matrix.inv_eq_right_inv (A := !![1, 1; 1, 0])]
-    ext i j <;> fin_cases i <;> fin_cases j <;>
+    ext i j; fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, h2']
   have hW2 : (WSL : SL2 K) * WSL = 1 := by
     apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.coe_mul]
-    ext i j <;> fin_cases i <;> fin_cases j <;>
-      simp [WSL, coe_WSL, h2', hneg, Matrix.mul_apply, Fin.sum_univ_two]
+    ext i j; fin_cases i <;> fin_cases j <;>
+      simp [WSL, hneg, Matrix.mul_apply, Fin.sum_univ_two]
   have hWi : (WSL : SL2 K)⁻¹ = WSL := inv_eq_of_mul_eq_one_right hW2
   rw [hWi]
   rcases CFSG.StandardType.TableBExcTwoTB.mat_eq_of_pow_three hK M hdet h3 h1 with rfl | rfl
   · apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul,
       Matrix.SpecialLinearGroup.coe_inv, coe_mkSL]
-    ext i j <;> fin_cases i <;> fin_cases j <;>
-      simp [WSL, coe_WSL, h2', hneg, Matrix.mul_apply, Fin.sum_univ_two, hM1inv, hM2inv]
+    ext i j; fin_cases i <;> fin_cases j <;>
+      simp [WSL, hneg, Matrix.mul_apply, Fin.sum_univ_two]
   · apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul,
       Matrix.SpecialLinearGroup.coe_inv, coe_mkSL]
-    ext i j <;> fin_cases i <;> fin_cases j <;>
-      simp [WSL, coe_WSL, h2', hneg, Matrix.mul_apply, Fin.sum_univ_two, hM1inv, hM2inv]
+    ext i j; fin_cases i <;> fin_cases j <;>
+      simp [WSL, hneg, Matrix.mul_apply, Fin.sum_univ_two]
 
 
 open CFSG.LieType.Universal.Symplectic.SpExtras (mat)
@@ -103,7 +103,7 @@ theorem mat_longBlock_conj_planeMat {n : ℕ} {g : StatedSp n K}
   by_cases hji : j = i
   · subst j
     simp
-  · simp [hji, Function.update_apply]
+  · simp [hji]
 
 omit [Finite K] in
 theorem mat_permSp_conj_planeMat {n : ℕ} {g : StatedSp n K}
@@ -125,7 +125,7 @@ theorem mat_permSp_conj_planeMat {n : ℕ} {g : StatedSp n K}
     · subst b
       simp [plane, side]
     · have hp : π.symm a ≠ π.symm b := fun he => hab (π.symm.injective he)
-      simp [plane, side, hab, hp]
+      simp [plane, hab, hp]
 
 end CFSG.StandardType.SymplecticPlaneActions
 

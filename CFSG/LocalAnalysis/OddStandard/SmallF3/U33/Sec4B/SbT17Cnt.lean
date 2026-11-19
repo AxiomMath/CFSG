@@ -15,6 +15,7 @@ private def conjMap (ρ : G) {P : Subgroup G}
     (hPρ : ∀ x ∈ P, ρ * x * ρ⁻¹ ∈ P) : P → P :=
   fun x => ⟨ρ * (x : G) * ρ⁻¹, hPρ x x.2⟩
 
+omit [Finite G] in
 private lemma conjMap_iterate_three (ρ : G) {P : Subgroup G}
     (hPρ : ∀ x ∈ P, ρ * x * ρ⁻¹ ∈ P) (hρ : ρ ^ 3 = 1) :
     (conjMap ρ hPρ)^[3] = id := by
@@ -35,7 +36,7 @@ private lemma conjMap_iterate_three (ρ : G) {P : Subgroup G}
 private theorem card_fixed_modEq {α : Type*} [Finite α] (f : α → α) {p : ℕ} [Fact p.Prime]
     (hf : f^[p] = id) : Nat.card α ≡ (Function.fixedPoints f).ncard [MOD p] := by
   classical
-  haveI := Fintype.ofFinite α
+  have := Fintype.ofFinite α
   have hE : (show Function.End α from f) ^ (p ^ 1) = 1 := by
     rw [pow_one]
     exact hf
@@ -72,6 +73,7 @@ private theorem card_conj_orbit {H P : Type*} [Group H] [Group P] (σ : H →* P
       _ = σ a * ((σ a)⁻¹ * σ b * F) * (σ b)⁻¹ := by rw [h]
       _ = σ b * F * (σ b)⁻¹ := by group
 
+omit [Finite G] in
 private theorem card_le_mul_card_orbit {H : Subgroup G} (x : G) {n : ℕ}
     (hn : Nat.card (Set.range fun h : H => (h : G) * x * (h : G)⁻¹) ≤ n) :
     Nat.card H ≤ n * Nat.card (H ⊓ centralizer ({x} : Set G) : Subgroup G) := by
@@ -93,7 +95,7 @@ private theorem card_le_mul_card_orbit {H : Subgroup G} (x : G) {n : ℕ}
     _ = n * Nat.card ((centralizer ({x} : Set G)).comap H.subtype) := mul_comm _ _
 
 theorem relIndex_mod_three {P Q : Subgroup G} (hQP : Q ≤ P) {ρ : G} (hρ : ρ ^ 3 = 1)
-    (hPρ : ∀ x ∈ P, ρ * x * ρ⁻¹ ∈ P) (hQρ : ∀ x ∈ Q, ρ * x * ρ⁻¹ ∈ Q)
+    (hPρ : ∀ x ∈ P, ρ * x * ρ⁻¹ ∈ P) (_hQρ : ∀ x ∈ Q, ρ * x * ρ⁻¹ ∈ Q)
     (hfix : ∀ x ∈ P, ρ * x * ρ⁻¹ = x → x = 1) (hQ : Nat.card Q % 3 = 1) :
     Q.relIndex P % 3 = 1 := by
   have hiter := conjMap_iterate_three ρ hPρ hρ
@@ -131,7 +133,7 @@ theorem relIndex_mod_three {P Q : Subgroup G} (hQP : Q ≤ P) {ρ : G} (hρ : ρ
   exact h1
 
 theorem card_le_mul_card_centralizer {R A : Subgroup G} (hA : ∀ r ∈ R, ∀ x ∈ A, r * x * r⁻¹ ∈ A)
-    {a : G} (ha : a ∈ A) (ha1 : a ≠ 1) (hAR : A ≤ R) :
+    {a : G} (ha : a ∈ A) (ha1 : a ≠ 1) (_hAR : A ≤ R) :
     Nat.card R ≤ (Nat.card A - 1) * Nat.card (R ⊓ centralizer ({a} : Set G) : Subgroup G) := by
   refine card_le_mul_card_orbit (H := R) a ?_
   have hsub : Set.range (fun h : R => (h : G) * a * (h : G)⁻¹) ⊆ (A : Set G) \ {1} := by

@@ -81,7 +81,7 @@ theorem isRootInvolutionSet_conjClassSet (H : StrothHyp M Q Z) {z : G} (hz : z �
     (hdiam : ∀ x ∈ conjClassSet z, ∀ y ∈ conjClassSet z,
       ∃ v ∈ conjClassSet z, Commute x v ∧ Commute v y) :
     Timmesfeld.IsRootInvolutionSet (conjClassSet z) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine isRootInvolutionSet_of_local (fun d hd => ?_) ?_ (fun x hx y hy => ?_)
   · exact orderOf_eq_prime (by rw [pow_two]; exact mul_self_eq_one_of_isConj_Z H hz hd)
       (ne_one_of_isConj_Z hz1 hd)

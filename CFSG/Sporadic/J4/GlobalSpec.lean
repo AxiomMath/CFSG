@@ -140,7 +140,7 @@ theorem q00_lt : ∀ t < q00.size, q00[t]! < nPts := by
   intro t ht
   by_cases hlt : t < qIdx0.size
   · rw [q00_get hlt]; exact qIdx0_lt hF t hlt
-  · rw [q00, getElem!_pos _ t ht, Array.getElem_push, dif_neg hlt]
+  · rw [q00, getElem!_pos _ t ht, Array.getElem_push, dite_eq_right hlt]
     exact (by decide : stripBase < nPts)
 
 theorem idx_Hj {g : J} (hg : g ∈ Hj) : idx nPts g 0 = 0 := by

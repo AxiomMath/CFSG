@@ -29,7 +29,7 @@ private theorem exists_commuting_in_coset {M B : Type*} [Group M] [Finite M] [Gr
     rw [pow_one, pow_two]
     ext k
     exact hf_inv k
-  haveI : Fintype ρ.ker := Fintype.ofFinite _
+  have : Fintype ρ.ker := Fintype.ofFinite _
   have hodd : ¬ 2 ∣ Fintype.card ρ.ker := by
     rw [← Nat.card_eq_fintype_card]
     obtain ⟨t, ht⟩ := hker
@@ -47,9 +47,9 @@ private theorem exists_commuting_in_coset {M B : Type*} [Group M] [Finite M] [Gr
 
 theorem exists_invol_lift_commuting {M B : Type*} [Group M] [Finite M] [Group B] (ρ : M →* B)
     (hker : Odd (Nat.card ρ.ker)) {a u : M} (ha : a * a = 1) (hu : ρ u * ρ u = 1)
-    (hc : ρ u * ρ a = ρ a * ρ u) (hne : ρ u ≠ 1) :
+    (hc : ρ u * ρ a = ρ a * ρ u) (_hne : ρ u ≠ 1) :
     ∃ y : M, y * y = 1 ∧ ρ y = ρ u ∧ y * a = a * y := by
-  clear hne
+  clear _hne
   obtain ⟨u', hρu', hcomm⟩ := exists_commuting_in_coset ρ hker ha hc
   have hv : u' * u' ∈ ρ.ker := by rw [MonoidHom.mem_ker, map_mul, hρu', hu]
   obtain ⟨j, hj⟩ : Odd (orderOf (u' * u')) :=
@@ -109,8 +109,8 @@ theorem exists_lift_two_subgroup {Y H : Type*} [Group Y] [Finite Y] [Group H] (�
     ∃ E' : Subgroup Y, IsPGroup 2 E' ∧ E'.map π = E ∧ Nat.card E' = Nat.card E := by
   have hmap : (E.comap π).map π = E := by
     rw [Subgroup.map_comap_eq, inf_eq_right.mpr hEr]
-  haveI : Finite π.range := Finite.of_surjective π.rangeRestrict π.rangeRestrict_surjective
-  haveI : Finite E :=
+  have : Finite π.range := Finite.of_surjective π.rangeRestrict π.rangeRestrict_surjective
+  have : Finite E :=
     Finite.of_injective (Subgroup.inclusion hEr) (Subgroup.inclusion_injective hEr)
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hE
   have hdvd : 2 ^ k ∣ Nat.card (E.comap π) := by

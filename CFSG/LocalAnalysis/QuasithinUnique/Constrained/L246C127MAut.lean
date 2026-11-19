@@ -32,8 +32,10 @@ variable {V K : Subgroup G} (hV : IsElemAbelian 2 V)
   map_one' := IntMod.val_injective rfl
   map_mul' _ _ := IntMod.val_injective rfl
 
+omit [Finite G] in
 theorem iotaU_val (hUV : blockU K ≤ V) (u : ↥(blockU K)) : (iotaU hV hUV u).val = (u : G) := rfl
 
+omit [Finite G] in
 theorem iotaU_injective (hUV : blockU K ≤ V) : Function.Injective (iotaU hV hUV) := by
   intro a b h
   exact Subtype.ext (by simpa [iotaU_val] using congrArg IntMod.val h)
@@ -61,7 +63,8 @@ theorem iotaU_mem_commV (hKN : K ≤ Subgroup.normalizer (V : Set G)) (hshort : 
   have : c = iotaU hV hUV u := IntMod.val_injective hcu
   rwa [← this]
 
-theorem commV_le_range (hKN : K ≤ Subgroup.normalizer (V : Set G)) (hVK : ⁅V, K⁆ ≤ blockU K)
+omit [Finite G] in
+theorem commV_le_range (_hKN : K ≤ Subgroup.normalizer (V : Set G)) (hVK : ⁅V, K⁆ ≤ blockU K)
     (hUV : blockU K ≤ V) :
     ∀ c ∈ commV (autI hV K), ∃ u : ↥(blockU K), iotaU hV hUV u = c := by
   have hle : (commV (autI hV K)).map (valHom hV) ≤ blockU K := by
@@ -96,6 +99,7 @@ theorem ker_toAutI_eq_pCore {V K : Subgroup G} (hV : IsElemAbelian 2 V) (hshort 
   · intro h
     exact ⟨k.2, hQ ((L246.mem_blockQ_iff k).2 h)⟩
 
+omit [Finite G] in
 theorem isQuasisimple_autI_of_ker {V K : Subgroup G} (hV : IsElemAbelian 2 V)
     (hKN : K ≤ Subgroup.normalizer (V : Set G))
     (hker : (toAutI hV K hKN).ker = CFSG.pCore 2 ↥K)

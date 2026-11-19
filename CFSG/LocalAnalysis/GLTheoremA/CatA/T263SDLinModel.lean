@@ -29,8 +29,8 @@ theorem sd_exists_psl_of_linHi {T : Type} [Group T] (h : catalogIs T t263GLinHi)
     cases t with
     | A r q =>
       have hq : q.p = 2 ∧ 2 ≤ r := by simpa [t263GLinHi, onLie] using hi
-      haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-      haveI : NeZero q.exponent := ⟨Nat.pos_iff_ne_zero.1 q.exponent_pos⟩
+      have : Fact q.p.Prime := ⟨q.prime_p⟩
+      have : NeZero q.exponent := ⟨Nat.pos_iff_ne_zero.1 q.exponent_pos⟩
       refine ⟨r + 1, q.exponent, GaloisField q.p q.exponent, inferInstance, inferInstance, by omega, ?_,
         ⟨(e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r q hv)).trans
           (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj (r + 1)
@@ -87,7 +87,7 @@ theorem sd_lin_model (hLD : Y10GInnLin.LinLabelDict) {p : ℕ} {Ω : Type} [Grou
   have hcanon := hLD ↥S lab a m E (by omega) hE hlab ⟨e⟩
   obtain ⟨m₀, hm0, hm1, hiff⟩ := sd_recipe_dim hΛ hcanon
   obtain ⟨K, instF, instFin, hK, hs, hna, θ, hindb⟩ := (hiff _).1 hraw
-  haveI : CharP K 2 := Y10GField.charP_two_of_card_pow hK
+  have : CharP K 2 := Y10GField.charP_two_of_card_pow hK
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
   have key : ∀ H : Subgroup (GL (Fin (a - 1 + 1)) K), H = StatedSL (a - 1 + 1) K →
       ∀ θ : ↥S ⧸ Subgroup.center ↥S ≃* LargeEvenProj H,

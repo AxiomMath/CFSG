@@ -18,6 +18,7 @@ open scoped CFSG.Goldschmidt.G2
 
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G} {g : G} {X T : Subgroup G}
 
+omit [Finite G] in
 private theorem repQuad_eRep_of_quad {V₀ B X T : Subgroup G}
     [Fact (IsElemAbelian 2 (eSub V₀ X T))] (hBX : B ≤ X)
     (hquad : ∀ a ∈ B, ∀ b ∈ B, ∀ e ∈ eSub V₀ X T,
@@ -35,7 +36,7 @@ private theorem repQuad_eRep_of_quad {V₀ B X T : Subgroup G}
     apply Subtype.ext
     have h := hquad a ha b hb (e : G) e.2
     simp only [eRep_apply, toMul_sub, toMul_ofMul, Subgroup.coe_mul, Subgroup.coe_inv,
-      div_eq_mul_inv, mul_assoc, commutatorElement_def] at h ⊢
+      div_eq_mul_inv, mul_assoc] at h ⊢
     exact h
   have hle : commSub ((B.subgroupOf X).map (eRep V₀ X T)) ≤
       fixSub ((B.subgroupOf X).map (eRep V₀ X T)) := by

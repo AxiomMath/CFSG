@@ -20,8 +20,8 @@ theorem ggTorusModelAt_recipeR_twE6Split_of_five_le
   have hp2 : p ≠ 2 := by
     rintro rfl
     omega
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have hex : ∃ ζ : Kˣ, orderOf ζ = p := by
     have hdvd : p ∣ Nat.card Kˣ := by
       rw [Nat.card_units, hK]
@@ -65,7 +65,7 @@ theorem ggTorusModelAt_recipeR_twE6Split_of_five_le
     show Nat.card (T.range.map e.symm.toMonoidHom) = p ^ 4
     rw [Subgroup.card_map_of_injective e.symm.injective]
     exact hcardT
-  haveI := TwE6Delta.finite_recipeR (K := K) hK
+  have := TwE6Delta.finite_recipeR (K := K) hK
   obtain ⟨c, hc⟩ := exists_conj_eq_of_selfCentralizing_of_sylowTorus hp
     (sylowTorus_recipeR_split hn hK hp hp5 hpn) (N := 4) hel₀ hcard₀ hE hsc
   rw [hc]

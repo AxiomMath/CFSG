@@ -16,6 +16,7 @@ section Quasi
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem isPGroup_inf_centralizer_self {p : ℕ} (C : Subgroup Q)
     (h : IsPGroup p ↥(Subgroup.center ↥C)) :
     IsPGroup p ↥(C ⊓ Subgroup.centralizer (C : Set Q)) := by

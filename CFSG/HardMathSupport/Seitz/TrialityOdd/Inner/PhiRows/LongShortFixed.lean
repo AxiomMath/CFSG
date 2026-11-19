@@ -206,7 +206,7 @@ theorem entrywise_xOrbit_fixed {γ : Fin d4.rank → ℤ} {c : K} (hc : σ c = c
     map_sign (σ := σ.toRingHom) (twistSign_eq_one_or σ.toRingHom (rho γ))
   rw [xOrbit, map_mul, map_mul, entrywiseAdjointAut_xPar, entrywiseAdjointAut_xPar,
     entrywiseAdjointAut_xPar]
-  simp only [map_mul, hsign1, hsign2, hc, hc', hc2, hc3]
+  simp only [map_mul, hsign1, hsign2, hc, hc']
 
 end Entrywise
 
@@ -218,15 +218,18 @@ variable {K : Type} [Field K] [Finite K] {σ : K ≃+* K}
 
 include hσ
 
+omit [Finite K] in
 theorem r2_mem_longSub :
     nHat σ.toRingHom (ng 0) ∈ longSub 6 (hexGroup (twistedX σ.toRingHom)) :=
   slLong_range_le_longSub hσ
     (CFSG.ClassicalInvolution.ModelFacts.rankOne_long_le_range_slLong σ.toRingHom hσ
       (nHat_mem_rankOne σ.toRingHom (ng 0)))
 
+omit [Finite K] in
 theorem r1_mem_N : nHat σ.toRingHom (ng 1) ∈ (d4RGD2 σ.toRingHom hσ).N :=
   Subgroup.subset_closure (Or.inr (Or.inl rfl))
 
+omit [Finite K] in
 theorem r1_normalizes_longSub :
     nHat σ.toRingHom (ng 1) ∈ Subgroup.normalizer
       (longSub 6 (hexGroup (twistedX σ.toRingHom)) : Set (twistedGroup σ.toRingHom)) := by
@@ -242,11 +245,13 @@ theorem r1_normalizes_longSub :
     rwa [show (nHat σ.toRingHom (ng 1))⁻¹ * ((nHat σ.toRingHom (ng 1)) * x *
       (nHat σ.toRingHom (ng 1))⁻¹) * ((nHat σ.toRingHom (ng 1))⁻¹)⁻¹ = x by group] at h
 
+omit [Finite K] in
 theorem nprime_mem_longSub :
     nHat σ.toRingHom (ng 1) * nHat σ.toRingHom (ng 0) * (nHat σ.toRingHom (ng 1))⁻¹ ∈
       longSub 6 (hexGroup (twistedX σ.toRingHom)) :=
   (Subgroup.mem_normalizer_iff.1 (r1_normalizes_longSub hσ) _).1 (r2_mem_longSub hσ)
 
+omit [Finite K] in
 theorem twistedIncl_d43X (i : Fin 6) (c : d43Par σ.toRingHom i) :
     twistedIncl σ.toRingHom (d43X hσ i c) =
       (d43XE σ.toRingHom i c : adjointGroup d4 K) := rfl
@@ -267,6 +272,7 @@ theorem d43X_four_mem_FixedSub {c : K} (hc : σ c = c) :
   exact congrArg Subtype.val
     (entrywise_xOrbit_fixed (γ := CFSG.LieType.Steinberg.TwistedD4.d4Root 5) hc)
 
+omit [Finite K] in
 theorem r1_conj_root3 :
     conjBy (nHat σ.toRingHom (ng 1)) (hexGroup (twistedX σ.toRingHom) 3) =
       hexGroup (twistedX σ.toRingHom) 5 := by
@@ -274,6 +280,7 @@ theorem r1_conj_root3 :
   exact R.conjBy_r₁ (⟨by norm_num, by norm_num⟩ : IsRoot 6 5)
     (R.act₁.2.2 3 (by norm_num) (by norm_num)).1
 
+omit [Finite K] in
 theorem nprime_inv_conj_root3 :
     conjBy (nHat σ.toRingHom (ng 1) * nHat σ.toRingHom (ng 0) *
         (nHat σ.toRingHom (ng 1))⁻¹)⁻¹
@@ -294,6 +301,7 @@ theorem nprime_inv_conj_root3 :
         (nHat σ.toRingHom (ng 1))⁻¹ by group]
   rw [conjBy_mul, conjBy_mul, h1, h2, h3]
 
+omit [Finite K] in
 theorem nprime_conj_root3 {x : twistedGroup σ.toRingHom}
     (hx : x ∈ hexGroup (twistedX σ.toRingHom) 3) :
     nHat σ.toRingHom (ng 1) * nHat σ.toRingHom (ng 0) * (nHat σ.toRingHom (ng 1))⁻¹ *
@@ -319,6 +327,7 @@ theorem nprime_conj_root3 {x : twistedGroup σ.toRingHom}
     exact hx
   exact mem_conjBy_iff.1 hmem
 
+omit [Finite K] in
 theorem r2_conj_root5 {y : twistedGroup σ.toRingHom}
     (hy : y ∈ hexGroup (twistedX σ.toRingHom) 5) :
     nHat σ.toRingHom (ng 0) * y * (nHat σ.toRingHom (ng 0))⁻¹ ∈
@@ -329,6 +338,7 @@ theorem r2_conj_root5 {y : twistedGroup σ.toRingHom}
   rw [show Rt 6 0 = 1 from Rt6_small.1] at h
   exact h
 
+omit [Finite K] hσ in
 theorem d43XE_four_entrywise (c : K) :
     entrywiseAdjointAut TwistTag.D4.tag σ
       (xOrbit σ.toRingHom (CFSG.LieType.Steinberg.TwistedD4.d4Root 5) c) =
@@ -345,7 +355,7 @@ theorem d43XE_four_entrywise (c : K) :
   have hcomp : ∀ x : K, σ (σ.toRingHom x) = σ.toRingHom (σ x) := fun x => rfl
   rw [xOrbit, xOrbit, map_mul, map_mul, entrywiseAdjointAut_xPar, entrywiseAdjointAut_xPar,
     entrywiseAdjointAut_xPar]
-  simp only [map_mul, hsign1, hsign2, hcomp, hσ]
+  simp only [map_mul, hsign1, hsign2, hcomp]
 
 theorem d43X_four_mem_FixedSub_iff {c : K} :
     d43X hσ 4 (show d43Par σ.toRingHom 4 from c) ∈ FixedSub σ ↔ σ c = c := by
@@ -356,7 +366,7 @@ theorem d43X_four_mem_FixedSub_iff {c : K} :
         (xOrbit σ.toRingHom (CFSG.LieType.Steinberg.TwistedD4.d4Root 5) c) =
         xOrbit σ.toRingHom (CFSG.LieType.Steinberg.TwistedD4.d4Root 5) c :=
       Subtype.ext hmem
-    rw [d43XE_four_entrywise (hσ := hσ)] at hmem'
+    rw [d43XE_four_entrywise] at hmem'
     have hγ : IsRoot d4 (CFSG.LieType.Steinberg.TwistedD4.d4Root 5) :=
       CFSG.LieType.Steinberg.TwistedD4.isRoot_d4Root (by decide)
     have hne : rho (CFSG.LieType.Steinberg.TwistedD4.d4Root 5) ≠
@@ -364,6 +374,7 @@ theorem d43X_four_mem_FixedSub_iff {c : K} :
     exact CFSG.LieType.Steinberg.TwistedD4.xOrbit_injective σ.toRingHom hγ hne hmem'
   · exact d43X_four_mem_FixedSub hσ
 
+omit [Finite K] hσ in
 theorem map_sl2Upper (c : K) :
     Matrix.SpecialLinearGroup.map σ.toRingHom (sl2Upper c) = sl2Upper (σ.toRingHom c) := by
   apply Subtype.ext
@@ -371,6 +382,7 @@ theorem map_sl2Upper (c : K) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [LieType.Steinberg.sl2Upper]
 
+omit [Finite K] hσ in
 theorem map_sl2Lower (c : K) :
     Matrix.SpecialLinearGroup.map σ.toRingHom (sl2Lower c) = sl2Lower (σ.toRingHom c) := by
   apply Subtype.ext
@@ -378,9 +390,11 @@ theorem map_sl2Lower (c : K) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [LieType.Steinberg.sl2Lower]
 
+omit [Finite K] hσ in
 theorem sl2Upper_entry (x : K) :
     ((sl2Upper x : Matrix (Fin 2) (Fin 2) K) 0 1) = x := rfl
 
+omit [Finite K] hσ in
 theorem sl2Lower_entry (x : K) :
     ((sl2Lower x : Matrix (Fin 2) (Fin 2) K) 1 0) = x := rfl
 
@@ -390,7 +404,7 @@ theorem slShort_upper_mem_FixedSub_iff {c : K} :
   · intro hmem
     rw [mem_FixedSub] at hmem
     have hentry := slShort_entrywise (σ := σ.toRingHom) hσ σ (fun c => rfl) (sl2Upper c)
-    rw [map_sl2Upper hσ c] at hentry
+    rw [map_sl2Upper c] at hentry
     have h : slShort σ.toRingHom hσ (sl2Upper (σ c)) =
         slShort σ.toRingHom hσ (sl2Upper c) :=
       twistedIncl_injective σ.toRingHom (hentry.symm.trans hmem)
@@ -398,12 +412,11 @@ theorem slShort_upper_mem_FixedSub_iff {c : K} :
     have h3 := congrArg
       (fun M : Matrix.SpecialLinearGroup (Fin 2) K =>
         (M : Matrix (Fin 2) (Fin 2) K) 0 1) h2
-    simpa [sl2Upper_entry hσ] using h3
+    simpa [sl2Upper_entry] using h3
   · intro hc
     refine slShort_mem_FixedSub σ hσ (sl2Upper c) ?_
-    change Matrix.SpecialLinearGroup.map σ.toRingHom (sl2Upper c) = sl2Upper c
     have hc' : σ.toRingHom c = c := hc
-    rw [map_sl2Upper hσ c, hc']
+    rw [map_sl2Upper c, hc']
 
 theorem slShort_lower_mem_FixedSub_iff {c : K} :
     slShort σ.toRingHom hσ (sl2Lower c) ∈ FixedSub σ ↔ σ c = c := by
@@ -411,7 +424,7 @@ theorem slShort_lower_mem_FixedSub_iff {c : K} :
   · intro hmem
     rw [mem_FixedSub] at hmem
     have hentry := slShort_entrywise (σ := σ.toRingHom) hσ σ (fun c => rfl) (sl2Lower c)
-    rw [map_sl2Lower hσ c] at hentry
+    rw [map_sl2Lower c] at hentry
     have h : slShort σ.toRingHom hσ (sl2Lower (σ c)) =
         slShort σ.toRingHom hσ (sl2Lower c) :=
       twistedIncl_injective σ.toRingHom (hentry.symm.trans hmem)
@@ -419,12 +432,11 @@ theorem slShort_lower_mem_FixedSub_iff {c : K} :
     have h3 := congrArg
       (fun M : Matrix.SpecialLinearGroup (Fin 2) K =>
         (M : Matrix (Fin 2) (Fin 2) K) 1 0) h2
-    simpa [sl2Lower_entry hσ] using h3
+    simpa [sl2Lower_entry] using h3
   · intro hc
     refine slShort_mem_FixedSub σ hσ (sl2Lower c) ?_
-    change Matrix.SpecialLinearGroup.map σ.toRingHom (sl2Lower c) = sl2Lower c
     have hc' : σ.toRingHom c = c := hc
-    rw [map_sl2Lower hσ c, hc']
+    rw [map_sl2Lower c, hc']
 
 theorem exists_upper_of_root5 {H : Subgroup (twistedGroup σ.toRingHom)}
     (hL : longSub 6 (hexGroup (twistedX σ.toRingHom)) ≤ H)
@@ -462,6 +474,7 @@ theorem exists_upper_of_root5 {H : Subgroup (twistedGroup σ.toRingHom)}
     exact d4X_zero_zero hσ
   exact ⟨c, hcF, hc0, by rw [hc']; exact hy'H⟩
 
+omit [Finite K] hσ in
 theorem WSL_conj_upper (c : K) :
     WSL * sl2Upper c * WSL⁻¹ = sl2Lower (-c) := by
   rw [← uSL_eq_sl2Upper c, ← vSL_eq_sl2Lower (-c)]
@@ -486,7 +499,7 @@ theorem exists_lower_param {y : twistedGroup σ.toRingHom}
   have hc' : slShort σ.toRingHom hσ (sl2Lower (-cK)) = y := by
     have hy : y = r₁ * (r₁⁻¹ * y * r₁) * r₁⁻¹ := by group
     rw [hy, ← hcK, hW, d4X_zero_eq (σ := σ.toRingHom) hσ, ← map_inv, ← map_mul, ← map_mul,
-      WSL_conj_upper hσ]
+      WSL_conj_upper]
   refine ⟨⟨-cK, ?_⟩, ?_⟩
   · have hmem : slShort σ.toRingHom hσ (sl2Lower (-cK)) ∈ FixedSub σ := by
       rw [hc']
@@ -494,6 +507,7 @@ theorem exists_lower_param {y : twistedGroup σ.toRingHom}
     exact (slShort_lower_mem_FixedSub_iff hσ).1 hmem
   · simpa using hc'
 
+omit [Finite K] in
 theorem root3_all {H : Subgroup (twistedGroup σ.toRingHom)}
     (hL : longSub 6 (hexGroup (twistedX σ.toRingHom)) ≤ H) (h2 : (2 : K) ≠ 0)
     (h0 : ∀ c : K, σ c = c → slShort σ.toRingHom hσ (sl2Upper c) ∈ H)
@@ -605,6 +619,7 @@ theorem lower_all {H : Subgroup (twistedGroup σ.toRingHom)}
   rw [hz]
   exact H.mul_mem (H.mul_mem hn'H (h2root c)) (H.inv_mem hn'H)
 
+omit [Finite K] hσ in
 theorem map_sl2Upper_subtype (c : fixSubfield σ) :
     Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype (sl2Upper c) =
       sl2Upper (c : K) := by
@@ -613,6 +628,7 @@ theorem map_sl2Upper_subtype (c : fixSubfield σ) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [LieType.Steinberg.sl2Upper]
 
+omit [Finite K] hσ in
 theorem map_sl2Lower_subtype (c : fixSubfield σ) :
     Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype (sl2Lower c) =
       sl2Lower (c : K) := by
@@ -639,6 +655,7 @@ theorem exists_t_of_root5 {y : twistedGroup σ.toRingHom}
     exact (d4X_eq_one_iff hσ).2 rfl
   exact ⟨⟨tK, htF⟩, fun h => ht0 (congrArg Subtype.val h), by simpa using htK⟩
 
+omit [Finite K] in
 theorem shortUpper_fixed_eq_top (h2 : (2 : K) ≠ 0) (H : Subgroup (twistedGroup σ.toRingHom))
     (htor : ∀ l : (fixSubfield σ)ˣ,
       slShort σ.toRingHom hσ (HSL (Units.map (fixSubfield σ).subtype.toMonoidHom l)) ∈ H)
@@ -725,11 +742,11 @@ theorem slShort_le_of_root5 (h2 : (2 : K) ≠ 0) {H : Subgroup (twistedGroup σ.
     rintro M (⟨c, rfl⟩ | ⟨c, rfl⟩)
     · change slShort σ.toRingHom hσ
         (Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype (sl2Upper c)) ∈ H
-      rw [map_sl2Upper_subtype hσ]
+      rw [map_sl2Upper_subtype]
       exact h0all (c : K) c.2
     · change slShort σ.toRingHom hσ
         (Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype (sl2Lower c)) ∈ H
-      rw [map_sl2Lower_subtype hσ]
+      rw [map_sl2Lower_subtype]
       exact hlow c
   intro M
   exact (show M ∈ P from by rw [hP]; trivial)
@@ -808,11 +825,13 @@ theorem slShort_le_of_root3_conj (h2 : (2 : K) ≠ 0)
     rw [← hM']
     group] at hu'
 
+omit [Finite K] in
 theorem r1_inv_conj_root3 :
     conjBy (nHat σ.toRingHom (ng 1))⁻¹ (hexGroup (twistedX σ.toRingHom) 3) =
       hexGroup (twistedX σ.toRingHom) 5 :=
   ((d4RGD2 σ.toRingHom hσ).act₁.2.2 3 (by norm_num) (by norm_num)).1
 
+omit [Finite K] hσ in
 theorem map_subtype_WSL :
     Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype
         (WSL : SL(2, fixSubfield σ)) = (WSL : SL(2, K)) := by
@@ -821,6 +840,7 @@ theorem map_subtype_WSL :
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [Finite K] in
 theorem r1_hrS (M : SL(2, fixSubfield σ)) :
     ∃ M' : SL(2, fixSubfield σ),
       (nHat σ.toRingHom (ng 1))⁻¹ * slShort σ.toRingHom hσ
@@ -833,13 +853,15 @@ theorem r1_hrS (M : SL(2, fixSubfield σ)) :
   rw [← slShort_WSL hσ]
   rw [← map_inv, ← map_mul, ← map_mul]
   congr 1
-  rw [map_mul, map_mul, map_inv, map_subtype_WSL hσ]
+  rw [map_mul, map_mul, map_inv, map_subtype_WSL]
   group
 
+omit [Finite K] in
 theorem d4X_two_eq_d43X :
     d4X hσ 2 (show d43Par σ.toRingHom 2 from (1 : K)) =
       d43X hσ 2 (show d43Par σ.toRingHom 2 from (-1 : K)) := rfl
 
+omit [Finite K] in
 theorem d4X_four_eq_d43X :
     d4X hσ 4 (show d43Par σ.toRingHom 4 from (1 : K)) =
       d43X hσ 4 (show d43Par σ.toRingHom 4 from (1 : K)) := rfl

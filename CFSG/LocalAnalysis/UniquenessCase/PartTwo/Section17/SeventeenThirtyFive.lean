@@ -23,8 +23,8 @@ theorem cNatModStructSU3Sub_of_natSUn {X : Subgroup (MulAut W)} {U Z : Subgroup 
     (h : NatSUn X U Z 3 n) (hZ : Z = ⊥) : CNatModSU3Sub W U X n := by
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, hReal⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨π, hπ⟩ := hReal
   have hπs : Function.Surjective π := hπ.1
   have hUinv : ∀ h : ↥X, ∀ u ∈ U, (h : MulAut W) u ∈ U := hπ.2.2.2.1
@@ -139,7 +139,7 @@ theorem K_U3NotThin (hSyl : UCK.U3Syl) :
         exact ⟨2 ^ k, by rw [pow_succ, mul_comm]⟩
       have hone : 2 ∣ 1 := by
         have h := Nat.dvd_sub hqdvd h2dvd
-        simpa using h
+        simp at h
       norm_num at hone
     have hq3 : 3 < q := by
       have h3le : 3 ≤ q := by
@@ -150,10 +150,10 @@ theorem K_U3NotThin (hSyl : UCK.U3Syl) :
       · exact h
       · rw [← h] at hqdvd
         exact absurd hqdvd h3
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     let S : Sylow q X := Classical.choice Sylow.nonempty
     obtain ⟨E, -, hEab, hEcard⟩ :=
-      (hSyl X n hX q hq hq3 hqdvd (S : Subgroup X) S.isPGroup' S.not_dvd_index).1
+      (hSyl X n hX q hq hq3 hqdvd (S : Subgroup X) S.isPGroup S.not_dvd_index).1
     exact ⟨q, hq, hq2,
       CFSG.SectionRank.le_pRank hq.one_lt le_top hEab (by simpa using hEcard)⟩
 
@@ -175,8 +175,8 @@ theorem card_of_cNatModSU3Sub {W : Type} [CommGroup W] [Finite W] {W' : Subgroup
     {X : Subgroup (MulAut W)} {n : ℕ} (h : CNatModSU3Sub W W' X n) :
     Nat.card W' = 2 ^ (6 * n) := by
   obtain ⟨S⟩ := h
-  letI : Field S.K := S.fieldK
-  letI : Finite S.K := S.finiteK
+  let : Field S.K := S.fieldK
+  let : Finite S.K := S.finiteK
   have hcard : Nat.card ↥W' = (Nat.card S.K) ^ 3 := by
     rw [Nat.card_congr S.e.toEquiv, Nat.card_congr Multiplicative.toAdd, Nat.card_fun,
       Nat.card_fin]

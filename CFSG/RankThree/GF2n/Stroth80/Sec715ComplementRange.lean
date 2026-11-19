@@ -11,6 +11,7 @@ open CFSG.LieType.Universal.Spin
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
+omit [Finite K] [CharP K 2] in
 theorem eichlerG_nonA2 {V : Type*} [AddCommGroup V] [Module K V] {Q : QuadraticForm K V}
     (P : HypPair Q) {b : V} (hbe : polar Q P.e b = 0) (hQb : Q b ≠ 0) :
     (eichlerG Q P.e b).NonA2 := by

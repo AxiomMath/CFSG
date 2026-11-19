@@ -29,7 +29,7 @@ theorem real_letter {d n : Nat} {p : Nat → Nat} {α αi β βi : Table} {NA NA
     · exact hai
     · exact ha
   · have e : Nat.beq g 0 = false := Bool.eq_false_iff.2 fun h => hg (Nat.eq_of_beq_eq_true h)
-    simp only [hg, if_false, e]
+    simp only [hg, ite_false, e]
     cases b
     · exact hbi
     · exact hb
@@ -116,7 +116,7 @@ theorem vmF_subst {d NA NAi NB NBi m k : Nat} (gws : List (List (Fin m × Bool))
     cases b
     · change _ = getL 0 _ (2 * i.val + 1)
       rw [e2, List.getElem_map, ← hgd]
-      simp only [Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       rw [natWord_invRev]
     · change _ = getL 0 _ (2 * i.val)
       rw [e1, List.getElem_map, ← hgd]

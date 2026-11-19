@@ -30,31 +30,31 @@ theorem ggE0ModelShape_holds {C : Type} [Group C] {I : Subgroup (MulAut C)}
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
     (halg : letI := ZMod.algebra L 2; Algebra.IsAlgebraic (ZMod 2) L)
     (R : ShapeRealization C I L) :
-    ∀ (β : MulAut C) (hβ : β ∈ I) (E : Subgroup (MulAut C)),
+    ∀ (β : MulAut C) (_hβ : β ∈ I) (E : Subgroup (MulAut C)),
       E ≤ I → β ≠ 1 → β ^ 3 = 1 → E ≤ Subgroup.centralizer {β} →
       RigidToralPlane (realizedSubgroup R E) →
       ∀ X : Subgroup (MulAut C),
         CFSG.Assembly.IsComponentOf X ((MulAut.conj : C →* MulAut C).range ⊓
           Subgroup.centralizer {β}) → GGE0Concl E X := by
-  intro β hβ E hEI hβ1 hβ3 hEβ hrig X hX
-  let βhat : ModGL .E6 L := R.action ⟨β, hβ⟩
+  intro β _hβ E hEI hβ1 hβ3 hEβ hrig X hX
+  let βhat : ModGL .E6 L := R.action ⟨β, _hβ⟩
   let E' : Subgroup I := E.subgroupOf I
   let X' : Subgroup I := X.subgroupOf I
-  have hg3 : (⟨β, hβ⟩ : I) ^ 3 = 1 := by
+  have hg3 : (⟨β, _hβ⟩ : I) ^ 3 = 1 := by
     apply Subtype.ext
     simpa using hβ3
   have hβhat1 : βhat ≠ 1 := by
     intro h
     apply hβ1
-    have hβhat_eq : R.action ⟨β, hβ⟩ = 1 := h
-    have h2 : (⟨β, hβ⟩ : I) = 1 := by
+    have hβhat_eq : R.action ⟨β, _hβ⟩ = 1 := h
+    have h2 : (⟨β, _hβ⟩ : I) = 1 := by
       apply R.action_injective
       rw [hβhat_eq, map_one]
     simpa using congrArg Subtype.val h2
   have hβhat3 : βhat ^ 3 = 1 := by
-    change R.action ⟨β, hβ⟩ ^ 3 = 1
+    change R.action ⟨β, _hβ⟩ ^ 3 = 1
     rw [← map_pow, hg3, map_one]
-  have hβhat_model : βhat ∈ R.setup.D.model := R.action_mem ⟨β, hβ⟩
+  have hβhat_model : βhat ∈ R.setup.D.model := R.action_mem ⟨β, _hβ⟩
   have hEhat_model : E'.map R.action ≤ R.setup.D.model := by
     rintro _ ⟨φ, -, rfl⟩
     exact R.action_mem φ
@@ -64,7 +64,7 @@ theorem ggE0ModelShape_holds {C : Type} [Group C] {I : Subgroup (MulAut C)}
     have hφE : (φ : MulAut C) ∈ E := hφ
     have hcomm : (φ : MulAut C) * β = β * (φ : MulAut C) :=
       Subgroup.mem_centralizer_singleton_iff.mp (hEβ hφE)
-    have hcommI : φ * ⟨β, hβ⟩ = ⟨β, hβ⟩ * φ := Subtype.ext hcomm
+    have hcommI : φ * ⟨β, _hβ⟩ = ⟨β, _hβ⟩ * φ := Subtype.ext hcomm
     have := congrArg R.action hcommI
     simpa only [map_mul, βhat] using this
   have hpair : RigidPair βhat (E'.map R.action) :=
@@ -101,13 +101,12 @@ theorem ggE0ModelShape_holds {C : Type} [Group C] {I : Subgroup (MulAut C)}
       · rw [Subgroup.mem_centralizer_singleton_iff]
         have hcomm : (x : MulAut C) * β = β * (x : MulAut C) :=
           Subgroup.mem_centralizer_singleton_iff.mp hxK.2
-        have hcommI : x * ⟨β, hβ⟩ = ⟨β, hβ⟩ * x := Subtype.ext hcomm
+        have hcommI : x * ⟨β, _hβ⟩ = ⟨β, _hβ⟩ * x := Subtype.ext hcomm
         have := congrArg R.action hcommI
         simpa only [map_mul, βhat] using this
     · rintro ⟨hΓ, hcent⟩
       let c : C := R.groupEquiv.symm ⟨φ, hΓ⟩
       have hcφ : (R.groupEquiv c : ModGL .E6 L) = φ := by
-        change ((R.groupEquiv c : ↥R.setup.Γ) : ModGL .E6 L) = φ
         rw [MulEquiv.apply_symm_apply]
       refine Subgroup.mem_map.mpr ⟨⟨MulAut.conj c, R.inner_le ⟨c, rfl⟩⟩, ?_, ?_⟩
       · refine Subgroup.mem_inf.mpr ⟨?_, ?_⟩
@@ -117,8 +116,8 @@ theorem ggE0ModelShape_holds {C : Type} [Group C] {I : Subgroup (MulAut C)}
               βhat * R.action ⟨MulAut.conj c, R.inner_le ⟨c, rfl⟩⟩ := by
             rw [R.inner_compatible c, hcφ]
             exact Subgroup.mem_centralizer_singleton_iff.mp hcent
-          have hcommI : (⟨MulAut.conj c, R.inner_le ⟨c, rfl⟩⟩ : I) * ⟨β, hβ⟩ =
-              ⟨β, hβ⟩ * ⟨MulAut.conj c, R.inner_le ⟨c, rfl⟩⟩ := by
+          have hcommI : (⟨MulAut.conj c, R.inner_le ⟨c, rfl⟩⟩ : I) * ⟨β, _hβ⟩ =
+              ⟨β, _hβ⟩ * ⟨MulAut.conj c, R.inner_le ⟨c, rfl⟩⟩ := by
             apply R.action_injective
             simpa only [map_mul] using hcomm_img
           exact congrArg Subtype.val hcommI

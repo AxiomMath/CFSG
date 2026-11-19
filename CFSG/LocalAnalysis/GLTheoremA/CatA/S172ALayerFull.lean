@@ -15,6 +15,7 @@ section FullStruct
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMod 2) W]
   {d : W ≃ₗ[ZMod 2] W}
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem fix_of_finrank_one {U : Submodule (ZMod 2) W} (hU : Module.finrank (ZMod 2) U = 1)
     {g : W ≃ₗ[ZMod 2] W} (hg : ∀ u ∈ U, g u ∈ U) : ∀ u ∈ U, g u = u := by
   have hne : U ≠ ⊥ := by
@@ -64,6 +65,7 @@ variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMo
     intro a
     rfl)
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem restrHom_injective : Function.Injective (restrHom (d := d)) := by
   rw [injective_iff_map_eq_one]
   intro g hg
@@ -75,14 +77,17 @@ theorem restrHom_injective : Function.Injective (restrHom (d := d)) := by
 @[expose] noncomputable def PsiHom : ((comSp d) ≃ₗ[Fq] (comSp d)) →* (W ≃ₗ[ZMod 2] W) :=
   (glueHom (isCompl_fixSp_comSp h3).symm).comp restrHom
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem PsiHom_apply_left (g : (comSp d) ≃ₗ[Fq] (comSp d)) (a : comSp d) :
     PsiHom h3 g (a : W) = ((g a : comSp d) : W) :=
   glue_apply_left (isCompl_fixSp_comSp h3).symm (restrHom g) a
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem PsiHom_apply_right (g : (comSp d) ≃ₗ[Fq] (comSp d)) (l : fixSp d) :
     PsiHom h3 g (l : W) = (l : W) :=
   glue_apply_right (isCompl_fixSp_comSp h3).symm (restrHom g) l
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem PsiHom_injective : Function.Injective (PsiHom (d := d) h3) :=
   (glueHom_injective (isCompl_fixSp_comSp h3).symm).comp restrHom_injective
 
@@ -189,9 +194,9 @@ theorem fullLayer {d : W ≃ₗ[ZMod 2] W} (h3 : d ^ 3 = 1)
     have := quad_of_mem_comSp h3 a.2
     simpa [resComSp_apply] using this
   obtain ⟨inst, hts, hroot⟩ := exists_fModule (resComSp d) hq
-  letI := inst
-  haveI := hts
-  haveI : Module.Finite Fq (comSp d) := Module.Finite.of_restrictScalars_finite (ZMod 2) Fq _
+  let := inst
+  have := hts
+  have : Module.Finite Fq (comSp d) := Module.Finite.of_restrictScalars_finite (ZMod 2) Fq _
   have hfrF : Module.finrank Fq (comSp d) = m := by
     have := finrank_two_mul (A := comSp d)
     omega

@@ -112,16 +112,16 @@ theorem card_fix_le_triFix {K₃ : Type} [Field K₃] [Finite K₃]
     Nat.card ↥(fixSubgroup φ) ≤ 12096 := by
   rcases Y10GTri.triFixModel (le_refl 1) hK₃ Fr hFr φ hφ3 hφ with
     ⟨F₀, hF₀field, hF₀fin, hF₀card, ⟨e⟩⟩ | ⟨F, hFfield, π, hF, ⟨e⟩⟩
-  · letI := hF₀field
-    letI := hF₀fin
+  · let := hF₀field
+    let := hF₀fin
     calc Nat.card ↥(fixSubgroup φ) = Nat.card ↥(adjointGroup Tag.G2 F₀) :=
           Nat.card_congr e.toEquiv
       _ = 12096 :=
           CFSG.ComponentClassification.ExcSelector.card_adjointGroup_G2_two
             (by simpa using hF₀card)
       _ ≤ 12096 := le_rfl
-  · letI := hFfield
-    letI := hF.finite
+  · let := hFfield
+    let := hF.finite
     calc Nat.card ↥(fixSubgroup φ) =
           Nat.card ↥(CFSG.PGLModel.projImage (Sec4.glPi π 3 (2 ^ 1) F)) :=
           Nat.card_congr e.toEquiv

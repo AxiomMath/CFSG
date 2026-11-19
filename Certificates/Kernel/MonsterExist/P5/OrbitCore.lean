@@ -115,10 +115,10 @@ theorem ent_mem {a : ℕ} {E : List Ent} (h : chkE a E = true) :
       exact h k (List.mem_range.2 hk)
     unfold entOK at hok
     by_cases hd : (E.getD k d0).2.1 = 0
-    · rw [if_pos hd, beq_iff_eq] at hok
+    · rw [ite_eq_left hd, beq_iff_eq] at hok
       rw [hd, hok]
       exact ⟨Finset.mem_singleton_self a, Nat.zero_le _⟩
-    · rw [if_neg hd] at hok
+    · rw [ite_eq_right hd] at hok
       simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at hok
       obtain ⟨⟨⟨h12, hj⟩, hdj⟩, hg⟩ := hok
       obtain ⟨hmem, -⟩ := ih _ hj (by omega)

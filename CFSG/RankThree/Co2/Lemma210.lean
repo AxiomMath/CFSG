@@ -141,7 +141,7 @@ theorem card_centralizer_of_isConj {x y : Cr} (hxy : IsConj x y) :
 
 theorem eq_bot_of_odd_normalized {Y : Subgroup G} (hY : Odd (Nat.card Y))
     (hJY : h.JG ≤ Subgroup.normalizer (Y : Set G)) : Y = ⊥ := by
-  haveI := h.finite
+  have := h.finite
   have hel : CFSG.Open.IsElemAbelian 2 h.JG :=
     ⟨⟨⟨fun a b => Subtype.ext (h.elemTwo_JG.2 _ a.2 _ b.2)⟩⟩,
       fun x hx => by rw [sq]; exact h.elemTwo_JG.1 x hx⟩

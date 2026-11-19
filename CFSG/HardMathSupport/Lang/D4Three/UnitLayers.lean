@@ -139,17 +139,17 @@ theorem LayerAct.act {β : MulAut ↥(adjointGroup τ K)} {σ : K ≃+* K} (la :
 
 theorem LayerAct.cocycleData {β : MulAut ↥(adjointGroup τ K)} {σ : K ≃+* K} (la : LayerAct τ β σ)
     (b : ℕ → ℕ)
-    (hb : ∀ k, k < (maxHeight τ).toNat →
-      Nat.card {a : UnitCoord τ K k // a ∈ (unitPhi τ K k).range ∧
-        a * la.tau k a * la.tau k (la.tau k a) = 1} ≤ b k) :
+    (hb : ∀ _k, _k < (maxHeight τ).toNat →
+      Nat.card {a : UnitCoord τ K _k // a ∈ (unitPhi τ K _k).range ∧
+        a * la.tau _k a * la.tau _k (la.tau _k a) = 1} ≤ b _k) :
     CocycleData β (unitN τ K) (maxHeight τ).toNat (unitPhi τ K) la.tau b where
   chain := unitN_chain τ
   bot := unitN_bot τ
   stable := la.stable
-  conj := fun k _ g hg x => unitPhi_conj τ hg x
-  act := fun k _ x => la.act k x
-  triv := fun k _ x hx => unitPhi_triv τ x hx
-  ker := fun k _ x hx => unitPhi_ker τ x hx
+  conj := fun _k _ _g hg x => unitPhi_conj τ hg x
+  act := fun _k _ x => la.act _k x
+  triv := fun _k _ x hx => unitPhi_triv τ x hx
+  ker := fun _k _ x hx => unitPhi_ker τ x hx
   bound := hb
 
 theorem sum_card_unitRoots_le (d : ℕ) :
@@ -229,9 +229,9 @@ theorem card_fixed_unitN_zero_ge {β : MulAut ↥(adjointGroup τ K)} {σ : K �
     intro k hk
     by_cases hkS : k ∈ S
     · obtain ⟨-, j₀, hj₀⟩ := hS k hkS
-      simp only [hb, if_pos hkS]
+      simp only [hb, ite_eq_left hkS]
       exact card_tau_cocycle_le_div la k j₀ hj₀
-    · simp only [hb, if_neg hkS]
+    · simp only [hb, ite_eq_right hkS]
       exact card_tau_cocycle_le la k
   have hcd := (la.cocycleData b hbd).card_cocycle_le
   have hH : ∀ x ∈ unitN τ K 0, β x ∈ unitN τ K 0 := la.stable 0
@@ -254,11 +254,11 @@ theorem card_fixed_unitN_zero_ge {β : MulAut ↥(adjointGroup τ K)} {σ : K �
     have h1 : 3 ^ S.card = ∏ k ∈ Finset.range d, (if k ∈ S then 3 else 1) := by
       rw [Finset.prod_ite_mem, Finset.inter_eq_right.2 hSsub, Finset.prod_const]
     rw [h1, ← Finset.prod_mul_distrib]
-    refine Finset.prod_le_prod' fun k _ => ?_
+    refine Finset.prod_le_prod fun k _ => ?_
     by_cases hkS : k ∈ S
-    · simp only [hb, if_pos hkS]
+    · simp only [hb, ite_eq_left hkS]
       exact Nat.mul_div_le _ _
-    · simp only [hb, if_neg hkS, one_mul, le_refl]
+    · simp only [hb, ite_eq_right hkS, one_mul, le_refl]
   have hZpos : 0 < Nat.card {y : ↥(adjointGroup τ K) // y ∈ unitN τ K 0 ∧
       y * β y * β (β y) = 1} := by
     have : Nonempty {y : ↥(adjointGroup τ K) // y ∈ unitN τ K 0 ∧ y * β y * β (β y) = 1} :=

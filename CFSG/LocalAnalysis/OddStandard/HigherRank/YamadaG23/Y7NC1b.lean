@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t g g0 : G} {P U S F M U0 P0 : Subgroup G}
 
+omit [Finite G] in
 theorem y7n_c1_J (h : NtTwo t g P U S F M) (h1 : NtOne t g U S U0 P0 g0) :
     IsElemAbelian 2 ((centEl U g ⊔ zpowers g0) ⊔ conjSub t (centEl U g ⊔ zpowers g0)) ∧
       Nat.card ↥((centEl U g ⊔ zpowers g0) ⊔ conjSub t (centEl U g ⊔ zpowers g0)) = 2 ^ 8 ∧

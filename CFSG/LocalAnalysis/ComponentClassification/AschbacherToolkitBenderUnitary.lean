@@ -79,7 +79,7 @@ theorem nestedAt_projectiveSpecialUnitary {K : Type*} [Field K] [Finite K] [Char
   let S0 := unitaryCoverSylow J f hf hKcard hfixed hJ
   have hB := bender_projectiveSpecialUnitary_borel J f hf hKcard hfixed hJ
   obtain ⟨hSE, hZ2, -, hTcard⟩ := benderBorel_sylowCenter hB S0
-  have hR2 : IsPGroup 2 (S0 : Subgroup G) := S0.isPGroup'
+  have hR2 : IsPGroup 2 (S0 : Subgroup G) := S0.isPGroup
   apply nestedAt_of_one_sylow S0 _ T
   have hS0 : (S0 : Subgroup G) = U.range := unitaryCoverSylow_coe J f hf hKcard hfixed hJ
   rw [hS0] at hSE hZ2 hTcard hR2 ⊢

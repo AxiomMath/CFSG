@@ -50,8 +50,8 @@ theorem IsSp62Cover.isQuasisimple {K : Type} [Group K] (h : IsSp62Cover K) :
 
 theorem IsSp62Cover.of_mulEquiv {K K' : Type} [Group K] [Group K'] (e : K ≃* K')
     (h : IsSp62Cover K) : IsSp62Cover K' := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr h.1
-  haveI : Group.IsPerfect K' :=
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr h.1
+  have : Group.IsPerfect K' :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   refine ⟨Group.IsPerfect.commutator_eq_top, ?_⟩
   exact LieModel.of_mulEquiv
@@ -60,8 +60,8 @@ theorem IsSp62Cover.of_mulEquiv {K K' : Type} [Group K] [Group K'] (e : K ≃* K
 
 theorem IsTwoSp62.of_mulEquiv {K K' : Type} [Group K] [Group K'] (e : K ≃* K')
     (h : IsTwoSp62 K) : IsTwoSp62 K' := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr h.1
-  haveI : Group.IsPerfect K' :=
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr h.1
+  have : Group.IsPerfect K' :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   refine ⟨Group.IsPerfect.commutator_eq_top, ?_, ?_⟩
   · rw [← Nat.card_congr (Subgroup.centerCongr e).toEquiv, h.2.1]
@@ -135,7 +135,7 @@ theorem sp62_involution_centralizer_card {Q : Type} [Group Q] (hQ : LieModel Q .
 
 theorem IsSp62Cover.aut_inner {K : Type} [Group K] [Finite K] (h : IsSp62Cover K)
     (α : MulAut K) : ∃ g : K, α = MulAut.conj g := by
-  haveI : Finite (K ⧸ Subgroup.center K) :=
+  have : Finite (K ⧸ Subgroup.center K) :=
     Finite.of_surjective (QuotientGroup.mk' (Subgroup.center K))
       (QuotientGroup.mk'_surjective (N := Subgroup.center K))
   obtain ⟨gb, hgb⟩ := autInner_of_lieModel_PSp h.2 (centerQuotAut α)
@@ -145,7 +145,7 @@ theorem IsSp62Cover.aut_inner {K : Type} [Group K] [Finite K] (h : IsSp62Cover K
 
 theorem IsSp62Cover.card_center_le_two {K : Type} [Group K] [Finite K] (h : IsSp62Cover K) :
     Nat.card (center K) ≤ 2 := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr h.1
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr h.1
   have hle := CFSG.EvenSmallLie.SympSix.card_ker_le_two h.2
     (QuotientGroup.mk' (Subgroup.center K))
     (QuotientGroup.mk'_surjective (N := Subgroup.center K))
@@ -161,8 +161,8 @@ theorem IsSp62Cover.card_eq {K : Type} [Group K] [Finite K] (h : IsSp62Cover K) 
 theorem IsSp62Cover.two_pow_dvd_fixed {K : Type} [Group K] [Finite K] (h : IsSp62Cover K)
     (ζ : MulAut K) (hζ : ζ * ζ = 1) : 2 ^ 7 ∣ Nat.card (fixedSubgroup ζ) := by
   let Q := K ⧸ Subgroup.center K
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr h.1
-  haveI : Finite Q :=
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr h.1
+  have : Finite Q :=
     Finite.of_surjective (QuotientGroup.mk' (Subgroup.center K))
       (QuotientGroup.mk'_surjective (N := Subgroup.center K))
   have hQ : LieModel Q .PSp 3 2 1 := h.2

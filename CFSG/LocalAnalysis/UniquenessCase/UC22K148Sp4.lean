@@ -111,7 +111,7 @@ theorem sp4Graph_commute_calP [Finite G] [Finite V]
     ⁅L, A⁆ = ⊥ := by
   classical
   by_contra hne
-  haveI : IsSimpleGroup ↥L := isSimpleGroup_of_isSp4 hSp
+  have : IsSimpleGroup ↥L := isSimpleGroup_of_isSp4 hSp
   obtain ⟨hn, K, _, _, _, hK, ⟨e⟩⟩ := exists_antiSp_of_isSp4 hSp
   have hAN := le_normalizer_of_mem_calP hρ hL hA
   have hLA := commutator_eq_self_of_mem_calP hρ hL hA hne

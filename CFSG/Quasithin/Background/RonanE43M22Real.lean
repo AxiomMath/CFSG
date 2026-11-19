@@ -88,12 +88,12 @@ theorem real3_Pm3 (y : ↥(Pm 3)) (hy : y ^ 3 = 1) : ∃ g : ↥(Pm 3), g * y * 
 
 theorem real3_M22 (y : ↥Mgrp) (hy3 : y ^ 3 = 1) : ∃ g : ↥Mgrp, g * y * g⁻¹ = y⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hy1 : y = 1
   · exact ⟨1, by simp [hy1]⟩
   obtain ⟨S⟩ : Nonempty (Sylow 3 ↥(Pm 3)) := inferInstance
   let Q : Subgroup ↥Mgrp := (S : Subgroup ↥(Pm 3)).map (Pm 3).subtype
-  have hQp : IsPGroup 3 Q := S.isPGroup'.map (Pm 3).subtype
+  have hQp : IsPGroup 3 Q := S.isPGroup.map (Pm 3).subtype
   have hQle : Q ≤ Pm 3 := Subgroup.map_subtype_le _
   have hrel : Q.relIndex (Pm 3) = (S : Subgroup ↥(Pm 3)).index :=
     congrArg Subgroup.index

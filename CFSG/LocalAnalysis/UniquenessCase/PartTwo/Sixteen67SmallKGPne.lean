@@ -14,10 +14,10 @@ theorem k67_p_ne_three {J : Type} [Group J] [Finite J] {p f : ℕ}
   intro hp3
   subst hp3
   obtain ⟨hp, hf, -, h3, -⟩ := CFSG.ComponentClassification.AutL2Facts.lieModel_psl2_data h
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨P⟩ := Sylow.nonempty (p := 3) (G := J)
   have hS : CFSG.ABGLocalTools.IsSylowOf 3 (P : Subgroup J) ⊤ :=
-    CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, P.isPGroup', by
+    CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, P.isPGroup, by
       simpa [Subgroup.relIndex_top_right] using P.not_dvd_index⟩
   obtain ⟨hel, hcard⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22q_psl2_sylow_elem hp (by norm_num) h hS

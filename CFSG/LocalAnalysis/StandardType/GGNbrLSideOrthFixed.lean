@@ -179,8 +179,8 @@ theorem ggNbrLSideOrth_fixed_type {K : Type} [Field K] [Finite K] {V : Type} [Ad
       CFSG.Blueprint.LieModel (↥F ⧸ Subgroup.center ↥F) t m 2 k := by
   classical
   have hQW := hx.polarBilin_fixed_nondegenerate
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   obtain ⟨f, -, hf⟩ := FiniteField.card K 2
   have hf' : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hf]
   have hf1 : 1 ≤ (f : ℕ) := f.pos

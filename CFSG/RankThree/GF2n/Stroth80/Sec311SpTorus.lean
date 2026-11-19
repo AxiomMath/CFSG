@@ -11,6 +11,7 @@ variable {K V : Type} [Field K] [CharP K 2] [AddCommGroup V] [Module K V]
 @[expose] def hypTorusMap (F : LinearMap.BilinForm K V) (e f : V) (a : K) : V →ₗ[K] V :=
   LinearMap.id + ((a - 1) • F.flip f).smulRight e + ((a⁻¹ - 1) • F.flip e).smulRight f
 
+omit [CharP K 2] in
 theorem hypTorusMap_apply (F : LinearMap.BilinForm K V) (e f : V) (a : K) (v : V) :
     hypTorusMap F e f a v = v + ((a - 1) * F v f) • e + ((a⁻¹ - 1) * F v e) • f := by
   simp [hypTorusMap, add_assoc]
@@ -22,12 +23,14 @@ theorem hypTorusMap_F_e (F : LinearMap.BilinForm K V) {e f : V} (halt : F.IsAlt)
     smul_eq_mul, form_self halt, hfe]
   ring
 
+omit [CharP K 2] in
 theorem hypTorusMap_F_f (F : LinearMap.BilinForm K V) {e f : V} (halt : F.IsAlt)
     (hef : F e f = 1) (a : K) (y : V) : F (hypTorusMap F e f a y) f = a * F y f := by
   simp only [hypTorusMap_apply, map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
     smul_eq_mul, form_self halt, hef]
   ring
 
+omit [CharP K 2] in
 theorem hypTorusMap_apply_e (F : LinearMap.BilinForm K V) {e f : V} (halt : F.IsAlt)
     (hef : F e f = 1) (a : K) : hypTorusMap F e f a e = a • e := by
   simp only [hypTorusMap_apply, hef, form_self halt, mul_one, mul_zero, zero_smul, add_zero]
@@ -39,10 +42,12 @@ theorem hypTorusMap_apply_f (F : LinearMap.BilinForm K V) {e f : V} (halt : F.Is
   simp only [hypTorusMap_apply, hfe, form_self halt, mul_one, mul_zero, zero_smul, add_zero]
   module
 
+omit [CharP K 2] in
 theorem hypTorusMap_of_perp (F : LinearMap.BilinForm K V) (e f : V) (a : K) {v : V}
     (h1 : F v e = 0) (h2 : F v f = 0) : hypTorusMap F e f a v = v := by
   simp only [hypTorusMap_apply, h1, h2, mul_zero, zero_smul, add_zero]
 
+omit [CharP K 2] in
 theorem hypTorusMap_one (F : LinearMap.BilinForm K V) (e f v : V) :
     hypTorusMap F e f 1 v = v := by
   simp [hypTorusMap_apply]
@@ -74,7 +79,7 @@ theorem hypTorusMap_inv_comp (F : LinearMap.BilinForm K V) {e f : V} (halt : F.I
 
 @[expose] def hypTorusEquiv (F : LinearMap.BilinForm K V) {e f : V} (halt : F.IsAlt)
     (hef : F e f = 1) {a : K} (ha : a ≠ 0) : V ≃ₗ[K] V :=
-  LinearEquiv.ofLinear (hypTorusMap F e f a) (hypTorusMap F e f a⁻¹)
+  LinearEquiv.ofLinearMap (hypTorusMap F e f a) (hypTorusMap F e f a⁻¹)
     (LinearMap.ext fun v => hypTorusMap_comp_inv F halt hef (mul_inv_cancel₀ ha) v)
     (LinearMap.ext fun v => hypTorusMap_inv_comp F halt hef (inv_mul_cancel₀ ha) v)
 
@@ -85,9 +90,10 @@ theorem hypTorusEquiv_apply (F : LinearMap.BilinForm K V) {e f : V} (halt : F.Is
 @[expose] def hypSwapMap (F : LinearMap.BilinForm K V) (e f : V) : V →ₗ[K] V :=
   LinearMap.id + (F.flip e + F.flip f).smulRight (e + f)
 
+omit [CharP K 2] in
 theorem hypSwapMap_apply (F : LinearMap.BilinForm K V) (e f v : V) :
     hypSwapMap F e f v = v + (F v e + F v f) • (e + f) := by
-  simp [hypSwapMap, add_assoc]
+  simp [hypSwapMap]
 
 theorem hypSwapMap_F_e (F : LinearMap.BilinForm K V) {e f : V} (halt : F.IsAlt)
     (hef : F e f = 1) (v : V) : F (hypSwapMap F e f v) e = F v f := by
@@ -139,11 +145,13 @@ theorem hyp_swap_torus_swap' (F : LinearMap.BilinForm K V) {e f : V} (halt : F.I
     hypSwapMap F e f (hypTorusMap F e f c⁻¹ (hypSwapMap F e f v)) = hypTorusMap F e f c v := by
   rw [hyp_swap_torus_swap F halt hef c⁻¹ v, inv_inv]
 
+omit [CharP K 2] in
 theorem qfPolarAdd (Qf : QuadraticForm K V) (x y : V) :
     Qf (x + y) = Qf x + Qf y + Qf.polarBilin x y := by
   rw [QuadraticMap.polarBilin_apply_apply]
   exact QuadraticMap.map_add Qf x y
 
+omit [CharP K 2] in
 theorem qfSmulMul (Qf : QuadraticForm K V) (c : K) (x : V) :
     Qf (c • x) = c * c * Qf x := by
   rw [QuadraticMap.map_smul, smul_eq_mul]
@@ -154,6 +162,7 @@ theorem polarBilin_isAlt (Qf : QuadraticForm K V) :
   rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polar_self, two_nsmul,
     charTwo_add_self]
 
+omit [CharP K 2] in
 theorem hypTorusMap_qf (Qf : QuadraticForm K V) {e f : V} (he : Qf e = 0) (hf : Qf f = 0)
     (hef : Qf.polarBilin e f = 1) {b : K} (hb : b * b⁻¹ = 1) (v : V) :
     Qf (hypTorusMap Qf.polarBilin e f b v) = Qf v := by
@@ -164,8 +173,7 @@ theorem hypTorusMap_qf (Qf : QuadraticForm K V) {e f : V} (he : Qf e = 0) (hf : 
 theorem hypSwapMap_qf (Qf : QuadraticForm K V) {e f : V} (he : Qf e = 0) (hf : Qf f = 0)
     (hef : Qf.polarBilin e f = 1) (v : V) :
     Qf (hypSwapMap Qf.polarBilin e f v) = Qf v := by
-  simp only [hypSwapMap_apply, qfPolarAdd, qfSmulMul, map_add, map_smul, LinearMap.add_apply,
-    LinearMap.smul_apply, smul_eq_mul, he, hf, hef]
+  simp only [hypSwapMap_apply, qfPolarAdd, qfSmulMul, map_add, map_smul, smul_eq_mul, he, hf, hef]
   linear_combination ((Qf.polarBilin v e + Qf.polarBilin v f) *
     (Qf.polarBilin v e + Qf.polarBilin v f)) * (two_eq_zero_K (K := K))
 

@@ -42,8 +42,8 @@ private theorem exists_statedSU_of_isU3eight {Y : Type} [Group Y]
             rw [← hp2, ← TauCeti.PrimePower.card_def, hq8, hp2]
             norm_num
           exact Nat.pow_right_injective (le_refl 2) h1
-        haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-        haveI : Fintype (GaloisField q.p (2 * q.exponent)) := Fintype.ofFinite _
+        have : Fact q.p.Prime := ⟨q.prime_p⟩
+        have : Fintype (GaloisField q.p (2 * q.exponent)) := Fintype.ofFinite _
         have hcardq : Nat.card (GaloisField q.p (2 * q.exponent)) = q.card ^ 2 := by
           rw [GaloisField.card q.p (2 * q.exponent) (by omega), TauCeti.PrimePower.card_def,
             ← pow_mul, mul_comm]
@@ -108,14 +108,14 @@ private theorem card_hopfMultiplier_PSU_three (G : Type) [Group G]
 
 theorem i2018U38Cover_holds : I2018U38Cover := by
   intro X _ _ hX hcat
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hperf : Group.IsPerfect X := ⟨hX.1⟩
   obtain ⟨K, hKfield, hKfin, hchar, hK64, ⟨eY⟩⟩ := exists_statedSU_of_isU3eight hcat
-  letI : Field K := hKfield
-  haveI : Finite K := hKfin
-  haveI : CharP K 2 := hchar
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  have : Finite K := hKfin
+  have : CharP K 2 := hchar
+  have : Fintype K := Fintype.ofFinite K
   have hm : CFSG.Blueprint.LieModel (X ⧸ Subgroup.center X) .PSU 3 2 3 :=
     CFSG.LocalAnalysis.GLTheoremA.H1419.lieModel_PSU (K := K) (j := 3) (by norm_num)
       (by rw [hK64]; norm_num) (by norm_num) eY

@@ -220,7 +220,7 @@ theorem mem_torus_mul_rankOne_of_commutes_other_rootFrame
     T hstab hS hSn (by rw [hker]) hy hcomm
   have heq : rootSpan τ F S = rootRankOneGroup τ F (D.root k) := by
     have hs : S = {D.root k, -D.root k} := by
-      ext γ; simp only [S, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+      ext γ; simp only [S, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     rw [hs, rootSpan, iSup_insert, iSup_singleton]
     exact (exceptional_Lang_root_rank_one_torus_transport τ F (D.isRoot k)).1.symm
   obtain ⟨t, ht, r, hr, hyr⟩ := hmem

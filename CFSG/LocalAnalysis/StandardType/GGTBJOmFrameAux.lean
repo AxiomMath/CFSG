@@ -388,7 +388,7 @@ theorem ggTBJomF_ofBlock {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type}
         exact (hτF f).symm
       have hB : F.ι (ofAdd fun k => toAdd (f (Equiv.swap i j k))) =
           τ (permAut (Equiv.swap i j) f) := by
-        rw [hτF, piMul_permAut]; congr 1; funext k; simp [Equiv.symm_swap]
+        rw [hτF, piMul_permAut]; congr 1; funext k; simp
       rw [hA, hB] at h
       rw [inv_inv, mul_assoc, h, ← mul_assoc, inv_mul_cancel, one_mul]
   have htwist : ∀ i : Fin r, ∃ g' : V ≃ₗ[K] V,

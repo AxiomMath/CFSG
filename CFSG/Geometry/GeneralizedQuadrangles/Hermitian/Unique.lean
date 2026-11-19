@@ -31,7 +31,7 @@ theorem exists_iso_hermGraph_of_polarity (hP : IsGeneralizedPolygon Γ 4) (hT : 
           U ≤ π x) ↔ ∃ L, c L = 1 ∧ ι L = U)) :
     ∃ σ : K ≃+* K, σ ≠ 1 ∧ σ * σ = 1 ∧ Nonempty (Γ ≃g HermGraph K σ) := by
   classical
-  haveI : Finite K := Finite.of_fintype K
+  have : Finite K := Finite.of_fintype K
   obtain ⟨F, hF⟩ := exists_reflForm_of_polarity π hπ
   have habs_span : ∀ (v : Fin 5 → K) (hv : v ≠ 0), F.β v v = 0 →
       (K ∙ v) ≤
@@ -72,7 +72,7 @@ theorem exists_iso_hermGraph_of_polarity (hP : IsGeneralizedPolygon Γ 4) (hT : 
   have hyz : y ≠ z := by
     intro h
     rw [h] at hz₄
-    simpa using hz₄
+    simp at hz₄
   let U : Submodule K (Fin 5 → K) := ι y ⊔ ι z
   have hy1 : finrank K (ι y) = 1 := hι.finrank_point y hy₀
   have hz1 : finrank K (ι z) = 1 := hι.finrank_point z hz₀

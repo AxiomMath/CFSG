@@ -23,7 +23,7 @@ theorem asc82StepFusionX_of (hp : Asc82Pre11) (h123 : Asc82Lemma123) (hI : Asc82
     have hL := Subgroup.mem_normalizer_iff.mp (hSL hs)
     rw [Subgroup.mem_normalizer_iff]
     intro n
-    simp only [SetLike.mem_coe, Subgroup.mem_inf] at hM hL ⊢
+    simp only [Subgroup.mem_inf] at hM hL ⊢
     rw [hM n, hL n]
   have hXY : X ≤ (secM t S L ⊓ L) ⊔ S := (le_sup_left : X ≤ X ⊔ secA t S L).trans hX.sup.le
   have hXN : X ≤ secM t S L ⊓ L := sec12fx_le_of_alt hctx.sylow.2.1 hSN hXY hA5

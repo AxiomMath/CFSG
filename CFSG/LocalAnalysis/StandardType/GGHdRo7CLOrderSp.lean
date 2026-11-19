@@ -171,8 +171,8 @@ private theorem hdRo7CLOSpAux_count_le {G : Type} [Group G] [Finite G] {p : ℕ}
     (hxp : x ^ p = 1) (hxne : x ≠ 1) (hp : Nat.Prime p) (hp2 : p ≠ 2) (hx : x ∈ Bs) :
     2 ^ k * k.factorial ≤ Nat.card (ggAutomizer L Bs) := by
   classical
-  haveI : Fact (2 < p) := ⟨by have := hp.two_le; omega⟩
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact (2 < p) := ⟨by have := hp.two_le; omega⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   let τ : (Fin (k+1) → Multiplicative (ZMod p)) ≃* ↥Bs :=
     hdRo7CLCoordAux_tau p B Bs x L k τT hτT τC Φ
   have hcoordModel : C2CoordModel p Bs L k τ :=
@@ -293,7 +293,7 @@ theorem c2_lorder_sp
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
     (n : ℕ) (V : Type) [AddCommGroup V] [Module (ZMod p) V] (ι : Additive ↥Bs ≃+ V)
-    (b : Module.Basis (Fin (n + 1)) (ZMod p) V) (hp3 : p = 3) (hn : 5 ≤ n)
+    (b : Module.Basis (Fin (n + 1)) (ZMod p) V) (hp3 : p = 3) (_hn : 5 ≤ n)
     (lab : LargeEvenLabel) (hlab : LargeEvenInLambda2 lab)
     (hLlab : GGHasLabel lab (↥L ⧸ Subgroup.center ↥L)) (htag : lab.tag = .B ∨ lab.tag = .C)
     (hn1 : lab.n = 1) (h4 : 4 ≤ lab.rank) :
@@ -302,7 +302,7 @@ theorem c2_lorder_sp
   have hp2 : p ≠ 2 := by omega
   obtain ⟨⟨R, hRgrp, I, θ, hBsN, hperf, hTSC, hCP, hcenter, hI, hBs3⟩, hZL, hinner⟩ :=
     hdRo7CLOSpAux_hinner (K := K) hRig hH lab hlab hLlab htag hn1 h4 hp3
-  letI : Group R := hRgrp
+  let : Group R := hRgrp
   obtain ⟨k, τT, hτTinj, hτTsurj, hsgn, hperm, hnorm⟩ :=
     hdRo7CLCoordAux_signedData_L p B Bs x L D J y K hH R θ hZL hBsN hinner hTSC
   have hcard_inf : Nat.card ↥(Bs ⊓ L) = p ^ lab.rank :=

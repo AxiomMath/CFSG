@@ -15,7 +15,7 @@ theorem sylowAutBoundAll_derivedCentralQuotient {τ : Tag}
     (hτ : τ = .G2 ∨ τ = .D4 ∨ τ = .F4) {K : Type} [Field K] [Finite K] (hK : ¬ 11 ∣ Nat.card K)
     {H : Subgroup (ModGL τ K)} (hH : H ≤ adjointGroup τ K) :
     SylowAutBoundAll 11 24 (DerivedCentralQuotient H) := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hYH : ⁅H, H⁆ ≤ H := Subgroup.commutator_le.2 fun a ha b hb => by
     rw [commutatorElement_def]
     exact H.mul_mem (H.mul_mem (H.mul_mem ha hb) (H.inv_mem ha)) (H.inv_mem hb)

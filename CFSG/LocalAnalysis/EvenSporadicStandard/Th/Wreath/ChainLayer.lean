@@ -15,28 +15,34 @@ variable {G : Type} [Group G] [Finite G] {L R : Subgroup G} {t : G} {S A B Aa D 
 
 private def fixMap (t x : G) : G := x⁻¹ * (t * x * t⁻¹)
 
+omit [Finite G] in
 private theorem fixMap_one (t : G) : fixMap t 1 = 1 := by
   simp [fixMap]
 
+omit [Finite G] in
 private theorem fixMap_mul (t x y : G) :
     fixMap t (x * y) = y⁻¹ * fixMap t x * y * fixMap t y := by
   simp only [fixMap]
   group
 
+omit [Finite G] in
 private theorem fixMap_inv (t x : G) :
     fixMap t x⁻¹ = x * (fixMap t x)⁻¹ * x⁻¹ := by
   simp only [fixMap]
   group
 
+omit [Finite G] in
 private theorem conj_eq_mul_fixMap (t x : G) : t * x * t⁻¹ = x * fixMap t x := by
   rw [fixMap]
   group
 
+omit [Finite G] in
 private theorem fixMap_conj_t (t x : G) :
     fixMap t (t * x * t⁻¹) = t * fixMap t x * t⁻¹ := by
   simp only [fixMap]
   group
 
+omit [Finite G] in
 private theorem fixMap_conj_Hn {t n x : G} (hnt : t * n = n * t) :
     fixMap t (n * x * n⁻¹) = n * fixMap t x * n⁻¹ := by
   have hnt' : n⁻¹ * t⁻¹ = t⁻¹ * n⁻¹ := by
@@ -49,6 +55,7 @@ private theorem fixMap_conj_Hn {t n x : G} (hnt : t * n = n * t) :
   rw [fixMap]
   group
 
+omit [Finite G] in
 private theorem fixMap_mul_conj_self {t x : G} (ht : t * t = 1) :
     fixMap t x * (t * fixMap t x * t⁻¹) = 1 := by
   have htinv2 : t⁻¹ * t⁻¹ = 1 := by rw [← mul_inv_rev, ht, inv_one]
@@ -76,19 +83,24 @@ private def layerX (D F : Subgroup G) (t : G) : Subgroup G where
     rw [fixMap_inv]
     exact (mem_normalizer_iff.1 hxN ((fixMap t x)⁻¹)).1 (F.inv_mem hxF)
 
+omit [Finite G] in
 private theorem mem_layerX {D F : Subgroup G} {t x : G} :
     x ∈ layerX D F t ↔ x ∈ centralizer (D : Set G) ∧ x ∈ normalizer (F : Set G) ∧
       fixMap t x ∈ F := Iff.rfl
 
+omit [Finite G] in
 private theorem layerX_le_centralizer (D F : Subgroup G) (t : G) :
     layerX D F t ≤ centralizer (D : Set G) := fun _ hx => (mem_layerX.1 hx).1
 
+omit [Finite G] in
 private theorem layerX_le_normalizer (D F : Subgroup G) (t : G) :
     layerX D F t ≤ normalizer (F : Set G) := fun _ hx => (mem_layerX.1 hx).2.1
 
+omit [Finite G] in
 private theorem fixMap_mem_of_mem_layerX {D F : Subgroup G} {t x : G}
     (hx : x ∈ layerX D F t) : fixMap t x ∈ F := (mem_layerX.1 hx).2.2
 
+omit [Finite G] in
 private theorem F_le_layerX {D F : Subgroup G} {t : G} (hF : ChainHyp L A D t F) :
     F ≤ layerX D F t := by
   intro f hf
@@ -279,7 +291,7 @@ private theorem phi_inj (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
 
 
 private theorem phi_conj (H : ThCyc G L R t) {F Ft It : Subgroup G}
-    (hF : ChainHyp L A D t F) {κ : G → G}
+    (_hF : ChainHyp L A D t F) {κ : G → G}
     (hIt : ∀ g, g ∈ It ↔ g ∈ F ∧ g * (t * g * t⁻¹) = 1)
     (hκ : IsLayer L A Ft It κ) {n x : G}
     (hn : n ∈ L ⊓ normalizer (A : Set G)) (hx : x ∈ layerX D F t) :
@@ -398,7 +410,6 @@ private theorem phi_sq_eq_one (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     exact phi_mul_fixed_of_fix H W W2 hD hF hFt hIt hκ hy hy hn hna hna
   have hw_a' : w = a' → w = 1 := by
     intro hwa
-    change w = 1
     by_cases ha'1 : a' = 1
     · rw [hwa, ha'1]
     · exfalso

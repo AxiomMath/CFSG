@@ -46,8 +46,7 @@ private theorem gSpr_J_mulVec_single {n : ℕ} {F : Type} [Field F] [CharP F 2]
         Pi.single b 1 = Pi.single b.swap 1 := by
   ext k
   rcases b with i | i <;> rcases k with k | k <;>
-    simp [Matrix.mulVec, dotProduct, Pi.single_apply, Matrix.fromBlocks, Fintype.sum_sum_type,
-      Matrix.one_apply, CharTwo.neg_eq, eq_comm]
+    simp [Matrix.mulVec, dotProduct, Pi.single_apply, Matrix.fromBlocks, Matrix.one_apply, CharTwo.neg_eq, eq_comm]
 
 private theorem gSpr_mat_mul_inv {n : ℕ} {F : Type} [Field F] (u : ↥(CFSG.Open.StatedSp n F)) :
     (CFSG.LieType.Universal.Symplectic.SpExtras.mat n F u) *
@@ -123,7 +122,7 @@ private theorem gSpr_conj_vecMulVec {n : ℕ} {F : Type} [Field F]
       (CFSG.LieType.Universal.Symplectic.SpExtras.mat n F u⁻¹) = _
   rw [hh]
   simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.mul_smul, Matrix.smul_mul,
-    Matrix.mul_vecMulVec, Matrix.vecMulVec_mul, gSpr_mat_mul_inv, zero_add]
+    Matrix.mul_vecMulVec, Matrix.vecMulVec_mul, gSpr_mat_mul_inv]
 
 private theorem gSpr_conj_add_vecMulVec {n : ℕ} {F : Type} [Field F]
     (u : ↥(CFSG.Open.StatedSp n F)) (x y x' y' : Fin n ⊕ Fin n → F) (c : F)
@@ -145,7 +144,7 @@ private theorem gSpr_conj_add_vecMulVec {n : ℕ} {F : Type} [Field F]
       (CFSG.LieType.Universal.Symplectic.SpExtras.mat n F u⁻¹) = _
   rw [hh]
   simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.mul_smul, Matrix.smul_mul,
-    Matrix.mul_vecMulVec, Matrix.vecMulVec_mul, gSpr_mat_mul_inv, zero_add]
+    Matrix.mul_vecMulVec, Matrix.vecMulVec_mul, gSpr_mat_mul_inv]
 
 private theorem gSpr_conj_matTransvGroup_le {n : ℕ} {F : Type} [Field F] [CharP F 2]
     (u : ↥(CFSG.Open.StatedSp n F)) (v : Fin n ⊕ Fin n → F) :
@@ -211,7 +210,7 @@ private theorem gSpr_conj_altSiegelGroup {n : ℕ} {F : Type} [Field F] [CharP F
   rw [altSiegelGroup, MonoidHom.map_closure]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h, ⟨c, hc⟩, rfl⟩
     refine ⟨c, ?_⟩
@@ -354,7 +353,7 @@ private theorem gSpr_altSiegelGroup_comm {ι F : Type} [Fintype ι] [DecidableEq
   rw [altSiegelGroup, altSiegelGroup]
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor <;> rintro ⟨c, hc⟩ <;>
     exact ⟨c, by
       rw [hc, add_comm (Matrix.vecMulVec v (Matrix.mulVec G w))
@@ -422,12 +421,11 @@ private theorem gSpr_two_smul_short_not_mem {n : ℕ} {F : Type} [Field F] (hn :
   rw [hstd] at hr
   have h0 := congrFun hr ⟨0, by omega⟩
   have h1 := congrFun hr ⟨1, by omega⟩
-  simp only [Pi.smul_apply, smul_eq_mul, Symplectic.stdVec, Pi.sub_apply, Pi.single_apply,
-    Fin.zero_eta, Fin.mk_one, Fin.val_zero, Fin.val_one, zero_ne_one, ↓reduceIte,
-    mul_zero, mul_one, one_mul, zero_sub, neg_mul] at h0 h1
+  simp only [Pi.smul_apply, Symplectic.stdVec, Pi.sub_apply, Pi.single_apply,
+    ↓reduceIte] at h0 h1
   rcases r with i | i | ⟨i, j, hij⟩ | ⟨i, j, hij⟩ | ⟨i, j, hij⟩ <;>
-    simp only [Symplectic.stdVec, Pi.smul_apply, Pi.neg_apply, Pi.sub_apply, Pi.add_apply,
-      Pi.single_apply, Fin.val_zero, Fin.val_one, smul_eq_mul, Fin.ext_iff] at h0 h1 <;>
+    simp only [Pi.smul_apply, Pi.neg_apply, Pi.sub_apply, Pi.add_apply,
+      Pi.single_apply, Fin.ext_iff] at h0 h1 <;>
     simp at h0 h1 <;> omega
 
 theorem exists_conj_rootGroup_eq_matTransvGroup_PSp (n : ℕ) (F : Type) [Field F] [CharP F 2]

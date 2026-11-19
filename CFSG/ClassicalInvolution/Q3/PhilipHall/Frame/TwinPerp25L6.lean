@@ -35,7 +35,7 @@ theorem layer_sq_of_order_four {J : Subgroup G} {w v : G} (hw : IsUniqueInvoluti
     omega
   · exact h
 
-theorem layer_mem_secImg (hΩ : HypOmegaGen Ω) {a : G} (hc2 : IsPGroup 2 (Subgroup.zpowers a))
+theorem layer_mem_secImg (_hΩ : HypOmegaGen Ω) {a : G} (hc2 : IsPGroup 2 (Subgroup.zpowers a))
     {J P : Subgroup G} {u : G} (hJ : J ∈ tqMembers3 Ω a) (hP : IsSylow2In P J)
     (hPc : P ≤ Subgroup.centralizer ({a} : Set G)) (hu : u ∈ P) :
     ∃ (huC : u ∈ Subgroup.centralizer ({a} : Set G))

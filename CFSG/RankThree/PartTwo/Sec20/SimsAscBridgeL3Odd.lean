@@ -66,7 +66,7 @@ theorem exists_outer_involution_of_inf_eq_bot (hset : Setting204 G A M L N c T i
   have hR'card : Nat.card R' = 2 := by
     have h1 : 1 < Nat.card R' := (Subgroup.one_lt_card_iff_ne_bot _).mpr hR'1
     omega
-  haveI : Nontrivial ↥R' := (Subgroup.nontrivial_iff_ne_bot _).mpr hR'1
+  have : Nontrivial ↥R' := (Subgroup.nontrivial_iff_ne_bot _).mpr hR'1
   obtain ⟨⟨u, huR'⟩, hu1⟩ := exists_ne (1 : ↥R')
   have hu2 : orderOf u = 2 := by
     have hdvd : orderOf (⟨u, huR'⟩ : ↥R') ∣ 2 := by
@@ -150,7 +150,7 @@ theorem pow_eq_five_or_seven_of_kAlpha_mulEquiv
     · omega
   have hKperf := isPerfect_range_kToYAlpha hset hKY
   obtain ⟨φ, hφ⟩ := exists_surjective_kBar hset hKY
-  haveI : Group.IsPerfect ↥(kToYAlpha (T := T) hKY).range := hKperf
+  have : Group.IsPerfect ↥(kToYAlpha (T := T) hKY).range := hKperf
   set τ : ↥(⊤ : Subgroup ↥(kToYAlpha (T := T) hKY).range) ≃* ↥(kToYAlpha (T := T) hKY).range :=
     Subgroup.topEquiv with hτ
   have hTperf : Group.IsPerfect ↥(⊤ : Subgroup ↥(kToYAlpha (T := T) hKY).range) :=
@@ -242,8 +242,8 @@ theorem step204AscL3Odd_of_meet (hmeet : Step204AscL3OddMeet) : Step204AscL3Odd 
   swap
   · exact hmeet G A M L N c T i j P hset X hX hXM hm hL2m hYK h hD
   obtain ⟨hs, hnab⟩ := isSimpleGroup_yAlpha hset hX hm
-  haveI := hs
-  haveI := yAlpha_normal hX
+  have := hs
+  have := yAlpha_normal hX
   have hinj := conjNormal_yAlpha_injective hX hnab
   have hKTX : kTwenty M c ⊔ T ≤ X := fun x hx => hX.2 hx
   have hKY : kTwenty M c ≤ yTwenty X c :=
@@ -258,7 +258,7 @@ theorem step204AscL3Odd_of_meet (hmeet : Step204AscL3OddMeet) : Step204AscL3Odd 
   have hR'inn := rAut_inf_innAut_eq_bot hX hnab hD
   have hcyc : ∀ {r}, r ∈ rAlpha M X T c → Nat.card (rAlpha M X T c) = 2 →
       IsCyclic ↥(rAlpha M X T c) := fun _ hc => by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact isCyclic_of_prime_card hc
   have hp3 : ∀ {p e : ℕ}, 1 ≤ e → p ^ e % 3 ≠ 0 → p ≠ 3 := by
     intro p e he hq h3

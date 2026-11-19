@@ -98,7 +98,7 @@ private lemma sl6End_minpoly_dvd {F : Type} [Field F]
     {a : Matrix.SpecialLinearGroup (Fin 6) F} (ha : orderOf a = 5) :
     minpoly F (sl6End F a) ∣ (X : F[X]) ^ 5 - 1 := by
   refine minpoly.dvd F (sl6End F a) ?_
-  simpa [sl6End_pow_five ha] using (aeval_sub (sl6End F a) ((X : F[X]) ^ 5) 1)
+  simp [sl6End_pow_five ha]
 
 private lemma zmod5_four_eq_neg_one : (4 : ZMod 5) = -1 := by decide
 
@@ -129,15 +129,15 @@ private lemma primaryMultiplicity_pos {F : Type} [Field F] [CharP F 2]
     {a : Matrix.SpecialLinearGroup (Fin 6) F} (ha : orderOf a = 5)
     {h : F[X]} (hh : h ∈ primaryFactors (sl6End F a)) :
     0 < primaryMultiplicity (sl6End F a) h := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hsq : Squarefree (minpoly F (sl6End F a)) := sl6End_squarefree ha
   have hne : primaryComponent (sl6End F a) h ≠ ⊥ := primaryComponent_ne_bot hsq hh
-  haveI : Nontrivial (primaryComponent (sl6End F a) h) :=
+  have : Nontrivial (primaryComponent (sl6End F a) h) :=
     Submodule.nontrivial_iff_ne_bot.mpr hne
   exact Module.finrank_pos
 
 private lemma exists_primaryMultiplicity_ge_two {F : Type} [Field F] [Finite F] [CharP F 2]
-    (hF : Nat.card F = 4) {a : Matrix.SpecialLinearGroup (Fin 6) F} (ha : orderOf a = 5) :
+    (_hF : Nat.card F = 4) {a : Matrix.SpecialLinearGroup (Fin 6) F} (ha : orderOf a = 5) :
     ∃ h ∈ primaryFactors (sl6End F a),
       2 ≤ primaryMultiplicity (sl6End F a) h := by
   classical
@@ -221,7 +221,7 @@ def sl6QuadraticMultiplicity (F : Type) [Field F]
     if (b : F[X]) ≠ X - 1 then primaryMultiplicity (sl6End F a) (b : F[X]) else 0
 
 private lemma sl6QuadraticMultiplicity_pos {F : Type} [Field F] [Finite F] [CharP F 2]
-    (hF : Nat.card F = 4) {a : Matrix.SpecialLinearGroup (Fin 6) F} (ha : orderOf a = 5) :
+    (_hF : Nat.card F = 4) {a : Matrix.SpecialLinearGroup (Fin 6) F} (ha : orderOf a = 5) :
     0 < sl6QuadraticMultiplicity F a := by
   classical
   let S := primaryFactors (sl6End F a)
@@ -280,7 +280,7 @@ private lemma primaryFactor_card_of_orderFive {F : Type} [Field F] [Finite F] [C
     (hF : Nat.card F = 4) {a : Matrix.SpecialLinearGroup (Fin 6) F} (ha : orderOf a = 5)
     {h : F[X]} (hh : h ∈ primaryFactors (sl6End F a)) :
     Nat.card (AdjoinRoot h) = 4 ∨ Nat.card (AdjoinRoot h) = 16 := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hcard : Nat.card (AdjoinRoot h) = Nat.card F ^ h.natDegree :=
     CFSG.RankThree.PartOne.KCLinPlane.natCard_adjoinRoot (K := F) h
   rcases primaryFactor_degree_of_orderFive hF ha hh with h1 | ⟨hne, hdeg⟩
@@ -442,17 +442,17 @@ private lemma not_seven_dvd_card_generalLinear_small
     (hE : Nat.card E = 4 ∨ Nat.card E = 16) {d : ℕ} (hd : d ≤ 2) :
     ¬ 7 ∣ Nat.card (Matrix.GeneralLinearGroup (Fin d) E) := by
   classical
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   rw [Matrix.card_GL_field]
   rcases hE with h4 | h16
   · have hcard : Fintype.card E = 4 := by rwa [← Nat.card_eq_fintype_card]
     rw [hcard]
     interval_cases d <;>
-      simp [Fin.prod_univ_zero, Fin.prod_univ_one, Fin.prod_univ_two] <;> norm_num
+      simp [Fin.prod_univ_two]
   · have hcard : Fintype.card E = 16 := by rwa [← Nat.card_eq_fintype_card]
     rw [hcard]
     interval_cases d <;>
-      simp [Fin.prod_univ_zero, Fin.prod_univ_one, Fin.prod_univ_two] <;> norm_num
+      simp [Fin.prod_univ_two]
 
 private lemma seven_dvd_gl_centralizer_dichotomy
     {F : Type} [Field F] [Finite F] [CharP F 2] (hF : Nat.card F = 4)
@@ -489,7 +489,7 @@ private lemma seven_dvd_gl_centralizer_dichotomy
     (Nat.prime_iff.mp (by norm_num : Nat.Prime 7)).dvd_finsetProd_iff
       (fun b : S => Nat.card (blockGL x (b : F[X]))) |>.mp h7prod'
   have hbaf : (b : F[X]) ∈ primaryFactors (sl6End F a) := by
-    simpa [S, x] using b.2
+    simp [S, x]
   have hm3 : 3 ≤ primaryMultiplicity (sl6End F a) (b : F[X]) := by
     by_contra hlt
     have hmle : primaryMultiplicity (sl6End F a) (b : F[X]) ≤ 2 := by omega
@@ -821,7 +821,7 @@ theorem sl6_primaryFactor_type_of_good
   let mF : ℕ := primaryMultiplicity (CFSG.RankThree.PartOne.FOC.slEnd a) b
   let mS : ℕ := primaryMultiplicity (sl6End F a) (b : F[X])
   have hhS : (b : F[X]) ∈ primaryFactors (sl6End F a) := by
-    simpa [sl6End_eq_FOC] using b.2
+    simp [sl6End_eq_FOC]
   have hm_eq : mF = mS := by
     dsimp [mF, mS]
     rw [sl6End_eq_FOC]
@@ -832,7 +832,7 @@ theorem sl6_primaryFactor_type_of_good
         CFSG.RankThree.PartOne.KCLinComm.Efac, mF] using hgood
     omega
   have hdeg := primaryFactor_degree_of_orderFive hF ha hhS
-  haveI : Fact (Irreducible (b : F[X])) :=
+  have : Fact (Irreducible (b : F[X])) :=
     ⟨irreducible_of_mem_primaryFactors b.2⟩
   have hcard := CFSG.RankThree.PartOne.KCLinPlane.natCard_adjoinRoot
     (K := F) (b : F[X])
@@ -1011,7 +1011,7 @@ private lemma Qb_two_seven_of_m_three_field_sixteen {F : Type} [Field F] [Finite
   exact hcop.dvd_of_dvd_mul_left h2mul
 
 private lemma Qb_not_two_six_of_m_two_field_four {F : Type} [Field F] [Finite F]
-    (hF : Nat.card F = 4) {a : Matrix.SpecialLinearGroup (Fin 6) F}
+    (_hF : Nat.card F = 4) {a : Matrix.SpecialLinearGroup (Fin 6) F}
     (hsq : Squarefree (minpoly F (CFSG.RankThree.PartOne.FOC.slEnd a)))
     {b : primaryFactors (CFSG.RankThree.PartOne.FOC.slEnd a)}
     (hbgood : CFSG.RankThree.PartOne.KCLinPlane.GoodBlock b)
@@ -1052,7 +1052,7 @@ private lemma Qb_not_two_six_of_m_two_field_four {F : Type} [Field F] [Finite F]
   exact h2SLnot h2blk
 
 private lemma Qb_not_two_six_of_m_two_field_sixteen {F : Type} [Field F] [Finite F]
-    (hF : Nat.card F = 4) {a : Matrix.SpecialLinearGroup (Fin 6) F}
+    (_hF : Nat.card F = 4) {a : Matrix.SpecialLinearGroup (Fin 6) F}
     (hsq : Squarefree (minpoly F (CFSG.RankThree.PartOne.FOC.slEnd a)))
     {b : primaryFactors (CFSG.RankThree.PartOne.FOC.slEnd a)}
     (hbgood : CFSG.RankThree.PartOne.KCLinPlane.GoodBlock b)
@@ -1115,7 +1115,7 @@ theorem sl6_component_not_card_62400
       (Subgroup.centralizer ({ψ a} : Set Q)))
     (hHcard : Nat.card H = 62400) : False := by
   classical
-  haveI : Finite Q := Finite.of_surjective ψ (MonoidHom.range_eq_top.mp hrange)
+  have : Finite Q := Finite.of_surjective ψ (MonoidHom.range_eq_top.mp hrange)
   let X := Matrix.SpecialLinearGroup (Fin 6) F
   let C : Subgroup X := Subgroup.centralizer ({a} : Set X)
   let ψC : ↥C →* Q := ψ.comp C.subtype
@@ -1362,7 +1362,7 @@ theorem ggF4N2K_fixedMultiplicity_of_actualSL4_component
     (eH : ↥H ≃* Matrix.SpecialLinearGroup (Fin 4) F₀) :
     sl6FixedMultiplicity F a = 4 := by
   classical
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hrange : ψ.range = ⊤ := MonoidHom.range_eq_top.mpr hψ
   let X := Matrix.SpecialLinearGroup (Fin 6) F
   let C : Subgroup X := Subgroup.centralizer ({a} : Set X)
@@ -1515,7 +1515,7 @@ theorem ggF4N2K_fixedMultiplicity_of_actualSL4_component
       exact False.elim
         ((Qb_not_two_six_of_m_two_field_four hF hsqFOC hbgood hm2' hE4') h2Qb)
     · have hhS : (b : F[X]) ∈ primaryFactors (sl6End F a) := by
-        simpa [sl6End_eq_FOC] using b.2
+        simp [sl6End_eq_FOC]
       have hmS : primaryMultiplicity (sl6End F a) (b : F[X]) = 4 := by
         simpa [sl6End_eq_FOC] using hm4
       rw [sl6FixedMultiplicity_eq_of_fixed hhS hbX, hmS]
@@ -1589,7 +1589,7 @@ private lemma sl6_fixedBlock_isComponent
       ((slGL 6 F a : LinearMap.GeneralLinearGroup F (Fin 6 → F)) :
         Module.End F (Fin 6 → F)) (X - 1) = 4 := by
     simpa [sl6End] using hm
-  haveI : Fact (Irreducible (X - 1 : F[X])) :=
+  have : Fact (Irreducible (X - 1 : F[X])) :=
     ⟨irreducible_of_mem_primaryFactors hh⟩
   have hcard : Nat.card (AdjoinRoot (X - 1 : F[X])) = 4 := by
     rw [CFSG.RankThree.PartOne.KCLinPlane.natCard_adjoinRoot (K := F) (X - 1)]
@@ -1666,7 +1666,7 @@ theorem ggF4N2K_component_eq_fixedBlock_of_fixedMultiplicity
       (CFSG.RankThree.CALinearPrimary.slGL 6 F a) (Polynomial.X - 1)).comap
         (CFSG.RankThree.CALinearPrimary.slGL 6 F)).map ψ := by
   classical
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hrange : ψ.range = ⊤ := MonoidHom.range_eq_top.mpr hψ
   let SLX := Matrix.SpecialLinearGroup (Fin 6) F
   let C : Subgroup SLX := Subgroup.centralizer ({a} : Set SLX)
@@ -1707,7 +1707,7 @@ theorem ggF4N2K_component_eq_fixedBlock_of_fixedMultiplicity
     have hdim := (primaryDimensionData_of_orderFive hF ha).1
     omega
   have hbmem : (b : F[X]) ∈ primaryFactors (sl6End F a) := by
-    simpa [sl6End_eq_FOC] using b.2
+    simp [sl6End_eq_FOC]
   have hge : 2 ≤ primaryMultiplicity (sl6End F a) (b : F[X]) := by
     have htype := sl6_primaryFactor_type_of_good hF ha hbgood
     rcases htype with ⟨_, hm, _⟩ | ⟨_, hm, _⟩ <;>
@@ -1767,9 +1767,9 @@ theorem ggF4N2K_component_eq_fixedBlock_of_fixedMultiplicity
             (x := slGL 6 F a) hsq0,
           CFSG.RankThree.CALinearPrimary.linearSpecialBlockRestrict_surjective
             (x := slGL 6 F a) hsq0 hhGL⟩
-    haveI : Fact (Irreducible (X - 1 : F[X])) :=
+    have : Fact (Irreducible (X - 1 : F[X])) :=
       ⟨irreducible_of_mem_primaryFactors hhB⟩
-    haveI : Finite (AdjoinRoot (X - 1 : F[X])) := Module.finite_of_finite F
+    have : Finite (AdjoinRoot (X - 1 : F[X])) := Module.finite_of_finite F
     let basis : Module.Basis
         (Fin (primaryMultiplicity
           ((slGL 6 F a : LinearMap.GeneralLinearGroup F (Fin 6 → F)) :
@@ -1939,9 +1939,9 @@ open CFSG.RankThree.PartOne.KCPrimary
 noncomputable section
 
 private lemma adjRootXSubOneEquiv_apply (F : Type) [Field F] [Finite F]
-    (hF : Nat.card F = 4) (a : F) :
+    (_hF : Nat.card F = 4) (a : F) :
     (AdjoinRoot.lift (RingHom.id F) 1 (by
-      simpa using eval₂_X_sub_C (RingHom.id F) 1))
+      simp))
         (AdjoinRoot.of (X - 1 : F[X]) a) = a := by
   rw [AdjoinRoot.lift_of]
   rfl
@@ -1951,7 +1951,7 @@ private noncomputable def adjRootXSubOneEquiv (F : Type) [Field F] [Finite F]
   classical
   let φ : AdjoinRoot (X - 1 : F[X]) →+* F :=
     AdjoinRoot.lift (RingHom.id F) 1 (by
-      simpa using eval₂_X_sub_C (RingHom.id F) 1)
+      simp)
   haveI : Fact (Irreducible (X - 1 : F[X])) := ⟨irreducible_X_sub_C 1⟩
   have hinj : Function.Injective φ := RingHom.injective φ
   have hdeg : (X - 1 : F[X]).natDegree = 1 := by
@@ -2041,8 +2041,8 @@ private lemma card_SL4_eq_of_card
     Nat.card (Matrix.SpecialLinearGroup (Fin 4) F) =
       Nat.card (Matrix.SpecialLinearGroup (Fin 4) F₀) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype F₀ := Fintype.ofFinite F₀
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype F₀ := Fintype.ofFinite F₀
   have hF' : Fintype.card F = 4 := by
     simpa [Nat.card_eq_fintype_card] using hF
   have hF₀' : Fintype.card F₀ = 4 := by
@@ -2118,7 +2118,7 @@ theorem ggF4N2K_actualNaturalChart_of_actualSL4_component
   let p : primaryFactors Xend := ⟨p0, hmem⟩
   have hpval : (p : F[X]) = p0 := rfl
   have hdimfix : Module.finrank F (primaryComponent Xend (p : F[X])) = 4 := by
-    haveI : Fact (Irreducible (p : F[X])) :=
+    have : Fact (Irreducible (p : F[X])) :=
       ⟨irreducible_of_mem_primaryFactors p.2⟩
     have hm4' : Module.finrank (AdjoinRoot (p : F[X]))
         (primaryComponent Xend (p : F[X])) = 4 := by
@@ -2177,10 +2177,10 @@ theorem ggF4N2K_actualNaturalChart_of_actualSL4_component
     Matrix.GeneralLinearGroup.toLin.symm
       (LinearMap.GeneralLinearGroup.ofLinearEquiv P)
   let E := AdjoinRoot p0
-  haveI : Fact (Irreducible p0) := ⟨irreducible_X_sub_C 1⟩
-  haveI : Module.Finite F E := (AdjoinRoot.powerBasis (Fact.out : Irreducible p0).ne_zero).finite
-  haveI : Finite E := Module.finite_of_finite F
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fact (Irreducible p0) := ⟨irreducible_X_sub_C 1⟩
+  have : Module.Finite F E := (AdjoinRoot.powerBasis (Fact.out : Irreducible p0).ne_zero).finite
+  have : Finite E := Module.finite_of_finite F
+  have : Fintype E := Fintype.ofFinite E
   let eEF : E ≃+* F := adjRootXSubOneEquiv F hF
   have hEFsymm : ((eEF.symm : F →+* E)) = algebraMap F E := by
     simpa [E, p0, eEF] using adjRootXSubOneEquiv_symm F hF
@@ -2228,7 +2228,7 @@ theorem ggF4N2K_actualNaturalChart_of_actualSL4_component
       (n := 6) (k := F) (a := a) (hsq := hsq') (h := p0) (hh := hhGL) g.2
     refine ⟨⟨b, ?_⟩, ?_⟩
     · change slGL 6 F b ∈ linearSpecialBlock (slGL 6 F a) p0
-      simpa [hb] using g.2
+      simp [hb]
     · change ((linearSpecialBlockRestrict (x := slGL 6 F a) (h := p0)).comp fB)
         ⟨b, ?_⟩ = u
       simpa [fB, hb] using hg
@@ -2280,7 +2280,7 @@ theorem ggF4N2K_actualNaturalChart_of_actualSL4_component
     by_cases h : i = j
     · subst h
       simp
-    · simp [Function.update, h]
+    · simp [h]
   have hP (i : Fin 6) : P (Pi.single i (1 : F)) = bV i := by
     apply P.symm.injective
     rw [P.symm_apply_apply, hPsymm]

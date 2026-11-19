@@ -103,7 +103,7 @@ theorem mem_normalizer_of_conjSetStab_quot {X : Type} [Group X] [Finite X]
     rw [h2] at h1
     exact Odd.of_dvd_nat hy h1
   have hτ1 : ψ ty = 1 :=
-    CFSG.Permutation.SylowTwoNormalizer.eq_one_of_mem_normalizer R.isPGroup' R.not_dvd_index
+    CFSG.Permutation.SylowTwoNormalizer.eq_one_of_mem_normalizer R.isPGroup R.not_dvd_index
       hτodd hτN
   have hquot1 : (QuotientGroup.mk' N) (φ ty) = 1 := by
     apply e.injective

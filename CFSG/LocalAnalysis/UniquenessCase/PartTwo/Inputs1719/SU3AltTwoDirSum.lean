@@ -67,7 +67,7 @@ theorem commV_sup_fixV_eq_top_of_isDirSumOver {Y K : Subgroup (MulAut W)}
     (hKcomp : CFSG.Open.IsComponentOf K Y)
     (hsum : IsDirSumOver (conjSet K Y) (fun X => commV (autQuot X (⊥ : Subgroup W)))) :
     commV K ⊔ fixV K = ⊤ := by
-  have hKmem : K ∈ conjSet K Y := ⟨1, Y.one_mem, by ext x; simp [MulAut.conj_apply]⟩
+  have hKmem : K ∈ conjSet K Y := ⟨1, Y.one_mem, by ext x; simp⟩
   have hinj : Function.Injective (QuotientGroup.mk' (⊥ : Subgroup W)) := by
     rw [← MonoidHom.ker_eq_bot_iff, QuotientGroup.ker_mk']
   have hmap : ∀ X : Subgroup (MulAut W),
@@ -93,7 +93,7 @@ theorem commV_inf_fixV_eq_bot_of_isDirSumOver {Y K : Subgroup (MulAut W)}
     (hfix : fixV (⨆ X ∈ conjSet K Y, X) = ⊥)
     (hsum : IsDirSumOver (conjSet K Y) (fun X => commV (autQuot X (⊥ : Subgroup W)))) :
     commV K ⊓ fixV K = ⊥ := by
-  have hKmem : K ∈ conjSet K Y := ⟨1, Y.one_mem, by ext x; simp [MulAut.conj_apply]⟩
+  have hKmem : K ∈ conjSet K Y := ⟨1, Y.one_mem, by ext x; simp⟩
   rw [eq_bot_iff]
   rintro u ⟨hu1, hu2⟩
   have hmem : u ∈ fixV (⨆ X ∈ conjSet K Y, X) := by
@@ -171,6 +171,7 @@ theorem commSub_le_of_rk_lt_dMinDeg (hW : ∀ w : W, w ^ 2 = 1)
     rw [hcard, hcardU, padicValNat.mul Nat.card_pos.ne' Nat.card_pos.ne', add_comm]
   omega
 
+omit [Finite W] in
 theorem fixV_autSub_autQuot_bot_eq_bot {K : Subgroup (MulAut W)} {I : Subgroup W}
     (hI : I ∈ irrSet K) (hinf : commV K ⊓ fixV K = ⊥) :
     fixV (autSub (autQuot K (⊥ : Subgroup W))

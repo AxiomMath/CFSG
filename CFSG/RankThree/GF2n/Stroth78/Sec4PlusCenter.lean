@@ -116,9 +116,9 @@ theorem centerIn_Xsub_eq_bot_of_threeFourPlus (S : Setting z E F) {a : G} {w : �
       Rbar S a = ⊥ ∨ Y = ⊥)
     (h34 : ThreeFourPlus S a) :
     centerIn (Xsub S a) = ⊥ := by
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hq : (qS S).polarBilin.Nondegenerate := by
-    letI := modAbF S
+    let := modAbF S
     exact q_nondegenerate S
   obtain ⟨-, -, -, hclass⟩ := stroth78_31 S h h217
   rcases Subgroup.bot_or_exists_ne_one (centerIn (Xsub S a)) with hbot | ⟨ζ, hζ, hζ1⟩

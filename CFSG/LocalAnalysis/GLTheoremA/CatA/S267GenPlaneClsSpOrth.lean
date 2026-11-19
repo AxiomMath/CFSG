@@ -63,10 +63,10 @@ theorem compNormal_of_normal_quasisimple {S : Type*} [Group S] [Finite S] {β : 
 theorem compNormal_of_isSimpleGroup {S : Type*} [Group S] [Finite S] {β : MulAut S}
     (hs : IsSimpleGroup ↥(fixSubgroup β)) (hnc : ∃ a b : ↥(fixSubgroup β), a * b ≠ b * a) :
     CompNormal β := by
-  haveI : ((fixSubgroup β).subgroupOf (fixSubgroup β)).Normal := by
+  have : ((fixSubgroup β).subgroupOf (fixSubgroup β)).Normal := by
     rw [Subgroup.subgroupOf_self]
     infer_instance
-  haveI : Subsingleton (↥(fixSubgroup β) ⧸ (fixSubgroup β).subgroupOf (fixSubgroup β)) := by
+  have : Subsingleton (↥(fixSubgroup β) ⧸ (fixSubgroup β).subgroupOf (fixSubgroup β)) := by
     refine ⟨fun a b => ?_⟩
     induction a using QuotientGroup.induction_on with | H a => ?_
     induction b using QuotientGroup.induction_on with | H b => ?_
@@ -81,7 +81,7 @@ theorem genPlaneCompOn_of_normalAll (hS : CFSG.AGLEmbeddingD2.KFactSeitzRankTwo)
     {Q : TauCeti.LieTypeIndex → Prop} (h : GenNormalAllOn Q) : GenPlaneCompOn Q := by
   intro p T _ _ d hd hQ P hP hcard J
   obtain ⟨e⟩ := hd.iso
-  haveI := (CFSG.Assembly.lie_finite_simple d).2
+  have := (CFSG.Assembly.lie_finite_simple d).2
   exact not_forall_glaPComponent_of_compNormal hS (genCompQuasiOn_holds' Q) hd hQ
     e.isSimpleGroup hP hcard (fun x hx hx1 => h p T d hd hQ x (hP.2 x hx) hx1) J
 

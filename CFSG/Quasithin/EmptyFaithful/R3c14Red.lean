@@ -172,7 +172,7 @@ theorem elConfig_of_ctx1 {T Mc M V₁ V₂ Yp I L : Subgroup G} {t : G}
   have hker : π.ker = Z := QuotientGroup.ker_mk' Z
   have hTsyl : IsSylowTwoOf ((Q.subgroupOf L).map π) ⊤ := by
     rw [← hT]
-    exact K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup', Tsyl.not_dvd_index⟩
+    exact K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup, Tsyl.not_dvd_index⟩
   have hcomm : ∀ (a₀ : ↥L) (v₀ : ↥L), (a₀ : G) ∈ Yp → (v₀ : G) ∈ V₂ →
       π a₀ * π v₀ = π v₀ * π a₀ → (a₀ : G) * v₀ = v₀ * a₀ := by
     intro a₀ v₀ ha hv hc

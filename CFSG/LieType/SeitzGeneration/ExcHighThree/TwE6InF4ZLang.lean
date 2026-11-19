@@ -134,10 +134,10 @@ theorem twisted_z_conj_f4Z (k : Type) [Field k] [Finite k] (hq : Nat.card k % 3 
       f⁻¹ = z := by
   have hnd : ¬ 3 ∣ Nat.card k := by omega
   obtain ⟨f, hf1, hq', hp⟩ := card_eq_ringChar_pow k
-  haveI : Fact (ringChar k).Prime := ⟨hp⟩
+  have : Fact (ringChar k).Prime := ⟨hp⟩
   have hp3 : ringChar k ≠ 3 := ringChar_ne_three k hf1 hq' hnd
-  haveI : IsAlgClosed D₁.L := IsAlgClosure.isAlgClosed k
-  haveI : CharP D₁.L (ringChar k) :=
+  have : IsAlgClosed D₁.L := IsAlgClosure.isAlgClosed k
+  have : CharP D₁.L (ringChar k) :=
     charP_of_injective_algebraMap (algebraMap k D₁.L).injective (ringChar k)
   have hFr_eq : iterateFrobenius D₁.L (ringChar k) f = D₁.Fr :=
     RingHom.ext fun x => by rw [iterateFrobenius_def, D₁.hFr, hq']

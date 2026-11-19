@@ -200,7 +200,7 @@ theorem tits_exists_sylow_two_card_le_eight (hC : Subgroup.centralizer (T : Set 
   by_contra hgt
   push Not at hgt
   have hgt' : 8 < Nat.card (P : Subgroup ↥(Subgroup.centralizer ({a} : Set J))) := hgt
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   have hk4 : 4 ≤ k := by
     by_contra hk'
     have : 2 ^ k ≤ 2 ^ 3 := Nat.pow_le_pow_right (by norm_num) (by omega)

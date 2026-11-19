@@ -50,7 +50,7 @@ theorem commutator_mem_pCoreOf_of_eq_normalizer {G : Type} [Group G] [Finite G] 
     (hPY : P ≤ Y) (e : ↥Y ≃* AdjointQuotient .G2 K) (T : Sylow 2 ↥Y)
     (hJ : P.subgroupOf Y = Subgroup.normalizer ((T : Subgroup ↥Y) : Set ↥Y)) {x y : G}
     (hx : x ∈ P) (hy : y ∈ P) : x * y * x⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 P := by
-  haveI : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
+  have : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
   have h := borelQuotient_g2 e
   obtain ⟨π', hπ', hker, hT⟩ := h.exists_conj_eq T
   have hQ : BorelQuotient (g2Datum K) (weylElement .G2 K) (torus (τ := .G2) K) π'
@@ -71,7 +71,7 @@ theorem commutator_mem_pCoreOf_of_eq_normalizer {G : Type} [Group G] [Finite G] 
     have haN : (⟨a, hPY ha⟩ : ↥Y) ∈ Subgroup.normalizer ((T : Subgroup ↥Y) : Set ↥Y) :=
       hJ ▸ Subgroup.mem_subgroupOf.2 ha
     exact ⟨_, (Subgroup.mem_normalizer_iff.1 haN t).1 ht, by simp⟩
-  have hT'2 : IsPGroup 2 T' := T.isPGroup'.map Y.subtype
+  have hT'2 : IsPGroup 2 T' := T.isPGroup.map Y.subtype
   have hT'O : T' ≤ CFSG.Open.pCoreOf 2 P := le_pCoreOf hT'P hT'N hT'2
   have hxJ : (⟨x, hPY hx⟩ : ↥Y) ∈ (borel (g2Datum K) (torus (τ := .G2) K)).map π' :=
     hNπ ▸ (Subgroup.mem_subgroupOf.2 hx : (⟨x, hPY hx⟩ : ↥Y) ∈ P.subgroupOf Y)

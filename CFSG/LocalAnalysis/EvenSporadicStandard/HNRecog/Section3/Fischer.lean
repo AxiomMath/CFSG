@@ -116,7 +116,7 @@ theorem FischerHyp.local_structure {K : Type} [Group K] [Finite K] {D : Set K} (
   let SD : Set C := {y : C | (y : K) ∈ D}
   let X : Set (Multiplicative (ZMod 2) × Equiv.Perm (Fin 5)) := φ '' Slocal
   have map_inv' (a : C) : φ a⁻¹ = (φ a)⁻¹ := by
-    have h1 : φ a * φ a⁻¹ = 1 := by simp [← map_mul]
+    have h1 : φ a * φ a⁻¹ = 1 := by simp
     exact eq_inv_of_mul_eq_one_right h1
   have map_conj (a b : C) : φ (a * b * a⁻¹) = φ a * φ b * (φ a)⁻¹ := by
     calc φ (a * b * a⁻¹) = φ (a * b) * φ a⁻¹ := map_mul φ (a * b) a⁻¹

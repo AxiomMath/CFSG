@@ -298,9 +298,9 @@ theorem s16c167_pairing_core {W : Type} [CommGroup W] [Finite W] {Mb P : Subgrou
   obtain ⟨Z, hZrk, hind, hsup, hXcard, hS4⟩ := hsym
   have hX4 : Nat.card ↥(conjSubs Mb Z) = 4 := by
     rw [Nat.card_coe_set_eq, hXcard]
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) (fun f g h => MulEquiv.ext (congrFun h))
-  haveI hfin : Finite ↥(conjSubs Mb Z) :=
+  have hfin : Finite ↥(conjSubs Mb Z) :=
     Finite.of_surjective
       (fun g : ↥Mb => (⟨Z.map (g : MulAut W).toMonoidHom,
         ⟨(g : MulAut W), g.2, rfl⟩⟩ : ↥(conjSubs Mb Z)))
@@ -315,7 +315,7 @@ theorem s16c167_pairing_core {W : Type} [CommGroup W] [Finite W] {Mb P : Subgrou
     refine ⟨(p : MulAut W) * g, Mb.mul_mem (hPM p.2) hg, ?_⟩
     rw [hgY, Subgroup.map_map]
     rfl
-  letI : MulAction ↥P ↥(conjSubs Mb Z) :=
+  let : MulAction ↥P ↥(conjSubs Mb Z) :=
     { smul := fun p Y => ⟨(Y : Subgroup W).map (p : MulAut W).toMonoidHom, hmem p Y⟩
       one_smul := by
         intro Y
@@ -343,7 +343,7 @@ theorem s16c167_pairing_core {W : Type} [CommGroup W] [Finite W] {Mb P : Subgrou
   let I : Set ↥(conjSubs Mb Z) → Subgroup W := fun B => ⨆ Y ∈ B, G Y
   let Δ : Set (Subgroup W) := {I B₁, I B₂}
   have hmemΔ : ∀ J, J ∈ Δ ↔ J = I B₁ ∨ J = I B₂ := by
-    intro J; simp [Δ, Set.mem_insert_iff, Set.mem_singleton_iff, eq_comm]
+    intro J; simp [Δ, Set.mem_insert_iff, Set.mem_singleton_iff]
   have hIB₁ : I B₁ = G Y₁ ⊔ G Y₂ := by
     show (⨆ Y ∈ B₁, G Y) = G Y₁ ⊔ G Y₂
     rw [hB₁eq, iSup_pair]

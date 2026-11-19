@@ -68,7 +68,7 @@ theorem uc22s206w_pRank_aut
       Nat.mem_primeFactors.2 ⟨hp, (dvd_pow_self p (by norm_num)).trans hd, by norm_num⟩
     rw [show Nat.primeFactors 9999360 = {2, 3, 5, 7, 31} by norm_num [Nat.primeFactors]] at hmem
     simp only [Finset.mem_insert, Finset.mem_singleton] at hmem
-    rcases hmem with rfl | rfl | rfl | rfl | rfl <;> first | omega | norm_num at hd
+    rcases hmem with rfl | rfl | rfl | rfl | rfl <;> first | omega
   · obtain ⟨e⟩ : Nonempty (X ≃* CFSG.Blueprint.NativeSporadic.Carrier .M24) := h
     exact small ⟨e⟩ CFSG.AGLEmbedding.sporadicSmallData_M24
   · obtain ⟨e⟩ : Nonempty (X ≃* CFSG.Blueprint.NativeSporadic.Carrier .J4) := h
@@ -79,8 +79,8 @@ theorem uc22s206w_kernel {Y B : Type*} [Group Y] [Finite Y] [Group B] [Finite B]
     (hC : CFSG.Open.pRank p (⊤ : Subgroup (MulAut ↥C)) ≤ 2) {R : Subgroup Y}
     (hR : IsElemAbelian p R) {m : ℕ} (hm : 4 ≤ m) (hRc : Nat.card R = p ^ m) :
     ∃ F ≤ R, (∃ j, 2 ≤ j ∧ Nat.card F = p ^ j) ∧ F.map π ≤ centralizer (C : Set B) := by
-  haveI := hCn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hCn
+  have : Fact p.Prime := ⟨hp⟩
   let θ : Y →* MulAut ↥C := MulAut.conjNormal.comp π
   refine ⟨θ.ker ⊓ R, inf_le_right, ?_, ?_⟩
   · obtain ⟨i, hi⟩ := IsPGroup.iff_card.mp (hR.map θ).isPGroup
@@ -103,9 +103,9 @@ theorem uc22s206w_centralize {Y B : Type*} [Group Y] [Finite Y] [Group B] [Finit
     {E F : Subgroup Y} (hE : IsPGroup 3 E) (hEC : E.map π ≤ C) (hF : IsPGroup p F)
     (hFC : F.map π ≤ centralizer (C : Set B)) :
     ∃ c : Y, F.map (MulAut.conj c).toMonoidHom ≤ centralizer (E : Set Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfc : ∀ f ∈ F, ∀ b ∈ C, π f * b * (π f)⁻¹ = b := fun f hf b hb => by
     rw [← mem_centralizer_iff.mp (hFC (mem_map_of_mem π hf)) b hb, mul_inv_cancel_right]
   set H : Subgroup Y := (E.map π).comap π with hH
@@ -158,7 +158,7 @@ theorem uc22s206w_centralize {Y B : Type*} [Group Y] [Finite Y] [Group B] [Finit
       rw [MonoidHom.mem_ker, Subgroup.coe_mul, hφ, Subgroup.coe_inv, map_mul, map_mul, map_mul,
         map_inv, map_inv, hfc f hf _ (hHC q q.2), mul_inv_cancel]
     have h1 : ((φ ⟨f, hf⟩ q * q⁻¹ : ↥H) : Y) = 1 := Subgroup.disjoint_def.mp
-      (IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _ (Q.isPGroup'.map H.subtype) h2)
+      (IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _ (Q.isPGroup.map H.subtype) h2)
       ⟨_, hw, rfl⟩ hwk
     rw [Subgroup.coe_mul, hφ, Subgroup.coe_inv, mul_inv_eq_one] at h1
     exact mul_inv_eq_iff_eq_mul.mp h1
@@ -178,7 +178,7 @@ theorem uc22s206w_E9 [Finite G] {L M : Subgroup G} (α : ↥L →* alternatingGr
     (hLM : L ⊓ M = ptPre α i) :
     ∃ E : Subgroup ↥(ptCore α i), IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 2 ∧
       ∃ x ∈ E, orderOf x = 3 ∧ ¬ normalizer (zpowers (x : G) : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, -, hb3, -, hb1, -, -, -, -⟩ := uc22s206p_rel
   obtain ⟨hE₀, hE₀c⟩ := uc22s206p_E9
   have hinj := uc22s206gEmb_injective i
@@ -233,8 +233,8 @@ theorem uc22s206w_false
     (hout : ∀ J : Subgroup (Bar2 S.M), IsComponentOf J ⊤ →
       Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer
         (J ⧸ Subgroup.center J))) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨h3, hp, hp5, hp4⟩ := uc22s206v_ranks hS hU S hσ hk
   obtain ⟨C, hC, hCn, hZ, hcase, hKC⟩ := uc22s206v_component (UC6.dataOfSetup4 hS hU S) hK331
     hN h82 hk h3 α hα hker hKM S.sylowM hTK hF hNc hout

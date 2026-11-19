@@ -30,7 +30,7 @@ theorem char2_branch_false_of_u4Sq
   have hU4 := u4ParabolicSq_holds
   obtain ⟨t, n, f, hF, hLM⟩ := char2_lieModel hC
   have hsimp : IsSimpleGroup (L ⧸ Q) := CFSG.Quasithin.H13.A5.isSimpleGroup_of_isPSL34 hPSL
-  haveI := hsimp
+  have := hsimp
   have hQbot : Q ≠ ⊥ := by
     rintro rfl
     exact hnt (by simp)

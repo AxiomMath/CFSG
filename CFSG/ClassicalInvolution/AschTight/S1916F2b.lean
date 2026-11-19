@@ -82,7 +82,7 @@ theorem exists_conj_mem_W [IsSimpleGroup G] (hDT : Sec19DataT p f K z S W L t V)
       ← S1911.inf_sec19X_eq_of_case2 hDT h1] at h2
     exact Nat.eq_of_mul_eq_mul_right Nat.card_pos h2
   obtain ⟨X₀, -, hX₀n, -, heX₀, hcos, -⟩ := CFSG.Quasithin.thompson_transfer_index_two_sub
-    (sec19X K z) ((S : Subgroup G) ⊓ sec19X K z) W inf_le_right (S.isPGroup'.to_le inf_le_left)
+    (sec19X K z) ((S : Subgroup G) ⊓ sec19X K z) W inf_le_right (S.isPGroup.to_le inf_le_left)
     (fun R hRX hR2 hle => (isSylow2In_inf_sec19X hd).2.2 R hRX hR2 hle) hindex he2 heA hcon
   have hsq := mul_self_mem_of_coset heA.2 he2 hX₀n hcos
   have hcomm : ∀ x ∈ sec19X K z, ∀ y ∈ sec19X K z, x * y * x⁻¹ * y⁻¹ ∈ X₀ := by
@@ -98,7 +98,7 @@ theorem exists_conj_mem_W [IsSimpleGroup G] (hDT : Sec19DataT p f K z S W L t V)
     rw [commutatorElement_def]
     exact hcomm g₁ (hKX h₁) g₂ (hKX h₂)
   obtain ⟨-, -, -, hVcyc, -⟩ := hDT.memV
-  have hV2 : IsPGroup 2 V := S.isPGroup'.to_le (hDT.leW.trans hd.hWS)
+  have hV2 : IsPGroup 2 V := S.isPGroup.to_le (hDT.leW.trans hd.hWS)
   obtain ⟨w₀, hw₀V, hw₀t⟩ :=
     exists_mul_self_eq_of_isCyclic hDT.invL (S1911.le_member hDT) hVcyc hV2 ef.four
   have htX₀ : t ∈ X₀ := hw₀t ▸ hsq w₀ (S1911.le_sec19X hd (hDT.leW hw₀V))

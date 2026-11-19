@@ -55,7 +55,7 @@ theorem eq_bot_or_eq_of_conj_closed {B S : Subgroup G} (hSB : S ≤ B) {h : G}
     have hpow : ∀ k : ℕ, h ^ k * (s : G) * (h ^ k)⁻¹ ∈ S := by
       intro k
       induction k with
-      | zero => simpa using s.2
+      | zero => simp
       | succ k ih =>
         have := hS _ ih
         convert this using 1
@@ -102,10 +102,10 @@ theorem card_transportSub {L R : Subgroup Mb} (hRL : R ≤ L) (e : L ≃* N) :
 
 theorem commutator_transportSub_eq_top {L R : Subgroup Mb} (hRL : R ≤ L) (e : L ≃* N)
     (h : commutator R = ⊤) : commutator (transportSub L R e) = ⊤ := by
-  haveI : Group.IsPerfect R := Group.isPerfect_def.2 h
+  have : Group.IsPerfect R := Group.isPerfect_def.2 h
   let φ : R ≃* transportSub L R e :=
     (Subgroup.subgroupOfEquivOfLe hRL).symm.trans (e.subgroupMap (R.subgroupOf L))
-  haveI : Group.IsPerfect (transportSub L R e) :=
+  have : Group.IsPerfect (transportSub L R e) :=
     Group.IsPerfect.ofSurjective (f := φ.toMonoidHom) φ.surjective
   exact Group.isPerfect_def.1 this
 
@@ -161,7 +161,7 @@ theorem card_mul_card_le_card_mulAut [Finite Mb] {L B R : Subgroup Mb} [L.Normal
     (hZ : ∀ z ∈ L, z ∈ Subgroup.centralizer (R : Set Mb) → z = 1)
     (hB0 : ∀ b ∈ B, (∀ l ∈ L, b * l = l * b) → b = 1) :
     Nat.card L * Nat.card B ≤ Nat.card (MulAut L) := by
-  haveI : Finite (MulAut L) :=
+  have : Finite (MulAut L) :=
     Finite.of_injective (fun f : MulAut L => (f : L → L)) fun f g h => DFunLike.coe_injective h
   rw [← Nat.card_prod]
   refine Nat.card_le_card_of_injective
@@ -278,7 +278,7 @@ theorem false_of_m12_data {Mb : Type} [Group Mb] [Finite Mb] (L R B : Subgroup M
       have hLB : L ≤ Subgroup.centralizer (B : Set Mb) := Subgroup.le_centralizer_iff.1 hBL
       have hLR : L ≤ Subgroup.normalizer (R : Set Mb) :=
         hLB.trans ((Subgroup.centralizer_le_normalizer _).trans hN.ge)
-      haveI := normal_transportSub e (Subgroup.le_normalizer_iff.1 hLR)
+      have := normal_transportSub e (Subgroup.le_normalizer_iff.1 hLR)
       have hcard := card_transportSub hRL e
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (transportSub L R e) with hbot | htop
       · rw [hbot, Subgroup.card_bot] at hcard

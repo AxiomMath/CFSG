@@ -23,7 +23,7 @@ variable {L : Type} [Field L] [Finite L] {ℓ f n r : ℕ}
 
 theorem field (hL : Nat.card L = (ℓ ^ f) ^ 2) :
     ∃ f', ℓ ^ f = ringChar L ^ f' ∧ UnitaryFieldData (ringChar L) f' L := by
-  haveI := Fintype.ofFinite L
+  have := Fintype.ofFinite L
   exact exists_unitaryFieldData L (by rw [Fintype.card_eq_nat_card]; exact hL)
 
 theorem two_le (hL : Nat.card L = (ℓ ^ f) ^ 2) : 2 ≤ ℓ ^ f := by
@@ -38,7 +38,7 @@ theorem two_le (hL : Nat.card L = (ℓ ^ f) ^ 2) : 2 ≤ ℓ ^ f := by
 
 theorem exp_pos (hp : r.Prime) {q : ℕ} (hq2 : 2 ≤ q) (hpq : ¬ r ∣ q) :
     1 ≤ padicValInt r ((-(q : ℤ)) ^ orderOf (-(q : ZMod r)) - 1) := by
-  haveI : Fact r.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hp⟩
   have hne0 : (-(q : ZMod r)) ≠ 0 :=
     neg_ne_zero.2 (fun h => hpq ((ZMod.natCast_eq_zero_iff q r).1 h))
   have hepos : 0 < orderOf (-(q : ZMod r)) := by
@@ -64,8 +64,8 @@ theorem exp_pos (hp : r.Prime) {q : ℕ} (hq2 : 2 ≤ q) (hpq : ¬ r ∣ q) :
 
 theorem commOrRank_GU (hp : r.Prime) (h5 : 5 ≤ r) (hL : Nat.card L = (ℓ ^ f) ^ 2)
     (hpq : ¬ r ∣ ℓ ^ f) (hn : 1 ≤ n) : I294Large.CommOrRank r ↥(StatedGU n (ℓ ^ f) L) := by
-  haveI : Fact r.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite L
+  have : Fact r.Prime := ⟨hp⟩
+  have := Fintype.ofFinite L
   have hLc : Fintype.card L = (ℓ ^ f) ^ 2 := by rw [Fintype.card_eq_nat_card]; exact hL
   exact I294Large.CommOrRank.of_sylow_sigmaModel hp (exp_pos hp (two_le hL) hpq)
     (fun P => sylow_GU (hp.odd_of_ne_two (by omega)) L hLc hpq hn P)
@@ -73,9 +73,11 @@ theorem commOrRank_GU (hp : r.Prime) (h5 : 5 ≤ r) (hL : Nat.card L = (ℓ ^ f)
 @[expose] noncomputable def det (n q : ℕ) (L : Type) [Field L] : ↥(StatedGU n q L) →* Lˣ :=
   Matrix.GeneralLinearGroup.det.comp (StatedGU n q L).subtype
 
+omit [Finite L] in
 theorem det_val {q : ℕ} (g : ↥(StatedGU n q L)) :
     ((det n q L g : Lˣ) : L) = ((g : GL (Fin n) L) : Matrix (Fin n) (Fin n) L).det := rfl
 
+omit [Finite L] in
 theorem mem_statedSU_iff (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (hn : 1 ≤ n)
     (A : GL (Fin n) L) :
     A ∈ StatedSU n (ℓ ^ f) L ↔ (A : Matrix (Fin n) (Fin n) L).det = 1 ∧
@@ -95,7 +97,7 @@ theorem subgroupOf_eq_ker (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (
 
 theorem not_dvd_index (hp : r.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2)
     (hpq1 : ¬ r ∣ ℓ ^ f + 1) : ¬ r ∣ (det n (ℓ ^ f) L).ker.index := by
-  haveI : Fact r.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hp⟩
   obtain ⟨f', hq, h⟩ := field hL
   intro hdvd
   rw [Subgroup.index_ker] at hdvd
@@ -119,13 +121,16 @@ theorem not_dvd_index (hp : r.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2)
     ↥(StatedSU n q L) →* StatedProj (StatedSU n q L) :=
   QuotientGroup.mk' ((StatedScalars (Fin n) L).subgroupOf (StatedSU n q L))
 
+omit [Finite L] in
 theorem proj_surjective (n q : ℕ) : Function.Surjective (proj n q L) :=
   QuotientGroup.mk'_surjective _
 
+omit [Finite L] in
 theorem proj_ker (n q : ℕ) :
     (proj n q L).ker = (StatedScalars (Fin n) L).subgroupOf (StatedSU n q L) :=
   QuotientGroup.ker_mk' _
 
+omit [Finite L] in
 theorem not_dvd_ker (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (hn : 1 ≤ n)
     (hpq1 : ¬ r ∣ ℓ ^ f + 1) : ¬ r ∣ Nat.card (proj n (ℓ ^ f) L).ker := by
   rw [proj_ker, (CFSG.LinearGroups.unitary_scalar_kernel hℓ hL hn).2.2]
@@ -146,8 +151,8 @@ theorem sylow_comm_PSU_of_dvd (hp : r.Prime) (h5 : 5 ≤ r) (hL : Nat.card L = (
     (hpq : ¬ r ∣ ℓ ^ f) (hn : 1 ≤ n) (hnr : n < r) (hpq1 : r ∣ ℓ ^ f + 1) :
     ∀ S : Sylow r (StatedProj (StatedSU n (ℓ ^ f) L)),
       IsMulCommutative (S : Subgroup (StatedProj (StatedSU n (ℓ ^ f) L))) := by
-  haveI : Fact r.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite L
+  have : Fact r.Prime := ⟨hp⟩
+  have := Fintype.ofFinite L
   have hLc : Fintype.card L = (ℓ ^ f) ^ 2 := by rw [Fintype.card_eq_nat_card]; exact hL
   have he : orderOf (-((ℓ ^ f : ℕ) : ZMod r)) = 1 := by
     have h0 : (((ℓ ^ f + 1 : ℕ)) : ZMod r) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 hpq1
@@ -174,7 +179,7 @@ end I294LargeUni
 open I294LargeUni in
 theorem i294LargeModelPSU_holds : I294LargeModelPSU := by
   intro r hr h5 ℓ f hℓ hf K _ _ hK hpq n hn hLU hS
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨S, hS'⟩ := hS
   by_cases hpq1 : r ∣ ℓ ^ f + 1
   · by_cases hnr : n < r

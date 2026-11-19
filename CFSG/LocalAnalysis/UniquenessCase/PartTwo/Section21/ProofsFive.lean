@@ -111,15 +111,15 @@ private theorem Ctx215.false_of_odd_dvd_of_s21_15Two {D : Data G} {Ch : Choice20
   omega
 
 private theorem s21_5_of_false (D : Data G) (Ch : Choice2011 G)
-    (hF : ∀ e : Ctx215 D Ch, H1930 D → False) : S21_5 D Ch := by
+    (hF : ∀ _e : Ctx215 D Ch, H1930 D → False) : S21_5 D Ch := by
   intro h1930 c L hL
   by_contra h
   obtain ⟨a, haB, haP, ha2, haN⟩ :=
     exists_prime_orderOf_not_mem_normalizer c.hB h
-  let e : Ctx215 D Ch :=
+  let _e : Ctx215 D Ch :=
     { toCtx21 := c, L := L, hL := hL, a := a, haB := haB, ha_prime := haP,
       ha_ne_two := ha2, ha_not_mem := haN }
-  exact hF e h1930
+  exact hF _e h1930
 
 theorem s21_5_of (D : Data G) (Ch : Choice2011 G) (hσ : UC6S846.SigmaStd D)
     (h211 : S21_1 D Ch) (h72 : F07.R72 D) (h82 : F08.R82 D) (h899 : F08.R899 D)

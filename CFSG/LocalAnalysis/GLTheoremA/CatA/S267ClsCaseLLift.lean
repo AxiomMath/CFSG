@@ -26,7 +26,7 @@ theorem exists_eq_pow_of_pow_eq {G : Type*} [CommGroup G] {p d : ℕ} (hp : p.Pr
   rw [mul_pow, e1, e2, ← _root_.zpow_add, ← hb, zpow_one]
 
 theorem exists_pow_mul_eq_pow {K : Type*} [Field K] [Finite K] {p : ℕ} (hp : p.Prime)
-    (hpK : p ∣ Nat.card Kˣ) (u v : Kˣ) (hu : ¬ ∃ μ : Kˣ, u = μ ^ p) :
+    (_hpK : p ∣ Nat.card Kˣ) (u v : Kˣ) (hu : ¬ ∃ μ : Kˣ, u = μ ^ p) :
     ∃ (i : ℕ) (μ : Kˣ), u ^ i * v = μ ^ p := by
   obtain ⟨g, hg⟩ := IsCyclic.exists_monoid_generator (α := Kˣ)
   obtain ⟨a, rfl⟩ := Submonoid.mem_powers_iff _ _ |>.1 (hg u)
@@ -103,7 +103,7 @@ theorem exists_heisenberg_pair [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     (hxy : x * y ≠ y * x) :
     ∃ X ∈ E.comap (pglMk n K), ∃ Y ∈ E.comap (pglMk n K), ∃ z : Kˣ, X ^ p = 1 ∧
       IsPrimitiveRoot (z : K) p ∧ Y * X * Y⁻¹ = GeneralLinearGroup.scalar (Fin n) z * X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ := center_le_comap_pglMk (K := K) (n := n) E
   have hsc : ∀ c : Kˣ, GeneralLinearGroup.scalar (Fin n) c ∈ E.comap (pglMk n K) := fun c =>
     hZ (by
@@ -178,7 +178,7 @@ theorem mulVec_eq_smul_of_eigenspace_one {p : ℕ} (hp : p.Prime) {X Y u : GL (F
     {c : K} (hc : ∀ v ∈ Module.End.eigenspace (Matrix.toLin' (X : Matrix (Fin n) (Fin n) K)) 1,
       (u : Matrix (Fin n) (Fin n) K) *ᵥ v = c • v) (v : Fin n → K) :
     (u : Matrix (Fin n) (Fin n) K) *ᵥ v = c • v := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set g : (Fin n → K) ≃ₗ[K] (Fin n → K) :=
     LinearMap.GeneralLinearGroup.generalLinearEquiv K (Fin n → K)
       (Matrix.GeneralLinearGroup.toLin X) with hg
@@ -317,7 +317,7 @@ theorem card_le_of_heisenberg [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
       Nat.card E ≤ p ^ (Module.finrank K
         (Module.End.eigenspace (Matrix.toLin' (X : Matrix (Fin n) (Fin n) K)) 1) + 1) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set W := Module.End.eigenspace (Matrix.toLin' (X : Matrix (Fin n) (Fin n) K)) 1 with hW
   set m := Module.finrank K W with hm
   have hnm : n = p * m := card_eq_mul_finrank_eigenspace_one hp hz hXp hXY
@@ -393,7 +393,7 @@ theorem card_le_of_heisenberg [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     card_le_of_scalar_kernel hp hp2 hpK hm0 r.range ρ hker E₂ hE₂ρ hE₂el
   set T : Subgroup (GL (Fin n) K) :=
     (rootsOfUnity p K).map (GeneralLinearGroup.scalar (Fin n)) with hT
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   have hTcard : Nat.card T ≤ p := by
     rw [hT, Subgroup.card_map_of_injective
       (fun a b h => generalLinearGroup_scalar_injective h)]
@@ -492,7 +492,7 @@ theorem mem_wtSpace_iff {A : Subgroup (GL (Fin n) K)} {χ : ↥A →* Kˣ} {v : 
 
 theorem natCast_ne_zero_of_dvd_card_units [Finite K] {p : ℕ} (hp : p.Prime)
     (hpK : p ∣ Nat.card Kˣ) : (p : K) ≠ 0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' p hpK
   have hprim : IsPrimitiveRoot (ζ : K) p :=
     IsPrimitiveRoot.coe_units_iff.2 (IsPrimitiveRoot.iff_orderOf.2 hζ)
@@ -502,17 +502,17 @@ open Classical in
 theorem isInternal_wtSpace [Finite K] {p : ℕ} (hp : p.Prime) (hpK : p ∣ Nat.card Kˣ)
     {A : Subgroup (GL (Fin n) K)} (hA : IsElemAbelian p A) :
     DirectSum.IsInternal (fun χ : ↥A →* Kˣ => wtSpace A χ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative ↥A := hA.1
-  haveI : Finite ↥A := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative ↥A := hA.1
+  have : Finite ↥A := inferInstance
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' p hpK
   have hprim : IsPrimitiveRoot (ζ : K) p :=
     IsPrimitiveRoot.coe_units_iff.2 (IsPrimitiveRoot.iff_orderOf.2 hζ)
-  haveI : HasEnoughRootsOfUnity K p := ⟨⟨_, hprim⟩, inferInstance⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : HasEnoughRootsOfUnity K p := ⟨⟨_, hprim⟩, inferInstance⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hexp : Monoid.exponent ↥A ∣ p :=
     Monoid.exponent_dvd_of_forall_pow_eq_one fun a => Subtype.ext (hA.2 a a.2)
-  haveI : HasEnoughRootsOfUnity K (Monoid.exponent ↥A) := HasEnoughRootsOfUnity.of_dvd K hexp
+  have : HasEnoughRootsOfUnity K (Monoid.exponent ↥A) := HasEnoughRootsOfUnity.of_dvd K hexp
   have hpg : IsPGroup p ↥A := fun a => ⟨1, by rw [pow_one]; exact Subtype.ext (hA.2 a a.2)⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hpg
   have hunit : IsUnit (Nat.card ↥A : K) := by
@@ -526,7 +526,7 @@ theorem card_le_pow_card_wtSpace [Finite K] {p : ℕ} (hp : p.Prime) (hpK : p �
     {A : Subgroup (GL (Fin n) K)} (hA : IsElemAbelian p A) :
     Nat.card ↥A ≤ p ^ Nat.card {χ : ↥A →* Kˣ // wtSpace A χ ≠ ⊥} := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hint := isInternal_wtSpace hp hpK hA
   set X := {χ : ↥A →* Kˣ // wtSpace A χ ≠ ⊥}
   have hroot : ∀ (χ : ↥A →* Kˣ) (a : ↥A), χ a ∈ rootsOfUnity p K := fun χ a => by
@@ -617,9 +617,9 @@ theorem mul_card_map_le_card_omegaOne [Finite K] {p : ℕ} (hp : p.Prime) (hpK :
     (hn : 0 < n) {Q : Subgroup (GL (Fin n) K)} (hQ : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x)
     (hZQ : Subgroup.center (GL (Fin n) K) ≤ Q) :
     p * Nat.card ((omegaOne Q hQ p).map (pglMk n K)) ≤ Nat.card (omegaOne Q hQ p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   set Ω := omegaOne Q hQ p
   have h := Subgroup.card_ker_mul_card_range ((pglMk n K).comp Ω.subtype)
   rw [MonoidHom.range_comp, Subgroup.range_subtype] at h
@@ -658,7 +658,7 @@ theorem card_le_of_not_pow [Finite K] {p : ℕ} (hp : p.Prime) (hpK : p ∣ Nat.
     (hxc : x ^ p = GeneralLinearGroup.scalar (Fin n) c) (hc : ¬ ∃ μ : Kˣ, c = μ ^ p) :
     ∃ w : ℕ, p * w ≤ n ∧ Nat.card E ≤ p ^ w := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Q := E.comap (pglMk n K) with hQ
   have hZQ : Subgroup.center (GL (Fin n) K) ≤ Q := center_le_comap_pglMk E
   set Ω := omegaOne Q hcomm p with hΩdef
@@ -666,7 +666,7 @@ theorem card_le_of_not_pow [Finite K] {p : ℕ} (hp : p.Prime) (hpK : p ∣ Nat.
   have hsc : ∀ d : Kˣ, GeneralLinearGroup.scalar (Fin n) d ∈ Q := fun d => hZQ (by
     rw [Matrix.GeneralLinearGroup.center_eq_range_scalar]
     exact ⟨d, rfl⟩)
-  haveI : Fintype (↥Ω →* Kˣ) := Fintype.ofFinite _
+  have : Fintype (↥Ω →* Kˣ) := Fintype.ofFinite _
   refine ⟨Nat.card {χ : ↥Ω →* Kˣ // wtSpace Ω χ ≠ ⊥}, ?_, ?_⟩
   ·
     have hint := isInternal_wtSpace hp hpK hΩ
@@ -746,7 +746,7 @@ theorem exists_lift_of_split [Finite K] {p : ℕ} (hp : p.Prime) (hpK : p ∣ Na
     ∃ A : Subgroup (GL (Fin n) K), A ≤ Y ∧ IsElemAbelian p A ∧
       A ⊓ Subgroup.center (GL (Fin n) K) = ⊥ ∧ A.map (pglMk n K) = E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Q := E.comap (pglMk n K) with hQ
   have hZQ : Subgroup.center (GL (Fin n) K) ≤ Q := center_le_comap_pglMk E
   set Ω := omegaOne Q hcomm p ⊓ Y with hΩdef
@@ -760,7 +760,7 @@ theorem exists_lift_of_split [Finite K] {p : ℕ} (hp : p.Prime) (hpK : p ∣ Na
     push Not at hall
     have htop := hint.submodule_iSup_eq_top
     rw [show (⨆ χ : ↥Ω →* Kˣ, wtSpace Ω χ) = ⊥ from iSup_eq_bot.2 hall] at htop
-    haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+    have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
     exact bot_ne_top htop
   obtain ⟨w₀, hw₀, hw₀0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hχ₀
   have hχsc : ∀ (l : Kˣ) (hl : GeneralLinearGroup.scalar (Fin n) l ∈ Ω),
@@ -817,7 +817,7 @@ theorem exists_lift_of_split [Finite K] {p : ℕ} (hp : p.Prime) (hpK : p ∣ Na
       have hmem : (⟨_, hl'⟩ : ↥Ω) * ⟨_, hu⟩ ∈ χ₀.ker := by
         rw [MonoidHom.mem_ker, map_mul, hχsc _ hl', ← hl, inv_mul_cancel]
       refine ⟨_, ⟨_, hmem, rfl⟩, ?_⟩
-      simp only [Subgroup.coe_subtype, Subgroup.coe_mul, map_mul,
+      simp only [Subgroup.coe_subtype, map_mul,
         pglMk_eq_one_iff.2 ⟨l⁻¹, rfl⟩, pglMk_eq_one_iff.2 ⟨ν⁻¹, rfl⟩, one_mul]
 
 end Abelian

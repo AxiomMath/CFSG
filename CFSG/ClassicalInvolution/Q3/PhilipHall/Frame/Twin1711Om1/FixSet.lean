@@ -75,7 +75,7 @@ private theorem fs_ncard_orbit : 576 ≤ (MulAction.orbit (closureW wT) fs0).nca
   have e : {p | ∃ s ∈ Om1Facts.G wT, p = Om1Facts.tup s} =
       fsTuple '' MulAction.orbit (closureW wT) fs0 := by
     ext p
-    simp only [Set.mem_setOf_eq, Set.mem_image]
+    simp only [Set.mem_ofPred_eq, Set.mem_image]
     constructor
     · rintro ⟨s, hs, rfl⟩
       obtain ⟨x, hx, rfl⟩ := exists_of_mem_G hws hs
@@ -145,7 +145,7 @@ theorem card_fixSet_le {B : Set (Subgroup WP)} (h0 : R0 ∈ B) (h1 : R0' ∈ B) 
   have hAut : Nat.card (MulAut ↥(⊤ : Subgroup WP)) = 348364800 := by
     rw [← card_mulAut_wPlus]
     exact Nat.card_congr (MulAut.congr Subgroup.topEquiv).toEquiv
-  haveI : Finite (MulAut ↥(⊤ : Subgroup WP)) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
+  have : Finite (MulAut ↥(⊤ : Subgroup WP)) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
   have h2 : Nat.card (fixSet (⊤ : Subgroup WP) B) ≤
       Nat.card (fixSet (⊤ : Subgroup WP) ({R0, R0'} : Set (Subgroup WP))) :=
     Subgroup.card_le_of_le (OmGen.fixSet_anti hsub)

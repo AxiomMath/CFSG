@@ -19,7 +19,7 @@ theorem lin_structure {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 3 ≤ n) :
     (conjAut n K).ker = (GeneralLinearGroup.scalar (Fin n) : Kˣ →* GL (Fin n) K).range := by
   obtain ⟨ℓ, hℓ⟩ := CharP.exists K
   have hℓp : ℓ.Prime := CharP.char_is_prime K ℓ
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm'⟩ := FiniteField.card K ℓ
   have hm : Nat.card K = ℓ ^ (m : ℕ) := by
     rw [Nat.card_eq_fintype_card]

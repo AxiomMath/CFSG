@@ -33,8 +33,8 @@ theorem cycR_succ (f : ℕ → ℕ) (p F q l : ℕ) :
   change strictN (f q) (fun q' => nIf(Nat.beq q' p, l, cycR f p F q' (Nat.succ l))) = _
   rw [strictN_eqP]
   rcases Bool.eq_false_or_eq_true (Nat.beq (f q) p) with hb | hb
-  · rw [hb, if_pos (Nat.eq_of_beq_eq_true hb)]
-  · rw [hb, if_neg (Nat.ne_of_beq_eq_false hb)]
+  · rw [hb, ite_eq_left (Nat.eq_of_beq_eq_true hb)]
+  · rw [hb, ite_eq_right (Nat.ne_of_beq_eq_false hb)]
 
 theorem cycR_spec (f : ℕ → ℕ) (p : ℕ) : ∀ F q l, 1 ≤ l → q = f^[l - 1] p →
     (∀ j, 1 ≤ j → j < l → f^[j] p ≠ p) →
@@ -55,9 +55,9 @@ theorem cycR_spec (f : ℕ → ℕ) (p : ℕ) : ∀ F q l, 1 ≤ l → q = f^[l 
       omega
     by_cases hb : f q = p
     · right
-      rw [if_pos hb]
+      rw [ite_eq_left hb]
       exact ⟨le_rfl, by omega, by rw [← hfq]; exact hb, hmin⟩
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       have hne : f^[l] p ≠ p := by
         rw [← hfq]
         exact hb

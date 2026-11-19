@@ -53,7 +53,7 @@ private lemma ggSL2_val_lt {q q' : ℕ} (hq : 1 ≤ q) (h : q < q') :
 
 theorem ggSL2_card (F : Type) [Field F] [Finite F] :
     Nat.card SL(2, F) = Nat.card F * (Nat.card F ^ 2 - 1) := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hq : 2 ≤ Fintype.card F := Fintype.one_lt_card
   rw [Matrix.card_SL_field (𝔽 := F) 2, Fin.prod_univ_two, Nat.card_eq_fintype_card]
   norm_num
@@ -166,8 +166,8 @@ theorem ggLinearBlockPair_exists_of_card_eq [Finite F] {F' : Type} [Field F'] [F
   have hleft : Nat.card U = Nat.card SL(2, F') := ggLinearBlockPair_card_left h
   have hcard : Nat.card SL(2, F) = Nat.card SL(2, F') := hU.symm.trans hleft
   have hFF' : Nat.card F = Nat.card F' := ggSL2_card_inj hcard
-  haveI := Fintype.ofFinite F
-  haveI := Fintype.ofFinite F'
+  have := Fintype.ofFinite F
+  have := Fintype.ofFinite F'
   have hc : Fintype.card F' = Fintype.card F := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hFF'.symm

@@ -32,7 +32,7 @@ theorem w135c2_four_le_mQuot_g2
     CFSG.Quasithin.Explicit CFSG.QuasithinUnique.Setup.Layer
     CFSG.QuasithinUnique.Setup.Layer.Actor CFSG.QuasithinUnique.Setup.X7b in
   classical
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite (MulAut W) := MulEquiv.finite_left
   have hq : IsQuasisimple ↥L := hctx.2.2.2.2.1
   have : Group.IsPerfect ↥L := hq.1
   have hmodel := CFSG.Blueprint.LieModel.chevalleyExceptionalModel hlie (by decide)
@@ -44,16 +44,16 @@ theorem w135c2_four_le_mQuot_g2
     rwa [QuotientGroup.ker_mk'] at h0
   obtain ⟨he2, K, hKfield, hKfin, hKchar, hKcard, ⟨χ⟩⟩ :=
     CFSG.Quasithin.B42G2Id.exists_cayleyGroup_of_model_center_eq_bot hZ hmodel
-  letI : Field K := hKfield
-  letI : CharP K 2 := hKchar
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : CharP K 2 := hKchar
+  have : Fintype K := Fintype.ofFinite K
   have hF : Fintype.card K = 2 ^ f := by rw [← Nat.card_eq_fintype_card, hKcard]
   obtain ⟨M, _, _, _, ⟨θ⟩⟩ := Actor.exists_binModel_of_binary (V := W) fun v => by
     rw [← pow_two]
     exact hW v
   obtain ⟨hlt, -, -, hirrW⟩ := hctx.2.2.2.2.2
   have hWnt : Nontrivial W := by
-    obtain ⟨v, -, hv⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨v, -, hv⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     exact ⟨⟨v, 1, fun h => hv (h ▸ Subgroup.one_mem _)⟩⟩
   have hMnt : Nontrivial M := by
     obtain ⟨v, hv⟩ := exists_ne (1 : W)
@@ -87,7 +87,7 @@ theorem w135c2_four_le_mQuot_g2
     simp only [π, hadef, MonoidHom.coe_comp, Function.comp_apply, MulEquiv.coe_toMonoidHom,
       MulEquiv.symm_apply_apply, Subgroup.coe_subtype, map_mul, map_inv]
   have hrk : dispRank a = rkIdx (fixV (Subgroup.zpowers t)) := by
-    haveI : Module.Finite (ZMod 2) M := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) M := Module.Finite.of_finite
     let t' : ↥Y := ⟨t, htY⟩
     have ht' : orderOf t' = 2 := by rw [Subgroup.orderOf_mk]; exact ht2
     have h1 := finrank_quotient_fixSub_subRep θ Y (Subgroup.zpowers t')

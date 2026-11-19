@@ -24,7 +24,7 @@ open CFSG.StandardType.F4ExplicitPos.NeighbourLift
 namespace CFSG.StandardType.F4ExplicitPos.Sp6NeighbourRoot
 
 theorem ggRootVia_of_Sp6_neighbour
-    (f : ℕ) (hf : 1 ≤ f)
+    (f : ℕ) (_hf : 1 ≤ f)
     {Ω : Type} [Field Ω] [CharP Ω 2] [Algebra (GaloisField 2 f) Ω]
     {X Y : Type} [Group X] [Group Y]
     (G0 K R : Subgroup X) (hKG : K ≤ G0) (hRG : R ≤ G0)

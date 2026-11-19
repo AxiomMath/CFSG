@@ -85,7 +85,7 @@ theorem mem_adjRoots_of_cartan (hf72 : ∀ j, f j < 72)
       have hd : ∀ i : Fin Tag.E6.rank, Tag.E6.cartan i i = 2 := by decide
       rw [hd] at hij
       exact absurd hij (by decide)
-    simp [Pi.single_apply, hii] at e'
+    simp [hii] at e'
   have h := adjOK_eq
   simp only [adjOK, List.all_eq_true, List.mem_range, Bool.or_eq_true, bne_iff_ne, ne_eq,
     beq_iff_eq] at h

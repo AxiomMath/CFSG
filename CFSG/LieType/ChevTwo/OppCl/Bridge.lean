@@ -15,8 +15,8 @@ section Bridge
 open CFSG.Blueprint TauCeti
 
 theorem isClassicalTwoOrG2_cases
-    {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
-    (hna : ∃ a b : S, a * b ≠ b * a) (h : CFSG.AGLEmbedding.IsClassicalTwoOrG2 S) :
+    {S : Type} [Group S] [Finite S] (_hs : IsSimpleGroup S)
+    (_hna : ∃ a b : S, a * b ≠ b * a) (h : CFSG.AGLEmbedding.IsClassicalTwoOrG2 S) :
     (∃ (t : StatedLieTag) (n f : ℕ), (t = .PSL ∨ t = .PSU ∨ t = .PSp ∨ t = .POmegaPlus ∨
         t = .POmegaMinus) ∧ StatedClassicalModel S t n 2 f) ∨
       (∃ f : ℕ, ChevalleyExceptionalModel S .G2 2 f) ∨

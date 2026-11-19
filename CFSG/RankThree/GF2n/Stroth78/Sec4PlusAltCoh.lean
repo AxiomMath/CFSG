@@ -46,7 +46,7 @@ theorem exists_hom_zmodTwo_apply_ne_one (S : Setting z E F) {b : G} (hb : b ∈ 
     intro c
     obtain ⟨g, hg⟩ := Quotient.exists_rep c
     exact ⟨g, by rw [← hg]; rfl⟩
-  letI : Module (ZMod 2) (Additive (Abelianization ↥(Q z))) :=
+  let : Module (ZMod 2) (Additive (Abelianization ↥(Q z))) :=
     AddCommGroup.zmodModule (fun x => by
       obtain ⟨q, hq⟩ := hsurj (Additive.toMul x)
       apply Additive.toMul.injective
@@ -79,6 +79,7 @@ private noncomputable def liftQbar (S : Setting z E F) (f : ↥(Q z) →* Multip
   QuotientGroup.lift ((ZQ z).subgroupOf (Q z)) f
     (fun q hq => hf q (Subgroup.mem_subgroupOf.mp hq))
 
+omit [Finite G] in
 private theorem liftQbar_mkQbar (S : Setting z E F) (f : ↥(Q z) →* Multiplicative (ZMod 2))
     (hf : ∀ q : ↥(Q z), (q : G) ∈ ZQ z → f q = 1) (q : ↥(Q z)) :
     liftQbar S f hf (mkQbar S q) = f q :=
@@ -189,8 +190,8 @@ theorem exists_invariant_hom_of_pointMaps (S : Setting z E F) (a : G)
       (∀ q : ↥(Q z), (q : G) ∈ ZQ z → lam q = lam0 q) ∧
       ∀ (g : ↥(XsubPre S a)) (q : ↥(Q z)), lam (conjAutQ S (g : ↥(H z)) q) = lam q := by
   classical
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hB : (qS S).polarBilin.Nondegenerate := q_nondegenerate S
 
   let Ψe : Matrix.SpecialLinearGroup (Fin 4) (ZMod 2) ≃* ↥(Xsub S a) :=

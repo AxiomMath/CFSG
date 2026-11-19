@@ -17,7 +17,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 
 theorem isElemAb2_map_mulEquiv {H : Type} [Group H] (f : H ≃* H) {U : Subgroup H} {k : ℕ}
     (h : IsElemAb2 U k) : IsElemAb2 (U.map f.toMonoidHom) k := by
-  haveI : IsMulCommutative U := h.1.1
+  have : IsMulCommutative U := h.1.1
   refine ⟨⟨inferInstance, ?_⟩, ?_⟩
   · intro x hx
     obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.mp hx
@@ -70,7 +70,7 @@ theorem ff_exists_outer (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V
   have hsub : γ ∈ (TauCeti.QuadraticMap.orthogonalGroup Q).subgroupOf (simGroup Q) := by
     rcases mem_piSim_iff.mp hmem with h | h
     · rw [← inv_mul_eq_one.mp h]
-      exact Subgroup.mem_subgroupOf.mpr (by simpa using t.2)
+      exact Subgroup.mem_subgroupOf.mpr (by simp)
     · rw [eq_mul_of_inv_mul_eq h]
       exact Subgroup.mem_subgroupOf.mpr (by
         simp only [Subgroup.coe_mul, coe_orthToSim]
@@ -83,7 +83,7 @@ theorem ff_star_exists_second (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMo
     (hsgn : quadSign Q = -1) (h2 : 2 ≤ Module.finrank (ZMod 3) V) (fr : NFrame Q (Fin 6) 1) :
     ∃ U : Subgroup ↥(omegaProj hQ), U ≤ ffP1 hQ fr ∧ IsElemAb2 U 4 ∧ U ≠ ffB1 hQ fr ∧
       ∃ y : ProjSim Q, U = (ffB1 hQ fr).map (ffSimOmegaAct hQ h2 y).toMonoidHom := by
-  haveI : Finite (↥(omegaProj hQ)) := Nat.finite_of_card_ne_zero
+  have : Finite (↥(omegaProj hQ)) := Nat.finite_of_card_ne_zero
     (by rw [ff_natCard_omegaProj_six_minus hQ hdim hsgn]; norm_num)
   obtain ⟨ξ, hξ⟩ := ff_exists_outer hQ hdim
   let α : MulAut ↥(omegaProj hQ) := ffSimOmegaAct hQ h2 ξ
@@ -137,7 +137,7 @@ theorem ff_star_sylow_E16 (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3)
       (∀ B : Subgroup ↥(omegaProj hQ), B ≤ P → IsElemAb2 B 4 → B = B₁ ∨ B = B₂) ∧
       (∃ y : ProjSim Q, B₁ = (ffB1 hQ fr).map (ffSimOmegaAct hQ h2 y).toMonoidHom) ∧
       (∃ y : ProjSim Q, B₂ = (ffB1 hQ fr).map (ffSimOmegaAct hQ h2 y).toMonoidHom) := by
-  haveI : Finite (↥(omegaProj hQ)) := Nat.finite_of_card_ne_zero
+  have : Finite (↥(omegaProj hQ)) := Nat.finite_of_card_ne_zero
     (by rw [ff_natCard_omegaProj_six_minus hQ hdim hsgn]; norm_num)
   obtain ⟨U₂, hU₂le, hU₂e, hU₂ne, y₂, hU₂y⟩ := ff_star_exists_second hQ hdim hsgn h2 fr
   obtain ⟨a, -, hconj⟩ := IsSylow2Of.exists_conj_mem (ffP1_sylow hQ hdim hsgn fr) hP
@@ -279,7 +279,7 @@ theorem ff_star_E16_conj (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
     (hsgn : quadSign Q = -1) (h2 : 2 ≤ Module.finrank (ZMod 3) V) (fr : NFrame Q (Fin 6) 1)
     {U : Subgroup ↥(omegaProj hQ)} (hE : IsElemAb2 U 4) :
     ∃ y : ProjSim Q, U = (ffB1 hQ fr).map (ffSimOmegaAct hQ h2 y).toMonoidHom := by
-  haveI : Finite (↥(omegaProj hQ)) := Nat.finite_of_card_ne_zero
+  have : Finite (↥(omegaProj hQ)) := Nat.finite_of_card_ne_zero
     (by rw [ff_natCard_omegaProj_six_minus hQ hdim hsgn]; norm_num)
   have hU2 : IsPGroup 2 U := IsPGroup.of_card (p := 2) (n := 4) hE.2
   obtain ⟨P, hPsyl, hUP⟩ := exists_isSylow2Of_ge hU2 (le_top : U ≤ ⊤)

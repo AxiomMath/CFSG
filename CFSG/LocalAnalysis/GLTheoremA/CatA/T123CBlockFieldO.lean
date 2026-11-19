@@ -103,7 +103,7 @@ theorem dvd_ordTwistedD_of_dvd_add_one {n q p : ℕ} (hn : 2 ≤ n) (hp : p.Prim
 
 private theorem dvd_pow_add_one_of_mul {ℓ e p : ℕ} (hp : p.Prime) (hdvd : p ∣ ℓ ^ (e * p) + 1) :
     p ∣ ℓ ^ e + 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [pow_mul] at hdvd
   rw [← ZMod.natCast_eq_zero_iff] at hdvd ⊢
   push_cast at hdvd ⊢
@@ -148,8 +148,8 @@ theorem FixSimple.fieldBlock {α : MulAut T} (h : FixSimple p α) :
       (∀ P : Subgroup T, P ≤ fixSub α → ⁅P, P⁆ = P → P ≤ M) ∧
       ∀ β : MulAut T, (∀ m ∈ M, β m = m) → β ∈ Subgroup.zpowers α := by
   obtain ⟨X, _, hs, ⟨a, b, hab⟩, hpX, ⟨e⟩, hfix⟩ := h
-  haveI := hs
-  haveI : IsSimpleGroup ↥(fixSub α) := e.isSimpleGroup
+  have := hs
+  have : IsSimpleGroup ↥(fixSub α) := e.isSimpleGroup
   have hnab : ∃ x y : ↥(fixSub α), x * y ≠ y * x :=
     ⟨e.symm a, e.symm b, fun h' => hab (by simpa using congrArg e h')⟩
   have hZ := center_eq_bot_of_simple_nonabelian hnab
@@ -238,7 +238,7 @@ open CFSG.RankThree.PartOne.KCOrthogonalAut (matrixProjectiveImage_eq_top_plus
 private theorem isOuterOfOrder_of_pow {p : ℕ} {T : Type} [Group T] (hp : p.Prime)
     {α : MulAut T} (hαp : α ^ p = 1) (hαo : ∀ t : T, MulAut.conj t ≠ α) :
     IsOuterOfOrder p α := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   exact ⟨orderOf_eq_prime hαp fun h => hαo 1 (by rw [h, map_one]), fun g h => hαo g h.symm⟩
 
 private theorem fixSimple_coordPlus {n ℓ f p : ℕ} {K : Type} [Field K] [Finite K]

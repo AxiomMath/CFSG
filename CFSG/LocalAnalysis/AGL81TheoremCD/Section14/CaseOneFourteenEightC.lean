@@ -98,9 +98,9 @@ private noncomputable def exists_coreSetup
   exact ⟨K, R, hK, hKfacts.1, hKfacts.2.1, hKn, huniq, hcent, hRcomp, hRmap, hLle, hLsub,
     hLnormal, hLbar⟩
 
-private noncomputable def coreCore_of_setup {M : Subgroup G} (S : CoreSetup M) : CoreCore S := by
+private theorem coreCore_of_setup {M : Subgroup G} (S : CoreSetup M) : CoreCore S := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRsub : S.R.IsSubnormal := S.hRcomp.choose_spec.2.1
   have hRres : CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual 3 ↥S.R = ⊤ :=
     CFSG.ComponentClassification.CatalogueBPrimeJoin.primeResidual_eq_top_of_pComponent 3 S.R
@@ -229,6 +229,7 @@ private theorem core_dichotomy {M : Subgroup G} (S : CoreSetup M) (C : CoreCore 
     have hLN : L ≤ N := Subgroup.subgroupOf_eq_top.mp (top_unique htopN)
     exact le_antisymm hNL hLN
 
+omit [Finite G] in
 private theorem core_centralizing {M : Subgroup G} (S : CoreSetup M) :
     ∀ U : Subgroup G, U ≤ M → U ≤ Subgroup.normalizer (S.R.map M.subtype : Set G) →
       ⁅U, S.R.map M.subtype⁆ ≤ CFSG.inSubgroup (CFSG.pPrimeCore 3) M →
@@ -310,7 +311,7 @@ private theorem exists_pElement_not_mem_of_pRank {X : Type} [Group X] [Finite X]
     (hL : CFSG.Open.pRank p Lbar ≤ 1) :
     ∃ x : X, (∃ k : ℕ, orderOf x = p ^ k) ∧ x ∉ Lbar := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hcover
   push Not at hcover
   obtain ⟨E, -, hEea, hEcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt (⊤ : Subgroup X)
@@ -325,29 +326,29 @@ private theorem stronglyPEmbedded_and_perfect_of_caseOneCtx {M H E Q J R T : Sub
     (c : CaseOneCtx G M H E Q J R T) {L : Subgroup G} (hL : FourteenEightCore M L)
     {p : ℕ} (hp : p ∈ sigmaSet G M) :
     CFSG.RankThree.PartOne.IsStronglyPEmbedded p M ∧ commutator G = ⊤ := by
-  haveI : IsSimpleGroup (threeStar L) := hL.simple
+  have : IsSimpleGroup (threeStar L) := hL.simple
   have hqStar : CFSG.IsQuasisimple (threeStar L) :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hL.nonabelian).1
   have hp_prime : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1
   have hp_odd : p ≠ 2 := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_odd p hp.1
   have hp1 : 1 < p := hp_prime.one_lt
-  haveI : Fact p.Prime := ⟨hp_prime⟩
-  haveI : IsSimpleGroup G := c.choice.cstar.simple
-  haveI : IsSimpleGroup (threeStar L) := hL.simple
+  have : Fact p.Prime := ⟨hp_prime⟩
+  have : IsSimpleGroup G := c.choice.cstar.simple
+  have : IsSimpleGroup (threeStar L) := hL.simple
   have hns : ¬ Group.IsSolvable ↥M := by
     intro hsol
-    letI : Group.IsSolvable ↥M := hsol
-    haveI : Group.IsSolvable ↥(L.subgroupOf M) := inferInstance
+    let : Group.IsSolvable ↥M := hsol
+    have : Group.IsSolvable ↥(L.subgroupOf M) := inferInstance
     have hLsol : Group.IsSolvable ↥L :=
       Group.isSolvable_of_surjective
         (f := (Subgroup.subgroupOfEquivOfLe hL.L_le).toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe hL.L_le).surjective
-    letI : Group.IsSolvable ↥L := hLsol
+    let : Group.IsSolvable ↥L := hLsol
     have hStarSol : Group.IsSolvable (threeStar L) :=
       Group.isSolvable_of_surjective
         (f := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥L))
         (QuotientGroup.mk'_surjective _)
-    letI : Group.IsPerfect (threeStar L) := hqStar.1
+    let : Group.IsPerfect (threeStar L) := hqStar.1
     exact Group.IsPerfect.not_isSolvable (threeStar L) hStarSol
   have hp3 : p ≠ 3 := fun h3 => c.choice.hypCGen.not_mem_sigmaSet (h3 ▸ hp)
   obtain ⟨P, hPM, hΓ⟩ :=
@@ -376,7 +377,7 @@ private theorem quotient_component_data {M L : Subgroup G} {p : ℕ} (hp1 : 1 < 
     (hnot : ¬ 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (threeStar L))) :
     CFSG.Open.IsQuasisimple ↥(threeStarImg M L) ∧
       CFSG.Open.pRank p (threeStarImg M L) ≤ 1 := by
-  haveI : IsSimpleGroup (threeStar L) := hL.simple
+  have : IsSimpleGroup (threeStar L) := hL.simple
   have hqStar : CFSG.IsQuasisimple (threeStar L) :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hL.nonabelian).1
   obtain ⟨eLbar⟩ := hL.img_equiv
@@ -404,7 +405,7 @@ theorem CaseOneCtx.fourteenEight_five
   have hp_prime : p.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime p hp.1
   have hp_odd : p ≠ 2 := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_odd p hp.1
   have hp1 : 1 < p := hp_prime.one_lt
-  haveI : Fact p.Prime := ⟨hp_prime⟩
+  have : Fact p.Prime := ⟨hp_prime⟩
   by_contra hnot
   let X := threeStar M
   let Lbar : Subgroup X := threeStarImg M L
@@ -421,7 +422,7 @@ theorem CaseOneCtx.fourteenEight_five
   have hmbar : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) :=
     two_le_pRank_quotient_of_pCore_le hp_prime hmM hDle
   obtain ⟨x, hxpow, hxout⟩ := exists_pElement_not_mem_of_pRank hp_prime hmbar hrankLbar
-  haveI : IsSimpleGroup G := c.choice.cstar.simple
+  have : IsSimpleGroup G := c.choice.cstar.simple
   have hMne : M ≠ ⊤ :=
     CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top c.choice.cstar.nonab M
       c.choice.maxLocal.1
@@ -434,7 +435,7 @@ theorem CaseOneCtx.fourteenEight_five
   obtain ⟨hstrong, hperf⟩ :=
     stronglyPEmbedded_and_perfect_of_caseOneCtx c hL hp
   let Npre : Subgroup ↥M := N.comap (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥M))
-  haveI : Npre.Normal := hNnormal.comap (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥M))
+  have : Npre.Normal := hNnormal.comap (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥M))
   have hNpre_index : Npre.index = p := by
     rw [Subgroup.index_comap_of_surjective _
       (QuotientGroup.mk'_surjective (CFSG.pPrimeCore 3 ↥M))]

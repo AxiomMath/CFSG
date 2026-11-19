@@ -32,7 +32,7 @@ theorem eq_bot_of_two_subgroup_of_normalized (hbig : NoBig3 G) {A M Q : Subgroup
     exact h2Q.trans (Subgroup.card_dvd_of_le hQM)
   obtain ⟨S, hAS⟩ := CFSG.GroupTheory.exists_sylow_le_normalizer_of_isPGroup
     Nat.prime_three Nat.prime_two (CFSG.Open.IsElemAbelian.isPGroup hA) hAM hM3
-  have hT2 : IsPGroup 2 ((S : Subgroup M).map M.subtype) := S.isPGroup'.map M.subtype
+  have hT2 : IsPGroup 2 ((S : Subgroup M).map M.subtype) := S.isPGroup.map M.subtype
   have hT : (S : Subgroup M).map M.subtype ≠ ⊥ := by
     rw [Ne, Subgroup.map_eq_bot_iff_of_injective _ M.subtype_injective]
     exact Sylow.ne_bot_of_dvd_card S h2M

@@ -62,10 +62,10 @@ theorem D1Sp48NCentData.exists_outside {z₁ z₂ σ : G} (hloc : D1Local 3 P M)
     have := hc.pRank_le
     omega
   set Q : Subgroup G := (P : Subgroup G) ⊓ Subgroup.normalizer (R : Set G) with hQ
-  have hQp : IsPGroup 3 Q := P.isPGroup'.to_le inf_le_left
+  have hQp : IsPGroup 3 Q := P.isPGroup.to_le inf_le_left
   have hRQ : R < Q := by
     refine lt_of_le_of_ne (le_inf hext.le_P Subgroup.le_normalizer) fun heq => hRP ?_
-    exact (eq_of_isPGroup_of_le_of_normalizer P.isPGroup' hext.le_P
+    exact (eq_of_isPGroup_of_le_of_normalizer P.isPGroup hext.le_P
       fun g hg hgN => heq ▸ ⟨hg, hgN⟩).symm
   obtain ⟨d, hd, hd1, hd2, Y, hY, hRY, hYN, hYC⟩ := Sp48NCent.exists_outside_le_centralizer hQp hRQ
     inf_le_right hc.z₁_mem hc.z₂_mem hc.order₁ hc.order₂ hc.inf_eq_bot hc.σ_norm hc.σ₁ hc.σ₂

@@ -24,8 +24,8 @@ theorem threeNineOut_G2 {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
       (∀ q : ℕ, q.Prime → q ≠ 2 → q ∣ Nat.card (Outer G) → q = 3) ∧ 3 ∣ Nat.card G := by
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ :=
     CFSG.LieType.Chevalley.nonempty_mulEquiv_adjointGroup (G := G) .G2 hG.2
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hKp : Nat.card K = p := by simpa using hKcard
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
@@ -60,7 +60,7 @@ private theorem fin_two_eq_of_ne :
 private theorem geomSum_six_one (p : ℕ) :
     CFSG.Timmesfeld.ExceptionalOrders.geomSum 6 1 p = (p + 1) * (p ^ 4 + p ^ 2 + 1) := by
   unfold CFSG.Timmesfeld.ExceptionalOrders.geomSum
-  simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, pow_one]
+  simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add]
   ring
 
 private theorem not_dvd_card_borelGroup_G2 {K : Type} [Field K] [Finite K] {p d : ℕ}
@@ -136,21 +136,21 @@ private theorem relIndex_parabolicSubgroup_singleton_G2 {K : Type} [Field K] [Fi
 private theorem exists_conj_borel_le {G : Type} [Group G] [Finite G] {p d : ℕ}
     {Y : Subgroup G} (hp : p.Prime) (hG : ChevalleyExceptionalModel G .G2 p 1)
     (h : IsBorelDLocal p d Y) :
-    ∃ (K : Type) (_ : Field K) (_ : Finite K) (e : G ≃* adjointGroup .G2 K)
+    ∃ (K : Type) (_ : Field K) (_ : Finite K) (_e : G ≃* adjointGroup .G2 K)
       (Y' : Subgroup ↥(adjointGroup .G2 K)),
       Nat.card K = p ∧ IsBorelDLocal p d Y' ∧
       (borelGroup .G2 K).subgroupOf (adjointGroup .G2 K) ≤ Y' := by
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, ⟨e⟩⟩ :=
     CFSG.LieType.Chevalley.nonempty_mulEquiv_adjointGroup (G := G) .G2 hG.2
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hKp : Nat.card K = p := by simpa using hKcard
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp (le_refl 1)
       (by simpa using hKp)
-  haveI : Finite (adjointGroup .G2 K) := Subtype.finite
+  have : Finite (adjointGroup .G2 K) := Subtype.finite
   have hY : IsBorelDLocal p d (Y.map e.toMonoidHom) := h.map_equiv e
   have hUC : posUnipotent .G2 K ≤ adjointGroup .G2 K := posUnipotent_le_adjointGroup
   have hU := card_posUnipotent (τ := .G2) (K := K)
@@ -212,7 +212,7 @@ private theorem eq_empty_or_exists_singleton_of_ne_univ {J : Set (Fin Tag.G2.ran
 
 private theorem normalizer_torus_le_of_dvd_sub_one {K : Type} [Field K] [Finite K]
     {p d : ℕ} {Y' : Subgroup ↥(adjointGroup .G2 K)}
-    (hp : p.Prime) (hKp : Nat.card K = p) (hd : d.Prime)
+    (_hp : p.Prime) (hKp : Nat.card K = p) (hd : d.Prime)
     (hYg : IsBorelDLocal p d Y')
     (hBle : (borelGroup .G2 K).subgroupOf (adjointGroup .G2 K) ≤ Y')
     (hdp1 : d ∣ p - 1) :
@@ -294,7 +294,7 @@ private theorem false_of_dvd_sub_one {K : Type} [Field K] [Finite K] {p d : ℕ}
 private theorem false_of_not_dvd_sub_one {K : Type} [Field K] [Finite K] {p d : ℕ}
     {Y' : Subgroup ↥(adjointGroup .G2 K)} {J : Set (Fin Tag.G2.rank)}
     (hp : p.Prime) (hKp : Nat.card K = p) (hd : d.Prime) (hdp : d ≠ p)
-    (hYg : IsBorelDLocal p d Y')
+    (_hYg : IsBorelDLocal p d Y')
     (hYeq : Y' = (parabolicSubgroup .G2 K J).subgroupOf (adjointGroup .G2 K))
     (hJ : J ≠ Set.univ) (hdY : d ∣ Nat.card Y') (hndY : ¬ d ∣ Y'.index)
     (hdp1 : ¬ d ∣ p - 1) : False := by
@@ -328,13 +328,13 @@ private theorem false_of_not_dvd_sub_one {K : Type} [Field K] [Finite K] {p d : 
     exact hndY hdvd_index
 
 theorem not_isBorelDLocal_G2 {G : Type} [Group G] [Finite G] {p d : ℕ} {Y : Subgroup G}
-    (hp : p.Prime) (hp5 : 5 ≤ p) (hd : d.Prime) (hd2 : d ≠ 2) (hdp : d ≠ p)
+    (hp : p.Prime) (_hp5 : 5 ≤ p) (hd : d.Prime) (_hd2 : d ≠ 2) (hdp : d ≠ p)
     (hdG : d ∣ Nat.card G) (hG : ChevalleyExceptionalModel G .G2 p 1) :
     ¬ IsBorelDLocal p d Y := by
   intro h
   obtain ⟨K, hKfield, hKfin, e, Y', hKp, hYg, hBle⟩ := exists_conj_borel_le hp hG h
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨J, hYeq⟩ := exists_parabolic_eq_of_borel_le hBle
   have hJ : J ≠ Set.univ := by
     intro hJtop

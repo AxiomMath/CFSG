@@ -20,7 +20,7 @@ theorem _root_.CFSG.EvenSporadicStandard.Solomon78.IsCompIn.ne_bot {M X : Subgro
 
 theorem isCompIn_top_top (hG : IsSimpleGroup G) (hna : ∃ a b : G, a * b ≠ b * a) :
     IsCompIn (⊤ : Subgroup G) ⊤ := by
-  haveI := hG
+  have := hG
   refine isCompIn_of_subnormal le_top ?_ ?_
   · exact CFSG.LocalCores.isQuasisimple_of_mulEquiv Subgroup.topEquiv.symm
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hna).1

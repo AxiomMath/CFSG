@@ -279,6 +279,7 @@ open QTwoGammaThree
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {σ : K ≃+* K}
 
+omit [Finite K] in
 theorem QTwoGammaThree.exists_sigma_eq_add_one (hσ : IsUnitaryInvolution σ)
     (hK : Nat.card K = 4) : ∃ w : K, σ w = w + 1 ∧ w * w = w + 1 := by
   obtain ⟨c, hc⟩ := hσ.exists_ne
@@ -485,7 +486,7 @@ theorem flipPt_solidChain_of_card_eq_four (hσ : IsUnitaryInvolution σ) (hK : N
     obtain ⟨S, hS, ha, hb⟩ := h
     exact ⟨S, hS, hb, ha⟩⟩
   have hrt : Std.Symm (Relation.ReflTransGen R) :=
-    @Relation.ReflTransGen.symmetric (FlipPt σ 3) R hsymm
+    @Relation.ReflTransGen.stdSymm (FlipPt σ 3) R hsymm
   have hback : Relation.ReflTransGen R (P 0 (by omega)) (P i' hi') :=
     hrt.symm (P i' hi') (P 0 (by omega)) (hmain i' hi')
   exact (hmain i hi).trans hback

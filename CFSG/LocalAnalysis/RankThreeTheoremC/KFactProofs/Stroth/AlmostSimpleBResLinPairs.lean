@@ -22,7 +22,7 @@ theorem exists_two_indep_fixed_blocks_of_dvd {p e n : ℕ} (hp : p.Prime)
       (∀ i j : ℤ, x₁ ^ i * x₂ ^ j = 1 → (p : ℤ) ∣ i ∧ (p : ℤ) ∣ j) ∧
       fieldAut n K τ x₁ = x₁ ∧ fieldAut n K τ x₂ = x₂ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg, hgτ⟩ := exists_fixed_orderOf_eq_prime
     (UnitaryHigher.glAut (ι := Fin e) (K := K) τ) (by rw [← map_pow, hτ, map_one]) hdvd
   have hdet : GeneralLinearGroup.det g = 1 := by
@@ -106,7 +106,7 @@ theorem weights3_one : weights3 (1 : Fin 2 → Kˣ) = 1 := by
 
 theorem weights3_mul (x y : Fin 2 → Kˣ) : weights3 (x * y) = weights3 x * weights3 y := by
   funext i
-  fin_cases i <;> simp [weights3, mul_inv, mul_comm, mul_left_comm, mul_assoc]
+  fin_cases i <;> simp [weights3, mul_comm, mul_left_comm, mul_assoc]
 
 @[expose] noncomputable def diagThree : (Fin 2 → Kˣ) →* SpecialLinearGroup (Fin 3) K where
   toFun x := CFSG.LieType.SeitzGeneration.diagSLn (weights3 x) (prod_weights3 x)
@@ -174,7 +174,7 @@ theorem exists_two_indep_fixed_diag {p n : ℕ} (hp : p.Prime) (hn : 3 ≤ n) (h
       (∀ i j : ℤ, x₁ ^ i * x₂ ^ j = 1 → (p : ℤ) ∣ i ∧ (p : ℤ) ∣ j) ∧
       fieldAut n K τ x₁ = x₁ ∧ fieldAut n K τ x₂ = x₂ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ, hζτ⟩ := exists_fixed_orderOf_eq_prime (unitsAut τ)
     (by rw [← map_pow, hτ, map_one]) (by rwa [Nat.card_units])
   have hζτ' : τ (ζ : K) = (ζ : K) := by
@@ -184,7 +184,7 @@ theorem exists_two_indep_fixed_diag {p n : ℕ} (hp : p.Prime) (hn : 3 ≤ n) (h
     (Equiv.sumCongr finProdFinEquiv (Equiv.refl _)).trans
       (finSumFinEquiv.trans (finCongr (by omega)))
   let Φ : (Fin 2 → Kˣ) →* SpecialLinearGroup (Fin n) K :=
-    (blkSL σ₁).comp (Pi.monoidHom fun _ : Fin 1 => diagThree)
+    (blkSL σ₁).comp (_root_.MonoidHom.pi fun _ : Fin 1 => diagThree)
   have hΦ : Function.Injective Φ := by
     intro x y h
     have h1 := blkSL_injective σ₁ h

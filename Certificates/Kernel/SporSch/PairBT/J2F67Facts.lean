@@ -139,7 +139,7 @@ theorem exists_conj_comm_pair [Finite G] {r : ℕ} (hr : r.Prime) {a0 b0 : G} (h
     CFSG.GH74.GLS.Stage2.Bender.Thm1.sq_dvd_card_closure_pair hr ha hb hab ha1 hb1
   have hcardQ : ∀ Q : Sylow r G, Nat.card Q ≤ r ^ 2 := by
     intro Q
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 Q.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 Q.isPGroup
     have hdv : r ^ k ∣ Nat.card G := hk ▸ Subgroup.card_subgroup_dvd_card (Q : Subgroup G)
     have hk2 : k ≤ 2 := by
       by_contra h

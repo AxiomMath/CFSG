@@ -17,6 +17,7 @@ open CFSG.GroupTheory.ThreeTranspositions (HasE9 isCyclic_of_isPGroup_three
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem three_dvd_card_of_not_isPGroup (hO : CFSG.pPrimeCore 3 Q = ⊥) (hnp : ¬ IsPGroup 3 Q) :
     3 ∣ Nat.card Q := by
   by_contra h
@@ -29,18 +30,18 @@ theorem three_dvd_card_of_not_isPGroup (hO : CFSG.pPrimeCore 3 Q = ⊥) (hnp : �
 theorem exists_conj_eq_inv_of_sylow (hE9 : ¬ HasE9 Q) (hO : CFSG.pPrimeCore 3 Q = ⊥)
     (hnp : ¬ IsPGroup 3 Q) (P : Sylow 3 Q) :
     ∃ g : Q, ∀ y ∈ (P : Subgroup Q), g * y * g⁻¹ = y⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hP : Subgroup.normalizer (P : Set Q) ≤ Subgroup.centralizer (P : Set Q)
   · refine absurd ?_ hnp
     have hker : (MonoidHom.transferSylow P hP).ker = ⊥ :=
       (CFSG.pPrimeCore_eq_bot_iff.mp hO) _ inferInstance
         ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr
           (MonoidHom.not_dvd_card_ker_transferSylow P hP))
-    exact P.isPGroup'.of_injective _ ((MonoidHom.ker_eq_bot_iff _).mp hker)
-  · obtain ⟨g, hgN, hgC⟩ := SetLike.not_le_iff_exists.mp hP
+    exact P.isPGroup.of_injective _ ((MonoidHom.ker_eq_bot_iff _).mp hker)
+  · obtain ⟨g, hgN, hgC⟩ := IsConcreteLE.not_le_iff_exists.mp hP
     exact ⟨g, CFSG.Quasithin.F918V3E2.inv_of_mem_normalizer_not_mem_centralizer P
       (P.ne_bot_of_dvd_card (three_dvd_card_of_not_isPGroup hO hnp))
-      (isCyclic_of_isPGroup_three hE9 P.isPGroup') hgN hgC⟩
+      (isCyclic_of_isPGroup_three hE9 P.isPGroup) hgN hgC⟩
 
 theorem mem_commutator_of_mem_sylow (hE9 : ¬ HasE9 Q) (hO : CFSG.pPrimeCore 3 Q = ⊥)
     (hnp : ¬ IsPGroup 3 Q) (P : Sylow 3 Q) {y : Q} (hy : y ∈ (P : Subgroup Q)) :
@@ -52,7 +53,7 @@ theorem mem_commutator_of_mem_sylow (hE9 : ¬ HasE9 Q) (hO : CFSG.pPrimeCore 3 Q
   have hy2 : y ^ 2 ∈ commutator Q := by
     have h := (commutator Q).inv_mem h1
     rwa [mul_inv_rev, inv_inv, ← pow_two] at h
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨y, hy⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨y, hy⟩
   have hyk : y ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
   obtain ⟨m, hm⟩ : Odd (3 ^ k) := Odd.pow (by decide)
   have hy' : y = (y ^ 2) ^ (m + 1) := by
@@ -63,7 +64,7 @@ theorem mem_commutator_of_mem_sylow (hE9 : ¬ HasE9 Q) (hO : CFSG.pPrimeCore 3 Q
 theorem isPerfect_of_not_hasE9 (hE9 : ¬ HasE9 Q) (hO : CFSG.pPrimeCore 3 Q = ⊥)
     (hgen : Subgroup.closure {x : Q | ∃ k : ℕ, orderOf x = 3 ^ k} = ⊤) (hnp : ¬ IsPGroup 3 Q) :
     Group.IsPerfect Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨eq_top_iff.mpr ?_⟩
   rw [← hgen, Subgroup.closure_le]
   rintro x ⟨k, hk⟩
@@ -74,7 +75,7 @@ theorem isPerfect_of_not_hasE9 (hE9 : ¬ HasE9 Q) (hO : CFSG.pPrimeCore 3 Q = �
 
 theorem exists_conj_eq_inv_of_orderOf_eq_three (hE9 : ¬ HasE9 Q) (hO : CFSG.pPrimeCore 3 Q = ⊥)
     (hnp : ¬ IsPGroup 3 Q) {a : Q} (ha : orderOf a = 3) : ∃ g : Q, g * a * g⁻¹ = a⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have haP : IsPGroup 3 (Subgroup.zpowers a) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ha, pow_one])
   obtain ⟨P, hP⟩ := haP.exists_le_sylow
@@ -113,9 +114,9 @@ theorem false_of_commute_conj (hE9 : ¬ HasE9 Q) (hO : CFSG.pPrimeCore 3 Q = ⊥
 theorem isSimpleGroup_normalClosure_of_not_hasE9 (hE9 : ¬ HasE9 Q)
     (hO : CFSG.pPrimeCore 3 Q = ⊥) {a : Q} (ha : orderOf a = 3) :
     IsSimpleGroup ↥(Subgroup.normalClosure ({a} : Set Q)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have haN : a ∈ Subgroup.normalClosure ({a} : Set Q) := Subgroup.subset_normalClosure rfl
-  haveI : Nontrivial ↥(Subgroup.normalClosure ({a} : Set Q)) := ⟨⟨⟨a, haN⟩, 1, fun h => by
+  have : Nontrivial ↥(Subgroup.normalClosure ({a} : Set Q)) := ⟨⟨⟨a, haN⟩, 1, fun h => by
     have h1 : a = 1 := congrArg Subtype.val h
     rw [h1, orderOf_one] at ha
     exact absurd ha (by decide)⟩⟩
@@ -162,23 +163,23 @@ theorem isSimpleGroup_of_not_hasE9 (hSch : CFSG.AGLEmbedding.KFactCatalogSchreie
     (hK : CFSG.Open.IsKGroup Q) (hE9 : ¬ HasE9 Q) (hO : CFSG.pPrimeCore 3 Q = ⊥)
     (hgen : Subgroup.closure {x : Q | ∃ k : ℕ, orderOf x = 3 ^ k} = ⊤) (hnp : ¬ IsPGroup 3 Q) :
     IsSimpleGroup Q ∧ ∃ x y : Q, x * y ≠ y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' 3 (three_dvd_card_of_not_isPGroup hO hnp)
   have haN : a ∈ Subgroup.normalClosure ({a} : Set Q) := Subgroup.subset_normalClosure rfl
   have hnab := exists_mul_ne_mul_of_mem hE9 hO hgen hnp ha haN
-  haveI := isSimpleGroup_normalClosure_of_not_hasE9 hE9 hO ha
-  haveI : Group.IsSolvable (Outer ↥(Subgroup.normalClosure ({a} : Set Q))) :=
+  have := isSimpleGroup_normalClosure_of_not_hasE9 hE9 hO ha
+  have : Group.IsSolvable (Outer ↥(Subgroup.normalClosure ({a} : Set Q))) :=
     hSch _ inferInstance hnab (hK.isCatalogGroup_of_surjective
       (Subgroup.normalClosure ({a} : Set Q)) hnab (MonoidHom.id _) Function.surjective_id)
-  haveI := CFSG.RankThree.PartOne.CTP.solvable_quotient_of_outer _
+  have := CFSG.RankThree.PartOne.CTP.solvable_quotient_of_outer _
     (centralizer_eq_bot_of_mem hE9 hO hgen hnp ha haN)
-  haveI := isPerfect_of_not_hasE9 hE9 hO hgen hnp
+  have := isPerfect_of_not_hasE9 hE9 hO hgen hnp
   have htop : Subgroup.normalClosure ({a} : Set Q) = ⊤ := by
     by_contra hne
-    haveI : Nontrivial (Q ⧸ Subgroup.normalClosure ({a} : Set Q)) :=
+    have : Nontrivial (Q ⧸ Subgroup.normalClosure ({a} : Set Q)) :=
       QuotientGroup.nontrivial_iff.mpr hne
     exact Group.IsPerfect.not_isSolvable (Q ⧸ Subgroup.normalClosure ({a} : Set Q)) inferInstance
-  haveI : Nontrivial Q := ⟨⟨a, 1, fun h => by
+  have : Nontrivial Q := ⟨⟨a, 1, fun h => by
     rw [h, orderOf_one] at ha
     exact absurd ha (by decide)⟩⟩
   obtain ⟨⟨x, _hx⟩, ⟨y, _hy⟩, hxy⟩ := hnab

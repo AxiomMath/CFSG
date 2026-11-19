@@ -226,7 +226,7 @@ theorem normal_of_pglQ (h134 : Item134) (h48 : Sec4.Item4_8) (h415 : Sec4.Item4_
   have hlt : Nat.card (Ronan148M.centPre148 A Y J) < Nat.card Y :=
     Ronan148M.card_centPre148_lt hJY (Ronan148M.exists_ne_comm_of_isPerfect hJp hJne)
   have h148₁ : Item148At A (lB A) (Ronan148M.centPre148 A Y J) hY₁ := ih _ hY₁ hlt
-  letI := ker148_normal hY₁.2
+  let := ker148_normal hY₁.2
   have hX1Y₁ : deltaZero A (lB A) (Ronan148M.centPre148 A Y J) ≤
       Ronan148M.centPre148 A Y J := sSup_le fun _ hQ => hQ.2
   have hN₁ := img148_le_normalizer_of_map_normal (A := A) hX1Y₁ h148₁.1
@@ -269,7 +269,7 @@ theorem step148PGLCentIndQ_of (h134 : Item134) (h48 : Sec4.Item4_8) (h415 : Sec4
     (hKT : Step148KType) (hLift : Step148Lift) (hD4 : Step148D4) :
     Ronan148N.Step148PGLCentInd := by
   intro G _ _ A c L h Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ hEq hpgl heΩ hLeA
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   obtain ⟨p, f, hf, hpgl⟩ := hpgl
   by_cases hX1 : img148 A Y (deltaZero A (lB A) (Ronan148M.centPre148 A Y J)) = ⊥
   · left
@@ -342,7 +342,7 @@ theorem step148NormalQ_of (h134 : Item134) (h48 : Sec4.Item4_8) (h415 : Sec4.Ite
     (hNotK : Step148RankImgGeFieldTopNotK) (hHJ : Step148NormalHJ) (hConj : Step148PGLConj) :
     Step148Normal := by
   intro G _ _ A c L h Y hY hs ih hcases h1
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   by_cases hHJb : ∃ B, IsHyperplane A B ∧ ¬ YBOne A (lB A) Y B
   · obtain ⟨B, hB, hnot⟩ := hHJb
     obtain ⟨YB, hYB', htype, hle, b, d, Lb, hconf, hYBle⟩ :=
@@ -414,7 +414,7 @@ theorem step148NormalQ_nhj_of (h134 : Item134) (h48 : Sec4.Item4_8) (h415 : Sec4
     (h1 : ¬ Case148One A (lB A) Y) :
     (((deltaZero A (lB A) Y).subgroupOf Y).map
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥Y))).Normal := by
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   have hHJb : ∀ B : Subgroup G, IsHyperplane A B → YBOne A (lB A) Y B := fun B hB =>
     yBOne_of_lB_eq_bot h.isElemAbelian.1 hB
       (lB_eq_bot_of_not_allPointsHJ h134 CFSG.Sporadic.J2.isSimpleGroup_J2 h48 h415

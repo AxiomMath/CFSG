@@ -42,7 +42,7 @@ theorem rootSpan_perpRoots_E6_eq_groupA :
   refine Eq.trans ?_ h.symm
   congr 1
   ext γ
-  simp only [perpRoots, parabolicRoots, Set.mem_setOf_eq]
+  simp only [perpRoots, parabolicRoots, Set.mem_ofPred_eq]
   have hnode : ∀ i : Fin 6, i ∉ ({0, 2, 3, 4, 5} : Set (Fin 6)) ↔ i = 1 := by
     intro i
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff, not_or]

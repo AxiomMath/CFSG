@@ -21,7 +21,7 @@ theorem odd_ident {X : Type} [Group X] [Finite X] {p e : ℕ} [Fact p.Prime] (hp
       (∃ f₁ : ℕ, 1 ≤ f₁ ∧ f₁ ≤ 2 ∧ IsLThreeEpsAt ↥K₀ p f₁) ∨
       Nonempty (↥K₀ ≃* alternatingGroup (Fin 7)) := by
   have hp : p.Prime := Fact.out
-  haveI := hKs
+  have := hKs
   have hKp : Group.IsPerfect K₀ := isPerfect_of_simple hKs hnab
   have hrank : CFSG.Assembly.twoRank K₀ = 2 := by
     refine le_antisymm (oddTwoRank X p e hp2 he hiso K₀) ?_
@@ -29,7 +29,7 @@ theorem odd_ident {X : Type} [Group X] [Finite X] {p e : ℕ} [Fact p.Prime] (hp
     by_contra hodd
     rw [Nat.not_even_iff_odd] at hodd
     have hsolv := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
-    haveI := hKp
+    have := hKp
     exact Group.IsPerfect.not_isSolvable K₀ hsolv
   rcases CFSG.Milestones.lr_rank_two_isomorphism_types K₀ hnab hrank with
     ⟨r, f, hr, hr2, hf, hM⟩ | ⟨r, f, hr, hr2, hf, hM⟩ | ⟨r, f, hr, hr2, hf, hM⟩ | hM | hφ | hφ

@@ -59,9 +59,9 @@ private lemma inf_le_pPrimeCore_of_inf_sylow {S Z₁ Z₂ N₁ N₂ : Subgroup X
     (hS : IsSylowOf 3 S ⊤) (hN₁ : N₁.Normal) (hN₂ : N₂.Normal)
     (hZ₁ : Nat.card Z₁ = 3) (hZ₂ : Nat.card Z₂ = 3) (hZ₁₂ : Z₁ ≠ Z₂)
     (h₁ : S ⊓ N₁ = Z₁) (h₂ : S ⊓ N₂ = Z₂) : N₁ ⊓ N₂ ≤ CFSG.pPrimeCore 3 X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : N₁.Normal := hN₁
-  haveI : N₂.Normal := hN₂
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : N₁.Normal := hN₁
+  have : N₂.Normal := hN₂
   have hdisj : Z₁ ⊓ Z₂ = ⊥ := by
     have hdvd : Nat.card ↥(Z₁ ⊓ Z₂) ∣ 3 := by
       rw [← hZ₁]
@@ -107,7 +107,7 @@ lemma le_centralizer_sup_pPrimeCore_of_commutator_le {M N Z : Subgroup X}
     (hZN : Z ≤ N) (hZ3 : IsPGroup 3 Z) (hcomm : ⁅N, M⁆ ≤ CFSG.pPrimeCore 3 X) :
     M ≤ Subgroup.centralizer (Z : Set X) ⊔ CFSG.pPrimeCore 3 X := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup X := CFSG.pPrimeCore 3 X
   let f : X →* X ⧸ O := QuotientGroup.mk' O
   have hker : f.ker = O := QuotientGroup.ker_mk' O
@@ -142,8 +142,8 @@ lemma le_centralizer_sup_pPrimeCore_of_commutator_le {M N Z : Subgroup X}
 private lemma normalizer_sup_of_normal_eq_top {S N₀ : Subgroup X} (hS : IsSylowOf 3 S ⊤)
     (hN₀ : N₀.Normal) (hSN : S ≤ N₀) :
     Subgroup.normalizer (S : Set X) ⊔ N₀ = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : N₀.Normal := hN₀
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : N₀.Normal := hN₀
   have hSyl : IsSylowOf 3 S N₀ := by
     have h := hS.inf_of_le_normalizer (K := ⊤) (N := N₀) le_top
       (le_of_eq (Subgroup.normalizer_eq_top (H := N₀)).symm)
@@ -165,13 +165,13 @@ theorem top_le_sup_pPrimeCore_of_weaklyClosed {X : Type} [Group X] [Finite X]
     (hN : Subgroup.normalizer (S : Set X) ≤ Y) :
     (⊤ : Subgroup X) ≤ Y ⊔ CFSG.pPrimeCore 3 X := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N₁ : Subgroup X := Subgroup.normalClosure (Z₁ : Set X)
   set N₂ : Subgroup X := Subgroup.normalClosure (Z₂ : Set X)
-  haveI hN₁norm : N₁.Normal := Subgroup.normalClosure_normal
-  haveI hN₂norm : N₂.Normal := Subgroup.normalClosure_normal
-  haveI hBnorm : B.Normal := Subgroup.normal_of_le_center hB
-  haveI hOnorm : (CFSG.pPrimeCore 3 X).Normal := CFSG.pPrimeCore_normal
+  have hN₁norm : N₁.Normal := Subgroup.normalClosure_normal
+  have hN₂norm : N₂.Normal := Subgroup.normalClosure_normal
+  have hBnorm : B.Normal := Subgroup.normal_of_le_center hB
+  have hOnorm : (CFSG.pPrimeCore 3 X).Normal := CFSG.pPrimeCore_normal
   have hr₁ : CFSG.Open.pRank 3 N₁ = 1 :=
     pRank_normalClosure_eq_one hK332 hK hS hSe hS27 hZ₁S hZ₁ hw₁
   have hr₂ : CFSG.Open.pRank 3 N₂ = 1 :=
@@ -194,7 +194,7 @@ theorem top_le_sup_pPrimeCore_of_weaklyClosed {X : Type} [Group X] [Finite X]
     le_centralizer_sup_pPrimeCore_of_commutator_le (M := N₁) (N := N₂) (Z := Z₂)
       Subgroup.le_normalClosure hZ₂3 hcomm'
   set N₀ : Subgroup X := ((N₁ ⊔ N₂) ⊔ B) ⊔ CFSG.pPrimeCore 3 X with hN₀
-  haveI hN₀norm : N₀.Normal := hN₀.symm ▸ inferInstance
+  have hN₀norm : N₀.Normal := hN₀.symm ▸ inferInstance
   have hSN₀ : S ≤ N₀ := by
     have hZN : Z₁ ⊔ Z₂ ≤ N₁ ⊔ N₂ := sup_le
       (Subgroup.le_normalClosure.trans le_sup_left)

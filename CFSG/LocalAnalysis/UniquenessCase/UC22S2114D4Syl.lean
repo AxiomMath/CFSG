@@ -70,7 +70,7 @@ theorem uc22s2114_sylowSeven_of_is3D4 {X : Type} [Group X] [Finite X] {f : ℕ}
       hK3 σ hσ (m := 3) (by decide) (p := 7) (by norm_num) (by norm_num) (hphi ▸ h7)
     rwa [hphi, hfac] at h
   obtain ⟨eP⟩ := CFSG.RankThree.PartOne.K1214.SylowShape.of_mulEquiv e hshapeC (P : Subgroup X)
-    P.isPGroup'
+    P.isPGroup
     (@Sylow.not_dvd_index 7 X inferInstance ⟨by norm_num⟩ P inferInstance)
   have hcard7 : Nat.card (Multiplicative (ZMod (7 ^ 1))) = 7 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
@@ -106,7 +106,7 @@ theorem uc22s2114_exists_fortyNine_of_is3D4 {L : Subgroup G} {f : ℕ}
     exact CFSG.pCore_isPGroup
   obtain ⟨Q, -, hQmap, hQdisj⟩ :=
     UC6S846.exists_lift_pGroup π (QuotientGroup.mk'_surjective _) hker
-      Nat.prime_seven (by norm_num) (P : Subgroup (Bar2 L)) P.isPGroup'
+      Nat.prime_seven (by norm_num) (P : Subgroup (Bar2 L)) P.isPGroup
   refine ⟨Q.map L.subtype, Subgroup.map_subtype_le _, ?_, ?_⟩
   · exact CFSG.SectionRank.isElemAbelian_map
       (UC6S846.isElemAbelian_of_disjoint_ker π Q hQdisj (by rw [hQmap]; exact hPel)) _

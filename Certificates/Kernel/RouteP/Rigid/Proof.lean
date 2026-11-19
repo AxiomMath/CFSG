@@ -56,9 +56,9 @@ theorem letterM_ok (F : Nat → Nat → Nat) (h p l : Nat) {st : BS × Nat} (hs 
   simp only [rgSnoc_eq]
   rw [bit_test, hs]
   by_cases hm : F l p ∈ st.1.pts
-  · rw [decide_eq_true hm, if_pos hm]
+  · rw [decide_eq_true hm, ite_eq_left hm]
     exact ⟨hs, rfl⟩
-  · rw [decide_eq_false hm, if_neg hm]
+  · rw [decide_eq_false hm, ite_eq_right hm]
     refine ⟨fun q => ?_, rfl⟩
     change (Nat.lor st.2 (Nat.shiftLeft 1 (F l p))).testBit q = decide (q ∈ st.1.pts ++ [F l p])
     rw [testBit_lor_bit, hs]
@@ -82,10 +82,10 @@ theorem stepM_ok (F : Nat → Nat → Nat) (lv : List Nat) (h : Nat) {st : BS ×
   unfold stepM BS.step
   rw [rgFold_eq, getK_eq, rgLen_eq]
   by_cases hh : h < st.1.pts.length
-  · rw [(Nat.blt_eq.mpr hh : Nat.blt h st.1.pts.length = true), if_pos hh]
+  · rw [(Nat.blt_eq.mpr hh : Nat.blt h st.1.pts.length = true), ite_eq_left hh]
     exact foldl_letterM_ok F h _ lv st hs
   · rw [(Bool.eq_false_iff.mpr fun e => hh (Nat.blt_eq.mp e) :
-      Nat.blt h st.1.pts.length = false), if_neg hh]
+      Nat.blt h st.1.pts.length = false), ite_eq_right hh]
     exact ⟨hs, rfl⟩
 
 theorem foldl_stepM_ok (F : Nat → Nat → Nat) (lv : List Nat) :
@@ -150,10 +150,10 @@ theorem propLFK_eq (F : Nat → Nat → Nat) (s : BS) (c : Nat) :
       (Bool.and (Nat.blt 0 k) (Nat.blt (getK s.par k) k)) = _
     rw [propLF, getK_eq, getK_eq, propLFK_eq F s c f]
     by_cases h : 0 < k ∧ s.par.getD k 0 < k
-    · rw [if_pos h, (Nat.blt_eq.mpr h.1 : Nat.blt 0 k = true),
+    · rw [ite_eq_left h, (Nat.blt_eq.mpr h.1 : Nat.blt 0 k = true),
         (Nat.blt_eq.mpr h.2 : Nat.blt (s.par.getD k 0) k = true)]
       rfl
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have hb : Bool.and (Nat.blt 0 k) (Nat.blt (s.par.getD k 0) k) = false := by
         cases h1 : Nat.blt 0 k <;> cases h2 : Nat.blt (s.par.getD k 0) k
         · rfl
@@ -185,7 +185,7 @@ theorem foldl_obStep_ok (F : Nat → Nat → Nat) (m n : Nat) :
     rw [bit_test, h.1 r]
     by_cases hr : r ∈ st.1
     · have hc : st.1.contains r = true := List.contains_iff_mem.mpr hr
-      simp only [hr, decide_true, hc, if_true]
+      simp only [hr, decide_true, hc, ite_true]
       exact h
     · have hc : st.1.contains r = false := by
         cases e : st.1.contains r
@@ -283,11 +283,11 @@ theorem letters_ap' {l x : Nat} (hl : l < 13) (hx : x < 891) :
   letters_ap (by rw [letters_size]; exact hl) hx
 
 theorem rgRun_ok {r : Nat} (hr : r < 891) : RunOK 891 PGF (List.range 13) r (rgRun r) :=
-  run_ok (fun l _ x hx => PGF_lt l hx) hr
+  run_ok (fun l _ _x hx => PGF_lt l hx) hr
 
 theorem rgRun_closed {r : Nat} (hr : r < 891) :
     ∀ p ∈ (rgRun r).pts, ∀ l < 13, PGF l p ∈ (rgRun r).pts :=
-  fun p hp l hl => run_closed (fun l _ x hx => PGF_lt l hx) hr p hp l (List.mem_range.2 hl)
+  fun p hp l hl => run_closed (fun l _ _x hx => PGF_lt l hx) hr p hp l (List.mem_range.2 hl)
 
 theorem orbitBS_runs (F : Nat → Nat → Nat) (m n : Nat) (hF : ∀ l, ∀ x < n, F l x < n) :
     ∀ s ∈ orbitBS F m n, s = BS.run F (List.range m) n (s.pts.headD 0) := by
@@ -440,9 +440,9 @@ theorem interAux_eq {a b : Nat} (ha : a < 891) (hb : b < 891) : ∀ k ≤ 24,
     rw [e]
     simp only [List.filter_cons, List.filter_nil]
     by_cases h : ((List.range 24).any fun j => PXE b j == PXE a k) = true
-    · rw [if_pos h, if_pos h]
+    · rw [ite_eq_left h, ite_eq_left h]
       rfl
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
       rfl
 
 theorem planeInterCount_eq {a b : Nat} (ha : a < 891) (hb : b < 891) :
@@ -477,7 +477,7 @@ theorem tabF_rg {l x : Nat} (hl : l ∈ List.range 13) (hx : x < 891) :
 
 theorem rgRun_tabF {r : Nat} (hr : r < 891) :
     rgRun r = BS.run (tabF (toTables (planeDTabs ()))) (List.range 13) 891 r :=
-  CFSG.KS.RouteP.run_congr hr (fun l _ x hx => PGF_lt l hx) (fun l hl x hx => (tabF_rg hl hx).symm)
+  CFSG.KS.RouteP.run_congr hr (fun _l _ _x hx => PGF_lt _l hx) (fun _l hl _x hx => (tabF_rg hl hx).symm)
 
 theorem treeOK_rg {r : Nat} (hr : r < 891) :
     treeOK 891 (ap (treeOf 891 (rgRun r)).pts 0) (treeOf 891 (rgRun r)) (toTables (planeDTabs ()))
@@ -563,7 +563,7 @@ theorem rigidOK_planeDTabs : rigidOK 891 (planeDTabs ()) (planeInterCount (plane
         candList_rg (by decide), hc1, hc12, hc159, h0]
       simp
     rw [hroots, hcands]
-    simp only [allSections, List.all_cons, List.all_nil, Bool.and_true, Bool.or_eq_true, beq_iff_eq]
+    simp only [allSections, List.all_cons, List.all_nil, Bool.and_true]
     rw [Bool.and_eq_true, Bool.or_eq_true, Bool.or_eq_true]
     refine ⟨Or.inl (beq_self_eq_true _), Or.inr ?_⟩
     rw [Bool.not_eq_true']

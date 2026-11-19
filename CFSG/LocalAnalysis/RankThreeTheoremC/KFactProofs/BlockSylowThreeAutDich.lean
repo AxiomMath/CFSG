@@ -14,7 +14,7 @@ open CFSG.Open CFSG.AGLEmbedding CFSG.AGLEmbedding.ParabHub CFSG.Assembly.LowTwo
   CFSG.QuasithinUnique CFSG.RankThreeCoreUniqueness.Helpers CFSG.LieType.Universal.Unitary
   CFSG.LieType.BorelTits
 
-@[expose] def SuOddThreeDvdStatement (hGA : CFSG.Open.GriessAllModelsStatement) : Prop :=
+@[expose] def SuOddThreeDvdStatement (_hGA : CFSG.Open.GriessAllModelsStatement) : Prop :=
   ∀ {Y₁ X : Type} [Group Y₁] [Finite Y₁] [Group X], Group.IsPerfect Y₁ →
     ∀ (ρ₁ : Y₁ →* X), Function.Surjective ρ₁ → ρ₁.ker ≤ Subgroup.center Y₁ →
       IsPGroup 3 ρ₁.ker → Subgroup.center X = ⊥ → ∀ {n : ℕ},

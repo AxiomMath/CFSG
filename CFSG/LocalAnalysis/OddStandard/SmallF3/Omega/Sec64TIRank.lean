@@ -64,8 +64,8 @@ private theorem exists_mul_eq_of_mem [Finite G] {U V R : Subgroup G}
     Subgroup.mul_injective_of_disjoint (disjoint_iff.mpr hdisj) (congrArg Subtype.val hp)
   have hcardUV : Nat.card (↥U × ↥V) = Nat.card ↥R := by
     rw [Nat.card_prod, hcardU, hcardV, hcardR]
-  haveI : Fintype (↥U × ↥V) := Fintype.ofFinite _
-  haveI : Fintype ↥R := Fintype.ofFinite _
+  have : Fintype (↥U × ↥V) := Fintype.ofFinite _
+  have : Fintype ↥R := Fintype.ofFinite _
   have hcard' : Fintype.card (↥U × ↥V) = Fintype.card ↥R := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hcardUV
@@ -83,7 +83,7 @@ private theorem ti_elemAbelian_card_le [Finite G] (hout : Asc82Outside) {T H : S
       (Multiplicative (ZMod 4))) :
     ∀ E : Subgroup G, E ≤ T → CFSG.Open.IsElemAbelian 2 E → Nat.card E ≤ 4 := by
   intro E hET hE
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R : Subgroup G := T ⊓ centralizer ({y} : Set G) with hR
   set U : Subgroup G := R ⊓ H with hU
   have hrel : H.relIndex R = 4 := by
@@ -173,7 +173,7 @@ private theorem ti_elemAbelian_card_le [Finite G] (hout : Asc82Outside) {T H : S
       intro e he
       refine Subgroup.mem_inf.mpr ⟨hET he, Subgroup.mem_centralizer_singleton_iff.mpr ?_⟩
       have hyE : y ∈ E := (Subgroup.mem_inf.mp hyC).1
-      haveI : IsMulCommutative ↥E := hE.1
+      have : IsMulCommutative ↥E := hE.1
       have hc := mul_comm' (⟨e, he⟩ : ↥E) (⟨y, hyE⟩ : ↥E)
       exact congrArg Subtype.val hc
     have hCea : CFSG.Open.IsElemAbelian 2 (E ⊓ centralizer ({y} : Set G)) :=

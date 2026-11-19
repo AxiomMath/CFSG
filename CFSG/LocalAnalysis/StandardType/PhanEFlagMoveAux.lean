@@ -20,12 +20,12 @@ lemma q2cFM_finrank_sup_eq (F P Q : Submodule K (Fin (m + 1) → K)) (hPQ : P �
   omega
 
 lemma q2cFM_finrank_inter_line (F P Q M : Submodule K (Fin (m + 1) → K))
-    (hPM : P ≤ M) (hMQ : M ≤ Q) (hPQ : P ≤ Q)
+    (hPM : P ≤ M) (hMQ : M ≤ Q) (_hPQ : P ≤ Q)
     (hMdim : finrank K M = finrank K P + 1) :
     finrank K ↥(F ⊓ M) = finrank K ↥(F ⊓ P) + (if M ≤ (F ⊓ Q) ⊔ P then 1 else 0) := by
   have hinf : (F ⊓ M) ⊓ P = F ⊓ P := by rw [inf_assoc, inf_eq_right.mpr hPM]
   by_cases h : M ≤ (F ⊓ Q) ⊔ P
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hMeq : M = (F ⊓ M) ⊔ P := by
       apply le_antisymm
       · intro m hm
@@ -38,7 +38,7 @@ lemma q2cFM_finrank_inter_line (F P Q M : Submodule K (Fin (m + 1) → K))
     have hdim := Submodule.finrank_sup_add_finrank_inf_eq (F ⊓ M) P
     rw [← hMeq, hinf] at hdim
     omega
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hlt : (F ⊓ M) ⊔ P < M := by
       refine lt_of_le_of_ne (sup_le inf_le_right hPM) ?_
       intro heq
@@ -57,22 +57,22 @@ noncomputable def q2cFM_jump (E : FlagK K (m + 1))
   exact if _h : ∃ a, M ≤ (E.E a ⊓ Q) ⊔ P then Nat.find _h else m + 1
 
 lemma q2cFM_jump_spec (E : FlagK K (m + 1))
-    (P Q M : Submodule K (Fin (m + 1) → K)) (hMQ : M ≤ Q) (hPQ : P ≤ Q) :
+    (P Q M : Submodule K (Fin (m + 1) → K)) (hMQ : M ≤ Q) (_hPQ : P ≤ Q) :
     M ≤ (E.E (q2cFM_jump E P Q M) ⊓ Q) ⊔ P := by
   have hex : ∃ a, M ≤ (E.E a ⊓ Q) ⊔ P := ⟨m + 1, by
     have htop : E.E (m + 1) = ⊤ := E.top (m + 1) le_rfl
     rw [htop, top_inf_eq]
     exact le_trans hMQ le_sup_left⟩
   unfold q2cFM_jump
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact Nat.find_spec hex
 
 lemma q2cFM_jump_min' (E : FlagK K (m + 1))
-    (P Q M : Submodule K (Fin (m + 1) → K)) (hMQ : M ≤ Q) {a : ℕ}
+    (P Q M : Submodule K (Fin (m + 1) → K)) (_hMQ : M ≤ Q) {a : ℕ}
     (h : M ≤ (E.E a ⊓ Q) ⊔ P) : q2cFM_jump E P Q M ≤ a := by
   have hex : ∃ a, M ≤ (E.E a ⊓ Q) ⊔ P := ⟨a, h⟩
   unfold q2cFM_jump
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact Nat.find_min' hex h
 
 lemma q2cFM_jump_le_iff (E : FlagK K (m + 1))
@@ -91,11 +91,11 @@ lemma q2cFM_finrank_jump (E : FlagK K (m + 1))
       finrank K ↥(E.E a ⊓ P) + (if q2cFM_jump E P Q M ≤ a then 1 else 0) := by
   rw [q2cFM_finrank_inter_line (E.E a) P Q M hPM hMQ hPQ hMdim]
   by_cases h : M ≤ (E.E a ⊓ Q) ⊔ P
-  · rw [if_pos h, if_pos ((q2cFM_jump_le_iff E P Q M hMQ hPQ a).mp h)]
-  · rw [if_neg h, if_neg (fun hj => h ((q2cFM_jump_le_iff E P Q M hMQ hPQ a).mpr hj))]
+  · rw [ite_eq_left h, ite_eq_left ((q2cFM_jump_le_iff E P Q M hMQ hPQ a).mp h)]
+  · rw [ite_eq_right h, ite_eq_right (fun hj => h ((q2cFM_jump_le_iff E P Q M hMQ hPQ a).mpr hj))]
 
 lemma q2cFM_jump_mem (E : FlagK K (m + 1))
-    (P Q M : Submodule K (Fin (m + 1) → K)) (hPM : P ≤ M) (hMQ : M ≤ Q) (hPQ : P ≤ Q)
+    (P Q M : Submodule K (Fin (m + 1) → K)) (_hPM : P ≤ M) (hMQ : M ≤ Q) (hPQ : P ≤ Q)
     (hQdim : finrank K Q = finrank K P + 2)
     (hMdim : finrank K M = finrank K P + 1) {u v : ℕ} (huv : u ≠ v)
     (hs : ∀ a, a ≤ m + 1 → finrank K ↥((E.E a ⊓ Q) ⊔ P) =
@@ -160,33 +160,33 @@ def q2cFM_replaceFlag (F : FlagK K (m + 1)) (i : Fin m)
     intro j k hjk
     change (if j = i.val + 1 then N else F.E j) ≤ (if k = i.val + 1 then N else F.E k)
     by_cases hj : j = i.val + 1
-    · rw [if_pos hj]
+    · rw [ite_eq_left hj]
       by_cases hk : k = i.val + 1
-      · rw [if_pos hk]
-      · rw [if_neg hk]
+      · rw [ite_eq_left hk]
+      · rw [ite_eq_right hk]
         exact hNQ.trans (F.mono (by omega))
-    · rw [if_neg hj]
+    · rw [ite_eq_right hj]
       by_cases hk : k = i.val + 1
-      · rw [if_pos hk]
+      · rw [ite_eq_left hk]
         exact (F.mono (by omega)).trans hPN
-      · rw [if_neg hk]
+      · rw [ite_eq_right hk]
         exact F.mono hjk
   dim := by
     intro j hj
     by_cases h : j = i.val + 1
-    · rw [if_pos h, h]; exact hNdim
-    · rw [if_neg h]; exact F.dim j hj
+    · rw [ite_eq_left h, h]; exact hNdim
+    · rw [ite_eq_right h]; exact F.dim j hj
   top := by
     intro j hj
     have h : j ≠ i.val + 1 := by omega
-    rw [if_neg h]; exact F.top j hj
+    rw [ite_eq_right h]; exact F.top j hj
 
 lemma q2cFM_replaceFlag_E (F : FlagK K (m + 1)) (i : Fin m)
     (N : Submodule K (Fin (m + 1) → K)) (hPN : F.E i.val ≤ N)
     (hNQ : N ≤ F.E (i.val + 2)) (hNdim : finrank K N = i.val + 1) :
     (q2cFM_replaceFlag F i N hPN hNQ hNdim).E (i.val + 1) = N := by
   show (if i.val + 1 = i.val + 1 then N else F.E (i.val + 1)) = N
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 lemma q2cFM_replaceFlag_E_of_ne (F : FlagK K (m + 1)) (i : Fin m)
     (N : Submodule K (Fin (m + 1) → K)) (hPN : F.E i.val ≤ N)
@@ -194,7 +194,7 @@ lemma q2cFM_replaceFlag_E_of_ne (F : FlagK K (m + 1)) (i : Fin m)
     (hj : j ≠ i.val + 1) :
     (q2cFM_replaceFlag F i N hPN hNQ hNdim).E j = F.E j := by
   show (if j = i.val + 1 then N else F.E j) = F.E j
-  rw [if_neg hj]
+  rw [ite_eq_right hj]
 
 lemma q2cFM_replaceFlag_adj (F : FlagK K (m + 1)) (i : Fin m)
     (N : Submodule K (Fin (m + 1) → K)) (hPN : F.E i.val ≤ N)
@@ -262,14 +262,14 @@ lemma q2cFM_jump_self (E F : FlagK K (m + 1)) {i : Fin m}
     by_contra hc
     rw [not_le] at hc
     have := key ((σ⁻¹ i.castSucc).val + 1) (by omega)
-    rw [if_neg (by omega), if_pos (by omega)] at this
+    rw [ite_eq_right (by omega), ite_eq_left (by omega)] at this
     omega
   have hge : (σ⁻¹ i.castSucc).val + 1
       ≤ q2cFM_jump E (F.E i.val) (F.E (i.val + 2)) (F.E (i.val + 1)) := by
     by_contra hc
     rw [not_le] at hc
     have := key ((σ⁻¹ i.castSucc).val) (by omega)
-    rw [if_pos (by omega), if_neg (by omega)] at this
+    rw [ite_eq_left (by omega), ite_eq_right (by omega)] at this
     omega
   omega
 
@@ -296,8 +296,8 @@ lemma q2cFM_hasPos_left {E F F' : FlagK K (m + 1)} {i : Fin m}
         then 1 else 0) = (if (σ⁻¹ i.castSucc).val < a then 1 else 0) := by
       rw [hj]
       by_cases h : (σ⁻¹ i.castSucc).val < a
-      · rw [if_pos (by omega : (σ⁻¹ i.castSucc).val + 1 ≤ a), if_pos h]
-      · rw [if_neg (by omega : ¬ (σ⁻¹ i.castSucc).val + 1 ≤ a), if_neg h]
+      · rw [ite_eq_left (by omega : (σ⁻¹ i.castSucc).val + 1 ≤ a), ite_eq_left h]
+      · rw [ite_eq_right (by omega : ¬ (σ⁻¹ i.castSucc).val + 1 ≤ a), ite_eq_right h]
     show rk E F' a (i.val + 1) = permRk σ a (i.val + 1)
     rw [show rk E F' a (i.val + 1) = finrank K ↥(E.E a ⊓ F'.E (i.val + 1)) from rfl,
       h1, hstep, hP', hσ']
@@ -330,8 +330,8 @@ lemma q2cFM_hasPos_right {E F F' : FlagK K (m + 1)} {i : Fin m}
         then 1 else 0) = (if (σ⁻¹ i.succ).val < a then 1 else 0) := by
       rw [hj]
       by_cases h : (σ⁻¹ i.succ).val < a
-      · rw [if_pos (by omega : (σ⁻¹ i.succ).val + 1 ≤ a), if_pos h]
-      · rw [if_neg (by omega : ¬ (σ⁻¹ i.succ).val + 1 ≤ a), if_neg h]
+      · rw [ite_eq_left (by omega : (σ⁻¹ i.succ).val + 1 ≤ a), ite_eq_left h]
+      · rw [ite_eq_right (by omega : ¬ (σ⁻¹ i.succ).val + 1 ≤ a), ite_eq_right h]
     show rk E F' a (i.val + 1) = permRk (adjSwap i * σ) a (i.val + 1)
     rw [show rk E F' a (i.val + 1) = finrank K ↥(E.E a ⊓ F'.E (i.val + 1)) from rfl,
       h1, hstep, hP', hτ']

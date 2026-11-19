@@ -221,7 +221,7 @@ theorem weakCT_unitary_eight_of_charts (hK : Nat.card K = (2 ^ f) ^ 2) (hf : 2 �
         ∀ g : D.rootGroup (-Pi.single k 1), φE (E.preimage g) = (nd k).ψm g := by
     intro i j hij
     fin_cases i <;> fin_cases j <;>
-      first | (exfalso; revert hij; simp [Fin.le_def]; done) | skip
+      try (exfalso; revert hij; simp [Fin.le_def]; done)
     · exact exists_levi_node hdiv hCTG nd P0 (rS8_injective _ hσ 0)
     · exact exists_levi_of_model hdiv hCTG nd P0 P1 (embSL4 _ hσ) (embSL4_injective _ hσ)
         (blockSL2 K 3 0) (blockSL2 K 3 1) rfl rfl φ' rfl rfl

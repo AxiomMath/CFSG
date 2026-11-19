@@ -19,8 +19,8 @@ theorem not_isTransvection_of_prod {B : Type} [CommGroup B] [Finite B] (hB : ∀
     (hf : Function.Surjective f) (hker : f.ker ≤ center ↥H) {s : MulAut B}
     (hsN : s ∈ normalizer (H : Set (MulAut B))) (hsH : ∃ h ∈ H, s * h * s⁻¹ ≠ h) :
     ¬ UniquenessMaximal.IsTransvection s := by
-  haveI : Finite (MulAut B) := Finite.of_injective _ MulEquiv.toEquiv_injective
-  haveI : Finite S₀ := Finite.of_surjective (Prod.fst ∘ f) (Prod.fst_surjective.comp hf)
+  have : Finite (MulAut B) := Finite.of_injective _ MulEquiv.toEquiv_injective
+  have : Finite S₀ := Finite.of_surjective (Prod.fst ∘ f) (Prod.fst_surjective.comp hf)
   have hS₀ := exists_mul_ne_of_ordData hS
   rcases conj_prod_cases hS₀ f hf hker hsN with ⟨h₁, h₂⟩ | ⟨h₁, -⟩
   · exact not_isTransvection_of_preserve hB hH hS f hf hker hsH h₁ h₂

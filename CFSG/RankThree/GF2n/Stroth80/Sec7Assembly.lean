@@ -30,7 +30,7 @@ theorem step71close_of_parts (hTI : Close71TIStatement) (hSyl : Close71SylowStat
   intro G _ _ M Q Z B hc n t hs hno hvan
   have hcl : Close71Hyp hc n t := ⟨hs, hno, hvan⟩
   obtain ⟨Z0, hZ0⟩ := hc.exists_centre hs.toSec5.mem
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   exact hFin G M Q Z B hc n t hcl Z0 hZ0 (hTI G M Q Z B hc n t hcl Z0 hZ0)
     (hSyl G M Q Z B hc n t hcl Z0 hZ0) (hE G M Q Z B hc n t hcl Z0 hZ0)
 

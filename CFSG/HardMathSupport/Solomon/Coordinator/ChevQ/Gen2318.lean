@@ -236,7 +236,6 @@ theorem rho2318_E6Four {d : TauCeti.LieTypeIndex} (h : IsE6FourIndex d) : rho231
 theorem isRankFour_split {d : TauCeti.LieTypeIndex} (h : IsRankFourIndex d) :
     IsOutThreePrimeIndex d ∨ IsE6EightIndex d := by
   cases d <;> simp_all [IsRankFourIndex, IsOutThreePrimeIndex, IsE6EightIndex]
-  all_goals tauto
 
 @[expose] def Gen2318TwoLocal : Prop :=
   ∀ (K : Type) [Group K] [Finite K], CFSG.Open.IsQuasisimple K → ∀ d : TauCeti.ValidLieTypeIndex,

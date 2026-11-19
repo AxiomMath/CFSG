@@ -27,17 +27,17 @@ theorem exists_descent_F4
               ModGL .F4 (FiniteField.Extension K 2 2)) =
             t * canonicalRep (coxeterSystem .F4) (FiniteField.Extension K 2 2) w := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq2 : p ∣ Nat.card K ^ 2 - 1 := dvd_card_sq_sub_one_of_card_F4 hp hp2 hE hcard
   let L := FiniteField.Extension K 2 2
   have hLK : Nat.card L = Nat.card K ^ 2 := FiniteField.natCard_extension K 2 2
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   have hpL : p ∣ Nat.card L - 1 := hLK ▸ hq2
   let Fr : L →+* L := (FiniteField.Extension.frob K 2 2).toRingEquiv.toRingHom
   have hFr : ∀ c, Fr c = c ^ Nat.card K := fun c => FiniteField.Extension.frob_apply K 2 2
   have hFr2 : ∀ c, Fr (Fr c) = c := by
     intro c
-    haveI := Fintype.ofFinite L
+    have := Fintype.ofFinite L
     rw [hFr, hFr, ← pow_mul, ← sq, ← hLK, Nat.card_eq_fintype_card, FiniteField.pow_card]
   have hbij : Function.Bijective Fr := (FiniteField.Extension.frob K 2 2).toRingEquiv.bijective
   have hfix := frobenius_fixed_eq_map_of_bijective (τ := .F4) (Or.inr rfl) Fr hFr hbij
@@ -94,7 +94,7 @@ theorem exists_descent_F4
         _ = _ := by group
     exact congrArg Subtype.val h2
   obtain ⟨N, hN⟩ : ∃ N, Nat.card L - 1 = 2 * N + 1 := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨f, -, hf⟩ := FiniteField.card K 2
     have hK : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hf]
     have hf1 : 1 ≤ (f : ℕ) := f.pos
@@ -160,7 +160,7 @@ theorem card_eq_pow_four_of_le
     {K : Type} [Field K] [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {E : Subgroup (adjointGroup .F4 K)} (hE : IsElemAbelian p E) (hr : p ^ 4 ≤ Nat.card E) :
     Nat.card E = p ^ 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 (TableB.isPGroup_of_isElemAbelian hE)
   have h4m : 4 ≤ m := (Nat.pow_le_pow_iff_right hp.one_lt).1 (hm ▸ hr)
   obtain ⟨E₀, hE₀card, -, hE₀E⟩ := Sylow.exists_subgroup_card_pow_prime_le_le hp
@@ -263,7 +263,7 @@ theorem ggTorusWeylGenElt_adjointF4_all
   obtain ⟨ψ, hψ, hEV, hW⟩ := F4AutWeyl.exists_descent_F4 hp hp2 hE hcard
   set L := FiniteField.Extension K 2 2
   have hLK : Nat.card L = Nat.card K ^ 2 := FiniteField.natCard_extension K 2 2
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   have hpL : p ∣ Nat.card L - 1 := hLK ▸ F4AutWeyl.dvd_card_sq_sub_one_of_card_F4 hp hp2 hE hcard
   obtain ⟨ζ, hζo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := L) hpL
   have hζ : ζ ^ p = 1 := by

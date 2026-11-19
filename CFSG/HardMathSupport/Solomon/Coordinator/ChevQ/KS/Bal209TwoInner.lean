@@ -70,7 +70,7 @@ theorem congr_eq_conj_imp' {K C : Type*} [Group K] [Group C] (e : K ≃* C) (α 
   refine MulEquiv.ext fun k => ?_
   apply e.injective
   have hk := congrArg (fun φ : MulAut C => φ (e k)) h
-  simp only [MulAut.congr_apply, MulAut.conj_apply, MulEquiv.symm_apply_apply] at hk
+  simp only [MulAut.congr_apply, MulAut.conj_apply] at hk
   rw [MulAut.conj_apply, map_mul, map_mul]
   simp only [MulEquiv.apply_symm_apply, map_inv]
   rw [← hk]
@@ -156,7 +156,7 @@ theorem card_twistedE6Diag_le {K : Type} [Field K] [Finite K] (hK : Nat.card K =
   have hU : Nat.card U ≤ Nat.card (Kˣ × Kˣ) := Nat.card_le_card_of_injective ι hι
   have hKu : Nat.card Kˣ = 3 := by rw [Nat.card_units, hK]
   rw [Nat.card_prod, hKu] at hU
-  haveI : Finite U := Finite.of_injective ι hι
+  have : Finite U := Finite.of_injective ι hι
   calc Nat.card (twistedE6Diag K σ) ≤ Nat.card U :=
         Nat.card_le_card_of_surjective _ (compatDiagAutHom TwistTag.E6 K σ.toRingHom).rangeRestrict_surjective
     _ ≤ 9 := hU
@@ -178,7 +178,7 @@ theorem card_le_nine_mul_inner_aux {X : Type} [Group X] [Finite X] {K B : Subgro
   have hRA : Nat.card (RingAut K') = 2 :=
     (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_two K'
       (by rw [hK']; norm_num)).1
-  haveI : Finite (RingAut K') := Nat.finite_of_card_ne_zero (by rw [hRA]; norm_num)
+  have : Finite (RingAut K') := Nat.finite_of_card_ne_zero (by rw [hRA]; norm_num)
   have hrange : ρ.range ≤ twistedE6Inn K' σ ⊔ twistedE6Diag K' σ := by
     rintro _ ⟨b, rfl⟩
     rw [← hker, MonoidHom.mem_ker]
@@ -189,7 +189,7 @@ theorem card_le_nine_mul_inner_aux {X : Type} [Group X] [Finite X] {K B : Subgro
       rwa [hRA] at this
     calc Θ (ρ b) = Θ (ρ b) ^ 3 * (Θ (ρ b) ^ 2)⁻¹ := by group
       _ = 1 := by rw [h3, h2, inv_one, mul_one]
-  haveI : Finite (twistedE6Diag K' σ) := by
+  have : Finite (twistedE6Diag K' σ) := by
     have hf : Finite ((a : Fin TwistTag.E6.foldedTag.rank) →
         (orbitField TwistTag.E6 K' σ.toRingHom a)ˣ) := inferInstance
     exact Finite.of_surjective _ (compatDiagAutHom TwistTag.E6 K' σ.toRingHom).rangeRestrict_surjective
@@ -217,7 +217,7 @@ theorem card_le_nine_mul_inner {X : Type} [Group X] [Finite X] {K B : Subgroup X
       CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
     have hcard4 : Nat.card K' = 4 := by
       rw [hcard, hq2.1, hq2.2]; norm_num
-    haveI : Finite K' := Nat.finite_of_card_ne_zero (by rw [hcard4]; norm_num)
+    have : Finite K' := Nat.finite_of_card_ne_zero (by rw [hcard4]; norm_num)
     have hσ2 : ∀ c, σ c = c ^ 2 := fun c => by
       have := hσ c
       rwa [hq2.1, hq2.2, pow_one] at this
@@ -312,7 +312,7 @@ open Bal209TwoInnerAux Bal209TwoAux
 
 theorem bal209Two_of_inner (hU : Bal209TwoUniqIn) (hR : Bal209TwoSLOBIn) : Bal209Two := by
   intro X _ _ hX K B hcomp hSC hBN hm hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hdvd, U, Q, hUK, hU1, hUp, hQK, hQel, hQcard, hQN, hQC⟩ :=
     bal209TwoParabolic_holds X K hcomp.2.2 hK
   have hBel : CFSG.Open.IsElemAbelian 3 B := hSC.2.1

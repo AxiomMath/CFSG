@@ -162,7 +162,7 @@ theorem exists_antiunitary_normalForm_unitary3 {p f : ℕ} (h : UnitaryFieldData
     simp only [Matrix.map_mul, hM₀map, Matrix.transpose_map, ← hP] at e
     rw [e]
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
+    by_cases hij : i = j <;> simp [hij]
   have hCdet : (C₀ * P).det ≠ 0 := by
     rw [det_mul]
     exact mul_ne_zero hC₀det hPdet
@@ -418,7 +418,7 @@ theorem exists_word1411_U3_7 (h : UnitaryFieldData 7 1 K) (α : MulAut (unitaryP
     refine ⟨unitaryProj h 3 x, 1, 1, ?_⟩
     have hw : word1411 (psuConj h A * psuField h σ) (unitaryProj h 3 x) 1 1 =
         ((unitaryProj h 3 x) ^ 2)⁻¹ := by
-      simp only [word1411, inv_one, mul_one, one_mul, map_one, hαx]
+      simp only [word1411, inv_one, mul_one, map_one, hαx]
       group
     refine dvd_of_eq ?_
     rw [hw, orderOf_inv, Nat.Coprime.orderOf_pow (by rw [hx43]; norm_num), hx43]

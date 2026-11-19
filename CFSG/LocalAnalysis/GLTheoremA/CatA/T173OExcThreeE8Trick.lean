@@ -68,7 +68,7 @@ theorem exists_conj_tE_eq_of_torusWord (hK : Nat.card K = 2) (w : List (Fin Tag.
         n * tE K frameE8 (Multiplicative.ofAdd u) * n⁻¹ =
           tE K frameE8 (Multiplicative.ofAdd v) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set L := FiniteField.Extension K 2 2 with hL
   obtain ⟨ω, hωo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := L) (p := 3)
     (three_dvd_natCard_ext_sub_one hK)
@@ -117,6 +117,7 @@ theorem exists_conj_tE_eq_of_torusWord (hK : Nat.card K = 2) (w : List (Fin Tag.
     _ = g * D (e8FrameLambda v) * g⁻¹ := by rw [hDconj, huv]
     _ = adjointMap .E8 (algebraMap K L) (tE K frameE8 (Multiplicative.ofAdd v)) := (hDtE v).symm
 
+omit [Finite K] in
 private theorem exists_smul_of_mem_zpowers_tE {r c : Fin 8 → ZMod 3}
     (h : tE K frameE8 (Multiplicative.ofAdd c) ∈
       Subgroup.zpowers (tE K frameE8 (Multiplicative.ofAdd r))) :

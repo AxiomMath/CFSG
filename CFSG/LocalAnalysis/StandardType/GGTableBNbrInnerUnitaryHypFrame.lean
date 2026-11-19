@@ -100,7 +100,7 @@ theorem exists_hyperbolic_frame_matrix (h : UnitaryFieldData 2 n K) (N : GL (Hyp
     simp only [Matrix.submatrix_apply]
     change h.bar (lam a) * (lam b : K) * G (e a) (e b) = _
     by_cases hb : b = hypPartner a
-    · rw [if_pos hb, hb]
+    · rw [ite_eq_left hb, hb]
       rcases a with i | k | i
       · simp only [hypPartner_inl, lam, Units.val_one, map_one, one_mul]
         rw [Units.val_mk0, inv_mul_cancel₀ (hGne i)]
@@ -112,7 +112,7 @@ theorem exists_hyperbolic_frame_matrix (h : UnitaryFieldData 2 n K) (N : GL (Hyp
             (e (.inl i)) (e (.inr (.inr i)))
         rw [← hsym, inv_mul_cancel₀]
         exact fun h0 => hGne i ((h.bar_eq_zero_iff).mp h0)
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       have hzero : G (e a) (e b) = 0 := by
         by_contra hne0
         have := hmono' (e a) (e b) hne0
@@ -200,7 +200,7 @@ theorem exists_mem_hypSU_of_isometry (h : UnitaryFieldData 2 n K) (hr : 0 < r)
 
 theorem exists_chi_pow {ζ : K} (hζ : IsPrimitiveRoot ζ p) (hp : p.Prime) {u : Kˣ}
     (hu : u ^ p = 1) : ∃ t : ZMod p, (u : K) = ζ ^ t.val := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have huK : (u : K) ^ p = 1 := by
     rw [← Units.val_pow_eq_pow_val, hu, Units.val_one]
   obtain ⟨j, hj, hje⟩ := hζ.eq_pow_of_pow_eq_one huK

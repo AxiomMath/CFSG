@@ -22,7 +22,7 @@ private theorem not_dvd_card_core (J : Subgroup Ω) : ¬ 3 ∣ Nat.card (GLAPPri
 private theorem map_inf_eq_bot (hZ : Subgroup.center (PQuot 3 J) = ⊥)
     (hDJ : D ≤ Subgroup.centralizer (J : Set Ω)) {E : Subgroup ↥J} (hE : IsPGroup 3 E) :
     E.map J.subtype ⊓ D = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [eq_bot_iff]
   rintro _ ⟨⟨j, hjE, rfl⟩, hjD⟩
   have hjc : j ∈ Subgroup.center ↥J := Subgroup.mem_center_iff.2 fun y =>
@@ -39,7 +39,7 @@ private theorem map_inf_eq_bot (hZ : Subgroup.center (PQuot 3 J) = ⊥)
     exact Nat.Coprime.pow_left k
       ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 (not_dvd_card_core J))
   have hj : j ∈ E ⊓ GLAPPrimeCore 3 ↥J := ⟨hjE, hq⟩
-  rw [Subgroup.inf_eq_bot_of_coprime hcop, Subgroup.mem_bot] at hj
+  rw [(Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop)), Subgroup.mem_bot] at hj
   rw [Subgroup.mem_bot, hj, map_one]
 
 private theorem sup_facts (hZ : Subgroup.center (PQuot 3 J) = ⊥) (hD : IsElemAbelian 3 D)
@@ -60,7 +60,7 @@ theorem exists_lift_sup (hZ : Subgroup.center (PQuot 3 J) = ⊥) (hD : IsElemAbe
     (hEb : IsElemAbelian 3 Eb) :
     ∃ E : Subgroup Ω, E ≤ J ∧ IsElemAbelian 3 (E ⊔ D) ∧
       Nat.card ↥(E ⊔ D) = Nat.card Eb * Nat.card D := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS, -, hScard⟩ := CFSG.LocalAnalysis.GLTheoremB.exists_elemAbelian_lift
     (GLAPPrimeCore 3 ↥J) (not_dvd_card_core J) (hEb.map (pquotEquiv hZ).toMonoidHom)
   obtain ⟨h1, h2⟩ := sup_facts hZ hD hDJ hS
@@ -93,7 +93,7 @@ theorem card_mul_card_le_rank (hZ : Subgroup.center (PQuot 3 J) = ⊥) (hD : IsE
     (hEb : IsElemAbelian 3 Eb) (hUb : IsPGroup 2 Ub) (hUb1 : Ub ≠ ⊥)
     (hEU : Eb ≤ Subgroup.normalizer (Ub : Set (PSimple 3 J))) :
     Nat.card Eb * Nat.card D ≤ 3 ^ GLATwoLocalRank 3 Ω := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, U, -, -, hU1, hU2, hED, hcard, hN⟩ :=
     exists_lift_sup_normalizing hZ hD hDJ hEb hUb hUb1 hEU
   rw [← hcard]

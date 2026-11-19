@@ -269,7 +269,7 @@ theorem bind_spec {G GI : Nat → Nat} {ix : List Nat} (h : bindV G GI ix = true
   exact ⟨Nat.eq_of_beq_eq_true this.1, Nat.eq_of_beq_eq_true this.2⟩
 
 theorem tabs_of {L : List Table} {ix : List Nat} {GI : Nat → Nat} (hl : L.length = ix.length)
-    (hix : ∀ j < ix.length, ix.getD j 0 < 10)
+    (_hix : ∀ j < ix.length, ix.getD j 0 < 10)
     (hb : ∀ j < ix.length, GI j = VxT (ix.getD j 0))
     (hL : ∀ j (hj : j < L.length), TU L[j] (VxT (ix.getD j 0))) :
     TabsOK 315 9 ix.length GI L.toArray := by

@@ -308,7 +308,7 @@ theorem mw_lt {j : ℕ} : ∀ w ∈ CFSG.KD.J3Dc.J.mw.getD j [], ∀ l ∈ w, l 
 
 theorem wordElt_nil : wordElt ga gb [] = 1 := evalElt_nil _
 
-theorem gensY_getD (j : ℕ) {l : ℕ} (hl : l < 3 + (CFSG.KD.J3Dc.J.mw.getD j []).length) :
+theorem gensY_getD (j : ℕ) {l : ℕ} (_hl : l < 3 + (CFSG.KD.J3Dc.J.mw.getD j []).length) :
     (gensY j).toArray.getD l 1 = bif Nat.blt l 3 then [sg 0, sg 1, sg 2].getD l 1 else
       wordElt ga gb ((CFSG.KD.J3Dc.J.mw.getD j []).getD (l - 3) []) := by
   rw [Array.getD_eq_getD_getElem?, List.getElem?_toArray, ← List.getD_eq_getElem?_getD]
@@ -322,7 +322,7 @@ theorem gensY_getD (j : ℕ) {l : ℕ} (hl : l < 3 + (CFSG.KD.J3Dc.J.mw.getD j [
       · rfl
       · exact absurd (Nat.blt_eq.mp hc) h3
     rw [hb, List.getD_append_right _ _ _ _ (by simp; omega)]
-    simp only [List.length_cons, List.length_nil, zero_add, cond_false]
+    simp only [List.length_cons, List.length_nil, zero_add, Bool.cond_false]
     rw [← wordElt_nil, List.getD_map]
 
 theorem good_Y (j : ℕ) : ∀ l < (tabs (gensY j).toArray).size,
@@ -340,7 +340,7 @@ theorem good_Y (j : ℕ) : ∀ l < (tabs (gensY j).toArray).size,
       rw [hb]
       rfl
     rw [hb, e]
-    simp only [cond_true]
+    simp only [_root_.Bool.cond_true]
     interval_cases l
     · exact good_sg (i := 0) (by norm_num)
     · exact good_sg (i := 1) (by norm_num)
@@ -354,7 +354,7 @@ theorem good_Y (j : ℕ) : ∀ l < (tabs (gensY j).toArray).size,
       rw [hb]
       rfl
     rw [hb, e]
-    simp only [cond_false]
+    simp only [Bool.cond_false]
     have hi : l - 3 < (CFSG.KD.J3Dc.J.mw.getD j []).length := by omega
     have hmem : (CFSG.KD.J3Dc.J.mw.getD j []).getD (l - 3) [] ∈ CFSG.KD.J3Dc.J.mw.getD j [] := by
       rw [List.getD_eq_getElem _ _ hi]
@@ -362,7 +362,7 @@ theorem good_Y (j : ℕ) : ∀ l < (tabs (gensY j).toArray).size,
     exact good_wordElt (mw_lt _ hmem)
 
 theorem S_le_Y (j : ℕ) : S ≤ Y j :=
-  Subgroup.closure_mono fun x hx => List.mem_append_left _ hx
+  Subgroup.closure_mono fun _x hx => List.mem_append_left _ hx
 
 theorem card_Y {j : ℕ} (hj : j < 5) : Nat.card (Y j) = (Om j).lbl.size * Nat.card S := by
   have hm := List.all_eq_true.1 facts.2.2.2.2.2.2.2.1 j (List.mem_range.2 hj)

@@ -261,8 +261,7 @@ theorem hdRo7SmAsmAux_cx7_not_perm {s : SMGL 7} (h : SMRefl s sm7cx.1 (smDual sm
   rintro ⟨σ, hσ⟩
   have e0 := hσ (Pi.single 0 (1 : ZMod 3)) 0
   rw [hdRo7SmAsmAux_cx7_refl_form h] at e0
-  simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.one_apply, Finset.sum_apply,
-    Pi.single_eq_same, Finset.sum_eq_single] at e0
+  simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.single_eq_same] at e0
   rcases eq_or_ne (σ.symm 0) 0 with h0 | h0
   · rw [h0, Pi.single_eq_same] at e0
     exact (by decide : ¬ ((2 : ZMod 3) = 1)) e0
@@ -309,8 +308,7 @@ theorem hdRo7SmAsmAux_cx8_not_perm {s : SMGL 8} (h : SMRefl s sm8cx.1 (smDual sm
   rintro ⟨σ, hσ⟩
   have e1 := hσ (Pi.single 0 (1 : ZMod 3)) 1
   rw [hdRo7SmAsmAux_cx8_refl_form h] at e1
-  simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Pi.one_apply, Finset.sum_apply,
-    Pi.single_eq_same, Finset.sum_eq_single] at e1
+  simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul] at e1
   rcases eq_or_ne (σ.symm 1) 0 with h0 | h0
   · rw [h0, Pi.single_eq_same] at e1
     exact (by decide : ¬ ((-1 : ZMod 3) = 1)) e1
@@ -373,7 +371,7 @@ theorem hdRo7SmAsmAux_cx_contra {m : ℕ} {H : Subgroup (SMGL m)} {S : Set (SMGL
     have hSsub : S ⊆ {a} := by
       intro t ht
       have := hdRo7SmAsmAux_conn_isolated hcomm_all (hS_conn a haS t ht)
-      simpa [this]
+      simp [this]
     have hHa : H = Subgroup.closure ({a} : Set (SMGL m)) := by
       rw [hS_eq]
       apply le_antisymm

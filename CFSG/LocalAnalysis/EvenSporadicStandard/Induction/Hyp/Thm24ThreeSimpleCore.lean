@@ -145,7 +145,7 @@ theorem thm24ThreeCover_simple_of_order (inp : Thm24ThreeSimpleInputs)
     rw [← CFSG.SectionRank.pRank_coe_eq_openPRank]
     exact hrk
   have hN : Nat.card (↥A ⧸ center ↥A) = N := by
-    haveI : IsSimpleGroup (↥A ⧸ center ↥A) := hq.2.1
+    have : IsSimpleGroup (↥A ⧸ center ↥A) := hq.2.1
     exact hcard _ hcov
   have hdvd : N ∣ Nat.card A := by
     rw [← hN]

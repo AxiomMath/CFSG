@@ -58,7 +58,7 @@ theorem s16c13bcA_exists_other_conj (D : Data G) {V₀ V L : Subgroup G} (hV : I
   have hconjinv : ((MulAut.conj g₂)⁻¹).toMonoidHom =
       (MulAut.conj g₂⁻¹).toMonoidHom := by
     ext z
-    simp [MulAut.conj_apply]
+    simp
   have hbar : barSub V₀ V hV (conjSubgroup L (x : G)) =
       (lBar V₀ V hV L).map (MulAut.conj g₂⁻¹).toMonoidHom := by
     rw [s15_Infra_barSub_conjSubgroup V₀ V hV x.2 L, hxg₂]

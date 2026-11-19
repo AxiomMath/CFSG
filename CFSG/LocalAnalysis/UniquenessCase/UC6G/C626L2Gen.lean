@@ -23,8 +23,8 @@ theorem c626gen_of_lieModel (h620 : m.C620) (hL : LieModel ↥m.L .PSL 2 m.r 2) 
   intro p hp P hP hPne
   have hpp : p.Prime := (Dat.sig_prime _ hp).1
   have hp2 : p ≠ 2 := (Dat.sig_prime _ hp).2
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hpr : p ≠ m.r := fun h => m.hrσ (h ▸ hp)
   have hstrong : IsStronglyPEmbedded p m.M :=
     m.hk.sig1_sp _ (m.hσ1 hp)

@@ -145,8 +145,8 @@ theorem ggInnerOn_orth_fixedFactor {K V : Type} [Field K] [Finite K] [AddCommGro
   have : Finite V := Module.finite_of_finite K
   have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := g)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := g)
     (by rw [Fintype.card_eq_nat_card, hK])
   set ρ : ↥(orthDerived Q) →* ProjOrthDerived Q :=
     QuotientGroup.mk' ((scalars K V).subgroupOf (orthDerived Q)) with hρ

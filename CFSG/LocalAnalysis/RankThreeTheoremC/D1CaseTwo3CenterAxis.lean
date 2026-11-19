@@ -94,7 +94,7 @@ theorem zeta_mem_zpowers_mk_axis {P : Sylow 3 G} {M : Subgroup G} (hPM : (P : Su
     ζ ∈ Subgroup.zpowers (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨w, hPM hwP⟩) := by
   set mk := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
   set T : Subgroup ↥M := (P : Subgroup G).subgroupOf M
-  have hT : IsPGroup 3 T := P.isPGroup'.comap_subtype
+  have hT : IsPGroup 3 T := P.isPGroup.comap_subtype
   have hinj : ∀ a ∈ T, ∀ b ∈ T, mk a = mk b → a = b := fun a ha b hb hab =>
     eq_of_mk_pCore_two_eq_of_isPGroup_three hT ha hb hab
   have hcomm : ∀ a ∈ T, mk a * ζ = ζ * mk a := by
@@ -136,7 +136,7 @@ theorem zeta_mem_zpowers_mk_axis {P : Sylow 3 G} {M : Subgroup G} (hPM : (P : Su
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, orderOf_eq_prime hζ3 hζ1, pow_one])
     have hsup : IsPGroup 3 ((Pbar : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)) ⊔ Subgroup.zpowers ζ :
         Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)) :=
-      Pbar.isPGroup'.to_sup_of_normal_left' hZp (by rwa [Subgroup.zpowers_le])
+      Pbar.isPGroup.to_sup_of_normal_left' hZp (by rwa [Subgroup.zpowers_le])
     have heq := Pbar.maximal_isPGroup.eq_of_ge hsup le_sup_left
     have hmem : ζ ∈ (Pbar : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)) ⊔ Subgroup.zpowers ζ :=
       Subgroup.mem_sup_right (Subgroup.mem_zpowers ζ)

@@ -42,11 +42,11 @@ theorem s16t3_omplus_fix {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {
         StatedQuadPlus m K v) :
     ∃ g ∈ StatedOmega (StatedQuadPlus m K),
       ∀ x ∈ X, g⁻¹ * x * g ∈ s16t3Borel (StatedQuadPlus m K) (m - 1) := by
-  haveI hprime : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hprime : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CharP K 2 := by
     let _ := Fintype.ofFinite K
     exact charP_of_card_eq_prime (p := 2) (Nat.card_eq_fintype_card.symm.trans hK)
-  haveI := hchar
+  have := hchar
   have hm1 : 1 ≤ m := by omega
   set φ : Matrix.GeneralLinearGroup (Fin m ⊕ Fin m) K ≃*
       ((Fin m ⊕ Fin m → K) ≃ₗ[K] (Fin m ⊕ Fin m → K)) :=
@@ -136,7 +136,7 @@ theorem s16t3_omplus_fix {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {
       exact (TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mp hyO) v
     · intro i hi1 hid v hv
       obtain ⟨j, hj⟩ : ∃ j : Fin (m - 1), (j : ℕ) + 1 = i :=
-        ⟨⟨i - 1, by omega⟩, by simp only [Fin.val_mk]; omega⟩
+        ⟨⟨i - 1, by omega⟩, by simp only; omega⟩
       have hmapj := hmap j
       simp only [CFSG.LocalAnalysis.ComponentInitial.OrthogonalSplit.stdFlag] at hmapj
       rw [hj] at hmapj

@@ -32,7 +32,7 @@ private lemma M3_transpose (b : K) : (M3 b)ᵀ = M3 b := by
 
 private lemma M3_one : M3 (0 : K) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [M3, ones3]
+  fin_cases i <;> fin_cases j <;> simp [M3]
 
 private lemma M3_map (σ : K →+* K) (b : K) : (M3 b).map σ = M3 (σ b) := by
   ext i j
@@ -70,7 +70,7 @@ private lemma blockDiag_transpose {m : ℕ} (A : Matrix (Fin 3) (Fin 3) K) (d : 
 
 private lemma blockDiag_mul {m : ℕ} (A A' : Matrix (Fin 3) (Fin 3) K) (d d' : Fin m → K) :
     blockDiag A d * blockDiag A' d' = blockDiag (A * A') (fun j => d j * d' j) := by
-  simp [blockDiag, fromBlocks_multiply, Dm_mul]
+  simp [blockDiag, fromBlocks_multiply]
 
 private lemma blockDiag_pow {m : ℕ} (A : Matrix (Fin 3) (Fin 3) K) (d : Fin m → K) (k : ℕ) :
     (blockDiag A d) ^ k = blockDiag (A ^ k) (fun j => d j ^ k) := by
@@ -100,7 +100,7 @@ private lemma one_add_three_bseq (b : K) (k : ℕ) :
 
 private theorem exists_prime_pow_card_eq_sq [Finite K] {q : ℕ} (hK : Nat.card K = q ^ 2) :
     ∃ p k : ℕ, p.Prime ∧ 1 ≤ k ∧ q = p ^ k := by
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   have hK' : Fintype.card K = q ^ 2 := by
     rw [← Nat.card_eq_fintype_card]; exact hK
@@ -216,11 +216,13 @@ private lemma M3_mul_cyc3 (b : K) :
 private abbrev xmat : Matrix (Fin 3 ⊕ Fin m) (Fin 3 ⊕ Fin m) K :=
   blockDiag (m := m) StatedCenterThree.cyc3 (fun _ : Fin m => (1 : K))
 
+omit [NeZero m] in
 private lemma xmat_det : (xmat (K := K) m).det = 1 := by
   change (blockDiag StatedCenterThree.cyc3 (fun _ : Fin m => (1 : K))).det = 1
   rw [blockDiag, Matrix.det_fromBlocks_zero₂₁, cyc3_det, Dm, Matrix.det_diagonal]
   simp
 
+omit [NeZero m] in
 private lemma xmat_pow_three : (xmat (K := K) m) ^ 3 = 1 := by
   change (blockDiag StatedCenterThree.cyc3 (fun _ : Fin m => (1 : K))) ^ 3 = 1
   rw [blockDiag_pow, cyc3_pow_three]
@@ -232,6 +234,7 @@ private lemma map_cyc3 (σ : K →+* K) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [StatedCenterThree.cyc3, Matrix.map_apply]
 
+omit [NeZero m] in
 private lemma xmat_unitary (σ : K →+* K) :
     ((xmat (K := K) m).map ⇑σ)ᵀ * (xmat (K := K) m) = 1 := by
   change ((blockDiag StatedCenterThree.cyc3 (fun _ : Fin m => (1 : K))).map ⇑σ)ᵀ *
@@ -242,6 +245,7 @@ private lemma xmat_unitary (σ : K →+* K) :
   rcases a with a | a <;> rcases b with b | b <;>
     simp [blockDiag, Dm, Matrix.one_apply, map_one]
 
+omit [NeZero m] in
 private lemma val_mkOfDetNeZero {A : Matrix (Fin 3 ⊕ Fin m) (Fin 3 ⊕ Fin m) K}
     (h : A.det ≠ 0) :
     (Matrix.GeneralLinearGroup.mkOfDetNeZero A h :
@@ -252,16 +256,19 @@ private lemma val_mkOfDetNeZero {A : Matrix (Fin 3 ⊕ Fin m) (Fin 3 ⊕ Fin m) 
 private noncomputable abbrev xGL : GL (Fin 3 ⊕ Fin m) K :=
   Matrix.GeneralLinearGroup.mkOfDetNeZero (xmat (K := K) m) (by rw [xmat_det]; exact one_ne_zero)
 
+omit [NeZero m] in
 private lemma xGL_pow_three : (xGL (K := K) m) ^ 3 = 1 := by
   apply Units.ext
   change (xmat (K := K) m) ^ 3 = (1 : Matrix (Fin 3 ⊕ Fin m) (Fin 3 ⊕ Fin m) K)
   rw [xmat_pow_three]
 
+omit [NeZero m] in
 private lemma xmat_offdiag : (xmat (K := K) m) (Sum.inl 0) (Sum.inl 1) = 1 := by
   change blockDiag StatedCenterThree.cyc3 (fun _ : Fin m => (1 : K))
     (Sum.inl 0) (Sum.inl 1) = 1
   simp [blockDiag, StatedCenterThree.cyc3]
 
+omit [NeZero m] in
 private lemma xGL_not_scalar : (xGL (K := K) m) ∉ StatedScalars (Fin 3 ⊕ Fin m) K := by
   rintro ⟨u, hu⟩
   have h := congrFun (congrFun (congrArg (fun g : GL (Fin 3 ⊕ Fin m) K =>
@@ -273,6 +280,7 @@ private lemma xGL_not_scalar : (xGL (K := K) m) ∉ StatedScalars (Fin 3 ⊕ Fin
   rw [hzero, val_mkOfDetNeZero, xmat_offdiag] at h
   exact one_ne_zero h.symm
 
+omit [NeZero m] in
 private lemma xGL_mem {q : ℕ} {σ : K →+* K} (hσ : ∀ x : K, σ x = x ^ q) :
     xGL (K := K) m ∈ CFSG.MatrixModel.unitaryCore (Fin 3 ⊕ Fin m) K q := by
   apply Subgroup.subset_closure
@@ -301,7 +309,7 @@ private lemma gmat_pow_apply (b : K) (c : Kˣ) (k : ℕ) :
     ((gmat m b c) ^ k) (Sum.inl 0) (Sum.inl 1) = bseq b k := by
   change ((blockDiag (M3 b) (dOf m c)) ^ k) (Sum.inl 0) (Sum.inl 1) = bseq b k
   rw [blockDiag_pow, M3_pow]
-  simp [blockDiag, M3, ones3, Matrix.one_apply]
+  simp [blockDiag, M3, ones3]
 
 private lemma gmat_pow_eq_one_of {b : K} {c : Kˣ} (hb : 1 + 3 * b = (c : K))
     (h3 : (3 : K) ≠ 0) {k : ℕ} (hk : c ^ k = 1) : (gmat m b c) ^ k = 1 := by
@@ -481,7 +489,7 @@ private lemma gmat_pow_mul_hmat_pow_offdiag (b : K) (c a : Kˣ) (p q : ℕ) :
   show (∑ k : Fin 3, (M3 (bseq b p)) 0 k * (scal3 ((a : K) ^ q)) k 1) =
     (a : K) ^ q * bseq b p
   rw [Fin.sum_univ_three]
-  simp [M3, ones3, scal3, Matrix.diagonal_apply]
+  simp [M3, ones3, scal3]
   ring
 
 private lemma gmat_pow_mul_hmat_pow_scalar_one {b : K} {c a : Kˣ}
@@ -519,10 +527,10 @@ private lemma gmat_pow_mul_hmat_pow_scalar_one {b : K} {c a : Kˣ}
     (Sum.inr 0) (Sum.inr 0) at hdiag2
   rw [show (blockDiag (scal3 ((a : K) ^ q)) (fun j => (dOfH m a j) ^ q))
       (Sum.inl 0) (Sum.inl 0) = (a : K) ^ q from by
-        simp [blockDiag, scal3, Matrix.diagonal_apply]] at hdiag
+        simp [blockDiag, scal3]] at hdiag
   rw [show (blockDiag (scal3 ((a : K) ^ q)) (fun j => (dOfH m a j) ^ q))
       (Sum.inr 0) (Sum.inr 0) = (((a : K))⁻¹) ^ (3 * q) from by
-        simp [blockDiag, Dm, dOfH, Matrix.diagonal_apply, inv_pow, pow_mul]] at hdiag2
+        simp [blockDiag, Dm, dOfH, inv_pow, pow_mul]] at hdiag2
   have heq : (a : K) ^ q = (((a : K))⁻¹) ^ (3 * q) := hdiag.symm.trans hdiag2
   have haq : a ^ q = 1 := by
     have h4 : (a : K) ^ (4 * q) = 1 := by
@@ -553,12 +561,12 @@ private lemma gmat_mul_hmat (b : K) (c a : Kˣ) :
 private lemma gmat_offdiag (b : K) (c : Kˣ) :
     (gmat m b c) (Sum.inl 0) (Sum.inl 1) = b := by
   have := gmat_pow_apply m b c 1
-  simpa [bseq] using this
+  simp
 
 private lemma hmat_diag_zero (a : Kˣ) :
     (hmat m a) (Sum.inl 0) (Sum.inl 0) = (a : K) := by
   change (blockDiag (scal3 (a : K)) (dOfH m a)) (Sum.inl 0) (Sum.inl 0) = (a : K)
-  simp [blockDiag, scal3, Matrix.diagonal_apply]
+  simp [blockDiag, scal3]
 
 private lemma gGL_pow_five {b : K} {c : Kˣ} (hb : 1 + 3 * b = (c : K)) (h3 : (3 : K) ≠ 0)
     (hc5 : c ^ 5 = 1) : (gGL m b c hb) ^ 5 = 1 := by
@@ -609,8 +617,8 @@ end Block
 private theorem three_ne_zero_of_card_eq_sq {K : Type} [Field K] [Finite K] {q : ℕ}
     (hK : Nat.card K = q ^ 2) (hq : q % 3 = 1) : (3 : K) ≠ 0 := by
   intro h0
-  letI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let := Fintype.ofFinite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hchar : ringChar K = 3 := by
     have hdvd : ringChar K ∣ 3 := (CharP.cast_eq_zero_iff K (ringChar K) 3).mp h0
     exact (Nat.prime_dvd_prime_iff_eq (CharP.prime_ringChar (R := K)) Nat.prime_three).mp hdvd
@@ -633,7 +641,7 @@ private lemma commute_of_mem_zpowers {G : Type} [Group G] {g h : G} (hgh : Commu
 private theorem false_of_proj_unitaryCore {K : Type} [Field K] [Finite K] (m : ℕ) (hm : 1 ≤ m)
     {q : ℕ} (hK : Nat.card K = q ^ 2) (hq : q % 3 = 1)
     (hC : CentHyp (StatedProj (CFSG.MatrixModel.unitaryCore (Fin 3 ⊕ Fin m) K q))) : False := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   obtain ⟨σ, hσ⟩ := exists_frobenius_of_card_sq hK
   let σR : K →+* K := σ
   have hσR : ∀ x : K, σR x = x ^ q := hσ
@@ -650,7 +658,7 @@ private theorem false_of_proj_unitaryCore {K : Type} [Field K] [Finite K] (m : �
   let gH : H := ⟨gGL m b c hb, gGL_mem m hσR hc hb h3K⟩
   let xH : H := ⟨xGL (K := K) m, xGL_mem m hσR⟩
   have hx : orderOf (QuotientGroup.mk xH : StatedProj H) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine orderOf_mk_eq_prime xH ?_ ?_
     · have h3 : (xH : GL (Fin 3 ⊕ Fin m) K) ^ 3 = 1 := by
         rw [show (xH : GL (Fin 3 ⊕ Fin m) K) = xGL (K := K) m from rfl, xGL_pow_three]
@@ -692,7 +700,7 @@ private theorem false_of_proj_unitaryCore {K : Type} [Field K] [Finite K] (m : �
       change (c : K) = 1
       rw [← hb, hb0]
       ring
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have hgordGL : orderOf (gGL m b c hb) = 5 :=
       orderOf_eq_prime (gGL_pow_five m hb h3K hc5) (gGL_ne_one m hb hbne)
     have hhordGL : orderOf (hGL m c) = 5 :=
@@ -835,6 +843,7 @@ private theorem false_of_proj_unitaryCore {K : Type} [Field K] [Finite K] (m : �
     omega
   · exact h4 hq4
 
+omit [Field K] in
 private lemma reindex_map_apply {ι κ : Type} [Fintype ι] (e : ι ≃ κ) (f : K → K)
     (A : Matrix ι ι K) :
     (Matrix.reindex e e A).map f = Matrix.reindex e e (A.map f) := by

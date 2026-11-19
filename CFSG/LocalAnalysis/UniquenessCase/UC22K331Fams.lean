@@ -180,8 +180,8 @@ theorem k331_of_inputs (hI : K331Inputs) (h : K331Residue) : K331 :=
     (hI.l3Even i)
     (hI.g2Odd i)
     (hI.d4Odd i)
-    (fun hF => h i (by simp only [K331ResidueIdx, hF, true_or, or_true]))
-    (fun hF => h i (by simp only [K331ResidueIdx, hF, true_or, or_true]))
+    (fun hF => h i (by simp only [K331ResidueIdx, hF, true_or]))
+    (fun hF => h i (by simp only [K331ResidueIdx, hF, or_true]))
     (hI.heRu i)
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.InS3

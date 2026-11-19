@@ -61,7 +61,7 @@ theorem summand_bounds (hW : ∀ w : W, w ^ 2 = 1) {p N : ℕ} (hp : p.Prime) (h
     intro hEq
     rw [hEq, Subgroup.relIndex_self] at hDidx
     exact hp.ne_one hDidx.symm
-  obtain ⟨c, hcZ, hcD⟩ := SetLike.exists_of_lt hDlt
+  obtain ⟨c, hcZ, hcD⟩ := _root_.IsConcreteLE.exists_of_lt hDlt
   have hcenter : D ⊔ Subgroup.zpowers c = center ↥H := by
     have hle : D ⊔ Subgroup.zpowers c ≤ center ↥H :=
       sup_le hDZ (Subgroup.zpowers_le.2 hcZ)

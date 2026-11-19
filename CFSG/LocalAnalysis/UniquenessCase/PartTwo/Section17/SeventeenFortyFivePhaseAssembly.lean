@@ -972,7 +972,7 @@ theorem gap17_45_phaseReduction_of_kFacts (hK1a : K45CharTwoNormal)
     by_contra h
     push Not at h
     exact hLnab ⟨⟨h⟩⟩
-  haveI : IsSimpleGroup L := hLs
+  have : IsSimpleGroup L := hLs
   have hcat : IsCatalogGroup L := hLK.isCatalogGroup_of_surjective ⊤ hnab
     (Subgroup.topEquiv : (⊤ : Subgroup L) ≃* L).toMonoidHom (MulEquiv.surjective _)
   rcases CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.P64Asm.catalog_trichotomy hcat hnab with

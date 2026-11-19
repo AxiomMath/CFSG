@@ -61,9 +61,9 @@ namespace CFSG.Quasithin.J2Cz
 open CFSG.Open CFSG.Quasithin.J2Cz.QM
 
 theorem pCore_L0_eq_bot : CFSG.Open.pCore 2 L0 = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥L0 := lineEquiv.isSimpleGroup
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥L0 := lineEquiv.isSimpleGroup
   rcases Subgroup.Normal.eq_bot_or_eq_top (CFSG.Open.pCore 2 L0) with h | h
   · exact h
   · exfalso
@@ -255,7 +255,7 @@ theorem IsThetaExt.unique {Θ Θ' : MulAut Model} (h : IsThetaExt Θ) (h' : IsTh
       Subgroup.isPerfect_iff.mpr (commutator_alternatingGroup_eq_self h5)
     exact Group.IsPerfect.ofSurjective (f := lineEquiv.symm.toMonoidHom)
       lineEquiv.symm.surjective
-  haveI : Group.IsPerfect ↥L0 := hperfL0
+  have : Group.IsPerfect ↥L0 := hperfL0
   have hΔ : ∀ q : QM, Δ (SemidirectProduct.inl q : Model) = SemidirectProduct.inl q := by
     intro q
     calc Δ (SemidirectProduct.inl q : Model)
@@ -264,7 +264,7 @@ theorem IsThetaExt.unique {Θ Θ' : MulAut Model} (h : IsThetaExt Θ) (h' : IsTh
       _ = SemidirectProduct.inl q := by
         rw [← h q, MulAut.inv_apply, MulEquiv.symm_apply_apply]
   have hperf : Group.IsPerfect inrM.range := Group.IsPerfect.range _
-  haveI : Group.IsPerfect ↥inrM.range := hperf
+  have : Group.IsPerfect ↥inrM.range := hperf
   have hfix : ∀ f ∈ inrM.range, Δ f = f := by
     refine CFSG.ClassicalInvolution.RouteD.Gaps.fixed_of_perfect_of_central
       Δ.toMonoidHom (N := inrM.range) hperf (Z := Subgroup.center Model) le_rfl ?_
@@ -399,7 +399,7 @@ theorem AutJ2Vertex.centralizer_le [Finite G] {P L : Subgroup G} (h : AutJ2Verte
   have hDnorm : ((C ⊓ L).subgroupOf C).Normal := by
     rw [inf_comm, Subgroup.inf_subgroupOf_right]
     exact hLCnorm
-  haveI : ((C ⊓ L).subgroupOf C).Normal := hDnorm
+  have : ((C ⊓ L).subgroupOf C).Normal := hDnorm
   have hrelC : (C ⊓ L).relIndex C ≤ 2 := by
     rw [Subgroup.inf_relIndex_left]
     have hle : L.relIndex C ≤ L.relIndex P :=
@@ -440,7 +440,7 @@ private theorem exists_inl_restrict (Θ : MulAut Model) :
   let φ : MulAut QM := (MulAut.congr eInl).symm Θr
   refine ⟨φ, fun q => ?_⟩
   have h2 : eInl (φ q) = Θr (eInl q) := by
-    simp [φ, MulAut.congr]
+    simp [φ]
   have h3 : ((eInl (φ q) : (SemidirectProduct.inl : QM →* Model).range) : Model) =
       Θ (SemidirectProduct.inl q) := by
     rw [h2]
@@ -839,7 +839,7 @@ theorem AutJ2LocalData.autJ2Vertex [Finite G] {L1 L2 S : Subgroup G}
     refine Nat.eq_of_mul_eq_mul_right (by norm_num : 0 < 1920) ?_
     rw [mul_comm (L2.relIndex P) 1920, hcard]
   have hcharP : CharTwo P := F1.parabolic_charTwo (hyp111R_of_vs3_va5 hF h1 h2).symm
-  haveI : (L2.subgroupOf P).Normal := Subgroup.normal_of_index_eq_two hrel
+  have : (L2.subgroupOf P).Normal := Subgroup.normal_of_index_eq_two hrel
   have hcharL : CharTwo L2 :=
     CFSG.QuasithinUnique.CharTwo.of_normal hcharP le_sup_left inferInstance
   obtain ⟨K, hKL2, hKQ, hK⟩ := hD.split_right

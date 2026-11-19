@@ -376,7 +376,7 @@ theorem AmalgamS3.relIndex_conjClosure_pCoreOf (hA : AmalgamS3 G₀ G₁ G₂ T 
     rwa [show (x * y⁻¹) * (y * y) = x * y by group] at this
 
   have hsG₂ : s ∈ G₂ := G₂.mul_mem htG₂ ht'G₂
-  haveI : (D.subgroupOf G₂).Normal :=
+  have : (D.subgroupOf G₂).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hDG₂).2 hD'
   let πd : ↥G₂ →* (↥G₂ ⧸ D.subgroupOf G₂) := QuotientGroup.mk' (D.subgroupOf G₂)
   let Tbar : (↥G₂ ⧸ D.subgroupOf G₂) := πd ⟨t, htG₂⟩
@@ -476,7 +476,7 @@ theorem AmalgamS3.relIndex_conjClosure_pCoreOf (hA : AmalgamS3 G₀ G₁ G₂ T 
     rw [← Subgroup.subgroupOf_sup hDP (Subgroup.zpowers_le.mpr hsP)]
     rw [← hPdef]
     exact Subgroup.subgroupOf_self P
-  haveI : (D.subgroupOf P).Normal := hDnP
+  have : (D.subgroupOf P).Normal := hDnP
   let πP : ↥P →* (↥P ⧸ D.subgroupOf P) := QuotientGroup.mk' (D.subgroupOf P)
   let sp : (↥P ⧸ D.subgroupOf P) := πP sP
   have hsp3 : sp ^ 3 = 1 := by

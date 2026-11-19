@@ -439,11 +439,11 @@ private theorem Tset_ncard_le : Tset.ncard ≤ 65 := by
       simpa [bform_apply] using hv
     rcases posv_or_neg v hv0 with hp | hp
     · refine ⟨v, ?_, ?_⟩
-      · simp only [Vplus, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+      · simp only [Vplus, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
         exact ⟨hv, hp⟩
       · funext x; exact (hM x).symm
     · refine ⟨-v, ?_, ?_⟩
-      · simp only [Vplus, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+      · simp only [Vplus, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
         refine ⟨?_, hp⟩
         rw [← bform_eq_bf]
         simpa using hv

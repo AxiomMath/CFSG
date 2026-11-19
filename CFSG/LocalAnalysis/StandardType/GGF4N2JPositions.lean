@@ -160,9 +160,9 @@ theorem ggF4N2J_not_psl2_of_card_sixteen
     (hL : GGCentralImage .POmegaMinus 4 2 L) :
     IsEmpty (↥J ⧸ Subgroup.center ↥J ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI := Fintype.ofFinite F
-  letI := Fintype.ofFinite (GaloisField 2 4)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := Fintype.ofFinite F
+  let := Fintype.ofFinite (GaloisField 2 4)
   let κ : F ≃+* GaloisField 2 4 := FiniteField.ringEquivOfCardEq (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       GaloisField.card 2 4 (by decide), hF]
@@ -188,7 +188,7 @@ theorem ggF4N2J_native_positions_of_model
           LargeEvenLayer (Subgroup.centralizer ({θ a} :
             Set (ProjOrthDerived (quadMinus 4 F b c)))) ∧
         ∃ (u : ↥(orthDerived (quadMinus 4 F b c)))
-          (hu : OddOrderIsometry (quadMinus 4 F b c) 5
+          (_hu : OddOrderIsometry (quadMinus 4 F b c) 5
             (u : V₈[F] ≃ₗ[F] V₈[F])), QuotientGroup.mk u = θ a ∧
           ((∃ h ∈ primaryFactors (u : V₈[F] ≃ₗ[F] V₈[F]).toLinearMap, h ≠ X - 1 ∧
               primaryMultiplicity (u : V₈[F] ≃ₗ[F] V₈[F]).toLinearMap h = 3 ∧
@@ -229,12 +229,12 @@ theorem ggF4N2J_native_positions_of_model
   have hdim : finrank F (Fin 3 ⊕ Fin 3 ⊕ Fin 2 → F) = 8 := by
     rw [Module.finrank_fintype_fun_eq_card]
     simp
-  obtain ⟨u, hu, hua, hpos⟩ := N2Orthogonal.component_cases_of_not_sl2 hQ hT
+  obtain ⟨u, _hu, hua, hpos⟩ := N2Orthogonal.component_cases_of_not_sl2 hQ hT
     (by simpa using hF) hdim hm (θ a) ha5 ha1 ((J.subgroupOf L).map θ.toMonoidHom)
     ((isComponentOf_iff_open).mp hJ')
     (fun F _ _ hF => ⟨fun ε => (ggF4N2J_not_psl24 hF hR hL).false (eJQ.trans ε)⟩)
     (fun F _ _ hF => ⟨fun ε => (ggF4N2J_not_psl2_of_card_sixteen hF hR hL).false (eJQ.trans ε)⟩)
-  exact ⟨d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, hu, hua, hpos⟩
+  exact ⟨d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, _hu, hua, hpos⟩
 
 theorem ggF4N2J_native_positions
     {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
@@ -251,7 +251,7 @@ theorem ggF4N2J_native_positions
           LargeEvenLayer (Subgroup.centralizer ({θ a} :
             Set (ProjOrthDerived (quadMinus 4 F b c)))) ∧
         ∃ (u : ↥(orthDerived (quadMinus 4 F b c)))
-          (hu : OddOrderIsometry (quadMinus 4 F b c) 5
+          (_hu : OddOrderIsometry (quadMinus 4 F b c) 5
             (u : V₈[F] ≃ₗ[F] V₈[F])), QuotientGroup.mk u = θ a ∧
           ((∃ h ∈ primaryFactors (u : V₈[F] ≃ₗ[F] V₈[F]).toLinearMap, h ≠ X - 1 ∧
               primaryMultiplicity (u : V₈[F] ≃ₗ[F] V₈[F]).toLinearMap h = 3 ∧
@@ -267,16 +267,16 @@ theorem ggF4N2J_native_positions
   let eQ : (↥L ⧸ Subgroup.center ↥L) ≃* L :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   obtain ⟨-, F, _, _, hF, b, c, hbc, ⟨e⟩⟩ := ggN2Model_of_centralImage hL eQ
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.I1434.Cl.charP_two_of_card_four
       (by simpa using hF)
   obtain ⟨e₂⟩ := CFSG.RankThree.CentralLift.nonempty_statedProj_mulEquiv_projOrthDerived
     (coe_quadMinus 4 F b c)
   let θ : ↥L ≃* ProjOrthDerived (quadMinus 4 F b c) := e.trans e₂
-  obtain ⟨d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, hu, hua, hpos⟩ :=
+  obtain ⟨d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, _hu, hua, hpos⟩ :=
     ggF4N2J_native_positions_of_model hR hL (by simpa using hF) hbc θ
   exact ⟨F, inferInstance, inferInstance, inferInstance, by simpa using hF,
-    b, c, hbc, θ, d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, hu, hua, hpos⟩
+    b, c, hbc, θ, d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, _hu, hua, hpos⟩
 
 theorem ggF4N2_innerRepresentative_mem_plane
     {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
@@ -410,9 +410,9 @@ theorem ggF4N2J_original_disjunction
   obtain ⟨F, hFieldF, hFiniteF, hCharF, hF, b, c, hbc, θ, d, hdD, hdx,
     a, ha, hact, hCa, hJlayer, u, hu, hua, hpos⟩ :=
     ggF4N2J_native_positions hR hL
-  letI : Field F := hFieldF
-  letI : Finite F := hFiniteF
-  letI : CharP F 2 := hCharF
+  let : Field F := hFieldF
+  let : Finite F := hFiniteF
+  let : CharP F 2 := hCharF
   let V := Fin 3 ⊕ Fin 3 ⊕ Fin 2 → F
   let Q : QuadraticForm F V := quadMinus 4 F b c
   have hQ : (QuadraticMap.polarBilin Q).Nondegenerate :=
@@ -445,8 +445,8 @@ theorem ggF4N2J_centralImage_PSL4
     (eJ : ↥J ≃* Matrix.SpecialLinearGroup (Fin 4) F) :
     GGCentralImage .PSL 4 2 J := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  let : Fintype F := Fintype.ofFinite F
+  let : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   let eField : GaloisField 2 2 ≃+* F :=
     FiniteField.ringEquivOfCardEq (by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
@@ -479,12 +479,12 @@ theorem ggF4N2J_centralImage_PSU3
     (eJ : ↥J ≃* ↥(StatedSU 3 4 E)) :
     GGCentralImage .PSU 3 2 J := by
   classical
-  letI : Fintype E := Fintype.ofFinite E
-  letI : Fintype (GaloisField 2 4) := Fintype.ofFinite _
+  let : Fintype E := Fintype.ofFinite E
+  let : Fintype (GaloisField 2 4) := Fintype.ofFinite _
   have hGF : Nat.card (GaloisField 2 4) = (2 ^ 2) ^ 2 := by
     rw [GaloisField.card 2 4 (by norm_num)]
     norm_num
-  haveI : CharP (GaloisField 2 4) 2 := by
+  have : CharP (GaloisField 2 4) 2 := by
     exact charP_of_card_eq_prime_pow (p := 2) (f := 4) (by
       rw [Fintype.card_eq_nat_card, GaloisField.card 2 4 (by norm_num)])
   let eField : GaloisField 2 4 ≃+* E :=
@@ -642,7 +642,7 @@ theorem ggF4N2J_native_fixed_plus_six_of_model
           LargeEvenLayer (Subgroup.centralizer ({θ a} :
             Set (ProjOrthDerived (quadMinus 4 F b c)))) ∧
         ∃ (u : ↥(orthDerived (quadMinus 4 F b c)))
-          (hu : OddOrderIsometry (quadMinus 4 F b c) 5
+          (_hu : OddOrderIsometry (quadMinus 4 F b c) 5
             (u : (Fin 3 ⊕ Fin 3 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 3 ⊕ Fin 3 ⊕ Fin 2 → F))),
           QuotientGroup.mk u = θ a ∧
           Module.finrank F (fixedSpace
@@ -654,19 +654,19 @@ theorem ggF4N2J_native_fixed_plus_six_of_model
               (u : (Fin 3 ⊕ Fin 3 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 3 ⊕ Fin 3 ⊕ Fin 2 → F)) := by
   classical
   have hnotPSU := ggF4N2J_not_PSU_three_two hR hNbr hL hK
-  obtain ⟨d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, hu, hua, hpos⟩ :=
+  obtain ⟨d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, _hu, hua, hpos⟩ :=
     ggF4N2J_native_positions_of_model hR hL hF hbc θ
   have hJL : J ≤ L := hR.1.2.2.1.2.2.2.2.2.1.1.trans inf_le_left
   have hQ : (QuadraticMap.polarBilin (quadMinus 4 F b c)).Nondegenerate :=
     nondegenerate_polarBilin_quadMinus_of_finite 4 F hbc
   rcases hpos with ⟨h, hh, hne, hm, hq, hJeq⟩ | hfixed
   · obtain ⟨E, hFieldE, hFiniteE, hCharE, hE, ⟨eSU⟩⟩ :=
-      ggF4N2J_statedSU_of_native_block hJL hQ hF hu hh hne hq hm θ hJeq
-    letI : Field E := hFieldE
-    letI : Finite E := hFiniteE
-    letI : CharP E 2 := hCharE
+      ggF4N2J_statedSU_of_native_block hJL hQ hF _hu hh hne hq hm θ hJeq
+    let : Field E := hFieldE
+    let : Finite E := hFiniteE
+    let : CharP E 2 := hCharE
     exact False.elim (hnotPSU (ggF4N2J_centralImage_PSU3 hE eSU))
-  · exact ⟨d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, hu, hua, hfixed⟩
+  · exact ⟨d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, _hu, hua, hfixed⟩
 
 theorem ggF4N2J_native_fixed_plus_six
     {G : Type} [Group G] [Finite G]
@@ -687,7 +687,7 @@ theorem ggF4N2J_native_fixed_plus_six
           LargeEvenLayer (Subgroup.centralizer ({θ a} :
             Set (ProjOrthDerived (quadMinus 4 F b c)))) ∧
         ∃ (u : ↥(orthDerived (quadMinus 4 F b c)))
-          (hu : OddOrderIsometry (quadMinus 4 F b c) 5
+          (_hu : OddOrderIsometry (quadMinus 4 F b c) 5
             (u : (Fin 3 ⊕ Fin 3 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 3 ⊕ Fin 3 ⊕ Fin 2 → F))),
           QuotientGroup.mk u = θ a ∧
           Module.finrank F (fixedSpace
@@ -702,16 +702,16 @@ theorem ggF4N2J_native_fixed_plus_six
   let eQ : (↥L ⧸ Subgroup.center ↥L) ≃* L :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   obtain ⟨-, F, _, _, hF, b, c, hbc, ⟨e⟩⟩ := ggN2Model_of_centralImage hL eQ
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.RankThreeTheoremC.Generic41Spor.I1434.Cl.charP_two_of_card_four
       (by simpa using hF)
   obtain ⟨e₂⟩ := CFSG.RankThree.CentralLift.nonempty_statedProj_mulEquiv_projOrthDerived
     (coe_quadMinus 4 F b c)
   let θ : ↥L ≃* ProjOrthDerived (quadMinus 4 F b c) := e.trans e₂
-  obtain ⟨d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, hu, hua, hfixed⟩ :=
+  obtain ⟨d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, _hu, hua, hfixed⟩ :=
     ggF4N2J_native_fixed_plus_six_of_model hR hNbr hL hK (by simpa using hF) hbc θ
   exact ⟨F, inferInstance, inferInstance, inferInstance, by simpa using hF,
-    b, c, hbc, θ, d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, hu, hua, hfixed⟩
+    b, c, hbc, θ, d, hdD, hdx, a, ha, hact, hCa, hJlayer, u, _hu, hua, hfixed⟩
 
 theorem ggF4N2J_original_mixed_recognition
     {G : Type} [Group G] [Finite G]
@@ -730,9 +730,9 @@ theorem ggF4N2J_original_mixed_recognition
   obtain ⟨F, hField, hFinite, hChar, hF, b, c, hbc, θ, d, hdD, hdx,
     a, ha, hact, hCa, hJlayer, u, hu, hua, h6, hplus, hJeq⟩ :=
     ggF4N2J_native_fixed_plus_six hR hNbr hL hK
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   let V := Fin 3 ⊕ Fin 3 ⊕ Fin 2 → F
   let Q : QuadraticForm F V := quadMinus 4 F b c
   have hQ : (QuadraticMap.polarBilin Q).Nondegenerate :=
@@ -832,7 +832,7 @@ theorem ggF4N2_not_F4_field_neighbour
   have hStd := hR.1.1.2.2.2.2.2.2.2
   have hYcomp := (isComponentOf_of_isNeighborOf hStd
     (isNeighborOf_of_ggNbr hR.1.2.2 hNY)).1
-  letI : Group.IsPerfect Y := ⟨hYcomp.2.2.1⟩
+  let : Group.IsPerfect Y := ⟨hYcomp.2.2.1⟩
   have hOut := CFSG.LieType.Chevalley.F4NativeNormalForm.f4_outer_isSolvable_of_perfect_centralCover
     psi hpsi_range hpsi_ker
   obtain ⟨z, hz, hznc⟩ := CFSG.StandardType.F4ExplicitPos.CTNative.exists_noncentral_fixed
@@ -889,9 +889,9 @@ theorem ggF4N2J_fixedMultiplicity_of_actual_lift
     orderOf_eq_prime (hPow ⟨x, hxBs⟩) hane
   obtain ⟨-, ⟨F₀, hField, hFinite, hChar, hF₀, ⟨eJ⟩⟩, -⟩ :=
     ggF4N2J_original_mixed_recognition hR hNbr hL hK
-  letI : Field F₀ := hField
-  letI : Finite F₀ := hFinite
-  letI : CharP F₀ 2 := hChar
+  let : Field F₀ := hField
+  let : Finite F₀ := hFinite
+  let : CharP F₀ 2 := hChar
   have hJK : J ≤ K := ggF4N2J_le_psl6_neighbor hR hNbr hL hK
   exact ggF4N2K_fixedMultiplicity_of_actualSL4_component
     (by simpa using GaloisField.card 2 2 (by norm_num)) hF₀ ψ hψ hker haord
@@ -932,9 +932,9 @@ theorem ggF4N2J_fixedBlockRange_of_actual_lift
     orderOf_eq_prime (hPow ⟨x, hxBs⟩) hane
   obtain ⟨-, ⟨F₀, hField, hFinite, hChar, hF₀, ⟨eJ⟩⟩, -⟩ :=
     ggF4N2J_original_mixed_recognition hR hNbr hL hK
-  letI : Field F₀ := hField
-  letI : Finite F₀ := hFinite
-  letI : CharP F₀ 2 := hChar
+  let : Field F₀ := hField
+  let : Finite F₀ := hFinite
+  let : CharP F₀ 2 := hChar
   have hJK : J ≤ K := ggF4N2J_le_psl6_neighbor hR hNbr hL hK
   exact ggF4N2K_fixedBlockRange_of_actualSL4_component
     (by simpa using GaloisField.card 2 2 (by norm_num)) hF₀ ψ hψ hker haord
@@ -1044,7 +1044,7 @@ theorem ggF4N2K_axis_plane_packet
             (Matrix.SpecialLinearGroup (Fin 6) (GaloisField 2 2))) = rho.range) ∧
         v = (ψ (rho ⟨x, (ggF4N2_x_data hR hNbr).1⟩) : G) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨ψ, rho, hSurj, hKer, hConj, hPoint, hPow, hRhoKer, hRhoCard, hRange,
     Q, hQ⟩ := ggF4N2_exists_actual_lift_sylow hR hNbr hL hK
   obtain ⟨hBsSplit, hDisj, _hCardK, _ψ', _rho', _hSurj', _hKer', _hConj', _hPoint',
@@ -1222,7 +1222,7 @@ private theorem ggF4N2J_original_torus_split_core
     (Bs : Subgroup G) = (D : Subgroup G) ⊔ (Bs ⊓ J) ∧
       Disjoint (D : Subgroup G) (J : Subgroup G) ∧ Nat.card ↥(Bs ⊓ J) = 25 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hrank := ggF4N2Rank hR hL
   have hcardBs : Nat.card Bs = 5 ^ 4 := hrank.1
   have hcardB : Nat.card B = 5 ^ 4 := hrank.2.1
@@ -1247,9 +1247,9 @@ private theorem ggF4N2J_original_torus_split_core
   have hBsJ : Bs ≤ Subgroup.normalizer (J : Set G) := ggF4N2J_Bs_le_normalizer hR
   obtain ⟨_, ⟨F, hFfield, hFfinite, hFchar, hFcard, eJne⟩, _⟩ :=
     ggF4N2J_original_mixed_recognition hR hNbr hL hK
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  letI : CharP F 2 := hFchar
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  let : CharP F 2 := hFchar
   obtain ⟨eJ⟩ := eJne
   have hcenterJ : Subgroup.center J = ⊥ :=
     CFSG.GorensteinWalter.center_eq_bot_of_mulEquiv eJ
@@ -1482,7 +1482,7 @@ private lemma not_five_cube_dvd_card_SL_four {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 4) :
     ¬ 5 ^ 3 ∣ Nat.card (Matrix.SpecialLinearGroup (Fin 4) F) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hq : Fintype.card F = 4 := by rwa [Nat.card_eq_fintype_card] at hF
   rw [Matrix.card_SL_field]
   simp only [Fin.prod_univ_four, hq]
@@ -1501,14 +1501,14 @@ theorem ggF4N2J_original_torus_split
       ∃ P : Sylow 5 J,
         (P : Subgroup J) = (Bs ⊓ J).subgroupOf J := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcore := ggF4N2J_original_torus_split_core hR hNbr hL hK
   obtain ⟨hsplit, hdisj, hcardInt⟩ := hcore
   obtain ⟨_, ⟨F, hFfield, hFfinite, hFchar, hFcard, eJne⟩, _⟩ :=
     ggF4N2J_original_mixed_recognition hR hNbr hL hK
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  letI : CharP F 2 := hFchar
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  let : CharP F 2 := hFchar
   obtain ⟨eJ⟩ := eJne
   let H : Subgroup J := (Bs ⊓ J).subgroupOf J
   have hHcard : Nat.card H = 25 := by
@@ -1529,7 +1529,7 @@ theorem ggF4N2J_original_torus_split
     exact mul_dvd_mul h5 (by rw [hHcard]; norm_num)
   let P : Sylow 5 J := hHp.toSylow hHindex
   refine ⟨hsplit, hdisj, hcardInt, P, ?_⟩
-  simpa [P, H, IsPGroup.toSylow_coe]
+  simp [P, H, IsPGroup.toSylow_coe]
 
 end CFSG.StandardType
 
@@ -1559,11 +1559,11 @@ theorem sl6End_fixedSubmodule_eq_primaryComponent
 
 theorem sl6FixedMultiplicity_eq_finrank_fixedSubmodule
     {F : Type} [Field F] [Finite F] [CharP F 2]
-    {a : Matrix.SpecialLinearGroup (Fin 6) F} (ha : orderOf a = 5) :
+    {a : Matrix.SpecialLinearGroup (Fin 6) F} (_ha : orderOf a = 5) :
     sl6FixedMultiplicity F a =
       Module.finrank F (sl6End F a).fixedSubmodule := by
   classical
-  haveI : Fact (Irreducible (X - 1 : F[X])) :=
+  have : Fact (Irreducible (X - 1 : F[X])) :=
     ⟨CFSG.RankThree.Classical.irreducible_X_sub_one⟩
   have hdeg : (X - 1 : F[X]).natDegree = 1 := by
     simpa using (natDegree_X_sub_C (1 : F))
@@ -1766,20 +1766,17 @@ theorem torusBlockEquiv_conj_sl6End_coordBlock01 (A : SL2F4) :
   refine Prod.ext ?_ ?_
   · funext i
     fin_cases i <;>
-      simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, finSumFinEquiv_apply_left, finSumFinEquiv_apply_right, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock01,
-        CFSG.RankThree.CALinearPrimary.slGL, CFSG.RankThree.CALinearPrimary.coe_slGL,
-        Matrix.toLin'_apply, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
+      simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock01,
+        CFSG.RankThree.CALinearPrimary.slGL, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
   · refine Prod.ext ?_ ?_
     · funext i
       fin_cases i <;>
-        simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, finSumFinEquiv_apply_left, finSumFinEquiv_apply_right, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock01,
-          CFSG.RankThree.CALinearPrimary.slGL, CFSG.RankThree.CALinearPrimary.coe_slGL,
-          Matrix.toLin'_apply, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
+        simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock01,
+          CFSG.RankThree.CALinearPrimary.slGL, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
     · funext i
       fin_cases i <;>
-        simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, finSumFinEquiv_apply_left, finSumFinEquiv_apply_right, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock01,
-          CFSG.RankThree.CALinearPrimary.slGL, CFSG.RankThree.CALinearPrimary.coe_slGL,
-          Matrix.toLin'_apply, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
+        simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock01,
+          CFSG.RankThree.CALinearPrimary.slGL, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
 
 
 
@@ -1793,20 +1790,17 @@ theorem torusBlockEquiv_conj_sl6End_coordBlock23 (A : SL2F4) :
   refine Prod.ext ?_ ?_
   · funext i
     fin_cases i <;>
-      simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, finSumFinEquiv_apply_left, finSumFinEquiv_apply_right, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock23,
-        CFSG.RankThree.CALinearPrimary.slGL, CFSG.RankThree.CALinearPrimary.coe_slGL,
-        Matrix.toLin'_apply, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
+      simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock23,
+        CFSG.RankThree.CALinearPrimary.slGL, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
   · refine Prod.ext ?_ ?_
     · funext i
       fin_cases i <;>
-        simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, finSumFinEquiv_apply_left, finSumFinEquiv_apply_right, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock23,
-          CFSG.RankThree.CALinearPrimary.slGL, CFSG.RankThree.CALinearPrimary.coe_slGL,
-          Matrix.toLin'_apply, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
+        simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock23,
+          CFSG.RankThree.CALinearPrimary.slGL, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
     · funext i
       fin_cases i <;>
-        simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, finSumFinEquiv_apply_left, finSumFinEquiv_apply_right, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock23,
-          CFSG.RankThree.CALinearPrimary.slGL, CFSG.RankThree.CALinearPrimary.coe_slGL,
-          Matrix.toLin'_apply, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
+        simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock23,
+          CFSG.RankThree.CALinearPrimary.slGL, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
 
 
 
@@ -1820,20 +1814,17 @@ theorem torusBlockEquiv_conj_sl6End_coordBlock45 (A : SL2F4) :
   refine Prod.ext ?_ ?_
   · funext i
     fin_cases i <;>
-      simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, finSumFinEquiv_apply_left, finSumFinEquiv_apply_right, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock45,
-        CFSG.RankThree.CALinearPrimary.slGL, CFSG.RankThree.CALinearPrimary.coe_slGL,
-        Matrix.toLin'_apply, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
+      simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock45,
+        CFSG.RankThree.CALinearPrimary.slGL, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
   · refine Prod.ext ?_ ?_
     · funext i
       fin_cases i <;>
-        simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, finSumFinEquiv_apply_left, finSumFinEquiv_apply_right, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock45,
-          CFSG.RankThree.CALinearPrimary.slGL, CFSG.RankThree.CALinearPrimary.coe_slGL,
-          Matrix.toLin'_apply, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
+        simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock45,
+          CFSG.RankThree.CALinearPrimary.slGL, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
     · funext i
       fin_cases i <;>
-        simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, finSumFinEquiv_apply_left, finSumFinEquiv_apply_right, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock45,
-          CFSG.RankThree.CALinearPrimary.slGL, CFSG.RankThree.CALinearPrimary.coe_slGL,
-          Matrix.toLin'_apply, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
+        simp [torusBlockEquiv, torusBlockIdx, LinearEquiv.piCongrLeft, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inl, LinearEquiv.sumArrowLequivProdArrow_symm_apply_inr, torusTripleMap, sl6End, coordBlock45,
+          CFSG.RankThree.CALinearPrimary.slGL, Matrix.mulVec_apply, dotProduct, pairEmbed_apply, Fin.sum_univ_six]
 
 
 theorem sl6End_mul (a b : SL6F4) :
@@ -1866,7 +1857,7 @@ theorem torusBlockEquiv_conj_sl6End_product
 theorem coordA2_zpow_pow_five (k : ℤ) : (coordA2 ^ k) ^ 5 = 1 := by
   rw [← zpow_natCast, ← zpow_mul, zpow_eq_one_iff_modEq, coordA2_order]
   rw [Int.modEq_zero_iff_dvd]
-  simpa [mul_comm] using dvd_mul_left (5 : ℤ) k
+  simp
 
 theorem exists_coordinateTorus_decomposition {a : SL6F4}
     (ha : a ∈ coordinateTorus) :
@@ -1925,11 +1916,11 @@ theorem finrank_fixed_prodMap
     (f : Module.End R M) (g : Module.End R N) :
     Module.finrank R (f.prodMap g).fixedSubmodule =
       Module.finrank R f.fixedSubmodule + Module.finrank R g.fixedSubmodule := by
-  letI : Module.Free R ↥f.fixedSubmodule := Module.Free.of_divisionRing R _
-  letI : Module.Free R ↥g.fixedSubmodule := Module.Free.of_divisionRing R _
-  letI : Module.Finite R ↥f.fixedSubmodule :=
+  let : Module.Free R ↥f.fixedSubmodule := Module.Free.of_divisionRing R _
+  let : Module.Free R ↥g.fixedSubmodule := Module.Free.of_divisionRing R _
+  let : Module.Finite R ↥f.fixedSubmodule :=
     FiniteDimensional.finiteDimensional_submodule f.fixedSubmodule
-  letI : Module.Finite R ↥g.fixedSubmodule :=
+  let : Module.Finite R ↥g.fixedSubmodule :=
     FiniteDimensional.finiteDimensional_submodule g.fixedSubmodule
   rw [fixedSubmodule_prodMap]
   exact (Submodule.prodEquiv f.fixedSubmodule g.fixedSubmodule).finrank_eq.trans
@@ -2004,9 +1995,9 @@ theorem finrank_fixed_mulVecLin
   classical
   unfold sl2BlockFixedDim
   by_cases hB1 : B = 1
-  · rw [if_pos hB1]
+  · rw [ite_eq_left hB1]
     exact finrank_fixed_mulVecLin_eq_two_of_eq_one B hB1
-  · rw [if_neg hB1]
+  · rw [ite_eq_right hB1]
     exact finrank_fixed_mulVecLin_eq_zero_of_ne_one B hB5 hB1
 
 
@@ -2125,7 +2116,7 @@ theorem sl6FixedMultiplicity_conj (a g : SL6F4) (ha : orderOf a = 5) :
         _ = 1 := by rw [h]; group
     have h1 : orderOf a = 1 := by rw [ha1, orderOf_one]
     omega
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hb_order : orderOf (g * a * g⁻¹) = 5 :=
     orderOf_eq_prime hb5 hb1
   rw [sl6FixedMultiplicity_eq_finrank_fixedSubmodule ha,
@@ -2187,9 +2178,9 @@ theorem ggF4N2K_originalWholeChart_of_original_data
     hRange, Q, hQ⟩ := ggF4N2_exists_actual_lift_sylow hR hNbr hL hK
   obtain ⟨-, hRec⟩ := ggF4N2J_original_mixed_recognition hR hNbr hL hK
   obtain ⟨⟨F0, hFieldF0, hFiniteF0, hCharF0, hF0, ⟨e0⟩⟩, -⟩ := hRec
-  letI : Field F0 := hFieldF0
-  letI : Finite F0 := hFiniteF0
-  letI : CharP F0 2 := hCharF0
+  let : Field F0 := hFieldF0
+  let : Finite F0 := hFiniteF0
+  let : CharP F0 2 := hCharF0
   let H := Subgroup.subgroupOf J K
   have hHcomp : CFSG.Assembly.IsComponentOf H
       (Subgroup.centralizer ({ψ (rho ⟨x, hxBs⟩)} : Set K)) :=
@@ -2331,8 +2322,8 @@ private theorem five_dvd_card_original_J
     5 ∣ Nat.card J := by
   obtain ⟨-, ⟨F0, hField0, hFinite0, hChar0, hF0, ⟨eJ⟩⟩, -⟩ :=
     ggF4N2J_original_mixed_recognition hR hNbr hL hK
-  letI : Field F0 := hField0
-  letI : Finite F0 := hFinite0
+  let : Field F0 := hField0
+  let : Finite F0 := hFinite0
   have hcardJ : Nat.card J = Nat.card (Matrix.SpecialLinearGroup (Fin 4) F0) :=
     Nat.card_congr eJ.toEquiv
   rw [hcardJ, CFSG.OrderReductions.LinearOrders.card_specialLinear F0 4 (by norm_num), hF0]
@@ -2356,15 +2347,15 @@ theorem ggF4N2K_normalizer_inf_of_original
     Subgroup.normalizer (Subgroup.zpowers y : Set G) ⊓ Subgroup.normalizer (J : Set G) ≤
       Subgroup.normalizer (K : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨-, ⟨F0, hField0, hFinite0, hChar0, hF0, ⟨eJ⟩⟩, -⟩ :=
     ggF4N2J_original_mixed_recognition hR hNbr hL hK
-  letI : Field F0 := hField0
-  letI : Finite F0 := hFinite0
-  letI : CharP F0 2 := hChar0
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 4) F0) :=
+  let : Field F0 := hField0
+  let : Finite F0 := hFinite0
+  let : CharP F0 2 := hChar0
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 4) F0) :=
     CFSG.LinearGroups.special_linear_isPerfect (by omega) (Or.inl (by omega))
-  haveI : Group.IsPerfect J :=
+  have : Group.IsPerfect J :=
     Group.IsPerfect.ofSurjective (f := eJ.symm.toMonoidHom)
       (by simpa using eJ.symm.surjective)
   have hperf : J ≤ ⁅J, J⁆ := by
@@ -2482,12 +2473,12 @@ private theorem split46_block45End_apply (A : SL2F4) (x : Fin 4 → F4) (y : Fin
     fin_cases i <;>
       simp [split46, block45End, sl6End, coordBlock45,
         CFSG.RankThree.CALinearPrimary.slGL, pairEmbed_apply,
-        Matrix.toLin'_apply, Matrix.mulVec_apply, dotProduct, Fin.sum_univ_six, e46, Matrix.one_apply]
+        Matrix.mulVec_apply, dotProduct, Fin.sum_univ_six, e46, Matrix.one_apply]
   · funext j
     fin_cases j <;>
       simp [split46, block45End, sl6End, coordBlock45,
         CFSG.RankThree.CALinearPrimary.slGL, pairEmbed_apply,
-        Matrix.toLin'_apply, Matrix.mulVec_apply, dotProduct, Fin.sum_univ_six, e46, Matrix.one_apply]
+        Matrix.mulVec_apply, dotProduct, Fin.sum_univ_six, e46, Matrix.one_apply]
 
 
 private theorem blockFourMat_mulVec_fst (A : Matrix.SpecialLinearGroup (Fin 4) F4)
@@ -2512,9 +2503,7 @@ private theorem blockFourMat_mulVec_fst (A : Matrix.SpecialLinearGroup (Fin 4) F
     cases s <;> rfl
   rw [Fintype.sum_sum_type]
   simp only [hv, blockFourMat_apply, Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂,
-    Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂, Matrix.one_apply,
-    Matrix.zero_apply, Sum.elim_inl, Sum.elim_inr, Matrix.mulVec, dotProduct,
-    Fin.sum_univ_four, Fin.sum_univ_two, mul_zero, zero_mul, add_zero, zero_add]
+    Matrix.zero_apply, Sum.elim_inl, Sum.elim_inr, Fin.sum_univ_four, Fin.sum_univ_two, zero_mul, add_zero]
 
 private theorem blockFourMat_mulVec_snd (A : Matrix.SpecialLinearGroup (Fin 4) F4)
     (v : Fin 6 → F4) (i : Fin 2) :
@@ -2537,10 +2526,8 @@ private theorem blockFourMat_mulVec_snd (A : Matrix.SpecialLinearGroup (Fin 4) F
     intro s
     cases s <;> rfl
   rw [Fintype.sum_sum_type]
-  simp only [hv, blockFourMat_apply, Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂,
-    Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂, Matrix.one_apply,
-    Matrix.zero_apply, Sum.elim_inl, Sum.elim_inr, Matrix.mulVec, dotProduct,
-    Fin.sum_univ_four, Fin.sum_univ_two, mul_zero, zero_mul, add_zero, zero_add]
+  simp only [hv, blockFourMat_apply, Matrix.fromBlocks_apply₂₁, Matrix.fromBlocks_apply₂₂, Matrix.one_apply,
+    Matrix.zero_apply, Sum.elim_inl, Sum.elim_inr, Fin.sum_univ_four, Fin.sum_univ_two, zero_mul, add_zero, zero_add]
   fin_cases i <;> simp
 
 private theorem split46_mulVec_blockFourMat (A : Matrix.SpecialLinearGroup (Fin 4) F4)
@@ -2795,7 +2782,7 @@ private noncomputable def adjRootXSubOneEquiv (F : Type) [Field F] [Finite F]
   classical
   let φ : AdjoinRoot (X - 1 : F[X]) →+* F :=
     AdjoinRoot.lift (RingHom.id F) 1 (by
-      simpa using eval₂_X_sub_C (RingHom.id F) 1)
+      simp)
   haveI : Fact (Irreducible (X - 1 : F[X])) := ⟨irreducible_X_sub_C 1⟩
   have hinj : Function.Injective φ := RingHom.injective φ
   have hdeg : (X - 1 : F[X]).natDegree = 1 := by
@@ -2867,8 +2854,8 @@ private theorem natCard_linearSpecialBlock_comap (A0 : SL2F4) (hAord : orderOf A
           (x := slGL 6 F4 a) hsq0,
         CFSG.RankThree.CALinearPrimary.linearSpecialBlockRestrict_surjective
           (x := slGL 6 F4 a) hsq0 hhGL⟩
-  haveI : Fact (Irreducible (X - 1 : F4[X])) := ⟨irreducible_of_mem_primaryFactors hhGL⟩
-  haveI : Finite (AdjoinRoot (X - 1 : F4[X])) := Module.finite_of_finite F4
+  have : Fact (Irreducible (X - 1 : F4[X])) := ⟨irreducible_of_mem_primaryFactors hhGL⟩
+  have : Finite (AdjoinRoot (X - 1 : F4[X])) := Module.finite_of_finite F4
   let basis : Module.Basis (Fin 4) (AdjoinRoot (X - 1 : F4[X]))
       (primaryComponent ((slGL 6 F4 a : LinearMap.GeneralLinearGroup F4 (Fin 6 → F4)) :
         Module.End F4 (Fin 6 → F4)) (X - 1)) :=
@@ -3087,7 +3074,7 @@ private theorem split46_gEnd_block (g : SL6F4)
       simp [Finset.sum_apply, Pi.single_apply]
     conv_lhs => rw [hx]
     rw [map_sum]
-    simp [gFirstMat, Matrix.mulVec, Matrix.toLin'_toMatrix', Finset.sum_apply,
+    simp [gFirstMat, Matrix.mulVec, Finset.sum_apply,
       dotProduct, mul_comm]
   · simp
 
@@ -3113,7 +3100,7 @@ theorem natCard_blockFour_range :
 private theorem gFirstMat_mulVec (g : SL6F4)
     (hgpres : ∀ v ∈ firstCoord, sl6End F4 g v ∈ firstCoord) (x : Fin 4 → F4) :
     (gFirstMat g hgpres).mulVec x = gFirstLin g hgpres x := by
-  simpa [gFirstMat] using LinearMap.toMatrix'_mulVec (gFirstLin g hgpres) x
+  simp [gFirstMat]
 
 private theorem split46_conj_gEnd_block (g : SL6F4)
     (hgpres : ∀ v ∈ firstCoord, sl6End F4 g v ∈ firstCoord)
@@ -3410,8 +3397,8 @@ private theorem card_J_eq_card_SL4F4
     (hF0 : Nat.card F0 = 4) :
     Nat.card ↥J = Nat.card SL4F4 := by
   classical
-  haveI : Fintype F0 := Fintype.ofFinite F0
-  haveI : Fintype F4 := Fintype.ofFinite F4
+  have : Fintype F0 := Fintype.ofFinite F0
+  have : Fintype F4 := Fintype.ofFinite F4
   have hF4 : Nat.card F4 = 4 := by
     simpa using GaloisField.card 2 2 (by norm_num)
   have hF0' : Fintype.card F0 = 4 := by
@@ -3557,8 +3544,8 @@ theorem ggF4N2K_originalLiteralChart_of_original_data
     blockFour_range_eq_comap_of_mem_coordT45 (hT45 hxBs) haord
   obtain ⟨-, hRec⟩ := ggF4N2J_original_mixed_recognition hR hNbr hL hK
   obtain ⟨⟨F0, hField, hFinite, hChar, hF0, ⟨e0⟩⟩, -⟩ := hRec
-  letI : Field F0 := hField
-  letI : Finite F0 := hFinite
+  let : Field F0 := hField
+  let : Finite F0 := hFinite
   obtain ⟨eJ, hchart, hroot⟩ :=
     literal_eJ_and_root_of_packet hR hNbr hL hK ψ rho hSurj hKer hPoint
       hPow hRhoKer (hxBs := hxBs) hblock e0 hF0
@@ -3712,7 +3699,7 @@ theorem ggF4N2K_exists_original_inverter_orderTwo_on_D
     have hh := hα ⟨a, haD⟩
     rw [h] at hh
     exact hh.symm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ⟨t, htK, htBs, htJ, htD, hty, orderOf_eq_prime hpow hne⟩
 
 theorem ggF4N2K_exists_original_inverter_reflection

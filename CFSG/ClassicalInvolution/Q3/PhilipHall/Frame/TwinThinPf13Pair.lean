@@ -39,7 +39,7 @@ theorem conj_closure {U : Set G} {x : G} (h : ∀ s ∈ U, x * s * x⁻¹ ∈ Su
   intro d hd
   induction hd using Subgroup.closure_induction with
   | mem t ht => exact h t ht
-  | one => simpa using (Subgroup.closure U).one_mem
+  | one => simp
   | mul a b ha hb iha ihb =>
     have := (Subgroup.closure U).mul_mem iha ihb
     simpa [mul_assoc] using this

@@ -24,7 +24,7 @@ theorem isMaxTwoLocal_MbarPrime_of_ti (h34 : Stroth34Statement)
     (hF : generalizedFitting ↥(bar M Q (NormH0 M Z Z0)) =
       (bar M Q (hc.CN t)).subgroupOf (bar M Q (NormH0 M Z Z0))) :
     IsMaxTwoLocalSubgroup (MbarPrime M Q Z Z0) := by
-  haveI hFinH : Finite (Hbar M Q Z) :=
+  have hFinH : Finite (Hbar M Q Z) :=
     Finite.of_injective Subtype.val Subtype.val_injective
   let V : Subgroup (Hbar M Q Z) := (bar M Q Z0).subgroupOf (bar M Q (H0 M Z))
   let M' : Subgroup (Hbar M Q Z) := MbarPrime M Q Z Z0

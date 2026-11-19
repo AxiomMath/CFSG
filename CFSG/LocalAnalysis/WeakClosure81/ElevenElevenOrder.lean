@@ -156,7 +156,7 @@ theorem eleven11_D_inf_D {M V Q U L X U' L' X' : Subgroup G}
   have hnle : ¬ (Q ⊓ centralizerModCore L' : Subgroup G) ≤ Q ⊓ centralizerModCore L := by
     intro h
     exact hDne (Subgroup.eq_of_le_of_card_ge h (le_of_eq (by rw [hc, hc']))).symm
-  obtain ⟨e, heD', heD⟩ := SetLike.not_le_iff_exists.1 hnle
+  obtain ⟨e, heD', heD⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
   have heQ : e ∈ Q := (Subgroup.mem_inf.1 heD').1
   have heC : e ∉ centralizerModCore L := fun h => heD (Subgroup.mem_inf.2 ⟨heQ, h⟩)
   have hWe := eleven11_blockU_inf_centralizer_of_mem hd h8 heQ heC

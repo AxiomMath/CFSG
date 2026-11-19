@@ -30,9 +30,9 @@ private lemma qTwoLMDivStab_e_inv {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
   funext k
   simp only [qTwoLMDivStab_e, Pi.inv_apply, Pi.mul_apply, Pi.mulSingle_apply]
   by_cases hki : k = i
-  · subst k; simp [hij, Ne.symm hij]
+  · subst k; simp [hij]
   · by_cases hkj : k = j
-    · subst k; simp [hij, Ne.symm hij]
+    · subst k; simp [Ne.symm hij]
     · simp [hki, hkj]
 
 private lemma qTwoLMDivStab_vec_pow {m : ℕ} (w : Fin m → Multiplicative (ZMod 3)) :
@@ -106,12 +106,12 @@ private lemma qTwoLMDivStab_e_injective {m : ℕ} {a b i j : Fin m}
     exact absurd hcontra (by decide)
 
 private lemma qTwoLMDivStab_threeCycle_left {m : ℕ} {i j k : Fin m}
-    (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) :
+    (hij : i ≠ j) (_hjk : j ≠ k) (hik : i ≠ k) :
     (Equiv.swap i j * Equiv.swap j k) i = j := by
   rw [Equiv.Perm.mul_apply, Equiv.swap_apply_of_ne_of_ne hij hik, Equiv.swap_apply_left]
 
 private lemma qTwoLMDivStab_threeCycle_other {m : ℕ} {i j k l : Fin m}
-    (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k)
+    (_hij : i ≠ j) (_hjk : j ≠ k) (_hik : i ≠ k)
     (hli : l ≠ i) (hlj : l ≠ j) (hlk : l ≠ k) :
     (Equiv.swap i j * Equiv.swap j k) l = l := by
   rw [Equiv.Perm.mul_apply,
@@ -207,8 +207,8 @@ theorem qTwoLMDivStab_qm_rigid {m : ℕ} (hm : 5 ≤ m) {V : Type} [Group V]
     (hfix : ∀ u ∈ U, ψ u = u) : ψ = 1 := by
   classical
   obtain ⟨π, hπsurj, hπker, hπequiv⟩ := hV.ex
-  haveI : Finite V := Finite.of_surjective π hπsurj
-  letI : CommGroup V := MonoidHom.commGroupOfSurjective π hπsurj
+  have : Finite V := Finite.of_surjective π hπsurj
+  let : CommGroup V := MonoidHom.commGroupOfSurjective π hπsurj
   have hVexp : ∀ v : V, v ^ 3 = 1 := by
     intro v
     obtain ⟨w, rfl⟩ := hπsurj v
@@ -364,7 +364,7 @@ theorem qTwoLMDivStab_qm_rigid {m : ℕ} (hm : 5 ≤ m) {V : Type} [Group V]
         simp [map_mul, mul_inv_rev, mul_assoc, mul_comm, mul_left_comm] }
   have hχ_triv : ∀ u ∈ U, χ u = 1 := by
     intro u hu
-    simpa [χ, hfix u hu]
+    simp [χ, hfix u hu]
   have hχ_equiv : ∀ (σ : Equiv.Perm (Fin m)) (v : V), χ (ρ σ v) = ρ σ (χ v) := by
     intro σ v
     dsimp [χ]

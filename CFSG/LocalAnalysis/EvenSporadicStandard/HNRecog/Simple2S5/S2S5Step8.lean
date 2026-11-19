@@ -54,7 +54,7 @@ private theorem exists_conj_map_le_of_isPGroup2 {K : Type*} [Group K] [Finite K]
     {T₁ F : Subgroup K} (hT₁ : IsPGroup 2 T₁) (hodd : ¬ 2 ∣ T₁.index)
     (hF : IsPGroup 2 F) :
     ∃ c : K, F ≤ T₁.map (MulAut.conj c).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 K := hT₁.toSylow hodd
   have hPcoe : (P : Subgroup K) = T₁ := IsPGroup.toSylow_coe hT₁ hodd
   obtain ⟨Q, hFQ⟩ := hF.exists_le_sylow

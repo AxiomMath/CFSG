@@ -42,6 +42,7 @@ section Frame
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {p f : ℕ} [Fact p.Prime]
   {Ω : Set (Subgroup G)} {K K' J W : Subgroup G} {z u t : G}
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.r_not_mem_sigmaNorm (h : Hyp21 p f Ω K K' z u J t W)
     (hne : dComp Ω K ≠ dstarComp Ω K) (ρ₁ ρ_L : Rep Ω W) (hρ₁ : ρ₁.K = K)
     (hL1 : ρ_L.K ≠ K) (hL2 : ρ_L.K ∉ omegaNbr Ω K) : ρ_L.r ∉ sigmaNorm Ω K := by

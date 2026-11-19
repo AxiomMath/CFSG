@@ -191,16 +191,16 @@ private lemma prod_coordTuple_zpow {τ : Tag} {k : Type} [Field k]
     rw [h1, hDC]
     simp only [Matrix.smul_apply, Matrix.one_apply, smul_eq_mul]
     by_cases h : γ = β
-    · rw [if_pos h.symm, if_pos h, mul_one]
-    · rw [if_neg (fun hb => h hb.symm), if_neg h, mul_zero]
+    · rw [ite_eq_left h.symm, ite_eq_left h, mul_one]
+    · rw [ite_eq_right (fun hb => h hb.symm), ite_eq_right h, mul_zero]
   have hstep : (∏ i, coordTuple Δ c i ^ latD Δ β i) =
       ∏ i, ∏ γ : Δ, c (γ : Fin τ.rank → ℤ) ^ (corootMat Δ i γ * latD Δ β i) := by
     simp only [hcoord, Finset.prod_zpow, zpow_mul]
   rw [hstep, Finset.prod_comm]
   simp only [Finset.prod_zpow_eq_zpow_sum]
   rw [Finset.prod_eq_single β]
-  · rw [hexp β, if_pos rfl]
-  · intro γ _ hγ; rw [hexp γ, if_neg hγ, zpow_zero]
+  · rw [hexp β, ite_eq_left rfl]
+  · intro γ _ hγ; rw [hexp γ, ite_eq_right hγ, zpow_zero]
   · intro h; exact absurd (Finset.mem_univ β) h
 
 private lemma gram_det_ne_zero {τ : Tag} {Δ : Finset (Fin τ.rank → ℤ)}

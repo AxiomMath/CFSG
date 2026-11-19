@@ -59,10 +59,10 @@ theorem pinnedElt_reflect_n1_ne :
     pinnedElt .E7 (highRoot .E7) (1 : ZMod 2) * g}
   one_mem' := by simp
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [mul_assoc, hb, ← mul_assoc, ha, mul_assoc]
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     calc a⁻¹ * pinnedElt .E7 (highRoot .E7) (1 : ZMod 2)
         = a⁻¹ * (pinnedElt .E7 (highRoot .E7) (1 : ZMod 2) * a) * a⁻¹ := by group
       _ = a⁻¹ * (a * pinnedElt .E7 (highRoot .E7) (1 : ZMod 2)) * a⁻¹ := by rw [← ha]

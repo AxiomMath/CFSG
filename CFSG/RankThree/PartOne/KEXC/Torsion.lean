@@ -17,7 +17,7 @@ theorem card_rootsOfUnity_eq {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 ((CharP.cast_eq_zero_iff L 2 p).1 h)).symm
   have : NeZero p := ⟨hp.ne_zero⟩
   have : NeZero (p : L) := ⟨hp0⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   exact hζ.card_rootsOfUnity
 
 theorem card_rootsOfUnity_of_odd {m : ℕ} (hm : Odd m) : Nat.card (rootsOfUnity m L) = m := by
@@ -26,7 +26,7 @@ theorem card_rootsOfUnity_of_odd {m : ℕ} (hm : Odd m) : Nat.card (rootsOfUnity
     exact (Nat.not_even_iff_odd.2 hm) (even_iff_two_dvd.2 this)
   have : NeZero m := ⟨hm.pos.ne'⟩
   have : NeZero (m : L) := ⟨hm0⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L m
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L m
   exact hζ.card_rootsOfUnity
 
 theorem card_range_of_odd {m : ℕ} (hm : Odd m) {M : Type*} [Group M]
@@ -41,7 +41,7 @@ theorem exists_pTors_elt {m p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpm : p ∣
     ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 ((CharP.cast_eq_zero_iff L 2 p).1 h)).symm
   have : NeZero p := ⟨hp.ne_zero⟩
   have : NeZero (p : L) := ⟨hp0⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   lift ζ₀ to Lˣ using hζ₀.isUnit hp.ne_zero
   rw [IsPrimitiveRoot.coe_units_iff] at hζ₀
   have hmem : ζ₀ ∈ rootsOfUnity m L := by

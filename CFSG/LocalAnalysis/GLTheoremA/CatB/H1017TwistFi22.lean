@@ -113,7 +113,7 @@ theorem card_Qk_eq {k : ℕ} (hk : k < 3) :
 theorem closed_of_inv (D : Subgroup fi22P) (hD : IsElemAbelian 3 D) (hc : Nat.card D = 27)
     (t : fi22P) (ht : orderOf t = 2) (hDt : D ≤ Subgroup.centralizer ({t} : Set fi22P)) :
     PElemsClosed 3 (Subgroup.centralizer (D : Set fi22P)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk, g, hg⟩ := exists_conj_ext t ht
   have htk : fi22ExtRep k ∈ fi22P := CTUC_Fi22_all_extension_involutions_covered.1 k hk
   set tk : fi22P := ⟨fi22ExtRep k, htk⟩

@@ -61,6 +61,7 @@ theorem c8k_dorder_quot {d : Γ} (hd : orderOf d = 3) :
     exact hnot (hn ▸ h3dvd)
   · exact h
 
+omit [Finite Γ] in
 theorem c8k_ne_top_quot {B : Subgroup Γ} (hq : CFSG.pCore 2 Γ ≤ B) (hB : B ≠ ⊤) :
     B.map (QuotientGroup.mk' (CFSG.pCore 2 Γ)) ≠ ⊤ := by
   intro h
@@ -82,11 +83,11 @@ theorem c8k_prod_quot {B : Subgroup Γ} (h : B ⊔ CFSG.pPrimeCore 3 Γ = ⊤) :
   rw [Subgroup.map_sup, htop, hmap] at this
   exact this
 
-theorem c8k_cent_quot {B : Subgroup Γ} {d : Γ} (hd : orderOf d = 3) (hq : CFSG.pCore 2 Γ ≤ B)
+theorem c8k_cent_quot {B : Subgroup Γ} {d : Γ} (hd : orderOf d = 3) (_hq : CFSG.pCore 2 Γ ≤ B)
     (hc : centralizer ({d} : Set Γ) ≤ B) :
     centralizer ({(d : Γ ⧸ CFSG.pCore 2 Γ)} : Set (Γ ⧸ CFSG.pCore 2 Γ)) ≤
       B.map (QuotientGroup.mk' (CFSG.pCore 2 Γ)) := by
-  haveI : Fact (IsPGroup 3 ↥(Subgroup.zpowers d)) :=
+  have : Fact (IsPGroup 3 ↥(Subgroup.zpowers d)) :=
     ⟨IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hd, pow_one])⟩
   have hcop : Nat.Coprime 3 (Nat.card ↥(CFSG.pCore 2 Γ)) := by
     obtain ⟨n, hn⟩ :=
@@ -104,7 +105,7 @@ theorem c8k_cent_quot {B : Subgroup Γ} {d : Γ} (hd : orderOf d = 3) (hq : CFSG
 
 theorem c8k_rank_quot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     pRank p (⊤ : Subgroup (Γ ⧸ CFSG.pCore 2 Γ)) ≤ pRank p (⊤ : Subgroup Γ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hN : ¬ p ∣ Nat.card ↥(CFSG.pCore 2 Γ) := by
     obtain ⟨n, hn⟩ :=
       IsPGroup.iff_card.1 (CFSG.pCore_isPGroup (p := 2) (G := Γ))

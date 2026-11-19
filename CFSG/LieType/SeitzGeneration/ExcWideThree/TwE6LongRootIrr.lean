@@ -14,7 +14,7 @@ namespace CoreIrr
 
 variable {K : Type} [Field K]
 
-theorem good_top {σ : K ≃+* K} (hσσ : ∀ c, σ (σ c) = c) {N : AddSubgroup (Rv K)}
+theorem good_top {σ : K ≃+* K} (_hσσ : ∀ c, σ (σ c) = c) {N : AddSubgroup (Rv K)}
     (hΦ : N ≤ RPhi K σ) (hk : ∀ t : K, σ t = t → ∀ v ∈ N, t • v ∈ N)
     {n : Rv K} (hnN : n ∈ N) (hn0 : n ≠ 0) (hns : ∀ γ, γ ≠ topD → n γ = 0) :
     Good σ N topD := by

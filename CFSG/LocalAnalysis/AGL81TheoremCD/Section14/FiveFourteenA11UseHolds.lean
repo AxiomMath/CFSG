@@ -23,9 +23,9 @@ theorem pCore_two_eq_pPrimeCore_three_of_quotient_a11 {K : Type} [Group K] [Fini
     (hA : Nonempty (K ⧸ CFSG.pCore 2 K ≃* alternatingGroup (Fin 11))) :
     CFSG.pCore 2 K = CFSG.pPrimeCore 3 K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 11)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup (alternatingGroup (Fin 11)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; norm_num)
   obtain ⟨e⟩ := hA
   have hO2 : CFSG.pCore 2 K ≤ CFSG.pPrimeCore 3 K :=
@@ -62,6 +62,7 @@ private theorem exists_char_normal_map_subtype {G : Type} [Group G] {X T : Subgr
       exact Subgroup.mem_top _
     exact (CFSG.Glauberman.mem_normalizer_map_subtype_iff C' ⟨x, hx⟩).mp hxn
 
+omit [Finite G] in
 private theorem closure_odd_properties {K X : Subgroup G} (hKX : K ≤ X)
     (hKn : (K.subgroupOf X).Normal) :
     ∃ L : Subgroup G, L = Subgroup.closure {x : G | x ∈ K ∧ Odd (orderOf x)} ∧
@@ -101,7 +102,7 @@ private theorem closure_odd_properties {K X : Subgroup G} (hKX : K ≤ X)
         ((Subgroup.closure_le X).mpr fun x hx => hKX hx.1) hgen
     · exact (Subgroup.closure_le _).mpr fun x hx => hx.1
 
-private theorem not_le_ker_of_odd_gen {K X L : Subgroup G} (hKX : K ≤ X) (hLX : L ≤ X)
+private theorem not_le_ker_of_odd_gen {K X L : Subgroup G} (hKX : K ≤ X) (_hLX : L ≤ X)
     (hLdef : L = Subgroup.closure {x : G | x ∈ K ∧ Odd (orderOf x)})
     (φ : ↥X →* Equiv.Perm (Fin 11))
     (hker : φ.ker = (CFSG.Open.pCoreOf 2 X).subgroupOf X)
@@ -161,7 +162,7 @@ private theorem isSylowTwoOf_subgroupOf_top_of_isSylowOf {T X : Subgroup G}
   obtain ⟨Q, hQ⟩ := hT.exists_sylow_eq_subgroupOf
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hQ]
-    exact Q.isPGroup'
+    exact Q.isPGroup
   · rw [← hQ]
     have hidx : ((Q : Subgroup ↥X).subgroupOf (⊤ : Subgroup ↥X)).index =
         (Q : Subgroup ↥X).index := by
@@ -232,8 +233,8 @@ theorem fiveFourteenA11Use_holds :
     FiveFourteenA11Use := by
   intro G _ _ X K T hcharX hT hKX hKn hKT hKq hnoX
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨eK⟩ := hKq
   have hXK : X ≤ Subgroup.normalizer (K : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKX).mp hKn

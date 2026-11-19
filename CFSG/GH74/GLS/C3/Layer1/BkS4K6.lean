@@ -33,7 +33,7 @@ theorem a6_sylow_package
     exact le_inf hT₀ hX0
   have hNP2 : IsPGroup 2 ↥N.P := by
     rw [hNP]
-    exact T₀.isPGroup'.to_le inf_le_left
+    exact T₀.isPGroup.to_le inf_le_left
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hNP2
   have hdvd : Nat.card ↥N.P ∣ 360 := by
     rw [← hinn]

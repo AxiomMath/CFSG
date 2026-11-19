@@ -67,7 +67,7 @@ theorem inv_mul_mem_of_card {P K : Subgroup G} {x y : G} (hKP : K ≤ P) (hK : N
   have hi : L.index = 2 := by omega
   have e := Subgroup.mul_mem_iff_of_index_two hi (a := (⟨x, Subgroup.mem_inf.2 ⟨hx, hxN⟩⟩ : M)⁻¹)
     (b := ⟨y, Subgroup.mem_inf.2 ⟨hy, hyN⟩⟩)
-  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv, inv_mem_iff] at e
+  simp only [inv_mem_iff] at e
   exact e.2 (iff_of_false hxK hyK)
 
 theorem eq_of_card_four {H : Subgroup G} (hH : Nat.card H = 4) {a b c d : G} (ha : a ∈ H)
@@ -140,7 +140,7 @@ theorem Enc.pcomp {om : Fin n → Fin m} (hn : n < 2 ^ 32) (hw : 0 < w) {N N' : 
 theorem encOf_eq {om : Fin n → Fin m} (hom : Function.Injective om) (hw : 0 < w) {N : ℕ}
     {c : Equiv.Perm (Fin m)} (h : Enc n w om N c) : encOf n w om c = N := by
   have he : ∃ N, Enc n w om N c := ⟨N, h⟩
-  rw [encOf, dif_pos he]
+  rw [encOf, dite_eq_left he]
   exact Enc.unique hom hw (Classical.choose_spec he) h
 
 @[expose] def wd {H : Type*} [Group H] (σ : ℕ → H) : List ℕ → H

@@ -32,7 +32,7 @@ theorem normal_two_le_center_of_sl2 {A X : Subgroup Y} {F : Type} [Field F] [Fin
   · exfalso
     have hF1 : Nat.card F ≠ 1 := by omega
     obtain ⟨p, hp, hpF⟩ := Nat.exists_prime_and_dvd hF1
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hp2 : p ≠ 2 := by
       rintro rfl
       exact (Nat.not_even_iff_odd.2 hodd) (even_iff_two_dvd.2 hpF)

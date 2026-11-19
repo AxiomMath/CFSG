@@ -162,10 +162,10 @@ private lemma eigenspace_separatingLeft {K : Type} [Field K] [Finite K] [CharP K
   simp
 
 theorem uni_cube_blocks_ne {K : Type} [Field K] [Finite K] [CharP K 2] {q n : ℕ}
-    (hK : Nat.card K = q ^ 2) (hq3 : 3 ∣ q + 1) (hn : 4 ≤ n)
+    (hK : Nat.card K = q ^ 2) (hq3 : 3 ∣ q + 1) (_hn : 4 ≤ n)
     {d : GL (Fin n) K} (hd : IsHermIsometry q (d : Matrix (Fin n) (Fin n) K)) (hd3 : d ^ 3 = 1)
     {μ ν : K} (hμ : μ ^ 3 = 1) (hν : ν ^ 3 = 1) (hne : μ ≠ ν)
-    (hμ2 : 2 ≤ Module.finrank K (cubeEigen d μ)) (hν2 : 2 ≤ Module.finrank K (cubeEigen d ν)) :
+    (hμ2 : 2 ≤ Module.finrank K (cubeEigen d μ)) (_hν2 : 2 ≤ Module.finrank K (cubeEigen d ν)) :
     ¬ ∀ x : PSUg n K q, InCubeBlock d μ x ↔ InCubeBlock d ν x := by
   classical
   obtain ⟨f, hf1, hq⟩ := CFSG.AGLEmbedding.ToralCensus.exists_eq_two_pow_of_card_eq_sq hK
@@ -190,7 +190,7 @@ theorem uni_cube_blocks_ne {K : Type} [Field K] [Finite K] [CharP K 2] {q n : �
     intro hbot
     rw [hbot, finrank_bot] at hμ2V
     omega
-  haveI : Nontrivial Vμ := Submodule.nontrivial_iff_ne_bot.mpr hVne
+  have : Nontrivial Vμ := Submodule.nontrivial_iff_ne_bot.mpr hVne
   obtain ⟨w₀, hw₀⟩ : ∃ w : Vμ, w ≠ 0 := by
     obtain ⟨a, b, hab⟩ := exists_pair_ne Vμ
     by_cases ha : a = 0

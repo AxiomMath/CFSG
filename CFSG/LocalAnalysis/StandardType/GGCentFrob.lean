@@ -55,7 +55,7 @@ theorem ntpS4_frobPerm
   classical
   have hfin : (kernelRoots (rootCharHom a)).Finite :=
     (finite_setOf_isRoot .E6).subset fun γ hγ => hγ.1
-  haveI : Finite (kernelRoots (rootCharHom a)) := hfin.to_subtype
+  have : Finite (kernelRoots (rootCharHom a)) := hfin.to_subtype
   let f : kernelRoots (rootCharHom a) → kernelRoots (rootCharHom a) :=
     fun x => ⟨S.ρ x, s4_rho_mem_kernel S a hT x.2⟩
   have hf : Function.Injective f := fun x y h =>
@@ -115,7 +115,7 @@ theorem ntpS4_frobPerm
     intro i
     refine Set.Subset.antisymm ?_ ?_
     · rintro β ⟨α, hα, rfl⟩
-      simp only [componentRoots, Set.mem_setOf_eq] at hα ⊢
+      simp only [componentRoots, Set.mem_ofPred_eq] at hα ⊢
       obtain ⟨hαk, hαi⟩ := hα
       refine ⟨s4_rho_mem_kernel S a hT hαk, ?_⟩
       have hev : e ⟨α, hαk⟩ = ⟨S.ρ α, s4_rho_mem_kernel S a hT hαk⟩ := Subtype.ext rfl
@@ -125,7 +125,7 @@ theorem ntpS4_frobPerm
         _ = ρb (⟦⟨α, hαk⟩⟧ : KernelComponent (rootCharHom a)) := (hρbmk ⟨α, hαk⟩).symm
         _ = ρb i := by rw [hαi]
     · rintro β hβ
-      simp only [componentRoots, Set.mem_setOf_eq] at hβ
+      simp only [componentRoots, Set.mem_ofPred_eq] at hβ
       obtain ⟨hβk, hβi⟩ := hβ
       let δ : kernelRoots (rootCharHom a) := e.symm ⟨β, hβk⟩
       have heδ : e δ = ⟨β, hβk⟩ := by

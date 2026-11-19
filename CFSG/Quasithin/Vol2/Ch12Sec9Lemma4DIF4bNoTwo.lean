@@ -50,7 +50,7 @@ theorem fix_of_nonsing (q : W → ZMod 2) (B : LinearMap.BilinForm (ZMod 2) W)
     intro x
     have h := hz (trEquiv q B hq u) (trEquiv_mem q B hq hu) x
     rw [trEquiv_apply, trEquiv_apply] at h
-    simp only [map_add, map_smul, smul_eq_mul] at h
+    simp only [map_add, map_smul] at h
     exact add_left_cancel h
   obtain ⟨x0, hx0⟩ := exists_B_eq_one B hB q hq hu0
   have h1 := key x0
@@ -97,7 +97,7 @@ theorem f4_no_normal_two {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite
     ∀ N : Subgroup (W ≃ₗ[ZMod 2] W), N ≤ orthogonalSubgroupOf q →
       (∀ γ ∈ orthogonalSubgroupOf q, ∀ n ∈ N, γ * n * γ⁻¹ ∈ N) → Nat.card N ≠ 2 := by
   intro N hN hnorm hcard
-  haveI : FiniteDimensional (ZMod 2) W := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) W := Module.Finite.of_finite
   obtain ⟨z, hzN, hz1, hall⟩ := exists_pair_of_card_two N hcard
   have hzO : z ∈ orthogonalSubgroupOf q := hN hzN
   have hz : ∀ γ ∈ orthogonalSubgroupOf q, ∀ x : W, γ (z x) = z (γ x) := by

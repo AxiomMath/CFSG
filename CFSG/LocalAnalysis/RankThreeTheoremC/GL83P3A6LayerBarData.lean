@@ -28,16 +28,17 @@ theorem img_Qf :
 
 theorem sylow_bar : ∃ S : Sylow 3 (M ⧸ (GLBPrimeCore 3 M).subgroupOf M),
     (S : Subgroup _) = img M (GLBPrimeCore 3 M) (P : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPsyl : IsSylowOf 3 (P : Subgroup G) M := by
     rw [isSylowOf_iff]
-    exact ⟨hpd.P_le, P.isPGroup', fun hdvd =>
+    exact ⟨hpd.P_le, P.isPGroup, fun hdvd =>
       P.not_dvd_index (hdvd.trans (Subgroup.relIndex_dvd_index_of_le hpd.P_le))⟩
   obtain ⟨T, hT⟩ := hPsyl.exists_sylow_eq_subgroupOf
   refine ⟨T.mapSurjective (QuotientGroup.mk'_surjective _), ?_⟩
   rw [Sylow.coe_mapSurjective, hT]
   rfl
 
+omit hpd in
 theorem core_bar (N : Subgroup (M ⧸ (GLBPrimeCore 3 M).subgroupOf M)) (hN : N.Normal)
     (hcop : Nat.Coprime 3 (Nat.card N)) : N = ⊥ := by
   set O := GLBPrimeCore 3 M with hOdef
@@ -87,8 +88,8 @@ theorem no3_bar (hJC : J ≤ centralizer ({x} : Set G))
         (QuotientGroup.mk' ((GLBPrimeCore 3 M).subgroupOf M) (⟨e₂, hpd.e₂_memM⟩ : M))
         (QuotientGroup.mk' ((GLBPrimeCore 3 M).subgroupOf M) (⟨e₃, hpd.e₃_memM⟩ : M)) ≤ N) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hN
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hN
   apply hC1
   intro m hm q hq
   obtain ⟨S, hS⟩ := hpd.sylow_bar
@@ -129,14 +130,14 @@ theorem xdata (hJC : J ≤ centralizer ({x} : Set G))
       (QuotientGroup.mk' ((GLBPrimeCore 3 M).subgroupOf M) (⟨e₃, hpd.e₃_memM⟩ : M))
       (QuotientGroup.mk' ((GLBPrimeCore 3 M).subgroupOf M) (⟨t, hpd.t_memM⟩ : M))
       (QuotientGroup.mk' ((GLBPrimeCore 3 M).subgroupOf M) (⟨ρ, hpd.ρ_mem⟩ : M)) s := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := hpd.sylow_bar
   obtain ⟨φ⟩ := hpd.wreath
   refine ⟨hpd.xframe, ?_, ?_, ?_, mk_mem_img hpd.t_mem hpd.t_memM, ?_,
-    hpd.core_bar, hpd.no3_bar hJC hC1, hsolv⟩
+    PointData.core_bar, hpd.no3_bar hJC hC1, hsolv⟩
   · rw [isSylowOf_iff, Subgroup.relIndex_top_right, ← hS]
-    exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
-  · rw [card_img_of_inf hpd.P_le hpd.P_inf_O, Nat.card_congr φ.toEquiv]
+    exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
+  · rw [card_img_of_inf hpd.P_le (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.PointData.P_inf_O (G := G) (P := P) (M := M)), Nat.card_congr φ.toEquiv]
     exact CFSG.RankThree.PartTwo.Sec11.card_wreath
   · rw [← hpd.img_Qf]
     exact img_mono hpd.Q_le_P
@@ -161,7 +162,7 @@ theorem xdata (hJC : J ≤ centralizer ({x} : Set G))
           QuotientGroup.mk ⟨x, hpd.x_memM⟩ * QuotientGroup.mk ⟨g₀, hg₀M⟩ := hgx
       rw [hgx']
       group
-    rw [hpd.P_inf_O, mem_bot] at hc
+    rw [(CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.PointData.P_inf_O (G := G) (P := P) (M := M)), mem_bot] at hc
     have hcomm : g₀ * x = x * g₀ := by
       have := congrArg (fun z => z * x * g₀) hc
       simp only [one_mul] at this

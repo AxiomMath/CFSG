@@ -13,7 +13,7 @@ variable {X : Type} [Group X] [Finite X]
 
 theorem false_of_component_of_comm {Q : Type*} [Group Q] (hcomm : ∀ a b : Q, a * b = b * a)
     {K : Subgroup Q} (hK : IsComponentOf K ⊤) : False := by
-  haveI : Nontrivial K := CFSG.ComponentClassification.Quasisimple.nontrivial hK.2.2
+  have : Nontrivial K := CFSG.ComponentClassification.Quasisimple.nontrivial hK.2.2
   have hcen : Subgroup.center ↥K = ⊤ :=
     eq_top_iff.2 fun k _ => Subgroup.mem_center_iff.2 fun g => Subtype.ext (hcomm g k)
   have h1 : commutator ↥K = ⊥ := (commutator_eq_bot_iff_center_eq_top ↥K).2 hcen
@@ -21,6 +21,7 @@ theorem false_of_component_of_comm {Q : Type*} [Group Q] (hcomm : ∀ a b : Q, a
   rw [h1] at h2
   exact bot_ne_top h2
 
+omit [Finite X] in
 theorem layer_eq_bot_of_pCore_eq_Abar {A : Subgroup X} (hEA : IsElemAbelian 2 A)
     (hR : pCore 2 (Mbar A) = Abar A) : goldschmidtLayer (Mbar A) = ⊥ := by
   let H : Subgroup X := ((Abar A).comap (proj A)).map (nc A).subtype

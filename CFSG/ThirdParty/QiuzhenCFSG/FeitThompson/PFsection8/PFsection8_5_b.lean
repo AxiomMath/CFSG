@@ -34,7 +34,7 @@ private theorem sup_isNilpotent_of_commuting_nilpotent
   let S : Subgroup G := A ⊔ B
   have hAnormB : A ≤ Subgroup.normalizer (B : Set G) :=
     hAB.trans (centralizer_le_normalizer B)
-  haveI : (B.subgroupOf S).Normal := by
+  have : (B.subgroupOf S).Normal := by
     simpa [S] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := A) (N := B) hAnormB)
@@ -81,8 +81,8 @@ private theorem sup_isNilpotent_of_commuting_nilpotent
     apply Subtype.ext
     have hval := congrArg (fun z : S => (z : G)) hab
     simpa [f, a, b, mul_assoc] using hval
-  letI : Group.IsNilpotent A := hAnil
-  letI : Group.IsNilpotent B := hBnil
+  let : Group.IsNilpotent A := hAnil
+  let : Group.IsNilpotent B := hBnil
   exact Group.nilpotent_of_surjective f hf_surj
 
 private theorem typeP_complement_eq_bot_of_left_eq
@@ -132,7 +132,7 @@ private theorem section12ComplementIn_left_isHall_of_right_hall
     (hRHallOf : section16HallSubgroupOf R M) :
     IsHallSubgroup (subgroupPrimeSet H) (H.subgroupOf M) := by
   classical
-  letI : (H.subgroupOf M).Normal := hHnormal
+  let : (H.subgroupOf M).Normal := hHnormal
   have hcomp' : (R.subgroupOf M).IsComplement' (H.subgroupOf M) :=
     section12ComplementIn_isComplement'_subgroupOf (M := M) (MF := H) (U := R) hcomp
   rcases hcomp with ⟨hHM, _hRM, _hsup, _hdisj⟩
@@ -207,7 +207,7 @@ private theorem ambientDerivedSubgroup_le_subgroupCentralizerIn_of_typeP
         (MF ⊔ CU).subgroupOf D = MF.subgroupOf D ⊔ CU.subgroupOf D :=
       Subgroup.subgroupOf_sup (A := MF) (A' := CU) (B := D) hcompDU.1 hCUleD
     simpa [hsub_eq] using hxSub
-  letI : (MF.subgroupOf D).Normal := hMFNormalD
+  let : (MF.subgroupOf D).Normal := hMFNormalD
   rcases (Subgroup.mem_sup_of_normal_left
       (s := MF.subgroupOf D) (t := CU.subgroupOf D) (x := xD)).1 hxJoinD with
     ⟨mD, hmMFsub, cD, hcCUsub, hmulD⟩

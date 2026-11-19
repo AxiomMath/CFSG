@@ -98,7 +98,7 @@ theorem center_eq_bot_of_involution {G : Type*} [Group G] [IsSimpleGroup G] {t :
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center G) with h | h
   · exact h
   · exfalso
-    haveI hn : (Subgroup.zpowers t).Normal := by
+    have hn : (Subgroup.zpowers t).Normal := by
       refine ⟨fun n hn g => ?_⟩
       have hc : g * n = n * g := Subgroup.mem_center_iff.1 (h ▸ Subgroup.mem_top n) g
       rw [hc, mul_inv_cancel_right]
@@ -128,11 +128,11 @@ theorem isLocallyBalancedAbs_five_one_of_suzukiModel
     (hM : CFSG.Blueprint.SuzukiModel S 2 5) : IsLocallyBalancedAbs 5 1 S := by
   classical
   have hp : (5 : ℕ).Prime := by norm_num
-  haveI : Finite S := CFSG.LieType.Simplicity.fam_suzuki_finiteness S 2 5 hM
-  haveI : IsSimpleGroup S := (CFSG.LieType.Simplicity.fam_2b2_simplicity S 2 5 hM).2
+  have : Finite S := CFSG.LieType.Simplicity.fam_suzuki_finiteness S 2 5 hM
+  have : IsSimpleGroup S := (CFSG.LieType.Simplicity.fam_2b2_simplicity S 2 5 hM).2
   have hcard : Nat.card S = 32537600 := card_of_suzukiModel_two_five hM
   have hZ : Subgroup.center S = ⊥ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := S) 2 (by rw [hcard]; norm_num)
     exact center_eq_bot_of_involution ht (by rw [hcard]; norm_num)
   have hinj : Function.Injective (MulAut.conj : S →* MulAut S) :=
@@ -183,8 +183,8 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 theorem isLocallyBalancedAbs_three_one_adjointF4_two (K : Type) [Field K] [Finite K]
     (hK : Nat.card K = 2) : IsLocallyBalancedAbs 3 1 ↥(adjointGroup Tag.F4 K) := by
-  haveI : CharP K 2 := SmallQ3.charP_two_of_card_two hK
-  haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
+  have : CharP K 2 := SmallQ3.charP_two_of_card_two hK
+  have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
   obtain ⟨-, -, ⟨Θ, -, -, hΘker⟩, -⟩ :=
     even_F4_exact_automorphism_normal_form (f := 1) le_rfl K (by rw [hK]; norm_num)
   refine isLocallyBalancedAbs_one_of_inner_outer_at Nat.prime_three

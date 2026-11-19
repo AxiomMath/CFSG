@@ -275,8 +275,10 @@ theorem card_eq_card_ker_mul [Finite K] {M : Type*} [Monoid M] (ψ : K →* M) :
 
 variable {Γ : Type*} [Group Γ] [Finite Γ] {k m : ℕ} {v : Fin k → Γ}
 
+omit [Finite Γ] in
 theorem eSub_le_eNorm (hv : EBasis v) : eSub hv ≤ eNorm hv := Subgroup.le_normalizer
 
+omit [Finite Γ] in
 theorem eMat_eq_one_of_mem (hv : EBasis v) {x : Γ} (hx : x ∈ eSub hv) :
     eMat hv ⟨x, eSub_le_eNorm hv hx⟩ = 1 :=
   (eMat_eq_one_iff hv _).mpr (Subgroup.mem_centralizer_iff.mpr fun y hy => eSub_comm hv y x hy hx)
@@ -327,6 +329,7 @@ theorem card_closure_of_recK (hv : EBasis v) (a : Fin m → Γ) (ha : ∀ j, a j
   rw [card_eq_card_ker_mul ψ, ← Subgroup.card_map_of_injective (Subgroup.subtype_injective H),
     hker, card_eSub hv, hrange]
 
+omit [Finite Γ] in
 theorem closure_preimage_eq_top {H : Subgroup Γ} {S : Set Γ} (hH : H = Subgroup.closure S) :
     Subgroup.closure ((↑) ⁻¹' S : Set H) = ⊤ := by
   subst hH

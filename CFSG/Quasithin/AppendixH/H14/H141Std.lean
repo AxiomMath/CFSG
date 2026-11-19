@@ -105,7 +105,7 @@ theorem gens_choice' :
 theorem exists_conj_sylow'
     {T : Subgroup (Equiv.Perm (Fin 24))} (hT : CFSG.Quasithin.IsSylowIn 2 T AutPerm) :
     ∃ h : Equiv.Perm (Fin 24), h ∈ AutPerm ∧ ∀ p : T24s2.Elem, h⁻¹ * T24s2.perm p * h ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsyl := card_sylow_two hT
   have hH : IsPGroup 2 ↥(qSub : Subgroup ↥AutPerm) := IsPGroup.of_card (n := 10) card_qSub
   obtain ⟨g, hg⟩ :=
@@ -253,7 +253,7 @@ theorem eq_labTrio_of_inv (σ : ℕ → Equiv.Perm (Fin 24))
 theorem exists_conj_qPerms
     {A : Subgroup S24} (hA : A ≤ M24g) (hp : IsPGroup 2 A) :
     ∃ h ∈ M24g, ∀ a ∈ A, ∃ p : T24s2.Elem, h * a * h⁻¹ = T24s2.perm p := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsyl : Nat.card T24s2.Elem = 2 ^ (Nat.card ↥M24g).factorization 2 := card_T24s2
   have hH : IsPGroup 2 ↥(A.subgroupOf M24g) := hp.comap_subtype
   obtain ⟨g, hg⟩ := exists_conj_le_range (φ := (phi24 : T24s2.Elem →* ↥M24g))

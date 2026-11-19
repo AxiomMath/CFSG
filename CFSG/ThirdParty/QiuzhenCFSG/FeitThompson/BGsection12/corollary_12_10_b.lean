@@ -87,7 +87,7 @@ private theorem CFSG.section12_E2_commutative
       section12_rankTwo_of_EData hE hA
     have hA_p : IsPGroup p.val A := by
       have hElem := (section12_rankTwo_elementary hA).2
-      haveI : IsElementaryAbelian p.val A := hElem
+      have : IsElementaryAbelian p.val A := hElem
       exact IsElementaryAbelian.isPGroup p.val A
     obtain ⟨S, hAS⟩ := IsPGroup.exists_le_sylow (G := G) (p := p.val) hA_p
     by_cases hScomm : IsMulCommutative (S : Subgroup G)
@@ -122,7 +122,7 @@ private theorem CFSG.section12_E2_commutative
       have hTcomm : IsMulCommutative (T : Subgroup M) :=
         (theorem_12_5_b hM hp hA_M).1 T
       have hTamb_comm : IsMulCommutative (section10AmbientSylowSubgroup M T) := by
-        letI : IsMulCommutative (T : Subgroup M) := hTcomm
+        let : IsMulCommutative (T : Subgroup M) := hTcomm
         change IsMulCommutative ((T : Subgroup M).map M.subtype)
         exact Subgroup.map_isMulCommutative (f := M.subtype) (H := (T : Subgroup M))
       have hE2_amb_le_T : E₂ ≤ section10AmbientSylowSubgroup M T := by

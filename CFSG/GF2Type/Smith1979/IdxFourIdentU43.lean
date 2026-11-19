@@ -65,9 +65,9 @@ theorem relIndex_range_thetaBar_Psub : thetaBar.range.relIndex Psub = 9 := by
   exact Nat.eq_of_mul_eq_mul_right (by norm_num) this
 
 theorem elemAbelian_eq_range_thetaBar {B : Subgroup X₀} (hB : B ≤ Psub)
-    (hcomm : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x) (hpow : ∀ x ∈ B, x ^ 3 = 1)
+    (hcomm : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x) (_hpow : ∀ x ∈ B, x ^ 3 = 1)
     (hcard : Nat.card B = 3 ^ 4) : B = thetaBar.range := by
-  clear hpow
+  clear _hpow
   by_cases hBA : B ≤ thetaBar.range
   · exact Subgroup.eq_of_le_of_card_ge hBA (by rw [hcard, card_range_thetaBar])
   exfalso
@@ -84,7 +84,7 @@ theorem elemAbelian_eq_range_thetaBar {B : Subgroup X₀} (hB : B ≤ Psub)
         _ = f * tBar s * a := (mul_assoc _ _ _).symm
     exact mul_inv_eq_iff_eq_mul.mpr (mul_right_cancel h3)
   have hF9 : Nat.card (thetaBar.range ⊓ B : Subgroup X₀) ≤ 9 := by
-    obtain ⟨e, heB, heA⟩ := SetLike.not_le_iff_exists.mp hBA
+    obtain ⟨e, heB, heA⟩ := IsConcreteLE.not_le_iff_exists.mp hBA
     obtain ⟨s, a, ha, rfl⟩ := exists_tBar_mul_of_mem_Psub (hB heB)
     have hs : s ≠ 1 := by
       rintro rfl

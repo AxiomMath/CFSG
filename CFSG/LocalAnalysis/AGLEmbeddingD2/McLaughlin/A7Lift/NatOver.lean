@@ -16,6 +16,7 @@ variable {X : Type} [Group X] [Finite X] {T : Subgroup X} {L : Subgroup (X ⧸ g
 variable (c : SixCtx T L) {R : Subgroup X}
 variable (pd : PermData)
 
+omit [Finite X] in
 private theorem offIdx_card_mul_card_centralizer (hJL : thompsonJ T ≤ nL T L)
     {A : Subgroup X} (hA : IsMaxElemAbelian T A) :
     Nat.card (c.img A) *

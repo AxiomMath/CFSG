@@ -92,7 +92,7 @@ theorem mem_trivialOnQuot_of_mem_A (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) 
   have hs : Hyp23Setting Ω K K' z := hyp.std.setting
   have hst := hs.stand
   have hcpg : IsPGroup 2 (Subgroup.zpowers x) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hx.1)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hx.1)
   have hcent := Subgroup.mem_centralizer_iff.mp hx.2
   have hRc : R ≤ Subgroup.centralizer ({x} : Set G) := fun r hr =>
     Subgroup.mem_centralizer_singleton_iff.mpr (hcent r (Subgroup.mem_sup_left hr))
@@ -631,7 +631,7 @@ theorem false_of_growth (h6 : Layer6Twin 3 1) (hyp : Hyp25 Ω K K' W S R R' z t 
   set E := D ⊔ Subgroup.zpowers x ⊔ Subgroup.zpowers z with hE
   have hEA : E ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G) :=
     sup_le (sup_le hDA (Subgroup.zpowers_le.mpr hxA)) (Subgroup.zpowers_le.mpr hzA)
-  have hE2 : IsPGroup 2 E := S.isPGroup'.to_le (hEA.trans inf_le_left)
+  have hE2 : IsPGroup 2 E := S.isPGroup.to_le (hEA.trans inf_le_left)
   have hEb : E ≤ Subgroup.centralizer ({b} : Set G) := by
     refine sup_le (sup_le ?_ ?_) ?_
     · intro d hd

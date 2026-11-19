@@ -104,14 +104,14 @@ theorem card_inf₁ (h : Conf683 A c L Y₁ Y₂ S b Lb) :
     Nat.card (A ⊓ Y₁ : Subgroup G) = 9 ∧ c ∉ Y₁ ∧
       (A ⊓ Y₁) ⊔ Subgroup.zpowers c = A :=
   card_inf_eq_nine_of_a7 (isElemAbelian_A h) (card_A h)
-    (fun x hx3 hx => mem_of_pow_three_centralizes h hx3 hx)
+    (fun _x hx3 hx => mem_of_pow_three_centralizes h hx3 hx)
     (le_normalizer₁ h) (Classical.choice h.a7₁) (K := Y₁) (k := c) (sc₁ h) (c_ne_one h)
 
 theorem card_inf₂ (h : Conf683 A c L Y₁ Y₂ S b Lb) :
     Nat.card (A ⊓ Y₂ : Subgroup G) = 9 ∧ b ∉ Y₂ ∧
       (A ⊓ Y₂) ⊔ Subgroup.zpowers b = A :=
   card_inf_eq_nine_of_a7 (isElemAbelian_A h) (card_A h)
-    (fun x hx3 hx => mem_of_pow_three_centralizes h hx3 hx)
+    (fun _x hx3 hx => mem_of_pow_three_centralizes h hx3 hx)
     (le_normalizer₂ h) (Classical.choice h.a7₂) (K := Y₂) (k := b) h.sc₂ (b_ne_one h)
 
 theorem push₁ (h : Conf683 A c L Y₁ Y₂ S b Lb) :

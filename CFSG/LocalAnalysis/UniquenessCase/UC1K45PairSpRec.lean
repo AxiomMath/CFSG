@@ -47,7 +47,7 @@ theorem isPGroup_two_ker_of_pow_four {Y Q : Type*} [Group Y] [Group Q] (f : Y �
 
 theorem pCore_eq_bot_of_odd_card {Q : Type*} [Group Q] (h : Odd (Nat.card Q)) :
     CFSG.pCore 2 Q = ⊥ := by
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by
+  have : Finite Q := Nat.finite_of_card_ne_zero (by
     intro h0
     rw [h0] at h
     exact absurd h (by decide))
@@ -61,8 +61,8 @@ theorem pCore_eq_bot_of_odd_card {Q : Type*} [Group Q] (h : Odd (Nat.card Q)) :
   exact Subgroup.eq_bot_of_card_eq _ hn
 
 theorem pCore_alt5_eq_bot : CFSG.pCore 2 ↥(alternatingGroup (Fin 5)) = ⊥ := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : (CFSG.pCore 2 ↥(alternatingGroup (Fin 5))).Normal := CFSG.pCore_normal
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : (CFSG.pCore 2 ↥(alternatingGroup (Fin 5))).Normal := CFSG.pCore_normal
   rcases Subgroup.Normal.eq_bot_or_eq_top (CFSG.pCore 2 ↥(alternatingGroup (Fin 5))) with h | h
   · exact h
   · exfalso

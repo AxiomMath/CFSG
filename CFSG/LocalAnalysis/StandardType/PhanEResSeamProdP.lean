@@ -27,6 +27,7 @@ variable {M : ChevModel2 D n H Fld}
   (hsq : ∀ i, n i * n i = 1)
 
 include hext hw₀ hsq in
+omit hw₀ hsq in
 theorem exists_seam_prod [CharP Fld 2] {m₁ : ℕ} (L₁ : SLPath M m₁) (L₂ : SLPath M 1)
     {J₁ : Set (Fin D.rank)} {z : Fin D.rank} (hJ₁ : Set.range L₁.e = J₁) (hz₂ : L₂.e 0 = z)
     (hz : z ∉ J₁)

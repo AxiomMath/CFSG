@@ -70,7 +70,7 @@ theorem V_coords_of_isSum (c : Conf4212 G T M L I H K)
     exact Subtype.ext (by simpa using hx')
   · intro l u v huv s
     have h := hβe ⟨l, Subgroup.mem_sup_left l.2⟩ u v huv s
-    simp only [moduleAct, if_neg Bool.false_ne_true] at h
+    simp only [moduleAct, ite_eq_right Bool.false_ne_true] at h
     exact h
 
 end CFSG.Quasithin.H13.Ch4.NSB

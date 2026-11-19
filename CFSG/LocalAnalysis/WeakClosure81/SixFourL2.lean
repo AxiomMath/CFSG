@@ -37,7 +37,7 @@ theorem card_image_eq_two_pow {n : ℕ} {M V₀ V : Subgroup G} {g : G} {K : Sub
     Nat.card ((V.subgroupOf (LOf V g)).map
         (QuotientGroup.mk' (K.subgroupOf (LOf V g)))) = 2 ^ r := by
   let L := LOf V g
-  haveI : (K.subgroupOf L).Normal := hK
+  have : (K.subgroupOf L).Normal := hK
   let A : Subgroup (↥L ⧸ (K.subgroupOf L)) :=
     (V.subgroupOf L).map (QuotientGroup.mk' (K.subgroupOf L))
   have hAcard : Nat.card A = (UOf M V g).relIndex V :=
@@ -70,7 +70,7 @@ theorem isL2Pair_image {n : ℕ} {M V₀ V : Subgroup G} {g : G} {K : Subgroup G
     IsL2Pair (↥(LOf V g) ⧸ (K.subgroupOf (LOf V g)))
       ((V.subgroupOf (LOf V g)).map (QuotientGroup.mk' (K.subgroupOf (LOf V g)))) (2 ^ r) := by
   let L := LOf V g
-  haveI : (K.subgroupOf L).Normal := hK
+  have : (K.subgroupOf L).Normal := hK
   let A : Subgroup (↥L ⧸ (K.subgroupOf L)) :=
     (V.subgroupOf L).map (QuotientGroup.mk' (K.subgroupOf L))
   obtain ⟨e⟩ := nonempty_psl_equiv_of_isL2 hr hL2
@@ -118,7 +118,7 @@ theorem genHyp_of_L2 {n : ℕ} {M V₀ V : Subgroup G} {g : G} {K : Subgroup G}
     GenHyp M V g := by
   intro x hxVg hxK
   let L := LOf V g
-  haveI : (K.subgroupOf L).Normal := hK
+  have : (K.subgroupOf L).Normal := hK
   let Q := ↥L ⧸ (K.subgroupOf L)
   let π : ↥L →* Q := QuotientGroup.mk' (K.subgroupOf L)
   let A : Subgroup Q := (V.subgroupOf L).map π
@@ -260,7 +260,7 @@ theorem swapHyp_of_L2 {n : ℕ} {M V₀ V : Subgroup G} {g : G} {K : Subgroup G}
     {r : ℕ} (hr : 1 ≤ r) (hL2 : IsL2 (↥(LOf V g) ⧸ (K.subgroupOf (LOf V g))) r) :
     SwapHyp V g := by
   let L := LOf V g
-  haveI : (K.subgroupOf L).Normal := hK
+  have : (K.subgroupOf L).Normal := hK
   let Q := ↥L ⧸ (K.subgroupOf L)
   let π : ↥L →* Q := QuotientGroup.mk' (K.subgroupOf L)
   let A : Subgroup Q := (V.subgroupOf L).map π
@@ -386,7 +386,7 @@ theorem one_le_of_isL2 {Q : Type} [Group Q] {r : ℕ} (h : IsL2 Q r) : 1 ≤ r :
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) h
   exact hc.1.2.1
 
-@[expose] def L2Shape (M V₀ V : Subgroup G) (g : G) : Prop :=
+@[expose] def L2Shape (M _V₀ V : Subgroup G) (g : G) : Prop :=
   ∃ K : Subgroup G, ∃ _ : (K.subgroupOf (LOf V g)).Normal,
     (K : Set G) = ((BOf M V g : Subgroup G) : Set G) *
       ((UOf M V g : Subgroup G) : Set G) ∧
@@ -410,7 +410,7 @@ theorem six_four_five_of_L2 {n : ℕ} {M V₀ V : Subgroup G} {g : G}
   have hr := one_le_of_isL2 hL2
   exact six_four_five h (genHyp_of_L2 (hK := hKnorm) h hKset hTwoRank hr hL2)
 
-@[expose] def SzGenSwap (M V₀ V : Subgroup G) (g : G) : Prop :=
+@[expose] def SzGenSwap (M _V₀ V : Subgroup G) (g : G) : Prop :=
   ∀ K : Subgroup G, ∀ _ : (K.subgroupOf (LOf V g)).Normal,
     (K : Set G) = ((BOf M V g : Subgroup G) : Set G) *
       ((UOf M V g : Subgroup G) : Set G) →

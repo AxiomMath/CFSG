@@ -86,7 +86,7 @@ theorem kSL2AutThree_of_five_le (p : ℕ) [Fact p.Prime] (hp5 : 5 ≤ p)
       simp only [MulAut.conj_apply, MulAut.one_apply] at h3
       rw [mul_inv_eq_iff_eq_mul] at h3
       exact h3.symm
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨x⁻¹ * y, hTxy⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨x⁻¹ * y, hTxy⟩
     have hord3 : orderOf (x⁻¹ * y : Ehat) ∣ 3 ^ k := by
       apply orderOf_dvd_of_pow_eq_one
       exact congrArg Subtype.val hk
@@ -103,7 +103,7 @@ theorem kSL2AutThree_of_five_le (p : ℕ) [Fact p.Prime] (hp5 : 5 ≤ p)
   have hcardT : Nat.card (T : Subgroup Ehat) = Nat.card E := by
     rw [← Sec13.card_map_eq_of_injOn f hTinj, hTE, Subgroup.card_top]
   set T' : Subgroup S := (T : Subgroup Ehat).map Ehat.subtype with hT'
-  have hT'3 : IsPGroup 3 T' := T.isPGroup'.map _
+  have hT'3 : IsPGroup 3 T' := T.isPGroup.map _
   obtain ⟨Q, hQ⟩ := hT'3.exists_le_sylow
   have hQc : IsCyclic (Q : Subgroup S) :=
     Sec4.Census.isCyclic_sylow_SL2 (p := p) (r := 3) (by norm_num) (by omega) Q

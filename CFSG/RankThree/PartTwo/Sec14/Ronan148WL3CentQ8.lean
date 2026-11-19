@@ -118,8 +118,7 @@ theorem diagUnits_conj_blockHom (a b c : Kˣ) (B : GL (Fin 2) K) :
   have ha : (a : K) ≠ 0 := a.ne_zero
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [blockMat, Matrix.mul_apply, Fin.sum_univ_three, Fin.sum_univ_two, diagonal,
-      Matrix.mul_diagonal, Matrix.diagonal_mul] <;> field_simp
+    simp [blockMat, Matrix.mul_apply, diagonal] <;> field_simp
 
 theorem eq_pow_of_pow_three {τ r : Kˣ} (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) (hr : r ^ 3 = 1) :
     ∃ m : ℕ, m < 3 ∧ r = τ ^ m := by

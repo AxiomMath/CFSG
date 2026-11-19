@@ -17,10 +17,12 @@ variable {G : Type} [Group G] [Finite G]
     ↥K →* MulAut ↥U :=
   (conjAct U).comp (Subgroup.inclusion hKN)
 
+omit [Finite G] in
 theorem s828NAct_apply {U K : Subgroup G} (hKN : K ≤ Subgroup.normalizer (U : Set G)) (k : ↥K)
     (u : ↥U) : ((s828NAct U K hKN k u : ↥U) : G) = (k : G) * (u : G) * (k : G)⁻¹ :=
   CFSG.QuasithinUnique.Setup.coe_conjAct_apply (Subgroup.inclusion hKN k) u
 
+omit [Finite G] in
 theorem s828NAct_eq_one_iff {U K : Subgroup G} (hKN : K ≤ Subgroup.normalizer (U : Set G))
     (k : ↥K) : s828NAct U K hKN k = 1 ↔ (k : G) ∈ Subgroup.centralizer (U : Set G) := by
   constructor
@@ -37,6 +39,7 @@ theorem s828NAct_eq_one_iff {U K : Subgroup G} (hKN : K ≤ Subgroup.normalizer 
     have h := Subgroup.mem_centralizer_iff.mp hk (u : G) u.2
     rw [← h, mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem s828N_card_ker {U K : Subgroup G} (hKN : K ≤ Subgroup.normalizer (U : Set G)) :
     Nat.card (s828NAct U K hKN).ker = Nat.card ↥(K ⊓ Subgroup.centralizer (U : Set G)) := by
   have hker : (s828NAct U K hKN).ker = (Subgroup.centralizer (U : Set G)).subgroupOf K := by

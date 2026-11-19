@@ -36,14 +36,14 @@ private theorem mem_closure_t_uv_iff_kl (q : A45) :
         one_mem' := Or.inl rfl
         mul_mem' := by
           intro y w hy hw
-          simp only [Set.mem_setOf_eq] at hy hw ⊢
+          simp only [Set.mem_ofPred_eq] at hy hw ⊢
           rcases hy with rfl | rfl | rfl | rfl <;>
             rcases hw with rfl | rfl | rfl | rfl <;>
             simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_one] <;>
             decide +kernel
         inv_mem' := by
           intro y hy
-          simp only [Set.mem_setOf_eq] at hy ⊢
+          simp only [Set.mem_ofPred_eq] at hy ⊢
           rcases hy with rfl | rfl | rfl | rfl <;>
             simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one] <;>
             decide +kernel }
@@ -86,6 +86,7 @@ private theorem mem_lemma54T₂_iff_kl {σ : G} {g : G} (hg : g ∈ H z) :
       Subgroup.mem_map.mpr ⟨⟨g, hg⟩, Subgroup.mem_comap.mpr hK, rfl⟩⟩
 
 omit hN in
+omit [Finite G] in
 private theorem conjV_pi_eq_of_conj_eq_kl (h : Tim79a.ParrottHyp z) {g : ↥(H z)} {b : J z}
     (hb : (g : G) * (b : G) * (g : G)⁻¹ = (b : G)) :
     conjV h g (QuotientV.pi z b) = QuotientV.pi z b := by

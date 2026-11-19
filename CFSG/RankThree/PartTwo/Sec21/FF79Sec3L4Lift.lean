@@ -16,7 +16,7 @@ theorem fix_lift (Q : Subgroup H) [Q.Normal] (hQ : Nat.Coprime 3 (Nat.card Q)) (
     (h3 : ∀ x, σ (σ (σ x)) = x) (hσQ : ∀ q ∈ Q, σ q ∈ Q) (c₀ : H)
     (h : (σ c₀)⁻¹ * c₀ ∈ Q) : ∃ q ∈ Q, σ (c₀ * q) = c₀ * q := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X : Type _ := {x : H // c₀⁻¹ * x ∈ Q}
   have hmem : ∀ x : X, c₀⁻¹ * σ x.1 ∈ Q := by
     intro x
@@ -39,10 +39,10 @@ theorem fix_lift (Q : Subgroup H) [Q.Normal] (hQ : Nat.Coprime 3 (Nat.card Q)) (
   have hXcard : Nat.card X = Nat.card Q := by
     refine Nat.card_congr
       { toFun := fun x => ⟨c₀⁻¹ * x.1, x.2⟩
-        invFun := fun q => ⟨c₀ * q.1, by simpa using q.2⟩
+        invFun := fun q => ⟨c₀ * q.1, by simp⟩
         left_inv := fun x => by ext; simp
         right_inv := fun q => by ext; simp }
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   have hndvd : ¬ 3 ∣ Fintype.card X := by
     rw [← Nat.card_eq_fintype_card, hXcard]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hQ
@@ -58,6 +58,7 @@ section Lift
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjAut_pow3 {N : Subgroup G} {b : G} (hb : b ∈ Nor N) (hb3 : b ^ 3 = 1) (x : ↥N) :
     conjAut N b hb (conjAut N b hb (conjAut N b hb x)) = x := by
   apply Subtype.ext
@@ -66,6 +67,7 @@ theorem conjAut_pow3 {N : Subgroup G} {b : G} (hb : b ∈ Nor N) (hb3 : b ^ 3 = 
     simp only [pow_succ, pow_zero, one_mul, mul_inv_rev, mul_assoc]
   rw [this, hb3]; simp
 
+omit [Finite G] in
 theorem mk_conjAut_eq {U : Subgroup G} {b : G} (hb : b ∈ Nor U) (x : ↥(CenS U)) :
     cqβ U b hb (QuotientGroup.mk x : CQ U) =
       (QuotientGroup.mk (conjAut (CenS U) b (nor_cenS_of_nor hb) x) : CQ U) := by
@@ -75,8 +77,8 @@ theorem mk_conjAut_eq {U : Subgroup G} {b : G} (hb : b ∈ Nor U) (x : ↥(CenS 
 theorem cq_lift_fixed {U : Subgroup G} {b : G} (hb : b ∈ Nor U) (hb3 : b ^ 3 = 1) {y : CQ U}
     (hy : cqβ U b hb y = y) :
     ∃ c : ↥(CenS U), (c : G) ∈ Cen b ∧ (QuotientGroup.mk c : CQ U) = y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
   obtain ⟨c₀, rfl⟩ := QuotientGroup.mk_surjective y
   set σ := conjAut (CenS U) b (nor_cenS_of_nor hb) with hσ
   rw [mk_conjAut_eq] at hy

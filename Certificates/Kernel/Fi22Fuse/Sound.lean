@@ -169,7 +169,7 @@ theorem anyC_spec {G : Nat → Nat} {y : J} (hG : ∀ x < 3510, G x = idx 3510 y
         rw [Raw.Orb.strictN_eq, Raw.Orb.strictN_eq, cK_eq hu hx, hG _ (idx_lt c hx),
           cK_eq hu (idx_lt y (idx_lt c hx)), hci, idx_mul, idx_mul]
       exact ⟨c, mem_of_inE hH hc⟩
-    · rw [if_neg hc] at h
+    · rw [ite_eq_right hc] at h
       exact anyC_spec hG l (fun v hv => hl v (List.mem_cons_of_mem u hv)) h
 
 theorem exists_conj_of_mem_slvl {y : J} (hy : y ∈ slvl 0) (hy2 : y ^ 2 = 1) :
@@ -202,18 +202,18 @@ theorem exists_conj_of_mem_slvl {y : J} (hy : y ∈ slvl 0) (hy2 : y ^ 2 = 1) :
     apply hne
     unfold KernelFi22S.sq
     rw [Raw.Orb.strictN_eq, hG q hq', hG _ (idx_lt y hq'), ← idx_mul, ← pow_two, hy2, idx_one]
-  rw [if_neg h1, Raw.Orb.bIf_eq] at hl
+  rw [ite_eq_right h1, Raw.Orb.bIf_eq] at hl
   by_cases h2 : allFix (gK k0 k1) = true
   · have e : y = 1 := one_of_QL fun q hq => by
       rw [← hG q (QL_lt q hq)]
       exact allFix_spec h2 q hq
     refine ⟨1, ?_⟩
     rw [e]
-    simpa using fuseSpan.one_mem
-  rw [if_neg h2, Raw.Orb.bIf_eq] at hl
+    simp
+  rw [ite_eq_right h2, Raw.Orb.bIf_eq] at hl
   by_cases h3 : c25240inE (gK k0 k1) = true
   · exact ⟨1, by simpa using mem_of_inE hG h3⟩
-  rw [if_neg h3] at hl
+  rw [ite_eq_right h3] at hl
   exact anyC_spec hG c25240C C_lt hl
 
 theorem exists_conj_mem_fuseSpan {x : J} (hx : orderOf x = 2) :

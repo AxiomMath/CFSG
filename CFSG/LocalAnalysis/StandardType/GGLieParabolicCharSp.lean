@@ -68,9 +68,9 @@ theorem ggLieParabolicCharInputOn_C :
   have hv : (TauCeti.LieTypeIndex.C r q).Valid := hm ▸ d.2
   obtain rfl : d = ⟨.C r q, hv⟩ := Subtype.ext hm
   obtain ⟨hadm, K', _, _, hcard, ⟨φ⟩⟩ := QuasithinUnique.SQTK.statedClassicalModel_typeC r q hv e
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI := Fintype.ofFinite K'
-  haveI : CharP K' q.p := charP_of_card_eq_prime_pow (f := q.exponent)
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have := Fintype.ofFinite K'
+  have : CharP K' q.p := charP_of_card_eq_prime_pow (f := q.exponent)
     (by rw [← Nat.card_eq_fintype_card, hcard])
   exact (GGNormalizerOvergroupsChar.of_mulEquiv φ
     (ggNormalizerOvergroupsChar_statedProjSp q.p (by have := hadm.2.2; omega))) S X hS hSi hNX hX

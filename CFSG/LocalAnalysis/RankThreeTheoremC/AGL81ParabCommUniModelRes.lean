@@ -74,7 +74,7 @@ theorem hypForm_single_left (x : HypIndex s ε) (w : HypIndex s ε → K) :
   rw [hypForm_apply, Finset.sum_eq_single x]
   · simp
   · intro b _ hb
-    simp [Pi.single_apply, hb]
+    simp [hb]
   · simp
 
 theorem hypForm_single_single (x y : HypIndex s ε) :
@@ -83,7 +83,7 @@ theorem hypForm_single_single (x y : HypIndex s ε) :
   simp [Pi.single_apply, eq_comm]
 
 theorem exists_add_bar_eq_one : ∃ c : K, c + h.bar c = 1 := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨c₀, hc₀⟩ := h.exists_bar_ne
   have hu : c₀ + h.bar c₀ ≠ 0 := fun h0 => hc₀ (by
     have := CharTwo.add_eq_zero.mp h0
@@ -96,7 +96,7 @@ theorem exists_add_bar_eq_one : ∃ c : K, c + h.bar c = 1 := by
 theorem eq_top_of_invariant (hs : 1 ≤ s) (W : Submodule K (HypIndex s ε → K))
     (hW : ∀ v : HypIndex s ε → K, hypForm h s ε v v = 0 → ∀ w ∈ W, hypForm h s ε v w • v ∈ W)
     (w₀ : HypIndex s ε → K) (hw₀ : w₀ ∈ W) (hw₀0 : w₀ ≠ 0) : W = ⊤ := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   set e₀ : HypIndex s ε := .inl ⟨0, hs⟩ with he₀
   set f₀ : HypIndex s ε := .inr (.inr ⟨0, hs⟩) with hf₀
   have hef : hypPartner e₀ = f₀ := rfl
@@ -106,7 +106,7 @@ theorem eq_top_of_invariant (hs : 1 ≤ s) (W : Submodule K (HypIndex s ε → K
       (Pi.single (hypPartner y) (1 : K) : HypIndex s ε → K) ∈ W := by
     intro y hy w hw hwy
     have hiso : hypForm h s ε (Pi.single (hypPartner y) 1) (Pi.single (hypPartner y) 1) = 0 := by
-      rw [hypForm_single_single, if_neg]
+      rw [hypForm_single_single, ite_eq_right]
       intro hc
       exact hy (by rw [hypPartner_hypPartner] at hc; exact hc)
     have h1 := hW _ hiso w hw
@@ -122,7 +122,7 @@ theorem eq_top_of_invariant (hs : 1 ≤ s) (W : Submodule K (HypIndex s ε → K
     have hyf : y ≠ f₀ := fun he => by rw [he, hfe] at hy; exact hne hy |>.elim
     simp only [map_add, LinearMap.add_apply, map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul,
       hypForm_single_single, RingHom.id_apply, hy, hef, hfe, hye, hyf, hne, hne.symm, hye.symm,
-      hyf.symm, if_true, if_false, mul_one, mul_zero, add_zero, zero_add, map_one]
+      hyf.symm, ite_true, ite_false, mul_one, mul_zero, add_zero, zero_add]
     linear_combination hc + CharTwo.add_self_eq_zero (1 : K)
   have hef' : hypPartner e₀ ≠ e₀ := by rw [hef]; exact hne.symm
   have hfe' : hypPartner f₀ ≠ f₀ := by rw [hfe]; exact hne
@@ -145,7 +145,7 @@ theorem eq_top_of_invariant (hs : 1 ≤ s) (W : Submodule K (HypIndex s ε → K
       have hform : hypForm h s ε (Pi.single e₀ 1 + Pi.single y 1 + c • Pi.single f₀ 1) w₀ =
           w₀ y := by
         simp only [map_add, LinearMap.add_apply, map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul,
-          hypForm_single_left, hef, hfe, hyz, RingHom.id_apply]
+          hypForm_single_left, hef, hfe, hyz]
         rw [hnz f₀ hfe', hnz e₀ hef']
         ring
       rw [hform] at h1
@@ -153,7 +153,7 @@ theorem eq_top_of_invariant (hs : 1 ≤ s) (W : Submodule K (HypIndex s ε → K
       rw [smul_smul, inv_mul_cancel₀ hy, one_smul] at h2
       have he₀v : (Pi.single e₀ 1 + Pi.single y 1 + c • Pi.single f₀ 1 :
           HypIndex s ε → K) e₀ ≠ 0 := by
-        simp [Pi.single_apply, hye.symm, hne]
+        simp [hye.symm, hne]
       have h3 := stepA e₀ hef' _ h2 he₀v
       rw [hef] at h3
       exact ⟨f₀, hfe', h3⟩
@@ -175,7 +175,7 @@ theorem eq_top_of_invariant (hs : 1 ≤ s) (W : Submodule K (HypIndex s ε → K
       simp only [map_add, LinearMap.add_apply, hypForm_single_single, hypPartner_hypPartner]
       have h2 : hypPartner x ≠ hypPartner y := fun h' => hyx (hypPartner_injective h').symm
       have h3 : hypPartner x ≠ x := fun h' => hx h'
-      simp [hy1, h2, h3, hyx, hyx', Ne.symm hyx, Ne.symm hyx']
+      simp [hy1, h2, h3, hyx]
     have hform : hypForm h s ε (Pi.single y 1 + Pi.single (hypPartner x) 1)
         (Pi.single x 1) = 1 := by
       simp only [map_add, LinearMap.add_apply, hypForm_single_single, hypPartner_hypPartner]
@@ -196,8 +196,8 @@ theorem eq_top_of_invariant (hs : 1 ≤ s) (W : Submodule K (HypIndex s ε → K
     have hform : hypForm h s ε (Pi.single e₀ 1 + Pi.single y 1 + c • Pi.single f₀ 1)
         (Pi.single f₀ 1) = 1 := by
       simp only [map_add, LinearMap.add_apply, map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul,
-        hypForm_single_single, RingHom.id_apply, hef, hfe, hyf, hne, hne.symm, if_true, if_false]
-      simp [hy, hyf, hyf.symm]
+        hypForm_single_single, hef, hfe, hne.symm, ite_true, ite_false]
+      simp [hy, hyf.symm]
     rw [hform, one_smul] at h1
     have h2 := W.sub_mem (W.sub_mem h1 he₀W) (W.smul_mem c hf₀W)
     have h3 : (Pi.single e₀ 1 + Pi.single y 1 + c • Pi.single f₀ 1 : HypIndex s ε → K) -
@@ -305,17 +305,17 @@ theorem sigma_fixes_traceZero (hs : 1 ≤ s) {Mr Mr' : Matrix (HypIndex s ε) (H
       Mr * ((B : GL (HypIndex s ε) K) : Matrix (HypIndex s ε) (HypIndex s ε) K).map σ =
         c • (((B : GL (HypIndex s ε) K) : Matrix (HypIndex s ε) (HypIndex s ε) K) * Mr)) :
     ∀ a : K, a + h.bar a = 0 → σ a = a := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   set e₀ : HypIndex s ε := .inl ⟨0, hs⟩ with he₀
   set f₀ : HypIndex s ε := .inr (.inr ⟨0, hs⟩) with hf₀
   have hef : hypPartner e₀ = f₀ := rfl
   have hne : e₀ ≠ f₀ := by simp [he₀, hf₀]
-  haveI : Nonempty (HypIndex s ε) := ⟨e₀⟩
+  have : Nonempty (HypIndex s ε) := ⟨e₀⟩
   have key : ∀ a : K, a + h.bar a = 0 →
       Mr * Matrix.single e₀ f₀ (σ a) = Matrix.single e₀ f₀ a * Mr := by
     intro a ha
     have hiso : hypForm h s ε (Pi.single e₀ 1) (Pi.single e₀ 1) = 0 := by
-      rw [hypForm_single_single, if_neg]
+      rw [hypForm_single_single, ite_eq_right]
       rw [hef]
       exact hne
     obtain ⟨g, hg⟩ := exists_tv_mem hiso ha
@@ -354,7 +354,7 @@ theorem tvMat_mul_self [CharP K 2] {v : HypIndex s ε → K} (hv : hypForm h s �
     tvMat h v 1 * tvMat h v 1 = 1 := by
   refine Matrix.ext_iff_mulVec.mpr fun x => ?_
   rw [← Matrix.mulVec_mulVec, Matrix.one_mulVec, tvMat_mulVec, tvMat_mulVec]
-  simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hv,
+  simp only [map_add, map_smul, smul_eq_mul, hv,
     mul_zero, add_zero, one_mul]
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have : hypForm h s ε v x • v + hypForm h s ε v x • v = 0 := by
@@ -367,12 +367,12 @@ theorem eq_smul_one_of_res_rel (hs : 1 ≤ s) {Mr Mr' : Matrix (HypIndex s ε) (
       Mr * ((B : GL (HypIndex s ε) K) : Matrix (HypIndex s ε) (HypIndex s ε) K).map σ =
         c • (((B : GL (HypIndex s ε) K) : Matrix (HypIndex s ε) (HypIndex s ε) K) * Mr)) :
     ∃ c : K, Mr = c • 1 := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   set e₀ : HypIndex s ε := .inl ⟨0, hs⟩ with he₀
   set f₀ : HypIndex s ε := .inr (.inr ⟨0, hs⟩) with hf₀
   have hef : hypPartner e₀ = f₀ := rfl
   have hne : e₀ ≠ f₀ := by simp [he₀, hf₀]
-  haveI : Nonempty (HypIndex s ε) := ⟨e₀⟩
+  have : Nonempty (HypIndex s ε) := ⟨e₀⟩
   have h1 : (1 : K) + h.bar 1 = 0 := by
     rw [map_one]
     exact CharTwo.add_self_eq_zero 1
@@ -390,24 +390,23 @@ theorem eq_smul_one_of_res_rel (hs : 1 ≤ s) {Mr Mr' : Matrix (HypIndex s ε) (
     rw [hc1, one_smul] at hc
     exact hc
   have hiso₀ : hypForm h s ε (Pi.single e₀ 1) (Pi.single e₀ 1) = 0 := by
-    rw [hypForm_single_single, if_neg]
+    rw [hypForm_single_single, ite_eq_right]
     rw [hef]
     exact hne
   set lam : K := (Mr *ᵥ (Pi.single f₀ 1 : HypIndex s ε → K)) f₀ with hlam
   have heig : Mr *ᵥ (Pi.single e₀ 1 : HypIndex s ε → K) = lam • Pi.single e₀ 1 := by
     have h2 := congrArg (fun N : Matrix (HypIndex s ε) (HypIndex s ε) K =>
       N *ᵥ (Pi.single f₀ 1 : HypIndex s ε → K)) (hcomm _ hiso₀)
-    simp only [← Matrix.mulVec_mulVec, tvMat_mulVec, Matrix.mulVec_add, Matrix.mulVec_smul,
-      hypForm_single_left, hef, Pi.single_eq_same, one_mul, one_smul] at h2
+    simp only [← Matrix.mulVec_mulVec, tvMat_mulVec, Matrix.mulVec_add, hypForm_single_left, hef, Pi.single_eq_same, one_mul, one_smul] at h2
     exact add_left_cancel h2
   let W : Submodule K (HypIndex s ε → K) :=
     { carrier := {w | Mr *ᵥ w = lam • w}
       add_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [Matrix.mulVec_add, ha, hb, smul_add]
       zero_mem' := by simp
       smul_mem' := fun c w hw => by
-        simp only [Set.mem_setOf_eq] at hw ⊢
+        simp only [Set.mem_ofPred_eq] at hw ⊢
         rw [Matrix.mulVec_smul, hw, smul_comm] }
   have hδ₀ : (Pi.single e₀ 1 : HypIndex s ε → K) ∈ W := heig
   have hδ₀0 : (Pi.single e₀ 1 : HypIndex s ε → K) ≠ 0 := by
@@ -421,7 +420,7 @@ theorem eq_smul_one_of_res_rel (hs : 1 ≤ s) {Mr Mr' : Matrix (HypIndex s ε) (
     have h3 := congrArg (fun N : Matrix (HypIndex s ε) (HypIndex s ε) K => N *ᵥ w)
       (hcomm v hv)
     simp only [← Matrix.mulVec_mulVec, tvMat_mulVec, Matrix.mulVec_add, Matrix.mulVec_smul, hw',
-      one_mul, map_smul, smul_eq_mul, smul_add] at h3
+      one_mul, smul_add] at h3
     have h4 := add_left_cancel h3
     show Mr *ᵥ (hypForm h s ε v w • v) = lam • (hypForm h s ε v w • v)
     rw [Matrix.mulVec_smul]

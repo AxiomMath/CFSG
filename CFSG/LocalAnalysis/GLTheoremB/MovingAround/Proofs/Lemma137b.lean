@@ -159,8 +159,8 @@ theorem pPrimeCore_perm_eq_bot {n p : ℕ} (hn : 5 ≤ n) (hp : p.Prime) (hp2 : 
   have hA : IsSimpleGroup ↥(alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (by simpa using hn)
   have hnormal : (K.subgroupOf (alternatingGroup (Fin n))).Normal := Subgroup.Normal.subgroupOf hK _
-  haveI := hA
-  haveI := hnormal
+  have := hA
+  have := hnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.subgroupOf (alternatingGroup (Fin n))) with hbot | htop
   · refine (Subgroup.eq_bot_iff_forall K).2 fun r hr => ?_
     refine eq_one_of_commute_alternatingGroup hn fun a ha => ?_
@@ -186,7 +186,7 @@ theorem pPrimeCore_perm_eq_bot {n p : ℕ} (hn : 5 ≤ n) (hp : p.Prime) (hp2 : 
         rw [htop]; exact Subgroup.mem_top _
       exact this
     have hd : Nat.card (alternatingGroup (Fin n)) ∣ Nat.card K := Subgroup.card_dvd_of_le hle
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     have h2 : 2 * Nat.card (alternatingGroup (Fin n)) = Nat.factorial n := by
       rw [two_mul_nat_card_alternatingGroup, Nat.card_perm, Nat.card_fin]
     have hpf : p ∣ Nat.factorial n := Nat.dvd_factorial hp.pos hpn
@@ -443,6 +443,7 @@ section ThmA
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_mem_of_centralizes {p : ℕ} {M L T : Subgroup G} (hLM : L ≤ M) (hTM : T ≤ M)
     (hTL : T ≤ Subgroup.normalizer (L : Set G)) (hb : L ⊓ GLAPPrimeCoreOf p M ≤ T)
     {x : G} (hxL : x ∈ L)
@@ -479,8 +480,8 @@ theorem conj_mem_of_centralizes {p : ℕ} {M L T : Subgroup G} (hLM : L ≤ M) (
 
 theorem le_pPrimeCoreOf_normalizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T : Subgroup G}
     (hT2 : IsPGroup 2 ↥T) : T ≤ GLAPPrimeCoreOf p (Nof T) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine sec11_le_glaPPrimeCoreOf (H := Nof T) Subgroup.le_normalizer ?_ ?_
   · intro h hh n hn
     exact (Subgroup.mem_normalizer_iff.1 hh n).1 hn
@@ -488,6 +489,7 @@ theorem le_pPrimeCoreOf_normalizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T :
     rw [hk]
     exact Nat.Coprime.pow_right _ ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
 
+omit [Finite G] in
 theorem commutator_mem_inf {L T : Subgroup G} (hTL : T ≤ Subgroup.normalizer (L : Set G)) {x t : G}
     (hxL : x ∈ L) (hxN : x ∈ Nof T) (ht : t ∈ T) : t * x * t⁻¹ * x⁻¹ ∈ T ⊓ L := by
   refine ⟨?_, ?_⟩
@@ -507,7 +509,7 @@ theorem barX_cent_equiv {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M L T : Subgro
       Set (↥M ⧸ GLAPPrimeCore p ↥M)))
     (hO : GLAPPrimeCore p ↥C₀ = ⊥) :
     Nonempty (↥(barX p (Nof T) (Nof T ⊓ L)) ≃* ↥C₀) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N : Subgroup G := Nof T with hN
   set J : Subgroup G := N ⊓ L with hJ
   have hJL : J ≤ L := inf_le_right
@@ -683,8 +685,8 @@ theorem caseII_abstract (A W Tb : Subgroup Y) (hTW : Tb ≤ W)
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 (hmem y hy)
     rw [← hk, ← zpow_mod_orderOf, hord]
     rcases Int.emod_two_eq_zero_or_one k with h | h
-    · left; simp [show ((2 : ℕ) : ℤ) = 2 from rfl, h]
-    · right; simp [show ((2 : ℕ) : ℤ) = 2 from rfl, h]
+    · left; simp [h]
+    · right; simp [h]
   obtain ⟨y₀, hy₀T, hy₀⟩ : ∃ y ∈ Tb, y ∉ Subgroup.centralizer (A : Set Y) := by
     by_contra hcon
     push Not at hcon
@@ -803,7 +805,7 @@ theorem goodDer_perm {n : ℕ} (hn : 5 ≤ n) : GoodDer (Equiv.Perm (Fin n)) := 
   have h5' : 5 ≤ Nat.card (Fin n) := by simpa using hn
   have hc : commutator (Equiv.Perm (Fin n)) = alternatingGroup (Fin n) :=
     alternatingGroup.commutator_perm_eq h5'
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin n)) := alternatingGroup.isSimpleGroup h5'
+  have : IsSimpleGroup ↥(alternatingGroup (Fin n)) := alternatingGroup.isSimpleGroup h5'
   have e : ↥(commutator (Equiv.Perm (Fin n))) ≃* ↥(alternatingGroup (Fin n)) :=
     MulEquiv.subgroupCongr hc
   refine ⟨e.isSimpleGroup_congr.2 inferInstance, fun hcomm => ?_⟩
@@ -823,8 +825,8 @@ theorem alt_deg_unique {a b : ℕ} {X : Type} [Group X] (ha : 2 ≤ a) (hb : 2 �
     (hXa : IsAltType a X) (hXb : IsAltType b X) : a = b := by
   obtain ⟨ea⟩ := hXa
   obtain ⟨eb⟩ := hXb
-  haveI : Nontrivial (Fin a) := Fin.nontrivial_iff_two_le.2 ha
-  haveI : Nontrivial (Fin b) := Fin.nontrivial_iff_two_le.2 hb
+  have : Nontrivial (Fin a) := Fin.nontrivial_iff_two_le.2 ha
+  have : Nontrivial (Fin b) := Fin.nontrivial_iff_two_le.2 hb
   have h1 : Nat.card (alternatingGroup (Fin a)) = Nat.card (alternatingGroup (Fin b)) :=
     Nat.card_congr (ea.symm.trans eb).toEquiv
   have h2a := two_mul_nat_card_alternatingGroup (α := Fin a)
@@ -910,7 +912,7 @@ noncomputable def eXBar {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M L : Subgroup
 theorem pRank_top_X {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M L : Subgroup G}
     (hLcomp : GLAPComponent p M L) (hbl : IsGLBlock M L) :
     CFSG.Open.pRank p (⊤ : Subgroup (↥L ⧸ CFSG.pCore 2 ↥L)) = CFSG.Open.pRank p L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let e1 : (↥L ⧸ CFSG.pCore 2 ↥L) ≃* (↥L ⧸ GLAPPrimeCore p ↥L) :=
     QuotientGroup.quotientMulEquivOfEq (glaPPrimeCore_eq_pCore_two_of_block hp hp2 hLcomp hbl).symm
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt e1]
@@ -941,13 +943,13 @@ theorem caseII_data {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M D L : Subgroup G
     rcases hβ' with ⟨hfp, hbw⟩ | ⟨hfp, hbw⟩
     · obtain ⟨hLM', e, hcard, ⟨t, ht, hQt, hTv, hAct⟩, -⟩ := hbw
       obtain ⟨hout, hSpIso⟩ := hOmT.1 n' hn' t ht hQt hTv
-      haveI : Finite ↥(StatedOmega (StatedQuadPlus (n' + 1) (ZMod 2))) :=
+      have : Finite ↥(StatedOmega (StatedQuadPlus (n' + 1) (ZMod 2))) :=
         Finite.of_equiv _ e.toEquiv
       refine ⟨_, inferInstance, e, _, hAct, hcard, hout, ?_⟩
       exact typeData_of_beta hp hp2 hAlt hSp hOmU hOmA hrankX hn' hfp ⟨eX.trans e⟩ hSpIso
     · obtain ⟨hLM', e, hcard, ⟨t, ht, hQt, hTv, hAct⟩, -⟩ := hbw
       obtain ⟨hout, hSpIso⟩ := hOmT.2 n' hn' t ht hQt hTv
-      haveI : Finite ↥(StatedOmega (StatedQuadMinus (n' + 1) (ZMod 2) 1 1)) :=
+      have : Finite ↥(StatedOmega (StatedQuadMinus (n' + 1) (ZMod 2) 1 1)) :=
         Finite.of_equiv _ e.toEquiv
       refine ⟨_, inferInstance, e, _, hAct, hcard, hout, ?_⟩
       exact typeData_of_beta hp hp2 hAlt hSp hOmU hOmA hrankX hn' hfp ⟨eX.trans e⟩ hSpIso
@@ -961,7 +963,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pCoreTwo_le_of_isSubnormal {H K : Subgroup G} (h : IsSubnormal H K) :
     pCoreOf 2 H ≤ pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   induction h with
   | refl H => exact le_rfl
   | @step H M K hHM hnorm _ ih =>
@@ -972,6 +974,7 @@ theorem pCoreTwo_le_of_isSubnormal {H K : Subgroup G} (h : IsSubnormal H K) :
     exact ((Subgroup.normal_subgroupOf_iff_le_normalizer hHM).1 hnorm).trans
       (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 H)
 
+omit [Finite G] in
 theorem inf_le_core_of_inf_eq_bot {p : ℕ} {M L T : Subgroup G} (hLM : L ≤ M) (hTM : T ≤ M)
     (h : barX p M T ⊓ barX p M L = ⊥) : T ⊓ L ≤ GLAPPrimeCoreOf p M := by
   intro x hx
@@ -1006,7 +1009,7 @@ theorem concl_good {p : ℕ} {N J : Subgroup G} (hJN : J ≤ N) {C : Type} [Grou
     hG.nonab ⟨⟨fun a b => f.injective (by rw [map_mul, map_mul]; exact hc.is_comm.comm _ _)⟩⟩
   have hperf : ⁅⁅Jt, Jt⁆, ⁅Jt, Jt⁆⁆ = ⁅Jt, Jt⁆ := by
     have hc : commutator ↥⁅Jt, Jt⁆ = ⊤ := by
-      haveI := hS1
+      have := hS1
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator ↥⁅Jt, Jt⁆) with h | h
       · exact absurd ((commutator_eq_bot_iff _).1 h) hS2
       · exact h
@@ -1015,6 +1018,7 @@ theorem concl_good {p : ℕ} {N J : Subgroup G} (hJN : J ≤ N) {C : Type} [Grou
   rw [hK]
   exact ⟨rfl, hS1, hS2⟩
 
+omit [Finite G] in
 theorem Iof_eq_iSup_summand (p : ℕ) (M D : Subgroup G) :
     Iof p M D = ⨆ x : {L0 : Subgroup G // Prop139.SummandOf p M D L0}, x.1 := by
   unfold Iof
@@ -1086,7 +1090,7 @@ theorem lemma137_ii_iii_of_inputs
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg, L0, hL0, hLeq⟩ := istar_component' hp hL
   have hLcomp : GLAPComponent p M L := by
     rw [hLeq]
@@ -1140,7 +1144,7 @@ theorem lemma137_ii_iii_of_inputs
       refine (inf_eq_left.2 fun x hx => Subgroup.mem_centralizer_iff.2 fun t ht => ?_).symm
       exact (Subgroup.mem_centralizer_iff.1 (hcen ht) x hx).symm
     obtain ⟨φ⟩ := barX_cent_equiv hp hp2 hLM hTM hT2 hTL hb hc (barX p M L) hC₀ hOLb
-    haveI : IsSimpleGroup ↥(barX p M L) := eX.isSimpleGroup_congr.1 hbl.simple
+    have : IsSimpleGroup ↥(barX p M L) := eX.isSimpleGroup_congr.1 hbl.simple
     have hgood : GoodDer ↥(barX p M L) := goodDer_of_simple (not_comm_of_simple_center_bot hZ)
     obtain ⟨hK1, hK2, hK3⟩ := concl_good hJN φ hgood
     refine ⟨hK1, hK2, hK3, ?_, ?_⟩

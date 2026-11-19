@@ -12,7 +12,7 @@ theorem exists_sylow_inf_normal {D : Type*} [Group D] [Finite D] {p : ℕ} [Fact
     (S : Sylow p D) (M : Subgroup D) [M.Normal] :
     ∃ Q : Sylow p M, (Q : Subgroup M).map M.subtype = (S : Subgroup D) ⊓ M := by
   set R : Subgroup D := (S : Subgroup D) ⊓ M with hR
-  have hRp : IsPGroup p R := S.isPGroup'.to_inf_left
+  have hRp : IsPGroup p R := S.isPGroup.to_inf_left
   have h1 : R.relIndex (S : Subgroup D) * (S : Subgroup D).relIndex ((S : Subgroup D) ⊔ M) =
       R.relIndex ((S : Subgroup D) ⊔ M) :=
     Subgroup.relIndex_mul_relIndex (H := R) (K := (S : Subgroup D)) (L := (S : Subgroup D) ⊔ M)

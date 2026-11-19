@@ -101,10 +101,10 @@ theorem centralizer_of_noncentral_of_card_sixteen {G : Type*} [Group G] {Y U E :
 theorem centralizer_noncentral {G : Type*} [Group G] {Y U E₁ E₂ : Subgroup G} (e : ↥Y ≃* UT3 F4)
     (hUY : U ≤ Y) (hU4 : Nat.card ↥U = 4) (hUN : ∀ y ∈ Y, ∀ w ∈ U, y * w * y⁻¹ ∈ U)
     (h₁Y : E₁ ≤ Y) (h₂Y : E₂ ≤ Y)
-    (hE₁c : ∀ a ∈ E₁, ∀ b ∈ E₁, a * b = b * a) (hE₁s : ∀ a ∈ E₁, a * a = 1)
-    (hE₂c : ∀ a ∈ E₂, ∀ b ∈ E₂, a * b = b * a) (hE₂s : ∀ a ∈ E₂, a * a = 1)
-    (hc₁ : Nat.card ↥E₁ = 16) (hc₂ : Nat.card ↥E₂ = 16) (hint : E₁ ⊓ E₂ = U) (hprod : E₁ ⊔ E₂ = Y)
-    (hinv : ∀ y ∈ Y, y * y = 1 → y ∈ E₁ ∨ y ∈ E₂) :
+    (_hE₁c : ∀ a ∈ E₁, ∀ b ∈ E₁, a * b = b * a) (hE₁s : ∀ a ∈ E₁, a * a = 1)
+    (_hE₂c : ∀ a ∈ E₂, ∀ b ∈ E₂, a * b = b * a) (hE₂s : ∀ a ∈ E₂, a * a = 1)
+    (hc₁ : Nat.card ↥E₁ = 16) (hc₂ : Nat.card ↥E₂ = 16) (_hint : E₁ ⊓ E₂ = U) (_hprod : E₁ ⊔ E₂ = Y)
+    (_hinv : ∀ y ∈ Y, y * y = 1 → y ∈ E₁ ∨ y ∈ E₂) :
     (∀ x ∈ E₁, x ∉ U → ∀ y ∈ Y, y * x = x * y → y ∈ E₁) ∧
     (∀ x ∈ E₂, x ∉ U → ∀ y ∈ Y, y * x = x * y → y ∈ E₂) :=
   ⟨centralizer_of_noncentral_of_card_sixteen e hUY hU4 hUN h₁Y hE₁s hc₁,

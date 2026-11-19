@@ -23,7 +23,7 @@ theorem k147SpU_sp4 [Finite G] [Finite V] (ρ : Representation (ZMod 2) G V) (h�
     n + 1 < F05.mGV ρ := by
   obtain ⟨hn1, hodd, hsp, g, hg⟩ := h
   obtain ⟨hs, hnab⟩ := uc22p22a_sp4_simple _ n hsp
-  haveI := hs
+  have := hs
   have heq := Ext.lgConj_eq_of_isQuasisimple hL (uc22p22a_isQuasisimple_of_simple hnab)
   have hLn : L.Normal := heq ▸ uc22p22r_lgConj_normal L
   rw [heq] at hsp hg

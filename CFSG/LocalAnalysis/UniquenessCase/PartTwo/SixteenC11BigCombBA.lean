@@ -65,9 +65,9 @@ private lemma s16c11_big_combb_indT_add {j : Equiv.Perm (Fin 10)} (hj_ne : ∀ i
     (if a ∈ s16c11_big_combb_T j then (0 : ZMod 2) else 1) +
         (if j a ∈ s16c11_big_combb_T j then 0 else 1) = 1 := by
   by_cases ha : a ∈ s16c11_big_combb_T j
-  · rw [if_pos ha, if_neg (s16c11_big_combb_j_not_mem_T_of_mem hj_ne hj_inv ha)]
+  · rw [ite_eq_left ha, ite_eq_right (s16c11_big_combb_j_not_mem_T_of_mem hj_ne hj_inv ha)]
     decide
-  · rw [if_neg ha, if_pos (s16c11_big_combb_j_mem_T_of_not_mem hj_ne hj_inv ha)]
+  · rw [ite_eq_right ha, ite_eq_left (s16c11_big_combb_j_mem_T_of_not_mem hj_ne hj_inv ha)]
     decide
 
 private lemma s16c11_big_combb_sum_indT {j : Equiv.Perm (Fin 10)} :
@@ -219,7 +219,7 @@ private lemma s16c11_big_combb_extend_of_mem {j : Equiv.Perm (Fin 10)} (hj_ne : 
     (ha : a ∈ s16c11_big_combb_T j) :
     s16c11_big_combb_extend hj_ne hj_inv y a = y ⟨a, ha⟩ := by
   unfold s16c11_big_combb_extend
-  rw [dif_pos ha]
+  rw [dite_eq_left ha]
 
 private lemma s16c11_big_combb_extend_of_not_mem {j : Equiv.Perm (Fin 10)} (hj_ne : ∀ i, j i ≠ i)
     (hj_inv : ∀ i, j (j i) = i) (y : ↥(s16c11_big_combb_T j) → ZMod 2) {a : Fin 10}
@@ -227,7 +227,7 @@ private lemma s16c11_big_combb_extend_of_not_mem {j : Equiv.Perm (Fin 10)} (hj_n
     s16c11_big_combb_extend hj_ne hj_inv y a =
       y ⟨j a, s16c11_big_combb_j_mem_T_of_not_mem hj_ne hj_inv ha⟩ := by
   unfold s16c11_big_combb_extend
-  rw [dif_neg ha]
+  rw [dite_eq_right ha]
 
 private lemma s16c11_big_combb_extend_inv {j : Equiv.Perm (Fin 10)} (hj_ne : ∀ i, j i ≠ i)
     (hj_inv : ∀ i, j (j i) = i) (y : ↥(s16c11_big_combb_T j) → ZMod 2) (a : Fin 10) :

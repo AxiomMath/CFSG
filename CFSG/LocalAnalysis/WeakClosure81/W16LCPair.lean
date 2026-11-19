@@ -309,7 +309,7 @@ theorem LiftHyp.pair_projection [Finite L] [Finite W] (hA : LiftHyp ρ A Z) (l :
       exact MonoidHom.mem_ker.mp (hker hxcore)
 
 theorem LiftHyp.pair_shape [Finite L] [Finite W] (hA : LiftHyp ρ A Z) (l : L)
-    (hnc : ∃ a ∈ A, ∃ b ∈ A.map (MulAut.conj l).toMonoidHom, a * b ≠ b * a)
+    (_hnc : ∃ a ∈ A, ∃ b ∈ A.map (MulAut.conj l).toMonoidHom, a * b ≠ b * a)
     (he : ∀ a ∈ A, (Z.map ((ρ l : W ≃ₗ[ZMod 2] W) : W →ₗ[ZMod 2] W)).map
       ((ρ a : W ≃ₗ[ZMod 2] W) : W →ₗ[ZMod 2] W) =
         Z.map ((ρ l : W ≃ₗ[ZMod 2] W) : W →ₗ[ZMod 2] W) → a = 1)
@@ -340,7 +340,7 @@ theorem LiftHyp.pair_shape [Finite L] [Finite W] (hA : LiftHyp ρ A Z) (l : L)
   have hproj := LiftHyp.pair_projection hA l he he'
   rw [← hX] at hproj
   obtain ⟨Y, hYgrp, φ, hφsurj, hφker, hPY⟩ := hshape
-  letI : Group Y := hYgrp
+  let : Group Y := hYgrp
   have hφker' : φ.ker = (pCoreOf 2 X).subgroupOf X := by
     ext k
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]

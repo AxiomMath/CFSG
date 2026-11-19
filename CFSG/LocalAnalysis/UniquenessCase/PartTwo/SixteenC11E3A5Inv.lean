@@ -76,7 +76,7 @@ private def s1611e3_idx [DecidableEq (Subgroup W)] (J₀ J₁ J : Subgroup W) : 
   if J = J₀ then 0 else if J = J₁ then 1 else 2
 
 private lemma s1611e3_idx_eq_zero [DecidableEq (Subgroup W)] {J₀ J₁ J : Subgroup W}
-    (h : J₀ ≠ J₁) : s1611e3_idx J₀ J₁ J = 0 ↔ J = J₀ := by
+    (_h : J₀ ≠ J₁) : s1611e3_idx J₀ J₁ J = 0 ↔ J = J₀ := by
   unfold s1611e3_idx
   split_ifs with h0 h1
   · exact iff_of_true rfl h0
@@ -106,8 +106,8 @@ private theorem s1611e3_natSub_card_le_three [Finite W] {L : Subgroup (MulAut W)
     (hE : Z391.EndUnitsTrivial L J₀) (hinf : J₀ ⊓ J₁ = ⊥) (hsup : J₀ ⊔ J₁ = U) :
     Nat.card ↥{J : Subgroup W | J ≤ U ∧ AlternatingNatural L J ⊥ 5} ≤ 3 := by
   classical
-  haveI : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
-  haveI : Finite ↥{J : Subgroup W | J ≤ U ∧ AlternatingNatural L J ⊥ 5} :=
+  have : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite ↥{J : Subgroup W | J ≤ U ∧ AlternatingNatural L J ⊥ 5} :=
     Finite.of_injective _ Subtype.coe_injective
   have hJ₀ne : J₀ ≠ ⊥ := by
     have hmem : J₀ ∈ irrSet L := s16c167_mem_irrSet_alt (n := 5) (by norm_num) hJ₀
@@ -292,7 +292,7 @@ theorem s1611e3_a5_inv {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w ^ 
       (J.1.map (y : MulAut W).toMonoidHom).map (x : MulAut W).toMonoidHom
     rw [Subgroup.map_map]
     rfl
-  letI : MulAction ↥P ↥𝒥 :=
+  let : MulAction ↥P ↥𝒥 :=
     { smul := act
       one_smul := hact_one
       mul_smul := hact_mul }

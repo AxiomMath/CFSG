@@ -45,6 +45,6 @@ theorem component_normal {G : Type*} [Group G] [Finite G]
     have h' := component_conj_eq hL hcyc hSL hSp hSnc (inv_mem hc)
     rw [← h'] at ⊢
     refine ⟨c * l * c⁻¹, hl, ?_⟩
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
 
 end CFSG.GGQ2Prime

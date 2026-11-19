@@ -63,8 +63,8 @@ theorem exists_ne_one_commute_of_card_lt {C N : Subgroup G} {v : G}
     (hCN : ∀ c ∈ C, c * v * c⁻¹ * v⁻¹ ∈ N) (hcard : Nat.card N < Nat.card C) :
     ∃ c ∈ C, c ≠ 1 ∧ c * v = v * c := by
   classical
-  haveI : Fintype ↥C := Fintype.ofFinite ↥C
-  haveI : Fintype ↥N := Fintype.ofFinite ↥N
+  have : Fintype ↥C := Fintype.ofFinite ↥C
+  have : Fintype ↥N := Fintype.ofFinite ↥N
   have hcard' : Fintype.card ↥N < Fintype.card ↥C := by
     simpa only [Nat.card_eq_fintype_card] using hcard
   obtain ⟨c₁, c₂, hne, heq⟩ := Fintype.exists_ne_map_eq_of_card_lt

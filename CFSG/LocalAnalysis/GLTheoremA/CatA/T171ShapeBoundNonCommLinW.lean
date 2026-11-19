@@ -37,11 +37,11 @@ theorem specialFactor_of_isComponentOf
           (CFSG.LocalAnalysis.GLTheoremA.I2015.linRecipeEquiv N K).symm.toMonoidHom =
         (specialFactor D h.1.1).map (proj N K) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hchar : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [← Nat.card_eq_fintype_card]; exact hn)
-  haveI := hchar
+  have := hchar
   have hpk : (p : K) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff K 2]
     intro hdvd
@@ -103,6 +103,7 @@ variable {hw : WSetup p L J A d b}
 variable {hJ : CFSG.Open.IsComponentOf J (L ⊓ Subgroup.centralizer ({d} : Set G))}
 variable {M : LiftMap (L := L) (A := A) (S := Set.univ) θ hact hS}
 
+omit [Finite K] in
 private lemma exists_rescaled_lift
     (hc : ∃ c : Kˣ, (M.mat ⟨d, hw.d_mem⟩) ^ p =
       Matrix.GeneralLinearGroup.scalar (Fin N) (c ^ p)) :
@@ -234,7 +235,7 @@ private lemma conj_scalar_of_ne
       rw [show Mb * D * Mb⁻¹ = (MulAut.conj Mb) D from (MulAut.conj_apply Mb D).symm,
         ← map_pow, hDpow, map_one]
     rw [hconj, Commute.mul_pow hcommζD p, hDpow, mul_one] at h1
-    haveI : Nonempty (Fin N) := ⟨⟨0, by omega⟩⟩
+    have : Nonempty (Fin N) := ⟨⟨0, by omega⟩⟩
     have hinj := Matrix.GeneralLinearGroup.scalar_injective (n := Fin N) (R := K)
     have h2 : (ζ : Kˣ) ^ p = 1 := by
       apply hinj
@@ -242,6 +243,7 @@ private lemma conj_scalar_of_ne
     simpa [Units.val_pow_eq_pow_val] using congrArg (fun u : Kˣ => (u : K)) h2
   exact ⟨ζ, hconj, hζ1, hζp⟩
 
+omit [Finite G] in
 private lemma projective_special_factor_preserved
     {D Mb : GL (Fin N) K} {f : K[X]}
     (hJeq : ((J.subgroupOf L).map (piCenterQuot θ)).map
@@ -299,6 +301,7 @@ private lemma projective_special_factor_preserved
   obtain ⟨b', hb', hb'eq⟩ := Subgroup.mem_map.mp hmem'
   exact ⟨b', hb', hb'eq.symm⟩
 
+omit [Finite K] in
 private lemma final_nonComm_contradiction
     {D Mb : GL (Fin N) K} {f g : K[X]}
     (hfix : ∀ a ∈ specialFactor D f, ∀ {j : K[X]},
@@ -417,17 +420,17 @@ theorem linTypeOneNonComm_of_wSetup
     exists_rescaled_lift (M := M) (hw := hw) (θ := θ) (hact := hact) (hS := hS) hc
   obtain ⟨ζ, hconj, hζ1, hζp⟩ :=
     conj_scalar_of_ne (M := M) (hw := hw) hN c hD_eq hMb_eq hDpow hnc
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   have hchar : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n) (by
     rw [← Nat.card_eq_fintype_card]; exact hcard)
-  haveI := hchar
+  have := hchar
   have hpk : (p : K) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff K 2]
     intro hdvd
     have h2p : p = 2 := ((Nat.prime_dvd_prime_iff_eq (by norm_num) hw.prime).1 hdvd).symm
     exact hw.odd h2p
-  haveI : Fact p.Prime := ⟨hw.prime⟩
+  have : Fact p.Prime := ⟨hw.prime⟩
   have hζroot : IsPrimitiveRoot (ζ : K) p := by
     have h := IsPrimitiveRoot.orderOf (ζ : K)
     rwa [orderOf_eq_prime hζp (fun h => hζ1 (Units.ext h))] at h

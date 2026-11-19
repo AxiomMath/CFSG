@@ -46,7 +46,7 @@ theorem sl3Two_rootElt_cyc_ne :
     rw [coe_rootElt (show (0 : Fin 3) ≠ 1 by decide),
       coe_rootElt (show (1 : Fin 3) ≠ 2 by decide)] at hentry
     simp only [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, Fin.isValue,
-      Fin.mk_one, Fin.zero_eta, if_true, if_false, and_self, zero_add, add_zero] at hentry
+      ite_true, and_self] at hentry
     exact one_ne_zero hentry
   have hconj : cyc * rootElt 0 1 (1 : ZMod 2) * cyc⁻¹ = rootElt 0 1 (1 : ZMod 2) := by
     rw [← h]

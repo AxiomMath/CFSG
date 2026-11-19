@@ -480,13 +480,13 @@ private theorem ggQ2xF4b_S_mul (k : Fin 4) (M : Matrix (Fin 4) (Fin 4) (ZMod 3))
   simp only [ggQ2xF4b_row]
   by_cases hik : i = k
   · rw [hik]
-    simp only [if_true, ggQ2xF4b_S_apply, one_mul]
+    simp only [ite_true, ggQ2xF4b_S_apply, one_mul]
     rw [Finset.sum_congr rfl (fun l _ => sub_mul _ _ _)]
     rw [Finset.sum_sub_distrib]
     rw [Finset.sum_congr rfl (fun x _ => by rw [ite_mul, one_mul, zero_mul])]
     rw [Finset.sum_ite_eq]; simp
-  · rw [if_neg hik]
-    simp only [ggQ2xF4b_S_apply, if_neg hik, zero_mul, sub_zero]
+  · rw [ite_eq_right hik]
+    simp only [ggQ2xF4b_S_apply, ite_eq_right hik, zero_mul, sub_zero]
     rw [Finset.sum_congr rfl (fun x _ => by rw [ite_mul, one_mul, zero_mul])]
     rw [Finset.sum_ite_eq]; simp
 
@@ -755,8 +755,7 @@ private theorem ggQ2xF4a_cartan_F4 (D : GGQ2Lin 3) (e : Fin 4 ≃ D.ι)
     have h31 : D.cartan (e 3) (e 1) = 0 := hlab2 3 1 (by decide) (by decide)
     intro a b
     fin_cases a <;> fin_cases b <;>
-      simp_all [ggQ2xF4a_F4b, h00, h01, h02, h03, h10, h11, h12a, h12b, h13, h20, h22, h23,
-        h30, h31, h32, h33]
+      simp_all [ggQ2xF4a_F4b]
   · left
     have h00 : D.cartan (e 0) (e 0) = 2 := D.isCartan.1 _
     have h11 : D.cartan (e 1) (e 1) = 2 := D.isCartan.1 _
@@ -774,8 +773,7 @@ private theorem ggQ2xF4a_cartan_F4 (D : GGQ2Lin 3) (e : Fin 4 ≃ D.ι)
     have h31 : D.cartan (e 3) (e 1) = 0 := hlab2 3 1 (by decide) (by decide)
     intro a b
     fin_cases a <;> fin_cases b <;>
-      simp_all [ggQ2xF4a_F4a, h00, h01, h02, h03, h10, h11, h12a, h12b, h13, h20, h22, h23,
-        h30, h31, h32, h33]
+      simp_all [ggQ2xF4a_F4a]
 
 private def ggQ2xF4a_rev : Fin 4 ≃ Fin 4 where
   toFun := Fin.rev
@@ -824,7 +822,7 @@ private lemma ggQ2xF4_tau_coroot (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 4 ≃
   rw [Basis.equivFun_self]
   by_cases h : i = j
   · subst h; simp [Pi.single_eq_same]
-  · rw [if_neg h, Pi.single_eq_of_ne (Ne.symm h)]
+  · rw [ite_eq_right h, Pi.single_eq_of_ne (Ne.symm h)]
 
 private lemma ggQ2xF4_root (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 4 ≃ D.ι)
     (hC : ∀ i j, (D.cartan (e i) (e j) : ZMod 3) = ggQ2xF4_C i j) (i : Fin 4) (v : D.V) :
@@ -1006,7 +1004,7 @@ private lemma ggQ2xF4c_gm_simple (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 4 ≃
     smul_eq_mul, Matrix.col_apply]
   by_cases hji : j = i
   · subst hji
-    simp [Finset.sum_ite_eq', Finset.mem_univ]
+    simp [Finset.mem_univ]
   · simp [hji, Ne.symm hji]
 
 private lemma ggQ2xF4c_inv_simpleRefl (D : GGQ2Lin 3) (k : D.ι) :

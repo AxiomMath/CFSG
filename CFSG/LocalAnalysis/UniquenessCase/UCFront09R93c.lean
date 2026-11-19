@@ -13,6 +13,7 @@ open CFSG.GroupTheory.ThreeTranspositions (HasE9)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem closure_threeElements_opp (Y : Subgroup G) :
     closure {x : ↥(Opp 3 Y) | ∃ k : ℕ, orderOf x = 3 ^ k} = ⊤ := by
   have h : closure (((↑) : ↥(Opp 3 Y) → G) ⁻¹'
@@ -31,6 +32,7 @@ theorem closure_threeElements_of_surjective {A B : Type*} [Group A] [Group B] (f
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp (hk ▸ orderOf_map_dvd f x)
   exact Subgroup.subset_closure ⟨j, hj⟩
 
+omit [Finite G] in
 theorem closure_threeElements_barO3 (Y : Subgroup G) :
     closure {x : BarO3 (Opp 3 Y) | ∃ k : ℕ, orderOf x = 3 ^ k} = ⊤ :=
   closure_threeElements_of_surjective _ (QuotientGroup.mk'_surjective _)
@@ -41,7 +43,7 @@ theorem pPrimeCore_barO3 (X : Subgroup G) : CFSG.pPrimeCore 3 (BarO3 X) = ⊥ :=
   CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot 3
 
 theorem not_hasE9_barO3 {X : Subgroup G} (hE9 : ¬ HasE9 ↥X) : ¬ HasE9 (BarO3 X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact fun h => hE9 (CFSG.GroupTheory.ThreeTranspositions.hasE9_of_hasE9_quotient
     (CFSG.pPrimeCore 3 ↥X)
     ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card) h)
@@ -49,7 +51,7 @@ theorem not_hasE9_barO3 {X : Subgroup G} (hE9 : ¬ HasE9 ↥X) : ¬ HasE9 (BarO3
 theorem eq_top_of_map_barO3_eq_top {X : Subgroup G}
     (hgen : closure {x : ↥X | ∃ k : ℕ, orderOf x = 3 ^ k} = ⊤) {N : Subgroup ↥X} [N.Normal]
     (hN : N.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥X)) = ⊤) : N = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [eq_top_iff, ← hgen, Subgroup.closure_le]
   rintro x ⟨k, hk⟩
   have hxN : QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥X) x ∈
@@ -75,7 +77,7 @@ theorem isSimpleGroup_barO3 (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) {Y :
 
 theorem isPerfect_opp {Y : Subgroup G} (hE9 : ¬ HasE9 ↥(Opp 3 Y))
     (hX : ¬ IsPGroup 3 (BarO3 (Opp 3 Y))) : Group.IsPerfect ↥(Opp 3 Y) := by
-  haveI : Group.IsPerfect (BarO3 (Opp 3 Y)) := isPerfect_of_not_hasE9 (not_hasE9_barO3 hE9)
+  have : Group.IsPerfect (BarO3 (Opp 3 Y)) := isPerfect_of_not_hasE9 (not_hasE9_barO3 hE9)
     (pPrimeCore_barO3 _) (closure_threeElements_barO3 Y) hX
   refine ⟨eq_top_of_map_barO3_eq_top (closure_threeElements_opp Y) ?_⟩
   rw [← derivedSeries_one, map_derivedSeries_eq (QuotientGroup.mk'_surjective _),
@@ -87,11 +89,11 @@ theorem eq_opp_of_normal (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) {Y : Su
     (hX : ¬ IsPGroup 3 (BarO3 (Opp 3 Y))) {D₃ : Subgroup G} (hDX : D₃ ≤ Opp 3 Y)
     (hD3 : Nat.card D₃ = 3) {B : Subgroup G} (hBX : B ≤ Opp 3 Y)
     (hBn : Opp 3 Y ≤ normalizer (B : Set G)) (hDB : D₃ ≤ B) : B = Opp 3 Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := (isSimpleGroup_barO3 hSch hK hE9 hX).1
-  haveI hBnorm : (B.subgroupOf (Opp 3 Y)).Normal :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := (isSimpleGroup_barO3 hSch hK hE9 hX).1
+  have hBnorm : (B.subgroupOf (Opp 3 Y)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hBX).mpr hBn
-  haveI : ((B.subgroupOf (Opp 3 Y)).map
+  have : ((B.subgroupOf (Opp 3 Y)).map
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Opp 3 Y)))).Normal :=
     hBnorm.map _ (QuotientGroup.mk'_surjective _)
   obtain ⟨d, hd⟩ := exists_prime_orderOf_dvd_card' 3 (hD3 ▸ dvd_rfl : 3 ∣ Nat.card D₃)

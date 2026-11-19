@@ -15,16 +15,18 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 theorem L3qLocalData.one_le (hD : L3qLocalData L1 L2 S f) : 1 ≤ f := by
   obtain ⟨F, hField, hFintype, hFcard, -⟩ := hD.lin_left
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have htwo : 2 ≤ Fintype.card F := Fintype.one_lt_card
   by_contra hf
   have hf0 : f = 0 := by omega
   rw [hf0, pow_zero] at hFcard
   omega
 
+omit [Finite G] in
 private theorem L3qLocalData.twoPart_left (hD : L3qLocalData L1 L2 S f) :
     twoPart L1 = 2 ^ (3 * f) := by
   have h := twoPart_of_isLin2Type (k := 2 * f) hD.lin_left hD.card_left
@@ -35,6 +37,7 @@ theorem L3qLocalData.le_left (hH : Hyp111 L1 L2 S) (hD : L3qLocalData L1 L2 S f)
   refine hH.le_left_of_twoPart ?_
   rw [hD.twoPart_left, hD.card_S]
 
+omit [Finite G] in
 theorem L3qLocalData.pCoreOf_ne (hD : L3qLocalData L1 L2 S f) :
     pCoreOf 2 L1 ≠ pCoreOf 2 L2 := by
   intro heq
@@ -51,8 +54,8 @@ theorem L3qLocalData.blockU_left (hD : L3qLocalData L1 L2 S f) :
     blockU L1 = pCoreOf 2 L1 := by
   obtain ⟨F, hField, hFintype, hFcard, α, hαsurj, hαker, β, hβsurj, hβker, hβact⟩ :=
     hD.lin_left
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have hle : blockU L1 ≤ pCoreOf 2 L1 :=
     Subgroup.le_normalizer_iff_commutator_le_left.mp (le_normalizer_pCoreOf 2 L1)
   have hcardrange : Nat.card β.range = 2 ^ (2 * f) := by
@@ -81,8 +84,8 @@ theorem L3qLocalData.blockU_left (hD : L3qLocalData L1 L2 S f) :
 theorem L3qLocalData.blockZ_left (hD : L3qLocalData L1 L2 S f) : blockZ L1 = ⊥ := by
   obtain ⟨F, hField, hFintype, hFcard, α, hαsurj, hαker, β, hβsurj, hβker, hβact⟩ :=
     hD.lin_left
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have hle : blockU L1 ≤ pCoreOf 2 L1 :=
     Subgroup.le_normalizer_iff_commutator_le_left.mp (le_normalizer_pCoreOf 2 L1)
   have hcardrange : Nat.card β.range = 2 ^ (2 * f) := by
@@ -117,13 +120,13 @@ theorem L3qLocalData.isElemAbelian_left (hD : L3qLocalData L1 L2 S f) :
   rw [← hD.blockU_left]
   obtain ⟨F, hField, hFintype, hFcard, α, hαsurj, hαker, β, hβsurj, hβker, hβact⟩ :=
     hD.lin_left
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have hker : β.ker = ⊥ := by
     rw [hβker, hD.blockZ_left]
     simp
   have hβinj : Function.Injective β := (MonoidHom.ker_eq_bot_iff β).mp hker
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard
   have hcomm : ∀ a b : ↥(blockU L1), a * b = b * a := by
     intro a b
     exact hβinj (by rw [map_mul, map_mul, mul_comm])

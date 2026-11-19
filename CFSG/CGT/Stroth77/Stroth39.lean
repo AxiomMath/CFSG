@@ -20,7 +20,7 @@ theorem exists_mem_R_conj_mem (h : F.IsD D dD)
     ∃ e ∈ (F.S : Subgroup G) ⊓ Subgroup.normalizer (D : Set G) ⊓
         Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G),
       e ∉ D ∧ e⁻¹ * dD.uv * e * dD.uv⁻¹ ∈ D ∧ e⁻¹ * dD.t * e * dD.t⁻¹ ∈ D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R : Subgroup G := (F.S : Subgroup G) ⊓ Subgroup.normalizer (D : Set G) ⊓
     Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G) with hR
   have hRS : R ≤ (F.S : Subgroup G) := fun x hx =>
@@ -42,7 +42,7 @@ theorem exists_mem_R_conj_mem (h : F.IsD D dD)
   have hPK : Subgroup.closure ({dD.uv, dD.t} : Set G) ≤ Subgroup.normalizer (D : Set G) :=
     (Subgroup.closure_le _).mpr fun x hx => (hgen x hx).2.1
   obtain ⟨e, heR, heD, he⟩ := CFSG.GroupTheory.exists_commutatorElement_mem_of_isPGroup
-    (F.S.isPGroup'.to_le hPS) (F.S.isPGroup'.to_le hRS) hlt hRN hPQ hPK
+    (F.S.isPGroup.to_le hPS) (F.S.isPGroup.to_le hRS) hlt hRN hPQ hPK
   have hr : ∀ x ∈ ({dD.uv, dD.t} : Set G), e⁻¹ * x * e * x⁻¹ ∈ D := fun x hx => by
     have h' := (Subgroup.mem_normalizer_iff''.mp (hRN heR) _).mp
       (he x (Subgroup.subset_closure hx))

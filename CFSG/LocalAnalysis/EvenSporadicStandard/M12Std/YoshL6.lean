@@ -85,8 +85,8 @@ theorem yosh6 [Finite G] (hG : IsSimpleGroup G) (M : ModelChecks) (he2 : orderOf
   have hue := M.ue 0 k (by norm_num) hk
   have F := esFacts D E hue (M.es 0 k (by norm_num) hk)
   obtain ⟨y₁, hCy, hX⟩ := l6_fusion D E he2 hue (M.l6 k hk)
-  haveI := hG
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hG
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hee : e * e = 1 := by
     rw [← pow_two, ← he2, pow_orderOf_eq_one]
   have hna : ∃ a b : G, a * b ≠ b * a := ⟨d, e, not_commute_d_e hd⟩

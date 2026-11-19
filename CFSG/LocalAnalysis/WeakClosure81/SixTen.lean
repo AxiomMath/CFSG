@@ -13,10 +13,12 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mQuot_inf_right (V U : Subgroup G) : E3.mQuot V (U ⊓ V) = E3.mQuot V U := by
   unfold E3.mQuot
   rw [Subgroup.inf_relIndex_right]
 
+omit [Finite G] in
 theorem mQuot_inf_left (V U : Subgroup G) : E3.mQuot V (V ⊓ U) = E3.mQuot V U := by
   rw [inf_comm, mQuot_inf_right]
 
@@ -106,11 +108,13 @@ theorem six_ten {M V₀ V : Subgroup G} (h : Hyp62 M V₀ V) {g : G} {k j : ℕ}
     fun D hDB hDlt => (key D hDB hDlt).2.1,
     fun D hDB hDlt => (key D hDB hDlt).2.2⟩
 
+omit [Finite G] in
 theorem preTil_injective (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) :
     Function.Injective (preTil V₀ V hV) := by
   intro S T h
   rw [← imgTil_preTil V₀ V hV S, h, imgTil_preTil V₀ V hV T]
 
+omit [Finite G] in
 theorem preCTilde_bot_eq {V D : Subgroup G} (hV : IsElemAbelian 2 V)
     (hD : D ≤ stabTil ⊥ V) :
     preCTilde ⊥ V D hV = V ⊓ Subgroup.centralizer (D : Set G) := by

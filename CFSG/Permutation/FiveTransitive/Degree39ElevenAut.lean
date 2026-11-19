@@ -64,7 +64,7 @@ theorem nine_not_dvd
     apply Subtype.ext
     apply MulEquiv.ext
     intro x
-    exact action_trivial_of_fixed (T.isPGroup'.to_subgroup A) hH hcard h hh'
+    exact action_trivial_of_fixed (T.isPGroup.to_subgroup A) hH hcard h hh'
       (fun a => a.property) (⟨t,hth⟩ : A) x
   have hd := FreeComplementCard.card_dvd_complement T H ({1} : Set H)
     (by intro t h hh; rw [Set.mem_singleton_iff] at hh ⊢; rw [hh,smul_one]) hfree

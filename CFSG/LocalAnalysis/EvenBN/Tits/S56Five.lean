@@ -287,7 +287,7 @@ theorem Hyp.s56_structure_M (h49 : d.Thm49Statement) (hd : d.Hyp) :
     rw [hd.s56_CA_eq]
     exact Nat.card_congr (subgroupOfEquivOfLe d.s56_centralizer_A_le_M).toEquiv
   have hC2 : IsPGroup 2 (S56.CA (s56SqueezeData hd).E (s56SqueezeData hd).t) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).1 hCp
     exact IsPGroup.of_card (n := n) (by rw [hcardCA]; exact hn)
   obtain ⟨hN, hQ2, htrans, hK1, hidx, hcore⟩ :=

@@ -46,6 +46,7 @@ open Classical in
     G → ZMod 2 :=
   fun x => if S.lam a x = 0 then 0 else 1
 
+omit [Finite G] in
 theorem dewA_le_pCore {Ω : Set (Subgroup G)} (S : TwinShift Ω) (b : Lab2) :
     dewA S b ≤ pCore 2 G := fun _ hq => hq.1
 
@@ -79,21 +80,26 @@ section Shifts
 
 variable {Ω : Set (Subgroup G)} (S : TwinShift Ω)
 
+omit [Finite G] in
 private theorem dewe_shift_mem {m : Lab2} {K : Subgroup G} (hK : K ∈ Ω) : S.shift m K ∈ Ω :=
   (S.shift_mem m K hK).1
 
+omit [Finite G] in
 private theorem dewe_shift_invol {m : Lab2} {K : Subgroup G} {u : G} (hK : K ∈ Ω)
     (hu : IsUniqueInvolution K u) : IsUniqueInvolution (S.shift m K) u := by
   obtain ⟨-, z, hz, hzJ⟩ := S.shift_mem m K hK
   rwa [show z = u from hz.eq hu] at hzJ
 
+omit [Finite G] in
 private theorem dewe_ne_shift {b : Lab2} (hb : b ≠ 0) {K : Subgroup G} (hK : K ∈ Ω) :
     K ≠ S.shift b K := fun heq => hb (S.shift_free b K hK heq.symm)
 
+omit [Finite G] in
 private theorem dewe_twins {b : Lab2} (hb : b ≠ 0) {K : Subgroup G} {u : G} (hK : K ∈ Ω)
     (hu : IsUniqueInvolution K u) : DewTwins Ω K (S.shift b K) u :=
   ⟨hK, dewe_shift_mem S hK, hu, dewe_shift_invol S hK hu, dewe_ne_shift S hb hK⟩
 
+omit [Finite G] in
 private theorem dewe_twins' {b b' : Lab2} (hbb : b ≠ b') {K : Subgroup G} {u : G} (hK : K ∈ Ω)
     (hu : IsUniqueInvolution K u) : DewTwins Ω (S.shift b K) (S.shift b' K) u :=
   ⟨dewe_shift_mem S hK, dewe_shift_mem S hK, dewe_shift_invol S hK hu,
@@ -105,15 +111,18 @@ section Q8
 
 variable {K : Subgroup G} {x i j : G}
 
+omit [Finite G] in
 private theorem dewe_q8_central (hx : IsUniqueInvolution K x) {k : G} (hk : k ∈ K) :
     x * k = k * x :=
   (mul_inv_eq_iff_eq_mul.mp (conj_of_mem_mem hx hk (Or.inr rfl))).symm
 
+omit [Finite G] in
 private theorem dewe_q8_inv (hQ : Q8Data K x i j) {a : G} (ha : a ∈ K)
     (ha' : a ∉ Subgroup.zpowers x) : a⁻¹ = a * x := by
   apply inv_eq_of_mul_eq_one_right
   rw [← mul_assoc, det_tw_q8_sq hQ ha ha', hQ.inv.sq]
 
+omit [Finite G] in
 private theorem dewe_q8_comm (hQ : Q8Data K x i j) {a b : G} (ha : a ∈ K) (hb : b ∈ K)
     (ha' : a ∉ Subgroup.zpowers x) (hb' : b ∉ Subgroup.zpowers x) (hnc : a * b ≠ b * a) :
     a * b * a⁻¹ * b⁻¹ = x := by
@@ -136,6 +145,7 @@ private theorem dewe_q8_comm (hQ : Q8Data K x i j) {a b : G} (ha : a ∈ K) (hb 
   rw [hc]
   exact det_tw_q8_sq hQ (K.mul_mem ha hb) hab
 
+omit [Finite G] in
 private theorem dewe_q8_dichotomy (hQ : Q8Data K x i j) {k₁ k₂ : G} (hk₁ : k₁ ∈ K)
     (hk₂ : k₂ ∈ K) (h₁ : k₁ ∉ Subgroup.zpowers x) (h₂ : k₂ ∉ Subgroup.zpowers x)
     (hc : k₁ * k₂ = k₂ * k₁) : k₂ = k₁ ∨ k₂ = x * k₁ := by
@@ -155,6 +165,7 @@ private theorem dewe_q8_dichotomy (hQ : Q8Data K x i j) {k₁ k₂ : G} (hk₁ :
     rw [dewe_q8_inv hQ hk₁ h₁, mul_assoc, hQ.inv.sq, mul_one] at e1
     exact e1
 
+omit [Finite G] in
 private theorem dewe_comm_twins {K J₁ J₂ : Subgroup G} (h1 : Commutes K J₁) (h2 : Commutes K J₂)
     (h3 : Commutes J₁ J₂) {k₁ k₂ j₁ j₂ : G} (hk₁ : k₁ ∈ K) (hk₂ : k₂ ∈ K) (hj₁ : j₁ ∈ J₁)
     (hj₂ : j₂ ∈ J₂) :
@@ -186,7 +197,8 @@ section Coord
 
 variable {Ω : Set (Subgroup G)}
 
-private theorem dewe_coord_add {M : Type*} [AddCommMonoid M] {F : G → M} (hF1 : F 1 = 0)
+omit [Finite G] in
+private theorem dewe_coord_add {M : Type*} [AddCommMonoid M] {F : G → M} (_hF1 : F 1 = 0)
     (hFadd : ∀ x ∈ zGroup Ω, ∀ y ∈ zGroup Ω, F (x * y) = F x + F y) {e : Fin 3 → G}
     (he : TL4.E8Basis (zGroup Ω) e) (v : Fin 3 → ZMod 2) :
     F (TL4.e8Coord e v) = F (e 0 ^ (v 0).val) + F (e 1 ^ (v 1).val) + F (e 2 ^ (v 2).val) := by
@@ -194,18 +206,21 @@ private theorem dewe_coord_add {M : Type*} [AddCommMonoid M] {F : G → M} (hF1 
   unfold TL4.e8Coord
   rw [hFadd _ ((zGroup Ω).mul_mem (hp 0) (hp 1)) _ (hp 2), hFadd _ (hp 0) _ (hp 1)]
 
+omit [Finite G] in
 private theorem dewe_pow_zero_or {M : Type*} [AddCommMonoid M] {F : G → M} (hF1 : F 1 = 0)
     (k : G) (c : ZMod 2) : F (k ^ c.val) = 0 ∨ F (k ^ c.val) = F k := by
   rcases dewe_zmod_cases c with rfl | rfl
   · left; simp [hF1]
   · right; rw [show (1 : ZMod 2).val = 1 from rfl, pow_one]
 
+omit [Finite G] in
 private theorem dewe_pow_zmod {F : G → ZMod 2} (hF1 : F 1 = 0) (k : G) (c : ZMod 2) :
     F (k ^ c.val) = c * F k := by
   rcases dewe_zmod_cases c with rfl | rfl
   · simp [hF1]
   · rw [show (1 : ZMod 2).val = 1 from rfl, pow_one, one_mul]
 
+omit [Finite G] in
 private theorem dewe_zmod_coord {F : G → ZMod 2} (hF : F ∈ DE2Hyp.deq2Dual Ω)
     {e : Fin 3 → G} (he : TL4.E8Basis (zGroup Ω) e) (v : Fin 3 → ZMod 2) :
     F (TL4.e8Coord e v) = v 0 * F (e 0) + v 1 * F (e 1) + v 2 * F (e 2) := by
@@ -359,6 +374,7 @@ private theorem dewe_W_card {b : Lab2} (hb : b ≠ 0) : Nat.card (dewe_W b) = 8 
   rw [← Nat.card_eq_of_bijective _ hbij, Nat.card_fun, Nat.card_zmod, Nat.card_fin]
   norm_num
 
+omit [Finite G] in
 private theorem dewe_elation_eq {Ω : Set (Subgroup G)} {x k₁ k₂ : G} {φ₁ φ₂ : G → ZMod 2}
     (hx1 : x ≠ 1) (hφ₁ : φ₁ ∈ DE2Hyp.deq2Dual Ω) (hφ₂ : φ₂ ∈ DE2Hyp.deq2Dual Ω)
     (h1 : IsElationOf Ω x φ₁ k₁) (h2 : IsElationOf Ω x φ₂ k₂)
@@ -448,7 +464,7 @@ private theorem dewe_not_mem_zpowers {x k : G} (hxD : x ∈ zGroup Ω) (hx1 : x 
     rw [hcy] at e
     by_cases hφy : φ y = 0
     · exact hφy
-    · rw [if_neg hφy] at e
+    · rw [ite_eq_right hφy] at e
       exact absurd (by simpa using e.symm) hx1
   · obtain ⟨-, o, -⟩ := hφ
     exact o y hy
@@ -457,6 +473,7 @@ private theorem dewe_mem_delta (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) {K :
     {u : G} (hK : K ∈ Ω) (hu : IsUniqueInvolution K u) : u ∈ dewDelta K (S.shift b K) :=
   h.zpowers_le_dewDelta (dewe_twins S hb hK hu) (Subgroup.mem_zpowers u)
 
+omit h [Finite G] in
 theorem dewA_normal (S : TwinShift Ω) (b : Lab2) : (dewA S b).Normal := by
   have hQn : (pCore 2 G).Normal := CFSG.pCore_normal
   refine ⟨fun n hn g => ?_⟩
@@ -471,6 +488,7 @@ theorem dewA_normal (S : TwinShift Ω) (b : Lab2) : (dewA S b).Normal := by
   · right
     rw [h1, ← S.shift_conj b g _ hK', conjSub_conjSub_inv]
 
+omit [Finite G] in
 theorem zGroup_le_dewA (S : TwinShift Ω) (b : Lab2) : zGroup Ω ≤ dewA S b := by
   intro d hd
   refine ⟨h.zGroup_le_pCore hd, fun K hK => Or.inl ?_⟩
@@ -590,7 +608,7 @@ theorem dewA_comm (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) {a a' : G} (ha : 
   exact h.dewe_prod_comm hd hd' (dewDelta_le_pCore K (S.shift b K) hδ)
     (dewDelta_le_pCore K (S.shift b K) hδ') hδδ
 
-theorem dewA_inf_dewA (S : TwinShift Ω) {b b' : Lab2} (hb : b ≠ 0) (hb' : b' ≠ 0) (hbb : b ≠ b') :
+theorem dewA_inf_dewA (S : TwinShift Ω) {b b' : Lab2} (hb : b ≠ 0) (_hb' : b' ≠ 0) (hbb : b ≠ b') :
     dewA S b ⊓ dewA S b' = zGroup Ω := by
   apply le_antisymm
   · intro x hx

@@ -80,7 +80,7 @@ theorem HeartData.toPermModuleMod {φ : (Fin 8 → ZMod 2) → G} {A M : Subgrou
   · intro g _
     rw [Subgroup.mem_normalizer_iff]
     intro y
-    simp only [SetLike.mem_coe, Subgroup.mem_bot]
+    simp only [Subgroup.mem_bot]
     constructor
     · rintro rfl
       simp

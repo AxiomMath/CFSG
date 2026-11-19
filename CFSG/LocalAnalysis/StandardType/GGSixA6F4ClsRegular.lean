@@ -25,7 +25,7 @@ private theorem ggA6F4_exists_zeta_seven (L : Type) [Field L] [CharP L 2] [IsAlg
     have h27 : (2 : ℕ) ∣ 7 := (CharP.cast_eq_zero_iff L 2 7).1 (by exact_mod_cast h)
     norm_num at h27
   have : NeZero ((7 : ℕ) : L) := ⟨hp⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 7
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 7
   lift ζ₀ to Lˣ using hζ₀.isUnit (by norm_num)
   rw [IsPrimitiveRoot.coe_units_iff] at hζ₀
   exact ⟨ζ₀, hζ₀.eq_orderOf.symm⟩

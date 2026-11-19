@@ -23,19 +23,19 @@ namespace F08
 
 theorem R869N_of_R869 (D : Data G) (h : R869 D) : R869N D := by
   intro L hLM hML hprod hthin r hr _ A _ hAcard hcov
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   have hN : calNOf (L ⊓ centralizer (A : Set G)) = {D.M} :=
     h L (Or.inr ⟨hLM, hML, hprod⟩) _ inf_le_left hcov hthin
   have hnorm : normalizer (A : Set G) ≠ ⊤ := by
     intro htop
-    haveI : A.Normal := normalizer_eq_top_iff.1 htop
+    have : A.Normal := normalizer_eq_top_iff.1 htop
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal A with hbot | htop'
     · rw [hbot, Subgroup.card_bot] at hAcard
       exact hr.ne_one hAcard.symm
     · obtain ⟨x, y, hxy⟩ := D.standing.nonab
       have hG : Nat.card G = r := by rw [← hAcard, htop', Subgroup.card_top]
-      haveI : Fact r.Prime := ⟨hr⟩
-      haveI : IsCyclic G := isCyclic_of_prime_card hG
+      have : Fact r.Prime := ⟨hr⟩
+      have : IsCyclic G := isCyclic_of_prime_card hG
       obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := G)
       obtain ⟨i, rfl⟩ := mem_zpowers_iff.1 (hg x)
       obtain ⟨j, rfl⟩ := mem_zpowers_iff.1 (hg y)

@@ -91,14 +91,14 @@ private theorem two_eigenvalue {F : Type} [Field F] {N : ℕ} (hN : 2 ≤ N) {c 
       exact h' ⟨j, hx⟩)
   have hA : r = 1 ∨ r = ((ζ⁻¹ : Fˣ) : F) := by
     have h1 := hEq i j
-    rw [if_neg hi] at h1
+    rw [ite_eq_right hi] at h1
     by_cases hjc : j = c
     · right
-      simp only [if_pos hjc] at h1
+      simp only [ite_eq_left hjc] at h1
       rw [one_mul, mul_comm r (u i j)] at h1
       exact (mul_left_cancel₀ hj h1).symm
     · left
-      simp only [if_neg hjc, mul_one, one_mul] at h1
+      simp only [ite_eq_right hjc, mul_one, one_mul] at h1
       rw [mul_comm r (u i j)] at h1
       exact (mul_left_cancel₀ hj (by rw [mul_one]; exact h1)).symm
   obtain ⟨j', hj'⟩ := Fintype.exists_ne_of_one_lt_card hN1 c
@@ -109,14 +109,14 @@ private theorem two_eigenvalue {F : Type} [Field F] {N : ℕ} (hN : 2 ≤ N) {c 
       exact h' ⟨i, hx⟩)
   have hB : r = 1 ∨ r = (ζ : F) := by
     have h1 := hEq i' j'
-    simp only [if_neg hj', mul_one] at h1
+    simp only [ite_eq_right hj', mul_one] at h1
     rw [mul_comm r (u i' j')] at h1
     by_cases hic : i' = c
     · right
-      rw [if_pos hic, mul_comm (ζ : F) (u i' j')] at h1
+      rw [ite_eq_left hic, mul_comm (ζ : F) (u i' j')] at h1
       exact (mul_left_cancel₀ hi' h1).symm
     · left
-      simp only [if_neg hic, one_mul] at h1
+      simp only [ite_eq_right hic, one_mul] at h1
       exact (mul_left_cancel₀ hi' (by rw [mul_one]; exact h1)).symm
   by_contra hr
   have hA' : r = ((ζ⁻¹ : Fˣ) : F) := by rcases hA with h | h; exact absurd h hr; exact h
@@ -342,7 +342,7 @@ private theorem prod_pair_diag {F : Type} [Field F] {N : ℕ} {c d : Fin N} (hcd
       (if c = c then (ζ : F) else if c = d then ((ζ⁻¹ : Fˣ) : F) else 1) *
         ∏ i ∈ Finset.univ \ {c},
           (if i = c then (ζ : F) else if i = d then ((ζ⁻¹ : Fˣ) : F) else 1) from
-    Finset.prod_eq_mul_prod_diff_singleton c _ (by simp)]
+    Finset.prod_eq_mul_prod_sdiff_singleton c _ (by simp)]
   have hdmem : d ∈ Finset.univ \ {c} := by
     simp [hcd.symm]
   have h1 : ∏ i ∈ Finset.univ \ {c},
@@ -353,11 +353,11 @@ private theorem prod_pair_diag {F : Type} [Field F] {N : ℕ} {c d : Fin N} (hcd
       have hbc : b ≠ c := by
         intro h
         exact (Finset.mem_sdiff.mp hb).2 (by simp [h])
-      rw [if_neg hbc, if_neg hbd]
+      rw [ite_eq_right hbc, ite_eq_right hbd]
     · intro hdnot
       exact absurd hdmem hdnot
     · simp [hcd.symm]
-  rw [h1, if_pos rfl, Units.val_inv_eq_inv_val]
+  rw [h1, ite_eq_left rfl, Units.val_inv_eq_inv_val]
   exact mul_inv_cancel₀ (Units.ne_zero ζ)
 
 private theorem coe_blockSL2_matrix {F : Type} [Field F] {m : ℕ} (a : Fin m) (A : SL(2, F)) :
@@ -384,7 +384,7 @@ private theorem isDiag_blockSL2_torusHom {F : Type} [Field F] {m : ℕ} (a : Fin
       have hv := congrArg Fin.val heq
       simp only at hv
       omega
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
   · simp [Matrix.one_apply_ne hij]
 
 private theorem blockSL2_torusHom_castSucc {F : Type} [Field F] {m : ℕ} (a : Fin m) (ζ : Fˣ) :
@@ -392,7 +392,7 @@ private theorem blockSL2_torusHom_castSucc {F : Type} [Field F] {m : ℕ} (a : F
       Matrix (Fin (m + 1)) (Fin (m + 1)) F)) a.castSucc a.castSucc = (ζ : F) := by
   rw [coe_blockSL2_matrix, CFSG.ClassicalInvolution.Phan.blockMat_apply,
     CFSG.ClassicalInvolution.WeakCT.coe_torusHom]
-  rw [dif_pos (by simp [Fin.castSucc])]
+  rw [dite_eq_left (by simp [Fin.castSucc])]
   have hidx : (⟨a.castSucc.val - a.val, by simp [Fin.castSucc]⟩ : Fin 2) = 0 := by
     apply Fin.ext
     simp [Fin.castSucc]
@@ -404,7 +404,7 @@ private theorem blockSL2_torusHom_succ {F : Type} [Field F] {m : ℕ} (a : Fin m
       Matrix (Fin (m + 1)) (Fin (m + 1)) F)) a.succ a.succ = (((ζ⁻¹ : Fˣ) : F)) := by
   rw [coe_blockSL2_matrix, CFSG.ClassicalInvolution.Phan.blockMat_apply,
     CFSG.ClassicalInvolution.WeakCT.coe_torusHom]
-  rw [dif_pos (by simp [Fin.succ])]
+  rw [dite_eq_left (by simp [Fin.succ])]
   have hidx : (⟨a.succ.val - a.val, by simp [Fin.succ]⟩ : Fin 2) = 1 := by
     apply Fin.ext
     simp [Fin.succ]
@@ -443,12 +443,12 @@ private theorem range_blockSL2_le_blockSpecialLinear {F : Type} [Field F] {m : �
   intro i j hij
   rw [coe_blockSL2_matrix, CFSG.ClassicalInvolution.Phan.blockMat_apply]
   by_cases h : (a.val ≤ i.val ∧ i.val < a.val + 2) ∧ (a.val ≤ j.val ∧ j.val < a.val + 2)
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     exfalso
     rcases hij with hi | hj
     · exact hi (mem_pair_of_block h.1)
     · exact hj (mem_pair_of_block h.2)
-  · exact dif_neg h
+  · exact dite_eq_right h
 
 private theorem blockSpecialLinear_le_range_blockSL2 {F : Type} [Field F] {m : ℕ} (a : Fin m) :
     CFSG.SeitzReduction.LinearPilot.blockSpecialLinear (K := F)
@@ -464,7 +464,7 @@ private theorem blockSpecialLinear_le_range_blockSL2 {F : Type} [Field F] {m : �
       (M : Matrix (Fin (m + 1)) (Fin (m + 1)) F) := by
     ext i j
     by_cases hb : (a.val ≤ i.val ∧ i.val < a.val + 2) ∧ (a.val ≤ j.val ∧ j.val < a.val + 2)
-    · rw [CFSG.ClassicalInvolution.Phan.blockMat_apply, dif_pos hb]
+    · rw [CFSG.ClassicalInvolution.Phan.blockMat_apply, dite_eq_left hb]
       simp only [A]
       have h1 : CFSG.ClassicalInvolution.Phan.blockIdx a.val hm
           (⟨i.val - a.val, by omega⟩ : Fin 2) = i := by
@@ -477,7 +477,7 @@ private theorem blockSpecialLinear_le_range_blockSL2 {F : Type} [Field F] {m : �
         simp [CFSG.ClassicalInvolution.Phan.blockIdx]
         omega
       rw [h1, h2]
-    · rw [CFSG.ClassicalInvolution.Phan.blockMat_apply, dif_neg hb]
+    · rw [CFSG.ClassicalInvolution.Phan.blockMat_apply, dite_eq_right hb]
       rw [CFSG.SeitzReduction.LinearPilot.mem_blockSpecialLinear.mp hM i j ?_]
       rcases not_and_or.mp hb with hi | hj
       · left
@@ -517,9 +517,9 @@ private theorem b1_conjSL_diagGL_blockSL2_eq_self {F : Type} [Field F] {m : ℕ}
     · exact hd.symm
   by_cases hb : (a.val ≤ i.val ∧ i.val < a.val + 2) ∧
       (a.val ≤ j.val ∧ j.val < a.val + 2)
-  · rw [dif_pos hb, hpair i (mem_pair_of_block hb.1), hpair j (mem_pair_of_block hb.2),
+  · rw [dite_eq_left hb, hpair i (mem_pair_of_block hb.1), hpair j (mem_pair_of_block hb.2),
       mul_right_comm, Units.mul_inv, one_mul]
-  · rw [dif_neg hb]
+  · rw [dite_eq_right hb]
     by_cases hij : i = j
     · subst hij
       rw [Matrix.one_apply_eq, mul_one, Units.mul_inv]
@@ -633,10 +633,10 @@ private theorem b2_blockSL2_torusHom_eq_diagonal {F : Type} [Field F] {m : ℕ} 
   funext i
   rw [Matrix.diag_apply]
   by_cases h1 : i = a.castSucc
-  · rw [h1, blockSL2_torusHom_castSucc, if_pos rfl]
+  · rw [h1, blockSL2_torusHom_castSucc, ite_eq_left rfl]
   · by_cases h2 : i = a.succ
-    · rw [if_neg h1, if_pos h2, h2, blockSL2_torusHom_succ]
-    · rw [if_neg h1, if_neg h2]
+    · rw [ite_eq_right h1, ite_eq_left h2, h2, blockSL2_torusHom_succ]
+    · rw [ite_eq_right h1, ite_eq_right h2]
       exact b2_blockSL2_torusHom_apply_self a ζ (by simp [h1, h2])
 
 private theorem b2_det_diagGL_of_pair {F : Type} [Field F] {m : ℕ} {c d : Fin (m + 1)}
@@ -685,10 +685,10 @@ private theorem b2_torus_coord_diff {p n r f : ℕ} [Fact p.Prime] {Bs L : Subgr
   have hd := diagGL_mul_inv_eq_of_conjSL_map_eq (m := r + 1) σ hF.1 haction
   have hd' := hd a.castSucc a.succ
   have hL : e_diag a.castSucc * (e_diag a.succ)⁻¹ = ζ * ζ := by
-    have h1 : e_diag a.castSucc = ζ := if_pos rfl
+    have h1 : e_diag a.castSucc = ζ := ite_eq_left rfl
     have h2 : e_diag a.succ = ζ⁻¹ := by
       show (if a.succ = a.castSucc then ζ else if a.succ = a.succ then ζ⁻¹ else 1) = ζ⁻¹
-      rw [if_neg (Fin.castSucc_lt_succ (i := a)).ne', if_pos rfl]
+      rw [ite_eq_right (Fin.castSucc_lt_succ (i := a)).ne', ite_eq_left rfl]
     rw [h1, h2, inv_inv]
   have hχeq : χ (eta b (π a.castSucc) * (eta b (π a.succ))⁻¹) =
       χ (Multiplicative.ofAdd ((1 : ZMod p) + 1)) := by
@@ -1078,8 +1078,8 @@ private theorem b4_exists_coord {p n r f : ℕ}
   · intro m
     by_cases hm : m = c
     · subst hm
-      rw [hh, Pi.mulSingle_eq_same, if_pos rfl]
-    · rw [hh, Pi.mulSingle_eq_of_ne (fun heq => hm (π.injective heq)), map_one, if_neg hm]
+      rw [hh, Pi.mulSingle_eq_same, ite_eq_left rfl]
+    · rw [hh, Pi.mulSingle_eq_of_ne (fun heq => hm (π.injective heq)), map_one, ite_eq_right hm]
 
 private theorem b4_diag_mul_eq_smul {p n r f : ℕ}
     {Bs L : Subgroup G}
@@ -1190,13 +1190,13 @@ private theorem b4_row_col_zero {F : Type} [Field F] {N : ℕ} {c : Fin N} {ζ :
   · intro j hj
     have h1 := congrFun (congrFun hcomm c) j
     rw [Matrix.diagonal_mul, Matrix.mul_diagonal] at h1
-    simp only [if_neg hj, if_true, mul_one] at h1
+    simp only [ite_eq_right hj, ite_true, mul_one] at h1
     have h2 : ((ζ : F) - 1) * u c j = 0 := by rw [sub_mul, one_mul, h1, sub_self]
     exact (mul_eq_zero.mp h2).resolve_left (sub_ne_zero.mpr hζ)
   · intro j hj
     have h1 := congrFun (congrFun hcomm j) c
     rw [Matrix.diagonal_mul, Matrix.mul_diagonal] at h1
-    simp only [if_neg hj, if_true, one_mul] at h1
+    simp only [ite_eq_right hj, ite_true, one_mul] at h1
     have h2 : u j c * ((ζ : F) - 1) = 0 := by rw [mul_sub, mul_one, ← h1, sub_self]
     exact (mul_eq_zero.mp h2).resolve_right (sub_ne_zero.mpr hζ)
 

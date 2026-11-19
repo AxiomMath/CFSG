@@ -77,7 +77,7 @@ theorem Z2BigLinkModel.fstar_card {r : ℕ} (hr : 2 ≤ r) {X : Type} [Group X] 
     {p f : ℕ} (hm : Z2BigLinkModel r X p f) :
     (∃ m : ℕ, Odd m ∧ Nat.card ↥(genFittingFStar X) = 2 ^ r * m) ∧
       Subgroup.center ↥(genFittingFStar X) = ⊥ := by
-  haveI := hm.simple
+  have := hm.simple
   obtain ⟨-, -, F, _, _, hFc, ⟨e⟩⟩ := MF163.psl2_of_lieModel hm.model
   obtain ⟨m, hm_odd, hcardF⟩ :=
     card_psl2_of_two_pow hr (F := F) (by rw [hFc]; exact hm.arith)
@@ -116,7 +116,7 @@ theorem Z2BigLinkModel.card_le {r : ℕ} (hr : 2 ≤ r) {X : Type} [Group X] [Fi
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨m, hm_odd, hcard⟩, -⟩ := hm.fstar_card hr
   set N := genFittingFStar X with hN
-  haveI : N.Normal := CFSG.ClassicalInvolution.genFittingFStar_normal X
+  have : N.Normal := CFSG.ClassicalInvolution.genFittingFStar_normal X
   have h1 := Subgroup.relIndex_mul_card N D
   have h2 : N.relIndex D ≤ 2 := by
     have h3 := Subgroup.relIndex_dvd_index_of_normal N D
@@ -137,7 +137,7 @@ theorem Z2BigLinkModel.card_le {r : ℕ} (hr : 2 ≤ r) {X : Type} [Group X] [Fi
 theorem Z2BigLinkModel.conj_injective {r : ℕ} (hr : 2 ≤ r) {X : Type} [Group X] [Finite X]
     {p f : ℕ} (hm : Z2BigLinkModel r X p f) :
     Function.Injective (MulAut.conj : X →* MulAut X) := by
-  haveI := hm.simple
+  have := hm.simple
   obtain ⟨⟨m, hm_odd, hcard⟩, hZ⟩ := hm.fstar_card hr
   have hnab : ∃ a b : ↥(genFittingFStar X), a * b ≠ b * a := by
     by_contra h

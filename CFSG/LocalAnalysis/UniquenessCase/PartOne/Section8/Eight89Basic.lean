@@ -166,7 +166,7 @@ theorem r889_exists_mem_normalizer_of_lt {G : Type} [Group G] [Finite G] {p : �
       have : (⟨a, ha⟩ : ↥A) ∈ R.subgroupOf A := htop ▸ Subgroup.mem_top _
       exact this
     exact absurd (le_antisymm hRA.le this) hRA.ne
-  obtain ⟨y, hy, hyR⟩ := SetLike.exists_of_lt (hcond _ hRtop)
+  obtain ⟨y, hy, hyR⟩ := _root_.IsConcreteLE.exists_of_lt (hcond _ hRtop)
   refine ⟨(y : G), y.2, ?_, hyR⟩
   rw [Subgroup.mem_normalizer_iff]
   intro g

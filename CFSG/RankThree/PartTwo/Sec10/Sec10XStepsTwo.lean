@@ -355,7 +355,7 @@ theorem exists_S_w (h107 : Item107) (h97 : Sec9.Item97) (h : Sec10Std G A c L a 
     exact ⟨y, hy, rfl⟩
   set S := (Q : Subgroup Θ).map Θ.subtype with hS
   have hSΘ : S ≤ Θ := Subgroup.map_subtype_le _
-  have hS2 : IsPGroup 2 S := Q.isPGroup'.map _
+  have hS2 : IsPGroup 2 S := Q.isPGroup.map _
   have hSA : A ≤ Subgroup.normalizer (S : Set G) := by
     intro x hx
     rw [Subgroup.mem_normalizer_iff]

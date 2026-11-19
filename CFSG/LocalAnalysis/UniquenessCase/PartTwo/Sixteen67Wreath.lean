@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem exists_notMem_of_not_le {A N : Subgroup G} (h : ¬ A ≤ N) :
     ∃ a ∈ A, a ∉ N := by
   by_contra h'
@@ -21,6 +22,7 @@ private theorem exists_notMem_of_not_le {A N : Subgroup G} (h : ¬ A ≤ N) :
   by_contra haN
   exact h' ⟨a, ha, haN⟩
 
+omit [Finite G] in
 private theorem mem_centralizer_sup {W₁ W₂ V : Subgroup G} (hsup : W₁ ⊔ W₂ = V) {a : G}
     (h₁ : a ∈ Subgroup.centralizer (W₁ : Set G))
     (h₂ : a ∈ Subgroup.centralizer (W₂ : Set G)) :
@@ -39,6 +41,7 @@ private theorem mem_centralizer_sup {W₁ W₂ V : Subgroup G} (hsup : W₁ ⊔ 
   have hv' := hV hv
   rwa [Subgroup.mem_centralizer_singleton_iff] at hv'
 
+omit [Finite G] in
 private theorem centralizer_inf_eq_of_swap {X Y V A : Subgroup G} (hsup : X ⊔ Y = V)
     (hA : IsElemAbelian 2 A) {s : G} (hsA : s ∈ A) (hsXY : conjSubgroup X s = Y) :
     A ⊓ Subgroup.centralizer (X : Set G) = A ⊓ Subgroup.centralizer (V : Set G) := by
@@ -71,6 +74,7 @@ private theorem centralizer_inf_eq_of_swap {X Y V A : Subgroup G} (hsup : X ⊔ 
   · rintro a ⟨haA, haV⟩
     exact ⟨haA, Subgroup.centralizer_le hXV haV⟩
 
+omit [Finite G] in
 private theorem zpowers_eq_pair_of_sq_eq_one {x : G} (hx : x ^ 2 = 1) {y : G}
     (hy : y ∈ Subgroup.zpowers x) : y = 1 ∨ y = x := by
   rw [Subgroup.zpowers_eq_closure] at hy
@@ -97,6 +101,7 @@ private theorem zpowers_eq_pair_of_sq_eq_one {x : G} (hx : x ^ 2 = 1) {y : G}
     · rw [h]
       exact Or.inr (inv_eq_of_mul_eq_one_right (by rw [← pow_two]; exact hx))
 
+omit [Finite G] in
 private theorem exists_mul_of_mem_sup {W₁ W₂ : Subgroup G}
     (hcomm : ∀ a ∈ W₁, ∀ b ∈ W₂, a * b = b * a) {v : G}
     (hv : v ∈ W₁ ⊔ W₂) : ∃ w₁ ∈ W₁, ∃ w₂ ∈ W₂, w₁ * w₂ = v := by
@@ -116,6 +121,7 @@ private theorem exists_mul_of_mem_sup {W₁ W₂ : Subgroup G}
     exact ⟨a₁⁻¹, W₁.inv_mem ha₁, a₂⁻¹, W₂.inv_mem ha₂,
       by rw [← mul_inv_rev a₂ a₁, hcomm a₁ ha₁ a₂ ha₂]⟩
 
+omit [Finite G] in
 private theorem mul_eq_mul_iff {W₁ W₂ : Subgroup G} (hinf : W₁ ⊓ W₂ = ⊥)
     {a₁ a₂ b₁ b₂ : G} (ha₁ : a₁ ∈ W₁) (ha₂ : a₂ ∈ W₂) (hb₁ : b₁ ∈ W₁) (hb₂ : b₂ ∈ W₂) :
     a₁ * a₂ = b₁ * b₂ ↔ a₁ = b₁ ∧ a₂ = b₂ := by
@@ -141,6 +147,7 @@ private theorem mul_eq_mul_iff {W₁ W₂ : Subgroup G} (hinf : W₁ ⊓ W₂ = 
   · rintro ⟨rfl, rfl⟩
     rfl
 
+omit [Finite G] in
 private theorem card_sup_of_commute_of_inf_eq_bot (L R : Subgroup G)
     (hcomm : ∀ x ∈ L, ∀ y ∈ R, x * y = y * x) (hinf : L ⊓ R = ⊥) :
     Nat.card (L ⊔ R : Subgroup G) = Nat.card L * Nat.card R := by
@@ -225,8 +232,8 @@ private theorem isKleinFour_of_card_four_of_sq {W : Subgroup G} (hcard : Nat.car
     (hsq : ∀ x ∈ W, x ^ 2 = 1) : IsKleinFour ↥W where
   card_four := hcard
   exponent_two := by
-    haveI : Fintype ↥W := Fintype.ofFinite ↥W
-    haveI : Nontrivial ↥W := by
+    have : Fintype ↥W := Fintype.ofFinite ↥W
+    have : Nontrivial ↥W := by
       rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card, hcard]
       norm_num
     rw [Monoid.exponent_eq_prime_iff (by norm_num : Nat.Prime 2)]
@@ -238,7 +245,7 @@ private theorem isKleinFour_of_card_four_of_sq {W : Subgroup G} (hcard : Nat.car
 private theorem relIndex_centralizer_le_two_of_kleinFour {W R : Subgroup G}
     (hW : IsKleinFour ↥W) (hRW : R ≤ Subgroup.normalizer (W : Set G)) (hR : IsPGroup 2 ↥R) :
     (Subgroup.centralizer (W : Set G)).relIndex R ≤ 2 := by
-  haveI : IsKleinFour ↥W := hW
+  have : IsKleinFour ↥W := hW
   let ψ : ↥R →* MulAut ↥W :=
     (Subgroup.normalizerMonoidHom (H := W)).comp (Subgroup.inclusion hRW)
   have hker : ψ.ker = (Subgroup.centralizer (W : Set G)).subgroupOf R := by
@@ -269,6 +276,7 @@ private theorem relIndex_centralizer_le_two_of_kleinFour {W R : Subgroup G}
   rw [Subgroup.relIndex, ← hker, Subgroup.index_ker]
   exact hrange
 
+omit [Finite G] in
 private theorem inf_normalizer_relIndex_le_two {W₁ W₂ A : Subgroup G}
     (hA : IsElemAbelian 2 A)
     (hperm : ∀ a ∈ A, (conjSubgroup W₁ a = W₁ ∧ conjSubgroup W₂ a = W₂) ∨
@@ -306,6 +314,7 @@ private theorem inf_normalizer_relIndex_le_two {W₁ W₂ A : Subgroup G}
   rw [Subgroup.relIndex]
   exact Nat.le_of_dvd (by norm_num) key
 
+omit [Finite G] in
 theorem s1667_forall_conj_eq_of_odd {W₁ W₂ E : Subgroup G} (hne : W₁ ≠ W₂)
     (hodd : Odd (Nat.card E))
     (hperm : ∀ a ∈ E, (conjSubgroup W₁ a = W₁ ∧ conjSubgroup W₂ a = W₂) ∨
@@ -866,6 +875,7 @@ theorem s1667_relIndex_gammaOneBar_le_two {V W₁ W₂ A : Subgroup G} (hV : IsE
         _ ≤ 4 := hXrel
     omega
 
+omit [Finite G] in
 private theorem card_V_eq_sixteen {V W₁ W₂ : Subgroup G} (hV : IsElemAbelian 2 V)
     (hsup : W₁ ⊔ W₂ = V) (hinf : W₁ ⊓ W₂ = ⊥) (hW₁ : Nat.card W₁ = 4)
     (hW₂ : Nat.card W₂ = 4) : Nat.card V = 16 := by
@@ -901,18 +911,21 @@ private noncomputable def graphPt (W₂ U' : Subgroup G) (w : G) : G := by
   classical
   exact if h : ∃ t, t ∈ W₂ ∧ w * t ∈ U' then h.choose else 1
 
+omit [Finite G] in
 private theorem graphPt_mem {W₂ U' : Subgroup G} {w : G}
     (h : ∃ t, t ∈ W₂ ∧ w * t ∈ U') : graphPt W₂ U' w ∈ W₂ := by
   unfold graphPt
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact (Exists.choose_spec h).1
 
+omit [Finite G] in
 private theorem graphPt_spec {W₂ U' : Subgroup G} {w : G}
     (h : ∃ t, t ∈ W₂ ∧ w * t ∈ U') : w * graphPt W₂ U' w ∈ U' := by
   unfold graphPt
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact (Exists.choose_spec h).2
 
+omit [Finite G] in
 private theorem exists_graphPt {V W₁ W₂ U' : Subgroup G} (hV : IsElemAbelian 2 V)
     (hU'V : U' ≤ V) (hW₂V : W₂ ≤ V) (hsup' : U' ⊔ W₂ = V) (hW₁V : W₁ ≤ V) {w : G}
     (hw : w ∈ W₁) : ∃ t, t ∈ W₂ ∧ w * t ∈ U' := by
@@ -926,6 +939,7 @@ private theorem exists_graphPt {V W₁ W₂ U' : Subgroup G} (hV : IsElemAbelian
   rw [← huy]
   simpa using hu
 
+omit [Finite G] in
 private theorem graphPt_ne_one {W₁ W₂ U' : Subgroup G} (hinf' : U' ⊓ W₁ = ⊥) {w : G}
     (hw : w ∈ W₁) (hw1 : w ≠ 1) (h : ∃ t, t ∈ W₂ ∧ w * t ∈ U') :
     graphPt W₂ U' w ≠ 1 := by
@@ -936,6 +950,7 @@ private theorem graphPt_ne_one {W₁ W₂ U' : Subgroup G} (hinf' : U' ⊓ W₁ 
   rw [hinf'] at this
   exact hw1 (Subgroup.mem_bot.mp this)
 
+omit [Finite G] in
 private theorem graphPt_ne_of_ne {V W₁ W₂ U' : Subgroup G} (hV : IsElemAbelian 2 V)
     (hU'V : U' ≤ V) (hW₁V : W₁ ≤ V) (hW₂V : W₂ ≤ V) (hinf' : U' ⊓ W₁ = ⊥)
     (hsup' : U' ⊔ W₂ = V) {a b : G} (ha : a ∈ W₁) (hb : b ∈ W₁) (hab : a ≠ b) :
@@ -965,6 +980,7 @@ private theorem graphPt_ne_of_ne {V W₁ W₂ U' : Subgroup G} (hV : IsElemAbeli
   rw [hinf'] at hmem
   exact hab (inv_mul_eq_one.mp (Subgroup.mem_bot.mp hmem))
 
+omit [Finite G] in
 private theorem conjSubgroup_V_eq {V W₁ W₂ E : Subgroup G} (hsup : W₁ ⊔ W₂ = V)
     (hE₁ : ∀ e ∈ E, conjSubgroup W₁ e = W₁) (hE₂ : ∀ e ∈ E, conjSubgroup W₂ e = W₂)
     {e : G} (he : e ∈ E) : conjSubgroup V e = V := by
@@ -972,6 +988,7 @@ private theorem conjSubgroup_V_eq {V W₁ W₂ E : Subgroup G} (hsup : W₁ ⊔ 
   show conjSubgroup (W₁ ⊔ W₂ : Subgroup G) e = W₁ ⊔ W₂
   rw [conjSubgroup, Subgroup.map_sup, ← conjSubgroup, ← conjSubgroup, hE₁ e he, hE₂ e he]
 
+omit [Finite G] in
 private theorem conjSubgroup_U_inf_eq_bot {Wᵢ E U : Subgroup G}
     (hEᵢ : ∀ e ∈ E, conjSubgroup Wᵢ e = Wᵢ) (hUᵢ : U ⊓ Wᵢ = ⊥) {e : G} (he : e ∈ E) :
     conjSubgroup U e⁻¹ ⊓ Wᵢ = ⊥ := by
@@ -991,7 +1008,8 @@ private theorem conjSubgroup_U_inf_eq_bot {Wᵢ E U : Subgroup G}
   have := congrArg (fun t => e * t * e⁻¹) h1
   simpa [mul_assoc] using this
 
-private theorem conjSubgroup_U_props {V W₁ W₂ E U : Subgroup G} (hV : IsElemAbelian 2 V)
+omit [Finite G] in
+private theorem conjSubgroup_U_props {V W₁ W₂ E U : Subgroup G} (_hV : IsElemAbelian 2 V)
     (hsup : W₁ ⊔ W₂ = V) (hE₁ : ∀ e ∈ E, conjSubgroup W₁ e = W₁)
     (hE₂ : ∀ e ∈ E, conjSubgroup W₂ e = W₂) (hUV : U ≤ V) (hU : Nat.card U = 4)
     (hU₁ : U ⊓ W₁ = ⊥) (hU₂ : U ⊓ W₂ = ⊥) {e : G} (he : e ∈ E) :
@@ -1069,17 +1087,17 @@ theorem s1667_relIndex_normalizer_le_three {V W₁ W₂ E U : Subgroup G} (hV : 
     (hE₂ : ∀ e ∈ E, conjSubgroup W₂ e = W₂) (hUV : U ≤ V) (hU : Nat.card U = 4)
     (hU₁ : U ⊓ W₁ = ⊥) (hU₂ : U ⊓ W₂ = ⊥) :
     (normalizer (U : Set G)).relIndex E ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hW₁V : W₁ ≤ V := by rw [← hsup]; exact le_sup_left
   have hW₂V : W₂ ≤ V := by rw [← hsup]; exact le_sup_right
   have hcardV : Nat.card V = 16 := card_V_eq_sixteen hV hsup hinf hW₁ hW₂
-  haveI : IsKleinFour ↥W₁ := isKleinFour_of_card_four_of_sq hW₁ fun t ht => hV.2 t (hW₁V ht)
-  haveI : IsKleinFour ↥W₂ := isKleinFour_of_card_four_of_sq hW₂ fun t ht => hV.2 t (hW₂V ht)
+  have : IsKleinFour ↥W₁ := isKleinFour_of_card_four_of_sq hW₁ fun t ht => hV.2 t (hW₁V ht)
+  have : IsKleinFour ↥W₂ := isKleinFour_of_card_four_of_sq hW₂ fun t ht => hV.2 t (hW₂V ht)
   let X : Type := {x : ↥W₂ // x ≠ 1}
   have hXcard : Nat.card X = 3 := CFSG.kleinFour_nonidentity_card ↥W₂
   have hsub1 : Nat.card {x : ↥W₁ // x ≠ 1} = 3 := CFSG.kleinFour_nonidentity_card ↥W₁
-  haveI : Fintype {x : ↥W₁ // x ≠ 1} := Fintype.ofFinite _
-  haveI : Nontrivial {x : ↥W₁ // x ≠ 1} := by
+  have : Fintype {x : ↥W₁ // x ≠ 1} := Fintype.ofFinite _
+  have : Nontrivial {x : ↥W₁ // x ≠ 1} := by
     rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card, hsub1]
     norm_num
   obtain ⟨xA, xB, hxy⟩ := exists_pair_ne {x : ↥W₁ // x ≠ 1}
@@ -1200,8 +1218,8 @@ theorem s1667_relIndex_normalizer_le_three {V W₁ W₂ E U : Subgroup G} (hV : 
       have h1 : Nat.card (↥E ⧸ N) = 9 := by rw [← Subgroup.index_eq_card]; exact h9
       rw [h1, Nat.card_prod, hXcard]
     have hbij := hΦinj.bijective_of_nat_card_le hcard9
-    haveI : Fintype X := Fintype.ofFinite X
-    haveI : Nonempty X := Fintype.card_pos_iff.mp (by
+    have : Fintype X := Fintype.ofFinite X
+    have : Nonempty X := Fintype.card_pos_iff.mp (by
       rw [← Nat.card_eq_fintype_card, hXcard]
       decide)
     obtain ⟨q, hq⟩ := hbij.2 (Classical.arbitrary X, Classical.arbitrary X)

@@ -55,14 +55,14 @@ theorem entryHom_intCast (M : IntMat) (hM : Compat k M) (i j : Fin 3) (z : ℤ) 
   simp [entryHom, ZMod.lift_coe, zmultiplesHom_apply, zsmul_eq_mul]
 
 @[expose] def matAct (k : Fin 3 → ℕ) (M : IntMat) (hM : Compat k M) : Torus k →+ Torus k :=
-  Pi.addMonoidHom fun i =>
+  _root_.AddMonoidHom.pi fun i =>
     ∑ j, (entryHom k M hM i j).comp (Pi.evalAddMonoidHom (fun j => ZMod (2 ^ k j)) j)
 
 theorem matAct_apply (M : IntMat) (hM : Compat k M) (x : Torus k) (i : Fin 3) :
     matAct k M hM x i = ∑ j, entryHom k M hM i j (x j) := by
   show (∑ j, (entryHom k M hM i j).comp
     (Pi.evalAddMonoidHom (fun j => ZMod (2 ^ k j)) j)) x = _
-  simp [AddMonoidHom.finset_sum_apply]
+  simp
 
 theorem torus_hom_ext {A : Type*} [AddCommMonoid A] (f g : Torus k →+ A)
     (h : ∀ (j : Fin 3) (z : ℤ), f (Pi.single j (z : ZMod (2 ^ k j))) =
@@ -88,7 +88,7 @@ theorem matAct_gen_eq (M : IntMat) (hM : Compat k M) (j : Fin 3) :
       (M 0 j) • gen k 0 + (M 1 j) • gen k 1 + (M 2 j) • gen k 2 := by
   funext i
   rw [matAct_gen]
-  fin_cases i <;> simp [gen, Pi.single_apply]
+  fin_cases i <;> simp [gen]
 
 theorem matAct_mul (M N : IntMat) (hM : Compat k M) (hN : Compat k N) :
     matAct k (M * N) (hM.mul hN) = (matAct k M hM).comp (matAct k N hN) := by

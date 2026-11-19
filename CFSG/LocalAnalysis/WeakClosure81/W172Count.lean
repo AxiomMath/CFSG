@@ -15,20 +15,24 @@ variable {Γ : Type} [Group Γ] [Finite Γ]
 @[expose] def W172Lines (d : Γ) (Y : Subgroup Γ) : Set (Subgroup Γ) :=
   {L | ∃ y ∈ W172Inv d Y, y ≠ 1 ∧ L = Subgroup.zpowers y}
 
+omit [Finite Γ] in
 private lemma w172_inv_pow {d : Γ} {Y : Subgroup Γ} {y : Γ} (hy : y ∈ W172Inv d Y) (k : ℕ) :
     y ^ k ∈ W172Inv d Y :=
   ⟨Y.pow_mem hy.1 k, by rw [← conj_pow, hy.2, inv_pow]⟩
 
+omit [Finite Γ] in
 private lemma w172_inv_inv {d : Γ} {Y : Subgroup Γ} {y : Γ} (hy : y ∈ W172Inv d Y) :
     y⁻¹ ∈ W172Inv d Y :=
   ⟨Y.inv_mem hy.1, by rw [← conj_inv, hy.2]⟩
 
+omit [Finite Γ] in
 private lemma w172_inv_zpow {d : Γ} {Y : Subgroup Γ} {y : Γ} (hy : y ∈ W172Inv d Y) (k : ℤ) :
     y ^ k ∈ W172Inv d Y := by
   obtain ⟨n, rfl | rfl⟩ := k.eq_nat_or_neg
   · simpa using w172_inv_pow hy n
   · simpa using w172_inv_inv (w172_inv_pow hy n)
 
+omit [Finite Γ] in
 private lemma w172_zpowers_subset_inv {d : Γ} {Y : Subgroup Γ} {y : Γ} (hy : y ∈ W172Inv d Y) :
     (Subgroup.zpowers y : Set Γ) ⊆ W172Inv d Y := by
   intro x hx
@@ -82,7 +86,7 @@ private lemma w172_zpowers_eq_of_mem {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y :
     (h : W172MinInv p X d S Y) {y₀ x : Γ} (hy₀ : y₀ ∈ W172Inv d Y) (hy₀1 : y₀ ≠ 1)
     (hx : x ∈ Subgroup.zpowers y₀) (hx1 : x ≠ 1) :
     Subgroup.zpowers x = Subgroup.zpowers y₀ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hy₀p : orderOf y₀ = p := orderOf_eq_prime (w172_minInv_exp h y₀ hy₀.1) hy₀1
   have hxp : orderOf x = p := by
     have hdvd : orderOf x ∣ p := by
@@ -94,6 +98,7 @@ private lemma w172_zpowers_eq_of_mem {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y :
   refine Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 hx) ?_
   simp [Nat.card_zpowers, hxp, hy₀p]
 
+omit [Finite Γ] in
 private lemma w172_mem_of_zpowers_eq {z w : Γ}
     (h : Subgroup.zpowers z = Subgroup.zpowers w) (hz : z ∈ Subgroup.zpowers z) :
     z ∈ Subgroup.zpowers w := by
@@ -120,13 +125,13 @@ private lemma w172_fiber_natCard {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Sub
   have hset : {x : Γ | x ∈ Subgroup.zpowers y₀ ∧ x ≠ 1} =
       (Subgroup.zpowers y₀ : Set Γ) \ {1} := by
     ext x
-    simp only [Set.mem_setOf_eq, Set.mem_diff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_singleton_iff]
     tauto
   rw [hset, Set.ncard_sdiff' (s := {1}) (t := (Subgroup.zpowers y₀ : Set Γ))
       (Set.singleton_subset_iff.mpr (Subgroup.one_mem _)) (Set.toFinite _),
       Set.ncard_singleton]
   rw [show (Subgroup.zpowers y₀ : Set Γ).ncard = p by
-    haveI : Fact p.Prime := ⟨h.prime⟩
+    have : Fact p.Prime := ⟨h.prime⟩
     have hzp : (Subgroup.zpowers y₀ : Set Γ).ncard = Nat.card (Subgroup.zpowers y₀) :=
       (Nat.card_coe_set_eq (s := (Subgroup.zpowers y₀ : Set Γ))).symm
     rw [hzp, Nat.card_zpowers]
@@ -157,7 +162,7 @@ private lemma w172_inv_ne_one_natCard {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y 
     rw [hcongr]
     exact w172_fiber_natCard h hy₀ hy₀1
   have hsigma : Nat.card ↥A = (p - 1) * Nat.card ↥B := by
-    haveI : Fintype ↥B := Fintype.ofFinite _
+    have : Fintype ↥B := Fintype.ofFinite _
     calc Nat.card ↥A
         = Nat.card (Σ b : ↥B, {a : ↥A // f a = b}) :=
           (Nat.card_congr (Equiv.sigmaFiberEquiv f)).symm
@@ -178,7 +183,7 @@ theorem w172_card_lines {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : Subgroup Γ}
     change Nat.card ↥({y : Γ | y ∈ W172Inv d Y ∧ y ≠ 1} : Set Γ) = p ^ a - 1
     have hset : {y : Γ | y ∈ W172Inv d Y ∧ y ≠ 1} = W172Inv d Y \ {1} := by
       ext y
-      simp only [Set.mem_setOf_eq, Set.mem_diff, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_singleton_iff]
     rw [hset, Nat.card_coe_set_eq,
       Set.ncard_sdiff' (s := {1}) (t := W172Inv d Y)
         (Set.singleton_subset_iff.mpr (by simp [W172Inv])) (Set.toFinite _),
@@ -244,9 +249,9 @@ theorem w172_two_pow_dvd_card_lines {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : 
       2 ^ c ≤ (Subgroup.normalizer (Subgroup.zpowers y : Set Γ)).relIndex S) :
     2 ^ c ∣ Nat.card (W172Lines d Y) := by
   classical
-  letI : MulAction ↥S ↥(W172Lines d Y) := w172LinesMulAction h
-  haveI : IsPGroup 2 ↥S := hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction ↥S ↥(W172Lines d Y) := w172LinesMulAction h
+  have : IsPGroup 2 ↥S := hS
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have horbit : ∀ L : ↥(W172Lines d Y),
       Nat.card (MulAction.orbit ↥S L) =
         (Subgroup.normalizer (L.1 : Set Γ)).relIndex S := by
@@ -259,7 +264,6 @@ theorem w172_two_pow_dvd_card_lines {p : ℕ} {X : Subgroup Γ} {d : Γ} {S Y : 
       · intro hs
         refine ⟨s.2, ?_⟩
         rw [Subgroup.mem_normalizer_iff_map_conj_eq]
-        change (L.1).map (MulAut.conj (s : Γ)) = L.1
         have hsm := congrArg Subtype.val hs
         change (L.1).map (MulAut.conj (s : Γ)) = L.1 at hsm
         exact hsm

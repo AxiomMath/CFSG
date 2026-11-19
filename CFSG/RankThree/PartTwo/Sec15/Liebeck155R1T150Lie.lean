@@ -124,7 +124,7 @@ theorem k150_goodAll_of_layer {J : Type} [Group J] (hF : K150Facts J) {S : Type}
   exact (hN E hE).false e'
 
 theorem k150_rowAll_of_lie {J : Type} [Group J] (hF : K150Facts J) (hLSC : LieSemisimpleCent)
-    (hLC : LieComp.LieComp) {X : Type} [Group X] (idx : TauCeti.ValidLieTypeIndex)
+    (hLC : LieComp.LieCompAll) {X : Type} [Group X] (idx : TauCeti.ValidLieTypeIndex)
     (hchar : idx.1.characteristic ≠ 3)
     (hX : Nonempty (X ≃* (TauCeti.CFSGIndex.lie idx).Group)) : RowAllOfK150 J X := by
   intro S _ _ hs hna ⟨eS⟩ σ h3 h1

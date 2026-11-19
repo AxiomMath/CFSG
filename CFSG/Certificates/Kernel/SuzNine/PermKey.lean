@@ -90,7 +90,7 @@ theorem packP_congr {n : ℕ} {v v' p : ℕ → ℕ} (h : ∀ i < n, v i = v' i)
 
 theorem fldK_permKey (c : Equiv.Perm (Fin 1782)) {t : ℕ} (ht : t < 30) :
     fldK (permKey c) t = ap c (fldK idKey t) :=
-  (fldK_packP (n := 30) (p := id) (fun i _ => ap_lt c _) (fun _ _ _ _ e => e)).1 t ht
+  (fldK_packP (n := 30) (p := id) (fun _i _ => ap_lt c _) (fun _ _ _ _ e => e)).1 t ht
 
 theorem fldK_permKey_ge (c : Equiv.Perm (Fin 1782)) {t : ℕ} (ht : 30 ≤ t) :
     fldK (permKey c) t = 0 :=
@@ -105,7 +105,7 @@ theorem actK_permKey {P : ℕ} {g : Equiv.Perm (Fin 1782)} (hP : PRep 1782 11 P 
   rw [show fldK (packP 30 (fun t => ap c (fldK idKey t)) id) t = ap c (fldK idKey t) from
     fldK_permKey c ht, ap_mul g c (hid t ht)]
   unfold ap
-  rw [dif_pos (hid t ht), dif_pos (c _).2]
+  rw [dite_eq_left (hid t ht), dite_eq_left (c _).2]
   exact fldK_of_prep hP _
 
 theorem fldK_eq_zero_of_shr {k t : ℕ} (hk : Nat.shiftRight k 330 = 0) (ht : 30 ≤ t) :

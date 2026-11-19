@@ -28,7 +28,7 @@ theorem sTabs_false : sTabs gamArr dPartArr dCodeTab false GT DPR LIN DM DO0 := 
   refine ⟨h1, h2, h3, h4, fun d _ e _ => ?_, h6⟩
   have e0 : DO0 = 0 := rfl
   rw [e0, Bool.false_and]
-  simp [fget, Nat.zero_shiftRight] <;> rfl
+  simp [fget, Nat.zero_shiftRight]; rfl
 
 theorem len_I160 : I160.length = 366 := by rfl
 

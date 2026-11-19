@@ -703,13 +703,13 @@ theorem sp_mem_scalars_of_commute {K : Type} [Field K] (hK : ringChar K ≠ 2) {
         if q = r then 1 else 0 := by
       by_cases hqr : q = r
       · subst hqr
-        rw [if_pos rfl, sgn_sq q.1, sgn_sq q.2]
+        rw [ite_eq_left rfl, sgn_sq q.1, sgn_sq q.2]
         have htwo : (1 : K) + 1 = 2 := by norm_num
         rw [htwo]
         calc (4 : K)⁻¹ * 2 * 2 = (4 : K)⁻¹ * (2 * 2) := by rw [mul_assoc]
           _ = (4 : K)⁻¹ * 4 := by rw [show (2 : K) * 2 = 4 by norm_num]
           _ = 1 := inv_mul_cancel₀ h4
-      · rw [if_neg hqr]
+      · rw [ite_eq_right hqr]
         have hne : q.1 ≠ r.1 ∨ q.2 ≠ r.2 := by
           by_contra h
           push Not at h
@@ -765,7 +765,7 @@ theorem sp_mem_scalars_of_commute {K : Type} [Field K] (hK : ringChar K ≠ 2) {
               rw [Finset.sum_eq_single q]
               · simp
               · intro r _ hr
-                rw [if_neg (Ne.symm hr), smul_zero]
+                rw [ite_eq_right (Ne.symm hr), smul_zero]
               · intro hq
                 exact absurd (Finset.mem_univ q) hq
     have h0 : P q.1 q.2 *ᵥ (∑ r : Fin 2 × Fin 2, g r • u r) = 0 := by

@@ -24,10 +24,10 @@ theorem ut3_central_ab {x : UT3 F4} (hx : ∀ y : UT3 F4, x * y = y * x) : x.a =
   simp only [UT3.mul_def] at h1 h2
   constructor
   · have h := h2
-    simp only [mul_one, mul_zero, one_mul, zero_mul, add_zero, zero_add] at h
+    simp only [mul_one, zero_mul, add_zero, zero_add] at h
     exact add_left_cancel (h.trans (add_zero x.c).symm)
   · have h := h1
-    simp only [mul_one, mul_zero, one_mul, zero_mul, add_zero, zero_add] at h
+    simp only [mul_zero, one_mul, add_zero, zero_add] at h
     exact add_left_cancel (h.symm.trans (add_zero x.c).symm)
 
 theorem ut3_card_center_le :
@@ -51,7 +51,7 @@ theorem ut3_nonabelian : ∃ a b : UT3 F4, a * b ≠ b * a := by
   refine ⟨⟨1, 0, 0⟩, ⟨0, 1, 0⟩, ?_⟩
   intro h
   have hc := congrArg UT3.c h
-  simp only [UT3.mul_def, mul_zero, mul_one, one_mul, zero_mul, add_zero, zero_add] at hc
+  simp only [UT3.mul_def, mul_zero, mul_one, add_zero, zero_add] at hc
   exact one_ne_zero hc
 
 theorem ut3_exists_comm {a : UT3 F4} (ha : ∃ w : UT3 F4, a * w ≠ w * a) {c : UT3 F4}
@@ -59,7 +59,7 @@ theorem ut3_exists_comm {a : UT3 F4} (ha : ∃ w : UT3 F4, a * w ≠ w * a) {c :
   obtain ⟨hca, hcb⟩ := ut3_central_ab hc
   have ha' : a.a ≠ 0 ∨ a.b ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨h, hh⟩ := ha
     apply hh
     ext <;> simp only [UT3.mul_def, hcon.1, hcon.2] <;> ring
@@ -71,14 +71,14 @@ theorem ut3_exists_comm {a : UT3 F4} (ha : ∃ w : UT3 F4, a * w ≠ w * a) {c :
     · simp [hca]
     · simp [hcb]
     · simp [haa]
-      field_simp [hab] <;> ring
+      field_simp [hab]
   · refine ⟨⟨0, c.c / a.a, 0⟩, ?_⟩
     rw [ut3_comm]
     ext
     · simp [hca]
     · simp [hcb]
     · simp
-      field_simp [haa] <;> ring
+      field_simp [haa]
 
 end Model
 
@@ -108,6 +108,7 @@ section Transfer
 variable (hc : Ctx4Q t L S x₁ x₂ lam rho tau) (hs : IsSylSL34 (ctxQ t tau x₁ x₂ rho))
 include hc hs
 
+omit [Finite G] hc in
 theorem Q_nonab : ∃ a ∈ ctxQ t tau x₁ x₂ rho, ∃ b ∈ ctxQ t tau x₁ x₂ rho, a * b ≠ b * a := by
   obtain ⟨φ⟩ := hs
   obtain ⟨a, b, hab⟩ := ut3_nonabelian
@@ -123,11 +124,12 @@ theorem Q_nonab : ∃ a ∈ ctxQ t tau x₁ x₂ rho, ∃ b ∈ ctxQ t tau x₁ 
     _ = φ (φ.symm b * φ.symm a) := by rw [h']
     _ = b * a := by simp
 
+omit [Finite G] hc in
 theorem card_ZQ_le :
     Nat.card ↥(ctxQ t tau x₁ x₂ rho ⊓ centralizer ((ctxQ t tau x₁ x₂ rho : Subgroup G) : Set G)) ≤
       4 := by
   obtain ⟨φ⟩ := hs
-  haveI : Finite (UT3 F4) :=
+  have : Finite (UT3 F4) :=
     Finite.of_injective (fun x : UT3 F4 => (x.a, x.b, x.c)) (by
       intro x y h
       simp only [Prod.mk.injEq] at h
@@ -159,7 +161,7 @@ theorem Z_Q : ctxQ t tau x₁ x₂ rho ⊓ centralizer ((ctxQ t tau x₁ x₂ rh
   have hcard : Nat.card ↥(ctxQ t tau x₁ x₂ rho ⊓
       centralizer ((ctxQ t tau x₁ x₂ rho : Subgroup G) : Set G)) ≤ Nat.card (fourGrp x₁ x₂) := by
     rw [card_fourGrp hc]
-    exact card_ZQ_le hc hs
+    exact card_ZQ_le hs
   exact (Subgroup.eq_of_le_of_card_ge hle hcard).symm
 
 theorem pairing_Q {a : G} (haQ : a ∈ ctxQ t tau x₁ x₂ rho) (ha : a ∉ fourGrp x₁ x₂) {c : G}
@@ -173,7 +175,7 @@ theorem pairing_Q {a : G} (haQ : a ∈ ctxQ t tau x₁ x₂ rho) (ha : a ∉ fou
     exact ha (by rw [← hZ]; exact ⟨haQ, h⟩)
   have hnc' : ¬ ∀ h ∈ ↑(ctxQ t tau x₁ x₂ rho), h * a = a * h :=
     fun hall => hnc (Subgroup.mem_centralizer_iff.mpr hall)
-  push_neg at hnc'
+  push Not at hnc'
   obtain ⟨h, hhQ, hcomm⟩ := hnc'
   let A : ↥(ctxQ t tau x₁ x₂ rho) := ⟨a, haQ⟩
   let H : ↥(ctxQ t tau x₁ x₂ rho) := ⟨h, hhQ⟩

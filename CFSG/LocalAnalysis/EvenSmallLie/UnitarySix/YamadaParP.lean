@@ -62,7 +62,7 @@ theorem Y13Hyp.card_quot [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ι
       Nat.card (↥(nOne D₁ K₁ D₂) ⧸ D₁.subgroupOf (nOne D₁ K₁ D₂)) = 25920 ^ 2 := by
   have : Fact (ElemSec D₁ V₁) := ⟨h.sec⟩
   have : (D₁.subgroupOf (nOne D₁ K₁ D₂)).Normal :=
-    (Subgroup.normal_subgroupOf_iff_le_normalizer h.D₁_le_nOne).mpr h.nOne_le_normalizer
+    (Subgroup.normal_subgroupOf_iff_le_normalizer CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_nOne).mpr h.nOne_le_normalizer
   obtain ⟨fV, hfV⟩ := h.exists_fV
   obtain ⟨-, ⟨ψ, -⟩ | ⟨ψ, -⟩⟩ := (h.r3Hyp fV hfV).main
   · left
@@ -73,7 +73,7 @@ theorem Y13Hyp.card_quot [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ι
 theorem Y13Hyp.card_nOne [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) :
     Nat.card (nOne D₁ K₁ D₂) = 2 ^ 30 * 240975 ∨ Nat.card (nOne D₁ K₁ D₂) = 2 ^ 30 * 164025 := by
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (D₁.subgroupOf (nOne D₁ K₁ D₂)),
-    card_subgroupOf_of_le h.D₁_le_nOne, h.card_D₁]
+    card_subgroupOf_of_le CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_nOne, h.card_D₁]
   rcases h.card_quot with h1 | h1 <;> rw [h1] <;> norm_num
 
 theorem Y13Hyp.factorization_card_nOne [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ ιG) :
@@ -114,7 +114,7 @@ theorem Y13Hyp.exists_sylow [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ
       V₁ ≤ centralizer (P : Set G) ∧ t ∈ normalizer (P : Set G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N₁ := nOne D₁ K₁ D₂
-  have hKA : K₁ ⊔ A₁ ≤ N₁ := sup_le h.K₁_le_nOne (h.A₁_le.trans h.D₁_le_nOne)
+  have hKA : K₁ ⊔ A₁ ≤ N₁ := sup_le CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.K₁_le_nOne (h.A₁_le.trans CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_nOne)
   have hKAt : K₁ ⊔ A₁ ≤ centralizer ({t} : Set G) := by
     rw [← h.inf_centralizer]; exact inf_le_right
   have hSN : S ≤ N₁ := hSK.trans hKA
@@ -132,7 +132,7 @@ theorem Y13Hyp.exists_sylow [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ
   have hQ : IsPGroup 2 (S ⊔ D₂ ⊔ D₁ ⊔ zpowers t : Subgroup G) :=
     hQ₂.to_sup_of_normal_left' (isPGroup_zpowers_of_sq h.t_sq) ((zpowers_le).mpr htQ)
   have hQX : (S ⊔ D₂ ⊔ D₁ ⊔ zpowers t : Subgroup G) ≤ N₁ ⊔ zpowers t :=
-    sup_le_sup_right (sup_le (sup_le hSN h.D₂_le_nOne) h.D₁_le_nOne) _
+    sup_le_sup_right (sup_le (sup_le hSN CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₂_le_nOne) CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_nOne) _
   obtain ⟨T, hT, hQT⟩ := exists_isSylowOf_le hQ hQX
   have hXN : N₁ ⊔ zpowers t ≤ normalizer (N₁ : Set G) :=
     sup_le le_normalizer ((zpowers_le).mpr h.t_mem_normalizer)
@@ -142,8 +142,8 @@ theorem Y13Hyp.exists_sylow [Finite G] (h : Y13Hyp t D₁ V₁ A₁ K₁ D₂ θ
   have hST : S ≤ T := le_sup_left.trans (le_sup_left.trans (le_sup_left.trans hQT))
   have hD₂T : D₂ ≤ T := le_sup_right.trans (le_sup_left.trans (le_sup_left.trans hQT))
   have hD₁T : D₁ ≤ T := le_sup_right.trans (le_sup_left.trans hQT)
-  refine ⟨T ⊓ N₁, inf_le_right, hP, ?_, ?_, le_inf hST hSN, le_inf hD₁T h.D₁_le_nOne,
-    le_inf hD₂T h.D₂_le_nOne, ?_, mem_normalizer_inf
+  refine ⟨T ⊓ N₁, inf_le_right, hP, ?_, ?_, le_inf hST hSN, le_inf hD₁T CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₁_le_nOne,
+    le_inf hD₂T CFSG.EvenSmallLie.UnitarySix.YamadaPar.Y13Hyp.D₂_le_nOne, ?_, mem_normalizer_inf
       (Subgroup.le_normalizer htT) h.t_mem_normalizer⟩
   · rw [hP.card_eq, h.factorization_card_nOne]
   · refine hSL.eq_of_le (le_inf (le_inf hST hSN) (hSK.trans hKAt)) ?_ ?_

@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem r99_holds (D : Data G) : R99 D := by
   intro Y hY hR
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYmax : Maximal (· ∈ calY2_9 D) Y := hY
   have hYM : Y ≤ D.M := hYmax.prop.1.1
   obtain ⟨S, hS⟩ := CFSG.ABGLocalTools.exists_isSylowOf 2 Y

@@ -54,7 +54,7 @@ theorem rdv (g : Perm (Fin 7)) (x : Fin 7) : (g x).val = rd (enc g) x.val :=
 
 theorem enc_lt (g : Perm (Fin 7)) : enc g < 16 ^ 7 :=
   encF_lt fun i hi => by
-    rw [dif_pos hi]
+    rw [dite_eq_left hi]
     exact lt_trans (Fin.isLt _) (by norm_num)
 
 theorem enc7 (g : Perm (Fin 7)) : enc g = (g 0).val + (g 1).val * 16 + (g 2).val * 16 ^ 2 +
@@ -141,7 +141,7 @@ theorem enc_ofPair {P : ℕ} (h : okP P = true) : enc (ofPair P h) = lo P := by
   have e : encF (fun i => if hi : i < 7 then ((ofPair P h ⟨i, hi⟩ : Fin 7) : ℕ) else 0) 7 =
       encF (rd (lo P)) 7 :=
     encF_congr fun i hi => by
-      rw [dif_pos hi]
+      rw [dite_eq_left hi]
       exact Nat.mod_eq_of_lt (okP_spec h ⟨i, hi⟩).1
   rw [enc, e, encF_rd, Nat.mod_eq_of_lt (okP_lt h).1]
 
@@ -149,7 +149,7 @@ theorem enc_ofPair_inv {P : ℕ} (h : okP P = true) : enc (ofPair P h)⁻¹ = hi
   have e : encF (fun i => if hi : i < 7 then (((ofPair P h)⁻¹ ⟨i, hi⟩ : Fin 7) : ℕ) else 0) 7 =
       encF (rd (hi P)) 7 :=
     encF_congr fun i hi => by
-      rw [dif_pos hi]
+      rw [dite_eq_left hi]
       exact Nat.mod_eq_of_lt (okP_spec h ⟨i, hi⟩).2.1
   rw [enc, e, encF_rd, Nat.mod_eq_of_lt (okP_lt h).2]
 

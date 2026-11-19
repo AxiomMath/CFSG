@@ -82,7 +82,7 @@ theorem prop2_conj_centralizer {x : G} (hx : orderOf x = 2)
 
 theorem prop3_index_two (S : Sylow 2 G) {S0 : Subgroup G}
     (hindex : S0.relIndex (S : Subgroup G) = 2) {x : G} (hx : x * x = 1)
-    (hxS : x ∈ (S : Subgroup G)) (hxS0 : x ∉ S0)
+    (hxS : x ∈ (S : Subgroup G)) (_hxS0 : x ∉ S0)
     (hconj : ∀ g : G, g⁻¹ * x * g ∉ S0) :
     ∃ G0 : Subgroup G, G0.Normal ∧ G0.index = 2 ∧ x ∉ G0 := by
   obtain ⟨G0, hGn, hidx, hxG0, -⟩ :=

@@ -3,7 +3,7 @@ module
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.Topology.Algebra.Semigroup
 public import Mathlib.Topology.Connected.Separation
-public import Mathlib.Topology.Separation.Lemmas
+public import Mathlib.Topology.Separation.CompletelyRegular
 public import CFSG.LocalAnalysis.ZStar.BrauerPrincipal
 public import Mathlib.Algebra.Group.ConjFinite
 public import Mathlib.Tactic.ENatToNat
@@ -135,6 +135,7 @@ private theorem brauerProjection_ambientExtension (w : G)
   rw [brauerProjection_coeff, ambientExtension_coeff,
     ambientClassCoeff_mk w r hr a]
 
+omit [Fintype G] in
 theorem isGroupCentral_pow (e : GroupAlgebraTwo G)
     (he : IsGroupCentral G e) (n : ℕ) :
     IsGroupCentral G (e ^ n) := by
@@ -190,7 +191,7 @@ theorem exists_positive_idempotent_power
 private theorem exists_globalBlockLift_of_ambientConjInvariant
     (w : G) (hw2 : w * w = 1)
     (r : GroupAlgebraTwo (involutionCentralizer w))
-    (hrcentral : IsGroupCentral (involutionCentralizer w) r)
+    (_hrcentral : IsGroupCentral (involutionCentralizer w) r)
     (hridem : r * r = r)
     (hraug : augmentationHom (involutionCentralizer w) r = 0)
     (hrfusion : AmbientConjInvariant w r) :

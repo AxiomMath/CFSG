@@ -202,7 +202,7 @@ theorem fusionOddCore_eq_bot_of_mulEquiv_prod_M10 {C : Type*}
     have hKodd : Odd (Nat.card ↥K) := by
       rw [hKdef]
       exact Odd.of_dvd_nat hN'odd (Subgroup.card_map_dvd N' (MonoidHom.snd _ _))
-    haveI : K.Normal := hKnormal
+    have : K.Normal := hKnormal
     have hKbot : K = ⊥ := M10_no_odd_normal K hKodd
     have hn' : e n ∈ N' := by
       rw [hN'def]

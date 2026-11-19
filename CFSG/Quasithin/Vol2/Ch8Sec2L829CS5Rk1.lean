@@ -131,7 +131,7 @@ theorem RankOneSyl.fpf [Finite Y] (hR : RankOneSyl X S q) {g : Y} (hg : g ∈ X)
   have hZ : ∀ z ∈ centerSub S, z ≠ 1 → ∃ d ∈ twoPtStab X S g, d * z ≠ z * d := by
     intro z hz hz1
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hall : ∀ z' ∈ centerSub S, z' ≠ 1 → z' = z := by
       intro z' hz' hz'1
       obtain ⟨b, hb, hbz⟩ := hR.ztrans z hz hz1 z' hz' hz'1
@@ -267,7 +267,7 @@ theorem RankOneSyl.rigidity [Finite Y] [X.Normal] (hR : RankOneSyl X S q)
         have e : g⁻¹ * (a * b) * g = (g⁻¹ * a * g) * (g⁻¹ * b * g) := by group
         rw [e]
         exact Subgroup.mul_mem _ (ha g hg) (hb g hg)
-      one_mem' := ⟨X.one_mem, fun g _ => by simpa using Subgroup.one_mem _⟩
+      one_mem' := ⟨X.one_mem, fun g _ => by simp⟩
       inv_mem' := by
         rintro a ⟨haX, ha⟩
         refine ⟨X.inv_mem haX, fun g hg => ?_⟩

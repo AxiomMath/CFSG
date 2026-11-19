@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_glaPPrimeCore_of_mem {p : ℕ} {L : Subgroup G} {y : G} (hy : y ∈ L)
     (h : y ∈ GLAPPrimeCoreOf p L) : (⟨y, hy⟩ : ↥L) ∈ GLAPPrimeCore p ↥L := by
   obtain ⟨z, hz, hzy⟩ := Subgroup.mem_map.1 h
@@ -21,6 +22,7 @@ private theorem mem_glaPPrimeCore_of_mem {p : ℕ} {L : Subgroup G} {y : G} (hy 
   rw [← hzeq]
   exact hz
 
+omit [Finite G] in
 private theorem centMod_mk_mem_center {p : ℕ} {L : Subgroup G} {a : G} (ha : a ∈ L)
     (hc : a ∈ centModSubgroup p L) :
     (QuotientGroup.mk (⟨a, ha⟩ : L) : PQuot p L) ∈ Subgroup.center (PQuot p L) := by
@@ -49,7 +51,7 @@ theorem exists_Bstar {B : Subgroup G} {x : G} {L : Subgroup G} (hBel : IsElemAbe
       Bs ≤ Subgroup.normalizer (L : Set G) ∧ Nat.card B ≤ Nat.card Bs ∧ D ≤ Bs ∧ D ≤ L ∧
       IsElemAbelian 3 D ∧ Nat.card D = 9 ∧ Subgroup.center (PQuot 3 L) = ⊥ ∧ U ≤ L ∧
       IsPGroup 2 U ∧ Bs ≤ Subgroup.normalizer (U : Set G) ∧ ¬ U ≤ GLAPPrimeCoreOf 3 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨A, hAdef⟩ : ∃ A : Subgroup G, A = B ⊓ centModSubgroup 3 L := ⟨_, rfl⟩
   have hmemA : ∀ a, a ∈ A ↔ a ∈ B ∧ a ∈ centModSubgroup 3 L := fun a => by
     rw [hAdef, Subgroup.mem_inf]
@@ -110,15 +112,16 @@ theorem exists_Bstar {B : Subgroup G} {x : G} {L : Subgroup G} (hBel : IsElemAbe
 private theorem pCore_ne_top_of_quasisimple {p : ℕ} (hp : p.Prime) {Q : Type} [Group Q] [Finite Q]
     (hQ : CFSG.Open.IsQuasisimple Q) : CFSG.pCore p Q ≠ ⊤ := by
   intro h
-  haveI : Nontrivial Q := isQuasisimple_nontrivial hQ
-  haveI : Group.IsPerfect Q := Group.isPerfect_def.2 hQ.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Nontrivial Q := isQuasisimple_nontrivial hQ
+  have : Group.IsPerfect Q := Group.isPerfect_def.2 hQ.1
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p Q := fun g => by
     have hg : g ∈ CFSG.pCore p Q := h ▸ Subgroup.mem_top g
     obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := p) (G := Q)) ⟨g, hg⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   exact Group.IsPerfect.not_isNilpotent Q (IsPGroup.isNilpotent hpg)
 
+omit [Finite G] in
 private theorem mem_oPPrimeP_413 {p : ℕ} {X : Subgroup G} {y : G} :
     y ∈ oPPrimeP p X ↔ ∃ h : y ∈ X,
       QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨y, h⟩ ∈ CFSG.pCore p (↥X ⧸ GLAPPrimeCore p ↥X) := by
@@ -127,7 +130,7 @@ private theorem mem_oPPrimeP_413 {p : ℕ} {X : Subgroup G} {y : G} :
 
 private theorem eq_one_of_mem_glaPPrimeCoreOf {p : ℕ} (hp : p.Prime) {L : Subgroup G} {a : G}
     (hO : a ∈ GLAPPrimeCoreOf p L) (hap : a ^ p = 1) : a = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf a ∣ p := orderOf_dvd_of_pow_eq_one hap
   have hdvd : orderOf a ∣ Nat.card ↥(GLAPPrimeCoreOf p L) := by
     rw [← Nat.card_zpowers]
@@ -173,10 +176,10 @@ private def actD {R D : Subgroup G} (e : R ≃* QuaternionGroup 2)
     simp [tauAut, conjSubgroupEquiv, mul_assoc]
 
 theorem faithful_D_on_R {X L D R Bs : Subgroup G} (hL : GLAPComponent 3 X L)
-    (hcat : catalogIs (PSimple 3 L) isM12)
+    (_hcat : catalogIs (PSimple 3 L) isM12)
     (hZ : Subgroup.center (PQuot 3 L) = ⊥) (hDL : D ≤ L) (hDel : IsElemAbelian 3 D)
     (hDc : Nat.card D = 9) (hDBs : D ≤ Bs) (hBsR : Bs ≤ Subgroup.normalizer (R : Set G))
-    (hR2 : IsPGroup 2 R) (hCR : L ⊓ Subgroup.centralizer (R : Set G) ≤ oPPrimeP 3 L) :
+    (_hR2 : IsPGroup 2 R) (hCR : L ⊓ Subgroup.centralizer (R : Set G) ≤ oPPrimeP 3 L) :
     (⁅R, Bs⁆ : Subgroup G) ≠ ⊥ ∧ IsEmpty (R ≃* QuaternionGroup 2) := by
   have hQ : CFSG.Open.IsQuasisimple (PQuot 3 L) :=
     isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hL

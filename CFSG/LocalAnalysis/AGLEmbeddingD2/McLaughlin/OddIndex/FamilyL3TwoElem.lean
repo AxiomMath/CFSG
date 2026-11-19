@@ -117,7 +117,7 @@ theorem exists_two_subgroup_comm_not_mem_pCore {K : Type} [Group K] [Finite K]
     rw [QuotientGroup.ker_mk']
     exact CFSG.pCore_isPGroup
   refine ⟨(S₀ : Subgroup (↥Y ⧸ CFSG.pCore 2 ↥Y)).comap (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)),
-    IsPGroup.comap_of_ker_isPGroup S₀.isPGroup' _ hker, a', ha, b', hb, fun hc => hab ?_⟩
+    IsPGroup.comap_of_ker_isPGroup S₀.isPGroup _ hker, a', ha, b', hb, fun hc => hab ?_⟩
   have h1 : (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) ⁅a', b'⁆ = 1 :=
     (QuotientGroup.eq_one_iff _).mpr hc
   rw [map_commutatorElement] at h1
@@ -141,7 +141,7 @@ theorem two_subgroup_comm_of_odd_index {G H : Type} [Group G] [Finite G] [Group 
   let SG : Sylow 2 G := Sylow.ofCard S' hS'card
   have hS'c : ∀ x ∈ S', ∀ y ∈ S', x * y = y * x := by
     rintro x ⟨x', hx', rfl⟩ y ⟨y', hy', rfl⟩
-    have hc := hH ((ST : Subgroup ↥T).map ρ) (ST.isPGroup'.map ρ) (ρ x') ⟨x', hx', rfl⟩ (ρ y')
+    have hc := hH ((ST : Subgroup ↥T).map ρ) (ST.isPGroup.map ρ) (ρ x') ⟨x', hx', rfl⟩ (ρ y')
       ⟨y', hy', rfl⟩
     have : x' * y' = y' * x' := hρ (by rw [map_mul, map_mul]; exact hc)
     exact congrArg Subtype.val this

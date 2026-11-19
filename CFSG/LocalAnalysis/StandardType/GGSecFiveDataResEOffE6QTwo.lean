@@ -69,8 +69,8 @@ theorem ggSecFiveE78QTwoLabelInput_of_rk1
   obtain ⟨F, hF, hFfin, θ, -, hθinj, hθrange, -, -, -, hlabF⟩ :=
     hRk1 G p B Bs x L D J 𝒦 hcfg hns ι M e hP (GGIsWeylMatrixE.le_three (Or.inr hE)) L
       (Or.inl rfl) r hrA hrC
-  letI : Field F := hF
-  haveI : Finite F := hFfin
+  let : Field F := hF
+  have : Finite F := hFfin
   have hcardSL : Nat.card (ggRankOneIn L Bs r) =
       Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) := by
     rw [← hθrange]

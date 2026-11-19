@@ -35,7 +35,7 @@ theorem not_dvd_five_fixer
   let N := sylowNormalizer X P s S
   let instF : Fintype F := Fintype.ofFinite _
   let rho : N →* Equiv.Perm F := toPermHom N F
-  have hQ : IsPGroup p Q := S.isPGroup'.map _
+  have hQ : IsPGroup p Q := S.isPGroup.map _
   have hQcard : Nat.card Q = Nat.card S := Subgroup.card_map_of_injective H.subtype_injective
   have hSge : p ≤ Nat.card S := by
     have h := Subgroup.card_le_of_le hZS

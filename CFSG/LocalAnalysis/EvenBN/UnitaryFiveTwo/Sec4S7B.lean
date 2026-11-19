@@ -37,7 +37,7 @@ variable (h : d.Hyp) (hKU : d.KUnitary) (hf : d.IsUnitaryFactor K₀)
 
 include h hKU in
 theorem Data.Hyp.hD : d.D₁ ≤ normalizer (d.D₂ : Set G) :=
-  h.D₁_le_normalizer_D₂ (h.comm_M_V₂_mem_W hKU) (fun m hm => h.M_le_normalizer_Y hKU hm)
+  h.D₁_le_normalizer_D₂ (h.comm_M_V₂_mem_W hKU) (fun _m hm => h.M_le_normalizer_Y hKU hm)
 
 include h hKU in
 theorem Data.Hyp.Lam₁_le_normDY : Data.Lam₁ h hKU hf ≤ ModSplit.normDY d.D₂ d.Y :=
@@ -69,7 +69,7 @@ theorem Data.Hyp.Cv₂_le_D₂ : Data.Cv₂ h hKU hf ≤ d.D₂ := fun _ hx =>
 
 include h hKU in
 theorem Data.Hyp.Y_le_Cv₂ : d.Y ≤ Data.Cv₂ h hKU hf := fun y hy =>
-  (h.mem_Cv₂_iff hKU hf).2 ⟨h.Y_le_D₂ hy, fun g hg =>
+  (h.mem_Cv₂_iff hKU hf).2 ⟨h.Y_le_D₂ hy, fun _g hg =>
     d.Y.mul_mem ((mem_normalizer_iff.1 (h.tcLam₁_le_normalizer_Y hKU hf hg) y).1 hy)
       (d.Y.inv_mem hy)⟩
 

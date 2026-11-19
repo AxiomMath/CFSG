@@ -80,7 +80,7 @@ theorem decFY_inj {F F' : Array ℕ} (h : validFY F = true) (h' : validFY F' = t
 theorem decFY_fCodeY {t : Array ℕ} {T : Equiv.Perm (Fin 480)} (ht : Rep 480 t T) :
     decFY (fCodeY t) = Finset.univ.filter fun r => T r = phi (cK 2) r := by
   ext r
-  simp only [so2_mem_decFY, fCodeY, List.toList_toArray, List.mem_filter, List.mem_range,
+  simp only [so2_mem_decFY, fCodeY, List.mem_filter, List.mem_range,
     beq_iff_eq, Finset.mem_filter, Finset.mem_univ, true_and]
   rw [ht.apply r.2, (rep_cK (by norm_num : 2 < 3)).apply r.2]
   exact ⟨fun h => Fin.ext h.2, fun h => ⟨r.2, congrArg Fin.val h⟩⟩
@@ -133,7 +133,7 @@ theorem closure_gensOfY {ws : List (List ℕ)} :
   rw [closureY]
   congr 1
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq, List.size_toArray, List.length_map, gensOfY]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.size_toArray, List.length_map, gensOfY]
   constructor
   · rintro ⟨k, hk, rfl⟩
     exact ⟨ws[k], List.getElem_mem hk, by rw [List.getD_eq_getElem _ _ hk]⟩

@@ -13,6 +13,7 @@ section WeaklyClosed
 
 variable {F : Type} [Field F] [Fintype F] [CharP F 2]
 
+omit [Fintype F] [CharP F 2] in
 private theorem utri_le_centralizer {A : Subgroup SL(2, F)} (hA : A ≤ utri F) :
     utri F ≤ Subgroup.centralizer (A : Set SL(2, F)) := by
   intro u hu
@@ -101,7 +102,7 @@ theorem card_eq_of_weaklyClosed {F : Type} [Field F] [Fintype F] [CharP F 2]
       conjSubgroup g T = T) :
     Nat.card T = Fintype.card F ∧ ∀ t ∈ T, t * t = 1 := by
   classical
-  haveI : Finite F := Finite.of_fintype F
+  have : Finite F := Finite.of_fintype F
   obtain ⟨P, hTP⟩ := hT.exists_le_sylow
   obtain ⟨x, hxP⟩ := exists_conjSubgroup_utri_eq_of_sylow P
   have hTx : T ≤ conjSubgroup x (utri F) := by rw [hxP]; exact hTP

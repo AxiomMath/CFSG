@@ -89,8 +89,8 @@ private theorem exists_mem_centralizer_of_center_eq_bot
     (hker : ψ.ker ≤ Subgroup.center (spinGroup (quadMinus n K b c))) {c₀ : G}
     (hc : GGPsiInnerDiag (minusDatum n hirr) ψ c₀) :
     ∃ g ∈ ψ.range, c₀ * g ∈ Subgroup.centralizer (ψ.range : Set G) := by
-  haveI := fact_shortField hirr
-  haveI : Finite (spinGroup (quadMinus n K b c)) :=
+  have := fact_shortField hirr
+  have : Finite (spinGroup (quadMinus n K b c)) :=
     Finite.of_injective _ ((MonoidHom.ker_eq_bot_iff _).mp
       (ker_spinMatrix_quadMinus_eq_bot (n := n) hirr CharTwo.two_eq_zero))
   have hψ : Function.Injective ψ := by
@@ -312,11 +312,11 @@ theorem exists_mem_centralizer (hn : 4 ≤ n) {G : Type*} [Group G]
 include hirr in
 theorem center_eq_bot_three :
     Subgroup.center (spinGroup (quadMinus 3 K b c)) = ⊥ := by
-  haveI := fact_shortField hirr
-  haveI : Finite (ShortField b c) := finite_shortField (b := b) (c := c)
-  haveI : CharP (ShortField b c) 2 :=
+  have := fact_shortField hirr
+  have : Finite (ShortField b c) := finite_shortField (b := b) (c := c)
+  have : CharP (ShortField b c) 2 :=
     charP_of_injective_algebraMap (algebraMap K (ShortField b c)).injective 2
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   let f := Module.finrank (ZMod 2) K
   have hcardK : Nat.card K = 2 ^ f := (FiniteField.pow_finrank_eq_natCard 2 K).symm
   have hcardL : Nat.card (ShortField b c) = (2 ^ f) ^ 2 := by

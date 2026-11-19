@@ -265,7 +265,7 @@ theorem s16c1_G47_siegel_right {K U B N : Subgroup G} {κ : G → (Fin 4 ⊕ Fin
     have hκact : κ (w' * (u * b) * w'⁻¹) = Sum.elim x (y + T.mulVec x) := by
       rw [hconj, s16c1_G47_add_three hκ (hBK (hwU u hu)) (hUK hu) (hBK hb),
         hcu, hkeyy, hx, hy]
-      funext s; rcases s with i | i <;> simp [Pi.add_apply, add_comm, add_left_comm, add_assoc]
+      funext s; rcases s with i | i <;> simp [Pi.add_apply, add_comm]
     refine ⟨?_, ?_⟩
     · rw [hconj]
       exact K.mul_mem (K.mul_mem (hBK (hwU u hu)) (hUK hu)) (hBK hb)

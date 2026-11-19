@@ -31,7 +31,7 @@ theorem core_levi {n : ℕ} (hK : Nat.card K = 3 ^ n) {J : Set (Fin Tag.D4.rank)
     (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     (hA₁ : ∀ a ∈ A, Γ₁ * a * Γ₁⁻¹ = a) (hA₂ : ∀ a ∈ A, Γ₂ * a * Γ₂⁻¹ = a)
     (hbig : 3 ^ (4 * n) ≤ 3 * Nat.card A) : False := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   have hn : 1 ≤ n := by
     by_contra h

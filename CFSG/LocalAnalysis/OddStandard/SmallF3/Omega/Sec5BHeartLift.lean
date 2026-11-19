@@ -49,7 +49,7 @@ theorem sec5b_conj_weight {φ : (Fin 8 → ZMod 2) → G} {A M : Subgroup G}
 
 theorem sec5b_conj_of_weight {φ : (Fin 8 → ZMod 2) → G} {A M : Subgroup G}
     {Alt : Subgroup (Equiv.Perm (Fin 8))} (hAlt : alternatingGroup (Fin 8) ≤ Alt)
-    (hd : HeartData φ A M Alt) {v w : Fin 8 → ZMod 2} (hv : IsEvenVec v) (hw : IsEvenVec w)
+    (hd : HeartData φ A M Alt) {v w : Fin 8 → ZMod 2} (hv : IsEvenVec v) (_hw : IsEvenVec w)
     (h : vecWeight v = vecWeight w) : φ w ∈ conjClassIn M (φ v) := by
   obtain ⟨σ, hσ, hσv⟩ := sec5b_exists_alt h
   exact (sec5b_mem_conj_iff hd hv).mpr ⟨σ, hAlt hσ, by rw [hσv]⟩
@@ -75,7 +75,7 @@ theorem sec5b_pair_of_card {φ : (Fin 8 → ZMod 2) → G} {A M : Subgroup G}
 
 theorem sec5b_exists_h {φ : (Fin 8 → ZMod 2) → G} {A M : Subgroup G}
     {Alt : Subgroup (Equiv.Perm (Fin 8))} (hAlt : alternatingGroup (Fin 8) ≤ Alt)
-    (hd : HeartData φ A M Alt) {t z p : G} (htA : t ∈ A) (hzA : z ∈ A) (hpA : p ∈ A)
+    (hd : HeartData φ A M Alt) {t z p : G} (htA : t ∈ A) (hzA : z ∈ A) (_hpA : p ∈ A)
     (ht1 : t ≠ 1) (hz1 : z ≠ 1) (hcard : Set.ncard (conjClassIn M t) = 28)
     (hzt : z ∉ conjClassIn M t) (hp : p ∈ conjClassIn M t) (hpz : p * z ∈ conjClassIn M t)
     (htz : t * z ∈ conjClassIn M t) (hpt : p ≠ t) :

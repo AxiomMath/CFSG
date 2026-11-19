@@ -13,8 +13,8 @@ theorem ker_le_of_simple {G : Type} [Group G] {K M : Subgroup G}
     (hker : ∀ l : ↥K, ψ l = 1 ↔ (l : G) ∈ M) {X : Type} (ρ : ↥K →* Perm X)
     (hMρ : ∀ l : ↥K, (l : G) ∈ M → ρ l = 1) (hnt : ∃ l : ↥K, ρ l ≠ 1) :
     ∀ l : ↥K, ρ l = 1 → (l : G) ∈ M := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI hN : (ρ.ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hsurj
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have hN : (ρ.ker.map ψ).Normal := Subgroup.Normal.map inferInstance ψ hsurj
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (ρ.ker.map ψ) with h | h
   · intro l hl
     have hmem : ψ l ∈ ρ.ker.map ψ := Subgroup.mem_map_of_mem ψ hl

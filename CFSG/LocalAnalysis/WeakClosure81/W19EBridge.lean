@@ -77,11 +77,11 @@ private theorem pCore_range_eq_bot_of_irreducible_aux {V : Type*} [AddCommGroup 
   have hv : v ∈ W := h ▸ Submodule.mem_top
   exact hv g hg
 
-private noncomputable def commGroupOfComm' {A : Type*} [Group A]
+@[instance_reducible] private noncomputable def commGroupOfComm' {A : Type*} [Group A]
     (hc : ∀ a b : A, a * b = b * a) : CommGroup A :=
   { (inferInstance : Group A) with mul_comm := hc }
 
-private noncomputable def elemModule' (p : ℕ) [NeZero p] {A : Type*} [Group A]
+@[instance_reducible] private noncomputable def elemModule' (p : ℕ) [NeZero p] {A : Type*} [Group A]
     (hc : ∀ a b : A, a * b = b * a) (hp : ∀ a : A, a ^ p = 1) :
     letI := commGroupOfComm' hc
     Module (ZMod p) (Additive A) :=
@@ -107,7 +107,7 @@ theorem exists_rep {H E F : Subgroup G} (hH : Group.IsSolvable ↥H) (hEH : E �
       (∀ h : ↥H, ρ h = 1 ↔ (h : G) ∈ centralizerQuot H E F) ∧
       (∀ n : ↥H, (n : G) ∈ pCoreOf 2 H → ρ n = 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFH : F ≤ H := hFE.le.trans hEH
   have hX'n : (E.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hEH).2 hEn
@@ -162,8 +162,8 @@ theorem exists_rep {H E F : Subgroup G} (hH : Group.IsSolvable ↥H) (hEH : E �
     have hdvd : p ∣ 2 ^ n := hn ▸ dvd_pow_self p (by omega)
     exact (Nat.prime_dvd_prime_iff_eq hp.out Nat.prime_two).1 (hp.out.dvd_of_dvd_pow hdvd)
   subst hp2
-  letI : CommGroup (chiefQuot (E.subgroupOf H) (F.subgroupOf H)) := commGroupOfComm' hc
-  letI : Module (ZMod 2) (Additive (chiefQuot (E.subgroupOf H) (F.subgroupOf H))) :=
+  let : CommGroup (chiefQuot (E.subgroupOf H) (F.subgroupOf H)) := commGroupOfComm' hc
+  let : Module (ZMod 2) (Additive (chiefQuot (E.subgroupOf H) (F.subgroupOf H))) :=
     elemModule' 2 hc hpp
   let ρf : ↥H → (Additive (chiefQuot (E.subgroupOf H) (F.subgroupOf H)) ≃ₗ[ZMod 2]
       Additive (chiefQuot (E.subgroupOf H) (F.subgroupOf H))) := fun g =>
@@ -189,7 +189,7 @@ theorem exists_rep {H E F : Subgroup G} (hH : Group.IsSolvable ↥H) (hEH : E �
   have hι_of : ∀ (g : G) (hg : g ∈ E), ι g =
       Additive.ofMul (⟨QuotientGroup.mk' (F.subgroupOf H) ⟨g, hEH hg⟩,
         Subgroup.mem_map_of_mem _ ((Subgroup.mem_subgroupOf).2 hg)⟩ :
-          chiefQuot (E.subgroupOf H) (F.subgroupOf H)) := fun g hg => dif_pos hg
+          chiefQuot (E.subgroupOf H) (F.subgroupOf H)) := fun g hg => dite_eq_left hg
   have hι_add : ∀ e ∈ E, ∀ e' ∈ E, ι (e * e') = ι e + ι e' := by
     intro e he e' he'
     have hee' : e * e' ∈ E := E.mul_mem he he'

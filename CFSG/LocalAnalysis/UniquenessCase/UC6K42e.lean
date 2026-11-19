@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def IsDMin_uc6 (D Q : Subgroup G) : Prop :=
   ∀ Q₁ : Subgroup G, Q₁ ≤ Q → D ≤ normalizer (Q₁ : Set G) → ⁅D, Q₁⁆ = Q₁ → Q₁ = ⊥ ∨ Q₁ = Q
 
+omit [Finite G] in
 theorem mem_centerG_uc6 {Q : Subgroup G} {y : G} :
     y ∈ (center ↥Q).map Q.subtype ↔ y ∈ Q ∧ ∀ g ∈ Q, g * y = y * g := by
   constructor
@@ -29,6 +30,7 @@ theorem mem_centerG_uc6 {Q : Subgroup G} {y : G} :
   · rintro ⟨hy, h⟩
     exact ⟨⟨y, hy⟩, Subgroup.mem_center_iff.2 fun g => Subtype.ext (h g g.2), rfl⟩
 
+omit [Finite G] in
 theorem le_normalizer_of_invariant_uc6 {D S : Subgroup G}
     (h : ∀ d ∈ D, ∀ s ∈ S, d * s * d⁻¹ ∈ S) : D ≤ normalizer (S : Set G) := by
   intro d hd
@@ -58,12 +60,14 @@ theorem dmin_dichotomy_uc6 {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {D Q : Subgr
   · exact Or.inl h
   · exact Or.inr (le_antisymm hSQ (h ▸ hYS))
 
+omit [Finite G] in
 theorem commute_of_commutator_eq_bot_uc6 {D S : Subgroup G} (h : ⁅S, D⁆ = ⊥) :
     ∀ s ∈ S, ∀ d ∈ D, d * s = s * d := by
   intro s hs d hd
   have h1 : ⁅s, d⁆ ∈ (⊥ : Subgroup G) := h ▸ Subgroup.commutator_mem_commutator hs hd
   exact (commutatorElement_eq_one_iff_mul_comm.1 (Subgroup.mem_bot.1 h1)).symm
 
+omit [Finite G] in
 theorem orderOf_conj_coprime_uc6 {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {D Q : Subgroup G}
     (hD : Nat.card D = r) (hDQ : D ≤ normalizer (Q : Set G)) {d : G} (hd : d ∈ D) :
     Nat.Coprime (orderOf (Q.normalizerMonoidHom ⟨d, hDQ hd⟩)) 2 := by
@@ -163,7 +167,7 @@ theorem structure1_uc6 {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {D Q : Subgroup 
     intro g
     exact (Subgroup.mem_centralizer_iff.1 h1.2) g (Subgroup.mem_top g)
   · intro x
-    haveI : Fact (IsPGroup 2 ↥(⊤ : Subgroup ↥Q)) := ⟨hQ2.to_subgroup ⊤⟩
+    have : Fact (IsPGroup 2 ↥(⊤ : Subgroup ↥Q)) := ⟨hQ2.to_subgroup ⊤⟩
     have h1 := CFSG.pth_power_mem_frattini_of_isPGroup (p := 2)
       (⟨x, Subgroup.mem_top x⟩ : ↥(⊤ : Subgroup ↥Q))
     have h2 := hfr (Subgroup.mem_map_of_mem (⊤ : Subgroup ↥Q).subtype h1)

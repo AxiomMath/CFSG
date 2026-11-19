@@ -14,17 +14,17 @@ variable {G : Type*} [Group G] {T : Subgroup G} {m n : ℕ} (D : FooteCore G T m
 
 theorem elemBound_A : ElemBound D.A 4 := by
   obtain ⟨e⟩ := D.A_iso
-  haveI : NeZero (2 ^ (m - 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m - 1)) := ⟨by positivity⟩
   exact elemBound_of_dihedral e
 
 theorem elemBound_B₀ : ElemBound D.B₀ 4 := by
   obtain ⟨e⟩ := D.B₀_iso
-  haveI : NeZero (2 ^ (n - 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (n - 1)) := ⟨by positivity⟩
   exact elemBound_of_dihedral e
 
 theorem elemBound_B₁ : ElemBound D.B₁ 4 := by
   obtain ⟨e⟩ := D.B₁_iso
-  haveI : NeZero (2 ^ (n - 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (n - 1)) := ⟨by positivity⟩
   exact elemBound_of_dihedral e
 
 theorem elemBound_CBt : ElemBound (D.B ⊓ centralizer {D.t}) 4 := by
@@ -33,7 +33,7 @@ theorem elemBound_CBt : ElemBound (D.B ⊓ centralizer {D.t}) 4 := by
 
 theorem elemBound_CB₀B₁s : ElemBound ((D.B₀ ⊔ D.B₁) ⊓ centralizer {D.s}) 4 := by
   obtain ⟨e⟩ := D.B₀_iso
-  haveI : NeZero (2 ^ (n - 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (n - 1)) := ⟨by positivity⟩
   rw [← D.sDiag_range]
   exact ElemBound.of_le_range D.sDiag D.sDiag_injective (card_le_four_of_mulEquiv_dihedral e)
     le_rfl
@@ -61,7 +61,7 @@ theorem elemBound_CT₀ {a₁ : G} (ha₁ : a₁ ∈ D.A) :
 theorem le_T₀_of_mul_self {F : Subgroup G} (hFT : F ≤ T) (hF2 : ∀ x ∈ F, x * x = 1)
     (hcard : 16 < Nat.card F) : F ≤ D.T₀ := by
   by_contra hle
-  obtain ⟨g, hgF, hg0⟩ := SetLike.not_le_iff_exists.1 hle
+  obtain ⟨g, hgF, hg0⟩ := IsConcreteLE.not_le_iff_exists.1 hle
   obtain ⟨h, hh, hconj⟩ := D.exists_conj_t (hFT hgF) hg0 (hF2 g hgF)
   have := D.elemBound_CTt.card_le_of_conj hFT hF2 hgF (D.T₀_le_T hh) hconj
   omega
@@ -70,7 +70,7 @@ theorem le_T₁_of_mul_self {F : Subgroup G} (hFT : F ≤ T) (hF2 : ∀ x ∈ F,
     (hcard : 32 < Nat.card F) : F ≤ D.T₁ := by
   have hF0 : F ≤ D.T₀ := D.le_T₀_of_mul_self hFT hF2 (by omega)
   by_contra hle
-  obtain ⟨g, hgF, hg1⟩ := SetLike.not_le_iff_exists.1 hle
+  obtain ⟨g, hgF, hg1⟩ := IsConcreteLE.not_le_iff_exists.1 hle
   obtain ⟨a₁, ha₁, -, u, hu, hconj⟩ := D.exists_conj_mul_s (hF0 hgF) hg1 (hF2 g hgF)
   have := (D.elemBound_CT₀ ha₁).card_le_of_conj hF0 hF2 hgF (D.B_le_T₀ (D.B₀_le_B hu)) hconj
   omega
@@ -180,7 +180,7 @@ theorem T₀_le_of_forall_elem32 {X : Subgroup G}
     D.T₀ ≤ X := by
   refine D.T₀_le_T₁_sup_s.trans (sup_le ?_ ?_)
   · refine D.T₁_le_of_forall_elem64 fun F hF hF2 hF6 x hx => ?_
-    haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF6]; norm_num)
+    have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF6]; norm_num)
     obtain ⟨K, hK, hxK, hKF⟩ := Sylow.exists_subgroup_card_pow_prime_le_le (p := 2)
       Nat.prime_two (n := 5) (H := zpowers x) (L := F)
       (by
@@ -200,8 +200,8 @@ theorem map_T₁_eq {f : G →* G} (hf : Function.Injective f) (h : D.T₁.map f
       (fun F hF hP => D.le_T₁_of_mul_self ((map_mono hF).trans h)
         (by rintro _ ⟨y, hy, rfl⟩; rw [← map_mul, hP.1 y hy, map_one])
         (by rw [card_map_of_injective hf, hP.2]; norm_num))
-  haveI : Finite T := D.finite_T
-  haveI : Finite D.T₁ := Finite.of_injective _ (inclusion_injective D.T₁_le_T)
+  have : Finite T := D.finite_T
+  have : Finite D.T₁ := Finite.of_injective _ (inclusion_injective D.T₁_le_T)
   exact eq_of_le_of_card_ge hle (by rw [card_map_of_injective hf])
 
 theorem map_T₀_eq {f : G →* G} (hf : Function.Injective f) (h : D.T₀.map f ≤ T) :
@@ -212,8 +212,8 @@ theorem map_T₀_eq {f : G →* G} (hf : Function.Injective f) (h : D.T₀.map f
       (fun F hF hP => D.le_T₀_of_mul_self ((map_mono hF).trans h)
         (by rintro _ ⟨y, hy, rfl⟩; rw [← map_mul, hP.1 y hy, map_one])
         (by rw [card_map_of_injective hf, hP.2]; norm_num))
-  haveI : Finite T := D.finite_T
-  haveI : Finite D.T₀ := Finite.of_injective _ (inclusion_injective D.T₀_le_T)
+  have : Finite T := D.finite_T
+  have : Finite D.T₀ := Finite.of_injective _ (inclusion_injective D.T₀_le_T)
   exact eq_of_le_of_card_ge hle (by rw [card_map_of_injective hf])
 
 theorem exists_elem64_of_mem_T₁ {x : G} (hx : x ∈ D.T₁) (hx2 : x * x = 1) :

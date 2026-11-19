@@ -33,7 +33,7 @@ private lemma q13e_quot_eq_of_mul_inv_mem (h : Q13Om t L S x₁ x₂ lam rho tau
     (hxy : x * y⁻¹ ∈ ctxN tau x₁ x₂) :
     ((⟨x, hx⟩ : ↥(q13P t tau x₁ x₂ rho om)) : q13eQP t tau x₁ x₂ rho om) =
       (⟨y, hy⟩ : ↥(q13P t tau x₁ x₂ rho om)) := by
-  haveI : IsMulCommutative ↥(q13P t tau x₁ x₂ rho om) := q13e_isMulCommutative_P h hD
+  have : IsMulCommutative ↥(q13P t tau x₁ x₂ rho om) := q13e_isMulCommutative_P h hD
   exact QuotientGroup.eq_iff_div_mem.mpr (by
     simpa [Subgroup.mem_subgroupOf, div_eq_mul_inv] using hxy)
 
@@ -43,7 +43,7 @@ private lemma q13e_mul_inv_mem_of_quot_eq (h : Q13Om t L S x₁ x₂ lam rho tau
     (heq : ((⟨x, hx⟩ : ↥(q13P t tau x₁ x₂ rho om)) : q13eQP t tau x₁ x₂ rho om) =
       (⟨y, hy⟩ : ↥(q13P t tau x₁ x₂ rho om))) :
     x * y⁻¹ ∈ ctxN tau x₁ x₂ := by
-  haveI : IsMulCommutative ↥(q13P t tau x₁ x₂ rho om) := q13e_isMulCommutative_P h hD
+  have : IsMulCommutative ↥(q13P t tau x₁ x₂ rho om) := q13e_isMulCommutative_P h hD
   have hmem := QuotientGroup.eq_iff_div_mem.mp heq
   simpa [Subgroup.mem_subgroupOf, div_eq_mul_inv] using hmem
 
@@ -53,7 +53,7 @@ private lemma q13e_mod_mul (h : Q13Om t L S x₁ x₂ lam rho tau om)
     (hc : c ∈ q13P t tau x₁ x₂ rho om) (hd : d ∈ q13P t tau x₁ x₂ rho om)
     (hab : a * b⁻¹ ∈ ctxN tau x₁ x₂) (hcd : c * d⁻¹ ∈ ctxN tau x₁ x₂) :
     (a * c) * (b * d)⁻¹ ∈ ctxN tau x₁ x₂ := by
-  haveI : IsMulCommutative ↥(q13P t tau x₁ x₂ rho om) := q13e_isMulCommutative_P h hD
+  have : IsMulCommutative ↥(q13P t tau x₁ x₂ rho om) := q13e_isMulCommutative_P h hD
   have h1 := q13e_quot_eq_of_mul_inv_mem h hD ha hb hab
   have h2 := q13e_quot_eq_of_mul_inv_mem h hD hc hd hcd
   have heq : (((⟨a, ha⟩ : ↥(q13P t tau x₁ x₂ rho om)) *
@@ -83,6 +83,7 @@ private lemma q13e_mod_trans (h : Q13Om t L S x₁ x₂ lam rho tau om)
   have h2 := q13e_quot_eq_of_mul_inv_mem h hD hy hz hyz
   exact q13e_mul_inv_mem_of_quot_eq h hD hx hz (h1.trans h2)
 
+omit [Finite G] in
 private lemma q13e_mod_symm {x y : G} (hxy : x * y⁻¹ ∈ ctxN tau x₁ x₂) :
     y * x⁻¹ ∈ ctxN tau x₁ x₂ := by
   have h1 := Subgroup.inv_mem (ctxN tau x₁ x₂) hxy
@@ -201,7 +202,7 @@ theorem q13e_kap_mem_AN_of_card_le (h : Q13Om t L S x₁ x₂ lam rho tau om)
     exact q13e_mod_trans h hD hκbpbqP hκprodP hpqP hmul hprod
   have hTone : (1 : G) ∈ T := by
     refine ⟨one_mem _, 1, one_mem _, ?_⟩
-    simpa using (one_mem (ctxN tau x₁ x₂) : (1 : G) ∈ ctxN tau x₁ x₂)
+    simp
   have hTinv : ∀ {p : G}, p ∈ T → p⁻¹ ∈ T := by
     rintro p ⟨hpP, bp, hbpB, hbpn⟩
     refine ⟨(q13P t tau x₁ x₂ rho om).inv_mem hpP, bp⁻¹,

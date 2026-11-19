@@ -157,7 +157,7 @@ theorem d_not_mem_commutator_of_dihedral (h : NineSixSetting hC T S U) {D₀ : S
     have h1 := Subgroup.relIndex_mul_card (H := D₀ ⊔ U) (K := (Q : Subgroup G))
     rw [inf_of_le_left hP₀le, hP₀card, hQcard] at h1
     omega
-  refine CFSG.Holt.NotStarCases.not_mem_commutator_of_index_two Q.isPGroup' Q.not_dvd_index
+  refine CFSG.Holt.NotStarCases.not_mem_commutator_of_index_two Q.isPGroup Q.not_dvd_index
     hP₀le hrel (hTQ huT) (fun huP => hU.d_not_mem h.three (hP₀T _ huP huT)) hu2 ?_
   intro g hg
   have hgD : g⁻¹ * hC.d * g ∈ D := by

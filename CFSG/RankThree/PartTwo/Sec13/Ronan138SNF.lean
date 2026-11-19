@@ -80,6 +80,7 @@ namespace IsNF
 variable (h : HeisFrame Z x y)
 include h
 
+omit h in
 theorem of_mem {z : G} (hz : z ∈ Z) : IsNF Z x y z 0 0 := ⟨z, hz, by simp⟩
 
 omit h in
@@ -141,7 +142,7 @@ theorem inv {p : G} {i j : ℕ} (hp : IsNF Z x y p i j) : IsNF Z x y p⁻¹ (2 *
     refine mul h ?_ ?_
     · simpa using pow h gen_y (2 * j)
     · simpa using pow h gen_x (2 * i)
-  have h3 := mul h (of_mem h (inv_mem hz)) h2
+  have h3 := mul h (of_mem (inv_mem hz)) h2
   simpa using h3
 
 theorem unique {p : G} {i j k l : ℕ} (hp : IsNF Z x y p i j) (hq : IsNF Z x y p k l) :
@@ -168,7 +169,7 @@ theorem mem_iff {p : G} {i j : ℕ} (hp : IsNF Z x y p i j) :
     p ∈ Z ↔ (i : ZMod 3) = 0 ∧ (j : ZMod 3) = 0 := by
   constructor
   · intro hpZ
-    have := unique h hp (of_mem h hpZ)
+    have := unique h hp (of_mem hpZ)
     simpa using this
   · rintro ⟨hi, hj⟩
     obtain ⟨z, hz, rfl⟩ := hp
@@ -189,7 +190,7 @@ theorem conj {u : G} (hu : ∀ z ∈ Z, u * z * u⁻¹ ∈ Z) {a b a' b' : ℕ}
     rw [conj_pow, conj_pow]
     group
   rw [e1]
-  have h1 := mul h (mul h (pow h hx i) (pow h hy j)) (of_mem h (hu z hz))
+  have h1 := mul h (mul h (pow h hx i) (pow h hy j)) (of_mem (hu z hz))
   simpa using h1
 
 theorem commutator {p q : G} {a b a' b' : ℕ} (hp : IsNF Z x y p a b) (hq : IsNF Z x y q a' b') :

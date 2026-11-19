@@ -113,6 +113,7 @@ section FixedPoint
 
 variable {T D : Subgroup G}
 
+omit [Finite G] in
 theorem not_index_two_ker_of_commutator_eq_top [Subgroup.Normalizes D T]
     {φ : ↥T →* Subgroup.center ↥T} (hDT : ⁅D, T⁆ = T)
     (hDinv : ∀ (d : ↥D) (s : ↥T), d • s ∈ φ.ker ↔ s ∈ φ.ker) (hindex2 : φ.ker.index = 2) :
@@ -148,6 +149,7 @@ theorem not_index_two_ker_of_commutator_eq_top [Subgroup.Normalizes D T]
     rw [heq, Subgroup.relIndex_self]
   omega
 
+omit [Finite G] in
 theorem smul_mem_centralizer_singleton_iff_of_fixed [Subgroup.Normalizes D T] {xT : ↥T}
     (hxfix : ∀ d : ↥D, d • xT = xT) (d : ↥D) (s : ↥T) :
     d • s ∈ Subgroup.centralizer ({xT} : Set ↥T) ↔
@@ -187,8 +189,8 @@ theorem mem_center_of_mem_centralizer (hT : CFSG.IsExtraspecial 2 ↥T)
   have hindex2 : φ.ker.index = 2 := by
     rw [hphi]
     exact centralizer_index_two_of_not_mem_center hT hxZ
-  letI : Subgroup.Normalizes D T := ⟨hN⟩
-  letI : MulDistribMulAction ↥D ↥T := Subgroup.conjMulDistribMulActionOfLeNormalizer D T hN
+  let : Subgroup.Normalizes D T := ⟨hN⟩
+  let : MulDistribMulAction ↥D ↥T := Subgroup.conjMulDistribMulActionOfLeNormalizer D T hN
   have hxfix : ∀ d : ↥D, d • xT = xT := by
     intro d
     apply Subtype.ext
@@ -207,6 +209,7 @@ end FixedPoint
 
 section ConjCenter
 
+omit [Finite G] in
 theorem conj_fixes_center {T : Subgroup G} (hT : CFSG.IsExtraspecial 2 ↥T)
     {a z : G} (ha : a ∈ Subgroup.normalizer (T : Set G)) (hzT : z ∈ T)
     (hz : (⟨z, hzT⟩ : ↥T) ∈ Subgroup.center ↥T) : a * z * a⁻¹ = z := by
@@ -241,9 +244,10 @@ theorem conj_fixes_center {T : Subgroup G} (hT : CFSG.IsExtraspecial 2 ↥T)
     · have h2' : a * z * a⁻¹ = (z₀ : G) := congrArg Subtype.val h2
       exact h2'.trans hzz₀.symm
 
+omit [Finite G] in
 theorem exists_generator_of_card_three {D : Subgroup G} (hD : Nat.card D = 3) :
     ∃ d ∈ D, orderOf d = 3 ∧ D = Subgroup.zpowers d := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcyc : IsCyclic ↥D := isCyclic_of_prime_card (α := ↥D) (by simpa using hD)
   obtain ⟨a, ha⟩ := (isCyclic_iff_exists_zpowers_eq_top (α := ↥D)).mp hcyc
   have hordA : orderOf a = 3 := by
@@ -258,6 +262,7 @@ theorem exists_generator_of_card_three {D : Subgroup G} (hD : Nat.card D = 3) :
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hmem
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
+omit [Finite G] in
 theorem center_sq_eq_one {T : Subgroup G} (hT : CFSG.IsExtraspecial 2 ↥T)
     {z : G} (hzT : z ∈ T) (hz : (⟨z, hzT⟩ : ↥T) ∈ Subgroup.center ↥T) : z ^ 2 = 1 := by
   obtain ⟨z₀, -, -, hz₀sq, hz₀uniq⟩ := center_card_two hT
@@ -311,6 +316,7 @@ theorem mem_center_of_conj_eq_mul {T D : Subgroup G} {d c z : G}
     exact Subgroup.mem_centralizer_singleton_iff.mp (hle (hDgen ▸ ha))
   exact mem_center_of_mem_centralizer hT hN hDT hcT hcD
 
+omit [Finite G] in
 theorem conj_d_orbit_product {d x : G} (hd3 : d ^ 3 = 1) :
     d * (x * (d * x * d⁻¹) * (d * (d * x * d⁻¹) * d⁻¹)) * d⁻¹
       = (d * x * d⁻¹) * (d * (d * x * d⁻¹) * d⁻¹) * x := by
@@ -326,6 +332,7 @@ theorem conj_d_orbit_product {d x : G} (hd3 : d ^ 3 = 1) :
       = (d * x * d⁻¹) * (d * (d * x * d⁻¹) * d⁻¹)
           * (d * (d * (d * x * d⁻¹) * d⁻¹) * d⁻¹) by group, hdx2]
 
+omit [Finite G] in
 theorem conj_x_orbit_product {d x : G} (hx2 : x * x = 1) :
     x * (x * (d * x * d⁻¹) * (d * (d * x * d⁻¹) * d⁻¹)) * x
       = (d * x * d⁻¹) * (d * (d * x * d⁻¹) * d⁻¹) * x := by
@@ -366,6 +373,7 @@ theorem d_orbit_product_comm {D T : Subgroup G} {d x : G}
   intro y hy
   exact (congrArg Subtype.val (Subgroup.mem_center_iff.mp hcZ ⟨y, hy⟩)).symm
 
+omit [Finite G] in
 theorem commute_mul_of_commute_mul_right {c x₁ x : G} (h1 : c * x₁ = x₁ * c)
     (hx : c * x = x * c) : Commute (x₁ * x) c := by
   show (x₁ * x) * c = c * (x₁ * x)
@@ -433,6 +441,7 @@ end ConjCenter
 
 section Helpers
 
+omit [Finite G] in
 theorem center_ne_top {T : Subgroup G} (hT : CFSG.IsExtraspecial 2 ↥T) :
     Subgroup.center ↥T ≠ ⊤ := fun h =>
   (not_subsingleton_iff_nontrivial.mpr hT.quotient_nontrivial)
@@ -450,6 +459,7 @@ theorem abelian_of_forall_mul_self_eq_one {A : Type*} [Group A]
       rw [show a⁻¹ = a from inv_eq_of_mul_eq_one_right ha,
         show b⁻¹ = b from inv_eq_of_mul_eq_one_right hb]
 
+omit [Finite G] in
 theorem d_conj_three {d x : G} (hd3 : d ^ 3 = 1) :
     d * (d * (d * x * d⁻¹) * d⁻¹) * d⁻¹ = x := by
   have hd3' : d * d * d = 1 := by rw [← pow_three']; exact hd3
@@ -460,6 +470,7 @@ theorem d_conj_three {d x : G} (hd3 : d ^ 3 = 1) :
       = d * d * d * x * (d⁻¹ * d⁻¹ * d⁻¹) by group, hd3', hd3inv]
   group
 
+omit [Finite G] in
 theorem exists_conj_ne {D T : Subgroup G} {d : G} (hDgen : D = Subgroup.zpowers d)
     (hDT : ⁅D, T⁆ = T) (hT0 : T ≠ ⊥) : ∃ b ∈ T, d * b * d⁻¹ ≠ b := by
   by_contra hcon
@@ -478,7 +489,7 @@ theorem exists_conj_ne {D T : Subgroup G} {d : G} (hDgen : D = Subgroup.zpowers 
 theorem eight_le_card {T : Subgroup G} (hT : CFSG.IsExtraspecial 2 ↥T) :
     8 ≤ Nat.card T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 ↥T := IsExtraspecial.isPGroup 2 ↥T
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hT2
   have h2lt : 2 < Nat.card T := by
@@ -507,6 +518,7 @@ theorem eight_le_card {T : Subgroup G} (hT : CFSG.IsExtraspecial 2 ↥T) :
   rw [hn]
   simpa using Nat.pow_le_pow_right (by norm_num : (0 : ℕ) < 2) hn3
 
+omit [Finite G] in
 theorem commute_orbit_closure_generators {d x z : G}
     (hc01 : Commute x (d * x * d⁻¹))
     (hc12 : Commute (d * x * d⁻¹) (d * (d * x * d⁻¹) * d⁻¹))
@@ -579,9 +591,10 @@ theorem orbit_closure_abelian {D T : Subgroup G} {d x z : G}
   intro a ha b hb hab
   exact commute_orbit_closure_generators hc01 hc12 hc02 hc0z hc1z hc2z a ha b hb hab
 
+omit [Finite G] in
 theorem le_normalizer_orbit_closure {D T : Subgroup G} {d x z : G}
     (hT : CFSG.IsExtraspecial 2 ↥T) (hN : D ≤ Subgroup.normalizer (T : Set G))
-    (hDgen : D = Subgroup.zpowers d) (hd3 : d ^ 3 = 1) (hDT : ⁅D, T⁆ = T)
+    (hDgen : D = Subgroup.zpowers d) (hd3 : d ^ 3 = 1) (_hDT : ⁅D, T⁆ = T)
     (hxT : x ∈ T) {hzT : z ∈ T} (hz : (⟨z, hzT⟩ : ↥T) ∈ Subgroup.center ↥T) :
     D ≤ Subgroup.normalizer (Subgroup.closure ({x, d * x * d⁻¹,
       d * (d * x * d⁻¹) * d⁻¹, z} : Set G) : Set G) := by
@@ -626,8 +639,8 @@ theorem not_isPGroup_mulAut {D T : Subgroup G} (hD : Nat.card D = 3)
   obtain ⟨d, hdD, hdord, hDgen⟩ := exists_generator_of_card_three hD
   obtain ⟨b, hb, hbne⟩ := exists_conj_ne hDgen hDT hT0
   intro hP
-  letI : Subgroup.Normalizes D T := ⟨hN⟩
-  letI : MulDistribMulAction ↥D ↥T := Subgroup.conjMulDistribMulActionOfLeNormalizer D T hN
+  let : Subgroup.Normalizes D T := ⟨hN⟩
+  let : MulDistribMulAction ↥D ↥T := Subgroup.conjMulDistribMulActionOfLeNormalizer D T hN
   let ψ : ↥D →* MulAut ↥T := MulDistribMulAction.toMulAut (G := ↥D) (M := ↥T)
   have hne : ψ.range ≠ ⊥ := by
     intro hbot
@@ -642,7 +655,7 @@ theorem not_isPGroup_mulAut {D T : Subgroup G} (hD : Nat.card D = 3)
     have h3 : d * b * d⁻¹ = b := by
       have := congrArg Subtype.val h2
       simpa [Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe] using this
-    rwa [h3]
+    rw [h3]
   have hdvd : Nat.card ψ.range ∣ Nat.card ↥D := Subgroup.card_range_dvd ψ
   rw [show Nat.card ↥D = 3 from by simpa using hD] at hdvd
   have hne1 : Nat.card ψ.range ≠ 1 := fun h => hne (Subgroup.card_eq_one.mp h)
@@ -664,7 +677,7 @@ theorem exists_orderOf_eq_four {T : Subgroup G} (hcard : Nat.card T = 8)
   obtain ⟨x, hxne⟩ : ∃ x : ↥T, x * x ≠ 1 := by
     by_contra h
     push Not at h
-    haveI : IsMulCommutative ↥T := abelian_of_forall_mul_self_eq_one h
+    have : IsMulCommutative ↥T := abelian_of_forall_mul_self_eq_one h
     obtain ⟨a, b, hab⟩ := hnonab
     exact hab (IsMulCommutative.is_comm.comm a b)
   refine ⟨x, ?_⟩
@@ -686,7 +699,7 @@ theorem exists_orderOf_eq_four {T : Subgroup G} (hcard : Nat.card T = 8)
     have htop : Subgroup.zpowers x = ⊤ :=
       Subgroup.eq_top_of_card_eq (H := Subgroup.zpowers x)
         (by rw [Nat.card_zpowers, h, hcard8])
-    haveI : IsCyclic ↥T := isCyclic_iff_exists_zpowers_eq_top.mpr ⟨x, htop⟩
+    have : IsCyclic ↥T := isCyclic_iff_exists_zpowers_eq_top.mpr ⟨x, htop⟩
     obtain ⟨a, b, hab⟩ := hnonab
     exact hab (IsMulCommutative.is_comm.comm a b)
 
@@ -774,7 +787,7 @@ theorem not_sixteen_le_card {D T : Subgroup G} (hD : Nat.card D = 3)
       D ≤ normalizer (A : Set G) → ⁅D, A⁆ = A → False) :
     ¬ 16 ≤ Nat.card T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 ↥T := IsExtraspecial.isPGroup 2 ↥T
   intro h16
   obtain ⟨xs, hxsZ, hxs2⟩ := noncentral_involution hT h16
@@ -826,7 +839,7 @@ theorem order_eight {D T : Subgroup G} (hD : Nat.card D = 3)
       D ≤ normalizer (A : Set G) → ⁅D, A⁆ = A → False) :
     Nat.card T = 8 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 ↥T := IsExtraspecial.isPGroup 2 ↥T
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hT2
   have hge8 : 8 ≤ Nat.card T := eight_le_card hT
@@ -843,8 +856,9 @@ theorem order_eight {D T : Subgroup G} (hD : Nat.card D = 3)
   rw [hn, this]
   norm_num
 
+omit [Finite G] in
 theorem sq_eq_center_of_order_eight {T : Subgroup G} {zT : ↥T}
-    (hT : CFSG.IsExtraspecial 2 ↥T) (hzTcenter : zT ∈ Subgroup.center ↥T)
+    (hT : CFSG.IsExtraspecial 2 ↥T) (_hzTcenter : zT ∈ Subgroup.center ↥T)
     (hzTuniq : ∀ g ∈ Subgroup.center ↥T, g = 1 ∨ g = zT)
     (hord4 : ∀ y : ↥T, y ∉ Subgroup.center ↥T → orderOf y = 4)
     (b : ↥T) (hb1 : b ≠ 1) (hbz : b ≠ zT) : b ^ 2 = zT := by
@@ -867,7 +881,7 @@ theorem quaternion {D T : Subgroup G} (hD : Nat.card D = 3) (hT : CFSG.IsExtrasp
     (hcard : Nat.card T = 8) (hN : D ≤ normalizer (T : Set G)) (hDT : ⁅D, T⁆ = T) :
     Nonempty (↥T ≃* QuaternionGroup 2) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 ↥T := IsExtraspecial.isPGroup 2 ↥T
   have hcard8 : Nat.card ↥T = 8 := by simpa using hcard
   have hcenter_ne_top := center_ne_top hT
@@ -889,7 +903,7 @@ theorem quaternion {D T : Subgroup G} (hD : Nat.card D = 3) (hT : CFSG.IsExtrasp
   have hnotP := not_isPGroup_mulAut hD hN hDT hT0
   obtain ⟨x, hxord⟩ := exists_orderOf_eq_four hcard hnonab
   let A : Subgroup ↥T := Subgroup.zpowers x
-  haveI : IsCyclic A := inferInstance
+  have : IsCyclic A := inferInstance
   have hAidx : A.index ≤ 2 := by
     have hcardA : Nat.card A = 4 := by
       rw [show A = Subgroup.zpowers x from rfl, Nat.card_zpowers, hxord]
@@ -910,6 +924,7 @@ theorem quaternion {D T : Subgroup G} (hD : Nat.card D = 3) (hT : CFSG.IsExtrasp
   intro b hb1 hbz
   exact sq_eq_center_of_order_eight hT hzTcenter hzTuniq hB.2.2 b hb1 hbz
 
+omit [Finite G] in
 theorem sl23 {D T : Subgroup G} (hD : Nat.card D = 3)
     (hQ : Nonempty (↥T ≃* QuaternionGroup 2)) (hN : D ≤ normalizer (T : Set G))
     (hDT : ⁅D, T⁆ = T) : Nonempty (↥(T ⊔ D) ≃* SL(2, ZMod 3)) := by

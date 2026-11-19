@@ -23,6 +23,7 @@ theorem e17_Q1_comm (h : L41GPh16 t L S x₁ x₂ lam rho)
     (fun k hk => z18_conj_Q1 h.toL41GPh15 (z18_rho_mem_M h.toL41GPh14) hk)
     (fun k hk hρ => z18_cent_Q1_rho h.toL41GPh15 hk hρ)
 
+omit [Finite G] in
 theorem e17_exists_pow4 (e : Sec4SectionIso (l41Q1 t x₁ x₂ rho) (l41Y t x₁ x₂ rho)
       CFSG.GH74.GLS.Bg.TwoGroups.Z4Z4)
     (hΩ : ∀ x ∈ l41Q1 t x₁ x₂ rho, x * x = 1 → x ∈ l41Y t x₁ x₂ rho) :

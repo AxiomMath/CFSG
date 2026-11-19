@@ -70,7 +70,7 @@ private theorem s136a_exists_lift_pRank_two {M : Subgroup G} {p : ℕ} (hpp : p.
   have hA₀M : (S : Subgroup ↥(barPreimage M Y)).map (barPreimage M Y).subtype ≤ M :=
     (map_subtype_le _).trans (uc22p21c_barPreimage_le M Y)
   have hbar := uc22ine229_barImage_map_sylow hY.isPGroup S
-  refine ⟨_, hA₀M, S.isPGroup'.map _, hbar, ?_⟩
+  refine ⟨_, hA₀M, S.isPGroup.map _, hbar, ?_⟩
   rw [← s13_pRank_barImage hpp hp2 hA₀M, hbar]
   have h := CFSG.GroupTheory.card_eq_pow_pRank_of_isElemAbelian hpp hY
   rw [hYc] at h
@@ -94,7 +94,7 @@ private theorem s136a_stronglyEmbedded_of_E9 {D : Data G} (hSg : UC6S846.SigmaSt
   exact PartOne.Section8.stronglyEmbedded_of_two_le_pRank_centralizer
     (R := (Q : Subgroup ↥D.M).map D.M.subtype) hSg hns h76 h614 hp Nat.prime_three
     (by norm_num) h3 ⟨Q, rfl⟩
-    (le_inf hER (hEcent _ (map_subtype_le _) (Q.isPGroup'.map _) hER)) hE hEc
+    (le_inf hER (hEcent _ (map_subtype_le _) (Q.isPGroup.map _) hER)) hE hEc
     (hA₀r.trans (CFSG.SectionRank.pRank_mono hpp.one_lt (le_inf hA₀M hA₀E)))
 
 theorem s136a_stronglyEmbedded_three (hThin : ThinList13) {D : Data G} (hS : Setting13 D)

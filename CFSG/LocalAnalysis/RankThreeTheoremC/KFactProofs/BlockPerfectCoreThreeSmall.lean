@@ -28,7 +28,7 @@ theorem perfectCoreThree_of_card_quotient {P Q : Type*} [Group P] [Finite P] [Gr
   · exact Or.inr h3
   left
   have hDD : ⁅D, D⁆ = D := by rw [hD, ← derivedSeries_succ]; exact hj
-  haveI hperf : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hDD
+  have hperf : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hDD
   let f : ↥D →* Q := g.comp D.subtype
   have hRD : Nat.card f.range ∣ Nat.card D := Subgroup.card_range_dvd f
   have hRQ : Nat.card f.range ∣ Nat.card Q := Subgroup.card_subgroup_dvd_card _
@@ -40,8 +40,8 @@ theorem perfectCoreThree_of_card_quotient {P Q : Type*} [Group P] [Finite P] [Gr
       have := hRQ.trans hQ
       rwa [show 2 ^ a * 3 ^ k * p ^ b = (2 ^ a * p ^ b) * 3 ^ k by ring] at this
     exact hcop.dvd_of_dvd_mul_right h1
-  haveI hsolv : Group.IsSolvable f.range := isSolvable_of_card_dvd_two_pow_mul_prime_pow hp hp2 hR2p
-  haveI hRperf : Group.IsPerfect f.range :=
+  have hsolv : Group.IsSolvable f.range := isSolvable_of_card_dvd_two_pow_mul_prime_pow hp hp2 hR2p
+  have hRperf : Group.IsPerfect f.range :=
     Group.IsPerfect.ofSurjective (f := f.rangeRestrict) f.rangeRestrict_surjective
   have hRsub : Subsingleton f.range := by
     by_contra h

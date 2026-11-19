@@ -264,7 +264,7 @@ theorem mem_oppositePRadicals_map_subtype_iff (p : ℕ) (S V : Subgroup C) :
     V ∈ oppositePRadicals p (⊤ : Subgroup C) S ↔
       V.map C.subtype ∈ oppositePRadicals p C (S.map C.subtype) := by
   unfold oppositePRadicals
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [isRadicalPGroup_top_map_subtype_iff C p V]
   constructor
   · rintro ⟨hrad, hcard, hinf⟩

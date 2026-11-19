@@ -138,7 +138,7 @@ theorem wcOn [Fact p.Prime] [Finite G] {a : ℕ}
     (F : OFrame p (Multiplicative (ZMod (p ^ a))) r G)
     (hcard : (Nat.card G).factorization p = a * r) : WCOn p G := by
   have hp := (Fact.out : p.Prime)
-  haveI : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
+  have : NeZero (p ^ a) := ⟨pow_ne_zero _ hp.ne_zero⟩
   have hT : Nat.card (Fin r → Multiplicative (ZMod (p ^ a))) =
       p ^ (Nat.card G).factorization p := by
     rw [hcard, Nat.card_pi, Finset.prod_const, Finset.card_univ, Fintype.card_fin,
@@ -149,7 +149,7 @@ theorem wcOn [Fact p.Prime] [Finite G] {a : ℕ}
     simp [hcard]
   by_cases hr1 : r = 1
   · subst hr1
-    haveI : IsCyclic (Fin 1 → Multiplicative (ZMod (p ^ a))) :=
+    have : IsCyclic (Fin 1 → Multiplicative (ZMod (p ^ a))) :=
       isCyclic_of_surjective (MulEquiv.funUnique (Fin 1) (Multiplicative (ZMod (p ^ a)))).symm
         (MulEquiv.funUnique (Fin 1) (Multiplicative (ZMod (p ^ a)))).symm.surjective
     exact wcOn_of_range_cyclic F.T F.T_injective hT

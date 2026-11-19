@@ -15,7 +15,7 @@ theorem exists_invariant_subgroup_of_semiregular
     (hreg : ∀ i : ℕ, 0 < i → i < 2 ^ f - 1 → ∀ u ∈ A, h ^ i * u * (h ^ i)⁻¹ = u → u = 1) :
     ∃ A₁ : Subgroup G, A₁ ≤ A ∧ Nat.card ↥A₁ = 2 ^ f ∧
       ∀ i : ℕ, ∀ x ∈ A₁, h ^ i * x * (h ^ i)⁻¹ ∈ A₁ := by
-  letI : CommGroup ↥A :=
+  let : CommGroup ↥A :=
     { (inferInstance : Group ↥A) with
       mul_comm := fun x y => Subtype.ext (hAab x x.2 y y.2) }
   have hsq : ∀ x : Additive ↥A, (2 : ℕ) • x = 0 := by
@@ -24,8 +24,8 @@ theorem exists_invariant_subgroup_of_semiregular
     apply Additive.toMul.injective
     apply Subtype.ext
     exact hA2 ((Additive.toMul x : ↥A) : G) (Additive.toMul x).2
-  letI : Module (ZMod 2) (Additive ↥A) := AddCommGroup.zmodModule hsq
-  haveI : Finite (Additive ↥A) := Finite.of_equiv ↥A Additive.ofMul
+  let : Module (ZMod 2) (Additive ↥A) := AddCommGroup.zmodModule hsq
+  have : Finite (Additive ↥A) := Finite.of_equiv ↥A Additive.ofMul
   let cj : ↥A → ↥A := fun x => ⟨h * (x : G) * h⁻¹, hhA x x.2⟩
   have hcjinj : Function.Injective cj := by
     intro x y hxy
@@ -109,7 +109,7 @@ theorem exists_invariant_subgroup_of_semiregular
     cyclicSemiregularDecomp_holds (Additive ↥A) f hf hE hordE hfpfE
   have hne : Nonempty ι := by
     by_contra hcon
-    haveI : IsEmpty ι := not_nonempty_iff.mp hcon
+    have : IsEmpty ι := not_nonempty_iff.mp hcon
     have hv : (Additive.ofMul (⟨u, hu⟩ : ↥A) : Additive ↥A) ∈ ⨆ j, S j := by
       rw [htop]
       exact Submodule.mem_top

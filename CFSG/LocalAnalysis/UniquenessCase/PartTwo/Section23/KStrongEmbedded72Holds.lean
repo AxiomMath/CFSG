@@ -40,10 +40,8 @@ theorem kf7ReeTypeOne_holds :
 
 theorem kStrongEmbedded72_holds :
     KStrongEmbedded72 := by
-  intro p hp hp2 X hG hFin hO
-  intro L hLN hKL hshape
-  intro N hN
-  haveI : Fact p.Prime := ⟨hp⟩
+  intro p hp hp2 X hG hFin hO L hLN hKL hshape N hN
+  have : Fact p.Prime := ⟨hp⟩
   rcases hshape with ⟨n, hPSL⟩ | ⟨n, hPSU⟩ | ⟨hp3, hRee' | hM11 | hL3⟩ |
     ⟨hp5, hAutSz | hTits | hMcL | hAlt⟩ | ⟨hp11, hJ4⟩
   ·

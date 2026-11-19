@@ -24,9 +24,9 @@ theorem trivial_on_of_irred {U ι F : Type} [Group U] [Fintype ι] [DecidableEq 
       rw [hWbot] at hw
       simpa using hw
     rw [hw0, Matrix.mulVec_zero]
-  · haveI : Nontrivial W := (Submodule.nontrivial_iff_ne_bot (p := W)).mpr hWbot
-    haveI : ExpChar F 2 := expChar_prime F 2
-    haveI : FiniteDimensional F W := FiniteDimensional.finiteDimensional_submodule W
+  · have : Nontrivial W := (Submodule.nontrivial_iff_ne_bot (p := W)).mpr hWbot
+    have : ExpChar F 2 := expChar_prime F 2
+    have : FiniteDimensional F W := FiniteDimensional.finiteDimensional_submodule W
     let ρ : Representation F T W :=
       { toFun := fun t =>
           { toFun := fun w =>

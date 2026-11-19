@@ -29,7 +29,7 @@ theorem linShape_rank_cards
     have hker : lam.ker = ⊤ := by rw [hlam1 hjne, MonoidHom.ker_one]
     have hq : Nat.card (Ā ⧸ lam.ker) = 1 := by
       rw [hker]
-      haveI : Subsingleton (Ā ⧸ (⊤ : Subgroup Ā)) := QuotientGroup.subsingleton_quotient_top
+      have : Subsingleton (Ā ⧸ (⊤ : Subgroup Ā)) := QuotientGroup.subsingleton_quotient_top
       exact Nat.card_of_subsingleton 1
     rw [hcard, hq, one_mul]
     calc Nat.card lam.ker ≤ 9 := hk

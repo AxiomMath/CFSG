@@ -127,7 +127,7 @@ theorem xm1_mem_V₁ (D : ThData V) (a : V) : D.x a * a⁻¹ ∈ D.V₁ := ⟨a,
 
 theorem xpow_mul_inv_mem_V₁ (D : ThData V) (n : ℕ) (v : V) : (D.x ^ n) v * v⁻¹ ∈ D.V₁ := by
   induction n with
-  | zero => simpa using one_mem D.V₁
+  | zero => simp
   | succ n ih =>
     have e : (D.x ^ (n + 1)) v * v⁻¹ =
         (D.x ((D.x ^ n) v) * ((D.x ^ n) v)⁻¹) * ((D.x ^ n) v * v⁻¹) := by
@@ -162,7 +162,7 @@ theorem V₁_inf_Fx (D : ThData V) : D.V₁ ⊓ D.Fx = ⊥ := by
   have h1 : Nat.card ↥(D.V₁ ⊓ D.Fx) = 1 := by
     have hle : Nat.card ↥(D.V₁ ⊓ D.Fx) ≤ 4 := Nat.le_of_dvd (by norm_num) hdvd
     unfold Nat.ModEq at h
-    interval_cases hc : Nat.card ↥(D.V₁ ⊓ D.Fx) <;> first | rfl | omega | (exfalso; omega)
+    interval_cases hc : Nat.card ↥(D.V₁ ⊓ D.Fx) <;> first | rfl | omega
   exact Subgroup.eq_bot_of_card_eq _ h1
 
 theorem fpf_V₁ (D : ThData V) {v : V} (hv : v ∈ D.V₁) (hx : D.x v = v) : v = 1 := by
@@ -174,7 +174,7 @@ theorem Fx_sup_V₁ (D : ThData V) : D.Fx ⊔ D.V₁ = ⊤ := by
   have hnorm : D.Fx ≤ normalizer (D.V₁ : Set V) := fun g _ => by
     rw [mem_normalizer_iff]
     intro h
-    simp [mul_comm]
+    simp
   have h := card_sup_mul_card_inf' hnorm
   rw [inf_comm, D.V₁_inf_Fx, Subgroup.card_bot, D.card_Fx, D.card_V₁] at h
   apply Subgroup.eq_top_of_card_eq
@@ -236,7 +236,7 @@ theorem E_inf_Fx (D : ThData V) : D.E ⊓ D.Fx = zpowers D.z := by
 
 theorem card_zpowers_z (D : ThData V) : Nat.card (zpowers D.z) = 2 := by
   rw [Nat.card_zpowers]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (by rw [pow_two]; exact D.z_sq) D.hz1
 
 theorem card_E_inf_Fx (D : ThData V) : Nat.card ↥(D.E ⊓ D.Fx) = 2 := by
@@ -270,7 +270,7 @@ theorem E_eq_sup (D : ThData V) : D.E = zpowers D.z ⊔ D.C := by
   have hnorm : zpowers D.z ≤ normalizer (D.C : Set V) := fun g _ => by
     rw [mem_normalizer_iff]
     intro h
-    simp [mul_comm]
+    simp
   have hbot : zpowers D.z ⊓ D.C = ⊥ := by
     refine eq_bot_iff.2 fun v hv => ?_
     obtain ⟨hvz, hvC⟩ := hv
@@ -313,7 +313,7 @@ theorem exists_eps_eq (D : ThData V) {c : V} (hc : c ∈ D.C) : ∃ v ∈ D.V₁
   exact ⟨v, hv, rfl⟩
 
 theorem exists_w₀ (D : ThData V) : ∃ w₀ ∈ D.C, w₀ ≠ 1 ∧ D.y w₀ = w₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hG : IsPGroup 2 (zpowers D.y) := by
     intro g
     refine ⟨2, ?_⟩
@@ -353,7 +353,7 @@ theorem IsHK.apply_V₁ {D : ThData V} {δ : V →* V} (h : IsHK D δ) {v : V} (
   exact ⟨D.E.mul_mem (D.hxE _ (h.mem a)) (D.E.inv_mem (h.mem a)), D.xm1_mem_V₁ _⟩
 
 theorem IsHK.y_apply_w₁ {D : ThData V} {δ : V →* V} (h : IsHK D δ) {w₀ w₁ : V}
-    (hw₁ : w₁ ∈ D.V₁) (hε : D.eps w₁ = w₀) (hy : D.y w₀ = w₀) : D.y (δ w₁) = δ w₁ := by
+    (_hw₁ : w₁ ∈ D.V₁) (hε : D.eps w₁ = w₀) (hy : D.y w₀ = w₀) : D.y (δ w₁) = δ w₁ := by
   have hc : D.y w₁ * w₁⁻¹ ∈ D.E := by
     rw [← D.eps_eq_one_iff, map_mul, map_inv, D.eps_y, hε, hy, mul_inv_cancel]
   have hc1 : δ (D.y w₁ * w₁⁻¹) = 1 := h.triv _ hc
@@ -390,7 +390,7 @@ theorem IsHK.eq_on_V₁ {D : ThData V} {δ δ' : V →* V} (h : IsHK D δ) (h' :
     rw [D.card_C] at hcdvd hcne
     obtain ⟨k, hk, hkQ⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 (show Nat.card Q₁ ∣ 2 ^ 8 by
       simpa using hdvd256)
-    interval_cases k <;> simp_all <;> omega
+    interval_cases k <;> simp_all
   have hQ₁V : Q₁ = D.V₁ :=
     Subgroup.eq_of_le_of_card_ge inf_le_right (by rw [hQ₁card, D.card_V₁])
   intro v hv
@@ -452,7 +452,7 @@ theorem mem_V₁ (h : SOK D S) {s : MulAut V} (hs : s ∈ S) {v : V} (hv : v ∈
   rw [xm1_apply, xm1_apply, map_mul, map_inv, h.apply_x hs]
 
 theorem fix_z (h : SOK D S) {s : MulAut V} (hs : s ∈ S) : s D.z = D.z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinv : ∀ g ∈ S, ∀ u ∈ D.Fx, g u ∈ D.Fx := fun g hg u hu => h.mem_Fx hg hu
   have h2 : 2 ∣ Nat.card D.Fx := by rw [D.card_Fx]; norm_num
   obtain ⟨u, hu, hu1, hfix⟩ := exists_ne_one_fixed (p := 2) S h.pgroup D.Fx hinv h2
@@ -479,7 +479,7 @@ theorem fix_z (h : SOK D S) {s : MulAut V} (hs : s ∈ S) : s D.z = D.z := by
   exact hfix s hs
 
 theorem fix_C (h : SOK D S) {s : MulAut V} (hs : s ∈ S) {c : V} (hc : c ∈ D.C) : s c = c := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let CS : Subgroup V :=
     { carrier := {v | v ∈ D.V₁ ∧ ∀ g ∈ S, g v = v}
       mul_mem' := fun {a b} ha hb => ⟨mul_mem ha.1 hb.1, fun g hg => by
@@ -509,7 +509,7 @@ theorem fix_C (h : SOK D S) {s : MulAut V} (hs : s ∈ S) {c : V} (hc : c ∈ D.
   have hCS16 : Nat.card CS = 16 := by
     obtain ⟨k, hk, hkQ⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 (show Nat.card CS ∣ 2 ^ 4 by
       simpa using hdvd)
-    interval_cases k <;> simp_all <;> omega
+    interval_cases k <;> simp_all
   have hCSC : CS = D.C := Subgroup.eq_of_le_of_card_ge hCSle (by rw [hCS16, D.card_C])
   have : c ∈ CS := by rw [hCSC]; exact hc
   exact this.2 s hs
@@ -524,7 +524,7 @@ theorem fix_E (h : SOK D S) {s : MulAut V} (hs : s ∈ S) {e : V} (he : e ∈ D.
 
 theorem delta_V₁ (h : SOK D S) {s : MulAut V} (hs : s ∈ S) {v : V} (hv : v ∈ D.V₁) :
     s v * v⁻¹ ∈ D.C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K : Subgroup V := D.V₁ ⊓ fixSub s with hK
   set I : Subgroup V := D.V₁.map (dm s) with hI
   have hCK : D.C ≤ K := fun c hc => ⟨hc.2, h.fix_C hs hc⟩
@@ -541,7 +541,7 @@ theorem delta_V₁ (h : SOK D S) {s : MulAut V} (hs : s ∈ S) {v : V} (hv : v �
     rwa [D.card_C] at this
   have hIle : Nat.card I ≤ 16 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     nlinarith
   have hIV : I ≤ D.V₁ := by
     rintro _ ⟨w, hw, rfl⟩
@@ -645,7 +645,7 @@ theorem dm_isHK (h : SOK D S) {s : MulAut V} (hs : s ∈ S) : IsHK D (dm s) := b
     rw [map_mul]
     refine D.E.mul_mem ?_ (((h.delta_V₁ hs hv₁ : s v₁ * v₁⁻¹ ∈ D.C)).1)
     rcases (D.mem_Fx_iff f).1 hf with rfl | rfl | rfl | rfl
-    · simpa using one_mem D.E
+    · simp
     · rw [dm_apply, h.fix_z hs, mul_inv_cancel]
       exact one_mem _
     · rcases h.delta_z₀ hs with h1 | h1
@@ -661,7 +661,7 @@ theorem dm_isHK (h : SOK D S) {s : MulAut V} (hs : s ∈ S) : IsHK D (dm s) := b
   · rw [dm_apply, dm_apply, h.apply_x hs, map_mul, map_inv]
   · rw [dm_apply, dm_apply, h.apply_y hs, map_mul, map_inv]
 
-theorem dm_injective (h : SOK D S) {s s' : MulAut V} (hs : s ∈ S) (hs' : s' ∈ S)
+theorem dm_injective (_h : SOK D S) {s s' : MulAut V} (_hs : s ∈ S) (_hs' : s' ∈ S)
     (hss : dm s = dm s') : s = s' := by
   ext v
   have := congrArg (fun δ : V →* V => δ v) hss
@@ -708,7 +708,7 @@ theorem two_vals {p a b : V} (ha : a = 1 ∨ a = p) (hb : b = 1 ∨ b = p) (hp :
   · rfl
 
 instance finite_mulAut : Finite (MulAut V) :=
-  Finite.of_injective (fun φ : MulAut V => (φ : V → V)) (fun a b h => MulEquiv.ext (congrFun h))
+  Finite.of_injective (fun φ : MulAut V => (φ : V → V)) (fun _a _b h => MulEquiv.ext (congrFun h))
 
 theorem thompson68_of_F5 (hF5 : F5Stmt.{u}) {V : Type u} [CommGroup V] [Finite V] (D : ThData V)
     {S : Subgroup (MulAut V)} (h : SOK D S) :
@@ -753,19 +753,19 @@ theorem thompson68_of_F5 (hF5 : F5Stmt.{u}) {V : Type u} [CommGroup V] [Finite V
     have := congrArg (fun w => D.z₀⁻¹ * w) h2
     simpa using this.symm
   have hτcard : Nat.card (zpowers D.τ) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime (by rw [pow_two]; exact D.hτ2) hτ1
   have hzτ : zpowers D.τ ≤ S := zpowers_le.2 h.tau
   have hSpow : ∃ n, Nat.card S = 2 ^ n := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact (IsPGroup.iff_card).1 h.pgroup
   have hS2 : 2 ≤ Nat.card S := hτcard ▸ Subgroup.card_le_of_le hzτ
   have hSc : Nat.card S = 2 ∨ Nat.card S = 4 := by
     obtain ⟨n, hn⟩ := hSpow
     have hn2 : n ≤ 2 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have : 2 ^ 3 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hcon
       rw [hn] at hcard4
       omega
@@ -777,7 +777,7 @@ theorem thompson68_of_F5 (hF5 : F5Stmt.{u}) {V : Type u} [CommGroup V] [Finite V
   · right
     obtain ⟨s, hsS, hsτ⟩ : ∃ s ∈ S, s ∉ zpowers D.τ := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hle : S ≤ zpowers D.τ := hcon
       have := Subgroup.card_le_of_le hle
       rw [h4, hτcard] at this
@@ -809,7 +809,7 @@ theorem thompson68_of_F5 (hF5 : F5Stmt.{u}) {V : Type u} [CommGroup V] [Finite V
       · exact absurd ⟨h1, h2⟩ hpairτ
     have hHK := h.dm_isHK hβS
     have hHK1 : IsHK D (1 : V →* V) :=
-      ⟨fun v => by simpa using one_mem D.E, fun e he => rfl, fun v => by simp, fun v => by simp⟩
+      ⟨fun v => by simp, fun e he => rfl, fun v => by simp, fun v => by simp⟩
     have hδV₁ : ∀ v ∈ D.V₁, dm β v = 1 := fun v hv => by
       have := hHK.eq_on_V₁ hHK1 hw₀1 hw₁V hw₁ε (by rw [hβw₁]; rfl) v hv
       simpa using this

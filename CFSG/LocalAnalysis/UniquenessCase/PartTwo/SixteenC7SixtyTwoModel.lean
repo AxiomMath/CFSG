@@ -44,8 +44,8 @@ theorem s16c7_card_S : Nat.card s16c7_S = 64 := by
   rw [h, card_U3]
 
 theorem s16c7_isSylow_S : CFSG.ABGLocalTools.IsSylowOf 2 s16c7_S img := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut WMod) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut WMod) := MulEquiv.finite_left
   refine CFSG.ABGLocalTools.isSylowOf_iff.2 ⟨s16c7_S_le_img,
     IsPGroup.of_card (n := 6) (by rw [s16c7_card_S]; norm_num), ?_⟩
   have h1 := Subgroup.relIndex_mul_card (H := s16c7_S) (K := img)

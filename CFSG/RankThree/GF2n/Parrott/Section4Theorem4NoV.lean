@@ -27,6 +27,7 @@ local notation "uA" => (⟨u, u_mem_A⟩ : A45)
 set_option quotPrecheck false in
 local notation "vA" => (⟨v, v_mem_A⟩ : A45)
 
+omit hN in
 theorem exists_isParrottE_of_noFusion (h : Tim79a.ParrottHyp z)
     (hZ : centerIn (J z) = centerIn (H z)) (hne : H z ⊔ pPrimeCore 2 G ≠ ⊤)
     (hNF : (∀ g : G, (∃ e ∈ centerIn (J z), e ≠ 1 ∧ e ≠ z ∧ g ∈ centralizer ({e} : Set G)) →

@@ -49,8 +49,8 @@ private theorem rckFlagSp_irredW_general [CharP K 2] (n : ℕ) :
   · exact Or.inl hbot
   right
   by_cases hdimle : Module.finrank K W ≤ 1
-  · haveI : FiniteDimensional K W := FiniteDimensional.finiteDimensional_submodule W
-    haveI : FiniteDimensional K P := Submodule.finiteDimensional_of_le hPW
+  · have : FiniteDimensional K W := FiniteDimensional.finiteDimensional_submodule W
+    have : FiniteDimensional K P := Submodule.finiteDimensional_of_le hPW
     have hP1 : 1 ≤ Module.finrank K P := (Submodule.one_le_finrank_iff).2 hbot
     have hle : Module.finrank K P ≤ Module.finrank K W := Submodule.finrank_mono hPW
     exact Submodule.eq_of_le_of_finrank_eq hPW (by omega)
@@ -205,7 +205,7 @@ private theorem rckFlagSp_irredW_general [CharP K 2] (n : ℕ) :
       · exact hkey m'' hm''
     exact le_antisymm hPW hWleP
 
-theorem rckFlagIrredW_Sp (n g : ℕ) (hg : 1 ≤ g) :
+theorem rckFlagIrredW_Sp (n g : ℕ) (_hg : 1 ≤ g) :
     FlagIrredW (CFSG.Open.StatedSp n (GaloisField 2 g)).subtype
       (some fun u v => u ⬝ᵥ ((Matrix.fromBlocks 0 1 (-1) 0 :
         Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) (GaloisField 2 g)).mulVec v)) := by

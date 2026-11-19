@@ -20,7 +20,7 @@ theorem _root_.CFSG.EvenSporadicStandard.StdHyp.card_sylow_dvd_four_of_facts (h 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hset := h.toStandardSetting
   have hS := hset.isCyclic_sylow S
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
   by_contra hne
   have hn3 : 3 ≤ n := by
     by_contra hlt

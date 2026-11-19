@@ -25,7 +25,7 @@ theorem getD_one3_mem {L : List Nat} {H : Submonoid Mat12}
     Canon3 (L.getD k one3) ∧ pkMat3 (L.getD k one3) ∈ H := by
   by_cases hk : k < L.length
   · have := h k hk
-    rwa [List.getD_eq_getElem _ _ hk] at this ⊢
+    rw [List.getD_eq_getElem _ _ hk] at this ⊢; assumption
   · rw [List.getD_eq_default _ _ (by omega)]
     exact ⟨canon3_one3.1, canon3_one3.2 ▸ H.one_mem⟩
 
@@ -114,7 +114,7 @@ theorem enum_mem {E : List (Nat × Nat)} {G GI : List Nat} {n : Nat}
   | zero =>
     intro p hp hd
     have h := hall p hp
-    simp only [entK, Bool.and_eq_true, hd, Nat.beq_refl, cond_true, Nat.beq_eq] at h
+    simp only [entK, Bool.and_eq_true, hd, Nat.beq_refl, _root_.Bool.cond_true, Nat.beq_eq] at h
     refine ⟨canon3_of_canonK h.1.1, ?_⟩
     rw [h.2, canon3_one3.2]
     exact H.one_mem
@@ -122,7 +122,7 @@ theorem enum_mem {E : List (Nat × Nat)} {G GI : List Nat} {n : Nat}
     intro p hp hd
     have h := hall p hp
     have hb : Nat.beq (p.2 / 8) 0 = false := by rw [hd]; rfl
-    simp only [entK, Bool.and_eq_true, hb, cond_false, Nat.blt_eq] at h
+    simp only [entK, Bool.and_eq_true, hb, Bool.cond_false, Nat.blt_eq] at h
     obtain ⟨⟨hc, -⟩, hk, hpar⟩ := h
     have hce := canon3_of_canonK hc
     obtain ⟨hgi, hm⟩ := hG _ hk
@@ -184,7 +184,7 @@ theorem cenK_sound {G : List Nat} {n : Nat} : ∀ {E : List (Nat × Nat)} {a : N
       simp only [letN_eq, Bool.and_eq_true, Nat.beq_eq, Nat.blt_eq, Nat.sub_eq] at h'
       obtain ⟨⟨hsq, ha⟩, hE⟩ := h'
       obtain ⟨h1, h2⟩ := cenK_sound hE
-      refine ⟨by rw [List.countP_cons, h1, hp]; simp only [if_true]; omega, fun q hq hc => ?_⟩
+      refine ⟨by rw [List.countP_cons, h1, hp]; simp only [ite_true]; omega, fun q hq hc => ?_⟩
       rcases List.mem_cons.1 hq with rfl | hq
       · exact hsq
       · exact h2 q hq hc

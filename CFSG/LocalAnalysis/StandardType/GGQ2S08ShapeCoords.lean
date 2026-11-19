@@ -40,16 +40,16 @@ private lemma ggQ2S08_mem_span_xV (M : GGQ2LDatum 3 Bs L x) (v : M.V)
   let H : Subgroup (MulAut ↥Bs) :=
     { carrier := {φ | ggLin (p := 3) M.model φ v = v}
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         rw [map_one]
         rfl
       mul_mem' := by
         intro φ ψ hφ hψ
-        simp only [Set.mem_setOf_eq] at hφ hψ ⊢
+        simp only [Set.mem_ofPred_eq] at hφ hψ ⊢
         rw [map_mul, LinearEquiv.mul_apply, hψ, hφ]
       inv_mem' := by
         intro φ hφ
-        simp only [Set.mem_setOf_eq] at hφ ⊢
+        simp only [Set.mem_ofPred_eq] at hφ ⊢
         apply (ggLin (p := 3) M.model φ).injective
         rw [← LinearEquiv.mul_apply, ← map_mul, mul_inv_cancel, map_one]
         rw [hφ]
@@ -246,9 +246,9 @@ theorem ggQ2LDatum_coords_shapeB (M : GGQ2LDatum 3 Bs L x) (hB' : M.ShapeB) {ℓ
         by_cases hj : j = m
         · rw [hj]
           simp only [fV, y', ↓reduceIte, zero_smul, add_zero]
-        · simp only [fV, y', if_neg hj, zero_add]
+        · simp only [fV, y', ite_eq_right hj, zero_add]
       rw [Finset.sum_congr rfl fun j _ => hterm j, Finset.sum_add_distrib]
-      simp only [Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      simp only [Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rw [hsplit] at hy
     have hym : y m = 0 := by
       by_contra hym
@@ -264,18 +264,18 @@ theorem ggQ2LDatum_coords_shapeB (M : GGQ2LDatum 3 Bs L x) (hB' : M.ShapeB) {ℓ
     obtain ⟨μ, hμ⟩ := hker y' hroots
     have hμ0 : μ = 0 := by
       have h1 := congrFun hμ m
-      simp only [y', if_pos rfl, Pi.smul_apply, smul_eq_mul] at h1
+      simp only [y', ite_eq_left rfl, Pi.smul_apply, smul_eq_mul] at h1
       exact (mul_eq_zero.mp h1.symm).resolve_right hcm
     intro j
     by_cases hj : j = m
     · rw [hj, hym]
     · have h1 := congrFun hμ j
-      simp only [y', if_neg hj, Pi.smul_apply, smul_eq_mul, hμ0, zero_mul] at h1
+      simp only [y', ite_eq_right hj, Pi.smul_apply, smul_eq_mul, hμ0, zero_mul] at h1
       exact h1
   have hspV : ⊤ ≤ Submodule.span (ZMod 3) (Set.range fV) := by
     have hfV : ∀ j, j ≠ m → M.coroot (e j) ∈ Submodule.span (ZMod 3) (Set.range fV) := by
       intro j hj
-      have : fV j = M.coroot (e j) := if_neg hj
+      have : fV j = M.coroot (e j) := ite_eq_right hj
       rw [← this]
       exact Submodule.subset_span (Set.mem_range_self j)
     have hm : M.coroot (e m) ∈ Submodule.span (ZMod 3) (Set.range fV) := by
@@ -299,7 +299,7 @@ theorem ggQ2LDatum_coords_shapeB (M : GGQ2LDatum 3 Bs L x) (hB' : M.ShapeB) {ℓ
       · exact hfV j hj
     have hx : Submodule.span (ZMod 3) {M.xV} ≤ Submodule.span (ZMod 3) (Set.range fV) := by
       rw [Submodule.span_le, Set.singleton_subset_iff]
-      have : fV m = M.xV := if_pos rfl
+      have : fV m = M.xV := ite_eq_left rfl
       rw [← this]
       exact Submodule.subset_span (Set.mem_range_self m)
     rw [← htop]
@@ -314,13 +314,13 @@ theorem ggQ2LDatum_coords_shapeB (M : GGQ2LDatum 3 Bs L x) (hB' : M.ShapeB) {ℓ
     exact Module.Basis.equiv_apply bV j bM (Equiv.refl _)
   have hκx : κ M.xV = x₀ := by
     have h1 := hκf m
-    simp only [fV, fM, if_pos rfl] at h1
+    simp only [fV, fM, ite_eq_left rfl] at h1
     exact h1
   have hκh : ∀ j, κ (M.coroot (e j)) = h₀ j := by
     have hne : ∀ j, j ≠ m → κ (M.coroot (e j)) = h₀ j := by
       intro j hj
       have h1 := hκf j
-      simp only [fV, fM, if_neg hj] at h1
+      simp only [fV, fM, ite_eq_right hj] at h1
       exact h1
     intro j
     by_cases hj : j ≠ m
@@ -341,9 +341,9 @@ theorem ggQ2LDatum_coords_shapeB (M : GGQ2LDatum 3 Bs L x) (hB' : M.ShapeB) {ℓ
   refine ⟨κ, hκx, ggQ2S08_conj_of_bases M e bV bM S fun i k => ?_⟩
   rw [Module.Basis.mk_apply hliV hspV k, Module.Basis.mk_apply hliM hspM k]
   by_cases hk : k = m
-  · simp only [fV, fM, if_pos hk]
+  · simp only [fV, fM, ite_eq_left hk]
     rw [M.simple_apply, ggQ2S08_root_xV, zero_smul, sub_zero, hκx, hS, hαx, zero_smul, sub_zero]
-  · simp only [fV, fM, if_neg hk]
+  · simp only [fV, fM, ite_eq_right hk]
     rw [M.simple_apply, M.pairing, hC, map_sub, map_smul, hκh, hκh, hS, hpair]
 
 theorem ggQ2LDatum_coords_shapeA (M : GGQ2LDatum 3 Bs L x) (hA : M.ShapeA) {ℓ n : ℕ}
@@ -390,8 +390,8 @@ theorem ggQ2LDatum_coords_shapeA (M : GGQ2LDatum 3 Bs L x) (hA : M.ShapeA) {ℓ 
           d m * y none + ∑ j, (∑ i, d i * (C₀ i j : ZMod 3)) * y (some j) := by
         simp only [mul_add, Finset.sum_add_distrib]
         congr 1
-        · rw [Finset.sum_eq_single m (fun i _ hi => by rw [if_neg hi, mul_zero, mul_zero])
-            (fun h => absurd (Finset.mem_univ m) h), if_pos rfl, mul_one]
+        · rw [Finset.sum_eq_single m (fun i _ hi => by rw [ite_eq_right hi, mul_zero, mul_zero])
+            (fun h => absurd (Finset.mem_univ m) h), ite_eq_left rfl, mul_one]
         · simp only [Finset.mul_sum, Finset.sum_mul]
           rw [Finset.sum_comm]
           exact Finset.sum_congr rfl fun j _ => Finset.sum_congr rfl fun i _ => by ring
@@ -496,9 +496,9 @@ theorem ggQ2LDatum_coords_shapeC (M : GGQ2LDatum 3 Bs L x) (hSc : M.ShapeC) {ℓ
     · rw [hQ_none, hh k, dotProduct_sum]
       exact Finset.sum_eq_zero fun j _ => by rw [dotProduct_smul, hξv, smul_zero]
     · rw [hQ_some, hh k, dotProduct_sum, Finset.sum_eq_single i]
-      · rw [dotProduct_smul, hαv, if_pos rfl, smul_eq_mul, mul_one]
+      · rw [dotProduct_smul, hαv, ite_eq_left rfl, smul_eq_mul, mul_one]
       · intro j _ hj
-        rw [dotProduct_smul, hαv, if_neg (Ne.symm hj), smul_zero]
+        rw [dotProduct_smul, hαv, ite_eq_right (Ne.symm hj), smul_zero]
       · intro hi
         exact absurd (Finset.mem_univ i) hi
   have hQP : ∀ y, Q (Plin y) = y := by
@@ -512,9 +512,9 @@ theorem ggQ2LDatum_coords_shapeC (M : GGQ2LDatum 3 Bs L x) (hSc : M.ShapeC) {ℓ
     | some i =>
         rw [hQ_some, dotProduct_add, dotProduct_sum, dotProduct_smul, hαx, smul_zero, add_zero,
           Finset.sum_eq_single i]
-        · rw [dotProduct_smul, hαv, if_pos rfl, smul_eq_mul, mul_one]
+        · rw [dotProduct_smul, hαv, ite_eq_left rfl, smul_eq_mul, mul_one]
         · intro j _ hj
-          rw [dotProduct_smul, hαv, if_neg (Ne.symm hj), smul_zero]
+          rw [dotProduct_smul, hαv, ite_eq_right (Ne.symm hj), smul_zero]
         · intro hi
           exact absurd (Finset.mem_univ i) hi
   have hPQ : ∀ v, Plin (Q v) = v :=
@@ -559,10 +559,10 @@ theorem ggQ2S08_ker_of_cert {ℓ : ℕ} (C₀ : Matrix (Fin ℓ) (Fin ℓ) ℤ) 
   have h3 : ∑ j, (∑ k, P i k * (C₀ k j : ZMod 3)) * y j = y i - c i * u * y m := by
     simp only [hP, sub_mul, Finset.sum_sub_distrib]
     congr 1
-    · rw [Finset.sum_eq_single i (fun j _ hj => by rw [if_neg (Ne.symm hj), zero_mul])
-        (fun h => absurd (Finset.mem_univ i) h), if_pos rfl, one_mul]
-    · rw [Finset.sum_eq_single m (fun j _ hj => by rw [if_neg hj, mul_zero, zero_mul])
-        (fun h => absurd (Finset.mem_univ m) h), if_pos rfl, mul_one]
+    · rw [Finset.sum_eq_single i (fun j _ hj => by rw [ite_eq_right (Ne.symm hj), zero_mul])
+        (fun h => absurd (Finset.mem_univ i) h), ite_eq_left rfl, one_mul]
+    · rw [Finset.sum_eq_single m (fun j _ hj => by rw [ite_eq_right hj, mul_zero, zero_mul])
+        (fun h => absurd (Finset.mem_univ m) h), ite_eq_left rfl, mul_one]
   rw [h3] at h1
   simp only [Pi.smul_apply, smul_eq_mul]
   linear_combination h1

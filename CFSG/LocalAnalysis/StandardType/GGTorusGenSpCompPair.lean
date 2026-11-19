@@ -40,14 +40,14 @@ private lemma permutationGL_mem_block {K : Type} [Field K] {m : ℕ} (t : Fin m 
     · have h' : σ⁻¹ a = b := by
         calc σ⁻¹ a = σ⁻¹ (σ b) := by rw [h]
              _ = b := Equiv.symm_apply_apply σ b
-      rw [if_pos h']
+      rw [ite_eq_left h']
       simp [h, hσt b]
     · have h' : σ⁻¹ a ≠ b := by
         intro e
         apply h
         calc a = σ (σ⁻¹ a) := (Equiv.apply_symm_apply σ a).symm
              _ = σ b := by rw [e]
-      rw [if_neg h']
+      rw [ite_eq_right h']
       simp
   · change (TauCeti.permutationGL σ : GL (Fin m ⊕ Fin m) K) *
       (1 - Matrix.diagonal v) = 1 - Matrix.diagonal v
@@ -65,7 +65,7 @@ private lemma permutationGL_mem_block {K : Type} [Field K] {m : ℕ} (t : Fin m 
       · have hfix' : σ⁻¹ a = a := by
           calc σ⁻¹ a = σ⁻¹ (σ a) := by rw [hfix a hv0]
                _ = a := Equiv.symm_apply_apply σ a
-        rw [if_pos hfix', if_pos rfl, hv0]
+        rw [ite_eq_left hfix', ite_eq_left rfl, hv0]
         simp
       · have hv1 : v a = 1 := by
           rcases hv a with h | h
@@ -73,7 +73,7 @@ private lemma permutationGL_mem_block {K : Type} [Field K] {m : ℕ} (t : Fin m 
           · exact h
         rw [hv1]
         simp
-    · rw [if_neg hab]
+    · rw [ite_eq_right hab]
       have hleft : (if σ⁻¹ a = b then 1 else 0) * (1 - v b) = 0 := by
         by_cases hv0 : v b = 0
         · have hb : σ b = b := hfix b hv0
@@ -83,7 +83,7 @@ private lemma permutationGL_mem_block {K : Type} [Field K] {m : ℕ} (t : Fin m 
             calc a = σ (σ⁻¹ a) := (Equiv.apply_symm_apply σ a).symm
                  _ = σ b := by rw [h]
                  _ = b := hb
-          rw [if_neg hne, zero_mul]
+          rw [ite_eq_right hne, zero_mul]
         · have hv1 : v b = 1 := by
             rcases hv b with h | h
             · exact absurd h hv0
@@ -105,8 +105,8 @@ private lemma permSp_coe_GL {K : Type} [Field K] {m : ℕ} (π : Equiv.Perm (Fin
     change (Equiv.sumCongr π π).symm a = b ↔ _
     rw [Equiv.symm_apply_eq, Equiv.sumCongr_apply]
   by_cases h : a = Sum.map π π b
-  · rw [if_pos (hiff.mpr h), if_pos h]
-  · rw [if_neg (fun h' => h (hiff.mp h')), if_neg h]
+  · rw [ite_eq_left (hiff.mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun h' => h (hiff.mp h')), ite_eq_right h]
 
 private lemma support_inr_of {K : Type} [Field K] {m : ℕ} (v : Fin m ⊕ Fin m → K)
     (hsym : ∀ a, v a = v (Equiv.sumComm (Fin m) (Fin m) a)) {i : Fin m}

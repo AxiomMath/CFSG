@@ -14,7 +14,7 @@ variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMo
 
 theorem card_eq_three_pow {G : Type*} [Group G] {E : Subgroup G} [Finite E]
     (hE : IsElemAbelian 3 E) : ∃ k : ℕ, Nat.card E = 3 ^ k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 E := by
     intro g
     refine ⟨1, ?_⟩
@@ -130,7 +130,7 @@ theorem sp_struct (E : Subgroup (W ≃ₗ[ZMod 2] W)) [Fintype E] (hE : IsElemAb
     have he := expo_spec (hgen q g.1 g.2) x hx
     simp [h1] at he
     simpa using he
-  · have h0 : expo ρf X q g.1 = 0 := by rw [hexp, if_neg hqp]
+  · have h0 : expo ρf X q g.1 = 0 := by rw [hexp, ite_eq_right hqp]
     have he := expo_spec (hgen q g.1 g.2) x hx
     simp [h0] at he
     simpa [hqp] using he

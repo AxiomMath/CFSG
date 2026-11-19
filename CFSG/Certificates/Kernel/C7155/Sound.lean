@@ -378,7 +378,7 @@ theorem k7_decM_idM : decM idM = 1 := by
   rw [k7_idM, k7_decM_pk9 (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num)]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem k7_pow5M (A : ℕ) : pow5M A = mulM (mulM (mulM A A) (mulM A A)) A := by
   unfold pow5M
@@ -511,8 +511,7 @@ theorem k7_coe_mkG {n : ℕ} (h : (decM n).det = 1) :
     ((mkG n : G35) : Matrix (Fin 3) (Fin 3) (ZMod 5)) = decM n := by
   unfold mkG
   first
-    | exact congrArg Subtype.val (dif_pos h)
-    | simp [h]
+    | exact congrArg Subtype.val (dite_eq_left h)
 
 theorem k7_fin5 {q : Fin 5 → ℕ} (h01 : q 0 ≠ q 1) (h02 : q 0 ≠ q 2) (h03 : q 0 ≠ q 3)
     (h04 : q 0 ≠ q 4) (h12 : q 1 ≠ q 2) (h13 : q 1 ≠ q 3) (h14 : q 1 ≠ q 4) (h23 : q 2 ≠ q 3)
@@ -554,7 +553,6 @@ theorem ptOK_sound (h : ptOKL tC = true) (x y : ZMod 5) (hxy : x ≠ 0 ∨ y ≠
     exact (k7_tC _ (hL i)).1
   · try dsimp only at hP
     rw [k7_coe_mkG (k7_tC _ (hL i)).2, k7_coe_mkG (k7_tC _ (hL j)).2] at hP
-    change img (k7L u i) x.val y.val = img (k7L u j) x.val y.val
     rw [k7_img, k7_img]
     exact (k7_nrm_smul hP).symm
 
@@ -598,7 +596,7 @@ theorem levOK_sound (h : levOKL tC = true) (g : G35)
   · exfalso
     apply k1
     apply k7_natCast_inj (Nat.mod_lt _ (by norm_num)) (by norm_num : (1 : ℕ) < 5)
-    simp only [k7_nadd, k7_nmul, k7_nmod, k7_cast_mod, Nat.cast_add, Nat.cast_mul, Nat.cast_ofNat,
+    simp only [k7_nadd, k7_nmul, k7_cast_mod, Nat.cast_add, Nat.cast_mul, Nat.cast_ofNat,
       Nat.cast_one, ZMod.natCast_zmod_val, k7_four]
     linear_combination hdet
   · exfalso
@@ -708,7 +706,6 @@ theorem bucket_sound (h : bucketsOK bits11625 = true) (g : G35) :
     intro h11625
     rw [hgeq] at h11625 ⊢
     have h1 := congrArg (fun a => aeval M (triP a)) hu
-    try dsimp only at h1
     rw [triP_mulA, map_sub, map_mul, map_mul, hM, mul_zero, sub_zero, triP_sub, map_sub, hpow,
       h11625] at h1
     have h0 : aeval M (triP ((1, 0, 0) : Tri)) = 1 := by rw [aeval_triP]; simp
@@ -742,7 +739,6 @@ theorem bucket_sound (h : bucketsOK bits11625 = true) (g : G35) :
     rw [map_mul, hM, zero_mul, map_sub, aeval_X_pow, map_one, sub_eq_zero] at h6
     refine ⟨(hgeq 5).mpr h6, fun v => ?_⟩
     have h7 := congrArg (fun A => A *ᵥ v) hCH
-    try simp only at h7
     rw [ht, hc, sub_mulVec, add_mulVec, sub_mulVec, smul_mulVec, smul_mulVec, one_mulVec,
       zero_mulVec] at h7
     exact h7

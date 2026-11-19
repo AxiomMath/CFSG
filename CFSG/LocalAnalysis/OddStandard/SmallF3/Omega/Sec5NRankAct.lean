@@ -101,11 +101,11 @@ theorem NrKer.nrqG_comm (h : NrKer Ψ) (s t : Bool × Fin 3) :
   have h1 := h.map_eq (sec5nr_comm_cls s t)
   simp only [map_mul, map_inv] at h1
   by_cases hst : NrR s t
-  · rw [if_pos hst]
-    rw [if_pos hst] at h1
+  · rw [ite_eq_left hst]
+    rw [ite_eq_left hst] at h1
     exact h1
-  · rw [if_neg hst]
-    rw [if_neg hst] at h1
+  · rw [ite_eq_right hst]
+    rw [ite_eq_right hst] at h1
     simpa [nrqG] using h1
 
 theorem NrKer.rel_unique (h : NrKer Ψ) {x : G} {t t' : Bool × Fin 3}
@@ -259,10 +259,10 @@ theorem NrSetting.pres (e : ↥E) : NrPres (nrRho S e) := by
   by_cases h1 : NrR (nrAct S e s) (nrAct S e t) <;> by_cases h2 : NrR s t
   · exact ⟨fun _ => h2, fun _ => h1⟩
   · exfalso
-    rw [if_pos h1, if_neg h2] at hcs
+    rw [ite_eq_left h1, ite_eq_right h2] at hcs
     exact hz1 hcs.symm
   · exfalso
-    rw [if_neg h1, if_pos h2] at hcs
+    rw [ite_eq_right h1, ite_eq_left h2] at hcs
     exact hz1 hcs
   · exact ⟨fun h => absurd h h1, fun h => absurd h h2⟩
 

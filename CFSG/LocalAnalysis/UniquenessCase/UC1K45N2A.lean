@@ -33,6 +33,7 @@ def orbitAction (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (w₀ : W) :
     show ρ (g * h) (x : W) = ρ g (ρ h (x : W))
     rw [map_mul, LinearEquiv.mul_apply])
 
+omit [Finite W] in
 lemma orbit_ncard_of_stab_twelve (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (w₀ : W)
     (hstab : Nat.card {g : Alt5 // ρ g w₀ = w₀} = 12) :
     (orbitSet ρ w₀).ncard = 5 := by
@@ -43,13 +44,14 @@ lemma orbit_ncard_of_stab_twelve (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (w₀ : W
   have hidx : (stab ρ w₀).index = 5 := by omega
   rw [orbit_ncard_eq_index, hidx]
 
+omit [Finite W] in
 lemma exists_orbit_hom (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (w₀ : W)
     (hO : (orbitSet ρ w₀).ncard = 5) :
     ∃ (b : Fin 5 ≃ ↥(orbitSet ρ w₀)) (η : Alt5 →* Equiv.Perm (Fin 5)),
       ∀ g i, ρ g ((b i : ↥(orbitSet ρ w₀)) : W) = ((b (η g i) : ↥(orbitSet ρ w₀)) : W) := by
   classical
-  letI : Fintype (↥(orbitSet ρ w₀)) := Fintype.ofFinite _
-  letI : MulAction Alt5 (↥(orbitSet ρ w₀)) := orbitAction ρ w₀
+  let : Fintype (↥(orbitSet ρ w₀)) := Fintype.ofFinite _
+  let : MulAction Alt5 (↥(orbitSet ρ w₀)) := orbitAction ρ w₀
   have hbcard : Fintype.card (↥(orbitSet ρ w₀)) = 5 := by
     rw [← Nat.card_eq_fintype_card]
     exact hO
@@ -65,6 +67,7 @@ lemma exists_orbit_hom (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (w₀ : W)
   rw [hη, Equiv.apply_symm_apply]
   rfl
 
+omit [Finite W] in
 lemma eta_ker_le_stab (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (w₀ : W)
     (b : Fin 5 ≃ ↥(orbitSet ρ w₀)) (η : Alt5 →* Equiv.Perm (Fin 5))
     (hb : ∀ g i, ρ g ((b i : ↥(orbitSet ρ w₀)) : W)
@@ -84,6 +87,7 @@ lemma eta_ker_le_stab (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (w₀ : W)
     exact congrArg Subtype.val (congrArg b hfix)
   rwa [hbi₀] at h2
 
+omit [Finite W] in
 lemma eta_injective_of_stab_twelve (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (w₀ : W)
     (hstab : Nat.card {g : Alt5 // ρ g w₀ = w₀} = 12)
     (η : Alt5 →* Equiv.Perm (Fin 5)) (hker_le : η.ker ≤ stab ρ w₀) :
@@ -96,7 +100,7 @@ lemma eta_injective_of_stab_twelve (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (w₀ :
     have hstab' : Nat.card (stab ρ w₀) = 12 := (card_stab ρ w₀).trans hstab
     omega
   have hker_bot : η.ker = ⊥ := by
-    haveI : IsSimpleGroup Alt5 := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup Alt5 := alternatingGroup.isSimpleGroup (by simp)
     have hne : η.ker ≠ ⊤ := by
       intro htop
       have : Nat.card η.ker = 60 := by rw [htop, Subgroup.card_top, card_alt5]
@@ -126,6 +130,7 @@ lemma eta_range_eq_alternating (η : Alt5 →* Equiv.Perm (Fin 5))
     rw [MonoidHom.range_eq_map, Subgroup.card_map_of_injective hηinj, Subgroup.card_top, card_alt5]
   rw [card_alt5, hcard]
 
+omit [Finite W] in
 lemma exists_equivariant_map (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (w₀ : W)
     (b : Fin 5 ≃ ↥(orbitSet ρ w₀)) (η : Alt5 →* Equiv.Perm (Fin 5))
     (hb : ∀ g i, ρ g ((b i : ↥(orbitSet ρ w₀)) : W)
@@ -162,6 +167,7 @@ lemma onesVec_ne_zero : onesVec ≠ 0 := by
   have := congrFun h 0
   simp [onesVec] at this
 
+omit [Finite W] in
 lemma onesVec_mem_kernel (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W))
     (h0 : ∀ w : W, (∀ g, ρ g w = w) → w = 0) (F : (Fin 5 → ZMod 2) →ₗ[ZMod 2] W)
     (η : Alt5 →* Equiv.Perm (Fin 5))
@@ -173,6 +179,7 @@ lemma onesVec_mem_kernel (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W))
   rw [hF_equiv g]
   exact congrArg F (funext fun i => by simp [onesVec])
 
+omit [Finite W] in
 lemma kernel_card_two (hW : Nat.card W = 16) (F : (Fin 5 → ZMod 2) →ₗ[ZMod 2] W)
     (hsurj : Function.Surjective F) : Nat.card (LinearMap.ker F) = 2 := by
   change Nat.card (AddMonoidHom.ker (F : (Fin 5 → ZMod 2) →+ W)) = 2
@@ -184,6 +191,7 @@ lemma kernel_card_two (hW : Nat.card W = 16) (F : (Fin 5 → ZMod 2) →ₗ[ZMod
   rw [hM, hW] at h
   omega
 
+omit [Finite W] in
 lemma kernel_mem_zero_or_ones (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (hW : Nat.card W = 16)
     (h0 : ∀ w : W, (∀ g, ρ g w = w) → w = 0) (F : (Fin 5 → ZMod 2) →ₗ[ZMod 2] W)
     (η : Alt5 →* Equiv.Perm (Fin 5))
@@ -238,12 +246,14 @@ lemma kernel_mem_zero_or_ones (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (hW : Nat.ca
           (y : CFSG.Quasithin.G6.PermMod 5)))
       rw [Subgroup.coe_mul, toAdd_mul, map_add, ofAdd_add] }
 
+omit [Finite W] in
 @[simp]
 lemma coreModHom_apply (F : (Fin 5 → ZMod 2) →ₗ[ZMod 2] W)
     (x : CFSG.Quasithin.G6.coreMod 5) :
     coreModHom F x = Multiplicative.ofAdd
       (F (Multiplicative.toAdd (x : CFSG.Quasithin.G6.PermMod 5))) := rfl
 
+omit [Finite W] in
 lemma coreModHom_injective (F : (Fin 5 → ZMod 2) →ₗ[ZMod 2] W)
     (hker : ∀ v, v ∈ LinearMap.ker F → v = 0 ∨ v = onesVec) :
     Function.Injective (coreModHom F) := by
@@ -282,6 +292,7 @@ lemma coreModHom_bijective (F : (Fin 5 → ZMod 2) →ₗ[ZMod 2] W)
   exact (Nat.bijective_iff_injective_and_card (coreModHom F)).mpr
     ⟨coreModHom_injective F hker, hcard⟩
 
+omit [Finite W] in
 lemma coreModHom_coreAct (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (F : (Fin 5 → ZMod 2) →ₗ[ZMod 2] W)
     (η : Alt5 →* Equiv.Perm (Fin 5))
     (hF_equiv : ∀ g v, ρ g (F v) = F (fun i => v ((η g)⁻¹ i)))
@@ -310,7 +321,7 @@ lemma coreModHom_coreAct (ρ : Alt5 →* (W ≃ₗ[ZMod 2] W)) (F : (Fin 5 → Z
   rw [hL, hR, hF_equiv]
 
 theorem a5_module_iso (W : Type) [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
-    (ρ : ↥(alternatingGroup (Fin 5)) →* (W ≃ₗ[ZMod 2] W)) (hρ : Function.Injective ρ)
+    (ρ : ↥(alternatingGroup (Fin 5)) →* (W ≃ₗ[ZMod 2] W)) (_hρ : Function.Injective ρ)
     (hW : Nat.card W = 16) (h0 : ∀ w : W, (∀ g, ρ g w = w) → w = 0)
     (hd : ∀ g : ↥(alternatingGroup (Fin 5)), orderOf g = 3 →
       Nat.card {w : W // ρ g w = w} = 4) :
@@ -321,7 +332,7 @@ theorem a5_module_iso (W : Type) [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
         f (CFSG.Quasithin.G6.coreAct 5 (η g) x) =
           Multiplicative.ofAdd (ρ g (Multiplicative.toAdd (f x))) := by
   classical
-  letI : Fintype W := Fintype.ofFinite W
+  let : Fintype W := Fintype.ofFinite W
   obtain ⟨w₀, hw₀, hstab12⟩ := a5_exists_vector_stab_twelve W ρ hW h0 hd
   have hOcard := orbit_ncard_of_stab_twelve ρ w₀ hstab12
   obtain ⟨b, η, hb⟩ := exists_orbit_hom ρ w₀ hOcard

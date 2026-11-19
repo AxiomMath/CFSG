@@ -175,7 +175,7 @@ private lemma twE6_coord_conj
     exact twE6X_mem_rad θ hθ i (Φ g i)
   have hsingle : (∑ i : Fin 8, Pi.single i (Φ g i)) = Φ g := by
     ext i
-    simpa using Fintype.sum_pi_single i (Φ g)
+    simp
   obtain ⟨hfm, hfp⟩ := twE6_coord_list_prod θ hθ hΦ (List.ofFn f) hf
   let g' : fixedGroup k θ := (List.ofFn f).prod
   have hg'mem : g' ∈ twE6Rad θ := hfm

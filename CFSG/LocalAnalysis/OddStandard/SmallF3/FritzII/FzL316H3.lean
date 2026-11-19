@@ -11,9 +11,9 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
-private theorem fzl_Q_map_mem_iff (h : Ctx t L S x₁ x₂ lam rho tau)
-    (hK : Nat.card (twoCore t) = 2)
-    {f : ↥(fzN2 t x₁ x₂) →* FzZ2xSigma4} (hF : FzF t x₁ x₂ f) (g : G) :
+private theorem fzl_Q_map_mem_iff (_h : Ctx t L S x₁ x₂ lam rho tau)
+    (_hK : Nat.card (twoCore t) = 2)
+    {f : ↥(fzN2 t x₁ x₂) →* FzZ2xSigma4} (_hF : FzF t x₁ x₂ f) (g : G) :
     g ∈ (fzlK4.comap f).map (fzN2 t x₁ x₂).subtype ↔
       ∃ hg : g ∈ fzN2 t x₁ x₂, f ⟨g, hg⟩ ∈ fzlK4 := by
   constructor

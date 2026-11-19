@@ -39,9 +39,9 @@ theorem letterPL_ok (l : Int) :
     PairOK (letterPL gs l) (letQ one fs ss l).1 (letQ one fs ss l).2 := by
   unfold letterPL letQ
   by_cases h : 0 < l
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     exact getD_ok hf hs hg _
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
     exact invP_ok (getD_ok hf hs hg _)
 
 theorem wordPL_ok : ∀ w : List Int,
@@ -69,9 +69,9 @@ theorem etaN_ok {us : Nat → Nat × Nat} (hu : ∀ j, PairOK (uJn j) (us j).1 (
     rw [List.foldl_cons, List.foldl_cons]
     apply ih
     by_cases hb : cc.testBit j = true
-    · rw [if_pos hb, if_pos hb]
+    · rw [ite_eq_left hb, ite_eq_left hb]
       exact mulP_ok hK h (hu j)
-    · rw [if_neg hb, if_neg hb]
+    · rw [ite_eq_right hb, ite_eq_right hb]
       exact h
 
 theorem hxj (k : Nat) (hk : k < 3) : PairOK (xJn k) (P k).1 (P k).2 := by

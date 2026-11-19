@@ -129,7 +129,7 @@ theorem uniq_ok : fi23UniqOK orbLit = true := by
     omega
   have hr : nfix (cT 39 * wp wX) = 183 := by
     have e : wp (wX ++ [167]) = cT 39 * wp wX := by
-      rw [wp_append, wp_cons, wp_nil, one_mul, lp_big (by norm_num)] <;> rfl
+      rw [wp_append, wp_cons, wp_nil, one_mul, lp_big (by norm_num)]
     rw [← e, ← countP_nfix _ (ok_append ok_wX (by decide)), c39]
   have hs : orbSl G wX exU (wr 0) gU 39 39 0 31671 = true := uscan_ok
   unfold fi23UniqOK

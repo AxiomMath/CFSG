@@ -91,10 +91,10 @@ theorem natural_sum_embedding' {Γ : Type*} [Group Γ] {m n j k : ℕ} (hm : 2 �
   refine Finset.sum_congr rfl fun s _ => ?_
   show Φ i s (t s) = (if Φ i s = 0 then (0 : ZMod 2) else 1) • Φ i₀ s₀ (t s)
   rcases hall i s with h | h
-  · rw [if_pos h, h]
+  · rw [ite_eq_left h, h]
     simp
   · have hne : Φ i s ≠ 0 := by rw [h]; exact h0
-    rw [if_neg hne, h]
+    rw [ite_eq_right hne, h]
     simp
 
 

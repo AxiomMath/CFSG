@@ -82,7 +82,7 @@ public theorem huppert_IV_5_10_generatorRank_le_two_of_unique_order_two
       intro htop
       have : A.index = 1 := by simp [htop]
       omega
-    obtain ⟨b, _, hb⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hAne)
+    obtain ⟨b, _, hb⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hAne)
     exact huppert_IV_5_10_generatorRank_le_two_of_cyclic_index_two
       A a b haA hAindex hb
 
@@ -401,7 +401,7 @@ public theorem huppert_IV_5_11_hasNormalPComplement_of_rankTwo_twoSubgroups
         have hHthree : ¬ 3 ∣ Nat.card H := by
           intro h3H
           exact hthree (h3H.trans H.card_subgroup_dvd_card)
-        let : Fact (IsPGroup 2 P) := ⟨P.isPGroup'⟩
+        let : Fact (IsPGroup 2 P) := ⟨P.isPGroup⟩
         let : MulDistribMulAction H P := inferInstance
         have hPhiInv : IsInvariant H P (frattini P) :=
           isInvariant_of_characteristic
@@ -412,7 +412,7 @@ public theorem huppert_IV_5_11_hasNormalPComplement_of_rankTwo_twoSubgroups
         let : IsElementaryAbelian 2 (P ⧸ frattini P) :=
           isElementaryAbelian_quotient_frattini (R := P) (p := 2)
         have hquotRank : generatorRank (P ⧸ frattini P) ≤ 2 := by
-          apply le_trans ?_ (hrank P P.isPGroup')
+          apply le_trans ?_ (hrank P P.isPGroup)
           rw [generatorRank_eq_group_rank, generatorRank_eq_group_rank]
           exact Group.rank_le_of_surjective
             (QuotientGroup.mk' (frattini P))
@@ -449,7 +449,7 @@ public theorem huppert_IV_5_11_hasNormalPComplement_of_rankTwo_twoSubgroups
           Nat.prime_two.coprime_iff_not_dvd.mpr hHnot2
         exact hnot
           (hkt_hasNormalPComplement_of_normal_complement_local
-            hcomp hHcop2 P.isPGroup')
+            hcomp hHcop2 P.isPGroup)
       · exact hkt_hasNormalPComplement_of_not_dvd_card
           (Q := G) (p := 2) htwo
 
@@ -578,7 +578,7 @@ public noncomputable def quotientPPrimeCoreEquivSylowOfHasNormalPComplement
   have hN_cop : Nat.Coprime p (Nat.card N) := by
     simpa [N] using pPrimeCore_coprime_card (p := p) (G := G)
   have hS_inf_N : (S : Subgroup G) ⊓ N = ⊥ := by
-    rcases S.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases S.isPGroup.exists_card_eq with ⟨n, hn⟩
     have hcop : Nat.Coprime (Nat.card (S : Subgroup G)) (Nat.card N) := by
       rw [hn]
       exact Nat.Coprime.pow_left n hN_cop
@@ -643,7 +643,7 @@ public theorem sylow_two_le_pPrimeCore_three_of_hasNormalPComplement
       (isPGroup_quotient_pPrimeCore_of_hasNormalPComplement
         (p := 3) (H := G) hcomp)
   let H : Subgroup (G ⧸ R) := (P : Subgroup G).map q
-  have hH2 : IsPGroup 2 H := P.isPGroup'.map q
+  have hH2 : IsPGroup 2 H := P.isPGroup.map q
   have hH3 : IsPGroup 3 H := hquot3.to_subgroup H
   have hHbot : H = ⊥ := hkt_eq_bot_of_isPGroup_two_and_three H hH2 hH3
   intro x hx
@@ -743,7 +743,7 @@ public theorem huppert_XI_2_5_hasNormalPComplement_three_of_top_twoResidual
         (Q : Subgroup G) ≤ Subgroup.normalizer ((Q : Subgroup G) : Set G))
   let QN : Sylow 3 N := Q.subtype hQleN
   let : IsCyclic Q := hcyclic Q
-  let : Fact (IsPGroup 3 Q) := ⟨Q.isPGroup'⟩
+  let : Fact (IsPGroup 3 Q) := ⟨Q.isPGroup⟩
   have hNleNormalizer :
       N ≤ Subgroup.normalizer ((Q : Subgroup G) : Set G) := by
     simp [N]

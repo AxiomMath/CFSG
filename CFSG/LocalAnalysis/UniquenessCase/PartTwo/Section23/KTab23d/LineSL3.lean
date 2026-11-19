@@ -26,9 +26,9 @@ theorem kTab23d_sl3 {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W)
     (h : IsSLn ↥H 3 n ∧ CFSG.Quasithin.BinaryNaturalSL H ⊤ ⊥ 3 n) :
     IsL2 (Bar2 (Hinf (pointStab H S))) n := by
   obtain ⟨-, K, hKf, hKfin, hK, π, hπ⟩ := h
-  letI := hKf
-  letI := hKfin
-  haveI : CharP K 2 := charP_two_D19 hK (by omega)
+  let := hKf
+  let := hKfin
+  have : CharP K 2 := charP_two_D19 hK (by omega)
   obtain ⟨-, e, -⟩ := KTabC.exists_natEquiv (K := K) ⟨π, hπ⟩
   have hW : ∀ w : W, w ^ 2 = 1 := fun w => pow_two_eq_one_of_natEquiv e w
   obtain ⟨hcard, -, -⟩ := kTab23a_holds W H n hnat hperf S

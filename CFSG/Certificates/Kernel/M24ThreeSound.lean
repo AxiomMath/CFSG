@@ -51,7 +51,7 @@ theorem card_cent_le (P H : Subgroup (Equiv.Perm α)) [Finite P] [Finite H] (t :
   let r : α → Equiv.Perm α := fun x => if h : ∃ g ∈ C, g b = x then h.choose else 1
   have hr : ∀ g ∈ C, r (g b) ∈ C ∧ r (g b) b = g b := fun g hg => by
     have h : ∃ k ∈ C, k b = g b := ⟨g, hg, rfl⟩
-    simp only [r, dif_pos h]
+    simp only [r, dite_eq_left h]
     exact h.choose_spec
   have hmem : ∀ g ∈ C, (r (g b))⁻¹ * g ∈ H ⊓ centralizer ({t} : Set (Equiv.Perm α)) := by
     intro g hg

@@ -61,7 +61,7 @@ theorem uc22s213_not_centralizesBar_of_u3 (hgr : GriessAllModelsStatement) (hS :
     omega
   obtain ⟨Sb⟩ : Nonempty (Sylow q (Bar2 L)) := inferInstance
   obtain ⟨Eb, -, hEbel, hEbcard, -⟩ := UCK.u3SylOmega_of_griess hgr (Bar2 L) n hSU q hq hq3 hqn
-    Sb Sb.isPGroup' Sb.not_dvd_index
+    Sb Sb.isPGroup Sb.not_dvd_index
   have hrL : 2 ≤ CFSG.Open.pRank q L := by
     rw [← pRank_bar2_eq_of_odd (Y := L) hq hq2]
     exact CFSG.SectionRank.le_pRank hq.one_lt le_top hEbel hEbcard

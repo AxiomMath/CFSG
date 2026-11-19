@@ -135,7 +135,7 @@ theorem l154_model_of_dClass_E6 (S : LangSetup Tag.E6 L p₀) (hp : p.Prime) (hp
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
       .POmegaPlus n (ringChar L) e :=
   l154_model_of_dClass (Or.inr (Or.inl rfl)) kacE6 facts_E6 e6_tree e6_adj e6_check e6_lt
-    e6_card e6_dcount e6_dtrees (fun {F} _ x y h => e6_frames x y h) S hp hpL hTor hTp i h4 hn
+    e6_card e6_dcount e6_dtrees (fun {_F} _ x y h => e6_frames x y h) S hp hpL hTor hTp i h4 hn
     hinner
 
 theorem l154_model_of_dClass_E7 (S : LangSetup Tag.E7 L p₀) (hp : p.Prime) (hpL : (p : L) ≠ 0)
@@ -153,7 +153,7 @@ theorem l154_model_of_dClass_E7 (S : LangSetup Tag.E7 L p₀) (hp : p.Prime) (hp
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
       .POmegaPlus n (ringChar L) e :=
   l154_model_of_dClass (Or.inr (Or.inr (Or.inl rfl))) kacE7 facts_E7 e7_tree e7_adj e7_check
-    e7_lt e7_card e7_dcount e7_dtrees (fun {F} _ x y h => e7_frames x y h) S hp hpL hTor hTp i h4
+    e7_lt e7_card e7_dcount e7_dtrees (fun {_F} _ x y h => e7_frames x y h) S hp hpL hTor hTp i h4
     hn hinner
 
 theorem l154_model_of_dClass_E8 (S : LangSetup Tag.E8 L p₀) (hp : p.Prime) (hpL : (p : L) ≠ 0)
@@ -171,7 +171,7 @@ theorem l154_model_of_dClass_E8 (S : LangSetup Tag.E8 L p₀) (hp : p.Prime) (hp
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
       .POmegaPlus n (ringChar L) e :=
   l154_model_of_dClass (Or.inr (Or.inr (Or.inr rfl))) kacE8 facts_E8 e8_tree e8_adj e8_check
-    e8_lt e8_card e8_dcount e8_dtrees (fun {F} _ x y h => e8_frames x y h) S hp hpL hTor hTp i h4
+    e8_lt e8_card e8_dcount e8_dtrees (fun {_F} _ x y h => e8_frames x y h) S hp hpL hTor hTp i h4
     hn hinner
 
 end DClassTags

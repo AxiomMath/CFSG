@@ -76,7 +76,7 @@ theorem glaubermanTwoP_holds :
   have hp2 : p ≠ 2 := by omega
   have hcard := card_eq_two_pow_mul_pow (Nat.card_pos (α := H)).ne' hp2 hpr
   have hsolv : Group.IsSolvable ↥H := by
-    haveI : Fintype H := Fintype.ofFinite _
+    have : Fintype H := Fintype.ofFinite _
     exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two hp
       (Ne.symm hp2) (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   have h3 : ¬ 3 ∣ Nat.card H := fun hd => by

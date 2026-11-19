@@ -70,7 +70,7 @@ theorem sep_eq : D.sep = [0, 1, 2, 3, 4] :=
 theorem sb_size : SB.C.flatten.length = 128 :=
   eq_of_beq sbSize
 
-open Certificates in
+open _root_.CFSG.Certificates in
 open CFSG.KD.McLDc2 in
 theorem facts :
     CFSG.KC.SLD2.dc2Check C D = true ∧

@@ -64,8 +64,8 @@ theorem s16c1G43_d1 {L K N X X' : Subgroup G} (hXL : X ≤ L) (hX'L : X' ≤ L)
     (hC : ∀ x ∈ X, ∀ x' ∈ X', ⁅x, x'⁆ ∈ K)
     (hD : X ≠ X' → Nat.card ↥(X ⊓ X') ≤ 4) : X = X' := by
   by_contra hne
-  obtain ⟨x, hxX, hxK⟩ := SetLike.not_le_iff_exists.1 hXnK
-  obtain ⟨a, haX', haK⟩ := SetLike.not_le_iff_exists.1 hX'nK
+  obtain ⟨x, hxX, hxK⟩ := IsConcreteLE.not_le_iff_exists.1 hXnK
+  obtain ⟨a, haX', haK⟩ := IsConcreteLE.not_le_iff_exists.1 hX'nK
   have haa : a * a = 1 := hX'sq a haX'
   have hainv : a⁻¹ = a := inv_eq_of_mul_eq_one_right haa
   let U : Subgroup G := X ⊓ K

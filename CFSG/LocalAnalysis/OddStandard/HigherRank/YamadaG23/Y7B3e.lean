@@ -22,7 +22,7 @@ private theorem y7b_AB_le_NV2 (c : Ctx7 G L) (hb : B5Std c) :
     c.s.fr.A ⊓ c.s.fr.B ≤ normalizer (V2 c.e : Set G) :=
   inf_le_left.trans (((s3_A_le_S c.s).trans c.s.S_le_R).trans (y7b_R_le_NV2 c hb))
 
-private theorem y7b_V2_le_M5 (c : Ctx7 G L) (hb : B5Std c) : V2 c.e ≤ M5 c.e := by
+private theorem y7b_V2_le_M5 (c : Ctx7 G L) (_hb : B5Std c) : V2 c.e ≤ M5 c.e := by
   rw [V2, M5]
   exact inf_le_left.trans le_sup_left
 
@@ -52,7 +52,7 @@ theorem y7b_phi_M3 (c : Ctx7 G L) (hb : B5Std c) :
     y54_phi_M (c := c.toCtx5) hb.hH (y54_M3_cand c.toCtx5 hb.hH) (M := M3 c.s) f hf
   exact ⟨m, hm, by simpa only [f3phi, commutatorElement_def] using hmφ⟩
 
-theorem y7b_V2_le_EFV2 (c : Ctx7 G L) (hb : B5Std c) : V2 c.e ≤ EFV2 c.e := by
+theorem y7b_V2_le_EFV2 (c : Ctx7 G L) (_hb : B5Std c) : V2 c.e ≤ EFV2 c.e := by
   rw [EFV2]
   exact le_sup_right
 

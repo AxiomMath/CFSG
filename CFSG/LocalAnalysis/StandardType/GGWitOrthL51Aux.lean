@@ -81,12 +81,12 @@ theorem owL5_sq_polar {K : Type*} [Field K] [CharP K 3] {U : Type} [AddCommGroup
   set y : K := polarBilin Q a b / Q b with hy
   have hscal : (1 - y * x) * (4 * Q a - y * polarBilin Q a b) = 0 := by
     have hfun := congrArg ((polarBilin Q).flip a) hE1
-    simp only [map_smul, map_zero, map_sub, map_add, map_neg, LinearMap.flip_apply,
-      polarBilin_apply_apply, polar_self, polar_smul_left, smul_eq_mul, two_smul] at hfun
+    simp only [map_smul, map_zero, map_sub, map_add, LinearMap.flip_apply,
+      polarBilin_apply_apply, polar_self, smul_eq_mul, two_smul] at hfun
     have hba2 : polar Q b a = polarBilin Q a b := by
       rw [polar_comm, ← polarBilin_apply_apply]
     rw [hba2] at hfun
-    convert hfun using 1 <;> ring
+    convert hfun using 1; ring
   have h4 : (4 : K) = 1 := by
     have h3 : (3 : K) = 0 := CharP.cast_eq_zero K 3
     rw [show (4 : K) = 3 + 1 by norm_num, h3, zero_add]
@@ -99,7 +99,6 @@ theorem owL5_sq_polar {K : Type*} [Field K] [CharP K 3] {U : Type} [AddCommGroup
           (Q a * Q b - polarBilin Q a b * polarBilin Q a b) := by
       rw [hx, hy]
       field_simp
-      try ring
     rw [hkey, zero_mul] at h2
     exact h2.symm
   exact (sub_eq_zero.mp (mul_self_eq_zero.mp hmain)).symm

@@ -24,14 +24,14 @@ theorem charpoly_fin_three' (M : Matrix (Fin 3) (Fin 3) F) :
     M.charpoly = X ^ 3 + C (M.charpoly.coeff 2) * X ^ 2 + C (M.charpoly.coeff 1) * X
       + C (M.charpoly.coeff 0) := by
   have hdeg : M.charpoly.natDegree = 3 := by
-    simpa using M.charpoly_natDegree_eq_dim
+    simp
   have hmonic := M.charpoly_monic
   ext i
   by_cases hi : i ∈ Finset.range 4
   · fin_cases hi
     · simp [coeff_X, coeff_C]
-    · simp [coeff_X, coeff_C]
-    · simp [coeff_X, coeff_C]
+    · simp [coeff_C]
+    · simp
     · simpa [leadingCoeff, hdeg, coeff_X, coeff_C] using hmonic.leadingCoeff
   · rw [Finset.mem_range, not_lt] at hi
     have : M.charpoly.coeff i = 0 := by
@@ -131,7 +131,7 @@ theorem exists_eigenbasis {S : Matrix (Fin 3) (Fin 3) F} (hS3 : S ^ 3 = 1) (hdet
     simpa using hv i
   let P : Matrix (Fin 3) (Fin 3) F := Matrix.of fun r c => v c r
   have hP : IsUnit P := by
-    rw [← Matrix.linearIndependent_cols_iff_isUnit]
+    rw [← Matrix.linearIndependent_col_iff_isUnit]
     exact hli
   refine ⟨P, hP, ?_⟩
   ext r c

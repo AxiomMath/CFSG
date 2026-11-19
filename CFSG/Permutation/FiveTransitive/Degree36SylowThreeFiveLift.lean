@@ -40,7 +40,7 @@ theorem exists_five
     push Not at hn
     exact prime_not_dvd_range_card_of_sylow_le_ker T rho (fun z hz => hn z hz) hdiv
   obtain ⟨z,hzT,hzrho⟩ := hex
-  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' (⟨z,hzT⟩ : T)
+  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup (⟨z,hzT⟩ : T)
   have hzorder : orderOf z = 5 ^ e := (Subgroup.orderOf_coe (⟨z,hzT⟩ : T)).trans he
   have hzpow : z ^ 5 = 1 := by
     apply Subtype.ext

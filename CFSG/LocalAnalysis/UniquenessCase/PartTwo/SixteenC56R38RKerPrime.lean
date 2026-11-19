@@ -15,11 +15,11 @@ theorem not_dvd_card_ker_of_isElemAbelian_card_pow_three {M H : Type*} [Group M]
     (hFcard : Nat.card F = q ^ 3) (hFker : F ⊓ π.ker = ⊥)
     (hrank : ∀ A : Subgroup M, IsElemAbelian q A → Nat.card A ≤ q ^ 3) :
     ¬ q ∣ Nat.card π.ker := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   intro hdvd
   have hKnormal : π.ker.Normal := MonoidHom.normal_ker π
   obtain ⟨R, hFR⟩ := IsPGroup.exists_le_sylow (p := q) hF.isPGroup
-  haveI : Finite (Sylow q M) :=
+  have : Finite (Sylow q M) :=
     Finite.of_injective (fun P : Sylow q M => (P : Set M))
       (fun _ _ h => SetLike.coe_injective h)
   obtain ⟨c₀, hc₀ord⟩ := exists_prime_orderOf_dvd_card' (G := π.ker) q (by simpa using hdvd)
@@ -57,7 +57,7 @@ theorem not_dvd_card_ker_of_isElemAbelian_card_pow_three {M H : Type*} [Group M]
       exact ⟨hmemK, hmem⟩
     exact hne (Subgroup.mem_bot.mp hmem0)
   set Hd : Subgroup R := π.ker.subgroupOf (R : Subgroup M) with hHd
-  haveI hHdNormal : Hd.Normal := by
+  have hHdNormal : Hd.Normal := by
     rw [hHd]
     exact hKnormal.subgroupOf (R : Subgroup M)
   have hHne : Hd ≠ ⊥ := by
@@ -67,12 +67,12 @@ theorem not_dvd_card_ker_of_isElemAbelian_card_pow_three {M H : Type*} [Group M]
       exact hmemK
     rw [hbot] at hmemHd
     exact hne (by simpa using Subtype.ext_iff.mp (Subgroup.mem_bot.mp hmemHd))
-  haveI : Group.IsNilpotent R := R.isPGroup'.isNilpotent
+  have : Group.IsNilpotent R := R.isPGroup.isNilpotent
   have hZne : Hd ⊓ Subgroup.center R ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal (G := R) hHne
   set Z : Subgroup R := Hd ⊓ Subgroup.center R with hZ
   have hZcard : Nat.card Z ≠ 1 := fun h1 => hZne ((Subgroup.eq_bot_iff_card Z).mpr h1)
-  have hZP : IsPGroup q Z := R.isPGroup'.to_subgroup Z
+  have hZP : IsPGroup q Z := R.isPGroup.to_subgroup Z
   have hZdvd : q ∣ Nat.card Z := by
     rcases hZP.card_eq_or_dvd with h | h
     · exact absurd h hZcard
@@ -117,7 +117,7 @@ theorem not_dvd_card_ker_of_isElemAbelian_card_pow_three {M H : Type*} [Group M]
   exact absurd (hrank A hA) (not_le_of_gt hcardlt)
 
 theorem factorization_card_le_of_ker_range {M H : Type*} [Group M] [Finite M] [Group H]
-    (π : M →* H) {q : ℕ} (hq : q.Prime) (hker : ¬ q ∣ Nat.card π.ker) {N : ℕ}
+    (π : M →* H) {q : ℕ} (_hq : q.Prime) (hker : ¬ q ∣ Nat.card π.ker) {N : ℕ}
     (hN : Nat.card π.range ∣ N) (hN0 : N ≠ 0) :
     (Nat.card M).factorization q ≤ N.factorization q := by
   have hker0 : Nat.card π.ker ≠ 0 := Nat.card_pos.ne'

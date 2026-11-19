@@ -58,8 +58,8 @@ theorem ggNSPosPB2_permSU_mem_block {K : Type} [Field K] [Finite K] [CharP K 2] 
     · have hij' : i = j := by
         have := congrArg (Equiv.swap a b) h
         rwa [Equiv.swap_apply_self, hsj] at this
-      rw [if_pos h, if_pos hij']
-    · rw [if_neg h, if_neg (fun hij' => h (by rw [hij', hsj]))]
+      rw [ite_eq_left h, ite_eq_left hij']
+    · rw [ite_eq_right h, ite_eq_right (fun hij' => h (by rw [hij', hsj]))]
 
 theorem ggNSPosPB2_diag_comm_perm {K : Type} [Field K] [Finite K] [CharP K 2] {f n : ℕ}
     (a b : Fin n) (d : Fin n → K) (hda : d a = d b) :
@@ -162,7 +162,7 @@ theorem ggNSPosPB2_exists_sep {K : Type} [Field K] [Finite K] [CharP K 2] {f n :
         exact ggNSPosPB2_add_sub_one p (le_of_lt hp1)
       · have hvj : (Pi.single (M := fun _ => ℕ) j 1 +
             Pi.single (M := fun _ => ℕ) k (p - 1)) j = 1 := by
-          simp only [Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne (Ne.symm hkj), zero_add, add_zero]
+          simp only [Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne (Ne.symm hkj), add_zero]
         have hvi : (Pi.single (M := fun _ => ℕ) j 1 +
             Pi.single (M := fun _ => ℕ) k (p - 1)) i = 0 := by
           simp only [Pi.add_apply, Pi.single_eq_of_ne hij, Pi.single_eq_of_ne hik, add_zero]
@@ -224,7 +224,7 @@ theorem ggNSPosPB2_exists_sep {K : Type} [Field K] [Finite K] [CharP K 2] {f n :
           exact ggNSPosPB2_add_sub_one p (le_of_lt hp1)
         · have hvj : (Pi.single (M := fun _ => ℕ) i 1 +
               Pi.single (M := fun _ => ℕ) j (p - 1)) j = p - 1 := by
-            simp only [Pi.add_apply, Pi.single_eq_of_ne (Ne.symm hij), Pi.single_eq_same, zero_add, add_zero]
+            simp only [Pi.add_apply, Pi.single_eq_of_ne (Ne.symm hij), Pi.single_eq_same, zero_add]
           have hvi : (Pi.single (M := fun _ => ℕ) i 1 +
               Pi.single (M := fun _ => ℕ) j (p - 1)) i = 1 := by
             simp only [Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne hij,

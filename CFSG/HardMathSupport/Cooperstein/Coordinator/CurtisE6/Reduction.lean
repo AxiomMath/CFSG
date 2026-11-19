@@ -77,13 +77,13 @@ theorem noIrrFFOffender_E6_of_interfaces
   let D : HatData K ↥L := ⟨f, hf, hfk, hperf, π, hπs, hπf⟩
   have hDf : ∀ x, D.f x = eS (QuotientGroup.mk x) := fun _ => rfl
   have hLnt : Nontrivial ↥L := by
-    haveI := hql.2.1
+    have := hql.2.1
     exact (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
   obtain ⟨δ, m, k, _, _, _, ιK, ρ, hδ, hm, hρirr, hρinj, hιKinj, hWcard, hent, -, hfixS, Bf,
     hBf1, hBf2, hBf3⟩ :=
     CurtisExc.offender_periodic_data_outer hW hql.1 hirr hEN hE hel hquad hoff
       (MulEquiv.refl ↥L) hn hK2
-  letI : Algebra K k := ιK.toAlgebra
+  let : Algebra K k := ιK.toAlgebra
   have hρ : IsSimpleRep ρ := (SL2Modules.isIrreducible_iff ρ).1 hρirr
   have hρ' : IsSimpleRep (ρ.comp π) := simpleRep_comp π hπs hρ
   obtain ⟨y, χ, J, ht⟩ := e6_exists_isCoverType hρ'

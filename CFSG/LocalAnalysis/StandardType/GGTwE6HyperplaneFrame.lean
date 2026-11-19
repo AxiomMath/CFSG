@@ -115,7 +115,7 @@ theorem finiteIndex_rootChar_kernel {L : Type} [Field L] [IsAlgClosed L] (hL : r
     change (if hp : ∃ z' : Z, e z' = (⟨e z, he z⟩ : E) ∧
         rootChar (b z') α = (⟨rootChar (b z) α, hcube z⟩ : rootsOfUnity 3 L) then
           QuotientGroup.mk (Classical.choose hp) else QuotientGroup.mk 1) = _
-    rw [dif_pos hp]
+    rw [dite_eq_left hp]
     exact key _ _ (Classical.choose_spec hp).1 (Classical.choose_spec hp).2
   have : Finite (Z ⧸ M.subgroupOf Z) := Finite.of_surjective f hf
   exact Subgroup.finiteIndex_of_finite_quotient
@@ -749,7 +749,7 @@ theorem isQuasisimple_jgeom_of_nonToral {Ω : Type} [Field Ω] {Fr : Ω →+* Ω
       exact Subgroup.subset_closure (Set.mem_union_left _ ⟨i.1, i.2, rfl⟩)
     have hkerA : familyKernel a = ∅ := by
       ext α
-      simp only [familyKernel, Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+      simp only [familyKernel, Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
       intro hα hall
       apply hempty α (mem_rootFinset.mpr hα)
       rw [← hsig]
@@ -844,7 +844,7 @@ theorem isQuasisimple_jgeom_of_nonToral {Ω : Type} [Field Ω] {Fr : Ω →+* Ω
       rw [hHgen]
       congr 3
       ext v
-      simp only [Set.mem_setOf_eq, hHs, hk0]
+      simp only [Set.mem_ofPred_eq, hHs, hk0]
     rcases TwE6FixedA2Type.isQuasisimple_jgeom_or_centralizes_fixedA2 hn hk hFr hHF hy₀ hxM hxc
         hζo hζ hHgen' heK heF he1 he3 hgK hgF hg2 hinv hey with hq | hcent
     · exact hq

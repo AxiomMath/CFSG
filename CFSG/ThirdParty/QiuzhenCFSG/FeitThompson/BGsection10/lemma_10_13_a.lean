@@ -34,7 +34,7 @@ private theorem CFSG.section10_omegaOneCenter_le_rankTwoMaximal
     (hAleP : A ≤ P) :
     section10OmegaOneCenter p P ≤ A := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let Z0 : Subgroup G := section10OmegaOneCenter p P
   have hZ0centA : Z0 ≤ Subgroup.centralizer (A : Set G) := by
     intro z hz
@@ -47,13 +47,13 @@ private theorem CFSG.section10_omegaOneCenter_le_rankTwoMaximal
   have hZ0elem : IsElementaryAbelian p.val Z0 := by
     have hΩelem : IsElementaryAbelian p.val (Ω₁Z p.val P) :=
       section10_omega1Z_isElementaryAbelian_pre (p := p.val) P
-    letI : IsElementaryAbelian p.val (Ω₁Z p.val P) := hΩelem
+    let : IsElementaryAbelian p.val (Ω₁Z p.val P) := hΩelem
     change IsElementaryAbelian p.val ((Ω₁Z p.val P).map P.subtype)
     exact section10_isElementaryAbelian_map_pre
       (G := P) (p := p.val) (A := Ω₁Z p.val P) (G' := G) P.subtype
   have hsupElem : IsElementaryAbelian p.val (A ⊔ Z0 : Subgroup G) := by
-    letI : IsElementaryAbelian p.val A := hA.1.2
-    letI : IsElementaryAbelian p.val Z0 := hZ0elem
+    let : IsElementaryAbelian p.val A := hA.1.2
+    let : IsElementaryAbelian p.val Z0 := hZ0elem
     exact section10_isElementaryAbelian_sup_of_le_centralizer
       (G := G) (p := p.val) (E := A) (D := Z0) hZ0centA
   have hAeq : A = A ⊔ Z0 := hA.2.2 (A ⊔ Z0) le_sup_left hsupElem
@@ -70,7 +70,7 @@ private theorem CFSG.section10_omegaOneCenter_card_eq_prime_of_high_rank_pSubgro
     (hPrank : 3 ≤ groupRank P) :
     Nat.card (section10OmegaOneCenter p P) = p.val := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hp_dvd_G : p.val ∣ Nat.card G := by
     simpa [subgroupPrimeSet] using hpG
   have hpodd : p.val ≠ 2 := Odd.ne_two_of_dvd_nat IsMinCE.odd_order hp_dvd_G
@@ -119,7 +119,7 @@ public theorem CFSG.section10_omegaOneCenter_ne_bot_of_nontrivial_pSubgroup
     (hPp : IsPGroup p.val P) [Nontrivial P] :
     section10OmegaOneCenter p P ≠ ⊥ := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hZ_nontrivial : Nontrivial (Subgroup.center P) := hPp.center_nontrivial
   have hpdvd_center : p.val ∣ Nat.card (Subgroup.center P) := by
     have hcenter_p : IsPGroup p.val (Subgroup.center P) :=
@@ -143,8 +143,8 @@ private theorem CFSG.section10_omegaOneCenter_card_eq_prime_or_prime_sq_of_le_ra
     Nat.card (section10OmegaOneCenter p P) = p.val ∨
       Nat.card (section10OmegaOneCenter p P) = p.val ^ 2 := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
-  haveI : Nontrivial P := section10_nontrivial_of_rankTwoMaximal_le (G := G) hA hAleP
+  have : Fact p.val.Prime := ⟨p.property⟩
+  have : Nontrivial P := section10_nontrivial_of_rankTwoMaximal_le (G := G) hA hAleP
   let Z : Subgroup G := section10OmegaOneCenter p P
   have hZne : Z ≠ ⊥ :=
     section10_omegaOneCenter_ne_bot_of_nontrivial_pSubgroup (G := G) (p := p) hPp
@@ -152,12 +152,12 @@ private theorem CFSG.section10_omegaOneCenter_card_eq_prime_or_prime_sq_of_le_ra
   have hZelem : IsElementaryAbelian p.val Z := by
     have hΩelem : IsElementaryAbelian p.val (Ω₁Z p.val P) :=
       section10_omega1Z_isElementaryAbelian_pre (p := p.val) P
-    letI : IsElementaryAbelian p.val (Ω₁Z p.val P) := hΩelem
+    let : IsElementaryAbelian p.val (Ω₁Z p.val P) := hΩelem
     change IsElementaryAbelian p.val ((Ω₁Z p.val P).map P.subtype)
     exact section10_isElementaryAbelian_map_pre
       (G := P) (p := p.val) (A := Ω₁Z p.val P) (G' := G) P.subtype
   have hZp : IsPGroup p.val Z := by
-    letI : IsElementaryAbelian p.val Z := hZelem
+    let : IsElementaryAbelian p.val Z := hZelem
     exact IsElementaryAbelian.isPGroup p.val Z
   rcases hZp.exists_card_eq with ⟨k, hk⟩
   have hk_pos : 0 < k := by
@@ -191,7 +191,7 @@ private theorem CFSG.section10_exists_sylow_over_pSubgroup
     {p : Nat.Primes} {P : Subgroup G} (hPp : IsPGroup p.val P) :
     ∃ S : Sylow p.val G, P ≤ (S : Subgroup G) := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   exact IsPGroup.exists_le_sylow (G := G) (p := p.val) hPp
 
 omit [Finite G] [IsMinCE G] in
@@ -221,10 +221,10 @@ private theorem CFSG.section10_omegaOneCenter_le_of_le_rankTwoMaximal
     simpa [xP, yS, ← hx_eq] using (congrArg (fun z : S => (z : G)) hcommS).symm
   have hxPpow : xP ^ p.val = 1 := by
     have hxSpow : xS ^ p.val = 1 := by
-      haveI : Fact p.val.Prime := ⟨p.property⟩
+      have : Fact p.val.Prime := ⟨p.property⟩
       have hΩelem : IsElementaryAbelian p.val (Ω₁Z p.val S) :=
         section10_omega1Z_isElementaryAbelian_pre (p := p.val) S
-      letI : IsElementaryAbelian p.val (Ω₁Z p.val S) := hΩelem
+      let : IsElementaryAbelian p.val (Ω₁Z p.val S) := hΩelem
       exact elemPow_eq_one_of_isElementaryAbelian xS hxSΩ
     apply Subtype.ext
     simpa [xP, ← hx_eq] using congrArg (fun z : S => (z : G)) hxSpow
@@ -260,7 +260,7 @@ private theorem CFSG.section10_sylow_omegaOneCenter_card_eq_prime_of_high_rank
   exact
     section10_omegaOneCenter_card_eq_prime_of_high_rank_pSubgroup
       (G := G) (p := p) (A := A) (P := (S : Subgroup G))
-      hpG hA S.isPGroup' hAleS hSrank
+      hpG hA S.isPGroup hAleS hSrank
 
 omit [IsMinCE G] in
 private theorem CFSG.section10_prime_order_subgroups_disjoint_of_ne
@@ -270,12 +270,12 @@ private theorem CFSG.section10_prime_order_subgroups_disjoint_of_ne
     (hY : Y ∈ section10PrimeOrderSubgroupsIn p A) (hXY : X ≠ Y) :
     Disjoint X Y := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rw [Subgroup.disjoint_def]
   intro z hzX hzY
   by_contra hz_ne
   have hXsubY_top : X.subgroupOf Y = ⊤ := by
-    haveI : Fact (Nat.card Y).Prime := ⟨by simpa [hY.2] using p.property⟩
+    have : Fact (Nat.card Y).Prime := ⟨by simpa [hY.2] using p.property⟩
     have hsub_ne_bot : X.subgroupOf Y ≠ ⊥ := by
       intro hbot
       have hzsub : (⟨z, hzY⟩ : Y) ∈ X.subgroupOf Y := hzX
@@ -311,13 +311,13 @@ private theorem CFSG.section10_rankTwo_eq_sup_of_distinct_prime_order
   have hsup_le_A : X ⊔ Y ≤ A := sup_le hX.1 hY.1
   have hX_norm : (X.subgroupOf (X ⊔ Y : Subgroup G)).Normal := by
     have hXYcomm : IsMulCommutative (X ⊔ Y : Subgroup G) := by
-      letI : IsElementaryAbelian p.val A := hA.1.2
+      let : IsElementaryAbelian p.val A := hA.1.2
       refine ⟨⟨fun x y => ?_⟩⟩
       apply Subtype.ext
       exact setLike_mul_comm (s := A)
         (hsup_le_A x.property) (hsup_le_A y.property)
-    letI : IsMulCommutative (X ⊔ Y : Subgroup G) := hXYcomm
-    letI : CommGroup (X ⊔ Y : Subgroup G) := IsMulCommutative.instCommGroup
+    let : IsMulCommutative (X ⊔ Y : Subgroup G) := hXYcomm
+    let : CommGroup (X ⊔ Y : Subgroup G) := IsMulCommutative.instCommGroup
     infer_instance
   have hcomp :
       (X.subgroupOf (X ⊔ Y : Subgroup G)).IsComplement'
@@ -332,7 +332,7 @@ private theorem CFSG.section10_rankTwo_eq_sup_of_distinct_prime_order
       intro z
       let XD : Subgroup (X ⊔ Y : Subgroup G) := X.subgroupOf (X ⊔ Y : Subgroup G)
       let YD : Subgroup (X ⊔ Y : Subgroup G) := Y.subgroupOf (X ⊔ Y : Subgroup G)
-      haveI : XD.Normal := by simpa [XD] using hX_norm
+      have : XD.Normal := by simpa [XD] using hX_norm
       have hsup_top : XD ⊔ YD = ⊤ := by
         simpa [XD, YD] using
           (Subgroup.subgroupOf_sup (A := X) (A' := Y) (B := X ⊔ Y)
@@ -343,7 +343,7 @@ private theorem CFSG.section10_rankTwo_eq_sup_of_distinct_prime_order
         ⟨x, hxX, y, hyY, hxy⟩
       exact ⟨x, hxX, y, hyY, hxy⟩
   have hsup_card : Nat.card (X ⊔ Y : Subgroup G) = p.val ^ 2 := by
-    have hmul := hcomp.card_mul
+    have hmul := hcomp.card_mul_card
     rw [natCard_subgroupOf_eq X (X ⊔ Y : Subgroup G) le_sup_left,
       natCard_subgroupOf_eq Y (X ⊔ Y : Subgroup G) le_sup_right,
       hX.2, hY.2] at hmul
@@ -387,7 +387,7 @@ private theorem CFSG.section10_isMulCommutative_sup_of_le_centralizer
           y = a⁻¹ * y' * a := by simp [y', mul_assoc]
           _ = y' := hconj
       simpa [hy_eq] using hy'Y
-  haveI : YD.Normal := by
+  have : YD.Normal := by
     simpa [D, YD] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := A) (N := Y) hA_norm_Y)
@@ -450,7 +450,7 @@ private theorem CFSG.section10_omegaOneCenter_card_eq_prime_of_nonabelian_le_abe
     (hCScomm : IsMulCommutative (subgroupCentralizerIn S A)) :
     Nat.card (section10OmegaOneCenter p P) = p.val := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hZ₀small :=
     section10_omegaOneCenter_card_eq_prime_or_prime_sq_of_le_rankTwoMaximal
       (G := G) (p := p) (A := A) (P := P) hA hPp hAleP
@@ -472,7 +472,7 @@ private theorem CFSG.section10_omegaOneCenter_card_eq_prime_of_nonabelian_le_abe
       intro a ha
       exact (Subgroup.mem_centralizer_iff.mp (hAleCenterP ha) x hx).symm
     have hPcomm : IsMulCommutative P := by
-      letI : IsMulCommutative (subgroupCentralizerIn S A) := hCScomm
+      let : IsMulCommutative (subgroupCentralizerIn S A) := hCScomm
       refine ⟨⟨fun x y => ?_⟩⟩
       let xC : subgroupCentralizerIn S A := ⟨(x : G), hPleCS x.property⟩
       let yC : subgroupCentralizerIn S A := ⟨(y : G), hPleCS y.property⟩
@@ -493,13 +493,13 @@ private theorem CFSG.section10_centralizerIn_isMulCommutative_of_eq_prime_cyclic
     IsMulCommutative (subgroupCentralizerIn S A) := by
   classical
   have hA₀comm : IsMulCommutative A₀ := by
-    letI : IsElementaryAbelian p.val A := hA.1.2
+    let : IsElementaryAbelian p.val A := hA.1.2
     refine ⟨⟨fun x y => ?_⟩⟩
     apply Subtype.ext
     exact setLike_mul_comm (s := A)
       (hA₀.1 x.property) (hA₀.1 y.property)
   have hYcomm : IsMulCommutative Y := by
-    letI : CommGroup Y := IsCyclic.commGroup
+    let : CommGroup Y := IsCyclic.commGroup
     infer_instance
   have hYleCentA₀ : Y ≤ Subgroup.centralizer (A₀ : Set G) := by
     intro y hy
@@ -520,7 +520,7 @@ private theorem CFSG.section10_exists_prime_order_complement_to_prime_order_in_r
     ∃ A₁ : Subgroup G,
       A₁ ∈ section10PrimeOrderSubgroupsIn p A ∧ A₁ ≠ Z ∧ A = A₁ ⊔ Z := by
   classical
-  letI : IsElementaryAbelian p.val A := hA.1.2
+  let : IsElementaryAbelian p.val A := hA.1.2
   have hZsub_card : Nat.card (Z.subgroupOf A) = p.val := by
     simpa using natCard_subgroupOf_eq Z A hZ.1 |>.trans hZ.2
   obtain ⟨z, hzZ, hzne⟩ : ∃ z : G, z ∈ Z ∧ z ≠ 1 := by
@@ -570,7 +570,7 @@ private theorem CFSG.section10_exists_prime_order_complement_to_prime_order_in_r
     calc
       Nat.card A₁ = orderOf (wA : G) := by simp [A₁]
       _ = p.val := by
-        haveI : Fact p.val.Prime := ⟨p.property⟩
+        have : Fact p.val.Prime := ⟨p.property⟩
         exact orderOf_eq_prime hw_pow (by
           intro h
           exact hwA_ne (Subtype.ext h))
@@ -602,7 +602,7 @@ private theorem CFSG.section10_high_rank_sylow_centralizer_split_of_prime_order
         Disjoint B Y ∧
         subgroupCentralizerIn (S : Subgroup G) A = B ⊔ Y := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hp_dvd_G : p.val ∣ Nat.card G := by
     simpa [subgroupPrimeSet] using hpG
   have hpodd : p.val ≠ 2 :=
@@ -634,7 +634,7 @@ private theorem CFSG.section10_high_rank_sylow_centralizer_split_of_prime_order
         (CΩ₁Z₂ p.val S).index = p.val := by
     have hnarrowS :
         IsNarrowPGroup p.val S :=
-      (theorem_5_3 (p := p.val) hpodd (R := S) S.isPGroup' hSrank).mpr
+      (theorem_5_3 (p := p.val) hpodd (R := S) S.isPGroup hSrank).mpr
         ⟨A.subgroupOf (S : Subgroup G), hAsubS.1, hAsubS.2⟩
     refine ⟨hnarrowS, ?_, ?_, ?_, ?_, ?_⟩
     · exact theorem_5_3_a
@@ -679,7 +679,7 @@ private theorem CFSG.section10_high_rank_sylow_centralizer_split_of_prime_order
           rw [sup_comm]
     exact
       groupRank_centralizer_le_two_of_rank_two_maximal
-        (p := p.val) hpodd (R := S) S.isPGroup'
+        (p := p.val) hpodd (R := S) S.isPGroup
         hAsubS.1 hAsubS.2 hAeqS
   obtain ⟨hYlocal_cyc, _hB_der_bot, hB_T_bot, hcentB_eq⟩ :=
     theorem_5_3_d (p := p.val) hpodd (R := S) hnarrowS hSrank
@@ -772,7 +772,7 @@ private theorem CFSG.section10_high_rank_sylow_centralizer_split_of_prime_order
         change b ∈ Subgroup.centralizer (A : Set G)
         rw [Subgroup.mem_centralizer_iff]
         intro a ha
-        letI : IsElementaryAbelian p.val A := hA.1.2
+        let : IsElementaryAbelian p.val A := hA.1.2
         exact setLike_mul_comm (s := A)
           ha (hB.1 hb)
       · exact hYleC
@@ -796,7 +796,7 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
           Disjoint A₀ Y ∧
           subgroupCentralizerIn (S : Subgroup G) A = A₀ ⊔ Y := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hp_dvd_G : p.val ∣ Nat.card G := by
     simpa [subgroupPrimeSet] using hpG
   have hpodd : p.val ≠ 2 :=
@@ -877,7 +877,7 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
           (CΩ₁Z₂ p.val S).index = p.val := by
       have hnarrowS :
           IsNarrowPGroup p.val S :=
-        (theorem_5_3 (p := p.val) hpodd (R := S) S.isPGroup' hSrank).mpr
+        (theorem_5_3 (p := p.val) hpodd (R := S) S.isPGroup hSrank).mpr
           ⟨A.subgroupOf (S : Subgroup G), hAsubS.1, hAsubS.2⟩
       refine ⟨hnarrowS, ?_, ?_, ?_, ?_, ?_⟩
       · exact theorem_5_3_a
@@ -922,7 +922,7 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
             rw [sup_comm]
       exact
         groupRank_centralizer_le_two_of_rank_two_maximal
-          (p := p.val) hpodd (R := S) S.isPGroup'
+          (p := p.val) hpodd (R := S) S.isPGroup
           hAsubS.1 hAsubS.2 hAeqS
     obtain ⟨hYlocal_cyc, _hA₀_der_bot, hA₀_T_bot, hcentA₀_eq⟩ :=
       theorem_5_3_d (p := p.val) hpodd (R := S) hnarrowS hSrank
@@ -1015,7 +1015,7 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
           change a ∈ Subgroup.centralizer (A : Set G)
           rw [Subgroup.mem_centralizer_iff]
           intro b hb
-          letI : IsElementaryAbelian p.val A := hA.1.2
+          let : IsElementaryAbelian p.val A := hA.1.2
           exact setLike_mul_comm (s := A)
             hb (hA₀.1 ha)
         · exact hYleC
@@ -1023,8 +1023,8 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
   · have hSrank_le : groupRank (S : Subgroup G) ≤ 2 := by omega
     rcases corollary_10_7_b (G := G) S hSrank_le with hScomm | hshape
     · have hPcomm : IsMulCommutative P := by
-        letI : IsMulCommutative (S : Subgroup G) := hScomm
-        letI : CommGroup (S : Subgroup G) := IsMulCommutative.instCommGroup
+        let : IsMulCommutative (S : Subgroup G) := hScomm
+        let : CommGroup (S : Subgroup G) := IsMulCommutative.instCommGroup
         refine ⟨⟨fun x y => ?_⟩⟩
         have hxy : (⟨(x : G), hPleS x.property⟩ : S) *
             (⟨(y : G), hPleS y.property⟩ : S) =
@@ -1040,12 +1040,12 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
       -- ambient subgroup statement.
       rcases hshape with ⟨S₁, S₂, hS₁card, hS₁noncomm, hS₁exp, hS₂cyc,
         hcentral, hΩeq⟩
-      have hS₁p : IsPGroup p.val S₁ := S.isPGroup'.to_subgroup S₁
-      letI : Fact (IsPGroup p.val S₁) := ⟨hS₁p⟩
+      have hS₁p : IsPGroup p.val S₁ := S.isPGroup.to_subgroup S₁
+      let : Fact (IsPGroup p.val S₁) := ⟨hS₁p⟩
       have hS₁extra : IsExtraspecial p.val S₁ :=
         section10_isExtraspecial_of_noncommutative_card_p3_exponent_p
           (K := S₁) (p := p.val) hS₁card hS₁exp hS₁noncomm
-      letI : IsExtraspecial p.val S₁ := hS₁extra
+      let : IsExtraspecial p.val S₁ := hS₁extra
       have hder_center :
           (derivedSubgroup S₁).map S₁.subtype =
             (Subgroup.center S₁).map S₁.subtype :=
@@ -1054,7 +1054,7 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
       have hΩder :
           (omega₁ (G := S₂) (p := p.val)).map S₂.subtype =
             (derivedSubgroup S₁).map S₁.subtype := by
-        letI : IsCyclic S₂ := hS₂cyc
+        let : IsCyclic S₂ := hS₂cyc
         calc
           (omega₁ (G := S₂) (p := p.val)).map S₂.subtype =
               (Ω₁Z p.val S₂).map S₂.subtype := by
@@ -1071,7 +1071,7 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
           simpa [Subgroup.mem_subgroupOf] using ha
         let aA : A := ⟨(a : G), haA⟩
         have ha_pow_A : aA ^ p.val = 1 := by
-          letI : IsElementaryAbelian p.val A := hA.1.2
+          let : IsElementaryAbelian p.val A := hA.1.2
           exact
             Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
               (IsElementaryAbelian.exponent_dvd_p p.val A) aA
@@ -1121,22 +1121,22 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
             _ = p.val := IsExtraspecial.center_order_p p.val S₁
         have hZ₁_card_le : Nat.card Z₁G ≤ p.val := by
           simpa [hZS₁G_card] using Subgroup.card_le_of_le hZ₁leZS₁G
-        haveI : Nontrivial (S : Subgroup G) :=
+        have : Nontrivial (S : Subgroup G) :=
           section10_nontrivial_of_rankTwoMaximal_le (G := G) (p := p) hA hAleS
         have hZ₁ne : Z₁G ≠ ⊥ :=
           section10_omegaOneCenter_ne_bot_of_nontrivial_pSubgroup
-            (G := G) (p := p) (P := (S : Subgroup G)) S.isPGroup'
+            (G := G) (p := p) (P := (S : Subgroup G)) S.isPGroup
         have hZ₁elem : IsElementaryAbelian p.val Z₁G := by
           have hΩelem : IsElementaryAbelian p.val (Ω₁Z p.val S) :=
             section10_omega1Z_isElementaryAbelian_pre (p := p.val) S
-          letI : IsElementaryAbelian p.val (Ω₁Z p.val S) := hΩelem
+          let : IsElementaryAbelian p.val (Ω₁Z p.val S) := hΩelem
           change IsElementaryAbelian p.val
             ((Ω₁Z p.val S).map (S : Subgroup G).subtype)
           exact section10_isElementaryAbelian_map_pre
             (G := S) (p := p.val) (A := Ω₁Z p.val S)
             (G' := G) (S : Subgroup G).subtype
         have hZ₁p : IsPGroup p.val Z₁G := by
-          letI : IsElementaryAbelian p.val Z₁G := hZ₁elem
+          let : IsElementaryAbelian p.val Z₁G := hZ₁elem
           exact IsElementaryAbelian.isPGroup p.val Z₁G
         rcases hZ₁p.exists_card_eq with ⟨n, hn⟩
         have hn_pos : 0 < n := by
@@ -1264,8 +1264,8 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
               Subgroup.mem_centralizer_iff.mp hs₁_centA a ha
             exact (hcomm.zpow_right n).eq
           have hsupElem : IsElementaryAbelian p.val (A ⊔ C : Subgroup G) := by
-            letI : IsElementaryAbelian p.val A := hA.1.2
-            letI : IsElementaryAbelian p.val C := hCelem
+            let : IsElementaryAbelian p.val A := hA.1.2
+            let : IsElementaryAbelian p.val C := hCelem
             exact section10_isElementaryAbelian_sup_of_le_centralizer
               (G := G) (p := p.val) (E := A) (D := C) hCcentA
           have hAeqSup : A = A ⊔ C := hA.2.2 (A ⊔ C) le_sup_left hsupElem
@@ -1283,15 +1283,15 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
             change a ∈ Subgroup.centralizer (A : Set G)
             rw [Subgroup.mem_centralizer_iff]
             intro b hb
-            letI : IsElementaryAbelian p.val A := hA.1.2
+            let : IsElementaryAbelian p.val A := hA.1.2
             exact setLike_mul_comm (s := A) hb ha
           · exact hYleC
       have hCScomm : IsMulCommutative (subgroupCentralizerIn (S : Subgroup G) A) := by
         have hAcomm : IsMulCommutative A := by
-          letI : IsElementaryAbelian p.val A := hA.1.2
+          let : IsElementaryAbelian p.val A := hA.1.2
           infer_instance
         have hYcomm : IsMulCommutative Y := by
-          letI : CommGroup Y := IsCyclic.commGroup
+          let : CommGroup Y := IsCyclic.commGroup
           infer_instance
         have hSupComm : IsMulCommutative (A ⊔ Y : Subgroup G) :=
           section10_isMulCommutative_sup_of_le_centralizer
@@ -1337,7 +1337,7 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
         have hxA : x ∈ A := hA₀.1 hxA₀
         let xA : A := ⟨x, hxA⟩
         have hxpowA : xA ^ p.val = 1 := by
-          letI : IsElementaryAbelian p.val A := hA.1.2
+          let : IsElementaryAbelian p.val A := hA.1.2
           exact
             Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
               (IsElementaryAbelian.exponent_dvd_p p.val A) xA
@@ -1364,7 +1364,7 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
           change x ∈ (Ω₁Z p.val S).map (S : Subgroup G).subtype
           rcases Subgroup.mem_map.mp hxOmegaY with ⟨xS, hxS, hx_eq⟩
           change xS ∈ (omega₁ (G := S₂) (p := p.val)).map S₂.subtype at hxS
-          letI : IsCyclic S₂ := hS₂cyc
+          let : IsCyclic S₂ := hS₂cyc
           have hxOmegaS₂ : xS ∈ (Ω₁Z p.val S₂).map S₂.subtype := by
             simpa [section10_omega1Z_eq_omega1_of_isCyclic (R := S₂) (p := p.val)] using hxS
           have hxS_center : xS ∈ Subgroup.center S := by
@@ -1476,8 +1476,8 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
               Subgroup.mem_centralizer_iff.mp hs₁_centA a ha
             exact (hcomm.zpow_right n).eq
           have hsupElem : IsElementaryAbelian p.val (A ⊔ C : Subgroup G) := by
-            letI : IsElementaryAbelian p.val A := hA.1.2
-            letI : IsElementaryAbelian p.val C := hCelem
+            let : IsElementaryAbelian p.val A := hA.1.2
+            let : IsElementaryAbelian p.val C := hCelem
             exact section10_isElementaryAbelian_sup_of_le_centralizer
               (G := G) (p := p.val) (E := A) (D := C) hCcentA
           have hAeqSup : A = A ⊔ C := hA.2.2 (A ⊔ C) le_sup_left hsupElem
@@ -1498,7 +1498,7 @@ private theorem CFSG.section10_lemma_10_13_sylow_structural_package
             change a ∈ Subgroup.centralizer (A : Set G)
             rw [Subgroup.mem_centralizer_iff]
             intro b hb
-            letI : IsElementaryAbelian p.val A := hA.1.2
+            let : IsElementaryAbelian p.val A := hA.1.2
             exact setLike_mul_comm (s := A)
               hb (hA₀.1 ha)
           · exact hYleC
@@ -1535,7 +1535,7 @@ private theorem CFSG.section10_centralizer_restrict_sup_inf
     (hCeqS : subgroupCentralizerIn S A = A₀ ⊔ Y) :
     subgroupCentralizerIn P A = A₀ ⊔ (Y ⊓ P) := by
   classical
-  letI : IsElementaryAbelian p.val A := hA.1.2
+  let : IsElementaryAbelian p.val A := hA.1.2
   have hA₀leA : A₀ ≤ A := hA₀.1
   have hA₀leP : A₀ ≤ P := hA₀leA.trans hAleP
   have hA₀leCS : A₀ ≤ subgroupCentralizerIn P A := by
@@ -1581,7 +1581,7 @@ private theorem CFSG.section10_centralizer_restrict_sup_inf
     let D : Subgroup G := A₀ ⊔ Y
     let A₀D : Subgroup D := A₀.subgroupOf D
     let YD : Subgroup D := Y.subgroupOf D
-    haveI : YD.Normal := by
+    have : YD.Normal := by
       simpa [D, YD] using
         (Subgroup.normal_subgroupOf_sup_of_le_normalizer
           (H := A₀) (N := Y) hA₀_norm_Y)
@@ -1629,10 +1629,10 @@ private theorem CFSG.section10_local_prime_order_subgroups_card_rank_two
     (hA : A ∈ section10RankTwoMaximalElementaryAbelianSubgroups p G) :
     Nat.card {X : Subgroup A // Nat.card X = p.val} = p.val + 1 := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
-  letI : IsElementaryAbelian p.val A := hA.1.2
-  letI : CommGroup A := IsMulCommutative.instCommGroup
-  letI : AddCommGroup (Additive A) := Additive.addCommGroup
+  have : Fact p.val.Prime := ⟨p.property⟩
+  let : IsElementaryAbelian p.val A := hA.1.2
+  let : CommGroup A := IsMulCommutative.instCommGroup
+  let : AddCommGroup (Additive A) := Additive.addCommGroup
   let η : Subgroup A ≃o Submodule (ZMod p.val) (Additive A) :=
     Subgroup.toAddSubgroup.trans (AddSubgroup.toZModSubmodule (n := p.val))
   have hcard_submodule (H : Subgroup A) :
@@ -1773,8 +1773,8 @@ private theorem CFSG.section10_noncentral_prime_order_subgroups_card_rank_two
     Nat.card {X : Subgroup G // X ∈ section10PrimeOrderSubgroupsIn p A ∧ X ≠ Z}
         = Nat.card {X : Ω // X ≠ zΩ} := Nat.card_congr e
     _ = p.val := by
-      haveI : Fintype Ω := Fintype.ofFinite Ω
-      haveI : Fintype {X : Ω // X ≠ zΩ} := Fintype.ofFinite _
+      have : Fintype Ω := Fintype.ofFinite Ω
+      have : Fintype {X : Ω // X ≠ zΩ} := Fintype.ofFinite _
       rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl, Fintype.card_subtype_eq]
       rw [← Nat.card_eq_fintype_card, hcardΩ]
       omega
@@ -1820,10 +1820,10 @@ private theorem CFSG.section10_lemma_10_13_transitivity_from_split
     exact hCneP (le_antisymm hCleP hPC)
   have hCsubP_lt_top : C.subgroupOf P < ⊤ :=
     lt_of_le_of_ne le_top hCsubP_ne_top
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hPnil : Group.IsNilpotent P :=
     IsPGroup.isNilpotent (p := p.val) (G := P) hPp
-  letI : Group.IsNilpotent P := hPnil
+  let : Group.IsNilpotent P := hPnil
   have hnc : NormalizerCondition P := Group.normalizerCondition_of_isNilpotent (G := P)
   let CP : Subgroup P := C.subgroupOf P
   have hCsubP_lt_norm :
@@ -1872,7 +1872,7 @@ private theorem CFSG.section10_lemma_10_13_transitivity_from_split
     change a ∈ Subgroup.centralizer (A : Set G)
     rw [Subgroup.mem_centralizer_iff]
     intro b hb
-    letI : IsElementaryAbelian p.val A := hA.1.2
+    let : IsElementaryAbelian p.val A := hA.1.2
     exact setLike_mul_comm (s := A) hb ha
   have hx_normA : (xP : G) ∈ Subgroup.normalizer (A : Set G) := by
     let ΩC : Subgroup G := (omega₁ (G := C) (p := p.val)).map C.subtype
@@ -1880,7 +1880,7 @@ private theorem CFSG.section10_lemma_10_13_transitivity_from_split
         (xP : G) ∈ Subgroup.normalizer (ΩC : Set G) := by
       have hΩchar : (omega₁ (G := C) (p := p.val)).Characteristic :=
         omega₁_characteristic (G := C) (p := p.val)
-      letI : (omega₁ (G := C) (p := p.val)).Characteristic := hΩchar
+      let : (omega₁ (G := C) (p := p.val)).Characteristic := hΩchar
       have hnorm_le :
           Subgroup.normalizer (C : Set G) ≤ Subgroup.normalizer (ΩC : Set G) := by
         simpa [ΩC] using
@@ -1889,10 +1889,10 @@ private theorem CFSG.section10_lemma_10_13_transitivity_from_split
       exact hnorm_le hx_normC
     have hΩCelem : IsElementaryAbelian p.val ΩC := by
       have hΩelemC : IsElementaryAbelian p.val (omega₁ (G := C) (p := p.val)) := by
-        letI : IsMulCommutative C := hCcomm
+        let : IsMulCommutative C := hCcomm
         exact section10_omega1_isElementaryAbelian_of_commutative_pre
           (p := p.val) C
-      letI : IsElementaryAbelian p.val (omega₁ (G := C) (p := p.val)) := hΩelemC
+      let : IsElementaryAbelian p.val (omega₁ (G := C) (p := p.val)) := hΩelemC
       simpa [ΩC] using
         section10_isElementaryAbelian_map_pre
           (G := C) (p := p.val) (A := omega₁ (G := C) (p := p.val))
@@ -1901,10 +1901,10 @@ private theorem CFSG.section10_lemma_10_13_transitivity_from_split
       intro a ha
       let AC : Subgroup C := A.subgroupOf C
       have hACelem : IsElementaryAbelian p.val AC := by
-        haveI : IsElementaryAbelian p.val A := hA.1.2
+        have : IsElementaryAbelian p.val A := hA.1.2
         exact IsElementaryAbelian.subgroupOf
           (G := G) (p := p.val) hA_le_C
-      letI : IsElementaryAbelian p.val AC := hACelem
+      let : IsElementaryAbelian p.val AC := hACelem
       let aC : C := ⟨a, hA_le_C ha⟩
       have haAC : aC ∈ AC := by
         simpa [AC, aC, Subgroup.mem_subgroupOf] using ha
@@ -1969,7 +1969,7 @@ private theorem CFSG.section10_lemma_10_13_transitivity_from_split
     have hRnormQ : R ≤ Subgroup.normalizer (Q : Set G) := by
       rw [Subgroup.zpowers_le]
       exact hx_normQ
-    haveI : Subgroup.Normalizes R Q := ⟨hRnormQ⟩
+    have : Subgroup.Normalizes R Q := ⟨hRnormQ⟩
     have hRp : IsPGroup p.val R := by
       exact hPp.to_le (by
         intro r hr
@@ -2016,7 +2016,7 @@ private theorem CFSG.section10_lemma_10_13_transitivity_from_split
       constructor
       · intro hz
         have hcomm : q * z = z * q := by
-          letI : IsElementaryAbelian p.val A := hA.1.2
+          let : IsElementaryAbelian p.val A := hA.1.2
           exact setLike_mul_comm (s := A)
             (hQ.1 hq) (hZmem.1 hz)
         have hconj : q * z * q⁻¹ = z := by
@@ -2028,7 +2028,7 @@ private theorem CFSG.section10_lemma_10_13_transitivity_from_split
         let z' : G := q * z * q⁻¹
         have hz' : z' ∈ Z₀ := by simpa [z'] using hz
         have hcomm : q * z' = z' * q := by
-          letI : IsElementaryAbelian p.val A := hA.1.2
+          let : IsElementaryAbelian p.val A := hA.1.2
           exact setLike_mul_comm (s := A)
             (hQ.1 hq) (hZmem.1 hz')
         have hz_eq : z = q⁻¹ * z' * q := by
@@ -2037,7 +2037,7 @@ private theorem CFSG.section10_lemma_10_13_transitivity_from_split
           have h := congrArg (fun t : G => q⁻¹ * t) hcomm.symm
           simpa [mul_assoc] using h
         simpa [hz_eq, hconj] using hz'
-    haveI : ZD.Normal := by
+    have : ZD.Normal := by
       simpa [D, ZD] using
         (Subgroup.normal_subgroupOf_sup_of_le_normalizer
           (H := Q) (N := Z₀) hQ_norm_Z)
@@ -2116,7 +2116,7 @@ private theorem CFSG.section10_lemma_10_13_transitivity_from_split
             exact (Subgroup.normalizer (Z₀ : Set G)).inv_mem hk_norm
           exact section10_conjBy_eq_of_mem_normalizer hk_inv
     exact hQne hback
-  letI : MulAction (subgroupNormalizerIn P (A : Set G)) Ωsub := {
+  let : MulAction (subgroupNormalizerIn P (A : Set G)) Ωsub := {
     smul := fun k Q =>
       ⟨Q.1.conjBy (k : G),
         hK_conj_mem k Q.1 Q.2.1,
@@ -2147,7 +2147,7 @@ private theorem CFSG.section10_lemma_10_13_transitivity_from_split
   have hQ₁_orbit_card_ne_one :
       Nat.card (MulAction.orbit (subgroupNormalizerIn P (A : Set G)) Q₁sub) ≠ 1 := by
     intro hcard_one
-    haveI : Fintype (MulAction.orbit (subgroupNormalizerIn P (A : Set G)) Q₁sub) :=
+    have : Fintype (MulAction.orbit (subgroupNormalizerIn P (A : Set G)) Q₁sub) :=
       Fintype.ofFinite _
     have hfix :
         Q₁sub ∈ MulAction.fixedPoints (subgroupNormalizerIn P (A : Set G)) Ωsub := by
@@ -2186,7 +2186,7 @@ private theorem CFSG.section10_lemma_10_13_transitivity_from_split
         Nat.card (MulAction.orbit (subgroupNormalizerIn P (A : Set G)) Q₁sub) <
           Nat.card Ωsub := by
       classical
-      haveI : Finite Ωsub := inferInstance
+      have : Finite Ωsub := inferInstance
       have hnot_all :
           ¬ ∀ Q : Ωsub,
             Q ∈ MulAction.orbit (subgroupNormalizerIn P (A : Set G)) Q₁sub := by

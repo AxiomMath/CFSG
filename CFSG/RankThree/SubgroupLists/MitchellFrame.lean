@@ -19,7 +19,7 @@ variable {K K' : Type} [Field K] [Field K']
 
 theorem frameHom_apply (φ : K →+* K') (k : GL V₄ K') (g : GL V₄ K) :
     frameHom φ k g = k⁻¹ * mapGL φ g * k := by
-  simp [frameHom, MulAut.conj_apply]
+  simp [frameHom]
 
 theorem frameHom_injective (φ : K →+* K') (k : GL V₄ K') : Function.Injective (frameHom φ k) := by
   intro x y h

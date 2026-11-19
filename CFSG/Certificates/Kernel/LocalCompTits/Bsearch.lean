@@ -88,7 +88,7 @@ private theorem bsearch_eq (pts : Array Nat) (v : Nat) :
     Nat.add_sub_cancel, Nat.div_one]
   rfl
 
-private theorem loop_inv {N : Nat} {TP : Nat → Nat} (hN : N ≤ 2 ^ 52)
+private theorem loop_inv {N : Nat} {TP : Nat → Nat} (_hN : N ≤ 2 ^ 52)
     (hinc : ∀ i, i + 1 < N → TP i < TP (i + 1)) (v : Nat) :
     Inv N TP v 64 (Id.run (forIn (List.range' 0 64) ((0 : Nat), N)
       (bsBody (Array.ofFn (n := N) fun i => TP i.val) v))) := by
@@ -103,7 +103,7 @@ private theorem loop_inv {N : Nat} {TP : Nat → Nat} (hN : N ≤ 2 ^ 52)
     by_cases hlh : b.1 < b.2
     · by_cases hm : TP ((b.1 + b.2) / 2) < v
       · refine ⟨((b.1 + b.2) / 2 + 1, b.2), ?_, ?_⟩
-        · simp only [bsBody, hlh, if_true, CFSG.KS.TBfs.ofFn_get (by omega : (b.1 + b.2) / 2 < N), hm, if_false]
+        · simp only [bsBody, hlh, ite_true, CFSG.KS.TBfs.ofFn_get (by omega : (b.1 + b.2) / 2 < N), hm]
         · refine ⟨by simp only; omega, by simp only; omega, fun i hi => ?_, h4, ?_⟩
           · simp only at hi
             rcases Nat.lt_or_ge i b.1 with hi' | hi'
@@ -115,7 +115,7 @@ private theorem loop_inv {N : Nat} {TP : Nat → Nat} (hN : N ≤ 2 ^ 52)
             rw [hd]
             omega
       · refine ⟨(b.1, (b.1 + b.2) / 2), ?_, ?_⟩
-        · simp only [bsBody, hlh, if_true, CFSG.KS.TBfs.ofFn_get (by omega : (b.1 + b.2) / 2 < N), hm, if_false]
+        · simp only [bsBody, hlh, ite_true, CFSG.KS.TBfs.ofFn_get (by omega : (b.1 + b.2) / 2 < N), hm, ite_false]
         · refine ⟨by simp only; omega, by simp only; omega, h3, fun i hi hiN => ?_, ?_⟩
           · simp only at hi
             rcases Nat.eq_or_lt_of_le hi with e | e
@@ -125,7 +125,7 @@ private theorem loop_inv {N : Nat} {TP : Nat → Nat} (hN : N ≤ 2 ^ 52)
           · simp only
             rw [hd]
             omega
-    · refine ⟨b, by simp only [bsBody, hlh, if_false], h1, h2, h3, h4, ?_⟩
+    · refine ⟨b, by simp only [bsBody, hlh, ite_false], h1, h2, h3, h4, ?_⟩
       rw [hd]; omega
   · refine ⟨Nat.zero_le _, Nat.le_refl _, fun i hi => by omega, fun i hi hiN => by omega, ?_⟩
     simp
@@ -153,9 +153,9 @@ theorem bsearch_ofFn {N : Nat} {TP : Nat → Nat} (hlt : ∀ i < N, TP i < 2 ^ 5
   · rw [CFSG.KS.TBfs.ofFn_get hlo]
     by_cases he : TP s.1 = v
     · have : (decide (s.1 < N) && TP s.1 == v) = true := by simp [hlo, he]
-      rw [if_pos this, ← he, idxK_of_eq hinc hlo]
+      rw [ite_eq_left this, ← he, idxK_of_eq hinc hlo]
     · have : ¬ (decide (s.1 < N) && TP s.1 == v) = true := by simp [hlo, he]
-      rw [if_neg this]
+      rw [ite_eq_right this]
       refine (idxK_of_ne fun i hi hiv => ?_).symm
       rcases Nat.lt_or_ge i s.1 with e | e
       · have := h3 i e; omega
@@ -166,7 +166,7 @@ theorem bsearch_ofFn {N : Nat} {TP : Nat → Nat} (hlt : ∀ i < N, TP i < 2 ^ 5
           omega
   · have : ¬ (decide (s.1 < N) && (Array.ofFn (n := N) fun i => TP i.val)[s.1]! == v) = true := by
       simp [hlo]
-    rw [if_neg this]
+    rw [ite_eq_right this]
     refine (idxK_of_ne fun i hi hiv => ?_).symm
     have := h3 i (by omega); omega
 

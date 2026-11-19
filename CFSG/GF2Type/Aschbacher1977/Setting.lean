@@ -26,6 +26,6 @@ theorem sectionalTwoRankLE_four_of_width_two {G : Type} [Group G] [Finite G] (S 
     (hw : S.width = 2) : SectionalTwoRankLE G 4 := by
   obtain ⟨P, -, hPM⟩ := S.exists_sylow_le_M
   exact AS35W.fourGen_of_sylow P fun Q hQ =>
-    AS35W.fourGen_of_le_subgroup (S.gen4_M hw) (hQ.trans hPM) (P.isPGroup'.to_le hQ)
+    AS35W.fourGen_of_le_subgroup (S.gen4_M hw) (hQ.trans hPM) (P.isPGroup.to_le hQ)
 
 end CFSG.GF2Type.Aschbacher1977

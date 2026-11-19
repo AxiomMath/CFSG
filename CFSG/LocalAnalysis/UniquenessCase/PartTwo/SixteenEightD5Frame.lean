@@ -31,6 +31,7 @@ section FrameLemmas
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
   {K : Fin 4 → Subgroup (MulAut W)} {Z : Fin 4 → Subgroup W}
 
+omit [Finite W] in
 private theorem s16e_d5_mem_fixV_zpowers {x : MulAut W} {v : W} :
     v ∈ fixV (Subgroup.zpowers x) ↔ x v = v := by
   constructor
@@ -42,15 +43,18 @@ private theorem s16e_d5_mem_fixV_zpowers {x : MulAut W} {v : W} :
       exact h
     exact hle hy
 
+omit [Finite W] in
 private theorem s16e_d5_toMonoidHom_mul (g h : MulAut W) :
     g.toMonoidHom.comp h.toMonoidHom = (g * h).toMonoidHom := by
   ext v
   rfl
 
+omit [Finite W] in
 private theorem s16e_d5_map_mul (U : Subgroup W) (g h : MulAut W) :
     (U.map g.toMonoidHom).map h.toMonoidHom = U.map (h * g).toMonoidHom := by
   rw [Subgroup.map_map, s16e_d5_toMonoidHom_mul]
 
+omit [Finite W] in
 private theorem s16e_d5_one_toMonoidHom :
     (1 : MulAut W).toMonoidHom = MonoidHom.id W :=
   MonoidHom.ext fun _ => rfl
@@ -69,6 +73,7 @@ theorem s16e_d5_Frame.Z_ne_bot (hfr : s16e_d5_Frame L K Z) (i : Fin 4) : Z i ≠
 theorem s16e_d5_Frame.Z_inj (hfr : s16e_d5_Frame L K Z) : Function.Injective Z :=
   hfr.Z_indep.injective hfr.Z_ne_bot
 
+omit [Finite W] in
 theorem s16e_d5_Frame.stable (hfr : s16e_d5_Frame L K Z) (i : Fin 4) {x : MulAut W}
     (hx : x ∈ L) {z : W} (hz : z ∈ Z i) : x z ∈ Z i := by
   have hzK : z ∈ fixV (K i) := by rwa [← hfr.Z_eq i]
@@ -80,6 +85,7 @@ theorem s16e_d5_Frame.stable (hfr : s16e_d5_Frame L K Z) (i : Fin 4) {x : MulAut
     _ = x (k z) := rfl
     _ = x z := by rw [(mem_fixV.mp hzK) k hk]
 
+omit [Finite W] in
 theorem s16e_d5_Frame.no_fix (hfr : s16e_d5_Frame L K Z) (i : Fin 4) {x : MulAut W}
     (hx : x ∈ L) (hxK : x ∉ K i) {z : W} (hz : z ∈ Z i) (hxz : x z = z) : z = 1 := by
   have hx1 : x ≠ 1 := by
@@ -118,6 +124,7 @@ theorem s16e_d5_Frame.kernel (hfr : s16e_d5_Frame L K Z) (i : Fin 4) {x : MulAut
     have hzK : z ∈ fixV (K i) := by rwa [← hfr.Z_eq i]
     exact (mem_fixV.mp hzK) x hxK
 
+omit [Finite W] in
 theorem s16e_d5_Frame.perm (hfr : s16e_d5_Frame L K Z) {g : MulAut W}
     (hg : g ∈ Subgroup.normalizer (L : Set (MulAut W))) (i : Fin 4) :
     ∃ j, (Z i).map g.toMonoidHom = Z j := by

@@ -218,14 +218,14 @@ private theorem hdRo7DSmClass6Aux_rho1_eq_B {Φ : Set (DV 6)} (hΦ : DRCl 1 Φ)
   ext h
   constructor
   · intro hh
-    simp only [dPhiB, Set.mem_setOf_eq]
+    simp only [dPhiB, Set.mem_ofPred_eq]
     by_cases h0 : h 0 = 0
     · exact hdRo7DSmClass6Aux_shape hΦ hh h0
     · rcases hdRo7DSmClass6Aux_rho1_ext_supp hΦ hT hh h0 with hs | hs
       · exact Or.inr ((dIsO_iff h).mpr (Or.inr ⟨h0, hs⟩))
       · exact Or.inl ((dIsD_iff h).mpr (Or.inr ⟨h0, hs⟩))
   · intro hh
-    simp only [dPhiB, Set.mem_setOf_eq] at hh
+    simp only [dPhiB, Set.mem_ofPred_eq] at hh
     rcases hh with hD | hO
     · rcases (dIsD_iff h).mp hD with ⟨h0, hs⟩ | ⟨h0, hs⟩
       · exact hdRo7DSmClass6Aux_D_mem hΦ h0 hD
@@ -239,7 +239,7 @@ private theorem hdRo7DSmClass6Aux_rho1_eq_D {Φ : Set (DV 6)} (hΦ : DRCl 1 Φ)
   ext h
   constructor
   · intro hh
-    simp only [dPhiD, Set.mem_setOf_eq]
+    simp only [dPhiD, Set.mem_ofPred_eq]
     by_cases h0 : h 0 = 0
     · rcases hdRo7DSmClass6Aux_shape hΦ hh h0 with hD | hO
       · exact hD
@@ -253,7 +253,7 @@ private theorem hdRo7DSmClass6Aux_rho1_eq_D {Φ : Set (DV 6)} (hΦ : DRCl 1 Φ)
       · exact absurd (hdRo7DSmClass6Aux_e0_mem_of_supp0 hΦ hh h0 hs) he0
       · exact (dIsD_iff h).mpr (Or.inr ⟨h0, hs⟩)
   · intro hh
-    simp only [dPhiD, Set.mem_setOf_eq] at hh
+    simp only [dPhiD, Set.mem_ofPred_eq] at hh
     rcases (dIsD_iff h).mp hh with ⟨h0, hs⟩ | ⟨h0, hs⟩
     · exact hdRo7DSmClass6Aux_D_mem hΦ h0 hh
     · exact hdRo7DSmClass6Aux_rho1_E1_mem hΦ hT h0 hs
@@ -354,7 +354,7 @@ private theorem hdRo7DSmClass6Aux_rho2_eq_of_rep {Φ : Set (DV 6)} (hΦ : DRCl 2
   ext h
   constructor
   · intro hh
-    simp only [dPhiE7, Set.mem_setOf_eq]
+    simp only [dPhiE7, Set.mem_ofPred_eq]
     by_cases h0 : h 0 = 0
     · rcases hdRo7DSmClass6Aux_shape hΦ hh h0 with hD | hO
       · exact Or.inl ⟨h0, hD⟩
@@ -369,7 +369,7 @@ private theorem hdRo7DSmClass6Aux_rho2_eq_of_rep {Φ : Set (DV 6)} (hΦ : DRCl 2
       · exact Or.inr (Or.inr ((dIsS_iff (dSgn h₀) h).mpr
           ⟨h0, hs, hdRo7DSmClass6Aux_rho2_sgn_eq hΦ hT hh₀ h0₀ hs₀ hh h0 hs⟩))
   · intro hh
-    simp only [dPhiE7, Set.mem_setOf_eq] at hh
+    simp only [dPhiE7, Set.mem_ofPred_eq] at hh
     rcases hh with ⟨h0, hD⟩ | ⟨h0, hO⟩ | hS
     · exact hdRo7DSmClass6Aux_D_mem hΦ h0 hD
     · rcases (dIsO_iff h).mp hO with ⟨hzero, -⟩ | ⟨-, hsupp⟩

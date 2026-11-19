@@ -170,7 +170,7 @@ theorem exists_complement (hmin : ∀ N : Subgroup G, N.Normal → N ≤ V → N
   have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨T⟩ : Nonempty (Sylow 3 G) := inferInstance
   have hT3 : Nat.card (T : Subgroup G) = 3 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup
     have hidx := T.not_dvd_index
     have hmul := (T : Subgroup G).card_mul_index
     rw [hk] at hmul

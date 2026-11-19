@@ -19,8 +19,8 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pCoreOf_eq_bot_of_mem_calNOf (D : Data G) {X H : Subgroup G} (hUX : UniqueMax D.M X)
     (hH : H ∈ calNOf X) (hHM : H ≠ D.M) : pCoreOf 2 H = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := D.standing.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.standing.simple
   by_contra hO
   have hHN : H = normalizer (pCoreOf 2 H : Set G) := by
     rcases eq_or_lt_of_le (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H) with h | h
@@ -47,7 +47,7 @@ theorem isSylowOf_of_mem_invStar9 (D : Data G) {L X H R : Subgroup G} (hLM : L �
     (hUX : UniqueMax D.M X) (hXH : X ≤ H) (hR : R ∈ InvStar9 (I9 H ⊔ X) X 2) :
     R ≠ ⊥ ∧ normalizer (R : Set G) ≤ D.M ∧ IsSylowOf 2 R (I9 H ⊔ R) ∧
       IsSylowOf 2 (R ⊓ I9 H) (I9 H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set I := I9 H with hIdef
   obtain ⟨hRIX, hR2, hXR⟩ := hR.1
   have hXM : X ≤ D.M := hXL.trans hLM

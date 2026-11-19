@@ -37,7 +37,7 @@ theorem k1419ClsUniLabel (hRig : CFSG.StandardType.GGLabelRigidInput) {X : Type}
         (3 ≤ a ∧ canonLabel labJ = ⟨.twA, a - 1, m⟩) := by
     intro labJ hJ
     obtain ⟨hlam, hs, hhas⟩ := Y10GInnLin.ggHasLabel_of_hasLabel hJ
-    haveI := hs
+    have := hs
     have hm : 1 ≤ m := by
       by_contra hm0
       have h2 : 2 ≤ Nat.card E := Finite.one_lt_card
@@ -55,7 +55,7 @@ theorem k1419ClsUniLabel (hRig : CFSG.StandardType.GGLabelRigidInput) {X : Type}
       by_cases h31 : a = 3 ∧ m = 1
       · obtain ⟨rfl, rfl⟩ := h31
         exfalso
-        haveI := Y10GInnUni.isSolvable_quot_heldSU_three_two τ' hτ'
+        have := Y10GInnUni.isSolvable_quot_heldSU_three_two τ' hτ'
           (fun x => by simpa using hτ'm x) (by simpa using hE)
         exact Y10GInnUni.not_isSolvable_quot_center
           (Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective)

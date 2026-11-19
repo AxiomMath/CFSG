@@ -20,7 +20,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator.ChevQ (ExcIndex IsSixIndex)
 theorem closure_hyperLiftSet_of_genP {P : Type*} [Group P] {A : Subgroup (MulAut P)}
     (hA : IsElemAbelian 3 A) (hc : Nat.card A = 27) (h : GenP A) :
     Subgroup.closure (hyperLiftSet 3 A) = ⊤ := by
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   obtain ⟨H₀, hH₀A, hH₀⟩ := exists_hyperplane_of_ne_bot Nat.prime_three hA
     (ne_bot_of_card (k := 3) Nat.prime_three (by norm_num) (by rw [hc]; norm_num))
   rw [eq_top_iff]
@@ -62,8 +62,8 @@ theorem seitzHyperGamma_eq_top_of_l364 {K : Type} [Group K] [Finite K]
     (e : K ⧸ Subgroup.center K ≃* (TauCeti.CFSGIndex.lie ⟨.A 2 q, hv⟩).Group)
     (hq : q.card = 64) {E : Subgroup (MulAut K)} (hE : IsElemAbelian 3 E)
     (hcard : Nat.card E = 3 ^ 3) (hLD : ¬ LinearDiag 3 E) : seitzHyperGamma 3 E = ⊤ := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpq : (3 : ℕ) ≠ q.p := by
     intro h
     have h1 : q.p ∣ q.card := by

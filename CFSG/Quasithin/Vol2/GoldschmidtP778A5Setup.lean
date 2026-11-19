@@ -113,7 +113,7 @@ omit [Finite G] in
 theorem isCyclic_of_card_dvd_sixty {Y : Type*} [Group Y] [Finite Y] (hY : Nat.card Y ∣ 60)
     {r : ℕ} [hr : Fact r.Prime] (hr2 : r ≠ 2) (S : Sylow r Y) : IsCyclic ↥(S : Subgroup Y) := by
   have h1 : Nat.card ↥(S : Subgroup Y) ∣ 60 := (Subgroup.card_subgroup_dvd_card _).trans hY
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 S.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 S.isPGroup
   have hk1 : k ≤ 1 := by
     by_contra hk2
     have h2 : r ^ 2 ∣ 60 := (pow_dvd_pow r (by omega)).trans (hk ▸ h1)

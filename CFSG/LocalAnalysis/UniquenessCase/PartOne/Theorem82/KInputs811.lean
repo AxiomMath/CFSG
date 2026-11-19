@@ -224,10 +224,10 @@ theorem k6dL4_of_k6d (h : K6d) : K6dL4 := fun Y _ _ r hY _ => h Y .l4 r 1 hY
         CFSG.ABGLocalTools.IsSylowOf 3 Q
           (centralizer ({c (.ofAdd ![1, -1, 0, 0])} : Set Y))) ∧
       (∃ K : Subgroup Y, K ≤ centralizer ({c (.ofAdd ![1, 1, -1, -1])} : Set Y) ∧
-        ¬ IsSolvable ↥K ∧ ⁅K, K⁆ = K ∧ Nat.card K = r ^ 2 * (r ^ 2 - 1) ^ 2 / 2 ∧
+        ¬ Group.IsSolvable ↥K ∧ ⁅K, K⁆ = K ∧ Nat.card K = r ^ 2 * (r ^ 2 - 1) ^ 2 / 2 ∧
         ∀ N : Subgroup Y, N ≤ K → (N.subgroupOf K).Normal → Odd (Nat.card N) → N = ⊥) ∧
       (∃ K : Subgroup Y, K ≤ centralizer ({c (.ofAdd ![1, 1, 1, 0])} : Set Y) ∧
-        ¬ IsSolvable ↥K ∧
+        ¬ Group.IsSolvable ↥K ∧
         ∀ N : Subgroup Y, N ≤ K → (N.subgroupOf K).Normal → Odd (Nat.card N) →
           N ≤ centralizer (K : Set Y))
 

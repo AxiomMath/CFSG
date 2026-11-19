@@ -20,7 +20,7 @@ private theorem finite_W (S : OmegaModel W) : Finite W :=
   Finite.of_injective (S.e : W → Multiplicative (OmI → S.K)) S.e.injective
 
 private theorem finite_mulAut (S : OmegaModel W) : Finite (MulAut W) := by
-  haveI := finite_W S
+  have := finite_W S
   exact Finite.of_injective (fun g : MulAut W => (g : W → W)) DFunLike.coe_injective
 
 theorem card_omega0 (hK : Nat.card S.K = 8) : Nat.card S.omega0 = 254016 := by
@@ -36,7 +36,7 @@ theorem card_omega0 (hK : Nat.card S.K = 8) : Nat.card S.omega0 = 254016 := by
 
 theorem omega_eq_omega0 (hK : Nat.card S.K = 8) (hΩ : Nat.card S.omega = 254016) :
     S.omega = S.omega0 := by
-  haveI := finite_mulAut S
+  have := finite_mulAut S
   have hcard : Nat.card S.omega ≤ Nat.card S.omega0 := by
     simp [hΩ, card_omega0 S hK]
   exact (Subgroup.eq_of_le_of_card_ge (H := S.omega0) (K := S.omega) (omega0_le_omega S)
@@ -77,7 +77,7 @@ theorem le_omega_of_isPGroup_of_le_isoSub (hK : Nat.card S.K = 8)
     exact Subgroup.inv_mem _ (Subgroup.pow_mem _ hsq m)
   simpa using (Subgroup.mem_subgroupOf).mp hy_mem
 
-theorem card_le_nine_of_isElemAbelian_le_omega0 (hK : Nat.card S.K = 8)
+theorem card_le_nine_of_isElemAbelian_le_omega0 (_hK : Nat.card S.K = 8)
     {X : Subgroup (MulAut W)} (hX : IsElemAbelian 3 X) (hXΩ : X ≤ S.omega0) :
     Nat.card X ≤ 9 := by
   let fstHom : SL(2, S.K) × SL(2, S.K) →* SL(2, S.K) := MonoidHom.fst _ _
@@ -89,7 +89,7 @@ theorem card_le_nine_of_isElemAbelian_le_omega0 (hK : Nat.card S.K = 8)
   have hcard : Nat.card X' = Nat.card X := by
     rw [← hmap]
     exact (Subgroup.card_map_of_injective (K := X') (f := S.jHom) S.jHom_injective).symm
-  haveI : IsMulCommutative ↥X := hX.1
+  have : IsMulCommutative ↥X := hX.1
   have hX' : IsElemAbelian 3 X' := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
     · apply Subtype.ext
@@ -106,8 +106,8 @@ theorem card_le_nine_of_isElemAbelian_le_omega0 (hK : Nat.card S.K = 8)
   have h2 : Nat.card (X'.map sndHom) ≤ 3 :=
     CFSG.RankThree.PartTwo.Sec19.Item19Res2Proof.card_le_three_of_elemAbelian_sl2
       (IsElemAbelian.map hX' sndHom)
-  haveI : Finite ↥(X'.map fstHom) := Subtype.finite
-  haveI : Finite ↥(X'.map sndHom) := Subtype.finite
+  have : Finite ↥(X'.map fstHom) := Subtype.finite
+  have : Finite ↥(X'.map sndHom) := Subtype.finite
   have hinj : Function.Injective (fun e : X' =>
       ((⟨e.1.1, Subgroup.mem_map_of_mem fstHom e.2⟩ : X'.map fstHom),
        (⟨e.1.2, Subgroup.mem_map_of_mem sndHom e.2⟩ : X'.map sndHom))) := by

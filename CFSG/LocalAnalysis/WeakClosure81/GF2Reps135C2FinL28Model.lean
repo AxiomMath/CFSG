@@ -27,8 +27,8 @@ open scoped MatrixGroups commutatorElement
 theorem finL28_center_eq_bot {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
     (hq : CFSG.IsQuasisimple ↥L) (hL : LieModel (↥L ⧸ Subgroup.center ↥L) .PSL 2 2 3) :
     Subgroup.center ↥L = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut W) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   have hF : Nat.card (GaloisField 2 3) = 2 ^ 3 := GaloisField.card 2 3 (by norm_num)
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GaloisField 2 3) 2 3
@@ -47,7 +47,7 @@ theorem finL28_exists_sl2_equiv {W : Type} [CommGroup W] [Finite W] {L : Subgrou
 theorem finL28_aut_sq_eq_one_inner {K : Type} [Group K]
     (h : LieModel K .PSL 2 2 3) (α : MulAut K) (hα : α * α = 1) :
     ∃ k : K, α = MulAut.conj k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : Subgroup.center K = ⊥ :=
     CFSG.ComponentClassification.CatFactsL4U4.IdxRed.center_eq_bot_of_psl2 h
   have hK : Nat.card K = 504 := by
@@ -84,7 +84,7 @@ theorem finL28_involution_mem {W : Type} [CommGroup W] [Finite W]
     {Y L : Subgroup (MulAut W)} (hctx : Is135Context Y L)
     (hL : LieModel (↥L ⧸ Subgroup.center ↥L) .PSL 2 2 3) {g : MulAut W} (hgY : g ∈ Y)
     (hg2 : orderOf g = 2) : g ∈ L := by
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   have hq : CFSG.IsQuasisimple ↥L := hctx.2.2.2.2.1
   have hZ : Subgroup.center ↥L = ⊥ := finL28_center_eq_bot hq hL

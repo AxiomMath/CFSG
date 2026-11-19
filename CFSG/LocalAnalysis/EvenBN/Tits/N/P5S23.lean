@@ -152,7 +152,7 @@ theorem six23 {W Sb : Subgroup Γ} (hWab : IsElemAbelian 2 W) (hW : Nat.card W =
     fun D hDS hD => eq_or_card_lt_of_isElemAbelian hWab hW hSN hCS hP1 hP2 hE2 hDS hD
   have hmax : maxElemAbelian2 Sb = {W} := by
     ext E
-    simp only [maxElemAbelian2, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [maxElemAbelian2, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hES, hE, hEmax⟩
       rcases key E hES hE with h | h

@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G] {d : Data G}
 theorem Hyp.s56_rho_P0_mem_twoF4S (hd : d.Hyp) {c : G} (hcP : c ∈ d.s56P0)
     (hcC : c ∈ centralizer ({d.t} : Set G)) :
     (d.ρ ⟨c, hcC⟩ : Equiv.Perm (Fin 1755)) ∈ CFSG.Quasithin.twoF4S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set f : centralizer ({d.t} : Set G) →* Equiv.Perm (Fin 1755) := titsA.subtype.comp d.ρ with hf
   have hRp : IsPGroup 2 (d.s56P0.subgroupOf (centralizer ({d.t} : Set G))) :=
     (s56_P0_isPGroup d).comap_subtype

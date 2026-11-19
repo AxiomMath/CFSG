@@ -352,7 +352,7 @@ theorem e_enum : enumOK 275 50000 9 eGens = true := by
     (fun i hi => penumSl_spec eE_ok i (Nat.zero_le _) (by omega) hi)
     (fun i hi => slK_spec eH_ok i (Nat.zero_le _) (by omega) hi)
     (fun c hc => slK_spec eCl_ok c (Nat.zero_le _) (by change c < Nat.mul McLAE.cnt 4; omega)
-      (by change c < Nat.mul McLAE.cnt 4; omega)) eBase.2.1
+      (by omega)) eBase.2.1
 
 theorem eGens_perm : ∀ g ∈ eGens, CFSG.Sporadic.SmallOddCore.permOK 275 g = true := by
   intro g hg
@@ -571,15 +571,15 @@ theorem GKH_eq {l : Nat} (hl : 1 ≤ l ∧ l ≤ 5) {y : Nat} (hy : y < 275) :
   unfold GKH qKH
   by_cases h1 : l = 1
   · subst h1
-    rw [if_pos rfl, actN_sg (by norm_num) hy]
+    rw [ite_eq_left rfl, actN_sg (by norm_num) hy]
     rfl
   by_cases h2 : l = 2
   · subst h2
-    rw [if_neg (by decide), if_pos rfl, actN_sg (by norm_num) hy]
+    rw [ite_eq_right (by decide), ite_eq_left rfl, actN_sg (by norm_num) hy]
     rfl
   have b1 : Nat.beq l 1 = false := Bool.eq_false_iff.2 fun h => h1 (Nat.eq_of_beq_eq_true h)
   have b2 : Nat.beq l 2 = false := Bool.eq_false_iff.2 fun h => h2 (Nat.eq_of_beq_eq_true h)
-  rw [b1, b2, if_neg h1, if_neg h2]
+  rw [b1, b2, ite_eq_right h1, ite_eq_right h2]
   obtain ⟨hc, hr⟩ := hG_facts (j := l - 3) (by omega)
   have := hr y hy
   rw [ap_unpack hc hy, idx_eq] at this

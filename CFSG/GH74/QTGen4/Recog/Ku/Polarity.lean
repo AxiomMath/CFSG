@@ -21,6 +21,7 @@ namespace KuHyp
 
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem kuPred_conj_iff (h : KuHyp G T M H P z) {n₀ : G} (hn₀ : n₀ ∈ kuN P H) (y : G) :
     kuPred P H z (n₀ * z * n₀⁻¹) y ↔ n₀⁻¹ * y * n₀ ∈ kuW P H := by
   constructor
@@ -41,6 +42,7 @@ theorem kuPred_conj_iff (h : KuHyp G T M H P z) {n₀ : G} (hn₀ : n₀ ∈ kuN
     rw [e]
     exact hconj
 
+omit [Finite G] in
 theorem kuPred_z_iff (h : KuHyp G T M H P z) (y : G) :
     kuPred P H z z y ↔ y ∈ kuW P H := by
   have := h.kuPred_conj_iff (n₀ := 1) (Subgroup.one_mem (kuN P H)) y

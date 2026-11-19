@@ -81,6 +81,7 @@ theorem Ctx.card_sup_commXbarPre_eq (hc : Ctx M Q Z B) (h : GlobalModelData M Q 
   exact Nat.card_congr (Equiv.subtypeEquivRight fun e =>
     Ctx.mem_img_sup_iff_mem_cmComm hc h φ hφπ e)
 
+omit [(Q.subgroupOf M).Normal] [Finite K] [Finite G] in
 theorem Ctx.action_sq_eq_one (hc : Ctx M Q Z B) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : ↥(H0 M Z)) (x : G), x ∈ Q →
       M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x)) {a : G} (haH : a ∈ H0 M Z)
@@ -96,6 +97,8 @@ theorem Ctx.action_sq_eq_one (hc : Ctx M Q Z B) (φ : ↥(H0 M Z) →* (M₀.E �
   rw [h1]
   exact Tim79.QuadModel.pi_conj_self (M₀ := M₀) ha2 hyQ
 
+omit [(Q.subgroupOf M).Normal] [Finite K] in
+omit [Finite G] in
 theorem Ctx.mem_img_zpowers_sup_iff (hc : Ctx M Q Z B) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : ↥(H0 M Z)) (x : G), x ∈ Q →
       M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x)) {a : G} (haH : a ∈ H0 M Z)
@@ -172,6 +175,7 @@ theorem Ctx.mem_img_zpowers_sup_iff (hc : Ctx M Q Z B) (φ : ↥(H0 M Z) →* (M
     simp only [LinearMap.sub_apply, Module.End.one_apply, LinearEquiv.coe_coe]
     abel
 
+omit [(Q.subgroupOf M).Normal] [Finite K] in
 theorem Ctx.finrank_range_sub_one_of_card (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : ↥(H0 M Z)) (x : G), x ∈ Q →
@@ -219,8 +223,7 @@ theorem Ctx.isCompl_cmComm_orthogonal (hc : Ctx M Q Z B) (h : GlobalModelData M 
     simpa using this
   · refine Subtype.ext (hc.eq_zero_of_mem_cmComm_of_orthogonal h φ hφπ x.2 fun z hz => ?_)
     have := hx ⟨z, hz⟩
-    simp only [LinearMap.BilinForm.restrict_apply, LinearMap.domRestrict_apply,
-      Submodule.coe_subtype] at this
+    simp only [LinearMap.BilinForm.restrict_apply, LinearMap.domRestrict_apply] at this
     rw [Tim79.QuadModel.B_comm, this, neg_zero]
 
 theorem Ctx.action_fixes_orthogonal (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)

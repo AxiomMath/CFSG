@@ -66,11 +66,11 @@ theorem s16c11_fr_apply_BB {m : ℕ} (hm : m = 3 ∨ m = 4)
       (1 : ZMod 2)) i, ← s16c11_fr_isK_Eb hm hK i, s16c11_fr_pol_mulVec hQ,
     s16c11_fr_pol_Eb hm (Pi.single (s16c11_fr_B m (s16c11_fr_bound3 hm) j) (1 : ZMod 2)) i]
   by_cases hij : i = j
-  · rw [if_pos hij]
+  · rw [ite_eq_left hij]
     rw [show s16c11_fr_B m (s16c11_fr_bound3 hm) i =
         s16c11_fr_B m (s16c11_fr_bound3 hm) j from
       congrArg (s16c11_fr_B m (s16c11_fr_bound3 hm)) hij, Pi.single_eq_same]
-  · rw [if_neg hij, Pi.single_eq_of_ne]
+  · rw [ite_eq_right hij, Pi.single_eq_of_ne]
     intro hc
     exact hij (s16c11_fr_B_inj (s16c11_fr_bound3 hm) hc)
 
@@ -83,11 +83,11 @@ theorem s16c11_fr_isK_apply_AA {m : ℕ} (hm : m = 3 ∨ m = 4)
   rw [s16c11_fr_Eb, Matrix.mulVec_single_one, Matrix.col_apply] at h
   rw [h]
   by_cases hij : i = j
-  · rw [if_pos hij]
+  · rw [ite_eq_left hij]
     rw [show s16c11_fr_A m (s16c11_fr_bound3 hm) i =
         s16c11_fr_A m (s16c11_fr_bound3 hm) j from
       congrArg (s16c11_fr_A m (s16c11_fr_bound3 hm)) hij, Pi.single_eq_same]
-  · rw [if_neg hij, Pi.single_eq_of_ne]
+  · rw [ite_eq_right hij, Pi.single_eq_of_ne]
     intro hc
     exact hij (s16c11_fr_A_inj (s16c11_fr_bound3 hm) hc)
 
@@ -143,43 +143,43 @@ theorem s16c11_fr_kernel_entry {m : ℕ} (hm : m = 3 ∨ m = 4)
     conv_lhs => rw [s16c11_frPartACB_A, s16c11_frPartACB_A]
     rw [s16c11_fr_isK_apply_AA hm hK a a']
     by_cases haa : a = a'
-    · rw [if_pos haa,
-        if_pos (congrArg (s16c11_frPartACB m (s16c11_fr_bound3 hm)) (congrArg Sum.inl haa))]
-    · rw [if_neg haa, if_neg (fun hc =>
+    · rw [ite_eq_left haa,
+        ite_eq_left (congrArg (s16c11_frPartACB m (s16c11_fr_bound3 hm)) (congrArg Sum.inl haa))]
+    · rw [ite_eq_right haa, ite_eq_right (fun hc =>
         haa ((s16c11_frPartACB m (s16c11_fr_bound3 hm)).injective hc |> Sum.inl.inj))]
   · simp only [s16c11_frWeightD] at hij; omega
   · simp only [s16c11_frWeightD] at hij; omega
   · simp only [s16c11_frWeightD] at hij
     conv_lhs => rw [s16c11_frPartACB_C, s16c11_frPartACB_A]
-    rw [s16c11_fr_isK_apply_A hm hK a' c, if_neg (fun hc =>
+    rw [s16c11_fr_isK_apply_A hm hK a' c, ite_eq_right (fun hc =>
       absurd ((s16c11_frPartACB m (s16c11_fr_bound3 hm)).injective hc) (by simp))]
   · simp only [s16c11_frWeightD] at hij
     conv_lhs => rw [s16c11_frPartACB_C, s16c11_frPartACB_C]
     rw [s16c11_fr_block_CC hm hblock c c']
     by_cases hcc : c = c'
-    · rw [if_pos hcc,
-        if_pos (congrArg (s16c11_frPartACB m (s16c11_fr_bound3 hm))
+    · rw [ite_eq_left hcc,
+        ite_eq_left (congrArg (s16c11_frPartACB m (s16c11_fr_bound3 hm))
           (congrArg Sum.inr (congrArg Sum.inl hcc)))]
-    · rw [if_neg hcc, if_neg (fun hc =>
+    · rw [ite_eq_right hcc, ite_eq_right (fun hc =>
         hcc ((s16c11_frPartACB m (s16c11_fr_bound3 hm)).injective hc
           |> Sum.inr.inj |> Sum.inl.inj))]
   · simp only [s16c11_frWeightD] at hij; omega
   · simp only [s16c11_frWeightD] at hij
     conv_lhs => rw [s16c11_frPartACB_B, s16c11_frPartACB_A]
-    rw [s16c11_fr_isK_apply_BA hm hK b a', if_neg (fun hc =>
+    rw [s16c11_fr_isK_apply_BA hm hK b a', ite_eq_right (fun hc =>
       absurd ((s16c11_frPartACB m (s16c11_fr_bound3 hm)).injective hc) (by simp))]
   · simp only [s16c11_frWeightD] at hij
     conv_lhs => rw [s16c11_frPartACB_B, s16c11_frPartACB_C]
-    rw [s16c11_fr_apply_B hm hQ hK b c', if_neg (fun hc =>
+    rw [s16c11_fr_apply_B hm hQ hK b c', ite_eq_right (fun hc =>
       absurd ((s16c11_frPartACB m (s16c11_fr_bound3 hm)).injective hc) (by simp))]
   · simp only [s16c11_frWeightD] at hij
     conv_lhs => rw [s16c11_frPartACB_B, s16c11_frPartACB_B]
     rw [s16c11_fr_apply_BB hm hQ hK b b']
     by_cases hbb : b = b'
-    · rw [if_pos hbb,
-        if_pos (congrArg (s16c11_frPartACB m (s16c11_fr_bound3 hm))
+    · rw [ite_eq_left hbb,
+        ite_eq_left (congrArg (s16c11_frPartACB m (s16c11_fr_bound3 hm))
           (congrArg Sum.inr (congrArg Sum.inr hbb)))]
-    · rw [if_neg hbb, if_neg (fun hc =>
+    · rw [ite_eq_right hbb, ite_eq_right (fun hc =>
         hbb ((s16c11_frPartACB m (s16c11_fr_bound3 hm)).injective hc
           |> Sum.inr.inj |> Sum.inr.inj))]
 

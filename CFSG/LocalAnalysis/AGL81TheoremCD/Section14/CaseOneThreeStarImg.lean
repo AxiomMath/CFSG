@@ -51,7 +51,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem inf_inSubgroup_pPrimeCore_eq_bot {M Y : Subgroup G} (hY : IsPGroup 3 Y) :
     Y ⊓ CFSG.inSubgroup (CFSG.pPrimeCore 3) M = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.GroupTheory.SteinbergBS.inf_eq_bot_of_isPGroup_of_not_dvd ?_ hY
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp
     (CFSG.RankThree.PartOne.Sec9B.coprime_card_inSubgroup_pPrimeCore (r := 3) M)

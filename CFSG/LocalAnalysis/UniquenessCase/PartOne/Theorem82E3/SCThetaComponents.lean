@@ -563,7 +563,7 @@ theorem isCyclic_autIn_of_abelian_sylow_of_pRank_le_one
     intro φ hφ
     obtain ⟨g, hgN, hgP, rfl⟩ := mem_autIn_iff.mp hφ
     have hpow : ∃ n : ℕ, (K.normalizerMonoidHom ⟨g, hgN⟩) ^ (p ^ n) = 1 := by
-      obtain ⟨n, hn⟩ := P.isPGroup' ⟨g, hgP⟩
+      obtain ⟨n, hn⟩ := P.isPGroup ⟨g, hgP⟩
       refine ⟨n, ?_⟩
       have hgpow : g ^ (p ^ n) = 1 :=
         congrArg (fun y : (P : Subgroup H) => (y : H)) hn

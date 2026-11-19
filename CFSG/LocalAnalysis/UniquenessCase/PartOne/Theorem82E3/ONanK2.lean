@@ -121,8 +121,6 @@ private theorem card_centralizer_and_quotient_of_eq_sup {G : Type} [Group G] [Fi
     rw [hsup, hcardSup, hcardK, hzxCard]
   have hker_eq' : (Subgroup.center G).subgroupOf K = ρ.ker := hker_eq.symm
   refine ⟨hcardC, hcardK, ?_⟩
-  change Nonempty
-    ((K ⧸ (Subgroup.center G).subgroupOf K) ≃* alternatingGroup (Fin 6))
   exact ⟨(QuotientGroup.quotientMulEquivOfEq hker_eq').trans
     ((QuotientGroup.quotientKerEquivRange ρ).trans (MulEquiv.subgroupCongr hρ))⟩
 

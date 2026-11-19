@@ -19,7 +19,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 (IsL2)
 private theorem wcgapsr_central {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4) :
     ∀ a ∈ (Q₂ F ⊓ Q₁ F : Subgroup (StatedSp 2 F)),
       ∀ s ∈ (unipotent 2 F : Subgroup (StatedSp 2 F)), a * s = s * a := by
-  haveI : CharP F 2 := charP_two_of_card_eq_four hF
+  have : CharP F 2 := charP_two_of_card_eq_four hF
   intro a ha s hs
   have haQ1 : a ∈ radical F := by
     rw [← Q₁_eq_radical]
@@ -48,12 +48,12 @@ private theorem wcgapsr_central {F : Type} [Field F] [Finite F] (hF : Nat.card F
 private theorem wcgapsr_isMaxParabolicMod {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4)
     (i : Fin 2) :
     IsMaxParabolicMod (⊥ : Subgroup (StatedSp 2 F)) ⊤ (Q2 F i) := by
-  haveI : CharP F 2 := charP_two_of_card_eq_four hF
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_two_of_card_eq_four hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_unipotent (K := F) 2 2
   have hU2 : IsPGroup 2 (unipotent 2 F : Subgroup (StatedSp 2 F)) := by
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   have hUidx : ¬ 2 ∣ (unipotent 2 F : Subgroup (StatedSp 2 F)).relIndex ⊤ := by
     rw [Subgroup.relIndex_top_right, ← hP]
     exact P.not_dvd_index
@@ -72,8 +72,8 @@ private theorem wcgapsr_isMaxParabolicMod {F : Type} [Field F] [Finite F] (hF : 
 theorem rankTwoParabData_unipotent_sp4 {F : Type} [Field F]
     [Finite F] (hF : Nat.card F = 4) :
     RankTwoParabData (unipotent 2 F : Subgroup (StatedSp 2 F)) := by
-  haveI : CharP F 2 := charP_two_of_card_eq_four hF
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_two_of_card_eq_four hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKeq0 : oddResMod (⊥ : Subgroup (StatedSp 2 F)) (Q2 F 0) = L₂ F := by
     rw [wcgapsq_oddResMod_bot_eq_oTwoPrime, show Q2 F 0 = P₂ F from rfl, oTwo_P₂]
   have hKeq1 : oddResMod (⊥ : Subgroup (StatedSp 2 F)) (Q2 F 1) = L₁ F := by
@@ -81,7 +81,7 @@ theorem rankTwoParabData_unipotent_sp4 {F : Type} [Field F]
   obtain ⟨P, hP⟩ := exists_sylow_unipotent (K := F) 2 2
   have hU2 : IsPGroup 2 (unipotent 2 F : Subgroup (StatedSp 2 F)) := by
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   have hUidx : ¬ 2 ∣ (unipotent 2 F : Subgroup (StatedSp 2 F)).relIndex ⊤ := by
     rw [Subgroup.relIndex_top_right, ← hP]
     exact P.not_dvd_index

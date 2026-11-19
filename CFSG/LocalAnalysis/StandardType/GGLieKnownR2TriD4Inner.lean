@@ -20,7 +20,7 @@ theorem ggRootNormInner_triD4
     GGRootNormInner (((triD4Universal F σ).D.rootGroup β).map (MulAut.conj u).toMonoidHom) := by
   have hσ3 : ∀ c, σ (σ (σ c)) = c := by
     intro c
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hexp : ((c ^ 2 ^ g) ^ 2 ^ g) ^ 2 ^ g = c ^ ((2 ^ g) ^ 3) := by
       rw [← pow_mul, ← pow_mul]
       congr 1

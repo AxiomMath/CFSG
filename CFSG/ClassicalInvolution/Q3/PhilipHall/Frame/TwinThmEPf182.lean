@@ -31,7 +31,7 @@ theorem mem_dstarComp_of_mem_USet_le_W [Finite G] (hΩ : HypOmegaGen Ω) {K J W 
   exact CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinThmE.MinCexQ8Frame.mem_dstarComp_of_mem_USet_le_W hΩ hK hJ hV₀ hV₀K hV₀W hV₁ hV₁J hV₁W habel
 
 theorem etaAbelian_of_gen [Finite G] (hΩ : HypOmegaGen Ω) : EtaAbelian Ω :=
-  fun S _ hη hinv => (Sec6Gen.eta_abelian_of_cyc66 hΩ (Sec6Gen.cyc66 hΩ) hη hinv).1
+  fun _S _ hη hinv => (Sec6Gen.eta_abelian_of_cyc66 hΩ (Sec6Gen.cyc66 hΩ) hη hinv).1
 
 end E182
 

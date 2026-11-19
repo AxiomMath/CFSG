@@ -139,7 +139,7 @@ theorem strongClosed_of_outer_of_card_sylow (h : U3Start G L f t T)
   have hAR : szA₁ (szT₁ L T) ≤ szR (szT₁ L T) R₂ t := (szA₁_le _).trans (le_szR_left _ _ _)
   have hS : IsPGroup 2 ↥(T ⊔ R₂ : Subgroup G) := by
     obtain ⟨P, hP⟩ := hsyl
-    have h1 := P.isPGroup'
+    have h1 := P.isPGroup
     rw [hP] at h1
     exact h1.of_equiv (subgroupOfEquivOfLe hS₁A)
   have hf := h.two_le

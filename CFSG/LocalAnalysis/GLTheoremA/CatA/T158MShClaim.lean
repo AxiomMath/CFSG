@@ -57,7 +57,7 @@ theorem t158SetupLU_of_mi (hMI : T158MISetup) (hC : T158CompLU) (hCl : T158Claim
 section CertsSetup
 
 theorem t158MISetup_holds : T158MISetup := by
-  haveI := CFSG.Adapters.certificate43_holds
+  have := CFSG.Adapters.certificate43_holds
   exact ⟨fun _ _ _ _ _ _ hA h => MI.innDiag_unif_holds (L := _) (A := _) hA h,
     fun _ _ _ _ _ _ _ hL hF => (MI.field_nonInnDiag_any hL hF).2⟩
 
@@ -101,7 +101,7 @@ private theorem fieldOn_of_notInnDiag_of_shape {G : Type} [Group G] [Finite G] {
     (haN : a ∈ Subgroup.normalizer (L : Set G)) (hap : a ^ p = 1)
     (hnon : ¬ InnDiagOn p (Subgroup.zpowers a) L) :
     FieldOn p a L := by
-  haveI := CFSG.Adapters.certificate43_holds
+  have := CFSG.Adapters.certificate43_holds
   rcases (i91_holds G p) hp hp2 L L a hL hchev haN hap ⟨haN, hnon⟩ with hF | ⟨hp3, hD | hT⟩
   · exact hF
   · subst hp3
@@ -124,10 +124,10 @@ private theorem shape_catalog_of_J {p N : ℕ} {S : Type} [Group S]
   | sporadic _ => simp [onLie] at hi
 
 theorem t158ClaimLU_of (hc : CatDistinct.Ctx) : T158ClaimLU := by
-  haveI := CFSG.Adapters.certificate43_holds
+  have := CFSG.Adapters.certificate43_holds
   intro G _ _ p L J A d b N hpre hcatL hJlayer hcatJ a ha
   by_contra hnot
-  haveI : Fact p.Prime := ⟨hpre.prime⟩
+  have : Fact p.Prime := ⟨hpre.prime⟩
   have hp := hpre.prime
   have hp2 := hpre.odd
   have hLself : GLAPComponent p L L := glaPComponent_self_p hpre.qs hpre.core

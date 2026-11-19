@@ -30,7 +30,7 @@ theorem burnsideF4m_A42_chart_G2 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : 
     ⟨hk, hp, hd, K, fK, finK, hcard, marking, h1, h2, h3, h4, h5⟩ |
     ⟨hk, -⟩ | ⟨hk, -⟩ | ⟨-, exponent, K, fK, finK, charK, scope, ⟨hk, -⟩ | ⟨hk, -⟩⟩
   · exact absurd hk (by cases c <;> decide)
-  · haveI charK : CharP K 2 := burnsideF4f_charP_of_card hd hcard
+  · have charK : CharP K 2 := burnsideF4f_charP_of_card hd hcard
     let Ψ : G2Native.Parent K ≃* ↥Gp := (CFSG.Quasithin.H13.F431.G2.mk K).trans marking
     have hΨ : ∀ L : Subgroup (G2Native.Parent K),
         G2Native.fullImage K marking L = L.map Ψ.toMonoidHom := by
@@ -104,7 +104,7 @@ theorem burnsideF4m_A42_G2 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgro
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) i)
           (amalgamMap ((burnsideF4d_bOne β ε).comp (burnsideF4m_psi θ h1))
             ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) j) := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   obtain ⟨chart, hm⟩ := hyp.amalgam.lie_amalgam
   obtain ⟨K, _, _, _, hcard, Ψ, hP1, hP2, hS⟩ := burnsideF4m_A42_chart_G2 chart hm
   rw [burnsideF4gG2Inv_point_eq] at hP1
@@ -160,7 +160,7 @@ theorem burnsideF4m_A42_G2 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgro
         ↥Gp) : E) = 1
       rw [← map_mul, CFSG.Quasithin.H13.F431.G2.xv_mul_self, map_one]
       rfl
-    · rw [if_pos rfl, one_mul, inv_one, mul_one, hS]
+    · rw [ite_eq_left rfl, one_mul, inv_one, mul_one, hS]
       exact ⟨Ψ (CFSG.Quasithin.H13.F431.G2.xv 1),
         ⟨CFSG.Quasithin.H13.F431.G2.xv 1, CFSG.Quasithin.H13.F431.G2.xv_mem_Xv 1, rfl⟩, rfl⟩
 

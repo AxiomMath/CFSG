@@ -59,6 +59,7 @@ theorem commute_or_orderOf_mul_eq_three {d x : G} (hd : d * d = 1) (hx : x * x =
     exact (CFSG.Timmesfeld.commute_iff_mul_sq_eq_one hd hx).mpr (by
       simpa [pow_two] using hsq)
 
+omit [Finite G] in
 private theorem false_of_commute_exactly_one {d x y z : G} (hx : Commute d x)
     (hxyz : z = x * y) (hxy : Commute x y) (hx2 : orderOf x = 2)
     (hdy : orderOf (d * y) = 3) (hdz : orderOf (d * z) ≤ 3) : False := by

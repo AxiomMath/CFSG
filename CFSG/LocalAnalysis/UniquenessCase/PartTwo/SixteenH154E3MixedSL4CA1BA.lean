@@ -25,7 +25,7 @@ structure s16h_SL4TwoFrame {W : Type} [CommGroup W] (X L L' T : Subgroup (MulAut
 private theorem s16h_sl4tf_mem_of_pow_nine {Y : Type} [Group Y]
     {X : Subgroup Y} [hN : X.Normal] (hP : IsPGroup 2 (Y ⧸ X)) {y : Y}
     (hy : y ^ 9 = 1) : y ∈ X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq9 : (QuotientGroup.mk' X y) ^ 9 = 1 := by
     rw [← map_pow, hy, map_one]
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hP) (QuotientGroup.mk' X y)
@@ -60,7 +60,7 @@ private theorem s16h_sl4tf_norm_card {X : Type} [Group X]
     (ψ : X ≃* alternatingGroup (Fin 5)) (T : Subgroup X)
     (hT : IsPGroup 2 T) (hodd : ¬ 2 ∣ T.index) :
     Nat.card (Subgroup.normalizer (T : Set X)) = 12 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T' : Subgroup (alternatingGroup (Fin 5)) := T.map ψ.toMonoidHom
   have hT' : IsPGroup 2 T' := hT.map ψ.toMonoidHom
   have hodd' : ¬ 2 ∣ T'.index := by
@@ -111,7 +111,7 @@ private theorem s16h_sl4tf_inf_eq_bot {W : Type} [CommGroup W] [Finite W]
     (hL : IsAlt ↥L 5) (hLL' : L ≠ L') (hcard : Nat.card ↥L' = Nat.card ↥L) :
     L ⊓ L' = ⊥ := by
   obtain ⟨e⟩ := hL
-  haveI : IsSimpleGroup ↥L := e.isSimpleGroup
+  have : IsSimpleGroup ↥L := e.isSimpleGroup
   have hLnorm : L ≤ Subgroup.normalizer ((L ⊓ L') : Set (MulAut W)) := by
     refine (show L ≤ Subgroup.centralizer ((L ⊓ L') : Set (MulAut W)) from ?_).trans
       (Subgroup.centralizer_le_normalizer _)
@@ -135,7 +135,7 @@ theorem s16h_sl4_a5_parabolic_of_two_frame {W : Type} [CommGroup W] [Finite W]
     ∃ (J : Subgroup (MulAut W)) (a : ℕ), J ≤ X ∧ T ≤ J ∧ J ≤ L ⊔ L' ⊔ T ∧
       Nat.card ↥J = 2 ^ a * 9 ∧ ∀ x ∈ J, x ^ 9 = 1 → x ^ 3 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, htT, htL⟩ := F.swap
   have hcardLL' : Nat.card ↥L' = Nat.card ↥L := by
     rw [← htL, Subgroup.card_map_of_injective (MulAut.conj t).injective]

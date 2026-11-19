@@ -16,7 +16,7 @@ theorem exists_pow_eq_t (hd : Sec19DataT p f K z S W L t V) {v : G} (hvV : v ∈
     (hV : V = Subgroup.zpowers v) :
     ∃ k : ℕ, 2 ≤ k ∧ Nat.card V = 2 ^ k ∧ orderOf v = 2 ^ k ∧ v ^ 2 ^ (k - 1) = t := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hV2 : IsPGroup 2 V := S.isPGroup'.to_le (hd.leW.trans hd.hWS)
+  have hV2 : IsPGroup 2 V := S.isPGroup.to_le (hd.leW.trans hd.hWS)
   obtain ⟨k, hk⟩ := hV2.exists_card_eq
   have h4 := four_le_card hd
   have hk2 : 2 ≤ k := by

@@ -46,7 +46,7 @@ public theorem secondCase_a7_sylow_not_cyclic_of_component_le
   have hAcard : Nat.card A = 8 := by
     dsimp [A]
     rw [Subgroup.card_map_of_injective w.M.subtype_injective, hSMcard]
-  have hAp : IsPGroup 2 A := SM.isPGroup'.map w.M.subtype
+  have hAp : IsPGroup 2 A := SM.isPGroup.map w.M.subtype
   have hAleE : A ≤ d.E := by simpa [A] using hSME
   have hno8 : ∀ x : alternatingGroup (Fin 7), orderOf x ≠ 8 := by
     intro x hx

@@ -105,7 +105,7 @@ theorem exists_prime_isElementaryAbelian_natCard_eq_sq_of_not_isCyclic (hodd : O
   obtain ⟨r, hr, S, hScyc⟩ := hz
   set S' : Subgroup G := (S : Subgroup ↥R).map R.subtype with hS'
   have he : ↥(S : Subgroup ↥R) ≃* ↥S' := Subgroup.equivMapOfInjective _ _ R.subtype_injective
-  have hS'p : IsPGroup r ↥S' := S.isPGroup'.of_equiv he
+  have hS'p : IsPGroup r ↥S' := S.isPGroup.of_equiv he
   have hS'nc : ¬ IsCyclic ↥S' := fun h => hScyc ((MulEquiv.isCyclic he).2 h)
   have hS'R : S' ≤ R := Subgroup.map_subtype_le _
   have hS'ne : S' ≠ ⊥ := by

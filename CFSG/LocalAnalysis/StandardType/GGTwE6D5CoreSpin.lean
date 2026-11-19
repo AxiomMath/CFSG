@@ -202,12 +202,12 @@ theorem d5_fixedSpin_perfect (S : LangSetup Tag.E6 L p₀) {Fr : L →+* L}
     have hni : ¬ twistInner (componentRoots (rootCharHom a) i) ((S.ρ : _ → _)^[1]) := by
       rw [Function.iterate_one]
       exact not_twistInner_of_neg hu' (fun γ hγ => hρ γ (hΨk ▸ hγ).1) hno
-    rw [if_neg hni, if_neg (by rw [hrk, hn]; omega),
-      if_pos ⟨by rw [hrk]; omega, by rw [hrk, hn]⟩]
+    rw [ite_eq_right hni, ite_eq_right (by rw [hrk, hn]; omega),
+      ite_eq_left ⟨by rw [hrk]; omega, by rw [hrk, hn]⟩]
   obtain ⟨r, e, m, hr, hchar, hm5, z, ε, D, hq, he, hDe, hperf, hDs, hDt, hε, hmap⟩ :=
     exists_twoD_export_fixed S (Or.inr (Or.inl rfl)) hT i hkind hrk.symm.le
-  haveI := hr
-  haveI := hchar
+  have := hr
+  have := hchar
   have hmcard : m = 5 := by
     have h1 : Fintype.card (simpleRoots (componentRoots (rootCharHom a) i)) = m := by
       rw [Fintype.card_congr ε, Fintype.card_fin]

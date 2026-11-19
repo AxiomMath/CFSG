@@ -55,7 +55,7 @@ private theorem suzuki_centralizer_odd_prime_order_false {a : ℕ} {K : Type} [F
 theorem suzuki_involution_centralizer_isPGroup {a : ℕ} {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ (2 * a + 1)) (t : suzukiGroup a K) (ht : orderOf t = 2) :
     IsPGroup 2 ↥(centralizer ({t} : Set (suzukiGroup a K))) := by
-  haveI := finite_suzukiGroup hK
+  have := finite_suzukiGroup hK
   obtain ⟨hU2, hUidx⟩ := CFSG.Sporadic.Schreier.Tits.suzukiU_isSylow hK
   obtain ⟨g, hg⟩ := CFSG.Sporadic.Schreier.Tits.exists_conj_mem_sylow (hU2.toSylow hUidx)
     (CFSG.Sporadic.Schreier.Tits.isPGroup_zpowers_of_orderOf_two ht)

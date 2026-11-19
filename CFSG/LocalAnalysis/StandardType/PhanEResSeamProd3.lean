@@ -38,6 +38,7 @@ variable {M : ChevModel2 D n H Fld}
   ∀ b, b < d.length → (Vsub 2 (d.getD b 0)).map (glLin N).toLinearMap = Vsub 2 (d.getD b 0)
 
 include hext hw₀ hsq in
+omit hw₀ hsq in
 theorem exists_seam_prod3 [CharP Fld 2] (Lx Ly Lz : SLPath M 1) {x y z : Fin D.rank}
     (hx : Lx.e 0 = x) (hy : Ly.e 0 = y) (hz : Lz.e 0 = z) (hxy : x ≠ y) (hxz : x ≠ z)
     (hyz : y ≠ z)
@@ -211,6 +212,7 @@ theorem exists_seam_prod3 [CharP Fld 2] (Lx Ly Lz : SLPath M 1) {x y z : Fin D.r
     · simp only [map_mul, flagAct_mul]
 
 include hext hw₀ hsq in
+omit hw₀ hsq in
 theorem exists_seam_exch3 [CharP Fld 2] (Lx Ly Lz : SLPath M 1) {x y z : Fin D.rank}
     (hx : Lx.e 0 = x) (hy : Ly.e 0 = y) (hz : Lz.e 0 = z) (hxy : x ≠ y) (hxz : x ≠ z)
     (hyz : y ≠ z)
@@ -265,9 +267,9 @@ theorem exists_seam_exch3 [CharP Fld 2] (Lx Ly Lz : SLPath M 1) {x y z : Fin D.r
     refine ⟨rfl, rfl, ?_⟩
     intro i hi
     have hi' : i < 1 := by simpa using hi
-    interval_cases i <;> simp
+    interval_cases i; simp
   have h0 : (0 : Fin 1) ∈ cutTypes 1 [0, 2] := by
-    simp only [cutTypes, Set.mem_setOf_eq]
+    simp only [cutTypes, Set.mem_ofPred_eq]
     intro i hi
     have hi' : i < 2 := by simpa using hi
     interval_cases i <;> simp

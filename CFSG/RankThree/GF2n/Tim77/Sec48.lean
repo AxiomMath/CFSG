@@ -83,8 +83,8 @@ theorem sec48_no_comm [Finite G] {A : Subgroup G} (hA : IsElemAbelian 2 A) (hTI 
         hM := rfl
         ne_bot := hN
         ne := hLB }
-    obtain ⟨a, ha, haL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
-    obtain ⟨c', hc', hc'L⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
+    obtain ⟨a, ha, haL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
+    obtain ⟨c', hc', hc'L⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
     have hodd := S.odd_orderOf_mul ha haL hc' hc'L
     have ha1 : a ≠ 1 := fun e1 => haL (by rw [e1]; exact Subgroup.one_mem _)
     have hc'1 : c' ≠ 1 := fun e1 => hc'L (by rw [e1]; exact Subgroup.one_mem _)
@@ -123,7 +123,7 @@ theorem sec48_comm_conj [Finite G] {B C : Subgroup G} (hBel : IsElemAbelian 2 B)
         simp
       · have hu : orderOf (b * c) = 2 ∨ orderOf (b * c) = 4 := hord b hb hb1 c hc hc1
         have hdvd : orderOf (b * c) ∣ 4 := by
-          rcases hu with h | h <;> rw [h] <;> norm_num
+          rcases hu with h | h <;> rw [h]; norm_num
         have h4 : (b * c) ^ 4 = 1 := orderOf_dvd_iff_pow_eq_one.mp hdvd
         have e1 : b * (c * b * c⁻¹) = (b * c) * (b * c) := by
           rw [hcinv]
@@ -269,9 +269,9 @@ theorem sec48_mem_smul_sylow {P : Sylow 2 G} {k z : G} :
 theorem sec48_sylow_conj [Finite G] {S : Subgroup G} (hS : IsPGroup 2 S)
     (hmax : ∀ T : Subgroup G, IsPGroup 2 T → S ≤ T → T = S) {P : Subgroup G}
     (hP : IsPGroup 2 P) : ∃ k : G, ∀ x ∈ P, k * x * k⁻¹ ∈ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hS.exists_le_sylow
-  have hQS : (Q : Subgroup G) = S := hmax _ Q.isPGroup' hQ
+  have hQS : (Q : Subgroup G) = S := hmax _ Q.isPGroup hQ
   obtain ⟨R, hR⟩ := hP.exists_le_sylow
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq G R Q
   refine ⟨k, fun x hx => ?_⟩
@@ -528,7 +528,7 @@ theorem sec48_ctx_conj [Finite G] {A Abar S₀ B : Subgroup G} (h : Sec3Ctx A Ab
   exact ⟨⟨h.hyp, h.not_root, h.not_wc, hnota⟩, hq', hN0⟩
 
 theorem sec48_Lb_le [Finite G] {A Abar S₀ B C' : Subgroup G} (h : Sec3Ctx A Abar S₀ B)
-    (hC : ∃ g : G, C' = conjSubgroup g A) (hC'S : C' ≤ S₀)
+    (hC : ∃ g : G, C' = conjSubgroup g A) (_hC'S : C' ≤ S₀)
     (hA0 : Section3.Abar0 A Abar ≤ normalizer (C' : Set G))
     (hnot : ¬ Abar ≤ normalizer (C' : Set G)) {c : G} (hcC : c ∈ C')
     (hcLb : c ∉ normalizerIn C' Abar) :
@@ -610,7 +610,7 @@ theorem sec48_core [Finite G] (h47 : Tim77Sec47Statement) {A Abar S₀ B : Subgr
     h47 G A Abar S₀ B h hq C' hC' hC'S
   have hC'not := sec48_not_le_normalizer h hC' hC'S
   have hS := sec48_setup h hC' hC'N hC'not
-  obtain ⟨c, hcC, hcLb⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hS.Lb_le hS.Lb_ne)
+  obtain ⟨c, hcC, hcLb⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hS.Lb_le hS.Lb_ne)
   obtain ⟨hctx', hq', hconj⟩ := sec48_ctx_conj h hq (hC'S hcC)
   have hB'c := h47 G A (conjSubgroup c Abar) S₀ B hctx' hq' B' hB' hB'S
   have hC'c := h47 G A (conjSubgroup c Abar) S₀ B hctx' hq' C' hC' hC'S

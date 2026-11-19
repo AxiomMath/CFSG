@@ -39,7 +39,7 @@ theorem ggRC_classify_frame3 (hKG : GGReflClassLargeThree) {V : Type} [AddCommGr
         ∀ r : A, GGLinRefl (r : V ≃ₗ[ZMod 3] V) → ∃ i j, i ≠ j ∧ e r = Equiv.swap i j) ∨
       (∃ e : A ≃* Equiv.Perm (Fin (n + 2)),
         ∀ r : A, GGLinRefl (r : V ≃ₗ[ZMod 3] V) → ∃ i j, i ≠ j ∧ e r = Equiv.swap i j) := by
-  haveI : Module.Finite (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   have hpm1 : ∀ c : ZMod 3, c ≠ 0 ↔ (c = 1 ∨ c = -1) := by decide
   rcases hKG V n hn h9 A hirr hgen with himp | hcard | hsym1 | hsym2

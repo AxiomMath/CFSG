@@ -21,7 +21,7 @@ theorem rank_le_of_jointly_injective_characters {k : ℕ} {A K : Type*} [Group A
       have ha : a = 1 := h a (fun i => i.elim0)
       have hb : b = 1 := h b (fun i => i.elim0)
       rw [ha, hb]
-    haveI := hsub
+    have := hsub
     rw [Group.rank_eq_zero A]
   | succ k ih =>
     let B : Subgroup A := (χ 0).ker
@@ -35,8 +35,8 @@ theorem rank_le_of_jointly_injective_characters {k : ℕ} {A K : Type*} [Group A
       · exact MonoidHom.mem_ker.mp b.2
       · exact hb j
     have hQ : Group.rank (A ⧸ B) ≤ 1 := by
-      haveI : Finite ↥(χ 0).range := Finite.of_surjective _ (χ 0).rangeRestrict_surjective
-      haveI : IsCyclic (A ⧸ B) := by
+      have : Finite ↥(χ 0).range := Finite.of_surjective _ (χ 0).rangeRestrict_surjective
+      have : IsCyclic (A ⧸ B) := by
         have hrange : IsCyclic ↥(χ 0).range := isCyclic_subgroup_units (χ 0).range
         exact (MulEquiv.isCyclic (QuotientGroup.quotientKerEquivRange (χ 0))).2 hrange
       exact CFSG.PreuniquenessRankFour.Helpers.cyclic_group_rank_at_most_one
@@ -52,7 +52,7 @@ theorem exists_normal_commutative_centralizer_le {P : Type*} [Group P] [Finite P
   obtain ⟨A, -, hAn, hAc, hAmax⟩ :=
     CFSG.PreuniquenessRankFour.Helpers.exists_maximal_normal_abelian_overgroup
       (source := P) (abelian := ⊥) (by infer_instance)
-  haveI : A.Normal := hAn
+  have : A.Normal := hAn
   exact ⟨A, hAn, hAc,
     (CFSG.PreuniquenessRankFour.Helpers.maximal_normal_abelian_pSubgroup_centralizer_eq
       p hP A hAc hAmax).le⟩

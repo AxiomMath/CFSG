@@ -16,7 +16,7 @@ open CFSG.LocalAnalysis CFSG.LocalAnalysis.RankThreeUC CFSG.LocalAnalysis.EvenBN
 theorem exists_ne_one_pow_two_pow_add_one {n : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 n K) :
     ∃ u : K, u ≠ 1 ∧ u ^ (2 ^ n + 1) = 1 := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hn : 1 ≤ n := h.one_le
   have heven : Even (2 ^ n) := Nat.even_pow.mpr ⟨even_two, by omega⟩
   have hne : 2 ^ n + 1 ≠ 1 := by
@@ -28,7 +28,7 @@ theorem exists_ne_one_pow_two_pow_add_one {n : ℕ} {K : Type} [Field K]
     obtain ⟨k, hk⟩ := heven
     obtain ⟨l, hl⟩ := hpd
     omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2n : 2 ^ (2 * n) = (2 ^ n) ^ 2 := by
     rw [Nat.mul_comm 2 n, pow_mul]
   have hsq : (2 ^ n) ^ 2 - 1 = (2 ^ n + 1) * (2 ^ n - 1) := by
@@ -57,9 +57,9 @@ theorem exists_torus_commutator {S : Type} [CommGroup S] [Finite S] [Fact (∀ s
         Matrix.diagonal ![w, w⁻¹, w⁻¹, w] := by
   classical
   have hS : ∀ s : S, s * s = 1 := Fact.out
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
   have hσinv : σ⁻¹ = σ := inv_eq_of_mul_eq_one_right hσ2
   let A : Subgroup (MulAut S) := Subgroup.zpowers σ
   have hσA : σ ∈ A := Subgroup.mem_zpowers σ
@@ -116,7 +116,7 @@ theorem exists_torus_commutator {S : Type} [CommGroup S] [Finite S] [Fact (∀ s
   let g₀ : gramSU h (miyamotoJ4 K) :=
     ⟨miyamotoIHom h (U₀, U₀⁻¹), by
       rw [miyamotoIHom_mem_gramSU_iff, Units.ext_iff]
-      simp [miyamotoIParam, hbarU₀, hu₀0, Units.val_mk0]⟩
+      simp [miyamotoIParam]⟩
   have hg₀mat : (((g₀ : gramSU h (miyamotoJ4 K)) : GL (Fin 4) K) :
       Matrix (Fin 4) (Fin 4) K) = Matrix.diagonal d := by
     have hbase : ((miyamotoIHom h (U₀, U₀⁻¹) : GL (Fin 4) K) :
@@ -173,8 +173,7 @@ theorem exists_torus_commutator {S : Type} [CommGroup S] [Finite S] [Fact (∀ s
     rw [Subgroup.coe_mul, Subgroup.coe_mul, Units.val_mul, Units.val_mul, hg₀mat, hd]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [miyamotoZ1S, coe_miyamotoXGL, miyamotoX, Matrix.diagonal, Matrix.mul_apply,
-        Fin.sum_univ_four]
+      simp [miyamotoZ1S, coe_miyamotoXGL, miyamotoX, Matrix.diagonal, Matrix.mul_apply]
   have hβuz : (MulAut.conj z * u) g₀ = g₀⁻¹ := by
     rw [MulAut.mul_apply, MulAut.conj_apply, hβu]
     have hcomm : Commute z g₀ := hzcomm

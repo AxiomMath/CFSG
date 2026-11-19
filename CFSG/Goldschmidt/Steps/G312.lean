@@ -157,7 +157,7 @@ theorem G312 : S_G312 := by
   have hX₁syl : BenderSuzuki.HasAbelianSylow 2 X₁ := by
     intro S
     have hS1 : Nat.card (S : Subgroup X₁) = 1 := by
-      obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+      obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
       have hdvd : Nat.card (S : Subgroup X₁) ∣ Nat.card X₁ := Subgroup.card_subgroup_dvd_card _
       rw [hk] at hdvd ⊢
       rcases k with _ | k

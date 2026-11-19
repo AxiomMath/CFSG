@@ -66,10 +66,10 @@ theorem sylowData_elemFactsIn {G : Type} [Group G] [Finite G]
     (h2 : (Nat.card G).factorization 2 = 9) (hD : SylowData G) (S : Sylow 2 G) :
     ElemFactsIn (S : Subgroup G) := by
   obtain ⟨P, E, _, hP, hEP, hEsq, hEcard, hg, hmax, _, _⟩ := hD
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPfac : ElemFactsIn P := ⟨hP, hg, E, hEP, hEsq, hEcard, hmax⟩
   let P₀ : Sylow 2 G := Sylow.ofCard P (by rw [hP, h2])
-  haveI : Finite (Sylow 2 G) := Sylow.finite_of_finiteIndex P₀
+  have : Finite (Sylow 2 G) := Sylow.finite_of_finiteIndex P₀
   exact ElemFactsIn.of_mulEquiv (Sylow.equiv P₀ S).symm hPfac
 
 theorem sylowData_nine {G : Type} [Group G] [Finite G]
@@ -77,12 +77,12 @@ theorem sylowData_nine {G : Type} [Group G] [Finite G]
     ∀ E : Subgroup G, (∀ x ∈ E, x * x = 1) → Nat.card E = 2 ^ 6 →
       9 ∣ Nat.card (normalizer (E : Set G)) := by
   obtain ⟨P, E₀, H, hP, _, _, hE₀card, _, hmax, hHnorm, hHcard⟩ := hD
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro E hEsq hEcard
   have hE2 : IsPGroup 2 E := IsPGroup.of_card (n := 6) hEcard
   obtain ⟨S, hES⟩ := hE2.exists_le_sylow
   let P₀ : Sylow 2 G := Sylow.ofCard P (by rw [hP, h2])
-  haveI : Finite (Sylow 2 G) := Sylow.finite_of_finiteIndex P₀
+  have : Finite (Sylow 2 G) := Sylow.finite_of_finiteIndex P₀
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (M := G) P₀ S
   let f : G →* G := MulDistribMulAction.toMonoidEnd (MulAut G) G (MulAut.conj g)
   let f' : G →* G :=
@@ -98,13 +98,11 @@ theorem sylowData_nine {G : Type} [Group G] [Finite G]
     exact (MulAut.conj g)⁻¹.injective (by simpa [f', MulAut.smul_def] using hab)
   have hcomp : f.comp f' = MonoidHom.id G := by
     ext x
-    simp only [MonoidHom.comp_apply, MonoidHom.id_apply, f, f', MulAut.smul_def,
-      MulAut.inv_apply]
+    simp only [MonoidHom.id_apply, f, f']
     exact MulEquiv.apply_symm_apply (MulAut.conj g) x
   have hcomp' : f'.comp f = MonoidHom.id G := by
     ext x
-    simp only [MonoidHom.comp_apply, MonoidHom.id_apply, f, f', MulAut.smul_def,
-      MulAut.inv_apply]
+    simp only [MonoidHom.id_apply, f, f']
     exact MulEquiv.symm_apply_apply (MulAut.conj g) x
   let A : Subgroup G := E.map f'
   have hAP : A ≤ P := by

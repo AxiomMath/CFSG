@@ -98,7 +98,7 @@ theorem exists_inner_mem_sylow_inf (hY : HasAbelianSylowTwo Y) (S : Sylow 2 Y) {
     odd_card_center_of_isQuasisimple hL.2.2 (hY.subgroup L)
   have hSL : (S : Subgroup Y) ≤ Subgroup.normalizer (L : Set Y) :=
     sylow_le_normalizer_of_isComponentOf' hY S hL
-  obtain ⟨a, ha⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := S.isPGroup.exists_card_eq
   set n := 2 ^ a with hn
   have hcop : Nat.Coprime (Nat.card (Subgroup.center L)) n :=
     Nat.Coprime.pow_right a (Nat.coprime_two_right.mpr hZodd)
@@ -199,7 +199,7 @@ theorem exists_inner_mem_sylow_inf (hY : HasAbelianSylowTwo Y) (S : Sylow 2 Y) {
       intro y hy
       calc y * ℓ = (y * ℓ * y⁻¹) * y := by group
         _ = ℓ * y := by rw [hℓS y hy]
-    have hsup := S.maximal_isPGroup.eq_of_ge (hℓp.to_sup_of_normal_right' S.isPGroup' hℓN) le_sup_right
+    have hsup := S.maximal_isPGroup.eq_of_ge (hℓp.to_sup_of_normal_right' S.isPGroup hℓN) le_sup_right
     rw [← hsup]
     exact le_sup_left (a := Subgroup.zpowers ℓ) (Subgroup.mem_zpowers ℓ)
   exact ⟨ℓ, ⟨hℓS', hℓL⟩, hℓconj⟩
@@ -299,7 +299,7 @@ theorem exists_component_not_le_centralizer (hY : HasAbelianSylowTwo Y) (S : Syl
     exact mul_mem heK hcK
   have hxZ : (⟨x, hxK⟩ : K) ∈ Subgroup.center K :=
     Subgroup.mem_center_iff.mpr fun y => Subtype.ext (Subgroup.mem_centralizer_iff.mp hxC y y.2)
-  obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨x, hxS⟩
+  obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨x, hxS⟩
   have hj0 : j ≠ 0 := by
     rintro rfl
     rw [pow_zero, orderOf_eq_one_iff] at hj

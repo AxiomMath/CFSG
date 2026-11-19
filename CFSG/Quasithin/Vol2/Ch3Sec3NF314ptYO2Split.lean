@@ -130,7 +130,7 @@ theorem yo2_split_nine {Q : Type} [Group Q] [Finite Q] {A A' P : Subgroup Q}
     have : Nat.card R₁ * Nat.card R₂ ≤ 3 * 2 := Nat.mul_le_mul hR₁card hlt
     omega
   have hΘbij : Function.Bijective Θ :=
-    hΘinj.bijective_of_nat_card_le (by rw [Nat.card_prod, hR₁eq, hR₂eq, hP'card] <;> norm_num)
+    hΘinj.bijective_of_nat_card_le (by rw [Nat.card_prod, hR₁eq, hR₂eq, hP'card])
   obtain ⟨g₁, hg₁⟩ := IsCyclic.exists_monoid_generator (α := ↥R₁)
   obtain ⟨g₂, hg₂⟩ := IsCyclic.exists_monoid_generator (α := ↥R₂)
   have hord₁ : orderOf g₁ = 3 := by

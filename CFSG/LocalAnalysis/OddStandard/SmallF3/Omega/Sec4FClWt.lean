@@ -16,6 +16,7 @@ open Subgroup CFSG.Blueprint
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma piOrth_mul_t_eq_blockHom {t : OGroup Q} (htt : t * t = 1) :
     (piOrth Q * t : OGroup Q) =
       blockHom htt (piOrth (Q.restrict (fixSp t)), 1) := by
@@ -29,6 +30,7 @@ private lemma piOrth_mul_t_eq_blockHom {t : OGroup Q} (htt : t * t = 1) :
     _ = blockHom htt (piOrth (Q.restrict (fixSp t)), 1) := by
           rw [Prod.mk_mul_mk, mul_one, piOrth_mul_self]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma piOrth_mul_t_mul_blockInr {t : OGroup Q} (htt : t * t = 1)
     (b : OGroup (Q.restrict (commSp t))) :
     (piOrth Q * t) * blockInr htt b =
@@ -49,6 +51,7 @@ private lemma piOrth_mul_t_mul_blockInr_commute (hQ : Q.Nondegenerate) {t : OGro
     Subgroup.mem_centralizer_singleton_iff.mp (blockInr_mem_centralizer hQ htt b)
   exact ((hpit.mul_left (Commute.refl t)).mul_left hbt).eq
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma piOrth_mul_t_mul_blockInr_apply_fixSp {t : OGroup Q} (htt : t * t = 1)
     (b : OGroup (Q.restrict (commSp t))) (v : fixSp t) :
     ((((piOrth Q * t) * blockInr htt b : OGroup Q) : V ≃ₗ[ZMod 3] V) (v : V)) =
@@ -62,7 +65,7 @@ private lemma piOrth_mul_t_mul_blockInr_apply_fixSp {t : OGroup Q} (htt : t * t 
 theorem sec4FClDt_card_le (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 7)
     (hσ : quadSign Q = 1) {t : OGroup Q} (htt : t * t = 1) (ht6 : invType t = (6, 1)) :
     Nat.card (Sec4FDDt hQ t) ≤ 12130560 := by
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   let C : Subgroup (OGroup Q) := Subgroup.centralizer ({t} : Set (OGroup Q))
   let D : Subgroup (OGroup Q) := Sec4FDDt hQ t
   have hDC : D ≤ C := by
@@ -209,7 +212,7 @@ theorem sec4FClDt_card_le (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3)
     rw [hππt] at hmem
     exact ht_not hmem
   have hcard_range : 4 ≤ Nat.card φC.range := by
-    haveI : Finite φC.range := inferInstance
+    have : Finite φC.range := inferInstance
     let a0 : φC.range := ⟨φC ⟨1, hC1⟩, ⟨⟨1, hC1⟩, rfl⟩⟩
     let a1 : φC.range := ⟨φC ⟨t, hCt⟩, ⟨⟨t, hCt⟩, rfl⟩⟩
     let a2 : φC.range := ⟨φC ⟨piOrth Q, hCpi⟩, ⟨⟨piOrth Q, hCpi⟩, rfl⟩⟩
@@ -289,8 +292,7 @@ theorem sec4FCl_exists_wt (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3)
   have hwmem : w ∈ Sec4FDDt hQ t := by
     rw [mem_sec4FDDt_iff]
     refine ⟨?_, ?_⟩
-    · change w ∈ omegaGroup hQ
-      rw [involution_mem_omegaGroup_iff hQ hww]
+    · rw [involution_mem_omegaGroup_iff hQ hww]
       change Even (invDim ((piOrth Q * t) * blockInr htt b)) ∧
         invSign ((piOrth Q * t) * blockInr htt b) =
           (-1 : ℤˣ) ^ (invDim ((piOrth Q * t) * blockInr htt b) / 2)

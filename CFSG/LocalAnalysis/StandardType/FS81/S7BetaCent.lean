@@ -54,7 +54,7 @@ theorem exists_betaEmbedding {G : Type} [Group G] [Finite G] {b₀ : G} {K E : S
   have hgs : (MulAut.conj g).toMonoidHom sθ = sθ := by
     have hcent := Subgroup.mem_centralizer_singleton_iff.1
       (perpLevi_le_centralizer_rootThree (K := GF₂) hgD)
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     rw [mul_inv_eq_iff_eq_mul]
     exact hcent
   have hβ : (ι₀.comp (MulAut.conj g).toMonoidHom) sθ = b₀ * B.b 1 := by

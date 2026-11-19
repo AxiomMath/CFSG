@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 private lemma y7b8b_B_le_H (c : Ctx7 G L) (hb : B5Std c) : c.s.fr.B ≤ c.s.H :=
   (s3_B_le_S c.s).trans ((s3_S_le_L c.s).trans (s3_L_le_H c.s hb.hH.hS))
 
+omit [Finite G] in
 private lemma y7b8b_zpow_two_eq_one_or_self {x : G} (hx : x ^ 2 = 1) (k : ℤ) :
     x ^ k = 1 ∨ x ^ k = x := by
   have hdvd : orderOf x ∣ 2 := orderOf_dvd_of_pow_eq_one hx
@@ -34,7 +35,7 @@ private lemma y7b8b_zpow_two_eq_one_or_self {x : G} (hx : x ^ 2 = 1) (k : ℤ) :
 
 theorem y7b_cs3_B (c : Ctx7 G L) (hb : B5Std c) {b : G} (hbB : b ∈ c.s.fr.B)
     (hcs : b ∈ y7bCS3 c) : ∃ e ∈ c.s.fr.E, ∃ f ∈ c.s.fr.F, b = e * f := by
-  simp only [centralizerSection, Set.mem_setOf_eq] at hcs
+  simp only [centralizerSection] at hcs
   obtain ⟨-, -, hcomm⟩ := hcs
   have hbH : b ∈ c.s.H := y7b8b_B_le_H c hb hbB
   have hbA : b ∈ c.s.fr.A := by

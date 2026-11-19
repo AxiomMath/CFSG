@@ -106,7 +106,7 @@ theorem outer_X_case_of_pair (hτ3 : tauAut σ ^ 3 = 1) (n : ℕ) (hn : 1 ≤ n)
       intro k
       rw [hh]
       have e1 : (MulAut.conj h⁻¹ * α * (MulAut.conj h⁻¹)⁻¹) k = h⁻¹ * α (h * k * h⁻¹) * h := by
-        simp [MulAut.mul_apply, MulAut.conj_apply, MulAut.conj_inv_apply]
+        simp [MulAut.mul_apply, MulAut.conj_apply]
       rw [e1]
       constructor
       · intro h1
@@ -148,7 +148,7 @@ theorem outer_X_case_of_pair (hτ3 : tauAut σ ^ 3 = 1) (n : ℕ) (hn : 1 ≤ n)
 theorem outer_X_case (hAB : TrialityABFacts σ) (n : ℕ) (hn : 2 ≤ n)
     (hX : Nat.card X = (2 ^ n) ^ 3) (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) {x g : C0 σ} {e : ℕ}
     (he : e = 1 ∨ e = 2) (hx : IsClassX σ x)
-    (hβ3 : (MulAut.conj g * tauAut σ ^ e) ^ 3 = 1) (hβ1 : MulAut.conj g * tauAut σ ^ e ≠ 1)
+    (hβ3 : (MulAut.conj g * tauAut σ ^ e) ^ 3 = 1) (_hβ1 : MulAut.conj g * tauAut σ ^ e ≠ 1)
     (hcomm : Commute (MulAut.conj x) (MulAut.conj g * tauAut σ ^ e))
     (hG : ¬ HasGLine σ x g e) :
     ∃ h : C0 σ, (MulAut.conj g * tauAut σ ^ e) h = h ∧

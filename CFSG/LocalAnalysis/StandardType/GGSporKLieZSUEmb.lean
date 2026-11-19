@@ -13,7 +13,7 @@ open CFSG CFSG.Open CFSG.StandardType.ClassicalBlocks CFSG.StandardType.Classica
 
 private lemma l937z_su_exists_pow_two {K : Type} [Field K] [Finite K] [CharP K 2]
     (q : ℕ) (hq2 : 2 ≤ q) (hK : Nat.card K = q ^ 2) : ∃ j : ℕ, j ≠ 0 ∧ q = 2 ^ j := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hK' : q ^ 2 = 2 ^ (m : ℕ) := by
     rw [← hK, Nat.card_eq_fintype_card]
@@ -27,8 +27,8 @@ private lemma l937z_su_exists_pow_two {K : Type} [Field K] [Finite K] [CharP K 2
 
 private lemma l937z_su_exists_mu {K : Type} [Field K] [Finite K] (q : ℕ)
     (hq2 : 2 ≤ q) (hK : Nat.card K = q ^ 2) : ∃ μ : Kˣ, orderOf μ = q + 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : IsCyclic Kˣ := inferInstance
+  have : Fintype K := Fintype.ofFinite K
+  have : IsCyclic Kˣ := inferInstance
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := Kˣ)
   have hcard : Nat.card Kˣ = q ^ 2 - 1 := by rw [Nat.card_units, hK]
   have hdvd : q - 1 ∣ q ^ 2 - 1 := by
@@ -286,7 +286,7 @@ private lemma l937z_su_prim {k : Type} [Field k] [CharP k 2] {n : ℕ} (hn : 1 �
     intro h
     let i : Fin n ⊕ Fin n := Sum.inl ⟨0, by omega⟩
     have h' : (1 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) k) i i = 0 := by rw [h]; simp
-    rw [Matrix.one_apply, if_pos rfl] at h'
+    rw [Matrix.one_apply, ite_eq_left rfl] at h'
     exact one_ne_zero h'
   refine ⟨?_, ?_, ?_⟩
   · exact ⟨hone_mem, hone_idem, hone_ne, l937z_sub_formAdj_one n,
@@ -323,7 +323,7 @@ private lemma l937z_suc_adjoin_equiv {k : Type} [Field k] {ι : Type} [Fintype �
     rw [Set.mem_singleton_iff] at hx hy
     subst hx; subst hy
     exact Commute.refl _
-  letI : CommRing A := by
+  let : CommRing A := by
     change CommRing (Algebra.adjoin k ({b} : Set (Matrix ι ι k)))
     haveI : IsMulCommutative (Algebra.adjoin k ({b} : Set (Matrix ι ι k))) :=
       Algebra.isMulCommutative_adjoin k hcommP
@@ -336,7 +336,7 @@ private lemma l937z_suc_adjoin_equiv {k : Type} [Field k] {ι : Type} [Fintype �
   let φ : AdjoinRoot p →ₐ[k] A :=
     AdjoinRoot.liftAlgHom (S := k) p (Algebra.ofId k A) x (by
       simpa [Polynomial.aeval_def] using hx')
-  haveI : Fact (Irreducible p) := ⟨by simpa [p] using hirr⟩
+  have : Fact (Irreducible p) := ⟨by simpa [p] using hirr⟩
   have hφinj : Function.Injective φ := RingHom.injective φ.toRingHom
   have hφsurj : Function.Surjective φ := by
     intro y
@@ -366,7 +366,7 @@ private lemma l937z_su_adjoin_field {k : Type} [Field k] {ι : Type} [Fintype ι
       ∀ e ∈ Algebra.adjoin k {b}, IsIdempotentElem e → e = 0 ∨ e = 1 := by
   classical
   obtain ⟨e⟩ := l937z_suc_adjoin_equiv a hirr b hb
-  haveI : Fact (Irreducible (Polynomial.X ^ 2 + Polynomial.C a * Polynomial.X + 1 :
+  have : Fact (Irreducible (Polynomial.X ^ 2 + Polynomial.C a * Polynomial.X + 1 :
       Polynomial k)) := ⟨hirr⟩
   have hpne : (Polynomial.X ^ 2 + Polynomial.C a * Polynomial.X + 1 : Polynomial k) ≠ 0 :=
     hirr.ne_zero
@@ -416,7 +416,7 @@ private lemma l937z_su_orderOf_eq {k K : Type} [Field k] [Field K] [Algebra k K]
     rw [Set.mem_singleton_iff] at hx hy
     subst hx; subst hy
     exact Commute.refl _
-  letI : CommRing A := by
+  let : CommRing A := by
     change CommRing (Algebra.adjoin k ({(b : Matrix ι ι k)} : Set (Matrix ι ι k)))
     haveI : IsMulCommutative (Algebra.adjoin k ({(b : Matrix ι ι k)} : Set (Matrix ι ι k))) :=
       Algebra.isMulCommutative_adjoin k hcommP
@@ -430,7 +430,7 @@ private lemma l937z_su_orderOf_eq {k K : Type} [Field k] [Field K] [Algebra k K]
     AdjoinRoot.liftAlgHom (S := k) p (Algebra.ofId k A) x (by
       simpa [Polynomial.aeval_def] using hx')
   have hφroot : φ (AdjoinRoot.root p) = x := AdjoinRoot.liftAlgHom_root p _ x _
-  haveI : Fact (Irreducible p) := ⟨by simpa [p] using hirr⟩
+  have : Fact (Irreducible p) := ⟨by simpa [p] using hirr⟩
   have hφinj : Function.Injective φ := RingHom.injective φ.toRingHom
   let ψ : AdjoinRoot p →ₐ[k] K :=
     AdjoinRoot.liftAlgHom (S := k) p (Algebra.ofId k K) μ (by
@@ -490,12 +490,12 @@ private lemma l937z_su_guFull_equiv {E K : Type} [Field E] [Field K] (σ : E ≃
     ext B
     constructor
     · rintro ⟨A, hA, rfl⟩
-      simp only [Set.mem_setOf_eq] at hA ⊢
+      simp only [Set.mem_ofPred_eq] at hA ⊢
       rw [hcoe A, l937z_sud_guFull_cond σ m Q (A : Matrix (Fin m) (Fin m) E), hA,
         Matrix.map_one σ (map_zero σ) (map_one σ)]
     · intro hB
       refine ⟨f.symm B, ?_, f.apply_symm_apply B⟩
-      simp only [Set.mem_setOf_eq] at hB ⊢
+      simp only [Set.mem_ofPred_eq] at hB ⊢
       rw [hcoe_symm B, l937z_sud_guFull_cond σ.symm m Q (B : Matrix (Fin m) (Fin m) K), hB,
         Matrix.map_one σ.symm (map_zero σ.symm) (map_one σ.symm)]
   have hmap : (GUFull m Q E).map f.toMonoidHom = GUFull m Q K := by
@@ -517,12 +517,12 @@ theorem exists_guFull_equiv_centralizer_statedSp {K : Type} [Field K] [Finite K]
     · interval_cases q <;> simp_all
     · exact h
   obtain ⟨k₀, hk₀card, hk₀⟩ := l937z_su_subfield q hq2 hK
-  haveI : Finite ↥k₀ := Subtype.finite
-  haveI : CharP ↥k₀ 2 := Subfield.charP k₀ 2
-  haveI : Fintype ↥k₀ := Fintype.ofFinite ↥k₀
+  have : Finite ↥k₀ := Subtype.finite
+  have : CharP ↥k₀ 2 := Subfield.charP k₀ 2
+  have : Fintype ↥k₀ := Fintype.ofFinite ↥k₀
   obtain ⟨μ, a, hμord, _, hμrel, hirr⟩ := l937z_su_mu_data q hq2 hK k₀ hk₀
   obtain ⟨b, hb, _, hbrel⟩ := l937z_su_b_exists (k := ↥k₀) n a
-  haveI : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, hn⟩⟩
+  have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, hn⟩⟩
   have hμ' : μ ^ 2 + algebraMap ↥k₀ K a * μ + 1 = 0 := by
     simpa [Subfield.algebraMap_ofSubfield] using hμrel
   have hordb : orderOf b = q + 1 := by

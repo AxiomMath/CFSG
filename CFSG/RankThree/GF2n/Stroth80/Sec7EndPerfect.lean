@@ -28,7 +28,7 @@ noncomputable def endgConjAut (L : Subgroup X) (k : X)
 theorem endg_perfect_odd {G : Type} [Group G] [Finite G] (hperf : commutator G = ⊤)
     (hcyc : ∀ P : Subgroup G, IsPGroup 2 P → IsCyclic ↥P) : ¬ 2 ∣ Nat.card G := by
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := G) 2 h2
   have hpg : IsPGroup 2 (Subgroup.zpowers t) := by
     refine IsPGroup.of_card (n := 1) ?_
@@ -43,7 +43,7 @@ theorem endg_perfect_odd {G : Type} [Group G] [Finite G] (hperf : commutator G =
     rw [← pow_two, ← ht]
     exact pow_orderOf_eq_one t
   exact CFSG.GH74.GLS.Stage2.Final.Thm6.L20.not_cyclic_sylow_of_perfect hperf P
-    (hcyc _ P.isPGroup') ht1 htP ht2
+    (hcyc _ P.isPGroup) ht1 htP ht2
 
 noncomputable def endgOuterHom (L Kp : Subgroup X)
     (hn : ∀ k ∈ Kp, ∀ l ∈ L, k * l * k⁻¹ ∈ L) : ↥Kp →* Outer ↥L where
@@ -57,6 +57,7 @@ noncomputable def endgOuterHom (L Kp : Subgroup X)
     congr 1
     ext l; simp [endgConjAut, mul_assoc]
 
+omit [Finite X] in
 theorem endg_outerHom_eq_one_iff (L Kp : Subgroup X)
     (hn : ∀ k ∈ Kp, ∀ l ∈ L, k * l * k⁻¹ ∈ L) (k : ↥Kp) :
     endgOuterHom L Kp hn k = 1 ↔ ∃ l ∈ L, ∀ y ∈ L, (k : X) * y * (k : X)⁻¹ = l * y * l⁻¹ := by
@@ -94,8 +95,8 @@ theorem endg_inner_action (L Kp : Subgroup X)
       exact Subgroup.subgroupOf_self Kp
     have h16 := hPQ J hJK (by rw [hJsub]; infer_instance) hJne
     rw [hJsub, Subgroup.index_ker] at h16
-    haveI : Group.IsPerfect ↥Kp := Subgroup.isPerfect_iff.mpr hKp
-    haveI : Group.IsPerfect ↥Φ.range := Group.IsPerfect.range Φ
+    have : Group.IsPerfect ↥Kp := Subgroup.isPerfect_iff.mpr hKp
+    have : Group.IsPerfect ↥Φ.range := Group.IsPerfect.range Φ
     have hperf : commutator ↥Φ.range = ⊤ := Group.isPerfect_def.mp inferInstance
     refine endg_perfect_odd hperf (fun P hP => ?_) (dvd_trans (by norm_num) h16)
     have hc : IsCyclic ↥(P.map Φ.range.subtype) := hout _ (hP.map Φ.range.subtype)
@@ -106,6 +107,7 @@ theorem endg_inner_action (L Kp : Subgroup X)
     exact this
   exact (endg_outerHom_eq_one_iff L Kp hn ⟨k, hk⟩).mp h1
 
+omit [Finite X] in
 theorem endg_split_hom {L C Kp : Subgroup X} (hC : ∀ c ∈ C, ∀ l ∈ L, c * l = l * c)
     (hLC : L ⊓ C = ⊥) (hK : ∀ k ∈ Kp, ∃ l ∈ L, ∃ c ∈ C, k = l * c) :
     ∃ φ : ↥Kp →* ↥L, (∀ k : ↥Kp, ∃ c ∈ C, (k : X) = (φ k : X) * c) ∧
@@ -209,8 +211,8 @@ theorem endg_lemmaP {L Kp : Subgroup X} {z : X} (hLs : IsSimpleGroup ↥L)
     exact hkl (hC k this.2 l hl)
   have h16 := hPQ J hJK (by rw [hJsub]; infer_instance) hJne
   rw [hJsub, Subgroup.index_ker] at h16
-  haveI : Group.IsPerfect ↥Kp := Subgroup.isPerfect_iff.mpr hKp
-  haveI : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
+  have : Group.IsPerfect ↥Kp := Subgroup.isPerfect_iff.mpr hKp
+  have : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
   set zL : ↥L := ⟨z, hz⟩ with hzL
   have hzL2 : orderOf zL = 2 := by
     refine orderOf_eq_prime ?_ ?_
@@ -240,12 +242,12 @@ theorem endg_lemmaP {L Kp : Subgroup X} {z : X} (hLs : IsSimpleGroup ↥L)
     have := Nat.le_of_dvd h0 (dvd_trans (show (2 : ℕ) ∣ 16 by norm_num) h16)
     omega
   rcases hdich with hsolv | hsyl
-  · haveI := hsolv zL hzL2
-    haveI : Group.IsSolvable ↥φ.range :=
+  · have := hsolv zL hzL2
+    have : Group.IsSolvable ↥φ.range :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
         (Subgroup.inclusion_injective hle)
     exact Group.IsPerfect.not_isSolvable ↥φ.range inferInstance
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hd : 2 ^ 4 ∣ Nat.card ↥L := by
       have := (Subgroup.card_subgroup_dvd_card φ.range)
       exact dvd_trans (by norm_num [show (2 : ℕ) ^ 4 = 16 by norm_num]) (dvd_trans h16 this)
@@ -264,6 +266,7 @@ section AbelPieces
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem endg_perfect_fixes_small_set {Kp : Subgroup X} (hKperf : ⁅Kp, Kp⁆ = Kp)
     (𝒦 : Set (Subgroup X)) [Finite ↥𝒦] (hcard : Nat.card ↥𝒦 ≤ 4)
     (hS : ∀ C ∈ 𝒦, ∀ k : X, conjSubgroup k C ∈ 𝒦) :
@@ -286,12 +289,13 @@ theorem endg_perfect_fixes_small_set {Kp : Subgroup X} (hKperf : ⁅Kp, Kp⁆ = 
       map_mul' := fun a b => Equiv.ext fun C => Subtype.ext (by
         show conjSubgroup (a * b) (C : Subgroup X) = conjSubgroup a (conjSubgroup b C)
         exact conjSubgroup_mul a b _) }
-  haveI : Group.IsSolvable (Equiv.Perm ↥𝒦) := Equiv.Perm.isSolvable hcard
+  have : Group.IsSolvable (Equiv.Perm ↥𝒦) := Equiv.Perm.isSolvable hcard
   intro k hk C hC
   have h1 := endg_perfect_hom_trivial hKperf (act.comp Kp.subtype) ⟨k, hk⟩
   have h2 := congrArg (fun f : Equiv.Perm ↥𝒦 => (f ⟨C, hC⟩ : ↥𝒦).1) h1
   simpa [act, perm] using h2
 
+omit [Finite X] in
 theorem endg_mem_sup_of_commute {Y N : Subgroup X} (hc : ∀ y ∈ Y, ∀ n ∈ N, y * n = n * y)
     {x : X} (hx : x ∈ Y ⊔ N) : ∃ y ∈ Y, ∃ n ∈ N, x = y * n := by
   rw [Subgroup.sup_eq_closure] at hx
@@ -323,6 +327,7 @@ theorem endg_mem_sup_of_commute {Y N : Subgroup X} (hc : ∀ y ∈ Y, ∀ n ∈ 
           _ = n⁻¹ * (n * y⁻¹) * n⁻¹ := by rw [h2]
           _ = y⁻¹ * n⁻¹ := by group
 
+omit [Finite X] in
 theorem endg_split_elem {Cj D Kp : Subgroup X} {z : X}
     (hCD : ∀ c ∈ Cj, ∀ d ∈ D, c * d = d * c) (hbot : Cj ⊓ D = ⊥)
     (hZ : ∀ a ∈ Cj, (∀ c ∈ Cj, c * a = a * c) → a = 1) (hz : z ∈ Cj ⊔ D)
@@ -380,6 +385,7 @@ theorem endg_split_elem {Cj D Kp : Subgroup X} {z : X}
         _ = d * c := hCD c hc d hd
         _ = 1 * d * c := by group
 
+omit [Finite X] in
 theorem endg_mem_sup_of_normalizer {N K : Subgroup X}
     (hK : K ≤ Subgroup.normalizer (N : Set X)) {x : X} (hx : x ∈ N ⊔ K) :
     ∃ n ∈ N, ∃ k ∈ K, x = n * k := by
@@ -394,16 +400,19 @@ section CaseEight
 
 variable {X : Type} [Group X] [Finite X] {A R N H : Subgroup X} {t : X}
 
+omit [Finite X] in
 private lemma endgG_conj_mem {Y : Subgroup X} {g : X} (hg : g ∈ Subgroup.normalizer (Y : Set X))
     {y : X} (hy : y ∈ Y) : g * y * g⁻¹ ∈ Y :=
   (Subgroup.mem_normalizer_iff.mp hg y).mp hy
 
+omit [Finite X] in
 private lemma endgG_normal_subgroupOf {Y Z : Subgroup X}
     (hZ : ∀ z ∈ Z, ∀ y ∈ Y, z * y * z⁻¹ ∈ Y) : (Y.subgroupOf Z).Normal :=
   ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact hZ g g.2 x hx⟩
 
+omit [Finite X] in
 private lemma endgG_sup_split {Y M : Subgroup X}
     (hY : ∀ y ∈ Y, ∀ m ∈ M, y * m * y⁻¹ ∈ M) :
     ∀ x ∈ Y ⊔ M, ∃ y ∈ Y, ∃ m ∈ M, y * m = x := by
@@ -458,7 +467,7 @@ theorem endg_case_eight (h : EndgameHyp X A R N H t) {Kp Cj : Subgroup X}
       obtain ⟨hyK, hyC⟩ := Subgroup.mem_inf.mp hy
       exact Subgroup.mem_inf.mpr ⟨endgG_conj_mem (hCK z hz) hyK,
         Cj.mul_mem (Cj.mul_mem hz hyC) (Cj.inv_mem hz)⟩
-    haveI := endgG_normal_subgroupOf hKCj
+    have := endgG_normal_subgroupOf hKCj
     rcases hCs.eq_bot_or_eq_top_of_normal ((Kp ⊓ Cj).subgroupOf Cj) with hbot | htop
     · exfalso
       have hmem : (⟨_, hwC⟩ : ↥Cj) ∈ (Kp ⊓ Cj).subgroupOf Cj :=
@@ -476,7 +485,7 @@ theorem endg_case_eight (h : EndgameHyp X A R N H t) {Kp Cj : Subgroup X}
       obtain ⟨hyC, hyN⟩ := Subgroup.mem_inf.mp hy
       exact Subgroup.mem_inf.mpr ⟨Cj.mul_mem (Cj.mul_mem hz hyC) (Cj.inv_mem hz),
         endgG_conj_mem (hCN z hz) hyN⟩
-    haveI := endgG_normal_subgroupOf hCNj
+    have := endgG_normal_subgroupOf hCNj
     rcases hCs.eq_bot_or_eq_top_of_normal ((Cj ⊓ N).subgroupOf Cj) with hbot | htop
     · rw [eq_bot_iff]
       intro x hx
@@ -493,7 +502,7 @@ theorem endg_case_eight (h : EndgameHyp X A R N H t) {Kp Cj : Subgroup X}
         exact (Subgroup.mem_inf.mp (Subgroup.mem_subgroupOf.mp hmem)).2
       have hp2 : IsPGroup 2 ↥Cj :=
         h.N_pgroup.of_injective (Subgroup.inclusion hCN') (Subgroup.inclusion_injective hCN')
-      haveI : Nontrivial ↥Cj := hCs.toNontrivial
+      have : Nontrivial ↥Cj := hCs.toNontrivial
       have hbotC := hp2.bot_lt_center
       obtain ⟨a, ha, b, hb, hab⟩ := hCnc
       rcases hCs.eq_bot_or_eq_top_of_normal (Subgroup.center ↥Cj) with hcb | hct
@@ -519,7 +528,7 @@ theorem endg_case_eight (h : EndgameHyp X A R N H t) {Kp Cj : Subgroup X}
     rw [hρK, hr, map_mul, hnρ, mul_one]
   have hCjKN : (Cj.subgroupOf Kp).Normal :=
     endgG_normal_subgroupOf (fun z hz y hy => endgG_conj_mem (hKC z hz) hy)
-  haveI hmapN : ((Cj.subgroupOf Kp).map ρK).Normal := Subgroup.Normal.map hCjKN ρK hsurj
+  have hmapN : ((Cj.subgroupOf Kp).map ρK).Normal := Subgroup.Normal.map hCjKN ρK hsurj
   have hKleCj : Kp ≤ Cj := by
     rcases hSs.eq_bot_or_eq_top_of_normal ((Cj.subgroupOf Kp).map ρK) with hmb | hmt
     · exfalso
@@ -560,8 +569,8 @@ theorem endg_case_eight (h : EndgameHyp X A R N H t) {Kp Cj : Subgroup X}
         rw [map_pow] at hpow
         rw [hmk.symm]
         exact hpow
-      haveI : Group.IsSolvable (↥Kp ⧸ Cj.subgroupOf Kp) := by
-        haveI := hPQ.isNilpotent
+      have : Group.IsSolvable (↥Kp ⧸ Cj.subgroupOf Kp) := by
+        have := hPQ.isNilpotent
         infer_instance
       intro x hx
       have hk1 := endg_perfect_hom_trivial hKperf (QuotientGroup.mk' (Cj.subgroupOf Kp))

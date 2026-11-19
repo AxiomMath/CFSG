@@ -37,8 +37,8 @@ theorem Hyp.B_inf_L (h : Hyp G L A T z t) : B A z ⊓ L = A := by
   · exact absurd hbL h.z_not_mem_L
 
 theorem Hyp.elemAb_B (h : Hyp G L A T z t) : IsElementaryAbelian 2 ↥(B A z) := by
-  letI : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
-  letI : IsElementaryAbelian 2 ↥(zpowers z) :=
+  let : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
+  let : IsElementaryAbelian 2 ↥(zpowers z) :=
     IsElementaryAbelian.zpowers_of_pow_eq_one (p := 2) (by rw [pow_two]; exact h.set.z_sq)
   exact IsElementaryAbelian.sup_of_le_centralizer h.zpowers_le_centralizer_A
 
@@ -53,7 +53,7 @@ theorem Hyp.card_B (h : Hyp G L A T z t) : Nat.card (B A z) = 2 ^ 11 := by
 
 theorem Hyp.centralizer_B (h : Hyp G L A T z t) : centralizer (B A z : Set G) = B A z := by
   change centralizer ((A ⊔ zpowers z : Subgroup G) : Set G) = A ⊔ zpowers z
-  letI : IsElementaryAbelian 2 ↥(A ⊔ zpowers z) := h.elemAb_B
+  let : IsElementaryAbelian 2 ↥(A ⊔ zpowers z) := h.elemAb_B
   refine le_antisymm ?_ (Subgroup.le_centralizer (H := A ⊔ zpowers z))
   intro x hx
   have hxz : x ∈ centralizer ({z} : Set G) := by
@@ -155,7 +155,7 @@ theorem Hyp.A_le_T (h : Hyp G L A T z t) : A ≤ T := by
 
 private theorem isElementaryAbelian_range {X Y : Type*} [Group X] [Group Y] {p : ℕ} [Fact p.Prime]
     (φ : X →* Y) [IsElementaryAbelian p X] : IsElementaryAbelian p ↥(φ.range) := by
-  haveI : IsElementaryAbelian p ↥(⊤ : Subgroup X) := by
+  have : IsElementaryAbelian p ↥(⊤ : Subgroup X) := by
     refine
       { toIsMulCommutative := ⟨⟨fun a b => Subtype.ext (mul_comm' a.1 b.1)⟩⟩
         exponent_dvd_p := ?_ }
@@ -170,8 +170,8 @@ private theorem isElementaryAbelian_range {X Y : Type*} [Group X] [Group Y] {p :
 
 theorem eq_A_of_elemAb_le_T (h : Hyp G L A T z t) {X : Subgroup G} (hXT : X ≤ T)
     (hXe : IsElementaryAbelian 2 ↥X) (hXcard : 2 ^ 10 ≤ Nat.card X) : X = A := by
-  letI : IsElementaryAbelian 2 ↥X := hXe
-  letI : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
+  let : IsElementaryAbelian 2 ↥X := hXe
+  let : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
   have hXL : X ≤ L := hXT.trans h.set.le
   have hXle : X ≤ L ⊓ normalizer (A : Set G) := le_inf hXL (hXT.trans h.jc.T_le)
   let φ : ↥X →* MulAut ↥A := (conjN L A).comp (Subgroup.inclusion hXle)
@@ -268,13 +268,13 @@ theorem Hyp.P_le_normalizer_T (h : Hyp G L A T z t) :
 theorem eq_B_of_elemAb_le_P (h : Hyp G L A T z t) {Y : Subgroup G}
     (hYP : Y ≤ T ⊔ zpowers z) (hYe : IsElementaryAbelian 2 ↥Y)
     (hYcard : 2 ^ 11 ≤ Nat.card Y) : Y = B A z := by
-  letI : IsElementaryAbelian 2 ↥Y := hYe
-  letI : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
+  let : IsElementaryAbelian 2 ↥Y := hYe
+  let : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
   let P : Subgroup G := T ⊔ zpowers z
   have hYP' : Y ≤ P := hYP
   have hTrel : T.relIndex P = 2 := h.isPGroup_P.2
   have hPn : P ≤ normalizer (T : Set G) := h.P_le_normalizer_T
-  letI : (T.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hPn
+  let : (T.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hPn
   let q : ↥Y →* P ⧸ (T.subgroupOf P) :=
     (QuotientGroup.mk' (T.subgroupOf P)).comp (Subgroup.inclusion hYP')
   have hker : q.ker = (Y ⊓ T).subgroupOf Y := by
@@ -345,7 +345,7 @@ theorem Hyp.normalizer_P_le_M (h : Hyp G L A T z t) :
     rw [Subgroup.card_map_of_injective (f := (MulAut.conj n).toMonoidHom)
       (MulAut.conj n).injective, h.card_B]
   have hYe : IsElementaryAbelian 2 ↥((B A z).map (MulAut.conj n).toMonoidHom) := by
-    letI : IsElementaryAbelian 2 ↥(B A z) := h.elemAb_B
+    let : IsElementaryAbelian 2 ↥(B A z) := h.elemAb_B
     exact IsElementaryAbelian.map (MulAut.conj n).toMonoidHom
   exact eq_B_of_elemAb_le_P h hYP hYe hYcard
 
@@ -511,7 +511,7 @@ theorem Hyp.exists_conj_z_eq_tz (h : Hyp G L A T z t) :
       rcases eq_or_lt_of_le hPQ with h | h
       · exact h.symm
       · exact absurd h (hbig Q hQ)
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let S : Sylow 2 G := ⟨P, hP2, by intro Q hQ hPQ; exact le_of_eq (hPmax hQ hPQ)⟩
     obtain ⟨g, hg⟩ := isConj_iff.1 h.conj_zt
     have hx : t * z ∈ centralizer (P : Set G) := h.tz_mem_centralizer_P
@@ -638,7 +638,7 @@ theorem Hyp.M_le_normalizer (h : Hyp G L A T z t) :
     rwa [show m⁻¹ * (m * a * m⁻¹) * m = a from by group] at h2
 
 private theorem deltaHom_ker (h : Hyp G L A T z t) :
-    (deltaHom fun m hm => h.conj_mem hm).ker = (B A z).subgroupOf (R₀ A z) := by
+    (deltaHom fun _m hm => h.conj_mem hm).ker = (B A z).subgroupOf (R₀ A z) := by
   ext r
   rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
   constructor
@@ -669,7 +669,7 @@ private theorem deltaHom_ker (h : Hyp G L A T z t) :
     exact mul_mem_sup hlA hb
   · intro hr
     have h1 : (r : G) ∈ B A z := hr
-    letI : IsElementaryAbelian 2 ↥(B A z) := h.elemAb_B
+    let : IsElementaryAbelian 2 ↥(B A z) := h.elemAb_B
     have hzB : z ∈ B A z := mem_sup_right (mem_zpowers z)
     have hrz : (r : G) * z = z * (r : G) :=
       congrArg Subtype.val (mul_comm' (⟨(r : G), h1⟩ : ↥(B A z)) ⟨z, hzB⟩)
@@ -704,8 +704,8 @@ theorem Hyp.R₀_conj_mem (h : Hyp G L A T z t) {x : G}
   exact ⟨h2, hcent⟩
 
 private theorem delta_range_invariant (h : Hyp G L A T z t) :
-    ∀ g ∈ autImage L A, ∀ a ∈ (deltaHom fun m hm => h.conj_mem hm).range,
-      g a ∈ (deltaHom fun m hm => h.conj_mem hm).range := by
+    ∀ g ∈ autImage L A, ∀ a ∈ (deltaHom fun _m hm => h.conj_mem hm).range,
+      g a ∈ (deltaHom fun _m hm => h.conj_mem hm).range := by
   rintro g ⟨x, rfl⟩ a ⟨r, rfl⟩
   refine ⟨⟨(x : G) * (r : G) * (x : G)⁻¹, h.R₀_conj_mem x.2 r.2⟩, ?_⟩
   apply Subtype.ext
@@ -713,9 +713,9 @@ private theorem delta_range_invariant (h : Hyp G L A T z t) :
   rfl
 
 private theorem delta_range_eq_bot_or_top (h : Hyp G L A T z t) :
-    (deltaHom fun m hm => h.conj_mem hm).range = ⊥ ∨
-      (deltaHom fun m hm => h.conj_mem hm).range = ⊤ := by
-  refine h.jc.module.irreducible_derived (deltaHom fun m hm => h.conj_mem hm).range ?_
+    (deltaHom fun _m hm => h.conj_mem hm).range = ⊥ ∨
+      (deltaHom fun _m hm => h.conj_mem hm).range = ⊤ := by
+  refine h.jc.module.irreducible_derived (deltaHom fun _m hm => h.conj_mem hm).range ?_
   intro g hg u hu
   have hgQ : g ∈ autImage L A := by
     have h1 := Subgroup.commutator_le_sup (autImage L A) (autImage L A) hg
@@ -727,10 +727,10 @@ private theorem card_eq_card_orbit_mul_card_stabilizer (M : Subgroup G) (z : G) 
       Nat.card {g : G // ∃ m : ↥M, (m : G) * z * (m : G)⁻¹ = g} *
         Nat.card ↥(M ⊓ centralizer ({z} : Set G)) := by
   classical
-  letI : MulAction ↥M G := MulAction.compHom G (MulAut.conj.comp M.subtype)
-  haveI hM : Fintype ↥M := Fintype.ofFinite _
-  haveI ho : Fintype ↥(MulAction.orbit ↥M z) := Fintype.ofFinite _
-  haveI hs : Fintype ↥(MulAction.stabilizer ↥M z) := Fintype.ofFinite _
+  let : MulAction ↥M G := MulAction.compHom G (MulAut.conj.comp M.subtype)
+  have hM : Fintype ↥M := Fintype.ofFinite _
+  have ho : Fintype ↥(MulAction.orbit ↥M z) := Fintype.ofFinite _
+  have hs : Fintype ↥(MulAction.stabilizer ↥M z) := Fintype.ofFinite _
   have h := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥M) (X := G) z
   have horb : Nat.card ↥(MulAction.orbit ↥M z) =
       Nat.card {g : G // ∃ m : ↥M, (m : G) * z * (m : G)⁻¹ = g} := by
@@ -767,7 +767,7 @@ private theorem card_eq_card_orbit_mul_card_stabilizer (M : Subgroup G) (z : G) 
 
 theorem Hyp.conjN_ker (h : Hyp G L A T z t) :
     (conjN L A).ker = A.subgroupOf (L ⊓ normalizer (A : Set G)) := by
-  letI : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
+  let : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
   ext x
   rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
   constructor
@@ -822,35 +822,35 @@ theorem Hyp.card_centralizer_M (h : Hyp G L A T z t) :
   norm_num
 
 private theorem delta_range_eq_top (h : Hyp G L A T z t) :
-    (deltaHom fun m hm => h.conj_mem hm).range = ⊤ := by
+    (deltaHom fun _m hm => h.conj_mem hm).range = ⊤ := by
   classical
   let ψ : ↥(M A z) →* MulAut ↥A :=
     A.normalizerMonoidHom.comp (Subgroup.inclusion h.M_le_normalizer)
-  have hψapply : ∀ (m : ↥(M A z)) (a : ↥A),
-      ((ψ m a : ↥A) : G) = (m : G) * (a : G) * (m : G)⁻¹ := fun m a => rfl
+  have hψapply : ∀ (_m : ↥(M A z)) (a : ↥A),
+      ((ψ _m a : ↥A) : G) = (_m : G) * (a : G) * (_m : G)⁻¹ := fun _m a => rfl
   have hψker : ψ.ker = (R₀ A z).subgroupOf (M A z) := by
-    ext m
+    ext _m
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
     constructor
     · intro hm1
-      have hC : (m : G) ∈ centralizer (A : Set G) := by
+      have hC : (_m : G) ∈ centralizer (A : Set G) := by
         rw [mem_centralizer_iff]
         intro a ha
-        have h2 : ψ m ⟨a, ha⟩ = ⟨a, ha⟩ := by rw [hm1]; rfl
-        have h3 : (m : G) * a * (m : G)⁻¹ = a := by
-          rw [← hψapply m ⟨a, ha⟩]
+        have h2 : ψ _m ⟨a, ha⟩ = ⟨a, ha⟩ := by rw [hm1]; rfl
+        have h3 : (_m : G) * a * (_m : G)⁻¹ = a := by
+          rw [← hψapply _m ⟨a, ha⟩]
           exact congrArg (fun z : ↥A => (z : G)) h2
-        have h4 : (m : G) * a = a * (m : G) := by
-          calc (m : G) * a = (m : G) * a * (m : G)⁻¹ * (m : G) := by group
-            _ = a * (m : G) := by rw [h3]
+        have h4 : (_m : G) * a = a * (_m : G) := by
+          calc (_m : G) * a = (_m : G) * a * (_m : G)⁻¹ * (_m : G) := by group
+            _ = a * (_m : G) := by rw [h3]
         exact h4.symm
-      exact ⟨m.2, hC⟩
+      exact ⟨_m.2, hC⟩
     · rintro ⟨-, hC⟩
       apply MulEquiv.ext
       intro a
       apply Subtype.ext
-      show (m : G) * (a : G) * (m : G)⁻¹ = (a : G)
-      have h1 : (a : G) * (m : G) = (m : G) * (a : G) := mem_centralizer_iff.1 hC a a.2
+      show (_m : G) * (a : G) * (_m : G)⁻¹ = (a : G)
+      have h1 : (a : G) * (_m : G) = (_m : G) * (a : G) := mem_centralizer_iff.1 hC a a.2
       rw [← h1]
       group
   have hψker_card : Nat.card ↥(ψ.ker) = Nat.card ↥(R₀ A z) := by
@@ -859,17 +859,17 @@ private theorem delta_range_eq_top (h : Hyp G L A T z t) :
   have hQ_le : autImage L A ≤ ψ.range := by
     rintro _ ⟨x, rfl⟩
     exact ⟨⟨(x : G), h.le_M x.2⟩, rfl⟩
-  let Orb : Set G := {g | ∃ m : ↥(M A z), (m : G) * z * (m : G)⁻¹ = g}
+  let Orb : Set G := {g | ∃ _m : ↥(M A z), (_m : G) * z * (_m : G)⁻¹ = g}
   rcases delta_range_eq_bot_or_top h with hbot | htop
   · exfalso
     have hR₀ : R₀ A z = B A z := by
       refine le_antisymm ?_ h.B_le_R₀
       intro r hr
       have h1 : (⟨r, hr⟩ : ↥(R₀ A z)) ∈
-          (deltaHom fun m hm => h.conj_mem hm).ker := by
+          (deltaHom fun _m hm => h.conj_mem hm).ker := by
         rw [MonoidHom.mem_ker]
-        have h2 : (deltaHom fun m hm => h.conj_mem hm) ⟨r, hr⟩ ∈
-            (deltaHom fun m hm => h.conj_mem hm).range := ⟨_, rfl⟩
+        have h2 : (deltaHom fun _m hm => h.conj_mem hm) ⟨r, hr⟩ ∈
+            (deltaHom fun _m hm => h.conj_mem hm).range := ⟨_, rfl⟩
         rw [hbot] at h2
         simpa using h2
       rw [deltaHom_ker h] at h1
@@ -906,9 +906,9 @@ private theorem delta_range_eq_top (h : Hyp G L A T z t) :
           have := congrArg (fun t : ↥A => ((conjN L A x)⁻¹) t) h0
           simpa using this
         exact h0'
-      · obtain ⟨m, hm⟩ := hs2
-        refine ⟨⟨(x : G) * (m : G) * (x : G)⁻¹, ?_⟩, ?_⟩
-        · exact Subgroup.mul_mem (M A z) (Subgroup.mul_mem (M A z) hxM m.2)
+      · obtain ⟨_m, hm⟩ := hs2
+        refine ⟨⟨(x : G) * (_m : G) * (x : G)⁻¹, ?_⟩, ?_⟩
+        · exact Subgroup.mul_mem (M A z) (Subgroup.mul_mem (M A z) hxM _m.2)
             (Subgroup.inv_mem (M A z) hxM)
         · have hxinvz : (x : G)⁻¹ * z * (x : G) = z := by
             have h1 : (x : G)⁻¹ * z = z * (x : G)⁻¹ :=
@@ -918,11 +918,11 @@ private theorem delta_range_eq_top (h : Hyp G L A T z t) :
           have hxsz : (((conjN L A x) s : ↥A) : G) = (x : G) * (s : G) * (x : G)⁻¹ :=
             conjN_apply (L := L) (A := A) x s
           rw [hxsz]
-          calc (x : G) * (m : G) * (x : G)⁻¹ * z * ((x : G) * (m : G) * (x : G)⁻¹)⁻¹
-              = (x : G) * (m : G) * ((x : G)⁻¹ * z * (x : G)) * (m : G)⁻¹ * (x : G)⁻¹ := by
+          calc (x : G) * (_m : G) * (x : G)⁻¹ * z * ((x : G) * (_m : G) * (x : G)⁻¹)⁻¹
+              = (x : G) * (_m : G) * ((x : G)⁻¹ * z * (x : G)) * (_m : G)⁻¹ * (x : G)⁻¹ := by
                 group
-            _ = (x : G) * (m : G) * z * (m : G)⁻¹ * (x : G)⁻¹ := by rw [hxinvz]
-            _ = (x : G) * ((m : G) * z * (m : G)⁻¹) * (x : G)⁻¹ := by group
+            _ = (x : G) * (_m : G) * z * (_m : G)⁻¹ * (x : G)⁻¹ := by rw [hxinvz]
+            _ = (x : G) * ((_m : G) * z * (_m : G)⁻¹) * (x : G)⁻¹ := by group
             _ = (x : G) * (z * (s : G)) * (x : G)⁻¹ := by rw [hm]
             _ = z * ((x : G) * (s : G) * (x : G)⁻¹) := by
                 calc (x : G) * (z * (s : G)) * (x : G)⁻¹
@@ -936,15 +936,15 @@ private theorem delta_range_eq_top (h : Hyp G L A T z t) :
       ext g
       constructor
       · intro hg
-        obtain ⟨m, hm⟩ := hg
+        obtain ⟨_m, hm⟩ := hg
         have hgB : g ∈ B A z := by
-          have h1 : g = m * z * m⁻¹ := hm.symm
+          have h1 : g = _m * z * _m⁻¹ := hm.symm
           rw [h1]
-          have hmM : (m : G) ∈ M A z := m.2
+          have hmM : (_m : G) ∈ M A z := _m.2
           exact (mem_normalizer_iff.1 hmM z).1 (mem_sup_right (mem_zpowers z))
         have hgA : g ∉ A := by
           intro hgA
-          exact h.not_conj g (h.jc.le hgA) (isConj_iff.2 ⟨(m : G), hm⟩)
+          exact h.not_conj g (h.jc.le hgA) (isConj_iff.2 ⟨(_m : G), hm⟩)
         obtain ⟨a, ha, b, hb, hgab⟩ :=
           exists_mul_of_mem_sup_of_le_centralizer h.zpowers_le_centralizer_A hgB
         rcases eq_one_or_eq_of_mem_zpowers h.set.z_sq hb with hb1 | hbz
@@ -960,7 +960,7 @@ private theorem delta_range_eq_top (h : Hyp G L A T z t) :
           by_cases ha1 : a = 1
           · exact Or.inr (Set.mem_singleton_iff.mpr (Subtype.ext ha1))
           · exact Or.inl ⟨fun hcon => ha1 (congrArg Subtype.val hcon),
-              ⟨m, by rw [hza]; exact hm⟩⟩
+              ⟨_m, by rw [hza]; exact hm⟩⟩
       · rintro ⟨a, ha, rfl⟩
         rcases ha with ⟨-, haOrb⟩ | ha1
         · exact haOrb
@@ -1014,7 +1014,7 @@ private theorem delta_range_eq_top (h : Hyp G L A T z t) :
         have h4 : (1 : G) = t := by simpa [mul_assoc] using h3
         exact h4.symm
       exact h.set.t_ne h2
-    haveI : Nontrivial ↥Orb := ⟨⟨⟨z, hzOrb⟩, ⟨t * z, htzOrb⟩, hne⟩⟩
+    have : Nontrivial ↥Orb := ⟨⟨⟨z, hzOrb⟩, ⟨t * z, htzOrb⟩, hne⟩⟩
     have h2 : 1 < Nat.card ↥Orb := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
     omega
   · exact htop

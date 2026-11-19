@@ -185,10 +185,10 @@ theorem TP_eq {e : ℕ} (he : e < 4) : TP e = m5 e :=
 theorem pm_lp {e : ℕ} (he : e < 8) : PM (lp PT e) (LE e) := fun q hq => by
   change pg 10 (mask 10) (PT e) q = _
   rcases Nat.lt_or_ge e 4 with h | h
-  · rw [LE, if_pos h, ← TP_eq h]
+  · rw [LE, ite_eq_left h, ← TP_eq h]
     exact TP_pt h q hq
   · obtain ⟨e', rfl⟩ : ∃ e', e = e' + 4 := ⟨e - 4, by omega⟩
-    rw [LE, if_neg (by omega), Nat.add_sub_cancel, ← TP_eq (by omega)]
+    rw [LE, ite_eq_right (by omega), Nat.add_sub_cancel, ← TP_eq (by omega)]
     exact TPi_pt (by omega) q hq
 
 theorem LE_xor {l : ℕ} (hl : l < 8) : LE (Nat.xor l 4) = (LE l)⁻¹ := by
@@ -243,7 +243,7 @@ theorem wval_mem (W : ℕ) : ∀ n, wval W n ∈ H4
 
 theorem t0_eq : t0 = u0⁻¹ * s0 * u0 := by
   simp only [t0, u0, s0, evalG, sig2W, List.map, letterVal, List.prod_cons, List.prod_nil,
-    if_true, Bool.false_eq_true, ↓reduceIte, mul_one, mul_assoc]
+    Bool.false_eq_true, ↓reduceIte, mul_one, mul_assoc]
 
 @[expose] noncomputable def y9 (e : ℕ) : G820 := CFSG.KS.U43Swap.yE s0 t0 e
 
@@ -262,7 +262,7 @@ theorem pm_sp (e : ℕ) : PM (sp PT e) (y9 e) := by
   have hf : sp PT e = fun q => fpow (lp PT 1) (e % 3) (lp PT 6 (fpow (lp PT 1) (e / 3)
       (lp PT 2 q))) := by
     funext q
-    simp only [sp, CFSG.KS.U43Mod.strictN_eq] <;> rfl
+    simp only [sp, CFSG.KS.U43Mod.strictN_eq]; rfl
   rw [hf]
   refine h.congr ?_
   rw [y9_eq]
@@ -275,7 +275,7 @@ theorem pm_spI (e : ℕ) : PM (spI PT e) (y9 e)⁻¹ := by
   have hf : spI PT e = fun q => lp PT 6 (fpow (lp PT 5) (e / 3) (lp PT 2
       (fpow (lp PT 5) (e % 3) q))) := by
     funext q
-    simp only [spI, CFSG.KS.U43Mod.strictN_eq] <;> rfl
+    simp only [spI, CFSG.KS.U43Mod.strictN_eq]; rfl
   rw [hf]
   refine h.congr ?_
   rw [y9_eq]
@@ -291,7 +291,7 @@ theorem pm_cp (r e : ℕ) : PM (cp PT r e) (cE r e) := by
   have h := pm_comp (pm_wp r (rl r)) (pm_comp (pm_sp e) (pm_wpI r (rl r)))
   have hf : cp PT r e = fun q => wp PT r (rl r) (sp PT e (wpI PT r (rl r) q)) := by
     funext q
-    simp only [cp, CFSG.KS.U43Mod.strictN_eq] <;> rfl
+    simp only [cp, CFSG.KS.U43Mod.strictN_eq]
   rw [hf]
   exact h.congr (by rw [cE, wd, mul_assoc])
 
@@ -299,7 +299,7 @@ theorem pm_cpI (r e : ℕ) : PM (cpI PT r e) (cE r e)⁻¹ := by
   have h := pm_comp (pm_wp r (rl r)) (pm_comp (pm_spI e) (pm_wpI r (rl r)))
   have hf : cpI PT r e = fun q => wp PT r (rl r) (spI PT e (wpI PT r (rl r) q)) := by
     funext q
-    simp only [cpI, CFSG.KS.U43Mod.strictN_eq] <;> rfl
+    simp only [cpI, CFSG.KS.U43Mod.strictN_eq]
   rw [hf]
   exact h.congr (by rw [cE, wd]; group)
 
@@ -314,7 +314,7 @@ theorem pm_oConj (r : ℕ) {f : ℕ → ℕ} {x : G820} (hf : PM f x) :
   have h := pm_comp (pm_oEl r) (pm_comp hf (pm_oElI r))
   have hf' : oConj PT r f = fun q => oEl PT r (f (oElI PT r q)) := by
     funext q
-    simp only [oConj, CFSG.KS.U43Mod.strictN_eq] <;> rfl
+    simp only [oConj, CFSG.KS.U43Mod.strictN_eq]
   rw [hf']
   exact h.congr (by rw [mul_assoc])
 
@@ -577,7 +577,7 @@ theorem xE_pow9 (r : ℕ) : xE r ^ 9 = 1 := by
     have hc := blt_lt h.1
     refine ⟨_, hc, key_X hc ((pm_comp (pm_lp (e := j) (by omega)) (pm_comp (pm_oEl (OD i))
       (pm_lp (e := j + 4) (by omega)))).congr ?_) (conj_mem (m4_mem_H4 hj) (cE_mem _ _)) h.2⟩
-    simp only [LE, if_pos hj, if_neg (by omega : ¬ j + 4 < 4), Nat.add_sub_cancel, m4_eq hj,
+    simp only [LE, ite_eq_left hj, ite_eq_right (by omega : ¬ j + 4 < 4), Nat.add_sub_cancel, m4_eq hj,
       mul_assoc]
   hYs i hi := by
     have h := (bAnd_iff _ _).1 (strictB_elim (allN_spec kOYm i hi))

@@ -25,11 +25,11 @@ theorem not_case148Three
     {L : Subgroup G} {d : G} (h : Gagen1515Fpf.Ctx A c L d)
     (hΩB : ∀ F ∈ omegaA A, F ≤ Subgroup.closure {c, d}) {T T₀ : Subgroup G}
     (hTX : T ≤ Gagen1515Fpf.x₀ L d) (hT : T ≠ ⊥) (hTT₀ : T ≤ T₀) (hT₀ : IsPGroup 2 T₀)
-    (hAT₀ : A ≤ Subgroup.normalizer (T₀ : Set G))
+    (_hAT₀ : A ≤ Subgroup.normalizer (T₀ : Set G))
     (hY : Subgroup.normalizer (T₀ : Set G) ∈ scriptY A) :
     letI := ker148_normal hY.2
     ¬ Case148Three A (lB A) (Subgroup.normalizer (T₀ : Set G)) := by
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   rintro ⟨c', d', L', hc'Ω, hL', hJ', hd'A, hd'1, hd'c, hX, htypes⟩
   set Y₀ := Subgroup.normalizer (T₀ : Set G) with hY₀
   have htypes' : IsType1483 ↥(img148 A Y₀ (deltaZero A (lB A) Y₀)) := htypes

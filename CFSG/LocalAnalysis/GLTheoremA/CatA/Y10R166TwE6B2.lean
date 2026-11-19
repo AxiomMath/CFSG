@@ -88,7 +88,7 @@ theorem twE6Eleven_closed {α β : Fin TwistTag.E6.tag.rank → ℤ} (hα : α �
     (hr : IsRoot TwistTag.E6.tag (a • α + b • β)) : a • α + b • β ∈ twE6Eleven := by
   refine ⟨hr, ?_⟩
   have h1 : twE6C4 (a • α + b • β) = (a : ℤ) * twE6C4 α + (b : ℤ) * twE6C4 β := by
-    simp [twE6C4, Pi.add_apply, Pi.smul_apply, nsmul_eq_mul]
+    simp [twE6C4, Pi.add_apply, nsmul_eq_mul]
   have h2 := hα.2
   have h3 := hβ.2
   rw [h1]
@@ -169,7 +169,7 @@ theorem exists_elemAbelian_card_graphFixedRootGroup_twE6 {K : Type} [Field K] [F
         Nat.card E = (2 ^ n) ^ 11 := by
   classical
   have hK' : Nat.card K = 2 ^ (2 * n) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hK'
   have hKord : Nat.card K = (2 ^ n) ^ TwistTag.E6.order := by
     rw [hK]; rfl
@@ -228,7 +228,7 @@ theorem eleven_mul_le_twoRank_graphFixedRootGroup_twE6 {K : Type} [Field K] [Fin
     (hσ : ∀ c, σ c = c ^ (2 ^ n)) :
     11 * n ≤ twoRank ↥(graphFixedRootGroup TwistTag.E6 K σ) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E, hEG, hEel, hEcard⟩ :=
     exists_elemAbelian_card_graphFixedRootGroup_twE6 hn hK hσ
   have hEsub : IsElemAbelian 2 (E.subgroupOf (graphFixedRootGroup TwistTag.E6 K σ)) :=
@@ -246,13 +246,13 @@ end Certs
 theorem twoRank_le_of_central_quotient {K C : Type} [Group K] [Finite K] [Group C] [Finite C]
     (π : K →* C) (hπ : Function.Surjective π) (hker : π.ker ≤ Subgroup.center K)
     (hodd : Odd (Nat.card π.ker)) : twoRank C ≤ twoRank K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.SectionRank.pRank_le (p := 2) (H := ⊤) (k := twoRank K) (by norm_num)
     fun A _ hA => ?_
   have hAp : IsPGroup 2 ↥A := hA.isPGroup
   obtain ⟨S, -, -, hmapS, -, -, -, ⟨eS⟩⟩ := lift_twoGroup π hπ hker hodd hAp
   obtain ⟨k, hk⟩ := hAp.exists_card_eq
-  haveI hAcomm : IsMulCommutative ↥A := hA.1
+  have hAcomm : IsMulCommutative ↥A := hA.1
   have hSel : IsElemAbelian 2 S := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
     · exact eS.injective (by rw [map_mul, map_mul]; exact mul_comm' (eS a) (eS b))

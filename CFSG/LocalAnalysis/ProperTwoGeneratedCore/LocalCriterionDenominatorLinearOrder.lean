@@ -43,7 +43,7 @@ theorem linear_odd_centralizer_contains_full_torus (f : ℕ) (hf : 2 ≤ f)
         (⟨y, hyR⟩ : R) (⟨x, hxR⟩ : R)))
   rcases hxT.2 with hP | hU | hS
   · obtain ⟨g, rfl⟩ := hP
-    have htwo := P.isPGroup'.map (MulAut.conj g).toMonoidHom
+    have htwo := P.isPGroup.map (MulAut.conj g).toMonoidHom
     let y : (P : Subgroup (PSL2MatrixGroup K)).map (MulAut.conj g).toMonoidHom :=
       ⟨x, hxT.1⟩
     have hyodd : Odd (orderOf y) := (Subgroup.orderOf_coe y).symm ▸ hxodd

@@ -112,7 +112,7 @@ theorem lieSEight_hasWitness_tdfive (d : TauCeti.TypeTwistedDLieIndex)
   have hcard : Nat.card (CarrierTD.fixedField2 d) = 64 := by
     rw [CarrierTD.card_fixedField2, h2, h3]
     norm_num
-  haveI : Finite (CarrierTD.fixedField2 d) :=
+  have : Finite (CarrierTD.fixedField2 d) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   obtain ⟨μ, hμL, hμo⟩ := exists_unit_orderOf (CarrierTD.fixedField2 d) (s := 3)
     (by rw [hcard]; norm_num)
@@ -161,9 +161,9 @@ theorem lieSEight_d4_coords {S : Type} [Group S]
       (∃ U : Submodule F (Fin (2 * 4) → F), finrank F U = 3 ∧ ∀ u ∈ U, Q u = 0) ∧
       (IsPlusType Q ↔ Even 4) := by
   obtain ⟨F, _, _, hF, ⟨e₀⟩⟩ := hM.2
-  haveI : CharP F 2 := by
-    haveI := Fintype.ofFinite F
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := by
+    have := Fintype.ofFinite F
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (f := 3) (by rw [Fintype.card_eq_nat_card, hF])
   have hreg := regular_coordinateQuadPlus 4 F (by norm_num)
   exact ⟨F, inferInstance, inferInstance, inferInstance, coordinateQuadPlus 4 F,
@@ -181,7 +181,7 @@ theorem lieSEight_d4_inner_noSp (hLO : LieOrderBridge) {S : Type} [Group S] [Fin
       (fun h => hs1 (eQ.injective (h.trans (map_one eQ).symm)))
   obtain ⟨hlayer, htypes, -, -⟩ := orthInnerShape (Or.inr (by rw [hF]; norm_num))
     (by norm_num : 0 < 2 * 4) hQ hT3 rfl (le_refl 4) hV ht3
-  haveI : Finite (ProjOrthDerived Q) := Finite.of_equiv S eQ.toEquiv
+  have : Finite (ProjOrthDerived Q) := Finite.of_equiv S eQ.toEquiv
   have hJ' : GLAPComponent 3 (fixSub (MulAut.conj (eQ s))) (J.map eQ.toMonoidHom) := by
     rw [← CFSG.RankThree.PartTwo.KFacts.congr_mulAutConj eQ s]
     exact CFSG.LocalAnalysis.GLTheoremA.Y10F.glaPComponent_transport eQ (MulAut.conj s) hJ
@@ -218,7 +218,7 @@ theorem lieSEightAt_D (hGA : CFSG.Open.GriessAllModelsStatement) (hLO : LieOrder
   · have hM := CFSG.Models.lieModel_D 4 q hv e
     have hM' := hM.2.resolve_right (fun h0 => absurd h0.1 (by norm_num))
     rw [hp2, hexp] at hM'
-    haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+    have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
     have hZ : Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ := I1431C2.cl_center_eq_bot_of_simple
       (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hY)
     have hβ3 : inducedAut ξ ^ 3 = 1 := by

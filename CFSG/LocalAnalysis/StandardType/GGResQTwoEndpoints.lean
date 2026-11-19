@@ -34,7 +34,7 @@ theorem ggResQTwo_cardBs_of_fin3
     (hAL : ggAutomizer L Bs = Subgroup.closure (Set.range fun i : Λ => φ (some i)))
     (hsel : LinearIndependent (ZMod 3) h) :
     Nat.card Bs = 81 := by
-  haveI : Finite V := Finite.of_equiv _ ι.toEquiv
+  have : Finite V := Finite.of_equiv _ ι.toEquiv
   have hspan := ggResI_span_top hFix hH ι hφ hAL hsel
   have hcardΛ : Fintype.card Λ = 3 := by
     simpa using (Fintype.card_congr e).symm

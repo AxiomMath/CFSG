@@ -101,8 +101,7 @@ theorem frOK_spec {Pl : List Nat} {d : Nat} {tab : HashMap Nat Nat} (h : frOK T 
       (∀ e < 2 ^ d, ∃ x ∈ N, tab.getD x 0 = e) ∧
       ∀ x ∈ N, (tab.getD x 0 = 0 ↔ x ∈ Pl) := by
   unfold frOK at h
-  simp only [Bool.and_eq_true, List.all_eq_true, List.any_eq_true, beq_iff_eq,
-    decide_eq_true_eq, List.contains_iff_mem, Bool.beq_eq_decide_eq, Nat.beq_eq] at h
+  simp only [Bool.and_eq_true, List.all_eq_true, List.any_eq_true, decide_eq_true_eq, Bool.beq_eq_decide_eq] at h
   obtain ⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩ := h
   refine ⟨h1, fun x hx => by simpa using h2 x hx, fun x hx y hy => h3 x hx y hy,
     fun e he => ?_, fun x hx => ?_⟩
@@ -117,6 +116,7 @@ section FrBuild
 
 variable {G : Type} [Group G] [Finite G] {H K Q : Subgroup G} {T : KTab} {κ : G → Nat}
 
+omit [Finite G] in
 theorem frData_of_lists (S : KSetting H K Q T κ) {N : List Nat}
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ n ∈ N) {d : Nat} {tab : HashMap Nat Nat}
     (hfr : frOK T N (phiList T N) d tab = true) (hpl : plOK T (phiList T N) = true) :
@@ -169,6 +169,7 @@ noncomputable def lamOf (z : G) (Q : Subgroup G) (typ : Nat) (x : G) : Nat :=
   else if typ = 1 then (if x * x = 1 then 0 else 1)
   else (if ∀ n ∈ Phi' Q, x * n = n * x then 1 else 0)
 
+omit [Finite G] in
 theorem mem_phiList_iff (S : KSetting H K Q T κ) {N : List Nat}
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ n ∈ N) (hpl : plOK T (phiList T N) = true) (p : Nat) :
     p ∈ phiList T N ↔ ∃ r ∈ Phi' Q, κ r = p := by
@@ -180,6 +181,7 @@ theorem mem_phiList_iff (S : KSetting H K Q T κ) {N : List Nat}
     exact Phi'_codes_le S.hκ S.hinv S.hQK hQN (fun x hx => mem_phiList_of_sq T N hx)
       (fun x hx y hy => mem_phiList_of_comm T N hx hy) hmulPl (one_mem_phiList T N) hinvPl r hr
 
+omit [Finite G] in
 theorem labelOf_eq (S : KSetting H K Q T κ) {N : List Nat}
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ n ∈ N) (hpl : plOK T (phiList T N) = true)
     {z : G} (hzK : z ∈ K) {zN : Nat} (hκz : κ z = zN) (typ : Nat) {x : G} (hx : x ∈ Q) :
@@ -188,14 +190,14 @@ theorem labelOf_eq (S : KSetting H K Q T κ) {N : List Nat}
   have hxK : x ∈ K := S.hQK hx
   unfold labelOf lamOf
   by_cases h0 : typ = 0
-  · rw [if_pos h0, if_pos h0]
+  · rw [ite_eq_left h0, ite_eq_left h0]
     by_cases hxz : x = z
     · subst hxz; simp [hκz]
     · have : κ x ≠ zN := fun h => hxz (S.hκ.inj x hxK z hzK (h.trans hκz.symm))
       simp [hxz, this]
-  · rw [if_neg h0, if_neg h0]
+  · rw [ite_eq_right h0, ite_eq_right h0]
     by_cases h1 : typ = 1
-    · rw [if_pos h1, if_pos h1]
+    · rw [ite_eq_left h1, ite_eq_left h1]
       have e : mulN T (κ x) (κ x) = κ (x * x) := (S.hκ.mul x hxK x hxK).symm
       by_cases hxx : x * x = 1
       · simp [e, hxx, S.hκ.one]
@@ -203,7 +205,7 @@ theorem labelOf_eq (S : KSetting H K Q T κ) {N : List Nat}
           rw [← S.hκ.one]
           exact fun h => hxx (S.hκ.inj _ (K.mul_mem hxK hxK) 1 K.one_mem h)
         simp [e, hxx, this]
-    · rw [if_neg h1, if_neg h1]
+    · rw [ite_eq_right h1, ite_eq_right h1]
       have hiff : (∀ p ∈ phiList T N, mulN T (κ x) p = mulN T p (κ x)) ↔
           ∀ n ∈ Phi' Q, x * n = n * x := by
         constructor
@@ -222,13 +224,14 @@ theorem labelOf_eq (S : KSetting H K Q T κ) {N : List Nat}
         exact hiff
       exact if_congr hcond rfl rfl
 
+omit [Finite G] in
 theorem lamOf_inv {z : G} (hzH : ∀ h ∈ H, h * z * h⁻¹ = z)
     (hQn : ∀ h ∈ H, ∀ x ∈ Q, h * x * h⁻¹ ∈ Q) (typ : Nat) {h : G} (hh : h ∈ H) {x : G}
-    (hx : x ∈ Q) : lamOf z Q typ (h * x * h⁻¹) = lamOf z Q typ x := by
+    (_hx : x ∈ Q) : lamOf z Q typ (h * x * h⁻¹) = lamOf z Q typ x := by
   classical
   unfold lamOf
   by_cases h0 : typ = 0
-  · rw [if_pos h0, if_pos h0]
+  · rw [ite_eq_left h0, ite_eq_left h0]
     have hiff : (h * x * h⁻¹ = z) ↔ x = z := by
       constructor
       · intro e
@@ -238,9 +241,9 @@ theorem lamOf_inv {z : G} (hzH : ∀ h ∈ H, h * z * h⁻¹ = z)
         simpa using this
       · rintro rfl; exact hzH h hh
     exact if_congr hiff rfl rfl
-  · rw [if_neg h0, if_neg h0]
+  · rw [ite_eq_right h0, ite_eq_right h0]
     by_cases h1 : typ = 1
-    · rw [if_pos h1, if_pos h1]
+    · rw [ite_eq_left h1, ite_eq_left h1]
       have e : (h * x * h⁻¹) * (h * x * h⁻¹) = h * (x * x) * h⁻¹ := by group
       have hiff : (h * x * h⁻¹) * (h * x * h⁻¹) = 1 ↔ x * x = 1 := by
         rw [e]
@@ -250,7 +253,7 @@ theorem lamOf_inv {z : G} (hzH : ∀ h ∈ H, h * z * h⁻¹ = z)
           rw [this, e']; group
         · intro e'; rw [e']; group
       exact if_congr hiff rfl rfl
-    · rw [if_neg h1, if_neg h1]
+    · rw [ite_eq_right h1, ite_eq_right h1]
       have hiff : (∀ n ∈ Phi' Q, h * x * h⁻¹ * n = n * (h * x * h⁻¹)) ↔
           ∀ n ∈ Phi' Q, x * n = n * x := by
         constructor

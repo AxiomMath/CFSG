@@ -132,7 +132,7 @@ theorem eq_bot_of_permute_unitriangular {n p : ℕ} (hn : 1 ≤ n) (hp : p.Prime
   obtain ⟨T₀, hT₀⟩ := exists_sylow_unitriangular (K := ZMod 2) 2 hn
   have hU2 : IsPGroup 2 (unitriangular n (ZMod 2)) := by
     rw [← hT₀]
-    exact T₀.isPGroup'
+    exact T₀.isPGroup
   have hdisj : X ⊓ unitriangular n (ZMod 2) = ⊥ :=
     disjoint_iff.1 (IsPGroup.disjoint_of_ne p 2 hp2 X _ hX hU2)
   have hUY : unitriangular n (ZMod 2) ≤ X ⊔ unitriangular n (ZMod 2) := le_sup_right

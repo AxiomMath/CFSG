@@ -36,7 +36,7 @@ theorem diagGen_val (a : Fin 3 → Kˣ) :
     apply Units.ext
     rw [diagGen_val, Units.val_one]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+    fin_cases i <;> fin_cases j <;> simp
   map_mul' x y := by
     apply Units.ext
     rw [Units.val_mul, diagGen_val, diagGen_val, diagGen_val, Matrix.diagonal_mul_diagonal]

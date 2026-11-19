@@ -66,7 +66,7 @@ theorem hdRo7CKCoordAux_model
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
     (hrow : GGResRowAt ggRowCorank2C p J K) :
-    ∃ (n : ℕ) (hy : y ∈ Bs) (hx : x ∈ Bs) (τ : (Fin (n + 1) → Multiplicative (ZMod p)) ≃* ↥Bs),
+    ∃ (n : ℕ) (hy : y ∈ Bs) (_hx : x ∈ Bs) (τ : (Fin (n + 1) → Multiplicative (ZMod p)) ≃* ↥Bs),
       p = 3 ∧ 5 ≤ n ∧ τ (Pi.mulSingle 0 (Multiplicative.ofAdd (1 : ZMod p))) = ⟨y, hy⟩ ∧
       C2CoordModel p Bs K n τ ∧
       ∀ f : Fin (n + 1) → Multiplicative (ZMod p), ((τ f : ↥Bs) : G) ∈ K ↔ f 0 = 1 := by
@@ -79,7 +79,7 @@ theorem hdRo7CKCoordAux_model
   have hx0 : x ∈ Bs := hH.1.tableB_facts.2.2.1
   obtain ⟨R, hRgrp, I, θ, hBsN, hperf, hTSC, hCP, hcenter, hI, hBs3⟩ :=
     hdRo7CKCoordAux_torus_data hRig hH hrow
-  letI : Group R := hRgrp
+  let : Group R := hRgrp
   have hZK : Subgroup.center ↥K = ⊥ :=
     hdRo7CKCoordAux_center_K_eq_bot hH hrow
   have hinner := hdRo7CKCoordAux_hinner p B Bs x L D J y K hH R I θ hI hZK hBsN hBs3
@@ -152,7 +152,7 @@ theorem hdRo7CKCoordAux_model
       have hdvd : p ∣ (Multiplicative.toAdd (f 0)).val := by
         have h := orderOf_dvd_iff_pow_eq_one.mpr hz1
         rwa [horder] at h
-      haveI : NeZero p := ⟨hp.ne_zero⟩
+      have : NeZero p := ⟨hp.ne_zero⟩
       have hzero : (Multiplicative.toAdd (f 0)).val = 0 :=
         Nat.eq_zero_of_dvd_of_lt hdvd (ZMod.val_lt _)
       have htoAdd : Multiplicative.toAdd (f 0) = 0 := (ZMod.val_eq_zero _).mp hzero

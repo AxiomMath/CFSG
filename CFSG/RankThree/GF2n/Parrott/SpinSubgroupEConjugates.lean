@@ -33,9 +33,11 @@ variable {ψ : ↥(H z) →* A45} {κ : G → V}
     rw [Subgroup.coe_mul, hκ.add f (hB f.2) f' (hB f'.2)]
     rfl
 
+omit [Finite G] in
 theorem mem_ker_kappaRestrictHom (hκ : IsSpinCoord ψ κ) {B : Subgroup G} (hB : B ≤ J z) (f : ↥B) :
     f ∈ (kappaRestrictHom hκ hB).ker ↔ κ (f : G) = 0 := Iff.rfl
 
+omit [Finite G] in
 theorem card_range_kappaRestrictHom (hκ : IsSpinCoord ψ κ) {B : Subgroup G} (hB : B ≤ J z) :
     Nat.card (kappaRestrictHom hκ hB).range = (κ '' (B : Set G)).ncard := by
   rw [← Nat.card_coe_set_eq]
@@ -68,7 +70,7 @@ theorem card_eq_two_mul_ncard_of_z_mem (h : Tim79a.ParrottHypA z) (hκ : IsSpinC
   rw [hcard, card_range_kappaRestrictHom hκ hB] at h1
   exact h1.symm
 
-theorem card_eq_ncard_of_z_not_mem (h : Tim79a.ParrottHypA z) (hκ : IsSpinCoord ψ κ)
+theorem card_eq_ncard_of_z_not_mem (_h : Tim79a.ParrottHypA z) (hκ : IsSpinCoord ψ κ)
     {B : Subgroup G} (hB : B ≤ J z) (hzB : z ∉ B) :
     Nat.card B = (κ '' (B : Set G)).ncard := by
   have hker : (kappaRestrictHom hκ hB).ker = ⊥ := by
@@ -86,6 +88,7 @@ theorem card_eq_ncard_of_z_not_mem (h : Tim79a.ParrottHypA z) (hκ : IsSpinCoord
   rw [hker, Subgroup.card_bot, card_range_kappaRestrictHom hκ hB, one_mul] at h1
   exact h1.symm
 
+omit [Finite G] in
 private theorem mem_conjugate_iff' {S : Subgroup G} {g x : G} :
     x ∈ CFSG.conjugate S g ↔ g * x * g⁻¹ ∈ S := by
   rw [CFSG.conjugate, Subgroup.mem_map]

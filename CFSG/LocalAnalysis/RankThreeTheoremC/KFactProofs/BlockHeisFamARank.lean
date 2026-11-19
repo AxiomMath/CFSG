@@ -30,7 +30,7 @@ theorem heisAR_three_dvd_of_five_dvd {f : ℕ} (h : 5 ∣ 2 ^ f - 1) : 3 ∣ 2 ^
 theorem heisARankFacts_holds
     (hGA : CFSG.Open.GriessAllModelsStatement) : HeisARankFacts := by
   intro L _ _ hperf hodd hrk hs n f K _ _ hK hn hf eX p hp hp5
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ := heisAR_card_center_dvd hGA hperf hodd hs hK eX
   have hunits : Nat.card Kˣ = 2 ^ f - 1 := by rw [Nat.card_units, hK]
   have hi : ¬ p ∣ Nat.gcd n (2 ^ f - 1) := by
@@ -45,7 +45,7 @@ theorem heisARankFacts_holds
     · have hn5' : n = 5 := by omega
       have hp5' : p = 5 := (Nat.prime_dvd_prime_iff_eq hp Nat.prime_five).1 (hn5' ▸ hpn)
       rw [hp5'] at hpq
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3
         (by rw [hunits]; exact heisAR_three_dvd_of_five_dvd hpq)
       exact heisAR_false_of_cover hrk Nat.prime_three (by norm_num) hn5

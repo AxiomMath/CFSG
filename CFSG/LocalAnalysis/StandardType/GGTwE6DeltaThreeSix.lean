@@ -17,7 +17,7 @@ theorem reflData_recipe {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n)
     {Y : Subgroup (MulAut (TwE6Delta.RecipeR K n))} (hY : IsElemAbelian 3 Y)
     (hYI : (Y : Set (MulAut (TwE6Delta.RecipeR K n))) ⊆ TwE6Delta.RecipeI K n)
     (hYc : Nat.card Y = 3 ^ 6) : ReflData Y := by
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   obtain ⟨σ, hσ⟩ : ∃ σ : K ≃+* K, ∀ c, σ c = c ^ 2 ^ n :=
     ⟨iterateFrobeniusEquiv K 2 n, fun c => by
       rw [iterateFrobeniusEquiv_apply, iterateFrobenius_def]⟩
@@ -27,7 +27,7 @@ theorem reflData_recipe {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n)
   have hY₀c : Nat.card (Y.comap (MulAut.congr ε).toMonoidHom) = 3 ^ 6 := by
     rw [← hYc]
     exact Nat.card_congr ((MulAut.congr ε).toEquiv.subtypeEquiv fun _ => Iff.rfl)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hFr : ∀ c, iterateFrobenius (AlgebraicClosure K) 2 n c = c ^ 2 ^ n :=
     fun c => iterateFrobenius_def 2 n c

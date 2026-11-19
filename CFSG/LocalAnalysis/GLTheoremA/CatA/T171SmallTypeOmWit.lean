@@ -78,6 +78,7 @@ open QuadraticMap Module CFSG.ClassicalGroups.Orthogonal CFSG.RankThree.Classica
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_singular_of_isPlusType {W : Submodule (ZMod 2) V}
     (hW : CFSG.GroupTheory.WeirSylow.IsPlusType (Q.comp W.subtype))
     (hdimW : 2 ≤ finrank (ZMod 2) W) :
@@ -90,6 +91,7 @@ theorem exists_singular_of_isPlusType {W : Submodule (ZMod 2) V}
   obtain ⟨u, hu, hu0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hUne
   exact ⟨u, u.2, fun h => hu0 (Subtype.ext h), hU0 u hu⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_singular_of_isMinusType {W : Submodule (ZMod 2) V}
     (hW : CFSG.GroupTheory.WeirSylow.IsMinusType (Q.comp W.subtype))
     (hdimW : 4 ≤ finrank (ZMod 2) W) :
@@ -211,12 +213,12 @@ theorem isMinusType_perpL_five_of_plus (hQ : (QuadraticMap.polarBilin Q).Nondege
 
 theorem exists_twoLocal_of_fiveFrameData (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     {n : ℕ} (hdim : finrank (ZMod 2) V = 2 * n) (hn : 6 ≤ n) {l : List (V × V)}
-    (hl : IsFrame Q l) (hlen : l.length = 5) {a b : Fin 5 → V}
+    (_hl : IsFrame Q l) (_hlen : l.length = 5) {a b : Fin 5 → V}
     (hp : ∀ i, MinusPair Q (a i) (b i))
     (hperp : ∀ i j, i ≠ j → PairPerp Q (a i, b i) (a j, b j))
-    {e f : V} (heW : e ∈ perpL Q l) (he0 : e ≠ 0) (heQ : Q e = 0)
+    {e f : V} (heW : e ∈ perpL Q l) (_he0 : e ≠ 0) (heQ : Q e = 0)
     (horth : ∀ x ∈ perpL Q l, ∀ i, polar Q x (a i) = 0 ∧ polar Q x (b i) = 0)
-    (hfW : f ∈ perpL Q l) (hfe : polar Q e f = 1) (hfa : polar Q f (a 0) = 0) :
+    (_hfW : f ∈ perpL Q l) (hfe : polar Q e f = 1) (hfa : polar Q f (a 0) = 0) :
     ∃ E : Subgroup ↥(orthDerived Q), IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 5 ∧ TwoLocal E := by
   let E : Subgroup ↥(orthDerived Q) :=
     Subgroup.closure (Set.range fun i => rotOrthDerived Q (a := a i) (b := b i) (hp i))
@@ -288,7 +290,7 @@ theorem exists_fiveFrameData_plus (hQ : (QuadraticMap.polarBilin Q).Nondegenerat
   obtain ⟨e, heW, he0, heQ⟩ := exists_singular_of_isMinusType hWtype hWdim4
   have hex : ∃ f ∈ perpL Q l, polar Q e f = 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hzero : ∀ y ∈ perpL Q l, polar Q e y = 0 := by
       intro y hy
       rcases zmod_two_cases (polar Q e y) with h0 | h1
@@ -367,7 +369,7 @@ theorem exists_fiveFrameData_minus (hQ : (QuadraticMap.polarBilin Q).Nondegenera
   obtain ⟨e, heW, he0, heQ⟩ := exists_singular_of_isPlusType hWplus hWdim2
   have hex : ∃ f ∈ perpL Q l, polar Q e f = 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hzero : ∀ y ∈ perpL Q l, polar Q e y = 0 := by
       intro y hy
       rcases zmod_two_cases (polar Q e y) with h0 | h1

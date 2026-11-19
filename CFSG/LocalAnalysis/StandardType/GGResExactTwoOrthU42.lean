@@ -86,12 +86,12 @@ theorem ggResX2_four_le_primaryMultiplicity (hK : Nat.card K = 2) {x : V ≃ₗ[
     SmallU.isSolvable_unitarySU_small (TableBU.unitaryFieldData_of_card hcardE le_rfl)
       (hx.primaryMultiplicity_pos hh) (by omega)
   have hsolB : Group.IsSolvable ↥(specialBlock Q x h) :=
-    solvable_of_solvable_injective (f := ε.toMonoidHom) ε.injective
+    Group.isSolvable_of_isSolvable_injective (f := ε.toMonoidHom) ε.injective
   let ι : ↥((specialBlock Q x h).subgroupOf (orthDerived Q)) →* ↥(specialBlock Q x h) :=
     { toFun := fun g => ⟨((g : ↥(orthDerived Q)) : V ≃ₗ[K] V), g.2⟩
       map_one' := rfl
       map_mul' := fun _ _ => rfl }
-  refine hns (solvable_of_solvable_injective (f := ι) fun a b hab => ?_)
+  refine hns (Group.isSolvable_of_isSolvable_injective (f := ι) fun a b hab => ?_)
   have hab' : ((ι a : ↥(specialBlock Q x h)) : V ≃ₗ[K] V) = ι b := congrArg Subtype.val hab
   exact Subtype.ext (Subtype.ext hab')
 

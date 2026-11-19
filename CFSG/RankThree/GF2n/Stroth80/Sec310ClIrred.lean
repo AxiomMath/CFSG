@@ -17,7 +17,7 @@ theorem exists_fixed_of_two_group (D : Subgroup (V ≃ₗ[K] V)) (hD : ∀ g ∈
     (U : Submodule K V) (hU : ∀ g ∈ D, ∀ u ∈ U, g u ∈ U) (hne : U ≠ ⊥) :
     ∃ u ∈ U, u ≠ 0 ∧ ∀ g ∈ D, g u = u := by
   have hVfin : Finite V := Module.finite_of_finite K
-  letI act : MulAction D U :=
+  let act : MulAction D U :=
     { smul := fun g u => ⟨(g : V ≃ₗ[K] V) (u : V), hU (g : V ≃ₗ[K] V) g.2 (u : V) u.2⟩
       one_smul := fun u => Subtype.ext rfl
       mul_smul := fun g h u => Subtype.ext rfl }
@@ -40,6 +40,7 @@ theorem exists_fixed_of_two_group (D : Subgroup (V ≃ₗ[K] V)) (hD : ∀ g ∈
   refine ⟨(b : V), b.2, fun hb0 => hab (Subtype.ext (by simp [hb0])), fun g hg => ?_⟩
   exact congrArg Subtype.val (MulAction.mem_fixedPoints.mp hb ⟨g, hg⟩)
 
+omit [Finite K] in
 theorem fixed_eq_of_elationFull (hnd : F.Nondegenerate) (halt : F.IsAlt)
     (hdim : 3 ≤ Module.finrank K V) {e f : V} (hef : F e f = 1) {D : Set (V ≃ₗ[K] V)}
     (hD : D ⊆ pointRad F e) (hfull : ElationFull F D e) {v : V} (hv : ∀ g ∈ D, g v = v) :
@@ -92,7 +93,7 @@ theorem fixed_eq_of_elationFull (hnd : F.Nondegenerate) (halt : F.IsAlt)
     rw [← hc', hd]
 
 theorem eq_top_of_invariant (hnd : F.Nondegenerate) (halt : F.IsAlt)
-    (hdim : 3 ≤ Module.finrank K V) {H : Subgroup (V ≃ₗ[K] V)} (hH : H ≤ sympSubgroup F)
+    (hdim : 3 ≤ Module.finrank K V) {H : Subgroup (V ≃ₗ[K] V)} (_hH : H ≤ sympSubgroup F)
     {P : Set V} (hP0 : ∀ e ∈ P, e ≠ 0)
     (hfull : ∀ e ∈ P, ElationFull F ((H : Set _) ∩ pointRad F e) e)
     (hspan : Submodule.span K P = ⊤) (U : Submodule K V)

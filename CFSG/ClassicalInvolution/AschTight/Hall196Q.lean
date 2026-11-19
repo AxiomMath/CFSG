@@ -95,8 +95,8 @@ theorem c19_6_cases_aux [IsSimpleGroup G] (hstar : C19_11aTmp p f)
   have hstar' := fun x hx hxt => mem_inf_of_commute hstar hDT ef (x := x) hx hxt
   have hCP : W ⊓ sec19Y K z ≤ (S : Subgroup G) ⊓ sec19Y K z := inf_le_inf_right _ hd.hWS
   have hC4 : 4 ≤ Nat.card ↥(W ⊓ sec19Y K z) := ef.card ▸ ef.four
-  have hC2 : IsPGroup 2 ↥(W ⊓ sec19Y K z) := S.isPGroup'.to_le (inf_le_left.trans hd.hWS)
-  have hV2 : IsPGroup 2 V := S.isPGroup'.to_le (hDT.leW.trans hd.hWS)
+  have hC2 : IsPGroup 2 ↥(W ⊓ sec19Y K z) := S.isPGroup.to_le (inf_le_left.trans hd.hWS)
+  have hV2 : IsPGroup 2 V := S.isPGroup.to_le (hDT.leW.trans hd.hWS)
   by_cases hPC : (S : Subgroup G) ⊓ sec19Y K z ≤ W ⊓ sec19Y K z
   · left
     have hPeq := le_antisymm hPC hCP
@@ -112,7 +112,7 @@ theorem c19_6_cases_aux [IsSimpleGroup G] (hstar : C19_11aTmp p f)
   have hcardSK : Nat.card ↥((S : Subgroup G) ⊓ K) = 2 * Nat.card ↥(W ⊓ sec19Y K z) := by
     rw [S1911.card_inf_eq hd, S1911.card_inf_eq_card hDT, ← ef.card]
   refine ⟨hqk.1 hq2', hcardP, hcardP.trans hcardSK.symm, fun Q hQ => ?_⟩
-  have hW2 : IsPGroup 2 W := S.isPGroup'.to_le hd.hWS
+  have hW2 : IsPGroup 2 W := S.isPGroup.to_le hd.hWS
   have hWY : W ≤ Subgroup.normalizer ((sec19Y K z : Subgroup G) : Set G) := hd.hWS.trans hSY
   have hWP := le_normalizer_inf hd.hWS hWY
   have hsyl := isSylow2In_sup_of_normalizes hP hW2 hWY hWP hCP

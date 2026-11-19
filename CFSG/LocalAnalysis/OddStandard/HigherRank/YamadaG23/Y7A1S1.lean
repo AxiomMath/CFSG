@@ -40,7 +40,7 @@ theorem y7a_S_iff (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {w : G} :
     w ∈ y7aS A V t ↔ ∃ a ∈ A, a ^ 2 = 1 ∧ a ∉ zpowers z ∧ ∃ v ∈ V, w = a * t * v := by
   constructor
   · intro hw
-    simp only [y7aS, Set.mem_setOf_eq] at hw
+    simp only [y7aS, Set.mem_ofPred_eq] at hw
     obtain ⟨⟨a, ha, ha2, v, hv, rfl⟩, hnot⟩ := hw
     refine ⟨a, ha, ha2, ?_, v, hv, rfl⟩
     intro haz
@@ -53,7 +53,7 @@ theorem y7a_S_iff (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {w : G} :
     rw [heq]
     exact V.mul_mem (Subgroup.zpowers_le.mpr (y7a_z_mem_V h) haz) hv
   · rintro ⟨a, ha, ha2, haz, v, hv, rfl⟩
-    simp only [y7aS, Set.mem_setOf_eq]
+    simp only [y7aS, Set.mem_ofPred_eq]
     refine ⟨⟨a, ha, ha2, v, hv, rfl⟩, ?_⟩
     intro hmem
     have hcomm : Commute a t := h.cfg.t_cent a ha
@@ -71,7 +71,7 @@ theorem y7a_S_iff (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) {w : G} :
 theorem y7a_S_sub (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) :
     ∀ w ∈ y7aS A V t, w ∈ A ⊔ C0 ∧ w ∉ A ⊔ V := by
   intro w hw
-  simp only [y7aS, Set.mem_setOf_eq] at hw
+  simp only [y7aS, Set.mem_ofPred_eq] at hw
   exact y7a_Up_sub h w hw.1
 
 theorem y7a_S_V (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) :
@@ -95,7 +95,7 @@ theorem y7a_S_card [Finite G] (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) :
     · intro w; ext; group
     · intro v; ext; group
   have hSeq : y7aS A V t = (y6Up A V t : Set G) \ {w : G | t⁻¹ * w ∈ V} := by
-    ext w; simp only [y7aS, y6Up, Set.mem_setOf_eq, Set.mem_diff]
+    ext w; simp only [y7aS, y6Up, Set.mem_ofPred_eq, Set.mem_sdiff]
   have hsplit : (y7aS A V t).ncard =
       (y6Up A V t : Set G).ncard - ({w : G | t⁻¹ * w ∈ V} : Set G).ncard := by
     rw [hSeq, Set.ncard_sdiff hTsub]

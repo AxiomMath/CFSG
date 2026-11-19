@@ -59,7 +59,7 @@ theorem sec5z8_conj_Q_le (hy : Sec5B59Hyp) (hU : Asc82FactPocketsUniq6) (h : Sec
       twoCoreIn K₁ ⊔ twoCoreIn K₂ := by
     rw [Subgroup.map_sup]
     exact sup_le (hmap K₁ hk.pocket₁) (hmap K₂ hk.pocket₂)
-  exact hsup (Subgroup.mem_map.mpr ⟨x, hx, by simp [MulAut.conj_apply]⟩)
+  exact hsup (Subgroup.mem_map.mpr ⟨x, hx, by simp⟩)
 
 theorem sec5z8_conj_mem_R (hy : Sec5B59Hyp) (hU : Asc82FactPocketsUniq6) (h : Sec5Ctx G t L S z)
     (hk : Sec510Pk G t L S z K₁ K₂) {g : G} (hgt : g ∈ centralizer ({t} : Set G))

@@ -29,7 +29,7 @@ theorem centerQuotientHom_pow_three_mem_innAutDerived
     {y : ModGL τ L}
     (hyZ : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)))
     (hyF : S.D.step y = y)
-    (hyStab : MulAut.conj y ∈ subgroupStabAut
+    (_hyStab : MulAut.conj y ∈ subgroupStabAut
       (rationalComponent S.ρ S.Γ (rootCharHom a) i))
     {g : ModGL τ L} (hgS : g ∈ rootSpan τ L (componentRoots (rootCharHom a) i))
     (hgconj : ∀ x ∈ rootSpan τ L (componentRoots (rootCharHom a) i),
@@ -72,7 +72,7 @@ theorem centerQuotientHom_mul_frob_mem_innAutDerived
     {y : ModGL τ L}
     (hyZ : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)))
     (hyF : S.D.step y = y)
-    (hyStab : MulAut.conj y ∈ subgroupStabAut
+    (_hyStab : MulAut.conj y ∈ subgroupStabAut
       (rationalComponent S.ρ S.Γ (rootCharHom a) i))
     {g : ModGL τ L} (hgS : g ∈ rootSpan τ L (componentRoots (rootCharHom a) i))
     (hgconj : ∀ x ∈ rootSpan τ L (componentRoots (rootCharHom a) i),
@@ -132,7 +132,7 @@ theorem centerQuotientHom_mem_innAutDerived_excHighRank_cube
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   classical
   let R := rationalComponent S.ρ S.Γ (rootCharHom a) i
-  haveI hRfin : Finite ↥R := finite_rationalComponent S i
+  have hRfin : Finite ↥R := finite_rationalComponent S i
   have hH := cubeTransferHyps_of S hT i hs hmin hD
   obtain ⟨g, hgS, hgconj, hg3C, hhhC⟩ := exists_cubeConjData S hT i hExp hs hmin hD hyZ hyF
   have hy3Stab : MulAut.conj (y ^ 3) ∈ subgroupStabAut R := by

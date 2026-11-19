@@ -22,10 +22,12 @@ structure K0Setting (G : Type) [Group G] [Finite G] (A B X M : Subgroup G) (c : 
 
 variable {G : Type} [Group G] [Finite G] {A B X M : Subgroup G} {c : G}
 
+omit [Finite G] in
 private theorem k0_le_of_plane (hp : PlaneQ8 A B X c) : B ≤ A := by
   rw [hp.eq_sup]
   exact le_sup_right
 
+omit [Finite G] in
 private theorem k0_card_zpowers_of_plane (hp : PlaneQ8 A B X c) :
     Nat.card (Subgroup.zpowers c) = 3 := by
   have hc3 : c ^ 3 = 1 := hp.isElemAbelian.2 c hp.mem
@@ -34,11 +36,12 @@ private theorem k0_card_zpowers_of_plane (hp : PlaneQ8 A B X c) :
     exact hp.not_mem (by rw [hc]; exact B.one_mem)
   rw [Nat.card_zpowers, orderOf_eq_prime hc3 hc1]
 
+omit [Finite G] in
 private theorem k0_exists_mem_of_plane (hp : PlaneQ8 A B X c) :
     ∃ b ∈ B, b ≠ 1 ∧ b ^ 3 = 1 := by
   have hne : ∃ b ∈ B, b ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hB : B = ⊥ := (Subgroup.eq_bot_iff_forall B).mpr hcon
     have h9 := hp.card_plane
     rw [hB, Subgroup.card_bot] at h9
@@ -47,12 +50,14 @@ private theorem k0_exists_mem_of_plane (hp : PlaneQ8 A B X c) :
   exact ⟨b, hbB, hb1,
     (CFSG.Open.IsElemAbelian.mono hp.isElemAbelian (k0_le_of_plane hp)).2 b hbB⟩
 
+omit [Finite G] in
 private theorem k0_conj_eq_of_mem_zpowers {x b g : G} (hxb : x * b = b * x)
     (hg : g ∈ Subgroup.zpowers b) : x * g * x⁻¹ = g := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hg
   have h1 : x * b * x⁻¹ = b := by rw [hxb, mul_inv_cancel_right]
   rw [← conj_zpow, h1]
 
+omit [Finite G] in
 private theorem k0_le_normalizer_of_conj_mem {S V : Subgroup G}
     (hS : ∀ x ∈ S, ∀ v ∈ V, x * v * x⁻¹ ∈ V) : S ≤ Subgroup.normalizer (V : Set G) := by
   intro x hx

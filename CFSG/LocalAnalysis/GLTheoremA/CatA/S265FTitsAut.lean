@@ -52,7 +52,7 @@ private theorem s265f_plane_cent_solvable {Q : Type} [Group Q] {F : Type} [Field
     (hF : Nat.card F = 2 ^ (2 * 2 + 1)) (eΓ : Q ≃* F4.reeGamma F 2) (E : Subgroup Q)
     (hE : IsElemAbelian 5 E) (h25 : Nat.card E = 25) :
     Group.IsSolvable ↥(Subgroup.centralizer (E : Set Q)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set E' : Subgroup (F4.reeGamma F 2) := E.map eΓ.toMonoidHom with hE'
   have hE'ab : IsElemAbelian 5 E' := CFSG.SectionRank.isElemAbelian_map hE eΓ.toMonoidHom
   have hE'card : Nat.card E' = 5 ^ 2 := by
@@ -73,7 +73,7 @@ private theorem s265f_plane_cent_solvable {Q : Type} [Group Q] {F : Type} [Field
     (eΓ.toMonoidHom.comp (Subgroup.centralizer (E : Set Q)).subtype).codRestrict _ hmem
   have hf : Function.Injective f := fun a b h =>
     Subtype.ext (eΓ.injective (congrArg Subtype.val h))
-  haveI : Group.IsNilpotent ↥(P : Subgroup (F4.reeGamma F 2)) := (P.isPGroup').isNilpotent
+  have : Group.IsNilpotent ↥(P : Subgroup (F4.reeGamma F 2)) := (P.isPGroup).isNilpotent
   exact Group.isSolvable_of_isSolvable_injective hf
 
 private theorem s265f_caseII {Q : Type} [Group Q] (hmodel : ReeTitsModel Q .twistedF4 2 5)
@@ -96,7 +96,7 @@ private theorem s265f_caseII {Q : Type} [Group Q] (hmodel : ReeTitsModel Q .twis
       orderOf_injective eF.toMonoidHom eF.injective _
     have h2 : orderOf (⟨γ, hγmem⟩ : ↥(FP.fixSub τ)) = 5 := (Subgroup.orderOf_mk γ hγmem).trans hγ
     exact h1.trans h2
-  haveI hsol := CFSG.RankThree.PartOne.F106.solvable_centralizer_ree_zero hk2 x hxord
+  have hsol := CFSG.RankThree.PartOne.F106.solvable_centralizer_ree_zero hk2 x hxord
   have hYle : Y ≤ FP.fixSub τ := fun y hy => FP.mem_fixSub.2 (hYτ y hy)
   let ρ0 : ↥Y →* ↥(F4.reeGamma k 0) := eF.toMonoidHom.comp (Subgroup.inclusion hYle)
   have hρ0 : ∀ y : ↥Y, ρ0 y ∈ Subgroup.centralizer ({x} : Set (F4.reeGamma k 0)) := by
@@ -117,13 +117,13 @@ private theorem s265f_caseII {Q : Type} [Group Q] (hmodel : ReeTitsModel Q .twis
 theorem s265f_tits_core {Q : Type} [Group Q] (hmodel : ReeTitsModel Q .twistedF4 2 5)
     (Ē : Subgroup (MulAut Q)) (hĒ : IsElemAbelian 5 Ē) (h25 : 25 ≤ Nat.card Ē)
     (Y : Subgroup Q) (hY : ∀ y ∈ Y, ∀ ψ ∈ Ē, ψ y = y) : Group.IsSolvable ↥Y := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨hQfin, -, -, -, -, hiso⟩ := large_Ree_model_Schreier Q 2 5 hmodel
   obtain ⟨hadm, a, hfa, F, hFf, hFfin, hF, ⟨e'⟩⟩ := id hmodel
   have ha : a = 2 := by omega
   subst ha
   have hF' : Nat.card F = 2 ^ (2 * 2 + 1) := by simpa using hF
-  haveI : CharP F F4.prime :=
+  have : CharP F F4.prime :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by norm_num) hF
   obtain ⟨eΓ⟩ := hiso 2 F rfl hF ⟨e'⟩
@@ -156,7 +156,7 @@ theorem s265f_tits_core {Q : Type} [Group Q] (hmodel : ReeTitsModel Q .twistedF4
       have := CFSG.HardMathSupport.Malle.LocalAction.card_le_twentyfive_of_elemAbelian_reeGamma hF' _ hE'
       rwa [Subgroup.card_map_of_injective eΓ.injective] at this
     have h25' : Nat.card Ē₀ = 25 := by omega
-    haveI := s265f_plane_cent_solvable hF' eΓ Ē₀ hĒ₀ab h25'
+    have := s265f_plane_cent_solvable hF' eΓ Ē₀ hĒ₀ab h25'
     have hYle : Y ≤ Subgroup.centralizer (Ē₀ : Set Q) := by
       intro y hy
       rw [Subgroup.mem_centralizer_iff]
@@ -168,7 +168,7 @@ theorem s265f_tits_core {Q : Type} [Group Q] (hmodel : ReeTitsModel Q .twistedF4
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hYle)
       (Subgroup.inclusion_injective hYle)
   ·
-    obtain ⟨τ, hτE, hτi⟩ := SetLike.not_le_iff_exists.1 hinn
+    obtain ⟨τ, hτE, hτi⟩ := IsConcreteLE.not_le_iff_exists.1 hinn
     have hτ5 : τ ^ 5 = 1 := hĒ.2 τ hτE
     have hτ1 : τ ≠ 1 := fun h => hτi (h ▸ Subgroup.one_mem _)
     have hτord : orderOf τ = 5 := orderOf_eq_prime hτ5 hτ1

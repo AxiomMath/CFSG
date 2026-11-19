@@ -252,7 +252,7 @@ theorem rc_y2 : RepC Y2 (elemW (yWord 0 1)) := by
 theorem gSubs_mem {j : Nat} {S : Subgroup (Equiv.Perm (Fin 1408))} (h1 : yOne 0 ∈ S)
     (h2 : yTwo 0 ∈ S) (h3 : gElt j ∈ S) : ∀ w ∈ gSubs j, elemW w ∈ S := by
   intro v hv
-  simp only [gSubs, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hv
+  simp only [gSubs, List.mem_cons, List.not_mem_nil, or_false] at hv
   rcases hv with rfl | rfl | rfl
   · exact h1
   · exact h2
@@ -309,8 +309,8 @@ theorem dFactsK (hP : Nat.card ↥P1408 = 177408000) : DFacts := by
     rw [yK, wSub, closure_le]
     rintro _ ⟨w, hw, rfl⟩
     have e : ykWords.getD 0 [] = [yWord 0 0, yWord 0 1] := rfl
-    rw [Set.mem_setOf_eq, e] at hw
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hw
+    rw [Set.mem_ofPred_eq, e] at hw
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hw
     rcases hw with rfl | rfl
     · exact hY1C
     · exact hY2C

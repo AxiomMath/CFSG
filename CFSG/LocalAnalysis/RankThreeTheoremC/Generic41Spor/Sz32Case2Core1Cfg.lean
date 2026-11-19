@@ -18,6 +18,7 @@ section Cfg
 
 variable {Y : Type} [Group Y] [Finite Y] {Pb : Subgroup Y} {a c y : Y}
 
+omit [Finite Y] in
 theorem szh1d_mem_map_conj {L : Subgroup Y} {g x : Y} :
     x ∈ L.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * x * g ∈ L := by
   constructor
@@ -26,6 +27,7 @@ theorem szh1d_mem_map_conj {L : Subgroup Y} {g x : Y} :
   · intro h
     exact ⟨g⁻¹ * x * g, h, by simp [MulAut.conj_apply, mul_assoc]⟩
 
+omit [Finite Y] in
 theorem szh1d_isComponent_conj (g : Y) {L : Subgroup Y} (hL : IsComponentOf L ⊤) :
     IsComponentOf (L.map (MulAut.conj g).toMonoidHom) ⊤ :=
   (CFSG.ComponentClassification.LocalComponents.equiv_iff (MulAut.conj g) L).mpr hL
@@ -84,17 +86,17 @@ theorem szh1d_sup_eq {Z A B : Subgroup Y} (hZ : Nat.card Z = 25) (hA : A ≤ Z) 
   · exact Subgroup.eq_of_le_of_card_ge hS (by rw [hZ, hm']; simp)
 
 theorem szh1d_isSylowOf (hY : Sz32Case2Data Pb a c y) : CFSG.ABGLocalTools.IsSylowOf 5 Pb ⊤ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   obtain ⟨S, hS⟩ := hY.sylow
   subst hS
-  refine ⟨le_top, S.isPGroup', ?_⟩
+  refine ⟨le_top, S.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact S.not_dvd_index
 
 theorem szh1d_inf_Z_ne_bot (hY : Sz32Case2Data Pb a c y) {L : Subgroup Y} (hL : IsComponentOf L ⊤)
     (hn : ∀ g ∈ Pb, g ∈ Subgroup.normalizer (L : Set Y)) : sz32Z a c ⊓ L ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h5 : 5 ∣ Nat.card L := by
     by_contra hnd
     have hcop : Nat.Coprime 5 (Nat.card L) := (Nat.Prime.coprime_iff_not_dvd Nat.prime_five).mpr hnd
@@ -103,7 +105,7 @@ theorem szh1d_inf_Z_ne_bot (hY : Sz32Case2Data Pb a c y) {L : Subgroup Y} (hL : 
     have htop : (⊤ : Subgroup ↥L) ≤ primeComplementCore (G := ↥L) 5 :=
       normal_coprime_le_primeComplementCore 5 ⊤ inferInstance (by simpa using hcop)
     rw [hcoreL] at htop
-    haveI := CFSG.ComponentClassification.Quasisimple.nontrivial hL.2.2
+    have := CFSG.ComponentClassification.Quasisimple.nontrivial hL.2.2
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥L)
     exact hx (Subgroup.mem_bot.mp (htop (Subgroup.mem_top x)))
   have hsyl : CFSG.ABGLocalTools.IsSylowOf 5 Pb (Subgroup.normalizer (L : Set Y)) :=
@@ -152,7 +154,7 @@ theorem szh1d_all (hY : Sz32Case2Data Pb a c y)
     {L₁ L₂ : Subgroup Y} (h₁ : IsComponentOf L₁ ⊤) (h₂ : IsComponentOf L₂ ⊤) (hne : L₁ ≠ L₂)
     {L : Subgroup Y} (hL : IsComponentOf L ⊤) : L = L₁ ∨ L = L₂ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hL1, hL2⟩ := hcon
   have hZle := szh1d_Z_le_sup hY h₁ h₂ hne (hcen h₁) (hnorm h₁) (hnorm h₂)
   have h0 := szh1d_inf_Z_ne_bot hY hL (hnorm hL)
@@ -176,7 +178,7 @@ theorem szh1d_centralizer_eq_bot (hY : Sz32Case2Data Pb a c y) (hpC : CFSG.pCore
     {L₁ L₂ : Subgroup Y} (hall : ∀ L : Subgroup Y, IsComponentOf L ⊤ → L = L₁ ∨ L = L₂)
     (h₁ : IsComponentOf L₁ ⊤) (h₂ : IsComponentOf L₂ ⊤) :
     Subgroup.centralizer ((L₁ ⊔ L₂ : Subgroup Y) : Set Y) = ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hlayer : CFSG.layer Y = L₁ ⊔ L₂ := by
     rw [CFSG.layer_eq_componentClassification, CFSG.ComponentClassification.Layer.subgroup.eq_sSup]
     apply le_antisymm
@@ -212,12 +214,12 @@ instance szh1d_compKernel_normal : (szh1d_compKernel Y).Normal := by
   simpa [mul_assoc] using h2
 
 theorem szh1d_exists_conj (hY : Sz32Case2Data Pb a c y)
-    {L₁ L₂ : Subgroup Y} (h₁ : IsComponentOf L₁ ⊤) (h₂ : IsComponentOf L₂ ⊤)
+    {L₁ L₂ : Subgroup Y} (h₁ : IsComponentOf L₁ ⊤) (_h₂ : IsComponentOf L₂ ⊤)
     (hall : ∀ L : Subgroup Y, IsComponentOf L ⊤ → L = L₁ ∨ L = L₂) (hinf : L₁ ⊓ L₂ = ⊥)
     (hA0 : sz32Z a c ⊓ L₁ ≠ ⊥) (hB0 : sz32Z a c ⊓ L₂ ≠ ⊥) :
     ∃ n : Y, L₁.map (MulAut.conj n).toMonoidHom = L₂ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hfix : ∀ n : Y, L₁.map (MulAut.conj n).toMonoidHom = L₁ := by
     intro n
     rcases hall _ (szh1d_isComponent_conj n h₁) with h | h
@@ -248,7 +250,7 @@ theorem szh1d_swap (hY : Sz32Case2Data Pb a c y)
     {n : Y} (hn : L₁.map (MulAut.conj n).toMonoidHom = L₂) :
     ∃ t ∈ Subgroup.normalizer (Pb : Set Y), L₁.map (MulAut.conj t).toMonoidHom = L₂ ∧
       L₂.map (MulAut.conj t).toMonoidHom = L₁ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨S, hS⟩ := hY.sylow
   have hSK : (S : Subgroup Y) ≤ szh1d_compKernel Y := by
     rw [hS]

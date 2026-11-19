@@ -47,6 +47,7 @@ theorem z_mem_map_center_Fz {w : ℕ} (hD : Width.Z4Data z w Z A) (hz : orderOf 
   rw [map_center_Fz hD hz hF2]
   exact hD.mem_z
 
+omit [Finite G] in
 theorem exists_noncomm_of_extraspecial {B : Subgroup G} (hB : IsExtraspecialPGroup 2 B)
     (h : 2 < Nat.card B) : ∃ a ∈ B, ∃ b ∈ B, a * b ≠ b * a := by
   by_contra hcon
@@ -85,6 +86,7 @@ theorem commutator_Fz (hD : Width.Z4Data z 2 Z A) (hz : orderOf z = 2) :
       exact hmem
     exact Subgroup.zpowers_le.mpr hzmem
 
+omit [Finite G] in
 theorem card_Fz (hD : Width.Z4Data z 2 Z A) (hz : orderOf z = 2) :
     Nat.card ↥(Fz z) = 64 :=
   (Width.card_Fz hD hz).trans (by norm_num)
@@ -94,7 +96,7 @@ theorem Fz_eq_inSubgroup_pCore (hF2 : IsPGroup 2 ↥(Fz z)) :
   (Width.coreAt_eq_Fz hF2).symm
 
 theorem isCharacteristicP_Hz (hF2 : IsPGroup 2 ↥(Fz z)) : IsCharacteristicP 2 ↥(Hz z) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (isCharacteristicP_iff_generalizedFitting_eq_pCore _ 2).mpr (Width.pCore_eq_gf hF2).symm
 
 noncomputable def pCoreEquiv (hF2 : IsPGroup 2 ↥(Fz z)) :
@@ -131,7 +133,7 @@ theorem finrank_quot_pCore
   have hcard : Nat.card
       (Additive (↥(pCore 2 ↥(Hz z)) ⧸ Subgroup.center ↥(pCore 2 ↥(Hz z)))) = 16 :=
     (Nat.card_congr Additive.ofMul).symm.trans (card_quot_pCore hD hz hF2)
-  haveI : Fintype (Additive (↥(pCore 2 ↥(Hz z)) ⧸ Subgroup.center ↥(pCore 2 ↥(Hz z)))) :=
+  have : Fintype (Additive (↥(pCore 2 ↥(Hz z)) ⧸ Subgroup.center ↥(pCore 2 ↥(Hz z)))) :=
     Fintype.ofFinite _
   have h := Module.card_eq_pow_finrank (K := ZMod 2)
     (V := Additive (↥(pCore 2 ↥(Hz z)) ⧸ Subgroup.center ↥(pCore 2 ↥(Hz z))))

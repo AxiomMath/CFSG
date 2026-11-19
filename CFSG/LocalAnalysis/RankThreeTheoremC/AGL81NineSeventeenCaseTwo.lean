@@ -49,7 +49,7 @@ theorem exists_perfect_cover [Fact p.Prime] {M H N : Subgroup G}
     exact ⟨⟨h, hhN, h, hk, rfl⟩, rfl⟩
   set ρ : W₀ →* N ⧸ primeComplementCore (G := N) p := πN.comp (Subgroup.inclusion hW₀N)
   obtain ⟨x, hx1, kx, hxk⟩ := hKp
-  haveI := hKs
+  have := hKs
   have hker : ρ.rangeRestrict.ker ≤ ψ.ker := by
     rw [MonoidHom.ker_rangeRestrict]
     exact le_ker_of_isSimpleGroup ψ hψs ρ.ker
@@ -145,13 +145,13 @@ theorem false_of_layer_eq_bot_of_surjective [Fact p.Prime] {X : Type*} [Group X]
   have hp : p.Prime := Fact.out
   obtain ⟨E, hET, -, hEc⟩ :=
     CFSG.GH74.Uniqueness.SU.SU1.exists_isElemAbelian_of_le_pRank hp h.three_le_pRank
-  haveI : Nontrivial (T : Subgroup X) := by
+  have : Nontrivial (T : Subgroup X) := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     have h1 : Nat.card E ≤ Nat.card (T : Subgroup X) := Subgroup.card_le_of_le hET
     have h2 : 1 < p ^ 3 := Nat.one_lt_pow (by norm_num) hp.one_lt
     omega
-  haveI := IsPGroup.center_nontrivial T.isPGroup'
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (T.isPGroup'.to_subgroup (Subgroup.center T))
+  have := IsPGroup.center_nontrivial T.isPGroup
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (T.isPGroup.to_subgroup (Subgroup.center T))
   have hk0 : k ≠ 0 := by
     rintro rfl
     rw [pow_zero] at hk
@@ -171,8 +171,8 @@ theorem false_of_layer_eq_bot_of_surjective [Fact p.Prime] {X : Type*} [Group X]
   set D := Q.subgroupOf J
   have hDker : D ≤ φ.ker := by
     have hDn : (D.map φ).Normal := (Subgroup.normal_subgroupOf).map φ hφ
-    haveI := hS
-    haveI := hDn
+    have := hS
+    have := hDn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (D.map φ) with hb | ht
     · exact (Subgroup.map_eq_bot_iff _).mp hb
     · exfalso
@@ -181,7 +181,7 @@ theorem false_of_layer_eq_bot_of_surjective [Fact p.Prime] {X : Type*} [Group X]
         have := hDp.map φ
         rw [ht] at this
         exact this.of_equiv Subgroup.topEquiv
-      haveI : Nontrivial S := inferInstance
+      have : Nontrivial S := inferInstance
       have hc := IsPGroup.center_nontrivial hSp
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with hb | ht
       · exact (Subgroup.nontrivial_iff_ne_bot _).mp hc hb
@@ -245,7 +245,7 @@ theorem exists_surjective_cover [Fact p.Prime] {H N : Subgroup G}
     exact ⟨⟨h, hhN, h, hk, rfl⟩, rfl⟩
   set ρ : W₀ →* N ⧸ primeComplementCore (G := N) p := πN.comp (Subgroup.inclusion hW₀N)
   obtain ⟨x, hx1, kx, hxk⟩ := hKp
-  haveI := hKs
+  have := hKs
   have hker : ρ.rangeRestrict.ker ≤ ψ.ker := by
     rw [MonoidHom.ker_rangeRestrict]
     exact le_ker_of_isSimpleGroup ψ hψs ρ.ker
@@ -272,11 +272,12 @@ theorem sq_dvd_card_of_not_isCyclic [Fact p.Prime] {Y : Type*} [Group Y] [Finite
   push Not at hlt
   interval_cases k
   · rw [pow_zero] at hk
-    haveI := (Nat.card_eq_one_iff_unique.mp hk).1
+    have := (Nat.card_eq_one_iff_unique.mp hk).1
     exact hnc isCyclic_of_subsingleton
   · rw [pow_one] at hk
     exact hnc (isCyclic_of_prime_card hk)
 
+omit [Finite G] in
 theorem factor_of_forall_mul {M H N W : Subgroup G} (hW : W ≤ H ⊓ N)
     (hcore : (primeComplementCore (G := N) p).map N.subtype ≤ M)
     (h : ∀ y : N ⧸ primeComplementCore (G := N) p, ∃ a ∈ d1X0 p M N,
@@ -462,12 +463,12 @@ theorem hyp917Ext_of_caseTwoGroup (h3 : D1CaseThreeNotKlingen3 G)
       (QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ'c.symm)).trans
         e'
     have hC' := hcfg.centralizer_eq_bot hK' huniq' hcent hZ'c
-    haveI hKn' : K'.Normal := normal_of_forall_isComponentOf_eq hK' huniq'
+    have hKn' : K'.Normal := normal_of_forall_isComponentOf_eq hK' huniq'
     have hOut' := hk.outer p hp2 d' hd'' K' ⟨eK'⟩
     have hRK'' : (Tbar : Subgroup (N ⧸ primeComplementCore (G := N) p)) ≤ K' := by
       have : Finite (MulAut K') := MulEquiv.finite_left
       intro x hx
-      obtain ⟨n, hn⟩ := Tbar.isPGroup' ⟨x, hx⟩
+      obtain ⟨n, hn⟩ := Tbar.isPGroup ⟨x, hx⟩
       have hxn : x ^ p ^ n = 1 := by simpa using congrArg Subtype.val hn
       have hmem := mem_sup_centralizer_of_pow hp hOut' hxn
       rwa [hC', sup_bot_eq] at hmem

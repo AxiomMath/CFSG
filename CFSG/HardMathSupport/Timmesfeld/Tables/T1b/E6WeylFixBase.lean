@@ -13,10 +13,10 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.AGLEmbedding.R3 CFSG.O
   CFSG.HardMathSupport.Timmesfeld.SporadicRank CFSG.SectionRank
 open scoped Matrix Pointwise
 
-@[expose] def e6Fix (F : Subgroup (WeylGroup Tag.E6)) : Set (Fin 6 → ZMod 3) :=
+def e6Fix (F : Subgroup (WeylGroup Tag.E6)) : Set (Fin 6 → ZMod 3) :=
   {v | ∀ w ∈ F, e6WeylMat w *ᵥ v = v}
 
-@[expose] def fixMat6 (M : Matrix (Fin 6) (Fin 6) (ZMod 3)) : Set (Fin 6 → ZMod 3) :=
+def fixMat6 (M : Matrix (Fin 6) (Fin 6) (ZMod 3)) : Set (Fin 6 → ZMod 3) :=
   {v | M *ᵥ v = v}
 
 section Lists
@@ -80,7 +80,7 @@ theorem matVecA6_toArray (M c : List ℕ) : matVecA6 M.toArray c = matVecL 3 6 M
   simp only [matVecA6, matVecL, Array.getD_eq_getD_getElem?, List.getElem?_toArray,
     List.getD_eq_getElem?_getD]
 
-@[expose] def vecList6 (v : Fin 6 → ZMod 3) : List ℕ := List.ofFn fun k : Fin 6 => (v k).val
+def vecList6 (v : Fin 6 → ZMod 3) : List ℕ := List.ofFn fun k : Fin 6 => (v k).val
 
 theorem vecList6_mem (v : Fin 6 → ZMod 3) : vecList6 v ∈ allVecs 3 6 := by
   rw [mem_allVecs]
@@ -143,7 +143,7 @@ theorem e6SylFacts_of_check (h : e6SylCheck () = true) : E6SylFacts := by
   rw [List.filter_map, List.length_map] at hcnt
   exact hcnt
 
-@[expose] def e6SylWordsF : List (List (Fin Tag.E6.rank)) :=
+def e6SylWordsF : List (List (Fin Tag.E6.rank)) :=
   ([[3, 4, 5, 1, 3, 4, 2, 3, 0, 2, 1, 3], [0, 2], [4, 5],
     [3, 4, 2, 3, 0, 2, 1, 3, 4, 5, 4, 3, 2, 1, 3, 4, 0, 2, 3, 1]] : List (List (Fin 6))).map
     (List.map e6Idx)
@@ -152,7 +152,7 @@ theorem e6SylWordsF_val : e6SylWordsF.map (List.map Fin.val) = e6SylWords := by
   simp only [e6SylWordsF, List.map_map]
   decide
 
-@[expose] def e6SylMats : Finset (Matrix (Fin 6) (Fin 6) (ZMod 3)) :=
+def e6SylMats : Finset (Matrix (Fin 6) (Fin 6) (ZMod 3)) :=
   ((e6SylL ()).map (toMatL 3 6)).toFinset
 
 theorem mem_e6SylMats {M : Matrix (Fin 6) (Fin 6) (ZMod 3)} :

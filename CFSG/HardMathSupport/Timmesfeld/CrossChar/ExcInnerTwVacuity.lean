@@ -92,7 +92,7 @@ theorem langTorusPlaneBalance_of_eigenspace_line {τ : Tag} {w : WeylGroup τ}
   have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨c, hc⟩ := hline _ hQK
   have : NeZero ((p : ℕ) : L) := ⟨natCast_ne_zero_of_not_dvd_card K L hp (hQp _ hQK)⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   set ζu : Lˣ := (hζ.isUnit hp.ne_zero).unit with hζu
   have hζu' : IsPrimitiveRoot ζu p :=
     IsPrimitiveRoot.coe_units_iff.1 (by simpa [hζu] using hζ)

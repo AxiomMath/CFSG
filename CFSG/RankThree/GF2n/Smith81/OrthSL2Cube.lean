@@ -213,8 +213,8 @@ theorem orth_normal_pgroup_prod_eq_bot {Γ₂ Γ₃ : Type*} [Group Γ₂] [Grou
     {W : Subgroup (Γ₂ × Γ₃)} [hWn : W.Normal] (hW : IsPGroup 2 ↥W) : W = ⊥ := by
   have hs1 : Function.Surjective (MonoidHom.fst Γ₂ Γ₃) := fun a => ⟨(a, 1), rfl⟩
   have hs2 : Function.Surjective (MonoidHom.snd Γ₂ Γ₃) := fun b => ⟨(1, b), rfl⟩
-  haveI hn1 : (W.map (MonoidHom.fst Γ₂ Γ₃)).Normal := Subgroup.Normal.map hWn _ hs1
-  haveI hn2 : (W.map (MonoidHom.snd Γ₂ Γ₃)).Normal := Subgroup.Normal.map hWn _ hs2
+  have hn1 : (W.map (MonoidHom.fst Γ₂ Γ₃)).Normal := Subgroup.Normal.map hWn _ hs1
+  have hn2 : (W.map (MonoidHom.snd Γ₂ Γ₃)).Normal := Subgroup.Normal.map hWn _ hs2
   have hb1 : W.map (MonoidHom.fst Γ₂ Γ₃) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (W.map (MonoidHom.fst Γ₂ Γ₃)) with h | h
     · exact h
@@ -241,10 +241,10 @@ theorem orth_normal_pgroup_prod_eq_bot {Γ₂ Γ₃ : Type*} [Group Γ₂] [Grou
 theorem orth_normal_pgroup_eq_bot_of_equiv {B' : Type*} [Group B'] {K : Type} [Field K] [Finite K]
     [CharP K 2] (hK : 4 ≤ Nat.card K) (eB : B' ≃* ↥(StatedSL 2 K) × ↥(StatedSL 2 K))
     {W : Subgroup B'} [hWn : W.Normal] (hW : IsPGroup 2 ↥W) : W = ⊥ := by
-  haveI : IsSimpleGroup ↥(StatedSL 2 K) :=
+  have : IsSimpleGroup ↥(StatedSL 2 K) :=
     CFSG.RankThree.GF2n.Stroth80.isSimpleGroup_statedSL_two
       (CFSG.RankThree.GF2n.Stroth80.statedSL_quasisimple_of_card 2 K le_rfl hK)
-  haveI : (W.map eB.toMonoidHom).Normal := Subgroup.Normal.map hWn _ eB.surjective
+  have : (W.map eB.toMonoidHom).Normal := Subgroup.Normal.map hWn _ eB.surjective
   have h := orth_normal_pgroup_prod_eq_bot (orth_not_pgroup_statedSL hK)
     (orth_not_pgroup_statedSL hK) (W := W.map eB.toMonoidHom) (orth_isPGroup_map hW _)
   exact (Subgroup.map_eq_bot_iff_of_injective W eB.injective).mp h
@@ -255,6 +255,7 @@ section BarRt
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem orth_bar_Rt_le_of_forall [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {t : G}
     {X : Subgroup (Mbar M Q)}
     (h : ∀ m : ↥M, t ∈ conjSubgroup (m : G) (LB M Q B) → ∀ y : ↥M,
@@ -299,6 +300,7 @@ theorem orth_Nt_conj_mem (M L : Subgroup G) (t : G) {r x : G} (hr : r ∈ Rt M L
   have h := (CFSG.pCore_normal (p := 2) (G := ↥(Rt M L t))).conj_mem x' hx' ⟨r, hr⟩
   exact ⟨⟨r, hr⟩ * x' * ⟨r, hr⟩⁻¹, h, by simp⟩
 
+omit [Finite G] in
 theorem orth_isPGroup_bar_Nt [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) (t : G) :
     IsPGroup 2 ↥(bar M Q (Nt M (LB M Q B) t)) := by
   have hle : Nt M (LB M Q B) t ≤ M := (orth_Nt_le_Rt _ _ t).trans (hc.Rt_le_M t)
@@ -307,7 +309,8 @@ theorem orth_isPGroup_bar_Nt [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) (t : G
       (Subgroup.subgroupOfEquivOfLe hle).symm
   exact orth_isPGroup_map h1 _
 
-theorem orth_bar_Nt_conj_mem [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) (t : G)
+omit [Finite G] in
+theorem orth_bar_Nt_conj_mem [(Q.subgroupOf M).Normal] (_hc : Ctx M Q Z B) (t : G)
     {r : Mbar M Q} (hr : r ∈ bar M Q (Rt M (LB M Q B) t)) {n : Mbar M Q}
     (hn : n ∈ bar M Q (Nt M (LB M Q B) t)) : r * n * r⁻¹ ∈ bar M Q (Nt M (LB M Q B) t) := by
   obtain ⟨r', hr', rfl⟩ := hr
@@ -318,6 +321,7 @@ theorem orth_bar_Nt_conj_mem [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) (t : G
   show ((r' * n' * r'⁻¹ : ↥M) : G) ∈ Nt M (LB M Q B) t
   simpa using orth_Nt_conj_mem _ _ t hr'' hn''
 
+omit [Finite G] in
 theorem orth_bar_pgroup_le_bar_Nt [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {t : G}
     (ht : t ∈ LB M Q B) {D : Subgroup (Mbar M Q)} (hD : D ≤ bar M Q (Rt M (LB M Q B) t))
     (hD2 : IsPGroup 2 ↥D)
@@ -341,7 +345,7 @@ theorem orth_bar_pgroup_le_bar_Nt [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {
       (isPGroup_Q' hc.hyp).comap_of_injective _ (Subgroup.subtype_injective _)
     exact hQ2.of_injective (Subgroup.inclusion hkle) (Subgroup.inclusion_injective _)
   have hp : IsPGroup 2 ↥(D.comap f) := hD2.comap_of_ker_isPGroup f hker
-  haveI hnorm : (D.comap f).Normal := ⟨fun x hx r => by
+  have hnorm : (D.comap f).Normal := ⟨fun x hx r => by
     show f (r * x * r⁻¹) ∈ D
     rw [map_mul, map_mul, map_inv]
     exact hDn (f r) (hfR r) (f x) hx⟩
@@ -380,11 +384,12 @@ theorem orth_card_mul_of_inf_eq_bot {H : Type*} [Group H] {R N X : Subgroup H}
   rw [← Nat.card_prod]
   exact (Nat.card_congr (Equiv.ofBijective _ hbij)).symm
 
+omit [Finite G] in
 theorem orth_Q_le_Nt [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
     Q ≤ Nt M (LB M Q B) t := by
   have hRM : Rt M (LB M Q B) t ≤ M := hc.Rt_le_M t
   have hQR : Q ≤ Rt M (LB M Q B) t := hc.Q_le_Rt ht
-  haveI : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal :=
+  have : (Q.subgroupOf (Rt M (LB M Q B) t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer fun x hx => hc.hyp.Q_normal.2 (hRM hx)
   have hp : IsPGroup 2 (Q.subgroupOf (Rt M (LB M Q B) t)) :=
     (isPGroup_Q' hc.hyp).comap_of_injective _ (Subgroup.subtype_injective _)
@@ -412,7 +417,7 @@ theorem orth_support [(Q.subgroupOf M).Normal] (h34 : Stroth34Statement) (hc : C
         ∃ x ∈ embProdSnd ψ₀, r = k * x) ∧
       Nat.card ↥(Rt M (LB M Q B) t) = Nat.card B' * Nat.card ↥(Nt M (LB M Q B) t) := by
   classical
-  haveI : IsSimpleGroup ↥(StatedSL 2 K) :=
+  have : IsSimpleGroup ↥(StatedSL 2 K) :=
     isSimpleGroup_statedSL_two (statedSL_quasisimple_of_card 2 K le_rfl hK)
   have hΛab := hc.isElemAbelian_bar_LB
   have hLQ : Q ≤ LB M Q B := le_sup_left
@@ -633,7 +638,7 @@ theorem orth_support [(Q.subgroupOf M).Normal] (h34 : Stroth34Statement) (hc : C
     exact ⟨ψ₀ (a, 1), hDN hk, ψ₀ (1, b), ⟨b, rfl⟩, hrab⟩
   have hXN : bar M Q (Nt M (LB M Q B) (t' : G)) ⊓ embProdSnd ψ₀ = ⊥ := by
     let W : Subgroup B' := (bar M Q (Nt M (LB M Q B) (t' : G))).comap (ψ₀.comp (MonoidHom.inr A B'))
-    haveI hWn : W.Normal := ⟨fun w hw b' => by
+    have hWn : W.Normal := ⟨fun w hw b' => by
       show ψ₀ (1, b' * w * b'⁻¹) ∈ bar M Q (Nt M (LB M Q B) (t' : G))
       have e : ψ₀ (1, b' * w * b'⁻¹) = ψ₀ (1, b') * ψ₀ (1, w) * (ψ₀ (1, b'))⁻¹ := by
         rw [← map_inv, ← map_mul, ← map_mul]

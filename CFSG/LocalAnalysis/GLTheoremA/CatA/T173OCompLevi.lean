@@ -40,7 +40,7 @@ private theorem mem_centralizer_of_mem_mul_unique {G : Type} [Group G]
 
 private theorem commutator_eq_bot_of_isComponentOf_centralizer_inf {G : Type} [Group G]
     [Finite G] {P Q : Subgroup G} (hQP : Q ≤ P) (hQn : (Q.subgroupOf P).Normal)
-    (hQs : IsSolvable ↥Q) {d : G} {Kb : Subgroup G}
+    (hQs : Group.IsSolvable ↥Q) {d : G} {Kb : Subgroup G}
     (hK : IsComponentOf Kb (Subgroup.centralizer ({d} : Set G) ⊓ P)) :
     ⁅Kb, Q ⊓ Subgroup.centralizer ({d} : Set G)⁆ = ⊥ := by
   classical
@@ -49,8 +49,8 @@ private theorem commutator_eq_bot_of_isComponentOf_centralizer_inf {G : Type} [G
   have hKb : Kb ≤ CP := hK.1
   have hQnorm : P ≤ Subgroup.normalizer (Q : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQP).mp hQn
-  have hsol : IsSolvable ↥(Q ⊓ C) := by
-    haveI : Group.IsSolvable ↥Q := hQs
+  have hsol : Group.IsSolvable ↥(Q ⊓ C) := by
+    have : Group.IsSolvable ↥Q := hQs
     exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective inf_le_left)
   have hAR : CP ≤ Subgroup.normalizer ((Q ⊓ C : Subgroup G) : Set G) := by
     intro x hx
@@ -62,8 +62,8 @@ private theorem commutator_eq_bot_of_isComponentOf_centralizer_inf {G : Type} [G
   have hKsub : CFSG.IsComponent (Kb.subgroupOf CP) :=
     (CFSG.isComponent_iff_open (Kb.subgroupOf CP)).mpr
       ((CFSG.Quasithin.isComponentOf_iff_subgroupOf.mp hK).2)
-  have hRsolv : IsSolvable ↥((Q ⊓ C).subgroupOf CP) := by
-    haveI : Group.IsSolvable ↥(Q ⊓ C) := hsol
+  have hRsolv : Group.IsSolvable ↥((Q ⊓ C).subgroupOf CP) := by
+    have : Group.IsSolvable ↥(Q ⊓ C) := hsol
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hRA).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hRA).injective
@@ -144,7 +144,7 @@ private theorem qPart_mul_comm_of_isComponentOf_centralizer_inf {G : Type} [Grou
 theorem le_of_isComponentOf_centralizer_inf {G : Type} [Group G] [Finite G]
     {P Q L : Subgroup G} (hQP : Q ≤ P) (hLP : L ≤ P) (hQn : (Q.subgroupOf P).Normal)
     (huniq : ∀ g ∈ P, ∃! ql : G × G, ql.1 ∈ Q ∧ ql.2 ∈ L ∧ g = ql.1 * ql.2)
-    (hQs : IsSolvable ↥Q) {d : G} (hd : d ∈ L) {Kb : Subgroup G}
+    (hQs : Group.IsSolvable ↥Q) {d : G} (hd : d ∈ L) {Kb : Subgroup G}
     (hK : IsComponentOf Kb (Subgroup.centralizer ({d} : Set G) ⊓ P)) : Kb ≤ L := by
   classical
   set C : Subgroup G := Subgroup.centralizer ({d} : Set G)
@@ -170,8 +170,8 @@ theorem le_of_isComponentOf_centralizer_inf {G : Type} [Group G] [Finite G]
         apply Subtype.ext
         change (qf (k₁ * k₂))⁻¹ = (qf k₁)⁻¹ * (qf k₂)⁻¹
         rw [hanti k₁ k₂, mul_inv_rev] }
-  haveI : Group.IsPerfect ↥Kb := ⟨hK.2.2.1⟩
-  haveI : Group.IsSolvable ↥Q := hQs
+  have : Group.IsPerfect ↥Kb := ⟨hK.2.2.1⟩
+  have : Group.IsSolvable ↥Q := hQs
   have hψ : ψ = 1 := CFSG.ComponentClassification.SolvableKernelContainment.hom_eq_one ψ
   intro k hk
   have hval : (qf ⟨k, hk⟩)⁻¹ = 1 := by

@@ -312,7 +312,7 @@ theorem stab_le_img_normalizer (haU : a ∈ fsuU T V)
       have hle : (P : Subgroup ↥S) ≤ K.subgroupOf S := by
         intro x hx
         rw [Subgroup.mem_subgroupOf]
-        obtain ⟨j, hj⟩ := (P.isPGroup' ⟨x, hx⟩)
+        obtain ⟨j, hj⟩ := (P.isPGroup ⟨x, hx⟩)
         have hxp : (x : D.V ≃ₗ[ZMod 2] D.V) ^ (p ^ j) = 1 := by
           have := congrArg (fun w : ↥(P : Subgroup ↥S) => ((w : ↥S) : D.V ≃ₗ[ZMod 2] D.V)) hj
           simpa using this

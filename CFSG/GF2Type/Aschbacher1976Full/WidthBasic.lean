@@ -21,6 +21,7 @@ structure Z4Data (z : G) (w : ℕ) (Z A : Subgroup G) : Prop where
   sup_eq : Z ⊔ A = Fz z
   inf_eq : Z ⊓ A = zpowers z
 
+omit [Finite G] in
 theorem exists_Z4Data {z : G} {w : ℕ} (h : IsZ4Star z w) :
     ∃ Z A : Subgroup G, Z4Data z w Z A := by
   obtain ⟨Z, A, h1, h2, h3, h4, h5, h6, h7, h8⟩ := h
@@ -37,26 +38,28 @@ theorem mem_zpowers_involution {K : Type*} [Group K] {b y : K} (hb : orderOf b =
 
 theorem comm_of_isCyclic {K : Type*} [Group K] (Z : Subgroup K) [IsCyclic Z] {u v : K}
     (hu : u ∈ Z) (hv : v ∈ Z) : u * v = v * u := by
-  letI : CommGroup Z := IsCyclic.commGroup
+  let : CommGroup Z := IsCyclic.commGroup
   exact congrArg Subtype.val (mul_comm (⟨u, hu⟩ : Z) ⟨v, hv⟩)
 
 section Basic
 
 variable {z : G} {w : ℕ} {Z A : Subgroup G}
 
+omit [Finite G] in
 theorem z_sq (hz : orderOf z = 2) : z ^ 2 = 1 := by
   rw [← hz]
   exact pow_orderOf_eq_one z
 
+omit [Finite G] in
 theorem comm_Z (hD : Z4Data z w Z A) {u v : G} (hu : u ∈ Z) (hv : v ∈ Z) :
     u * v = v * u := by
-  haveI := hD.cyc
+  have := hD.cyc
   exact comm_of_isCyclic Z hu hv
 
 theorem involution_eq (hD : Z4Data z w Z A) (hz : orderOf z = 2) {s : G} (hs : s ∈ Z)
     (hs2 : s ^ 2 = 1) (hs1 : s ≠ 1) : s = z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hD.cyc
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hD.cyc
   let a : Z := ⟨s, hs⟩
   let b : Z := ⟨z, hD.mem_z⟩
   have hb : orderOf b = 2 := by
@@ -74,8 +77,8 @@ theorem involution_eq (hD : Z4Data z w Z A) (hz : orderOf z = 2) {s : G} (hs : s
 
 theorem sq_mem_frattini_two {P : Type*} [Group P] [Finite P] (hP : IsPGroup 2 P) (x : P) :
     x ^ 2 ∈ frattini P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hP.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hP.isNilpotent
   unfold frattini Order.radical
   rw [Subgroup.mem_iInf]
   intro M
@@ -85,7 +88,7 @@ theorem sq_mem_frattini_two {P : Type*} [Group P] [Finite P] (hP : IsPGroup 2 P)
 
 theorem mem_zpowers_of_central (hD : Z4Data z w Z A) (hz : orderOf z = 2) {a : G} (ha : a ∈ A)
     (hac : ∀ b ∈ A, a * b = b * a) : a ∈ zpowers z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzA : z ∈ A := (hD.inf_eq ▸ mem_zpowers z : z ∈ Z ⊓ A).2
   let zA : A := ⟨z, hzA⟩
   have hzord : orderOf zA = 2 := by
@@ -138,10 +141,12 @@ theorem comm_mem_zpowers_A (hD : Z4Data z w Z A) (hz : orderOf z = 2) {a b : G} 
   simp only [Subgroup.coe_mul] at h2
   exact h2.symm
 
+omit [Finite G] in
 theorem commute_ZA (hD : Z4Data z w Z A) {c a : G} (hc : c ∈ Z) (ha : a ∈ A) :
     Commute c a :=
   (mem_centralizer_iff.mp (hD.comm ha)) c hc
 
+omit [Finite G] in
 theorem comm_mul_left {c a y : G} (hca : Commute c a) (hcy : Commute c y) :
     ⁅c * a, y⁆ = ⁅a, y⁆ := by
   have hW : Commute c (a * y * a⁻¹) := ((hca.mul_right hcy).mul_right hca.inv_right)
@@ -151,6 +156,7 @@ theorem comm_mul_left {c a y : G} (hca : Commute c a) (hcy : Commute c y) :
     _ = (a * y * a⁻¹) * c * c⁻¹ * y⁻¹ := by rw [hW.eq]
     _ = a * y * a⁻¹ * y⁻¹ := by simp only [mul_assoc, mul_inv_cancel_left]
 
+omit [Finite G] in
 theorem comm_mul_right {c a x : G} (hca : Commute c a) (hcx : Commute c x) :
     ⁅x, c * a⁆ = ⁅x, a⁆ := by
   have hW : Commute c (x * a * x⁻¹ * a⁻¹) :=

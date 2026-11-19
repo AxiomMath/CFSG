@@ -109,7 +109,7 @@ theorem Sit813.centralizes_V_of_comm_mem_oTwoMod (h : Sit813 V H T i A L K)
     (hcK : c ∈ normalizer (K : Set G))
     (hc : ∀ k ∈ K, c * k * c⁻¹ * k⁻¹ ∈ oTwoMod (cGrp H T) K) :
     V ≤ centralizer ({c} : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod := CFSG.Quasithin.A10.card_modEq_card_inf_centralizer (p := 3) (B := V) (g := c) hcV
     hc3
   rw [h.card_V_eq_eight] at hmod

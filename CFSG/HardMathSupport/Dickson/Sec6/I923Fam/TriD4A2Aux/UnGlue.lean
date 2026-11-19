@@ -50,7 +50,7 @@ theorem diag_upper_conj (u : kˣ) (a : k) :
   have hu : (u : k) ≠ 0 := u.ne_zero
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_unSL2Diag, sl2U_coe, Matrix.mul_fin_two]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> field_simp
+  fin_cases i <;> fin_cases j <;> simp; field_simp
 
 theorem sl2_eq_diag_mul_upper {X : Matrix.SpecialLinearGroup (Fin 2) k} {a β : k} (ha : a ≠ 0)
     (hX : (X : Matrix (Fin 2) (Fin 2) k) = !![a, β; 0, a⁻¹]) :
@@ -59,7 +59,7 @@ theorem sl2_eq_diag_mul_upper {X : Matrix.SpecialLinearGroup (Fin 2) k} {a β : 
   rw [hX]
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_unSL2Diag, sl2U_coe, Matrix.mul_fin_two]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> field_simp
+  fin_cases i <;> fin_cases j <;> simp; field_simp
 
 theorem upper_mul_comm (a b : k) : sl2Upper a * sl2Upper b = sl2Upper b * sl2Upper a := by
   rw [← un_sl2Upper_add, ← un_sl2Upper_add, add_comm]

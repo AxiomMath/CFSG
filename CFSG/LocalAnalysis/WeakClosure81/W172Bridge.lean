@@ -56,7 +56,7 @@ theorem w172_img_vInH_conj (c : MinCex172 D V₀ V H) (M : ModDataE H (eOmegaZ H
   unfold cj
   rw [MonoidHom.map_zpowers]
   congr 1
-  simp [MulAut.conj_apply]
+  simp
 
 theorem w172_commSub_conj_le_sp (h162 : W3Thm162Gt2 G) (c : MinCex172 D V₀ V H)
     (M : ModDataE H (eOmegaZ H D.T)) {e : LGL 2 M.W} (hge : M.img V = Subgroup.zpowers e)

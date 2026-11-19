@@ -52,7 +52,7 @@ theorem E187C.part1_of (hSH : (S : Subgroup G) ≤ H)
     rw [this]
     exact H.mul_mem hh₁H hh
   have hUp : IsPGroup 2 ↥((S : Subgroup G) ⊓ Subgroup.centralizer ({t} : Set G)) :=
-    S.isPGroup'.to_le inf_le_left
+    S.isPGroup.to_le inf_le_left
   have hUH : (S : Subgroup G) ⊓ Subgroup.centralizer ({t} : Set G) ≤ conjSub g₁ H := by
     intro x hx
     have hxt := Subgroup.mem_centralizer_singleton_iff.mp hx.2

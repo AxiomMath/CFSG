@@ -81,13 +81,13 @@ theorem isSolvable_of_map_le (f : G →* H) (hf : ∀ g : G, f g = 1 → g ∈ S
     {X : Subgroup G} {Y : Subgroup H} [Group.IsSolvable ↥Y] (h : X.map f ≤ Y) :
     Group.IsSolvable ↥X := by
   let g : ↥X →* ↥Y := (f.comp X.subtype).codRestrict Y fun x => h (Subgroup.mem_map_of_mem f x.2)
-  haveI : Group.IsSolvable ↥g.ker := by
-    refine isSolvable_of_comm fun a b => ?_
+  have : Group.IsSolvable ↥g.ker := by
+    refine _root_.Group.isSolvable_of_comm fun a b => ?_
     have ha : f (a : G) = 1 := congrArg Subtype.val a.2
     apply Subtype.ext
     apply Subtype.ext
     exact (Subgroup.mem_center_iff.1 (hf _ ha) (b : G)).symm
-  exact solvable_of_ker_le_range g.ker.subtype g (by rw [Subgroup.range_subtype])
+  exact Group.isSolvable_of_ker_le_range g.ker.subtype g (by rw [Subgroup.range_subtype])
 
 end CFSG.LocalAnalysis.GLTheoremA.S172X
 

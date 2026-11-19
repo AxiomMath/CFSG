@@ -14,18 +14,18 @@ open CFSG.ComponentClassification.Burgoyne.Proj
 
 theorem kd291OuterUni_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : KD291OuterUni := by
   intro p hp hp5 Y _ _ L _ hq hZp n r f _ K _ _ _ hpn hK hpq e x hx hnot
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hn0 : 0 < n := by
     rcases Nat.eq_zero_or_pos n with rfl | h
-    · haveI := hq.2
-      haveI : Subsingleton (CFSG.Open.StatedProj (CFSG.Open.StatedSU 0 (r ^ f) K)) :=
+    · have := hq.2
+      have : Subsingleton (CFSG.Open.StatedProj (CFSG.Open.StatedSU 0 (r ^ f) K)) :=
         inferInstance
       exact absurd e.injective.subsingleton (not_subsingleton _)
     · exact h
   have hn5 : 5 ≤ n := hp5.trans (Nat.le_of_dvd hn0 hpn)
   obtain ⟨φ, -, hφπ⟩ := exists_cover_unitary hp hp5 hGA hq hZp hn5 hK e
-  haveI : Group.IsPerfect (CFSG.Open.StatedSU n (r ^ f) K) :=
+  have : Group.IsPerfect (CFSG.Open.StatedSU n (r ^ f) K) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hK (by omega) (by
       intro h
       simp only [Prod.mk.injEq] at h

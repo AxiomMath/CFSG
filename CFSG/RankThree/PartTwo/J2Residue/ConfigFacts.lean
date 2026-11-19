@@ -34,11 +34,11 @@ private theorem tripleCover_normal_le_center_or_sup_eq_top {T : Type*} [Group T]
     K ≤ Subgroup.center T ∨ K ⊔ Subgroup.center T = ⊤ := by
   obtain ⟨-, hQ, -⟩ := tripleCover_card_data hT
   obtain ⟨e⟩ := hT.2
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (T ⧸ Subgroup.center T) := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (T ⧸ Subgroup.center T) := MulEquiv.isSimpleGroup e
   have hnorm : (K.map (QuotientGroup.mk' (Subgroup.center T))).Normal :=
     Subgroup.Normal.map hK _ (QuotientGroup.mk'_surjective _)
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (K.map (QuotientGroup.mk' (Subgroup.center T))) with h | h
   · left
@@ -59,7 +59,7 @@ private theorem tripleCover_normal_le_center_or_sup_eq_top {T : Type*} [Group T]
     exact Subgroup.mul_mem_sup hkK hker
 
 private theorem tripleCover_eq_top_of_sup_center {T : Type*} [Group T] [Finite T]
-    (hperf : Group.IsPerfect T) {K : Subgroup T} (hK : K.Normal)
+    (hperf : Group.IsPerfect T) {K : Subgroup T} (_hK : K.Normal)
     (hsup : K ⊔ Subgroup.center T = ⊤) : K = ⊤ := by
   rw [eq_top_iff, ← hperf.commutator_eq_top, _root_.commutator_def, Subgroup.commutator_le]
   intro x _ y _
@@ -220,6 +220,7 @@ theorem J2Config.commutator_le (h : J2Config L d LB) :
   have hle : ⁅W, LB⁆ ≤ LB ⊓ CFSG.Open.pCoreOf 2 L := le_inf h1 h2
   rwa [h.lB_inf_pCoreOf] at hle
 
+omit [Finite G] in
 theorem J2Config.normalizer_le (h : J2Config L d LB) :
     L ⊓ Subgroup.normalizer (Subgroup.zpowers d : Set G) ≤ Subgroup.normalizer (LB : Set G) := by
   have hcent : Subgroup.centralizer (Subgroup.zpowers d : Set G) =
@@ -379,7 +380,7 @@ theorem J2Config.eq_lB_of_dvd (h : J2Config L d LB) {N : Subgroup G} (hNLB : N �
     rcases hdvdK with hd | hd
     · exact absurd (hd.trans hKdvd3) (by norm_num)
     · exact absurd (hd.trans hKdvd3) (by norm_num)
-  haveI : Group.IsPerfect ↥LB := h.isPerfect_lB
+  have : Group.IsPerfect ↥LB := h.isPerfect_lB
   have hperfT : Group.IsPerfect T :=
     Group.IsPerfect.ofSurjective (f := π) (QuotientGroup.mk'_surjective _)
   have hKtop : K = ⊤ := by
@@ -410,10 +411,10 @@ theorem J2Config.eq_lB_of_dvd (h : J2Config L d LB) {N : Subgroup G} (hNLB : N �
     rw [show φ = (QuotientGroup.mk' M).comp O.subtype from rfl,
       MonoidHom.range_comp, Subgroup.range_subtype]
     exact h1
-  haveI : Group.IsNilpotent O :=
+  have : Group.IsNilpotent O :=
     IsPGroup.isNilpotent (p := 2) (CFSG.LieType.BorelTits.pCore_isPGroup (G := ↥LB) 2)
   have hOsolv : Group.IsSolvable O := IsNilpotent.to_isSolvable (G := O)
-  haveI : Group.IsSolvable O := hOsolv
+  have : Group.IsSolvable O := hOsolv
   have hφsurj : Function.Surjective φ := by
     rw [← MonoidHom.range_eq_top]
     exact hφrange
@@ -422,10 +423,10 @@ theorem J2Config.eq_lB_of_dvd (h : J2Config L d LB) {N : Subgroup G} (hNLB : N �
   have hQperf : Group.IsPerfect (↥LB ⧸ M) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' M)
       (QuotientGroup.mk'_surjective M)
-  haveI : Group.IsPerfect (↥LB ⧸ M) := hQperf
+  have : Group.IsPerfect (↥LB ⧸ M) := hQperf
   have hQsingle : Subsingleton (↥LB ⧸ M) := by
     by_contra h
-    haveI : Nontrivial (↥LB ⧸ M) := not_subsingleton_iff_nontrivial.mp h
+    have : Nontrivial (↥LB ⧸ M) := not_subsingleton_iff_nontrivial.mp h
     exact (Group.IsPerfect.not_isSolvable (G := ↥LB ⧸ M)) hQsolv
   have hMtop : M = ⊤ := by
     rw [eq_top_iff]
@@ -502,7 +503,6 @@ theorem J2Config.exists_sylow (h : J2Config L d LB) :
     refine Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hdbar_center) ?_
     rw [(tripleCover_card_data h.tripleCover).1, Nat.card_zpowers, hdbarord]
   have hfker2 : IsPGroup 2 (π.comp SL.subtype).ker := by
-    change IsPGroup 2 ((π.comp SL.subtype).ker)
     rw [← MonoidHom.comap_ker, QuotientGroup.ker_mk']
     exact IsPGroup.comap_subtype (H := CFSG.pCore 2 ↥LB)
       (CFSG.LieType.BorelTits.pCore_isPGroup (G := ↥LB) 2) (K := SL)
@@ -561,7 +561,6 @@ theorem J2Config.exists_sylow (h : J2Config L d LB) :
     have h := congrArg (fun z : ↥LB => z * dl ^ k) hx1
     simpa [x, mul_assoc] using h
   refine Subgroup.mem_zpowers_iff.mpr ⟨k, ?_⟩
-  change d ^ k = s ^ 3
   exact (congrArg (Subtype.val : ↥LB → G) hpow).symm
 
 theorem J2Config.exists_mul_self_mem (h : J2Config L d LB) :

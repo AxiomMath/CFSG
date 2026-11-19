@@ -59,14 +59,14 @@ theorem isSimpleGroup_of_isG2D4 {X : Type} [Group X] {r : TauCeti.PrimePower} {�
   rcases h with ⟨-, hX⟩ | ⟨-, hr, ⟨f⟩⟩
   · obtain ⟨K, hK1, hK2, hK, -, ⟨e⟩⟩ := exists_adjoint_model hX
     obtain ⟨hv, -⟩ := hX
-    haveI := CFSG.LieType.SeitzGeneration.isSimpleGroup_adjointGroup_G2 r hv K hK
+    have := CFSG.LieType.SeitzGeneration.isSimpleGroup_adjointGroup_G2 r hv K hK
     exact e.isSimpleGroup
   · obtain ⟨K, hK1, hK2, σ, hK, hσ, ⟨e⟩⟩ := exists_d4_model f
-    haveI : Fact r.p.Prime := ⟨r.prime_p⟩
+    have : Fact r.p.Prime := ⟨r.prime_p⟩
     have hcard : Nat.card K = (r.p ^ r.exponent) ^ 3 := by rw [hK, TauCeti.PrimePower.card_def]
     have hσ' : ∀ c, σ c = c ^ (r.p ^ r.exponent) := fun c => by
       rw [hσ c, TauCeti.PrimePower.card_def]
-    haveI := Sec11.Item1120V0Bar.isSimpleGroup_graphFixedRootGroup_d4 (K := K) (σ := σ)
+    have := Sec11.Item1120V0Bar.isSimpleGroup_graphFixedRootGroup_d4 (K := K) (σ := σ)
       (ℓ := r.p) (f := r.exponent) r.exponent_pos hcard hσ'
     exact e.isSimpleGroup
 
@@ -80,7 +80,7 @@ theorem isPerfect_of_isG2D4 {X : Type} [Group X] {r : TauCeti.PrimePower} {δ : 
       exact (TauCeti.LieTypeIndex.inStandardRange_iff _).mp
         ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
     have hq := CFSG.LieType.Steinberg.Adjoint.isQuasisimple_g2_of_three_le_card K h3
-    haveI : Group.IsPerfect (adjointGroup .G2 K) := hq.1
+    have : Group.IsPerfect (adjointGroup .G2 K) := hq.1
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   · have := Sec11.SetUp1118Proof.isPerfect_lie_trialityD4 r hr
     exact Group.IsPerfect.ofSurjective (f := f.symm.toMonoidHom) f.symm.surjective
@@ -89,13 +89,13 @@ theorem exists_noncomm_of_perfect {S : Type} [Group S] [Nontrivial S] (hp : Grou
     ∃ a b : S, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  letI : CommGroup S := { ‹Group S› with mul_comm := hcon }
-  haveI : Group.IsPerfect S := hp
+  let : CommGroup S := { ‹Group S› with mul_comm := hcon }
+  have : Group.IsPerfect S := hp
   exact Group.IsPerfect.not_isSolvable S inferInstance
 
 theorem center_eq_bot_of_isG2D4 {X : Type} [Group X] {r : TauCeti.PrimePower} {δ : ℕ}
     (h : IsG2D4 X r δ) : Subgroup.center X = ⊥ := by
-  haveI := isSimpleGroup_of_isG2D4 h
+  have := isSimpleGroup_of_isG2D4 h
   exact Hering129HLift.center_eq_bot_of_simple (isSimpleGroup_of_isG2D4 h)
     (exists_noncomm_of_perfect (isPerfect_of_isG2D4 h))
 

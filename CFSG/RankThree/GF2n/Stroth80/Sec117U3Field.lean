@@ -37,7 +37,7 @@ theorem card_bar_LB_le_of_psu3 [Finite G]
     Nat.card (bar M Q (LB M Q B)) ≤ 2 ^ (x + 1) * Nat.card Z := by
   refine card_bar_LB_le_mul_card_Z_of_aut_bound hc hw hn ha2 (N := 2 ^ (x + 1)) ?_
   intro A hA
-  haveI : Group.IsPerfect ↥(Xbar M Q Z B) :=
+  have : Group.IsPerfect ↥(Xbar M Q Z B) :=
     Group.isPerfect_def.2 (hc.commutator_Xbar_eq_top_of_psu3 h)
   exact CFSG.ClassicalGroups.Unitary.card_le_of_isElemAbelian_mulAut_of_lieModel_psu3 h A hA
 
@@ -92,7 +92,7 @@ private theorem bar_LB_inf_centralizer_ne_bot_of_psu3 [Finite G]
     have h3 := h1.map f
     have h4 : Subgroup.map f ⊤ = f.range := (MonoidHom.range_eq_map f).symm
     rwa [h4] at h3
-  haveI : Group.IsPerfect ↥(Xbar M Q Z B) :=
+  have : Group.IsPerfect ↥(Xbar M Q Z B) :=
     Group.isPerfect_def.2 (hc.commutator_Xbar_eq_top_of_psu3 h)
   have hle :=
     CFSG.ClassicalGroups.Unitary.card_le_of_isElemAbelian_mulAut_of_lieModel_psu3 h _ hA

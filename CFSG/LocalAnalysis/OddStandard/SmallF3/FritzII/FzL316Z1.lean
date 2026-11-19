@@ -17,6 +17,7 @@ structure FzZ8 (Z E P : Subgroup G) : Prop where
   om2 : ∀ p ∈ P, p ^ 4 = 1 → p ∈ E
   sq : ∀ e ∈ E, ∃ p ∈ P, p ^ 2 = e
 
+omit [Finite G] in
 private lemma fzl_sq_mem_P_of_invol {t tau rho : G} {E W Q T P : Subgroup G}
     (hPf : FzPFacts t tau rho E W Q T P) {y p : G} (hyT : y ∈ T) (hy2 : y ^ 2 = 1)
     (hp : p ∈ P) : (y * p) ^ 2 ∈ P := by
@@ -27,6 +28,7 @@ private lemma fzl_sq_mem_P_of_invol {t tau rho : G} {E W Q T P : Subgroup G}
   rw [key]
   exact P.mul_mem (hPf.nrm_P y hyT p hp) hp
 
+omit [Finite G] in
 private lemma fzl_sq_mem_P_of_invol_Q {t tau lam rho : G} {Z E W Q R T P : Subgroup G}
     (h : FzStr t tau lam rho Z E W Q R T) (hPf : FzPFacts t tau rho E W Q T P)
     {x q : G} (hxT : x ∈ T) (hx2 : x ^ 2 = 1) (hxt : x * t = t * x) (hq : q ∈ Q) :

@@ -11,6 +11,7 @@ open CFSG.ClassicalGroups.Unitary
 
 variable {F : Type} [Field F] [Finite F] {σ : F ≃+* F} {n : ℕ}
 
+omit [Finite F] in
 theorem herm_mem_fixedField (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0)
     (E : AddSubgroup (Fin 4 → F)) (hQ : ∀ x ∈ E, herm σ x x = 0) {x y : Fin 4 → F}
     (hx : x ∈ E) (hy : y ∈ E) : σ (herm σ x y) = herm σ x y := by
@@ -64,7 +65,7 @@ private theorem exists_line_of_herm_eq_zero_T1J2 (hσ : IsUnitaryInvolution σ) 
     (hzero : ∀ x ∈ E, ∀ y ∈ E, herm σ x y = 0) :
     ∃ v : Fin 4 → F, v ≠ 0 ∧ herm σ v v = 0 ∧ ∀ c : F, c • v ∈ E := by
   have hcardF : 1 < Nat.card F := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
   have hn : 0 < n := by
@@ -77,7 +78,7 @@ private theorem exists_line_of_herm_eq_zero_T1J2 (hσ : IsUnitaryInvolution σ) 
     rw [hE]
     exact Nat.one_lt_pow (by omega) (by norm_num)
   have hEne : E ≠ ⊥ := (AddSubgroup.one_lt_card_iff_ne_bot E).1 hEcard
-  haveI : Nontrivial E := (AddSubgroup.nontrivial_iff_ne_bot E).2 hEne
+  have : Nontrivial E := (AddSubgroup.nontrivial_iff_ne_bot E).2 hEne
   obtain ⟨v, hvE, hv0⟩ := AddSubgroup.exists_ne_zero_of_nontrivial E
   refine ⟨v, hv0, hQ v hvE, ?_⟩
   intro c

@@ -10,15 +10,15 @@ namespace CFSG.LocalAnalysis.RankThreeUC.ProofSupport.OddOperatorPrime
 
 theorem ne_two {G : Type} [Group G] [Finite G] {p : ℕ}
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] {ρ : Representation (ZMod p) G V}
-    (hS : CFSG.LocalAnalysis.RankThreeUC.FaithfulPrimeFieldKGroupModule G p V ρ) {q r : ℕ} (hq : q.Prime) (hr : r.Prime)
-    (hqp : q ≠ p) (hrp : r ≠ p) (hqr : q ≠ r)
+    (hS : CFSG.LocalAnalysis.RankThreeUC.FaithfulPrimeFieldKGroupModule G p V ρ) {q r : ℕ} (_hq : q.Prime) (hr : r.Prime)
+    (_hqp : q ≠ p) (hrp : r ≠ p) (hqr : q ≠ r)
     (D : Subgroup G) (hD : Nat.card D = r)
     (hCV : (⨅ d ∈ D, LinearMap.ker (ρ d - LinearMap.id)) = (⊥ : Submodule (ZMod p) V))
-    (Q : Subgroup G) (hQD : ⁅D, Q⁆ = Q) (hQ1 : Q ≠ ⊥) (hQq : IsPGroup q Q) :
+    (Q : Subgroup G) (hQD : ⁅D, Q⁆ = Q) (hQ1 : Q ≠ ⊥) (_hQq : IsPGroup q Q) :
     r ≠ 2 := by
   intro hr2
   subst hr2
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have h2 : (2 : ZMod p) ≠ 0 := by
     intro h
     have h' : ((2 : ℕ) : ZMod p) = 0 := by exact_mod_cast h

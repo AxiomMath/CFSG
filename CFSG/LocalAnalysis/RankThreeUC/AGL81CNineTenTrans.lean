@@ -10,6 +10,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.LocalAnalysis.RankThree
 
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H E : Subgroup G} {k : ℕ}
 
+omit [Finite G] in
 theorem starImg_map_conj (p : ℕ) (H J : Subgroup G) (y : ↥H) :
     starImg p H (J.map (MulAut.conj (y : G)).toMonoidHom) =
       (starImg p H J).map
@@ -48,7 +49,7 @@ theorem starImg_map_conj (p : ℕ) (H J : Subgroup G) (y : ↥H) :
 
 theorem card_starImg_eq (hp : p.Prime) {A : Subgroup G} (hAH : A ≤ H) (hA : IsPGroup p A) :
     Nat.card (starImg p H A) = Nat.card A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let K : Subgroup ↥H := A.subgroupOf H
   have hKcard : ∃ n : ℕ, Nat.card K = p ^ n := by

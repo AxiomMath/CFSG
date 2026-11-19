@@ -23,7 +23,7 @@ def omegaZ (U W : Subgroup X) (hWn : ∀ u ∈ U, ∀ w ∈ W, u * w * u⁻¹ �
           (a * (b * v * b⁻¹ * v⁻¹) * a⁻¹) * (a * v * a⁻¹ * v⁻¹) := by group
       rw [e]
       exact W.mul_mem (hWn a haU _ (hbc v hv)) (hac v hv)
-  one_mem' := ⟨U.one_mem, by simpa using W.one_mem, fun v _ => by simpa using W.one_mem⟩
+  one_mem' := ⟨U.one_mem, by simp, fun v _ => by simp⟩
   inv_mem' := by
     rintro a ⟨haU, ha2, hac⟩
     refine ⟨U.inv_mem haU, ?_, ?_⟩
@@ -87,15 +87,15 @@ theorem omegaZ_conj_K {x m : X} (hxU : ∀ u ∈ U, x * u * x⁻¹ ∈ U)
 theorem exists_mem_omegaZ_not_mem [Finite X] (hU2 : IsPGroup 2 U) (hWU : W < U) :
     ∃ u ∈ omegaZ U W hWn, u ∉ W := by
   classical
-  haveI hN : (W.subgroupOf U).Normal := ⟨fun n hn g => hWn g g.2 n hn⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hN : (W.subgroupOf U).Normal := ⟨fun n hn g => hWn g g.2 n hn⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ2 : IsPGroup 2 (U ⧸ W.subgroupOf U) := hU2.to_quotient _
-  obtain ⟨u₀, hu₀U, hu₀W⟩ := SetLike.exists_of_lt hWU
-  haveI : Nontrivial (U ⧸ W.subgroupOf U) :=
+  obtain ⟨u₀, hu₀U, hu₀W⟩ := _root_.IsConcreteLE.exists_of_lt hWU
+  have : Nontrivial (U ⧸ W.subgroupOf U) :=
     ⟨⟨((⟨u₀, hu₀U⟩ : U) : U ⧸ W.subgroupOf U), 1, fun h => hu₀W (by
       have h' := (QuotientGroup.eq_one_iff _).1 h
       rwa [Subgroup.mem_subgroupOf] at h')⟩⟩
-  haveI := hQ2.center_nontrivial
+  have := hQ2.center_nontrivial
   have hZ2 : IsPGroup 2 (Subgroup.center (U ⧸ W.subgroupOf U)) :=
     hQ2.of_injective (Subgroup.center (U ⧸ W.subgroupOf U)).subtype Subtype.val_injective
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).1 hZ2

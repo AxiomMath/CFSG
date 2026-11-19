@@ -133,7 +133,7 @@ theorem isSylowOf_centOverO2_of_maximal {X L R : Subgroup G} (hL : L ∈ calC X)
   have hPX : ((P : Subgroup C).map C.subtype : Subgroup G) ≤ X :=
     (Subgroup.map_subtype_le (P : Subgroup C)).trans hCX
   have hPp : IsPGroup 2 ((P : Subgroup C).map C.subtype : Subgroup G) :=
-    P.isPGroup'.map C.subtype
+    P.isPGroup.map C.subtype
   have hPL : L ≤ normalizer (((P : Subgroup C).map C.subtype : Subgroup G) : Set G) :=
     le_normalizer_of_isSylowOf_centOverO2 hLX ⟨P, rfl⟩
   have hRleP : R ≤ (P : Subgroup C).map C.subtype := by

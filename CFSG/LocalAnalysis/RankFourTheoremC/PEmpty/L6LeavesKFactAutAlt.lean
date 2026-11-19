@@ -22,7 +22,7 @@ theorem card_mulAut_alternatingGroup_six_dvd_two_mul :
     rwa [Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv.symm, Nat.card_eq_fintype_card,
       Fintype.card_perm, Fintype.card_fin, show Nat.factorial 6 = 720 by decide] at h
   have hpos : 0 < Nat.card (MulAut (alternatingGroup (Fin 6))) := by
-    haveI := hfin
+    have := hfin
     exact Nat.card_pos
   obtain ⟨k, hk⟩ := h720
   have hk' : k = 1 ∨ k = 2 := by omega
@@ -48,7 +48,7 @@ theorem kFactAutAltOrder_holds : KFactAutAltOrder := by
 
 theorem eq_alternatingGroup_or_top_of_le {n : ℕ} (hn : 2 ≤ n) {H : Subgroup (Perm (Fin n))}
     (h : alternatingGroup (Fin n) ≤ H) : H = alternatingGroup (Fin n) ∨ H = ⊤ := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
   have h2 : (alternatingGroup (Fin n)).index = 2 := alternatingGroup.index_eq_two
   have hd : H.index ∣ 2 := h2 ▸ Subgroup.index_dvd_of_le h
   rcases (Nat.dvd_prime Nat.prime_two).mp hd with h1 | h1
@@ -62,7 +62,7 @@ theorem eq_alternatingGroup_or_top_of_le {n : ℕ} (hn : 2 ≤ n) {H : Subgroup 
 
 theorem kFactAutAltEmbed_holds : KFactAutAltEmbed := by
   intro A _ _ K X n hn hn6 hKX hKn ⟨e⟩ hC
-  haveI : (K.subgroupOf X).Normal := hKn
+  have : (K.subgroupOf X).Normal := hKn
   let e' : ↥(K.subgroupOf X) ≃* alternatingGroup (Fin n) :=
     (Subgroup.subgroupOfEquivOfLe hKX).trans e
   have hbij := CFSG.GroupTheory.AutAlternating.aut_alternatingGroup_bijective_conj n hn hn6

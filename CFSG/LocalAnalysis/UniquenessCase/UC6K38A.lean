@@ -27,8 +27,8 @@ theorem borelConfig_of_reduced (hId : CFSG.AGLEmbedding.KFactOneLieIdent)
     ∃ T : Sylow p (CFSG.generalizedFitting Y), BorelConfig p N (CFSG.generalizedFitting Y) T := by
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar hp.out hO hN
   set K := CFSG.generalizedFitting Y with hKdef
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   have hcat : CFSG.Open.IsCatalogGroup ↥K :=
     hY.isCatalogGroup_of_surjective K hKnab (MonoidHom.id _) Function.surjective_id
   obtain ⟨P₀, ⟨-, hP₀p, hP₀i⟩, hP₀N⟩ := hN.exists_isSylowOf_le
@@ -54,7 +54,7 @@ theorem borelConfig_of_reduced (hId : CFSG.AGLEmbedding.KFactOneLieIdent)
       exact CFSG.AGLEmbedding.card_le_of_isElemAbelian_of_isCyclic_sylow T hcyc hE
     have hge1 : 1 ≤ CFSG.Open.pRank p K :=
       (CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.CyclicOuter.one_le_pRank_of_isPGroup
-        hp.out P.isPGroup'.to_inf_left hPK).trans
+        hp.out P.isPGroup.to_inf_left hPK).trans
         (CFSG.SectionRank.pRank_mono hp.out.one_lt inf_le_right)
     have hnc : ¬ IsMulCommutative ↥K := fun h => by
       obtain ⟨a, b, hab⟩ := hKnab
@@ -70,7 +70,7 @@ theorem borelConfig_of_reduced (hId : CFSG.AGLEmbedding.KFactOneLieIdent)
     have hco := hF.borel_coatom
     set Q : Subgroup Y := (P : Subgroup Y) ⊓ K with hQdef
     have hQN : Q ≤ N := inf_le_left.trans hPN
-    have hQp : IsPGroup p ↥Q := P.isPGroup'.to_inf_left
+    have hQp : IsPGroup p ↥Q := P.isPGroup.to_inf_left
     have hNK : N.subgroupOf K = normalizer ((T : Subgroup ↥K) : Set ↥K) := by
       have hle : normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K := by
         intro k hk

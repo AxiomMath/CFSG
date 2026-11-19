@@ -79,7 +79,7 @@ theorem centralizes_eight (hPL : P ≤ Lb) {r s : ℕ} (hr : r = 1 ∨ r = 3 ∨
   have hcard : Fintype.card (OmegaE r s) = 2 * r + s := by
     simp [OmegaE, Fintype.card_sum, Fintype.card_prod, mul_comm]
   have hr1 : 1 ≤ r := by omega
-  haveI : Nonempty (Fin r) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin r) := ⟨⟨0, by omega⟩⟩
   obtain ⟨σ, hσ, hσA, hσo⟩ := exists_odd_conjSpec (by omega) (by omega) φ hβL hodd
   obtain ⟨σ₁, hσ₁, σ₂, hσ'⟩ := hact
   have heq : σ = Perm.sumCongr σ₁ σ₂ := eq_of_conjSpec (by omega) φ hβL hσ hσ'
@@ -104,6 +104,7 @@ end Models
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem odd_orderOf_bar {M : Subgroup G} {b : G} (hb : b ∈ M) (hbo : Odd (orderOf b)) :
     Odd (orderOf (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hb⟩)) := by
   refine hbo.of_dvd_nat ((orderOf_map_dvd _ _).trans ?_)

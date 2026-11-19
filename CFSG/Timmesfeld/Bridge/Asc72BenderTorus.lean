@@ -147,7 +147,7 @@ theorem IsBenderGroup.exists_torus (hK : IsBenderGroup K) (Q : Sylow 2 K) :
   obtain ⟨q, k, hB, hq, hk⟩ := IsBenderGroup.exists_fusionBenderBorel hK
   obtain ⟨-, ⟨D, hDcyc, hDodd, hQD, hsupN⟩, hsq, hZcard, hQcard⟩ := hB Q
   let Z : Subgroup K := (Subgroup.center ↥(Q : Subgroup K)).map (Q : Subgroup K).subtype
-  letI : IsCyclic ↥D := hDcyc
+  let : IsCyclic ↥D := hDcyc
   obtain ⟨t, ht⟩ := IsCyclic.exists_generator (α := ↥D)
   have htN : (t : K) ∈ Subgroup.normalizer ((Q : Subgroup K) : Set K) := by
     have h : (t : K) ∈ (Q : Subgroup K) ⊔ D := Subgroup.mem_sup_right t.2

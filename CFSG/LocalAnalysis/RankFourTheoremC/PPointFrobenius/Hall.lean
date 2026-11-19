@@ -251,7 +251,7 @@ theorem fr_primeCore_centralizer_le_M [Fact p.Prime] (hl : FrobLocal p P M x) :
     (by rw [inf_comm]; exact hl.point.elem.2.2.1)
 
 open CFSG.RankThreeCoreUniqueness.Helpers in
-theorem fr_F0_le_F [Fact p.Prime] (hG : FrobGlobal G) (hl : FrobLocal p P M x)
+theorem fr_F0_le_F [Fact p.Prime] (_hG : FrobGlobal G) (hl : FrobLocal p P M x)
     (hlayer : CFSG.layer (M ⧸ CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := M) p) = ⊥) :
     CFSG.Open.GLBPrimeCore p (centralizer ({x} : Set G)) ≤ CFSG.Open.GLBPrimeCore p M := by
   set R : Subgroup G := CFSG.Open.GLBPrimeCore p (centralizer ({x} : Set G)) with hRdef

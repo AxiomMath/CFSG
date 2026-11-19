@@ -53,7 +53,7 @@ private theorem he42v_Ybar_normal {g : GL2} (hg : g ^ 3 = 1) (c : GL2 × GL2) {p
 
 private theorem he42v_Ybar_card {g : GL2} (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1) :
     Nat.card (he42vYbar g) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h3 : orderOf g = 3 := orderOf_eq_prime hg3 hg1
   unfold he42vYbar
   rw [Nat.card_congr (Subgroup.prodEquiv (zpowers g) (zpowers g)).toEquiv, Nat.card_prod,
@@ -94,6 +94,7 @@ private theorem he42v_pow3 {X : Type} [Group X] (x : X) (hx : orderOf x = 3) : x
   rw [← hx]
   exact pow_orderOf_eq_one x
 
+omit [Finite G] in
 private theorem he42v_closure_param {y₁ y₂ : G} (hc : y₁ * y₂ = y₂ * y₁) (o₁ : y₁ ^ 3 = 1)
     (o₂ : y₂ ^ 3 = 1) :
     ∀ z ∈ Subgroup.closure ({y₁, y₂} : Set G), ∃ i j : ℕ, z = y₁ ^ i * y₂ ^ j := by
@@ -140,7 +141,7 @@ private theorem he42v_factor_eq {X : Type} [Group X] {A A' : Subgroup X} {a₁ a
   exact A'.mul_mem ha₂ (A'.inv_mem hb₂)
 
 private theorem he42v_g_facts (S : HeSetup G) : S.g ^ 3 = 1 ∧ S.g ≠ 1 :=
-  ⟨S.hD.g_pow_three S.hxN S.hxa S.hx3, S.hD.g_ne_one S.hxN S.hxa S.hx3⟩
+  ⟨S.hD.g_pow_three S.hxN S.hx3, S.hD.g_ne_one S.hxN S.hxa S.hx3⟩
 
 private theorem he42v_rhoG_one (S : HeSetup G) : S.rhoG 1 = 1 := by
   rw [S.rhoG_of_mem S.N.one_mem]
@@ -235,7 +236,7 @@ private theorem he42v_rhoG_inj_Y (S : HeSetup G) {y₁ y₂ : G} (hY : YSpec S y
     (he42v_pow3 y₂ hY.ord₂) z' hz'
   rw [he42v_rhoG_closure S hY, he42v_rhoG_closure S hY, Prod.mk.injEq] at h
   have hgo : orderOf S.g = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime hg3 hg1
   have hi : S.g ^ (i % 3) = S.g ^ (k % 3) := by
     rw [he42v_pow_mod' S.g hgo, he42v_pow_mod' S.g hgo]
@@ -298,7 +299,7 @@ private theorem he42v_conj_mem_P (S : HeSetup G) {y₁ y₂ : G} (hY : YSpec S y
 private theorem he42v_sylow_conj {X : Type} [Group X] [Finite X] (P H K : Subgroup X)
     (hHP : H ≤ P) (hKP : K ≤ P) (hH : Nat.card H = 9) (hK : Nat.card K = 9)
     (hP : Nat.card P = 2304) : ∃ c ∈ P, ∀ z ∈ K, c * z * c⁻¹ ∈ H := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcH : Nat.card (H.subgroupOf P) = 9 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHP).toEquiv, hH]
   have hcK : Nat.card (K.subgroupOf P) = 9 := by
@@ -482,7 +483,7 @@ theorem HeSetup.stepV (S : HeSetup G) (hB : S.BaseFacts) {y₁ y₂ : G} (hY : Y
     exact he42v_CJ_one S hY hvvJ hcomm1.symm hcomm2.symm
   refine ⟨v, hvv, hyc1, hyc2, ?_⟩
   intro b hb
-  obtain ⟨hbZ, hbm⟩ := (S.hD.mem_B_iff S.hxN S.hxa S.hx3).1 hb
+  obtain ⟨hbZ, hbm⟩ := (S.hD.mem_B_iff S.hxN S.hxa).1 hb
   have hmv : S.m (v * b * v⁻¹) = ((S.rho ⟨v, hvN⟩).1 : M2) * S.m b *
       ((S.rho ⟨v, hvN⟩).2 : M2)ᵀ := S.hD.hT.m_conj S.N S.hD.hK.norm ⟨v, hvN⟩ hbZ
   have hRv' : S.rho ⟨v, hvN⟩ = S.rhoG v := (S.rhoG_of_mem hvN).symm
@@ -490,7 +491,7 @@ theorem HeSetup.stepV (S : HeSetup G) (hB : S.BaseFacts) {y₁ y₂ : G} (hY : Y
     rw [hRv']; exact ha
   have hc' : (S.rho ⟨v, hvN⟩).2 * S.g * (S.rho ⟨v, hvN⟩).2⁻¹ = S.g⁻¹ := by
     rw [hRv']; exact hc
-  refine (S.hD.mem_B_iff S.hxN S.hxa S.hx3).2 ⟨S.hD.mem_Z_conj hvN hbZ, ?_⟩
+  refine (S.hD.mem_B_iff S.hxN S.hxa).2 ⟨S.hD.mem_Z_conj hvN hbZ, ?_⟩
   rw [hmv]
   exact he42v_B_conj S.g _ _ (S.m b) hg3 hg1 ha' hc' hbm
 

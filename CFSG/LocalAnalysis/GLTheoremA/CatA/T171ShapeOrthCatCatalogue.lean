@@ -29,7 +29,7 @@ theorem nontrivial_of_isQuasisimple_specialBlock {K V : Type} [Field K] [AddComm
   rcases subsingleton_or_nontrivial V with hV | hV
   · exfalso
     obtain ⟨a, b, hab⟩ := hq.2.2
-    haveI : Subsingleton ↥(specialBlock Q x h) :=
+    have : Subsingleton ↥(specialBlock Q x h) :=
       ⟨fun u v => Subtype.ext (LinearEquiv.ext fun w => Subsingleton.elim _ _)⟩
     exact hab (Subsingleton.elim (a * b) (b * a))
   · exact hV
@@ -41,9 +41,9 @@ theorem not_isQuasisimple_sesqSpecialUnitaryGroup_three_two {f₀ : ℕ} {E : Ty
     (hdim : Module.finrank E M = 3) :
     ¬ CFSG.IsQuasisimple ↥(sesqSpecialUnitaryGroup B) := by
   intro hq
-  haveI : Finite E := hU.finite
-  haveI : Finite M := Module.finite_of_finite E
-  haveI : Finite (M ≃ₗ[E] M) :=
+  have : Finite E := hU.finite
+  have : Finite M := Module.finite_of_finite E
+  have : Finite (M ≃ₗ[E] M) :=
     Finite.of_injective (fun e : M ≃ₗ[E] M => (e : M → M))
       fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hcard : Nat.card ↥(sesqSpecialUnitaryGroup B) = 216 := by
@@ -52,14 +52,14 @@ theorem not_isQuasisimple_sesqSpecialUnitaryGroup_three_two {f₀ : ℕ} {E : Ty
       rw [h1, hf]
       norm_num [Finset.prod_Icc_succ_top]
     exact_mod_cast h
-  haveI : Fintype ↥(sesqSpecialUnitaryGroup B) := Fintype.ofFinite _
+  have : Fintype ↥(sesqSpecialUnitaryGroup B) := Fintype.ofFinite _
   have hcardF : Fintype.card ↥(sesqSpecialUnitaryGroup B) = 2 ^ 3 * 3 ^ 3 := by
     rw [← Nat.card_eq_fintype_card, hcard]
     norm_num
   have hsolv : Group.IsSolvable ↥(sesqSpecialUnitaryGroup B) :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       Nat.prime_two Nat.prime_three (by norm_num) hcardF
-  haveI : Nontrivial ↥(sesqSpecialUnitaryGroup B) := by
+  have : Nontrivial ↥(sesqSpecialUnitaryGroup B) := by
     obtain ⟨a, b, hab⟩ := hq.2.2
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
@@ -107,8 +107,8 @@ theorem catalogIs_componentImage_selfDual {K V : Type} [Field K] [Finite K] [Cha
     (ha : 3 ≤ primaryMultiplicity (x : V ≃ₗ[K] V).toLinearMap h) :
     catalogIs (PSimple p (componentImage Q (x : V ≃ₗ[K] V) h))
       (onLie isUnitaryCharTwoIdx) := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Nontrivial V := nontrivial_of_isQuasisimple_specialBlock hq
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Nontrivial V := nontrivial_of_isQuasisimple_specialBlock hq
   have hQ : (QuadraticMap.polarBilin Q).Nondegenerate := polarBilin_nondegenerate_of_regular hx
   have hpi : Function.Injective (piOrth Q) := CFSG.RankThree.PartOne.piOrth_injective hQ
   obtain ⟨f₀, hU, B, hBs, hBl, hpq, -, -, -, hrange⟩ :=

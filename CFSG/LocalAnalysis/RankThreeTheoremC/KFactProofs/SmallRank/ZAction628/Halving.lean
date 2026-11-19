@@ -25,6 +25,7 @@ theorem halving_zpow_cases {G : Type*} [Group G] (a : G) (h : a ^ 2 = 1) (n : �
   · right
     simp [h1]
 
+omit [Finite K] in
 theorem halving_mem_invariants {R : Subgroup K} {k : Type*} [CommRing k] {W : Type*}
     [AddCommGroup W] [Module k W] (ρ : Representation k ↥R W) {y : K} (hy : y ∈ R)
     (hy2 : y ^ 2 = 1) (v : W) :
@@ -126,6 +127,7 @@ theorem halving_core {F : Type*} [Field F] (h2 : (2 : F) ≠ 0) {W : Type*} [Add
   have hle2 := LinearMap.finrank_le_finrank_of_injective inj2
   omega
 
+omit [Finite K] in
 theorem finrank_eq_two_mul_fixed {R : Subgroup K} {t : K} (hR : IsExt2 R t) {f : ℕ}
     [Fact f.Prime] (hf2 : f ≠ 2) {W : Type} [AddCommGroup W] [Module (ZMod f) W]
     [Module.Finite (ZMod f) W] (ρ : Representation (ZMod f) ↥R W)
@@ -170,6 +172,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem ext2Dim_zpowers_eq {t e : K} (ht2 : t ^ 2 = 1) (he : e ∈ zpowers t) : e = 1 ∨ e = t := by
   obtain ⟨n, rfl⟩ := mem_zpowers_iff.mp he
   have h : t ^ n = t ^ (n % 2) := by
@@ -248,14 +251,16 @@ theorem ext2Dim_caseB {R : Subgroup K} {t : K} (hR : IsExt2 R t) (hcard : Nat.ca
   have hpos : 0 < Module.finrank (ZMod f) W := Module.finrank_pos
   omega
 
+omit [Finite K] in
 theorem ext2Dim_exists_subrep {R R' : Subgroup K} (h : R' ≤ R) {f : ℕ} {W : Type} [AddCommGroup W]
     [Module (ZMod f) W] (ρ : Representation (ZMod f) ↥R W) (W₁ : Submodule (ZMod f) W)
-    (hW₁ : ∀ (g : ↥R') (w : W), w ∈ W₁ → ρ (Subgroup.inclusion h g) w ∈ W₁) :
-    ∃ ρ₁ : Representation (ZMod f) ↥R' ↥W₁, ∀ (g : ↥R') (w : ↥W₁),
-      ((ρ₁ g w : ↥W₁) : W) = ρ (Subgroup.inclusion h g) (w : W) :=
+    (hW₁ : ∀ (_g : ↥R') (_w : W), _w ∈ W₁ → ρ (Subgroup.inclusion h _g) _w ∈ W₁) :
+    ∃ ρ₁ : Representation (ZMod f) ↥R' ↥W₁, ∀ (_g : ↥R') (_w : ↥W₁),
+      ((ρ₁ _g _w : ↥W₁) : W) = ρ (Subgroup.inclusion h _g) (_w : W) :=
   ⟨Representation.subrepresentation (ρ.comp (Subgroup.inclusion h)) W₁
-    (fun g w hw => hW₁ g w hw), fun g w => rfl⟩
+    (fun _g _w hw => hW₁ _g _w hw), fun _g _w => rfl⟩
 
+omit [Finite K] in
 theorem ext2Dim_stepA {f : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) {k : ℕ}
     (ih : ∀ {R : Subgroup K} {t : K} (hR : IsExt2 R t), Nat.card R = 2 ^ (1 + 2 * k) →
       ∀ {W : Type} [AddCommGroup W] [Module (ZMod f) W] [Module.Finite (ZMod f) W]
@@ -272,7 +277,7 @@ theorem ext2Dim_stepA {f : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) {k : ℕ}
     Representation.invariants (ρ.comp (zpowers (⟨y, hy⟩ : ↥R)).subtype) with hW₁def
   have hpos : 0 < Module.finrank (ZMod f) W := Module.finrank_pos
   have hpos₁ : 0 < Module.finrank (ZMod f) ↥W₁ := by omega
-  haveI : Nontrivial ↥W₁ := Module.finrank_pos_iff.mp hpos₁
+  have : Nontrivial ↥W₁ := Module.finrank_pos_iff.mp hpos₁
   have hinv : ∀ (g : ↥R') (w : W), w ∈ W₁ → ρ (Subgroup.inclusion hle g) w ∈ W₁ := by
     intro g w hw
     rw [hW₁def, Representation.mem_invariants] at hw ⊢

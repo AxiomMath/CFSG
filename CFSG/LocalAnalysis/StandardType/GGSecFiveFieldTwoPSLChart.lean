@@ -87,7 +87,7 @@ private theorem slChart_sl2Upper {F : Type} [Field F] {m : ℕ} (hm : 1 ≤ m) (
       simp [Matrix.transvection, coe_sl2Upper, sl2Coords_ne hm, (sl2Coords_ne hm).symm]
   · intro x y hxy
     have hsingle : Matrix.single (sl2Coords m hm 0) (sl2Coords m hm 1) t x y = 0 := by
-      rw [Matrix.single_apply, if_neg]
+      rw [Matrix.single_apply, ite_eq_right]
       rintro ⟨hx, hy⟩
       exact hxy ⟨(mem_range_sl2Coords hm).mpr (Or.inl hx.symm),
         (mem_range_sl2Coords hm).mpr (Or.inr hy.symm)⟩
@@ -231,7 +231,7 @@ private theorem permMat_mul_apply {F : Type} [Field F] {n : ℕ} (π : Equiv.Per
   rw [Matrix.mul_apply, Finset.sum_eq_single (π.symm i)]
   · simp [permMat]
   · intro b _ hb
-    rw [permMat, Matrix.of_apply, if_neg hb, zero_mul]
+    rw [permMat, Matrix.of_apply, ite_eq_right hb, zero_mul]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -242,7 +242,7 @@ private theorem mul_permMat_apply {F : Type} [Field F] {n : ℕ} (π : Equiv.Per
   · simp [permMat]
   · intro b _ hb
     rw [permMat, Matrix.of_apply, Equiv.symm_symm,
-      if_neg (fun h : j = π b => hb (by rw [h, Equiv.symm_apply_apply])), mul_zero]
+      ite_eq_right (fun h : j = π b => hb (by rw [h, Equiv.symm_apply_apply])), mul_zero]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -254,7 +254,7 @@ private theorem permMat_mul_permMat_symm {F : Type} [Field F] {n : ℕ}
   by_cases hij : i = j
   · subst hij
     simp [permMat]
-  · rw [if_neg hij, permMat, Matrix.of_apply, if_neg]
+  · rw [ite_eq_right hij, permMat, Matrix.of_apply, ite_eq_right]
     intro h
     exact hij (by simpa [Equiv.symm_symm] using h.symm)
 

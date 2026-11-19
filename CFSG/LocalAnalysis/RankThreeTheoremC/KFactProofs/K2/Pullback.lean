@@ -14,6 +14,7 @@ section Pullback
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pa_ker : (barMk G).ker = primeComplementCore (G := G) 3 :=
   QuotientGroup.ker_mk' _
 
@@ -48,6 +49,7 @@ theorem card_map_bar {D : Subgroup G} (hD : IsPGroup 3 D) :
   rw [← Subgroup.coe_map] at this
   exact this
 
+omit [Finite G] in
 theorem isElemAbelian_map_bar {D : Subgroup G} (hD : IsElemAbelian 3 D) :
     IsElemAbelian 3 (D.map (barMk G)) :=
   hD.map (barMk G)

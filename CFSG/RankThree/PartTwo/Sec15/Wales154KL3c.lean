@@ -600,7 +600,7 @@ open KL3cProof in
 theorem kl3c_holds : KL3c := by
   intro Q _ _ f n hf hn hQ Xb hXb τ hτout hτ2 hτX
   obtain ⟨⟨x₄, hx₄⟩, hsimp⟩ := exists_orderOf_four_and_isSimpleGroup hn hXb
-  haveI : Group.IsPerfect Xb := isPerfect_of_orderOf_four hx₄
+  have : Group.IsPerfect Xb := isPerfect_of_orderOf_four hx₄
   have hx₄' : orderOf (x₄ : Q) = 4 := by rw [Subgroup.orderOf_coe, hx₄]
   rcases hQ with ⟨⟨φ₀⟩⟩ | ⟨hq, ⟨φ₀⟩⟩
   · refine ⟨⟨φ₀⟩, ?_⟩
@@ -612,7 +612,7 @@ theorem kl3c_holds : KL3c := by
       rintro _ ⟨y, hy, rfl⟩
       change φ (τ (φ.symm (φ y))) = φ y
       rw [MulEquiv.symm_apply_apply, hτX y hy]
-    haveI : Group.IsPerfect X := Group.IsPerfect.map _
+    have : Group.IsPerfect X := Group.IsPerfect.map _
     obtain ⟨hfe, hp⟩ := linear_model hf hF (congr_mul_self φ hτ2) (congr_not_mem_range φ hτout)
       X hX ⟨x₄, x₄.2, rfl⟩ (by rw [MulEquiv.coe_toMonoidHom, MulEquiv.orderOf_eq, hx₄'])
     have hcard : Nat.card X = Nat.card Xb := Subgroup.card_map_of_injective φ.injective

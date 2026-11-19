@@ -13,8 +13,8 @@ open Subgroup
 
 theorem kBor_holds : KBor := by
   intro X _ _ a hshape S A hA hodd hcard
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hS2 : IsPGroup 2 (S : Subgroup X) := S.isPGroup'
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hS2 : IsPGroup 2 (S : Subgroup X) := S.isPGroup
   have hinf : (S : Subgroup X) ⊓ A = ⊥ :=
     CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd hS2 hodd
   have hinf' : A ⊓ (S : Subgroup X) = ⊥ := by rwa [inf_comm]

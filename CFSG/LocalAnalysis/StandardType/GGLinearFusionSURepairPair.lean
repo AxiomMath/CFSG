@@ -222,7 +222,7 @@ theorem conj_mem_sylow_of_mem_suPairs {φ : ↥(unitarySU 2 f K n) →* G} {V : 
     exact (Subgroup.mem_normalizer_iff.mp hbV _).mp w.2
   set w' : ↥(V.comap φ) := ⟨u, huV⟩ with hw'
   refine ⟨w', ?_, rfl⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨w, hw⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨w, hw⟩
   have hwk : w ^ 2 ^ k = 1 := by
     have h1 := pow_orderOf_eq_one (⟨w, hw⟩ : (P : Subgroup ↥(V.comap φ)))
     rw [hk] at h1
@@ -291,7 +291,7 @@ theorem exists_framePair_of_twoSubgroup (h : UnitaryFieldData 2 f K)
     exact P.ne_bot_of_dvd_card hdvd
   set W : Subgroup (GL (Fin n) K) :=
     ((P : Subgroup ↥Vt).map Vt.subtype).map (unitarySU 2 f K n).subtype with hW
-  have hW2 : IsPGroup 2 W := (P.isPGroup'.map _).map _
+  have hW2 : IsPGroup 2 W := (P.isPGroup.map _).map _
   have hW1 : W ≠ ⊥ := by
     rw [hW, Ne, Subgroup.map_eq_bot_iff_of_injective _ (unitarySU 2 f K n).subtype_injective,
       Subgroup.map_eq_bot_iff_of_injective _ Vt.subtype_injective]

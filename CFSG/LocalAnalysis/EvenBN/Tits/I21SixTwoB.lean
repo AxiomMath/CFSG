@@ -48,7 +48,7 @@ theorem conj_mem_of_forall_mem {S : Set G} {K : Subgroup G} (s : G)
     (hS : ∀ g ∈ S, s * g * s⁻¹ ∈ K) {h : G} (hh : h ∈ closure S) : s * h * s⁻¹ ∈ K := by
   induction hh using Subgroup.closure_induction with
   | mem y hy => exact hS y hy
-  | one => simpa using one_mem K
+  | one => simp
   | mul a b _ _ ha hb =>
     have : s * (a * b) * s⁻¹ = (s * a * s⁻¹) * (s * b * s⁻¹) := by group
     rw [this]
@@ -588,7 +588,7 @@ theorem sixty_four_le_card [Finite G] (hsh : TwoGroupShape P t z n x u₀ T) (hn
     rw [hsh.inf_eq, ← hsh.sq_u] at h
     exact not_mem_zpowers_sq hsh.ord_u h
   have h2 := two_mul_card_le hDT (u_mem_T hsh) huD
-  obtain ⟨a, haP, haT⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hsh.T_le hTP)
+  obtain ⟨a, haP, haT⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hsh.T_le hTP)
   have h3 := two_mul_card_le hsh.T_le haP haT
   omega
 
@@ -719,7 +719,7 @@ theorem n_eq_three [Finite G] (hsh : TwoGroupShape P t z n x u₀ T) (ht2 : t * 
     exact h
   have hT2 : T.relIndex P = 2 := relIndex_T_eq_two hsh hTP
   have hg2 : (g : G) ^ 2 ∈ T := by
-    haveI : (T.subgroupOf P).Normal := normal_of_index_eq_two hT2
+    have : (T.subgroupOf P).Normal := normal_of_index_eq_two hT2
     have h := pow_index_mem (T.subgroupOf P) g
     have h2 : (T.subgroupOf P).index = 2 := hT2
     rw [h2] at h
@@ -926,7 +926,7 @@ open Subgroup CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {t u x : G}
 
-theorem sec622_order_eight {M : Subgroup G} (hM : IsPGroup 2 M) (h8 : Nat.card M = 8) {w : G}
+theorem sec622_order_eight {M : Subgroup G} (_hM : IsPGroup 2 M) (h8 : Nat.card M = 8) {w : G}
     (hw : w ∈ M) (hw4 : orderOf w = 4) :
     IsMulCommutative M ∨ Nonempty (M ≃* DihedralGroup 4) ∨ Sec622UniqueInv M := by
   have hw4' : orderOf (⟨w, hw⟩ : M) = 4 := by
@@ -943,7 +943,7 @@ theorem sec622_order_eight {M : Subgroup G} (hM : IsPGroup 2 M) (h8 : Nat.card M
 theorem sec622_six_two_b (h : SecTwoHyp G t u)
     (hexp : ∀ g : G, (∃ k : ℕ, orderOf g = 2 ^ k) → g ^ 8 = 1) {L : Subgroup G}
     (hLn : L.Normal) (htL : t ∉ L) {P : Subgroup G} (hP : IsPGroup 2 P)
-    (hRP : secTwoR t u ≤ P) (hPL : (P ⊓ L).relIndex P = 2) {T : Subgroup G} {n : ℕ} {x u₀ : G}
+    (_hRP : secTwoR t u ≤ P) (hPL : (P ⊓ L).relIndex P = 2) {T : Subgroup G} {n : ℕ} {x u₀ : G}
     (hsh : TwoGroupShape P t (u ^ 2) n x u₀ T) :
     closure {t, x} ⊓ L = zpowers x ∧ n ≤ 4 ∧
       ((T ⊓ L = closure {x, u₀} ∧ IsMulCommutative (T ⊓ L : Subgroup G)) ∨
@@ -1027,7 +1027,7 @@ theorem sec622_six_two_of (h : SecTwoHyp G t u)
     have hcases : Nat.card M = 4 ∨ Nat.card M = 8 := by omega
     rcases hcases with h4 | h8
     · refine Or.inr (Or.inl (IsMulCommutative.of_comm ?_))
-      exact IsPGroup.commutative_of_card_eq_prime_sq (p := 2) (by rw [h4]; norm_num)
+      exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [h4]; norm_num)).is_comm.comm
     · rcases sec622_order_eight hM2 h8 hwM hw4 with h | h | h
       · exact Or.inr (Or.inl h)
       · exact Or.inr (Or.inr (Or.inr (Or.inl h)))

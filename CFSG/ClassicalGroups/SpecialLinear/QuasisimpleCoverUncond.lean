@@ -20,7 +20,7 @@ theorem sl2_exists_section_of_central_of_card_eq_two_pow
     (hπ : Function.Surjective π) (hcen : π.ker ≤ Subgroup.center E) :
     ∃ σ : SpecialLinearGroup (Fin 2) F →* E, ∀ g, π (σ g) = g := by
   let H := SpecialLinearGroup (Fin 2) F
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h4card : 4 ≤ Nat.card F := by
     rw [hcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -38,7 +38,7 @@ theorem sl2_exists_section_of_central_of_card_eq_two_pow
       (!![0,1;1,0] * !![1,1;0,1] : Matrix (Fin 2) (Fin 2) F) 0 0 at h'
     simp [Matrix.mul_apply, Fin.sum_univ_two] at h'
   have hHq : CFSG.IsQuasisimple H := (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hHnonab).1
-  haveI : Group.IsPerfect H := hHq.1
+  have : Group.IsPerfect H := hHq.1
   refine CFSG.LieType.Steinberg.CentralExt.PrimeCover.exists_section_of_forall_prime ?_ E π hπ hcen
   intro ℓ hℓ P _ _ hPperf η hη hker hkp
   by_cases h2 : ℓ = 2

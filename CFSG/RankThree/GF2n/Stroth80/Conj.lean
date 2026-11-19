@@ -12,12 +12,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 private theorem normalizer_conj_aux (g : G) (X : Subgroup G) :
     Subgroup.normalizer (conjSubgroup g X : Set G) =
       conjSubgroup g (Subgroup.normalizer (X : Set G)) :=
   (Subgroup.map_normalizer_eq_of_bijective (f := (MulAut.conj g).toMonoidHom) X
     (MulAut.conj g).bijective).symm
 
+omit [Finite G] in
 private theorem inSubgroup_gF_conj (N : Subgroup G) (g : G) :
     inSubgroup generalizedFitting (conjSubgroup g N) =
       conjSubgroup g (inSubgroup generalizedFitting N) := by
@@ -26,14 +28,16 @@ private theorem inSubgroup_gF_conj (N : Subgroup G) (g : G) :
   show (generalizedFitting ↥(conjSubgroup g N)).map (conjSubgroup g N).subtype =
     ((generalizedFitting ↥N).map N.subtype).map (MulAut.conj g).toMonoidHom
   rw [← key, Subgroup.map_map, Subgroup.map_map]
-  congr 1 <;> ext x <;> rfl
+  congr 1
 
+omit [Finite G] in
 private theorem fitting_eq_of_ctx (hc : Ctx M Q Z B) :
     inSubgroup generalizedFitting M = Q := by
   rw [hc.hyp.hQ]
   unfold inSubgroup
   rw [hc.hyp.fitting]
 
+omit [Finite G] in
 private theorem Q_le_M_of_ctx (hc : Ctx M Q Z B) : Q ≤ M := by
   rw [hc.hyp.hQ]
   unfold inSubgroup

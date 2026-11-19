@@ -38,8 +38,8 @@ theorem s16h_e3_l3_parabolic_second_of_first
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L)) ≤ 2)
     (hsig : D.sig = {3})
     {P : Subgroup (MulAut (Vtil ⊥ V h.hyp151.isElemAbelian))}
-    (hPle : P ≤ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
-    (hPcard : Nat.card ↥P = 24) (hPexp : ∀ p ∈ P, p ^ 12 = 1) :
+    (_hPle : P ≤ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
+    (_hPcard : Nat.card ↥P = 24) (_hPexp : ∀ p ∈ P, p ^ 12 = 1) :
     ∃ Q : Subgroup (MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)),
       Q ≤ Mbar D.M ⊥ V h.hyp151.isElemAbelian ∧
       Nat.card ↥Q = 24 ∧

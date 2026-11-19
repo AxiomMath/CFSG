@@ -15,11 +15,12 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
 
 attribute [local instance] blockKernel_normal
 
-theorem normal_odd_sup_odd {A B : Subgroup G} (hA : A.Normal) (hB : B.Normal)
+omit [Finite G] in
+theorem normal_odd_sup_odd {A B : Subgroup G} (hA : A.Normal) (_hB : B.Normal)
     (hAodd : Odd (Nat.card A)) (hBodd : Odd (Nat.card B)) :
     Odd (Nat.card (A ⊔ B : Subgroup G)) := by
-  letI := hA
-  letI := hB
+  let := hA
+  let := _hB
   have hindexOdd : Odd (A.relIndex (A ⊔ B)) := by
     rw [Subgroup.relIndex_sup_left]
     exact hBodd.of_dvd_nat (Subgroup.relIndex_dvd_card (H := A) (K := B))
@@ -41,8 +42,8 @@ theorem oddCore_odd_cfsg : Odd (Nat.card (oddCore G)) := by
   have hallLe : ∀ H : Subgroup G, H.Normal → Odd (Nat.card H) → H ≤ maximal := by
     intro H hHnorm hHodd
     have hsupNormal : (maximal ⊔ H).Normal := by
-      letI := hmaximal.prop.1
-      letI := hHnorm
+      let := hmaximal.prop.1
+      let := hHnorm
       infer_instance
     have hsupOdd := normal_odd_sup_odd hmaximal.prop.1 hHnorm hmaximal.prop.2 hHodd
     have heq := hmaximal.eq_of_le ⟨hsupNormal, hsupOdd⟩ le_sup_left

@@ -26,8 +26,8 @@ private theorem not_le_xSub_of_centralizer_le_of_pLayerIn_le
     (hL : pLayerIn p H ≤ M) (hCW : centralizer (W : Set G) ≤ M) :
     ¬ W ≤ xSub p M H := by
   intro hWX
-  haveI : Fact p.Prime := ⟨hc.ctx.p_prime⟩
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  have : Fact p.Prime := ⟨hc.ctx.p_prime⟩
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
   have hWp3 : IsPGroup 3 W := IsPGroup.of_card (n := 1) (by simpa using hW)
   have hcop : Nat.Coprime p (Nat.card W) := by
     rw [hW]
@@ -47,7 +47,7 @@ private theorem not_le_xSub_of_centralizer_le_of_not_pLayerIn_le
     (hp3 : p ≠ 3) (hL : ¬ pLayerIn p H ≤ M) (hCW : centralizer (W : Set G) ≤ M) :
     ¬ W ≤ xSub p M H := by
   intro hWX
-  haveI : Fact p.Prime := ⟨hc.ctx.p_prime⟩
+  have : Fact p.Prime := ⟨hc.ctx.p_prime⟩
   have hWp3 : IsPGroup 3 W := IsPGroup.of_card (n := 1) (by simpa using hW)
   obtain ⟨E, hEQ, hE, hEc, hΓ⟩ := hc.ctx.exists_E_sq
   rcases (hc.h910 E hEQ hE hEc hΓ).1 hL with ⟨-, -, hKnorm⟩ | ⟨hp3', -⟩

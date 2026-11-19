@@ -36,7 +36,7 @@ theorem LinA.cyclic_of_fixing_perfect_conj (κ : MulAut (projectiveSL 3 K))
       have h1 : ((c α : MulAut (projectiveSL 3 K)).toMonoidHom).comp κ.toMonoidHom =
           κ.toMonoidHom.comp α.toMonoidHom := by
         ext x
-        simp [hc, MulAut.conj_apply, MulAut.mul_apply]
+        simp [hc, MulAut.conj_apply]
       rw [h1, ← Subgroup.map_map, hJ α hα]
     · rintro _ ⟨α, hα, rfl⟩ _ ⟨d, hd, rfl⟩
       have := hD α hα d hd
@@ -58,14 +58,14 @@ theorem blockIb_cyclic_three (hP : BlockIbParab Lb Pb) (hD : BlockIbData Lb Pb D
     (hUP : U ≤ Subgroup.normalizer (Pb : Set Y)) (hUD : U ≤ Subgroup.centralizer (D : Set Y))
     (hU3 : IsPGroup 3 U) :
     IsCyclic ((descendHom e).comp (Subgroup.inclusion hUL)).range := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hK4 : 4 ≤ Nat.card (GaloisField 2 f) := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
   have h4s : ∃ s : Finset (GaloisField 2 f), s.card = 4 := by
-    haveI := Fintype.ofFinite (GaloisField 2 f)
+    have := Fintype.ofFinite (GaloisField 2 f)
     obtain ⟨t, -, ht⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset (GaloisField 2 f)))
       (n := 4) (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact hK4)
     exact ⟨t, ht⟩
@@ -81,7 +81,7 @@ theorem blockIb_cyclic_three (hP : BlockIbParab Lb Pb) (hD : BlockIbData Lb Pb D
       rw [hJ, Subgroup.map_map]
       have : ((MulAut.conj g⁻¹).toMonoidHom.comp (MulAut.conj g).toMonoidHom :
           projectiveSL 3 (GaloisField 2 f) →* _) = MonoidHom.id _ := by
-        ext y; simp [MulAut.conj_apply, mul_assoc]
+        ext y; simp
       rw [this, Subgroup.map_id]
     rcases hd with rfl | rfl
     · exact ⟨MulAut.conj g⁻¹, hJg⟩

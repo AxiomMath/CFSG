@@ -11,9 +11,9 @@ theorem fieldAut_invol_eq_pow {K : Type} [Field K] [Finite K] {σ : K ≃+* K}
     ∃ q : ℕ, q * q = Nat.card K ∧ ∀ x : K, σ x = x ^ q := by
   obtain ⟨p, hchar⟩ := CharP.exists K
   have hp0 : p ≠ 0 := CharP.char_ne_zero_of_finite K p
-  haveI hpF : Fact p.Prime := ⟨(CharP.char_is_prime_or_zero K p).resolve_right hp0⟩
-  letI : Algebra (ZMod p) K := ZMod.algebra K p
-  haveI : Fintype (ZMod p) := Fintype.ofFinite _
+  have hpF : Fact p.Prime := ⟨(CharP.char_is_prime_or_zero K p).resolve_right hp0⟩
+  let : Algebra (ZMod p) K := ZMod.algebra K p
+  have : Fintype (ZMod p) := Fintype.ofFinite _
   have hcard : p ^ Module.finrank (ZMod p) K = Nat.card K :=
     FiniteField.pow_finrank_eq_natCard p K
   have hcomm : ∀ x : ZMod p, σ (algebraMap (ZMod p) K x) = algebraMap (ZMod p) K x := by

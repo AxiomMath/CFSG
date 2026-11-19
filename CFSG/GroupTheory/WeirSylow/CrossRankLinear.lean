@@ -32,7 +32,7 @@ theorem pRank_top_gl_eq {p : ℕ} [Fact p.Prime] (hp : Odd p) {ι : Type} [Finty
     [DecidableEq ι] {K : Type} [Field K] [Finite K] (hpK : ¬ p ∣ Nat.card K) :
     CFSG.Open.pRank p (⊤ : Subgroup (GL ι K)) =
       Fintype.card ι / orderOf (Nat.card K : ZMod p) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hpK' : ¬ p ∣ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
   have hq : 1 < Fintype.card K := Fintype.one_lt_card
   have hGL : CFSG.Open.pRank p (⊤ : Subgroup (GL (Fin (Fintype.card ι)) K)) =
@@ -107,7 +107,7 @@ private theorem orderOf_natCast_eq_two_of_dvd_add_one {p q : ℕ} [Fact p.Prime]
     exact (Nat.not_even_iff_odd.2 hp) even_two
   rw [h1]
   have := orderOf_neg_one (R := ZMod p)
-  rwa [if_neg hp2] at this
+  rwa [ite_eq_right hp2] at this
 
 theorem pow_eq_one_of_scalar_mem_statedSL {n : ℕ} {K : Type} [Field K] {c : Kˣ}
     (h : Matrix.GeneralLinearGroup.scalar (Fin n) c ∈ StatedSL n K) : c ^ n = 1 := by

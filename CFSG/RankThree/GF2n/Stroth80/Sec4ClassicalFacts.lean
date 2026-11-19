@@ -17,8 +17,8 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Open.StatedAPI CFSG.Assembly.LowT
 theorem omegaMinusFourSylowStatement_holds : OmegaMinusFourSylowStatement := by
   intro K _ _ _ hq4 b c hirr P
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hqm : Nat.card K = 2 ^ (m : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -42,7 +42,7 @@ theorem omegaMinusFourSylowStatement_holds : OmegaMinusFourSylowStatement := by
     exact h2
   have hodd : ¬ 2 ∣ (Nat.card K ^ 2) ^ 2 - 1 := by omega
   have hne : (Nat.card K ^ 2) ^ 2 - 1 ≠ 0 := by omega
-  haveI : Finite ↥(StatedOmega (StatedQuadMinus 2 K b c)) :=
+  have : Finite ↥(StatedOmega (StatedQuadMinus 2 K b c)) :=
     Nat.finite_of_card_ne_zero (by
       rw [CFSG.SeitzReduction.F4Pilot.natCard_statedOmega_quadMinus_two hirr,
         CFSG.SeitzReduction.F4Pilot.ordSL_two]
@@ -187,17 +187,17 @@ private theorem omega_polar_U (K : Type) [Field K] (b c : K)
 private theorem omega_polar_f₂_f₁ (K : Type) [Field K] (b c : K) :
     polar (quadMinus 3 K b c) (oF₂ K) (oF₁ K) = 0 := by
   rw [omega_polar_f₁]
-  simp [oF₂, Pi.single_apply]
+  simp [oF₂]
 
 private theorem omega_polar_f₂_e₁ (K : Type) [Field K] (b c : K) :
     polar (quadMinus 3 K b c) (oF₂ K) (oE₁ K) = 0 := by
   rw [omega_polar_e₁]
-  simp [oF₂, Pi.single_apply]
+  simp [oF₂]
 
 private theorem omega_polar_e₂_W (K : Type) [Field K] (b c : K) :
     polar (quadMinus 3 K b c) (oE₂ K) (oE₁ K + oF₁ K + oU K) = 0 := by
   rw [polar_add_right, polar_add_right, omega_polar_e₁, omega_polar_f₁, omega_polar_U]
-  simp [oE₂, Pi.single_apply]
+  simp [oE₂]
 
 private theorem omega_eichler_1 (K : Type) [Field K] (b c : K)
     (z : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → K) :
@@ -256,8 +256,8 @@ private theorem omegaG_apply (K : Type) [Field K] [CharP K 2] (b c : K)
   simp only [omegaG, LinearEquiv.mul_apply, omega_eichler_1, omega_eichler_2, omega_eichler_3]
   funext i
   rcases i with j | j | j <;> fin_cases j <;>
-    simp [omegaTmap, oE₁, oE₂, oF₁, oF₂, oU, Pi.single_apply, CharTwo.sub_eq_add] <;>
-    ring_nf <;> simp [h2, CharTwo.neg_eq, show (3 : K) = 1 by linear_combination h2]
+    simp [omegaTmap, oE₁, oE₂, oF₁, oF₂, oU, CharTwo.sub_eq_add] <;>
+    ring_nf <;> simp [h2, show (3 : K) = 1 by linear_combination h2]
 
 private theorem omegaTmap_four (K : Type) [Field K] [CharP K 2] (b : K)
     (x : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → K) :
@@ -310,7 +310,7 @@ private theorem omegaG_sq_ne_one (K : Type) [Field K] [CharP K 2] (b c : K) :
     rfl
   have h3 := congrFun h1 (Sum.inr (Sum.inl (0 : Fin 2)))
   simp only [pow_two, LinearEquiv.mul_apply, omegaG_apply] at h3
-  simp [omegaTmap, oE₁, Pi.single_apply] at h3
+  simp [omegaTmap, oE₁] at h3
 
 private theorem omegaG_orderOf (K : Type) [Field K] [CharP K 2] (b c : K) :
     orderOf (omegaG K b c) = 4 := by

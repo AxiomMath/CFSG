@@ -36,7 +36,7 @@ theorem five_star_core {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime) 
         r ∈ inSubgroup Subgroup.center R) ∧
       (inSubgroup frattini D).relIndex D = p ^ 4 ∧ 3 ≤ CFSG.pRank p ↥D := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h5pr : (5 : ℕ).Prime := Nat.prime_five
   have hnD : ∀ g : G, g ∈ normalizer (D : Set G) := fun g =>
     (Subgroup.le_normalizer_of_normal : (⊤ : Subgroup G) ≤ normalizer (D : Set G)) (Subgroup.mem_top g)
@@ -164,7 +164,7 @@ theorem five_star_core_hom {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pri
         r ∈ inSubgroup Subgroup.center R) ∧
       (inSubgroup frattini D).relIndex D = p ^ 4 ∧ 3 ≤ CFSG.pRank p ↥D := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDexp' : ∀ d : ↥D, d ^ p = 1 := fun d =>
     Subtype.ext (by rw [Subgroup.coe_pow, hDexp d d.2, Subgroup.coe_one])
   have hDcl' : ∀ a b c : ↥D, ⁅a, b⁆ * c = c * ⁅a, b⁆ := fun a b c =>
@@ -220,7 +220,7 @@ theorem five_star_core_hom {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pri
   have hDhp : IsPGroup p Dh := by
     rw [hDh]
     exact h16_range_inl_isPGroup p D hD
-  haveI hDhn : Dh.Normal := by
+  have hDhn : Dh.Normal := by
     rw [hDh]
     exact h16_range_inl_normal D
   have hDexpĜ : ∀ d ∈ Dh, d ^ p = 1 := by
@@ -248,13 +248,13 @@ theorem five_star_core_hom {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pri
   have hxN : xN ∈ normalizer ((R.subgroupOf (normalizer (D : Set G)) : Subgroup _) : Set _) := by
     rw [Subgroup.mem_normalizer_iff]
     intro h
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf]
+    simp only [Subgroup.mem_subgroupOf]
     exact Subgroup.mem_normalizer_iff.mp hwn (h : G)
   have hRwN : zpowers (f xN) ≤ normalizer ((Rh : Subgroup _) : Set _) := by
     rw [hRh, Subgroup.zpowers_le]
     exact Subgroup.le_normalizer_map f (Subgroup.mem_map_of_mem f hxN)
   have hRhne : Rh ≠ ⊥ := by
-    obtain ⟨r, hr, hrC⟩ := SetLike.not_le_iff_exists.mp hR1
+    obtain ⟨r, hr, hrC⟩ := IsConcreteLE.not_le_iff_exists.mp hR1
     intro h0
     have hfr : f ⟨r, hRD hr⟩ ≠ 1 := fun h1 => hrC (hcent ⟨r, hRD hr⟩ (hfφ _ h1))
     apply hfr
@@ -442,7 +442,7 @@ theorem five_star_prop :
     exact Subgroup.zpow_mem _ (mem_normalizer_fiveStarR_self S w) n
   obtain ⟨r, hr, hr3, u0, hu0R, p0, hp0P, hcomm⟩ :=
     e1c_exists_prime hθs hθ3 hO2 hRθ hR2 hR1
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := by omega
   obtain ⟨P, hPdef⟩ : ∃ P : Subgroup G, P = CFSG.inSubgroup (CFSG.pCore r) θ := ⟨_, rfl⟩
   have hP2 : IsPGroup r P := by

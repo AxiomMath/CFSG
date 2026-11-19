@@ -65,13 +65,13 @@ theorem autOf_inj {x y : El} (hx : validB x = true) (hy : validB y = true)
   have hxr : CFSG.QuasithinUnique.Setup.X7b.autCongr GF4 (autOf x) =
       SpChain.spInner 2 GF4 (SpChain.antiSpEquiv GF4 (toS4 x.1 (validB_symp hx))) *
         SpChain.exceptionalAut GF4 ^ x.2 := by
-    rw [autOf, dif_pos hx, map_mul, CFSG.QuasithinUnique.Setup.X7b.autCongr_conj,
+    rw [autOf, dite_eq_left hx, map_mul, CFSG.QuasithinUnique.Setup.X7b.autCongr_conj,
       CFSG.QuasithinUnique.Setup.X7b.autCongr_pow,
       CFSG.QuasithinUnique.Setup.X7b.autCongr_minorAut]
   have hyr : CFSG.QuasithinUnique.Setup.X7b.autCongr GF4 (autOf y) =
       SpChain.spInner 2 GF4 (SpChain.antiSpEquiv GF4 (toS4 y.1 (validB_symp hy))) *
         SpChain.exceptionalAut GF4 ^ y.2 := by
-    rw [autOf, dif_pos hy, map_mul, CFSG.QuasithinUnique.Setup.X7b.autCongr_conj,
+    rw [autOf, dite_eq_left hy, map_mul, CFSG.QuasithinUnique.Setup.X7b.autCongr_conj,
       CFSG.QuasithinUnique.Setup.X7b.autCongr_pow,
       CFSG.QuasithinUnique.Setup.X7b.autCongr_minorAut]
   let qx : StatedSp 2 GF4 × Fin (2 * 2) :=
@@ -162,7 +162,7 @@ theorem autOf_inner_iff {x : El} (hx : validB x = true) :
   have hsymp : symp x.1 = true := validB_symp hx
   have hx2 : x.2 < 4 := (validB_iff.mp hx).2.2
   have hconj : MulAut.conj (toS4 x.1 hsymp) ∈ innAutOf S4 := ⟨toS4 x.1 hsymp, rfl⟩
-  rw [autOf, dif_pos hx]
+  rw [autOf, dite_eq_left hx]
   constructor
   · intro hmem
     have h2 : SpChain.minorAut GF4 ^ x.2 ∈ innAutOf S4 := by
@@ -181,10 +181,10 @@ theorem card_autS4 : Nat.card (MulAut S4) = 3916800 := w183finSp44_card_autS4
 
 theorem isSp4_equiv_S4 {L : Type} [Group L] (h : IsSp4 L 2) : Nonempty (L ≃* S4) := by
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := h.statedClassicalModel_of_ne_zero (by norm_num)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hK4 : Nat.card K = 4 := by simpa using hK
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card, hK4]; norm_num)
   have e2 : K ≃+* GF4 := by

@@ -227,10 +227,10 @@ theorem centSplitOn_Om8 : CentSplitOn ↥CFSG.AGLEmbedding.Om8 := by
       have h4 := hC.sum_eq
       omega
     obtain ⟨E, hEf, hE, W, hWa, hWm, hWf, Hf, hsymm, hsep, hfr, ⟨eA1⟩⟩ := hC.unitary
-    letI : Field E := hEf
-    letI : AddCommGroup W := hWa
-    letI : Module E W := hWm
-    letI : FiniteDimensional E W := hWf
+    let : Field E := hEf
+    let : AddCommGroup W := hWa
+    let : Module E W := hWm
+    let : FiniteDimensional E W := hWf
     have hcardA1 : Nat.card ↥A₁ = 3 := by
       have h := (unitary_full_group_order (B := Hf) hE hsymm hsep (n := m) hfr (by omega)).1
       rw [hm1] at h
@@ -246,7 +246,7 @@ theorem centSplitOn_Om8 : CentSplitOn ↥CFSG.AGLEmbedding.Om8 := by
       rw [fixV_eq_ker, LinearMap.mem_ker] at hv
       simpa [LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero] using hv
     have hA1eq : A₁ = Subgroup.zpowers t := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hle : Subgroup.zpowers t ≤ A₁ := Subgroup.zpowers_le.mpr htA₁
       refine (Subgroup.eq_of_le_of_card_ge hle ?_).symm
       rw [Nat.card_zpowers, hcardA1, orderOf_eq_prime ht3 ht1]
@@ -303,35 +303,35 @@ theorem centSplitOn_Om8 : CentSplitOn ↥CFSG.AGLEmbedding.Om8 := by
         have hsolv : Group.IsSolvable ↥(A₀ ⊓ OmInSp CFSG.AGLEmbedding.Om8) := by
           rw [← hA₀def]
           exact omegaOrthRank2Solvable_holds t ht3 ht1 hmem (by rw [hmdef]; exact hm2)
-        haveI : Group.IsSolvable ↥(A₀ ⊓ OmInSp CFSG.AGLEmbedding.Om8) := hsolv
+        have : Group.IsSolvable ↥(A₀ ⊓ OmInSp CFSG.AGLEmbedding.Om8) := hsolv
         exact Group.isSolvable_of_isSolvable_injective (f := eA₀.toMonoidHom) eA₀.injective
       have hsolvA₁' : Group.IsSolvable ↥(A₁.comap incl) := by
         obtain ⟨E, hEf, hE, W, hWa, hWm, hWf, Hf, hsymm, hsep, hfr, ⟨eA1⟩⟩ := hC.unitary
-        letI : Field E := hEf
-        letI : AddCommGroup W := hWa
-        letI : Module E W := hWm
-        letI : FiniteDimensional E W := hWf
+        let : Field E := hEf
+        let : AddCommGroup W := hWa
+        let : Module E W := hWm
+        let : FiniteDimensional E W := hWf
         obtain ⟨eA1'⟩ := comap_equiv_of_injective_le_range incl hincl A₁ hA₁range
         obtain ⟨eGU⟩ := resGU_mulEquiv hE Hf hsymm hsep
         rw [hfr] at eGU
-        haveI : Group.IsSolvable ↥(heldGU m E (resTau hE) (resTau_invol hE)) :=
+        have : Group.IsSolvable ↥(heldGU m E (resTau hE) (resTau_invol hE)) :=
           resGU_solvable hE m (by omega)
         have hsolvSesq : Group.IsSolvable ↥(sesqUnitaryGroup Hf) :=
           Group.isSolvable_of_isSolvable_injective (f := eGU.toMonoidHom) eGU.injective
         have hsolvA₁ : Group.IsSolvable ↥A₁ :=
           Group.isSolvable_of_isSolvable_injective (f := eA1.toMonoidHom) eA1.injective
-        haveI : Group.IsSolvable ↥A₁ := hsolvA₁
+        have : Group.IsSolvable ↥A₁ := hsolvA₁
         exact Group.isSolvable_of_isSolvable_injective (f := eA1'.toMonoidHom) eA1'.injective
-      haveI := hsolvA₀'
-      haveI := hsolvA₁'
+      have := hsolvA₀'
+      have := hsolvA₁'
       exact CFSG.Quasithin.E6.E68Proof.isSolvable_sup_of_commute hcomm'
-    haveI : Group.IsSolvable ↥K := isSolvable_of_le_of_solvable hK hsolvC
-    haveI : Nontrivial ↥K := by
+    have : Group.IsSolvable ↥K := isSolvable_of_le_of_solvable hK hsolvC
+    have : Nontrivial ↥K := by
       rw [Subgroup.nontrivial_iff_ne_bot]
       intro hbot
       rw [hbot, Subgroup.card_bot] at h5
       norm_num at h5
-    haveI : Group.IsPerfect ↥K := hperf
+    have : Group.IsPerfect ↥K := hperf
     exact (Group.IsPerfect.not_isSolvable ↥K) inferInstance
   ·
     left
@@ -346,39 +346,39 @@ theorem centSplitOn_Om8 : CentSplitOn ↥CFSG.AGLEmbedding.Om8 := by
           rcases hC.fixed with ⟨h0, -⟩ | ⟨-, ⟨eSp⟩⟩
           · omega
           · rw [hs0] at eSp
-            haveI : Group.IsSolvable ↥(StatedSp 1 (ZMod 2)) := sp1_solvable
+            have : Group.IsSolvable ↥(StatedSp 1 (ZMod 2)) := sp1_solvable
             exact Group.isSolvable_of_isSolvable_injective (f := eSp.toMonoidHom) eSp.injective
         have hsolv : Group.IsSolvable ↥(A₀ ⊓ OmInSp CFSG.AGLEmbedding.Om8) :=
           isSolvable_of_le_of_solvable inf_le_left hsolvA₀
-        haveI : Group.IsSolvable ↥(A₀ ⊓ OmInSp CFSG.AGLEmbedding.Om8) := hsolv
+        have : Group.IsSolvable ↥(A₀ ⊓ OmInSp CFSG.AGLEmbedding.Om8) := hsolv
         exact Group.isSolvable_of_isSolvable_injective (f := eA₀.toMonoidHom) eA₀.injective
       have hsolvA₁' : Group.IsSolvable ↥(A₁.comap incl) := by
         obtain ⟨E, hEf, hE, W, hWa, hWm, hWf, Hf, hsymm, hsep, hfr, ⟨eA1⟩⟩ := hC.unitary
-        letI : Field E := hEf
-        letI : AddCommGroup W := hWa
-        letI : Module E W := hWm
-        letI : FiniteDimensional E W := hWf
+        let : Field E := hEf
+        let : AddCommGroup W := hWa
+        let : Module E W := hWm
+        let : FiniteDimensional E W := hWf
         obtain ⟨eA1'⟩ := comap_equiv_of_injective_le_range incl hincl A₁ hA₁range
         obtain ⟨eGU⟩ := resGU_mulEquiv hE Hf hsymm hsep
         rw [hfr] at eGU
-        haveI : Group.IsSolvable ↥(heldGU m E (resTau hE) (resTau_invol hE)) :=
+        have : Group.IsSolvable ↥(heldGU m E (resTau hE) (resTau_invol hE)) :=
           resGU_solvable hE m (by omega)
         have hsolvSesq : Group.IsSolvable ↥(sesqUnitaryGroup Hf) :=
           Group.isSolvable_of_isSolvable_injective (f := eGU.toMonoidHom) eGU.injective
         have hsolvA₁ : Group.IsSolvable ↥A₁ :=
           Group.isSolvable_of_isSolvable_injective (f := eA1.toMonoidHom) eA1.injective
-        haveI : Group.IsSolvable ↥A₁ := hsolvA₁
+        have : Group.IsSolvable ↥A₁ := hsolvA₁
         exact Group.isSolvable_of_isSolvable_injective (f := eA1'.toMonoidHom) eA1'.injective
-      haveI := hsolvA₀'
-      haveI := hsolvA₁'
+      have := hsolvA₀'
+      have := hsolvA₁'
       exact CFSG.Quasithin.E6.E68Proof.isSolvable_sup_of_commute hcomm'
-    haveI : Group.IsSolvable ↥K := isSolvable_of_le_of_solvable hK hsolvC
-    haveI : Nontrivial ↥K := by
+    have : Group.IsSolvable ↥K := isSolvable_of_le_of_solvable hK hsolvC
+    have : Nontrivial ↥K := by
       rw [Subgroup.nontrivial_iff_ne_bot]
       intro hbot
       rw [hbot, Subgroup.card_bot] at h5
       norm_num at h5
-    haveI : Group.IsPerfect ↥K := hperf
+    have : Group.IsPerfect ↥K := hperf
     exact (Group.IsPerfect.not_isSolvable ↥K) inferInstance
   ·
     right
@@ -392,14 +392,14 @@ theorem centSplitOn_Om8 : CentSplitOn ↥CFSG.AGLEmbedding.Om8 := by
     have hcentA1 : Subgroup.centralizer ({s} : Set ↥CFSG.AGLEmbedding.Om8) = A₁.comap incl := by
       rw [hcent, hA₀bot, MonoidHom.comap_bot, MonoidHom.ker_eq_bot incl hincl, bot_sup_eq]
     obtain ⟨E, hEf, hE, W, hWa, hWm, hWf, Hf, hsymm, hsep, hfr, ⟨eA1⟩⟩ := hC.unitary
-    letI : Field E := hEf
-    letI : AddCommGroup W := hWa
-    letI : Module E W := hWm
-    letI : FiniteDimensional E W := hWf
-    haveI : Fact (Nat.Prime 2) := ⟨hE.prime⟩
-    haveI : CharP E 2 := hE.charP
-    haveI : Finite E := hE.finite
-    haveI : Fintype E := Fintype.ofFinite E
+    let : Field E := hEf
+    let : AddCommGroup W := hWa
+    let : Module E W := hWm
+    let : FiniteDimensional E W := hWf
+    have : Fact (Nat.Prime 2) := ⟨hE.prime⟩
+    have : CharP E 2 := hE.charP
+    have : Finite E := hE.finite
+    have : Fintype E := Fintype.ofFinite E
     have hE4 : Nat.card E = 4 := by
       rw [hE.card]
       norm_num
@@ -503,7 +503,7 @@ theorem centSplitOn_Om8 : CentSplitOn ↥CFSG.AGLEmbedding.Om8 := by
       have hpow : eC s' ^ 3 = 1 := by rw [← map_pow, hs'3, map_one]
       dsimp only [d]
       rw [← map_pow, ← Subgroup.coe_pow, hpow, Subgroup.coe_one, map_one]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hordDet : orderOf d = 3 := orderOf_eq_prime hdet3 hdet_ne
     have hcardUnits : Nat.card Eˣ = 3 := by
       rw [Nat.card_units, hE4]

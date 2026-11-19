@@ -11,12 +11,14 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem b5_FiveFiveSwap_conj_mem_of_normal_subgroupOf {X N : Subgroup G} (hNX : N ≤ X)
     (hN : (N.subgroupOf X).Normal) {g n : G} (hg : g ∈ X) (hn : n ∈ N) : g * n * g⁻¹ ∈ N := by
   have h := hN.conj_mem ⟨n, hNX hn⟩ (Subgroup.mem_subgroupOf.2 hn) ⟨g, hg⟩
   rw [Subgroup.mem_subgroupOf] at h
   simpa using h
 
+omit [Finite G] in
 theorem mul_comm_of_inf_eq_bot_of_normal {X S T : Subgroup G} (hSX : S ≤ X) (hTX : T ≤ X)
     (hS : (S.subgroupOf X).Normal) (hT : (T.subgroupOf X).Normal) (hdis : S ⊓ T = ⊥) {s t : G}
     (hs : s ∈ S) (ht : t ∈ T) : s * t = t * s := by
@@ -39,6 +41,7 @@ theorem mul_comm_of_inf_eq_bot_of_normal {X S T : Subgroup G} (hSX : S ≤ X) (h
   have h2 : s * t * s⁻¹ = t := mul_inv_eq_one.1 hc
   exact mul_inv_eq_iff_eq_mul.1 h2
 
+omit [Finite G] in
 theorem conjSubgroup_le_and_normal {H X S : Subgroup G} (hXH : X ≤ H)
     (hX : (X.subgroupOf H).Normal) (hSX : S ≤ X) (hS : (S.subgroupOf X).Normal) {a : G}
     (ha : a ∈ H) : conjSubgroup S a ≤ X ∧ ((conjSubgroup S a).subgroupOf X).Normal := by
@@ -115,7 +118,7 @@ theorem le_M_of_not_mem_normalizer {H M A X S : Subgroup G} (h : Sec5Hyp H M A)
     (hSX : S ≤ X) (hS : (S.subgroupOf X).Normal) (hsimple : IsSimpleGroup ↥S)
     (hnab : ¬ ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) {a : G} (ha : a ∈ A)
     (hna : a ∉ Subgroup.normalizer (S : Set G)) : S ≤ M := by
-  haveI := hsimple
+  have := hsimple
   have haH : a ∈ H := h.le_group ha
   have ha1 : a ≠ 1 := by
     intro h1
@@ -135,7 +138,7 @@ theorem le_M_of_not_mem_normalizer {H M A X S : Subgroup G} (h : Sec5Hyp H M A)
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact ⟨mul_mem (mul_mem g.2 hn.1) (inv_mem (s := S) (x := (g : G)) g.2),
         b5_FiveFiveSwap_conj_mem_of_normal_subgroupOf hS'X hS'n (hSX g.2) hn.2⟩
-    haveI : W.Normal := hWn
+    have : W.Normal := hWn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal W with hW | hW
     · ext x
       constructor
@@ -209,7 +212,7 @@ theorem le_M_of_not_mem_normalizer {H M A X S : Subgroup G} (h : Sec5Hyp H M A)
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     rw [hcoe, ← heq]
     exact hmemM
-  haveI : ((S ⊓ M).subgroupOf S).Normal := hnorm
+  have : ((S ⊓ M).subgroupOf S).Normal := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((S ⊓ M).subgroupOf S) with hbot | htop
   · exfalso
     have hdisM : S ⊓ M = ⊥ := by

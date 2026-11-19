@@ -140,7 +140,7 @@ theorem central_L (H : Hyp φ Q) (j : ℕ) :
     _ = F.T j * (F.z1 * k') * (F.T j)⁻¹ := by rw [hc]
     _ = F.T j * F.z1 * (F.T j)⁻¹ * (F.T j * k' * (F.T j)⁻¹) := by group
 
-theorem np_mem_ker (H : Hyp φ Q) {p : ℕ}
+theorem np_mem_ker (_H : Hyp φ Q) {p : ℕ}
     (hp : p ∈ e29Partners) : F.np p ∈ φ.ker := by
   obtain ⟨hp28, -, hpsq⟩ := partner_facts p hp
   rw [MonoidHom.mem_ker]

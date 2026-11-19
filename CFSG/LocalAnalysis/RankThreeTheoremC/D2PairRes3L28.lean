@@ -62,7 +62,7 @@ theorem not_isElemAbelian_of_psl28 {X : Type} [Group X] [Finite X] (R : Sylow 3 
       exact h1
     exact (Subgroup.equivMapOfInjective (P₀ : Subgroup K) e.toMonoidHom e.injective).isCyclic.mpr h2
   have hexp : ∀ x ∈ (P₀ : Subgroup K), x ^ 3 = 1 := by
-    obtain ⟨Q, hQ⟩ := (P₀.isPGroup'.map K.subtype).exists_le_sylow
+    obtain ⟨Q, hQ⟩ := (P₀.isPGroup.map K.subtype).exists_le_sylow
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X R Q
     intro x hx
     have hxQ : (x : X) ∈ (Q : Subgroup X) := hQ ⟨x, hx, rfl⟩

@@ -149,8 +149,8 @@ theorem canonSL_mk (M : Matrix.SpecialLinearGroup (Fin 2) F25t) :
   by_cases h : matCode (M : Matrix (Fin 2) (Fin 2) F25t) ≤
       matCode ((-M : Matrix.SpecialLinearGroup (Fin 2) F25t) :
         Matrix (Fin 2) (Fin 2) F25t)
-  · rw [if_pos h]
-  · rw [if_neg h]
+  · rw [ite_eq_left h]
+  · rw [ite_eq_right h]
     exact CFSG.PSL2Table.mk_neg M
 
 theorem canonSL_neg (M : Matrix.SpecialLinearGroup (Fin 2) F25t) :

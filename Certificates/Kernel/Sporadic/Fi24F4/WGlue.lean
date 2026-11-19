@@ -111,7 +111,7 @@ theorem wN_eq_cP (cs : List ℕ) (hcs : ∀ l ∈ cs, l < 26) (x : ℕ) : wN NW 
     change LN NW c (wN NW cs x) = CF NW NT c (cP NW NT cs x)
     rw [ih fun l hl => hcs l (List.mem_cons_of_mem _ hl)]
     unfold CF
-    rw [if_neg (by have := hcs c List.mem_cons_self; omega)]
+    rw [ite_eq_right (by have := hcs c List.mem_cons_self; omega)]
 
 theorem wv_of {cs : List ℕ} (hcs : ∀ l ∈ cs, l < 26) : WV NW cs := fun l hl =>
   CFSG.KD.Fi24Base.nv_LN (hcs l hl)

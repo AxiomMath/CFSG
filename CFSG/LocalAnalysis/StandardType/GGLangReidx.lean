@@ -165,7 +165,7 @@ theorem ggLang_natCast_ne_zero
     {π : Equiv.Perm (Fin (ggU (absTag t) 6 f).D.rank)}
     {coord : Bs →* Multiplicative (Fin (ggU (absTag t) 6 f).D.rank → ZMod p)}
     (B : GGLangData L t n f p Bs S π coord) (hp : p.Prime) (hp2 : p ≠ 2) : (p : L) ≠ 0 := by
-  haveI : CharP L 2 :=
+  have : CharP L 2 :=
     LangRat.charP_two_of_langSetup_q_eq_two_pow B.setup (f := f) B.q_eq
   intro h
   have h2 : 2 ∣ p := (CharP.cast_eq_zero_iff L 2 p).1 h

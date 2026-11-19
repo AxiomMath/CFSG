@@ -116,8 +116,8 @@ private theorem false_of_not_inner_PSL (hLie : LieOrderFormulasInput) {K : Type}
   have hAdm : StatedLieAdmissible .PSL n ℓ f := hadm
   obtain ⟨hℓ, hf, hn2, -, -⟩ := hAdm
   obtain ⟨F, hF, hFin, θ, hFcard⟩ := exists_field_model_PSL hmodel
-  letI := hF
-  letI := hFin
+  let := hF
+  let := hFin
   have : Fact ℓ.Prime := ⟨hℓ⟩
   have : Fintype F := Fintype.ofFinite F
   have h3' : 3 ∣ Nat.gcd n (ℓ ^ f - 1) := h3

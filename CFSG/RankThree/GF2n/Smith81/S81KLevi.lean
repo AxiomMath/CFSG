@@ -36,7 +36,7 @@ theorem parabolicPosRoots_levNodesD6 :
     parabolicPosRoots .E7 {j | j ∈ levNodesD6} = posPerpRoots := by
   rw [setOf_mem_levNodesD6, parabolicPosRoots, parabolicRoots_perpNodes]
   ext β
-  simp only [Set.mem_inter_iff, Set.mem_setOf_eq, posPerpRoots, posPerpPred, perpRoots]
+  simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, posPerpRoots, posPerpPred, perpRoots]
   tauto
 
 end Nodes
@@ -48,7 +48,7 @@ variable {K : Type} [Field K]
 
 theorem rootSpan_posPerpRoots_le_perpRoots :
     rootSpan .E7 K posPerpRoots ≤ rootSpan .E7 K (perpRoots .E7) :=
-  classDescent_rootSpan_mono (fun β hβ => ⟨hβ.1, hβ.2.2⟩)
+  classDescent_rootSpan_mono (fun _β hβ => ⟨hβ.1, hβ.2.2⟩)
 
 theorem cascadeConjGroup_le_rootSpan_perpRoots :
     cascadeConjGroup .E7 K {j | j ∈ levNodesD6} ≤ rootSpan .E7 K (perpRoots .E7) := by
@@ -124,7 +124,8 @@ theorem psiLev_list_prod (L : List Rt) (hL : ∀ σ ∈ L, σ ∈ perpRoots .E7)
     rw [e, map_mul, ih hL', psiLev_pinnedX hσ]
     rfl
 
-theorem prod_pinnedX_eq_filter_cascade [CharP K 2] {casc S : List Rt} (hcnd : casc.Nodup)
+omit [Finite K] [CharP K 2] in
+theorem prod_pinnedX_eq_filter_cascade {casc S : List Rt} (hcnd : casc.Nodup)
     (hSnd : S.Nodup) (hS : ∀ σ ∈ S, σ ∈ casc ∧ IsRoot .E7 σ ∧ 0 < height σ)
     (hSo : S.Pairwise (fun σ σ' => iform σ σ' = 0)) (c : Rt → K) :
     (S.map fun σ => pinnedX .E7 K σ (c σ)).prod =
@@ -186,6 +187,7 @@ theorem lamCascadeProd_holds : LamCascadeProdStatement := by
   rw [map_mul, map_mul, map_inv, psiLev_list_prod S' hSp' c] at h1
   exact h1
 
+omit [Finite K] [CharP K 2] in
 theorem frameTorusElt_mem_rootSpan_perpRoots {σ : Rt} (hσ : σ (highNode .E7) = 0) (a : Kˣ) :
     frameTorusElt .E7 K σ a ∈ rootSpan .E7 K (perpRoots .E7) :=
   prod_torusElt_mem_rootSpan_perpRoots a (m := fun i => Tag.E7.symmetrizer i i * σ i)

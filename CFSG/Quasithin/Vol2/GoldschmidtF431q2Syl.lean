@@ -72,7 +72,7 @@ theorem isSylowTwoOf_top {z : G} (hz1 : z ≠ 1) (hz2 : z * z = 1) {T : Subgroup
     rw [Subgroup.relIndex_top_right, hTeq]
     exact S.not_dvd_index
   · exfalso
-    obtain ⟨t, htS, htN, htT⟩ := exists_mem_normalizer_not_mem S.isPGroup' hTS hTeq
+    obtain ⟨t, htS, htN, htT⟩ := exists_mem_normalizer_not_mem S.isPGroup hTS hTeq
     have hconj : ∀ s ∈ T, t * s * t⁻¹ ∈ T := fun s hs => (Subgroup.mem_normalizer_iff.1 htN s).1 hs
     have hconj' : ∀ s ∈ T, t⁻¹ * s * t ∈ T := fun s hs => by
       have := (Subgroup.mem_normalizer_iff.1 (Subgroup.inv_mem _ htN) s).1 hs

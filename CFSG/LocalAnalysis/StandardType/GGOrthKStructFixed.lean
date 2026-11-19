@@ -18,7 +18,7 @@ theorem ggOrthKStruct_fixed {G : Type} [Group G] [Finite G] {Bs K : Subgroup G} 
     (hψ : GGHalfTorusFrame Bs K (halfTorus n) ψ)
     (hprod : Bs = (halfTorus n).map ψ ⊔ (Bs ⊓ Subgroup.centralizer (K : Set G)))
     (hCb : Bs ⊓ Subgroup.centralizer (K : Set G) = Subgroup.zpowers y)
-    (Φ : (Fin ((n + 1) / 2) → Multiplicative (ZMod 3)) ≃* ↥(halfTorus n)) (hΦ : IsTorusCoord n Φ)
+    (Φ : (Fin ((n + 1) / 2) → Multiplicative (ZMod 3)) ≃* ↥(halfTorus n)) (_hΦ : IsTorusCoord n Φ)
     (hlow : ∀ h ∈ spSignedGroup ((n + 1) / 2) 3, ∃ σ ∈ ggAutomizer K Bs, InducesSigned K ψ Φ σ h) :
     ∀ b : ↥Bs, (∀ φ ∈ ggAutomizer K Bs, φ b = b) → (b : G) ∈ Subgroup.zpowers y := by
   intro b hfix
@@ -64,7 +64,7 @@ theorem ggOrthKStruct_fixed {G : Type} [Group G] [Finite G] {Bs K : Subgroup G} 
       exact hψ.inj (mul_right_cancel heq)
     have hcoord : (a j)⁻¹ = a j := by
       have h := congrFun hja j
-      rwa [coordInv_apply, Function.update_apply, if_pos rfl] at h
+      rwa [coordInv_apply, Function.update_apply, ite_eq_left rfl] at h
     exact (by decide : ∀ x : Multiplicative (ZMod 3), x⁻¹ = x → x = 1) (a j) hcoord
   have hψa : ψ (Φ a : SpecialLinearGroup (Fin (n + 1)) F2) = 1 := by
     rw [ha1]

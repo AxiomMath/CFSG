@@ -44,7 +44,7 @@ theorem kf9_commSpace_toLinEquiv {ι : Type} [Fintype ι] [DecidableEq ι] {K : 
   congr 1
   apply LinearMap.ext
   intro v
-  simp [Matrix.sub_mulVec]
+  simp
 
 theorem kf9_dickson_of_form {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     [Finite K] [CharP K 2] {Q : QuadraticForm K (ι → K)} {f : (ι → K) → K} (hf : ⇑Q = f)

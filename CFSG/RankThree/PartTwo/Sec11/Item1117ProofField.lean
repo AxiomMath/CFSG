@@ -57,7 +57,7 @@ theorem sylow_commutative_of_field (h82 : Sec8.Item82One) (h118 : Item118)
     ⟨m, hm, ⟨⟨e⟩⟩ | hL | hL⟩
   · obtain ⟨hEA, -⟩ := KFacts.isElemAbelian_of_isPGroup_three_of_mulEquiv (K := GaloisField 3 3)
       (n := 3) (GaloisField.card 3 3 (by norm_num)) (e.trans (Sec4.projSLEquivPSL _))
-      Q.isPGroup'
+      Q.isPGroup
     exact hEA.1
   · refine hpsl p (3 * n) (by omega) (by omega) ?_ e
     calc 4 ≤ p := by omega

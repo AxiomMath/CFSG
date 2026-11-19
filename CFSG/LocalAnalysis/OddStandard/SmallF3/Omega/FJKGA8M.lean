@@ -25,8 +25,8 @@ theorem fjKGAAt_omegaProj_eight_minus (hQ : Q.Nondegenerate)
     (hsurj : Function.Surjective (ffSimOmegaAct hQ (by omega) : ProjSim Q →* _))
     (h53 : ∀ (s : OGroup Q) (hs : s * s = 1), Fj53 hQ hs) : FJKGAAt ↥(omegaProj hQ) := by
   have h2 : 2 ≤ Module.finrank (ZMod 3) V := by omega
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite ↥(omegaGroup hQ) := Subtype.finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite ↥(omegaGroup hQ) := Subtype.finite
   have hinj : Function.Injective (ffSimOmegaAct hQ h2 : ProjSim Q →* _) :=
     ffSimOmegaAct_injective hQ (by omega)
   intro y B hy hB α hαα hα1 hfix hαy

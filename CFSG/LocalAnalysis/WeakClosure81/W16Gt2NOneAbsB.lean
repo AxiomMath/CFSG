@@ -13,6 +13,7 @@ namespace NOne
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 private theorem conj_mem_commutator_of_normalizes {O : Subgroup Ω} {r : Ω}
     (hr : ∀ o ∈ O, r * o * r⁻¹ ∈ O) {d : Ω} (hd : d ∈ ⁅O, O⁆) :
     r * d * r⁻¹ ∈ ⁅O, O⁆ := by
@@ -84,13 +85,13 @@ theorem exists_isPGroup_of_minimal {R O : Subgroup Ω} {t : Ω} (hR2 : IsPGroup 
       ⟨fun ho => hRO r hr o ho, fun ho => by
         have h := hRO r⁻¹ (R.inv_mem hr) (r * o * r⁻¹) ho
         rwa [show r⁻¹ * (r * o * r⁻¹) * r⁻¹⁻¹ = o from by group] at h⟩
-  letI : MulDistribMulAction ↥R ↥O := Subgroup.conjMulDistribMulActionOfLeNormalizer R O hRO'
-  haveI : Fact (IsPGroup 2 ↥R) := ⟨hR2⟩
+  let : MulDistribMulAction ↥R ↥O := Subgroup.conjMulDistribMulActionOfLeNormalizer R O hRO'
+  have : Fact (IsPGroup 2 ↥R) := ⟨hR2⟩
   have hcop : Nat.Coprime 2 (Nat.card ↥O) := Nat.coprime_two_left.mpr hOodd
   have hHtop : (Subgroup.centralizer ({t} : Set Ω)).subgroupOf O = ⊤ := by
     refine eq_top_of_exists_sylow_le _ ?_
     intro p hp hpp
-    haveI : Fact p.Prime := hpp
+    have : Fact p.Prime := hpp
     obtain ⟨P, hPinv⟩ :=
       CFSG.exists_invariant_sylow (G := ↥O) (A := ↥R) (p := 2) (q := p) hcop
     refine ⟨P, ?_⟩
@@ -116,7 +117,7 @@ theorem exists_isPGroup_of_minimal {R O : Subgroup Ω} {t : Ω} (hR2 : IsPGroup 
     have hQeq : (P : Subgroup ↥O).map O.subtype = O :=
       hmin _ (Subgroup.map_subtype_le _) hQinv ⟨(x : Ω), ⟨x, hxP, rfl⟩, hxne⟩
     have hmap : IsPGroup p ((P : Subgroup ↥O).map O.subtype) :=
-      IsPGroup.map P.isPGroup' O.subtype
+      IsPGroup.map P.isPGroup O.subtype
     exact hcon ⟨p, (Nat.mem_primeFactors.mp hp).1,
       Odd.ne_two_of_dvd_nat hOodd (Nat.mem_primeFactors.mp hp).2.1, hQeq ▸ hmap⟩
   obtain ⟨o, ho, hne⟩ := hnc
@@ -140,8 +141,8 @@ theorem commute_of_isPGroup {Hh K R O : Subgroup Ω} {t : Ω} (hK : IsConjClosur
     rw [hbot, Subgroup.mem_bot] at ho
     subst ho
     exact hne (by simp)
-  haveI : Nontrivial ↥O := (Subgroup.nontrivial_iff_ne_bot O).mpr hObot
-  haveI : Group.IsNilpotent ↥O := hOp.isNilpotent
+  have : Nontrivial ↥O := (Subgroup.nontrivial_iff_ne_bot O).mpr hObot
+  have : Group.IsNilpotent ↥O := hOp.isNilpotent
   have hDne : ⁅O, O⁆ ≠ O := by
     have hlt : ⁅O, O⁆ < O := by
       have hcommtop : _root_.commutator ↥O < ⊤ :=
@@ -190,6 +191,7 @@ theorem commute_of_isPGroup {Hh K R O : Subgroup Ω} {t : Ω} (hK : IsConjClosur
   rw [Subgroup.mem_centralizer_iff] at hmem
   exact (hmem y hy).symm
 
+omit [Finite Ω] in
 theorem inv_eq_of_commute {R O : Subgroup Ω} {t : Ω} (htR : t ∈ R) (ht2 : t * t = 1)
     (hRt : ∀ r ∈ R, r * t = t * r) (hOodd : Odd (Nat.card O))
     (hRO : ∀ r ∈ R, ∀ o ∈ O, r * o * r⁻¹ ∈ O) (hab : ∀ x ∈ O, ∀ y ∈ O, x * y = y * x)

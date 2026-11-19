@@ -27,7 +27,7 @@ section Exclusion
 theorem Out.false_of_noM12List
     (hMcard : Nat.card CFSG.Open.MonsterY443Derived = CFSG.Open.monsterOrder)
     (hO : Out G L t) (hG : NoM12List G) : False := by
-  haveI : IsSimpleGroup G := hO.std.simple
+  have : IsSimpleGroup G := hO.std.simple
   exact false_of_m12Comp hMcard hO.std.nonabelian hO.inv hO.isCompIn hO.m12
     hO.card_centralizer hG
 
@@ -37,7 +37,7 @@ theorem stdHyp_of_top
     (hMcard : Nat.card CFSG.Open.MonsterY443Derived = CFSG.Open.monsterOrder)
     (hP2 : CITPart2) (hO : Out G L t) {X : Subgroup G} {z : G} (hz : orderOf z = 2)
     (hX : IsCompIn X (centralizer ({z} : Set G))) (hXs : StdBare X) : StdHyp G X := by
-  haveI : IsSimpleGroup G := hO.std.simple
+  have : IsSimpleGroup G := hO.std.simple
   have hnonab : ∃ a b : G, a * b ≠ b * a := hO.std.nonabelian
   have hkp : CFSG.Assembly.KProper CFSG.Blueprint.Catalog G := hO.std.kProper
   have hSol : SolStd X := ⟨hXs, z, hz, hX⟩
@@ -51,7 +51,7 @@ theorem stdHyp_of_top
   obtain ⟨S⟩ : Nonempty (Sylow 2 (centralizer (X : Set G))) := inferInstance
   refine ⟨hO.std.simple, hnonab, hkp, hstd, hO.std.oddCore, ⟨S, ?_⟩,
     isPGroup_center_of_balance hSol hz hX (hO.std.oddCore z hz)⟩
-  rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup'
+  rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup
       (HSStd.Zassenhaus.Outer.pRank_sylow_le_one_of_le_one hr1 S) with hc | hq
   · exact hc
   · exfalso

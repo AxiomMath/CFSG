@@ -120,13 +120,13 @@ private theorem exists_f956Data (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥
     have hc := Subgroup.card_le_of_le hle
     rw [card_V h, card_U h hg] at hc
     omega
-  obtain ⟨v, hv, hvU⟩ := SetLike.not_le_iff_exists.mp hVU
+  obtain ⟨v, hv, hvU⟩ := IsConcreteLE.not_le_iff_exists.mp hVU
   have hVgB : ¬ conjSubgroup V g ≤ conjSubgroup V g ⊓ M := by
     intro hle
     have hc := Subgroup.card_le_of_le hle
     rw [E3.card_conjSubgroup, card_V h, card_B h hg] at hc
     omega
-  obtain ⟨i, hi, hiB⟩ := SetLike.not_le_iff_exists.mp hVgB
+  obtain ⟨i, hi, hiB⟩ := IsConcreteLE.not_le_iff_exists.mp hVgB
   exact ⟨z, v, i, f956Data h hg hz hz2 hv hvU hi hiB⟩
 
 theorem isExtraspecialPlus2_K (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V g) :
@@ -157,7 +157,8 @@ theorem cube_mem_centralizer (h : Cfg1667 M V W₁ W₂) (hg : InCalO 1 M ⊥ V 
   intro u hu
   exact (D.cube_comm hu).symm
 
-theorem K_le_X (h : Cfg1667 M V W₁ W₂) :
+omit [Finite G] in
+theorem K_le_X (_h : Cfg1667 M V W₁ W₂) :
     (V ⊓ conjSubgroup M g) ⊔ (conjSubgroup V g ⊓ M) ≤ V ⊔ conjSubgroup V g := by
   exact sup_le (inf_le_left.trans le_sup_left) (inf_le_left.trans le_sup_right)
 

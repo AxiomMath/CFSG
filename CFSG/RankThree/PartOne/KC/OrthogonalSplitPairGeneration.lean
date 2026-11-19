@@ -72,10 +72,10 @@ private theorem finrank_coordinate_support
       let v : ι → F := fun i => if hi : i ∈ T then g ⟨i, hi⟩ else 0
       have hv : v ∈ supp F (T : Set ι) := by
         intro i hi
-        simp only [v, dif_neg (show i ∉ T from hi)]
+        simp only [v, dite_eq_right (show i ∉ T from hi)]
       refine ⟨⟨v, hv⟩, ?_⟩
       funext i
-      simp only [f, LinearMap.coe_mk, AddHom.coe_mk, v, dif_pos i.2]
+      simp only [f, LinearMap.coe_mk, AddHom.coe_mk, v, dite_eq_left i.2]
   calc
     _ = finrank F (T → F) := (LinearEquiv.ofBijective f hf).finrank_eq
     _ = T.card := by simp [Module.finrank_fintype_fun_eq_card]
@@ -85,7 +85,7 @@ private theorem finrank_anchored_pair
     {n : ℕ} (i j : Fin (n - 1)) (hij : i ≠ j) :
     finrank F (anchoredSupport F n {i, j}) = 6 := by
   rw [anchoredSupport, finrank_coordinate_support]
-  simp [activeCoords, eCoords, fCoords, planeCoords, hij, hij.symm]
+  simp [activeCoords, eCoords, fCoords, planeCoords, hij]
 
 private theorem orthExtend_eichler_eq
     {F V : Type*} [Field F] [AddCommGroup V] [Module F V]
@@ -136,23 +136,23 @@ private theorem anchored_pair_perp_decompose
   rcases a with k | k | t
   · by_cases hki : k = i
     · subst k
-      simp [planeVec, eVec, fVec, Pi.single_apply, hij, hei]
+      simp [planeVec, eVec, fVec, hij, hei]
     · by_cases hkj : k = j
       · subst k
-        simp [planeVec, eVec, fVec, Pi.single_apply]
+        simp [planeVec, eVec, fVec]
       · have hwk : w (.inl k) = 0 := hw _ (by
           simp [activeCoords, eCoords, fCoords, planeCoords, hki, hkj])
-        simp [planeVec, eVec, fVec, Pi.single_apply, hkj, hwk]
+        simp [planeVec, eVec, fVec, hkj, hwk]
   · by_cases hki : k = i
     · subst k
-      simp [planeVec, eVec, fVec, Pi.single_apply, hij, hfi]
+      simp [planeVec, eVec, fVec, hij, hfi]
     · by_cases hkj : k = j
       · subst k
-        simp [planeVec, eVec, fVec, Pi.single_apply]
+        simp [planeVec, eVec, fVec]
       · have hwk : w (.inr (.inl k)) = 0 := hw _ (by
           simp [activeCoords, eCoords, fCoords, planeCoords, hki, hkj])
-        simp [planeVec, eVec, fVec, Pi.single_apply, hkj, hwk]
-  · simp [planeVec, eVec, fVec, Pi.single_apply]
+        simp [planeVec, eVec, fVec, hkj, hwk]
+  · simp [planeVec, eVec, fVec]
 
 private theorem eichler_pair_perp_mem
     {F : Type} [Field F] [Finite F] [CharP F 2]
@@ -189,7 +189,7 @@ private theorem eichler_pair_perp_mem
     have hv : Q (minusVec n j s) = 0 := quadMinus_minusVec n b c j s
     have hUV : polar Q (eVec n i) (minusVec n j s) = 0 := by
       cases s <;> simp [Q, eVec, minusVec_eq_single, minusPos,
-        polar_quadMinus, Pi.single_apply, hij, hij.symm]
+        polar_quadMinus, Pi.single_apply, hij.symm]
     have hVA (p : Fin 2 → F) : polar Q (minusVec n j s) (planeVec n p) = 0 :=
       polar_minusVec_planeVec n b c j s p
     have hVS : minusVec n j s ∈ anchoredSupport F n {j} := by
@@ -205,9 +205,9 @@ private theorem eichler_pair_perp_mem
       ((anchoredSupport F n {j}).smul_mem t (planeVec_mem_anchoredSupport {j} _)) hv ?_
     rw [polar_smul_right, hVA, smul_zero]
   have hUe : polar Q (eVec n i) (w (.inl j) • eVec n j) = 0 := by
-    simp [Q, eVec, polar_quadMinus, Pi.single_apply, hij, hij.symm]
+    simp [Q, eVec, polar_quadMinus, Pi.single_apply]
   have hUf : polar Q (eVec n i) (w (.inr (.inl j)) • fVec n j) = 0 := by
-    simp [Q, eVec, fVec, polar_quadMinus, Pi.single_apply, hij, hij.symm]
+    simp [Q, eVec, fVec, polar_quadMinus, Pi.single_apply, hij.symm]
   rw [anchored_pair_perp_decompose i j hij w hw hei hfi,
     ← eichler_mul (by rw [polar_add_right, huA, hUe, add_zero]) hUf,
     ← eichler_mul (huA _) hUe]
@@ -252,7 +252,7 @@ private theorem supported_anchored_pair_generation
   have hQa : R a ≠ 0 := by
     change quadMinus n F b c (planeVec n (Pi.single 0 1)) ≠ 0
     rw [quadMinus_planeVec]
-    simp [Pi.single_apply]
+    simp
   have hρ (u w : P) (hu : R u = 0) (huw : polar R u w = 0) :
       ρ (eichlerG R u w) = eichler Q (u : Vm n F) (w : Vm n F) := by
     change orthExtend hP (eichler R u w) = _

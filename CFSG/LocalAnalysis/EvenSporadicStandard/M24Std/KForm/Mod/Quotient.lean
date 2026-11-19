@@ -56,7 +56,7 @@ theorem nonempty_quotient_equiv_of_odd_ker {C : Type*} [Group C] [Finite C] {B :
   have hle1 : ψ.ker ≤ fusionOddCore C :=
     CFSG.EvenSporadicStandard.M23Std.le_fusionOddCore_of_odd (N := ψ.ker) hodd
   have hle2 : fusionOddCore C ≤ ψ.ker := by
-    haveI : ((fusionOddCore C).map ψ).Normal :=
+    have : ((fusionOddCore C).map ψ).Normal :=
       (inferInstance : (fusionOddCore C).Normal).map ψ hψ
     have hoddmap : Odd (Nat.card ((fusionOddCore C).map ψ)) :=
       Odd.of_dvd_nat (CFSG.EvenSporadicStandard.M23Std.natCard_fusionOddCore_odd C)
@@ -95,7 +95,7 @@ theorem exists_hom_quotient {X : Type} [Group X] [Finite X] {z : X} (hz : orderO
       exact Subgroup.card_dvd_of_le hle
     exact Odd.of_dvd_nat (CFSG.EvenSporadicStandard.M23Std.natCard_fusionOddCore_odd X) hdvd
   have hVle : V ≤ ψ.ker := by
-    haveI : (V.map ψ).Normal := (inferInstance : V.Normal).map ψ hψ
+    have : (V.map ψ).Normal := (inferInstance : V.Normal).map ψ hψ
     have hoddmap : Odd (Nat.card (V.map ψ)) :=
       Odd.of_dvd_nat hVodd (Subgroup.card_map_dvd (H := V) ψ)
     have hle := CFSG.EvenSporadicStandard.M23Std.le_fusionOddCore_of_odd (N := V.map ψ) hoddmap
@@ -172,7 +172,7 @@ theorem quotient_setting_mod {X : Type} [Group X] [Finite X] (hK : CFSG.SectionR
   have hzbar2 : (QuotientGroup.mk' (fusionOddCore X) z) ^ 2 = 1 := by
     rw [pow_two, ← map_mul, htt, map_one]
   have hord : orderOf (QuotientGroup.mk' (fusionOddCore X) z) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hzbar2 hzbar_ne
   refine ⟨hO, hK.quotient (fusionOddCore X), hord, ?_⟩
   let ψ : ↥(centralizer ({z} : Set X)) →* Multiplicative (ZMod 2) × B :=

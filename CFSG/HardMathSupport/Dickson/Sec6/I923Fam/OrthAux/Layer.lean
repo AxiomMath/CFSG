@@ -20,7 +20,7 @@ open scoped commutatorElement
 theorem noL2Layer_of_congr {P P' : Type} [Group P] [Finite P] [Group P'] (e : P ≃* P')
     {ψ : MulAut P} (h : NoL2Layer (MulAut.congr e ψ)) : NoL2Layer ψ := by
   intro A hA r hr hT
-  haveI : Finite P' := Finite.of_equiv P e.toEquiv
+  have : Finite P' := Finite.of_equiv P e.toEquiv
   have hker : (e : P →* P').ker ≤ Subgroup.center P := by
     intro x hx
     have hx1 : x = 1 := e.injective (by simpa using hx)

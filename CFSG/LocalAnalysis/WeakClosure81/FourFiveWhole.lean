@@ -41,10 +41,10 @@ private theorem fourFive_whole_aux {j : ℕ} (hj : 1 ≤ j) :
       refine Set.mem_mul.mpr ⟨1, (E1.eGen j ⊤ T Ω).one_mem, 1,
         (Subgroup.normalizer (E1.weakClosure T Ω : Set Q)).one_mem, ?_⟩
       exact (Subsingleton.elim _ _)
-    · haveI : Nontrivial Q := not_subsingleton_iff_nontrivial.mp hsub
+    · have : Nontrivial Q := not_subsingleton_iff_nontrivial.mp hsub
       obtain ⟨R, hRn, -, hRbot, hRmin⟩ :=
         CFSG.exists_minimal_normal_le (⊤ : Subgroup Q) inferInstance top_ne_bot
-      haveI := hRn
+      have := hRn
       have hmin : ∀ M : Subgroup Q, M.Normal → M ≤ R → M = ⊥ ∨ M = R := fun M hM hMR => by
         by_cases hMbot : M = ⊥
         · exact Or.inl hMbot

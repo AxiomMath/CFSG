@@ -32,7 +32,7 @@ theorem hdRo7CLCoordAux_model_forward {G : Type} [Group G] [Finite G] (p : ℕ)
         ∀ f f', (g : G) * (τT f : G) * (g : G)⁻¹ = (τT f' : G) →
           ∀ i, Multiplicative.toAdd (f' (π i)) = ε i * Multiplicative.toAdd (f i))
     (hLx : ∀ g : ↥L, (g : G) * x * (g : G)⁻¹ = x)
-    (hxp : x ^ p = 1) (hxne : x ≠ 1) (hp : Nat.Prime p) (hx : x ∈ Bs) :
+    (_hxp : x ^ p = 1) (_hxne : x ≠ 1) (_hp : Nat.Prime p) (_hx : x ∈ Bs) :
     ∀ a : MulAut ↥Bs, a ∈ ggAutomizer L Bs →
       hdRo7CLCoordAux_CoordPerm p Bs k
         (hdRo7CLCoordAux_tau p B Bs x L k τT hτT τC Φ) a := by
@@ -100,7 +100,7 @@ theorem hdRo7CLCoordAux_model_forward {G : Type} [Group G] [Finite G] (p : ℕ)
 
 
 theorem hdRo7CLCoordAux_conj_mem_normalizer {G : Type} [Group G] [Finite G] (p : ℕ)
-    (B Bs : Subgroup G) (x : G) (L : Subgroup G) (k : ℕ)
+    (_B Bs : Subgroup G) (_x : G) (L : Subgroup G) (k : ℕ)
     (τT : (Fin k → Multiplicative (ZMod p)) →* ↥(Bs ⊓ L))
     (hτT : Function.Bijective τT)
     (Φ : ↥(Bs ⊓ L) × ↥(Bs ⊓ Subgroup.centralizer (L : Set G)) ≃* ↥Bs)
@@ -156,7 +156,7 @@ theorem hdRo7CLCoordAux_model_sign {G : Type} [Group G] [Finite G] (p : ℕ)
     (hC : ∀ m : Multiplicative (ZMod p), (τC m : G) = x ^ (Multiplicative.toAdd m).val)
     (hsgn : ∀ i : Fin k, ∃ w : ↥L, ∀ f,
       (w : G) * (τT f : G) * (w : G)⁻¹ = (τT (SpCoord.sgnAut i f) : G))
-    (hLx : ∀ g : ↥L, (g : G) * x * (g : G)⁻¹ = x) (hx : x ∈ Bs) :
+    (hLx : ∀ g : ↥L, (g : G) * x * (g : G)⁻¹ = x) (_hx : x ∈ Bs) :
     ∀ i : Fin k, ∃ a ∈ ggAutomizer L Bs,
       ∀ f : Fin (k + 1) → Multiplicative (ZMod p),
         (a (hdRo7CLCoordAux_tau p B Bs x L k τT hτT τC Φ f) : G) =
@@ -180,9 +180,9 @@ theorem hdRo7CLCoordAux_model_sign {G : Type} [Group G] [Finite G] (p : ℕ)
     rw [SpCoord.sgnAut_apply, Function.update_apply, Function.update_apply]
     by_cases hj : j = i
     · rw [hj]
-      rw [if_pos rfl, if_pos rfl]
+      rw [ite_eq_left rfl, ite_eq_left rfl]
     · have h : ¬ (j.succ = i.succ) := fun hh => hj (Fin.succ_inj.mp hh)
-      rw [if_neg h, if_neg hj]
+      rw [ite_eq_right h, ite_eq_right hj]
   have hzero : (Function.update f i.succ (f i.succ)⁻¹) 0 = f 0 :=
     Function.update_of_ne (Fin.succ_ne_zero i).symm (f i.succ)⁻¹ f
   rw [ggConjAut_apply]
@@ -213,7 +213,7 @@ theorem hdRo7CLCoordAux_model_perm {G : Type} [Group G] [Finite G] (p : ℕ)
     (hC : ∀ m : Multiplicative (ZMod p), (τC m : G) = x ^ (Multiplicative.toAdd m).val)
     (hperm : ∀ σ : Equiv.Perm (Fin k), ∃ w : ↥L, ∀ f,
       (w : G) * (τT f : G) * (w : G)⁻¹ = (τT (SpCoord.permAut σ f) : G))
-    (hLx : ∀ g : ↥L, (g : G) * x * (g : G)⁻¹ = x) (hx : x ∈ Bs) :
+    (hLx : ∀ g : ↥L, (g : G) * x * (g : G)⁻¹ = x) (_hx : x ∈ Bs) :
     ∀ π : Equiv.Perm (Fin k), ∃ a ∈ ggAutomizer L Bs,
       ∀ f : Fin (k + 1) → Multiplicative (ZMod p),
         (a (hdRo7CLCoordAux_tau p B Bs x L k τT hτT τC Φ f) : G) =
@@ -358,7 +358,7 @@ private theorem hdRo7CLCoordAux_model_backward_aux {G : Type} [Group G] [Finite 
         hdRo7CLCoordAux_model_sign p B Bs x L k τT hτT τC Φ hΦ hC hsgn hLx hx j
       let c' : Fin (k + 1) → ZMod p := fun i => if i = i0 then -c i else c i
       let a' : MulAut ↥Bs := a_j * a
-      have hc0' : c' 0 = 1 := by simp only [c']; rw [if_neg (Ne.symm hi0ne), hc0]
+      have hc0' : c' 0 = 1 := by simp only [c']; rw [ite_eq_right (Ne.symm hi0ne), hc0]
       have hc' : ∀ i, c' i = 1 ∨ c' i = -1 := by
         intro i
         by_cases h : i = i0
@@ -366,7 +366,7 @@ private theorem hdRo7CLCoordAux_model_backward_aux {G : Type} [Group G] [Finite 
             rw [h]
             simp [c', hi0]
           rw [h1]; exact Or.inl rfl
-        · have hci : c' i = c i := by simp only [c']; rw [if_neg h]
+        · have hci : c' i = c i := by simp only [c']; rw [ite_eq_right h]
           rw [hci]; exact hc i
       have hrel' : ∀ f i, Multiplicative.toAdd (τ.symm (a' (τ f)) (σ i)) =
           c' i * Multiplicative.toAdd (f i) := by
@@ -384,7 +384,7 @@ private theorem hdRo7CLCoordAux_model_backward_aux {G : Type} [Group G] [Finite 
         by_cases hi : i = i0
         · have hrelj := hrel f i0
           rw [← hj] at hrelj
-          rw [hi, ← hj, Function.update_apply, if_pos rfl]
+          rw [hi, ← hj, Function.update_apply, ite_eq_left rfl]
           rw [show Multiplicative.toAdd ((τ.symm (a (τ f)) j.succ)⁻¹) =
               -Multiplicative.toAdd (τ.symm (a (τ f)) j.succ) from rfl]
           rw [hrelj, hi0]
@@ -392,8 +392,8 @@ private theorem hdRo7CLCoordAux_model_backward_aux {G : Type} [Group G] [Finite 
           rw [hc'i0, one_mul]
           ring
         · have hne : σ i ≠ j.succ := fun h => hi (σ.injective (h.trans hj))
-          rw [Function.update_apply, if_neg hne]
-          have hci : c' i = c i := by simp only [c']; rw [if_neg hi]
+          rw [Function.update_apply, ite_eq_right hne]
+          have hci : c' i = c i := by simp only [c']; rw [ite_eq_right hi]
           rw [hrel f i, hci]
       have hfilter : Finset.univ.filter (fun i : Fin (k + 1) => c' i ≠ 1) =
           (Finset.univ.filter (fun i : Fin (k + 1) => c i ≠ 1)).erase i0 := by
@@ -408,11 +408,11 @@ private theorem hdRo7CLCoordAux_model_backward_aux {G : Type} [Group G] [Finite 
             exact hi h1
           · by_cases h : i = i0
             · rw [h]; exact hi0ne1
-            · have hci : c' i = c i := by simp only [c']; rw [if_neg h]
+            · have hci : c' i = c i := by simp only [c']; rw [ite_eq_right h]
               rwa [hci] at hi
         · rintro ⟨hne, hci⟩
           have h : i ≠ i0 := hne
-          have hci' : c' i = c i := by simp only [c']; rw [if_neg h]
+          have hci' : c' i = c i := by simp only [c']; rw [ite_eq_right h]
           rw [hci']
           exact hci
       have hcount_lt : (Finset.univ.filter (fun i : Fin (k + 1) => c' i ≠ 1)).card < n := by
@@ -437,7 +437,7 @@ theorem hdRo7CLCoordAux_model_backward {G : Type} [Group G] [Finite G] (p : ℕ)
     (hperm : ∀ σ : Equiv.Perm (Fin k), ∃ w : ↥L, ∀ f,
       (w : G) * (τT f : G) * (w : G)⁻¹ = (τT (SpCoord.permAut σ f) : G))
     (hLx : ∀ g : ↥L, (g : G) * x * (g : G)⁻¹ = x)
-    (hxp : x ^ p = 1) (hxne : x ≠ 1) (hp : Nat.Prime p) (hx : x ∈ Bs) :
+    (_hxp : x ^ p = 1) (_hxne : x ≠ 1) (_hp : Nat.Prime p) (hx : x ∈ Bs) :
     ∀ a : MulAut ↥Bs,
       hdRo7CLCoordAux_CoordPerm p Bs k
         (hdRo7CLCoordAux_tau p B Bs x L k τT hτT τC Φ) a →

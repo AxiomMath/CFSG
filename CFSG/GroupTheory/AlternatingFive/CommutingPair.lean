@@ -178,9 +178,9 @@ theorem map_conj_eq_or_eq_of_normalizes {G : Type*} [Group G] {L₁ L₂ : Subgr
   have hXmap : X.map φ.toMonoidHom = X := by
     have h := Subgroup.mem_normalizer_iff_map_conj_eq.mp ha
     simpa [X, φ] using h
-  haveI : IsSimpleGroup ↥L₁ := e₁.isSimpleGroup
-  haveI : IsSimpleGroup ↥L₂ := e₂.isSimpleGroup
-  haveI : IsSimpleGroup ↥K := by
+  have : IsSimpleGroup ↥L₁ := e₁.isSimpleGroup
+  have : IsSimpleGroup ↥L₂ := e₂.isSimpleGroup
+  have : IsSimpleGroup ↥K := by
     have eK : ↥L₁ ≃* ↥K :=
       Subgroup.equivMapOfInjective L₁ φ.toMonoidHom φ.injective
     exact eK.symm.isSimpleGroup

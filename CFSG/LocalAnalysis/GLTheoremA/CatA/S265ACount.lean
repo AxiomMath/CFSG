@@ -94,10 +94,10 @@ theorem nine_mul_sum_nOut_sq (h : ι → Subgroup A) (w : ι → ℕ) (h3 : ∀ 
     by_cases hij : i = j
     · subst hij
       have h3' := three_mul_card_not_mem (h i) (h3 i)
-      simp only [and_self, if_true]
+      simp only [and_self, ite_true]
       omega
-    · haveI := hn i
-      rw [if_neg hij, add_zero]
+    · have := hn i
+      rw [ite_eq_right hij, add_zero]
       exact nine_mul_card_not_mem_two (h3 i) (h3 j) (hinj.ne hij)
   have hsq : ∀ a, nOut h w a ^ 2 =
       ∑ i, ∑ j, (if a ∉ h i ∧ a ∉ h j then 1 else 0) * (w i * w j) := by
@@ -116,7 +116,7 @@ theorem nine_mul_sum_nOut_sq (h : ι → Subgroup A) (w : ι → ℕ) (h3 : ∀ 
     congr 1
     · rw [mul_sum, mul_sum]
     · rw [sum_eq_single i (fun j _ hji => by simp [Ne.symm hji]) (by simp)]
-      simp only [if_true]
+      simp only [ite_true]
       ring
   calc 9 * ∑ a, nOut h w a ^ 2
       = 9 * ∑ i, ∑ j, ∑ a, (if a ∉ h i ∧ a ∉ h j then 1 else 0) * (w i * w j) := by

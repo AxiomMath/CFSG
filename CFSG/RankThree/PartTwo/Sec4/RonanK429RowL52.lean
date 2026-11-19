@@ -12,7 +12,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec4
 open CFSG.Assembly.RankThreeEven (projSL)
 
 theorem noE27_projSL_five_two : NoE27 (projSL 5 (GaloisField 2 1)) := by
-  haveI : Finite (projSL 5 (GaloisField 2 1)) :=
+  have : Finite (projSL 5 (GaloisField 2 1)) :=
     Finite.of_equiv _ Res417Four.gl5EquivProjSL.toEquiv
   refine noE27_of_not_dvd ?_
   rw [← Nat.card_congr Res417Four.gl5EquivProjSL.toEquiv]

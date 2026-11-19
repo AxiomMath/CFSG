@@ -35,17 +35,17 @@ theorem le_centralizer_of_isPerfect_of_card_eq_sq [Group Q] [Finite Q] {q : ℕ}
     {P C W : Subgroup Q} [C.Normal] [hWn : W.Normal] (hP : ⁅P, P⁆ = P)
     (hC : Nat.card C = q ^ 2) (hWC : W ≤ C) (hW : Nat.card W = q) :
     P ≤ centralizer (C : Set Q) := by
-  haveI : IsCyclic W := isCyclic_of_prime_card hW
+  have : IsCyclic W := isCyclic_of_prime_card hW
   let Wq : Subgroup C := W.subgroupOf C
-  haveI hWqnormal : Wq.Normal := hWn.subgroupOf C
+  have hWqnormal : Wq.Normal := hWn.subgroupOf C
   have hquotcard : Nat.card (C ⧸ Wq) = q := by
     have h := card_eq_card_quotient_mul_card_subgroup Wq
     rw [hC, Nat.card_congr (subgroupOfEquivOfLe hWC).toEquiv, hW] at h
     exact Nat.eq_of_mul_eq_mul_right (Fact.out : q.Prime).pos (by rw [← h]; ring)
-  haveI : IsCyclic (C ⧸ Wq) := isCyclic_of_prime_card hquotcard
-  letI : CommGroup C := IsPGroup.commGroupOfCardEqPrimeSq hC
+  have : IsCyclic (C ⧸ Wq) := isCyclic_of_prime_card hquotcard
+  let : CommGroup C := IsPGroup.commGroupOfCardEqPrimeSq hC
   let φ : Q →* MulAut C := MulAut.conjNormal (H := C)
-  haveI : Group.IsPerfect ↥(P.map φ) := isPerfect_iff.mpr (by rw [← map_commutator, hP])
+  have : Group.IsPerfect ↥(P.map φ) := isPerfect_iff.mpr (by rw [← map_commutator, hP])
   have hWcent : P ≤ centralizer (W : Set Q) :=
     CFSG.LocalAnalysis.CyclicNormalConj.le_centralizer_of_perfect inferInstance hP
   have hfixW : Wq ≤ CFSG.Quasithin.fixV (P.map φ) := by

@@ -33,15 +33,15 @@ theorem AschbacherHyp.exists_conj_mod_centerOf (hC : AschbacherHyp C Q)
       ((α (MulAut.conjNormal t (α.symm x)) : ↥(commutator C')) : C') *
         (τ * (x : C') * τ⁻¹)⁻¹ ∈ centerOf Q' := by
   classical
-  haveI : Finite Q := hC.plus.finite
+  have : Finite Q := hC.plus.finite
   have hE : IsExtraspecialPGroup 2 Q := hC.plus.isExtraspecialPGroup
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hE
-  haveI : Finite Q' := hC'.plus.finite
+  have : Finite Q' := hC'.plus.finite
   have hE' : IsExtraspecialPGroup 2 Q' := hC'.plus.isExtraspecialPGroup
-  letI : Module (ZMod 2) (Additive (Abelianization Q')) :=
+  let : Module (ZMod 2) (Additive (Abelianization Q')) :=
     CFSG.GroupTheory.extraspecialQuotientModule hE'
-  haveI : Finite (Additive (Abelianization Q')) := by
+  have : Finite (Additive (Abelianization Q')) := by
     change Finite (Q' ⧸ _root_.commutator Q'); infer_instance
   obtain ⟨t', ht'⟩ := hC'.exists_isOuterInvolution
   obtain ⟨θ, σ, s, hθs, hθk, hσθ, hσi, hirr, hs_swap, hρt⟩ := hC.exists_hom_swap ht

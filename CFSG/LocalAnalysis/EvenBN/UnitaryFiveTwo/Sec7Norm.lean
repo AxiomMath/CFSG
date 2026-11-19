@@ -84,7 +84,7 @@ namespace Data.Hyp
 
 variable [Finite G] {d : Data G}
 
-theorem centralizer_L_le_normalizer_K (h : d.Hyp) {c : G} (hc : c ∈ centralizer (d.L : Set G)) :
+theorem centralizer_L_le_normalizer_K (_h : d.Hyp) {c : G} (hc : c ∈ centralizer (d.L : Set G)) :
     c ∈ normalizer (d.K : Set G) := by
   refine d.mem_normalizer_K ?_
   have hce : c ∈ centralizer ({d.e₂} : Set G) :=
@@ -122,6 +122,7 @@ theorem H_le_normalizer_Dsub (h : d.Hyp) : d.H ≤ normalizer (d.Dsub : Set G) :
   rw [hcomp, ← Subgroup.map_map, map_conj_Dsub_eq (h.H_le_normalizer hnH) hn,
     map_conj_Dsub_eq_of_mem_L hl]
 
+omit [Finite G] in
 theorem map_conj_map_conj_comm {l t : G} (hlt : l * t = t * l) (M : Subgroup G) :
     (M.map (MulAut.conj l).toMonoidHom).map (MulAut.conj t).toMonoidHom =
       (M.map (MulAut.conj t).toMonoidHom).map (MulAut.conj l).toMonoidHom := by

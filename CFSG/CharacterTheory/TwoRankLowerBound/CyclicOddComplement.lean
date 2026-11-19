@@ -73,7 +73,7 @@ theorem exists_characteristic_odd_complement_of_cyclic_sylow_two {G : Type*}
     · intro hmember
       exact hodd.of_dvd_nat (transfer.ker.orderOf_dvd_natCard hmember)
     · intro helement
-      exact hom_to_two_group_eq_one_of_odd_order sylow.isPGroup' transfer element helement
+      exact hom_to_two_group_eq_one_of_odd_order sylow.isPGroup transfer element helement
   have hcharacteristic : transfer.ker.Characteristic := by
     constructor
     intro automorphism

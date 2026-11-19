@@ -37,7 +37,7 @@ private theorem ltrb1r0_relIndex_inf_eq_of_sup {A : Type} [Group A] {H G M : Sub
   have h2 : H'.relIndex M' = (H' ⊓ M').relIndex M' :=
     (Subgroup.inf_relIndex_right H' M').symm
   have h3 : H'.relIndex M' = H'.relIndex ⊤ := by
-    haveI : H'.Normal := hN
+    have : H'.Normal := hN
     have h := Subgroup.relIndex_sup_left (K := H') (H := M')
     rw [hTop] at h
     exact h.symm

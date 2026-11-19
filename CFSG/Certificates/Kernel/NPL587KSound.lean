@@ -142,10 +142,10 @@ theorem lett_mem {L : Subgroup (Equiv.Perm (Fin 8))} (hL : S0K ≤ L) {ρ : Equi
   simp only [Bool.or_eq_true, beq_iff_eq, memB_iff] at h
   unfold lettC
   by_cases h0 : a = 0
-  · simp only [h0, beq_self_eq_true, if_true]
+  · simp only [h0, beq_self_eq_true, ite_true]
     exact ⟨ρ, hρ, rfl⟩
   by_cases h1 : a = 1
-  · simp only [h1, beq_self_eq_true, if_true, Nat.one_ne_zero, beq_iff_eq, if_false]
+  · simp only [h1, beq_self_eq_true, ite_true, Nat.one_ne_zero, beq_iff_eq, ite_false]
     exact ⟨ρ ^ (o - 1), L.pow_mem hρ _, (powC_encP ρ (o - 1)).symm⟩
   have hg : a ∈ S0codes () := by
     rcases h with (h | h) | h

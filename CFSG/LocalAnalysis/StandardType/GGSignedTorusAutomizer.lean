@@ -32,14 +32,14 @@ private theorem signed_simple_isReflection {p : ℕ} (hp : p.Prime) (hp2 : p ≠
     (κ : (Fin 3 → Multiplicative (ZMod p)) ≃* ↥E) (i : Fin 3) :
     GGIsReflection p (MulAut.congr κ (ggSpSigned_spReflAut p 3 i)) := by
   by_cases hi : i.val + 1 < 3
-  · rw [ggSpSigned_spReflAut, dif_pos hi]
+  · rw [ggSpSigned_spReflAut, dite_eq_left hi]
     have hne : i ≠ (⟨i.val + 1, hi⟩ : Fin 3) := by
       intro h
       have : i.val = i.val + 1 := congrArg Fin.val h
       omega
     exact ggSpSigned_ggIsReflection_congr hp hp2 κ
       (permAut_swap_sq i ⟨i.val + 1, hi⟩) (card_fix_permAut_swap hp hp2 hne)
-  · rw [ggSpSigned_spReflAut, dif_neg hi]
+  · rw [ggSpSigned_spReflAut, dite_eq_right hi]
     exact ggSpSigned_ggIsReflection_congr hp hp2 κ (sgnAut_sq i)
       (card_fix_sgnAut hp hp2 i)
 
@@ -104,9 +104,9 @@ theorem exists_coxeterB_three_automizer_of_torus {p : ℕ} (hp : p.Prime) (hp2 :
       rintro u ⟨i, rfl⟩
       change φ i ∈ H
       by_cases hi : i.val + 1 < 3
-      · simpa only [φ, ggSpSigned_spReflAut, dif_pos hi] using
+      · simpa only [φ, ggSpSigned_spReflAut, dite_eq_left hi] using
           hpermH (Equiv.swap i ⟨i.val + 1, hi⟩)
-      · simpa only [φ, ggSpSigned_spReflAut, dif_neg hi] using hsgnH i
+      · simpa only [φ, ggSpSigned_spReflAut, dite_eq_right hi] using hsgnH i
   obtain ⟨e, he⟩ := ggTBJ_sp_coxeter_of_coordinates hp hp2 κ hFull
   refine ⟨e, fun i => ?_⟩
   rw [he i]

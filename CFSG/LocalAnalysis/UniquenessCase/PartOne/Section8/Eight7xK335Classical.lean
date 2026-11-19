@@ -1574,7 +1574,7 @@ private lemma k335o7n_Phi_mem_iff {K : Type} [Field K] (A : GL k335o7n_σ K) :
           CFSG.Open.StatedQuadOdd 3 K v} ↔
       A ∈ {B : GL k335o7n_σ K | ∀ v, k335o7n_Qstd ((B : Matrix _ _ K) *ᵥ v) =
         k335o7n_Qstd v} := by
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · intro h v
     have := h (fun i => v (k335o7n_e.symm i))
@@ -2683,9 +2683,9 @@ private theorem k335o8n_planeExtend_conj_psi {K : Type} [Field K] {C : Type} [Gr
     Function.update_apply]
   by_cases hk : k = j
   · subst hk
-    simp only [if_true]
+    simp only [ite_true]
     rw [← LinearEquiv.mul_apply, ← LinearEquiv.mul_apply, hh]
-  · simp only [if_neg hk]
+  · simp only [ite_eq_right hk]
 
 end K335O8NAux
 
@@ -3488,7 +3488,7 @@ private lemma k335u67_bd_mem_prod_det {K : Type} [Field K] {q : ℕ} (hq : q ≠
       (A i : Matrix (Fin 2) (Fin 2) K) = 1) :
     k335u67_bdHom A ∈ CFSG.MatrixModel.unitaryCore (Fin 2 × Fin 3) K q := by
   apply Subgroup.subset_closure
-  rw [Set.mem_setOf_eq, k335u67_bd_coe]
+  rw [Set.mem_ofPred_eq, k335u67_bd_coe]
   have hmap : (Matrix.blockDiagonal fun i => (A i : Matrix (Fin 2) (Fin 2) K)).map (· ^ q) =
       Matrix.blockDiagonal (fun i => ((A i : Matrix (Fin 2) (Fin 2) K)).map (· ^ q)) :=
     Matrix.blockDiagonal_map (M := fun i => (A i : Matrix (Fin 2) (Fin 2) K)) (f := (· ^ q))
@@ -4147,8 +4147,8 @@ private lemma k335u4_permMatrix_apply {K : Type} [Field K] (σ : Equiv.Perm (Fin
     (σ.permMatrix K : Matrix (Fin 4) (Fin 4) K) i j = if σ i = j then 1 else 0 := by
   rw [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply]
   by_cases h : σ i = j
-  · rw [if_pos (by simpa [Equiv.toPEquiv_apply] using h), if_pos h]
-  · rw [if_neg (by simpa [Equiv.toPEquiv_apply] using h), if_neg h]
+  · rw [ite_eq_left (by simpa [Equiv.toPEquiv_apply] using h), ite_eq_left h]
+  · rw [ite_eq_right (by simpa [Equiv.toPEquiv_apply] using h), ite_eq_right h]
 
 private lemma k335u4_permGL_map {K : Type} [Field K] {q : ℕ} (hq0 : q ≠ 0)
     (σ : Equiv.Perm (Fin 4)) :

@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem c23_exists_fixed_conj {p : ℕ} [Fact p.Prime] {T : Subgroup G} (hT : IsPGroup p T)
     {X : Set G} (hX : ∀ t ∈ T, ∀ x ∈ X, t * x * t⁻¹ ∈ X) (hp : ¬ p ∣ Nat.card X) :
     ∃ x ∈ X, ∀ t ∈ T, t * x * t⁻¹ = x := by
@@ -26,6 +27,7 @@ theorem c23_exists_fixed_conj {p : ℕ} [Fact p.Prime] {T : Subgroup G} (hT : Is
   obtain ⟨x, hx⟩ := hT.nonempty_fixed_point_of_prime_not_dvd_card X hp
   exact ⟨x, x.2, fun t ht => congrArg Subtype.val (MulAction.mem_fixedPoints.1 hx ⟨t, ht⟩)⟩
 
+omit [Finite G] in
 theorem c23_card_eq_ncard_orbit_mul (H : Subgroup G) (d : G) :
     Nat.card ↥H = Set.ncard {y : G | ∃ h ∈ H, y = h * d * h⁻¹} *
       Nat.card ↥(H ⊓ Subgroup.centralizer ({d} : Set G)) := by
@@ -65,6 +67,7 @@ theorem c23_card_eq_ncard_orbit_mul (H : Subgroup G) (d : G) :
   rw [← horb, ← hidx, ← hcard, ← Subgroup.card_map_of_injective H.subtype_injective, hstab]
   ring
 
+omit [Finite G] in
 theorem c23_exists_calM_ne_conj {M : Subgroup G} (hM : rankThreeIsMaxTwoLocal M) {z m : G}
     (hm : m ∈ M) (hz : ¬ UniqueMax M (M ⊓ centralizer ({z} : Set G))) :
     ∃ N : Subgroup G, rankThreeIsMaxTwoLocal N ∧

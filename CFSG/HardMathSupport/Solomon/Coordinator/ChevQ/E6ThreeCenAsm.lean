@@ -220,7 +220,7 @@ theorem e6NotAll24Census_of_OA
   have hcube : E6CenCube K E := ⟨hE, hEc, hED, hEi, hER, hA⟩
   have hK4 : 4 ≤ Nat.card K := e6Cen_four_le_card hK
   obtain ⟨ω, h3, h1⟩ : ∃ ω : Kˣ, ω ^ 3 = 1 ∧ ω ≠ 1 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcard : Nat.card Kˣ = Nat.card K - 1 := Nat.card_units K
     obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' 3 (hcard ▸ hK)
     refine ⟨ω, by rw [← hω]; exact pow_orderOf_eq_one ω, fun h1 => ?_⟩

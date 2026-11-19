@@ -89,7 +89,7 @@ private theorem card_filter_fixed_modEq {α : Type*} [Fintype α] [DecidableEq �
     · rintro ⟨⟨y, hy⟩, hfy, rfl⟩
       exact ⟨hy, by simpa [f', Subtype.ext_iff] using hfy⟩
     · rintro ⟨hx, hfx⟩
-      exact ⟨⟨x, hx⟩, by simp [f', Subtype.ext_iff, hfx], rfl⟩
+      exact ⟨⟨x, hx⟩, by simp [f', hfx], rfl⟩
   rwa [h2] at h1
 
 theorem eight_dvd_card_support {n : ℕ} {τ : Perm (Fin n)} (_hτ : τ ≠ 1)
@@ -98,7 +98,7 @@ theorem eight_dvd_card_support {n : ℕ} {τ : Perm (Fin n)} (_hτ : τ ≠ 1)
     8 ∣ τ.support.card := by
   classical
   let X := {x : Fin n // x ∈ τ.support}
-  letI : MulAction W X :=
+  let : MulAction W X :=
     { smul := fun g x =>
         ⟨(g : Perm (Fin n)) x.1, (apply_mem_support_iff_of_comm (hWc g g.2) x.1).2 x.2⟩
       one_smul := fun x => Subtype.ext rfl
@@ -127,8 +127,8 @@ theorem false_of_card_support_eq_eight {n : ℕ} {τ w c r : Perm (Fin n)} (hτ2
     (hcτ : c * τ = τ * c) (hwc : w * c = c * w) (hcc : c * c = τ) (hrτ : r * τ = τ * r)
     (hwr : τ ∈ zpowers ⁅w, r⁆) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hw3 ⟨w, mem_zpowers w⟩
   have hk' : w ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hττ : ∀ x, τ (τ x) = x := fun x => by
@@ -243,7 +243,7 @@ variable {n : ℕ} {τ : Perm (Fin n)}
 private theorem two_mul_card_cycleFactorsFinset (hτ2 : τ * τ = 1) :
     2 * τ.cycleFactorsFinset.card = τ.support.card := by
   have hpow : τ ^ 2 = 1 := by rw [sq]; exact hτ2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrep := Equiv.Perm.cycleType_of_pow_prime_eq_one hpow
   have hsum := Equiv.Perm.sum_cycleType τ
   rw [hrep, Multiset.sum_replicate, smul_eq_mul] at hsum
@@ -289,7 +289,7 @@ private theorem alt_le_or_inf_eq_bot {R : Subgroup (Perm (Fin n))}
       ∀ b ∈ cycImage τ R, b ∈ alternatingGroup τ.cycleFactorsFinset → b = 1 := by
   let N : Subgroup (alternatingGroup τ.cycleFactorsFinset) :=
     (cycImage τ R).subgroupOf (alternatingGroup τ.cycleFactorsFinset)
-  haveI : N.Normal := ⟨fun m hm g => by
+  have : N.Normal := ⟨fun m hm g => by
     rw [Subgroup.mem_subgroupOf] at hm ⊢
     exact conj_mem_cycImage halt g.2 hm⟩
   rcases alternatingGroup.normal_subgroup_eq_bot_or_eq_top h5 (N := N) with hN | hN
@@ -331,7 +331,7 @@ private theorem false_of_commute_cycles (hτ2 : τ * τ = 1) (hτ1 : τ ≠ 1) {
     simpa using congrArg (fun h : Perm (Fin n) => h x) hyτ
   obtain ⟨x, hx⟩ : ∃ x, τ x ≠ x := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hτ1 (Equiv.ext h)
   have hcT : swap x (τ x) ∈ τ.cycleFactorsFinset := by
     rw [Equiv.Perm.mem_cycleFactorsFinset_iff]
@@ -345,7 +345,7 @@ private theorem false_of_commute_cycles (hτ2 : τ * τ = 1) (hτ1 : τ ≠ 1) {
   simp only [Equiv.Perm.mul_apply, Equiv.swap_apply_left] at hcomm
   have hyx : y x = x ∨ y x = τ x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 : swap x (τ x) (y x) = y x := Equiv.swap_apply_of_ne_of_ne hcon.1 hcon.2
     rw [h1, hyτ'] at hcomm
     have h2 : τ (y x) = y x := hcomm
@@ -362,7 +362,7 @@ private theorem false_of_commute_cycles (hτ2 : τ * τ = 1) (hτ1 : τ ≠ 1) {
 private theorem factorial_div_two_dvd_card_alternatingGroup {α : Type*} [Fintype α]
     [DecidableEq α] {m : ℕ} (hm : 2 ≤ m) (hmt : m ≤ Fintype.card α) :
     m.factorial / 2 ∣ Nat.card (alternatingGroup α) := by
-  haveI : Nontrivial α := Fintype.one_lt_card_iff_nontrivial.1 (by omega)
+  have : Nontrivial α := Fintype.one_lt_card_iff_nontrivial.1 (by omega)
   rw [Nat.card_eq_fintype_card, card_alternatingGroup]
   obtain ⟨q, hq⟩ := Nat.factorial_dvd_factorial hmt
   have h2 : 2 ∣ m.factorial := Nat.dvd_factorial (by norm_num) hm
@@ -441,7 +441,7 @@ theorem false_of_alt_cycles_oddTwo {n : ℕ} {τ : Perm (Fin n)} (hτ2 : τ * τ
     fun r hr => Subgroup.mem_centralizer_singleton_iff.2 (hRc r hr)
   let N : Subgroup (alternatingGroup τ.cycleFactorsFinset) :=
     (cycImage τ O).subgroupOf (alternatingGroup τ.cycleFactorsFinset)
-  haveI : N.Normal := ⟨fun m hm g => by
+  have : N.Normal := ⟨fun m hm g => by
     rw [Subgroup.mem_subgroupOf] at hm ⊢
     obtain ⟨o, hoO, hoC, hom⟩ := mem_cycImage.1 hm
     obtain ⟨r, hrR, hrC, hrg⟩ := mem_cycImage.1 (hle g.2)
@@ -465,7 +465,7 @@ theorem false_of_alt_cycles_oddTwo {n : ℕ} {τ : Perm (Fin n)} (hτ2 : τ * τ
         rw [this, map_pow, hra, Subgroup.coe_pow]
       rw [hN] at h1
       exact Subgroup.mem_bot.1 h1
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨e, he⟩ := (IsPGroup.iff_card).1 hA2
     have h3 : 3 ∣ Nat.card (alternatingGroup τ.cycleFactorsFinset) := by
       have := factorial_div_two_dvd_card_alternatingGroup (α := τ.cycleFactorsFinset) (m := 3)

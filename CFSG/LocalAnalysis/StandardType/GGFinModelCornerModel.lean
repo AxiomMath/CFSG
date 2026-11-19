@@ -23,7 +23,7 @@ theorem rootSL2_mem_model_of_corner
     {ζ : GGLˣ} (hζ : ζ ^ 3 = 1) :
     rootSL2 (langTag t) GGL γ WSL ∈ M.D.model ∧
       rootSL2 (langTag t) GGL γ (HSL ζ⁻¹) ∈ M.D.model := by
-  haveI : CharP GGL 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
   have hconj : ∀ {τ : Tag} (w : WeylGroup τ) {δ : Fin τ.rank → ℤ} (hδ : IsRoot τ δ)
       (c : GGL), canonicalRep (coxeterSystem τ) GGL w * pinnedX τ GGL δ c *
         (canonicalRep (coxeterSystem τ) GGL w)⁻¹ = pinnedX τ GGL (w • δ) c := by

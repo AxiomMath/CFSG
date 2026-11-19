@@ -15,6 +15,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {L1 L2 S : Subgroup G} {a c : ℕ}
 
+omit [Finite G] in
 private theorem commutator_eq_bot_of_le_centralizer_of_odd {U P : Subgroup G}
     (hUe : IsElemAbelian 2 U) (hPU : P ≤ Subgroup.normalizer (U : Set G))
     (hgen : oTwoUpper P = P)

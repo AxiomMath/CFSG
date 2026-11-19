@@ -78,8 +78,8 @@ theorem not_isType419_of_commute_gl3 {E : Type} [Field E] [Finite E] (h3 : (3 : 
   have hnc := Item419Res3.exists_noncommuting_isType419 hK hZ
   obtain ⟨E', hF', hfin', φ, μ, M, hchar, hMinj, hblock, hμ3, -, -, -, hconst, hMscal⟩ :=
     exists_blockDiagonalization h3 (K := P) ρ A c hA3 hcomm
-  letI : Field E' := hF'
-  haveI : Finite E' := hfin'
+  let : Field E' := hF'
+  have : Finite E' := hfin'
   have hnc' : ¬ ∀ i j, μ i = μ j := fun hc => by
     obtain ⟨b, hb⟩ := hconst hc
     exact hAn b hb
@@ -101,8 +101,8 @@ theorem not_isType419_of_commute_gl3 {E : Type} [Field E] [Finite E] (h3 : (3 : 
       rw [hz, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
         ← Matrix.smul_one_eq_diagonal]
     have hMp := hMscal p z hz'
-    haveI : Subsingleton {j // μ j = μ i₀} := Fintype.card_le_one_iff_subsingleton.mp hi₀.le
-    haveI : Unique {j // μ j = μ i₀} := uniqueOfSubsingleton (⟨i₀, rfl⟩ : {j // μ j = μ i₀})
+    have : Subsingleton {j // μ j = μ i₀} := Fintype.card_le_one_iff_subsingleton.mp hi₀.le
+    have : Unique {j // μ j = μ i₀} := uniqueOfSubsingleton (⟨i₀, rfl⟩ : {j // μ j = μ i₀})
     have hd := hdet p
     rw [Matrix.det_unique] at hd
     have hent : blk μ M hblock (μ i₀) p default default = M p i₀ i₀ := by

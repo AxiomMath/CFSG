@@ -277,7 +277,7 @@ theorem sec51_h0_conj {G : Type} [Group G] {a β a₀ ε : G} (ha : a * a = 1)
 theorem sec51_claim1 {G : Type} [Group G] {a α e κ z : G}
     (ha : a * a = 1) (hα : α * α = 1) (hz : z * z = 1)
     (hαe : α * e * α = κ * e) (haα : a * α * a = z * α)
-    (hκe : κ * e = e * κ) (hze : z * e = e * z) (hzκ : z * κ = κ * z)
+    (_hκe : κ * e = e * κ) (hze : z * e = e * z) (hzκ : z * κ = κ * z)
     (haκ : a * κ = κ * a) (hαz : α * z = z * α) :
     α * (a * e * a) * α = κ * (a * e * a) := by
   have hαa : α * a = a * z * α := by

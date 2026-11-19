@@ -22,7 +22,6 @@ theorem innAutDerived_eq_inner_of_commutative_outer {G : Type*} [Group G]
     have h1 : (((⁅a, b⁆ : MulAut G) : MulAut G) : Outer G) =
         (a : Outer G) * (b : Outer G) * (a : Outer G)⁻¹ * (b : Outer G)⁻¹ := by
       rw [commutatorElement_def]
-      push_cast
       rfl
     rw [h1]
     rw [hcomm (a : Outer G) (b : Outer G)]

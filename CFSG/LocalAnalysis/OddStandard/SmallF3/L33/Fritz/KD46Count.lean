@@ -90,6 +90,7 @@ theorem tk_mem_C : t * S.k ∈ centralizer ({t} : Set X) :=
 theorem tz_mem_C : t * S.z ∈ centralizer ({t} : Set X) :=
   mul_mem SD.t_mem_C (A.T_le_centralizer (z_mem_T S))
 
+omit [Finite X] in
 theorem disjoint_cls_of_parity {a b : X} (h : (cls t a).ncard % 2 ≠ (cls t b).ncard % 2) :
     Disjoint (cls t a) (cls t b) := by
   rcases cls_disjoint_or_eq (t := t) a b with h' | h'

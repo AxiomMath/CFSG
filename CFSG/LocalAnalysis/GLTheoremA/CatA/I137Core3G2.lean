@@ -21,7 +21,7 @@ theorem card_dvd_of_normalizes_g28 {F : Type} [Field F] [Finite F] [CharP F 2]
     (hE : E ≤ Subgroup.normalizer (U : Set (adjointGroup .G2 F))) :
     Nat.card E ∣ 2 ^ 18 * 3 ^ 2 * 7 ^ 2 := by
   classical
-  haveI : Fintype (WeylGroup .G2) := Fintype.ofFinite _
+  have : Fintype (WeylGroup .G2) := Fintype.ofFinite _
   obtain ⟨J, hJ, hdvd⟩ :=
     CFSG.RankThree.PartOne.KFU.card_dvd_parabolic_of_normalizes .G2 hU hU2 hE
   obtain ⟨i, hi⟩ := (Set.ne_univ_iff_exists_notMem J).1 hJ
@@ -83,7 +83,7 @@ theorem core3Group_adjointGroup_g28 {F : Type} [Field F] [Finite F] [CharP F 2]
     (hF : Nat.card F = 8) : Core3Group (adjointGroup .G2 F) := by
   intro T A hT2 hT hA Q₀ _ ⟨f, hf⟩ hQ
   exfalso
-  haveI : Finite Q₀ := Finite.of_surjective f hf
+  have : Finite Q₀ := Finite.of_surjective f hf
   exact not_dvd_card_list93three hQ
     ((card_dvd_of_surjective f hf).trans (card_dvd_of_normalizes_g28 hF hT hT2 hA))
 

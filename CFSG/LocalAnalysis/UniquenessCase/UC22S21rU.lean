@@ -78,7 +78,7 @@ theorem uc22s21ru_contra (D : Data G) (Ch : Choice2011 G) (h111 : W3Thm111 G)
       ((wClos c.V j D.T ⊓ centralizer (wClos c.V j D.T : Set G) : Subgroup G) : Set G)) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set W : Subgroup G := wClos c.V j D.T with hWdef
   set ZW : Subgroup G := W ⊓ centralizer (W : Set G) with hZWdef
   have hL0 : c.L0 ∈ calL D.T D.M := c.hL0.1
@@ -105,8 +105,8 @@ theorem uc22s21ru_contra (D : Data G) (Ch : Choice2011 G) (h111 : W3Thm111 G)
   have hW2 : IsPGroup 2 W := D.sylowM.isPGroup.to_le (uc22p22ta_wClos_le c.V j D.T)
   have hZW : ZW ≠ ⊥ := by
     have hWne : W ≠ ⊥ := fun h => c.hVne (le_bot_iff.1 (h ▸ hVW))
-    haveI : Nontrivial ↥W := (Subgroup.nontrivial_iff_ne_bot W).2 hWne
-    haveI := hW2.center_nontrivial
+    have : Nontrivial ↥W := (Subgroup.nontrivial_iff_ne_bot W).2 hWne
+    have := hW2.center_nontrivial
     obtain ⟨z, hz⟩ := exists_ne (1 : ↥(center ↥W))
     intro hbot
     have hzmem : ((z : ↥W) : G) ∈ ZW := by

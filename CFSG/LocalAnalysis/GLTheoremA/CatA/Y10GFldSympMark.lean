@@ -61,7 +61,7 @@ theorem exists_fieldAut_eq_of_mem_matFieldImage {f : MulAut (StatedProj (StatedS
 theorem ringEquiv_eq_one_of_card_eq_two [Finite K] (hK : Nat.card K = 2) (σ : K ≃+* K) :
     σ = 1 := by
   classical
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hcard : ({0, 1} : Finset K).card = Fintype.card K := by
     rw [Finset.card_insert_of_notMem, Finset.card_singleton, Fintype.card_eq_nat_card, hK]
     simp

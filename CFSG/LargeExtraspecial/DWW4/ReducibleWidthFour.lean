@@ -20,7 +20,7 @@ open scoped MatrixGroups
 
 @[expose] def DW41WidthFourStatement : Prop :=
   ∀ (G : Type) [Group G] [Finite G] [IsSimpleGroup G] (S : Setting G) (A : Subgroup G)
-    [IsElementaryAbelian 2 A] (hA : MaxEA S A) (hM : S.M ≤ normalizer (A : Set G)),
+    [IsElementaryAbelian 2 A] (_hA : MaxEA S A) (hM : S.M ≤ normalizer (A : Set G)),
     S.width = 4 → (∀ g : G, g * S.z * g⁻¹ ∈ S.QG → g * S.z * g⁻¹ ∈ A) →
     (∃ g₀ : G, g₀ * S.z * g₀⁻¹ ∈ A ∧ g₀ * S.z * g₀⁻¹ ≠ S.z) → SpConfig S A hM → False
 
@@ -85,7 +85,7 @@ theorem dw37WidthFourStatement_of_dw41
     DW37WidthFourStatement := by
   intro G _ _ _ S g hw hgQ hgz hred
   obtain ⟨A, hEA, hA, hM⟩ := W4Rank.theoremAWidthFour_holds G S hw ⟨g, hgQ, hgz⟩ hred
-  haveI : IsElementaryAbelian 2 A := hEA
+  have : IsElementaryAbelian 2 A := hEA
   have hnab : ∃ a b : G, a * b ≠ b * a :=
     ⟨g, S.z, fun hc => hgz (by rw [hc, mul_assoc, mul_inv_cancel, mul_one])⟩
   by_cases hcase : ∃ h : G, h * S.z * h⁻¹ ∈ S.QG ∧ h * S.z * h⁻¹ ∉ A

@@ -37,7 +37,7 @@ theorem exists_conj_lift_elemAbelian {G H : Type*} [Group G] [Finite G] [Group H
   have hdisj : Disjoint (Q : Subgroup H) ψ.ker := by
     rw [Subgroup.disjoint_def]
     intro x hxQ hxk
-    obtain ⟨m, hm⟩ := Q.isPGroup' ⟨x, hxQ⟩
+    obtain ⟨m, hm⟩ := Q.isPGroup ⟨x, hxQ⟩
     have hm' : x ^ p ^ m = 1 := congrArg Subtype.val hm
     have hn : x ^ Nat.card ψ.ker = 1 :=
       congrArg Subtype.val (pow_card_eq_one' (G := ψ.ker) (x := ⟨x, hxk⟩))

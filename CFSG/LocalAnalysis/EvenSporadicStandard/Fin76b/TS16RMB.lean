@@ -66,9 +66,9 @@ theorem loc
   have hcomm : ∀ d ∈ Dsub s z, ∀ e ∈ E, d * e = e * d := fun d hd e he =>
     (mem_centralizer_iff.1 (c.SC (hDS hd)) e he).symm
   have hctx : W16.DECtx (Dsub s z) E eD t eltE := ⟨hlab, t_mem_Dsub hS.hs4, hcomm⟩
-  haveI hNm := normal_sup_subgroupOf_normalizer (Dsub s z) E
+  have hNm := normal_sup_subgroupOf_normalizer (Dsub s z) E
   have hσW : σ ∈ normalizer ((Dsub s z ⊔ E : Subgroup G) : Set G) :=
-    c.sigma_norm_W hS hD.σ_sq hD.σ_z hσs hD.σ_E
+    CFSG.EvenSporadicStandard.Fin76b.OuterS16Ctx.sigma_norm_W hS hD.σ_sq hD.σ_z hσs hD.σ_E
   have hσE : ∀ e ∈ E, σ * e * σ⁻¹ ∈ E := fun e he => (mem_normalizer_iff.1 hD.σ_E e).1 he
   have hσa : σ * sElt eD 1 * σ⁻¹ = sElt eD 1 := by
     rw [he1]

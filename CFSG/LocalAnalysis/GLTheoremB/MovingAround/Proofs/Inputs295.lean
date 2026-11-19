@@ -40,6 +40,7 @@ variable (S) in
 @[expose] def No295 : Prop :=
   4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup S) → ∀ x : S, orderOf x = 3 → Excl295At x
 
+omit [Finite S] in
 theorem map_centralizer_singleton {T : Type} [Group T] (e : S ≃* T) (x : S) :
     (Subgroup.centralizer ({x} : Set S)).map e.toMonoidHom =
       Subgroup.centralizer ({e x} : Set T) := by
@@ -95,7 +96,7 @@ theorem No295.of_equiv {T : Type} [Group T] [Finite T] (e : S ≃* T) (h : No295
 
 theorem excl295At_of_le {x : S} {J : Subgroup S} (hJ : J ≤ Subgroup.centralizer ({x} : Set S))
     (h : 3 ^ 5 ∣ Nat.card J) : Excl295At x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := Sylow.exists_subgroup_card_pow_prime 3 h
   refine Or.inl ⟨P.map J.subtype, (Subgroup.map_subtype_le P).trans hJ,
     (IsPGroup.of_card hP).map _, ?_⟩
@@ -108,7 +109,7 @@ theorem excl295At_of_card_dvd {x : S}
 theorem excl295At_of_simple {x : S} {T : Subgroup S}
     (hT : T ≤ Subgroup.centralizer ({x} : Set S)) (hs : IsSimpleGroup ↥T)
     (hnc : ¬ IsMulCommutative ↥T) (h3 : 3 ∣ Nat.card T) : Excl295At x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact Or.inr (Or.inr fun hsolv =>
     CFSG.AGLEmbeddingD2.McLaughlin.TightPairAndPureRank.not_isPSolvable_three_of_simple hs hnc h3
       (isPSolvable_of_le hsolv hT))
@@ -117,6 +118,7 @@ theorem excl295At_of_elem {x : S} {E : Subgroup S} (hE : E ≤ Subgroup.centrali
     (hEa : IsElemAbelian 3 E) (hc : Nat.card E = 3 ^ 4) : Excl295At x :=
   Or.inr (Or.inl (CFSG.SectionRank.le_pRank (p := 3) (by norm_num) hE hEa hc))
 
+omit [Finite S] in
 theorem centralizer_pow_two_eq {x : S} (hx : x ^ 3 = 1) :
     Subgroup.centralizer ({x ^ 2} : Set S) = Subgroup.centralizer ({x} : Set S) := by
   ext g
@@ -151,7 +153,7 @@ theorem exists_noncomm_of_isSimpleGroup {T : Type} [Group T] [Finite T] (hs : Is
     (hc : ¬ (Nat.card T).Prime) : ∃ a b : T, a * b ≠ b * a := by
   by_contra h
   push Not at h
-  letI : CommGroup T := { (inferInstance : Group T) with mul_comm := h }
+  let : CommGroup T := { (inferInstance : Group T) with mul_comm := h }
   exact hc IsSimpleGroup.prime_card
 
 theorem excl295At_of_ambient_simple {G : Type} [Group G] {P : Subgroup G} [Finite ↥P] {x : G}
@@ -174,7 +176,7 @@ theorem excl295At_of_ambient_simple {G : Type} [Group G] {P : Subgroup G} [Finit
 
 theorem pRank_le_three_of_not_dvd (h : ¬ 3 ^ 4 ∣ Nat.card S) :
     CFSG.Open.pRank 3 (⊤ : Subgroup S) ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.SectionRank.pRank_le (p := 3) (by norm_num) fun E _ hE => ?_
   have hEp : IsPGroup 3 E := fun g => ⟨1, Subtype.ext (by simpa using hE.2 g g.2)⟩
   obtain ⟨k, hk⟩ := hEp.exists_card_eq
@@ -212,6 +214,7 @@ theorem Excl295At.of_injective {H : Type} [Group H] [Finite H] (f : H →* S)
   rw [he] at h1
   exact Excl295At.of_subgroup _ h1
 
+omit [Finite S] in
 theorem card_centralizer_eq_of_isConj {x y : S} (h : IsConj x y) :
     Nat.card (Subgroup.centralizer ({x} : Set S)) =
       Nat.card (Subgroup.centralizer ({y} : Set S)) := by
@@ -242,7 +245,7 @@ theorem no295_of_pRank_le (h : CFSG.Open.pRank 3 (⊤ : Subgroup S) ≤ 3) : No2
 
 theorem no295_of_not_dvd_five (h : ¬ 3 ^ 5 ∣ Nat.card S) : No295 S := by
   intro hrk x hx
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, -, hE, hEc⟩ := CFSG.SectionRank.exists_pRank (p := 3) (by norm_num)
     (⊤ : Subgroup S)
   have hd : 3 ^ CFSG.Open.pRank 3 (⊤ : Subgroup S) ∣ Nat.card S :=
@@ -298,8 +301,8 @@ theorem input29_5'Spor_of (hout : SporadicOuterLeTwo) (h : ∀ s, No295Spor s) :
     InputsMisc8.Input29_5'Spor := by
   intro X _ _ L hLn hq _ hC s ⟨e⟩ _ hrk x hx hC4 hrk3 hsolv
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hLn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hLn
   have hZ : Subgroup.center ↥L = ⊥ := by
     rw [eq_bot_iff]
     intro z hz
@@ -310,8 +313,8 @@ theorem input29_5'Spor_of (hout : SporadicOuterLeTwo) (h : ∀ s, No295Spor s) :
   let e₀ : ↥L ≃* ↥L ⧸ Subgroup.center ↥L :=
     QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
   let eL : ↥L ≃* (TauCeti.CFSGIndex.sporadic s).Group := e₀.trans e
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
-  haveI : IsSimpleGroup ↥L := e₀.isSimpleGroup
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
+  have : IsSimpleGroup ↥L := e₀.isSimpleGroup
   have hnab : ∃ a b : ↥L, a * b ≠ b * a := by
     by_contra hall
     push Not at hall
@@ -343,8 +346,8 @@ theorem input29_5'Spor_of (hout : SporadicOuterLeTwo) (h : ∀ s, No295Spor s) :
       exact h1.symm
     rw [this]
     exact l.2
-  haveI : Finite (Outer ↥L) := by
-    haveI : Finite (MulAut ↥L) := MulEquiv.finite_left
+  have : Finite (Outer ↥L) := by
+    have : Finite (MulAut ↥L) := MulEquiv.finite_left
     infer_instance
   have h3L : ∀ y : X, y ^ 3 = 1 → y ∈ L := by
     intro y hy
@@ -396,7 +399,7 @@ theorem no295Spor_of_carrier (hbr : SporadicBridges) (s : TauCeti.SporadicName)
   intro S _ _ ⟨e⟩
   obtain ⟨b⟩ := hbr s
   let f : S ≃* CFSG.Blueprint.NativeSporadic.Carrier s := e.trans b.symm
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier s) := Finite.of_equiv S f.toEquiv
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier s) := Finite.of_equiv S f.toEquiv
   exact No295.of_equiv f h
 
 theorem no295Spor_of_sporOrd (hord : SporadicOrdersTable) {s : TauCeti.SporadicName}

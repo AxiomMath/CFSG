@@ -34,7 +34,7 @@ theorem isTI_of_one_lt_pRank_centralizer {M T V : Subgroup G} (hc : Context G M 
     unfold CFSG.Open.rankThreeSigmaA at h
     simp only at h
     split_ifs at h <;> exact h.1
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   obtain ⟨E, hEH, hE, hcard⟩ : ∃ E : Subgroup G, E ≤ M ⊓ Subgroup.centralizer (V : Set G) ∧
       CFSG.Open.IsElemAbelian p E ∧
       Nat.card E = p ^ CFSG.Open.pRank p (M ⊓ Subgroup.centralizer (V : Set G)) := by

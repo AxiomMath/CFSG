@@ -37,7 +37,7 @@ theorem norm_eq {M : Type*} [CommGroup M] (a b d : M) (hb : b ^ 3 = 1) :
         simp only [mul_assoc, mul_comm, mul_left_comm]
     _ = a * b * d := by
         rw [h2]
-        simp only [mul_assoc, mul_comm, mul_left_comm]
+        simp only [mul_comm, mul_left_comm]
 
 section MaxElemSec
 
@@ -46,6 +46,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def MaxElem (V : Subgroup G) : Prop :=
   IsElemAbelian 3 V ∧ ∀ W : Subgroup G, IsElemAbelian 3 W → V ≤ W → W = V
 
+omit [Finite G] in
 theorem mem_map_conj {V : Subgroup G} {g y : G} :
     y ∈ V.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * y * g ∈ V := by
   constructor
@@ -58,6 +59,7 @@ theorem mem_map_conj {V : Subgroup G} {g y : G} :
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
 
+omit [Finite G] in
 theorem MaxElem.map {V : Subgroup G} (hV : MaxElem V) (g : G) :
     MaxElem (V.map (MulAut.conj g).toMonoidHom) := by
   refine ⟨Lemma113d.isElemAbelian_map_any _ hV.1, fun W hW hle => ?_⟩
@@ -78,6 +80,7 @@ theorem MaxElem.map {V : Subgroup G} (hV : MaxElem V) (g : G) :
   rw [hW'V] at h2
   exact mem_map_conj.2 h2
 
+omit [Finite G] in
 theorem MaxElem.eq_of_le {V W : Subgroup G} (hV : MaxElem V) (hW : IsElemAbelian 3 W)
     (hle : V ≤ W) : W = V := hV.2 W hW hle
 
@@ -183,7 +186,7 @@ theorem nine_le_card_centralizer_E {x : G} (hxR : x ∈ R) (hxT : x ∉ R ⊓ N0
   have hxN : x ∈ Subgroup.normalizer (E : Set G) := r.hRN hxR
   have hxE : ∀ y ∈ E, x * y * x⁻¹ ∈ E := fun y hy => (Subgroup.mem_normalizer_iff.1 hxN y).1 hy
   have hxN1 : x ∈ N1 E (Q ⊓ K) := r.R_le_N1 hxR
-  letI : CommGroup ↥E :=
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with mul_comm := fun a b => Subtype.ext (c.E_comm a.2 b.2) }
   let X : ↥E →* ↥E :=
     { toFun := fun y => ⟨x * y * x⁻¹, hxE y y.2⟩
@@ -283,7 +286,7 @@ theorem psi_psi_eq_norm {x : G} (hxR : x ∈ R) {w : G} (hw : w ∈ (Q ⊓ K : S
   have c := r.ctx
   have hxQ : ∀ q ∈ (Q ⊓ K : Subgroup G), x * q * x⁻¹ ∈ (Q ⊓ K : Subgroup G) :=
     fun q hq => c.Q0_invariant r.hB (r.hRN hxR) hq
-  letI : CommGroup ↥(Q ⊓ K : Subgroup G) :=
+  let : CommGroup ↥(Q ⊓ K : Subgroup G) :=
     { (inferInstance : Group ↥(Q ⊓ K : Subgroup G)) with
       mul_comm := fun a b => Subtype.ext (c.Q0_comm a.2 b.2) }
   let a : ↥(Q ⊓ K : Subgroup G) := ⟨w, hw⟩
@@ -350,6 +353,7 @@ theorem exists_u {x : G} (hxR : x ∈ R) (hxT : x ∉ R ⊓ N0 E (Q ⊓ K)) (hx3
 
 
 omit r in
+omit [Finite G] in
 theorem normalizes_map {U : Subgroup G} {u : G} (hu : ∀ y ∈ U, u * y * u⁻¹ ∈ U) (g : G) :
     ∀ y ∈ U.map (MulAut.conj g).toMonoidHom,
       (g * u * g⁻¹) * y * (g * u * g⁻¹)⁻¹ ∈ U.map (MulAut.conj g).toMonoidHom := by
@@ -369,7 +373,7 @@ theorem core (hZ9 : 9 ≤ Nat.card ↥(E ⊓ A : Subgroup G))
     {x : G} (hxQ : x ∈ Q) (hxE : x ∉ E) (hx3 : x ^ 3 = 1) {g : G} (hg : g * x * g⁻¹ = e) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have c := r.ctx
   have hB := r.hB
   have hxR : x ∈ R := r.hQR hxQ
@@ -527,7 +531,7 @@ theorem core (hZ9 : 9 ≤ Nat.card ↥(E ⊓ A : Subgroup G))
     have h81 := c.hEcard
     rw [hEeq, hU'card] at h81
     norm_num at h81
-  obtain ⟨y', hy'U', hy'E⟩ := SetLike.not_le_iff_exists.1 hU'E
+  obtain ⟨y', hy'U', hy'E⟩ := IsConcreteLE.not_le_iff_exists.1 hU'E
   have hy'Q : y' ∈ Q := hU'Q hy'U'
   have hy'3 : y' ^ 3 = 1 := hMaxU'.1.2 y' hy'U'
   have hy'P : y' ∉ (Q ⊓ K : Subgroup G) ⊔ centBar 3 Q K := by rw [hPE]; exact hy'E
@@ -581,7 +585,7 @@ theorem conj_e_mem_E (hZ9 : 9 ≤ Nat.card ↥(E ⊓ A : Subgroup G))
     (hΩ : ∀ t ∈ R ⊓ N0 E (Q ⊓ K), t ^ 3 = 1 → t ∈ E)
     {g : G} (hg : g⁻¹ * e * g ∈ R) : g⁻¹ * e * g ∈ E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have c := r.ctx
   have hB := r.hB
   by_contra hxE

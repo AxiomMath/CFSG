@@ -31,6 +31,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
   {Q : QuadraticForm K V} {p r : ℕ}
   {A : Subgroup (V ≃ₗ[K] V)}
 
+omit [Finite K] in
 theorem TBJOmData.commutator_le_supportedDerived_polarPerp
     [Fact p.Prime] (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate)
@@ -171,7 +172,7 @@ theorem TBJOmData.commutator_le_supportedDerived_polarPerp
     | empty =>
         intro _ v hv
         rw [Finset.sup_empty, Submodule.mem_bot] at hv
-        simpa [hv]
+        simp [hv]
     | insert i S hi ih =>
         intro hS v hv
         rw [Finset.sup_insert] at hv
@@ -222,6 +223,7 @@ theorem TBJOmData.commutator_le_supportedDerived_polarPerp
     simp only [hcoe_gM, hcoe_hM, hcoe_gMinv, hcoe_hMinv]
     rfl
 
+omit [Finite K] in
 theorem TBJOmData.commutator_centralizer_le_supportedDerived_polarPerp
     [Fact p.Prime] (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
@@ -248,6 +250,7 @@ theorem TBJOmData.commutator_centralizer_le_supportedDerived_polarPerp
     exact (Subgroup.mem_centralizer_iff.mp hgC _ ht).symm
   exact Δ.commutator_le_supportedDerived_polarPerp hQ hAO T hHO hH
 
+omit [Finite K] in
 theorem TBJOmData.polarPerp_compl_sup_eq_originalAnchor_sup
     [Fact p.Prime] (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate)
@@ -298,7 +301,7 @@ theorem TBJOmData.polarPerp_compl_sup_eq_originalAnchor_sup
     have hdecomp : v = (w : V) +
         ∑ i, (((Δ.planeIsometry hQ o i) (x i) : Δ.F.U i) : V) := by
       calc v = ψ.symm (w, x) := by
-              simpa [ψ, w, x] using (ψ.symm_apply_apply v).symm
+              simp [ψ, w, x]
         _ = (w : V) + ∑ i, (((Δ.planeIsometry hQ o i) (x i) : Δ.F.U i) : V) :=
               Δ.originalCoordinates_symm_apply hQ o hWS w x
     have hsumS : (∑ i, (((Δ.planeIsometry hQ o i) (x i) : Δ.F.U i) : V)) =
@@ -342,6 +345,7 @@ theorem TBJOmData.polarPerp_compl_sup_eq_originalAnchor_sup
         mem_suppPerp.mp hy' u (Submodule.subset_span (by simp))
       rwa [polar_comm] at hzero
 
+omit [Finite K] in
 theorem TBJOmData.commutator_centralizer_le_supportedDerived_originalAnchor_sup
     [Fact p.Prime] (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
@@ -473,7 +477,7 @@ theorem TBJOmData.smallSupport_facts [Fact p.Prime] (hp2 : p ≠ 2)
         (↥(orthDerived QS) ⧸ Subgroup.center (orthDerived QS)) :=
       (QuotientGroup.quotientBot (G := ↥(orthDerived QS))).symm.trans
         (QuotientGroup.quotientMulEquivOfEq hcenter.symm)
-    haveI : IsSimpleGroup (↥(orthDerived QS) ⧸ Subgroup.center (orthDerived QS)) := hq.2.1
+    have : IsSimpleGroup (↥(orthDerived QS) ⧸ Subgroup.center (orthDerived QS)) := hq.2.1
     have hsimple : IsSimpleGroup ↥(orthDerived QS) := e.isSimpleGroup
     have hna : ∃ a b : ↥(orthDerived QS), a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := hq.2.2
@@ -554,11 +558,12 @@ theorem TBJOmData.tau_mem_supportedDerived_of_smallSupport [Fact p.Prime] (hp2 :
       by_contra hjs
       have hwj : w j = 1 := hw j hjs
       rw [hwj] at hj
-      simpa using hj
+      simp at hj
     exact mem_suppPerp.mp hv u
       (show u ∈ V_S from Submodule.mem_sup_right (Finset.le_sup (f := Δ.F.U) hjS hu))
   exact mem_supportedDerived.mpr ⟨hperpfix, tS, hmem, fun x => rfl⟩
 
+omit [Finite K] in
 theorem TBJOmData.commute_supportedDerived_of_zeroOn [Fact p.Prime]
     (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (hE : A ≤ orthDerived Q)

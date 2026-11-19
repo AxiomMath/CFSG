@@ -28,7 +28,7 @@ theorem lieSTwo_false_of_linear (hGA : CFSG.Open.GriessAllModelsStatement)
       (h.2.resolve_right fun h0 => absurd h0.1 (Nat.succ_ne_zero n))
     rwa [hp2, hf1] at h'
   rcases Nat.lt_or_ge n 7 with h7 | h7
-  · haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+  · have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
     have hZ : Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ := I1431C2.cl_center_eq_bot_of_simple
       (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hY)
     have hcard : Nat.card (Y ⧸ Subgroup.center Y) = orderA n 2 := by

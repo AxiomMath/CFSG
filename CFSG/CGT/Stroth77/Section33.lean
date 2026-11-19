@@ -284,7 +284,7 @@ noncomputable def crd101 (g : G) : Torus (StrothTypeIndex.t101 s).k := by
   exact if h : g ∈ D then eD (Additive.ofMul ⟨g, h⟩) else 0
 
 theorem crd101_of_mem {g : G} (h : g ∈ D) : crd101 eD g = eD (Additive.ofMul ⟨g, h⟩) := by
-  rw [crd101, dif_pos h]
+  rw [crd101, dite_eq_left h]
 
 theorem crd101_mul {g h : G} (hg : g ∈ D) (hh : h ∈ D) :
     crd101 eD (g * h) = crd101 eD g + crd101 eD h := by
@@ -381,12 +381,12 @@ theorem cocycle101 {uv t u : G} (huv2 : uv * uv = 1) (ht2 : t * t = 1) (hu2 : u 
   have gc : (e⁻¹ * uv * e * uv⁻¹) * (uv⁻¹ * (e⁻¹ * u * e * u⁻¹) * uv) =
       (e⁻¹ * u * e * u⁻¹) * (u⁻¹ * (e⁻¹ * uv * e * uv⁻¹) * u) := by
     rw [iuv, iu]
-    simp only [mul_assoc, suv, su, mul_inv_cancel_left, inv_mul_cancel_left, c0, c1]
+    simp only [mul_assoc, suv, su, mul_inv_cancel_left, c0, c1]
   have gd : (e⁻¹ * t * e * t⁻¹) * (t⁻¹ * (e⁻¹ * u * e * u⁻¹) * t) =
       (e⁻¹ * u * e * u⁻¹) * (u⁻¹ * (e⁻¹ * uv * e * uv⁻¹) * u) *
         (u⁻¹ * (uv⁻¹ * (e⁻¹ * t * e * t⁻¹) * uv) * u) := by
     rw [iuv, iu, it]
-    simp only [mul_assoc, suv, st, su, mul_inv_cancel_left, inv_mul_cancel_left, c0, c1, tu, ut]
+    simp only [mul_assoc, suv, st, su, mul_inv_cancel_left, c1, tu, ut]
   refine ⟨?_, ?_, ?_, ?_⟩
   · have h := congrArg (crd101 eD) ga
     rwa [crd101_mul eD ht (nt ht), crd101_one, ct ht] at h

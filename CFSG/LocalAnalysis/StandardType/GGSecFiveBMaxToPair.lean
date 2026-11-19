@@ -136,7 +136,7 @@ private theorem exists_not_le_sign_map_of_typeB
     htop (Subgroup.mem_top _)
   rw [MonoidHom.mem_ker] at hi
   have hsign : coxeterBSign n ((CoxeterMatrix.B n).simple ⟨n - 1, by omega⟩) = -1 := by
-    rw [coxeterBSign_simple, Fin.val_mk, if_neg (by omega)]
+    rw [coxeterBSign_simple, Fin.val_mk, ite_eq_right (by omega)]
   rw [hsign] at hi
   exact (by decide : (-1 : ℤˣ) ≠ 1) hi
 

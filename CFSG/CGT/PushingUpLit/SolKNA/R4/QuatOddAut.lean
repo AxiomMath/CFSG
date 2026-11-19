@@ -11,8 +11,8 @@ namespace CFSG.CGT.PushingUpLit.SolKNA.R4
 
 theorem QuaternionGroup.mulAut_eq_one_of_odd {k : ℕ} (hk : 2 ≤ k)
     (φ : MulAut (QuaternionGroup (2 ^ k))) (hφ : Odd (orderOf φ)) : φ = 1 := by
-  haveI : NeZero (2 ^ k) := ⟨by positivity⟩
-  haveI : NeZero (2 * 2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 * 2 ^ k) := ⟨by positivity⟩
   have h4 : 4 ≤ 2 ^ k := by
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk

@@ -43,7 +43,7 @@ private theorem isSolvable_ker_phi148 {A Y K : Subgroup G} [(ker148 A Y).Normal]
     exact Sec16.Res163.mem_pCore_two_of_mem_inf (CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := 2) Y)
       (hKY.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 Y)) hmem
   have hsolP : Group.IsSolvable ↥(CFSG.pCore 2 ↥K) := by
-    haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥K) := CFSG.pCore_isPGroup.isNilpotent
+    have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥K) := CFSG.pCore_isPGroup.isNilpotent
     infer_instance
   exact CFSG.RankThree.PartTwo.Sec8.HeringD4.isSolvable_of_commutator_le
     (Main148.phi148 hKM).ker (CFSG.pCore 2 ↥K) hcomm hsolP
@@ -54,13 +54,13 @@ private theorem theta_le_ker_phi148 {A Y K : Subgroup G} [(ker148 A Y).Normal]
     aschbacherSolvableCore 3 ↥K ≤ (Main148.phi148 hKM).ker := by
   have hθsolv : Group.IsSolvable ↥(aschbacherSolvableCore 3 ↥K) :=
     (solvable_prime_complement_core_characterization (H := ↥K) Nat.prime_three).1
-  haveI : (aschbacherSolvableCore 3 ↥K).Characteristic :=
+  have : (aschbacherSolvableCore 3 ↥K).Characteristic :=
     (solvable_prime_complement_core_characterization (H := ↥K) Nat.prime_three).2.1
   have hθn : (aschbacherSolvableCore 3 ↥K).Normal :=
     Subgroup.normal_of_characteristic _
   let eα : ↥(Main148.phi148 hKM).range ≃* ↥(img148 A Y K) :=
     MulEquiv.subgroupCongr (Main148.range_phi148 hKM)
-  haveI : IsSimpleGroup ↥(Main148.phi148 hKM).range := by
+  have : IsSimpleGroup ↥(Main148.phi148 hKM).range := by
     rw [Main148.range_phi148 hKM]
     exact hs
   have hncR : ∃ a b : ↥(Main148.phi148 hKM).range, a * b ≠ b * a := by
@@ -68,7 +68,7 @@ private theorem theta_le_ker_phi148 {A Y K : Subgroup G} [(ker148 A Y).Normal]
     refine ⟨eα.symm a, eα.symm b, fun h => hab ?_⟩
     have h' := congrArg eα h
     simpa only [map_mul, MulEquiv.apply_symm_apply] using h'
-  haveI : (aschbacherSolvableCore 3 ↥K).Normal := hθn
+  have : (aschbacherSolvableCore 3 ↥K).Normal := hθn
   have h := CFSG.RankThree.GroupTheory.SteinbergBM.le_ker_of_normal_of_isSolvable_of_isSimpleGroup
     hncR (Main148.phi148 hKM).rangeRestrict (Main148.phi148 hKM).rangeRestrict_surjective
     (aschbacherSolvableCore 3 ↥K) hθsolv
@@ -79,13 +79,13 @@ theorem mem_scriptY4_of_isoLThreePi_img148 {A Y K : Subgroup G} [(ker148 A Y).No
     (hKΔ : K = deltaZero A (lB A) K) {n : ℕ} (hn : 1 ≤ n)
     (hKn : Sec4.IsoLThreePi ↥(img148 A Y K) 2 n) : K ∈ scriptY4 A (lB A) := by
   have hKM : K ≤ Y ⊔ A := hKY.trans le_sup_left
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect ↥K := hKp
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect ↥K := hKp
   have hperfα : Group.IsPerfect ↥(img148 A Y K) := isPerfect_img148 hKM
-  haveI : Group.IsPerfect ↥(img148 A Y K) := hperfα
+  have : Group.IsPerfect ↥(img148 A Y K) := hperfα
   have hsα := Sec19.Step1914TriProof.isSimpleGroup_of_isoLThreePi hn hKn
   have h3α : 3 ∣ Nat.card ↥(img148 A Y K) := Sec19.Step1914TriProof.three_dvd_card_of_isoLThreePi hn hKn
-  haveI : IsSimpleGroup ↥(img148 A Y K) := hsα.1
+  have : IsSimpleGroup ↥(img148 A Y K) := hsα.1
   have hnc : ∃ a b : ↥(img148 A Y K), a * b ≠ b * a := by
     by_contra h
     push Not at h
@@ -108,7 +108,7 @@ theorem mem_scriptY4_of_isoLThreePi_img148 {A Y K : Subgroup G} [(ker148 A Y).No
       ((QuotientGroup.quotientKerEquivRange (Main148.phi148 hKM)).trans
         (MulEquiv.subgroupCongr (Main148.range_phi148 hKM)))
   have hs : IsSimpleGroup (↥K ⧸ aschbacherSolvableCore 3 ↥K) := e.isSimpleGroup
-  haveI : IsSimpleGroup (↥K ⧸ aschbacherSolvableCore 3 ↥K) := hs
+  have : IsSimpleGroup (↥K ⧸ aschbacherSolvableCore 3 ↥K) := hs
   have hncθ : ∃ a b : ↥K ⧸ aschbacherSolvableCore 3 ↥K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnc
     refine ⟨e.symm a, e.symm b, fun h => hab ?_⟩

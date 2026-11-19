@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 
 private lemma orderOf_z4pow2_single_zero :
     orderOf (Multiplicative.ofAdd (Pi.single 0 (1 : ZMod 4)) : Outside.Z4pow 2) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : (Multiplicative.ofAdd (Pi.single 0 (1 : ZMod 4)) : Outside.Z4pow 2) ^ 2 ≠ 1 := by
     intro hc
     rw [← ofAdd_nsmul, ofAdd_eq_one] at hc
@@ -33,7 +33,7 @@ private lemma orderOf_z4pow2_single_zero :
 
 private lemma orderOf_z4pow2_single_one :
     orderOf (Multiplicative.ofAdd (Pi.single 1 (1 : ZMod 4)) : Outside.Z4pow 2) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : (Multiplicative.ofAdd (Pi.single 1 (1 : ZMod 4)) : Outside.Z4pow 2) ^ 2 ≠ 1 := by
     intro hc
     rw [← ofAdd_nsmul, ofAdd_eq_one] at hc

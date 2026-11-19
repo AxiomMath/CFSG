@@ -39,7 +39,7 @@ theorem f4SplitFrame_of (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 = 1
     (hω : orderOf ω = 3) :
     zSplit K ω ≠ 1 ∧ zSplit K ω ^ 3 = 1 ∧
       ∃ X : Subgroup (adjointGroup .F4 K), ClosingFrameAt (zSplit K ω) X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK4 : 4 ≤ Nat.card K := by
     have h1 : 1 < Nat.card K := Finite.one_lt_card
     omega
@@ -89,14 +89,14 @@ theorem f4SplitFrame_of (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 = 1
       exact this
     · refine nonsolvable_frameIn hXS ?_
       intro hs
-      haveI := hs
-      haveI h2 : Group.IsSolvable ↥(X2 K) :=
-        solvable_of_solvable_injective (Subgroup.inclusion_injective (X2_le_XS K))
+      have := hs
+      have h2 : Group.IsSolvable ↥(X2 K) :=
+        Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective (X2_le_XS K))
       obtain ⟨hperf, -, a₀, b₀, hab⟩ := X2_quasisimple K
       obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a₀
       obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b₀
-      haveI : Nontrivial ↥(X2 K) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
-      exact (IsSolvable.commutator_lt_top_of_nontrivial (↥(X2 K))).ne hperf.commutator_eq_top
+      have : Nontrivial ↥(X2 K) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
+      exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (↥(X2 K))).ne hperf.commutator_eq_top
     · exact closing_of_twFrameClosing hXS
         ((frameClosing_iff Tag.F4 K _).1
           (frameClosing_of_detection_F4 K (by omega) (DetectF4.frameDetection_F4 K (by omega))))
@@ -106,7 +106,7 @@ theorem f4SplitFrame_of (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 = 1
 theorem f4SplitFrame (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 = 1) :
     ∃ z : adjointGroup .F4 K, z ≠ 1 ∧ z ^ 3 = 1 ∧
       ∃ X : Subgroup (adjointGroup .F4 K), ClosingFrameAt z X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units]
     have : 1 ≤ Nat.card K := Nat.card_pos

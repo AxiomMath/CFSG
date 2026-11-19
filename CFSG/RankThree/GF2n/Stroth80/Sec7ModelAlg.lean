@@ -13,7 +13,7 @@ theorem sec7_psi_conj {E : Type*} [AddCommGroup E] {Γ : Type*} [Group Γ]
     (ρ (g' * g * g'⁻¹)).toAdd e - e =
       (ρ g').toAdd ((ρ g).toAdd ((ρ g').toAdd.symm e) - (ρ g').toAdd.symm e) := by
   have h : (ρ (g' * g * g'⁻¹)).toAdd e = (ρ g').toAdd ((ρ g).toAdd ((ρ g').toAdd.symm e)) := by
-    simp [map_mul, map_inv, AddAut.mul_apply, AddAut.inv_apply]
+    simp [map_mul, map_inv]
   rw [h, map_sub, AddEquiv.apply_symm_apply]
 
 end CFSG.RankThree.GF2n.Stroth80

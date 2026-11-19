@@ -72,13 +72,13 @@ section CertificateInstancesNative
 
 
 theorem sporadicClassWitnessAt_M_seven : SporadicClassWitnessAt .M 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   refine sporadicClassWitnessAt_of_native
     (sporadicClassWitnessNative_M_of_Gmat rankThreeWitness_Gmat_seven ?_)
   intro T _ _ ⟨e⟩
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M) :=
     CFSG.AGLEmbedding.Norton.OrdinaryProofs.carrier_M_simple
-  haveI : IsSimpleGroup T := e.isSimpleGroup
+  have : IsSimpleGroup T := e.isSimpleGroup
   exact CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple e
 
 end CertificateInstancesNative

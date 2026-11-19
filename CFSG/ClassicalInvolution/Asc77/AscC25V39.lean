@@ -218,7 +218,7 @@ theorem res25_of_g1 (hG1 : G1_25 p f) (hG9 : G1Nine p f) (hD : DIAGS25 p f) : RE
       rw [e1, e2, map_mul, map_mul, fieldChar_eq_one_of_mem hp hq e hkK hkN, hk'χ, mul_one,
         mul_one] at hodd
       exact hodd
-  obtain ⟨i, hi⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' (⟨n, hnS⟩ : (S : Subgroup G))
+  obtain ⟨i, hi⟩ := IsPGroup.iff_orderOf.mp S.isPGroup (⟨n, hnS⟩ : (S : Subgroup G))
   have hi' : n ^ 2 ^ i = 1 := by
     have := pow_orderOf_eq_one (⟨n, hnS⟩ : (S : Subgroup G))
     rw [hi] at this

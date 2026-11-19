@@ -60,8 +60,8 @@ set_option maxRecDepth 100000 in
 theorem card_centralizer_five (s : CFSG.Sporadic.Fi23.J) (hs : orderOf s = 5) :
     ∃ m, Nat.card (Subgroup.centralizer ({s} : Set CFSG.Sporadic.Fi23.J)) = 1200 * m ∧ m ≤ 21 ∧ m ∣ 1008 := by
   have hn : (31671 : ℕ) < 2 ^ 32 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
   obtain ⟨-, hc⟩ := fi23Five_parts
   unfold fi23FiveCore at hc
   simp only [Bool.and_eq_true, Bool.not_eq_true', List.all_eq_true, List.mem_range,
@@ -146,7 +146,7 @@ theorem card_centralizer_five (s : CFSG.Sporadic.Fi23.J) (hs : orderOf s = 5) :
 theorem card_pSimple_five (s : CFSG.Sporadic.Fi23.J) (hs : orderOf s = 5) {I : Subgroup CFSG.Sporadic.Fi23.J}
     (hI : GLAPComponent 5 (Subgroup.centralizer ({s} : Set CFSG.Sporadic.Fi23.J)) I) :
     Nat.card (PSimple 5 I) ∣ 241920 ∧ Nat.card (PSimple 5 I) ≤ 5040 := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J]; norm_num)
   obtain ⟨m, hm, hm21, hmd⟩ := card_centralizer_five s hs
   have hd := prime_mul_card_pSimple_dvd_cent Nat.prime_five hs hI.1
   rw [hm] at hd
@@ -177,7 +177,7 @@ theorem row_Fi23_five (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Sporad
   obtain ⟨hfin, hs, hnc, ⟨b⟩⟩ := fi23_model hbr
   refine @row_of_model .Fi23 5 J _ hfin hs hOut b hnc fun x hx I hI => ?_
   obtain ⟨hsI, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab Nat.prime_five hI
-  haveI := hsI
+  have := hsI
   obtain ⟨hd, hle⟩ := card_pSimple_five x hx hI
   exact fun hC h25 _ => absurd h25 (not_sq_five_dvd_card_mulAut_of_chev_241920 hb hnab hC hd hle)
 
@@ -189,7 +189,7 @@ theorem qrow_Fi23_five (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Spora
   refine @CFSG.LocalAnalysis.GLTheoremA.I1416QRows.qrow_of_model .Fi23 5 J _ hfin hs hOut b hnc
     fun x hx I hI => ?_
   obtain ⟨hsI, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab Nat.prime_five hI
-  haveI := hsI
+  have := hsI
   obtain ⟨hd, hle⟩ := card_pSimple_five x hx hI
   exact fun _ _ _ _ hC hA => not_sq_five_dvd_card_mulAut_of_chev_241920 hb hnab hC hd hle
     (CFSG.LocalAnalysis.GLTheoremA.I1416QRows.sq_dvd_card_mulAut_of_elemAb Nat.prime_five hA)

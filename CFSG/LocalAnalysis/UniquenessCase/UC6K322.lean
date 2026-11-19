@@ -22,7 +22,7 @@ theorem three_dvd_card_of_monomial {p : ℕ} [Fact p.Prime] {G : Subgroup (GL (F
   classical
   obtain ⟨L, hL, hL1, hperm, htrans⟩ := hmono
   have hinj := K322Lin.injective_of_isInternal hL hL1
-  letI : MulAction ↥G (Submodule (ZMod p) (Fin 3 → ZMod p)) :=
+  let : MulAction ↥G (Submodule (ZMod p) (Fin 3 → ZMod p)) :=
     { smul := fun g W => translate (g : GL (Fin 3) (ZMod p)) W
       one_smul := fun W => CFSG.RankThree.SubgroupLists.translate_one W
       mul_smul := fun a b W => CFSG.RankThree.SubgroupLists.translate_mul _ _ W }
@@ -119,9 +119,9 @@ theorem k322_holds : K322 := by
         hw']
     exact hgoal
   ·
-    haveI : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
+    have : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
       CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
-    haveI : IsSimpleGroup ↥H := e.isSimpleGroup
+    have : IsSimpleGroup ↥H := e.isSimpleGroup
     have hnab : ∃ a b : ↥H, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := gl32_not_comm
       exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
@@ -137,7 +137,7 @@ theorem k322_holds : K322 := by
         exact CFSG.ComponentClassification.GHarris.card_GL32_gh
       exact (show 3 ∣ Nat.card H by rw [hcardH]; norm_num).trans (Subgroup.card_dvd_of_le hHG)
   ·
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
     have hq : CFSG.Open.IsQuasisimple ↥H := ⟨hperf.commutator_eq_top, e6.isSimpleGroup⟩
     have hlayer := K322Rows.genFittingLayer_eq hHG hnorm hq hHirr
     let eE : ↥(genFittingLayer ↥G) ≃* ↥H :=
@@ -175,7 +175,7 @@ theorem k322_holds : K322 := by
     exact K322Lin.false_of_cyclic_involution hHirr ht2 hm.symm hfixK
   ·
     have hω : ∃ ω : ZMod p, ω ^ 3 = 1 ∧ ω ≠ 1 := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hdvd : 3 ∣ Nat.card (ZMod p)ˣ := by
         rw [Nat.card_eq_fintype_card, ZMod.card_units]
         omega

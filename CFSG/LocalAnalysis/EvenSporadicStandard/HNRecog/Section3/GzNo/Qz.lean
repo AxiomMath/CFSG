@@ -38,9 +38,9 @@ theorem gzNo_mem_zpowers_iff {z : G} (hz : orderOf z = 2) {q : G} :
 
 private theorem sq_mem_centerOf {K : Type*} [Group K] {Q : Subgroup K}
     (hQ : IsPlusExtraspecial 4 Q) {q : K} (hq : q ∈ Q) : q ^ 2 ∈ centerOf Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let qQ : ↥Q := ⟨q, hq⟩
-  haveI : CFSG.IsElementaryAbelian 2 (↥Q ⧸ Subgroup.center ↥Q) :=
+  have : CFSG.IsElementaryAbelian 2 (↥Q ⧸ Subgroup.center ↥Q) :=
     hQ.1.quotient_elementary_abelian
   have hExp : Monoid.exponent (↥Q ⧸ Subgroup.center ↥Q) ∣ 2 :=
     CFSG.IsElementaryAbelian.exponent_dvd_p 2 (↥Q ⧸ Subgroup.center ↥Q)

@@ -33,7 +33,7 @@ theorem rootChar_eq_one_E8_eight (S : LangSetup .E8 L p) (hq : S.D.q = 2) (hp : 
     have h := S.hqpow.2
     rw [hq] at h
     exact_mod_cast h
-  haveI : CharP L 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2L
+  have : CharP L 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2L
   have hQ4 : 4 ≤ S.D.q ^ 4 := by rw [hq]; norm_num
   have hpm : p ∣ S.D.q ^ (2 * 4) - 1 := by rw [hq, hp]; norm_num
   obtain ⟨θ, R, hbig, hθ, hθ1, hθθ, hR⟩ := exists_bigComponent_pair S
@@ -100,7 +100,7 @@ theorem centralizerTrivial_E8_eight (S : LangSetup .E8 L p) (hρ : RhoIs S e8Eig
     have h := S.hqpow.2
     rw [hq] at h
     exact_mod_cast h
-  haveI : CharP L 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2L
+  have : CharP L 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2L
   obtain ⟨ζ, hζ⟩ := SmallQ17.exists_zeta17 (L := L)
   have hzT : z ∈ torusGroup Tag.E8 L := SmallQ17.mem_torusGroup_of_commute_plane S hρ hq hp hζ
     hD₁E hD₁c hz fun x hx => hcomm x (Or.inr hx)

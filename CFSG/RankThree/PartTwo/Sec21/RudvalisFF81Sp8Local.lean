@@ -25,7 +25,7 @@ theorem isElemAb_iff {p k : ℕ} {B : Subgroup G} : IsElemAb p k B ↔
   · rintro ⟨hab, hc⟩
     refine ⟨fun x hx y hy => congrArg Subtype.val (hab.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩),
       fun x hx => ?_, hc⟩
-    haveI := hab
+    have := hab
     exact CFSG.elemPow_eq_one_of_isElementaryAbelian x hx
   · rintro ⟨hc, hp, hcard⟩
     exact ⟨{ is_comm := ⟨fun a b => Subtype.ext (hc _ a.2 _ b.2)⟩
@@ -34,7 +34,7 @@ theorem isElemAb_iff {p k : ℕ} {B : Subgroup G} : IsElemAb p k B ↔
 
 theorem card_of_isSylowOf [Finite G] {p : ℕ} (hp : p.Prime) {H P : Subgroup G}
     (h : IsSylowOf p P H) : Nat.card P = p ^ (Nat.card H).factorization p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hle, hpg, hcop⟩ := h
   obtain ⟨a, ha⟩ := hpg.exists_card_eq
   have h1 := Subgroup.relIndex_mul_card P H
@@ -551,7 +551,7 @@ private theorem eq_one_of_comm_type1 {R : Subgroup H8} (hR : Nat.Coprime (Nat.ca
       group
   have hbot := inf_cen_e_eq_bot hR' hE'
   have hmem : n⁻¹ * y * n ∈ R' ⊓ Subgroup.centralizer ({sp8E} : Set H8) := by
-    refine Subgroup.mem_inf.mpr ⟨⟨y, hy, by simp [MulAut.conj_apply]⟩, ?_⟩
+    refine Subgroup.mem_inf.mpr ⟨⟨y, hy, by simp⟩, ?_⟩
     rw [Subgroup.mem_centralizer_singleton_iff]
     have hyz' : y * z * y⁻¹ = z := by rw [hyz]; group
     rcases hn with e | e
@@ -588,7 +588,7 @@ private theorem fl1_mem_normalizer : fl1 ∈ Subgroup.normalizer (E0 : Set H8) :
   change (Subgroup.closure {g | codeS g ∈ e0Gens}).map _ ≤ E0
   rw [MonoidHom.map_closure, Subgroup.closure_le]
   rintro _ ⟨z, hz, rfl⟩
-  simp only [Set.mem_setOf_eq, e0Gens, List.mem_cons, List.not_mem_nil, or_false] at hz
+  simp only [Set.mem_ofPred_eq, e0Gens, List.mem_cons, List.not_mem_nil, or_false] at hz
   rw [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
   rcases hz with h | h | h | h
   · rw [← codeS_z0] at h; rw [codeS_injective h, fl1_conj_z0]; exact sp8Z_mem_E0 0
@@ -893,14 +893,14 @@ theorem clause5_H8 {x : H8} (h3 : orderOf x = 3) {K : Subgroup H8}
       hcard])
   have hmem : ∀ {z : H8}, z ∈ K → v⁻¹ * z * v ∈ iota6.range := fun {z} hz => by
     rw [← hK'eq]
-    exact ⟨z, hz, by simp [MulAut.conj_apply]⟩
+    exact ⟨z, hz, by simp⟩
   obtain ⟨a₁, ha₁⟩ := hmem h₁
   obtain ⟨a₂, ha₂⟩ := hmem h₂
   have hord : ∀ {a : H6} {z : H8}, iota6 a = v⁻¹ * z * v → orderOf z = 3 → orderOf a = 3 := by
     intro a z e hz
     rw [← orderOf_injective iota6 iota6_injective a, e, ← hz]
     exact orderOf_injective (MulAut.conj v⁻¹).toMonoidHom (MulAut.conj v⁻¹).injective z |>.trans
-      (by simp [MulAut.conj_apply])
+      (by simp)
   have h23 : orderOf x₂ = 3 := by
     rw [← hy, ← h13]
     exact orderOf_injective (MulAut.conj y).toMonoidHom (MulAut.conj y).injective x₁
@@ -1129,12 +1129,12 @@ theorem kf_sp8Local' : KF_Sp8Local' := by
     have hcardK' : Nat.card K' = 1451520 := by
       rw [Nat.card_congr φ.toEquiv, Nat.card_congr eK.toEquiv,
         CFSG.RankThree.PartTwo.Census.Carrier.Sp6Two.card_H6]
-    haveI : IsSimpleGroup CFSG.RankThree.PartTwo.Census.Carrier.Sp6Two.H6 :=
+    have : IsSimpleGroup CFSG.RankThree.PartTwo.Census.Carrier.Sp6Two.H6 :=
       CFSG.RankThree.PartTwo.Sec4.RonanK429F.Sp8.isSimpleGroup_H6
     have hperfH6 : Group.IsPerfect CFSG.RankThree.PartTwo.Census.Carrier.Sp6Two.H6 :=
       CFSG.RankThree.PartTwo.Sec4.RonanK429F.isPerfect_of_simple
         CFSG.RankThree.PartTwo.Sec4.RonanK429F.Sp8.exists_not_comm_H6
-    haveI := hperfH6
+    have := hperfH6
     have hperf : Group.IsPerfect K' :=
       Group.IsPerfect.ofSurjective (f := (eK.symm.trans φ.symm).toMonoidHom)
         (eK.symm.trans φ.symm).surjective

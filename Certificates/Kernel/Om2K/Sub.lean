@@ -86,11 +86,11 @@ theorem trans_cert {N R : Nat} {X Y E D : Nat → Nat} {w : List Nat} (h : trans
     intro k hk
     rw [push_get _ _ (by rw [gT_size]; exact hk), gT_size]
     by_cases h8 : k < 8
-    · rw [if_pos h8, gT_get h8]
+    · rw [ite_eq_left h8, gT_get h8]
       have e : Nat.blt k 8 = true := Nat.blt_eq.mpr h8
       unfold tgR
       rw [e]
-    · rw [if_neg h8, hR]
+    · rw [ite_eq_right h8, hR]
       have e : Nat.blt k 8 = false := by
         cases e' : Nat.blt k 8
         · rfl
@@ -160,7 +160,7 @@ theorem cov_sub {N R s j : Nat} {X Y E D : Nat → Nat} (h : subOK N X Y E D R =
     (wSub.map fun w => arrBfs (fun k F => actFY gT[k]! F) gT.size keyF
         (actFY (wY LY w) (fCodeY (wY LY wT0))) 6301).any (inCertY · (V j)) = true := by
   unfold inSub at hj
-  simp only [Bool.and_eq_true, beq_iff_eq] at hj
+  simp only [Bool.and_eq_true] at hj
   obtain ⟨h1, h2⟩ := hj
   have hm := ((sub_cert h hR hRok h0 hf).2 (V j)).2 ⟨_, Nat.blt_eq.mp h1, congrArg V (Nat.eq_of_beq_eq_true h2)⟩
   rw [List.any_map, List.any_eq_true]

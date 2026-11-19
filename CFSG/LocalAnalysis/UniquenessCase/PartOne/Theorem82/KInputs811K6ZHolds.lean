@@ -17,7 +17,7 @@ theorem k6ZL4_holds :
     rcases hm with ⟨-, hm⟩ | ⟨-, hm⟩
     · exact Or.inl hm
     · exact Or.inr ⟨hm, by rw [pow_one]; omega⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp h2
   intro hdvd
   rw [hk] at hdvd

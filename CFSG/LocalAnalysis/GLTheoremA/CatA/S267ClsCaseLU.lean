@@ -64,7 +64,7 @@ theorem supported_mem_blkSub (hp : p.Prime) (hA : ∀ a : ↥Aε, a ^ p = 1) (hp
           rw [Finset.singleton_inter_of_notMem hH'I]
         rw [this, projI_apply, Finset.sum_empty])
     rwa [glRep_apply_eq_glEquiv] at h
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     refine orderOf_eq_prime ?_ fun h1 => hx H' (Finset.mem_singleton_self H') ?_
     · exact congrArg Subtype.val (hA x)
     · have : x = 1 := Subtype.ext h1
@@ -110,7 +110,7 @@ theorem wtW_insert (hp : p.Prime) (hA : ∀ a : ↥Aε, a ^ p = 1) (hpK : (p : K
     projI_apply, Finset.sum_insert hH₂, projI_apply, projI_apply, Finset.sum_singleton, add_comm]
 
 theorem glaPLayer_ne_bot_of_subBlock (hp : p.Prime) (hA : ∀ a : ↥Aε, a ^ p = 1)
-    (hpK : (p : K) ≠ 0) (hAεβ : Aε ≤ isomGL β) [DecidableEq (Hyperplane ↥Aε p)]
+    (hpK : (p : K) ≠ 0) (_hAεβ : Aε ≤ isomGL β) [DecidableEq (Hyperplane ↥Aε p)]
     (I : Finset (Hyperplane ↥Aε p)) {H₂ : Hyperplane ↥Aε p} (hH₂ : H₂ ∉ I) {x : ↥Aε}
     (hx : ∀ H ∈ ({H₂} : Finset _), x ∉ H.1)
     (hx' : ∀ H'' : Hyperplane ↥Aε p, H'' ∉ ({H₂} : Finset _) →

@@ -38,7 +38,7 @@ theorem s16h_exists_order_three_of_torus_res {W : Type} [CommGroup W] [Finite W]
   have hUcard : Nat.card ↥U = 64 := by
     rw [card_eq_two_pow hW U, hU]
     norm_num
-  haveI hLnt : Nontrivial ↥L :=
+  have hLnt : Nontrivial ↥L :=
     (Finite.one_lt_card_iff_nontrivial (α := ↥L)).mp (by rw [hL]; norm_num)
   obtain ⟨l₀, hl₀ne⟩ := exists_ne (1 : ↥L)
   let l : MulAut W := (l₀ : MulAut W)
@@ -229,7 +229,7 @@ theorem s16h_exists_order_three_of_torus_res {W : Type} [CommGroup W] [Finite W]
       apply Subtype.ext
       simpa [lS, y] using hk.symm
     have himg : resHom U yS = l' ^ k := by
-      simpa [l', hylS] using map_zpow (resHom U) lS k
+      simp [l', hylS]
     rw [hySrfl] at himg
     exact Subgroup.mem_zpowers_iff.mpr ⟨k, himg.symm⟩
 

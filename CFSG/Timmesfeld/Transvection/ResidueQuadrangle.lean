@@ -102,7 +102,7 @@ theorem IsMaxFrame.isThickQuadrangle_residueAdj [Finite H] (hΔ : IsTransvection
     (hF : IsMaxFrame Δ P Q) {j k : Fin r} (hjk : j ≠ k) :
     IsThickQuadrangle (residueAdj Δ P Q j k) := by
   classical
-  letI : Fintype ↥(rankTwoResidue Δ P Q j k) := Fintype.ofFinite _
+  let : Fintype ↥(rankTwoResidue Δ P Q j k) := Fintype.ofFinite _
   refine (hF.isQuadrangle_residueAdj hΔ hpts hML j k).isThickQuadrangle_of_base ?_ ?_
   · intro x y hxy hadj
     have hne : (x : Subgroup H) ≠ (y : Subgroup H) := fun e => hxy (Subtype.ext e)

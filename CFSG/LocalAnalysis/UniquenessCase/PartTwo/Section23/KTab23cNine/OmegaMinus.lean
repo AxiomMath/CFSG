@@ -31,14 +31,16 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22.NatBorelIrr
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
 
+omit [Finite K] [CharP K 2] in
 private theorem hypVec_inl_zero_ne_zero {A : Type} [AddCommGroup A] [Module K A] {r : ℕ}
     (hr : 1 ≤ r) : hypVec K A (Sum.inl (⟨0, hr⟩ : Fin r)) ≠ 0 := by
   intro h
   have h1 : (1 : K) = 0 := by
     have := congrFun (congrArg Prod.fst h) (Sum.inl (⟨0, hr⟩ : Fin r))
-    simpa [hypVec, Pi.single_eq_same] using this
+    simp [hypVec, Pi.single_eq_same] at this
   exact one_ne_zero h1
 
+omit [Finite K] [CharP K 2] in
 private theorem tailUnipotent_apply_hypVec_inl {A : Type} [AddCommGroup A] [Module K A]
     {r : ℕ} {qA : QuadraticForm K A} (hr : 1 ≤ r)
     {e : ↥(orthElementaryGroup (quadTail r qA))}
@@ -48,6 +50,7 @@ private theorem tailUnipotent_apply_hypVec_inl {A : Type} [AddCommGroup A] [Modu
   MulAction.mem_stabilizer_iff.mp
     (tailUnipotent_le_stabilizer (r := r) (qA := qA) hr (Subgroup.mem_subgroupOf.mp he))
 
+omit [Finite K] [CharP K 2] in
 private theorem conj_apply_hypVec_inl_eq_self {A : Type} [AddCommGroup A] [Module K A]
     {r : ℕ} {qA : QuadraticForm K A} (hr : 1 ≤ r)
     {e g : ↥(orthElementaryGroup (quadTail r qA))}
@@ -63,6 +66,7 @@ private theorem conj_apply_hypVec_inl_eq_self {A : Type} [AddCommGroup A] [Modul
     hypVec K A (Sum.inl (⟨0, hr⟩ : Fin r))
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hx', hg, hx]
 
+omit [Finite K] [CharP K 2] in
 private theorem eq_one_of_smul_hypVec_inl_eq_self {A : Type} [AddCommGroup A] [Module K A]
     {r : ℕ} (hr : 1 ≤ r) {c : K}
     (h : c • hypVec K A (Sum.inl (⟨0, hr⟩ : Fin r)) =
@@ -436,7 +440,7 @@ theorem kTab23cNineAt_of_realizes_om6m {W : Type} [CommGroup W] [Finite W]
     intro h
     have h1 : (1 : K) = 0 := by
       have := congrFun h (Sum.inl (⟨0, by omega⟩ : Fin (3 - 1)))
-      simpa [e0, om6mE0] using this
+      simp [e0, om6mE0] at this
     exact one_ne_zero h1
   have hline : KTabC.SylowFixedLine (StatedOmega (StatedQuadMinus 3 K b c)) e0 := by
     simpa [e0, om6mE0] using
@@ -451,11 +455,11 @@ theorem kTab23cNineAt_of_realizes_om6m {W : Type} [CommGroup W] [Finite W]
 theorem kTab23cNineAt_om6m {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W))
     {n : ℕ} (h : NatOmegaMinus H ⊤ ⊥ 6 n) : KTab23cNineAt W H := by
   obtain ⟨-, K, hKf, hKfin, b, c, hK, hirr, hreal⟩ := h
-  letI : Field K := hKf
-  haveI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  let : Field K := hKf
+  have : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
   rw [show 6 / 2 = 3 by norm_num] at hreal
   exact kTab23cNineAt_of_realizes_om6m H hirr hreal
@@ -534,7 +538,7 @@ theorem kTab23cNineAt_of_realizes_omegaMinusEight {W : Type} [CommGroup W] [Fini
     intro h
     have h1 : (1 : K) = 0 := by
       have := congrFun h (Sum.inl (⟨0, by omega⟩ : Fin (4 - 1)))
-      simpa [e0, om8mE0] using this
+      simp [e0, om8mE0] at this
     exact one_ne_zero h1
   have hline : KTabC.SylowFixedLine (StatedOmega (StatedQuadMinus 4 K b c)) e0 := by
     simpa [e0, om8mE0] using
@@ -550,11 +554,11 @@ theorem kTab23cNineAt_omegaMinusEight {W : Type} [CommGroup W] [Finite W]
     (H : Subgroup (MulAut W)) {n : ℕ} (h : NatOmegaMinus H ⊤ ⊥ 8 n) :
     KTab23cNineAt W H := by
   obtain ⟨-, K, hKf, hKfin, b, c, hK, hirr, hreal⟩ := h
-  letI : Field K := hKf
-  haveI : Finite K := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  let : Field K := hKf
+  have : Finite K := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
   rw [show 8 / 2 = 4 by norm_num] at hreal
   exact kTab23cNineAt_of_realizes_omegaMinusEight H hirr hreal

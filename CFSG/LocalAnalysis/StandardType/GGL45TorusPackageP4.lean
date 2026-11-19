@@ -159,7 +159,7 @@ theorem ggL45HFourMod_of_HFour (hp : p.Prime) (I : Subgroup (MulAut R)) [I.Norma
     (H4 : GGL45HFour p (I : Set (MulAut R)) θ E) :
     GGL45HFourMod p (I : Set (MulAut R)) θ E f := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T, hIT, ⟨g, hgT, hg⟩, hT⟩ := H4
   intro α hαp hαE hαI hαpI
   let π : MulAut R →* MulAut R ⧸ I := QuotientGroup.mk' I
@@ -207,15 +207,15 @@ theorem ggL45HFourMod_of_HFour (hp : p.Prime) (I : Subgroup (MulAut R)) [I.Norma
   have hyord : orderOf y = p := by
     change orderOf (⟨π α, hmemα⟩ : C) = p
     rw [Subgroup.orderOf_mk, hπα_ord]
-  haveI hFx : Finite ↥(Subgroup.zpowers x) :=
+  have hFx : Finite ↥(Subgroup.zpowers x) :=
     IsOfFinOrder.finite_zpowers (by
       rw [isOfFinOrder_iff_pow_eq_one]
       exact ⟨p, hp.pos, by rw [← hxord, pow_orderOf_eq_one]⟩)
-  haveI hFy : Finite ↥(Subgroup.zpowers y) :=
+  have hFy : Finite ↥(Subgroup.zpowers y) :=
     IsOfFinOrder.finite_zpowers (by
       rw [isOfFinOrder_iff_pow_eq_one]
       exact ⟨p, hp.pos, by rw [← hyord, pow_orderOf_eq_one]⟩)
-  haveI hCyc : IsCyclic C := Subgroup.isCyclic_zpowers (π g)
+  have hCyc : IsCyclic C := Subgroup.isCyclic_zpowers (π g)
   have heq : Subgroup.zpowers x = Subgroup.zpowers y :=
     IsCyclic.subgroup_eq_iff_card_eq.mpr (by
       rw [Nat.card_zpowers, Nat.card_zpowers, hxord, hyord])

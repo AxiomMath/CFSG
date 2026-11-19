@@ -228,11 +228,11 @@ theorem SwapDisjoint.sum_threeCycle_eq_zero (hS : SwapDisjoint ε ρ) {s c : Γ}
     by_cases hxb : x = b
     · subst hxb
       simp only [Equiv.Perm.mul_apply]
-      simp [hc0a, hc0b, hc0d, Equiv.swap_apply_of_ne_of_ne (Ne.symm had) (Ne.symm hbd)]
+      simp [hc0a, hc0b, Equiv.swap_apply_of_ne_of_ne (Ne.symm had) (Ne.symm hbd)]
     by_cases hxd : x = d
     · subst hxd
       simp only [Equiv.Perm.mul_apply]
-      simp [hc0a, hc0b, hc0d, Equiv.swap_apply_of_ne_of_ne (Ne.symm had) (Ne.symm hbd)]
+      simp [hc0a, hc0d, Equiv.swap_apply_of_ne_of_ne (Ne.symm had) (Ne.symm hbd)]
     · have hx0 : c₀ x = x := hc0x x hxa hxb hxd
       have hxt : swap a b x = x := Equiv.swap_apply_of_ne_of_ne hxa hxb
       simp only [Equiv.Perm.mul_apply]
@@ -246,15 +246,15 @@ theorem SwapDisjoint.sum_threeCycle_eq_zero (hS : SwapDisjoint ε ρ) {s c : Γ}
     by_cases hxa : x = a
     · subst hxa
       simp only [Equiv.Perm.mul_apply]
-      simp [hc0a, hc0b, hc0d, Equiv.swap_apply_of_ne_of_ne (Ne.symm had) (Ne.symm hbd)]
+      simp [hc0a, hc0b, Equiv.swap_apply_of_ne_of_ne (Ne.symm had) (Ne.symm hbd)]
     by_cases hxb : x = b
     · subst hxb
       simp only [Equiv.Perm.mul_apply]
-      simp [hc0a, hc0b, hc0d, Equiv.swap_apply_of_ne_of_ne (Ne.symm had) (Ne.symm hbd)]
+      simp [hc0a, hc0b, hc0d]
     by_cases hxd : x = d
     · subst hxd
       simp only [Equiv.Perm.mul_apply]
-      simp [hc0a, hc0b, hc0d, Equiv.swap_apply_of_ne_of_ne (Ne.symm had) (Ne.symm hbd)]
+      simp [hc0a, hc0d, Equiv.swap_apply_of_ne_of_ne (Ne.symm had) (Ne.symm hbd)]
     · have hx0 : c₀ x = x := hc0x x hxa hxb hxd
       have hxt : swap a b x = x := Equiv.swap_apply_of_ne_of_ne hxa hxb
       simp only [Equiv.Perm.mul_apply]
@@ -378,7 +378,7 @@ theorem SwapDisjoint.exists_equivariant_evenWeight (hS : SwapDisjoint ε ρ) (hn
       W₂ i j = ρ h w := by
     intro h i j hi hj hij
     change seven_ten_alg_W2 ε ρ hε hab w i j = ρ h w
-    rw [seven_ten_alg_W2, dif_neg hij]
+    rw [seven_ten_alg_W2, dite_eq_right hij]
     let σ : Perm (Fin n) := Classical.choose (exists_perm_apply_two hab hij)
     let g₀ : Γ := Classical.choose (hε σ)
     change ρ g₀ w = ρ h w
@@ -388,11 +388,11 @@ theorem SwapDisjoint.exists_equivariant_evenWeight (hS : SwapDisjoint ε ρ) (hn
     have hka : ε (g₀⁻¹ * h) a = a := by
       simp only [map_mul, map_inv, Equiv.Perm.mul_apply]
       rw [hg₀, hi, ← hσa]
-      simpa using Equiv.symm_apply_apply σ a
+      simp
     have hkb : ε (g₀⁻¹ * h) b = b := by
       simp only [map_mul, map_inv, Equiv.Perm.mul_apply]
       rw [hg₀, hj, ← hσb]
-      simpa using Equiv.symm_apply_apply σ b
+      simp
     have hkw : ρ (g₀⁻¹ * h) w = w := hS.apply_eq_of_fixes hε hab hs hka hkb hw
     calc ρ g₀ w = ρ g₀ (ρ (g₀⁻¹ * h) w) := by rw [hkw]
       _ = (ρ g₀ * ρ (g₀⁻¹ * h)) w := rfl
@@ -403,7 +403,7 @@ theorem SwapDisjoint.exists_equivariant_evenWeight (hS : SwapDisjoint ε ρ) (hn
   have W₂_aa : ∀ i : Fin n, W₂ i i = 0 := by
     intro i
     change seven_ten_alg_W2 ε ρ hε hab w i i = 0
-    rw [seven_ten_alg_W2, dif_pos rfl]
+    rw [seven_ten_alg_W2, dite_eq_left rfl]
   have W₂_symm : ∀ i j : Fin n, W₂ j i = W₂ i j := by
     intro i j
     by_cases hij : i = j

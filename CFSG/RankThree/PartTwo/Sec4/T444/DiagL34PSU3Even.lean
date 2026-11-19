@@ -20,7 +20,7 @@ theorem l34SectionPSU3Even_holds : L34SectionPSU3Even := by
     rwa [pow_one] at h
   have h4 : 4 ≤ (2 ^ e) ^ 2 := by nlinarith [h2]
   have hkey := KFacts.KS14.card_projSU_three_mul_gcd 2 e hf
-  haveI : Finite (projSU 3 2 e) := by
+  have : Finite (projSU 3 2 e) := by
     apply Nat.finite_of_card_ne_zero
     intro h0
     rw [h0, zero_mul] at hkey

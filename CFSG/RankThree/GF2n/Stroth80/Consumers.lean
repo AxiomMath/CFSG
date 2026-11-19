@@ -12,7 +12,7 @@ variable {G : Type} [Group G]
 
 theorem pCore_two_eq_bot_of_simple [Finite G] [IsSimpleGroup G]
     (hnonab : ∃ a b : G, a * b ≠ b * a) : pCore 2 G = ⊥ := by
-  haveI : (pCore 2 G).Normal := pCore_normal (p := 2) (G := G)
+  have : (pCore 2 G).Normal := pCore_normal (p := 2) (G := G)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (pCore 2 G) with h | h
   · exact h
   · exfalso

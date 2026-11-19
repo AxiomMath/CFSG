@@ -173,7 +173,7 @@ theorem TightStd8R.exists_sylow_meeting_X (hs : TightStd8R r n Rd Sd z J S R T W
   have hVX : IsSylow2In (V ⊓ X) X := AscP1Nine3.isSylow2In_inf_of_le_normalizer' hV le_sup_left hYN
   obtain ⟨S₂, hS₂⟩ := hV.2.1.exists_le_sylow
   have heq : (S₂ : Subgroup Y) ⊓ X = V ⊓ X :=
-    hVX.2.2 _ inf_le_right S₂.isPGroup'.to_inf_left (inf_le_inf_right X hS₂)
+    hVX.2.2 _ inf_le_right S₂.isPGroup.to_inf_left (inf_le_inf_right X hS₂)
   exact ⟨S₂, hRV.trans hS₂, heq ▸ hVX⟩
 
 theorem TightStd8R.exists_muIsoZ2_xFam_E4_of_not_le (hs : TightStd8R r n Rd Sd z J S R T W t)

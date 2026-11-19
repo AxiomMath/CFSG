@@ -30,7 +30,7 @@ theorem GGD4OddCentOuterShape.of_mulEquiv {n : ℕ} {C C' : Type} [Group C] [Gro
     ⟨d, K₃, i₁, i₂, hd, hn3, hK₃, hs, hnab, ⟨E⟩⟩
   · exact Or.inl ⟨k, i₁, i₂, hk, ⟨e.trans E⟩⟩
   · exact Or.inr (Or.inl ⟨F, i₁, i₂, hF, ⟨e.trans E⟩⟩)
-  · haveI := hs
+  · have := hs
     obtain ⟨a, b, hab⟩ := hnab
     exact Or.inr (Or.inr ⟨d, K₃, i₁, i₂, hd, hn3, hK₃, e.isSimpleGroup,
       ⟨e.symm a, e.symm b, fun h' => hab (by
@@ -55,7 +55,7 @@ private theorem ggD4OddCent_pgu_clause {X : Type} [Group X] {C : Subgroup X} {n 
     have hsolv : Group.IsSolvable ↥(projImage (Sec4.glPi false 3 (2 ^ 1) F)) :=
       ggTriD4_pgu_two_solvable (n := 1) rfl hF
     have hsolvC : Group.IsSolvable ↥C := by
-      haveI := hsolv
+      have := hsolv
       exact Group.isSolvable_of_isSolvable_injective (f := E.toMonoidHom) E.injective
     exact (gffa2_false_of_solvable hsolvC hQ).elim
   · have hn2 : 2 ≤ n := by omega
@@ -86,7 +86,7 @@ theorem ggD4OddCent_outerShape_marking
   · obtain ⟨hZ, hmark⟩ := ggD4OddCent_pgu_clause hn hF E hQ
     exact largeEvenMarking_mono
       (fun lab R _ I F θ h' => Or.inr (Or.inr ⟨h'.1, h'.2, hZ⟩)) hmark
-  · haveI := hs
+  · have := hs
     have hQeq : Q = C :=
       CFSG.ComponentClassification.ExcSelector.eq_of_isComponentOf_of_isSimpleGroup hQ
     rw [hQeq]

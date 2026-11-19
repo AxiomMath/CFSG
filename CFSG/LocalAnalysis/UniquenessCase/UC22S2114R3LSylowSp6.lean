@@ -147,7 +147,7 @@ theorem sylow_torsion_fixed_statedSp_three
   have hφS : ∀ s ∈ S₀, (Φ ^ m) s ∈ S₀ := by
     simpa only [Φ, ← map_pow] using hS₀σ (σ₀ ^ m)
   exact CFSG.apply_eq_self_of_pow_eq_one hS₀ hS₀i hS₀c hφ hφS
-    hφi hφfix R.isPGroup' R.not_dvd_index hα hαR
+    hφi hφfix R.isPGroup R.not_dvd_index hα hαR
 
 theorem sylow_torsion_fixed_of_lieModel_psp_three
     {X : Type} [Group X] [Finite X] {f r : ℕ}

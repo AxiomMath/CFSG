@@ -137,7 +137,7 @@ theorem partC (hL : OneComponent Y e v L) (hc : BaseConfig Y e) (hv : v * v = e)
   have heK : e ∈ Subgroup.centralizer (L : Set X) :=
     Subgroup.mem_centralizer_iff.mpr fun l _ => (hc.commute_center l).eq
   exact
-    { isPGroup := T.isPGroup'
+    { isPGroup := T.isPGroup
       left_le := inf_le_left
       right_le := inf_le_left
       quaternion := hL.nonempty_inf_mulEquiv_quaternion hZ eA T

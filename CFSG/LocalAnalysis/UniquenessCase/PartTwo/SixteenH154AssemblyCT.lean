@@ -24,15 +24,15 @@ private theorem s16h_three_dvd_lBar_of_conc4_component
   rcases hW.2.2 with h133 | h2 | h3 | h4
   · exfalso
     obtain ⟨p, hp, hLp, hne, -⟩ := h133
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hLpg : IsPGroup p ↥(lBar V₀ V hV L) :=
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup p (Mbar D.M V₀ V hV)).to_le hLp
     have hnil : Group.IsNilpotent ↥(lBar V₀ V hV L) := hLpg.isNilpotent
     have hnt : Nontrivial ↥(lBar V₀ V hV L) :=
       (Subgroup.nontrivial_iff_ne_bot _).2 fun hbot =>
         hne (by rw [hbot, Subgroup.commutator_bot_left])
-    haveI : Group.IsPerfect ↥(lBar V₀ V hV L) := Group.isPerfect_def.mpr hcomp.2.2.1
-    haveI : Nontrivial ↥(lBar V₀ V hV L) := hnt
+    have : Group.IsPerfect ↥(lBar V₀ V hV L) := Group.isPerfect_def.mpr hcomp.2.2.1
+    have : Nontrivial ↥(lBar V₀ V hV L) := hnt
     exact Group.IsPerfect.not_isNilpotent (G := ↥(lBar V₀ V hV L)) hnil
   · obtain ⟨K, -, g, -, -, hLsup, hshape⟩ := h2
     have h3K : 3 ∣ Nat.card ↥K := by
@@ -51,9 +51,9 @@ theorem s16h_hyp154_of_component_three
     (hσ : D.sig = D.sig1) (h880 : F08.R880 D) (h163 : R16_3FComp D)
     (hSchur : RSchur153)
     {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
-    (hs : 1 < s15 D.M V₀ V h.hyp151.isElemAbelian L)
-    (hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
-    (hδ : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2 →
+    (_hs : 1 < s15 D.M V₀ V h.hyp151.isElemAbelian L)
+    (_hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
+    (_hδ : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2 →
       delta15 D.M V₀ V h.hyp151.isElemAbelian L < gamma15 D.M V₀ V h.hyp151.isElemAbelian L - 1)
     {t : MulAut (Vtil V₀ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M V₀ V h.hyp151.isElemAbelian)
     (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (htr : rk ↥(commSub ⊤ (zpowers t)) ≤ 3)

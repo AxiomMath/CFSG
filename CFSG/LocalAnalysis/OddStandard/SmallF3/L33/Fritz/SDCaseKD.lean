@@ -28,6 +28,7 @@ private theorem aff8_u3_one_mul_k8 : aff8 u3 1 * k8 = d8 := by decide
 
 private theorem aff8_u3_one_mem_S16 : aff8 u3 1 ∈ SD.S16 := ⟨u3, 1, rfl, by decide⟩
 
+omit [Finite X] in
 private theorem commute_of_ψ_eq_z8 (A : SDData t L) {z w : X} (hzT : z ∈ A.T) (hwT : w ∈ A.T)
     (hzL : z ∈ L) (hzψ : A.ψ ⟨z, hzT⟩ = z8) : z * w = w * z := by
   have hcommT : z * w * z⁻¹ * w⁻¹ ∈ A.T := by
@@ -72,6 +73,7 @@ theorem exists_field_involution
   rw [← hub] at hwn hwD ⊢
   exact field_involution_aux u b (hwD x8 SD.x8_mem_R8) (hwD y8 SD.y8_mem_R8) hwn
 
+omit [Finite X] in
 theorem caseKD_of_field (A : SDData t L) (hK : A.K = zpowers t) {w : X} (hw : w ∈ A.T)
     (hw2 : w ^ 2 = 1) (hψ : A.ψ ⟨w, hw⟩ = k8 ∨ A.ψ ⟨w, hw⟩ = z8 * k8) :
     Nonempty A.CaseKD := by

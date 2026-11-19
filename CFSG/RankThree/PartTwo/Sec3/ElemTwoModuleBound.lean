@@ -1,7 +1,7 @@
 module
 
 public import CFSG.RankThree.PartTwo.Sec3.ElemNineAut
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Std.Tactic.BVDecide.Normalize.Prop
 
 public section
@@ -366,11 +366,8 @@ theorem four_le_card_cU_of_ne_bot {d : B} (hd : d ≠ 1) (hne : cU β d ≠ ⊥)
     fin_cases i <;> fin_cases j <;> simp [F] at h ⊢ <;>
       first
       | exact absurd h.symm hc1 | exact absurd h hc1
-      | exact absurd h.symm (hb1 d') | exact absurd h (hb1 d')
-      | exact absurd h.symm (hb1 _) | exact absurd h (hb1 _)
+      | exact absurd h.symm (hb1 d')
       | exact absurd h.symm hne1 | exact absurd h hne1
-      | exact absurd h.symm hne2 | exact absurd h hne2
-      | exact absurd h.symm hne3 | exact absurd h hne3
       | exact absurd h.symm hne2' | exact absurd h hne2'
       | exact absurd h.symm hne3' | exact absurd h hne3'
       | exact absurd h.symm hb2'

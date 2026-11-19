@@ -106,7 +106,7 @@ theorem L34MSide.card_le_of_mem_fusionSet (hd : D1OneSmallData p P M H R Rbar K)
     calc n⁻¹ * g * y * (n⁻¹ * g)⁻¹ * z = n⁻¹ * (g * y * g⁻¹ * (n * z * n⁻¹)) * n := by group
       _ = n⁻¹ * (n * z * n⁻¹ * (g * y * g⁻¹)) * n := h2
       _ = z * (n⁻¹ * g * y * (n⁻¹ * g)⁻¹) := by group
-  have hP'p : IsPGroup p P' := P.isPGroup'.map _
+  have hP'p : IsPGroup p P' := P.isPGroup.map _
   obtain ⟨Q, hQ⟩ := hB0
   have hle := card_le_card_map_sylow Q hP'p hP'C
   rw [hQ] at hle
@@ -127,7 +127,7 @@ theorem L34MSide.mem_d1LiftX_of_mem_center (hd : D1OneSmallData p P M H R Rbar K
     intro r hr
     exact (hxc r (hRP hr)).symm
   have hxp : IsPGroup p (Subgroup.zpowers x) :=
-    P.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxP)
+    P.isPGroup.to_le (Subgroup.zpowers_le.mpr hxP)
   have hRp : IsPGroup p R := hd.cfg.ext.isPGroup
   have hsup : IsPGroup p ↥((Subgroup.zpowers x) ⊔ R) := hxp.to_sup_of_normal_right' hRp hxN
   have hsupC : (Subgroup.zpowers x) ⊔ R ≤ Subgroup.centralizer ({z} : Set G) := by
@@ -162,7 +162,7 @@ theorem L34MSide.exists_center_ne_one (hd : D1OneSmallData p P M H R Rbar K) {z 
     rw [← Finite.one_lt_card_iff_nontrivial]
     have : 0 < Nat.card R := Nat.card_pos
     omega
-  have hc := P.isPGroup'.center_nontrivial
+  have hc := P.isPGroup.center_nontrivial
   obtain ⟨c, hc1⟩ := exists_ne (1 : Subgroup.center (P : Subgroup G))
   refine ⟨((c : (P : Subgroup G)) : G), (c : (P : Subgroup G)).2, ?_, fun y hy => ?_⟩
   · intro h

@@ -11,7 +11,7 @@ open Subgroup CFSG.Open
 
 theorem two_dvd_card_sylow {K : Type*} [Group K] [Finite K] (hK : Even (Nat.card K))
     (S : Sylow 2 K) : 2 ∣ Nat.card S := by
-  obtain ⟨a, ha⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := S.isPGroup.exists_card_eq
   rcases a with _ | a
   · exfalso
     have h1 : Nat.card S = 1 := by simpa using ha
@@ -24,7 +24,7 @@ theorem two_dvd_card_sylow {K : Type*} [Group K] [Finite K] (hK : Even (Nat.card
 
 theorem card_eq_two_or_four_le {K : Type*} [Group K] [Finite K] (hK : Even (Nat.card K))
     (S : Sylow 2 K) : Nat.card S = 2 ∨ 4 ≤ Nat.card S := by
-  obtain ⟨a, ha⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := S.isPGroup.exists_card_eq
   have h2 := two_dvd_card_sylow hK S
   rcases a with _ | _ | a
   · exfalso

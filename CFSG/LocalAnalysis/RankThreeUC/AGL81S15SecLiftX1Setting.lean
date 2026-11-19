@@ -17,9 +17,10 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData CFSG.AGLEmbeddingD2.McLa
 
 variable {X : Type} [Group X] [Finite X] {T : Subgroup X}
 
+omit [Finite X] in
 theorem exists_pow_two_pow_mem_of_mem_normal_sup {L : Subgroup X} (hLn : L.Normal)
     (hT : IsPGroup 2 T) {x : X} (hx : x ∈ L ⊔ T) : ∃ k : ℕ, x ^ 2 ^ k ∈ L := by
-  haveI := hLn
+  have := hLn
   rw [← SetLike.mem_coe, Subgroup.normal_mul] at hx
   obtain ⟨l, hl, t, ht, rfl⟩ := hx
   obtain ⟨k, hk⟩ := hT ⟨t, ht⟩
@@ -29,11 +30,12 @@ theorem exists_pow_two_pow_mem_of_mem_normal_sup {L : Subgroup X} (hLn : L.Norma
   rw [← QuotientGroup.ker_mk' L, MonoidHom.mem_ker, map_pow, map_mul, hl1, one_mul, ← map_pow,
     htk, map_one]
 
+omit [Finite X] in
 theorem le_of_isShort2_of_normal_sup {L : Subgroup X} (hLn : L.Normal) (hT : IsPGroup 2 T)
     {Y : Subgroup ↥(L ⊔ T)} (hY : IsShort2 Y) : Y ≤ L.subgroupOf (L ⊔ T) := by
-  haveI := hLn
+  have := hLn
   let N : Subgroup ↥Y := (L.subgroupOf (L ⊔ T)).subgroupOf Y
-  haveI : N.Normal := Subgroup.normal_subgroupOf
+  have : N.Normal := Subgroup.normal_subgroupOf
   have h2 : IsPGroup 2 (↥Y ⧸ N) := by
     intro g
     induction g using QuotientGroup.induction_on with
@@ -50,7 +52,7 @@ theorem le_of_isShort2_of_normal_sup {L : Subgroup X} (hLn : L.Normal) (hT : IsP
 theorem noXBlock_sup_of_normal (hX : GNSetting X T) {L : Subgroup X} (hLn : L.Normal) :
     ∀ Y : Subgroup ↥(L ⊔ T), IsSubnormal Y ⊤ → InClassXBlock Y → False := by
   intro Y hY hB
-  haveI := hLn
+  have := hLn
   have hYL := le_of_isShort2_of_normal_sup hLn hX.sylow.2.1 hB.1
   have h1 : IsSubnormal (Y.map (L ⊔ T).subtype) (L ⊔ T) := by
     have h := IsSubnormal.map (L ⊔ T).subtype hY
@@ -83,8 +85,8 @@ theorem gnSetting_sup_of_normal (hX : GNSetting X T) {L : Subgroup X} (hLn : L.N
 
 theorem relIndex_two_pow_of_sup_eq_top {L : Subgroup X} (hT : IsPGroup 2 T) (hLn : L.Normal)
     (htop : L ⊔ T = ⊤) (C : Subgroup X) : ∃ k : ℕ, (L ⊓ C).relIndex C = 2 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hLn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hLn
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hT
   have h3 : L.index = L.relIndex T := by
     rw [← Subgroup.relIndex_top_right, ← htop, Subgroup.relIndex_sup_left]
@@ -101,6 +103,7 @@ theorem gnA_le_map_normalizer_two_of_sup_eq_top {T₁ T₂ : Subgroup X} (hX : G
   gnA_le_map_normalizer_two_of_relIndex_two_pow hX hg hL hLn
     (relIndex_two_pow_of_sup_eq_top hX.sylow.2.1 hLn htop _)
 
+omit [Finite X] in
 theorem sup_subgroupOf_sup_eq_top (L T : Subgroup X) :
     L.subgroupOf (L ⊔ T) ⊔ T.subgroupOf (L ⊔ T) = ⊤ := by
   rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.subgroupOf_self]

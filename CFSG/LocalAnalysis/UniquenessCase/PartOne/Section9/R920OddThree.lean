@@ -36,7 +36,7 @@ theorem thin_L (S : SliceCore D L D₃ Y H) : F08.Thin8 L := by
   exact S.facts_L.thin p hp hp2
 
 theorem pRank_three_L (S : SliceCore D L D₃ Y H) : CFSG.Open.pRank 3 L = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle : CFSG.Open.pRank 3 L ≤ 1 := S.thin_L 3 Nat.prime_three (by norm_num)
   have hd : Nat.card D₃ ∣ Nat.card L := Subgroup.card_dvd_of_le S.D₃_le
   rw [S.D₃_card] at hd
@@ -58,7 +58,7 @@ theorem isCyclic_sylow_three_L (S : SliceCore D L D₃ Y H) (T : Sylow 3 ↥L) :
     rw [CFSG.Foundations.SteinbergCA.pRank_coe_eq_open_pRank Nat.prime_three L]
     exact S.thin_L 3 Nat.prime_three (by norm_num)
   refine CFSG.LocalAnalysis.UniquenessCase.UCK.K31.isCyclic_of_isPGroup_pRank_le_one Nat.prime_three
-    (by norm_num) T.isPGroup' (le_trans ?_ hrank)
+    (by norm_num) T.isPGroup (le_trans ?_ hrank)
   rw [CFSG.Foundations.SteinbergCA.pRank_coe_eq_open_pRank Nat.prime_three,
     CFSG.SectionRank.pRank_eq_open_pRank_top]
   exact CFSG.RankThreeCoreUniqueness.Helpers.pRank_mono 3 (by norm_num) le_top
@@ -72,7 +72,7 @@ theorem three_dvd_card_opp (S : SliceCore D L D₃ Y H) : 3 ∣ Nat.card (Opp 3 
 
 theorem exists_order_three_le_opp (S : SliceCore D L D₃ Y H) :
     ∃ E : Subgroup G, E ≤ Opp 3 Y ∧ Nat.card E = 3 ∧ E ∈ uniqueSet D.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Opp 3 Y)) 3 S.three_dvd_card_opp
   have hE₀card : Nat.card (Subgroup.zpowers (x : G)) = 3 := by
     rw [Nat.card_zpowers, ← Subgroup.orderOf_coe x] at *

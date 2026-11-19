@@ -15,6 +15,7 @@ universe u
 variable {V : Type u} {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
   {c : Γ.Coloring (Fin 2)} {q : ℕ}
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 private theorem color_eq_zero_of_mem_isStarLine {P' : Set V}
     {X : Set (subquadrangleSet Γ c P')}
     (hX : IsStarLine (Γ.induce (subquadrangleSet Γ c P'))
@@ -38,7 +39,7 @@ private theorem ncard_starLine_le (hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
   · rw [starLine_eq_neighborSet hP' hT' (subquadrangleColoring c P') ha h2, ncard_neighborSet]
     have hL1 : subquadrangleColoring c P' (commonNeighbor hP' h2) = 1 :=
       color_eq_one_of_adj_of_color_eq_zero ha (commonNeighbor_adj_left hP' h2)
-    rw [degree_subquadrangleGraph hΓ hF, if_neg (by rw [hL1]; decide)]
+    rw [degree_subquadrangleGraph hΓ hF, ite_eq_right (by rw [hL1]; decide)]
   · have ha0 : c a.1 = 0 := by rwa [subquadrangleColoring_apply] at ha
     have haP : a.1 ∈ P' := mem_P'_of_subquadrangleColoring_eq_zero ha
     have h4amb : Γ.dist a.1 b.1 = 4 := by
@@ -51,6 +52,7 @@ private theorem ncard_starLine_le (hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
     have hq := hΓ.two_le
     nlinarith
 
+omit [DecidableRel Γ.Adj] in
 private theorem one_lt_ncard_of_isStarLine {P' : Set V}
     {X : Set (subquadrangleSet Γ c P')}
     (hX : IsStarLine (Γ.induce (subquadrangleSet Γ c P'))
@@ -285,7 +287,7 @@ private theorem exists_isProperVariety_of_disjoint (hΓ : IsThasQuadrangle Γ c 
   have hv0 : c v = 0 := by
     have h := (hP.eq_iff_even_dist c v u).2 (by
       rw [SimpleGraph.dist_comm, huv]; exact ⟨2, rfl⟩)
-    rwa [h, hu0]
+    rw [h, hu0]
   have ha0 : c a.1 = 0 := by rwa [subquadrangleColoring_apply] at ha
   have hb0 : c b.1 = 0 := by rwa [subquadrangleColoring_apply] at hb
   have ha'0 : c a'.1 = 0 := by rwa [subquadrangleColoring_apply] at ha'
@@ -349,16 +351,16 @@ private theorem exists_isProperVariety_of_disjoint (hΓ : IsThasQuadrangle Γ c 
         (Γ.induce (subquadrangleSet Γ c P')).neighborSet w' := by
       intro t ht
       rw [mem_neighborSet]
-      simp only [f, dif_pos ht]
+      simp only [f, dite_eq_left ht]
       exact commonNeighbor_adj_left hP' (hdist t ht)
     have hfinj : Set.InjOn f T := by
       intro t ht t' ht' heq
       have htL : (Γ.induce (subquadrangleSet Γ c P')).Adj (f t) t := by
-        simp only [f, dif_pos ht]
+        simp only [f, dite_eq_left ht]
         exact (commonNeighbor_adj_right hP' (hdist t ht)).symm
       have ht'L : (Γ.induce (subquadrangleSet Γ c P')).Adj (f t) t' := by
         rw [heq]
-        simp only [f, dif_pos ht']
+        simp only [f, dite_eq_left ht']
         exact (commonNeighbor_adj_right hP' (hdist t' ht')).symm
       by_contra hne
       have h4 := dist_eq_four_of_mem_of_isOvoid hP' hT' hTovoid ht ht' hne
@@ -370,7 +372,7 @@ private theorem exists_isProperVariety_of_disjoint (hΓ : IsThasQuadrangle Γ c 
             ((Γ.induce (subquadrangleSet Γ c P')).neighborSet w').ncard :=
             Set.ncard_le_ncard (by rintro _ ⟨t, ht, rfl⟩; exact hfmem t ht)
         _ = (Γ.induce (subquadrangleSet Γ c P')).degree w' := ncard_neighborSet _ _
-        _ = q + 1 := by rw [degree_subquadrangleGraph hΓ hF w', if_pos hw'0]
+        _ = q + 1 := by rw [degree_subquadrangleGraph hΓ hF w', ite_eq_left hw'0]
     have hTcard : T.ncard = q ^ 3 + 1 := by
       rw [ncard_of_isOvoid hP' hT' (subquadrangleColoring c P') (s := q ^ 2) (t := q)
         hdeg' hTovoid]
@@ -521,7 +523,7 @@ private theorem exists_isProperVariety_of_disjoint (hΓ : IsThasQuadrangle Γ c 
         intro t ht
         have hcond : t ∈ T ∧ (Γ.induce (subquadrangleSet Γ c P')).dist d t = 2 := ht
         rw [mem_neighborSet]
-        simp only [f, dif_pos hcond]
+        simp only [f, dite_eq_left hcond]
         exact commonNeighbor_adj_left hP' hcond.2
       have hfinj : Set.InjOn f {t : subquadrangleSet Γ c P' | t ∈ T ∧
           (Γ.induce (subquadrangleSet Γ c P')).dist d t = 2} := by
@@ -529,11 +531,11 @@ private theorem exists_isProperVariety_of_disjoint (hΓ : IsThasQuadrangle Γ c 
         have hcond : t ∈ T ∧ (Γ.induce (subquadrangleSet Γ c P')).dist d t = 2 := ht
         have hcond' : t' ∈ T ∧ (Γ.induce (subquadrangleSet Γ c P')).dist d t' = 2 := ht'
         have htL : (Γ.induce (subquadrangleSet Γ c P')).Adj (f t) t := by
-          simp only [f, dif_pos hcond]
+          simp only [f, dite_eq_left hcond]
           exact (commonNeighbor_adj_right hP' hcond.2).symm
         have ht'L : (Γ.induce (subquadrangleSet Γ c P')).Adj (f t) t' := by
           rw [heq]
-          simp only [f, dif_pos hcond']
+          simp only [f, dite_eq_left hcond']
           exact (commonNeighbor_adj_right hP' hcond'.2).symm
         by_contra hne
         have h4 := dist_eq_four_of_mem_of_isOvoid hP' hT' hTovoid ht.1 ht'.1 hne
@@ -545,7 +547,7 @@ private theorem exists_isProperVariety_of_disjoint (hΓ : IsThasQuadrangle Γ c 
           ≤ ((Γ.induce (subquadrangleSet Γ c P')).neighborSet d).ncard :=
             Set.ncard_le_ncard (by rintro _ ⟨t, ht, rfl⟩; exact hfmem t ht)
         _ = (Γ.induce (subquadrangleSet Γ c P')).degree d := ncard_neighborSet _ _
-        _ = q + 1 := by rw [degree_subquadrangleGraph hΓ hF d, if_pos hd.1]
+        _ = q + 1 := by rw [degree_subquadrangleGraph hΓ hF d, ite_eq_left hd.1]
     refine (Set.eq_of_subset_of_ncard_le hLsub ?_).symm
     rw [hLcard]
     exact hAcard

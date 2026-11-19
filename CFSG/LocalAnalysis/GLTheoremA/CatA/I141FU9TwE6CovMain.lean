@@ -19,10 +19,10 @@ theorem twE6CoverNoSU38_holds : TwE6CoverNoSU38 := by
   intro Q _ _ hQ hZ3 hQcat P _ _ hP hPZ hPcat ψ hψ z hz hψz
   by_contra hz1
   obtain ⟨K, hKf, hKfin, hK, ⟨e⟩⟩ := twE6Cov_exists_statedSU hP hPZ hPcat
-  letI : Field K := hKf
-  haveI : Finite K := hKfin
+  let : Field K := hKf
+  have : Finite K := hKfin
   obtain ⟨u0, hu0c, hu01⟩ := twE6Cov_su38_cube hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardH : Nat.card (Subgroup.center ↥(CFSG.Open.StatedSU 3 8 K)) = 3 :=
     CFSG.Open.StatedCenterThree.card_center_statedSU_three hK (by norm_num)
   have hcardP : Nat.card (Subgroup.center P) = 3 := by

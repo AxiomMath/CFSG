@@ -305,7 +305,6 @@ theorem mem_normalizer_conj_of_mem_normalizer_conjugate {A : Subgroup G} {x i : 
   rw [Subgroup.mem_normalizer_iff]
   intro v
   have h1 := Subgroup.mem_normalizer_iff.mp h (x⁻¹ * v * x)
-  try simp only [SetLike.mem_coe] at h1
   rw [BenderBranch.mem_conjugate_iff, BenderBranch.mem_conjugate_iff] at h1
   have e1 : x * (x⁻¹ * v * x) * x⁻¹ = v := by group
   have e2 : x * (i * (x⁻¹ * v * x) * i⁻¹) * x⁻¹ = (x * i * x⁻¹) * v * (x * i * x⁻¹)⁻¹ := by
@@ -330,7 +329,6 @@ theorem OutCtx.mem_normalizer_Kg (c : OutCtx N t zK R) {g i w : G} (hg : g⁻¹ 
     c.lv.centralizer_t_le_normalizer hGt
   rw [Subgroup.mem_normalizer_iff]
   intro v
-  try simp only [SetLike.mem_coe]
   rw [BenderBranch.mem_conjugate_iff, BenderBranch.mem_conjugate_iff]
   have h1 := Subgroup.mem_normalizer_iff.mp hN (g * v * g⁻¹)
   have e : g * (w * v * w⁻¹) * g⁻¹ = (g * w * g⁻¹) * (g * v * g⁻¹) * (g * w * g⁻¹)⁻¹ := by group

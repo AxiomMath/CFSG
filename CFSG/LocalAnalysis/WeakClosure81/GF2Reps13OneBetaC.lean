@@ -90,7 +90,7 @@ theorem false_of_heisenberg_seven (hW : ∀ w : W, w ^ 2 = 1) {t : MulAut W} (ht
       exact Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
     have hzE : z ^ (j : ℕ) ∈ E := by
       rw [hE, hZs]
-      exact Subgroup.mem_sup_left (by simpa using Subgroup.zpow_mem_zpowers z (j : ℤ))
+      exact Subgroup.mem_sup_left (by simp)
     exact E.mul_mem hxE hzE
   let G : Fin 7 → Subgroup W := fun j => M ⊓ fixV (Dj j : Subgroup (MulAut W))
   have hGind : iSupIndep G := hdecomp.1.comp hDj_inj
@@ -142,13 +142,13 @@ theorem false_of_heisenberg_seven (hW : ∀ w : W, w ^ 2 = 1) {t : MulAut W} (ht
     · refine sup_le le_sup_left ?_
       exact Subgroup.zpowers_le.mpr (Subgroup.mul_mem _
         (Subgroup.mem_sup_right (Subgroup.mem_zpowers x))
-        (Subgroup.mem_sup_left (by simpa using Subgroup.zpow_mem_zpowers z (n : ℤ))))
+        (Subgroup.mem_sup_left (by simp)))
     · refine sup_le le_sup_left ?_
       refine Subgroup.zpowers_le.mpr ?_
       have h1 : x * z ^ n ∈ Subgroup.zpowers z ⊔ Subgroup.zpowers (x * z ^ n) :=
         Subgroup.mem_sup_right (Subgroup.mem_zpowers (x * z ^ n))
       have h2 : (z ^ n)⁻¹ ∈ Subgroup.zpowers z ⊔ Subgroup.zpowers (x * z ^ n) :=
-        Subgroup.mem_sup_left (by simpa using Subgroup.zpow_mem_zpowers z (-(n : ℤ)))
+        Subgroup.mem_sup_left (by simp)
       have hxeq : x = (x * z ^ n) * (z ^ n)⁻¹ := by group
       have hmem := Subgroup.mul_mem (Subgroup.zpowers z ⊔ Subgroup.zpowers (x * z ^ n)) h1 h2
       rwa [← hxeq] at hmem

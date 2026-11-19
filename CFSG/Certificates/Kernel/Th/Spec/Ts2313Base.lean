@@ -14,7 +14,7 @@ open CFSG.KC.Th CFSG.KC.Th.Gen CFSG.KC.Th.BigS CFSG.Sporadic.Th CFSG.Sporadic.Th
 
 theorem getD_map_range {f : ℕ → ℕ} {n i : ℕ} (hi : i < n) :
     ((List.range n).map f).getD i 0 = f i := by
-  simp [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range, hi]
+  simp [List.getD_eq_getElem?_getD, hi]
 
 theorem getElem!_toArray_map_range {f : ℕ → ℕ} {n i : ℕ} (hi : i < n) :
     (((List.range n).map f).toArray)[i]! = f i := by

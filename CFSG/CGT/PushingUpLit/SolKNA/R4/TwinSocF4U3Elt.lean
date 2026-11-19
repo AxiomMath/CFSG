@@ -38,6 +38,7 @@ section Gen
 variable {A : Type} [Group A] [Finite A] {T : Subgroup A} [T.Normal] {R : Subgroup A} {S : Sylow 2 R}
   {z : A} {p f : ℕ} {K : Type} [Field K] {h : UnitaryFieldData p f K} (F : U3Frame T z p f h)
 
+omit [Finite A] [T.Normal] in
 theorem not_mem_of_inv (hsc : ScalarsInCore F R) {a b : A} {Aa : ↥(GU2Stated (p ^ f) K)} {c : Kˣ}
     (hAa : (Aa : GL (Fin 2) K) = GeneralLinearGroup.scalar (Fin 2) c) (ha : F.π Aa = a) (hbR : b ∈ R)
     (hbT : b ∈ T) (hba : b * a * b⁻¹ = a⁻¹) (hasq : a * a ≠ 1) : False := by
@@ -53,11 +54,13 @@ theorem not_mem_of_inv (hsc : ScalarsInCore F R) {a b : A} {Aa : ↥(GU2Stated (
   calc a * a = a * a⁻¹ := by rw [← h1]
     _ = 1 := mul_inv_cancel a
 
+omit [Finite A] [T.Normal] in
 theorem b_not_mem (hsc : ScalarsInCore F R) {a b : A} {Aa : ↥(GU2Stated (p ^ f) K)} {c : Kˣ}
     (hAa : (Aa : GL (Fin 2) K) = GeneralLinearGroup.scalar (Fin 2) c) (ha : F.π Aa = a) (hbR : b ∈ R)
     (hba : b * a * b⁻¹ = a⁻¹) (hasq : a * a ≠ 1) : b ∉ T :=
   fun hbT => not_mem_of_inv F hsc hAa ha hbR hbT hba hasq
 
+omit [Finite A] in
 theorem b_form (hC : Subgroup.centralizer (T : Set A) = ⊥) (hq : 2 < p ^ f) (h5 : 5 ≤ p ^ f)
     (hRJ : R ≤ Subgroup.centralizer ((F.J : Subgroup A) : Set A))
     {b : A} (hbS : b ∈ sylowSet S) (hbz : b * b = z) (hbT : b ∉ T) :
@@ -121,7 +124,7 @@ theorem entry_U3 {r : ℕ} (hr : 4 ≤ r) (hC : Subgroup.centralizer (T : Set A)
   obtain ⟨x, b, hxS, hbS, hxord, hbx, hbb⟩ := exists_quat_full_of_datum (show 3 ≤ r by omega) hc
   have hxR : x ∈ R := mem_sylowSet_le S hxS
   have hbR : b ∈ R := mem_sylowSet_le S hbS
-  have hP : IsPGroup 2 (sylowSet S) := S.isPGroup'.map _
+  have hP : IsPGroup 2 (sylowSet S) := S.isPGroup.map _
   have hx2T : x ^ 2 ∈ T := by
     have hle := hcomm A T ‹T.Normal› ⟨MulEquiv.refl _⟩ hC (sylowSet S) hP
     have hcm : ⁅x, b⁆ ∈ T := hle (Subgroup.commutator_mem_commutator hxS hbS)

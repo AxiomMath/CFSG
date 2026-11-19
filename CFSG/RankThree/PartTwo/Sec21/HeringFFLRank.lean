@@ -15,7 +15,7 @@ open CFSG.Open (IsElemAbelian IsTwoLocal)
 private theorem ffL_false_of_central_three {G : Type} [Group G] [Finite G] {X : Subgroup G}
     (hZ3 : ¬ 3 ∣ Nat.card (Subgroup.center ↥X)) (e : ↥X) (he : e ∈ Subgroup.center ↥X)
     (he3 : e ^ 3 = 1) (he1 : e ≠ 1) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let z : ↥(Subgroup.center ↥X) := ⟨e, he⟩
   have hz3 : z ^ 3 = 1 := Subtype.ext he3
   have hz1 : z ≠ 1 := fun h => he1 (congrArg (fun w : ↥(Subgroup.center ↥X) => (w : ↥X)) h)
@@ -62,7 +62,7 @@ theorem exists_elemAbelian_card_mul {H : Type} [Group H] [Finite H] {N P Q : Sub
 
 theorem ffLocalRankC_of_kE9 (hK : FFKE9) : FFLocalRankC := by
   intro G _ _ A a X hpt hX hXq _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ := Sec6.isQuasisimple_of_mem_thetaComponentsAt hpt.mem_theta
   have hmodel := ff_statedModel_center hXq hX hQ
   have hZ3 := ff_not_three_dvd_card_center hXq hX hQ

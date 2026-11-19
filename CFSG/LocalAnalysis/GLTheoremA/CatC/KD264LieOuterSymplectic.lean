@@ -65,7 +65,7 @@ theorem exists_conj_fieldAut_psp {ℓ f r p : ℕ} {K : Type} [Field K] [Finite 
         a = h * fieldAut r K σ * h⁻¹ ∧
         ∃ k ∈ subfieldFixedGroup K r σ, orderOf k = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have O : SpOuter ℓ f r K := spOuter hℓ hf hr hK
   have hinj : Function.Injective (MulAut.conj : StatedProj (StatedSp r K) →*
       MulAut (StatedProj (StatedSp r K))) := spConj_injective hℓ hf hK hr hrq
@@ -73,7 +73,7 @@ theorem exists_conj_fieldAut_psp {ℓ f r p : ℕ} {K : Type} [Field K] [Finite 
     mem_of_odd_orderOf_of_index_dvd_two _ O.index_dvd
       (Odd.of_dvd_nat (hp.odd_of_ne_two hp2) (orderOf_dvd_of_pow_eq_one hap))
   have haD : a ∉ spLinearAutGroup r K := by
-    haveI := inner_normal (StatedProj (StatedSp r K))
+    have := inner_normal (StatedProj (StatedSp r K))
     exact fun hD => haH (mem_of_pow_eq_one_of_relIndex_dvd_two
       (H := inner (StatedProj (StatedSp r K))) (D := spLinearAutGroup r K)
       (O.relIndex_dvd.trans (Nat.gcd_dvd_left 2 _)) hp hp2 hD hap)

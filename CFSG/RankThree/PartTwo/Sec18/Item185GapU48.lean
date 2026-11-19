@@ -18,13 +18,13 @@ theorem gapU48_holds :
       (n := 3) (by norm_num) h3 hout
   have hk : k = 1 := by omega
   subst hk
-  haveI := CFSG.RankThree.PartTwo.Sec4.RonanK429Lie.isSimpleGroup_unitarySU_four h₀
+  have := CFSG.RankThree.PartTwo.Sec4.RonanK429Lie.isSimpleGroup_unitarySU_four h₀
   have hfix : fixedSubgroup σ = Sec4.autFix σ := Subgroup.ext fun _ => Iff.rfl
   have eF := (MulEquiv.subgroupCongr hfix).trans e
-  haveI hsimple : IsSimpleGroup (fixedSubgroup σ) := eF.isSimpleGroup
+  have hsimple : IsSimpleGroup (fixedSubgroup σ) := eF.isSimpleGroup
   have hna : ¬ ∀ x y : fixedSubgroup σ, x * y = y * x := by
     intro hc
-    haveI : IsMulCommutative (fixedSubgroup σ) := ⟨⟨fun a b => hc a b⟩⟩
+    have : IsMulCommutative (fixedSubgroup σ) := ⟨⟨fun a b => hc a b⟩⟩
     have hprime : (Nat.card (fixedSubgroup σ)).Prime :=
       Group.is_simple_iff_prime_card.mp inferInstance
     rw [Nat.card_congr eF.toEquiv,

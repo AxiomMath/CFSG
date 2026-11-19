@@ -43,7 +43,7 @@ theorem exists_minimal_orbit
     exact mem_fixedPoints.mp (ha ⟨i, rfl⟩) ⟨u, hu⟩
   obtain ⟨P, hUP⟩ := LocalSylowFixedMaximal.exists_sylow_containing (stabilizer G a) U hU hUa
   let A := ambientSylow a P
-  have hA : IsPGroup p A := P.isPGroup'.map (stabilizer G a).subtype
+  have hA : IsPGroup p A := P.isPGroup.map (stabilizer G a).subtype
   have hAa : A ≤ stabilizer G a := by
     rintro g ⟨u, _, rfl⟩
     exact u.property

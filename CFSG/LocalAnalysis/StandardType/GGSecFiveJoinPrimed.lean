@@ -121,7 +121,6 @@ theorem ggSecFiveRouteCfg'_of_routeCfg
     GGSecFiveRouteCfg' p B Bs x L D J 𝒦 := by
   first
     | exact h
-    | exact ⟨h.1, h.2.1.2, h.2.2.1, h.2.2.2⟩
 
 @[expose] def GGSecFiveReflMaxInput'
     : Prop :=
@@ -161,7 +160,7 @@ theorem ggSecFiveJoinRegionInput'_of_reflMax'
   intro G _ _ p B Bs x L D J 𝒦 hcfg hsplit hADE
   have hguard := ggSecFiveRegionGuard_of_ADE hADE
   obtain ⟨hJL, hcJ⟩ := hJ G p B Bs x L D J 𝒦 hcfg hsplit
-  refine le_antisymm ?_ (ggJoin_le_ggG0 (Bs := Bs) hcfg.2.2.2.1)
+  refine le_antisymm ?_ (ggJoin_le_ggG0 (_Bs := Bs) hcfg.2.2.2.1)
   exact ggG0_le_join_of_reflMax_genN hJL hcJ (hRM G p B Bs x L D J 𝒦 hcfg hsplit)
     (hGen G p B Bs x L D J 𝒦 hcfg hsplit hguard)
 

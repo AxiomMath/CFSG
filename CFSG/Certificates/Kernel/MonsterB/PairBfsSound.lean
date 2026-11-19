@@ -154,7 +154,7 @@ theorem inner_step {i kk : Nat} {s : SP} (hI : Inv tab root i kk s) (hi : i < s.
     have hpar : ∀ x, (s.1.set! q (65536 * kk + p))[x]! =
         if q = x then 65536 * kk + p else s.1[x]! := fun x => get_set (by omega)
     refine ⟨(s.1.set! q (65536 * kk + p), s.2.1.set! q (s.2.1[p]! + 1), s.2.2.push q),
-      by rw [innerP, hq, if_pos hnew], ?_, by simp, fun j hj => push_lt hj⟩
+      by rw [innerP, hq, ite_eq_left hnew], ?_, by simp, fun j hj => push_lt hj⟩
     refine ⟨by simp [hps], by simp [hds], fun j hj => ?_, fun a ha b hb e => ?_, fun x hx => ?_,
       fun x hx => ?_, inQ_push.2 (Or.inl hroot), ?_, fun x hx hne => ?_, fun j hj k hk' hjk => ?_⟩
     · simp only [Array.size_push] at hj
@@ -182,24 +182,24 @@ theorem inner_step {i kk : Nat} {s : SP} (hI : Inv tab root i kk s) (hi : i < s.
       rw [hdep, inQ_push]
       by_cases e : q = x
       · subst e
-        simp only [if_true, or_true, iff_true]
+        simp only [ite_true, or_true, iff_true]
         omega
-      · simp only [e, if_false, or_false]
+      · simp only [e, ite_false, or_false]
         exact hvis x hx
     · simp only at hx ⊢
       rw [hdep]
       simp only [Array.size_push]
       rcases inQ_push.1 hx with h | h
       · have : q ≠ x := fun e => hqn (e ▸ h)
-        simp only [this, if_false]
+        simp only [this, ite_false]
         have := hdlt x h
         omega
-      · simp only [h, if_true]
+      · simp only [h, ite_true]
         omega
     · simp only
       rw [hdep]
       have : q ≠ root := fun e => hqn (e ▸ hroot)
-      simp only [this, if_false]
+      simp only [this, ite_false]
       exact hdr
     · simp only at hx ⊢
       rcases inQ_push.1 hx with h | h
@@ -208,17 +208,17 @@ theorem inner_step {i kk : Nat} {s : SP} (hI : Inv tab root i kk s) (hi : i < s.
         have hrq : q ≠ r := fun e => hqn (e ▸ hr)
         refine ⟨k, hk, r, inQ_push.2 (Or.inl hr), ?_, ?_, e3⟩
         · rw [hpar]
-          simp only [hxq, if_false]
+          simp only [hxq, ite_false]
           exact e1
         · rw [hdep, hdep]
-          simp only [hxq, hrq, if_false]
+          simp only [hxq, hrq, ite_false]
           exact e2
       · subst h
         refine ⟨kk, hk, p, inQ_push.2 (Or.inl hpQ), ?_, ?_, hq⟩
         · rw [hpar]
           simp
         · rw [hdep, hdep]
-          simp [hpq, Ne.symm hpq]
+          simp [Ne.symm hpq]
     · simp only [Array.size_push] at hj ⊢
       intro him
       rw [hdep]
@@ -233,14 +233,14 @@ theorem inner_step {i kk : Nat} {s : SP} (hI : Inv tab root i kk s) (hi : i < s.
         by_cases e : k = kk
         · subst e
           rw [hq]
-          simp only [if_true]
+          simp only [ite_true]
           omega
         · split
           · omega
           · have := hclos j hi k hk' (Or.inr ⟨rfl, by omega⟩) (by rw [hp]; exact him)
             rw [hp] at this
             exact this
-  · refine ⟨(s.1, s.2.1, s.2.2), by rw [innerP, hq, if_neg hnew], ?_, le_refl _, fun j _ => rfl⟩
+  · refine ⟨(s.1, s.2.1, s.2.2), by rw [innerP, hq, ite_eq_right hnew], ?_, le_refl _, fun j _ => rfl⟩
     refine ⟨hps, hds, hlt, hinj, hvis, hdlt, hroot, hdr, htree, fun j hj k hk' hjk him => ?_⟩
     rcases hjk with a | ⟨a1, a2⟩
     · exact hclos j hj k hk' (Or.inl a) him
@@ -283,11 +283,11 @@ theorem outer_spec (hr : root < 65536) (n : Nat) :
   obtain ⟨hI, hle, ht, hend⟩ := hP
   by_cases hi : s.2.2.2 < s.2.2.1.size
   · obtain ⟨h1, h2, _⟩ := run_spec hI hi
-    refine ⟨_, by simp only [outerP, hi, if_true]; rfl, h1, by simp only; omega,
+    refine ⟨_, by simp only [outerP, hi, ite_true]; rfl, h1, by simp only; omega,
       by simp only; omega, fun h => ?_⟩
     simp only at h
     omega
-  · refine ⟨_, by simp only [outerP, hi, if_false], hI, hle, by omega, fun _ => by omega⟩
+  · refine ⟨_, by simp only [outerP, hi, ite_false], hI, hle, by omega, fun _ => by omega⟩
 
 theorem pairBFS_spec (hr : root < 65536) :
     (pairBFS tab root).2[root]! = 0 ∧

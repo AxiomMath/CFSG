@@ -77,11 +77,11 @@ def sumZeroAdd : AddSubgroup (Fin 6 → ZMod 3) where
   zero_mem' := by simp
   add_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq, Pi.add_apply]
+    simp only [Set.mem_ofPred_eq, Pi.add_apply]
     rw [Finset.sum_add_distrib, hx, hy, add_zero]
   neg_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq, Pi.neg_apply] at hx ⊢
+    simp only [Set.mem_ofPred_eq, Pi.neg_apply] at hx ⊢
     calc ∑ i, -x i = ∑ i, (2 : ZMod 3) * x i := by
           apply Finset.sum_congr rfl
           intro i _
@@ -195,11 +195,11 @@ def constSubgroup : Subgroup ↥sumZeroSubgroup where
   mul_mem' := by
     rintro x y ⟨c, hc⟩ ⟨d, hd⟩
     refine ⟨c + d, fun i => ?_⟩
-    simp only [Subgroup.coe_mul, Pi.mul_apply, toAdd_mul, Pi.add_apply, hc i, hd i]
+    simp only [Subgroup.coe_mul, toAdd_mul, Pi.add_apply, hc i, hd i]
   inv_mem' := by
     rintro x ⟨c, hc⟩
     refine ⟨-c, fun i => ?_⟩
-    simp only [Subgroup.coe_inv, Pi.inv_apply, toAdd_inv, Pi.neg_apply, hc i]
+    simp only [Subgroup.coe_inv, toAdd_inv, Pi.neg_apply, hc i]
 
 theorem torHom_eq_one_iff (x : ↥sumZeroSubgroup) :
     torHom hK hω x = 1 ↔ x ∈ constSubgroup := by
@@ -369,7 +369,7 @@ theorem expLift_injective : Function.Injective expLift := by
   map_one' := by
     simp
   map_mul' x y := by
-    simp only [Subgroup.coe_mul, Pi.mul_apply, toAdd_mul, Pi.add_apply, mul_add,
+    simp only [Subgroup.coe_mul, toAdd_mul, Pi.add_apply, mul_add,
       Finset.sum_add_distrib, ofAdd_add]
 
 theorem fS_apply (u : T4) (x : ↥sumZeroSubgroup) :
@@ -491,7 +491,7 @@ theorem fQ_ne_one {u : T4} (hu : u ≠ 0) : fQ hK hω u ≠ 1 := by
   simpa [fQ] using this
 
 theorem fQ_range_eq_top {u : T4} (hu : u ≠ 0) : (fQ hK hω u).range = ⊤ := by
-  haveI : Fact (Nat.card (Multiplicative (ZMod 3))).Prime := by
+  have : Fact (Nat.card (Multiplicative (ZMod 3))).Prime := by
     rw [show Nat.card (Multiplicative (ZMod 3)) = 3 by simp]
     exact ⟨by norm_num⟩
   rcases Subgroup.eq_bot_or_eq_top_of_prime_card (fQ hK hω u).range with h | h
@@ -502,7 +502,7 @@ theorem Hfun_index {u : T4} (hu : u ≠ 0) : (Hfun hK hω u).index = 3 := by
   have hrange := fQ_range_eq_top hK hω hu
   have hker : (fQ hK hω u).ker.index = 3 := by
     rw [Subgroup.index_ker, hrange, Subgroup.card_top]
-    simp [Nat.card_zmod]
+    simp
   have hmap := Subgroup.index_map_equiv (H := (fQ hK hω u).ker) (e := torChart hK hω)
   simpa [Hfun] using hmap.trans hker
 
@@ -760,6 +760,7 @@ theorem torChart_mk (x : ↥sumZeroSubgroup) :
     torChart hK hω (QuotientGroup.mk x) = torHom hK hω x := by
   simp [torChart, QuotientGroup.quotientKerEquivOfSurjective, QuotientGroup.kerLift_mk]
 
+omit [Finite K] in
 theorem mem_map_inclusion_conj {P : LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))}
     {H : Subgroup ↥(torU K)} {x : LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))} :
     x ∈ (H.map ((torU K).subtype)).map
@@ -813,7 +814,7 @@ theorem Hfun_conj_of_invol {σ : Equiv.Perm (Fin 6)}
     rw [fS_permU σ u (permX σ x0), hinv x0]
     exact hq0
   · rintro ⟨b, hb, hb_eq⟩
-    simp only [Hfun, Subgroup.mem_map] at hb
+    simp only [Hfun] at hb
     obtain ⟨q, hq, haQ⟩ := hb
     have hq' : fS (permU σ u) (Quotient.out q) = 1 := by
       have h := hq
@@ -934,6 +935,7 @@ noncomputable instance torUCommGroup : CommGroup ↥(torU K) :=
     rw [map_mul]
     rfl
 
+omit [Finite K] [Finite V] in
 theorem repTor_apply (a : ↥(torU K)) (v : V) : repTor ρ a v = ρ a v := rfl
 
 attribute [irreducible] repTor
@@ -951,6 +953,7 @@ theorem torU_pow_three (a : ↥(torU K)) : a ^ 3 = 1 := by
     simp [show (3 : ZMod 3) = 0 by decide]
   rw [hx, map_one]
 
+omit [Finite K] [Finite V] in
 theorem fixedSpace_zpowers_eq_eqLocus (a : ↥(torU K)) :
     fixedSpace (repTor ρ) (Subgroup.zpowers a) =
       LinearMap.eqLocus (ρ a : V →ₗ[ZMod 2] V) LinearMap.id := by
@@ -1000,32 +1003,35 @@ theorem finrank_eqLocus_eq (a : ↥(torU K))
   rw [hfilter]
 
 include hK hω in
+omit hω in
 theorem eSub_eq_smith (H : Subgroup ↥(torU K)) :
     eSub H = CFSG.GF2Type.Smith1979.LemmaW.eSub H := by
   classical
-  haveI : Finite ↥(torU K) := Nat.finite_of_card_ne_zero (by rw [card_torU hK]; norm_num)
-  haveI : Fintype H := Fintype.ofFinite _
-  haveI : Fintype ↥(⊤ : Subgroup ↥(torU K)) := Fintype.ofFinite _
+  have : Finite ↥(torU K) := Nat.finite_of_card_ne_zero (by rw [card_torU hK]; norm_num)
+  have : Fintype H := Fintype.ofFinite _
+  have : Fintype ↥(⊤ : Subgroup ↥(torU K)) := Fintype.ofFinite _
   have hodd : Odd (Nat.card H) :=
     Odd.of_dvd_nat (by rw [card_torU hK]; decide) (Subgroup.card_subgroup_dvd_card H)
   rw [eSub, CFSG.GF2Type.Smith1979.LemmaW.eSub,
     ZMod.natCast_eq_one_iff_odd.mpr hodd, inv_one, one_smul]
 
 include hK hω in
+omit [Finite V] hω in
 theorem weightSpace_eq_smith (H : Subgroup ↥(torU K)) :
     weightSpace (repTor ρ) H =
       CFSG.GF2Type.Smith1979.LemmaW.weightSpace (repTor ρ) H := by
   rw [weightSpace, CFSG.GF2Type.Smith1979.LemmaW.weightSpace,
-    eSub_eq_smith hK hω H, eSub_eq_smith hK hω ⊤]
+    eSub_eq_smith hK H, eSub_eq_smith hK ⊤]
 
 include hK hω in
 theorem even_finrank_weightSpace (H : Subgroup ↥(torU K)) :
     Even (Module.finrank (ZMod 2) (weightSpace (repTor ρ) H)) := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
-  rw [weightSpace_eq_smith hK hω]
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  rw [weightSpace_eq_smith hK]
   exact CFSG.GF2Type.Smith1979.LemmaW.even_finrank_weightSpace (ρ := repTor ρ)
     (torU_pow_three hK hω) H
 
+omit [Finite K] in
 theorem Psigma_inv (σ : Equiv.Perm (Fin 6)) :
     Psigma (K := K) hK σ⁻¹ = (Psigma (K := K) hK σ)⁻¹ := by
   change LargeEvenProjMk _ (permGLSU hK σ⁻¹) =
@@ -1083,12 +1089,13 @@ noncomputable def conjAutTor (σ : Equiv.Perm (Fin 6)) :
           (Psigma (K := K) hK σ)⁻¹)
     group
 
+omit [Finite V] in
 theorem finrank_weightSpace_conj (σ : Equiv.Perm (Fin 6))
     (H : Subgroup ↥(torU K)) :
     Module.finrank (ZMod 2) (weightSpace (repTor ρ)
         (H.map (conjAutTor hK hω σ).toMonoidHom)) =
       Module.finrank (ZMod 2) (weightSpace (repTor ρ) H) := by
-  rw [weightSpace_eq_smith hK hω, weightSpace_eq_smith hK hω]
+  rw [weightSpace_eq_smith hK, weightSpace_eq_smith hK]
   let b : V ≃ₗ[ZMod 2] V := ρ (Psigma (K := K) hK σ)
   have hb : ∀ (a : ↥(torU K)) (v : V),
       (repTor ρ) (conjAutTor hK hω σ a) (b v) = b ((repTor ρ) a v) := by

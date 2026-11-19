@@ -59,14 +59,14 @@ theorem card_le_of_le_layer (h : SplitCfg p P x) {E : Subgroup Y} (hE : IsElemAb
 theorem card_le_sq_of_not_le (h : SplitCfg p P x) (hl : compKer P ≤ layer Y) {E : Subgroup Y}
     (hEP : E ≤ P) (hE : IsElemAbelian p E) {e : Y} (heE : e ∈ E) (hne : e ∉ compKer P) :
     Nat.card E ≤ p * p := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨hEc, hEp⟩ := (CFSG.GH74.Uniqueness.SU.SU1.isElemAbelian_iff).mp hE
   have hep : e ^ p = 1 := hEp e heE
   obtain ⟨C₁, hC₁⟩ : ∃ C₁ : ComponentIndex Y, cjComp e C₁ ≠ C₁ := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hne ⟨hEP heE, hall⟩
-  letI := compAction Y
+  let := compAction Y
   have htr : ∀ α β : ComponentIndex Y, ∃ k : ℕ, cjComp (e ^ k) α = β :=
     cycle_trans (G := Y) (Ω := ComponentIndex Y) h.prime h.card_comp hep (ω := C₁) hC₁
   obtain ⟨L0⟩ : Nonempty (ComponentIndex Y) :=

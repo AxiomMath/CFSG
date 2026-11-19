@@ -22,16 +22,16 @@ theorem orderOf_zmod_le_finrank_of_conj_pow {K V : Type*} [Field K] [IsAlgClosed
     (hf : f ^ ℓ = 1) (hconj : e.conj f = f ^ k) (hne : f ≠ 1) :
     orderOf (k : ZMod ℓ) ≤ Module.finrank K V := by
   classical
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     rcases subsingleton_or_nontrivial V with h | h
     · exfalso
       apply hne
       apply LinearMap.ext
       intro v
-      haveI : Subsingleton V := h
+      have : Subsingleton V := h
       exact Subsingleton.elim _ _
     · exact h
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   by_cases hk0 : (k : ZMod ℓ) = 0
   · rw [hk0]
     simp
@@ -153,9 +153,9 @@ theorem le_finrank_of_eigen_orbit
     have hv := congrArg (fun L : V' ≃ₗ[K'] V' => L v) hNconj'
     simpa [e, f, LinearEquiv.conj_apply_apply, Module.End.pow_apply, LinearEquiv.pow_apply]
       using hv
-  haveI : FaithfulSMul K K' :=
+  have : FaithfulSMul K K' :=
     (faithfulSMul_iff_algebraMap_injective K K').mpr (RingHom.injective _)
-  haveI : Module.Flat K V := Module.Flat.of_free
+  have : Module.Flat K V := Module.Flat.of_free
   have hfne : f ≠ 1 := by
     intro h
     apply hρt

@@ -28,13 +28,13 @@ theorem map_pCore_comap_eq_bot_of_isSLn {X Y : Type} [Group X] [Finite X]
     (hS : KSchurSL3) {j : ℕ} (hshape : PartTwo.IsSLn Y 3 j) (hj : 3 ≤ j)
     (hbot : CFSG.pCore 2 Y = ⊥) :
     ((CFSG.pCore 2 Y).comap f).map (QuotientGroup.mk' (CFSG.pCore 2 X)) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup X := CFSG.pCore 2 X
   let P : Subgroup Y := CFSG.pCore 2 Y
   have hNbot : CFSG.pCore 2 (X ⧸ N) = ⊥ :=
     CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot (p := 2) (H := X)
   have hNleM : N ≤ P.comap f := pCore_le_comap_of_surjective f hf
-  haveI hMn : (P.comap f).Normal := (CFSG.pCore_normal (p := 2) (G := Y)).comap f
+  have hMn : (P.comap f).Normal := (CFSG.pCore_normal (p := 2) (G := Y)).comap f
   let C : Subgroup (X ⧸ N) := f.ker.map (QuotientGroup.mk' N)
   let K : Subgroup (X ⧸ N) := (P.comap f).map (QuotientGroup.mk' N)
   have hKnormal : K.Normal :=
@@ -47,13 +47,13 @@ theorem map_pCore_comap_eq_bot_of_isSLn {X Y : Type} [Group X] [Finite X]
   have hpowK : ∀ k ∈ K, ∃ a : ℕ, k ^ (2 ^ a) ∈ C :=
     pow_two_mem_map_of_isPGroup (N := N) (P := P) f
       (CFSG.pCore_isPGroup (p := 2) (G := Y))
-  haveI : K.Normal := hKnormal
+  have : K.Normal := hKnormal
   obtain ⟨hKC, -⟩ :=
     eq_of_pow_two_mem_of_pCore_eq_bot (C := C) (K := K) hCK hcenterC hpowK hNbot
   rw [← hKC] at hcenterC
   have hperfectX : commutator X = ⊤ := by rwa [_root_.commutator_def]
-  haveI hPerfX : Group.IsPerfect X := Group.IsPerfect.mk hperfectX
-  haveI hPerfXbar : Group.IsPerfect (X ⧸ N) := inferInstance
+  have hPerfX : Group.IsPerfect X := Group.IsPerfect.mk hperfectX
+  have hPerfXbar : Group.IsPerfect (X ⧸ N) := inferInstance
   have e : (X ⧸ N) ⧸ K ≃* Y ⧸ P :=
     quotientQuotientEquivQuotientOfSurjective (N := N) (P := P) f hf hNleM
   have hshapeY : PartTwo.IsSLn (Y ⧸ P) 3 j := by

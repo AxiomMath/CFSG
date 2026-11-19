@@ -32,8 +32,8 @@ theorem qTwoNbrRec_diagModel
       ∀ a ∈ A, ∃ t : Fin d → K, LineU.ActsDiagU φ a t := by
   have hK : Nat.card K = (2 ^ n) ^ 2 := by
     rw [h.card, ← pow_mul, Nat.mul_comm]
-  haveI : Fact (Nat.Prime 2) := ⟨h.prime⟩
-  haveI : CharP K 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨h.prime⟩
+  have : CharP K 2 := h.charP
   have hperfSU : commutator (unitarySU 2 n K d) = ⊤ := by
     have hperf' : Group.IsPerfect (unitarySU 2 n K d) := by
       by_cases he : Even d
@@ -77,8 +77,8 @@ theorem qTwoNbrRec_diagModel
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
-    · simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
+      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
+    · simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
   ·
     intro a ha
     obtain ⟨xa, hxaI, hxa⟩ := hAI a ha

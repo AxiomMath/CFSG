@@ -43,6 +43,7 @@ theorem step1Aux_mu_mem (p : FpfInv α) (hα : 4 ≤ Fintype.card α) {Y : Subgr
   rw [Equiv.Perm.mul_apply, hfix, Equiv.swap_apply_left] at key
   exact key
 
+omit [Fintype α] [DecidableEq α] in
 theorem step1Aux_normal {Y : Subgroup (Perm α)} {S : Set α}
     (hS : ∀ y ∈ Y, ∀ z ∈ S, y z ∈ S) : ((Y ⊓ fixOn S).subgroupOf Y).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -55,6 +56,7 @@ theorem step1Aux_normal {Y : Subgroup (Perm α)} {S : Set α}
   simp only [Equiv.Perm.mul_apply]
   rw [mem_fixOn.mp hnF _ hz', Equiv.Perm.inv_def, Equiv.apply_symm_apply]
 
+omit [Fintype α] [DecidableEq α] in
 theorem step1Aux_sub {Y : Subgroup (Perm α)} {S : Set α}
     (hS : ∀ y ∈ Y, ∀ z ∈ S, y z ∈ S) : CFSG.Open.IsSubnormal (Y ⊓ fixOn S) Y :=
   CFSG.Open.IsSubnormal.step inf_le_left (step1Aux_normal hS) (CFSG.Open.IsSubnormal.refl Y)
@@ -207,10 +209,12 @@ theorem generic_component (p : FpfInv α) (hα : 4 ≤ Fintype.card α) {Y : Sub
 def normClos (Y E : Subgroup (Perm α)) : Subgroup (Perm α) :=
   (Subgroup.normalClosure ((E.subgroupOf Y : Subgroup ↥Y) : Set ↥Y)).map Y.subtype
 
+omit [Fintype α] [DecidableEq α] in
 theorem normClos_le (Y E : Subgroup (Perm α)) : normClos Y E ≤ Y := by
   unfold normClos
   exact Subgroup.map_subtype_le _
 
+omit [Fintype α] [DecidableEq α] in
 theorem normClos_normal (Y E : Subgroup (Perm α)) : ((normClos Y E).subgroupOf Y).Normal := by
   have h : (normClos Y E).subgroupOf Y =
       Subgroup.normalClosure ((E.subgroupOf Y : Subgroup ↥Y) : Set ↥Y) := by
@@ -219,6 +223,7 @@ theorem normClos_normal (Y E : Subgroup (Perm α)) : ((normClos Y E).subgroupOf 
   rw [h]
   infer_instance
 
+omit [Fintype α] [DecidableEq α] in
 theorem le_normClos {Y E : Subgroup (Perm α)} (hEY : E ≤ Y) : E ≤ normClos Y E := by
   intro e he
   have hmem : (⟨e, hEY he⟩ : ↥Y) ∈ ((E.subgroupOf Y : Subgroup ↥Y) : Set ↥Y) := he
@@ -226,7 +231,8 @@ theorem le_normClos {Y E : Subgroup (Perm α)} (hEY : E ≤ Y) : E ≤ normClos 
   unfold normClos
   exact Subgroup.mem_map.mpr ⟨⟨e, hEY he⟩, hn, rfl⟩
 
-theorem normClos_le_of_normal {Y E M : Subgroup (Perm α)} (hM : M ≤ Y)
+omit [Fintype α] [DecidableEq α] in
+theorem normClos_le_of_normal {Y E M : Subgroup (Perm α)} (_hM : M ≤ Y)
     (hn : (M.subgroupOf Y).Normal) (hEM : E ≤ M) : normClos Y E ≤ M := by
   unfold normClos
   rw [Subgroup.map_le_iff_le_comap, Subgroup.comap_subtype]
@@ -234,6 +240,7 @@ theorem normClos_le_of_normal {Y E M : Subgroup (Perm α)} (hM : M ≤ Y)
   intro x hx
   exact hEM (show (x : Perm α) ∈ E from hx)
 
+omit [Fintype α] [DecidableEq α] in
 theorem orbit_isBlock {Y N : Subgroup (Perm α)} (hNY : N ≤ Y) (hn : (N.subgroupOf Y).Normal)
     (x : α) : MulAction.IsBlock (↥Y) (MulAction.orbit (↥N) x) := by
   have hB : MulAction.IsBlock (↥Y) (MulAction.orbit (↥(N.subgroupOf Y)) x) :=
@@ -404,12 +411,12 @@ theorem alt_le_of_primitive (p : FpfInv α) (h10 : 10 ≤ Fintype.card α) {Y : 
 theorem no_normal_three_group (p : FpfInv α) (h6 : 6 ≤ Fintype.card α) {Y : Subgroup (Perm α)}
     (hB : p.Contained Y) {X : Subgroup (Perm α)} (hXY : X ≤ Y) (hn : (X.subgroupOf Y).Normal)
     (hX3 : IsPGroup 3 ↥X) (hne : X ≠ ⊥) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨σ, hσX⟩, hσ1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
   have hσ : σ ≠ 1 := fun h => hσ1 (Subtype.ext h)
   obtain ⟨z, hz⟩ : ∃ z, σ z ≠ z := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hσ (Equiv.ext fun x => hcon x)
   have hblock : MulAction.IsBlock (↥Y) (MulAction.orbit (↥X) z) := orbit_isBlock hXY hn z
   obtain ⟨n, hn3⟩ : ∃ n : ℕ, Nat.card (MulAction.orbit (↥X) z) = 3 ^ n :=
@@ -425,9 +432,9 @@ theorem no_normal_three_group (p : FpfInv α) (h6 : 6 ≤ Fintype.card α) {Y : 
   exact absurd (Nat.even_pow.mp heven).1 (by decide)
 
 theorem no_three_subnormal (p : FpfInv α) (h6 : 6 ≤ Fintype.card α) {Y : Subgroup (Perm α)}
-    (hB : p.Contained Y) {K : Subgroup (Perm α)} (hKY : K ≤ Y) (hsub : IsSubnormal K Y)
+    (hB : p.Contained Y) {K : Subgroup (Perm α)} (_hKY : K ≤ Y) (hsub : IsSubnormal K Y)
     (h3 : Nat.card ↥K = 3) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKp : IsPGroup 3 ↥K := IsPGroup.of_card (n := 1) (by rw [h3, pow_one])
   have hKcore : K ≤ CFSG.Open.pCoreOf 3 K :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 3 le_rfl Subgroup.le_normalizer hKp
@@ -475,6 +482,7 @@ theorem fong_pair_pair_smul {p : FpfInv α} {S : Set α} (hS : ∀ t ∈ S, p.μ
     (swap a (p.μ a) * swap b (p.μ b)) • S = S := by
   rw [mul_smul, fong_swap_pair_smul hS b, fong_swap_pair_smul hS a]
 
+omit [Fintype α] [DecidableEq α] in
 theorem fong_smul_orbit_normClos {Y E : Subgroup (Perm α)} (x : α) {n : Perm α}
     (hn : n ∈ normClos Y E) :
     n • MulAction.orbit (↥(normClos Y E)) x = MulAction.orbit (↥(normClos Y E)) x :=
@@ -487,7 +495,7 @@ theorem structure_component (p : FpfInv α) (h10 : 10 ≤ Fintype.card α) {Y : 
   have hne : E ≠ ⊥ := quasisimple_ne_bot hE.2.2
   obtain ⟨e, heE, x, hex⟩ : ∃ e ∈ E, ∃ x : α, e x ≠ x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hne
     rw [eq_bot_iff]
     intro g hg

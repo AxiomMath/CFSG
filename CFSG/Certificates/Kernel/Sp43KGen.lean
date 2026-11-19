@@ -177,7 +177,7 @@ theorem GFacts.five_dvd_of_sylow (F : GFacts M nc x) {W : Subgroup G} {q : ℕ}
     (hD : (D : Subgroup W) ≠ ⊥) : 5 ∣ Nat.card W := by
   have hqp : q.Prime := hq.out
   have hqD : q ∣ Nat.card (D : Subgroup W) := by
-    obtain ⟨n, hn⟩ := D.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := D.isPGroup.exists_card_eq
     have hn0 : n ≠ 0 := by
       rintro rfl
       apply hD

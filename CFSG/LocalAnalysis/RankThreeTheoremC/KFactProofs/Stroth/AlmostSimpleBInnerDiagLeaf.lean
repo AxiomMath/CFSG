@@ -57,8 +57,7 @@ private theorem eq_zero_of_commute_of_diagonal {K : Type*} [Field K] {W : Type*}
     by_cases hij : i = j
     · subst hij
       simp [LinearMap.toMatrix_apply, haB]
-    · simp [LinearMap.toMatrix_apply, haB, Matrix.diagonal_apply, Finsupp.single_apply, hij,
-        Ne.symm hij]
+    · simp [LinearMap.toMatrix_apply, haB, hij]
   set N := LinearMap.toMatrix B B n with hN
   have hcomm : N * Matrix.diagonal μ = Matrix.diagonal μ * N := by
     rw [← hD, hN, ← LinearMap.toMatrix_mul, ← LinearMap.toMatrix_mul, hna]
@@ -121,7 +120,7 @@ theorem eq_one_of_sq_eq_one_of_commute_of_conj_smul {K : Type*} [Field K] [CharP
   have hnn : n * n = 0 := by
     ext x
     have h : n (n x) = (x + x) - ((t : Module.End K W) x + (t : Module.End K W) x) := by
-      simp only [hn, Module.End.mul_apply, LinearMap.sub_apply, Module.End.one_apply, map_sub, htt]
+      simp only [hn, LinearMap.sub_apply, Module.End.one_apply, map_sub, htt]
       abel
     simp [Module.End.mul_apply, h, hxx]
   have hna : n * (a : Module.End K W) = (a : Module.End K W) * n := by

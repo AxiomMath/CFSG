@@ -155,9 +155,9 @@ theorem member_spec (m : ℕ) (hm : m < 41) :
     have hrA : ∀ k < chain.length, rA k < 91 := by
       intro k hk'
       by_cases h0 : k = 0
-      · simp only [rA, if_pos h0]
+      · simp only [rA, ite_eq_left h0]
         omega
-      · simp only [rA, if_neg h0]
+      · simp only [rA, ite_eq_right h0]
         have hb := (hk (k - 1) (by omega)).1
         omega
     have hstep : ∀ k < chain.length,
@@ -168,21 +168,21 @@ theorem member_spec (m : ℕ) (hm : m < 41) :
       have hB : jB (JM m + k) = rA (k + 1) := by
         rw [hjb]
         change XB m + k = if k + 1 = 0 then m else XB m + (k + 1) - 1
-        rw [if_neg (Nat.add_one_ne_zero k)]
+        rw [ite_eq_right (Nat.add_one_ne_zero k)]
         omega
       have hle := job_le hj (by rw [hA]; exact hrA k hk') (by rw [hjb]; omega)
       rwa [hA, hB] at hle
     have hlastD : refGens (rA chain.length) = [] := by
       have h1 := (hk (chain.length - 1) (by omega)).2.1
       have h2 : rA chain.length = XB m + (chain.length - 1) := by
-        simp only [rA, if_neg hn0]
+        simp only [rA, ite_eq_right hn0]
         omega
       rw [h2, h1, List.getD_eq_getElem?_getD, ← List.getLast?_eq_getElem?, hlast]
       rfl
     have hbot : gh23Sub (refGens (rA chain.length)) = ⊥ := by
       rw [hlastD]
       exact gh23Sub_nil
-    have hs : IsSolvable ↥(gh23Sub (refGens (rA 0))) :=
+    have hs : Group.IsSolvable ↥(gh23Sub (refGens (rA 0))) :=
       gh23_isSolvable_of_chain (fun k => gh23Sub (refGens (rA k))) chain.length hstep hbot
     have h0 : gh23Sub (refGens (rA 0)) = gh23Sub (members.getD m ⟨[], .top⟩).gens := by
       change gh23Sub (refGens m) = _

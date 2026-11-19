@@ -81,7 +81,7 @@ theorem card_le_one_twenty_one
   · omega
   let _ : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 11 Q := S.isPGroup'.map _
+  have hQ : IsPGroup 11 Q := S.isPGroup.map _
   have hQcard : Nat.card Q = Nat.card S := Subgroup.card_map_of_injective
     (fixingSubgroup P s).subtype_injective
   have hfixeq : (sylowFixedPoints X P s S : Set X) = fixedPoints Q X := by

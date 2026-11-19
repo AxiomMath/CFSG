@@ -40,23 +40,23 @@ variable {W V : Type} [CommGroup W] [CommGroup V] [Finite W] [Finite V]
 theorem omegaMinus8Line_of_map_congr (H : Subgroup (MulAut W)) (H' : Subgroup (MulAut V))
     (n : ℕ) (e : W ≃* V) (hH' : H' = H.map (CFSG.Quasithin.H.congrHom e))
     (h : OmegaMinus8Line V H' n) : OmegaMinus8Line W H n := by
-  letI : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
-  letI : MulAction ↥H W := MulAction.compHom W H.subtype
-  letI : MulAction ↥H (Set W) := Set.mulActionSet
+  let : MulDistribMulAction ↥H W := MulDistribMulAction.compHom W H.subtype
+  let : MulAction ↥H W := MulAction.compHom W H.subtype
+  let : MulAction ↥H (Set W) := Set.mulActionSet
   intro S
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   let ℓ : Subgroup W := fixedPointSubgroup ↥S W
   let Pℓ : Subgroup ↥H := MulAction.stabilizer ↥H (ℓ : Set W)
   dsimp only
   intro Tstar hTnorm hT2 hST
-  letI : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
-  letI : MulAction ↥H' V := MulAction.compHom V H'.subtype
-  letI : MulAction ↥H' (Set V) := Set.mulActionSet
+  let : MulDistribMulAction ↥H' V := MulDistribMulAction.compHom V H'.subtype
+  let : MulAction ↥H' V := MulAction.compHom V H'.subtype
+  let : MulAction ↥H' (Set V) := Set.mulActionSet
   let eH : ↥H ≃* ↥H' :=
     ((MulAut.congr e).subgroupMap H).trans (MulEquiv.subgroupCongr hH'.symm)
   let S' : Sylow 2 ↥H' := S.mapSurjective (f := eH.toMonoidHom) eH.surjective
-  letI : MulDistribMulAction ↥S' V :=
+  let : MulDistribMulAction ↥S' V :=
     MulDistribMulAction.compHom V (H'.subtype.comp (S' : Subgroup ↥H').subtype)
   let ℓ' : Subgroup V := fixedPointSubgroup ↥S' V
   let Pℓ' : Subgroup ↥H' := MulAction.stabilizer ↥H' (ℓ' : Set V)
@@ -241,7 +241,7 @@ variable {K : Type*} [Field K] {V : Type*} [AddCommGroup V] [Module K V]
   map_mul' := by
     intro e f
     ext x
-    simp [map_add]
+    simp
 
 @[simp]
 theorem linMulAut8_apply (e : V ≃ₗ[K] V) (x : Multiplicative V) :
@@ -303,21 +303,24 @@ noncomputable abbrev T3Q (K : Type) [Field K] (b c : K) : QuadraticForm K (T3V K
 noncomputable abbrev T3G (K : Type) [Field K] (b c : K) : Subgroup (T3V K ≃ₗ[K] T3V K) :=
   orthElementaryGroup (T3Q K b c)
 
+omit [Finite K] [CharP K 2] in
 theorem t3q_anisotropic (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     (minusTailForm K b c).Anisotropic :=
   anisotropic_minusTailForm hirr
 
+omit [CharP K 2] in
 theorem t3q_regular (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     (polarBilin (minusTailForm K b c)).Nondegenerate :=
   nondegenerate_minusTailForm hirr
 
+omit [Finite K] [CharP K 2] in
 theorem t3q_finrank : Module.finrank K (Fin 2 → K) = 2 := finrank_fin_two_fun
 
 instance t3G_finite (K : Type) [Field K] [Finite K] (b c : K) : Finite ↥(T3G K b c) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite (T3V K) := by infer_instance
-  haveI : Finite (T3V K → T3V K) := by infer_instance
-  haveI : Finite (T3V K ≃ₗ[K] T3V K) :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite (T3V K) := by infer_instance
+  have : Finite (T3V K → T3V K) := by infer_instance
+  have : Finite (T3V K ≃ₗ[K] T3V K) :=
     Finite.of_injective ((↑) : (T3V K ≃ₗ[K] T3V K) → T3V K → T3V K)
       DFunLike.coe_injective
   exact Subtype.finite
@@ -354,13 +357,15 @@ noncomputable abbrev t3P0 (K : Type) [Field K] (b c : K) : Subgroup ↥(T3G K b 
 noncomputable abbrev t3F1 (K : Type) [Field K] : Submodule K (T3V K) :=
   tailFlag K (Fin 2 → K) 3 1
 
-theorem tailBorel_le_stabilizer_t3F1 (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
+omit [Finite K] [CharP K 2] in
+theorem tailBorel_le_stabilizer_t3F1 (_hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     tailBorel 3 (minusTailForm K b c) ≤
       MulAction.stabilizer (T3V K ≃ₗ[K] T3V K) (t3F1 K) := by
   intro g hg
   exact Submodule.mem_stabilizer_submodule_iff_map_eq.2
     ((mem_tailBorel.1 hg).2 1 (by norm_num) (by norm_num))
 
+omit [Finite K] [CharP K 2] in
 theorem tailRankOneParabolic_le_of_borel_le_of_not_le_point
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {M : Subgroup (T3V K ≃ₗ[K] T3V K)}
@@ -388,6 +393,7 @@ theorem tailRankOneParabolic_le_of_borel_le_of_not_le_point
   · exact hBM hb
   · exact hn0
 
+omit [Finite K] [CharP K 2] in
 theorem t3B_eq_normalizer (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     t3B K b c = Subgroup.normalizer (t3U K b c : Set ↥(T3G K b c)) := by
   change (tailBorel 3 (minusTailForm K b c)).subgroupOf
@@ -398,14 +404,16 @@ theorem t3B_eq_normalizer (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
   exact (normalizer_tailUnipotent (qA := minusTailForm K b c) (r := 3)
     (t3q_anisotropic hirr) ⟨t3a0 K, t3a0_ne_zero K⟩).symm
 
-theorem t3B_le_t3P0 (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
+omit [Finite K] [CharP K 2] in
+theorem t3B_le_t3P0 (_hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     t3B K b c ≤ t3P0 K b c := by
   intro x hx
   exact Subgroup.subset_closure (Or.inl (Subgroup.mem_subgroupOf.mp hx))
 
+omit [Finite K] [CharP K 2] in
 theorem t3U_le_t3P0 (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     t3U K b c ≤ t3P0 K b c :=
-  fun x hx => t3B_le_t3P0 hirr (tailUnipotent_le_tailBorel (t3q_anisotropic hirr)
+  fun _x hx => t3B_le_t3P0 hirr (tailUnipotent_le_tailBorel (t3q_anisotropic hirr)
     (Subgroup.mem_subgroupOf.mp hx))
 
 theorem t3P0_isParabolic (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
@@ -417,6 +425,7 @@ theorem t3P0_isParabolic (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
   rw [t3Sylow_coe, ← t3B_eq_normalizer hirr]
   exact t3B_le_t3P0 hirr
 
+omit [Finite K] [CharP K 2] in
 theorem t3P0_le_of_borel_le_of_not_le_point
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {P : Subgroup ↥(T3G K b c)}
@@ -459,11 +468,13 @@ noncomputable abbrev T3H (K : Type) [Field K] (b c : K) :
     ↥(T3G K b c) ≃* ↥(T3H K b c) :=
   Subgroup.equivMapOfInjective (T3G K b c) linMulAut8 linMulAut8_injective
 
+omit [Finite K] [CharP K 2] in
 @[simp]
 theorem t3e_apply (g : ↥(T3G K b c)) :
     ((t3e K b c g : ↥(T3H K b c)) : MulAut (Multiplicative (T3V K))) =
       linMulAut8 (g : T3V K ≃ₗ[K] T3V K) := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem t3e_map_subtype_comp :
     (T3H K b c).subtype.comp (t3e K b c).toMonoidHom =
       linMulAut8.comp (T3G K b c).subtype := by
@@ -473,6 +484,7 @@ theorem t3e_map_subtype_comp :
     Multiplicative.ofAdd ((g : T3V K ≃ₗ[K] T3V K) (Multiplicative.toAdd x))
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem t3_map_e_map_subtype (A : Subgroup ↥(T3G K b c)) :
     (A.map (t3e K b c).toMonoidHom).map (T3H K b c).subtype =
       (A.map (T3G K b c).subtype).map linMulAut8 := by
@@ -495,12 +507,13 @@ noncomputable abbrev t3F1Sub (K : Type) [Field K] :
     rw [toAdd_inv]
     exact Submodule.neg_mem _ hx
 
+omit [Finite K] [CharP K 2] in
 theorem t3F1_eq_span :
     t3F1 K = K ∙ hypVec K (Fin 2 → K) (Sum.inl (0 : Fin 3)) := by
   rw [t3F1, tailFlag]
   congr 1
   ext v
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨j, hj, rfl⟩
     have hj0 : j = 0 := by
@@ -510,6 +523,7 @@ theorem t3F1_eq_span :
   · rintro rfl
     exact ⟨0, by simp, rfl⟩
 
+omit [CharP K 2] in
 theorem t3F1_fixed_eq (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     {v : T3V K | ∀ u ∈ tailUnipotent 3 (minusTailForm K b c), u v = v} =
       (t3F1 K : Set (T3V K)) := by
@@ -517,6 +531,7 @@ theorem t3F1_fixed_eq (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
   exact fixed_tailUnipotent_eq (r := 3) (qA := minusTailForm K b c) (by norm_num)
     (t3q_regular hirr) ⟨t3a0 K, t3a0_ne_zero K⟩
 
+omit [CharP K 2] in
 theorem linFixV_tailUnipotent_eq (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     linFixV (tailUnipotent 3 (minusTailForm K b c)) = t3F1Sub K := by
   ext x
@@ -538,13 +553,15 @@ noncomputable abbrev t3P0H (K : Type) [Field K] (b c : K) : Subgroup ↥(T3H K b
 noncomputable abbrev t3Pℓ0H (K : Type) [Field K] (b c : K) : Subgroup ↥(T3H K b c) :=
   (t3Pℓ0 K b c).map (t3e K b c).toMonoidHom
 
-theorem t3UH_map_subtype (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
+omit [Finite K] [CharP K 2] in
+theorem t3UH_map_subtype (_hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     (t3UH K b c).map (T3H K b c).subtype =
       (tailUnipotent 3 (minusTailForm K b c)).map linMulAut8 := by
   rw [t3UH, t3_map_e_map_subtype]
   congr 1
   exact Subgroup.map_subgroupOf_eq_of_le (tailUnipotent_le (r := 3))
 
+omit [Finite K] [CharP K 2] in
 theorem mem_t3F1Sub_map_iff (g : T3V K ≃ₗ[K] T3V K) (v : T3V K) :
     Multiplicative.ofAdd v ∈ (t3F1Sub K).map (linMulAut8 g).toMonoidHom ↔
       v ∈ (t3F1 K).map g.toLinearMap := by
@@ -556,6 +573,7 @@ theorem mem_t3F1Sub_map_iff (g : T3V K ≃ₗ[K] T3V K) (v : T3V K) :
   · rintro ⟨w, hw, rfl⟩
     exact ⟨Multiplicative.ofAdd w, hw, by simp [linMulAut8_apply]⟩
 
+omit [Finite K] [CharP K 2] in
 theorem t3F1Sub_map_eq_iff (g : T3V K ≃ₗ[K] T3V K) :
     (t3F1Sub K).map (linMulAut8 g).toMonoidHom = t3F1Sub K ↔
       (t3F1 K).map g.toLinearMap = t3F1 K := by
@@ -570,6 +588,7 @@ theorem t3F1Sub_map_eq_iff (g : T3V K ≃ₗ[K] T3V K) :
     rw [mem_t3F1Sub_map_iff, h]
     rfl
 
+omit [CharP K 2] in
 theorem mem_stabilizer_linFixV_iff (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (g : T3V K ≃ₗ[K] T3V K) :
     linMulAut8 g ∈ MulAction.stabilizer (MulAut (Multiplicative (T3V K)))
@@ -589,24 +608,28 @@ theorem mem_stabilizer_linFixV_iff (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     rw [Submodule.mem_stabilizer_submodule_iff_map_eq] at h
     exact h
 
+omit [Finite K] [CharP K 2] in
 theorem t3BH_eq_normalizer (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     t3BH K b c =
       Subgroup.normalizer (t3UH K b c : Set ↥(T3H K b c)) := by
   rw [t3BH, t3UH, ← Subgroup.map_equiv_normalizer_eq (t3U K b c) (t3e K b c),
     t3B_eq_normalizer hirr]
 
+omit [Finite K] [CharP K 2] in
 theorem t3e_symm_comp_toMonoidHom :
     ((t3e K b c).symm.toMonoidHom.comp (t3e K b c).toMonoidHom) =
       MonoidHom.id ↥(T3G K b c) := by
   refine MonoidHom.ext fun x => ?_
   simp
 
+omit [Finite K] [CharP K 2] in
 theorem t3e_comp_symm_toMonoidHom :
     ((t3e K b c).toMonoidHom.comp (t3e K b c).symm.toMonoidHom) =
       MonoidHom.id ↥(T3H K b c) := by
   refine MonoidHom.ext fun x => ?_
   simp
 
+omit [Finite K] [CharP K 2] in
 theorem t3P0H_le_of_borel_le_of_not_le_point
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {P : Subgroup ↥(T3H K b c)}
@@ -636,6 +659,7 @@ theorem t3P0H_le_of_borel_le_of_not_le_point
   rw [← hxy, ← hyp]
   simpa using hp
 
+omit [CharP K 2] in
 theorem t3Pℓ0H_eq_stabilizer (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     t3Pℓ0H K b c =
       MulAction.stabilizer ↥(T3H K b c)
@@ -669,6 +693,7 @@ noncomputable abbrev t3PℓH (K : Type) [Field K] (b c : K) (h : ↥(T3H K b c))
     Subgroup ↥(T3H K b c) :=
   (t3Pℓ0H K b c).map (MulAut.conj h).toMonoidHom
 
+omit [Finite K] [CharP K 2] in
 theorem t3P0H_map_conj_le_of_borel_le_of_not_le_point
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (h : ↥(T3H K b c))
     {P : Subgroup ↥(T3H K b c)}
@@ -722,6 +747,7 @@ theorem t3SH_coe (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
       t3UH K b c := by
   rw [t3SH, Sylow.coe_mapSurjective, t3Sylow_coe]
 
+omit [Finite K] [CharP K 2] in
 theorem t3P0_ne_top (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     t3P0 K b c ≠ ⊤ := by
   intro htop
@@ -752,6 +778,7 @@ theorem t3P0_ne_top (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     (a₀ := t3a0 K) hani ha0 2 2).1 hfix
   exact hmove rfl
 
+omit [Finite K] [CharP K 2] in
 theorem t3P0_not_le_t3Pℓ0 (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     ¬ t3P0 K b c ≤ t3Pℓ0 K b c := by
   intro hle
@@ -769,6 +796,7 @@ theorem t3P0_not_le_t3Pℓ0 (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
   exact ((tailWeylElt_smul_tailFlag (qA := minusTailForm K b c) (r := 3)
     (a₀ := t3a0 K) hani ha0 0 0).1 hfix') rfl
 
+omit [Finite K] [CharP K 2] in
 theorem t3P0H_not_le_t3Pℓ0H (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     ¬ t3P0H K b c ≤ t3Pℓ0H K b c := by
   intro hle
@@ -782,7 +810,7 @@ end TailThreeMinus
 
 theorem kTab23b_OmegaMinus8_line_of_natural (W : Type) [CommGroup W] [Finite W]
     (H : Subgroup (MulAut W)) (n : ℕ)
-    (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H)
+    (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H)
     (hline : IsOmega8m ↥H n ∧ NatOmegaMinus H ⊤ ⊥ 8 n)
     (hNat : ∀ (K : Type) [Field K] [Finite K] (b c : K) (m : ℕ), Nat.card K = 2 ^ m →
       (∀ s : K, s ^ 2 + b * s + c ≠ 0) →
@@ -791,8 +819,8 @@ theorem kTab23b_OmegaMinus8_line_of_natural (W : Type) [CommGroup W] [Finite W]
           (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 4 K b c))) m) :
     OmegaMinus8Line W H n := by
   obtain ⟨-, K, hF, hFin, b, c, hK, hirr, hReal⟩ := hline.2
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   obtain ⟨π, e, he⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.KTabC.exists_natEquiv
       (ι := Fin 3 ⊕ Fin 3 ⊕ Fin 2)

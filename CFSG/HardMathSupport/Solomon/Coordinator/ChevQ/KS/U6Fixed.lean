@@ -28,7 +28,7 @@ theorem uniqComp_of_congr {S P : Type} [Group S] [Group P] [Finite S] (ε : S �
     (hu : ∀ L : Subgroup P, GLAPComponent 3 (fixSubgroup (MulAut.congr ε φ)) L → L = T) :
     ∃ T' : Subgroup S, GLAPComponent 3 (fixSubgroup φ) T' ∧
       (∀ L : Subgroup S, GLAPComponent 3 (fixSubgroup φ) L → L = T') ∧ Nonempty (↥T' ≃* ↥T) := by
-  haveI : Finite P := Finite.of_equiv S ε.toEquiv
+  have : Finite P := Finite.of_equiv S ε.toEquiv
   have hfix : (fixSubgroup φ).map ε.toMonoidHom = fixSubgroup (MulAut.congr ε φ) :=
     (CFSG.HardMathSupport.Dickson.I271.fixSubgroup_congr ε φ).symm
   have hback : ∀ M : Subgroup S, (M.map ε.toMonoidHom).map ε.symm.toMonoidHom = M := fun M => by
@@ -66,7 +66,7 @@ end FieldOrder
 theorem u6Fixed : FourUFixed IsU6EightIndex (FieldAutU 6) IsU6TwoIndex := by
   intro X _ _ K a hK hLie ha ha3 hF
   obtain ⟨K0, fK0, h, e, σ, γ, hσ1, -, hγ⟩ := U6Bridge.exists_uFieldAut_of_fieldAutU6 hF
-  haveI := h.finite
+  have := h.finite
   set φ : MulAut (↥K ⧸ Subgroup.center ↥K) := actHom K ⟨a, ha⟩ with hφ
   have hcube : φ ^ 3 = 1 := by
     rw [hφ, ← map_pow]

@@ -274,19 +274,19 @@ theorem compA_encA {m : ℕ} {l : List ℕ} (hm : m ≤ 64) (hl : l.length = m)
   refine ext64 (size_compA _ _) (by simp [encA]) fun i hi => ?_
   rw [compA_get _ _ hi, arrL_get hi, encA_get hi]
   by_cases h : i < m
-  · rw [if_pos h, if_pos h, encA_get (by have := hv i h; omega), if_pos (hv i h),
+  · rw [ite_eq_left h, ite_eq_left h, encA_get (by have := hv i h; omega), ite_eq_left (hv i h),
       nib_compL l a i (by omega)]
-  · rw [if_neg h, if_neg h, encA_get hi, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h, encA_get hi, ite_eq_right h]
 
 theorem encF_of_encA {m a b : ℕ} (hm : m ≤ 64) (h : encA m a = encA m b) : encF m a = encF m b := by
   funext p
   unfold encF
   by_cases hp : p < m
-  · rw [if_pos hp, if_pos hp]
+  · rw [ite_eq_left hp, ite_eq_left hp]
     have e : (encA m a)[p]! = (encA m b)[p]! := by rw [h]
-    rw [encA_get (by omega), encA_get (by omega), if_pos hp, if_pos hp] at e
+    rw [encA_get (by omega), encA_get (by omega), ite_eq_left hp, ite_eq_left hp] at e
     exact e
-  · rw [if_neg hp, if_neg hp]
+  · rw [ite_eq_right hp, ite_eq_right hp]
 
 theorem encF_mul {m : ℕ} {l : List ℕ} (hl : l.length = m) (hv : ∀ i < m, l.getD i 0 < m)
     (a : ℕ) : encF m (compL l a) = encF m a * lF m l := by
@@ -294,8 +294,8 @@ theorem encF_mul {m : ℕ} {l : List ℕ} (hl : l.length = m) (hv : ∀ i < m, l
   change encF m (compL l a) p = encF m a (lF m l p)
   unfold encF lF
   by_cases hp : p < m
-  · rw [if_pos hp, if_pos hp, if_pos (hv p hp), nib_compL l a p (by omega)]
-  · rw [if_neg hp, if_neg hp, if_neg hp]
+  · rw [ite_eq_left hp, ite_eq_left hp, ite_eq_left (hv p hp), nib_compL l a p (by omega)]
+  · rw [ite_eq_right hp, ite_eq_right hp, ite_eq_right hp]
 
 theorem lF_isUnit {m : ℕ} {l li : List ℕ}
     (h : ∀ i < m, l.getD i 0 < m ∧ li.getD i 0 < m ∧ l.getD (li.getD i 0) 0 = i ∧
@@ -305,15 +305,15 @@ theorem lF_isUnit {m : ℕ} {l li : List ℕ}
     change lF m l (lF m li p) = p
     unfold lF
     by_cases hp : p < m
-    · rw [if_pos hp, if_pos (h p hp).2.1, (h p hp).2.2.1]
-    · rw [if_neg hp, if_neg hp]
+    · rw [ite_eq_left hp, ite_eq_left (h p hp).2.1, (h p hp).2.2.1]
+    · rw [ite_eq_right hp, ite_eq_right hp]
   have h2 : lF m li * lF m l = 1 := by
     funext p
     change lF m li (lF m l p) = p
     unfold lF
     by_cases hp : p < m
-    · rw [if_pos hp, if_pos (h p hp).1, (h p hp).2.2.2]
-    · rw [if_neg hp, if_neg hp]
+    · rw [ite_eq_left hp, ite_eq_left (h p hp).1, (h p hp).2.2.2]
+    · rw [ite_eq_right hp, ite_eq_right hp]
   exact ⟨⟨_, _, h1, h2⟩, rfl⟩
 
 theorem matrix_isUnit {A B : Matrix (Fin 6) (Fin 6) (ZMod 2)} (h : B * A = 1) : IsUnit A :=
@@ -363,7 +363,7 @@ theorem autAt_of_chunks {L M : ℕ} (h : ∀ q < M, autChunk R RP l0 l1 ONEP n L
     rw [Nat.mul_comm] at this
     exact this)
   have hb : Nat.blt t n = true := Nat.blt_eq.mpr ht
-  rw [hb, cond_true] at e
+  rw [hb, _root_.Bool.cond_true] at e
   exact e
 
 theorem autOK_of_codes
@@ -435,17 +435,15 @@ theorem autOK_of_codes
       (s := fun j => pkMat 6 (R (12 + j))) (h := fun j => lF m (lj j))
       (POS := recPOS R 14 2) (PA := recF R 14 0) (PB := recF R 14 1)
       ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_
-    · beta_reduce
-      rw [h0, pkMat_ONE]
-    · beta_reduce
-      have e := (hK 0 hn).2 rfl
+    · rw [h0, pkMat_ONE]
+    · have e := (hK 0 hn).2 rfl
       rw [e]
       funext p
       unfold encF
       by_cases hp : p < m
-      · rw [if_pos hp, hone p hp]
+      · rw [ite_eq_left hp, hone p hp]
         rfl
-      · rw [if_neg hp]
+      · rw [ite_eq_right hp]
         rfl
     · intro a ha b hb e
       exact hd a ha b hb (CFSG.KC.Sp62.pkMat_inj (hlt a ha) (hlt b hb) e)
@@ -466,14 +464,11 @@ theorem autOK_of_codes
     · intro i hi j hj
       obtain ⟨p1, p2, p3⟩ := hP i hi j hj
       refine ⟨p1, ?_, ?_⟩
-      · beta_reduce
-        rw [p2, CFSG.KC.Sp62.pkMat_MULF]
-      · beta_reduce
-        rw [p3, encF_mul (hlj j hj).1 (hlj j hj).2]
+      · rw [p2, CFSG.KC.Sp62.pkMat_MULF]
+      · rw [p3, encF_mul (hlj j hj).1 (hlj j hj).2]
     · intro i hi
       obtain ⟨b1, b2, b3⟩ := hB i hi
       refine ⟨b1, b2, ?_⟩
-      beta_reduce
       rw [b3, CFSG.KC.Sp62.pkMat_MULF]
     · intro t ht e
       by_contra h0t
@@ -490,7 +485,7 @@ theorem autOK_of_codes
       have := congrFun e q
       change encF m (RP (i + 1)) q = q at this
       unfold encF at this
-      rwa [if_pos hq] at this
+      rwa [ite_eq_left hq] at this
   have hpar : ∀ i, 1 ≤ i → i ≤ n - 1 → E.parent[i]! < i := by
     intro i h1 h2
     rw [(e5 i (by omega) (by omega)).1]
@@ -509,8 +504,8 @@ theorem autOK_of_codes
         refine ext64 size_idA (by simp [encA]) fun i hi => ?_
         rw [idA_get hi, encA_get hi]
         by_cases h : i < m
-        · rw [if_pos h, hone i h]
-        · rw [if_neg h]
+        · rw [ite_eq_left h, hone i h]
+        · rw [ite_eq_right h]
       | succ i =>
         obtain ⟨p1, p2⟩ := e5 (i + 1) ht (by omega)
         obtain ⟨b1, b2, -⟩ := hB i (by omega)

@@ -611,11 +611,11 @@ public theorem section14_finiteField_ringEquiv_appendixC
     (hFcard : Nat.card F = p ^ q) :
     letI : Fact p.Prime := ⟨hp⟩
     Nonempty (F ≃+* appendixCField p q) := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hFcard' : Fintype.card F = p ^ q := by
     simpa [Nat.card_eq_fintype_card] using hFcard
-  haveI : CharP F p := charP_of_card_eq_prime_pow (R := F) hFcard'
-  letI : Algebra (ZMod p) F := ZMod.algebra F p
+  have : CharP F p := charP_of_card_eq_prime_pow (R := F) hFcard'
+  let : Algebra (ZMod p) F := ZMod.algebra F p
   let e : F ≃ₐ[ZMod p] GaloisField p q :=
     GaloisField.algEquivGaloisFieldOfFintype (K := F) (p := p) (n := q) hFcard'
   exact ⟨e.toRingEquiv⟩
@@ -634,7 +634,7 @@ public theorem section14_cyclic_subgroup_le_of_natCard_eq
     (hcard : Nat.card K = Nat.card L) :
     K ≤ L := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   intro x hxK
   let n : ℕ := Nat.card L
   have hnpos : 0 < n := Nat.card_pos

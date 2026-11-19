@@ -12,6 +12,7 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique
 
 variable {G : Type} [Group G] [Finite G] {X S L : Subgroup G}
 
+omit [Finite G] in
 theorem charTwo_of_le_of_charTwo {H : Subgroup G} (hX : CharTwo X) (hQH : pCoreOf 2 X ≤ H)
     (hHX : H ≤ X) : CharTwo H := by
   have hQn : ((pCoreOf 2 X).subgroupOf H).Normal :=
@@ -24,6 +25,7 @@ theorem charTwo_of_le_of_charTwo {H : Subgroup G} (hX : CharTwo X) (hQH : pCoreO
   exact hQle (hX ⟨hHX hgH,
     Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr hQle) hgC⟩)
 
+omit [Finite G] in
 theorem isSylowTwoOf_barM_inf_of_isPGroup (hS : IsPGroup 2 S) (hL : IsTwoPrimeComponent X L)
     (hsyl : IsSylowTwoOf (S ⊓ L) L) : IsSylowTwoOf (barM X S ⊓ barM X L) (barM X L) := by
   have h1 := isSylowTwoOf_map (isSylowTwoOf_subgroupOf hsyl hL.le)

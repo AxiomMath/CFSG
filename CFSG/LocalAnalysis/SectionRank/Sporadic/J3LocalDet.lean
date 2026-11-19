@@ -24,7 +24,7 @@ theorem isCyclic_sylow_of_card_eq_360 {K : Type*} [Group K] [Finite K]
     (hK : Nat.card K = 360) (r : ℕ) (hr : r.Prime) (h2 : r ≠ 2) (h3 : r ≠ 3) (R : Sylow r K) :
     IsCyclic (R : Subgroup K) := by
   have : Fact r.Prime := ⟨hr⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 R.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 R.isPGroup
   have hdvd : r ^ k ∣ 360 := hk ▸ hK ▸ Subgroup.card_subgroup_dvd_card _
   rcases Nat.lt_or_ge k 2 with hk2 | hk2
   · interval_cases k

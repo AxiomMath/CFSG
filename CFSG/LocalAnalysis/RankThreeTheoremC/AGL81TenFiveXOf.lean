@@ -130,6 +130,7 @@ section Cfg
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_pCoreOf_of_commute {H : Subgroup G} {x y : G} (hx : x ∈ H) (hy : y ∈ H)
     (h : Commute (QuotientGroup.mk' (CFSG.pCore 2 ↥H) ⟨y, hy⟩)
       (QuotientGroup.mk' (CFSG.pCore 2 ↥H) ⟨x, hx⟩)) :
@@ -142,6 +143,7 @@ theorem mem_pCoreOf_of_commute {H : Subgroup G} {x y : G} (hx : x ∈ H) (hy : y
     group
   exact ⟨_, h1, rfl⟩
 
+omit [Finite G] in
 theorem commute_of_mem_pCoreOf {H : Subgroup G} {x y : G} (hx : x ∈ H) (hy : y ∈ H)
     (h : y * x * y⁻¹ * x⁻¹ ∈ pCoreOf 2 H) :
     Commute (QuotientGroup.mk' (CFSG.pCore 2 ↥H) ⟨y, hy⟩)
@@ -154,6 +156,7 @@ theorem commute_of_mem_pCoreOf {H : Subgroup G} {x y : G} (hx : x ∈ H) (hy : y
   have := mul_inv_eq_one.mp h1
   exact (mul_inv_eq_iff_eq_mul.mp this)
 
+omit [Finite G] in
 theorem mk_pow_eq_one {H : Subgroup G} {x : G} (hx : x ∈ H) {k : ℕ}
     (h : x ^ k ∈ pCoreOf 2 H) : (QuotientGroup.mk' (CFSG.pCore 2 ↥H) ⟨x, hx⟩) ^ k = 1 := by
   obtain ⟨z, hz, hzv⟩ := Subgroup.mem_map.mp h
@@ -161,6 +164,7 @@ theorem mk_pow_eq_one {H : Subgroup G} {x : G} (hx : x ∈ H) {k : ℕ}
   rw [← map_pow, ← hz']
   exact (QuotientGroup.eq_one_iff _).mpr hz
 
+omit [Finite G] in
 theorem mk_pow_card_eq_one {H : Subgroup G} (N₀ : Subgroup H) {n : H} (hn : n ∈ N₀) :
     (QuotientGroup.mk' (CFSG.pCore 2 ↥H) n) ^ Nat.card N₀ = 1 := by
   rw [← map_pow]
@@ -216,6 +220,7 @@ theorem pCoreOf_le_pCoreOf_of_isSubnormal {A B : Subgroup G} (h : IsSubnormal A 
     (IsSubnormal.step (CFSG.LieType.BorelTits.pCoreOf_le 2 A) hn h)
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 A)
 
+omit [Finite G] in
 theorem isQuasisimple_of_isTwoPrimeComponent_self {I₀ : Subgroup G}
     (h : IsTwoPrimeComponent I₀ I₀) : Open.IsQuasisimple (↥I₀ ⧸ CFSG.pCore 2 ↥I₀) := by
   have h1 := h.component.2.2
@@ -303,7 +308,7 @@ theorem agl81TenFiveXCfg_three (h1031 : AGL81TenThreeOneAt G) (h98 : AGL81NineEi
   have hyH : y ∈ H := hY.1 hy
   have hxH : x ∈ H := hI₀H (hII₀ hx)
   set Nh := N₀.map π₂ with hNhdef
-  haveI hNh : Nh.Normal := Subgroup.Normal.map inferInstance π₂ (QuotientGroup.mk'_surjective _)
+  have hNh : Nh.Normal := Subgroup.Normal.map inferInstance π₂ (QuotientGroup.mk'_surjective _)
   have hF2 : ∀ g (hg : g ∈ I) (hgH : g ∈ H),
       π₂ ⟨g, hgH⟩ * π₂ ⟨y, hyH⟩ * (π₂ ⟨g, hgH⟩)⁻¹ * (π₂ ⟨y, hyH⟩)⁻¹ ∈ Nh := by
     intro g hg hgH
@@ -426,7 +431,7 @@ theorem agl81TenFiveXCfg_of (h1031 : AGL81TenThreeOneAt G) (h912 : AGL81NineTwel
   have hyH : y ∈ H := hYH hy
   have hxH : x ∈ H := (oUpperTwo_le_self I₀).trans (hI₀.le.trans inf_le_left) hx
   set Nh := N₀.map π₂ with hNhdef
-  haveI hNh : Nh.Normal := Subgroup.Normal.map inferInstance π₂ (QuotientGroup.mk'_surjective _)
+  have hNh : Nh.Normal := Subgroup.Normal.map inferInstance π₂ (QuotientGroup.mk'_surjective _)
   have hperf : ⁅Y, Y⁆ = Y := Subgroup.isPerfect_iff.1 (hY.isPerfect hp)
   have hsubY : IsSubnormal Y H := (IsSubnormal.iff_subgroupOf hYH).2 hYc.2.1
   have hq : Open.IsQuasisimple (↥Y ⧸ CFSG.pCore 2 ↥Y) :=

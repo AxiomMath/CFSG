@@ -261,6 +261,7 @@ theorem exists_diagLift {C M : Subgroup X} (hM : IsPCompIn 2 C M) {t : X} (htC :
       (Δ₀.equivMapOfInjective C.subtype C.subtype_injective)
     exact ⟨f.symm.trans e⟩
 
+omit [Finite X] in
 private theorem commutator_eq_self_of_isPCompIn {H K : Subgroup X} (h : IsPCompIn 2 H K) :
     ⁅K, K⁆ = K := by
   have hp : Group.IsPerfect (K.subgroupOf H) :=
@@ -334,7 +335,7 @@ private theorem five_le_of_isDoubleCoverOfAlt {K : Type} [Group K]
     alternatingGroup.isSolvable (by simp; omega)
   have hsolv' : Group.IsSolvable (K ⧸ center K) :=
     Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI : IsSimpleGroup (K ⧸ center K) := hq.2.1
+  have : IsSimpleGroup (K ⧸ center K) := hq.2.1
   obtain ⟨a, b, hab⟩ := hq.2.2
   exact hab ((IsSimpleGroup.comm_iff_isSolvable).2 hsolv' a b)
 
@@ -361,6 +362,7 @@ private theorem exists_double_transposition (hn : 4 ≤ n) :
       Equiv.Perm.card_support_swap hcd] at h
     omega
 
+omit [Finite X] in
 private theorem perm_eq_of_induces_of_four_le {A : Subgroup X} (hn : 4 ≤ n)
     (M : AhatModel X n A) {c : X} (hc : c ∈ normalizer (A : Set X)) {σ : Perm (Fin n)}
     (h : M.C.Induces (M.autOf c hc) σ) : M.perm c hc = σ := by
@@ -368,6 +370,7 @@ private theorem perm_eq_of_induces_of_four_le {A : Subgroup X} (hn : 4 ≤ n)
   simp only [AhatModel.perm, hex, ↓reduceDIte]
   exact induces_unique hn hex.choose_spec h
 
+omit [Finite X] in
 private theorem commutator_mem_oddCoreOf_of_mk_mem_center {A : Subgroup X} {c : X} (hc : c ∈ A)
     (h : (QuotientGroup.mk (⟨c, hc⟩ : ↥A) : ↥A ⧸ pPrimeCore 2 ↥A) ∈
       center (↥A ⧸ pPrimeCore 2 ↥A)) : ∀ a ∈ A, ⁅a, c⁆ ∈ oddCoreOf A := by
@@ -412,6 +415,7 @@ theorem mem_normalizer_of_map_normalizes_pCompIn {C M : Subgroup X} (hM : IsPCom
   rw [Subgroup.subgroupOf_inj, inf_of_le_left hMyC, inf_of_le_left hMC] at this
   exact this
 
+omit [Finite X] in
 private theorem sq_diag_mem_oddCoreOf {C : Subgroup X} {a u : X} (ha : a ∈ C) (hu : u ∈ C)
     (hau : ⁅a, u⁆ ∈ oddCoreOf C) (huu : u * u * (a * a)⁻¹ ∈ oddCoreOf C)
     (ha4 : (a * a) * (a * a) ∈ oddCoreOf C) : (a * u) * (a * u) ∈ oddCoreOf C := by

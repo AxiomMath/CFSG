@@ -113,7 +113,7 @@ theorem nonempty_projImage_slPi_true_mulEquiv_catalogue {K : Type} [Field K] {p 
       Nonempty (↥(CFSG.PGLModel.projImage (slPi true 3 (p ^ f) K)) ≃*
         (TauCeti.CFSGIndex.lie ⟨.A 2 Q, hv⟩).Group) := by
   classical
-  haveI : Finite K := hF.finite
+  have : Finite K := hF.finite
   let Q : TauCeti.PrimePower := ⟨p, f, hF.prime, hF.one_le⟩
   have hQcard : Q.card = p ^ f := TauCeti.PrimePower.card_def Q
   have hQ5 : 5 ≤ Q.card := by rw [hQcard]; exact h5
@@ -145,7 +145,7 @@ theorem nonempty_projImage_slPi_false_mulEquiv_catalogue {K : Type} [Field K] {p
       Nonempty (↥(CFSG.PGLModel.projImage (slPi false 3 (p ^ f) K)) ≃*
         (TauCeti.CFSGIndex.lie ⟨.twistedA 2 Q, hv⟩).Group) := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   let Q : TauCeti.PrimePower := ⟨p, f, h.prime, h.one_le⟩
   have hQcard : Q.card = p ^ f := TauCeti.PrimePower.card_def Q
   have hQ5 : 5 ≤ Q.card := by rw [hQcard]; exact h5
@@ -177,7 +177,7 @@ private theorem isSimpleGroup_fixSubgroup_d4Graph_one {K : Type} [Field K] [Fini
   have hqs := isQuasisimple_fixSubgroup_d4Graph_one hK3
   have hG2q : CFSG.IsQuasisimple ↥(adjointGroup Tag.G2 K) :=
     CFSG.IsQuasisimple.of_mulEquiv (fixSubgroupEquivG2 K hK3).symm hqs
-  haveI : IsSimpleGroup ↥(adjointGroup Tag.G2 K) :=
+  have : IsSimpleGroup ↥(adjointGroup Tag.G2 K) :=
     CFSG.LieType.SeitzGeneration.isSimpleGroup_adjointGroup_of_isQuasisimple hG2q
   exact (fixSubgroupEquivG2 K hK3).isSimpleGroup
 
@@ -201,7 +201,7 @@ private theorem not_jType_fixSubgroup_d4Graph_one {K : Type} [Field K] [Finite K
   set C := fixSubgroup (d4Graph K 1) with hC
   have hqs : CFSG.IsQuasisimple ↥C := isQuasisimple_fixSubgroup_d4Graph_one hK3
   have hCs : IsSimpleGroup ↥C := isSimpleGroup_fixSubgroup_d4Graph_one hq hq2 hq3 hKcard
-  haveI := hCs
+  have := hCs
   have hnab : ∃ a b : ↥C, a * b ≠ b * a :=
     CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.exists_ne_comm_of_isPerfect hqs.1
   have hZ : Subgroup.center ↥C = ⊥ :=
@@ -240,10 +240,10 @@ theorem noJTypeComponent_d4Graph_one {K : Type} [Field K] [Finite K]
     isSimpleGroup_fixSubgroup_d4Graph_one hq hq2 hq3 hKcard
   have hpc : J = fixSubgroup (d4Graph K 1) := by
     set D : Subgroup (adjointGroup Tag.D4 K) := fixSubgroup (d4Graph K 1) with hD
-    haveI hDn : (D.subgroupOf D).Normal := by
+    have hDn : (D.subgroupOf D).Normal := by
       rw [hD, Subgroup.subgroupOf_self]; infer_instance
     have hsol : Group.IsSolvable (↥D ⧸ D.subgroupOf D) := by
-      haveI : Subsingleton (↥D ⧸ D.subgroupOf D) := by
+      have : Subsingleton (↥D ⧸ D.subgroupOf D) := by
         rw [hD, Subgroup.subgroupOf_self]
         exact QuotientGroup.subsingleton_quotient_top
       exact Group.isSolvable_of_comm fun a b => Subsingleton.elim (a * b) (b * a)
@@ -300,7 +300,7 @@ private theorem pComponent_eq_commutator_gammaP {K : Type} [Field K] [Finite K]
     CFSG.LocalAnalysis.GLTheoremA.S2019.isSimpleGroup_commutator_of_isPGLPiThree hK5 hPGL
   set L := (commutator ↥C).map C.subtype with hL
   have hLs : IsSimpleGroup ↥L := by
-    haveI := hJs'
+    have := hJs'
     exact (Subgroup.equivMapOfInjective (commutator ↥C) C.subtype
       C.subtype_injective).symm.isSimpleGroup
   have hCL : ⁅C, C⁆ = L := by
@@ -320,7 +320,7 @@ private theorem pComponent_eq_commutator_gammaP {K : Type} [Field K] [Finite K]
     rw [Subgroup.mem_subgroupOf]
     have hz' : C.subtype z ∈ (commutator ↥C).map C.subtype := ⟨z, hz, rfl⟩
     rwa [hmapL] at hz' 
-  haveI := hDn
+  have := hDn
   have hcomm : IsMulCommutative (↥C ⧸ L.subgroupOf C) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mpr hjcomm
   have hsol : Group.IsSolvable (↥C ⧸ L.subgroupOf C) := inferInstance
@@ -378,8 +378,8 @@ private theorem not_jType_commutator_gammaP {K : Type} [Field K] [Finite K]
       (Nat.card K) := by rwa [hC]
   obtain ⟨π, p, f, F, hFld, hF, hpq, hmod, ⟨eC⟩⟩ := hPGL
   rw [← hpq] at hmod eC
-  letI := hFld
-  haveI : Finite F := hF.finite
+  let := hFld
+  have : Finite F := hF.finite
   have hq2' : 2 < p ^ f := by rw [hpq]; omega
   have h5 : 5 ≤ p ^ f := by rw [hpq]; exact hK5
   have hπ : π = false → CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f F :=
@@ -403,9 +403,9 @@ private theorem not_jType_commutator_gammaP {K : Type} [Field K] [Finite K]
   have hLs0 : IsSimpleGroup ↥(projImage (slPi π 3 (p ^ f) F)) :=
     RonanK429Lie.isSimpleGroup_projImage_slPi hF (Or.inr hq2')
   have hLs : IsSimpleGroup ↥L := by
-    haveI := hLs0
+    have := hLs0
     exact eL.isSimpleGroup
-  haveI hperf : Group.IsPerfect ↥(projImage (slPi π 3 (p ^ f) F)) :=
+  have hperf : Group.IsPerfect ↥(projImage (slPi π 3 (p ^ f) F)) :=
     isPerfect_projImage_slPi hF hq2'
   have hZ : Subgroup.center ↥L = ⊥ := by
     have hZproj : Subgroup.center ↥(projImage (slPi π 3 (p ^ f) F)) = ⊥ :=

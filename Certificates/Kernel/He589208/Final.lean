@@ -134,12 +134,12 @@ theorem vg_good_gen {RT : Array (Array Nat)} {F : List Nat → Array Nat} {V rtF
     exact hF _ (hw _ (List.getElem_mem hi))
 
 theorem vg_rt_eq {ws : List (List Nat)} : ∀ t < 3, K.vg (exOf ab ws) t = rt t := fun t h3 => by
-  simp [DcK.vg, K, h3]
+  simp [DcKData.vg, K, h3]
 
 theorem vg_ws_eq {ws : List (List Nat)} :
     ∀ t (_ : 3 ≤ t) (hi : t - 3 < ws.length), K.vg (exOf ab ws) t = wordF ab ws[t - 3] :=
   fun t h3 hi => by
-    simp [DcK.vg, K, exOf, show ¬ (t < 3) from by omega, List.getD_eq_getElem?_getD, hi]
+    simp [DcKData.vg, K, exOf, show ¬ (t < 3) from by omega, List.getD_eq_getElem?_getD, hi]
 
 theorem vg_good {ws : List (List Nat)} (hw : ∀ w ∈ ws, ∀ l ∈ w, l < 4) :
     ∀ t < (RT8 ++ (ws.map (tabW 8330 AB8)).toArray).size,

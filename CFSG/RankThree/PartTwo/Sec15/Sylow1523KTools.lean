@@ -79,6 +79,7 @@ theorem nonempty_theta_quot_equiv {X K : Subgroup G} (hXK : X ≤ K)
     Sec11.aschbacherSolvableCore_quotient_eq_bot ↥K
   exact ⟨e.trans ((QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot)⟩
 
+omit [Finite G] in
 theorem isPerfect_of_le_sup_coprime {K X S : Subgroup G} (hK : K = oPrimeResidualOf 3 K)
     (hXp : Group.IsPerfect ↥X) (hXK : X ≤ K) (hSK : S ≤ K)
     (hcop : Nat.Coprime 3 (Nat.card S)) (hKXS : K ≤ X ⊔ S) : Group.IsPerfect ↥K := by

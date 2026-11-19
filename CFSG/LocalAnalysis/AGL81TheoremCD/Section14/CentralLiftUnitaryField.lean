@@ -24,7 +24,7 @@ theorem fixesKleinFour_of_not_mem_range {p f : ℕ} {F : Type} [Field F]
       CFSG.LocalAnalysis.RankThreeTheoremC.SL3LiftUnitaryField.descend_suConj,
       CFSG.LocalAnalysis.RankThreeTheoremC.SL3LiftUnitaryField.descend_suField]
     exact hαH
-  haveI : CharP F p := h.charP
+  have : CharP F p := h.charP
   have h2 : (2 : F) ≠ 0 := Ring.two_ne_zero (by rw [ringChar.eq F p]; exact hp2)
   rw [hθeq]
   exact FixesKleinFour.conj (fixesKleinFour_suField h h2 σ) (suConj h H)

@@ -63,7 +63,7 @@ theorem outerRow_l52 [Finite (projSL 5 (GaloisField 2 1))] :
 
 theorem row_l52 : RowOf (projSL 5 (GaloisField 2 1)) := by
   intro S _ _ _ _ ⟨e⟩
-  haveI : Finite (projSL 5 (GaloisField 2 1)) := Finite.of_equiv S e.toEquiv
+  have : Finite (projSL 5 (GaloisField 2 1)) := Finite.of_equiv S e.toEquiv
   exact GoodRow.of_mulEquiv e.symm ⟨listRow_l52, outerRow_l52⟩
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK432

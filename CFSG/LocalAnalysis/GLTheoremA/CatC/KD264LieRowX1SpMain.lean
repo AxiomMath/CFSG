@@ -96,7 +96,7 @@ theorem kd264X1SpPart_holds : KD264X1SpPart := by
       intro g
       obtain ⟨t, rfl⟩ := ψ.surjective g
       rw [← map_mul, ← map_mul, hst t]
-    haveI : NeZero n := ⟨by omega⟩
+    have : NeZero n := ⟨by omega⟩
     rw [CFSG.StandardType.AutPSp.center_eq_bot] at hz
     exact ψ.injective ((Subgroup.mem_bot.1 hz).trans (map_one ψ).symm)
   have hinj : Function.Injective (MulAut.conj : (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.B n q, hv⟩).Group →* _) := by
@@ -136,12 +136,12 @@ theorem kd264X1SpPart_holds : KD264X1SpPart := by
   let ι := ψ.trans ιs
   let E' : Subgroup ↥(TauCeti.BilinForm.isometryGroup (stdForm n)) := E.map ι.toMonoidHom
   have hE'el : IsElemAbelian 3 E' := isElemAbelian_map_hom 3 _ hEel
-  haveI : Fintype E' := Fintype.ofFinite _
+  have : Fintype E' := Fintype.ofFinite _
   have hE'card : Nat.card E' = 3 ^ kA := by
     rw [Subgroup.card_map_of_injective (f := ι.toMonoidHom) ι.injective, hEcard, hkA]
   let EΓ : Subgroup ((Fin n ⊕ Fin n → ZMod 2) ≃ₗ[ZMod 2] (Fin n ⊕ Fin n → ZMod 2)) :=
     E'.map (TauCeti.BilinForm.isometryGroup (stdForm n)).subtype
-  haveI : Fintype EΓ := Fintype.ofFinite _
+  have : Fintype EΓ := Fintype.ofFinite _
   have hEΓel : IsElemAbelian 3 EΓ := isElemAbelian_map_hom 3 _ hE'el
   have hEΓcard : Fintype.card EΓ = 3 ^ kA := by
     rw [← Nat.card_eq_fintype_card, Subgroup.card_map_of_injective Subtype.val_injective, hE'card]
@@ -198,8 +198,8 @@ theorem kd264X1SpPart_holds : KD264X1SpPart := by
     (MulEquiv.subgroupMap ι.symm L').symm.trans χ0
   have hq : CFSG.Open.IsQuasisimple ↥LS :=
     CFSG.SignalizerFunctorTheorem.TransportA.isQuasisimple_of_mulEquiv χ.symm isQuasisimple_alt6
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI hsimpL : IsSimpleGroup ↥LS := χ.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have hsimpL : IsSimpleGroup ↥LS := χ.isSimpleGroup
   have hnc6 : ¬ IsMulCommutative (alternatingGroup (Fin 6)) := by
     rw [alternatingGroup.isMulCommutative_iff_card_le_three]
     simp

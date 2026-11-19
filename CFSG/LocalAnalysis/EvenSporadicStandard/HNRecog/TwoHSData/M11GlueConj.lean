@@ -57,7 +57,7 @@ theorem exists_conj_eq_of_isM11Like {G : Type*} [Group G] {E : Subgroup G} (hE :
       simpa using map_conj_map_conj_inv M x⁻¹
     exact h.symm
   let t : G := x⁻¹ * (y : G) * x
-  have ht_eq : t = (MulAut.conj x⁻¹) (y : G) := by simp [t, MulAut.conj_apply]
+  have ht_eq : t = (MulAut.conj x⁻¹) (y : G) := by simp [t]
   have htmem : t ∈ zpowers y₀ := by
     rw [ht_eq]; simpa [MulAut.conj_apply] using hxmem
   have htM₁ : t ∈ M₁ := by
@@ -66,7 +66,7 @@ theorem exists_conj_eq_of_isM11Like {G : Type*} [Group G] {E : Subgroup G} (hE :
   have htord : orderOf t = 11 := by
     rw [ht_eq, MulEquiv.orderOf_eq (MulAut.conj x⁻¹) (y : G), hy₁]
   have hy₀M₁ : y₀ ∈ M₁ := by
-    haveI : Finite ↥(zpowers y₀) :=
+    have : Finite ↥(zpowers y₀) :=
       Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hy₀]; norm_num)
     have hle : zpowers t ≤ zpowers y₀ := Subgroup.zpowers_le.mpr htmem
     have hzp : zpowers t = zpowers y₀ := by
@@ -103,7 +103,7 @@ theorem exists_conj_eq_of_isM11Like {G : Type*} [Group G] {E : Subgroup G} (hE :
         · rw [hp, hq, hia]; exact (ha y₀).symm
         · rw [hp, hq, hia]; exact ha y₀
         · rw [hp, hq]
-      haveI : IsMulCommutative ↥M₁ := by
+      have : IsMulCommutative ↥M₁ := by
         rw [← hclosureM₁]
         exact Subgroup.isMulCommutative_closure (fun p hp q hq _ => hcommGen p hp q hq)
       obtain ⟨u, w, huw⟩ := hM₁.nonabelian
@@ -136,7 +136,7 @@ theorem exists_conj_eq_of_isM11Like {G : Type*} [Group G] {E : Subgroup G} (hE :
       rcases hp with hp | hp
       · rw [hp]; exact hy₀M
       · rw [hp]; exact hi₁M₀
-    haveI : Finite ↥M₀ := Nat.finite_of_card_ne_zero (by rw [hM₀.card_eq]; norm_num)
+    have : Finite ↥M₀ := Nat.finite_of_card_ne_zero (by rw [hM₀.card_eq]; norm_num)
     have hM₁_eq : M₁ = M₀ :=
       Subgroup.eq_of_le_of_card_ge hle (by rw [hM₀.card_eq, hM₁.card_eq])
     rw [hMx, hM₁_eq]
@@ -164,7 +164,7 @@ theorem exists_conj_eq_of_isM11Like {G : Type*} [Group G] {E : Subgroup G} (hE :
         Nat.card_congr (Subgroup.equivMapOfInjective M₁ (MulAut.conj n₁).toMonoidHom
           (MulAut.conj n₁).injective).toEquiv
       rw [← h, hM₁.card_eq]
-    haveI : Finite ↥M₀ := Nat.finite_of_card_ne_zero (by rw [hM₀.card_eq]; norm_num)
+    have : Finite ↥M₀ := Nat.finite_of_card_ne_zero (by rw [hM₀.card_eq]; norm_num)
     have hM₂_eq : M₂ = M₀ :=
       Subgroup.eq_of_le_of_card_ge hle2 (by rw [hcardM₂, hM₀.card_eq])
     have hM₁_eq : M₁ = M₀.map (MulAut.conj n₁⁻¹).toMonoidHom := by
@@ -198,7 +198,7 @@ theorem isConj_of_orderOf_five {G : Type*} [Group G] [Finite G] {M₀ : Subgroup
     (hck : ∀ k : ℕ, 0 < k → k < 5 → ∃ c ∈ M₀, c * ρ₀ * c⁻¹ = ρ₀ ^ k) {ρ : G} (hρ : ρ ∈ M₀)
     (hρo : orderOf ρ = 5) : IsConj ρ₀ ρ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hS : Nat.card (zpowers ρ₀) = 5 ^ (Nat.card M₀).factorization 5 := by
     rw [Nat.card_zpowers, hρ₀o, hM₀.card_eq, factorization_7920_five, pow_one]
   obtain ⟨x, -, hx⟩ :=

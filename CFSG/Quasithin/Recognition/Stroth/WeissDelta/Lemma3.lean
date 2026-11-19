@@ -17,11 +17,13 @@ namespace CFSG.Quasithin.Stroth.WeissDelta
 
 variable {V : Type} {Γ : SimpleGraph V} {H : Type} [Group H] [MulAction H V] [GraphAction H Γ]
 
+omit [GraphAction H Γ] in
 private theorem stabPath_castLength {m k : ℕ} (h : m = k) (p : GPath Γ m) :
     GPath.stabPath (H := H) (GPath.castLength h p) = GPath.stabPath (H := H) p := by
   cases h
   rw [show GPath.castLength rfl p = p from GPath.ext' fun i _ => rfl]
 
+omit [GraphAction H Γ] in
 private theorem mem_take_rev_of_mem_drop {n i : ℕ} {p : GPath Γ (n + 1 + i)} {g : H}
     (hg : g ∈ GPath.stabPath (H := H) (p.drop i (by omega))) :
     g ∈ GPath.stabPath (H := H) (p.rev.take (n + 1) (by omega)) := by

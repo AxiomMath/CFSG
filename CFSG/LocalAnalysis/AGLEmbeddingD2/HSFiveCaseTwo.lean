@@ -547,7 +547,7 @@ theorem hsFiveCaseTwo_twoComponents {G : Type} [Group G] [Finite G] (hHS : KFact
   have hNX₀ : Subgroup.normalizer (((Rbar : Subgroup (H ⧸ primeComplementCore (G := H) 5))) :
       Set (H ⧸ primeComplementCore (G := H) 5)) ≤
       ((H ⊓ M).subgroupOf H).map (QuotientGroup.mk' (primeComplementCore 5)) :=
-    hK.normalizer_le_of_rank _ hK.sylow_le Rbar.isPGroup' (by rw [hK.pRank_eq])
+    hK.normalizer_le_of_rank _ hK.sylow_le Rbar.isPGroup (by rw [hK.pRank_eq])
   obtain ⟨hKtop, U, hUX₀, hX₀U, hUU, hRU, hUs, hUperf, hCU, hUout, E, hEU, hE, hEc⟩ :=
     hHS _ K hK.normal hK.centralizer_eq_bot he Rbar _ hNX₀ hK.ne_top hne
   obtain ⟨-, hcard, hC, hZ, hcomm, hexp, -, hlines⟩ :=

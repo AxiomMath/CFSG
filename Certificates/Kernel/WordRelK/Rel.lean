@@ -56,19 +56,19 @@ theorem ucm_all : ∀ j < 10, uCommRowT TAB j = true := by
   interval_cases j
   exacts [ucm0, ucm1, ucm2, ucm3, ucm4, ucm5, ucm6, ucm7, ucm8, ucm9]
 
-open Small in
+open _root_.CertificateChecks.KernelWordRelK.Small in
 theorem usq_all : ∀ k < 10, uSqT TAB k = true := by
   intro k hk
   interval_cases k
   exacts [usq0, usq1, usq2, usq3, usq4, usq5, usq6, usq7, usq8, usq9]
 
-open Small in
+open _root_.CertificateChecks.KernelWordRelK.Small in
 theorem co_all : ∀ i < 9, coDecT TAB i = true := by
   intro i hi
   interval_cases i
   exacts [co0, co1, co2, co3, co4, co5, co6, co7, co8]
 
-open Small in
+open _root_.CertificateChecks.KernelWordRelK.Small in
 theorem pa_all : ∀ i < 15, paDecT TAB i = true := by
   intro i hi
   interval_cases i

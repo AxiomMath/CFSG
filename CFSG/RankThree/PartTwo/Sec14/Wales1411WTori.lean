@@ -18,6 +18,7 @@ theorem mem_normalizer_of_map_conj_le {S : Subgroup M} {n : M}
     (h : S.map (MulAut.conj n).toMonoidHom ≤ S) : n ∈ Subgroup.normalizer (S : Set M) :=
   Subgroup.mem_normalizer_fintype fun s hs => h ⟨s, hs, rfl⟩
 
+omit [Finite M] in
 theorem map_conj_eq_self {S : Subgroup M} {n : M} (hn : n ∈ Subgroup.normalizer (S : Set M)) :
     S.map (MulAut.conj n).toMonoidHom = S := by
   refine le_antisymm ?_ fun s hs => ?_

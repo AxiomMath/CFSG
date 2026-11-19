@@ -17,27 +17,27 @@ open scoped commutatorElement
 
 
 private theorem card_GL_three_zero : Nat.card (GL (Fin 0) (ZMod 3)) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.SectionRank.Ccomm.card_GL_zmod]
   decide +kernel
 
 private theorem card_GL_three_one : Nat.card (GL (Fin 1) (ZMod 3)) = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.SectionRank.Ccomm.card_GL_zmod]
   decide +kernel
 
 private theorem card_GL_three_two : Nat.card (GL (Fin 2) (ZMod 3)) = 48 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.SectionRank.Ccomm.card_GL_zmod]
   decide +kernel
 
 private theorem card_GL_three_three : Nat.card (GL (Fin 3) (ZMod 3)) = 11232 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.SectionRank.Ccomm.card_GL_zmod]
   decide +kernel
 
 private theorem card_GL_three_four : Nat.card (GL (Fin 4) (ZMod 3)) = 24261120 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.SectionRank.Ccomm.card_GL_zmod]
   decide +kernel
 
@@ -98,7 +98,7 @@ theorem orderOf_ne_thirteen_of_card_center {V : Type} [Group V] [Finite V]
   have hCmem : ∀ x : V, x ∈ C ↔ β x = x := fun x => Iff.rfl
   have hsetT : ({x : V | x ∈ (⊤ : Subgroup V) ∧ β x = x} : Set V) = (C : Set V) := by
     ext x
-    simp only [Set.mem_setOf_eq, Subgroup.mem_top, true_and, SetLike.mem_coe]
+    simp only [Set.mem_ofPred_eq, Subgroup.mem_top, true_and, SetLike.mem_coe]
     exact (hCmem x).symm
   have hmod1 : Nat.card C ≡ 3 [MOD 13] := by
     have h := card_modEq_card_fixed_mulAut (q := 13) (β := β) (by norm_num) hβ
@@ -127,7 +127,7 @@ theorem orderOf_ne_thirteen_of_card_center {V : Type} [Group V] [Finite V]
   have hsetZ : ({x : V | x ∈ Subgroup.center V ∧ β x = x} : Set V) =
       (C ⊓ Subgroup.center V : Set V) := by
     ext x
-    simp only [Set.mem_setOf_eq, Subgroup.mem_inf, SetLike.mem_coe]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hxZ, hxfix⟩; exact ⟨(hCmem x).mpr hxfix, hxZ⟩
     · rintro ⟨hxC, hxZ⟩; exact ⟨hxZ, (hCmem x).mp hxC⟩
@@ -165,12 +165,12 @@ theorem exists_omega_of_mulAut {R : Type} [Group R] [Finite R] (hR : IsPGroup 3 
       ⁅D, (⊤ : Subgroup R)⁆ ≤ D ⊓ centralizer (D : Set R) ∧ (∃ d ∈ D, α d ≠ d) ∧
       ((p = 13 ∧ IsMulCommutative ↥D ∧ Nat.card D = 27 ∧ D ≤ center R) ∨
         (p = 5 ∧ CFSG.IsExtraspecialPGroup 3 ↥D ∧ Nat.card D = 3 ^ 5)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨C, hCcrit, hCne, hCfaith, hDset, hDchar, hDne, hDcomm, hDexp, hDfixP, hDdet⟩ :=
     CFSG.RankThree.PartTwo.Sec13.CritProof.exists_isThompsonCritical_omega (P := R) (p := 3)
       (by norm_num) hR
   let D : Subgroup R := CFSG.RankThree.PartTwo.Sec13.CritProof.omegaOneIn 3 C
-  haveI : D.Characteristic := hDchar
+  have : D.Characteristic := hDchar
   have hDp : IsPGroup 3 ↥D := hR.to_subgroup D
   have hDexp' : ∀ x : ↥D, x ^ 3 = 1 := fun x => by
     apply Subtype.ext
@@ -255,7 +255,7 @@ theorem exists_omega_of_mulAut {R : Type} [Group R] [Finite R] (hR : IsPGroup 3 
     rcases hp.eq_one_or_self_of_dvd (orderOf γ) hγdvd with h | h
     · exact absurd (orderOf_eq_one_iff.mp h) hγ_ne
     · exact h
-  haveI : IsMulCommutative (↥D ⧸ frattini ↥D) :=
+  have : IsMulCommutative (↥D ⧸ frattini ↥D) :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le (N := frattini ↥D)).mpr (by
       rw [hfratt])
   have hWcomm : ∀ a b : ↥D ⧸ frattini ↥D, a * b = b * a := fun a b => mul_comm' a b
@@ -309,7 +309,7 @@ theorem exists_omega_of_mulAut {R : Type} [Group R] [Finite R] (hR : IsPGroup 3 
       exact hcalc.symm
     have hB_ne : B ≠ ⊥ := by
       have hDcen_ne : D ⊓ Subgroup.center R ≠ ⊥ := by
-        haveI : Group.IsNilpotent R := hR.isNilpotent
+        have : Group.IsNilpotent R := hR.isNilpotent
         exact Group.IsNilpotent.inf_center_ne_bot_of_normal (G := R) (H := D) hD_ne_bot
       intro hbot
       apply hDcen_ne

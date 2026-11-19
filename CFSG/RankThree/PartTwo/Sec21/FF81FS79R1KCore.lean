@@ -14,6 +14,7 @@ open CFSG.RankThree.PartTwo.Sec21.FF84
 variable {G : Type} [Group G] [Finite G]
 variable {b t c : G} {J : Subgroup G}
 
+omit [Finite G] in
 theorem FS79Hyp1.normal_le_B_decomp (h : FS79Hyp1 b t c J) {M : Subgroup G} [M.Normal]
     (hMB : M ≤ Subgroup.closure ({b, c} : Set G)) {y : G} (hy : y ∈ M) :
     ∃ p ∈ Subgroup.zpowers b, ∃ q ∈ Subgroup.zpowers c, y = p * q ∧ p ∈ M ∧ q ∈ M := by
@@ -110,7 +111,7 @@ theorem FS79Hyp1.nor_top_of_normal_three_group (h : FS79Hyp1 b t c J)
     (hO : Opp 3 (⊤ : Subgroup G) = ⊥) {M : Subgroup G} [hMn : M.Normal] (hM1 : M ≠ ⊥)
     (hM3 : IsPGroup 3 M) : Nor (Subgroup.zpowers b) = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbc : Commute b c := h.bc_comm
   have hMB : M ≤ Subgroup.closure ({b, c} : Set G) := by
     obtain ⟨k, -, hk⟩ := L14.exists_conj_le_sylowOf h.isSylowOf_B_top (le_top : M ≤ ⊤) hM3
@@ -203,14 +204,14 @@ theorem FS79Hyp1.fusion_B (h : FS79Hyp1 b t c J) {x y g : G}
     (hx : x ∈ Subgroup.closure ({b, c} : Set G)) (hy : y ∈ Subgroup.closure ({b, c} : Set G))
     (hg : g * x * g⁻¹ = y) :
     ∃ n ∈ Nor (Subgroup.closure ({b, c} : Set G)), n * x * n⁻¹ = y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPs := h.isSylowOf_B_top
   have hcop' : ¬ 3 ∣ (Subgroup.closure ({b, c} : Set G)).index := by
     rw [← Subgroup.relIndex_top_right]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hPs.2.2
   obtain ⟨S, hS⟩ : ∃ S : Sylow 3 G, (S : Subgroup G) = Subgroup.closure ({b, c} : Set G) :=
     ⟨hPs.2.1.toSylow hcop', IsPGroup.toSylow_coe hPs.2.1 hcop'⟩
-  haveI hcomm' : IsMulCommutative (S : Subgroup G) :=
+  have hcomm' : IsMulCommutative (S : Subgroup G) :=
     ⟨⟨fun a c' => Subtype.ext (h.B_comm (by rw [← hS]; exact a.2) (by rw [← hS]; exact c'.2))⟩⟩
   have hxS : x ∈ (S : Subgroup G) := by rw [hS]; exact hx
   have hyS : y ∈ (S : Subgroup G) := by rw [hS]; exact hy
@@ -294,15 +295,15 @@ theorem FS79Hyp1.stronglyClosed_c (h : FS79Hyp1 b t c J) :
     exact h.B_inf_J hg hyJ
 
 theorem Opp_top_le_pPrimeCore : Opp 3 (⊤ : Subgroup G) ≤ CFSG.pPrimeCore 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn : (Opp 3 (⊤ : Subgroup G)).Normal := by
     refine ⟨fun x hx g => ?_⟩
     simpa using L14.Opp_conj_mem (p := 3) (H := (⊤ : Subgroup G)) (Subgroup.mem_top g) hx
   exact le_sSup ⟨hn, L14.Opp_coprime 3 (⊤ : Subgroup G)⟩
 
 theorem pPrimeCore_le_Opp_top : CFSG.pPrimeCore 3 G ≤ Opp 3 (⊤ : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := CFSG.pPrimeCore_normal (p := 3) (G := G)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := CFSG.pPrimeCore_normal (p := 3) (G := G)
   exact L14.le_Opp_of_normalized le_top (fun g _ x hx => (CFSG.pPrimeCore_normal (p := 3)
     (G := G)).conj_mem x hx g) (CFSG.pPrimeCore_coprime_card (p := 3) (G := G))
 
@@ -329,7 +330,7 @@ theorem FS79Hyp1.nor_eq_top (hKF1 : FF84KF1) (hKS : FF84KSOut)
     (hK : KCore.KGroupNonab InCatalog G) (hO : CFSG.pPrimeCore 3 G = ⊥)
     (h : FS79Hyp1 b t c J) : Nor (Subgroup.zpowers b) = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hOpp : Opp 3 (⊤ : Subgroup G) = ⊥ := pPrimeCore_eq_bot_iff.mp hO
   have hcard1 : Nat.card (Subgroup.zpowers b) = 3 := by rw [Nat.card_zpowers, h.ord_b]
   have hcard2 : Nat.card (Subgroup.zpowers c) = 3 := by rw [Nat.card_zpowers, h.ord_c]
@@ -360,14 +361,14 @@ theorem FS79Hyp1.nor_eq_top (hKF1 : FF84KF1) (hKS : FF84KSOut)
     rw [h1] at hcX₂
     exact h.c_ne_one (Subgroup.mem_bot.mp hcX₂)
   obtain ⟨M, hMn, hM1, hMX, hMmin⟩ := exists_minimal_normal_le hX₂1
-  haveI := hMn
-  haveI hMmin' : CFSG.IsMinimalNormal M := ⟨fun Y hY hYM => hMmin Y hY hYM⟩
-  haveI := h.isSolvable_cen_b
-  haveI : Group.IsSolvable ↥M :=
+  have := hMn
+  have hMmin' : CFSG.IsMinimalNormal M := ⟨fun Y hY hYM => hMmin Y hY hYM⟩
+  have := h.isSolvable_cen_b
+  have : Group.IsSolvable ↥M :=
     Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective (hMX.trans hX₂le))
   obtain ⟨p, hp, hel⟩ := CFSG.minimalNormal_solvable_exists_isElementaryAbelian M
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hMp : IsPGroup p ↥M := IsElementaryAbelian.isPGroup p M
   by_cases hp3 : p = 3
   · subst hp3

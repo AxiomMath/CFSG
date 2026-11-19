@@ -39,7 +39,7 @@ theorem unitary_compat (hK : Nat.card K = (r ^ f) ^ 2) {Y : Type} [Group Y] (L :
   refine Subtype.ext ?_
   rw [hB₀, hŷ, l212in_suConj_coe]
 
-theorem factorization_sq_sub_one {p q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hq : 1 ≤ q)
+theorem factorization_sq_sub_one {p q : ℕ} (_hp : p.Prime) (hp5 : 5 ≤ p) (hq : 1 ≤ q)
     (hpq : p ∣ q + 1) : (q ^ 2 - 1).factorization p = (q + 1).factorization p := by
   have hq1 : ¬ p ∣ q - 1 := by
     intro h
@@ -74,8 +74,8 @@ theorem unitary_model (hGA : CFSG.Open.GriessAllModelsStatement) {p : ℕ} [hpp 
   have hp2 : p ≠ 2 := by omega
   have hn0 : 0 < n := by
     rcases Nat.eq_zero_or_pos n with rfl | h
-    · haveI := hq.2
-      haveI : Subsingleton (StatedProj (StatedSU 0 (r ^ f) K)) := inferInstance
+    · have := hq.2
+      have : Subsingleton (StatedProj (StatedSU 0 (r ^ f) K)) := inferInstance
       exact absurd e.injective.subsingleton (not_subsingleton _)
     · exact h
   have hn5 : 5 ≤ n := hp5.trans (Nat.le_of_dvd hn0 hpn)

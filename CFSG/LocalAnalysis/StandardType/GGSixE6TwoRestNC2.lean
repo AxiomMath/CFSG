@@ -20,13 +20,13 @@ private noncomputable def e6n2_e3 : DSpace F4 F4 ≃ₗ[F4] (Fin 3 → F4) where
   toFun v := ![v.1, v.2.1, v.2.2]
   invFun f := (f 0, f 1, f 2)
   map_add' u v := by
-    ext i <;> fin_cases i <;> simp
+    ext i; fin_cases i <;> simp
   map_smul' c v := by
-    ext i <;> fin_cases i <;> simp
+    ext i; fin_cases i <;> simp
   left_inv v := by
     ext <;> simp
   right_inv f := by
-    ext i <;> fin_cases i <;> simp
+    ext i; fin_cases i <;> simp
 
 private noncomputable def e6n2_eD :
     SpecialLinearGroup F4 (DSpace F4 F4) ≃* Matrix.SpecialLinearGroup (Fin 3) F4 :=
@@ -52,7 +52,7 @@ private theorem e6n2_eD_rootElt (t : F4) :
   rw [SpecialLinearGroup.toLin'_apply, Matrix.toLin'_apply,
     Matrix.SpecialLinearGroup.transvection_coe, Matrix.add_mulVec, Matrix.one_mulVec,
     Matrix.single_mulVec_eq]
-  ext i <;> fin_cases i <;>
+  ext i; fin_cases i <;>
     simp [e6n2_e3, rootEquiv, shearE, LinearMap.mulLeft_apply, mul_comm]
 
 private theorem e6n2_rootSL_map_eD :
@@ -132,13 +132,13 @@ private lemma e6n2_resMat_single_one (k l : Fin 3) :
       Matrix.single (blk k 1) (blk l 1) (1 : F2) := by
   rw [e6n2_resMat_single, map_one]
   have h01 : (1 : Matrix (Fin 2) (Fin 2) F2) 0 1 = 0 := by
-    rw [Matrix.one_apply]; exact if_neg (by decide)
+    rw [Matrix.one_apply]; exact ite_eq_right (by decide)
   have h10 : (1 : Matrix (Fin 2) (Fin 2) F2) 1 0 = 0 := by
-    rw [Matrix.one_apply]; exact if_neg (by decide)
+    rw [Matrix.one_apply]; exact ite_eq_right (by decide)
   have h00 : (1 : Matrix (Fin 2) (Fin 2) F2) 0 0 = 1 := by
-    rw [Matrix.one_apply]; exact if_pos rfl
+    rw [Matrix.one_apply]; exact ite_eq_left rfl
   have h11 : (1 : Matrix (Fin 2) (Fin 2) F2) 1 1 = 1 := by
-    rw [Matrix.one_apply]; exact if_pos rfl
+    rw [Matrix.one_apply]; exact ite_eq_left rfl
   rw [h00, h01, h10, h11, Matrix.single_zero, Matrix.single_zero]
   abel
 

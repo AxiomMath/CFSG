@@ -45,7 +45,7 @@ theorem exists_sylow_le_of_le {M E : Subgroup G} (hM : GLBStronglyEmbedded 3 M) 
   obtain ⟨Q, hEQ⟩ := (hE.comap_subtype (K := M)).exists_le_sylow
   set Q' : Subgroup G := (Q : Subgroup ↥M).map M.subtype with hQ'
   have hEQ' : E ≤ Q' := fun x hx => ⟨⟨x, hEM hx⟩, hEQ hx, rfl⟩
-  have hQ'p : IsPGroup 3 Q' := Q.isPGroup'.map _
+  have hQ'p : IsPGroup 3 Q' := Q.isPGroup.map _
   obtain ⟨S, hQS⟩ := hQ'p.exists_le_sylow
   refine ⟨S, hEQ'.trans hQS, ?_⟩
   by_contra hSM

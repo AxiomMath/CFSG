@@ -41,7 +41,7 @@ theorem omqnf_exists_conj_shapeC {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [
     exact hj.neg_one_pow
   have hrk : finrank K (commSpace T) = j + 1 := by
     rw [omqnf_finrank_commSpace hirr hacts hσ, omqnf_support_card_C hj2, hprod]
-    simp only [show ¬ ((-1 : ℤ) = 1) by norm_num, if_false]
+    simp only [show ¬ ((-1 : ℤ) = 1) by norm_num, ite_false]
     omega
   have h0 : omqnfSignC (n - 1) j ⟨0, by omega⟩ = -1 := omqnfSignC_zero hj1 hj2
   obtain ⟨x0, hx0, hQ⟩ := omqnf_nonvanish_of_flip h0 hacts

@@ -32,7 +32,7 @@ theorem cenOK_of_cenE {E : List ℕ → List ℕ → Bool} {p k N n : ℕ} {H Rp
   revert h
   unfold cenE cenOK
   cases Nat.beq (nthN (nthW T n) 0) 0 <;> cases Nat.beq (nthN (nthW T n) 0) 1 <;>
-    cases Nat.beq (nthN (nthW T n) 0) 2 <;> simp only [cond_false, cond_true] <;> intro h <;>
+    cases Nat.beq (nthN (nthW T n) 0) 2 <;> simp only [Bool.cond_false, _root_.Bool.cond_true] <;> intro h <;>
     first | exact h | exact absurd h Bool.false_ne_true
 
 open CFSG.HardMathSupport.Timmesfeld.SporadicBalance.PcSylow

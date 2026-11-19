@@ -69,7 +69,7 @@ theorem range_eq_H0 {L : Type} [Group L] [Finite L] {β₀ : MulAut L →* Equiv
   have hle : H0 ≤ α₀.range := by
     rw [H0, closure_le]
     intro x hx
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
     rcases hx with rfl | rfl
     · rw [g1_sq]
       exact hsq _ (pow_mem g1_mem_G0 4)

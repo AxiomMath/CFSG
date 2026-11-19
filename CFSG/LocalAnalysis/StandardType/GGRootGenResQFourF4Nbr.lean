@@ -33,7 +33,7 @@ theorem ggRootGenNbrInputOnQFour_f4ThreePlus (hRk : GGF4ThreeNbrRankInput)
       subst htag
       intro Q hQ
       obtain ⟨K, _, _, hK, hQ'⟩ := hQ
-      haveI : CharP K 2 := charP_two_of_card hK
+      have : CharP K 2 := charP_two_of_card hK
       have h4 : 4 ≤ Nat.card K := by
         rw [hK]
         calc 4 = 2 ^ 2 := by norm_num

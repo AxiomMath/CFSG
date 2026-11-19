@@ -60,7 +60,7 @@ theorem e7_dominant : ∀ a : Fin e7Data.d, (∀ i, e7Data.wt a i ≠ -1) → a 
 
 theorem e7_reach : reachCheck e7Data 0 30 = true := by decide +kernel
 
-@[expose] abbrev e7n6 : Fin (Tag.rank .E7) := ⟨6, by decide⟩
+abbrev e7n6 : Fin (Tag.rank .E7) := ⟨6, by decide⟩
 
 theorem e7_wt_zero_aux : ∀ s : Fin (Tag.rank .E7),
     e7Data.wt 0 s = if s = e7n6 then 1 else 0 := by
@@ -175,7 +175,7 @@ theorem e7Rep56_isChevType :
     obtain ⟨h1, h2⟩ := h
     have h1' : ∀ u : Kˣ, (u : K) = 1 := fun u => by
       have := h1 u
-      rwa [e7Chi56_dC, if_pos rfl, zpow_one] at this
+      rwa [e7Chi56_dC, ite_eq_left rfl, zpow_one] at this
     have h3 : (e7Datum (K := K)).heckeT (e7Rep56 K) e7n6 e7Y56 = -(∑ c : K, c) • e7Y56 :=
       (e7_heckeT_y e7n6).trans (sum_xm_nm_of_wt_one (hV := e7Data_valid)
         (a₀ := ⟨0, by decide⟩) (s := e7n6) e7_wt_one)
@@ -184,10 +184,10 @@ theorem e7Rep56_isChevType :
     exact e7Y56_ne_zero (by simpa using h4)
   · have hw : e7Data.wt (↑(⟨0, by decide⟩ : Fin e7Data.d)) s = 0 := by
       have := e7_wt_zero s
-      rw [if_neg hs] at this
+      rw [ite_eq_right hs] at this
       exact this
     refine ⟨fun _ => ⟨fun u => ?_, ?_⟩, fun _ => Finset.mem_erase.2 ⟨hs, Finset.mem_univ _⟩⟩
-    · rw [e7Chi56_dC, if_neg hs, zpow_zero]
+    · rw [e7Chi56_dC, ite_eq_right hs, zpow_zero]
       rfl
     · exact (e7_heckeT_y s).trans (sum_xm_nm_of_wt_zero (hV := e7Data_valid)
         (a₀ := ⟨0, by decide⟩) (s := s) hw)

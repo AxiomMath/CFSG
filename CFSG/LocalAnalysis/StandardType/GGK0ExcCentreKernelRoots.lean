@@ -34,11 +34,11 @@ theorem PA2a_vanishes_on_kernelRoots
       zero_mem' := rootChar_zero b
       add_mem' := by
         intro u v hu hv
-        simp only [Set.mem_setOf_eq] at hu hv ⊢
+        simp only [Set.mem_ofPred_eq] at hu hv ⊢
         rw [rootChar_add, hu, hv, one_mul]
       smul_mem' := by
         intro k v hv
-        simp only [Set.mem_setOf_eq] at hv ⊢
+        simp only [Set.mem_ofPred_eq] at hv ⊢
         rw [hzsmul, hv, one_zpow] }
   have hK : Submodule.span ℤ {v | ∃ i : Fin ρ.row.diagram.marks.length,
       ρ.row.s.getD i.val 0 = 0 ∧ v = ρ.nodeMap (Pi.single i 1)} ≤ K := by

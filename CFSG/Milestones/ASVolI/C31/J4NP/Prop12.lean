@@ -35,7 +35,7 @@ theorem burnsideJ4NP_CZ_max
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTL).toEquiv
   obtain ⟨S, hTS⟩ := hT2'.exists_le_sylow
   have hSle : Nat.card ↥(S : Subgroup ↥L) ≤ Nat.card ↥T := by
-    have h1 := hR.syl ((S : Subgroup ↥L).map L.subtype) (S.isPGroup'.map _)
+    have h1 := hR.syl ((S : Subgroup ↥L).map L.subtype) (S.isPGroup.map _)
       (Subgroup.map_subtype_le _)
     rw [Subgroup.card_map_of_injective L.subtype_injective] at h1
     exact h1
@@ -88,7 +88,7 @@ theorem burnsideJ4NP_exists_max {G : Type*} [Group G] [Finite G] {K P : Subgroup
   obtain ⟨S, hPS⟩ := (hP2.comap_subtype (K := K)).exists_le_sylow
   refine ⟨(S : Subgroup ↥K).map K.subtype, fun x hx => ⟨⟨x, hPK hx⟩, hPS
     (Subgroup.mem_comap.mpr hx), rfl⟩, Subgroup.map_subtype_le _,
-    S.isPGroup'.map _, fun Q hQK hQ2 hMQ => ?_⟩
+    S.isPGroup.map _, fun Q hQK hQ2 hMQ => ?_⟩
   have hQ2' : IsPGroup 2 ↥(Q.subgroupOf K) := hQ2.comap_subtype
   have hSQ : (S : Subgroup ↥K) ≤ Q.subgroupOf K := by
     intro s hs

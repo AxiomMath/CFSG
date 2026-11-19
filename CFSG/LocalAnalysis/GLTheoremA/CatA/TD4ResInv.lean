@@ -24,7 +24,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] (σ : K ≃+* K)
 private theorem threeRankLeOne_orbitRankOneGroup (hσ3 : σ ^ 3 = 1)
     (a : Fin TwistTag.D4.foldedTag.rank) :
     ThreeRankLeOne ↥(orbitRankOneGroup TwistTag.D4 K σ.toRingHom a) := by
-  haveI : CharP ↥(orbitField TwistTag.D4 K σ.toRingHom a) 2 := inferInstance
+  have : CharP ↥(orbitField TwistTag.D4 K σ.toRingHom a) 2 := inferInstance
   exact ThreeRankLeOne.of_mulEquiv
     ((MulEquiv.subgroupCongr (orbitRankOneHom_range (t := TwistTag.D4) (K := K)
       (σ := σ.toRingHom) a)).symm.trans
@@ -66,9 +66,9 @@ theorem threeRankLeOne_centralizer_of_orderOf_eq_two (hσ : ∀ c, σ (σ (σ c)
 
 theorem triD4InvCentRankOne_holds : TriD4InvCentRankOne := by
   intro n hn K _ _ hK σ hσ t ht E hE hc
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Nat.card K = 2 ^ (3 * n) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hK'
   have hσ3 : ∀ c, σ (σ (σ c)) = c := by

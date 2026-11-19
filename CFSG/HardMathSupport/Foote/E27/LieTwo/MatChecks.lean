@@ -11,7 +11,7 @@ open Matrix Subgroup CFSG.Sporadic.He.Native
 
 @[expose] def FpfM {d : ℕ} (M : M2 d) : Prop := ∀ v : Fin d → ZMod 2, M *ᵥ v = v → v = 0
 
-@[expose] instance {d : ℕ} (M : M2 d) : Decidable (FpfM M) := by
+instance {d : ℕ} (M : M2 d) : Decidable (FpfM M) := by
   unfold FpfM; infer_instance
 
 @[expose] def fpfB {d : ℕ} (M : M2 d) : Bool := decide (FpfM M)
@@ -135,7 +135,7 @@ theorem tab_pw (h : TabData g par L n m) {a : ℕ} (ha : a < n) {i : ℕ} (hi : 
     refine ⟨?_, ?_⟩
     · simpa [tabPw] using hl
     · simp only [tabPw]
-      simp only [show (2 : ℕ) ≠ 0 by norm_num, show (2 : ℕ) ≠ 1 by norm_num, if_false]
+      simp only [show (2 : ℕ) ≠ 0 by norm_num, show (2 : ℕ) ≠ 1 by norm_num, ite_false]
       rw [← e, pow_two]
 
 theorem centralT_hyps (mat : G →* M2 d) (T : RawTab)
@@ -213,8 +213,7 @@ theorem centralT_hyps (mat : G →* M2 d) (T : RawTab)
     have h2 := h1' β (List.mem_range.2 hβ)
     simp only [Bool.or_eq_true, beq_iff_eq, Bool.not_eq_true', hβ0, hβα, hβα2, hc4, hc5,
       List.any_eq_true, List.mem_range, Bool.and_eq_true, bne_iff_ne, ne_eq, false_or,
-      beq_self_eq_true, Bool.not_true, Bool.false_eq_true, or_false,
-      Bool.not_eq_true] at h2
+      beq_self_eq_true, Bool.not_true, Bool.false_eq_true, or_false] at h2
     obtain ⟨i, hi, j, hj, hγ0, hγf⟩ := h2
     obtain ⟨hli, ei⟩ := tab_pw hT hα hi
     obtain ⟨hlj, ej⟩ := tab_pw hT hβ hj
@@ -249,7 +248,7 @@ theorem cover_hyps (mat : G →* M2 d) (hinj : Function.Injective mat) (adm : AM
     (S B : RawTab) (wits : Array (AM × AM)) {gS gB : ℕ → G} {mS mB : ℕ}
     (hS : TabData gS S.par S.L S.elts.size mS)
     (heqS : ∀ i < S.elts.size, mat (tabElt gS S.par i) = toMat 2 d S.elts[i]!)
-    (hB : TabData gB B.par B.L B.elts.size mB)
+    (_hB : TabData gB B.par B.L B.elts.size mB)
     (heqB : ∀ i < B.elts.size, mat (tabElt gB B.par i) = toMat 2 d B.elts[i]!)
     (hc : coverOK d adm S B wits = true) {S₀ B₀ : Subgroup G}
     (hS₀ : ∀ x, x ∈ S₀ ↔ ∃ i < S.elts.size, tabElt gS S.par i = x)
@@ -264,8 +263,7 @@ theorem cover_hyps (mat : G →* M2 d) (hinj : Function.Injective mat) (adm : AM
   unfold coverOK at hc
   simp only [List.all_eq_true, List.mem_range] at hc
   have h1 := hc a ha
-  simp only [Bool.or_eq_true, beq_iff_eq, Bool.not_eq_true', hcube, ha0, List.any_eq_true,
-    Bool.and_eq_true, false_or, beq_self_eq_true, Bool.not_true, Bool.false_eq_true,
+  simp only [Bool.or_eq_true, beq_iff_eq, hcube, ha0, false_or, beq_self_eq_true, Bool.not_true, Bool.false_eq_true,
     or_false] at h1
   obtain ⟨w, -, hw⟩ := Array.any_eq_true'.mp h1
   simp only [Bool.and_eq_true, List.any_eq_true, List.mem_range] at hw
@@ -289,7 +287,7 @@ theorem cover_hyps3 (mat : G →* M2 d) (hinj : Function.Injective mat) (adm : A
     (S B : RawTab) (wits : Array (AM × AM × AM)) {gS gB : ℕ → G} {mS mB : ℕ}
     (hS : TabData gS S.par S.L S.elts.size mS)
     (heqS : ∀ i < S.elts.size, mat (tabElt gS S.par i) = toMat 2 d S.elts[i]!)
-    (hB : TabData gB B.par B.L B.elts.size mB)
+    (_hB : TabData gB B.par B.L B.elts.size mB)
     (heqB : ∀ i < B.elts.size, mat (tabElt gB B.par i) = toMat 2 d B.elts[i]!)
     (hc : coverOK3 d adm S B wits = true) {S₀ B₀ : Subgroup G}
     (hS₀ : ∀ x, x ∈ S₀ ↔ ∃ i < S.elts.size, tabElt gS S.par i = x)
@@ -304,8 +302,7 @@ theorem cover_hyps3 (mat : G →* M2 d) (hinj : Function.Injective mat) (adm : A
   unfold coverOK3 at hc
   simp only [List.all_eq_true, List.mem_range] at hc
   have h1 := hc a ha
-  simp only [Bool.or_eq_true, beq_iff_eq, Bool.not_eq_true', hcube, ha0, List.any_eq_true,
-    Bool.and_eq_true, false_or, beq_self_eq_true, Bool.not_true, Bool.false_eq_true,
+  simp only [Bool.or_eq_true, beq_iff_eq, hcube, ha0, false_or, beq_self_eq_true, Bool.not_true, Bool.false_eq_true,
     or_false] at h1
   obtain ⟨w, -, hw⟩ := Array.any_eq_true'.mp h1
   simp only [Bool.and_eq_true, List.any_eq_true, List.mem_range] at hw

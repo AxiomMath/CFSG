@@ -37,7 +37,7 @@ theorem exists_pow_commute_of_normal {p r : ℕ} [Fact p.Prime] [hr : Fact r.Pri
   have : M.Normal := hRn.comap π
   obtain ⟨P⟩ : Nonempty (Sylow r M) := inferInstance
   set Q := (P : Subgroup M).map M.subtype with hQ
-  have hQr : IsPGroup r Q := P.isPGroup'.map _
+  have hQr : IsPGroup r Q := P.isPGroup.map _
   have hπQ : Q.map π = R := by
     have hf : Function.Surjective (π.subgroupComap R) := π.subgroupComap_surjective R hπ
     let P' := P.mapSurjective hf

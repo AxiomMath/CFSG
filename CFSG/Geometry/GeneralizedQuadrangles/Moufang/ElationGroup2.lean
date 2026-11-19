@@ -18,7 +18,7 @@ theorem card_fixedPointFree {G X : Type*} [Group G] [MulAction G X] [Fintype G] 
     (hfix : ∀ g : G, g ≠ 1 → Nat.card (MulAction.fixedBy X g) ≤ 1) :
     Nat.card {g : G // g ≠ 1 ∧ ∀ x : X, g • x ≠ x} = Fintype.card X - 1 := by
   classical
-  haveI : MulAction.IsPretransitive G X := ⟨htrans⟩
+  have : MulAction.IsPretransitive G X := ⟨htrans⟩
   let f : G → ℕ := fun g => Nat.card (MulAction.fixedBy X g)
   have h1 : f 1 = Fintype.card X := by
     dsimp [f]
@@ -26,11 +26,11 @@ theorem card_fixedPointFree {G X : Type*} [Group G] [MulAction G X] [Fintype G] 
     simp [Nat.card_eq_fintype_card]
   have hburn : (∑ g : G, f g) = Fintype.card G := by
     have h := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group G X
-    haveI : Subsingleton (MulAction.orbitRel.Quotient G X) :=
+    have : Subsingleton (MulAction.orbitRel.Quotient G X) :=
       (MulAction.pretransitive_iff_subsingleton_quotient G X).mp inferInstance
-    haveI : Nonempty (MulAction.orbitRel.Quotient G X) :=
+    have : Nonempty (MulAction.orbitRel.Quotient G X) :=
       ⟨Quotient.mk'' (Classical.arbitrary X)⟩
-    haveI : Unique (MulAction.orbitRel.Quotient G X) :=
+    have : Unique (MulAction.orbitRel.Quotient G X) :=
       uniqueOfSubsingleton (Quotient.mk'' (Classical.arbitrary X))
     have hΩ : Fintype.card (MulAction.orbitRel.Quotient G X) = 1 :=
       Fintype.card_eq_one_iff_nonempty_unique.mpr ⟨inferInstance⟩
@@ -89,19 +89,20 @@ theorem card_fixedPointFree {G X : Type*} [Group G] [MulAction G X] [Fintype G] 
       refine ⟨hg1, ?_⟩
       intro x hx
       have hpos : 0 < f g := by
-        haveI : Finite (MulAction.fixedBy X g) := Subtype.finite
+        have : Finite (MulAction.fixedBy X g) := Subtype.finite
         rw [show f g = Nat.card (MulAction.fixedBy X g) from rfl, Finite.card_pos_iff]
         exact ⟨⟨x, hx⟩⟩
       omega
     · rintro ⟨hg1, hfree⟩
       refine ⟨⟨hg1, trivial⟩, ?_⟩
-      haveI : Finite (MulAction.fixedBy X g) := Subtype.finite
+      have : Finite (MulAction.fixedBy X g) := Subtype.finite
       rw [show f g = Nat.card (MulAction.fixedBy X g) from rfl, Finite.card_eq_zero_iff]
       exact ⟨fun x => hfree x x.2⟩
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   rw [← hS0eq]
   exact hS0card
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul H V] [GraphAction H Γ] in
 theorem rootGroup_le_whorlGroup_of_mem (v : ZMod 8 → V) {p : GPath Γ 4}
     (hp0 : v 0 ∈ ({p 1, p 2, p 3} : Set V)) :
     rootGroup H Γ (p 1) (p 2) (p 3) ≤ whorlGroup H Γ (v 0) := by
@@ -146,12 +147,12 @@ theorem rootGroup_le_elationGroup (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick
   classical
   let E := elationGroup H Γ v
   let Q := whorlGroup H Γ (v 0)
-  haveI : Fintype ↥E :=
+  have : Fintype ↥E :=
     Fintype.ofInjective (fun e : ↥E => fun y : V => (e : H) • y) (by
       intro e f hef
       apply Subtype.ext
       exact eq_of_smul_eq_smul (m₁ := (e : H)) (m₂ := (f : H)) (fun y => congrFun hef y))
-  haveI : Fintype ↥Q :=
+  have : Fintype ↥Q :=
     Fintype.ofInjective (fun q : ↥Q => fun y : V => (q : H) • y) (by
       intro q r hqr
       apply Subtype.ext
@@ -177,7 +178,7 @@ theorem rootGroup_le_elationGroup (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick
         have hd := GPath.dist_smul hP.connected (q : H) (v 0) y
         rw [hQfix q, hy] at hd
         exact hd }
-  haveI : Fintype O :=
+  have : Fintype O :=
     Fintype.ofInjective (fun y : O => (y : V)) (by
       intro a b h
       exact Subtype.ext h)
@@ -216,7 +217,7 @@ theorem rootGroup_le_elationGroup (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick
       eq_one_of_mem_whorlGroup_of_fix_two hP hT c hdeg hst hv0 hspan q.2
         (a : O).2 (b : O).2 hne' hqa hqb
     exact hqne (Subtype.ext hq1)
-  haveI : Nonempty O := ⟨⟨v 4, hv4⟩⟩
+  have : Nonempty O := ⟨⟨v 4, hv4⟩⟩
   have hF0card : Nat.card {q : ↥Q // q ≠ 1 ∧ ∀ x : O, q • x ≠ x} =
       Fintype.card O - 1 :=
     card_fixedPointFree htrans hfix

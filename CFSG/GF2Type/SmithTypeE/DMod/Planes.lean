@@ -24,7 +24,7 @@ theorem foldl_xor_testBit_split (f : ℕ → ℕ) (d e n : ℕ) :
     simp only [List.range_succ, List.foldl_append, List.foldl_cons, List.foldl_nil, ih]
     rw [Nat.testBit_xor]
     cases hd : d.testBit n <;> cases he : e.testBit n <;>
-      simp [Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm, Nat.xor_self]
+      simp [Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm]
 
 theorem xorComb_xor (B : Array ℕ) (d e : ℕ) : xorComb B (d ^^^ e) = xorComb B d ^^^ xorComb B e :=
   foldl_xor_testBit_split (fun m => B[m]!) d e 6
@@ -86,7 +86,7 @@ theorem dec12_foldl_mem_planeSpan_aux (B : Array ℕ) (d : ℕ) : ∀ n, n ≤ 6
   induction n with
   | zero =>
     intro _
-    simpa [dec12_zero] using (planeSpan B).zero_mem
+    simp [dec12_zero]
   | succ n ih =>
     intro hn
     have h0 := ih (by omega)

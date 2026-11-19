@@ -64,7 +64,7 @@ theorem s17_45_mBar_le_three (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D)
     (hTor : W3Lem148Torus G) (h1482 : W3Lem148_2 G) (h183 : W3Thm183 G)
     (h1214 : F12.R1214 D) (h869 : F08.R869 D) (hW4a : Inputs1719.W4Lem14_6aSmall)
     {V₀ V L X : Subgroup G} {p n l r : ℕ} {C Dc : Subgroup G} {Gamma : Set G} {x : G}
-    {A₀ A B : Subgroup G}
+    {_A₀ A B : Subgroup G}
     (ctx : Ctx17_42 D V₀ V L X p n l C Dc Gamma) (hV₀ : V₀ ≠ ⊥)
     (hxM : x ∈ D.M) (hXsup : X = L ⊔ conjSubgroup L x) (hXne : X ≠ L)
     (hc : F08.Case8100ThreeR D ![L, conjSubgroup L x] p X ∨

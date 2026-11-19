@@ -15,7 +15,7 @@ def a10Ord8 : Equiv.Perm (Fin 10) :=
 
 theorem a10Ord8_mem : a10Ord8 ∈ alternatingGroup (Fin 10) := by
   rw [Equiv.Perm.mem_alternatingGroup]
-  simp [a10Ord8, Equiv.Perm.sign_mul, Equiv.Perm.sign_swap]
+  simp [a10Ord8, Equiv.Perm.sign_mul]
 
 theorem a10Ord8_pow_eight : a10Ord8 ^ 8 = 1 := by decide +kernel
 

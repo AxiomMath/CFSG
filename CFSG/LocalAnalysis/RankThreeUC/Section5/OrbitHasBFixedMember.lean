@@ -20,7 +20,7 @@ theorem exists_member {p : ℕ} {P T B : Subgroup G} {e : ℕ}
       b ∈ Subgroup.normalizer ((D.map (MulAut.conj s).toMonoidHom : Subgroup G) : Set G) := by
   classical
   have hP := hc.faithfulBinaryIrreducibleAction.normal
-  letI : MulAction G (Delta p P ρ) :=
+  let : MulAction G (Delta p P ρ) :=
     MulAction.compHom _ (DeltaConjugationAction.act (p := p) hP ρ)
   have hsmul : ∀ (g : G) (i : Delta p P ρ), ((g • i : Delta p P ρ) : Subgroup G) =
       i.1.map (MulAut.conj g).toMonoidHom := fun g i => rfl
@@ -80,8 +80,8 @@ theorem exists_member {p : ℕ} {P T B : Subgroup G} {e : ℕ}
         have h2 : (h : G) • O = O := hHle h.2
         rw [← h2]
         exact Set.smul_mem_smul_set hx }
-  haveI : Nonempty X := ⟨⟨i, 1, S.one_mem, by simp⟩⟩
-  haveI hN : (S.subgroupOf H).Normal := by
+  have : Nonempty X := ⟨⟨i, 1, S.one_mem, by simp⟩⟩
+  have hN : (S.subgroupOf H).Normal := by
     have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hBnorm
     exact this
   have hS' : IsPGroup 2 (S.subgroupOf H) := hS2.comap_subtype

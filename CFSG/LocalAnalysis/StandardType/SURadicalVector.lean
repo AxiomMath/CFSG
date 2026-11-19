@@ -59,7 +59,7 @@ private theorem radCol_mul_apply {x y : SU σ (k + 2)} (hx : x ∈ suRad σ k)
   rw [radCol_apply, radCol_apply]
   have hy0 : mat σ (k + 2) y 0 0 = 1 := by
     have h := row_zero_mem_suRad hy 0
-    rwa [if_pos rfl] at h
+    rwa [ite_eq_left rfl] at h
   have hxl : mat σ (k + 2) x (mid j) (Fin.last (k + 1)) = 0 := by
     rw [col_last_mem_suRad hx, ite_eq_right (mid_ne_last j)]
   have hmid : ∀ i : Fin k, mat σ (k + 2) x (mid j) (mid i) = if j = i then 1 else 0 :=
@@ -74,7 +74,7 @@ private theorem radCol_mul_apply {x y : SU σ (k + 2)} (hx : x ∈ suRad σ k)
   rw [Finset.sum_congr rfl (fun i _ => hsum i), Finset.sum_eq_single j]
   · simp
   · intro i _ hji
-    rw [if_neg (Ne.symm hji)]
+    rw [ite_eq_right (Ne.symm hji)]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
@@ -96,9 +96,9 @@ private theorem mat_last_mid_apply (_hσ : ∀ c, σ (σ c) = c) {x : SU σ (k +
   simp only [fin_succ_castSucc_mid, fin_succ_last_last] at hxx
   have h00 : mat σ (k + 2) x 0 0 = 1 := by
     have h := row_zero_mem_suRad hx 0
-    rwa [if_pos rfl] at h
+    rwa [ite_eq_left rfl] at h
   have hrow : mat σ (k + 2) x 0 (mid j) = 0 := by
-    rw [row_zero_mem_suRad hx, if_neg (mid_ne_zero j)]
+    rw [row_zero_mem_suRad hx, ite_eq_right (mid_ne_zero j)]
   have hsum : (∑ i : Fin k, σ (mat σ (k + 2) x (mid i) 0) *
       mat σ (k + 2) x (mid i).rev (mid j)) = σ (radCol x (Fin.rev j)) := by
     have hterm : ∀ i : Fin k, σ (mat σ (k + 2) x (mid i) 0) *
@@ -108,18 +108,18 @@ private theorem mat_last_mid_apply (_hσ : ∀ c, σ (σ c) = c) {x : SU σ (k +
       rw [rev_mid i, radCol_apply, mid_mid_mem_suRad hx (Fin.rev i) j]
       by_cases hi : i = Fin.rev j
       · subst hi
-        rw [Fin.rev_rev, if_pos rfl, if_pos rfl, mul_one]
-      · rw [if_neg hi, if_neg]
+        rw [Fin.rev_rev, ite_eq_left rfl, ite_eq_left rfl, mul_one]
+      · rw [ite_eq_right hi, ite_eq_right]
         · exact mul_zero _
         · intro h2
           exact hi (by rw [← h2, Fin.rev_rev])
     rw [Finset.sum_congr rfl (fun i _ => hterm i), Finset.sum_eq_single (Fin.rev j)]
     · simp
     · intro i _ hi
-      rw [if_neg hi]
+      rw [ite_eq_right hi]
     · intro hi
       exact absurd (Finset.mem_univ (Fin.rev j)) hi
-  rw [Fin.rev_zero, Fin.rev_last, if_neg (mid_ne_last j), h00, hrow, map_one,
+  rw [Fin.rev_zero, Fin.rev_last, ite_eq_right (mid_ne_last j), h00, hrow, map_one,
     one_mul, mul_zero, add_zero, hsum] at hxx
   have h := congrArg (fun z => z + σ (radCol x (Fin.rev j))) hxx
   simpa [add_assoc, CharTwo.add_self_eq_zero] using h
@@ -138,7 +138,7 @@ private theorem mat_mul_last_zero (hσ : ∀ c, σ (σ c) = c) {x y : SU σ (k +
   simp only [fin_succ_castSucc_mid, fin_succ_last_last]
   have hy0 : mat σ (k + 2) y 0 0 = 1 := by
     have h := row_zero_mem_suRad hy 0
-    rwa [if_pos rfl] at h
+    rwa [ite_eq_left rfl] at h
   have hxl : mat σ (k + 2) x (Fin.last (k + 1)) (Fin.last (k + 1)) = 1 :=
     (mem_suRad.mp hx).2.1
   have hsum : (∑ i : Fin k, mat σ (k + 2) x (Fin.last (k + 1)) (mid i) *
@@ -181,7 +181,7 @@ private theorem mat_conj_iotaHom_apply (x : SU σ (k + 2)) (B : SU σ k) (j : Fi
     rw [Matrix.mul_apply, Finset.sum_eq_single 0]
     · rw [hQ0 0, Matrix.one_apply_eq, mul_one]
     · intro b _ hb
-      rw [hQ0 b, Matrix.one_apply, if_neg hb, mul_zero]
+      rw [hQ0 b, Matrix.one_apply, ite_eq_right hb, mul_zero]
     · intro h
       exact absurd (Finset.mem_univ 0) h
   have hPm : ∀ j' : Fin k,
@@ -222,12 +222,12 @@ private theorem mat_apply_mid_of_radCol_eq_zero {x : SU σ (k + 2)} (hx : x ∈ 
   · obtain ⟨i', rfl⟩ := hb
     by_cases hii : i = i'
     · subst hii
-      rw [mid_mid_mem_suRad hx i i, if_pos rfl]
+      rw [mid_mid_mem_suRad hx i i, ite_eq_left rfl]
       change (1 : F) = (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) F) (mid i) (mid i) +
         single (Fin.last (k + 1)) (0 : Fin (k + 2))
           (mat σ (k + 2) x (Fin.last (k + 1)) 0) (mid i) (mid i)
       rw [Matrix.one_apply_eq, Matrix.single_apply_of_row_ne (mid_ne_last i).symm, add_zero]
-    · rw [mid_mid_mem_suRad hx i i', if_neg hii]
+    · rw [mid_mid_mem_suRad hx i i', ite_eq_right hii]
       change (0 : F) = (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) F) (mid i) (mid i') +
         single (Fin.last (k + 1)) (0 : Fin (k + 2))
           (mat σ (k + 2) x (Fin.last (k + 1)) 0) (mid i) (mid i')
@@ -240,7 +240,7 @@ private theorem mat_apply_mid_of_radCol_eq_zero {x : SU σ (k + 2)} (hx : x ∈ 
           (mat σ (k + 2) x (Fin.last (k + 1)) 0) (mid i) 0
       rw [Matrix.one_apply_ne (mid_ne_zero i),
         Matrix.single_apply_of_row_ne (mid_ne_last i).symm, zero_add]
-    · rw [col_last_mem_suRad hx, if_neg (mid_ne_last i)]
+    · rw [col_last_mem_suRad hx, ite_eq_right (mid_ne_last i)]
       change (0 : F) = (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) F) (mid i) (Fin.last (k + 1)) +
         single (Fin.last (k + 1)) (0 : Fin (k + 2))
           (mat σ (k + 2) x (Fin.last (k + 1)) 0) (mid i) (Fin.last (k + 1))
@@ -254,19 +254,19 @@ private theorem mat_apply_zero_of_radCol_eq_zero {x : SU σ (k + 2)} (hx : x ∈
   have hlast0 : (Fin.last (k + 1) : Fin (k + 2)) ≠ 0 := by simp
   by_cases hb : b ∈ Set.range (mid (m := k))
   · obtain ⟨j, rfl⟩ := hb
-    rw [row_zero_mem_suRad hx, if_neg (mid_ne_zero j)]
+    rw [row_zero_mem_suRad hx, ite_eq_right (mid_ne_zero j)]
     change (0 : F) = (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) F) 0 (mid j) +
       single (Fin.last (k + 1)) (0 : Fin (k + 2))
         (mat σ (k + 2) x (Fin.last (k + 1)) 0) 0 (mid j)
     rw [Matrix.one_apply_ne (Ne.symm (mid_ne_zero j)),
       Matrix.single_apply_of_row_ne hlast0, zero_add]
   · rcases eq_zero_or_eq_last_of_not_mem hb with rfl | rfl
-    · rw [row_zero_mem_suRad hx, if_pos rfl]
+    · rw [row_zero_mem_suRad hx, ite_eq_left rfl]
       change (1 : F) = (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) F) 0 0 +
         single (Fin.last (k + 1)) (0 : Fin (k + 2))
           (mat σ (k + 2) x (Fin.last (k + 1)) 0) 0 0
       rw [Matrix.one_apply_eq, Matrix.single_apply_of_row_ne hlast0, add_zero]
-    · rw [row_zero_mem_suRad hx, if_neg hlast0]
+    · rw [row_zero_mem_suRad hx, ite_eq_right hlast0]
       change (0 : F) = (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) F) 0 (Fin.last (k + 1)) +
         single (Fin.last (k + 1)) (0 : Fin (k + 2))
           (mat σ (k + 2) x (Fin.last (k + 1)) 0) 0 (Fin.last (k + 1))
@@ -286,7 +286,7 @@ private theorem mat_apply_last_of_radCol_eq_zero (hσ : ∀ c, σ (σ c) = c) {x
       single (Fin.last (k + 1)) (0 : Fin (k + 2))
         (mat σ (k + 2) x (Fin.last (k + 1)) 0) (Fin.last (k + 1)) (mid j)
     rw [Matrix.one_apply_ne (Ne.symm (mid_ne_last j)), Matrix.single_apply,
-      if_neg (by rintro ⟨-, h⟩; exact (mid_ne_zero j).symm h), zero_add]
+      ite_eq_right (by rintro ⟨-, h⟩; exact (mid_ne_zero j).symm h), zero_add]
   · rcases eq_zero_or_eq_last_of_not_mem hb with rfl | rfl
     · change (mat σ (k + 2) x (Fin.last (k + 1)) 0 : F) =
         (1 : Matrix (Fin (k + 2)) (Fin (k + 2)) F) (Fin.last (k + 1)) 0 +
@@ -299,7 +299,7 @@ private theorem mat_apply_last_of_radCol_eq_zero (hσ : ∀ c, σ (σ c) = c) {x
         single (Fin.last (k + 1)) (0 : Fin (k + 2))
           (mat σ (k + 2) x (Fin.last (k + 1)) 0) (Fin.last (k + 1)) (Fin.last (k + 1))
       rw [Matrix.one_apply_eq, Matrix.single_apply,
-        if_neg (by rintro ⟨-, h⟩; exact hlast0.symm h), add_zero]
+        ite_eq_right (by rintro ⟨-, h⟩; exact hlast0.symm h), add_zero]
 
 theorem mat_of_radCol_eq_zero (hσ : ∀ c, σ (σ c) = c) {x : SU σ (k + 2)} (hx : x ∈ suRad σ k)
     (h0 : radCol x = 0) :
@@ -337,11 +337,11 @@ private theorem single_commute_iotaMat (c : F) (B : SU σ k) :
         hcol (Fin.last (k + 1)), Matrix.one_apply_eq, Matrix.one_apply_eq]
       ring
     · rw [Matrix.single_mul_apply_same, Matrix.mul_single_apply_of_ne _ _ _ _ _ hb,
-        hrow b, Matrix.one_apply, if_neg (Ne.symm hb), mul_zero]
+        hrow b, Matrix.one_apply, ite_eq_right (Ne.symm hb), mul_zero]
   · by_cases hb : b = 0
     · subst hb
       rw [Matrix.single_mul_apply_of_ne _ _ _ _ _ ha, Matrix.mul_single_apply_same, hcol a,
-        Matrix.one_apply, if_neg ha, zero_mul]
+        Matrix.one_apply, ite_eq_right ha, zero_mul]
     · rw [Matrix.single_mul_apply_of_ne _ _ _ _ _ ha,
         Matrix.mul_single_apply_of_ne _ _ _ _ _ hb]
 
@@ -405,9 +405,9 @@ private theorem conjTr_antidiag (n : ℕ) :
   simp only [conjTr, transpose_apply, Matrix.map_apply, antidiag, of_apply]
   by_cases h : i = Fin.rev j
   · have h' : j = Fin.rev i := by rw [h, Fin.rev_rev]
-    rw [if_pos h, if_pos h', map_one]
+    rw [ite_eq_left h, ite_eq_left h', map_one]
   · have h' : j ≠ Fin.rev i := fun hh => h (by rw [hh, Fin.rev_rev])
-    rw [if_neg h, if_neg h', map_zero]
+    rw [ite_eq_right h, ite_eq_right h', map_zero]
 
 private theorem det_antidiag_eq_one (n : ℕ) :
     (antidiag n : Matrix (Fin n) (Fin n) F).det = 1 := by
@@ -459,7 +459,7 @@ private theorem eMat_rev_zero_rev {y : Fin (k + 2) → F} (hy : y (Fin.last (k +
     simp
   · have h : Fin.last (k + 1) ≠ Fin.rev b := fun hh =>
       hb (by rw [← Fin.rev_rev b, ← hh, Fin.rev_last])
-    rw [if_neg h, if_neg (Ne.symm hb)]
+    rw [ite_eq_right h, ite_eq_right (Ne.symm hb)]
 
 omit [CharP F 2] in
 private theorem eMat_rev_last {y : Fin (k + 2) → F} (hy : y (Fin.last (k + 1)) = 0)
@@ -476,7 +476,7 @@ private theorem eMat_rev_last {y : Fin (k + 2) → F} (hy : y (Fin.last (k + 1))
     simp
   · have h : Fin.rev a ≠ 0 := fun hh =>
       ha (by rw [← Fin.rev_rev a, hh, Fin.rev_zero])
-    rw [if_neg h, if_neg ha, mul_zero, add_zero]
+    rw [ite_eq_right h, ite_eq_right ha, mul_zero, add_zero]
 
 omit [CharP F 2] in
 private theorem commute_ggInvUMatrix_of_row_col {A : Matrix (Fin (k + 2)) (Fin (k + 2)) F}

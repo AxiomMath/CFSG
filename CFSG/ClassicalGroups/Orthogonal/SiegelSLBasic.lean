@@ -285,7 +285,7 @@ theorem SLSetting.isSiegelGroup_axis (hs : SLSetting Qf ρ) (α : Fin m → K) :
   · rintro _ ⟨x, hx, rfl⟩ hρx
     exact hs.isLongRootElement_of_mem_axis hx fun h => hρx (by rw [h, map_one])
 
-omit [FiniteDimensional K V] in
+omit [FiniteDimensional K V] [CharP K 2] in
 theorem SLSetting.injOn_center (hs : SLSetting Qf ρ) (c : Fin m → K) :
     ∀ x ∈ tvCenterSL c, ∀ y ∈ tvCenterSL c, ρ x = ρ y → x = y := by
   intro x hx y hy hxy
@@ -295,7 +295,7 @@ theorem SLSetting.injOn_center (hs : SLSetting Qf ρ) (c : Fin m → K) :
   rw [map_mul, map_inv, hxy, mul_inv_cancel] at hz
   exact not_isLongRootElement_one hs.nondeg hz
 
-omit [FiniteDimensional K V] in
+omit [FiniteDimensional K V] [CharP K 2] in
 theorem SLSetting.injOn_axis (hs : SLSetting Qf ρ) (α : Fin m → K) :
     ∀ x ∈ tvAxisSL α, ∀ y ∈ tvAxisSL α, ρ x = ρ y → x = y := by
   intro x hx y hy hxy
@@ -305,12 +305,12 @@ theorem SLSetting.injOn_axis (hs : SLSetting Qf ρ) (α : Fin m → K) :
   rw [map_mul, map_inv, hxy, mul_inv_cancel] at hz
   exact not_isLongRootElement_one hs.nondeg hz
 
-omit [FiniteDimensional K V] in
+omit [FiniteDimensional K V] [CharP K 2] in
 theorem SLSetting.card_map_center [Finite K] (hs : SLSetting Qf ρ) {c : Fin m → K}
     (hc : c ≠ 0) : Nat.card ((tvCenterSL c).map ρ) = Nat.card K ^ (m - 1) := by
   rw [card_map_of_injOn ρ (hs.injOn_center c), card_tvCenterSL hc]
 
-omit [FiniteDimensional K V] in
+omit [FiniteDimensional K V] [CharP K 2] in
 theorem SLSetting.card_map_axis [Finite K] (hs : SLSetting Qf ρ) {α : Fin m → K}
     (hα : α ≠ 0) : Nat.card ((tvAxisSL α).map ρ) = Nat.card K ^ (m - 1) := by
   rw [card_map_of_injOn ρ (hs.injOn_axis α), card_tvAxisSL hα]
@@ -327,21 +327,21 @@ theorem map_center_smul (ρ : SL(m, K) →* (V ≃ₗ[K] V)) {c : Fin m → K} {
     (tvCenterSL (μ • c)).map ρ = (tvCenterSL c).map ρ := by
   rw [tvCenterSL_smul hμ]
 
-omit [FiniteDimensional K V] in
+omit [FiniteDimensional K V] [CharP K 2] in
 theorem axisInf_map_center_mulVec (ρ : SL(m, K) →* (V ≃ₗ[K] V)) (g : SL(m, K))
     (c : Fin m → K) :
     axisInf ((tvCenterSL ((g : Matrix (Fin m) (Fin m) K) *ᵥ c)).map ρ) =
       (axisInf ((tvCenterSL c).map ρ)).map ((ρ g : V ≃ₗ[K] V) : V →ₗ[K] V) := by
   rw [map_center_mulVec, axisInf_conjSubgroup]
 
-omit [FiniteDimensional K V] in
+omit [FiniteDimensional K V] [CharP K 2] in
 theorem commutatorSpace_map_center_mulVec (ρ : SL(m, K) →* (V ≃ₗ[K] V)) (g : SL(m, K))
     (c : Fin m → K) :
     commutatorSpace ((tvCenterSL ((g : Matrix (Fin m) (Fin m) K) *ᵥ c)).map ρ) =
       (commutatorSpace ((tvCenterSL c).map ρ)).map ((ρ g : V ≃ₗ[K] V) : V →ₗ[K] V) := by
   rw [map_center_mulVec, commutatorSpace_conjSubgroup]
 
-omit [FiniteDimensional K V] in
+omit [FiniteDimensional K V] [CharP K 2] in
 theorem isStar_map_center_mulVec_iff (ρ : SL(m, K) →* (V ≃ₗ[K] V)) (g : SL(m, K))
     (c : Fin m → K) :
     IsStar ((tvCenterSL ((g : Matrix (Fin m) (Fin m) K) *ᵥ c)).map ρ) ↔
@@ -350,7 +350,7 @@ theorem isStar_map_center_mulVec_iff (ρ : SL(m, K) →* (V ≃ₗ[K] V)) (g : S
   unfold IsStar
   rw [axes_conjSubgroup, exists_le_map_iff]
 
-omit [FiniteDimensional K V] in
+omit [FiniteDimensional K V] [CharP K 2] in
 theorem isStar_map_center_iff (ρ : SL(m, K) →* (V ≃ₗ[K] V)) (hm : 2 ≤ m) {c d : Fin m → K}
     (hc : c ≠ 0) (hd : d ≠ 0) :
     IsStar ((tvCenterSL c).map ρ) ↔ IsStar ((tvCenterSL d).map ρ) := by

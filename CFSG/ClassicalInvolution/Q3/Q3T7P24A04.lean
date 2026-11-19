@@ -223,12 +223,12 @@ theorem exists_g0 [IsSimpleGroup G] {K K' W : Subgroup G} {S : Sylow 2 G} {R R' 
     hd.hR'.2.2 hz'
   have hbR : b ∈ R := by
     have : K ⊓ (S : Subgroup G) = R :=
-      hRsyl.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hd.hR.2.1 hd.hR.2.2)
+      hRsyl.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hd.hR.2.1 hd.hR.2.2)
     rw [← this]
     exact ⟨hbKW.1, hd.hWS hbKW.2⟩
   have hb'R' : b' ∈ R' := by
     have : K' ⊓ (S : Subgroup G) = R' :=
-      hR'syl.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hd.hR'.2.1 hd.hR'.2.2)
+      hR'syl.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hd.hR'.2.1 hd.hR'.2.2)
     rw [← this]
     exact ⟨hb'KW.1, hd.hWS hb'KW.2⟩
   obtain ⟨huK, huW, hu2, hu1, huz⟩ := hd.hu
@@ -430,7 +430,7 @@ theorem genLE_four_of_le_MGrp [IsSimpleGroup G] {K K' W : Subgroup G} {S : Sylow
     have h3 : ((ι x : ↥(Subgroup.normalizer (W : Set G))) : G) ∈ W ⊔ OCW W :=
       (Thompson.piN_eq_one_iff W (ι x)).mp h2
     rw [Subgroup.mem_subgroupOf]
-    exact Thompson.inf_sup_OCW_le (Thompson.isPGroup_of_mem_WSet hW) S.isPGroup' ⟨x.2, h3⟩
+    exact Thompson.inf_sup_OCW_le (Thompson.isPGroup_of_mem_WSet hW) S.isPGroup ⟨x.2, h3⟩
   have hA : ∀ B : Subgroup ↥(S : Subgroup G), B ≤ W.subgroupOf (S : Subgroup G) →
       GenLE B 2 := by
     intro B hB
@@ -438,7 +438,7 @@ theorem genLE_four_of_le_MGrp [IsSimpleGroup G] {K K' W : Subgroup G} {S : Sylow
     refine genLE_two_of_closure_pair ha hb (hWab a ha b hb) hgen ?_
     rintro y ⟨x, hx, rfl⟩
     exact Subgroup.mem_subgroupOf.mp (hB hx)
-  have h4 := genLE_four_of_ker S.isPGroup' φ (W.subgroupOf (S : Subgroup G)) hA hker
+  have h4 := genLE_four_of_ker S.isPGroup φ (W.subgroupOf (S : Subgroup G)) hA hker
     (H.subgroupOf (S : Subgroup G))
   exact GenLE.of_subgroupOf hH h4
 

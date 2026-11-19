@@ -216,7 +216,7 @@ theorem isSylowTwoOf_Tstar : IsSylowTwoOf (Tstar T H) ⊤ := by
   have hP' : (P' : Subgroup (Hstar H)) = Tstar T H := by
     rw [Sylow.coe_mapSurjective, hPT]
     rfl
-  refine ⟨le_top, hP' ▸ P'.isPGroup', ?_⟩
+  refine ⟨le_top, hP' ▸ P'.isPGroup, ?_⟩
   have : (Tstar T H).subgroupOf ⊤ = (Tstar T H).comap (⊤ : Subgroup (Hstar H)).subtype := rfl
   rw [this, Subgroup.index_comap_of_surjective _ (fun y => ⟨⟨y, trivial⟩, rfl⟩), ← hP']
   exact P'.not_dvd_index

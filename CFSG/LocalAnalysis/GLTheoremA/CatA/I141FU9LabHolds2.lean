@@ -160,13 +160,13 @@ theorem u9_gf8_component {Γ : Type} [Group Γ] [Finite Γ] {K J : Subgroup Γ} 
         ((chevTransfer 3 K J).map e.toMonoidHom) ∧
       CFSG.Open.IsComponentOf ((chevTransfer 3 K J).map e.toMonoidHom)
         (fixSubgroup (MulAut.congr e (chevAut 3 K ⟨x, hxN⟩))) := by
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
   have hxp : IsPGroup 3 (Subgroup.zpowers x) := isPGroup_zpowers_of_pow_eq_one hx
   have hJp : GLAPComponent 3 (fixSubgroup (chevAut 3 K ⟨x, hxN⟩)) (chevTransfer 3 K J) :=
     glaPComponent_chevTransfer Nat.prime_three hxN hxp hJ
   obtain ⟨hJp', -⟩ := chevQ_transport Nat.prime_three e hJp
   refine ⟨hJp', ?_⟩
-  haveI : IsSimpleGroup (PSimple 3 K) := hq.2
+  have : IsSimpleGroup (PSimple 3 K) := hq.2
   have hsimple' : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := e.symm.isSimpleGroup
   have hnc' : ∃ a b : (TauCeti.CFSGIndex.lie d).Group, a * b ≠ b * a := by
     obtain ⟨u, v, huv⟩ := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian
@@ -211,7 +211,7 @@ theorem u9Gf8Absurd_holds : U9Gf8Absurd := by
     rw [← map_mul, ← map_mul]
     congr 1
     exact Subtype.ext (Commute.inv_right (show Commute x a from hxa)).eq
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ eS.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ eS.toEquiv
   have hβmem := (mem_innAutDerived_congr eS).2 hβ₀D
   have hymem := (mem_innAutDerived_congr eS).2 hγ₀D
   have hβ3 : MulAut.congr eS (chevAut 3 K ⟨x, hxN⟩) ^ 3 = 1 := by

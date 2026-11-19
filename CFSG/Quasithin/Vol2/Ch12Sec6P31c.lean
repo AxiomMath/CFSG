@@ -45,7 +45,7 @@ theorem isSylowTwoOf_star {T : Subgroup G} (hT : QuasithinUnique.IsSylowTwoOf T 
     (hT.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hT.1).symm).toSylow hT.2.2
   let T'' : Sylow 2 (HStar H) := T'.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥H))
   have he : (T'' : Subgroup (HStar H)) = star H T := rfl
-  refine ⟨le_top, he ▸ T''.isPGroup', ?_⟩
+  refine ⟨le_top, he ▸ T''.isPGroup, ?_⟩
   show ¬ 2 ∣ (star H T).relIndex ⊤
   rw [Subgroup.relIndex_top_right, ← he]
   exact T''.not_dvd_index

@@ -61,7 +61,7 @@ theorem ggExcAdjCoreNonToralSylowRestInput_iff_layerCentre {τ : Tag}
     obtain ⟨β, T, hT⟩ := h K p hp hp2 hpK A hA hAc hnT hnH
     exact LayerCores.layerCentre_of_isSubCoreFamily hT z hz hzc hz2
   · intro h K _ _ _ p hp hp2 hpK A hA hAc hnT hnH
-    haveI := finite_adjointGroup_aux τ K
+    have := finite_adjointGroup_aux τ K
     obtain ⟨hS, hnc⟩ := LayerCores.adjointGroup_isSimple_nonabelian hτ K
     have hE := LayerCores.centFix_map_conj A
     have key := (LayerCores.exists_subCoreFamily_iff_layerCentre hS hnc
@@ -78,7 +78,7 @@ theorem ggE6InndiagCoreNonToralSylowRestInput_iff_layerCentre :
     obtain ⟨β, T, hT⟩ := h K p hp hp2 hpK A hA hAc hAD hnT hnH
     exact LayerCores.layerCentre_of_isSubCoreFamily hT z hz hzc hz2
   · intro h K _ _ _ p hp hp2 hpK A hA hAc hAD hnT hnH
-    haveI := finite_adjointGroup_aux .E6 K
+    have := finite_adjointGroup_aux .E6 K
     obtain ⟨hS, hnc⟩ := LayerCores.adjointGroup_isSimple_nonabelian (Or.inr (Or.inl rfl)) K
     have hEq : LayerSixE.autFix A = I142.centFix A :=
       Subgroup.ext fun x => LayerSixE.mem_autFix.trans I142.mem_centFix.symm

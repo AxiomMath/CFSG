@@ -25,26 +25,26 @@ private theorem map_add_smul_ends (x y : F) :
   funext i
   by_cases h0 : i = 0
   · subst h0
-    simp [Pi.single_apply]
+    simp
   · by_cases hL : i = Fin.last (m + 1)
     · subst hL
-      simp [Pi.single_apply, h0]
-    · simp [Pi.single_apply, h0, hL]
+      simp [h0]
+    · simp [h0, hL]
 
 private theorem map_smul_single {j : Fin (m + 2)} (x : F) :
     (fun i => σ ((x • Pi.single j 1 : Fin (m + 2) → F) i)) = σ x • Pi.single j 1 := by
   funext i
   by_cases h : i = j
   · subst h
-    simp [Pi.single_apply]
-  · simp [Pi.single_apply, h]
+    simp
+  · simp [h]
 
 private theorem map_single_one (j : Fin (m + 2)) :
     (fun i => σ ((Pi.single j 1 : Fin (m + 2) → F) i)) = Pi.single j 1 := by
   funext i
   by_cases h : i = j
   · subst h; simp
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 theorem map_suMat_eq_of_mem_lineSL {s : SU σ (m + 2)}
     (hs : s ∈ lineSL σ (Pi.single 0 1) (Pi.single (Fin.last (m + 1)) 1)) :
@@ -70,7 +70,7 @@ theorem map_suMat_eq_of_mem_lineSL {s : SU σ (m + 2)}
     · have hmem : (Pi.single j 1 : Fin (m + 2) → F) ∈
           perpPair σ (Pi.single 0 1) (Pi.single (Fin.last (m + 1)) 1) := by
         rw [mem_perpPair, uForm_single_left, uForm_single_left, Fin.rev_zero, Fin.rev_last]
-        exact ⟨by simp [Pi.single_apply, hjL], by simp [Pi.single_apply, hj0]⟩
+        exact ⟨by simp [hjL], by simp [hj0]⟩
       rw [hP _ hmem]
       exact congrFun (map_single_one (σ := σ) (m := m) j) i
 
@@ -89,7 +89,7 @@ private theorem uForm_single_one_add_smul_single_two [CharP F 2] {s : F} (hs : �
     uForm σ (Pi.single (1 : Fin 4) 1 + s • Pi.single (2 : Fin 4) 1 : Fin 4 → F)
       (Pi.single (1 : Fin 4) 1 + s • Pi.single (2 : Fin 4) 1) = 0 := by
   rw [uForm_eq, Fin.sum_univ_four]
-  simp [Fin.rev_zero, Fin.rev_last, hs, CharTwo.add_self_eq_zero]
+  simp [Fin.rev_zero, hs, CharTwo.add_self_eq_zero]
 
 private theorem mem_perpPair_single_add_smul_single {s : F} :
     (Pi.single (1 : Fin 4) 1 + s • Pi.single (2 : Fin 4) 1 : Fin 4 → F) ∈
@@ -101,7 +101,7 @@ private theorem mem_perpPair_single_four {j : Fin 4} (h0 : j ≠ 0) (h3 : j ≠ 
     (Pi.single j 1 : Fin 4 → F) ∈
       perpPair σ (Pi.single (0 : Fin 4) 1) (Pi.single (3 : Fin 4) 1) := by
   rw [mem_perpPair, uForm_single_left, uForm_single_left]
-  constructor <;> simp [Pi.single_apply, h0, h3]
+  constructor <;> simp [h0, h3]
 
 theorem fixed_of_isotropic_eigen_four [CharP F 2]
     (M : Matrix (Fin 4) (Fin 4) F) (hMinj : ∀ v, M *ᵥ v = 0 → v = 0) (φ : F ≃+* F)
@@ -199,7 +199,7 @@ private theorem eq_smul_ends_of_isometry_four {B : Matrix (Fin 4) (Fin 4) F}
         · exact Or.inr rfl
         · exact absurd rfl hi3
       rw [coord_eq_zero_of_isometry_four hiso h1 h2 hj hk]
-      simp [Pi.single_apply, hi0, hi3]
+      simp [hi0, hi3]
 
 private theorem coeff_relations_of_isometry_four [CharP F 2]
     {B : Matrix (Fin 4) (Fin 4) F}
@@ -281,7 +281,7 @@ private theorem commute_coeff_four [CharP F 2]
   · have h := congrFun h0 (3 : Fin 4)
     simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same,
       Pi.single_eq_of_ne (by decide : (3 : Fin 4) ≠ 0), smul_eq_mul, mul_one, mul_zero,
-      add_zero, zero_add] at h
+      zero_add] at h
     rw [hrp, mul_comm p β] at h
     rw [add_comm (β * p) (r * δ)] at h
     have h2 : α * r = r * δ := add_right_cancel h
@@ -292,7 +292,7 @@ private theorem commute_coeff_four [CharP F 2]
   · have h := congrFun h3 (0 : Fin 4)
     simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same,
       Pi.single_eq_of_ne (by decide : (0 : Fin 4) ≠ 3), smul_eq_mul, mul_one, mul_zero,
-      add_zero, zero_add] at h
+      add_zero] at h
     rw [hrp, mul_comm p γ] at h
     rw [add_comm (p' * α) (γ * p)] at h
     have h2 : δ * p' = p' * α := add_left_cancel h
@@ -383,7 +383,7 @@ private theorem exists_normalized_isometry_four [CharP F 2] {K : Type*} [Group K
     exact h
   have hl0 : l ≠ 0 := by
     intro hl
-    have h : (0 : F) = 1 := by simpa [hl] using hll
+    have h : (0 : F) = 1 := by simp [hl] at hll
     exact zero_ne_one h
   have hAσ1 : (A : Matrix (Fin 4) (Fin 4) F).map σ *ᵥ Pi.single (1 : Fin 4) 1 =
       σ l • Pi.single (1 : Fin 4) 1 := by
@@ -417,8 +417,7 @@ private theorem exists_normalized_isometry_four [CharP F 2] {K : Type*} [Group K
   · rw [hconjTr_smul, Matrix.smul_mul, Matrix.smul_mul, Matrix.mul_smul, hL.isometry,
       smul_smul, hσlinv, one_smul]
   · rw [hmapBm, Matrix.smul_mul, Matrix.mul_smul, hcc]
-    simpa only [smul_smul, smul_eq_mul, mul_comm l⁻¹ (σ l⁻¹), hσlinv, hccval, hll, one_mul,
-      mul_one, one_smul]
+    simp only [smul_smul, mul_comm l⁻¹ (σ l⁻¹), hσlinv, hccval, hll, one_smul]
   · rw [Matrix.smul_mulVec, h1, smul_smul, inv_mul_cancel₀ hl0, one_smul]
   · rw [Matrix.smul_mulVec, h2, smul_smul, inv_mul_cancel₀ hl0, one_smul]
   · rw [smul_smul, mul_inv_cancel₀ hl0, one_smul]

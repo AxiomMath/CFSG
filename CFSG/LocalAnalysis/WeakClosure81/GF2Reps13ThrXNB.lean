@@ -32,8 +32,8 @@ variable {A Q O : Subgroup (MulAut W)} {t : MulAut W}
 
 private theorem w16n_odd_card_of_isElemAbelian {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {X : Subgroup (MulAut W)} (hX : IsElemAbelian p X) : Odd (Nat.card X) := by
-  haveI : Finite X := inferInstance
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite X := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p X := fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hX.2 (x : MulAut W) x.2)⟩
@@ -43,7 +43,7 @@ private theorem w16n_odd_card_of_isElemAbelian {p : ℕ} (hp : p.Prime) (hp2 : p
 
 private theorem w16n_dParam_three : dParam 3 = 2 := by
   rw [dParam]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (p := 2) (by decide) (by decide)
 
 private theorem w16n_two_mul_card_le_sum {ι : Type*} [Fintype ι] (f : ι → ℕ)
@@ -96,9 +96,9 @@ theorem w16n_components (h : HNon A Q O t) :
   refine ⟨?_, hsum6, ?_⟩
   · exact w16n_components_kernel h
   · classical
-    haveI : Finite (Subgroup W) :=
+    have : Finite (Subgroup W) :=
       Finite.of_injective (fun S : Subgroup W => (S : Set W)) SetLike.coe_injective
-    haveI : Fintype {U : Subgroup W // U ∈ s13IsoComps Q} := Fintype.ofFinite _
+    have : Fintype {U : Subgroup W // U ∈ s13IsoComps Q} := Fintype.ofFinite _
     have hsum' : (∑ i : {U : Subgroup W // U ∈ s13IsoComps Q}, rk ↥(i.1)) ≤ 6 := by
       rw [← finsum_subtype_eq_finsum_cond, finsum_eq_sum_of_fintype] at hsum6
       exact hsum6

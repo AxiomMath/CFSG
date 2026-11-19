@@ -32,6 +32,7 @@ theorem pow_sixteen_of_mem (hH : HarrisHyp F) (hF : Nat.card F = 3 ^ 4) {a : Fˣ
 theorem card_ringAut_eq_four (hF : Nat.card F = 3 ^ 4) : Nat.card (F ≃+* F) = 4 :=
   card_ringAut F Nat.prime_three hF
 
+omit [Finite F] in
 theorem ncard_pow_eq_one_le (n : ℕ) [NeZero n] : {a : Fˣ | a ^ n = 1}.ncard ≤ n := by
   have h : ((rootsOfUnity n F : Subgroup Fˣ) : Set Fˣ) = {a : Fˣ | a ^ n = 1} := by
     ext a

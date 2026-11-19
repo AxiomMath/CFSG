@@ -134,8 +134,8 @@ theorem hdRo7SUKCoordAux_mem_range_uConjAut_of_pow_three {F : Type} [Field F]
     have hb : ∀ a : F, φ a = a ^ 2 := fun a => by
       rw [h1 a, CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData.bar_apply h a]
       norm_num
-    haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [h.card]; norm_num)
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Finite F := Nat.finite_of_card_ne_zero (by rw [h.card]; norm_num)
+    have : Fintype F := Fintype.ofFinite F
     have hcard : Fintype.card F = 4 := by
       rw [← Nat.card_eq_fintype_card, h.card]
       norm_num

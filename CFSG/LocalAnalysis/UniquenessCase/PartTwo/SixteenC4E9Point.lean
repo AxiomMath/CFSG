@@ -33,7 +33,7 @@ private theorem dunit_mul {K : Type} [Field K] (a a' b b' : Kˣ) :
   · simp [dunit]
   · have h : ((a * a') * (a * a') * (b * b') : Kˣ) = (a * a * b) * (a' * a' * b') := by
       ac_rfl
-    simp [dunit, h, mul_inv]
+    simp [dunit, h]
     ac_rfl
 
 private theorem dvec_mul {K : Type} [Field K] (a a' b b' : Kˣ) (i : Fin 4) :
@@ -53,7 +53,7 @@ private theorem dvec_norm {K : Type} [Field K] {σ : K ≃+* K} {Z : Subgroup K�
 private theorem dvec_det {K : Type} [Field K] (a b : Kˣ) : ∏ i, dvec a b i = 1 := by
   rw [Fin.prod_univ_four]
   have h : ((a * a * b * (a * a * b)⁻¹ : Kˣ) : K) = 1 := by simp
-  simpa [dvec, dunit, mul_assoc] using h
+  simp [dvec, dunit, mul_assoc]
 
 private noncomputable def s16_C4E9Point_torus {K : Type} [Field K] {σ : K ≃+* K}
     (Z : Subgroup Kˣ) (hZ : ∀ a ∈ Z, σ (a : K) * a = 1) : ↥Z × ↥Z →* ↥(SUid σ 4) where
@@ -89,13 +89,14 @@ private theorem s16_C4E9Point_torus_injective {K : Type} [Field K] {σ : K ≃+*
   simp [dvec, dunit] at e1 e2
   exact Prod.ext (Subtype.ext (Units.ext e1)) (Subtype.ext (Units.ext e2))
 
+omit [Finite G] in
 theorem exists_E9_stab_point {x : Fin 4 → F.K} (hx0 : x ≠ 0) (hx : herm F.σ x x = 0) :
     ∃ E : Subgroup (GL (Fin 4) F.K), E ≤ SUid F.σ 4 ∧ IsPGroup 3 E ∧ ¬ IsCyclic E ∧
       ∀ g ∈ E, ∀ y ∈ Submodule.span F.K {x},
         ((g : GL (Fin 4) F.K) : Matrix (Fin 4) (Fin 4) F.K) *ᵥ y ∈ Submodule.span F.K {x} := by
   have hK : Nat.card F.K = (2 ^ 1) ^ 2 := by rw [F.card_K]; norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F.K 2 := charP_of_card_sq (p := 2) (f := 1) hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F.K 2 := charP_of_card_sq (p := 2) (f := 1) hK
   have hσ : ∀ c : F.K, F.σ c * c = c ^ (2 ^ 1 + 1) := by
     intro c
     rw [F.norm_eq c]

@@ -29,6 +29,7 @@ private lemma qtwoDB35_eq_dPerm_of_fix {m : ℕ} {w : DVec m ≃ₗ[ZMod 3] DVec
     simpa [dBasis, Pi.single_apply, σ.injective.eq_iff] using h
   rw [hact i, hci, one_smul, dPerm_apply]
 
+omit [Finite G] in
 private lemma qtwoDB35_join_acts {Bs : Subgroup G} {x : G} {L : Subgroup G}
     {𝒦 : Finset (Subgroup G)} {ι : Type} {M : CoxeterMatrix ι}
     {e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)} {m : ℕ} {e' : Fin m ≃ ι} {F0 : Type} [Field F0]
@@ -49,6 +50,7 @@ private lemma qtwoDB35_join_acts {Bs : Subgroup G} {x : G} {L : Subgroup G}
     rw [CoxeterMatrix.toCoxeterSystem_simple, map_mul, Subgroup.coe_mul, MulAut.mul_apply,
       hrs, hws, LinearEquiv.mul_apply]
 
+omit [Finite G] in
 theorem qtwoUnitCoords_rmBaseCoord {Bs : Subgroup G} {x : G} {L : Subgroup G}
     {𝒦 : Finset (Subgroup G)} {ι : Type} {M : CoxeterMatrix ι}
     {e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)} {m : ℕ} {e' : Fin m ≃ ι} {F0 : Type} [Field F0]
@@ -89,9 +91,9 @@ theorem ggQTwoDUnit_rmBaseCoord (hRig : GGLabelRigidInput) (hTBF : GGTBFixInput)
           qtwoDActsAs β₀ (ggAutomizer L Bs) (dEvenStab m ε) := by
   obtain ⟨F0, hF0, hF0fin, hF0char, ψ, ε, hbase⟩ :=
     ggQTwoDUnit_base hRig hTBF hWI hcfg e' hm hM hL
-  letI : Field F0 := hF0
-  letI : Finite F0 := hF0fin
-  letI : CharP F0 2 := hF0char
+  let : Field F0 := hF0
+  let : Finite F0 := hF0fin
+  let : CharP F0 2 := hF0char
   obtain ⟨βL, ω, hc⟩ := ggQTwoDUnit_coords hTBF hWI hcfg e' (by omega) hM hbase
   obtain ⟨hjoin, hxc, hstab⟩ := qtwoUnitCoords_rmBaseCoord hc hbase.x_mem
   exact ⟨hbase.x_mem, βL, hjoin, fun _ => 1, fun _ => Or.inl rfl, hxc, hstab⟩

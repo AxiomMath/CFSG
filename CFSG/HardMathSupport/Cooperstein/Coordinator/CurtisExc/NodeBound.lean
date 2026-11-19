@@ -29,7 +29,7 @@ include hw in
 theorem node_dim_big [Module.Finite k V] (T : NodeTab τ s) {n : ℕ} (hn : 1 ≤ n)
     (hK : Nat.card K = 2 ^ n) {ρ : Representation k (adjointGroup τ K) V} (hρ : IsSimpleRep ρ)
     {y : V} {χ : adjointGroup τ K → k} {J : Finset (Fin τ.rank)}
-    (ht : IsChevType τ K 2 hw ρ y χ J) (hJ : ∀ s', s' ≠ s → s' ∈ J) (hs : s ∉ J)
+    (ht : IsChevType τ K 2 hw ρ y χ J) (_hJ : ∀ s', s' ≠ s → s' ∈ J) (hs : s ∉ J)
     {J' : Finset ℕ} (hJ' : ∀ i ∈ J', i < n) (h2 : 2 ≤ J'.card)
     (hgood : ∑ i ∈ J', 2 ^ i < 2 ^ n - 1 →
       3 ≤ Nat.gcd (∑ i ∈ J', 2 ^ i) (2 ^ n - 1) ∨ (J'.card ≤ 3 ∧ 6 ≤ n))
@@ -107,7 +107,7 @@ theorem node_dim_small [Module.Finite k V] (S : NodeTab τ s) (hsm : ClassSepSma
     {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n)
     {ρ : Representation k (adjointGroup τ K) V} (hρ : IsSimpleRep ρ)
     {y : V} {χ : adjointGroup τ K → k} {J : Finset (Fin τ.rank)}
-    (ht : IsChevType τ K 2 hw ρ y χ J) (hJ : ∀ s', s' ≠ s → s' ∈ J) (hs : s ∉ J)
+    (_ht : IsChevType τ K 2 hw ρ y χ J) (_hJ : ∀ s', s' ≠ s → s' ∈ J) (_hs : s ∉ J)
     {J' : Finset ℕ} (hJ' : ∀ i ∈ J', i < n) (h2 : 2 ≤ J'.card) (h5 : n ≤ 5)
     (hlt : ∑ i ∈ J', 2 ^ i < 2 ^ n - 1)
     (hvec : ∀ b ∈ J', ∃ e ∈ orbitSpan (ρ.comp (rankOne τ K s)) y, e ≠ 0 ∧

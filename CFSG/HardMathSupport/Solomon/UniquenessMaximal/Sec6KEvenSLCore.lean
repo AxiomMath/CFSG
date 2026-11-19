@@ -74,7 +74,7 @@ theorem not_two_dvd_card_ker {Γ X : Type} [Group Γ] [Finite Γ] [Group X]
   have htop := frattini_nongenerating
     (top_le_iff.1 ((le_of_eq hnorm.symm).trans (sup_le_sup_left hfr _)))
   have hPn : (P.map π.ker.subtype).Normal := Subgroup.normalizer_eq_top_iff.1 htop
-  have hP2 : IsPGroup 2 (P.map π.ker.subtype) := P.isPGroup'.map _
+  have hP2 : IsPGroup 2 (P.map π.ker.subtype) := P.isPGroup.map _
   have hbot := normal_two_subgroup_eq_bot ρ hρ hirr (P.map π.ker.subtype) hP2
   · have hxP' : x ∈ (P : Subgroup ↥π.ker) := hxP (Subgroup.mem_zpowers x)
     have : π.ker.subtype x ∈ P.map π.ker.subtype := Subgroup.mem_map_of_mem _ hxP'
@@ -102,7 +102,7 @@ theorem core_false {Γ X : Type} [Group Γ] [Finite Γ] [Group X] (hSL : IsSLThr
   obtain ⟨T, hT⟩ := Sylow.mapSurjective_surjective hπ 2 S
   have hTS : (T : Subgroup Γ).map π = (S : Subgroup X) := by
     rw [← Sylow.coe_mapSurjective hπ T, hT]
-  have hTp : IsPGroup 2 (T : Subgroup Γ) := T.isPGroup'
+  have hTp : IsPGroup 2 (T : Subgroup Γ) := T.isPGroup
   have haT : a ∈ (T : Subgroup Γ).map π := hTS ▸ hAS ha
   have hbT : b ∈ (T : Subgroup Γ).map π := hTS ▸ hAS hb
   obtain ⟨x, hxT, rfl⟩ := haT

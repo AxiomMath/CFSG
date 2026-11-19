@@ -53,99 +53,99 @@ private theorem kdQ_apply (v : Fin 4 ⊕ Fin 4 → F) :
   rw [CFSG.LieType.Universal.Spin.quadPlus_apply, Fin.sum_univ_four]
 
 private theorem kdQ_ev0 : kdQ F (kdEv F 0) = 0 := by
-  simp [kdQ_apply, kdEv, Pi.single_apply]
+  simp [kdQ_apply, kdEv]
 
 private theorem kdQ_ev1 : kdQ F (kdEv F 1) = 0 := by
-  simp [kdQ_apply, kdEv, Pi.single_apply]
+  simp [kdQ_apply, kdEv]
 
 private theorem kdQ_ev2 : kdQ F (kdEv F 2) = 0 := by
-  simp [kdQ_apply, kdEv, Pi.single_apply]
+  simp [kdQ_apply, kdEv]
 
 private theorem kdQ_fv0 : kdQ F (kdFv F 0) = 0 := by
-  simp [kdQ_apply, kdFv, Pi.single_apply]
+  simp [kdQ_apply, kdFv]
 
 private theorem kdQ_w1 (a b : F) : kdQ F (kdW1 F a b) = a * b := by
-  simp [kdQ_apply, kdW1, kdEv, kdFv, Pi.single_apply]
+  simp [kdQ_apply, kdW1, kdEv, kdFv]
 
 private theorem kdQ_w3 (c d : F) : kdQ F (kdW3 F c d) = c * d := by
-  simp [kdQ_apply, kdW3, kdEv, kdFv, Pi.single_apply]
+  simp [kdQ_apply, kdW3, kdEv, kdFv]
 
 private theorem kdQ_neg_fv1 : kdQ F (-kdFv F 1) = 0 := by
-  simp [kdQ_apply, kdFv, Pi.single_apply]
+  simp [kdQ_apply, kdFv]
 
 private theorem kdpol_ev0_w1 (a b : F) :
     QuadraticMap.polar (kdQ F) (kdEv F 0) (kdW1 F a b) = 0 := by
-  simp [kdQ_polar, kdEv, kdFv, kdW1, Pi.single_apply]
+  simp [kdQ_polar, kdEv, kdFv, kdW1]
 
 private theorem kdpol_ev2_w3 (c d : F) :
     QuadraticMap.polar (kdQ F) (kdEv F 2) (kdW3 F c d) = 0 := by
-  simp [kdQ_polar, kdEv, kdFv, kdW3, Pi.single_apply]
+  simp [kdQ_polar, kdEv, kdFv, kdW3]
 
 private theorem kdpol_ev2_ev0 : QuadraticMap.polar (kdQ F) (kdEv F 2) (kdEv F 0) = 0 := by
-  simp [kdQ_polar, kdEv, Pi.single_apply]
+  simp [kdQ_polar, kdEv]
 
 private theorem kdpol_ev2_w1 (a b : F) :
     QuadraticMap.polar (kdQ F) (kdEv F 2) (kdW1 F a b) = 0 := by
-  simp [kdQ_polar, kdEv, kdFv, kdW1, Pi.single_apply]
+  simp [kdQ_polar, kdEv, kdFv, kdW1]
 
 private theorem kdpol_w3_ev0 (c d : F) :
     QuadraticMap.polar (kdQ F) (kdW3 F c d) (kdEv F 0) = 0 := by
-  simp [kdQ_polar, kdEv, kdFv, kdW3, Pi.single_apply]
+  simp [kdQ_polar, kdEv, kdFv, kdW3]
 
 private theorem kdpol_w3_w1 (a b c d : F) :
     QuadraticMap.polar (kdQ F) (kdW3 F c d) (kdW1 F a b) = 0 := by
-  simp [kdQ_polar, kdEv, kdFv, kdW1, kdW3, Pi.single_apply]
+  simp [kdQ_polar, kdEv, kdFv, kdW1, kdW3]
 
 private theorem kdpol_fv0_ev0 : QuadraticMap.polar (kdQ F) (kdFv F 0) (kdEv F 0) = 1 := by
-  simp [kdQ_polar, kdEv, kdFv, Pi.single_apply]
+  simp [kdQ_polar, kdEv, kdFv]
 
 private theorem kdpol_fv0_w1 (a b : F) :
     QuadraticMap.polar (kdQ F) (kdFv F 0) (kdW1 F a b) = 0 := by
-  simp [kdQ_polar, kdEv, kdFv, kdW1, Pi.single_apply]
+  simp [kdQ_polar, kdEv, kdFv, kdW1]
 
 private theorem kdpol_fv0_ev2 : QuadraticMap.polar (kdQ F) (kdFv F 0) (kdEv F 2) = 0 := by
-  simp [kdQ_polar, kdEv, kdFv, Pi.single_apply]
+  simp [kdQ_polar, kdEv, kdFv]
 
 private theorem kdpol_fv0_w3 (c d : F) :
     QuadraticMap.polar (kdQ F) (kdFv F 0) (kdW3 F c d) = 0 := by
-  simp [kdQ_polar, kdEv, kdFv, kdW3, Pi.single_apply]
+  simp [kdQ_polar, kdEv, kdFv, kdW3]
 
 private theorem kdpol_fv2_ev2 : QuadraticMap.polar (kdQ F) (kdFv F 2) (kdEv F 2) = 1 := by
-  simp [kdQ_polar, kdEv, kdFv, Pi.single_apply]
+  simp [kdQ_polar, kdEv, kdFv]
 
 private theorem kdpol_fv2_ev0 : QuadraticMap.polar (kdQ F) (kdFv F 2) (kdEv F 0) = 0 := by
-  simp [kdQ_polar, kdEv, kdFv, Pi.single_apply]
+  simp [kdQ_polar, kdEv, kdFv]
 
 private theorem kdpol_fv2_w1 (a b : F) :
     QuadraticMap.polar (kdQ F) (kdFv F 2) (kdW1 F a b) = 0 := by
-  simp [kdQ_polar, kdEv, kdFv, kdW1, Pi.single_apply]
+  simp [kdQ_polar, kdEv, kdFv, kdW1]
 
 private theorem kdpol_fv2_w3 (c d : F) :
     QuadraticMap.polar (kdQ F) (kdFv F 2) (kdW3 F c d) = 0 := by
-  simp [kdQ_polar, kdEv, kdFv, kdW3, Pi.single_apply]
+  simp [kdQ_polar, kdEv, kdFv, kdW3]
 
 private theorem kdpol_ev0_ev1 : QuadraticMap.polar (kdQ F) (kdEv F 0) (kdEv F 1) = 0 := by
-  simp [kdQ_polar, kdEv, Pi.single_apply]
+  simp [kdQ_polar, kdEv]
 
 private theorem kdpol_fv0_mfv1 :
     QuadraticMap.polar (kdQ F) (kdFv F 0) (-kdFv F 1) = 0 := by
-  simp [kdQ_polar, kdFv, Pi.single_apply]
+  simp [kdQ_polar, kdFv]
 
 private theorem kdpol_v_ev0 (v : Fin 4 ⊕ Fin 4 → F) :
     QuadraticMap.polar (kdQ F) v (kdEv F 0) = v (.inr 0) := by
-  simp [kdQ_polar, kdEv, Pi.single_apply]
+  simp [kdQ_polar, kdEv]
 
 private theorem kdpol_v_ev1 (v : Fin 4 ⊕ Fin 4 → F) :
     QuadraticMap.polar (kdQ F) v (kdEv F 1) = v (.inr 1) := by
-  simp [kdQ_polar, kdEv, Pi.single_apply]
+  simp [kdQ_polar, kdEv]
 
 private theorem kdpol_v_fv0 (v : Fin 4 ⊕ Fin 4 → F) :
     QuadraticMap.polar (kdQ F) v (kdFv F 0) = v (.inl 0) := by
-  simp [kdQ_polar, kdFv, Pi.single_apply]
+  simp [kdQ_polar, kdFv]
 
 private theorem kdpol_v_mfv1 (v : Fin 4 ⊕ Fin 4 → F) :
     QuadraticMap.polar (kdQ F) v (-kdFv F 1) = -v (.inl 1) := by
-  simp [kdQ_polar, kdFv, Pi.single_apply]
+  simp [kdQ_polar, kdFv]
 
 private theorem kd_eichler_comm {u w u' w' : Fin 4 ⊕ Fin 4 → F}
     (h1 : QuadraticMap.polar (kdQ F) u u' = 0) (h2 : QuadraticMap.polar (kdQ F) u w' = 0)
@@ -244,7 +244,7 @@ private theorem kdG4_eq_zero_of_scalar (x : F × F × F × F)
   have e3 := congrFun h0 (.inr 1)
   have e4 := congrFun h2 (.inl 3)
   have e5 := congrFun h2 (.inr 3)
-  simp [kdFv, kdEv, kdW1, kdW3, Pi.single_apply] at e2 e3 e4 e5
+  simp [kdFv, kdEv, kdW1, kdW3] at e2 e3 e4 e5
   simp [e2, e3, e4, e5]
 
 private def kdPsiH : Multiplicative (F × F × F × F) →* elementaryGroup (kdQ F) where
@@ -279,27 +279,27 @@ private theorem kdT_sq : kdT F * kdT F = 1 := by
 
 private theorem kdT_ev0 : kdT F (kdEv F 0) = -kdEv F 0 := by
   funext k
-  rcases k with i | i <;> fin_cases i <;> simp [kdT_apply, kdSign, kdEv, Pi.single_apply]
+  rcases k with i | i <;> fin_cases i <;> simp [kdT_apply, kdSign, kdEv]
 
 private theorem kdT_ev2 : kdT F (kdEv F 2) = kdEv F 2 := by
   funext k
-  rcases k with i | i <;> fin_cases i <;> simp [kdT_apply, kdSign, kdEv, Pi.single_apply]
+  rcases k with i | i <;> fin_cases i <;> simp [kdT_apply, kdSign, kdEv]
 
 private theorem kdT_w1 (a b : F) : kdT F (kdW1 F a b) = -kdW1 F a b := by
   funext k
   rcases k with i | i <;> fin_cases i <;>
-    simp [kdT_apply, kdSign, kdW1, kdEv, kdFv, Pi.single_apply]
+    simp [kdT_apply, kdSign, kdW1, kdEv, kdFv]
 
 private theorem kdT_w3 (c d : F) : kdT F (kdW3 F c d) = kdW3 F c d := by
   funext k
   rcases k with i | i <;> fin_cases i <;>
-    simp [kdT_apply, kdSign, kdW3, kdEv, kdFv, Pi.single_apply]
+    simp [kdT_apply, kdSign, kdW3, kdEv, kdFv]
 
 private theorem kdT_not_scalar [CharP F 3] : ¬ ∃ c : F, ∀ v, kdT F v = c • v := by
   rintro ⟨c, hc⟩
   have h1 := congrFun (hc (kdEv F 0)) (.inl 0)
   have h2 := congrFun (hc (kdEv F 2)) (.inl 2)
-  simp [kdT_apply, kdSign, kdEv, Pi.single_apply] at h1 h2
+  simp [kdT_apply, kdSign, kdEv] at h1 h2
   have h3 : (3 : F) = 0 := by exact_mod_cast CharP.cast_eq_zero F 3
   have h4 : (2 : F) = 0 := by linear_combination h2 - h1
   have h5 : (1 : F) = 0 := by linear_combination h3 - h4
@@ -337,18 +337,18 @@ private theorem kdAB_sq [CharP F 3] : kdA F * kdB F * (kdA F * kdB F) = kdT F :=
   refine LinearEquiv.ext fun v => funext fun k => ?_
   simp only [LinearEquiv.mul_apply, kdA_apply, kdB_apply, kdT_apply]
   rcases k with i | i <;> fin_cases i
-  · simp [kdEv, kdFv, kdSign, Pi.single_apply]
+  · simp [kdEv, kdFv, kdSign]
     linear_combination (2 * v (.inl 0) - v (.inr 1)) * h3
-  · simp [kdEv, kdFv, kdSign, Pi.single_apply]
+  · simp [kdEv, kdFv, kdSign]
     linear_combination (2 * v (.inl 1) + v (.inr 0)) * h3
-  · simp [kdEv, kdFv, kdSign, Pi.single_apply]
-  · simp [kdEv, kdFv, kdSign, Pi.single_apply]
-  · simp [kdEv, kdFv, kdSign, Pi.single_apply]
+  · simp [kdEv, kdFv, kdSign]
+  · simp [kdEv, kdFv, kdSign]
+  · simp [kdEv, kdFv, kdSign]
     linear_combination (v (.inr 0) + v (.inl 1)) * h3
-  · simp [kdEv, kdFv, kdSign, Pi.single_apply]
+  · simp [kdEv, kdFv, kdSign]
     linear_combination (v (.inr 1) - v (.inl 0)) * h3
-  · simp [kdEv, kdFv, kdSign, Pi.single_apply]
-  · simp [kdEv, kdFv, kdSign, Pi.single_apply]
+  · simp [kdEv, kdFv, kdSign]
+  · simp [kdEv, kdFv, kdSign]
 
 private theorem kdT_mem_orth [CharP F 3] :
     kdT F ∈ TauCeti.QuadraticMap.orthogonalGroup (kdQ F) := by
@@ -505,7 +505,7 @@ theorem kdD4TwoLocal_holds : KDD4TwoLocal := by
       3 ^ q.exponent := by
     rw [TauCeti.ValidLieTypeIndex.card_fixedField]
     simp [TauCeti.ValidLieTypeIndex.fieldOrder, TauCeti.PrimePower.card_def, hq3]
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
   let e' := e.trans
     ((CFSG.RankThree.PartTwo.Census.Carrier.SpinD.typeDGroupEquivStatedProj_of_valid 4 q hv).trans

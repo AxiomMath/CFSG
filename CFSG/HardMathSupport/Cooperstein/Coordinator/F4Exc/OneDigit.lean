@@ -77,7 +77,7 @@ theorem gen_sep {n b c : ℕ} (hn : 7 ≤ n) (hbc : b < c) (hcn : c < n) {dg : �
   have e : (2 : ℤ) ^ b + 2 ^ c = 2 ^ b * (1 + 2 ^ d) := by rw [hd, pow_add]; ring
   have hcop := odd_coprime n (by omega) b
   by_cases hdn : d ≤ n - d
-  · have hdg' : dg = b := by rw [hdg, if_pos (by omega)]
+  · have hdg' : dg = b := by rw [hdg, ite_eq_left (by omega)]
     subst hdg'
     refine finish_arith hd1 δ ε hε fun k => ?_
     refine key_arith hn hd1 (by omega) (hδ k) (hε k) ?_
@@ -86,7 +86,7 @@ theorem gen_sep {n b c : ℕ} (hn : 7 ≤ n) (hbc : b < c) (hcn : c < n) {dg : �
     have h2 : (((2 ^ n - 1 : ℕ)) : ℤ) ∣ (2 : ℤ) ^ dg * ((1 + 2 ^ d) * δ k - ε k) := by
       convert this using 1; ring
     exact hcop.dvd_of_dvd_mul_left h2
-  · have hdg' : dg = c := by rw [hdg, if_neg (by omega)]
+  · have hdg' : dg = c := by rw [hdg, ite_eq_right (by omega)]
     subst hdg'
     obtain ⟨d', hd'⟩ : ∃ d', n = d + d' := ⟨n - d, by omega⟩
     have hd'1 : 1 ≤ d' := by omega
@@ -113,7 +113,7 @@ theorem gen_sep {n b c : ℕ} (hn : 7 ≤ n) (hbc : b < c) (hcn : c < n) {dg : �
     exact key_arith hn hd'1 h2d' (hδ k) (hε k) (hq k)
 
 theorem getD_ofFn4 (v : Fin Tag.F4.rank → ℤ) (k : Fin Tag.F4.rank) : (List.ofFn v).getD k 0 = v k := by
-  simp [List.getD_eq_getElem?_getD, List.getElem?_ofFn]
+  simp [List.getD_eq_getElem?_getD]
 
 theorem vclassEq_false {M a dg : ℕ} {β β' γ γ' : List ℤ}
     (h : vclassEq M a dg β β' γ γ' = false) :

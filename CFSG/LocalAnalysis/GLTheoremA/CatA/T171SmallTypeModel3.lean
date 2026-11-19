@@ -60,7 +60,7 @@ theorem commutator_le_of_isDirectZpowersInf {Ω : Type} [Group Ω] {B L T : Subg
 
 theorem twoLocal_range {Ω : Type} [Group Ω] [Finite Ω] {B L T : Subgroup Ω} {x : Ω}
     {G₀ : Type} [Group G₀] (M : S172Model L B G₀)
-    (hB : IsElemAbelian 3 B) (hxB : x ∈ B) (hx1 : x ≠ 1)
+    (hB : IsElemAbelian 3 B) (hxB : x ∈ B) (_hx1 : x ≠ 1)
     (hxT : T ≤ Subgroup.centralizer ({x} : Set Ω))
     (hTN : T ≤ Subgroup.normalizer (L : Set Ω)) (hT2 : IsPGroup 2 T)
     (hBT : B ≤ Subgroup.normalizer (T : Set Ω)) (hTne : (⁅T, B⁆ : Subgroup Ω) ≠ ⊥)

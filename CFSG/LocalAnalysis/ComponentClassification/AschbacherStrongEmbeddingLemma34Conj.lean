@@ -42,10 +42,10 @@ theorem Hyp.exists_conj_sylow_inf (h : Hyp S A₁ A₂)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C := Subgroup.centralizer ({u} : Set G)
   have hSC : IsPGroup 2 (((S : Subgroup G) ⊓ C).subgroupOf C) :=
-    (S.isPGroup'.to_le inf_le_left).comap_of_injective C.subtype C.subtype_injective
+    (S.isPGroup.to_le inf_le_left).comap_of_injective C.subtype C.subtype_injective
   obtain ⟨T, hT⟩ := hSC.exists_le_sylow
   let T' : Subgroup G := (T : Subgroup C).map C.subtype
-  have hT'p : IsPGroup 2 T' := T.isPGroup'.map C.subtype
+  have hT'p : IsPGroup 2 T' := T.isPGroup.map C.subtype
   have hST' : (S : Subgroup G) ⊓ C ≤ T' := by
     intro x hx
     exact ⟨⟨x, hx.2⟩, hT hx, rfl⟩
@@ -77,7 +77,7 @@ theorem Hyp.exists_conj_sylow_inf (h : Hyp S A₁ A₂)
     have hcard_le : Nat.card ((S : Subgroup G).subgroupOf C') ≤
         2 ^ (Nat.card C').factorization 2 := by
       have hp : IsPGroup 2 ((S : Subgroup G).subgroupOf C') :=
-        S.isPGroup'.comap_of_injective C'.subtype C'.subtype_injective
+        S.isPGroup.comap_of_injective C'.subtype C'.subtype_injective
       obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
       rw [← Sylow.card_eq_multiplicity Q]
       exact Subgroup.card_le_of_le hQ

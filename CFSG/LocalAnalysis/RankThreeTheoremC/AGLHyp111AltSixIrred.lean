@@ -142,7 +142,7 @@ open scoped Pointwise
 theorem inf_eq_bot_of_isPGroup_of_coprime {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
     {A N : Subgroup X} (hA : IsPGroup p A) (hN : p.Coprime (Nat.card N)) : A ⊓ N = ⊥ := by
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hA
-  exact Subgroup.inf_eq_bot_of_coprime (by rw [hn]; exact hN.pow_left n)
+  exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hn]; exact hN.pow_left n)))
 
 theorem card_sup_of_inf_eq_bot {X : Type*} [Group X] {A N : Subgroup X} [N.Normal]
     (h : A ⊓ N = ⊥) : Nat.card ↥(A ⊔ N) = Nat.card A * Nat.card N := by

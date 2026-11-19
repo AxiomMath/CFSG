@@ -208,7 +208,6 @@ theorem ggOddAutOn_twF4 : GGOddAutOn fun lab => lab.tag = .twF4 := by
   have hn3 : 3 ≤ n := hlab.2.2.2
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, _, _, hK, hQK⟩ := hQ
-  try dsimp only at hK hQK ⊢
   exact ⟨K, inferInstance, inferInstance, hK, hQK, fun _ _ =>
     RawAut.ggOddAutInnField_of_forall (exists_conj_mul_field_twF4 (by omega) hK)⟩
 

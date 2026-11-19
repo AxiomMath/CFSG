@@ -56,13 +56,13 @@ private theorem s622p65_plane65 (hS : Situation G p P M) (hx : Point P M x)
   perfect := fun N _ hN => eq_top_of_isPGroup_quotient hS N hN
 
 private theorem s622p65_covering_of_le_core (hS : Situation G p P M) (hx : Point P M x)
-    (hz : Central P z) {f : ℕ} (hf : f.Prime) (hfp : f ≠ p) {F : Subgroup G}
+    (hz : Central P z) {f : ℕ} (hf : f.Prime) (_hfp : f ≠ p) {F : Subgroup G}
     (hF : IsMaxFInvariantIn f (zpowers x ⊔ zpowers z) M F) (hFD : F ≤ rankThreePrimeCore p M) :
     Open.pRank p (P : Subgroup G) ≤ Open.pRank p (M ⊓ normalizer (F : Set G)) ∧
       ∀ m ∈ M, ∃ d ∈ rankThreePrimeCore p M, ∃ n ∈ M ⊓ normalizer (F : Set G), m = d * n := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : Fact f.Prime := ⟨hf⟩
   set B : Subgroup G := zpowers x ⊔ zpowers z with hBdef
   set D : Subgroup G := rankThreePrimeCore p M with hDdef
   have hpl : CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankPlane p (P : Subgroup G) x z :=
@@ -87,7 +87,7 @@ private theorem s622p65_covering_of_le_core (hS : Situation G p P M) (hx : Point
       rw [normalizer_eq_top_iff.mpr inferInstance]
       exact le_top
     obtain ⟨S, hSsyl, -, hPS⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing
-      hprime hf P.isPGroup' hD3 hPD bot_le hbotf hPbot
+      hprime hf P.isPGroup hD3 hPD bot_le hbotf hPbot
     obtain ⟨c, hc, hFc⟩ := CFSG.Goldschmidt.G310.exists_conj_of_invariant_sylows
       hprime hf hbotp hD3 bot_le hSsyl hFsyl bot_le bot_le
     have hcM : c ∈ M := hDM (mem_inf.mp hc).1
@@ -114,7 +114,7 @@ private theorem s622p65_covering_of_le_core (hS : Situation G p P M) (hx : Point
 theorem s622_mSide (hKA : S622KFactP65Single) (hKB : KFactP65Multi)
     (hS : Situation G p P M) (hx : Point P M x) (hz : Central P z)
     (hnc : ¬ CFSG.HasNormalPComplement p ↥(centralizer ({x} : Set G)))
-    {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (hfp : f ≠ p) {F : Subgroup G}
+    {f : ℕ} (hf : f.Prime) (_hf2 : f ≠ 2) (hfp : f ≠ p) {F : Subgroup G}
     (hF : IsMaxFInvariantIn f (zpowers x ⊔ zpowers z) M F) :
     Open.pRank p (P : Subgroup G) ≤ Open.pRank p (M ⊓ normalizer (F : Set G)) ∧
     ((∀ m ∈ M, ∃ d ∈ rankThreePrimeCore p M, ∃ n ∈ M ⊓ normalizer (F : Set G), m = d * n) ∨
@@ -135,7 +135,7 @@ theorem s622_mSide (hKA : S622KFactP65Single) (hKB : KFactP65Multi)
           IsComponentOf K ⊤ → p ∣ Nat.card K → K = L
     ·
       have hcop : Nat.Coprime p (Nat.card F) := by
-        haveI : Fact f.Prime := ⟨hf⟩
+        have : Fact f.Prime := ⟨hf⟩
         obtain ⟨k, hk⟩ := hF.1.2.1.exists_card_eq
         rw [hk]
         exact Nat.Coprime.pow_right k ((Nat.coprime_primes hprime hf).mpr hfp.symm)

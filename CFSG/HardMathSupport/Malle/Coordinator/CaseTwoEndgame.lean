@@ -22,7 +22,7 @@ theorem isolated_of_odd_index [Finite G] {N M : Subgroup G} (hNM : N ≤ M)
   obtain ⟨S'⟩ := Sylow.nonempty (p := 2) (G := C)
   set S := (S' : Subgroup C).map C.subtype with hS
   have hSC : S ≤ C := Subgroup.map_subtype_le _
-  have hSp : IsPGroup 2 S := S'.isPGroup'.map _
+  have hSp : IsPGroup 2 S := S'.isPGroup.map _
   have hSidxC : ¬ 2 ∣ S.relIndex C := by
     have h1 : S.subgroupOf C = (S' : Subgroup C) := by
       rw [hS]; exact Subgroup.comap_map_eq_self_of_injective C.subtype_injective _

@@ -236,7 +236,7 @@ public def subrepresentation_extendScalars :
       intro x y hx hy
       rw [map_add]
       exact add_mem hx hy
-    exact TensorProduct.induction_on v zero tmul add
+    exact TensorProduct.inductionOn v tmul add
 
 public theorem subrepresentation_extendScalars_apply (φ : Subrepresentation ρ) :
   ((subrepresentation_extendScalars F' ρ) φ).toSubmodule = φ.toSubmodule.baseChange F' := by rfl

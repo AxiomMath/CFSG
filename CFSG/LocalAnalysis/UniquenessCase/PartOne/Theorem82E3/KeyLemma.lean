@@ -27,9 +27,9 @@ theorem normalizer_le_of_commutator_le (c : Ctx82E3 D) {p : ℕ} (hp : p ∈ D.s
     (hcomm : ⁅c.L, R⁆ ≤ CFSG.Open.pCoreOf 2 c.L) {Y : Subgroup G} (hY : Y ≤ P ⊓ c.L)
     (hY1 : Y ≠ ⊥) : Subgroup.normalizer (Y : Set G) ≤ D.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hpp : p.Prime := (D.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
   have hLM : D.M ≤ Subgroup.normalizer (c.L : Set G) := c.le_normalizer_L
   have hR_le_NL : R ≤ Subgroup.normalizer (c.L : Set G) := hRM.trans hLM
@@ -103,7 +103,7 @@ theorem false_of_commutator_le (c : Ctx82E3 D) {p : ℕ} (hp : p ∈ D.sig)
     {R : Subgroup G} (hRM : R ≤ D.M) (hR : IsPGroup p R) (hrank : 2 ≤ CFSG.Open.pRank p R)
     (hcomm : ⁅c.L, R⁆ ≤ CFSG.Open.pCoreOf 2 c.L) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h3dvdM : 3 ∣ Nat.card D.M := by
     have h := CFSG.PreuniquenessRankFour.Helpers.prime_dvd_card_of_positive_rank
       (G := ↥D.M) 3 (by norm_num) ⊤ (by
@@ -123,7 +123,7 @@ theorem false_of_commutator_le (c : Ctx82E3 D) {p : ℕ} (hp : p ∈ D.sig)
     fun Y hY hY1 => normalizer_le_of_commutator_le c hp h76 hP hRM hR hrank hcomm hY hY1
   let ΩP : Subgroup ↥P := CFSG.omega₁ (G := ↥P) (p := 3)
   let Ω : Subgroup G := ΩP.map P.subtype
-  haveI : ΩP.Characteristic := CFSG.omega₁_characteristic ↥P
+  have : ΩP.Characteristic := CFSG.omega₁_characteristic ↥P
   have hΩ_ne : Ω ≠ ⊥ := CFSG.omega₁_map_subtype_ne_bot P 3 h3dvdP
   have hΩ_le_P : Ω ≤ P := Subgroup.map_subtype_le ΩP
   have hΩ_le_L : Ω ≤ c.L := by

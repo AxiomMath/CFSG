@@ -20,7 +20,7 @@ theorem prime_dvd_natCard_of_sylow_ne_bot [Finite M] (hp : p.Prime) (P : Sylow p
     (hP : (P : Subgroup M) ≠ ⊥) : p ∣ Nat.card M := by
   have : Fact p.Prime := ⟨hp⟩
   have h1 : 1 < Nat.card (P : Subgroup M) := ((P : Subgroup M).one_lt_card_iff_ne_bot).mpr hP
-  obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
   rw [hn] at h1
   have hn0 : n ≠ 0 := by rintro rfl; simp at h1
   refine dvd_trans ?_ ((P : Subgroup M).card_subgroup_dvd_card)

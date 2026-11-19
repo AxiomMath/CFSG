@@ -56,13 +56,13 @@ theorem burnsideF4nB_ident {p f : ℕ} {E : Type} [Group E] {M₁ M₂ : Subgrou
       ⟨-, e, K', fK', finK', charK', scope, hcase⟩
   · cases c <;> exact absurd hk (by decide)
   · exact absurd hk (by decide)
-  · haveI := finK
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime (p := 2)
+  · have := finK
+    have := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime (p := 2)
       (by rw [← Nat.card_eq_fintype_card, hcard])
     have h2eq : (2 : K) = 0 := two_eq_zero_of_card_two hcard
     have hk2 := eq_zero_or_eq_one_of_card_two hcard
-    haveI := burnsideF4h_g2_finite_u33
+    have := burnsideF4h_g2_finite_u33
     set Ψ : U33G ≃* E := (burnsideF4h_g2_psi K hcard).trans (marking.trans Subgroup.topEquiv)
       with hΨ
     set S' := (G2Native.positiveBorel K).comap (g2HomC h2eq) with hS'

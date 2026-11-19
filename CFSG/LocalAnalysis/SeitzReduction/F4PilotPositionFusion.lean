@@ -59,7 +59,7 @@ theorem exists_conj_eq_mul_of_two_dvd_index {L : Subgroup G} {t : G} (ht : order
   have htt : t * t = 1 := by rw [← sq, ← ht, pow_orderOf_eq_one]
   have htM : t ∈ M := mem_centralizer_singleton_iff.2 rfl
   obtain ⟨U⟩ : Nonempty (Sylow 2 L) := inferInstance
-  obtain ⟨P, hUP⟩ := (U.isPGroup'.map (inclusion hLt)).exists_le_sylow
+  obtain ⟨P, hUP⟩ := (U.isPGroup.map (inclusion hLt)).exists_le_sylow
   set S : Subgroup G := (P : Subgroup M).map M.subtype with hSdef
   have hSM : S ≤ M := map_subtype_le _
   have hmemS : ∀ y : M, (y : G) ∈ S ↔ y ∈ P := fun y => mem_map_iff_mem M.subtype_injective
@@ -78,11 +78,11 @@ theorem exists_conj_eq_mul_of_two_dvd_index {L : Subgroup G} {t : G} (ht : order
   have htS : t ∈ S :=
     hNS t htM (IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, orderOf_mk, ht, pow_one]))
       (mem_normalizer_of_le_centralizer_singleton hSM)
-  obtain ⟨Sst, hSS⟩ := (P.isPGroup'.map M.subtype).exists_le_sylow
+  obtain ⟨Sst, hSS⟩ := (P.isPGroup.map M.subtype).exists_le_sylow
   have hlt : S.subgroupOf Sst < ⊤ := by
     refine lt_top_iff_ne_top.2 fun h => ?_
     exact Sst.not_dvd_index (h2.trans (index_dvd_of_le ((subgroupOf_eq_top.1 h).trans hSM)))
-  have : Group.IsNilpotent Sst := Sst.isPGroup'.isNilpotent
+  have : Group.IsNilpotent Sst := Sst.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyS⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   rw [← subgroupOf_normalizer_eq hSS, mem_subgroupOf] at hyN
@@ -100,7 +100,7 @@ theorem exists_conj_eq_mul_of_two_dvd_index {L : Subgroup G} {t : G} (ht : order
       calc x * t = x * (x⁻¹ * t * x) := by rw [hxt]
         _ = t * x := by group
     refine hyS (hNS x hxM ?_ hyN)
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Sst.isPGroup' y
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Sst.isPGroup y
     exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, orderOf_mk, hxdef, orderOf_coe, hk])
   ·
     have hs := hUS u hu

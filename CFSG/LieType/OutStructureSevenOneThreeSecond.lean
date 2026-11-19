@@ -13,11 +13,11 @@ open CFSG.ComponentClassification.OuterAutomorphisms
 
 theorem exists_centralizer_pElement_not_mem_of_pRank_le_two
     {X : Type} [Group X] [Finite X] (hK : CFSG.Open.IsKGroup X) {p : ℕ} (hp : p.Prime)
-    (hp5 : 5 ≤ p) {L : Subgroup X} (hL : CFSG.IsComponent L) (hLn : L.Normal)
+    (hp5 : 5 ≤ p) {L : Subgroup X} (hL : CFSG.IsComponent L) (_hLn : L.Normal)
     (hX2 : CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 2)
     (hdvd : p ∣ Nat.card (Subgroup.centralizer (L : Set X))) :
     ∃ c : X, c ∈ Subgroup.centralizer (L : Set X) ∧ orderOf c = p ∧ c ∉ L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨c, hcord⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.centralizer (L : Set X))) p hdvd
   refine ⟨(c : X), c.2, (Subgroup.orderOf_coe c).trans hcord, ?_⟩
@@ -59,7 +59,7 @@ theorem sevenOneThree_rankLeTwo_p5_of_maximalTorus
           Nat.card E = p ^ CFSG.Open.pRank p L ∧ ∀ a ∈ E, a * x = x * a) :
     CFSG.LocalAnalysis.RankThreeUC.AGL81C.IsPClosedMod p
       (L ⊔ Subgroup.centralizer (L : Set X)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hnot
   rcases hInput hnot with ⟨c, hcC, hcord⟩ | ⟨x, hxord, hxU, E, hEL, hE, hEmax, hEc⟩
   ·

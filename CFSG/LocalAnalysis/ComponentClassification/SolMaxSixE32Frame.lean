@@ -26,6 +26,7 @@ structure IsFrame (Z : Ctx M θ ρ t s H Q) (w₀ w₁ x : X) : Prop where
   ρw₁ : rhoX ρ w₁ = p 0 * p 2
   ρx : rhoX ρ x = πx
 
+omit [Finite X] in
 private theorem isE5_of_forall {g : Fin 5 → X} {S : Set X} (hsq : ∀ a ∈ S, a * a = 1)
     (hcomm : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a) (hg : ∀ i, g i ∈ S) : IsE5 g :=
   ⟨fun i => hsq _ (hg i), fun i j => hcomm _ (hg i) _ (hg j)⟩
@@ -147,7 +148,7 @@ private theorem rhoX_mono (u : Fin 5 → ZMod 2) :
     rhoX_mul (mul_mem (mul_mem (pow_mem hs _) (pow_mem ht _)) (pow_mem h0 _)) (pow_mem h1 _),
     rhoX_mul (mul_mem (pow_mem hs _) (pow_mem ht _)) (pow_mem h0 _),
     rhoX_mul (pow_mem hs _) (pow_mem ht _),
-    Z.rhoX_pow hs, Z.rhoX_pow ht, Z.rhoX_pow h0, Z.rhoX_pow h1, Z.rhoX_pow h2,
+    CFSG.ComponentClassification.SolMax.Sig36.E32.Ctx.rhoX_pow hs, CFSG.ComponentClassification.SolMax.Sig36.E32.Ctx.rhoX_pow ht, CFSG.ComponentClassification.SolMax.Sig36.E32.Ctx.rhoX_pow h0, CFSG.ComponentClassification.SolMax.Sig36.E32.Ctx.rhoX_pow h1, CFSG.ComponentClassification.SolMax.Sig36.E32.Ctx.rhoX_pow h2,
     Z.hρs, Z.rho_t, F.ρw₀, F.ρw₁, F.ρx, one_pow, mul_one]
 
 private theorem rho_sw₁ : rhoX ρ (s * w₁) = p 1 := by
@@ -233,7 +234,7 @@ theorem sixpoint_C : s * w₀ * w₁ * x ∈ centralizer ({t} : Set X) ∧
     (rhoX ρ (s * w₀ * w₁ * x * t)).support.card = 6 := by
   have hv : mono ![s, t, w₀, w₁, x] ![1, 0, 1, 1, 1] = s * w₀ * w₁ * x := by
     simp [mono]
-  have ht : mono ![s, t, w₀, w₁, x] (Pi.single 1 1) = t := F.E5.mono_single 1
+  have ht : mono ![s, t, w₀, w₁, x] (Pi.single 1 1) = t := CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single 1
   have hcomm : s * w₀ * w₁ * x * t = t * (s * w₀ * w₁ * x) := by
     have := F.E5.mono_comm ![1, 0, 1, 1, 1] (Pi.single 1 1)
     rwa [hv, ht] at this

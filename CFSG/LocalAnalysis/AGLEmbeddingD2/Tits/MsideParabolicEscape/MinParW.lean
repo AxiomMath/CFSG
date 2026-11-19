@@ -193,6 +193,7 @@ theorem normalizer_eq_comap (hS : IsSylowTwoOf S₀ L) :
     exact Subgroup.mul_mem _ (by rwa [hSS] at hx')
       (Subgroup.center_le_normalizer (S₀' : Set ↥L) hz)
 
+omit [Finite W] in
 theorem inf_normalizer_eq_map (hS : IsSylowTwoOf S₀ L) :
     L ⊓ Subgroup.normalizer (S₀ : Set W) =
       (Subgroup.normalizer ((S₀.subgroupOf L : Subgroup ↥L) : Set ↥L)).map L.subtype := by
@@ -281,11 +282,13 @@ variable {W : Type} [Group W] [Finite W] {L S₀ : Subgroup W}
 @[expose] def Pc (i : D.ι) : Subgroup W :=
   ((D.P i).comap (QuotientGroup.mk' (Subgroup.center ↥L))).map L.subtype
 
+omit [Finite W] in
 theorem iSup_Pc_eq (J : Set D.ι) :
     (⨆ j ∈ J, Pc D j) =
       (⨆ j ∈ J, (D.P j).comap (QuotientGroup.mk' (Subgroup.center ↥L))).map L.subtype := by
   simp only [Pc, Subgroup.map_iSup]
 
+omit [Finite W] in
 theorem Pc_inj : Function.Injective (Pc D) := fun i j e => by
   apply D.P_inj
   exact Subgroup.comap_injective (f := QuotientGroup.mk' (Subgroup.center ↥L))
@@ -343,7 +346,7 @@ theorem ov_center (hS : IsSylowTwoOf S₀ L) {X : Subgroup W} (hSX : S₀ ≤ X)
     hSX' (central_pElement_mem hS (hker hz) h2z)) ⟨k, hk'⟩ hx hxq
   exact this
 
-theorem sub_center (hS : IsSylowTwoOf S₀ L) (J : Set D.ι) (k : D.ι) (hJ : J.Nonempty)
+theorem sub_center (_hS : IsSylowTwoOf S₀ L) (J : Set D.ι) (k : D.ι) (hJ : J.Nonempty)
     (hle : pElementSubgroup 2 (Pc D k) ≤ ⨆ j ∈ J, Pc D j) : k ∈ J := by
   refine D.sub J k hJ ?_
   have hq : Function.Surjective (QuotientGroup.mk' (Subgroup.center ↥L)) :=
@@ -437,11 +440,11 @@ theorem nonnorm_center (hS : IsSylowTwoOf S₀ L) (i : D.ι) :
   ι := D.ι
   P := Pc D
   P_min := fun i => isMinOverBorel_preimage hS (D.P_min i)
-  P_all := fun A hA => pAll_center D hS hA
+  P_all := fun _A hA => pAll_center D hS hA
   P_inj := Pc_inj D
-  OV := fun X hSX hXL hX => ov_center D hS hSX hXL hX
+  OV := fun _X hSX hXL hX => ov_center D hS hSX hXL hX
   sub := fun J k hJ hle => sub_center D hS J k hJ hle
-  two := fun J a hJ ha h2 => two_center D hS J hJ ha h2
+  two := fun J _a hJ ha h2 => two_center D hS J hJ ha h2
   nonnorm := fun i => nonnorm_center D hS i
 
 end Fields

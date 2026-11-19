@@ -14,6 +14,7 @@ section Abstract
 
 variable {Γ B : Type*} [Group Γ] [Finite Γ] [Group B] [Finite B]
 
+omit [Finite B] in
 theorem oPPrimeHull_top_normal (p : ℕ) : (oPPrimeHull p (⊤ : Subgroup B)).Normal := by
   refine ⟨fun n hn g => ?_⟩
   have h : (oPPrimeHull p (⊤ : Subgroup B)).map (MulAut.conj g).toMonoidHom ≤
@@ -32,9 +33,9 @@ theorem nonempty_mulEquiv_oPPrimeHull (Γ₀ A : Subgroup Γ) (hΓ₀ : Nat.card
     (hO : CFSG.pCore 3 B = ⊥) :
     Nonempty (↥(oPPrimeHull 3 (⊤ : Subgroup B)) ≃* ↥Γ₀) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set W : Subgroup B := oPPrimeHull 3 (⊤ : Subgroup B) with hW
-  haveI hWn : W.Normal := oPPrimeHull_top_normal 3
+  have hWn : W.Normal := oPPrimeHull_top_normal 3
   let φ₀ : ↥(A ⊓ Γ₀) →* B := φ.comp (Subgroup.inclusion inf_le_left)
   have h1 : W ≤ φ₀.range := by
     refine (Subgroup.closure_le _).mpr ?_
@@ -47,7 +48,7 @@ theorem nonempty_mulEquiv_oPPrimeHull (Γ₀ A : Subgroup Γ) (hΓ₀ : Nat.card
       have := hbP (Subgroup.mem_zpowers b)
       rwa [Sylow.coe_mapSurjective] at this
     obtain ⟨a, haP, rfl⟩ := hbP'
-    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp PA.isPGroup' ⟨a, haP⟩
+    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp PA.isPGroup ⟨a, haP⟩
     have haΓ : ((a : A) : Γ) ∈ Γ₀ := by
       refine h3 _ ⟨j, ?_⟩
       rw [Subgroup.orderOf_coe]
@@ -85,10 +86,10 @@ theorem nonempty_mulEquiv_oPPrimeHull (Γ₀ A : Subgroup Γ) (hΓ₀ : Nat.card
         rw [h]
         exact Subgroup.normal_top
       · exact Subgroup.normal_of_index_eq_two h
-    haveI : (P : Subgroup W).Characteristic := Sylow.characteristic_of_normal P hPn
+    have : (P : Subgroup W).Characteristic := Sylow.characteristic_of_normal P hPn
     have hPB : ((P : Subgroup W).map W.subtype).Normal := inferInstance
     have hle : (P : Subgroup W).map W.subtype ≤ CFSG.pCore 3 B :=
-      le_sSup ⟨hPB, P.isPGroup'.map W.subtype⟩
+      le_sSup ⟨hPB, P.isPGroup.map W.subtype⟩
     rw [hO] at hle
     have h5 : (P : Subgroup W).map W.subtype = ⊥ := le_bot_iff.mp hle
     have h6 : Nat.card ((P : Subgroup W).map W.subtype) = 3 := by
@@ -184,7 +185,7 @@ theorem isPSLType_oPPrimeHull_of_hom_GL23 {X B : Type} [Group X] [Group B] [Fini
     (hπ : Function.Surjective π) (hρ : IsPGroup 3 (ρ.ker.map π)) (hB3 : 3 ∣ Nat.card B)
     (hO : CFSG.pCore 3 B = ⊥) (hZ : Subgroup.center B = ⊥) :
     IsPSLType 2 (ZMod 3) ↥(oPPrimeHull 3 (⊤ : Subgroup B)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hker : ρ.ker ≤ π.ker := by
     have hn : (ρ.ker.map π).Normal := (MonoidHom.normal_ker ρ).map π hπ
     have hle : ρ.ker.map π ≤ CFSG.pCore 3 B := le_sSup ⟨hn, hρ⟩

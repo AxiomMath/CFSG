@@ -20,8 +20,8 @@ theorem KConfig.u4_line {m : ℕ} {K : Type} [Field K]
     ConclKLeft (CFSG.ClassicalGroups.UnitaryFlag.hypSU h 2 0) L V
         (CFSG.Quasithin.H13.U4Par.parP2 h) ∧
       CFSG.Quasithin.IsPSL 2 2 (2 * m) (CFSG.Quasithin.ModO2 L) := by
-  haveI := h.finite
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := h.finite
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have hL : L = perfectCore (CFSG.Quasithin.H13.U4Par.parP2 h) :=
     hc.eq_perfectCore_of_simple
       (CFSG.Quasithin.H13.U4Par.isSimpleGroup_modO2_perfectCore_parP2 h)
@@ -48,7 +48,7 @@ theorem KConfig.u4_line {m : ℕ} {K : Type} [Field K]
   have hVU : V = blockU (perfectCore (CFSG.Quasithin.H13.U4Par.parP2 h)) :=
     hV.trans hU.symm
   subst hVU
-  haveI hcomm : IsMulCommutative ↥(blockU (perfectCore
+  have hcomm : IsMulCommutative ↥(blockU (perfectCore
       (CFSG.Quasithin.H13.U4Par.parP2 h))) := hc.elemAbelian.1
   have hO : BinaryOrthogonalFour (V := ↥(blockU (perfectCore
         (CFSG.Quasithin.H13.U4Par.parP2 h))))

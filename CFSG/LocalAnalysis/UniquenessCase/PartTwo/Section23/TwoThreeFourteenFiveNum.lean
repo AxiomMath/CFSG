@@ -15,6 +15,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem T_le_normalizer_conjClosure {S H T : Subgroup G}
     (hS : T ≤ Subgroup.normalizer (S : Set G))
     (hH : T ≤ Subgroup.normalizer (H : Set G)) :
@@ -22,6 +23,7 @@ theorem T_le_normalizer_conjClosure {S H T : Subgroup G}
   rw [← quasithin_conjClosure_eq]
   exact CFSG.Quasithin.Vol2.Ch11.SecA.le_normalizer_conjClosure_of_le hS hH
 
+omit [Finite G] in
 theorem H_le_normalizer_conjClosure (H S : Subgroup G) :
     H ≤ Subgroup.normalizer (conjClosure H S : Set G) := by
   rw [← quasithin_conjClosure_eq]

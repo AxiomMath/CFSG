@@ -26,7 +26,7 @@ theorem starOut_odd {q : TauCeti.PrimePower} {B : Subgroup G} {x : G} {L : Subgr
       StarOut B x L (rho L ⟨bs, hc.hXN hbs⟩) := by
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨bs, hbs, ⟨g', hg'⟩, hbs3, hψ3, hψout, hψfac, D, hD, hD9, hDfix⟩ :=
     exists_bs hc.hL hc.hXN hc.hZ F (hc.hBcx hb₀) (hc.hBel.2 b₀ hb₀) hnon
   have hbsN : bs ∈ Subgroup.normalizer (L : Set G) := hc.hXN hbs

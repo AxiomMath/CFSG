@@ -58,7 +58,7 @@ theorem i1422_quasisimple_alt8_iso {Γ : Type} [Group Γ] [Finite Γ] (hq : CFSG
 theorem i1422Char2_of_facts (hS1 : I1422Lie2Fact) (G : Type) [Group G] [Finite G] :
     I1422Char2At G := by
   intro X K J y _hX hK hyN hyp _hCM hJ hA hKr
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJK : J ≤ K := hJ.1.trans inf_le_left
   have hyp' : IsPGroup 3 (Subgroup.zpowers y) := isPGroup_zpowers_of_pow_eq_one hyp
   have hJt := glaPComponent_map_pQuotHom Nat.prime_three hyN hyp' hJ

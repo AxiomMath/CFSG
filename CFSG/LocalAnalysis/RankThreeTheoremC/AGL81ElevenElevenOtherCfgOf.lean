@@ -284,7 +284,7 @@ theorem exists_centralizing_of_dvd {p : ℕ} [Fact p.Prime] {A V : Subgroup G} (
   set P' : Subgroup G := (P : Subgroup W).map W.subtype with hP'
   have hP'W : P' ≤ W := Subgroup.map_subtype_le _
   have hAP' : A ≤ P' := fun a ha => ⟨⟨a, (le_sup_left : A ≤ W) ha⟩, hP ha, rfl⟩
-  have hP'3 : IsPGroup p P' := P.isPGroup'.map _
+  have hP'3 : IsPGroup p P' := P.isPGroup.map _
   have hP'V : P' ≤ Subgroup.normalizer (V : Set G) := hP'W.trans hWV
   have hne : P' ⊓ V ≠ ⊥ := by
     intro hb
@@ -303,9 +303,9 @@ theorem exists_centralizing_of_dvd {p : ℕ} [Fact p.Prime] {A V : Subgroup G} (
       show (P'.comap W.subtype).index = _
       rw [hP', Subgroup.comap_map_eq_self_of_injective W.subtype_injective]
     exact P.not_dvd_index (hPi ▸ (hri ▸ hp).trans hdvd)
-  haveI : Group.IsNilpotent P' := hP'3.isNilpotent
+  have : Group.IsNilpotent P' := hP'3.isNilpotent
   set N : Subgroup P' := (P' ⊓ V).subgroupOf P' with hN
-  haveI hNn : N.Normal := by
+  have hNn : N.Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hnV : (n : G) ∈ V := hn.2
     refine ⟨P'.mul_mem (P'.mul_mem g.2 n.2) (P'.inv_mem g.2), ?_⟩
@@ -345,6 +345,7 @@ theorem exists_centralizing_of_dvd {p : ℕ} [Fact p.Prime] {A V : Subgroup G} (
       show k - (k - 1) = 1 by omega, pow_one]
   · exact (Commute.pow_right (hy₀c a ha) _).eq
 
+omit [Finite G] in
 theorem isElemAbelian_sup_zpowers_gen {q : ℕ} (hq : q.Prime) {E : Subgroup G}
     (hE : IsElemAbelian q E) {z : G} (hzq : z ^ q = 1) (hzE : z ∉ E)
     (hz : ∀ e ∈ E, e * z = z * e) :
@@ -429,7 +430,7 @@ theorem d1LiftX_facts_gen {p : ℕ} [Fact p.Prime] {P : Sylow p G} {M H Q : Subg
   have hA'p : IsPGroup p A' := (hd.base.2.1.to_le hAR).comap_subtype
   have hAO : A' ⊓ O = ⊥ := by
     obtain ⟨n, hn⟩ := hA'p.exists_card_eq
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hn]
     exact (primeComplementCore_coprime (G := H) p).pow_left n
   have hinj : ∀ a ∈ A', π a = 1 → a = 1 := fun a ha h1 => by
@@ -479,7 +480,7 @@ theorem agl81ElevenElevenRankTwoCfg_of (h7 : AGL81ElevenSevenCfg G)
   obtain ⟨H₁, R₁, hesc⟩ := hd.escape
   have hp : p.Prime := hesc.prime
   have hp2 : p ≠ 2 := hesc.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcore : GLBWeakCore p (P : Subgroup G) ≤ M := hesc.weakCore_le
   set X := d1PlusCore p H K with hXdef
   set A := d1LiftX p H Q K with hAdef
@@ -501,7 +502,7 @@ theorem agl81ElevenElevenRankTwoCfg_of (h7 : AGL81ElevenSevenCfg G)
     intro k hk
     by_contra hk1
     have hcen : Subgroup.center ↥K = ⊤ := by
-      haveI := hlist.1
+      have := hlist.1
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥K) with h | h
       · exfalso
         apply hk1
@@ -509,12 +510,12 @@ theorem agl81ElevenElevenRankTwoCfg_of (h7 : AGL81ElevenSevenCfg G)
         rw [h] at this
         exact Subgroup.mem_bot.mp this
       · exact h
-    letI : CommGroup ↥K :=
+    let : CommGroup ↥K :=
       { (inferInstance : Group ↥K) with
         mul_comm := fun a b => by
           have := Subgroup.mem_center_iff.mp (hcen ▸ Subgroup.mem_top a) b
           exact this.symm }
-    haveI := hlist.1
+    have := hlist.1
     have hprime := IsSimpleGroup.prime_card (α := ↥K)
     obtain ⟨E, hEK, hE, hEc⟩ := exists_isElemAbelian_card_sq_of_two_le_pRank hp hrk
     have hdvd : p ^ 2 ∣ Nat.card K := hEc ▸ Subgroup.card_dvd_of_le hEK

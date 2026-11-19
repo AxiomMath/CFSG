@@ -39,7 +39,7 @@ theorem exists_tau_of_mB {Γ : Subgroup GL4} (h : Hyp Γ)
   have hm : rep 6 ∈ Om Γ := (cfgOf_fst h 6).1 (by rw [hB]; rfl)
   have hr := cfgOf_snd h 6 hm
   have hopt := cfgOf_opt h 6 (by decide)
-  rw [(cfgOf_fst h 6).2 hm, optL, if_pos rfl, okL_six_eq] at hopt
+  rw [(cfgOf_fst h 6).2 hm, optL, ite_eq_left rfl, okL_six_eq] at hopt
   have hOm := mem_Om_iff_pat h hB
   obtain ⟨r, hrΓ, hr1, -⟩ := real_refl h hr
   simp only [List.mem_cons, List.not_mem_nil, or_false] at hopt

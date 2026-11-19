@@ -32,6 +32,7 @@ section Generic
 
 variable {A Ω : Type} [Group A] [Group Ω] [Finite A] [Finite Ω]
 
+omit [Finite A] in
 theorem conj_mem' {L : Subgroup A} {g x : A} (hg : g ∈ Subgroup.normalizer (L : Set A)) (hx : x ∈ L) :
     g⁻¹ * x * g ∈ L := by
   refine (Subgroup.mem_normalizer_iff.1 hg (g⁻¹ * x * g)).2 ?_
@@ -39,6 +40,7 @@ theorem conj_mem' {L : Subgroup A} {g x : A} (hg : g ∈ Subgroup.normalizer (L 
   rw [e]
   exact hx
 
+omit [Finite Ω] [Finite A] in
 theorem map_normalizer_mem {Y : Subgroup A} {g : A} (π : A →* Ω)
     (hg : g ∈ Subgroup.normalizer (Y : Set A)) :
     π g ∈ Subgroup.normalizer ((Y.map π : Subgroup Ω) : Set Ω) := by
@@ -54,6 +56,7 @@ theorem map_normalizer_mem {Y : Subgroup A} {g : A} (π : A →* Ω)
     calc π (g⁻¹ * y * g) = (π g)⁻¹ * π y * π g := by simp only [map_mul, map_inv]
       _ = t := by rw [hyt]; group
 
+omit [Finite A] in
 theorem indRel_iff_exists {p : ℕ} {L : Subgroup A} {g : A} (hg : g ∈ Subgroup.normalizer (L : Set A))
     (q q' : PQuot p L) :
     indRel p L g q q' ↔ ∃ u : ↥L, (QuotientGroup.mk u : PQuot p L) = q ∧
@@ -145,6 +148,7 @@ theorem indRel_pquotMap {p : ℕ} (hp : p.Prime) (π : A →* Ω) (hN : ¬ p ∣
       rw [e2]
       exact h2
 
+omit [Finite Ω] in
 theorem inducesInnerMod_of_map {p : ℕ} (hp : p.Prime) (π : A →* Ω) (hN : ¬ p ∣ Nat.card π.ker)
     {Y : Subgroup A} {g : A} (hg : g ∈ Subgroup.normalizer (Y : Set A))
     (h : InducesInnerMod p (Y.map π) (π g)) : InducesInnerMod p Y g := by

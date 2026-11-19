@@ -18,15 +18,16 @@ variable {G : Type} [Group G] [Finite G]
     b ∈ Subgroup.centralizer ({a} : Set G) ∧ b ^ 3 = 1 ∧ J ≤ K ∧
     GLAPComponent 3 (K ⊓ Subgroup.centralizer ({b} : Set G)) J
 
+omit [Finite G] in
 theorem not_isPGroup_two_of_isAltPType {I : Subgroup G} {m : ℕ} (hm : 5 ≤ m) (h : IsAltPType 3 I m) :
     ¬ IsPGroup 2 I := by
   intro hI
   obtain ⟨e⟩ := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsPGroup 2 (PQuot 3 I) := hI.to_quotient (GLAPPrimeCore 3 ↥I)
   have hA : IsPGroup 2 ↥(alternatingGroup (Fin m)) := hQ.of_equiv e
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hA
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
   have h3 : 3 ∣ Nat.card ↥(alternatingGroup (Fin m)) := by
     rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
     have h6 : 3 ∣ m.factorial := Nat.dvd_factorial (by norm_num) (by omega)
@@ -64,6 +65,7 @@ theorem l73_exists_a (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} 
   refine ⟨a, hAD haA, ha1, ?_⟩
   rwa [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure, inf_comm] at hne
 
+omit [Finite G] in
 private theorem y5x_centralizer_eq_inf {D : Subgroup G} {a b : G}
     (hD : D = Subgroup.zpowers a ⊔ Subgroup.zpowers b) :
     Subgroup.centralizer (D : Set G) =
@@ -74,6 +76,7 @@ private theorem y5x_centralizer_eq_inf {D : Subgroup G} {a b : G}
   simp only [Subgroup.mem_inf, Subgroup.mem_centralizer_iff, Set.mem_union,
     Set.mem_singleton_iff, or_imp, forall_and, forall_eq]
 
+omit [Finite G] in
 private theorem y5x_closureIn_eq_iSup (I H : Subgroup G) :
     closureIn I H = ⨆ g ∈ H, GLBConj g I := by
   unfold closureIn
@@ -180,6 +183,7 @@ theorem l73_shape (hc : S6Ctx G 3) (i183 : Input18_3_4) {B : Subgroup G} {x : G}
     unfold L73Prod
     exact ⟨h𝒞c M hM, hMb, hM2M, hK3, hbN (Subgroup.mem_zpowers b), hb3, hJK, hJcomp⟩
 
+omit [Finite G] in
 private theorem y5x_kSub_conj_mem {I H : Subgroup G} {g z : G} (hg : g ∈ H)
     (hz : z ∈ closureIn I H) : g * z * g⁻¹ ∈ closureIn I H := by
   rw [closureIn_eq_iSup_gLBConj] at hz ⊢
@@ -243,6 +247,7 @@ theorem l73_K_sub (hc : S6Ctx G 3) (i183 : Input18_3_4) {B : Subgroup G} {x : G}
     (IsSubnormal.step hLaC ((Subgroup.normal_subgroupOf_iff_le_normalizer hLaC).2 hCN)
       (IsSubnormal.refl _))
 
+omit [Finite G] in
 theorem l73_norm_S {x y : G} {L T I : Subgroup G}
     (hIeq : I = GLAPLayer 3 (Subgroup.normalizer (T : Set G) ⊓
       Subgroup.centralizer (altDxy x y : Set G) ⊓ L)) {a : G} (haD : a ∈ altDxy x y) {A : Subgroup G}
@@ -250,7 +255,7 @@ theorem l73_norm_S {x y : G} {L T I : Subgroup G}
     (hAD : A ≤ Subgroup.centralizer (altDxy x y : Set G)) :
     A ≤ Subgroup.normalizer ((⁅I, Subgroup.centralizer ({a} : Set G) ⊓
       pCoreOf 2 (Subgroup.normalizer (T : Set G))⁆ : Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinf : ∀ {H K : Subgroup G} {g : G}, g ∈ Subgroup.normalizer (H : Set G) →
       g ∈ Subgroup.normalizer (K : Set G) → g ∈ Subgroup.normalizer ((H ⊓ K : Subgroup G) : Set G) :=
     fun {H K g} h1 h2 => by
@@ -270,6 +275,7 @@ theorem l73_norm_S {x y : G} {L T I : Subgroup G}
       (le_normalizer_pCoreOf 2 (Subgroup.normalizer (T : Set G)) (hAT hg))
   exact le_normalizer_commutator hAI hAC
 
+omit [Finite G] in
 theorem altDxy_le_normalizer_L {x y : G} {L : Subgroup G} (hxL : L ≤ Subgroup.centralizer ({x} : Set G))
     (hy : y ∈ L) : altDxy x y ≤ Subgroup.normalizer (L : Set G) := by
   unfold altDxy
@@ -305,7 +311,7 @@ theorem l73_ctx (hc : S6Ctx G 3) (i183 : Input18_3_4) {B : Subgroup G} {x : G} {
   set N := Subgroup.normalizer (T : Set G) with hNdef
   set C := Subgroup.centralizer ({a} : Set G) ⊓ pCoreOf 2 N with hCdef
   set S₀ := (⁅I, C⁆ : Subgroup G) with hS₀def
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hC2 : IsPGroup 2 C :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 N).to_le inf_le_right
   have hIX : I ≤ N ⊓ Subgroup.centralizer (altDxy x y : Set G) ⊓ L := by

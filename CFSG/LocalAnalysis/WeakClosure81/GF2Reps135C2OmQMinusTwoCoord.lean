@@ -32,7 +32,7 @@ private lemma c2slomqmtc_inOrbit_single {l m h : ℕ} (hl : 3 ≤ l) {z p c : Fi
 
 theorem omq_minus_exists_four_two_coord {l : ℕ} (hl : 3 ≤ l) {m h : ℕ} (hm : Odd m)
     {A B : ZMod m} (hA : A ≠ 0) (hB : B ≠ 0) {π : Equiv.Perm (Fin l)} {s : Fin l → ℤ}
-    (hs : SpIsSign s) (hsh : OmqMinusShape (by omega : 2 ≤ l) π s) :
+    (_hs : SpIsSign s) (hsh : OmqMinusShape (by omega : 2 ≤ l) π s) :
     ∃ u : Fin 4 → OmqMinusLat l m h, Function.Injective u ∧
       (∀ i, OmqMinusInOrbit
         ((Pi.single ⟨0, by omega⟩ A + Pi.single ⟨1, by omega⟩ B : Fin l → ZMod m),
@@ -115,7 +115,7 @@ theorem omq_minus_exists_four_two_coord {l : ℕ} (hl : 3 ≤ l) {m h : ℕ} (hm
       have hzval : ∀ k, (u k).1 z ≠ 0 := by
         intro k
         fin_cases k <;>
-          simp [u, v0, v1, v2, v3, Pi.single_eq_of_ne' hqz, hA, neg_ne_zero]
+          simp [u, v0, v1, v2, v3, Pi.single_eq_of_ne' hqz, hA]
       have hsymm : π.symm z = p := (Equiv.symm_apply_eq π).2 hπ1.symm
       have hxuz : ∀ k, (omqSignedAct π s (u k).1) z = 0 := by
         intro k

@@ -69,7 +69,7 @@ theorem exists_noncyclic_two_subgroup_of_quasisimple {Q : Type*} [Group Q] [Fini
   by_contra hcon
   push Not at hcon
   obtain ⟨S⟩ : Nonempty (Sylow 2 Q) := inferInstance
-  have hScyc : IsCyclic ↥(S : Subgroup Q) := hcon (S : Subgroup Q) S.isPGroup'
+  have hScyc : IsCyclic ↥(S : Subgroup Q) := hcon (S : Subgroup Q) S.isPGroup
   obtain ⟨-, hprod, -, ⟨-, hodd, -, -⟩, -⟩ := cyclic_sylow_normal_odd_complement S hScyc
   set N := pPrimeCore 2 Q with hN
   have hcycq : IsCyclic (Q ⧸ N) := by

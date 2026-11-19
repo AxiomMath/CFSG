@@ -83,8 +83,8 @@ theorem endNode_of_model {n d p : ℕ} {K : Type} [Field K] [Finite K]
       ∃ U' : Subgroup L', U' ≤ LargeEvenLayer (ggFix a) ∧ U' ≠ ⊥ ∧ IsPGroup 2 U' ∧
         ∀ a' ∈ A, ∀ u ∈ U', a' u ∈ U' := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hd3 : 3 ≤ d := by omega
   have hdq : (d, 2 ^ n) ≠ (3, 2) := by
     intro h
@@ -138,11 +138,11 @@ theorem endNode_of_model {n d p : ℕ} {K : Type} [Field K] [Finite K]
     ·
       obtain ⟨g, hg⟩ := (hM_mem _).mp hc
       have hvne : ∀ k : ↥F, k ≠ c → v g k = 0 := fun k hk => by
-        rw [hg, Pi.single_apply, if_neg hk]
+        rw [hg, Pi.single_apply, ite_eq_right hk]
       have hν1 : ∀ k : ↥F, k ≠ c → ν g k.1 = 1 := fun k hk => (hvzero g k).mp (hvne k hk)
       have hcne : ν g c.1 ≠ 1 := fun h => by
         have h1 := (hvzero g c).mpr h
-        rw [hg, Pi.single_apply, if_pos rfl] at h1
+        rw [hg, Pi.single_apply, ite_eq_left rfl] at h1
         exact one_ne_zero h1
       have hTmem : ∀ i, ν g i ≠ 1 → i = c.1 := by
         intro i hi
@@ -164,7 +164,7 @@ theorem endNode_of_model {n d p : ℕ} {K : Type} [Field K] [Finite K]
         · rw [hkc]
           simp
         · have hyk : y k = 0 := hy k (hν1 k hkc)
-          simp [Pi.single_apply, hkc, hyk]
+          simp [hkc, hyk]
     ·
       obtain ⟨g, hg⟩ := (hM_mem _).mp hxM
       have hν1 : ∀ k : ↥F, k ≠ c → k ≠ c' → ν g k.1 = 1 := fun k hk1 hk2 =>

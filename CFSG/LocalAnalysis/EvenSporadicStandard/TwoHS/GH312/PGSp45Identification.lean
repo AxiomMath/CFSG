@@ -38,10 +38,10 @@ theorem natCard_statedProj_statedSp_zmod_five :
 theorem nonempty_mulEquiv_pgsp45_of_zmod_five {X : Type} [Group X] [Finite X] (T : Subgroup X)
     [T.Normal] (e : T ≃* StatedProj (StatedSp 2 (ZMod 5)))
     (hC : Subgroup.centralizer (T : Set X) = ⊥) (hT : T ≠ ⊤) : Nonempty (X ≃* PGSp45) := by
-  haveI : IsSimpleGroup (StatedProj (StatedSp 2 (ZMod 5))) :=
+  have : IsSimpleGroup (StatedProj (StatedSp 2 (ZMod 5))) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp (ZMod 5) 2 (by norm_num)
       (Or.inl (Or.inr (by rw [Nat.card_zmod]; norm_num)))
-  haveI : IsSimpleGroup T := e.isSimpleGroup
+  have : IsSimpleGroup T := e.isSimpleGroup
   let aut : X →* MulAut (StatedProj (StatedSp 2 (ZMod 5))) :=
     (MulAut.congr e).toMonoidHom.comp MulAut.conjNormal
   let aut' : X →* (conjAut 2 (ZMod 5)).range :=

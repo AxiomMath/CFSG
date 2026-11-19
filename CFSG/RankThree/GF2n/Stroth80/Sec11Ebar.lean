@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem Ctx.conj_mem_H0 (hc : Ctx M Q Z B) {y h : G} (hy : y ∈ M) (hh : h ∈ H0 M Z) :
     y * h * y⁻¹ ∈ H0 M Z := by
   refine ⟨M.mul_mem (M.mul_mem hy hh.1) (M.inv_mem hy), Subgroup.mem_centralizer_iff.mpr ?_⟩
@@ -24,6 +25,7 @@ theorem Ctx.conj_mem_H0 (hc : Ctx M Q Z B) {y h : G} (hy : y ∈ M) (hh : h ∈ 
     _ = y * (h * (y⁻¹ * z * y)) * y⁻¹ := by rw [h1]
     _ = y * h * y⁻¹ * z := by group
 
+omit [Finite G] in
 theorem Ctx.mk_mem_Ebar [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {a : G}
     (ha : a ∈ LB M Q B) (hA : IsA2 Q Z a) :
     (QuotientGroup.mk (⟨a, hc.LB_le_M ha⟩ : ↥M) : Mbar M Q) ∈ Ebar M Q Z B := by
@@ -31,6 +33,7 @@ theorem Ctx.mk_mem_Ebar [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {a : G}
   rw [one_mul, inv_one, mul_one]
   exact Subgroup.mem_map.mpr ⟨⟨a, hc.LB_le_M ha⟩, Subgroup.mem_subgroupOf.mpr ha, rfl⟩
 
+omit [Finite G] in
 theorem Ctx.Ebar_conj [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {d : Mbar M Q}
     (hd : d ∈ Ebar M Q Z B) (x : Mbar M Q) : x * d * x⁻¹ ∈ Ebar M Q Z B := by
   obtain ⟨⟨e, rfl, hA⟩, x', hx'⟩ := hd
@@ -69,13 +72,14 @@ theorem Ctx.Ebar_subset_H [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {d : Mbar
     rwa [e2] at h5
   exact Subgroup.mem_map.mpr ⟨e, Subgroup.mem_subgroupOf.mpr h4, rfl⟩
 
+omit [Finite G] in
 theorem Ctx.Xbar_normal [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) :
     (Xbar M Q Z B).Normal := by
   refine ⟨fun n hn g => ?_⟩
   unfold Xbar at hn ⊢
   induction hn using Subgroup.closure_induction with
   | mem x hx => exact Subgroup.subset_closure (hc.Ebar_conj hx g)
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
     rw [this]

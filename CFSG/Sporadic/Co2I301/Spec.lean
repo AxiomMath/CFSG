@@ -103,7 +103,7 @@ theorem eq_one_of_fix_o6P : ∀ g ∈ K0, (∀ j, g (o6P j) = o6P j) → g = 1 :
     fun b hb => ?_
   have hbase : finBase2300 k0Base = [o6P 0, o6P 1, o6P 2, o6P 3] := by decide
   rw [hbase] at hb
-  simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hb
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at hb
   rcases hb with rfl | rfl | rfl | rfl <;> exact hfix _
 
 theorem centralizer_facts : ∀ g ∈ co2P, Commute g dP → Commute g locZ →

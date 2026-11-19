@@ -141,7 +141,7 @@ theorem card_E0G [Finite K] {ω : Kˣ} (hω : ω ^ 3 = 1) (hω1 : ω ≠ 1) :
     Nat.card (E0G (K := K) ω hω) = 9 := by
   unfold E0G
   rw [Nat.card_congr (MonoidHom.ofInjective (E0hom_injective hω hω1)).toEquiv.symm]
-  simp [Nat.card_prod, ZMod.card]
+  simp [ZMod.card]
 
 theorem E0G_le_statedSL {ω : Kˣ} (hω : ω ^ 3 = 1) :
     E0G (K := K) ω hω ≤ StatedSL 3 K := by
@@ -178,7 +178,7 @@ theorem E0G_pow_three {ω : Kˣ} (hω : ω ^ 3 = 1) (g : GL (Fin 3) K)
 theorem isUTri_one : IsUTri (1 : Matrix (Fin 3) (Fin 3) K) := by
   intro i j
   refine ⟨fun h => ?_, fun h => ?_⟩
-  · simp [Matrix.one_apply, ne_of_gt h]
+  · simp [ne_of_gt h]
   · simp [Matrix.one_apply, h]
 
 theorem isUTri_mul {A B : Matrix (Fin 3) (Fin 3) K} (hA : IsUTri A) (hB : IsUTri B) :
@@ -338,7 +338,7 @@ theorem involutionMat_mul [CharP K 2] : involutionMat (K := K) * involutionMat =
     split_ifs <;> simp [CharTwo.add_self_eq_zero]
   have hEE : Matrix.single (0 : Fin 3) (1 : Fin 3) (1 : K) * Matrix.single 0 1 1 = 0 := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.single_apply]
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Matrix.single_apply]
   unfold involutionMat
   calc (1 + Matrix.single (0 : Fin 3) (1 : Fin 3) (1 : K)) * (1 + Matrix.single 0 1 1)
       = 1 + (Matrix.single (0 : Fin 3) (1 : Fin 3) (1 : K) + Matrix.single 0 1 1) +
@@ -349,10 +349,10 @@ theorem involutionMat_isUTri : IsUTri (involutionMat (K := K)) := by
   intro i j
   constructor
   · intro h
-    fin_cases i <;> fin_cases j <;> simp_all [involutionMat, Matrix.single_apply, Matrix.one_apply]
+    fin_cases i <;> fin_cases j <;> simp_all [involutionMat]
   · intro h
     subst h
-    fin_cases i <;> simp [involutionMat, Matrix.single_apply, Matrix.one_apply]
+    fin_cases i <;> simp [involutionMat]
 
 theorem involution_mem_utriG [Finite K] [CharP K 2] :
     ∃ u ∈ utriG (K := K), u ≠ 1 ∧ u ^ 2 = 1 := by
@@ -361,7 +361,7 @@ theorem involution_mem_utriG [Finite K] [CharP K 2] :
   · exact involutionMat_isUTri
   · intro h
     have h01 := congrArg (fun M : GL (Fin 3) K => (M : Matrix (Fin 3) (Fin 3) K) 0 1) h
-    simp [g, involutionMat, Matrix.single_apply] at h01
+    simp [g, involutionMat] at h01
   · apply Units.ext
     rw [Units.val_pow_eq_pow_val, Units.val_one, sq]
     exact involutionMat_mul

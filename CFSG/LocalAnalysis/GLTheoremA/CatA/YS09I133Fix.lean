@@ -12,7 +12,7 @@ theorem i133_fix_pCore_two {G : Type} [Group G] [Finite G] (α : MulAut G) {m : 
     (hm : Nat.Coprime m 2) (hα : α ^ m = 1) {Q : Subgroup G} (hQp : IsPGroup 2 ↥Q)
     (hQfix : ∀ x ∈ Q, α x = x) (hsize : twoPart (Nat.card G) ≤ 2 * Nat.card Q) :
     ∀ t ∈ pCoreOf 2 (Subgroup.normalizer (Q : Set G)), α t = t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hiter : ∀ x : G, (⇑α)^[m] x = x := by
     intro x
     have hpow : ∀ j : ℕ, (⇑α)^[j] x = (α ^ j) x := by

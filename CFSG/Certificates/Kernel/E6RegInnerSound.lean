@@ -63,7 +63,7 @@ theorem exists_a2_of_a2FixedL {kvec t : List ℕ} {w : WeylGroup .E6}
     ∃ β₁ β₂ : Fin Tag.E6.rank → ℤ, IsRoot Tag.E6 β₁ ∧ IsRoot Tag.E6 β₂ ∧ IsRoot Tag.E6 (β₁ + β₂) ∧
       triPairing (vec3 (τ := .E6) kvec) β₁ = 0 ∧ triPairing (vec3 (τ := .E6) kvec) β₂ = 0 ∧
       w • β₁ = β₁ ∧ w • β₂ = β₂ := by
-  simp only [a2FixedL, List.any_eq_true, List.mem_filter, Bool.and_eq_true] at h
+  simp only [a2FixedL, List.any_eq_true, List.mem_filter] at h
   obtain ⟨a, ⟨hak, hafix⟩, b, ⟨hbk, hbfix⟩, hsum⟩ := h
   have hakill := hak
   have hbkill := hbk

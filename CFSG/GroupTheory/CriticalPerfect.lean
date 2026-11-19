@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {H : Type*} [Group H] [Finite H] {q : ℕ} [Fact q.Prime]
 
+omit [Finite H] in
 private theorem le_centralizer_of_isCyclic_target {P E : Subgroup H} [E.Normal]
     (hP : ⁅P, P⁆ = P) (hcyc : IsCyclic ↥E) : P ≤ Subgroup.centralizer (E : Set H) := by
   have hmap : P.map (MulAut.conjNormal (H := E)) = ⊥ :=

@@ -40,7 +40,7 @@ theorem q8 : ruFiveQ8Check = true := by
     pow_unpack hw pI 4, pow_unpack hw pI 2, pow_unpack hw pJ 2, CFSG.KC.BfsPin.idA_eq hw,
     eqA_unpack hw (permB_ppow hw pI 4) hid, eqA_unpack hw (permB_ppow hw pI 2) hid,
     eqA_unpack hw (permB_ppow hw pI 2) (permB_ppow hw pJ 2), comp_unpack hw pJ pI,
-    inv_unpack hw pJ, comp_unpack hw (permB_pcomp hw pJ pI) (permB_pinvS hw pJ), inv_unpack hw pI,
+    inv_unpack pJ, comp_unpack hw (permB_pcomp hw pJ pI) (permB_pinvS hw pJ), inv_unpack pI,
     eqA_unpack hw (permB_pcomp hw (permB_pcomp hw pJ pI) (permB_pinvS hw pJ))
       (permB_pinvS hw pI), kI4, kI2, kIJ, kRel]
   rfl

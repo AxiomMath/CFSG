@@ -14,6 +14,7 @@ section TwistedField
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem card_fixSubfield_pow_two {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n)
     (δ : K ≃+* K) : orderOf δ ∣ n ∧ Nat.card (fixSubfield δ) = 2 ^ (n / orderOf δ) := by
   obtain ⟨-, -, -, -, -, hA⟩ :=
@@ -77,7 +78,7 @@ theorem exists_fixSubfield_twisted {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (
   refine ⟨f₀, hf₀1, hq, ?_, ?_⟩
   · intro c
     obtain ⟨j, hj⟩ := hdodd
-    haveI : Fintype (fixSubfield δ) := Fintype.ofFinite _
+    have : Fintype (fixSubfield δ) := Fintype.ofFinite _
     have hcardS : Fintype.card (fixSubfield δ) = (2 ^ f₀) ^ 2 := by
       rw [← Nat.card_eq_fintype_card]
       exact hq

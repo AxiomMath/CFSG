@@ -14,11 +14,11 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_exists_conj_not_mem_pair (D : Data G) {V₀ V L : Subgroup G} (h : Hyp151 D V₀ V L)
     (hs : 2 < s15 D.M V₀ V h.isElemAbelian L) {X Y : Subgroup G}
-    (hX : X ∈ wConj D.M V₀ V h.isElemAbelian L) (hY : Y ∈ wConj D.M V₀ V h.isElemAbelian L) :
+    (_hX : X ∈ wConj D.M V₀ V h.isElemAbelian L) (_hY : Y ∈ wConj D.M V₀ V h.isElemAbelian L) :
     ∃ z ∈ D.M, conjSubgroup (wSub V₀ V h.isElemAbelian L) z ≠ X ∧
       conjSubgroup (wSub V₀ V h.isElemAbelian L) z ≠ Y := by
   have hV := h.isElemAbelian
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
   have h2 : ({X, Y} : Set (Subgroup G)).ncard ≤ 2 := by
     have hle := Set.ncard_insert_le X ({Y} : Set (Subgroup G))
     rw [Set.ncard_singleton] at hle

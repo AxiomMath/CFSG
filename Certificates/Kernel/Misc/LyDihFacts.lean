@@ -25,14 +25,14 @@ theorem seedM_eq (i : Nat) : seedM i = U (GS i) := by
   by_cases h : i = 0
   · subst h
     exact matA_eq
-  · rw [if_neg h, matB_eq, bne0 h]
+  · rw [ite_eq_right h, matB_eq, bne0 h]
 
 theorem seedMInv_eq (i : Nat) : seedMInv (powM 5 111 matB 4) i = U (GSI i) := by
   unfold seedMInv GSI
   by_cases h : i = 0
   · subst h
     exact matA_eq
-  · rw [if_neg h, b4_eq, bne0 h]
+  · rw [ite_eq_right h, b4_eq, bne0 h]
 
 theorem vGS (i : Nat) : vld (GS i) = true := by
   unfold GS

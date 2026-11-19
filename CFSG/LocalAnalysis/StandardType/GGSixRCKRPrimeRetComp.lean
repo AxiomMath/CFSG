@@ -69,8 +69,8 @@ theorem rckCu_exists_fin (S : Finset GGL) :
 
 theorem rckCu_dir (K₁ K₂ : {K : Subfield GGL // Finite ↥K}) :
     ∃ K₃ : {K : Subfield GGL // Finite ↥K}, K₁.1 ≤ K₃.1 ∧ K₂.1 ≤ K₃.1 := by
-  haveI := K₁.2
-  haveI := K₂.2
+  have := K₁.2
+  have := K₂.2
   have h1 : (K₁.1 : Set GGL).Finite := Set.toFinite _
   have h2 : (K₂.1 : Set GGL).Finite := Set.toFinite _
   obtain ⟨K₃, hK₃⟩ := rckCu_exists_fin (h1.union h2).toFinset
@@ -296,7 +296,7 @@ theorem rckCu_exists_glued
     {τ : Tag} {β : Fin 6 → Fin τ.rank → ℤ}
     {ι : (Fin τ.rank → ℤ) → (Fin Tag.E6.rank → ℤ)} (D : RetFinCmp β ι) :
     ∃ θ : ↥(RetH τ β) →* ModGL Tag.E6 GGL, RetGlued D θ := by
-  haveI : Nonempty {K : Subfield GGL // Finite ↥K} := by
+  have : Nonempty {K : Subfield GGL // Finite ↥K} := by
     obtain ⟨K', -⟩ := rckCu_exists_fin ∅
     exact ⟨K'⟩
   obtain ⟨Fh, hFh⟩ := rckCu_Fh_exists D
@@ -440,8 +440,8 @@ theorem rckE6_comparison
         Function.Surjective θK ∧
         (∀ x, θK x = 1 → x ∈ Subgroup.center ↥(rootSpan τ ↥K' (rootsOfFam β Set.univ))) := by
     intro K' hK'
-    haveI : Finite ↥K' := hK'
-    haveI : CharP ↥K' 2 := (RingHom.charP_iff K'.subtype K'.subtype.injective 2).2 inferInstance
+    have : Finite ↥K' := hK'
+    have : CharP ↥K' 2 := (RingHom.charP_iff K'.subtype K'.subtype.injective 2).2 inferInstance
     obtain ⟨θK, h1, h2, h3, -⟩ := rckE6_theta_fin hτ hroot hι ↥K'
     exact ⟨θK, h1, h2, h3⟩
   choose θK hgen hsurj hker using key

@@ -217,7 +217,7 @@ theorem ggQTwoDUnit_perm_standard {m : ℕ} (hm : 5 ≤ m)
     rw [ht_def]
     by_cases hi : i = i0
     · simp [hi]
-    · simp only [if_neg hi]
+    · simp only [ite_eq_right hi]
       exact (heps i0 i (fun h => hi h.symm)).2
   have ht_i0 : t i0 = 1 := by rw [ht_def]; simp
   have ht_ne : ∀ i : Fin m, i ≠ i0 → t i = eps i0 i := by

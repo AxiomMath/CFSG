@@ -30,7 +30,7 @@ theorem grow_of_model
     (h : ∀ k : Q, orderOf k = p → CompGood (Good := Good) p k) : GRow Good s p := by
   intro S _ _ ⟨e⟩ hp hp2 β hβ hβ1 K hK
   let φ : S ≃* Q := e.trans b.symm
-  haveI : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
+  have : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
   have hncS : ∃ a c : S, a * c ≠ c * a := by
     obtain ⟨a, c, hac⟩ := hnc
     refine ⟨φ.symm a, φ.symm c, fun h' => hac ?_⟩
@@ -42,7 +42,7 @@ theorem grow_of_model
     · obtain ⟨a, c, hac⟩ := hncS
       exact absurd ((Subgroup.mem_center_iff.1 (h' ▸ Subgroup.mem_top c)) a) hac
   have hout := hOut S inferInstance hncS s ⟨e⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, rfl, hxp⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.exists_conj_of_pow hp hp2 hcen hout β hβ
   have hx1 : x ≠ 1 := by
@@ -77,7 +77,7 @@ theorem compGood_of_centShape {p : ℕ} (hp : p.Prime) {Q : Type} [Group Q] [Fin
 
 theorem compGood_dvd_of_card_dvd {p N : ℕ} (hp : p.Prime) {Q : Type} [Group Q] [Finite Q] {k : Q}
     (hk : orderOf k = p) (hC : Nat.card (Subgroup.centralizer ({k} : Set Q)) ∣ p * N) :
-    CompGood (Good := fun T _ => Nat.card T ∣ N) p k := fun I hI =>
+    CompGood (Good := fun T _ => Nat.card T ∣ N) p k := fun _I hI =>
   Nat.dvd_of_mul_dvd_mul_left hp.pos
     ((CFSG.LocalAnalysis.GLTheoremA.I1416Rows.prime_mul_card_pSimple_dvd_cent hp hk hI.1).trans hC)
 

@@ -233,11 +233,11 @@ theorem s2K_inner (C : List Nat) (u v : Nat) : ∀ (n acc : Nat),
     rw [e]
     by_cases hun : u = n
     · subst hun
-      rw [Nat.beq_refl, cond_true, s2K_inner C u v u acc]
+      rw [Nat.beq_refl, _root_.Bool.cond_true, s2K_inner C u v u acc]
       refine or_congr_right ⟨fun ⟨w, hw, h⟩ => ⟨w, by omega, h⟩, fun ⟨w, hw, h⟩ => ?_⟩
       exact ⟨w, by have := h.1; omega, h⟩
     · have hb : Nat.beq u n = false := Bool.eq_false_iff.2 fun h => hun (Nat.eq_of_beq_eq_true h)
-      rw [hb, cond_false]
+      rw [hb, Bool.cond_false]
       change (_ ||| 1 <<< _).testBit v = true ↔ _
       rw [Nat.testBit_or, Bool.or_eq_true, s2K_inner C u v n acc, Nat.one_shiftLeft,
         Nat.testBit_two_pow, decide_eq_true_iff]
@@ -337,7 +337,7 @@ theorem dsK_sound {PK M₀ : Nat} {DS : List Nat} (h : dsK PK M₀ DS = true) :
     unfold dClsK at this
     simpa only [Bool.or_eq_true, Nat.beq_eq, or_assoc] using this
   · have := h4 cd hcd
-    simp only [Bool.and_eq_true, Nat.beq_eq, recAll_iff, Bool.not_eq_true'] at this
+    simp only [Bool.not_eq_true'] at this
     exact ⟨this.1, fun j hj => Nat.ne_of_beq_eq_false (this.2 j hj)⟩
 
 end CFSG.SmithE.K

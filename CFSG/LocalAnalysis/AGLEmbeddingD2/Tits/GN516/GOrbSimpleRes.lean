@@ -13,7 +13,7 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData
 
 theorem gOrbConclS_of_residualGraph {Y : Type} [Group Y] [Finite Y] {L R P : Subgroup Y}
     (hL : IsSimpleGroup ↥L) (hG : ResidualGraph ↥L) (hRN : R ≤ Subgroup.normalizer (L : Set Y))
-    (hR2 : IsPGroup 2 R) (hSyl : IsSylowTwoOf (R ⊓ L) L) (hMin : IsMinOverBorel L (R ⊓ L) P)
+    (_hR2 : IsPGroup 2 R) (hSyl : IsSylowTwoOf (R ⊓ L) L) (hMin : IsMinOverBorel L (R ⊓ L) P)
     (hnP : ¬ R ≤ Subgroup.normalizer (P : Set Y)) : GOrbConclS R P := by
   have hι : Function.Injective L.subtype := Subgroup.subtype_injective L
   have hLtop : (⊤ : Subgroup ↥L).map L.subtype = L := by
@@ -134,7 +134,7 @@ theorem gOrbConclS_of_residualGraph {Y : Type} [Group Y] [Finite Y] {L R P : Sub
     have hnonab : ∃ Q' : Subgroup ↥L, IsPGroup 2 Q' ∧ ∃ a ∈ Q', ∃ b ∈ Q', a * b ≠ b * a := by
       refine ⟨T, h.sylow.2.1, ?_⟩
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hTP₁ : T ≤ P₁ := Subgroup.le_normalizer.trans h.lt₁.le
       have hsyl1 : IsSylowTwoOf T P₁ := by
         refine ⟨hTP₁, h.sylow.2.1, ?_⟩
@@ -152,7 +152,7 @@ theorem gOrbConclS_of_residualGraph {Y : Type} [Group Y] [Finite Y] {L R P : Sub
         intro x hx
         exact h.ct₁ (Subgroup.mem_inf.2 ⟨hTP₁ hx, hcent hx⟩)
       have hP1N : P₁ ≤ Subgroup.normalizer (T : Set ↥L) := by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         rw [le_antisymm hTcore hcore]
         exact CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 P₁
       exact not_le_of_gt h.lt₁ hP1N

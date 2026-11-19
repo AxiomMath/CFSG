@@ -86,7 +86,7 @@ theorem twistInner_of_rank_five_thirty_of_label_A5_two
   classical
   by_contra hnot
   have hk : twistKind S.ρ (rootCharHom a) i = .suN := by
-    simp only [twistKind, if_neg hnot, hr, hc]
+    simp only [twistKind, ite_eq_right hnot, hr, hc]
     norm_num
   have hpL : (3 : Omega) ≠ 0 := by
     have h2 : (2 : Omega) = 0 := CharTwo.two_eq_zero

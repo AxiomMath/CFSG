@@ -92,7 +92,7 @@ theorem popS_eq (s : List ℕ) : ∀ p, popS p s = s.drop p
 
 theorem topS_mem : ∀ {l : List ℕ}, l ≠ [] → topS l ∈ l
   | [], h => absurd rfl h
-  | a :: _, _ => List.mem_cons_self
+  | _a :: _, _ => List.mem_cons_self
 
 theorem testBit_of_land {S k : ℕ} (h : Nat.land (Nat.shiftRight S k) 1 = 0) :
     S.testBit k = false := by

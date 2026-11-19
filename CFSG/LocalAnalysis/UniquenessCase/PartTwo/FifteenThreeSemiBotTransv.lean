@@ -38,12 +38,12 @@ theorem s15_semiBot_transv_struct (hU : ∀ u : U, u ^ 2 = 1) {t : MulAut U}
   · ext u
     simp only [MulAut.mul_apply, MulAut.one_apply]
     rcases hN u with h | h
-    · simpa [h]
+    · simp [h]
     · have hcc : c * c = 1 := by rw [← pow_two]; exact hU c
       rw [h, map_mul, htc, h, mul_assoc, hcc, mul_one]
 
 theorem s15_semiBot_comm_values_small (hU : ∀ u : U, u ^ 2 = 1) {t : MulAut U} {c : U}
-    (hN : ∀ u, t u = u ∨ t u = u * c) (htc : t c = c) (htt : t * t = 1) (a : MulAut U) :
+    (hN : ∀ u, t u = u ∨ t u = u * c) (_htc : t c = c) (htt : t * t = 1) (a : MulAut U) :
     ∃ S : Subgroup U, Nat.card S ≤ 4 ∧ ∀ u, (t * a * t⁻¹ * a⁻¹) u * u⁻¹ ∈ S := by
   have ht' : t⁻¹ = t := inv_eq_of_mul_eq_one_right htt
   refine ⟨Subgroup.zpowers c ⊔ Subgroup.zpowers (a c), ?_, ?_⟩
@@ -54,7 +54,7 @@ theorem s15_semiBot_comm_values_small (hU : ∀ u : U, u ^ 2 = 1) {t : MulAut U}
       rw [Nat.card_zpowers]
       exact Nat.le_of_dvd (by norm_num) (orderOf_dvd_iff_pow_eq_one.2 (hU (a c)))
     have hinf : 0 < Nat.card ↥(Subgroup.zpowers c ⊓ Subgroup.zpowers (a c)) := by
-      haveI : Nonempty ↥(Subgroup.zpowers c ⊓ Subgroup.zpowers (a c)) :=
+      have : Nonempty ↥(Subgroup.zpowers c ⊓ Subgroup.zpowers (a c)) :=
         ⟨⟨1, Subgroup.one_mem _⟩⟩
       exact Nat.card_pos
     have hmul := card_sup_mul_card_inf (Subgroup.zpowers c) (Subgroup.zpowers (a c))
@@ -91,9 +91,10 @@ theorem s15_semiBot_comm_values_small (hU : ∀ u : U, u ^ 2 = 1) {t : MulAut U}
       rw [h2, s15_semiBot_mul_comm_mul]
       exact Subgroup.mul_mem _ htu htac
 
+omit [Finite U] in
 theorem s15_semiBot_c_mem_commSub {A A₀ : Subgroup (MulAut U)} (hUA : commSub ⊤ A = ⊤)
     (hA₀A : ∀ a ∈ A, ∀ x ∈ A₀, a * x * a⁻¹ ∈ A₀) {t : MulAut U} {c : U} (hex : ∃ u, t u ≠ u)
-    (hc1 : c ≠ 1) (hN : ∀ u, t u = u ∨ t u = u * c) (hA₀t : ∀ x ∈ A₀, t * x * t⁻¹ ∈ A₀)
+    (_hc1 : c ≠ 1) (hN : ∀ u, t u = u ∨ t u = u * c) (_hA₀t : ∀ x ∈ A₀, t * x * t⁻¹ ∈ A₀)
     (hcomm : ∀ a ∈ A, t * a * t⁻¹ * a⁻¹ ∈ A₀) : c ∈ commSub (⊤ : Subgroup U) A₀ := by
   let U₁ : Subgroup U := commSub (⊤ : Subgroup U) A₀
   by_contra hcU
@@ -185,7 +186,7 @@ theorem s15_semiBot_fixes_c (hU : ∀ u : U, u ^ 2 = 1) {A B : Subgroup (MulAut 
     intro a ha b hb
     have hmem : ⁅a, b⁆ ∈ ⁅A, B⁆ := Subgroup.commutator_mem_commutator ha hb
     rwa [hAB, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hmem
-  haveI : Group.IsPerfect ↥B := Subgroup.isPerfect_iff.2 hB
+  have : Group.IsPerfect ↥B := Subgroup.isPerfect_iff.2 hB
   have hF2 : ∀ a ∈ A, ∀ b ∈ B, ∀ u,
       b ((t * a * t⁻¹ * a⁻¹) u * u⁻¹) = (t * a * t⁻¹ * a⁻¹) u * u⁻¹ := by
     intro a ha b hb u
@@ -291,6 +292,7 @@ theorem s15_semiBot_fixes_c (hU : ∀ u : U, u ^ 2 = 1) {A B : Subgroup (MulAut 
   intro b hb
   exact mem_fixV.1 (hle hcA₀) b hb
 
+omit [Finite U] in
 theorem s15_semiBot_N_trivial (hU : ∀ u : U, u ^ 2 = 1) {A B : Subgroup (MulAut U)}
     (hAB : ⁅A, B⁆ = ⊥) (hUA : commSub ⊤ A = ⊤) (hUB : commSub ⊤ B = ⊤) {t : MulAut U} {c : U}
     (hc1 : c ≠ 1) (hex : ∃ u, t u ≠ u) (hN : ∀ u, t u = u ∨ t u = u * c) (htc : t c = c)

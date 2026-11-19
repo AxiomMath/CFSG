@@ -47,9 +47,9 @@ private theorem adAct_autE6W0_inv (x : Fin Tag.E6.rank → ZMod 3) :
   rw [inv_inv, autE6W0_smul_single i]
   simp only [Pi.neg_apply, Int.cast_neg, neg_mul, Finset.sum_neg_distrib]
   rw [Finset.sum_eq_single (e6Rho i) (fun b _ hb => by
-        rw [Pi.single_apply, if_neg hb, Int.cast_zero, zero_mul])
+        rw [Pi.single_apply, ite_eq_right hb, Int.cast_zero, zero_mul])
       (fun h => absurd (Finset.mem_univ _) h)]
-  rw [Pi.single_apply, if_pos rfl, Int.cast_one, one_mul]
+  rw [Pi.single_apply, ite_eq_left rfl, Int.cast_one, one_mul]
 
 private theorem graphExp_eq (k : ℕ) (y : Fin Tag.E6.rank → ZMod 3) :
     (fun i => y ((e6Rho ^ k) i)) = (-1 : ZMod 3) ^ k • adAct .E6 3 ((autE6W0⁻¹) ^ k) y := by
@@ -73,6 +73,7 @@ private theorem graphExp_eq (k : ℕ) (y : Fin Tag.E6.rank → ZMod 3) :
 
 private noncomputable def e6DiagramMap : ModGL Tag.E6 K := diagramMap TwistTag.E6 K
 
+omit [Finite K] in
 private theorem e6DiagramMap_mul_rootDiagUnit (c : Fin Tag.E6.rank → Kˣ) :
     e6DiagramMap (K := K) * rootDiagUnit .E6 c =
       rootDiagUnit .E6 (fun i => c (e6Rho i)) * e6DiagramMap (K := K) := by
@@ -84,6 +85,7 @@ private theorem e6DiagramMap_mul_rootDiagUnit (c : Fin Tag.E6.rank → Kˣ) :
     exact congrArg c (by rw [e6Perm_symm]; rfl)]
   exact E6_diagramMap_mul_rootDiagUnit c
 
+omit [Finite K] in
 private theorem e6DiagramMap_pow_conj_rootDiagUnit (k : ℕ) (c : Fin Tag.E6.rank → Kˣ) :
     (e6DiagramMap (K := K)) ^ k * rootDiagUnit .E6 c * ((e6DiagramMap (K := K)) ^ k)⁻¹ =
       rootDiagUnit .E6 (fun i => c ((e6Rho ^ k) i)) := by
@@ -106,12 +108,14 @@ private theorem e6DiagramMap_pow_conj_rootDiagUnit (k : ℕ) (c : Fin Tag.E6.ran
     rw [pow_succ']
     rfl
 
+omit [Finite K] in
 private theorem exactQ_mul_rootDiagUnit_mul_inv (ε : ℕ) (c : Fin Tag.E6.rank → Kˣ) :
     exactQ .E6 K ε * rootDiagUnit .E6 c * (exactQ .E6 K ε)⁻¹ =
       rootDiagUnit .E6 (fun i => c (exactPerm .E6 ε i)) := by
   rw [show exactPerm .E6 ε = (e6Rho ^ ε) from rfl]
   exact e6DiagramMap_pow_conj_rootDiagUnit ε c
 
+omit [Finite K] in
 private theorem exactNormalAut_mul_rootDiagAut (a : Fin Tag.E6.rank → Kˣ) (σ : K ≃+* K) (ε : ℕ)
     (b : Fin Tag.E6.rank → Kˣ) :
     exactNormalAut .E6 K a σ ε * rootDiagAut .E6 K b =
@@ -139,6 +143,7 @@ private theorem exactNormalAut_mul_rootDiagAut (a : Fin Tag.E6.rank → Kˣ) (σ
   simp only [map_mul, map_inv]
   group
 
+omit [Finite K] in
 private theorem exactNormalAut_conj_rootDiagAut (a : Fin Tag.E6.rank → Kˣ) (σ : K ≃+* K) (ε : ℕ)
     (b : Fin Tag.E6.rank → Kˣ) :
     exactNormalAut .E6 K a σ ε * rootDiagAut .E6 K b * (exactNormalAut .E6 K a σ ε)⁻¹ =
@@ -147,6 +152,7 @@ private theorem exactNormalAut_conj_rootDiagAut (a : Fin Tag.E6.rank → Kˣ) (�
   rw [exactNormalAut_mul_rootDiagAut (K := K) a σ ε b]
   group
 
+omit [Finite K] in
 private theorem exists_sigma_zetaVec (σ : K ≃+* K) {ζ : Kˣ} (hζo : orderOf ζ = 3)
     (hζ : ζ ^ 3 = 1) :
     ∃ f : ZMod 3, f ≠ 0 ∧ ∀ x : Fin Tag.E6.rank → ZMod 3,

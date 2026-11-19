@@ -50,7 +50,7 @@ theorem s16e_d5_four_lines {G : Type*} [Group G] {L : Subgroup G}
   let K : Fin 4 → Subgroup G := fun i =>
     ((Subgroup.zpowers (Multiplicative.ofAdd (s16e_d5_lineVec i))).map
       φ.symm.toMonoidHom).map L.subtype
-  haveI hLfin : Finite ↥L :=
+  have hLfin : Finite ↥L :=
     Finite.of_equiv (Multiplicative (Fin 2 → ZMod 3)) φ.symm.toEquiv
   have hKle : ∀ i, K i ≤ L := by
     intro i
@@ -133,12 +133,12 @@ theorem s16e_d5_four_lines {G : Type*} [Group G] {L : Subgroup G}
       · exact h3
     have hcard_zp : Nat.card ↥(Subgroup.zpowers (x : G)) = 3 := by
       rw [Nat.card_zpowers (x : G), horder]
-    haveI hHfin : Finite ↥H :=
+    have hHfin : Finite ↥H :=
       Finite.of_injective (Subgroup.inclusion hH) (Subgroup.inclusion_injective hH)
     have h1 : Subgroup.zpowers (x : G) = H :=
       Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hxG)
         (by rw [hHcard, hcard_zp])
-    haveI hKifin : Finite ↥(K i) :=
+    have hKifin : Finite ↥(K i) :=
       Nat.finite_of_card_ne_zero (by rw [hKcard i]; decide)
     have h2 : Subgroup.zpowers (x : G) = K i :=
       Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hxKi)

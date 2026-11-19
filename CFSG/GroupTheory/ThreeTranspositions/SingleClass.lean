@@ -11,10 +11,12 @@ open CFSG.Blueprint.Fischer
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 private lemma sq_eq_one_of_isConj {t d : Q} (ht2 : t ^ 2 = 1) (hd : IsConj t d) : d ^ 2 = 1 := by
   obtain ⟨g, rfl⟩ := isConj_iff.mp hd
   rw [conj_pow, ht2, mul_one, mul_inv_cancel]
 
+omit [Finite Q] in
 private lemma cube_eq_one_of_isConj_of_not_commute {t d e : Q} (ht2 : t ^ 2 = 1)
     (h : ∀ a : Q, (t * (a * t * a⁻¹)) ^ 2 = 1 ∨ (t * (a * t * a⁻¹)) ^ 3 = 1)
     (hd : IsConj t d) (he : IsConj t e) (hne : d * e ≠ e * d) : (d * e) ^ 3 = 1 := by
@@ -30,6 +32,7 @@ private lemma cube_eq_one_of_isConj_of_not_commute {t d e : Q} (ht2 : t ^ 2 = 1)
     rw [hde, mul_inv_rev, hd', he']
   · exact h3
 
+omit [Finite Q] in
 private lemma exists_mem_normalClosure_conj_eq_of_isConj_of_not_commute {t d e : Q}
     (ht2 : t ^ 2 = 1)
     (h : ∀ a : Q, (t * (a * t * a⁻¹)) ^ 2 = 1 ∨ (t * (a * t * a⁻¹)) ^ 3 = 1)
@@ -68,7 +71,7 @@ theorem exists_noncommuting_conj_of_pPrimeCore_eq_bot (hO : CFSG.pPrimeCore 3 Q 
       subst c
       exact hcb
     exact (commute_iff_eq a b).mpr (hcomm a b ha' hb')
-  haveI hNcomm : IsMulCommutative (Subgroup.normalClosure ({t} : Set Q)) :=
+  have hNcomm : IsMulCommutative (Subgroup.normalClosure ({t} : Set Q)) :=
     show IsMulCommutative (Subgroup.closure (Group.conjugatesOfSet ({t} : Set Q))) from
       Subgroup.isMulCommutative_closure hScomm
   have hcommN : ∀ a b : Subgroup.normalClosure ({t} : Set Q), a * b = b * a :=
@@ -101,7 +104,7 @@ theorem exists_noncommuting_conj_of_pPrimeCore_eq_bot (hO : CFSG.pPrimeCore 3 Q 
     fun x => Subtype.ext (hN2Q (x : Q) x.2)
   have h3not : ¬ 3 ∣ Nat.card (Subgroup.normalClosure ({t} : Set Q)) := by
     intro hdvd
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card'
       (G := Subgroup.normalClosure ({t} : Set Q)) 3 hdvd
     have hdvd2 : orderOf x ∣ 2 := orderOf_dvd_iff_pow_eq_one.mpr (hN2 x)
@@ -116,6 +119,7 @@ theorem exists_noncommuting_conj_of_pPrimeCore_eq_bot (hO : CFSG.pPrimeCore 3 Q 
   rw [hO] at hle
   exact ht1 (Subgroup.mem_bot.mp (hle (Subgroup.subset_normalClosure rfl)))
 
+omit [Finite Q] in
 theorem exists_mem_normalClosure_conj_eq_of_not_hasE9 (hX : ¬ HasE9 Q) {t : Q} (ht2 : t ^ 2 = 1)
     (h : ∀ a : Q, (t * (a * t * a⁻¹)) ^ 2 = 1 ∨ (t * (a * t * a⁻¹)) ^ 3 = 1)
     (hnc : ∃ a b : Q, IsConj t a ∧ IsConj t b ∧ a * b ≠ b * a) {y : Q} (hy : IsConj t y) :
@@ -223,7 +227,7 @@ theorem pair_normalClosure_of_sq_or_cube (hX : ¬ HasE9 Q) {t : Q} (ht2 : t ^ 2 
   · intro e he
     obtain ⟨g, hg⟩ := isConj_iff.mp he
     have htord : orderOf t = 2 := by
-      haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+      have : Fact (Nat.Prime 2) := Nat.fact_prime_two
       exact orderOf_eq_prime ht2 ht1
     calc orderOf e = orderOf (e : Q) := (Subgroup.orderOf_coe e).symm
       _ = orderOf (g * t * g⁻¹) := by rw [hg]

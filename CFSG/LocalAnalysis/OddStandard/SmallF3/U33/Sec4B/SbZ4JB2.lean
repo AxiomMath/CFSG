@@ -50,6 +50,7 @@ open scoped commutatorElement
 
 variable {H : Type} [Group H] [Finite H] {Q Y V V' B : Subgroup H} {ρ t τ l y z v₁ v₂ : H}
 
+omit [Finite H] in
 private theorem mem_closure_pair_invol {a b x : H} (ha : a * a = 1) (hb : b * b = 1)
     (hab : a * b = b * a) :
     x ∈ Subgroup.closure ({a, b} : Set H) ↔ x = 1 ∨ x = a ∨ x = b ∨ x = a * b := by
@@ -83,18 +84,22 @@ namespace ZJData
 variable (h : ZJData Q Y V V' B ρ t τ l y z v₁ v₂)
 include h
 
+omit [Finite H] in
 private theorem tau_ne_one : τ ≠ 1 :=
   fun hh => h.tau_not_mem_Q (hh.symm ▸ Q.one_mem)
 
+omit [Finite H] in
 private theorem t_inv : t⁻¹ = t := inv_eq_of_mul_eq_one_right h.t_sq
 
+omit [Finite H] in
 private theorem t_comm_zpowers (g : H) (hg : g ∈ zpowers ρ) : t * g = g * t := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hg
   exact (((commute_iff_eq t ρ).mpr h.t_rho).zpow_right n).eq
 
+omit [Finite H] in
 private theorem card_sup_Q_zpowers_tau :
     Nat.card ↥(Q ⊔ zpowers τ) = Nat.card Q * Nat.card ↥(zpowers τ) := by
-  haveI : Q.Normal := ⟨fun n hn g => h.normal_Q g n hn⟩
+  have : Q.Normal := ⟨fun n hn g => h.normal_Q g n hn⟩
   have hinf : Q ⊓ zpowers τ = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]
     intro x hx
@@ -143,6 +148,7 @@ private theorem card_sup_Q_zpowers_tau :
   rw [Nat.card_prod] at hcard
   exact hcard.symm
 
+omit [Finite H] in
 theorem comm_E_rho_le_Q : ⁅centralizer (Y : Set H), zpowers ρ⁆ ≤ Q := by
   let E : Subgroup H := centralizer (Y : Set H)
   let C : Subgroup H := ⁅E, zpowers ρ⁆
@@ -262,6 +268,7 @@ theorem exists_fixed_coset {e : H} (he : e ∈ centralizer (Y : Set H)) :
         rw [hρe, hρq]
     _ = e * (q : H) := by group
 
+omit [Finite H] in
 theorem centralizer_rho_inf_E :
     centralizer ({ρ} : Set H) ⊓ centralizer (Y : Set H) = zpowers τ := by
   let P : Subgroup H := centralizer ({ρ} : Set H) ⊓ centralizer (Y : Set H)
@@ -330,7 +337,7 @@ theorem E_eq : centralizer (Y : Set H) = Q ⊔ zpowers τ := by
     exact Subgroup.zpowers_le.mpr h.tau_mem_E
 
 theorem card_E : Nat.card (centralizer (Y : Set H)) = 128 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htau2 : τ ^ 2 = 1 := by rw [pow_two]; exact h.tau_sq
   have hord : orderOf τ = 2 := orderOf_eq_prime htau2 (tau_ne_one h)
   rw [h.E_eq, card_sup_Q_zpowers_tau h]

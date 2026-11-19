@@ -243,7 +243,7 @@ theorem one_apply : (1 : SpinExt) = ⟨0, 1⟩ := rfl
 def proj : SpinExt →* PSp43 where
   toFun p := p.a
   map_one' := rfl
-  map_mul' p q := rfl
+  map_mul' _p _q := rfl
 
 def inl : Multiplicative V →* SpinExt where
   toFun v := ⟨v.toAdd, 1⟩

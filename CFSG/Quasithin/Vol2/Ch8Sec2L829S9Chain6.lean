@@ -12,7 +12,7 @@ open Matrix
 open scoped MatrixGroups
 
 theorem s9c_part1 {E : Type} [Field E] [Finite E] [CharP E 2] {d : ℕ}
-    (t : GL (Fin d) E) (ht : IsTransvectionK t)
+    (t : GL (Fin d) E) (_ht : IsTransvectionK t)
     (K₀ : Subgroup (GL (Fin d) E)) (htK : ∀ k ∈ K₀, t * k * t⁻¹ ∈ K₀)
     (hK₀N : K₀ ≤ Subgroup.closure {x | ∃ k ∈ K₀, x = k * t * k⁻¹}) :
     ∃ N : Subgroup (GL (Fin d) E), N = Subgroup.closure {x | ∃ k ∈ K₀, x = k * t * k⁻¹} ∧
@@ -201,7 +201,7 @@ theorem s9c_K0_nontrivial {E : Type} [Field E] [CharP E 2] {d : ℕ}
     ∃ x : K₀, s9cRep hA hB ⟨(x : GL (Fin d) E), hKN x.2⟩ ≠ 1 := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hk1 : ∀ k (hk : k ∈ K₀), s9cRep hA hB ⟨k, hKN hk⟩ = 1 := fun k hk => hcon ⟨k, hk⟩
   have hcomm : ∀ g ∈ Subgroup.closure {x | ∃ k ∈ K₀, x = k * t * k⁻¹},
       ∃ hgN : g ∈ N, Commute (s9cRep hA hB ⟨g, hgN⟩) (s9cRep hA hB ⟨t, htN⟩) := by
@@ -420,14 +420,13 @@ theorem s9c_conj_cancel {E : Type} [Field E] {n : ℕ} (P : GL (Fin n) E)
   have h1 : (P : Matrix (Fin n) (Fin n) E) * (A * B) *
       ((P⁻¹ : GL (Fin n) E) : Matrix (Fin n) (Fin n) E) = 1 := by
     rw [← h]
-    simp only [Matrix.mul_assoc, Units.inv_mul_cancel_left, Units.mul_inv_cancel_left,
-      Units.inv_mul, Matrix.mul_one, Matrix.one_mul]
+    simp only [Matrix.mul_assoc, Units.inv_mul_cancel_left]
   calc A * B = ((P⁻¹ : GL (Fin n) E) : Matrix (Fin n) (Fin n) E) *
         ((P : Matrix (Fin n) (Fin n) E) * (A * B) *
           ((P⁻¹ : GL (Fin n) E) : Matrix (Fin n) (Fin n) E)) *
           (P : Matrix (Fin n) (Fin n) E) := by
         simp only [Matrix.mul_assoc, Units.inv_mul_cancel_left, Units.inv_mul,
-          Matrix.mul_one, Matrix.one_mul]
+          Matrix.mul_one]
     _ = 1 := by
         rw [h1]
         simp only [Matrix.mul_one, Units.inv_mul]
@@ -440,7 +439,7 @@ theorem s9c_conj_zero {E : Type} [Field E] {n : ℕ} (P : GL (Fin n) E)
         ((P : Matrix (Fin n) (Fin n) E) * Z * ((P⁻¹ : GL (Fin n) E) : Matrix (Fin n) (Fin n) E)) *
           (P : Matrix (Fin n) (Fin n) E) := by
         simp only [Matrix.mul_assoc, Units.inv_mul_cancel_left, Units.inv_mul,
-          Matrix.mul_one, Matrix.one_mul]
+          Matrix.mul_one]
     _ = 0 := by
         rw [h]
         simp

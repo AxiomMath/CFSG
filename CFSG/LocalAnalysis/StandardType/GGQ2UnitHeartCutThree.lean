@@ -100,10 +100,10 @@ theorem finrank_centH {N : ℕ} (h3 : 3 ∣ N) (S : Finset (Fin N)) (hS : S.None
   omega
 
 theorem unitHeart_noInternalTwoNode {N : ℕ} (hN : 4 ≤ N) (h3 : 3 ∣ N) (v : ↥(heart N)) (hv : v ≠ 0)
-    (U : Submodule F ↥(heart N)) (hU : finrank F U = 2) (hvU : v ∈ U) (S T : Finset (Fin N))
-    (hS : admissible S) (hT : admissible T)
-    (hocc_S : occursH (Submodule.span F {v}) S) (hocc_T : occursH U T)
-    (hcent_S : centH S = Submodule.span F {v}) (hcent_T : centH T ≤ U)
+    (U : Submodule F ↥(heart N)) (_hU : finrank F U = 2) (_hvU : v ∈ U) (S T : Finset (Fin N))
+    (hS : admissible S) (_hT : admissible T)
+    (hocc_S : occursH (Submodule.span F {v}) S) (_hocc_T : occursH U T)
+    (hcent_S : centH S = Submodule.span F {v}) (_hcent_T : centH T ≤ U)
     (hin : v ∈ insideH S) :
     ∀ labK ∈ equivLabelsH S, ∀ labJ ∈ equivLabelsH T,
       ¬ CFSG.StandardType.GGQ2Frame.TwoNodeLabels 3 labK labJ := by

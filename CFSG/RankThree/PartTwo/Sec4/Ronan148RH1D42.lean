@@ -31,7 +31,7 @@ theorem rowOf427_d42
   obtain ⟨ψ8⟩ := CFSG.HardMathSupport.Dickson.Bal207.Fam3D42.nonempty_mulEquiv_d4P φ8 hcard
   rw [hq2, hq1] at hK₃ hσ
   let e' : S ≃* graphFixedRootGroup TwistTag.D4 K₃ σ.toRingHom := e.trans eK
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K₃ σ.toRingHom) := Finite.of_equiv S e'.toEquiv
+  have : Finite (graphFixedRootGroup TwistTag.D4 K₃ σ.toRingHom) := Finite.of_equiv S e'.toEquiv
   refine ⟨NoCfgS427.of_mulEquiv e' (noCfgS427_of_compShape not_isA5Type_of_g28CompType
     fun β hβ hβ1 => CFSG.HardMathSupport.Dickson.Bal207.Fam3D42.compShape_triD4_two hK₃ σ hσ
       (eK.symm.trans ψ8) β hβ hβ1), noONS427_of_card ?_⟩

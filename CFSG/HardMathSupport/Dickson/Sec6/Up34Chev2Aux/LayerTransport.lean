@@ -35,11 +35,11 @@ theorem noL34Layer_of_equiv_normal_simple {P R : Type} [Group P] [Finite P] [Gro
     (hL34 : ¬ IsLThreeFour ↥S) : NoL34Layer δ := by
   set X := fixSubgroup δ with hX
   set S' : Subgroup ↥X := S.comap e.toMonoidHom with hS'
-  haveI : S'.Normal := Subgroup.normal_comap _
+  have : S'.Normal := Subgroup.normal_comap _
   set J : Subgroup P := S'.map X.subtype with hJ
   have hJC : J ≤ X := Subgroup.map_subtype_le S'
   have hJsub : J.subgroupOf X = S' := Subgroup.comap_map_eq_self_of_injective X.subtype_injective S'
-  haveI : (J.subgroupOf X).Normal := by rw [hJsub]; infer_instance
+  have : (J.subgroupOf X).Normal := by rw [hJsub]; infer_instance
   have hsolX : Group.IsSolvable (↥X ⧸ J.subgroupOf X) := by
     refine isSolvable_quotient_of_eq' hJsub.symm ?_
     let f : (↥X ⧸ S') →* (R ⧸ S) := QuotientGroup.map S' S e.toMonoidHom (fun x hx => hx)
@@ -55,7 +55,7 @@ theorem noL34Layer_of_equiv_normal_simple {P R : Type} [Group P] [Finite P] [Gro
   let eS' : ↥S' ≃* ↥S :=
     (Subgroup.equivMapOfInjective S' e.toMonoidHom e.injective).trans (MulEquiv.subgroupCongr hSS)
   let eJ : ↥J ≃* ↥S := (Subgroup.equivMapOfInjective S' X.subtype X.subtype_injective).symm.trans eS'
-  haveI := hs
+  have := hs
   refine noL34Layer_of_normal_simple δ J hJC hsolX eJ.isSimpleGroup ?_ fun hT =>
     hL34 (IsLThreeFour.of_mulEquiv eJ hT)
   obtain ⟨a, b, hab⟩ := hnab
@@ -71,7 +71,7 @@ theorem noL34Layer_of_fixed_commutator_equiv {P : Type} [Group P] [Finite P] (ψ
       ((commutator ↥(fixSubgroup ψ)).equivMapOfInjective (fixSubgroup ψ).subtype
         (fixSubgroup ψ).subtype_injective).symm
   let e' : ↥⁅fixSubgroup ψ, fixSubgroup ψ⁆ ≃* X := eS.trans e
-  haveI : IsSimpleGroup ↥⁅fixSubgroup ψ, fixSubgroup ψ⁆ := e'.isSimpleGroup
+  have : IsSimpleGroup ↥⁅fixSubgroup ψ, fixSubgroup ψ⁆ := e'.isSimpleGroup
   refine noL34Layer_of_simple_commutator ψ _ rfl inferInstance ?_ fun hT =>
     hL34 (IsLThreeFour.of_mulEquiv e' hT)
   obtain ⟨a, b, hab⟩ := hnab

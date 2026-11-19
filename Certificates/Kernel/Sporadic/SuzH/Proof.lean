@@ -32,11 +32,11 @@ theorem permN {k : Nat} (hk : k < 2) : permB 1782 11 (SuzHN.F k) = true := by
 
 theorem bArr_eq {i : Nat} (hi : i < 3) : bArr i = unpack 1782 11 (X i) := by
   interval_cases i
-  · rw [bArr, if_pos rfl, sD]
+  · rw [bArr, ite_eq_left rfl, sD]
     exact suzArr_eq (k := 1) (by norm_num)
-  · rw [bArr, if_neg (by decide), if_pos rfl, sB2]
+  · rw [bArr, ite_eq_right (by decide), ite_eq_left rfl, sB2]
     exact suzArr_eq (k := 2) (by norm_num)
-  · rw [bArr, if_neg (by decide), if_neg (by decide), sB3]
+  · rw [bArr, ite_eq_right (by decide), ite_eq_right (by decide), sB3]
     exact suzArr_eq (k := 3) (by norm_num)
 
 theorem valid_of {p : Nat} (hp : permB 1782 11 p = true) : validA 1782 (unpack 1782 11 p) = true :=

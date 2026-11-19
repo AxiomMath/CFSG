@@ -24,7 +24,7 @@ theorem ggTwE6_ker_center_recipe {K : Type} [Field K] [Finite K] {n : ℕ} (hn :
     (hker0 : ψ₀.ker ≤ Subgroup.center L') (hperf0 : commutator L' = ⊤) :
     ψ₀.ker = ⊥ ∧ Subgroup.center L' = ⊥ := by
   classical
-  haveI : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
+  have : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
   have hcen : Subgroup.center (twistedE6Group 2 n) = ⊥ := by
     have hcard : Nat.card (Subgroup.center (twistedE6Group 2 n)) = Nat.gcd 3 (2 ^ n + 1) :=
       (TwistedE6Closed.card_center_fixedGroup (k := GaloisField 2 (2 * n)) (θ := frobQ 2 n)
@@ -96,7 +96,7 @@ theorem ggTwE6_center_eq_bot {G : Type} [Group G] [Finite G] {X : Subgroup G} {n
           Subgroup.center L' = ⊥
 
 theorem ggTwE6ModelAt_recipe {K : Type} [Field K] [Finite K] {n p : ℕ} [Fact p.Prime]
-    (hn : 2 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) (hp5 : 5 ≤ p) (hpq : p ∣ 2 ^ n + 1)
+    (hn : 2 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) (hp5 : 5 ≤ p) (_hpq : p ∣ 2 ^ n + 1)
     (h3 : ¬ 3 ∣ 2 ^ n + 1) :
     GGTwE6ModelAt p n (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) := by
   classical
@@ -105,7 +105,7 @@ theorem ggTwE6ModelAt_recipe {K : Type} [Field K] [Finite K] {n p : ℕ} [Fact p
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
   obtain ⟨hψ0, hker0, hperf0, hAe, hAI, hr, -, hsc⟩ := hA
-  haveI : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
+  have : Finite (TwE6Delta.RecipeR K n) := TwE6Delta.finite_recipeR hK
   have hψ₀inj : Function.Injective ψ₀ := by
     obtain ⟨hker1, -⟩ := ggTwE6_ker_center_recipe hn hK h3 ψ₀ hψ0 hker0 hperf0
     exact (MonoidHom.ker_eq_bot_iff ψ₀).1 hker1
@@ -115,11 +115,11 @@ theorem ggTwE6ModelAt_recipe {K : Type} [Field K] [Finite K] {n p : ℕ} [Fact p
     exists_innerModel_recipe_twE6 (p := p) (n := n) (K := K) hp (by omega) hK
       (TwE6Delta.ggOutdiagPrime_twE6 (by omega) hK hp hp3)
       (TwE6Delta.ggCenterPrime_twE6 (by omega) hK hp hp2 hp3) ψ₀ hψ0 hker0 hperf0 hAe hAI hsc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   let σ : K ≃+* K := iterateFrobeniusEquiv K 2 n
   have hσ : ∀ c, σ c = c ^ (2 ^ n) := fun c => iterateFrobeniusEquiv_def K 2 n c
   obtain ⟨e⟩ := TwE6Rank.exists_mulEquiv_graphFixedRootGroup (by omega) hK σ.toRingHom hσ
@@ -166,7 +166,7 @@ theorem ggTwE6_model_of_innerDiag (hRig : GGLabelRigidInput) {G : Type} [Group G
     (h3 : ¬ 3 ∣ 2 ^ n + 1) (hΛ : LargeEvenInLambda2 (⟨.twE6, 0, n⟩ : LargeEvenLabel))
     (hX : GGHasLabel (⟨.twE6, 0, n⟩ : LargeEvenLabel) (↥X ⧸ Subgroup.center ↥X))
     (hcard : commutator ↥X = ⊤ → ∀ {R : Type} [Group R]
-      (θ : ↥X ⧸ Subgroup.center ↥X ≃* R) (hN : Bs ≤ Subgroup.normalizer (X : Set G)),
+      (_θ : ↥X ⧸ Subgroup.center ↥X ≃* R) (hN : Bs ≤ Subgroup.normalizer (X : Set G)),
       GGTorusLift p 5 R →
         p ^ 5 ≤ Nat.card ↥(ggGamma X hN).range ∧ p ^ 3 ≤ Nat.card ↥(ggGamma X hN).range)
     {r : ℕ} (hr6 : r ≤ 6) :
@@ -203,12 +203,12 @@ theorem ggTwE6_model_of_innerDiag (hRig : GGLabelRigidInput) {G : Type} [Group G
     (S := fun lab => lab = (⟨.twE6, 0, n⟩ : LargeEvenLabel))
     (P' := fun R _ I _ => GGTorusLift p 5 R ∧ GGTwE6ModelAt p n R I) hall
     (fun _ _ _ _ _ _ hP => hP.1) hmark
-  obtain ⟨R, _, I, Fm, -, -, θ, ⟨-, hBsN, h3I⟩, hlift, hModel⟩ := largeEvenRawDatum_exists hraw
-  have hBsI : ∀ (b : G) (hb : b ∈ Bs), ggLAut X θ ⟨b, hBsN hb⟩ ∈ I :=
-    fun b hb => ggLAut_mem_of_induces X θ hBsN h3I hb
-  obtain ⟨hr, h3'⟩ := hcard hXc θ hBsN hlift
-  have hTB := ggTorusTBGroup_of_marking hp hBs hSC hXc θ hBsN hBsI hr h3'
-  obtain ⟨Kf, _, _, σ, hK, hσ, e, E, hEab, h5E, hsc, hAE, hZ⟩ := hModel X (ggQuotHom θ) _ hTB
+  obtain ⟨R, _, I, Fm, -, -, _θ, ⟨-, hBsN, h3I⟩, hlift, hModel⟩ := largeEvenRawDatum_exists hraw
+  have hBsI : ∀ (b : G) (hb : b ∈ Bs), ggLAut X _θ ⟨b, hBsN hb⟩ ∈ I :=
+    fun b hb => ggLAut_mem_of_induces X _θ hBsN h3I hb
+  obtain ⟨hr, h3'⟩ := hcard hXc _θ hBsN hlift
+  have hTB := ggTorusTBGroup_of_marking hp hBs hSC hXc _θ hBsN hBsI hr h3'
+  obtain ⟨Kf, _, _, σ, hK, hσ, e, E, hEab, h5E, hsc, hAE, hZ⟩ := hModel X (ggQuotHom _θ) _ hTB
   have hcardE : Nat.card E = p ^ 6 := by
     obtain ⟨Lf, _, ζ, hζ, ι₀, nk, m, wt, -, hinj, hrange, -⟩ :=
       ggTwE6_leviFrame hn hK hp5 hpq hσ E hEab h5E hsc

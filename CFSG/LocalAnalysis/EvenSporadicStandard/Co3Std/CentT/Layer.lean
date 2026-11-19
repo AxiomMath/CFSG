@@ -18,7 +18,7 @@ namespace CentConfig
 variable {X : Type} [Group X] [Finite X] {a b : X} {E : Subgroup X} {Fus : X → Prop}
 
 private theorem le_centralizer_a (h : CentConfig X a b E Fus) :
-    E ≤ Subgroup.centralizer ({a} : Set X) := fun e he =>
+    E ≤ Subgroup.centralizer ({a} : Set X) := fun _e he =>
   Subgroup.mem_centralizer_singleton_iff.mpr (h.a_comm he)
 
 theorem isComponent_E (h : CentConfig X a b E Fus) :
@@ -48,7 +48,7 @@ theorem le_layer (h : CentConfig X a b E Fus) :
 theorem exists_component_not_commuting (h : CentConfig X a b E Fus) :
     ∃ L : Subgroup X, IsComponentOf L ⊤ ∧ ⁅E, L⁆ ≠ ⊥ := by
   by_contra hcontra
-  push_neg at hcontra
+  push Not at hcontra
   have hlayer : CFSG.ComponentClassification.Layer.subgroup X ≤
       Subgroup.centralizer (E : Set X) := by
     rw [CFSG.ComponentClassification.Layer.subgroup.eq_sSup X]

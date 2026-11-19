@@ -15,7 +15,7 @@ namespace CFSG.LocalAnalysis.RankThreeUC.Section5
 theorem two_notMem_alphaSet_of_pCore_eq_bot {G : Type} [Group G] [Finite G] (hO2 : CFSG.pCore 2 G = ⊥) :
     2 ∉ alphaSet G := by
   rintro ⟨-, hrank⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRn : (CFSG.Open.pCoreOf 2 (commutator G)).Normal := ConjAct.normal_of_characteristic_of_normal
   have hRp : IsPGroup 2 (CFSG.Open.pCoreOf 2 (commutator G)) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (commutator G)
@@ -35,7 +35,7 @@ theorem exponent_eq_prime_of_not_isCyclic {G : Type} [Group G] {q : ℕ} (hqp : 
   rcases (Nat.dvd_prime hqp).1 hdvd with h1 | h1
   · exfalso
     rw [Monoid.exp_eq_one_iff] at h1
-    haveI := h1
+    have := h1
     exact hnc inferInstance
   · exact h1
 
@@ -62,7 +62,7 @@ theorem mem_scriptQ_of_le_of_rank_gt_one {G : Type} [Group G] [Finite G] {q : �
 theorem exists_mem_scriptQ_of_mem_alphaSet {G : Type} [Group G] [Finite G] {q : ℕ} (hq : q ∈ alphaSet G)
     (hq2 : q ≠ 2) : ∃ Q ∈ scriptQ G q, 1 < CFSG.Open.pRank q Q := by
   obtain ⟨hqp, hrank⟩ := hq
-  haveI : Fact q.Prime := ⟨hqp⟩
+  have : Fact q.Prime := ⟨hqp⟩
   have hRn : (CFSG.Open.pCoreOf q (commutator G)).Normal := ConjAct.normal_of_characteristic_of_normal
   have hRp : IsPGroup q (CFSG.Open.pCoreOf q (commutator G)) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup q (commutator G)
@@ -78,8 +78,8 @@ theorem exists_mem_scriptQ_of_mem_alphaSet {G : Type} [Group G] [Finite G] {q : 
   obtain ⟨D, hDR, hDchar, hDnc, hDexp, hDclass⟩ :=
     CFSG.GroupTheory.exists_characteristic_noncyclic_exponent_classTwo hq2 hRp hRnc
   have hDn : D.Normal := by
-    haveI := hRn
-    haveI := hDchar
+    have := hRn
+    have := hDchar
     have h := (inferInstance :
       ((D.subgroupOf (CFSG.Open.pCoreOf q (commutator G))).map
         (CFSG.Open.pCoreOf q (commutator G)).subtype).Normal)
@@ -109,7 +109,7 @@ theorem exists_binaryActionRankCounterexample_of_mem_alphaSet {G : Type} [Group 
     {ρ : Representation (ZMod 2) G V} (hc : BinaryActionRankCounterexample G p P T B e ρ) {q : ℕ}
     (hq : q ∈ alphaSet G) : ∃ P' : Subgroup G, BinaryActionRankCounterexample G q P' T B e ρ := by
   have hqp : q.Prime := hq.1
-  haveI : Fact q.Prime := ⟨hqp⟩
+  have : Fact q.Prime := ⟨hqp⟩
   have hcF := hc.faithfulBinaryIrreducibleAction
   have h51 := hc.oddPrimeClassTwoAction
   have hS := h51.setting

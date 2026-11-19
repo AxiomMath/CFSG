@@ -61,9 +61,9 @@ section Components
 theorem component_map_eq_top {H S : Type} [Group H] [Finite H] [Group S] [Finite S]
     [IsSimpleGroup S] (F : H →* S) (hF : Function.Surjective F) {L : Subgroup H}
     (hL : CFSG.IsComponent L) (hK : Odd (Nat.card F.ker)) : L.map F = ⊤ := by
-  haveI : IsSimpleGroup ↥(⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
-  haveI : Subsingleton (S ⧸ (⊤ : Subgroup S)) := QuotientGroup.subsingleton_quotient_top
-  haveI : Group.IsSolvable (S ⧸ (⊤ : Subgroup S)) := inferInstance
+  have : IsSimpleGroup ↥(⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
+  have : Subsingleton (S ⧸ (⊤ : Subgroup S)) := QuotientGroup.subsingleton_quotient_top
+  have : Group.IsSolvable (S ⧸ (⊤ : Subgroup S)) := inferInstance
   exact component_map_eq F hF hL hK (N := ⊤)
 
 theorem autOddFreeInner_of_surj_simple {L Q : Type} [Group L] [Finite L] [Group Q] [Finite Q]
@@ -95,7 +95,7 @@ theorem autOddFreeInner_of_surj_simple {L Q : Type} [Group L] [Finite L] [Group 
   let e : L ⧸ Subgroup.center L ≃* Q :=
     (QuotientGroup.quotientMulEquivOfEq hkereq.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective ψ hψ)
-  haveI : Group.IsPerfect L := hLq.1
+  have : Group.IsPerfect L := hLq.1
   have hQ' : Q3NM.AutOddFreeInner (L ⧸ Subgroup.center L) :=
     Q3CH.autOddFreeInner_of_mulEquiv e.symm hAO
   exact Q3NM.autOddFreeInner_of_centralQuotient hQ'

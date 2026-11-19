@@ -32,7 +32,7 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
 theorem mem_Gamma_iff {hC : HypothesisC D} {a : G} :
     a ∈ Gamma hC ↔ a ∈ D ∧ ¬ Commute a hC.d ∧ a ∉ hC.alpha := by
   rw [Gamma, hC.AalphaStar_eq_diff_alpha]
-  simp only [Set.mem_sdiff, Set.mem_setOf_eq, and_assoc]
+  simp only [Set.mem_sdiff, Set.mem_ofPred_eq, and_assoc]
 
 theorem Gamma_subset_D {hC : HypothesisC D} : Gamma hC ⊆ D := by
   intro a ha
@@ -62,10 +62,12 @@ theorem disjoint_Gamma_DalphaStar (hC : HypothesisC D) :
   have hβperp : β ∉ perp D hC.alpha := (mem_Aalpha_iff.mp hβ).2
   exact hβperp (hβγ ▸ mem_perp_iff.mpr (Or.inl hγ))
 
+omit [Finite G] in
 theorem d_mem_cenGen (hC : HypothesisC D) : hC.d ∈ cenGen hC := by
   refine Subgroup.subset_closure ⟨hC.hd, ?_⟩
   exact Subgroup.mem_centralizer_singleton_iff.mpr rfl
 
+omit [Finite G] in
 theorem cenGen_le_centralizer (hC : HypothesisC D) :
     cenGen hC ≤ Subgroup.centralizer ({hC.d} : Set G) := by
   rw [cenGen, Subgroup.closure_le]
@@ -117,9 +119,11 @@ theorem cenOrbit_subset_Gamma (hC : HypothesisC D) {a : G} (ha : a ∈ Gamma hC)
   rintro b ⟨x, hx, rfl⟩
   exact cenGen_maps_Gamma hC hx ha
 
+omit [Finite G] in
 theorem self_mem_cenOrbit (hC : HypothesisC D) (a : G) : a ∈ cenOrbit hC a :=
   ⟨1, Subgroup.one_mem _, by group⟩
 
+omit [Finite G] in
 theorem cenOrbit_invariant (hC : HypothesisC D) {a x : G} (hx : x ∈ cenGen hC) :
     ∀ b ∈ cenOrbit hC a, x * b * x⁻¹ ∈ cenOrbit hC a := by
   rintro b ⟨y, hy, rfl⟩
@@ -238,7 +242,7 @@ theorem step1_of_secondKind (hC : HypothesisC D)
 
 theorem GammaComp_subset_cenOrbit (hC : HypothesisC D)
     (hsecond : ∀ u w v : G, IsTriangle D u w v → orderOf (u * v * w) = 4)
-    {a : G} (ha : a ∈ Gamma hC) : GammaComp hC a ⊆ cenOrbit hC a := by
+    {a : G} (_ha : a ∈ Gamma hC) : GammaComp hC a ⊆ cenOrbit hC a := by
   intro b hb
   change Relation.ReflTransGen (GammaComm hC) a b at hb
   induction hb with
@@ -255,6 +259,7 @@ theorem GammaComp_subset_cenOrbit (hC : HypothesisC D)
 instance gammaComm_symm (hC : HypothesisC D) : Std.Symm (GammaComm hC) where
   symm _ _ h := ⟨h.2.1, h.1, h.2.2.symm⟩
 
+omit [Finite G] in
 theorem GammaReach_symm {hC : HypothesisC D} {a b : G} (h : GammaReach hC a b) :
     GammaReach hC b a := by
   change Relation.ReflTransGen (GammaComm hC) a b at h
@@ -263,14 +268,17 @@ theorem GammaReach_symm {hC : HypothesisC D} {a b : G} (h : GammaReach hC a b) :
   | @tail c d _ hcd ih =>
     exact Relation.ReflTransGen.head ⟨hcd.2.1, hcd.1, hcd.2.2.symm⟩ ih
 
+omit [Finite G] in
 theorem GammaReach_trans {hC : HypothesisC D} {a b c : G}
     (hab : GammaReach hC a b) (hbc : GammaReach hC b c) : GammaReach hC a c :=
   Relation.ReflTransGen.trans hab hbc
 
+omit [Finite G] in
 theorem GammaComp_subset_of_reach {hC : HypothesisC D} {a b : G}
     (h : GammaReach hC a b) : GammaComp hC b ⊆ GammaComp hC a :=
   fun _ hc => GammaReach_trans h hc
 
+omit [Finite G] in
 theorem GammaComp_eq_of_reach {hC : HypothesisC D} {a b : G}
     (h : GammaReach hC b a) : GammaComp hC a = GammaComp hC b := by
   apply Set.Subset.antisymm
@@ -278,13 +286,16 @@ theorem GammaComp_eq_of_reach {hC : HypothesisC D} {a b : G}
   · intro c hc
     exact GammaReach_trans (GammaReach_symm h) hc
 
+omit [Finite G] in
 theorem GammaComp_eq_of_mem {hC : HypothesisC D} {a b : G}
     (ha : a ∈ GammaComp hC b) : GammaComp hC a = GammaComp hC b :=
   GammaComp_eq_of_reach ha
 
+omit [Finite G] in
 theorem GammaComp_self_mem {hC : HypothesisC D} (a : G) : a ∈ GammaComp hC a :=
   Relation.ReflTransGen.refl
 
+omit [Finite G] in
 theorem GammaComp_mem_Gamma {hC : HypothesisC D} {a b : G} (ha : a ∈ Gamma hC)
     (hb : b ∈ GammaComp hC a) : b ∈ Gamma hC := by
   change GammaReach hC a b at hb
@@ -574,6 +585,7 @@ theorem cenOrbit_eq_comp_union_conj (hC : HypothesisC D)
     · exact hBA hb
     · exact hBuA hb
 
+omit [Finite G] in
 theorem cenOrbit_eq_of_mem (hC : HypothesisC D) {a b : G}
     (ha : a ∈ cenOrbit hC b) : cenOrbit hC a = cenOrbit hC b := by
   apply Set.Subset.antisymm
@@ -653,6 +665,7 @@ theorem hstep234_of_step3_step4 (hC : HypothesisC D)
   · exact hstep3 A a₀ ⟨a₀, ha₀, hA⟩ ha₀A hmax hne (hB.trans hA.symm)
   · exact hstep4 A a₀ ⟨a₀, ha₀, hA⟩ ha₀A hmax hne hdis hcard
 
+omit [Finite G] in
 theorem commSet_nonempty (hC : HypothesisC D) {c : G} (hc : c ∈ D) :
     (commSet D c).Nonempty := by
   classical
@@ -681,7 +694,7 @@ theorem commSet_nonempty (hC : HypothesisC D) {c : G} (hc : c ∈ D) :
 theorem exists_isMaxOrbit (hC : HypothesisC D) {c : G} (hc : c ∈ D) :
     ∃ E, IsMaxOrbit D c E := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   let S : Finset G := Finset.univ.filter (fun e => e ∈ commSet D c)
   have hSne : S.Nonempty := by
     obtain ⟨e, he⟩ := commSet_nonempty hC hc
@@ -709,7 +722,7 @@ theorem normalizer_comp_ne_top (hC : HypothesisC D) {B : Set G}
   have hDsub : D ⊆ B := by
     rw [hC.setup.eq_setOf_isConj hbD]
     intro y hy
-    rw [Set.mem_setOf_eq] at hy
+    rw [Set.mem_ofPred_eq] at hy
     rw [isConj_iff] at hy
     obtain ⟨g, rfl⟩ := hy
     have hgN : g ∈ Subgroup.normalizer B := hN ▸ Subgroup.mem_top g
@@ -728,7 +741,7 @@ theorem cenGen_transitive_AalphaStar (hC : HypothesisC D)
       ∃ x ∈ Subgroup.closure ((D : Set G) ∩ Subgroup.centralizer ({hC.d} : Set G)),
         x * a * x⁻¹ = b := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   intro a ha b hb
   have ha' : a ∈ Gamma hC := ha
   have hb' : b ∈ Gamma hC := hb

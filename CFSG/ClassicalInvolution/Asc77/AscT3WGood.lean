@@ -76,7 +76,7 @@ theorem Std20.w_good (d : Std20 p f K K' J S R R' W V z t) {a₀ : G}
     Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun y hy =>
       Subgroup.mem_centralizer_singleton_iff.mp (hPC hy))
   have hT2 : IsPGroup 2 ↥(Subgroup.zpowers a₀ ⊔ P) :=
-    IsPGroup.to_sup_of_normal_right' (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr haS))
+    IsPGroup.to_sup_of_normal_right' (S.isPGroup.to_le (Subgroup.zpowers_le.mpr haS))
       hP.2.1 (Subgroup.zpowers_le.mpr haNP)
   have hKz : K ≤ Subgroup.centralizer ({z} : Set G) := le_sec20X_left.trans d.r10a_X_le_C
   have hTC : Subgroup.zpowers a₀ ⊔ P ≤ Subgroup.centralizer ({z} : Set G) :=

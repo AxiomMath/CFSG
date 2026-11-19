@@ -18,10 +18,10 @@ theorem l34g_x_simple_exists_fixed_involution {Y : Type} [Group Y] [Finite Y]
     (hY : SimpleFStarQuotient Y) (α : MulAut Y) (hα : α * α = 1) :
     ∃ e : Y, orderOf e = 2 ∧ α e = e ∧ e ∉ center Y := by
   obtain ⟨hS, hZ⟩ := l34g_simple_of_simpleFStar hY
-  haveI := hS
+  have := hS
   have hnab : ∃ a b : Y, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨g, hg⟩ := exists_ne (1 : Y)
     have hgc : g ∈ center Y := by
       rw [Subgroup.mem_center_iff]
@@ -63,7 +63,7 @@ theorem l34g_x_f0_of_quotient [Finite G] {I : Subgroup G} (hI : InFStar I) {x : 
       rw [h2, map_one] at hρa
       rw [← hρa, orderOf_one] at he
       exact absurd he (by decide)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine orderOf_eq_prime ?_ hne
     rw [pow_two]
     exact haa'

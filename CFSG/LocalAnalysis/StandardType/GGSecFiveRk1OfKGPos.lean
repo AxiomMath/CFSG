@@ -69,7 +69,7 @@ theorem ggSecFiveRk1Input_of_kgPos
     · rw [hXL]
       exact hsplit
     · exact hSplit G p B Bs x L D J 𝒦 hcfg hsplit ι M e hpres hle3 X hK
-  haveI : Finite ι := ggIsWeylMatrix_finite hpres.1
+  have : Finite ι := ggIsWeylMatrix_finite hpres.1
   have hconn : GGSimplyLacedConnected M := ggSimplyLacedConnected_of_weyl hpres.1 hle3
   obtain ⟨t, n, f, ψ, hadm, h3, hker, hrange, htag, hpf, hpos⟩ :=
     hKG G p B Bs x L D J 𝒦 hcfg hsplit ι M e hpres hle3 X hX hXs
@@ -105,7 +105,7 @@ theorem ggSecFiveRk1Input_of_kgPos
   obtain ⟨φ, hφinj, hφrange⟩ := exists_sl2_range_rankOne hMod i₁
   let θ : Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f) →* G :=
     (MulAut.conj g).toMonoidHom.comp (ψ.comp φ)
-  haveI hchar : CharP (GaloisField 2 f) 2 := inferInstance
+  have hchar : CharP (GaloisField 2 f) 2 := inferInstance
   have hψφinj : Function.Injective (ψ.comp φ) :=
     PsiDiag.injective_comp_of_ker_le_center φ hφinj ψ hker
   have hθinj : Function.Injective θ := (MulAut.conj g).injective.comp hψφinj

@@ -253,7 +253,7 @@ theorem tz_cent_aux (X : Mt) (hdet : X.det = 1) (hc : ∀ i : Fin 5, X i 0 = (1 
     fin_cases i <;> fin_cases j <;>
       first
       | exact absurd hji (by decide)
-      | simp [hc, hr, e21, e31, e32, Matrix.one_apply]
+      | simp [hc, hr, e21, e31, e32]
   have hd := Matrix.det_of_isUpperTriangular (M := X) (by
     intro i j hji
     exact hlow i j hji)

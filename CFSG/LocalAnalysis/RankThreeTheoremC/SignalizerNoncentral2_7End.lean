@@ -115,7 +115,7 @@ theorem commutator_pCore_ne_bot :
         rw [hzeq]
         exact hc.uZ
       obtain ⟨k, hk⟩ := exists_pow_conj_zpowers_eq hc.Ue hc.Uc hzU hz1
-        (P.isPGroup' ⟨x₀, hx₀P⟩ |>.imp fun k hk => by simpa using congrArg Subtype.val hk)
+        (P.isPGroup ⟨x₀, hx₀P⟩ |>.imp fun k hk => by simpa using congrArg Subtype.val hk)
         (hc.PU hx₀P) (hc.Z_comm hzZ hx₀P) hx₀C hc.uU hdz hwU hwz
       intro t ht
       obtain ⟨htT, htℓ⟩ := ht
@@ -190,7 +190,7 @@ theorem centralizer_le_of_commutator_le (hD1 : TheoremD1 G)
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
     p 2 hprime Nat.prime_two B O (elementary_isPGroup p B hBe) hBO hcop h2dvd
   set S' : Subgroup G := (S : Subgroup O).map O.subtype with hS'def
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map O.subtype
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map O.subtype
   have hN2 : IsTwoLocal (normalizer (S' : Set G)) := ⟨S', hSne, hS'2, rfl⟩
   have hBcard : 3 ≤ CFSG.Open.pRank p (normalizer (S' : Set G) ⊓ M) := by
     have h3 : 3 ≤ CFSG.Open.pRank p B := by

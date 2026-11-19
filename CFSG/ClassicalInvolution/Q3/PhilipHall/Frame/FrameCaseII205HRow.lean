@@ -26,8 +26,8 @@ theorem exists_noncomm_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* 
 
 theorem isSolvable_of_card_two_pow {X : Type} [Group X] [Finite X] {n : ℕ}
     (h : Nat.card X = 2 ^ n) : Group.IsSolvable X := by
-  haveI : IsPGroup 2 X := IsPGroup.of_card h
-  haveI : Group.IsNilpotent X := IsPGroup.isNilpotent this
+  have : IsPGroup 2 X := IsPGroup.of_card h
+  have : Group.IsNilpotent X := IsPGroup.isNilpotent this
   infer_instance
 
 theorem mem_of_q8_hom {Sg : Type} [Group Sg] [Finite Sg] (Φ : QuaternionGroup 2 →* Sg)
@@ -70,8 +70,8 @@ theorem m12_nonabelian :
   push Not at hcon
   have hsimp : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M12 :=
     (CFSG.Sporadic.Mathieu.fam_m12_simplicity).2.2
-  haveI : Finite CFSG.Blueprint.NativeSporadic.M12 := (CFSG.Sporadic.Mathieu.fam_m12_simplicity).1
-  letI : CommGroup CFSG.Blueprint.NativeSporadic.M12 :=
+  have : Finite CFSG.Blueprint.NativeSporadic.M12 := (CFSG.Sporadic.Mathieu.fam_m12_simplicity).1
+  let : CommGroup CFSG.Blueprint.NativeSporadic.M12 :=
     { (inferInstance : Group CFSG.Blueprint.NativeSporadic.M12) with
       mul_comm := fun a b => hcon a b }
   have hp := IsSimpleGroup.prime_card (α := CFSG.Blueprint.NativeSporadic.M12)

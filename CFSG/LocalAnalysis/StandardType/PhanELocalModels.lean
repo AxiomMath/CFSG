@@ -49,7 +49,7 @@ structure FlagK (n : ℕ) where
 
 @[expose] noncomputable def flagSys (m : ℕ) : ChamberSystem (Fin m) (FlagK K (m + 1)) where
   adj i x y := ∀ j, j ≠ i.val + 1 → x.E j = y.E j
-  equivalence i := ⟨fun _ _ _ => rfl, fun h j hj => (h j hj).symm,
+  equivalence _i := ⟨fun _ _ _ => rfl, fun h j hj => (h j hj).symm,
     fun h h' j hj => (h j hj).trans (h' j hj)⟩
 
 variable {K}

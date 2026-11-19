@@ -31,7 +31,7 @@ theorem exists_sylow_le_centralizer_of_isMulCommutative {M X E : Subgroup G} {r 
     (hout : ¬ r ∣ (X ⊔ F08.CentOverO2 M X).relIndex M) (hEX : E ≤ X) (hEr : IsPGroup r E) :
     ∃ R, IsSylowOf r R M ∧ E ≤ R ⊓ centralizer (R : Set G) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let C : Subgroup G := F08.CentOverO2 M X
   let N : Subgroup G := X ⊔ C
   let ρ : ↥M →* MulAut (Bar2 X) := (rhoL X).comp (Subgroup.inclusion hMN)
@@ -41,13 +41,13 @@ theorem exists_sylow_le_centralizer_of_isMulCommutative {M X E : Subgroup G} {r 
     rw [← Subgroup.comap_subtype, centOverO2_eq_ker_map hMN]
     exact Subgroup.comap_map_eq_self_of_injective M.subtype_injective _
   have hNM : N ≤ M := sup_le hXM hCM
-  haveI hCN : (C.subgroupOf M).Normal := by rw [hker]; infer_instance
+  have hCN : (C.subgroupOf M).Normal := by rw [hker]; infer_instance
   have hNle : M ≤ normalizer (N : Set G) :=
     (le_inf hMN (Subgroup.le_normalizer_of_normal_subgroupOf hCM)).trans
       (Subgroup.inf_normalizer_le_normalizer_sup X C)
   have hNnorm : (N.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNM).mpr hNle
-  haveI := hNnorm
+  have := hNnorm
   obtain ⟨R, hR, hER⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC6.exists_isSylowOf_ge (K := M) (Q := E)
       (hEX.trans hXM) hEr
@@ -64,7 +64,7 @@ theorem exists_sylow_le_centralizer_of_isMulCommutative {M X E : Subgroup G} {r 
       (QuotientGroup.mk'_surjective _) Q
   have hPsyl : IsSylowOf r P ⊤ := by
     rw [isSylowOf_iff]
-    exact ⟨le_top, Qbar.isPGroup', by simpa using Qbar.not_dvd_index⟩
+    exact ⟨le_top, Qbar.isPGroup, by simpa using Qbar.not_dvd_index⟩
   have hPcomm : IsMulCommutative P := hab Qbar
   have hcentral : ∀ g ∈ R, ∀ e ∈ R ⊓ X, g * e = e * g := by
     intro g hg e he
@@ -188,7 +188,7 @@ theorem not_dvd_card_outer_bar2 {M L : Subgroup G}
     (hr : r.Prime) (hr5 : 5 ≤ r) (hrn : ¬ r ∣ n) :
     ¬ r ∣ Nat.card (Outer (Bar2 L)) := by
   classical
-  haveI hperf : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
+  have hperf : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
   obtain ⟨e⟩ := uc22p21k_barInf_equiv_of_calC hL
   have houter : Nat.card (Outer (BarInf L)) = Nat.card (Outer (Bar2 L ⧸ center (Bar2 L))) :=
     Nat.card_congr (equivalence e).toEquiv

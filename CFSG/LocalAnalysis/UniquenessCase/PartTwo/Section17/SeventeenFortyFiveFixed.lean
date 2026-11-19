@@ -208,7 +208,7 @@ theorem gapWitness_mem_normalizer_components {D : Data G} {X L K : Subgroup G} {
   have hLmem : L ∈ conjSetOf D.M L := by
     refine ⟨1, D.M.one_mem, ?_⟩
     ext z
-    simp [MulAut.conj_apply]
+    simp
   have hKmem : K ∈ conjSetOf D.M L := by
     rw [← hset]; exact Set.mem_insert_iff.mpr (Or.inr rfl)
   have hodd : Odd (orderOf y) := by rw [hy.2.2.1]; exact hpodd
@@ -219,6 +219,7 @@ theorem gapWitness_mem_normalizer_components {D : Data G} {X L K : Subgroup G} {
   exact ⟨Subgroup.mem_normalizer_iff_map_conj_eq.mpr hLmap,
     Subgroup.mem_normalizer_iff_map_conj_eq.mpr hKmap⟩
 
+omit [Finite G] in
 theorem barImage_equiv_rhoL_apply {I L : Subgroup G} (hLI : L ≤ I)
     {e : Bar2 L ≃* ↥(barImage I L)}
     (he : ∀ k : ↥L, ((e (QuotientGroup.mk k) : ↥(barImage I L)) : Bar2 I) =
@@ -233,7 +234,7 @@ theorem barImage_equiv_rhoL_apply {I L : Subgroup G} (hLI : L ≤ I)
       UC6S846.rhoL_mk I ⟨y, hyI⟩ (Subgroup.inclusion hLI k)]
     congr 1
 
-theorem rhoL_maps_barImage {I L : Subgroup G} (hLI : L ≤ I) {y : G}
+theorem rhoL_maps_barImage {I L : Subgroup G} (_hLI : L ≤ I) {y : G}
     (hyL : y ∈ Subgroup.normalizer (L : Set G))
     (hyI : y ∈ Subgroup.normalizer (I : Set G)) :
     (barImage I L).map (UC6S846.rhoL I ⟨y, hyI⟩).toMonoidHom = barImage I L := by
@@ -601,7 +602,8 @@ theorem fixed_point_clause_of_components
   · exact (hFixFree ↥(barImage X K) p r αK hshapeKbar hαKord hαKnon
       ((e u).2) hBr) hfixB
 
-theorem barImage_map_conj_of_mem_normalizer {I L : Subgroup G} (hLI : L ≤ I)
+omit [Finite G] in
+theorem barImage_map_conj_of_mem_normalizer {I L : Subgroup G} (_hLI : L ≤ I)
     {c : G} (hcI : c ∈ Subgroup.normalizer (I : Set G)) :
     barImage I (L.map (MulAut.conj c).toMonoidHom) =
       (barImage I L).map (UC6S846.rhoL I ⟨c, hcI⟩).toMonoidHom := by
@@ -611,7 +613,7 @@ theorem barImage_map_conj_of_mem_normalizer {I L : Subgroup G} (hLI : L ≤ I)
   congr 1
 
 theorem centOverO2_le_normalizer_of_component {D : Data G} {X L K : Subgroup G}
-    (hXM : X ≤ D.M) (hMX : D.M ≤ Subgroup.normalizer (X : Set G))
+    (_hXM : X ≤ D.M) (hMX : D.M ≤ Subgroup.normalizer (X : Set G))
     (hXeq : X = L ⊔ K) (hLKne : L ≠ K)
     (hset : ({L, K} : Set (Subgroup G)) = conjSetOf D.M L)
     (hLcal : L ∈ calC X) (hKcal : K ∈ calC X)
@@ -755,7 +757,7 @@ theorem rhoL_mem_inner_of_mem_sup_centOverO2 {D : Data G} {X L K : Subgroup G}
 
 theorem tau_map_conj_eq_swapped {D : Data G} {X L K : Subgroup G} {p : ℕ}
     (hNM : X ⊔ F08.CentOverO2 D.M X ≤ D.M)
-    (hset : ({L, K} : Set (Subgroup G)) = conjSetOf D.M L) (hLKne : L ≠ K)
+    (hset : ({L, K} : Set (Subgroup G)) = conjSetOf D.M L) (_hLKne : L ≠ K)
     (hNleL : X ⊔ F08.CentOverO2 D.M X ≤ Subgroup.normalizer (L : Set G))
     (hMLrel : (D.M ⊓ Subgroup.normalizer (L : Set G)).relIndex D.M = 2)
     (hp : p.Prime) (hp2 : p ≠ 2)
@@ -830,6 +832,7 @@ theorem tau_map_conj_eq_swapped {D : Data G} {X L K : Subgroup G} {p : ℕ}
       L.map (MulAut.conj τ).toMonoidHom = K := by simpa using hmem
   exact hcase.resolve_left hneL
 
+omit [Finite G] in
 theorem exists_bar2_conj_intertwines_rhoL {L K : Subgroup G} {τ : G}
     (hτ : L.map (MulAut.conj τ).toMonoidHom = K) :
     ∃ e : Bar2 L ≃* Bar2 K, ∀ (y : G)
@@ -854,8 +857,7 @@ theorem exists_bar2_conj_intertwines_rhoL {L K : Subgroup G} {τ : G}
     invFun k := (⟨τ⁻¹ * (k : G) * τ, by
       have hk : τ⁻¹ * (k : G) * τ ∈ K.map (MulAut.conj τ⁻¹).toMonoidHom :=
         ⟨(k : G), k.2, by
-          simpa [MulAut.conj_apply] using
-            (show τ⁻¹ * (k : G) * (τ⁻¹)⁻¹ = τ⁻¹ * (k : G) * τ from rfl)⟩
+          simp⟩
       rwa [hτinv] at hk⟩ : ↥L)
     left_inv k := Subtype.ext (by group)
     right_inv k := Subtype.ext (by group)
@@ -889,11 +891,11 @@ theorem exists_bar2_conj_intertwines_rhoL {L K : Subgroup G} {τ : G}
 
 theorem rhoL_mem_inner_of_component_actions {D : Data G} {X L K : Subgroup G}
     (hLcal : L ∈ calC X) (hKcal : K ∈ calC X)
-    (hXeq : X = L ⊔ K) (hLKne : L ≠ K)
+    (hXeq : X = L ⊔ K) (_hLKne : L ≠ K)
     (hsup : barImage X L ⊔ barImage X K = ⊤)
     (hcomm : ∀ a ∈ barImage X L, ∀ b ∈ barImage X K, a * b = b * a)
     (hdisj : barImage X L ⊓ barImage X K = ⊥)
-    {y : G} (hyM : y ∈ D.M) (hyL : y ∈ Subgroup.normalizer (L : Set G))
+    {y : G} (_hyM : y ∈ D.M) (hyL : y ∈ Subgroup.normalizer (L : Set G))
     (hyK : y ∈ Subgroup.normalizer (K : Set G))
     (hinL : UC6S846.rhoL L ⟨y, hyL⟩ ∈
       CFSG.ComponentClassification.OuterAutomorphisms.inner (Bar2 L))
@@ -1021,6 +1023,7 @@ theorem mem_sup_centOverO2_of_rhoL_mem_inner {D : Data G} {X : Subgroup G}
   refine ⟨(y * x⁻¹) * x * (y * x⁻¹)⁻¹, hconjX, y * x⁻¹, hmap, ?_⟩
   group
 
+omit [Finite G] in
 theorem rhoL_mem_inner_of_conj_transport {L K N : Subgroup G} {y τ n : G}
     (hτmap : L.map (MulAut.conj τ).toMonoidHom = K)
     (hNleK : N ≤ Subgroup.normalizer (K : Set G))
@@ -1313,7 +1316,7 @@ theorem gap17_45_outerAction_holds {D : Data G} :
     rw [ctx.X_eq]
     exact hsubset L (by
       refine ⟨1, D.M.one_mem, ?_⟩
-      ext z; simp [MulAut.conj_apply])
+      ext z; simp)
   have hKcalX : K ∈ calC X := by
     rw [ctx.X_eq]
     exact hsubset K hKconj
@@ -1452,7 +1455,7 @@ theorem fixed_point_clause_of_case34 {D : Data G}
   have hLself : L ∈ conjSetOf D.M L := by
     refine ⟨1, D.M.one_mem, ?_⟩
     ext z
-    simp [MulAut.conj_apply]
+    simp
   have hLcalX : L ∈ calC X := by
     rw [ctx.X_eq]
     exact hsubset L hLself

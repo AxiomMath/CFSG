@@ -71,12 +71,12 @@ private theorem hypLamOK_allIn_not_or {T S : Nat}
   rw [allIn_iff']
   intro z _ hz
   cases hb : (fl T)[z]!
-  · simp [hb]
+  · simp
   · have hS : (fl S)[z]! = true := by
       rw [fl_get T hz] at hb
       rw [fl_get S hz]
       exact hypLamOK_testBit_of_land_mask h hz hb
-    simp [hb, hS]
+    simp [hS]
 
 private theorem hypLamOK_line_any {UL : List Nat} {UP PP : Nat} {PB LB : Nat → Nat}
     {PL : Nat → List Nat} {j : Nat} (H : Pts UL UP PP)

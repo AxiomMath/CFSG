@@ -40,8 +40,8 @@ theorem card_inf_centralizer_ge_of_lieModel_l44 {G : Type} [Group G] [Finite G] 
   let Cx : Subgroup G := centralizer ({x} : Set G)
   let N' : Subgroup ↥Cx := N.subgroupOf Cx
   let D₀' : Subgroup ↥Cx := centralizer (N' : Set ↥Cx)
-  haveI hN'norm : N'.Normal := hNn
-  haveI hD₀'norm : D₀'.Normal := Subgroup.normal_centralizer
+  have hN'norm : N'.Normal := hNn
+  have hD₀'norm : D₀'.Normal := Subgroup.normal_centralizer
   have hN'map : N'.map Cx.subtype = N := Subgroup.map_subgroupOf_eq_of_le hNx
   have hN' : ⁅N', N'⁆ = N' := by
     apply Subgroup.map_injective (f := Cx.subtype) Cx.subtype_injective
@@ -62,8 +62,8 @@ theorem card_inf_centralizer_ge_of_lieModel_l44 {G : Type} [Group G] [Finite G] 
   have hA_le_H : A ≤ Cx := le_trans hAN hNx
   have hIsoA : ↥(A.subgroupOf Cx) ≃* alternatingGroup (Fin 8) :=
     (Subgroup.subgroupOfEquivOfLe hA_le_H).trans eA
-  haveI : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥(A.subgroupOf Cx) := hIsoA.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(A.subgroupOf Cx) := hIsoA.isSimpleGroup
   have hnc : ∃ a b : ↥(A.subgroupOf Cx), a * b ≠ b * a := by
     refine ⟨hIsoA.symm ⟨u_a8σ, u_a8σ_mem⟩, hIsoA.symm ⟨u_a8τ, u_a8τ_mem⟩, ?_⟩
     intro h

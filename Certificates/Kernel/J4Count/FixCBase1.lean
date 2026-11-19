@@ -49,7 +49,7 @@ theorem letter_inv_smul (c s : ℕ) :
     rw [CFSG.KS.SporSch.J4B.vec_enc J4Real.hK J4Regs.hY.1.1, J4Regs.hY.1.2]
     rfl
   · have e : letter x y (codeL (c + 3)) = y⁻¹ := by simp [letter, codeL]
-    rw [e, inv_smul_toRow (rep_invP hy), if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+    rw [e, inv_smul_toRow (rep_invP hy), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
     change toRow (toVecD 112 (vecMulN 112 Yn.2 s)) = _
     rw [CFSG.KS.SporSch.J4B.vec_enc J4Real.hK J4Regs.hY.2.1, J4Regs.hY.2.2]
     rfl

@@ -36,11 +36,11 @@ theorem card_dvd_quotient_center_of_le {A : Type*} [Group A] (B : Subgroup A) (E
       have hc : ∀ x : P, ψ x ∈ center E := fun x => by
         have hx : x ∈ φ.ker := h ▸ mem_top x
         exact (QuotientGroup.eq_one_iff (ψ x)).mp hx
-      haveI : IsMulCommutative P := ⟨⟨fun x y => hψ (by
+      have : IsMulCommutative P := ⟨⟨fun x y => hψ (by
         have h1 := Subgroup.mem_center_iff.mp (hc x) (ψ y)
         rw [map_mul, map_mul]
         exact h1.symm)⟩⟩
-      haveI := hperf
+      have := hperf
       exact not_subsingleton P Group.IsPerfect.subsingleton_of_isMulCommutative
   exact Subgroup.card_dvd_of_injective φ ((MonoidHom.ker_eq_bot_iff φ).mp hker)
 
@@ -189,11 +189,12 @@ theorem dvd_card_layer_quotient_25920 (hperf : PerfectInLayer S)
     Rbar_split hCE H hNo C ht ht1 hVQ hΩ hN h6 hΔ
   have hR := hperf ⁅Rbar S g t, Rbar S g t⁆ ((Subgroup.commutator_le_self _).trans Rbar_le_Mbar)
     hper
-  haveI := hsimple
+  have := hsimple
   have h := card_dvd_quotient_center_of_le S.Mbar (timmesfeldLayer S.Mbar) _ hR
     (Subgroup.isPerfect_iff.mpr hper)
   rwa [hcard] at h
 
+omit hCE in
 theorem card_layer_quotient_dvd_orthPlus12 :
     Nat.card (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) ∣ orthPlus12Ord := by
   have hw : S.width = 6 := by
@@ -224,7 +225,7 @@ theorem not_two_pow_nine_dvd_card_layer_quotient (hΔ : (Delta S g t).ncard = 6)
   have hE9 : 2 ^ 9 ∣ Nat.card (timmesfeldLayer S.Mbar) :=
     h9.trans ⟨_, Subgroup.card_eq_card_quotient_mul_card_subgroup
       (center (timmesfeldLayer S.Mbar))⟩
-  haveI : (timmesfeldLayer S.Mbar).Normal := Layer.normal S.Mbar
+  have : (timmesfeldLayer S.Mbar).Normal := Layer.normal S.Mbar
   have htt : (⟨t, S.Lbar_le_Mbar g ht⟩ : S.Mbar) * ⟨t, S.Lbar_le_Mbar g ht⟩ = 1 :=
     Subtype.ext (mul_self_of_mem_Lbar S H.conj_mem ht)
   have h2 : 2 ∣ (timmesfeldLayer S.Mbar).index :=
@@ -246,7 +247,7 @@ theorem E_numerics (hodd : Nat.card (timmesfeldOddCore S.Mbar) ∣ 3) (hperf : P
       2 ^ 7 ∣ Nat.card (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) ∧
       ¬ 2 ^ 9 ∣ Nat.card (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) :=
   ⟨dvd_card_layer_quotient_25920 hCE H hNo C ht ht1 hVQ hΩ hN h6 hperf hΔ,
-    card_layer_quotient_dvd_orthPlus12 hCE H hNo C ht ht1 hVQ hΩ hN h6,
+    card_layer_quotient_dvd_orthPlus12 H hNo C ht ht1 hVQ hΩ hN h6,
     two_pow_seven_dvd_card_layer_quotient hCE H hNo C ht ht1 hVQ hΩ hN h6 hodd hperf hΔ,
     not_two_pow_nine_dvd_card_layer_quotient hCE H hNo C ht ht1 hVQ hΩ hN h6 hΔ⟩
 

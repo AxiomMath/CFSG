@@ -63,9 +63,9 @@ theorem sigma_section_core (hA : KFactAltSixSub15) (A : Subgroup (Equiv.Perm (Fi
     exact Subgroup.mem_subgroupOf.mp hb
   have hKcard : Nat.card (B.map A.subtype) = Nat.card B := (Nat.card_congr eBK.toEquiv).symm
   obtain ⟨hKsimple, hKeven, hKnab⟩ := hA (B.map A.subtype) hKle (by rw [hKcard]; exact h15B)
-  haveI : IsSimpleGroup (B.map A.subtype) := hKsimple
+  have : IsSimpleGroup (B.map A.subtype) := hKsimple
   have hBsimple : IsSimpleGroup B := eBK.isSimpleGroup
-  haveI : IsSimpleGroup B := hBsimple
+  have : IsSimpleGroup B := hBsimple
   have hBeven : 2 ∣ Nat.card B := by rw [← hKcard]; exact hKeven
   have hBnab : ¬ ∀ a b : B, a * b = b * a := by
     intro h
@@ -74,7 +74,7 @@ theorem sigma_section_core (hA : KFactAltSixSub15) (A : Subgroup (Equiv.Perm (Fi
     apply eBK.symm.injective
     simpa [map_mul] using h (eBK.symm a) (eBK.symm b)
   set T : Subgroup B := N.comap B.subtype with hTdef
-  haveI hTn : T.Normal := Subgroup.Normal.comap inferInstance B.subtype
+  have hTn : T.Normal := Subgroup.Normal.comap inferInstance B.subtype
   rcases Subgroup.Normal.eq_bot_or_eq_top T with hT | hT
   ·
     set g : A →* Γ := e.toMonoidHom.comp (QuotientGroup.mk' N) with hgdef
@@ -140,7 +140,7 @@ theorem sigma_section_core (hA : KFactAltSixSub15) (A : Subgroup (Equiv.Perm (Fi
 theorem sigmaSixSectionFact_of_alt (hA : KFactAltSixSub15) : SigmaSixSectionFact := by
   intro Γ _ _ hinv h15
   obtain ⟨A, N, hN, ⟨e⟩⟩ := hinv
-  haveI := hN
+  have := hN
   exact sigma_section_core hA A N e h15
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L630

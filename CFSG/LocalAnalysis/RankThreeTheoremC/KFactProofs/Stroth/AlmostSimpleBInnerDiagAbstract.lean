@@ -89,7 +89,6 @@ theorem oddPCoreInClosure_centralizer_mk_of_dichotomy {p : ℕ} (hp : p.Prime) (
           have hg' : g * a = a * g := Subgroup.mem_centralizer_singleton_iff.1 hg
           rw [hmemN]
           refine Subgroup.mem_centralizer_singleton_iff.2 ?_
-          change (g : X ⧸ Z) * (a : X ⧸ Z) = (a : X ⧸ Z) * (g : X ⧸ Z)
           rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, hg']
         · intro hg
           exact Subgroup.mem_centralizer_singleton_iff.2 (hex g hg)

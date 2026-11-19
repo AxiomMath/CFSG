@@ -24,6 +24,7 @@ open scoped commutatorElement Pointwise
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem centralizer_inf_eq_bot_of_center_eq_bot {X P Y : Subgroup (MulAut W)}
     (hXY : X ≤ Y) (hPY : P ≤ Y) (hXP : X ⊔ P = Y)
     (hYN : Y ≤ Subgroup.normalizer (X : Set (MulAut W))) (hP : IsPGroup 2 ↥P)

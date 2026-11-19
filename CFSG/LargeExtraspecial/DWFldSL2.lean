@@ -137,7 +137,7 @@ theorem mulVec_conj_plane {B H H' : Matrix ι ι K} (hH : H' * H = 1) {w u : ι 
   constructor
   · rw [← mulVec_mulVec, ← mulVec_mulVec, ← mulVec_mulVec, hH'w]
     simp only [mulVec_add, mulVec_smul, hBw, hBu, hHw, hHu]
-    match_scalars <;> first | ring1 | linear_combination x * h2
+    match_scalars <;> (linear_combination x * h2)
   · rw [← mulVec_mulVec, ← mulVec_mulVec, ← mulVec_mulVec, hH'u]
     simp only [mulVec_add, mulVec_smul, hBw, hBu, hHw, hHu]
     match_scalars <;> first | ring1 | linear_combination h2

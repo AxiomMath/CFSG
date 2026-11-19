@@ -198,7 +198,7 @@ theorem eid_fw (hE : eidOK = true) : ∀ f < 262144, fw 18 Eid f = f := by
   unfold eidOK at hE
   simp only [forceN_eq] at hE
   have h1 := allBlk_spec hE (f / 512) (by omega)
-  simp only [Nat.add_eq, Nat.zero_add, forceN_eq] at h1
+  simp only [Nat.add_eq, Nat.zero_add] at h1
   have h2 := allBlk_spec h1 (f % 512) (Nat.mod_lt _ (by decide))
   simp only [Nat.add_eq, Nat.zero_add] at h2
   rw [fld18_eq, chk_eq] at h2

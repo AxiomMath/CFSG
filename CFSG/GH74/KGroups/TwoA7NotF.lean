@@ -77,7 +77,7 @@ theorem cyclic_two_subgroup_centralizer
     exact IsPGroup.of_card (by rw [hcard, hn])
   have hcS : cX ∈ (S : Subgroup ↥Xc) := hz2.le_sylow_of_normal S (Subgroup.mem_zpowers cX)
   set S' : Subgroup E := (S : Subgroup ↥Xc).map Xc.subtype with hS'
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map Xc.subtype
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map Xc.subtype
   have hcS' : c ∈ S' := ⟨cX, hcS, rfl⟩
   have hS'c : ∀ x ∈ S', x * c = c * x := by
     rintro _ ⟨x, -, rfl⟩
@@ -92,7 +92,7 @@ theorem cyclic_sylow_of_centralizing
     (hXc : ∀ x ∈ X, x * c = c * x) (R : Sylow 2 ↥X) :
     IsCyclic ↥(R : Subgroup ↥X) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hR2 : IsPGroup 2 (R.map X.subtype) := R.isPGroup'.map X.subtype
+  have hR2 : IsPGroup 2 (R.map X.subtype) := R.isPGroup.map X.subtype
   have hcyc := cyclic_two_subgroup_centralizer h hc2 hcsq hR2 (by
     rintro _ ⟨x, -, rfl⟩
     exact hXc x x.2)

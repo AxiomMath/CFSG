@@ -13,6 +13,7 @@ namespace StrothWeakTypeData
 variable {G : Type} [Group G] [Finite G] {D : Subgroup G} {τ : StrothTypeIndex}
   (dD : StrothWeakTypeData D τ)
 
+omit [Finite G] in
 theorem crdT_cocycle_mul {e f x : G} (hf : f ∈ Subgroup.normalizer (D : Set G))
     (hre : e⁻¹ * x * e * x⁻¹ ∈ D) (hrf : f⁻¹ * x * f * x⁻¹ ∈ D) :
     (e * f)⁻¹ * x * (e * f) * x⁻¹ ∈ D ∧
@@ -26,6 +27,7 @@ theorem crdT_cocycle_mul {e f x : G} (hf : f ∈ Subgroup.normalizer (D : Set G)
   refine ⟨mul_mem hc hrf, ?_⟩
   rw [crdT_mul dD.e hc hrf, ← dD.thetaT_crdT hf hre]
 
+omit [Finite G] in
 theorem crdT_cocycle_uvt {e : G} (huv : e⁻¹ * dD.uv * e * dD.uv⁻¹ ∈ D)
     (ht : e⁻¹ * dD.t * e * dD.t⁻¹ ∈ D) :
     e⁻¹ * (dD.uv * dD.t) * e * (dD.uv * dD.t)⁻¹ ∈ D ∧
@@ -39,18 +41,20 @@ theorem crdT_cocycle_uvt {e : G} (huv : e⁻¹ * dD.uv * e * dD.uv⁻¹ ∈ D)
       (e⁻¹ * dD.uv * e * dD.uv⁻¹) * (dD.uv⁻¹ * (e⁻¹ * dD.t * e * dD.t⁻¹) * dD.uv) := by
     rw [huvi]
     have hs : ∀ y, dD.uv * (dD.uv * y) = y := fun y => by rw [← mul_assoc, dD.uv_sq, one_mul]
-    simp only [mul_inv_rev, mul_assoc, hs, inv_mul_cancel_left, mul_inv_cancel_left]
+    simp only [mul_inv_rev, mul_assoc, hs, mul_inv_cancel_left]
     rw [huvi]
   rw [huvt]
   exact ⟨mul_mem huv hrt', by
     rw [crdT_mul dD.e huv hrt', crdT_conj dD.e dD.uv_mem dD.uv_conj ht]⟩
 
+omit [Finite G] in
 theorem thetaT_cob {g : G} (hg : g ∈ Subgroup.normalizer (D : Set G))
     {φ : Torus τ.k →+ Torus τ.k} (hc : ∀ x, dD.thetaT hg (φ x) = φ (dD.thetaT hg x))
     (c₀ : Torus τ.k) :
     dD.thetaT hg (c₀ - φ c₀) = dD.thetaT hg c₀ - φ (dD.thetaT hg c₀) := by
   rw [map_sub, hc]
 
+omit [Finite G] in
 theorem crdT_cocycle_of_mem_uv {d : G} (hd : d ∈ D) :
     d⁻¹ * dD.uv * d * dD.uv⁻¹ ∈ D ∧
       crdT dD.e (d⁻¹ * dD.uv * d * dD.uv⁻¹) = τ.action.φuv (crdT dD.e d) - crdT dD.e d := by
@@ -61,6 +65,7 @@ theorem crdT_cocycle_of_mem_uv {d : G} (hd : d ∈ D) :
   rw [hc, show (1 : G)⁻¹ * dD.uv * 1 * dD.uv⁻¹ = 1 by group, crdT_one]
   abel
 
+omit [Finite G] in
 theorem crdT_cocycle_of_mem_t {d : G} (hd : d ∈ D) :
     d⁻¹ * dD.t * d * dD.t⁻¹ ∈ D ∧
       crdT dD.e (d⁻¹ * dD.t * d * dD.t⁻¹) = τ.action.φt (crdT dD.e d) - crdT dD.e d := by
@@ -71,8 +76,10 @@ theorem crdT_cocycle_of_mem_t {d : G} (hd : d ∈ D) :
   rw [hc, show (1 : G)⁻¹ * dD.t * 1 * dD.t⁻¹ = 1 by group, crdT_one]
   abel
 
+omit [Finite G] in
 theorem c_eq_ofT : (dD.c : G) = dD.ofT Torus.c := rfl
 
+omit [Finite G] in
 theorem crdT_sq_coset {e d x : G} (he : e ∈ Subgroup.normalizer (D : Set G))
     (hx : x ∈ Subgroup.normalizer (D : Set G)) (hx2 : x * x = 1)
     {φ : Torus τ.k →+ Torus τ.k} (hφ : ∀ y, dD.thetaT hx y = φ y)
@@ -94,6 +101,7 @@ theorem crdT_sq_coset {e d x : G} (he : e ∈ Subgroup.normalizer (D : Set G))
   rw [crdT_mul dD.e (mul_mem (mul_mem hsq h1) hr) h2, crdT_mul dD.e (mul_mem hsq h1) hr,
     crdT_mul dD.e hsq h1, ← dD.thetaT_crdT he hd, ← dD.thetaT_crdT hx hd, hφ]
 
+omit [Finite G] in
 theorem false_of_twist_fix {f g x : G} (hf : f ∈ Subgroup.normalizer (D : Set G))
     (hx : x ∈ Subgroup.normalizer (D : Set G)) {φ : Torus τ.k →+ Torus τ.k}
     (hφ : ∀ y, dD.thetaT hx y = φ y) (hg : g ∈ Subgroup.normalizer (D : Set G))
@@ -220,7 +228,7 @@ theorem cocycle_proj_rho (h : F.IsD D dD) (hS : Local.Setting (F.S : Subgroup G)
       (e⁻¹ * dD.uv * e * dD.uv⁻¹) * (dD.uv⁻¹ * (e⁻¹ * dD.t * e * dD.t⁻¹) * dD.uv) := by
     rw [huvi]
     have hs : ∀ y, dD.uv * (dD.uv * y) = y := fun y => by rw [← mul_assoc, dD.uv_sq, one_mul]
-    simp only [mul_inv_rev, mul_assoc, hs, inv_mul_cancel_left, mul_inv_cancel_left]
+    simp only [mul_inv_rev, mul_assoc, hs, mul_inv_cancel_left]
     rw [huvi]
   have hmem : e⁻¹ * (dD.uv * dD.t) * e * (dD.uv * dD.t)⁻¹ ∈ D := by
     rw [huvt]; exact mul_mem huv hrt'
@@ -241,7 +249,7 @@ theorem conj_u_mem_R (h : F.IsD D dD) (hS : Local.Setting (F.S : Subgroup G) D) 
     (mem_normalizer_inf_centralizer_omegaIn huS dD.u_mem dD.u_sq) e).mp he
   exact this
 
-theorem cocycle_conj_u (hS : Local.Setting (F.S : Subgroup G) D) {e : G}
+theorem cocycle_conj_u (_hS : Local.Setting (F.S : Subgroup G) D) {e : G}
     (huv : e⁻¹ * dD.uv * e * dD.uv⁻¹ ∈ D) (ht : e⁻¹ * dD.t * e * dD.t⁻¹ ∈ D) :
     (dD.u⁻¹ * e * dD.u)⁻¹ * dD.uv * (dD.u⁻¹ * e * dD.u) * dD.uv⁻¹ ∈ D ∧
       (dD.u⁻¹ * e * dD.u)⁻¹ * dD.t * (dD.u⁻¹ * e * dD.u) * dD.t⁻¹ ∈ D ∧
@@ -508,7 +516,7 @@ theorem exists_mem_R_conj_mem_R1 (h : F.IsD D dD) (hS : Local.Setting (F.S : Sub
     (hlt : hS.R1 dD.uv dD.t < hS.R) :
     ∃ f ∈ hS.R, f ∉ hS.R1 dD.uv dD.t ∧ f⁻¹ * dD.uv * f * dD.uv⁻¹ ∈ hS.R1 dD.uv dD.t ∧
       f⁻¹ * dD.t * f * dD.t⁻¹ ∈ hS.R1 dD.uv dD.t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hgen : ∀ x ∈ ({dD.uv, dD.t} : Set G), x ∈ (F.S : Subgroup G) ∧
       x ∈ Subgroup.normalizer (D : Set G) ∧ x * x = 1 ∧ x * dD.uv = dD.uv * x ∧
       x * dD.t = dD.t * x := by
@@ -535,7 +543,7 @@ theorem exists_mem_R_conj_mem_R1 (h : F.IsD D dD) (hS : Local.Setting (F.S : Sub
       calc x⁻¹ * (x⁻¹ * e * x) * x = (x * x)⁻¹ * e * (x * x) := by group
         _ = e := by rw [hx2]; group] at this
   obtain ⟨f, hfR, hfR1, hf⟩ := CFSG.GroupTheory.exists_commutatorElement_mem_of_isPGroup
-    (F.S.isPGroup'.to_le hPS) (F.S.isPGroup'.to_le hS.R_le_S) hlt hnorm hPQ hPK
+    (F.S.isPGroup.to_le hPS) (F.S.isPGroup.to_le hS.R_le_S) hlt hnorm hPQ hPK
   have hr : ∀ x ∈ ({dD.uv, dD.t} : Set G), f⁻¹ * x * f * x⁻¹ ∈ hS.R1 dD.uv dD.t := fun x hx => by
     have h' := (Subgroup.mem_normalizer_iff''.mp (hnorm hfR) _).mp
       (hf x (Subgroup.subset_closure hx))

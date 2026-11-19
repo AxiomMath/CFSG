@@ -12,6 +12,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 private theorem chevIter_mem_normalizer_inf_centralizer {K : Subgroup G} {g a : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G)) (hga : g * a = a * g) :
     g ∈ Subgroup.normalizer
@@ -20,7 +21,7 @@ private theorem chevIter_mem_normalizer_inf_centralizer {K : Subgroup G} {g a : 
   intro h
   have hK := Subgroup.mem_normalizer_iff.1 hg h
   have hc : Commute a g := hga.symm
-  simp only [Subgroup.mem_inf, SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
+  simp only [Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]
   refine and_congr hK ?_
   have := chev_commute_conj_iff (h := h) hc
   exact ⟨fun hh => (this.2 hh.symm).symm, fun hh => (this.1 hh.symm).symm⟩

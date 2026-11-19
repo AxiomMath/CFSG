@@ -34,15 +34,15 @@ theorem isCoatom_normalizer_sylow_suzukiMatrixGroup (m : ℕ) (hm : 0 < m) :
       exact (Sylow.smul_eq_iff_mem_normalizer).mpr (Subgroup.le_normalizer u.2)
     · rw [mul_smul]
       exact hu
-  haveI : MulAction.IsPreprimitive (SuzukiMatrixGroup m)
+  have : MulAction.IsPreprimitive (SuzukiMatrixGroup m)
       (Sylow 2 (SuzukiMatrixGroup m)) :=
     MulAction.isPreprimitive_of_is_two_pretransitive h2tr
   have hcard : Nat.card (Sylow 2 (SuzukiMatrixGroup m)) =
       (2 ^ (2 * m + 1)) ^ 2 + 1 := by
     rw [(suzukiTorusData_suzukiMatrixGroup m hm).card_points]
-  haveI : Finite (Sylow 2 (SuzukiMatrixGroup m)) :=
+  have : Finite (Sylow 2 (SuzukiMatrixGroup m)) :=
     CFSG.GroupTheory.SuzukiTorusData.sylow_finite
-  haveI : Nontrivial (Sylow 2 (SuzukiMatrixGroup m)) := by
+  have : Nontrivial (Sylow 2 (SuzukiMatrixGroup m)) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcard]
     have : 0 < (2 ^ (2 * m + 1)) ^ 2 := by positivity
     omega
@@ -81,7 +81,7 @@ theorem isCoatom_normalizer_sylow_of_mulEquiv {Y : Type} [Group Y]
       IsCoatom (Subgroup.normalizer ((S : Subgroup Y) : Set Y))) :
     ∀ S : Sylow 2 X,
       IsCoatom (Subgroup.normalizer ((S : Subgroup X) : Set X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro S
   let S' : Sylow 2 Y := S.mapSurjective (f := e.toMonoidHom) e.surjective
   have hS' : (S' : Subgroup Y) = (S : Subgroup X).map e.toMonoidHom :=
@@ -104,8 +104,8 @@ theorem kDiag_of_isSz {n : ℕ} (hX : IsSz X n) :
   have hSuz : CFSG.Blueprint.SuzukiModel X 2 n :=
     (CFSG.Blueprint.LieModel.suzukiModel hX).2
   obtain ⟨-, a, ha, K, hfield, hfinite, rfl, hcard, ⟨e⟩⟩ := hSuz
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   exact kDiag_of_sylow_normalizer_coatom
     (isCoatom_normalizer_sylow_of_mulEquiv e
       (isCoatom_normalizer_sylow_suzukiGroup ha hcard))

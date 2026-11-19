@@ -129,7 +129,7 @@ theorem exists_noncomm_swap {Q : Type*} [Group Q] (ι : Q →* Perm (Fin 6))
     refine ⟨fun n hn g => ?_⟩
     induction hn using Subgroup.closure_induction with
     | mem x hx => exact Subgroup.subset_closure (hinv g x hx)
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul x y _ _ ihx ihy =>
       have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
       rw [this]

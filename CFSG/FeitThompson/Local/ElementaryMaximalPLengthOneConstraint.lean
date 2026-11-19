@@ -121,7 +121,7 @@ theorem le_pComplCore_of_maximal_isElementaryAbelianSubgroup (hp : p.Prime) (hod
     rw [hSbar, ← Sylow.coe_mapSurjective hsurj S]
     exact hX.coe_eq_pCore _
   have hSdisj : Disjoint (S : Subgroup X) N := by
-    obtain ⟨m, hm⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨m, hm⟩ := S.isPGroup.exists_card_eq
     exact disjoint_of_coprime_natCard
       (hm ▸ (hp.coprime_iff_not_dvd.2 (not_dvd_natCard_pComplCore hp X)).pow_left m)
   have hEbar : Maximal (IsElementaryAbelianSubgroup p) (E.map π) :=

@@ -87,9 +87,10 @@ theorem exists_eq_mul_R {q : G} (hq : q ∈ CFSG.Open.pCoreOf 2 M) :
   obtain ⟨v, hv, r, hr, rfl⟩ := S.exists_eq_mul_of_mem_Q hq
   exact ⟨v, hv, r, S.Q_inf_C_le_R hr, rfl⟩
 
+omit [Finite G] S in
 theorem W_comm_C {w c : G} (hw : w ∈ blockU X) (hc : c ∈ Subgroup.centralizer (X : Set G)) :
     w * c = c * w :=
-  Subgroup.mem_centralizer_iff.mp hc w (S.W_le_X hw)
+  Subgroup.mem_centralizer_iff.mp hc w (CFSG.RankThree.PartTwo.Sec19.SolSeven.Setting.W_le_X hw)
 
 variable (hRab : ∀ a ∈ CFSG.Open.pCoreOf 2 (Subgroup.centralizer (X : Set G)),
     ∀ b ∈ CFSG.Open.pCoreOf 2 (Subgroup.centralizer (X : Set G)), a * b = b * a)
@@ -105,8 +106,8 @@ theorem Q_comm {a b : G} (ha : a ∈ CFSG.Open.pCoreOf 2 M) (hb : b ∈ CFSG.Ope
       z ∈ Subgroup.centralizer (X : Set G) := fun hz => pCoreOf_le_self _ hz
   have h1 := S.W_comm hv hv'
   have h2 := hRab r hr r' hr'
-  have h3 := S.W_comm_C hv (hrC hr')
-  have h4 := S.W_comm_C hv' (hrC hr)
+  have h3 := CFSG.RankThree.PartTwo.Sec19.SolSeven.Setting.W_comm_C hv (hrC hr')
+  have h4 := CFSG.RankThree.PartTwo.Sec19.SolSeven.Setting.W_comm_C hv' (hrC hr)
   calc v * r * (v' * r') = v * (r * v') * r' := by group
     _ = v * (v' * r) * r' := by rw [h4]
     _ = (v * v') * (r * r') := by group
@@ -119,7 +120,7 @@ include hR2 in
 theorem mem_Q_of_pi_eq_one {p : ↥M} (hp : S.pi p = 1) {k : ℕ} (hk : (p : G) ^ (2 ^ k) = 1) :
     (p : G) ∈ CFSG.Open.pCoreOf 2 M := by
   obtain ⟨v, hv, hvc⟩ := S.exists_of_pi_eq_one hp
-  have hvc' : v * (v⁻¹ * (p : G)) = (v⁻¹ * (p : G)) * v := S.W_comm_C hv hvc
+  have hvc' : v * (v⁻¹ * (p : G)) = (v⁻¹ * (p : G)) * v := CFSG.RankThree.PartTwo.Sec19.SolSeven.Setting.W_comm_C hv hvc
   have hcomm : Commute v⁻¹ (p : G) := by
     show v⁻¹ * (p : G) = (p : G) * v⁻¹
     calc v⁻¹ * (p : G) = (v⁻¹ * (p : G)) * v * v⁻¹ := by group
@@ -287,7 +288,7 @@ theorem pCoreOf_centralizer_eq {x : G} (hx : x ∈ CFSG.Open.pCoreOf 2 M) (hx1 :
       simpa using this
     exact Q.mul_mem (hQxM ⟨hk, hkM⟩) hq
   have hQtop : Q.subgroupOf P = ⊤ := by
-    haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
+    have : Group.IsNilpotent ↥P := hP2.isNilpotent
     refine (normalizerCondition_iff_only_full_group_self_normalizing.mp
       (Group.normalizerCondition_of_isNilpotent (G := ↥P))) _ ?_
     refine le_antisymm (fun g hg => ?_) Subgroup.le_normalizer

@@ -102,7 +102,7 @@ theorem sec3101A2_of_facts (hp : d.CaseHyp) (k : d.Know93) (S : Subgroup G)
   unfold Sec3101A2
   exact ⟨⟨hFeq1, hWC6⟩, ⟨hFeq2, hC4C36⟩⟩
 
-theorem sec3101A2_of_hyp (hp : d.CaseHyp) (k : d.Know93) (h2 : d.Sec3_10_two)
+theorem sec3101A2_of_hyp (hp : d.CaseHyp) (k : d.Know93) (_h2 : d.Sec3_10_two)
     (S : Subgroup G) (hS : IsSylowOf 2 S d.L₂) (hP : d.P ≤ S) (hO : d.Sec3101Orders S)
     (h1 : d.Sec3101A1 S) : d.Sec3101A2 S := by
   exact sec3101A2_of_facts hp k S hS hP hO h1 (sec3101_RA hp) (sec3101_RB hp) (sec3101_RC hp) (sec3101_RD hp)

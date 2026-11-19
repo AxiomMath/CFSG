@@ -383,7 +383,7 @@ theorem sign_fp' (l : List (Fin 8)) (h : l.Nodup ∧ 2 ≤ l.length) :
 set_option maxRecDepth 100000 in
 set_option maxHeartbeats 1000000 in
 theorem A9Hsign0 : ∀ x ∈ A9H0, Equiv.Perm.sign x = 1 := by
-  simp only [A9H0, List.forall_mem_cons, List.forall_mem_nil, and_true]
+  simp only [A9H0, List.forall_mem_cons]
   repeat' refine And.intro ?_ ?_
   all_goals norm_num [Equiv.Perm.sign_mul, sign_fp']
 
@@ -394,7 +394,7 @@ theorem A9tsign0 : Equiv.Perm.sign A9t0 = -1 := by
 set_option maxRecDepth 100000 in
 set_option maxHeartbeats 1000000 in
 theorem A9Hsign1 : ∀ x ∈ A9H1, Equiv.Perm.sign x = 1 := by
-  simp only [A9H1, List.forall_mem_cons, List.forall_mem_nil, and_true]
+  simp only [A9H1, List.forall_mem_cons]
   repeat' refine And.intro ?_ ?_
   all_goals norm_num [Equiv.Perm.sign_mul, sign_fp']
 
@@ -405,7 +405,7 @@ theorem A9tsign1 : Equiv.Perm.sign A9t1 = -1 := by
 set_option maxRecDepth 100000 in
 set_option maxHeartbeats 1000000 in
 theorem A9Hsign2 : ∀ x ∈ A9H2, Equiv.Perm.sign x = 1 := by
-  simp only [A9H2, List.forall_mem_cons, List.forall_mem_nil, and_true]
+  simp only [A9H2, List.forall_mem_cons]
   repeat' refine And.intro ?_ ?_
   all_goals norm_num [Equiv.Perm.sign_mul, sign_fp']
 

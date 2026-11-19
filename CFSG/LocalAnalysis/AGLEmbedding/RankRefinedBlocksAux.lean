@@ -140,7 +140,7 @@ theorem exists_isPGroup_pow_le_relIndex {p : ℕ} [hp : Fact p.Prime] {V C : Sub
   obtain ⟨T⟩ : Nonempty (Sylow p ↥V) := inferInstance
   set B : Subgroup Γ := (T : Subgroup ↥V).map V.subtype with hB
   have hBV : B ≤ V := Subgroup.map_subtype_le _
-  have hBp : IsPGroup p B := T.isPGroup'.map _
+  have hBp : IsPGroup p B := T.isPGroup.map _
   refine ⟨B, hBV, hBp, ?_⟩
   set v := (Nat.card (C ⊓ V : Subgroup Γ)).factorization p with hv
   have hV : C.relIndex V * Nat.card (C ⊓ V : Subgroup Γ) = Nat.card V :=

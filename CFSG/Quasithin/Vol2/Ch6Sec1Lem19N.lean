@@ -583,7 +583,7 @@ theorem false_of_rankTwo (h : Hyp6116 G T M L V n)
     exact hd1 hdI
   have hd3 : d ^ 3 = 1 := hd.pow_three_eq_one hdD
   have hdo : orderOf d = 3 := orderOf_eq_prime hd3 hd1
-  haveI : A'.Normal := A318.normal_of_pRank_gt_one hsqtk (h38 _ hhyp) hA'c Nat.prime_three
+  have : A'.Normal := A318.normal_of_pRank_gt_one hsqtk (h38 _ hhyp) hA'c Nat.prime_three
     (by norm_num) hrank
   have hZS : Subgroup.center ↥S = ⊥ := Lem8.center_eq_bot_of_nonabelian ⟨sa, sb, hsab⟩
   have hZQ : Nat.card (Subgroup.center (↥A' ⧸ CFSG.pCore 2 ↥A')) ∣ 3 := by

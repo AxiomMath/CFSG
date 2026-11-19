@@ -204,10 +204,10 @@ theorem twoSubgroupsFourGenerated_of_tight_quaternion {K : Subgroup G} (Q : Sylo
         ∀ y ∈ (Q : Subgroup K).map K.subtype, x * y = y * x) → conjSubgroup g K = K)
     (hE2 : CentralizerTwoRankOne K) (hE3 : NormalizerQuotientTwoGenerated K) :
     TwoSubgroupsFourGenerated G := by
-  have hSC := le_normalizer_of_commute_imp_normalizes Q hQ hz hzo hKC hKn S.isPGroup' hQS hcomm
+  have hSC := le_normalizer_of_commute_imp_normalizes Q hQ hz hzo hKC hKn S.isPGroup hQS hcomm
   refine fourGenerated_of_sylow S fun P hPS => ?_
   have hP : IsPGroup 2 P :=
-    S.isPGroup'.of_injective (Subgroup.inclusion hPS) (Subgroup.inclusion_injective hPS)
+    S.isPGroup.of_injective (Subgroup.inclusion hPS) (Subgroup.inclusion_injective hPS)
   exact exists_four_generators_of_le_normalizer hE2 hE3 hP fun p hp =>
     mem_normalizer_of_mem_centralizer hKC hKn (hSC (hPS hp))
 

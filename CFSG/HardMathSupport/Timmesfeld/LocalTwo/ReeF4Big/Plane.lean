@@ -169,7 +169,7 @@ theorem exists_primitive_root_two (hp : p.Prime) (hp2 : p ≠ 2) [CharP L 2] [Is
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 this).symm
   have : NeZero p := ⟨hp.ne_zero⟩
   have : NeZero (p : L) := ⟨hpL⟩
-  obtain ⟨ξ₀, hξ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ξ₀, hξ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   lift ξ₀ to Lˣ using hξ₀.isUnit hp.ne_zero
   rw [IsPrimitiveRoot.coe_units_iff] at hξ₀
   exact ⟨ξ₀, hξ₀⟩

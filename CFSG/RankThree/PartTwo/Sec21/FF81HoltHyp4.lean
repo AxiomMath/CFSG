@@ -21,11 +21,12 @@ section Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem cen_conj (y x : G) : Cen (y * x * y⁻¹) = conjBy y (Cen x) := by
   ext z
   rw [Subgroup.mem_map_equiv, Subgroup.mem_centralizer_singleton_iff,
     Subgroup.mem_centralizer_singleton_iff]
-  simp only [MulEquiv.symm_apply_eq, MulAut.conj_symm_apply, MulAut.conj_apply]
+  simp only [MulAut.conj_symm_apply]
   constructor
   · intro h
     calc y⁻¹ * z * y * x = y⁻¹ * (z * (y * x * y⁻¹)) * y := by group
@@ -36,12 +37,14 @@ theorem cen_conj (y x : G) : Cen (y * x * y⁻¹) = conjBy y (Cen x) := by
       _ = y * (x * (y⁻¹ * z * y)) * y⁻¹ := by rw [h]
       _ = y * x * y⁻¹ * z := by group
 
+omit [Finite G] in
 theorem cen_le_cen_of_mem_zpowers {u x : G} (hx : x ∈ Subgroup.zpowers u) : Cen u ≤ Cen x := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
   intro z hz
   rw [Subgroup.mem_centralizer_singleton_iff] at hz ⊢
   exact (Commute.zpow_right hz k).eq
 
+omit [Finite G] in
 theorem inSubgroup_conj_mem {H : Subgroup G} {K : Subgroup H} (hK : K.Normal) {g o : G}
     (hg : g ∈ H) (ho : o ∈ K.map H.subtype) : g * o * g⁻¹ ∈ K.map H.subtype := by
   obtain ⟨o', ho', rfl⟩ := ho
@@ -63,7 +66,7 @@ theorem exists_conjBy_le_sylow {p : ℕ} [Fact p.Prime] {H A : Subgroup G} (hAH 
 theorem exists_isSylowOf_le {p : ℕ} [Fact p.Prime] {Y R : Subgroup G} (hRY : R ≤ Y)
     (hR : IsPGroup p R) : ∃ Q : Subgroup G, IsSylowOf p Q Y ∧ R ≤ Q := by
   obtain ⟨Q, hQ⟩ := (hR.comap_of_injective Y.subtype Subtype.coe_injective).exists_le_sylow
-  refine ⟨(Q : Subgroup Y).map Y.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, ?_⟩,
+  refine ⟨(Q : Subgroup Y).map Y.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_⟩,
     fun x hx => ⟨⟨x, hRY hx⟩, hQ (Subgroup.mem_comap.mpr hx), rfl⟩⟩
   show Nat.Coprime p ((((Q : Subgroup Y).map Y.subtype).subgroupOf Y).index)
   rw [show ((Q : Subgroup Y).map Y.subtype).subgroupOf Y = Q from
@@ -82,9 +85,10 @@ theorem exists_conjBy_eq_of_unique {Y H A₁ A₂ : Subgroup G}
   have h₂R : A₂ ≤ (Q : Subgroup H).map H.subtype := fun x hx =>
     ⟨⟨x, h₂ hx⟩, hQ (Subgroup.mem_comap.mpr hx), rfl⟩
   obtain ⟨Q', hQ', hRQ'⟩ := exists_isSylowOf_le ((Subgroup.map_subtype_le _).trans hHY)
-    (Q.isPGroup'.map H.subtype)
+    (Q.isPGroup.map H.subtype)
   exact ⟨c, hc, hS1 Q' hQ' _ _ (hcA.trans hRQ') (h₂R.trans hRQ') (isElemAb_conjBy e₁ c) e₂⟩
 
+omit [Finite G] in
 theorem conj_commute {a u v : G} (h : u * v = v * u) :
     a * u * a⁻¹ * (a * v * a⁻¹) = a * v * a⁻¹ * (a * u * a⁻¹) := by
   calc a * u * a⁻¹ * (a * v * a⁻¹) = a * (u * v) * a⁻¹ := by group
@@ -140,6 +144,7 @@ theorem FF81Sec4.mem_conjLines (h4 : FF81Sec4 b L B b₁ b₂ b₃ t₀) :
       Subgroup.zpowers b₃ ∈ ConjLines B b := by
   rw [h4.caseI.2]; simp
 
+omit [Finite G] in
 theorem orderOf_of_mem_conjLines (hb : orderOf b = 3) {x : G}
     (hx : Subgroup.zpowers x ∈ ConjLines B b) : orderOf x = 3 := by
   obtain ⟨-, g, hg⟩ := hx
@@ -238,10 +243,10 @@ theorem ff81_holtHyp4 : FF81_holtHyp4 := by
   have hTcard : Nat.card T = 2 ^ 7 := h43.2.1.2
   have hTle : T ≤ Cen t₀ := Subgroup.map_subtype_le _
   have hTL : T ⊓ L = ⊥ := by
-    haveI : IsSimpleGroup L :=
+    have : IsSimpleGroup L :=
       CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp L 3 2 1
         hB.hyp.model
-    haveI hn : ((T ⊓ L).subgroupOf L).Normal := ⟨fun n hn g => by
+    have hn : ((T ⊓ L).subgroupOf L).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact ⟨hTn g (hLt g.2) n hn.1, L.mul_mem (L.mul_mem g.2 hn.2) (L.inv_mem g.2)⟩⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((T ⊓ L).subgroupOf L) with h | h
@@ -297,8 +302,8 @@ theorem ff81_holtHyp4 : FF81_holtHyp4 := by
         ⟨fun hw => hTn _ hx w hw, fun hw => by
           have := hTn _ ((Cen t₀).inv_mem hx) _ hw
           rwa [show (s * l)⁻¹ * (s * l * w * (s * l)⁻¹) * (s * l)⁻¹⁻¹ = w by group] at this⟩)
-    have hinf : Subgroup.zpowers (s * l) ⊓ T = ⊥ := Subgroup.inf_eq_bot_of_coprime (by
-      rw [Nat.card_zpowers, hx3, hTcard]; norm_num)
+    have hinf : Subgroup.zpowers (s * l) ⊓ T = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by
+      rw [Nat.card_zpowers, hx3, hTcard]; norm_num)))
     have hHcard : Nat.card ↥(Subgroup.zpowers (s * l) ⊔ T) = 2 ^ 7 * 3 := by
       have e := card_sup_mul_card_inf _ _ hNH
       rw [hinf, Subgroup.card_bot, mul_one, Nat.card_zpowers, hx3, hTcard] at e
@@ -436,7 +441,7 @@ theorem ff81_holtHyp4 : FF81_holtHyp4 := by
     have ht₀S : t₀ ∈ S := by
       obtain ⟨t₀', ht₀'⟩ : ∃ t : Cen t₀, (t : G) = t₀ :=
         ⟨⟨t₀, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩, rfl⟩
-      haveI hK : (Subgroup.zpowers t₀').Normal := ⟨fun z hz g => by
+      have hK : (Subgroup.zpowers t₀').Normal := ⟨fun z hz g => by
         obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hz
         have hgc : Commute g t₀' := Subtype.ext (by
           rw [Subgroup.coe_mul, Subgroup.coe_mul, ht₀']
@@ -454,7 +459,7 @@ theorem ff81_holtHyp4 : FF81_holtHyp4 := by
       rw [(CFSG.Timmesfeld.card_statedClassicalModel_two hYm).2.2.1 rfl]
       norm_num [CFSG.Open.ordBC, Finset.prod_Icc_succ_top]
     have hSsyl : IsSylowOf 2 S Y := by
-      refine ⟨hSY, P.isPGroup'.map _, ?_⟩
+      refine ⟨hSY, P.isPGroup.map _, ?_⟩
       have e := Subgroup.relIndex_mul_card S Y
       rw [inf_of_le_left hSY, hScard, hYcard] at e
       have : S.relIndex Y = 722925 := by omega
@@ -493,7 +498,7 @@ theorem ff81_holtHyp4 : FF81_holtHyp4 := by
       rw [MulAction.Quotient.smul_mk, smul_eq_mul, QuotientGroup.eq] at hq
       have hτY : g⁻¹ * t₀ * g ∈ Y := by rwa [mul_inv_rev, ht₀inv] at hq
       have hτ2 : orderOf (g⁻¹ * t₀ * g) = 2 := by
-        rw [show g⁻¹ * t₀ * g = MulAut.conj g⁻¹ t₀ by simp [MulAut.conj_apply],
+        rw [show g⁻¹ * t₀ * g = MulAut.conj g⁻¹ t₀ by simp,
           MulEquiv.orderOf_eq]
         exact h4.ht₀
       obtain ⟨y, hy, hyτ⟩ := hA5 _ hτY hτ2 g (by group)

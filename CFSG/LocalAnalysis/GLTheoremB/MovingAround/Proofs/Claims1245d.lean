@@ -110,7 +110,7 @@ theorem input14_17SL_of_facts (F3 : CFSG.HardMathSupport.Solomon.Coordinator.Inp
       (Lemma1245.isLThreeFour_congr (QuotientGroup.quotientMulEquivOfEq hpc.symm) hJt) with hL34 | hSL
   · exfalso
     obtain ⟨hs, a, c, hac⟩ := CFSG.HardMathSupport.Solomon.UniquenessMaximal.isSimpleGroup_of_isLThreeFour hL34
-    haveI := hs
+    have := hs
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (barOf 3 J)) with h | h
     · exact hZ h
     · exact hac ((Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top c)) a)
@@ -118,8 +118,8 @@ theorem input14_17SL_of_facts (F3 : CFSG.HardMathSupport.Solomon.Coordinator.Inp
     intro Y _ _ K hKq hKK _ b hbK hb3 J' hJ' eJ
     obtain ⟨E, hE, hEfin, hcard, ⟨f⟩⟩ := hSL
     have hchar : CharP E 2 := by
-      haveI : Fintype E := Fintype.ofFinite E
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fintype E := Fintype.ofFinite E
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact charP_of_card_eq_prime_pow (f := 2) (by rw [← Nat.card_eq_fintype_card, hcard]; norm_num)
     exact isChevSimple_of_isChevOfChar_two (F3.chev Y K hKq hKK b hbK hb3 J' hJ' 2 Nat.prime_two
       (Or.inl ⟨E, hE, hEfin, hchar, by rw [hcard], ⟨eJ.symm.trans f⟩⟩))

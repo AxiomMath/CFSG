@@ -138,8 +138,8 @@ theorem f2_dvd_card_of_psl {X : Type} [Group X] {q : ℕ} (hq : q.Prime) (hq2 : 
 
 theorem f2_exists_elt {G : Type} [Group G] [Finite G] (K : Subgroup G) {q : ℕ} (hq : q.Prime)
     (hdvd : q ∣ Nat.card K) : ∃ x ∈ K, orderOf x = q := by
-  haveI := Fact.mk hq
-  haveI : Fintype K := Fintype.ofFinite K
+  have := Fact.mk hq
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card (G := ↥K) q
     (by rw [← Nat.card_eq_fintype_card]; exact hdvd)
   refine ⟨x, x.2, ?_⟩
@@ -274,7 +274,7 @@ theorem leafF2_holds (h36 : A36ForSQTK) (h128 : Lemma128Two)
   have hK'leG₀ : K' ≤ G₀ := le_of_mem_cComp hK'G₀
   have hKsub : K ≤ conjClosure K T := by rw [hK₀eq]; exact le_sup_left
   have hK'sub : K' ≤ conjClosure K T := by rw [hK₀eq]; exact le_sup_right
-  haveI : IsSimpleGroup G := c.hyp.simple
+  have : IsSimpleGroup G := c.hyp.simple
   have hLS : LocalSQTK G := (qtkeCore_of_cat c.hyp.nonabelian c.hyp.qtke).1
   have hev : CFSG.Open.evenRank G ≤ 2 := by
     have := (qtkeCore_of_cat c.hyp.nonabelian c.hyp.qtke).2.2

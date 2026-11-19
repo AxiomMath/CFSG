@@ -157,10 +157,10 @@ theorem kinv_outer {x0 : ℕ} :
     intro h s I
     unfold k43Outer
     by_cases hh : h < s.1.size
-    · rw [if_pos hh]
+    · rw [ite_eq_left hh]
       exact ih _ _ (kinv_inner (List.range' 0 ngen)
         (fun g hg => by simpa using (List.mem_range'_1.1 hg).2) s hh rfl I).1
-    · rw [if_neg hh]
+    · rw [ite_eq_right hh]
       exact I
 
 theorem kinv_bfsTableK (x0 cap : ℕ) : KInv step ngen x0 (bfsTableK step ngen x0 cap) := by
@@ -201,9 +201,9 @@ theorem qinner_sim {y h : ℕ} :
     unfold k43Inner qInner
     rw [R.tree]
     by_cases hc : s.2.mem (step g y) = true
-    · rw [if_pos hc, if_pos hc]
+    · rw [ite_eq_left hc, ite_eq_left hc]
       exact ih s q hh R
-    · rw [if_neg hc, if_neg hc]
+    · rw [ite_eq_right hc, ite_eq_right hc]
       refine ih _ _ (by simp; omega) ⟨?_, ?_, fun k => ?_⟩
       · rw [Array.toList_push, List.drop_append_of_le_length (by simp; omega), List.map_append,
           R.queue, List.reverse_cons, List.append_assoc]
@@ -234,7 +234,7 @@ theorem qouter_sim :
         intro fr bk he
         obtain ⟨R', hh'⟩ := qinner_sim (step := step) (y := s.1[h]!.1) (h := h)
           (List.range' 0 ngen) s ⟨fr, bk, q.cnt, q.tree⟩ (by omega) ⟨he, R.cnt, R.tree⟩
-        rw [k43Outer, if_pos hlt]
+        rw [k43Outer, ite_eq_left hlt]
         exact ih (h + 1) _ _ hh' R'
       obtain ⟨fr, bk, c, t⟩ := q
       have hq := R.queue
@@ -270,7 +270,7 @@ theorem qouter_sim :
       have e1 : qOuter step ngen (f + 1) ⟨[], bk, c, t⟩ = ⟨[], bk, c, t⟩ := by
         simp only [qOuter, hbk]
       have e2 : k43Outer step ngen (f + 1) h s = s := by
-        rw [k43Outer, if_neg (by omega)]
+        rw [k43Outer, ite_eq_right (by omega)]
       rw [e1, e2]
       exact ⟨R.cnt, R.tree⟩
 

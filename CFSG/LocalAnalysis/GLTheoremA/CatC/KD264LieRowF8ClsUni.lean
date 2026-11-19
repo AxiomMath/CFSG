@@ -54,8 +54,8 @@ theorem KD264F8ClsUni_holds : KD264F8ClsUni := by
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA n q hd1 (MulEquiv.refl _)
   have hdat : UnitaryFieldData q.p q.exponent F :=
     ⟨q.prime_p, q.exponent_pos, by rw [hFcard, ← pow_mul, mul_comm]⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : CharP F q.p := hdat.charP
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : CharP F q.p := hdat.charP
   have hK' : Nat.card F = (q.p ^ q.exponent) ^ 2 := by rw [hdat.card, ← pow_mul, Nat.mul_comm]
   have hNq := not_three_two_of_valid n q hd1 hN
   have hcardq : q.p ^ q.exponent = 8 := by rw [← TauCeti.PrimePower.card_def]; exact hq
@@ -82,7 +82,7 @@ theorem KD264F8ClsUni_holds : KD264F8ClsUni := by
     rw [hcenter] at h1
     exact (Subgroup.map_eq_bot_iff_of_injective _ eSL.injective).1 h1
   obtain ⟨hAab, h3, h4, hm3, hout, hnot⟩ := hA
-  obtain ⟨b, hbA, hbout⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨b, hbA, hbout⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   have hb3 : b ^ 3 = 1 := hAab.2 b hbA
   have hbout' : onCenterQuotient b ∉ innAutDerived
       ((TauCeti.CFSGIndex.lie ⟨.twistedA n q, hd1⟩).Group ⧸ Subgroup.center

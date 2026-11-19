@@ -43,6 +43,7 @@ section Huppert
 variable {A : Type*} [CommSemiring A] {G : Type} [Group G] [Finite G] {M : Type}
   [AddCommGroup M] [Module A M] [Finite M] {ρ : Representation A G M}
 
+omit [Finite G] in
 theorem Fpf.huppert (hf : Fpf ρ) :
     (∀ (q : ℕ) [Fact q.Prime], q ≠ 2 → ∀ P : Sylow q (mulAutOf ρ).range, IsCyclic P) ∧
       (∀ P : Sylow 2 (mulAutOf ρ).range,
@@ -60,17 +61,19 @@ theorem Fpf.huppert (hf : Fpf ρ) :
     congrArg Multiplicative.toAdd hx
   exact toAdd_eq_zero.mp (hf h hh _ hx')
 
+omit [Finite G] in
 theorem Fpf.isCyclic_of_isPGroup (hρ : Function.Injective ρ) (hf : Fpf ρ) {q : ℕ} [Fact q.Prime]
     (hq : q ≠ 2) {U : Subgroup G} (hU : IsPGroup q U) : IsCyclic U := by
   let e : G ≃* (mulAutOf ρ).range := MonoidHom.ofInjective (mulAutOf_injective hρ)
   obtain ⟨P, hP⟩ := (hU.map e.toMonoidHom).exists_le_sylow
-  haveI : IsCyclic P := hf.huppert.1 q hq P
-  haveI : IsCyclic (U.map e.toMonoidHom) := Subgroup.isCyclic_of_le hP
+  have : IsCyclic P := hf.huppert.1 q hq P
+  have : IsCyclic (U.map e.toMonoidHom) := Subgroup.isCyclic_of_le hP
   exact (U.equivMapOfInjective e.toMonoidHom e.injective).isCyclic.mpr this
 
+omit [Finite G] in
 theorem Fpf.isCyclic_sylow (hρ : Function.Injective ρ) (hf : Fpf ρ) {q : ℕ} [Fact q.Prime]
     (hq : q ≠ 2) (P : Sylow q G) : IsCyclic P :=
-  hf.isCyclic_of_isPGroup hρ hq P.isPGroup'
+  hf.isCyclic_of_isPGroup hρ hq P.isPGroup
 
 theorem Fpf.sylow_two (hρ : Function.Injective ρ) (hf : Fpf ρ) (P : Sylow 2 G) :
     IsCyclic P ∨ ∃ k : ℕ, 2 ≤ k ∧ IsPGroup 2 (QuaternionGroup k) ∧
@@ -82,6 +85,7 @@ theorem Fpf.sylow_two (hρ : Function.Injective ρ) (hf : Fpf ρ) (P : Sylow 2 G
   · exact Or.inl (eQ.isCyclic.mpr h)
   · exact Or.inr ⟨k, hk, hq, ⟨eQ.trans f⟩⟩
 
+omit [Finite G] in
 theorem Fpf.isCyclic_of_card_eq_mul (hρ : Function.Injective ρ) (hf : Fpf ρ) {p₁ p₂ : ℕ}
     (h₁ : p₁.Prime) (h₂ : p₂.Prime) {H : Subgroup G} (hH : Nat.card H = p₁ * p₂) :
     IsCyclic H := by

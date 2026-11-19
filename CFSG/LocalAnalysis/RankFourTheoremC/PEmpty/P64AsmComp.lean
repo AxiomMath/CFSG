@@ -18,7 +18,7 @@ theorem dvd_card_of_isComponentOf (hp : p.Prime) (hZ : primeComplementCore (G :=
     {L : Subgroup Z} (hL : IsComponentOf L ⊤) : p ∣ Nat.card L := by
   by_contra hnd
   have hcop : Nat.Coprime p (Nat.card L) := (Nat.Prime.coprime_iff_not_dvd hp).2 hnd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsub : L.IsSubnormal := CFSG.Open.IsSubnormal.top_iff.1 hL.2.1
   have hle : L ≤ CFSG.pPrimeCore p Z :=
     CFSG.LocalAnalysis.RankThreeTheoremC.ths_le_pPrimeCore_of_isSubnormal hsub hcop
@@ -63,7 +63,7 @@ theorem exists_mem_inf_sylow_component (hp : p.Prime) (hp2 : p ≠ 2)
     (hZ : primeComplementCore (G := Z) p = ⊥) (Q : Sylow p Z) {L : Subgroup Z}
     (hL : IsComponentOf L ⊤) :
     ∃ y ∈ (Q : Subgroup Z) ⊓ L, orderOf y = p ∧ ∃ l ∈ L, l * y ≠ y * l := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsub : L.IsSubnormal := CFSG.Open.IsSubnormal.top_iff.1 hL.2.1
   obtain ⟨P, hP⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal Q hsub
   have hdvd : p ∣ Nat.card (↥L ⧸ Subgroup.center ↥L) :=
@@ -80,6 +80,7 @@ theorem exists_mem_inf_sylow_component (hp : p.Prime) (hp2 : p ≠ 2)
       exact htc (Subgroup.mem_center_iff.2 fun g => hcon g)
     exact ⟨(g : Z), g.2, fun h => hg (Subtype.ext h)⟩
 
+omit [Finite Z] in
 theorem isComponentOf_map_conj {L : Subgroup Z} (hL : IsComponentOf L ⊤) (g : Z) :
     IsComponentOf (L.map (MulAut.conj g).toMonoidHom) ⊤ := by
   have hsurj : Function.Surjective (MulAut.conj g).toMonoidHom := (MulAut.conj g).surjective

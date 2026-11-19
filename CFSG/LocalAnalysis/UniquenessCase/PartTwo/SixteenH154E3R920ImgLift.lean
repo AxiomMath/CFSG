@@ -17,9 +17,9 @@ variable {G : Type} [Group G] [Finite G]
 private theorem r920iml_subgroupOf_I9_le_pCore {H X : Subgroup G} {m : ℕ} (hXH : X ≤ H)
     (hL2 : IsL2 (Bar2 X) m) :
     (F09.I9 H).subgroupOf X ≤ CFSG.pCore 2 ↥X := by
-  haveI : IsSimpleGroup (Bar2 X) :=
+  have : IsSimpleGroup (Bar2 X) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHI : H ≤ normalizer (F09.I9 H : Set G) :=
     CFSG.RankThree.GroupTheory.SteinbergBM.le_normalizer_inSubgroup_pPrimeCore 3 H
   set J : Subgroup ↥X := (F09.I9 H).subgroupOf X with hJ
@@ -30,7 +30,7 @@ private theorem r920iml_subgroupOf_I9_le_pCore {H X : Subgroup G} {m : ℕ} (hXH
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     have h1 := (Subgroup.mem_normalizer_iff.mp (hHI (hXH g.2)) (x : G)).mp hx
     simpa using h1
-  haveI : (J.map (QuotientGroup.mk' Q)).Normal :=
+  have : (J.map (QuotientGroup.mk' Q)).Normal :=
     hJn.map _ (QuotientGroup.mk'_surjective Q)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (J.map (QuotientGroup.mk' Q)) with h | h
   · intro x hx

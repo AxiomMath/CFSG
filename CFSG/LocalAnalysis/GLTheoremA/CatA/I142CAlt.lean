@@ -50,8 +50,8 @@ theorem perfect_le_layer_alt8_three_cycle {x : alternatingGroup (Fin 8)}
     rw [Finset.card_compl, h1]
     simp
   obtain ⟨e⟩ := nonempty_range_ofSubtype_equiv σ.supportᶜ 5 hcard5
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI hFs : IsSimpleGroup ↥(alternatingGroup.ofSubtype σ.supportᶜ).range := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have hFs : IsSimpleGroup ↥(alternatingGroup.ofSubtype σ.supportᶜ).range := e.isSimpleGroup
   have hA5 : ∃ a b : alternatingGroup (Fin 5), a * b ≠ b * a := by
     refine ⟨⟨Equiv.swap 0 1 * Equiv.swap 1 2, ?_⟩, ⟨Equiv.swap 0 1 * Equiv.swap 2 3, ?_⟩, ?_⟩
     · exact Equiv.Perm.mem_alternatingGroup.2 (by decide)
@@ -80,7 +80,7 @@ theorem perfectInLayer_conj_alt (n : ℕ) (hn : n = 5 ∨ n = 6 ∨ n = 8) {q : 
   rw [fixSubgroup_conj_eq_centralizer'] at hP ⊢
   have hσq : (y : Equiv.Perm (Fin n)) ^ q = 1 := by simpa using congrArg Subtype.val hy
   have hσ1 : (y : Equiv.Perm (Fin n)) ≠ 1 := fun h => hy1 (Subtype.ext h)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hord : orderOf (y : Equiv.Perm (Fin n)) = q := orderOf_eq_prime hσq hσ1
   obtain ⟨k, hk, hkn⟩ := cq_cycleType_of_prime_order (y : Equiv.Perm (Fin n)) hq hord
   have hk1 : 1 ≤ k := by
@@ -98,8 +98,8 @@ theorem perfectInLayer_conj_alt (n : ℕ) (hn : n = 5 ∨ n = 6 ∨ n = 8) {q : 
       have hdiv : Nat.card P ∣ (n - k * q).factorial * q ^ k * k.factorial := by
         rw [← cq_card_centralizer_replicate (y : Equiv.Perm (Fin n)) hk1 hk]
         exact (Subgroup.card_dvd_of_le hP).trans (cq_card_centralizer_dvd_alt y)
-      haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hne
-      haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hperf
+      have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hne
+      have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hperf
       have hq3 : 3 ≤ q := by
         have := hq.two_le
         omega

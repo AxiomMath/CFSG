@@ -200,7 +200,7 @@ theorem fusionControl : FusionControlStatement := by
   have hcentric (D : Subgroup G) (hDS : D ≤ S)
       (hcent : Subgroup.centralizer (D : Set G) ⊓ S ≤ D) :
       Subgroup.normalizer (D : Set G) ≤ M :=
-    normalizer_le_of_centralizer_le S.isPGroup' hrank hUS hSU hU hU4 hz hz2 hzM hfour hhigh hDS
+    normalizer_le_of_centralizer_le S.isPGroup hrank hUS hSU hU hU4 hz hz2 hzM hfour hhigh hDS
       hcent
   have hdecomp {Q : Subgroup G} {c : G}
       (h : CFSG.RankTwoShapes.AlperinDecomposition 2 (S : Subgroup G) Q c) : c ∈ M := by
@@ -215,9 +215,9 @@ theorem fusionControl : FusionControlStatement := by
   have hcop : Nat.Coprime 2 ((S : Subgroup G).relIndex M) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).2 fun h =>
       S.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hSM))
-  obtain ⟨a, haM, ha⟩ := exists_mem_conj_mem_of_coprime_relIndex S.isPGroup' hcop hPM hP
+  obtain ⟨a, haM, ha⟩ := exists_mem_conj_mem_of_coprime_relIndex S.isPGroup hcop hPM hP
   obtain ⟨b, hbM, hb⟩ :=
-    exists_mem_conj_mem_of_coprime_relIndex S.isPGroup' hcop hPg (hP.map _)
+    exists_mem_conj_mem_of_coprime_relIndex S.isPGroup hcop hPg (hP.map _)
   have hPa : P.map (MulAut.conj a⁻¹).toMonoidHom ≤ S := by
     rintro _ ⟨x, hx, rfl⟩
     simpa [MulAut.conj_apply] using ha x hx

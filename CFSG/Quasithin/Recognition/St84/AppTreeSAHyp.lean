@@ -17,10 +17,10 @@ open scoped Pointwise
 variable {H : Type} [Group H] [Finite H]
 
 theorem f112sa_odd_relIndex_of_two_elements_mem {G : Type*} [Group G]
-    {A E : Subgroup G} [Finite E] (hAE : A ≤ E) [hN : (A.subgroupOf E).Normal]
+    {A E : Subgroup G} [Finite E] (_hAE : A ≤ E) [hN : (A.subgroupOf E).Normal]
     (h : ∀ x : ↥E, IsPGroup 2 (Subgroup.zpowers x) → (x : G) ∈ A) :
     Odd (A.relIndex E) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← Nat.not_even_iff_odd]
   intro heven
   have h2' : 2 ∣ A.relIndex E := even_iff_two_dvd.mp heven
@@ -70,7 +70,7 @@ theorem f112sa_odd_relIndex_of_two_elements_mem {G : Type*} [Group G]
   simp at hq
 
 theorem f112saP2_V_le_X2 {L1 L2 S : Subgroup H}
-    (hF : F112Hyp L1 L2 S) (h1 : VS3 L1) :
+    (_hF : F112Hyp L1 L2 S) (_h1 : VS3 L1) :
     f112saP2_V L2 S ≤ f112saX2 L1 L2 S :=
   le_inf (f112saP2_V_le_M L2 S)
     (fun _ hx => (le_sup_right : S ≤ bigB L1 L2 S) hx.1.1)
@@ -101,13 +101,13 @@ noncomputable abbrev f112saBigT (L1 L2 S : Subgroup H) :
   pCoreOf 2 (f112saHalpha L1 L2 S)
 
 theorem f112saBigT_isPGroup {L1 L2 S : Subgroup H}
-    (hF : F112Hyp L1 L2 S) : IsPGroup 2 (f112saBigT L1 L2 S) := by
+    (_hF : F112Hyp L1 L2 S) : IsPGroup 2 (f112saBigT L1 L2 S) := by
   rw [f112saBigT, CFSG.Open.pCoreOf]
   exact (CFSG.pCore_isPGroup (G := ↥(f112saHalpha L1 L2 S)) (p := 2)).map
     (f112saHalpha L1 L2 S).subtype
 
 theorem f112saBigT_le_normalizer_Halpha {L1 L2 S : Subgroup H}
-    (hF : F112Hyp L1 L2 S) :
+    (_hF : F112Hyp L1 L2 S) :
     f112saHalpha L1 L2 S ≤
       Subgroup.normalizer (f112saBigT L1 L2 S : Set (f112Gold L1 L2 S).Universal) :=
   (Subgroup.le_normalizer).trans
@@ -128,6 +128,7 @@ noncomputable abbrev f112saBigW (L1 L2 S : Subgroup H) :
     Subgroup (f112Gold L1 L2 S).Universal :=
   f112saMB L1 L2 S ⊔ f112saBigT L1 L2 S
 
+omit [Finite H] in
 theorem f112saMB_le_range (L1 L2 S : Subgroup H) :
     f112saMB L1 L2 S ≤ (f112Gold L1 L2 S).ofB.range :=
   Subgroup.map_le_range _ _
@@ -183,12 +184,14 @@ noncomputable abbrev f112saBigL (L1 L2 S : Subgroup H) :
     Subgroup (f112Gold L1 L2 S).Universal :=
   ((f112saBigK L1 L2 S).subgroupOf (f112P2 L1 L2 S)).map (f112Gold L1 L2 S).ofB
 
+omit [Finite H] in
 theorem f112saQ2_isPGroup {L1 L2 S : Subgroup H} :
     IsPGroup 2 (pCoreOf 2 (f112P2 L1 L2 S)) := by
   rw [CFSG.Open.pCoreOf]
   exact (CFSG.pCore_isPGroup (G := ↥(f112P2 L1 L2 S)) (p := 2)).map
     (f112P2 L1 L2 S).subtype
 
+omit [Finite H] in
 theorem f112saQ2B_isPGroup {L1 L2 S : Subgroup H} :
     IsPGroup 2 (f112saQ2B L1 L2 S) := by
   have h : IsPGroup 2 ((pCoreOf 2 (f112P2 L1 L2 S)).subgroupOf (f112P2 L1 L2 S)) :=
@@ -198,7 +201,7 @@ theorem f112saQ2B_isPGroup {L1 L2 S : Subgroup H} :
   exact h.map (f112Gold L1 L2 S).ofB
 
 theorem f112saBigL_eq_sup {L1 L2 S : Subgroup H}
-    (hF : F112Hyp L1 L2 S) :
+    (_hF : F112Hyp L1 L2 S) :
     f112saBigL L1 L2 S = f112saMB L1 L2 S ⊔ f112saQ2B L1 L2 S := by
   let M : Subgroup H := oTwoRes L2
   let P : Subgroup H := f112P2 L1 L2 S
@@ -239,8 +242,7 @@ theorem f112sa_pCoreOf_L {L1 L2 S : Subgroup H}
     change pCoreOf 2 (M ⊔ Q) = Q
     exact @pCoreOf_sup_pCoreOf H _ (oTwoRes L2) (f112P2 L1 L2 S)
       ((oTwoRes_le L2).trans le_sup_left)
-      (by change f112P2 L1 L2 S ≤ Subgroup.normalizer (oTwoRes L2 : Set H)
-          exact f112saP2_oTwoRes_normal hF h1)
+      (by exact f112saP2_oTwoRes_normal hF h1)
   rw [hpcL, hpc, hpcK]
 
 noncomputable abbrev f112saBigR (L1 L2 S : Subgroup H) : Subgroup H :=
@@ -301,11 +303,13 @@ theorem f112saMB_le_BigL {L1 L2 S : Subgroup H}
   rw [f112saBigL_eq_sup hF]
   exact le_sup_left
 
+omit [Finite H] in
 theorem f112saBigK_le_P2 (L1 L2 S : Subgroup H) :
     f112saBigK L1 L2 S ≤ f112P2 L1 L2 S :=
   sup_le ((oTwoRes_le L2).trans le_sup_left)
     (CFSG.LieType.BorelTits.pCoreOf_le 2 (f112P2 L1 L2 S))
 
+omit [Finite H] in
 theorem f112saBigL_quot_BigK {L1 L2 S : Subgroup H} :
     Nonempty (oTwoQuot ↥(f112saBigL L1 L2 S) ≃* oTwoQuot ↥(f112saBigK L1 L2 S)) := by
   let P : Subgroup H := f112P2 L1 L2 S
@@ -317,6 +321,7 @@ theorem f112saBigL_quot_BigK {L1 L2 S : Subgroup H} :
       (Subgroup.subgroupOfEquivOfLe hKle)
   exact ⟨pCoreQuotientMulEquiv 2 e⟩
 
+omit [Finite H] in
 theorem f112sa_exists_adj {L1 L2 S : Subgroup H} (v : Vtx (f112Gold L1 L2 S)) :
     ∃ w, (f112Gold L1 L2 S).treeGraph.Adj v w := by
   let X := f112Gold L1 L2 S

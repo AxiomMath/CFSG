@@ -34,7 +34,7 @@ private theorem ntpA2shape_core_split
   have hG : ∀ a b (hab : a ≠ b), G a b =
       (ε (π a) (π b) (π.injective.ne hab))⁻¹ * β a b hab := by
     intro a b hab
-    simp only [G, dif_pos hab]
+    simp only [G, dite_eq_left hab]
   have hg : ∀ (a b : Fin 3) (hab : a ≠ b) (c : L),
       θ (Matrix.SpecialLinearGroup.transvection hab c) =
         ψ (Matrix.SpecialLinearGroup.transvection (π.injective.ne hab)
@@ -338,7 +338,7 @@ open scoped MatrixGroups
 theorem ntpA2_shape
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {p₀ : ℕ}
     (S : LangSetup .E6 L p₀) (a : Fin Tag.E6.rank → Lˣ) (n : ModGL .E6 L)
-    (hpair : OrderThreeOutsideConnected S a n) (hker : (rootCharKernel a).ncard = 18)
+    (hpair : OrderThreeOutsideConnected S a n) (_hker : (rootCharKernel a).ncard = 18)
     (i₀ : KernelComponent (rootCharHom a))
     (φ : SL(3, L) →* ModGL .E6 L) (σφ : Fin 3 → Fin 3 → Fin Tag.E6.rank → ℤ)
     (hφ : IsSLFrame φ σφ) (hΨ : componentRoots (rootCharHom a) i₀ = frameRoots σφ)

@@ -55,7 +55,6 @@ theorem blkB_iff (w : Perm (Fin 8)) : blkB (enc w) = true ↔
       ((i : ℕ) / 2 = (j : ℕ) / 2 ↔ ((w i : Fin 8) : ℕ) / 2 = ((w j : Fin 8) : ℕ) / 2)) := by
   rw [blkB, allLt8_iff]
   refine forall_congr' fun i => forall_congr' fun j => ?_
-  change sameB (i : ℕ) (j : ℕ) (rd (enc w) i) (rd (enc w) j) = true ↔ _
   rw [sameB_iff, rd_enc h16 w i, rd_enc h16 w j]
 
 theorem pullB_iff (w g : Perm (Fin 8)) {G : ℕ} (hG : enc g = G) : pullB (enc w) G = true ↔
@@ -65,8 +64,6 @@ theorem pullB_iff (w g : Perm (Fin 8)) {G : ℕ} (hG : enc g = G) : pullB (enc w
         ((w (g x) : Fin 8) : ℕ) / 2 = ((w (g y) : Fin 8) : ℕ) / 2)) := by
   rw [← hG, pullB, allLt8_iff]
   refine forall_congr' fun x => forall_congr' fun y => ?_
-  change sameB (rd (enc w) x) (rd (enc w) y) (rd (enc w) (rd (enc g) x)) (rd (enc w) (rd (enc g) y)) =
-    true ↔ _
   rw [sameB_iff, rd_enc h16 g x, rd_enc h16 g y, rd_enc h16 w x, rd_enc h16 w y, rd_enc h16 w (g x),
     rd_enc h16 w (g y)]
 

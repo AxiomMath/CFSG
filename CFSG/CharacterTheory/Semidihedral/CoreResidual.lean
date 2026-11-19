@@ -52,7 +52,7 @@ theorem oddCore_eq_twoPrimeCore : oddCore H = pPrimeCore 2 H := by
   let h := q.subgroupMap (P : Subgroup H)
   have hi : Function.Injective h := by
     intro x y hxy
-    exact quotient_pPrimeCore_subgroupMap_injective (P : Subgroup H) P.isPGroup'
+    exact quotient_pPrimeCore_subgroupMap_injective (P : Subgroup H) P.isPGroup
       (congrArg Subtype.val hxy)
   exact (MulEquiv.ofBijective h ⟨hi, q.subgroupMap_surjective _⟩).trans
     (MulEquiv.subgroupCongr
@@ -66,7 +66,7 @@ theorem coreQuotientSylowEquiv_order (p : ℕ) [Fact p.Prime] (P : Sylow p H) (x
     orderOf (coreQuotientSylowEquiv p P x : H ⧸ pPrimeCore p H) = orderOf x := by
   rw [coreQuotientSylowEquiv_coe]
   exact orderOf_injective _
-    (quotient_pPrimeCore_subgroupMap_injective (P : Subgroup H) P.isPGroup') x
+    (quotient_pPrimeCore_subgroupMap_injective (P : Subgroup H) P.isPGroup) x
 
 theorem coreQuotient_involution_order (P : Sylow 2 H) (t : H) (htP : t ∈ P)
     (ht : orderOf t = 2) : orderOf (QuotientGroup.mk' (pPrimeCore 2 H) t) = 2 := by

@@ -98,6 +98,7 @@ theorem mat_G_D : mG ω * mD ω = ω • ((mS * mS * mD ω) * mG ω) := by
 theorem det_S : (mS : Matrix (Fin 3) (Fin 3) F).det = 1 := by
   simp [mS, Matrix.det_fin_three]
 include hω h2 in
+omit hω in
 theorem det_P : (mP : Matrix (Fin 3) (Fin 3) F).det = 1 := by
   simp [mP, Matrix.det_fin_three]; grind
 include hω h2 in
@@ -161,8 +162,7 @@ theorem not_scalar (hω : ω ^ 2 = ω + 1) (h2 : (2 : F) = 0) (m n : ℕ) (hm : 
   have e21 := e 2 1
   have e22 := e 2 2
   interval_cases m <;> interval_cases n <;> simp at hmn <;>
-    simp [pow_succ, mS, mD, Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply,
-      Matrix.diagonal_apply] at e00 e01 e02 e10 e11 e12 e20 e21 e22 <;> grind
+    simp [pow_succ, mS, mD, Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply] at e00 e01 e02 e10 e11 e12 e20 e21 e22 <;> grind
 
 end NS
 
@@ -214,11 +214,11 @@ theorem unit_scalar (c : F) (hc : c ^ 3 = 1) :
       Matrix.scalar (Fin 3) c = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply, Matrix.diagonal_apply] <;> grind
+    simp [Matrix.mul_apply, Matrix.scalar_apply, Matrix.diagonal_apply] <;> grind
 
 theorem det_scalar' (c : F) (hc : c ^ 3 = 1) :
     (Matrix.scalar (Fin 3) c : Matrix (Fin 3) (Fin 3) F).det = 1 := by
-  simp [Matrix.det_smul, hc]
+  simp [hc]
 
 @[expose] noncomputable def zS (c : F) (hc : c ^ 3 = 1) : SUg F :=
   suMk (Matrix.scalar (Fin 3) c) (det_scalar' c hc) (unit_scalar c hc)
@@ -263,7 +263,7 @@ theorem cube_sq : (o.ω ^ 2) ^ 3 = 1 := by
 
 @[expose] noncomputable def sS (_o : OmegaData F) : SUg F := suMk mS det_S unit_S
 @[expose] noncomputable def sD : SUg F := suMk (mD o.ω) (det_D o.hω o.h2) (unit_D o.hω o.h2)
-@[expose] noncomputable def sP : SUg F := suMk mP (det_P o.hω o.h2) unit_P
+@[expose] noncomputable def sP : SUg F := suMk mP (det_P o.h2) unit_P
 @[expose] noncomputable def sF : SUg F := suMk (mF o.ω) (det_F o.hω o.h2) (unit_F o.hω o.h2)
 @[expose] noncomputable def sG : SUg F := suMk (mG o.ω) (det_G o.hω o.h2) (unit_G o.hω o.h2)
 
@@ -376,7 +376,7 @@ theorem theta_injective : Function.Injective (theta o) := by
   by_contra hne
   have hij : i.val ≠ 0 ∨ j.val ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hne
     have hi : i = 0 := (ZMod.val_eq_zero i).mp h.1
     have hj : j = 0 := (ZMod.val_eq_zero j).mp h.2

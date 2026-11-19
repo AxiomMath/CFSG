@@ -30,8 +30,8 @@ theorem TBJOmData.exists_mem_specialBlock_conj (Δ : TBJOmData Q p A r)
     (hσ : ∀ f, w * Δ.τ f * w⁻¹ = Δ.τ (σ f)) (hσσ : ∀ f, σ (σ f) = f) (hσ₀ : σ f₀ = f₀) :
     ∃ n ∈ specialBlock Q (Δ.τ f₀) h ⊓ orthDerived Q,
       ∀ f, n * Δ.τ f * n⁻¹ = Δ.τ (σ f) := by
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V)) DFunLike.coe_injective
   obtain ⟨N, hN, e, hNe⟩ := exists_odd_pow_pow_two_eq_one w
   set n : V ≃ₗ[K] V := w ^ N with hn_def

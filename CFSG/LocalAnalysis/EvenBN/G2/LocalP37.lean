@@ -29,7 +29,7 @@ theorem mem_normalizer_closure_sq_of_mem_normalizer {G : Type*} [Group G] [Finit
   | mem z hz =>
     obtain ⟨g, hg, rfl⟩ := hz
     exact subset_closure ⟨j * g * j⁻¹, (mem_normalizer_iff.1 hj g).1 hg, by rw [sq, sq]; group⟩
-  | one => simpa using one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     rw [show j * (x * y) * j⁻¹ = (j * x * j⁻¹) * (j * y * j⁻¹) by group]
     exact mul_mem hx hy

@@ -47,7 +47,7 @@ namespace S2Pre
 
 variable (D : S2Pre S)
 
-theorem eq_zero_or_eq_aV_of_pure {p s : Vt S D.g D.t} (hs : s ≠ 0)
+theorem eq_zero_or_eq_aV_of_pure {p s : Vt S D.g D.t} (_hs : s ≠ 0)
     (h : D.coord (p, aV D.good.ht) = D.coord (s, 0) ∨ D.coord (p, aV D.good.ht) = D.coord (0, s) ∨
       D.coord (p, aV D.good.ht) = D.coord (s, s)) : p = 0 ∨ p = aV D.good.ht := by
   have ha := aV_ne_zero D.good.H D.good.ht
@@ -565,7 +565,7 @@ theorem W4.pgl25W4Free : W4.PGL25W4Free := by
     intro m hm p hp
     obtain ⟨n, rfl⟩ := mem_zpowers_iff.mp hp
     rw [← conj_zpow]
-    rcases W4.conj_k_cases htt hk3 htk hdec hm with h | h
+    rcases W4.conj_k_cases htt htk hdec hm with h | h
     · rw [h]
       exact zpow_mem (mem_zpowers k) n
     · rw [h]
@@ -575,7 +575,7 @@ theorem W4.pgl25W4Free : W4.PGL25W4Free := by
     omega
   have hfpf : S13.FixFree S (zpowers k) := S13.fixFree_of hP1k hPn hirr
   let D : S2Pre S := ⟨g, t, k, ⟨H, hNo, C, ht, ht1, hR, hVQ, hN, hirr, hnoAll⟩, by omega,
-    by rw [hP.finrank_eq, hw], hkM, hk1, hk3, fun x hx => W4.conj_k_cases htt hk3 htk hdec hx, htk,
+    by rw [hP.finrank_eq, hw], hkM, hk1, hk3, fun x hx => W4.conj_k_cases htt htk hdec hx, htk,
     fun v hv => S13.fix_eq_zero hP3 hfpf (mem_zpowers k) hk1 v hv, hdec, S2Rel.full hkM⟩
   exact D.false_of_pgl25Case hw hP (O.card_Mbar_le_of_width_eq_four hw)
 

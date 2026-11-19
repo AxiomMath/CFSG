@@ -130,6 +130,6 @@ theorem commutator_mem_of_sylow_le_centralizer {G : Type} [Group G] [Finite G] {
   have hCN := CFSG.EvenSmallLie.centralizer_le_normalizer_of_standard
     hset.standardSetting.standard htC ht
   exact commutator_mem_of_isPGroup_of_isCyclic_outer htC ht hCN hKt
-    (fun _ hB => isCyclic_map_outer_of_isPGroup_of_mulEquiv h e hn hq hB) S.isPGroup' hSt
+    (fun _ hB => isCyclic_map_outer_of_isPGroup_of_mulEquiv h e hn hq hB) S.isPGroup hSt
 
 end CFSG.SeitzReduction.UnitaryPilot

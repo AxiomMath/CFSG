@@ -64,7 +64,7 @@ theorem isCyclic_sylow_iff_elementaryAbelianPRank_le_one {X : Type*} [Group X] [
   have hPrank : elementaryAbelianPRank q ↥(P : Subgroup X) = elementaryAbelianPRank q X :=
     elementaryAbelianPRank_eq_of_natCard_eq_pow_factorization hq P.card_eq_multiplicity
   rw [← hPrank]
-  refine ⟨fun hc => ?_, fun h => isCyclic_of_elementaryAbelianPRank_le_one hq hodd P.isPGroup' h⟩
+  refine ⟨fun hc => ?_, fun h => isCyclic_of_elementaryAbelianPRank_le_one hq hodd P.isPGroup h⟩
   by_contra h
   obtain ⟨A, hcomm, hexp, hcard⟩ := (mem_elementaryAbelianRanks_iff_exists_subgroup hq
     (X := ↥(P : Subgroup X)) (d := 2)).1

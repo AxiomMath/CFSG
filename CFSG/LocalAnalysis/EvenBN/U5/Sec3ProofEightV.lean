@@ -25,7 +25,7 @@ theorem sec38v_bar_entry {z : hypSU h 2 1} (hz : z ∈ ZPsub h) :
   obtain ⟨hzU, a2, -, a4, -, -, -, a8, -, -⟩ := mem_ZPsub.1 hz
   have e := (U_rel hzU).2.2.2.2.2
   rw [a2, a4, a8] at e
-  simp only [map_zero, zero_mul, mul_zero, add_zero] at e
+  simp only [map_zero, mul_zero, add_zero] at e
   have h2 := CharTwo.add_self_eq_zero (mat z ιe₁ ιf₁)
   linear_combination e - h2
 
@@ -226,9 +226,11 @@ theorem Hyp.sec38v_centralizes_Zp (hd : d.Hyp) {s : G} (hs : s ∈ d.T) (hs2 : s
 @[expose] def sec38vOm (d : Data G h) : Subgroup G :=
   closure {x | x ∈ d.E ⊔ d.T ∧ x * x = 1}
 
+omit [Finite G] in
 theorem sec38vOm_le (d : Data G h) : d.sec38vOm ≤ d.E ⊔ d.T :=
   (Subgroup.closure_le _).2 fun _ hx => hx.1
 
+omit [Finite G] in
 theorem mem_sec38vOm {x : G} (hx : x ∈ d.E ⊔ d.T) (hx2 : x * x = 1) : x ∈ d.sec38vOm :=
   subset_closure ⟨hx, hx2⟩
 
@@ -252,6 +254,7 @@ theorem Hyp.sec38v_E_le_Om (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : 
 theorem Hyp.sec38v_t_mem_Om (hd : d.Hyp) : d.t ∈ d.sec38vOm :=
   mem_sec38vOm (mem_sup_right hd.t_mem_T) hd.t_mul_t
 
+omit [Finite G] in
 theorem sec38v_conj_mem_Om {y : G} (hy : y ∈ normalizer ((d.E ⊔ d.T : Subgroup G) : Set G))
     {x : G} (hx : x ∈ d.sec38vOm) : y * x * y⁻¹ ∈ d.sec38vOm := by
   induction hx using Subgroup.closure_induction with
@@ -259,7 +262,7 @@ theorem sec38v_conj_mem_Om {y : G} (hy : y ∈ normalizer ((d.E ⊔ d.T : Subgro
     refine mem_sec38vOm ((mem_normalizer_iff.1 hy x).1 hx.1) ?_
     calc y * x * y⁻¹ * (y * x * y⁻¹) = y * (x * x) * y⁻¹ := by group
       _ = 1 := by rw [hx.2]; group
-  | one => simpa using one_mem _
+  | one => simp
   | mul a b _ _ ha hb =>
     have : y * (a * b) * y⁻¹ = (y * a * y⁻¹) * (y * b * y⁻¹) := by group
     rw [this]
@@ -269,6 +272,7 @@ theorem sec38v_conj_mem_Om {y : G} (hy : y ∈ normalizer ((d.E ⊔ d.T : Subgro
     rw [this]
     exact inv_mem ha
 
+omit [Finite G] in
 theorem sec38v_mem_normalizer_of_centralizes {S : Subgroup G} {s : G}
     (hs : ∀ z ∈ S, s * z * s⁻¹ = z) : s ∈ normalizer (S : Set G) := by
   rw [mem_normalizer_iff]
@@ -338,6 +342,7 @@ theorem sec38v_invol (hp : d.CaseHyp) {x : G} (hx : x ∈ d.E ⊔ d.T) (hx2 : x 
     rw [e1]
     exact sec38v_comm_V_T hp hs hsZ hv
 
+omit [Finite G] in
 theorem sec38v_Q_mul {x y : G} (hx : ∀ z ∈ d.Zp, x * z * x⁻¹ = z)
     (hy : ∀ z ∈ d.Zp, y * z * y⁻¹ = z) (hxV : ∀ v ∈ d.V, ⁅v, x⁆ ∈ d.Zp)
     (hyV : ∀ v ∈ d.V, ⁅v, y⁆ ∈ d.Zp) :
@@ -351,6 +356,7 @@ theorem sec38v_Q_mul {x y : G} (hx : ∀ z ∈ d.Zp, x * z * x⁻¹ = z)
     rw [e, hx _ (hyV v hv)]
     exact mul_mem (hxV v hv) (hyV v hv)
 
+omit [Finite G] in
 theorem sec38v_Q_inv {x : G} (hx : ∀ z ∈ d.Zp, x * z * x⁻¹ = z)
     (hxV : ∀ v ∈ d.V, ⁅v, x⁆ ∈ d.Zp) :
     (∀ z ∈ d.Zp, x⁻¹ * z * x⁻¹⁻¹ = z) ∧ ∀ v ∈ d.V, ⁅v, x⁻¹⁆ ∈ d.Zp := by

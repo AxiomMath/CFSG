@@ -139,7 +139,7 @@ theorem card_ker_mul_card_Nbar :
 theorem factorization_two_NV : (Nat.card d.NV).factorization 2 ≤ 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 2 d.NV))
-  have h := d.card_le_two (Subgroup.map_subtype_le (S : Subgroup d.NV)) (S.isPGroup'.map _)
+  have h := d.card_le_two (Subgroup.map_subtype_le (S : Subgroup d.NV)) (S.isPGroup.map _)
   rw [Subgroup.card_map_of_injective d.NV.subtype_injective, Sylow.card_eq_multiplicity] at h
   by_contra hcon
   push Not at hcon

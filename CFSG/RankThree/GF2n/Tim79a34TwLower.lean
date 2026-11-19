@@ -65,15 +65,15 @@ theorem twl_spForm_zero {n : ℕ} {i k : Fin n ⊕ Fin n} (h : k ≠ Sum.swap i)
     CaseM.spForm (Pi.single i (1 : GaloisField 2 1)) (Pi.single k 1) = 0 := by
   rcases i with j | j <;> rcases k with l | l
   · rw [twl_spForm_inl]
-    simp [Pi.single_apply]
+    simp
   · rw [twl_spForm_inr]
     have hl : l ≠ j := fun hh => h (by subst hh; rfl)
-    simp [Pi.single_apply, hl]
+    simp [hl]
   · rw [twl_spForm_inl]
     have hl : l ≠ j := fun hh => h (by subst hh; rfl)
-    simp [Pi.single_apply, hl]
+    simp [hl]
   · rw [twl_spForm_inr]
-    simp [Pi.single_apply]
+    simp
 
 theorem twl_spForm_one {n : ℕ} (i : Fin n ⊕ Fin n) :
     CaseM.spForm (Pi.single i (1 : GaloisField 2 1)) (Pi.single (Sum.swap i) 1) = 1 := by
@@ -218,7 +218,7 @@ theorem twl_noCommute {M Q P V H : Subgroup G} [Finite G] (hc : MinCex M V Q P H
     · rw [hij] at h0
       exact one_ne_zero h0
     · have h2 := congrFun hl j
-      simp [Pi.single_apply, hji] at h2
+      simp [hji] at h2
 
 abbrev twl_wComm {V H : Subgroup G} (hW : IsMulCommutative ↥(wOf V H)) :
     CommGroup ↥(wOf V H) :=
@@ -233,11 +233,11 @@ theorem twl_conj_mem {V H : Subgroup G} {y : G} (hyH : y ∈ H) (a : ↥(wOf V H
 noncomputable def twl_D {V H : Subgroup G} (hW : IsMulCommutative ↥(wOf V H)) {y : G}
     (hyH : y ∈ H) : ↥(wOf V H) →* ↥(wOf V H) :=
   MonoidHom.mk' (fun a => a * ⟨y * (a : G)⁻¹ * y⁻¹, twl_conj_mem hyH a⟩) (fun a b => by
-    letI := twl_wComm hW
+    let := twl_wComm hW
     have hab : (⟨y * ((a * b : ↥(wOf V H)) : G)⁻¹ * y⁻¹, twl_conj_mem hyH (a * b)⟩ :
         ↥(wOf V H)) = ⟨y * (b : G)⁻¹ * y⁻¹, twl_conj_mem hyH b⟩ *
           ⟨y * (a : G)⁻¹ * y⁻¹, twl_conj_mem hyH a⟩ :=
-      Subtype.ext (by simp only [Subgroup.coe_mul, Subgroup.coe_inv, _root_.mul_inv_rev]; group)
+      Subtype.ext (by simp only [Subgroup.coe_mul, _root_.mul_inv_rev]; group)
     rw [hab]
     simp only [mul_comm, mul_assoc, mul_left_comm])
 
@@ -274,7 +274,7 @@ theorem twistedWLower_holds : TwistedWLowerStatement := by
   have hVH : V ≤ H := hc.V_le_H
   have hΦ : Function.Injective Φ := hd.bij.1
   have hW : IsMulCommutative ↥(wOf V H) := hc.wOf_isElemAbelian.1
-  letI : CommGroup ↥(wOf V H) := twl_wComm hW
+  let : CommGroup ↥(wOf V H) := twl_wComm hW
   have hmem : ∀ i : Fin n ⊕ Fin n, ∃ (h : ↥(xOf V H))
       (Tx : Subgroup ↥(StatedSp n (GaloisField 2 1))),
       CaseM.IsTransGroup (Pi.single i (1 : GaloisField 2 1)) Tx ∧
@@ -282,7 +282,7 @@ theorem twistedWLower_holds : TwistedWLowerStatement := by
     fun i => twl_member hVH Φ hd.trans hd.map_eq hd.ne_zero (twl_unit_ne_zero i)
   choose hh TT hTT hEq using hmem
   obtain ⟨v₀, hv₀V, hv₀W⟩ : ∃ v ∈ V, v ∉ wOf V H :=
-    SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+    IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   have hXH : ∀ i, (hh i : G) ∈ H := fun i => xOf_le_H hVH (hh i).2
   have hUW : ∀ i, conjSubgroup (hh i : G) (wOf V H) = wOf V H := fun i =>
     CFSG.RankThree.GF2n.conjSubgroup_eq_self_iff.mpr (H_le_normalizer_wOf V H (hXH i))

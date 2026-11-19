@@ -21,12 +21,12 @@ theorem k146FFU4_holds :
     K146FFU4 := by
   intro W _ _ hW Y L n hO2 hL hU4 hn hA
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
+  let : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
   have hLY : L ≤ Y := hL.1
   obtain ⟨hρ, hcomp', A', hA'cal, hA'L⟩ := ffSetup hL hA
   have hU4' : IsU4 ↥(L.subgroupOf Y) n :=
     LieModel.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLY).symm hU4
-  haveI : IsSimpleGroup ↥(L.subgroupOf Y) :=
+  have : IsSimpleGroup ↥(L.subgroupOf Y) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hU4'
   obtain ⟨B, m, -, hBe, hBN, hm1, hm, hUinv, hXinv, hCB, hirr, hnt, hcost⟩ :=
     ffUnique_of_factorBound hρ hcomp' hA'cal hA'L (u4_factorBound hn hU4')

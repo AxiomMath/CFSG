@@ -21,9 +21,9 @@ variable {G : Type*} [Group G] {z g x : G}
 
 namespace D8Rel
 
-lemma u_comm_AA (h : D8Rel z g x) (i j : ℤ) :
+lemma u_comm_AA (_h : D8Rel z g x) (i j : ℤ) :
     ⁅(z * g) ^ i, (z * g) ^ j⁆ = 1 := by
-  rw [commutatorElement_eq_one_iff_mul_comm, u_zpow_mul h, u_zpow_mul h]
+  rw [commutatorElement_eq_one_iff_mul_comm, u_zpow_mul, u_zpow_mul]
   congr 1; ring
 
 lemma u_comm_AB (h : D8Rel z g x) (i j : ℤ) :
@@ -40,7 +40,7 @@ lemma u_comm_AB (h : D8Rel z g x) (i j : ℤ) :
   rw [u_B_mul_zpow h j]
   rw [show (z*g)^i * (z*g)^j * (z*g)^i * ((z*g)^(-j) * g) * g
         = ((z*g)^i * (z*g)^j * (z*g)^i * (z*g)^(-j)) * (g * g) from by group]
-  rw [h.g_sq, mul_one, u_zpow_mul h, u_zpow_mul h, u_zpow_mul h,
+  rw [h.g_sq, mul_one, u_zpow_mul, u_zpow_mul, u_zpow_mul,
     show i + j + i + -j = 2 * i from by ring, zpow_mul, u_A_sq_zpow h]
 
 lemma u_comm_BA (h : D8Rel z g x) (i j : ℤ) :
@@ -57,7 +57,7 @@ lemma u_comm_BA (h : D8Rel z g x) (i j : ℤ) :
   rw [u_B_mul_zpow h i]
   rw [show (z*g)^i * (z*g)^(-j) * ((z*g)^(-i) * g) * g * (z*g)^(-j)
         = ((z*g)^i * (z*g)^(-j) * (z*g)^(-i)) * (g * g) * (z*g)^(-j) from by group]
-  rw [h.g_sq, mul_one, u_zpow_mul h, u_zpow_mul h, u_zpow_mul h,
+  rw [h.g_sq, mul_one, u_zpow_mul, u_zpow_mul, u_zpow_mul,
     show i + -j + -i + -j = 2 * (-j) from by ring, zpow_mul, u_A_sq_zpow h]
 
 lemma u_comm_BB (h : D8Rel z g x) (i j : ℤ) :
@@ -76,8 +76,8 @@ lemma u_comm_BB (h : D8Rel z g x) (i j : ℤ) :
         = ((z*g)^i * (z*g)^(-j)) * (g * g) * ((z*g)^i * (z*g)^(-j)) * (g * g)
           from by group]
   rw [h.g_sq]
-  simp only [mul_one, one_mul]
-  rw [u_zpow_mul h, u_zpow_mul h,
+  simp only [mul_one]
+  rw [u_zpow_mul, u_zpow_mul,
     show i + -j + (i + -j) = 2 * (i - j) from by ring, zpow_mul, u_A_sq_zpow h]
 
 theorem commutator_mem (h : D8Rel z g x) {a b : G} (ha : a ∈ closure ({z, g} : Set G))

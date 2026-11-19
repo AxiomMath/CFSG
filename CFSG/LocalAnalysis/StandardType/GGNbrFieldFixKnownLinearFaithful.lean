@@ -77,13 +77,13 @@ theorem eq_one_of_mk_matAct_eq (hd : 2 ≤ d)
       have h2 := congrArg (fun g : GL (Fin d) K => (g : Matrix (Fin d) (Fin d) K)) hprod
       simpa [Units.val_mul, Matrix.GeneralLinearGroup.coe_scalar] using h2
     have hLii : (1 + Matrix.single i j t) i i = 1 := by
-      simp [Matrix.one_apply, Matrix.single_apply, hij, hij.symm]
+      simp [hij.symm]
     have hRii : (1 + Matrix.single i j (σ t)) i i = 1 := by
-      simp [Matrix.one_apply, Matrix.single_apply, hij, hij.symm]
+      simp [hij.symm]
     have hLij : (1 + Matrix.single i j t) i j = t := by
-      simp [Matrix.one_apply, Matrix.single_apply, hij, hij.symm]
+      simp [hij]
     have hRij : (1 + Matrix.single i j (σ t)) i j = σ t := by
-      simp [Matrix.one_apply, Matrix.single_apply, hij, hij.symm]
+      simp [hij]
     have h_c : (c : K) = 1 := by
       have hh := congrArg (fun M : Matrix (Fin d) (Fin d) K => M i i) hmatmul
       rw [hx, hAx, Matrix.scalar_apply, Matrix.mul_diagonal, hLii, hRii, one_mul] at hh

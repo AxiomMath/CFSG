@@ -19,7 +19,7 @@ theorem mem_of_mem_centralizer_of_pow_eq_one (hp : p.Prime)
     (hrk : CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 2) {A : Subgroup X}
     (hA : CFSG.Open.IsElemAbelian p A) (hAc : Nat.card A = p ^ 2) {z : X}
     (hz : z ∈ centralizer (A : Set X)) (hzp : z ^ p = 1) : z ∈ A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hzA : z ∈ A
   · exact hzA
   exfalso
@@ -29,7 +29,7 @@ theorem mem_of_mem_centralizer_of_pow_eq_one (hp : p.Prime)
   have hZcard : Nat.card Z = p := by
     change Nat.card (Subgroup.zpowers z) = p
     rw [Nat.card_zpowers, hord]
-  haveI : Fact (Nat.card Z).Prime := ⟨by rw [hZcard]; exact hp⟩
+  have : Fact (Nat.card Z).Prime := ⟨by rw [hZcard]; exact hp⟩
   rcases (A.subgroupOf Z).eq_bot_or_eq_top_of_prime_card with hbot | htop
   · have hinf : Z ⊓ A = ⊥ := by
       rw [Subgroup.eq_bot_iff_forall]
@@ -64,14 +64,14 @@ theorem isPGroup_centralizer_of_pRank_le_two (hp : p.Prime) (hp2 : p ≠ 2)
     (hrk : CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 2) {A : Subgroup X} (hAn : A.Normal)
     (hA : CFSG.Open.IsElemAbelian p A) (hAc : Nat.card A = p ^ 2) :
     IsPGroup p ↥(centralizer (A : Set X)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : A.Normal := hAn
+  have : Fact p.Prime := ⟨hp⟩
+  have : A.Normal := hAn
   let K : Subgroup X := centralizer (A : Set X)
-  haveI : K.Normal := by
+  have : K.Normal := by
     change (centralizer (A : Set X)).Normal
     infer_instance
   let P : Subgroup ↥K := CFSG.pCore p ↥K
-  haveI : P.Normal := CFSG.pCore_normal (p := p) (G := ↥K)
+  have : P.Normal := CFSG.pCore_normal (p := p) (G := ↥K)
   have hK : centralizer (P : Set ↥K) ≤ P :=
     CFSG.RankThreeCoreUniqueness.Helpers.normal_subgroup_self_centralizing_pCore
       p hp hX K inferInstance
@@ -104,7 +104,7 @@ theorem isPGroup_centralizer_of_pRank_le_two (hp : p.Prime) (hp2 : p ≠ 2)
       have h : (MulAut.conjNormal (H := P) x) ⟨y, hy⟩ = ⟨y, hy⟩ := by
         simpa [α] using congrArg (fun σ : MulAut ↥P => σ ⟨y, hy⟩) hα1
       have h2 := congrArg Subtype.val h
-      simp only [Subtype.coe_mk, MulAut.conjNormal_apply] at h2
+      simp only [MulAut.conjNormal_apply] at h2
       have h' : x * y = y * x := by
         calc x * y = (x * y * x⁻¹) * x := by group
           _ = y * x := by rw [h2]

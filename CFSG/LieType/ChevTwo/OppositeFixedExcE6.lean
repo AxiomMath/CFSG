@@ -377,7 +377,7 @@ theorem exists_fixed_mem_oppRadical_semiT [Finite K] [CharP K 2]
   have hN2 : ∀ b ∈ S', ∀ z ∈ levelRadical τ K (δ '' J) (n + 1 + 1),
       conjAct τ K b z ∈ levelRadical τ K (δ '' J) (n + 1 + 1) := fun b hb z hz =>
     conjAct_mem_levelRadicalT (hS'M b hb) (one_le_succ_succ n) hz
-  letI : MulDistribMulAction S' (levelRadical τ K (δ '' J) (n + 1)) :=
+  let : MulDistribMulAction S' (levelRadical τ K (δ '' J) (n + 1)) :=
     actSub S' _ hN1
   have hinv : CFSG.IsInvariant S' (levelRadical τ K (δ '' J) (n + 1))
       ((levelRadical τ K (δ '' J) (n + 1 + 1)).subgroupOf (levelRadical τ K (δ '' J) (n + 1))) :=
@@ -904,7 +904,7 @@ theorem exists_lift_E6 [Finite K] (α : MulAut ↥(adjointGroup Tag.E6 K)) (k : 
 
 theorem oppositeFixed_adjointGroup_E6 [Finite K] {f : ℕ} (hf : 1 ≤ f)
     (hK : Nat.card K = 2 ^ f) : OppositeFixed ↥(adjointGroup Tag.E6 K) := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hf hK
   exact oppositeFixed_adjointGroup_of_liftT (Or.inr (Or.inl rfl)) fun α k hk hα =>
     exists_lift_E6 α k hk hα

@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pCoreOf_le_pCoreOf_of_isAlt_bar2 {L X : Subgroup G} (hXL : X ≤ L)
     (hcov : L = X ⊔ pCoreOf 2 L) (hA5 : IsAlt (Bar2 L) 5) : pCoreOf 2 X ≤ pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_pCoreOf_of_isAlt_bar2 hXL hcov hA5
     ((CFSG.LieType.BorelTits.pCoreOf_le 2 X).trans hXL) ?_
     (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 X)
@@ -50,7 +50,7 @@ theorem isAlt_bar2_of_isAlt_bar2 {L X : Subgroup G} (hXL : X ≤ L)
 theorem exists_card_eq_three_mul {L X : Subgroup G} (hXL : X ≤ L)
     (hcov : L = X ⊔ pCoreOf 2 L) (hA5 : IsAlt (Bar2 L) 5) :
     ∃ m : ℕ, Nat.card X = 3 * m ∧ ¬ 3 ∣ m := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥X)).exists_card_eq
   refine ⟨20 * 2 ^ n, ?_, fun h => ?_⟩
   · rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 ↥X), hn,
@@ -63,7 +63,7 @@ theorem exists_card_eq_three_mul {L X : Subgroup G} (hXL : X ≤ L)
 theorem isSylowOf_of_card_eq_three {L X D : Subgroup G} (hXL : X ≤ L)
     (hcov : L = X ⊔ pCoreOf 2 L) (hA5 : IsAlt (Bar2 L) 5) (hDX : D ≤ X)
     (hD : Nat.card D = 3) : IsSylowOf 3 D X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm, hm3⟩ := exists_card_eq_three_mul hXL hcov hA5
   refine CFSG.ABGLocalTools.isSylowOf_iff.2
     ⟨hDX, IsPGroup.of_card (n := 1) (hD.trans (pow_one 3).symm), ?_⟩
@@ -74,7 +74,7 @@ theorem isSylowOf_of_card_eq_three {L X D : Subgroup G} (hXL : X ≤ L)
 
 theorem exists_card_eq_three {L X : Subgroup G} (hXL : X ≤ L) (hcov : L = X ⊔ pCoreOf 2 L)
     (hA5 : IsAlt (Bar2 L) 5) : ∃ D : Subgroup G, D ≤ X ∧ Nat.card D = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 3
     (three_dvd_card_of_isAlt_bar2 hXL hcov hA5)
   exact ⟨Subgroup.zpowers (x : G), Subgroup.zpowers_le.2 x.2,
@@ -97,7 +97,7 @@ theorem opp_le_of_isSylowOf {p : ℕ} [Fact p.Prime] {X D K : Subgroup G}
 theorem le_of_forall_map_conj_le {L X D K : Subgroup G} (hXL : X ≤ L)
     (hcov : L = X ⊔ pCoreOf 2 L) (hA5 : IsAlt (Bar2 L) 5) (hX : Opp 3 X = X) (hDX : D ≤ X)
     (hD : Nat.card D = 3) (hK : ∀ x ∈ X, D.map (MulAut.conj x).toMonoidHom ≤ K) : X ≤ K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact hX.symm.le.trans
     (opp_le_of_isSylowOf (isSylowOf_of_card_eq_three hXL hcov hA5 hDX hD) hK)
 
@@ -105,7 +105,7 @@ theorem le_pCoreOf_or_le_of_le_normalizer {L X C : Subgroup G} (hXL : X ≤ L)
     (hcov : L = X ⊔ pCoreOf 2 L) (hA5 : IsAlt (Bar2 L) 5) (hX : Opp 3 X = X) (hCX : C ≤ X)
     (hXC : X ≤ normalizer (C : Set G)) : C ≤ pCoreOf 2 X ∨ X ≤ C := by
   by_cases h3 : 3 ∣ Nat.card C
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) 3 h3
     have hDC : Subgroup.zpowers (c : G) ≤ C := Subgroup.zpowers_le.2 c.2
     refine Or.inr (le_of_forall_map_conj_le hXL hcov hA5 hX (hDC.trans hCX)

@@ -27,6 +27,7 @@ private theorem comm_identity_aux {Q : Type*} [Group Q] (a q : Q) (ha : a * a = 
     _ = a * a := by group
     _ = 1 := ha
 
+omit [Finite G] in
 private theorem centralizer_le_normalizer_self {Y : Subgroup G} :
     Subgroup.centralizer (Y : Set G) ≤ Subgroup.normalizer (Y : Set G) := by
   intro g hg
@@ -42,6 +43,7 @@ private theorem centralizer_le_normalizer_self {Y : Subgroup G} :
         _ = x := by group
     rw [e]; exact hx
 
+omit [Finite G] in
 private theorem sup_conj_mem {k : G} {H J : Subgroup G}
     (hH : ∀ h ∈ H, k * h * k⁻¹ ∈ H ⊔ J) (hJ : ∀ j ∈ J, k * j * k⁻¹ ∈ H ⊔ J) :
     ∀ x ∈ H ⊔ J, k * x * k⁻¹ ∈ H ⊔ J := by
@@ -50,6 +52,7 @@ private theorem sup_conj_mem {k : G} {H J : Subgroup G}
     sup_le (fun h hh => hH h hh) (fun j hj => hJ j hj)
   exact hle hx
 
+omit [Finite G] in
 private theorem mem_normalizer_sup_of_commute {R H J : Subgroup G} [(H.subgroupOf R).Normal]
     (hHn : R ≤ Subgroup.normalizer (H : Set G)) (hJR : J ≤ R) (g : ↥R)
     (hcomm : ∀ x : ↥R, (x : G) ∈ J →
@@ -186,7 +189,7 @@ theorem fac_zero_one_of_local {R S L H : Subgroup G}
   have hHS : H ≤ S := by rw [hH]; exact inf_le_left
   have hHL : H ≤ L := by rw [hH]; exact inf_le_right
   have hHR : H ≤ R := hHS.trans hSR
-  haveI : (H.subgroupOf R).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hHR).2 hHn
+  have : (H.subgroupOf R).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hHR).2 hHn
   have hJS : jOf S ≤ S := Sec7.jOf_le S
   have hJR : jOf S ≤ R := hJS.trans hSR
   have hJ2 : IsPGroup 2 (jOf S) :=

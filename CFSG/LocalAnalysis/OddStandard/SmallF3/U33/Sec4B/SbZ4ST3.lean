@@ -70,19 +70,19 @@ theorem mem_M_of_conj_fix {n : G}
     · rw [hg1]
       change (MulAut.conj n) t ∈ ctxX t tau x₁ x₂
       rw [MulAut.conj_apply, ht]
-      exact hg.t_mem_X
+      exact CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.t_mem_X
     · rw [hg1]
       change (MulAut.conj n) tau ∈ ctxX t tau x₁ x₂
       rw [MulAut.conj_apply, htau]
-      exact hg.tau_mem_X
+      exact CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.tau_mem_X
     · rw [hg1]
       change (MulAut.conj n) (x₁ ^ 2) ∈ ctxX t tau x₁ x₂
       rw [MulAut.conj_apply]
-      exact hfour (hg.toZ4Pre.conj_V hn hg.y_mem_V)
+      exact hfour (hg.toZ4Pre.conj_V hn CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V)
     · rw [hg1]
       change (MulAut.conj n) ((x₁ * x₂) ^ 2) ∈ ctxX t tau x₁ x₂
       rw [MulAut.conj_apply]
-      exact hfour (hg.toZ4Pre.conj_V hn hg.z_mem_V)
+      exact hfour (hg.toZ4Pre.conj_V hn CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.z_mem_V)
   exact hK hx
 
 theorem tt_sylow : IsSylowIn 2 (closure {t, tau})

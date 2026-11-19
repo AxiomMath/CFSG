@@ -216,28 +216,28 @@ variable {n : ℕ}
 
 theorem digA_of_lt {l : Lbl n} {j : ℕ} (h : j < n) : l.digA j = l.a ⟨j, h⟩ := by
   unfold digA
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem digA_of_mid {l : Lbl n} {j : ℕ} (h1 : n ≤ j) (h2 : j < 2 * n) :
     l.digA j = l.c ⟨j - n, by omega⟩ := by
   have h3 : ¬ j < n := by omega
   unfold digA
-  rw [dif_neg h3, dif_pos h2]
+  rw [dite_eq_right h3, dite_eq_left h2]
 
 theorem digA_of_le {l : Lbl n} {j : ℕ} (h : 2 * n ≤ j) : l.digA j = false := by
   have h1 : ¬ j < n := by omega
   have h2 : ¬ j < 2 * n := by omega
   unfold digA
-  rw [dif_neg h1, dif_neg h2]
+  rw [dite_eq_right h1, dite_eq_right h2]
 
 theorem digB_of_lt {l : Lbl n} {j : ℕ} (h : j < n) : l.digB j = l.b ⟨j, h⟩ := by
   unfold digB
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem digB_of_le {l : Lbl n} {j : ℕ} (h : n ≤ j) : l.digB j = false := by
   have h1 : ¬ j < n := by omega
   unfold digB
-  rw [dif_neg h1]
+  rw [dite_eq_right h1]
 
 theorem digA_fin (l : Lbl n) (i : Fin n) : l.digA i = l.a i := digA_of_lt i.isLt
 
@@ -260,10 +260,10 @@ theorem mem_setA {l : Lbl n} {j : ℕ} : j ∈ l.setA ↔ j < 2 * n ∧ l.digA j
 theorem mem_setB {l : Lbl n} {j : ℕ} : j ∈ l.setB ↔ j < n ∧ l.digB j = true := by
   simp only [setB, Finset.mem_filter, Finset.mem_range]
 
-theorem setA_subset (l : Lbl n) : l.setA ⊆ Finset.range (2 * n) := fun j hj =>
+theorem setA_subset (l : Lbl n) : l.setA ⊆ Finset.range (2 * n) := fun _j hj =>
   Finset.mem_range.mpr (mem_setA.mp hj).1
 
-theorem setB_subset (l : Lbl n) : l.setB ⊆ Finset.range n := fun j hj =>
+theorem setB_subset (l : Lbl n) : l.setB ⊆ Finset.range n := fun _j hj =>
   Finset.mem_range.mpr (mem_setB.mp hj).1
 
 theorem digA_true_iff_mem {l : Lbl n} {j : ℕ} (hj : j < 2 * n) :
@@ -418,14 +418,14 @@ theorem bitA_eq_digA [NeZero n] (l : Lbl n) (j : ℕ) :
   have hlt : j % (2 * n) < 2 * n := Nat.mod_lt _ (by omega)
   unfold bitA digA
   by_cases h : j % (2 * n) < n
-  · rw [dif_pos h, dif_pos h]
-  · rw [dif_neg h, dif_neg h, dif_pos hlt]
+  · rw [dite_eq_left h, dite_eq_left h]
+  · rw [dite_eq_right h, dite_eq_right h, dite_eq_left hlt]
 
 theorem bitB_eq_digB [NeZero n] (l : Lbl n) (j : ℕ) :
     l.bitB j = l.digB (j % n) := by
   have hn : 0 < n := NeZero.pos n
   unfold bitB digB
-  rw [dif_pos (Nat.mod_lt j hn)]
+  rw [dite_eq_left (Nat.mod_lt j hn)]
 
 theorem rotInv_of_modEq [NeZero n] (l : Lbl n) (d : ℕ)
     (h1 : 2 ^ d * l.e1 ≡ l.e1 [MOD 2 ^ (2 * n) - 1])

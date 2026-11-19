@@ -144,7 +144,7 @@ public theorem hallPResidual_lt_top_of_dvd_abelianization_of_controlsFusionIn
     (P : Subgroup G).feitThompsonTransferFocal
   have htarget :
       IsPGroup p ((P : Subgroup G) ⧸ (P : Subgroup G).feitThompsonFocalSubgroupOf) :=
-    P.isPGroup'.to_quotient (P : Subgroup G).feitThompsonFocalSubgroupOf
+    P.isPGroup.to_quotient (P : Subgroup G).feitThompsonFocalSubgroupOf
   have hresker : External.hallPResidual p G ≤ V.ker :=
     External.hallPResidual_le_ker_of_isPGroup V htarget
   have hkerlt : V.ker < ⊤ := by

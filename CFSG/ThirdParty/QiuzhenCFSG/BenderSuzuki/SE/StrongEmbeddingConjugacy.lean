@@ -35,7 +35,7 @@ private theorem exists_involution_mem_zpowers_of_even_order
     ∃ w : X, w ∈ Subgroup.zpowers r ∧ IsInvolution w := by
   classical
   let C : Subgroup X := Subgroup.zpowers r
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htwo : 2 ∣ Nat.card C := by
     simpa [C, Nat.card_zpowers] using hrEven.two_dvd
   obtain ⟨w, hwOrder⟩ :=

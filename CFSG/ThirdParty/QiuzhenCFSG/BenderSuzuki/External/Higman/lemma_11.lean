@@ -756,7 +756,7 @@ public theorem lemma11_length_two_typeA_actor_coordinates
         have hbot_lt : (⊥ : Submodule (ZMod 2)
             (Additive (LowerCentralFactor P 0))) < W :=
           bot_lt_iff_ne_bot.mpr hWbot
-        obtain ⟨v, hvW, hv0⟩ := SetLike.exists_of_lt hbot_lt
+        obtain ⟨v, hvW, hv0⟩ := _root_.IsConcreteLE.exists_of_lt hbot_lt
         have hv_ne : v ≠ 0 := by simpa using hv0
         obtain ⟨p, hpval⟩ := hqP_surj v.toMul
         have hpB : p ∈ B := by

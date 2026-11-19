@@ -15,8 +15,8 @@ open CFSG.ComponentClassification.OuterAutomorphisms (inner)
 theorem hasIndepPair_of_injective_pi {p e : ℕ} (hp : p.Prime) (he : 1 ≤ e) {G : Type*} [Group G]
     (Ψ : (Fin 2 → Multiplicative (ZMod (p ^ e))) →* G) (hΨ : Function.Injective Ψ) :
     HasIndepPair p G := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero (p ^ e) := ⟨pow_ne_zero e hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero (p ^ e) := ⟨pow_ne_zero e hp.ne_zero⟩
   have hdvd : p ∣ Nat.card (Multiplicative (ZMod (p ^ e))) := by
     rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
     exact dvd_pow_self p (by omega)
@@ -45,8 +45,8 @@ theorem fixesPair_adjointG2 {f p : ℕ} (hf : 2 ≤ f) (K : Type) [Field K] [Fin
     (hrk1 : ¬ RankLE1 p (adjointGroup Tag.G2 K))
     {α : MulAut (adjointGroup Tag.G2 K)} (hαp : α ^ p = 1)
     (hα : α ∉ inner (adjointGroup Tag.G2 K)) : FixesIndepPair p α := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hαo : orderOf α = p := orderOf_eq_prime hαp (fun h1 => hα (h1 ▸
     (CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup Tag.G2 K)).one_mem))
@@ -61,9 +61,9 @@ theorem fixesPair_adjointG2 {f p : ℕ} (hf : 2 ≤ f) (K : Type) [Field K] [Fin
   obtain ⟨hdvd, hc⟩ := CFSG.RankThree.Chevalley.SteinbergBT.card_fixSubfield Nat.prime_two
     (by omega) hK σ
   rw [hσ] at hdvd hc
-  haveI : Finite (fixSubfield σ) :=
+  have : Finite (fixSubfield σ) :=
     Nat.finite_of_card_ne_zero (by rw [hc]; exact (pow_pos (by norm_num) _).ne')
-  haveI : CharP (fixSubfield σ) 2 := RingHom.charP (fixSubfield σ).subtype
+  have : CharP (fixSubfield σ) 2 := RingHom.charP (fixSubfield σ).subtype
     (fixSubfield σ).subtype_injective 2
   have hFk : Nat.card K = Nat.card (fixSubfield σ) ^ p := by
     rw [hK, hc, ← pow_mul, Nat.div_mul_cancel hdvd]
@@ -94,7 +94,7 @@ theorem chevTwoOuterFixesPair_G2_geFive :
     have hq2 : q.p = 2 := hchar
     obtain ⟨K, _, _, hK, hchK, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.g2 q hv
-    haveI : CharP K 2 := hq2 ▸ hchK
+    have : CharP K 2 := hq2 ▸ hchK
     let θ : L ≃* adjointGroup Tag.G2 K := e.trans eK
     obtain ⟨hrk2, E, hE, hEc⟩ := rank_data_of_pRank hp hrk θ
     have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK, PrimePower.card_def, hq2]

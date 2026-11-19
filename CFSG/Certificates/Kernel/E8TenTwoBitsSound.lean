@@ -115,7 +115,7 @@ theorem comb_code (b : Nat) (B : List Nat) (p : Bool) (c : Nat) :
     rw [Nat.shiftRight_eq_div_pow, pow_one]
     cases p
     · simp
-    · simp only [if_true]
+    · simp only [ite_true]
       omega
   rw [h0, h1]
 
@@ -236,8 +236,8 @@ theorem evalT_cons (O L : Nat) (Ls : List Nat) (T acc : Nat) :
       0 (Nat.beq T 0) = _
   rw [nIf_eq, strictN_eq, strictN_eq, shlOne, shlOne]
   by_cases h : T = 0
-  · rw [if_pos (beq_eq_true.2 h), if_pos h]
-  · rw [if_neg (fun h' => h (beq_eq_true.1 h')), if_neg h]
+  · rw [ite_eq_left (beq_eq_true.2 h), ite_eq_left h]
+  · rw [ite_eq_right (fun h' => h (beq_eq_true.1 h')), ite_eq_right h]
     rfl
 
 theorem evalT_sound {O m : Nat} (hO : O.testBit m = true) : ∀ (Ls : List Nat) (T acc : Nat),
@@ -271,7 +271,7 @@ theorem evalT_sound {O m : Nat} (hO : O.testBit m = true) : ∀ (Ls : List Nat) 
         refine ⟨h1.1, ?_⟩
         rw [Nat.testBit_div_two_pow] at h2
         have e : codeL (L :: Ls) m = codeL Ls m + 2 ^ Ls.length := by
-          rw [codeL, if_pos h1.2, Nat.add_comm]
+          rw [codeL, ite_eq_left h1.2, Nat.add_comm]
         rw [e]
         exact h2
 
@@ -327,7 +327,7 @@ theorem codesIn_sound {O : Nat} {D : List (List Nat × List Nat × Nat)} (h : co
   have h2 := h d hd
   simp only [List.all_eq_true, List.mem_range] at h2
   have h3 := h2 s hs
-  rw [bIf_eq, beq_bit, if_pos hT, andB_eq, Bool.and_eq_true, beq_bit] at h3
+  rw [bIf_eq, beq_bit, ite_eq_left hT, andB_eq, Bool.and_eq_true, beq_bit] at h3
   exact ⟨Nat.le_of_ble_eq_true h3.1, h3.2⟩
 
 theorem colsOK_sound {F B C : List Nat} (h : colsOK F B C = true) :
@@ -390,22 +390,22 @@ theorem foldl_set_true (l : List (Nat × Nat × Nat)) (A : Array Bool) {d : Nat}
     have hs : (A.set! e.1 true).size = A.size := by simp
     have hget : (A.set! e.1 true).getD d false = if e.1 = d then true else A.getD d false := by
       by_cases he : e.1 = d
-      · rw [if_pos he, ← he]
+      · rw [ite_eq_left he, ← he]
         rw [← he] at hd
         simp [Array.getD_eq_getD_getElem?, Array.set!_eq_setIfInBounds, hd]
-      · rw [if_neg he]
+      · rw [ite_eq_right he]
         simp [Array.getD_eq_getD_getElem?, Array.set!_eq_setIfInBounds, he]
     apply ih _ (by rw [hs]; exact hd)
     rcases h with h | ⟨e', he', hed⟩
     · left
       rw [hget]
       by_cases he : e.1 = d
-      · rw [if_pos he]
-      · rw [if_neg he]
+      · rw [ite_eq_left he]
+      · rw [ite_eq_right he]
         exact h
     · rcases List.mem_cons.1 he' with rfl | he''
       · left
-        rw [hget, if_pos hed]
+        rw [hget, ite_eq_left hed]
       · right
         exact ⟨e', he'', hed⟩
 
@@ -420,7 +420,7 @@ theorem allBelow_of (f : Nat → Bool) (n : Nat) (h : ∀ m, 1 ≤ m → m ≤ n
   | zero => simp only [E8TenTwo.allBelow]
   | succ k ih =>
     unfold E8TenTwo.allBelow
-    rw [if_pos (h (k + 1) (by omega) le_rfl)]
+    rw [ite_eq_left (h (k + 1) (by omega) le_rfl)]
     exact ih (fun m h1 h2 => h m h1 (by omega))
 
 theorem lin_of_cols {F B C : List Nat} (hC : ∀ j < 20, C.getD j 0 ^^^ 2 ^ j = comb B (colCode F j)) :

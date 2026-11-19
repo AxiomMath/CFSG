@@ -32,8 +32,7 @@ theorem card_inverted_mul_card_fixed_of_odd {θ : MulAut G} (hθ : θ * θ = 1) 
     simp only [Subtype.ext_iff, hcoe]
   have hiff_mem : ∀ x : R, (θR x = x) ↔ x ∈ θR.toMonoidHom.eqLocus (MonoidHom.id R) := by
     intro x
-    simpa using (MonoidHom.mem_eqLocusM (f := θR.toMonoidHom) (g := MonoidHom.id R)
-      (x := x)).symm
+    simp
   have hcard_inv :
       Nat.card {r : R // θ (r : G) = (r : G)⁻¹} = Nat.card {x : R // θR x = x⁻¹} :=
     Nat.card_congr (Equiv.subtypeEquivRight hiff_inv).symm

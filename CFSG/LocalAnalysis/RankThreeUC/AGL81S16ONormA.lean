@@ -77,7 +77,7 @@ theorem even_finrank_commSpace_eichler [FiniteDimensional K V]
       exact even_two
     · have h1 : eichler Q u w = 1 := by
         rw [LinearIndependent.pair_iff] at hli
-        push_neg at hli
+        push Not at hli
         obtain ⟨s, t, hst, hne⟩ := hli
         by_cases ht : t = 0
         · subst ht
@@ -165,6 +165,7 @@ theorem eichler_mem_commutator (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
   rw [← omegaGroup_eq_commutator hQ (quadMinus_three_derived hirr).1]
   exact eichler_mem_omegaGroup_general hQ u w
 
+omit [Finite F] [CharP F 2] in
 theorem mem_statedOmega_iff (g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) :
     g ∈ StatedOmega (StatedQuadMinus 3 F b c) ↔
       toLinEquiv (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F g ∈

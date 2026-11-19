@@ -76,10 +76,10 @@ variable {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K] [CharP K 3]
 include hf hK hσ
 
 theorem glaPPrimeCoreOf_fixSubgroup_conj_mul_fieldActor {c : K} (hc : σ c = c) (hc0 : c ≠ 0) :
-    CFSG.Open.GLAPPrimeCoreOf 3 (fixSubgroup (MulAut.conj (longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc) *
+    CFSG.Open.GLAPPrimeCoreOf 3 (fixSubgroup (MulAut.conj (longElt σ (Or.inr (Or.inr rfl)) c hc) *
         fieldActor (t := TwistTag.D4) σ σ)) = ⊥ := by
   rw [fixSubgroup_conj_mul_fieldActor_eq hf hK σ hσ hc hc0, glaPPrimeCoreOf_eq_bot_iff_pPrimeCore]
-  generalize hzdef : longElt hf hK σ hσ (Or.inr (Or.inr rfl)) c hc = z
+  generalize hzdef : longElt σ (Or.inr (Or.inr rfl)) c hc = z
   have hmap : Units.map (entrywiseHom σ.toRingHom) (pinnedX TwistTag.D4.tag K rootD c) =
       pinnedX TwistTag.D4.tag K rootD c := by
     rw [show Units.map (entrywiseHom σ.toRingHom) (pinnedX TwistTag.D4.tag K rootD c) =

@@ -16,8 +16,8 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G]
 
-private theorem l34g_commutator_mul_central {g h z z' : G} (hzg : z * g = g * z)
-    (hzh : z * h = h * z) (hz'g : z' * g = g * z') (hz'h : z' * h = h * z')
+private theorem l34g_commutator_mul_central {g h z z' : G} (_hzg : z * g = g * z)
+    (hzh : z * h = h * z) (hz'g : z' * g = g * z') (_hz'h : z' * h = h * z')
     (hzz' : z * z' = z' * z) :
     ⁅g * z, h * z'⁆ = ⁅g, h⁆ := by
   have hz'g' : z' * g⁻¹ = g⁻¹ * z' := by

@@ -66,7 +66,7 @@ theorem ggPairConcl_of_selected_E8_plus
       (ggX_noReflE6Pat_typeD hcfg hpres hD hXA) hrow
   have hge : 696729600 ≤ Nat.card ↥(ggAutomizer X Bs) :=
     ggX_card_automizer_ge_of_EE8 ggLabelRigidInput_holds hcfg hXn hrow
-  haveI : Finite (MulAut ↥Bs) :=
+  have : Finite (MulAut ↥Bs) :=
     Finite.of_injective (fun φ : MulAut ↥Bs => (φ : ↥Bs → ↥Bs)) DFunLike.coe_injective
   have hle : Nat.card ↥(ggAutomizer X Bs) ≤ Nat.card ↥(ggAutomizerJoin L Bs 𝒦) :=
     Subgroup.card_le_of_le hXA

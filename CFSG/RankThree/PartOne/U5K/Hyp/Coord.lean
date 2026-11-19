@@ -42,7 +42,7 @@ theorem oddDiag_mul (A A' : Matrix (Fin r) (Fin r) K) (d d' : K) :
     oddDiag hK A d * oddDiag hK A' d' = oddDiag hK (A * A') (d * d') := by
   rw [oddDiag, oddDiag, oddDiag, blk3_mul, barInvT_mul]
   congr 1
-  all_goals first | rfl | simp | (ext k l; simp [mul_apply])
+  all_goals first | simp | (ext k l; simp [mul_apply])
 end CFSG.RankThree.PartOne.U5K.Hyp
 
 namespace CFSG.RankThree.PartOne.U5K.Hyp

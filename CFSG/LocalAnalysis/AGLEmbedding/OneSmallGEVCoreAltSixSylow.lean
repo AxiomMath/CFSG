@@ -50,7 +50,7 @@ theorem card_altSix : Nat.card (alternatingGroup (Fin 6)) = 360 := by
 
 theorem card_sylow_altSix_le (S : Sylow 3 (alternatingGroup (Fin 6))) : Nat.card S ≤ 9 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hdvd : Nat.card S ∣ 360 := card_altSix ▸ Subgroup.card_subgroup_dvd_card _
   rw [hk] at hdvd ⊢
   by_contra h

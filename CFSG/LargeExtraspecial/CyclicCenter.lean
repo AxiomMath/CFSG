@@ -40,9 +40,9 @@ theorem isExtraspecialPGroup_of_cyclic_center {E : Type*} [Group E] [Finite E] {
     exact _root_.mul_right_cancel this
   have hq := hp
   set q := p
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (IsPGroup q E) := ⟨hE⟩
-  haveI : IsCyclic (Subgroup.center E) := hcyc
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (IsPGroup q E) := ⟨hE⟩
+  have : IsCyclic (Subgroup.center E) := hcyc
   have hcommZ : ∀ a b : E, ⁅a, b⁆ ∈ Subgroup.center E := by
     intro a b
     rw [hZC]
@@ -80,7 +80,7 @@ theorem isExtraspecialPGroup_of_cyclic_center {E : Type*} [Group E] [Finite E] {
       rw [commutatorElement_def, mul_inv_eq_one, mul_inv_eq_iff_eq_mul] at h2
       simpa [mul_assoc] using h2.symm
     exact congrArg Subtype.val (Subsingleton.elim (⟨a, hcen⟩ : Subgroup.center E) 1)
-  haveI : Nontrivial (Subgroup.center E) := hntriv
+  have : Nontrivial (Subgroup.center E) := hntriv
   have hcard : Nat.card (Subgroup.center E) = q := by
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Subgroup.center E)
     have hord : orderOf g = Nat.card (Subgroup.center E) :=

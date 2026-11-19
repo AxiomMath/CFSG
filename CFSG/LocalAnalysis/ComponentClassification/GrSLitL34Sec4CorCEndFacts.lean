@@ -129,7 +129,7 @@ theorem card_inf (h : Config a J E) {S : Subgroup X}
   have hS2 : IsPGroup 2 S := by
     obtain ⟨P₀, hP₀⟩ := hSsyl
     have h1 : IsPGroup 2 ((P₀ : Subgroup _).map
-        (centralizer ({a} : Set X) ⊓ normalizer (J : Set X)).subtype) := P₀.isPGroup'.map _
+        (centralizer ({a} : Set X) ⊓ normalizer (J : Set X)).subtype) := P₀.isPGroup.map _
     rwa [hP₀, map_subgroupOf_eq_of_le hSH] at h1
   obtain ⟨T, hT⟩ := UnbalancedGS.RankProjectiveAction.exists_sylow_inf_of_le_normalizer hSH hSsyl
     (le_inf h.le_centralizer Subgroup.le_normalizer) inf_le_right

@@ -42,6 +42,7 @@ section Facts
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem isPGroup_of_elemAb {p : ℕ} {E : Subgroup H} (hE : IsElemAbelian p E) : IsPGroup p ↥E := by
   rw [isPGroup_iff_pow_pow_eq_one]
   intro g
@@ -58,6 +59,7 @@ theorem card_le_pow_pRank {p : ℕ} [hp : Fact p.Prime] {K E : Subgroup H} (hEK 
   rw [hk]
   exact Nat.pow_le_pow_right hp.out.pos (CFSG.SectionRank.le_pRank hp.out.one_lt hEK hE hk)
 
+omit [Finite H] in
 theorem alt_center_eq_one {n : ℕ} (hn : 5 ≤ n) {K : Subgroup H} (hK : IsAltType n ↥K)
     {z : H} (hz : z ∈ K) (hc : ∀ x ∈ K, z * x = x * z) : z = 1 := by
   obtain ⟨e⟩ := hK
@@ -76,6 +78,7 @@ theorem alt_center_eq_one {n : ℕ} (hn : 5 ≤ n) {K : Subgroup H} (hK : IsAltT
 
 @[expose] def cj (g : H) (K : Subgroup H) : Subgroup H := K.map (MulAut.conj g).toMonoidHom
 
+omit [Finite H] in
 theorem mem_cj {g : H} {K : Subgroup H} {x : H} : x ∈ cj g K ↔ g⁻¹ * x * g ∈ K := by
   unfold cj
   constructor
@@ -84,11 +87,13 @@ theorem mem_cj {g : H} {K : Subgroup H} {x : H} : x ∈ cj g K ↔ g⁻¹ * x * 
   · intro h
     exact ⟨g⁻¹ * x * g, h, by simp [MulAut.conj_apply, mul_assoc]⟩
 
+omit [Finite H] in
 theorem cj_one (K : Subgroup H) : cj 1 K = K := by
   ext x
   rw [mem_cj]
   simp
 
+omit [Finite H] in
 theorem cj_mul (g h : H) (K : Subgroup H) : cj g (cj h K) = cj (g * h) K := by
   ext x
   rw [mem_cj, mem_cj, mem_cj]
@@ -98,6 +103,7 @@ theorem cj_mul (g h : H) (K : Subgroup H) : cj g (cj h K) = cj (g * h) K := by
   · intro hx
     simpa [mul_assoc] using hx
 
+omit [Finite H] in
 theorem card_sup_of_commute {A B : Subgroup H} (hAB : A ≤ Subgroup.centralizer (B : Set H))
     (hint : A ⊓ B = ⊥) : Nat.card (A ⊔ B : Subgroup H) = Nat.card A * Nat.card B := by
   have hc : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a := fun a ha b hb =>
@@ -136,6 +142,7 @@ theorem card_sup_of_commute {A B : Subgroup H} (hAB : A ≤ Subgroup.centralizer
   rw [← hrange, ← Nat.card_prod]
   exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
 
+omit [Finite H] in
 theorem comm_of_elemAb {p : ℕ} {B : Subgroup H} (hB : IsElemAbelian p B) {a b : H} (ha : a ∈ B)
     (hb : b ∈ B) : a * b = b * a :=
   congrArg Subtype.val (hB.1.is_comm.comm (⟨a, ha⟩ : ↥B) ⟨b, hb⟩)
@@ -330,30 +337,37 @@ section Products
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem cj_mul_eq (g h : H) (K : Subgroup H) : cj g (cj h K) = cj (g * h) K := cj_mul g h K
 
+omit [Finite H] in
 theorem cj_inj {g : H} {X Y : Subgroup H} (h : cj g X = cj g Y) : X = Y := by
   have h2 := congrArg (cj g⁻¹) h
   rwa [cj_mul, cj_mul, inv_mul_cancel, cj_one, cj_one] at h2
 
+omit [Finite H] in
 theorem card_cj (g : H) (K : Subgroup H) : Nat.card (cj g K) = Nat.card K :=
   Subgroup.card_map_of_injective (MulAut.conj g).injective
 
+omit [Finite H] in
 theorem isAltType_cj {n : ℕ} (g : H) {K : Subgroup H} (hK : IsAltType n ↥K) :
     IsAltType n ↥(cj g K) := by
   obtain ⟨e⟩ := hK
   exact ⟨(Subgroup.equivMapOfInjective K (MulAut.conj g).toMonoidHom
     (MulAut.conj g).injective).symm.trans e⟩
 
+omit [Finite H] in
 theorem isElemAbelian_cj {p : ℕ} (g : H) {K : Subgroup H} (hK : IsElemAbelian p K) :
     IsElemAbelian p (cj g K) :=
   CFSG.SectionRank.isElemAbelian_map hK (MulAut.conj g).toMonoidHom
 
+omit [Finite H] in
 theorem isElemAbelian_mono {p : ℕ} {E F : Subgroup H} (hE : IsElemAbelian p E) (hFE : F ≤ E) :
     IsElemAbelian p F := by
   refine ⟨⟨⟨fun x y => Subtype.ext ?_⟩⟩, fun x hx => hE.2 x (hFE hx)⟩
   exact comm_of_elemAb hE (hFE x.2) (hFE y.2)
 
+omit [Finite H] in
 theorem normalizer_of_cj_eq {g : H} {K : Subgroup H} (h : cj g K = K) :
     g ∈ Subgroup.normalizer (K : Set H) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -368,8 +382,10 @@ theorem normalizer_of_cj_eq {g : H} {K : Subgroup H} (h : cj g K = K) :
   | 0 => 1
   | k + 1 => prodRange x k * x k
 
+omit [Finite H] in
 theorem prodRange_succ (x : ℕ → H) (k : ℕ) : prodRange x (k + 1) = prodRange x k * x k := rfl
 
+omit [Finite H] in
 theorem prodRange_succ' (x : ℕ → H) (k : ℕ) :
     prodRange x (k + 1) = x 0 * prodRange (fun j => x (j + 1)) k := by
   induction k with
@@ -378,6 +394,7 @@ theorem prodRange_succ' (x : ℕ → H) (k : ℕ) :
     rw [prodRange_succ x (k + 1), ih, prodRange_succ (fun j => x (j + 1)) k]
     simp only [mul_assoc]
 
+omit [Finite H] in
 theorem prodRange_mem {S : Subgroup H} (x : ℕ → H) (k : ℕ) (hx : ∀ j < k, x j ∈ S) :
     prodRange x k ∈ S := by
   induction k with
@@ -386,6 +403,7 @@ theorem prodRange_mem {S : Subgroup H} (x : ℕ → H) (k : ℕ) (hx : ∀ j < k
     rw [prodRange_succ]
     exact S.mul_mem (ih fun j hj => hx j (by omega)) (hx k (by omega))
 
+omit [Finite H] in
 theorem prodRange_conj (g : H) (x : ℕ → H) (k : ℕ) :
     g * prodRange x k * g⁻¹ = prodRange (fun j => g * x j * g⁻¹) k := by
   induction k with
@@ -396,6 +414,7 @@ theorem prodRange_conj (g : H) (x : ℕ → H) (k : ℕ) :
           group
       _ = _ := by rw [ih]
 
+omit [Finite H] in
 theorem prodRange_comm (w : H) (x : ℕ → H) (k : ℕ) (hw : ∀ j < k, w * x j = x j * w) :
     w * prodRange x k = prodRange x k * w := by
   induction k with
@@ -409,6 +428,7 @@ theorem prodRange_comm (w : H) (x : ℕ → H) (k : ℕ) (hw : ∀ j < k, w * x 
       _ = prodRange x k * (x k * w) := by rw [hw k (by omega)]
       _ = prodRange x (k + 1) * w := by rw [prodRange_succ, mul_assoc]
 
+omit [Finite H] in
 theorem prodRange_mul (x y : ℕ → H) (k : ℕ)
     (hxy : ∀ i < k, ∀ j < k, i ≠ j → x i * y j = y j * x i) :
     prodRange x k * prodRange y k = prodRange (fun j => x j * y j) k := by
@@ -425,6 +445,7 @@ theorem prodRange_mul (x y : ℕ → H) (k : ℕ)
       _ = (prodRange x k * prodRange y k) * (x k * y k) := by simp only [mul_assoc]
       _ = prodRange (fun j => x j * y j) k * (x k * y k) := by rw [ih']
 
+omit [Finite H] in
 theorem prodRange_split (h : ℕ → H) (C : Subgroup H) (j : ℕ) :
     ∀ k : ℕ, (∀ i < k, i ≠ j → h i ∈ C) →
       (k ≤ j → prodRange h k ∈ C) ∧
@@ -458,19 +479,23 @@ variable {H : Type} [Group H] [Finite H]
 
 @[expose] def Icof (a : H) (Ĩ : Subgroup H) (j : ℕ) : Subgroup H := cj (a ^ j) Ĩ
 
+omit [Finite H] in
 theorem Icof_zero (a : H) (Ĩ : Subgroup H) : Icof a Ĩ 0 = Ĩ := by
   simp [Icof, cj_one]
 
+omit [Finite H] in
 theorem cj_Icof (a : H) (Ĩ : Subgroup H) (i j : ℕ) :
     cj (a ^ i) (Icof a Ĩ j) = Icof a Ĩ (i + j) := by
   unfold Icof
   rw [cj_mul_eq, ← pow_add]
 
+omit [Finite H] in
 theorem Icof_add_period {a : H} {Ĩ : Subgroup H} {p : ℕ} (ha : a ^ p = 1) (j : ℕ) :
     Icof a Ĩ (j + p) = Icof a Ĩ j := by
   unfold Icof
   rw [pow_add, ha, mul_one]
 
+omit [Finite H] in
 theorem Icof_period {a : H} {Ĩ : Subgroup H} {p : ℕ} (ha : a ^ p = 1) (j s : ℕ) :
     Icof a Ĩ (j + p * s) = Icof a Ĩ j := by
   induction s with
@@ -478,6 +503,7 @@ theorem Icof_period {a : H} {Ĩ : Subgroup H} {p : ℕ} (ha : a ^ p = 1) (j s : 
   | succ s ih =>
     rw [show j + p * (s + 1) = (j + p * s) + p by ring, Icof_add_period ha, ih]
 
+omit [Finite H] in
 theorem Icof_one_eq_zero_of_eq {a : H} {Ĩ : Subgroup H} {p : ℕ} [hp : Fact p.Prime]
     (ha : a ^ p = 1) {k : ℕ} (hk0 : 0 < k) (hkp : k < p) (hk : Icof a Ĩ k = Icof a Ĩ 0) :
     Icof a Ĩ 1 = Icof a Ĩ 0 := by
@@ -495,6 +521,7 @@ theorem Icof_one_eq_zero_of_eq {a : H} {Ĩ : Subgroup H} {p : ℕ} [hp : Fact p.
   rw [Nat.mod_add_div, ht] at h2
   rw [← h2, hmul t]
 
+omit [Finite H] in
 theorem Icof_ne_of_lt {a : H} {Ĩ : Subgroup H} {p : ℕ} [hp : Fact p.Prime] (ha : a ^ p = 1)
     (hne : Icof a Ĩ 1 ≠ Icof a Ĩ 0) {i j : ℕ} (hij : i < j) (hj : j < p)
     (heq : Icof a Ĩ i = Icof a Ĩ j) : False := by
@@ -508,6 +535,7 @@ theorem Icof_ne_of_lt {a : H} {Ĩ : Subgroup H} {p : ℕ} [hp : Fact p.Prime] (h
   apply Icof_one_eq_zero_of_eq ha (k := j - i) (by omega) (by omega)
   rw [h3, Icof_zero]
 
+omit [Finite H] in
 theorem Icof_ne {a : H} {Ĩ : Subgroup H} {p : ℕ} [hp : Fact p.Prime] (ha : a ^ p = 1)
     (hne : Icof a Ĩ 1 ≠ Icof a Ĩ 0) {i j : ℕ} (hi : i < p) (hj : j < p) (hij : i ≠ j) :
     Icof a Ĩ i ≠ Icof a Ĩ j := by
@@ -515,6 +543,7 @@ theorem Icof_ne {a : H} {Ĩ : Subgroup H} {p : ℕ} [hp : Fact p.Prime] (ha : a 
   · exact fun heq => Icof_ne_of_lt ha hne h hj heq
   · exact fun heq => Icof_ne_of_lt ha hne h hi heq.symm
 
+omit [Finite H] in
 theorem le_Icof_of_le {a : H} {Ĩ F : Subgroup H} (j : ℕ) (hF : F ≤ Ĩ) :
     cj (a ^ j) F ≤ Icof a Ĩ j := by
   intro x hx
@@ -731,7 +760,6 @@ theorem core_caseB {p m n : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) (hn : 10 �
       rw [prodRange_conj]
       congr 1
       funext j
-      beta_reduce
       rw [pow_succ']
       group
     have e2 : prodRange (fun j => a ^ (j + 1) * (x : H) * (a ^ (j + 1))⁻¹) p =
@@ -788,6 +816,7 @@ theorem card_comap_quot (P : Subgroup Y) [P.Normal] (K : Subgroup (Y ⧸ P)) :
     rw [h1, h4, ← h2]; ring
   exact Nat.eq_of_mul_eq_mul_right (Nat.pos_of_ne_zero hidx) key
 
+omit [Finite Y] in
 theorem card_map_eq_of_inf_bot (P : Subgroup Y) [P.Normal] {S : Subgroup Y} (hS : S ⊓ P = ⊥) :
     Nat.card (S.map (QuotientGroup.mk' P)) = Nat.card S := by
   have hf : Function.Injective ((QuotientGroup.mk' P).comp S.subtype) := by
@@ -814,6 +843,7 @@ theorem inf_eq_bot_of_pgroup {p : ℕ} [hp : Fact p.Prime] {Q P : Subgroup Y} (h
   rw [hj0, pow_zero] at hj
   exact Subgroup.eq_bot_of_card_eq _ hj
 
+omit [Finite Y] in
 theorem isElemAbelian_of_map {p : ℕ} (P : Subgroup Y) [P.Normal] {S : Subgroup Y}
     (hS : S ⊓ P = ⊥) (hSD : IsElemAbelian p (S.map (QuotientGroup.mk' P))) :
     IsElemAbelian p S := by
@@ -836,6 +866,7 @@ theorem isElemAbelian_of_map {p : ℕ} (P : Subgroup Y) [P.Normal] {S : Subgroup
     rw [map_pow, map_one]
     exact hSD.2 _ (Subgroup.mem_map_of_mem _ hx)
 
+omit [Finite Y] in
 theorem pow_eq_one_of_mem_zpowers {x : Y} {p : ℕ} (hx : x ^ p = 1) {y : Y}
     (hy : y ∈ Subgroup.zpowers x) : y ^ p = 1 := by
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
@@ -919,7 +950,7 @@ theorem lift_elemAb {p : ℕ} [hp : Fact p.Prime] (P : Subgroup Y) [P.Normal]
   have hQ₀card : Nat.card Q₀ = p ^ k := by
     rw [Sylow.card_eq_multiplicity, hX'card, fact_pow_mul hP (Nat.card_pos.ne')]
   set Q : Subgroup Y := (Q₀ : Subgroup X').map X'.subtype with hQdef
-  have hQp : IsPGroup p Q := IsPGroup.map Q₀.isPGroup' X'.subtype
+  have hQp : IsPGroup p Q := IsPGroup.map Q₀.isPGroup X'.subtype
   have hQcard : Nat.card Q = p ^ k := by
     rw [hQdef, Subgroup.card_map_of_injective Subtype.val_injective, ← hQ₀card]
   have haQ : a ∈ Q := by
@@ -1137,6 +1168,7 @@ section QuotBar
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barX_map_conj (p : ℕ) (M L : Subgroup G) {g : G} (hg : g ∈ M) :
     barX p M (L.map (MulAut.conj g).toMonoidHom) =
       (barX p M L).map
@@ -1171,6 +1203,7 @@ theorem barX_map_conj (p : ℕ) (M L : Subgroup G) {g : G} (hg : g ∈ M) :
         simp [MulAut.conj_apply]⟩
     · simp [MulAut.conj_apply, map_mul, map_inv]
 
+omit [Finite G] in
 theorem mk_mem_normalizer_barX (p : ℕ) (M L : Subgroup G) {g : G} (hg : g ∈ M)
     (h1 : ∀ l ∈ L, g * l * g⁻¹ ∈ L) (h2 : ∀ l ∈ L, g⁻¹ * l * g⁻¹⁻¹ ∈ L) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥M) ⟨g, hg⟩ ∈
@@ -1197,6 +1230,7 @@ theorem comm_of_comm_eq_one {Z : Type} [Group Z] {a b : Z} (h : a * b * a⁻¹ *
   calc a * b = (a * b * a⁻¹ * b⁻¹) * (b * a) := by group
     _ = b * a := by rw [h, one_mul]
 
+omit [Finite G] in
 theorem barX_comm_of_commutator (p : ℕ) (M L L' : Subgroup G)
     (hc : ⁅L, L'⁆ ≤ GLAPPrimeCoreOf p M) :
     ∀ x ∈ barX p M L, ∀ y ∈ barX p M L', x * y = y * x := by
@@ -1244,7 +1278,7 @@ theorem lemma118Return_of_inputs (hR2 : Lemma118R.Input11_2Alt) (hAut : Lemma118
   intro G _ _ m p B M E A h hbig a haM hap
   obtain ⟨L, n, hL, hLalt, hrn⟩ := hbig
   have hstd : GLStanding G m p := h.standing
-  haveI hpf : Fact p.Prime := ⟨hstd.prime⟩
+  have hpf : Fact p.Prime := ⟨hstd.prime⟩
   have hp2 : p ≠ 2 := hstd.ne_two
   have hp3 : 3 ≤ p := by have := hpf.out.two_le; omega
   have hr2 : 2 ≤ CFSG.Open.pRank p (E ⊓ A) := h.pair.1.2.2

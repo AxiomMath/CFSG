@@ -45,7 +45,7 @@ theorem conj_le_M_of_cube (h : Cfg1667Ne M V₀ V W₁ W₂) (hs : InCalOStar 1 
   have hi' : i⁻¹ = i := inv_eq_of_mul_eq_one_right hi2
   have hxinv : x⁻¹ = i * v * i * v := by
     rw [hx2]
-    simp only [mul_inv_rev, inv_inv, hv', hi']
+    simp only [mul_inv_rev, hv', hi']
     group
   have hxiconj : x * i * x⁻¹ = (v * i) ^ 3 * v := by
     rw [hxinv, hx2]
@@ -121,7 +121,7 @@ theorem mul_inv_mem_M_of_cube (h : Cfg1667Ne M V₀ V W₁ W₂) (hs : InCalOSta
   have hi' : i⁻¹ = i := inv_eq_of_mul_eq_one_right hi2
   have hxinv : x⁻¹ = i * v * i * v := by
     rw [hx2]
-    simp only [mul_inv_rev, inv_inv, hv', hi']
+    simp only [mul_inv_rev, hv', hi']
     group
   have hxX : x ∈ X := by
     have hvX : v ∈ X := Subgroup.mem_sup_left hv
@@ -190,7 +190,7 @@ theorem cube_mem_V (h : Cfg1667Ne M V₀ V W₁ W₂) (hs : InCalOStar 1 M V₀ 
   have hi' : i⁻¹ = i := inv_eq_of_mul_eq_one_right hi2
   have hxinv : x⁻¹ = i * v * i * v := by
     rw [hx2]
-    simp only [mul_inv_rev, inv_inv, hv', hi']
+    simp only [mul_inv_rev, hv', hi']
     group
   have hxiconj : x * i * x⁻¹ = (v * i) ^ 3 * v := by
     rw [hxinv, hx2]
@@ -276,7 +276,7 @@ theorem isSym_X_quot_K
   let B : Subgroup G := conjSubgroup V g ⊓ M
   let K : Subgroup G := U ⊔ B
   let X : Subgroup G := V ⊔ conjSubgroup V g
-  haveI hN : (K.subgroupOf X).Normal := K_normal h hs
+  have hN : (K.subgroupOf X).Normal := K_normal h hs
   obtain ⟨v, hv, hvU, hvcos⟩ := (Subgroup.relIndex_eq_two_iff_exists_notMem_and
         (H := U) (K := V)).mp (relIndex_U h hs.1)
   obtain ⟨i, hi, hiB, hicos⟩ := (Subgroup.relIndex_eq_two_iff_exists_notMem_and
@@ -377,7 +377,7 @@ theorem isQ8Q8S3_X_quot [((V₀ ⊔ conjSubgroup V₀ g).subgroupOf (V ⊔ conjS
   let K : Subgroup G := U ⊔ B
   let π : ↥X →* (↥X ⧸ E.subgroupOf X) := QuotientGroup.mk' _
   change IsQ8Q8S3 (↥X ⧸ E.subgroupOf X)
-  haveI hKn : (K.subgroupOf X).Normal := K_normal h hs
+  have hKn : (K.subgroupOf X).Normal := K_normal h hs
   have hEK : E.subgroupOf X ≤ K.subgroupOf X := fun y hy =>
     Subgroup.mem_subgroupOf.mpr (E_le_K h hs (Subgroup.mem_subgroupOf.mp hy))
   refine ⟨(K.subgroupOf X).map π, ?_, isExtraspecialPlus2_K_quot h hs hs', ?_⟩
@@ -398,7 +398,7 @@ theorem concl (h : Cfg1667Ne M V₀ V W₁ W₂) (hs : InCalOStar 1 M V₀ V g)
             (V₀ ⊔ conjSubgroup V₀ g).subgroupOf (V ⊔ conjSubgroup V g)) := by
   refine ⟨not_le_normalizer_W h hs, rk_barSub_B h hs, exists_eq_zpowers h hs, ?_⟩
   exact ⟨E_normal h hs hs', by
-    haveI := E_normal h hs hs'
+    have := E_normal h hs hs'
     exact isQ8Q8S3_X_quot h hs hs'⟩
 
 end Cfg1667Ne

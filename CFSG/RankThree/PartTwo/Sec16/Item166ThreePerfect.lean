@@ -25,6 +25,7 @@ private theorem sSup_map {G G' : Type*} [Group G] [Group G'] (f : G →* G')
     rintro _ ⟨K, hK, rfl⟩
     exact Subgroup.map_mono (le_sSup hK)
 
+omit [Finite H] in
 theorem aschbacherSolvableCore_eq_solvableRadical (h3 : ¬ 3 ∣ Nat.card H) :
     aschbacherSolvableCore 3 H = CFSG.solvableRadical H := by
   set R := CFSG.solvableRadical H with hR
@@ -56,8 +57,7 @@ theorem normal_sSup_thetaComponents : (sSup (thetaComponents 3 H)).Normal := by
   have hcomp : (MulAut.conj g).toMonoidHom.comp (MulAut.conj g⁻¹).toMonoidHom =
       MonoidHom.id H := by
     ext x
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_one,
-      one_mul, mul_one, MonoidHom.id_apply]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MonoidHom.id_apply]
     group
   rw [Subgroup.map_map, hcomp, Subgroup.map_id] at h
   exact h
@@ -122,7 +122,7 @@ private noncomputable instance componentIndexMulAction {K : Type*} [Group K] :
     have h1 : (MulAut.conj (ConjAct.ofConjAct (1 : ConjAct K))).toMonoidHom =
         MonoidHom.id K := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [h1, Subgroup.map_id]
   mul_smul g h J := by
     apply Subtype.ext
@@ -140,7 +140,7 @@ private theorem commutator_le_componentNormalizers {K : Type*} [Group K] [Finite
     commutator K ≤ ⨅ J : CFSG.LocalCores.ComponentIndex K,
       Subgroup.normalizer (J.1 : Set K) := by
   have hcard := card_componentIndex_le_two htwo
-  haveI : IsMulCommutative (Equiv.Perm (CFSG.LocalCores.ComponentIndex K)) :=
+  have : IsMulCommutative (Equiv.Perm (CFSG.LocalCores.ComponentIndex K)) :=
     Equiv.Perm.isMulCommutative_iff_card_le_two.mpr hcard
   have hker : commutator (ConjAct K) ≤
       (MulAction.toPermHom (ConjAct K) (CFSG.LocalCores.ComponentIndex K)).ker :=
@@ -224,16 +224,16 @@ private theorem exists_inner_on_component {K : Type*} [Group K] {x y : K}
   let zJ : J := ⟨z, hz⟩
   have hα : ∀ w : J, ((α w : J) : K) = x * (w : K) * x⁻¹ := by
     intro w
-    simpa [α] using Subgroup.normalizerMonoidHom_apply_apply_coe J ⟨x, hxJ⟩ w
+    simp [α]
   have hβ : ∀ w : J, ((β w : J) : K) = y * (w : K) * y⁻¹ := by
     intro w
-    simpa [β] using Subgroup.normalizerMonoidHom_apply_apply_coe J ⟨y, hyJ⟩ w
+    simp [β]
   have hαinv : ∀ w : J, (((α⁻¹) w : J) : K) = x⁻¹ * (w : K) * x := by
     intro w
-    simpa [α] using Subgroup.normalizerMonoidHom_apply_symm_apply_coe J ⟨x, hxJ⟩ w
+    simp [α]
   have hβinv : ∀ w : J, (((β⁻¹) w : J) : K) = y⁻¹ * (w : K) * y := by
     intro w
-    simpa [β] using Subgroup.normalizerMonoidHom_apply_symm_apply_coe J ⟨y, hyJ⟩ w
+    simp [β]
   have hconj : ((⁅α, β⁆ zJ : J) : K) = ⁅x, y⁆ * z * ⁅x, y⁆⁻¹ := by
     simp only [commutatorElement_def, MulAut.mul_apply, hα, hβ, hαinv, hβinv, zJ]
     group
@@ -280,39 +280,40 @@ private theorem le_layer_of_isPerfect {K : Type*} [Group K] [Finite K]
   have hder : derivedSeries K 2 ≤ CFSG.layer K := by
     rw [derivedSeries_succ, derivedSeries_one]
     exact hK''
-  haveI hchar : (CFSG.layer K).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hnorm : (CFSG.layer K).Normal := inferInstance
+  have hchar : (CFSG.layer K).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hnorm : (CFSG.layer K).Normal := inferInstance
   have hQ : Group.IsSolvable (K ⧸ CFSG.layer K) := by
     have hmap := map_derivedSeries_eq (f := QuotientGroup.mk' (CFSG.layer K))
       (QuotientGroup.mk'_surjective _) 2
     refine ⟨⟨2, ?_⟩⟩
     rw [← hmap, Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk']
     exact hder
-  haveI : Group.IsSolvable (K ⧸ CFSG.layer K) := hQ
+  have : Group.IsSolvable (K ⧸ CFSG.layer K) := hQ
   intro p hp
-  haveI : Group.IsPerfect P := hP
+  have : Group.IsPerfect P := hP
   have hmap : P.map (QuotientGroup.mk' (CFSG.layer K)) = ⊥ := by
     by_contra hne
-    haveI : Nontrivial (P.map (QuotientGroup.mk' (CFSG.layer K))) :=
+    have : Nontrivial (P.map (QuotientGroup.mk' (CFSG.layer K))) :=
       (Subgroup.nontrivial_iff_ne_bot _).mpr hne
-    haveI : Group.IsPerfect (P.map (QuotientGroup.mk' (CFSG.layer K))) :=
+    have : Group.IsPerfect (P.map (QuotientGroup.mk' (CFSG.layer K))) :=
       Group.IsPerfect.ofSurjective
         (f := (QuotientGroup.mk' (CFSG.layer K)).subgroupMap P)
         ((QuotientGroup.mk' (CFSG.layer K)).subgroupMap_surjective P)
-    haveI : Group.IsSolvable (P.map (QuotientGroup.mk' (CFSG.layer K))) := inferInstance
+    have : Group.IsSolvable (P.map (QuotientGroup.mk' (CFSG.layer K))) := inferInstance
     exact Group.IsPerfect.not_isSolvable (P.map (QuotientGroup.mk' (CFSG.layer K)))
       inferInstance
   rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hmap
   exact hmap hp
 
+omit [Finite H] in
 private theorem le_left_of_isPerfect_le_sup {E θ : Subgroup H} [E.Normal] [θ.Normal]
     (hθ : Group.IsSolvable θ) {P : Subgroup H} (hP : Group.IsPerfect P)
     (hPle : P ≤ E ⊔ θ) : P ≤ E := by
   let L : Subgroup H := E ⊔ θ
   let M : Subgroup L := E.subgroupOf L
-  haveI : M.Normal := inferInstance
-  haveI : Group.IsSolvable θ := hθ
-  have hθle : θ ≤ L := by simpa [L] using le_sup_right
+  have : M.Normal := inferInstance
+  have : Group.IsSolvable θ := hθ
+  have hθle : θ ≤ L := by simp [L]
   let q : θ →* L ⧸ M := (QuotientGroup.mk' M).comp (Subgroup.inclusion hθle)
   have hq : Function.Surjective q := by
     intro y
@@ -325,7 +326,7 @@ private theorem le_left_of_isPerfect_le_sup {E θ : Subgroup H} [E.Normal] [θ.N
       Subgroup.mem_subgroupOf]
     simpa [mul_assoc] using (inferInstance : E.Normal).conj_mem' a ha b
   have hLsol : Group.IsSolvable (L ⧸ M) := Group.isSolvable_of_surjective hq
-  haveI : Group.IsPerfect P := hP
+  have : Group.IsPerfect P := hP
   have hPsub_perf : Group.IsPerfect (P.subgroupOf L) :=
     Group.IsPerfect.ofSurjective
       (f := ((Subgroup.subgroupOfEquivOfLe (show P ≤ L from hPle)).symm).toMonoidHom)
@@ -364,7 +365,7 @@ theorem le_sSup_thetaComponents_of_isPerfect (h3 : ¬ 3 ∣ Nat.card H)
         CFSG.SignalizerFunctorTheorem.Nonsolvable.solvableRadical_quotient]
     rw [Subgroup.map_eq_bot_iff, MonoidHom.ker_eq_bot e.toMonoidHom e.injective] at hmap
     exact le_bot_iff.mp hmap
-  haveI : Finite K := inferInstance
+  have : Finite K := inferInstance
   obtain ⟨hbij, -, -⟩ := theta_component_quotient_correspondence (H := H) Nat.prime_three
   have htwoK : ∀ J₁ : Subgroup K, IsComponent J₁ → ∀ J₂ : Subgroup K, IsComponent J₂ →
       ∀ J₃ : Subgroup K, IsComponent J₃ → J₁ = J₂ ∨ J₁ = J₃ ∨ J₂ = J₃ := by
@@ -384,7 +385,7 @@ theorem le_sSup_thetaComponents_of_isPerfect (h3 : ¬ 3 ∣ Nat.card H)
     let e : (↥L ⧸ aschbacherSolvableCore 3 ↥L) ≃* J :=
       η.trans (MulEquiv.subgroupCongr hLJ)
     exact commutator_mulAut_le_conj_range_of_mulEquiv e (hout L hL)
-  haveI : Group.IsPerfect P := hP
+  have : Group.IsPerfect P := hP
   have hPbar : Group.IsPerfect (P.map π) :=
     Group.IsPerfect.ofSurjective (f := π.subgroupMap P) (π.subgroupMap_surjective P)
   have hPbar_le : P.map π ≤ CFSG.layer K :=
@@ -405,7 +406,7 @@ theorem le_sSup_thetaComponents_of_isPerfect (h3 : ¬ 3 ∣ Nat.card H)
       exact hPbar_le
     have h := (Subgroup.map_le_map_iff (f := π)).mp hle
     rwa [QuotientGroup.ker_mk'] at h
-  haveI hEnorm : E.Normal := normal_sSup_thetaComponents
+  have hEnorm : E.Normal := normal_sSup_thetaComponents
   have hθsolvable : Group.IsSolvable θ := by
     rw [hθsol]
     exact CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
@@ -420,7 +421,7 @@ theorem le_sSup_thetaComponentsIn_of_isPerfect {G : Type} [Group G] [Finite G]
       ∀ L₃ ∈ thetaComponents 3 ↥X, L₁ = L₂ ∨ L₁ = L₃ ∨ L₂ = L₃)
     {P : Subgroup G} (hPX : P ≤ X) (hP : Group.IsPerfect P) :
     P ≤ sSup (thetaComponentsIn X) := by
-  haveI : Group.IsPerfect P := hP
+  have : Group.IsPerfect P := hP
   let PX : Subgroup X := P.subgroupOf X
   have hPX_perf : Group.IsPerfect PX :=
     Group.IsPerfect.ofSurjective

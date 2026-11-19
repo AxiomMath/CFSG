@@ -12,6 +12,7 @@ open CFSG.Quasithin.CosetGeom (stab ballStab nbrs vtype Vv critDist dist)
 
 variable {G : Type} [Group G] [Finite G] {G₀ G₁ G₂ T L E : Subgroup G}
 
+omit [Finite G] in
 private theorem vtype_eq_true_of_dist_eq_critDist (hA : ConfigA G₀ G₁ G₂ T L E)
     {γ δ : CosetGeom G₀ G₁ G₂} (hγ : vtype γ = false)
     (hγδ : dist γ δ = critDist G₀ G₁ G₂ E) : vtype δ = true := by

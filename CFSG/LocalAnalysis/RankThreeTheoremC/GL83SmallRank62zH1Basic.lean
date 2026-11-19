@@ -44,7 +44,7 @@ theorem k631a_exists_invariant_sylow [Finite G] {f r : ℕ} [Fact f.Prime] [Fact
   let _ : MulDistribMulAction ↥R ↥W := MulDistribMulAction.compHom W ρ
   obtain ⟨S, hS⟩ := hR.nonempty_fixed_point_of_prime_not_dvd_card (Sylow r W) hcard
   have hsmul : ∀ a : ↥R, a • S = S := fun a => MulAction.mem_fixedPoints.mp hS a
-  refine ⟨(S : Subgroup W).map W.subtype, Subgroup.map_subtype_le _, S.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(S : Subgroup W).map W.subtype, Subgroup.map_subtype_le _, S.isPGroup.map _, ?_, ?_⟩
   · have h : ((S : Subgroup W).map W.subtype).subgroupOf W = (S : Subgroup W) :=
       Subgroup.comap_map_eq_self_of_injective W.subtype_injective _
     rw [h]

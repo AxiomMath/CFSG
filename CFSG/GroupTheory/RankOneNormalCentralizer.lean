@@ -24,13 +24,13 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ}
 private lemma isCyclic_of_isSylowOf_of_pRank_le_one {L T : Subgroup G}
     (hp : p.Prime) (hp2 : p ≠ 2) (hT : CFSG.ABGLocalTools.IsSylowOf p T L)
     (hr : CFSG.Open.pRank p L ≤ 1) : IsCyclic T := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hTrank : CFSG.Open.pRank p T ≤ 1 :=
     (CFSG.SectionRank.pRank_mono hp.one_lt hT.le).trans hr
   exact CFSG.LocalAnalysis.RankThreeUC.OddRankOneQuotient.isCyclic_of_pRank_le_one hp hp2
     hT.isPGroup (by rwa [CFSG.SectionRank.pRank_coe_eq_openPRank p T])
 
-private lemma mem_of_relIndex_le_two_of_pow_eq_one {K M : Subgroup G} (hKM : K ≤ M)
+private lemma mem_of_relIndex_le_two_of_pow_eq_one {K M : Subgroup G} (_hKM : K ≤ M)
     (hidx : K.relIndex M ≤ 2) (hp : p.Prime) (hp2 : p ≠ 2) {x : G}
     (hxM : x ∈ M) (hxp : x ^ p = 1) : x ∈ K := by
   let K' : Subgroup ↥M := K.subgroupOf M
@@ -41,7 +41,7 @@ private lemma mem_of_relIndex_le_two_of_pow_eq_one {K M : Subgroup G} (hKM : K �
     rcases (show K'.index = 1 ∨ K'.index = 2 by omega) with h | h
     · exact ⟨0, by rw [h, pow_zero]⟩
     · exact ⟨1, by rw [h, pow_one]⟩
-  haveI : K'.Normal := by
+  have : K'.Normal := by
     rcases (show K'.index = 1 ∨ K'.index = 2 by omega) with h | h
     · rw [Subgroup.index_eq_one.mp h]; infer_instance
     · exact Subgroup.normal_of_index_eq_two h
@@ -49,7 +49,7 @@ private lemma mem_of_relIndex_le_two_of_pow_eq_one {K M : Subgroup G} (hKM : K �
     have h1 : Odd (orderOf x) :=
       Odd.of_dvd_nat (hp.odd_of_ne_two hp2) (orderOf_dvd_of_pow_eq_one hxp)
     have hcoe : orderOf (⟨x, hxM⟩ : ↥M) = orderOf x := by
-      simpa using (Subgroup.orderOf_coe (⟨x, hxM⟩ : ↥M)).symm
+      simp
     rw [hcoe]; exact h1
   exact Subgroup.mem_subgroupOf.mp
     (CFSG.QuasiDihedralFusion.mem_of_odd_orderOf_of_two_pow_index K' hK'pow hodd)
@@ -58,7 +58,7 @@ theorem pRank_le_two_of_relIndex_sup_le_two (hp : p.Prime) (hp2 : p ≠ 2) {M L 
     (hLM : L ≤ M) (hCM : C ≤ M) (hL : M ≤ Subgroup.normalizer (L : Set G))
     (hidx : (L ⊔ C).relIndex M ≤ 2) (hLr : CFSG.Open.pRank p L ≤ 1)
     (hCr : CFSG.Open.pRank p C ≤ 1) : CFSG.Open.pRank p M ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.SectionRank.pRank_le hp.one_lt ?_
   intro E hEM hE
   have hE_LC : E ≤ L ⊔ C := fun e he =>
@@ -67,7 +67,7 @@ theorem pRank_le_two_of_relIndex_sup_le_two (hp : p.Prime) (hp2 : p ≠ 2) {M L 
   let L' : Subgroup ↥M := L.subgroupOf M
   let C' : Subgroup ↥M := C.subgroupOf M
   let E' : Subgroup ↥M := E.subgroupOf M
-  haveI hL'normal : L'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).2 hL
+  have hL'normal : L'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).2 hL
   have hE'le : E' ≤ L' ⊔ C' := by
     intro x hx
     have hx' : x ∈ (L ⊔ C).subgroupOf M :=
@@ -117,7 +117,7 @@ private lemma relIndex_inf_centralizer_inf_normalizer_le_two {M A : Subgroup G}
     (hA3 : Nat.card A = 3) :
     (M ⊓ Subgroup.centralizer (A : Set G)).relIndex
       (M ⊓ Subgroup.normalizer (A : Set G)) ≤ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := M ⊓ Subgroup.centralizer (A : Set G)
   let N : Subgroup G := M ⊓ Subgroup.normalizer (A : Set G)
   change C.relIndex N ≤ 2
@@ -136,7 +136,7 @@ private lemma relIndex_inf_centralizer_inf_normalizer_le_two {M A : Subgroup G}
     rw [← Subgroup.index_ker ρ, hker]
     rfl
   have hAut : Nat.card (MulAut ↥A) = 2 := by
-    letI : IsCyclic ↥A := isCyclic_of_prime_card hA3
+    let : IsCyclic ↥A := isCyclic_of_prime_card hA3
     rw [IsCyclic.card_mulAut, hA3, Nat.totient_prime Nat.prime_three]
   have hdvd : Nat.card ρ.range ∣ Nat.card (MulAut ↥A) :=
     Subgroup.card_subgroup_dvd_card ρ.range
@@ -148,7 +148,7 @@ theorem relIndex_sup_inf_centralizer_le_two {M L A : Subgroup G} (hLM : L ≤ M)
     (hL : M ≤ Subgroup.normalizer (L : Set G)) (hAL : A ≤ L) (hA3 : Nat.card A = 3)
     (hr : CFSG.Open.pRank 3 L ≤ 1) :
     (L ⊔ (M ⊓ Subgroup.centralizer (A : Set G))).relIndex M ≤ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := M ⊓ Subgroup.centralizer (A : Set G)
   let N : Subgroup G := M ⊓ Subgroup.normalizer (A : Set G)
   change (L ⊔ C).relIndex M ≤ 2
@@ -219,7 +219,7 @@ theorem two_le_pRank_inf_centralizer (hp : p.Prime) (hp2 : p ≠ 2) {M L A : Sub
 theorem dvd_relIndex_of_pRank_lt (hp : p.Prime) {C D : Subgroup G} (hDC : D ≤ C)
     (hlt : CFSG.Open.pRank p D < CFSG.Open.pRank p C) : p ∣ D.relIndex C := by
   by_contra h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnot : ¬ p ∣ (D.subgroupOf C).index := by
     simpa [Subgroup.relIndex] using h
   have hle := CFSG.SectionRank.pRank_top_le_of_not_dvd_index hp (D.subgroupOf C) hnot
@@ -234,8 +234,8 @@ theorem exists_orderOf_eq_mem_inf_centralizer (hp : p.Prime) (hp2 : p ≠ 2) {C 
     (hDC : D ≤ C) (hD : C ≤ Subgroup.normalizer (D : Set G)) (hAD : A ≤ D)
     (hA3 : Nat.card A = 3) (hr : CFSG.Open.pRank 3 D ≤ 1) (hdvd : p ∣ D.relIndex C) :
     ∃ y ∈ C ⊓ Subgroup.centralizer (A : Set G), orderOf y = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA3p : IsPGroup 3 A := IsPGroup.of_card (n := 1) (by rw [hA3]; norm_num)
   obtain ⟨T, hT, hAT⟩ :=
     CFSG.RankThree.PartTwo.Sec11.Item1120V0Bar.exists_isSylowOf_ge hAD hA3p

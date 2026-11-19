@@ -52,7 +52,7 @@ theorem exists_isSubnormal_card_three {Q : Type*} [Group Q] {X : Subgroup Q}
 theorem false_of_isSubnormal_symThree {H : Type*} [Group H] [Finite H]
     (h3 : CFSG.pCore 3 H = ⊥) {X : Subgroup H} (hX : X.IsSubnormal) (e : X ≃* Perm (Fin 3)) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T, hTs, hT3⟩ := exists_isSubnormal_card_three hX e
   have hTp : IsPGroup 3 T := IsPGroup.of_card (n := 1) (by rw [hT3]; norm_num)
   have hT : T = ⊥ := eq_bot_of_isSubnormal_isPGroup h3 hTs hTp
@@ -62,8 +62,8 @@ theorem false_of_isSubnormal_symThree {H : Type*} [Group H] [Finite H]
 theorem range_eq_bot_of_isSubnormal {H : Type*} [Group H] [Finite H]
     (h2 : CFSG.pCore 2 H = ⊥) (h3 : CFSG.pCore 3 H = ⊥) (ψ : Perm (Fin 3) →* H)
     (hψ : ψ.range.IsSubnormal) : ψ.range = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : Nat.card ψ.range ∣ 6 := by
     have h := Subgroup.card_range_dvd ψ
     rwa [card_perm_fin_three] at h
@@ -141,7 +141,7 @@ theorem card_kleinFourS4 : Nat.card kleinFourS4 = 4 := by
 
 theorem four_le_card_pCore_of_mulEquiv_perm_four {R : Type*} [Group R] [Finite R]
     (e : R ≃* Perm (Fin 4)) : 4 ≤ Nat.card (CFSG.pCore 2 R) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let V : Subgroup R := kleinFourS4.map e.symm.toMonoidHom
   have hVn : V.Normal := Subgroup.Normal.map inferInstance e.symm.toMonoidHom e.symm.surjective
   have hV4 : Nat.card V = 4 := by

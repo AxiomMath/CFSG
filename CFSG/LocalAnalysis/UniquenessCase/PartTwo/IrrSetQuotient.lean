@@ -255,7 +255,7 @@ theorem conjAutSub_eq_self_of_isDirSumOver
       _ = commV (autQuot (conjAutSub m K) Z) :=
         map_commV_autQuot_conj K Z hKZ m hmZ
   by_contra hKm_ne
-  have hK_mem : K ∈ conjSet K Mbar := ⟨1, Mbar.one_mem, by ext x; simp [MulAut.conj_apply]⟩
+  have hK_mem : K ∈ conjSet K Mbar := ⟨1, Mbar.one_mem, by ext x; simp⟩
   have hKm_mem : conjAutSub m K ∈ conjSet K Mbar := ⟨m, hmM, rfl⟩
   let XK : {X // X ∈ conjSet K Mbar} := ⟨K, hK_mem⟩
   let Xm : {X // X ∈ conjSet K Mbar} := ⟨conjAutSub m K, hKm_mem⟩
@@ -282,7 +282,7 @@ theorem autSub_autQuot_subgroupOf_normal_of_isDirSumOver
     {Mbar K : Subgroup (MulAut W)} {Z I : Subgroup W}
     (hKZ : K ≤ stabSub Z) (hZK : Z ≤ fixV K) (hI : I ∈ irrSet K)
     (hsum : IsDirSumOver (conjSet K Mbar) (fun X => commV (autQuot X Z)))
-    (hKM : K ≤ Mbar) :
+    (_hKM : K ≤ Mbar) :
     ((autSub (autQuot K Z) (I.map (QuotientGroup.mk' Z))).subgroupOf
       (autSub (autQuot Mbar Z) (I.map (QuotientGroup.mk' Z)))).Normal := by
   classical
@@ -298,7 +298,7 @@ theorem autSub_autQuot_subgroupOf_normal_of_isDirSumOver
   have hkK : (k : MulAut W) ∈ K := hkMem
   have hkZ : (k : MulAut W) ∈ stabSub Z := k.2
   have hstabI : quotHom Z m ∈ stabSub (I.map (QuotientGroup.mk' Z)) := by
-    simpa [hmEq] using kg.2
+    simp [hmEq]
   have hN1 := conjAutSub_eq_self_of_isDirSumOver hKZ hZK hI hsum hmM hmZ hstabI
   have hmkmK : (m : MulAut W) * (k : MulAut W) * (m : MulAut W)⁻¹ ∈ K := by
     have h1 : (m : MulAut W) * (k : MulAut W) * (m : MulAut W)⁻¹ ∈

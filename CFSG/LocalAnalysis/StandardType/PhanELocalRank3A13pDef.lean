@@ -15,6 +15,7 @@ variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
   H ⊓ Vsub 4 1 = ⊥ ∧ (p ⊔ Vsub 4 1) ⊓ perpB K f 4 1 4 (p ⊔ Vsub 4 1) = Vsub 4 1 ∧
     (L ⊔ Vsub 4 1) ⊓ perpB K f 4 1 4 (L ⊔ Vsub 4 1) = Vsub 4 1
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_blockU_a3_13p (x : FlagK K 4) (r : ℕ) :
     blockU K 4 [0, 1, 4] x.E 1 r = x.E r ⊔ Vsub (K := K) 4 1 := by
   have hget : ([0, 1, 4] : List ℕ).getD (1 + 1) 0 = 4 := rfl
@@ -25,6 +26,7 @@ private theorem plh_blockU_a3_13p (x : FlagK K 4) (r : ℕ) :
   simp only [blockU]
   rw [harg, hget, hget1, Vsub_self, inf_top_eq]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_mem_farSet_a3_13p_iff (x : FlagK K 4) :
     x ∈ farSet 4 [0, 1, 4] ↔ x.E 3 ⊓ Vsub 4 1 = ⊥ := by
   have hd : ∀ i, i < ([0, 1, 4] : List ℕ).length →
@@ -37,8 +39,7 @@ private theorem plh_mem_farSet_a3_13p_iff (x : FlagK K 4) :
   · intro h
     have h' := (h 1 (by decide) 3 (by decide)).1 (by decide)
     simpa using h'
-  · intro h
-    intro i hi j hj
+  · intro h i hi j hj
     have hi3 : i < 3 := by simpa using hi
     interval_cases i
     · constructor
@@ -103,8 +104,7 @@ private theorem plh_blockOK_a3_13p_iff (x : FlagK K 4) (hfar : x ∈ farSet 4 [0
   have hget : ([0, 1, 4] : List ℕ).getD (1 + 1) 0 = 4 := rfl
   have hget1 : ([0, 1, 4] : List ℕ).getD 1 0 = 1 := rfl
   rw [blockOK_iff_of_far (K := K) (f := f) hd hmono hfar (i := 1) (by decide)]
-  simp only [plh_blockU_a3_13p, hget, hget1, List.getD_nil,
-    show ([false, true] : List Bool).getD 1 false = true from rfl, ↓reduceIte]
+  simp only [plh_blockU_a3_13p, hget, hget1, show ([false, true] : List Bool).getD 1 false = true from rfl, ↓reduceIte]
   constructor
   · intro h
     have h1 := h 1 (by norm_num) (by norm_num)
@@ -119,7 +119,7 @@ private theorem plh_blockOK_a3_13p_iff (x : FlagK K 4) (hfar : x ∈ farSet 4 [0
 theorem genSet_a3_13p_eq :
     genSet K f 4 [0, 1, 4] [false, true] = admSet (Adm13p (K := K) f) := by
   ext x
-  simp only [genSet, Set.mem_setOf_eq, admSet, Adm13p]
+  simp only [genSet, Set.mem_ofPred_eq, admSet, Adm13p]
   have hfar_iff := plh_mem_farSet_a3_13p_iff (K := K) x
   have hd : ∀ i, i < ([0, 1, 4] : List ℕ).length →
       ([0, 1, 4] : List ℕ).getD i 0 ≤ 4 := by

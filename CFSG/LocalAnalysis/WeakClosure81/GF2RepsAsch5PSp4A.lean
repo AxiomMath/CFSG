@@ -67,7 +67,7 @@ theorem isSylowIn_top_comap_equiv {K K' : Type} [Group K] [Group K'] (e : K ≃*
 theorem isSylowIn_top_subgroupOf_inf {G : Type} [Group G] [Finite G] {S A I : Subgroup G}
     (hS : IsSylowIn 2 S A) (hI : I ≤ A) (hN : (I.subgroupOf A).Normal) :
     IsSylowIn 2 ((S ⊓ I).subgroupOf I) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := hS.inf_normal hI hN
   refine ⟨le_top, h.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm, ?_⟩
   rw [Subgroup.relIndex_top_right]
@@ -125,8 +125,8 @@ theorem exists_overgroups_of_sylowCanon {K : Type} [Group K] [Finite K]
       ¬ innAutOf K ≤ X₁ ∧ ¬ innAutOf K ≤ X₂ ∧
         (X₁ ⊓ innAutOf K) ⊔ (X₂ ⊓ innAutOf K) = innAutOf K := by
   obtain ⟨hIA, hSA, -⟩ := hA
-  haveI : Finite (MulAut K) := MulEquiv.finite_left
-  haveI hIn : (innAutOf K).Normal := CFSG.Quasithin.H13.P31Sec.normal_innGroup
+  have : Finite (MulAut K) := MulEquiv.finite_left
+  have hIn : (innAutOf K).Normal := CFSG.Quasithin.H13.P31Sec.normal_innGroup
   have hSyl := isSylowIn_top_subgroupOf_inf hSA hIA (normal_innAutOf_subgroupOf hIA)
   obtain ⟨Z₁, Z₂, hR₁, hR₂, hl₁, hl₂, hsup, hcan⟩ := hC _ hSyl
   have hst : ∀ s ∈ S, AutStab (MulAut.conjNormal s) ((S ⊓ innAutOf K).subgroupOf (innAutOf K)) := by

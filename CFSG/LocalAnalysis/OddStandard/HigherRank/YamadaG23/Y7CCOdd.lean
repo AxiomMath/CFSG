@@ -20,7 +20,7 @@ theorem y7c_odd_false (c : Ctx7 G L) (hb : B7Std c) (r : ℕ) (z : y7cGam c.s) (
     (hzc : ∀ n ∈ Subgroup.normalClosure (y7cJC c : Set (y7cGam c.s)), z * n = n * z)
     (hzp : IsPGroup r ↥(Subgroup.zpowers z))
     (hzf : ∀ m : ↥(M3 c.s), y7cRhoC c hb z m = m → m = 1) : False := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨g', rfl⟩ := y7cPi_surjective c.s z
   have hK : ∀ x : G, x ∈ K7 c.s ↔
       ∃ h : x ∈ y7cX c.s, y7cPi c.s ⟨x, h⟩ ∈

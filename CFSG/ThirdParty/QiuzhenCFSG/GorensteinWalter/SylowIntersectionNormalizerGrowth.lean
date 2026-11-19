@@ -42,11 +42,11 @@ public theorem sylow_intersection_not_le_of_inner_normalizer_le
       trivial
     exact (Subgroup.mem_subgroupOf.mp hxIP).2
   have hIPlt : IP < ⊤ := lt_of_le_of_ne le_top hIPne
-  have : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+  have : Group.IsNilpotent P := P.isPGroup.isNilpotent
   have hnc : NormalizerCondition P :=
     Group.normalizerCondition_of_isNilpotent (G := P)
   have hlt : IP < Subgroup.normalizer (IP : Set P) := hnc IP hIPlt
-  obtain ⟨x, hxN, hxnotIP⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x, hxN, hxnotIP⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hxNorm : (x : G) ∈ Subgroup.normalizer (I : Set G) := by
     have hxsub : x ∈
         (Subgroup.normalizer (I : Set G)).subgroupOf (P : Subgroup G) := by

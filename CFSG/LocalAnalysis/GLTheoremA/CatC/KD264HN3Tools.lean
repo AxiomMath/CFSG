@@ -23,14 +23,14 @@ theorem sum_fixed_dvd {G X : Type*} [Group G] [Fintype X] [MulAction G X] (A : S
     (hf : ∀ a ∈ A, a ≠ 1 → Nat.card (MulAction.fixedBy X a) = f) :
     3 ^ n ∣ Fintype.card X + (3 ^ n - 1) * f := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   have hb := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group (G := ↥A) (X := X)
   have hsum : ∑ a : ↥A, Fintype.card (MulAction.fixedBy X a) =
       Fintype.card X + (Fintype.card A - 1) * f := by
     rw [← Finset.add_sum_erase _ _ (Finset.mem_univ (1 : ↥A))]
     have h1 : Fintype.card (MulAction.fixedBy X (1 : ↥A)) = Fintype.card X := by
       rw [Fintype.card_subtype]
-      simp [MulAction.mem_fixedBy]
+      simp
     have h2 : ∀ a ∈ Finset.univ.erase (1 : ↥A), Fintype.card (MulAction.fixedBy X a) = f := by
       intro a ha
       have ha1 : (a : G) ≠ 1 := fun h => (Finset.mem_erase.1 ha).1 (Subtype.ext h)
@@ -73,7 +73,7 @@ theorem isElemAbelian_closure {G : Type*} [Group G] {s : Set G} (h3 : ∀ x ∈ 
     (hc : ∀ x ∈ s, ∀ y ∈ s, x * y = y * x) : IsElemAbelian 3 (Subgroup.closure s) := by
   have hEcomm : ∀ a ∈ Subgroup.closure s, ∀ b ∈ Subgroup.closure s, a * b = b * a := by
     intro a ha b hb
-    haveI : IsMulCommutative ↥(Subgroup.closure s) :=
+    have : IsMulCommutative ↥(Subgroup.closure s) :=
       Subgroup.isMulCommutative_closure fun y hy z hz _ => hc y hy z hz
     exact congrArg Subtype.val
       (mul_comm' (⟨a, ha⟩ : ↥(Subgroup.closure s)) ⟨b, hb⟩)
@@ -92,7 +92,7 @@ theorem card_closure_of_not_mem {M : Type} [Group M] [Finite M] {m : ℕ} {x : F
     (hnot : ∀ j : Fin m, x j ∉ S8.CfgI.Triangular.lowerClosure x j.val) :
     3 ^ m ≤ Nat.card (Subgroup.closure (Set.range x)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [← S8.CfgI.Triangular.lowerClosure_eq]
   suffices h : ∀ k ≤ m, 3 ^ k ≤ Nat.card (S8.CfgI.Triangular.lowerClosure x k) from h m le_rfl
   intro k

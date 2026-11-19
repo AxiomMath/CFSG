@@ -27,7 +27,7 @@ theorem card_le_eight_of_trace_ne_zero {F : Type*} [Field F] [IsAlgClosed F] (h2
       _ = ProjGenLinGroup.mk (φ e') := by rw [heq]
       _ = (e' : ProjGenLinGroup n F) := hφ e'
   let A : Subgroup (GL n F) := φ.range
-  haveI : IsElementaryAbelian 2 A := by
+  have : IsElementaryAbelian 2 A := by
     refine
       { toIsMulCommutative := inferInstance
         exponent_dvd_p := ?_ }
@@ -88,13 +88,13 @@ theorem card_le_sixteen_of_isElementaryAbelian_pgl_four {F : Type*} [Field F]
     (hF : ringChar F ≠ 2) {n : Type*} [Fintype n] [DecidableEq n] (hn : Fintype.card n = 4)
     (E : Subgroup (ProjGenLinGroup n F)) [IsElementaryAbelian 2 E] : Nat.card E ≤ 16 := by
   let K := AlgebraicClosure F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2F : (2 : F) ≠ 0 := Ring.two_ne_zero hF
   have h2K : (2 : K) ≠ 0 := by
     rw [← map_ofNat (algebraMap F K) 2]
     simpa using (RingHom.injective (algebraMap F K)).ne_iff.mpr h2F
   let E' : Subgroup (ProjGenLinGroup n K) := E.map (ProjGenLinGroup.map (algebraMap F K))
-  haveI : IsElementaryAbelian 2 E' :=
+  have : IsElementaryAbelian 2 E' :=
     IsElementaryAbelian.map (ProjGenLinGroup.map (algebraMap F K))
   have hcard : Nat.card E' = Nat.card E :=
     Subgroup.card_map_of_injective (projGenLinGroup_map_injective (n := n) (algebraMap F K))
@@ -109,13 +109,13 @@ theorem trace_eq_zero_of_card_eq_sixteen {F : Type*} [Field F] (hF : ringChar F 
     trace (g : Matrix n n F) = 0 := by
   by_contra htr
   let K := AlgebraicClosure F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2F : (2 : F) ≠ 0 := Ring.two_ne_zero hF
   have h2K : (2 : K) ≠ 0 := by
     rw [← map_ofNat (algebraMap F K) 2]
     simpa using (RingHom.injective (algebraMap F K)).ne_iff.mpr h2F
   let E' : Subgroup (ProjGenLinGroup n K) := E.map (ProjGenLinGroup.map (algebraMap F K))
-  haveI : IsElementaryAbelian 2 E' :=
+  have : IsElementaryAbelian 2 E' :=
     IsElementaryAbelian.map (ProjGenLinGroup.map (algebraMap F K))
   have hcard : Nat.card E' = Nat.card E :=
     Subgroup.card_map_of_injective (projGenLinGroup_map_injective (n := n) (algebraMap F K))

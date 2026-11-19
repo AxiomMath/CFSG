@@ -16,7 +16,7 @@ open CFSG.LocalAnalysis.GLTheoremA.S10 (twoPart)
 theorem sl2_inner_of_pow_two {L : Type} [Field L] [Finite L] {n : ℕ} (hn : 1 ≤ n)
     (hL : Nat.card L = 2 ^ n) (hodd : n % 2 = 1) {α : MulAut (SL₂ L)} {k : ℕ} (hα : α ^ (2 ^ k) = 1) :
     ∃ M : SL₂ L, MulAut.conj M = α := by
-  haveI : CharP L 2 :=
+  have : CharP L 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hn hL
   have hcard : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer (SL₂ L)) = n :=
     CFSG.RankThree.PartOne.KCRootAxis.natCard_out_sl2 hn hL
@@ -186,13 +186,13 @@ theorem twoPart_centralizer_3B_odd {f : ℕ} (hf : 1 ≤ f) (hodd : f % 2 = 1) (
     hpow t' ht' (Subgroup.mem_centralizer_iff.2 hc')
   have hkey : ∀ x ∈ C, ∀ k : ℕ, x ^ (2 ^ k) = 1 → x ∈ S := fun x hx k hxk =>
     two_elem_mem (n := f * 3) (by omega) (by rw [hLcard, pow_mul]) (by omega) e hSC hNC hN hcent hx hxk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T0⟩ := (inferInstance : Nonempty (Sylow 2 C))
   set P : Subgroup C := (T0 : Subgroup C) with hPdef
   have hPle : P.map C.subtype ≤ S := by
     intro y hy
     obtain ⟨g, hg, rfl⟩ := Subgroup.mem_map.1 hy
-    obtain ⟨k, hk⟩ := T0.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := T0.isPGroup ⟨g, hg⟩
     have hk' : (g : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) ^ (2 ^ k) = 1 := by
       have h2 : g ^ (2 ^ k) = (1 : C) := congrArg Subtype.val hk
       exact congrArg Subtype.val h2

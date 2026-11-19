@@ -111,7 +111,7 @@ theorem good_map {D : Set (MulAut A0)}
     have h := Subgroup.mem_centralizer_iff.mp (hPC hy) (ρ z) hρz
     have h2 := congrArg (fun w => ρ.symm w) h
     simpa using h2
-  haveI : Group.IsPerfect P := hPperf
+  have : Group.IsPerfect P := hPperf
   have hP1 : Group.IsPerfect (P.map ρ.symm.toMonoidHom) := Group.IsPerfect.map _
   have hZ := hψ _ hP0 hP1
   intro x hx
@@ -214,7 +214,7 @@ theorem components_std0 {Y : Subgroup (Subgroup.centralizer ({δ (Multiplicative
     (fun P hP => by
       refine le_trans ?_ (le_iSup _ ())
       intro g hg
-      haveI : Group.IsPerfect P := hP
+      have : Group.IsPerfect P := hP
       have hQ : Group.IsPerfect (P.map (Subgroup.centralizer
           ({δ (Multiplicative.ofAdd (std 0))} : Set Sp)).subtype) := Group.IsPerfect.map _
       have h := idOutside_of_perfect hQ {std 0} {i | ext (std 0) i = 0}

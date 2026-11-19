@@ -84,7 +84,7 @@ theorem statedOmegaPlus_four_ker_eq_bot (hGA : GriessAllModelsStatement) {f : â„
   rw [Subgroup.eq_bot_iff_forall]
   intro y hy
   have := h y hy
-  rwa [if_neg (by omega), pow_one] at this
+  rwa [ite_eq_right (by omega), pow_one] at this
 
 end Omega
 

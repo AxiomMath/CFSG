@@ -27,7 +27,7 @@ theorem simpleFixedRank_of_isoLThreeMinusPi {m : ℕ} (hm : 1 ≤ m) {X : Type} 
     obtain ⟨hs', hnab'⟩ := simple_nonab_of_mulEquiv (e.trans ν.symm) hs hnab
     obtain ⟨r, hr, h5, ψ, hψ⟩ := exists_prank_su hm2 hq
     refine ⟨r, hr, h5, ?_⟩
-    rw [if_pos hm2]
+    rw [ite_eq_left hm2]
     exact simpleFixedRank_of_simple hs' hnab'
       (hasPRank_of_injective _ r 2 (e.symm.toMonoidHom.comp ψ) (e.symm.injective.comp hψ))
   ·
@@ -43,14 +43,14 @@ theorem simpleFixedRank_of_isoLThreeMinusPi {m : ℕ} (hm : 1 ≤ m) {X : Type} 
         norm_num at hq
       obtain ⟨r, hr, h5, ψ, hψ⟩ := exists_prank_sl h3 hq
       refine ⟨r, hr, h5, ?_⟩
-      rw [if_pos h2]
+      rw [ite_eq_left h2]
       exact simpleFixedRank_of_simple hs' hnab'
         (hasPRank_of_injective _ r 2 (e.symm.toMonoidHom.comp ψ) (e.symm.injective.comp hψ))
     · obtain rfl : m = 1 := by omega
       obtain ⟨ψ, hψ⟩ := exists_prank_sl_one
-      haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
       refine ⟨7, this, by norm_num, ?_⟩
-      rw [if_neg h2]
+      rw [ite_eq_right h2]
       exact simpleFixedRank_of_simple hs' hnab'
         (hasPRank_of_injective _ 7 1 (e.symm.toMonoidHom.comp ψ) (e.symm.injective.comp hψ))
 

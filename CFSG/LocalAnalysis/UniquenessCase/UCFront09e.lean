@@ -18,6 +18,7 @@ open CFSG.LocalAnalysis.RankThreeUC.ProofSupport.Section8.NormalizerEscapeRankRe
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem surjective_bar2 {L X : Subgroup G} (hXL : X ≤ L) (hcov : L = X ⊔ pCoreOf 2 L) :
     Function.Surjective
       ((QuotientGroup.mk' (CFSG.pCore 2 ↥L)).comp (Subgroup.inclusion hXL)) := by
@@ -31,12 +32,14 @@ theorem surjective_bar2 {L X : Subgroup G} (hXL : X ≤ L) (hcov : L = X ⊔ pCo
   rwa [Subgroup.map_sup, Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _),
     (Subgroup.map_eq_bot_iff _).2 (QuotientGroup.ker_mk' _).ge, sup_bot_eq] at h2
 
+omit [Finite G] in
 theorem card_bar2_of_isAlt {L : Subgroup G} (hA5 : IsAlt (Bar2 L) 5) : Nat.card (Bar2 L) = 60 := by
   obtain ⟨e⟩ := hA5
   rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
     Fintype.card_fin]
   rfl
 
+omit [Finite G] in
 theorem not_isSolvable_of_isAlt_bar2 {L X : Subgroup G} (hXL : X ≤ L)
     (hcov : L = X ⊔ pCoreOf 2 L) (hA5 : IsAlt (Bar2 L) 5) : ¬ Group.IsSolvable ↥X := by
   intro hX
@@ -49,6 +52,7 @@ theorem not_isSolvable_of_isAlt_bar2 {L X : Subgroup G} (hXL : X ≤ L)
   have hcard := alternatingGroup.isMulCommutative_iff_card_le_three.mp hcomm
   simp at hcard
 
+omit [Finite G] in
 theorem three_dvd_card_of_isAlt_bar2 {L X : Subgroup G} (hXL : X ≤ L)
     (hcov : L = X ⊔ pCoreOf 2 L) (hA5 : IsAlt (Bar2 L) 5) : 3 ∣ Nat.card ↥X := by
   have h := Subgroup.card_dvd_of_surjective (surjective_bar2 hXL hcov)
@@ -57,10 +61,10 @@ theorem three_dvd_card_of_isAlt_bar2 {L X : Subgroup G} (hXL : X ≤ L)
 
 theorem inf_I9_le_pCoreOf {L X H : Subgroup G} (hXL : X ≤ L) (hcov : L = X ⊔ pCoreOf 2 L)
     (hA5 : IsAlt (Bar2 L) 5) (hXH : X ≤ H) : X ⊓ I9 H ≤ pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h60 := card_bar2_of_isAlt hA5
   obtain ⟨e⟩ := hA5
-  haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+  have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
   have hφ := surjective_bar2 hXL hcov
   have hJ : ((I9 H).subgroupOf X).Normal := by
     refine ⟨fun n hn g => ?_⟩
@@ -95,19 +99,21 @@ theorem inf_I9_le_pCoreOf {L X H : Subgroup G} (hXL : X ≤ L) (hcov : L = X ⊔
 
 theorem isSolvable_inf_I9 {L X H : Subgroup G} (hXL : X ≤ L) (hcov : L = X ⊔ pCoreOf 2 L)
     (hA5 : IsAlt (Bar2 L) 5) (hXH : X ≤ H) : Group.IsSolvable ↥(X ⊓ I9 H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO : IsPGroup 2 ↥(pCoreOf 2 L) := by
     rw [CFSG.openPCoreOf_eq_map_pCore]
     exact CFSG.pCore_isPGroup.map _
-  haveI := (hO.to_le (inf_I9_le_pCoreOf hXL hcov hA5 hXH)).isNilpotent
+  have := (hO.to_le (inf_I9_le_pCoreOf hXL hcov hA5 hXH)).isNilpotent
   infer_instance
 
+omit [Finite G] in
 theorem L9_le {X H : Subgroup G} (hX : Opp 3 X = X) (hXH : X ≤ H) : L9 X H ≤ H := by
   rw [L9]
   refine iSup_le fun h => Subgroup.map_le_iff_le_comap.2 fun y hy => ?_
   rw [hX] at hy
   simpa using H.mul_mem (H.mul_mem h.2 (hXH hy)) (H.inv_mem h.2)
 
+omit [Finite G] in
 theorem le_L9 {X H : Subgroup G} (hX : Opp 3 X = X) : X ≤ L9 X H := by
   intro y hy
   rw [L9]

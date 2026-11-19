@@ -131,7 +131,7 @@ private theorem Ucat_le_range_blkHom' {g : M5} {d : Fin 5 → F4} (hg : mM5 g = 
   ext i j
   show ext1 (fun i => d i = c) (A : Matrix (Blk d c) (Blk d c) F4) i.1 j.1 =
     (A : Matrix (Blk d c) (Blk d c) F4) i j
-  rw [ext1_apply, dif_pos ⟨i.2, j.2⟩]
+  rw [ext1_apply, dite_eq_left ⟨i.2, j.2⟩]
 
 private theorem mem_Ucat_iff_det {g : M5} {d : Fin 5 → F4} (hg : mM5 g = Matrix.diagonal d) (c : F4)
     {y : GL (Blk d c) F4} (hy : y ∈ (blkHom' hg c).range) :
@@ -150,7 +150,7 @@ theorem pPrimeCore_centralizer_diag_eq_bot {g : M5} {d : Fin 5 → F4}
     (hg : mM5 g = Matrix.diagonal d)
     (hcnt : ∀ x : F4, (Finset.univ.filter fun i => d i = x).card ≤ 3) :
     pPrimeCore 3 ↥(Subgroup.centralizer ({g} : Set M5)) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : ∀ c : F4, Fintype.card (Blk d c) ≤ 3 := fun c => by
     rw [Fintype.card_subtype]
     exact hcnt c

@@ -29,8 +29,8 @@ theorem exists_comm_fail_mod {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.P
     {b : G} (hb : b ∈ A) (hb1 : b ≠ 1) :
     ∃ a ∈ A, a ∉ Subgroup.zpowers b ∧ ∃ t ∈ T, a⁻¹ * t * a * t⁻¹ ∈ O ∧ b⁻¹ * t * b * t⁻¹ ∉ O := by
   classical
-  haveI := Fact.mk hp
-  haveI hÔn : (O.subgroupOf N).Normal := by
+  have := Fact.mk hp
+  have hÔn : (O.subgroupOf N).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := hNO (g : G) g.2 (n : G) hn

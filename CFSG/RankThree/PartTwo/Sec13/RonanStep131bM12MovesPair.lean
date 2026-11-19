@@ -95,7 +95,7 @@ theorem conj_mul_mem_of_mem_zpowers_sup {G : Type} [Group G] {Θ : Subgroup G} {
 
 theorem s2pair_of_parts (hswap : S2swap) (ha : S2a) (hfus : S2fus) : S2pair := by
   intro G _ _ A c L E F a b R Y hY _ _ t EY hd htL
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hmapL, hne, h3, -, -⟩ := hswap G A c L E F a b R Y hY t EY hd htL
   obtain ⟨hD, hSL2, -, hEle, hEe, hE27, hEC, hEL, -⟩ := hY.hCfg
   have hcL : c ∈ L := mem_of_isSLThreePiTwo slTwoCenter hD hSL2

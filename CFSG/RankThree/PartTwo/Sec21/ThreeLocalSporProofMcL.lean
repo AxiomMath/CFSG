@@ -111,7 +111,7 @@ theorem exists_normal_pGroup_of_card_972 {H : Type*} [Group H] [Finite H]
     omega
   have : (S : Subgroup H).FiniteIndex := ⟨by rw [hidx]; norm_num⟩
   refine ⟨(S : Subgroup H).normalCore, inferInstance,
-    S.isPGroup'.to_le (Subgroup.normalCore_le _), ?_⟩
+    S.isPGroup.to_le (Subgroup.normalCore_le _), ?_⟩
   have hdvd : (S : Subgroup H).normalCore.index ∣ 24 := by
     have h1 := Subgroup.index_normalCore_dvd_factorial_index (S : Subgroup H)
     rw [hidx] at h1

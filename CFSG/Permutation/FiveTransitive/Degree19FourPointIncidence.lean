@@ -11,7 +11,7 @@ namespace FiveTransitive.Degree19
 open MulAction Subgroup
 open scoped Pointwise
 
-@[expose] abbrev SylowFixesEmbedding
+abbrev SylowFixesEmbedding
     {X : Type} [Fintype X] [DecidableEq X]
     (P : Subgroup (Equiv.Perm X)) (p m : ℕ)
     (e : Fin m ↪ X) :=
@@ -128,9 +128,9 @@ private theorem card_embedding_mul_card_sylowFixesEmbedding
       Nat.card (Sylow p P) * f := by
   classical
   let E := Fin m ↪ X
-  letI : Fintype (Sylow p P) :=
+  let : Fintype (Sylow p P) :=
     Fintype.ofFinite _
-  letI (S : Sylow p P) :
+  let (S : Sylow p P) :
       Fintype (MulAction.fixedPoints S E) :=
     Fintype.ofFinite _
   let c :=
@@ -187,10 +187,10 @@ private theorem card_fixedPoints_sylowFive_four_embeddings_eq_twentyFour
     Nat.card
         (MulAction.fixedPoints S (Fin 4 ↪ X)) = 24 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hScard : Nat.card S = 5 :=
     sylow_five_card_eq_five P h hPcard hnotFive S
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
   obtain ⟨u, huorder⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
@@ -276,7 +276,7 @@ private theorem card_sylowFixesEmbedding_eq_three_mul_stabilizer
   have hPcard : Nat.card P = 1395360 * h := by
     rw [hHindex] at hHindexCard
     exact hHindexCard.symm
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let S : Sylow 5 P := Sylow.nonempty.some
   have hnormalizer :
       Nat.card (Subgroup.normalizer (S : Set P)) = 120 :=
@@ -290,7 +290,7 @@ private theorem card_sylowFixesEmbedding_eq_three_mul_stabilizer
     rw [hnormalizer, hPcard] at hindexCard
     omega
   have hP4 : MulAction.IsMultiplyPretransitive P X 4 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 4) (n := 5)
         (by omega) (by
@@ -390,7 +390,7 @@ theorem sylow_five_card_eq_five_of_card_eq_fifteen_mul
     (hnotFive : ¬5 ∣ h)
     (T : Sylow 5 K) :
     Nat.card T = 5 := by
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hh : h ≠ 0 := by
     intro hz
     subst h
@@ -444,7 +444,7 @@ private theorem four_point_stabilizer_sylowFive_card
     ext i
     exact hq i
   have hP4 : MulAction.IsMultiplyPretransitive P X 4 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 4) (n := 5)
         (by omega) (by
@@ -476,7 +476,7 @@ private theorem four_point_stabilizer_sylowFive_card
   have hKcard : Nat.card K = 15 * h := by
     rw [hKindex, hPcard] at hKindexCard
     omega
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hglobal (Q : Sylow 5 P) :
       Nat.card Q = 5 :=
     sylow_five_card_eq_five
@@ -534,7 +534,7 @@ theorem four_point_stabilizer_sylowFive_normalizer_card_eq_five
     ext i
     exact hq i
   have hP4 : MulAction.IsMultiplyPretransitive P X 4 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 4) (n := 5)
         (by omega) (by
@@ -566,7 +566,7 @@ theorem four_point_stabilizer_sylowFive_normalizer_card_eq_five
   have hKcard : Nat.card K = 15 * h := by
     rw [hKindex, hPcard] at hKindexCard
     omega
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hsylowCard :
       Nat.card (Sylow 5 K) = 3 * h := by
     change
@@ -611,7 +611,7 @@ private theorem normalFiveComplement_isComplement
       Subgroup.normalizer (T : Set K) ≤
         Subgroup.centralizer (T : Set K)) :
     IsComplement' (normalFiveComplement T hnormalizer) T := by
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact MonoidHom.ker_transferSylow_isComplement'
     T hnormalizer
 
@@ -625,7 +625,7 @@ theorem exists_normal_five_complement_of_normalizer_card_eq_five
     ∃ Q : Subgroup K,
       Q.Normal ∧ IsComplement' Q T := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hnormalizerEq :
       Subgroup.normalizer (T : Set K) =
         (T : Subgroup K) :=
@@ -636,9 +636,9 @@ theorem exists_normal_five_complement_of_normalizer_card_eq_five
                 ((T : Subgroup K) : Set K)) = 5 := by
         simpa only [T.coe_coe] using hNormalizerCard
       rw [hNormalizerCard', hTcard])).symm
-  letI : IsCyclic T :=
+  let : IsCyclic T :=
     isCyclic_of_prime_card hTcard
-  letI : IsMulCommutative T :=
+  let : IsMulCommutative T :=
     IsCyclic.isMulCommutative
   have hTcentralizer :
       (T : Subgroup K) ≤

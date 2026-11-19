@@ -298,7 +298,7 @@ theorem exists_ggTorusTorWit_of_rootCoordinates_columns_mod
       alpha k ψ = l (coord ⟨ψ, h⟩ k) := by
     intro k ψ h
     dsimp [alpha]
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   have halpha_f : ∀ (k : Fin N) (a : Fin N → μ), alpha k (f a) = l (a k) := by
     intro k a
     rw [halpha_mem k (f a) (hfaT a), hcoord_self a]
@@ -454,7 +454,7 @@ theorem exists_ggTorusTorWit_of_rootCoordinates_columns_mod
 theorem exists_ggTorusTorWit_of_rootCoordinates_tsc
     {m N p : ℕ} {G : Type} [Group G] {μ : Type} [CommGroup μ]
     (l : μ ≃* Multiplicative (ZMod m))
-    (φ : (Fin N → μ) →* G) (hφ : Function.Injective φ)
+    (φ : (Fin N → μ) →* G) (_hφ : Function.Injective φ)
     (C B : Matrix (Fin N) (Fin N) ℤ)
     (hCB : (Int.castRingHom (ZMod m)).mapMatrix (C * B) = 1)
     (hBC : (Int.castRingHom (ZMod m)).mapMatrix (B * C) = 1)

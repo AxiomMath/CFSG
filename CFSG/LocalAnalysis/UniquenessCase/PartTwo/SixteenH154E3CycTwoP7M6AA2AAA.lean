@@ -32,7 +32,7 @@ theorem s16h_e3_CycTwoP7M6AA2AAA_pCore_structure
   obtain ⟨P, hPle, hPnorm, hPrank, hPrel, hPmax, hPcent⟩ :=
     s16h_e3_CycTwoP7M6AA2AAA2_exists_normal_sylow D S hr3 hσ hV h hc hp hLp hχ hs2 hres hp7 hm
       hbad
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hPp : IsPGroup 7 ↥P := s16c13bc_isPGroup_of_elemAbelianOfRank (by norm_num) hPrank
   have hcore_le : pCoreOf 7 (Mbar D.M V₀ V hV) ≤ P :=
     hPmax _ (CFSG.LieType.BorelTits.pCoreOf_le 7 (Mbar D.M V₀ V hV))

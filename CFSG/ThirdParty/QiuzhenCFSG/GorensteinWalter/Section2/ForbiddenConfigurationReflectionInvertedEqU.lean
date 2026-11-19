@@ -48,7 +48,7 @@ private lemma eq_sup_zpowers_of_index_two_probe
   refine le_antisymm ?_ ?_
   · intro y hy
     by_cases hyq : QuotientGroup.mk (s := K.subgroupOf H) (⟨y, hy⟩ : ↥H) = q1
-    · exact SetLike.le_def.mp le_sup_left (by
+    · exact _root_.IsConcreteLE.le_iff.mp le_sup_left (by
         simpa [inv_inv] using (K.inv_mem (by
           simpa [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
             using (QuotientGroup.eq.mp hyq))))
@@ -60,8 +60,8 @@ private lemma eq_sup_zpowers_of_index_two_probe
       have hxEq : x * (y⁻¹ * x)⁻¹ = y := by group
       rw [← hxEq]
       exact (K ⊔ Subgroup.zpowers x).mul_mem
-        (SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers x))
-        (SetLike.le_def.mp le_sup_left (K.inv_mem hmem))
+        (_root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers x))
+        (_root_.IsConcreteLE.le_iff.mp le_sup_left (K.inv_mem hmem))
   · exact sup_le hK (by
       intro z hz
       rcases (Subgroup.mem_zpowers_iff.mp hz) with ⟨k, hk⟩
@@ -75,7 +75,7 @@ private lemma invertedSubgroup_normal_in_H_probe
     (hS0cent : c.S0 ≤ Subgroup.centralizer (I : Set G))
     (hIinv : BenderGlauberman.IsInvertedBy c.t1 I)
     (hInorm : IsNormalIn I c.U)
-    (hIleU : I ≤ c.U) :
+    (_hIleU : I ≤ c.U) :
     c.H ≤ Subgroup.normalizer (I : Set G) := by
   have hUle : c.U ≤ Subgroup.normalizer (I : Set G) := by
     intro u hu
@@ -153,7 +153,7 @@ private lemma involution_centralizing_nontrivial_invertedSubgroup_eq_t_probe
     (hIinv : BenderGlauberman.IsInvertedBy c.t1 I)
     (hInormH : c.H ≤ Subgroup.normalizer (I : Set G))
     (hIodd : Nat.Coprime 2 (Nat.card I))
-    (hIleU : I ≤ c.U)
+    (_hIleU : I ≤ c.U)
     (hXne : X ≠ ⊥) (hXI : X ≤ I)
     {y : G} (hyH : y ∈ c.H) (hyInv : IsInvolution y)
     (hycent : y ∈ Subgroup.centralizer (X : Set G)) :
@@ -609,8 +609,8 @@ public theorem forbiddenConfiguration_reflection_inverted_eq_U
           x hxU with ⟨b, hb, i, hi, hxi⟩
       rw [hxi]
       exact (bg.B1 ⊔ I1).mul_mem
-        (SetLike.le_def.mp le_sup_left hb)
-        (SetLike.le_def.mp le_sup_right (by
+        (_root_.IsConcreteLE.le_iff.mp le_sup_left hb)
+        (_root_.IsConcreteLE.le_iff.mp le_sup_right (by
           change i ∈ (I1 : Set G)
           rw [hI1]
           exact hi))

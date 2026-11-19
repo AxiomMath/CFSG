@@ -54,7 +54,7 @@ theorem r16_67aNe_of_gap (D : Data G) (hSg : UC6S846.SigmaStd D) (h1219 : D.sig 
   have hKV := hgap hSg h1219 h21 h61 h1217 h129 h159 V₀ V L hV hS hsit h0 g hg hpre
     z hz2 hz
   have hV₀K := hc.V₀_le_relPPrimeCore hs hs' hz hKV
-  obtain ⟨t, ht, htK⟩ := SetLike.not_le_iff_exists.mp (hc.not_le_relPPrimeCore hs hs' hz)
+  obtain ⟨t, ht, htK⟩ := IsConcreteLE.not_le_iff_exists.mp (hc.not_le_relPPrimeCore hs hs' hz)
   have htH : t ∈ centralizer ({z} : Set G) :=
     hc.le_centralizer_of_eq_zpowers hz (Subgroup.mem_sup_left ht)
   obtain ⟨a, ha, h2, h3⟩ := hKF G (centralizer ({z} : Set G))

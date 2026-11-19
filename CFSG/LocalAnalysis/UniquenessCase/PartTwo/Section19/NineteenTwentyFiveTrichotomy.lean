@@ -120,10 +120,10 @@ theorem bar_map_centralizer_eq {I A₁ : Subgroup G} {r : ℕ} (hrp : r.Prime)
         (QuotientGroup.mk' (pCore 2 ↥I)) =
       centralizer ((A₁.subgroupOf I).map (QuotientGroup.mk' (pCore 2 ↥I)) : Set (Bar2 I)) := by
   classical
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   have hcard' : Nat.card ↥(A₁.subgroupOf I) = r := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA₁I).toEquiv, hcard]
-  haveI : Fact (IsPGroup r ↥(A₁.subgroupOf I)) :=
+  have : Fact (IsPGroup r ↥(A₁.subgroupOf I)) :=
     ⟨IsPGroup.of_card (p := r) (n := 1) (by rw [hcard', pow_one])⟩
   have hcop : Nat.Coprime r (Nat.card ↥(pCore 2 ↥I)) := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2) (G := ↥(pCore 2 ↥I))).mp
@@ -158,7 +158,7 @@ theorem bar_map_centralizer_eq {I A₁ : Subgroup G} {r : ℕ} (hrp : r.Prime)
 theorem isZModSq_barImage {I A : Subgroup G} {n : ℕ} (hAI : A ≤ I) (hodd : Odd (Nat.card A))
     (hA : IsZModSq A n) : IsZModSq (barImage I A) n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdisj : Disjoint A (pCoreOf 2 I) := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2) (G := ↥(pCoreOf 2 I))).mp
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 I)
@@ -195,12 +195,12 @@ theorem exists_centralizer_bar_of_sp4 (D : Data G) {V₀ V : Subgroup G} {p : �
   set I := IOf D p L with hIdef
   let Inn : Subgroup (MulAut (Bar2 I)) :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner (Bar2 I)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hp, hp2⟩ := D.sig_prime p h.hyp.hp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hIM : I ≤ D.M := IOf_le_M D p h.hyp.hL.1.1.le
   have hMI : D.M ≤ normalizer (I : Set G) := le_normalizer_IOf D h.hyp.hL.1
-  haveI hOut : IsCyclic (Outer (Bar2 I)) :=
+  have hOut : IsCyclic (Outer (Bar2 I)) :=
     Inputs1719.isCyclic_outer_of_lieModel_PSp4 hsp
   let ψ : ↥D.M →* MulAut (Bar2 I) := (rhoL I).comp (Subgroup.inclusion hMI)
   let φ : ↥D.M →* Outer (Bar2 I) := (QuotientGroup.mk' Inn).comp ψ
@@ -338,6 +338,7 @@ theorem exists_centralizer_bar_of_sp4 (D : Data G) {V₀ V : Subgroup G} {p : �
     · exact absurd (orderOf_eq_one_iff.mp h1) hz1
     · exact hp'
 
+omit [Finite G] in
 theorem barImage_mem_center_of_commutator_mem {I : Subgroup G} (xI : ↥I)
     (hx : ∀ l : ↥I, xI * l * xI⁻¹ * l⁻¹ ∈ pCore 2 ↥I) :
     QuotientGroup.mk' (pCore 2 ↥I) xI ∈ Subgroup.center (Bar2 I) :=
@@ -350,8 +351,8 @@ theorem not_mem_IOf_of_sp4 {D : Data G} {p : ℕ} {L : Subgroup G}
     (hp : p.Prime) (hp2 : p ≠ 2) : y ∉ IOf D p L := by
   classical
   set I := IOf D p L with hIdef
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hycent⟩ := mem_centOverO2_iff.mp hyC
   intro hyI
   have hcenter : Subgroup.center (Bar2 I) = ⊥ := uc22p218d_center_eq_bot_sp4 hsp
@@ -386,10 +387,10 @@ theorem exists_fixed_centralizer_of_sp4 (D : Data G) {V₀ V : Subgroup G} {p : 
       c⁻¹ * y ∈ pCoreOf 2 (IOf D p L) := by
   classical
   set I := IOf D p L with hIdef
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hp, hp2⟩ := D.sig_prime p h.hyp.hp
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨h.hr.1⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨h.hr.1⟩
   have hA₁I : A₁ ≤ I := hA₁A.trans h.hA
   obtain ⟨hyM, hycent⟩ := mem_centOverO2_iff.mp hyC
   have hyN : y ∈ normalizer (I : Set G) := (le_normalizer_IOf D h.hyp.hL.1) hyM
@@ -422,9 +423,9 @@ theorem exists_fixed_centralizer_of_sp4 (D : Data G) {V₀ V : Subgroup G} {p : 
     sup_le (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 I) (Subgroup.zpowers_le.mpr hyO)
   let N : Subgroup H := (pCoreOf 2 I).subgroupOf H
   have hNle : pCoreOf 2 I ≤ H := (CFSG.LieType.BorelTits.pCoreOf_le 2 I).trans hIH
-  haveI : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNle).mpr hHN
+  have : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNle).mpr hHN
   let hAK : A₁ ≤ Subgroup.normalizer (H : Set G) := hA₁H.trans Subgroup.le_normalizer
-  letI : MulDistribMulAction (↥A₁) (↥H) :=
+  let : MulDistribMulAction (↥A₁) (↥H) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer A₁ H hAK
   have hNinv : CFSG.IsInvariant (↥A₁) (↥H) N := by
     refine CFSG.SolvableHall.isInvariant_of_forall_smul_mem ?_
@@ -458,7 +459,7 @@ theorem exists_fixed_centralizer_of_sp4 (D : Data G) {V₀ V : Subgroup G} {p : 
     have heq : ((⟨y, hyH⟩ : ↥H)⁻¹ * (b • (⟨y, hyH⟩ : ↥H)) : ↥H) =
         (⟨y⁻¹ * (b : G) * y * (b : G)⁻¹, hNle hmem⟩ : ↥H) := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk, hcoe]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, hcoe]
       group
     rw [heq]
     simpa using hmem
@@ -481,6 +482,7 @@ theorem exists_fixed_centralizer_of_sp4 (D : Data G) {V₀ V : Subgroup G} {p : 
       Subgroup.mem_subgroupOf.mp hcN
     simpa using hmemN
 
+omit [Finite G] in
 theorem hasL2SzSection_of_comap {n : ℕ} {X : Subgroup G} {Q : Type} [Group Q]
     {f : ↥X →* Q} {W : Subgroup Q} (hW : W ≤ f.range) {S : Type} [Group S]
     (hS : IsL2 S n ∨ IsSz S n) (g : ↥W →* S) (hg : Function.Surjective g) :
@@ -513,8 +515,8 @@ theorem card_barImage_of_prime_of_le {I A₁ : Subgroup G} {r : ℕ} (hrp : r.Pr
     (hr2 : r ≠ 2) (hcard : Nat.card A₁ = r) (hA₁I : A₁ ≤ I) :
     Nat.card (barImage I A₁) = r := by
   classical
-  haveI : Fact r.Prime := ⟨hrp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hrp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard' : Nat.card ↥(A₁.subgroupOf I) = r := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA₁I).toEquiv, hcard]
   have hE : IsPGroup r ↥(A₁.subgroupOf I) :=
@@ -547,7 +549,7 @@ theorem barImage_factor_data (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A :
     (hneC : conjClosure D.M L ≠ L)
     (hIeq : IOf D p L = L ⊔ CFSG.Quasithin.conjSubgroup L x)
     (hshape : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n)
-    (hn : n = S17.nOf L) :
+    (_hn : n = S17.nOf L) :
     (barImage (IOf D p L) L).Normal ∧
       (barImage (IOf D p L) (CFSG.Quasithin.conjSubgroup L x)).Normal ∧
       barImage (IOf D p L) L ⊓ barImage (IOf D p L) (CFSG.Quasithin.conjSubgroup L x) = ⊥ ∧
@@ -602,11 +604,11 @@ theorem barImage_factor_data (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A :
   have hS₁shape : IsL2 ↥S₁ n ∨ IsSz ↥S₁ n :=
     hpair.elim (fun h => Or.inl h.1) (fun h => Or.inr h.1)
   have hdisj : S₁ ⊓ S₂ = ⊥ := by
-    haveI : IsSimpleGroup ↥S₁ :=
+    have : IsSimpleGroup ↥S₁ :=
       isSimpleGroup_of_isL2_or_isSz (n := n) hS₁shape
-    haveI : Group.IsPerfect ↥S₁ := (uc22p22l_barImage_isComponent hLcalI).1.1
-    haveI : (S₁ ⊓ S₂).Normal := inferInstance
-    haveI : ((S₁ ⊓ S₂).subgroupOf S₁).Normal := Subgroup.Normal.subgroupOf inferInstance S₁
+    have : Group.IsPerfect ↥S₁ := (uc22p22l_barImage_isComponent hLcalI).1.1
+    have : (S₁ ⊓ S₂).Normal := inferInstance
+    have : ((S₁ ⊓ S₂).subgroupOf S₁).Normal := Subgroup.Normal.subgroupOf inferInstance S₁
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((S₁ ⊓ S₂).subgroupOf S₁) with hbot | htop
     · have hd : Disjoint (S₁ ⊓ S₂) S₁ := Subgroup.subgroupOf_eq_bot.mp hbot
       have h := disjoint_iff.mp hd
@@ -629,13 +631,13 @@ theorem normalizer_le_of_barImage_le (D : Data G) {V₀ V : Subgroup G} {p : ℕ
         (QuotientGroup.mk' (pCore 2 ↥(IOf D p L))) ≤ barImage (IOf D p L) K) :
     Subgroup.normalizer (A₁ : Set G) ≤ D.M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set I : Subgroup G := IOf D p L with hI
   set Q : Subgroup G := pCoreOf 2 I with hQ
   have hQL : Q ≤ I := CFSG.LieType.BorelTits.pCoreOf_le 2 I
   have hA₁I : A₁ ≤ I := hA₁A.trans h.hA
   have hrp : r.Prime := h.hr.1
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   have hAodd : Odd (Nat.card A) := odd_card_of_ctx19_10 h
   have hr2 : r ≠ 2 := by
     intro h2
@@ -804,7 +806,7 @@ theorem normalizer_le_of_barImage_le (D : Data G) {V₀ V : Subgroup G} {p : ℕ
 private theorem sp4_branch_setup (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A : Subgroup G}
     {t : G} {B : Subgroup G} {r : ℕ} (h : Ctx19_10 D V₀ V p L A t B r)
     {A₁ : Subgroup G} (hA₁A : A₁ ≤ A) (hA₁card : Nat.card A₁ = r) :
-    ∃ (x0 : Bar2 (IOf D p L)) (hT : IsZModSq (barImage (IOf D p L) A) (S17.nOf L)),
+    ∃ (x0 : Bar2 (IOf D p L)) (_hT : IsZModSq (barImage (IOf D p L) A) (S17.nOf L)),
       x0 ∈ barImage (IOf D p L) A ∧ x0 ≠ 1 ∧
       ((A₁.subgroupOf (IOf D p L)).map
           (QuotientGroup.mk' (pCore 2 ↥(IOf D p L))) = Subgroup.zpowers x0) ∧
@@ -818,17 +820,17 @@ private theorem sp4_branch_setup (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L
   let n : ℕ := S17.nOf L
   have hp : p.Prime := (D.sig_prime p h.hyp.hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p h.hyp.hp).2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrp : r.Prime := h.hr.1
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   have hA₁I : A₁ ≤ I := hA₁A.trans h.hA
   have hAodd : Odd (Nat.card A) := odd_card_of_ctx19_10 h
   have hr2 : r ≠ 2 := by
     intro h2
     exact hAodd.not_two_dvd_nat (h2 ▸ h.hr.2)
-  have hT : IsZModSq (barImage I A) n := isZModSq_barImage h.hA hAodd h.hAcard
-  haveI hcyc : IsCyclic ↥A₁ := isCyclic_of_card_dvd_prime (p := r) (by rw [hA₁card])
+  have _hT : IsZModSq (barImage I A) n := isZModSq_barImage h.hA hAodd h.hAcard
+  have hcyc : IsCyclic ↥A₁ := isCyclic_of_card_dvd_prime (p := r) (by rw [hA₁card])
   obtain ⟨a, ha⟩ := IsCyclic.exists_generator (α := ↥A₁)
   let g : G := (a : G)
   have hgA₁ : g ∈ A₁ := a.2
@@ -907,7 +909,7 @@ private theorem sp4_branch_setup (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L
     rw [hxeq]
     exact Subgroup.mul_mem_sup haG hmemO
   refine ⟨x0, ?_, hx0T, hx0ne, himgA₁, hcentz, ?_⟩
-  · simpa [I, n] using hT
+  · simpa [I, n] using _hT
   · intro hcent
     simpa [I] using hgeneric_of_cent hcent
 
@@ -926,10 +928,10 @@ theorem sp4_trichotomy_branch (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
   set n : ℕ := S17.nOf L with hn
   have hp : p.Prime := (D.sig_prime p h.hyp.hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p h.hyp.hp).2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrp : r.Prime := h.hr.1
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   have hA₁I : A₁ ≤ I := hA₁A.trans h.hA
   have hAodd : Odd (Nat.card A) := odd_card_of_ctx19_10 h
   have hr2 : r ≠ 2 := by
@@ -954,7 +956,7 @@ theorem sp4_trichotomy_branch (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
   rcases hKsp with hcent | ⟨Y, hYle, Z, hZ, hY2⟩
   · exact Or.inl (hgeneric_of_cent hcent)
   ·
-    haveI hZn : Z.Normal := hZ
+    have hZn : Z.Normal := hZ
     let X : Subgroup G := Subgroup.centralizer (A₁ : Set G) ⊓ I
     have hXI : X ≤ I := inf_le_right
     let f : ↥X →* Bar2 I :=
@@ -1145,7 +1147,7 @@ theorem product_case_of_shape (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
     (hodd : Odd (S17.nOf L)) (h3 : S17.R17_3At D V₀ V) (hK : K_19_25_torusCent)
     {A₁ : Subgroup G} (hA₁A : A₁ ≤ A) (hA₁card : Nat.card A₁ = r)
     (hIeqC : IOf D p L = conjClosure D.M L) (hneC : conjClosure D.M L ≠ L)
-    (hn2 : 2 < S17.nOf L)
+    (_hn2 : 2 < S17.nOf L)
     (hLshape : (IsL2 (Bar2 L) (S17.nOf L) ∧
         (2 : ℤ) ^ S17.nOf L ≡ -1 [ZMOD (p : ℤ)]) ∨
       (IsSz (Bar2 L) (S17.nOf L) ∧
@@ -1162,10 +1164,10 @@ theorem product_case_of_shape (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
   set n : ℕ := S17.nOf L with hn
   have hp : p.Prime := (D.sig_prime p h.hyp.hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p h.hyp.hp).2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrp : r.Prime := h.hr.1
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   have hA₁I : A₁ ≤ I := hA₁A.trans h.hA
   have hAodd : Odd (Nat.card A) := odd_card_of_ctx19_10 h
   have hr2 : r ≠ 2 := by

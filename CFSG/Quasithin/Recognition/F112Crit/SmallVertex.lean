@@ -33,13 +33,13 @@ private theorem exists_two_pow_mul_prime {n : ℕ} (hn : n = 6 ∨ n = 10 ∨ n 
 
 private theorem exists_card_eq_two_pow_mul_card_oTwoQuot (L : Subgroup G) :
     ∃ a : ℕ, Nat.card ↥L = 2 ^ a * Nat.card (oTwoQuot ↥L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := (CFSG.LieType.BorelTits.pCore_isPGroup 2 (G := ↥L)).exists_card_eq
   exact ⟨a, by rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (pCore 2 ↥L), ha, mul_comm]⟩
 
 theorem relIndex_card_of_isSylowTwoOf {T H : Subgroup G} (hT : IsSylowTwoOf T H) {a m : ℕ}
     (hm : Odd m) (hH : Nat.card ↥H = 2 ^ a * m) : T.relIndex H = m ∧ Nat.card ↥T = 2 ^ a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, hj⟩ := hT.2.1.exists_card_eq
   have hmul := Subgroup.relIndex_mul_card T H
   rw [inf_eq_left.mpr hT.1, hj, hH, mul_comm] at hmul
@@ -51,7 +51,7 @@ theorem relIndex_card_of_isSylowTwoOf {T H : Subgroup G} (hT : IsSylowTwoOf T H)
 theorem isCyclic_of_isPGroup_of_card_eq_two_mul {Q : Type*} [Group Q] [Finite Q] {m : ℕ}
     (hm : Odd m) (hQ : Nat.card Q = 2 * m) (X : Subgroup Q) (hX : IsPGroup 2 ↥X) :
     IsCyclic ↥X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hX.exists_card_eq
   have hdvd : Nat.card ↥X ∣ 2 * m := hQ ▸ Subgroup.card_subgroup_dvd_card X
   have hcop : Nat.Coprime (Nat.card ↥X) m :=
@@ -86,8 +86,8 @@ private theorem mem_of_forall_commute {X : Type*} [Group X] {N K : Subgroup X} [
 theorem isCyclic_of_isPGroup_of_selfCentralizing {X : Type*} [Group X] {N : Subgroup X} [N.Normal]
     (hN : Nat.card ↥N = 5) (hc : ∀ x : X, (∀ n ∈ N, x * n = n * x) → x ∈ N) (Y : Subgroup X)
     (hY : IsPGroup 2 ↥Y) : IsCyclic ↥Y := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : IsCyclic ↥N := isCyclic_of_prime_card hN
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : IsCyclic ↥N := isCyclic_of_prime_card hN
   have hinj : Function.Injective ((MulAut.conjNormal (H := N)).comp Y.subtype) := by
     rw [injective_iff_map_eq_one]
     intro y hy
@@ -107,24 +107,26 @@ theorem isCyclic_of_isPGroup_of_selfCentralizing {X : Type*} [Group X] {N : Subg
   have hcyc : IsCyclic (ZMod (Nat.card ↥N))ˣ := by
     rw [hN]
     exact ZMod.isCyclic_units_prime Nat.prime_five
-  haveI : IsCyclic (MulAut ↥N) := (IsCyclic.mulAutMulEquiv ↥N).isCyclic.mpr hcyc
+  have : IsCyclic (MulAut ↥N) := (IsCyclic.mulAutMulEquiv ↥N).isCyclic.mpr hcyc
   exact isCyclic_of_injective _ hinj
 
 theorem isCyclic_of_isFrob20 {X : Type} [Group X] (hX : S152N2.IsFrob20 X) (Y : Subgroup X)
     (hY : IsPGroup 2 ↥Y) : IsCyclic ↥Y := by
   obtain ⟨N, K, hNn, hNK, hN, -, hf⟩ := hX
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : IsCyclic ↥N := isCyclic_of_prime_card hN
-  haveI : IsMulCommutative ↥N := inferInstance
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : IsCyclic ↥N := isCyclic_of_prime_card hN
+  have : IsMulCommutative ↥N := inferInstance
   exact isCyclic_of_isPGroup_of_selfCentralizing hN
     (fun x hx => mem_of_forall_commute hNK (fun n hn m hm => setLike_mul_comm (s := N) hn hm) hf hx)
     Y hY
 
+omit [Finite G] in
 theorem card_oTwoQuot_of_vS3 {L : Subgroup G} (h : VS3 L) : Nat.card (oTwoQuot ↥L) = 6 := by
   obtain ⟨e⟩ := h
   rw [Nat.card_congr e.toEquiv, Nat.card_perm]
   simp [Nat.factorial]
 
+omit [Finite G] in
 theorem card_oTwoQuot_of_vFD {L : Subgroup G} (h : VFD L) :
     Nat.card (oTwoQuot ↥L) = 10 ∨ Nat.card (oTwoQuot ↥L) = 20 := by
   rcases h with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
@@ -143,7 +145,7 @@ theorem isCyclic_of_vFD {L : Subgroup G} (h : VFD L) :
   rcases h with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩
   · exact isCyclic_of_isPGroup_of_card_eq_two_mul (m := 5) (by decide)
       (by rw [Nat.card_congr e.toEquiv, DihedralGroup.nat_card])
-  · haveI : Finite ↥(Sz 0) := Nat.finite_of_card_ne_zero (by rw [card_sz_zero_eq_twenty]; norm_num)
+  · have : Finite ↥(Sz 0) := Nat.finite_of_card_ne_zero (by rw [card_sz_zero_eq_twenty]; norm_num)
     exact forall_isCyclic_of_mulEquiv e fun Y hY => isCyclic_of_isFrob20
       (S152N2.isFrob20_of_pCore card_sz_zero_eq_twenty pCore_two_sz_zero_eq_bot) Y hY
 
@@ -183,10 +185,10 @@ theorem relIndex_borelOf_eq_five (h : Hyp111R L₁ L₂ S)
 private theorem card_sylow_of_card {Q : Type*} [Group Q] [Finite Q] {e p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hQ : Nat.card Q = 2 ^ e * p) (P : Sylow p Q) :
     Nat.card ↥(P : Subgroup Q) = p ∧ (P : Subgroup Q).index = 2 ^ e := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop2 : Nat.Coprime (2 ^ e) p :=
     Nat.Coprime.pow_left e ((Nat.coprime_primes Nat.prime_two hp).mpr hp2.symm)
-  obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
   have hmul := (P : Subgroup Q).card_mul_index
   have hdvd : p ^ n ∣ p :=
     (Nat.Coprime.pow_left n hcop2.symm).dvd_of_dvd_mul_left
@@ -200,7 +202,7 @@ private theorem card_sylow_of_card {Q : Type*} [Group Q] [Finite Q] {e p : ℕ} 
 
 private theorem subsingleton_sylow_of_card {Q : Type*} [Group Q] [Finite Q] {e p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hlt : 2 ^ e < p) (hQ : Nat.card Q = 2 ^ e * p) : Subsingleton (Sylow p Q) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P⟩ : Nonempty (Sylow p Q) := inferInstance
   have h1 := card_sylow_modEq_one p Q
   have h2 := P.card_dvd_index
@@ -214,8 +216,8 @@ private theorem subsingleton_sylow_of_card {Q : Type*} [Group Q] [Finite Q] {e p
 theorem exists_subgroup_of_odd_order {Q : Type*} [Group Q] [Finite Q] {e p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hlt : 2 ^ e < p) (hQ : Nat.card Q = 2 ^ e * p) :
     ∃ P : Subgroup Q, (∀ x ∈ P, x ^ p = 1) ∧ ∀ x : Q, Odd (orderOf x) → x ∈ P := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := subsingleton_sylow_of_card hp hp2 hlt hQ
+  have : Fact p.Prime := ⟨hp⟩
+  have := subsingleton_sylow_of_card hp hp2 hlt hQ
   obtain ⟨P⟩ : Nonempty (Sylow p Q) := inferInstance
   refine ⟨P, fun x hx => ?_, fun x hx => ?_⟩
   · have h1 : orderOf (⟨x, hx⟩ : (P : Subgroup Q)) ∣ Nat.card (P : Subgroup Q) :=
@@ -234,6 +236,7 @@ theorem exists_subgroup_of_odd_order {Q : Type*} [Group Q] [Finite Q] {e p : ℕ
     rw [Subsingleton.elim R P] at hR
     exact hR (Subgroup.mem_zpowers x)
 
+omit [Finite G] in
 theorem oddGen_le_map_comap {L : Subgroup G} {P : Subgroup (oTwoQuot ↥L)}
     (hP : ∀ x : oTwoQuot ↥L, Odd (orderOf x) → x ∈ P) :
     oddGen L ≤ (P.comap (QuotientGroup.mk' (pCore 2 ↥L))).map L.subtype := by

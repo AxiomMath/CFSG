@@ -14,13 +14,13 @@ theorem false_of_hom_injective_on_center {X : Type*} [Group X] [Finite X]
     (hlam : ∀ z : Z, lam ⟨z, hZT z.2⟩ = 1 → z = 1) : False := by
   have htr : ∀ x : X, MonoidHom.transfer lam x = 1 := by
     intro x
-    haveI : Group.IsPerfect (MonoidHom.transfer lam).range := Group.IsPerfect.range _
+    have : Group.IsPerfect (MonoidHom.transfer lam).range := Group.IsPerfect.range _
     have hsub : Subsingleton (MonoidHom.transfer lam).range :=
       Group.IsPerfect.subsingleton_of_isMulCommutative
     have h1 := Subsingleton.elim (⟨MonoidHom.transfer lam x, MonoidHom.mem_range.mpr ⟨x, rfl⟩⟩ :
       (MonoidHom.transfer lam).range) 1
     exact congrArg Subtype.val h1
-  haveI : Nontrivial Z := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+  have : Nontrivial Z := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨z, hz⟩ := exists_ne (1 : Z)
   have hzc : (z : X) ∈ Subgroup.center X := hZc z.2
   have key : ∀ (k : ℕ) (g₀ : X), g₀⁻¹ * (z : X) ^ k * g₀ ∈ T →

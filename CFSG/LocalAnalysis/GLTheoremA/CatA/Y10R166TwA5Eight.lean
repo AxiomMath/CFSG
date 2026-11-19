@@ -33,14 +33,14 @@ theorem exists_mulEquiv_unitaryPSU_six_of_isLabel_twA5_eight
       CFSG.StandardType.markDeg] using hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨e0⟩⟩ :=
     hM'.statedClassicalModel (by decide : StatedLieTag.PSU ∈ CFSG.Blueprint.classicalTags)
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  letI : Fintype F := Fintype.ofFinite F
+  let : Field F := hFld
+  let : Finite F := hFin
+  let : Fintype F := Fintype.ofFinite F
   have hFcard' : Fintype.card F = 64 := by
     rw [← Nat.card_eq_fintype_card]
     calc Nat.card F = (2 ^ 3) ^ 2 := hFcard
       _ = 64 := by norm_num
-  haveI : Fintype (GaloisField 2 6) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 6) := Fintype.ofFinite _
   let θ : F ≃+* GaloisField 2 6 := FiniteField.ringEquivOfCardEq (by
     rw [hFcard', ← Nat.card_eq_fintype_card]
     exact (GaloisField.card 2 6 (by norm_num)).symm)

@@ -20,9 +20,10 @@ variable {G : Type} [Group G] [Finite G]
 theorem cElt_eq_centModInM (D : Data G) (V₀ : Subgroup G) (v : G) :
     CElt D.M V₀ v = centModInM D V₀ v := by
   ext m
-  simp only [CElt, centModInM, centModEl, Subgroup.mem_mk, Subgroup.mem_inf, Set.mem_setOf_eq]
+  simp only [CElt, centModInM, centModEl, Subgroup.mem_mk, Subgroup.mem_inf]
   constructor <;> intro h <;> exact ⟨h.1, h.2.1, h.2.2⟩
 
+omit [Finite G] in
 theorem map_sylow_le_centralizer_of_central {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hV₀ : IsElemAbelian 2 V₀) (hV₀le : V₀ ≤ V) {v : G} (hv : v ∈ V)
     (Q : Sylow 5 ↥(CElt M V₀ v))
@@ -33,7 +34,7 @@ theorem map_sylow_le_centralizer_of_central {M V₀ V : Subgroup G} (hV : IsElem
   rintro x ⟨q, hq, rfl⟩
   rw [Subgroup.mem_centralizer_singleton_iff]
   let qQ : ↥Q := ⟨q, hq⟩
-  obtain ⟨k, hk⟩ := (Sylow.isPGroup' Q).exists_orderOf_eq_pow qQ
+  obtain ⟨k, hk⟩ := (Sylow.isPGroup Q).exists_orderOf_eq_pow qQ
   have hk' : orderOf ((q : ↥(CElt M V₀ v)) : G) = 5 ^ k := by
     have h1 : orderOf ((q : ↥(CElt M V₀ v)) : G) = orderOf q :=
       orderOf_injective (Subgroup.subtype (CElt M V₀ v)) Subtype.coe_injective q
@@ -256,7 +257,7 @@ theorem nineteen_five (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L K : Subgro
     obtain ⟨R⟩ := Sylow.nonempty (p := 5) (G := ↥K)
     let P : Subgroup G := (R : Subgroup ↥K).map K.subtype
     have hPK : P ≤ K := Subgroup.map_subtype_le _
-    have hPp : IsPGroup 5 P := R.isPGroup'.map K.subtype
+    have hPp : IsPGroup 5 P := R.isPGroup.map K.subtype
     have hPKrel : ¬ 5 ∣ P.relIndex K := by
       have h : IsSylowOf 5 P K := ⟨R, rfl⟩
       exact (isSylowOf_iff.mp h).2.2

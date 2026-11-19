@@ -72,16 +72,16 @@ theorem exists_four_factors {Γ : Type} [Group Γ] [Finite Γ] {A K : Subgroup �
     · simpa [N] using (Nat.card_congr e3.toEquiv).symm.trans hKcard
   have hcenter : ∀ j, Subgroup.center ↥(N j) = ⊥ := by
     intro j
-    haveI := hsimp j
-    haveI : Group.IsPerfect ↥(N j) := (Group.isPerfect_def).mpr (hc j).2.2.1
+    have := hsimp j
+    have : Group.IsPerfect ↥(N j) := (Group.isPerfect_def).mpr (hc j).2.2.1
     exact TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative
       (Group.IsPerfect.not_isMulCommutative ↥(N j))
   have hdiv3 : ∀ j, 3 ∣ Nat.card ↥(N j) := fun j => by rw [hcard j]; norm_num
   have hdiv7 : ∀ j, 7 ∣ Nat.card ↥(N j) := fun j => by rw [hcard j]; norm_num
   have hsup0 : N 0 ≤ K ⊔ K.map cg := by
-    simpa [N] using (le_sup_left : K ≤ K ⊔ K.map cg)
+    simp [N]
   have hsup1 : N 1 ≤ K ⊔ K.map cg := by
-    simpa [N] using (le_sup_right : K.map cg ≤ K ⊔ K.map cg)
+    simp [N]
   have hsupφ2 : N 2 ≤ (K ⊔ K.map cg).map cφ := by
     simpa [N] using (Subgroup.map_mono (le_sup_left : K ≤ K ⊔ K.map cg) :
       (K.map cφ) ≤ (K ⊔ K.map cg).map cφ)

@@ -53,6 +53,7 @@ theorem any_map (L : List (α × α)) (hL : ∀ q ∈ L, S2 S q) (x : α) (hx : 
     rfl
 
 include hfS hhS in
+omit [LawfulBEq α] in
 theorem cjAdd_inv (p : α × α) (hp : S2 S p) (acc : List (α × α) × List (α × α))
     (ha : InvS S acc) (kb : γ) : InvS S (cjAdd f h p acc kb) := by
   unfold cjAdd
@@ -71,6 +72,7 @@ theorem cjAdd_inv (p : α × α) (hp : S2 S p) (acc : List (α × α) × List (�
         exact hq
 
 include hfS hhS in
+omit [LawfulBEq α] in
 theorem frFold_inv (gs : List γ) :
     ∀ (fr : List (α × α)), (∀ q ∈ fr, S2 S q) → ∀ (acc : List (α × α) × List (α × α)),
       InvS S acc → InvS S (fr.foldl (fun acc p => gs.foldl (cjAdd f h p) acc) acc)
@@ -87,6 +89,7 @@ theorem frFold_inv (gs : List γ) :
     exact frFold_inv gs fr (fun q hq => hfr q (List.mem_cons_of_mem _ hq)) _ (hg gs acc ha)
 
 include hfS hhS in
+omit [LawfulBEq α] in
 theorem cjAuxG_inv (gs : List γ) :
     ∀ (n : ℕ) (seen fr : List (α × α)), (∀ q ∈ seen, S2 S q) → (∀ q ∈ fr, S2 S q) →
       ∀ q ∈ cjAuxG f h gs n seen fr, S2 S q

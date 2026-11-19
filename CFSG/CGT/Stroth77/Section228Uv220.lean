@@ -19,7 +19,6 @@ theorem t220_uv_c {s : ℕ} {i F H : ℤ} (h : Type220.Data s i F H) :
     ?_ ?_ ?_).trans ?_ <;>
     first
       | simp [Type220.uvM, ofCols]
-      | module
 
 theorem t220_uv_a {s : ℕ} {i F H : ℤ} (h : Type220.Data s i F H) :
     (Type220.action h).φuv Torus.a =
@@ -28,7 +27,6 @@ theorem t220_uv_a {s : ℕ} {i F H : ℤ} (h : Type220.Data s i F H) :
     ?_ ?_ ?_).trans ?_ <;>
     first
       | simp [Type220.uvM, Type220.uvA, ofCols]
-      | module
 
 theorem t220_uv_b {s : ℕ} {i F H : ℤ} (h : Type220.Data s i F H) :
     (Type220.action h).φuv Torus.b =
@@ -40,8 +38,7 @@ theorem t220_uv_b {s : ℕ} {i F H : ℤ} (h : Type220.Data s i F H) :
     (-26 * i ^ 2 - 8 * i * F) (5 * i ^ 2 - 4 * i * F) ?_ ?_ ?_).trans ?_ <;>
     first
       | (simp [Type220.uvM, Type220.uvA, Type220.tM, Type220.ρM, ofCols,
-          Matrix.mulVec, dotProduct, Fin.sum_univ_three] <;> ring1)
-      | module
+          Matrix.mulVec, dotProduct, Fin.sum_univ_three]; try ring1)
 
 theorem t220_u_c {s : ℕ} {i F H : ℤ} (h : Type220.Data s i F H) :
     (Type220.action h).φu Torus.c = (-1 : ℤ) • Torus.c := by
@@ -49,7 +46,6 @@ theorem t220_u_c {s : ℕ} {i F H : ℤ} (h : Type220.Data s i F H) :
     ?_ ?_ ?_).trans ?_ <;>
     first
       | simp [Type220.uM, uMat, ofCols]
-      | module
 
 theorem t220_u_a {s : ℕ} {i F H : ℤ} (h : Type220.Data s i F H) :
     (Type220.action h).φu Torus.a = (-2 * F : ℤ) • Torus.c + (1 : ℤ) • Torus.b := by
@@ -57,7 +53,6 @@ theorem t220_u_a {s : ℕ} {i F H : ℤ} (h : Type220.Data s i F H) :
     ?_ ?_ ?_).trans ?_ <;>
     first
       | simp [Type220.uM, uMat, ofCols]
-      | module
 
 theorem t220_u_b {s : ℕ} {i F H : ℤ} (h : Type220.Data s i F H) :
     (Type220.action h).φu Torus.b = (-2 * F : ℤ) • Torus.c + (1 : ℤ) • Torus.a := by
@@ -65,7 +60,6 @@ theorem t220_u_b {s : ℕ} {i F H : ℤ} (h : Type220.Data s i F H) :
     ?_ ?_ ?_).trans ?_ <;>
     first
       | (simp [Type220.uM, uMat, ofCols])
-      | module
 
 theorem t220_u_a_half (s : ℕ) (hs : 1 ≤ s) :
     (StrothTypeIndex.t220 s hs).action.φu
@@ -77,11 +71,11 @@ theorem t220_u_a_half (s : ℕ) (hs : 1 ≤ s) :
   have hva : (2 ^ (s + 3) : ℕ) • Torus.a (k := Type220.k s) =
       Torus.ofInt (Type220.k s) ![0, (2 : ℤ) ^ (s + 3), 0] := by
     rw [Torus.ofInt_eq_zsmul_gens]
-    simp [Torus.a, Torus.b, Torus.c]
+    simp [Torus.a]
   have hvb : (2 ^ (s + 3) : ℕ) • Torus.b (k := Type220.k s) =
       Torus.ofInt (Type220.k s) ![0, 0, (2 : ℤ) ^ (s + 3)] := by
     rw [Torus.ofInt_eq_zsmul_gens]
-    simp [Torus.a, Torus.b, Torus.c]
+    simp [Torus.b]
   rw [hva, hvb]
   change matAct (Type220.k s) (Type220.uM (Type120.iV (s + 4)) (Type120.FV (s + 4))
       (Type120.GV (s + 4))) (Type220.compat_u (Type220.data s))
@@ -94,7 +88,7 @@ theorem t220_u_a_half (s : ℕ) (hs : 1 ≤ s) :
     rw [show Type220.uM (Type120.iV (s + 4)) (Type120.FV (s + 4)) (Type120.GV (s + 4)) =
         uMat ![-1, 0, 0] (-2 * Type120.FV (s + 4)) from rfl, uMat, ofCols_mulVec]
     funext j
-    fin_cases j <;> simp <;> ring
+    fin_cases j <;> simp
   rw [hmul, Torus.ofInt_eq_ofInt_iff]
   intro j
   fin_cases j
@@ -115,7 +109,7 @@ theorem t220_uv_fixes_a_half (s : ℕ) (hs : 1 ≤ s) :
   have hva : (2 ^ (s + 3) : ℕ) • Torus.a (k := Type220.k s) =
       Torus.ofInt (Type220.k s) ![0, (2 : ℤ) ^ (s + 3), 0] := by
     rw [Torus.ofInt_eq_zsmul_gens]
-    simp [Torus.a, Torus.b, Torus.c]
+    simp [Torus.a]
   rw [hva]
   change matAct (Type220.k s) (Type220.uvM (Type120.iV (s + 4)) (Type120.FV (s + 4))
       (Type120.GV (s + 4))) (Type220.compat_uv (Type220.data s))
@@ -134,7 +128,7 @@ theorem t220_uv_fixes_a_half (s : ℕ) (hs : 1 ≤ s) :
             (Type120.GV (s + 4)) *ᵥ Type220.uvA (Type120.iV (s + 4)) (Type120.FV (s + 4))
               (Type120.GV (s + 4)))) from rfl, ofCols_mulVec]
     funext j
-    fin_cases j <;> simp [Type220.uvA] <;> ring
+    fin_cases j <;> simp [Type220.uvA]
   rw [hmul, Torus.ofInt_eq_ofInt_iff]
   intro j
   fin_cases j
@@ -191,7 +185,7 @@ theorem t220_φu_ab_half (s : ℕ) (hs : 1 ≤ s) :
       Torus.ofInt (Type220.k s) ![0, (2 : ℤ) ^ (s + 2), (2 : ℤ) ^ (s + 2)] := by
     rw [Torus.ofInt_eq_zsmul_gens]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, zsmul_eq_mul]
+    fin_cases j <;> simp [Torus.a, Torus.b, gen, zsmul_eq_mul]
   rw [hva]
   change matAct (Type220.k s) (Type220.uM (Type120.iV (s + 4)) (Type120.FV (s + 4))
       (Type120.GV (s + 4))) (Type220.compat_u (Type220.data s))
@@ -205,7 +199,7 @@ theorem t220_φu_ab_half (s : ℕ) (hs : 1 ≤ s) :
     rw [show Type220.uM (Type120.iV (s + 4)) (Type120.FV (s + 4)) (Type120.GV (s + 4)) =
         uMat ![-1, 0, 0] (-2 * Type120.FV (s + 4)) from rfl, uMat, ofCols_mulVec]
     funext j
-    fin_cases j <;> simp <;> ring
+    fin_cases j <;> simp; ring
   rw [hmul, Torus.ofInt_eq_ofInt_iff]
   intro j
   fin_cases j
@@ -235,7 +229,7 @@ theorem t220_φuv_a_add_b (s : ℕ) (hs : 1 ≤ s) :
   rw [map_add, t220_uv_a (Type220.data s), t220_uv_b (Type220.data s)]
   funext j
   fin_cases j <;>
-    simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, Torus.ofInt, zsmul_eq_mul,
+    simp [Torus.a, Torus.b, Torus.c, gen, Torus.ofInt, zsmul_eq_mul,
       (Type220.data s).hi, (Type220.data s).hF]
   all_goals ring
 
@@ -274,7 +268,7 @@ theorem t220_uv_preimage (s : ℕ) (hs : 1 ≤ s) :
         ![0, (2 : ℤ) ^ (s + 2), (2 : ℤ) ^ (s + 2)] := by
     rw [Torus.ofInt_eq_zsmul_gens]
     funext j
-    fin_cases j <;> simp [Torus.a, Torus.b, Torus.c, gen, Pi.single_apply, zsmul_eq_mul]
+    fin_cases j <;> simp [Torus.a, Torus.b, gen, zsmul_eq_mul]
   rw [hφv, hw]
   dsimp only [v, N]
   rw [← Torus.ofInt_sub, Torus.ofInt_eq_ofInt_iff]
@@ -314,6 +308,7 @@ theorem t220_φuv_ab_half (s : ℕ) (hs : 1 ≤ s) :
     abel
   rwa [hv] at h2
 
+omit [Finite G] in
 theorem t220_u_swaps_a_half {D : Subgroup G} {s : ℕ} {hs : 1 ≤ s}
     (dD : StrothWeakTypeData D (StrothTypeIndex.t220 s hs)) :
     dD.u⁻¹ * ((dD.a : G) ^ 2 ^ (s + 3)) * dD.u = (dD.b : G) ^ 2 ^ (s + 3) := by
@@ -340,8 +335,8 @@ theorem t220_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {s : ℕ} {hs : 1 ≤
   set bh : G := (dD.b : G) ^ 2 ^ (s + 3) with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 ^ (s + 2) * ab ^ 2 ^ (s + 2) = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 2 ^ (s + 4) := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a]
     rfl
@@ -503,11 +498,11 @@ theorem t220_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {s : ℕ} {hs : 1 ≤
     have hva : (2 ^ (s + 3) : ℕ) • Torus.a (k := (StrothTypeIndex.t220 s hs).k) =
         Torus.ofInt (StrothTypeIndex.t220 s hs).k ![0, (2 : ℤ) ^ (s + 3), 0] := by
       rw [Torus.ofInt_eq_zsmul_gens]
-      simp [Torus.a, Torus.b, Torus.c]
+      simp [Torus.a]
     have hvb : (2 ^ (s + 3) : ℕ) • Torus.b (k := (StrothTypeIndex.t220 s hs).k) =
         Torus.ofInt (StrothTypeIndex.t220 s hs).k ![0, 0, (2 : ℤ) ^ (s + 3)] := by
       rw [Torus.ofInt_eq_zsmul_gens]
-      simp [Torus.a, Torus.b, Torus.c]
+      simp [Torus.b]
     intro htor
     rw [hva, hvb, Torus.ofInt_eq_ofInt_iff] at htor
     have h2 := htor 2
@@ -564,6 +559,7 @@ theorem t220_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {s : ℕ} {hs : 1 ≤
     · exact absurd hahxy hah_ne_xy
   exact hLHS.trans hmain
 
+omit [Finite G] in
 theorem t220_d2_ofTorus {D : Subgroup G} {s : ℕ} {hs : 1 ≤ s}
     {dD : StrothWeakTypeData D (StrothTypeIndex.t220 s hs)} :
     ((dD.a : G) * (dD.b : G)) ^ 2 ^ ((StrothTypeIndex.t220 s hs).n - 2) =
@@ -583,8 +579,8 @@ theorem t220_d2_mem_A {F : StrothFrame G} {D : Subgroup G} {s : ℕ} {hs : 1 ≤
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _

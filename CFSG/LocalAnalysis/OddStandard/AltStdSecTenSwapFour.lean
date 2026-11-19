@@ -45,7 +45,7 @@ private lemma b_mul_bc (hb : b * b = 1) : b * (b * c) = c := by
 private lemma bc_mul_b (hb : b * b = 1) (hbc : b * c = c * b) : (b * c) * b = c := by
   rw [mul_assoc, hbc.symm, ← mul_assoc, hb, one_mul]
 
-private lemma hABc (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) :
+private lemma hABc (_hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) :
     (a * b) * c = c * (a * b) := by
   calc (a * b) * c = a * (b * c) := mul_assoc a b c
     _ = a * (c * b) := by rw [hbc]
@@ -53,7 +53,7 @@ private lemma hABc (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c 
     _ = (c * a) * b := by rw [hac.symm]
     _ = c * (a * b) := by rw [mul_assoc]
 
-private lemma hAbc (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) :
+private lemma hAbc (hab : a * b = b * a) (hac : a * c = c * a) (_hbc : b * c = c * b) :
     a * (b * c) = (b * c) * a := by
   calc a * (b * c) = (a * b) * c := (mul_assoc a b c).symm
     _ = (b * a) * c := by rw [hab]
@@ -61,7 +61,7 @@ private lemma hAbc (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c 
     _ = b * (c * a) := by rw [hac]
     _ = (b * c) * a := by rw [← mul_assoc]
 
-private lemma hBac (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) :
+private lemma hBac (hab : a * b = b * a) (_hac : a * c = c * a) (hbc : b * c = c * b) :
     b * (a * c) = (a * c) * b := by
   calc b * (a * c) = (b * a) * c := (mul_assoc b a c).symm
     _ = (a * b) * c := by rw [hab.symm]
@@ -113,8 +113,8 @@ private lemma comm_ab_ac (ha : a * a = 1) (hab : a * b = b * a) (hac : a * c = c
     (hbc : b * c = c * b) : (a * b) * (a * c) = (a * c) * (a * b) := by
   rw [ab_mul_ac ha hab, ac_mul_ab ha hac hbc]
 
-private theorem mem_F_iff (ha : a * a = 1) (hb : b * b = 1) (hc : c * c = 1)
-    (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) {F : Subgroup G}
+private theorem mem_F_iff (_ha : a * a = 1) (_hb : b * b = 1) (_hc : c * c = 1)
+    (_hab : a * b = b * a) (_hac : a * c = c * a) (_hbc : b * c = c * b) {F : Subgroup G}
     (hF : ∀ p, p ∈ F ↔ ∃ i j k : Fin 2, p = a ^ (i : ℕ) * b ^ (j : ℕ) * c ^ (k : ℕ)) :
     ∀ p : G, p ∈ F ↔
       p = 1 ∨ p = a ∨ p = b ∨ p = a * b ∨ p = c ∨ p = a * c ∨ p = b * c ∨ p = a * b * c := by
@@ -137,11 +137,11 @@ private theorem mem_F_iff (ha : a * a = 1) (hb : b * b = 1) (hc : c * c = 1)
 private theorem pairOrder_class
     (ha : a * a = 1) (hb : b * b = 1) (hc : c * c = 1)
     (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b)
-    (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hba : b ≠ a) (hc1 : c ≠ 1) (hca : c ≠ a) (hcb : c ≠ b)
+    (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hba : b ≠ a) (_hc1 : c ≠ 1) (hca : c ≠ a) (hcb : c ≠ b)
     (hcab : c ≠ a * b)
     {F : Subgroup G}
     (hF : ∀ p, p ∈ F ↔ ∃ i j k : Fin 2, p = a ^ (i : ℕ) * b ^ (j : ℕ) * c ^ (k : ℕ))
-    {N₁ N₄ N₅ : ℕ} (h14 : N₁ ≠ N₄) (h15 : N₁ ≠ N₅)
+    {N₁ N₄ N₅ : ℕ} (_h14 : N₁ ≠ N₄) (_h15 : N₁ ≠ N₅)
     (e1 : pairOrder a b = N₁) (e2 : pairOrder a c = N₄) (e3 : pairOrder a (b * c) = N₅)
     (e4 : pairOrder b c = N₄) (e5 : pairOrder b (a * c) = N₅) (e6 : pairOrder (a * b) c = N₄)
     (e7 : pairOrder (a * b) (a * c) = N₅)
@@ -214,11 +214,10 @@ private theorem pairOrder_class
   rcases hu with hu | hu | hu | hu | hu | hu | hu | hu <;> subst u <;>
     rcases hv with hv | hv | hv | hv | hv | hv | hv | hv <;> subst v
   all_goals
-    first
+    try first
     | exact absurd rfl hu1
     | exact absurd rfl hv1
     | exact absurd rfl huv
-    | skip
   all_goals simp only [t_ab, t_ba, t_a_ab, t_ab_a, t_b_ab, t_ab_b, t_ac₀, t_ca, t_a_ac, t_ac_a,
         t_c_ac, t_ac_c, t_bc₀, t_cb, t_b_bc, t_bc_b, t_c_bc, t_bc_c, t_ab_c, t_c_ab, t_ab_abc,
         t_abc_ab, t_c_abc, t_abc_c, t_a_bc, t_bc_a, t_a_abc, t_abc_a, t_bc_abc, t_abc_bc, t_b_ac,
@@ -237,8 +236,7 @@ private theorem pairOrder_class
         simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
         try simp only [a_mul_ac ha, ac_mul_a ha hac, b_mul_bc hb, bc_mul_b hb hbc,
           ab_mul_abc ha hb hab, abc_mul_ab ha hb hab hac hbc]
-        simp only [or_comm, or_left_comm, or_assoc, eq_self_iff_true, or_true, true_or, or_false,
-          false_or]⟩)
+        simp only [or_comm, true_or]⟩)
     | exact Or.inr (Or.inr trivial)
 
 end Rigidity

@@ -13,7 +13,7 @@ open scoped commutatorElement
 
 variable {M : Type} [CommGroup M] [Finite M]
 
-@[expose] noncomputable def w1369LinHom (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)] :
+@[expose] noncomputable def w1369LinHom (_hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)] :
     MulAut M →* Module.End (ZMod 2) (Additive M) where
   toFun c := (autAddHom c).toZModLinearMap 2
   map_one' := by
@@ -23,10 +23,12 @@ variable {M : Type} [CommGroup M] [Finite M]
     ext v
     rfl
 
+omit [Finite M] in
 @[simp] theorem w1369LinHom_apply (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     (c : MulAut M) (v : Additive M) :
     w1369LinHom hw2 c v = autAddHom c v := rfl
 
+omit [Finite M] in
 @[simp] theorem w1369LinHom_ofMul (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     (c : MulAut M) (m : M) :
     w1369LinHom hw2 c (Additive.ofMul m) = Additive.ofMul (c m) := rfl
@@ -35,7 +37,7 @@ variable {M : Type} [CommGroup M] [Finite M]
     (U : Submodule (ZMod 2) (Additive M)) :
     Subgroup M where
   carrier := {m | Additive.ofMul m ∈ U}
-  one_mem' := by simpa using U.zero_mem
+  one_mem' := by simp
   mul_mem' := by
     intro a b ha hb
     change Additive.ofMul (a * b) ∈ U
@@ -47,10 +49,12 @@ variable {M : Type} [CommGroup M] [Finite M]
     rw [ofMul_inv]
     exact U.neg_mem ha
 
+omit [Finite M] in
 @[simp] theorem w1369SubmoduleToSubgroup_ofMul [Module (ZMod 2) (Additive M)]
     {U : Submodule (ZMod 2) (Additive M)} {m : M} :
     m ∈ w1369SubmoduleToSubgroup U ↔ Additive.ofMul m ∈ U := Iff.rfl
 
+omit [Finite M] in
 theorem w1369_hirrSubmodule (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} (hirr : IsIrrOn K ⊤ ⊥) :
     ∀ U : Submodule (ZMod 2) (Additive M),
@@ -82,6 +86,7 @@ noncomputable def w1369E (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive
     Subalgebra (ZMod 2) (Module.End (ZMod 2) (Additive M)) :=
   Subalgebra.centralizer (ZMod 2) (Set.range fun k : K => w1369LinHom hw2 (k : MulAut M))
 
+omit [Finite M] in
 theorem w1369_mem_E_iff (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} {e : Module.End (ZMod 2) (Additive M)} :
     e ∈ w1369E hw2 K ↔ ∀ k ∈ K, w1369LinHom hw2 k * e = e * w1369LinHom hw2 k := by
@@ -94,6 +99,7 @@ theorem w1369_mem_E_iff (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive 
     obtain ⟨⟨k, hk⟩, rfl⟩ := hg
     exact he k hk
 
+omit [Finite M] in
 theorem w1369_mem_E_iff' (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} {e : Module.End (ZMod 2) (Additive M)} :
     e ∈ w1369E hw2 K ↔ ∀ k ∈ K, ∀ v, w1369LinHom hw2 k (e v) = e (w1369LinHom hw2 k v) := by
@@ -107,6 +113,7 @@ theorem w1369_mem_E_iff' (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive
     rw [Module.End.mul_apply, Module.End.mul_apply]
     exact h k hk v
 
+omit [Finite M] in
 theorem w1369_ker_eq_bot_or_top (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} (hirr : IsIrrOn K ⊤ ⊥)
     {e : Module.End (ZMod 2) (Additive M)} (he : e ∈ w1369E hw2 K) :
@@ -117,6 +124,7 @@ theorem w1369_ker_eq_bot_or_top (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (A
   rw [LinearMap.mem_ker] at hu ⊢
   rw [← hcomm k hk u, hu, map_zero]
 
+omit [Finite M] in
 theorem w1369_range_eq_bot_or_top (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} (hirr : IsIrrOn K ⊤ ⊥)
     {e : Module.End (ZMod 2) (Additive M)} (he : e ∈ w1369E hw2 K) :
@@ -126,6 +134,7 @@ theorem w1369_range_eq_bot_or_top (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) 
   rintro k hk v ⟨u, rfl⟩
   exact ⟨w1369LinHom hw2 k u, (hcomm k hk u).symm⟩
 
+omit [Finite M] in
 theorem w1369_E_exists_inv (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} (hirr : IsIrrOn K ⊤ ⊥) (e : w1369E hw2 K) (he : e ≠ 0) :
     ∃ e' : w1369E hw2 K, e * e' = 1 ∧ e' * e = 1 := by
@@ -172,11 +181,13 @@ theorem w1369_E_exists_inv (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additi
     rw [← hu]
     exact Units.inv_mul u
 
+omit [Finite M] in
 theorem w1369LinHom_mul_self (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {d : MulAut M} (hd2 : d ^ 2 = 1) :
     w1369LinHom hw2 d * w1369LinHom hw2 d = 1 := by
   rw [← map_mul, ← pow_two, hd2, map_one]
 
+omit [Finite M] in
 @[simp] theorem w1369LinHom_apply_apply (hw2 : ∀ m : M, m ^ 2 = 1)
     [Module (ZMod 2) (Additive M)] {d : MulAut M} (hd2 : d ^ 2 = 1) (v : Additive M) :
     w1369LinHom hw2 d (w1369LinHom hw2 d v) = v := by
@@ -184,6 +195,7 @@ theorem w1369LinHom_mul_self (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Addi
     (w1369LinHom_mul_self hw2 hd2)
   simpa [Module.End.mul_apply] using this
 
+omit [Finite M] in
 theorem w1369LinHom_injective (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)] :
     Function.Injective (w1369LinHom hw2 (M := M)) := by
   intro c e h
@@ -192,6 +204,7 @@ theorem w1369LinHom_injective (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Add
   have := congrArg (fun f : Module.End (ZMod 2) (Additive M) => f (Additive.ofMul m)) h
   exact Additive.ofMul.injective (by simpa using this)
 
+omit [Finite M] in
 theorem w1369_conj_mem (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} {d : MulAut M} (hd2 : d ^ 2 = 1)
     (hdN : K.map (MulAut.conj d).toMonoidHom = K)
@@ -282,21 +295,20 @@ theorem w1369_conj_mem (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M
         w1369LinHom hw2 d * (f : Module.End (ZMod 2) (Additive M)) * w1369LinHom hw2 d
     rw [mul_add, add_mul]
 
+omit [Finite M] in
 theorem w1369Alpha_apply (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} {d : MulAut M} (hd2 : d ^ 2 = 1)
     (hdN : K.map (MulAut.conj d).toMonoidHom = K) (e : w1369E hw2 K) :
     (w1369Alpha hw2 hd2 hdN e : Module.End (ZMod 2) (Additive M)) =
       w1369LinHom hw2 d * (e : Module.End (ZMod 2) (Additive M)) * w1369LinHom hw2 d := rfl
 
+omit [Finite M] in
 theorem w1369Alpha_involutive (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} {d : MulAut M} (hd2 : d ^ 2 = 1)
     (hdN : K.map (MulAut.conj d).toMonoidHom = K) (e : w1369E hw2 K) :
     w1369Alpha hw2 hd2 hdN (w1369Alpha hw2 hd2 hdN e) = e := by
   apply Subtype.ext
   rw [w1369Alpha_apply, w1369Alpha_apply]
-  change w1369LinHom hw2 d *
-      (w1369LinHom hw2 d * (e : Module.End (ZMod 2) (Additive M)) * w1369LinHom hw2 d) *
-      w1369LinHom hw2 d = (e : Module.End (ZMod 2) (Additive M))
   rw [show w1369LinHom hw2 d *
       (w1369LinHom hw2 d * (e : Module.End (ZMod 2) (Additive M)) * w1369LinHom hw2 d) *
       w1369LinHom hw2 d =
@@ -304,6 +316,7 @@ theorem w1369Alpha_involutive (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Add
         (w1369LinHom hw2 d * w1369LinHom hw2 d) from by noncomm_ring]
   rw [w1369LinHom_mul_self hw2 hd2, one_mul, mul_one]
 
+omit [Finite M] in
 theorem w1369_mem_zpowers_two {d x : MulAut M} (hd2 : d ^ 2 = 1)
     (hx : x ∈ Subgroup.zpowers d) : x = 1 ∨ x = d := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -317,6 +330,7 @@ theorem w1369_mem_zpowers_two {d x : MulAut M} (hd2 : d ^ 2 = 1)
   · left; simp
   · right; simp
 
+omit [Finite M] in
 theorem w1369_commSub_eq (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {d : MulAut M} (hd2 : d ^ 2 = 1) :
     commSub ⊤ (Subgroup.zpowers d) =
@@ -327,7 +341,7 @@ theorem w1369_commSub_eq (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive
     change Additive.ofMul (x w * w⁻¹) ∈ LinearMap.range (w1369LinHom hw2 d - 1)
     rcases w1369_mem_zpowers_two hd2 hx with hx1 | hxd
     · rw [hx1]
-      simpa using Submodule.zero_mem (LinearMap.range (w1369LinHom hw2 d - 1))
+      simp
     · rw [hxd]
       refine ⟨Additive.ofMul w, ?_⟩
       change w1369LinHom hw2 d (Additive.ofMul w) - Additive.ofMul w =
@@ -350,6 +364,7 @@ theorem w1369_commSub_eq (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive
       rw [w1369LinHom_ofMul, sub_eq_add_neg, ← ofMul_inv, ← ofMul_mul]
     exact Additive.ofMul.injective (hv'.symm.trans hv).symm
 
+omit [Finite M] in
 theorem w1369_card_submoduleToSubgroup [Module (ZMod 2) (Additive M)]
     (U : Submodule (ZMod 2) (Additive M)) :
     Nat.card ↥(w1369SubmoduleToSubgroup U) = Nat.card ↥U :=
@@ -366,6 +381,7 @@ theorem w1369_card_range (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive
     ← w1369_commSub_eq hw2 hd2, card_eq_two_pow hw2 (commSub ⊤ (Subgroup.zpowers d)), hcost,
     pow_one]
 
+omit [Finite M] in
 theorem w1369_card_eq_ker_mul_range [Module (ZMod 2) (Additive M)]
     (f : Additive M →ₗ[ZMod 2] Additive M) :
     Nat.card (Additive M) = Nat.card ↥(LinearMap.ker f) * Nat.card ↥(LinearMap.range f) := by
@@ -375,6 +391,7 @@ theorem w1369_card_eq_ker_mul_range [Module (ZMod 2) (Additive M)]
   rw [h2] at h
   simpa [Nat.mul_comm] using h
 
+omit [Finite M] in
 theorem w1369_linHom_mem_E (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} {c : MulAut M} (hc : ∀ k ∈ K, c * k = k * c) :
     w1369LinHom hw2 c ∈ w1369E hw2 K := by
@@ -382,6 +399,7 @@ theorem w1369_linHom_mem_E (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additi
   intro k hk
   rw [← map_mul, ← map_mul, hc k hk]
 
+omit [Finite M] in
 theorem w1369_linHom_eq_one (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {c : MulAut M} (h : w1369LinHom hw2 c = 1) : c = 1 := by
   apply MulEquiv.ext
@@ -389,6 +407,7 @@ theorem w1369_linHom_eq_one (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Addit
   have := congrArg (fun f : Module.End (ZMod 2) (Additive M) => f (Additive.ofMul m)) h
   exact Additive.ofMul.injective (by simpa using this)
 
+omit [Finite M] in
 theorem w1369_alpha_eq_self_comm (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} {d : MulAut M} (hd2 : d ^ 2 = 1)
     (hdN : K.map (MulAut.conj d).toMonoidHom = K) {e : w1369E hw2 K}
@@ -403,6 +422,7 @@ theorem w1369_alpha_eq_self_comm (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (
       w1369LinHom hw2 d * (e : Module.End (ZMod 2) (Additive M)) from by
     rw [mul_assoc, w1369LinHom_mul_self hw2 hd2, mul_one]] at h
 
+omit [Finite M] in
 theorem w1369_range_sub_mem (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {d : MulAut M} {e : Module.End (ZMod 2) (Additive M)}
     (hφe : w1369LinHom hw2 d * e = e * w1369LinHom hw2 d)
@@ -456,6 +476,7 @@ theorem w1369_card_E_le_two (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Addit
         Nat.card_le_card_of_injective f hf
     _ = 2 := hcard
 
+omit [Finite M] in
 theorem w1369_alpha_mul_phi (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} {d : MulAut M} (hd2 : d ^ 2 = 1)
     (hdN : K.map (MulAut.conj d).toMonoidHom = K) (e : w1369E hw2 K) :
@@ -466,6 +487,7 @@ theorem w1369_alpha_mul_phi (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Addit
       w1369LinHom hw2 d = w1369LinHom hw2 d * (e : Module.End (ZMod 2) (Additive M)) from by
     rw [mul_assoc, w1369LinHom_mul_self hw2 hd2, mul_one]]
 
+omit [Finite M] in
 theorem w1369_phi_alpha_mul (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} {d : MulAut M} (hd2 : d ^ 2 = 1)
     (hdN : K.map (MulAut.conj d).toMonoidHom = K) (e : w1369E hw2 K) :
@@ -478,6 +500,7 @@ theorem w1369_phi_alpha_mul (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Addit
         w1369LinHom hw2 d from by noncomm_ring]
   rw [w1369LinHom_mul_self hw2 hd2, one_mul]
 
+omit [Finite M] in
 theorem w1369_alpha_phi_apply (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} {d : MulAut M} (hd2 : d ^ 2 = 1)
     (hdN : K.map (MulAut.conj d).toMonoidHom = K) (e : w1369E hw2 K) (v : Additive M) :
@@ -487,6 +510,7 @@ theorem w1369_alpha_phi_apply (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Add
     (w1369_alpha_mul_phi hw2 hd2 hdN e)
   simpa [Module.End.mul_apply] using h
 
+omit [Finite M] in
 theorem w1369_phi_alpha_apply (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} {d : MulAut M} (hd2 : d ^ 2 = 1)
     (hdN : K.map (MulAut.conj d).toMonoidHom = K) (e : w1369E hw2 K) (v : Additive M) :
@@ -497,11 +521,13 @@ theorem w1369_phi_alpha_apply (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Add
     (w1369_phi_alpha_mul hw2 hd2 hdN e)
   simpa [Module.End.mul_apply] using h
 
+omit [Finite M] in
 theorem w1369_add_self (hw2 : ∀ m : M, m ^ 2 = 1) (v : Additive M) : v + v = 0 := by
   apply Additive.toMul.injective
   rw [toMul_add, toMul_zero, ← pow_two]
   exact hw2 (Additive.toMul v)
 
+omit [Finite M] in
 theorem w1369_E_add_self (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} (x : w1369E hw2 K) : x + x = 0 := by
   apply Subtype.ext
@@ -509,6 +535,7 @@ theorem w1369_E_add_self (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive
   change (x : Module.End (ZMod 2) (Additive M)) v + (x : Module.End (ZMod 2) (Additive M)) v = 0
   exact w1369_add_self hw2 ((x : Module.End (ZMod 2) (Additive M)) v)
 
+omit [Finite M] in
 theorem w1369_card_eq_ker_sq (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additive M)]
     {K : Subgroup (MulAut M)} (hirr : IsIrrOn K ⊤ ⊥) {d : MulAut M} (hd2 : d ^ 2 = 1)
     (hdN : K.map (MulAut.conj d).toMonoidHom = K)
@@ -648,12 +675,12 @@ theorem w1369_card_eq_four (hw2 : ∀ m : M, m ^ 2 = 1) [Module (ZMod 2) (Additi
     rw [hsq, hker]; norm_num
   exact hA
 
-theorem w1369_false_of_card_four (hw2 : ∀ m : M, m ^ 2 = 1) {K : Subgroup (MulAut M)}
+theorem w1369_false_of_card_four (_hw2 : ∀ m : M, m ^ 2 = 1) {K : Subgroup (MulAut M)}
     (hperf : ⁅K, K⁆ = K) (hK1 : K ≠ ⊥) (hcard : Nat.card M = 4) : False := by
   classical
   let S := {m : M // m ≠ 1}
   have hScard : Nat.card S = 3 := by
-    haveI : Fintype M := Fintype.ofFinite M
+    have : Fintype M := Fintype.ofFinite M
     have h1 : Nat.card S = Nat.card M - Nat.card {m : M // m = 1} := by
       rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
       exact Fintype.card_subtype_compl (fun m : M => m = 1)
@@ -661,7 +688,7 @@ theorem w1369_false_of_card_four (hw2 : ∀ m : M, m ^ 2 = 1) {K : Subgroup (Mul
       Nat.card_eq_one_iff_unique.mpr
         ⟨⟨fun a b => Subtype.ext (by rw [a.2, b.2])⟩, ⟨⟨1, rfl⟩⟩⟩
     omega
-  letI : MulAction (MulAut M) S :=
+  let : MulAction (MulAut M) S :=
     { smul := fun g s => ⟨g s.1, fun h => s.2 (g.injective (h.trans (map_one g).symm))⟩
       one_smul := fun s => by ext; rfl
       mul_smul := fun g h s => by ext; rfl }
@@ -683,8 +710,8 @@ theorem w1369_false_of_card_four (hw2 : ∀ m : M, m ^ 2 = 1) {K : Subgroup (Mul
   norm_num at hdvd
   have hsq : Squarefree (Nat.card (MulAut M)) :=
     (show Squarefree 6 by decide +kernel).squarefree_of_dvd hdvd
-  haveI : IsZGroup (MulAut M) := IsZGroup.of_squarefree hsq
-  haveI : Group.IsSolvable (MulAut M) := inferInstance
+  have : IsZGroup (MulAut M) := IsZGroup.of_squarefree hsq
+  have : Group.IsSolvable (MulAut M) := inferInstance
   exact absurd hperf (ne_of_lt (Group.IsSolvable.commutator_lt_of_ne_bot hK1))
 
 theorem w1369_eq_or_eq_of_card_le_two {α : Type} [Finite α] {a b : α} (hab : a ≠ b)
@@ -694,7 +721,7 @@ theorem w1369_eq_or_eq_of_card_le_two {α : Type} [Finite α] {a b : α} (hab : 
   rw [not_or] at hx
   obtain ⟨hxa, hxb⟩ := hx
   have h3 : 3 ≤ Nat.card α := by
-    haveI : Fintype α := Fintype.ofFinite α
+    have : Fintype α := Fintype.ofFinite α
     have hcard : ({a, b, x} : Finset α).card = 3 := by
       rw [Finset.card_insert_of_notMem (by
             simp only [Finset.mem_insert, Finset.mem_singleton, not_or]

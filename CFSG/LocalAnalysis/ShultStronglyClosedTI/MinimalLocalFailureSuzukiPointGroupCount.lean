@@ -44,7 +44,7 @@ theorem exists_sylow_le_of_odd_relIndex {H C M : Subgroup G} (hMC : M ≤ C) (hC
   have hodd : Odd (S₀g.relIndex H) := by
     rw [← Subgroup.relIndex_mul_relIndex S₀g M H hS₀M (hMC.trans hCH), hS₀idx]
     exact (Nat.not_even_iff_odd.mp fun h2 => S₀.not_dvd_index (even_iff_two_dvd.mp h2)).mul hM
-  have hS₀2 : IsPGroup 2 S₀g := S₀.isPGroup'.map M.subtype
+  have hS₀2 : IsPGroup 2 S₀g := S₀.isPGroup.map M.subtype
   have hS2 : IsPGroup 2 (S₀g.subgroupOf H) := hS₀2.comap_subtype
   have hnd : ¬ 2 ∣ (S₀g.subgroupOf H).index := fun h2 =>
     (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr h2)

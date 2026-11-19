@@ -14,7 +14,7 @@ open scoped commutatorElement
 theorem s16h_e3_Z3NineAAAA_Kmat_o2_bot
     {W : Type} [CommGroup W] [Finite W]
     {A L L₂ : Subgroup (MulAut W)} {x : MulAut W}
-    (hB : s16h_Z3Blocks A L L₂ x) (hLA : L ≤ A) (hL : Nat.card ↥L = 3)
+    (hB : s16h_Z3Blocks A L L₂ x) (_hLA : L ≤ A) (_hL : Nat.card ↥L = 3)
     (hrk : rk ↥(commSub (⊤ : Subgroup W) L) = 6)
     (hO2 : ∀ P : Subgroup (MulAut W), P ≤ A → (P.subgroupOf A).Normal → IsPGroup 2 P → P = ⊥)
     {N : Subgroup (MulAut W)}
@@ -27,7 +27,7 @@ theorem s16h_e3_Z3NineAAAA_Kmat_o2_bot
       (P.subgroupOf (((A ⊓ centSub (commSub (⊤ : Subgroup W) L₂)).subgroupOf N).map F)).Normal →
       IsPGroup 2 P → P = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let U₂ : Subgroup W := commSub (⊤ : Subgroup W) L₂
   let K1 : Subgroup (MulAut W) := A ⊓ centSub U₂
   have hK1core : pCore 2 ↥K1 = ⊥ :=

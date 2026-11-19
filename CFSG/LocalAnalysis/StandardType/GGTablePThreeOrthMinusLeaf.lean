@@ -26,7 +26,7 @@ open CFSG CFSG.Assembly CFSG.RankThree.Classical2
 
 private theorem orthMinusLeaf_charP_two_of_card_pow {F : Type} [Field F] [Finite F] {k : ℕ}
     (hk : 1 ≤ k) (h : Nat.card F = 2 ^ k) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   apply ringChar.of_eq
   rw [FiniteField.even_card_iff_char_two, ← Nat.card_eq_fintype_card, h]
   apply Nat.mod_eq_zero_of_dvd
@@ -96,14 +96,14 @@ private theorem orthMinusLeaf_A2_shape {s t : LargeEvenLabel} (ht : GGLabelA2 t)
   obtain ⟨st, sr, sn⟩ := s
   obtain ⟨tt, tr, tn⟩ := t
   simp only [GGLabelA2, GGLabelIso] at *
-  cases st <;> cases tt <;> simp_all <;> omega
+  cases st <;> cases tt <;> simp_all
 
 private theorem orthMinusLeaf_twA2_shape {s t : LargeEvenLabel} (ht : GGLabelA2 t)
     (htw : t.tag = .twA) (h : GGLabelIso s t) : s.tag = .twA ∧ s.rank = 2 := by
   obtain ⟨st, sr, sn⟩ := s
   obtain ⟨tt, tr, tn⟩ := t
   simp only [GGLabelA2, GGLabelIso] at *
-  cases st <;> cases tt <;> simp_all <;> omega
+  cases st <;> cases tt <;> simp_all
 
 private theorem orthMinusLeaf_eq_of_A1_shape {s t : LargeEvenLabel}
     (hs : orthMinusLeaf_SymLabelShape s) (ht : t.tag = .A) (hr : t.rank = 1)
@@ -111,7 +111,7 @@ private theorem orthMinusLeaf_eq_of_A1_shape {s t : LargeEvenLabel}
   obtain ⟨st, sr, sn⟩ := s
   obtain ⟨tt, tr, tn⟩ := t
   simp only [orthMinusLeaf_SymLabelShape, GGLabelIso] at *
-  cases st <;> cases tt <;> simp_all <;> omega
+  cases st <;> cases tt <;> simp_all
 
 private theorem orthMinusLeaf_D4_of_iso {s t : LargeEvenLabel}
     (hs : orthMinusLeaf_SymLabelShape s) (ht : t.tag = .D) (hr : t.rank = 4)
@@ -119,13 +119,13 @@ private theorem orthMinusLeaf_D4_of_iso {s t : LargeEvenLabel}
   obtain ⟨st, sr, sn⟩ := s
   obtain ⟨tt, tr, tn⟩ := t
   simp only [orthMinusLeaf_SymLabelShape, GGLabelIso] at *
-  cases st <;> cases tt <;> simp_all <;> omega
+  cases st <;> cases tt <;> simp_all
 
 private theorem orthMinusLeaf_twD_left {lab : LargeEvenLabel} {r n : ℕ} (hr : 4 ≤ r)
     (h : GGLabelIso (⟨.twD, r, n⟩ : LargeEvenLabel) lab) : lab = ⟨.twD, r, n⟩ := by
   obtain ⟨t, l, m⟩ := lab
   simp only [GGLabelIso] at h
-  rcases h with h | h | h | h | h | h | h | h <;> simp_all <;> omega
+  rcases h with h | h | h | h | h | h | h | h <;> simp_all
 
 private theorem orthMinusLeaf_exists_label_of_marking {K : Type} [Group K] {P : LargeEvenMarkProp K}
     (h : LargeEvenMarking K P) :
@@ -206,8 +206,8 @@ private theorem orthMinusLeaf_reduce
   · subst hr2eq
     dsimp only [LargeEvenRawDatumLegacy] at hraw
     obtain ⟨K, hfieldK, hfiniteK, hcardK, hQ0⟩ := hraw
-    letI := hfieldK
-    letI := hfiniteK
+    let := hfieldK
+    let := hfiniteK
     obtain ⟨hsimple0, hna0, hθ0⟩ := hQ0
     obtain ⟨θ0, -, hsplit0, hin0⟩ := hθ0
     have hcharK : CharP K 2 := by
@@ -229,13 +229,13 @@ private theorem orthMinusLeaf_reduce
     have hlt : Nat.card A < 3 ^ 3 := (hm2p hm2).2 hjne
     exact False.elim (absurd hA27 (by omega))
   · dsimp only [LargeEvenRawDatumLegacy] at hraw
-    rw [if_neg hr2ne] at hraw
+    rw [ite_eq_right hr2ne] at hraw
     rcases eq_or_ne r 3 with hr3eq | hr3ne
     · subst hr3eq
-      rw [if_pos rfl] at hraw
+      rw [ite_eq_left rfl] at hraw
       obtain ⟨K, hfieldK, hfiniteK, hcardK, hQ0⟩ := hraw
-      letI := hfieldK
-      letI := hfiniteK
+      let := hfieldK
+      let := hfiniteK
       obtain ⟨hsimple0, hna0, hθ0⟩ := hQ0
       obtain ⟨θ0, -, -, hin0⟩ := hθ0
       by_cases hodd : Odd n
@@ -269,10 +269,10 @@ private theorem orthMinusLeaf_reduce
         have hcardĀ : Nat.card Ā = Nat.card A := Subgroup.card_map_of_injective hinj
         have hleA : Nat.card A ≤ 3 ^ 2 := by rwa [hcardĀ] at hle
         exact False.elim (absurd hA27 (by omega))
-    · rw [if_neg hr3ne] at hraw
+    · rw [ite_eq_right hr3ne] at hraw
       obtain ⟨K, hfieldK, hfiniteK, hcardK, b, c, hbc, hQ0⟩ := hraw
-      letI := hfieldK
-      letI := hfiniteK
+      let := hfieldK
+      let := hfiniteK
       obtain ⟨hsimple0, hna0, hθ0⟩ := hQ0
       obtain ⟨θ0, -, -, hin0⟩ := hθ0
       have hr4 : 4 ≤ r := by omega
@@ -283,7 +283,7 @@ private theorem orthMinusLeaf_reduce
       have hmark : LargeEvenMarking X (fun l _ _ _ _ _ => l = (⟨.twD, r, n⟩ : LargeEvenLabel)) := by
         refine ⟨hcomm, ⟨.twD, r, n⟩, hlab, ?_⟩
         dsimp only [LargeEvenRawDatumLegacy]
-        rw [if_neg hr2ne, if_neg hr3ne]
+        rw [ite_eq_right hr2ne, ite_eq_right hr3ne]
         exact ⟨K, hfieldK, hfiniteK, hcardK, b, c, hbc, hsimple0, hna0, θ0, rfl⟩
       exact Or.inr ⟨n, r, hr4, hOrth, hmark⟩
 

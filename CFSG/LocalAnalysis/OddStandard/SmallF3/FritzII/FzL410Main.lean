@@ -21,9 +21,9 @@ theorem main : ∃ M : Subgroup G, R ≤ M ∧ M ≤ normalizer (R : Set G) ∧
       ∃ f : ↥M →* FzSigma4, Function.Surjective f ∧ f.ker = R.subgroupOf M := by
   obtain ⟨Φ, hΦ⟩ := D.exists_act
   have hcard : Nat.card (Fz410Om E P Q) = 4 := D.card_Om
-  haveI : Finite (Fz410Om E P Q) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Fz410Om E P Q) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   let e : Fz410Om E P Q ≃ Fin 4 := Finite.equivFinOfCardEq hcard
-  refine ⟨fz410M R E, D.R_le_M, D.M_le_N3, D.relIndex_M,
+  refine ⟨fz410M R E, D.R_le_M, CFSG.OddStandard.SmallF3.FritzII.Fz410Set.M_le_N3, D.relIndex_M,
     e.permCongrHom.toMonoidHom.comp Φ, ?_, ?_⟩
   · exact e.permCongrHom.surjective.comp (D.act_surjective Φ hΦ)
   · ext n

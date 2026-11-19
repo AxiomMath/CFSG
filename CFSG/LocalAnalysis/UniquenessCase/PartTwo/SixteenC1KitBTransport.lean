@@ -14,7 +14,7 @@ open CFSG.LargeExtraspecial.O62
 
 private lemma s16c1_congr_apply {W W' : Type} [CommGroup W] [CommGroup W'] (e : W ≃* W')
     (φ : MulAut W) (x : W) : MulAut.congr e φ (e x) = e (φ x) := by
-  simp [MulAut.congr, MulAut.congr_apply, MulEquiv.trans_apply]
+  simp [MulAut.congr, MulEquiv.trans_apply]
 
 private lemma s16c1_stabilizer_map_congr {W W' : Type} [CommGroup W] [CommGroup W']
     (e : W ≃* W') (w : W) :

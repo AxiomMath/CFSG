@@ -87,6 +87,7 @@ theorem exEven
     fun M hM => Nat.not_even_iff_odd.mp (fun he => hno ⟨M, hM, he⟩)
   exact L.thm2False hGA G z k S hctx hodd (L.thm1_primePower hGA G z k S hctx hodd)
 
+omit L in
 theorem thm4 (hcov : Thm4.PSp4_oddCover)
     : Thm4.Ch4Thm4 :=
   Thm4.thm4_of_19_2_to_19_4 p34 (L26.leaf_lemma26_of_g2_m12 L26.lemma26K_g2 L26.lemma26K_m12) (Thm4.L192.lemma19_2_thm (Thm4.prop17_1 p34 hcov))
@@ -95,7 +96,7 @@ theorem thm4 (hcov : Thm4.PSp4_oddCover)
 theorem oddCoreOverC
     (hcov : Thm4.PSp4_oddCover)
     : Thm4.OddCoreOverC :=
-  Thm6.oddCoreOverC_of_prop201 (L.thm4 hcov) (Thm6.prop201_of_leaves L.thm6)
+  Thm6.oddCoreOverC_of_prop201 (Stage2Leaves.thm4 hcov) (Thm6.prop201_of_leaves L.thm6)
 
 theorem evenOverC
     (hcov : Thm4.PSp4_oddCover)
@@ -116,7 +117,7 @@ theorem main
     (hcov : Thm4.PSp4_oddCover)
     (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
     : Stage2Main := by
-  have h6 := Thm6.thm6 (L.exEven hGA) (L.thm4 hcov) p34 L.thm6
+  have h6 := Thm6.thm6 (L.exEven hGA) (Stage2Leaves.thm4 hcov) p34 L.thm6
   have hsix := Thm4.stage2_sixA p34 (L.oddCoreOverC hcov) (L.evenOverC hcov hGA)
   intro G _ _ z k S hctx
   refine ⟨fun h => h6.1 G z k S hctx h, ?_, ?_⟩

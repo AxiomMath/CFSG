@@ -30,7 +30,7 @@ private theorem CFSG.section10_sylow_eq_bot_of_not_mem_hall
     (P : Sylow p.val K) :
     (P : Subgroup K) = ⊥ := by
   have : Fact p.val.Prime := ⟨p.property⟩
-  rcases P.isPGroup'.card_eq_or_dvd with hcard | hp_dvd
+  rcases P.isPGroup.card_eq_or_dvd with hcard | hp_dvd
   · exact (Subgroup.card_eq_one (H := (P : Subgroup K))).mp hcard
   · exact False.elim <| hpπ
       (hKHall.p_in_pi_of_p_dvd_card p
@@ -87,12 +87,12 @@ private theorem CFSG.section10_nilpotent_sylow_le_centralizer_of_pSubgroup_ne
   have hP_le_core : (P : Subgroup R) ≤ pCore p.val R := by
     have hPnormal : (P : Subgroup R).Normal :=
       Group.IsNilpotent.sylow_normal (p := p.val) inferInstance P
-    exact le_sSup ⟨hPnormal, P.isPGroup'⟩
+    exact le_sSup ⟨hPnormal, P.isPGroup⟩
   have hQ_le_core : Q ≤ pCore q.val R := by
     obtain ⟨Q₀, hQ_le_Q₀⟩ := IsPGroup.exists_le_sylow (G := R) (p := q.val) hQq
     have hQ₀normal : (Q₀ : Subgroup R).Normal :=
       Group.IsNilpotent.sylow_normal (p := q.val) inferInstance Q₀
-    exact hQ_le_Q₀.trans (le_sSup ⟨hQ₀normal, Q₀.isPGroup'⟩)
+    exact hQ_le_Q₀.trans (le_sSup ⟨hQ₀normal, Q₀.isPGroup⟩)
   intro x hxP
   rw [Subgroup.mem_centralizer_iff]
   intro y hyQ
@@ -140,7 +140,7 @@ private theorem CFSG.section10_ambient_sylow_le_centralizer_of_nilpotent_overgro
     section10AmbientSylowSubgroup S P ≤ Subgroup.centralizer (X : Set G) := by
   classical
   have hPp : IsPGroup p.val (section10AmbientSylowSubgroup S P) := by
-    exact IsPGroup.map (p := p.val) (H := (P : Subgroup S)) P.isPGroup' S.subtype
+    exact IsPGroup.map (p := p.val) (H := (P : Subgroup S)) P.isPGroup S.subtype
   exact section10_pSubgroup_le_centralizer_of_nilpotent_overgroup
     (G := G) hpq hLnil hPL hXL hPp hXq
 
@@ -170,7 +170,7 @@ public theorem CFSG.section10_sylow_le_normal_hall_of_mem
   let PS : Sylow p.val S := Classical.choice (Sylow.nonempty (p := p.val) (G := S))
   let Psub : Subgroup H := (PS : Subgroup S).map S.subtype
   have hPsub_p : IsPGroup p.val Psub := by
-    exact IsPGroup.map (p := p.val) (H := (PS : Subgroup S)) PS.isPGroup' S.subtype
+    exact IsPGroup.map (p := p.val) (H := (PS : Subgroup S)) PS.isPGroup S.subtype
   have hp_not_S_index : ¬ p.val ∣ S.index := by
     intro hp_dvd
     exact (hSHall.p_in_pi_of_p_dvd_index p hp_dvd) hpπ
@@ -246,7 +246,7 @@ public theorem CFSG.section10_exists_sylow_centralized_of_local_nilpotent_hall_p
   let PL : Sylow p.val L := Classical.choice (Sylow.nonempty (p := p.val) (G := L))
   let PsubS : Subgroup S := (PL : Subgroup L).map L.subtype
   have hPsubS_p : IsPGroup p.val PsubS := by
-    exact IsPGroup.map (p := p.val) (H := (PL : Subgroup L)) PL.isPGroup' L.subtype
+    exact IsPGroup.map (p := p.val) (H := (PL : Subgroup L)) PL.isPGroup L.subtype
   have hp_not_L_index : ¬ p.val ∣ L.index := by
     intro hp_dvd
     exact (hLHall.p_in_pi_of_p_dvd_index p hp_dvd) hpπ
@@ -495,7 +495,7 @@ private theorem CFSG.section10_corollary_10_9_a_1_of_nilpotent_pair_hall
   let PW : Sylow p.val W := Classical.choice (Sylow.nonempty (p := p.val) (G := W))
   let PsubM : Subgroup M := (PW : Subgroup W).map W.subtype
   have hPsubM_p : IsPGroup p.val PsubM := by
-    exact IsPGroup.map (p := p.val) (H := (PW : Subgroup W)) PW.isPGroup' W.subtype
+    exact IsPGroup.map (p := p.val) (H := (PW : Subgroup W)) PW.isPGroup W.subtype
   have hp_pair : p ∈ ({p, q} : Set Nat.Primes) := by
     simp
   have hp_not_W_index : ¬ p.val ∣ W.index := by
@@ -526,7 +526,7 @@ private theorem CFSG.section10_corollary_10_9_a_1_of_nilpotent_pair_hall
     exact section10_sylow_le_normal_hall_of_mem hSHall hpσ PM
   let PsubS : Subgroup S := (PM : Subgroup M).subgroupOf S
   have hPsubS_p : IsPGroup p.val PsubS := by
-    exact PM.isPGroup'.of_equiv
+    exact PM.isPGroup.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := (PM : Subgroup M)) (K := S) hPM_le_S).symm
   have hp_not_S_index : ¬ p.val ∣ S.index := by
     intro hp_dvd
@@ -763,7 +763,7 @@ private theorem CFSG.section10_pair_hall_nilpotent_of_inf_derived_nilpotent
       have hP_le_AW : (P : Subgroup W) ≤ AW :=
         section10_pSubgroup_le_inf_derived_of_sigma
           (G := G) (M := M) (p := p) (W := W) (P := (P : Subgroup W))
-          hM hpσ P.isPGroup'
+          hM hpσ P.isPGroup
       let PA : Sylow p.val AW := P.subtype hP_le_AW
       have hPAmap_eq : (PA : Subgroup AW).map AW.subtype = (P : Subgroup W) := by
         ext x
@@ -801,7 +801,7 @@ private theorem CFSG.section10_pair_hall_nilpotent_of_inf_derived_nilpotent
       have hP_le_BW : (P : Subgroup W) ≤ BW :=
         section10_qSubgroup_le_inf_pPrimeCore_of_largest_lt
           (G := G) (M := M) (p := p) (q := q) (W := W) (Q := (P : Subgroup W))
-          hlargest P.isPGroup' hpq_lt
+          hlargest P.isPGroup hpq_lt
       have hBW_le_core : BW ≤ pCore q.val W :=
         le_sSup (show BW ∈ {K : Subgroup W | K.Normal ∧ IsPGroup q.val K} from
           ⟨hBWnormal, hBWq⟩)
@@ -812,7 +812,7 @@ private theorem CFSG.section10_pair_hall_nilpotent_of_inf_derived_nilpotent
       rw [← hcore_eq]
       infer_instance
   · have hPbot : (P : Subgroup W) = ⊥ := by
-      rcases P.isPGroup'.card_eq_or_dvd with hcard | hdiv
+      rcases P.isPGroup.card_eq_or_dvd with hcard | hdiv
       · exact (Subgroup.card_eq_one (H := (P : Subgroup W))).mp hcard
       · exact False.elim
           (hrW (hdiv.trans (Subgroup.card_subgroup_dvd_card (P : Subgroup W))))

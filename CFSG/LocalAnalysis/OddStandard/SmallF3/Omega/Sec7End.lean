@@ -69,7 +69,7 @@ theorem sec711_false [Finite G] (h36 : Asc82Lemma36) (h35 : Asc82Lemma35)
   obtain ⟨Y, hYcomp, hYnorm, hYF, hYC, hlay, hYtype, hEY, hCA, hcyc⟩ :=
     hY G t L S z g B E U hU b hbB hb1 hbtype
   by_cases h6m : IsOmega6Minus Y
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hb2 : orderOf b = 2 := orderOf_eq_prime (hc.normalE16.2.1.1.2 b hbB) hb1
     exact sec711_not_omega6Minus h36 h35 hP hM hF hc.ctx hb2 (hc.normalE16.1 hbB).2 hbtype
       hYcomp hYnorm hYF hlay h6m
@@ -79,14 +79,13 @@ theorem sec711_false [Finite G] (h36 : Asc82Lemma36) (h35 : Asc82Lemma35)
   have hUN : U ≤ normalizer (Y : Set G) := hUE.trans hEY
   have hcard : Nat.card U = 2 ^ 8 := hU.card
   rcases hPr G t L S z g B E U hU with hel | he4
-  · haveI : IsMulCommutative ↥U := hel.1.1
+  · have : IsMulCommutative ↥U := hel.1.1
     have hcommU : ∀ x ∈ U, ∀ y ∈ U, x * y = y * x := fun x hx y hy =>
       setLike_mul_comm hx hy
     have hcommAut : ∀ a ∈ autIn U Y, ∀ b ∈ autIn U Y, a * b = b * a :=
       sec7End_autIn_comm hcommU
     have hAb' := hAb G Y U hQ hUN hU2 hcommAut
     have hle := sec7End_card_le_mul hUE hEY hcyc (n := 2) (by norm_num) hel.1.2
-    norm_num at hle
     rcases hYtype with h | h | h | h
     · exact absurd (hAb'.1 h) (by omega)
     · exact absurd (hAb'.2.2 h) (by omega)
@@ -99,7 +98,6 @@ theorem sec711_false [Finite G] (h36 : Asc82Lemma36) (h35 : Asc82Lemma35)
     have hAb' := hAb G Y U hQ hUN hU2 hcommAut
     have hle := sec7End_card_le_mul hUE hEY hcyc (n := 4) (by norm_num)
       (sec711_exp_of_equiv e4)
-    norm_num at hle
     rcases hYtype with h | h | h | h
     · exact absurd (hAb'.1 h) (by omega)
     · exact absurd (hAb'.2.2 h) (by omega)

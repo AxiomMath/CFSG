@@ -60,7 +60,7 @@ theorem trialityThreeOuterModelBig_holds (hgold : CFSG.Goldschmidt.TopStatement)
   have hAB := trialityABFacts_of_par hgold hD hn
   have hR1 := trialityR1Facts_of_par hgold hD
   have hk4 := hD.four_le_card_fix hn
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   rw [← planeGen_iff_closure_fixUnion]
   obtain ⟨x, hx3, hx1, g, e, he, hβ3, hcomm, hEeq⟩ :=
     outer_plane_shape σ n (by omega) hX hσ E hE hcard hout

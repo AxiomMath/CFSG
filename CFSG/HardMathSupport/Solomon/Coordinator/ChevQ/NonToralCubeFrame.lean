@@ -186,8 +186,8 @@ variable {τ : Tag} {K : Type} [Field K] [Finite K]
 
 theorem ringChar_algebraicClosure_ne_three (hK3 : ¬ 3 ∣ Nat.card K) :
     ringChar (AlgebraicClosure K) ≠ 3 := by
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   rw [ringChar.eq (AlgebraicClosure K) (ringChar K)]
   intro h
@@ -224,10 +224,10 @@ theorem nonempty_cubeFrame (hK3 : ¬ 3 ∣ Nat.card K)
     {z : adjointGroup τ K} (hz : z ∈ E₀) : Nonempty (CubeFrame D z) := by
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L (ringChar K) :=
+  have : CharP L (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K L).injective (ringChar K)
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
   have hℓ : ringChar K ≠ 3 := by
@@ -265,7 +265,7 @@ theorem nonempty_cubeFrame (hK3 : ¬ 3 ∣ Nat.card K)
         baseChangeGL ι ((D.c * x * D.c⁻¹ : adjointGroup τ K) : ModGL τ K) := hte
     calc t = D.g0⁻¹ * (D.g0 * t * D.g0⁻¹) * D.g0 := by group
       _ = _ := by rw [hte']
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   obtain ⟨x₀, hx₀P, y₀, hy₀P, hP⟩ := SeitzExcOpenRest3.exists_two_gen_of_card_sq' hp3 P hPc
     (fun x hx => hexpE x (hPE hx))
   obtain ⟨a, ha, haF⟩ := hdiag x₀ hx₀P
@@ -321,7 +321,7 @@ theorem nonempty_cubeFrame (hK3 : ¬ 3 ∣ Nat.card K)
     exact mul_mem (mul_mem hC₀G (hφG x)) (inv_mem hC₀G)
   have hA''fin : (A'' : Set (ModGL τ L)).Finite := by
     have : Finite (E₀.map φ) := by
-      haveI : Finite ↥E₀ := inferInstance
+      have : Finite ↥E₀ := inferInstance
       exact Finite.of_surjective _ (Subgroup.equivMapOfInjective E₀ φ
         ((baseChangeGL_injective ι).comp Subtype.val_injective)).surjective
     exact Set.Finite.image _ (Set.toFinite _)
@@ -485,7 +485,7 @@ theorem CubeFrame.exists_torus {P : Subgroup (adjointGroup τ K)} {D : LangPlane
     weylQuotientHom_torus_mul (rootDiagUnit_mem_torusGroup F.b) F.ω hnN
   have hgn : F.g⁻¹ * baseChangeGL ι (z : ModGL τ K) * F.g = n := by
     rw [← F.conj_z, hn]
-    group <;> rfl
+    group; rfl
   have hn3 : n ^ 3 = 1 := by
     have hz3' : (z : ModGL τ K) ^ 3 = 1 := by rw [← Subgroup.coe_pow, hz3, Subgroup.coe_one]
     have h : baseChangeGL ι (z : ModGL τ K) ^ 3 = 1 := by rw [← map_pow, hz3', map_one]

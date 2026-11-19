@@ -28,9 +28,9 @@ private theorem sympMatrixCase (h : SympCompMatrixAnalysis)
     (hy : LargeEvenInduces θ (fun l l' : ↥L => (l' : G) = b⁻¹ * l * b)
       (MulAut.conj (proj m K y))) :
     InnDiagOn p (Subgroup.zpowers b) J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
-  haveI : NeZero m := ⟨by omega⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hKcard
+  have : NeZero m := ⟨by omega⟩
   have hqJ : CFSG.IsQuasisimple (PQuot p J) :=
     (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).mp
       ((CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_open _).mpr
@@ -85,8 +85,8 @@ theorem innerCompNonShape_symp_charTwo (h : SympCompMatrixAnalysis) :
       obtain ⟨K, hKfield, hKfinite, hKcard, hm2, θ, hforall⟩ :=
         spMarking_holds (G := G) p L J A d b m q.exponent hS
           ⟨.lie ⟨.B m q, hv⟩, ⟨q, Or.inl rfl, hqcard⟩, ⟨eS⟩⟩
-      letI := hKfield
-      letI := hKfinite
+      let := hKfield
+      let := hKfinite
       obtain ⟨x, hx⟩ := hforall d hS.d_mem
       obtain ⟨y, hy⟩ := hforall b hS.b_mem
       exact sympMatrixCase h hS hKcard hm2 hx hy
@@ -98,8 +98,8 @@ theorem innerCompNonShape_symp_charTwo (h : SympCompMatrixAnalysis) :
       obtain ⟨K, hKfield, hKfinite, hKcard, hm2, θ, hforall⟩ :=
         spMarking_holds (G := G) p L J A d b m q.exponent hS
           ⟨.lie ⟨.C m q, hv⟩, ⟨q, Or.inr rfl, hqcard⟩, ⟨eS⟩⟩
-      letI := hKfield
-      letI := hKfinite
+      let := hKfield
+      let := hKfinite
       obtain ⟨x, hx⟩ := hforall d hS.d_mem
       obtain ⟨y, hy⟩ := hforall b hS.b_mem
       exact sympMatrixCase h hS hKcard hm2 hx hy

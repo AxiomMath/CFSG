@@ -27,8 +27,8 @@ theorem omegaPlus_eq_bot_of_normalizes_ppd (hinj : Function.Injective ρ)
     {R : Subgroup H} (hR : IsPGroup 2 R) (hgR : g ∈ Subgroup.normalizer (R : Set H)) :
     R = ⊥ := by
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite V := Module.finite_of_finite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite V := Module.finite_of_finite F
   have hflag := le_flagKernel_singFlag 2 hQ hstar R hR
   have hZ0 : singSeq Φ ρ R (Module.finrank F V) ≠ ⊥ := by
     intro h0
@@ -89,7 +89,7 @@ theorem not_dvd_card_normalizer_omegaPlus {n : ℕ} (hn : 4 ≤ n) {F : Type} [F
     ¬ r ∣ Nat.card (Subgroup.normalizer
       (R : Set (StatedProj (StatedOmega (StatedQuadPlus n F))))) := by
   intro hrN
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hq : 1 ≤ Nat.card F := Nat.card_pos
   have hA : 1 ≤ Nat.card F ^ (n - 1) := Nat.one_le_pow _ _ hq
   have hrA : r ∣ Nat.card F ^ (n - 1) + 1 := by

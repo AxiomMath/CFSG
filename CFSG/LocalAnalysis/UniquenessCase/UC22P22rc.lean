@@ -30,7 +30,7 @@ theorem uc22p22r_commutator_top_ne {S : Type*} [Group S] [Group.IsNilpotent S] {
 theorem uc22p22r_le_upperCentralSeries_two {S : Type*} [Group S] [Finite S] {q : ℕ} [hq : Fact q.Prime]
     (hS : IsPGroup q S) {E : Subgroup S} [hEn : E.Normal] (hE : Nat.card ↥E = q ^ 2) :
     E ≤ Subgroup.upperCentralSeries S 2 := by
-  haveI : Group.IsNilpotent S := hS.isNilpotent
+  have : Group.IsNilpotent S := hS.isNilpotent
   set F : Subgroup S := ⁅E, (⊤ : Subgroup S)⁆ with hF
   have hFE : F ≤ E := Subgroup.commutator_le_left E ⊤
   have hEne : E ≠ ⊥ := by
@@ -73,10 +73,10 @@ theorem uc22p22r_exists_omega_two {X : Type} [Group X] [Finite X] {q : ℕ} (hq 
     ∃ P : Subgroup X, P ≤ R ∧ P.Normal ∧ (∀ x ∈ P, x ^ q = 1) ∧ ⁅⁅P, P⁆, P⁆ = ⊥ ∧ ¬ IsCyclic ↥P ∧
       ∀ x ∈ R, (∀ r ∈ R, x * r = r * x) → x ^ q = 1 → x ∈ P := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set Z2 : Subgroup X := (Subgroup.upperCentralSeries ↥R 2).map R.subtype with hZ2
   have hZ2R : Z2 ≤ R := Subgroup.map_subtype_le _
-  haveI hZ2n : Z2.Normal := inferInstance
+  have hZ2n : Z2.Normal := inferInstance
   have hcl : ⁅⁅Z2, Z2⁆, Z2⁆ = ⊥ := by
     have h2 : ⁅Subgroup.upperCentralSeries ↥R 2, Subgroup.upperCentralSeries ↥R 2⁆ ≤ Subgroup.center ↥R := by
       rw [← Subgroup.upperCentralSeries_one]
@@ -108,7 +108,7 @@ theorem uc22p22r_exists_omega_two {X : Type} [Group X] [Finite X] {q : ℕ} (hq 
     obtain ⟨E, -, hEn, hEcard, hEexp, -⟩ :=
       CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.T29.exists_normal_elementary_sq_of_not_isCyclic hq2 hR ⊤
         hnc'
-    haveI := hEn
+    have := hEn
     have hEZ : E ≤ Subgroup.upperCentralSeries ↥R 2 := uc22p22r_le_upperCentralSeries_two hR hEcard
     have hE'Ω : E.map R.subtype ≤ Ω := by
       rintro _ ⟨e, he, rfl⟩
@@ -117,8 +117,8 @@ theorem uc22p22r_exists_omega_two {X : Type} [Group X] [Finite X] {q : ℕ} (hq 
       have h2 := congrArg Subtype.val h1
       simpa using h2
     intro hcyc
-    haveI := hcyc
-    haveI : IsCyclic ↥(E.map R.subtype) := Subgroup.isCyclic_of_le hE'Ω
+    have := hcyc
+    have : IsCyclic ↥(E.map R.subtype) := Subgroup.isCyclic_of_le hE'Ω
     obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥(E.map R.subtype))
     have hcard' : Nat.card ↥(E.map R.subtype) = q ^ 2 := by
       rw [Subgroup.card_map_of_injective R.subtype_injective]

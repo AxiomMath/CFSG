@@ -20,6 +20,7 @@ theorem FF81Hyp.isElemAb_B4 (h : FF81Hyp b L)
     rintro x (rfl | rfl | rfl)
     exacts [hb₁, hb₂, hb₃]))
 
+omit [Finite G] in
 theorem fix_tau'_le_of_conj
     {B : Subgroup G} {b : G} (hbB : b ∈ B) (hb3 : orderOf b = 3)
     {τX : MulAut ↥B}

@@ -54,7 +54,7 @@ theorem mem_Kfam_one {P N : Subgroup G} (hNP : N ≤ P)
     obtain ⟨B, hB, hxB⟩ := Set.mem_iUnion₂.1 hx
     exact hB.1 hxB
   show N ∈ (if Even 0 then Klow P (gen (Kfam P 0)) else Kup P (gen (Kfam P 0)))
-  rw [if_pos (by decide : Even 0)]
+  rw [ite_eq_left (by decide : Even 0)]
   refine ⟨hcl, hgen.trans hnorm, fun A hA _ _ _ _ => ?_⟩
   rw [Subgroup.commutator_le]
   intro n hn a ha
@@ -254,7 +254,7 @@ theorem isPGroup_quotient_oResidual {Y : Type} [Group Y] [Finite Y] {p : ℕ} (h
 theorem oResidual_eq_top_of_sylow_le_commutator {Y : Type} [Group Y] [Finite Y] {p : ℕ}
     [hp : Fact p.Prime] (T : Sylow p Y) (hT : (T : Subgroup Y) ≤ commutator Y) :
     CFSG.GH74.GLS.oResidual p Y = ⊤ := by
-  haveI : (CFSG.GH74.GLS.oResidual p Y).Normal := Lemma1316.oResidual_normal p Y
+  have : (CFSG.GH74.GLS.oResidual p Y).Normal := Lemma1316.oResidual_normal p Y
   have hQ : IsPGroup p (Y ⧸ CFSG.GH74.GLS.oResidual p Y) := isPGroup_quotient_oResidual hp.out
   have hf : Function.Surjective (QuotientGroup.mk' (CFSG.GH74.GLS.oResidual p Y)) :=
     QuotientGroup.mk'_surjective _
@@ -302,7 +302,7 @@ theorem oResidual_eq_top_of_sylow_le_commutator {Y : Type} [Group Y] [Finite Y] 
 
 theorem glaubermanTransfer_of_control (hC : GlaubermanTransferControl) : GlaubermanTransfer := by
   intro G _ _ p hp hp5 S hS hN hG
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSN : S ≤ Subgroup.normalizer ((kLowInfty S : Subgroup G) : Set G) := fun s hs =>
     mem_normalizer_kLowInfty (Subgroup.le_normalizer hs)
   have hSG : S ≤ commutator G := le_commutator_of_oResidual_eq_top hG hS.2.1
@@ -370,7 +370,7 @@ theorem semilinearQuotient_comm (F : Type) [Field F] [Finite F] (hodd : IsOddPri
     rw [← hker]
     infer_instance
   have hDc := le_center_of_card_le_two hDn ((Nat.dvd_prime Nat.prime_two).1 hcard)
-  haveI : IsCyclic (F ≃+* F) := fieldAut_isCyclic F
+  have : IsCyclic (F ≃+* F) := fieldAut_isCyclic F
   have hcomm := (quotientFieldProjection F).isMulCommutative_of_isCyclic_of_ker_le_center
     (by rw [hker]; exact hDc)
   exact hcomm.is_comm.comm a b
@@ -423,7 +423,7 @@ theorem oResidual_normalizer_ne_top {m p : ℕ} {B M E A D T R L0 : Subgroup G} 
     CFSG.GH74.GLS.oResidual p ↥(Subgroup.normalizer ((kLowInfty R : Subgroup G) : Set G)) ≠ ⊤ := by
   have hβ : p.Prime ∧ p ≠ 2 ∧ p ∣ Nat.card G ∧ m ≤ GLATwoLocalRank p G := h.standing.beta
   have hp : p.Prime := hβ.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 : 5 ≤ p := by
     have h3 : 3 < p := h139a.1
     have hne : p ≠ 4 := by
@@ -527,13 +527,13 @@ theorem lemma1316_of_transfer (h1312 : Lemma1312Statement) (hGT : GlaubermanTran
       rintro rfl
       exact absurd hp (by norm_num)
     omega
-  haveI : IsSimpleGroup G := h.standing.simple
+  have : IsSimpleGroup G := h.standing.simple
   have hG : CFSG.GH74.GLS.oResidual p G ≠ ⊤ := hGT G p hp hp5 R hRG (hloc h h139a)
-  haveI : (CFSG.GH74.GLS.oResidual p G).Normal := Lemma1316.oResidual_normal p G
+  have : (CFSG.GH74.GLS.oResidual p G).Normal := Lemma1316.oResidual_normal p G
   have hbot : CFSG.GH74.GLS.oResidual p G = ⊥ :=
     (IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.GH74.GLS.oResidual p G)).resolve_right hG
   have hPG : IsPGroup p G := Lemma1316.isPGroup_of_oResidual_eq_bot hp hbot
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZbot : Subgroup.center G ≠ ⊥ :=
     (Subgroup.nontrivial_iff_ne_bot _).1 hPG.center_nontrivial
   have hZtop : Subgroup.center G = ⊤ :=

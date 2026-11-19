@@ -92,7 +92,7 @@ theorem suzukiWitnessAt {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
     intro hinn hs hna hbody f hf hord hfinR hJ'
     obtain ⟨-, -, hconj, hFI⟩ := hinn hs hna
     obtain ⟨J, hJ⟩ := hJ'
-    haveI := hfinR
+    have := hfinR
     have hk1 : 1 ≤ k := by omega
     by_cases hpa : p = 2 * k + 1
     · exfalso

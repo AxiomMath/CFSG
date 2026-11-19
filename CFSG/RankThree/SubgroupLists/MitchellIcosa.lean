@@ -31,6 +31,7 @@ section Frame
 
 variable [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p] [Finite K'] [CharP K' p]
 
+omit [Finite K] in
 theorem plusImage_of_icosa_triple (hp5 : 5 ≤ p)
     {G : Subgroup (GL V₄ K)} (hGS : G ≤ StatedSp 2 K) (hU0 : ∀ x ∈ G, IsSqZero x → x = 1)
     (hneg : (-1 : GL V₄ K) ∈ G) {d e f : GL V₄ K} (hdG : d ∈ G) (heG : e ∈ G) (hfG : f ∈ G)
@@ -145,7 +146,7 @@ theorem plusImage_of_icosa_triple (hp5 : 5 ≤ p)
     · refine hnc2 (frameHom_injective φ k ?_)
       rw [frameHom_neg, map_mul (frameHom φ k) (d * e) (d * f),
         map_mul (frameHom φ k) (d * f) (d * e), hx', hy', h]
-  obtain ⟨n, hF⟩ := card_eq_pow_of_finite (K := K') (p := p) hp2
+  obtain ⟨n, hF⟩ := card_eq_pow_of_finite (K := K') (p := p)
   have hxH : x' ∈ Subgroup.closure {x', y'} := Subgroup.subset_closure (Set.mem_insert _ _)
   have hyH : y' ∈ Subgroup.closure {x', y'} :=
     Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))
@@ -153,7 +154,7 @@ theorem plusImage_of_icosa_triple (hp5 : 5 ≤ p)
     (Subgroup.closure_le _).mpr (by rintro _ (rfl | rfl) <;> assumption)
   have hLY := plusImage_mono h2' hHG
   have hY : ¬ p ∣ Nat.card (plusImage h2' (frameGroup φ k G)) :=
-    not_dvd_card_plusImage hp2 hU0' hneg'
+    not_dvd_card_plusImage hp2 hU0'
   obtain ⟨eL⟩ : Nonempty (plusImage h2' (Subgroup.closure {x', y'}) ≃*
       alternatingGroup (Fin 5)) := by
     refine nonempty_mulEquiv_alternating_five hF _

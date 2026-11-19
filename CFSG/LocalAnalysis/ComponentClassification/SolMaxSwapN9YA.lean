@@ -353,7 +353,7 @@ theorem Setting.exists_a9_action (hs : Setting t J n e E D M) (hn : n = 9)
   have hnorm : ∀ y ∈ normalizer (N₁ : Set X), ∀ z ∈ K₁, y * z * y⁻¹ ∈ K₁ := fun y hy z hz =>
     (mem_normalizer_iff.mp (mem_normalizer_coreActionKernel hy) z).mp hz
   have hKn : (K₁.subgroupOf G).Normal := ⟨fun k hk g => hnorm g (hGN g.2) k hk⟩
-  haveI hTn : ((K₁.subgroupOf G).map φ).Normal := hKn.map φ hsurj
+  have hTn : ((K₁.subgroupOf G).map φ).Normal := hKn.map φ hsurj
   have : IsSimpleGroup (alternatingGroup (Fin 9)) := alternatingGroup.isSimpleGroup (by simp)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((K₁.subgroupOf G).map φ) with hT | hT
   · have h1 : φ g ∈ (K₁.subgroupOf G).map φ := ⟨g, hgK, rfl⟩

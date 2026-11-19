@@ -94,8 +94,8 @@ theorem l56_comm_comm_mem_Z (h34 : Stroth34Statement) (h311a : Stroth311aStateme
   classical
   obtain ⟨K, fK, finK, chK, hn, φ, ψ, u, hK, hrange, hker, hnorm, hψ, hBiff, -, hdet, hu0⟩ :=
     HS9.sec9_coord h34 hc hs
-  haveI := hn
-  haveI : CharP K 2 := chK
+  have := hn
+  have : CharP K 2 := chK
   obtain ⟨a, b, ha, hb, hu⟩ := HS9.exists_vecMulVec_of_det_eq_zero hdet hu0
   have hfac := HS9.sec97_factor_pair h34 h311a hc hs hsplit hK φ hrange hker
   have hsplit0 := hsplit
@@ -192,8 +192,8 @@ theorem l56_mem_CN_of_comm_uline (h34 : Stroth34Statement) (h311a : Stroth311aSt
   classical
   obtain ⟨K, fK, finK, chK, hn, φ, ψ, u, hK, hrange, hker, hnorm, hψ, hBiff, -, hdet, hu0⟩ :=
     HS9.sec9_coord h34 hc hs
-  haveI := hn
-  haveI : CharP K 2 := chK
+  have := hn
+  have : CharP K 2 := chK
   obtain ⟨a, b, ha, hb, hu⟩ := HS9.exists_vecMulVec_of_det_eq_zero hdet hu0
   have hfac := HS9.sec97_factor_pair h34 h311a hc hs hsplit hK φ hrange hker
   obtain ⟨⟨-, hXR, -, -, -, -, -⟩, -, -⟩ := hsplit
@@ -304,6 +304,7 @@ theorem l56_mem_CN_of_comm_uline (h34 : Stroth34Statement) (h311a : Stroth311aSt
     rw [← hA', hA'eq]
     exact map_one (rho' K)
 
+omit [Finite G] in
 theorem l56_split95_conj (hc : Ctx M Q Z B) {t : G} {X Y : Subgroup G}
     (hsplit : HS9.Split95 M Q Z B t X Y) {z : G} (hz : z ∈ M) :
     HS9.Split95 M Q Z B (z * t * z⁻¹) (conjSubgroup z X) (conjSubgroup z Y) := by
@@ -388,6 +389,7 @@ theorem l56_data_conj (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
   · have h1 := l56_split95_conj hc hsplit_s hh
     rwa [hY] at h1
 
+omit [Finite G] in
 theorem l56_mem_conj_LB {X' Y : Subgroup G} (hcomm : ∀ a ∈ X', ∀ y ∈ Y, ⁅a, y⁆ ∈ Q) {c w : G}
     (hc : c ∈ X') (hw : w ∈ LB M Q B ⊓ Y) : w ∈ conjSubgroup c (LB M Q B) := by
   rw [mem_conjSubgroup]

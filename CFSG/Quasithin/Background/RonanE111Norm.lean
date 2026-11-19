@@ -11,6 +11,7 @@ open CFSG.Open CFSG.Quasithin CFSG.Quasithin.A1b CFSG.Quasithin.E2.E22N CFSG.Qua
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_inv_conj_diagHom {J Z : Subgroup G} [Fintype ↥Z] (hC : DiagComm J Z) {v : G}
     (hvN : v ∈ Subgroup.normalizer (J : Set G)) (hvC : ∀ c ∈ Z, v * c = c * v) (y : ↥J) :
     ∃ z : ↥J, (z : G) = v⁻¹ * (y : G) * v ∧
@@ -30,6 +31,7 @@ theorem exists_inv_conj_diagHom {J Z : Subgroup G} [Fintype ↥Z] (hC : DiagComm
   rw [← h5]
   group
 
+omit [Finite G] in
 theorem norm_trick {X T A J Z : Subgroup G} [Fintype ↥Z] (h : DiagSetting X T A J Z)
     (hZV : Z ⊔ (A ⊓ Subgroup.normalizer (J : Set G)) = A) {j : G} (hj : j ∈ J)
     (hjS : ∀ v ∈ A ⊓ Subgroup.normalizer (J : Set G), j * v * j⁻¹ ∈ T) :

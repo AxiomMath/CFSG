@@ -150,7 +150,7 @@ public theorem secondCase_linear_outer_disjoint
       (h2 : Q ≤ Subgroup.normalizer (P2 : Set G)) :
       Q ≤ Subgroup.normalizer ((P1 ⊔ P2 : Subgroup G) : Set G) := by
     intro q hq
-    exact Subgroup.normalizer_inf_normalizer_le_normalizer_sup P1 P2
+    exact Subgroup.inf_normalizer_le_normalizer_sup P1 P2
       ⟨h1 hq, h2 hq⟩
   have hRr_norm_J : Rr ≤ Subgroup.normalizer (J : Set G) := by
     exact normalizes_sup (normalizes_sup hRr_norm_Cmt hRr_norm_K)

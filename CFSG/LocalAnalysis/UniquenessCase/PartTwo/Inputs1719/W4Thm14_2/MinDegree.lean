@@ -23,7 +23,7 @@ theorem k_SL3MinDegree_holds :
         CFSG.LocalAnalysis.UniquenessCase.UC22.IsSL3 X 4) → 5 ≤ dMinDeg X := by
   intro X _ _ hX
   have hQ : CFSG.Open.IsQuasisimple X := by rcases hX with h | h <;> exact h.1
-  haveI : Nontrivial X := nontrivial_of_isQuasisimple hQ
+  have : Nontrivial X := nontrivial_of_isQuasisimple hQ
   refine le_dMinDeg (D := 5) ?_
   intro d f hf
   by_contra h5

@@ -39,7 +39,7 @@ theorem centreTwoPartLe_psl_three_sixteen (hGA : CFSG.Open.GriessAllModelsStatem
     simp [Blueprint.Multiplier.genericOrders, Blueprint.Multiplier.exceptionalOrders]
   rw [hcard] at h1
   have hS : Nat.card S ∣ 3 := (Subgroup.card_subgroup_dvd_card S).trans h1
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (S.isPGroup' : IsPGroup 2 S)
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (S.isPGroup : IsPGroup 2 S)
   rw [hk] at hS ⊢
   have hk0 : k = 0 := by
     by_contra hk0

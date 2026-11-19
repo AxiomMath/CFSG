@@ -24,7 +24,7 @@ theorem exists_core_of_orb5E (hI : TwoHSInterface) {G : Type} [Group G] [Finite 
         N ⊓ Subgroup.closure ({s, z'} : Set G) = ⊥ := by
   classical
   have hx' := hx
-  simp only [orb5E, oddSet, Set.mem_setOf_eq] at hx'
+  simp only [orb5E, oddSet, Set.mem_ofPred_eq] at hx'
   obtain ⟨hxodd, hρord, -⟩ := hx'
   obtain ⟨hconj_x, hx_ne_a, hodd, s, hs, hsx⟩ := hxodd
   have hsa : a * s = s * a := mem_Gx.mp (mem_Gxy.mp hsx).1

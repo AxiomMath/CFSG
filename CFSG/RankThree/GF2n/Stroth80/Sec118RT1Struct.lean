@@ -29,7 +29,7 @@ theorem action_eq_id_of_mem_Q (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
   rw [← hφπ l x hx]
   exact Tim79.QuadModel.pi_conj_self (M₀ := M₀) hlQ hx
 
-omit [Finite G] [(Q.subgroupOf M).Normal] in
+omit [Finite G] [(Q.subgroupOf M).Normal] [Finite K] in
 theorem tensorHom_eq_one_of_mem_Q (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     {m : ℕ} (hm : 1 ≤ m) {W₁ W₂ : Submodule K M₀.E} (hdisj : W₁ ⊓ W₂ = ⊥)
     (e₁ : W₁ ≃ₗ[K] (Fin m ⊕ Fin m → K)) (e₂ : W₂ ≃ₗ[K] (Fin m ⊕ Fin m → K))

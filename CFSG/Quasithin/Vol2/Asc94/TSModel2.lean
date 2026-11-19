@@ -121,7 +121,7 @@ theorem sigma_zt : sigma zt = zt := by
   apply Hc_ext
   rw [sigma_apply, cm_sigmaHom, hzz, cm_zt]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [sgM_apply, tt, Matrix.one_apply, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [sgM_apply, tt]
 
 theorem map_sigma_U1 : U1.map sigmaHom = U2 := by
   apply le_antisymm

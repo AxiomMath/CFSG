@@ -15,6 +15,7 @@ open scoped IsMulCommutative commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G} {K : Type} [Field K]
 
+omit [Finite G] in
 theorem conj_mem_centralizer_fsuVM {n c : G} (hn : n ∈ fsuM T L)
     (hc : c ∈ Subgroup.centralizer (fsuVM T L I : Set G)) :
     n * c * n⁻¹ ∈ Subgroup.centralizer (fsuVM T L I : Set G) := by
@@ -120,7 +121,7 @@ theorem lemma3 (h37 : Vol2Native.A37ForSQTKCat)
       one_mem' := by
         refine ⟨(fsuM T L).one_mem, fun l hl => ?_⟩
         simp only [commutatorElement_def]
-        simpa using Subgroup.one_mem _
+        simp
       inv_mem' := by
         rintro x ⟨hx, hx0⟩
         refine ⟨(fsuM T L).inv_mem hx, fun l hl => ?_⟩
@@ -186,7 +187,7 @@ theorem lemma3 (h37 : Vol2Native.A37ForSQTKCat)
     · push Not at hpow
       exfalso
       obtain ⟨r, hrp, hr2, hrd⟩ := exists_odd_prime_dvd_of_ne_two_pow (orderOf_pos (q x')) hpow
-      haveI : Fact r.Prime := ⟨hrp⟩
+      have : Fact r.Prime := ⟨hrp⟩
       obtain ⟨k', hk'mem, ⟨j, hj⟩, hk'ord⟩ := exists_pPower_lift q hrd
       have hk'C0 : (k' : G) ∈ C0 := by
         obtain ⟨n, hn⟩ := Subgroup.mem_zpowers_iff.mp hk'mem

@@ -220,6 +220,7 @@ section TwistedRows
 
 variable {G : Type} [Group G] [Finite G] (T L I : Subgroup G) [IsMulCommutative ↥(fsuV T I)]
 
+omit [IsMulCommutative ↥(fsuV T I)] in
 theorem card_sq_le_fsuV_of_twisted (h : IsTwistedPair T L I) :
     Nat.card I * Nat.card I ≤ Nat.card ↥(fsuV T I) := by
   obtain ⟨t, -, hsum, hinf, -⟩ := h
@@ -228,10 +229,12 @@ theorem card_sq_le_fsuV_of_twisted (h : IsTwistedPair T L I) :
   have := card_mul_le_of_inf_bot hI hJ hinf
   rwa [card_conjugate'] at this
 
+omit [Finite G] [IsMulCommutative ↥(fsuV T I)] in
 theorem card_subgroupOf_fsuV (hI : I ≤ fsuV T I) :
     Nat.card ↥(I.subgroupOf (fsuV T I)) = Nat.card I :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe hI).toEquiv
 
+omit [Finite G] [IsMulCommutative ↥(fsuV T I)] in
 theorem I_le_fsuV : I ≤ fsuV T I := CFSG.Quasithin.le_conjClosure I T
 
 theorem not_rowSL3Pair (hV : Nat.card ↥(fsuV T I) ≤ 16) (n : ℕ) : ¬ Row711SL3Pair T L I n := by

@@ -40,6 +40,7 @@ structure ExcClubHyp (G : Type) [Group G] [Finite G] (p : ℕ)
 @[expose] noncomputable def mxB (p : ℕ) (Club : Subgroup G → Prop) (B : Subgroup G) (x : G) : ℕ :=
   Nat.card (PQuot p (MxB p Club B x))
 
+omit [Finite G] in
 theorem le_MxB {p : ℕ} {Club : Subgroup G → Prop} {B K : Subgroup G} {x : G}
     (hK : IsGoodComp p Club B x K) : K ≤ MxB p Club B x :=
   le_sSup hK
@@ -48,7 +49,7 @@ theorem card_pQuot_le_of_cover {p : ℕ} (hp : p.Prime) {H M M' : Subgroup G} (h
     (hsup : H ⊔ GLAPPrimeCoreOf p M = M) (hHM' : H ≤ M') :
     Nat.card (PQuot p M) ≤ Nat.card (PQuot p M') := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, ⟨e⟩⟩ := cover_facts hp hHM hsup
   rw [← Nat.card_congr e.toEquiv]
   set ψ : ↥H →* PQuot p M' :=

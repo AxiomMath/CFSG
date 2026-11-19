@@ -63,7 +63,7 @@ private lemma latPerm_mem_latPhi {N : ℕ} {R : Set (Fin N → ℤ)} (p : ℕ) (
 
 private lemma latLinked_iff_mem {N : ℕ} {S : Matrix (Fin N) (Fin N) ℤ} {Φ : Set (Fin N → ℤ)}
     {α β : Fin N → ℤ} (h : latLinked S Φ α β) : (α ∈ Φ ↔ β ∈ Φ) := by
-  letI : IsEquiv (Fin N → ℤ) (fun x y => x ∈ Φ ↔ y ∈ Φ) :=
+  let : IsEquiv (Fin N → ℤ) (fun x y => x ∈ Φ ↔ y ∈ Φ) :=
     { refl := fun x => Iff.rfl
       symm := fun _ _ h => h.symm
       trans := fun _ _ _ h1 h2 => h1.trans h2 }

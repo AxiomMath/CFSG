@@ -13,6 +13,7 @@ namespace OrthTorus
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p r : ℕ} {A : Subgroup (V ≃ₗ[K] V)}
 
+omit [Finite K] in
 private theorem finrank_iSup_pieces_le (Δ : TBJOmData Q p A r) :
     finrank K ↥(⨆ j, Δ.F.U j) ≤ 2 * r := by
   classical
@@ -31,6 +32,7 @@ private theorem finrank_iSup_pieces_le (Δ : TBJOmData Q p A r) :
   rw [Finset.card_univ, Fintype.card_fin] at h
   rwa [← Finset.sup_univ_eq_iSup]
 
+omit [Finite K] in
 theorem TBJOmData.finrank_le_two_mul_of_noFixed (Δ : TBJOmData Q p A r)
     (hnf : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0) : finrank K V ≤ 2 * r := by
   classical

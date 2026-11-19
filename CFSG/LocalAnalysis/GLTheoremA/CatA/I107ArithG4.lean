@@ -15,14 +15,14 @@ theorem kill_rank0 {lab : GLALabel} {p : ℕ} (hp : p.Prime) (hn : 1 ≤ lab.n) 
   have he1 : (if p ∣ lab.n then 1 else 0) ≤ 1 := by split_ifs <;> omega
   have hn1 : lab.n = 1 → (if p ∣ lab.n then 1 else 0) = 0 := by
     intro h1
-    rw [if_neg]
+    rw [ite_eq_right]
     rw [h1]
     intro hd
     exact hp.ne_one (Nat.dvd_one.1 hd)
   exact arith0_kill c R lab.n _ _ hn he1 hn1 hr hR hg
 
 theorem fam_E {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag = .E6 ∨ lab.tag = .E7 ∨ lab.tag = .E8)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hA : 3 ≤ upA107 lab p)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (_hA : 3 ≤ upA107 lab p)
     (hg : exempt107 lab ∨ twoRankLow107 lab ≤ upA107 lab p + 2) : p = 3 ∧ survivor107 lab := by
   exfalso
   have hn : 1 ≤ lab.n := by
@@ -41,8 +41,8 @@ theorem fam_E {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag
   rw [hU, hG] at hg'
   exact kill_rank0 (c := 16) (R := 8) hp hn (by norm_num) hR hg'
 
-theorem fam_F4 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag = .F4) (hp : p.Prime) (hp2 : p ≠ 2)
-    (hA : 3 ≤ upA107 lab p) (hg : exempt107 lab ∨ twoRankLow107 lab ≤ upA107 lab p + 2) :
+theorem fam_F4 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag = .F4) (hp : p.Prime) (_hp2 : p ≠ 2)
+    (_hA : 3 ≤ upA107 lab p) (hg : exempt107 lab ∨ twoRankLow107 lab ≤ upA107 lab p + 2) :
     p = 3 ∧ survivor107 lab := by
   exfalso
   have hn : 1 ≤ lab.n := by
@@ -63,7 +63,7 @@ theorem fam_F4 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.ta
   exact kill_rank0 (c := 7) (R := 4) hp hn (by norm_num) hR hg'
 
 theorem fam_twE6 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag = .twE6) (hp : p.Prime)
-    (hp2 : p ≠ 2) (hA : 3 ≤ upA107 lab p) (hg : exempt107 lab ∨ twoRankLow107 lab ≤ upA107 lab p + 2) :
+    (_hp2 : p ≠ 2) (_hA : 3 ≤ upA107 lab p) (hg : exempt107 lab ∨ twoRankLow107 lab ≤ upA107 lab p + 2) :
     p = 3 ∧ survivor107 lab := by
   exfalso
   have hn : 1 ≤ lab.n := by
@@ -83,8 +83,8 @@ theorem fam_twE6 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.
   rw [hU, hG] at hg'
   exact kill_rank0 (c := 9) (R := 6) hp hn (by norm_num) hR hg'
 
-theorem fam_G2 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag = .G2) (hp : p.Prime) (hp2 : p ≠ 2)
-    (hA : 3 ≤ upA107 lab p) (hg : exempt107 lab ∨ twoRankLow107 lab ≤ upA107 lab p + 2) :
+theorem fam_G2 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag = .G2) (_hp : p.Prime) (_hp2 : p ≠ 2)
+    (_hA : 3 ≤ upA107 lab p) (hg : exempt107 lab ∨ twoRankLow107 lab ≤ upA107 lab p + 2) :
     p = 3 ∧ survivor107 lab := by
   exfalso
   have hn : 2 ≤ lab.n := by
@@ -104,8 +104,8 @@ theorem fam_G2 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.ta
   rw [hU, hG] at hg'
   exact arith_G2 lab.n _ _ hn he hR hg'
 
-theorem fam_twB2 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag = .twB2) (hp : p.Prime)
-    (hp2 : p ≠ 2) (hA : 3 ≤ upA107 lab p) (hg : exempt107 lab ∨ twoRankLow107 lab ≤ upA107 lab p + 2) :
+theorem fam_twB2 {lab : GLALabel} {p : ℕ} (_hlab : GLAInLambda2 lab) (ht : lab.tag = .twB2) (_hp : p.Prime)
+    (_hp2 : p ≠ 2) (hA : 3 ≤ upA107 lab p) (_hg : exempt107 lab ∨ twoRankLow107 lab ≤ upA107 lab p + 2) :
     p = 3 ∧ survivor107 lab := by
   exfalso
   have hU := upA_of_plain (p := p) (lab := lab) (by simp [ht])
@@ -117,8 +117,8 @@ theorem fam_twB2 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.
   rw [hU] at hA
   omega
 
-theorem fam_twF4 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag = .twF4) (hp : p.Prime)
-    (hp2 : p ≠ 2) (hA : 3 ≤ upA107 lab p) (hg : exempt107 lab ∨ twoRankLow107 lab ≤ upA107 lab p + 2) :
+theorem fam_twF4 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag = .twF4) (_hp : p.Prime)
+    (_hp2 : p ≠ 2) (_hA : 3 ≤ upA107 lab p) (hg : exempt107 lab ∨ twoRankLow107 lab ≤ upA107 lab p + 2) :
     p = 3 ∧ survivor107 lab := by
   exfalso
   have hn : 3 ≤ lab.n := by
@@ -160,7 +160,7 @@ theorem fam_triD4 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab
     split_ifs <;> omega
   have hn1 : lab.n = 1 → (if p ∣ lab.n then 1 else 0) = 0 := by
     intro h1
-    rw [if_neg]
+    rw [ite_eq_right]
     rw [h1]
     intro hd
     exact hp.ne_one (Nat.dvd_one.1 hd)
@@ -168,7 +168,7 @@ theorem fam_triD4 {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab
     intro h
     by_cases hc : p = 3 ∧ ((lab.tag = .D ∧ lab.rank = 4) ∨ lab.tag = .triD4)
     · exact hc.1
-    · rw [if_neg hc] at h
+    · rw [ite_eq_right hc] at h
       omega
   generalize (if p = 3 ∧ ((lab.tag = .D ∧ lab.rank = 4) ∨ lab.tag = .triD4) then 1 else 0) = b at hA hg' hbE hb1
   generalize (if p ∣ lab.n then 1 else 0) = e at hA hg' he1 hn1
@@ -183,7 +183,7 @@ theorem fam_der {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.t
     rcases ht with h | h | h <;> rw [h] at hlab <;> exact hlab.2.2
   have hU := upA_of_plain (p := p) (lab := lab) (by rcases ht with h | h | h <;> simp [h])
   have he0 : (if p ∣ lab.n then 1 else 0) = 0 := by
-    rw [if_neg]
+    rw [ite_eq_right]
     rw [hn]
     intro hd
     exact hp.ne_one (Nat.dvd_one.1 hd)

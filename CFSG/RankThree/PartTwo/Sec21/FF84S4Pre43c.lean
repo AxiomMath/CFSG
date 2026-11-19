@@ -14,7 +14,7 @@ theorem S43_odd_of_X_odd (hA : A8Model L)
     (h : FF84Sec4 b L B K b₁ b₂) (hc : CommTheta b b₁ b₂)
     (hΘ : Odd (Nat.card (Theta (Cen (b * b₁))))) (hX : Odd (Nat.card (Opp 3 (Cen b)))) :
     Odd (Nat.card (Opp 3 (Cen (b * b₁)))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hTY, hT2, hTmax, hTB⟩ := S43_T hA h hc hΘ
   have hY3 : ¬ 3 ∣ Nat.card ↥(Opp 3 (Cen (b * b₁))) := fun hd =>
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 (FF79.L14.Opp_coprime 3 (Cen (b * b₁))) hd

@@ -50,7 +50,7 @@ private lemma kgLangCAux_defect_add {ι 𝕂 : Type} [Fintype ι] [Field 𝕂] [
     rw [QuadraticMap.polar_add, kgLangCAux_polar_comp, hxB u v, CharTwo.add_self_eq_zero]
   have h := QuadraticMap.map_add (D : (ι → 𝕂) → 𝕂) u v
   rw [hpolar, add_zero] at h
-  simpa only [D, QuadraticMap.add_apply, QuadraticMap.comp_apply, Matrix.mulVecLin_apply] using h
+  simpa only [D, _root_.add_apply, QuadraticMap.comp_apply, Matrix.mulVecLin_apply] using h
 
 private lemma kgLangCAux_defect_smul {ι 𝕂 : Type} [Fintype ι] [Field 𝕂] [CharP 𝕂 2]
     (Q : QuadraticForm 𝕂 (ι → 𝕂)) (x : Matrix ι ι 𝕂) :
@@ -59,7 +59,7 @@ private lemma kgLangCAux_defect_smul {ι 𝕂 : Type} [Fintype ι] [Field 𝕂] 
   intro a v
   let D : QuadraticMap 𝕂 (ι → 𝕂) 𝕂 := Q.comp (Matrix.mulVecLin x) + Q
   have h := D.map_smul a v
-  simpa only [D, QuadraticMap.add_apply, QuadraticMap.comp_apply, Matrix.mulVecLin_apply,
+  simpa only [D, _root_.add_apply, QuadraticMap.comp_apply, Matrix.mulVecLin_apply,
     smul_eq_mul] using h
 
 private lemma kgLangCAux_defect_span {ι 𝕂 : Type} [Fintype ι] [Field 𝕂] [CharP 𝕂 2]
@@ -145,7 +145,7 @@ private lemma kgLangCAux_avg_fixed {ι 𝕂 : Type} [Fintype ι] [DecidableEq ι
     change ((h : Matrix ι ι 𝕂).mulVecLin) (∑ g : P, ((g : GL ι 𝕂) : Matrix ι ι 𝕂).mulVec v)
       = ∑ g : P, ((g : GL ι 𝕂) : Matrix ι ι 𝕂).mulVec v
     rw [map_sum]
-    simp only [Matrix.mulVecLin_apply, Matrix.mulVec_mulVec, Units.val_mul]
+    simp only [Matrix.mulVecLin_apply, Matrix.mulVec_mulVec]
     rw [← Function.Bijective.sum_comp (Group.mulLeft_bijective (⟨h, hh⟩ : P))
       (fun x : P => (((x : P) : GL ι 𝕂) : Matrix ι ι 𝕂).mulVec v)]
     simp only [Subgroup.coe_mul, Units.val_mul]
@@ -328,7 +328,7 @@ theorem kgLangC_quadratic_preserved {ι 𝕂 : Type} [Fintype ι] [DecidableEq �
     (hxB : ∀ u v, QuadraticMap.polar Q (x.mulVec u) (x.mulVec v) = QuadraticMap.polar Q u v) :
     ∀ v, Q (x.mulVec v) = Q v := by
   classical
-  letI : Fintype P := Fintype.ofFinite P
+  let : Fintype P := Fintype.ofFinite P
   have hcard : (Nat.card P : 𝕂) ≠ 0 := kgLangCAux_card_ne_zero hodd
   have hadd := kgLangCAux_defect_add Q x hxB
   have hsmul := kgLangCAux_defect_smul Q x

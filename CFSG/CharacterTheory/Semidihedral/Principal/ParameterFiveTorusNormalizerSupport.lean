@@ -216,7 +216,7 @@ theorem exists_sylow_eq_of_order_four_square {G : Type*} [Group G] [Finite G] (S
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hP₀H).toEquiv, hP₀]
   have hP₀p : IsPGroup 2 (P₀.subgroupOf H) := IsPGroup.of_card (n := 3) (by rw [hP₀']; norm_num)
   obtain ⟨T, hT⟩ := hP₀p.exists_le_sylow
-  have hTp : IsPGroup 2 ((T : Subgroup H).map H.subtype) := T.isPGroup'.map _
+  have hTp : IsPGroup 2 ((T : Subgroup H).map H.subtype) := T.isPGroup.map _
   obtain ⟨S', hS'⟩ := hTp.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S S'
   have hmemS : ∀ x ∈ (T : Subgroup H).map H.subtype, g⁻¹ * x * g ∈ (S : Subgroup G) := by
@@ -259,7 +259,7 @@ theorem exists_sylow_eq_of_order_four_square {G : Type*} [Group G] [Finite G] (S
   have hTcard : Nat.card ((T : Subgroup H).map H.subtype) = Nat.card T :=
     Subgroup.card_map_of_injective H.subtype_injective
   have hT8 : Nat.card T ∣ 8 := by
-    obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
     have h24 : 2 ^ k ∣ 24 := hk ▸ hTcard ▸ (Subgroup.card_dvd_of_le hTC).trans hCH
     have hk3 : k ≤ 3 := by
       by_contra hk

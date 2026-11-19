@@ -103,7 +103,7 @@ open scoped commutatorElement
 
 @[expose] def Core2 : Prop :=
   ∀ (Γ : Type) [Group Γ] [Finite Γ] (Dbar Kbar : Subgroup Γ) [Kbar.Normal],
-    Nat.card Dbar = 3 → Subgroup.normalClosure (Dbar : Set Γ) = ⊤ → IsSolvable ↥Kbar →
+    Nat.card Dbar = 3 → Subgroup.normalClosure (Dbar : Set Γ) = ⊤ → Group.IsSolvable ↥Kbar →
     Nat.Coprime 3 (Nat.card Kbar) → ⁅Kbar, (⊤ : Subgroup Γ)⁆ = Kbar →
     (∀ k ∈ Kbar, Z3E9A5Mod2 (Dbar ⊔ Dbar.map (MulAut.conj k).toMonoidHom)) → IsPGroup 2 Kbar
 
@@ -126,14 +126,14 @@ noncomputable abbrev Tof (G : Type) [Group G] (D : Subgroup G) : Subgroup G :=
 variable {G : Type} [Group G]
 
 instance kof_normal : (Kof G).Normal := by
-  haveI : (CFSG.pPrimeCore 3 G).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore 3 G).Normal := CFSG.pPrimeCore_normal
   exact Subgroup.commutator_normal _ _
 
 theorem xof_isPGroup : IsPGroup 2 (Xof G) :=
   (CFSG.pCore_isPGroup (p := 2) (G := ↥(Kof G))).map (Kof G).subtype
 
 instance xof_normal : (Xof G).Normal := by
-  haveI : (Kof G).Normal := kof_normal
+  have : (Kof G).Normal := kof_normal
   refine ⟨fun x hx g => ?_⟩
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 hx
   refine Subgroup.mem_map.2 ⟨MulAut.conjNormal g y, ?_, ?_⟩

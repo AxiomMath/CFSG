@@ -83,7 +83,7 @@ private theorem exists_bits_step (h : IsSquareData K σ) {reps : Array ℕ} (hsi
   have hdisj := rep_sigma_disj h hsize hrep hhom hroots hi
   rw [sOf_eq _ _ _ hi]
   by_cases hbit : (if i = 0 then b.1 else b.2) = true
-  · rw [if_pos hbit]
+  · rw [ite_eq_left hbit]
     have hne : σ (ofTab (liftTab reps[i]! 0) (hhom i hi)) ≠
         dec (repRoot (innTabs ()) (repThetas reps))[i]! := by
       have hp : decide (σ (ofTab (liftTab reps[i]! 0) (hhom i hi)) ≠
@@ -94,7 +94,7 @@ private theorem exists_bits_step (h : IsSquareData K σ) {reps : Array ℕ} (hsi
     · exact absurd h' hne
     · exact ⟨rep_root_z_lt (hroots := hroots) hsizeT, h'⟩
   · have hbf : (if i = 0 then b.1 else b.2) = false := by simpa using hbit
-    rw [if_neg hbit]
+    rw [ite_eq_right hbit]
     have heq : σ (ofTab (liftTab reps[i]! 0) (hhom i hi)) =
         dec (repRoot (innTabs ()) (repThetas reps))[i]! := by
       have hp : decide (σ (ofTab (liftTab reps[i]! 0) (hhom i hi)) ≠
@@ -118,7 +118,7 @@ theorem IsSquareData.exists_bits (h : IsSquareData K σ) {reps : Array ℕ} (hsi
   have hθ : ∀ i (hi : i < 2), θ i = ofTab (liftTab reps[i]! 0) (hhom i hi) := by
     intro i hi
     unfold θ
-    rw [dif_pos hi]
+    rw [dite_eq_left hi]
   refine ⟨(decide (σ (θ 0) ≠ dec R[0]!), decide (σ (θ 1) ≠ dec R[1]!)), ?_⟩
   intro i hi
   refine exists_bits_step h hsize hrep hhom hroots hi _ ?_

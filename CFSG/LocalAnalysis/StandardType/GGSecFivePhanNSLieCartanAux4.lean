@@ -11,16 +11,16 @@ open scoped IsMulCommutative
 
 variable {G : Type} [Group G] {p N : ℕ} {Bs : Subgroup G}
 
-lemma ggNSLiePI2_reflection_data (hp : p.Prime) (hp2 : p ≠ 2) (hel : IsElemAbelian p Bs)
+lemma ggNSLiePI2_reflection_data (hp : p.Prime) (hp2 : p ≠ 2) (_hel : IsElemAbelian p Bs)
     [Finite Bs] [IsMulCommutative ↥Bs] [Module (ZMod p) (Additive ↥Bs)]
     (t : MulAut ↥Bs) (ht : GGIsReflection p t) :
     ∃ (x : Additive ↥Bs) (g : Module.Dual (ZMod p) (Additive ↥Bs)),
       x ≠ 0 ∧ g x = 2 ∧
       ∀ v, ggNSLiePI2_linearEquivOfMulAut hp t v = v - g v • x := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype ↥Bs := Fintype.ofFinite _
-  haveI : Fintype (Additive ↥Bs) := Fintype.ofFinite _
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype ↥Bs := Fintype.ofFinite _
+  have : Fintype (Additive ↥Bs) := Fintype.ofFinite _
+  have : NeZero p := ⟨hp.ne_zero⟩
   have h2 : (2 : ZMod p) ≠ 0 := by
     intro h
     have h' : ((2 : ℕ) : ZMod p) = 0 := by simpa using h
@@ -34,7 +34,7 @@ lemma ggNSLiePI2_reflection_data (hp : p.Prime) (hp2 : p ≠ 2) (hel : IsElemAbe
     rw [ggNSLiePI2_linearEquivOfMulAut_apply, ggNSLiePI2_linearEquivOfMulAut_apply]
     change Additive.ofMul (t (t (Additive.toMul v))) = v
     have h := congrArg (fun f : MulAut ↥Bs => f (Additive.toMul v)) ht.1
-    simp only [MulAut.mul_apply, MulAut.one_apply] at h
+    simp only [MulAut.one_apply] at h
     exact (congrArg Additive.ofMul h).trans rfl
   let W : Submodule (ZMod p) (Additive ↥Bs) := LinearMap.ker (T.toLinearMap - 1)
   have hTfix : ∀ w ∈ W, T w = w := by
@@ -59,9 +59,9 @@ lemma ggNSLiePI2_reflection_data (hp : p.Prime) (hp2 : p ≠ 2) (hel : IsElemAbe
     rw [he]
     exact ht.2
   have hfinW : Module.finrank (ZMod p) ↥W + 1 = Module.finrank (ZMod p) (Additive ↥Bs) := by
-    haveI : Fintype ↥W := Fintype.ofFinite ↥W
-    haveI : Fintype (Additive ↥Bs) := Fintype.ofFinite (Additive ↥Bs)
-    haveI : Fintype (ZMod p) := ZMod.fintype p
+    have : Fintype ↥W := Fintype.ofFinite ↥W
+    have : Fintype (Additive ↥Bs) := Fintype.ofFinite (Additive ↥Bs)
+    have : Fintype (ZMod p) := ZMod.fintype p
     have hcardW : Nat.card ↥W = p ^ Module.finrank (ZMod p) ↥W := by
       rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod p) (V := ↥W),
         ZMod.card p]
@@ -71,7 +71,7 @@ lemma ggNSLiePI2_reflection_data (hp : p.Prime) (hp2 : p ≠ 2) (hel : IsElemAbe
     have hcard : Nat.card ↥W * p = Nat.card (Additive ↥Bs) := hWcard
     rw [hcardW, hcardV, ← pow_succ] at hcard
     exact Nat.pow_right_injective hp.two_le hcard
-  haveI : Fintype ↥W := Fintype.ofFinite _
+  have : Fintype ↥W := Fintype.ofFinite _
   have hTne : T ≠ 1 := by
     intro hT1
     have hWtop : W = ⊤ := by

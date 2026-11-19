@@ -45,7 +45,7 @@ theorem kernel_pgroup_le_inside {p : ℕ}
     rw [← hS]
     rintro q ⟨s, hs, rfl⟩
     exact s.property
-  have hQp : IsPGroup p Q := by rw [← hS]; exact S.isPGroup'.map H.subtype
+  have hQp : IsPGroup p Q := by rw [← hS]; exact S.isPGroup.map H.subtype
   have hIp : IsPGroup p (Inside Q) := hQp.comap_subtype
   let J : Subgroup (Normalizer Q) := Inside Q ⊔ B
   have hJp : IsPGroup p J := hIp.to_sup_of_normal_left hB

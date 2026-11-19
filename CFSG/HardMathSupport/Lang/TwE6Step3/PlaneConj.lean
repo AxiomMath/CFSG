@@ -26,7 +26,7 @@ theorem exists_conj_le_of_rank_le {C : Type*} [Group C] [Finite C] {p : ℕ} [hp
   obtain ⟨S₀, hS₀⟩ := (hpg hE).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq C S S₀
   have hSab : ∀ a ∈ (S₀ : Subgroup C), ∀ b ∈ (S₀ : Subgroup C), a * b = b * a :=
-    hcomm S₀ S₀.isPGroup'
+    hcomm S₀ S₀.isPGroup
   set F' : Subgroup C := F.map (MulAut.conj g).toMonoidHom with hF'
   have hF'S : F' ≤ S₀ := by
     rintro _ ⟨x, hx, rfl⟩

@@ -102,7 +102,7 @@ theorem mem_uniqueSet_of_u4x
     {D : Data G} {L K : Subgroup G} {n : ℕ} (u : U4X D L K n) (hSg : UC6S846.SigmaStd D)
     (hfour : ∀ q ∈ D.sig, 4 ≤ CFSG.Open.pRank q D.M) (h614 : UC6.R6_14 D)
     (h76 : ∀ q ∈ D.sig, IsStronglyPEmbedded q D.M → Conclusion76 D.M q) (h847 : R847 D)
-    (h869 : R869NS5 D) (hGL : GL3Excl.GL3Excl) (he : 3 < CFSG.Open.evenRank G)
+    (h869 : R869NS5 D) (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) (he : 3 < CFSG.Open.evenRank G)
     {A : Subgroup G} (hAL : A ≤ L) (hA : Nat.card A = 2 ^ n - 1) : A ∈ uniqueSet D.M := by
   have hr : (2 ^ n - 1).Prime := u.prime_r
   have : Fact (2 ^ n - 1).Prime := ⟨hr⟩
@@ -123,7 +123,7 @@ theorem mem_uniqueSet_of_u4x_setup4
     (hSE : PartOne.Section7.StronglyEmbeddedFive)
     (hSS : PartOne.Section7.StronglyEmbeddedSolvable)
     (hSE3 : PartOne.Section7.StronglyEmbeddedThree) (hB : PartOne.Section7.BadNoStrongThree)
-    (hGL : GL3Excl.GL3Excl) (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G)
+    (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G)
     (hMS : S.InMSigma) (hPart : PartIAt S.M) (h847 : R847 (UC6.dataOfSetup4 hS hU S))
     {L K : Subgroup G} {n : ℕ} (u : U4X (UC6.dataOfSetup4 hS hU S) L K n)
     (he : 3 < CFSG.Open.evenRank G) {A : Subgroup G} (hAL : A ≤ L)
@@ -147,7 +147,7 @@ theorem mem_uniqueSet_case8100Three_setup4
     (hSE : PartOne.Section7.StronglyEmbeddedFive)
     (hSS : PartOne.Section7.StronglyEmbeddedSolvable)
     (hSE3 : PartOne.Section7.StronglyEmbeddedThree) (hB : PartOne.Section7.BadNoStrongThree)
-    (hGL : GL3Excl.GL3Excl) (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G)
+    (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G)
     (hMS : S.InMSigma) (hPart : PartIAt S.M) (h847 : R847 (UC6.dataOfSetup4 hS hU S))
     {L : Fin 2 → Subgroup G} {n : Fin 2 → ℕ} {r p : ℕ} {A X : Subgroup G}
     (hH : Hyp8100 (UC6.dataOfSetup4 hS hU S) L n r p A X)
@@ -166,7 +166,7 @@ theorem r8101Three_setup4
     (hSE : PartOne.Section7.StronglyEmbeddedFive)
     (hSS : PartOne.Section7.StronglyEmbeddedSolvable)
     (hSE3 : PartOne.Section7.StronglyEmbeddedThree) (hB : PartOne.Section7.BadNoStrongThree)
-    (hGL : GL3Excl.GL3Excl) (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G)
+    (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G)
     (hMS : S.InMSigma) (hPart : PartIAt S.M) (h847 : R847 (UC6.dataOfSetup4 hS hU S)) :
     ∀ (L : Fin 2 → Subgroup G) (n : Fin 2 → ℕ) (r p : ℕ) (A X : Subgroup G),
       Hyp8100 (UC6.dataOfSetup4 hS hU S) L n r p A X →
@@ -181,7 +181,7 @@ theorem r8101Four_setup4
     (hSE : PartOne.Section7.StronglyEmbeddedFive)
     (hSS : PartOne.Section7.StronglyEmbeddedSolvable)
     (hSE3 : PartOne.Section7.StronglyEmbeddedThree) (hB : PartOne.Section7.BadNoStrongThree)
-    (hGL : GL3Excl.GL3Excl) (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G)
+    (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G)
     (hMS : S.InMSigma) (hPart : PartIAt S.M) (h847 : R847 (UC6.dataOfSetup4 hS hU S)) :
     ∀ (L : Fin 2 → Subgroup G) (n : Fin 2 → ℕ) (r p : ℕ) (A X : Subgroup G),
       Hyp8100 (UC6.dataOfSetup4 hS hU S) L n r p A X →
@@ -200,7 +200,7 @@ theorem r8101_setup4
     (hSE : PartOne.Section7.StronglyEmbeddedFive)
     (hSS : PartOne.Section7.StronglyEmbeddedSolvable)
     (hSE3 : PartOne.Section7.StronglyEmbeddedThree) (hB : PartOne.Section7.BadNoStrongThree)
-    (hGL : GL3Excl.GL3Excl) (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G)
+    (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl) (hS : Standing4 G) (hU : uniqueFourUnique G) (S : Setup4 G)
     (hMS : S.InMSigma) (hPart : PartIAt S.M) (h847 : R847 (UC6.dataOfSetup4 hS hU S)) :
     F08.R8101R (UC6.dataOfSetup4 hS hU S) := by
   intro L n r p A X hH hc

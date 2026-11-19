@@ -197,7 +197,7 @@ private theorem eq_oddFrameMap_of_mem_bc2U
     subst hγe
     have hev : Even ((Pi.single (bcPrevIdx r hr) 1 : Fin ((2 * r + 1) / 2) → ℤ)
         (bcLastIdx r (Nat.one_le_of_lt hr))) := by
-      rw [Pi.single_apply, if_neg (bcPrevIdx_ne_bcLastIdx hr).symm]
+      rw [Pi.single_apply, ite_eq_right (bcPrevIdx_ne_bcLastIdx hr).symm]
       exact ⟨0, by norm_num⟩
     have hx0 : (x : SU (unitaryInvolution F 2 n) (2 * r + 1)) ∈
         bc2Q0 (unitaryInvolution_involutive hFn) hr := by
@@ -219,7 +219,7 @@ private theorem eq_oddFrameMap_of_mem_bc2U
         2 • Pi.single (bcLastIdx r (Nat.one_le_of_lt hr)) 1) :
           Fin ((2 * r + 1) / 2) → ℤ) (bcLastIdx r (Nat.one_le_of_lt hr))) := by
       rw [Pi.add_apply, Pi.smul_apply, Pi.single_apply, Pi.single_apply,
-        if_neg (bcPrevIdx_ne_bcLastIdx hr).symm, if_pos rfl]
+        ite_eq_right (bcPrevIdx_ne_bcLastIdx hr).symm, ite_eq_left rfl]
       exact ⟨1, by norm_num⟩
     have hx0 : (x : SU (unitaryInvolution F 2 n) (2 * r + 1)) ∈
         bc2Q0 (unitaryInvolution_involutive hFn) hr := by
@@ -231,7 +231,7 @@ private theorem eq_oddFrameMap_of_mem_bc2U
         2 • Pi.single (bcLastIdx r (Nat.one_le_of_lt hr)) 1) :
           Fin ((2 * r + 1) / 2) → ℤ) (bcLastIdx r (Nat.one_le_of_lt hr))) := by
       rw [Pi.add_apply, Pi.smul_apply, Pi.smul_apply, Pi.single_apply, Pi.single_apply,
-        if_neg (bcPrevIdx_ne_bcLastIdx hr).symm, if_pos rfl]
+        ite_eq_right (bcPrevIdx_ne_bcLastIdx hr).symm, ite_eq_left rfl]
       exact ⟨1, by norm_num⟩
     have hx0 : (x : SU (unitaryInvolution F 2 n) (2 * r + 1)) ∈
         bc2Q0 (unitaryInvolution_involutive hFn) hr := by

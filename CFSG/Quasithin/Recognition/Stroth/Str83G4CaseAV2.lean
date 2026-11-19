@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
 
+omit [Finite G] in
 private theorem v2a_exists_smul_base_of_mem_nbrs {β α : f112Gamma L1 L2 S}
     (hβ : CosetGeom.vtype β = true) (hα : α ∈ CosetGeom.nbrs β) :
     ∃ g : f112Acting L1 L2 S,
@@ -409,7 +410,7 @@ theorem caseA_exists_caseAS_smul_eq {a : ℕ}
       have hgtα₁ : ((t : ↥Msub) : (f112Amalgam L1 L2 S).Ghat) ∈ CosetGeom.stab α₁ :=
         CosetGeom.mem_stab_of_smul_eq htM
       have h2 : ∃ k, orderOf (((t : ↥Msub) : (f112Amalgam L1 L2 S).Ghat)) = 2 ^ k := by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         let H : Subgroup (f112Amalgam L1 L2 S).Ghat :=
           CosetGeom.stab β ⊓ CosetGeom.stab α
         have h := (CFSG.pCore_isPGroup (p := 2) (G := ↥H)).map H.subtype
@@ -455,7 +456,7 @@ theorem caseA_exists_caseAS_smul_eq {a : ℕ}
     have hcard : (CosetGeom.nbrs β).ncard = 2 ^ (2 * a + 1) + 1 := by
       rw [← Nat.card_coe_set_eq]; exact v2b_natCard_nbrs hfr hβ
     rw [hcard]; simp
-  haveI : Finite ↥(CosetGeom.nbrs β) := by
+  have : Finite ↥(CosetGeom.nbrs β) := by
     apply Nat.finite_of_card_ne_zero
     rw [v2b_natCard_nbrs hfr hβ]
     omega

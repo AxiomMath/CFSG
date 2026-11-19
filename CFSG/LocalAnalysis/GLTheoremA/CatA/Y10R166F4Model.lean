@@ -29,8 +29,8 @@ section Certs
 
 
 theorem hasLabel_c3Levi {F : Type} [Field F] [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n)
-    (hn : 1 ≤ n) : HasLabel ↥(C3Levi F) (· = ⟨.B, 3, n⟩) := by
-  haveI : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
+    (_hn : 1 ≤ n) : HasLabel ↥(C3Levi F) (· = ⟨.B, 3, n⟩) := by
+  have : CharP F 2 := charP_two_of_natCard_eq_two_pow hF
   have hmodel : CFSG.Blueprint.LieModel ↥(C3Levi F) .PSp 3 2 n := lieModel_C3Levi hF
   have hSC : StatedClassicalModel ↥(C3Levi F) .PSp 3 2 n :=
     hmodel.statedClassicalModel (by decide : StatedLieTag.PSp ∈ classicalTags)

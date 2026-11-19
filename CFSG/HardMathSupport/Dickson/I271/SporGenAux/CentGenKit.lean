@@ -18,7 +18,7 @@ theorem centGen_of_data {M : Type*} [Group M] [Finite M] {p : ℕ} (hp : p.Prime
     (hef : e * f = f * e) (he1 : e ≠ 1) (hfe : ∀ k < p, f ≠ e ^ k) (h₁ : s₁ * e = e * s₁)
     (h₂ : s₂ * f = f * s₂) (ha : a ∈ Subgroup.closure ({s₁, s₂} : Set M))
     (hb : b ∈ Subgroup.closure ({s₁, s₂} : Set M)) : CentGen p M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hG : ¬ p ^ 3 ∣ Nat.card M := by
     intro h
     have h0 : Nat.card M ≠ 0 := Nat.card_pos.ne'
@@ -55,7 +55,7 @@ theorem sporCentGen_of_model {name : TauCeti.SporadicName} {p : ℕ} (hp : p.Pri
     (eM : NativeSporadic.Carrier name ≃* M) (hcard : (Nat.card M).factorization p = 2)
     (hCG : CentGen p M) : SporCentGen name p := by
   intro S _ _ hsimple hnab ⟨e⟩
-  haveI := hsimple
+  have := hsimple
   have hcen : Subgroup.center S = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   have hO : Nat.card (Outer S) ≤ 2 := hOut S hsimple hnab name ⟨e⟩
   have eS : S ≃* M := e.trans ((hBr name).some.symm.trans eM)

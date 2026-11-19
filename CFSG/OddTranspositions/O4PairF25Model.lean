@@ -38,7 +38,7 @@ theorem card_F25c : Nat.card F25c = 25 := by
       rw [poly25, Polynomial.natDegree_X_pow_sub_C]
     rw [h, Polynomial.natDegree_zero] at h2
     omega
-  haveI : Module.Finite (ZMod 5) F25c := (AdjoinRoot.powerBasis (f := poly25) hf).finite
+  have : Module.Finite (ZMod 5) F25c := (AdjoinRoot.powerBasis (f := poly25) hf).finite
   rw [Module.natCard_eq_pow_finrank (K := ZMod 5) (V := F25c),
     (AdjoinRoot.powerBasis (f := poly25) hf).finrank, AdjoinRoot.powerBasis_dim hf]
   rw [show poly25.natDegree = 2 from by rw [poly25, Polynomial.natDegree_X_pow_sub_C]]

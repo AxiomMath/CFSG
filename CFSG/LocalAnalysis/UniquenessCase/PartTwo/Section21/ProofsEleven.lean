@@ -41,7 +41,7 @@ theorem orderOf_odd_and_squarefree_of_mem_calB1 {T M L A : Subgroup G}
   refine ⟨?_, Ctx23L.orderOf_squarefree_of_mem_calB1 hA hx⟩
   obtain ⟨-, hAcomm, B, C, hBmem, -, hCodd, -, hAeq, -, -, -⟩ := hA
   rw [hAeq] at hx hAcomm
-  haveI : IsMulCommutative ↥(B ⊔ C) := hAcomm
+  have : IsMulCommutative ↥(B ⊔ C) := hAcomm
   have hBcent : B ≤ Subgroup.centralizer (C : Set G) := by
     intro b hb
     rw [Subgroup.mem_centralizer_iff]
@@ -79,6 +79,7 @@ theorem exists_prime_order_zpowers_of_not_mem {H K : Type} [Group H] [Finite H] 
     exact hcon y hy hyp
   exact hb (hle (CFSG.GroupTheory.mem_closure_prime_powers_of_squarefree hSq))
 
+omit [Finite G] in
 private theorem le_normalizer_of_subgroupOf_normal {M L : Subgroup G} (hLM : L ≤ M)
     (hN : (L.subgroupOf M).Normal) : M ≤ Subgroup.normalizer (L : Set G) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).mp hN
@@ -93,7 +94,7 @@ private theorem card_solvableRadical_eq_card_pCore_mul_center {K : Subgroup G}
     Nat.card (CFSG.solvableRadical ↥K) =
       Nat.card (CFSG.pCore 2 ↥K) * Nat.card (Subgroup.center (Bar2 K)) := by
   classical
-  haveI : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal
   have hle : CFSG.pCore 2 ↥K ≤ CFSG.solvableRadical ↥K := CFSG.pCore_le_solvableRadical 2 ↥K
   let S : Subgroup ↥K := CFSG.solvableRadical ↥K
   let T : Subgroup ↥S := (CFSG.pCore 2 ↥K).subgroupOf S
@@ -227,6 +228,7 @@ private theorem exists_orderOf_three_mem_centralizer {L : Subgroup G}
       _ = b * (y : G) := by group
   · simpa [Subgroup.orderOf_coe] using hyord
 
+omit [Finite G] in
 private theorem false_of_inverted {L : Subgroup G}
     (N : Subgroup (MulAut (BarInf L ⧸ Subgroup.center (BarInf L))))
     {b m : G} (hbN : b ∈ normalizer (L : Set G)) (hmN : m ∈ normalizer (L : Set G)) {r : ℕ}
@@ -351,7 +353,7 @@ private theorem false_of_isSp4_shape {D : Data G} {Ch : Choice2011 G}
   have hsp3 : IsStronglyPEmbedded 3 D.M := by
     have hk1' : kParam D.M = 1 := by simpa [Data.k] using hk1
     by_contra h
-    rw [kParam, if_neg h] at hk1'
+    rw [kParam, ite_eq_right h] at hk1'
     omega
   have hcop : ¬ orderOf b' ∣ Nat.card (CFSG.solvableRadical ↥L) := by
     have hc : Subgroup.center (Bar2 L) = ⊥ := center_eq_bot_of_isSp4 hq hSp4bar2

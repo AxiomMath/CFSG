@@ -41,7 +41,7 @@ theorem lane_tv {k : Nat} (hk : k < 693) (v : Nat) :
     ← tvW_cTabQ, ← cT_eq, applyCols_toArray]
 
 theorem chkPlaneWords_eq : chkPlaneWords = true :=
-  chkPlaneWords_of chkW_eq chkT_eq (fun k hk v => lane_tv hk v)
-    (fun i hi => (wtArr_wd hi).symm) c21260plane_len c21260plane
+  chkPlaneWords_of chkW_eq chkT_eq (fun _k hk v => lane_tv hk v)
+    (fun _i hi => (wtArr_wd hi).symm) c21260plane_len c21260plane
 
 end CertificateChecks.KernelSmithEK

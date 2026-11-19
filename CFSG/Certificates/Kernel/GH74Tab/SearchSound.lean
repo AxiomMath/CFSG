@@ -38,12 +38,12 @@ theorem g6_shl {v : Nat} (hv : v < 64) (i j : Nat) :
   rw [testBit_g6, Nat.testBit_shiftLeft]
   by_cases hji : j = i
   · subst hji
-    simp only [if_true]
+    simp only [ite_true]
     by_cases hb : b < 6
     · simp [hb]
     · have := testBit_lt64 hv (b := b) (by omega)
       simp [hb, this]
-  · simp only [hji, if_false, Nat.zero_testBit]
+  · simp only [hji, ite_false, Nat.zero_testBit]
     by_cases hb : b < 6
     · by_cases hle : 6 * i ≤ 6 * j + b
       · have : 6 ≤ 6 * j + b - 6 * i := by omega
@@ -182,6 +182,7 @@ theorem av_one (hd1 : D.one < 64) : av a D.one = D.one := by
   rw [one_eq D ht] at h
   rw [h, val_f64 hd1]
 
+omit ht in
 theorem av_inj {i j : Nat} (hi : i < 64) (hj : j < 64) (h : av a i = av a j) : i = j := by
   have h1 := congrArg Fin.val (ha.inj (f64 i) (f64 j) (Fin.ext h))
   rwa [val_f64 hi, val_f64 hj] at h1
@@ -191,13 +192,13 @@ theorem cls3_av (hd1 : D.one < 64) {i : Nat} (hi : i < 64) : cls3 D (av a i) = c
   by_cases h1 : i = D.one
   · rw [h1, av_one ht ha hd1]
   · have h1' : av a i ≠ D.one := fun e =>
-      h1 (av_inj ht ha hi hd1 (e.trans (av_one ht ha hd1).symm))
+      h1 (av_inj ha hi hd1 (e.trans (av_one ht ha hd1).symm))
     by_cases h2 : mul D i i = D.one
     · have h2' : mul D (av a i) (av a i) = D.one := by
         rw [← av_mul ht ha hi hi, h2, av_one ht ha hd1]
       simp [h1, h1', h2, h2']
     · have h2' : mul D (av a i) (av a i) ≠ D.one := fun e =>
-        h2 (av_inj ht ha (mul_lt _ _ _) hd1 (by rw [av_mul ht ha hi hi, e, av_one ht ha hd1]))
+        h2 (av_inj ha (mul_lt _ _ _) hd1 (by rw [av_mul ht ha hi hi, e, av_one ht ha hd1]))
       simp [h1, h1', h2, h2']
 
 theorem pairOK_av (hd1 : D.one < 64) {x y : Nat} (hx : x < 64) (hy : y < 64) :
@@ -216,11 +217,12 @@ theorem rel_av (l : List Nat) {r : Nat} (hr : r < 64) :
     simp only [List.foldl_cons]
     rw [← av_mul ht ha hr (gk_lt k), ih (mul_lt _ _ _)]
 
+omit [NeZero n] ht ha in
 theorem hk_av (k : Nat) :
     hk (av a (gk 0)) (av a (gk 1)) (av a (gk 2)) (av a (gk 3)) k = av a (gk k) := by
   rcases k with _ | _ | _ | k <;> rfl
 
-theorem tree_inv (hd1 : D.one < 64) :
+theorem tree_inv (_hd1 : D.one < 64) :
     ∀ (l : List (List Nat)) (acc m M : Nat), (∀ j, bit m j = true → j < 64) →
       (∀ j < 64, g6 acc j = if bit m j then av a j else 0) →
       l.foldl (trStep D) (some m) = some M →
@@ -249,9 +251,9 @@ theorem tree_inv (hd1 : D.one < 64) :
     · rw [trStep_long, foldl_trStep_none] at h
       exact absurd h (by simp)
     · cases hc : (decide (i < 64) && !bit m i && bit m p && decide (k < 4) && mul D p (gk k) == i)
-      · rw [trStep_three, hc, cond_false, foldl_trStep_none] at h
+      · rw [trStep_three, hc, Bool.cond_false, foldl_trStep_none] at h
         exact absurd h (by simp)
-      · rw [trStep_three, hc, cond_true] at h
+      · rw [trStep_three, hc, _root_.Bool.cond_true] at h
         simp only [Bool.and_eq_true, decide_eq_true_eq, Bool.not_eq_true', beq_iff_eq] at hc
         obtain ⟨⟨⟨⟨hi, hmi⟩, hmp⟩, -⟩, hmul⟩ := hc
         have hp : p < 64 := hm p hmp
@@ -263,8 +265,8 @@ theorem tree_inv (hd1 : D.one < 64) :
           · rw [hj]
             exact hi
         · intro j hj
-          rw [ofStep_three, g6_or, g6_shl (mul_lt _ _ _) i j, bit_or, bit_shl1, hg p hp, if_pos hmp,
-            hk_av ht ha, ← av_mul ht ha hp (gk_lt k), hmul, hg j hj]
+          rw [ofStep_three, g6_or, g6_shl (mul_lt _ _ _) i j, bit_or, bit_shl1, hg p hp, ite_eq_left hmp,
+            hk_av, ← av_mul ht ha hp (gk_lt k), hmul, hg j hj]
           by_cases hji : j = i
           · subst hji
             simp [hmi]
@@ -286,7 +288,7 @@ theorem packA_get (hd : dataOK D = true) {i : Nat} (hi : i < 64) : g6 (packA D a
     · simp [hj, av_one ht ha hd1]
     · simp [hj]
   have := (tree_inv ht ha hd1 D.Tr _ _ _ h1 h2 htr').2 i hi
-  rw [packA, ofImg_eq, this, bit_eq, Nat.testBit_two_pow_sub_one, decide_eq_true hi, if_pos rfl]
+  rw [packA, ofImg_eq, this, bit_eq, Nat.testBit_two_pow_sub_one, decide_eq_true hi, ite_eq_left rfl]
 
 theorem tblOf_packA (hd : dataOK D = true) : tblOf (packA D a) = a := by
   apply Vector.ext
@@ -416,7 +418,7 @@ theorem agree_reachK (A : Nat) : ∀ (f : Nat) {S : Vector Bool 64} {m : Nat}, A
       rw [hS, Function.iterate_fixed hS]
       simp [hfix, h]
     · have e : (stepK D A m == m) = false := by simpa using hfix
-      rw [e, cond_false]
+      rw [e, Bool.cond_false]
       exact ih h1
 
 theorem agree_reach (A : Nat) (s : Fin 64) :
@@ -492,7 +494,7 @@ theorem pairsOf_mem {A U : Nat}
   · next h =>
     rw [h] at hU
     exact absurd hU (List.not_mem_nil)
-  · rw [hc, cond_true]
+  · rw [hc, _root_.Bool.cond_true]
     exact List.mem_map.2 ⟨U, hU, rfl⟩
 
 section Main
@@ -545,7 +547,7 @@ theorem mem_adm {a : Tbl} (ha : (mkTab n).IsAutT a) (hx : a.get (mkTab n).x0i �
         mul D r (hk (av a (gk 0)) (av a (gk 1)) (av a (gk 2)) (av a (gk 3)) k)) =
         (fun r k => mul D r (av a (gk k))) := by
       funext r k
-      rw [hk_av ht ha]
+      rw [hk_av]
     have h1 := rel_av ht ha D.rel hd1
     rw [av_one ht ha hd1, hrel, av_one ht ha hd1] at h1
     rw [e1, h1]
@@ -595,16 +597,16 @@ theorem mem_adm {a : Tbl} (ha : (mkTab n).IsAutT a) (hx : a.get (mkTab n).x0i �
   have hpair := pairsOf_mem D hU hc
   unfold search
   refine List.mem_flatMap.2 ⟨av a (gk 0), m0, ?_⟩
-  rw [hcut, cond_false]
+  rw [hcut, Bool.cond_false]
   refine List.mem_flatMap.2 ⟨av a (gk 1), m1.1, ?_⟩
   refine List.mem_flatMap.2 ⟨av a (gk 2), m2.1, ?_⟩
-  rw [m2'.2, cond_true]
+  rw [m2'.2, _root_.Bool.cond_true]
   refine List.mem_flatMap.2 ⟨av a (gk 3), m3.1, ?_⟩
-  rw [bit_and, m3a.2, m3b.2, Bool.and_self, cond_true]
+  rw [bit_and, m3a.2, m3b.2, Bool.and_self, _root_.Bool.cond_true]
   unfold leaf
-  rw [hr, cond_true, packA_def]
+  rw [hr, _root_.Bool.cond_true, packA_def]
   dsimp only
-  rw [hne, cond_true]
+  rw [hne, _root_.Bool.cond_true]
   exact hpair
 
 end Main

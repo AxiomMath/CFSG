@@ -37,7 +37,7 @@ theorem exists_simple_normal_reeGamma {S : Type} [Group S] {β : MulAut S} {b : 
   let eM : ↥M ≃* ↥(commutator (ReeTag.G2.reeGamma k b)) := eMD.symm.trans eD
   obtain ⟨hs, hnc, -, -, -, -⟩ :=
     CFSG.ComponentClassification.CatalogueBSmallRee.small_Ree_whole_group_p_components b k hk
-  haveI hMn : (M.subgroupOf C).Normal := by
+  have hMn : (M.subgroupOf C).Normal := by
     rw [hNC]
     infer_instance
   refine ⟨M, Subgroup.map_subtype_le _, hMn, ?_, eM.isSimpleGroup, ?_, ?_, ?_⟩
@@ -87,12 +87,12 @@ theorem false_of_reeGamma {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite 
   obtain ⟨b, -, hk, hchar, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Curtis.Coordinator.SeitzCyc.reeG2_fixed_data hK Nat.prime_three
       (by norm_num) hσ
-  haveI := hchar
+  have := hchar
   let eC' : ↥(fixSubgroup (ReeTag.G2.reeGammaFieldAut K a σ)) ≃*
       ReeTag.G2.reeGamma (fixSubfield σ) b :=
     (MulEquiv.subgroupCongr (SuzukiReeTits.fixSubgroup_eq_fixSub _)).trans eC
   obtain ⟨M, hMC, hMn, hMsol, hMs, hMnc, hMdvd, hMcard⟩ := exists_simple_normal_reeGamma hk eC'
-  haveI := hMn
+  have := hMn
   let ψ : S ≃* ReeTag.G2.reeGamma K a :=
     θ.trans (δ : ReeTag.G2.reeGamma K a ≃* ReeTag.G2.reeGamma K a)
   have hψ : MulAut.congr ψ β = ReeTag.G2.reeGammaFieldAut K a σ := by

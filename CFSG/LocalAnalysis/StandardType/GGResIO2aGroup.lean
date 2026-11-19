@@ -22,7 +22,7 @@ theorem ggO2aσ_injective {Λ : Type} {b : Λ} {j₀ j₁ : {i : Λ // i ≠ b}}
   intro k l hkl
   fin_cases k <;> fin_cases l <;> simp [ggO2aσ] at hkl ⊢
   all_goals first
-    | exact h01 hkl | exact h01 hkl.symm | exact e01 hkl | exact e01 hkl.symm
+    | exact e01 hkl | exact e01 hkl.symm
     | exact j₀.2 hkl | exact j₁.2 hkl | exact j₀.2 hkl.symm | exact j₁.2 hkl.symm
 
 theorem ggO2aT_get (c ver : Bool) (k l : Fin 4) :

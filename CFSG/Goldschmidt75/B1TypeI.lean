@@ -98,7 +98,7 @@ theorem action_eq_one_typeI
     rw [h, normalizer_eq_top]
   have hCne : C ≠ ⊤ := by
     intro hCtop
-    rcases T.isPGroup'.card_eq_or_dvd with h1 | h2
+    rcases T.isPGroup.card_eq_or_dvd with h1 | h2
     · exact hTne ((Subgroup.card_eq_one).mp h1)
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := (T : Subgroup Q)) 2 h2
     have hx' : orderOf (x : Q) = 2 := by rw [Subgroup.orderOf_coe]; exact hx
@@ -139,7 +139,7 @@ theorem action_eq_one_typeI
     calc x * q = q * x * q⁻¹ * q := by rw [h1]
       _ = q * x := by group
   have hPsol : Group.IsSolvable P := by
-    refine isSolvable_of_commutator_le T.isPGroup' ?_
+    refine isSolvable_of_commutator_le T.isPGroup ?_
     refine (commutator_mono (hPC.trans hCN) (hPC.trans hCN)).trans ?_
     rw [← hTDN]
     exact commutator_sup_le_of_comm hDN hDab

@@ -116,7 +116,7 @@ theorem ggNbrLSideExcl (hDet : GGNbrLSideClsDet)
     rw [hg, hfg]
   ·
     exfalso
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     obtain ⟨p, hchar, n, hp, hcard⟩ := FiniteField.card' F
     rw [← Nat.card_eq_fintype_card] at hcard
     have hp2 : p ≠ 2 := by

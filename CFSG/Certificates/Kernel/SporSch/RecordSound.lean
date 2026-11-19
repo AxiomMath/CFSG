@@ -15,7 +15,7 @@ theorem origArrs_eq {c : ChainRecord} {kO : ℕ} (hg : c.generators = c.strongGe
     c.origArrs = c.strongArrs.extract 0 kO := by
   unfold ChainRecord.origArrs ChainRecord.strongArrs
   rw [List.extract_toArray, hg]
-  simp [List.extract_eq_drop_take, List.map_take]
+  simp [List.map_take]
 
 theorem wordArrs_eq {c : ChainRecord} {kO kS : ℕ} (hg : c.generators.length = kO)
     (hd : c.derivations.length + kO = kS) :
@@ -27,10 +27,10 @@ theorem wordArrs_eq {c : ChainRecord} {kO kS : ℕ} (hg : c.generators.length = 
   · intro i h1 h2
     simp only [List.getElem_toArray, Array.getElem_ofFn]
     by_cases hi : i < kO
-    · rw [if_pos hi, List.getElem_append_left (by simp [hg]; omega)]
+    · rw [ite_eq_left hi, List.getElem_append_left (by simp [hg]; omega)]
       simp
     · have hlt : i - kO < c.derivations.length := by simp [hg] at h1; omega
-      rw [if_neg hi, List.getElem_append_right (by simp [hg]; omega),
+      rw [ite_eq_right hi, List.getElem_append_right (by simp [hg]; omega),
         List.getD_eq_getElem _ _ hlt]
       simp only [List.length_replicate, hg]
 

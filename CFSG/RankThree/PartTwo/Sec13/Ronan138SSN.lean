@@ -63,6 +63,7 @@ theorem exists_pow_mul_pow_of_card {Z : Subgroup G} {a b : G} (haZ : a ∈ Z) (h
   obtain ⟨β, rfl⟩ := exists_pow_eq_of_mem_zpowers hv
   exact ⟨α, β, rfl⟩
 
+omit [Finite G] in
 theorem zpowers_inf_zpowers_eq_bot {a b : G} {M : Subgroup G} (ha3 : a ^ 3 = 1) (haM : a ∉ M)
     (hbM : b ∈ M) : Subgroup.zpowers a ⊓ Subgroup.zpowers b = ⊥ := by
   rw [eq_bot_iff]

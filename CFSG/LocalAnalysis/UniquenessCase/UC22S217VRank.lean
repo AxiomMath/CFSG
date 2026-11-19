@@ -29,7 +29,7 @@ theorem uc22s217v_not_sp (D : Data G) (Ch : Choice2011 G) (hH : H1930 D) (c : Ct
     {b : G} (hb : b ∈ c.B0) {r : ℕ} (hr : r.Prime) (hbr : orderOf b = r) :
     ¬ IsStronglyPEmbedded r D.M := by
   intro hsp
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hZ1 : zpowers b ≠ ⊥ := zpowers_ne_bot.2 fun h => by
     rw [h, orderOf_one] at hbr; exact hr.one_lt.ne hbr
   exact s21_2 D Ch hH { c with B := c.B0, hB := c.hB0, hle := le_rfl } (zpowers b)
@@ -52,7 +52,7 @@ theorem uc22s217v_ncard_le_three (D : Data G) (hSg : UC6S846.SigmaStd D) {L : Su
   · exact uc22p2214_calC_of_mem_conjSetOf hL (hfin.mem_toFinset.1 hK)
   · have hKC := uc22p2214_calC_of_mem_conjSetOf hL (hfin.mem_toFinset.1 hK)
     have hJK := uc22s217v_isJ1_of_mem hJ1 (hfin.mem_toFinset.1 hK)
-    haveI := (kJ1_holds _ hJK).2.1
+    have := (kJ1_holds _ hJK).2.1
     rw [uc22p21k_center_eq_bot hKC.2.2, Subgroup.card_bot]
     exact hr.not_dvd_one
   · have hJK := uc22s217v_isJ1_of_mem hJ1 (hfin.mem_toFinset.1 hK)
@@ -63,7 +63,7 @@ theorem uc22s217v_exists_three_mem_normalizer {K T : Subgroup G} (hT : IsPGroup 
     (hTK : T ≤ normalizer (K : Set G)) (hS : IsSylowOf 2 (T ⊓ K) K) (hJ1 : IsJ1 (Bar2 K)) :
     ∃ u ∈ K, orderOf u = 3 ∧ u ∈ normalizer (T : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinn : (T.subgroupOf (normalizer (K : Set G))).map (UC6S846.rhoL K) ≤
       (MulAut.conj : Bar2 K →* MulAut (Bar2 K)).range := by
     rintro θ ⟨t, -, ht⟩
@@ -98,7 +98,7 @@ theorem uc22s217v_false_of_ncard_three (D : Data G) (Ch : Choice2011 G) (h211 : 
     (h8107 : F08.R8107 D) (hH : H1930 D) (c : Ctx21 D Ch) {L : Subgroup G}
     (hL : L ∈ calC D.M) (hc3 : (conjSetOf D.M L).ncard = 3) (hJ1 : IsJ1 (Bar2 L)) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hstab : ∀ t ∈ D.T, ∀ K ∈ conjSetOf D.M L,
       K.map (MulAut.conj t).toMonoidHom ∈ conjSetOf D.M L := by
     rintro t ht K ⟨m, hmM, rfl⟩

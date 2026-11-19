@@ -16,6 +16,7 @@ section Operators
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 variable {A0 A1 A2 X Xi S Si : Module.End (ZMod 2) V}
 
+omit [Finite V] in
 theorem pat_transport {P Q : Submodule (ZMod 2) V} {S Si T T' : Module.End (ZMod 2) V}
     (hSiS : Si * S = 1) (hSSi : S * Si = 1) (hQ : ∀ v ∈ Q, Si v ∈ P)
     (hST : S * T = T' * S) :
@@ -46,6 +47,7 @@ theorem pat_transport {P Q : Submodule (ZMod 2) V} {S Si T T' : Module.End (ZMod
       _ = S 0 := by rw [hzero]
       _ = 0 := map_zero S
 
+omit [Finite V] in
 theorem pat_mem_inf_of_mul {T B B' Z : Module.End (ZMod 2) V} (hmul : T * e2 B = e2 B' * T)
     (hker : T * e2 Z = e2 Z * T) :
     ∀ v ∈ LinearMap.range (e2 B) ⊓ LinearMap.ker (e2 Z),
@@ -62,6 +64,7 @@ theorem pat_mem_inf_of_mul {T B B' Z : Module.End (ZMod 2) V} (hmul : T * e2 B =
     have hv2' : e2 Z v = 0 := (LinearMap.mem_ker (f := e2 Z)).mp hv2
     rw [← Module.End.mul_apply, ← hker, Module.End.mul_apply, hv2', map_zero]
 
+omit [Finite V] in
 theorem pat_Xi_mul_A (hW : Wt49 A0 A1 A2 X Xi S Si) :
     Xi * A0 = A1 * Xi ∧ Xi * A1 = A2 * Xi ∧ Xi * A2 = A0 * Xi := by
   have h0 : Xi * A0 * X * Xi = A1 * Xi := by rw [hW.rot0]
@@ -72,6 +75,7 @@ theorem pat_Xi_mul_A (hW : Wt49 A0 A1 A2 X Xi S Si) :
   rw [show Xi * A2 * X * Xi = Xi * A2 by rw [mul_assoc, hW.XXi, mul_one]] at h2
   exact ⟨h0, h1, h2⟩
 
+omit [Finite V] in
 theorem pat_X_mem (hW : Wt49 A0 A1 A2 X Xi S Si) :
     (∀ v ∈ Wbz2 A0 A1 A2, X v ∈ Wb A0 A1 A2) ∧
       (∀ v ∈ Wbz A0 A1 A2, X v ∈ Wbz2 A0 A1 A2) := by
@@ -81,6 +85,7 @@ theorem pat_X_mem (hW : Wt49 A0 A1 A2 X Xi S Si) :
       hW.X_comm_z hW.Xi_b_X
   exact ⟨pat_mem_inf_of_mul hBe2.symm hcZ, pat_mem_inf_of_mul hBZ2e2.symm hcZ⟩
 
+omit [Finite V] in
 theorem pat_invariant_Wb {T : Module.End (ZMod 2) V}
     (hTB : Commute T (A0 * A1 ^ 2)) (hTZ : Commute T (A0 * A1 * A2)) :
     ∀ v ∈ Wb A0 A1 A2, T v ∈ Wb A0 A1 A2 := by

@@ -15,6 +15,7 @@ variable {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal]
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 variable {n : ℕ} {X₁ X₂ : Subgroup G}
 
+omit [Finite K] in
 theorem exists_conj_complement (hc : Ctx M Q Z B) (hw : Width Q Z n) (hn : 3 ≤ n)
     (hD : GlobalModelData M Q Z γ M₀)
     (hZ : Z ≤ X₂) (hXQ : X₂ ≤ Q) (hX₁ : X₁ = Z)
@@ -78,7 +79,7 @@ theorem exists_conj_complement (hc : Ctx M Q Z B) (hw : Width Q Z n) (hn : 3 ≤
   have nat2keep : NaturalRep (ι := Fin n) K (StatedSL n K) (XbarPre M Q Z B) X₂ X₁
       (Q) := nat2
   obtain ⟨φ, hrange, -, hnormX₂, hN, ψ, hψ⟩ := nat2
-  haveI := hN
+  have := hN
   let S : AddSubgroup (Fin n → K) :=
     { carrier := {u | ∃ a : ↥X₂, (a : G) ∈ A ∧
         Multiplicative.toAdd (ψ (QuotientGroup.mk a)) = u},
@@ -143,7 +144,7 @@ theorem exists_conj_complement (hc : Ctx M Q Z B) (hw : Width Q Z n) (hn : 3 ≤
   have he0 : e ≠ 0 := by
     intro h
     have h1 := congrFun h ⟨0, hnpos⟩
-    simpa [e] using h1
+    simp [e] at h1
   have hS_cases : S = ⊥ ∨ S = ⊤ := by
     rcases natDual_invariant_addSubgroup (K := K) hn W' hW'inv with h | h | h | h
     · left
@@ -263,7 +264,7 @@ theorem exists_conj_complement (hc : Ctx M Q Z B) (hw : Width Q Z n) (hn : 3 ≤
   have hEne : Nat.card M₀.E ≠ 0 := by
     rw [hcardE]
     exact pow_ne_zero _ (by omega : Nat.card K ≠ 0)
-  haveI : Finite M₀.E := Nat.finite_of_card_ne_zero hEne
+  have : Finite M₀.E := Nat.finite_of_card_ne_zero hEne
   have hinj : Function.Injective
       (fun p : (M₀.img X₂) × (M₀.img W) => (p.1 : M₀.E) + p.2) := by
     rintro ⟨a, b⟩ ⟨a', b'⟩ hab

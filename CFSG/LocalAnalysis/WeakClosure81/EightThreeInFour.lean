@@ -27,6 +27,7 @@ namespace Hyp83K
 
 variable {V H T K : Subgroup G}
 
+omit [Finite G] in
 theorem isSylowIn_inf_normalizer (hK : Hyp83K V H K) (h : Hyp83 V H T) :
     IsSylowIn 2 T (H ⊓ Subgroup.normalizer (K : Set G)) := by
   have hTle : T ≤ H ⊓ Subgroup.normalizer (K : Set G) :=

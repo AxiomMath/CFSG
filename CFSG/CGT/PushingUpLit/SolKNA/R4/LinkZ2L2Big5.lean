@@ -15,37 +15,47 @@ variable {F : Type} [Field F] [Finite F]
 @[expose] noncomputable def autU (σ : F ≃+* F) (x : Fˣ) : Fˣ :=
   Units.map σ.toRingHom.toMonoidHom x
 
+omit [Finite F] in
 theorem autU_val (σ : F ≃+* F) (x : Fˣ) : (autU σ x : F) = σ (x : F) := rfl
 
+omit [Finite F] in
 theorem autU_mul (σ : F ≃+* F) (x y : Fˣ) : autU σ (x * y) = autU σ x * autU σ y :=
   map_mul (Units.map σ.toRingHom.toMonoidHom) x y
 
+omit [Finite F] in
 theorem autU_one (σ : F ≃+* F) : autU σ (1 : Fˣ) = 1 :=
   map_one (Units.map σ.toRingHom.toMonoidHom)
 
+omit [Finite F] in
 theorem autU_inv (σ : F ≃+* F) (x : Fˣ) : autU σ x⁻¹ = (autU σ x)⁻¹ :=
   map_inv (Units.map σ.toRingHom.toMonoidHom) x
 
+omit [Finite F] in
 theorem autU_neg_one (σ : F ≃+* F) : autU σ (-1 : Fˣ) = -1 := by
   apply Units.ext
   simp [autU]
 
+omit [Finite F] in
 theorem autU_pow (σ : F ≃+* F) (x : Fˣ) (n : ℕ) : autU σ (x ^ n) = (autU σ x) ^ n :=
   map_pow (Units.map σ.toRingHom.toMonoidHom) x n
 
+omit [Finite F] in
 theorem autU_comp (σ τ : F ≃+* F) (x : Fˣ) : autU (σ * τ) x = autU σ (autU τ x) := by
   apply Units.ext
   simp only [autU_val]
   rw [RingAut.mul_apply]
 
+omit [Finite F] in
 theorem autU_one_aut (x : Fˣ) : autU (1 : F ≃+* F) x = x := by
   apply Units.ext
   rw [autU_val, RingAut.coe_one]
   rfl
 
+omit [Finite F] in
 theorem autU_inv_aut (σ : F ≃+* F) (x : Fˣ) : autU σ⁻¹ (autU σ x) = x := by
   rw [← autU_comp, inv_mul_cancel, autU_one_aut]
 
+omit [Finite F] in
 theorem autU_aut_inv (σ : F ≃+* F) (x : Fˣ) : autU σ (autU σ⁻¹ x) = x := by
   rw [← autU_comp, mul_inv_cancel, autU_one_aut]
 
@@ -55,11 +65,16 @@ theorem autU_aut_inv (σ : F ≃+* F) (x : Fˣ) : autU σ (autU σ⁻¹ x) = x :
 
 @[expose] noncomputable def ubar (F : Type) [Field F] [Finite F] : PGammaL2 F := gD (-1) 1
 
+omit [Finite F] in
 @[simp] theorem gD_left (x : Fˣ) (σ : F ≃+* F) : (gD x σ).left = pD x := rfl
+omit [Finite F] in
 @[simp] theorem gD_right (x : Fˣ) (σ : F ≃+* F) : (gD x σ).right = σ := rfl
+omit [Finite F] in
 @[simp] theorem gA_left (x : Fˣ) (σ : F ≃+* F) : (gA x σ).left = pA x := rfl
+omit [Finite F] in
 @[simp] theorem gA_right (x : Fˣ) (σ : F ≃+* F) : (gA x σ).right = σ := rfl
 
+omit [Finite F] in
 theorem gD_eq_iff {x y : Fˣ} {σ τ : F ≃+* F} : gD x σ = gD y τ ↔ x = y ∧ σ = τ := by
   constructor
   · intro h
@@ -68,6 +83,7 @@ theorem gD_eq_iff {x y : Fˣ} {σ τ : F ≃+* F} : gD x σ = gD y τ ↔ x = y 
   · rintro ⟨rfl, rfl⟩
     rfl
 
+omit [Finite F] in
 theorem gA_eq_iff {x y : Fˣ} {σ τ : F ≃+* F} : gA x σ = gA y τ ↔ x = y ∧ σ = τ := by
   constructor
   · intro h
@@ -76,50 +92,55 @@ theorem gA_eq_iff {x y : Fˣ} {σ τ : F ≃+* F} : gA x σ = gA y τ ↔ x = y 
   · rintro ⟨rfl, rfl⟩
     rfl
 
+omit [Finite F] in
 theorem inl_pD_eq (x : Fˣ) : (SemidirectProduct.inl (pD x) : PGammaL2 F) = gD x 1 := rfl
 
+omit [Finite F] in
 theorem gD_one_one : gD (1 : Fˣ) (1 : F ≃+* F) = 1 := by
   apply SemidirectProduct.ext
   · simp [pD_one]
   · simp
 
+omit [Finite F] in
 theorem gD_mul_gD (x y : Fˣ) (σ τ : F ≃+* F) : gD x σ * gD y τ = gD (x * autU σ y) (σ * τ) := by
   apply SemidirectProduct.ext
-  · simp only [gD_left, gD_right, SemidirectProduct.mul_left, SemidirectProduct.mul_right]
+  · simp only [gD_left, gD_right, SemidirectProduct.mul_left]
     rw [fieldAut_pD, pD_mul]
     rfl
   · simp only [gD_right, SemidirectProduct.mul_right]
 
+omit [Finite F] in
 theorem gD_mul_gA (x y : Fˣ) (σ τ : F ≃+* F) : gD x σ * gA y τ = gA (x * autU σ y) (σ * τ) := by
   apply SemidirectProduct.ext
-  · simp only [gD_left, gD_right, gA_left, gA_right, SemidirectProduct.mul_left,
-      SemidirectProduct.mul_right]
+  · simp only [gD_left, gD_right, gA_left, SemidirectProduct.mul_left]
     rw [fieldAut_pA, pD_mul_pA]
     rfl
   · simp only [gD_right, gA_right, SemidirectProduct.mul_right]
 
+omit [Finite F] in
 theorem gA_mul_gD (x y : Fˣ) (σ τ : F ≃+* F) :
     gA x σ * gD y τ = gA (x * (autU σ y)⁻¹) (σ * τ) := by
   apply SemidirectProduct.ext
-  · simp only [gD_left, gD_right, gA_left, gA_right, SemidirectProduct.mul_left,
-      SemidirectProduct.mul_right]
+  · simp only [gD_left, gA_left, gA_right, SemidirectProduct.mul_left]
     rw [fieldAut_pD, pA_mul_pD]
     rfl
   · simp only [gD_right, gA_right, SemidirectProduct.mul_right]
 
+omit [Finite F] in
 theorem gA_mul_gA (x y : Fˣ) (σ τ : F ≃+* F) :
     gA x σ * gA y τ = gD (x * (autU σ y)⁻¹) (σ * τ) := by
   apply SemidirectProduct.ext
-  · simp only [gD_left, gD_right, gA_left, gA_right, SemidirectProduct.mul_left,
-      SemidirectProduct.mul_right]
+  · simp only [gD_left, gA_left, gA_right, SemidirectProduct.mul_left]
     rw [fieldAut_pA, pA_mul_pA]
     rfl
   · simp only [gD_right, gA_right, SemidirectProduct.mul_right]
 
+omit [Finite F] in
 theorem gD_inv (x : Fˣ) (σ : F ≃+* F) : (gD x σ)⁻¹ = gD (autU σ⁻¹ x)⁻¹ σ⁻¹ := by
   rw [inv_eq_of_mul_eq_one_left]
   rw [gD_mul_gD, inv_mul_cancel, inv_mul_cancel, gD_one_one]
 
+omit [Finite F] in
 theorem gA_inv (x : Fˣ) (σ : F ≃+* F) : (gA x σ)⁻¹ = gA (autU σ⁻¹ x) σ⁻¹ := by
   rw [inv_eq_of_mul_eq_one_left]
   rw [gA_mul_gA, mul_inv_cancel, inv_mul_cancel, gD_one_one]
@@ -152,9 +173,12 @@ theorem eq_gD_or_gA_of_comm_ubar (h2 : (2 : F) ≠ 0) {g : PGammaL2 F}
 @[expose] def IsMon (g : PGammaL2 F) : Prop :=
   (∃ x : Fˣ, g = gD x g.right) ∨ ∃ x : Fˣ, g = gA x g.right
 
+omit [Finite F] in
 theorem isMon_gD (x : Fˣ) (σ : F ≃+* F) : IsMon (gD x σ) := Or.inl ⟨x, rfl⟩
+omit [Finite F] in
 theorem isMon_gA (x : Fˣ) (σ : F ≃+* F) : IsMon (gA x σ) := Or.inr ⟨x, rfl⟩
 
+omit [Finite F] in
 theorem isMon_mul {g h : PGammaL2 F} (hg : IsMon g) (hh : IsMon h) : IsMon (g * h) := by
   rcases hg with ⟨x, hx⟩ | ⟨x, hx⟩ <;> rcases hh with ⟨y, hy⟩ | ⟨y, hy⟩
   · refine Or.inl ⟨x * autU g.right y, ?_⟩
@@ -178,6 +202,7 @@ theorem isMon_mul {g h : PGammaL2 F} (hg : IsMon g) (hh : IsMon h) : IsMon (g * 
     rw [SemidirectProduct.mul_right]
     exact hgh
 
+omit [Finite F] in
 theorem isMon_inv {g : PGammaL2 F} (hg : IsMon g) : IsMon g⁻¹ := by
   rcases hg with ⟨x, hx⟩ | ⟨x, hx⟩
   · refine Or.inl ⟨(autU g.right⁻¹ x)⁻¹, ?_⟩
@@ -211,21 +236,26 @@ theorem isMon_iff_comm_ubar (h2 : (2 : F) ≠ 0) {g : PGammaL2 F} :
 @[expose] noncomputable def nrm (σ : F ≃+* F) (x : Fˣ) (n : ℕ) : Fˣ :=
   ∏ i ∈ Finset.range n, autU (σ ^ i) x
 
+omit [Finite F] in
 theorem nrm_zero (σ : F ≃+* F) (x : Fˣ) : nrm σ x 0 = 1 := by
   simp [nrm]
 
+omit [Finite F] in
 theorem nrm_succ (σ : F ≃+* F) (x : Fˣ) (n : ℕ) :
     nrm σ x (n + 1) = nrm σ x n * autU (σ ^ n) x := by
   simp [nrm, Finset.prod_range_succ]
 
+omit [Finite F] in
 theorem gD_pow (x : Fˣ) (σ : F ≃+* F) (n : ℕ) : (gD x σ) ^ n = gD (nrm σ x n) (σ ^ n) := by
   induction n with
   | zero => rw [pow_zero, nrm_zero, pow_zero, gD_one_one]
   | succ n ih => rw [pow_succ, ih, gD_mul_gD, nrm_succ, pow_succ]
 
+omit [Finite F] in
 theorem gA_sq (x : Fˣ) (σ : F ≃+* F) : (gA x σ) ^ 2 = gD (x * (autU σ x)⁻¹) (σ ^ 2) := by
   rw [sq, gA_mul_gA, sq]
 
+omit [Finite F] in
 theorem exists_gD_pow_even {g : PGammaL2 F} (hg : IsMon g) (n : ℕ) :
     ∃ x : Fˣ, g ^ (2 * n) = gD x (g.right ^ (2 * n)) := by
   rcases hg with ⟨x, hx⟩ | ⟨x, hx⟩
@@ -234,6 +264,7 @@ theorem exists_gD_pow_even {g : PGammaL2 F} (hg : IsMon g) (n : ℕ) :
     conv_lhs => rw [pow_mul, hx, gA_sq, gD_pow]
     rw [← pow_mul]
 
+omit [Finite F] in
 theorem exists_gD_sq {g : PGammaL2 F} (hg : IsMon g) :
     ∃ x : Fˣ, g ^ 2 = gD x (g.right ^ 2) := by
   obtain ⟨x, hx⟩ := exists_gD_pow_even hg 1

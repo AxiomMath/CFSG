@@ -91,6 +91,7 @@ theorem twFJ_le_twR (σ η : K ≃+* K) : twFJ σ η ≤ twR σ η := by
     RingHom.ext fun c => (mem_fixSubfield η).1 c.2
   rw [units_map_entrywiseHom_eq_baseChangeGL, baseChangeGL_baseChangeGL, hcomp]
 
+omit [Finite K] in
 private theorem twFJ_hom_pow (τ : K ≃+* K) (k : ℕ) (x : K) :
     (τ.toRingHom ^ k) x = (τ ^ k) x := by
   induction k generalizing x with
@@ -99,11 +100,13 @@ private theorem twFJ_hom_pow (τ : K ≃+* K) (k : ℕ) (x : K) :
     rw [pow_succ, pow_succ, RingAut.mul_apply]
     exact ih (τ x)
 
+omit [Finite K] in
 private theorem twFJ_xE6_congr {i j : Fin 6} {x y : K} (hi : i.val = j.val) (hx : x = y) :
     xE6 (Pi.single i 1) x = xE6 (Pi.single j 1) y := by
   obtain rfl : i = j := Fin.ext hi
   subst hx; rfl
 
+omit [Finite K] in
 private theorem twFJ_xE6_congr_neg {i j : Fin 6} {x y : K} (hi : i.val = j.val) (hx : x = y) :
     xE6 (-Pi.single i 1) x = xE6 (-Pi.single j 1) y := by
   obtain rfl : i = j := Fin.ext hi
@@ -155,7 +158,7 @@ theorem twGens_twFJ {σ : K ≃+* K} (hσ2 : σ ^ 2 = 1) (η : K ≃+* K) :
     rcases hij with rfl | rfl
     · have hc2 : c ∈ orbitField TwistTag.E6 K σ.toRingHom
           (⟨0, by decide⟩ : Fin TwistTag.E6.foldedTag.rank) :=
-        mem_orbitField.2 (by rw [hcard0, twFJ_hom_pow, hσ2] <;> rfl)
+        mem_orbitField.2 (by rw [hcard0, twFJ_hom_pow, hσ2]; rfl)
       refine Subgroup.mem_map.2 ⟨fixedOrbitX TwistTag.E6 K σ.toRingHom ⟨0, by decide⟩ ⟨c, hc2⟩,
         fixedOrbitX_mem_twFJ σ η _ _ h2, ?_⟩
       rw [twIncl_fixedOrbitX, hcard0, show List.range 2 = [0, 1] from rfl]
@@ -163,7 +166,7 @@ theorem twGens_twFJ {σ : K ≃+* K} (hσ2 : σ ^ 2 = 1) (η : K ≃+* K) :
       exact congrArg₂ (· * ·) (twFJ_xE6_congr (by decide) rfl) (twFJ_xE6_congr (by decide) rfl)
     · have hc2 : c ∈ orbitField TwistTag.E6 K σ.toRingHom
           (⟨1, by decide⟩ : Fin TwistTag.E6.foldedTag.rank) :=
-        mem_orbitField.2 (by rw [hcard1, twFJ_hom_pow, hσ2] <;> rfl)
+        mem_orbitField.2 (by rw [hcard1, twFJ_hom_pow, hσ2]; rfl)
       refine Subgroup.mem_map.2 ⟨fixedOrbitX TwistTag.E6 K σ.toRingHom ⟨1, by decide⟩ ⟨c, hc2⟩,
         fixedOrbitX_mem_twFJ σ η _ _ h2, ?_⟩
       rw [twIncl_fixedOrbitX, hcard1, show List.range 2 = [0, 1] from rfl]
@@ -174,7 +177,7 @@ theorem twGens_twFJ {σ : K ≃+* K} (hσ2 : σ ^ 2 = 1) (η : K ≃+* K) :
     rcases hij with rfl | rfl
     · have hc2 : c ∈ orbitField TwistTag.E6 K σ.toRingHom
           (⟨0, by decide⟩ : Fin TwistTag.E6.foldedTag.rank) :=
-        mem_orbitField.2 (by rw [hcard0, twFJ_hom_pow, hσ2] <;> rfl)
+        mem_orbitField.2 (by rw [hcard0, twFJ_hom_pow, hσ2]; rfl)
       refine Subgroup.mem_map.2 ⟨fixedOrbitY TwistTag.E6 K σ.toRingHom ⟨0, by decide⟩ ⟨c, hc2⟩,
         fixedOrbitY_mem_twFJ σ η _ _ h2, ?_⟩
       rw [twIncl_fixedOrbitY, hcard0, show List.range 2 = [0, 1] from rfl]
@@ -183,7 +186,7 @@ theorem twGens_twFJ {σ : K ≃+* K} (hσ2 : σ ^ 2 = 1) (η : K ≃+* K) :
         (twFJ_xE6_congr_neg (by decide) rfl)
     · have hc2 : c ∈ orbitField TwistTag.E6 K σ.toRingHom
           (⟨1, by decide⟩ : Fin TwistTag.E6.foldedTag.rank) :=
-        mem_orbitField.2 (by rw [hcard1, twFJ_hom_pow, hσ2] <;> rfl)
+        mem_orbitField.2 (by rw [hcard1, twFJ_hom_pow, hσ2]; rfl)
       refine Subgroup.mem_map.2 ⟨fixedOrbitY TwistTag.E6 K σ.toRingHom ⟨1, by decide⟩ ⟨c, hc2⟩,
         fixedOrbitY_mem_twFJ σ η _ _ h2, ?_⟩
       rw [twIncl_fixedOrbitY, hcard1, show List.range 2 = [0, 1] from rfl]

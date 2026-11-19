@@ -32,6 +32,7 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem inf_sup_eq_of_le_of_le_normalizer {A B P : Subgroup G} (hBP : B ≤ P)
     (hAB : A ≤ normalizer (B : Set G)) : P ⊓ (A ⊔ B) = (P ⊓ A) ⊔ B := by
   refine le_antisymm ?_ (sup_le (inf_le_inf_left P le_sup_left) (le_inf hBP le_sup_right))
@@ -43,6 +44,7 @@ theorem inf_sup_eq_of_le_of_le_normalizer {A B P : Subgroup G} (hBP : B ≤ P)
     simpa using this
   exact mul_mem (mem_sup_left (mem_inf.2 ⟨haP, ha⟩)) (mem_sup_right hb)
 
+omit [Finite G] in
 theorem inf_sup_eq_of_le_of_le_normalizer' {A B P : Subgroup G} (hAP : A ≤ P)
     (hAB : A ≤ normalizer (B : Set G)) : P ⊓ (A ⊔ B) = A ⊔ (P ⊓ B) := by
   refine le_antisymm ?_ (sup_le (le_inf hAP le_sup_left) (inf_le_inf_left P le_sup_right))
@@ -54,10 +56,11 @@ theorem inf_sup_eq_of_le_of_le_normalizer' {A B P : Subgroup G} (hAP : A ≤ P)
     simpa using this
   exact mul_mem (mem_sup_left ha) (mem_sup_right (mem_inf.2 ⟨hbP, hb⟩))
 
+omit [Finite G] in
 theorem le_of_isSylowOf_of_le_normalizer {P K O : Subgroup G} (hP : IsSylowOf 2 P K)
     (hOK : O ≤ K) (hKO : K ≤ normalizer (O : Set G)) (hO : IsPGroup 2 O) : O ≤ P := by
   obtain ⟨Q, hQ⟩ := hP.exists_sylow_eq_subgroupOf
-  haveI : (O.subgroupOf K).Normal := (normal_subgroupOf_iff_le_normalizer hOK).2 hKO
+  have : (O.subgroupOf K).Normal := (normal_subgroupOf_iff_le_normalizer hOK).2 hKO
   have h1 : O.subgroupOf K ≤ (Q : Subgroup K) :=
     IsPGroup.le_sylow_of_normal (N := O.subgroupOf K) hO.comap_subtype Q
   rw [hQ] at h1
@@ -65,6 +68,7 @@ theorem le_of_isSylowOf_of_le_normalizer {P K O : Subgroup G} (hP : IsSylowOf 2 
   have hx' : (⟨x, hOK hx⟩ : K) ∈ O.subgroupOf K := hx
   exact h1 hx'
 
+omit [Finite G] in
 theorem zc_conj (A : Subgroup G) (g : G) : zc (Aᵍ[g]) = (zc A)ᵍ[g] := by
   have key : ∀ (B : Subgroup G) (x : G), x ∈ Bᵍ[g] ↔ g * x * g⁻¹ ∈ B := fun B x =>
     TrialityD4.ProductCase.ProductN1SylowAux.mem_conj_iff
@@ -84,6 +88,7 @@ theorem zc_conj (A : Subgroup G) (g : G) : zc (Aᵍ[g]) = (zc A)ᵍ[g] := by
       _ = g⁻¹ * ((g * x * g⁻¹) * (g * z * g⁻¹)) * g := by rw [h1]
       _ = x * z := by group
 
+omit [Finite G] in
 theorem card_sup_of_commute {A B : Subgroup G} (hc : ⁅A, B⁆ = ⊥) (hi : A ⊓ B = ⊥) :
     Nat.card (A ⊔ B : Subgroup G) = Nat.card A * Nat.card B := by
   have hB : B ≤ normalizer (A : Set G) := by
@@ -93,6 +98,7 @@ theorem card_sup_of_commute {A B : Subgroup G} (hc : ⁅A, B⁆ = ⊥) (hi : A �
   rw [hi] at this
   simpa using this
 
+omit [Finite G] in
 theorem commutator_sup_central {A Z : Subgroup G}
     (hZ : Z ≤ centralizer ((A ⊔ Z : Subgroup G) : Set G)) : ⁅A ⊔ Z, A ⊔ Z⁆ = ⁅A, A⁆ := by
   refine le_antisymm ?_ (Subgroup.commutator_mono le_sup_left le_sup_left)
@@ -168,6 +174,7 @@ theorem pCoreOf_sup_le_of_commute {A B : Subgroup G} (hc : ⁅A, B⁆ = ⊥) (hi
   rw [sup_comm, ← hcomm a ha b hb]
   exact hx
 
+omit [Finite G] in
 theorem mem_normalizer_commutator_of_mem {T R : Subgroup G} {g : G}
     (hT : g ∈ normalizer (T : Set G)) (hR : g ∈ normalizer (R : Set G)) :
     g ∈ normalizer ((⁅T, R⁆ : Subgroup G) : Set G) := by
@@ -195,6 +202,7 @@ theorem sylow_decomp {P N A : Subgroup G} {t : G} {n : ℕ} (hP : IsSylowOf 2 P 
 
 
 
+omit [Finite G] in
 theorem eq_of_mul_eq_mul_of_inf_eq_bot {A B : Subgroup G} (hAB : A ⊓ B = ⊥) {a₁ a₂ b₁ b₂ : G}
     (ha₁ : a₁ ∈ A) (ha₂ : a₂ ∈ A) (hb₁ : b₁ ∈ B) (hb₂ : b₂ ∈ B) (h : a₁ * b₁ = a₂ * b₂) :
     a₁ = a₂ ∧ b₁ = b₂ := by
@@ -212,9 +220,10 @@ theorem eq_of_mul_eq_mul_of_inf_eq_bot {A B : Subgroup G} (hAB : A ⊓ B = ⊥) 
   rw [e1] at h
   exact mul_left_cancel h
 
-theorem decomp_center {P A O Z : Subgroup G} {t : G} (ht : t * t = 1)
+omit [Finite G] in
+theorem decomp_center {P A O Z : Subgroup G} {t : G} (_ht : t * t = 1)
     (hAB : A ⊓ Aᵍ[t] = ⊥) (hc : ⁅A, Aᵍ[t]⁆ = ⊥) (hPA : P ≤ A ⊔ Aᵍ[t])
-    (hOA : O ≤ A) (hAO : A ≤ normalizer (O : Set G)) (hOP : O ≤ P) (hOtP : Oᵍ[t] ≤ P)
+    (hOA : O ≤ A) (hAO : A ≤ normalizer (O : Set G)) (hOP : O ≤ P) (_hOtP : Oᵍ[t] ≤ P)
     (hZO : Z ≤ O ⊔ Oᵍ[t]) (hZP : ∀ z ∈ Z, ∀ y ∈ P, y * z = z * y)
     (hZcen : ∀ x ∈ P, (∀ y ∈ P, y * x = x * y) → x ∈ Z) :
     Z ≤ (O ⊓ Z) ⊔ (Oᵍ[t] ⊓ Z) := by
@@ -270,6 +279,7 @@ theorem decomp_center {P A O Z : Subgroup G} {t : G} (ht : t * t = 1)
     simpa using this
   exact mul_mem (mem_sup_left ⟨ho, hoZ⟩) (mem_sup_right ⟨ho', ho'Z⟩)
 
+omit [Finite G] in
 theorem le_commutator_of_complement {X Λ A : Subgroup G} {T : Type*} [Group T]
     (h : IsQuotientIso Λ X T) (hT : Group.IsPerfect T) (hXΛ : X ≤ Λ) (hAΛ : A ≤ Λ)
     (hAX : A ⊓ X = ⊥) (hΛA : Λ ≤ A ⊔ X) (hAN : A ≤ normalizer (X : Set G)) : A ≤ ⁅A, A⁆ := by
@@ -305,6 +315,7 @@ theorem le_commutator_of_complement {X Λ A : Subgroup G} {T : Type*} [Group T]
     ⟨ψ, hψ, hψk⟩ hT
   simpa using this
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_normalClosure {X Y : Subgroup G}
     (hY : Y ≤ normalizer (X : Set G)) :
     normalizer (X : Set G) ≤ normalizer
@@ -341,7 +352,7 @@ theorem mem_normalizer_of_mem_normalizer_sylow (hS : Sl2Pair F N D K K') {N₂ P
     (hP₁ : P ≤ N) (hP₂ : IsSylowOf 2 P N₂) {g : G} (hg₂ : g ∈ N₂)
     (hgP : g ∈ normalizer (P : Set G)) (hgN : g ∈ normalizer (N : Set G))
     (hgD : g ∈ normalizer (D : Set G)) : g ∈ normalizer (K : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hM : P ≤ N₂ ⊓ normalizer (P : Set G) := le_inf hP₂.le Subgroup.le_normalizer
   have h2 : ¬ 2 ∣ P.relIndex N₂ := ((CFSG.ABGLocalTools.isSylowOf_iff).1 hP₂).2.2
   have hdvd : P.relIndex (N₂ ⊓ normalizer (P : Set G)) ∣ P.relIndex N₂ :=
@@ -355,7 +366,7 @@ theorem mem_normalizer_of_mem_normalizer_sylow (hS : Sl2Pair F N D K K') {N₂ P
 theorem le_commutator_borel (hS : Sl2Pair F N D K K') {P A : Subgroup G}
     (hP : IsSylowOf 2 P N) (hDP : D ≤ P) (hAK : A ≤ K) (hAD : A ⊓ D = ⊥) (hKA : K ≤ A ⊔ D) :
     P ⊓ A ≤ ⁅P ⊓ A, A ⊓ normalizer ((P ⊓ A : Subgroup G) : Set G)⁆ := by
-  haveI := hS.charTwo
+  have := hS.charTwo
   obtain ⟨ψ, hψ⟩ := TrialityD4.ProductCase.ProductN1SylowAux.SL2Aux.exists_qupData_sylow hS hP hDP
   set T : Subgroup G := P ⊓ A with hT
   set R : Subgroup G := A ⊓ normalizer (T : Set G) with hR
@@ -463,6 +474,7 @@ theorem inf_normalizer_le_normalizer_sylow (hS : Sl2Pair F N D K K') {P A : Subg
   rw [hPeq]
   exact Common.mem_normalizer_sup h1 h2
 
+omit [Finite G] in
 theorem sl2Pair_of_isFactor {X N Λ : Subgroup G} {t : G} [CharP F 2]
     (hΛ : IsFactor X N Λ t F) (htX : t ∈ normalizer (X : Set G)) (hF : 4 ≤ Nat.card F) :
     Sl2Pair F N X Λ (Λᵍ[t]) where
@@ -518,6 +530,7 @@ theorem nat_aux {q a x : ℕ} (hq : 0 < q) (ha : a ≤ q) (hx : 0 < x) (h : q ^ 
   have h2 : a * a = q * q := by rw [← h, pow_two]; ring
   exact Nat.mul_self_inj.1 h2
 
+omit [Finite G] in
 theorem stage_U {P A O U : Subgroup G} {t : G} {q : ℕ} (ht : t * t = 1)
     (hAB : A ⊓ Aᵍ[t] = ⊥) (hc : ⁅A, Aᵍ[t]⁆ = ⊥) (hPA : P ≤ A ⊔ Aᵍ[t])
     (hOA : O ≤ A) (hAO : A ≤ normalizer (O : Set G)) (hOi : O ⊓ Oᵍ[t] = ⊥)
@@ -622,13 +635,13 @@ theorem stage_Q {F : Type} [Field F] [Finite F] {N₂ M6 Λ₂ P A₂ K2 O Q U H
     Subgroup.eq_of_le_of_card_ge hle (by rw [hQcard, hIHt])
   exact ⟨hQeq.symm, hI₂Ht, hI₂Htc, hT₂card, hOcard, hI₂card⟩
 
-theorem stage_inter {N₁ K1p U H Ht P : Subgroup G} {t : G} {q : ℕ} (ht : t * t = 1)
+theorem stage_inter {N₁ K1p U H Ht P : Subgroup G} {t : G} {q : ℕ} (_ht : t * t = 1)
     (hN₁ : N₁ = ⁅K1p, K1p⁆ ⊔ (⁅K1p, K1p⁆)ᵍ[t]) (hN₁' : N₁ = K1p ⊔ K1pᵍ[t])
     (hK1p : K1p ⊓ K1pᵍ[t] = U) (hK1c : ⁅K1p, K1pᵍ[t]⁆ ≤ U)
     (hUN₁ : ∀ x ∈ U, ∀ y ∈ N₁, y * x = x * y) (hperf : ⁅K1p, K1p⁆ ⊔ U = K1p)
-    (hUH : U = H ⊔ Ht) (hUcard : Nat.card U = q ^ 2) (hHtcard : Nat.card Ht = q)
+    (_hUH : U = H ⊔ Ht) (hUcard : Nat.card U = q ^ 2) (hHtcard : Nat.card Ht = q)
     (hHtU : Ht ≤ U) (hK1ppHt : ⁅K1p, K1p⁆ ⊓ Ht = ⊥) (hUt : Uᵍ[t] = U) (hUP : U ≤ P)
-    (hZPc : ∀ z ∈ U, ∀ y ∈ P, y * z = z * y) (hUp : Uᵍ[t] ≤ P) :
+    (hZPc : ∀ z ∈ U, ∀ y ∈ P, y * z = z * y) (_hUp : Uᵍ[t] ≤ P) :
     ⁅⁅K1p, K1p⁆, (⁅K1p, K1p⁆)ᵍ[t]⁆ = ⊥ ∧ ⁅K1p, K1p⁆ ⊓ (⁅K1p, K1p⁆)ᵍ[t] = ⊥ ∧
       K1p = ⁅K1p, K1p⁆ ⊔ Ht := by
   have hK1N₁ : K1p ≤ N₁ := hN₁' ▸ le_sup_left
@@ -800,6 +813,7 @@ theorem stage_one {K1p A₁ D7 N₁ : Subgroup G} {t : G}
     rw [← hinf]
     exact inf_le_inf hOpp (Subgroup.map_mono hOpp)
 
+omit [Finite G] in
 theorem stage_T₁I₂ {Q I₂ Ht T₁ K2 J₃ : Subgroup G} {t : G}
     (hQ : Q = I₂ ⊔ Ht) (hT₁Q : T₁ ≤ Q) (hI₂K : I₂ ≤ K2) (hHtK : Ht ≤ K2ᵍ[t])
     (hinf : K2 ⊓ K2ᵍ[t] = ⊥) (hI₂Htc : ⁅I₂, Ht⁆ = ⊥)
@@ -828,6 +842,7 @@ theorem stage_T₁I₂ {Q I₂ Ht T₁ K2 J₃ : Subgroup G} {t : G}
   rw [hh1, mul_one]
   exact hy
 
+omit [Finite G] in
 theorem stage_E_eq {Q I₁ I₂ Ht : Subgroup G}
     (hQ₁ : Q = I₁ ⊔ Ht) (hQ₂ : Q = I₂ ⊔ Ht)
     (hc₁ : ∀ h ∈ Ht, ∀ y ∈ I₁, h * y = y * h) (hc₂ : ∀ h ∈ Ht, ∀ y ∈ I₂, h * y = y * h)
@@ -848,6 +863,7 @@ theorem stage_E_eq {Q I₁ I₂ Ht : Subgroup G}
       _ = h * (a * b) := by group
   rw [← key I₁ hc₁, ← key I₂ hc₂, ← hQ₁, ← hQ₂]
 
+omit [Finite G] in
 theorem stage_E_card {A I₁ P S F : Subgroup G} {t : G} {q : ℕ} (ht : t * t = 1)
     (hc : ⁅A, Aᵍ[t]⁆ = ⊥) (hi : A ⊓ Aᵍ[t] = ⊥) (hI₁A : I₁ ≤ A) (hP : P = I₁ ⊔ I₁ᵍ[t])
     (hS : P ⊓ centralizer ({t} : Set G) = S) (hSF : ⁅S, S⁆ = F) (hF : Nat.card F = q ^ 4) :
@@ -868,6 +884,7 @@ section Levi
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem levi_facts {N X Λ Cen : Subgroup G} (hΛN : Λ ≤ N) (hXΛ : X ≤ Λ)
     (hNX : N ≤ normalizer (X : Set G)) (hcompl : N = Cen ⊔ X) (hCenX : Cen ⊓ X = ⊥)
     (hCenN : Cen ≤ N) : Λ ⊓ Cen ≤ Λ ∧ (Λ ⊓ Cen) ⊓ X = ⊥ ∧ Λ ≤ (Λ ⊓ Cen) ⊔ X := by

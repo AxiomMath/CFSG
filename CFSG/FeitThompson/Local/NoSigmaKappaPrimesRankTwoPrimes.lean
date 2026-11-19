@@ -61,7 +61,7 @@ theorem mem_tauTwoPrimes_of_dvd_natCard [Finite G] [IsSimpleGroup G]
   have hcyc : IsCyclic ((S : Subgroup ↥M).map M.subtype : Subgroup G) := by
     rw [isCyclic_map_subtype_iff]
     by_contra hnc
-    have h2 := two_le_elementaryAbelianPRank_of_not_isCyclic hq hqodd S.isPGroup' hnc
+    have h2 := two_le_elementaryAbelianPRank_of_not_isCyclic hq hqodd S.isPGroup hnc
     have h3 := elementaryAbelianPRank_subgroup_le (X := ↥M) hq.one_lt (S : Subgroup ↥M)
     omega
   have hcent : sigmaCore M ⊓ centralizer ({(x₀ : G)} : Set G) ≠ ⊥ :=

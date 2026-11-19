@@ -35,7 +35,7 @@ theorem exists_pow_two_mem_oTwoRes_top {Y : Type*} [Group Y] [Finite Y] (y : Y) 
 
 theorem le_oTwoRes_top_of_perfect {Y : Type*} [Group Y] [Finite Y] (X : Subgroup Y)
     (hX : ⁅X, X⁆ = X) : X ≤ oTwoRes (⊤ : Subgroup Y) := by
-  haveI : (oTwoRes (⊤ : Subgroup Y)).Normal := normal_oTwoRes_top
+  have : (oTwoRes (⊤ : Subgroup Y)).Normal := normal_oTwoRes_top
   have hp : IsPGroup 2 (Y ⧸ oTwoRes (⊤ : Subgroup Y)) := by
     intro q
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
@@ -43,8 +43,8 @@ theorem le_oTwoRes_top_of_perfect {Y : Type*} [Group Y] [Finite Y] (X : Subgroup
     refine ⟨k, ?_⟩
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
     exact hk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hp.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hp.isNilpotent
   have hbot : X.map (QuotientGroup.mk' (oTwoRes (⊤ : Subgroup Y))) = ⊥ := by
     apply eq_bot_of_perfect_solvable_S126P31
     rw [← Subgroup.map_commutator, hX]

@@ -31,7 +31,7 @@ theorem up7a8_spor_falseK {m : ℕ} (h : SporAltNoCompK m) (hm : 5 ≤ m) {G : T
     (s : TauCeti.SporadicName) (e : PSimple 3 K ≃* (TauCeti.CFSGIndex.sporadic s).Group)
     (hA : IsAltPType 3 J m) (hT : CFSG.Open.IsKGroup (PSimple 3 K)) : False := by
   obtain ⟨hKB, hKM⟩ := kRows_of_isKGroup hT e
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hyp' : IsPGroup 3 (Subgroup.zpowers y) := isPGroup_zpowers_of_pow_eq_one hyp
   obtain ⟨Q, _, _, K', y', ⟨eK⟩, hnorm, hpow, hcentmod, hcomp⟩ :=
     exists_pQuot_transfer Nat.prime_three hyp' hyN
@@ -40,7 +40,7 @@ theorem up7a8_spor_falseK {m : ℕ} (h : SporAltNoCompK m) (hm : 5 ≤ m) {G : T
   have hq0 : CFSG.Open.IsQuasisimple (PQuot 3 K) := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hK
   have hq' : CFSG.Open.IsQuasisimple ↥K' :=
     CFSG.SignalizerFunctorTheorem.TransportA.isQuasisimple_of_mulEquiv eK.symm hq0
-  haveI : Group.IsPerfect ↥K' := ⟨hq'.1⟩
+  have : Group.IsPerfect ↥K' := ⟨hq'.1⟩
   have eS : (↥K' ⧸ Subgroup.center ↥K') ≃* PSimple 3 K :=
     QuotientGroup.congr _ _ eK (Subgroup.map_center_eq eK)
   have hK'bot : CFSG.pPrimeCore 3 ↥K' = ⊥ := by
@@ -108,8 +108,8 @@ theorem i2017_spor_falseK (hS : SporAltNoCompK 8) {K : Subgroup G}
     (s : TauCeti.SporadicName) (eS : PSimple 3 K ≃* (TauCeti.CFSGIndex.sporadic s).Group)
     (hT : CFSG.Open.IsKGroup (PSimple 3 K)) : False := by
   obtain ⟨hKB, hKM⟩ := kRows_of_isKGroup hT eS
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect (PQuot 3 K) := ⟨hq.1⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect (PQuot 3 K) := ⟨hq.1⟩
   have hT : CFSG.pPrimeCore 3 (PQuot 3 K) = ⊥ := CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot 3
   set β : MulAut (PSimple 3 K) := centerQuotientHom (PQuot 3 K) α with hβdef
   have hβ3 : β ^ 3 = 1 := by
@@ -143,7 +143,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem i2017At_of_lieK (hL : I2017LieAt G) (hS : I1422SporSK) : I2017At G := by
   intro X K D J I R hX hK hDN hD hD9 hdz hE hJLay hJC hJA hIJ hIA hRK hR hIDR hnc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDp : IsPGroup 3 D := IsPGroup.of_card (p := 3) (n := 2) (by rw [hD9]; norm_num)
   obtain ⟨d, hd, hd1, hdC⟩ := hdz
   have hq : CFSG.Open.IsQuasisimple (PQuot 3 K) := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hK

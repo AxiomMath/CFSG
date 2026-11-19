@@ -13,6 +13,7 @@ section SquareRoot
 
 variable {τ : StrothTypeIndex}
 
+omit [Finite S] in
 theorem square_section_rho_Idx2R (D : StrothTypeData B τ) (x : ℤ) (hk : ∀ i, 1 ≤ τ.k i)
     (hρ0 : τ.action.φρ (gen τ.k 0) = gen τ.k 0)
     (hρ1 : τ.action.φρ (gen τ.k 1) = gen τ.k 2)
@@ -42,7 +43,7 @@ theorem square_section_rho_Idx2R (D : StrothTypeData B τ) (x : ℤ) (hk : ∀ i
     simpa using this
   have hl : Even l := by
     have h := heven 1
-    simp only [Matrix.cons_val_one, Matrix.head_cons] at h
+    simp only [Matrix.cons_val_one] at h
     have := Even.add h hj
     have h' : Even (-l) := by simpa using this
     exact even_neg.mp h'
@@ -67,10 +68,10 @@ theorem exists_sq_eq_c_Idx2R (D : StrothTypeData B τ) (x : ℤ) (hk : ∀ i, 1 
     (hH : NoInvolutionsCentralizing S' B) (hCS : C ≤ S') (hne : C ≠ B) :
     ∃ d : S, d ∈ C ∧ d ∉ B ∧ d * d = (D.c : S) := by
   classical
-  letI : CommGroup C :=
+  let : CommGroup C :=
     { (inferInstance : Group C) with mul_comm := comm_of_le_centralizer_of_type D hBC hC hrel }
   have hlt : B < C := lt_of_le_of_ne hBC hne.symm
-  obtain ⟨d, hdC, hdB⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨d, hdC, hdB⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hindex : (B.subgroupOf C).index = 2 := index_two_of_relIndex hBC hrel
   let dC : C := ⟨d, hdC⟩
   have hd2B : d * d ∈ B := by
@@ -99,7 +100,7 @@ theorem exists_sq_eq_c_Idx2R (D : StrothTypeData B τ) (x : ℤ) (hk : ∀ i, 1 
       have hmem : dC ∈ B.subgroupOf C := by
         rw [hd_eq]
         exact (B.subgroupOf C).mul_mem (by simpa [Subgroup.mem_subgroupOf] using hz)
-          (by simpa [Subgroup.mem_subgroupOf, bC] using b.2)
+          (by simp [Subgroup.mem_subgroupOf, bC])
       exact hdB (by simpa [Subgroup.mem_subgroupOf] using hmem)
     exact hzB (hH (zC : S) (hCS zC.2) hz2 (hC zC.2))
   have hr : SquareIn B ((conjBy D.ρ_mem xB * xB⁻¹ : B) : S) := by
@@ -283,6 +284,7 @@ variable {τ : StrothTypeIndex} (D : StrothTypeData B τ) (hBC : B ≤ C) {k' : 
   (hE2 : E (gen k' 2) = Additive.ofMul ⟨D.b, hBC D.b.2⟩) (hd2 : d * d = (D.c : S))
 
 include hE0 hE1 hE2 hd2 in
+omit [Finite S] in
 theorem E_symm_incl_Idx2R (β : B) {i j l : ℤ}
     (h : D.ec β = i • gen τ.k 0 + j • gen τ.k 1 + l • gen τ.k 2) :
     E.symm (Additive.ofMul (⟨β, hBC β.2⟩ : C)) =
@@ -299,6 +301,7 @@ theorem E_symm_incl_Idx2R (β : B) {i j l : ℤ}
     smul_smul, mul_comm i 2]
 
 include hE0 hE1 hE2 hd2 in
+omit [Finite S] in
 theorem alpha_incl_Idx2R {g : S} (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) (β : B) {i j l : ℤ}
     (h : D.ec (conjBy hgB β) = i • gen τ.k 0 + j • gen τ.k 1 + l • gen τ.k 2) :
@@ -311,6 +314,7 @@ theorem alpha_incl_Idx2R {g : S} (hgC : g ∈ Subgroup.normalizer C)
   exact E_symm_incl_Idx2R D hBC hdC E hE0 hE1 hE2 hd2 _ h
 
 include hE0 hE1 hE2 hd2 in
+omit [Finite S] in
 theorem conjTorus_gen_Idx2R {g : S} (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) (M : IntMat) (hM : Compat τ.k M)
     (hconj : ∀ y : B, D.ec (conjBy hgB y) = matAct τ.k M hM (D.ec y)) :
@@ -463,6 +467,7 @@ theorem shearHomIdx2R_involutive (hk0 : 1 ≤ k 0) (zv : Fin 3 → ℤ)
   right_inv := shearHomIdx2R_involutive hk0 zv hz hz0
   map_add' := map_add _
 
+omit [Finite S] in
 theorem conjTorusIdx4_shear_Idx2R (hk0 : 1 ≤ k 0) (zv : Fin 3 → ℤ)
     (hz : (2 : ℤ) • Torus.ofInt k zv = 0) (hz0 : Even (zv 0)) (E : Torus k ≃+ Additive C)
     {g : S} (hg : g ∈ Subgroup.normalizer C) (x : Torus k) :

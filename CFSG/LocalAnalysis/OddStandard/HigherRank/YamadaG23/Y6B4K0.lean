@@ -30,7 +30,7 @@ theorem exists_three_elt {G : Type} [Group G] [Finite G] {K A : Subgroup G}
   exact ⟨k₀, k₀.2, (Subgroup.orderOf_coe k₀).trans hk₀⟩
 
 lemma fpf_of_trans' {G : Type} [Group G] [Finite G] {F : Subgroup G} {z k : G}
-    (hz2 : orderOf z = 2) (hzc : ∀ f ∈ F, f * z = z * f) (hF8 : Nat.card F = 8)
+    (hz2 : orderOf z = 2) (_hzc : ∀ f ∈ F, f * z = z * f) (hF8 : Nat.card F = 8)
     (hk3 : k ^ 3 = 1) (hkz : k * z * k⁻¹ = z)
     (htrans : ActsTransitively (zpowers k) F (zpowers z)) :
     ∀ f ∈ F, f⁻¹ * (k * f * k⁻¹) ∈ zpowers z → f ∈ zpowers z := by
@@ -128,7 +128,7 @@ lemma mem_normalizer_zpowers_of_conj_mem {G : Type} [Group G] [Finite G] {x u : 
   refine Subgroup.eq_of_le_of_card_ge (map_conj_zpowers_le h) ?_
   rw [Subgroup.card_map_of_injective (MulAut.conj x).injective]
 
-lemma y6b_conj_u_of_mem_E (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5)
+lemma y6b_conj_u_of_mem_E (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (_hF : c.toCtx5.Facts5)
     (hRT : c.s.R ≠ c.s.T) {e : G} (he : e ∈ y6bE c.toCtx5) :
     e * (c.d * c.s.t) * e⁻¹ = c.d * c.s.t ∨
       e * (c.d * c.s.t) * e⁻¹ = (c.d * c.s.t)⁻¹ := by

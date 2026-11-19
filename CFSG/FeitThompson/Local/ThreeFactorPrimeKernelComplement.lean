@@ -124,6 +124,7 @@ theorem ordProj_card_sup :
     Nat.Prime.factorization_pow hd.prime]
 
 omit hd in
+omit [Finite E] in
 theorem P0_le_sup : P0 ≤ E3 ⊔ (P0 ⊔ E1) := le_sup_right.trans' le_sup_left
 
 end IsThreeFactorPrimeKernelSetup

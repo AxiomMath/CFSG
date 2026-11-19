@@ -37,7 +37,7 @@ theorem uc22ine229u3orb_rank_sum {Y : Type*} [Group Y] [Finite Y] {ι : Type*} [
     (hEel : ∀ i, IsElemAbelian q (E i)) (hEc : ∀ i, Nat.card (E i) = q ^ a i) (S : Finset ι) :
     ∃ W : Subgroup Y, IsElemAbelian q W ∧ Nat.card W = q ^ (∑ i ∈ S, a i) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let π : Y →* Y ⧸ CFSG.pCore 2 Y := QuotientGroup.mk' (CFSG.pCore 2 Y)
   have hker : IsPGroup 2 π.ker := by rw [QuotientGroup.ker_mk']; exact CFSG.pCore_isPGroup
   have hdisj : ∀ {F : Subgroup Y}, IsElemAbelian q F → Disjoint F π.ker := by
@@ -190,7 +190,7 @@ theorem uc22ine229u3orb_two_le_pRank (hSyl : UCK.U3SylOmega) {M Y : Subgroup G} 
       by_cases hy1 : y = 1
       · rw [hy1]
         exact one_mem _
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       exact uc22ine229u3orb_normalizes hY (hBM hy) hp hp5 (orderOf_eq_prime (hBel.2 y hy) hy1) hq
         hq2 hXY hXc hXZ hrank
     obtain ⟨B₀, hB₀B, hB₀el, hB₀c, hB₀Y⟩ := uc22ine229_exists_kernel hY.1 hp hBN hBel hBc

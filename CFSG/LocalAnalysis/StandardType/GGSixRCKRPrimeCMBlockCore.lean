@@ -274,9 +274,6 @@ private theorem rckModelConverse_SL_aux {k g : ℕ} {E : Type} [Field E] [Finite
       (Matrix.SpecialLinearGroup.toGL.comp (Matrix.SpecialLinearGroup.map σ.toRingHom) :
         (ggU .PSL (k + 1) g).K →* GL (Fin (k + 1)) E) := by
   classical
-  change RCKModelConverse (CFSG.Open.StatedSL (k + 1) E) .PSL (k + 1) g
-    (Matrix.SpecialLinearGroup.toGL.comp (Matrix.SpecialLinearGroup.map σ.toRingHom) :
-      (ggU .PSL (k + 1) g).K →* GL (Fin (k + 1)) E)
   let κ : (ggU .PSL (k + 1) g).K →* GL (Fin (k + 1)) E :=
     Matrix.SpecialLinearGroup.toGL.comp (Matrix.SpecialLinearGroup.map σ.toRingHom)
   have hinj : Function.Injective κ := by
@@ -328,8 +325,8 @@ theorem exists_rckModelConverse_SL {k g : ℕ} (hg : 1 ≤ g) {E : Type} [Field 
       RCKModelConverse (CFSG.Open.StatedSL (k + 1) E) .PSL (k + 1) g κ := by
   classical
   have hFcard : Nat.card (GaloisField 2 g) = 2 ^ g := GaloisField.card 2 g (by omega)
-  haveI : Fintype (GaloisField 2 g) := Fintype.ofFinite _
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype (GaloisField 2 g) := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
   have hcard : Nat.card (GaloisField 2 g) = Nat.card E := by rw [hFcard, hE]
   let σ : GaloisField 2 g ≃+* E := FiniteField.ringEquivOfCardEq (by
     simpa only [Nat.card_eq_fintype_card] using hcard)

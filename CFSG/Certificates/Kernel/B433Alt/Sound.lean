@@ -4,7 +4,7 @@ public import Certificates.Data.Kernel.B433Alt.Chain
 public import CFSG.Certificates.Kernel.B433Alt.StLenWords
 public import CFSG.Certificates.Kernel.B433Alt.CovSound
 public import CFSG.Certificates.Kernel.B433Alt.OmSound
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Tactic.ENatToNat
 
 public section
@@ -88,9 +88,9 @@ private theorem ev1_eq (LP : ℕ → ℕ) (w x : ℕ) :
   have h2 : Nat.land (wLen w) 1 = wLen w % 2 := Nat.and_one_is_mod _
   rw [h1, h2]
   by_cases h : wLen w % 2 = 1
-  · rw [if_pos h, show Nat.beq (wLen w % 2) 1 = true by rw [h]; rfl]
+  · rw [ite_eq_left h, show Nat.beq (wLen w % 2) 1 = true by rw [h]; rfl]
     rfl
-  · rw [if_neg h, show Nat.beq (wLen w % 2) 1 = false by
+  · rw [ite_eq_right h, show Nat.beq (wLen w % 2) 1 = false by
       cases hb : Nat.beq (wLen w % 2) 1
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hb) h]
@@ -115,12 +115,12 @@ theorem ev1_spec (hT : Tables ρ LP) {w x : ℕ} (hw : wInH w = true) (hx : x < 
   have hl := wAt_lt_ten hw
   rw [ev1_eq, wVal_eq_preV]
   by_cases h : wLen w % 2 = 1
-  · rw [if_pos h, ← hT.letter _ (hl _ (by omega)) ⟨x, hx⟩, pairLoop_spec ρ hT hl _ (by omega)]
+  · rw [ite_eq_left h, ← hT.letter _ (hl _ (by omega)) ⟨x, hx⟩, pairLoop_spec ρ hT hl _ (by omega)]
     have e : wLen w = 2 * (wLen w / 2) + 1 := by omega
     conv_lhs => rw [e]
     rw [preV_succ, map_mul, show 2 * (wLen w / 2) = wLen w - 1 by omega]
     rfl
-  · rw [if_neg h, pairLoop_spec ρ hT hl _ (by omega) ⟨x, hx⟩,
+  · rw [ite_eq_right h, pairLoop_spec ρ hT hl _ (by omega) ⟨x, hx⟩,
       show 2 * (wLen w / 2) = wLen w by omega]
 
 
@@ -197,9 +197,9 @@ private theorem evW_eq (LP : ℕ → ℕ) (w c : ℕ) :
   have h2 : Nat.land (wLen w) 1 = wLen w % 2 := Nat.and_one_is_mod _
   rw [h1, h2]
   by_cases h : wLen w % 2 = 1
-  · rw [if_pos h, show Nat.beq (wLen w % 2) 1 = true by rw [h]; rfl]
+  · rw [ite_eq_left h, show Nat.beq (wLen w % 2) 1 = true by rw [h]; rfl]
     rfl
-  · rw [if_neg h, show Nat.beq (wLen w % 2) 1 = false by
+  · rw [ite_eq_right h, show Nat.beq (wLen w % 2) 1 = false by
       cases hb : Nat.beq (wLen w % 2) 1
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hb) h]
@@ -271,7 +271,7 @@ private theorem genW_spec' {RD RW EL EW : ℕ → ℕ} {j l G nG k : ℕ}
         exact absurd h (lt_irrefl 0)
       · rw [andB_iff'] at h3
         refine ⟨fun _ => ⟨h3.1, ?_⟩, fun h => absurd rfl h⟩
-        simp only [h1]
+        simp only
         rfl
     · have h2 : Nat.beq l 0 = false := by
         cases e : Nat.beq l 0
@@ -285,7 +285,7 @@ private theorem genW_spec' {RD RW EL EW : ℕ → ℕ} {j l G nG k : ℕ}
       · rw [andB_iff'] at h3
         refine ⟨fun h => absurd h hl, fun _ =>
           ⟨Nat.eq_of_beq_eq_true h3.1, Nat.eq_of_beq_eq_true h3.2, ?_⟩⟩
-        simp only [h1]
+        simp only
         rfl
 
 private theorem elOK_facts {RD RW EL EW : ℕ → ℕ} {CB e : ℕ}
@@ -608,19 +608,19 @@ private theorem elFold_succ (RD RW EL EW : ℕ → ℕ) (j l k L acc : ℕ) :
   simp only [sN_eq']
   by_cases ha : 0 < acc
   · by_cases hf : 0 < facW RD RW EL EW j l (L &&& ones 21)
-    · rw [Nat.blt_eq.mpr ha, Nat.blt_eq.mpr hf, if_pos ⟨ha, hf⟩]
+    · rw [Nat.blt_eq.mpr ha, Nat.blt_eq.mpr hf, ite_eq_left ⟨ha, hf⟩]
       rfl
     · have hb : Nat.blt 0 (facW RD RW EL EW j l (L &&& ones 21)) = false := by
         cases e : Nat.blt 0 (facW RD RW EL EW j l (L &&& ones 21))
         · rfl
         · exact absurd (Nat.blt_eq.mp e) hf
-      rw [Nat.blt_eq.mpr ha, hb, if_neg fun h => hf h.2]
+      rw [Nat.blt_eq.mpr ha, hb, ite_eq_right fun h => hf h.2]
       rfl
   · have hb : Nat.blt 0 acc = false := by
       cases e : Nat.blt 0 acc
       · rfl
       · exact absurd (Nat.blt_eq.mp e) ha
-    rw [hb, if_neg fun h => ha h.1]
+    rw [hb, ite_eq_right fun h => ha h.1]
     rfl
 
 private theorem elFold_good {RD RW EL EW : ℕ → ℕ} {j l : ℕ}
@@ -638,9 +638,9 @@ private theorem elFold_good {RD RW EL EW : ℕ → ℕ} {j l : ℕ}
     rw [elFold_succ] at h ⊢
     have hc : 0 < acc ∧ 0 < facW RD RW EL EW j l (L &&& ones 21) := by
       by_contra hc
-      rw [if_neg hc] at h
+      rw [ite_eq_right hc] at h
       exact lt_irrefl 0 h
-    rw [if_pos hc] at h ⊢
+    rw [ite_eq_left hc] at h ⊢
     obtain ⟨f1, f2, f3⟩ := hfac _ hc.2
     have h32 : (2 : ℕ) ^ 32 = 4294967296 := by norm_num
     have h16 : (2 : ℕ) ^ 16 = 65536 := by norm_num

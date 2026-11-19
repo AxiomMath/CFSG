@@ -11,7 +11,7 @@ open Subgroup
 
 theorem eq_of_le_of_sylow_data {G : Type} [Group G] [Finite G] {a : G} {τ : G → Prop}
     (hτ : ∀ (g x : G), τ x → τ (g * x * g⁻¹))
-    {P E : Subgroup G} (hP2 : IsPGroup 2 P) (hPcard : Nat.card P = 64) (hEP : E ≤ P)
+    {P E : Subgroup G} (_hP2 : IsPGroup 2 P) (hPcard : Nat.card P = 64) (hEP : E ≤ P)
     (hEab : IsMulCommutative E) (hEcard : Nat.card E = 16)
     (hEuniq : ∀ B : Subgroup G, B ≤ P → IsMulCommutative B → Nat.card B = 16 → B = E)
     (hT : Set.ncard {x : G | x ∈ E ∧ τ x} = 10)
@@ -21,7 +21,7 @@ theorem eq_of_le_of_sylow_data {G : Type} [Group G] [Finite G] {a : G} {τ : G �
     {Q : Subgroup G} (hQa : Q ≤ centralizer ({a} : Set G)) (hQ2 : IsPGroup 2 Q) (hPQ : P ≤ Q) :
     Q = P := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   let N : Subgroup G := Subgroup.normalizer (P : Set G) ⊓ Q
   have hN_le_normalizer : N ≤ Subgroup.normalizer (P : Set G) := inf_le_left
@@ -32,7 +32,7 @@ theorem eq_of_le_of_sylow_data {G : Type} [Group G] [Finite G] {a : G} {τ : G �
     exact hne (le_antisymm htop hPQ)
   have hP_sub_lt_top : P.subgroupOf Q < ⊤ := lt_top_iff_ne_top.mpr hP_sub_ne_top
   have hnc : NormalizerCondition ↥Q := by
-    haveI : Group.IsNilpotent ↥Q := hQ2.isNilpotent
+    have : Group.IsNilpotent ↥Q := hQ2.isNilpotent
     exact Group.normalizerCondition_of_isNilpotent
   have hlt : P.subgroupOf Q < Subgroup.normalizer (P.subgroupOf Q) := hnc _ hP_sub_lt_top
   have hN_lt : P < N := by
@@ -63,7 +63,7 @@ theorem eq_of_le_of_sylow_data {G : Type} [Group G] [Finite G] {a : G} {τ : G �
     have hB_le : E.map (MulAut.conj n).toMonoidHom ≤ P := by
       rw [← hconjP]
       exact Subgroup.map_mono hEP
-    haveI : IsMulCommutative E := hEab
+    have : IsMulCommutative E := hEab
     have hB_ab : IsMulCommutative (E.map (MulAut.conj n).toMonoidHom) := inferInstance
     have hB_card : Nat.card (E.map (MulAut.conj n).toMonoidHom) = 16 := by
       rw [Subgroup.card_map_of_injective (MulAut.conj n).injective, hEcard]
@@ -79,7 +79,7 @@ theorem eq_of_le_of_sylow_data {G : Type} [Group G] [Finite G] {a : G} {τ : G �
     change ({x : G | x ∈ E ∧ τ x} : Set G).ncard = 10
     exact hT
   have hXmod : Nat.card X' % 4 = 2 := by rw [hXcard]
-  letI : MulAction ↥N X' :=
+  let : MulAction ↥N X' :=
     { smul := fun n x =>
         ⟨n.1 * x.1 * n.1⁻¹, hNnormE' n.1 n.2 x.1 x.2.1, hτ n.1 x.1 x.2.2⟩
       one_smul := fun x => by
@@ -143,7 +143,7 @@ theorem card_le_of_sylow_data {G : Type} [Group G] [Finite G] {a : G} {τ : G �
       R ≤ centralizer ({x} : Set G) ⊓ centralizer ({a} : Set G) → IsPGroup 2 R → Nat.card R ≤ 32) :
     ∀ R : Subgroup G, R ≤ centralizer ({a} : Set G) → IsPGroup 2 R → Nat.card R ≤ 64 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro R hRa hR2
   let Y : Subgroup G := centralizer ({a} : Set G)
   have hPY : P ≤ Y := hPa
@@ -151,7 +151,7 @@ theorem card_le_of_sylow_data {G : Type} [Group G] [Finite G] {a : G} {τ : G �
     hP2.comap_of_injective Y.subtype Y.subtype_injective
   obtain ⟨S₀, hP'S₀⟩ := IsPGroup.exists_le_sylow hP'2
   have hQ2' : IsPGroup 2 ((S₀ : Subgroup ↥Y).map Y.subtype) :=
-    IsPGroup.map S₀.isPGroup' Y.subtype
+    IsPGroup.map S₀.isPGroup Y.subtype
   have hQa' : ((S₀ : Subgroup ↥Y).map Y.subtype) ≤ centralizer ({a} : Set G) := by
     intro x hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx

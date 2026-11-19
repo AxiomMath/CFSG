@@ -69,7 +69,7 @@ theorem exists_abelian_sylow {G : Type} [Group G] [Finite G] {A : Subgroup G} {c
     Subgroup.normalizer (L : Set G) with hMdef
   have hAM : A ≤ M := le_inf (r0_le_normalizer_zpowers_of_le_centralizer hD.A_le_centralizer)
     hD.le_normalizer
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQsyl, hAQ⟩ := exists_sylowOf_ge hA3 hAM
   have hQM : Q ≤ M := hQsyl.le
   have hQ3 : IsPGroup 3 Q := hQsyl.isPGroup
@@ -129,7 +129,7 @@ theorem exists_abelian_sylow {G : Type} [Group G] [Finite G] {A : Subgroup G} {c
     have hr₁Q : a₁⁻¹ * x ∈ Q := Q.mul_mem (Q.inv_mem (hAQ ha₁)) hx
     have hr₂Q : a₂⁻¹ * y ∈ Q := Q.mul_mem (Q.inv_mem (hAQ ha₂)) hy
     have hr : (a₁⁻¹ * x) * (a₂⁻¹ * y) = (a₂⁻¹ * y) * (a₁⁻¹ * x) := by
-      haveI := hcyc
+      have := hcyc
       have := (IsMulCommutative.is_comm (M := (Q ⊓ Sec4.thetaQuotCentralizer L : Subgroup G))).comm
         (⟨a₁⁻¹ * x, hr₁Q, hr₁⟩ : (Q ⊓ Sec4.thetaQuotCentralizer L : Subgroup G))
         ⟨a₂⁻¹ * y, hr₂Q, hr₂⟩
@@ -207,11 +207,11 @@ theorem exists_inverter {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G}
     (hW : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G)) :
     ∃ w ∈ Subgroup.normalizer (A : Set G), w * c * w⁻¹ = c⁻¹ := by
   obtain ⟨S, hab, hAS, hNA⟩ := exists_abelian_sylow hD h9 hcL hcardAut hW
-  haveI : IsMulCommutative (S : Subgroup G) :=
+  have : IsMulCommutative (S : Subgroup G) :=
     ⟨⟨fun a b => Subtype.ext (hab a a.2 b b.2)⟩⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hfix : ∀ n ∈ Subgroup.normalizer ((S : Subgroup G) : Set G), n⁻¹ * c * n = c := by
     intro n hn
     have hn' : n⁻¹ ∈ Subgroup.normalizer ((S : Subgroup G) : Set G) := Subgroup.inv_mem _ hn

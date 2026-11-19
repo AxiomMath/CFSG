@@ -51,7 +51,7 @@ end Statements
 section Facts
 
 theorem ringChar_eq_of_card_eq_pow {K : Type} [Field K] [Finite K] {p n : ℕ} (hp : p.Prime)
-    (hn : n ≠ 0) (h : Nat.card K = p ^ n) : ringChar K = p := by
+    (_hn : n ≠ 0) (h : Nat.card K = p ^ n) : ringChar K = p := by
   classical
   have : Fintype K := Fintype.ofFinite K
   have : CharP K (ringChar K) := ringChar.charP K

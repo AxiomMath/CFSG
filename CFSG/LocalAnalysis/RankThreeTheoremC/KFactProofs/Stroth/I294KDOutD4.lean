@@ -170,12 +170,12 @@ theorem d4_independent (a b c d : ℕ)
   rcases hrob with ⟨i, j, hij, hv⟩ | ⟨i, j, hv⟩
   · have hv' : NZ i j = 1 ∨ NZ i j = -1 := hv
     have h0 := hent i j
-    rw [if_neg hij] at h0
+    rw [ite_eq_right hij] at h0
     rcases hv' with hv' | hv' <;> rw [hv'] at h0 <;> simp at h0
   · have hv' : NZ i i - NZ j j = 1 ∨ NZ i i - NZ j j = -1 := hv
     have h1 := hent i i
     have h2 := hent j j
-    rw [if_pos rfl] at h1 h2
+    rw [ite_eq_left rfl] at h1 h2
     have h3 : ((NZ i i - NZ j j : ℤ) : F) = 0 := by
       rw [Int.cast_sub, h1, h2, sub_self]
     rcases hv' with hv' | hv' <;> rw [hv'] at h3 <;> simp at h3

@@ -49,6 +49,7 @@ private theorem sec7ctr_phi_eq_one {R : Type} [Group R] {ι : Type} [Fintype ι]
     rw [hc' v, hc1, one_smul, Matrix.one_mulVec]
   exact Units.ext (by rw [Units.val_one]; exact hA1)
 
+omit [Finite G] in
 private theorem sec7ctr_le_of_phi {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     [CharP K 2] {R N Z0 Qs : Subgroup G} (hQN : Qs ≤ N) (hZ0 : IsCentrePre Z0 R Qs)
     (φ : ↥R →* GL ι K) (hker : φ.ker = N.subgroupOf R)
@@ -87,7 +88,7 @@ theorem sec7ctr_Z0_le_CN (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n
       subst hm2
       exact hs.notPlus4 h
     obtain ⟨K, fK, finK, hK, φ, hrange, hker, -⟩ := h
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
     have hX : AddCommutantScalar φ.range := by
@@ -100,7 +101,7 @@ theorem sec7ctr_Z0_le_CN (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n
       simp [Pi.single_apply]
     exact sec7ctr_le_of_phi hQN hZ0 φ hker (coe_quadPlus m K) hX hrange.le hv
   · obtain ⟨K, fK, finK, hK, b, c, hirr, φ, hrange, hker, -⟩ := h
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
     have hX : AddCommutantScalar φ.range := by
@@ -109,7 +110,7 @@ theorem sec7ctr_Z0_le_CN (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc n
     have hv : ∃ v : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K, quadMinus m K b c v ≠ 0 := by
       refine ⟨Pi.single (Sum.inr (Sum.inr 0)) 1, ?_⟩
       rw [quadMinus_apply]
-      simp [Pi.single_apply]
+      simp
     exact sec7ctr_le_of_phi hQN hZ0 φ hker (coe_quadMinus m K b c) hX hrange.le hv
 
 end CFSG.RankThree.GF2n.Stroth80

@@ -26,9 +26,9 @@ theorem burnsideF4r_U5_top_nonfused (hyp : HypF_4_31 .U5 f Gp M₁ M₂ β ε z)
     ∃ v : ↥(M₁ ⊓ M₂), (v : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) ∧ v ≠ 1 ∧ v * v = 1 ∧
       ¬ IsConj z (bM β ε v) := by
   classical
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   obtain ⟨K, fK, h, Ψ, h1, h2⟩ := burnsideF4m_U5_chart hyp.amalgam.toHypF_4_4g
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   set ψ : hypPSU h 2 1 →* E := Gp.subtype.comp Ψ.toMonoidHom with hψdef
   have hψ : Function.Injective ψ := Gp.subtype_injective.comp Ψ.injective
   set U := hypProjUnitriangular h 2 1 with hUdef

@@ -73,9 +73,9 @@ theorem eq_of_isSylow2In_of_le_sylow' {M P Q : Subgroup G} {S : Sylow 2 G}
     (hP : IsSylow2In P M) (hQ : IsSylow2In Q M) (hPS : P ≤ (S : Subgroup G))
     (hQS : Q ≤ (S : Subgroup G)) : P = Q := by
   have h1 : M ⊓ (S : Subgroup G) = P :=
-    hP.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hP.1 hPS)
+    hP.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hP.1 hPS)
   have h2 : M ⊓ (S : Subgroup G) = Q :=
-    hQ.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hQ.1 hQS)
+    hQ.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hQ.1 hQS)
   exact h1.symm.trans h2
 
 end Generic
@@ -276,13 +276,13 @@ theorem loc26_of_thinData (h67 : L67Gen) (hnab : ∃ a b : G, a * b ≠ b * a)
     have hwu := isUniqueInvolution_satU hw
     obtain ⟨-, -, hwX⟩ := omegaNbr_involution hnab hz hΔ hB hC he.mem₁ he.cls₁ hnbr hwu
     have hA2g : IsPGroup 2 ↥(satU (.sl2 3 1) M₀ w ⊓ (S : Subgroup G)) :=
-      S.isPGroup'.to_inf_right
+      S.isPGroup.to_inf_right
     obtain ⟨a, haA, ha2, ha1⟩ := exists_involution_of_four_le hA2g h4
     have haw : a = w := (hwu.unique a haA.1 ha2).resolve_left ha1
     have hwS : w ∈ (S : Subgroup G) := haw ▸ haA.2
     have hTX : T ≤ nbrSpan3 (conjClass3 K) K₁ := hT.1.trans h.le_nbrSpan
     have hXS2 : IsPGroup 2 ↥(nbrSpan3 (conjClass3 K) K₁ ⊓ (S : Subgroup G)) :=
-      S.isPGroup'.to_inf_right
+      S.isPGroup.to_inf_right
     have hXST : nbrSpan3 (conjClass3 K) K₁ ⊓ (S : Subgroup G) = T :=
       (h.isSylow2In hT).eq_of_le hXS2 inf_le_left (le_inf hTX hTS)
     have hwT : w ∈ T := by

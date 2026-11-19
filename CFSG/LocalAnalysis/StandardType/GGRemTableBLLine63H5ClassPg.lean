@@ -44,7 +44,7 @@ theorem ActsAs.inv {b : G} {M : GL (Fin 6) K} (h : ActsAs φ b M) : ActsAs φ b�
   have hMi := Subgroup.inv_mem _ hM
   refine ⟨hMi, fun s => ?_⟩
   have e : conjN M hM (conjN M⁻¹ hMi s) = s :=
-    Subtype.ext (by simp only [coe_conjN, _root_.mul_inv_rev, _root_.inv_inv]; group)
+    Subtype.ext (by simp only [coe_conjN, _root_.inv_inv]; group)
   have h1 := ha (conjN M⁻¹ hMi s)
   rw [e] at h1
   rw [← h1]
@@ -109,7 +109,7 @@ theorem scalar_mul_mem_gu [Finite K] (hKd : UnitaryFieldData 2 n K) (t : Kˣ) {M
     (hM : M ∈ LargeEvenGUSet (Fin 6) K (2 ^ n)) :
     GeneralLinearGroup.scalar (Fin 6) t * M ∈ LargeEvenGUSet (Fin 6) K (2 ^ n) := by
   obtain ⟨μ, hμ0, hμq, hμ⟩ := hM
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hK : Fintype.card K = (2 ^ n) ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hKd.card, ← pow_mul, mul_comm]
   have hKq : (t : K) ^ (2 ^ n) ^ 2 = t := by

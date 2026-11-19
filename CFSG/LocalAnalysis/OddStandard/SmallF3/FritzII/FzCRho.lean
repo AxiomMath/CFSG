@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 private theorem fzc_base_le_wreath : baseGrp x₁ x₂ ≤ wreathGrp x₁ x₂ lam := by
   rw [baseGrp, wreathGrp]
   apply Subgroup.closure_mono
@@ -19,6 +20,7 @@ private theorem fzc_base_le_wreath : baseGrp x₁ x₂ ≤ wreathGrp x₁ x₂ l
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hy ⊢
   tauto
 
+omit [Finite G] in
 private theorem fzc_four_le_base : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   rw [fourGrp, baseGrp, Subgroup.closure_le]
   intro y hy
@@ -28,6 +30,7 @@ private theorem fzc_four_le_base : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   · exact pow_mem (Subgroup.mul_mem _ (Subgroup.subset_closure (by simp))
       (Subgroup.subset_closure (by simp))) 2
 
+omit [Finite G] in
 theorem fzc_comm_conj_mem {H : Subgroup G} {ρ g : G} (hH : ∀ x ∈ H, g * x * g⁻¹ ∈ H)
     (hρ : g * ρ * g⁻¹ ∈ zpowers ρ) {x : G} (hx : x ∈ ⁅H, zpowers ρ⁆) :
     g * x * g⁻¹ ∈ ⁅H, zpowers ρ⁆ := by
@@ -57,7 +60,7 @@ theorem fzc_rho_norm_base (hs : FzCSteps t L S x₁ x₂ lam rho) {e : G}
   have hmain : rho * e * rho⁻¹ ∈ ⁅ctxW t x₁ x₂, zpowers rho⁆ :=
     fzc_comm_conj_mem (H := ctxW t x₁ x₂) (ρ := rho) (g := rho)
       (fun x hx => fzc_rho_norm_W hs hx)
-      (by simpa [mul_assoc] using Subgroup.mem_zpowers rho)
+      (by simp [mul_assoc])
       (by rw [hs.ctx.comm_rho]; exact he)
   rwa [hs.ctx.comm_rho] at hmain
 
@@ -128,7 +131,7 @@ theorem fzc_rho_fpf_four (hs : FzCSteps t L S x₁ x₂ lam rho) {f : G}
 theorem fzc_exists_comm_four (hs : FzCSteps t L S x₁ x₂ lam rho) {f : G}
     (hf : f ∈ fourGrp x₁ x₂) : ∃ ζ ∈ fourGrp x₁ x₂, rho * ζ * rho⁻¹ * ζ⁻¹ = f := by
   let Z := fourGrp x₁ x₂
-  haveI : IsMulCommutative (↥Z) := ((WreathRel.fourGrp_eq_omega hs.ctx.wreath).2.1).1
+  have : IsMulCommutative (↥Z) := ((WreathRel.fourGrp_eq_omega hs.ctx.wreath).2.1).1
   let φ : ↥Z → ↥Z := fun ζ =>
     ⟨rho * ζ.1 * rho⁻¹ * ζ.1⁻¹, Subgroup.mul_mem _
       (fzc_rho_norm_four hs ζ.2) (Subgroup.inv_mem _ ζ.2)⟩
@@ -150,7 +153,7 @@ theorem fzc_exists_comm_four (hs : FzCSteps t L S x₁ x₂ lam rho) {f : G}
       group
     have h2 : cb⁻¹ * ca = b⁻¹ * a := by
       have := congrArg (fun z : ↥Z => z * a) h1
-      convert this using 1 <;> group
+      convert this using 1; group
     have h3 : ca * cb⁻¹ = a * b⁻¹ := by
       rw [mul_comm' cb⁻¹ ca, mul_comm' b⁻¹ a] at h2
       exact h2

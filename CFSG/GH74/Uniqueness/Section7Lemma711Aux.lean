@@ -144,7 +144,7 @@ theorem pPrimeCore_sup_normalizer_zjSubgroup_eq_top {G : Type} [Group G] [Finite
   have : K.Normal := hnorm
   have hJP : J ≤ (P : Subgroup G) := thompsonCenter_le (P : Subgroup G)
   have hPOcop : Nat.Coprime (Nat.card (P : Subgroup G)) (Nat.card O) := by
-    rcases P.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases P.isPGroup.exists_card_eq with ⟨n, hn⟩
     rw [hn]
     exact (pPrimeCore_coprime_card (G := G) (p := p)).pow_left n
   have hPO : (P : Subgroup G) ⊓ O = ⊥ := (Subgroup.disjoint_of_coprime_natCard hPOcop).eq_bot

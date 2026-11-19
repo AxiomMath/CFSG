@@ -23,7 +23,7 @@ theorem asc82Final7Y_of_sec7 (h33 : Asc82Lemma33) (h35 : Asc82Lemma35) (h36 : As
   have hc : Sec7Choice G t L S z g B := hE.choice
   have hctx : Sec7Ctx G t L S z := hc.ctx
   have hS : Sec3SettingLB G t L := hctx.toSec3SettingLB
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hb2 : orderOf b = 2 := orderOf_eq_prime (hc.normalE16.2.1.1.2 b hbB) hb1
   have hbL : b ∈ L := (hc.normalE16.1 hbB).2
   have hHyp : Asc82Hyp62 G := s7f_hyp62 hZ h76c h79a hS

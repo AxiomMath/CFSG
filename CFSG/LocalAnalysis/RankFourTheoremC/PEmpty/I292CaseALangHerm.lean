@@ -15,9 +15,9 @@ open CFSG.GroupTheory.SteinbergBK (semilinearFixedSubfield)
 theorem isUnitaryInvolution_of_involution {F : Type} [Field F] [Finite F] {σ : F ≃+* F}
     (hσ : σ ≠ 1) (hσσ : σ * σ = 1) : IsUnitaryInvolution σ := by
   obtain ⟨p, f, hp, hf, hF⟩ := exists_card_eq_prime_pow F
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨e, he⟩, hσpow⟩ := even_and_eq_pow_of_involution_prime hp hf hF hσ hσσ
-  haveI : CharP F p := by
+  have : CharP F p := by
     have := Fintype.ofFinite F
     exact charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hF])
   have hcard : Nat.card F = (p ^ e) ^ 2 := by rw [hF, he]; ring

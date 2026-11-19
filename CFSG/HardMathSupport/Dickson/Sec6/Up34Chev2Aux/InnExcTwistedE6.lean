@@ -116,6 +116,7 @@ theorem d4Set_subset_e6Set : d4Set τ ⊆ e6Set τ := fun i hi => by
   change i.val < Tag.E6.rank
   omega
 
+omit [CharP L 2] [IsAlgClosed L] in
 theorem slHom_single_range_le {j : Fin τ.rank} {J : Set (Fin τ.rank)} (hj : j ∈ J)
     (φ : L →+* L) (K : Subfield L) :
     (slHom (Pi.single j 1 : Fin τ.rank → ℤ) φ K).range ≤ subsystemGroup τ L J := by
@@ -230,7 +231,7 @@ theorem bad3_lane_e6 {τ : Tag} [M27Ok τ] [E6Sub τ] {L : Type} [Field L] [IsAl
     (hΨ : componentRoots (rootCharHom a) i = (fun α => v • α) '' parabolicRoots τ (e6Nodes τ)) :
     Bad3 (rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, hf, hq⟩ := ssTw_exists_f S (ℓ := 2)
   have hτ' : ∀ t : TwistTag, t.tag ≠ τ := by
     rcases M27Ok.isE7E8 (τ := τ) with rfl | rfl
@@ -315,7 +316,7 @@ section ExcFinal
 theorem char2HratRank_exc_e6 (τ : Tag) : Char2HratRank τ .exc fun r n => r = 6 ∧ n = 72 := by
   intro L _ _ _ p₀ S a hT hap h1 i hk h6 hq hL34
   exfalso
-  haveI := ssTw_finite_rationalComponent S i
+  have := ssTw_finite_rationalComponent S i
   have hTp : rootDiagUnit τ a ^ 3 = 1 := rootDiagUnit_pow_eq_one_of_forall hap
   exact Up34Chev2.not_isLThreeFour_of_bad3
     (Up34Chev2.bad3_e6class S hT hTp h1 i h6.1 h6.2) hL34

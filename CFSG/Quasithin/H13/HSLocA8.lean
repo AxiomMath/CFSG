@@ -16,11 +16,11 @@ open CFSG.RankThree.Native CFSG.Open CFSG.Sporadic.SchreierLemmas
 theorem not_perfect_of_index_two' {H : Type*} [Group H] {N : Subgroup H} (hN : N.index = 2) :
     ¬ Group.IsPerfect H := by
   intro hH
-  haveI : N.Normal := Subgroup.normal_of_index_eq_two hN
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : N.Normal := Subgroup.normal_of_index_eq_two hN
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (H ⧸ N) = 2 := by rw [← Subgroup.index_eq_card]; exact hN
-  haveI : IsCyclic (H ⧸ N) := isCyclic_of_prime_card hcard
-  haveI : IsMulCommutative (H ⧸ N) := IsCyclic.isMulCommutative
+  have : IsCyclic (H ⧸ N) := isCyclic_of_prime_card hcard
+  have : IsMulCommutative (H ⧸ N) := IsCyclic.isMulCommutative
   have hc : commutator H ≤ N :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mp inferInstance
   rw [hH.commutator_eq_top, top_le_iff] at hc
@@ -37,8 +37,8 @@ theorem perfectCore_eq_of_a8 {G : Type*} [Group G] [Finite G] {C Q : Subgroup G}
     (hQ : Nonempty (alternatingGroup (Fin 8) ≃* Q)) (hC : Nat.card C ≤ 40320) :
     perfectCore C = Q := by
   obtain ⟨e⟩ := hQ
-  haveI : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup Q := e.symm.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup Q := e.symm.isSimpleGroup
   have hcard : Nat.card Q = 20160 := by
     rw [← Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     norm_num [Nat.factorial]
@@ -46,7 +46,7 @@ theorem perfectCore_eq_of_a8 {G : Type*} [Group G] [Finite G] {C Q : Subgroup G}
     refine ⟨?_⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator Q) with h | h
     · exfalso
-      haveI : IsMulCommutative Q := (commutator_eq_bot_iff Q).mp h
+      have : IsMulCommutative Q := (commutator_eq_bot_iff Q).mp h
       have := (Group.is_simple_iff_prime_card (α := Q)).mp inferInstance
       rw [hcard] at this
       exact absurd this (by norm_num)
@@ -83,10 +83,10 @@ theorem perfectCore_eq_of_a8 {G : Type*} [Group G] [Finite G] {C Q : Subgroup G}
   carrier := {p | (p : Equiv.Perm (Fin 100)) * r = r * (p : Equiv.Perm (Fin 100))}
   one_mem' := by simp
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq, Subgroup.coe_mul] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Subgroup.coe_mul] at ha hb ⊢
     rw [mul_assoc, hb, ← mul_assoc, ha, mul_assoc]
   inv_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq, Subgroup.coe_inv] at ha ⊢
+    simp only [Set.mem_ofPred_eq, Subgroup.coe_inv] at ha ⊢
     calc (a : Equiv.Perm (Fin 100))⁻¹ * r = (a : Equiv.Perm (Fin 100))⁻¹ * (r * (a : Equiv.Perm (Fin 100))) *
           (a : Equiv.Perm (Fin 100))⁻¹ := by group
       _ = (a : Equiv.Perm (Fin 100))⁻¹ * ((a : Equiv.Perm (Fin 100)) * r) *
@@ -104,7 +104,7 @@ theorem T_xe {i : ℕ} (h1 : 1 ≤ i) (h6 : i ≤ 6) : T (xe i) = mooreX i := by
     rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hlt, Option.getD_some]
     exact List.getElem_mem hlt
   rw [xe, T_wAB (mooreWords_lt _ hmem), mooreX, mooreTabs]
-  simp [List.getD_eq_getElem?_getD, List.getElem?_map, hlt]
+  simp [List.getD_eq_getElem?_getD, hlt]
 
 theorem sq_one_of_T {g : PG} (h : compT (T g) (T g) = idT 100) : g ^ 2 = 1 := by
   apply eq_of_T
@@ -280,7 +280,7 @@ theorem a8_centralizer {r₀ : Equiv.Perm (Fin 100)} (hr₀ : T r₀ = r0Tab) (h
   have hpc := perfectCore_eq_of_a8 hQC hQ (card_CPG_le hr₀ h)
   rw [hpc]
   obtain ⟨e⟩ := hQ
-  haveI : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
   exact ⟨e.symm.isSimpleGroup, card_alt8 ⟨e⟩⟩
 
 end CFSG.Quasithin.H13.LocDbl.HSLoc

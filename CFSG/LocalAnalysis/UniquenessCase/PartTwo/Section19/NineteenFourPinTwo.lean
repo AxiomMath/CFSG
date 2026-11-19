@@ -85,6 +85,7 @@ theorem sup_ne_left_right_19 {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {L K :
     exact hnot2 L ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L).to_le h1)
       (prime_dvd_bar2 Nat.prime_five (by norm_num) (h.p_eq ▸ h.hyp.hL.2))
 
+omit [Finite G] in
 theorem commutator_le_pCoreOf_of_rhoL_eq_one_19 {X A : Subgroup G} (hXalt : IsAlt (Bar2 X) 5)
     (hXA : A ≤ Subgroup.normalizer (X : Set G))
     (htriv : ∀ a : ↥A, UC6S846.rhoL X (Subgroup.inclusion hXA a) = 1) :
@@ -108,6 +109,7 @@ theorem commutator_le_pCoreOf_of_rhoL_eq_one_19 {X A : Subgroup G} (hXalt : IsAl
   rw [htr']
   group
 
+omit [Finite G] in
 theorem exists_twoSided_19 {L K : Subgroup G} {A : Subgroup G}
     (hAL : A ≤ normalizer (L : Set G))
     (hAK : A ≤ normalizer (K : Set G)) (hLalt : IsAlt (Bar2 L) 5)

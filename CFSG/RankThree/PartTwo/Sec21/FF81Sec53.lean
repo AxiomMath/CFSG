@@ -23,22 +23,27 @@ theorem opp_coprime (b : G) : Nat.Coprime (Nat.card (Opp 3 (Cen b))) 3 := by
   rw [Opp, CFSG.inSubgroup, Subgroup.card_map_of_injective (Cen b).subtype_injective]
   exact Nat.Coprime.symm CFSG.pPrimeCore_coprime_card
 
+omit [Finite G] in
 theorem opp_conj {g o : G} (hg : g ∈ Cen b) (ho : o ∈ Opp 3 (Cen b)) :
     g * o * g⁻¹ ∈ Opp 3 (Cen b) :=
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   inSubgroup_conj_mem (CFSG.pPrimeCore_normal (p := 3) (G := ↥(Cen b))) hg ho
 
+omit [Finite G] in
 theorem opp_le_cen (b : G) : Opp 3 (Cen b) ≤ Cen b := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem eq_one_of_dvd_three_pow {o : G} {k m : ℕ} (hk : o ^ 3 ^ k = 1) (hm : orderOf o ∣ m)
     (hco : Nat.Coprime m 3) : o = 1 :=
   orderOf_eq_one_iff.mp (((Nat.Coprime.pow_right k hco).coprime_dvd_left hm).eq_one_of_dvd
     (orderOf_dvd_of_pow_eq_one hk))
 
+omit [Finite G] in
 theorem orderOf_dvd_card_opp {o : G} (ho : o ∈ Opp 3 (Cen b)) :
     orderOf o ∣ Nat.card (Opp 3 (Cen b)) :=
   Subgroup.orderOf_dvd_natCard _ ho
 
+omit [Finite G] in
 theorem pow_card_opp {o : G} (ho : o ∈ Opp 3 (Cen b)) : o ^ Nat.card (Opp 3 (Cen b)) = 1 :=
   orderOf_dvd_iff_pow_eq_one.mp (orderOf_dvd_card_opp ho)
 
@@ -112,7 +117,7 @@ theorem FF81Basis.conj_opp_mem (hB : FF81Basis b L B b₁ b₂ b₃) {g o : G}
         _ = b * (g⁻¹ * β * g) := by group
     obtain ⟨o₁, ho₁, i, l, hl, hdec⟩ := hB.cen_dec hy
     have hy3 : (g⁻¹ * β * g) ^ 3 = 1 := by
-      rw [show g⁻¹ * β * g = MulAut.conj g⁻¹ β by simp [MulAut.conj_apply], ← map_pow,
+      rw [show g⁻¹ * β * g = MulAut.conj g⁻¹ β by simp, ← map_pow,
         hB.B_cube hβ, map_one]
     have h1 := hB.opp_part_eq_one ho₁ hl hdec hy3
     rw [h1, one_mul] at hdec
@@ -190,12 +195,15 @@ theorem FF81Sec5.mono4 (h5 : FF81Sec5 b L B b₁ b₂ b₃ t₀ s₀) :
   rcases h5.caseII with h | h
   exacts [⟨h.1, h.2.2.2⟩, ⟨h.1, h.2.2.2⟩]
 
+omit [Finite G] in
 theorem conj_mul4 (g a c d e : G) :
     g * (a * c * d * e) * g⁻¹ = (g * a * g⁻¹) * (g * c * g⁻¹) * (g * d * g⁻¹) * (g * e * g⁻¹) := by
   group
 
+omit [Finite G] in
 theorem conj_inv' (g x : G) : g * x⁻¹ * g⁻¹ = (g * x * g⁻¹)⁻¹ := by group
 
+omit [Finite G] in
 theorem conj_conj (g h x : G) : (g * h) * x * (g * h)⁻¹ = g * (h * x * h⁻¹) * g⁻¹ := by group
 
 theorem key_zmod3 : ∀ u v w : Multiplicative (ZMod 3), u = 1 ∨ v = 1 ∨ u * v * w = 1 ∨
@@ -208,7 +216,7 @@ theorem FF81Sec5.exists_conj_mem (h5 : FF81Sec5 b L B b₁ b₂ b₃ t₀ s₀)
   have hA₁B := h5.A₁_le_B
   have hcomm : ∀ x y : ↥(Subgroup.closure ({b, b₁, b₂ * b₃} : Set G)), x * y = y * x := fun x y =>
     Subtype.ext (hB.B_comm (hA₁B x.2) (hA₁B y.2))
-  haveI : Γ.Normal := ⟨fun n hn g => by rwa [hcomm g n, mul_inv_cancel_right]⟩
+  have : Γ.Normal := ⟨fun n hn g => by rwa [hcomm g n, mul_inv_cancel_right]⟩
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let A₁ := Subgroup.closure ({b, b₁, b₂ * b₃} : Set G)
   let e : A₁ ⧸ Γ ≃* Multiplicative (ZMod 3) :=
@@ -279,11 +287,11 @@ theorem FF81Sec5.opp_eq_bot (h5 : FF81Sec5 b L B b₁ b₂ b₃ t₀ s₀) : Opp
   set A₁ := Subgroup.closure ({b, b₁, b₂ * b₃} : Set G) with hA₁
   set S := Op 2 (Cen s₀) with hS
   have hA₁B := h5.A₁_le_B
-  haveI : IsElementaryAbelian 3 A₁ :=
+  have : IsElementaryAbelian 3 A₁ :=
     { toIsMulCommutative := ⟨⟨fun x y => Subtype.ext (hB.B_comm (hA₁B x.2) (hA₁B y.2))⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.2 fun x =>
         Subtype.ext (by simpa using hB.B_cube (hA₁B x.2)) }
-  haveI : Nontrivial A₁ := ⟨⟨⟨b, Subgroup.subset_closure (by simp)⟩, 1,
+  have : Nontrivial A₁ := ⟨⟨⟨b, Subgroup.subset_closure (by simp)⟩, 1,
     fun h => hB.hyp.b_ne_one (congrArg Subtype.val h)⟩⟩
   have hAV : A₁ ≤ Subgroup.normalizer (S : Set G) := fun a ha =>
     Subgroup.mem_normalizer_fintype fun _ hu => op_two_conj

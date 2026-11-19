@@ -75,7 +75,7 @@ theorem IsWC.exists_lift_central_odd (hZc : Z ≤ Subgroup.center G) (hZodd : Od
   set C : Subgroup G := T.comap (QuotientGroup.mk' Z) with hC
   obtain ⟨P⟩ : Nonempty (Sylow 2 C) := inferInstance
   set T' : Subgroup G := (P : Subgroup C).map C.subtype with hT'
-  have hT'2 : IsPGroup 2 T' := P.isPGroup'.map _
+  have hT'2 : IsPGroup 2 T' := P.isPGroup.map _
   have hT'C : T' ≤ C := Subgroup.map_subtype_le _
   have hinj : ∀ x ∈ T', ∀ y ∈ T', (x : G ⧸ Z) = y → x = y := by
     intro x hx y hy hxy

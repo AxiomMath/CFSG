@@ -34,6 +34,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem qTwoNbrG_kappa_ker {Q : Type} [Group Q] {K Bs Delta : Subgroup G}
     (q : ↥(K ⊔ Bs) →* Q) (hq : q.ker = Delta.subgroupOf (K ⊔ Bs))
     (hDelta_central : ∀ d ∈ Delta, ∀ k ∈ K, d * k = k * d) :
@@ -53,6 +54,7 @@ private theorem qTwoNbrG_kappa_ker {Q : Type} [Group Q] {K Bs Delta : Subgroup G
   apply Subtype.ext
   exact (hDelta_central (z : G) hzΔ (w : G) w.2).symm
 
+omit [Finite G] in
 private theorem qTwoNbrG_map_kappa_range {Q : Type} [Group Q] {K Bs H : Subgroup G}
     (hH : H ≤ K) (q : ↥(K ⊔ Bs) →* Q) :
     (((H.subgroupOf K).map (qTwoNbrRec_kappa q)).map (qTwoNbrRec_Kb q).subtype) =
@@ -75,10 +77,11 @@ private theorem qTwoNbrG_map_kappa_range {Q : Type} [Group Q] {K Bs H : Subgroup
     rw [← hj]
     exact congrArg q (Subtype.ext rfl)
 
+omit [Finite G] in
 theorem qTwoNbr_comp_transport {p : ℕ} {B Bs L D J : Subgroup G} {x : G} {y : G}
     {K : Subgroup G} (hM : QTwoNbrModel p B Bs x L D J y K) :
     ggQTwoNbrCompProp hM := by
-  letI := hM.groupQ
+  let := hM.groupQ
   have hf : Function.Surjective (qTwoNbrRec_kappa hM.q) := qTwoNbrRec_kappa_surjective hM.q
   have hker : (qTwoNbrRec_kappa hM.q).ker ≤ Subgroup.center ↥K :=
     qTwoNbrG_kappa_ker hM.q hM.hq_ker hM.hDelta_central

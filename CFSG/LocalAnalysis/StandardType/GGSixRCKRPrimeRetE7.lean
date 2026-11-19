@@ -46,7 +46,7 @@ theorem rckRetE7_holds :
     Set.finite_of_ncard_pos (by rw [hcard]; norm_num)
   have hs : componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) = 1 :=
     CFSG.HardMathSupport.Timmesfeld.LangTorus.componentOrbitLength_eq_one hfin hρ
-  haveI : E7Sub τ := by rcases hτ with rfl | rfl <;> infer_instance
+  have : E7Sub τ := by rcases hτ with rfl | rfl <;> infer_instance
   obtain ⟨F⟩ := nonempty_rckE7Frame_of_levi v hv
   obtain ⟨SK, hqK, hρK, hsurj, htr, hperf, hcen, hodd⟩ := exists_rckE7Setup S F hρ hq
   have hR :=

@@ -67,7 +67,7 @@ theorem wcOn_reeG2 {K : Type} [Group K] [Finite K] {p f : ℕ}
     (WCOn.of_derivedCentralQuotient_noncomm (p := 3) _
       ((MulEquiv.subgroupCongr (reeFixedGroup_eq_map_reeFixed .G2 F a)).trans
         ((reeFixed .G2 F a).equivMapOfInjective _ Subtype.val_injective).symm)
-      (holds_reeFixed .G2 F a) T hTle T.isPGroup' hTle (x := x) (y := y)
+      (holds_reeFixed .G2 F a) T hTle T.isPGroup hTle (x := x) (y := y)
       (by rw [hT]; exact hx) (by rw [hT]; exact hy) hxy)
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.WeakClosure

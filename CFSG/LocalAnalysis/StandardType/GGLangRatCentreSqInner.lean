@@ -36,14 +36,14 @@ private theorem langRatCI_map_add_zsmul {τ : Tag}
       simp [add_smul, one_smul]
     · have hyx : y ≠ x := Ne.symm hxy
       rw [Finset.sum_insert (by simp [hxy]), Finset.sum_singleton]
-      simp [hxy, hyx, add_smul, one_smul]
+      simp [hxy, hyx, one_smul]
   rw [apply_eq_sum_of_iform hg.iform_eq hs h hsum]
   by_cases hxy : x = y
   · subst hxy
     simp [add_smul, one_smul]
   · have hyx : y ≠ x := Ne.symm hxy
     rw [Finset.sum_insert (by simp [hxy]), Finset.sum_singleton]
-    simp [hxy, hyx, add_smul, one_smul]
+    simp [hxy, hyx, one_smul]
 
 private theorem langRatCI_map_sub_zsmul {τ : Tag}
     {Ψ : Set (Fin τ.rank → ℤ)} {g : (Fin τ.rank → ℤ) → Fin τ.rank → ℤ} (hg : IsIsometry Ψ g)
@@ -127,14 +127,14 @@ private theorem langRatCI_cartanA_neg_one_iff {n : ℕ} (i j : Fin n) :
   rw [CartanMatrix.A, Matrix.of_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact ⟨fun h => absurd h (by norm_num), fun h => by
       rcases h with h | h <;> omega⟩
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     by_cases h : i.val + 1 = j.val ∨ j.val + 1 = i.val
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact ⟨fun _ => h, fun _ => rfl⟩
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact ⟨fun hh => absurd hh (by norm_num), fun hh => absurd hh h⟩
 
 private theorem langRatCI_permA_apply0 {n : ℕ} (hn : 2 ≤ n) (σ : Equiv.Perm (Fin n))
@@ -151,8 +151,8 @@ private theorem langRatCI_permA_apply0 {n : ℕ} (hn : 2 ≤ n) (σ : Equiv.Perm
       have hj : j = ⟨1, by omega⟩ := by
         have h := (langRatCI_cartanA_neg_one_iff (⟨0, by omega⟩ : Fin n) j).1 h0
         rcases h with h | h
-        · exact Fin.ext (by simp only [Fin.val_mk] at h ⊢; omega)
-        · simp only [Fin.val_mk] at h; omega
+        · exact Fin.ext (by simp only at h ⊢; omega)
+        · simp only at h; omega
       rw [hj]
     · intro hk
       rw [hk]
@@ -173,16 +173,16 @@ private theorem langRatCI_permA_apply0 {n : ℕ} (hn : 2 ≤ n) (σ : Equiv.Perm
       omega
     have ha : CartanMatrix.A n (σ ⟨0, by omega⟩)
         (⟨(σ ⟨0, by omega⟩).val - 1, by omega⟩ : Fin n) = -1 :=
-      (langRatCI_cartanA_neg_one_iff _ _).2 (Or.inr (by simp only [Fin.val_mk]; omega))
+      (langRatCI_cartanA_neg_one_iff _ _).2 (Or.inr (by simp only; omega))
     have hb : CartanMatrix.A n (σ ⟨0, by omega⟩)
         (⟨(σ ⟨0, by omega⟩).val + 1, by omega⟩ : Fin n) = -1 :=
-      (langRatCI_cartanA_neg_one_iff _ _).2 (Or.inl (by simp only [Fin.val_mk]))
+      (langRatCI_cartanA_neg_one_iff _ _).2 (Or.inl (by simp only))
     have haeq := (hneigh _).1 ha
     have hbeq := (hneigh _).1 hb
     have hfin : (⟨(σ ⟨0, by omega⟩).val - 1, by omega⟩ : Fin n) =
         ⟨(σ ⟨0, by omega⟩).val + 1, by omega⟩ := haeq.trans hbeq.symm
     have := congrArg Fin.val hfin
-    simp only [Fin.val_mk] at this
+    simp only at this
     omega
 
 private theorem langRatCI_permA_eq_one_of_apply0 {n : ℕ} (hn : 2 ≤ n) (σ : Equiv.Perm (Fin n))
@@ -202,7 +202,7 @@ private theorem langRatCI_permA_eq_one_of_apply0 {n : ℕ} (hn : 2 ≤ n) (σ : 
         have hA : CartanMatrix.A n (σ ⟨m - 1, hm1⟩) (σ ⟨m, hm⟩) = -1 := by
           rw [hσ]
           exact (langRatCI_cartanA_neg_one_iff (⟨m - 1, hm1⟩ : Fin n) (⟨m, hm⟩ : Fin n)).2
-            (Or.inl (by simp only [Fin.val_mk]; omega))
+            (Or.inl (by simp only; omega))
         have hdisj := (langRatCI_cartanA_neg_one_iff (σ ⟨m - 1, hm1⟩) (σ ⟨m, hm⟩)).1 hA
         rcases hdisj with h | h
         · omega
@@ -213,7 +213,7 @@ private theorem langRatCI_permA_eq_one_of_apply0 {n : ℕ} (hn : 2 ≤ n) (σ : 
             omega
           have heq : (⟨m, hm⟩ : Fin n) = ⟨m - 2, hm2⟩ := σ.injective (Fin.ext hval)
           have := congrArg Fin.val heq
-          simp only [Fin.val_mk] at this
+          simp only at this
           omega
   simpa using key i.val i.isLt
 
@@ -227,14 +227,14 @@ private theorem langRatCI_permA_eq_rev_of_apply0 {n : ℕ} (hn : 2 ≤ n) (σ : 
       intro hm
       rcases Nat.eq_zero_or_pos m with rfl | hpos
       · have := congrArg Fin.val h0
-        simp only [Fin.val_mk] at this
+        simp only at this
         omega
       · have hm1 : m - 1 < n := by omega
         have hprev : (σ ⟨m - 1, hm1⟩).val = n - 1 - (m - 1) := ih (m - 1) (by omega) hm1
         have hA : CartanMatrix.A n (σ ⟨m - 1, hm1⟩) (σ ⟨m, hm⟩) = -1 := by
           rw [hσ]
           exact (langRatCI_cartanA_neg_one_iff (⟨m - 1, hm1⟩ : Fin n) (⟨m, hm⟩ : Fin n)).2
-            (Or.inl (by simp only [Fin.val_mk]; omega))
+            (Or.inl (by simp only; omega))
         have hdisj := (langRatCI_cartanA_neg_one_iff (σ ⟨m - 1, hm1⟩) (σ ⟨m, hm⟩)).1 hA
         rcases hdisj with h | h
         · have hle : 2 ≤ m := by
@@ -246,7 +246,7 @@ private theorem langRatCI_permA_eq_rev_of_apply0 {n : ℕ} (hn : 2 ≤ n) (σ : 
             omega
           have heq : (⟨m, hm⟩ : Fin n) = ⟨m - 2, hm2⟩ := σ.injective (Fin.ext hval)
           have := congrArg Fin.val heq
-          simp only [Fin.val_mk] at this
+          simp only at this
           omega
         · omega
   ext i
@@ -259,8 +259,8 @@ private theorem langRatCI_permA_eq_rev_of_apply0 {n : ℕ} (hn : 2 ≤ n) (σ : 
 private theorem langRatCI_permA_mul_self {n : ℕ} (σ : Equiv.Perm (Fin n))
     (hσ : ∀ i j, CartanMatrix.A n (σ i) (σ j) = CartanMatrix.A n i j) : σ * σ = 1 := by
   by_cases hn : n < 2
-  · haveI : Subsingleton (Fin n) := ⟨fun a b => Fin.ext (by omega)⟩
-    haveI : Subsingleton (Equiv.Perm (Fin n)) :=
+  · have : Subsingleton (Fin n) := ⟨fun a b => Fin.ext (by omega)⟩
+    have : Subsingleton (Equiv.Perm (Fin n)) :=
       ⟨fun a b => Equiv.ext fun i => Subsingleton.elim _ _⟩
     exact Subsingleton.elim _ _
   · push Not at hn

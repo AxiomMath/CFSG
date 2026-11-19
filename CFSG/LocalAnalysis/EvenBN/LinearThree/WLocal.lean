@@ -465,7 +465,7 @@ theorem isSylowOf_centralizer (w : WData d Vi q) :
     ⟨⟨x, hXC hx⟩, hT (mem_subgroupOf.mpr hx), rfl⟩
   by_contra hne
   have hlt : w.W ⊔ zpowers d.t < T' := lt_of_le_of_ne hXT (Ne.symm hne)
-  have hT'2 : IsPGroup 2 T' := T.isPGroup'.map _
+  have hT'2 : IsPGroup 2 T' := T.isPGroup.map _
   have : Group.IsNilpotent T' := hT'2.isNilpotent
   have hlt' : (w.W ⊔ zpowers d.t).subgroupOf T' < ⊤ :=
     lt_top_iff_ne_top.mpr fun h => hlt.not_ge (subgroupOf_eq_top.mp h)

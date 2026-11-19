@@ -876,7 +876,7 @@ private theorem r875le_noncentral_three {G : Type} [Group G] [Finite G] {K : Sub
   have hnot := CFSG.HardMathSupport.Malle.E27Lie.not_sylow_le_center_of_perfect hKperf h3 P
   obtain ⟨y, hyP, hyZ⟩ := Set.not_subset.mp hnot
   have hyq : IsPGroup 3 (Subgroup.zpowers y) :=
-    P.isPGroup'.to_le (Subgroup.zpowers_le.mpr hyP)
+    P.isPGroup.to_le (Subgroup.zpowers_le.mpr hyP)
   have hyZ' : ∃ l : ↥K, y * l ≠ l * y := by
     by_contra h
     simp only [not_exists, not_not] at h
@@ -1070,7 +1070,7 @@ private theorem r875le_step6 {G : Type} [Group G] [Finite G]
     rfl
   have hTbar3 : IsPGroup 3 Tbar := by
     rw [← hTbar]
-    exact hTbarSyl.isPGroup'.map action.range.subtype
+    exact hTbarSyl.isPGroup.map action.range.subtype
   have hcomm : Tbar ≤ Subgroup.centralizer
       ((S.subgroupOf K).map (MulAut.conj : ↥K →* MulAut ↥K)) := by
     rintro _ ⟨x, hx, rfl⟩
@@ -1097,7 +1097,7 @@ private theorem r875le_step6 {G : Type} [Group G] [Finite G]
     exact (Subgroup.map_subtype_le _).trans hAinn
   have hSbar3 : IsPGroup 3 ((S.subgroupOf K).map (MulAut.conj : ↥K →* MulAut ↥K)) := by
     rw [← hSbar]
-    exact SbarSyl.isPGroup'.map I.subtype
+    exact SbarSyl.isPGroup.map I.subtype
   have hsup3 : IsPGroup 3 ↥(Tbar ⊔ (S.subgroupOf K).map
       (MulAut.conj : ↥K →* MulAut ↥K)) :=
     IsPGroup.to_sup_of_normal_right' hTbar3 hSbar3
@@ -1160,7 +1160,7 @@ private theorem r875le_step6 {G : Type} [Group G] [Finite G]
         have h1 : 1 < Nat.card ↥(hTbarSyl : Subgroup ↥action.range) :=
           (Subgroup.one_lt_card_iff_ne_bot _).mpr hne'
         omega
-      rcases (hTbarSyl.isPGroup'.card_eq_or_dvd) with h1 | hd
+      rcases (hTbarSyl.isPGroup.card_eq_or_dvd) with h1 | hd
       · exact absurd h1 hcard
       · exact hd.trans (Subgroup.card_subgroup_dvd_card _)
     exact (CFSG.HardMathSupport.Malle.E27Lie.not_sylow_le_center_of_perfect

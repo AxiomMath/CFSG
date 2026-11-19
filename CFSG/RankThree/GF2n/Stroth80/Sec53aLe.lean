@@ -11,7 +11,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
-theorem Ctx.vone_eq_inf_QB_sup (hc : Ctx M Q Z B) {n : ℕ} {t r : G} (hs : Sec5Hyp hc n t) :
+theorem Ctx.vone_eq_inf_QB_sup (hc : Ctx M Q Z B) {n : ℕ} {t r : G} (_hs : Sec5Hyp hc n t) :
     Vone Q B (conjSubgroup r B) (Vt M (LB M Q B) B Z t) =
       (Vone Q B (conjSubgroup r B) (Vt M (LB M Q B) B Z t) ⊓ QB B) ⊔
         Vt M (LB M Q B) B Z t := by

@@ -28,7 +28,7 @@ open CFSG.RankThree.PartTwo.Sec6.BThreeCensus (suzukiOrder card_eq_suzukiOrder l
 
 theorem card_mulAut_dvd_of_outer_dvd {X : Type} [Group X] [Finite X] {k : ℕ}
     (hk : Nat.card (Outer X) ∣ k) : Nat.card (MulAut X) ∣ k * Nat.card X := by
-  haveI : Finite (MulAut X) :=
+  have : Finite (MulAut X) :=
     Finite.of_injective (fun φ : MulAut X => (φ : X → X)) DFunLike.coe_injective
   have hinner :
       Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.inner X) ∣ Nat.card X := by
@@ -44,11 +44,11 @@ theorem card_mulAut_dvd_of_outer_dvd {X : Type} [Group X] [Finite X] {k : ℕ}
 
 theorem card_outer_dvd_two_of_le_two {X : Type} [Group X] [Finite X]
     (h : Nat.card (Outer X) ≤ 2) : Nat.card (Outer X) ∣ 2 := by
-  haveI : Finite (MulAut X) :=
+  have : Finite (MulAut X) :=
     Finite.of_injective (fun φ : MulAut X => (φ : X → X)) DFunLike.coe_injective
   have hpos : 0 < Nat.card (Outer X) := Nat.card_pos
   rcases (by omega : Nat.card (Outer X) = 1 ∨ Nat.card (Outer X) = 2) with h1 | h1 <;>
-    rw [h1] <;> norm_num
+    rw [h1]; norm_num
 
 theorem noSzSection_of_suzukiOrder_spor {M : Type} [Group M]
     [Finite M] {N : ℕ} (hMN : Nat.card M ∣ N) (hN : ∀ a : ℕ, 1 ≤ a → ¬ suzukiOrder a ∣ N) :
@@ -74,7 +74,7 @@ section Row143
 theorem rowOf143_of_outer_dvd {X : Type} [Group X] [Finite X] {k : ℕ}
     (hout : Nat.card (Outer X) ∣ k) (hN : ∀ a : ℕ, 1 ≤ a → ¬ suzukiOrder a ∣ k * Nat.card X) :
     RowOf143 X := by
-  haveI : Finite (MulAut X) :=
+  have : Finite (MulAut X) :=
     Finite.of_injective (fun φ : MulAut X => (φ : X → X)) DFunLike.coe_injective
   intro S _ _ _ _ ⟨e⟩ _
   have hX : CFSG.RankThree.PartTwo.Sec16.Steps166.NoSzSection (MulAut X) :=
@@ -89,7 +89,7 @@ theorem rowOf143_spor_j3 :
   have hcard : Nat.card (Spor .J3) = 50232960 := by
     rw [← Nat.card_congr b'.toEquiv]
     exact CFSG.Sporadic.J3.card_J3
-  haveI : Finite (Spor .J3) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Spor .J3) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hle : Nat.card (Outer (Spor .J3)) ≤ 2 := by
     rw [← Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence b').toEquiv]
     exact CFSG.RankThree.PartTwo.Sec4.card_outer_J3
@@ -104,7 +104,7 @@ theorem rowOf143_spor_j4 :
   have hcard : Nat.card (Spor .J4) = 86775571046077562880 := by
     rw [← Nat.card_congr b'.toEquiv]
     exact CFSG.Sporadic.J4.card_J4
-  haveI : Finite (Spor .J4) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Spor .J4) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hout : Nat.card (Outer (Spor .J4)) = 1 := by
     rw [← Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence b').toEquiv]
     exact CFSG.AGLEmbedding.card_outer_J4
@@ -119,7 +119,7 @@ theorem rowOf143_spor_ly :
   have hcard : Nat.card (Spor .Ly) = 51765179004000000 := by
     rw [← Nat.card_congr b'.toEquiv]
     exact CFSG.Sporadic.Ly.card_Ly
-  haveI : Finite (Spor .Ly) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Spor .Ly) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hle : Nat.card (Outer (Spor .Ly)) ≤ 2 := by
     rw [← Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence b').toEquiv]
     rcases CFSG.RankThree.PartOne.SPOR.card_outer_Ly with h | h <;> omega
@@ -134,7 +134,7 @@ theorem rowOf143_spor_he
   have hcard : Nat.card (Spor .He) = 4030387200 := by
     rw [← Nat.card_congr b'.toEquiv]
     exact CFSG.Sporadic.He.card_He
-  haveI : Finite (Spor .He) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Spor .He) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hle : Nat.card (Outer (Spor .He)) ≤ 2 := by
     rw [← Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence b').toEquiv]
     exact CFSG.Sporadic.Schreier.AT_He_Schreier.1
@@ -149,7 +149,7 @@ theorem rowOf143_spor_on :
   have hcard : Nat.card (Spor .ONan) = 460815505920 := by
     rw [← Nat.card_congr b'.toEquiv]
     exact CFSG.Sporadic.ON.card_ON
-  haveI : Finite (Spor .ONan) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Spor .ONan) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hdvd : Nat.card (Outer (Spor .ONan)) ∣ 4 := by
     rw [← Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence b').toEquiv]
     exact CFSG.Sporadic.ONOddCore.r3e_on_outer_order_divides_four.1
@@ -164,7 +164,7 @@ theorem rowOf143_spor_co3 :
   have hcard : Nat.card (Spor .Co3) = 495766656000 := by
     rw [← Nat.card_congr b'.toEquiv]
     exact CFSG.Sporadic.Co3.card_Co3
-  haveI : Finite (Spor .Co3) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Spor .Co3) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hout : Nat.card (Outer (Spor .Co3)) = 1 := by
     rw [← Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence b').toEquiv]
     exact CFSG.RankThree.PartOne.CTUC_Co3_all_automorphisms_inner.{0}.2.2.2.1
@@ -179,7 +179,7 @@ theorem rowOf143_spor_co2 :
   have hcard : Nat.card (Spor .Co2) = 42305421312000 := by
     rw [← Nat.card_congr b'.toEquiv]
     exact CFSG.Sporadic.Co2.card_Co2
-  haveI : Finite (Spor .Co2) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Spor .Co2) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hout : Nat.card (Outer (Spor .Co2)) = 1 := by
     rw [← Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence b').toEquiv]
     exact CFSG.RankThree.PartOne.SPOR.card_outer_Co2
@@ -194,7 +194,7 @@ theorem rowOf143_spor_hn :
   have hcard : Nat.card (Spor .HN) = 273030912000000 := by
     rw [← Nat.card_congr b'.toEquiv]
     exact CFSG.Sporadic.HN.card_HN
-  haveI : Finite (Spor .HN) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Spor .HN) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hle : Nat.card (Outer (Spor .HN)) ≤ 2 := by
     rw [← Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence b').toEquiv]
     exact (CFSG.RankThree.PartOne.SPOR.card_outer_HN).le
@@ -209,7 +209,7 @@ theorem rowOf143_spor_mcl :
   have hcard : Nat.card (Spor .McL) = 898128000 := by
     rw [← Nat.card_congr b'.toEquiv]
     exact CFSG.Sporadic.McL.card_McL
-  haveI : Finite (Spor .McL) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Spor .McL) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hle : Nat.card (Outer (Spor .McL)) ≤ 2 := by
     rw [← Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence b').toEquiv]
     exact CFSG.RankThree.PartTwo.Sec4.card_outer_McL

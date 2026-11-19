@@ -46,9 +46,9 @@ theorem ggOrthEnnola_component_label_field
     exact ⟨θ⟩
   obtain ⟨R, hR, I, F, hs, hna, θ, ⟨⟨hS, hN, hind⟩, hdatum⟩⟩ :=
     largeEvenRawDatum_exists hraw
-  letI : Group R := hR
-  letI : Finite R := hdatum.1
-  letI : IsSimpleGroup R := hs
+  let : Group R := hR
+  let : Finite R := hdatum.1
+  let : IsSimpleGroup R := hs
   have hcen : Subgroup.center R = ⊥ :=
     center_eq_bot_of_isSimpleGroup_of_nonabelian hna
   have hxN : x ∈ Subgroup.normalizer (X : Set G) := hN hx

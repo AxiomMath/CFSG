@@ -96,7 +96,7 @@ private theorem commutator_eq_one_or_eq {S : Sylow 2 G} {U : Subgroup G} (hUS : 
   · left
     rw [hTU x hxT a ha, mul_inv_cancel_right, mul_inv_cancel]
   have hSidx : Nat.card (S : Subgroup G) ≤ 2 * Nat.card T :=
-    card_le_two_mul_card_centralizer S.isPGroup' hUS hSU hU hUcard
+    card_le_two_mul_card_centralizer S.isPGroup hUS hSU hU hUcard
   obtain ⟨S₁, hPS₁⟩ := hP.exists_le_sylow
   have hS₁card : Nat.card (S₁ : Subgroup G) = Nat.card (S : Subgroup G) := by
     rw [Sylow.card_eq_multiplicity, Sylow.card_eq_multiplicity]
@@ -324,7 +324,7 @@ theorem preferred_normal_four_core_containment {G : Type} [Group G] [Finite G]
         U.subgroupOf C ≤ (P : Subgroup C) ⊓ twoCorePreimage u := by
     intro P hTP
     have hP'C : (P : Subgroup C).map C.subtype ≤ C := Subgroup.map_subtype_le _
-    have hP' : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup'.map C.subtype
+    have hP' : IsPGroup 2 ((P : Subgroup C).map C.subtype) := P.isPGroup.map C.subtype
     have hTP' : T ≤ (P : Subgroup C).map C.subtype := fun t ht =>
       ⟨⟨t, hTC ht⟩, hTP (Subgroup.mem_subgroupOf.mpr ht), rfl⟩
     have hcomm : ∀ x ∈ (P : Subgroup C), ∀ a ∈ U, ⁅(x : G), a⁆ = 1 ∨ ⁅(x : G), a⁆ = u := by
@@ -355,7 +355,7 @@ theorem preferred_normal_four_core_containment {G : Type} [Group G] [Finite G]
         rw [h']
         exact Subgroup.mem_zpowers _
   have hF : U.subgroupOf C ≤ twoCorePreimage u := by
-    have hT2 : IsPGroup 2 (T.subgroupOf C) := S.isPGroup'.to_inf_left.comap_subtype
+    have hT2 : IsPGroup 2 (T.subgroupOf C) := S.isPGroup.to_inf_left.comap_subtype
     obtain ⟨P, hP⟩ := hT2.exists_le_sylow
     exact fun a ha => ((hPpart P hP).2 ha).2
   refine ⟨hUC, hF, hPpart, ?_⟩

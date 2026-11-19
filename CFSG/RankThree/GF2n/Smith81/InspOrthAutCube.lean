@@ -91,9 +91,9 @@ theorem kerRestrict_injective (h : IsSimpleProduct (⊤ : Subgroup Γ) S) :
 theorem card_mulAut_dvd_of_isSimpleProduct [Finite Γ] (h : IsSimpleProduct (⊤ : Subgroup Γ) S) :
     Nat.card (MulAut Γ) ∣ r.factorial * ∏ i, Nat.card (MulAut (S i)) := by
   classical
-  haveI : Finite (MulAut Γ) :=
+  have : Finite (MulAut Γ) :=
     Finite.of_injective (fun α : MulAut Γ => (α : Γ → Γ)) DFunLike.coe_injective
-  haveI : ∀ i, Finite (MulAut (S i)) := fun i =>
+  have : ∀ i, Finite (MulAut (S i)) := fun i =>
     Finite.of_injective (fun α : MulAut (S i) => (α : S i → S i)) DFunLike.coe_injective
   have hcard := Subgroup.card_ker_mul_card_range (mulAutPerm h)
   have hk : Nat.card (mulAutPerm h).ker ∣ ∏ i, Nat.card (MulAut (S i)) := by

@@ -186,7 +186,7 @@ private theorem nrm₁_commute_qz :
 private theorem mem_normalizer_of_conj_mem {G : Type*} [Group G] {H : Subgroup G}
     (hH : Nat.card H ≠ 0) {g : G} (h : ∀ a ∈ H, g * a * g⁻¹ ∈ H) :
     g ∈ Subgroup.normalizer (H : Set G) := by
-  haveI : Finite H := Nat.finite_of_card_ne_zero hH
+  have : Finite H := Nat.finite_of_card_ne_zero hH
   have hle : H.map (MulAut.conj g).toMonoidHom ≤ H := by
     rintro _ ⟨a, ha, rfl⟩
     exact h a ha
@@ -273,7 +273,7 @@ theorem gElt_mem_normalizer :
 
 theorem normalizer_Q11_le_narrowGamma
     [Finite J] : Subgroup.normalizer (Q11 : Set J) ≤ RankOneCent.narrowGamma 11 Q11 := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hEQ : eSub ≤ Q11 := inf_le_right
   have hEz : eSub ≤ Q11 ⊓ Subgroup.centralizer ({qz} : Set J) := fun a ha =>
     ⟨ha.2, Subgroup.mem_centralizer_singleton_iff.2 (qz_commute_of_mem ha.2)⟩

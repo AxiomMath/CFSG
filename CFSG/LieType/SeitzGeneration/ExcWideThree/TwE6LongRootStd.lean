@@ -44,9 +44,11 @@ variable {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
 @[expose] def n0 : ModGL TwistTag.E6.tag K :=
   canonicalRep (coxeterSystem TwistTag.E6.tag) K w0
 
+omit [Finite K] in
 theorem n0_mem : n0 (K := K) ∈ graphFixedRootGroup TwistTag.E6 K σ.toRingHom :=
   canonicalRep_mem_graphFixedRootGroup w0_mem
 
+omit [Finite K] in
 theorem mem_conj_rootSpan_inf_iff {S : Set (Fin TwistTag.E6.tag.rank → ℤ)}
     (hS : ∀ α ∈ S, IsRoot TwistTag.E6.tag α) {w : WeylGroup TwistTag.E6.tag}
     (hw : w ∈ relWeylTwist TwistTag.E6) (x : ModGL TwistTag.E6.tag K) :
@@ -91,6 +93,7 @@ theorem image_neg_single_orbit_a2 :
       ↑(TwistTag.E6.orbit a2)) = {-Pi.single 1 1} := by
   rw [E6_orbit_a2, Set.image_singleton]
 
+omit [Finite K] in
 theorem rootSpan_image_w0_alpha2 :
     rootSpan TwistTag.E6.tag K ((fun α => w0 • α) '' {(Pi.single 1 1 : Fin TwistTag.E6.tag.rank → ℤ)}) =
       rootSubgroup TwistTag.E6.tag K e6HighestRoot := by
@@ -143,6 +146,7 @@ theorem mem_X0_iff (x : twistedE6RootGroup K σ) :
     have := (key.2 hx').1
     exact this
 
+omit [Finite K] in
 theorem rootSpan_image_w0_neg_alpha2 :
     rootSpan TwistTag.E6.tag K
         ((fun α => w0 • α) '' {(-Pi.single 1 1 : Fin TwistTag.E6.tag.rank → ℤ)}) =
@@ -225,28 +229,34 @@ theorem mem_X0m_iff (x : twistedE6RootGroup K σ) :
 
 @[expose] def n0G : twistedE6RootGroup K σ := ⟨n0, n0_mem σ⟩
 
+omit [Finite K] in
 @[simp] theorem coe_xG (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K σ.toRingHom a) :
     ((xG σ a c : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
       (orbitX TwistTag.E6 K σ.toRingHom a c : ModGL TwistTag.E6.tag K) := rfl
 
+omit [Finite K] in
 @[simp] theorem coe_yG (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K σ.toRingHom a) :
     ((yG σ a c : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
       (orbitY TwistTag.E6 K σ.toRingHom a c : ModGL TwistTag.E6.tag K) := rfl
 
+omit [Finite K] in
 @[simp] theorem coe_nG (a : Fin TwistTag.E6.foldedTag.rank) :
     ((nG σ a : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
       canonicalRep (coxeterSystem TwistTag.E6.tag) K (TwistTag.E6.orbitReflection a) := rfl
 
+omit [Finite K] in
 @[simp] theorem coe_hG (a : Fin TwistTag.E6.foldedTag.rank)
     (u : (orbitField TwistTag.E6 K σ.toRingHom a)ˣ) :
     ((hG σ a u : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
       (orbitH TwistTag.E6 K σ.toRingHom a u : ModGL TwistTag.E6.tag K) := rfl
 
+omit [Finite K] in
 @[simp] theorem coe_n0G :
     ((n0G σ : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) = n0 := rfl
 
+omit [Finite K] in
 theorem xG_add (a : Fin TwistTag.E6.foldedTag.rank)
     (c c' : orbitField TwistTag.E6 K σ.toRingHom a) :
     xG σ a (c + c') = xG σ a c * xG σ a c' := by
@@ -256,6 +266,7 @@ theorem xG_add (a : Fin TwistTag.E6.foldedTag.rank)
     (Subtype.val : adjointGroup TwistTag.E6.tag K → ModGL TwistTag.E6.tag K) h
   exact h2
 
+omit [Finite K] in
 theorem xG_zero (a : Fin TwistTag.E6.foldedTag.rank) : xG σ a 0 = 1 := by
   apply Subtype.ext
   have h := orbitX_zero TwistTag.E6 σ.toRingHom a

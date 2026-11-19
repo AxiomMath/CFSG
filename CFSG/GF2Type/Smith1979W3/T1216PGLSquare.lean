@@ -89,10 +89,10 @@ theorem exists_outer_involution_KPGL (hF : PGLFactsProp) :
   have hmemVPlus : u (Code.vec 2) ∈ VPlus := by
     rw [← hpres.1]
     exact Submodule.mem_map_of_mem (f := (u : V₀ →ₗ[ZMod 2] V₀))
-      (Submodule.subset_span (by simp [VPlus]))
+      (Submodule.subset_span (by simp))
   have hmemVStar : u (Code.vec 2) ∈ VStar := by
     rw [hact]
-    exact Submodule.subset_span (by simp [VStar])
+    exact Submodule.subset_span (by simp)
   have hmemVPlus' : Code.vec 1 ∈ VPlus := by
     rw [← hact]
     exact hmemVPlus
@@ -248,7 +248,7 @@ private theorem pgl_second_case
       ∀ u' ∈ KPGL, u' ∉ KPGL0 → u' * u' = 1 →
         ∃ k ∈ KPGL, k * u * k⁻¹ = u')
     (φ : S.Q ≃* Q0) (hφ : ∀ x : S.Q, (φ x).v = L (S.toQt x))
-    (hIS : IsSquareData KPGL (sqData S φ))
+    (_hIS : IsSquareData KPGL (sqData S φ))
     (u₀ : V₀ ≃ₗ[ZMod 2] V₀) (hu₀KPGL : u₀ ∈ KPGL) (hu₀not : u₀ ∉ KPGL0)
     (hu₀sq : u₀ * u₀ = 1)
     (hemptyOne : {θ : Q0 ≃* Q0 |
@@ -345,7 +345,7 @@ private theorem pgl_second_case
       exact (Subgroup.inv_mem_iff (H := KPGL0)).mpr h
     exact ⟨s, hsout, hs2⟩
 
-theorem pgl_exists_moved (hF : PGLFactsProp) (hPS : PGLSquareProp)
+theorem pgl_exists_moved (_hF : PGLFactsProp) (hPS : PGLSquareProp)
     (hL : ∀ v, qPlus (L v) = S.q v) (hK : mbarModel S L = KPGL) :
     ∀ y : S.M, conjL L ↑(S.ρ y) ∉ KPGL0 → ((y : G) * y = 1 ∨ (y : G) * y = S.z) →
       ∀ w : S.M, conjL L ↑(S.ρ w) ∈ KPGL0 → S.ρ w ≠ 1 → S.ρ w * S.ρ w = 1 →

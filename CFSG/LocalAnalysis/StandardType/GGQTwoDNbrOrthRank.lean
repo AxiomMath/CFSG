@@ -34,13 +34,13 @@ theorem qtwoDNbr_card_le_orth {p : ℕ} [Fact p.Prime] {Bs X : Subgroup G}
     hcard, -, hT, hdim, hplus, himage, hcompat0⟩ :=
     OrthKExactTwo.exists_quadratic_image_of_orthogonal_marking hRig hp2 hmarkK hBs hSC hΛ hhas
       htag hrank
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
-  letI : AddCommGroup V := hAdd
-  letI : Module F V := hMod
-  letI : FiniteDimensional F V := hFinDim
-  letI : Nontrivial V := hNontrivial
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
+  let : AddCommGroup V := hAdd
+  let : Module F V := hMod
+  let : FiniteDimensional F V := hFinDim
+  let : Nontrivial V := hNontrivial
   have hconjq : ∀ (b : ↥Bs) (z : ↥X), (QuotientGroup.mk (ggGamma X hN b z) :
       ↥X ⧸ Subgroup.center ↥X) = ρ b * QuotientGroup.mk z * (ρ b)⁻¹ := by
     intro b z
@@ -126,7 +126,7 @@ theorem qtwoDNbr_card_le_orth {p : ℕ} [Fact p.Prime] {Bs X : Subgroup G}
     have hr : r = lab.rank := by omega
     have hcardτ : Nat.card A = p ^ r := by
       rw [← hτrange, Nat.card_congr (MonoidHom.ofInjective hτinj).toEquiv.symm, Nat.card_pi]
-      simp [Nat.card_zmod]
+      simp
     calc Nat.card ↥Bs ≤ Nat.card ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) *
           Nat.card ρ.range := hcardBs
       _ = Nat.card ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) * p ^ lab.rank := by

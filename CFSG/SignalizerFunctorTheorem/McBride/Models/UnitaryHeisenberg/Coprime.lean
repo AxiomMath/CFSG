@@ -32,7 +32,7 @@ theorem exists_abelian_normalized_subgroup [Finite Y] {C N : Subgroup Y} (hN : N
   obtain ⟨R, hR⟩ := CFSG.exists_invariant_sylow_of_solvable_operator_coprime (G := N) (A := C)
     hCcop (p := r)
   set R₁ : Subgroup Y := (R : Subgroup N).map N.subtype with hR₁
-  have hR₁p : IsPGroup r R₁ := R.isPGroup'.map N.subtype
+  have hR₁p : IsPGroup r R₁ := R.isPGroup.map N.subtype
   have hR₁ne : R₁ ≠ ⊥ := by
     intro h
     have h1 : Nat.card R₁ = 1 := Subgroup.card_eq_one.mpr h

@@ -26,6 +26,7 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem K_le_normalizer_L1 {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     t.K ≤ normalizer (L1 : Set G) := by
   refine sup_le ?_ ?_
@@ -34,6 +35,7 @@ private theorem K_le_normalizer_L1 {a f : ℕ} (hfr : Frame L1 L2 S a f) :
   · exact (le_sup_right : t.D2 ≤ (S ⊓ L2) ⊔ t.D2).trans
       ((le_of_eq t.hD2sup.symm).trans hfr.hF.1.h1.borel_le)
 
+omit [Finite G] in
 private theorem K_le_normalizer_L2 {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     t.K ≤ normalizer (L2 : Set G) := by
   refine sup_le ?_ ?_
@@ -135,6 +137,7 @@ theorem cosetTrans_one_of_le_sup {a f : ℕ}
   rw [show h⁻¹ * (h * q * k) = q * k by group]
   exact (t.Gv 0).mul_mem ((t.Qv_le_Gv hfr 1).1 hq) (t.K_le_Gv 0 hk)
 
+omit [Finite G] in
 private theorem sup_eq_of_map_subgroupOf_eq_top {A D N : Subgroup G} [Finite ↥A]
     [hDnormal : (D.subgroupOf A).Normal]
     (hNA : N ≤ A) (hD : D ≤ A)
@@ -166,7 +169,7 @@ private theorem eq_top_of_two_elements_of_even {E : Type*} [Group E] [Finite E]
     [IsSimpleGroup E] (h2 : 2 ∣ Nat.card E) (H : Subgroup E)
     (hH : ∀ x : E, (∃ k : ℕ, x ^ 2 ^ k = 1) → x ∈ H) : H = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Set E := {x | ∃ k : ℕ, x ^ 2 ^ k = 1}
   let N : Subgroup E := Subgroup.normalClosure S
   have hNH : N ≤ H := by
@@ -178,7 +181,7 @@ private theorem eq_top_of_two_elements_of_even {E : Type*} [Group E] [Finite E]
     obtain ⟨c, rfl⟩ := isConj_iff.1 hxy
     obtain ⟨k, hk⟩ := hx
     exact hH _ ⟨k, by rw [conj_pow, hk, mul_one, mul_inv_cancel]⟩
-  haveI : N.Normal := Subgroup.normalClosure_normal
+  have : N.Normal := Subgroup.normalClosure_normal
   have hNne : N ≠ ⊥ := by
     obtain ⟨x, hx2⟩ := exists_prime_orderOf_dvd_card' 2 h2
     have hxS : x ∈ S := ⟨1, by rw [pow_one, ← hx2, pow_orderOf_eq_one]⟩
@@ -196,16 +199,16 @@ private theorem sup_oTwoPrime_pCoreOf_eq_of_simpleQuot_even {A E : Subgroup G} [
     (heven : 2 ∣ Nat.card (oTwoQuot ↥A)) :
     (A ⊓ oTwoPrime E) ⊔ pCoreOf 2 A = A := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L := oTwoPrime E
   let D := pCoreOf 2 A
   let N := A ⊓ L
   have hNA : N ≤ A := inf_le_left
   have hqe : D.subgroupOf A = CFSG.pCore 2 ↥A := CFSG.openPCoreOf_subgroupOf 2 A
-  haveI hDnormal : (D.subgroupOf A).Normal := by
+  have hDnormal : (D.subgroupOf A).Normal := by
     rw [hqe]
     exact CFSG.pCore_normal
-  haveI : IsSimpleGroup (↥A ⧸ D.subgroupOf A) :=
+  have : IsSimpleGroup (↥A ⧸ D.subgroupOf A) :=
     (QuotientGroup.quotientMulEquivOfEq hqe).isSimpleGroup_congr.mpr hsimple
   have heven' : 2 ∣ Nat.card (↥A ⧸ D.subgroupOf A) := by
     rw [Nat.card_congr (QuotientGroup.quotientMulEquivOfEq hqe).toEquiv]
@@ -254,6 +257,7 @@ private theorem le_oTwoPrime_of_simpleQuot_even {A E : Subgroup G} [Finite ↥A]
   rw [← hsup]
   exact inf_le_right
 
+omit [Finite G] in
 private theorem two_dvd_card_oTwoQuot_sz {a f : ℕ}
     (hfr : Frame L1 L2 S a f) : 2 ∣ Nat.card (oTwoQuot ↥L1) := by
   obtain ⟨e⟩ := hfr.hSz
@@ -271,7 +275,7 @@ private theorem isSimpleGroup_oTwoQuot_of_isL2Quot {f : ℕ} (hf : 2 ≤ f) {X :
     rw [GaloisField.card 2 f (by omega)]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
-  haveI : IsSimpleGroup
+  have : IsSimpleGroup
       (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcard
   exact e.isSimpleGroup
@@ -333,6 +337,7 @@ theorem oTwoPrime_Gv_one {a f : ℕ} (hfr : Frame L1 L2 S a f) :
       (even_iff_two_dvd.mpr (h2.trans (Subgroup.relIndex_dvd_card V t.K)))
   exact CFSG.Quasithin.St84.oTwoPrime_le_of_odd_relIndex hVle hVnormal hodd
 
+omit [Finite G] in
 private theorem map_normalCore_eq_nbrKernel (A B : Subgroup G) [Finite ↥A] :
     (((A ⊓ B).subgroupOf A).normalCore).map A.subtype = nbrKernel A B := by
   classical
@@ -357,6 +362,7 @@ private theorem map_normalCore_eq_nbrKernel (A B : Subgroup G) [Finite ↥A] :
     refine Subgroup.mem_map.mpr ⟨⟨y, hy.1⟩, Subgroup.mem_subgroupOf.mpr hy, ?_⟩
     exact Subtype.ext hconj
 
+omit [Finite G] in
 private theorem nbrKernel_map_conj (A B : Subgroup G) {x : G} (hx : x ∈ A) :
     nbrKernel A (B.map (MulAut.conj x).toMonoidHom) = nbrKernel A B := by
   have hxA : A.map (MulAut.conj x).toMonoidHom = A :=
@@ -509,6 +515,7 @@ theorem sup_Qv_inf_Gnbr_one {a f : ℕ}
     simpa [bigB_comm L1 L2 S] using h
   exact (t.Qv 1).mul_mem hlQ hq
 
+omit [Finite G] in
 private theorem normal_map_subgroupOf_of_covers {L Q H N : Subgroup G}
     [Finite ↥(L ⊔ Q : Subgroup G)] [(Q.subgroupOf (L ⊔ Q)).Normal]
     (hHL : L ≤ H ⊔ Q) (hHN : H ≤ normalizer (N : Set G))
@@ -546,8 +553,9 @@ private theorem normal_map_subgroupOf_of_covers {L Q H N : Subgroup G}
   · change π ((⟨h, hhV⟩ : ↥(L ⊔ Q)) * n0 * (⟨h, hhV⟩ : ↥(L ⊔ Q))⁻¹) =
       π v0 * π n0 * (π v0)⁻¹
     rw [hv0]
-    simp only [map_mul, map_inv, hqpi, mul_one, one_mul]
+    simp only [map_mul, map_inv, hqpi, mul_one]
 
+omit [Finite G] in
 private theorem le_Qv_or_le_sup_of_simpleQuot {L Q H N : Subgroup G}
     [Finite ↥(L ⊔ Q : Subgroup G)]
     (hHL : L ≤ H ⊔ Q) (hHN : H ≤ normalizer (N : Set G))
@@ -559,11 +567,11 @@ private theorem le_Qv_or_le_sup_of_simpleQuot {L Q H N : Subgroup G}
   have hQN : L ⊔ Q ≤ normalizer (Q : Set G) := by
     have h := le_normalizer_pCoreOf 2 (L ⊔ Q)
     rwa [hpc] at h
-  haveI : (Q.subgroupOf (L ⊔ Q)).Normal :=
+  have : (Q.subgroupOf (L ⊔ Q)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQN
   have hpcsub : pCore 2 ↥(L ⊔ Q : Subgroup G) = Q.subgroupOf (L ⊔ Q) := by
     rw [← CFSG.openPCoreOf_subgroupOf 2 (L ⊔ Q), hpc]
-  haveI : IsSimpleGroup ((L ⊔ Q : Subgroup G) ⧸ Q.subgroupOf (L ⊔ Q)) :=
+  have : IsSimpleGroup ((L ⊔ Q : Subgroup G) ⧸ Q.subgroupOf (L ⊔ Q)) :=
     (QuotientGroup.quotientMulEquivOfEq hpcsub).isSimpleGroup_congr.mp hsimple
   let π : ↥(L ⊔ Q : Subgroup G) →* ((L ⊔ Q : Subgroup G) ⧸ Q.subgroupOf (L ⊔ Q)) :=
     QuotientGroup.mk' (Q.subgroupOf (L ⊔ Q))
@@ -571,7 +579,7 @@ private theorem le_Qv_or_le_sup_of_simpleQuot {L Q H N : Subgroup G}
     (N.subgroupOf (L ⊔ Q)).map π
   have hNbarNormal : Nbar.Normal := by
     simpa [Nbar, π] using normal_map_subgroupOf_of_covers hHL hHN hHQ
-  haveI : Nbar.Normal := hNbarNormal
+  have : Nbar.Normal := hNbarNormal
   rcases Subgroup.Normal.eq_bot_or_eq_top Nbar with hbot | htop
   · left
     intro n hn
@@ -609,6 +617,7 @@ theorem le_Qv_or_le_sup_of_le_normalizer_one {a f : ℕ}
     exact hH.trans (le_normalizer_pCoreOf 2 (t.Gv 1))
   exact le_Qv_or_le_sup_of_simpleQuot hHL hHN hHQ hNL hpc hsimple
 
+omit [Finite G] in
 private theorem bigB_le_normalizer_L2 {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     bigB L1 L2 S ≤ normalizer (L2 : Set G) := by
   refine sup_le ?_ hfr.hF.1.h2.normalizes
@@ -647,14 +656,14 @@ private theorem odd_relIndex_Gw {a f : ℕ}
   by_cases hi : Even i
   · have hG : t.Gv i = (t.Gv 0).map (MulAut.conj (t.edgeElt i)).toMonoidHom := by
       have h := t.map_Gv_edgeElt i 0
-      rw [if_pos hi, add_zero] at h
+      rw [ite_eq_left hi, add_zero] at h
       exact h.symm
     rw [hB, hG, Subgroup.relIndex_map_map_of_injective _ _ (MulAut.conj _).injective,
       t.Gw_zero_one hfr.hF, t.Gv_zero]
     exact odd_relIndex_bigB_P1 hfr
   · have hG : t.Gv i = (t.Gv 1).map (MulAut.conj (t.edgeElt i)).toMonoidHom := by
       have h := t.map_Gv_edgeElt i 1
-      rw [if_neg hi] at h
+      rw [ite_eq_right hi] at h
       simpa using h.symm
     rw [hB, hG, Subgroup.relIndex_map_map_of_injective _ _ (MulAut.conj _).injective,
       t.Gw_zero_one hfr.hF, t.Gv_one]
@@ -671,7 +680,7 @@ theorem exists_le_conj_of_isPGroup {a f : ℕ}
     change ¬ 2 ∣ (t.Gv i ⊓ t.Gv (i + 1)).relIndex (t.Gv i)
     rw [hB]
     exact t.odd_relIndex_Gw hfr i
-  letI : MulAction X α := MulAction.compHom α (Subgroup.inclusion hXi)
+  let : MulAction X α := MulAction.compHom α (Subgroup.inclusion hXi)
   obtain ⟨q, hq⟩ := hX.nonempty_fixed_point_of_prime_not_dvd_card α hoddα
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective q
   refine ⟨(g : G), g.2, ?_⟩
@@ -734,6 +743,7 @@ private theorem nbrFixed_nonempty_of_cosetTrans {a f : ℕ}
   simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   group
 
+omit [Finite G] in
 private theorem subgroupOf_le_normalizer_subgroupOf (i : ℤ) {H X : Subgroup G}
     (hHX : H ≤ normalizer (X : Set G)) :
     H.subgroupOf (t.Gv i) ≤
@@ -753,6 +763,7 @@ private theorem subgroupOf_le_normalizer_subgroupOf (i : ℤ) {H X : Subgroup G}
         (hHX (Subgroup.mem_subgroupOf.mp hh)) (y : G)).mpr
           (Subgroup.mem_subgroupOf.mp hy))
 
+omit [Finite G] in
 private theorem nbrFixed_eq_univ_of_cosetTrans (i : ℤ) {H X : Subgroup G}
     (hHX : H ≤ normalizer (X : Set G)) (htr : CosetTrans H (t.Gv i) (t.Gv (i + 1)))
     (hne : ∃ ω : t.nbrQuot i, ω ∈ t.nbrFixed i X) :

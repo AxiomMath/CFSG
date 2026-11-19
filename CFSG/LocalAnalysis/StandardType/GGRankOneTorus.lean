@@ -45,7 +45,7 @@ theorem torusElt_eq_map_sl2Diag (i : Fin D.rank)
     (hl : ∀ c, φ (sl2Lower c) = x (-Pi.single i 1) c) (t : kˣ) :
     torusElt x i t = φ (sl2Diag t) := by
   unfold torusElt weylElement
-  simp only [inv_one, Units.val_one, Units.val_neg]
+  simp only [inv_one, Units.val_one]
   rw [← hu t, ← hl (-(t⁻¹ : kˣ)), ← hu 1, ← hl (-(1 : k))]
   simpa only [map_mul, map_inv] using congrArg φ (sl2_weyl_mul_inv t)
 
@@ -71,6 +71,7 @@ variable {K K' G : Type*} [Group K] [Group K'] [Group G]
   {k k' : Type*} [Field k] [Finite k] [CharP k 2] [Field k'] [Finite k'] [CharP k' 2]
   {x : (Fin D.rank → ℤ) → k → K} {x' : (Fin D'.rank → ℤ) → k' → K'}
 
+omit [Finite k] [CharP k 2] in
 theorem rootMatch_torus_clause
     {C : (Fin D.rank → ℤ) → (Fin D.rank → ℤ) → ℕ × ℕ → ℤ}
     {O : CommOrder (RootSystem.ofCartan D.isFiniteType D.divisible)}
@@ -85,9 +86,9 @@ theorem rootMatch_torus_clause
     (hφl : ∀ c, φ (sl2Lower c) = x (-Pi.single i 1) c)
     (φ' : Matrix.SpecialLinearGroup (Fin 2) k' →* K')
     (hφ'u : ∀ c, φ' (sl2Upper c) = x' (Pi.single i' 1) c)
-    (hφ'l : ∀ c, φ' (sl2Lower c) = x' (-Pi.single i' 1) c)
+    (_hφ'l : ∀ c, φ' (sl2Lower c) = x' (-Pi.single i' 1) c)
     (hΦ : Function.Injective ((ψ.comp (MulAut.conj u).toMonoidHom).comp φ))
-    (hΦ' : Function.Injective (ψ'.comp φ'))
+    (_hΦ' : Function.Injective (ψ'.comp φ'))
     (hY : (sl2UpperUniSub k).map ((ψ.comp (MulAut.conj u).toMonoidHom).comp φ) =
       (sl2UpperUniSub k').map (ψ'.comp φ'))
     (hS : ((ψ.comp (MulAut.conj u).toMonoidHom).comp φ).range = (ψ'.comp φ').range) :

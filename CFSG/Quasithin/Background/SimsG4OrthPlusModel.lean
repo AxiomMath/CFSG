@@ -146,8 +146,7 @@ theorem reflK_mul_rhoW_mul_reflK {r : W} {s : Matrix.SpecialLinearGroup (Fin 2) 
   refine LinearEquiv.ext fun w => ψ.injective ?_
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, apply_reflK ψ hψ hr, apply_rhoW,
     apply_reflK ψ hψ hr, apply_rhoW]
-  simp only [Matrix.adjugate_mul_distrib, adjugate_adjugate_two, adjugate_coe, adjugate_coe_inv,
-    _root_.mul_inv_rev, inv_inv, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_assoc]
+  simp only [Matrix.adjugate_mul_distrib, adjugate_adjugate_two, adjugate_coe, _root_.mul_inv_rev, inv_inv, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_assoc]
 
 theorem reflK_eq_rhoW_mul {r₀ r : W} (hr₀ : ψ r₀ = 1) {s : Matrix.SpecialLinearGroup (Fin 2) K}
     (hr : ψ r = s) : reflK Q r = rhoW ψ (s, s⁻¹) * reflK Q r₀ := by
@@ -215,7 +214,7 @@ theorem exists_detCoords₀ {Q : QuadraticForm K W} (hdim : Module.finrank K W =
     (hnd : ∀ x, (∀ y, QuadraticMap.polar Q x y = 0) → x = 0)
     (hplus : ∃ U : Submodule K W, Module.finrank K U = 2 ∧ ∀ u ∈ U, Q u = 0) :
     ∃ ψ : W ≃ₗ[K] Matrix (Fin 2) (Fin 2) K, ∀ w, Q w = (ψ w).det := by
-  haveI : FiniteDimensional K W := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
+  have : FiniteDimensional K W := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
   obtain ⟨U, hU, hUQ⟩ := hplus
   have hQ : (QuadraticMap.polarBilin Q).Nondegenerate :=
     ⟨fun x hx => hnd x hx, fun y hy => hnd y fun x => by

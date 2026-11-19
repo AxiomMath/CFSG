@@ -12,6 +12,7 @@ variable {G : Type} [Group G] {Bs : Subgroup G}
   {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V]
   {h : Fin 6 → V} {α : Fin 6 → Dual (ZMod 3) V} {B : LinearMap.BilinForm (ZMod 3) V}
 
+omit [Finite V] in
 theorem ne_smul_of_not_mem_zpowers (ι : Additive ↥Bs ≃+ V) {x y : ↥Bs}
     (hy : y ∉ Subgroup.zpowers x) (a : ZMod 3) :
     ι (Additive.ofMul y) ≠ a • ι (Additive.ofMul x) := by
@@ -26,6 +27,7 @@ theorem ne_smul_of_not_mem_zpowers (ι : Additive ↥Bs ≃+ V) {x y : ↥Bs}
   rw [hy']
   exact Subgroup.npow_mem_zpowers x a.val
 
+omit [Finite V] in
 theorem mem_zpowers_of_eq_smul (ι : Additive ↥Bs ≃+ V) {b y : ↥Bs} {a : ZMod 3}
     (hb : ι (Additive.ofMul b) = a • ι (Additive.ofMul y)) : b ∈ Subgroup.zpowers y := by
   have h' : ι (Additive.ofMul b) = ι (Additive.ofMul (y ^ a.val)) := by
@@ -37,7 +39,7 @@ theorem mem_zpowers_of_eq_smul (ι : Additive ↥Bs ≃+ V) {b y : ↥Bs} {a : Z
   rw [hb']
   exact Subgroup.npow_mem_zpowers y a.val
 
-theorem exists_eq_smul_add_smul (hBs : IsElemAbelian 3 Bs) (ι : Additive ↥Bs ≃+ V)
+theorem exists_eq_smul_add_smul (_hBs : IsElemAbelian 3 Bs) (ι : Additive ↥Bs ≃+ V)
     {D : Subgroup G} (hDBs : D ≤ Bs) (hD : Nat.card D = 9) {x y z : ↥Bs} (hxD : (x : G) ∈ D)
     (hyD : (y : G) ∈ D) (hzD : (z : G) ∈ D) (hx : x ≠ 1) (hyx : y ∉ Subgroup.zpowers x) :
     ∃ a b : ZMod 3,
@@ -120,7 +122,7 @@ theorem six_le_ncard_rootRefl_of_six_le
       ∃ hv : B v v = 2, B v (ι (Additive.ofMul x)) = 0 ∧ B v (ι (Additive.ofMul y)) = 0 ∧
         r = rootRefl (B := B) v hv} := by
   classical
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective ((↑) : (V ≃ₗ[ZMod 3] V) → V → V) DFunLike.coe_injective
   let T : Set (V ≃ₗ[ZMod 3] V) := {r : V ≃ₗ[ZMod 3] V | r ∈ K.map (ggLin (p := 3) ι) ∧
     ∃ v : V, ∃ hv : B v v = 2, B v (ι (Additive.ofMul x)) = 0 ∧
@@ -145,6 +147,7 @@ theorem six_le_ncard_rootRefl_of_six_le
     (fun a _ b _ hab => ggLin_injective (p := 3) ι hab) (Set.toFinite T)
   exact h6.trans hle
 
+omit [Finite V] in
 theorem dich_map (hα : ∀ i, α i (h i) = 2) (ι : Additive ↥Bs ≃+ V)
     {A K : Subgroup (MulAut ↥Bs)} (hmap : A.map (ggLin (p := 3) ι) = e6Weyl hα) {y : ↥Bs}
     (hN : ∀ ψ ∈ A, ψ y = y → (∀ a ∈ K, ψ * a * ψ⁻¹ ∈ K) ∨

@@ -48,11 +48,11 @@ theorem cSideFacts_mem_Q_of_cent : ∀ (C : Type) [Group C] (Q : Subgroup C) [Q.
   intro C _ Q _ hE a ha2 ha
   classical
   by_contra hna
-  haveI : Finite Q := hE.plus.finite
-  haveI : Finite (C ⧸ Q) := by
+  have : Finite Q := hE.plus.finite
+  have : Finite (C ⧸ Q) := by
     obtain ⟨e⟩ := hE.quotient
     exact Finite.of_equiv _ e.toEquiv.symm
-  haveI : Finite C :=
+  have : Finite C :=
     Finite.of_equiv _ (Subgroup.groupEquivQuotientProdSubgroup (s := Q)).symm
   obtain ⟨e⟩ := hE.quotient
   have hQp : IsPGroup 2 Q := hE.plus.isExtraspecialPGroup.isPGroup
@@ -72,7 +72,7 @@ theorem cSideFacts_mem_Q_of_cent : ∀ (C : Type) [Group C] (Q : Subgroup C) [Q.
   have hcomp : IsPGroup 2 (φ.comp (fieldmemq_psi e a)).ker :=
     CSide.cSide_isPGroup_ker_comp (fieldmemq_psi e a) φ hψp hφ
   obtain ⟨N, hN, hNp, ⟨e'⟩⟩ := CSide.cSide_isShapeTwoTwoSixS5_exists ha
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   exact CSide.cSide_noS5 N hNp e' (φ.comp (fieldmemq_psi e a)) hcomp
 
 end CFSG.EvenSporadicStandard.HNRecog.Section3

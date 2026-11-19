@@ -51,6 +51,7 @@ theorem qtwoDB43_perp_nondegenerate {Q : QuadraticForm (ZMod 2) V}
   rw [QuadraticMap.polar_add_right, horth b hb, add_zero, QuadraticMap.polar_comm Q]
   exact hxorth a ha
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem qtwoDB43_ext_injective {V₀ W : Submodule (ZMod 2) V} (hPW : IsCompl V₀ W) :
     Function.Injective (extEquiv hPW) := by
   have hcoe : ∀ (g : W ≃ₗ[ZMod 2] W) (w : W), extEquiv hPW g (w : V) = (g w : V) := by
@@ -61,6 +62,7 @@ theorem qtwoDB43_ext_injective {V₀ W : Submodule (ZMod 2) V} (hPW : IsCompl V�
   have h1 : (extEquiv hPW g (w : V)) = (extEquiv hPW g' (w : V)) := by rw [h]
   rwa [hcoe g w, hcoe g' w] at h1
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem qtwoDB43_ext_mem_orthogonalGroup {Q : QuadraticForm (ZMod 2) V}
     {V₀ : Submodule (ZMod 2) V} (hPW : IsCompl V₀ (qtwoDB43_perp Q V₀))
     {g : ↥(qtwoDB43_perp Q V₀) ≃ₗ[ZMod 2] ↥(qtwoDB43_perp Q V₀)}

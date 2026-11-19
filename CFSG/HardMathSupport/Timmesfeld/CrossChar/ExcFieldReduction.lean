@@ -11,7 +11,7 @@ namespace CFSG.HardMathSupport.Timmesfeld.CrossChar
 open CFSG.Open CFSG.HardMathSupport.Solomon.LocalBalance CFSG.HardMathSupport.Timmesfeld.Coordinator
 
 theorem isSubnormal_subgroupOf_of_chain₂ {M : Type*} [Group M] {A B C : Subgroup M}
-    (hAB : A ≤ B) (hBC : B ≤ C) (h1 : ∀ y ∈ B, ∀ a ∈ A, y * a * y⁻¹ ∈ A)
+    (hAB : A ≤ B) (_hBC : B ≤ C) (h1 : ∀ y ∈ B, ∀ a ∈ A, y * a * y⁻¹ ∈ A)
     (h2 : ∀ y ∈ C, ∀ b ∈ B, y * b * y⁻¹ ∈ B) : (A.subgroupOf C).IsSubnormal := by
   have hB : (B.subgroupOf C).IsSubnormal := by
     refine Subgroup.Normal.isSubnormal ⟨fun n hn g => ?_⟩
@@ -42,7 +42,7 @@ theorem conj_commute_of_mem_fixSub {x : MulAut K} {t : K} (ht : t ∈ fixSub x) 
 theorem isSubnormal_conj_of_normal_in_fixSub {x : MulAut K} {H : Subgroup (MulAut K)}
     (hH : innerAut K ≤ H) {T : Subgroup K} (hTF : T ≤ fixSub x)
     (hTn : ∀ f ∈ fixSub x, ∀ t ∈ T, f * t * f⁻¹ ∈ T)
-    (hinj : Function.Injective (MulAut.conj : K →* MulAut K)) :
+    (_hinj : Function.Injective (MulAut.conj : K →* MulAut K)) :
     ((T.map (MulAut.conj : K →* MulAut K)).subgroupOf
       (H ⊓ Subgroup.centralizer ({x} : Set (MulAut K)))).IsSubnormal := by
   refine isSubnormal_subgroupOf_of_chain₂
@@ -114,7 +114,7 @@ theorem isLocallyBalancedAbs_of_fieldCore (hp : p.Prime)
   intro D hD hcard H hH _
   by_cases hDin : D ≤ innerAut K
   · exact (hin D hD hcard hDin).elim
-  · obtain ⟨x, hxD, hxin⟩ := SetLike.not_le_iff_exists.1 hDin
+  · obtain ⟨x, hxD, hxin⟩ := IsConcreteLE.not_le_iff_exists.1 hDin
     have hx1 : x ≠ 1 := fun h => hxin (by rw [h]; exact one_mem _)
     exact localDeltaIn_eq_bot_of_fieldCore hp hinj hH hxD hx1 (hfc x (hD.2 x hxD) hxin)
 

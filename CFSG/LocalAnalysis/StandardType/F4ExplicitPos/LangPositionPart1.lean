@@ -27,7 +27,7 @@ theorem f4_exists_inv_mul_entrywise_frobenius
     (e : ℕ) (he : 1 ≤ e) {y : ModGL Tag.F4 Ω} (hy : y ∈ adjointGroup Tag.F4 Ω) :
     ∃ z ∈ adjointGroup Tag.F4 Ω,
       z⁻¹ * entrywiseFrobGL Tag.F4 Ω 2 e z = y := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Set (Fin Tag.F4.rank → ℤ) := {α | IsRoot Tag.F4 α}
   have hT : torusGroup Tag.F4 Ω ≤ adjointGroup Tag.F4 Ω := by
     apply (Subgroup.closure_le (adjointGroup Tag.F4 Ω)).2

@@ -38,7 +38,7 @@ theorem ThCyc.inf_centralizer_conj_inf_map_eq (H : ThCyc G L R t)
         (MulAut.conj g).toMonoidHom) := by
       refine ⟨g⁻¹ * l * g, ⟨hy.1, hL'mem⟩, ?_⟩
       have hg : (MulAut.conj g).toMonoidHom (g⁻¹ * l * g) = l := by
-        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
         group
       rw [hg]
     have hImgL : (((T ⊓ centralizer ({g⁻¹ * t * g} : Set G)) ⊓
@@ -51,7 +51,7 @@ theorem ThCyc.inf_centralizer_conj_inf_map_eq (H : ThCyc G L R t)
         simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
       rw [hyl']
       have hg : (MulAut.conj g).toMonoidHom (g⁻¹ * l * g) = l := by
-        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
         group
       rw [hg]
       exact hl
@@ -78,7 +78,7 @@ theorem ThCyc.inf_centralizer_conj_inf_map_eq (H : ThCyc G L R t)
         simpa only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv] using
           Subgroup.mem_map_of_mem (MulAut.conj g⁻¹).toMonoidHom (W.S_le hs)
       · have hg : (MulAut.conj g).toMonoidHom (g⁻¹ * s * g) = s := by
-          simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+          simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
           group
         rw [hg]
     have hsub := W.maximal _ hImgL hImgP hSle
@@ -207,7 +207,7 @@ theorem ThCyc.exists_elementary_normal_inf (H : ThCyc G L R t)
     intro s hsu r hr
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hr
     have hsu' : (MulAut.conj s).toMonoidHom (g⁻¹ * t * g) = g⁻¹ * t * g := by
-      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       calc s * (g⁻¹ * t * g) * s⁻¹ = ((g⁻¹ * t * g) * s) * s⁻¹ := by rw [hsu]
         _ = g⁻¹ * t * g := by group
     have hmap := map_zpow (MulAut.conj s).toMonoidHom (g⁻¹ * t * g) k
@@ -280,7 +280,7 @@ theorem ThCyc.false_of_conj_mem_M0 (H : ThCyc G L R t)
     H.normalizer_D_le_normalizer_A W W2 hD h4 (hTM huT)
   have hV_N : g⁻¹ * t * g ∈ normalizer (omega1 D hD.comm : Set G) :=
     ThCyc.normalizer_D_le_normalizer_omega1 hD (hTM huT)
-  haveI hAelem : IsElementaryAbelian 2 A :=
+  have hAelem : IsElementaryAbelian 2 A :=
     IsElementaryAbelian.two_of_forall_mul_self W.A_comm
       (fun a ha => by simpa [pow_two] using W.A_sq a ha)
   have hAsq := CFSG.GroupTheory.card_le_card_inf_centralizer_sq (Y := A)
@@ -295,7 +295,7 @@ theorem ThCyc.false_of_conj_mem_M0 (H : ThCyc G L R t)
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
     have h := Subgroup.card_subgroup_dvd_card Ysub
     rwa [W.A_card, hYsub] at h
-  haveI hVele : IsElementaryAbelian 2 (omega1 D hD.comm) :=
+  have hVele : IsElementaryAbelian 2 (omega1 D hD.comm) :=
     IsElementaryAbelian.two_of_forall_mul_self
       (fun a ha b hb => H.omega1_comm W W2 hD ha hb)
       (fun a ha => by simpa [pow_two] using ha.2)

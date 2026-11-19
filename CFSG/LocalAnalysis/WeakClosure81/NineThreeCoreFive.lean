@@ -51,7 +51,7 @@ private theorem nine3_refPerm_range : ∀ (i j : Fin 4) (b : Bool), i ≠ j →
 
 private theorem nine3_ref_surj {x : ↥weylD4} (hx : x ∈ weylD4Refl) :
     ∃ n : Fin 12, nine3_ref n = x := by
-  simp only [weylD4Refl, Set.mem_setOf_eq] at hx
+  simp only [weylD4Refl, Set.mem_ofPred_eq] at hx
   obtain ⟨i, j, b, hij, hxeq⟩ := hx
   obtain ⟨n, hn⟩ := nine3_refPerm_range i j b hij
   exact ⟨n, Subtype.ext (by

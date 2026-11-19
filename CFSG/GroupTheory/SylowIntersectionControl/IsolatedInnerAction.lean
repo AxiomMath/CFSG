@@ -92,7 +92,7 @@ omit [Finite G] in
 private theorem innerInducing_ne_bot {A V : Subgroup G}
     (hinner : ∀ a ∈ V, ∃ w ∈ A, ∀ x ∈ A, a * x * a⁻¹ = w * x * w⁻¹)
     (hnot : ¬ V ≤ centralizer (A : Set G)) : innerInducing A V ≠ ⊥ := by
-  rw [SetLike.le_def] at hnot
+  rw [_root_.IsConcreteLE.le_iff] at hnot
   push Not at hnot
   obtain ⟨v, hv, hvc⟩ := hnot
   simp only [Subgroup.mem_centralizer_iff] at hvc

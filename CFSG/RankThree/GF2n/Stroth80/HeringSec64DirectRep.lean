@@ -58,9 +58,11 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
 @[expose] def actM (A : Matrix (Fin 2) (Fin 2) K) (v : (ι → K) × (ι → K)) : (ι → K) × (ι → K) :=
   (A 0 0 • v.1 + A 0 1 • v.2, A 1 0 • v.1 + A 1 1 • v.2)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem actM_one (v : (ι → K) × (ι → K)) : actM (1 : Matrix (Fin 2) (Fin 2) K) v = v := by
-  simp [actM, Matrix.one_apply]
+  simp [actM]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem actM_mul (A B : Matrix (Fin 2) (Fin 2) K) (v : (ι → K) × (ι → K)) :
     actM (A * B) v = actM A (actM B v) := by
   simp only [actM, Matrix.mul_apply, Fin.sum_univ_two]
@@ -72,6 +74,7 @@ theorem actM_mul (A B : Matrix (Fin 2) (Fin 2) K) (v : (ι → K) × (ι → K))
       A 1 0 • (B 0 0 • v.1 + B 0 1 • v.2) + A 1 1 • (B 1 0 • v.1 + B 1 1 • v.2)
     module
 
+omit [Fintype ι] in
 theorem eq_of_actM_eq [Nonempty ι] {A B : Matrix (Fin 2) (Fin 2) K}
     (h : ∀ v : (ι → K) × (ι → K), actM A v = actM B v) : A = B := by
   obtain ⟨i₀⟩ := ‹Nonempty ι›
@@ -88,6 +91,7 @@ theorem eq_of_actM_eq [Nonempty ι] {A B : Matrix (Fin 2) (Fin 2) K}
 @[expose] def diagM (a : Matrix ι ι K) (v : (ι → K) × (ι → K)) : (ι → K) × (ι → K) :=
   (a *ᵥ v.1, a *ᵥ v.2)
 
+omit [DecidableEq ι] in
 theorem exists_mat {G : Type} [Group G] {X : Subgroup G} {a : G → Matrix ι ι K}
     (schur : ∀ f : (ι → K) →+ (ι → K), (∀ x ∈ X, ∀ v, f (a x *ᵥ v) = a x *ᵥ f v) →
       ∃ c : K, ∀ v, f v = c • v)
@@ -195,14 +199,17 @@ structure IsChart (Q Z X : Subgroup G) (Φ : G → (ι → K) × (ι → K)) (a 
 
 variable {Q Z X : Subgroup G} {Φ : G → (ι → K) × (ι → K)} {a : G → Matrix ι ι K}
 
+omit [DecidableEq ι] in
 theorem IsChart.one (hΦ : IsChart Q Z X Φ a) : Φ 1 = 0 :=
   (hΦ.zero_iff 1 Q.one_mem).mpr Z.one_mem
 
+omit [DecidableEq ι] in
 theorem IsChart.inv (hΦ : IsChart Q Z X Φ a) {x : G} (hx : x ∈ Q) : Φ x⁻¹ = -Φ x := by
   have h := hΦ.add x hx x⁻¹ (Q.inv_mem hx)
   rw [mul_inv_cancel, hΦ.one] at h
   exact eq_neg_of_add_eq_zero_right h.symm
 
+omit [DecidableEq ι] in
 theorem IsChart.conj_Q (hΦ : IsChart Q Z X Φ a) {q y : G} (hq : q ∈ Q) (hy : y ∈ Q) :
     Φ (q * y * q⁻¹) = Φ y := by
   have : q * y * q⁻¹ = ⁅q, y⁆ * y := by simp only [commutatorElement_def]; group
@@ -281,6 +288,7 @@ theorem exists_rep [Nonempty ι] (hΦ : IsChart Q Z X Φ a) (C : Subgroup G)
   · show Φ ((h : G) * y * (h : G)⁻¹) = actM (A h) (Φ y)
     rw [hA h h.2 y hy, hA']
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem scalar_eq_of_smul_eq [Nonempty ι] {c d : K} (h : ∀ u : ι → K, c • u = d • u) : c = d := by
   obtain ⟨i₀⟩ := ‹Nonempty ι›
   have := congrFun (h (fun _ => 1)) i₀
@@ -289,6 +297,7 @@ theorem scalar_eq_of_smul_eq [Nonempty ι] {c d : K} (h : ∀ u : ι → K, c �
 theorem conj_eq_comm_mul (h y : G) : h * y * h⁻¹ = ⁅h, y⁆ * y := by
   simp only [commutatorElement_def]; group
 
+omit [DecidableEq ι] in
 theorem comm_mem_Z_of_rho_one [Nonempty ι] (hΦ : IsChart Q Z X Φ a) (C : Subgroup G)
     (ρ : C →* Matrix (Fin 2) (Fin 2) K)
     (hρ : ∀ h : C, ∀ y ∈ Q, Φ ((h : G) * y * (h : G)⁻¹) = actM (ρ h) (Φ y))
@@ -311,6 +320,7 @@ theorem rho_eq_one_of_mem_Q [Nonempty ι] (hΦ : IsChart Q Z X Φ a) (C : Subgro
   rw [actM_one, ← hρ h y hy]
   exact hΦ.conj_Q hq hy
 
+omit [DecidableEq ι] in
 theorem rho_upper [Nonempty ι] (hΦ : IsChart Q Z X Φ a) {V : Subgroup G} (hVQ : V ≤ Q)
     (hsnd0 : ∀ x ∈ Q, (Φ x).2 = 0 ↔ x ∈ V) (C : Subgroup G)
     (ρ : C →* Matrix (Fin 2) (Fin 2) K)
@@ -345,6 +355,7 @@ theorem rho_upper [Nonempty ι] (hΦ : IsChart Q Z X Φ a) {V : Subgroup G} (hVQ
     simpa [actM] using this.symm
   exact ⟨h00, h10, h11⟩
 
+omit [DecidableEq ι] in
 theorem rho_lower [Nonempty ι] (hΦ : IsChart Q Z X Φ a) {V' : Subgroup G} (hVQ : V' ≤ Q)
     (hfst0 : ∀ x ∈ Q, (Φ x).1 = 0 ↔ x ∈ V') (C : Subgroup G)
     (ρ : C →* Matrix (Fin 2) (Fin 2) K)

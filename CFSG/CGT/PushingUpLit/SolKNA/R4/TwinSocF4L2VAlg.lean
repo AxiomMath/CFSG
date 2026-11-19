@@ -17,7 +17,7 @@ theorem exists_conj_mem_zpowers {G : Type*} [Group G] [Finite G] {U N : Subgroup
     (hU : ∀ g ∈ U, ∃ n ∈ N, ∃ j : ℤ, g = n * u ^ j) {τ : G} (hτ : τ ∈ U) {a : ℕ}
     (hτa : τ ^ 2 ^ a = 1) : ∃ h ∈ U, ∃ j : ℤ, τ = h * u ^ j * h⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set u' : ↥U := ⟨u, huU⟩ with hu'
   have hcoe : ∀ m : ℤ, ((u' ^ m : ↥U) : G) = u ^ m := fun m => by
     simp [hu']
@@ -26,8 +26,7 @@ theorem exists_conj_mem_zpowers {G : Type*} [Group G] [Finite G] {U N : Subgroup
   let P : Sylow 2 ↥U :=
     { toSubgroup := Subgroup.zpowers u'
       maximal_isPGroup := And.intro hP (by
-        intro Q hQ hle
-        intro q hq
+        intro Q hQ hle q hq
         obtain ⟨n, hn, j, hj⟩ := hU (q : G) q.2
         have hnU : n ∈ U := hNU hn
         have hnq : (⟨n, hnU⟩ : ↥U) = q * u' ^ (-j) := by

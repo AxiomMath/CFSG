@@ -166,8 +166,7 @@ theorem rckTw78_pin_conj
       ((MulAut.conj (canonicalRep (coxeterSystem τ) CoeffField v)).toMonoidHom.comp
         (baseChangeGL (fixSubfield σ).subtype)) = baseChangeGL (fixSubfield σ).subtype := by
     ext x
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, mul_inv_rev,
-      inv_inv]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
     group
   rw [← h1, Subgroup.map_map, Subgroup.map_map, MonoidHom.comp_assoc, h2, h3]
 

@@ -76,7 +76,7 @@ private theorem frameAZ_card_ker_coordDiffHom {i j : Fin d} (hij : i ≠ j) :
   rw [hcard_eq, frameAZ_card_range_coordDiffHom hij] at hcard
   exact hcard
 
-private theorem frameAZ_card_ker_eq_fix_swap {i j : Fin d} (hij : i ≠ j) :
+private theorem frameAZ_card_ker_eq_fix_swap {i j : Fin d} (_hij : i ≠ j) :
     Nat.card {f : ↥(sumZero d 3) // crd f i = crd f j} =
       Nat.card {f : ↥(sumZero d 3) // permAutV (Equiv.swap i j) f = f} := by
   apply Nat.card_congr

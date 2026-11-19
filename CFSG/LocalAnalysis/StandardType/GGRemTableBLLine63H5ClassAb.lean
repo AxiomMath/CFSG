@@ -181,7 +181,7 @@ theorem exists_noncomm_of_fieldType [Finite K] (hKd : UnitaryFieldData 2 n K)
   push Not at hcon
   have hω : ∃ ω : Kˣ, ω ^ 3 = 1 ∧ ω ≠ 1 := by
     obtain ⟨h3, -⟩ := card_units_dvd_odd hKd hpq
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' 3 h3
     refine ⟨ω, by rw [← hω]; exact pow_orderOf_eq_one ω, fun h1 => ?_⟩
     rw [h1, orderOf_one] at hω
@@ -202,7 +202,7 @@ theorem not_commute_of_heis {M₁ M₂ : GL (Fin 6) K} {ζ : Kˣ} (hζ : ζ ≠ 
   exact scalar_six_injective (by rw [map_one]; exact (mul_right_cancel h').symm)
 
 theorem exists_noncomm_of_heis [Finite K] (hKd : UnitaryFieldData 2 n K)
-    (hpq : 3 ∣ 2 ^ n + 1) {MB : Subgroup (GL (Fin 6) K)} (hMB : ActGroup n MB)
+    (hpq : 3 ∣ 2 ^ n + 1) {MB : Subgroup (GL (Fin 6) K)} (_hMB : ActGroup n MB)
     {x y : GL (Fin 6) K}
     (hxN : x ∈ Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K)))
     (hyN : y ∈ Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K))) {ζ : Kˣ}

@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem r8101U3_of_r8100Res3 {D : Data G} (h : R8100Res3 D) : R8101U3 D := by
   intro he L n s r p k hL hc2 hL2 hs hsn hr hrs hp hk hn hcong A hAL hAr
   have hsp := h he L n s r p k hL hc2 hL2 hs hsn hr hrs hp hk hn hcong
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   refine uc22p22r_mem_uniqueSet_of_sp D hr hsp (hAL.trans hL.1.le)
     (IsPGroup.of_card (n := 1) (by rw [hAr, pow_one])) ?_
   rintro rfl
@@ -62,7 +62,7 @@ theorem s21_22U4BC_of_r8101U3
     {D : Data G} {Ch : Choice2011 G} (h211 : S21_1 D Ch) (hSg : UC6S846.SigmaStd D)
     (hfour : 3 < evenRank G → ∀ p ∈ D.sig, 4 ≤ CFSG.Open.pRank p D.M)
     (h76 : ∀ p ∈ D.sig, IsStronglyPEmbedded p D.M → Conclusion76 D.M p)
-    (h614 : UC6.R6_14 D) (h847 : F08.R847 D) (h869 : F08.R869NS5 D) (hGL : GL3Excl.GL3Excl)
+    (h614 : UC6.R6_14 D) (h847 : F08.R847 D) (h869 : F08.R869NS5 D) (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl)
     (hn3H : H1930 D → ∀ c : Ctx21 D Ch, 3 ≤ c.n) (hU : R8101U3 D) : S21_22U4BC D Ch := by
   intro h1930 c H₁ hH₁ H₂ hH₂ hL0 hfX hS1 hU3 he
   have hres : R8100Res3 D := fun _ L n _ _ p k hL hc2 hL2 _ _ _ _ hp hk hn hcong =>
@@ -77,7 +77,7 @@ theorem s21_22U4_of_r8101U3
     (h211 : S21_1 D Ch) (h8100E : R8100E D) (hSg : UC6S846.SigmaStd D)
     (hfour : 3 < evenRank G → ∀ p ∈ D.sig, 4 ≤ CFSG.Open.pRank p D.M)
     (h76 : ∀ p ∈ D.sig, IsStronglyPEmbedded p D.M → Conclusion76 D.M p)
-    (h614 : UC6.R6_14 D) (h847 : F08.R847 D) (h869 : F08.R869NS5 D) (hGL : GL3Excl.GL3Excl)
+    (h614 : UC6.R6_14 D) (h847 : F08.R847 D) (h869 : F08.R869NS5 D) (hGL : CFSG.LocalAnalysis.UniquenessCase.GL3Excl)
     (hn3H : H1930 D → ∀ c : Ctx21 D Ch, 3 ≤ c.n) (hU : R8101U3 D) : S21_22U4 D Ch :=
   s21_22U4_of_U4BC D Ch hc h117 h869P h8100E hV hn3
     (s21_22U4BC_of_r8101U3 h211 hSg hfour h76 h614 h847 h869 hGL hn3H hU)

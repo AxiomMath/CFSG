@@ -10,6 +10,7 @@ namespace CFSG.OddStandard.HigherRank.YamadaG23
 
 variable {W V N : Type} [Group W] [Finite W] [Group V] [Finite V] [Group N] [Finite N]
 
+omit [Finite W] [Finite V] [Finite N] in
 theorem ase_section (act : N →* MulAut W) (vact : N →* MulAut V) (π : W →* V)
     (hπ : Function.Surjective π) (hπact : ∀ (n : N) (w : W), π (act n w) = vact n (π w))
     (hW : ∀ w : W, w ^ 2 = 1) (hU : ∀ n : N, ∀ u ∈ π.ker, act n u = u)
@@ -33,7 +34,7 @@ theorem ase_section (act : N →* MulAut W) (vact : N →* MulAut V) (π : W →
     rw [mul_inv_rev, inv_eq_of_mul_eq_one_right (hW2 a),
       inv_eq_of_mul_eq_one_right (hW2 b)] at h
     exact h.symm
-  letI : CommGroup W := { ‹Group W› with mul_comm := hcomm }
+  let : CommGroup W := { ‹Group W› with mul_comm := hcomm }
   have hV2 : ∀ v : V, v ^ 2 = 1 := by
     intro v
     obtain ⟨w, rfl⟩ := hπ v
@@ -61,13 +62,13 @@ theorem ase_section (act : N →* MulAut W) (vact : N →* MulAut V) (π : W →
     else if hvz : v = z then wz
     else act (Classical.choose (hsurj v hv1 hvz)) (w₀ * u₀)
   have hs1 : s 1 = 1 := by dsimp only [s]; simp
-  have hsz : s z = wz := by dsimp only [s]; rw [dif_neg hz1, dif_pos rfl]
+  have hsz : s z = wz := by dsimp only [s]; rw [dite_eq_right hz1, dite_eq_left rfl]
   have hs_eq : ∀ (v : V) (hv1 : v ≠ 1) (hvz : v ≠ z) (n : N),
       vact n v₀ = v → s v = act n (w₀ * u₀) := by
     intro v hv1 hvz n hn
     have hch := Classical.choose_spec (hsurj v hv1 hvz)
     have hs : s v = act (Classical.choose (hsurj v hv1 hvz)) (w₀ * u₀) := by
-      dsimp only [s]; rw [dif_neg hv1, dif_neg hvz]
+      dsimp only [s]; rw [dite_eq_right hv1, dite_eq_right hvz]
     rw [hs]
     exact hwell (Classical.choose (hsurj v hv1 hvz)) n (by rw [hch, hn])
   have hπs : ∀ v : V, π (s v) = v := by
@@ -78,7 +79,7 @@ theorem ase_section (act : N →* MulAut W) (vact : N →* MulAut V) (π : W →
       · subst v; rw [hsz, hwz]
       · have hch := Classical.choose_spec (hsurj v hv1 hvz)
         have hs : s v = act (Classical.choose (hsurj v hv1 hvz)) (w₀ * u₀) := by
-          dsimp only [s]; rw [dif_neg hv1, dif_neg hvz]
+          dsimp only [s]; rw [dite_eq_right hv1, dite_eq_right hvz]
         rw [hs, hπact]
         have hker : π (w₀ * u₀) = v₀ := by
           rw [map_mul, hw₀, MonoidHom.mem_ker.mp hu₀, mul_one]

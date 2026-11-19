@@ -39,7 +39,7 @@ theorem isSubnormal_subgroupOf_map (e : X ≃* Y) {K C : Subgroup X} (hKC : K �
   have heq : (K.subgroupOf C).map (eC : C →* C.map e.toMonoidHom) =
       (K.map e.toMonoidHom).subgroupOf (C.map e.toMonoidHom) := by
     ext ⟨y, hy⟩
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
     constructor
     · rintro ⟨x, hxK, hxy⟩
       refine ⟨x, hxK, ?_⟩
@@ -110,15 +110,15 @@ theorem eq_of_quasisimple_subnormal {C T : Subgroup X} (hTC : T ≤ C)
       exact this
     ·
       exfalso
-      haveI : Group.IsPerfect T := hTq.1
-      haveI : Nontrivial T := CFSG.LocalCores.isQuasisimple_nontrivial hTq
+      have : Group.IsPerfect T := hTq.1
+      have : Nontrivial T := CFSG.LocalCores.isQuasisimple_nontrivial hTq
       have hcT : ∀ a b : T, a * b = b * a := by
         intro a b
         have ha : (⟨a, hTK a.2⟩ : K) ∈ Subgroup.center K := h2 a.2
         have hab : (a : X) * b = b * a :=
           (congrArg Subtype.val (Subgroup.mem_center_iff.mp ha ⟨b, hTK b.2⟩)).symm
         exact Subtype.ext hab
-      haveI : IsMulCommutative T := ⟨⟨hcT⟩⟩
+      have : IsMulCommutative T := ⟨⟨hcT⟩⟩
       exact Group.IsPerfect.not_isMulCommutative T inferInstance
   ·
     exfalso
@@ -128,9 +128,9 @@ theorem eq_of_quasisimple_subnormal {C T : Subgroup X} (hTC : T ≤ C)
         Subgroup.commutator_mem_commutator hs hk
       rw [h1, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hmem
       exact (congrArg Subtype.val hmem).symm
-    haveI : Group.IsPerfect K := hKq.1
-    haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hKq
-    haveI : IsMulCommutative K := ⟨⟨fun a b => Subtype.ext
+    have : Group.IsPerfect K := hKq.1
+    have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hKq
+    have : IsMulCommutative K := ⟨⟨fun a b => Subtype.ext
       (hcomm a (hKC a.2) b (hKC b.2) (hKT a a.2) (hKT b b.2))⟩⟩
     exact Group.IsPerfect.not_isMulCommutative K inferInstance
 
@@ -197,8 +197,8 @@ theorem row427_of_noCfg_qs
     have hK₁q : IsQuasisimple (K'.subgroupOf L) :=
       CFSG.LocalCores.isQuasisimple_of_mulEquiv eKL.symm hK'q
     have hZK : Subgroup.center (K'.subgroupOf L ⧸ CFSG.pCore 2 (K'.subgroupOf L)) = ⊥ := by
-      haveI := (isA5Type_quot_congr eKL hT).isSimpleGroup
-      haveI : Group.IsPerfect (K'.subgroupOf L) := hK₁q.1
+      have := (isA5Type_quot_congr eKL hT).isSimpleGroup
+      have : Group.IsPerfect (K'.subgroupOf L) := hK₁q.1
       exact center_eq_bot_of_isSimpleGroup_of_isPerfect
     have hinf : K'.subgroupOf L ⊓ Subgroup.center L = ⊥ :=
       inf_eq_bot_of_center_eq_bot hK₁q hZK le_rfl hZ3
@@ -235,11 +235,13 @@ open CFSG.RankThree.PartTwo.Sec4.RonanKChevTwo.SpFour (isQuasisimple_sl2 projEqu
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 theorem T_le_C : (KFacts.planeSp (F := F) 1).range ≤ Subgroup.centralizer {KFacts.sp4T F} := by
   rintro _ ⟨B, rfl⟩
   rw [Subgroup.mem_centralizer_singleton_iff]
   exact (KFacts.planeSp_commute _ _).symm
 
+omit [Finite F] [CharP F 2] in
 theorem block0Hom_T (h3 : (3 : F) ≠ 0) {s : StatedSp 2 F}
     (hs : s ∈ (KFacts.planeSp (F := F) 1).range) :
     KFacts.block0Hom F h3 ⟨s, T_le_C hs⟩ = 1 := by
@@ -249,6 +251,7 @@ theorem block0Hom_T (h3 : (3 : F) ≠ 0) {s : StatedSp 2 F}
   fin_cases i <;> fin_cases j <;>
     simp [KFacts.block0, KFacts.planeBlock, CFSG.LieType.SteinbergBR.EvenSp.planeMat]
 
+omit [Finite F] in
 theorem T_normal (r : StatedSp 2 F) (hr : r ∈ Subgroup.centralizer {KFacts.sp4T F})
     (s : StatedSp 2 F) (hs : s ∈ (KFacts.planeSp (F := F) 1).range) :
     r * s * r⁻¹ ∈ (KFacts.planeSp (F := F) 1).range := by
@@ -265,6 +268,7 @@ theorem T_normal (r : StatedSp 2 F) (hr : r ∈ Subgroup.centralizer {KFacts.sp4
 noncomputable def TEquiv : SL(2, F) ≃* (KFacts.planeSp (F := F) 1).range :=
   MonoidHom.ofInjective (KFacts.planeSp_injective (F := F) 1)
 
+omit [Finite F] in
 theorem eq_one_of_central_T {s : StatedSp 2 F} (hs : s ∈ (KFacts.planeSp (F := F) 1).range)
     (hc : ∀ s' ∈ (KFacts.planeSp (F := F) 1).range, s * s' = s' * s) : s = 1 := by
   obtain ⟨B, rfl⟩ := hs
@@ -277,6 +281,7 @@ theorem eq_one_of_central_T {s : StatedSp 2 F} (hs : s ∈ (KFacts.planeSp (F :=
   rw [CFSG.Walter.sl2_center_eq_bot_of_charTwo, Subgroup.mem_bot] at hB
   rw [hB, map_one]
 
+omit [Finite F] in
 theorem comm_of_centralize_T (u : StatedSp 2 F) (hu : u ∈ Subgroup.centralizer {KFacts.sp4T F})
     (v : StatedSp 2 F) (hv : v ∈ Subgroup.centralizer {KFacts.sp4T F})
     (huT : ∀ s ∈ (KFacts.planeSp (F := F) 1).range, u * s = s * u)
@@ -310,6 +315,7 @@ theorem comm_of_centralize_T (u : StatedSp 2 F) (hu : u ∈ Subgroup.centralizer
     exact (inv_mul_eq_one.mp h3').symm
   exact h2
 
+omit [CharP F 2] in
 theorem T_quasisimple (hF : 4 ≤ Nat.card F) : IsQuasisimple (KFacts.planeSp (F := F) 1).range :=
   CFSG.LocalCores.isQuasisimple_of_mulEquiv TEquiv (isQuasisimple_sl2 hF)
 
@@ -318,6 +324,7 @@ theorem qsList_C (hF : 4 ≤ Nat.card F) :
   eq_of_quasisimple_subnormal T_le_C (fun g hg s hs => T_normal g hg s hs) (T_quasisimple hF)
     fun u hu v hv huT hvT => comm_of_centralize_T u hu v hv huT hvT
 
+omit [Finite F] in
 theorem sp4T_not_mem_T : KFacts.sp4T F ∉ (KFacts.planeSp (F := F) 1).range := by
   intro h
   have h3 : (3 : F) ≠ 0 := three_ne_zero_of_charTwo
@@ -335,12 +342,12 @@ theorem T_simple (hF : 4 ≤ Nat.card F) :
     TEquiv.symm.trans (CFSG.Walter.psl2MulEquivSL2OfCharTwo (K := F)).symm
   obtain ⟨hsimp, hsolv⟩ :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.psl2_simple_not_isSolvable hF
-  haveI : IsSimpleGroup (PSL2 F) := hsimp
+  have : IsSimpleGroup (PSL2 F) := hsimp
   refine ⟨e.isSimpleGroup, ?_, ?_⟩
   · by_contra hcon
     push Not at hcon
     apply hsolv
-    haveI : IsMulCommutative (KFacts.planeSp (F := F) 1).range := ⟨⟨hcon⟩⟩
+    have : IsMulCommutative (KFacts.planeSp (F := F) 1).range := ⟨⟨hcon⟩⟩
     have : Group.IsSolvable (KFacts.planeSp (F := F) 1).range := inferInstance
     exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
   · rw [← Nat.card_congr TEquiv.toEquiv, CFSG.GorensteinWalter.sl2_card_formula]
@@ -348,7 +355,7 @@ theorem T_simple (hF : 4 ≤ Nat.card F) :
 theorem good427_C (hF : 8 ≤ Nat.card F) : Good427 (Subgroup.centralizer {KFacts.sp4T F}) := by
   have hF4 : 4 ≤ Nat.card F := by omega
   obtain ⟨hs, hna, hcard⟩ := T_simple hF4
-  haveI := hs
+  have := hs
   refine good427_of_qsList (qsList_C hF4) hna ?_
   rw [hcard]
   intro h
@@ -384,7 +391,7 @@ theorem good427_field {σ : F ≃+* F} (hk : 4 ≤ Nat.card (CFSG.GH74.GLS.IVK.f
   obtain ⟨hs, hna⟩ := CFSG.RankThree.OddKernel.isSimpleGroup_of_isQuasisimple hq
     KFacts.center_statedSp_eq_bot
   rw [hC]
-  haveI : IsSimpleGroup ((proj 2 F).comp (KFacts.spIncl σ)).range :=
+  have : IsSimpleGroup ((proj 2 F).comp (KFacts.spIncl σ)).range :=
     (MulEquiv.isSimpleGroup_congr e).mp hs
   refine good427_of_le_simple le_rfl ?_ ?_ fun K hKC _ => hKC
   · obtain ⟨a, b, hab⟩ := hna
@@ -413,7 +420,7 @@ theorem noCfgS427_sp4 {n : ℕ} (hn : 4 ≤ n) (hF : Nat.card F = 2 ^ n) :
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
   intro α h3 h1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf α = 3 := orderOf_eq_prime h3 h1
   by_cases hD : α ∈ (conjAut 2 F).range
   · obtain ⟨A, hA⟩ := hD
@@ -487,7 +494,7 @@ theorem isQuasisimple_of_simple_nonab_r
       calc a * b = (a * b * a⁻¹ * b⁻¹) * (b * a) := by group
         _ = b * a := by rw [hmem, one_mul]
     · exact h
-  · haveI := hs
+  · have := hs
     exact e.isSimpleGroup
   · obtain ⟨a, b, hab⟩ := hna
     refine ⟨e.symm a, e.symm b, fun h => hab ?_⟩
@@ -496,11 +503,11 @@ theorem isQuasisimple_of_simple_nonab_r
 
 theorem rowOf427_sp48
     : RowOf427 (projSp 2 (GaloisField 2 3)) := by
-  haveI : Finite (projSp 2 (GaloisField 2 3)) :=
+  have : Finite (projSp 2 (GaloisField 2 3)) :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.PGLModel.card_projSp_two_eight]; norm_num)
   refine rowOf427_of_noCfg (fun S _ _ ⟨e⟩ => ?_)
     (by rw [CFSG.PGLModel.card_projSp_two_eight]; norm_num)
-  haveI : Finite (StatedProj (StatedSp 2 (GaloisField 2 3))) :=
+  have : Finite (StatedProj (StatedSp 2 (GaloisField 2 3))) :=
     Finite.of_equiv _ (CFSG.PGLModel.projSpEquivStatedProj 2 (GaloisField 2 3)).toEquiv
   exact NoCfgS427.of_mulEquiv (e.trans (CFSG.PGLModel.projSpEquivStatedProj 2 _))
     (noCfgS427_of_compShape not_isA5Type_of_spCompType fun β h3 h1 =>
@@ -527,7 +534,7 @@ theorem rowOf427_sp4
         (RonanKChevTwo.SpFour.projEquiv (F := GaloisField 2 n)).symm
     refine row427_of_noCfg_qs ?_ ?_ ?_
     · intro L _ _ _ hL hZ3 ⟨e'⟩
-      haveI : Group.IsPerfect L := hL.1
+      have : Group.IsPerfect L := hL.1
       have hodd : Odd (Nat.card (Subgroup.center L)) := by
         obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZ3
         rw [hk]

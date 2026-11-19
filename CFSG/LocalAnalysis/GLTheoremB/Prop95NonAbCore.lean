@@ -14,15 +14,18 @@ section Core
 
 variable {Q : Type} [Group Q] [Finite Q] {ι : Type} {N : Subgroup Q} {S : ι → Subgroup Q}
 
+omit [Finite Q] in
 theorem normalizerMonoidHom_coe (T : Subgroup Q) (n : Q) (hn : n ∈ Subgroup.normalizer (T : Set Q))
     (t : T) : (((T.normalizerMonoidHom ⟨n, hn⟩) t : T) : Q) = n * t * n⁻¹ := rfl
 
+omit [Finite Q] in
 theorem normalizerMonoidHom_pow (T : Subgroup Q) (n : Q) (hn : n ∈ Subgroup.normalizer (T : Set Q))
     {m : ℕ} (hm : n ^ m = 1) : (T.normalizerMonoidHom ⟨n, hn⟩) ^ m = 1 := by
   rw [← map_pow]
   have : (⟨n, hn⟩ : ↥(Subgroup.normalizer (T : Set Q))) ^ m = 1 := Subtype.ext (by simpa using hm)
   rw [this, map_one]
 
+omit [Finite Q] in
 theorem orderOf_normalizerMonoidHom (T : Subgroup Q) {p : ℕ} (hp : p.Prime) (n : Q)
     (hn : n ∈ Subgroup.normalizer (T : Set Q)) (hnp : n ^ p = 1) (hcen : ¬ ∀ t ∈ T, n * t = t * n) :
     orderOf (T.normalizerMonoidHom ⟨n, hn⟩) = p := by
@@ -43,7 +46,7 @@ theorem exists_y [Finite ι] (hF : IsFactorization N S) (hodd : FixedOddFact) {p
     (hd : d ^ p = 1) :
     ∃ y ∈ ⨆ j ∈ Set.range (fun k : ℕ => ((hF.actHom d) ^ k) i), S j,
       y ≠ 1 ∧ d * y = y * d ∧ Odd (orderOf y) := by
-  haveI := hF.simple i
+  have := hF.simple i
   obtain ⟨s, hs1, hsodd⟩ := exists_odd_orderOf (hF.nonab i)
   have hSO : S i ≤ ⨆ j ∈ Set.range (fun k : ℕ => ((hF.actHom d) ^ k) i), S j :=
     le_iSup₂_of_le i ⟨0, by simp⟩ le_rfl
@@ -72,6 +75,7 @@ theorem exists_y [Finite ι] (hF : IsFactorization N S) (hodd : FixedOddFact) {p
     · rw [orderOf_injective Φ hΦinj s]
       exact hsodd
 
+omit [Finite Q] in
 theorem normalizes_core [Finite ι] (hF : IsFactorization N S) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) {d h : Q} (hd : d ^ p = 1) {e : ℕ} (hh : h ^ (2 ^ e) = 1) (hdh : d * h = h * d)
     (i : ι)
@@ -168,7 +172,7 @@ theorem centralizes_of_diag (hF : IsFactorization N S) [Finite ι] (i : ι) {d :
     (hΦeq : ∀ g : Q, g * d = d * g → ∀ s s' : ↥(S i), (s' : Q) = g * s * g⁻¹ →
       g * Φ s * g⁻¹ = Φ s') :
     ∀ h ∈ H, ∀ s ∈ S i, h * s = s * h := by
-  haveI := hF.simple i
+  have := hF.simple i
   let U : Subgroup ↥(S i) := H.comap Φ
   have hUn : U.Normal := by
     refine ⟨fun u hu s => ?_⟩
@@ -197,7 +201,7 @@ theorem centralizes [Finite ι] (hF : IsFactorization N S) (htwo : FixedTwoFacts
     (hHn : ∀ y : Q, d * y = y * d → ∀ h ∈ H, y * h * y⁻¹ ∈ H)
     (hnorm : ∀ h ∈ H, h ∈ Subgroup.normalizer (S i : Set Q)) :
     ∀ h ∈ H, ∀ s ∈ S i, h * s = s * h := by
-  haveI := hF.simple i
+  have := hF.simple i
   by_cases hmove : hF.actHom d i = i
   · have hdn : d ∈ Subgroup.normalizer (S i : Set Q) := hF.actHom_eq_iff.1 hmove
     by_cases hcen : ∀ t ∈ S i, d * t = t * d

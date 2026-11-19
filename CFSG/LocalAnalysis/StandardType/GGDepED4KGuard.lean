@@ -48,13 +48,13 @@ theorem ggDepED4KGuard_holds (hFixK : GGTBFixNbrInput) : GGDepED4KGuard := by
   obtain ⟨Λ, hΛf, hΛd, b₁, b₂, Λa, hΛaf, hΛad, ML, CL, MK, CK, V, hVadd, hVmod,
     ι, φ, h, α, e, hb1, hb2, hcardΛa, hML, hMLweyl, hCLcartan, hMKweyl, hCKcartan,
     hk2, hform, hrefl, hpairL, hpairK, hAL, hAK, hAJ⟩ := hA
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  letI : Fintype Λ := hΛf
-  letI : DecidableEq Λ := hΛd
-  letI : Fintype Λa := hΛaf
-  letI : DecidableEq Λa := hΛad
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  let : Fintype Λ := hΛf
+  let : DecidableEq Λ := hΛd
+  let : Fintype Λa := hΛaf
+  let : DecidableEq Λa := hΛad
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hp2 : p ≠ 2 := by omega
   have hx : x ∈ Bs := hH.1.tableB_facts.2.2.1
   have hy : y ∈ Bs := hH.1.2.1.1 hH.2.2.2.2.1.1.2.1
@@ -144,7 +144,7 @@ theorem ggDepED4KGuard_holds (hFixK : GGTBFixNbrInput) : GGDepED4KGuard := by
   have hcart : ∀ i j : Fin 6, CL (e i) (e j) = CartanMatrix.E 6 i j :=
     l05nGD_cartan_of_reindex e hCLcartan hML
   have hfinrank : Module.finrank (ZMod p) V = 6 := by
-    haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod p) V := Module.Finite.of_finite
     have hVcard : Nat.card V = p ^ Module.finrank (ZMod p) V := by
       have h := Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)
       rwa [Nat.card_zmod] at h
@@ -223,7 +223,7 @@ theorem ggDepED4KGuard_holds (hFixK : GGTBFixNbrInput) : GGDepED4KGuard := by
       map_add' := by intro u v; ext o; simp
       map_smul' := by intro c v; ext o; simp }
   have hkerfin : Module.finrank (ZMod p) (LinearMap.ker T) ≤ 1 := by
-    haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod p) V := Module.Finite.of_finite
     have hrn := LinearMap.finrank_range_add_finrank_ker (f := T)
     rw [hfinrank] at hrn
     have hrange : 5 ≤ Module.finrank (ZMod p) (LinearMap.range T) := by

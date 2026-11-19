@@ -26,8 +26,8 @@ theorem A2_le_normalizer_A1 : A2 ≤ Subgroup.normalizer (A1 : Set Hc) := by
   exact h
 
 theorem card_Jm : Nat.card Jm = 2 ^ 8 := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer A2_le_normalizer_A1
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer A2_le_normalizer_A1
+  have := Subgroup.normal_subgroupOf_of_le_normalizer A2_le_normalizer_A1
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer A2_le_normalizer_A1
   have hiso : A1.relIndex A2 = A1.relIndex (A2 ⊔ A1) :=
     Nat.card_congr
       (QuotientGroup.quotientInfEquivProdNormalizerQuotient A2 A1 A2_le_normalizer_A1).toEquiv

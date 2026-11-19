@@ -32,6 +32,7 @@ variable [Finite K] (h : SL23Pair K A B)
 
 include h
 
+omit [Finite K] in
 theorem eq_one_of_mem_inf {z : K} (hz : z ∈ A ⊓ B) (hz3 : z ^ 3 = 1) : z = 1 := by
   have hsq := h.inf_sq hz
   have h1 : z ^ 3 = z * (z * z) := pow_three z
@@ -58,6 +59,7 @@ theorem cent_gen_large (p : Fin 4 ⊕ Fin 4) : 36 < Nat.card ↥(Subgroup.centra
   · exact h.cent_large_of_mem_A (h.gen_mem_A i) (h.gen_pow_three _) (h.gen_ne_one _)
   · exact h.symm.cent_large_of_mem_A (h.gen_mem_B i) (h.gen_pow_three _) (h.gen_ne_one _)
 
+omit [Finite K] in
 theorem mul_comm_iff {a b c d : K} (ha : a ∈ A) (hb : b ∈ B) (hc : c ∈ A) (hd : d ∈ B) :
     (c * d) * (a * b) = (a * b) * (c * d) ↔ (c * a) * (d * b) = (a * c) * (b * d) := by
   have e1 : (c * d) * (a * b) = (c * a) * (d * b) := by
@@ -70,6 +72,7 @@ theorem mul_comm_iff {a b c d : K} (ha : a ∈ A) (hb : b ∈ B) (hc : c ∈ A) 
       _ = (a * c) * (b * d) := by group
   rw [e1, e2]
 
+omit [Finite K] in
 theorem centralizer_decomp {a b c d : K} (ha : a ∈ A) (hb : b ∈ B) (hc : c ∈ A) (hd : d ∈ B)
     (ha3 : a ^ 3 = 1) (hcomm : (c * d) * (a * b) = (a * b) * (c * d)) :
     c * a = a * c ∧ d * b = b * d := by

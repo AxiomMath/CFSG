@@ -23,7 +23,7 @@ theorem k331_isSectionOf_centralizer {L : Type} [Group L] [Finite L]
   have hf : Function.Surjective f := e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hfker : f.ker = CFSG.pCore 2 ↥K := by
     ext k
-    simp [f, MonoidHom.mem_ker]
+    simp [f]
   have hQ : CFSG.pCore 2 ↥K ≠ ⊥ := by
     intro hbot
     have hinj : Function.Injective f := (MonoidHom.ker_eq_bot_iff f).mp (hfker.trans hbot)

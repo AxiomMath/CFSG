@@ -94,8 +94,8 @@ theorem ggK1CCo_component_eq {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
     ∃ i : F.ι, CFSG.IsQuasisimple ↥⁅F.A i, F.A i⁆ ∧
       J = (⁅F.A i, F.A i⁆).map (proj r K) := by
   classical
-  haveI : Finite F.ι := F.fin
-  haveI : Finite (StatedProj (StatedSp r K)) := inferInstance
+  have : Finite F.ι := F.fin
+  have : Finite (StatedProj (StatedSp r K)) := inferInstance
   have hJ' : CFSG.Open.IsComponentOf J (fixSubgroup (MulAut.conj (proj r K x))) := by
     rw [ggK1CCm_ggFixSub_eq_fixSubgroup] at hJ
     exact (CFSG.Assembly.isComponentOf_iff_open).mp hJ

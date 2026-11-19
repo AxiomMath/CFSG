@@ -131,7 +131,7 @@ theorem mact {dt : Data} (L K : Nat) (V : Array (Nat × Int)) (s : Cache) (hs : 
     split
     · rename_i hcl
       refine ⟨rfl, fun _ => j2, fun _ => ?_⟩
-      simp only [mBad, hk, hcl, Bool.true_or, Bool.or_true]
+      simp only [mBad, hk, hcl, Bool.or_true]
       rfl
     · rename_i hcl
       refine ⟨rfl, fun _ => j2, fun _ => ?_⟩

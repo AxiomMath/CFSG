@@ -32,9 +32,9 @@ private theorem exists_mem_commutator_mem_of_ne {H : Type*} [Group H] [Finite H]
       have h := (Subgroup.map_eq_bot_iff (f := π) M).mp hbot
       rwa [QuotientGroup.ker_mk'] at h
     exact le_antisymm hle hZM
-  haveI : M'.Normal := Subgroup.Normal.map (inferInstance : M.Normal) π
+  have : M'.Normal := Subgroup.Normal.map (inferInstance : M.Normal) π
     (QuotientGroup.mk'_surjective Z)
-  haveI : Group.IsNilpotent (H ⧸ Z) := (hp.to_quotient Z).isNilpotent
+  have : Group.IsNilpotent (H ⧸ Z) := (hp.to_quotient Z).isNilpotent
   have hInt : M' ⊓ Subgroup.center (H ⧸ Z) ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hM'ne
   obtain ⟨x, hx1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hInt
@@ -104,7 +104,7 @@ theorem commutator_Q0_eq (B : X.U4qBase) : ⁅X.Q 0, X.Q 0⁆ = X.Z 0 := by
   rw [h', ← B.Z0_eq_pCore] at hEq
   exact hEq
 
-private theorem exists_mem_relCent_of_centerOf_ne (B : X.U4qBase)
+private theorem exists_mem_relCent_of_centerOf_ne (_B : X.U4qBase)
     (hMne : centerOf (X.Q 0) ≠ X.Z 0) :
     ∃ m ∈ centerOf (X.Q 0), m ∉ X.Z 0 ∧
       m ∈ relCent (X.Q 0) (X.Z 0) (X.Q 1) := by
@@ -125,8 +125,8 @@ private theorem exists_mem_relCent_of_centerOf_ne (B : X.U4qBase)
   have hDnormM : X.Q 0 ⊔ X.Q 1 ≤ Subgroup.normalizer (centerOf (X.Q 0) : Set G) :=
     hDnormQ0.trans (CFSG.Quasithin.A4.normalizer_le_normalizer_centerOf (X.Q 0))
   have hDnormZ : X.Q 0 ⊔ X.Q 1 ≤ Subgroup.normalizer (X.Z 0 : Set G) := hDleG0.trans hG0Z
-  haveI hGi0fin : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
-  haveI hDfin : Finite ↥(X.Q 0 ⊔ X.Q 1) :=
+  have hGi0fin : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have hDfin : Finite ↥(X.Q 0 ⊔ X.Q 1) :=
     Finite.of_injective (Subgroup.inclusion hDleG0) (Subgroup.inclusion_injective hDleG0)
   have hD2 : IsPGroup 2 ↥(X.Q 0 ⊔ X.Q 1) := by
     have hQ0 : IsPGroup 2 ↥(X.Q 0) := pCoreOf_isPGroup' (X.Gi 0)
@@ -136,8 +136,8 @@ private theorem exists_mem_relCent_of_centerOf_ne (B : X.U4qBase)
         CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi 0)))
   let Msub : Subgroup ↥(X.Q 0 ⊔ X.Q 1) := (centerOf (X.Q 0)).subgroupOf (X.Q 0 ⊔ X.Q 1)
   let Zsub : Subgroup ↥(X.Q 0 ⊔ X.Q 1) := (X.Z 0).subgroupOf (X.Q 0 ⊔ X.Q 1)
-  haveI hMsubN : Msub.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hDnormM
-  haveI hZsubN : Zsub.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hDnormZ
+  have hMsubN : Msub.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hDnormM
+  have hZsubN : Zsub.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hDnormZ
   have hMsub_ne : Msub ≠ Zsub := by
     intro heq
     apply hMne
@@ -163,7 +163,7 @@ private theorem exists_mem_relCent_of_centerOf_ne (B : X.U4qBase)
 
 private theorem false_of_centerOf_Q0_ne (B : X.U4qBase)
     (hC : relCent (X.Q 0) (X.Z 0) (X.Q 1) = X.Q 0 ⊓ X.Q 1)
-    (hnab : ⁅X.Q 0, X.Q 0⁆ ≠ ⊥)
+    (_hnab : ⁅X.Q 0, X.Q 0⁆ ≠ ⊥)
     (hY : centerOf (X.Q 0) ⊓ (X.Q 0 ⊓ X.Q 1) = X.Z 0)
     (hMne : centerOf (X.Q 0) ≠ X.Z 0) : False := by
   obtain ⟨m, hmM, hmZ, hmrel⟩ := exists_mem_relCent_of_centerOf_ne B hMne
@@ -176,7 +176,7 @@ theorem centerOf_Q0 (B : X.U4qBase) : centerOf (X.Q 0) = X.Z 0 := by
     fun _ hZY hY hK => B.eq_or_eq_of_normalizer_K hZY hY hK
   have hC := B.relCent_Q1
   have hnab := B.commutator_Q0_ne_bot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZleM : X.Z 0 ≤ centerOf (X.Q 0) := X.Z_le_center 0
   have hZleQ01 : X.Z 0 ≤ X.Q 0 ⊓ X.Q 1 :=
     le_inf (X.Z_le_Q 0) (B.Z0_le_Z1.trans (X.Z_le_Q 1))
@@ -208,10 +208,10 @@ theorem centerOf_Q0 (B : X.U4qBase) : centerOf (X.Q 0) = X.Z 0 := by
   exact false_of_centerOf_Q0_ne B hC hnab hY hMne
 
 theorem isSpecialPGroup_Q0 (B : X.U4qBase) : IsSpecialPGroup 2 ↥(X.Q 0) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsPGroup 2 ↥(X.Q 0) := pCoreOf_isPGroup' (X.Gi 0)
-  haveI : Fact (IsPGroup 2 ↥(X.Q 0)) := ⟨hP⟩
-  haveI : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (H := X.Q 0) (X.Q_le_Gi 0)
+  have : Fact (IsPGroup 2 ↥(X.Q 0)) := ⟨hP⟩
+  have : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (H := X.Q 0) (X.Q_le_Gi 0)
   have hcent := centerOf_Q0 B
   have hcomm := commutator_Q0_eq B
   have hcenter : (Subgroup.center ↥(X.Q 0)).map (X.Q 0).subtype = X.Z 0 :=

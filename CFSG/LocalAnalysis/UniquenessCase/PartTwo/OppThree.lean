@@ -38,7 +38,7 @@ theorem opp_three_eq_self_of_bar2 {M L : Subgroup G} (hL : L ∈ calC M)
     simpa [J, Opp, CFSG.RankThree.PartOne.conjBy] using h.symm
   let N : Subgroup ↥L := J.subgroupOf L
   have hNnormal : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJL).2 hnorm
-  letI : N.Normal := hNnormal
+  let : N.Normal := hNnormal
   let Q : Subgroup ↥L := CFSG.pCore 2 ↥L
   have hQ : IsPGroup 2 Q := CFSG.pCore_isPGroup
   let π : ↥L →* Bar2 L := QuotientGroup.mk' Q
@@ -90,7 +90,7 @@ theorem opp_three_eq_self_of_bar2 {M L : Subgroup G} (hL : L ∈ calC M)
     rw [← hz']
     show (((n * q : ↥L) : ↥L ⧸ N)) ^ 2 ^ k = 1
     rw [h1, ← QuotientGroup.mk_pow, hk', QuotientGroup.mk_one]
-  haveI : Group.IsNilpotent (↥L ⧸ N) := hR.isNilpotent
+  have : Group.IsNilpotent (↥L ⧸ N) := hR.isNilpotent
   have hle : (⊤ : Subgroup ↥L) ≤ N :=
     Subgroup.le_of_commutator_eq_self_of_isSolvable_quotient (M := N) (H := ⊤) hperf
   have hJtop : N = ⊤ := top_le_iff.1 hle

@@ -43,7 +43,7 @@ theorem exists_normal_index_two_of_fieldFactor {M : Subgroup G} (ρ : M →* Mul
   set R := ΦA.range with hR
   set P' : Sylow 2 R := P.mapSurjective ΦA.rangeRestrict_surjective with hP'
   obtain ⟨c₀, hc₀⟩ := IsCyclic.exists_generator (α := (P' : Subgroup R))
-  obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 P'.isPGroup'
+  obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 P'.isPGroup
   have hc₀o : orderOf c₀ = 2 ^ a := (orderOf_eq_card_of_forall_mem_zpowers hc₀).trans ha
   set c : Q := ((c₀ : R) : Q) with hcdef
   have hco : orderOf c = 2 ^ a := by
@@ -74,7 +74,7 @@ theorem exists_normal_index_two_of_fieldFactor {M : Subgroup G} (ρ : M →* Mul
     set w : A := b * ⟨α, hαA⟩ * b⁻¹ * (⟨α, hαA⟩ : A)⁻¹ with hw
     have hwP : w ∈ (P : Subgroup A) :=
       mul_mem (mul_mem (mul_mem hbP hαP) (inv_mem hbP)) (inv_mem hαP)
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨w, hwP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨w, hwP⟩
     refine h2 _ ?_ k ?_
     · rw [MonoidHom.mem_ker, map_mul, map_mul, map_mul, map_inv, map_inv, mul_comm (Φ _) (Φ α),
         mul_assoc, mul_assoc, mul_inv_cancel_left, mul_inv_cancel]

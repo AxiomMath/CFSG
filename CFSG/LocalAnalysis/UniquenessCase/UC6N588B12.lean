@@ -48,7 +48,7 @@ include D in
 theorem mem_Z_of_pow_five (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (h620 : m.C620)
     (hr : m.r = 5) {e : G} (heL : e ∈ centralizer (m.L : Set G)) (heH : e ∈ m.H)
     (he : e ^ 5 = 1) : e ∈ m.Z := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hsix := m.hZ.sixteen h69
   have heA : e ∈ centralizer (m.A : Set G) := by
     rw [mem_centralizer_iff]
@@ -149,8 +149,8 @@ theorem card_le_of_le_Ka (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (h620 : m.C62
     (hr : m.r = 5) {w : G} (hw₁ : ∀ z ∈ m.Z, w * z * w⁻¹ ∈ m.L)
     (hw₂ : ∀ z ∈ m.Z, w⁻¹ * z * w ∈ m.L) {P : Subgroup G} (hPK : P ≤ D.Ka)
     (hP : IsPGroup 5 P) (hZP : m.Z ≤ P) : Nat.card P ≤ 25 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hsix := m.hZ.sixteen h69
   have hPH : P ≤ m.H := by
     intro x hx
@@ -238,7 +238,7 @@ theorem isPGroup_Z_sup_line₁ (h620 : m.C620) (hr : m.r = 5) :
 theorem isSylowOf_Ka (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (h620 : m.C620)
     (hr : m.r = 5) {w : G} (hw₁ : ∀ z ∈ m.Z, w * z * w⁻¹ ∈ m.L)
     (hw₂ : ∀ z ∈ m.Z, w⁻¹ * z * w ∈ m.L) : IsSylowOf 5 (m.Z ⊔ line₁.map D.ι) D.Ka := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hle : m.Z ⊔ line₁.map D.ι ≤ D.Ka := sup_le D.Z_le_Ka D.line₁_le_Ka
   obtain ⟨P, hP, hQP⟩ := exists_isSylowOf_ge hle (D.isPGroup_Z_sup_line₁ h620 hr)
   obtain ⟨hPK, hPp, -⟩ := isSylowOf_iff.1 hP

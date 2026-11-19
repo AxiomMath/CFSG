@@ -164,11 +164,14 @@ theorem ker_ρ : S.ρ.ker = S.Q :=
 
 @[expose] noncomputable def Mbar : Subgroup S.O := S.ρ.range
 
+omit [Finite G] in
 theorem zQ_mul_zQ : S.zQ * S.zQ = 1 := Subtype.ext (Subtype.ext S.z_mul_z)
 
+omit [Finite G] in
 theorem zpowers_zQ_le_center : Subgroup.zpowers S.zQ ≤ center S.Q :=
   Subgroup.zpowers_le.mpr S.zQ_mem_center
 
+omit [Finite G] in
 theorem center_le_zpowers_zQ : center S.Q ≤ Subgroup.zpowers S.zQ := by
   intro x hx
   rw [mem_center_Q_iff] at hx
@@ -176,9 +179,11 @@ theorem center_le_zpowers_zQ : center S.Q ≤ Subgroup.zpowers S.zQ := by
   · exact Subgroup.one_mem _
   · exact Subgroup.mem_zpowers_iff.mpr ⟨1, by simp⟩
 
+omit [Finite G] in
 theorem center_Q_eq_zpowers_setting : center S.Q = Subgroup.zpowers S.zQ :=
   le_antisymm S.center_le_zpowers_zQ S.zpowers_zQ_le_center
 
+omit [Finite G] in
 theorem card_center_Q : Nat.card (center S.Q) = 2 := by
   rw [S.center_Q_eq_zpowers_setting, Nat.card_zpowers]
   exact orderOf_eq_prime (by rw [pow_two]; exact S.zQ_mul_zQ) S.zQ_ne_one
@@ -187,6 +192,7 @@ def conjHom : S.M →* MulAut S.Q := by
   letI := S.normal
   exact MulAut.conjNormal
 
+omit [Finite G] in
 theorem conjHom_ker : S.conjHom.ker = (center S.Q).map S.Q.subtype := by
   rw [← S.centralizer_eq_center]
   ext x
@@ -194,7 +200,7 @@ theorem conjHom_ker : S.conjHom.ker = (center S.Q).map S.Q.subtype := by
   constructor
   · intro hx y hy
     have h := congrArg (fun f : MulAut S.Q => (f ⟨y, hy⟩ : S.M)) hx
-    simp only [MulAut.conjNormal_apply, MulAut.one_apply, Subgroup.coe_mk] at h
+    simp only [MulAut.one_apply, Subgroup.coe_mk] at h
     exact (mul_inv_eq_iff_eq_mul.mp h).symm
   · intro hx
     refine MulEquiv.ext fun y => ?_
@@ -204,6 +210,7 @@ theorem conjHom_ker : S.conjHom.ker = (center S.Q).map S.Q.subtype := by
     rw [← hy]
     group
 
+omit [Finite G] in
 theorem card_conjHom_range :
     Nat.card S.conjHom.range * Nat.card (center S.Q) = Nat.card S.M := by
   have hker2 : Nat.card S.conjHom.ker = Nat.card (center S.Q) := by
@@ -213,15 +220,18 @@ theorem card_conjHom_range :
   rw [h1, ← hker2]
   exact (Subgroup.card_eq_card_quotient_mul_card_subgroup S.conjHom.ker).symm
 
+omit [Finite G] in
 theorem card_conjHom_range_dvd : Nat.card S.conjHom.range ∣ Nat.card (MulAut S.Q) :=
   Subgroup.card_subgroup_dvd_card S.conjHom.range
 
 
+omit [Finite G] in
 theorem card_range_eq_half : Nat.card S.conjHom.range * 2 = Nat.card S.M := by
   have h := S.card_conjHom_range
   rwa [S.card_center_Q] at h
 
 
+omit [Finite G] in
 theorem dvd_card_mulAut_of_dvd_card_M (h : 45 ∣ Nat.card S.M) :
     45 ∣ Nat.card (MulAut S.Q) := by
   have h2 : 45 ∣ Nat.card S.conjHom.range := by

@@ -20,7 +20,7 @@ theorem yK_eq_closure {k : ℕ} (hk : k < 2) :
     ext x
     constructor
     · rintro ⟨w, hw, rfl⟩
-      simp only [Set.mem_setOf_eq, List.mem_cons, List.mem_nil_iff, List.not_mem_nil,
+      simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil,
         or_false] at hw
       rcases hw with rfl | rfl
       · exact by simp [yOne]
@@ -132,7 +132,7 @@ theorem eq_stab_of_dFacts (hP : Nat.card ↥P1408 = 177408000)
     exact le_antisymm hle' hge
   have hWStab_eq : wGroup = P1408 ⊓ MulAction.stabilizer (Equiv.Perm (Fin 1408)) p :=
     Subgroup.eq_of_le_of_card_ge hWStab (by rw [hcardStab, hWcard])
-  haveI : IsSimpleGroup ↥S := hS.simple
+  have : IsSimpleGroup ↥S := hS.simple
   have h2 : ∀ R : Subgroup (Equiv.Perm (Fin 1408)), R ≤ S → IsPGroup 2 ↥R →
       Nat.card ↥R ≤ 16 :=
     fun R hRS hR => hSyl.card_le_of_pGroup hT.card_T hRS hR

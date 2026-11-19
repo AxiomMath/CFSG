@@ -56,16 +56,16 @@ theorem sevenCore_of_isKGroup (J : Type) [Group J] [Finite J] (hK : IsKGroup J)
     ·
       obtain ⟨K, hKfield, hKfin, hcard, ⟨e⟩⟩ :=
         CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hL
-      letI : Field K := hKfield
-      letI : Finite K := hKfin
-      haveI : Fintype K := Fintype.ofFinite K
+      let : Field K := hKfield
+      let : Finite K := hKfin
+      have : Fintype K := Fintype.ofFinite K
       have hf : 1 ≤ f := hL.admissible.2.1
       by_cases hp2 : p = 2
       ·
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         have hFcard : Fintype.card K = 2 ^ f := by
           rw [← Nat.card_eq_fintype_card, hcard, hp2]
-        haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hFcard
+        have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hFcard
         have e' : J ≃* Matrix.SpecialLinearGroup (Fin 2) K :=
           e.trans (projectiveSLTwoEquivSL K)
         refine kscs_sevenCore_of_normalizer_sup_sylow_two fun Z T => ?_
@@ -80,8 +80,8 @@ theorem sevenCore_of_isKGroup (J : Type) [Group J] [Finite J] (hK : IsKGroup J)
     ·
       obtain ⟨K, hKfield, hKfin, hcard, ⟨e⟩⟩ :=
         CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hL
-      letI : Field K := hKfield
-      letI : Finite K := hKfin
+      let : Field K := hKfield
+      let : Finite K := hKfin
       refine kscs_sevenCore_of_sevenFree (sevenFree_of_goodL3 ?_)
       refine ⟨inferInstance, h3, h9, h7, K, inferInstance, inferInstance, ?_, ⟨e⟩⟩
       rw [hcard]
@@ -90,8 +90,8 @@ theorem sevenCore_of_isKGroup (J : Type) [Group J] [Finite J] (hK : IsKGroup J)
       have hp : p.Prime := hU.admissible.1
       have hf : 1 ≤ f := hU.admissible.2.1
       obtain ⟨-, K, hKfield, hKfin, hKcard, ⟨e₀⟩⟩ := hU.statedClassicalModel (by decide)
-      letI : Field K := hKfield
-      letI : Finite K := hKfin
+      let : Field K := hKfield
+      let : Finite K := hKfin
       have hUF : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f K :=
         ⟨hp, hf, by rw [hKcard, ← pow_mul, mul_comm]⟩
       have e₁ : J ≃* CFSG.ClassicalGroups.UnitaryFlag.unitaryPSU hUF 3 :=
@@ -109,9 +109,9 @@ theorem sevenCore_of_isKGroup (J : Type) [Group J] [Finite J] (hK : IsKGroup J)
     have hcomm : ∀ a b : J, a * b = b * a := by
       intro a b
       exact not_not.mp (not_exists.mp (not_exists.mp hab a) b)
-    letI : CommGroup J := { (inferInstance : Group J) with mul_comm := hcomm }
+    let : CommGroup J := { (inferInstance : Group J) with mul_comm := hcomm }
     intro W _ _ Z T _
-    simp [CommGroup.normalizer_eq_top, top_sup_eq]
+    simp [CommGroup.normalizer_eq_top]
 
 theorem ksevenGen_holds : KSevenGen :=
   ksevenGen_of_sevenCore fun J _ _ hK hs h3 h9 h7 => sevenCore_of_isKGroup J hK hs h3 h9 h7

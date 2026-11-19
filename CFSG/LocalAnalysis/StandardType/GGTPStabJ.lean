@@ -27,7 +27,7 @@ private theorem ggTP_corootPt_of_orth_left {G : Type} [Group G] [Finite G] {p : 
     exact mul_inv_eq_one.mp hx
   have hcard : Nat.card {x : ↥Bs // φ x = x} = Nat.card ↥Bs :=
     Nat.card_congr (Equiv.subtypeUnivEquiv (fun x : ↥Bs => hfix x))
-  haveI : Nonempty ↥Bs := ⟨1⟩
+  have : Nonempty ↥Bs := ⟨1⟩
   have hp1 : p = 1 := by
     apply Nat.mul_left_cancel (Nat.card_pos (α := ↥Bs))
     calc Nat.card ↥Bs * p = Nat.card {x : ↥Bs // φ x = x} * p := by rw [hcard]
@@ -95,7 +95,7 @@ private theorem ggTP_conjAut_eq_of_gamma_eq {G : Type} [Group G]
               (MulAut.conj (⟨n₁, hn₁L⟩ : ↥L))⁻¹) *
             (MulAut.conj (⟨n₂, hn₂L⟩ : ↥L)⁻¹)⁻¹ := by
         rw [show (⟨n₂⁻¹ * n₁, hnL⟩ : ↥L) = (⟨n₂, hn₂L⟩ : ↥L)⁻¹ * ⟨n₁, hn₁L⟩ from
-          Subtype.ext (by simp [mul_assoc])]
+          Subtype.ext (by simp)]
         rw [map_mul]
         group
       _ = MulAut.conj (⟨n₂, hn₂L⟩ : ↥L)⁻¹ *

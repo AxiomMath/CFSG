@@ -113,7 +113,7 @@ theorem s1614_rk_fixV_swap {ι : Type} [Fintype ι] {Y : ι → Subgroup T}
     rw [← hPset, ← hQset, ← iSup_union, ← hsup]
     have hU : ({a, b} : Set ι) ∪ {i | i ≠ a ∧ i ≠ b} = Set.univ := by
       ext i
-      simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq,
+      simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq,
         Set.mem_univ, iff_true]
       tauto
     rw [hU]
@@ -151,7 +151,7 @@ theorem s1614_rk_fixV_swap {ι : Type} [Fintype ι] {Y : ι → Subgroup T}
           have : Finset.univ.filter (fun i : ι => i ≠ a ∧ i ≠ b) = Finset.univ \ {a, b} := by
             ext i
             simp
-          rw [this, Finset.card_univ_diff, Finset.card_pair hab]
+          rw [this, Finset.card_univ_sdiff, Finset.card_pair hab]
   have hYbC : C ⊓ Y b = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]
     intro y hy

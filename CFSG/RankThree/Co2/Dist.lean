@@ -113,7 +113,7 @@ theorem liftG_le_centralizer {S : Subgroup Cr} {x : Cr} (hS : S ≤ Subgroup.cen
 
 theorem factorization_card_C4 :
     (Nat.card (Subgroup.centralizer ({h.rG 4} : Set G))).factorization 2 = 15 := by
-  haveI := h.finite
+  have := h.finite
   have hT₁C : h.liftG (Subgroup.centralizer {rep 4}) ≤
       Subgroup.centralizer ({h.rG 4} : Set G) :=
     h.liftG_le_centralizer le_rfl
@@ -189,7 +189,7 @@ theorem factorization_card_C4 :
   exact (Nat.pow_right_injective le_rfl h1).symm
 
 theorem not_isConj_one_four : ¬ IsConj (h.rG 1) (h.rG 4) := by
-  haveI := h.finite
+  have := h.finite
   intro hc
   obtain ⟨c, hc⟩ := isConj_iff.1 hc
   have hle : h.liftG (subW pWords1) ≤ Subgroup.centralizer ({h.rG 1} : Set G) :=

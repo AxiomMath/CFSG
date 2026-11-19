@@ -497,33 +497,33 @@ theorem dsp_of_dRefl_int {n : ℕ} {ρ : ZMod 3} {r : DGL n} {h : DV n} (hr : DR
     by_cases hki : k = i
     · have hck : c k = q := by
         dsimp only [c]
-        rw [if_pos (Or.inl hki)]
+        rw [ite_eq_left (Or.inl hki)]
       rcases hq with h | h
       · left; rw [hck, h]
       · right; rw [hck, h]
     · by_cases hkj : k = j
       · have hck : c k = q := by
           dsimp only [c]
-          rw [if_pos (Or.inr hkj)]
+          rw [ite_eq_left (Or.inr hkj)]
         rcases hq with h | h
         · left; rw [hck, h]
         · right; rw [hck, h]
       · left
         dsimp only [c]
-        rw [if_neg (not_or.mpr ⟨hki, hkj⟩)]
+        rw [ite_eq_right (not_or.mpr ⟨hki, hkj⟩)]
   have hprod : ∏ k, c k = 1 := by
     have hsuppc : ∀ x, x ∉ ({i, j} : Finset (Fin (n + 1))) → c x = 1 := by
       intro x hx
       simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hx
       dsimp only [c]
-      rw [if_neg (not_or.mpr ⟨hx.1, hx.2⟩)]
+      rw [ite_eq_right (not_or.mpr ⟨hx.1, hx.2⟩)]
     have hprod' : (∏ k, c k) = c i * c j := by
       rw [← Finset.prod_subset (s₁ := ({i, j} : Finset (Fin (n + 1))))
         (s₂ := Finset.univ) (by simp) (fun x _ hx => hsuppc x hx)]
       rw [Finset.prod_pair hij]
     rw [hprod']
     dsimp only [c]
-    rw [if_pos (Or.inl rfl : i = i ∨ i = j), if_pos (Or.inr rfl : j = i ∨ j = j)]
+    rw [ite_eq_left (Or.inl rfl : i = i ∨ i = j), ite_eq_left (Or.inr rfl : j = i ∨ j = j)]
     rcases hq with h | h <;> rw [h] <;> norm_num
   refine ⟨σ, c, hσ0, hc0, hc, hprod, fun k => ?_⟩
   rw [hdRo7DSmBasicAux_dStd_eq_dE k, hr.2, hdRo7DSmBasicAux_dRef_dE ρ h0 hQ]
@@ -535,7 +535,7 @@ theorem dsp_of_dRefl_int {n : ℕ} {ρ : ZMod 3} {r : DGL n} {h : DV n} (hr : DR
   · subst k
     have ha2 : h i * h i = 1 := hdRo7DSmBasicAux_sq_of_ne_zero hi
     rw [hi_e, show σ i = j from Equiv.swap_apply_left i j,
-      show c i = q from by dsimp only [c]; rw [if_pos (Or.inl rfl)]]
+      show c i = q from by dsimp only [c]; rw [ite_eq_left (Or.inl rfl)]]
     have hexp : dE n i - h i • (h i • dE n i + h j • dE n j) =
         (1 - h i * h i) • dE n i - (h i * h j) • dE n j := by module
     rw [hexp, show 1 - h i * h i = 0 by rw [ha2]; ring, zero_smul, zero_sub,
@@ -544,7 +544,7 @@ theorem dsp_of_dRefl_int {n : ℕ} {ρ : ZMod 3} {r : DGL n} {h : DV n} (hr : DR
     · subst k
       have hb2 : h j * h j = 1 := hdRo7DSmBasicAux_sq_of_ne_zero hj
       rw [hj_e, show σ j = i from Equiv.swap_apply_right i j,
-        show c j = q from by dsimp only [c]; rw [if_pos (Or.inr rfl)]]
+        show c j = q from by dsimp only [c]; rw [ite_eq_left (Or.inr rfl)]]
       have hexp : dE n j - h j • (h i • dE n i + h j • dE n j) =
           (1 - h j * h j) • dE n j - (h j * h i) • dE n i := by module
       rw [hexp, show 1 - h j * h j = 0 by rw [hb2]; ring, zero_smul, zero_sub,
@@ -553,7 +553,7 @@ theorem dsp_of_dRefl_int {n : ℕ} {ρ : ZMod 3} {r : DGL n} {h : DV n} (hr : DR
     · have hk : h k = 0 := hrest k hki hkj
       rw [show h k • h = 0 by rw [hk, zero_smul],
         show σ k = k from Equiv.swap_apply_of_ne_of_ne hki hkj,
-        show c k = 1 from by dsimp only [c]; rw [if_neg (not_or.mpr ⟨hki, hkj⟩)]]
+        show c k = 1 from by dsimp only [c]; rw [ite_eq_right (not_or.mpr ⟨hki, hkj⟩)]]
       rw [sub_zero, one_smul, hdRo7DSmBasicAux_dStd_eq_dE k]
 
 private lemma hdRo7DSmBasicAux_ggLinConj_eq_mul {n : ℕ} (w r : DGL n) :

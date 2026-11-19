@@ -57,10 +57,10 @@ theorem idM3_eq : idM 14 = ofM3 1 := by
   rw [Matrix.one_apply]
   by_cases h : i = j
   · subst h
-    simp only [if_true]
+    simp only [ite_true]
     rfl
   · have h' : ¬ i.val = j.val := fun e => h (Fin.ext e)
-    simp only [h, h', if_false]
+    simp only [h, h', ite_false]
     rfl
 
 theorem bitsK_eq (v : ℕ) : ∀ m : List ℕ, bitsK v m = bitsOf (· == v) m

@@ -90,7 +90,7 @@ theorem comm_mem_hInf_fix (hM : ModelFacts)
     conjSub_layerX_of_mem hΩ hcCaz
   have hcS : x * y * x⁻¹ * y⁻¹ ∈ (S : Subgroup G) :=
     mul_mem (mul_mem (mul_mem hxS hyS) (inv_mem hxS)) (inv_mem hyS)
-  obtain ⟨n, hn⟩ := S.isPGroup' ⟨x * y * x⁻¹ * y⁻¹, hcS⟩
+  obtain ⟨n, hn⟩ := S.isPGroup ⟨x * y * x⁻¹ * y⁻¹, hcS⟩
   have hcn : (x * y * x⁻¹ * y⁻¹) ^ (2 ^ n) = 1 := by
     have := congrArg Subtype.val hn
     simpa using this
@@ -225,7 +225,7 @@ theorem comm_mem_hInf_swap (hM : ModelFacts)
     conjSub_layerX_of_mem hΩ hcCa
   have hcS : g * y * g⁻¹ * y⁻¹ ∈ (S : Subgroup G) :=
     mul_mem (mul_mem (mul_mem hgS hyS) (inv_mem hgS)) (inv_mem hyS)
-  obtain ⟨n, hn⟩ := S.isPGroup' ⟨g * y * g⁻¹ * y⁻¹, hcS⟩
+  obtain ⟨n, hn⟩ := S.isPGroup ⟨g * y * g⁻¹ * y⁻¹, hcS⟩
   have hcn : (g * y * g⁻¹ * y⁻¹) ^ (2 ^ n) = 1 := by
     have := congrArg Subtype.val hn
     simpa using this

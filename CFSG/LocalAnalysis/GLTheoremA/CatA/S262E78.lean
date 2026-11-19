@@ -63,13 +63,11 @@ theorem gf2E7_cases {e : TauCeti.LieTypeIndex} (h : gf2E7 e) :
     ∃ q : TauCeti.PrimePower, e = .E7 q ∧ q.card = 2 := by
   cases e <;> simp only [gf2E7] at h
   · exact ⟨_, rfl, h⟩
-  all_goals exact h.elim
 
 theorem gf2E8_cases {e : TauCeti.LieTypeIndex} (h : gf2E8 e) :
     ∃ q : TauCeti.PrimePower, e = .E8 q ∧ q.card = 2 := by
   cases e <;> simp only [gf2E8] at h
   · exact ⟨_, rfl, h⟩
-  all_goals exact h.elim
 
 theorem exists_perfect_centralizer_E78
     {τ : Tag} (d : ℕ) (hτ : (τ = .E7 ∧ d = 2) ∨ (τ = .E8 ∧ d = 1))
@@ -96,7 +94,7 @@ theorem exists_perfect_centralizer_E78
   have h2L : ((2 : ℕ) : L) = 0 := by
     have := S.hqpow.2
     rwa [hq2] at this
-  haveI : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2L
+  have : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2L
   have hΓM : ∀ m ∈ S.D.model, ∀ y ∈ S.Γ, m * y * m⁻¹ ∈ S.Γ := by
     intro m hm y hy
     have h := Subgroup.normalizer_commutator_ge_left (H₁ := S.D.model) (H₂ := S.D.model) hm
@@ -157,7 +155,7 @@ theorem exists_perfect_centralizer_E78
       ({rootDiagUnit τ (thetaTupleG τ ζ v)} : Set (ModGL τ L)) :=
     hJle.trans inf_le_right
   have hJperf : ⁅J, J⁆ = J := by
-    haveI : Group.IsPerfect ↥J := ⟨hJq.1⟩
+    have : Group.IsPerfect ↥J := ⟨hJq.1⟩
     exact Subgroup.commutator_eq_self
   have hJ3card : 3 ∣ Nat.card J :=
     hJ3.trans (Subgroup.card_quotient_dvd_card (Subgroup.center ↥J))
@@ -274,7 +272,7 @@ theorem fixed_perfect_gf2E7
     fun t ht =>
       CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs295e.exists_elemAbelian_E7_two
         hK2 t ht
-  haveI : Finite (ModGL Tag.E7 K) := finite_modGL
+  have : Finite (ModGL Tag.E7 K) := finite_modGL
   exact fixed_perfect_of_mulEquiv φ
     (mulAut_mem_range_conj_E78 (Or.inl rfl) K hK2)
     center_adjointGroup_eq_bot
@@ -290,8 +288,7 @@ theorem good3On_gf2E7
     Good3On gf2E7 :=
   good3On_of_fixed_perfect hPL (fun e he => by
     cases e <;> simp only [gf2E7] at he
-    · exact three_ne_characteristic_of_card_two (TauCeti.LieTypeIndex.characteristic_E7 _) he
-    all_goals exact he.elim)
+    · exact three_ne_characteristic_of_card_two (TauCeti.LieTypeIndex.characteristic_E7 _) he)
     (by
       intro d _ hd
       exact fixed_perfect_gf2E7 h7 d hd)
@@ -320,7 +317,7 @@ theorem fixed_perfect_gf2E8
     fun t ht =>
       CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs295e.exists_elemAbelian_E8_two
         hK2 t ht
-  haveI : Finite (ModGL Tag.E8 K) := finite_modGL
+  have : Finite (ModGL Tag.E8 K) := finite_modGL
   exact fixed_perfect_of_mulEquiv φ
     (mulAut_mem_range_conj_E78 (Or.inr rfl) K hK2)
     center_adjointGroup_eq_bot
@@ -336,8 +333,7 @@ theorem good3On_gf2E8
     Good3On gf2E8 :=
   good3On_of_fixed_perfect hPL (fun e he => by
     cases e <;> simp only [gf2E8] at he
-    · exact three_ne_characteristic_of_card_two (TauCeti.LieTypeIndex.characteristic_E8 _) he
-    all_goals exact he.elim)
+    · exact three_ne_characteristic_of_card_two (TauCeti.LieTypeIndex.characteristic_E8 _) he)
     (by
       intro d _ hd
       exact fixed_perfect_gf2E8 h8 d hd)

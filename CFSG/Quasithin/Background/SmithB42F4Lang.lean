@@ -243,7 +243,7 @@ theorem exists_inverting_data (hK : Nat.card K = 2 ^ (2 * a + 1)) {ℓ : ℕ} (h
     exact hℓ2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hℓ).1 h2).symm
   have : NeZero (ℓ : L) := ⟨hℓ0⟩
   have : NeZero ℓ := ⟨hℓ.ne_zero⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L ℓ
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L ℓ
   set z : rootsOfUnity ℓ L := ⟨hζ.toRootsOfUnity, by simp⟩ with hz
   have hzord : orderOf z = ℓ := by
     have : Fact ℓ.Prime := ⟨hℓ⟩

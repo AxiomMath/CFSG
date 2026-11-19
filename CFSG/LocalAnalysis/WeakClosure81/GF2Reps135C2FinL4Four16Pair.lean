@@ -39,10 +39,10 @@ theorem card_endField_eq_two_of_card_eq_two_pow_sixteen {K : Type} [Field K] [Fi
   have hEcard' : Nat.card E = 2 ^ s := hEcard
   have hε' : HasTwistedLabel ρ ε := hε
   obtain ⟨k, hfield, hcharp, hEalg, hKalg, y, χ, J, h0, ht, hχ, hJ, β, hβ⟩ := hε'
-  letI : Field k := hfield
-  letI : CharP k 2 := hcharp
-  letI : Algebra E k := hEalg
-  letI : Algebra K k := hKalg
+  let : Field k := hfield
+  let : CharP k 2 := hcharp
+  let : Algebra E k := hEalg
+  let : Algebra K k := hKalg
   have hEle : Nat.card E ≤ Nat.card K := card_endField_le_of_hasTwistedLabel (ρ := ρ) hε
   have hKcard : Nat.card K = 4 := by rw [Nat.card_eq_fintype_card, hK]
   have hs2 : s ≤ 2 := by
@@ -111,7 +111,7 @@ theorem card_endField_eq_two_of_card_eq_two_pow_sixteen {K : Type} [Field K] [Fi
         have hd_choose : finrank k (BModel k ε) = Nat.choose 4 j.val := by
           rw [β'.finrank_eq, Module.finrank_fintype_fun_eq_card, ← Nat.card_eq_fintype_card,
             Set.powersetCard.card]
-          simp [Nat.card_fin]
+          simp
         rw [← hd_choose]
         exact hd8
       have hj0 : j ≠ 0 := by
@@ -166,10 +166,10 @@ theorem eq_pair_of_card_endField_eq_two {K : Type} [Field K] [Fintype K] [CharP 
   have hEcard' : Nat.card E = 2 ^ s := hEcard
   have hε' : HasTwistedLabel ρ ε := hε
   obtain ⟨k, hfield, hcharp, hEalg, hKalg, y, χ, J, h0, ht, hχ, hJ, β, hβ⟩ := hε'
-  letI : Field k := hfield
-  letI : CharP k 2 := hcharp
-  letI : Algebra E k := hEalg
-  letI : Algebra K k := hKalg
+  let : Field k := hfield
+  let : CharP k 2 := hcharp
+  let : Algebra E k := hEalg
+  let : Algebra K k := hKalg
   have hs1 : s = 1 := by
     have h : 2 ^ s = 2 ^ 1 := by
       rw [pow_one, ← hEcard']

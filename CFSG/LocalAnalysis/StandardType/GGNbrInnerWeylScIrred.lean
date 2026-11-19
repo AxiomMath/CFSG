@@ -200,7 +200,7 @@ theorem largeEvenLabelAll_card_lt_twAThree {p : ℕ} {lab : LargeEvenLabel} (hp 
 section Main
 
 theorem ggNbrInnerWeylOn_unitThree : GGNbrInnerWeylOn GGNbrWeylUnitThreeLabel :=
-  ggNbrInnerWeylOn_of_labels fun p lab hp hp2 hlab ⟨hpow, ht, hl, hpq⟩ =>
+  ggNbrInnerWeylOn_of_labels fun _p _lab hp hp2 hlab ⟨hpow, ht, hl, hpq⟩ =>
     largeEvenLabelAll_weylInnerKLevel_of_noLine_or
       (largeEvenLabelAll_pow_mem_powMem hp hp2 hlab hpow)
       ((largeEvenLabelAll_card_lt_twAThree hp hlab ⟨ht, hl, hpq⟩).mono

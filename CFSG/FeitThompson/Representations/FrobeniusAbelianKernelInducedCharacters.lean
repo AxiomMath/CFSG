@@ -125,6 +125,7 @@ theorem eq_one_of_forall_apply_eq [Finite P]
 
 variable [Fintype P] [Fintype U]
 
+omit [Fintype U] in
 theorem inertiaGroup_le_range_inl
     (hφ : ∀ v : U, v ≠ 1 → MonoidHom.FixedPointFree (φ v : P → P)) {lam : P → ℂ}
     (hlam : lam ∈ Irr P) (hlam1 : lam ≠ 1) :
@@ -139,6 +140,7 @@ theorem inertiaGroup_le_range_inl
   have h1 : t.right⁻¹ = 1 := eq_one_of_forall_apply_eq hφ hlam hlam1 hlam'
   rw [mem_range_inl_iff, ← inv_inv t.right, h1, inv_one]
 
+omit [Fintype U] in
 theorem inertiaGroup_eq_range_inl
     (hφ : ∀ v : U, v ≠ 1 → MonoidHom.FixedPointFree (φ v : P → P)) {lam : P → ℂ}
     (hlam : lam ∈ Irr P) (hlam1 : lam ≠ 1) :
@@ -195,7 +197,7 @@ theorem indClassFun_kernelChar_eq_iff {lam mu : P → ℂ} (hlam : lam ∈ Irr P
     rw [← hu]
     simp
 
-noncomputable def frobeniusInducedIrr (φ : U →* MulAut P) [Fintype P] [Fintype U] : Set (P ⋊[φ] U → ℂ) :=
+noncomputable def frobeniusInducedIrr (φ : U →* MulAut P) : Set (P ⋊[φ] U → ℂ) :=
   (fun lam => indClassFun (inl : P →* P ⋊[φ] U).range (kernelChar φ lam)) '' nonprincipalIrr P
 
 theorem mem_frobeniusInducedIrr {f : P ⋊[φ] U → ℂ} :

@@ -54,7 +54,7 @@ theorem comm_mem_pCoreOf_neX1 (hA : Asc81bHyp X S) (hSL : S ≤ Subgroup.normali
     have h2 := L.mul_mem hy.1 h1
     rwa [show y * (s * y⁻¹ * s⁻¹) = y * s * y⁻¹ * s⁻¹ by group] at h2
 
-theorem isSolvable_neYh (hQ : pCoreOf 2 X ≤ S) (hLX : L ≤ X) (hQ2 : IsPGroup 2 (pCoreOf 2 X))
+theorem isSolvable_neYh (_hQ : pCoreOf 2 X ≤ S) (hLX : L ≤ X) (hQ2 : IsPGroup 2 (pCoreOf 2 X))
     {Dc : Subgroup (↥X ⧸ CFSG.pCore 2 ↥X)} [Group.IsSolvable ↥Dc] :
     Group.IsSolvable ↥(neYh X S L Dc) := by
   have hDhX : neYh X S L Dc ≤ X := (neYh_le_neY Dc).trans (inf_le_left.trans hLX)
@@ -74,6 +74,7 @@ theorem isSolvable_neYh (hQ : pCoreOf 2 X ≤ S) (hLX : L ≤ X) (hQ2 : IsPGroup
   rw [MonoidHom.ker_rangeRestrict, mem_ker_barIncl hDhX] at hy
   exact ⟨⟨(y : G), hy, y.2⟩, rfl⟩
 
+omit [Finite G] in
 theorem neY_le_sup_neYh (_hQ : pCoreOf 2 X ≤ S) (hLX : L ≤ X) {n : ℕ}
     {Dc : Subgroup (↥X ⧸ CFSG.pCore 2 ↥X)} {Yc : Fin n → Subgroup (↥X ⧸ CFSG.pCore 2 ↥X)}
     (hsup : barM X (neY S L) = Dc ⊔ ⨆ i, Yc i) :

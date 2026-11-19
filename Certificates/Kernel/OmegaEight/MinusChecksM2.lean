@@ -37,7 +37,7 @@ theorem off_okM : offCheck wM = true := by
   have hr : List.range 4096 = (List.range 4096).filter fun _ => true :=
     (List.filter_eq_self.2 fun _ _ => rfl).symm
   have hb : ∀ v < 4096, (2 ^ 4096 - 1 : ℕ).testBit v = (fun _ => true) v := fun v hv => by
-    simp [Nat.testBit_two_pow_sub_one, hv]
+    rw [Nat.testBit_two_pow_sub_one]; simp [hv]
   have hl : invTM.length = 55 := by decide +kernel
   rw [offCheck, invsOf_wM, hr, allRoots_eqM sw_eqM2 (Nat.sub_one_lt (by positivity)) hb]
   refine all_of_getD hl fun i hi => ?_

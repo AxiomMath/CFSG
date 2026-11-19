@@ -71,7 +71,7 @@ theorem fg_isCompl_plus_minus (hρ2 : ∀ v, ρ (ρ v) = v) : IsCompl (fgPlus ρ
       simp
 
 theorem fg_finrank_plus_minus [FiniteDimensional (ZMod 3) V] (hB : B.Nondegenerate)
-    (hsymm : ∀ x y, B x y = B y x) (hρ2 : ∀ v, ρ (ρ v) = v)
+    (_hsymm : ∀ x y, B x y = B y x) (hρ2 : ∀ v, ρ (ρ v) = v)
     (hρB : ∀ x y, B (ρ x) (ρ y) = -B x y) (hdim : Module.finrank (ZMod 3) V = 6) :
     Module.finrank (ZMod 3) (fgPlus ρ) = 3 ∧ Module.finrank (ZMod 3) (fgMinus ρ) = 3 := by
   have hcompl : IsCompl (fgPlus ρ) (fgMinus ρ) := fg_isCompl_plus_minus hρ2
@@ -117,8 +117,7 @@ theorem fg_finrank_plus_minus [FiniteDimensional (ZMod 3) V] (hB : B.Nondegenera
           Submodule.subtype_apply] using this
       have ha1 : B (u1 : V) a = 0 := fg_plus_isotropic hρB u1.property ha
       have ha2 : B (u2 : V) a = 0 := fg_plus_isotropic hρB u2.property ha
-      simp only [map_add, map_sub, LinearMap.sub_apply, hub, ha1, ha2, sub_self, zero_sub,
-        zero_add]
+      simp only [map_add, map_sub, LinearMap.sub_apply, hub, ha1, ha2, sub_self, zero_add]
     exact Subtype.ext (sub_eq_zero.mp hsub)
   have hle2 : Module.finrank (ZMod 3) (fgPlus ρ) ≤ Module.finrank (ZMod 3) (fgMinus ρ) := by
     have h := LinearMap.finrank_le_finrank_of_injective hΨinj
@@ -143,7 +142,7 @@ theorem fg_eichler_isom (hsymm : ∀ x y, B x y = B y x) {u w : V} (hu : B u u =
   ring
 
 theorem fg_eichler_comm (hρ2 : ∀ v, ρ (ρ v) = v) (hρB : ∀ x y, B (ρ x) (ρ y) = -B x y)
-    (hsymm : ∀ x y, B x y = B y x) {u w : V} {ε : ZMod 3} (hu : ρ u = ε • u)
+    (_hsymm : ∀ x y, B x y = B y x) {u w : V} {ε : ZMod 3} (hu : ρ u = ε • u)
     (hw : ρ w = (-ε) • w) (x : V) : ρ (fgEichler B u w x) = fgEichler B u w (ρ x) := by
   have hw' : B w (ρ x) = ε * B w x := by
     have h := hρB w (ρ x)

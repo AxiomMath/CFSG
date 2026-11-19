@@ -26,7 +26,7 @@ variable {V : Type u} {Γ : SimpleGraph V}
   tail i hi := by
     have h1 : i ≠ 0 := by omega
     have h2 : n + 1 ≠ 0 := by omega
-    simp only [h1, h2, if_false]
+    simp only [h1, h2, ite_false]
     rw [p.tail (i - 1) (by omega)]
     simp
 

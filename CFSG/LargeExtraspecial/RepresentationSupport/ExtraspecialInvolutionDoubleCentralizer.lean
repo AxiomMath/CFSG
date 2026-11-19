@@ -11,7 +11,7 @@ namespace ExtraspecialInvolutionDoubleCentralizer
 theorem dual_lemma_aux {K V : Type} [Field K] [AddCommGroup V] [Module K V] [Finite V]
     (B : V →ₗ[K] V →ₗ[K] K) (hnd : ∀ x, B x = 0 → x = 0) (N : Submodule K V) (c : V)
     (hc : c ∉ N) : ∃ x, (∀ n ∈ N, B x n = 0) ∧ B x c ≠ 0 := by
-  haveI : Module.Finite K V := Module.Finite.of_finite
+  have : Module.Finite K V := Module.Finite.of_finite
   obtain ⟨f, hfc, hfN⟩ := Submodule.exists_dual_map_eq_bot_of_notMem hc inferInstance
   have hinj : Function.Injective B := by
     rw [injective_iff_map_eq_zero]
@@ -30,7 +30,7 @@ theorem dual_lemma_aux {K V : Type} [Field K] [AddCommGroup V] [Module K V] [Fin
 theorem dual_lemma (V : Type) [AddCommGroup V] [Finite V] (h2 : ∀ v : V, 2 • v = 0)
     (B : V →+ V →+ ZMod 2) (hnd : ∀ x, B x = 0 → x = 0) (N : AddSubgroup V) (c : V)
     (hc : c ∉ N) : ∃ x, (∀ n ∈ N, B x n = 0) ∧ B x c ≠ 0 := by
-  letI : Module (ZMod 2) V := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) V := AddCommGroup.zmodModule h2
   have hz : ∀ c : ZMod 2, c = 0 ∨ c = 1 := by decide
   let Ψ : V → Module.Dual (ZMod 2) V := fun x =>
     { toFun := B x, map_add' := map_add _, map_smul' := by
@@ -172,7 +172,7 @@ theorem om_wd [Finite E] (a₁ b₁ a₂ b₂ : E)
 
 theorem key [Finite E] (S : Subgroup E) (hS : center E ≤ S) (c : E) (hc : c ∉ S) :
     ∃ x : E, (∀ s ∈ S, ⁅x, s⁆ = 1) ∧ ⁅x, c⁆ ≠ 1 := by
-  letI : CommGroup (E ⧸ center E) := qcg hE
+  let : CommGroup (E ⧸ center E) := qcg hE
   have hmul_l : ∀ p q r : E ⧸ center E, bq hE (p * q) r = bq hE p r + bq hE q r := by
     intro p q r
     induction p using QuotientGroup.induction_on with | _ x

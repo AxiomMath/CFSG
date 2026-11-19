@@ -83,7 +83,7 @@ theorem permAct_mem_permCore (σ : Equiv.Perm (Fin 5)) (x : Fin 5 → ZMod 2)
 theorem sIdx_spec {v : Ix → ZMod 2} {j : Fin 5} (hj : sv j = v) : sv (sIdx v) = v := by
   have h : ∃ k, sv k = v := ⟨j, hj⟩
   unfold sIdx
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact h.choose_spec
 
 @[expose] noncomputable def permOf (M : Matrix Ix Ix (ZMod 2)) (j : Fin 5) : Fin 5 :=

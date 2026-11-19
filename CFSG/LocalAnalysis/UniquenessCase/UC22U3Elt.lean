@@ -14,7 +14,7 @@ variable {k : ℕ} {E : Type} [Field E]
 
 theorem exists_trace_norm (hU : UnitaryFieldData 2 k E) :
     ∃ a b : E, a + hU.bar a = 1 ∧ a * hU.bar a + b * hU.bar b = 1 := by
-  haveI := hU.charP
+  have := hU.charP
   have h2 : (2 : E) = 0 := CharTwo.two_eq_zero
   obtain ⟨s, hs⟩ := hU.exists_bar_ne
   have hs0 : s + hU.bar s ≠ 0 := fun h0 => hs (by linear_combination h0 - s * h2)
@@ -35,8 +35,8 @@ theorem exists_orderOf_three_commute_line (hU : UnitaryFieldData 2 k E)
     ∃ c : primeFormP hU (1 : Matrix (Fin 3) (Fin 3) E), orderOf c = 3 ∧
       c * QuotientGroup.mk (d : gramSU hU (1 : Matrix (Fin 3) (Fin 3) E)) =
         QuotientGroup.mk (d : gramSU hU (1 : Matrix (Fin 3) (Fin 3) E)) * c := by
-  haveI := hU.charP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hU.charP
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2 : (2 : E) = 0 := CharTwo.two_eq_zero
   have hv := UCK.isOrthonormalFrame_single (p := 2) hU
   obtain ⟨a, b, ha, hab⟩ := exists_trace_norm hU

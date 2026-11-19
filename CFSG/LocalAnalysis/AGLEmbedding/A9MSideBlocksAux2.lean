@@ -236,7 +236,7 @@ theorem D1PhaseThree.exists_mulEquiv_le_barM {p : ℕ} {P : Sylow p G} {M H R : 
   obtain ⟨T⟩ : Nonempty (Sylow 3 ↥V) := inferInstance
   set U : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M) := (T : Subgroup ↥V).map V.subtype with hU
   have hUV : U ≤ V := Subgroup.map_subtype_le _
-  have hU3 : IsPGroup 3 U := T.isPGroup'.map _
+  have hU3 : IsPGroup 3 U := T.isPGroup.map _
   have hQb3 : IsPGroup 3 Qb := (hQ3.comap_subtype (K := M)).map mk
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hQb3
   have hUcard : Nat.card U = Nat.card Qb := by

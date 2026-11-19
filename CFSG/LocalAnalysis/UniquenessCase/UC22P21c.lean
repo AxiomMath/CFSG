@@ -73,15 +73,15 @@ theorem uc22p21c_commutator_perfectResidual_fitting_eq_bot {Q : Type*} [Group Q]
   set R := CFSG.perfectResidual Q with hR
   set F := CFSG.fittingSubgroup Q with hF
   set N := commutator Q with hN
-  haveI hRperf : Group.IsPerfect R :=
+  have hRperf : Group.IsPerfect R :=
     CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_isPerfect
-  haveI hRc : R.Characteristic :=
+  have hRc : R.Characteristic :=
     CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual_characteristic (G := Q)
-  haveI hRn : R.Normal := inferInstance
-  haveI hFn : F.Normal := (CFSG.LocalCores.fitting_nilpotent (G := Q)).2.1
+  have hRn : R.Normal := inferInstance
+  have hFn : F.Normal := (CFSG.LocalCores.fitting_nilpotent (G := Q)).2.1
   have hC₁ : (CFSG.fittingSubgroup ↥N).map N.subtype = N ⊓ F :=
     CFSG.LocalCores.fitting_normal_intersection N
-  haveI hcycC : IsCyclic ↥(N ⊓ F) := by
+  have hcycC : IsCyclic ↥(N ⊓ F) := by
     rw [← hC₁]
     exact isCyclic_of_surjective
       ((CFSG.fittingSubgroup ↥N).equivMapOfInjective N.subtype N.subtype_injective).toMonoidHom
@@ -103,18 +103,18 @@ theorem uc22p21c_isCyclic_centralizer_layer_inf_commutator {Q : Type*} [Group Q]
     IsCyclic ↥(Subgroup.centralizer (CFSG.layer Q : Set Q) ⊓ commutator Q) := by
   set N := commutator Q with hN
   set F := CFSG.fittingSubgroup Q with hF
-  haveI hFn : F.Normal := (CFSG.LocalCores.fitting_nilpotent (G := Q)).2.1
-  haveI hLn : (CFSG.layer Q).Normal := by
+  have hFn : F.Normal := (CFSG.LocalCores.fitting_nilpotent (G := Q)).2.1
+  have hLn : (CFSG.layer Q).Normal := by
     rw [CFSG.layer_eq_componentClassification]
     exact CFSG.ComponentClassification.Layer.normal Q
-  haveI hXn : (Subgroup.centralizer (CFSG.layer Q : Set Q)).Normal :=
+  have hXn : (Subgroup.centralizer (CFSG.layer Q : Set Q)).Normal :=
     uc22p21c_normal_centralizer (CFSG.layer Q)
   set K := Subgroup.centralizer (CFSG.layer Q : Set Q) ⊓ N with hK
-  haveI hKn : K.Normal := inferInstance
+  have hKn : K.Normal := inferInstance
   have hKN : K ≤ N := inf_le_right
   have hC₁ : (CFSG.fittingSubgroup ↥N).map N.subtype = N ⊓ F :=
     CFSG.LocalCores.fitting_normal_intersection N
-  haveI hcycC : IsCyclic ↥(N ⊓ F) := by
+  have hcycC : IsCyclic ↥(N ⊓ F) := by
     rw [← hC₁]
     exact isCyclic_of_surjective
       ((CFSG.fittingSubgroup ↥N).equivMapOfInjective N.subtype N.subtype_injective).toMonoidHom
@@ -133,15 +133,15 @@ theorem uc22p21c_isCyclic_centralizer_layer_inf_commutator {Q : Type*} [Group Q]
       rw [CFSG.layer_eq_componentClassification]
       exact CFSG.ComponentClassification.Layer.component_le hB'
     have hKX : K ≤ Subgroup.centralizer (CFSG.layer Q : Set Q) := inf_le_left
-    haveI hcomm : IsMulCommutative ↥B := by
+    have hcomm : IsMulCommutative ↥B := by
       refine ⟨⟨fun a b => ?_⟩⟩
       have ha : ((a : ↥K) : Q) ∈ B.map K.subtype := ⟨a, a.2, rfl⟩
       have hb : ((b : ↥K) : Q) ∈ B.map K.subtype := ⟨b, b.2, rfl⟩
       have h1 := Subgroup.mem_centralizer_iff.mp (hKX (b : ↥K).2) _ (hle ha)
       exact Subtype.ext (Subtype.ext h1)
-    haveI : Group.IsPerfect ↥B := hB.1.1
+    have : Group.IsPerfect ↥B := hB.1.1
     have hsubs : Subsingleton ↥B := Group.IsPerfect.subsingleton_of_isMulCommutative
-    haveI : Nontrivial ↥B := CFSG.LocalCores.isQuasisimple_nontrivial hB.1
+    have : Nontrivial ↥B := CFSG.LocalCores.isQuasisimple_nontrivial hB.1
     exact not_subsingleton _ hsubs
   have hFstar : CFSG.generalizedFitting ↥K = CFSG.fittingSubgroup ↥K := by
     rw [CFSG.generalizedFitting.eq_sup, hlayer, sup_bot_eq]
@@ -170,10 +170,10 @@ theorem uc22p21c_isCyclic_centralizer_layer_inf_commutator {Q : Type*} [Group Q]
 
 theorem uc22p21c_normal_centralizer_layer_inf_commutator (Q : Type*) [Group Q] [Finite Q] :
     (Subgroup.centralizer (CFSG.layer Q : Set Q) ⊓ commutator Q).Normal := by
-  haveI hLn : (CFSG.layer Q).Normal := by
+  have hLn : (CFSG.layer Q).Normal := by
     rw [CFSG.layer_eq_componentClassification]
     exact CFSG.ComponentClassification.Layer.normal Q
-  haveI hXn : (Subgroup.centralizer (CFSG.layer Q : Set Q)).Normal :=
+  have hXn : (Subgroup.centralizer (CFSG.layer Q : Set Q)).Normal :=
     uc22p21c_normal_centralizer (CFSG.layer Q)
   infer_instance
 
@@ -228,9 +228,11 @@ variable {G : Type} [Group G] [Finite G]
 
 abbrev uc22p21cPi (M : Subgroup G) : ↥M →* Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
 
+omit [Finite G] in
 theorem uc22p21c_pi_surjective (M : Subgroup G) : Function.Surjective (uc22p21cPi M) :=
   QuotientGroup.mk'_surjective _
 
+omit [Finite G] in
 theorem uc22p21c_mem_barPreimage {M : Subgroup G} {Y : Subgroup (Bar2 M)} {x : G} :
     x ∈ barPreimage M Y ↔ ∃ h : x ∈ M, uc22p21cPi M ⟨x, h⟩ ∈ Y := by
   unfold barPreimage
@@ -240,10 +242,12 @@ theorem uc22p21c_mem_barPreimage {M : Subgroup G} {Y : Subgroup (Bar2 M)} {x : G
   · rintro ⟨h, hx⟩
     exact ⟨⟨x, h⟩, hx, rfl⟩
 
+omit [Finite G] in
 theorem uc22p21c_barPreimage_le (M : Subgroup G) (Y : Subgroup (Bar2 M)) : barPreimage M Y ≤ M := by
   intro x hx
   exact ((uc22p21c_mem_barPreimage).1 hx).1
 
+omit [Finite G] in
 theorem uc22p21c_mem_barImage {M P : Subgroup G} {q : Bar2 M} :
     q ∈ barImage M P ↔ ∃ m : ↥M, (m : G) ∈ P ∧ uc22p21cPi M m = q := by
   unfold barImage
@@ -253,6 +257,7 @@ theorem uc22p21c_mem_barImage {M P : Subgroup G} {q : Bar2 M} :
   · rintro ⟨m, hm, rfl⟩
     exact ⟨m, hm, rfl⟩
 
+omit [Finite G] in
 theorem uc22p21c_mem_Hinf {K : Subgroup G} {x : G} :
     x ∈ Hinf K ↔ ∃ m ∈ CFSG.perfectResidual ↥K, (m : G) = x := by
   unfold Hinf CFSG.inSubgroup
@@ -262,6 +267,7 @@ theorem uc22p21c_mem_Hinf {K : Subgroup G} {x : G} :
   · rintro ⟨m, hm, rfl⟩
     exact ⟨m, hm, rfl⟩
 
+omit [Finite G] in
 theorem uc22p21c_Hinf_le (K : Subgroup G) : Hinf K ≤ K := by
   intro x hx
   obtain ⟨m, _, rfl⟩ := uc22p21c_mem_Hinf.1 hx
@@ -274,6 +280,7 @@ theorem uc22p21c_Hinf_perfect (K : Subgroup G) : ⁅Hinf K, Hinf K⁆ = Hinf K :
   unfold Hinf CFSG.inSubgroup
   rw [← Subgroup.map_commutator, h]
 
+omit [Finite G] in
 theorem uc22p21c_le_Hinf {P K : Subgroup G} (hPK : P ≤ K) (hP : ⁅P, P⁆ = P) : P ≤ Hinf K := by
   have hP' : (P.subgroupOf K).map K.subtype = P := by
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hPK]
@@ -351,12 +358,15 @@ theorem uc22p21c_Hinf_eq_iff (M : Subgroup G) :
     · exact uc22p21c_le_Hinf ((uc22p21c_Hinf_le _).trans (uc22p21c_barPreimage_le M _))
         (uc22p21c_Hinf_perfect _)
 
+omit [Finite G] in
 theorem uc22p21c_isPGroup_pCoreOf (K : Subgroup G) : IsPGroup 2 (pCoreOf 2 K) :=
   (CFSG.pCore_isPGroup (p := 2) (G := ↥K)).map K.subtype
 
+omit [Finite G] in
 theorem uc22p21c_pCoreOf_le (K : Subgroup G) : pCoreOf 2 K ≤ K :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem uc22p21c_le_pCoreOf {K P : Subgroup G} (hPK : P ≤ K) (hP : IsPGroup 2 P)
     (hn : ∀ k ∈ K, ∀ x ∈ P, k * x * k⁻¹ ∈ P) : P ≤ pCoreOf 2 K := by
   have hN : (P.subgroupOf K).Normal := ⟨fun x hx k => hn (k : G) k.2 x hx⟩
@@ -365,12 +375,14 @@ theorem uc22p21c_le_pCoreOf {K P : Subgroup G} (hPK : P ≤ K) (hP : IsPGroup 2 
   intro x hx
   exact ⟨⟨x, hPK hx⟩, hle hx, rfl⟩
 
+omit [Finite G] in
 theorem uc22p21c_conj_mem_pCoreOf_self {K : Subgroup G} {k x : G} (hk : k ∈ K)
     (hx : x ∈ pCoreOf 2 K) : k * x * k⁻¹ ∈ pCoreOf 2 K := by
   obtain ⟨y, hy, rfl⟩ := hx
   exact ⟨⟨k, hk⟩ * y * ⟨k, hk⟩⁻¹,
     (CFSG.pCore_normal (p := 2) (G := ↥K)).conj_mem y hy ⟨k, hk⟩, rfl⟩
 
+omit [Finite G] in
 theorem uc22p21c_pCoreOf_le_of_subnormal {K L : Subgroup G} (h : CFSG.Open.IsSubnormal K L) :
     pCoreOf 2 K ≤ pCoreOf 2 L := by
   induction h with
@@ -392,10 +404,11 @@ theorem uc22p21c_pCoreOf_le_of_subnormal {K L : Subgroup G} (h : CFSG.Open.IsSub
       have hk' : m⁻¹ * k * m ∈ K := by simpa using hnorm m⁻¹ (M.inv_mem hm) k hk
       refine ⟨(m⁻¹ * k * m) * y * (m⁻¹ * k * m)⁻¹,
         uc22p21c_conj_mem_pCoreOf_self hk' hy, ?_⟩
-      simp only [MulAut.conj_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+      simp only [MulAut.conj_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass]
       group
     exact uc22p21c_le_pCoreOf hPK hP2 hPn ⟨x, hx, rfl⟩
 
+omit [Finite G] in
 theorem uc22p21c_mem_map_conj {K : Subgroup G} {g x : G} :
     x ∈ K.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * x * g ∈ K := by
   rw [Subgroup.mem_map_equiv]
@@ -418,7 +431,7 @@ theorem uc22p21c_mem_map_conj {K : Subgroup G} {g x : G} :
 theorem uc22p21c_perfectResidual_normalizes {M L : Subgroup G}
     (h : (conjSetOf M L).ncard ≤ 2) :
     ∀ m ∈ CFSG.perfectResidual ↥M, ∀ x ∈ L, (m : G) * x * (m : G)⁻¹ ∈ L := by
-  letI : MulAction ↥M (Subgroup G) := uc22p21cAct M
+  let : MulAction ↥M (Subgroup G) := uc22p21cAct M
   have horb : MulAction.orbit ↥M L = conjSetOf M L := by
     ext K
     constructor
@@ -429,7 +442,7 @@ theorem uc22p21c_perfectResidual_normalizes {M L : Subgroup G}
   have hcard : Nat.card ↥(MulAction.orbit ↥M L) ≤ 2 := by
     rw [horb, Nat.card_coe_set_eq]
     exact h
-  haveI : IsMulCommutative (Equiv.Perm ↥(MulAction.orbit ↥M L)) :=
+  have : IsMulCommutative (Equiv.Perm ↥(MulAction.orbit ↥M L)) :=
     Equiv.Perm.isMulCommutative_iff_card_le_two.mpr hcard
   let φ : ↥M →* Equiv.Perm ↥(MulAction.orbit ↥M L) :=
     MulAction.toPermHom ↥M ↥(MulAction.orbit ↥M L)
@@ -445,11 +458,11 @@ theorem uc22p21c_perfectResidual_normalizes {M L : Subgroup G}
 
 theorem uc22p21c_exists_calC_of_component (M : Subgroup G) {C : Subgroup (Bar2 M)}
     (hC : CFSG.IsComponent C) : ∃ L ∈ calC M, barImage M L = C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCc : C ∈ CFSG.Quasithin.cComp (⊤ : Subgroup (Bar2 M)) :=
     CFSG.Quasithin.mem_cComp_top_of_isComponent hC
-  haveI hPs : Group.IsSolvable ↥(CFSG.pCore 2 ↥M) := by
-    haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥M) := (CFSG.pCore_isPGroup (p := 2)).isNilpotent
+  have hPs : Group.IsSolvable ↥(CFSG.pCore 2 ↥M) := by
+    have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥M) := (CFSG.pCore_isPGroup (p := 2)).isNilpotent
     infer_instance
   have hsolv : Group.IsSolvable (uc22p21cPi M).ker := by
     rw [QuotientGroup.ker_mk']
@@ -514,13 +527,13 @@ theorem uc22p21c_exists_calC_of_component (M : Subgroup G) {C : Subgroup (Bar2 M
 
 theorem uc22p21c_inCatalog_component (D : Data G) {C : Subgroup (Bar2 D.M)}
     (hC : CFSG.IsComponent C) : CFSG.Assembly.InCatalog (↥C ⧸ Subgroup.center ↥C) := by
-  haveI : (CFSG.pCore 2 ↥D.M).Normal := CFSG.pCore_normal
-  haveI := D.standing.simple
+  have : (CFSG.pCore 2 ↥D.M).Normal := CFSG.pCore_normal
+  have := D.standing.simple
   have hMtop : D.M ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab D.maxLocal.1
   have hKK : CFSG.Open.IsKGroup ↥D.M := D.standing.kProper.isKGroup D.M hMtop
   have hB : CFSG.Open.IsKGroup (Bar2 D.M) := hKK.quotient _
-  haveI : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC.1.2.1
+  have : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC.1.2.1
   exact hB.isCatalogGroup_of_surjective C hC.1.2.2 (QuotientGroup.mk' (Subgroup.center ↥C))
     (QuotientGroup.mk'_surjective _)
 
@@ -570,7 +583,7 @@ theorem uc22p21c_perfectResidual_le_layer (D : Data G) (Ch : Choice2011 G) (h21_
     (h1930 : H1930 D) (c : Ctx21 D Ch)
     (hF : ⁅CFSG.perfectResidual (Bar2 D.M), CFSG.fittingSubgroup (Bar2 D.M)⁆ = ⊥) :
     CFSG.perfectResidual (Bar2 D.M) ≤ CFSG.layer (Bar2 D.M) := by
-  haveI hperf : Group.IsPerfect (CFSG.perfectResidual (Bar2 D.M)) :=
+  have hperf : Group.IsPerfect (CFSG.perfectResidual (Bar2 D.M)) :=
     CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_isPerfect
   rw [CFSG.layer_eq_componentClassification]
   refine CFSG.ComponentClassification.GeneralizedFitting.perfect_normalizer_enters_layer _ hF ?_ ?_
@@ -579,7 +592,7 @@ theorem uc22p21c_perfectResidual_le_layer (D : Data G) (Ch : Choice2011 G) (h21_
       ((CFSG.isComponent_iff_open C).2 hC)
   · intro C hC
     have hC' := (CFSG.isComponent_iff_open C).2 hC
-    haveI : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC'.1.2.1
+    have : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC'.1.2.1
     exact hSch _ hC'.1.2.2 (uc22p21c_inCatalog_component D hC')
 
 theorem s21_18_of (D : Data G) (Ch : Choice2011 G) (h21_17 : S21_17 D Ch)
@@ -614,7 +627,8 @@ theorem uc22p21c_oResidual_bar_eq_top {M : Subgroup G} {p : ℕ} (hp : p.Prime)
         intro x hx
         exact Subgroup.subset_closure (Nat.Coprime.coprime_dvd_left (orderOf_map_dvd _ x) hx)
 
-theorem uc22p21c_pow_eq_one_of_mem {M P : Subgroup G} {p : ℕ} (hPp : IsPGroup p ↥P) (hPM : P ≤ M)
+omit [Finite G] in
+theorem uc22p21c_pow_eq_one_of_mem {M P : Subgroup G} {p : ℕ} (hPp : IsPGroup p ↥P) (_hPM : P ≤ M)
     {x : ↥M} (hx : (x : G) ∈ P) : ∃ k : ℕ, (uc22p21cPi M x) ^ (p ^ k) = 1 := by
   obtain ⟨k, hk⟩ := hPp ⟨x, hx⟩
   refine ⟨k, ?_⟩
@@ -628,11 +642,11 @@ theorem s21_23_of (D : Data G) (Ch : Choice2011 G) (h21_18 : S21_18 D Ch) (h638 
     S21_23 D Ch := by
   intro h1930 c p hpσ P hP hcyc
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hpσ
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   set M := D.M with hMdef
   have hK : IsCyclic ↥(centE M ⊓ commutator (Bar2 M)) :=
     uc22p21c_isCyclic_centralizer_layer_inf_commutator hcyc
-  haveI hKn : (centE M ⊓ commutator (Bar2 M)).Normal :=
+  have hKn : (centE M ⊓ commutator (Bar2 M)).Normal :=
     uc22p21c_normal_centralizer_layer_inf_commutator (Bar2 M)
   have hcomm_le : ⁅centE M, centE M⁆ ≤ centE M ⊓ commutator (Bar2 M) :=
     le_inf (Subgroup.commutator_le_self _) (Subgroup.commutator_mono le_top le_top)

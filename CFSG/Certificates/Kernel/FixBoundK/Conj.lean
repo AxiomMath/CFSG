@@ -73,7 +73,7 @@ theorem commΩ_conj (g : AutPerm) (P : Subgroup AutPerm) :
   rw [commΩ, commΩ, Submodule.map_span, Set.image_insert_eq, hΩ]
   congr 2
   ext x
-  simp only [Set.mem_setOf_eq, Set.mem_image]
+  simp only [Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro ⟨q, hq, c, rfl⟩
     obtain ⟨p, hp, rfl⟩ := mem_conjSub.1 hq

@@ -83,7 +83,7 @@ theorem case2_main (hchk : e8TenTwoCheck () = true) (hK : Nat.card K = 2)
     (hne : ∃ β, κF D v β ≠ 0) :
     ∃ m ∈ H, m ∈ Qθ Tag.E8 K ∧
       heisCoord Tag.E8 K m ∉ VS (TwClass.e8Ten.X₁ D ⊔ TwClass.e8Ten.X₂ D) := by
-  haveI hcL : CharP D.L 2 := charP_L D hK
+  have hcL : CharP D.L 2 := charP_L D hK
   simp only [e8TenTwoCheck, Bool.and_eq_true] at hchk
   obtain ⟨⟨⟨⟨hrat, hcols⟩, hwords⟩, hbfs⟩, hall⟩ := hchk
   obtain ⟨ω, hω⟩ := exists_omega D hK
@@ -211,7 +211,7 @@ theorem case2_main (hchk : e8TenTwoCheck () = true) (hK : Nat.card K = 2)
     rw [expandV_getD hi]
     have h2 : 2 * k₁ % 2 = 0 := by omega
     have h3 : 2 * k₁ / 2 = k₁ := by omega
-    rw [if_pos h2, h3]
+    rw [ite_eq_left h2, h3]
   have hemb : emb ω ((expandV d).getD (2 * k₁) 0) ≠ 0 := by
     intro h0
     exact hdig (by rw [← hdig4]; exact emb_eq_zero hω (expandV_lt d _) h0)

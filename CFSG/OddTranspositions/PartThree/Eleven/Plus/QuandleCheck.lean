@@ -721,11 +721,11 @@ theorem plusQuandleMkD_get (a c' t : ℕ) (ht : t < 60) (hseq : plusQuandleSeq a
   dsimp only [plusQuandleStep]
   rw [Array.getElem!_set!_self]
   · by_cases hc0 : plusQuandleCode a t = 0
-    · rw [if_pos hc0, if_pos hc0]
-    · rw [if_neg hc0, if_neg hc0]
+    · rw [ite_eq_left hc0, ite_eq_left hc0]
+    · rw [ite_eq_right hc0, ite_eq_right hc0]
       by_cases hc1 : plusQuandleCode a t = 1
-      · rw [if_pos hc1, if_pos hc1]
-      · rw [if_neg hc1, if_neg hc1]
+      · rw [ite_eq_left hc1, ite_eq_left hc1]
+      · rw [ite_eq_right hc1, ite_eq_right hc1]
         obtain ⟨hx, hy⟩ := hsrc (by omega)
         rw [← h4 ((plusQuandleCode a t - 2) / 60) hx,
           ← h4 ((plusQuandleCode a t - 2) % 60) hy]

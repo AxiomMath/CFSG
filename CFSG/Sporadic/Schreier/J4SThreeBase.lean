@@ -25,9 +25,9 @@ namespace CFSG.Sporadic.J4Schreier
 open CFSG.Sporadic.J4 CFSG.Sporadic.GLQ CFSG.Sporadic.SmallF2.Native
 open CFSG.LocalAnalysis.ComponentInitial CFSG.GroupActions MulAction
 
-@[expose] def q3gen (i : ℕ) : J := signedWord x y q3Words[i]! ^ q3Exps[i]!
+def q3gen (i : ℕ) : J := signedWord x y q3Words[i]! ^ q3Exps[i]!
 
-@[expose] def Q3 : Subgroup J := Subgroup.closure (Set.range fun i : Fin 2 => q3gen i)
+def Q3 : Subgroup J := Subgroup.closure (Set.range fun i : Fin 2 => q3gen i)
 
 theorem q3gen_mem_K (i : ℕ) : q3gen i ∈ K := K.pow_mem (signedWord_mem_K _) _
 

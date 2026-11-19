@@ -23,7 +23,8 @@ variable {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Fins
   {e' : Fin m ≃ ι} {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {ψ : Su F0 2 1 m →* G}
   {ε : Equiv.Perm (Fin m) ≃* ↥(ggAutomizer L Bs)} {βL : Additive ↥Bs ≃+ DVec m} {ω : F0ˣ}
 
-theorem ggQTwoDUnit_mem_B {a b c : Fin m} (hca : c ≠ a) (hcb : c ≠ b) (hBBs : B ≤ Bs)
+omit [Finite G] in
+theorem ggQTwoDUnit_mem_B {a b c : Fin m} (hca : c ≠ a) (hcb : c ≠ b) (_hBBs : B ≤ Bs)
     (hshape : B = Bs ∨ ∀ s : ↥Bs,
       ((s : G) ∈ B ↔ βL (Additive.ofMul s) a = βL (Additive.ofMul s) b))
     {b' : ↥Bs} (hb' : βL (Additive.ofMul b') = Pi.single c 1) : (b' : G) ∈ B := by
@@ -143,7 +144,7 @@ theorem ggQTwoDUnit_cent_J (hm : 5 ≤ m) (hbase : QTwoUnitBase p B Bs x L ψ ε
           _ = ψ u * (b' : G) := by rw [hconj]
       exact hcomm.symm
 
-theorem ggQTwoDUnit_J_iso (hm : 5 ≤ m) (hbase : QTwoUnitBase p B Bs x L ψ ε) (c : Fin m)
+theorem ggQTwoDUnit_J_iso (_hm : 5 ≤ m) (hbase : QTwoUnitBase p B Bs x L ψ ε) (c : Fin m)
     (g : G) :
     ∃ θ : Su F0 2 1 (m - 1) →* G, Function.Injective θ ∧
       θ.range = (coordBlockSU F0 2 1 (Finset.univ.erase c)).map ψ ∧
@@ -229,9 +230,9 @@ theorem ggQTwoDUnit_common (hEA : GGQTwoEdgeAmbientInput) (hcfg : GGQTwoDCfg p B
     Subgroup.map_mono (qTwoS34_coordBlockSU_mono hTS)
   refine ⟨hP1, ?_, ?_, ?_⟩
   · exact hshared ▸ Subgroup.map_mono hP1
-  · haveI : Group.IsPerfect ↥((coordBlockSU F0 2 1 T).map ψ) := by
-      haveI : Group.IsPerfect ↥(coordBlockSU F0 2 1 T) := by
-        haveI : Group.IsPerfect (Su F0 2 1 T.card) :=
+  · have : Group.IsPerfect ↥((coordBlockSU F0 2 1 T).map ψ) := by
+      have : Group.IsPerfect ↥(coordBlockSU F0 2 1 T) := by
+        have : Group.IsPerfect (Su F0 2 1 T.card) :=
           isPerfect_Su hbase.card_field (by rw [hcardT]; omega)
         exact Group.IsPerfect.range (blockSUOn F0 2 1 T)
       exact Group.IsPerfect.map (f := ψ)

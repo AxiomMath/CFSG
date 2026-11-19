@@ -10,7 +10,7 @@ open CFSG.ABGLocalTools
 
 variable {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
 
-theorem le_sup_of_isPGroup_quotient_of_isSylowOf {C S Y : Subgroup G} (hCY : C ≤ Y)
+theorem le_sup_of_isPGroup_quotient_of_isSylowOf {C S Y : Subgroup G} (_hCY : C ≤ Y)
     [hCnormal : (C.subgroupOf Y).Normal] (hSyl : IsSylowOf p S Y)
     (hquot : IsPGroup p (↥Y ⧸ C.subgroupOf Y)) :
     Y ≤ C ⊔ S := by

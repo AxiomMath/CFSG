@@ -199,7 +199,7 @@ theorem isNilpotent_of_pResidual_le_centralizer {K : Type*} [Group K] [Finite K]
       let P : Sylow p K := default
       have hPF : (P : Subgroup K) ≤ F := fun x hx =>
         hS2 p hp hpK x (by
-          obtain ⟨j, hj⟩ := P.isPGroup' ⟨x, hx⟩
+          obtain ⟨j, hj⟩ := P.isPGroup ⟨x, hx⟩
           exact ⟨j, by simpa using congrArg Subtype.val hj⟩)
       have h1 : p ^ (Nat.card K).factorization p ∣ Nat.card F := by
         rw [← Sylow.card_eq_multiplicity P]

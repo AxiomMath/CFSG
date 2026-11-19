@@ -43,6 +43,7 @@ theorem thm66F_of_faith (h₁ : Thm66FFaith) (h₂ : Thm66FNonFaith) : Thm66F :=
     · exact h₁ V G S L hc hf
     · exact h₂ V G S L hc hf
 
+omit [Finite V] in
 theorem Conf66.L_le {G S L : Subgroup (GLV V)} (hc : Conf66 G S L) : L ≤ G :=
   hc.setup.component.1.trans inf_le_left
 

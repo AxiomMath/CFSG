@@ -171,7 +171,7 @@ theorem l2_sylow (N : Subgroup H) [N.Normal] (hN : Nat.Coprime 3 (Nat.card N))
     have : y' ^ 3 = 1 := Subtype.ext hy3
     rw [this, one_zpow]; rfl
   obtain ⟨Sy, hZSy⟩ := hZ.exists_le_sylow
-  have hSyp : IsPGroup 3 (Sy : Subgroup ↥P) := Sy.isPGroup'
+  have hSyp : IsPGroup 3 (Sy : Subgroup ↥P) := Sy.isPGroup
   let ρ : ↥P →* ↥Fb := (π.comp P.subtype).codRestrict Fb (fun x => x.2)
   have hρc : ∀ x : ↥P, ((ρ x : ↥Fb) : H ⧸ N) = (x : H ⧸ N) := fun x => rfl
   have hρ : Function.Surjective ρ := by

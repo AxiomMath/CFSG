@@ -73,7 +73,7 @@ theorem twenty_le_ncard_orbit_of_mem_spinFixE (h : Tim79a.ParrottHypA z)
     set Jorb : Set G := {y : G | ∃ j ∈ J z, y = j * e' * j⁻¹} with hJorb
     have hJsub : Jorb ⊆ ↑((Set.toFinite O).toFinset.filter fun y => π y = a * s * a⁻¹) := by
       rintro _ ⟨j, hj, rfl⟩
-      rw [Finset.coe_filter, Set.mem_setOf_eq, Set.Finite.mem_toFinset]
+      rw [Finset.coe_filter, Set.mem_ofPred_eq, Set.Finite.mem_toFinset]
       have hjH : j ∈ H z := J_le_H hj
       have hjN : j * (m₀ : G) ∈ Subgroup.normalizer (spinFixE hκ : Set G) ⊓ H z :=
         Subgroup.mem_inf.mpr ⟨mul_mem (J_le_normalizer_spinFixE h hκ hj) hm₀N, mul_mem hjH m₀.2⟩

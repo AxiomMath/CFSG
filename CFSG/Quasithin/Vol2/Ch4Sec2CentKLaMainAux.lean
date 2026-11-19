@@ -19,40 +19,49 @@ section Coords
 variable {K Q : Subgroup G} {F : Type} [Field F]
   {α : ↥K →* ↥(StatedSL 3 F)} {β : ↥Q →* Multiplicative (Fin 2 → Fin 3 → F)}
 
+omit [Finite G] in
 theorem memQ_conj_laMain (hco : CoordData K Q F α β) {a u : G} (ha : a ∈ K)
     (hu : u ∈ Q) : a * u * a⁻¹ ∈ Q :=
   (Subgroup.mem_normalizer_iff.mp (hco.KQ ha) u).mp hu
 
+omit [Finite G] in
 theorem comm_mem_Q_laMain (hco : CoordData K Q F α β) {a u : G} (ha : a ∈ K)
     (hu : u ∈ Q) : ⁅a, u⁆ ∈ Q := by
   rw [commutatorElement_def]
   exact Q.mul_mem (memQ_conj_laMain hco ha hu) (Q.inv_mem hu)
 
+omit [Finite G] in
 theorem coord_conj_laMain (hco : CoordData K Q F α β) {a : G} (ha : a ∈ K)
     {u v : ↥Q} (h : (v : G) = a * u * a⁻¹) (i : Fin 2) :
     coord β v i = (matOf (α ⟨a, ha⟩)).mulVec (coord β u i) :=
   hco.eq ⟨a, ha⟩ u v h i
 
+omit [Finite G] in
 theorem eq_of_coord_laMain (hco : CoordData K Q F α β) {u v : ↥Q}
     (h : ∀ i : Fin 2, coord β u i = coord β v i) : u = v :=
   hco.inj (Multiplicative.toAdd.injective (funext h))
 
+omit [Finite G] in
 theorem coord_mul_laMain (u v : ↥Q) (i : Fin 2) :
     coord β (u * v) i = coord β u i + coord β v i := by
   simp [coord, map_mul]
 
+omit [Finite G] in
 theorem coord_inv_laMain (u : ↥Q) (i : Fin 2) :
     coord β u⁻¹ i = -coord β u i := by
   simp [coord, map_inv]
 
+omit [Finite G] in
 theorem coord_one_laMain (i : Fin 2) : coord β (1 : ↥Q) i = 0 := by
   simp [coord, map_one]
 
+omit [Finite G] in
 theorem exists_coord_laMain (hco : CoordData K Q F α β) (y z : Fin 3 → F) :
     ∃ q : ↥Q, coord β q 0 = y ∧ coord β q 1 = z := by
   obtain ⟨q, hq⟩ := hco.surj (Multiplicative.ofAdd ![y, z])
   refine ⟨q, ?_, ?_⟩ <;> simp [coord, hq]
 
+omit [Finite G] in
 theorem exists_coord_ne_zero_laMain (hco : CoordData K Q F α β) {q : ↥Q} (hq : q ≠ 1) :
     ∃ i : Fin 2, coord β q i ≠ 0 := by
   by_contra h
@@ -61,6 +70,7 @@ theorem exists_coord_ne_zero_laMain (hco : CoordData K Q F α β) {q : ↥Q} (hq
     exact h ⟨i, hi⟩
   exact hq (eq_of_coord_laMain hco (fun i => by rw [coord_one_laMain]; exact h' i))
 
+omit [Finite G] in
 theorem conj_fix_iff_laMain (hco : CoordData K Q F α β) {g : G} (hg : g ∈ K) (q : ↥Q) :
     g * (q : G) * g⁻¹ = (q : G) ↔
       ∀ i : Fin 2, (matOf (α ⟨g, hg⟩)).mulVec (coord β q i) = coord β q i := by
@@ -75,6 +85,7 @@ theorem conj_fix_iff_laMain (hco : CoordData K Q F α β) {g : G} (hg : g ∈ K)
       rw [coord_conj_laMain hco hg (u := q) (v := ⟨g * (q : G) * g⁻¹, hmem⟩) rfl i, h i]
     exact congrArg Subtype.val key
 
+omit [Finite G] in
 theorem coord_comm_laMain (hco : CoordData K Q F α β) {t : G} (ht : t ∈ K) (q : ↥Q)
     (hc : ⁅t, (q : G)⁆ ∈ Q) (i : Fin 2) :
     coord β ⟨⁅t, (q : G)⁆, hc⟩ i = ((matOf (α ⟨t, ht⟩)) - 1).mulVec (coord β q i) := by
@@ -90,16 +101,17 @@ theorem coord_comm_laMain (hco : CoordData K Q F α β) {t : G} (ht : t ∈ K) (
 @[expose] def fixSpace_laMain (M : Matrix (Fin 3) (Fin 3) F) : Submodule F (Fin 3 → F) where
   carrier := {x | M *ᵥ x = x}
   add_mem' := fun {x y} hx hy => by
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rw [Matrix.mulVec_add, hx, hy]
   zero_mem' := by simp
   smul_mem' := fun r x hx => by
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [Matrix.mulVec_smul, hx]
 
 theorem mem_fixSpace_laMain {M : Matrix (Fin 3) (Fin 3) F} {x : Fin 3 → F} :
     x ∈ fixSpace_laMain M ↔ M *ᵥ x = x := Iff.rfl
 
+omit [Finite G] in
 theorem mem_V_iff_laMain {V : Subgroup G} (hco : CoordData K Q F α β) {g₀ : G}
     (hg₀ : g₀ ∈ K) (hV : ∀ q ∈ Q, q ∈ V ↔ g₀ * q = q * g₀) (q : ↥Q) :
     (q : G) ∈ V ↔ ∀ i : Fin 2, coord β q i ∈ fixSpace_laMain (matOf (α ⟨g₀, hg₀⟩)) := by
@@ -108,6 +120,7 @@ theorem mem_V_iff_laMain {V : Subgroup G} (hco : CoordData K Q F α β) {g₀ : 
   rw [hV q q.2, h', conj_fix_iff_laMain hco hg₀ q]
   simp only [mem_fixSpace_laMain]
 
+omit [Finite G] in
 theorem finrank_fixSpace_laMain [Fintype F] (hco : CoordData K Q F α β) {V : Subgroup G}
     (hVQ : V ≤ Q) {ℓ : Submodule F (Fin 3 → F)}
     (hVℓ : ∀ q : ↥Q, (q : G) ∈ V ↔ ∀ i : Fin 2, coord β q i ∈ ℓ)
@@ -211,13 +224,13 @@ theorem exists_w0_laMain {F : Type} [Field F] (T : Matrix (Fin 3) (Fin 3) F)
     obtain ⟨c, hc⟩ := hiff.mp hr1 ⟨f ⟨x, hx⟩, LinearMap.mem_range_self f ⟨x, hx⟩⟩
     exact ⟨c, (congrArg (fun z : LinearMap.range f => ((z : ℓ) : Fin 3 → F)) hc).symm⟩
 
-theorem perfect_image_laMain [Finite G] {K : Subgroup G} {F : Type} [Field F]
+theorem perfect_image_laMain {K : Subgroup G} {F : Type} [Field F]
     {α : ↥K →* ↥(StatedSL 3 F)} (hα : Function.Surjective α) {H : Subgroup G} (hHK : H ≤ K)
     {S₀ : Subgroup ↥(StatedSL 3 F)} (hS₀ : ⁅S₀, S₀⁆ = S₀)
     (hH : ∀ k : ↥K, (k : G) ∈ H ↔ α k ∈ S₀) :
     (∀ b ∈ perfectCore H, ∃ hb : b ∈ K, α ⟨b, hb⟩ ∈ S₀) ∧
       (∀ s ∈ S₀, ∃ b ∈ perfectCore H, ∃ hb : b ∈ K, α ⟨b, hb⟩ = s) := by
-  haveI : Finite ↥(StatedSL 3 F) := Finite.of_surjective α hα
+  have : Finite ↥(StatedSL 3 F) := Finite.of_surjective α hα
   set Hk : Subgroup ↥K := H.subgroupOf K with hHk
   have hHkα : Hk.map α = S₀ := by
     ext s
@@ -315,6 +328,7 @@ section Commutator
 variable {K Q : Subgroup G} {F : Type} [Field F]
   {α : ↥K →* ↥(StatedSL 3 F)} {β : ↥Q →* Multiplicative (Fin 2 → Fin 3 → F)}
 
+omit [Finite G] in
 theorem commutator_eq_laMain [Fintype F] {V P : Subgroup G}
     (hco : CoordData K Q F α β) (hVQ : V ≤ Q) (hPK : P ≤ K)
     {ℓ : Submodule F (Fin 3 → F)} (hℓ2 : Module.finrank F ℓ = 2)

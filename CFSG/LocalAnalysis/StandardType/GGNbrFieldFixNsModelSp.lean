@@ -22,7 +22,7 @@ open CFSG.LieType.SteinbergBR.EvenSp
 
 variable {K : Type} [Field K] {m : ℕ}
 
-private noncomputable def ext3 (hm : 3 ≤ m) :
+private noncomputable def ext3 (_hm : 3 ≤ m) :
     (Fin 3 → Matrix.SpecialLinearGroup (Fin 2) K) →* (Fin m → GL (Fin 2) K) where
   toFun a k := if h : (k : ℕ) < 3 then Matrix.SpecialLinearGroup.toGL (a ⟨k, h⟩) else 1
   map_one' := by
@@ -42,8 +42,8 @@ private lemma ext3_injective (hm : 3 ≤ m) : Function.Injective (ext3 (K := K) 
   funext k
   have hk : ext3 (K := K) hm a (Fin.castLE hm k) =
       ext3 (K := K) hm b (Fin.castLE hm k) := congrFun h _
-  have hcond : ((Fin.castLE hm k : Fin m) : ℕ) < 3 := by simpa using k.isLt
-  rw [ext3_apply, ext3_apply, dif_pos hcond, dif_pos hcond] at hk
+  have hcond : ((Fin.castLE hm k : Fin m) : ℕ) < 3 := by simp
+  rw [ext3_apply, ext3_apply, dite_eq_left hcond, dite_eq_left hcond] at hk
   exact Matrix.SpecialLinearGroup.toGL_injective hk
 
 private lemma ext3_det (hm : 3 ≤ m) (a : Fin 3 → Matrix.SpecialLinearGroup (Fin 2) K)
@@ -51,9 +51,9 @@ private lemma ext3_det (hm : 3 ≤ m) (a : Fin 3 → Matrix.SpecialLinearGroup (
     ((ext3 (K := K) hm a j : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K).det = 1 := by
   rw [ext3_apply]
   by_cases h : (j : ℕ) < 3
-  · rw [dif_pos h]
-    simpa using Matrix.SpecialLinearGroup.det_coe (a ⟨j, h⟩)
-  · rw [dif_neg h]
+  · rw [dite_eq_left h]
+    simp
+  · rw [dite_eq_right h]
     simp
 
 private lemma planeMat_apply_inl_inl (h : Fin m → Matrix (Fin 2) (Fin 2) K) (j k : Fin m) :
@@ -74,14 +74,14 @@ private lemma planeMat_apply_inl (h : Fin m → Matrix (Fin 2) (Fin 2) K) {i : F
   rcases a with j | j
   · rw [planeMat_apply_inl_inl]
     by_cases hj : j = i
-    · rw [if_pos hj, if_pos (by rw [hj]), hj, hi]
+    · rw [ite_eq_left hj, ite_eq_left (by rw [hj]), hj, hi]
       simp
-    · rw [if_neg hj, if_neg (fun hc => hj (Sum.inl.inj hc))]
+    · rw [ite_eq_right hj, ite_eq_right (fun hc => hj (Sum.inl.inj hc))]
   · rw [planeMat_apply_inr_inl]
     by_cases hj : j = i
-    · rw [if_pos hj, if_neg Sum.inr_ne_inl, hj, hi]
+    · rw [ite_eq_left hj, ite_eq_right Sum.inr_ne_inl, hj, hi]
       simp
-    · rw [if_neg hj, if_neg Sum.inr_ne_inl]
+    · rw [ite_eq_right hj, ite_eq_right Sum.inr_ne_inl]
 
 private lemma planeMat_apply_inr (h : Fin m → Matrix (Fin 2) (Fin 2) K) {i : Fin m}
     (hi : h i = 1) (b : Fin m ⊕ Fin m) :
@@ -89,14 +89,14 @@ private lemma planeMat_apply_inr (h : Fin m → Matrix (Fin 2) (Fin 2) K) {i : F
   rcases b with k | k
   · rw [planeMat_apply_inr_inl]
     by_cases hk : i = k
-    · rw [if_pos hk, if_neg Sum.inl_ne_inr, hi]
+    · rw [ite_eq_left hk, ite_eq_right Sum.inl_ne_inr, hi]
       simp
-    · rw [if_neg hk, if_neg Sum.inl_ne_inr]
+    · rw [ite_eq_right hk, ite_eq_right Sum.inl_ne_inr]
   · rw [planeMat_apply_inr_inr]
     by_cases hk : i = k
-    · rw [if_pos hk, if_pos (by rw [hk]), hi]
+    · rw [ite_eq_left hk, ite_eq_left (by rw [hk]), hi]
       simp
-    · rw [if_neg hk, if_neg (fun hc => hk (Sum.inr.inj hc).symm)]
+    · rw [ite_eq_right hk, ite_eq_right (fun hc => hk (Sum.inr.inj hc).symm)]
 
 private lemma mul_single_apply (M : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K)
     (p q : Fin m ⊕ Fin m) (d : K) (a b : Fin m ⊕ Fin m) :
@@ -105,7 +105,7 @@ private lemma mul_single_apply (M : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K
   rw [Finset.sum_eq_single p]
   · simp [Matrix.single_apply]
   · intro k _ hk
-    rw [Matrix.single_apply, if_neg (fun hc => hk hc.1.symm), mul_zero]
+    rw [Matrix.single_apply, ite_eq_right (fun hc => hk hc.1.symm), mul_zero]
   · intro h
     exact absurd (Finset.mem_univ p) h
 
@@ -116,7 +116,7 @@ private lemma single_mul_apply (M : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K
   rw [Finset.sum_eq_single q]
   · simp [Matrix.single_apply]
   · intro k _ hk
-    rw [Matrix.single_apply, if_neg (fun hc => hk hc.2.symm), zero_mul]
+    rw [Matrix.single_apply, ite_eq_right (fun hc => hk hc.2.symm), zero_mul]
   · intro h
     exact absurd (Finset.mem_univ q) h
 
@@ -130,7 +130,7 @@ private lemma planeMat_mul_single_inl_inr (h : Fin m → Matrix (Fin 2) (Fin 2) 
   · subst ha
     by_cases hb : b = Sum.inr i
     · subst hb; simp
-    · simp [hb, Ne.symm hb]
+    · simp [Ne.symm hb]
   · simp [ha, Ne.symm ha]
 
 private lemma single_inl_inr_mul_planeMat (h : Fin m → Matrix (Fin 2) (Fin 2) K) {i : Fin m}
@@ -192,7 +192,7 @@ theorem exists_nsSpModel [CharP K 2] (hm : 4 ≤ m) :
     have hthree : (fun j => ((ext3 (K := K) hm3 a j : GL (Fin 2) K) :
         Matrix (Fin 2) (Fin 2) K)) i₃ = 1 := by
       show ((ext3 (K := K) hm3 a i₃ : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) = 1
-      rw [ext3_apply, dif_neg (by simp [i₃])]
+      rw [ext3_apply, dite_eq_right (by simp [i₃])]
       simp
     exact planeMat_transvection_comm (fun j => ((ext3 (K := K) hm3 a j : GL (Fin 2) K) :
       Matrix (Fin 2) (Fin 2) K)) hthree (Multiplicative.toAdd c)

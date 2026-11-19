@@ -127,7 +127,7 @@ theorem KConfig.he_not_w7
   have hoa : orderOf a = 7 := by
     rw [← orderOf_injective ι hι.inj, hay, orderOf_x7]
   have hNp : ¬ 7 ^ 2 ∣ Nat.card N := by rw [hNc]; norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have haL : a ∈ L := M24.mem_of_sylow haN hoa hNp hLN hNL hy ⟨k, hyk⟩ hy1
   obtain ⟨b, -, hb⟩ := hι.exists_of_mem (c7_mem |>.1)
   have hbN : b ∈ N := by
@@ -138,7 +138,7 @@ theorem KConfig.he_not_w7
   have hL7 : chainL7.originalSubgroup ≤ L.map ι := by
     rw [L7_eq, Subgroup.closure_le]
     rintro _ ⟨w, hw, rfl⟩
-    simp only [l7GenW, List.mem_cons, List.not_mem_nil, List.mem_singleton, or_false] at hw
+    simp only [l7GenW, List.mem_cons, List.not_mem_nil, or_false] at hw
     rcases hw with hw | hw
     · rw [hw, ← hay]
       exact Subgroup.mem_map_of_mem ι haL
@@ -204,7 +204,7 @@ theorem KConfig.he_eq_w5
     omega
   have hL_le : L ≤ lGrp.comap ι :=
     le_of_perfect_of_relIndex_le hLN h.perfect hi
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨a, -, hay⟩ := hι.exists_of_mem (hLsP y5_mem_Ls)
   have haN : a ∈ N := by
     rw [hNdef, Subgroup.mem_comap, hay]

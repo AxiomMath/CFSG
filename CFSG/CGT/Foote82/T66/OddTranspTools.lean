@@ -30,6 +30,7 @@ private theorem eq_one_or_eq_of_mem_zpowers {G : Type*} [Group G] {g k : G} (hg 
   · right
     rw [h0, zpow_one]
 
+omit [Finite V] in
 private theorem commSpace_zpowers_eq_map {d : GLV V} (hd : orderOf d = 2)
     (U : Submodule (ZMod 2) V) :
     commSpace (Subgroup.zpowers d) U = U.map ((d : V →ₗ[ZMod 2] V) - 1) := by
@@ -41,6 +42,7 @@ private theorem commSpace_zpowers_eq_map {d : GLV V} (hd : orderOf d = 2)
   · rintro _ ⟨u, hu, rfl⟩
     simpa using sub_mem_commSpace (Subgroup.mem_zpowers d) hu
 
+omit [Finite V] in
 private theorem apply_mem_commSpace_of_inverts {x c : GLV V} (h : x * c * x⁻¹ = c⁻¹) {w : V}
     (hw : w ∈ commSpace (Subgroup.zpowers c) ⊤) : x w ∈ commSpace (Subgroup.zpowers c) ⊤ := by
   have hle : commSpace (Subgroup.zpowers c) ⊤ ≤
@@ -76,7 +78,7 @@ private theorem finrank_eq_two_mul_finrank_inf_ker {a b : Module.End (ZMod 2) V}
   omega
 
 theorem s3_trick {d e : GLV V} (hd : orderOf d = 2) (he : orderOf e = 2)
-    (hc : Odd (orderOf (d * e))) (hc1 : d * e ≠ 1)
+    (hc : Odd (orderOf (d * e))) (_hc1 : d * e ≠ 1)
     (hde : commSpace (Subgroup.zpowers d) ⊤ ⊓ commSpace (Subgroup.zpowers e) ⊤ = ⊥) :
     (∀ w ∈ fixedSpace (Subgroup.zpowers (d * e)), d w = w) ∧
       Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers (d * e)) ⊤) =
@@ -151,7 +153,7 @@ theorem s3_trick {d e : GLV V} (hd : orderOf d = 2) (he : orderOf e = 2)
   omega
 
 theorem exists_conj_eq_mul_of_unique_involution {G : Type*} [Group G] [Finite G]
-    {S : Subgroup G} {y z : G} (hS : IsPGroup 2 S) (hzS : z ∈ S) (hz : orderOf z = 2)
+    {S : Subgroup G} {y z : G} (hS : IsPGroup 2 S) (_hzS : z ∈ S) (_hz : orderOf z = 2)
     (huniq : ∀ x ∈ S, orderOf x = 2 → x = z) (hy : orderOf y = 2)
     (hyN : y ∈ Subgroup.normalizer (S : Set G))
     (hnc : ∃ r ∈ S, r * y ≠ y * r) : ∃ d ∈ S, d⁻¹ * y * d = y * z := by

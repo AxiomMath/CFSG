@@ -53,7 +53,7 @@ private lemma omega_ne_zero [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0) : �
 
 private lemma orderOf_omega [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     orderOf ω = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (omega_cube hω) (omega_ne_one hω)
 
 private lemma omega_rearrange₁ [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
@@ -90,16 +90,12 @@ private lemma det_changeOfBasisMatrix [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 
   have h := omega_sq_add_omega hω
   rw [Matrix.det_fin_three]
   simp [h, CharTwo.neg_eq]
-  all_goals try ring_nf
-  all_goals try simp [CharTwo.two_eq_zero, add_comm, h]
 
 private lemma det_changeOfBasisInvMatrix [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     (!![ω ^ 2, ω, 0; 0, 0, 1; 1, 1, 0] : Matrix (Fin 3) (Fin 3) K).det = 1 := by
   have h := omega_sq_add_omega hω
   rw [Matrix.det_fin_three]
   simp [h, CharTwo.neg_eq]
-  all_goals try ring_nf
-  all_goals try simp [CharTwo.two_eq_zero, add_comm, h]
 
 @[expose] def changeOfBasis [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     SpecialLinearGroup (Fin 3) K :=
@@ -118,8 +114,6 @@ private lemma changeOfBasisMatrix_mul_invMatrix [CharP K 2] {ω : K}
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three, h, h', CharTwo.add_self_eq_zero]
-  all_goals try ring_nf
-  all_goals try simp [CharTwo.two_eq_zero, add_comm]
 
 private lemma changeOfBasisInvMatrix_mul_changeOfBasisMatrix [CharP K 2] {ω : K}
     (hω : ω ^ 2 + ω + 1 = 0) :
@@ -131,7 +125,7 @@ private lemma changeOfBasisInvMatrix_mul_changeOfBasisMatrix [CharP K 2] {ω : K
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three, h, h', CharTwo.add_self_eq_zero]
   all_goals try ring_nf
-  all_goals try simp [CharTwo.two_eq_zero, add_comm]
+  all_goals try simp [CharTwo.two_eq_zero]
 
 private lemma changeOfBasis_mul_inv [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     changeOfBasis hω * changeOfBasisInv hω = 1 := by
@@ -229,8 +223,8 @@ private lemma map_changeOfBasisInv_transpose_SL [CharP K 2] {ω : K}
   rw [Matrix.SpecialLinearGroup.coe_transpose, Matrix.SpecialLinearGroup.coe_mul, JSL_coe]
   exact congrFun (congrFun (map_changeOfBasisInv_transpose hω hσω) i) j
 
-private lemma unitary_transvection02 [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
-    {σ : K ≃+* K} (hσω : σ ω = ω ^ 2) :
+private lemma unitary_transvection02 [CharP K 2] {ω : K} (_hω : ω ^ 2 + ω + 1 = 0)
+    {σ : K ≃+* K} (_hσω : σ ω = ω ^ 2) :
     ((SpecialLinearGroup.map σ.toRingHom
         (SpecialLinearGroup.transvection (show (0 : Fin 3) ≠ 2 by decide) (1 : K)) :
           SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)ᵀ * Jmat *
@@ -242,11 +236,10 @@ private lemma unitary_transvection02 [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1
     simp [Matrix.transpose_apply, Matrix.map_apply, Jmat, SpecialLinearGroup.transvection_coe,
       Matrix.mul_apply, Fin.sum_univ_three]
   all_goals try ring_nf
-  all_goals try simp [hω, omega_sq_add_omega hω, omega_cube hω, omega_rearrange₁ hω,
-    omega_rearrange₂ hω, CharTwo.two_eq_zero, add_comm]
+  all_goals try simp [CharTwo.two_eq_zero]
 
-private lemma unitary_J [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
-    {σ : K ≃+* K} (hσω : σ ω = ω ^ 2) :
+private lemma unitary_J [CharP K 2] {ω : K} (_hω : ω ^ 2 + ω + 1 = 0)
+    {σ : K ≃+* K} (_hσω : σ ω = ω ^ 2) :
     ((SpecialLinearGroup.map σ.toRingHom (JSL (K := K)) :
           SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)ᵀ * Jmat *
       (JSL (K := K) : Matrix (Fin 3) (Fin 3) K) = Jmat := by
@@ -255,9 +248,6 @@ private lemma unitary_J [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.transpose_apply, Matrix.map_apply, JSL_coe, Jmat,
       Matrix.mul_apply, Fin.sum_univ_three]
-  all_goals try ring_nf
-  all_goals try simp [hω, omega_sq_add_omega hω, omega_cube hω, omega_rearrange₁ hω,
-    omega_rearrange₂ hω, CharTwo.two_eq_zero, add_comm]
 
 private lemma unitary_U1 [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     {σ : K ≃+* K} (hσω : σ ω = ω ^ 2) :
@@ -267,11 +257,10 @@ private lemma unitary_U1 [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
   rw [SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.transpose_apply, Matrix.map_apply, U1, Jmat, hσω, map_omega_sq hω hσω,
-      Matrix.mul_apply, Fin.sum_univ_three]
+    simp [Matrix.transpose_apply, Matrix.map_apply, U1, Jmat, hσω, Matrix.mul_apply, Fin.sum_univ_three]
   all_goals try ring_nf
-  all_goals try simp [hω, omega_sq_add_omega hω, omega_cube hω, omega_rearrange₁ hω,
-    omega_rearrange₂ hω, CharTwo.two_eq_zero, add_comm]
+  all_goals try simp [omega_rearrange₁ hω,
+    CharTwo.two_eq_zero, add_comm]
 
 private lemma unitary_U2 [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     {σ : K ≃+* K} (hσω : σ ω = ω ^ 2) :
@@ -284,8 +273,7 @@ private lemma unitary_U2 [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     simp [Matrix.transpose_apply, Matrix.map_apply, U2, Jmat, hσω, map_omega_sq hω hσω,
       Matrix.mul_apply, Fin.sum_univ_three]
   all_goals try ring_nf
-  all_goals try simp [hω, omega_sq_add_omega hω, omega_cube hω, omega_rearrange₁ hω,
-    omega_rearrange₂ hω, CharTwo.two_eq_zero, add_comm]
+  all_goals try simp [omega_cube hω, omega_rearrange₂ hω, CharTwo.two_eq_zero, add_comm]
 
 private lemma unitary_SL_of_matrix [CharP K 2] {σ : K ≃+* K}
     (X : SpecialLinearGroup (Fin 3) K)
@@ -322,7 +310,7 @@ private lemma sl_map_transpose (σ : K ≃+* K) (A : SpecialLinearGroup (Fin 3) 
   apply Matrix.SpecialLinearGroup.ext
   intro i j
   simp [Matrix.SpecialLinearGroup.coe_transpose, Matrix.SpecialLinearGroup.map_apply_coe,
-    Matrix.transpose_map, RingHom.mapMatrix_apply]
+    RingHom.mapMatrix_apply]
 
 private lemma graphField_image_of_transpose_eq_inv (σ : K ≃+* K)
     (M M' : SpecialLinearGroup (Fin 3) K)
@@ -338,8 +326,8 @@ private lemma graphField_image_of_transpose_eq_inv (σ : K ≃+* K)
       _ = M' := inv_inv M'
   rw [hM]
 
-private lemma graphField_fixed_of_unitary [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
-    {σ : K ≃+* K} (hσω : σ ω = ω ^ 2)
+private lemma graphField_fixed_of_unitary [CharP K 2] {ω : K} (_hω : ω ^ 2 + ω + 1 = 0)
+    {σ : K ≃+* K} (_hσω : σ ω = ω ^ 2)
     (C C' J X : SpecialLinearGroup (Fin 3) K)
     (hC : C * C' = 1) (hC' : C' * C = 1)
     (hCbar : (SpecialLinearGroup.map σ.toRingHom C).transpose = J * C')
@@ -401,7 +389,7 @@ private lemma map_diagSL [CharP K 2] {σ : K ≃+* K} {lam : K} (hlam : lam ≠ 
   intro i j
   rw [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply]
   fin_cases i <;> fin_cases j <;>
-    simp [diagSL, Matrix.diagonal_apply, Matrix.map_apply]
+    simp [diagSL, Matrix.map_apply]
 
 private lemma diagSL_inv [CharP K 2] {lam : K} (hlam : lam ≠ 0) :
     (diagSL (K := K) hlam)⁻¹ = diagSL (K := K) (inv_ne_zero hlam) := by
@@ -410,8 +398,7 @@ private lemma diagSL_inv [CharP K 2] {lam : K} (hlam : lam ≠ 0) :
   intro i j
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one]
   fin_cases i <;> fin_cases j <;>
-    simp [diagSL, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, hlam,
-      Matrix.vecMul_diagonal]
+    simp [diagSL, Matrix.mul_apply, Matrix.diagonal_apply, hlam]
 
 private lemma JSL_conj_diag [CharP K 2] {lam : K} (hlam : lam ≠ 0) :
     JSL (K := K) * diagSL (K := K) hlam * JSL (K := K) =
@@ -421,9 +408,7 @@ private lemma JSL_conj_diag [CharP K 2] {lam : K} (hlam : lam ≠ 0) :
   intro i j
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   fin_cases i <;> fin_cases j <;>
-    simp [JSL_coe, Jmat, diagSL, Matrix.mul_apply, Matrix.mul_diagonal,
-      Fin.sum_univ_three, Matrix.diagonal_apply, Matrix.vecMul_diagonal]
-  all_goals try field_simp
+    simp [JSL_coe, Jmat, diagSL, Matrix.mul_apply, Fin.sum_univ_three, Matrix.vecMul_diagonal]
 
 private lemma diagSL_transpose [CharP K 2] {lam : K} (hlam : lam ≠ 0) :
     (diagSL (K := K) hlam).transpose = diagSL (K := K) hlam := by
@@ -568,13 +553,13 @@ theorem graphField_image_diag [CharP K 2] {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
 
 theorem closure_fixed_union_diag_eq_top [Finite K] [CharP K 2] {ω : K}
     (hω : ω ^ 2 + ω + 1 = 0) {σ : K ≃+* K} (hσω : σ ω = ω ^ 2)
-    {lam : K} (hlam : lam ≠ 0) (hclosure : Subfield.closure ({lam ^ 2} : Set K) = ⊤)
+    {lam : K} (_hlam : lam ≠ 0) (hclosure : Subfield.closure ({lam ^ 2} : Set K) = ⊤)
     (D : SpecialLinearGroup (Fin 3) K)
     (hD : (D : Matrix (Fin 3) (Fin 3) K) = diagonal ![lam, 1, lam⁻¹]) :
     Subgroup.closure ({x : projectiveSL 3 K |
         (fieldAut 3 K σ * dualAut 3 K) x = x} ∪
       {proj 3 K (changeOfBasis hω * D * (changeOfBasis hω)⁻¹)}) = ⊤ := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let f : SpecialLinearGroup (Fin 3) K →* projectiveSL 3 K :=
     (proj 3 K).comp (MulAut.conj (changeOfBasis hω)).toMonoidHom
   set Psub : Subgroup (projectiveSL 3 K) :=
@@ -691,7 +676,7 @@ private lemma frobenius_mul_dualAut_pow_two_mul [Finite K] [CharP K 2] (n : ℕ)
   rw [Commute.mul_pow hcomm (2 * n), hf2n, hδ2n, mul_one]
 
 private lemma mem_zpowers_pow_of_pow_eq_one {G : Type*} [Group G] (h t : G) {n m k : ℕ}
-    (hm : Odd m) (htwo : h ^ (2 * n) = 1)
+    (hm : Odd m) (_htwo : h ^ (2 * n) = 1)
     (ht : t ∈ Subgroup.zpowers h) (htk : t ^ (2 ^ k) = 1) :
     t ∈ Subgroup.zpowers (h ^ m) := by
   obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.mp ht
@@ -738,7 +723,7 @@ theorem mem_zpowers_frobenius_mul_dualAut [Finite K] [CharP K 2] {n eps : ℕ}
   have hφorder : orderOf φ = n := frobeniusAut_order 2 n K hK
   have hφtop : (⊤ : Subgroup (K ≃+* K)) = Subgroup.zpowers φ := frobeniusAut_zpowers 2 K
   have hcard2 : 2 ≤ Nat.card K := by
-    letI := Fintype.ofFinite K
+    let := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
   have hn : 0 < n := by

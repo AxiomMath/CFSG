@@ -104,11 +104,10 @@ private theorem five_E_shape_setup {X : Type*} [Group X] (hsh : IsShapeFiveCubeB
       Nonempty (X ⧸ N ≃* Elem2 2) ∧ Nat.card X = 500 := by
   obtain ⟨N, hN, hNp, hNcard, he⟩ := hsh
   refine ⟨N, hN, hNp, hNcard, he, ?_⟩
-  haveI := hN
+  have := hN
   have hq : Nat.card (X ⧸ N) = 4 := by
     obtain ⟨e⟩ := he
     rw [Nat.card_congr e.toEquiv]
-    change Nat.card (Elem2 2) = 4
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_fun, Nat.card_zmod, Nat.card_fin]
     norm_num
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup N, hq, hNcard]
@@ -132,7 +131,7 @@ theorem cp_five_E_cover (h : F5Std a z) {x t t' : G} (hx : x ∈ orb5E a a)
     (hne : t ≠ t') :
     ∀ s ∈ InvIn (Gxy a x),
       ConjIn (Gxy a x) t s ∨ ConjIn (Gxy a x) t' s ∨ ConjIn (Gxy a x) (t * t') s := by
-  haveI hfinG : Finite G := h.finite
+  have hfinG : Finite G := h.finite
   let X : Subgroup G := Gxy a x
   let t₀ : X := ⟨t, ht.1⟩
   let t₀' : X := ⟨t', ht'.1⟩
@@ -212,7 +211,7 @@ theorem cp_five_E_gen (h : F5Std a z) {x t t' : G} (hx : x ∈ orb5E a a)
     (hne : t ≠ t') :
     Gxy a x ≤ Subgroup.closure ((Gxyz a t x : Set G) ∪ (Gxyz a t' x : Set G) ∪
       (Gxyz a (t * t') x : Set G)) := by
-  haveI hfinG : Finite G := h.finite
+  have hfinG : Finite G := h.finite
   let X : Subgroup G := Gxy a x
   let C : Subgroup G := Subgroup.closure ((Gxyz a t x : Set G) ∪ (Gxyz a t' x : Set G) ∪
     (Gxyz a (t * t') x : Set G))
@@ -231,15 +230,14 @@ theorem cp_five_E_gen (h : F5Std a z) {x t t' : G} (hx : x ∈ orb5E a a)
   obtain ⟨hVcard, hVp⟩ := five_E_V_data ht0ord ht0'ord hcomm0 hne0
   obtain ⟨N, hNnorm, hNp, hNcard, ⟨e⟩, hXcard⟩ :=
     five_E_shape_setup (h.loc.five.self.five_E x hx)
-  haveI hNnormI : N.Normal := hNnorm
+  have hNnormI : N.Normal := hNnorm
   have hquotcard : Nat.card (X ⧸ N) = 4 := by
     rw [Nat.card_congr e.toEquiv]
-    change Nat.card (Elem2 2) = 4
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_fun, Nat.card_zmod, Nat.card_fin]
     norm_num
   let S : Set X := {n : X | n ∈ N ∧
     (t₀ * n = n * t₀ ∨ t₀' * n = n * t₀' ∨ t₀ * t₀' * n = n * (t₀ * t₀'))}
-  haveI hfive : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have hfive : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hNgen : N ≤ Subgroup.closure S :=
     cp_klein_gen hNnorm (p := 5) (by norm_num) hNp ht0ord ht0'ord hcomm0
   have hN_le : N.map X.subtype ≤ C := by

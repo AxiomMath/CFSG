@@ -136,8 +136,8 @@ theorem exists_cover_of_range_equiv {B G : Type} [Group B] [Finite B] [Group G] 
     rw [hcard, fi22D_card_quotient] at h
     omega
   have hperf : Group.IsPerfect B := by
-    haveI : Group.IsPerfect Fi22D := fi22D_isQuasisimple.1
-    haveI : Group.IsPerfect ↥θ.range :=
+    have : Group.IsPerfect Fi22D := fi22D_isQuasisimple.1
+    have : Group.IsPerfect ↥θ.range :=
       Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
     have hK' : commutator ↥θ.range = ⊤ := Group.IsPerfect.commutator_eq_top
     have himg : (commutator B).map θ' = ⊤ := by

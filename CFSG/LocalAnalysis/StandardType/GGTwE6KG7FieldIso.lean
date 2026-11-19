@@ -91,11 +91,11 @@ theorem exists_recipeR_equiv_twC0
         ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * n)) (frobQ 2 n)),
       ∀ φ, φ ∈ TwE6Delta.RecipeI K n ↔ MulAut.congr ψ φ ∈ LayerSixE.twInndiagAut n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨σ, hσ, ε, hε⟩ := TwE6Transport.exists_recipeConj (K := K) hn hK
   let k := GaloisField 2 (2 * n)
-  haveI : Fintype (GaloisField 2 (2 * n)) := Fintype.ofFinite _
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 (2 * n)) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card (GaloisField 2 (2 * n)) = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       CFSG.LieType.Universal.card_galoisField_two_mul 2 n hn, hK]

@@ -197,7 +197,7 @@ public theorem lemma10_exists_nonzero_quadratic_zero
     have hcard_gt_one : 1 < Nat.card S := by
       obtain ⟨N, hN⟩ := hdiv
       omega
-    letI : Nontrivial S :=
+    let : Nontrivial S :=
       Finite.one_lt_card_iff_nontrivial.mp hcard_gt_one
     obtain ⟨w, hw⟩ := exists_ne z
     refine ⟨w.1, ?_, w.2⟩

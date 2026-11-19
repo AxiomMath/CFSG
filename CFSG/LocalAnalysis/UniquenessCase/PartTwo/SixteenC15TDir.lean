@@ -48,7 +48,7 @@ theorem s16c15t_mem_right_of_commute_oddBar (D : Data G) {V L : Subgroup G}
         _ = y * (κ * l) := h1
         _ = (y * κ) * l := by rw [mul_assoc]
     exact mul_right_cancel h3
-  haveI : Nontrivial ↥(oddBar D.M ⊥ V hV) := by
+  have : Nontrivial ↥(oddBar D.M ⊥ V hV) := by
     rw [← not_subsingleton_iff_nontrivial]
     intro hsub
     have h1 : Nat.card ↥(oddBar D.M ⊥ V hV) = 1 :=

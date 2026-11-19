@@ -206,8 +206,8 @@ theorem tcjUni_quotCenter_cases_of_innDiag (hScal : UniScalar)
     ⟨a, dd, E, hE, hEf, τ', hτ', ha2, hτ'Q, hcardE, ⟨φ⟩⟩ |
     ⟨b, ee, E, hE, hEf, hb2, hcardE, ⟨φ⟩⟩
   ·
-    letI : Field E := hE
-    letI : Finite E := hEf
+    let : Field E := hE
+    let : Finite E := hEf
     have hτ'm : ∀ x : E, τ' x = x ^ (2 ^ (labK.n * dd)) := by
       intro x
       rw [pow_mul]
@@ -218,8 +218,8 @@ theorem tcjUni_quotCenter_cases_of_innDiag (hScal : UniScalar)
     exact Or.inl ⟨a, labK.n * dd, E, hE, hEf, τ', hτ', ha2, Dvd.intro dd rfl,
       hτ'm, hcardm, ⟨eJZ.trans φ⟩⟩
   ·
-    letI : Field E := hE
-    letI : Finite E := hEf
+    let : Field E := hE
+    let : Finite E := hEf
     have hcardm : Nat.card E = 2 ^ (labK.n * (2 * ee)) := by
       rw [pow_mul]
       exact hcardE
@@ -237,16 +237,16 @@ theorem tcjUni_innDiagAllUni_of_pieces (hScal : UniScalar) (hP2 : LinLabelDict)
     ⟨a, m, E, hE, hEf, τ', hτ', ha2, hdvd, hτ'm, hcardm, ⟨φ⟩⟩ |
     ⟨b, m, E, hE, hEf, hb2, hdvd, hcardm, ⟨φ⟩⟩
   ·
-    letI : Field E := hE
-    letI : Finite E := hEf
+    let : Field E := hE
+    let : Finite E := hEf
     have hlab : (canonLabel labJ).n = m :=
       hP3 ↥J labJ a m E τ' hτ' ha2 hτ'm hcardm hlabJ ⟨φ⟩
     show (canonLabel labK).n ∣ (canonLabel labJ).n
     rw [hcanK, hlab]
     exact hdvd
   ·
-    letI : Field E := hE
-    letI : Finite E := hEf
+    let : Field E := hE
+    let : Finite E := hEf
     have hcanon := hP2 ↥J labJ b m E hb2 hcardm hlabJ ⟨φ⟩
     have hlab : (canonLabel labJ).n = m := by
       rw [hcanon]

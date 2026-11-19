@@ -57,7 +57,7 @@ private theorem typeFData_complement_coprime_card
     (hcomp : section12ComplementIn M MF U) :
     Nat.Coprime (Nat.card U) (Nat.card MF) := by
   rcases hMF with ⟨⟨hMFM, hMFNormal, _hMFNil, hMFHall⟩, _hmax⟩
-  letI : (MF.subgroupOf M).Normal := hMFNormal
+  let : (MF.subgroupOf M).Normal := hMFNormal
   have hcomp' : (U.subgroupOf M).IsComplement' (MF.subgroupOf M) :=
     section12ComplementIn_isComplement'_subgroupOf (M := M) (MF := MF) (U := U) hcomp
   have hcop : Nat.Coprime (Nat.card (MF.subgroupOf M)) (MF.subgroupOf M).index :=
@@ -167,7 +167,7 @@ public theorem theorem_8_2_c
     (θ : Section1.ClassFunction MF) :
     theorem_8_2_c_statement M MF U U1 U0 θ := by
   intro hF hθirr hθne hMFNormal
-  letI : (MF.subgroupOf M).Normal := hMFNormal
+  let : (MF.subgroupOf M).Normal := hMFNormal
   change
     ((Section1.inertiaSubgroup (MF.subgroupOf M)
       (classFunctionOnSubgroupOf M MF θ)).map M.subtype ⊓ U) ≤ U1
@@ -218,7 +218,7 @@ public theorem theorem_8_2_c
         (K := MF.subgroupOf M) (g := (m : M)) hcopOrderMF
   have hfixed_le_one : Nat.card fixedSet ≤ 1 :=
     le_trans hfixed_le_cent hcentCardLe
-  haveI : Subsingleton fixedSet :=
+  have : Subsingleton fixedSet :=
     Section4Scratch.fixed_irreducible_subsingleton_of_card_le_one_pf45
       (K := MF.subgroupOf M) (g := (m : M)) (by simpa [fixedSet] using hfixed_le_one)
   have hθM_irr : Section1.IsIrreducibleCharacterOnGroup θM :=

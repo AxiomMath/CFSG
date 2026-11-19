@@ -29,7 +29,7 @@ theorem L34Squeeze.exists_isSylowTwoOf_normalized {p : ℕ} (hp : p.Prime) {A X 
     have hmem := Subgroup.smul_mem_pointwise_smul x (⟨b, hb⟩ : A) (P₂ : Subgroup X) hx
     rw [← Sylow.pointwise_smul_def, hPinv ⟨b, hb⟩] at hmem
     exact ⟨_, hmem, hsmul _ _⟩
-  refine ⟨V, ⟨Subgroup.map_subtype_le _, P₂.isPGroup'.map X.subtype, ?_⟩, ?_⟩
+  refine ⟨V, ⟨Subgroup.map_subtype_le _, P₂.isPGroup.map X.subtype, ?_⟩, ?_⟩
   · have hsub : V.subgroupOf X = (P₂ : Subgroup X) :=
       Subgroup.comap_map_eq_self_of_injective X.subtype_injective _
     rw [hsub]

@@ -17,8 +17,8 @@ theorem normal_le_or_eq_top {Y : Type*} [Group Y] [Finite Y] (S : Subgroup Y) [S
     (hS : IsPGroup 2 S) (hsimple : IsSimpleGroup (Y ⧸ S))
     (hY3 : oPrimeResidual 3 Y = ⊤) (K : Subgroup Y) [K.Normal] : K ≤ S ∨ K = ⊤ := by
   classical
-  haveI := hsimple
-  haveI hKn : (K.map (QuotientGroup.mk' S)).Normal :=
+  have := hsimple
+  have hKn : (K.map (QuotientGroup.mk' S)).Normal :=
     Subgroup.Normal.map ‹K.Normal› (QuotientGroup.mk' S) (QuotientGroup.mk'_surjective S)
   rcases Subgroup.Normal.eq_bot_or_eq_top (K.map (QuotientGroup.mk' S)) with h | h
   · left
@@ -90,9 +90,9 @@ theorem center_of_order_seven {Y : Type*} [Group Y] [Finite Y] (S : Subgroup Y) 
     (h7 : 7 ∣ Nat.card Y) (hcent : ∀ y : Y, orderOf y = 7 → ∀ s ∈ S, y * s = s * y) :
     S ≤ Subgroup.center Y := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 7 h7
-  haveI hC : (Subgroup.centralizer (S : Set Y)).Normal := inferInstance
+  have hC : (Subgroup.centralizer (S : Set Y)).Normal := inferInstance
   rcases hF5 _ hC with h | h
   · exfalso
     have hyC : y ∈ Subgroup.centralizer (S : Set Y) := by
@@ -136,9 +136,9 @@ theorem pu_map_commutatorSubgroup {Y : Type*} [Group Y] (S : Subgroup Y) [S.Norm
 theorem commutator_commutator_zpowers_eq {Y : Type*} [Group Y] [Finite Y] (S : Subgroup Y)
     [S.Normal] (hS : IsPGroup 2 S) {y : Y} (hy : orderOf y = 7) :
     ⁅⁅S, Subgroup.zpowers y⁆, Subgroup.zpowers y⁆ = ⁅S, Subgroup.zpowers y⁆ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSsolv : Group.IsSolvable ↥S := by
-    haveI := hS.isNilpotent
+    have := hS.isNilpotent
     infer_instance
   have hcoprime : Nat.Coprime (Nat.card ↥(Subgroup.zpowers y)) (Nat.card ↥S) := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hS

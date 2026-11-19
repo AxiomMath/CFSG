@@ -131,7 +131,7 @@ theorem card_commImage_eq (σ : Perm (Fin 8)) :
 
 theorem isDT_of_isTypeC (hE : ∀ v, Q6 (E v) = q v) {σ : Perm (Fin 8)}
     (hC : IsTypeC q (permLin E σ) 2) : IsDT σ := by
-  haveI : Module.Finite (ZMod 2) V :=
+  have : Module.Finite (ZMod 2) V :=
     Module.Finite.of_surjective E.symm.toLinearMap E.symm.surjective
   refine isDT_of_commImage ?_ ?_ ?_ ?_
   · apply permLin_injective E

@@ -12,8 +12,8 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 theorem s16h_sl28_center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finite X] {m : ℕ}
     (hm : 2 ≤ m) (h : IsSLn X 2 m) : Subgroup.center X = ⊥ := by
-  haveI : IsSimpleGroup X := CFSG.GroupTheory.isSimpleGroup_of_isSLn_two hm h
-  haveI : Group.IsPerfect X := CFSG.GroupTheory.isPerfect_of_isSLn_two hm h
+  have : IsSimpleGroup X := CFSG.GroupTheory.isSimpleGroup_of_isSLn_two hm h
+  have : Group.IsPerfect X := CFSG.GroupTheory.isPerfect_of_isSLn_two hm h
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center X) with hbot | htop
   · exact hbot
   · exfalso
@@ -21,7 +21,7 @@ theorem s16h_sl28_center_eq_bot_of_isSLn_two {X : Type} [Group X] [Finite X] {m 
       intro a b
       have ha : a ∈ Subgroup.center X := htop ▸ Subgroup.mem_top a
       exact (Subgroup.mem_center_iff.mp ha b).symm
-    haveI : IsMulCommutative X := ⟨⟨hcomm⟩⟩
+    have : IsMulCommutative X := ⟨⟨hcomm⟩⟩
     exact (Group.IsPerfect.not_isMulCommutative X) inferInstance
 
 theorem s16h_sl28_aut_seven_inner {X : Type} [Group X] [Finite X]

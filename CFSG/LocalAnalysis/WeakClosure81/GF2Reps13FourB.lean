@@ -29,7 +29,7 @@ theorem w16f_isL3_of_surj (hGA : GriessAllModelsStatement)
     UC22.IsL3 ↥K 1 := by
   classical
   have hqs : CFSG.Open.IsQuasisimple ↥K := hK.2.2
-  haveI : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
+  have : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
     CFSG.LargeExtraspecial.S45Q.isSimpleGroup_GL_zmod_two (n := 3) (by norm_num)
   have hproper : f.ker ≠ ⊤ := by
     intro htop
@@ -40,7 +40,7 @@ theorem w16f_isL3_of_surj (hGA : GriessAllModelsStatement)
     exact hg (by simpa using hk.symm)
   have hker_le_center : f.ker ≤ Subgroup.center ↥K :=
     CFSG.ComponentClassification.Quasisimple.normal_le_center_of_ne_top hqs f.ker hproper
-  haveI : Subsingleton (ZMod 2)ˣ := ⟨by decide⟩
+  have : Subsingleton (ZMod 2)ˣ := ⟨by decide⟩
   have hcenterGL3 : Subgroup.center (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) = ⊥ := by
     rw [Matrix.GeneralLinearGroup.center_eq_range_scalar, eq_bot_iff]
     rintro _ ⟨r, rfl⟩

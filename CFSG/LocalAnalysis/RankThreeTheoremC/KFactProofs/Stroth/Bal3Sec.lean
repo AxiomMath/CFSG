@@ -76,7 +76,7 @@ theorem of_extension {X : Type*} [Group X] {p : ℕ} (N : Subgroup X) [N.Normal]
   intro U V _ hs hnab hp
   let π : U →* U ⧸ V := QuotientGroup.mk' V
   let W : Subgroup U := N.subgroupOf U
-  haveI : (W.map π).Normal := Subgroup.Normal.map inferInstance π (QuotientGroup.mk'_surjective V)
+  have : (W.map π).Normal := Subgroup.Normal.map inferInstance π (QuotientGroup.mk'_surjective V)
   rcases hs.eq_bot_or_eq_top_of_normal (W.map π) with h | h
   ·
     have hWV : W ≤ V := by
@@ -115,8 +115,8 @@ theorem of_surjective_coprime_ker {X Y : Type*} [Group X] [Group Y] [Finite X] {
 theorem of_hasNormalPComplement {X : Type*} [Group X] [Finite X] {p : ℕ} (hp : p.Prime)
     (h : CFSG.HasNormalPComplement p X) : NoSimpleSec p X := by
   obtain ⟨N, hN, hcop, hpg⟩ := h
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsNilpotent (X ⧸ N) := hpg.isNilpotent
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsNilpotent (X ⧸ N) := hpg.isNilpotent
   exact of_extension N (of_not_dvd (hp.coprime_iff_not_dvd.1 hcop)) (of_isSolvable p)
 
 theorem prod {X Y : Type*} [Group X] [Group Y] {p : ℕ} (hX : NoSimpleSec p X)

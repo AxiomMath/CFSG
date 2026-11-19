@@ -318,11 +318,11 @@ theorem pairCent_commutator_mem (hprim : IsPrimitiveRoot (AdjoinRoot.root g) 3)
     rw [not_mem_pair_iff hij hki hkj, not_mem_pair_iff hij hki hkj] at hab
     rw [hN']
     by_cases ha : a = k <;> by_cases hb : b = k
-    · rw [ha, hb, if_pos rfl]
+    · rw [ha, hb, ite_eq_left rfl]
       exact hNkk
-    · rw [if_neg (show a ≠ b from fun h => hb (h ▸ ha))]
+    · rw [ite_eq_right (show a ≠ b from fun h => hb (h ▸ ha))]
       exact hNb a b ⟨fun _ => hb, fun _ => ha⟩
-    · rw [if_neg (show a ≠ b from fun h => ha (h ▸ hb))]
+    · rw [ite_eq_right (show a ≠ b from fun h => ha (h ▸ hb))]
       exact hNb a b ⟨fun h => absurd h ha, fun h => absurd hb h⟩
     · exact absurd (hab.resolve_left ha) hb
   refine ⟨N', hmem, Subtype.ext ?_⟩

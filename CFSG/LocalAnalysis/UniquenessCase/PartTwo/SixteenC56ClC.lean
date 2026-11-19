@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem c33_h3 (hS : C33Setting M V) (g : G) : H3Cond 2 M V g := by
   intro A hA _ hmax
   obtain ⟨x, rfl⟩ := hA

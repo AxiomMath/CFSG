@@ -26,7 +26,7 @@ private theorem quotient_card_eq_four_mul_odd {X : Type*} [Group X] [Finite X] (
     [V.Normal] (S : Sylow 2 X) (hS : Nat.card ↥(S : Subgroup X) = 64)
     (hV : Nat.card V = 16) :
     ∃ m, Odd m ∧ Nat.card (X ⧸ V) = 4 * m := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (S : Subgroup X).index := by
     rw [← Nat.not_even_iff_odd, even_iff_two_dvd]
     exact Sylow.not_dvd_index S
@@ -78,12 +78,12 @@ theorem isSimpleGroup_quotient_of_perfect {X : Type*} [Group X] [Finite X] (V : 
     have hNtop : N = ⊤ := by
       have hnsolv : ¬ Group.IsSolvable ↥N := by
         intro hs
-        haveI : Group.IsSolvable ↥N := hs
+        have : Group.IsSolvable ↥N := hs
         obtain ⟨p, hp, hab, hpow⟩ :=
           minimal_normal_elementary_of_solvable N hNne hmin'
         by_cases hp2 : p = 2
         · rw [hp2] at hpow
-          haveI : Nontrivial ↥N := N.nontrivial_iff_ne_bot.mpr hNne
+          have : Nontrivial ↥N := N.nontrivial_iff_ne_bot.mpr hNne
           obtain ⟨g, hg⟩ := exists_ne (1 : ↥N)
           have hg2 : g ^ 2 = 1 :=
             Subtype.ext (by simpa using hpow (g : X ⧸ V) g.2)
@@ -96,14 +96,14 @@ theorem isSimpleGroup_quotient_of_perfect {X : Type*} [Group X] [Finite X] (V : 
             not_four_dvd_of_two_dvd hm_odd hcardY h2N
           by_cases hsub : Subsingleton ((X ⧸ V) ⧸ N)
           · have hNtop2 : N = ⊤ := QuotientGroup.subgroup_eq_top_of_subsingleton N hsub
-            haveI : IsMulCommutative (X ⧸ V) :=
+            have : IsMulCommutative (X ⧸ V) :=
               isMulCommutative_iff.mpr fun a b =>
                 hab a (hNtop2.symm ▸ Subgroup.mem_top a)
                     b (hNtop2.symm ▸ Subgroup.mem_top b)
-            haveI : Subsingleton (X ⧸ V) := inferInstance
+            have : Subsingleton (X ⧸ V) := inferInstance
             exact (not_subsingleton_iff_nontrivial.mpr
               (inferInstance : Nontrivial (X ⧸ V))) inferInstance
-          · haveI : Nontrivial ((X ⧸ V) ⧸ N) :=
+          · have : Nontrivial ((X ⧸ V) ⧸ N) :=
               not_subsingleton_iff_nontrivial.mp hsub
             exact hq4 (perfect_four_dvd_card (Y := (X ⧸ V) ⧸ N))
         · have hab' : ∀ a b : ↥N, a * b = b * a :=
@@ -112,13 +112,13 @@ theorem isSimpleGroup_quotient_of_perfect {X : Type*} [Group X] [Finite X] (V : 
             fun a => Subtype.ext (by simpa using hpow (a : X ⧸ V) a.2)
           have hdvdN : Nat.card ↥N ∣ 20160 :=
             (Subgroup.card_subgroup_dvd_card N).trans hdvd
-          haveI : Nontrivial ↥N := N.nontrivial_iff_ne_bot.mpr hNne
+          have : Nontrivial ↥N := N.nontrivial_iff_ne_bot.mpr hNne
           have hcardN := card_mem_of_elementary_odd_dvd (N := ↥N) hp hp2 hpow' hdvdN
           have haut := card_mulAut_lt_sixty_of_elementary (N := ↥N) hp hab' hpow' hcardN
           have hcenterN : N ≤ Subgroup.center (X ⧸ V) :=
             le_center_of_perfect_of_card_mulAut_lt N haut
           let M : Subgroup X := N.comap (QuotientGroup.mk' V)
-          haveI hMn : M.Normal := (inferInstance : N.Normal).comap (QuotientGroup.mk' V)
+          have hMn : M.Normal := (inferInstance : N.Normal).comap (QuotientGroup.mk' V)
           have hVM : V ≤ M := by
             intro v hv
             show (QuotientGroup.mk' V) v ∈ N
@@ -156,16 +156,16 @@ theorem isSimpleGroup_quotient_of_perfect {X : Type*} [Group X] [Finite X] (V : 
                 (QuotientGroup.mk'_surjective V) N]
             rw [hmap, hMV, Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk']
           exact hNne hNbot
-      haveI hcommNorm : (⁅N, N⁆ : Subgroup (X ⧸ V)).Normal :=
+      have hcommNorm : (⁅N, N⁆ : Subgroup (X ⧸ V)).Normal :=
         Subgroup.commutator_normal N N
       have hcommN : ⁅N, N⁆ = N := by
         rcases hmin' ⁅N, N⁆ hcommNorm (Subgroup.commutator_le_self N) with h | h
         · exfalso
-          haveI : IsMulCommutative ↥N := Subgroup.commutator_self_eq_bot_iff.mp h
+          have : IsMulCommutative ↥N := Subgroup.commutator_self_eq_bot_iff.mp h
           exact hnsolv (Group.isSolvable_of_comm (isMulCommutative_iff.mp inferInstance))
         · exact h
-      haveI : Group.IsPerfect ↥N := Subgroup.isPerfect_iff.mpr hcommN
-      haveI : Nontrivial ↥N := N.nontrivial_iff_ne_bot.mpr hNne
+      have : Group.IsPerfect ↥N := Subgroup.isPerfect_iff.mpr hcommN
+      have : Nontrivial ↥N := N.nontrivial_iff_ne_bot.mpr hNne
       have h4N : 4 ∣ Nat.card ↥N := perfect_four_dvd_card
       have hcardY : Nat.card (X ⧸ V) =
           Nat.card ((X ⧸ V) ⧸ N) * Nat.card ↥N :=
@@ -186,7 +186,7 @@ theorem isSimpleGroup_quotient_of_perfect {X : Type*} [Group X] [Finite X] (V : 
         CFSG.FeitThompson.isSolvable_of_odd_natCard _ hqodd
       have hsub : Subsingleton ((X ⧸ V) ⧸ N) := by
         by_contra h
-        haveI : Nontrivial ((X ⧸ V) ⧸ N) := not_subsingleton_iff_nontrivial.mp h
+        have : Nontrivial ((X ⧸ V) ⧸ N) := not_subsingleton_iff_nontrivial.mp h
         exact (Group.IsPerfect.not_isSolvable ((X ⧸ V) ⧸ N)) hsolv
       exact QuotientGroup.subgroup_eq_top_of_subsingleton N hsub
     exact top_le_iff.mp (hNtop ▸ hNR)

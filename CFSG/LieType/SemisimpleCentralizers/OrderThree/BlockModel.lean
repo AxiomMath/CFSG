@@ -30,7 +30,7 @@ theorem blockMat_one :
 theorem blockMat_inj {X X' : Matrix (Fin a) (Fin a) K} {Y Y' : Matrix (Fin k) (Fin k) K}
     {Z Z' : Matrix (Fin a) (Fin a) K} :
     blockMat X Y Z = blockMat X' Y' Z' ↔ X = X' ∧ Y = Y' ∧ Z = Z' := by
-  simp [blockMat, fromBlocks_inj, and_assoc]
+  simp [blockMat, fromBlocks_inj]
 
 theorem blockMat_det (X : Matrix (Fin a) (Fin a) K) (Y : Matrix (Fin k) (Fin k) K)
     (Z : Matrix (Fin a) (Fin a) K) : (blockMat X Y Z).det = X.det * Y.det * Z.det := by
@@ -132,11 +132,14 @@ theorem starInv_commutator (h : UnitaryFieldData p f K) (X X' : GL (Fin a) K) :
 theorem hypDiag_eq_diagonal (α β γ : K) :
     hypDiag a k α β γ = diagonal (hypDiagEntries a k α β γ) := rfl
 
+omit [Field K] in
 @[simp] theorem hypDiagEntries_inl (i : Fin a) : hypDiagEntries a k α β γ (Sum.inl i) = α := rfl
 
+omit [Field K] in
 @[simp] theorem hypDiagEntries_inr_inl (j : Fin k) :
     hypDiagEntries a k α β γ (Sum.inr (Sum.inl j)) = β := rfl
 
+omit [Field K] in
 @[simp] theorem hypDiagEntries_inr_inr (i : Fin a) :
     hypDiagEntries a k α β γ (Sum.inr (Sum.inr i)) = γ := rfl
 
@@ -308,7 +311,7 @@ theorem det_commutator_eq_one (A B : GL (Fin n) K) :
   have h : GeneralLinearGroup.det ⁅A, B⁆ = 1 := by
     rw [commutatorElement_def]
     simp only [map_mul, map_inv]
-    simp [mul_comm, mul_left_comm, mul_assoc]
+    simp [mul_assoc]
   rw [← GeneralLinearGroup.val_det_apply, h, Units.val_one]
 
 theorem commutator_mem_unitarySU (h : UnitaryFieldData p f K) {n : ℕ} {U V : GL (Fin n) K}
@@ -328,7 +331,7 @@ theorem commutator_mem_unitarySU (h : UnitaryFieldData p f K) {n : ℕ} {U V : G
   map_one' := by
     apply Subtype.ext
     apply Units.ext
-    simp [coe_blockDiag]
+    simp
   map_mul' Y Y' := by
     apply Subtype.ext
     apply Units.ext
@@ -341,7 +344,7 @@ theorem commutator_mem_unitarySU (h : UnitaryFieldData p f K) {n : ℕ} {U V : G
   map_one' := by
     apply Subtype.ext
     apply Units.ext
-    simp [coe_blockDiag]
+    simp
   map_mul' X X' := by
     apply Subtype.ext
     apply Units.ext
@@ -522,7 +525,7 @@ theorem exists_hypSU_blocks {p f : ℕ} {K : Type} [Field K] (h : UnitaryFieldDa
     have hcomm_eq : ⁅x, y⁆ = phi2Hom h a k ⟨⁅X, X'⁆, hA⟩ * phi1Hom h a k ⟨⁅Y, Y'⁆, hB⟩ := by
       apply Subtype.ext
       rw [commutator_hypSU_eq h hx_eq hy_eq hZ hZ']
-      simp [coe_blockDiag, blockDiag_mul]
+      simp [blockDiag_mul]
     rw [hcomm_eq]
     have hmem2 : phi2Hom h a k ⟨⁅X, X'⁆, hA⟩ ∈ (phi2Hom h a k).range :=
       MonoidHom.mem_range.mpr ⟨⟨⁅X, X'⁆, hA⟩, rfl⟩

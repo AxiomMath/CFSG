@@ -482,7 +482,7 @@ private theorem twoFiveProjectiveWeightCount_eq_pattern
       simpa [D] using hd
     by_cases hpattern :
         projectivePatternWeight c d = k
-    · rw [if_pos hpattern,
+    · rw [ite_eq_left hpattern,
         ← fiveProjectiveKernelFiber_card d hdne]
       congr 1
       ext x
@@ -496,7 +496,7 @@ private theorem twoFiveProjectiveWeightCount_eq_pattern
         refine ⟨⟨hxne, ?_⟩, hkernel⟩
         rw [fiveWeight_twoFiveProjectiveWord_eq_pattern
           c x hxne, hkernel, hpattern]
-    · rw [if_neg hpattern]
+    · rw [ite_eq_right hpattern]
       rw [Finset.card_eq_zero]
       apply Finset.not_nonempty_iff_eq_empty.mp
       rintro ⟨x, hx⟩
@@ -659,7 +659,7 @@ theorem fiveProjectivize_eval_eq_iff
         exact congrArg (fun z => z * b) h
       · intro h
         exact mul_right_cancel₀ hb h
-  · simp only [fiveProjectivize, if_neg ha,
+  · simp only [fiveProjectivize, ite_eq_right ha,
       FiveProjectiveColumn.eval]
     have hrewrite (z : Fin 2 → ZMod 5) :
         (z 0 + z 1 * (b * a⁻¹)) * a =

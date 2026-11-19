@@ -36,6 +36,7 @@ section Generic
 variable {G : Type} [Group G] [Finite G] {W K : Subgroup G} [(K.subgroupOf W).Normal]
   (ψ6 : (↥W ⧸ K.subgroupOf W) ⧸ Subgroup.center (↥W ⧸ K.subgroupOf W) ≃* ↥A6Models.psl29)
 
+omit [Finite G] in
 theorem rho6_mem_psl29_of_pow_three (g : ↥(nWK W K)) (hg : (g : G) ^ 3 = 1) :
     rho6 ψ6 g ∈ A6Models.psl29 := by
   have h3 : rho6 ψ6 g ^ 3 = 1 := by
@@ -45,6 +46,7 @@ theorem rho6_mem_psl29_of_pow_three (g : ↥(nWK W K)) (hg : (g : G) ^ 3 = 1) :
     exact one_mem _
   · exact (mem_psl29_of_prime_pow Nat.prime_three (by norm_num) (rho6_mem_autA6 ψ6 g) h3 h1).1
 
+omit [Finite G] in
 theorem rho6_conj_mem {H : Subgroup G} {g : ↥(nWK W K)}
     (hg : (g : G) ∈ Subgroup.normalizer (H : Set G)) {y : P10}
     (hy : y ∈ (H.subgroupOf (nWK W K)).map (rho6 ψ6)) :
@@ -53,11 +55,13 @@ theorem rho6_conj_mem {H : Subgroup G} {g : ↥(nWK W K)}
   refine ⟨g * u * g⁻¹, Subgroup.mem_subgroupOf.mpr ?_, by rw [map_mul, map_mul, map_inv]⟩
   exact (Subgroup.mem_normalizer_iff.mp hg u).mp (Subgroup.mem_subgroupOf.mp hu)
 
+omit [Finite G] in
 theorem not_dvd_card_map_rho6 {H : Subgroup G} (hH : H ≤ nWK W K) (hH3 : ¬ 3 ∣ Nat.card H) :
     ¬ 3 ∣ Nat.card ↥((H.subgroupOf (nWK W K)).map (rho6 ψ6)) :=
   fun h3 => hH3 ((h3.trans (Subgroup.card_map_dvd _ _)).trans
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hH).toEquiv).dvd)
 
+omit [Finite G] in
 theorem exists_rho6_eq_of_pow_three (hWK : W ≤ Subgroup.normalizer (K : Set G))
     (hZ : Nat.card (Subgroup.center (↥W ⧸ K.subgroupOf W)) = 3) {x : P10}
     (hx : x ∈ A6Models.psl29) (hx3 : x ^ 3 = 1) :

@@ -58,7 +58,7 @@ theorem two_pow_mul_factorial_le_card_ggAutomizer [Finite G] {F : Type} [Field F
     (h : IsPlaneTorusLift p Bs X ζ φ) :
     2 ^ n * n.factorial ≤ Nat.card (ggAutomizer X Bs) := by
   classical
-  haveI : Finite (MulAut ↥Bs) :=
+  have : Finite (MulAut ↥Bs) :=
     Finite.of_injective (fun f : MulAut ↥Bs => (f : ↥Bs → ↥Bs)) DFunLike.coe_injective
   have hle := spSignedGroup_le_torusPerms h2 h
   have hex : ∀ q : spSignedGroup n p, ∃ g ∈ X ⊓ Subgroup.normalizer (Bs : Set G),

@@ -29,7 +29,7 @@ theorem no_normal_four_of_cyclic_core {z : G} (hsymp : CFSG.Open.GLASymplecticTy
     have : 2 ^ k ≤ 2 ^ 2 := Nat.pow_le_pow_right (by norm_num) (by omega)
     rw [← hag.card] at this
     omega
-  haveI := cd.Z_normal
+  have := cd.Z_normal
   obtain ⟨v, hvV, hvz⟩ : ∃ v ∈ V, v ∉ zpowers zz := by
     by_contra hall
     push Not at hall
@@ -88,7 +88,7 @@ theorem shape_cyclic_core {z : G} (hsymp : CFSG.Open.GLASymplecticType (Fz z))
   have hDZ : D = Zof D := cd.D_eq_Z hE
   have hH : Hz z = Fz z := by
     refine Hz_eq_Fz_of_odd hF2 fun u hu hodd => ?_
-    haveI := cd.char
+    have := cd.char
     refine eq_one_of_stable_cyclic hF2 hu hodd cd.cyc fun d hd => ?_
     refine fixes_of_cyclic hF2 hu hodd cd.cyc d ?_
     have h : d ∈ centralizer ((Zof D : Subgroup ↥(Fz z)) : Set ↥(Fz z)) :=
@@ -101,7 +101,7 @@ theorem shape_cyclic_core {z : G} (hsymp : CFSG.Open.GLASymplecticType (Fz z))
     (no_normal_four_of_cyclic_core hsymp cd hmax hk8 hE) with
     hcyc | ⟨m, hm, ⟨e⟩⟩ | ⟨n, hn, ⟨e⟩⟩ | ⟨n, hn, ⟨e⟩⟩
   · exact Asc76Shape.uniqueInvolution hH (Or.inl hcyc)
-  · haveI : NeZero (2 ^ m) := ⟨pow_ne_zero m two_ne_zero⟩
+  · have : NeZero (2 ^ m) := ⟨pow_ne_zero m two_ne_zero⟩
     have hcard : Nat.card ↥(Fz z) = 2 * 2 ^ m := by
       rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, DihedralGroup.card]
     have hm2 : 2 ≤ m := by
@@ -113,7 +113,7 @@ theorem shape_cyclic_core {z : G} (hsymp : CFSG.Open.GLASymplecticType (Fz z))
   · have hn4 : 4 ≤ n := by
       by_contra hlt
       obtain rfl : n = 3 := by omega
-      haveI : NeZero (2 ^ (3 - 2)) := ⟨by norm_num⟩
+      have : NeZero (2 ^ (3 - 2)) := ⟨by norm_num⟩
       have h1 : orderOf (e a) ∣ Monoid.exponent (QuaternionGroup (2 ^ (3 - 2))) :=
         Monoid.order_dvd_exponent _
       have h3 : orderOf (e a) = orderOf a := orderOf_injective e.toMonoidHom e.injective a

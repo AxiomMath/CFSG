@@ -70,7 +70,7 @@ private lemma kg3_qG_apply (u v : Fin 6 → ℚ) (a b : Fin 2) :
   congr 1
   · funext k
     have h := congrFun (Matrix.row_transpose (kg3_qB u v)) a
-    fin_cases a <;> simpa [kg3_qB, Matrix.col_apply] using congrFun h k
+    fin_cases a <;> simp [kg3_qB]
   · change (kg3_qC * kg3_qB u v).col b = kg3_qC.mulVec (if b = 0 then u else v)
     rw [Matrix.col_mul_eq_mulVec_col]
     congr 1
@@ -133,13 +133,13 @@ private theorem kg3_core (M : Matrix (Fin 6) (Fin 6) ℚ) (hM2 : M * M = 1)
     rw [hE, Matrix.trace_sub, htr, Matrix.trace_one]; norm_num
   have hEB : E * B = (2:ℚ) • B := by
     rw [hE, Matrix.sub_mul, Matrix.one_mul, hMB]
-    ext i j; simp [Matrix.sub_apply, Matrix.add_apply, Matrix.smul_apply]; ring
+    ext i j; simp [Matrix.sub_apply, Matrix.smul_apply]; ring
   have hBtM : B.transpose * kg3_qC * M = -(B.transpose * kg3_qC) := by
     rw [Matrix.mul_assoc, ← hMC, ← Matrix.mul_assoc,
       ← Matrix.transpose_mul, hMB, Matrix.transpose_neg, Matrix.neg_mul]
   have hBtCE : B.transpose * kg3_qC * E = (2:ℚ) • (B.transpose * kg3_qC) := by
     rw [hE, Matrix.mul_sub, Matrix.mul_one, hBtM]
-    ext i j; simp [Matrix.sub_apply, Matrix.add_apply, Matrix.smul_apply]; ring
+    ext i j; simp [Matrix.sub_apply, Matrix.smul_apply]; ring
   have hAqG : A * kg3_qG u v = d • 1 := by
     rw [hA, hd, Matrix.adjugate_mul]; rfl
   have hEpiD : E * PiD = (2:ℚ) • PiD := by

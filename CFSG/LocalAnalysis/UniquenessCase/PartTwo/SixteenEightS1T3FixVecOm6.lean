@@ -16,11 +16,12 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {A L T : Subgroup (MulAut W)}
 
+omit [Finite W] in
 private theorem s16t3_card_natOmegaMinus_six {L : Subgroup (MulAut W)} {I : Subgroup W}
     (h : NatOmegaMinus L I ⊥ 6 1) : Nat.card ↥I = 64 := by
   obtain ⟨-, K, hKf, hKfin, b, c, hK, -, hreal⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hcard := s16c1610_card_of_realizes_nat (V := W) hreal
   rw [hK] at hcard
   have hidx : Fintype.card (Fin (6 / 2 - 1) ⊕ Fin (6 / 2 - 1) ⊕ Fin 2) = 6 := by
@@ -34,10 +35,10 @@ private theorem s16t3_exists_order_three_stabilizer
     (hG : Fintype.card G = 25920) (hX : Fintype.card X ≤ 64) (w : X) :
     ∃ y : G, orderOf y = 3 ∧ y • w = w := by
   classical
-  haveI : Fintype (MulAction.orbit G w) := Fintype.ofFinite _
-  haveI : Fintype (MulAction.stabilizer G w) := Fintype.ofFinite _
-  haveI : Nonempty (MulAction.orbit G w) := ⟨⟨w, MulAction.mem_orbit_self w⟩⟩
-  haveI : Nonempty (MulAction.stabilizer G w) := ⟨1⟩
+  have : Fintype (MulAction.orbit G w) := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer G w) := Fintype.ofFinite _
+  have : Nonempty (MulAction.orbit G w) := ⟨⟨w, MulAction.mem_orbit_self w⟩⟩
+  have : Nonempty (MulAction.stabilizer G w) := ⟨1⟩
   have hOS := MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := G) w
   have hOle : Fintype.card (MulAction.orbit G w) ≤ 64 :=
     (Fintype.card_le_of_injective (fun x : MulAction.orbit G w => (x : X))
@@ -92,7 +93,7 @@ theorem ThreeNat.exists_fix_vector_omegaMinus6 (h : ThreeNat A L T)
     have hcardI : Nat.card ↥I = 64 := s16t3_card_natOmegaMinus_six hOm
     have hLI : StableUnder L I := hI.2.2.1
     have hI2 : 2 ∣ Nat.card ↥I := by rw [hcardI]; norm_num
-    letI : MulAction ↥T ↥I :=
+    let : MulAction ↥T ↥I :=
       { smul := fun t x => ⟨(t : MulAut W) (x : W), hTI t t.2 x x.2⟩
         one_smul := fun _ => Subtype.ext rfl
         mul_smul := fun _ _ _ => Subtype.ext rfl }
@@ -105,12 +106,12 @@ theorem ThreeNat.exists_fix_vector_omegaMinus6 (h : ThreeNat A L T)
     have hwt : ∀ t : ↥T, (t : MulAut W) (w : W) = (w : W) :=
       fun t => congrArg Subtype.val (MulAction.mem_fixedPoints.1 hwfix t)
     have hwW_ne : (w : W) ≠ 1 := fun h1 => hwne (Subtype.ext (by simpa using h1.symm))
-    letI : MulAction ↥L ↥I :=
+    let : MulAction ↥L ↥I :=
       { smul := fun l x => ⟨(l : MulAut W) (x : W), hLI l l.2 x x.2⟩
         one_smul := fun _ => Subtype.ext rfl
         mul_smul := fun _ _ _ => Subtype.ext rfl }
-    haveI : Fintype ↥L := Fintype.ofFinite _
-    haveI : Fintype ↥I := Fintype.ofFinite _
+    have : Fintype ↥L := Fintype.ofFinite _
+    have : Fintype ↥I := Fintype.ofFinite _
     have hLc : Fintype.card ↥L = 25920 := by rw [← Nat.card_eq_fintype_card, hLcard]
     have hIc : Fintype.card ↥I ≤ 64 := by rw [← Nat.card_eq_fintype_card, hcardI]
     obtain ⟨y, hyord, hyw⟩ := s16t3_exists_order_three_stabilizer hLc hIc w
@@ -142,7 +143,7 @@ theorem ThreeNat.exists_fix_vector_omegaMinus6 (h : ThreeNat A L T)
         · exact hkpos
       rw [hk]
       exact pow_dvd_pow 2 hk1
-    letI : MulAction ↥T ↥(fixV L) :=
+    let : MulAction ↥T ↥(fixV L) :=
       { smul := fun t z => ⟨(t : MulAut W) (z : W), hZstab t t.2 z z.2⟩
         one_smul := fun _ => Subtype.ext rfl
         mul_smul := fun _ _ _ => Subtype.ext rfl }
@@ -155,7 +156,7 @@ theorem ThreeNat.exists_fix_vector_omegaMinus6 (h : ThreeNat A L T)
     have hwt : ∀ t : ↥T, (t : MulAut W) (w : W) = (w : W) :=
       fun t => congrArg Subtype.val (MulAction.mem_fixedPoints.1 hwfix t)
     have hwW_ne : (w : W) ≠ 1 := fun h1 => hwne (Subtype.ext (by simpa using h1.symm))
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h3dvd : 3 ∣ Nat.card ↥L := by rw [hLcard]; norm_num
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 3 h3dvd
     exact ⟨(w : W), hwW_ne, fun t ht => hwt ⟨t, ht⟩,

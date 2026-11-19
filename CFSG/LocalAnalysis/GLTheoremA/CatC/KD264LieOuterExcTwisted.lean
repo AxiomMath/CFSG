@@ -33,13 +33,13 @@ private theorem outerPLayerAt_tits {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {hv : TauCeti.LieTypeIndex.tits.Valid} {S : Type} [Group S] [Finite S]
     (e : S ≃* CFSG.LieType.SeitzGeneration.Cat ⟨TauCeti.LieTypeIndex.tits, hv⟩) :
     OuterPLayerAt p S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmodel : CFSG.Blueprint.ReeTitsModel
       (CFSG.LieType.SeitzGeneration.Cat ⟨TauCeti.LieTypeIndex.tits, hv⟩) .Tits 2 1 :=
     CFSG.RankThree.PartOne.CTP.reeTitsModel_tits
       (S := CFSG.LieType.SeitzGeneration.Cat ⟨TauCeti.LieTypeIndex.tits, hv⟩)
       ⟨hv, ⟨MulEquiv.refl _⟩⟩
-  haveI : Finite (CFSG.LieType.SeitzGeneration.Cat ⟨TauCeti.LieTypeIndex.tits, hv⟩) :=
+  have : Finite (CFSG.LieType.SeitzGeneration.Cat ⟨TauCeti.LieTypeIndex.tits, hv⟩) :=
     Nat.finite_of_card_ne_zero (by
       rw [CFSG.LieType.SeitzGeneration.card_cat_tits hv]; norm_num)
   obtain ⟨h2, -⟩ :=
@@ -82,7 +82,7 @@ private theorem outerPLayerAt_suzuki {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     exact hpdvd
   refine outerPLayerAt_of_mulEquiv_of_glaPLayer hp eS ?_
   intro x hxp hxout
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxinner : x ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner
       (CFSG.Blueprint.suzukiGroup a F) := fun hx => hxout (inner_le_innAutDerived _ hx)
   have hx1 : x ≠ 1 := fun h1 => hxout (by rw [h1]; exact one_mem _)
@@ -162,7 +162,7 @@ private theorem outerPLayerAt_reeG2 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     exact hpdvd
   refine outerPLayerAt_of_mulEquiv_of_fieldCoreAt hp eS ?_
   intro x hxp hxout
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxinner : x ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner
       (ReeTag.G2.reeGamma X m) := fun hx => hxout (inner_le_innAutDerived _ hx)
   obtain ⟨-, δ, σ, hσp, hconj, hkcard, hfixed⟩ :=
@@ -220,7 +220,7 @@ private theorem outerPLayerAt_reeF4 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     exact hpdvd
   refine outerPLayerAt_of_mulEquiv_of_fieldCoreAt hp eS ?_
   intro x hxp hxout
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxinner : x ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner
       (ReeTag.F4.reeGamma X m) := fun hx => hxout (inner_le_innAutDerived _ hx)
   by_cases h3 : p = 3
@@ -303,7 +303,7 @@ theorem dvd_ordTwistedE6_of_dvd_numTwistedE6 {p Q : ℕ} (hp : p.Prime) (hp3 : 3
 private theorem not_coprime_card_subfield_twistedE6 {ℓ f p : ℕ} (hp : p.Prime)
     (hp3 : 3 < p) (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hpdivf : p ∣ f)
     (hpord : p ∣ CFSG.Open.ordTwistedE6 (ℓ ^ f))
-    {K : Type} [Field K] [Finite K] (κ : K ≃+* K) (hκ : ∀ c, κ c = c ^ ℓ ^ (2 * (f / p)))
+    {K : Type} [Field K] [Finite K] (κ : K ≃+* K) (_hκ : ∀ c, κ c = c ^ ℓ ^ (2 * (f / p)))
     (σ₀ : fixSubfield κ ≃+* fixSubfield κ)
     (hσ₀ : ∀ c, (σ₀ c : K) = (c : K) ^ ℓ ^ (f / p))
     (hkcard : Nat.card (fixSubfield κ) = ℓ ^ (2 * (f / p))) :
@@ -372,7 +372,7 @@ private theorem outerPLayerAt_twistedE6 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     exact hpdvdM
   refine outerPLayerAt_of_mulEquiv_of_fieldCoreAt hp eS ?_
   intro x hxp hxout
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxinner : x ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner
       (twistedE6RootGroup K σ) := fun hx => hxout (inner_le_innAutDerived _ hx)
   have hx1 : x ≠ 1 := fun h1 => hxout (by rw [h1]; exact one_mem _)

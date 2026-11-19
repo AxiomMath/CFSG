@@ -44,8 +44,8 @@ theorem lw_single_comp' {Λ Λ' : Type} [DecidableEq Λ] [DecidableEq Λ']
   funext x
   rw [Function.comp_apply, Pi.single_apply, Pi.single_apply]
   by_cases h : x = Option.map e k
-  · rw [if_pos h, if_pos ((lw_comp_eq_iff e x k).mp h)]
-  · rw [if_neg h, if_neg (fun hk => h ((lw_comp_eq_iff e x k).mpr hk))]
+  · rw [ite_eq_left h, ite_eq_left ((lw_comp_eq_iff e x k).mp h)]
+  · rw [ite_eq_right h, ite_eq_right (fun hk => h ((lw_comp_eq_iff e x k).mpr hk))]
 
 private theorem lw_sRefl_comp {Λ Λ' : Type} [Fintype Λ] [DecidableEq Λ] [Fintype Λ']
     [DecidableEq Λ'] (e : Λ ≃ Λ') {X : Matrix (Option Λ) (Option Λ) ℤ}
@@ -250,14 +250,14 @@ theorem ggAttachCartan_map_equiv {Λ : Type} [DecidableEq Λ] {n : ℕ} (e : Fin
 theorem lw_node {n : ℕ} (l : List ℤ) {i : ℕ} (hi : i ≤ n) :
     lw_vecOf l (ggLWnode n i) = l.getD i 0 := by
   by_cases h : i < n
-  · simp only [lw_vecOf, ggLWnode, dif_pos h]
+  · simp only [lw_vecOf, ggLWnode, dite_eq_left h]
   · have hin : i = n := by omega
     rw [hin]
-    simp only [lw_vecOf, ggLWnode, dif_neg (Nat.lt_irrefl n)]
+    simp only [lw_vecOf, ggLWnode, dite_eq_right (Nat.lt_irrefl n)]
 
 private theorem lw_node_fin {n : ℕ} (i : Fin n) : ggLWnode n i.1 = some i := by
   simp only [ggLWnode]
-  rw [dif_pos i.2]
+  rw [dite_eq_left i.2]
 
 theorem lw_node_some {n : ℕ} (l : List ℤ) (i : Fin n) :
     lw_vecOf l (some i) = l.getD i.1 0 := by
@@ -270,7 +270,7 @@ private theorem lw_sum_option_range {n : ℕ} {M : Type} [AddCommMonoid M]
     (f : Option (Fin n) → M) :
     ∑ o : Option (Fin n), f o = ∑ i ∈ Finset.range (n + 1), f (ggLWnode n i) := by
   rw [Fintype.sum_option, Finset.sum_range_succ]
-  rw [show ggLWnode n n = none from dif_neg (Nat.lt_irrefl n)]
+  rw [show ggLWnode n n = none from dite_eq_right (Nat.lt_irrefl n)]
   have hfin : (∑ i : Fin n, f (some i)) = ∑ i : Fin n, f (ggLWnode n i.1) := by
     apply Finset.sum_congr rfl
     intro i _
@@ -329,13 +329,13 @@ private theorem lw_sRefl_bridge {n : ℕ} (X : Matrix (Option (Fin n)) (Option (
     simp only [ggLWrefl, List.getElem_mapIdx]
     rw [← List.getD_eq_getElem l 0 (by omega)]
     by_cases hjn : j = n
-    · rw [hjn, show ggLWnode n n = none from dif_neg (Nat.lt_irrefl n)]
-      rw [Pi.single_apply, if_pos rfl, if_pos rfl]
+    · rw [hjn, show ggLWnode n n = none from dite_eq_right (Nat.lt_irrefl n)]
+      rw [Pi.single_apply, ite_eq_left rfl, ite_eq_left rfl]
       ring
     · have hjs : j < n := lt_of_le_of_ne hj hjn
-      rw [show ggLWnode n j = some ⟨j, hjs⟩ from dif_pos hjs]
-      rw [Pi.single_apply, if_neg (by simp), mul_zero, sub_zero,
-        if_neg (by omega : ¬ n = j)]
+      rw [show ggLWnode n j = some ⟨j, hjs⟩ from dite_eq_left hjs]
+      rw [Pi.single_apply, ite_eq_right (by simp), mul_zero, sub_zero,
+        ite_eq_right (by omega : ¬ n = j)]
   · rw [lw_node_some,
       show lw_vecOf (ggLWrefl (ggLWmat X) j l) (some i)
         = (ggLWrefl (ggLWmat X) j l).getD i.1 0 from rfl]
@@ -343,15 +343,15 @@ private theorem lw_sRefl_bridge {n : ℕ} (X : Matrix (Option (Fin n)) (Option (
     simp only [ggLWrefl, List.getElem_mapIdx]
     rw [← List.getD_eq_getElem l 0 (by omega)]
     by_cases hjn : j = n
-    · rw [hjn, show ggLWnode n n = none from dif_neg (Nat.lt_irrefl n)]
-      rw [Pi.single_apply, if_neg (by simp), if_neg (by omega : ¬ i.1 = n)]
+    · rw [hjn, show ggLWnode n n = none from dite_eq_right (Nat.lt_irrefl n)]
+      rw [Pi.single_apply, ite_eq_right (by simp), ite_eq_right (by omega : ¬ i.1 = n)]
       ring
     · have hjs : j < n := lt_of_le_of_ne hj hjn
-      rw [show ggLWnode n j = some ⟨j, hjs⟩ from dif_pos hjs]
+      rw [show ggLWnode n j = some ⟨j, hjs⟩ from dite_eq_left hjs]
       rw [Pi.single_apply]
       by_cases hij : i.1 = j
-      · rw [if_pos (by simp [Fin.ext_iff, hij]), if_pos hij]; ring
-      · rw [if_neg (by simp [Fin.ext_iff, hij]), if_neg hij]; ring
+      · rw [ite_eq_left (by simp [Fin.ext_iff, hij]), ite_eq_left hij]; ring
+      · rw [ite_eq_right (by simp [Fin.ext_iff, hij]), ite_eq_right hij]; ring
 
 
 
@@ -425,13 +425,13 @@ private theorem lw_sReflR_bridge {n : ℕ} (X : Matrix (Option (Fin n)) (Option 
     simp only [ggLWreflR, List.getElem_mapIdx]
     rw [← List.getD_eq_getElem c 0 (by omega)]
     by_cases hjn : j = n
-    · rw [hjn, show ggLWnode n n = none from dif_neg (Nat.lt_irrefl n)]
-      rw [Pi.single_apply, if_pos rfl, if_pos rfl]
+    · rw [hjn, show ggLWnode n n = none from dite_eq_right (Nat.lt_irrefl n)]
+      rw [Pi.single_apply, ite_eq_left rfl, ite_eq_left rfl]
       ring
     · have hjs : j < n := lt_of_le_of_ne hj hjn
-      rw [show ggLWnode n j = some ⟨j, hjs⟩ from dif_pos hjs]
-      rw [Pi.single_apply, if_neg (by simp), mul_zero, sub_zero,
-        if_neg (by omega : ¬ n = j)]
+      rw [show ggLWnode n j = some ⟨j, hjs⟩ from dite_eq_left hjs]
+      rw [Pi.single_apply, ite_eq_right (by simp), mul_zero, sub_zero,
+        ite_eq_right (by omega : ¬ n = j)]
   · rw [lw_node_some,
       show lw_vecOf (ggLWreflR (ggLWmat X) j c) (some i)
         = (ggLWreflR (ggLWmat X) j c).getD i.1 0 from rfl]
@@ -439,15 +439,15 @@ private theorem lw_sReflR_bridge {n : ℕ} (X : Matrix (Option (Fin n)) (Option 
     simp only [ggLWreflR, List.getElem_mapIdx]
     rw [← List.getD_eq_getElem c 0 (by omega)]
     by_cases hjn : j = n
-    · rw [hjn, show ggLWnode n n = none from dif_neg (Nat.lt_irrefl n)]
-      rw [Pi.single_apply, if_neg (by simp), if_neg (by omega : ¬ i.1 = n)]
+    · rw [hjn, show ggLWnode n n = none from dite_eq_right (Nat.lt_irrefl n)]
+      rw [Pi.single_apply, ite_eq_right (by simp), ite_eq_right (by omega : ¬ i.1 = n)]
       ring
     · have hjs : j < n := lt_of_le_of_ne hj hjn
-      rw [show ggLWnode n j = some ⟨j, hjs⟩ from dif_pos hjs]
+      rw [show ggLWnode n j = some ⟨j, hjs⟩ from dite_eq_left hjs]
       rw [Pi.single_apply]
       by_cases hij : i.1 = j
-      · rw [if_pos (by simp [Fin.ext_iff, hij]), if_pos hij]; ring
-      · rw [if_neg (by simp [Fin.ext_iff, hij]), if_neg hij]; ring
+      · rw [ite_eq_left (by simp [Fin.ext_iff, hij]), ite_eq_left hij]; ring
+      · rw [ite_eq_right (by simp [Fin.ext_iff, hij]), ite_eq_right hij]; ring
 
 
 
@@ -481,21 +481,21 @@ theorem lw_sWordR_bridge {n : ℕ} (X : Matrix (Option (Fin n)) (Option (Fin n))
 private theorem lw_unit_succ {n k : ℕ} (hk : k < n) :
     ggLWunit (n + 1) k = ggLWunit n k ++ [0] := by
   simp only [ggLWunit, List.range_succ, List.map_append, List.map_cons, List.map_nil]
-  rw [if_neg (by omega : ¬ n = k)]
+  rw [ite_eq_right (by omega : ¬ n = k)]
 
 private theorem lw_node_inj {n t k : ℕ} (ht : t ≤ n) (hk : k ≤ n)
     (h : ggLWnode n t = ggLWnode n k) : t = k := by
   by_cases ht' : t < n
-  · rw [show ggLWnode n t = some ⟨t, ht'⟩ from dif_pos ht'] at h
+  · rw [show ggLWnode n t = some ⟨t, ht'⟩ from dite_eq_left ht'] at h
     by_cases hk' : k < n
-    · rw [show ggLWnode n k = some ⟨k, hk'⟩ from dif_pos hk'] at h
+    · rw [show ggLWnode n k = some ⟨k, hk'⟩ from dite_eq_left hk'] at h
       exact congrArg Fin.val (Option.some.inj h)
-    · rw [show ggLWnode n k = none from dif_neg hk'] at h
+    · rw [show ggLWnode n k = none from dite_eq_right hk'] at h
       exact absurd h (by simp)
   · have htn : t = n := le_antisymm ht (le_of_not_gt ht')
     by_cases hk' : k < n
-    · rw [show ggLWnode n t = none from dif_neg ht',
-        show ggLWnode n k = some ⟨k, hk'⟩ from dif_pos hk'] at h
+    · rw [show ggLWnode n t = none from dite_eq_right ht',
+        show ggLWnode n k = some ⟨k, hk'⟩ from dite_eq_left hk'] at h
       exact absurd h (by simp)
     · have hkn : k = n := le_antisymm hk (le_of_not_gt hk')
       omega
@@ -510,14 +510,14 @@ private theorem lw_unit_bridge_point {n : ℕ} (k : ℕ) (hk : k ≤ n) {t : ℕ
     rw [List.getElem_map, List.getElem_range]
   rw [hone]
   by_cases htk : t = k
-  · rw [if_pos htk, if_pos (by rw [htk])]
-  · rw [if_neg htk, if_neg (fun h => htk (lw_node_inj ht hk h))]
+  · rw [ite_eq_left htk, ite_eq_left (by rw [htk])]
+  · rw [ite_eq_right htk, ite_eq_right (fun h => htk (lw_node_inj ht hk h))]
 
 theorem lw_unit_bridge {n : ℕ} (k : ℕ) (hk : k ≤ n) :
     lw_vecOf (ggLWunit (n + 1) k) = (Pi.single (ggLWnode n k) (1 : ℤ) : Option (Fin n) → ℤ) := by
   funext o
   rcases o with _ | i
-  · rw [← show ggLWnode n n = none from dif_neg (Nat.lt_irrefl n)]
+  · rw [← show ggLWnode n n = none from dite_eq_right (Nat.lt_irrefl n)]
     exact lw_unit_bridge_point k hk (le_refl n)
   · rw [← lw_node_fin i]
     exact lw_unit_bridge_point k hk (le_of_lt i.2)
@@ -529,7 +529,7 @@ private theorem lw_rowC {n : ℕ} (C : Matrix (Fin n) (Fin n) ℤ) {j : ℕ} (hj
     simp only [ggLWmatC, List.length_map, List.length_range]; omega
   rw [List.getD_eq_getElem _ _ hlt]
   simp only [ggLWmatC, List.getElem_map, List.getElem_range]
-  simp only [dif_pos hj]
+  simp only [dite_eq_left hj]
 
 
 
@@ -557,7 +557,7 @@ private theorem lw_attach_sRefl_bridge {n : ℕ} (C : Matrix (Fin n) (Fin n) ℤ
           * lw_vecOf (v ++ [0]) (some i))
         = ∑ i : Fin n, C ⟨j, hj⟩ i * v.getD i.1 0 := by
       refine Finset.sum_congr rfl (fun i _ => ?_)
-      rw [show ggLWnode n j = some ⟨j, hj⟩ from dif_pos hj, ggAttachCartan_some_some,
+      rw [show ggLWnode n j = some ⟨j, hj⟩ from dite_eq_left hj, ggAttachCartan_some_some,
         lw_node_some]
       congr 1
       rw [List.getD_append v [0] 0 i.1 (by rw [hv]; exact i.2)]
@@ -566,13 +566,13 @@ private theorem lw_attach_sRefl_bridge {n : ℕ} (C : Matrix (Fin n) (Fin n) ℤ
         = ∑ i : Fin n,
             (if hb : i.1 < n then C ⟨j, hj⟩ ⟨i.1, hb⟩ * v.getD i.1 0 else 0) := by
       refine Finset.sum_congr rfl (fun i _ => ?_)
-      rw [dif_pos i.2]
+      rw [dite_eq_left i.2]
     rw [hF, Fin.sum_univ_eq_sum_range
       (fun b => if hb : b < n then C ⟨j, hj⟩ ⟨b, hb⟩ * v.getD b 0 else 0) n]
     refine Finset.sum_congr rfl (fun b _ => ?_)
     by_cases hb : b < n
-    · simp only [dif_pos hb]
-    · simp only [dif_neg hb, zero_mul]
+    · simp only [dite_eq_left hb]
+    · simp only [dite_eq_right hb, zero_mul]
   have hlen : (ggLWrefl (ggLWmatC C) j v).length = n := by
     simp only [ggLWrefl, List.length_mapIdx, hv]
   rw [show ggSRefl (ggAttachCartan C k) (ggLWnode n j) (lw_vecOf (v ++ [0]))
@@ -586,14 +586,14 @@ private theorem lw_attach_sRefl_bridge {n : ℕ} (C : Matrix (Fin n) (Fin n) ℤ
     have h0 : (v ++ [0]).getD n 0 = (0 : ℤ) := by
       rw [List.getD_append_right v [0] 0 n (by rw [hv])]
       simp
-    rw [show ggLWnode n j = some ⟨j, hj⟩ from dif_pos hj,
-      Pi.single_apply, if_neg (fun h => by cases h)]
+    rw [show ggLWnode n j = some ⟨j, hj⟩ from dite_eq_left hj,
+      Pi.single_apply, ite_eq_right (fun h => by cases h)]
     rw [h0, mul_zero, sub_zero]
     rw [lw_node_none,
       List.getD_append_right (ggLWrefl (ggLWmatC C) j v) [0] 0 n (by rw [hlen])]
     simp
   · rw [lw_node_some,
-      show ggLWnode n j = some ⟨j, hj⟩ from dif_pos hj, Pi.single_apply]
+      show ggLWnode n j = some ⟨j, hj⟩ from dite_eq_left hj, Pi.single_apply]
     rw [List.getD_append v [0] 0 i.1 (by rw [hv]; exact i.2)]
     rw [show lw_vecOf (ggLWrefl (ggLWmatC C) j v ++ [0]) (some i)
         = (ggLWrefl (ggLWmatC C) j v ++ [0]).getD i.1 0 from rfl]
@@ -606,8 +606,8 @@ private theorem lw_attach_sRefl_bridge {n : ℕ} (C : Matrix (Fin n) (Fin n) ℤ
       rw [← List.getD_eq_getElem v 0 (by rw [hv]; exact i.2)]
     rw [hr]
     by_cases hij : i.1 = j
-    · rw [if_pos hij, if_pos (by simp [Fin.ext_iff, hij])]; ring
-    · rw [if_neg hij, if_neg (by simp [Fin.ext_iff, hij])]; ring
+    · rw [ite_eq_left hij, ite_eq_left (by simp [Fin.ext_iff, hij])]; ring
+    · rw [ite_eq_right hij, ite_eq_right (by simp [Fin.ext_iff, hij])]; ring
 
 
 
@@ -713,10 +713,10 @@ theorem lw_minors_dvd_of_minors {p : ℕ} {u v : List ℤ}
   rw [List.mem_filterMap] at hm
   obtain ⟨j, hj, hsome⟩ := hm
   by_cases hij : i < j
-  · rw [if_pos hij] at hsome
+  · rw [ite_eq_left hij] at hsome
     rw [← Option.some.inj hsome]
     exact lw_natAbs_dvd_of_int_dvd (h i j (List.mem_range.mp hi) (List.mem_range.mp hj) hij)
-  · rw [if_neg hij] at hsome
+  · rw [ite_eq_right hij] at hsome
     exact absurd hsome (by simp)
 
 theorem lw_prime_not_dvd_12 {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) : ¬ p ∣ 12 := by
@@ -742,8 +742,8 @@ theorem ggLatticeWitness_of_data {n : ℕ} (C : Matrix (Fin n) (Fin n) ℤ) (k :
     (hclosed : ggLWclosed (ggLWmatC C) n R = true)
     (hdata : ggLWdata (ggLWmat (ggAttachCartan C k)) n R ψ₀ k₀ ψγ kγ = true) {p : ℕ}
     (hp : p.Prime) (h5 : 5 ≤ p) : GGLatticeWitness (ggAttachCartan C k) p := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
   set XL : List (List ℤ) := ggLWmat (ggAttachCartan C k) with hXL
   have hd := hdata
   simp only [ggLWdata, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true] at hd
@@ -882,7 +882,7 @@ theorem ggFork_c_eq {Λ : Type} [DecidableEq Λ] {C : Matrix Λ Λ ℤ} {b c : �
   rw [hb, hCij] at h
   by_cases hc : e j = c
   · exact hc.symm
-  · rw [if_neg hc] at h
+  · rw [ite_eq_right hc] at h
     norm_num at h
 
 end CFSG.StandardType

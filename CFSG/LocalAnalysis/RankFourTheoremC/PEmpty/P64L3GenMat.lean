@@ -46,7 +46,7 @@ theorem utMat_mul_inv {F : Type} [Field F] (a b c : F) :
     utMat a b c * utMat (-a) (a * c - b) (-c) = 1 := by
   rw [utMat_mul]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [utMat] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [utMat]
 
 theorem e1SL_mul {F : Type} [Field F] (a c a' c' : F) :
     e1SL a c * e1SL a' c' = e1SL (a + a') (c + c') := by
@@ -170,14 +170,14 @@ theorem injective_phi3_e2 (F : Type) [Field F] :
 
 theorem natCast_eq_zero_of_card {F : Type} [Field F] [Finite F] {p : ℕ} (hF : Nat.card F = p) :
     (p : F) = 0 := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   rw [← hF, Nat.card_eq_fintype_card]
   exact FiniteField.cast_card_eq_zero F
 
 theorem two_le_pRank_S1 {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime)
     (hF : Nat.card F = p) : 2 ≤ CFSG.Open.pRank p (S1 F) := by
   have hp0 : (p : F) = 0 := natCast_eq_zero_of_card hF
-  haveI : Finite (PSL3 F) := Finite.of_surjective _ (phi3_surjective F)
+  have : Finite (PSL3 F) := Finite.of_surjective _ (phi3_surjective F)
   have hcard : Nat.card (Multiplicative (F × F)) = p ^ 2 := by
     rw [← Nat.card_congr (Multiplicative.ofAdd : F × F ≃ Multiplicative (F × F)),
       Nat.card_prod, hF, sq]
@@ -192,7 +192,7 @@ theorem two_le_pRank_S1 {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime)
 theorem two_le_pRank_S2 {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime)
     (hF : Nat.card F = p) : 2 ≤ CFSG.Open.pRank p (S2 F) := by
   have hp0 : (p : F) = 0 := natCast_eq_zero_of_card hF
-  haveI : Finite (PSL3 F) := Finite.of_surjective _ (phi3_surjective F)
+  have : Finite (PSL3 F) := Finite.of_surjective _ (phi3_surjective F)
   have hcard : Nat.card (Multiplicative (F × F)) = p ^ 2 := by
     rw [← Nat.card_congr (Multiplicative.ofAdd : F × F ≃ Multiplicative (F × F)),
       Nat.card_prod, hF, sq]

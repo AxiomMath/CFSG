@@ -44,6 +44,7 @@ theorem coord_z_eq (s : Setup521 G T M L V H B D D₃ Z₁ n) {N : Subgroup G} {
   funext i
   fin_cases i <;> simp [Direct523Semi.e₁, hw1]
 
+omit [Finite G] in
 theorem conj_mul_eq {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {u v : G}
     (hu : u ∈ Subgroup.normalizer (N : Set G)) (hv : v ∈ Subgroup.normalizer (N : Set G)) :
     D.conj ⟨u * v, mul_mem hu hv⟩ = (D.conj ⟨v, hv⟩).trans (D.conj ⟨u, hu⟩) := by
@@ -51,8 +52,8 @@ theorem conj_mul_eq {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {u v : G}
   rw [AddEquiv.trans_apply]
   exact NatL2Data.conj_mul D ⟨u, hu⟩ ⟨v, hv⟩ w
 
-theorem conj_Z₁_trivial (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 : Stmt5_1_14_first)
-    (hF : L2TorusFact) {N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {z : G} (hz : z ∈ Z₁)
+theorem conj_Z₁_trivial (s : Setup521 G T M L V H B D D₃ Z₁ n) (_h5114 : Stmt5_1_14_first)
+    (_hF : L2TorusFact) {N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {z : G} (hz : z ∈ Z₁)
     (hz1 : z ≠ 1) (hzN : z ∈ N) {c : G} (hc : c ∈ Z₁) {hc' : c ∈ Subgroup.normalizer (N : Set G)}
     (w : Fin 2 → D.K) : D.conj ⟨c, hc'⟩ w = w := by
   apply conj_Z₁_eq_id D (fun a ha b hb => D.mem_comm ha hb) hzN _ w

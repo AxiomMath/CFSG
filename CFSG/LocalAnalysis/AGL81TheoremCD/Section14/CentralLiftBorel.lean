@@ -70,14 +70,14 @@ private theorem isCyclic_normalizer_rootGroup_quotient {K : Type} [Field K] [Fin
     have h := (Subgroup.subgroupOf_sup (Subgroup.le_normalizer (H := rootGroup J hJ)) hTN).symm
     rw [show R' ⊔ T' = (rootGroup J hJ ⊔ torusGroup J hJ).subgroupOf N from h, ← hsup,
       Subgroup.subgroupOf_self]
-  letI : R'.Normal := Subgroup.normal_in_normalizer
-  haveI : IsCyclic ↥(torusGroup J hJ) :=
+  let : R'.Normal := Subgroup.normal_in_normalizer
+  have : IsCyclic ↥(torusGroup J hJ) :=
     (CFSG.AGLEmbeddingD2.McLaughlin.TightPairAndPureRank.normalizer_rootGroup_eq_sup
       J hJ hK hfix hq).2
   have hTcyc : IsCyclic T' := by
     have e := Subgroup.subgroupOfEquivOfLe hTN
     exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
-  haveI hcyc : IsCyclic (N ⧸ R') :=
+  have hcyc : IsCyclic (N ⧸ R') :=
     CFSG.quotient_isCyclic_of_sup_cyclic_right htop hTcyc
   exact hcyc
 
@@ -94,7 +94,7 @@ private theorem eq_of_mem_normalizer_rootGroup_of_commute {K : Type} [Field K] [
   set N : Subgroup (ProjectiveSpecialUnitaryMatrixGroup J) :=
     Subgroup.normalizer (rootGroup J hJ : Set _) with hNdef
   let R' : Subgroup N := (rootGroup J hJ).subgroupOf N
-  letI : R'.Normal := Subgroup.normal_in_normalizer
+  let : R'.Normal := Subgroup.normal_in_normalizer
   have hR'card : Nat.card R' = p ^ (3 * f) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (Subgroup.le_normalizer (H :=
       rootGroup J hJ))).toEquiv, card_rootGroup_eq J hJ hK hfix]

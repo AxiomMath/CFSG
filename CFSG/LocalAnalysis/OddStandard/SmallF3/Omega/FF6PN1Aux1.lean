@@ -19,7 +19,7 @@ theorem ffOutFF6PN1_symmDiff_erase (K : Finset (Option (Fin 5)))
       (K.erase none) = K := by
   by_cases hn : none ∈ K
   · have hs : Equiv.Perm.sign σ = -1 := h.mp hn
-    rw [if_neg (by rw [hs]; decide)]
+    rw [ite_eq_right (by rw [hs]; decide)]
     ext x
     by_cases hx : x = none
     · subst hx; simp [Finset.mem_symmDiff, hn]
@@ -28,12 +28,14 @@ theorem ffOutFF6PN1_symmDiff_erase (K : Finset (Option (Fin 5)))
       rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with h1 | h1
       · exact h1
       · exact absurd (h.mpr h1) hn
-    rw [if_pos hs, ← Finset.bot_eq_empty, bot_symmDiff, Finset.erase_eq_of_notMem hn]
+    rw [ite_eq_left hs, ← Finset.bot_eq_empty, bot_symmDiff, Finset.erase_eq_of_notMem hn]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFF6PN1_hat_inv (fr : PFrame Q (Option (Fin 5)) ffC)
     (σ : Equiv.Perm (Fin 5)) : (ffHat fr σ)⁻¹ = ffHat fr σ⁻¹ :=
   inv_eq_of_mul_eq_one_right (by rw [ffHat_mul, mul_inv_cancel, ffHat_one])
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFF6PN1_hat_mem_B0_eq_one (fr : PFrame Q (Option (Fin 5)) ffC)
     {σ : Equiv.Perm (Fin 5)} (h : ffHat fr σ ∈ ffB0p fr) : σ = 1 := by
   obtain ⟨J, -, -, hJ⟩ := (mem_ffB0p_iff fr).mp h
@@ -42,6 +44,7 @@ theorem ffOutFF6PN1_hat_mem_B0_eq_one (fr : PFrame Q (Option (Fin 5)) ffC)
     rw [fr.pOrth_one, one_mul, ← hJ, ffHat]
   exact (ffMonoP_unique fr h2).1
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFF6PN1_conj_mem_B0 (fr : PFrame Q (Option (Fin 5)) ffC)
     (σ : Equiv.Perm (Fin 5)) {b x : OGroup Q} (hb : b ∈ ffB0p fr) (hx : x ∈ ffB0p fr) :
     (ffHat fr σ * b) * x * (ffHat fr σ * b)⁻¹ ∈ ffB0p fr := by
@@ -62,6 +65,7 @@ theorem ffOutFF6PN1_conj_mem_B0 (fr : PFrame Q (Option (Fin 5)) ffC)
   rw [hxJ, hconj]
   exact (mem_ffB0p_iff_ffOpt fr).mpr ⟨ffAct σ J, by rw [ffAct_card]; exact hJe, rfl⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFF6PN1_inv_hat_mul (fr : PFrame Q (Option (Fin 5)) ffC)
     (σ : Equiv.Perm (Fin 5)) (J : Finset (Fin 5)) :
     (ffHat fr σ * fr.signChange (ffOpt J))⁻¹ =

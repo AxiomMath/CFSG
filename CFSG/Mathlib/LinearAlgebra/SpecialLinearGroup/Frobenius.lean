@@ -27,8 +27,7 @@ theorem exists_HSL_normalization_of_map_eq_mul_HSL_WSL
     simp only [Matrix.SpecialLinearGroup.coe_mul, coe_HSL, coe_WSL]
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.SpecialLinearGroup.coe_one,
-        Matrix.mul_apply, Fin.sum_univ_two, CharTwo.neg_eq, mul_assoc,
-        Units.val_inv_eq_inv_val, Units.ne_zero]
+        Matrix.mul_apply, Fin.sum_univ_two, CharTwo.neg_eq, Units.val_inv_eq_inv_val, Units.ne_zero]
   have hn : Matrix.SpecialLinearGroup.map Fr (HSL c * WSL) = HSL c * WSL := by
     calc
       Matrix.SpecialLinearGroup.map Fr (HSL c * WSL) =
@@ -49,12 +48,11 @@ theorem exists_HSL_normalization_of_map_eq_mul_HSL_WSL
     apply Units.ne_zero c
     first
     | simpa only [h, zero_mul] using hd
-    | simpa only [h, zero_mul] using hd.symm
   let u : Lˣ := Units.mk0 d hd0
   have hu : u * u = c := by
     apply Units.ext
     change d * d = (c : L)
-    first | exact hd | exact hd.symm
+    exact hd.symm
   have huv : (u : L) * u = c := congrArg Units.val hu
   have hFu : Fr (u : L) = u := by
     apply CharTwo.sq_injective
@@ -75,8 +73,7 @@ theorem exists_HSL_normalization_of_map_eq_mul_HSL_WSL
     simp only [Matrix.SpecialLinearGroup.coe_mul, coe_HSL, coe_WSL]
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, Units.val_mul,
-        Units.val_inv_eq_inv_val, mul_inv_rev, mul_assoc,
-        Units.ne_zero, CharTwo.neg_eq]
+        Units.val_inv_eq_inv_val, mul_inv_rev, Units.ne_zero, CharTwo.neg_eq]
   refine ⟨u, hu, hU, ?_⟩
   calc
     Matrix.SpecialLinearGroup.map Fr (P * HSL u) = (P * (HSL c * WSL)) * HSL u := by

@@ -61,7 +61,6 @@ theorem wcToWreath_mul (w w' : Wc) :
   · funext q
     rcases mult_zmod_two_cases q with rfl | rfl <;> cases e <;> cases e' <;>
       simp [wcToWreathFun, Wc.mul_false, Wc.mul_true, map_mul]
-    all_goals (intro h; exact absurd h (by decide))
   · cases e <;> cases e' <;> simp [wcToWreathFun, Wc.mul_false, Wc.mul_true]
     exact zmod2_mul_self.symm
 

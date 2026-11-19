@@ -485,7 +485,7 @@ private theorem fiveCenter_eq : Subgroup.center fiveG4 = fiveZ4 := by
   have hnc : ¬ IsMulCommutative (fiveG4 ⧸ fiveZ4) := by
     intro h
     have hA5 : IsMulCommutative (alternatingGroup (Fin 5)) := by
-      haveI := h
+      have := h
       exact Function.Surjective.isMulCommutative fiveQuotEquivA5.surjective
     rw [alternatingGroup.isMulCommutative_iff_card_le_three] at hA5
     simp at hA5
@@ -550,7 +550,7 @@ private def fiveP (F : OrthFrameFive f) : Matrix (Fin 4) (Fin 4) (ZMod 5) :=
   Matrix.of fun i j => fiveW F j i
 
 private lemma fiveP_isUnit (F : OrthFrameFive f) : IsUnit (fiveP F) := by
-  rw [← Matrix.linearIndependent_cols_iff_isUnit]
+  rw [← Matrix.linearIndependent_col_iff_isUnit]
   have hcol : (fiveP F).col = fiveW F := by
     funext j i
     rfl

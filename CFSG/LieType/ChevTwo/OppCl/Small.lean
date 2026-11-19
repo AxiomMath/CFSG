@@ -34,7 +34,7 @@ theorem not_three_dvd_card_outer_alt6 : ¬ 3 ∣ Nat.card (Outer (alternatingGro
   have hf2 : QuotientGroup.mk' (inner (alternatingGroup (Fin 6)))
       (CFSG.Quasithin.SteinbergCB.conjPerm 6 (Equiv.swap 0 1)) ^ 2 = 1 := by
     rw [← map_pow, ← map_pow, sq, Equiv.swap_mul_self, map_one, map_one]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord := orderOf_eq_prime hf2 hf1
   have hdvd : 2 ∣ Nat.card (Outer (alternatingGroup (Fin 6))) :=
     hord ▸ orderOf_dvd_natCard _
@@ -74,8 +74,8 @@ theorem mem_inner_of_odd_orderOf {α : MulAut (alternatingGroup (Fin 6))} (hα :
 theorem oppositeFixed_alternating_six :
     OppositeFixed (alternatingGroup (Fin 6)) := by
   intro p hp hp2 R hR Q _hQ0 hQ2 _hcore hnorm _hQR hCent
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRbot : R ≠ ⊥ := by
     rintro rfl
     apply hnorm

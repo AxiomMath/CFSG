@@ -481,7 +481,7 @@ theorem maxAbelianOrder_eq_of_outside_bound
   classical
   have hle : maxAbelianOrder ↥W ≤ maxAbelianOrder ↥S := by
     obtain ⟨B, hB⟩ := maxOrderAbelianFamily_nonempty (G := ↥W)
-    letI : IsMulCommutative B := hB.1
+    let : IsMulCommutative B := hB.1
     have hBcomm : IsMulCommutative (B.map W.subtype) :=
       Subgroup.map_isMulCommutative (H := B) W.subtype
     have hBcard : Nat.card (B.map W.subtype) = Nat.card B :=
@@ -499,7 +499,7 @@ theorem maxAbelianOrder_eq_of_outside_bound
       _ ≤ maxAbelianOrder ↥S := hcard
   have hge : maxAbelianOrder ↥S ≤ maxAbelianOrder ↥W := by
     obtain ⟨A, hA⟩ := maxOrderAbelianFamily_nonempty (G := ↥S)
-    letI : IsMulCommutative A := hA.1
+    let : IsMulCommutative A := hA.1
     have hAcomm : IsMulCommutative (A.map S.subtype) :=
       Subgroup.map_isMulCommutative (H := A) S.subtype
     have hAcard : Nat.card (A.map S.subtype) = Nat.card A :=

@@ -13,12 +13,13 @@ open CFSG.HardMathSupport.Solomon.Coordinator
 variable {X : Type} [Group X] [Finite X] {L : Subgroup X} [hLn : L.Normal] {π : Bool} {p f : ℕ}
   {K : Type} [Field K] {ν : ↥(slPi π 3 (p ^ f) K) →* ↥L}
 
+omit [Finite X] hLn in
 theorem isCyclic_centImage_of {u : GL (Fin 3) K}
     (hC : IsCyclic ↥(slPi π 3 (p ^ f) K ⊓ centralizer ({u} : Set (GL (Fin 3) K)))) :
     IsCyclic ↥(centImage ν u : Subgroup X) := by
   set C := slPi π 3 (p ^ f) K ⊓ centralizer ({u} : Set (GL (Fin 3) K))
   have hle : C ≤ slPi π 3 (p ^ f) K := inf_le_left
-  haveI : IsCyclic ↥(C.subgroupOf (slPi π 3 (p ^ f) K)) :=
+  have : IsCyclic ↥(C.subgroupOf (slPi π 3 (p ^ f) K)) :=
     isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hle).symm.toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hle).symm.surjective
   exact isCyclic_of_surjective _ (MonoidHom.subgroupMap_surjective _ _)
@@ -161,11 +162,11 @@ theorem LModel.false_of_no_field_cover (M : LModel L π p f K ν) (hinj : Functi
         (s : GL (Fin 3) K) * y * s' * ((s : GL (Fin 3) K) * y)⁻¹ * ((s : GL (Fin 3) K) * y) := by
           rw [h3]
       _ = (s : GL (Fin 3) K) * y * s' := by group
-  haveI : IsCyclic ↥(centImage ν ((s : GL (Fin 3) K) * y) : Subgroup X) :=
+  have : IsCyclic ↥(centImage ν ((s : GL (Fin 3) K) * y) : Subgroup X) :=
     isCyclic_centImage_of hcyc
-  haveI : IsCyclic ↥((A ⊓ L).subgroupOf (centImage ν ((s : GL (Fin 3) K) * y))) :=
+  have : IsCyclic ↥((A ⊓ L).subgroupOf (centImage ν ((s : GL (Fin 3) K) * y))) :=
     Subgroup.isCyclic _
-  haveI : IsCyclic ↥(A ⊓ L) := isCyclic_of_surjective
+  have : IsCyclic ↥(A ⊓ L) := isCyclic_of_surjective
     (Subgroup.subgroupOfEquivOfLe hle).toMonoidHom (Subgroup.subgroupOfEquivOfLe hle).surjective
   have h3 : Nat.card ↥(A ⊓ L) ≤ 3 :=
     card_le_three_of_isCyclic (fun w => Subtype.ext (hA.2 _ w.2.1))

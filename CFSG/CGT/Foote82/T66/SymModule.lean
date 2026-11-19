@@ -15,6 +15,7 @@ section Lin
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private theorem commSpace_zpowers_conj (g x : GLV V) :
     commSpace (Subgroup.zpowers (g * x * g⁻¹)) ⊤ =
       conjSub g (commSpace (Subgroup.zpowers x) ⊤) := by
@@ -22,6 +23,7 @@ private theorem commSpace_zpowers_conj (g x : GLV V) :
     CFSG.Quasithin.C58.G64D.commSpace_zpowers_eq_range,
     CFSG.Quasithin.C58.G64D.datum_range_dl_conj]
 
+omit [Finite V] in
 private theorem apply_eq_of_mem_commSpace {a : GLV V} (ha : a * a = 1) {w : V}
     (hw : w ∈ commSpace (Subgroup.zpowers a) ⊤) : a w = w := by
   rw [commSpace_zpowers_top] at hw
@@ -60,7 +62,7 @@ private theorem alternatingGroup_le_of_altOn {N : ℕ} (hN : 5 ≤ N) {i j k : F
     refine Subgroup.mem_inf.2 ⟨hτ.mem_alternatingGroup, ?_⟩
     rw [mem_fixingSubgroup_iff]
     intro y hy
-    simp only [Set.mem_compl_iff, Set.mem_setOf_eq, not_and_or, not_not] at hy
+    simp only [Set.mem_compl_iff, Set.mem_ofPred_eq, not_and_or, not_not] at hy
     rcases hy with rfl | rfl
     · exact hτi
     · exact hτj
@@ -142,16 +144,20 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V] {G : Subgrou
 private noncomputable def tG (φ : ↥G ≃* Equiv.Perm (Fin N)) : Equiv.Perm (Fin N) →* GLV V :=
   G.subtype.comp φ.symm.toMonoidHom
 
+omit [Finite V] in
 private theorem tG_apply (φ : ↥G ≃* Equiv.Perm (Fin N)) (σ : Equiv.Perm (Fin N)) :
     tG φ σ = ((φ.symm σ : ↥G) : GLV V) := rfl
 
+omit [Finite V] in
 private theorem tG_injective (φ : ↥G ≃* Equiv.Perm (Fin N)) : Function.Injective (tG φ) :=
   Subtype.val_injective.comp φ.symm.injective
 
+omit [Finite V] in
 private theorem tG_apply_self (φ : ↥G ≃* Equiv.Perm (Fin N)) (g : ↥G) :
     tG φ (φ g) = (g : GLV V) := by
   rw [tG_apply, MulEquiv.symm_apply_apply]
 
+omit [Finite V] in
 private theorem finrank_commSpace_eq_of_isConj (φ : ↥G ≃* Equiv.Perm (Fin N))
     {σ τ : Equiv.Perm (Fin N)} (h : IsConj σ τ) :
     Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers (tG φ τ)) ⊤) =
@@ -159,6 +165,7 @@ private theorem finrank_commSpace_eq_of_isConj (φ : ↥G ≃* Equiv.Perm (Fin N
   obtain ⟨π, rfl⟩ := isConj_iff.1 h
   rw [map_mul, map_mul, map_inv, commSpace_zpowers_conj, finrank_conjSub]
 
+omit [Finite V] in
 private theorem eq_zero_of_forall_alt (φ : ↥G ≃* Equiv.Perm (Fin N)) (hirr : IsIrr G ⊤)
     {c : Equiv.Perm (Fin N)} (hc : c.IsThreeCycle) {v : V}
     (hv : ∀ g : ↥G, φ g ∈ alternatingGroup (Fin N) → (g : GLV V) v = v) : v = 0 := by
@@ -194,7 +201,7 @@ private theorem finrank_commSpace_swap_eq_one (hN : 7 ≤ N) (φ : ↥G ≃* Equ
     (h3 : ∀ σ : Equiv.Perm (Fin N), σ.IsThreeCycle →
       Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers (tG φ σ)) ⊤) = 2) :
     Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers (tG φ (Equiv.swap i j))) ⊤) = 1 := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   obtain ⟨k, hki, hkj⟩ : ∃ k : Fin N, k ≠ i ∧ k ≠ j := by
     by_contra h
     simp only [not_exists, not_and, not_not] at h
@@ -306,6 +313,7 @@ private noncomputable def vec (φ : ↥G ≃* Equiv.Perm (Fin N)) (k l : Fin N) 
   if h : ∃ w ∈ commSpace (Subgroup.zpowers (tG φ (Equiv.swap k l))) ⊤, w ≠ 0 then h.choose
   else 0
 
+omit [Finite V] in
 private theorem vec_mem (φ : ↥G ≃* Equiv.Perm (Fin N)) (k l : Fin N) :
     vec φ k l ∈ commSpace (Subgroup.zpowers (tG φ (Equiv.swap k l))) ⊤ := by
   unfold vec
@@ -321,7 +329,7 @@ private theorem vec_ne_zero (φ : ↥G ≃* Equiv.Perm (Fin N)) {k l : Fin N}
     obtain ⟨v, hv0, -⟩ := finrank_eq_one_iff'.1 h1
     exact ⟨v, v.2, fun h => hv0 (Subtype.ext h)⟩
   unfold vec
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact hex.choose_spec.2
 
 private theorem eq_vec (φ : ↥G ≃* Equiv.Perm (Fin N)) {k l : Fin N}
@@ -331,6 +339,7 @@ private theorem eq_vec (φ : ↥G ≃* Equiv.Perm (Fin N)) {k l : Fin N}
     w = vec φ k l :=
   eq_of_finrank_eq_one h1 hw (vec_mem φ k l) hw0 (vec_ne_zero φ h1)
 
+omit [Finite V] in
 private theorem vec_self (φ : ↥G ≃* Equiv.Perm (Fin N)) (k : Fin N) : vec φ k k = 0 := by
   have h := vec_mem φ k k
   rw [Equiv.swap_self, ← Equiv.Perm.one_def, map_one, commSpace_zpowers_top] at h
@@ -338,6 +347,7 @@ private theorem vec_self (φ : ↥G ≃* Equiv.Perm (Fin N)) (k : Fin N) : vec �
   rw [← hu]
   simp
 
+omit [Finite V] in
 private theorem vec_comm (φ : ↥G ≃* Equiv.Perm (Fin N)) (k l : Fin N) :
     vec φ k l = vec φ l k := by
   unfold vec
@@ -454,6 +464,7 @@ private noncomputable def phiMap (φ : ↥G ≃* Equiv.Perm (Fin N)) (i : Fin N)
   map_zero' := by simp
   map_add' x y := by simp [add_smul, Finset.sum_add_distrib]
 
+omit [Finite V] in
 private theorem phiMap_apply (φ : ↥G ≃* Equiv.Perm (Fin N)) (i : Fin N) (x : Fin N → ZMod 2) :
     phiMap φ i x = ∑ m, x m • vec φ m i := rfl
 
@@ -482,7 +493,7 @@ private theorem phiMap_single_add_single {φ : ↥G ≃* Equiv.Perm (Fin N)}
     phiMap φ i (Pi.single k 1 + Pi.single l 1) = vec φ k l := by
   rw [map_add, phiMap_apply, phiMap_apply]
   simp only [Pi.single_apply, ite_smul, one_smul, zero_smul, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true]
+    Finset.mem_univ, ite_true]
   rw [vec_add h1 h3 k i l, vec_comm φ i l]
 
 private theorem mem_zmultiples_of_phiMap_eq_zero {φ : ↥G ≃* Equiv.Perm (Fin N)}
@@ -517,11 +528,11 @@ private theorem mem_zmultiples_of_phiMap_eq_zero {φ : ↥G ≃* Equiv.Perm (Fin
     funext m
     by_cases hmk : m = k
     · subst hmk
-      simp [Pi.single_apply, hkl, hk, hl]
+      simp [hkl, hk, hl]
     by_cases hml : m = l
     · subst hml
-      simp [Pi.single_apply, hk, hl, Ne.symm hkl]
-    · simp [Pi.single_apply, hmk, hml, Equiv.swap_apply_of_ne_of_ne hmk hml]
+      simp [hk, hl, Ne.symm hkl]
+    · simp [hmk, hml, Equiv.swap_apply_of_ne_of_ne hmk hml]
   have hg := apply_phiMap h1 h3 i (φ.symm (Equiv.swap k l)) hx
   rw [h0, map_zero] at hg
   have h2 : phiMap φ i (Pi.single k 1 + Pi.single l 1) = 0 := by
@@ -574,7 +585,7 @@ private theorem exists_phiMap_eq {φ : ↥G ≃* Equiv.Perm (Fin N)} (hirr : IsI
     obtain ⟨⟨k, l⟩, rfl⟩ := hw
     refine ⟨Pi.single k 1 + Pi.single l 1, ?_, phiMap_single_add_single h1 h3 i k l⟩
     simp only [Pi.add_apply, Finset.sum_add_distrib, Finset.sum_pi_single', Finset.mem_univ,
-      if_true]
+      ite_true]
     decide
   | zero => exact ⟨0, by simp, map_zero _⟩
   | add u w _ _ hu hw =>
@@ -596,13 +607,13 @@ theorem isAltHeartFor_of_perm {G : Subgroup (GLV V)} {N : ℕ} (hN : 7 ≤ N)
     (hα : ∀ g : ↥G, φ g ∈ altOn {k | k ≠ i ∧ k ≠ j} →
       ∀ w ∈ commSpace (Subgroup.zpowers ((φ.symm (Equiv.swap i j) : ↥G) : GLV V)) ⊤,
         (g : GLV V) w = w)
-    {c : Equiv.Perm (Fin N)} (hc : c.IsThreeCycle) (hci : c i = i) (hcj : c j = j)
+    {c : Equiv.Perm (Fin N)} (hc : c.IsThreeCycle) (_hci : c i = i) (_hcj : c j = j)
     (hβ : Module.finrank (ZMod 2)
       ↥(commSpace (Subgroup.zpowers ((φ.symm c : ↥G) : GLV V)) ⊤) = 2) :
     IsAltHeartFor (((alternatingGroup (Fin N)).comap φ.toMonoidHom).map G.subtype) N ∧
       ∀ k l : Fin N, k ≠ l → Module.finrank (ZMod 2)
         ↥(commSpace (Subgroup.zpowers ((φ.symm (Equiv.swap k l) : ↥G) : GLV V)) ⊤) = 1 := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have h3 : ∀ σ : Equiv.Perm (Fin N), σ.IsThreeCycle →
       Module.finrank (ZMod 2) ↥(commSpace (Subgroup.zpowers (tG φ σ)) ⊤) = 2 := by
     intro σ hσ

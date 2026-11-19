@@ -65,7 +65,7 @@ theorem ggQTwoGNInputOn_of_inputs {R : ℕ → Prop} (hR : ∀ m, R m → 6 ≤ 
       have h3 : 3 ^ 5 < 3 ^ m := Nat.pow_lt_pow_right (by norm_num) (by omega)
       omega
     exact qTwoD_gn_of_unitaryChart hC hLB hPJ hnbr hF hloc hrange hdiag hn
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have hJX : J ≤ K' := le_of_ggNbr hLB hC.1 hC.2.2 (hPJ G p B x L D J hC.1 hC.2.2) hnbr
     have hcomp := ggIsComponentOf_inf_centralizer_nbr hC hnbr hJX
     have hxBs : x ∈ Bs := hC.2.1.1 hC.1.2.2.2.2.2.2.1.2.1

@@ -74,7 +74,7 @@ theorem isPGroup_pcSub [Finite G] {p k : ℕ} (hp : p.Prime) (g : ℕ → G)
         rw [Subgroup.zpowers_eq_closure, ← Subgroup.closure_union]
         congr 1
         ext x
-        simp only [Set.mem_setOf_eq, Set.mem_union, Set.mem_singleton_iff]
+        simp only [Set.mem_ofPred_eq, Set.mem_union, Set.mem_singleton_iff]
         constructor
         · rintro ⟨t, ht, rfl⟩
           by_cases h : t = i
@@ -137,7 +137,7 @@ theorem generating_of_pccOK [Finite G] {p k nL nE nR : ℕ} (hp : p.Prime) (hk :
   have hR' : ∀ i < k, ∀ j < k, i ≤ j → pcR E p H Rl k i j = true := by
     intro i hi j hj hij
     have h := hR i hi j hj
-    rwa [Nat.ble_eq_true_of_le hij, cond_true] at h
+    rwa [Nat.ble_eq_true_of_le hij, _root_.Bool.cond_true] at h
   obtain ⟨hpw, hcj⟩ := hM.pcR_facts oH hR'
   have hS := isPGroup_pcSub hp (fun t => ev (nthW H t)) hpw hcj
   have hmem : ∀ t < k, ev (nthW H t) ∈ pcSub (fun t : Fin k => (ev (nthW H t))⁻¹) 0 := by
@@ -155,7 +155,7 @@ theorem generating_of_pccOK [Finite G] {p k nL nE nR : ℕ} (hp : p.Prime) (hk :
   obtain ⟨ot, hgen⟩ := hM.generating_of_pclOK hp hS₀ (chW_nthW oH 0) (chW_nthW oH 1) hpcl htop
   have e : ev t ^ p = 1 := by
     rw [← hM.repW_eq, hM.eq (chW_repW ot p) (chW_nil L) hpow, hM.nil]
-  exact ⟨orderOf_eq_prime e (hM.ne_one hc ot hne), hgen⟩
+  exact ⟨orderOf_eq_prime e (CFSG.KD.SporCov.Model.ne_one hc ot hne), hgen⟩
 
 end Model
 

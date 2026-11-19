@@ -67,7 +67,7 @@ theorem I1431InspL2_of_L2CentreThree
       hβ1' | hsolv | ⟨σ, φ, γ, hφ, hβγ⟩
     · exact absurd hβ1' hβ1
     ·
-      haveI := hsolv
+      have := hsolv
       have hXs : Group.IsSolvable ↥(fixSubgroup τ) :=
         Group.isSolvable_of_surjective (f := ψ.symm.toMonoidHom) ψ.symm.surjective
       exact not_comp_of_solvable hXs hA

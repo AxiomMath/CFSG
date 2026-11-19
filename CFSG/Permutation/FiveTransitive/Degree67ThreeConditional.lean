@@ -29,7 +29,7 @@ private theorem sylow_card_eq_one_of_seven_fixed_four
   obtain ⟨hF,himage⟩ := Degree67ThreeFixed.three_fixed_card_and_image P hcard h5 hnotAlt s hs S hS
   change Nat.card F = 7 at hF
   let _ : Nontrivial F := Finite.one_lt_card_iff_nontrivial.mp (by omega)
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   let rho : N →* Equiv.Perm F := toPermHom N F
   have hd : 7 ∣ Nat.card rho.range := by

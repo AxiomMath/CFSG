@@ -96,7 +96,7 @@ private lemma spTypeVec_succ {n : ℕ} (S : Finset (Fin n)) (a : Fin n) (ha : a.
           rw [Fin.le_iff_val_le_val] at hax ⊢
           change a.val + 1 ≤ x.val at hax
           omega
-    rw [hins, Finset.card_insert_of_notMem, if_pos haS]
+    rw [hins, Finset.card_insert_of_notMem, ite_eq_left haS]
     · push_cast; ring
     · intro hmem
       rw [Finset.mem_filter] at hmem
@@ -118,7 +118,7 @@ private lemma spTypeVec_succ {n : ℕ} (S : Finset (Fin n)) (a : Fin n) (ha : a.
         rw [Fin.le_iff_val_le_val] at hax ⊢
         change a.val + 1 ≤ x.val at hax
         omega
-    rw [heq, if_neg haS]
+    rw [heq, ite_eq_right haS]
     simp
 
 private lemma spTypeVec_one_pos {n : ℕ} (hn : 3 ≤ n) {S : Finset (Fin n)} (hS : S.Nonempty)
@@ -483,7 +483,7 @@ private lemma spWitness_notMem_zero {n : ℕ} (hn : 3 ≤ n) {S : Finset (Fin n)
   have hs := spTypeVec_succ S ⟨0, by omega⟩ (by show 1 < n; omega)
   rw [h] at hs
   by_contra hmem
-  rw [if_pos hmem] at hs
+  rw [ite_eq_left hmem] at hs
   omega
 
 private lemma spWitness_notMem_one {n : ℕ} (hn : 3 ≤ n) {S : Finset (Fin n)}
@@ -492,7 +492,7 @@ private lemma spWitness_notMem_one {n : ℕ} (hn : 3 ≤ n) {S : Finset (Fin n)}
   have hs := spTypeVec_succ S ⟨1, by omega⟩ (by show 2 < n; omega)
   rw [h] at hs
   by_contra hmem
-  rw [if_pos hmem] at hs
+  rw [ite_eq_left hmem] at hs
   omega
 
 private lemma spWitness_subset_two {n : ℕ} (h3 : n = 3) {S : Finset (Fin n)}

@@ -125,7 +125,7 @@ theorem ntpD4_rident
       rw [show inc ⟨u.1, huYst⟩ = u from Subtype.ext rfl]
       exact hu
     let e : ↥Yst ≃* ↥G₀ := MulEquiv.ofBijective φ ⟨hinj, hsurj⟩
-    haveI : Group.IsPerfect ↥G₀ := hperf
+    have : Group.IsPerfect ↥G₀ := hperf
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hcomm : ⁅Yst, Yst⁆ = Yst := Subgroup.isPerfect_iff.mp hperfYst
   have hYst_le_Γ : Yst ≤ S.Γ := by

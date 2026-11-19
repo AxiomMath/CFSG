@@ -70,7 +70,7 @@ theorem s15GapFour_centralizes_of_normalizes (hAut : RAutRank153) {A : Type} [Gr
     {y : A} (hy : y ∈ normalizer (K : Set A)) {q : ℕ} (hq : q.Prime)
     (hqK : ¬ q ∣ Nat.card ↥K) (hyq : y ^ q = 1) : y ∈ centralizer (K : Set A) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set φ : MulAut ↥K := K.normalizerMonoidHom ⟨y, hy⟩ with hφ
   have hφq : φ ^ q = 1 := by
     rw [hφ, ← map_pow]

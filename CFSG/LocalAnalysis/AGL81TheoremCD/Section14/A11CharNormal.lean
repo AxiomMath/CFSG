@@ -23,6 +23,7 @@ open CFSG.HardMathSupport.Cooperstein.AlternatingGeometry
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem map_eq_alternatingGroup_of_range_eq {n : ℕ} (hn : 5 ≤ n) {L : Subgroup X}
     (hLn : L.Normal) (φ : X →* Equiv.Perm (Fin n))
     (hrange : φ.range = alternatingGroup (Fin n)) (hLker : ¬ L ≤ φ.ker) :
@@ -44,8 +45,8 @@ theorem map_eq_alternatingGroup_of_range_eq {n : ℕ} (hn : 5 ≤ n) {L : Subgro
       rw [map_mul, map_mul, map_inv]
     rw [hmul]
     exact Subgroup.mem_map_of_mem φ (hLn.conj_mem l hlL g)
-  haveI : N.Normal := hNnormal
-  haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+  have : N.Normal := hNnormal
+  have : IsSimpleGroup (alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (by simpa using hn)
   have hNne : N ≠ ⊥ := by
     intro hbot
@@ -57,7 +58,7 @@ theorem map_eq_alternatingGroup_of_range_eq {n : ℕ} (hn : 5 ≤ n) {L : Subgro
 
 private theorem not_isPGroup_two_alternatingGroup_fin_eleven :
     ¬ IsPGroup 2 (alternatingGroup (Fin 11)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro h
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp h
   have hcard : Nat.card (alternatingGroup (Fin 11)) = 19958400 := by
@@ -69,6 +70,7 @@ private theorem not_isPGroup_two_alternatingGroup_fin_eleven :
   have h2 := Nat.prime_three.dvd_of_dvd_pow h3
   norm_num at h2
 
+omit [Finite X] in
 theorem false_of_range_eq_alternatingGroup_of_range_eq_top
     {φ θ : X →* Equiv.Perm (Fin 11)} (hker : φ.ker = θ.ker)
     (hφ : φ.range = alternatingGroup (Fin 11)) (hθ : θ.range = ⊤) : False := by
@@ -89,7 +91,7 @@ private theorem exists_swap_mem_of_offenderShape {E : Subgroup (Equiv.Perm (Fin 
     ∃ i j : Fin 11, i ≠ j ∧ Equiv.swap i j ∈ E := by
   classical
   have hfix : ∃ p, ∀ g ∈ E, g p = p := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨p, hp⟩ := hE2.nonempty_fixed_point_of_prime_not_dvd_card (Fin 11)
       (by rw [Nat.card_fin]; norm_num)
     exact ⟨p, fun g hg => by
@@ -146,7 +148,7 @@ private theorem false_of_surjective_theta_of_a11 {T : Subgroup X}
     (hQn.subgroupOf ⊤).map θ (MonoidHom.range_eq_top.mp hθtop)
   have hNbot : N = ⊥ := by
     by_contra hNne
-    haveI : N.Normal := hNn
+    have : N.Normal := hNn
     have hnt : Nontrivial N := (Subgroup.nontrivial_iff_ne_bot N).mpr hNne
     have hAltN : alternatingGroup (Fin 11) ≤ N :=
       Equiv.Perm.alternatingGroup_le_of_normal (α := Fin 11) (by norm_num) hnt
@@ -224,6 +226,7 @@ private theorem false_of_offender_of_a11
     exact sup_le hAlt (Subgroup.zpowers_le.mpr hswap)
   exact false_of_surjective_theta_of_a11 φ θ hker hrange hCeq hθtop hθker
 
+omit [Finite X] in
 private theorem ne_bot_of_pCoreOf_le_of_range_eq {T : Subgroup X}
     (hC : CFSG.QuasithinUnique.CharTwo (⊤ : Subgroup X)) (φ : X →* Equiv.Perm (Fin 11))
     (hrange : φ.range = alternatingGroup (Fin 11))

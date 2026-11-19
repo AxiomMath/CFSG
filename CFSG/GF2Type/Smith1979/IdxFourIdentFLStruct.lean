@@ -51,7 +51,7 @@ theorem eq_false_of_ite {b : Bool} (h : (if b then (1 : ZMod 2) else 0) = 0) : b
 theorem q0b_of_q0 {n : ℕ} (h : q0 (vecOf n) = 1) : q0b n = true := by
   rw [q0_vecOf] at h
   by_contra hn
-  rw [if_neg hn] at h
+  rw [ite_eq_right hn] at h
   exact absurd h (by decide)
 
 theorem uc_theta : ∀ (a b : Fin 4) (j : Fin 6) (k : ZMod 3),
@@ -160,9 +160,9 @@ theorem f0_pairVec_ne {i i' : Fin 6} (h : i ≠ i') (p q : ZMod 2 × ZMod 2) :
   refine Finset.sum_eq_zero fun l _ => ?_
   rw [pr_pairVec, pr_pairVec]
   by_cases hl : l = i
-  · rw [if_neg fun hl' => h (hl.symm.trans hl')]
+  · rw [ite_eq_right fun hl' => h (hl.symm.trans hl')]
     simp
-  · rw [if_neg hl]
+  · rw [ite_eq_right hl]
     simp
 
 theorem comm_scalar {y : G12} (hθ : ∀ v, y (theta0 v) = theta0 (y v)) (k : ZMod 3) (v : V12) :
@@ -211,8 +211,8 @@ theorem adjacent_structure {y : G12} (hy : y ∈ gammaU) (hyu : y * theta0e = th
     · obtain ⟨l₀, hl₀, hne⟩ := h
       refine Or.inl fun l hl => ?_
       by_contra hne'
-      have h1 : chStd l = 0 := if_neg (by omega)
-      have h2 : chStd l₀ = 1 := if_pos hl₀
+      have h1 : chStd l = 0 := ite_eq_right (by omega)
+      have h2 : chStd l₀ = 1 := ite_eq_left hl₀
       have h3 := (hkey i l hne').trans (hkey i l₀ hne).symm
       rw [h1, h2] at h3
       exact absurd h3 (by decide)

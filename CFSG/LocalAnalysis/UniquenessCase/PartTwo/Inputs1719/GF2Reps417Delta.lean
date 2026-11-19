@@ -16,8 +16,8 @@ theorem bParam_le_of_fIndexSum_le (h416 : W4Lem4_16) {W : Type} [CommGroup W] [F
     (hc : fIndexSum Δ ≤ (c : ℕ∞)) : bParam L Y ≤ c := by
   have hLY : L ≤ Y := le_sup_left.trans hLT.le
   have hTY : T ≤ Y := le_sup_right.trans hLT.le
-  have hne : fIndexSum Δ ≠ ⊤ := ne_top_of_le_ne_top (ENat.coe_ne_top c) hc
-  have hk : fIndexSum Δ = ((fIndexSum Δ).toNat : ℕ∞) := (ENat.coe_toNat hne).symm
+  have hne : fIndexSum Δ ≠ ⊤ := ne_top_of_le_ne_top (ENat.natCast_ne_top c) hc
+  have hk : fIndexSum Δ = ((fIndexSum Δ).toNat : ℕ∞) := (ENat.natCast_toNat hne).symm
   have hkc : (fIndexSum Δ).toNat ≤ c := by
     have h := hc
     rw [hk] at h

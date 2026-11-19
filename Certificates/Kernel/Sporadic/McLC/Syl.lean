@@ -127,8 +127,8 @@ theorem s_tabs : TabsOK 275 9 4 McLCS.GI McLData.sgens.toArray := by
   rw [ap_unpack (sylGen hj).1 hx, sylGen_spec hj hx, rep_word_kgens (sWords_get hj) x hx,
     idx_eq, foldr_wp (fun c _ y hy => GK_eq c hy) hx]
 
-theorem s_invs : ∀ j < 4, invEqK 275 9 (mask 9) (275 * 9) (McLCS.GI j) (McLCSI j) = true ∧
-    canonK 275 9 (mask 9) (275 * 9) (McLCSI j) = true := fun j hj =>
+theorem s_invs : ∀ _j < 4, invEqK 275 9 (mask 9) (275 * 9) (McLCS.GI _j) (McLCSI _j) = true ∧
+    canonK 275 9 (mask 9) (275 * 9) (McLCSI _j) = true := fun _j hj =>
   ⟨(sylGen hj).2.2.2, (sylGen hj).2.2.1⟩
 
 theorem s_pe : ∀ i < McLCS.cnt, penumPtK 275 9 (mask 9) (275 * 9) true McLCS.G McLCS.GI 4
@@ -142,7 +142,7 @@ theorem s_hs : ∀ i < McLCS.cnt,
 theorem s_cl : ∀ c < McLCS.cnt * (4 + 4), findPtK McLCS.cnt McLCS.T
     (prodQK 275 9 (mask 9) (4 + 4) McLCS.T (bothK 4 McLCS.GI McLCSI)) McLCSCl c = true :=
   fun c hc => slK_spec sylCl_ok c (Nat.zero_le _) (by change c < Nat.mul McLCS.cnt 8; omega)
-    (by change c < Nat.mul McLCS.cnt 8; omega)
+    (by omega)
 
 theorem s_canon : ∀ i < McLCS.cnt, cKS (McLCS.T i) = true :=
   fun i hi => penumPt_canon (s_pe i hi)
@@ -153,7 +153,7 @@ theorem closure_eq :
       (hRec 275 9 McLCS.cnt McLCS.T McLCS.PL).2.1
       (hRec 275 9 McLCS.cnt McLCS.T McLCS.PL).2.2 = true ∧
     hkeysDistinct 275 (hRec 275 9 McLCS.cnt McLCS.T McLCS.PL).1.toList = true :=
-  mulH_sound sylBase.1 (fun j hj => (sylGen hj).2.1) s_tabs sylBase.2.2.2.2.2 s_pe s_hs
+  mulH_sound sylBase.1 (fun _j hj => (sylGen hj).2.1) s_tabs sylBase.2.2.2.2.2 s_pe s_hs
 
 theorem conjWords_get {j : Nat} (hj : j < 35) :
     ∀ l ∈ McLData.conjWords.getD j [], l = 1 ∨ l = 2 := by

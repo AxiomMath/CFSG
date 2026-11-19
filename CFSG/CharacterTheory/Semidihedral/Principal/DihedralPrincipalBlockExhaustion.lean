@@ -440,7 +440,7 @@ theorem dihedral_principal_block_exhaustion_of_normalHall {G : Type} [Group G] [
   obtain ⟨basisC⟩ := finiteIrreducibleCharacterBasis_exists (G := Subgroup.centralizer {t})
   obtain ⟨principalC, hprincipalC⟩ :=
     finiteIrreducibleCharacterBasis_exists_principal_label basisC
-  have hS2 : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hS2 : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hinflspan : ∀ χ : ↥(S : Subgroup G) → ℂ, χ ∈ BlocksIrr (S : Subgroup G) →
       χ ∘ π ∈ coefficientCharacterSpace basisC
         (coefficientBlock basisC (localizedComplexIntegerRing ideal) principalC) :=

@@ -102,7 +102,7 @@ private theorem rec_ltr (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w) (hs : GoodBS n 
   have h : ltr (n * w) (mask (n * w)) (recBS n w F s LV) k =
       if k < s.pts.length then enc w (BS.trans F s k) n else 0 :=
     ltr_recOf (recBS_ok hn16 hw hs) (Nat.lt_of_lt_of_le hk hs.2.1)
-  rw [h, if_pos hk]
+  rw [h, ite_eq_left hk]
 
 private theorem rec_ltri (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w) (hs : GoodBS n F s) (LV : Nat)
     {k : Nat} (hk : k < s.pts.length) :
@@ -110,7 +110,7 @@ private theorem rec_ltri (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w) (hs : GoodBS n
   have h : ltri n (n * w) (mask (n * w)) (recBS n w F s LV) k =
       if k < s.pts.length then enc w (finv n (BS.trans F s k)) n else 0 :=
     ltri_recOf (recBS_ok hn16 hw hs) (Nat.lt_of_lt_of_le hk hs.2.1)
-  rw [h, if_pos hk]
+  rw [h, ite_eq_left hk]
 
 private theorem rec_llv (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w) (hs : GoodBS n F s) (LV : Nat) :
     llv n (n * w) (recBS n w F s LV) = LV :=
@@ -120,9 +120,9 @@ private theorem posBS_lt_iff (hw : n + 1 < 2 ^ w) (hs : GoodBS n F s) (x : Nat) 
     posBS w s x < s.pts.length ↔ x ∈ s.pts := by
   unfold posBS
   by_cases hx : x ∈ s.pts
-  · rw [if_pos hx]
+  · rw [ite_eq_left hx]
     exact ⟨fun _ => hx, fun _ => List.idxOf_lt_length_of_mem hx⟩
-  · rw [if_neg hx]
+  · rw [ite_eq_right hx]
     refine ⟨fun h => ?_, fun h => absurd h hx⟩
     rw [mask_eq] at h
     have := hs.2.1
@@ -131,7 +131,7 @@ private theorem posBS_lt_iff (hw : n + 1 < 2 ^ w) (hs : GoodBS n F s) (x : Nat) 
 
 private theorem posBS_of_mem {x : Nat} (hx : x ∈ s.pts) : posBS w s x = s.pts.idxOf x := by
   unfold posBS
-  rw [if_pos hx]
+  rw [ite_eq_left hx]
 
 end Rec
 
@@ -200,14 +200,14 @@ theorem sift_eq {F : Nat → Nat → Nat} (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ 
       have hc : Nat.blt (posBS w s (g (s.pts.getD 0 0))) s.pts.length = true := by
         rw [Nat.blt_eq, SiftSim.posBS_of_mem hm]
         exact hlt
-      rw [if_pos hc, decide_eq_true hm, Bool.true_and, SiftSim.posBS_of_mem hm,
+      rw [ite_eq_left hc, decide_eq_true hm, Bool.true_and, SiftSim.posBS_of_mem hm,
         SiftSim.rec_ltri hn16 hw hs LV hlt,
         SiftSim.pcomp_enc hn32 hw' (fun x _ => finv_lt hn0 _ _) hg]
       exact ih hps' (fun x _ => finv_lt hn0 _ _)
     · have hc : ¬ Nat.blt (posBS w s (g (s.pts.getD 0 0))) s.pts.length = true := by
         rw [Nat.blt_eq]
         exact fun h => hm ((SiftSim.posBS_lt_iff hw hs _).1 h)
-      rw [if_neg hc, decide_eq_false hm, Bool.false_and]
+      rw [ite_eq_right hc, decide_eq_false hm, Bool.false_and]
 
 theorem schreierOK_eq (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w)
     (hL : ∀ l < NL, IsPermN n (letF n w LT l)) {s : BS} (hs : GoodBS n (letF n w LT) s) (LV : Nat)
@@ -227,7 +227,7 @@ theorem schreierOK_eq (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w)
   have hl' : l < NL := List.mem_range.1 hl
   by_cases hb : LV.testBit l = true
   · have hb' : hasBit LV l = true := by rw [hasBit_eq]; exact hb
-    rw [if_pos hb', hb, Bool.not_true, Bool.false_or, List.all_eq_true, List.all_eq_true]
+    rw [ite_eq_left hb', hb, Bool.not_true, Bool.false_or, List.all_eq_true, List.all_eq_true]
     refine forall_congr' fun k => imp_congr_right fun hk => ?_
     have hk' : k < s.pts.length := List.mem_range.1 hk
     have hkn : k < n := Nat.lt_of_lt_of_le hk' hle
@@ -240,7 +240,7 @@ theorem schreierOK_eq (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w)
       have hc : Nat.blt (posBS w s (letF n w LT l (s.pts.getD k 0))) s.pts.length = true := by
         rw [Nat.blt_eq, SiftSim.posBS_of_mem hm]
         exact hlt
-      rw [if_pos hc, decide_eq_true hm, Bool.true_and, SiftSim.posBS_of_mem hm,
+      rw [ite_eq_left hc, decide_eq_true hm, Bool.true_and, SiftSim.posBS_of_mem hm,
         SiftSim.rec_ltri hn16 hw hs LV hlt, SiftSim.rec_ltr hn16 hw hs LV hk',
         SiftSim.pcomp_blk hn32 hw' LT l hk2.1,
         SiftSim.pcomp_enc hn32 hw' (fun x _ => finv_lt hn0 _ _) fun x hx =>
@@ -249,10 +249,10 @@ theorem schreierOK_eq (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w)
     · have hc : ¬ Nat.blt (posBS w s (letF n w LT l (s.pts.getD k 0))) s.pts.length = true := by
         rw [Nat.blt_eq]
         exact fun h => hm ((SiftSim.posBS_lt_iff hw hs _).1 h)
-      rw [if_neg hc, decide_eq_false hm, Bool.false_and]
+      rw [ite_eq_right hc, decide_eq_false hm, Bool.false_and]
   · have hb' : ¬ hasBit LV l = true := by rw [hasBit_eq]; exact hb
     have hb'' : LV.testBit l = false := by simpa using hb
-    rw [if_neg hb', hb'']
+    rw [ite_eq_right hb', hb'']
     simp
 
 theorem chainSch_eq (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w)

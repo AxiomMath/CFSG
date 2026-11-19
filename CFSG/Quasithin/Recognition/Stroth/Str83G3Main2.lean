@@ -32,6 +32,7 @@ variable {L1 L2 S : Subgroup G} {a : ℕ}
     ((Subgroup.centralizer (Z2 L1 L2 S : Set G)).relIndex E) ^ 2 ≤
       (Subgroup.centralizer (E : Set G)).relIndex (Z2 L1 L2 S)
 
+omit [Finite G] in
 theorem isElemAbelian_z2 : IsElemAbelian 2 (Z2 L1 L2 S) :=
   SmithC27.isElemAbelian_omegaOneCenterOf (Q2 L1 L2 S)
 
@@ -151,7 +152,7 @@ private theorem qrc_hV_of_disp
     (hF : F112HypW L1 L2 S) (hB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
     (ha : 1 ≤ a) (hSz : Nonempty (oTwoQuot ↥L1 ≃* Sz a))
     (hL2 : IsL2Quot (2 * a + 1) (oTwoQuot ↥L2))
-    (hSQ2 : S ⊓ Subgroup.centralizer (Z2 L1 L2 S : Set G) = Q2 L1 L2 S)
+    (_hSQ2 : S ⊓ Subgroup.centralizer (Z2 L1 L2 S : Set G) = Q2 L1 L2 S)
     (hdisp : QrcDisp L1 L2 S a) : QrcHV L1 L2 S := by
   have hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S :=
     eq_sup_pCoreOf_of_bender_left hF.1 hB (Or.inl ⟨a, ha, hSz⟩)

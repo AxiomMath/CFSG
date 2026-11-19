@@ -23,6 +23,7 @@ theorem sec4IB0_le_sec4IN (hQ : Q.Nondegenerate) (fr : Sec4IFrame Q) :
   intro x hx
   exact ⟨sec4IB0_le_omegaProj hQ fr hx, Subgroup.le_normalizer hx⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec4I_eq_perm_of_toProj_mono_eq (fr : Sec4IFrame Q)
     {σ τ : Equiv.Perm (Fin 7)} {u w : Fin 7 → ZMod 2}
     (h : toProj Q (sec4IMono fr σ u) = toProj Q (sec4IMono fr τ w)) : σ = τ := by
@@ -88,10 +89,12 @@ private noncomputable def sec4ITheta (hQ : Q.Nondegenerate) (fr : Sec4IFrame Q) 
   map_one' := sec4IThetaFun_one hQ fr
   map_mul' := sec4IThetaFun_mul hQ fr
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec4IP_inv (fr : Sec4IFrame Q) (σ : Equiv.Perm (Fin 7)) :
     (sec4IP fr σ)⁻¹ = sec4IP fr σ⁻¹ :=
   inv_eq_of_mul_eq_one_right (by rw [sec4IP_mul, mul_inv_cancel, sec4IP_one])
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec4IPsi_conj_inv_mem_B0 (fr : Sec4IFrame Q) (σ : Equiv.Perm (Fin 7))
     {z : ProjOrth Q} (hz : z ∈ sec4IB0 fr) :
     (toProj Q (sec4IP fr σ))⁻¹ * z * toProj Q (sec4IP fr σ) ∈ sec4IB0 fr := by
@@ -106,6 +109,7 @@ private theorem sec4IPsi_conj_inv_mem_B0 (fr : Sec4IFrame Q) (σ : Equiv.Perm (F
   rw [sec4IPsi_conj_mono fr σ⁻¹ 0 v]
   exact sec4IPsi_mem_sec4IB0 fr (sec4I_isEvenVec_permVec σ⁻¹ hv)
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec4IP_mem_normalizer_B0 (fr : Sec4IFrame Q) (σ : Equiv.Perm (Fin 7)) :
     toProj Q (sec4IP fr σ) ∈ Subgroup.normalizer (sec4IB0 fr : Set (ProjOrth Q)) := by
   rw [Subgroup.mem_normalizer_iff'']

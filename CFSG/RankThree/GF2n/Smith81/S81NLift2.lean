@@ -20,9 +20,11 @@ variable {G : Type} [Group G] {M Q Z X : Subgroup G} {x : G} {K : Type} [Field K
 section Lift2
 variable [Finite G] [CharP K 2]
 
+omit [Finite G] in
 private theorem zetaRel_iff {m z : G} :
     ZetaRel Q Z x m z ↔ z ∈ Z ∧ ∃ q ∈ Q, m * x * m⁻¹ = q * x * q⁻¹ * z := Iff.rfl
 
+omit [Finite G] in
 private theorem H0_conj_Z {a : G} (ha : a ∈ H0 M Z) {z : G} (hz : z ∈ Z) :
     a * z * a⁻¹ = z := by
   have hc : z * a = a * z := Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp ha).2 z hz
@@ -32,7 +34,7 @@ private theorem H0_conj_Z {a : G} (ha : a ∈ H0 M Z) {z : G} (hz : z ∈ Z) :
 private theorem x_mul_Z_comm (hs : Sit M Q Z X x) {z : G} (hz : z ∈ Z) : x * z = z * x :=
   mul_inv_eq_iff_eq_mul.mp (hs.x_cent (smith_1_12 hs) z hz)
 
-theorem zetaRel_of_piComm (hs : Sit M Q Z X x) (Tx : XAct M₀ x) {u : G} (hu0 : u ∈ H0 M Z)
+theorem zetaRel_of_piComm (hs : Sit M Q Z X x) (Tx : XAct M₀ x) {u : G} (_hu0 : u ∈ H0 M Z)
     (hux : ⁅u, x⁆ ∈ Q) (hπ : M₀.π ⁅u, x⁆ ∈ Rs Tx) : ∃ z, ZetaRel Q Z x u z := by
   obtain ⟨d, hdQ, z, hzZ, hz⟩ := exists_comm_of_mem_Rs hs Tx hux hπ
   refine ⟨z, zetaRel_iff.mpr ⟨hzZ, d, hdQ, ?_⟩⟩
@@ -49,7 +51,7 @@ theorem zetaRel_of_piComm (hs : Sit M Q Z X x) (Tx : XAct M₀ x) {u : G} (hu0 :
     _ = (⁅d, x⁆ * x) * z := by group
     _ = d * x * d⁻¹ * z := by rw [e2]
 
-theorem zetaRel_mul (hs : Sit M Q Z X x) {a b za zb : G} (ha0 : a ∈ H0 M Z) (hb0 : b ∈ H0 M Z)
+theorem zetaRel_mul (hs : Sit M Q Z X x) {a b za zb : G} (ha0 : a ∈ H0 M Z) (_hb0 : b ∈ H0 M Z)
     (hza : ZetaRel Q Z x a za) (hzb : ZetaRel Q Z x b zb) : ZetaRel Q Z x (a * b) (za * zb) := by
   obtain ⟨hzaZ, q, hq, hA⟩ := zetaRel_iff.mp hza
   obtain ⟨hzbZ, q', hq', hB⟩ := zetaRel_iff.mp hzb
@@ -112,6 +114,7 @@ theorem zetaRel_comm (hs : Sit M Q Z X x) {a b za zb : G} (ha0 : a ∈ H0 M Z) (
   rw [commutatorElement_def]
   exact h3
 
+omit [CharP K 2] in
 theorem piD_conj_mem (hs : Sit M Q Z X x) {m : G} (hm0 : m ∈ H0 M Z) {q : G} (hq : q ∈ Q)
     (h : m * x * m⁻¹ = q * x * q⁻¹) {d : G} (hd : d ∈ Q ⊓ QB X) :
     ∃ d' ∈ Q ⊓ QB X, M₀.π d' = M₀.π (m * d * m⁻¹) := by
@@ -145,6 +148,7 @@ theorem piD_conj_mem (hs : Sit M Q Z X x) {m : G} (hm0 : m ∈ H0 M Z) {q : G} (
   refine ⟨d', Subgroup.mem_inf.mpr ⟨hd'Q, hd'B⟩, ?_⟩
   rw [hmd, Tim79.QuadModel.pi_conj_self (M₀ := M₀) hq hd'Q]
 
+omit [CharP K 2] in
 theorem caseII_piD_le_R (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x) (Tx : XAct M₀ x)
     (hII : CaseII Q Z x) {d : G} (hd : d ∈ Q ⊓ QB X) : M₀.π d ∈ Rs Tx := by
   apply perp_Cs hs Tx
@@ -180,6 +184,7 @@ theorem commInv_piD (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x) (T
   rw [mul_one] at h
   exact piD_conj_mem hs hcH hq h hd
 
+omit [Finite G] in
 theorem piD_mem_Jx (hs : Sit M Q Z X x) (Tx : XAct M₀ x) (hI : CaseI Q Z x) {d : G}
     (hd : d ∈ Q ⊓ QB X) (hdR : M₀.π d ∈ Rs Tx) : d ∈ Jx Q X x := by
   have hdQ : d ∈ Q := (Subgroup.mem_inf.mp hd).1

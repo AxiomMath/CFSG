@@ -378,11 +378,11 @@ theorem pow_dParam (p : ℕ) : (2 : ZMod p) ^ dParam p = 1 := by
   by_cases hp : p = 0
   · subst hp
     simp [dParam]
-  · haveI : NeZero p := ⟨hp⟩
+  · have : NeZero p := ⟨hp⟩
     exact pow_orderOf_eq_one _
 
 theorem dParam_pos {p : ℕ} (hp : p.Prime) (h2 : p ≠ 2) : 0 < dParam p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have h2' : (2 : ZMod p) ≠ 0 := by
     intro h
     have : ((2 : ℕ) : ZMod p) = 0 := by exact_mod_cast h

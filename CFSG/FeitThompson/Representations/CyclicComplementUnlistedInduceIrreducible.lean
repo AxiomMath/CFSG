@@ -187,7 +187,7 @@ theorem isOrthogonal_indClassFun_primeTIirr [Fintype L] [Fintype ↥(W₁ ⊔ W�
   have : Fintype ↥K := Fintype.ofFinite _
   rw [isOrthogonal_iff, cfInner_indClassFun_eq_cfInner_resClassFun
       (h.primeTIirr_mem_Irr hσ i j) hθ, h.resClassFun_primeTIirr i j,
-    cfInner_eq_ite_of_mem_Irr (h.primeTIres_mem_Irr hσ j) hθ, if_neg (hne j)]
+    cfInner_eq_ite_of_mem_Irr (h.primeTIres_mem_Irr hσ j) hθ, ite_eq_right (hne j)]
 
 theorem cfInner_self_indClassFun_primeTIres [Fintype L] [Fintype ↥(W₁ ⊔ W₂)]
     (h : IsPrimeCyclicTIHyp K W₁ W₂) (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ)
@@ -202,7 +202,7 @@ theorem indClassFun_notMem_Irr_primeTIres [Fintype L] [Fintype ↥(W₁ ⊔ W₂
   intro hcon
   have hnorm : cfInner (indClassFun K (h.primeTIres σ j))
       (indClassFun K (h.primeTIres σ j)) = 1 := by
-    rw [cfInner_eq_ite_of_mem_Irr hcon hcon, if_pos rfl]
+    rw [cfInner_eq_ite_of_mem_Irr hcon hcon, ite_eq_left rfl]
   rw [h.cfInner_self_indClassFun_primeTIres hσ] at hnorm
   have h1 : 1 < Nat.card ↥W₁ := (Subgroup.one_lt_card_iff_ne_bot W₁).2 h.left_ne_bot
   exact (by omega : Nat.card ↥W₁ ≠ 1) (by exact_mod_cast hnorm)

@@ -52,7 +52,7 @@ private theorem Ae2.of_klein {G : Type*} [Group G] {σ v₁ v₂ : G} (h1 : v₁
   have hv₁ : v₁ ∈ W := Subgroup.subset_closure (by simp)
   have hv₂ : v₂ ∈ W := Subgroup.subset_closure (by simp)
   have hcomm : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a := by
-    haveI : IsMulCommutative W := Subgroup.isMulCommutative_closure (k := ({v₁, v₂} : Set G)) (by
+    have : IsMulCommutative W := Subgroup.isMulCommutative_closure (k := ({v₁, v₂} : Set G)) (by
       intro a ha b hb _
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at ha hb
       rcases ha with rfl | rfl <;> rcases hb with rfl | rfl
@@ -430,9 +430,9 @@ private theorem kds_exists_cube_root (K : Type) [Field K] [Finite K] (h3 : Nat.c
 private theorem kds_two_ne_zero_of_card (K : Type) [Field K] [Finite K] {q : ℕ}
     (hq : Nat.card K = q ^ 2) (hodd : q % 2 = 1) : (2 : K) ≠ 0 := by
   intro h2
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hchar : ringChar K = 2 := by
-    haveI : CharP K 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr (by simpa using h2)
+    have : CharP K 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).mpr (by simpa using h2)
     exact ringChar.eq K 2
   have hev := FiniteField.even_card_of_char_two hchar
   rw [← Nat.card_eq_fintype_card, hq] at hev
@@ -467,7 +467,7 @@ private theorem kds_matrix_data {H : Subgroup (GL (Fin 3) K)} {y : ↥H} (hy3 : 
     apply Subtype.ext
     apply Units.ext
     rw [Subgroup.coe_mul, Subgroup.coe_mul, Units.val_mul, Units.val_mul, hc]
-    simp [Matrix.mul_smul, Matrix.smul_mul]
+    simp
 
 private def kdsGL (t : Matrix (Fin 3) (Fin 3) K) (h : t * t = 1) : GL (Fin 3) K :=
   ⟨t, t, h, h⟩

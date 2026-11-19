@@ -123,7 +123,7 @@ theorem zpowers_mem_omegaA_of_cases (h134 : Item134) (h48 : Sec4.Item4_8) {A L :
         · exact ⟨Subgroup.zpowers_le.mpr hd₀B, hd₀3⟩
         · exact ⟨Subgroup.zpowers_le.mpr hyB, hy3⟩
       have h1 := Set.ncard_le_ncard hsub
-      rw [Set.ncard_diff hpair, Set.ncard_pair hyne] at h1
+      rw [Set.ncard_sdiff hpair, Set.ncard_pair hyne] at h1
       have h2 := ncard_subgroups_card_three_le_four hB9
       omega
     have hOb : (orbitIn (oThreeWPre A) (Subgroup.zpowers b)).ncard ≤ 2 := by
@@ -162,7 +162,7 @@ theorem zpowers_mem_omegaA_of_cases (h134 : Item134) (h48 : Sec4.Item4_8) {A L :
           exact ⟨Subgroup.zpowers_le.mpr (Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)),
             Proof152WE.card_zpowers_eq_three hA hdA hd1⟩
         have h1 := Set.ncard_le_ncard hsub
-        rw [Set.ncard_diff hone, Set.ncard_singleton] at h1
+        rw [Set.ncard_sdiff hone, Set.ncard_singleton] at h1
         have h2 := ncard_subgroups_card_three_le_four hHa9
         omega
       have hOa : (orbitIn (oThreeWPre A) (Subgroup.zpowers a)).ncard ≤ 3 :=

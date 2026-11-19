@@ -182,7 +182,7 @@ theorem isSylow_U (hRk : CFL2Rank) (hSy : CFL2Sylow) (hB1 : ConjFixStatement)
   obtain ⟨T, hT⟩ := (isPGroup_U hv).exists_le_sylow
   refine ⟨T, ?_⟩
   by_contra hne
-  obtain ⟨t, htT, htU, htN⟩ := Eight.exists_mem_normalizer_not_mem T.isPGroup' hT (Ne.symm hne)
+  obtain ⟨t, htT, htU, htN⟩ := Eight.exists_mem_normalizer_not_mem T.isPGroup hT (Ne.symm hne)
   have htN' : t ∈ normalizer ((h.U81 v : Subgroup H) : Set H) := by
     have : t⁻¹ ∈ normalizer ((h.U81 v : Subgroup H) : Set H) :=
       Eight.mem_normalizer_of_conj_mem fun c hc => by rw [inv_inv]; exact htN c hc
@@ -190,7 +190,7 @@ theorem isSylow_U (hRk : CFL2Rank) (hSy : CFL2Sylow) (hB1 : ConjFixStatement)
   have htF : t ∈ normalizer (h.F32 : Set H) := by
     have := Eight.normalizer_le_normalizer_JeN 32 (h.U81 v) htN'
     rwa [JeN_U_eq hv hRk] at this
-  exact htU (inf_normalizer_F_le hv hSy hB1 hB6 hCF23 hCF24 hCFc hCF1 hCF2 hC F T.isPGroup' hT
+  exact htU (inf_normalizer_F_le hv hSy hB1 hB6 hCF23 hCF24 hCFc hCF1 hCF2 hC F T.isPGroup hT
     (mem_inf.mpr ⟨htT, htF⟩))
 
 end Data

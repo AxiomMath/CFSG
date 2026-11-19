@@ -14,7 +14,7 @@ theorem sec12N_index_two {Γ : Type*} [Group Γ] [Finite Γ] {E : Subgroup Γ} [
     ∃ H0 : Subgroup Γ, H0.Normal ∧ H0.index = 2 ∧ y ∉ H0 := by
   rcases hE with h2 | h6
   · exact ⟨E, inferInstance, h2, hy⟩
-  · haveI : Finite (Γ ⧸ E) :=
+  · have : Finite (Γ ⧸ E) :=
       Finite.of_surjective (QuotientGroup.mk' E) (QuotientGroup.mk'_surjective E)
     have hcardQ : Nat.card (Γ ⧸ E) = 6 := h6
     have h3dvd : 3 ^ 1 ∣ Nat.card (Γ ⧸ E) := by rw [hcardQ]; norm_num
@@ -24,7 +24,7 @@ theorem sec12N_index_two {Γ : Type*} [Group Γ] [Finite Γ] {E : Subgroup Γ} [
       have h := Subgroup.card_mul_index (H := P)
       rw [hPcard', hcardQ] at h
       omega
-    haveI : P.Normal := Subgroup.normal_of_index_eq_two hPidx
+    have : P.Normal := Subgroup.normal_of_index_eq_two hPidx
     have hyq1 : (y : Γ ⧸ E) ≠ 1 := fun h => hy ((QuotientGroup.eq_one_iff y).mp h)
     have hyq2 : (y : Γ ⧸ E) * (y : Γ ⧸ E) = 1 := by
       rw [← QuotientGroup.mk'_apply E y, ← map_mul, hy2, map_one]

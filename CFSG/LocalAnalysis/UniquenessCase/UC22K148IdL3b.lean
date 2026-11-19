@@ -124,7 +124,7 @@ theorem finrank_le_three_mul_twisted [FiniteDimensional (ZMod 2) E] [IsSimpleGro
       calc q * (q * k * q) * q = q * q * k * (q * q) := by group
         _ = k := by rw [hq2]; group
     rwa [e2] at h1
-  haveI hKn : (K.subgroupOf 𝓛).Normal := ⟨fun n hn g => by
+  have hKn : (K.subgroupOf 𝓛).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have h1 := (Subgroup.mem_normalizer_iff.1 (hnorm g.2) n).1 hn
     simpa using h1⟩
@@ -246,7 +246,7 @@ theorem eq_zero_or_eq_id_of_commute_resSub [Finite E]
     (hfaith : ∀ y ∈ 𝓛, (∀ x ∈ X, y x = x) → y = 1) {h : X →ₗ[ZMod 2] X}
     (hh : ∀ (y : ↥𝓛) (x : X), h (resSub 𝓛 X hX y x) = resSub 𝓛 X hX y (h x)) :
     h = 0 ∨ h = LinearMap.id := by
-  haveI : Module.Finite (ZMod 2) X := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) X := Module.Finite.of_finite
   refine CFSG.Quasithin.H13.Mult.eq_zero_or_eq_id_of_commute (by omega) fun τ x => ?_
   obtain ⟨y, rfl⟩ := (bijective_resSub eV hX hX3 hfaith).2 τ
   exact hh y x
@@ -263,7 +263,7 @@ theorem centralizer_structure [FiniteDimensional (ZMod 2) E] [IsSimpleGroup ↥�
       ∃ X' : Submodule (ZMod 2) E, (∀ y ∈ 𝓛, ∀ x ∈ X', y x ∈ X') ∧
         IsCompl (LinearMap.ker ((c : E →ₗ[ZMod 2] E) - LinearMap.id)) X' := by
   classical
-  haveI : Finite E := Module.finite_of_finite (ZMod 2)
+  have : Finite E := Module.finite_of_finite (ZMod 2)
   set N : E →ₗ[ZMod 2] E := (c : E →ₗ[ZMod 2] E) - LinearMap.id with hN
   have hNapp : ∀ v, N v = c v - v := fun v => rfl
   have hNN : ∀ v, N (N v) = 0 := fun v => by
@@ -318,7 +318,7 @@ theorem centralizer_structure [FiniteDimensional (ZMod 2) E] [IsSimpleGroup ↥�
   have hX3 : 3 ≤ finrank (ZMod 2) (LinearMap.range N) := by
     by_contra hlt
     push Not at hlt
-    haveI : Finite (LinearMap.range N →ₗ[ZMod 2] LinearMap.range N) := Module.finite_of_finite (ZMod 2)
+    have : Finite (LinearMap.range N →ₗ[ZMod 2] LinearMap.range N) := Module.finite_of_finite (ZMod 2)
     have h1 : Nat.card ↥𝓛 ≤ Nat.card (LinearMap.range N →ₗ[ZMod 2] LinearMap.range N) :=
       Nat.card_le_card_of_injective _
         (LinearEquiv.toLinearMap_injective.comp (injective_resSub hXinv hfaithX))

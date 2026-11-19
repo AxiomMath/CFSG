@@ -15,10 +15,12 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem l62_commute_of_isElemAbelian {A : Subgroup H} (hA : IsElemAbelian 3 A) (x y : A) :
     Commute (x : H) (y : H) :=
   (commute_iff_eq _ _).2 (congrArg Subtype.val (hA.1.is_comm.comm x y))
 
+omit [Finite H] in
 theorem l62_card_le_three_of_cyclic {A : Subgroup H} (hA : IsElemAbelian 3 A) (hc : IsCyclic A) :
     Nat.card A ≤ 3 := by
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥A)

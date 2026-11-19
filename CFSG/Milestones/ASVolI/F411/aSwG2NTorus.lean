@@ -187,7 +187,7 @@ theorem burnsideF411a_g2_pCoreOf_borelSub (p : ℕ) [Fact p.Prime] [CharP K p] :
         Set ↥(adjointGroup Tag.G2 K)) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).1 normal_posUnipotentSub
   have hUp : IsPGroup p (posUnipotentSub Tag.G2 K) := by
-    have h := P.isPGroup'
+    have h := P.isPGroup
     rw [hP] at h
     exact h
   apply le_antisymm
@@ -212,7 +212,7 @@ theorem burnsideF411a_g2_key {E : Type} [Group E] {p : ℕ} {Gp M₁ M₂ : Subg
       (posUnipotentSub Tag.G2 K).map (Gp.subtype.comp χ.toMonoidHom)) :
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ (p ^ k) = 1 →
       (∀ b ∈ Gp ⊓ (M₁ ⊓ M₂), r * b * r⁻¹ * b⁻¹ ∈ pCoreOf p (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
-  haveI := hN
+  have := hN
   intro r hr _ _ hcomm
   set ι : ↥(adjointGroup Tag.G2 K) →* E := Gp.subtype.comp χ.toMonoidHom with hιdef
   have hι : Function.Injective ι := Gp.subtype_injective.comp χ.injective

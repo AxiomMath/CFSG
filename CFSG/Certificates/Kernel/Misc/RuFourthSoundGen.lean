@@ -136,16 +136,16 @@ private theorem zword_toLetters {m : ℕ} : ∀ w : List ℤ, (∀ z ∈ w, z �
     have ih := zword_toLetters w fun y hy => h y (List.mem_cons.2 (Or.inr hy))
     have e : toLetters m (z :: w) =
         (⟨z.natAbs - 1, by omega⟩, decide (0 < z)) :: toLetters m w :=
-      List.filterMap_cons_some (dif_pos ⟨hz0, hzm⟩)
+      List.filterMap_cons_some (dite_eq_left ⟨hz0, hzm⟩)
     rw [e]
     change (if decide (0 < z) = true then ((z.natAbs - 1 : ℕ) : ℤ) + 1
       else -(((z.natAbs - 1 : ℕ) : ℤ) + 1)) :: zword (toLetters m w) = z :: w
     rw [ih]
     congr 1
     rcases lt_or_gt_of_ne hz0 with hneg | hpos
-    · rw [if_neg fun hc => absurd (of_decide_eq_true hc) (not_lt.2 hneg.le)]
+    · rw [ite_eq_right fun hc => absurd (of_decide_eq_true hc) (not_lt.2 hneg.le)]
       omega
-    · rw [if_pos (decide_eq_true hpos)]
+    · rw [ite_eq_left (decide_eq_true hpos)]
       omega
 
 private theorem wordIn_wordPow {G : Type*} [Group G] (gs : ℕ → G) (w : List (Fin gc × Bool)) :

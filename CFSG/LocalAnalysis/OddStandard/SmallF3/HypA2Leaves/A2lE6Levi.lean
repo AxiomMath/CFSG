@@ -23,7 +23,7 @@ theorem a2lE6_leviHom_injective [CharP K 3] (σ : K ≃+* K) {ζ : K} (hζ : ζ 
     rw [← psiA_liftA, h1, map_one]
   obtain ⟨l, hl3, hl⟩ :=
     (CFSG.LieType.Chevalley.ExteriorCube.cubeHom_eq_one_iff _).1 h2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hl1 : l = 1 :=
     CFSG.LieType.BorelTits.eq_one_of_pow_char_pow_eq_one (F := K) (x := l) (e := 1) 3
       (by simpa using hl3)
@@ -86,9 +86,9 @@ theorem a2lE6_coe_leviEquiv [CharP K 3] (σ : K ≃+* K) {ζ : K} (hζ : ζ ≠ 
 
 theorem a2lE6_twE6LeviSA_quasisimple (σ : K ≃+* K) (hK : Nat.card K = 9)
     (hσ : ∀ c, σ c = c ^ 3) : CFSG.Assembly.IsQuasisimple ↥(twE6LeviSA K σ) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK3 : Nat.card K = 3 ^ 2 := by rw [hK]; norm_num
-  haveI : CharP K 3 :=
+  have : CharP K 3 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_three (by norm_num) hK3
   have hσeq : σ = CFSG.LieType.BorelTits.unitaryInvolution K 3 1 :=
@@ -122,9 +122,9 @@ theorem a2lE6_exists_equiv_statedSU (σ : K ≃+* K) (hK : Nat.card K = 9)
           (y : ModGL Tag.E6 K) = ((leviHomA σ hζ x : groupA K) : ModGL Tag.E6 K) →
           ((e₀ y : StatedSU 6 3 K) : GL (Fin 6) K) =
             Matrix.GeneralLinearGroup.scalar (Fin 6) (-1 : Kˣ) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK3 : Nat.card K = 3 ^ 2 := by rw [hK]; norm_num
-  haveI : CharP K 3 :=
+  have : CharP K 3 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_three (by norm_num) hK3
   have hσeq : σ = CFSG.LieType.BorelTits.unitaryInvolution K 3 1 :=

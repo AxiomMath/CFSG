@@ -213,7 +213,7 @@ section K3
 
 theorem ggOutTwoCommInner_holds : GGOutTwoCommInner := by
   intro W _ _ Kb hKbNormal hCent hSimple hMark δ hδ Y hY hδY y hy
-  haveI : Kb.Normal := hKbNormal
+  have : Kb.Normal := hKbNormal
   let φ : W →* MulAut Kb := MulAut.conjNormal
   have hnab : ∃ a b : Kb, a * b ≠ b * a := by
     by_contra h
@@ -225,7 +225,7 @@ theorem ggOutTwoCommInner_holds : GGOutTwoCommInner := by
       simpa using (h ⟨a, ha⟩ ⟨b, hb⟩).symm
     rw [hCent] at hle
     have hbot : Kb = ⊥ := le_bot_iff.mp hle
-    haveI : Subsingleton Kb := by rw [hbot]; infer_instance
+    have : Subsingleton Kb := by rw [hbot]; infer_instance
     obtain ⟨a, b, hab⟩ := hSimple.toNontrivial.exists_pair_ne
     exact hab (Subsingleton.elim a b)
   have hcenter : Subgroup.center Kb = ⊥ := by

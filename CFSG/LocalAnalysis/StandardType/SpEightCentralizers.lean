@@ -201,12 +201,12 @@ theorem normForm_comp_of_mul_comm (g : GL Idx (ZMod 2)) (X : Matrix Idx Idx (ZMo
   by_cases h : v + X *ᵥ v + X *ᵥ (X *ᵥ v) = 0
   · have h' : (g : Matrix Idx Idx (ZMod 2)) *ᵥ v + X *ᵥ ((g : Matrix Idx Idx (ZMod 2)) *ᵥ v)
         + X *ᵥ (X *ᵥ ((g : Matrix Idx Idx (ZMod 2)) *ᵥ v)) = 0 := hiff.mp h
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : ¬ ((g : Matrix Idx Idx (ZMod 2)) *ᵥ v
         + X *ᵥ ((g : Matrix Idx Idx (ZMod 2)) *ᵥ v)
         + X *ᵥ (X *ᵥ ((g : Matrix Idx Idx (ZMod 2)) *ᵥ v)) = 0) :=
       fun hh => h (hiff.mpr hh)
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 theorem Q0_comp_of_commute {g x : GL Idx (ZMod 2)} (hg : g ∈ StatedSp 4 (ZMod 2)) (hx : x ∈ E2)
     (hx1 : x ≠ 1) (hgx : g * x = x * g) (v : Vec) :

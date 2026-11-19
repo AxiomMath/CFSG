@@ -261,7 +261,7 @@ private theorem hkt_pCore_le_sylow
     pCore q Q ≤ (S : Subgroup Q) := by
   have hsup_p : IsPGroup q ((S : Subgroup Q) ⊔ pCore q Q : Subgroup Q) :=
     IsPGroup.to_sup_of_normal_right (p := q) (H := (S : Subgroup Q))
-      (K := pCore q Q) S.isPGroup' (pCore_isPGroup (G := Q) (p := q))
+      (K := pCore q Q) S.isPGroup (pCore_isPGroup (G := Q) (p := q))
   have hsup_eq : (S : Subgroup Q) ⊔ pCore q Q = (S : Subgroup Q) :=
     S.maximal_isPGroup.eq_of_ge hsup_p le_sup_left
   exact le_sup_right.trans (le_of_eq hsup_eq)
@@ -558,7 +558,7 @@ private theorem hkt_normalized_pSubgroup_le_sylow
   have hsup_p : IsPGroup q ((S : Subgroup Q) ⊔ A : Subgroup Q) :=
     IsPGroup.to_sup_of_normal_right'
       (G := Q) (H := (S : Subgroup Q)) (K := A)
-      S.isPGroup' hAp hS_le_norm_A
+      S.isPGroup hAp hS_le_norm_A
   have hsup_eq : (S : Subgroup Q) ⊔ A = (S : Subgroup Q) :=
     S.maximal_isPGroup.eq_of_ge hsup_p le_sup_left
   exact le_sup_right.trans (le_of_eq hsup_eq)
@@ -754,7 +754,7 @@ private theorem hkt_iv62_f_layer_ambient_normalizer_hasNormalPComplement
     have hU_lt_one : Nat.card U < 1 := by
       simpa [hcardK_one] using hcardUK
     exact (not_lt_of_ge hU_ge_one) hU_lt_one
-  have hKp : IsPGroup q K := P.isPGroup'.to_subgroup K
+  have hKp : IsPGroup q K := P.isPGroup.to_subgroup K
   have hK_Np : IsPGroup q K_N := by
     simpa [K_N, N] using hKp.map (P : Subgroup N).subtype
   have hVp : IsPGroup q V := by
@@ -1139,7 +1139,7 @@ private theorem hkt_huppertRankThompsonSubgroup_sylow_map_quotient_pPrimeCore
   have hqinj : Function.Injective (π.comp (S : Subgroup Q).subtype) := by
     simpa [π, M] using
       quotient_pPrimeCore_subgroupMap_injective
-        (G := Q) (p := p) (H := (S : Subgroup Q)) S.isPGroup'
+        (G := Q) (p := p) (H := (S : Subgroup Q)) S.isPGroup
   let f : S →* ((S : Subgroup Q).map π) :=
     (π.comp (S : Subgroup Q).subtype).codRestrict ((S : Subgroup Q).map π) (by
       intro x
@@ -1196,7 +1196,7 @@ private theorem hkt_normalizer_huppertRankThompsonSubgroup_hasNormalPComplement_
   classical
   intro M π Sbar
   have : Fact (IsPGroup p (↥(huppertRankThompsonSubgroup (G := Q) (S : Subgroup Q)))) :=
-    ⟨IsPGroup.to_le S.isPGroup' (huppertRankThompsonSubgroup_le (G := Q) (S : Subgroup Q))⟩
+    ⟨IsPGroup.to_le S.isPGroup (huppertRankThompsonSubgroup_le (G := Q) (S : Subgroup Q))⟩
   have hJ_map :
       (huppertRankThompsonSubgroup (G := Q) (S : Subgroup Q)).map π =
         huppertRankThompsonSubgroup (G := Q ⧸ M) (Sbar : Subgroup (Q ⧸ M)) := by
@@ -1310,7 +1310,7 @@ private theorem hkt_iv62_f_normalizer_quotient_hasNormalPComplement
         have hcenter : Nat.card UP < Nat.card K := by
           dsimp [Zbar, K]
           exact hkt_center_quotient_comap_card_gt
-            (G := (P : Subgroup N)) (p := q) (H := UP) P.isPGroup' hUP_lt
+            (G := (P : Subgroup N)) (p := q) (H := UP) P.isPGroup hUP_lt
         exact hUP_card ▸ hcenter
       simpa [K_N] using
         hkt_iv62_f_layer_ambient_normalizer_hasNormalPComplement
@@ -1470,7 +1470,7 @@ private theorem hkt_iv62_f_normalizer_quotient_hasNormalPComplement
           Zbar.comap (QuotientGroup.mk' UP)
         have hZJ : Zbar ≤ Jbar := by
           have : Fact (IsPGroup q R) :=
-            ⟨IsPGroup.to_quotient (H := UP) P.isPGroup'⟩
+            ⟨IsPGroup.to_quotient (H := UP) P.isPGroup⟩
           obtain ⟨A, hA⟩ :=
             hkt_huppertRankThompsonAbelianSubgroups_nonempty
               (G := R) (⊤ : Subgroup R)
@@ -1532,7 +1532,7 @@ private theorem hkt_iv62_f_normalizer_quotient_hasNormalPComplement
           have hcenter : Nat.card UP < Nat.card KZ := by
             dsimp [Zbar, KZ]
             exact hkt_center_quotient_comap_card_gt
-              (G := (P : Subgroup N)) (p := q) (H := UP) P.isPGroup' hUP_lt
+              (G := (P : Subgroup N)) (p := q) (H := UP) P.isPGroup hUP_lt
           exact hUP_card ▸ hcenter
         exact hKZ_card.trans_le (Subgroup.card_le_of_le hKZ_le_K)
       have hJbar_normal : Jbar.Normal := by
@@ -2042,7 +2042,7 @@ private theorem hkt_sylow_map_subtype_of_complement_coprime
   classical
   let Pmap : Subgroup K := (Pr : Subgroup R).map R.subtype
   have hPmap_p : IsPGroup r Pmap := by
-    simpa [Pmap] using Pr.isPGroup'.map R.subtype
+    simpa [Pmap] using Pr.isPGroup.map R.subtype
   have hcard_Pmap : Nat.card Pmap = Nat.card (Pr : Subgroup R) := by
     simpa [Pmap] using
       (Subgroup.card_map_of_injective (K := (Pr : Subgroup R))
@@ -2145,7 +2145,7 @@ private theorem hkt_hasNormalPComplement_of_proper_index_not_dvd
   let TQsub : Subgroup Q := (T : Subgroup L).map L.subtype
   have hTQp : IsPGroup q TQsub := by
     simpa [TQsub] using
-      IsPGroup.map (p := q) (H := (T : Subgroup L)) T.isPGroup' L.subtype
+      IsPGroup.map (p := q) (H := (T : Subgroup L)) T.isPGroup L.subtype
   have hTQ_not_index : ¬ q ∣ TQsub.index := by
     intro hidx
     have hidx_eq : TQsub.index = (T : Subgroup L).index * L.index := by
@@ -2288,7 +2288,7 @@ private theorem hkt_pElementsSubgroup_top_of_characteristically_simple
     intro x hxPr
     have hx_r : IsPElement (p := r) x := by
       rcases (IsPGroup.iff_orderOf (p := r) (G := (Pr : Subgroup G))).1
-          Pr.isPGroup' ⟨x, hxPr⟩ with ⟨n, hn⟩
+          Pr.isPGroup ⟨x, hxPr⟩ with ⟨n, hn⟩
       exact ⟨n, by simpa [Subgroup.orderOf_coe] using hn⟩
     have hx_elem : x ∈ pElementsSubgroup r G := by
       change x ∈ Subgroup.closure {x : G | IsPElement (p := r) x}
@@ -2378,7 +2378,7 @@ private theorem hkt_isPGroup_of_sylow_top
     {R : Type u} [Group R] {r : ℕ} [Fact r.Prime]
     (Pr : Sylow r R) (hPr_top : (Pr : Subgroup R) = ⊤) :
     IsPGroup r R := by
-  have htop_p : IsPGroup r (⊤ : Subgroup R) := hPr_top ▸ Pr.isPGroup'
+  have htop_p : IsPGroup r (⊤ : Subgroup R) := hPr_top ▸ Pr.isPGroup
   exact htop_p.of_equiv (Subgroup.topEquiv : (⊤ : Subgroup R) ≃* R)
 private theorem hkt_sylow_eq_top_of_H_sup_normalizer_image_top
     {Q : Type u} [Group Q] [Finite Q]
@@ -2849,7 +2849,7 @@ private theorem hkt_iv62_f_reduced_nonburnside_isSolvable_core
                 exact hT_ne_top hT_top'
               let Sbar : Subgroup (Q ⧸ H) := (S : Subgroup Q).map π
               have hSbar_p : IsPGroup q Sbar := by
-                simpa [Sbar] using S.isPGroup'.map π
+                simpa [Sbar] using S.isPGroup.map π
               have hSbar_sup_Kbar : Sbar ⊔ Kbar = ⊤ := by
                 let ρ : Q →* ((Q ⧸ H) ⧸ Kbar) := (QuotientGroup.mk' Kbar).comp π
                 have hρ_surj : Function.Surjective ρ := by
@@ -3094,7 +3094,7 @@ private theorem hkt_iv62_f_reduced_nonburnside_isSolvable_core
                   (Q := Q) (q := q) S hproper_over_sylow hLproper hLindex
               have hPamb_p : IsPGroup r Pamb := by
                 simpa [Pamb, ιR] using
-                  IsPGroup.map (p := r) (H := (Pr : Subgroup R)) Pr.isPGroup' ιR
+                  IsPGroup.map (p := r) (H := (Pr : Subgroup R)) Pr.isPGroup ιR
               have hPamb_cent_H : Pamb ≤ Subgroup.centralizer (H : Set Q) := by
                 intro x hxP
                 rw [Subgroup.mem_centralizer_iff]
@@ -3545,7 +3545,7 @@ private theorem hkt_iv62_q_preterminal_layer_card_eq_two_dimensional
   let : IsElementaryAbelian q B := B_elementary
   have hBcard_pow : Nat.card B = q ^ generatorRank B :=
     elementaryAbelian_card_eq_pow_generatorRank (p := q) B
-  have hA_p : IsPGroup q A := IsPGroup.to_le S.isPGroup' A_le_sylow
+  have hA_p : IsPGroup q A := IsPGroup.to_le S.isPGroup A_le_sylow
   have hnot_rank_le_one : ¬ generatorRank B ≤ 1 := by
     intro hrank_le_one
     have hrank_zero_or_one : generatorRank B = 0 ∨ generatorRank B = 1 := by
@@ -5319,7 +5319,7 @@ private theorem hkt_iv62_r_sylow_scalar_eigenvalue_eq_one
   have hvne : eigenvector i ≠ 0 := heigenvector_nonzero i
   have haS : (a : Q) ∈ (S : Subgroup Q) := L.2.2.1 a.property
   obtain ⟨k, hk⟩ :=
-    (IsPGroup.iff_orderOf (p := q) (G := (S : Subgroup Q))).1 S.isPGroup'
+    (IsPGroup.iff_orderOf (p := q) (G := (S : Subgroup Q))).1 S.isPGroup
       (⟨(a : Q), haS⟩ : (S : Subgroup Q))
   have horder : orderOf (a : Q) = q ^ k := by
     simpa [Subgroup.orderOf_coe] using hk
@@ -6630,7 +6630,7 @@ private theorem hkt_iv62_gl2_terminal_model_contradiction
     (linePerm_nontrivial : linePerm ≠ 1) : False := by
   classical
   have _ := M
-  have hA_p : IsPGroup q L.1 := IsPGroup.to_le S.isPGroup' L.2.2.1
+  have hA_p : IsPGroup q L.1 := IsPGroup.to_le S.isPGroup L.2.2.1
   have htrivial : linePerm = 1 :=
     hkt_fin_two_perm_hom_eq_one_of_isPGroup_odd (q := q) hq2 hA_p linePerm
   exact linePerm_nontrivial htrivial
@@ -6921,7 +6921,7 @@ private theorem hkt_iv62_i_J_normalizers_local_extracted
   have hJbar_le_AX : Jbar ≤ AX := by
     rw [← hTXbar_eq]
     exact Subgroup.map_mono hJ_le_TX
-  have hJ_p : IsPGroup q J := IsPGroup.to_le TX.isPGroup' hJ_le_TX
+  have hJ_p : IsPGroup q J := IsPGroup.to_le TX.isPGroup hJ_le_TX
   have hJbar_p : IsPGroup q Jbar := hJ_p.map piX
   let JT : Subgroup TX :=
     huppertRankThompsonSubgroup (G := TX) (⊤ : Subgroup TX)
@@ -6957,7 +6957,7 @@ private theorem hkt_iv62_i_J_normalizers_local_extracted
   have hAbar_p : IsPGroup q Abar := by
     simpa [Abar, π] using
       (IsPGroup.to_le (H := A) (K := (S : Subgroup Q))
-        S.isPGroup' hA_le_S).map π
+        S.isPGroup hA_le_S).map π
   have hAbar_Kbar_coprime :
       Nat.Coprime (Nat.card Abar) (Nat.card Kbar) := by
     rcases hAbar_p.exists_card_eq with ⟨n, hn⟩
@@ -7170,7 +7170,7 @@ private theorem hkt_iv62_o_conjugate_centralizers_extracted
   have hAbar_p : IsPGroup q Abar := by
     simpa [Abar, π] using
       (IsPGroup.to_le (H := A) (K := (S : Subgroup Q))
-        S.isPGroup' hA_le_S).map π
+        S.isPGroup hA_le_S).map π
   have hK2bar_le_Kbar : K2bar ≤ Kbar := by
     simpa [K2bar] using
       (Subgroup.commutator_le_left (H₁ := Kbar) (H₂ := Abar))
@@ -7585,7 +7585,7 @@ private theorem hkt_iv62_r_cyclic_nonscalar_actor_extracted
   have hAbar_p : IsPGroup q Abar := by
     simpa [Abar, π] using
       (IsPGroup.to_le (H := A) (K := (S : Subgroup Q))
-        S.isPGroup' hA_le_S).map π
+        S.isPGroup hA_le_S).map π
   have hAbar_normalizes_Kbar :
       Abar ≤ Subgroup.normalizer (Kbar : Set (Q ⧸ pCore q Q)) :=
     Subgroup.le_normalizer_of_normal
@@ -8444,7 +8444,7 @@ private theorem hkt_isPElement_mem_pCore_terminal_from_Wz
         have ha_one : a = 1 := Subgroup.mem_bot.mp ha_bot
         rw [ha_one]
         exact (pCore q Q).one_mem)
-    simpa [Z0] using section8_centerIn_ne_bot_of_isPGroup S.isPGroup' hS_ne_bot
+    simpa [Z0] using section8_centerIn_ne_bot_of_isPGroup S.isPGroup hS_ne_bot
   have step_k_Z0_nontrivial_element : ∃ z0 : Z0, (z0 : Q) ≠ 1 := by
     by_contra hnone
     apply step_k_Z0_ne_bot
@@ -9080,7 +9080,7 @@ private theorem hkt_isPElement_mem_pCore_terminal_from_Wz
           have hAbar_p : IsPGroup q Abar := by
             simpa [Abar, piCore] using
               (IsPGroup.to_le (H := A0.1) (K := (S : Subgroup Q))
-                S.isPGroup' A0.2.1).map piCore
+                S.isPGroup A0.2.1).map piCore
           have hAbar_comm : IsMulCommutative Abar := by
             let : IsMulCommutative A0.1 := A0.2.2.1
             simpa [Abar] using
@@ -9152,7 +9152,7 @@ private theorem hkt_isPElement_mem_pCore_terminal_from_Wz
                 have hSq_normal : (Sq : Subgroup F).Normal :=
                   Group.IsNilpotent.sylow_normal (p := q) inferInstance Sq
                 have hSq_le_core : (Sq : Subgroup F) ≤ pCore q F :=
-                  le_sSup ⟨hSq_normal, Sq.isPGroup'⟩
+                  le_sSup ⟨hSq_normal, Sq.isPGroup⟩
                 have hqSq : q ∣ Nat.card (Sq : Subgroup F) :=
                   Sylow.dvd_card_of_dvd_card Sq hqF
                 have hSq_bot : (Sq : Subgroup F) = ⊥ :=
@@ -9256,7 +9256,7 @@ private theorem hkt_isPElement_mem_pCore_terminal_from_Wz
               exact IsPGroup.to_sup_of_normal_left
                 (pCore_isPGroup (G := Q) (p := q))
                 (IsPGroup.to_le (H := A0.1) (K := (S : Subgroup Q))
-                  S.isPGroup' A0.2.1)
+                  S.isPGroup A0.2.1)
             have hP0X_p : IsPGroup q P0X := by
               exact hP0Q_p.of_equiv
                 (Subgroup.subgroupOfEquivOfLe
@@ -9464,7 +9464,7 @@ private theorem hkt_isPElement_mem_pCore_terminal_from_Wz
               hkt_hasNormalPComplement_of_isPGroup
                 (Q := Subgroup.normalizer
                   (huppertRankThompsonSubgroup (G := X) (TX : Subgroup X) : Set X))
-                (p := q) (IsPGroup.to_le TX.isPGroup' hJ_local)
+                (p := q) (IsPGroup.to_le TX.isPGroup hJ_local)
             have hX_comp : HasNormalPComplement q X :=
               hproper_rec X TX hX_ne_bot hX_ne_top hq_dvd_X
                 hcenter_X hJrank_X            -- Once X has a normal q-complement, its normal q'-part centralizes
@@ -10375,7 +10375,7 @@ private theorem hkt_isPElement_mem_pCore_terminal_from_selected_overgroup
   have hS_ne_top : (S : Subgroup Q) ≠ ⊤ := by
     intro hStop
     have htop_q : IsPGroup q (⊤ : Subgroup Q) :=
-      S.isPGroup'.of_equiv (MulEquiv.subgroupCongr hStop)
+      S.isPGroup.of_equiv (MulEquiv.subgroupCongr hStop)
     exact hnot_Qp
       (htop_q.of_equiv (Subgroup.topEquiv : (⊤ : Subgroup Q) ≃* Q))
   have hV_ne_top : V ≠ ⊤ := by
@@ -10463,7 +10463,7 @@ private theorem hkt_isPElement_mem_pCore_terminal_from_selected_overgroup
         MulAction.fixedPoints (S : Subgroup Q) (Subgroup.center (V ⧸ CoreV)) := by
     simp [MulAction.mem_fixedPoints]
   obtain ⟨zbar, hzbar_fixed, hone_ne_zbar⟩ :=
-    S.isPGroup'.exists_fixed_point_of_prime_dvd_card_of_fixed_point
+    S.isPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point
       (α := Subgroup.center (V ⧸ CoreV)) hcenter_dvd hone_fixed
   have hzbar_ne_one : zbar ≠ 1 := by
     exact hone_ne_zbar.symm
@@ -10802,7 +10802,7 @@ private theorem hkt_isPElement_mem_pCore_of_selected_pSubgroup_eq_pCore_reduced_
       have hU_lt_one : Nat.card U < 1 := by
         simpa [hcardK_one] using hK_card_gt
       exact (not_lt_of_ge hU_ge_one) hU_lt_one
-    have hKp : IsPGroup q K := P.isPGroup'.to_subgroup K
+    have hKp : IsPGroup q K := P.isPGroup.to_subgroup K
     have hK_Np : IsPGroup q K_N := by
       simpa [K_N, N] using hKp.map (P : Subgroup N).subtype
     have hVp : IsPGroup q V := by
@@ -10890,7 +10890,7 @@ private theorem hkt_isPElement_mem_pCore_of_selected_pSubgroup_eq_pCore_reduced_
     · simpa [← hU_eq_core] using hU_le_V
     · exact Subgroup.zpowers_le.2 hyV
   have hVp : IsPGroup q V := by
-    have hKp : IsPGroup q K := P.isPGroup'.to_subgroup K
+    have hKp : IsPGroup q K := P.isPGroup.to_subgroup K
     have hK_Np : IsPGroup q K_N := by
       simpa [K_N, N] using hKp.map (P : Subgroup N).subtype
     simpa [V, K_N, N] using hK_Np.map N.subtype
@@ -11124,7 +11124,7 @@ private theorem hkt_false_of_selected_pSubgroup_eq_pCore_reduced_nonburnside
   have hS_not_normal : ¬ (S : Subgroup Q).Normal := by
     intro hSnormal
     have hS_le_pcore : (S : Subgroup Q) ≤ pCore q Q :=
-      le_sSup ⟨hSnormal, S.isPGroup'⟩
+      le_sSup ⟨hSnormal, S.isPGroup⟩
     exact (not_lt_of_ge hS_le_pcore) hpcore_lt_S
   have hN_S_ne_top : Subgroup.normalizer ((S : Subgroup Q) : Set Q) ≠ ⊤ := by
     intro htop
@@ -11141,7 +11141,7 @@ private theorem hkt_false_of_selected_pSubgroup_eq_pCore_reduced_nonburnside
       hcardUP hPmap_le_S hproper_rec hsmall_rec hcenter_local hJrank_local hNtop hU_eq_core
   have hS_le_pcore : (S : Subgroup Q) ≤ pCore q Q :=
     pSubgroup_le_pCore_of_hasPLengthOne_of_pPrimeCore_eq_bot
-      (Q := Q) (p := q) (A := (S : Subgroup Q)) S.isPGroup' hplenQ hcore_bot
+      (Q := Q) (p := q) (A := (S : Subgroup Q)) S.isPGroup hplenQ hcore_bot
   exact (not_lt_of_ge hS_le_pcore) hpcore_lt_S
 
 private theorem hkt_thompson_iv62_pPrimeCore_eq_bot_isPGroup_of_local_p_nilpotence_proper_nonburnside_step
@@ -11446,7 +11446,7 @@ private theorem hkt_thompson_iv62_pPrimeCore_eq_bot_isPGroup_of_local_p_nilpoten
         have hcardP :
             Nat.card (P : Subgroup N) = q ^ Nat.factorization (Nat.card N) q := by
           rw [section8_card_eq_prime_pow_factorization_of_isPGroup
-            (G := N) (p := q) (H := (P : Subgroup N)) P.isPGroup']
+            (G := N) (p := q) (H := (P : Subgroup N)) P.isPGroup]
           rw [section8_factorization_card_sylow (G := N) (p := q) P]
         calc
           Nat.card U0 = q ^ Nat.factorization (Nat.card U0) q := hcardU0
@@ -11456,7 +11456,7 @@ private theorem hkt_thompson_iv62_pPrimeCore_eq_bot_isPGroup_of_local_p_nilpoten
       let N0 : Subgroup Q := Subgroup.normalizer (U0 : Set Q)
       let P0map : Subgroup Q := (P0 : Subgroup N0).map N0.subtype
       have hP0map_p : IsPGroup q P0map := by
-        simpa [P0map, N0] using P0.isPGroup'.map N0.subtype
+        simpa [P0map, N0] using P0.isPGroup.map N0.subtype
       obtain ⟨R, hP0map_le_R⟩ := IsPGroup.exists_le_sylow (G := Q) (p := q) hP0map_p
       obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Q R S
       let U : Subgroup Q := MulAut.conj g • U0
@@ -11582,7 +11582,7 @@ private theorem hkt_thompson_iv62_pPrimeCore_eq_bot_isPGroup_of_local_p_nilpoten
               (Subgroup.normalizer (U : Set Q)).subtype := by
       let K : Subgroup (Subgroup.normalizer (U : Set Q)) := (S : Subgroup Q).comap (Subgroup.normalizer (U : Set Q)).subtype
       have hKp : IsPGroup q K := by
-        simpa [K] using S.isPGroup'.comap_of_injective (Subgroup.normalizer (U : Set Q)).subtype (Subgroup.normalizer (U : Set Q)).subtype_injective
+        simpa [K] using S.isPGroup.comap_of_injective (Subgroup.normalizer (U : Set Q)).subtype (Subgroup.normalizer (U : Set Q)).subtype_injective
       have hP_le_K : (P : Subgroup (Subgroup.normalizer (U : Set Q))) ≤ K := by
         intro x hxP
         exact hPmap_le_S (Subgroup.mem_map.mpr ⟨x, hxP, rfl⟩)
@@ -11710,7 +11710,7 @@ private theorem hkt_thompson_iv62_pPrimeCore_eq_bot_isPGroup_of_local_p_nilpoten
         intro hPbot
         exact hUN_ne_bot (le_bot_iff.mp (by simpa [hPbot] using hUN_le_P))
       have hcenter_ne_bot : centerIn (G := (Subgroup.normalizer (U : Set Q))) (P : Subgroup (Subgroup.normalizer (U : Set Q))) ≠ ⊥ := by
-        exact section8_centerIn_ne_bot_of_isPGroup P.isPGroup' hP_ne_bot
+        exact section8_centerIn_ne_bot_of_isPGroup P.isPGroup hP_ne_bot
       have hcenter_le_JN : centerIn (G := (Subgroup.normalizer (U : Set Q))) (P : Subgroup (Subgroup.normalizer (U : Set Q))) ≤ JN := by
         obtain ⟨A, hA⟩ :=
           hkt_huppertRankThompsonAbelianSubgroups_nonempty
@@ -11749,11 +11749,11 @@ private theorem hkt_thompson_iv62_pPrimeCore_eq_bot_isPGroup_of_local_p_nilpoten
           have hAp : IsPGroup q A :=
             IsPGroup.to_le (H := A)
               (K := (P : Subgroup (Subgroup.normalizer (U : Set Q))))
-              P.isPGroup' hA.1
+              P.isPGroup hA.1
           have hAZp : IsPGroup q AZ :=
             IsPGroup.to_le (H := AZ)
               (K := (P : Subgroup (Subgroup.normalizer (U : Set Q))))
-              P.isPGroup' hAZ_le_P
+              P.isPGroup hAZ_le_P
           let : Fact (IsPGroup q A) := ⟨hAp⟩
           let : IsMulCommutative A := hA.2.1
           let A' : Subgroup AZ := A.subgroupOf AZ
@@ -11787,7 +11787,7 @@ private theorem hkt_thompson_iv62_pPrimeCore_eq_bot_isPGroup_of_local_p_nilpoten
         simpa [JN] using
           huppertRankThompsonSubgroup_le (G := (Subgroup.normalizer (U : Set Q))) (P : Subgroup (Subgroup.normalizer (U : Set Q)))
       have hJNp : IsPGroup q JN :=
-        IsPGroup.to_le (H := JN) (K := (P : Subgroup (Subgroup.normalizer (U : Set Q)))) P.isPGroup' hJN_le_P
+        IsPGroup.to_le (H := JN) (K := (P : Subgroup (Subgroup.normalizer (U : Set Q)))) P.isPGroup hJN_le_P
       have hVp : IsPGroup q V := by
         simpa [V, JN] using hJNp.map (Subgroup.normalizer (U : Set Q)).subtype
       have hscore := hUmax V hV_ne_bot hVp hV_no_comp

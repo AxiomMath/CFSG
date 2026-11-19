@@ -33,8 +33,8 @@ theorem R_isPerfect (M : QPlusModel K σ) (hdeg : Module.finrank K K₂ = 2)
   by_cases hodd : Odd (Nat.card K)
   · obtain ⟨P, hP, -⟩ := rootSL2_comap_fixed_eq hodd hdeg σ hσ M.hg M.hzdef M.hz M.hw hβ
     exact (isQuasisimple_of_rootSL2_comap_eq hK4 inf_le_left hP).1
-  · haveI := charP_two_of_even_natCard K (Nat.not_odd_iff_even.1 hodd)
-    haveI : CharP K₂ 2 := charP_of_injective_algebraMap (algebraMap K K₂).injective 2
+  · have := charP_two_of_even_natCard K (Nat.not_odd_iff_even.1 hodd)
+    have : CharP K₂ 2 := charP_of_injective_algebraMap (algebraMap K K₂).injective 2
     obtain ⟨P, hP, -⟩ := EvenG2.rootSL2_comap_fixed_eq_of_charTwo hdeg σ hσ M.hg M.hzdef M.hz M.hw hβ
     exact (EvenG2.isSimpleGroup_of_rootSL2_comap_eq hK4 inf_le_left hP).2.1
 
@@ -52,11 +52,11 @@ theorem plane_conj_into_torsion (M : QPlusModel K σ) (hdeg : Module.finrank K K
   have hmap : EG.map ψ = F := Subgroup.map_comap_eq_self (by rwa [hrange])
   have hcard : Nat.card EG = 3 ^ 2 := by
     rw [← hFc, ← hmap, Subgroup.card_map_of_injective hψinj]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : IsMulCommutative EG := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hcard
   have hexp : ∀ x ∈ EG, x ^ 3 = 1 := fun x hx =>
     hψinj (by rw [map_pow, map_one]; exact hF3 _ hx)
-  haveI : CFSG.IsElementaryAbelian 3 EG :=
+  have : CFSG.IsElementaryAbelian 3 EG :=
     { toIsMulCommutative := hcomm
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
         Subtype.ext (by simpa using hexp g g.2) }
@@ -150,7 +150,7 @@ theorem innerPlaneBalance_three_of_dvd_add_one (K : Type) [Field K] [Finite K]
   obtain ⟨M⟩ : Nonempty (QPlusModel K σ) := by
     by_cases hodd : Odd (Nat.card K)
     · exact QPlusModel.nonempty_of_odd hodd hdeg hσ
-    · haveI := charP_two_of_even_natCard K (Nat.not_odd_iff_even.1 hodd)
+    · have := charP_two_of_even_natCard K (Nat.not_odd_iff_even.1 hodd)
       exact QPlusModel.nonempty_of_charTwo hdeg hσ
   have hX : M.X = M.gamma := by
     by_cases hodd : Odd (Nat.card K)
@@ -160,7 +160,7 @@ theorem innerPlaneBalance_three_of_dvd_add_one (K : Type) [Field K] [Finite K]
       have := CFSG.RankThree.PartOne.SEITZ11.G2Seven.g2_qplus_generation hodd hq5 K₂ hdeg σ hσ
         M.hg M.hzdef M.hz M.hw
       exact X_eq_gamma_of_generation M this
-    · haveI := charP_two_of_even_natCard K (Nat.not_odd_iff_even.1 hodd)
+    · have := charP_two_of_even_natCard K (Nat.not_odd_iff_even.1 hodd)
       exact QPlusModel.X_eq_gamma_of_charTwo'
         (RankThree.PartOne.SEITZ6.maxSL2SL2G2_of_top CFSG.Goldschmidt.topStatement) M hdeg hσ h4
   have hF := isLangFrame_three M hdeg hσ hK3 h4 hq hX

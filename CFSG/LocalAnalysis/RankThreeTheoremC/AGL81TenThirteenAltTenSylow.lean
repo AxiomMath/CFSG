@@ -15,8 +15,8 @@ theorem natCard_altTen : Nat.card (alternatingGroup (Fin 10)) = 1814400 := by
 
 theorem card_sylow_five (S : Sylow 5 (alternatingGroup (Fin 10))) :
     Nat.card (S : Subgroup (alternatingGroup (Fin 10))) = 25 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hidx := S.not_dvd_index
   have hmul := (S : Subgroup (alternatingGroup (Fin 10))).card_mul_index
   rw [natCard_altTen, hk] at hmul
@@ -57,13 +57,13 @@ theorem exists_fix_of_sylow {B : Finset (Fin 10)} (hB : B.card = 5)
       (s : Perm (Fin 10)) i ∈ B) :
     ∃ s ∈ (S : Subgroup (alternatingGroup (Fin 10))), s ≠ 1 ∧
       ∀ i ∈ B, (s : Perm (Fin 10)) i = i := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set r := restrictB (S : Subgroup (alternatingGroup (Fin 10))) hS with hr
   have hcard := Subgroup.card_ker_mul_card_range r
   rw [card_sylow_five] at hcard
   have hrange5 : Nat.card r.range ≤ 5 := by
     have hp : IsPGroup 5 r.range :=
-      IsPGroup.of_surjective S.isPGroup' r.rangeRestrict r.rangeRestrict_surjective
+      IsPGroup.of_surjective S.isPGroup r.rangeRestrict r.rangeRestrict_surjective
     obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp hp
     have hdvd : Nat.card r.range ∣ 120 := by
       have hBc : Nat.card {x // x ∈ B} = 5 := by
@@ -115,10 +115,10 @@ theorem swap_iff {B : Finset (Fin 10)} (hB : B.card = 5) {g : Perm (Fin 10)}
 
 theorem isQuasisimple_of_equiv_alt5 {X : Type*} [Group X] (e : X ≃* alternatingGroup (Fin 5)) :
     CFSG.Open.IsQuasisimple X := by
-  haveI hs : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have hs : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin])
-  haveI : Nontrivial X := e.symm.injective.nontrivial
-  haveI : IsSimpleGroup X :=
+  have : Nontrivial X := e.symm.injective.nontrivial
+  have : IsSimpleGroup X :=
     IsSimpleGroup.isSimpleGroup_of_surjective e.symm.toMonoidHom e.symm.surjective
   have hnab : ∃ a b : X, a * b ≠ b * a := by
     by_contra hc
@@ -148,7 +148,7 @@ theorem isQuasisimple_of_equiv_alt5 {X : Type*} [Group X] (e : X ≃* alternatin
     · exact h
   · have f : X ≃* X ⧸ Subgroup.center X :=
       ((QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot).symm
-    haveI : Nontrivial (X ⧸ Subgroup.center X) := f.injective.nontrivial
+    have : Nontrivial (X ⧸ Subgroup.center X) := f.injective.nontrivial
     exact IsSimpleGroup.isSimpleGroup_of_surjective f.toMonoidHom f.surjective
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.TenThirteen.AltTen

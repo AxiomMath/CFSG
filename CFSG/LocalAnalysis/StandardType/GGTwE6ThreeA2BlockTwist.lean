@@ -16,11 +16,11 @@ open CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalle
 
 @[expose] def A2BlockTwoInput : Prop :=
   ∀ {Ω : Type} [Field Ω] [IsAlgClosed Ω] {Fr : Ω →+* Ω} {q : ℕ}
-    (hFr : ∀ c, Fr c = c ^ q) (hq : (q : Ω) = 0) (h3 : 3 ∣ q + 1)
-    {ζ : Ωˣ} (hζ : ζ ^ 3 = 1) (hζo : orderOf ζ = 3)
-    {E : Subgroup (ModGL Tag.E6 Ω)} (hE : IsElemAbelian 3 E)
-    (hEθ : E ≤ TwistedDiag.thetaFixed Fr)
-    (hEX : E ≤ xHat Tag.E6 Ω (Subgroup.zpowers (gE6 2))),
+    (_hFr : ∀ c, Fr c = c ^ q) (_hq : (q : Ω) = 0) (_h3 : 3 ∣ q + 1)
+    {ζ : Ωˣ} (hζ : ζ ^ 3 = 1) (_hζo : orderOf ζ = 3)
+    {E : Subgroup (ModGL Tag.E6 Ω)} (_hE : IsElemAbelian 3 E)
+    (_hEθ : E ≤ TwistedDiag.thetaFixed Fr)
+    (_hEX : E ≤ xHat Tag.E6 Ω (Subgroup.zpowers (gE6 2))),
     ∃ z ∈ TwistedDiag.thetaFixed Fr, ∀ e ∈ E,
       ∃ v, z * e * z⁻¹ = rootDiagUnit Tag.E6 (TableBExc.E6Three.zetaVec ζ hζ v)
 
@@ -55,7 +55,7 @@ theorem conj_mem_xHat_zpowers {Ω : Type} [Field Ω] {m x : ModGL Tag.E6 Ω}
   rw [hcz]
   exact Subgroup.mem_zpowers_iff.mpr ⟨n, rfl⟩
 
-theorem exists_zetaVec_conj_inv_of_mem_normalizer {Ω : Type} [Field Ω] [IsAlgClosed Ω] {q : ℕ}
+theorem exists_zetaVec_conj_inv_of_mem_normalizer {Ω : Type} [Field Ω] [IsAlgClosed Ω] {_q : ℕ}
     {ζ : Ωˣ} (hζ : ζ ^ 3 = 1) (hζo : orderOf ζ = 3)
     {m : ModGL Tag.E6 Ω}
     (hm : m ∈ Subgroup.normalizer (torusGroup Tag.E6 Ω : Set (ModGL Tag.E6 Ω)))
@@ -95,7 +95,7 @@ theorem cE6_pow_two_conj_zero : cE6 ^ 2 * gE6 0 * (cE6 ^ 2)⁻¹ = gE6 2 := by
       rfl
 
 theorem exists_thetaFixed_conj_of_kernel {Ω : Type} [Field Ω] [IsAlgClosed Ω]
-    {Fr : Ω →+* Ω} {q : ℕ} (hFr : ∀ c, Fr c = c ^ q) (hq : (q : Ω) = 0) (h3 : 3 ∣ q + 1)
+    {Fr : Ω →+* Ω} {q : ℕ} (hFr : ∀ c, Fr c = c ^ q) (_hq : (q : Ω) = 0) (_h3 : 3 ∣ q + 1)
     {ζ : Ωˣ} (hζ : ζ ^ 3 = 1) (hζo : orderOf ζ = 3) (i : Fin 3)
     {E : Subgroup (ModGL Tag.E6 Ω)} (hE : IsElemAbelian 3 E)
     (hEθ : E ≤ TwistedDiag.thetaFixed Fr)
@@ -166,7 +166,7 @@ theorem exists_thetaFixed_conj_of_cyclic (hblock : A2BlockTwoInput)
       rw [show m⁻¹ * z' * m * e * (m⁻¹ * z' * m)⁻¹ =
         m⁻¹ * (z' * (m * e * m⁻¹) * z'⁻¹) * m by group, hv]
     rw [hconj]
-    exact exists_zetaVec_conj_inv_of_mem_normalizer (q := q) hζ hζo hmNorm v
+    exact exists_zetaVec_conj_inv_of_mem_normalizer (_q := q) hζ hζo hmNorm v
   ·
     set m : ModGL Tag.E6 Ω := mc with hmdef
     have hmθ : m ∈ TwistedDiag.thetaFixed Fr := hmcθF
@@ -196,7 +196,7 @@ theorem exists_thetaFixed_conj_of_cyclic (hblock : A2BlockTwoInput)
       rw [show m⁻¹ * z' * m * e * (m⁻¹ * z' * m)⁻¹ =
         m⁻¹ * (z' * (m * e * m⁻¹) * z'⁻¹) * m by group, hv]
     rw [hconj]
-    exact exists_zetaVec_conj_inv_of_mem_normalizer (q := q) hζ hζo hmNorm v
+    exact exists_zetaVec_conj_inv_of_mem_normalizer (_q := q) hζ hζo hmNorm v
   ·
     obtain ⟨z, hzθ, hz⟩ := hblock hFr hq h3 hζ hζo hE hEθ hEX
     exact ⟨z, hzθ, hz⟩

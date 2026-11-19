@@ -14,13 +14,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private lemma mem_sup_zpowers_of_le_normalizer {V : Subgroup G} {g x : G}
     (hg : g ∈ Subgroup.normalizer (V : Set G)) (hx : x ∈ V ⊔ Subgroup.zpowers g) :
     ∃ v ∈ V, ∃ i : ℤ, x = v * g ^ i := by
   let M : Subgroup G := V ⊔ Subgroup.zpowers g
   have hnorm : M ≤ Subgroup.normalizer (V : Set G) :=
     sup_le (Subgroup.le_normalizer (H := V)) (Subgroup.zpowers_le.mpr hg)
-  haveI : (V.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnorm
+  have : (V.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hnorm
   have htop : (⊤ : Subgroup ↥M) =
       (V.subgroupOf M) ⊔ (Subgroup.zpowers g).subgroupOf M := by
     rw [← Subgroup.subgroupOf_sup (show V ≤ M from le_sup_left)
@@ -65,7 +66,7 @@ theorem y6_exists_order6 (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c
   rw [← hQ] at h110
   rw [f3_zL_eq_bot hH, bot_sup_eq] at h110
   obtain ⟨hn, hne⟩ := h110
-  haveI : (c.s.fr.A.subgroupOf Q).Normal := hn
+  have : (c.s.fr.A.subgroupOf Q).Normal := hn
   obtain ⟨e⟩ := hne
   set p : Equiv.Perm (Fin 3) × Equiv.Perm (Fin 3) :=
     (Equiv.swap (0 : Fin 3) 1 * Equiv.swap 1 2, Equiv.swap (0 : Fin 3) 1) with hp_def

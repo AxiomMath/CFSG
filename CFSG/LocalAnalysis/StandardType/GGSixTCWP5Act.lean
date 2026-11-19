@@ -104,6 +104,7 @@ structure TwE6Act
       ((lam b : ↥(RecipeExcLang.twInndiagGroup (GaloisField 2 (2 * f)) (frobQEquiv hf))) :
         ModGL TwistTag.E6.tag (GaloisField 2 (2 * f)))⁻¹
 
+omit [Finite X] in
 theorem exists_act_twE6_of_facts
     {ψ : (ggU .twistedE6 n f).K →* X}
     (hker : ψ.ker ≤ Subgroup.center (ggU .twistedE6 n f).K) (hperf : commutator ↥G₀ = ⊤)

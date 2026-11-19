@@ -67,7 +67,7 @@ theorem adjointGroup_isSimple_nonabelian {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6
 theorem isChevSimple_adjointGroup_charTwo {τ : Tag}
     (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) (K : Type) [Field K] [Finite K] [CharP K 2] :
     IsChevSimple 2 ↥(adjointGroup τ K) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   let q₀ : TauCeti.PrimePower := ⟨2, n, Nat.prime_two, n.pos⟩
   have hk : Nat.card K = q₀.card := by

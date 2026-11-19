@@ -21,7 +21,7 @@ open CFSG.StandardType.RCKSmall (RCKSmallTag)
 theorem rckK1I_ggU_perfect
     {t : StatedLieTag} {n f : ℕ} (ht : GGPosTag t) (hadm : StatedLieAdmissible t n 2 f) :
     commutator (ggU t n f).K = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   rcases ht with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   ·

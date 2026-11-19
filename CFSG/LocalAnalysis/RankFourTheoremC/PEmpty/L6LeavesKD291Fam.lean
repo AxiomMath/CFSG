@@ -24,7 +24,7 @@ theorem spor_false (hOut : SporadicOutOdd) (hR : SporadicCentralizerRank) {p : �
     (hcen : centralizer (L : Set X) = ⊥) (h3 : 3 ≤ CFSG.Open.pRank p (⊤ : Subgroup X)) {x : X}
     (hxL : x ∈ L) (hxo : orderOf x = p)
     (hx2 : CFSG.Open.pRank p (centralizer ({x} : Set X)) ≤ 2) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hout : ¬ p ∣ Nat.card (Outer ↥L) := by
     have h1 := hOut s p hp (by omega)
@@ -85,10 +85,10 @@ theorem le_pRank_L_of_defChar {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {Y : Type
     (e : ↥L ≃* (TauCeti.CFSGIndex.lie d).Group) (hcen : centralizer (L : Set Y) = ⊥) {k : ℕ}
     (hk : k ≤ 4) (hkY : k ≤ Open.pRank p (⊤ : Subgroup Y)) :
     k ≤ Open.pRank p (⊤ : Subgroup ↥L) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hall : ∀ E : Subgroup Y, IsElemAbelian p E → E ≤ L
   · exact hkY.trans (pRank_top_le_pRank_top_of_forall_le L hall)
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨E, hE, hEL⟩ := hall
     obtain ⟨y, hyE, hyL⟩ := Set.not_subset.1 hEL
     have hy : y ^ p = 1 := hE.2 y hyE
@@ -103,7 +103,7 @@ theorem defChar_false (hDef : KD291DefCharL) {p : ℕ} (hp : p.Prime) (hp5 : 5 �
     (hcen : centralizer (L : Set Y) = ⊥) (h4 : 4 ≤ Open.pRank p (⊤ : Subgroup Y)) {x : Y}
     (hxL : x ∈ L) (hxo : orderOf x = p)
     (hx2 : Open.pRank p (centralizer ({x} : Set Y)) ≤ 2) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hL4 := le_pRank_L_of_defChar hp hp5 L d hd e hcen le_rfl h4
   have hxo' : orderOf (⟨x, hxL⟩ : ↥L) = p := by
@@ -133,7 +133,7 @@ theorem cross_false (hAt : ∀ d : TauCeti.ValidLieTypeIndex, CrossAt d) {p : �
     (hcen : centralizer (L : Set X) = ⊥) (h3 : 3 ≤ CFSG.Open.pRank p (⊤ : Subgroup X)) {x : X}
     (hxL : x ∈ L) (hx : orderOf x = p)
     (hxc : CFSG.Open.pRank p (centralizer ({x} : Set X)) ≤ 2) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hAb, hRk⟩ := hAt d
   exact false_of_cross_core L (pRank_quotient_le_one_of_catalog hp hp5 L hs hn hc hl hcen)
     (fun h3' y hy => hRk p hp hp5 hdp L hs ⟨e⟩ hl h3' y hy)
@@ -152,7 +152,7 @@ theorem inner_false (hOut : SporadicOutOdd) (hR : SporadicCentralizerRank)
     obtain ⟨a, b, hab⟩ := hn
     exact hab (e.injective (by rw [map_mul, map_mul]; exact mul_comm _ _))
   | alternating n hn5 =>
-    haveI := hs
+    have := hs
     exact i294Alt_false hp hp5 L hn hn5 e hcen (by omega) hxL hxo hx2
   | sporadic s => exact spor_false hOut hR hp hp5 L s e hcen (by omega) hxL hxo hx2
   | lie m =>

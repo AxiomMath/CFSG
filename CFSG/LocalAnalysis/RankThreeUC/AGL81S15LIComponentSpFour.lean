@@ -14,7 +14,7 @@ open CFSG.ClassicalGroups.Symplectic
 open CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag
 
 theorem odd_centralizer_centralizes_of_component_sp_card_four
-    {L : Type} [Group L] [Finite L] (hL : CFSG.Open.IsQuasisimple L)
+    {L : Type} [Group L] [Finite L] (_hL : CFSG.Open.IsQuasisimple L)
     (m : ℕ) (hm : 3 ≤ m) (Q : TauCeti.PrimePower) (hQ : Q.p = 2) (hQ4 : Q.card = 4)
     (hv : (TauCeti.LieTypeIndex.B m Q).Valid)
     (e : L ⧸ Subgroup.center L ≃* (TauCeti.CFSGIndex.lie
@@ -23,7 +23,7 @@ theorem odd_centralizer_centralizes_of_component_sp_card_four
     {x : L} (hxodd : Odd (orderOf x)) (hxc : x ∈ Subgroup.centralizer (U : Set L)) :
     ∀ l : L, x * l = l * x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F := GaloisField 2 2
   have hFcard : Nat.card F = Q.card := by
     change Nat.card (GaloisField 2 2) = Q.card
@@ -74,7 +74,7 @@ theorem odd_centralizer_centralizes_of_component_sp_card_four
   have hyodd : Odd (orderOf y) := by
     rw [MulEquiv.orderOf_eq]
     exact Odd.of_dvd_nat hxodd (orderOf_map_dvd q x)
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hproj_bij : Function.Bijective
       (proj m F) :=
     CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo

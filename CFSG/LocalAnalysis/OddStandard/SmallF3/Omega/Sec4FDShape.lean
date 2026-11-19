@@ -15,7 +15,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
   {Q : QuadraticForm (ZMod 3) V}
 
 theorem sec4FD_shape (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 7)
-    (hσ : quadSign Q = 1) {t : OGroup Q} (htt : t * t = 1) (ht6 : invType t = (6, 1))
+    (_hσ : quadSign Q = 1) {t : OGroup Q} (htt : t * t = 1) (ht6 : invType t = (6, 1))
     {u : OGroup Q} (hu : u ∈ Sec4FDDt hQ t) (huu : u * u = 1) (hu1 : u ≠ 1)
     (hdvd : 25920 ∣ Nat.card ↥(Sec4FDDt hQ t ⊓ Subgroup.centralizer ({u} : Set (OGroup Q)))) :
     (invType u = (2, -1) ∨ invType u = (6, -1)) ∧ fixSp t ≤ commSp u := by

@@ -38,7 +38,7 @@ theorem card_inf_perfectCoreL_ge_nine'
     {A P : Subgroup G} {a : G}
     (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card ↥A = 27)
     (ha : a ∈ A) (haZ : a ∉ zSub P c.L)
-    (hcomm : ⁅perfectCoreL c a, zSub P c.L⁆ ≤ CFSG.Open.pCoreOf 2 (perfectCoreL c a))
+    (_hcomm : ⁅perfectCoreL c a, zSub P c.L⁆ ≤ CFSG.Open.pCoreOf 2 (perfectCoreL c a))
     (hgen : A ≤ Subgroup.closure ({a} : Set G) ⊔ perfectCoreL c a) :
     9 ≤ Nat.card ↥(A ⊓ perfectCoreL c a) := by
   let I : Subgroup G := perfectCoreL c a
@@ -65,14 +65,14 @@ theorem card_inf_perfectCoreL_ge_nine'
     exact (zSub P c.L).one_mem
   have ha3 : a ^ 3 = 1 := hA.2 a ha
   have hord : orderOf a = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime ha3 ha1
   have hHcard : Nat.card ↥H = 3 := by
     dsimp [H]
     rw [← Subgroup.zpowers_eq_closure, Nat.card_zpowers, hord]
-  haveI : (I.subgroupOf A).Normal :=
+  have : (I.subgroupOf A).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hAI_norm
-  haveI : (I.subgroupOf (A ⊔ I)).Normal :=
+  have : (I.subgroupOf (A ⊔ I)).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hAI_norm
   have hqA : Nat.card (↥A ⧸ I.subgroupOf A) =
       Nat.card (↥(A ⊔ I) ⧸ I.subgroupOf (A ⊔ I)) :=
@@ -83,9 +83,9 @@ theorem card_inf_perfectCoreL_ge_nine'
   have h1A : (A ⊓ I).relIndex A = I.relIndex A := by
     rw [inf_comm]
     exact Subgroup.inf_relIndex_right I A
-  haveI : (I.subgroupOf H).Normal :=
+  have : (I.subgroupOf H).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hHnorm
-  haveI : (I.subgroupOf (H ⊔ I)).Normal :=
+  have : (I.subgroupOf (H ⊔ I)).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hHnorm
   have hqH : Nat.card (↥H ⧸ I.subgroupOf H) =
       Nat.card (↥(H ⊔ I) ⧸ I.subgroupOf (H ⊔ I)) :=

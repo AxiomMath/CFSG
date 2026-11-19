@@ -62,12 +62,12 @@ theorem i294CrossModelPSL4_holds : I294CrossModelPSL4 := by
   have hZ : ∀ z ∈ (StatedScalars (Fin 4) K).subgroupOf (StatedSL 4 K), z ^ 4 = 1 :=
     pow_eq_one_of_mem_statedScalars_subgroupOf fun c hc => scalar_pow_four_eq_one c hc
   obtain ⟨g, hg3, rfl⟩ := exists_lift_pow_three (N := 4) (by norm_num) hZ hx3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3 (by rwa [Nat.card_units])
   have hωprim : IsPrimitiveRoot ω 3 := hω ▸ IsPrimitiveRoot.orderOf ω
   have hprim : IsPrimitiveRoot (ω : K) 3 :=
     hωprim.map_of_injective (f := Units.coeHom K) Units.val_injective
-  haveI : NeZero ((3 : ℕ) : K) := hprim.neZero'
+  have : NeZero ((3 : ℕ) : K) := hprim.neZero'
   have hω3 : ω ^ 3 = 1 := hω ▸ pow_orderOf_eq_one ω
   let μ : Subgroup Kˣ := Subgroup.zpowers ω
   have hμp : ∀ y : μ, y ^ 3 = 1 := by

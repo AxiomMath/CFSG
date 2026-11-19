@@ -19,8 +19,8 @@ theorem glaPLayer_ne_bot_of_five {X : Type} [Group X] [Finite X] {y : X} (hy : o
     (hyc : y ∉ CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := X) 7)
     (h343 : ¬ 7 ^ 3 ∣ Nat.card X) : GLAPLayer 7 (⊤ : Subgroup X) ≠ ⊥ := by
   intro hl
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨P, hPn, hPp, hCP⟩ := GL83.hasPrimeConstraint_of_glaPLayer_eq_bot (by norm_num) hl
   set N := CFSG.RankThreeCoreUniqueness.Helpers.primeComplementCore (G := X) 7 with hN
   set yb : X ⧸ N := (y : X ⧸ N) with hyb

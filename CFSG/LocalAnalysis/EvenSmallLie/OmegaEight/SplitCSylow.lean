@@ -145,7 +145,7 @@ theorem not_isSylow [Finite G] (hG : IsSimpleGroup G) (hnab : ∃ a b : G, a * b
     have h1 := card_dvd_of_le hTC
     rwa [card_map_of_injective (MulAut.conj g).injective] at h1
   have hmul := relIndex_mul_card (H := (T : Subgroup G)) (K := C)
-  obtain ⟨k, hk⟩ := (T.isPGroup').exists_card_eq
+  obtain ⟨k, hk⟩ := (T.isPGroup).exists_card_eq
   have hcop : Nat.Coprime (2 ^ k) ((T : Subgroup G).relIndex C) :=
     Nat.Coprime.pow_left k (Odd.coprime_two_left hodd)
   have hdvd' : Nat.card T ∣ Nat.card ((T : Subgroup G) ⊓ C : Subgroup G) := by
@@ -180,13 +180,13 @@ theorem exists_conj_eq_mul [Finite G] (hG : IsSimpleGroup G)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS'⟩ := hS.isPGroup_TH.exists_le_sylow
   have hlt : TH < S := lt_of_le_of_ne hS' (fun h => hS.not_isSylow hG hnab S h.symm)
-  obtain ⟨n, hnS, hnN, hnTH⟩ := exists_mem_normalizer_not_mem S.isPGroup' hlt
+  obtain ⟨n, hnS, hnN, hnTH⟩ := exists_mem_normalizer_not_mem S.isPGroup hlt
   have hnt : n * t ≠ t * n := by
     intro hnt
     set V : Subgroup G := TH ⊔ zpowers n
     have hVS : V ≤ S := sup_le hS' (zpowers_le.2 hnS)
     have hV : V = TH := hS.data.sylow V (sup_le hS.TH_le_centralizer (zpowers_le.2
-      (mem_centralizer_singleton_iff.2 hnt))) (S.isPGroup'.to_le hVS) le_sup_left
+      (mem_centralizer_singleton_iff.2 hnt))) (S.isPGroup.to_le hVS) le_sup_left
     exact hnTH (hV ▸ mem_sup_right (mem_zpowers n))
   have hmem : n * t * n⁻¹ ∈ TH := (mem_normalizer_iff.1 hnN t).1 (mem_sup_right (mem_zpowers t))
   have hcent : ∀ x ∈ TH, n * t * n⁻¹ * x = x * (n * t * n⁻¹) := by

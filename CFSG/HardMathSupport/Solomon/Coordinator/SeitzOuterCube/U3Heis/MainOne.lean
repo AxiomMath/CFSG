@@ -113,7 +113,7 @@ theorem modelHyperGen_one (hq2 : 2 < ℓ ^ f) (h3 : 3 ∣ ℓ ^ f + 1) (hq8 : �
       rw [ug85_emb_val, hg₁, hTmat, he₀, ug83_hom_single]
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [ug85_blk, Matrix.det_fin_two, Function.update, diagonal_apply]
+        simp [ug85_blk, Function.update, diagonal_apply]
     rw [e]
     exact hTM
   have hg₂ : ∃ g ∈ X₂, (g : Matrix (Fin 2) (Fin 2) F) = unitaryHomology h u (z ^ 3) := by
@@ -123,7 +123,7 @@ theorem modelHyperGen_one (hq2 : 2 < ℓ ^ f) (h3 : 3 ∣ ℓ ^ f + 1) (hq8 : �
       Units.inv_eq_of_mul_eq_one_left hAU
     rw [Units.val_mul, Units.val_mul, hinv, hg₁, ug83_conj_hom h _ hAU he₀n]
   have hw : h.bar (e₀ 0) * e₀ 0 + h.bar (e₀ 1) * e₀ 1 ≠ 0 := by
-    simp [he₀, Pi.single_apply]
+    simp [he₀]
   have hun : h.bar (u 0) * u 0 + h.bar (u 1) * u 1 ≠ 0 := by
     have := ug83_norm_mulVec h (A : Matrix (Fin 2) (Fin 2) F) hAU e₀
     rw [Fin.sum_univ_two] at this

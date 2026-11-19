@@ -99,7 +99,7 @@ theorem spRho_mul (hβ : β.IsAlt) {c d d' : V} (hcd : β c d = 0) (hcd' : β c 
       smul_eq_mul]
   rw [spRhoLin_apply c d l (spRhoLin β c d' l' x), e1, e2, spRhoLin_apply, spRhoLin_apply,
     map_add, isAlt_symm hβ d' d]
-  match_scalars <;> (ring_nf; try reduce_mod_char)
+  match_scalars <;> (ring_nf)
 
 theorem spRho_add_self (hβ : β.IsAlt) {c d : V} (hcd : β c d = 0) (l : ZMod 2)
     (h : β c (d + c) = 0) : spRho hβ h l = spRho hβ hcd l := by
@@ -150,6 +150,6 @@ theorem spRho_one_eq (hβ : β.IsAlt) {c d : V} (hcd : β c d = 0) :
   ext x
   simp only [LinearEquiv.mul_apply, spTransvection_apply, spRho_apply, map_add, map_smul,
     hβ.self_eq_zero, hcd]
-  match_scalars <;> (ring_nf; try reduce_mod_char)
+  match_scalars <;> (ring_nf)
 
 end CFSG.LargeExtraspecial.S4

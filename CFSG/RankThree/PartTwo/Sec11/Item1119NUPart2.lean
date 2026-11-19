@@ -22,7 +22,7 @@ section Part2
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L : Subgroup G} {a : G}
   {R Y : Subgroup G} {d x s r g : G}
 
-theorem sym1119_r_le_9 (h45 : Sec4.Item4_5) (h113 : Item113) (h117 : Item117)
+theorem sym1119_r_le_9 (h45 : Sec4.Item4_5) (_h113 : Item113) (_h117 : Item117)
     (hx27 : orderOf x ≤ 27)
     (hL3n : ¬ ∃ n : ℕ, 1 ≤ n ∧ Sec8.IsoLThreeMinusPi (L ⧸ aschbacherSolvableCore 3 L) 2 (3 * n))
     (hctx : Sym1119Ctx G A c L a R Y d x s r g) : orderOf r ≤ 9 := by
@@ -73,7 +73,7 @@ theorem sym1119_r_le_9 (h45 : Sec4.Item4_5) (h113 : Item113) (h117 : Item117)
     exact hnotinner
   obtain ⟨F, _, _, hF3, hF4, ⟨eL⟩⟩ :=
     exists_mulEquiv_psl2_of_isList1016 h.isList1016 hL3n
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, hpn, hFn⟩ := FiniteField.card F (ringChar F)
   have hFn' : Nat.card F = ringChar F ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]

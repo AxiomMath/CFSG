@@ -97,7 +97,7 @@ private theorem pgl2_centralizer_inner_involution_isCoatom_all
     · have hp17 : 17 ≤ p := by
         by_contra h
         have hp16 : p ≤ 16 := by omega
-        interval_cases p <;> first | omega | norm_num at hp_prime
+        interval_cases p <;> first | omega
       exact pgl2_centralizer_inner_involution_isCoatom hK (Or.inl h1) hp17 hz hzJ
     · exact CFSG.Quasithin.Vol2.Ch11.SecU1.L3I.pgl2_centralizer_inner_involution_isCoatom_pm_three hK (Or.inl h3) hp11 hz hzJ
     · exact CFSG.Quasithin.Vol2.Ch11.SecU1.L3I.pgl2_centralizer_inner_involution_isCoatom_pm_three hK (Or.inr h5) hp11 hz hzJ
@@ -135,9 +135,9 @@ theorem pgl2_prime_sup_isE_one_and_eOne_eq_top
     S ⊔ (⨆ I ∈ {I : Subgroup (PGL2 K) |
       IsE 1 ⊤ S B I ∧ EOne ↥I (B.subgroupOf I)}, I)
   have hSM : S ≤ M := le_sup_left
-  haveI : Finite (PGL2 K) := e22pl2pgl_finite K
+  have : Finite (PGL2 K) := e22pl2pgl_finite K
   have hB4 : Nat.card ↥B = 4 := IsKleinFour.card_four
-  haveI : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hB4]; norm_num)
+  have : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hB4]; norm_num)
   have hBab : IsElemAbelian 2 B := by
     refine ⟨IsKleinFour.isMulCommutative, ?_⟩
     intro x hx
@@ -157,7 +157,7 @@ theorem pgl2_prime_sup_isE_one_and_eOne_eq_top
     by_contra h
     have hp6 : p ≤ 6 := by omega
     have hp_prime : p.Prime := Fact.out
-    interval_cases p <;> norm_num at hp_prime
+    interval_cases p; norm_num at hp_prime
   have hodd : IsOddPrimePower (Nat.card K) := e22pl2pgl_isOddPrimePower hp7 hK
   have hpodd : Odd p := (Fact.out : p.Prime).odd_of_ne_two (by omega)
   have h8 : 8 ∣ Nat.card (PGL2 K) := by
@@ -187,8 +187,8 @@ theorem pgl2_prime_sup_isE_one_and_eOne_eq_top
     rwa [pslRange_index_eq_two hodd] at this
   have hcomm : commutator (PGL2 K) = pslRange K :=
     pgl2_commutator_eq_psl2_range_of_card_gt_three K hodd hcard3
-  haveI : (pslRange K).Normal := pslRange_normal hodd hcard3
-  haveI : IsSimpleGroup ↥(pslRange K) := e22pl2pgl_simple_J hcard3
+  have : (pslRange K).Normal := pslRange_normal hodd hcard3
+  have : IsSimpleGroup ↥(pslRange K) := e22pl2pgl_simple_J hcard3
   have hnc := e22pl2pgl_nonabelian_J hcard3
   have hCJ := e22pl2pgl_centralizer_J hodd hcard3
   have hO2 : pCoreOf 2 (⊤ : Subgroup (PGL2 K)) = ⊥ :=
@@ -298,13 +298,13 @@ theorem pgl2_prime_sup_isE_one_and_eOne_eq_top
         set P : Subgroup (PGL2 K) :=
           ((default : Sylow r ↥U) : Subgroup ↥U).map U.subtype with hP
         have hrprime : r.Prime := Nat.prime_of_mem_primeFactors hr
-        haveI : Fact r.Prime := ⟨hrprime⟩
+        have : Fact r.Prime := ⟨hrprime⟩
         have hPU : P ≤ U := by
           rw [hP]
           exact Subgroup.map_subtype_le _
         have hPr : IsPGroup r P := by
           rw [hP]
-          exact (default : Sylow r ↥U).isPGroup'.map U.subtype
+          exact (default : Sylow r ↥U).isPGroup.map U.subtype
         have hQne : ((default : Sylow r ↥U) : Subgroup ↥U) ≠ ⊥ :=
           (default : Sylow r ↥U).ne_bot_of_dvd_card (Nat.dvd_of_mem_primeFactors hr)
         have hPne : P ≠ ⊥ := by
@@ -491,10 +491,10 @@ theorem pgl2_prime_sup_isE_one_and_eOne_eq_top
               CFSG.GroupTheory.isSolvable_sup_of_isPGroup_of_le_normalizer
                 (Group.isSolvable_of_comm fun x y => Subtype.ext (hUbcomm x x.2 y y.2))
                 (hS.isPGroup.to_le (tauOf_le ⊤ S B)) hτUb
-            haveI : Group.IsSolvable ↥(Ub ⊔ tauOf ⊤ S B) := hUbτsolv
+            have : Group.IsSolvable ↥(Ub ⊔ tauOf ⊤ S B) := hUbτsolv
             have hP0le : P0 ⊔ tauOf ⊤ S B ≤ Ub ⊔ tauOf ⊤ S B :=
               sup_le (hP0Ub.trans le_sup_left) le_sup_right
-            haveI : Group.IsSolvable
+            have : Group.IsSolvable
                 ↥((P0 ⊔ tauOf ⊤ S B).subgroupOf (Ub ⊔ tauOf ⊤ S B)) := inferInstance
             have hsolv : Group.IsSolvable ↥(P0 ⊔ tauOf ⊤ S B) :=
               Group.isSolvable_of_isSolvable_injective

@@ -41,17 +41,17 @@ private theorem e6ToralB_mono_conj (k : Fin 3) (μ : Fin 3 → K) {a b : Fin 3} 
     by_cases hy : y = b
     · subst hy
       rw [Matrix.mul_single_apply_same]
-      simp only [Matrix.of_apply, eq_self_iff_true, if_true]
+      simp only [Matrix.of_apply, ite_true]
       linear_combination t * h
     · rw [Matrix.mul_single_apply_of_ne _ _ _ _ _ hy]
       simp only [Matrix.of_apply]
-      rw [if_neg fun e => hy (add_right_cancel e).symm, mul_zero]
+      rw [ite_eq_right fun e => hy (add_right_cancel e).symm, mul_zero]
   · rw [Matrix.single_mul_apply_of_ne _ _ _ _ _ hx]
     by_cases hy : y = b
     · subst hy
       rw [Matrix.mul_single_apply_same]
       simp only [Matrix.of_apply]
-      rw [if_neg hx, zero_mul]
+      rw [ite_eq_right hx, zero_mul]
     · rw [Matrix.mul_single_apply_of_ne _ _ _ _ _ hy]
 
 private theorem e6ToralB_diag_eq (d : Fin 3 → K) :
@@ -229,7 +229,7 @@ private def e6ToralBCoord (γ : Fin Tag.E6.rank → ℤ) : RootModule Tag.E6 K �
 
 private theorem e6ToralBCoord_apply {γ : Fin Tag.E6.rank → ℤ} (h : IsRoot Tag.E6 γ)
     (x : RootModule Tag.E6 K) : e6ToralBCoord γ x = x (Sum.inr ⟨γ, h⟩) := by
-  rw [e6ToralBCoord, dif_pos h, Finsupp.lapply_apply]
+  rw [e6ToralBCoord, dite_eq_left h, Finsupp.lapply_apply]
 
 private theorem e6ToralBH_coord {v : RootModule Tag.E6 K} (hv : v ∈ e6ToralBH K)
     (β : {v : Fin Tag.E6.rank → ℤ // IsRoot Tag.E6 v}) : v (Sum.inr β) = 0 := by
@@ -250,7 +250,7 @@ private theorem e6ToralBH_of_coord {v : RootModule Tag.E6 K}
     ext b
     rcases b with j | β
     · simp [hVec, Finsupp.single_apply]
-    · simp [hVec, Finsupp.single_apply, hv β]
+    · simp [hVec, hv β]
   rw [e]
   exact Submodule.sum_mem _ fun j _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨j, rfl⟩)
 

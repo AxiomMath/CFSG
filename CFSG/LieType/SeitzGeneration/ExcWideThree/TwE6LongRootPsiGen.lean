@@ -43,7 +43,7 @@ theorem psi_pinnedX_degOne
     (rootVec TwistTag.E6.tag K (-e6HighestRoot))) (lab γ) = _
   rw [hX c, Finsupp.add_apply, Finsupp.smul_apply, rootVec_apply_lab, rootVec_apply_lab,
     Pi.smul_apply, Pi.single_apply, smul_eq_mul]
-  simp only [h1, h2, if_false]
+  simp only [h1, h2, ite_false]
   split_ifs <;> simp
 
 theorem psi_pinnedX_highest (c : K) :
@@ -52,7 +52,7 @@ theorem psi_pinnedX_highest (c : K) :
   rw [psi_apply, v0_eq, Pi.zero_apply]
   by_contra hne
   obtain ⟨k, hk, hw⟩ := pinnedX_weight_shift (R := K) isRoot_e6HighestRoot c (lab γ) lab0 (by
-    rw [Finsupp.single_apply, if_neg (lab_ne_lab0 γ).symm]
+    rw [Finsupp.single_apply, ite_eq_right (lab_ne_lab0 γ).symm]
     with_reducible exact hne)
   have h2 := congrFun hw (e6Idx 1)
   have h3 : lblDeg (lab γ) = lblDeg lab0 + k * e6HighestRoot (e6Idx 1) := by
@@ -109,7 +109,7 @@ theorem Psi.Qbar_roots_closed :
     have ha' : (1 : ℤ) ≤ a := by exact_mod_cast ha
     have hb' : (1 : ℤ) ≤ b := by exact_mod_cast hb
     nlinarith
-  · simp only [Pi.add_apply, Pi.smul_apply, nsmul_eq_mul, Pi.mul_apply, Pi.natCast_apply]
+  · simp only [Pi.add_apply, nsmul_eq_mul, Pi.mul_apply, Pi.natCast_apply]
     have ha' : (1 : ℤ) ≤ a := by exact_mod_cast ha
     have hb' : (1 : ℤ) ≤ b := by exact_mod_cast hb
     nlinarith

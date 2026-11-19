@@ -22,7 +22,7 @@ theorem concA_badExcCore_F4_of_dvd {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h
   have hle : Nat.card B ≤ p ^ (Tag.F4.rank + 2) := by
     obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
       CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 Q hv
-    haveI := hKc
+    have := hKc
     have hpK : p ∣ Nat.card K ^ 2 - 1 := by rwa [hK]
     exact card_le_pow_rank_add_two_F4 hp hS hperf hB hBC hK (eC.symm.trans e.symm)
       fun F hF => card_le_pow_rank_F4_of_dvd_sq hp hp2 hpK hF
@@ -41,8 +41,8 @@ theorem concA_badExcCore_E6_of_dvd {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h
   have hp5 : 5 ≤ p := hp.five_le_of_ne_two_of_ne_three hp2 hp3
   obtain ⟨K, _, _, hK, hKc, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
     CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 Q hv
-  haveI : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
-  haveI := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
+  have : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
+  have := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   obtain ⟨Θ, hΘ⟩ := CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_hom_ringAut_E (Or.inl rfl) K
     hp hp5
   by_cases h1 : p ∣ Q.card - 1

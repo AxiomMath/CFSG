@@ -136,7 +136,7 @@ private theorem l6aP_perm_embed_aux {p m : ℕ} [Fact p.Prime] (hN : 5 ≤ m + 1
           rw [← LinearEquiv.mul_apply, inv_mul_cancel]; rfl
         rw [ha i] at h2
         exact h2 }
-  haveI hKnormal : K.Normal := ⟨fun n hn σ => by
+  have hKnormal : K.Normal := ⟨fun n hn σ => by
     intro i
     rw [map_mul, map_mul, map_inv]
     have h1 : (ρ σ)⁻¹ (h i) ∈ H := (hRpres (ρ σ) (hρmem σ)).2 (h i) (hsub i)
@@ -171,7 +171,7 @@ private theorem l6aP_perm_embed_aux {p m : ℕ} [Fact p.Prime] (hN : 5 ≤ m + 1
         dsimp only [a, b] at hval
         omega
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg h1]
+      rw [ite_eq_right h1]
       norm_num
     have hab : α a (h b) = -1 := by
       rw [hpair a b]
@@ -181,7 +181,7 @@ private theorem l6aP_perm_embed_aux {p m : ℕ} [Fact p.Prime] (hN : 5 ≤ m + 1
         dsimp only [a, b] at hval
         omega
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg h1]
+      rw [ite_eq_right h1]
       norm_num
     have hrb : r b (h a) = h a + h b := by
       rw [hr b (h a), hba]

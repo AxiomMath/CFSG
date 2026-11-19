@@ -30,10 +30,12 @@ variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L Y₀ : Subg
       Z ∈ scriptY3Star A (lB A) → oPrimeResidualOf 3 Z ≠ ⊥ →
         Z ≤ Subgroup.normalizer (Y₀ : Set G)
 
+omit [Finite G] in
 theorem sSup_thetaComponentsIn_le (Z : Subgroup G) :
     (sSup (thetaComponentsIn Z) : Subgroup G) ≤ Z :=
   sSup_le fun _ hK => le_of_mem_thetaComponentsIn hK
 
+omit [Finite G] in
 theorem isPerfect_sSup_thetaComponentsIn (Z : Subgroup G) :
     Group.IsPerfect ↥((sSup (thetaComponentsIn Z) : Subgroup G)) :=
   Proof171Steps.isPerfect_sSup fun _ hK => isPerfect_of_mem_thetaComponentsIn hK
@@ -47,6 +49,7 @@ theorem le_normalizer_sSup_thetaComponentsIn (Z : Subgroup G) :
     Z ≤ Subgroup.normalizer ((sSup (thetaComponentsIn Z) : Subgroup G) : Set G) :=
   Subgroup.le_normalizer.trans (normalizer_le_normalizer_sSup_thetaComponentsIn Z)
 
+omit [Finite G] in
 theorem not_three_dvd_sSup_thetaComponentsIn {Z : Subgroup G} (hZ3 : ¬ 3 ∣ Nat.card Z) :
     ¬ 3 ∣ Nat.card ↥((sSup (thetaComponentsIn Z) : Subgroup G)) :=
   fun h3 => hZ3 (h3.trans (Subgroup.card_dvd_of_le (sSup_thetaComponentsIn_le Z)))
@@ -86,7 +89,7 @@ theorem pPrimeCoreOf_perpOf_le_centralizer (h : Sec17Std G A c L Y₀)
     (hZ : Z ∈ scriptY3Star A (lB A)) (hZ3 : ¬ 3 ∣ Nat.card Z) :
     pPrimeCoreOf 2 (perpOf Z ((sSup (thetaComponentsIn Z) : Subgroup G))) ≤
       Subgroup.centralizer (A : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEZ : (sSup (thetaComponentsIn Z) : Subgroup G) ≤ Z := sSup_thetaComponentsIn_le Z
   have hZE : Z ≤ Subgroup.normalizer ((sSup (thetaComponentsIn Z) : Subgroup G) : Set G) :=
     le_normalizer_sSup_thetaComponentsIn Z
@@ -133,7 +136,7 @@ theorem le_M_of_delta_normalizer_le (h : Sec17Std G A c L Y₀) (h146 : Item146 
     (hΔ2 : delta A (lB A) (Subgroup.normalizer (omegaOneZ (jOneOf S) : Set G)) ≤
       Subgroup.normalizer (Y₀ : Set G)) :
     Z ≤ Subgroup.normalizer (Y₀ : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set E := (sSup (thetaComponentsIn Z) : Subgroup G) with hE
   have hEZ : E ≤ Z := by rw [hE]; exact sSup_thetaComponentsIn_le Z
   have hZE : Z ≤ Subgroup.normalizer (E : Set G) := le_normalizer_sSup_thetaComponentsIn Z
@@ -194,7 +197,7 @@ theorem exists_three_containers (h : Sec17Std G A c L Y₀) (h146 : Item146 A (l
         delta A (lB A) (Subgroup.normalizer (omegaOneZ (jOneOf S) : Set G)) ≤ Z2 ∧
           (sSup (thetaComponentsIn Z) : Subgroup G) ≤ Z2 ∧ S ≤ Z2 ∧
             pCoreOf 2 Y₀ ⊓ Subgroup.normalizer (S : Set G) ≤ Z2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set E := (sSup (thetaComponentsIn Z) : Subgroup G) with hE
   have hEZ : E ≤ Z := by rw [hE]; exact sSup_thetaComponentsIn_le Z
   have hZE : Z ≤ Subgroup.normalizer (E : Set G) := le_normalizer_sSup_thetaComponentsIn Z
@@ -268,7 +271,7 @@ theorem not_isSolvable_sSup_of_three (h : Sec17Std G A c L Y₀) {X : Subgroup G
   have hK'ns : ¬ Group.IsSolvable ↥K' :=
     Proof17Res14.not_isSolvable_of_suzukiModel_quot _ hn
   refine ⟨fun hs => hK'ns ?_, ?_⟩
-  · haveI := hs
+  · have := hs
     exact Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion hK'E) (Subgroup.inclusion_injective hK'E)
   have h2q : 2 ∣ Nat.card (↥K' ⧸ aschbacherSolvableCore 3 ↥K') :=

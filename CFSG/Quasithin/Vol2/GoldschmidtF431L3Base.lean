@@ -48,10 +48,10 @@ theorem isSylowTwoOf_top_of_centralizer_le [Finite G] {S M : Subgroup G} (hS : I
     refine F7.isSylowTwoOf_of_relIndex le_top hSp ?_
     rw [Subgroup.relIndex_top_right, h]
     exact S'.not_dvd_index
-  obtain ⟨n, hnS', hnN, hnS⟩ := exists_mem_normalizer_not_mem_of_isPGroup S'.isPGroup' hSS' hne
+  obtain ⟨n, hnS', hnN, hnS⟩ := exists_mem_normalizer_not_mem_of_isPGroup S'.isPGroup hSS' hne
   set N : Subgroup G := S ⊔ Subgroup.zpowers n with hN
   have hNS' : N ≤ S' := sup_le hSS' (Subgroup.zpowers_le.2 hnS')
-  have hNp : IsPGroup 2 N := S'.isPGroup'.to_le hNS'
+  have hNp : IsPGroup 2 N := S'.isPGroup.to_le hNS'
   have hNnorm : N ≤ Subgroup.normalizer (S : Set G) :=
     sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.2 hnN)
   have hnN' : n ∈ N := Subgroup.mem_sup_right (Subgroup.mem_zpowers n)

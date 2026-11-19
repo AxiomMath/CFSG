@@ -16,6 +16,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private lemma k18q2_conj_mem_centralizer {Y H : Subgroup G} {g k : G}
     (hYH : ∀ e ∈ H, ∀ y ∈ Y, e * y * e⁻¹ ∈ Y)
     (hg : g ∈ H) (hk : k ∈ centralizer (Y : Set G)) :

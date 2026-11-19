@@ -58,7 +58,7 @@ theorem nonempty_omegaGroup_equiv_statedOmega_minus (Q : QuadraticForm (ZMod 2) 
   have hsep' : ∀ x, (∀ y, QuadraticMap.polar modelForm x y = 0) → x = 0 :=
     (CFSG.LargeExtraspecial.Bridge.polarBilin_nondegenerate_iff modelForm).mp
       nondegenerate_modelForm
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite W := Module.finite_of_finite (ZMod 2)
   have hcard : Nat.card W = Nat.card ModelSpace := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := W), Nat.card_zmod, h6,
       natCard_modelSpace]
@@ -109,24 +109,24 @@ theorem omegaGroup_minus_six_facts (Q : QuadraticForm (ZMod 2) W)
   have hnaS : ¬ ∀ x y : ↥(StatedOmega (StatedQuadMinus 3 (ZMod 2) 1 1)),
       x * y = y * x := hsmall.2.2
   obtain ⟨e⟩ := nonempty_omegaGroup_equiv_statedOmega_minus Q hQ h6 h36
-  haveI : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus 3 (ZMod 2) 1 1)) := hsimpleS
+  have : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus 3 (ZMod 2) 1 1)) := hsimpleS
   have hsimpleΩ : IsSimpleGroup ↥(omegaGroup Q hQ) := e.isSimpleGroup
   have hnaΩ : ¬ ∀ x y : ↥(omegaGroup Q hQ), x * y = y * x := fun h =>
     hnaS fun x y => by
       have := congrArg e (h (e.symm x) (e.symm y))
       simpa using this
   have hcenΩ : Subgroup.center ↥(omegaGroup Q hQ) = ⊥ := by
-    haveI : IsSimpleGroup ↥(omegaGroup Q hQ) := hsimpleΩ
+    have : IsSimpleGroup ↥(omegaGroup Q hQ) := hsimpleΩ
     exact (CFSG.ComponentClassification.RankTwoClassical.isQuasisimple_of_isSimpleGroup
       hnaΩ).2
   obtain ⟨E, hfield, hdata, ⟨eSU⟩⟩ :=
     CFSG.ComponentClassification.RankTwoClassical.nonempty_statedOmega_quadMinus_three_equiv
       (K := ZMod 2) (m := 1) (b := 1) (c := 1) (by simp) hirr
-  haveI : Finite E := hdata.finite
+  have : Finite E := hdata.finite
   have hEcard : Nat.card E = 4 := by
     rw [hdata.card_eq_sq]
     norm_num
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hEfintype : Fintype.card E = 4 := by
     rw [← Nat.card_eq_fintype_card, hEcard]
   obtain ⟨eP⟩ := CFSG.LocalAnalysis.GLTheoremA.HSubT.statedProj_equiv_statedSU_four
@@ -145,8 +145,8 @@ theorem catalogIs_u4two_of_isComponentOf_of_equiv {G : Type} [Group G] {H K : Su
     (e : ↥H ≃* ↥(omegaGroup Q hQ)) (hK : CFSG.Open.IsComponentOf K H) :
     catalogIs (↥K ⧸ Subgroup.center ↥K) S9.isU4two := by
   obtain ⟨hsimple, hcen, hcat⟩ := omegaGroup_minus_six_facts Q hQ h6 h36
-  haveI : IsSimpleGroup ↥(omegaGroup Q hQ) := hsimple
-  haveI : IsSimpleGroup ↥H := e.isSimpleGroup
+  have : IsSimpleGroup ↥(omegaGroup Q hQ) := hsimple
+  have : IsSimpleGroup ↥H := e.isSimpleGroup
   rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hK.2.1 inferInstance with
     hbot | htop
   · exfalso
@@ -154,7 +154,7 @@ theorem catalogIs_u4two_of_isComponentOf_of_equiv {G : Type} [Group G] {H K : Su
     rw [hbot] at hq
     have hss : Subsingleton (↥(⊥ : Subgroup G) ⧸
         Subgroup.center ↥(⊥ : Subgroup G)) := inferInstance
-    haveI := hq.2
+    have := hq.2
     exact not_subsingleton _ hss
   · have hKiso : ↥K ≃* ↥(omegaGroup Q hQ) :=
       (MulEquiv.subgroupCongr htop).trans e

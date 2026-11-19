@@ -114,9 +114,9 @@ theorem isRoot_of_nonneg_iform_eq_two (hτ : τ = .E7 ∨ τ = .E8) :
         rw [hrefl]
         by_cases hj : j = i
         · subst hj
-          simp only [Pi.sub_apply, Pi.smul_apply, Pi.single_apply, if_true, smul_eq_mul, mul_one]
+          simp only [Pi.sub_apply, Pi.smul_apply, Pi.single_apply, ite_true, smul_eq_mul, mul_one]
           omega
-        · simp [Pi.single_apply, hj, hu0 j]
+        · simp [hj, hu0 j]
       have hv2 : iform (reflect τ i u) (reflect τ i u) = 2 := by
         rw [iform_reflect, hu2]
       have hvsum : ∑ j, reflect τ i u j = (n : ℤ) - k := by

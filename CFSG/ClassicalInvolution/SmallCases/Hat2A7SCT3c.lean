@@ -35,7 +35,7 @@ theorem eq_of_centralizes (hs : Std8 Ω K J S R T W z t)
     exact hxc
   obtain ⟨O, hO, h1⟩ := conj_zt_mul_inv_mem_of_orderFour hs hC hV (n := g⁻¹) hxK hx4 hn
   rw [inv_inv] at h1
-  exact eq_of_mul_inv_mem_odd S.isPGroup' hb (zt_mem_sylow hs) hO h1
+  exact eq_of_mul_inv_mem_odd S.isPGroup hb (zt_mem_sylow hs) hO h1
 
 theorem eq_of_centralizes_J (hs : Std8 Ω K J S R T W z t)
     (hC : Core26All Ω) (hV' : ExtraTrans Ω J K S t z)

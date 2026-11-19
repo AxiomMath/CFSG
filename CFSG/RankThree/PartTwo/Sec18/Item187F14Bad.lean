@@ -23,7 +23,7 @@ private theorem mem_normalizer_subgroupOf_of {G : Type} [Group G] {Y K : Subgrou
     x ∈ Subgroup.normalizer ((K.subgroupOf Y : Subgroup ↥Y) : Set ↥Y) := by
   rw [Subgroup.mem_normalizer_iff]
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
+  simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
   exact Subgroup.mem_normalizer_iff.mp hx (h : G)
 
 private theorem commutatorElement_zpow_mem {Z : Type} [Group Z] {K : Subgroup Z} {g c : Z}

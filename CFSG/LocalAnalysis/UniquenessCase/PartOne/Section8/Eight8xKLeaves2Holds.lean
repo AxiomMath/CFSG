@@ -21,7 +21,7 @@ theorem exists_E9_of_pRank_three_eq_two {X : Type} [Group X] [Finite X]
   have hsurj : Function.Surjective (⊤ : Subgroup X).subtype := fun x => ⟨⟨x, mem_top x⟩, rfl⟩
   set P : Sylow 3 X := Q.mapSurjective hsurj with hP
   have hPS : (P : Subgroup X) = S := by rw [hP, Sylow.coe_mapSurjective, hQ]
-  have hS3 : IsPGroup 3 S := hPS ▸ P.isPGroup'
+  have hS3 : IsPGroup 3 S := hPS ▸ P.isPGroup
   obtain ⟨E₀, hE₀S, hE₀, hE₀9⟩ := CFSG.AGLEmbedding.exists_elem_le_sylow_of_le_pRank
     (p := 3) (k := 2) h3.ge P
   rw [hPS] at hE₀S

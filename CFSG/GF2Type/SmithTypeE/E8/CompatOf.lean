@@ -57,7 +57,7 @@ theorem exists_conj_mem_M_not_mem_QG {S : Setting G}
     have h3 : F.e8fGrade b = wgrade b := rfl
     omega
   have hff : F.ff e7Y56 (Finsupp.single b 1) = 0 := by
-    rw [F.single_e7Y56, F.ff_single_single, if_neg hb_opp]
+    rw [F.single_e7Y56, F.ff_single_single, ite_eq_right hb_opp]
   have hcomm : c₀ * c₁ = c₁ * c₀ := by
     have h := isometry8 hφ.1 (S.cl c₀) (S.cl c₁)
     rw [hc₀w, hc₁w, hff] at h

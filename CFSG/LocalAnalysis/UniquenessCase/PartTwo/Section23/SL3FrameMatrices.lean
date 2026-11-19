@@ -26,7 +26,7 @@ theorem rowGen_inv_mem {i : Fin 3} {g : Matrix.SpecialLinearGroup (Fin 3) K}
     intro g hg
     induction hg using Submonoid.closure_induction with
     | mem x hx => exact Submonoid.subset_closure (rowGen_inv_mem hx)
-    | one => simpa using Submonoid.one_mem (Submonoid.closure (rowGen i))
+    | one => simp
     | mul x y hx hy ihx ihy =>
         rw [_root_.mul_inv_rev]
         exact Submonoid.mul_mem _ ihy ihx)
@@ -50,7 +50,7 @@ theorem rowT_row_eq_one {i : Fin 3} {g : Matrix.SpecialLinearGroup (Fin 3) K}
       ext b
       rw [Matrix.SpecialLinearGroup.transvection_coe, Matrix.add_apply]
       have h1 : (Matrix.single i j t : Matrix (Fin 3) (Fin 3) K) a b = 0 := by
-        rw [Matrix.single_apply, if_neg]
+        rw [Matrix.single_apply, ite_eq_right]
         exact fun h => ha h.1.symm
       rw [h1, add_zero]
   | one => ext b; simp
@@ -60,7 +60,7 @@ theorem rowT_row_eq_one {i : Fin 3} {g : Matrix.SpecialLinearGroup (Fin 3) K}
         Finset.sum_eq_single a
           (by
             intro c _ hc
-            rw [Matrix.one_apply, if_neg (Ne.symm hc), zero_mul])
+            rw [Matrix.one_apply, ite_eq_right (Ne.symm hc), zero_mul])
           (by intro h; exact absurd (Finset.mem_univ a) h)]
       rw [Matrix.one_apply_eq, one_mul]
       exact congrFun ihy b
@@ -104,7 +104,7 @@ theorem iSup_rowT_eq_top :
       Finset.sum_eq_single i
         (by
           intro c _ hc
-          rw [hh c, Matrix.one_apply, if_neg hc, mul_zero])
+          rw [hh c, Matrix.one_apply, ite_eq_right hc, mul_zero])
         (by intro hmem; exact absurd (Finset.mem_univ i) hmem)]
     rw [hh i, Matrix.one_apply_eq, mul_one, hg a]
   inv_mem' := by
@@ -120,7 +120,7 @@ theorem iSup_rowT_eq_top :
         Finset.sum_eq_single i
           (by
             intro c _ hc
-            rw [hg c, Matrix.one_apply, if_neg hc, mul_zero])
+            rw [hg c, Matrix.one_apply, ite_eq_right hc, mul_zero])
           (by intro hmem; exact absurd (Finset.mem_univ i) hmem)]
       rw [hg i, Matrix.one_apply_eq, mul_one]
     rw [hsum] at hmul
@@ -142,7 +142,7 @@ theorem mem_vecStab {i : Fin 3} {g : Matrix.SpecialLinearGroup (Fin 3) K} :
     simpa [Pi.single_apply, Matrix.one_apply] using h
 
 theorem transvection_mulVec_single_of_ne {i j l : Fin 3} (hij : i ≠ j)
-    (hli : l ≠ i) (hlj : l ≠ j) (t : K) :
+    (_hli : l ≠ i) (hlj : l ≠ j) (t : K) :
     (Matrix.SpecialLinearGroup.transvection hij t : Matrix (Fin 3) (Fin 3) K) *ᵥ
       (Pi.single l (1 : K) : Fin 3 → K) = Pi.single l 1 := by
   rw [Matrix.SpecialLinearGroup.transvection_coe, Matrix.add_mulVec, Matrix.one_mulVec,
@@ -215,12 +215,12 @@ private theorem eq_diagonal_of_diagonal_mul {d t : Fin 3 → K} (hd : ∀ l, d l
     κ = Matrix.diagonal (fun r => (d r)⁻¹ * t r) := by
   ext l m
   by_cases hlm : l = m
-  · have hh : d l * κ l m = t l := by rw [h, if_pos hlm]
+  · have hh : d l * κ l m = t l := by rw [h, ite_eq_left hlm]
     rw [hlm] at hh ⊢
     rw [Matrix.diagonal_apply_eq]
     change κ m m = (d m)⁻¹ * t m
     rw [← hh, ← mul_assoc, inv_mul_cancel₀ (hd m), one_mul]
-  · have hh : d l * κ l m = 0 := by rw [h, if_neg hlm]
+  · have hh : d l * κ l m = 0 := by rw [h, ite_eq_right hlm]
     rw [Matrix.diagonal_apply_ne (fun r => (d r)⁻¹ * t r) (i := l) (j := m) hlm]
     exact (mul_eq_zero.mp hh).resolve_left (hd l)
 
@@ -241,10 +241,10 @@ private theorem inv_mul_diag2n_eq {i j : Fin 3} (hij : i ≠ j) {t : Fin 3 → K
       if l = i then 1 else if l = j then t i * t j else t l := by
   by_cases hli : l = i
   · subst hli
-    simp [hij, hti]
+    simp [hti]
   · by_cases hlj : l = j
     · subst hlj
-      simp [hli, hti]
+      simp [hli]
     · simp [hli, hlj]
 
 theorem kappa_coe {i j : Fin 3} (hij : i ≠ j) {t : Fin 3 → K}
@@ -286,7 +286,7 @@ theorem kappa_not_mem_rowT {i j k : Fin 3} (hij : i ≠ j) (hik : i ≠ k) (hjk 
   have hkk : (kappa i j hij t D : Matrix (Fin 3) (Fin 3) K) k k = 1 :=
     rowT_apply_self_of_ne hik.symm hmem
   rw [kappa_coe hij hD, Matrix.diagonal_apply_eq] at hkk
-  rw [if_neg hik.symm, if_neg hjk.symm] at hkk
+  rw [ite_eq_right hik.symm, ite_eq_right hjk.symm] at hkk
   exact htk hkk
 
 theorem kappa_pow_card_sub_one [Fintype K] {i j : Fin 3} (hij : i ≠ j) {t : Fin 3 → K}
@@ -317,7 +317,7 @@ theorem kappa_pow_card_sub_one [Fintype K] {i j : Fin 3} (hij : i ≠ j) {t : Fi
 
 theorem diagonal_eq_rowProd_mul_kappa {i j : Fin 3} (hij : i ≠ j) {t : Fin 3 → K}
     {D : Matrix.SpecialLinearGroup (Fin 3) K}
-    (hD : (D : Matrix (Fin 3) (Fin 3) K) = Matrix.diagonal t) :
+    (_hD : (D : Matrix (Fin 3) (Fin 3) K) = Matrix.diagonal t) :
     D = rowProd i j hij (t i) * kappa i j hij t D := by
   rw [kappa]
   group
@@ -337,7 +337,7 @@ private theorem uSL_mul_tSL_conj {c : K} (hc0 : c ≠ 0) (hden : 1 + c ^ 3 ≠ 0
         (tSL ((Units.mk0 c hc0)⁻¹ * (Units.mk0 c hc0)⁻¹, Units.mk0 c hc0))⁻¹ =
       uSL ((c ^ 3)⁻¹ * (a / (1 + c ^ 3))) ((c ^ 3)⁻¹ * (b / (1 + c ^ 3))) 0 := by
     simp only [tSL_conj_uSL, Units.val_mul, Units.val_inv_eq_inv_val, Units.val_mk0]
-    congr 2 <;> field_simp [hc0, hden] <;> ring
+    congr 2 <;> field_simp [hc0, hden]
   rw [hconj]
   simp only [uSL_mul, mul_zero, add_zero]
   congr 2
@@ -371,7 +371,7 @@ theorem conj_tSL_mul_uSL {c : K} (hc0 : c ≠ 0) (hc3 : c ^ 3 ≠ 1) (a b : K) :
     rwa [CharTwo.neg_eq] at h'
   have hTconj : T * B * T⁻¹ = uSL ((c ^ 3)⁻¹ * a) ((c ^ 3)⁻¹ * b) 0 := by
     simp only [T, B, tSL_conj_uSL, Units.val_mul, Units.val_inv_eq_inv_val, Units.val_mk0]
-    congr 2 <;> field_simp [hc0] <;> ring
+    congr 2 <;> field_simp [hc0]
   have hTB : T * B = uSL ((c ^ 3)⁻¹ * a) ((c ^ 3)⁻¹ * b) 0 * T := by
     rw [← hTconj]
     group

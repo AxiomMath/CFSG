@@ -47,10 +47,10 @@ theorem ggF4_fix_one_not_c3 (hRig : GGLabelRigidInput) {f : ℕ} (hf : 1 ≤ f) 
       simp only [Subgroup.mem_center_iff, Subgroup.mem_top, iff_true]
       intro y
       exact hJab y x
-    haveI : Subsingleton (J ⧸ Subgroup.center J) := by
+    have : Subsingleton (J ⧸ Subgroup.center J) := by
       rw [hcenterJ]
       exact QuotientGroup.subsingleton_iff.mpr rfl
-    haveI : Nontrivial (J ⧸ Subgroup.center J) := hJq.2.toNontrivial
+    have : Nontrivial (J ⧸ Subgroup.center J) := hJq.2.toNontrivial
     exact (not_subsingleton (J ⧸ Subgroup.center J)) inferInstance
   · have hJtop' : J = ⊤ := by
       apply le_antisymm le_top
@@ -135,7 +135,7 @@ theorem kga_rank_label
     LargeEvenLabelAll ⟨.C, 3, f⟩ fun R _ I _ => GGTorusSCRank p 3 R I := by
   intro Q hQ
   obtain ⟨K, _, _, hK, hQ'⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   have hKq : p ∣ Nat.card K ^ 2 - 1 := by rw [hK]; exact hpq
   have hq : 1 ≤ Nat.card K := Nat.card_pos
   have hfac : Nat.card K ^ 2 - 1 = (Nat.card K + 1) * (Nat.card K - 1) := by

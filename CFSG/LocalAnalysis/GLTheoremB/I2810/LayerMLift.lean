@@ -102,10 +102,12 @@ variable {V : Type} [Group V] [Finite V]
 variable {Kh Eh : Subgroup (MulAut V)} {n : ℕ} {π : ↥Kh →* ↥(alternatingGroup (Fin n))}
   {Vv V₄ : Subgroup ↥(alternatingGroup (Fin n))}
 
+omit [Finite V] in
 theorem asd_conj_mem (d : ASData Kh Eh n π Vv V₄) {ε : MulAut V} (hε : ε ∈ Eh) {x : MulAut V}
     (hx : x ∈ Kh) : ε * x * ε⁻¹ ∈ Kh :=
   (Subgroup.mem_normalizer_iff.1 (d.norm hε) x).1 hx
 
+omit [Finite V] in
 theorem center_coe_comm {z : ↥Kh} (hz : z ∈ Subgroup.center ↥Kh) {y : MulAut V} (hy : y ∈ Kh) :
     (z : MulAut V) * y = y * (z : MulAut V) :=
   (congrArg Subtype.val (Subgroup.mem_center_iff.1 hz ⟨y, hy⟩)).symm
@@ -114,6 +116,7 @@ def Induces (π : ↥Kh →* ↥(alternatingGroup (Fin n))) (ε : MulAut V)
     (v : ↥(alternatingGroup (Fin n))) : Prop :=
   ∀ k k' : ↥Kh, (k' : MulAut V) = ε * k * ε⁻¹ → π k' = v * π k * v⁻¹
 
+omit [Finite V] in
 theorem induces_unique (d : ASData Kh Eh n π Vv V₄) {ε : MulAut V} (hε : ε ∈ Eh)
     {v v' : ↥(alternatingGroup (Fin n))} (h : Induces π ε v) (h' : Induces π ε v') : v = v' := by
   have hcen : v⁻¹ * v' ∈ Subgroup.center ↥(alternatingGroup (Fin n)) := by
@@ -133,6 +136,7 @@ theorem induces_unique (d : ASData Kh Eh n π Vv V₄) {ε : MulAut V} (hε : ε
   rw [alternatingGroup.center_eq_bot h4, Subgroup.mem_bot, inv_mul_eq_one] at hcen
   exact hcen
 
+omit [Finite V] in
 theorem induces_inj (d : ASData Kh Eh n π Vv V₄) {ε ε' : MulAut V} (hε : ε ∈ Eh) (hε' : ε' ∈ Eh)
     {v : ↥(alternatingGroup (Fin n))} (h : Induces π ε v) (h' : Induces π ε' v) : ε = ε' := by
   have hcent : ∀ x ∈ Kh, (ε'⁻¹ * ε) * x * (ε'⁻¹ * ε)⁻¹ = x := by
@@ -170,6 +174,7 @@ theorem induces_inj (d : ASData Kh Eh n π Vv V₄) {ε ε' : MulAut V} (hε : �
       _ = k * (ε'⁻¹ * ε) := by rw [this]
   exact (inv_mul_eq_one.1 hδ).symm
 
+omit [Finite V] in
 theorem conj_eq_of_induces (d : ASData Kh Eh n π Vv V₄) {ε : MulAut V} (hε : ε ∈ Eh)
     {v : ↥(alternatingGroup (Fin n))} (h : Induces π ε v) (k : ↥Kh) (hk : π k = v) :
     ∀ x x' : ↥Kh, (x' : MulAut V) = ε * x * ε⁻¹ → x' = k * x * k⁻¹ := by
@@ -212,6 +217,7 @@ theorem conj_eq_of_induces (d : ASData Kh Eh n π Vv V₄) {ε : MulAut V} (hε 
         rw [show (k : MulAut V)⁻¹ * ε * x * (ε⁻¹ * k) =
           ((k : MulAut V)⁻¹ * ε) * x * ((k : MulAut V)⁻¹ * ε)⁻¹ by group, h1]
 
+omit [Finite V] in
 theorem card_Vv_eq_aux (d : ASData Kh Eh n π Vv V₄) : Nat.card ↥Vv = Nat.card ↥Eh := by
   classical
   have h1 : ∀ ε : ↥Eh, ∃ v : ↥Vv, Induces π (ε : MulAut V) (v : ↥(alternatingGroup (Fin n))) :=
@@ -231,6 +237,7 @@ theorem card_Vv_eq_aux (d : ASData Kh Eh n π Vv V₄) : Nat.card ↥Vv = Nat.ca
     exact induces_unique d hε (hf ⟨ε, hε⟩) h
   exact (Nat.card_congr (Equiv.ofBijective f ⟨hinj, hsurj⟩)).symm
 
+omit [Finite V] in
 theorem lift_decomp_aux (d : ASData Kh Eh n π Vv V₄) :
     (∀ ε ∈ Eh, ∃ k : ↥Kh, π k ∈ Vv ∧
       ∀ x x' : ↥Kh, (x' : MulAut V) = ε * x * ε⁻¹ → x' = k * x * k⁻¹) ∧
@@ -257,9 +264,11 @@ variable {Kh Eh : Subgroup (MulAut V)} {n : ℕ} {π : ↥Kh →* ↥(alternatin
   MonoidHom.noncommCoprod Kh.subtype (Subgroup.centralizer (Kh : Set (MulAut V))).subtype
     (fun k c => (Subgroup.mem_centralizer_iff.1 c.2 k k.2))
 
+omit [Finite V] in
 theorem Phi_apply (k : ↥Kh) (c : ↥(Subgroup.centralizer (Kh : Set (MulAut V)))) :
     Phi Kh (k, c) = (k : MulAut V) * (c : MulAut V) := rfl
 
+omit [Finite V] in
 theorem centralizes_of_rel (d : ASData Kh Eh n π Vv V₄) {ε : MulAut V} (hε : ε ∈ Eh) {k : ↥Kh}
     (hk : ∀ x x' : ↥Kh, (x' : MulAut V) = ε * x * ε⁻¹ → x' = k * x * k⁻¹) :
     (k : MulAut V)⁻¹ * ε ∈ Subgroup.centralizer (Kh : Set (MulAut V)) := by
@@ -272,6 +281,7 @@ theorem centralizes_of_rel (d : ASData Kh Eh n π Vv V₄) {ε : MulAut V} (hε 
     _ = (k : MulAut V)⁻¹ * (ε * h * ε⁻¹) * ε := by rw [h1]
     _ = (k : MulAut V)⁻¹ * ε * h := by group
 
+omit [Finite V] in
 theorem conj_eq_Phi (d : ASData Kh Eh n π Vv V₄) {ε : MulAut V} (hε : ε ∈ Eh) (t : ↥Kh) {k : ↥Kh}
     (hk : ∀ x x' : ↥Kh, (x' : MulAut V) = ε * x * ε⁻¹ → x' = k * x * k⁻¹) :
     (t : MulAut V) * ε * (t : MulAut V)⁻¹ =
@@ -286,6 +296,7 @@ theorem conj_eq_Phi (d : ASData Kh Eh n π Vv V₄) {ε : MulAut V} (hε : ε �
         rw [hc]; group
     _ = _ := by simp
 
+omit [Finite V] in
 theorem comm_snd_mem (d : ASData Kh Eh n π Vv V₄) {ε ε' : MulAut V} (hε : ε ∈ Eh) (hε' : ε' ∈ Eh)
     {k k' : ↥Kh} {c c' : ↥(Subgroup.centralizer (Kh : Set (MulAut V)))}
     (h : Phi Kh (k, c) = ε) (h' : Phi Kh (k', c') = ε') :
@@ -413,6 +424,7 @@ theorem lift_core_aux (d : ASData Kh Eh n π Vv V₄) {s : ℕ}
     rw [hfin]
     exact hΦq
 
+omit [Finite V] in
 theorem kh_le_J_aux (d : ASData Kh Eh n π Vv V₄) {J : Subgroup (MulAut V)}
     {G : Subgroup ↥(alternatingGroup (Fin n))} (hG : ⊤ ≤ G) (_hJK : ⁅J, J⁆ ≤ Kh)
     (hJ : ∀ y : ↥Kh, π y ∈ ⁅G, G⁆ →
@@ -446,6 +458,7 @@ theorem kh_le_J_aux (d : ASData Kh Eh n π Vv V₄) {J : Subgroup (MulAut V)}
   rw [e, commutatorElement_def]
   exact J.mul_mem (J.mul_mem (J.mul_mem hxJ hyJ) (J.inv_mem hxJ)) (J.inv_mem hyJ)
 
+omit [Finite V] in
 theorem cover_A9_aux (d : ASData Kh Eh n π Vv V₄) {J : Subgroup (MulAut V)}
     {G F : Subgroup ↥(alternatingGroup (Fin n))} (hFG : F ≤ G)
     (hF : Nonempty (↥F ≃* ↥(alternatingGroup (Fin 9)))) (hJK : ⁅J, J⁆ ≤ Kh)
@@ -457,7 +470,7 @@ theorem cover_A9_aux (d : ASData Kh Eh n π Vv V₄) {J : Subgroup (MulAut V)}
   have h9 : 5 ≤ Nat.card (Fin 9) := by simp
   have hperf9 : Group.IsPerfect (alternatingGroup (Fin 9)) :=
     ⟨commutator_alternatingGroup_eq_top h9⟩
-  haveI := hperf9
+  have := hperf9
   have hperfF : Group.IsPerfect ↥F :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hFF : ⁅F, F⁆ = F := Subgroup.commutator_eq_self

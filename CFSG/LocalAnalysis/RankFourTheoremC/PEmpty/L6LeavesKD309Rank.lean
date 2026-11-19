@@ -36,7 +36,7 @@ theorem pow_c (w : Wr) (n : ℕ) : (w ^ n).c = n • w.c := by
 @[expose] def cHom : Wr →* Multiplicative (ZMod 5) where
   toFun w := Multiplicative.ofAdd w.c
   map_one' := rfl
-  map_mul' x y := rfl
+  map_mul' _x _y := rfl
 
 theorem comm_mk0 (u : ZMod 5 → ZMod 5) (w : Wr) :
     ⁅mk0 u, w⁆ = mk0 (fun i => u i - u (i - w.c)) := by
@@ -50,7 +50,7 @@ end Wr
 
 theorem eq_zero_of_shift {δ : ZMod 5 → ZMod 5} {c : ZMod 5} (hc : c ≠ 0)
     (h : ∀ i, δ i = δ (i - c)) (h0 : δ 0 = 0) : ∀ i, δ i = 0 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hk : ∀ k : ℕ, δ ((k : ZMod 5) * c) = 0 := by
     intro k
     induction k with
@@ -101,7 +101,7 @@ theorem rank_bounds_model (M J : Subgroup Wr) (hJM : J ≤ M)
     (∀ w ∈ M, w ∉ J → w.c ≠ 0) ∧ (∀ w ∈ M, ∀ j ∈ J, w * j * w⁻¹ ∈ J) ∧
     (∀ w ∈ ⁅J, M⁆, w ≠ 1 →
       w.c = 0 ∧ (Finset.univ.filter fun i => w.a i = 0).card ≤ 2) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨w₀, hw₀M, hw₀c⟩ := hMc
   have hJB : ∀ j ∈ J, j.c = 0 := by
     by_contra hcon
@@ -129,7 +129,7 @@ theorem rank_bounds_model (M J : Subgroup Wr) (hJM : J ≤ M)
       exact sub_eq_zero.mp this
     have := Nat.card_le_card_of_injective ev hev
     rw [hJcard, Nat.card_prod] at this
-    simp [Nat.card_zmod] at this
+    simp at this
   let φ : M →* Multiplicative (ZMod 5) := Wr.cHom.comp M.subtype
   have hφsurj : Function.Surjective φ := by
     intro a
@@ -229,7 +229,7 @@ theorem rank_bounds_model (M J : Subgroup Wr) (hJM : J ≤ M)
         have := congrArg (fun x : J => (x : Wr).a) h
         exact this)
     rw [hJcard] at this
-    simp [Nat.card_eq_fintype_card, Fintype.card_fun, ZMod.card] at this
+    simp [Nat.card_eq_fintype_card, ZMod.card] at this
   have hnorm : ∀ w ∈ M, ∀ j ∈ J, w * j * w⁻¹ ∈ J := by
     intro w hw j hj
     refine hMJ _ (M.mul_mem (M.mul_mem hw (hJM hj)) (M.inv_mem hw)) ?_

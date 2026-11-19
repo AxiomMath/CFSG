@@ -71,7 +71,7 @@ theorem three_le_card_support_of_ne_one {α : Type*} [Fintype α] [DecidableEq �
   exact hne (eq_one_of_sign_eq_one_of_card_support_le_two hc (by omega))
 
 theorem cyc3_support_subset {α : Type*} [Fintype α] [DecidableEq α] {a b c : α}
-    (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) :
+    (_hab : a ≠ b) (_hac : a ≠ c) (_hbc : b ≠ c) :
     (GL83.cyc3 a b c).support ⊆ ({a, b, c} : Finset α) := by
   intro x hx
   by_contra hxabc
@@ -246,7 +246,7 @@ theorem exists_isElemAbelian_nine_le_centralizer_altOn_compl {n : ℕ}
 theorem altOn_le_map_of_normalizer_le {n : ℕ}
     {B : Subgroup (alternatingGroup (Fin n))} {S : Finset (Fin n)}
     {R : Subgroup (alternatingGroup (Fin n))}
-    (hRB : R ≤ B) (hNR : Subgroup.normalizer (R : Set _) ≤ B)
+    (_hRB : R ≤ B) (hNR : Subgroup.normalizer (R : Set _) ≤ B)
     (hcent : R.map (alternatingGroup (Fin n)).subtype ≤
       Subgroup.centralizer (GL83.altOn (((Sᶜ : Finset (Fin n)) : Set (Fin n))))) :
     GL83.altOn (((Sᶜ : Finset (Fin n)) : Set (Fin n))) ≤
@@ -301,7 +301,7 @@ theorem eq_top_of_altOn_pair_le {n : ℕ}
     · refine Relation.ReflTransGen.single ?_
       simpa [S, Set.inter_comm] using hFT
     · exact Relation.ReflTransGen.refl
-  haveI : Nonempty (Fin n) := by
+  have : Nonempty (Fin n) := by
     have hpos : 0 < (F : Set (Fin n)).ncard := by omega
     obtain ⟨x, -⟩ := (Set.ncard_pos (s := (F : Set (Fin n)))).mp hpos
     exact ⟨x⟩
@@ -421,7 +421,7 @@ theorem eq_top_of_centralizer_le_of_normalizer_le {n : ℕ}
       intro x hx
       have hxS6 : x ∈ S6 := by
         by_contra hxS6
-        exact hx (by simp [Finset.mem_compl, hxS6])
+        exact hx (by simp [hxS6])
       have hxF : x ∈ F := hS6F hxS6
       exact Equiv.Perm.notMem_support.mp (by simpa [F] using hxF)
     have hRleC : R ≤ Subgroup.centralizer ({c} : Set A) := by
@@ -470,7 +470,7 @@ theorem exists_isElemAbelian_nine_le_centralizer {n : ℕ} (c : alternatingGroup
     intro x hx
     have hxS6 : x ∈ S6 := by
       by_contra hxS6
-      exact hx (by simp [Finset.mem_compl, hxS6])
+      exact hx (by simp [hxS6])
     have hxF : x ∈ F := hS6F hxS6
     exact Equiv.Perm.notMem_support.mp (by simpa [F] using hxF)
   intro r hr

@@ -15,11 +15,13 @@ open scoped MatrixGroups Matrix
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem g112A2Seven_fStarIn_le (Γ : Subgroup (V ≃ₗ[ZMod 2] V)) : fStarIn Γ ≤ Γ := by
   intro f hf
   obtain ⟨x, -, rfl⟩ := Subgroup.mem_map.mp hf
   exact x.2
 
+omit [Finite V] in
 theorem g112A2Seven_fStarIn_normal (Γ : Subgroup (V ≃ₗ[ZMod 2] V)) (γ : V ≃ₗ[ZMod 2] V)
     (hγ : γ ∈ Γ) (f : V ≃ₗ[ZMod 2] V) (hf : f ∈ fStarIn Γ) : γ * f * γ⁻¹ ∈ fStarIn Γ := by
   obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hf
@@ -28,6 +30,7 @@ theorem g112A2Seven_fStarIn_normal (Γ : Subgroup (V ≃ₗ[ZMod 2] V)) (γ : V 
     hN.conj_mem x hx _
   exact Subgroup.mem_map.mpr ⟨(⟨γ, hγ⟩ : ↥Γ) * x * (⟨γ, hγ⟩ : ↥Γ)⁻¹, hc, rfl⟩
 
+omit [Finite V] in
 theorem g112A2Seven_glue_false (B : LinearMap.BilinForm (ZMod 2) V) (Γ : Subgroup (V ≃ₗ[ZMod 2] V))
     (hF : IsNaturalMatrixModule (fStarIn Γ) (StatedOmega (StatedQuadPlus 2 (GaloisField 2 2))))
     (hdim : Module.finrank (ZMod 2) V = 8)

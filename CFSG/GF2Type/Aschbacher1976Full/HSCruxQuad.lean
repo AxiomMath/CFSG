@@ -134,6 +134,7 @@ abbrev toG (p : ↥(PC z)) : G := ((p : ↥(Hz z)) : G)
 
 abbrev cls (p : ↥(PC z)) : VF z := Additive.ofMul (QuotientGroup.mk p)
 
+omit [Finite G] in
 theorem toG_injective : Function.Injective (toG (z := z)) :=
   fun _ _ h => Subtype.ext (Subtype.ext h)
 
@@ -151,9 +152,10 @@ open Classical in
 noncomputable def vecF (z x : G) : VF z :=
   if h : ∃ p : ↥(PC z), toG p = x then cls h.choose else 0
 
+omit [Finite G] in
 theorem vecF_toG (p : ↥(PC z)) : vecF z (toG p) = cls p := by
   have h : ∃ q : ↥(PC z), toG q = toG p := ⟨p, rfl⟩
-  rw [vecF, dif_pos h, toG_injective h.choose_spec]
+  rw [vecF, dite_eq_left h, toG_injective h.choose_spec]
 
 theorem vecF_mul (hF2 : IsPGroup 2 ↥(Fz z)) {x y : G} (hx : x ∈ Fz z) (hy : y ∈ Fz z) :
     vecF z (x * y) = vecF z x + vecF z y := by
@@ -190,6 +192,7 @@ section Action
 
 variable [Fact (Nat.Prime 2)] [IsElementaryAbelian 2 (↥(PC z) ⧸ Subgroup.center ↥(PC z))]
 
+omit [Finite G] in
 theorem vecF_bit (hz : orderOf z = 2) (b : LinearMap.BilinForm (ZMod 2) (VF z))
     (hrule : ∀ x y : ↥(PC z), toG ⁅x, y⁆ = z ^ (b (cls x) (cls y)).val) (p q : ↥(PC z)) :
     b (cls p) (cls q) = Width.cbit z (toG p) (toG q) := by
@@ -235,14 +238,14 @@ theorem cruxQuad_holds : CruxQuadStmt := by
   obtain ⟨⟨_, _, hz, hsymp⟩, hZ4⟩ := hset'
   have hF2 : IsPGroup 2 ↥(Fz z) := hsymp.1
   obtain ⟨Z, A, hD⟩ := Width.exists_Z4Data hZ4
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hvel, -, b, hrule, -, halt, hnd, ρ, hρ, hker, hiso, -, -⟩ :=
     CFSG.LocalAnalysis.GorensteinLyons.SteinbergCH.core_symplectic_transport (B := ⊥) bot_le
       (Embed.isCharacteristicP_Hz hF2) (by simp) (Embed.Fz_eq_inSubgroup_pCore hF2)
       (Embed.isCyclic_center_Fz hD hz hF2) (Width.isEA_quot (Embed.cdata_Fz hD hz))
       (Embed.z_mem_map_center_Fz hD hz hF2) hz (Embed.commutator_Fz hD hz)
-  haveI := hvel
-  haveI : FiniteDimensional (ZMod 2) (VF z) := Module.Finite.of_finite
+  have := hvel
+  have : FiniteDimensional (ZMod 2) (VF z) := Module.Finite.of_finite
   refine quad_of_package hFinW hset hti hnf b halt hnd (Embed.finrank_quot_pCore hD hz hF2)
     (vecF z) ((LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) _).toMonoidHom.comp ρ)
     ?_ ?_ ?_ ?_ ?_ ?_

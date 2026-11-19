@@ -33,10 +33,10 @@ private lemma ggF4H4Psl64_card_modEq_lm {F W : Type*} [Field F] [Finite F]
     Nat.card F ^ Module.finrank F W ≡
       Nat.card F ^ Module.finrank F (LinearMap.ker (f - 1)) [MOD ℓ] := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  letI : Fintype F := Fintype.ofFinite F
-  haveI : Finite W := Module.finite_of_finite F
-  letI : Fintype W := Fintype.ofFinite W
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  let : Fintype F := Fintype.ofFinite F
+  have : Finite W := Module.finite_of_finite F
+  let : Fintype W := Fintype.ofFinite W
   let φ : Function.End W := (f : W → W)
   have hf' : φ ^ ℓ = 1 := by
     funext w

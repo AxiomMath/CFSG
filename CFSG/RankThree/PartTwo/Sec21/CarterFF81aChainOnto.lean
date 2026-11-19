@@ -17,11 +17,12 @@ private def chainDiff {B B₁ : Subgroup G} {X : Subgroup (MulAut ↥B)}
     (σ : FF81ChainStabilizer B B₁ X) (x : ↥B) : ↥B :=
   (σ : MulAut ↥B) x * x⁻¹
 
-private theorem chainDiff_mem {B B₁ : Subgroup G} (hB₁B : B₁ ≤ B)
+omit [Finite G] in
+private theorem chainDiff_mem {B B₁ : Subgroup G} (_hB₁B : B₁ ≤ B)
     (hB : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
     {X : Subgroup (MulAut ↥B)} (σ : FF81ChainStabilizer B B₁ X) (x : ↥B) :
     chainDiff σ x ∈ B₁.subgroupOf B := by
-  haveI hcomm : IsMulCommutative ↥B :=
+  have hcomm : IsMulCommutative ↥B :=
     IsMulCommutative.of_comm fun x y => Subtype.ext (hB x x.2 y y.2)
   obtain ⟨y, hy, hxy⟩ := σ.2.2 x
   show (σ : MulAut ↥B) x * x⁻¹ ∈ B₁.subgroupOf B
@@ -34,34 +35,38 @@ private theorem chainDiff_mem {B B₁ : Subgroup G} (hB₁B : B₁ ≤ B)
   rw [hxy']
   exact hy
 
+omit [Finite G] in
 private theorem chainDiff_one {B B₁ : Subgroup G} {X : Subgroup (MulAut ↥B)}
     (σ : FF81ChainStabilizer B B₁ X) {h : ↥B}
     (hh : h ∈ B₁.subgroupOf B) : chainDiff σ h = 1 := by
   show (σ : MulAut ↥B) h * h⁻¹ = 1
   rw [σ.2.1 h hh, mul_inv_cancel]
 
+omit [Finite G] in
 private theorem chainDiff_mul {B B₁ : Subgroup G}
     (hB : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
     {X : Subgroup (MulAut ↥B)} (σ : FF81ChainStabilizer B B₁ X) (a b : ↥B) :
     chainDiff σ (a * b) = chainDiff σ a * chainDiff σ b := by
-  haveI hcomm : IsMulCommutative ↥B :=
+  have hcomm : IsMulCommutative ↥B :=
     IsMulCommutative.of_comm fun x y => Subtype.ext (hB x x.2 y y.2)
   show (σ : MulAut ↥B) (a * b) * (a * b)⁻¹ =
     ((σ : MulAut ↥B) a * a⁻¹) * ((σ : MulAut ↥B) b * b⁻¹)
   rw [map_mul, mul_inv_rev]
   ac_rfl
 
+omit [Finite G] in
 private theorem chainDiff_pow {B B₁ : Subgroup G}
     (hB : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
     {X : Subgroup (MulAut ↥B)} (σ : FF81ChainStabilizer B B₁ X)
     {z : ↥B} (n : ℕ) :
     chainDiff σ (z ^ n) = (chainDiff σ z) ^ n := by
-  haveI hcomm : IsMulCommutative ↥B :=
+  have hcomm : IsMulCommutative ↥B :=
     IsMulCommutative.of_comm fun x y => Subtype.ext (hB x x.2 y y.2)
   show (σ : MulAut ↥B) (z ^ n) * (z ^ n)⁻¹ =
     ((σ : MulAut ↥B) z * z⁻¹) ^ n
   rw [map_pow, ← inv_pow, ← mul_pow]
 
+omit [Finite G] in
 private theorem chainDiff_pow_mul {B B₁ : Subgroup G}
     (hB : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
     {X : Subgroup (MulAut ↥B)} (σ : FF81ChainStabilizer B B₁ X)
@@ -69,12 +74,13 @@ private theorem chainDiff_pow_mul {B B₁ : Subgroup G}
     chainDiff σ (z ^ n * h) = (chainDiff σ z) ^ n := by
   rw [chainDiff_mul hB σ, chainDiff_one σ hh, mul_one, chainDiff_pow hB σ n]
 
+omit [Finite G] in
 private theorem chainDiff_mul_apply {B B₁ : Subgroup G} (hB₁B : B₁ ≤ B)
     (hB : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
     {X : Subgroup (MulAut ↥B)}
     {σ τ : FF81ChainStabilizer B B₁ X} {z : ↥B} :
     chainDiff (σ * τ) z = chainDiff σ z * chainDiff τ z := by
-  haveI hcomm : IsMulCommutative ↥B :=
+  have hcomm : IsMulCommutative ↥B :=
     IsMulCommutative.of_comm fun x y => Subtype.ext (hB x x.2 y y.2)
   have hdτ : chainDiff τ z ∈ B₁.subgroupOf B := chainDiff_mem hB₁B hB τ z
   have hfix : (σ : MulAut ↥B) (chainDiff τ z) = chainDiff τ z := σ.2.1 _ hdτ
@@ -98,6 +104,7 @@ private noncomputable def chainDiffHom {B B₁ : Subgroup G} (hB₁B : B₁ ≤ 
     apply Subtype.ext
     exact chainDiff_mul_apply hB₁B hB
 
+omit [Finite G] in
 private theorem chainDiff_surj_inj {B B₁ : Subgroup G} {X : Subgroup (MulAut ↥B)}
     {τX : MulAut ↥B}
     (hB₁B : B₁ ≤ B) (hBcard : Nat.card B = 81) (hB₁card : Nat.card B₁ = 27)
@@ -115,9 +122,9 @@ private theorem chainDiff_surj_inj {B B₁ : Subgroup G} {X : Subgroup (MulAut �
         (fun σ : FF81ChainStabilizer B B₁ X => chainDiff σ z) := by
   let H : Subgroup ↥B := B₁.subgroupOf B
   let A : Subgroup X := FF81ChainStabilizer B B₁ X
-  haveI hcomm : IsMulCommutative ↥B :=
+  have hcomm : IsMulCommutative ↥B :=
     IsMulCommutative.of_comm fun x y => Subtype.ext (hB x x.2 y y.2)
-  haveI hHnormal : H.Normal := Subgroup.normal_of_isMulCommutative H
+  have hHnormal : H.Normal := Subgroup.normal_of_isMulCommutative H
   have hHcard : Nat.card H = 27 :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hB₁B).toEquiv).trans hB₁card
   have hBcard' : Nat.card ↥B = 81 := hBcard
@@ -127,7 +134,7 @@ private theorem chainDiff_surj_inj {B B₁ : Subgroup G} {X : Subgroup (MulAut �
     omega
   have hQcard : Nat.card (↥B ⧸ H) = 3 := by
     rw [← Subgroup.index_eq_card, hindex]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq_ne : (QuotientGroup.mk' H z : ↥B ⧸ H) ≠ 1 := by
     simpa using hz
   have hdecomp : ∀ x : ↥B, ∃ (n : ℕ) (h : ↥B), h ∈ H ∧ x = z ^ n * h := by
@@ -260,6 +267,7 @@ private theorem chainDiff_surj_inj {B B₁ : Subgroup G} {X : Subgroup (MulAut �
     intro x
     exact mul_right_cancel (congrFun hfun x)
 
+omit [Finite G] in
 theorem FF81Hyp.exists_conj_b_mul
     {B B₁ : Subgroup G} {X : Subgroup (MulAut ↥B)} {τX : MulAut ↥B}
     (hbB : b ∈ B) (hB₁B : B₁ ≤ B) (hbnot : b ∉ B₁)

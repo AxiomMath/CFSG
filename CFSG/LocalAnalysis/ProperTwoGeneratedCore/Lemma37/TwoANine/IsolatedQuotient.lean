@@ -122,7 +122,7 @@ theorem conj_eq_of_quotient {N : Subgroup X} [N.Normal] (hN : Odd (Nat.card N)) 
       IsTwoANine (EscapingQuotient t') →
       ∀ g : X ⧸ N, g⁻¹ * t' * g ∈ (S' : Subgroup (X ⧸ N)) → g⁻¹ * t' * g = t')
     (g : X) (hg : g⁻¹ * t * g ∈ (S : Subgroup X)) : g⁻¹ * t * g = t := by
-  refine conj_eq_of_conj_mk_eq hN S.isPGroup' ht.1 (fun g' hg' => ?_) hg
+  refine conj_eq_of_conj_mk_eq hN S.isPGroup ht.1 (fun g' hg' => ?_) hg
   refine IH (S.mapSurjective (QuotientGroup.mk'_surjective N)) _ ?_
     (hJ.escapingQuotient_mk hN ht.2.1) g' ?_
   · rw [Sylow.coe_mapSurjective]

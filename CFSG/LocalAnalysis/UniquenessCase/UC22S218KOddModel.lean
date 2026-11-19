@@ -41,7 +41,7 @@ theorem uc22s218k_exists_torus_plus (h3 : 3 ∣ Nat.card K + 1) :
     rcases (Nat.Prime.dvd_mul Nat.prime_three).1 h with h | h <;> omega
   obtain ⟨P₀⟩ : Nonempty (Sylow 3 ↥(zpowers B₀)) := inferInstance
   have hS₀p : IsPGroup 3 ((P₀ : Subgroup ↥(zpowers B₀)).map (zpowers B₀).subtype) :=
-    P₀.isPGroup'.map _
+    P₀.isPGroup.map _
   have hS₀i : ¬ 3 ∣ ((P₀ : Subgroup ↥(zpowers B₀)).map (zpowers B₀).subtype).index := by
     rw [index_map_subtype]
     intro h

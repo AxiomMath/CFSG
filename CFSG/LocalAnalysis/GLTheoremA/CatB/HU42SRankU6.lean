@@ -46,7 +46,7 @@ theorem exists_elemAbelian_lift {Q S : Type} [Group Q] [Finite Q] [Group S] (p :
   have hle : E ≤ p.range := by
     rw [MonoidHom.range_eq_top.2 hp]
     exact le_top
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨W, -, hWE, hinj⟩ := exists_pSubgroup_lift Nat.prime_three p hker hPE hle
   have hinj' : Function.Injective (p.comp W.subtype) := hinj
   have hE' : IsElemAbelian 3 (W.map p) := by rw [hWE]; exact hE

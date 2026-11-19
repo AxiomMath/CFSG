@@ -33,29 +33,29 @@ public theorem pGammaL2_sylow_two_le_pgl_range
     (hodd : Odd (Nat.card (pGammaL2FieldProjection K A).range))
     (P : Sylow 2 A) :
     (P : Subgroup A).map A.subtype ≤ pGammaL2PGLRange K := by
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Finite (K ≃+* K) :=
+  let : Fintype K := Fintype.ofFinite K
+  let : Finite (K ≃+* K) :=
     Finite.of_injective (fun e : K ≃+* K => (e : K → K)) (by
       intro e f hef
       ext x
       exact congrFun hef x)
-  letI : Finite (PGL2 K) :=
+  let : Finite (PGL2 K) :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk
       Matrix.ProjGenLinGroup.mk_surjective
-  letI : Finite (PGammaL2 K) :=
+  let : Finite (PGammaL2 K) :=
     Finite.of_injective
       (fun x : PGammaL2 K => (x.left, x.right)) (by
         intro x y hxy
         exact SemidirectProduct.ext
           (congrArg Prod.fst hxy) (congrArg Prod.snd hxy))
-  letI : Finite A := inferInstance
+  let : Finite A := inferInstance
   let L : Subgroup A := pGammaL2LinearKernel K A
   have hLnormal : L.Normal := inferInstance
   have hLindex : Odd L.index :=
     pGammaL2LinearKernel_index_odd K A hodd
   have hPleL : (P : Subgroup A) ≤ L :=
     subgroup_le_of_isPGroup_coindex_odd L hLnormal hLindex
-      (P : Subgroup A) P.isPGroup'
+      (P : Subgroup A) P.isPGroup
   intro x hx
   rcases Subgroup.mem_map.mp hx with ⟨p, hp, rfl⟩
   have hpL : p ∈ L := hPleL hp

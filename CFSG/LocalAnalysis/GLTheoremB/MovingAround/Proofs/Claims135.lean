@@ -28,16 +28,19 @@ theorem glaPComponent_of_Iof {p : ℕ} (hp : p.Prime) {M D L : Subgroup G}
     (hL : GLAPComponent p (Iof p M D) L) : GLAPComponent p M L :=
   CFSG.LocalAnalysis.GLTheoremA.glaPComponent_of_isSubnormal' hp (isSubnormal_Iof hp M D) hL
 
+omit [Finite G] in
 theorem gLBConj_le_of_mem {M K : Subgroup G} (hKM : K ≤ M) {g : G} (hg : g ∈ M) :
     GLBConj g K ≤ M := by
   have h := gLBConj_mono g hKM
   rwa [gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hg)] at h
 
+omit [Finite G] in
 theorem glaPComponent_conj {p : ℕ} {M L : Subgroup G} (hL : GLAPComponent p M L) {g : G}
     (hg : g ∈ M) : GLAPComponent p M (GLBConj g L) := by
   have h := glaPComponent_gLBConj hL g
   rwa [gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hg)] at h
 
+omit [Finite G] in
 theorem lstarsub_le {M D L : Subgroup G} (hDM : D ≤ M) (hLM : L ≤ M) : Lstarsub D L ≤ M :=
   iSup₂_le fun _ hd => gLBConj_le_of_mem hLM (hDM hd)
 
@@ -96,6 +99,7 @@ theorem centThreeInput_holds : Lemma135.CentThreeInput := by
   intro G _ _ m B M E A D T L h hC
   exact three_dvd_card_cent h hC
 
+omit [Finite G] in
 theorem mem_of_alperinDecomposition {p : ℕ} {S X M : Subgroup G} {c : G}
     (hN : ∀ Q : Subgroup G, CFSG.RankTwoShapes.IsAlperinSubgroup p S Q →
       Subgroup.normalizer (Q : Set G) ≤ M)
@@ -118,6 +122,7 @@ theorem exists_centralizer_mul_of_alperin {p : ℕ} [Fact p.Prime] (S : Sylow p 
     _ = g * (k⁻¹ * x * k) * k⁻¹ := by rw [hkg x hx]
     _ = g * k⁻¹ * x := by group
 
+omit [Finite G] in
 theorem mem_centerOf_iff {R : Subgroup G} {z : G} :
     z ∈ centerOf R ↔ z ∈ R ∧ ∀ y ∈ R, y * z = z * y := by
   unfold centerOf
@@ -127,6 +132,7 @@ theorem mem_centerOf_iff {R : Subgroup G} {z : G} :
   · rintro ⟨hzR, hz⟩
     exact ⟨⟨z, hzR⟩, Subgroup.mem_center_iff.2 fun y => Subtype.ext (hz y y.2), rfl⟩
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_centerOf (R : Subgroup G) :
     Subgroup.normalizer (R : Set G) ≤
       Subgroup.normalizer ((centerOf R : Subgroup G) : Set G) := by
@@ -183,7 +189,7 @@ theorem normalizer_le_of_le_B {m : ℕ} {B M E A D T L Q : Subgroup G}
 
 theorem exists_plane_of_two_le_pRank {X : Subgroup G} (hX : 2 ≤ CFSG.Open.pRank 3 X) :
     ∃ Q : Subgroup G, Q ≤ X ∧ IsElemAbelian 3 Q ∧ Nat.card Q = 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEX, hE, hEc⟩ := CFSG.SectionRank.exists_pRank (by norm_num : 1 < 3) X
   obtain ⟨Q0, hQ0⟩ := Sylow.exists_subgroup_card_pow_prime 3
     (show 3 ^ 2 ∣ Nat.card E by rw [hEc]; exact pow_dvd_pow 3 hX)
@@ -238,7 +244,7 @@ theorem normalizer_le_of_inputs (hZ : CenterInput) (hF : FamilyCoreInput)
     (h : Cex134 G m 3 B M E A D T L) (hcent : Lemma135.cent M D L = ⊥) {P : Subgroup G}
     (hPM : IsSylowIn 3 M P) (hBDP : B ⊔ D ≤ P) {X : Subgroup G} (hXP : X ≤ P)
     (hX : 2 ≤ CFSG.Open.pRank 3 X) : Subgroup.normalizer (X : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBP : B ≤ P := le_sup_left.trans hBDP
   have hBSC : IsSCp 3 ⊤ B := lemma23_proved G m 3 h.standing B h.bOne
   have hZ2 : 2 ≤ CFSG.Open.pRank 3 (centerOf P) := hZ G m h hcent P hPM hBDP

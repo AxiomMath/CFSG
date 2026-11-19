@@ -51,7 +51,7 @@ private theorem s16h_e3_o4a_centralizer_natImage_le_statedScalars {K : Type} [Fi
     have hsingle : (Pi.single (Sum.inl (0 : Fin 1)) (1 : K) : s16h_iota → K) ≠ 0 := by
       intro h
       have := congrFun h (Sum.inl (0 : Fin 1))
-      simpa using this
+      simp at this
     refine hsingle ((toAddMap_eq_zero_iff g).mp ?_)
     have h1 : f (Pi.single (Sum.inl (0 : Fin 1)) (1 : K)) = 0 := by
       rw [hμ, h0, zero_smul]
@@ -102,7 +102,7 @@ private theorem s16h_natNorm_elemAbelian_le_omegaMinus4_one {K : Type} [Field K]
   have hEtop : IsElemAbelian q (⊤ : Subgroup ↥A') := by
     rw [← Subgroup.subgroupOf_self]
     exact hE.subgroupOf A'
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp
     (show IsPGroup q ↥A' from fun x => ⟨1, Subtype.ext (by simpa using hE.2 x.1 x.2)⟩)
   have hrank := CFSG.PreuniquenessRankFour.Helpers.elementary_rank_le_kernel_rank_add_image_rank
@@ -145,6 +145,7 @@ private theorem s16h_natNorm_elemAbelian_le_omegaMinus4_one {K : Type} [Field K]
     _ ≤ q ^ 1 := Nat.pow_le_pow_right hq.pos hk1
     _ = q := pow_one q
 
+omit [Finite W] in
 private theorem s16h_e3_o4a_commSub_stab {L : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ normalizer (L : Set (MulAut W))) : g ∈ stabSub (commSub ⊤ L) := by
   rw [mem_stabSub]
@@ -169,9 +170,9 @@ theorem s16h_H5_row_O4_two_one {A L : Subgroup (MulAut W)} {t : MulAut W}
   intro E hE hEab
   obtain ⟨K, hKf, hKfin, hKchar, b, c, hKcard, hirr, D, hDN, hDab, hDcard⟩ :=
     s16h_H5_bridge_omegaMinus4 hc h hq hq2 hE hEab
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   have hU : E ≤ stabSub (commSub ⊤ L) := fun g hg =>
     s16h_e3_o4a_commSub_stab (L := L) (g := g) (Subgroup.mem_inf.mp (hE hg)).2
   have hcard := card_autSub_mul (A := E) (U := commSub ⊤ L) hU
@@ -193,9 +194,9 @@ theorem s16h_H5_row_O4_two_fix {A L : Subgroup (MulAut W)} {t : MulAut W}
   have hZbot : Z = ⊥ := by simpa [U, Z] using hZ
   obtain ⟨K, hKf, hKfin, b, c, hKcard, hirr, e, D, hDeq, hmapL, hDnorm, hDab, hDcard⟩ :=
     s16h_H5_row_O4_two_bridge_strong hc h (q := 3) Nat.prime_three (by norm_num) hE hEab
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI : CharP K 2 := uc22p22d_charP_two (by norm_num) hKcard
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have : CharP K 2 := uc22p22d_charP_two (by norm_num) hKcard
   have hEN : E ≤ normalizer (L : Set (MulAut W)) := fun e he => (mem_inf.mp (hE he)).2
   have hEU : E ≤ stabSub U := fun e he => s16h_e3_o4a_commSub_stab (L := L) (g := e) (hEN he)
   have hEfix : E ≤ stabSub (fixV L) := fun e he =>

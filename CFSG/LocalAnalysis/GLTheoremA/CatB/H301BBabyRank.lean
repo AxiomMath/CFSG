@@ -41,7 +41,7 @@ private theorem card_le_of_not_babyInv_zero {t : NativeSporadic.B} (ht : orderOf
 theorem card_le_of_le_centralizer_four (F W : Subgroup NativeSporadic.B)
     (hF : IsElemAbelian 3 F) (hW : IsElemAbelian 2 W) (hW4 : 4 ≤ Nat.card W)
     (hFW : F ≤ centralizer (W : Set NativeSporadic.B)) : Nat.card F ≤ 3 ^ 4 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have hFw : ∀ w ∈ W, F ≤ centralizer ({w} : Set NativeSporadic.B) := fun w hw =>
     hFW.trans (centralizer_le (Set.singleton_subset_iff.2 hw))
   have hinv : ∀ w ∈ W, w ≠ 1 → orderOf w = 2 := fun w hw hw1 => orderOf_eq_prime (hW.2 w hw) hw1
@@ -89,7 +89,7 @@ theorem card_le_of_involution_three_B {t : NativeSporadic.B} (ht : orderOf t = 2
   · exact (card_le_of_not_babyInv_zero ht ht0 E hEt hE).trans (by norm_num)
 
 theorem glaTwoLocalRank_three_B_le : GLATwoLocalRank 3 NativeSporadic.B ≤ 5 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   refine H1017.H1016M5.twoLocalRankCriterion_holds NativeSporadic.B 3 5 2 Nat.prime_three
     (by norm_num) (fun j hj0 hj2 => ?_) (fun t ht E hEt hE => card_le_of_involution_three_B ht E
       hEt hE) fun F W hF hFc hW hW4 hFW => ?_
@@ -103,7 +103,7 @@ section Catalogue
 
 
 theorem twoRankLe_three_B : H1017.TwoRankLe 3 .B 5 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   refine twoRankLe_of_model_le (X := NativeSporadic.B) (by norm_num) ?_ glaTwoLocalRank_three_B_le
   exact CFSG.Sporadic.Bridge.B.nonempty_mulEquiv
 

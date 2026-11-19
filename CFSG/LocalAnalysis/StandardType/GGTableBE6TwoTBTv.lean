@@ -33,8 +33,8 @@ theorem not_isTransvection_of_sylow
     ¬ GGIsTransvection 3 (Eh.normalizerMonoidHom a) := by
   classical
   intro htv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut R) := TableBSymp.finite_mulAut (R := R)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut R) := TableBSymp.finite_mulAut (R := R)
   have hinj : Function.Injective (MulAut.conj : R →* MulAut R) := by
     rw [injective_iff_map_eq_one]
     intro g hg
@@ -244,6 +244,7 @@ theorem exists_le_conj_range_psiHom (h2 : (2 : K) = 0) (hK : Nat.card K = 2)
   rw [hc] at h1
   exact h1
 
+omit [Finite K] in
 theorem torus_fix_le (h2 : (2 : K) = 0) {s : adjointGroup .E6 K}
     (hs : s ∈ (psiHom K h2).range) :
     (torusE6Two h2).range ≤ Subgroup.centralizer {s} ∨
@@ -316,6 +317,7 @@ theorem torus_fix_le (h2 : (2 : K) = 0) {s : adjointGroup .E6 K}
         rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
         exact card_fix_le_nine x.right hg
 
+omit [CharP K 2] in
 theorem mem_inn_recipe_E6_two (hK : Nat.card K = 2)
     {x : MulAut (TableBExc.RecipeGroup .E6 K)} {k : ℕ} (hx : x ^ 3 ^ k = 1) :
     x ∈ Set.range (MulAut.conj :
@@ -332,6 +334,7 @@ theorem mem_inn_recipe_E6_two (hK : Nat.card K = 2)
     refine TableBExc.eq_one_of_sq_of_pow_odd (p := 3 ^ k) (Odd.pow (by decide)) (hsq _) ?_
     rw [← Prod.pow_snd, ← map_pow, hx, map_one, Prod.snd_one]
 
+omit [CharP K 2] in
 theorem mem_inn_adjoint_E6_two (hK : Nat.card K = 2) {x : MulAut (adjointGroup .E6 K)} {k : ℕ}
     (hx : x ^ 3 ^ k = 1) :
     x ∈ Set.range (MulAut.conj : adjointGroup .E6 K →* MulAut (adjointGroup .E6 K)) := by

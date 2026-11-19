@@ -64,7 +64,7 @@ theorem d4t2sp_prod_d4 {M : Type*} [CommMonoid M] [Fintype ↥(d4Nodes Tag.E6)]
   have hs : ∀ x : Fin Tag.E6.rank, x ∈ ({⟨1, by decide⟩, ⟨2, by decide⟩, ⟨3, by decide⟩,
       ⟨4, by decide⟩} : Finset (Fin Tag.E6.rank)) ↔ x ∈ d4Nodes Tag.E6 := by
     intro x
-    simp only [Finset.mem_insert, Finset.mem_singleton, d4Nodes, Set.mem_setOf_eq, Fin.ext_iff]
+    simp only [Finset.mem_insert, Finset.mem_singleton, d4Nodes, Set.mem_ofPred_eq, Fin.ext_iff]
     omega
   rw [← Finset.prod_subtype _ hs f]
   rw [Finset.prod_insert (by decide), Finset.prod_insert (by decide),
@@ -100,11 +100,11 @@ theorem d4t2sp_coords_fixed [Fintype ↥(d4Nodes Tag.E6)] {a : ↥(d4Nodes Tag.E
   let K : Subgroup Lˣ :=
     { carrier := {u | σ (u : L) = (u : L)}
       mul_mem' := fun {x y} hx hy => by
-        simp only [Set.mem_setOf_eq, Units.val_mul, map_mul] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq, Units.val_mul, map_mul] at hx hy ⊢
         rw [hx, hy]
       one_mem' := by simp
       inv_mem' := fun {x} hx => by
-        simp only [Set.mem_setOf_eq, Units.val_inv_eq_inv_val, map_inv₀] at hx ⊢
+        simp only [Set.mem_ofPred_eq, Units.val_inv_eq_inv_val, map_inv₀] at hx ⊢
         rw [hx] }
   have hK : ∀ u : Lˣ, u ∈ K ↔ σ (u : L) = (u : L) := fun u => Iff.rfl
   set a' : Fin Tag.E6.rank → Lˣ :=
@@ -128,7 +128,7 @@ theorem d4t2sp_coords_fixed [Fintype ↥(d4Nodes Tag.E6)] {a : ↥(d4Nodes Tag.E
   rw [hprod, c15, c25, c35, c45] at h5
   rw [hprod, c12, c22, c32, c42] at h2
   rw [hprod, c13, c23, c33, c43] at h3
-  simp only [zpow_zero, zpow_neg_one, zpow_ofNat, pow_zero, mul_one, one_mul] at h0 h5 h2 h3
+  simp only [zpow_neg_one, zpow_ofNat, pow_zero, mul_one, one_mul] at h0 h5 h2 h3
   obtain ⟨k1, k2, k3, k4⟩ := d4t2sp_fixed_of_relations K ((hK _).2 h0) ((hK _).2 h5)
     ((hK _).2 h2) ((hK _).2 h3)
   obtain ⟨k, hk⟩ := j
@@ -149,7 +149,7 @@ theorem d4t2sp_exists_fixed_coords {t : ModGL Tag.E6 L}
     ∃ a : ↥(d4Nodes Tag.E6) → Lˣ,
       supportedTorusHom Tag.E6 L (d4Nodes Tag.E6) a = t ∧ ∀ j, σ (a j : L) = (a j : L) := by
   classical
-  haveI : Fintype ↥(d4Nodes Tag.E6) := Fintype.ofFinite _
+  have : Fintype ↥(d4Nodes Tag.E6) := Fintype.ofFinite _
   have htT : t ∈ torusGroup Tag.E6 L := (Subgroup.mem_inf.1 ht).1
   rw [torusGroup_inf_rootSpan_parabolicRoots] at ht
   obtain ⟨a, rfl⟩ := ht

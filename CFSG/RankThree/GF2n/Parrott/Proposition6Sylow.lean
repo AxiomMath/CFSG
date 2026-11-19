@@ -20,8 +20,9 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem card_inf_L1_L2 {L1 L2 : Subgroup G} (hL1 : Nonempty (↥L1 ≃* SL23))
-    (hinf1 : L1 ⊓ L2 = (Subgroup.center L1).map L1.subtype) :
+    (_hinf1 : L1 ⊓ L2 = (Subgroup.center L1).map L1.subtype) :
     Nat.card ((Subgroup.center L1).map L1.subtype) = 2 := by
   obtain ⟨e⟩ := hL1
   rw [Subgroup.card_subtype L1 (Subgroup.center L1)]

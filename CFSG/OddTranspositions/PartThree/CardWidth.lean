@@ -128,7 +128,7 @@ theorem exists_sylow_inf_centralizer [hDnorm : NormalizesSet ⊤ D]
     · exact absurd h (Subgroup.index_ne_zero_of_finite)
     · exact h
   have hKp : IsPGroup 2 K := by
-    have hCS_p : IsPGroup 2 CS := (S : Sylow 2 G).isPGroup'.to_le inf_le_left
+    have hCS_p : IsPGroup 2 CS := (S : Sylow 2 G).isPGroup.to_le inf_le_left
     rw [show K = CS.subgroupOf C from rfl, ← Subgroup.comap_subtype CS C]
     exact hCS_p.comap_subtype (K := C)
   exact ⟨hKp.toSylow hKodd, IsPGroup.toSylow_coe hKp hKodd⟩

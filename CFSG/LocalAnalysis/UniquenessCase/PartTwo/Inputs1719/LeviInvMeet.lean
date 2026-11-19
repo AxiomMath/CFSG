@@ -88,7 +88,7 @@ theorem isPGroup_of_oUpperTwo_le_centralizer [Finite Λ] {L : Subgroup Λ} (hL :
     rw [show g = g' from Subtype.ext hgg'.symm]
     exact hg'
   intro g
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hall g⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hall g⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.LeviFamily.LeviUniq

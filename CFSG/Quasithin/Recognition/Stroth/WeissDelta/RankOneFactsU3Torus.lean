@@ -240,7 +240,7 @@ theorem fix_torusPSU_pow {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
     rw [hxv, Projectivization.mk_eq_mk_iff']
     refine ⟨v 2, ?_⟩
     funext i
-    fin_cases i <;> simp [Pi.single_apply, hv0, hv1]
+    fin_cases i <;> simp [hv0, hv1]
   · left
     have hv2 : v 2 = 0 := by
       by_contra hv2
@@ -260,7 +260,7 @@ theorem fix_torusPSU_pow {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
     rw [hxv, Projectivization.mk_eq_mk_iff']
     refine ⟨v 0, ?_⟩
     funext i
-    fin_cases i <;> simp [Pi.single_apply, hv1, hv2]
+    fin_cases i <;> simp [hv1, hv2]
 
 theorem rankOneUnitary_psu3 {X Ω : Type} [Group X] [Finite X] [Fintype Ω] [MulAction X Ω]
     [FaithfulSMul X Ω] (h2 : MulAction.IsMultiplyPretransitive X Ω 2) (k : ℕ) (hk : 2 ≤ k)
@@ -269,8 +269,8 @@ theorem rankOneUnitary_psu3 {X Ω : Type} [Group X] [Finite X] [Fintype Ω] [Mul
     (hΩ : Fintype.card Ω = 2 ^ (3 * k) + 1) :
     RankOneUnitary X Ω N (2 ^ k) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : N.Normal := hN
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : N.Normal := hN
   let M := Classical.choice (exists_psu3_isotropicModel h2 k hk F hF N hN e hΩ)
   let J := M.J
   let hJ := M.hJ
@@ -406,7 +406,7 @@ theorem rankOneUnitary_psu3 {X Ω : Type} [Group X] [Finite X] [Fintype Ω] [Mul
     simpa [tN] using h2
   · intro a b hab
     obtain ⟨g, hgω, hgβ, hgp⟩ := hP.exists_conj_torus hab.symm
-    haveI : IsCyclic T' := hT'cyc
+    have : IsCyclic T' := hT'cyc
     obtain ⟨s, hs⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := T')
     have hsne : (s ^ (2 ^ k + 1)) ^ (2 ^ k + 1) ≠ 1 := by
       intro h1

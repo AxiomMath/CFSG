@@ -73,7 +73,7 @@ theorem index_innAut_fi24prime_dvd_two :
 theorem oddCore_centralizer_fi24prime (t : Blueprint.NativeSporadic.Fi24prime)
     (ht : orderOf t = 2) :
     CFSG.oddCore ↥(Subgroup.centralizer ({t} : Set Blueprint.NativeSporadic.Fi24prime)) = ⊥ := by
-  haveI := finite_fi24prime
+  have := finite_fi24prime
   have hC : Subgroup.centralizer ((⊤ : Subgroup Blueprint.NativeSporadic.Fi24prime) :
       Set Blueprint.NativeSporadic.Fi24prime) = ⊥ := by
     rw [Subgroup.coe_top, Subgroup.centralizer_univ,

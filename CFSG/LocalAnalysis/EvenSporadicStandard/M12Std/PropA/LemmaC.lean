@@ -28,7 +28,7 @@ theorem exists_isEmb (h : StdHyp G L) (hL : IsSporadic L .M12) {t x : G}
     ∃ (b : Bool) (ι : ↥(centralizer ({t} : Set G)) →* Perm (Fin 28)),
       IsEmb L t x (K28 b) D28 pT x₀ ι := by
   let C := centralizer ({t} : Set G)
-  haveI : (L.subgroupOf C).Normal := normal_subgroupOf_centralizer h ht ht2
+  have : (L.subgroupOf C).Normal := normal_subgroupOf_centralizer h ht ht2
   obtain ⟨θ⟩ := exists_equiv_D24 hL ht
   have htC2 : orderOf (tC t) = 2 := by
     rw [tC, Subgroup.orderOf_mk, ht2]

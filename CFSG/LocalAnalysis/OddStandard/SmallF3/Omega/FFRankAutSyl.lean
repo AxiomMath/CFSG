@@ -11,6 +11,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffRA_projSim_elemAb_le [Finite (ProjSim Q)] (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2) (hd : ∀ i, d i ≠ 0)
     {n k m bound : ℕ} (hn : n = 2 ^ k) (hm : Odd m) (hcard : Nat.card (ProjSim Q) = n * m)
@@ -31,6 +32,7 @@ theorem ffRA_projSim_elemAb_le [Finite (ProjSim Q)] (b : Module.Basis (Fin 6) (Z
     (MulAut.conj g).injective]
   exact ffRA_bfs_elemAb e he one hone mul hmul 𝓛 h0 h1 h2' hK hKe
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffRA_projSim_abelian_le [Finite (ProjSim Q)] (b : Module.Basis (Fin 6) (ZMod 3) V)
     {d : Fin 6 → ZMod 3} (hb : ∀ x, Q x = ∑ i, d i * (b.repr x i) ^ 2) (hd : ∀ i, d i ≠ 0)
     {n k m bound : ℕ} (hn : n = 2 ^ k) (hm : Odd m) (hcard : Nat.card (ProjSim Q) = n * m)
@@ -43,7 +45,7 @@ theorem ffRA_projSim_abelian_le [Finite (ProjSim Q)] (b : Module.Basis (Fin 6) (
     exact hg x hx
   have hKp : IsPGroup 2 (E.map (MulAut.conj g).toMonoidHom) :=
     hp.of_equiv (Subgroup.equivMapOfInjective E _ (MulAut.conj g).injective)
-  haveI := hc
+  have := hc
   have hKc : IsMulCommutative (E.map (MulAut.conj g).toMonoidHom) :=
     Subgroup.map_isMulCommutative E _
   have h2' : ∀ H ∈ 𝓛, ∀ x : Fin n, x ∉ H → mul x x ∈ H → (∀ h ∈ H, mul x h = mul h x) →

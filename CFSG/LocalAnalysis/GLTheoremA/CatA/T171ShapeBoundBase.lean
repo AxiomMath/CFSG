@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 @[expose] def conjRel (a : G) (l l' : ↥L) : Prop := (l' : G) = a⁻¹ * (l : G) * a
 
+omit [Finite G] in
 theorem conjRel_total {a : G} (ha : a ∈ Subgroup.normalizer (L : Set G)) :
     ∀ l : ↥L, ∃ l' : ↥L, conjRel a l l' := by
   intro l
@@ -26,6 +27,7 @@ theorem conjRel_total {a : G} (ha : a ∈ Subgroup.normalizer (L : Set G)) :
   have h := (Subgroup.mem_normalizer_iff.mp (inv_mem ha) (l : G)).mp l.2
   simpa using h
 
+omit [Finite G] in
 theorem largeEvenInduces_unique {R : Type} [Group R]
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* R} {rel : ↥L → ↥L → Prop} {φ ψ : MulAut R}
     (hφ : LargeEvenInduces θ rel φ) (hψ : LargeEvenInduces θ rel ψ)
@@ -36,12 +38,14 @@ theorem largeEvenInduces_unique {R : Type} [Group R]
   obtain ⟨l', hl'⟩ := hex l
   rw [hφ l l' hl', hψ l l' hl']
 
+omit [Finite G] in
 theorem largeEvenInduces_one {R : Type} [Group R]
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* R} {rel : ↥L → ↥L → Prop}
     (h : ∀ l l' : ↥L, rel l l' → l = l') : LargeEvenInduces θ rel 1 := by
   intro l l' hl
   rw [MulAut.one_apply, h l l' hl]
 
+omit [Finite G] in
 theorem largeEvenInduces_pow {R : Type} [Group R]
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* R} {a : G}
     (ha : a ∈ Subgroup.normalizer (L : Set G)) {φ : MulAut R}
@@ -66,9 +70,10 @@ theorem largeEvenInduces_pow {R : Type} [Group R]
       rw [hl, pow_succ']
       group
 
+omit [Finite G] in
 theorem largeEvenInduces_mul {R : Type} [Group R]
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* R} {a b : G}
-    (ha : a ∈ Subgroup.normalizer (L : Set G)) (hb : b ∈ Subgroup.normalizer (L : Set G))
+    (_ha : a ∈ Subgroup.normalizer (L : Set G)) (hb : b ∈ Subgroup.normalizer (L : Set G))
     (hab : a * b = b * a) {φ ψ : MulAut R}
     (hφ : LargeEvenInduces θ (conjRel a) φ) (hψ : LargeEvenInduces θ (conjRel b) ψ) :
     LargeEvenInduces θ (conjRel (a * b)) (φ * ψ) := by
@@ -83,6 +88,7 @@ theorem largeEvenInduces_mul {R : Type} [Group R]
   rw [hl, hab]
   group
 
+omit [Finite G] in
 theorem exists_center_of_largeEvenInduces_one {R : Type} [Group R]
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* R} {a : G}
     (ha : a ∈ Subgroup.normalizer (L : Set G))
@@ -102,6 +108,7 @@ theorem exists_center_of_largeEvenInduces_one {R : Type} [Group R]
   simp only [Subgroup.coe_mul, Subgroup.coe_inv]
   group
 
+omit [Finite G] in
 theorem centralizes_of_conjRel_center {a : G}
     (ha : a ∈ Subgroup.normalizer (L : Set G))
     (h : ∀ l : ↥L, ∃ z ∈ Subgroup.center ↥L, a⁻¹ * (l : G) * a = (l : G) * (z : G))

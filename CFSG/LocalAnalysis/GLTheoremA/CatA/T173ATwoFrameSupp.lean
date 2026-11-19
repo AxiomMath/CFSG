@@ -12,12 +12,14 @@ open CFSG.LocalAnalysis.GLTheoremA.S172A.GL (fixSp comSp ds ds_apply mem_fixSp m
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem frame_iSup_eq_top {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hF : LinTwoStdFrame E x P V0) : V0 ⊔ (⨆ j, P j) = ⊤ := by
   have h := hF.2.1.submodule_iSup_eq_top
   rwa [iSup_option_elim V0 P] at h
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem frame_ext {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hF : LinTwoStdFrame E x P V0) {f g : V ≃ₗ[ZMod 2] V}
@@ -36,6 +38,7 @@ private theorem frame_ext {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
   · intro a b ha hb
     rw [map_add, map_add, ha, hb]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem frame_x_mem_P {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hF : LinTwoStdFrame E x P V0) (j : Fin r) {v : V} (hv : v ∈ P j) :
@@ -44,6 +47,7 @@ private theorem frame_x_mem_P {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
   rw [← hc] at hv ⊢
   exact e_mem_comSp hv
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem frame_x_pow_mem_P {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hF : LinTwoStdFrame E x P V0) (j : Fin r) (k : ℕ) {v : V} (hv : v ∈ P j) :
@@ -54,6 +58,7 @@ private theorem frame_x_pow_mem_P {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     rw [pow_succ', LinearEquiv.mul_apply]
     exact frame_x_mem_P hF j ih
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem frame_x_pow_fixed_V0 {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hF : LinTwoStdFrame E x P V0) (j : Fin r) (k : ℕ) {v : V} (hv : v ∈ V0) :
@@ -62,6 +67,7 @@ private theorem frame_x_pow_fixed_V0 {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : �
   | zero => rfl
   | succ k ih => rw [pow_succ', LinearEquiv.mul_apply, ih, hF.2.2.2.2.2.1 j v hv]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem frame_x_pow_fixed_P {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hF : LinTwoStdFrame E x P V0) {i j : Fin r} (hij : i ≠ j) (k : ℕ) {v : V}
@@ -70,6 +76,7 @@ private theorem frame_x_pow_fixed_P {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ
   | zero => rfl
   | succ k ih => rw [pow_succ', LinearEquiv.mul_apply, ih, hF.2.2.2.2.2.2 i j hij v hv]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem frame_x_pow_eq_one_of_dvd {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hF : LinTwoStdFrame E x P V0) (j : Fin r) {k : ℕ} (h : 3 ∣ k) :
@@ -79,6 +86,7 @@ private theorem frame_x_pow_eq_one_of_dvd {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r
   rw [pow_mul, hF.2.2.2.1 j, one_pow]
   rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem frame_x_pow_eq_self_imp {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hF : LinTwoStdFrame E x P V0) (j : Fin r) (k : ℕ) (hk : ¬ 3 ∣ k) :
@@ -103,6 +111,7 @@ private theorem frame_x_pow_eq_self_imp {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r :
       simpa using h1.symm
     exact eq_zero_of_mem_comSp_fixed h3 hvcom hx
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem zpow_eq_nat_pow {f : V ≃ₗ[ZMod 2] V} (h3 : f ^ 3 = 1) (m : ℤ) :
     ∃ k : ℕ, f ^ m = f ^ k := by
   have hEm : f ^ m = f ^ (m % 3) := zpow_eq_zpow_emod' (x := f) (n := 3) m h3
@@ -111,6 +120,7 @@ private theorem zpow_eq_nat_pow {f : V ≃ₗ[ZMod 2] V} (h3 : f ^ 3 = 1) (m : �
   refine ⟨(m % 3).toNat, ?_⟩
   rw [hEm, ← zpow_natCast (f) (m % 3).toNat, hcast]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem zpow_apply_eq_self {f : V ≃ₗ[ZMod 2] V} {v : V} (hv : f v = v) (m : ℤ) :
     (f ^ m) v = v :=
   zpow_induction_right (g := f) (P := fun a => a v = v) rfl
@@ -175,6 +185,7 @@ private theorem frame_finrank {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     omega
   rw [hsum]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem frame_mul_comm_of_action {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hF : LinTwoStdFrame E x P V0) {g : V ≃ₗ[ZMod 2] V} (k : Fin r → ℕ)
@@ -203,6 +214,7 @@ private theorem frame_mul_comm_of_action {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r 
       rw [hxv]
       exact hF.2.2.2.2.2.2 i j hij (g v) hgv
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem eq_zero_of_mem_iSup_of_sub_eq_zero {ι : Type*} {A : ι → Submodule (ZMod 2) V}
     (hind : iSupIndep A) {g : V ≃ₗ[ZMod 2] V}
     (hA : ∀ i, ∀ x ∈ A i, g x - x ∈ A i)
@@ -226,6 +238,7 @@ private theorem eq_zero_of_mem_iSup_of_sub_eq_zero {ι : Type*} {A : ι → Subm
   rw [← hμ]
   exact Finset.sum_eq_zero fun i hi => by rw [hμ0 i hi]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem lin_two_frame_action {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hF : LinTwoStdFrame E x P V0) {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ E) :
@@ -342,7 +355,7 @@ theorem lin_two_outside_plane
     {E : Subgroup (V ≃ₗ[ZMod 2] V)}
     {x : Fin (Module.finrank (ZMod 2) V / 2) → V ≃ₗ[ZMod 2] V}
     {P : Fin (Module.finrank (ZMod 2) V / 2) → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
-    (hF : LinTwoStdFrame E x P V0) {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ E) (hg3 : g ^ 3 = 1)
+    (hF : LinTwoStdFrame E x P V0) {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ E) (_hg3 : g ^ 3 = 1)
     (hfix : 2 ≤ Module.finrank (ZMod 2) (fixSp g)) :
     ∃ y ∈ E, y ∉ Subgroup.zpowers g ∧ (∀ v ∈ comSp g, y v = v) ∧
       ∀ v ∈ fixSp g, y v ∈ fixSp g := by
@@ -439,7 +452,7 @@ theorem lin_two_frame_full_support
     {x : Fin (Module.finrank (ZMod 2) V / 2) → V ≃ₗ[ZMod 2] V}
     {P : Fin (Module.finrank (ZMod 2) V / 2) → Submodule (ZMod 2) V} {V0 : Submodule (ZMod 2) V}
     (hF : LinTwoStdFrame E x P V0) (hodd : Odd (Module.finrank (ZMod 2) V))
-    {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ E) (hg3 : g ^ 3 = 1)
+    {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ E) (_hg3 : g ^ 3 = 1)
     (hfix : Module.finrank (ZMod 2) (fixSp g) = 1) :
     fixSp g = V0 ∧ comSp g = ⨆ j, P j := by
   classical

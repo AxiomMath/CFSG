@@ -16,6 +16,7 @@ variable {X : Type} [Group X] [Finite X] {T : Sylow 2 X} {A : Subgroup X}
 private def goldD (A : Subgroup X) (g : X) : Subgroup X :=
   A ⊓ A.comap (MulAut.conj g).toMonoidHom
 
+omit [Finite X] in
 @[simp] private theorem mem_goldD {A : Subgroup X} {g a : X} :
     a ∈ goldD A g ↔ a ∈ A ∧ g * a * g⁻¹ ∈ A := by
   simp only [goldD, Subgroup.mem_inf, Subgroup.mem_comap, MulEquiv.coe_toMonoidHom,
@@ -26,7 +27,7 @@ theorem goldschmidt_cor_four (h : GoldHyp T A) {t g : X} (ht : t ∈ (T : Subgro
     ∃ B : Subgroup X, B ≤ (T : Subgroup X) ∧ IsElemAbelian 2 B ∧
       Nat.card A * Nat.card ↥(B ⊓ A) ≤ Nat.card ↥(A ⊓ centralizer ({t} : Set X)) * Nat.card B := by
   classical
-  haveI : Nonempty {g : X // g * t * g⁻¹ ∈ A} := ⟨⟨g, hg⟩⟩
+  have : Nonempty {g : X // g * t * g⁻¹ ∈ A} := ⟨⟨g, hg⟩⟩
   obtain ⟨x₀, hx₀max⟩ := Finite.exists_max
     (fun x : {g : X // g * t * g⁻¹ ∈ A} => Nat.card (goldD A x))
   let g₀ : X := x₀.1

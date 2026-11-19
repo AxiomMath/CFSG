@@ -25,7 +25,7 @@ theorem card_fixed_eq_of_intertwine {G H : Type*} [Group G] [Group H] (v : G ≃
 theorem not_mem_inner_of_orderOf_three {H : Type} [Group H]
     {f : ℕ} (hS : SuzukiModel H 2 f) {σ : MulAut H} (hσ : orderOf σ = 3) : σ ∉ inner H := by
   intro hin
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 (Subgroup.zpowers σ) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hσ, pow_one])
   have hmem : σ ∈ Subgroup.zpowers σ ⊓ inner H := ⟨Subgroup.mem_zpowers σ, hin⟩
@@ -65,7 +65,7 @@ theorem exists_mem_ne_of_isSylowOf {G : Type*} [Group G] [Finite G] (σ : MulAut
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf ℓ P ⊤) : ∃ x ∈ P, σ x ≠ x := by
   by_contra hcon
   push Not at hcon
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hle : P ≤ fixedSubgroup σ := fun x hx => hcon x hx
   have h1 : Nat.card P ∣ Nat.card (fixedSubgroup σ) := Subgroup.card_dvd_of_le hle
   have h2 : Nat.card P = ℓ ^ (Nat.card (⊤ : Subgroup G)).factorization ℓ := hP.card_eq

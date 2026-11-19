@@ -57,7 +57,7 @@ private theorem claim_1_exists_two_distinct_nontrivial_of_card_gt_two
     {A : Type*} [Group A] [Finite A] (hcard : 2 < Nat.card A) :
     ∃ a b : A, a ≠ 1 ∧ b ≠ 1 ∧ a ≠ b := by
   classical
-  letI : Fintype A := Fintype.ofFinite A
+  let : Fintype A := Fintype.ofFinite A
   have hcardF : 2 < Fintype.card A := by
     simpa [Nat.card_eq_fintype_card] using hcard
   rcases Fintype.two_lt_card_iff.mp hcardF with ⟨a, b, c, hab, hac, hbc⟩
@@ -81,7 +81,7 @@ private theorem claim_1_four_subgroup_card_of_exp_two
   classical
   have hcommInst : IsMulCommutative A :=
     claim_1_isMulCommutative_of_forall_sq_one hsq
-  letI : IsMulCommutative A := hcommInst
+  let : IsMulCommutative A := hcommInst
   have hcomm : ∀ x y : A, x * y = y * x := fun x y =>
     (IsMulCommutative.is_comm (M := A)).comm x y
   have ha2 : a * a = 1 := by simpa [pow_two] using hsq a
@@ -282,8 +282,8 @@ public theorem claim_1_Q0_card_gt_two
       hQ0card, _hrhoMul, _hrhoAut_inl, _hrhoAut_inr, _hrhoD,
       _hmodel_q, _hmodel_k, _hmodel_v, _hk_action, _hv_action⟩
   let F : Type := GaloisField 2 field_n
-  letI : Field F := inferInstance
-  letI : Finite F := inferInstance
+  let : Field F := inferInstance
+  let : Finite F := inferInstance
   rcases proposition_1_b_K_nontrivial H D Q K V W Q0 S Q1 t hch.section3.section2 with
     ⟨k, hkK, hk_ne⟩
   let kK : K := ⟨k, hkK⟩
@@ -295,7 +295,7 @@ public theorem claim_1_Q0_card_gt_two
     have hkK_one : kK = 1 := k_units.injective hu'
     exact hk_ne (by simpa [kK] using congrArg Subtype.val hkK_one)
   have hF_card_gt_two : 2 < Nat.card F := by
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     have hzero_one : (0 : F) ≠ 1 := zero_ne_one
     have hzero_u : (0 : F) ≠ (u : F) := by
       exact (Units.ne_zero u).symm
@@ -376,9 +376,9 @@ private theorem claim_1_Q0_inf_centralizer_P_card_eq_two
       _hQ0card, _hrhoMul, _hrhoAut_inl, _hrhoAut_inr, _hrhoD,
       _hmodel_q, _hmodel_k, _hmodel_v, _hk_action, hv_action⟩
   let F : Type := GaloisField 2 field_n
-  letI : Field F := inferInstance
-  letI : Finite F := inferInstance
-  letI : (W.subgroupOf V).Normal := hWnormalV
+  let : Field F := inferInstance
+  let : Finite F := inferInstance
+  let : (W.subgroupOf V).Normal := hWnormalV
   let qOne : Q0 := q0_add.symm (Multiplicative.ofAdd (1 : F))
   have hqOne_ne_one : (qOne : G) ≠ 1 := by
     intro hq
@@ -407,7 +407,7 @@ private theorem claim_1_Q0_inf_centralizer_P_card_eq_two
     intro hq
     exact hqOne_ne_one (by simpa [qOneA] using congrArg Subtype.val hq)
   have htwo_le : 2 ≤ Nat.card A := by
-    letI : Fintype A := Fintype.ofFinite A
+    let : Fintype A := Fintype.ofFinite A
     let f : Fin 2 → A := fun i => if i = 0 then 1 else qOneA
     have hf : Function.Injective f := by
       intro i j hij
@@ -480,7 +480,7 @@ private theorem claim_1_P_nontrivial_not_mem_centralizer_K
               exact hune (by simpa [uP] using congrArg Subtype.val h)
             have hPcard : Nat.card P = p := by
               simpa [Nat.card, Nat.card_coe_set_eq] using hch.B1.P_card
-            haveI : Fact p.Prime := ⟨hch.B1.p_prime⟩
+            have : Fact p.Prime := ⟨hch.B1.p_prime⟩
             have huC : uP ∈ C.comap P.subtype := by
               change (u : G) ∈ C
               exact huK
@@ -515,9 +515,9 @@ private theorem claim_1_P_nontrivial_not_mem_centralizer_K
                     _hrhoAut_inr, _hrhoD, _hmodel_q, _hmodel_k,
                     _hmodel_v, _hk_action, hv_action⟩
                 let F : Type := GaloisField 2 field_n
-                letI : Field F := inferInstance
-                letI : Finite F := inferInstance
-                letI : (W.subgroupOf V).Normal := hWnormalV
+                let : Field F := inferInstance
+                let : Finite F := inferInstance
+                let : (W.subgroupOf V).Normal := hWnormalV
                 let yV : V := ⟨y, hch.section3.section2.W_le_V (hP_le_W hyP)⟩
                 let qQ0 : Q0 := ⟨q, hqQ0⟩
                 rcases hv_action yV qQ0 with ⟨hq_conj, hq_image⟩
@@ -678,7 +678,7 @@ private theorem claim_1_P_image_eq_top_of_VmodW_card_eq_p
     (hquot_card : Nat.card (V ⧸ W.subgroupOf V) = p) :
     (P.subgroupOf V).map (QuotientGroup.mk' (W.subgroupOf V)) = ⊤ := by
   classical
-  haveI : (W.subgroupOf V).Normal := hW_normal
+  have : (W.subgroupOf V).Normal := hW_normal
   let π : V →* V ⧸ W.subgroupOf V := QuotientGroup.mk' (W.subgroupOf V)
   let ι : P →* V := Subgroup.inclusion hP_le_V
   let φ : P →* V ⧸ W.subgroupOf V := π.comp ι
@@ -726,8 +726,8 @@ private theorem claim_1_ringAut_card_le_finrank_zmod_two
     (F : Type*) [Field F] [Finite F] [CharP F 2] [Module (ZMod 2) F] :
     Nat.card (F ≃+* F) ≤ Module.finrank (ZMod 2) F := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Algebra (ZMod 2) F := ZMod.algebraOfModule 2 F
+  let : Fintype F := Fintype.ofFinite F
+  let : Algebra (ZMod 2) F := ZMod.algebraOfModule 2 F
   let toAlg : (F ≃+* F) → (F ≃ₐ[ZMod 2] F) := fun e =>
     AlgEquiv.ofRingEquiv (R := ZMod 2) (A₁ := F) (A₂ := F) (f := e) (by
       intro x
@@ -751,7 +751,7 @@ private theorem claim_1_finrank_zmod_two_of_card_eq_two_pow
     [Fact p.Prime] (hcard : Nat.card F = 2 ^ p) :
     Module.finrank (ZMod 2) F = p := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hpow : 2 ^ Module.finrank (ZMod 2) F = 2 ^ p := by
     calc
       2 ^ Module.finrank (ZMod 2) F = Nat.card F :=
@@ -774,9 +774,9 @@ private theorem claim_1_VmodW_card_eq_p_from_faithful_fieldAut
     (hQ0_card_pow : Nat.card Q0 = 2 ^ p) :
     Nat.card (V ⧸ W.subgroupOf V) = p := by
   classical
-  haveI : (W.subgroupOf V).Normal := hW_normal
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite A := Finite.of_equiv (V ⧸ W.subgroupOf V) vmodW_aut.toEquiv
+  have : (W.subgroupOf V).Normal := hW_normal
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite A := Finite.of_equiv (V ⧸ W.subgroupOf V) vmodW_aut.toEquiv
   let π : V →* V ⧸ W.subgroupOf V := QuotientGroup.mk' (W.subgroupOf V)
   let ι : P →* V := Subgroup.inclusion hP_le_V
   let φ : P →* A := vmodW_aut.toMonoidHom.comp (π.comp ι)
@@ -804,17 +804,17 @@ private theorem claim_1_VmodW_card_eq_p_from_faithful_fieldAut
       _ ≤ Nat.card A := Nat.card_le_card_of_injective φ hφ_inj
   have hcardF : Nat.card F = 2 ^ p := hQ0card ▸ hQ0_card_pow
   have hchar : CharP F 2 := by
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     apply charP_of_card_eq_prime_pow (R := F) (p := 2) (f := p)
     simpa [Nat.card_eq_fintype_card] using hcardF
-  letI : CharP F 2 := hchar
-  letI : Module (ZMod 2) F := { (ZMod.castHom dvd_rfl F : ZMod 2 →+* _).toModule with }
-  letI : Algebra (ZMod 2) F := ZMod.algebraOfModule 2 F
+  let : CharP F 2 := hchar
+  let : Module (ZMod 2) F := { (ZMod.castHom dvd_rfl F : ZMod 2 →+* _).toModule with }
+  let : Algebra (ZMod 2) F := ZMod.algebraOfModule 2 F
   have hfinrank : Module.finrank (ZMod 2) F = p :=
     claim_1_finrank_zmod_two_of_card_eq_two_pow F hcardF
   have hA_le_p : Nat.card A ≤ p := by
-    letI : Fintype F := Fintype.ofFinite F
-    haveI : Finite (F ≃+* F) :=
+    let : Fintype F := Fintype.ofFinite F
+    have : Finite (F ≃+* F) :=
       Finite.of_injective (fun e : F ≃+* F => (e : F → F)) (by
         intro e₁ e₂ h
         ext x
@@ -862,8 +862,8 @@ private theorem claim_1_VmodW_card_eq_p_obligation
       _rhoD, _rhoMul, _rhoAut, _q0_add, _k_units, vmodW_aut, _modelIso,
       hQ0card, _hdata⟩
   let F : Type := GaloisField 2 n
-  letI : Field F := inferInstance
-  letI : Finite F := inferInstance
+  let : Field F := inferInstance
+  let : Finite F := inferInstance
   have hStarCommAut_inj : Function.Injective (fun σ : A => (σ : F ≃+* F)) :=
     fun _ _ hστ => Subtype.ext hστ
   exact
@@ -933,7 +933,7 @@ private theorem claim_1_W_sup_P_eq_V
   classical
   rcases (proposition_3 H D Q K V W Q0 S Q1 t hch.section3.section2).2 with
     ⟨hW_normal, _hcyc⟩
-  haveI : (W.subgroupOf V).Normal := hW_normal
+  have : (W.subgroupOf V).Normal := hW_normal
   have hP_image_top :
       (P.subgroupOf V).map (QuotientGroup.mk' (W.subgroupOf V)) = ⊤ :=
     claim_1_P_image_eq_top_in_VmodW
@@ -1000,14 +1000,14 @@ private theorem claim_1_q0_card_obligation
       hQ0card, _hrhoMul, _hrhoAut_inl, _hrhoAut_inr, _hrhoD,
       _hmodel_q, _hmodel_k, _hmodel_v, _hk_action, hv_action⟩
   let F : Type := GaloisField 2 field_n
-  letI : Field F := inferInstance
-  letI : Finite F := inferInstance
-  letI : (W.subgroupOf V).Normal := hWnormalV
+  let : Field F := inferInstance
+  let : Finite F := inferInstance
+  let : (W.subgroupOf V).Normal := hWnormalV
   let pToV : P →* V := Subgroup.inclusion hch.B1.P_le_V
   let rho : P →* (F ≃+* F) :=
     A.subtype.comp
       (vmodW_aut.toMonoidHom.comp ((QuotientGroup.mk' (W.subgroupOf V)).comp pToV))
-  letI : MulSemiringAction P F := MulSemiringAction.compHom F rho
+  let : MulSemiringAction P F := MulSemiringAction.compHom F rho
   let fixedEquiv : FixedPoints.subfield P F ≃ ↥(Q0 ⊓ Ctr) :=
     { toFun := fun x => by
         let q : Q0 := q0_add.symm (Multiplicative.ofAdd (x : F))
@@ -1106,7 +1106,7 @@ private theorem claim_1_q0_card_obligation
       _ = 2 := hfixed
   have hPcard : Nat.card P = p := by
     simpa [Nat.card, Nat.card_coe_set_eq] using hch.B1.P_card
-  haveI : Fact p.Prime := ⟨hch.B1.p_prime⟩
+  have : Fact p.Prime := ⟨hch.B1.p_prime⟩
   have hrho_ker : ∀ x : P, rho x = 1 → x = 1 := by
     intro x hxrho
     by_contra hxne
@@ -1178,15 +1178,15 @@ private theorem claim_1_q0_card_obligation
     apply hrho_inj
     exact FaithfulSMul.eq_of_smul_eq_smul (fun a : F => by
       simpa [MulAction.compHom_smul_def] using hxy a)
-  letI : Fintype P := Fintype.ofFinite P
+  let : Fintype P := Fintype.ofFinite P
   have hfinrank : Module.finrank (FixedPoints.subfield P F) F = p := by
-    letI : FaithfulSMul P F := hfaithful
+    let : FaithfulSMul P F := hfaithful
     have h := FixedPoints.finrank_eq_card P F
     have hcardP : Fintype.card P = p := by
       simpa [Nat.card_eq_fintype_card] using hPcard
     exact h.trans hcardP
   have hF_card : Nat.card F = 2 ^ p := by
-    letI : FaithfulSMul P F := hfaithful
+    let : FaithfulSMul P F := hfaithful
     calc
       Nat.card F = Nat.card (FixedPoints.subfield P F) ^
           Module.finrank (FixedPoints.subfield P F) F := by
@@ -1269,9 +1269,9 @@ public theorem claim_1_K_inf_centralizer_P_eq_bot
       _hQ0card, _hrhoMul, _hrhoAut_inl, _hrhoAut_inr, _hrhoD,
       _hmodel_q, _hmodel_k, _hmodel_v, hk_action, hv_action⟩
   let F : Type := GaloisField 2 field_n
-  letI : Field F := inferInstance
-  letI : Finite F := inferInstance
-  letI : (W.subgroupOf V).Normal := hWnormalV
+  let : Field F := inferInstance
+  let : Finite F := inferInstance
+  let : (W.subgroupOf V).Normal := hWnormalV
   let qOne : Q0 := q0_add.symm (Multiplicative.ofAdd (1 : F))
   have hqOne_ne_one : (qOne : G) ≠ 1 := by
     intro hq
@@ -1402,8 +1402,8 @@ private theorem claim_1_normalizer_eq_centralizer
           ⟨hW_normal, hcyc⟩
         let vV : V := ⟨v, hv.1⟩
         let yV : V := ⟨y, hch.B1.P_le_V hyP⟩
-        haveI : (W.subgroupOf V).Normal := hW_normal
-        haveI : IsCyclic (V ⧸ W.subgroupOf V) := hcyc
+        have : (W.subgroupOf V).Normal := hW_normal
+        have : IsCyclic (V ⧸ W.subgroupOf V) := hcyc
         have hquot_comm :
             Std.Commutative (α := V ⧸ W.subgroupOf V) (· * ·) :=
           inferInstance
@@ -1472,10 +1472,10 @@ private theorem claim_1_P_le_centralizer_P
   intro y hyP
   have hPcard : Nat.card P = p := by
     simpa [Nat.card, Nat.card_coe_set_eq] using hch.B1.P_card
-  haveI : Fact p.Prime := ⟨hch.B1.p_prime⟩
-  haveI : IsCyclic P := isCyclic_of_prime_card hPcard
+  have : Fact p.Prime := ⟨hch.B1.p_prime⟩
+  have : IsCyclic P := isCyclic_of_prime_card hPcard
   have hcomm : (⟨x, hxP⟩ : P) * ⟨y, hyP⟩ = ⟨y, hyP⟩ * ⟨x, hxP⟩ := by
-    letI : CommGroup P :=
+    let : CommGroup P :=
       { mul_comm := fun a b => (inferInstance : IsMulCommutative P).is_comm.comm a b }
     exact mul_comm _ _
   exact (congrArg Subtype.val hcomm).symm
@@ -1673,7 +1673,7 @@ private theorem claim_1_W_inf_centralizer_sup_P_eq_D_inf_centralizer
     let xV : V := ⟨x, hxV⟩
     rcases (proposition_3 H D Q K V W Q0 S Q1 t hch.section3.section2).2 with
       ⟨hW_normal, _hcyc⟩
-    haveI : (W.subgroupOf V).Normal := hW_normal
+    have : (W.subgroupOf V).Normal := hW_normal
     have hsup_top : W.subgroupOf V ⊔ P.subgroupOf V = ⊤ := by
       have hsub :
           (W ⊔ P).subgroupOf V = W.subgroupOf V ⊔ P.subgroupOf V :=
@@ -1848,8 +1848,8 @@ public theorem claim_1_K_card_eq_mersenne
       _hQ0card, _hrhoMul, _hrhoAut_inl, _hrhoAut_inr, _hrhoD,
       _hmodel_q, _hmodel_k, _hmodel_v, _hk_action, _hv_action⟩
   let F : Type := GaloisField 2 n
-  letI : Field F := inferInstance
-  letI : Finite F := inferInstance
+  let : Field F := inferInstance
+  let : Finite F := inferInstance
   have hn_eq_p : n = p :=
     Nat.pow_right_injective (by norm_num : 2 ≤ 2)
       (hQ0pow.symm.trans

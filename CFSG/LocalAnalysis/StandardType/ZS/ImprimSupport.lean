@@ -31,7 +31,7 @@ private lemma zs4o_index_unique (hb : LinearIndependent (ZMod p) b) {j j' : Fin 
     rw [Finset.sum_pair hjj, Finset.sum_pair hjj]
     simpa [hjj, Ne.symm hjj] using h
   have hij := key hsum j (by simp)
-  rw [if_pos rfl, if_neg hjj] at hij
+  rw [ite_eq_left rfl, ite_eq_right hjj] at hij
   exact hc hij
 
 private lemma zs4o_not_smul_eq_of_ne (hb : LinearIndependent (ZMod p) b) {i i' : Fin n}
@@ -43,7 +43,7 @@ private lemma zs4o_not_smul_eq_of_ne (hb : LinearIndependent (ZMod p) b) {i i' :
     rw [Finset.sum_pair hne, Finset.sum_pair hne]
     simpa [hne, Ne.symm hne] using h
   have hii := key hsum i (by simp)
-  rw [if_pos rfl, if_neg hne] at hii
+  rw [ite_eq_left rfl, ite_eq_right hne] at hii
   exact hc hii
 
 private lemma zs4o_scalar_ne_zero (hb : LinearIndependent (ZMod p) b) {y : U ≃ₗ[ZMod p] U}
@@ -332,7 +332,7 @@ private theorem zs4o_equivFun_restrictB {n : ℕ} {b : Fin n → U}
   rw [Finset.sum_eq_single i]
   · simp
   · intro k _ hki
-    rw [if_neg (fun h => hki (D.σ.injective h))]
+    rw [ite_eq_right (fun h => hki (D.σ.injective h))]
     simp
   · intro hi; exact absurd (Finset.mem_univ i) hi
 
@@ -756,7 +756,7 @@ private lemma zs4o_two_orbit {n : ℕ} {b : Fin n → U} {Y : Subgroup (U ≃ₗ
     congr 1
     ext z
     simp only [Set.mem_image, Finset.mem_coe, Finset.mem_erase, Finset.mem_univ, and_true,
-      Set.mem_setOf_eq]
+      Set.mem_ofPred_eq]
   exact ⟨k, hVeq, zs4o_two_orbit_line D hOrb hk⟩
 
 private lemma zs4o_one_orbit_trans {n : ℕ} {b : Fin n → U} {Y : Subgroup (U ≃ₗ[ZMod p] U)}
@@ -1040,7 +1040,7 @@ private lemma zs4o_not_smul_eq {n : ℕ} {b : Fin n → U}
     rw [Finset.sum_pair hik, Finset.sum_pair hik]
     simpa [hik, Ne.symm hik] using h'
   have hii := key hsum i (by simp)
-  rw [if_pos rfl, if_neg hik] at hii
+  rw [ite_eq_left rfl, ite_eq_right hik] at hii
   exact one_ne_zero hii
 
 private lemma zs4o_bk_mem_centralizer {n : ℕ} {b : Fin n → U}

@@ -32,7 +32,7 @@ theorem r95s_quot_ker_two (hK461 : UCK.K461) {Q : Type} [Group Q] [Finite Q]
     ¬ 3 ∣ Nat.card ρ.ker ∧ ∃ (F : Type) (_ : Field F) (_ : Finite F) (n : ℕ),
       Nat.card F = 2 ^ n ∧ Nonempty (Q ⧸ ρ.ker ≃* SL(2, F)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN3 := not_three_dvd_card_ker ρ hE9 hD3 hfix
   refine ⟨hN3, ?_⟩
   obtain ⟨d₀, hd₀⟩ := exists_prime_orderOf_dvd_card' 3 (hD3 ▸ dvd_rfl : 3 ∣ Nat.card D)
@@ -70,7 +70,7 @@ theorem r95s_quot_ker_two (hK461 : UCK.K461) {Q : Type} [Group Q] [Finite Q]
     exact CFSG.SectionRank.le_pRank (p := 3) (H := ⊤) (E := D.map π) (by norm_num) le_top
       (CFSG.GroupTheory.isElemAbelian_of_card_prime hDb3) (k := 1) (by rw [hDb3, pow_one])
   have hperfb : commutator (Q ⧸ ρ.ker) = ⊤ := by
-    haveI : Group.IsPerfect Q := ⟨hQperf⟩
+    have : Group.IsPerfect Q := ⟨hQperf⟩
     exact Group.IsPerfect.commutator_eq_top
   have hKb : CFSG.Open.IsKGroup (Q ⧸ ρ.ker) := hQK.quotient ρ.ker
   have hfixs : CFSG.RankThree.FFModules.fixSub (kerRepresentation ρ) (D.map π) = ⊥ := hfixb
@@ -88,9 +88,9 @@ theorem r95s_chief_quot_two (hK461 : UCK.K461) {K Z U W : Subgroup G}
       ∃ (F : Type) (_ : Field F) (_ : Finite F) (n : ℕ),
         Nat.card F = 2 ^ n ∧ Nonempty (↥K ⧸ N ≃* SL(2, F)) := by
   classical
-  haveI hWn : (W.subgroupOf U).Normal := hUW.normal
-  haveI hEl : IsElementaryAbelian 2 (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
-  haveI : Nontrivial (↥U ⧸ W.subgroupOf U) := by
+  have hWn : (W.subgroupOf U).Normal := hUW.normal
+  have hEl : IsElementaryAbelian 2 (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
+  have : Nontrivial (↥U ⧸ W.subgroupOf U) := by
     rw [QuotientGroup.nontrivial_iff]
     intro htop
     exact hUW.1.ne ((Subgroup.subgroupOf_eq_top.mp htop).antisymm hUW.1.le).symm
@@ -127,7 +127,7 @@ theorem r95s_chief_quot_two (hK461 : UCK.K461) {K Z U W : Subgroup G}
     rw [← hZ3]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZK).toEquiv
   have hperf : commutator ↥K = ⊤ := by
-    haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
+    have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
     exact Group.IsPerfect.commutator_eq_top
   obtain ⟨hN3, F, hF, hFin, n, hFc, hφ⟩ := r95s_quot_ker_two hK461 hKK hE9 hperf hD3
     (normalClosure_subgroupOf_eq_top hZK hKgen) ρ hirr hfixV

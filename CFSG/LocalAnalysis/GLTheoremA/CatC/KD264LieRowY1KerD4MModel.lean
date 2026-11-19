@@ -128,6 +128,7 @@ theorem geom_hyp (h3 : (3 : K) ≠ 0) {V : Type} [AddCommGroup V] [Module K V] [
     rw [hc v, hc1, one_smul]
     rfl
 
+omit [Finite K] in
 theorem scalar_sq_one {V : Type} [AddCommGroup V] [Module K V] {Q : QuadraticForm K V} {v₀ : V}
     (hv₀ : Q v₀ = 1) {z : V ≃ₗ[K] V} (hz : z ∈ orthogonalGroup Q) (hs : z ∈ scalars K V) :
     z ^ 2 = 1 := by
@@ -149,11 +150,11 @@ theorem kerConcl_model {K : Type} [Field K] [Finite K] (h3 : (3 : K) ≠ 0) {b c
   have hQ₀ : ⇑(quadMinus 4 K b c) = StatedQuadMinus 4 K b c := coe_quadMinus 4 K b c
   have hdim : finrank K (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → K) = 8 := by
     have := CFSG.GroupTheory.WeirSylow.finrank_quadMinus_space (K := K) (m := 4) (by norm_num)
-    simpa using this
+    simp
   have hnd := nondegenerate_polarBilin_quadMinus_of_finite 4 K hirr
   have hnp := CFSG.GroupTheory.WeirSylow.not_isPlusType_quadMinus (n := 4) (by norm_num) hirr
-  haveI : Finite (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → K) := inferInstance
-  haveI : Finite ((Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → K) ≃ₗ[K]
+  have : Finite (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → K) := inferInstance
+  have : Finite ((Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → K) ≃ₗ[K]
       (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → K)) :=
     Finite.of_injective (fun f => (f : (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → K) →
       (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → K))) DFunLike.coe_injective

@@ -16,8 +16,7 @@ theorem hdRo7SmAAux_delEmbed_single (i : Fin 7) (c : ZMod 3) :
       Pi.single (Fin.castSucc i) c - Pi.single (Fin.last 7) c := by
   ext j
   fin_cases i <;> fin_cases j <;>
-    (simp [hdRo7SmAAux_delEmbed, hdRo7SmAAux_delEmbed_last, hdRo7SmAAux_delEmbed_castSucc,
-      Pi.single_apply, Finset.sum_eq_single] <;> ring)
+    (simp [hdRo7SmAAux_delEmbed, Pi.single_apply])
 
 theorem hdRo7SmAAux_permLin_single (σ : Equiv.Perm (Fin 8)) (a : Fin 8) (c : ZMod 3) :
     hdRo7SmAAux_permLin 8 σ (Pi.single a c) = Pi.single (σ a) c := by
@@ -25,7 +24,7 @@ theorem hdRo7SmAAux_permLin_single (σ : Equiv.Perm (Fin 8)) (a : Fin 8) (c : ZM
   simp only [hdRo7SmAAux_permLin_apply, Pi.single_apply]
   by_cases h : j = σ a
   · subst h; simp
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     intro hh
     exact h (by rw [← hh, Equiv.apply_symm_apply])
 
@@ -44,7 +43,7 @@ theorem hdRo7SmAAux_permLin_single (σ : Equiv.Perm (Fin 8)) (a : Fin 8) (c : ZM
           rw [hdRo7SmAAux_delEmbed_proj _
             (hdRo7SmAAux_permLin_sum_zero σ _ (hdRo7SmAAux_delEmbed_sum_zero v))]
       _ = hdRo7SmAAux_delProj (hdRo7SmAAux_permLin 8 (σ⁻¹ * σ) (hdRo7SmAAux_delEmbed v)) := by
-          simp [map_mul]
+          simp
       _ = hdRo7SmAAux_delProj (hdRo7SmAAux_delEmbed v) := by simp
       _ = v := hdRo7SmAAux_delProj_embed v
   right_inv := by
@@ -57,7 +56,7 @@ theorem hdRo7SmAAux_permLin_single (σ : Equiv.Perm (Fin 8)) (a : Fin 8) (c : ZM
           rw [hdRo7SmAAux_delEmbed_proj _
             (hdRo7SmAAux_permLin_sum_zero σ⁻¹ _ (hdRo7SmAAux_delEmbed_sum_zero v))]
       _ = hdRo7SmAAux_delProj (hdRo7SmAAux_permLin 8 (σ * σ⁻¹) (hdRo7SmAAux_delEmbed v)) := by
-          simp [map_mul]
+          simp
       _ = hdRo7SmAAux_delProj (hdRo7SmAAux_delEmbed v) := by simp
       _ = v := hdRo7SmAAux_delProj_embed v
 
@@ -101,11 +100,11 @@ theorem hdRo7SmAAux_d8Hom_injective : Function.Injective hdRo7SmAAux_d8Hom := by
     by_cases h : σ (Fin.castSucc i) = Fin.castSucc i
     · exact h
     · exfalso
-      rw [if_neg (fun hh => h hh.symm)] at h3
+      rw [ite_eq_right (fun hh => h hh.symm)] at h3
       by_cases h5 : (Fin.castSucc i : Fin 8) = σ (Fin.last 7)
-      · rw [if_pos h5, if_neg (Fin.castSucc_ne_last i)] at h3
+      · rw [ite_eq_left h5, ite_eq_right (Fin.castSucc_ne_last i)] at h3
         exact absurd h3 (show ¬ ((0 : ZMod 3) - 1 = 1) by decide)
-      · rw [if_neg h5, if_neg (Fin.castSucc_ne_last i)] at h3
+      · rw [ite_eq_right h5, ite_eq_right (Fin.castSucc_ne_last i)] at h3
         exact absurd h3 (show ¬ ((0 : ZMod 3) - 0 = 1) by decide)
   apply Equiv.ext
   intro j

@@ -59,6 +59,7 @@ theorem zpowers_eq_of_isLBConfig_conj
     exact h
   rw [← h2, h1]
 
+omit [Finite G] in
 theorem pow_nine_mem_centralizer_of_mem_oThreeWPre {A : Subgroup G}
     (h9 : Nat.card (oThreeWStar A) = 9) {u : G} (hu : u ∈ oThreeWPre A) :
     u ∈ Subgroup.normalizer (A : Set G) ∧ ∀ y ∈ A, u ^ 9 * y * (u ^ 9)⁻¹ = y := by
@@ -76,6 +77,7 @@ theorem pow_nine_mem_centralizer_of_mem_oThreeWPre {A : Subgroup G}
   rw [Subgroup.normalizerMonoidHom_apply_apply_coe] at h3
   simpa using h3
 
+omit [Finite G] in
 theorem conj_eq_of_mem_oThreeWPre {A : Subgroup G} (hA : Late.IsE27 A)
     (h9 : Nat.card (oThreeWStar A) = 9)
     {u : G} (hu : u ∈ oThreeWPre A) {y : G} (hyA : y ∈ A) (hy1 : y ≠ 1)
@@ -134,6 +136,7 @@ theorem conj_eq_of_mem_oThreeWPre {A : Subgroup G} (hA : Late.IsE27 A)
     calc y = y ^ 3 * (y * y)⁻¹ := by group
       _ = 1 := by rw [hy3, hyy]; group
 
+omit [Finite G] in
 theorem card_le_of_le_isE27 {A H : Subgroup G} (hA : Late.IsE27 A) (hHA : H ≤ A) :
     Nat.card H = 1 ∨ Nat.card H = 3 ∨ Nat.card H = 9 ∨ Nat.card H = 27 := by
   have h := Subgroup.card_dvd_of_le hHA
@@ -208,7 +211,7 @@ theorem orbitIn_eq_singleton_or_nine_le {A : Subgroup G} (hA : Late.IsE27 A)
   by_cases hxD : x ∈ Subgroup.zpowers d ⊔ Subgroup.zpowers d'
   · left
     ext F
-    simp only [orbitIn, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [orbitIn, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨u, hu, rfl⟩
       have hux : u * x * u⁻¹ = x :=

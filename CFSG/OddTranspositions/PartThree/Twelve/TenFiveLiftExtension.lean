@@ -25,7 +25,7 @@ theorem exists_monoidHom_of_index_two_extension
     (hd : d ∉ commutator G) (hr : r ∉ commutator H)
     (hconj : ∀ x : commutator G,
       (ψ ⟨d * (x : G) * d⁻¹, by
-        haveI : (commutator G).Normal := inferInstance
+        have : (commutator G).Normal := inferInstance
         exact (inferInstance : (commutator G).Normal).conj_mem (x : G) x.2 d⟩ : H) =
         r * (ψ x : H) * r⁻¹) :
     ∃ φ : G →* H, (∀ x : commutator G, φ x = ψ x) ∧ φ d = r ∧ Function.Injective φ := by
@@ -39,11 +39,11 @@ theorem exists_monoidHom_of_index_two_extension
   let f : G → H := fun g =>
     if hg : g ∈ commutator G then Ψ ⟨g, hg⟩ else Ψ ⟨g * d⁻¹, mem g hg⟩ * r
   have hf_pos : ∀ g (hg : g ∈ commutator G), f g = Ψ ⟨g, hg⟩ := by
-    intro g hg; simp only [f, dif_pos hg]
+    intro g hg; simp only [f, dite_eq_left hg]
   have hf_neg : ∀ g (hg : g ∉ commutator G), f g = Ψ ⟨g * d⁻¹, mem g hg⟩ * r := by
-    intro g hg; simp only [f, dif_neg hg]
+    intro g hg; simp only [f, dite_eq_right hg]
   have hrψ : ∀ x : commutator G, r * Ψ x = (Ψ ⟨d * (x : G) * d⁻¹, by
-        haveI : (commutator G).Normal := inferInstance
+        have : (commutator G).Normal := inferInstance
         exact (inferInstance : (commutator G).Normal).conj_mem (x : G) x.2 d⟩ : H) * r := by
     intro x
     have h2 : Ψ ⟨d * (x : G) * d⁻¹, _⟩ = r * Ψ x * r⁻¹ := hconj x
@@ -85,13 +85,13 @@ theorem exists_monoidHom_of_index_two_extension
         rw [h1, hrψ ⟨b * d⁻¹, mem b hb⟩]
         have h2 : Ψ ⟨a * d⁻¹, mem a ha⟩ * (Ψ ⟨d * ((⟨b * d⁻¹, mem b hb⟩ : commutator G) : G) * d⁻¹,
               by
-                haveI : (commutator G).Normal := inferInstance
+                have : (commutator G).Normal := inferInstance
                 exact (inferInstance : (commutator G).Normal).conj_mem
                   ((⟨b * d⁻¹, mem b hb⟩ : commutator G) : G)
                   (⟨b * d⁻¹, mem b hb⟩ : commutator G).2 d⟩ * r) * r
             = (Ψ ⟨a * d⁻¹, mem a ha⟩ * Ψ ⟨d * ((⟨b * d⁻¹, mem b hb⟩ : commutator G) : G) * d⁻¹,
                 by
-                  haveI : (commutator G).Normal := inferInstance
+                  have : (commutator G).Normal := inferInstance
                   exact (inferInstance : (commutator G).Normal).conj_mem
                     ((⟨b * d⁻¹, mem b hb⟩ : commutator G) : G)
                     (⟨b * d⁻¹, mem b hb⟩ : commutator G).2 d⟩) * (r * r) := by group

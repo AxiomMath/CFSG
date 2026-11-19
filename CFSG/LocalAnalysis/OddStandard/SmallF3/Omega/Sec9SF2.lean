@@ -16,6 +16,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {t t₀ z g : G} {L S B : Subgroup G}
 
+omit [Finite G] in
 private theorem sec9f_conj_centralizer {H : Subgroup G} {s c : G}
     (hs : s ∈ normalizer (H : Set G)) (hc : c ∈ centralizer (H : Set G)) :
     s * c * s⁻¹ ∈ centralizer (H : Set G) := by
@@ -156,7 +157,7 @@ theorem sec9f_range_bot_or_top (hT : Asc82Tab9M) (h6 : Asc82Tab6M)
       exact Subgroup.mem_sup_left (Subgroup.mem_sup_left (Subgroup.mem_zpowers t))
     have hnt : ∃ v ∈ τ.range, v ≠ 1 := by
       rw [Subgroup.eq_bot_iff_forall] at hbot
-      push_neg at hbot
+      push Not at hbot
       exact hbot
     obtain ⟨v, hv, hv1⟩ := hnt
     obtain ⟨x₀, hx₀⟩ := MonoidHom.mem_range.mp hv

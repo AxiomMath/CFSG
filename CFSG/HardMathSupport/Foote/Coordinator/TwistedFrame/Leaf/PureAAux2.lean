@@ -30,7 +30,7 @@ theorem coe_comm_vSL_uSL (s t : K) :
 theorem det_comm_vSL_uSL_sub_one (s t : K) :
     (((⁅vSL s, uSL t⁆ : SL2 K) : Matrix (Fin 2) (Fin 2) K) - 1).det = -(s * t) ^ 2 := by
   rw [coe_comm_vSL_uSL, Matrix.det_fin_two]
-  simp [Matrix.sub_apply, Matrix.one_apply]
+  simp [Matrix.sub_apply]
   ring
 
 theorem comm_vSL_uSL_pow_ne_one (p : ℕ) [Fact p.Prime] [CharP K p] {s t : K} (h : s * t ≠ 0)
@@ -160,7 +160,7 @@ theorem pure_of_center (hdat : DichData τ) [Finite K]
     ∃ x ∈ X, conjSub g (Uθ τ K) = conjSub x (Uθ τ K) := by
   classical
   obtain ⟨p, hp⟩ := CharP.exists K
-  haveI : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
+  have : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
   obtain ⟨m₀, hm₀mem, hconj⟩ := exists_swap hdat K
   have hm₀G : m₀ ∈ adjointGroup τ K := by
     have h1 : Uθ τ K ≤ adjointGroup τ K := rootSubgroup_le_adjointGroup _

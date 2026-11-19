@@ -39,7 +39,7 @@ private lemma false_of_tag_twA {p l n : ℕ} (hΛ : LargeEvenInLambda2 ⟨.twA, 
   obtain ⟨-, hl2, -⟩ := hΛ
   have hlne2 : l ≠ 2 := by
     intro hl2'
-    exact hVac (by simp [GGL48TableBVacLabel, hl2'])
+    exact hVac (by simp [hl2'])
   have hl3 : 3 ≤ l := by omega
   have hq2 : p ∣ 2 ^ n + 1 := by
     rcases hS with h | ⟨hn1, hp3⟩

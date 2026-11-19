@@ -75,7 +75,7 @@ theorem pi19Ty_input {p : ℕ} {Y : Type} [Group Y] (h : Pi19Ty p Y) :
 theorem pi19Ty_of_isPiGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Type} [Group L] [Finite L]
     (h : IsPiGroup p L) : Pi19Ty p (L ⧸ Subgroup.center L) := by
   obtain ⟨hq, -, hcase⟩ := h
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2
   have hp3 : 3 ≤ p := by
     have := hp.two_le
     omega
@@ -110,10 +110,10 @@ theorem pi19Ty_dvd {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hOm : InputOmegaDvd
   rcases h with ⟨n, hn, ⟨f⟩, hmod⟩ | ⟨ε, n, hn, hO, hfp⟩
   · have hpn : p ≤ n := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       rw [Nat.mod_eq_of_lt hlt] at hmod
       omega
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     have hcard : 2 * Nat.card Y = Nat.factorial n := by
       rw [Nat.card_congr f.toEquiv, two_mul_nat_card_alternatingGroup, Nat.card_perm, Nat.card_fin]
     have hfac : p ∣ 2 * Nat.card Y := by
@@ -150,14 +150,17 @@ variable {G : Type} [Group G] [Finite G]
     Set (Subgroup (↥C ⧸ GLAPPrimeCore p ↥C)) :=
   {Z | ∃ z ∈ A0, Z = GLBConj (QuotientGroup.mk' (GLAPPrimeCore p ↥C) z) (barX p C K)}
 
+omit [Finite G] in
 theorem fam_base (p : ℕ) (C K : Subgroup G) (A0 : Subgroup ↥C) : barX p C K ∈ fam p C K A0 :=
   ⟨1, A0.one_mem, by rw [map_one, gLBConj_one]⟩
 
+omit [Finite G] in
 theorem fam_comp {p : ℕ} {C K : Subgroup G} (hK : GLAPComponent p C K) (A0 : Subgroup ↥C) :
     ∀ Z ∈ fam p C K A0, IsComponentOf Z ⊤ := by
   rintro Z ⟨z, -, rfl⟩
   exact l119_conj_component hK z
 
+omit [Finite G] in
 theorem fam_bar_normalizes {p : ℕ} {C K : Subgroup G} (A0 : Subgroup ↥C) {y : ↥C} (hy : y ∈ A0) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥C) y ∈
       Subgroup.normalizer ((sSup (fam p C K A0) : Subgroup (↥C ⧸ GLAPPrimeCore p ↥C)) : Set _) := by
@@ -258,7 +261,7 @@ theorem no_bad {p m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
         ∀ q ∈ barX p (Cg a) K, QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) z * q =
           q * QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) z) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rintro ⟨z₀, hz₀A, hz₀1, hbad⟩
   obtain ⟨hDDp, -⟩ := hSec.pair
   obtain ⟨-, hDp, hrA0⟩ := hDDp

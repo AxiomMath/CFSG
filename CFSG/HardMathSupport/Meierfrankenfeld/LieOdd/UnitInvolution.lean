@@ -59,7 +59,7 @@ theorem refl_case_data (h : UnitaryFieldData 3 1 K) (A : GL (HypIndex 2 0) K)
     have h1 := hiso (Pi.single (.inl 0) 1) (Pi.single (.inr (.inr 0)) 1)
     rw [hcon, hcon] at h1
     simp only [map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul, gramForm_single] at h1
-    simp only [hypGram_inl_inr_inr, if_true] at h1
+    simp only [hypGram_inl_inr_inr, ite_true] at h1
     have hcN : h.norm c = 1 := by
       have : c * h.bar c = 1 := by simpa using h1
       rw [UnitaryFieldData.norm]
@@ -84,10 +84,10 @@ theorem exists_heis_of_involution_hyp (h : UnitaryFieldData 3 1 K)
     ∃ (x y : Fin 2 → hypPSU h 2 0) (z : hypPSU h 2 0),
       HeisCfg 3 2 x y z ∧ (∀ i, y i ^ 3 = 1) ∧ α (x 0) = (x 0)⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨h.prime⟩
+  have : Fact (Nat.Prime 3) := ⟨h.prime⟩
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   have h2 : (2 : K) ≠ 0 := two_ne_zero_of_odd h hp2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf α = 2 := orderOf_eq_prime (by rw [pow_two]; exact hα2) hα1
   obtain ⟨hAct, -, -, hinv⟩ := odd_unitary_automorphism_semilinear_representation h hp2
     (r := 2) (ε := 0) (by norm_num) (by norm_num) (by norm_num)
@@ -96,7 +96,7 @@ theorem exists_heis_of_involution_hyp (h : UnitaryFieldData 3 1 K)
   have hGb : G.map h.bar = G := hypGram_map h.bar
   have hG : (G.map h.bar)ᵀ = G := by rw [hGb]; exact hypGram_transpose
   have hdet : G.det ≠ 0 := det_hypGram_ne_zero
-  have hcard : Fintype.card (HypIndex 2 0) = 4 := by simpa using card_hypIndex (r := 2) (ε := 0)
+  have hcard : Fintype.card (HypIndex 2 0) = 4 := by simp
   have hAu' : ((A : Matrix (HypIndex 2 0) (HypIndex 2 0) K).map h.bar)ᵀ * G *
       (A : Matrix _ _ K) = G := hAu
   have hiso : ∀ x y, hf h G ((A : Matrix _ _ K) *ᵥ x) ((A : Matrix _ _ K) *ᵥ y) = hf h G x y :=

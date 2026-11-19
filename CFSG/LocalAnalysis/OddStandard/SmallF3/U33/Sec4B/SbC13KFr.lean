@@ -46,7 +46,7 @@ theorem c13K_conj_R (hc : Ctx13M t L S x₁ x₂ lam rho tau om) {g : G}
         exact h1
       · rw [h]
         exact h2
-    | one => simpa using (ctxR t tau x₁ x₂).one_mem
+    | one => simp
     | mul y z _ _ hy hz =>
       have e : g * (y * z) * g⁻¹ = (g * y * g⁻¹) * (g * z * g⁻¹) := by group
       rw [e]
@@ -81,8 +81,8 @@ theorem c13K_N_U_le_K (hc : Ctx13M t L S x₁ x₂ lam rho tau om) :
 theorem c13K_exists_not_M (hG : Sec4Glob G) (hc : Ctx13M t L S x₁ x₂ lam rho tau om) :
     ∃ k ∈ ctxK t tau x₁ x₂ rho, k ∉ ctxM t tau x₁ x₂ := by
   by_contra hcon
-  push_neg at hcon
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  push Not at hcon
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU2 : IsPGroup 2 (ctxU t tau x₁ x₂ lam) := hc.U_sylow.2.1
   obtain ⟨P, hUP⟩ := hU2.exists_le_sylow
   have hPcard : Nat.card ↥(P : Subgroup G) = 2 ^ (Nat.card G).factorization 2 :=
@@ -99,8 +99,8 @@ theorem c13K_exists_not_M (hG : Sec4Glob G) (hc : Ctx13M t L S x₁ x₂ lam rho
   have hex : ∃ n ∈ (P : Subgroup G), (∀ x ∈ ctxU t tau x₁ x₂ lam,
       n * x * n⁻¹ ∈ ctxU t tau x₁ x₂ lam) ∧ n ∉ ctxU t tau x₁ x₂ lam := by
     by_contra hno
-    push_neg at hno
-    exact hUne (eq_of_forall_normalizes P.isPGroup' hUP hno)
+    push Not at hno
+    exact hUne (eq_of_forall_normalizes P.isPGroup hUP hno)
   obtain ⟨n, hnP, hnU, hnnU⟩ := hex
   have hnorm : n ∈ normalizer ((ctxU t tau x₁ x₂ lam : Subgroup G) : Set G) := by
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -113,7 +113,7 @@ theorem c13K_exists_not_M (hG : Sec4Glob G) (hc : Ctx13M t L S x₁ x₂ lam rho
     sup_le hUP (Subgroup.zpowers_le.mpr hnP)
   have hVM : ctxU t tau x₁ x₂ lam ⊔ zpowers n ≤ ctxM t tau x₁ x₂ :=
     sup_le (c13K_O_le_U_le_M hc).2 (Subgroup.zpowers_le.mpr hnM)
-  obtain ⟨a, ha⟩ := (IsPGroup.iff_card (p := 2)).mp (P.isPGroup'.to_le hVP)
+  obtain ⟨a, ha⟩ := (IsPGroup.iff_card (p := 2)).mp (P.isPGroup.to_le hVP)
   have hdvd : 2 ^ a ∣ 2 ^ 10 := by
     have h1 : 2 ^ a ∣ 3 * 2 ^ 10 := by
       rw [← ha, ← hc.card_M]

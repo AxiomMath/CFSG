@@ -71,6 +71,7 @@ private theorem conj_eq_of_odd {N X : Subgroup G} (hN : Odd (Nat.card ↥N)) (hX
     hX.to_le (Subgroup.zpowers_le.mpr (X.mul_mem (X.inv_mem hc) hμc))
   exact (inv_mul_eq_one.mp (eq_one_of_isPGroup_of_mem_odd hN h2 h3)).symm
 
+omit [Finite G] in
 private theorem Tri.exists_conj_of_mem_omegaNbr {K J M : Subgroup G} {t u : G}
     (h : Tri r Ω K J M t u) {g : G} {L : Subgroup G} (hL : L ∈ omegaNbr Ω (conjSub g K)) {l : G}
     (hl : IsUniqueInvolution L l) :
@@ -174,7 +175,7 @@ theorem exists_frameW (hΩ : HypOmegaGen Ω) (S : Sylow 2 G) : ∃ W : Subgroup 
     fun A hA h2 => ?_⟩
   exact (hη.1 (Sec6Gen.eta_inf_mem_of_cyc66 hΩ hC ⟨S, hη, hinv⟩ hηS hA h2)).1
 
-theorem exists_gen_of_mem_USet (hΩ : TypeRFam r Ω) {A U : Subgroup G} (hA : A ∈ Ω) {a : G}
+theorem exists_gen_of_mem_USet (hΩ : TypeRFam r Ω) {A U : Subgroup G} (_hA : A ∈ Ω) {a : G}
     (ha : IsUniqueInvolution A a) (hU : U ∈ USet Ω) (hUA : U ≤ A) :
     ∃ x : G, U = Subgroup.zpowers x ∧ orderOf x = 2 ^ (r - 1) ∧ x ^ 2 ^ (r - 2) = a := by
   obtain ⟨R, -, J, hJ, hRJ, -, hcyc, hcard, h4⟩ := Sec6Gen.exists_data_of_mem_USet hΩ.hyp hU

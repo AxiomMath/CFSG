@@ -40,6 +40,7 @@ open CFSG.ComponentClassification.PerfectAutomorphisms (centerQuotientHom center
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem isPGroup_zpowers_three {y : Q} (hy : y ^ 3 = 1) : IsPGroup 3 (Subgroup.zpowers y) := by
   intro g
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 g.2
@@ -70,10 +71,11 @@ theorem le_sup_of_centMod {K I : Subgroup Q} {y : Q} (hq : CFSG.Open.IsQuasisimp
       calc C = I ⊔ GLAPPrimeCoreOf 3 C := hIcov.symm
         _ ≤ I ⊔ GLAPPrimeCoreOf 3 K := sup_le_sup_left hOC I
 
+omit [Finite Q] in
 theorem chevAut_eq_one_iff' {K : Subgroup Q} (hq : CFSG.Open.IsQuasisimple (PQuot 3 K)) {a : Q}
     (ha : a ∈ Subgroup.normalizer (K : Set Q)) :
     chevAut 3 K ⟨a, ha⟩ = 1 ↔ CentMod 3 K a := by
-  haveI : Group.IsPerfect (PQuot 3 K) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot 3 K) := ⟨hq.1⟩
   rw [← chev_barAut_eq_one_iff_centMod ha]
   show centerQuotientHom (PQuot 3 K) (barAut 3 K ⟨a, ha⟩) = 1 ↔ _
   rw [← map_one (centerQuotientHom (PQuot 3 K))]
@@ -105,7 +107,7 @@ theorem model_alt {K I : Subgroup Q} {y : Q} (hM : I1432Model K I y) {n : ℕ} (
   exact ⟨m, (le_max_left 5 3).trans hm, ⟨g₁.trans (e₁.trans f)⟩⟩
 
 theorem model_spor {K I : Subgroup Q} {y : Q} (hM : I1432Model K I y) {s : TauCeti.SporadicName}
-    (e : PSimple 3 K ≃* (TauCeti.CFSGIndex.sporadic s).Group) {P : TauCeti.CFSGIndex → Prop}
+    (_e : PSimple 3 K ≃* (TauCeti.CFSGIndex.sporadic s).Group) {P : TauCeti.CFSGIndex → Prop}
     (hT : catalogIs (PSimple 3 I) P) :
     ∃ β : MulAut (PSimple 3 K), β ^ 3 = 1 ∧ β ≠ 1 ∧ ∃ J : Subgroup (PSimple 3 K),
       GLAPComponent 3 (fixSubgroup β) J ∧ catalogIs (PSimple 3 J) P := by
@@ -120,7 +122,7 @@ theorem model_spor {K I : Subgroup Q} {y : Q} (hM : I1432Model K I y) {s : TauCe
 
 theorem card_alt_ne {m N : ℕ} (k : ℕ) (hm : 5 ≤ m) (h1 : k.factorial < 2 * N)
     (h2 : 2 * N < (k + 1).factorial) : Nat.card (alternatingGroup (Fin m)) ≠ N := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
   rw [nat_card_alternatingGroup, Nat.card_fin]
   intro h
   have h2m : 2 ∣ m.factorial := Nat.dvd_factorial (by norm_num) (by omega)

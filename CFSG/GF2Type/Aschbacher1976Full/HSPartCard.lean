@@ -87,7 +87,7 @@ theorem hsPartCard_holds : HSPartCard := by
   have h3 : 3 ≤ Nat.card ↥(ET (T : Subgroup G) z) :=
     Card.three_le_card (one_mem _) hz_mem hu_mem hz1.symm (BL.ne_one_of_isConj hz hucj).symm
       hunz.symm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (hF2.to_le hETF)
   rw [hn] at h3 hle8 ⊢
   exact Card.eq_four_or_eight h3 hle8

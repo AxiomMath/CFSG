@@ -198,11 +198,11 @@ private def kg6_vecStab (v : Fin 3 ⊕ Fin 3 → K) : Subgroup (GL (Fin 3 ⊕ Fi
   one_mem' := by simp
   mul_mem' := by
     intro g h hg hh
-    simp only [Set.mem_setOf_eq, Units.val_mul, ← Matrix.mulVec_mulVec] at *
+    simp only [Set.mem_ofPred_eq, Units.val_mul, ← Matrix.mulVec_mulVec] at *
     rw [hh, hg]
   inv_mem' := by
     intro g hg
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     conv_lhs => rw [← hg]
     rw [Matrix.mulVec_mulVec, ← Units.val_mul, inv_mul_cancel, Units.val_one, Matrix.one_mulVec]
 
@@ -212,7 +212,7 @@ private theorem kg6_w_e0 :
   rw [kg6_w, kg6_permGL_mulVec, kg6_pi_inv]
   funext j
   rcases j with j | j <;> fin_cases j <;>
-    simp [kg6_pi, Equiv.swap_apply_def, Pi.single_apply]
+    simp [kg6_pi, Equiv.swap_apply_def]
 
 private theorem kg6_w_f0 :
     ((kg6_w : GL (Fin 3 ⊕ Fin 3) K) : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) *ᵥ
@@ -220,7 +220,7 @@ private theorem kg6_w_f0 :
   rw [kg6_w, kg6_permGL_mulVec, kg6_pi_inv]
   funext j
   rcases j with j | j <;> fin_cases j <;>
-    simp [kg6_pi, Equiv.swap_apply_def, Pi.single_apply]
+    simp [kg6_pi, Equiv.swap_apply_def]
 
 theorem exists_genLine_witness [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K) {p : ℕ} (hp : p.Prime)
     (hpq : p ∣ Nat.card K ^ 2 - 1) :
@@ -232,8 +232,8 @@ theorem exists_genLine_witness [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K) {p
       (¬ ∃ c : K, (w : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K) *ᵥ
         (Pi.single (Sum.inl 0) 1 : Fin 3 ⊕ Fin 3 → K) = c • Pi.single (Sum.inl 0) 1) ∧
       w * x * w⁻¹ ∈ Subgroup.zpowers x := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect SL(2, K) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect SL(2, K) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK
   obtain ⟨a, ha⟩ : ∃ a : SL(2, K), orderOf a = p := by
     apply exists_prime_orderOf_dvd_card' p

@@ -63,16 +63,19 @@ section Basics
 
 variable [CharP K 2] (M : QuadModel QF V K γ)
 
+omit [CharP K 2] in
 private theorem pi_one : M.π 1 = 0 := by
   have h := M.π_mul 1 QF.one_mem 1 QF.one_mem
   rw [mul_one] at h
   exact left_eq_add.mp h
 
+omit [CharP K 2] in
 private theorem pi_inv {x : G} (hx : x ∈ QF) : M.π x⁻¹ = - M.π x := by
   have h := M.π_mul x hx x⁻¹ (QF.inv_mem hx)
   rw [mul_inv_cancel, pi_one] at h
   exact eq_neg_of_add_eq_zero_right h.symm
 
+omit [CharP K 2] in
 private theorem γ_one (H : Heis QF V γ) : γ 1 = 0 := by
   have h := H.hγadd 1 V.one_mem 1 V.one_mem
   rw [mul_one] at h
@@ -93,9 +96,11 @@ private theorem eq_of_γ_eq (H : Heis QF V γ) {a b : G} (ha : a ∈ V) (hb : b 
 
 private noncomputable def vv (H : Heis QF V γ) (s : K) : G := Classical.choose (H.hγsurj s)
 
+omit [CharP K 2] in
 private theorem vv_mem (H : Heis QF V γ) (s : K) : vv H s ∈ V :=
   (Classical.choose_spec (H.hγsurj s)).1
 
+omit [CharP K 2] in
 private theorem γ_vv (H : Heis QF V γ) (s : K) : γ (vv H s) = s :=
   (Classical.choose_spec (H.hγsurj s)).2
 
@@ -106,6 +111,7 @@ private theorem vv_add (H : Heis QF V γ) (s t : K) : vv H (s + t) = vv H s * vv
 private theorem vv_zero (H : Heis QF V γ) : vv H 0 = 1 :=
   eq_of_γ_eq H (vv_mem H _) V.one_mem (by rw [γ_vv H, γ_one H])
 
+omit [CharP K 2] in
 private theorem vv_comm (H : Heis QF V γ) (s : K) {y : G} (hy : y ∈ QF) :
     vv H s * y = y * vv H s :=
   H.hVc _ (vv_mem H s) y hy
@@ -122,6 +128,7 @@ private theorem commute_of_B_eq_zero (H : Heis QF V γ) {x y : G} (hx : x ∈ QF
     (h : M.B (M.π x) (M.π y) = 0) : x * y = y * x := by
   rw [mul_eq_vv_mul M H hx hy, h, vv_zero, one_mul]
 
+omit [CharP K 2] in
 private theorem mul_self_eq_one_of_Qf_eq_zero (H : Heis QF V γ) {x : G} (hx : x ∈ QF)
     (h : M.Qf (M.π x) = 0) : x * x = 1 := by
   have h1 := H.hγinj (x ^ 2) (M.sq_mem x hx) (by rw [M.sq_eq x hx, h])
@@ -133,6 +140,7 @@ section Sections
 
 variable [CharP K 2] (M : QuadModel QF V K γ)
 
+omit [CharP K 2] in
 private theorem B_eq_zero_of_singular (S : Submodule K M.E) (hS : ∀ x ∈ S, M.Qf x = 0) {x y : M.E}
     (hx : x ∈ S) (hy : y ∈ S) : M.B x y = 0 := by
   have h := M.Qf_add x y
@@ -153,13 +161,13 @@ private theorem exists_section (H : Heis QF V γ) (S : Submodule K M.E)
   classical
   have hcomm : ∀ x y : lift M S, x * y = y * x := fun x y =>
     Subtype.ext (commute_of_B_eq_zero M H x.2.1 y.2.1 (B_eq_zero_of_singular M S hS x.2.2 y.2.2))
-  letI : CommGroup (lift M S) := { (inferInstance : Group (lift M S)) with mul_comm := hcomm }
+  let : CommGroup (lift M S) := { (inferInstance : Group (lift M S)) with mul_comm := hcomm }
   have hsq : ∀ g : lift M S, g * g = 1 := fun g =>
     Subtype.ext (mul_self_eq_one_of_Qf_eq_zero M H g.2.1 (hS _ g.2.2))
-  haveI : Module (ZMod 2) (Additive (lift M S)) := AddCommGroup.zmodModule (n := 2) (fun x => by
+  have : Module (ZMod 2) (Additive (lift M S)) := AddCommGroup.zmodModule (n := 2) (fun x => by
     rw [two_nsmul]
     exact congrArg Additive.ofMul (hsq (Additive.toMul x)))
-  haveI : Module (ZMod 2) S := AddCommGroup.zmodModule (n := 2) (fun x => by
+  have : Module (ZMod 2) S := AddCommGroup.zmodModule (n := 2) (fun x => by
     rw [two_nsmul]
     have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
     rw [← two_smul K x, h2, zero_smul])
@@ -182,14 +190,14 @@ private theorem exists_section (H : Heis QF V γ) (S : Submodule K M.E)
   obtain ⟨σ, hσ⟩ := πl.exists_rightInverse_of_surjective (LinearMap.range_eq_top.mpr hsurj)
   refine ⟨fun e => if h : e ∈ S then (Additive.toMul (σ ⟨e, h⟩)).1 else 1, ?_, ?_, ?_⟩
   · intro e he
-    simp only [he, dif_pos]
+    simp only [he, dite_eq_left]
     exact (Additive.toMul (σ ⟨e, he⟩)).2.1
   · intro e he
-    simp only [he, dif_pos]
+    simp only [he, dite_eq_left]
     have := congrArg Subtype.val (LinearMap.congr_fun hσ ⟨e, he⟩)
     exact this
   · intro e he e' he'
-    simp only [he, he', S.add_mem he he', dif_pos]
+    simp only [he, he', S.add_mem he he', dite_eq_left]
     have : σ ⟨e + e', S.add_mem he he'⟩ = σ ⟨e, he⟩ + σ ⟨e', he'⟩ := by
       rw [← map_add]
       rfl
@@ -204,6 +212,7 @@ section DualFamily
 variable {K : Type*} [Field K] [CharP K 2] {E : Type*} [AddCommGroup E] [Module K E]
   [Module.Finite K E]
 
+omit [Module.Finite K E] in
 private theorem bilin_symm (B : LinearMap.BilinForm K E) (hBalt : ∀ x, B x x = 0) (x y : E) :
     B x y = B y x := by
   have h := hBalt (x + y)
@@ -263,7 +272,7 @@ private theorem exists_dual_family (B : LinearMap.BilinForm K E) (hBalt : ∀ x,
     intro i
     rw [hw', map_sub, map_sum]
     simp only [map_smul, hBef, smul_eq_mul, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq,
-      Finset.mem_univ, if_true]
+      Finset.mem_univ, ite_true]
     simp [hd]
   have hw'S : ∀ x ∈ S₁, B x w' = 0 := by
     intro x hx
@@ -348,7 +357,7 @@ private theorem exists_family (H : Heis QF V γ) (hne : QF ≠ V)
     intro i y x
     rw [mul_eq_vv_mul M H (hBQ i x) (hAQ i y), hBπ, hAπ]
     congr 2
-    simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, hsymm (f i) (e i), hef i i, if_true,
+    simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, hsymm (f i) (e i), hef i i, ite_true,
       mul_one]
     ring
   have hcomm_ne : ∀ i j, i ≠ j → ∀ y x, A j y * Bq i x = Bq i x * A j y := by
@@ -356,7 +365,7 @@ private theorem exists_family (H : Heis QF V γ) (hne : QF ≠ V)
     apply commute_of_B_eq_zero M H (hAQ j y) (hBQ i x)
     rw [hAπ, hBπ]
     simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, hef j i,
-      if_neg (fun h : j = i => hij h.symm), mul_zero]
+      ite_eq_right (fun h : j = i => hij h.symm), mul_zero]
   have hAA : ∀ i j y y', A i y * A j y' = A j y' * A i y := fun i j y y' =>
     commute_of_B_eq_zero M H (hAQ i y) (hAQ j y') (by
       rw [hAπ, hAπ]
@@ -369,7 +378,7 @@ private theorem exists_family (H : Heis QF V γ) (hne : QF ≠ V)
     { toFun := fun u => vv H u.c * (A i u.b * Bq i u.a)
       map_one' := by
         rw [UT3.one_def]
-        simp only [vv_zero, hA0, hB0, one_mul, mul_one]
+        simp only [vv_zero, hA0, hB0, mul_one]
       map_mul' := fun u u' => by
         rw [UT3.mul_def]
         simp only
@@ -400,13 +409,13 @@ private theorem exists_family (H : Heis QF V γ) (hne : QF ≠ V)
     rw [hΦπ] at hπ
     have hx : u.a = 0 := by
       have h1 := congrArg (M.B (e i)) hπ
-      simp only [map_add, map_smul, smul_eq_mul, M.alt, hef i i, if_true, mul_zero, mul_one,
+      simp only [map_add, map_smul, smul_eq_mul, M.alt, hef i i, ite_true, mul_zero, mul_one,
         zero_add, map_zero] at h1
       exact h1
     have hy : u.b = 0 := by
       have h2 := congrArg (fun v => M.B v (f i)) hπ
       simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, smul_eq_mul,
-        hef i i, M.alt, if_true, mul_one, mul_zero, add_zero, map_zero,
+        hef i i, M.alt, ite_true, mul_one, mul_zero, add_zero, map_zero,
         LinearMap.zero_apply] at h2
       exact h2
     have hc0 : u.c = 0 := by

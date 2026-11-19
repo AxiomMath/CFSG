@@ -43,6 +43,7 @@ private lemma orthogonalGroupCongr_map_omegaGroup (hQ : Q.Nondegenerate) (hQ' : 
     commutator_def, commutator_def, Subgroup.map_commutator,
     Subgroup.map_top_of_surjective _ (orthogonalGroupCongr e).surjective]
 
+omit [FiniteDimensional (ZMod 3) V] [FiniteDimensional (ZMod 3) V'] in
 private lemma orthogonalGroupCongr_map_piGroup (e : Q.IsometryEquiv Q') :
     (piGroup Q).map (orthogonalGroupCongr e).toMonoidHom = piGroup Q' := by
   have hpi : orthogonalGroupCongr e (piOrth Q) = piOrth Q' := by

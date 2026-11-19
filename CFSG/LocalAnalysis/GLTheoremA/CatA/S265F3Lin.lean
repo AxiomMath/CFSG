@@ -94,7 +94,7 @@ theorem exists_layer_of_linear_model {T : Type} [Group T] [Finite T] [CharP k 2]
     (hEt : ∀ c ∈ Eb, c t = t) :
     ∃ c ∈ Eb, c ∉ Subgroup.zpowers β ∧ GLAPLayer 3 (fixSubgroup β ⊓ fixSubgroup c) ≠ ⊥ := by
   classical
-  haveI : Finite (MulAut (projectiveSL 3 k)) :=
+  have : Finite (MulAut (projectiveSL 3 k)) :=
     Finite.of_injective (fun (g : MulAut (projectiveSL 3 k)) (w : projectiveSL 3 k) => g w)
       (fun g h hgh => MulEquiv.ext (congrFun hgh))
   have hφinj : Function.Injective (MulAut.congr e).toMonoidHom := (MulAut.congr e).injective

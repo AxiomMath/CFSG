@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G] {M V Q : Subgroup G}
 
 section Helpers
 
+omit [Finite G] in
 theorem exists_mul_of_mem_sup' {A B : Subgroup G}
     (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b * a⁻¹ ∈ B) {x : G} (hx : x ∈ A ⊔ B) :
     ∃ a ∈ A, ∃ b ∈ B, x = a * b := by
@@ -127,6 +128,7 @@ theorem comm_K_K {a b : G}
 
 
 
+omit [Finite G] H hgV hgQ in
 theorem exists_Q_mul_K {n : ℕ} (N : NatData V Q g n) {x : ↥(Q ⊔ conjSubgroup g Q)}
     (hx : N.φ x ∈ upperUnipotent (GaloisField 2 n)) :
     ∃ q : G, q ∈ Q ∧ q⁻¹ * (x : G) ∈ Subgroup.centralizer (Wg V g : Set G) := by
@@ -277,8 +279,8 @@ theorem gt1_concrete {n : ℕ} (N : NatData V Q g n) {τ : G} (hτH : τ ∈ Q �
       intro x x' hx hx' c hc
       show ((⁅x', ⁅x, c⁆⁆ : ↥Hh) : G) ∈ L
       rw [hcoeComm, hcoeComm]
-      obtain ⟨q, hq, hr⟩ := exists_Q_mul_K H hgV hgQ N hx
-      obtain ⟨q', hq', hr'⟩ := exists_Q_mul_K H hgV hgQ N hx'
+      obtain ⟨q, hq, hr⟩ := exists_Q_mul_K N hx
+      obtain ⟨q', hq', hr'⟩ := exists_Q_mul_K N hx'
       have hrK : q⁻¹ * (x : G) ∈ Hh ⊓ CW :=
         ⟨Subgroup.mul_mem _ (Subgroup.inv_mem _ (hQHh hq)) x.2, hr⟩
       have hr'K : q'⁻¹ * (x' : G) ∈ Hh ⊓ CW :=
@@ -302,7 +304,7 @@ theorem gt1_concrete {n : ℕ} (N : NatData V Q g n) {τ : G} (hτH : τ ∈ Q �
       intro c hc x hx
       show ((⁅x, c⁆ : ↥Hh) : G) ∈ L
       rw [hcoeComm]
-      obtain ⟨q, hq, hr⟩ := exists_Q_mul_K H hgV hgQ N hx
+      obtain ⟨q, hq, hr⟩ := exists_Q_mul_K N hx
       have hrK : q⁻¹ * (x : G) ∈ Hh ⊓ CW :=
         ⟨Subgroup.mul_mem _ (Subgroup.inv_mem _ (hQHh hq)) x.2, hr⟩
       have hcK : (c : G) ∈ Hh ⊓ CW := hPK _ hc

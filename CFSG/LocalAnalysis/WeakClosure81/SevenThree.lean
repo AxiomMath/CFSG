@@ -36,6 +36,7 @@ theorem nVSub_conj_ne_bot_of_mem_omegaSet {V H E U U' : Subgroup G}
     Subgroup.ne_bot_iff_exists_ne_one.mpr
       ⟨⟨(w : G), Subgroup.mem_inf.mpr ⟨hwU, hwn⟩⟩, fun h => hwne (Subtype.ext_iff.mp h)⟩⟩
 
+omit [Finite G] in
 theorem isPGroup_closure_pair_of_mem_normalizer {V : Subgroup G} (hV : IsElemAbelian 2 V)
     {a b : G} {d e : G} (hd : d ∈ conjSubgroup V a) (he : e ∈ conjSubgroup V b)
     (hdN : d ∈ normalizer (conjSubgroup V b : Set G)) :
@@ -141,6 +142,7 @@ theorem nVSub_comm_bSub_conj {V : Subgroup G} (hTI : IsTI V) {a b : G}
     exact hv
   exact nVSub_comm_bSub (isTI_conj hTI a) hne' hu' hv'
 
+omit [Finite G] in
 theorem le_normalizer_of_subgroupOf_normal {E H : Subgroup G} (hEH : E ≤ H)
     (h : (E.subgroupOf H).Normal) : H ≤ normalizer (E : Set G) := by
   intro g hg
@@ -193,7 +195,7 @@ theorem inf_pCoreOf_le_inf_pCoreOf_sup {V H E U U' : Subgroup G}
   exact ⟨hx.1, hYle ⟨Subgroup.mem_sup_left hx.1, hx.2⟩⟩
 
 theorem seven_two_iSub_isElemAbelian {V H E : Subgroup G}
-    (hV : IsElemAbelian 2 V) (hTI : IsTI V) (hE : IsMulCommutative E)
+    (hV : IsElemAbelian 2 V) (hTI : IsTI V) (_hE : IsMulCommutative E)
     (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H) (hCore : SevenOneCore V H E) :
     IsElemAbelian 2 (iSub V H E) := by
   have hgen : ∀ U ∈ omegaSet V H E, ∀ U' ∈ omegaSet V H E,

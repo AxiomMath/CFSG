@@ -282,7 +282,7 @@ private theorem k329o4p_recip_quad {K : Type} [Field K] :
     rw [coeff_reverse, hnd]
     rcases n with _ | _ | _ | n
     · rw [revAt_le (by norm_num)]; try simp [coeff_X, coeff_one]
-    · rw [revAt_le (by norm_num)]; try simp [coeff_X, coeff_one]
+    · rw [revAt_le (by norm_num)]
     · rw [revAt_le (by norm_num)]; try simp [coeff_X, coeff_one]
     · rw [revAt_eq_self_of_lt (by omega)]
   rw [reciprocalPolynomial, hc, hrev]

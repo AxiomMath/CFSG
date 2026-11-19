@@ -203,7 +203,7 @@ theorem bender38Component
   set Pb : Sylow 2 (K ⧸ Subgroup.center K) := P.mapSurjective hψs with hPb
   have hPb' : (Pb : Subgroup (K ⧸ Subgroup.center K)) = (P : Subgroup K).map ψ :=
     Sylow.coe_mapSurjective _ _
-  have hPp : IsPGroup 2 (P : Subgroup K) := P.isPGroup'
+  have hPp : IsPGroup 2 (P : Subgroup K) := P.isPGroup
   have hmemQ : ∀ x : K, (x : G) ∈ Q ↔ x ∈ (P : Subgroup K) := by
     intro x
     rw [hQ, ← hP]

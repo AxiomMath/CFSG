@@ -107,7 +107,7 @@ theorem exists_conj_of_isMaxParabolicMod
   have hB0conj_le_S : conjSubgroup B0 k⁻¹ ≤ S := by
     intro x hx
     obtain ⟨b, hb, rfl⟩ := Subgroup.mem_map.1 hx
-    simp only [MulAut.conj_apply, inv_inv]
+    simp only [inv_inv]
     exact S.mul_mem (S.mul_mem hkS (B0_le_S hb)) (S.inv_mem hkS)
   have hB0conjP : conjSubgroup B0 k⁻¹ ≤ P :=
     (le_inf hB0conj_le_S hB0conj_le_norm).trans hnorm

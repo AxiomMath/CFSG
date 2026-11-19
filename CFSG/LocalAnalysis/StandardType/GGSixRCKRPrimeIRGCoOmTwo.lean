@@ -12,13 +12,13 @@ open CFSG.Open (StatedLieTag)
 theorem irgIsoCompat_omegaMinus_two
     {g : ℕ} (hg : 1 ≤ g) :
     ∃ e : (ggU .POmegaMinus 2 g).K ≃* (ggU .PSL 2 (2 * g)).K, IRGIsoCompat e := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 g
   let b := (CFSG.LieType.Universal.minusCoeffs 2 g).1
   let c := (CFSG.LieType.Universal.minusCoeffs 2 g).2
   have hK : Nat.card K = 2 ^ g := GaloisField.card 2 g (by omega)
   have hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0 := CFSG.LieType.Universal.minusCoeffs_irr 2 g
-  haveI : Fact (∀ r : K, r ^ 2 ≠ -c + b * r) :=
+  have : Fact (∀ r : K, r ^ 2 ≠ -c + b * r) :=
     CFSG.LieType.Universal.Spin.Twisted.fact_shortField hirr
   obtain ⟨eSpin⟩ := irgOm2_exists_spinEquivSL2 (K := K) (b := b) (c := c) hirr
   have hEcard : Nat.card (CFSG.LieType.Universal.Spin.Twisted.ShortField b c) =
@@ -28,10 +28,10 @@ theorem irgIsoCompat_omegaMinus_two
     rw [hK, ← pow_mul]
     congr 1
     omega
-  haveI : Finite (CFSG.LieType.Universal.Spin.Twisted.ShortField b c) :=
+  have : Finite (CFSG.LieType.Universal.Spin.Twisted.ShortField b c) :=
     CFSG.LieType.Universal.Spin.Twisted.finite_shortField (K := K) (b := b) (c := c)
-  letI : Fintype (CFSG.LieType.Universal.Spin.Twisted.ShortField b c) := Fintype.ofFinite _
-  letI : Fintype (GaloisField 2 (2 * g)) := Fintype.ofFinite _
+  let : Fintype (CFSG.LieType.Universal.Spin.Twisted.ShortField b c) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 (2 * g)) := Fintype.ofFinite _
   let φfield : CFSG.LieType.Universal.Spin.Twisted.ShortField b c ≃+* GaloisField 2 (2 * g) :=
     FiniteField.ringEquivOfCardEq (by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]

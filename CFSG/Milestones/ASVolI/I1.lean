@@ -345,10 +345,10 @@ private theorem burnsideI12_isCyclic_of_pRank_le_one {G : Type} [Group G] [Finit
     (hr : r.Prime) (hr2 : r ≠ 2) (hrk : CFSG.pRank r G ≤ 1) {P : Subgroup G}
     (hP : IsPGroup r P) : IsCyclic P := by
   by_contra hnc
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (IsPGroup r P) := ⟨hP⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (IsPGroup r P) := ⟨hP⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hr2 hnc
-  haveI := hSel
+  have := hSel
   have hSm : CFSG.IsElementaryAbelian r (S.map P.subtype) :=
     CFSG.IsElementaryAbelian.map_subtype
   have hcard : Nat.card (S.map P.subtype) = r ^ 2 := by
@@ -373,8 +373,8 @@ private theorem burnsideI12_pow_index_eq_one {E G : Type*} [Group E] [Group G] [
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (Subgroup.mem_center_iff.1 hxc y)
-  haveI : IsMulCommutative H := f.isMulCommutative_of_isCyclic_of_ker_le_center hfker
-  letI : CommGroup H := IsMulCommutative.instCommGroup
+  have : IsMulCommutative H := f.isMulCommutative_of_isCyclic_of_ker_le_center hfker
+  let : CommGroup H := IsMulCommutative.instCommGroup
   have hzc : z ∈ Subgroup.center E := hker hz
   have key : ∀ (k : ℕ) (g₀ : E), g₀⁻¹ * z ^ k * g₀ ∈ H → g₀⁻¹ * z ^ k * g₀ = z ^ k := by
     intro k g₀ _
@@ -398,11 +398,11 @@ end BurnsideI12
 
 theorem as_I_1_2 : I_1_2 := by
   intro G _ _ r hr hr2 hperf hrk x
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let P : Sylow r G := default
-  haveI : IsCyclic (P : Subgroup G) :=
-    burnsideI12_isCyclic_of_pRank_le_one hr hr2 hrk P.isPGroup'
-  haveI : Group.IsPerfect (CFSG.RankThree.PerfectCover.HopfCover G) :=
+  have : IsCyclic (P : Subgroup G) :=
+    burnsideI12_isCyclic_of_pRank_le_one hr hr2 hrk P.isPGroup
+  have : Group.IsPerfect (CFSG.RankThree.PerfectCover.HopfCover G) :=
     CFSG.RankThree.PerfectCover.hopfCover_isPerfect
   let e := CFSG.RankThree.PerfectCover.hopfMultiplierEquivGriess G
   have hpow := burnsideI12_pow_index_eq_one (CFSG.RankThree.PerfectCover.hopfCoverMap G)
@@ -450,7 +450,7 @@ private theorem burnsideI13_sub_of_row {X : Type} [Group X] {t : StatedLieTag} {
     Subsingleton (quasithinHopfMultiplier X) := by
   obtain ⟨e⟩ := hX
   rw [hg, he] at e
-  haveI : Subsingleton (Multiplicative (ZMod 1)) := inferInstanceAs (Subsingleton (ZMod 1))
+  have : Subsingleton (Multiplicative (ZMod 1)) := inferInstanceAs (Subsingleton (ZMod 1))
   exact e.toEquiv.subsingleton
 
 open scoped commutatorElement in
@@ -478,7 +478,7 @@ private theorem burnsideI13_sub_cyclic {G : Type} [Group G] [IsCyclic G] :
       group
     rw [h']
     exact N.inv_mem h
-  haveI : IsMulCommutative (FreeGroup G ⧸ N) := f.isMulCommutative_of_isCyclic_of_ker_le_center hker
+  have : IsMulCommutative (FreeGroup G ⧸ N) := f.isMulCommutative_of_isCyclic_of_ker_le_center hker
   have hcomm : commutator (FreeGroup G) ≤ N := by
     rw [commutator_def, Subgroup.commutator_le]
     intro a _ b _
@@ -542,7 +542,7 @@ private theorem burnsideI13_exc_psl2 (p f : ℕ) (hp : p ≠ 2) (h9 : p ^ f ≠ 
 private theorem burnsideI13_exc_psl2_two (f : ℕ) (hf : 3 ≤ f) :
     CFSG.Blueprint.Multiplier.exceptionalOrders .PSL 2 2 f = (1, 1) := by
   unfold CFSG.Blueprint.Multiplier.exceptionalOrders
-  split <;> first | rfl | (exfalso; simp_all <;> omega)
+  split <;> first | rfl | (exfalso; simp_all)
 
 private theorem burnsideI13_exc_psl3 (p f : ℕ) (h1 : ¬ (p = 2 ∧ f = 1)) (h2 : ¬ (p = 2 ∧ f = 2)) :
     CFSG.Blueprint.Multiplier.exceptionalOrders .PSL 3 p f = (1, 1) := by
@@ -562,12 +562,12 @@ private theorem burnsideI13_exc_psp2 (p f : ℕ) :
 private theorem burnsideI13_exc_g2_two (f : ℕ) (hf : 3 ≤ f) :
     CFSG.Blueprint.Multiplier.exceptionalOrders .G2 0 2 f = (1, 1) := by
   unfold CFSG.Blueprint.Multiplier.exceptionalOrders
-  split <;> first | rfl | (exfalso; simp_all <;> omega)
+  split <;> first | rfl | (exfalso; simp_all)
 
 private theorem burnsideI13_exc_suzuki (f : ℕ) (hf : 5 ≤ f) :
     CFSG.Blueprint.Multiplier.exceptionalOrders .twistedB2 0 2 f = (1, 1) := by
   unfold CFSG.Blueprint.Multiplier.exceptionalOrders
-  split <;> first | rfl | (exfalso; simp_all <;> omega)
+  split <;> first | rfl | (exfalso; simp_all)
 
 private theorem burnsideI13_exc_psl5 :
     CFSG.Blueprint.Multiplier.exceptionalOrders .PSL 5 2 1 = (1, 1) := by
@@ -584,7 +584,7 @@ private theorem burnsideI13_gcd_two {m : ℕ} (h : ¬ 2 ∣ m) : Nat.gcd 2 m = 1
 private theorem burnsideI13_psl25_of_alt5 {G : Type} [Group G]
     (e : Nonempty (G ≃* alternatingGroup (Fin 5))) : StatedClassicalModel G .PSL 2 5 1 := by
   obtain ⟨e⟩ := e
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨e5⟩ := CFSG.ClassicalModels.nonempty_statedLinearModel_equiv_alternating_five (ZMod 5)
     (Or.inr (by rw [Nat.card_zmod]))
   exact ⟨⟨by norm_num, le_rfl, by norm_num, by decide, by decide⟩, ZMod 5, inferInstance,
@@ -717,20 +717,20 @@ private theorem burnsideI13_false_of_row {X : Type} [Group X] {t : StatedLieTag}
     (hg : CFSG.Blueprint.Multiplier.genericOrders t n p f = (1, 1))
     (he : CFSG.Blueprint.Multiplier.exceptionalOrders t n p f = (1, 1))
     (hn : Nontrivial (quasithinHopfMultiplier X)) : False := by
-  haveI := burnsideI13_sub_of_row hX hg he
+  have := burnsideI13_sub_of_row hX hg he
   exact false_of_nontrivial_of_subsingleton (quasithinHopfMultiplier X)
 
 private theorem burnsideI13_false_of_iso {G S : Type} [Group G] [Group S] (e : G ≃* S)
     (hS : Subsingleton (quasithinHopfMultiplier S))
     (hn : Nontrivial (quasithinHopfMultiplier G)) : False := by
-  haveI : Subsingleton (quasithinHopfMultiplier G) :=
+  have : Subsingleton (quasithinHopfMultiplier G) :=
     (CFSG.LieType.Steinberg.CentralExt.griessHopfMultiplierCongr e).toEquiv.subsingleton
   exact false_of_nontrivial_of_subsingleton (quasithinHopfMultiplier G)
 
 private theorem burnsideI13_sub_of_simple_abelian {G : Type} [Group G] [IsSimpleGroup G]
     (hab : ∀ a b : G, a * b = b * a) : Subsingleton (quasithinHopfMultiplier G) := by
-  haveI : IsCyclic G := by
-    letI : CommGroup G := { ‹Group G› with mul_comm := hab }
+  have : IsCyclic G := by
+    let : CommGroup G := { ‹Group G› with mul_comm := hab }
     exact IsSimpleGroup.isCyclic
   exact burnsideI13_sub_cyclic
 
@@ -895,7 +895,7 @@ private theorem burnsideI13_complete (hGr : burnsideI13_Griess)
         Subsingleton (quasithinHopfMultiplier (CFSG.Blueprint.NativeSporadic.Carrier s)))
     (G : Type) [Group G] [Finite G] (hs : IsSimpleGroup G) (hK : CFSG.SectionRank.IsSQTKCat G)
     (hn : Nontrivial (quasithinHopfMultiplier G)) : burnsideI13_Goal G := by
-  haveI := hs
+  have := hs
   by_cases hab : ∃ a b : G, a * b ≠ b * a
   · by_cases h34 : StatedClassicalModel G .PSL 3 2 2
     · exact burnsideI13_goal_L34 h34
@@ -918,7 +918,7 @@ private theorem burnsideI13_complete (hGr : burnsideI13_Griess)
         decide
     · exact burnsideI13_goal_spor hT hn hs e
   · exfalso
-    haveI := burnsideI13_sub_of_simple_abelian fun a b => by
+    have := burnsideI13_sub_of_simple_abelian fun a b => by
       by_contra h
       exact hab ⟨a, b, h⟩
     exact false_of_nontrivial_of_subsingleton (quasithinHopfMultiplier G)
@@ -928,7 +928,7 @@ private theorem burnsideI13_complete (hGr : burnsideI13_Griess)
 private theorem burnsideI13_sub_of_card {S : Type} [Group S]
     (h : Nat.card (CFSG.RankThree.PerfectCover.hopfMultiplier S) = 1) :
     Subsingleton (quasithinHopfMultiplier S) := by
-  haveI := (Nat.card_eq_one_iff_unique.1 h).1
+  have := (Nat.card_eq_one_iff_unique.1 h).1
   exact (CFSG.RankThree.PerfectCover.hopfMultiplierEquivGriess S).toEquiv.subsingleton
 
 private theorem burnsideI13_trivRows :
@@ -1023,7 +1023,7 @@ private theorem burnsideI13_i14_exc_psu4_odd (p f : ℕ) (hp : p ≠ 2) (h3 : ¬
 private theorem burnsideI13_i14_exc_psu4_two (f : ℕ) (hf : 2 ≤ f) :
     CFSG.Blueprint.Multiplier.exceptionalOrders .PSU 4 2 f = (1, 1) := by
   unfold CFSG.Blueprint.Multiplier.exceptionalOrders
-  split <;> first | rfl | (exfalso; simp_all <;> omega)
+  split <;> first | rfl | (exfalso; simp_all)
 
 private theorem burnsideI13_i14_exc_g2_odd (p : ℕ) (hp : p ≠ 2) (h3 : p ≠ 3) :
     CFSG.Blueprint.Multiplier.exceptionalOrders .G2 0 p 1 = (1, 1) := by
@@ -1305,7 +1305,7 @@ private theorem burnsideI13_i14_sqt_alt {G : Type} [Group G] [Finite G] {n : ℕ
     (e : Nonempty (G ≃* alternatingGroup (Fin n))) : CFSG.IsStronglyQuasithin G := by
   obtain ⟨e⟩ := e
   have hcard : Nat.card G = n.factorial / 2 := by
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
   interval_cases n
   · exact burnsideI13_i14_sqt_60 (hcard.trans (by decide))
@@ -1316,7 +1316,7 @@ private theorem burnsideI13_i14_sqt_alt {G : Type} [Group G] [Finite G] {n : ℕ
 private theorem burnsideI13_i14_pRank_le_two {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (hcard : ¬ p ^ 4 ∣ Nat.card G) (H : Subgroup G) (hH : IsPGroup p H)
     (hnab : ∃ x ∈ H, ∃ y ∈ H, x * y ≠ y * x) : CFSG.pRank p G ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   unfold CFSG.pRank
   refine csSup_le' ?_
   rintro r ⟨A, hA, hAcard⟩
@@ -1379,11 +1379,11 @@ private theorem burnsideI13_i14_sqt_of_sylow {G : Type} [Group G] [Finite G]
   · exact burnsideI13_i14_pRank_le_two_of_not_dvd h3
 
 open scoped commutatorElement in
-private theorem burnsideI13_i14_witness {S : Type} [Group S] {p : ℕ} (hp : p.Prime) {x y : S}
+private theorem burnsideI13_i14_witness {S : Type} [Group S] {p : ℕ} (_hp : p.Prime) {x y : S}
     (hz : ⁅x, y⁆ ≠ 1) (hcard : Nat.card (Subgroup.closure ({x, y} : Set S)) = p ^ 3) :
     ∃ H : Subgroup S, IsPGroup p H ∧ ∃ a ∈ H, ∃ b ∈ H, a * b ≠ b * a := by
-  haveI : Finite (Subgroup.closure ({x, y} : Set S)) :=
-    Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 3 hp.ne_zero)
+  have : Finite (Subgroup.closure ({x, y} : Set S)) :=
+    Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 3 _hp.ne_zero)
   exact ⟨Subgroup.closure {x, y}, IsPGroup.of_card hcard, x, Subgroup.subset_closure (by simp), y,
     Subgroup.subset_closure (by simp), fun h => hz (commutatorElement_eq_one_iff_mul_comm.2 h)⟩
 
@@ -1461,7 +1461,7 @@ private theorem burnsideI13_i14_arith_G24 (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 
 private theorem burnsideI13_i14_sqt_J2_native :
     CFSG.IsStronglyQuasithin CFSG.Blueprint.NativeSporadic.J2 := by
   have hc := CFSG.Sporadic.J2.card_J2
-  haveI : Finite CFSG.Blueprint.NativeSporadic.J2 :=
+  have : Finite CFSG.Blueprint.NativeSporadic.J2 :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   refine burnsideI13_i14_sqt_of_sylow (fun p hp hp2 => ?_) (fun p hp hp2 h3 => ?_)
   · rw [hc]; exact (burnsideI13_i14_arith_J2 p hp hp2).2
@@ -1473,7 +1473,7 @@ private theorem burnsideI13_i14_sqt_J2_native :
 private theorem burnsideI13_i14_sqt_HS_native :
     CFSG.IsStronglyQuasithin CFSG.Blueprint.NativeSporadic.HS := by
   have hc := CFSG.Sporadic.HS.card_HS
-  haveI : Finite CFSG.Blueprint.NativeSporadic.HS :=
+  have : Finite CFSG.Blueprint.NativeSporadic.HS :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   refine burnsideI13_i14_sqt_of_sylow (fun p hp hp2 => ?_) (fun p hp hp2 h3 => ?_)
   · rw [hc]; exact (burnsideI13_i14_arith_HS p hp hp2).2
@@ -1485,7 +1485,7 @@ private theorem burnsideI13_i14_sqt_HS_native :
 private theorem burnsideI13_i14_sqt_Ru_native :
     CFSG.IsStronglyQuasithin CFSG.Blueprint.NativeSporadic.Ru := by
   have hc := CFSG.Sporadic.Ru.card_Ru
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Ru :=
+  have : Finite CFSG.Blueprint.NativeSporadic.Ru :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   refine burnsideI13_i14_sqt_of_sylow (fun p hp hp2 => ?_) (fun p hp hp2 h3 => ?_)
   · rw [hc]; exact (burnsideI13_i14_arith_Ru p hp hp2).2
@@ -1499,7 +1499,7 @@ private theorem burnsideI13_i14_sqt_Ru_native :
 private theorem burnsideI13_i14_sqt_M12_native :
     CFSG.IsStronglyQuasithin CFSG.Blueprint.NativeSporadic.M12 := by
   have hc := CFSG.Sporadic.Mathieu.card_M12
-  haveI : Finite CFSG.Blueprint.NativeSporadic.M12 :=
+  have : Finite CFSG.Blueprint.NativeSporadic.M12 :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   refine burnsideI13_i14_sqt_of_sylow (fun p hp hp2 => ?_) (fun p hp hp2 h3 => ?_)
   · rw [hc]; exact (burnsideI13_i14_arith_M12 p hp hp2).2
@@ -1538,15 +1538,15 @@ section G24
 open CFSG.Blueprint.Chevalley CFSG.RankThree.PartTwo.Sec4.Item434RemG24 in
 private theorem burnsideI13_i14_sqt_g2four_adjoint {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4)
     [Finite (adjointGroup .G2 K)] : CFSG.IsStronglyQuasithin (adjointGroup .G2 K) := by
-  haveI : CharP K 2 := CFSG.RankThree.Chevalley.charP_two_of_natCard (n := 2) (by rw [hK]; norm_num)
+  have : CharP K 2 := CFSG.RankThree.Chevalley.charP_two_of_natCard (n := 2) (by rw [hK]; norm_num)
   have hcard : Nat.card (adjointGroup .G2 K) = 251596800 := by
     rw [CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_G2, hK]
     norm_num [CFSG.Open.ordG2]
   obtain ⟨φ, hφ⟩ := CFSG.ComponentClassification.RankTwoExceptional.exists_sl3_hom (K := K)
   have hrange := CFSG.ComponentClassification.RankTwoExceptional.range_sl3_hom hφ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite K
-  haveI := Fintype.ofFinite (GaloisField 2 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
+  have := Fintype.ofFinite (GaloisField 2 2)
   have hc : Fintype.card (GaloisField 2 2) = Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK,
       GaloisField.card 2 2 (by norm_num)]
@@ -1569,7 +1569,7 @@ private theorem burnsideI13_i14_sqt_G24 {G : Type} [Group G] [Finite G]
   obtain ⟨-, hm⟩ := h
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ :=
     CFSG.RankThree.Chevalley.exists_mulEquiv_adjointGroup_of_untwisted hm
-  haveI : Finite (CFSG.Blueprint.Chevalley.adjointGroup .G2 K) := Finite.of_equiv G e.symm.toEquiv
+  have : Finite (CFSG.Blueprint.Chevalley.adjointGroup .G2 K) := Finite.of_equiv G e.symm.toEquiv
   exact CFSG.SectionRank.isStronglyQuasithin_of_mulEquiv e.symm
     (burnsideI13_i14_sqt_g2four_adjoint (by rw [hK]; norm_num))
 
@@ -1597,9 +1597,9 @@ section
 
 
 private theorem burnsideI13_i14_sqtHard : burnsideI13_i14_SqtHard :=
-  ⟨fun G _ _ h => burnsideI13_i14_sqt_G24 h, fun G _ _ h => burnsideI13_i14_sqt_M12 h,
-    fun G _ _ h => burnsideI13_i14_sqt_J2 h, fun G _ _ h => burnsideI13_i14_sqt_HS h,
-    fun G _ _ h => burnsideI13_i14_sqt_Ru h⟩
+  ⟨fun _G _ _ h => burnsideI13_i14_sqt_G24 h, fun _G _ _ h => burnsideI13_i14_sqt_M12 h,
+    fun _G _ _ h => burnsideI13_i14_sqt_J2 h, fun _G _ _ h => burnsideI13_i14_sqt_HS h,
+    fun _G _ _ h => burnsideI13_i14_sqt_Ru h⟩
 
 end
 
@@ -1772,7 +1772,7 @@ private theorem burnsideI13_i14_complete
     (G : Type) [Group G] [Finite G] (hs : IsSimpleGroup G) (hK : CFSG.SectionRank.IsKGroupCat G)
     (hQ : CFSG.Quasithin.IsQuasithin G) (hns : ¬ CFSG.IsStronglyQuasithin G)
     (hn : Nontrivial (quasithinHopfMultiplier G)) : burnsideI13_i14_Goal G := by
-  haveI := hs
+  have := hs
   by_cases hab : ∃ a b : G, a * b ≠ b * a
   · rcases hB G hab hQ hK with ⟨n, h5, h9, e⟩ | ⟨p, hp, hp2, h⟩ | (⟨f, h⟩ | h | h) |
       (⟨n, hn45, h⟩ | h) | ⟨s, hsp, e⟩
@@ -1795,7 +1795,7 @@ private theorem burnsideI13_i14_complete
     · exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h)))))
     · exact burnsideI13_i14_goal_spor hT hH hns hn hsp e
   · exfalso
-    haveI := burnsideI13_sub_of_simple_abelian fun a b => by
+    have := burnsideI13_sub_of_simple_abelian fun a b => by
       by_contra h
       exact hab ⟨a, b, h⟩
     exact false_of_nontrivial_of_subsingleton (quasithinHopfMultiplier G)

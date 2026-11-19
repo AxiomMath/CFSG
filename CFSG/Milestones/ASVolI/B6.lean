@@ -66,7 +66,7 @@ private theorem burnsideB6a_conjClosure_eq_iSup {G : Type} [Group G] (X H : Subg
 private theorem burnsideB6a_Jj_zero {G : Type} [Group G] [Finite G] (H : Subgroup G) :
     CFSG.ASVolI.ChB.Jj H 0 = CFSG.Quasithin.thompsonJ H := by
   unfold CFSG.ASVolI.ChB.Jj
-  rw [if_pos (Nat.zero_le _), CFSG.higherElemThompson_zero,
+  rw [ite_eq_left (Nat.zero_le _), CFSG.higherElemThompson_zero,
     CFSG.Quasithin.elemThompson_map_subtype_eq_thompsonJ]
 
 private theorem burnsideB6a_baumOf_eq {G : Type} [Group G] [Finite G] (H : Subgroup G) :

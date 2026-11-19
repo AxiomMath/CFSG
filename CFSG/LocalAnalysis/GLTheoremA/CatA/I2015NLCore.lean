@@ -51,12 +51,12 @@ theorem primeCoreOf_eq_bot_of_simple {p : ℕ} (hp : p.Prime) {R : Type} [Group 
   · unfold GLAPPrimeCoreOf
     rw [h0, Subgroup.map_bot]
   · exfalso
-    haveI : Subsingleton (↥J ⧸ (⊤ : Subgroup ↥J)) := QuotientGroup.subsingleton_quotient_top
-    haveI : Subsingleton (PQuot p J) :=
+    have : Subsingleton (↥J ⧸ (⊤ : Subgroup ↥J)) := QuotientGroup.subsingleton_quotient_top
+    have : Subsingleton (PQuot p J) :=
       (QuotientGroup.quotientMulEquivOfEq h0).toEquiv.subsingleton
-    haveI : Subsingleton (PQuot p J ⧸ Subgroup.center (PQuot p J)) :=
+    have : Subsingleton (PQuot p J ⧸ Subgroup.center (PQuot p J)) :=
       QuotientGroup.mk_surjective.subsingleton
-    haveI := hq.2
+    have := hq.2
     exact not_subsingleton (PQuot p J ⧸ Subgroup.center (PQuot p J)) inferInstance
 
 theorem noLocalTwo_of_coreSub {p : ℕ} (hp : p.Prime) {R : Type} [Group R] [Finite R] {f : MulAut R}
@@ -75,8 +75,8 @@ theorem noLocalTwo_of_coreSub {p : ℕ} (hp : p.Prime) {R : Type} [Group R] [Fin
 
 theorem isSolvable_of_isPGroup_two {X : Type} [Group X] [Finite X] {U : Subgroup X}
     (hU : IsPGroup 2 U) : Group.IsSolvable ↥U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hU.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hU.isNilpotent
   infer_instance
 
 theorem nlWitness_of_nonLocalized {R P : Type} [Group R] [Group P] [Finite P] (e : R ≃* P)
@@ -88,7 +88,7 @@ theorem nlWitness_of_nonLocalized {R P : Type} [Group R] [Group P] [Finite P] (e
   · obtain ⟨x, y, hxy⟩ := hna
     exact ⟨eD x, eD y, fun h => hxy (eD.injective (by rw [map_mul, map_mul]; exact h))⟩
   · intro U hU hU2 hN
-    haveI : Finite R := Finite.of_equiv _ e.symm.toEquiv
+    have : Finite R := Finite.of_equiv _ e.symm.toEquiv
     have hU' : U.map e.toMonoidHom ≠ ⊥ := fun hbot =>
       hU ((Subgroup.map_eq_bot_iff_of_injective U e.injective).1 hbot)
     have hsolv : Group.IsSolvable ↥(U.map e.toMonoidHom) :=
@@ -124,13 +124,13 @@ theorem not_isSolvable_of_cover {p : ℕ} (hp : p.Prime) {R : Type} [Group R] [F
       exact QuotientGroup.mk'_surjective N
     rwa [Subgroup.map_sup, QuotientGroup.map_mk'_self, sup_bot_eq] at h1
   have hg : Function.Surjective g := MonoidHom.range_eq_top.1 hrange
-  haveI := Group.isSolvable_of_surjective hg
-  haveI : Group.IsPerfect (PQuot p J) := Group.isPerfect_def.2 hq.1
-  haveI : Nontrivial (PQuot p J) := by
-    haveI := hq.2
+  have := Group.isSolvable_of_surjective hg
+  have : Group.IsPerfect (PQuot p J) := Group.isPerfect_def.2 hq.1
+  have : Nontrivial (PQuot p J) := by
+    have := hq.2
     by_contra h
-    haveI : Subsingleton (PQuot p J) := not_nontrivial_iff_subsingleton.1 h
-    haveI : Subsingleton (PQuot p J ⧸ Subgroup.center (PQuot p J)) :=
+    have : Subsingleton (PQuot p J) := not_nontrivial_iff_subsingleton.1 h
+    have : Subsingleton (PQuot p J ⧸ Subgroup.center (PQuot p J)) :=
       QuotientGroup.mk_surjective.subsingleton
     exact not_subsingleton (PQuot p J ⧸ Subgroup.center (PQuot p J)) inferInstance
   exact Group.IsPerfect.not_isSolvable (PQuot p J) inferInstance
@@ -142,7 +142,7 @@ theorem noLocalTwo_of_psl2 {p : ℕ} (hp : p.Prime) {R K : Type} [Group R]
   have hns := not_isSolvable_of_cover hp hJ hJ₀ hcov
   let C : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) := J₀.map e.toMonoidHom
   have hCns : ¬ Group.IsSolvable ↥C := fun h => by
-    haveI := h
+    have := h
     exact hns (Group.isSolvable_of_isSolvable_injective
       (f := (J₀.equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom)
       (J₀.equivMapOfInjective e.toMonoidHom e.injective).injective)

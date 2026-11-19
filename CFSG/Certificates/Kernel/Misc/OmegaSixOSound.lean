@@ -102,8 +102,8 @@ theorem chunkK_of_chunkF3 {L q : ℕ} (h : chunkF3 R st o n L q = true) :
   have e := h t h1 h2
   cases hb : Nat.blt t n
   · rfl
-  · rw [hb, cond_true] at e
-    rw [cond_true]
+  · rw [hb, _root_.Bool.cond_true] at e
+    rw [_root_.Bool.cond_true]
     exact rowK_of_rowF3 e
 
 end Three
@@ -128,7 +128,7 @@ theorem mulVec_pow (X c : ℕ) (hc : c < 6) (a : Fin 2 ⊕ Fin 2 ⊕ Fin 2) :
     (matF X *ᵥ cvec (2 ^ c)) a = if X.testBit (6 * (bit6 a).val + c) then 1 else 0 := by
   interval_cases c <;> rcases a with i | i | i <;> fin_cases i <;>
     simp (config := { decide := true }) [Matrix.mulVec, dotProduct, Fintype.sum_sum_type,
-      Fin.sum_univ_two, cvec, bit6, matF, ofBits, pkMat, Nat.testBit_two_pow] <;>
+      Fin.sum_univ_two, cvec, bit6, matF, ofBits, pkMat] <;>
     split_ifs <;> simp_all
 
 theorem mulVec_val (X c : ℕ) (hc : c < 6) (a : Fin 2 ⊕ Fin 2 ⊕ Fin 2) :
@@ -146,7 +146,7 @@ theorem arrF_get_col (X c : ℕ) (hc : c < 6) : (arrF X)[2 ^ c]! = colK X c := b
     calc 2 ^ c < 2 ^ 6 := Nat.pow_lt_pow_right (by norm_num) hc
       _ = 64 := by norm_num
   rw [arrF, marr_get _ h64, vcode]
-  simp only [mulVec_val X c hc, mulVec_finVal X c hc, colK, bitK_eq, Nat.add_eq, Nat.mul_eq]
+  simp only [mulVec_finVal X c hc, colK, bitK_eq, Nat.add_eq, Nat.mul_eq]
   simp only [bit6, Fin.val_zero, Fin.val_one, Nat.mul_zero, Nat.zero_add, Nat.add_zero,
     Nat.mul_one, Nat.reduceMul, Nat.reduceAdd]
   simp only [Nat.add_assoc]
@@ -205,7 +205,7 @@ theorem reflAt_arrF {RR : ℕ → ℕ} {nR X : ℕ} {ER : Enum} (hX : X < 2 ^ 36
   · rw [isSome_of_memK hE hs h1]
     simp
 
-theorem a6cAt_arrF {W₁ W₂ Y X : ℕ} (h₁ : W₁ < 2 ^ 36) (h₂ : W₂ < 2 ^ 36) (hY : Y < 2 ^ 36)
+theorem a6cAt_arrF {W₁ W₂ Y X : ℕ} (_h₁ : W₁ < 2 ^ 36) (_h₂ : W₂ < 2 ^ 36) (hY : Y < 2 ^ 36)
     (hX : X < 2 ^ 36) :
     (!(commB (arrF X) (arrF W₁) && commB (arrF X) (arrF W₂)) || arrF X == idA () ||
       arrF X == arrF Y) = a6cAt W₁ W₂ Y X := by

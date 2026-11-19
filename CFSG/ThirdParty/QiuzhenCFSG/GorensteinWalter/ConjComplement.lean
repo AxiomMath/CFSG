@@ -18,7 +18,7 @@ public theorem isComplement_map_conj
       (B.map (MulAut.conj g).toMonoidHom) := by
   apply Subgroup.isComplement'_of_card_mul_and_disjoint
   · rw [Subgroup.card_map_of_injective (MulAut.conj g).injective,
-      Subgroup.card_map_of_injective (MulAut.conj g).injective, h.card_mul]
+      Subgroup.card_map_of_injective (MulAut.conj g).injective, h.card_mul_card]
   · rw [disjoint_iff]
     apply le_antisymm
     · intro z hz

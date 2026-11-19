@@ -10,7 +10,7 @@ theorem charP_two_of_even_natCard (K : Type) [Field K] [Finite K] (h : Even (Nat
     CharP K 2 := by
   classical
   have : Fintype K := Fintype.ofFinite K
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : CharP K (ringChar K) := ringChar.charP K
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   rw [Nat.card_eq_fintype_card, hcard] at h
   have h2 : 2 ∣ ringChar K ^ (n : ℕ) := even_iff_two_dvd.1 h

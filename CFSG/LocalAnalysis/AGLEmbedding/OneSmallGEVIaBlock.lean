@@ -66,7 +66,7 @@ theorem D1PhaseThree.card_le_of_zbar_mem (h : D1PhaseThree p P M H R) (hp3 : p =
   have hz : IsPGroup 3 (Subgroup.zpowers z) :=
     isPGroup_zpowers_of_pow_eq_one (k := 1) (by simpa using hz3)
   have hPM : (P : Subgroup G) ≤ M := h.sylow_le
-  have hPp : IsPGroup 3 (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup 3 (P : Subgroup G) := P.isPGroup
   have hzP : z ∈ (P : Subgroup G) := h.le_P hzR
   have hPN : barM M (P : Subgroup G) ≤
       Subgroup.normalizer (barM M L : Set (↥M ⧸ CFSG.pCore 2 ↥M)) := by
@@ -135,7 +135,7 @@ theorem D1PhaseThree.card_le_of_two_blocks (h : D1PhaseThree p P M H R) (hp3 : p
   have hz : IsPGroup 3 (Subgroup.zpowers z) :=
     isPGroup_zpowers_of_pow_eq_one (k := 1) (by simpa using hz3)
   have hPM : (P : Subgroup G) ≤ M := h.sylow_le
-  have hPp : IsPGroup 3 (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup 3 (P : Subgroup G) := P.isPGroup
   have hzP : z ∈ (P : Subgroup G) := h.le_P hzR
   have honly : ∀ L : Subgroup G, IsWeakSBlock M (pCoreOf 2 H) L →
       barM M L = barM M L₁ ∨ barM M L = barM M L₂ := by

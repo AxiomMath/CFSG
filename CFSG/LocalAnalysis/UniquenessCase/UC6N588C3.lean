@@ -72,10 +72,12 @@ theorem eq_one_of_perfect_of_isSolvable {A B : Type*} [Group A] [Group B] [Group
   rw [hn, mem_bot] at hx
   simpa using hx
 
+omit [Finite G] in
 theorem commutator_eq_top_of_perfect {L : Subgroup G} (h : ⁅L, L⁆ = L) : commutator ↥L = ⊤ := by
   apply Subgroup.map_injective L.subtype_injective
   rw [Subgroup.map_subtype_commutator, h, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
 
+omit [Finite G] in
 theorem commutator_self_eq_of_perfect {K : Subgroup G} (h : commutator ↥K = ⊤) : ⁅K, K⁆ = K := by
   rw [← Subgroup.map_subtype_commutator, h, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
 
@@ -91,7 +93,7 @@ theorem not_comm_quot_center {K : Type*} [Group K] (hK : CFSG.GorensteinWalter.I
     rw [map_commutatorElement, commutatorElement_eq_one_iff_mul_comm]
     exact h _ _
   rw [hperf, top_le_iff] at hle
-  haveI : Nontrivial (K ⧸ center K) := hsimple.toNontrivial
+  have : Nontrivial (K ⧸ center K) := hsimple.toNontrivial
   obtain ⟨u, v, huv⟩ := exists_pair_ne (K ⧸ center K)
   apply huv
   induction u using QuotientGroup.induction_on with | H u =>
@@ -102,13 +104,14 @@ theorem not_comm_quot_center {K : Type*} [Group K] (hK : CFSG.GorensteinWalter.I
 
 theorem center_quot_center_eq_bot {K : Type*} [Group K]
     (hK : CFSG.GorensteinWalter.IsQuasisimple K) : center (K ⧸ center K) = ⊥ := by
-  haveI : IsSimpleGroup (K ⧸ center K) := hK.2.2
+  have : IsSimpleGroup (K ⧸ center K) := hK.2.2
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center (K ⧸ center K)) with h | h
   · exact h
   · exfalso
     refine not_comm_quot_center hK fun a b => ?_
     exact ((Subgroup.mem_center_iff.1 (h ▸ mem_top b)) a)
 
+omit [Finite G] in
 theorem le_centralizer_of_forall_mk_eq {K L : Subgroup G} (hK : commutator ↥K = ⊤)
     (hLK : L ≤ normalizer (K : Set G))
     (h : ∀ (ℓ : ↥L) (k : ↥K),
@@ -142,7 +145,7 @@ theorem exists_inner_of_schreier (hSch : UCK.KSch) {K L : Subgroup G}
     ∃ φ : ↥L →* ↥K ⧸ center ↥K, ∀ (ℓ : ↥L) (k : ↥K),
       ((K.normalizerMonoidHom ⟨ℓ, hLK ℓ.2⟩ k : ↥K) : ↥K ⧸ center ↥K) =
         φ ℓ * (k : ↥K ⧸ center ↥K) * (φ ℓ)⁻¹ := by
-  haveI : IsSimpleGroup (↥K ⧸ center ↥K) := hK.2.2
+  have : IsSimpleGroup (↥K ⧸ center ↥K) := hK.2.2
   have hZS := center_quot_center_eq_bot hK
   have hinj : Function.Injective (MulAut.conj : ↥K ⧸ center ↥K →* MulAut (↥K ⧸ center ↥K)) := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -157,7 +160,7 @@ theorem exists_inner_of_schreier (hSch : UCK.KSch) {K L : Subgroup G}
   let σ : ↥L →* MulAut (↥K ⧸ center ↥K) :=
     (autQuot (center ↥K)).comp (K.normalizerMonoidHom.comp (Subgroup.inclusion hLK))
   have hKS : CFSG.Open.IsKGroup (↥K ⧸ center ↥K) := hKk.quotient (center ↥K)
-  haveI : Group.IsSolvable (MulAut (↥K ⧸ center ↥K) ⧸
+  have : Group.IsSolvable (MulAut (↥K ⧸ center ↥K) ⧸
       (MulAut.conj : ↥K ⧸ center ↥K →* MulAut (↥K ⧸ center ↥K)).range) :=
     hSch _ inferInstance hKS
   have hτ := eq_one_of_perfect_of_isSolvable (commutator_eq_top_of_perfect hLperf)
@@ -209,6 +212,7 @@ theorem le_centralizer_of_coprime (hSch : UCK.KSch) {r : ℕ} {K L : Subgroup G}
     exact hℓ'
   rw [hφ, h1, one_mul, inv_one, mul_one]
 
+omit [Finite G] in
 theorem not_isCyclic_of_elemAbelian {r : ℕ} (hr : r.Prime) {B : Subgroup G}
     (hB : CFSG.Open.IsElemAbelian r B) (hBc : Nat.card B = r ^ 2) : ¬ IsCyclic B := by
   intro hcyc
@@ -248,7 +252,7 @@ theorem le_centralizer_of_cyclic (hSch : UCK.KSch) {r : ℕ} [hr : Fact r.Prime]
     obtain ⟨D⟩ := (inferInstance : Nonempty (Sylow r ↥K))
     have hDc : IsCyclic (D : Subgroup ↥K) := by
       have h1 := hcyc ((D : Subgroup ↥K).map K.subtype) (Subgroup.map_subtype_le _)
-        (D.isPGroup'.map K.subtype)
+        (D.isPGroup.map K.subtype)
       exact (MulEquiv.isCyclic ((D : Subgroup ↥K).equivMapOfInjective K.subtype
         K.subtype_injective)).2 h1
     set D' := D.mapSurjective (QuotientGroup.mk'_surjective (center ↥K)) with hD'
@@ -326,13 +330,13 @@ theorem exists_odd_prime_dvd_card_quot {K : Type*} [Group K] [Finite K]
     ∃ q : ℕ, q.Prime ∧ q ≠ 2 ∧ q ∣ Nat.card (K ⧸ center K) := by
   by_contra hcon
   push Not at hcon
-  haveI : Nontrivial (K ⧸ center K) := hK.2.2.toNontrivial
+  have : Nontrivial (K ⧸ center K) := hK.2.2.toNontrivial
   have h2 : IsPGroup 2 (K ⧸ center K) := by
     rw [IsPGroup.iff_card]
     exact ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' fun {d} hd hdc => by
       by_contra hne
       exact hcon d hd hne hdc⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ := h2.center_nontrivial
   rw [center_quot_center_eq_bot hK] at hZ
   exact (Subgroup.nontrivial_iff_ne_bot _).1 hZ rfl
@@ -382,7 +386,7 @@ theorem mem_normalizer_of_pRank_le_three {r : ℕ} (hr : r.Prime) (hr5 : 5 ≤ r
       calc x * y = x * y * x⁻¹ * y⁻¹ * (y * x) := by group
         _ = y * x := by rw [hm, one_mul]
   obtain ⟨q, hq, hq2, hqd⟩ := exists_odd_prime_dvd_card_quot hK.2.2
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨xbar, hxbar⟩ := exists_prime_orderOf_dvd_card' q hqd
   obtain ⟨x₀, rfl⟩ := QuotientGroup.mk_surjective xbar
   set x : G := (x₀ : G) with hxdef
@@ -524,7 +528,7 @@ theorem false_of_sylow_le_of_commutator_eq_bot {r : ℕ} [Fact r.Prime] {X A B :
       _ = ((x * y : ↥A) : G) := by rw [h1, one_mul, Subgroup.coe_mul]
   have hN : normalizer ((P : Subgroup ↥A) : Set ↥A) ≤ centralizer ((P : Subgroup ↥A) : Set ↥A) :=
     fun g _ => mem_centralizer_iff.2 fun h hh => (Subgroup.mem_center_iff.1 (hPc hh) g).symm
-  haveI : IsMulCommutative (P : Subgroup ↥A) :=
+  have : IsMulCommutative (P : Subgroup ↥A) :=
     ⟨⟨fun a b => Subtype.ext ((Subgroup.mem_center_iff.1 (hPc a.2) b).symm)⟩⟩
   have htriv := eq_one_of_perfect_of_isSolvable hA.2.2.2.1 (MonoidHom.transferSylow P hN)
   have hker : (MonoidHom.transferSylow P hN).ker = ⊤ := by rw [htriv]; exact MonoidHom.ker_one
@@ -545,8 +549,8 @@ theorem eq_of_isComponentOf_of_dvd {r : ℕ} [hr : Fact r.Prime] {X K₁ K₂ : 
   set D₂ := (P₂ : Subgroup ↥K₂).map K₂.subtype with hD₂def
   have hD₁K : D₁ ≤ K₁ := map_subtype_le _
   have hD₂K : D₂ ≤ K₂ := map_subtype_le _
-  have hD₁ : IsPGroup r D₁ := P₁.isPGroup'.map _
-  have hD₂ : IsPGroup r D₂ := P₂.isPGroup'.map _
+  have hD₁ : IsPGroup r D₁ := P₁.isPGroup.map _
+  have hD₂ : IsPGroup r D₂ := P₂.isPGroup.map _
   have hD₁N : D₁ ≤ normalizer (D₂ : Set G) := by
     intro x hx
     apply Subgroup.centralizer_le_normalizer
@@ -559,7 +563,7 @@ theorem eq_of_isComponentOf_of_dvd {r : ℕ} [hr : Fact r.Prime] {X K₁ K₂ : 
       _ = x * y := by group
   have hCp : IsPGroup r (D₁ ⊔ D₂ : Subgroup G) := hD₁.to_sup_of_normal_right' hD₂ hD₁N
   have hCX : D₁ ⊔ D₂ ≤ X := sup_le (hD₁K.trans h₁.1) (hD₂K.trans h₂.1)
-  haveI : IsCyclic ↥(D₁ ⊔ D₂) := hcyc _ hCX hCp
+  have : IsCyclic ↥(D₁ ⊔ D₂) := hcyc _ hCX hCp
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 hD₁
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card).1 hD₂
   have hcard₁ : Nat.card (D₁.subgroupOf (D₁ ⊔ D₂)) = r ^ a := by

@@ -104,7 +104,7 @@ theorem fixSet_eq (hC : C.IsSymm) (hR : RootData C m R) (x : Fin n → ZMod 3) :
 
 theorem fixSet_neg (x : Fin n → ZMod 3) : fixSet C (-x) = fixSet C x := by
   ext r
-  simp only [fixSet, Set.mem_setOf_eq, mulVec_neg, neg_inj]
+  simp only [fixSet, Set.mem_ofPred_eq, mulVec_neg, neg_inj]
 
 theorem fixSet_smul (hR : RootData C m R) (i : Fin n) (x : Fin n → ZMod 3) :
     fixSet C (sS C i *ᵥ x) = conjEquiv (hR.sS_sq i) '' fixSet C x := by
@@ -147,7 +147,7 @@ theorem part_closed {M : Type*} [Monoid M] {P Q T : Set M} (hU : P ∪ Q = T) (h
     exact Set.disjoint_left.1 hD hr h1
 
 theorem fixSet_inv (hR : RootData C m R) (x : Fin n → ZMod 3) :
-    ∀ t ∈ fixSet C x, t * t = 1 := fun t ht => conjDer_mul_self hR.sS_sq ht.1
+    ∀ _t ∈ fixSet C x, _t * _t = 1 := fun _t ht => conjDer_mul_self hR.sS_sq ht.1
 
 theorem fixSet_conj (hR : RootData C m R) (x : Fin n → ZMod 3) :
     ∀ r ∈ fixSet C x, ∀ t ∈ fixSet C x, t * r * t ∈ fixSet C x := by
@@ -204,7 +204,7 @@ theorem dich_split (hC : C.IsSymm) (hR : RootData C m R) {x : Fin n → ZMod 3} 
     rw [fixSet_eq hC hR, hP', hQ', ← Set.image_union]
     congr 1
     ext a
-    simp only [Set.mem_union, Set.mem_setOf_eq]
+    simp only [Set.mem_union, Set.mem_ofPred_eq]
     tauto
   have hD : Disjoint P' Q' := by
     rw [Set.disjoint_left]

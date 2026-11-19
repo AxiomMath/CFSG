@@ -18,15 +18,15 @@ theorem Nine3Seed.card (h763 : SevenSixThreeAbelian V) (h : Nine3Seed V T A K S 
     (h1 : ¬ normalizer (E3.wClos V 1 T : Set G) ≤ normalizer (V : Set G)) :
     Nat.card ↥Y = p := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨h.two.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨h.two.prime⟩
   have hyp : Nine2Hyp V (S ⊔ Y) S Y p := h.hyp hY hmin h1
   have hcyc : IsCyclic ↥Y := nine_two_four h763 h.h9.hyp7 h.h9.rk_gt hyp
   have hYp : IsPGroup p Y := h.two.sylowP.isPGroup.to_le hY.1
   have hY1 : Y ≠ ⊥ := by
     rintro rfl
     exact hY.2.2 bot_le
-  obtain ⟨a, haA, haR⟩ := SetLike.not_le_iff_exists.1 (h.not_le_pCoreOf hY)
+  obtain ⟨a, haA, haR⟩ := IsConcreteLE.not_le_iff_exists.1 (h.not_le_pCoreOf hY)
   have hAS : A ≤ S := nineThree_A_le_S h.h9 h.conj h.leT h.tau
   have hAΩ : A ∈ nineOmegaIn V (S ⊔ Y) S :=
     ((nine_two_one h.h9.hyp7 h.h9.rk_gt hyp).2 A h.conj hAS).resolve_right h.ne

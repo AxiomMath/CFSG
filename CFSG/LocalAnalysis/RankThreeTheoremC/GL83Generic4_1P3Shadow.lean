@@ -319,7 +319,7 @@ theorem isRankTwoSEGroup_of_not_isCyclic_noBM (h : GenericShadow3 p S z Γ)
     rw [hT] at hmap
     have hle := h.pRank_inf_le_two hK hL
     have hge : 2 ≤ CFSG.Open.pRank p ((S : Subgroup Y) ⊓ L) :=
-      two_le_pRank_of_not_isCyclic hp h.ne_two (S.isPGroup'.to_inf_left) hnc
+      two_le_pRank_of_not_isCyclic hp h.ne_two (S.isPGroup.to_inf_left) hnc
     omega
   exact hK1 L hsimple hnonab hcat hBM p hp h.ne_two T hrank
     (h.rankThreeGamma_ne_top hK hL T hT)
@@ -391,7 +391,7 @@ theorem exists_genericShadow3 (hS : Setting G) (hU0 : FullCoreLocal G) {p : ℕ}
     obtain ⟨D, hDT, rfl⟩ : ∃ D ≤ ((P : Subgroup G) ⊓ C).subgroupOf C,
         D.map (QuotientGroup.mk' O) = Dbar := ⟨_, inf_le_right, map_comap_inf_eq _ hDS⟩
     have hTp : IsPGroup p (((P : Subgroup G) ⊓ C).subgroupOf C) :=
-      (P.isPGroup'.to_le inf_le_left).comap_subtype
+      (P.isPGroup.to_le inf_le_left).comap_subtype
     have hDp : IsPGroup p D := hTp.to_le hDT
     have hrank : 2 ≤ CFSG.Open.pRank p (D.map C.subtype) := by
       rw [← pRank_map_mk_eq_pRank_map_subtype hprime O hOcop]

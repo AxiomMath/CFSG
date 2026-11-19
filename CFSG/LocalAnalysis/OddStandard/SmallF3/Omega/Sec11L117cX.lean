@@ -14,7 +14,7 @@ private theorem sec11c_eq_of_orderOf_eq_two_of_isCyclic {G : Type*} [Group G] {K
     [Finite K] (hK : IsCyclic K) {x y : G} (hx : x ∈ K) (hy : y ∈ K)
     (hx2 : orderOf x = 2) (hy2 : orderOf y = 2) : x = y := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h2 : 2 ∣ Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← hx2]
     exact Subgroup.orderOf_dvd_natCard K hx
@@ -31,7 +31,7 @@ private theorem sec11c_eq_of_orderOf_eq_two_of_isCyclic {G : Type*} [Group G] {K
 private theorem sec11c_eq_one_or_eq_of_sq_eq_one_of_isCyclic [Finite G] {K : Subgroup G}
     (hK : IsCyclic K) {t x : G} (ht : t ∈ K) (ht2 : orderOf t = 2) (hx : x ∈ K)
     (hx2 : x ^ 2 = 1) : x = 1 ∨ x = t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases h1 : x = 1
   · exact Or.inl h1
   · exact Or.inr
@@ -39,15 +39,15 @@ private theorem sec11c_eq_one_or_eq_of_sq_eq_one_of_isCyclic [Finite G] {K : Sub
 
 private theorem sec11c_mul_comm_of_isCyclic {K : Subgroup G} (hK : IsCyclic K) {x y : G}
     (hx : x ∈ K) (hy : y ∈ K) : x * y = y * x := by
-  haveI := hK
+  have := hK
   have h := (IsCyclic.isMulCommutative (α := K)).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩
   simpa using congrArg Subtype.val h
 
 private theorem sec11c_exists_orderOf_eq_four_of_isCyclic [Finite G] {K : Subgroup G}
     (hK : IsCyclic K) (hK2 : IsPGroup 2 K) (hcard : 2 < Nat.card K) :
     ∃ a ∈ K, orderOf a = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hK
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hK2
   obtain ⟨γ, hγ⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := K)
   have h4 : 4 ∣ Nat.card K := by
@@ -65,7 +65,7 @@ private theorem sec11c_eq_or_eq_inv_of_orderOf_eq_four [Finite G] {K : Subgroup 
     (hK : IsCyclic K) {a x : G} (ha : a ∈ K) (hx : x ∈ K) (ha4 : orderOf a = 4)
     (hx4 : orderOf x = 4) : x = a ∨ x = a⁻¹ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h4 : 4 ∣ Fintype.card K := by
     rw [← Nat.card_eq_fintype_card, ← ha4]
     exact Subgroup.orderOf_dvd_natCard K ha
@@ -99,9 +99,9 @@ private theorem sec11c_eq_or_eq_inv_of_orderOf_eq_four [Finite G] {K : Subgroup 
 theorem sec11c_card_le_four_of_cyclic [Finite G] {X Y : Subgroup G} {z : G} (hY : IsCyclic Y)
     (hXY : X ≤ Y) (hz2 : z * z = 1) (hX : ∀ x ∈ X, x * x ∈ zpowers z) : Nat.card X ≤ 4 := by
   classical
-  haveI := hY
-  haveI : IsCyclic X := Subgroup.isCyclic_of_le hXY
-  haveI : Fintype X := Fintype.ofFinite X
+  have := hY
+  have : IsCyclic X := Subgroup.isCyclic_of_le hXY
+  have : Fintype X := Fintype.ofFinite X
   have hz2z : z ^ (2 : ℤ) = 1 := by rw [zpow_two]; exact hz2
   have h4 : ∀ a : X, a ^ 4 = 1 := by
     intro a
@@ -117,7 +117,7 @@ theorem sec11c_card_le_four_of_cyclic [Finite G] {X Y : Subgroup G} {z : G} (hY 
   rwa [hcard] at h
 
 theorem sec11c_card_le_eight [Finite G] {D Y X : Subgroup G} {z : G} (hY : IsCyclic Y)
-    (hYD : Y ≤ D) (hYi : Y.relIndex D = 2) (hz2 : z * z = 1) (hXD : X ≤ D)
+    (_hYD : Y ≤ D) (hYi : Y.relIndex D = 2) (hz2 : z * z = 1) (hXD : X ≤ D)
     (hX : IsElemAbelianMod z X) : Nat.card X ≤ 8 := by
   classical
   have hcardYsub : Nat.card ↥(Y.subgroupOf X) = Nat.card ↥(Y ⊓ X) := by
@@ -136,11 +136,11 @@ theorem sec11c_card_le_eight [Finite G] {D Y X : Subgroup G} {z : G} (hY : IsCyc
     _ ≤ 4 * 2 := Nat.mul_le_mul h1 h2
     _ = 8 := by norm_num
 
-theorem sec11c_le_closure_compl {D Y : Subgroup G} (hYD : Y ≤ D) (hYi : Y.relIndex D = 2) :
+theorem sec11c_le_closure_compl {D Y : Subgroup G} (_hYD : Y ≤ D) (hYi : Y.relIndex D = 2) :
     D ≤ Subgroup.closure {u : G | u ∈ D ∧ u ∉ Y} := by
   have hex : ∃ u0 ∈ D, u0 ∉ Y := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hle : D ≤ Y := fun u hu => h u hu
     have h1 : Y.relIndex D = 1 := Subgroup.relIndex_eq_one.mpr hle
     rw [h1] at hYi
@@ -169,8 +169,8 @@ theorem sec11c_exists_X_abstract {P : Type} [Group P] [Finite P] (hP2 : IsPGroup
     (hdY : d ∉ Y) (hd4 : d ^ 4 = 1) :
     ∃ X : Subgroup P, d ∈ X ∧ z ∈ X ∧ IsElemAbelianMod z X ∧ 8 ≤ Nat.card X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hYnorm : Y.Normal := Subgroup.normal_of_index_eq_two hYi
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hYnorm : Y.Normal := Subgroup.normal_of_index_eq_two hYi
   have hYcomm : ∀ a ∈ Y, ∀ b ∈ Y, a * b = b * a :=
     fun a ha b hb => sec11c_mul_comm_of_isCyclic hY ha hb
   have hzY : z ∈ Y := by
@@ -232,7 +232,7 @@ theorem sec11c_exists_X_abstract {P : Type} [Group P] [Finite P] (hP2 : IsPGroup
     have hcardP : Nat.card P = 4 := by
       rw [← Subgroup.card_mul_index Y, hk, hYi]
       norm_num
-    haveI : IsMulCommutative P := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) hcardP
+    have : IsMulCommutative P := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) hcardP
     obtain ⟨a, b, hab⟩ := hnab
     exact hab (IsMulCommutative.is_comm.comm a b)
   have hk2 : 2 ≤ k := by omega

@@ -119,6 +119,7 @@ open scoped commutatorElement
 variable {X : Type} [Group X] {D : Set X} {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
   [FiniteDimensional (ZMod 2) V] {Q : QuadraticForm (ZMod 2) V} {ρ : X →* (V ≃ₗ[ZMod 2] V)}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem false_of_commute_of_natural_omega {ι : Type} [Fintype ι] [DecidableEq ι]
     (hA : A2Action D Q ρ) {qW : QuadraticForm (ZMod 2) (ι → ZMod 2)}
     (hqW : (polarBilin qW).Nondegenerate) (hdim : 7 ≤ Fintype.card ι)

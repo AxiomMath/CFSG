@@ -35,7 +35,7 @@ theorem comm_b_of_mem_J (h : FF79Sec34Pre4 b J B A P D) {d : G} (hd : d ∈ J) :
 
 theorem exists_S (h : FF79Sec34Pre4 b J B A P D) (hodd : Odd (Nat.card (CenS A))) :
     ∃ S : Subgroup G, IsSylowOf 3 S (CenS A ⊔ Subgroup.zpowers b) ∧ P ≤ S ∧ D ≤ Nor S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hM : Nat.card ↥(CenS A ⊔ Subgroup.zpowers b) = Nat.card (CenS A) * 3 :=
     card_sup_zpowers (ord_b h) (mem_nor_cenS h.bA) (b_not_cenS h)
   have hM2 : ¬ 2 ∣ Nat.card ↥(CenS A ⊔ Subgroup.zpowers b) := by
@@ -95,7 +95,7 @@ theorem b_not_As : b ∉ c.As := fun hb => b_not_cenS c.pre hb.2
 
 theorem card_facts : Nat.card S = 3 ^ ((Nat.card (CenS A)).factorization 3 + 1) ∧
     Nat.card c.As = 3 ^ (Nat.card (CenS A)).factorization 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hM : Nat.card ↥(CenS A ⊔ Subgroup.zpowers b) = Nat.card (CenS A) * 3 :=
     card_sup_zpowers (ord_b c.pre) (mem_nor_cenS c.pre.bA) (b_not_cenS c.pre)
   have hS : Nat.card S = 3 ^ ((Nat.card (CenS A)).factorization 3 + 1) := by
@@ -128,7 +128,7 @@ theorem card_facts : Nat.card S = 3 ^ ((Nat.card (CenS A)).factorization 3 + 1) 
   rw [hj, le_antisymm hjle this]
 
 theorem As_sylow : IsSylowOf 3 c.As (CenS A) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact L41.isSylowOf_of_card_p c.As_le_cenS c.card_facts.2
 
 theorem card_S : Nat.card S = 3 * Nat.card c.As := by
@@ -185,11 +185,11 @@ theorem As_comm {s t : G} (hs : s ∈ c.As) (ht : t ∈ c.As) : s * t = t * s :=
 end Z
 
 theorem exists_z : ∃ z : D, z ∈ Subgroup.center D ∧ z ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hD2 : IsPGroup 2 D := IsPGroup.of_card (n := 3) (by rw [c.pre.D8.1]; norm_num)
-  haveI : Nontrivial D := by
+  have : Nontrivial D := by
     rw [← Finite.one_lt_card_iff_nontrivial, c.pre.D8.1]; norm_num
-  haveI := hD2.center_nontrivial
+  have := hD2.center_nontrivial
   obtain ⟨z, hz⟩ := exists_ne (1 : Subgroup.center D)
   exact ⟨z, z.2, fun e => hz (Subtype.ext e)⟩
 

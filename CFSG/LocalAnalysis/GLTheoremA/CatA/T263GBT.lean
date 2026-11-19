@@ -25,8 +25,8 @@ theorem t263_fixFact {H : Type} [Group H] [Finite H] {p : ℕ} {𝔅 : Type} [Gr
     (hTmax : ∀ T' : Subgroup H, IsPGroup 2 T' → (∀ g : 𝔅, ∀ t ∈ T', ψ g t ∈ T') → T ≤ T' → T' = T)
     (g : 𝔅) (hg : ∀ t ∈ T, ψ g t * t⁻¹ ∈ GLAPPrimeCore p H) : TrivAut p H (ψ g) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := GLAPPrimeCore p H with hN
   let ψQ : 𝔅 →* MulAut (ppQuot p H) := (MulAut.mapQuotient N).comp ψ
   have hψQ : ∀ (g : 𝔅) (l : H), ψQ g (QuotientGroup.mk l) = QuotientGroup.mk (ψ g l) :=

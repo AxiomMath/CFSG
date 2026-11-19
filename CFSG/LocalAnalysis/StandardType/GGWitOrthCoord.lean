@@ -55,7 +55,7 @@ private theorem owCo_classRefl_iff_field {K : Type*} [Field K] (h2 : (2 : K) ≠
     exact owCo_polar_weightedSumSquares (K := K) w x y
   have hcinv : c⁻¹ * c = 1 := inv_mul_cancel₀ hc
   have hcmul : c * c⁻¹ = 1 := mul_inv_cancel₀ hc
-  simp only [owCo_classRefl, owCo_isRefl, Set.mem_setOf_eq]
+  simp only [owCo_classRefl, owCo_isRefl, Set.mem_ofPred_eq]
   constructor
   ·
     rintro ⟨⟨ht_inv, ht_rank⟩, ht_isom, a, haQ, hta⟩

@@ -85,7 +85,7 @@ theorem eq_one_of_mem_of_coprime {Z : Subgroup G} [Finite Z] {q : ℕ}
 
 theorem coprime_card_of_perfect {Q : Type*} [Group Q] [Finite Q] (hQ : commutator Q = ⊤) {p : ℕ}
     (hp : p.Prime) (h : ¬ p ∣ Nat.card (Q ⧸ Subgroup.center Q)) : Nat.Coprime p (Nat.card Q) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [Nat.Prime.coprime_iff_not_dvd hp]
   intro hdvd
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
@@ -132,14 +132,14 @@ theorem centralImage_facts (π : X →* T) (hker : π.ker ≤ Subgroup.center X)
     have : Group.IsPerfect F := ⟨hF.1⟩
     exact (Group.IsPerfect.ofSurjective (f := π.subgroupMap F) (π.subgroupMap_surjective F)).commutator_eq_top
   have hsimple : IsSimpleGroup (F.map π ⧸ Subgroup.center (F.map π)) := by
-    haveI : IsSimpleGroup (F ⧸ Subgroup.center F) := hF.2
+    have : IsSimpleGroup (F ⧸ Subgroup.center F) := hF.2
     exact e.symm.isSimpleGroup
   exact ⟨⟨hperf, hsimple⟩, ⟨e⟩⟩
 
 theorem nonempty_pSimple_equiv {J : Subgroup X} [Finite X] {p : ℕ} (hp : p.Prime)
     (hJ : CFSG.Open.IsQuasisimple J) (hpJ : p ∣ Nat.card (J ⧸ Subgroup.center J)) :
     Nonempty ((J ⧸ Subgroup.center J) ≃* PSimple p J) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p J)) :=
     CFSG.pPrimeCore_coprime_card (p := p) (G := J)
   have hne : GLAPPrimeCore p J ≠ ⊤ := by
@@ -206,7 +206,7 @@ theorem prime_dvd_orderTwistedA {n : ℕ} (hn : 2 ≤ n) (hrQ : r ∣ Q ^ 2 - 1)
   refine Dvd.dvd.mul_left ?_ _
   have hprod := Finset.prod_dvd_prod_of_subset _ _
     (fun i => if Even i then Q ^ i - 1 else Q ^ i + 1) (pair_subset_Icc hn)
-  rw [Finset.prod_pair (by norm_num), if_pos (by decide), if_neg (by decide)] at hprod
+  rw [Finset.prod_pair (by norm_num), ite_eq_left (by decide), ite_eq_right (by decide)] at hprod
   refine (?_ : Nat.gcd (n + 1) (Q + 1) * r ∣ (Q ^ 2 - 1) * (Q ^ 3 + 1)).trans hprod
   rw [mul_comm (Q ^ 2 - 1)]
   exact mul_dvd_mul ((Nat.gcd_dvd_right _ _).trans add_one_dvd_pow_three_add_one) hrQ
@@ -375,6 +375,7 @@ section Lift
 
 variable {K S : Type} [Group K] [Finite K] [Group S]
 
+omit [Finite K] in
 theorem exists_quasisimple_lift (π : K →* S) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center K) (a : MulAut K) (β : MulAut S) (hπβ : ∀ x, π (a x) = β (π x))
     {J : Subgroup S} (hJsn : IsSubnormal J (fixSubgroup β)) (hJq : CFSG.Open.IsQuasisimple J) :
@@ -432,7 +433,7 @@ theorem exists_quasisimple_lift (π : K →* S) (hπ : Function.Surjective π)
   have hJq' : CFSG.Open.IsQuasisimple (JK.map π) := by rw [hJKmap]; exact hJq
   have hJKq : CFSG.Open.IsQuasisimple JK := by
     refine ⟨commutator_eq_top_of_self hJKperf, ?_⟩
-    haveI : IsSimpleGroup (JK.map π ⧸ Subgroup.center (JK.map π)) := hJq'.2
+    have : IsSimpleGroup (JK.map π ⧸ Subgroup.center (JK.map π)) := hJq'.2
     exact e.isSimpleGroup
   refine ⟨JK, hJKsn, hJKq, hJKmap, ?_⟩
   rw [← hJKmap]
@@ -452,7 +453,7 @@ theorem exists_chev5Comp_map (π : K →* S) (hπ : Function.Surjective π)
   obtain ⟨hJsn, hJq, hJchev⟩ := hJ
   obtain ⟨JK, hsn, hq, hmap, ⟨e⟩⟩ := exists_quasisimple_lift π hπ hker a β hπβ hJsn hJq
   have hJK3 : 3 ∣ Nat.card (JK ⧸ Subgroup.center JK) := by
-    haveI : Finite (J ⧸ Subgroup.center J) := Finite.of_equiv _ e.toEquiv
+    have : Finite (J ⧸ Subgroup.center J) := Finite.of_equiv _ e.toEquiv
     rw [Nat.card_congr e.toEquiv]
     exact prime_dvd_card_of_isChevSimple Nat.prime_five (by norm_num) hJchev Nat.prime_three (by norm_num)
       (by norm_num)
@@ -545,6 +546,7 @@ section QGenCentral
 
 variable {X T : Type} [Group X] [Finite X] [Group T]
 
+omit [Finite X] in
 theorem normal_map_subgroupOf_map (π : X →* T) {A L : Subgroup X}
     (hL : ∀ c ∈ A, ∀ g ∈ L, c * g * c⁻¹ ∈ L) :
     ((L.map π).subgroupOf (A.map π)).Normal := by
@@ -598,7 +600,7 @@ theorem qGen_of_centralQuotient {q : ℕ} (π : X →* T) (hπ : Function.Surjec
 
 theorem coprime_card_of_pow_eq_one {G : Type*} [Group G] [Finite G] {H : Subgroup G} {N q : ℕ} (hq : q.Prime)
     (hN : Nat.Coprime N q) (hH : ∀ z ∈ H, z ^ N = 1) : Nat.Coprime (Nat.card H) q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   rw [Nat.coprime_comm, Nat.Prime.coprime_iff_not_dvd hq]
   intro hdvd
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' q hdvd
@@ -632,11 +634,11 @@ theorem coprime_pow_sub_one {q j : ℕ} (hq : q.Prime) (hj : 1 ≤ j) : Nat.Copr
   rw [h3] at h2
   exact hq.one_lt.ne' (Nat.dvd_one.1 h2)
 
-theorem exists_card_eq_pow {q : ℕ} (hq : q.Prime) {E : Type*} [Field E] [Finite E] (hE : ringChar E = q) :
+theorem exists_card_eq_pow {q : ℕ} (_hq : q.Prime) {E : Type*} [Field E] [Finite E] (hE : ringChar E = q) :
     ∃ j : ℕ, 1 ≤ j ∧ Nat.card E = q ^ j := by
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : CharP E q := hE ▸ ringChar.charP E
+  have : Fintype E := Fintype.ofFinite E
+  have : Fact q.Prime := ⟨_hq⟩
+  have : CharP E q := hE ▸ ringChar.charP E
   obtain ⟨j, -, hj⟩ := FiniteField.card E q
   exact ⟨j, j.pos, by rw [Nat.card_eq_fintype_card, hj]⟩
 
@@ -657,7 +659,7 @@ theorem coprime_card_gl_of_finrank_le_one {q : ℕ} (hq : q.Prime) {E W : Type*}
     [AddCommGroup W] [Module E W] [FiniteDimensional E W] (hE : ringChar E = q)
     (h : Module.finrank E W ≤ 1) :
     Nat.Coprime (Nat.card (LinearMap.GeneralLinearGroup E W)) q := by
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   obtain ⟨m, hm⟩ : ∃ m, Module.finrank E W = m := ⟨_, rfl⟩
   let b : Module.Basis (Fin m) E W := Module.finBasisOfFinrankEq E W hm
   have e : LinearMap.GeneralLinearGroup E W ≃* Matrix.GeneralLinearGroup (Fin m) E :=
@@ -674,7 +676,7 @@ theorem coprime_card_gl_of_finrank_le_one {q : ℕ} (hq : q.Prime) {E W : Type*}
 theorem sl_type {q : ℕ} (hq : q.Prime) (h5 : 5 ≤ q) {E : Type} [Field E] [Finite E] (hE : ringChar E = q)
     {m : ℕ} (hm : 2 ≤ m) {F : Type} [Group F] (e : Matrix.SpecialLinearGroup (Fin m) E ≃* F) :
     IsChevSimple q (F ⧸ Subgroup.center F) := by
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have h4 : m = 2 → 4 ≤ Fintype.card E := fun _ => by
     rw [← Nat.card_eq_fintype_card]; exact four_le_card hq h5 hE
   have hX := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.slFactorFacts_holds E m hm h4
@@ -723,7 +725,7 @@ theorem mem_iSup_specialFactor_of_char {q : ℕ} (hq : q.Prime) (h5 : 5 ≤ q) (
       have hb := b.2
       unfold IsGoodFactor at hb
       omega
-    haveI : Finite (blockGL (glA A : Module.End k (Fin n → k)) (b.1 : k[X])) :=
+    have : Finite (blockGL (glA A : Module.End k (Fin n → k)) (b.1 : k[X])) :=
       Nat.finite_of_card_ne_zero (Nat.pos_of_ne_zero (fun h0 => by
         have := coprime_card_gl_of_finrank_le_one (W := primaryComponent (glA A :
           Module.End k (Fin n → k)) (b.1 : k[X])) hq hchar hle
@@ -757,6 +759,7 @@ theorem qGen_conjAut {q : ℕ} (hq : q.Prime) (h5 : 5 ≤ q) (hk : ringChar k = 
     rcases h.2 with h3 | ⟨h2, -⟩ <;> omega
   exact sl_type hq h5 hchar hm e
 
+omit [Finite k] in
 theorem injective_map_subtype_sl {n : ℕ} (k₀ : Subfield k) :
     Function.Injective (Matrix.SpecialLinearGroup.map k₀.subtype :
       Matrix.SpecialLinearGroup (Fin n) k₀ →* Matrix.SpecialLinearGroup (Fin n) k) := by
@@ -766,6 +769,7 @@ theorem injective_map_subtype_sl {n : ℕ} (k₀ : Subfield k) :
     (x : Matrix (Fin n) (Fin n) k) a b) hgg'
   simpa [Matrix.SpecialLinearGroup.map_apply_coe] using h1
 
+omit [Finite k] in
 theorem fixSubgroup_slFieldAut_eq_range {n : ℕ} {k₀ : Subfield k} {σ : k ≃+* k}
     (hk : ∀ x, x ∈ k₀ ↔ σ x = x) :
     fixSubgroup (CatalogueBHigherLinearField.slFieldAut (Fin n) k σ) =
@@ -813,6 +817,7 @@ theorem qGen_fieldAut {q : ℕ} (hq : q.Prime) (h5 : 5 ≤ q) (hk : ringChar k =
       ((fixSubgroup α).inv_mem hc))
     (fun _ => hqs) (fun _ => hchev) (fun x hx _ => Subgroup.mem_iSup_of_mem () hx)
 
+omit [Finite k] in
 theorem natCast_ne_zero_of_ne {q p : ℕ} (hq : q.Prime) (hp : p.Prime) (hpq : p ≠ q) (hk : ringChar k = q) :
     ((p : ℕ) : k) ≠ 0 := by
   intro h0
@@ -822,7 +827,7 @@ theorem natCast_ne_zero_of_ne {q p : ℕ} (hq : q.Prime) (hp : p.Prime) (hpq : p
 theorem qGen_projectiveSL_three_le {q : ℕ} (hq : q.Prime) (h5 : 5 ≤ q) (hk : ringChar k = q) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ≠ q) {n : ℕ} (hn : 3 ≤ n)
     (β : MulAut (LinearFlag.projectiveSL n k)) (hβ : β ^ p = 1) : QGen q β := by
-  haveI : CharP k q := hk ▸ ringChar.charP k
+  have : CharP k q := hk ▸ ringChar.charP k
   obtain ⟨f, hf, hK⟩ := exists_card_eq_pow hq hk
   have hdesc := CFSG.RankThree.LinearDescent.higher_linear_prime_semilinear_field_descent hq hf hn hK
   have hpk := natCast_ne_zero_of_ne hq hp hpq hk
@@ -1124,9 +1129,9 @@ private theorem toLinSU_mem_unitaryCentralizer (A : primeFormUnitary h (idGram K
 
 private theorem coprime_card_normOneScalars {n : ℕ} (h : UnitaryFieldData ℓ f K) :
     Nat.Coprime (Nat.card ↥(normOneScalars h (gramSU h (idGram K n)) n)) ℓ := by
-  haveI := h.finite
+  have := h.finite
   have hℓ : ℓ.Prime := h.prime
-  haveI : CharP K ℓ := h.charP
+  have : CharP K ℓ := h.charP
   refine coprime_card_of_pow_eq_one hℓ (coprime_card_units hℓ (ringChar.eq K ℓ)) fun z hz => ?_
   obtain ⟨c, -, -, hc⟩ := mem_normOneScalars.1 hz
   apply Subtype.ext
@@ -1149,9 +1154,9 @@ theorem qGen_primeFormConjHom {n : ℕ} (h : UnitaryFieldData ℓ f K) (h5 : 5 �
     (hA : (A : GL (Fin n) K) ^ p = Matrix.GeneralLinearGroup.scalar (Fin n) c) :
     QGen ℓ (primeFormConjHom h (idGram K n) A) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hℓ : ℓ.Prime := h.prime
-  haveI : CharP K ℓ := h.charP
+  have : CharP K ℓ := h.charP
   have hq : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) hℓ.one_lt
     omega
@@ -1235,7 +1240,7 @@ theorem qGen_primeFormConjHom {n : ℕ} (h : UnitaryFieldData ℓ f K) (h5 : 5 �
       have hchar : ringChar (AdjoinRoot (b : K[X])) = ℓ :=
         (Algebra.ringChar_eq K (AdjoinRoot (b : K[X]))).symm.trans (ringChar.eq K ℓ)
       have hle := primaryMultiplicity_le_one_of_not_good h h5 b hb
-      haveI : Finite (blockGL (x : Module.End K (Fin n → K)) (b : K[X])) :=
+      have : Finite (blockGL (x : Module.End K (Fin n → K)) (b : K[X])) :=
         Nat.finite_of_card_ne_zero (Nat.pos_of_ne_zero (fun h0 => by
           have := coprime_card_gl_of_finrank_le_one (W := primaryComponent (x :
             Module.End K (Fin n → K)) (b : K[X])) hℓ hchar hle
@@ -1302,7 +1307,7 @@ private theorem nonempty_statedSU_mulEquiv_fixSubgroup (h : UnitaryFieldData ℓ
 theorem qGen_primeFormFieldHom (h : UnitaryFieldData ℓ f K) (h5 : 5 ≤ ℓ) (hn : 3 ≤ n)
     (hC : IsPrimeFormGram (1 : GL (Fin n) K)) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {σ : K ≃+* K} (hσ : orderOf σ = p) : QGen ℓ (primeFormFieldHom h hC σ) := by
-  haveI := h.finite
+  have := h.finite
   have hℓ : ℓ.Prime := h.prime
   have h₀ : UnitaryFieldData ℓ (f / p) (fixSubfield σ) := fixSubfield_unitaryFieldData h hp hp2 hσ
   have hbar := fixSubfield_unitaryFieldData_bar h hp hp2 hσ
@@ -1324,7 +1329,7 @@ theorem qGen_primeFormFieldHom (h : UnitaryFieldData ℓ f K) (h5 : 5 ≤ ℓ) (
   have hne : ¬ (n = 3 ∧ ℓ ^ (f / p) = 2) := fun ⟨_, h2⟩ => by
     have : ℓ ≤ ℓ ^ (f / p) := Nat.le_self_pow (by have := h₀.one_le; omega) ℓ
     omega
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hcard : Nat.card (fixSubfield σ) = (ℓ ^ (f / p)) ^ 2 := by
     rw [h₀.card, ← pow_mul, mul_comm]
   have hqs : CFSG.IsQuasisimple ↥(fixSubgroup α) :=

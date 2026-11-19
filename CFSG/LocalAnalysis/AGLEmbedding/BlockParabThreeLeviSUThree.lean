@@ -69,11 +69,11 @@ theorem heis_cube_relations (hs : 1 + ζ + ζ ^ 2 = 0) :
       (heisXMat ζ * heisYMat) ^ 3 = 1 ∧ (heisXMat ζ * (heisYMat * heisYMat)) ^ 3 = 1 ∧
       heisXMat ζ * heisYMat ≠ heisYMat * heisXMat ζ := by
   refine ⟨?_, ?_, ?_, ?_, fun h => ?_⟩
-  all_goals first
+  all_goals try first
     | (ext i j
        fin_cases i <;> fin_cases j <;>
          simp [heisXMat, heisYMat, pow_succ, mul_apply, Fin.sum_univ_three] <;> grind)
-    | skip
+
   have := congrFun (congrFun h 1) 0
   simp [heisXMat, heisYMat, mul_apply, Fin.sum_univ_three] at this
   grind

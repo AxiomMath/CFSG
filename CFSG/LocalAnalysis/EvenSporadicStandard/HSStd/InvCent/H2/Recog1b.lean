@@ -39,6 +39,7 @@ private noncomputable def recog1b_f (cfg : H2Cfg G t v J) : ↥(kleinV t v) × �
   MonoidHom.noncommCoprod (kleinV t v).subtype J.subtype
     fun a b => (commute_iff_eq _ _).mpr (cfg.comm a a.2 b b.2)
 
+omit [Finite G] in
 private theorem recog1b_f_injective (cfg : H2Cfg G t v J) :
     Function.Injective (recog1b_f cfg) := by
   simp only [recog1b_f]
@@ -47,6 +48,7 @@ private theorem recog1b_f_injective (cfg : H2Cfg G t v J) :
   rw [Subgroup.range_subtype, Subgroup.range_subtype]
   exact disjoint_iff.mpr cfg.disj
 
+omit [Finite G] in
 private theorem recog1b_f_range (cfg : H2Cfg G t v J) :
     (recog1b_f cfg).range = kleinV t v ⊔ J := by
   simp only [recog1b_f]
@@ -56,11 +58,13 @@ private noncomputable def recog1b_e (cfg : H2Cfg G t v J) :
     ↥(kleinV t v) × ↥J ≃* (recog1b_f cfg).range :=
   MonoidHom.ofInjective (f := recog1b_f cfg) (recog1b_f_injective cfg)
 
+omit [Finite G] in
 private theorem recog1b_jOne_le_range (cfg : H2Cfg G t v J) :
     jOne t S₁ ≤ (recog1b_f cfg).range := by
   rw [recog1b_f_range, ← cfg.cent_t]
   exact inf_le_left
 
+omit [Finite G] in
 private theorem recog1b_e_symm_apply_mul (cfg : H2Cfg G t v J)
     {a : G} (ha : a ∈ kleinV t v) {b : G} (hb : b ∈ J)
     (h : a * b ∈ (recog1b_f cfg).range) :
@@ -77,6 +81,7 @@ private noncomputable def recog1b_psi (cfg : H2Cfg G t v J) :
     ((recog1b_e cfg).symm.toMonoidHom.comp
       (Subgroup.inclusion (recog1b_jOne_le_range cfg)))
 
+omit [Finite G] in
 private theorem recog1b_psi_apply (cfg : H2Cfg G t v J)
     {a : G} (ha : a ∈ kleinV t v) {b : G} (hb : b ∈ J)
     (hmem : a * b ∈ jOne t S₁) :

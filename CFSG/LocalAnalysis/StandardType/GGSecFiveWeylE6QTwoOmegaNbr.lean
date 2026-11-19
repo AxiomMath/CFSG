@@ -14,6 +14,7 @@ open CFSG.Assembly CFSG.Open
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem E6QTwo.three_dvd_card_of_hasLabel_twA3 {J : Subgroup G}
     (h : GGHasLabel ⟨.twA, 3, 1⟩ (J ⧸ Subgroup.center J)) : 3 ∣ Nat.card J := by
   have hq : 3 ∣ Nat.card (J ⧸ Subgroup.center J) := by
@@ -33,7 +34,7 @@ theorem E6QTwo.innerDiagOnLabel_twA5_of_nbr (hRig : GGLabelRigidInput)
     GGInnerDiagOnLabel (fun _ lab => lab.tag = .twA ∧ lab.rank = 5 ∧ lab.n = 1) 3 Bs K' := by
   obtain ⟨-, labL, hΛL, hrawL⟩ := hlab
   obtain ⟨R_L, hR_L, I_L, F_L, hs_L, hna_L, θ_L, hPL⟩ := largeEvenRawDatum_exists hrawL
-  letI : Group R_L := hR_L
+  let : Group R_L := hR_L
   obtain ⟨hPLtag, hPLrank, hPLn⟩ := hPL
   have hglL : GGHasLabel labL (L ⧸ Subgroup.center L) :=
     largeEvenRawDatum_mono (fun _ _ _ _ ⟨_, _, θ, _⟩ => ⟨θ⟩) hrawL

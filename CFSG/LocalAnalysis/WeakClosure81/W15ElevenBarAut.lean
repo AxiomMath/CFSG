@@ -37,7 +37,7 @@ private def b15_BarAut_fixMod (σ : MulAut N) : Subgroup N where
   carrier := {y | σ y * y⁻¹ ∈ Subgroup.center N}
   one_mem' := by
     show σ 1 * (1 : N)⁻¹ ∈ Subgroup.center N
-    simpa using (Subgroup.center N).one_mem
+    simp
   mul_mem' := by
     intro y y' hy hy'
     have hy' : σ y' * y'⁻¹ ∈ Subgroup.center N := hy'
@@ -71,16 +71,18 @@ variable {p : ℕ} [Fact p.Prime] [hN : CFSG.IsExtraspecial p N]
 
 include hN
 
+omit [Fact (Nat.Prime p)] in
 private theorem b15_BarAut_commutator_mem_center (a b : N) : ⁅a, b⁆ ∈ Subgroup.center N := by
-  haveI := CFSG.IsExtraspecial.quotient_elementary_abelian p N
+  have := CFSG.IsExtraspecial.quotient_elementary_abelian p N
   have h : ((⁅a, b⁆ : N) : N ⧸ Subgroup.center N) = 1 := by
     change (QuotientGroup.mk' (Subgroup.center N)) ⁅a, b⁆ = 1
     rw [map_commutatorElement]
     exact commutatorElement_eq_one_iff_mul_comm.2 (mul_comm' _ _)
   exact (QuotientGroup.eq_one_iff _).1 h
 
+omit [Fact (Nat.Prime p)] in
 private theorem b15_BarAut_pow_mem_center (a : N) : a ^ p ∈ Subgroup.center N := by
-  haveI := CFSG.IsExtraspecial.quotient_elementary_abelian p N
+  have := CFSG.IsExtraspecial.quotient_elementary_abelian p N
   have h : ((a ^ p : N) : N ⧸ Subgroup.center N) = 1 := by
     change (QuotientGroup.mk' (Subgroup.center N)) (a ^ p) = 1
     rw [map_pow]
@@ -88,6 +90,7 @@ private theorem b15_BarAut_pow_mem_center (a : N) : a ^ p ∈ Subgroup.center N 
       (CFSG.IsElementaryAbelian.exponent_dvd_p p (N ⧸ Subgroup.center N)) _
   exact (QuotientGroup.eq_one_iff _).1 h
 
+omit [Fact (Nat.Prime p)] in
 private theorem b15_BarAut_center_pow {z : N} (hz : z ∈ Subgroup.center N) : z ^ p = 1 := by
   have h : (⟨z, hz⟩ : Subgroup.center N) ^ Nat.card (Subgroup.center N) = 1 := pow_card_eq_one'
   rw [CFSG.IsExtraspecial.center_order_p p N] at h

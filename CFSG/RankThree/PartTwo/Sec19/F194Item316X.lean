@@ -96,6 +96,7 @@ theorem isShortGroup_of_isShort {L : Subgroup G} (hL : IsShort L) :
       apply Subgroup.map_injective L.subtype_injective
       rw [h, hU]
 
+omit [Finite G] in
 theorem ne_zero_of_isLin2Type {L : Subgroup G} {n : ℕ} (h : IsLin2Type L n) : n ≠ 0 := by
   rintro rfl
   obtain ⟨F, _, _, hcard, -⟩ := h
@@ -103,13 +104,14 @@ theorem ne_zero_of_isLin2Type {L : Subgroup G} {n : ℕ} (h : IsLin2Type L n) : 
   rw [hcard, pow_zero] at h1
   exact lt_irrefl _ h1
 
+omit [Finite G] in
 theorem false_of_isAltNaturalType_one {L : Subgroup G} (hL : IsShort L)
     (h : IsAltNaturalType L 1) : False := by
   rcases hL.quasisimple_or_prime with hq | hp
   · have h3 := three_le_of_isAltNaturalType hq h
     omega
   · obtain ⟨α, -, hker, -⟩ := h
-    haveI : Subsingleton (alternatingGroup (Fin 1)) :=
+    have : Subsingleton (alternatingGroup (Fin 1)) :=
       alternatingGroup_fin_subsingleton 1 (by norm_num)
     have hQ : Subsingleton (L ⧸ CFSG.pCore 2 L) := by
       refine ⟨fun x y => ?_⟩

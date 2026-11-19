@@ -27,7 +27,7 @@ theorem sec8_exists_comm_section {R P I N : Subgroup G} {x : G} (hsec : SecHyp R
     intro u v
     rw [hκ.eq_iff]
     have e : ((u * v * u⁻¹ : ↥P) : G) * ((v : ↥P) : G)⁻¹ = ⁅(u : G), (v : G)⁆ := by
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def] <;> group
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
     rw [e]
     exact hsec.comm u u.2 v v.2
   have hκI : ∀ i : ↥P, (i : G) ∈ I → κ i = 1 := fun i hi => (hκ.ker i).mpr hi
@@ -139,7 +139,7 @@ theorem sec8_card_le_of_comm_section {R P I U T Z : Subgroup G} {Mo : Type} [Add
     (hκ : IsSecMod R P I Mo κ) (hIU : I ≤ U) (hUP : U ≤ P) (hZI : Z ≤ I) (hTP : T ≤ P)
     (hZT : Z ≤ T) (hUT : ∀ y ∈ U, ∃ w ∈ T, y * w⁻¹ ∈ I) :
     Nat.card ↥U * Nat.card ↥Z ≤ Nat.card ↥T * Nat.card ↥I := by
-  haveI : Finite Mo := hκ.finite
+  have : Finite Mo := hκ.finite
   have hle : secSub κ U ≤ secSub κ T := by
     intro a ha
     obtain ⟨y, hyU, hya⟩ := mem_secSub.mp ha

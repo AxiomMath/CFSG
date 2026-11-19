@@ -34,7 +34,7 @@ theorem kd264I5Aut_u38 (e : TauCeti.ValidLieTypeIndex) [Finite (TauCeti.CFSGInde
   obtain ⟨p, k, hpr, hk⟩ := q
   have hq8 : p ^ k = 8 := (TauCeti.PrimePower.card_def ⟨p, k, hpr, hk⟩).symm.trans hq
   obtain ⟨rfl, rfl⟩ := CFSG.LocalAnalysis.GLTheoremA.KD264Lie.I5Aut.prime_pow_eq_eight hpr hk hq8
-  haveI : Fact (Nat.Prime 2) := ⟨hpr⟩
+  have : Fact (Nat.Prime 2) := ⟨hpr⟩
   obtain ⟨φ₁⟩ := CFSG.ComponentClassification.GMS78.nonempty_mulEquiv_psu3_of_stated (m := 3)
     (by norm_num) (CFSG.RankThree.PartTwo.Sec20.statedClassicalModel_of_mulEquiv_projSU3
       (m := 3) (by norm_num) (MulEquiv.refl _))
@@ -50,7 +50,7 @@ theorem kd264I5Aut_u38 (e : TauCeti.ValidLieTypeIndex) [Finite (TauCeti.CFSGInde
     exact bot_ne_top h1
   let e₁ : ↥(CFSG.PGLModel.projSU 3 2 3) ≃* ↥(CFSG.Theory.Comparator.PSU3Model 3) :=
     φ₁.trans (MulEquiv.subgroupCongr (CFSG.Models.benderPSU3Model_eq_psu3 3).symm)
-  haveI : IsSimpleGroup ↥(CFSG.Theory.Comparator.PSU3Model 3) := e₁.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(CFSG.Theory.Comparator.PSU3Model 3) := e₁.symm.isSimpleGroup
   have hP : ¬ IsMulCommutative ↥(CFSG.Theory.Comparator.PSU3Model 3) := by
     rintro ⟨hc⟩
     exact hnc ⟨⟨fun a b => e₁.injective (by rw [map_mul, map_mul]; exact hc.comm _ _)⟩⟩

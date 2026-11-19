@@ -185,8 +185,8 @@ theorem Lg_eq (hd : d.Hyp) :
       have hne := fd.mul_ne hi hj hij
       rcases hw with rfl | rfl <;> rcases hw' with rfl | rfl
       · simp only [mul_one] at hprod; exact hne.1 hprod
-      · simp only [mul_one, one_mul] at hprod; exact hne.2 hprod
-      · simp only [mul_one, one_mul] at hprod; exact hne.2 hprod
+      · simp only [mul_one] at hprod; exact hne.2 hprod
+      · simp only [one_mul] at hprod; exact hne.2 hprod
       · exact hne.1 (hprod.trans hz2)
   have hf : Function.Injective f := by
     rintro ⟨i, bi⟩ ⟨j, bj⟩ h
@@ -395,9 +395,9 @@ theorem twist_eps (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀)
     (h1 : z₀ * z₀ = d.z) : Twist d d.s56Eps where
   mem_E _ hv := hd.s56_V_eps_mem_E hv
   mul _ hu _ hv := hd.s56_eps_mul_Q2' hu.2 hv.2
-  conj _ _ hgt v _ := hd.s56_eps_conj hgt v
-  triv e he := hd.s56_eps_of_comm (hd.L_comm_t (s56_E_le_L d he))
-  mem_z v hv := hd.s56_V_sq_eps_mem_of_sq_eq_z h49 hz h1 hv
+  conj _ _ hgt _v _ := hd.s56_eps_conj hgt _v
+  triv _e he := hd.s56_eps_of_comm (hd.L_comm_t (s56_E_le_L d he))
+  mem_z _v hv := hd.s56_V_sq_eps_mem_of_sq_eq_z h49 hz h1 hv
 
 theorem eq_one_of_fixed (hd : d.Hyp) {w : G} (hw : w ∈ zpowers d.z)
     (hfix : d.s56Y * w * d.s56Y⁻¹ = w) : w = 1 := by

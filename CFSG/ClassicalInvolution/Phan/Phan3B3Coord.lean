@@ -173,12 +173,12 @@ theorem nuOf_B2 (c d : F3F) :
 theorem mat_ell_A2 : mat 2 F3F (b2Coord3.ℓ A2) = LAz.map eF := by
   show mat 2 F3F (lHom qData3 1 1 hcd3 h2F A2) = _
   rw [mat_lHom, nuOf_A2, LAz, spBlockMat_map, conjD2_map, nuMat_map, eF_inv2]
-  simp [eF_neg]
+  simp
 
 theorem mat_ell_B2 : mat 2 F3F (b2Coord3.ℓ B2) = LBz.map eF := by
   show mat 2 F3F (lHom qData3 1 1 hcd3 h2F B2) = _
   rw [mat_lHom, nuOf_B2, LBz, spBlockMat_map, conjD2_map, nuMat_map, eF_inv2]
-  simp [eF_neg]
+  simp
 
 theorem mat_s_A2 : mat 2 F3F (b2Coord3.s A2) = SAz.map eF := by
   show mat 2 F3F (sHom qData3 1 1 hcd3 h2F A2) = _

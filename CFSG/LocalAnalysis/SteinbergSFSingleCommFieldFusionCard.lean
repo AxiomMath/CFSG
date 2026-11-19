@@ -157,6 +157,7 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixFF_ff5_aux_Q_inf_L (hS : SCSetting L K n φ t i) : (P φ ⊔ zpowers t) ⊓ L = P φ := by
   apply le_antisymm
   · rintro x ⟨hxQ, hxL⟩
@@ -171,13 +172,15 @@ theorem sixFF_ff5_aux_Q_inf_L (hS : SCSetting L K n φ t i) : (P φ ⊔ zpowers 
     exact hp
   · exact le_inf le_sup_left (pull_le φ _)
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff5_aux_normalizes_Q
     (hS : SCSetting L K n φ t i) {R₁ : Subgroup G} (hRC : R₁ ≤ centralizer ({t} : Set G))
     (hR : IsPGroup 2 R₁) (hQR : P φ ⊔ zpowers t ≤ R₁) {y : G} (hy : y ∈ R₁) :
     y ∈ normalizer ((P φ ⊔ zpowers t : Subgroup G) : Set G) := by
-  haveI := CFSG.LocalAnalysis.SymplecticFourRankThompson.rankThompson_characteristic (G := R₁)
+  have := CFSG.LocalAnalysis.SymplecticFourRankThompson.rankThompson_characteristic (G := R₁)
   exact sixFF_ff5_aux_normalizer_of_char (hS.fc.setup.rankThompson_eq hRC hR hQR) hy
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff5
     (hS : SCSetting L K n φ t i) (f2 : FF2Concl n φ t i) : FF5Concl n φ t := by
   intro R hR hRC
@@ -186,7 +189,7 @@ theorem sixFF_ff5
       (centralizer ({t} : Set G)).subtype := ⟨_, rfl⟩
   rw [← hR₁] at hQSyl
   have hR₁C : R₁ ≤ centralizer ({t} : Set G) := hR₁ ▸ Subgroup.map_subtype_le _
-  have hR₁2 : IsPGroup 2 R₁ := hR₁ ▸ Syl.isPGroup'.map _
+  have hR₁2 : IsPGroup 2 R₁ := hR₁ ▸ Syl.isPGroup.map _
   have hRle : Nat.card R ≤ Nat.card R₁ := by
     have hRc2 : IsPGroup 2 (R.subgroupOf (centralizer ({t} : Set G))) :=
       hR.of_equiv (subgroupOfEquivOfLe hRC).symm

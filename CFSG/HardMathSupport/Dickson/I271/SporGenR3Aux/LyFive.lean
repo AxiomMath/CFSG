@@ -47,7 +47,7 @@ theorem isLocallyOneBalancedAbs_Ly_five (hOut : SporadicOuterLeTwo) (hBr : Spora
     (S : Type) [Group S] [Finite S] (hS : IsSimpleGroup S) (hnab : ∃ a b : S, a * b ≠ b * a)
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.sporadic .Ly).Group)) :
     IsLocallyOneBalancedAbs 5 S := by
-  haveI := hS
+  have := hS
   have hcen : Subgroup.center S = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   have hOutS : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer S) ≤ 2 :=
     hOut S hS hnab .Ly he

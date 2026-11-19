@@ -15,7 +15,7 @@ open scoped commutatorElement IsMulCommutative
 theorem y7c_gen_of_fpf {Γ : Type} [Group Γ] [Finite Γ] {W J : Subgroup Γ}
     (hW : IsElemAbelian 2 W) {k : Γ} (hk : k ∈ J) (hkW : ∀ m ∈ W, k * m * k⁻¹ ∈ W)
     (hfpf : ∀ m ∈ W, k * m * k⁻¹ = m → m = 1) : W ≤ ⁅J, W⁆ := by
-  haveI : IsMulCommutative ↥W := hW.1
+  have : IsMulCommutative ↥W := hW.1
   let φ : ↥W →* ↥W :=
     { toFun := fun x => ⟨k * (x : Γ) * k⁻¹, hkW x x.2⟩
       map_one' := by ext; simp
@@ -54,7 +54,7 @@ theorem y7c_gen_of_fpf {Γ : Type} [Group Γ] [Finite Γ] {W J : Subgroup Γ}
 theorem y7c_fpf_of_cent_t {Γ : Type} [Group Γ] {W A : Subgroup Γ} (hW : IsElemAbelian 2 W)
     {t k : Γ} (ht2 : t ^ 2 = 1) (htW : ∀ m ∈ W, t * m * t⁻¹ ∈ W)
     (hcentA : ∀ m ∈ W, m * t = t * m → m ∈ A) (hkt : k * t = t * k)
-    (hkW : ∀ m ∈ W, k * m * k⁻¹ ∈ W) (hkA : ∀ a ∈ A, k * a * k⁻¹ = a → a = 1) :
+    (_hkW : ∀ m ∈ W, k * m * k⁻¹ ∈ W) (hkA : ∀ a ∈ A, k * a * k⁻¹ = a → a = 1) :
     ∀ m ∈ W, k * m * k⁻¹ = m → m = 1 := by
   intro m hm hfix
   obtain ⟨hcW, hct⟩ := y7c_comm_cent_t hW ht2 htW hm
@@ -69,6 +69,7 @@ theorem y7c_fpf_of_cent_t {Γ : Type} [Group Γ] {W A : Subgroup Γ} (hW : IsEle
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem y7c_zL_le_normIn {X : Subgroup G} (hX : X ≤ L) : zL L ≤ normIn L X := by
   intro z hz
   obtain ⟨hzL, hzC⟩ := mem_zL_iff.mp hz

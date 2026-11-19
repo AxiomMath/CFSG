@@ -138,7 +138,7 @@ private theorem eq_one_of_conj_mem_normalizer (hq : q.polarBilin.Nondegenerate)
         have e : u⁻¹ * (a * b) * u = (u⁻¹ * a * u) * (u⁻¹ * b * u) := by group
         rw [e]
         exact mul_mem (ha.2 u hu) (hb.2 u hu)⟩
-      one_mem' := ⟨one_mem _, fun u hu => by simpa using one_mem _⟩
+      one_mem' := ⟨one_mem _, fun u hu => by simp⟩
       inv_mem' := fun {a} ha => ⟨inv_mem ha.1, fun u hu => by
         have e : u⁻¹ * a⁻¹ * u = (u⁻¹ * a * u)⁻¹ := by group
         rw [e]
@@ -309,7 +309,7 @@ theorem Coord.Rbar_ne_Lbar (K : Coord S X) {g : G} {τ : Perm (Fin 3)}
   obtain ⟨h, hh⟩ := K.exists_Lbar_conj hL hyX
   have hTy : (T : S.O) ∈ S.Lbar ((h : G) * g) := by
     rw [hh T, hT]
-    exact ⟨Or.inr rfl, by simpa using one_mem P⟩
+    exact ⟨Or.inr rfl, by simp⟩
   intro hR
   have hle : S.Lbar ((h : G) * g) ≤ S.Lbar g := hR ▸ S4.Lbar_mul_le_Rbar hTy
   have heq : S.Lbar ((h : G) * g) = S.Lbar g :=
@@ -353,7 +353,7 @@ private theorem Coord.Nbar_le (K : Coord S X) [Finite V] [FiniteDimensional (ZMo
     obtain ⟨h, hh⟩ := K.exists_Lbar_conj hL hu
     have hTu : (T : S.O) ∈ S.Lbar ((h : G) * g) := by
       rw [hh T, hT]
-      exact ⟨Or.inr rfl, by simpa using one_mem P⟩
+      exact ⟨Or.inr rfl, by simp⟩
     have hnorm := S4.Nbar_le_normalizer haQ hne (S4.Lbar_mul_mem_Dset hTu) hn
     refine mem_normalizer_of_forall hPX (mul_mem (mul_mem (inv_mem hu) (K.snd_mem m)) hu)
       fun x hx => ?_

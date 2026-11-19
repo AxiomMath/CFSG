@@ -16,6 +16,7 @@ variable {K E X : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensio
   {B : LinearMap.BilinForm K E} {Qf : E → K} {φ : X →* (E ≃ₗ[K] E)}
   {V L Nb Rb : Subgroup X} {T : Submodule K E}
 
+omit [FiniteDimensional K E] in
 theorem commute_of_sq_eq_one (I : Sec717RepInputs B Qf φ V L Nb Rb T) {y : X}
     (hy : y ∈ normalizer (V : Set X)) (hy2 : y * y = 1) : ∀ a ∈ V, a * y = y * a := by
   obtain ⟨a₀, ha₀, ha₀1⟩ := I.layer.V_ne
@@ -54,6 +55,7 @@ theorem commute_of_sq_eq_one (I : Sec717RepInputs B Qf φ V L Nb Rb T) {y : X}
   calc a * y = y * a * y⁻¹ * y := by rw [h7]
     _ = y * a := by group
 
+omit [FiniteDimensional K E] in
 theorem semilinear (I : Sec717RepInputs B Qf φ V L Nb Rb T) :
     ∀ Y : Subgroup X, Y ≤ normalizer (V : Set X) → (∀ y ∈ Y, y * y = 1) →
       (∀ a ∈ Y, ∀ b ∈ Y, a * b = b * a) →
@@ -64,12 +66,14 @@ theorem semilinear (I : Sec717RepInputs B Qf φ V L Nb Rb T) :
   rw [inf_eq_right.mpr hYC]
   exact Nat.le_mul_of_pos_left _ (by norm_num)
 
+omit [FiniteDimensional K E] in
 theorem opm_commutator_Nb (I : Sec717RepInputs B Qf φ V L Nb Rb T) {m z : X} (hm : m ∈ Nb)
     (hz : z ∈ Nb) (x : E) :
     opm (φ ⁅m, z⁆) x = opm (φ m) (opm (φ z) x) - opm (φ z) (opm (φ m) x) := by
   rw [commutatorElement_def, map_mul, map_mul, map_mul, map_inv, map_inv]
   exact opm_commutator_of_lowering (I.layer.Nb_low m hm) (I.layer.Nb_low z hz) x
 
+omit [FiniteDimensional K E] in
 theorem opm_mul_V (I : Sec717RepInputs B Qf φ V L Nb Rb T) {v w : X} (hv : v ∈ V) (hw : w ∈ V) :
     opm (φ (v * w)) = opm (φ v) + opm (φ w) := by
   ext x
@@ -77,16 +81,19 @@ theorem opm_mul_V (I : Sec717RepInputs B Qf φ V L Nb Rb T) {v w : X} (hv : v �
     (I.layer.V_corner v hv).apply_lowering ((I.layer.V_corner w hw).isLayerLowering I.layer.T_le),
     add_zero]
 
+omit [FiniteDimensional K E] in
 theorem opm_inv_V (I : Sec717RepInputs B Qf φ V L Nb Rb T) {v : X} (hv : v ∈ V) :
     opm (φ v⁻¹) = -opm (φ v) := by
   ext x
   rw [map_inv, opm_inv_apply_of_lowering ((I.layer.V_corner v hv).isLayerLowering I.layer.T_le),
     I.opm_V_sq hv, add_zero, LinearMap.neg_apply]
 
+omit [FiniteDimensional K E] in
 theorem V_comm_Nb (I : Sec717RepInputs B Qf φ V L Nb Rb T) {v n : X} (hv : v ∈ V) (hn : n ∈ Nb) :
     n * v = v * n :=
   I.Rb_cent n (I.NR hn) v hv
 
+omit [FiniteDimensional K E] in
 theorem coeff_unique (I : Sec717RepInputs B Qf φ V L Nb Rb T) {a₀ : X} (ha₀ : a₀ ∈ V)
     (ha₀1 : a₀ ≠ 1) {c d : K} (h : c • opm (φ a₀) = d • opm (φ a₀)) : c = d := by
   have h1 : (c - d) • opm (φ a₀) = 0 := by rw [sub_smul, h, sub_self]
@@ -228,6 +235,7 @@ theorem cl (I : Sec717RepInputs B Qf φ V L Nb Rb T) :
   obtain ⟨l, hl, hlV⟩ := I.L_ne_V
   exact hlV (hLV l hl)
 
+omit [FiniteDimensional K E] in
 theorem exists_comm_eq_of_not_mem_L (I : Sec717RepInputs B Qf φ V L Nb Rb T) {z : X}
     (hz : z ∈ Nb) (hzL : z ∉ L) : ∀ w ∈ V, ∃ l ∈ L, ⁅l, z⁆ = w := by
   obtain ⟨a₀, ha₀, ha₀1⟩ := I.layer.V_ne
@@ -256,6 +264,7 @@ theorem exists_comm_eq_of_not_mem_L (I : Sec717RepInputs B Qf φ V L Nb Rb T) {z
     simp only [LinearMap.smul_apply, map_smul, smul_sub]
   rw [e, hc₀, smul_smul, div_mul_cancel₀ cw hc₀ne, hcw]
 
+omit [FiniteDimensional K E] in
 theorem nb_semi (I : Sec717RepInputs B Qf φ V L Nb Rb T) :
     ∀ z ∈ Nb, z ∉ V → ∀ w ∈ V, ∃ m ∈ Nb, m * z * m⁻¹ = w * z := by
   intro z hz hzV

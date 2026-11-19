@@ -16,6 +16,7 @@ open Research.HallSylowNormalizer
 
 variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 
+omit [Finite G] in
 theorem normalizer_le_fixedSetStabilizer (P : Subgroup G) :
     Subgroup.normalizer (P : Set G) ≤
       MulAction.stabilizer G (MulAction.fixedPoints P X : Set X) := by
@@ -53,6 +54,7 @@ noncomputable def normalizerFixedActionHom (P : Subgroup G) :
     (MulAction.fixedPoints P X)).comp
       (normalizerToFixedSetStabilizer (X := X) P)
 
+omit [Finite G] in
 @[simp] theorem normalizerFixedActionHom_apply_val
     (P : Subgroup G) (n : Subgroup.normalizer (P : Set G))
     (x : MulAction.fixedPoints P X) :
@@ -178,6 +180,7 @@ private theorem alternatingGroup_le_normalizer_fixedAction_of_card_seven
   · simpa only [F] using hfixed
   · exact normalizer_fixedAction_range_isMultiplyPretransitive h4 e Q
 
+omit [Finite G] in
 private theorem exists_normalizer_correction_to_swap
     (P : Subgroup G)
     [Fintype (MulAction.fixedPoints P X)]
@@ -221,6 +224,7 @@ private theorem exists_normalizer_correction_to_swap
   dsimp only [c]
   group
 
+omit [Finite G] in
 private theorem false_of_alternating_normalizer_and_odd_setwise_lift
     (e : Fin 4 ↪ X) (P : Subgroup G)
     [Fintype (MulAction.fixedPoints P X)]

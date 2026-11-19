@@ -59,7 +59,7 @@ theorem fpf_of_sylow {G : Subgroup (Equiv.Perm (Fin 45))} (hG : Nat.card G = 259
     rw [← hg, Sylow.coe_subgroup_smul]
     exact Subgroup.smul_mem_pointwise_smul _ _ _ (hP2 (mem_zpowers yG))
   have hcard : Nat.card P1 ≤ Nat.card (zpowers xG) := by
-    obtain ⟨n, hn⟩ := P1.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P1.isPGroup.exists_card_eq
     have hd := Subgroup.card_subgroup_dvd_card (P1 : Subgroup G)
     rw [hG, hn] at hd
     rw [hn, Nat.card_zpowers, hxo]

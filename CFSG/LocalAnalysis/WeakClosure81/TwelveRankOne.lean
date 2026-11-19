@@ -95,7 +95,7 @@ theorem rankOne_exists_pair_three {Y : Type} [Group Y] [Finite Y] {n : ℕ}
     change (QuotientGroup.mk' N L) * (QuotientGroup.mk' N L) = 1
     rw [← map_mul, hLL, map_one]
   have hULord : orderOf ((U : PSL(2, F)) * (L : PSL(2, F))) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hpowq : ((QuotientGroup.mk' N U) * (QuotientGroup.mk' N L)) ^ 3 = 1 := by
       rw [← map_mul, ← map_pow, hX3, map_one]
     have hne : (QuotientGroup.mk' N U) * (QuotientGroup.mk' N L) ≠ 1 := by
@@ -150,7 +150,7 @@ theorem Setting12Two.exists_benderCore (h : Setting12Two A M n) :
   have hSM : (S : Subgroup (G ⧸ CFSG.Quasithin.kerIn M ⊤)) ≤ M.map π :=
     (le_borel (S : Subgroup (G ⧸ CFSG.Quasithin.kerIn M ⊤))).trans hle
   have hMle : M.map π ≤ borel (S : Subgroup (G ⧸ CFSG.Quasithin.kerIn M ⊤)) := by
-    haveI := hB.isSimple
+    have := hB.isSimple
     exact hc.le_borel_of_le hSM (b12_TwelveBar_map_ne_top h)
   exact ⟨i, S, t, hAS, le_antisymm hMle hle, hc⟩
 
@@ -166,7 +166,7 @@ theorem Setting12Two.map_involutions_commute (h : Setting12Two A M n)
   by_cases hβ1 : β = 1
   · subst hβ1
     rw [mul_one, one_mul]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hαroot : α ∈ rootCenter (S : Subgroup (G ⧸ CFSG.Quasithin.kerIn M ⊤)) :=
     hc.center_of_involution α (hMS ▸ hα)
       (orderOf_eq_prime (by rw [sq]; exact hα2) hα1)

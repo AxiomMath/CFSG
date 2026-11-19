@@ -39,7 +39,7 @@ private theorem n924x_hasE9_psl2_of_outer_three {S₀ : Type} [Group S₀] [Fini
     (hg : g ∉ (MulAut.conj : PSL2 (GaloisField 2 m) →*
       MulAut (PSL2 (GaloisField 2 m))).range) : HasE9 ↥A := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set τ : GaloisField 2 m ≃+* GaloisField 2 m :=
     psl2FieldPart (GaloisField 2 m) g with hτdef
   obtain ⟨k, hk⟩ := hg3.exists_orderOf_eq_pow (⟨g, Subgroup.mem_zpowers g⟩)
@@ -145,7 +145,7 @@ private theorem n924x_hasE9_psl2_of_outer_three {S₀ : Type} [Group S₀] [Fini
         MulAut (PSL2 (GaloisField 2 m))) d 3, hd3, map_one]
     · intro h
       have hd1 : d = 1 := n924x_conj_eq_one_psl2 h
-      have h13 : (1 : ℕ) = 3 := by simpa [hd1] using hdord
+      have h13 : (1 : ℕ) = 3 := by simp [hd1] at hdord
       omega
   have hψcd : ψ * MulAut.conj d * ψ⁻¹ = MulAut.conj d := by
     rw [CFSG.RankThree.PartTwo.KFacts.mul_mulAutConj_mul_inv, hψd]
@@ -169,7 +169,7 @@ private theorem n924x_hasE9_psl2_of_outer_three {S₀ : Type} [Group S₀] [Fini
       exact (orderOf_dvd_iff_zpow_eq_one (x := ψ) (i := j)).mp hd
     have hconj1 : MulAut.conj d = 1 := by rw [← hj, hψj]
     have hd1 : d = 1 := n924x_conj_eq_one_psl2 hconj1
-    have h13 : (1 : ℕ) = 3 := by simpa [hd1] using hdord
+    have h13 : (1 : ℕ) = 3 := by simp [hd1] at hdord
     omega
   refine ⟨⟨ψ, hψA⟩, ⟨MulAut.conj d, hcA⟩, ?_, ?_, ?_, ?_⟩
   · rw [Subgroup.orderOf_mk, hψord]
@@ -202,7 +202,7 @@ theorem hasE9_of_outer_three {S₀ : Type} [Group S₀] [Finite S₀] {m : ℕ} 
   have hg'A : g' ∈ A' := by
     rw [hg'def, hA'def]
     exact Subgroup.mem_map_of_mem _ hgA
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hg3.exists_orderOf_eq_pow (⟨g, Subgroup.mem_zpowers g⟩)
   rw [Subgroup.orderOf_mk] at hk
   have hg'ord : orderOf g' = 3 ^ k := by

@@ -38,6 +38,7 @@ variable (H) in
 @[expose] def socTorus (Γ : SimpleGraph V) (z w y : V) : Subgroup H :=
   socleAt H Γ z ⊓ MulAction.stabilizer H w ⊓ MulAction.stabilizer H y
 
+omit [GraphAction H Γ] in
 theorem socleAt_le_stabilizer {z : V}
     (hK : FixingNeighbourhoodFixesVertex (H := H) (Γ := Γ) z) :
     socleAt H Γ z ≤ MulAction.stabilizer H z := by
@@ -92,6 +93,7 @@ theorem socTorus_smul (g : H) (z w y : V) :
   rw [Subgroup.map_inf _ _ _ (MulAut.conj g).injective,
     Subgroup.map_inf _ _ _ (MulAut.conj g).injective]
 
+omit [GraphAction H Γ] in
 theorem socTorus_comm (z w y : V) : socTorus H Γ z w y = socTorus H Γ z y w := by
   unfold socTorus
   ac_rfl
@@ -137,8 +139,7 @@ theorem twinFree_of_egirth (hg : (4 : ℕ∞) < Γ.egirth)
       rw [SimpleGraph.Walk.isCycle_iff_isPath_tail_and_le_length]
       refine ⟨?_, by simp [p]⟩
       rw [SimpleGraph.Walk.isPath_def]
-      simp [p, SimpleGraph.Walk.support_cons, hne, hne', hwy, hwy', hwy'.ne, hxw.ne',
-        hadj.ne']
+      simp [p, SimpleGraph.Walk.support_cons, hne', hwy, hxw.ne']
     have hle : Γ.egirth ≤ (3 : ℕ∞) := by
       simpa [p] using hp.egirth_le_length
     have : (4 : ℕ∞) < (3 : ℕ∞) := lt_of_lt_of_le hg hle
@@ -156,9 +157,8 @@ theorem twinFree_of_egirth (hg : (4 : ℕ∞) < Γ.egirth)
       rw [SimpleGraph.Walk.isCycle_iff_isPath_tail_and_le_length]
       refine ⟨?_, by simp [p]⟩
       rw [SimpleGraph.Walk.isPath_def]
-      simp [p, SimpleGraph.Walk.support_cons, hne, hne', hwy, hw'y, hwy', hw'y', hww',
-        hxw.ne', hxw'.ne', hwy'.ne', hw'y'.ne',
-        Ne.symm hww', Ne.symm hwy, Ne.symm hw'y]
+      simp [p, SimpleGraph.Walk.support_cons, hne', hwy, hww',
+        hxw.ne', hxw'.ne', hw'y'.ne']
     have hle : Γ.egirth ≤ (4 : ℕ∞) := by
       simpa [p] using hp.egirth_le_length
     have : (4 : ℕ∞) < (4 : ℕ∞) := lt_of_lt_of_le hg hle

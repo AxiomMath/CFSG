@@ -15,6 +15,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 section Hyperplanes
 
+omit [Finite G] in
 theorem normalizer_inf_centralizer {p : ℕ} {T D D₀ : Subgroup G} (hD : IsElemAbelian p D)
     (hDT : D ≤ Subgroup.normalizer (T : Set G)) (hD₀ : D₀ ≤ D) :
     D ≤ Subgroup.normalizer ((T ⊓ Subgroup.centralizer (D₀ : Set G) : Subgroup G) : Set G) := by
@@ -150,6 +151,7 @@ end Q8
 
 section ExistsU
 
+omit [Finite G] in
 theorem eq_one_or_eq_of_mem_zpowers' {z x : G} (hz : orderOf z = 2) (hx : x ∈ Subgroup.zpowers z) :
     x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx

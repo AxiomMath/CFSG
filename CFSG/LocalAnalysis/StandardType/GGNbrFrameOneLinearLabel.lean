@@ -14,7 +14,7 @@ open CFSG.Assembly CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 theorem ggTorusFrameEltSC_projectiveSL {d p : ℕ} {K : Type} [Field K] [Finite K]
     (hp : p.Prime) (hp2 : p ≠ 2) (hpK0 : (p : K) ≠ 0) (hpK : p ∣ Nat.card K + 1)
     (hd : 0 < d) : GGTorusFrameEltSC p (projectiveSL d K) := by
-  haveI : Nonempty K := ⟨0⟩
+  have : Nonempty K := ⟨0⟩
   have hpK' : ¬ p ∣ Nat.card K - 1 := by
     intro hK1
     have hdvd : p ∣ 2 := by
@@ -45,8 +45,8 @@ theorem largeEvenLabelAll_frame_linear {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have hn : 1 ≤ n := hlab.1
   intro Q hQ
   obtain ⟨K, _, _, hK, hQ'⟩ := hQ
-  haveI : CharP K 2 := NbrInnerMore.charP_two_of_card_pow hn hK
-  haveI : Nonempty K := ⟨0⟩
+  have : CharP K 2 := NbrInnerMore.charP_two_of_card_pow hn hK
+  have : Nonempty K := ⟨0⟩
   have hpK0 : (p : K) ≠ 0 := fun hzero =>
     hp2 (((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp
       ((CharP.cast_eq_zero_iff K 2 p).mp hzero)).symm)

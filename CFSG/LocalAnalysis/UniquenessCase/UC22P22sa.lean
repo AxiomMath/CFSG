@@ -29,13 +29,14 @@ theorem inClassG_comp (h : InClassG S H ι) (c : S ≃* S) : InClassG S H (ι.co
   exact ⟨h.injective.comp c.injective, hrange ▸ h.sylow, h.fitting_eq, h.quotient⟩
 
 theorem pCore_le_range (hG : InClassG S H ι) : CFSG.pCore 2 H ≤ ι.range := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 ι.range := hG.sylow.2.1
   have hidx : ¬ 2 ∣ ι.range.index := by
     have := hG.sylow.2.2
     rwa [Subgroup.relIndex_top_right] at this
   exact (CFSG.pCore_isPGroup (p := 2) (G := H)).le_sylow_of_normal (hp.toSylow hidx)
 
+omit [Finite H] in
 theorem tripleE_le_pCore : tripleE H ≤ CFSG.pCore 2 H :=
   Subgroup.map_subtype_le _
 
@@ -107,10 +108,11 @@ theorem centralizer_elemThompsonCenterTorsion_proofS (D : Data G) :
   have hs := (Subgroup.mem_centralizer_iff.1 s.2.2) _ hzE
   exact Subtype.ext hs
 
+omit [Finite G] in
 theorem map_pCore (H : Subgroup G) : (CFSG.pCore 2 ↥H).map H.subtype = CFSG.Open.pCoreOf 2 H := rfl
 
 theorem map_tripleE (H : Subgroup G) : (tripleE ↥H).map H.subtype = omegaZJ22 (CFSG.Open.pCoreOf 2 H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold tripleE omegaZJ22 CFSG.inSubgroup
   rw [Subgroup.map_map]
   set P : Subgroup ↥H := CFSG.pCore 2 ↥H
@@ -141,6 +143,7 @@ theorem map_omegaOne' {G' : Type} [Group G'] (f : G →* G') (hf : Function.Inje
     refine ⟨x, ⟨hxX, hf ?_⟩, rfl⟩
     rw [map_pow, hy2, map_one]
 
+omit [Finite G] in
 theorem map_omegaOne_center {S H : Subgroup G} (hSH : S ≤ H) :
     ((omegaOne 2 (Subgroup.center ↥S)).map (Subgroup.inclusion hSH)).map H.subtype = omegaOneCenterIn S := by
   rw [Subgroup.map_map]
@@ -150,6 +153,7 @@ theorem map_omegaOne_center {S H : Subgroup G} (hSH : S ≤ H) :
   rw [hcomp, map_omegaOne' S.subtype S.subtype_injective]
   rfl
 
+omit [Finite G] in
 theorem commutator_omegaOne_ne_bot {S H : Subgroup G} (hSH : S ≤ H)
     (h : ¬ H ≤ centralizer (omegaOneCenterIn S : Set G)) :
     ⁅(⊤ : Subgroup ↥H), (omegaOne 2 (Subgroup.center ↥S)).map (Subgroup.inclusion hSH)⁆ ≠ ⊥ := by
@@ -166,7 +170,7 @@ theorem inClassG_inclusion {S H : Subgroup G} (hSH : S ≤ H) (hS : IsPGroup 2 S
     {X : Type} [Group X] (φ : ↥H →* X) (hφ : Function.Surjective φ) {n : ℕ} (hn : 1 ≤ n)
     (e : X ≃* CFSG.Assembly.RankThreeEven.projSL 2 (GaloisField 2 n)) (hker : φ.ker ≤ CFSG.pCore 2 ↥H) :
     InClassG ↥S ↥H (Subgroup.inclusion hSH) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨Subgroup.inclusion_injective hSH, ?_, ?_, ?_⟩
   · refine ⟨le_top, ?_, ?_⟩
     · rw [Subgroup.inclusion_range]

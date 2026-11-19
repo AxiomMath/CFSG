@@ -36,7 +36,7 @@ theorem isSolvable_normalizer_of_bender {K : Type} [Group K]
   obtain ⟨Q, hWQ⟩ := hW2.exists_le_sylow
   obtain ⟨hSE, ⟨D, hDcyc, -, -, hsup⟩, -⟩ := hB Q
   have hsolv := CFSG.QuasithinUnique.Unc25G2.BenderBorel.isSolvable_normalizer_of_sup_cyclic
-    Q.isPGroup' hDcyc hsup
+    Q.isPGroup hDcyc hsup
   have hle : Subgroup.normalizer (W : Set K) ≤ Subgroup.normalizer ((Q : Subgroup K) : Set K) := by
     intro n hn
     by_contra hnQ

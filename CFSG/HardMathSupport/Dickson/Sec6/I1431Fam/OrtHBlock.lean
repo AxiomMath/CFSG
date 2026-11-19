@@ -92,7 +92,7 @@ theorem t6orth_factorOK_block (hO : CFSG.ComponentClassification.CatLeaf.LieOrde
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1) :
     t6orth_FactorOK q (supportedBlock Q x h) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   set F := supportedBlock Q x h with hF
   set S := specialBlock Q x h with hS
   have hSF : S ≤ F := specialBlock_le_supportedBlock h
@@ -104,7 +104,7 @@ theorem t6orth_factorOK_block (hO : CFSG.ComponentClassification.CatLeaf.LieOrde
       · obtain ⟨ℓ, f, hU, B, hBs, hBl, ⟨e⟩⟩ := t6orth_selfDual_equiv hx hp2 hp hh hne1 hself
         exact t6psph_hsqProp_of_equiv F e (t6psph_sqOK_sesqUnitary hO hU hBs hBl hq)
       · have e := pairedBlockEquiv hx hh hself
-        haveI : Finite (AdjoinRoot h) := inferInstance
+        have : Finite (AdjoinRoot h) := inferInstance
         have h4 : 4 ≤ Nat.card (AdjoinRoot h) := by
           have := hx.p_lt_card_adjoinRoot hp hh hne1
           have := hp.two_le

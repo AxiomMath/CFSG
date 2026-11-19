@@ -139,9 +139,9 @@ theorem omegaSignStatement_holds : OmegaSignStatement := by
       exact hq4
     obtain ⟨eP⟩ := CFSG.RankThree.GF2n.Stroth80.statedOmega_plus_four_nonempty_equiv K₁ h4K₁
     open CFSG.ComponentClassification.RankTwoClassical in
-    haveI hSM : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 2 K₂ b c)) :=
+    have hSM : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus 2 K₂ b c)) :=
       ORigid.isSimpleGroup_statedOmega_quadMinus_of_two_le (le_refl 2) hirr
-    haveI hSP : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus 2 K₁)) :=
+    have hSP : IsSimpleGroup ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus 2 K₁)) :=
       e.isSimpleGroup
     exact omegaSign_not_simple_prod _ eP.symm.isSimpleGroup
   · have hPlus := omegaSign_card_plus (K := K₁) hm3

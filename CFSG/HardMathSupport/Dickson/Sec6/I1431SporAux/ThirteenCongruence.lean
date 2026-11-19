@@ -72,12 +72,12 @@ theorem congruence_of_heis (hg13 : g ^ 13 = 1) (hd13 : d ^ 13 = 1) (hc13 : c ^ 1
     (hFc : ∀ t ∈ D, t * c ≠ c * t) :
     ∃ K : ℕ, 12 * D.ncard = 1248 * {t | t ∈ D ∧ t * x = x * t}.ncard + 13 ^ 3 * K := by
   classical
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hco : orderOf c = 13 := orderOf_eq_prime hc13 hc1
   obtain ⟨S, hgS, hdS, hcS, hScard, hSform, -⟩ := heis_sylow hg13 hd13 hc13 hc1 hcg hcd hdg
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have hSp : IsPGroup 13 S := IsPGroup.of_card hScard
-  letI : MulAction S D := conjSMulOn S D (fun g _ s hs => hD g s hs)
+  let : MulAction S D := conjSMulOn S D (fun g _ s hs => hD g s hs)
   have hsmul : ∀ (g : S) (s : D), ((g • s : D) : G) = g * s * g⁻¹ := fun g s => rfl
   have hstab : ∀ ω : D, Nat.card (MulAction.stabilizer S ω) ≤ 13 := by
     intro ω
@@ -96,7 +96,7 @@ theorem congruence_of_heis (hg13 : g ^ 13 = 1) (hd13 : d ^ 13 = 1) (hc13 : c ^ 1
     show {t | t ∈ D ∧ c ^ j * t = t * c ^ j}.ncard = 0
     have : {t | t ∈ D ∧ c ^ j * t = t * c ^ j} = ∅ := by
       ext t
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
       intro htD hct
       exact hFc t htD (commute_of_commute_pow_thirteen hco hj hct.symm)
     rw [this, Set.ncard_empty]
@@ -105,7 +105,7 @@ theorem congruence_of_heis (hg13 : g ^ 13 = 1) (hd13 : d ^ 13 = 1) (hc13 : c ^ 1
     show {t | t ∈ D ∧ x ^ j * t = t * x ^ j}.ncard = _
     congr 1
     ext t
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨htD, hct⟩
       exact ⟨htD, commute_of_commute_pow_thirteen hx hj hct.symm⟩

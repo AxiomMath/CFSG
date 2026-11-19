@@ -46,7 +46,7 @@ theorem elemAbelian_le_of_conj_action (A P₀ : Subgroup X) (hAP : A ≤ P₀)
     (E : Subgroup X) (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 3 ^ n ∧ (Nat.card E = 3 ^ n → ∃ g : X, E = A.map (MulAut.conj g).toMonoidHom) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardA : Nat.card A = 3 ^ n := by
     rw [← hV]
     refine (Nat.card_congr (Equiv.ofBijective (fun v => (⟨ι v, (hA _).2 ⟨v, rfl⟩⟩ : A))
@@ -95,7 +95,7 @@ theorem elemAbelian_le_of_conj_action (A P₀ : Subgroup X) (hAP : A ≤ P₀)
     symm
     refine Subgroup.eq_of_le_of_card_ge (le_inf hA₀S₀ hA₀ker) ?_
     rw [hcardA₀]
-    obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 ((S₀.isPGroup').to_le (inf_le_left :
+    obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 ((S₀.isPGroup).to_le (inf_le_left :
       (S₀ : Subgroup P₀) ⊓ μ.ker ≤ S₀))
     rw [hj]
     refine Nat.pow_le_pow_right (by norm_num) ?_
@@ -221,8 +221,8 @@ theorem card_mul_fix_lt_of_checks (R : Subgroup (Equiv.Perm V))
     (H : Subgroup (Equiv.Perm V)) (hHR : H ≤ R) (hH : IsElemAbelian 3 H) (hne : H ≠ ⊥) :
     Nat.card H * Nat.card {v // ∀ h ∈ H, h v = v} < 3 ^ 5 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Equiv.Perm V) := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Equiv.Perm V) := inferInstance
   obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 (isPGroup_of_elemAbelian3' hH)
   have hj27 : 3 ^ j ≤ 27 := hj ▸ h27 H hHR hH
   have hj1 : 1 ≤ j := by

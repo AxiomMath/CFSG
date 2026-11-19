@@ -21,8 +21,8 @@ structure InvolAct (A : Subgroup X) (y : X) : Prop where
 private noncomputable def conjAut {A : Subgroup X} {y : X} (hy : InvolAct A y) : MulAut A where
   toFun a := ⟨y * (a : X) * y⁻¹, hy.mem a a.2⟩
   invFun a := ⟨y * (a : X) * y⁻¹, hy.mem a a.2⟩
-  left_inv a := Subtype.ext (by convert hy.sq a a.2 using 1 <;> group)
-  right_inv a := Subtype.ext (by convert hy.sq a a.2 using 1 <;> group)
+  left_inv a := Subtype.ext (by convert hy.sq a a.2 using 1; group)
+  right_inv a := Subtype.ext (by convert hy.sq a a.2 using 1; group)
   map_mul' a b := Subtype.ext (by
     show y * ((a : X) * (b : X)) * y⁻¹ = (y * (a : X) * y⁻¹) * (y * (b : X) * y⁻¹)
     group)
@@ -31,7 +31,7 @@ private lemma conjAut_mul_self {A : Subgroup X} {y : X} (hy : InvolAct A y) :
     conjAut hy * conjAut hy = 1 := by
   ext a
   show y * (y * (a : X) * y⁻¹) * y⁻¹ = (a : X)
-  convert hy.sq a a.2 using 1 <;> group
+  convert hy.sq a a.2 using 1; group
 
 private lemma actsNontriv_iff {A : Subgroup X} {y : X} (hy : InvolAct A y) :
     ActsNontriv A y ↔ conjAut hy ≠ 1 := by
@@ -52,7 +52,7 @@ private lemma actsNontriv_iff {A : Subgroup X} {y : X} (hy : InvolAct A y) :
 private lemma exists_unique_fixed_of_ne_one {A : Type*} [Group A] [IsKleinFour A]
     {f : MulAut A} (hf2 : f * f = 1) (hf : f ≠ 1) :
     ∃ e : A, e ≠ 1 ∧ f e = e ∧ ∀ c : A, f c = c → c = 1 ∨ c = e := by
-  haveI : IsMulCommutative A := IsKleinFour.isMulCommutative
+  have : IsMulCommutative A := IsKleinFour.isMulCommutative
   obtain ⟨a, ha⟩ : ∃ a, f a ≠ a := by
     by_contra h; push Not at h; exact hf (MulEquiv.ext h)
   have hff : f (f a) = a := by
@@ -75,7 +75,7 @@ private lemma card_fixed_of_ne_one {A : Type*} [Group A] [IsKleinFour A]
     {f : MulAut A} (hf2 : f * f = 1) (hf : f ≠ 1) :
     Nat.card {c : A // f c = c} = 2 := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   obtain ⟨e, he1, hef, hfix⟩ := exists_unique_fixed_of_ne_one hf2 hf
   have hset : (Finset.univ.filter (fun c : A => f c = c)) = {1, e} := by
     ext c
@@ -88,7 +88,7 @@ private lemma card_fixed_of_ne_one {A : Type*} [Group A] [IsKleinFour A]
 private lemma eq_of_comm_of_ne_one {A : Type*} [Group A] [IsKleinFour A]
     {f g : MulAut A} (hf2 : f * f = 1) (hg2 : g * g = 1)
     (hcomm : f * g = g * f) (hf : f ≠ 1) (hg : g ≠ 1) : f = g := by
-  haveI : IsMulCommutative A := IsKleinFour.isMulCommutative
+  have : IsMulCommutative A := IsKleinFour.isMulCommutative
   obtain ⟨e, he1, hef, hfixf⟩ := exists_unique_fixed_of_ne_one hf2 hf
   obtain ⟨e', _, _, hfixg⟩ := exists_unique_fixed_of_ne_one hg2 hg
   have hge : g e = e := by
@@ -126,7 +126,7 @@ theorem InvolAct.mul {A : Subgroup X} {y y' : X} (hy : InvolAct A y) (hy' : Invo
     InvolAct A (y * y') := by
   refine ⟨?_, ?_⟩
   · intro a ha
-    exact (by convert hy.mem (y' * a * y'⁻¹) (hy'.mem a ha) using 1 <;> group)
+    exact (by convert hy.mem (y' * a * y'⁻¹) (hy'.mem a ha) using 1; group)
   · intro a ha
     have hz : y' * a * y'⁻¹ ∈ A := hy'.mem a ha
     have h1 : y * (y' * (y' * a * y'⁻¹) * y'⁻¹) * y⁻¹ =
@@ -138,8 +138,8 @@ theorem InvolAct.mul {A : Subgroup X} {y y' : X} (hy : InvolAct A y) (hy' : Invo
       _ = y * (y * (y' * (y' * a * y'⁻¹) * y'⁻¹) * y⁻¹) * y⁻¹ := by rw [← h1]
       _ = y * (y * a * y⁻¹) * y⁻¹ := by
             rw [show y' * (y' * a * y'⁻¹) * y'⁻¹ = a by
-              convert hy'.sq a ha using 1 <;> group]
-      _ = a := by convert hy.sq a ha using 1 <;> group
+              convert hy'.sq a ha using 1; group]
+      _ = a := by convert hy.sq a ha using 1; group
 
 private lemma conjAut_mul {A : Subgroup X} {y y' : X} (hy : InvolAct A y) (hy' : InvolAct A y')
     (hcomm : ∀ a ∈ A, y * y' * a * (y * y')⁻¹ = y' * y * a * (y' * y)⁻¹) :
@@ -160,7 +160,7 @@ theorem actsNontriv_mul_iff {A : Subgroup X} (hA : Nat.card A = 4) (hsq : ∀ a 
     {y y' : X} (hy : InvolAct A y) (hy' : InvolAct A y')
     (hcomm : ∀ a ∈ A, y * y' * a * (y * y')⁻¹ = y' * y * a * (y' * y)⁻¹) :
     ActsNontriv A (y * y') ↔ (ActsNontriv A y ↔ ¬ ActsNontriv A y') := by
-  haveI : IsKleinFour A := isKleinFour_of_card_four_of_mul_self hA fun x => Subtype.ext (hsq x x.2)
+  have : IsKleinFour A := isKleinFour_of_card_four_of_mul_self hA fun x => Subtype.ext (hsq x x.2)
   rw [actsNontriv_iff hy, actsNontriv_iff hy',
     actsNontriv_iff (InvolAct.mul hy hy' hcomm), conjAut_mul hy hy' hcomm, not_not]
   exact mul_ne_one_iff (conjAut_mul_self hy) (conjAut_mul_self hy')
@@ -169,7 +169,7 @@ theorem actsNontriv_mul_iff {A : Subgroup X} (hA : Nat.card A = 4) (hsq : ∀ a 
 theorem card_fixed_of_actsNontriv {A : Subgroup X} (hA : Nat.card A = 4)
     (hsq : ∀ a ∈ A, a * a = 1) {y : X} (hy : InvolAct A y) (hn : ActsNontriv A y) :
     Nat.card {a : A // y * (a : X) * y⁻¹ = a} = 2 := by
-  haveI : IsKleinFour A := isKleinFour_of_card_four_of_mul_self hA fun x => Subtype.ext (hsq x x.2)
+  have : IsKleinFour A := isKleinFour_of_card_four_of_mul_self hA fun x => Subtype.ext (hsq x x.2)
   have hne : conjAut hy ≠ 1 := (actsNontriv_iff hy).mp hn
   have hfixed : Nat.card {a : A // conjAut hy a = a} = 2 :=
     card_fixed_of_ne_one (conjAut_mul_self hy) hne

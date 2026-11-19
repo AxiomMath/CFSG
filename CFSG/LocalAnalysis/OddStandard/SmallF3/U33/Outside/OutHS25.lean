@@ -28,7 +28,7 @@ private theorem toAddHom_apply_inv {B : Type} [Group B] (e : B ≃* Z4pow 3) (t 
 
 theorem HS25 {B : Type} [Group B] (e : B ≃* Z4pow 3) (t τ : MulAut B)
     (ht : ∀ b : B, t b = b⁻¹) : τ * τ ≠ t := by
-  haveI : Fact (1 < 4) := ⟨by norm_num⟩
+  have : Fact (1 < 4) := ⟨by norm_num⟩
   intro h
   let f : (Fin 3 → ZMod 4) →+ (Fin 3 → ZMod 4) := toAddHom e τ
   have hff : f.comp f = toAddHom e t := by

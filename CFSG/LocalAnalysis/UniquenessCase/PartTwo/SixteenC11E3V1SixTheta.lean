@@ -25,7 +25,7 @@ private def s1611e3_sixConj (g : ↥sixGhat) : MulAut ↥sixLhat where
         (l : MulAut (SixE6 × SixE6)) l.2⟩
   left_inv l := Subtype.ext (by group)
   right_inv l := Subtype.ext (by group)
-  map_mul' l m := Subtype.ext (by simp only [Subtype.coe_mk, Subgroup.coe_mul]; group)
+  map_mul' l m := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
 
 private theorem s1611e3_sixConj_mul_apply (g g' : ↥sixGhat) (l : ↥sixLhat) :
     s1611e3_sixConj (g * g') l = s1611e3_sixConj g (s1611e3_sixConj g' l) := by
@@ -41,18 +41,22 @@ private theorem s1611e3_sixConj_mul_apply (g g' : ↥sixGhat) (l : ↥sixLhat) :
 private def s1611e3_sixEps (θ : ↥sixLhat ≃* ↥L) (g : ↥sixGhat) : MulAut ↥L :=
   θ.symm.trans ((s1611e3_sixConj g).trans θ)
 
+omit [Finite W] in
 private theorem s1611e3_sixEps_apply' (θ : ↥sixLhat ≃* ↥L) (g : ↥sixGhat) (ℓ : ↥L) :
     s1611e3_sixEps θ g ℓ = θ (s1611e3_sixConj g (θ.symm ℓ)) := rfl
 
+omit [Finite W] in
 private theorem s1611e3_sixEps_apply (θ : ↥sixLhat ≃* ↥L) (g : ↥sixGhat) (l : ↥sixLhat) :
     s1611e3_sixEps θ g (θ l) = θ (s1611e3_sixConj g l) := by
   rw [s1611e3_sixEps_apply', MulEquiv.symm_apply_apply]
 
+omit [Finite W] in
 private theorem s1611e3_sixEps_mul_apply (θ : ↥sixLhat ≃* ↥L) (g g' : ↥sixGhat) (ℓ : ↥L) :
     s1611e3_sixEps θ (g * g') ℓ = s1611e3_sixEps θ g (s1611e3_sixEps θ g' ℓ) := by
   rw [s1611e3_sixEps_apply', s1611e3_sixEps_apply', s1611e3_sixEps_apply',
     MulEquiv.symm_apply_apply, s1611e3_sixConj_mul_apply]
 
+omit [Finite W] in
 private theorem s1611e3_sixEps_one (θ : ↥sixLhat ≃* ↥L) : s1611e3_sixEps θ 1 = 1 := by
   apply MulEquiv.ext
   intro ℓ
@@ -83,7 +87,7 @@ private def s1611e3_mConj (h : SixHyp M L L' κ e) (m : MulAut W) (hm : m ∈ M)
   invFun ℓ := ⟨m⁻¹ * (ℓ : MulAut W) * m, SixHyp.normalizes h m⁻¹ (M.inv_mem hm) ℓ ℓ.2⟩
   left_inv ℓ := Subtype.ext (by group)
   right_inv ℓ := Subtype.ext (by group)
-  map_mul' ℓ₁ ℓ₂ := Subtype.ext (by simp only [Subtype.coe_mk, Subgroup.coe_mul]; group)
+  map_mul' ℓ₁ ℓ₂ := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
 
 private theorem s1611e3_six_comp_eq (h : SixHyp M L L' κ e)
     {K : Subgroup (SixE6 × SixE6)} {Φ : SixE6 × SixE6 →* W} {θ : ↥sixLhat ≃* ↥L}

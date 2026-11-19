@@ -242,7 +242,7 @@ theorem card_closure (hz1 : z ≠ 1) [Finite G] :
     have := isCyclic_of_prime_card (α := P) rfl
     exact hnc (IsCyclic.commGroup.mul_comm _ _)
   · exfalso
-    exact hnc (IsPGroup.commutative_of_card_eq_prime_sq (p := 3) hcard _ _)
+    exact hnc ((IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hcard).is_comm.comm _ _)
   · simpa using hcard
 
 include hx hy hz hzx hzy hxy in
@@ -505,6 +505,7 @@ section Gen
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centGen_eq_top_of_forall_mem [IsSimpleGroup G] {A : Subgroup G} {a₀ : G} (ha₀ : a₀ ∈ A)
     (ha₀1 : a₀ ≠ 1) {s : Set G}
     (hs : ∀ g ∈ s, g ∈ Subgroup.normalizer (A : Set G) ∨ ∃ a ∈ A, a ≠ 1 ∧ g * a = a * g)

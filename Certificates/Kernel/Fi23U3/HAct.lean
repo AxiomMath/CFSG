@@ -48,16 +48,16 @@ theorem xq_inv : ∀ c < 12, xq (ivL INVM c) = (xq c)⁻¹ := by
   intro c hc
   rw [inv_eq c hc]
   by_cases h6 : c < 6
-  · rw [if_pos h6]
+  · rw [ite_eq_left h6]
     by_cases h : c % 2 = 0
-    · rw [if_pos h]
-      simp only [xq, if_pos h6, if_pos (show c + 1 < 6 by omega), if_pos h,
-        if_neg (show ¬ (c + 1) % 2 = 0 by omega), qGen_congr (show (c + 1) / 2 = c / 2 by omega)]
-    · rw [if_neg h]
-      simp only [xq, if_pos h6, if_pos (show c - 1 < 6 by omega), if_neg h,
-        if_pos (show (c - 1) % 2 = 0 by omega), inv_inv,
+    · rw [ite_eq_left h]
+      simp only [xq, ite_eq_left h6, ite_eq_left (show c + 1 < 6 by omega), ite_eq_left h,
+        ite_eq_right (show ¬ (c + 1) % 2 = 0 by omega), qGen_congr (show (c + 1) / 2 = c / 2 by omega)]
+    · rw [ite_eq_right h]
+      simp only [xq, ite_eq_left h6, ite_eq_left (show c - 1 < 6 by omega), ite_eq_right h,
+        ite_eq_left (show (c - 1) % 2 = 0 by omega), inv_inv,
         qGen_congr (show (c - 1) / 2 = c / 2 by omega)]
-  · rw [if_neg h6]
+  · rw [ite_eq_right h6]
     simp [xq, h6]
 
 @[expose] noncomputable def tab (c p : ℕ) : ℕ := if p < 54 then fieldAt PB (F c) p else p
@@ -66,10 +66,10 @@ theorem tab_inv {c : ℕ} (hc : c < 12) (p : ℕ) : tab (ivL INVM c) (tab c p) =
   by_cases hp : p < 54
   · have h1 := f_lt c hc p hp
     have hi := ivL_lt hc
-    simp only [tab, if_pos hp, if_pos h1]
+    simp only [tab, ite_eq_left hp, ite_eq_left h1]
     rw [← fb_eq _ hi _ h1, ← fb_eq c hc p hp]
     exact ((CFSG.Certificates.TwDce2.Rels.lettersOK_sound fb_ok.1 c hc).2 p hp).2
-  · simp only [tab, if_neg hp]
+  · simp only [tab, ite_eq_right hp]
 
 @[expose] noncomputable def permJ (j : Fin 3) : Equiv.Perm ℕ where
   toFun := tab (cd j)
@@ -108,8 +108,8 @@ theorem foldl_tab : ∀ (w : List ℕ), (∀ c ∈ w, c < 12) → ∀ p,
     have hw' : ∀ d ∈ w, d < 12 := fun d hd => hw d (List.mem_cons_of_mem _ hd)
     rw [List.foldl_cons, List.foldl_cons, foldl_tab w hw']
     by_cases hp : p < 54
-    · simp only [tab, if_pos hp, if_pos (f_lt c hc p hp)]
-    · simp only [tab, if_neg hp]
+    · simp only [tab, ite_eq_left hp, ite_eq_left (f_lt c hc p hp)]
+    · simp only [tab, ite_eq_right hp]
 
 theorem rels_perm : ∀ r ∈ {r : FreeGroup (Fin 3) | r ∈ rhW.map FreeGroup.mk},
     FreeGroup.lift (fun j => MulOpposite.op (permJ j)) r = 1 := by
@@ -133,7 +133,7 @@ theorem ρ_of (j : Fin 3) : ρ (PresentedGroup.of j) = MulOpposite.op (permJ j) 
 
 theorem xq_cd (j : Fin 3) : xq (cd j) = PresentedGroup.of j := by
   obtain ⟨h6, h2, hq, -⟩ := cd_facts j
-  simp only [xq, if_pos h6, if_pos h2, hq]
+  simp only [xq, ite_eq_left h6, ite_eq_left h2, hq]
 
 theorem xq_gen (q : PG 3 rhW) : ∃ w : List ℕ, (∀ c ∈ w, c < 12) ∧ q = evalWord xq w := by
   have hq : q ∈ (⊤ : Subgroup (PG 3 rhW)) := Subgroup.mem_top q
@@ -167,11 +167,11 @@ noncomputable def hact : HAct (PG 3 rhW) where
   π_xq c hc := by
     by_cases h6 : c < 6
     · have hg := (qGen_facts c h6).2.2
-      simp only [xq, fiX, if_pos h6]
+      simp only [xq, fiX, ite_eq_left h6]
       split_ifs
       · rw [toPC_of, gen, hg]
       · rw [map_inv, toPC_of, gen, hg]
-    · simp only [xq, fiX, if_neg h6, map_one]
+    · simp only [xq, fiX, ite_eq_right h6, map_one]
   xq_inv := xq_inv
   gen := xq_gen
   pt q p := (ρ q).unop p
@@ -180,15 +180,15 @@ noncomputable def hact : HAct (PG 3 rhW) where
   pt_xq c hc p hp := by
     by_cases h6 : c < 6
     · obtain ⟨he, ho, -⟩ := qGen_facts c h6
-      simp only [xq, if_pos h6]
+      simp only [xq, ite_eq_left h6]
       split_ifs with h
       · rw [ρ_of, MulOpposite.unop_op]
         change tab (cd (qGen c)) p = _
-        rw [he h, tab, if_pos hp]
+        rw [he h, tab, ite_eq_left hp]
       · rw [map_inv, ρ_of, MulOpposite.unop_inv, MulOpposite.unop_op]
         change tab (cd (qGen c) + 1) p = _
-        rw [ho (by omega), tab, if_pos hp]
-    · simp only [xq, if_neg h6, map_one, MulOpposite.unop_one, Equiv.Perm.one_apply]
+        rw [ho (by omega), tab, ite_eq_left hp]
+    · simp only [xq, ite_eq_right h6, map_one, MulOpposite.unop_one, Equiv.Perm.one_apply]
       exact (f_id hc (by omega) hp).symm
 
 theorem card_fiPC : Finite fiPC ∧ Nat.card fiPC ≤ 6377292 := by

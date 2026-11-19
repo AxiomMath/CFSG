@@ -22,7 +22,7 @@ theorem testBit_bitsOf (f : ℕ → Bool) :
   | e :: r, 0 => by
     unfold bitsOf
     rw [Nat.testBit_zero]
-    cases h : f e <;> simp [h, Nat.mul_add_mod]
+    cases h : f e <;> simp [h]
   | e :: r, t + 1 => by
     unfold bitsOf
     have e2 : (2 * bitsOf f r + (if f e = true then 1 else 0)) / 2 = bitsOf f r := by
@@ -47,14 +47,14 @@ theorem testBit_pk_lo {m : List ℕ} (hm : m.length = 196) {t : ℕ} (ht : t < 1
     (pk m).testBit t = (m.getD t 0 == 1) := by
   have hlt : bitsOf (· == 1) m < 2 ^ 196 := hm ▸ bitsOf_lt _ m
   unfold pk
-  rw [Nat.testBit_two_pow_mul_add _ hlt, if_pos ht, testBit_bitsOf, hm]
+  rw [Nat.testBit_two_pow_mul_add _ hlt, ite_eq_left ht, testBit_bitsOf, hm]
   simp [ht]
 
 theorem testBit_pk_hi {m : List ℕ} (hm : m.length = 196) {t : ℕ} (ht : t < 196) :
     (pk m).testBit (196 + t) = (m.getD t 0 == 2) := by
   have hlt : bitsOf (· == 1) m < 2 ^ 196 := hm ▸ bitsOf_lt _ m
   unfold pk
-  rw [Nat.testBit_two_pow_mul_add _ hlt, if_neg (by omega), Nat.add_sub_cancel_left,
+  rw [Nat.testBit_two_pow_mul_add _ hlt, ite_eq_right (by omega), Nat.add_sub_cancel_left,
     testBit_bitsOf, hm]
   simp [ht]
 

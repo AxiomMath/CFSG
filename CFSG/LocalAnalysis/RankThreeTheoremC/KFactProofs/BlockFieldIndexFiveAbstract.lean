@@ -37,7 +37,7 @@ theorem exists_normal_index_prime {p : ℕ} [Fact p.Prime] {Y Γ : Type*} [Group
     (ha3 : IsPGroup p (Subgroup.zpowers a)) (hφa : φ a ∉ D) :
     ∃ N : Subgroup Y, N.Normal ∧ N.index = p := by
   classical
-  haveI : D.Normal := hD.1
+  have : D.Normal := hD.1
   set q : Y →* Γ ⧸ D := (QuotientGroup.mk' D).comp φ with hq
   have hqa : q a ≠ 1 := fun h => hφa ((QuotientGroup.eq_one_iff _).1 h)
   obtain ⟨k, hk⟩ := ha3 ⟨a, Subgroup.mem_zpowers a⟩
@@ -58,7 +58,7 @@ theorem exists_normal_index_prime {p : ℕ} [Fact p.Prime] {Y Γ : Type*} [Group
   have hSc : (S : Subgroup (Γ ⧸ D)) ≤ Subgroup.center (Γ ⧸ D) := by
     intro s hs
     apply hcent
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hS : Subgroup.normalizer ((S : Subgroup (Γ ⧸ D)) : Set (Γ ⧸ D)) ≤
       Subgroup.centralizer ((S : Subgroup (Γ ⧸ D)) : Set (Γ ⧸ D)) := by
@@ -79,9 +79,9 @@ theorem exists_normal_index_prime {p : ℕ} [Fact p.Prime] {Y Γ : Type*} [Group
     have hmem : q a ∈ T.ker := by rw [MonoidHom.mem_ker]; exact h
     exact hqa (Subgroup.disjoint_def.1 hdisj hmem (Subgroup.mem_zpowers _))
   have htak : (t a) ^ (p ^ k) = 1 := by rw [← map_pow, hak, map_one]
-  have hB3 : IsPGroup p t.range := S.isPGroup'.of_injective t.range.subtype
+  have hB3 : IsPGroup p t.range := S.isPGroup.of_injective t.range.subtype
     (Subgroup.subtype_injective _)
-  haveI : Group.IsNilpotent t.range := hB3.isNilpotent
+  have : Group.IsNilpotent t.range := hB3.isNilpotent
   have hd3 : p ∣ Nat.card t.range := by
     have h1 : orderOf (t a) ∣ p ^ k := orderOf_dvd_of_pow_eq_one htak
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow (Fact.out : p.Prime)).1 h1
@@ -221,7 +221,7 @@ theorem fieldIndexOnP_of_outPNice {p : ℕ} [Fact p.Prime] {C : (X : Type) → [
       OutPNice p (↥L ⧸ Subgroup.center ↥L))
     (hL : LeviInnOnP p C) : FieldIndexOnP p C := by
   intro Y _ _ L P hCP hC hLn hrank h3 hrk a ha3 haN hout
-  haveI := hLn
+  have := hLn
   exact fieldIndex_of_outPNiceP hCP (hT Y L P hCP hC hrank) (hL Y L P hCP hC hLn hrank h3 hrk)
     ha3 haN hout
 

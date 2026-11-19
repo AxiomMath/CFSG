@@ -33,7 +33,6 @@ theorem eq_of_pow_eq {K : Type*} [Field K] {ζ : K} (hζ3 : ζ ^ 3 = 1) (hζ1 : 
     exact sub_eq_zero.mp ((mul_eq_zero.mp h3).resolve_left hζ0))
   interval_cases a <;> interval_cases b <;>
     simp only [pow_zero, pow_one] at hab ⊢ <;> first
-    | rfl
     | exact absurd hab.symm hζ1
     | exact absurd hab hζ1
     | exact absurd hab.symm hζ2

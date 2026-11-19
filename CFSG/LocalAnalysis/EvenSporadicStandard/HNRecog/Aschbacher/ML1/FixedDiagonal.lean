@@ -156,8 +156,8 @@ theorem exists_fixed_graph (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (hS : Swap.
   obtain ⟨e⟩ := hSA
   have hcardS : Nat.card S = 60 := by
     rw [Nat.card_congr e.toEquiv, card_A5]
-  haveI : IsSimpleGroup A5 := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup S := e.isSimpleGroup
+  have : IsSimpleGroup A5 := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup S := e.isSimpleGroup
   let p₁ : S →* A5 := (MonoidHom.fst A5 A5).comp S.subtype
   let p₂ : S →* A5 := (MonoidHom.snd A5 A5).comp S.subtype
   have hinj1 : Function.Injective p₁ := by

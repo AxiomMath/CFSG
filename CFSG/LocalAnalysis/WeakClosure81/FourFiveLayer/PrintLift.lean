@@ -35,7 +35,7 @@ private theorem isSolvable_centMod_liftP [Finite G] {T₀ D Y : Subgroup G} [Y.N
     (hZ : D.map (QuotientGroup.mk' Y) ⊓ RonanE111.centMod D Y = ⊥) :
     Group.IsSolvable ↥(RonanE111.centMod D Y) := by
   have hπs : Function.Surjective (QuotientGroup.mk' Y) := QuotientGroup.mk'_surjective Y
-  haveI : (D.map (QuotientGroup.mk' Y)).Normal := Subgroup.Normal.map ‹D.Normal› _ hπs
+  have : (D.map (QuotientGroup.mk' Y)).Normal := Subgroup.Normal.map ‹D.Normal› _ hπs
   have hsup : D.map (QuotientGroup.mk' Y) ⊔ T₀.map (QuotientGroup.mk' Y) = ⊤ := by
     rw [← Subgroup.map_sup, hDT₀, Subgroup.map_top_of_surjective _ hπs]
   have h2 : IsPGroup 2 (T₀.map (QuotientGroup.mk' Y)) := hT₀2.map _
@@ -82,7 +82,7 @@ private theorem reduced_quot_liftP [Finite G] {T T₀ D Y : Subgroup G} [Y.Norma
       ((D.map (QuotientGroup.mk' Y)).map (QuotientGroup.mk' (RonanE111.centMod D Y)))
       ((T.map (QuotientGroup.mk' Y)).map (QuotientGroup.mk' (RonanE111.centMod D Y))) := by
   have hπ₁s : Function.Surjective (QuotientGroup.mk' Y) := QuotientGroup.mk'_surjective Y
-  haveI hDn' : (D.map (QuotientGroup.mk' Y)).Normal := Subgroup.Normal.map ‹D.Normal› _ hπ₁s
+  have hDn' : (D.map (QuotientGroup.mk' Y)).Normal := Subgroup.Normal.map ‹D.Normal› _ hπ₁s
   have hsf := hSM.semiFam_map
   have hDs := hSM.sSup_map
   have hTs : IsSylowIn 2 (T.map (QuotientGroup.mk' Y)) ⊤ := E1.isSylowIn_two_map_top hπ₁s hT
@@ -216,11 +216,11 @@ private theorem chain_tail_liftP [Finite G] {n : ℕ} {T T₀ D Y A : Subgroup G
       ∃ y ∈ Kb, x⁻¹ * y ∈ Subgroup.centralizer ((((S₀.map (QuotientGroup.mk' Y)).map
         (QuotientGroup.mk' (RonanE111.centMod D Y)) : Subgroup ((G ⧸ Y) ⧸
           RonanE111.centMod D Y)) : Set ((G ⧸ Y) ⧸ RonanE111.centMod D Y))))
-    (hJ₁ : IsEG n ⊤ (T.map (QuotientGroup.mk' Y)) (A.map (QuotientGroup.mk' Y))
+    (_hJ₁ : IsEG n ⊤ (T.map (QuotientGroup.mk' Y)) (A.map (QuotientGroup.mk' Y))
       (T₀.map (QuotientGroup.mk' Y)) J₁)
     (hJ₁K : twoResidual Kb =
       (twoResidual J₁).map (QuotientGroup.mk' (RonanE111.centMod D Y)))
-    (hJ : IsEG n ⊤ T A T₀ J)
+    (_hJ : IsEG n ⊤ T A T₀ J)
     (hJJ₁ : twoResidual J₁ = (twoResidual J).map (QuotientGroup.mk' Y)) :
     (twoResidual J ⊔ T) ⊔ Y = ⊤ := by
   have hπ₁s : Function.Surjective (QuotientGroup.mk' Y) := QuotientGroup.mk'_surjective Y
@@ -499,7 +499,7 @@ private theorem rank_inf_liftP [Finite G] {n : ℕ} {K N T₀ Y A : Subgroup G}
 
 private theorem lift_in_sup_liftP [Finite G] {n : ℕ} (hn : 1 ≤ n) {T T₀ N Y A : Subgroup G}
     {𝒟 : Set (Subgroup G)} {K : Subgroup G} (hK : K = N ⊔ T₀)
-    (hT : IsSylowIn 2 T ⊤) (hT₀T : T₀ ≤ T) (hAT₀ : A ≤ T₀) (hAab : IsElemAbelian 2 A)
+    (_hT : IsSylowIn 2 T ⊤) (hT₀T : T₀ ≤ T) (hAT₀ : A ≤ T₀) (hAab : IsElemAbelian 2 A)
     (hT₀A : ∀ t ∈ T₀, ∀ a ∈ A, t * a = a * t)
     (hT₀N : T₀ ≤ Subgroup.normalizer (N : Set G)) (hT₀Y : T₀ ≤ Subgroup.normalizer (Y : Set G))
     (hNY : N ≤ Subgroup.normalizer (Y : Set G)) (hYN : Y ≤ N) (hperf : ⁅N, N⁆ = N)
@@ -521,9 +521,9 @@ private theorem lift_in_sup_liftP [Finite G] {n : ℕ} (hn : 1 ≤ n) {T T₀ N 
   have hAK : A ≤ N ⊔ T₀ := hAT₀.trans hT₀K
   have hKN : N ⊔ T₀ ≤ Subgroup.normalizer (N : Set G) := sup_le Subgroup.le_normalizer hT₀N
   have hKY : N ⊔ T₀ ≤ Subgroup.normalizer (Y : Set G) := sup_le hNY hT₀Y
-  haveI hNn : (N.subgroupOf (N ⊔ T₀)).Normal :=
+  have hNn : (N.subgroupOf (N ⊔ T₀)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr hKN
-  haveI hYn : (Y.subgroupOf (N ⊔ T₀)).Normal :=
+  have hYn : (Y.subgroupOf (N ⊔ T₀)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYK).mpr hKY
   have hmemK : ∀ S ∈ 𝒟, S ≤ N ⊔ T₀ := fun S hS => (hSM.le_D S hS).trans hNK
   have hSylK : IsSylowIn 2 ((T ⊓ (N ⊔ T₀)).subgroupOf (N ⊔ T₀)) ⊤ := by
@@ -597,7 +597,7 @@ theorem lift_semisimple_subP [Finite G] {n : ℕ} (hn : 1 ≤ n) {T T₀ N Y A :
   set K : Subgroup G := N ⊔ T₀ with hKdef
   have hNK : N ≤ K := le_sup_left
   have hAT : A ≤ T := hAT₀.trans hT₀T
-  haveI hNn : (N.subgroupOf K).Normal :=
+  have hNn : (N.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr (sup_le Subgroup.le_normalizer hT₀N)
   have hLift := lift_in_sup_liftP hn hKdef hT hT₀T hAT₀ hAab hT₀A hT₀N hT₀Y hNY hYN hperf hYs
     hSM hSyl hmove hrank

@@ -52,7 +52,7 @@ theorem EGeom.EUniData.transport (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K)
   · intro s x hx
     have h := d.equivariant s x hx
     simp only [LinearEquiv.trans_apply, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
-      MulAut.conj_apply, LinearEquiv.mul_apply, LinearEquiv.coe_coe]
+      MulAut.conj_apply, LinearEquiv.mul_apply]
     rw [h]
     simp
   · intro A hA hAQ hAZ

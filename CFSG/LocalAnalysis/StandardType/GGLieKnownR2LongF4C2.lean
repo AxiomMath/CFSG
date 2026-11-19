@@ -44,11 +44,11 @@ private theorem form_highRoot_F4 (hA : TauCeti.IsFiniteType (Tag.cartan .F4))
           Finset.sum_eq_single_of_mem zeroF4 (Finset.mem_univ zeroF4) fun l _ hl => by
             rw [form_single_right]
             simp only [toRat_apply]
-            rw [cartan_mul_highRoot_F4_rat, if_neg hl, mul_zero, mul_zero]
+            rw [cartan_mul_highRoot_F4_rat, ite_eq_right hl, mul_zero, mul_zero]
     _ = symmetrizer hA zeroF4 * x zeroF4 := by
           rw [form_single_right]
           simp only [toRat_apply]
-          rw [cartan_mul_highRoot_F4_rat, if_pos rfl, mul_one]
+          rw [cartan_mul_highRoot_F4_rat, ite_eq_left rfl, mul_one]
           ring
 
 private theorem F4_coord0_iff :
@@ -106,7 +106,7 @@ theorem map_highestRootRadical_F4
     rw [form_highRoot_F4 D.isFiniteType (toRat γ), toRat_apply]
   have hsets : {γ : Fin (Tag.rank .F4) → ℤ | γ ∈ D.roots ∧ 0 < rootForm D γ θ} = R := by
     ext γ
-    rw [Set.mem_setOf_eq, mem_parabolicRadicalRoots_F4]
+    rw [Set.mem_ofPred_eq, mem_parabolicRadicalRoots_F4]
     constructor
     · rintro ⟨hγroot, hpos⟩
       have hγ : IsRoot .F4 γ := mem_adjDatum_roots.1 hγroot

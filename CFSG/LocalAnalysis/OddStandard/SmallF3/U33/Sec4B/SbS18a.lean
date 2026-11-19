@@ -14,6 +14,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 theorem l18_OK_normal :
     NormalIn (ctxOK t tau x₁ x₂ rho) (ctxK t tau x₁ x₂ rho) := by
   unfold ctxOK
@@ -23,10 +24,12 @@ theorem l18_OK_normal :
     exact (Subgroup.mem_normalizer_iff.mp
       (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (ctxK t tau x₁ x₂ rho) hg) k).mp hk
 
+omit [Finite G] in
 theorem l18_OK_pgroup : IsPGroup 2 (ctxOK t tau x₁ x₂ rho) := by
   unfold ctxOK
   exact isPGroup_pCoreOf (ctxK t tau x₁ x₂ rho)
 
+omit [Finite G] in
 theorem l18_le_OK {N : Subgroup G} (hN : NormalIn N (ctxK t tau x₁ x₂ rho))
     (h2 : IsPGroup 2 N) : N ≤ ctxOK t tau x₁ x₂ rho := by
   have hnorm : ctxK t tau x₁ x₂ rho ≤ Subgroup.normalizer (N : Set G) := by
@@ -67,7 +70,7 @@ theorem l18_R_le_OK (hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
 
 theorem l18_rho_not_mem_OK (hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
     rho ∉ ctxOK t tau x₁ x₂ rho := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hrho
   have hne : (⟨rho, hrho⟩ : ↥(ctxOK t tau x₁ x₂ rho)) ≠ 1 := by
     intro h

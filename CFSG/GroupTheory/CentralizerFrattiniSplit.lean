@@ -37,6 +37,7 @@ theorem orderOf_finset_prod_of_prime {M : Type*} [CommMonoid M] (s : Finset ℕ)
       rw [Commute.orderOf_mul_eq_mul_orderOf_of_coprime (Commute.all _ _) hcop,
         horder a (Finset.mem_insert_self a t), hih]
 
+omit [Finite G] in
 private theorem exists_prime_order_elem_not_mem_centralizer {A Z : Subgroup G} {p : ℕ}
     (hnc : ∀ p : ℕ, p.Prime → p ∣ Nat.card A →
       ∃ P : Subgroup G, P ≤ A ∧ ¬ IsCyclic P ∧ ∀ x ∈ P, x ^ p = 1)
@@ -45,7 +46,7 @@ private theorem exists_prime_order_elem_not_mem_centralizer {A Z : Subgroup G} {
     ∃ a ∈ A, orderOf a = p ∧ a ∉ Subgroup.centralizer (Z : Set G) := by
   classical
   obtain ⟨P, hPA, hPnc, hPexp⟩ := hnc p hp hpdvd
-  haveI : IsCyclic ↥(A ⊓ Subgroup.centralizer (Z : Set G)) := hcyc
+  have : IsCyclic ↥(A ⊓ Subgroup.centralizer (Z : Set G)) := hcyc
   have hPnot : ¬ P ≤ A ⊓ Subgroup.centralizer (Z : Set G) := by
     intro hPC
     exact hPnc (Subgroup.isCyclic_of_le hPC)
@@ -63,6 +64,7 @@ private theorem exists_prime_order_elem_not_mem_centralizer {A Z : Subgroup G} {
     · exact h1
   exact ⟨a, haA, ha_ord, ha_notZ⟩
 
+omit [Finite G] in
 private theorem pow_mem_normalizer_not_mem_centralizer_of_split {A T Z : Subgroup G} {k : ℕ}
     (hab : IsMulCommutative A) (hsq : Squarefree k) {p : ℕ} (hp : p.Prime) (hp_dvd_k : p ∣ k)
     {a y c : G} (ha_ord : orderOf a = p) (ha_notZ : a ∉ Subgroup.centralizer (Z : Set G))
@@ -98,6 +100,7 @@ private theorem pow_mem_normalizer_not_mem_centralizer_of_split {A T Z : Subgrou
   exact ⟨Subgroup.mem_inf.mpr ⟨Subgroup.pow_mem _ hyA _, Subgroup.pow_mem _ hyN _⟩,
     hypow_notZ⟩
 
+omit [Finite G] in
 private theorem orderOf_pow_eq_prime_of_split {A Z : Subgroup G} {k p : ℕ}
     (hk : ∀ a ∈ A, a ^ k = 1) (hp : p.Prime) (hp_dvd_k : p ∣ k) {y : G} (hyA : y ∈ A)
     (hypow_notZ : y ^ (k / p) ∉ Subgroup.centralizer (Z : Set G)) :
@@ -111,6 +114,7 @@ private theorem orderOf_pow_eq_prime_of_split {A Z : Subgroup G} {k p : ℕ}
   · exact absurd (orderOf_eq_one_iff.mp h1) hypow_ne
   · exact h1
 
+omit [Finite G] in
 private theorem exists_prime_order_mem_normalizer_not_mem_centralizer
     {A T Z : Subgroup G} {k : ℕ}
     (hab : IsMulCommutative A) (hk : ∀ a ∈ A, a ^ k = 1) (hsq : Squarefree k)
@@ -135,6 +139,7 @@ private theorem exists_prime_order_mem_normalizer_not_mem_centralizer
   exact ⟨y ^ (k / p), hy',
     orderOf_pow_eq_prime_of_split hk hp hp_dvd_k hy.1 hy'_notZ, hy'_notZ⟩
 
+omit [Finite G] in
 private theorem card_sup_eq_mul_card_of_mul_comm {A T : Subgroup G}
     (hperm : (A : Set G) * (T : Set G) = (T : Set G) * (A : Set G))
     (hdisj : Disjoint A T) : Nat.card ↥(A ⊔ T) = Nat.card A * Nat.card T := by
@@ -160,7 +165,7 @@ private theorem isSylowOf_sup_of_odd_mul_isPGroup {A T : Subgroup G}
     (hperm : (A : Set G) * (T : Set G) = (T : Set G) * (A : Set G)) :
     IsSylowOf 2 T (A ⊔ T) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdisj : Disjoint A T := by
     rw [disjoint_iff]
     have h := CFSG.GroupTheory.inf_eq_bot_of_isPGroup_two_of_odd (H := T) (K := A) hT hA
@@ -175,6 +180,7 @@ private theorem isSylowOf_sup_of_odd_mul_isPGroup {A T : Subgroup G}
   rw [hrel]
   exact hA.not_two_dvd_nat
 
+omit [Finite G] in
 private theorem mem_normalizer_of_mem_normalizer_subgroupOf {X T : Subgroup G}
     {P : Subgroup ↥X} (hTX : T ≤ X) (hP : (P : Subgroup ↥X) = T.subgroupOf X) {n : ↥X}
     (hn : n ∈ Subgroup.normalizer (P : Set ↥X)) :
@@ -201,8 +207,8 @@ private theorem exists_mul_mem_normalizer_of_isSylowOf {X C T : Subgroup G}
     (hTC : T ≤ C) (hsyl : IsSylowOf 2 T X) :
     ∀ x ∈ X, ∃ n ∈ X ⊓ Subgroup.normalizer (T : Set G), ∃ c ∈ C, x = n * c := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hCnorm : (C.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXN
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hCnorm : (C.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXN
   obtain ⟨P, hP⟩ := hsyl.exists_sylow_eq_subgroupOf
   have hPle : P ≤ C.subgroupOf X := by
     intro y hy
@@ -229,6 +235,7 @@ private theorem exists_mul_mem_normalizer_of_isSylowOf {X C T : Subgroup G}
   exact ⟨(n : G), Subgroup.mem_inf.mpr ⟨n.2, hnN⟩, (c : G), hcC,
     (congrArg Subtype.val hnc).symm⟩
 
+omit [Finite G] in
 private theorem exists_mul_mem_normalizer_mem_centralizer_of_split {A T Z : Subgroup G}
     (hperm : (A : Set G) * (T : Set G) = (T : Set G) * (A : Set G))
     (hTZ : T ≤ centralizer (Z : Set G)) {a n c : G} (ha : a ∈ A)
@@ -259,7 +266,7 @@ theorem exists_mul_mem_normalizer_mem_centralizer {A T Z : Subgroup G} (hA : Odd
     (hAZ : A ≤ normalizer (Z : Set G)) (hTZ : T ≤ centralizer (Z : Set G)) {a : G} (ha : a ∈ A) :
     ∃ y ∈ A ⊓ normalizer (T : Set G), ∃ c ∈ A ⊓ centralizer (Z : Set G), a = y * c := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXZ : A ⊔ T ≤ Subgroup.normalizer (Z : Set G) :=
     sup_le hAZ (hTZ.trans (Subgroup.centralizer_le_normalizer (Z : Set G)))
   have hXN : A ⊔ T ≤
@@ -310,7 +317,7 @@ private theorem mem_centralizer_of_mem_zpowers_of_order_prime {b z : G} {Z : Sub
   have hzBord : orderOf zB = p := by rw [Subgroup.orderOf_mk, hzord]
   have hwBord : orderOf wB = p := by rw [Subgroup.orderOf_mk, hbeord]
   have heq : Subgroup.zpowers zB = Subgroup.zpowers wB := by
-    letI : IsCyclic ↥(Subgroup.zpowers b) := Subgroup.isCyclic_zpowers b
+    let : IsCyclic ↥(Subgroup.zpowers b) := Subgroup.isCyclic_zpowers b
     exact (IsCyclic.subgroup_eq_iff_card_eq).mpr (by
       rw [Nat.card_zpowers, Nat.card_zpowers, hzBord, hwBord])
   have hwBmem : wB ∈ Subgroup.zpowers zB := by
@@ -336,6 +343,7 @@ private theorem inf_zpowers_eq_bot_of_orderOf_eq_prod {b : G} {Z : Subgroup G} {
   exact hbe p hp
     (mem_centralizer_of_mem_zpowers_of_order_prime hzB hzC hzord (hbeord p hp))
 
+omit [Finite G] in
 private theorem exists_y_of_prime_factors {A T Z : Subgroup G} {k : ℕ}
     (hab : IsMulCommutative A) (hk : ∀ a ∈ A, a ^ k = 1) (hsq : Squarefree k)
     (hnc : ∀ p : ℕ, p.Prime → p ∣ Nat.card A →
@@ -361,7 +369,7 @@ private theorem exists_y_of_prime_factors {A T Z : Subgroup G} {k : ℕ}
       y p ∉ Subgroup.centralizer (Z : Set G) := by
     intro p hp
     dsimp [y]
-    rw [dif_pos hp]
+    rw [dite_eq_left hp]
     exact Classical.choose_spec (hex p hp)
   exact ⟨y, fun p hp => hy p (by simpa [s] using hp)⟩
 
@@ -371,7 +379,8 @@ private def prodSub (A : Subgroup G) (hA : IsMulCommutative A) (s : Finset ℕ)
   letI : CommGroup ↥A := IsMulCommutative.instCommGroup
   ∏ p ∈ s, y p
 
-private theorem exists_b_of_y {A T Z : Subgroup G} {y : ℕ → G} (hA : IsMulCommutative A)
+omit [Finite G] in
+private theorem exists_b_of_y {A T _Z : Subgroup G} {y : ℕ → G} (hA : IsMulCommutative A)
     (hprime : ∀ p ∈ (Nat.card A).primeFactors, p.Prime)
     (hyA : ∀ p ∈ (Nat.card A).primeFactors, y p ∈ A)
     (hyN : ∀ p ∈ (Nat.card A).primeFactors, y p ∈ Subgroup.normalizer (T : Set G))
@@ -383,13 +392,13 @@ private theorem exists_b_of_y {A T Z : Subgroup G} {y : ℕ → G} (hA : IsMulCo
       b ∈ A ∧ b ∈ Subgroup.normalizer (T : Set G) ∧
       orderOf b = ∏ p ∈ (Nat.card A).primeFactors, p := by
   classical
-  letI : IsMulCommutative ↥A := hA
-  letI : CommGroup ↥A := IsMulCommutative.instCommGroup
+  let : IsMulCommutative ↥A := hA
+  let : CommGroup ↥A := IsMulCommutative.instCommGroup
   let s : Finset ℕ := (Nat.card A).primeFactors
   let yA : ℕ → ↥A := fun p => if hp : p ∈ s then ⟨y p, hyA p (by simpa [s] using hp)⟩ else 1
   have hyA' : ∀ p ∈ s, (yA p : G) = y p := by
     intro p hp
-    simp [yA, dif_pos hp]
+    simp [yA, dite_eq_left hp]
   have hordA : ∀ p ∈ s, orderOf (yA p) = p := by
     intro p hp
     rw [← Subgroup.orderOf_coe (yA p), hyA' p hp, hyord p (by simpa [s] using hp)]
@@ -414,15 +423,16 @@ private theorem exists_b_of_y {A T Z : Subgroup G} {y : ℕ → G} (hA : IsMulCo
     fun p hp => hordA p (by simpa [s] using hp), rfl, rfl, hbA_mem, hbN_mem,
     (Subgroup.orderOf_coe bA).trans hbAord⟩
 
-private theorem exists_e_pow_eq_of_prod {A T : Subgroup G} {s : Finset ℕ} {y : ℕ → G}
+omit [Finite G] in
+private theorem exists_e_pow_eq_of_prod {A _T : Subgroup G} {s : Finset ℕ} {y : ℕ → G}
     {yA : ℕ → ↥A} {bA : ↥A} {b : G} (hA : IsMulCommutative A)
     (hprime : ∀ p ∈ s, p.Prime) (hordA : ∀ p ∈ s, orderOf (yA p) = p)
     (hyA' : ∀ p ∈ s, (yA p : G) = y p) (hb : b = (bA : G))
     (hbAprod : bA = prodSub A hA s yA) :
     ∃ e : ℕ → ℕ, (∀ p ∈ s, Nat.Coprime (e p) p) ∧ (∀ p ∈ s, b ^ e p = (y p) ^ (e p)) := by
   classical
-  letI : IsMulCommutative ↥A := hA
-  letI : CommGroup ↥A := IsMulCommutative.instCommGroup
+  let : IsMulCommutative ↥A := hA
+  let : CommGroup ↥A := IsMulCommutative.instCommGroup
   have hbAprod' : bA = ∏ p ∈ s, yA p := hbAprod
   let e : ℕ → ℕ := fun p => ∏ q ∈ s.erase p, q
   have hp_not_dvd_e : ∀ p ∈ s, ¬ p ∣ e p := by
@@ -520,9 +530,9 @@ theorem exists_cyclic_le_normalizer_inf_centralizer_eq_bot {A T Z : Subgroup G} 
   have hnotC : ∀ p ∈ (Nat.card A).primeFactors, y p ∉ centralizer (Z : Set G) :=
     fun p hp => (hy p hp).2.2
   obtain ⟨yA, bA, b, hyA', hordA, hb, hbAprod, hbA_mem, hbN_mem, hbord⟩ :=
-    exists_b_of_y (A := A) (T := T) (Z := Z) hab hprime hyA hyN hyord
+    exists_b_of_y (A := A) (T := T) (_Z := Z) hab hprime hyA hyN hyord
   obtain ⟨e, hcop_e, hbpow⟩ :=
-    exists_e_pow_eq_of_prod (A := A) (T := T) hab hprime hordA hyA' hb hbAprod
+    exists_e_pow_eq_of_prod (A := A) (_T := T) hab hprime hordA hyA' hb hbAprod
   obtain ⟨hbeord, hbe⟩ := orderOf_pow_and_not_mem_of_pow_eq hyord hnotC hcop_e hbpow
   let B : Subgroup G := Subgroup.zpowers b
   have hBcard : Nat.card B = ∏ p ∈ (Nat.card A).primeFactors, p := by

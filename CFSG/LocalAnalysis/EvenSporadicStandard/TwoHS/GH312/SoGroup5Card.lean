@@ -33,7 +33,7 @@ theorem eq_zero_of_polar_soQuad5 (x : SoVec5) (hx : ∀ y, QuadraticMap.polar so
   have h2 := h 2
   have h3 := h 3
   have h4 := h 4
-  simp [Pi.single_apply] at h0 h1 h2 h3 h4
+  simp at h0 h1 h2 h3 h4
   have h5 : (5 : ZMod 5) = 0 := by decide
   have e0 : x 0 = 0 := by linear_combination h1
   have e1 : x 1 = 0 := by linear_combination h0
@@ -48,7 +48,7 @@ theorem soQuad5_nondegenerate : (QuadraticMap.polarBilin soQuad5).Nondegenerate 
     eq_zero_of_polar_soQuad5 y fun x => by rw [QuadraticMap.polar_comm]; exact hy x⟩
 
 theorem soQuad5_eq_dot (x : SoVec5) : soQuad5 x = 3 * (x ⬝ᵥ soGram5 *ᵥ x) := by
-  simp [soQuad5, Matrix.toBilin'_apply', Matrix.smul_mulVec, dotProduct_smul]
+  simp [soQuad5, Matrix.toBilin'_apply']
 
 theorem natCard_orthogonalGroup_soQuad5 :
     Nat.card (TauCeti.QuadraticMap.orthogonalGroup soQuad5) = 18720000 := by
@@ -95,7 +95,7 @@ theorem card_soGroup5_le : Nat.card soGroup5 ≤ 9360000 := by
     · exact absurd h (hdet M N)
     · exact absurd h.symm (hdet N M)
     · exact congrArg Sum.inr (Subtype.ext (neg_inj.mp h))
-  haveI : Finite (TauCeti.QuadraticMap.orthogonalGroup soQuad5) :=
+  have : Finite (TauCeti.QuadraticMap.orthogonalGroup soQuad5) :=
     Nat.finite_of_card_ne_zero (by rw [natCard_orthogonalGroup_soQuad5]; norm_num)
   have := Nat.card_le_card_of_injective f hf
   rw [Nat.card_sum, natCard_orthogonalGroup_soQuad5] at this

@@ -156,7 +156,7 @@ theorem f0S_qIdx {y : ℕ} (hy : GoodRow y) : ∀ fr : List ℕ, fr.Nodup → (�
 theorem f0S_pow_sum {p : ℕ} (hp : p < 12) :
     64 ^ p = ∑ k : Fin 12, (if (k : ℕ) = p then 1 else 0) * 64 ^ (k : ℕ) := by
   rw [Finset.sum_eq_single ⟨p, hp⟩ (fun b _ hb => by
-    rw [if_neg fun h => hb (Fin.ext h), zero_mul]) (by simp)]
+    rw [ite_eq_right fun h => hb (Fin.ext h), zero_mul]) (by simp)]
   simp
 
 theorem f0S_blt_t {a b : ℕ} (h : a < b) : Nat.blt a b = true := by
@@ -180,27 +180,27 @@ theorem f0S_repK_off {i q : ℕ} (hi : i < 4) (hq : q < 3 ^ (9 - 3 * i)) :
     repK (offK i + q) = 64 ^ (3 * i) + ptQ (frL i) q := by
   interval_cases i
   · change repK (758 + q) = 64 ^ 0 + ptQ (frL 0) q
-    rw [f0S_repK_def, f0S_blt_f (a := 758 + q) (b := 758) (by omega), cond_false]
+    rw [f0S_repK_def, f0S_blt_f (a := 758 + q) (b := 758) (by omega), Bool.cond_false]
     change 64 ^ 0 + ptQ (frL 0) (758 + q - 758) = _
     rw [Nat.add_sub_cancel_left]
   · have hq' : q < 729 := by simpa using hq
     change repK (29 + q) = 64 ^ 3 + ptQ (frL 1) q
     rw [f0S_repK_def, f0S_blt_t (a := 29 + q) (b := 758) (by omega),
-      f0S_blt_f (a := 29 + q) (b := 29) (by omega), cond_true, cond_false]
+      f0S_blt_f (a := 29 + q) (b := 29) (by omega), _root_.Bool.cond_true, Bool.cond_false]
     change 64 ^ 3 + ptQ (frL 1) (29 + q - 29) = _
     rw [Nat.add_sub_cancel_left]
   · have hq' : q < 27 := by simpa using hq
     change repK (2 + q) = 64 ^ 6 + ptQ (frL 2) q
     rw [f0S_repK_def, f0S_blt_t (a := 2 + q) (b := 758) (by omega),
       f0S_blt_t (a := 2 + q) (b := 29) (by omega), f0S_blt_f (a := 2 + q) (b := 2) (by omega),
-      cond_true, cond_true, cond_false]
+      Bool.cond_true, _root_.Bool.cond_true, Bool.cond_false]
     change 64 ^ 6 + ptQ (frL 2) (2 + q - 2) = _
     rw [Nat.add_sub_cancel_left]
   · have hq' : q < 1 := by simpa using hq
     change repK (1 + q) = 64 ^ 9 + ptQ (frL 3) q
     rw [f0S_repK_def, f0S_blt_t (a := 1 + q) (b := 758) (by omega),
       f0S_blt_t (a := 1 + q) (b := 29) (by omega), f0S_blt_t (a := 1 + q) (b := 2) (by omega),
-      f0S_blt_f (a := 1 + q) (b := 1) (by omega), cond_true, cond_true, cond_true, cond_false]
+      f0S_blt_f (a := 1 + q) (b := 1) (by omega), _root_.Bool.cond_true, _root_.Bool.cond_true, _root_.Bool.cond_true, Bool.cond_false]
     change 64 ^ 9 + ptQ (frL 3) (1 + q - 1) = _
     rw [Nat.add_sub_cancel_left]
 
@@ -278,8 +278,8 @@ theorem f0S_branch {D : List (List ℕ)} {tb : List ℕ}
     rw [hyE, f13S_vz_sum (fun k => by split_ifs <;> [exact lt_trans (f0S_lane_lt hz k) (by norm_num);
       norm_num]) j]
     by_cases h : (j : ℕ) / 3 = i
-    · rw [if_pos ((f0S_blkL_mem i j).2 h), if_pos h, f0S_vz_lane hz]
-    · rw [if_neg (mt (f0S_blkL_mem i j).1 h), if_neg h, Nat.cast_zero]
+    · rw [ite_eq_left ((f0S_blkL_mem i j).2 h), ite_eq_left h, f0S_vz_lane hz]
+    · rw [ite_eq_right (mt (f0S_blkL_mem i j).1 h), ite_eq_right h, Nat.cast_zero]
   have hw : GoodRow (mvK (ptQ (blkL i) (blkK z i)) (D.getD e [])) := goodRow_red _
   rw [f0S_blkK] at hy1
   have hw0 := f0S_lane_lt hw (3 * i)
@@ -316,7 +316,7 @@ theorem f0S_branch {D : List (List ℕ)} {tb : List ℕ}
     have n2 : (k : ℕ) ∉ frL i := by
       rw [f0S_frL_mem hi k hk12]
       omega
-    rw [if_neg n1, if_neg n2, hmv]
+    rw [ite_eq_right n1, ite_eq_right n2, hmv]
     refine Eq.trans (Finset.sum_eq_zero fun j _ => ?_) (by norm_num)
     by_cases hj : (j : ℕ) / 3 = (k : ℕ) / 3
     · rw [hz0 j (by omega), zero_mul]
@@ -325,23 +325,23 @@ theorem f0S_branch {D : List (List ℕ)} {tb : List ℕ}
     have n2 : (k : ℕ) ∉ frL i := by
       rw [f0S_frL_mem hi k hk12]
       omega
-    rw [if_neg n2, add_zero]
+    rw [ite_eq_right n2, add_zero]
     have e1 : vz (mvK z (D.getD e [])) k = vz (mvK (ptQ (blkL i) (blkK z i)) (D.getD e [])) k := by
       rw [hmv, hmv]
       refine Finset.sum_congr rfl fun j _ => ?_
       by_cases hj : (j : ℕ) / 3 = i
-      · rw [hyv j, if_pos hj]
+      · rw [hyv j, ite_eq_left hj]
       · rw [hDz j k (by omega), mul_zero, mul_zero]
     rw [e1, f0S_vz_lane hw]
     have e2 : (k : ℕ) = 3 * i ∨ (k : ℕ) = 3 * i + 1 ∨ (k : ℕ) = 3 * i + 2 := by omega
     rcases e2 with e2 | e2 | e2 <;> rw [e2]
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       have : lane (mvK (ptQ (blkL i) (blkK z i)) (D.getD e [])) (3 * i) = 1 := by omega
       rw [this]
-    · rw [if_neg (by omega)]
+    · rw [ite_eq_right (by omega)]
       have : lane (mvK (ptQ (blkL i) (blkK z i)) (D.getD e [])) (3 * i + 1) = 0 := by omega
       rw [this]
-    · rw [if_neg (by omega)]
+    · rw [ite_eq_right (by omega)]
       have : lane (mvK (ptQ (blkL i) (blkK z i)) (D.getD e [])) (3 * i + 2) = 0 := by omega
       rw [this]
   ·
@@ -349,7 +349,7 @@ theorem f0S_branch {D : List (List ℕ)} {tb : List ℕ}
     have p2 : (k : ℕ) ∈ frL i := by
       rw [f0S_frL_mem hi k hk12]
       omega
-    rw [if_neg n1, if_pos p2, zero_add, f0S_vz_lane hx]
+    rw [ite_eq_right n1, ite_eq_left p2, zero_add, f0S_vz_lane hx]
 
 theorem f0S_beq_t {a : ℕ} (h : a = 0) : (a == 0) = true := beq_iff_eq.2 h
 
@@ -361,13 +361,13 @@ theorem nidxK_spec {D : List (List ℕ)} {tb : List ℕ}
     nidxK D tb z < nRep ∧ ∃ e < 26, vz (mvK z (D.getD e [])) = vz (repK (nidxK D tb z)) := by
   rw [f0S_nidxK_def]
   by_cases h0 : blkK z 0 = 0
-  · rw [f0S_beq_t h0, cond_true]
+  · rw [f0S_beq_t h0, _root_.Bool.cond_true]
     by_cases h1 : blkK z 1 = 0
-    · rw [f0S_beq_t h1, cond_true]
+    · rw [f0S_beq_t h1, _root_.Bool.cond_true]
       by_cases h2 : blkK z 2 = 0
-      · rw [f0S_beq_t h2, cond_true]
+      · rw [f0S_beq_t h2, _root_.Bool.cond_true]
         by_cases h3 : blkK z 3 = 0
-        · rw [f0S_beq_t h3, cond_true]
+        · rw [f0S_beq_t h3, _root_.Bool.cond_true]
           refine ⟨by unfold nRep; norm_num, 0, by norm_num, ?_⟩
           have hz0 : vz z = 0 := by
             funext k
@@ -384,22 +384,22 @@ theorem nidxK_spec {D : List (List ℕ)} {tb : List ℕ}
           rw [vz_mvK (hD 0 (by norm_num)).1, hz0, hr0, vz_zero]
           funext k
           simp [vecK]
-        · rw [f0S_beq_f h3, cond_false]
+        · rw [f0S_beq_f h3, Bool.cond_false]
           exact f0S_branch hD ht hz (by norm_num) (fun j hj => by
             interval_cases j
             · exact h0
             · exact h1
             · exact h2) h3
-      · rw [f0S_beq_f h2, cond_false]
+      · rw [f0S_beq_f h2, Bool.cond_false]
         exact f0S_branch hD ht hz (by norm_num) (fun j hj => by
           interval_cases j
           · exact h0
           · exact h1) h2
-    · rw [f0S_beq_f h1, cond_false]
+    · rw [f0S_beq_f h1, Bool.cond_false]
       exact f0S_branch hD ht hz (by norm_num) (fun j hj => by
         interval_cases j
         exact h0) h1
-  · rw [f0S_beq_f h0, cond_false]
+  · rw [f0S_beq_f h0, Bool.cond_false]
     exact f0S_branch hD ht hz (by norm_num) (fun j hj => absurd hj (Nat.not_lt_zero _)) h0
 
 theorem bit_iff (m i : ℕ) : bit m i = true ↔ m.testBit i = true := by
@@ -451,10 +451,10 @@ theorem rowsK0_spec {K D : List (List ℕ)} {tb : List ℕ} (P : ℕ → Prop)
     cases hc : (Nat.blt r.1 nRep && bit m r.2.1 && Nat.blt r.2.2 4 &&
         nidxK D tb (mvK (repK r.1) (K.getD r.2.2 [])) == r.2.1) with
     | false =>
-      rw [hc, cond_false] at h
+      rw [hc, Bool.cond_false] at h
       cases h
     | true =>
-      rw [hc, cond_true] at h
+      rw [hc, _root_.Bool.cond_true] at h
       simp only [Bool.and_eq_true, Nat.blt_eq, beq_iff_eq] at hc
       obtain ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩ := hc
       refine rowsK0_spec P hs rows _ m' h fun i hi => ?_
@@ -485,8 +485,8 @@ section Fibre
 theorem vecK_idRows (w : Fin 12 → ZMod 3) : vecK idRows w = w := by
   funext i
   unfold vecK
-  rw [Finset.sum_eq_single i (fun j _ hj => by rw [vz_idRows, if_neg hj, mul_zero])
-    (fun h => absurd (Finset.mem_univ i) h), vz_idRows, if_pos rfl, mul_one]
+  rw [Finset.sum_eq_single i (fun j _ hj => by rw [vz_idRows, ite_eq_right hj, mul_zero])
+    (fun h => absurd (Finset.mem_univ i) h), vz_idRows, ite_eq_left rfl, mul_one]
 
 @[expose] def Moves (S X : List ℕ) : Prop :=
   GoodMat X ∧ ∀ u, Reach oneK (vecK S u) (vecK S (vecK X u))
@@ -644,7 +644,7 @@ theorem fibre0_roots_of_checks (hinv : letterInvCheck () = true)
   rw [eq_of_pdEq hvr] at hNd
   have hrep : repD 0 v = nfD (B0 ()) (eOf v 0) := by
     unfold repD
-    exact if_pos rfl
+    exact ite_eq_left rfl
   refine ⟨h1 * h2, tbL.mul_mem hh1 hh2, v, hv, ?_⟩
   have e2 : (h1 * h2)⁻¹ * x * (h1 * h2) = h2⁻¹ * (h1⁻¹ * x * h1) * h2 := by group
   rw [e2, hrep, ← hNd]

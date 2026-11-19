@@ -62,7 +62,7 @@ theorem isPt_span_triple (hσ : ∀ c, σ (σ c) = c) {x y z : Fin 6 → F} (hx 
     exact h
   exact ⟨hti, hfin⟩
 
-theorem nonDeg_span_of_gram {k : ℕ} (hσ : ∀ c, σ (σ c) = c) (v : Fin k → Fin 6 → F)
+theorem nonDeg_span_of_gram {k : ℕ} (_hσ : ∀ c, σ (σ c) = c) (v : Fin k → Fin 6 → F)
     (hdet : (Matrix.of fun i j => herm σ (v i) (v j)).det ≠ 0) :
     NonDeg σ (Submodule.span F (Set.range v)) := by
   intro x hx horth

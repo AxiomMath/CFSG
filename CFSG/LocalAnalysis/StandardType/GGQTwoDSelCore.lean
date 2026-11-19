@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G] {Bs L : Subgroup G} {𝒦 : Finset (Sub
   {ι : Type} {M : CoxeterMatrix ι} (e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)) {m : ℕ}
   (e' : Fin m ≃ ι)
 
+omit [Finite G] in
 theorem qtwoW_le_iSup (r : Fin m → MulAut ↥Bs) {i j : Fin m} (hij : i ≠ j) :
     qtwoW Bs r i j ≤ ⨆ (i : Fin m) (j : Fin m) (_ : i < j), qtwoW Bs r i j := by
   rcases lt_or_gt_of_ne hij with h | h

@@ -132,7 +132,7 @@ theorem e6Three_rank_ge_three {G : Type} [Group G] [Finite G] {Bs J : Subgroup G
         rw [Nat.card_congr Multiplicative.toAdd, Nat.card_eq_fintype_card]
         exact ZMod.card 3
       omega
-  letI : R.Normal := Subgroup.normal_of_comm R
+  let : R.Normal := Subgroup.normal_of_isMulCommutative R
   let q : ↥W →* E6c3nE ⧸ R := (QuotientGroup.mk' R).comp W.subtype
   have hqcard : Nat.card ↥q.ker * Nat.card ↥q.range = Nat.card ↥W :=
     Subgroup.card_ker_mul_card_range q

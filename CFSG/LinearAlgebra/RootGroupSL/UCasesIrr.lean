@@ -24,7 +24,7 @@ private def compMulLeftLinearMap {Y : Type*} [AddCommGroup Y] [Module k Y]
     simp [add_mul, map_add]
   map_smul' c s := by
     ext x
-    simp [smul_mul_assoc]
+    simp
 
 private theorem injective_compMulLeftLinearMap {Y : Type*} [AddCommGroup Y] [Module k Y]
     {χ : E →ₗ[k] Y} (hχ : χ ≠ 0) : Function.Injective (compMulLeftLinearMap χ) := by
@@ -39,10 +39,11 @@ private theorem injective_compMulLeftLinearMap {Y : Type*} [AddCommGroup Y] [Mod
     rw [← mul_assoc, mul_inv_cancel₀ hst0, one_mul]
   simpa [compMulLeftLinearMap, LinearMap.comp_apply, LinearMap.mulLeft_apply, h2] using h1
 
+omit [Module.Finite k X] in
 private theorem exists_specialLinearGroup_smul_eq_of_ne_zero
     {v w : X} (hv : v ≠ 0) (hw : w ≠ 0) :
     ∃ g : SpecialLinearGroup k X, ∃ c : k, c ≠ 0 ∧ (g : X ≃ₗ[k] X) v = c • w := by
-  haveI : MulAction.IsPretransitive (SpecialLinearGroup k X) (Projectivization k X) :=
+  have : MulAction.IsPretransitive (SpecialLinearGroup k X) (Projectivization k X) :=
     MulAction.isPretransitive_of_is_two_pretransitive
   obtain ⟨g, hg⟩ :=
     MulAction.exists_smul_eq (SpecialLinearGroup k X)
@@ -176,10 +177,11 @@ private theorem smulRightLinearMap_mem_of_stable_hom_from
       rw [hτlin_B]
       simp [LinearMap.add_apply, LinearMap.smulRight_apply]
     simp only [LinearMap.sub_apply, LinearMap.comp_apply, smulRightLinearMap,
-      LinearMap.coe_mk, AddHom.coe_mk, hτ, map_add, map_smul]
+      LinearMap.coe_mk, AddHom.coe_mk, hτ]
     rw [add_sub_cancel_left]
   rwa [h3] at h2
 
+omit [Module.Finite k X] in
 private theorem smulRightLinearMap_mem_of_ne_zero [Module.Finite k E]
     (M : AddSubgroup (E →ₗ[k] X))
     (hE : ∀ (s : E) (χ : E →ₗ[k] X), χ ∈ M → χ ∘ₗ LinearMap.mulLeft k s ∈ M)
@@ -198,8 +200,9 @@ private theorem smulRightLinearMap_mem_of_ne_zero [Module.Finite k E]
       LinearMap.coe_mk, AddHom.coe_mk, h1]
   rwa [heq] at h
 
+omit [Module.Finite k X] in
 private theorem smulRightLinearMap_mem_of_ne_zero_target
-    (hX : 2 ≤ Module.finrank k X)
+    (_hX : 2 ≤ Module.finrank k X)
     (M : AddSubgroup (E →ₗ[k] X))
     (hG : ∀ (g : SpecialLinearGroup k X) (χ : E →ₗ[k] X), χ ∈ M →
       (g : X ≃ₗ[k] X).toLinearMap ∘ₗ χ ∈ M)
@@ -245,7 +248,7 @@ theorem eq_bot_or_eq_top_of_stable_hom_to (M : AddSubgroup (X →ₗ[k] E))
   rcases lt_or_ge (Module.finrank k X) 2 with hlt | hge
   · have hcases : Module.finrank k X = 0 ∨ Module.finrank k X = 1 := by omega
     rcases hcases with hX0 | hX1
-    · haveI : Subsingleton X := (Module.finrank_eq_zero_iff_of_free k X).mp hX0
+    · have : Subsingleton X := (Module.finrank_eq_zero_iff_of_free k X).mp hX0
       have hφzero : φ = 0 := by
         ext x
         simp [Subsingleton.elim x 0]
@@ -343,7 +346,7 @@ theorem eq_bot_or_eq_top_of_stable_hom_from (M : AddSubgroup (E →ₗ[k] X))
   rcases lt_or_ge (Module.finrank k X) 2 with hlt | hge
   · have hcases : Module.finrank k X = 0 ∨ Module.finrank k X = 1 := by omega
     rcases hcases with hX0 | hX1
-    · haveI : Subsingleton X := (Module.finrank_eq_zero_iff_of_free k X).mp hX0
+    · have : Subsingleton X := (Module.finrank_eq_zero_iff_of_free k X).mp hX0
       have hχzero : χ = 0 := by
         ext x
         exact Subsingleton.elim (χ x) 0

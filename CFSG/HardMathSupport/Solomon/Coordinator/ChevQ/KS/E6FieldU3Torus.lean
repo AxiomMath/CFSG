@@ -30,7 +30,7 @@ theorem iform_eq_sum_mul_iform_single {τ : Tag} (β γ : Fin τ.rank → ℤ) :
     rw [Finset.sum_eq_single j]
     · simp
     · intro k _ hk
-      simp [Pi.single_apply, hk]
+      simp [hk]
     · intro hj
       exact absurd (Finset.mem_univ j) hj
   simp only [h, Finset.sum_mul]

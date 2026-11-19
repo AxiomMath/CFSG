@@ -52,14 +52,14 @@ theorem wordP_congr {gg gg' : ℕ → Perm (Fin n)} {m m' : ℕ} (hm : m' ≤ m)
     have hltm0 : (-l - 1).toNat < m := by omega
     have h1' : ¬(0 < l ∧ (l - 1).toNat < m) := by omega
     have h1'' : ¬(0 < l ∧ (l - 1).toNat < m') := by omega
-    rw [if_neg h1', if_neg h1'', if_pos ⟨hlt, hltm0⟩, if_pos ⟨hlt, hltm⟩]
+    rw [ite_eq_right h1', ite_eq_right h1'', ite_eq_left ⟨hlt, hltm0⟩, ite_eq_left ⟨hlt, hltm⟩]
     rw [hgg _ hltm]
   · exact absurd heq hne
   · have hltm : (l - 1).toNat < m' := by
       have := toNat_sub_one_lt_natAbs_of_pos hgt
       omega
     have hltm0 : (l - 1).toNat < m := by omega
-    rw [if_pos ⟨hgt, hltm0⟩, if_pos ⟨hgt, hltm⟩]
+    rw [ite_eq_left ⟨hgt, hltm0⟩, ite_eq_left ⟨hgt, hltm⟩]
     exact hgg _ hltm
 
 end CFSG.EvenSporadicStandard.M12Std.PropA

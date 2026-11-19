@@ -100,7 +100,7 @@ theorem labs_of {pp pj W CI REP KW KC KR : ℕ → ℕ} {lt : ℕ → ℕ → �
       exact h0 (Nat.eq_of_beq_eq_true e)
     unfold killC at hk
     rw [bRec_eq, hb0, sB_eq, hc'] at hk
-    simp only [Bool.false_eq_true, ↓reduceIte, sB_eq, bRec_and, Bool.and_eq_true] at hk
+    simp only [Bool.false_eq_true, ↓reduceIte, sB_eq, bRec_and] at hk
     have hk2 : (Nat.blt (KW a) 19683 && (Nat.blt (KC a) 126 &&
         Nat.beq (tm pp pj lt (KW a) a) (tm pp pj lt (KR (KC a)) (KW a)))) = true := hk
     simp only [Bool.and_eq_true] at hk2

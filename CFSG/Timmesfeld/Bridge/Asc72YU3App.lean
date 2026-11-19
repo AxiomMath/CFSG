@@ -109,7 +109,7 @@ theorem false_of_psu3 [Finite G] (hS : Setup G D)
   obtain ⟨T₀, hT₀⟩ := hA.exists_le_sylow
   have hmemT : ∀ s ∈ ({u', v', d'} : Set H), s ∈ T₀ := fun s hs =>
     hT₀ (Subgroup.subset_closure hs)
-  obtain ⟨S₀, hS₀⟩ := (T₀.isPGroup'.map H.subtype).exists_le_sylow
+  obtain ⟨S₀, hS₀⟩ := (T₀.isPGroup.map H.subtype).exists_le_sylow
   have hTS : ∀ x : H, x ∈ T₀ → (x : G) ∈ S₀ := fun x hx => hS₀ ⟨x, hx, rfl⟩
   have huS : u ∈ S₀ := hTS u' (hmemT u' (by simp))
   have hvS : v ∈ S₀ := hTS v' (hmemT v' (by simp))
@@ -118,7 +118,7 @@ theorem false_of_psu3 [Finite G] (hS : Setup G D)
     sylow_data hS hrad hZ hnsq htri hn hord huw hO2 S₀ huS hvS hdS
   have hST : ∀ x : H, (x : G) ∈ S₀ → x ∈ T₀ := by
     intro x hx
-    have hP : IsPGroup 2 ((S₀ : Subgroup G).comap H.subtype) := S₀.isPGroup'.comap_subtype
+    have hP : IsPGroup 2 ((S₀ : Subgroup G).comap H.subtype) := S₀.isPGroup.comap_subtype
     have hle : (T₀ : Subgroup H) ≤ (S₀ : Subgroup G).comap H.subtype := fun y hy => hTS y hy
     have h := T₀.maximal_isPGroup.eq_of_ge hP hle
     show x ∈ (T₀ : Subgroup H)
@@ -179,7 +179,7 @@ theorem false_of_psu3 [Finite G] (hS : Setup G D)
     have h1 := hfixQ _ hπQ (by rw [← map_mul, hℓℓ, map_one])
     rw [hα] at h1
     have h2 : (φ ℓ)⁻¹ * ℓ ∈ zStar H := QuotientGroup.eq.mp h1
-    have h3 := CentralQuot.mem_zpowers_of_mem_zStar (Subtype.ext hzz) hO2' T₀.isPGroup'
+    have h3 := CentralQuot.mem_zpowers_of_mem_zStar (Subtype.ext hzz) hO2' T₀.isPGroup
       (T₀.mul_mem (T₀.inv_mem (hφT ℓ hℓT)) hℓT) h2
     rcases (mem_zpowers_of_mul_self (Subtype.ext hzz :
         (⟨(u * v * w) ^ n, hzH⟩ : H) * ⟨(u * v * w) ^ n, hzH⟩ = 1)).mp h3 with h4 | h4
@@ -197,7 +197,7 @@ theorem false_of_psu3 [Finite G] (hS : Setup G D)
       have hℓS := hTS ℓ hℓT
       have haℓS : a * (ℓ : G) * a⁻¹ ∈ S₀ := S₀.mul_mem (S₀.mul_mem haS hℓS) (S₀.inv_mem haS)
       have hc : Commute (a * (ℓ : G) * a⁻¹) ℓ :=
-        hD.commute_of_isPGroup S₀.isPGroup' haℓD hℓD haℓS hℓS
+        hD.commute_of_isPGroup S₀.isPGroup haℓD hℓD haℓS hℓS
       have hne : a * (ℓ : G) * a⁻¹ ≠ ℓ := by
         intro h
         apply hz1

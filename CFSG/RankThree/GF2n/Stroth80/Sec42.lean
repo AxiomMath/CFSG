@@ -35,7 +35,7 @@ theorem Ctx.swap_range_le_bar_Rt (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n)
     (hts : (QuotientGroup.mk t : Mbar M Q) = s) :
     (swapChi Y s (swap_comm hY hne)).range ≤ bar M Q (Rt M (LB M Q B) (t : G)) := by
   have hΛ := hc.swapHyp hw hn hno
-  haveI := swap_range_isSimpleGroup hΛ hcs hY hs hne
+  have := swap_range_isSimpleGroup hcs hY hne
   have hsq : s ^ 2 = 1 := hΛ.sq s hs
   refine hc.le_bar_Rt_of_normalClosure ht
     (S := bar M Q (LB M Q B) ⊓ (swapChi Y s (swap_comm hY hne)).range) inf_le_left inf_le_right
@@ -132,7 +132,7 @@ theorem Ctx.exists_c_of_swap_omega (h34 : Stroth34Statement) (hOm : OmegaMinusFo
     exact (hπk _).mp h1
   have hDN : Λ' ⊓ Yh ≤ Λ' ⊓ Subgroup.normalizer (Y : Set (Mbar M Q)) := by
     refine le_inf inf_le_left (fun x hx => ?_)
-    have hxK : x ∈ Y ⊔ conjSubgroup s Y := swapChi_range_le_sup hΛ hcs hY hs hne hx.2
+    have hxK : x ∈ Y ⊔ conjSubgroup s Y := swapChi_range_le_sup hY hne hx.2
     exact (sup_le_normalizer_of_commute hc12) hxK
   have hne2 : Nat.card ↥Λ' ≠ 2 * Nat.card ↥(Λ' ⊓ Yh) := by
     rw [hDcard, hΛ', hc.card_bar_LB_of_34 h34 hw hn hno hgen, ← hK]
@@ -157,8 +157,8 @@ theorem Ctx.false_of_swap_component (h34 : Stroth34Statement) (h310 : Stroth310S
   have hinf := swap_inf_eq_bot hcs hY hne
   have hs1 : s ≠ 1 := fun h => hne (by rw [h, conjSubgroup_one_sec4])
   obtain ⟨t, htLB, htQ, htmk⟩ := hc.exists_lift_ne_one hs hs1
-  haveI hYhs := swap_range_isSimpleGroup hΛ hcs hY hs hne
-  have hYhnab := swap_range_nonabelian hΛ hcs hY hs hne
+  have hYhs := swap_range_isSimpleGroup hcs hY hne
+  have hYhnab := swap_range_nonabelian hcs hY hne
   have hYhR := hc.swap_range_le_bar_Rt hw hn hno hcs hY hs hne htLB htmk
   have hRne : Rt M (LB M Q B) (t : G) ≠ LB M Q B := by
     intro hRL
@@ -170,8 +170,8 @@ theorem Ctx.false_of_swap_component (h34 : Stroth34Statement) (h310 : Stroth310S
   obtain ⟨K, hF, hFin, hK2, Gc, hGc, π, hK, hπs, hπk, hcl⟩ :=
     hc.classical_quotient h310 hw hn hno hgen htLB htQ hRne
   have hq4 : 4 ≤ Nat.card K := by rw [hK]; exact hc.hyp.q4
-  haveI : CharP K 2 := hK2
-  haveI : Finite Gc := Finite.of_surjective π hπs
+  have : CharP K 2 := hK2
+  have : Finite Gc := Finite.of_surjective π hπs
   have hshape := hcl.shape hCQ hq4
   have hSL2K : CFSG.IsQuasisimple ↥(StatedSL 2 K) := (hCQ K hq4).1 2 le_rfl
   obtain ⟨d0, hd0, hd01⟩ := swap_Lam_inf_range_ne_bot hΛ hcs hY hs hne
@@ -186,16 +186,16 @@ theorem Ctx.false_of_swap_component (h34 : Stroth34Statement) (h310 : Stroth310S
     rw [hYhN, Subgroup.mem_bot] at h2
     exact Subtype.ext h2
   have hEn : (layer (Mbar M Q)).Normal := by
-    haveI := CFSG.LocalCores.layer_characteristic (G := Mbar M Q)
+    have := CFSG.LocalCores.layer_characteristic (G := Mbar M Q)
     infer_instance
   have hYhE : (swapChi Y s hc12).range ≤ layer (Mbar M Q) :=
-    (swapChi_range_le_sup hΛ hcs hY hs hne).trans
+    (swapChi_range_le_sup hY hne).trans
       (sup_le (CFSG.LocalCores.component_le_layer hY)
         (CFSG.LocalCores.component_le_layer (isComponent_conjSubgroup s hY)))
   have hXn : ∀ h ∈ bar M Q (Rt M (LB M Q B) (t : G)) ⊓ layer (Mbar M Q),
       ∀ x ∈ (swapChi Y s hc12).range, h * x * h⁻¹ ∈ (swapChi Y s hc12).range := by
     intro h hh x hx
-    have hxK : x ∈ Y ⊔ conjSubgroup s Y := swapChi_range_le_sup hΛ hcs hY hs hne hx
+    have hxK : x ∈ Y ⊔ conjSubgroup s Y := swapChi_range_le_sup hY hne hx
     have h1 : h * x * h⁻¹ ∈ Y ⊔ conjSubgroup s Y :=
       layer_conj_mem_sup hY (isComponent_conjSubgroup s hY) hc12 hh.2 hxK
     refine swap_mem_range_of_comm_t hΛ hcs hY hs hne _ h1 ?_
@@ -219,9 +219,9 @@ theorem Ctx.false_of_swap_component (h34 : Stroth34Statement) (h310 : Stroth310S
     MonoidHom.ofInjective (swapChi_injective hc12 hinf)
   have hns : ¬ Group.IsSolvable ↥(swapChi Y s hc12).range := by
     intro hs'
-    haveI := hs'
+    have := hs'
     exact not_isSolvable_of_isQuasisimple hY.1
-      (solvable_of_solvable_injective (f := eY.toMonoidHom) eY.injective)
+      (Group.isSolvable_of_isSolvable_injective (f := eY.toMonoidHom) eY.injective)
   rcases subnormal_embedding_cases hSL2K (R := bar M Q (Rt M (LB M Q B) (t : G)))
     (H := bar M Q (Rt M (LB M Q B) (t : G)) ⊓ layer (Mbar M Q))
     (X := (swapChi Y s hc12).range) π hπs hshape (le_inf hYhR hYhE) inf_le_left hXn hHn hinj
@@ -287,7 +287,7 @@ theorem stroth42_of_41ii (h34 : Stroth34Statement) (h310 : Stroth310Statement)
   have hSL2 : ∀ (K : Type) [Field K] [Finite K], Nat.card K = Nat.card Z →
       CFSG.IsQuasisimple ↥(StatedSL 2 K) := by
     intro K _ _ hK
-    haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
+    have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
     exact (hCQ K (by rw [hK]; exact hq4)).1 2 le_rfl
   have hqSL : ∀ X : Subgroup (Mbar M Q), IsSLModel 2 (Nat.card Z) ↥X → CFSG.IsQuasisimple ↥X := by
     rintro X ⟨K, hF, hFin, hK, ⟨e⟩⟩

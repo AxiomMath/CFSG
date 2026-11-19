@@ -204,11 +204,11 @@ theorem index_subgroupOf_conjGen_le_two (ht2 : t * t = 1)
     | H x =>
       rcases conjGen_subset ht2 hnorm x.1 x.2 with hx | ⟨k, hk, hx⟩
       · refine ⟨true, ?_⟩
-        simp only [if_true]
+        simp only [ite_true]
         rw [QuotientGroup.eq]
         simpa [mem_subgroupOf] using hx
       · refine ⟨false, ?_⟩
-        simp only [Bool.false_eq_true, if_false]
+        simp only [Bool.false_eq_true, ite_false]
         rw [QuotientGroup.eq, mem_subgroupOf]
         have hti : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht2
         have e1 : ((t' ⁻¹ * x : ↥X₀) : Γ) = t⁻¹ * (k * t) := by

@@ -30,10 +30,10 @@ noncomputable def slCongr {k k' : Type*} [Field k] [Field k'] (e : k ≃+* k') :
 theorem exists_type_model (k : Type*) [Field k] [Finite k] [CharP k 2] :
     ∃ (k' : Type) (_ : Field k') (_ : Finite k') (_ : CharP k' 2), Nonempty (k ≃+* k') := by
   classical
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨n, hp, hcard⟩ := FiniteField.card k 2
-  haveI : Fact (Nat.Prime 2) := ⟨hp⟩
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨hp⟩
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   refine ⟨GaloisField 2 n, inferInstance, inferInstance, inferInstance,
     ⟨FiniteField.ringEquivOfCardEq ?_⟩⟩
   rw [hcard, ← Nat.card_eq_fintype_card, GaloisField.card 2 n n.ne_zero]
@@ -111,7 +111,7 @@ theorem exists_hom_cyclic {Γ : Type*} [Group Γ] {k : Type*} [Field k] [Finite 
     ∃ (Q : Type) (_ : Group Q) (_ : IsCyclic Q) (Θ : B →* Q), Θ.ker = P.subgroupOf B := by
   obtain ⟨k', _, _, _, ⟨e⟩⟩ := exists_type_model k
   obtain ⟨Θ, hΘ⟩ := exists_hom_outer (ψ.trans (slCongr e)) hRodd hNR hC hBN hB2 hBP
-  haveI : IsCyclic (Outer SL(2, k')) :=
+  have : IsCyclic (Outer SL(2, k')) :=
     CFSG.RankThree.PartOne.KCRootAxis.out_sl2_isCyclic (K := k')
   exact ⟨Outer SL(2, k'), inferInstance, inferInstance, Θ, hΘ⟩
 
@@ -208,10 +208,10 @@ theorem isCyclic_quotient_yamadaP_of_field (hW : CFSG.Walter.WalterOrderForm) (h
   have hBN : B ⊓ yamadaN₂ d t = yamadaP d t :=
     hsyl.eq_of_le (le_inf hPB hsyl.le) inf_le_right hB.isPGroup.to_inf_left
   obtain ⟨k₂, _, _, hk₂, ψ, -⟩ := hF
-  haveI : Finite k₂ := Finite.of_fintype k₂
+  have : Finite k₂ := Finite.of_fintype k₂
   have hk₂' : Nat.card k₂ = 2 ^ (2 * f) := by
     rw [Nat.card_eq_fintype_card, hk₂, ← pow_mul, mul_comm]
-  haveI : CharP k₂ 2 :=
+  have : CharP k₂ 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by have := h.two_le; omega) hk₂'
   obtain ⟨hNR, hCR, -⟩ := hex

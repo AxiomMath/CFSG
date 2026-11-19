@@ -115,10 +115,10 @@ theorem e8_frameDatum_three (K : Type) [Field K] [Finite K]
         y ∈ e8FrameGroup K := by
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   have hfr : Fr = iterateFrobenius (AlgebraicClosure K) (ringChar K) (f : ℕ) :=
     RingHom.ext fun x => by rw [hFr, iterateFrobenius_def, hq]
@@ -204,7 +204,7 @@ theorem not_p1ThreeLieList_three_D {r : ℕ} (hr : 5 ≤ r) {q : PrimePower}
   · cases hq'
   · unfold IsP1ChevTwoIndex at hch
     rcases hch with ⟨-, q', -, -, h⟩ | ⟨-, q', -, -, h⟩ | ⟨h5, -⟩
-    · rcases h with h | h | h | h | h | h | h | h <;> (try cases h) <;> omega
+    · rcases h with h | h | h | h | h | h | h | h <;> (try cases h); omega
     · rcases h with h | h | h | h <;> cases h
     · omega
 
@@ -289,7 +289,7 @@ theorem hyperGen_E8_of_neg_datum {K : Type} [Field K] [Finite K] (hK : Nat.card 
     (hs : ThreeScope LieTypeIndex.E8 K) {E₀ : Subgroup (adjointGroup .E8 K)}
     (hE₀ : IsElemAbelian 3 E₀) (hc : Nat.card E₀ = 3 ^ 3) (D : LangPlaneData .E8 K E₀)
     (hw : ∀ u : Fin Tag.E8.rank → ℤ, D.w • u = -u) : HyperGen 3 ⊤ E₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨q, hv, hKq, hgood, -⟩ := hs
   obtain ⟨hq2, hq8⟩ := not_isTwoPow_of_seitzGoodIndex_E8 hgood
   obtain ⟨Ψ, hker, hrange⟩ := exists_psi_D8_E8_of_family (exists_e8D8_family K)
@@ -412,8 +412,8 @@ theorem torusGroup_le_f4FrameSpan {L : Type} [Field L] (hsq : ∀ x : L, ∃ z :
       intro j
       rw [← Aux.f4FrameN_mul_f4FrameM j k, Aux.zpow_finsetSum_f4]
     rw [Finset.prod_congr rfl fun j _ => hcol j]
-    rw [Finset.prod_eq_single k (fun j _ hj => by rw [if_neg hj, zpow_zero])
-      (fun h => absurd (Finset.mem_univ k) h), if_pos rfl]
+    rw [Finset.prod_eq_single k (fun j _ hj => by rw [ite_eq_right hj, zpow_zero])
+      (fun h => absurd (Finset.mem_univ k) h), ite_eq_left rfl]
     rw [zpow_two, ← pow_two, hs k]
   have hmem : b ∈ (f4FrameSpan L).comap (rootDiagUnitHom Tag.F4 L) := by
     rw [hb]
@@ -766,10 +766,10 @@ theorem f4_frameDatum_three (K : Type) [Field K] [Finite K]
         y ∈ f4FrameGroup K := by
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   have hfr : Fr = iterateFrobenius (AlgebraicClosure K) (ringChar K) (f : ℕ) :=
     RingHom.ext fun x => by rw [hFr, iterateFrobenius_def, hq]
@@ -1007,7 +1007,7 @@ theorem hyperGen_F4_of_neg_datum {K : Type} [Field K] [Finite K] (hK : Nat.card 
     (hs : ThreeScope LieTypeIndex.F4 K) {E₀ : Subgroup (adjointGroup .F4 K)}
     (hE₀ : IsElemAbelian 3 E₀) (hc : Nat.card E₀ = 3 ^ 3) (D : LangPlaneData .F4 K E₀)
     (hw : ∀ u : Fin Tag.F4.rank → ℤ, D.w • u = -u) : HyperGen 3 ⊤ E₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨q, hv, hKq, -, hlist⟩ := hs
   have hK2 : Nat.card K ≠ 2 := by
     rw [hKq]

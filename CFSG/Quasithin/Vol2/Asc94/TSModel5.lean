@@ -15,15 +15,15 @@ open Matrix CFSG.CGT.M24S
     obtain ⟨hy1, hy2⟩ := hy
     refine ⟨?_, ?_⟩ <;>
     · simp only [cm_mul, Matrix.mul_apply, Fin.sum_univ_five, cm_col0, cm_row4, hx1, hx2, hy1, hy2]
-      simp [Matrix.one_apply]
+      simp
   one_mem' := by
-    refine ⟨?_, ?_⟩ <;> simp [cm_one, Matrix.one_apply]
+    refine ⟨?_, ?_⟩ <;> simp [cm_one]
   inv_mem' := fun {x} hx => by
     classical
     have hpow : ∀ n : ℕ, cm (x ^ n) 2 1 = 0 ∧ cm (x ^ n) 3 1 = 0 := by
       intro n
       induction n with
-      | zero => refine ⟨?_, ?_⟩ <;> simp [cm_one, Matrix.one_apply]
+      | zero => refine ⟨?_, ?_⟩ <;> simp [cm_one]
       | succ n ih =>
         obtain ⟨hx1, hx2⟩ := hx
         obtain ⟨hn1, hn2⟩ := ih
@@ -31,7 +31,7 @@ open Matrix CFSG.CGT.M24S
         refine ⟨?_, ?_⟩ <;>
         · simp only [cm_mul, Matrix.mul_apply, Fin.sum_univ_five, cm_col0, cm_row4, hx1, hx2, hn1,
             hn2]
-          simp [Matrix.one_apply]
+          simp
     have hinv : x⁻¹ = x ^ (orderOf x - 1) := by
       refine inv_eq_of_mul_eq_one_right ?_
       rw [← pow_succ', Nat.sub_add_cancel (orderOf_pos x), pow_orderOf_eq_one]
@@ -53,12 +53,12 @@ theorem lowleft_NH1 {y : Hc} (hy : y ∈ NH1) {i l : Fin 5} (hi : 2 ≤ i.val) (
     decide
   rcases hl' with rfl | rfl
   · rw [cm_col0]
-    rcases hi' with rfl | rfl | rfl <;> simp [Matrix.one_apply]
+    rcases hi' with rfl | rfl | rfl <;> simp
   · rcases hi' with rfl | rfl | rfl
     · exact h1
     · exact h2
     · rw [cm_row4]
-      simp [Matrix.one_apply]
+      simp
 
 theorem conj_NH1_A1 {y a : Hc} (hy : y ∈ NH1) (ha : a ∈ A1) : y * a * y⁻¹ ∈ A1 := by
   have hyi : y⁻¹ ∈ NH1 := NH1.inv_mem hy

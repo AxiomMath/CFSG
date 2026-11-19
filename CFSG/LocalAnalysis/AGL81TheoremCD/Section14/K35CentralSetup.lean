@@ -28,12 +28,12 @@ theorem alphaList_hyps_of_isComponent
       Odd (Nat.card (Subgroup.center ↥K)) ∧ CFSG.Open.pRank 3 (⊤ : Subgroup ↥K) ≤ 2 := by
   have hQ : CFSG.Open.IsQuasisimple ↥K :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff ↥K).2.2.1.mp hK.1
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.1.2.1
   have hcat : CFSG.Open.IsCatalogGroup (↥K ⧸ Subgroup.center ↥K) :=
     CFSG.Open.IsKGroup.isCatalogGroup_of_surjective hKX K hK.1.2.2
       (QuotientGroup.mk' (Subgroup.center ↥K))
       (QuotientGroup.mk'_surjective (Subgroup.center ↥K))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZP : IsPGroup 3 (Subgroup.center ↥K) :=
     CFSG.LocalAnalysis.AGL81TheoremCD.Section14.SevenThree.isPGroup_center_of_isComponent
       (p := 3) hK hO
@@ -53,7 +53,7 @@ theorem alphaList_hyps_of_isComponent
 theorem centGenI_le_rankThreeGamma {X : Type} [Group X] [Finite X] {E : Subgroup X}
     (hE : CFSG.Open.IsElemAbelian 3 E) (hE9 : Nat.card E = 9) (L : Subgroup X) :
     GL83.CompFam.centGenI 3 E L ≤ CFSG.Open.rankThreeGamma 1 3 E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   change GL83.CompFam.centGenI 3 E L ≤ CFSG.Open.GLBCore 3 1 E
   refine iSup_le fun A => ?_
   obtain ⟨hAE, hAc⟩ := A.2

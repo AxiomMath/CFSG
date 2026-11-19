@@ -39,7 +39,7 @@ private def u4SchurD {μ : K} (hμ : μ ≠ 0) : SL(2, K) :=
 
 private def u4SchurW : SL(2, K) :=
   ⟨!![0, 1; 1, 0], by
-    haveI := h.charP
+    have := h.charP
     simp [Matrix.det_fin_two, CharTwo.neg_eq]⟩
 
 private theorem coe_u4SchurU (s : K) :
@@ -104,8 +104,8 @@ private theorem u4Schur_eq_smul_E₁ (Y : ↥(u4Herm h))
   have e3 := hY' (u4Omega h) 0 0
   rw [coe_u4TwistLin, coe_u4SchurU, mul_mul_map_bar_transpose_apply] at e1 e2 e3
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons, map_one, map_zero, one_mul,
-    mul_one, mul_zero, zero_mul, add_zero, zero_add] at e1 e2 e3
+    Matrix.empty_val', Matrix.cons_val_fin_one, map_one, map_zero, one_mul,
+    mul_one, mul_zero, add_zero, zero_add] at e1 e2 e3
   have h11 : (Y : Matrix (Fin 2) (Fin 2) K) 1 1 = 0 := by linear_combination e1
   have h01' : (Y : Matrix (Fin 2) (Fin 2) K) 0 1 * (h.bar (u4Omega h) - u4Omega h) = 0 := by
     linear_combination e3 - u4Omega h * e2 -
@@ -138,8 +138,8 @@ theorem exists_smul_of_comm_u4TwistLin (T : ↥(u4Herm h) →+ ↥(u4Herm h))
       T (u4TwistLin h (A : Matrix (Fin 2) (Fin 2) K) X) =
         u4TwistLin h (A : Matrix (Fin 2) (Fin 2) K) (T X)) :
     ∃ c : h.fixedField, ∀ X, T X = c • X := by
-  haveI := h.charP
-  haveI := h.finite
+  have := h.charP
+  have := h.finite
   have hfix : ∀ s : K, u4TwistLin h ((u4SchurU s : SL(2, K)) : Matrix (Fin 2) (Fin 2) K)
       (T (u4SchurE₁ h)) = T (u4SchurE₁ h) := by
     intro s

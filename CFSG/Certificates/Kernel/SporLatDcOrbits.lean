@@ -286,7 +286,7 @@ private theorem ptOK_parts {p : ℕ} (hp : p < n) :
   · intro hlt
     have hb : Nat.blt (tl P.D p) P.C.ns = true := by rwa [Nat.blt_eq]
     have h1 := h.2
-    rw [hb, cond_true, Nat.beq_eq] at h1
+    rw [hb, _root_.Bool.cond_true, Nat.beq_eq] at h1
     exact h1
   · intro hlt
     have hb : Nat.blt (tl P.D p) P.C.ns = false := by
@@ -295,7 +295,7 @@ private theorem ptOK_parts {p : ℕ} (hp : p < n) :
       rw [Nat.blt_eq]
       exact hlt
     have h1 := h.2
-    rw [hb, cond_false, Nat.beq_eq] at h1
+    rw [hb, Bool.cond_false, Nat.beq_eq] at h1
     exact h1
 
 theorem ptOK_oid_lt {p : ℕ} (hp : p < n) : oid P.D p < P.D.obase.length :=
@@ -457,7 +457,7 @@ private theorem osz_eq_card {j : ℕ} (hj : j < P.D.obase.length) :
   refine (Nat.card_congr (Equiv.subtypeEquiv (Equiv.refl (Fin n)) ?_)).symm
   intro p
   rw [← fibre_eq_orbit P hj]
-  simp [Finset.mem_filter]
+  simp
 
 theorem S_card : Nat.card P.S = P.s := P.hk
 
@@ -465,10 +465,10 @@ theorem osz_mul_stab {j : ℕ} (hj : j < P.D.obase.length) :
     P.D.osz.getD j 0 *
         Nat.card (MulAction.stabilizer P.S (⟨P.D.obase.getD j 0, obase_lt P hj⟩ : Fin n)) =
       Nat.card P.S := by
-  haveI : Fintype P.S := Fintype.ofFinite _
-  haveI : Fintype ↥(MulAction.orbit P.S (⟨P.D.obase.getD j 0, obase_lt P hj⟩ : Fin n)) :=
+  have : Fintype P.S := Fintype.ofFinite _
+  have : Fintype ↥(MulAction.orbit P.S (⟨P.D.obase.getD j 0, obase_lt P hj⟩ : Fin n)) :=
     Fintype.ofFinite _
-  haveI : Fintype ↥(MulAction.stabilizer P.S (⟨P.D.obase.getD j 0, obase_lt P hj⟩ : Fin n)) :=
+  have : Fintype ↥(MulAction.stabilizer P.S (⟨P.D.obase.getD j 0, obase_lt P hj⟩ : Fin n)) :=
     Fintype.ofFinite _
   have h := MulAction.card_orbit_mul_card_stabilizer_eq_card_group P.S
     (⟨P.D.obase.getD j 0, obase_lt P hj⟩ : Fin n)

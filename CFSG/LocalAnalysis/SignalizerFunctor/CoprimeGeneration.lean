@@ -40,7 +40,7 @@ theorem coprime_cyclic_quotient_generation
     rw [← image_fixed]
     exact Subgroup.smul_mem_pointwise_smul element actorElement subgroup member
   let _subgroupAction := invariantSubgroupAction subgroup invariant
-  let _nilpotent : Group.IsNilpotent subgroup := sylow.isPGroup'.isNilpotent
+  let _nilpotent : Group.IsNilpotent subgroup := sylow.isPGroup.isNilpotent
   have subgroup_coprime : Nat.Coprime prime (Nat.card subgroup) :=
     coprime.of_dvd_right (Subgroup.card_subgroup_dvd_card subgroup)
   have subgroup_generated := solvable_cyclic_quotient_generation prime prime_prime

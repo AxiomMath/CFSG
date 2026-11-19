@@ -18,10 +18,12 @@ namespace C9741
 
 variable {M : Type*} [Group M] [DecidableEq M] {C C' : List M}
 
+omit [Group M] [DecidableEq M] in
 theorem listAll_congr (h : ∀ x, x ∈ C ↔ x ∈ C') (p : M → Bool) : C.all p = C'.all p := by
   rw [Bool.eq_iff_iff, List.all_eq_true, List.all_eq_true]
   exact forall_congr' fun x => imp_congr_left (h x)
 
+omit [Group M] [DecidableEq M] in
 theorem listAny_congr (h : ∀ x, x ∈ C ↔ x ∈ C') (p : M → Bool) : C.any p = C'.any p := by
   rw [Bool.eq_iff_iff, List.any_eq_true, List.any_eq_true]
   exact exists_congr fun x => and_congr_left' (h x)

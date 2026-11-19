@@ -58,7 +58,7 @@ theorem pRank_two_le_two_of_excType {A : Type} [Group A] [Finite A] (hA : CFSG.I
   have hZkc : Zk ≤ center A := by
     rintro _ ⟨x, hx, rfl⟩
     exact (hker x).1 hx
-  have hZk2 : IsPGroup 2 Zk := S.isPGroup'.to_le (Subgroup.map_subtype_le _)
+  have hZk2 : IsPGroup 2 Zk := S.isPGroup.to_le (Subgroup.map_subtype_le _)
   have hcard : Nat.card φ.ker ≤ 2 := by
     rw [← Subgroup.card_map_of_injective (Subgroup.subtype_injective (S : Subgroup A))]
     exact card_le_two_of_two_subgroup_center h hZkc hZk2

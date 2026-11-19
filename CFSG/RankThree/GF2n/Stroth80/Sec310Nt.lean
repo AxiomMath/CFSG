@@ -65,7 +65,7 @@ theorem Ctx.Nt_le_CN (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} {t :
   have h35 := (stroth_3_5 h34 hc hs.width hs.n_gt hs.noA2 hs.gen).2.1
   obtain ⟨n', γ, M₀, -, h⟩ := stroth_globalModelDataGF hc.hyp
   obtain ⟨φ, hφπ, hφQ, hφiso⟩ := exists_actionHom_H0 hc.hyp h
-  haveI : Finite M₀.E := Module.finite_of_finite (GaloisField 2 n')
+  have : Finite M₀.E := Module.finite_of_finite (GaloisField 2 n')
   obtain ⟨b, hb0, -, -, -, -⟩ := hc.dictB h
   set R := Rt M (LB M Q B) t with hR
   have hRH : R ≤ H0 M Z := hc.Rt_le_H0 t
@@ -150,7 +150,7 @@ theorem Ctx.CN_le_Nt (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B)
     (h2 : IsPGroup 2 ↥(hc.CN t)) : hc.CN t ≤ Nt M (LB M Q B) t := by
   set R := Rt M (LB M Q B) t with hR
   have hNR : hc.CN t ≤ R := fun x hx => (Ctx.mem_CN.mp hx).1
-  haveI hnorm : ((hc.CN t).subgroupOf R).Normal := by
+  have hnorm : ((hc.CN t).subgroupOf R).Normal := by
     refine (Subgroup.normal_subgroupOf_iff hNR).mpr fun x g hx hg => ?_
     have := hc.CN_conj_mem ht hg hx
     simpa using this

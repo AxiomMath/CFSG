@@ -53,7 +53,7 @@ theorem sec8t84_gen_proved (hM : Asc82Tab6M) (h36 : Asc82Lemma36) : Asc82Sec8Gen
   have hC : ∀ u ∈ (S ⊓ L : Subgroup G), u * u = 1 → u ≠ 1 →
       u ∈ conjClassIn L z ∩ (S : Set G) := by
     intro u hu huu hu1
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hu2 : orderOf u = 2 := orderOf_eq_prime (by rw [pow_two]; exact huu) hu1
     exact ⟨hM.inv_one_class G L hLM z u hzL (Subgroup.mem_inf.mp hu).2 hz2 hu2,
       (Subgroup.mem_inf.mp hu).1⟩

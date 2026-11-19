@@ -20,7 +20,7 @@ theorem fam_cover_ge_five {t : StatedLieTag} {n p f : ℕ} (hadm : StatedLieAdmi
   have hf : 1 ≤ f := hadm.2.1
   rcases fam_cover hadm ht with h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h |
     h | h | h | h
-  all_goals first | tauto | skip
+  all_goals try tauto
   ·
     exfalso
     obtain ⟨-, -, h8⟩ := h
@@ -165,7 +165,7 @@ theorem fam_cover_three {t : StatedLieTag} {n f : ℕ} (hadm : StatedLieAdmissib
   have hf : 1 ≤ f := hadm.2.1
   rcases fam_cover hadm ht with h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h | h |
     h | h | h | h
-  all_goals first | tauto | skip
+  all_goals try tauto
   · exact absurd h (not_famPslBad_three hf)
   ·
     exfalso

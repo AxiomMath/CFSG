@@ -15,18 +15,19 @@ namespace TwelveTwentyFive
 
 theorem pCoreOf_eq {M L : Subgroup G} (hL : F12.IsComponentModO2 M L) :
     pCoreOf 2 L = pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hPL, hLM, hsn, -⟩ := hL
   exact le_antisymm (A4.pCoreOf_le_of_subnormal 2 hsn)
     (CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hPL
       (hLM.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M))
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M))
 
+omit [Finite G] in
 theorem exists_mem_commutator {M L : Subgroup G} (hL : F12.IsComponentModO2 M L) {x : G}
     (hx : x ∈ L) : ∃ y ∈ ⁅L, L⁆, y⁻¹ * x ∈ pCoreOf 2 M := by
   obtain ⟨-, -, -, hN, hq⟩ := id hL
-  haveI := hN
-  haveI : Group.IsPerfect (↥L ⧸ (pCoreOf 2 M).subgroupOf L) := hq.1
+  have := hN
+  have : Group.IsPerfect (↥L ⧸ (pCoreOf 2 M).subgroupOf L) := hq.1
   set π := QuotientGroup.mk' ((pCoreOf 2 M).subgroupOf L) with hπ
   have h1 : π ⟨x, hx⟩ ∈ commutator (↥L ⧸ (pCoreOf 2 M).subgroupOf L) :=
     Group.IsPerfect.mem_commutator
@@ -39,11 +40,12 @@ theorem exists_mem_commutator {M L : Subgroup G} (hL : F12.IsComponentModO2 M L)
   · rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq] at hyx
     exact hyx
 
+omit [Finite G] in
 theorem isComponent_map {M L : Subgroup G} (hL : F12.IsComponentModO2 M L) :
     CFSG.IsComponent ((L.subgroupOf M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥M))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hLM, hsn, hN, hq⟩ := id hL
-  haveI := hN
+  have := hN
   set π : ↥M →* UC22.Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : ∀ m : ↥M, π m = 1 ↔ (m : G) ∈ pCoreOf 2 M := by
@@ -102,7 +104,7 @@ theorem commutator_mem_pCoreOf {M L K A : Subgroup G} (hL : F12.IsComponentModO2
     (hKM : K ≤ M) (hKn : M ≤ normalizer (K : Set G)) (hPK : pCoreOf 2 M ≤ K) (hLK : ¬ L ≤ K)
     (hAM : A ≤ M) (hLA : ∀ x ∈ L, ∀ a ∈ A, ⁅x, a⁆ ∈ K) :
     ∀ x ∈ L, ∀ a ∈ A, ⁅x, a⁆ ∈ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : ↥M →* UC22.Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : ∀ m : ↥M, π m = 1 ↔ (m : G) ∈ pCoreOf 2 M := by
@@ -145,19 +147,19 @@ theorem le_centralizer_of_forall_odd {M L V : Subgroup G} (hL : F12.IsComponentM
     (hMV : M ≤ normalizer (V : Set G)) (hPV : pCoreOf 2 M ≤ centralizer (V : Set G))
     (hodd : ∀ c ∈ L, Odd (orderOf c) → c ∈ centralizer (V : Set G)) :
     L ≤ centralizer (V : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hLM, -, hN, hq⟩ := id hL
-  haveI := hN
-  haveI : Group.IsPerfect (↥L ⧸ (pCoreOf 2 M).subgroupOf L) := hq.1
+  have := hN
+  have : Group.IsPerfect (↥L ⧸ (pCoreOf 2 M).subgroupOf L) := hq.1
   have hLN : L ≤ normalizer ((centralizer (V : Set G) : Subgroup G) : Set G) :=
     A1a.le_normalizer_centralizer (hLM.trans hMV)
   set N : Subgroup ↥L := (centralizer (V : Set G)).subgroupOf L with hNdef
-  haveI hNn : N.Normal := ⟨fun n hn g => (Subgroup.mem_normalizer_iff.1 (hLN g.2) n).1 hn⟩
+  have hNn : N.Normal := ⟨fun n hn g => (Subgroup.mem_normalizer_iff.1 (hLN g.2) n).1 hn⟩
   have hker' : (pCoreOf 2 M).subgroupOf L ≤ (QuotientGroup.mk' N).ker := by
     intro x hx
     rw [QuotientGroup.ker_mk']
     exact hPV hx
-  haveI : Group.IsPerfect (↥L ⧸ N) := Group.IsPerfect.ofSurjective
+  have : Group.IsPerfect (↥L ⧸ N) := Group.IsPerfect.ofSurjective
     (f := QuotientGroup.lift ((pCoreOf 2 M).subgroupOf L) (QuotientGroup.mk' N) hker')
     (by
       intro q
@@ -190,7 +192,7 @@ theorem mem_centralizer_of_odd (D : Data G) {V : Subgroup G} (hV : InCalV D.M V)
     (hcM : c ∈ D.M) (hc : Odd (orderOf c))
     (hcJ : ∀ j ∈ F12.jOf D.T, ⁅c, j⁆ ∈ centralizer (V : Set G))
     (hcE : c ∈ centralizer (proofE D : Set G)) : c ∈ centralizer (V : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMV : D.M ≤ normalizer (V : Set G) := hV.2.2.1
   have hV2 : IsPGroup 2 ↥V := uc22p22e_isPGroup_of_elem hV.2.2.2
   let φ := uc22br4_conjAut D.M V hMV

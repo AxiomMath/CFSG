@@ -26,7 +26,7 @@ theorem exists_fieldPart_reeGamma
       ∀ x : MulAut (ReeTag.G2.reeGamma K a), (∃ k : ℕ, x ^ (p ^ k) = 1) →
         x ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner (ReeTag.G2.reeGamma K a) ⊔ F := by
   classical
-  haveI : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
+  have : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
   let Fr : MulAut (ReeTag.G2.reeGamma K a) := frobeniusΓ
   have hpow : Fr ^ (2 * a + 1) = 1 := frobeniusΓ_pow hK
   have hfinord : IsOfFinOrder Fr :=
@@ -61,11 +61,11 @@ theorem i713ClauseFor_lie_twistedG2
     CFSG.RankThree.PartOne.CTP.reeTitsModel_reeG2 a ⟨hv, ⟨MulEquiv.refl _⟩⟩
   obtain ⟨b, L, hLfield, hLfin, hLchar, hb, hLcard, ⟨eL⟩⟩ :=
     CFSG.RankThree.Chevalley.exists_mulEquiv_reeGamma_G2_of_reeTitsModel hmodel
-  letI := hLfield
-  letI := hLfin
-  letI := hLchar
-  haveI : Finite (ModGL ReeTag.G2.tag L) := finite_modGL
-  haveI : Finite (ReeTag.G2.reeGamma L b) := Subtype.finite
+  let := hLfield
+  let := hLfin
+  let := hLchar
+  have : Finite (ModGL ReeTag.G2.tag L) := finite_modGL
+  have : Finite (ReeTag.G2.reeGamma L b) := Subtype.finite
   exact Or.inr (Or.inl (exists_fieldPart_of_mulEquiv (eK.trans eL)
     (exists_fieldPart_reeGamma hb hLcard hp)))
 

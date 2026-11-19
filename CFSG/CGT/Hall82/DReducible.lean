@@ -109,8 +109,7 @@ private lemma hallRMPerm_prod (H : Hyp S R rep Q) (e : Fin 8) :
   fin_cases e <;>
     simp [hallRIdx, hallRMPerm_zero H, H.hD.rm_mul, show xor8 1 2 = 3 from by decide,
       show xor8 1 4 = 5 from by decide, show xor8 2 4 = 6 from by decide,
-      show xor8 1 1 = 0 from by decide, show xor8 2 2 = 0 from by decide,
-      show xor8 4 4 = 0 from by decide, show xor8 3 4 = 7 from by decide]
+      show xor8 3 4 = 7 from by decide]
 
 private lemma rep_mem_M (H : Hyp S R rep Q) (b : Fin 64) : rep b ∈ M :=
   S.blockU_le (H.hc.mem b)
@@ -327,7 +326,7 @@ private lemma exists_basis (H : Hyp S R rep Q) :
 private noncomputable def basis (H : Hyp S R rep Q) : Fin 3 → G :=
   Classical.choose (exists_basis H)
 
-private noncomputable def basis_mem (H : Hyp S R rep Q) : ∀ i, basis H i ∈ Q :=
+private theorem basis_mem (H : Hyp S R rep Q) : ∀ i, basis H i ∈ Q :=
   Classical.choose (Classical.choose_spec (exists_basis H))
 
 private lemma basis_psi (H : Hyp S R rep Q) (i : Fin 3) :
@@ -526,7 +525,7 @@ private noncomputable def Ag (H : Hyp S R rep Q) (g : G)
     (hg : g ∈ Subgroup.centralizer ({rep 5} : Set G)) : Fin 64 → Fin 64 :=
   fun k => iota H ⟨g * (sec H k : G) * g⁻¹, H.hQn g hg (sec H k) (sec H k).2⟩
 
-private lemma conj_rep5 (H : Hyp S R rep Q) {g : G}
+private lemma conj_rep5 (_H : Hyp S R rep Q) {g : G}
     (hg : g ∈ Subgroup.centralizer ({rep 5} : Set G)) :
     g * rep 5 * g⁻¹ = rep 5 := by
   have hcomm := Subgroup.mem_centralizer_iff.mp hg (rep 5) (by simp)
@@ -553,7 +552,7 @@ private lemma Ag_eq (H : Hyp S R rep Q) {g : G}
       calc g * ((q : G) * rep 5) * g⁻¹ = (g * (q : G) * g⁻¹) * (g * rep 5 * g⁻¹) := by
             group
         _ = (g * (q : G) * g⁻¹) * rep 5 := by rw [conj_rep5 H hg]
-    simp only [Ag, q']
+    simp only [Ag]
     rw [hconj, iota_mul, iota_cQ, xorF_zero]
 
 private lemma Ag_mul (H : Hyp S R rep Q) {g g' : G}
@@ -637,7 +636,7 @@ private lemma GoodHall_Ag (H : Hyp S R rep Q) {g : G}
 
 private lemma hallS40_surj_Ag (H : Hyp S R rep Q) {σ : Fin 64 → Fin 64}
     (hσ : σ ∈ hallS40) :
-    ∃ m : G, ∃ hmM : m ∈ M, ∃ hmH : m ∈ Subgroup.centralizer ({rep 5} : Set G),
+    ∃ m : G, ∃ _hmM : m ∈ M, ∃ hmH : m ∈ Subgroup.centralizer ({rep 5} : Set G),
       Ag H m hmH = σ := by
   obtain ⟨b, s, hs, hs5, hσeq⟩ := H.hD.xcode_conj_surj σ hσ
   obtain ⟨m', hm'M, hm'H, -, hΦm'⟩ := exists_lift H hs hs5 b
@@ -782,8 +781,8 @@ private lemma Ag_q0 (H : Hyp S R rep Q) {g : G}
 
 private lemma reducible_Ag (H : Hyp S R rep Q) {g : G}
     (hg : g ∈ Subgroup.centralizer ({rep 5} : Set G)) :
-    ∀ k, InHallW k → InHallW (Ag H g hg k) :=
-  H.hD.reducible (Ag H g hg) (Ag_add H hg) (Ag_q0 H hg) (fun k => Ag_zero H hg)
+    ∀ _k, InHallW _k → InHallW (Ag H g hg _k) :=
+  H.hD.reducible (Ag H g hg) (Ag_add H hg) (Ag_q0 H hg) (fun _k => Ag_zero H hg)
     (GoodHall_Ag H hg) (fun _ ht => GoodHall_comp_one H hg ht)
     (fun _ ht _ hu => GoodHall_comp_two H hg ht hu)
 

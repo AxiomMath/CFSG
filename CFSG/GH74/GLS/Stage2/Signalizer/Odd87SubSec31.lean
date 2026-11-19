@@ -220,7 +220,7 @@ theorem sec31_core_hom (hL : Lemma31Narrow) (hctx : Stage2Ctx G z k S) {H₀ : S
   have hP : ((P : Subgroup ↥(W.comap π)).map (W.comap π).subtype).map π = W :=
     map_sylow_comap_eq π hπ W hW2 P
   set W' : Subgroup ↥H₀ := (P : Subgroup ↥(W.comap π)).map (W.comap π).subtype
-  have hW'2 : IsPGroup 2 ↥W' := P.isPGroup'.map _
+  have hW'2 : IsPGroup 2 ↥W' := P.isPGroup.map _
   set C : Subgroup G := H₀ ⊓ centralizerSection Jt (pPrimeCoreOf 2 Jt)
   have hW'mem : ∀ x ∈ W', π x ∈ W := fun x hx => hP ▸ Subgroup.mem_map_of_mem π hx
   have hW'C : W'.map H₀.subtype ≤ C := by
@@ -236,7 +236,7 @@ theorem sec31_core_hom (hL : Lemma31Narrow) (hctx : Stage2Ctx G z k S) {H₀ : S
     intro g hg
     have hgC := hW'C hg
     exact ⟨⟨g, hgC⟩, hQ (show (⟨g, hgC⟩ : ↥C) ∈ (W'.map H₀.subtype).subgroupOf C from hg), rfl⟩
-  have hR2 : IsPGroup 2 ↥R := Q.isPGroup'.map _
+  have hR2 : IsPGroup 2 ↥R := Q.isPGroup.map _
   let ρ : ↥R →* B := π.comp (Subgroup.inclusion hRH₀)
   have hρinj : Function.Injective ρ := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]

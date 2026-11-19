@@ -205,6 +205,7 @@ private theorem notMem_range_orthBlockIdx_zero_two_L22 :
   have hklt : (k : ℕ) < 2 := by simpa using k.isLt
   omega
 
+omit [CharP K 2] in
 private theorem extendMat_diagonal_rootTorusUnits_three_L22 (u : Kˣ) :
     extendMat (orthBlockIdx_injective orthCuts_zero_two_three 0)
         (Matrix.diagonal fun i => (rootTorusUnits 2 u i : K)) =
@@ -239,6 +240,7 @@ theorem rootHomThree_range_le (qA : QuadraticForm K A) :
   rintro _ ⟨B, rfl⟩
   exact (orthLeviSL orthCuts_zero_two_three qA (le_refl 3) 0 B).2
 
+omit [CharP K 2] in
 theorem orthExtendGL_torusSL_three (u : Kˣ) :
     orthExtendGL orthCuts_zero_two_three 0 (Matrix.SpecialLinearGroup.toGL (torusSL u)) =
       diagGL (rootTorusUnits 3 u) := by

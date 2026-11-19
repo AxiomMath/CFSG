@@ -25,7 +25,7 @@ theorem twoDChainRecog_odd {r : ℕ} [Fact r.Prime] {L : Type} [Field L] [CharP 
   classical
   intro G _ ρ Φ C hρinj hcomm hfr hΦ0 hΦ1 hΦ2 hC
   obtain ⟨bb, cc, hirr, ⟨KD⟩⟩ := CompsPTwoDKlein.exists_kleinData_frob (k := L) (p := r) he hr2
-  haveI hFfin : Finite ↥(frobeniusFixedField L r e) :=
+  have hFfin : Finite ↥(frobeniusFixedField L r e) :=
     Nat.finite_of_card_ne_zero (by
       rw [card_frobeniusFixedField he]
       exact (pow_pos (Fact.out : r.Prime).pos _).ne')

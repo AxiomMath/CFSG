@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normal_subgroupOf_sup_zpowers {I Y₀ : Subgroup G} {u : G} (hIY : I ≤ Y₀)
     (hY : Y₀ ≤ Subgroup.normalizer (I : Set G)) (hu : u ∈ Subgroup.normalizer (I : Set G)) :
     (I.subgroupOf (Y₀ ⊔ Subgroup.zpowers u)).Normal :=
@@ -32,6 +33,7 @@ theorem normal_subgroupOf_sup_zpowers {I Y₀ : Subgroup G} {u : G} (hIY : I ≤
 
 variable {I Y₀ : Subgroup G} {u : G} [(I.subgroupOf (Y₀ ⊔ Subgroup.zpowers u)).Normal]
 
+omit [Finite G] in
 theorem mem_quotY_iff {x : ↥(Y₀ ⊔ Subgroup.zpowers u) ⧸ I.subgroupOf (Y₀ ⊔ Subgroup.zpowers u)} :
     x ∈ quotY I Y₀ u ↔
       ∃ y : G, ∃ hy : y ∈ Y₀ ⊔ Subgroup.zpowers u, y ∈ Y₀ ∧ QuotientGroup.mk ⟨y, hy⟩ = x := by
@@ -43,7 +45,8 @@ theorem mem_quotY_iff {x : ↥(Y₀ ⊔ Subgroup.zpowers u) ⧸ I.subgroupOf (Y�
   · rintro ⟨y, hy, hyY, rfl⟩
     exact ⟨⟨y, hy⟩, Subgroup.mem_subgroupOf.mpr hyY, rfl⟩
 
-theorem card_quotY (hIY : I ≤ Y₀) : Nat.card (quotY I Y₀ u) = I.relIndex Y₀ := by
+omit [Finite G] in
+theorem card_quotY (_hIY : I ≤ Y₀) : Nat.card (quotY I Y₀ u) = I.relIndex Y₀ := by
   have hker : (QuotientGroup.mk' (I.subgroupOf (Y₀ ⊔ Subgroup.zpowers u))).ker =
       I.subgroupOf (Y₀ ⊔ Subgroup.zpowers u) := QuotientGroup.ker_mk' _
   have h1 := Subgroup.relIndex_ker (Y₀.subgroupOf (Y₀ ⊔ Subgroup.zpowers u))
@@ -53,6 +56,7 @@ theorem card_quotY (hIY : I ≤ Y₀) : Nat.card (quotY I Y₀ u) = I.relIndex Y
   rw [← h1]
   exact Subgroup.relIndex_subgroupOf le_sup_left
 
+omit [Finite G] in
 theorem exists_commutator_notMem_of_quotY
     (h : ∃ x ∈ quotY I Y₀ u, ∃ y ∈ quotY I Y₀ u, ⁅x, y⁆ ≠ 1) :
     ∃ x ∈ Y₀, ∃ y ∈ Y₀, ⁅x, y⁆ ∉ I := by
@@ -71,6 +75,7 @@ theorem exists_commutator_notMem_of_quotY
   rw [QuotientGroup.mk'_apply] at h1
   exact h1 ▸ h3
 
+omit [Finite G] in
 theorem mk_mul_quotU_comm {y : G} (hy : y ∈ Y₀ ⊔ Subgroup.zpowers u)
     (hc : y * u * y⁻¹ * u⁻¹ ∈ I) :
     (QuotientGroup.mk ⟨y, hy⟩ :
@@ -88,6 +93,7 @@ theorem mk_mul_quotU_comm {y : G} (hy : y ∈ Y₀ ⊔ Subgroup.zpowers u)
   rw [QuotientGroup.mk'_apply] at h3
   exact commutatorElement_eq_one_iff_mul_comm.mp (h3 ▸ h2)
 
+omit [Finite G] in
 theorem quotY_sup_zpowers_quotU_eq_top :
     quotY I Y₀ u ⊔ Subgroup.zpowers (quotU I Y₀ u) = ⊤ := by
   have hL : (Y₀.subgroupOf (Y₀ ⊔ Subgroup.zpowers u) :
@@ -102,6 +108,7 @@ theorem quotY_sup_zpowers_quotU_eq_top :
     MonoidHom.range_eq_top_of_surjective _ (QuotientGroup.mk'_surjective _)] at hmap
   simpa [quotY, quotU, QuotientGroup.mk'_apply] using hmap
 
+omit [Finite G] in
 private theorem s763B_mk_mem_quotY_iff (hIY : I ≤ Y₀) (l : ↥(Y₀ ⊔ Subgroup.zpowers u)) :
     (QuotientGroup.mk l :
         ↥(Y₀ ⊔ Subgroup.zpowers u) ⧸ I.subgroupOf (Y₀ ⊔ Subgroup.zpowers u)) ∈
@@ -122,6 +129,7 @@ private theorem s763B_mk_mem_quotY_iff (hIY : I ≤ Y₀) (l : ↥(Y₀ ⊔ Subg
     rw [mem_quotY_iff]
     exact ⟨(l : G), l.2, hlY, rfl⟩
 
+omit [Finite G] in
 theorem pInvol_quotY {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hIY : I ≤ Y₀)
     (hexp : ∀ y ∈ Y₀, y ^ p ∈ I) (hcl : ∀ x ∈ Y₀, ∀ y ∈ Y₀, ∀ z ∈ Y₀, ⁅⁅x, y⁆, z⁆ ∈ I)
     (hu2 : u * u = 1) (huY : u ∈ Subgroup.normalizer (Y₀ : Set G))

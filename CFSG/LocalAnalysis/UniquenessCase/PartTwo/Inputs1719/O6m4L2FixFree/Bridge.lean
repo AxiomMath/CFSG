@@ -60,7 +60,7 @@ theorem not_isSolvable_range_embedJ {G Γ : Type} [Group G] [Group Γ] {X J : Su
     (hJX : J ≤ X) (ε : ↥X ≃* Γ) (h : ¬ Group.IsSolvable ↥J) :
     ¬ Group.IsSolvable ↥(embedJ hJX ε).range := by
   intro hs
-  haveI := hs
+  have := hs
   exact h (Group.isSolvable_of_isSolvable_injective
     (f := (embedJ hJX ε).rangeRestrict)
     ((MonoidHom.rangeRestrict_injective_iff (f := embedJ hJX ε)).mpr

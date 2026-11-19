@@ -185,7 +185,7 @@ theorem exists_split_of_classical {P L : Subgroup G} {z c : G} (hP8 : Nat.card P
   have hcH : c ∈ H := Generic.mem_normalizer_of_conjSub_eq hOc
   have hMH : oddCoreOf L ≤ H := Subgroup.le_normalizer
   set N : Subgroup ↥H := (oddCoreOf L).subgroupOf H with hNdef
-  haveI : N.Normal := Subgroup.normal_in_normalizer
+  have : N.Normal := Subgroup.normal_in_normalizer
   have hNodd : Odd (Nat.card N) := by
     rw [hNdef, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hMH).toEquiv]
     exact oddCoreOf_odd_natCard L

@@ -107,7 +107,7 @@ theorem l4_exists_cube_root (p : ℕ) [Fact p.Prime] (hp1 : p % 3 = 1) :
   have hdvdU : 3 ∣ Nat.card (GaloisField p 1)ˣ := by
     rw [Nat.card_units, hcardK]
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g3, hg3⟩ := exists_prime_orderOf_dvd_card' (G := (GaloisField p 1)ˣ) 3 hdvdU
   have hω3 : (g3 : GaloisField p 1) ^ 3 = 1 := by
     rw [← Units.val_pow_eq_pow_val, ← hg3, pow_orderOf_eq_one, Units.val_one]

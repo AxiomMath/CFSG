@@ -113,14 +113,14 @@ private theorem huppert_XI_2_4_isCyclic_of_isMulCommutative_unique_order_two
     (A : Subgroup G) (hAcomm : IsMulCommutative A) :
     IsCyclic A := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : IsMulCommutative A := hAcomm
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : IsMulCommutative A := hAcomm
   have hAp : IsPGroup 2 A := hGp.to_subgroup A
-  haveI : Fact (IsPGroup 2 A) := ⟨hAp⟩
+  have : Fact (IsPGroup 2 A) := ⟨hAp⟩
   let Ω : Subgroup A := omega₁ (G := A) (p := 2)
   have hΩelem : IsElementaryAbelian 2 Ω := by
     simpa [Ω] using IsElementaryAbelian.omega₁_of_isMulCommutative (p := 2) (G := A)
-  haveI : IsElementaryAbelian 2 Ω := hΩelem
+  have : IsElementaryAbelian 2 Ω := hΩelem
   have hΩ_card_le_two : Nat.card Ω ≤ 2 := by
     let f : Ω → Bool := fun x => decide (x = 1)
     have hf_inj : Function.Injective f := by
@@ -169,7 +169,7 @@ private theorem huppert_XI_2_4_isCyclic_of_isMulCommutative_unique_order_two
     simpa [hΩ_card_eq_quot] using hΩ_card_le_two
   have hquot_elem : IsElementaryAbelian 2 (A ⧸ frattini A) := by
     exact isElementaryAbelian_quotient_frattini (R := A) (p := 2)
-  haveI : IsElementaryAbelian 2 (A ⧸ frattini A) := hquot_elem
+  have : IsElementaryAbelian 2 (A ⧸ frattini A) := hquot_elem
   have hquot_rank_le_one : generatorRank (A ⧸ frattini A) ≤ 1 := by
     have hquot_card_eq : Nat.card (A ⧸ frattini A) = 2 ^ generatorRank (A ⧸ frattini A) := by
       simpa using elementaryAbelian_card_eq_pow_generatorRank (p := 2) (A ⧸ frattini A)
@@ -204,9 +204,9 @@ private theorem huppert_XI_2_4_invariantNormal_inversion_and_cyclic
           Nonempty (Q ≃* QuaternionGroup k)) :
     (∀ h : H, phi (h : G) = (h : G)⁻¹) ∧ IsCyclic H := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fintype H := Fintype.ofFinite H
-  letI : Fintype (G ⧸ H) := Fintype.ofFinite (G ⧸ H)
+  let : Fintype G := Fintype.ofFinite G
+  let : Fintype H := Fintype.ofFinite H
+  let : Fintype (G ⧸ H) := Fintype.ofFinite (G ⧸ H)
   let phiQ : MulAut (G ⧸ H) :=
     BenderSuzuki.External.invariantQuotientAut phi H hHphi
   have hphiQ : Function.Involutive phiQ := by
@@ -222,7 +222,7 @@ private theorem huppert_XI_2_4_invariantNormal_inversion_and_cyclic
   have hquot_even : 2 ∣ Fintype.card (G ⧸ H) := by
     rw [← Nat.card_eq_fintype_card, ← H.index_eq_card]
     exact even_iff_two_dvd.mp hindexEven
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨q, hqfixed, hqne⟩ :=
     Equiv.Perm.exists_fixed_point_of_prime'
       (p := 2) (n := 1) hquot_even hsigma_sq
@@ -383,21 +383,21 @@ private theorem huppert_XI_2_4_invariantNormal_inversion_and_cyclic
     rw [map_mul, hphi_inv_on_H a, hphi_inv_on_H b, mul_inv_rev] at hab
     have h := congrArg Inv.inv hab
     simpa using h.symm
-  letI : IsMulCommutative H := ⟨⟨hcomm⟩⟩
-  letI : CommGroup H := IsMulCommutative.instCommGroup
+  let : IsMulCommutative H := ⟨⟨hcomm⟩⟩
+  let : CommGroup H := IsMulCommutative.instCommGroup
   have hHZ : IsZGroup H := by
     constructor
     intro q hq P
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     let PA : Subgroup G := (P : Subgroup H).map H.subtype
-    have hPAp : IsPGroup q PA := P.isPGroup'.map H.subtype
+    have hPAp : IsPGroup q PA := P.isPGroup.map H.subtype
     obtain ⟨Q, hPA_le_Q⟩ := hPAp.exists_le_sylow
     have hPAcyclic : IsCyclic PA := by
       by_cases hq2 : q = 2
       · subst q
         rcases htwo Q with hQcyclic | ⟨k, hk, hkP, ⟨eQ⟩⟩
         · exact Subgroup.isCyclic_of_le hPA_le_Q
-        · haveI : NeZero k := ⟨by omega⟩
+        · have : NeZero k := ⟨by omega⟩
           let PAQ : Subgroup Q := PA.subgroupOf Q
           have huniqueQ :
               ∀ x y : Q, orderOf x = 2 → orderOf y = 2 → x = y := by
@@ -424,15 +424,15 @@ private theorem huppert_XI_2_4_invariantNormal_inversion_and_cyclic
             exact congrArg Subtype.val (mul_comm aH bH)
           have hPAQcyclic : IsCyclic PAQ :=
             huppert_XI_2_4_isCyclic_of_isMulCommutative_unique_order_two
-              Q.isPGroup' huniqueQ PAQ hPAQcomm
+              Q.isPGroup huniqueQ PAQ hPAQcomm
           exact (Subgroup.subgroupOfEquivOfLe hPA_le_Q).isCyclic.mp hPAQcyclic
       · have hQcyclic : IsCyclic Q := hodd q hq2 Q
-        letI : IsCyclic Q := hQcyclic
+        let : IsCyclic Q := hQcyclic
         exact Subgroup.isCyclic_of_le hPA_le_Q
     let eP : P ≃* PA :=
       Subgroup.equivMapOfInjective (P : Subgroup H) H.subtype H.subtype_injective
     exact eP.isCyclic.mpr hPAcyclic
-  letI : IsZGroup H := hHZ
+  let : IsZGroup H := hHZ
   exact ⟨hphi_inv_on_H, inferInstance⟩
 
 private theorem huppert_XI_2_4_invariantNormal_cyclic
@@ -583,8 +583,8 @@ private theorem huppert_blackburn_XI_frobeniusKernel_uniqueFixedPoint
     have hzcSub :
         (z : MulAction.stabilizer G a) • cSub = cSub := by
       exact Subtype.ext hzc
-    letI : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
-    letI : MulAction.IsPretransitive G Omega :=
+    let : MulAction.IsMultiplyPretransitive G Omega 2 := htwo
+    let : MulAction.IsPretransitive G Omega :=
       MulAction.isPretransitive_of_is_two_pretransitive
     have hstab_multi :
         MulAction.IsMultiplyPretransitive
@@ -721,7 +721,7 @@ private theorem huppert_XI_2_1_units_cyclic_of_two_power_card
     let uy : Kˣ := Units.mk0 y hy
     have hxy : ux * uy = uy * ux := hcommUnits ux uy
     simpa [ux, uy] using congrArg (fun z : Kˣ => (z : K)) hxy
-  letI : Field K := rightNearFieldFieldOfComm K hcomm
+  let : Field K := rightNearFieldFieldOfComm K hcomm
   infer_instance
 
 private theorem dicksonIndexTwoModel_odd_characteristic_even_degree
@@ -735,7 +735,7 @@ private theorem dicksonIndexTwoModel_odd_characteristic_even_degree
   rcases hmodel with ⟨hr, hrne, hmpos, hdata⟩
   dsimp only at hdata
   rcases hdata with ⟨hrFact, e, heone, _hsquare, _hnonsquare, _hcenter⟩
-  letI : Fact (Nat.Prime r) := hrFact
+  let : Fact (Nat.Prime r) := hrFact
   have hdegree_ne : 2 * m ≠ 0 := by omega
   have hGForder :
       addOrderOf (1 : GaloisField r (2 * m)) = r :=
@@ -861,9 +861,9 @@ private theorem finiteField_oddCharacteristic_psl_package
         Nat.card L = n ∧
         Nonempty
           (G ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) L) := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   rcases FiniteField.card' K with ⟨p, hpchar, f, hp, hKpow⟩
-  letI : CharP K p := hpchar
+  let : CharP K p := hpchar
   have hcharEq : ringChar K = p := ringChar.eq K p
   have hpne : p ≠ 2 := by
     intro hp2
@@ -1003,8 +1003,8 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
       n hdegree htwo_transitive a b hab F hFrob
   have hpointStabilizerCard :
       Nat.card (MulAction.stabilizer G a) = n * d := by
-    letI : MulAction.IsMultiplyPretransitive G Omega 2 := htwo_transitive
-    letI : MulAction.IsPretransitive G Omega :=
+    let : MulAction.IsMultiplyPretransitive G Omega 2 := htwo_transitive
+    let : MulAction.IsPretransitive G Omega :=
       MulAction.isPretransitive_of_is_two_pretransitive
     have hindex : (MulAction.stabilizer G a).index = n + 1 := by
       calc
@@ -1022,7 +1022,7 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
   have htwoPointStabilizerCard :
       Nat.card
           (MulAction.stabilizer (MulAction.stabilizer G a) b') = d := by
-    have hmul := hFrob.isComplement'.card_mul
+    have hmul := hFrob.isComplement'.card_mul_card
     rw [hFcard, hpointStabilizerCard] at hmul
     exact Nat.eq_of_mul_eq_mul_left hnpos hmul
   have hFnil : Group.IsNilpotent F :=
@@ -1153,7 +1153,7 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
           (∀ x : Kˣ,
             some ((theta x : Kˣ) : K) = tau (some (x : K))) ∧
           ∃ C : Subgroup Kˣ, IsCyclic C ∧ C.index ≤ 2 := by
-      letI : Finite K := Finite.of_surjective eAdd eAdd.surjective
+      let : Finite K := Finite.of_surjective eAdd eAdd.surjective
       have hXI25_sylowClassification :
           (∀ (q : ℕ) [Fact q.Prime], q ≠ 2 →
             ∀ Q : Sylow q Kˣ, IsCyclic Q) ∧
@@ -1587,7 +1587,7 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
                 · exact
                     (generatorRank_le_one_of_isCyclic
                       (Subgroup.isCyclic_of_le hUleQ)).trans (by omega)
-                · haveI : NeZero k := ⟨by omega⟩
+                · have : NeZero k := ⟨by omega⟩
                   have huniqueQ :
                       ∀ x y : Q, orderOf x = 2 → orderOf y = 2 → x = y := by
                     intro x y hx hy
@@ -1638,17 +1638,17 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
                     hcomp hUnitsEven) hres
               have hSylowThreeCyclic :
                   ∀ Q : Sylow 3 Kˣ, IsCyclic Q := by
-                letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+                let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
                 exact hXI25_sylowClassification.1 3 (by omega)
               have hcompThree : HasNormalPComplement 3 Kˣ :=
                 huppert_XI_2_5_hasNormalPComplement_three_of_top_twoResidual
                   hres hthree hXI22_uniqueOrderThree hSylowThreeCyclic
-              letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-              letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+              let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+              let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
               let L : Subgroup Kˣ := pPrimeCore 3 Kˣ
               have hLchar : L.Characteristic := by
                 simpa [L] using pPrimeCore_characteristic (p := 3) (G := Kˣ)
-              letI : L.Characteristic := hLchar
+              let : L.Characteristic := hLchar
               have hP_le_L : (P : Subgroup Kˣ) ≤ L := by
                 simpa [L] using
                   sylow_two_le_pPrimeCore_three_of_hasNormalPComplement
@@ -1669,7 +1669,7 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
               let O : Subgroup L := pPrimeCore 2 L
               have hOchar : O.Characteristic := by
                 simpa [O] using pPrimeCore_characteristic (p := 2) (G := L)
-              letI : O.Characteristic := hOchar
+              let : O.Characteristic := hOchar
               let R := L ⧸ O
               let eR : R ≃* PL := by
                 simpa [R, O] using
@@ -1685,12 +1685,12 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
               let qO : L →* R := QuotientGroup.mk' O
               let M_L : Subgroup L := (frattini R).comap qO
               have hMLchar : M_L.Characteristic := by
-                letI : (frattini R).Characteristic := frattini_characteristic
+                let : (frattini R).Characteristic := frattini_characteristic
                 simpa [M_L, qO, R] using
                   (Subgroup.Characteristic.comap_quotient_mk
                     (H := O) (K := frattini R)
                       (inferInstance : (frattini R).Characteristic))
-              letI : M_L.Characteristic := hMLchar
+              let : M_L.Characteristic := hMLchar
               have hMLindex : M_L.index = (frattini R).index := by
                 simpa [M_L, qO] using
                   (Subgroup.index_comap_of_surjective
@@ -1705,12 +1705,12 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
                 simpa [M] using
                   characteristic_map_subtype_of_characteristic
                     (G := Kˣ) L M_L
-              letI : M.Characteristic := hMchar
+              let : M.Characteristic := hMchar
               obtain ⟨Z, hZchar, hZindex⟩ :=
                 huppert_XI_2_5_exists_characteristic_index_twelve_of_top_two_residual
                   (G := Kˣ) hres hcompThree M_L (by
                     simpa [L] using hLquotCard)
-              letI : Z.Characteristic := hZchar
+              let : Z.Characteristic := hZchar
               have hZinvariant :
                   ∀ u : Kˣ,
                     u ∈ Z ↔ hXI24_tauUnits_mulEquiv u ∈ Z := by
@@ -1740,7 +1740,7 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
               hXI24_tauUnits_mulEquiv_involutive hres
         rcases hXI25_invariantIndexTwo with
           ⟨C, hCnormal, hCindex, hCinvariant⟩
-        letI : C.Normal := hCnormal
+        let : C.Normal := hCnormal
         refine ⟨C, ?_, by omega⟩
         exact huppert_XI_2_4_invariantNormal_cyclic
           hXI24_tauUnits_mulEquiv hXI24_tauUnits_mulEquiv_involutive hXI24_tauUnits_mulEquiv_fixed_triple
@@ -1760,15 +1760,15 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
             (rho.range ≃* Matrix.ProjGenLinGroup (Fin 2) K) := by
       intro hcomm
       let fieldInst : Field K := rightNearFieldFieldOfComm K hcomm
-      letI : Field K := fieldInst
-      letI : Finite K := Finite.of_surjective eAdd eAdd.surjective
-      letI : Fintype K := Fintype.ofFinite K
+      let : Field K := fieldInst
+      let : Finite K := Finite.of_surjective eAdd eAdd.surjective
+      let : Fintype K := Fintype.ofFinite K
       have hKcard : Nat.card K = n := by
         calc
           Nat.card K = Nat.card (Additive F) := Nat.card_congr eAdd.symm.toEquiv
           _ = Nat.card F := rfl
           _ = n := hFcard
-      letI : IsCyclic Kˣ := inferInstance
+      let : IsCyclic Kˣ := inferInstance
       let fieldAffinePerm (b : K) (u : Kˣ) : Equiv.Perm (Option K) :=
         affinePerm ((eAdd.symm b).toMul : F) (eUnits.symm u)
       have hFieldAffinePerm (b : K) (u : Kˣ) (y : Option K) :
@@ -1861,7 +1861,7 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
         let squareSubgroup : Subgroup Kˣ :=
           (powMonoidHom 2 : Kˣ →* Kˣ).range
         have hsquareNormal : squareSubgroup.Normal := by infer_instance
-        letI : squareSubgroup.Normal := hsquareNormal
+        let : squareSubgroup.Normal := hsquareNormal
         have hUnitsEven : Even (Nat.card Kˣ) := by
           rw [Nat.card_units]
           exact Nat.Odd.sub_odd hKcardOdd odd_one
@@ -1931,8 +1931,8 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
     rcases huppert_blackburn_XI_sharpTriple_exists_rightNearField
         htwo_transitive hsharp a b hab F hFrob hFelem.toIsMulCommutative with
       ⟨K, hNF, hKfinite, eAdd, eUnits, hmul_coordinate⟩
-    letI : PFAppendixII.RightNearField K := hNF
-    letI : Finite K := hKfinite
+    let : PFAppendixII.RightNearField K := hNF
+    let : Finite K := hKfinite
     have hKcard : Nat.card K = n := by
       calc
         Nat.card K = Nat.card (Additive F) := Nat.card_congr eAdd.symm.toEquiv
@@ -2626,7 +2626,7 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
           Nonempty (G ≃* Matrix.ProjGenLinGroup (Fin 2) K) := by
       intro hcomm
       let fieldInst : Field K := rightNearFieldFieldOfComm K hcomm
-      letI : Field K := fieldInst
+      let : Field K := fieldInst
       exact (hPGLRange hcomm).map
         (fun eRange => hXI26_rangeModel.trans eRange)
     have hPGL_over_galoisField :
@@ -2638,13 +2638,13 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
             Nonempty (G ≃* Matrix.ProjGenLinGroup (Fin 2) L) := by
       intro hcomm
       let fieldInst : Field K := rightNearFieldFieldOfComm K hcomm
-      letI : Field K := fieldInst
-      letI : Fintype K := Fintype.ofFinite K
-      letI : Fact (Nat.Prime p) := ⟨hp⟩
+      let : Field K := fieldInst
+      let : Fintype K := Fintype.ofFinite K
+      let : Fact (Nat.Prime p) := ⟨hp⟩
       let L : Type w := ULift.{w} (GaloisField p f)
-      letI : Field L := inferInstance
-      letI : Finite L := inferInstance
-      letI : Fintype L := Fintype.ofFinite L
+      let : Field L := inferInstance
+      let : Finite L := inferInstance
+      let : Fintype L := Fintype.ofFinite L
       have hLcard : Nat.card L = n := by
         calc
           Nat.card L = Nat.card (GaloisField p f) :=
@@ -2666,7 +2666,7 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
       have htopCyclic : IsCyclic (⊤ : Subgroup Kˣ) := hCtop ▸ hCcyclic
       have hUnitsCyclic : IsCyclic Kˣ :=
         (Subgroup.topEquiv : (⊤ : Subgroup Kˣ) ≃* Kˣ).isCyclic.mp htopCyclic
-      letI : IsCyclic Kˣ := hUnitsCyclic
+      let : IsCyclic Kˣ := hUnitsCyclic
       have hcomm : ∀ x y : K, x * y = y * x := by
         intro x y
         by_cases hx : x = 0
@@ -2705,9 +2705,9 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
     intro hsharp hFcomm
     rcases hXI68_core hsharp hFcomm with
       ⟨K, fieldInst, hKcardF, hmodel⟩
-    letI : Field K := fieldInst
+    let : Field K := fieldInst
     have hKcard : Nat.card K = n := hKcardF.trans hFcard
-    letI : Finite K := Nat.finite_of_card_ne_zero (by
+    let : Finite K := Nat.finite_of_card_ne_zero (by
       rw [hKcard]
       exact hnpos.ne')
     have hcharNe : ringChar K ≠ 2 := by
@@ -2786,18 +2786,18 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
       ∀ q : ℕ, Nat.Prime q → q ∣ Nat.card F → Group.IsNilpotent F →
         ∃ z : F, z ≠ 1 ∧ orderOf z = q ∧ z ∈ Subgroup.center F := by
     intro q hq hqdiv hFnil'
-    letI : Fact (Nat.Prime q) := ⟨hq⟩
-    letI : Group.IsNilpotent F := hFnil'
+    let : Fact (Nat.Prime q) := ⟨hq⟩
+    let : Group.IsNilpotent F := hFnil'
     let Q : Sylow q F := default
     have hQne : (Q : Subgroup F) ≠ ⊥ :=
       Sylow.ne_bot_of_dvd_card Q hqdiv
-    letI : Nontrivial Q :=
+    let : Nontrivial Q :=
       (Subgroup.nontrivial_iff_ne_bot (Q : Subgroup F)).mpr hQne
     have hcenterP : IsPGroup q (Subgroup.center Q) :=
-      Q.isPGroup'.to_subgroup _
+      Q.isPGroup.to_subgroup _
     have hcenter_ne : (Subgroup.center Q : Subgroup Q) ≠ ⊥ :=
       (Subgroup.nontrivial_iff_ne_bot (Subgroup.center Q)).mp
-        (IsPGroup.center_nontrivial Q.isPGroup')
+        (IsPGroup.center_nontrivial Q.isPGroup)
     have hqcenter : q ∣ Nat.card (Subgroup.center Q) := by
       rcases hcenterP.card_eq_or_dvd with hcard | hdiv
       · have hone : 1 < Nat.card (Subgroup.center Q) :=
@@ -2873,7 +2873,7 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
           (fun {q} hq hqdiv =>
             hXI61_uniquePrime_core
               p hp P hPcomm hFnil' q hq hqdiv)
-    letI : Fact (Nat.Prime p) := ⟨hp⟩
+    let : Fact (Nat.Prime p) := ⟨hp⟩
     exact ⟨p, hp, IsPGroup.iff_card.mpr
       ⟨(Nat.card F).primeFactorsList.length, hcardPower⟩⟩
   have hXI61 :
@@ -2881,8 +2881,8 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
         ∃ p f : ℕ, Nat.Prime p ∧ 0 < f ∧ n = p ^ f := by
     intro hFcomm
     rcases hXI61_core hFcomm hFnil with ⟨p, hp, hFp⟩
-    letI : Fact (Nat.Prime p) := ⟨hp⟩
-    letI : Nontrivial F :=
+    let : Fact (Nat.Prime p) := ⟨hp⟩
+    let : Nontrivial F :=
       (Subgroup.nontrivial_iff_ne_bot F).mpr hFrob.kernel_ne_bot
     rcases (hFp.nontrivial_iff_card.mp inferInstance) with ⟨f, hf, hFpow⟩
     exact ⟨p, f, hp, hf, hFcard.symm.trans hFpow⟩
@@ -2918,7 +2918,7 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
     have htsq_stabilizer :
         (t : MulAction.stabilizer G a) ^ 2 = 1 := by
       simpa using congrArg Subtype.val htsq
-    letI : F.Normal := hFrob.normal
+    let : F.Normal := hFrob.normal
     let phi : MulAut F :=
       MulAut.conjNormal (H := F) (t : MulAction.stabilizer G a)
     have hphi_sq : phi ^ 2 = 1 := by
@@ -2999,7 +2999,7 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
       ∀ p f : ℕ, Nat.Prime p → 0 < f → n = p ^ f →
         ¬ IsMulCommutative F → p = 2 := by
     intro p f hp hf hn hFcomm
-    letI : Fact (Nat.Prime p) := ⟨hp⟩
+    let : Fact (Nat.Prime p) := ⟨hp⟩
     have hFp : IsPGroup p F := IsPGroup.iff_card.mpr ⟨f, hFcard.trans hn⟩
     exact hXI91_core p hp hFcomm hFp
   have hXI1115_core :
@@ -3017,7 +3017,7 @@ public theorem huppert_blackburn_XI_11_16_zassenhaus_classification
           n = (2 ^ (2 * m + 1)) ^ 2 ∧
           Nonempty (G ≃* SuzukiMatrixGroup m) := by
     intro p f hp hf hn hFcomm hp2
-    letI : Fact (Nat.Prime p) := ⟨hp⟩
+    let : Fact (Nat.Prime p) := ⟨hp⟩
     have hFp : IsPGroup p F := IsPGroup.iff_card.mpr ⟨f, hFcard.trans hn⟩
     have hF2 : IsPGroup 2 F := by simpa [hp2] using hFp
     rcases hXI1115_core hFcomm hF2 with ⟨m, hm, hmodel⟩

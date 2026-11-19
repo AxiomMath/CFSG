@@ -61,7 +61,7 @@ theorem fixes_components {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {x : Y} (htrans : ∀ C C' : ComponentIndex Y, ∃ k : ℕ, cjComp (x ^ k) C = C')
     {T : Subgroup Y} (hT2 : IsPGroup 2 T) (hxT : x ∈ normalizer (T : Set Y)) :
     ∀ t ∈ T, ∀ C : ComponentIndex Y, cjComp t C = C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := hT2.card_modEq_card_fixedPoints (ComponentIndex Y)
   rw [hcard] at hmod
   have hfp : Nonempty (MulAction.fixedPoints ↥T (ComponentIndex Y)) := by
@@ -279,7 +279,7 @@ theorem exists_elemAbelian_of_coords
     {T : Subgroup Y} (hN : ∀ C : ComponentIndex Y, π hZ C z hzL ∈ normalizer (T : Set Y)) :
     ∃ W : Subgroup Y, IsElemAbelian p W ∧ Nat.card W = p ^ Nat.card (ComponentIndex Y) ∧
       W ≤ normalizer (T : Set Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hzCp : ∀ C : ComponentIndex Y, (π hZ C z hzL) ^ p = 1 := fun C => by
     have h := π_pow (hZ := hZ) C hzL p
     rw [π_congr (hZ := hZ) C hzp (pow_mem hzL p) (one_mem _), π_one] at h

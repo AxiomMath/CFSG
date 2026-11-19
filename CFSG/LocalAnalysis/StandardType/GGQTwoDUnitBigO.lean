@@ -30,7 +30,7 @@ theorem qtwoDB43_perfect_fixes_plane {G : Type} [Group G] {N J : Subgroup G} (hJ
   have hcomm : ⁅J.subgroupOf N, J.subgroupOf N⁆ = J.subgroupOf N :=
     Subgroup.map_injective N.subtype_injective (by
       rw [Subgroup.map_commutator, hJsub, hJ])
-  haveI : Group.IsPerfect ↥(J.subgroupOf N) := Subgroup.isPerfect_iff.mpr hcomm
+  have : Group.IsPerfect ↥(J.subgroupOf N) := Subgroup.isPerfect_iff.mpr hcomm
   let ρ : ↥(J.subgroupOf N) →* (V ≃ₗ[ZMod 2] V) :=
     ((orthDerived Q).subtype.comp σ.toMonoidHom).comp (J.subgroupOf N).subtype
   have hst : ∀ g : ↥(J.subgroupOf N), ∀ w ∈ V₀, ρ g w ∈ V₀ := by
@@ -134,7 +134,7 @@ theorem qtwoDB43_case_orth_big_of (hRig : GGLabelRigidInput) (hm : 6 ≤ m) {N J
     ∃ Y : Subgroup G, J₁ ≤ Y ∧ J₂ ≤ Y ∧
       ∃ Φ : OrthTorus.OrthFrameCore 3 Bs Y, Nat.card Φ.F = 2 ∧ Φ.r = m - 1 ∧
         Subgroup.center ↥Y = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have htag : lab = ⟨.D, m, 1⟩ ∨ lab = ⟨.twD, m, 1⟩ := by
     rcases hD with ⟨-, h⟩ | ⟨-, h⟩
     · exact Or.inl h

@@ -79,7 +79,7 @@ theorem str86_critPath_odd_O2 {L1 L2 S : Subgroup G}
       (2 ^ k) ^ 2 ≤ (Vv (Z2 L1 L2 S) γ ⊓ Subgroup.centralizer (U : Set G)).relIndex
         (Vv (Z2 L1 L2 S) γ) := by
     intro γ U hγ hU hUs hUQ
-    obtain ⟨t, htU, htQ⟩ := SetLike.not_le_iff_exists.mp hUQ
+    obtain ⟨t, htU, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hUQ
     have ht2 : t * t = 1 := by
       rw [← pow_two]
       exact hU.2 t htU
@@ -108,7 +108,7 @@ theorem str86_critPath_odd_O3 {L1 L2 S : Subgroup G}
   have hc := hI.critHypN
   obtain ⟨hD41, -⟩ := str86_vertex_basics hI
   obtain ⟨hv1, -, -, hvb, hn01, -, -, -, -⟩ := hP.odd_shape hI hodd hb3
-  obtain ⟨t, ht0, htb⟩ := SetLike.not_le_iff_exists.mp hP.critical
+  obtain ⟨t, ht0, htb⟩ := IsConcreteLE.not_le_iff_exists.mp hP.critical
   have ht0' : t ∈ omegaOneCenterOf (pCoreOf 2 (stab (lam 0))) := by
     rw [← hD41 _ hP.linear]
     exact ht0
@@ -148,7 +148,7 @@ theorem str86_two_mul_le_of_critB_odd {L1 L2 S : Subgroup G}
   by_cases hVQ : Vv (Z2 L1 L2 S) (lam (str86CritB L1 L2 S)) ≤ pCoreOf 2 (stab (lam 1))
   · exact str86_critPath_odd_O3 hM6 hI hP hodd hb3 hVQ
   · obtain ⟨μ, hμ, hμQ, hμS, hdisp⟩ := str86_critPath_odd_O5 hI hP hodd hb3 hVQ
-    obtain ⟨t, htμ, htQ⟩ := SetLike.not_le_iff_exists.mp hμQ
+    obtain ⟨t, htμ, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hμQ
     have hvμ : vtype μ = false := str86_vtype_of_mem_nbrs hvb hμ
     have htP : t ∈ P1 L1 L2 S := by
       have h' := (pCoreOf_le 2 _ (hμS htμ)).1

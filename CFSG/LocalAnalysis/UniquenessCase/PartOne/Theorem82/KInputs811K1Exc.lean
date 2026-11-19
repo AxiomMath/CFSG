@@ -75,7 +75,7 @@ theorem k34odd_lie_char3_or_exceptional
       rw [hp, he] at hm
       obtain ⟨-, K, _, _, hK, ⟨f⟩⟩ := hm
       exfalso
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have h2 := pRank_le_two_statedSL_three_prime (p := 3) (by simpa using hK) f
       omega
     ·
@@ -91,7 +91,7 @@ theorem k34odd_lie_char3_or_exceptional
       rw [hp, he] at hm
       obtain ⟨-, K, _, _, hK, ⟨f⟩⟩ := hm
       exfalso
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have h2 := pRank_le_two_statedSU_three_prime (p := 3) (by norm_num) (by simpa using hK) f
       omega
   ·
@@ -126,7 +126,7 @@ theorem k34odd_lie_char3_or_exceptional
         omega
     | G2 q =>
         by_cases hp : q.p = 3
-        · haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+        · have : Fact q.p.Prime := ⟨q.prime_p⟩
           have hU := CFSG.HardMathSupport.Timmesfeld.Tables.T1b.untwistedChevalleyModel_of_bridge
             CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 e
           by_cases hf : 2 ≤ q.exponent
@@ -169,7 +169,7 @@ theorem k34odd_lie_char3_or_exceptional
           norm_num at h2
     | trialityD4 q =>
         by_cases hp : q.p = 3
-        · haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+        · have : Fact q.p.Prime := ⟨q.prime_p⟩
           exfalso
           have hT := CFSG.HardMathSupport.Timmesfeld.Tables.Census.twistedChevalleyModel_of_bridge
             CFSG.TauCetiBridge.Even.chevalleyBridgesAll.trialityD4 e

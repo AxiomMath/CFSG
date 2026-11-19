@@ -20,14 +20,14 @@ theorem strictF_eq {α : Sort*} (y : ℕ) (k : ℕ → α) : strictF y k = k y :
 theorem beq_false' {m n : ℕ} (h : m ≠ n) : Nat.beq m n = false :=
   Bool.eq_false_iff.2 fun e => h (Nat.eq_of_beq_eq_true e)
 
-@[expose] def opG {G : Type*} [Group G] (R : ℕ → G) : Op → ℕ → G
+def opG {G : Type*} [Group G] (R : ℕ → G) : Op → ℕ → G
   | .mul i j k => Function.update R k (R i * R j)
   | .pow e i k => Function.update R k (R i ^ e)
 
-@[expose] def initG {G : Type*} [Group G] (g h : G) : ℕ → G := fun r =>
+def initG {G : Type*} [Group G] (g h : G) : ℕ → G := fun r =>
   if r = 0 then g else if r = 1 then h else 1
 
-@[expose] def slpG {G : Type*} [Group G] (g h : G) (prog : List Op) : ℕ → G :=
+def slpG {G : Type*} [Group G] (g h : G) (prog : List Op) : ℕ → G :=
   prog.foldl opG (initG g h)
 
 variable {c rm tm0 tm1 tm2 tm3 tm4 tm5 tm6 tm7 up dg ONE : ℕ}

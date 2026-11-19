@@ -284,7 +284,7 @@ private theorem ncard_kernelRoots_triChar
   rw [← Set.ncard_coe_finset]
   congr 1
   ext α
-  simp only [Finset.coe_filter, Set.mem_setOf_eq, mem_rootFinset]
+  simp only [Finset.coe_filter, Set.mem_ofPred_eq, mem_rootFinset]
   exact mem_kernelRoots_triChar
 
 private theorem exists_conj_xt
@@ -319,7 +319,7 @@ private theorem exists_conj_xt
   have hker : kernelRoots (triChar b) = kernelRoots (rootCharHom a) := by
     rw [kernelRoots_rootCharHom]
     ext α
-    rw [mem_kernelRoots_triChar, Set.mem_setOf_eq, hpair, hchar, zpow_eq_one_iff_three hω,
+    rw [mem_kernelRoots_triChar, Set.mem_ofPred_eq, hpair, hchar, zpow_eq_one_iff_three hω,
       ZMod.intCast_zmod_eq_zero_iff_dvd]
     norm_num
   obtain ⟨horbit, -⟩ := e6ThreeScCheck_spec
@@ -582,7 +582,7 @@ theorem exists_conj_thirdTorus_sup_blockGroup
   set sec : Fin 3 × Fin 3 → ↥E := fun v => if h : ∃ e, f e = v then h.choose else 1 with hsec
   have hsec_spec : ∀ e, f (sec (f e)) = f e := fun e => by
     have h : ∃ e', f e' = f e := ⟨e, rfl⟩
-    simp only [hsec, dif_pos h]
+    simp only [hsec, dite_eq_left h]
     exact h.choose_spec
   have hmem₀ : ∀ e : ↥E, (sec (f e))⁻¹ * e ∈ E₀ := by
     intro e

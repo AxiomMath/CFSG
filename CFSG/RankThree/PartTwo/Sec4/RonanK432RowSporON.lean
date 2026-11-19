@@ -22,7 +22,7 @@ theorem listRow_of_single_class_card_81 {S : Type} [Group S] [Finite S]
   have hx : orderOf (x0 : S) = 3 := orderOf_eq_prime (hexp _ hxE) hx1
   obtain ⟨y, hyE, hyn⟩ : ∃ y ∈ E, y ∉ Subgroup.zpowers (x0 : S) := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hle : E ≤ Subgroup.zpowers (x0 : S) := fun y hy => hno y hy
     have hcard' := Subgroup.card_le_of_le hle
     rw [hcard, Nat.card_zpowers, hx] at hcard'
@@ -34,7 +34,7 @@ theorem listRow_of_single_class_card_81 {S : Type} [Group S] [Finite S]
 theorem row_carrier_on :
     RowOf (NativeSporadic.Carrier .ONan) := by
   intro S _ _ _ _ ⟨e⟩
-  haveI : Finite NativeSporadic.ON := CFSG.Sporadic.finite_carrier_of_ne_M .ONan (by decide)
+  have : Finite NativeSporadic.ON := CFSG.Sporadic.finite_carrier_of_ne_M .ONan (by decide)
   obtain ⟨E, hE, hcard⟩ := CFSG.SectionRank.ON_elementary_three_rank_four
   refine GoodRow.of_mulEquiv (S := NativeSporadic.ON) e.symm ⟨?_, ?_⟩
   · exact listRow_of_single_class_card_81

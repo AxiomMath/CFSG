@@ -35,7 +35,7 @@ theorem u42Layer_entrywise_exc {τ : Tag} {t : StatedLieTag} (ht : t ≠ .PSU) {
 theorem u42Layer_entrywise_G2 {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {d : ℕ} (hd : 1 ≤ d)
     (hk : Nat.card ↥(fixSubfield σ) = 2 ^ d) :
     U42Layer (entrywiseAdjointAut Tag.G2 σ) False := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
   by_cases h3 : 3 ≤ 2 ^ d
   · have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.G2 ↥(fixSubfield σ)) .G2 2 d :=
       ⟨⟨Nat.prime_two, hd, rfl, h3⟩, untwisted_adjointGroup hk⟩
@@ -56,7 +56,7 @@ theorem u42Layer_entrywise_G2 {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {
 theorem u42Layer_entrywise_F4 {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {d : ℕ} (hd : 1 ≤ d)
     (hk : Nat.card ↥(fixSubfield σ) = 2 ^ d) :
     U42Layer (entrywiseAdjointAut Tag.F4 σ) False := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.F4 ↥(fixSubfield σ)) .F4 2 d :=
     ⟨⟨Nat.prime_two, hd, rfl⟩, untwisted_adjointGroup hk⟩
   obtain ⟨-, hsimp⟩ := CFSG.LieType.Simplicity.fam_f4_simplicity _ 2 d hM
@@ -66,7 +66,7 @@ theorem u42Layer_entrywise_F4 {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {
 theorem u42Layer_entrywise_E7 {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {d : ℕ} (hd : 1 ≤ d)
     (hk : Nat.card ↥(fixSubfield σ) = 2 ^ d) :
     U42Layer (entrywiseAdjointAut Tag.E7 σ) False := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E7 ↥(fixSubfield σ)) .E7 2 d :=
     ⟨⟨Nat.prime_two, hd, rfl⟩, untwisted_adjointGroup hk⟩
   obtain ⟨-, hsimp⟩ := CFSG.LieType.Simplicity.fam_e7_simplicity _ 2 d hM
@@ -76,7 +76,7 @@ theorem u42Layer_entrywise_E7 {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {
 theorem u42Layer_entrywise_E8 {K : Type} [Field K] [Finite K] (σ : K ≃+* K) {d : ℕ} (hd : 1 ≤ d)
     (hk : Nat.card ↥(fixSubfield σ) = 2 ^ d) :
     U42Layer (entrywiseAdjointAut Tag.E8 σ) False := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E8 ↥(fixSubfield σ)) .E8 2 d :=
     ⟨⟨Nat.prime_two, hd, rfl⟩, untwisted_adjointGroup hk⟩
   obtain ⟨-, hsimp⟩ := CFSG.LieType.Simplicity.fam_e8_simplicity _ 2 d hM
@@ -137,7 +137,7 @@ theorem u42Out_f4 : U42OuterAt FamF4 := by
   cases d with
   | F4 q =>
     exfalso
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hf : 1 ≤ q.exponent := q.exponent_pos
     have hU : UntwistedChevalleyModel S .F4 (q.p ^ q.exponent) :=
       (u42Exc_chevalleyExceptionalModel (blueprintLieModel_F4 q hv e)
@@ -155,7 +155,7 @@ theorem u42Out_e7 : U42OuterAt FamE7 := by
   cases d with
   | E7 q =>
     exfalso
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hf : 1 ≤ q.exponent := q.exponent_pos
     have hU : UntwistedChevalleyModel S .E7 (q.p ^ q.exponent) :=
       (u42Exc_chevalleyExceptionalModel (blueprintLieModel_E7 q hv e)
@@ -177,7 +177,7 @@ theorem u42Out_e8 : U42OuterAt FamE8 := by
   cases d with
   | E8 q =>
     exfalso
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hf : 1 ≤ q.exponent := q.exponent_pos
     have hU : UntwistedChevalleyModel S .E8 (q.p ^ q.exponent) :=
       (u42Exc_chevalleyExceptionalModel (blueprintLieModel_E8 q hv e)

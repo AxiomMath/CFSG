@@ -21,7 +21,7 @@ local notation "ρ" => simpleRootSL2 Tag.D4 K
 theorem rho_mem_normalizer_iff_k (hK2 : ringChar K ≠ 2) (k : Fin Tag.D4.rank) (X : SL2 K) :
     ρ k X ∈ Subgroup.normalizer (Uk K k : Set (ModGL Tag.D4 K)) ↔
       (X : Matrix (Fin 2) (Fin 2) K) 1 0 = 0 := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   constructor
   · intro h
     have h1 : ρ k X * xUnit Tag.D4 K k 1 * (ρ k X)⁻¹ ∈ Uk K k :=
@@ -47,7 +47,7 @@ theorem normalizes_X10_k (hK2 : ringChar K ≠ 2) (b : Fin Tag.D4.rank → Kˣ) 
     (ρ k e)⁻¹ * (rootDiagUnit Tag.D4 b * (ρ k A * R)) * ρ k e ∈
         Subgroup.normalizer (Uk K k : Set (ModGL Tag.D4 K)) ↔
       ((dconj ((b k)⁻¹) e⁻¹ * A * e : SL2 K) : Matrix (Fin 2) (Fin 2) K) 1 0 = 0 := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   set h : ModGL Tag.D4 K := rootDiagUnit Tag.D4 b with hh
   have hn : (ρ k e)⁻¹ * (h * (ρ k A * R)) * ρ k e =
       h * ρ k (dconj ((b k)⁻¹) e⁻¹ * A * e) * R := by
@@ -84,7 +84,7 @@ theorem normalizes_X10_k (hK2 : ringChar K ≠ 2) (b : Fin Tag.D4.rank → Kˣ) 
   · intro hX
     exact mul_mem (mul_mem hT ((rho_mem_normalizer_iff_k hK2 k _).2 hX)) hRN
 
-theorem eq_one_or_neg_of_central (hK2 : ringChar K ≠ 2) (Y : SL2 K)
+theorem eq_one_or_neg_of_central (_hK2 : ringChar K ≠ 2) (Y : SL2 K)
     (hY : ∀ Z : SL2 K, Y * Z = Z * Y) : Y = 1 ∨ Y = HSL (-1) := by
   have hu := congrArg (fun Z : SL2 K => (Z : Matrix (Fin 2) (Fin 2) K)) (hY (uSL 1))
   have hv := congrArg (fun Z : SL2 K => (Z : Matrix (Fin 2) (Fin 2) K)) (hY (vSL 1))
@@ -93,7 +93,7 @@ theorem eq_one_or_neg_of_central (hK2 : ringChar K ≠ 2) (Y : SL2 K)
   have hv00 := congrFun (congrFun hv 0) 0
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_uSL, coe_vSL, Matrix.mul_apply, Fin.sum_univ_two,
     Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
-    Matrix.cons_val_fin_one, Matrix.head_cons] at hu00 hu01 hv00
+    Matrix.cons_val_fin_one] at hu00 hu01 hv00
   have h10 : (Y : Matrix (Fin 2) (Fin 2) K) 1 0 = 0 := by linear_combination -hu00
   have h01 : (Y : Matrix (Fin 2) (Fin 2) K) 0 1 = 0 := by linear_combination hv00
   have h11 : (Y : Matrix (Fin 2) (Fin 2) K) 1 1 = (Y : Matrix (Fin 2) (Fin 2) K) 0 0 := by
@@ -161,7 +161,7 @@ theorem prod_mul (b b' : Fin Tag.D4.rank → Kˣ) (A₀ A₁ A₃ A₀' A₁' A�
 
 theorem HSL_negOne_sq : HSL (-1 : Kˣ) * HSL (-1) = (1 : SL2 K) := by
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [Matrix.SpecialLinearGroup.coe_mul, coe_HSL, Matrix.mul_apply, Fin.sum_univ_two]
+    simp [coe_HSL]
 
 theorem rho_negOne_eq {k : Fin Tag.D4.rank} (hk : k ∈ ({0, 1, 3} : Set (Fin Tag.D4.rank))) :
     ρ k (HSL (-1)) = ρ 0 (HSL (-1)) := by

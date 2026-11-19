@@ -81,7 +81,7 @@ theorem tableIII_barOf_eq_one_4A (hI : TwoHSInterface) [Finite G] {a z a' c : G}
     intro x hx
     rcases (tableIII_mem_zpowers_iff h).mp hx with hx1 | hxz
     · rw [hx1]
-      simpa using Subgroup.one_mem (Subgroup.zpowers z)
+      simp
     · rw [hxz, hcz]
       exact Subgroup.mem_zpowers z
   have hmem_cw : ∀ k : ↥K, ⁅c * k.1, (t : G)⁆ ∈ Subgroup.zpowers z := by

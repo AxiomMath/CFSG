@@ -68,7 +68,7 @@ include hp
 
 theorem cent_rho_decomp {n : G} (hnM : n ∈ ctxM t tau x₁ x₂) (hnρ : n * rho = rho * n) :
     ∃ e : G, (e = 1 ∨ e = rho ∨ e = rho⁻¹) ∧ ∃ n' ∈ closure ({t, tau} : Set G), n = e * n' := by
-  have hyV : x₁ ^ 2 ∈ fourGrp x₁ x₂ := hp.y_mem_V
+  have hyV : x₁ ^ 2 ∈ fourGrp x₁ x₂ := CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Q.y_mem_V
   have hconj : n * x₁ ^ 2 * n⁻¹ ∈ fourGrp x₁ x₂ := hp.normal_V.2 n hnM _ hyV
   have hne : n * x₁ ^ 2 * n⁻¹ ≠ 1 := by
     intro h

@@ -14,6 +14,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G] {V H E J : Subgroup G}
 
+omit [Finite G] in
 theorem mem_centralizer_of_conj_eq_conj_of_coprime {M : Subgroup G} {z j : G}
     (hj : j ∈ Subgroup.normalizer (M : Set G))
     (hzj : ∀ m ∈ M, z * m * z⁻¹ = j * m * j⁻¹) (hcop : Nat.Coprime (orderOf z) (orderOf j)) :
@@ -193,8 +194,8 @@ theorem SevenNineCompl.exists_conj (h : Hyp73 V H E J) {X : Type} [Group X]
             rw [hconjC]; rfl
         _ ≤ (barPre (kSub V H E) φ Yb ⊓ J) ⊔ conjSubgroup P (h₀ : G) :=
             le_of_eq (sup_comm _ _).symm
-  haveI : Fact p.Prime := Fact.mk hc.prime
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Fact p.Prime := Fact.mk hc.prime
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have hJ2 : IsPGroup 2 J := (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H).to_le h.pcore_le
   have hYb_pgroup : IsPGroup p Yb := fun y => ⟨1, by
     have hy : (y : X) ^ p = 1 := hc.elemAbelian.2 y y.2

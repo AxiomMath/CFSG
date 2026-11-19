@@ -26,7 +26,7 @@ theorem pCore_two_specialLinearGroup_eq_bot {n : ℕ} (hn : 1 ≤ n) (hk : Nat.c
   have hTS : pCore 2 (SpecialLinearGroup (Fin 2) k) ≤ (S : Subgroup _) := by
     have hsup : IsPGroup 2 ((S : Subgroup (SpecialLinearGroup (Fin 2) k)) ⊔
         pCore 2 (SpecialLinearGroup (Fin 2) k) : Subgroup _) :=
-      IsPGroup.to_sup_of_normal_right S.isPGroup' pCore_isPGroup
+      IsPGroup.to_sup_of_normal_right S.isPGroup pCore_isPGroup
     exact sup_eq_left.mp (S.maximal_isPGroup.eq_of_le hsup le_sup_left).symm
   obtain ⟨m, hm⟩ := exists_ne_point ℓ
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (SpecialLinearGroup (Fin 2) k) ℓ m

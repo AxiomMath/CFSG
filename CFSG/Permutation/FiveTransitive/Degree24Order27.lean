@@ -129,7 +129,7 @@ private theorem five_point_stabilizer_fixed_points_card_eq_six_of_card_eq_twenty
       have hb := hx b
       simpa [Subgroup.smul_def,
         Equiv.Perm.smul_def] using ha.trans hb.symm
-    letI : Subsingleton H := hHsubsingleton
+    let : Subsingleton H := hHsubsingleton
     have hHone : Nat.card H = 1 :=
       Nat.card_eq_one_iff_unique.mpr
         ⟨inferInstance, inferInstance⟩
@@ -166,7 +166,7 @@ theorem five_point_stabilizer_card_ne_twenty_seven
     (s : Set X) (hs : s.ncard = 5) :
     Nat.card (fixingSubgroup P s) ≠ 27 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   intro hHcard
   have hFcard :
@@ -174,7 +174,7 @@ theorem five_point_stabilizer_card_ne_twenty_seven
     exact
       five_point_stabilizer_fixed_points_card_eq_six_of_card_eq_twenty_seven
         X P hcard h5 s hs hHcard
-  letI : Fintype s := Fintype.ofFinite s
+  let : Fintype s := Fintype.ofFinite s
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, hs]
@@ -355,8 +355,8 @@ theorem five_point_stabilizer_card_ne_twenty_seven
         exact
           (Equiv.Perm.mem_support_iff_of_commute
             (hrCentralPerm h) x.1).mpr x.2⟩ }
-  letI : SMul H S := supportSmul
-  letI : MulAction H S :=
+  let : SMul H S := supportSmul
+  let : MulAction H S :=
     Subtype.coe_injective.mulAction
       Subtype.val (fun _ _ => rfl)
   let fixedSupportEquiv :

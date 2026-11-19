@@ -52,7 +52,7 @@ theorem support_primeTIres_subset (h : IsPrimeCyclicTIHyp K W₁ W₂)
     {A : Set L}
     (hA : ∀ y ∈ H, y ≠ 1 → ((K ⊓ Subgroup.centralizer {y} : Subgroup L) : Set L) \ {1} ⊆ A)
     {j : Irr ↥W₂} (hj : j ≠ principalIrr ↥W₂) :
-    Function.support (h.primeTIres σ j) ⊆ K.subtype ⁻¹' (A ∪ {1}) := fun g hg =>
+    Function.support (h.primeTIres σ j) ⊆ K.subtype ⁻¹' (A ∪ {1}) := fun _g hg =>
   not_imp_comm.1 (h.primeTIres_eq_zero hσ hWH hA hj) hg
 
 theorem primeTIrow_eq_zero [Fintype ↑(Irr ↥W₁)] (h : IsPrimeCyclicTIHyp K W₁ W₂)
@@ -65,7 +65,7 @@ theorem primeTIrow_eq_zero [Fintype ↑(Irr ↥W₁)] (h : IsPrimeCyclicTIHyp K 
   rw [← h.indClassFun_primeTIres hσ, indClassFun_apply]
   refine mul_eq_zero_of_right _ (Finset.sum_eq_zero fun t _ => ?_)
   by_cases hm : t⁻¹ * g * t ∈ K
-  · rw [dif_pos hm]
+  · rw [dite_eq_left hm]
     refine h.primeTIres_eq_zero hσ hWH hA hj (fun hcon => hg ?_)
     rcases hcon with hcon | hcon
     · have h2 := mem_of_conj_image_eq_self hAconj t⁻¹ hcon
@@ -75,14 +75,14 @@ theorem primeTIrow_eq_zero [Fintype ↑(Irr ↥W₁)] (h : IsPrimeCyclicTIHyp K 
       refine Or.inr ?_
       calc g = t * (t⁻¹ * g * t) * t⁻¹ := by group
         _ = 1 := by rw [h1]; group
-  · rw [dif_neg hm]
+  · rw [dite_eq_right hm]
 
 theorem support_primeTIrow_subset [Fintype ↑(Irr ↥W₁)] (h : IsPrimeCyclicTIHyp K W₁ W₂)
     (hσ : IsCyclicTIIsometry (W₁ ⊔ W₂) W₁ W₂ σ) {H : Subgroup L} [H.Normal] (hWH : W₂ ≤ H)
     {A : Set L} (hAconj : ∀ t : L, (fun a => t⁻¹ * a * t) '' A = A)
     (hA : ∀ y ∈ H, y ≠ 1 → ((K ⊓ Subgroup.centralizer {y} : Subgroup L) : Set L) \ {1} ⊆ A)
     {j : Irr ↥W₂} (hj : j ≠ principalIrr ↥W₂) :
-    Function.support (h.primeTIrow σ j) ⊆ A ∪ {1} := fun g hg =>
+    Function.support (h.primeTIrow σ j) ⊆ A ∪ {1} := fun _g hg =>
   not_imp_comm.1 (h.primeTIrow_eq_zero hσ hWH hAconj hA hj) hg
 
 end IsPrimeCyclicTIHyp

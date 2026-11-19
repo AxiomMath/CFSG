@@ -104,8 +104,8 @@ theorem card_map_dlt [Finite V] (hV : ∀ v : V, v ^ 2 = 1) (g : MulAut V) (hg :
     apply Subtype.ext
     rw [hfn, hg]
     rfl
-  haveI : Fintype ↥I := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fintype ↥I := Fintype.ofFinite _
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hmod := Equiv.Perm.card_fixedPoints_modEq (p := 5) (n := 1) hf5
   have hone : Fintype.card ↑(Function.fixedPoints f) = 1 := by
     rw [Fintype.card_eq_one_iff]
@@ -247,7 +247,7 @@ theorem core [Finite V] (hV : ∀ v : V, v ^ 2 = 1) (e₁ e₂ : MulAut V) (hc :
       exact Prod.ext (Fin.ext h1') (Fin.ext h2')
     · exact absurd (key _ _ hdiv _ (hIs a b x hxI) hfixy) hy1
   have := Nat.card_le_card_of_injective F hF
-  simp only [Nat.card_prod, Nat.card_eq_fintype_card, Fintype.card_prod, Fintype.card_fin] at this
+  simp only [Nat.card_eq_fintype_card, Fintype.card_prod, Fintype.card_fin] at this
   omega
 
 end Basic
@@ -268,7 +268,7 @@ theorem normal_top_or_central {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisimpl
       rw [h, Subgroup.comap_top, QuotientGroup.ker_mk'] at this
       exact this.symm
     have hcomm : commutator Q ≤ N := by
-      haveI : IsMulCommutative (Subgroup.center Q) := inferInstance
+      have : IsMulCommutative (Subgroup.center Q) := inferInstance
       exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
     exact eq_top_iff.mpr (hp ▸ hcomm)
 
@@ -311,7 +311,7 @@ theorem faithful [Finite V] (L : Subgroup (MulAut V)) (hL : IsTripleCoverA6 ↥L
     (hWL : ∀ x ∈ L, ∀ w ∈ W, x w ∈ W) (z : MulAut V) (hzL : z ∈ L)
     (hzc : ∀ y ∈ L, y * z = z * y) (hzW : ∃ w ∈ W, z w ≠ w) :
     ∀ x ∈ L, (∀ w ∈ W, x w = w) → x = 1 := by
-  haveI := finite_mulAut V
+  have := finite_mulAut V
   intro x hxL hx
   have hnorm := actKer_normal L W hWL
   have hz : (⟨z, hzL⟩ : ↥L) ∉ actKer L W := by
@@ -341,8 +341,8 @@ theorem faithful [Finite V] (L : Subgroup (MulAut V)) (hL : IsTripleCoverA6 ↥L
 
 theorem exists_order_five [Finite V] {L : Subgroup (MulAut V)} (hL : IsTripleCoverA6 ↥L) :
     ∃ u : ↥L, orderOf u = 5 := by
-  haveI := finite_mulAut V
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have := finite_mulAut V
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨e⟩ := hL.2.2
   have h360 : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
@@ -389,7 +389,7 @@ theorem main_false [Finite V] (hV : ∀ v : V, v ^ 2 = 1) (L₁ L₂ : Subgroup 
     (h₁ : IsTripleCoverA6 ↥L₁) (h₂ : IsTripleCoverA6 ↥L₂)
     (hcom : ∀ a ∈ L₁, ∀ b ∈ L₂, a * b = b * a) (hne : L₁ ⊓ L₂ ≠ ⊥)
     (hcard : Nat.card (commOn V (L₁ ⊓ L₂)) ≤ 2 ^ 6) : False := by
-  haveI := finite_mulAut V
+  have := finite_mulAut V
   obtain ⟨⟨z, hzmem⟩, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
   have hz1' : z ≠ 1 := fun h => hz1 (Subtype.ext h)
   have hzL₁ : z ∈ L₁ := hzmem.1
@@ -441,7 +441,7 @@ end KA6Z3Proof
 
 theorem KA6Z3_holds : KA6Z3 := by
   intro V _ _ hcomm hexp L₁ L₂ h₁ h₂ hcom hne hcard
-  letI : CommGroup V := { ‹Group V› with mul_comm := hcomm }
+  let : CommGroup V := { ‹Group V› with mul_comm := hcomm }
   exact KA6Z3Proof.main_false hexp L₁ L₂ h₁ h₂ hcom hne hcard
 
 end CFSG.LocalAnalysis.RankThreeUC.S15

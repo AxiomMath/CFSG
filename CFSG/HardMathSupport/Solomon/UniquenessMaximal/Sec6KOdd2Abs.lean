@@ -59,7 +59,7 @@ theorem Sec8.of_two {G : Type} [Group G]
     obtain ⟨y, hy, rfl⟩ := hx
     exact ⟨⟨y, hy⟩, rfl⟩
   exact h P.toSubgroup E (ι.comp P.toSubgroup.subtype) (f.comp P.toSubgroup.subtype)
-    P.isPGroup' (hι.comp P.toSubgroup.subtype_injective) hsurj hE
+    P.isPGroup (hι.comp P.toSubgroup.subtype_injective) hsurj hE
 
 theorem exists_index_stabilizer_le_two {T X : Type} [Group T] [Finite T] [MulAction T X]
     [Finite X] (hT : IsPGroup 2 T) (hX : Nat.card X % 4 = 2) :

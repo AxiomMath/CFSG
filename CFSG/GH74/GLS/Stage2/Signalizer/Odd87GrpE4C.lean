@@ -16,6 +16,7 @@ section
 variable {G : Type} [Group G] {z : G} {k : Kind}
 variable {A : Type} [Group A] [Finite A] {a : A} {p : ℕ} {X J : Subgroup A}
 
+omit [Finite A] in
 theorem C43c_of_eq {K : Subgroup A} (hK : ncl X = K) (n : ℕ) (hn : 1 ≤ n)
     (h1 : LieModel (↥K ⧸ center ↥K) .PSL 3 p n) (h2 : X ⊔ zpowers a ≤ K)
     (h3 : IsMaxParabolicP p K (X ⊔ K ⊓ centralizer ({a} : Set A)))

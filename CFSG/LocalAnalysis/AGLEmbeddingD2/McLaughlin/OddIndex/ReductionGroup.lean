@@ -50,7 +50,7 @@ theorem exists_conj_mem_of_card_eq
   have hWc : Nat.card ((B.subgroupOf H).map (MulAut.conj g).toMonoidHom) = p := by
     rw [Subgroup.card_map_of_injective (MulAut.conj g).injective, hB']
   have hP₂cyc : IsCyclic ↥(P₂ : Subgroup H) := by
-    have hSp : IsPGroup p ((P₂ : Subgroup H).map H.subtype) := P₂.isPGroup'.map H.subtype
+    have hSp : IsPGroup p ((P₂ : Subgroup H).map H.subtype) := P₂.isPGroup.map H.subtype
     have hc : IsCyclic ((P₂ : Subgroup H).map H.subtype) := hcyc _ hSp
     have e : (P₂ : Subgroup H) ≃* ((P₂ : Subgroup H).map H.subtype) :=
       Subgroup.equivMapOfInjective (P₂ : Subgroup H) H.subtype H.subtype_injective

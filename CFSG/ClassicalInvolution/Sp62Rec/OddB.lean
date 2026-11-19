@@ -38,7 +38,7 @@ theorem exists_conj_eq_pi12_or_pi3_B {G : Type} [Group G] [Finite G] {z e : G} {
     (hα : Hhat ≤ Subgroup.centralizer ({alpha} : Set (StatedSp 3 (ZMod 2)))) :
     ∃ c ∈ Hhat, c * ((φ ⟨z, hzB⟩ : ↥Hhat) : StatedSp 3 (ZMod 2)) * c⁻¹ = pi12 ∨
       c * ((φ ⟨z, hzB⟩ : ↥Hhat) : StatedSp 3 (ZMod 2)) * c⁻¹ = pi3 := by
-  haveI : Finite ↥Hhat := Nat.finite_of_card_ne_zero (by rw [hH]; norm_num)
+  have : Finite ↥Hhat := Nat.finite_of_card_ne_zero (by rw [hH]; norm_num)
   let P : Sylow 2 ↥Hhat := TB.mapSurjective hφ
   have hzTB : (⟨z, hzB⟩ : ↥B) ∈ (TB : Subgroup ↥B) := hzT
   have hwP : φ ⟨z, hzB⟩ ∈ (P : Subgroup ↥Hhat) := by
@@ -223,7 +223,7 @@ theorem I1Six.oddCoreIn_centralizer_eq_bot (P : I1Six z e E B)
   have hA2 : CFSG.Open.IsElemAbelian 2 (D₀.map B.subtype) :=
     ⟨hAab, fun x hx => by rw [pow_two]; exact hsqA x hx⟩
   have hrank : 2 ^ 2 ≤ Nat.card (D₀.map B.subtype) := by
-    rw [hcardA] <;> norm_num
+    rw [hcardA]; norm_num
   have hABe : D₀.map B.subtype ≤ Subgroup.centralizer ({e} : Set G) := by
     intro a ha
     obtain ⟨d, -, rfl⟩ := Subgroup.mem_map.1 ha

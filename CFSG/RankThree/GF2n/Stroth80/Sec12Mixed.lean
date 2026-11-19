@@ -27,6 +27,7 @@ variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel 
     show a.symm y = y
     exact (LinearEquiv.symm_apply_eq a).mpr (ha y hy).symm
 
+omit [Finite G] [Finite K] in
 theorem mem_fixingSub {R : Submodule K M₀.E} {T : M₀.E ≃ₗ[K] M₀.E} :
     T ∈ fixingSub M₀ R ↔ ∀ y ∈ R, T y = y := Iff.rfl
 
@@ -38,7 +39,7 @@ theorem Ctx.false_of_mixed [CharP K 2] (hc : Ctx M Q Z B) (h : GlobalModelData M
     {X : Subgroup G} (hX : Ctx M Q Z X) {x : G} (hxX : x ∈ X) (hxW : M₀.π x ∉ hc.Wn h) :
     False := by
   classical
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hn : 2 < 3 := by norm_num
   have hd := hc.finrank_Wp_eq_two h hng hS

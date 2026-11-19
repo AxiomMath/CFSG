@@ -22,7 +22,7 @@ theorem isolation {G : Type} [Group G] [Finite G] (hs : IsSimpleGroup G)
     exact hne (hfix n hn _ hmem hcent rfl)
   · push Not at hP
     obtain ⟨S, hS⟩ := hS₁2.exists_le_sylow
-    have hSeq : (S : Subgroup G) = S₁ := hP _ S.isPGroup' hS
+    have hSeq : (S : Subgroup G) = S₁ := hP _ S.isPGroup hS
     have htS' : t ∈ (S : Subgroup G) := hSeq ▸ htS
     have htc : ∀ s ∈ (S : Subgroup G), s * t = t * s := fun s hs' => by
       rw [hSeq] at hs'

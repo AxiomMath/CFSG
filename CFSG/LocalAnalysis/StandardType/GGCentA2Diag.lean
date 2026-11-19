@@ -137,9 +137,9 @@ theorem ntpA2_diag
     kernel_classes_of_ncard_eighteen h3L hap hker
   have hI : Nat.card (KernelComponent (rootCharHom a)) = 3 :=
     (Nat.card_congr (Equiv.ofBijective c hc).symm).trans (Nat.card_fin 3)
-  haveI hFin : Finite (KernelComponent (rootCharHom a)) :=
+  have hFin : Finite (KernelComponent (rootCharHom a)) :=
     Nat.finite_of_card_ne_zero (by rw [hI]; norm_num)
-  letI : Fintype (KernelComponent (rootCharHom a)) := Fintype.ofFinite _
+  let : Fintype (KernelComponent (rootCharHom a)) := Fintype.ofFinite _
   have hcardF : Fintype.card (KernelComponent (rootCharHom a)) = 3 := by
     rwa [← Nat.card_eq_fintype_card]
   obtain ⟨e, he⟩ := exists_equiv_finRotate hcardF σ hσ1 hσ3

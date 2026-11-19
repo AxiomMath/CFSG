@@ -121,7 +121,7 @@ theorem w4Thm14_1_three (hK141 : K141MultSpace) (hKGL : KGL42Seven)
     refine le_iSup₂_of_le (1 : MulAut W) (Y.one_mem) ?_
     have hcone : (MulAut.conj (1 : MulAut W)).toMonoidHom = MonoidHom.id (MulAut W) := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [hcone, Subgroup.map_id]
   have hfixL : fixV L = ⊥ := hHL ▸ hfix
   have hIrr : IrrSpanTrans Y L := by
@@ -132,9 +132,9 @@ theorem w4Thm14_1_three (hK141 : K141MultSpace) (hKGL : KGL42Seven)
   ·
     subst hMbot
     have hAltBot : IsSubgroupOfAlt ↥(⊥ : Subgroup (MulAut W)) 8 := by
-      haveI : Unique ↥(⊥ : Subgroup (MulAut W)) :=
+      have : Unique ↥(⊥ : Subgroup (MulAut W)) :=
         ⟨⟨1⟩, fun a => Subtype.ext (Subgroup.mem_bot.mp a.2)⟩
-      haveI : Unique ↥(⊥ : Subgroup (alternatingGroup (Fin 8))) :=
+      have : Unique ↥(⊥ : Subgroup (alternatingGroup (Fin 8))) :=
         ⟨⟨1⟩, fun a => Subtype.ext (Subgroup.mem_bot.mp a.2)⟩
       exact ⟨⊥, ⟨MulEquiv.ofUnique⟩⟩
     refine ⟨hAltBot, ?_, ?_⟩

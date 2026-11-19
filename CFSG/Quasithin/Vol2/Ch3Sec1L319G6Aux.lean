@@ -125,7 +125,7 @@ theorem isSolvable_of_chief_G6 (hmp : MinParabolic H T M₂) (hUT : U ≤ T)
     have h2 : chiefHom hHL hHN (x : ↥H) = 1 := Subtype.ext h1
     have h3 := (chiefHom_eq_one_iff hHL hHN hNL (x : ↥H)).1 h2
     exact centralizerMod_le_kerIn hmp hUT hstep hnc h3
-  haveI : Group.IsSolvable ↥(kerIn M₂ H) := isSolvable_kerIn_G6 hmp
+  have : Group.IsSolvable ↥(kerIn M₂ H) := isSolvable_kerIn_G6 hmp
   let g₀ : ↥ψS.ker →* G := H.subtype.comp (S₀.subtype.comp ψS.ker.subtype)
   let g : ↥ψS.ker →* ↥(kerIn M₂ H) := g₀.codRestrict (kerIn M₂ H) (fun k => hker k.1 k.2)
   have hginj : Function.Injective g := by
@@ -135,8 +135,8 @@ theorem isSolvable_of_chief_G6 (hmp : MinParabolic H T M₂) (hUT : U ≤ T)
       have := congrArg (fun y : ↥(kerIn M₂ H) => (y : G)) hab
       exact this
     exact Subtype.ext (Subtype.ext h1)
-  haveI : Group.IsSolvable ↥ψS.ker := Group.isSolvable_of_isSolvable_injective hginj
-  haveI : Group.IsSolvable ↥S₀ :=
+  have : Group.IsSolvable ↥ψS.ker := Group.isSolvable_of_isSolvable_injective hginj
+  have : Group.IsSolvable ↥S₀ :=
     Group.isSolvable_of_ker_le_range ψS.ker.subtype ψS (by simp)
   exact Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hM₂H).toMonoidHom)
     (Subgroup.subgroupOfEquivOfLe hM₂H).surjective
@@ -148,6 +148,7 @@ section Torus
 variable {V : Type} [CommGroup V] [Finite V] {X T M : Subgroup (MulAut V)}
   {𝓗 : Finset (Subgroup (MulAut V))}
 
+omit [Finite V] in
 theorem BlkCtx.eq_one_of_fixed_conj (h : BlkCtx X T M 𝓗) {H₀ : Subgroup (MulAut V)} (hH₀ : H₀ ∈ 𝓗)
     {d₀ : MulAut V} (hd₀ : TorusProp T H₀ d₀) {v : V} (hvT : ∀ t ∈ T, t v = v) (hvd : d₀ v = v) :
     v = 1 := by

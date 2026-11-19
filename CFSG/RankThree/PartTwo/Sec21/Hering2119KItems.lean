@@ -93,11 +93,11 @@ theorem IsItem.omega_fix {a : V4} {X T : M4} (hI : IsItem a X T) {v w : V4}
 
 theorem umat_neg_mul (s0 s1 s2 : F3) : umat (-s0) (-s1) (-s2) * umat s0 s1 s2 = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [umat, Matrix.mul_apply, Fin.sum_univ_four] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [umat, Matrix.mul_apply, Fin.sum_univ_four]
 
 theorem umat_mul_neg (s0 s1 s2 : F3) : umat s0 s1 s2 * umat (-s0) (-s1) (-s2) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [umat, Matrix.mul_apply, Fin.sum_univ_four] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [umat, Matrix.mul_apply, Fin.sum_univ_four]
 
 theorem umat_normEl (s0 s1 s2 : F3) : NormEl (umat (-s0) (-s1) (-s2)) (umat s0 s1 s2) :=
   ⟨umat_neg_mul s0 s1 s2, umat_mul_neg s0 s1 s2, umat_symp _ _ _, umat_fixA _ _ _⟩
@@ -130,7 +130,7 @@ theorem blk_of_cols {Y : M4} {μ : F3} (hμ : μ * μ = 1)
   rw [o12] at k12
   rw [o13] at k13
   rw [o01] at k01
-  simp only [omega4, ev, y02, y12, y22, y32, y03, y13, y23, y33] at k02 k03 k12 k13 k01
+  simp only [omega4, y02, y12, y22, y32, y03, y13, y23, y33] at k02 k03 k12 k13 k01
   have y00 : Y 0 0 = 1 := by linear_combination μ * k02 - (Y 0 0 - 1) * hμ
   have y10 : Y 1 0 = 0 := by linear_combination μ * k03 - Y 1 0 * hμ
   have y01 : Y 0 1 = 0 := by linear_combination μ * k12 - Y 0 1 * hμ
@@ -163,7 +163,7 @@ theorem item_normal {a : V4} (ha : inA a) {X T : M4} (hI : IsItem a X T) :
       c0 * c2 - c1 * c1 ≠ 0 ∧ d0 * a 0 + d1 * a 1 = 0 ∧ d1 * a 0 + d2 * a 1 = 0 := by
   obtain ⟨n, hn, hn2, hn3⟩ := exists_fix hI.cube hI.noFix ![1, 0]
   obtain ⟨m, hm, hm2, hm3⟩ := exists_fix hI.cube hI.noFix ![0, 1]
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons] at hn2 hn3 hm2 hm3
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at hn2 hn3 hm2 hm3
   have hiso := hI.omega_fix hn hm
   simp only [omega4, hn2, hn3, hm2, hm3] at hiso
   have hs1 : m 0 = n 1 := by linear_combination -hiso

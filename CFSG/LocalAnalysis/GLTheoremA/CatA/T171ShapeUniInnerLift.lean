@@ -20,16 +20,16 @@ theorem commute_of_gu_of_not_shape (h : UnitaryFieldData 2 n K) [Finite K]
     (hB : B ∈ LargeEvenGUSet (Fin d) K (2 ^ n))
     (hDN : D ∈ Subgroup.normalizer (unitarySU 2 n K d : Set (GL (Fin d) K)))
     (hBN : B ∈ Subgroup.normalizer (unitarySU 2 n K d : Set (GL (Fin d) K)))
-    (hDp : D ^ p = 1) (hBp : B ^ p = 1)
+    (_hDp : D ^ p = 1) (hBp : B ^ p = 1)
     (hcomm : TableB.projConj (unitarySU 2 n K d) ⟨D, hDN⟩ *
         TableB.projConj (unitarySU 2 n K d) ⟨B, hBN⟩ =
       TableB.projConj (unitarySU 2 n K d) ⟨B, hBN⟩ *
         TableB.projConj (unitarySU 2 n K d) ⟨D, hDN⟩) :
     D * B = B * D := by
   classical
-  haveI := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   have hbij : Function.Bijective h.bar :=
     ⟨fun x y hxy => by
         have h1 := congrArg h.bar hxy
@@ -111,7 +111,7 @@ theorem commute_of_gu_of_not_shape (h : UnitaryFieldData 2 n K) [Finite K]
   have hcd : c ^ d = 1 := by
     have hdet : Matrix.GeneralLinearGroup.det X = 1 := by
       rw [hX, map_mul, map_mul, map_mul, map_inv, map_inv]
-      simp [mul_comm, mul_left_comm, mul_assoc]
+      simp [mul_assoc]
     have h1 : Matrix.GeneralLinearGroup.det (Matrix.GeneralLinearGroup.scalar (Fin d) c) =
         Matrix.GeneralLinearGroup.det X := by rw [hc]
     rw [hdet, Matrix.GeneralLinearGroup.det_scalar, Fintype.card_fin] at h1

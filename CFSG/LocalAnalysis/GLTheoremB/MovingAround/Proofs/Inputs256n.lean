@@ -149,7 +149,7 @@ theorem compCharElem_inner_three (hK : ringChar K = 3) {p : ℕ} (hp : p.Prime) 
     CFSG.HardMathSupport.Timmesfeld.RootAut.rootAutIsWeyl_holds hT i hkind
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hqe⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hqe, ← pow_mul]
   have hes : 0 < e * s := Nat.mul_pos he hs0
   have hperfC : Group.IsPerfect (componentRootSpan (fixSubfield σ) (rootCharHom a) i) := by
@@ -161,7 +161,7 @@ theorem compCharElem_inner_three (hK : ringChar K = 3) {p : ℕ} (hp : p.Prime) 
         (K := fixSubfield σ) (χ := rootCharHom a) ht₀ i
     · have hL3 : ringChar (AlgebraicClosure K) = 3 := by
         rw [CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ringChar_algebraicClosure, hK]
-      haveI : CharP (AlgebraicClosure K) 3 := hL3 ▸ ringChar.charP (AlgebraicClosure K)
+      have : CharP (AlgebraicClosure K) 3 := hL3 ▸ ringChar.charP (AlgebraicClosure K)
       have h2L : (2 : AlgebraicClosure K) ≠ 0 := by
         intro h
         have h' : ((2 : ℕ) : AlgebraicClosure K) = 0 := by exact_mod_cast h
@@ -207,7 +207,7 @@ theorem coprime_card_orbitCharClosure_rank_one (hK : ringChar K = ℓ) (hℓp : 
   obtain ⟨hs0, hs, -⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
   obtain ⟨r, e, hr, hchar, he, hqe⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hq2 : 2 ≤ S.D.q := by
     rw [hqe]
     exact hr.two_le.trans (Nat.le_self_pow he.ne' r)
@@ -250,7 +250,7 @@ theorem coprime_card_orbitCharClosure_rank_one (hK : ringChar K = ℓ) (hℓp : 
     show c ∈ fixSubfield σ ↔ _
     rw [mem_fixSubfield, hσ']
     rfl
-  haveI hfinK : Finite (fixSubfield σ) := by
+  have hfinK : Finite (fixSubfield σ) := by
     have h1 : (fixSubfield σ : Set (AlgebraicClosure K)).Finite := by rw [hset]; exact hfinset
     exact h1.to_subtype
   have hKcard : Nat.card (fixSubfield σ) = r ^ (e * s) := by
@@ -335,10 +335,10 @@ theorem exists_perfect_mul_coprime_three (hK : ringChar K = 3) {p : ℕ} (hp : p
   have hΓ : S.Γ ≤ adjointGroup τ (AlgebraicClosure K) :=
     (Subgroup.commutator_le_self S.D.model).trans inf_le_left
   have hΓM : S.Γ ≤ S.D.model := Subgroup.commutator_le_self S.D.model
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product τ (AlgebraicClosure K) (rootCharHom a)).2.1
-  haveI : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) := (Set.finite_range _).to_subtype
-  haveI : Fintype (Set.range (rationalRoots S.ρ (rootCharHom a))) := Fintype.ofFinite _
+  have : Finite (Set.range (rationalRoots S.ρ (rootCharHom a))) := (Set.finite_range _).to_subtype
+  have : Fintype (Set.range (rationalRoots S.ρ (rootCharHom a))) := Fintype.ofFinite _
   obtain ⟨U, hUdef⟩ : ∃ U : Subgroup (ModGL τ (AlgebraicClosure K)),
       U = rootSpan τ (AlgebraicClosure K) (kernelRoots (rootCharHom a)) := ⟨_, rfl⟩
   have hUd : U ≤ Subgroup.centralizer {rootDiagUnit τ a} := by
@@ -488,7 +488,7 @@ theorem qGenCoprime_three_of_langSetup {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     exists_perfect_mul_coprime_three S hK hp hp5 hT hap h1 hιs hιn
   have hPR := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.perfect_le_iSup_rationalComponent_of_prime
     S hp hT hap h1 hTame P hPle hPperf
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product τ (AlgebraicClosure K) (rootCharHom a)).2.1
   let R : KernelComponent (rootCharHom a) → Subgroup (ModGL τ (AlgebraicClosure K)) :=
     fun i => rationalComponent S.ρ S.Γ (rootCharHom a) i

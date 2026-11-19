@@ -56,7 +56,7 @@ private theorem l05nLO_sup_eq {G : Type} [Group G] {Bs L K : Subgroup G}
 theorem ggTWLowCfg_of_aligned (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
-    (hxL : x ∉ L) {N k : ℕ} (hk : k = 1 ∨ k = 2) (hp : 3 ≤ p) (hN : N = 5 ∨ N = 6 ∨ N = 9)
+    (hxL : x ∉ L) {N k : ℕ} (_hk : k = 1 ∨ k = 2) (hp : 3 ≤ p) (hN : N = 5 ∨ N = 6 ∨ N = 9)
     (hpN : p ∣ N) (hCard : Nat.card ↥Bs = p ^ (N - 1)) (hHL : GGTWHLAt p Bs L x)
     (hHK : GGTWHLAt p Bs K y) (hA : GGTWAligned p N k Bs L J K) :
     GGTWLowCfg p N k Bs L J K x y := by
@@ -64,9 +64,9 @@ theorem ggTWLowCfg_of_aligned (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput)
   obtain ⟨pos, Λ, hΛf, hΛd, b₁, b₂, Λa, hΛaf, hΛad, ML, CL, MK, CK, V, hVadd, hVmod,
     ι, φ, h, α, e, hb12, hcardΛa, hpos, hMLeq, hMLweyl, hCLcartan, hMKweyl, hCKcartan,
     hk2, hform, hrefl, hpairL, hpairK, hAL, hAK, hAJ⟩ := hA
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hp2 : p ≠ 2 := by omega
   have hx : x ∈ Bs := hH.1.tableB_facts.2.2.1
   have hy : y ∈ Bs := hH.1.2.1.1 hH.2.2.2.2.1.1.2.1
@@ -108,7 +108,7 @@ theorem ggTWLowCfg_of_aligned (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput)
   have hfixy : ∀ ψ ∈ ggAutomizer K Bs, ψ ⟨y, hy⟩ = ⟨y, hy⟩ :=
     ggRC_automizer_fixes_y hy hKy
   have hfinrank : Module.finrank (ZMod p) V = N - 1 := by
-    haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod p) V := Module.Finite.of_finite
     have hVcard : Nat.card V = p ^ Module.finrank (ZMod p) V := by
       have h := Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)
       rwa [Nat.card_zmod] at h

@@ -85,7 +85,7 @@ private theorem ggNSPosPC_deltaHom_surjective {n p : ℕ} [Fact p.Prime] {i j k 
         Pi.mulSingle (M := fun _ : Fin n => Multiplicative (ZMod p)) i a l)
       i (fun c _ hc => Pi.mulSingle_eq_of_ne (M := fun _ : Fin n => Multiplicative (ZMod p)) hc a)
       (fun h => False.elim (h (Finset.mem_univ _)))
-    simpa using h
+    simp
   have hB : ∏ l : Fin n,
       Pi.mulSingle (M := fun _ : Fin n => Multiplicative (ZMod p)) k (b * a⁻¹) l = b * a⁻¹ := by
     have h := Finset.prod_eq_single (s := Finset.univ)
@@ -94,7 +94,7 @@ private theorem ggNSPosPC_deltaHom_surjective {n p : ℕ} [Fact p.Prime] {i j k 
       k (fun c _ hc => Pi.mulSingle_eq_of_ne (M := fun _ : Fin n => Multiplicative (ZMod p)) hc
         (b * a⁻¹))
       (fun h => False.elim (h (Finset.mem_univ _)))
-    simpa using h
+    simp
   have hprod : ∏ l, u l = b := by
     simp only [u, Pi.mul_apply]
     rw [Finset.prod_mul_distrib, hA, hB]
@@ -176,10 +176,10 @@ private theorem ggNSPosPC_E0GL_mem {n p f : ℕ} [Fact p.Prime] [NeZero p] {K : 
     {fvec : Fin n → Multiplicative (ZMod p)} (hf : fvec ∈ ggNSPosPC_W (p := p) i j) :
     ggNSPosPC_E0GL (p := p) (n := n) (K := K) hu fvec ∈ unitarySU 2 f K n := by
   refine TableBUE.diagHom_mem_unitarySU hUF (fun k => ?_) ?_
-  · simp only [ggNSPosPC_E0GL, ggNSPosPC_powHom, MonoidHom.comp_apply, MonoidHom.pi_apply,
+  · simp only [ggNSPosPC_powHom, MonoidHom.comp_apply, MonoidHom.pi_apply,
       Pi.evalMonoidHom_apply, TableBSymp.zmodPowHom_apply]
     rw [← pow_mul, mul_comm, pow_mul, huq, one_pow]
-  · simp only [ggNSPosPC_E0GL, ggNSPosPC_powHom, MonoidHom.comp_apply, MonoidHom.pi_apply,
+  · simp only [ggNSPosPC_powHom, MonoidHom.comp_apply, MonoidHom.pi_apply,
       Pi.evalMonoidHom_apply]
     have hker := MonoidHom.mem_ker.mp hf
     have hprod : (∏ k, fvec k) = 1 := by
@@ -194,7 +194,7 @@ private theorem ggNSPosPC_E0GL_mem {n p f : ℕ} [Fact p.Prime] [NeZero p] {K : 
     ((ggNSPosPC_E0GL (p := p) (n := n) (K := K) hu).comp (ggNSPosPC_W (p := p) i j).subtype)
     (SUid (unitaryInvolution K 2 f) n)
     (fun x => by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       rw [SUid_eq_statedSU hUF.card_eq_sq n]
       exact ggNSPosPC_E0GL_mem (p := p) (f := f) hu huq hUF x.2)
 
@@ -234,7 +234,7 @@ theorem ggNSPosPC_W_apply_eq {n p : ℕ} [Fact p.Prime] {i j : Fin n}
     (h.trans (add_neg_cancel (Multiplicative.toAdd (x j))).symm)
 
 private theorem ggNSPosPC_commutator_diag_permGL {n : ℕ} {K : Type} [Field K] {i j : Fin n}
-    (hij : i ≠ j) (u : Fin n → Kˣ) :
+    (_hij : i ≠ j) (u : Fin n → Kˣ) :
     (CFSG.SectionRank.OddCover.diagHom n u) *
         (CFSG.RankThree.Classical.permGL (Equiv.swap i j) : GL (Fin n) K) *
         (CFSG.SectionRank.OddCover.diagHom n u)⁻¹ *
@@ -278,15 +278,14 @@ theorem ggNSPosPC_diagHom_commute_monoSwap {n p : ℕ} {K : Type} [Field K] {u :
     ggNSPosPC_E0GL (p := p) (n := n) (K := K) hu x *
         TableBUM.monoSwap i j 1 =
       TableBUM.monoSwap i j 1 * ggNSPosPC_E0GL (p := p) (n := n) (K := K) hu x := by
-  simp only [ggNSPosPC_E0GL, MonoidHom.comp_apply, ggNSPosPC_powHom, MonoidHom.pi_apply,
-    Pi.evalMonoidHom_apply]
+  simp only [ggNSPosPC_E0GL, MonoidHom.comp_apply, ggNSPosPC_powHom]
   exact TableBUM.commute_monoSwap (by simpa using congrArg (TableBSymp.zmodPowHom hu) hx) 1
 
 @[expose] noncomputable def ggNSPosPC_t {n f : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     (hUF : UnitaryFieldData 2 f K) (hn : 2 ≤ n) : Su K 2 f n :=
   ⟨TableBUM.monoSwap (⟨0, by omega⟩ : Fin n) (⟨1, by omega⟩ : Fin n) 1,
     by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       rw [SUid_eq_statedSU hUF.card_eq_sq n]
       exact TableBUM.monoSwap_mem hUF (by simp) (one_pow _)⟩
 
@@ -326,7 +325,7 @@ theorem ggNSPosPC_psi_t_ne_one {G : Type} [Group G] [Finite G] {p : ℕ}
       (ggNSPosPC_t (ggNSPosPC_ufd h) hn : GL (Fin n) K) * g =
         g * (ggNSPosPC_t (ggNSPosPC_ufd h) hn : GL (Fin n) K) := by
     intro g hg
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hg' : g ∈ SUid (unitaryInvolution K 2 f) n := by
       rwa [SUid_eq_statedSU (ggNSPosPC_ufd h).card_eq_sq n]
     have := hcomm ⟨g, hg'⟩
@@ -336,7 +335,7 @@ theorem ggNSPosPC_psi_t_ne_one {G : Type} [Group G] [Finite G] {p : ℕ}
 
 
 theorem ggNSPosPC_uconst_of_permutation_central {n : ℕ} {K : Type} [Field K] [Finite K]
-    [CharP K 2] {p f : ℕ} [Fact p.Prime] (hUF : UnitaryFieldData 2 f K) (hn : 3 ≤ n)
+    [CharP K 2] {p f : ℕ} [Fact p.Prime] (_hUF : UnitaryFieldData 2 f K) (hn : 3 ≤ n)
     (u : Fin n → Kˣ)
     (hcomm : ∀ i j : Fin n, i ≠ j →
       CFSG.SectionRank.OddCover.diagHom n u *

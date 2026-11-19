@@ -130,7 +130,7 @@ theorem Frame.nonempty : S_Frame_nonempty := by
     omega
   refine ⟨⟨S, hS (Subgroup.mem_sup_left (Subgroup.mem_zpowers _)), ?_⟩⟩
   have hPle : P ≤ (S : Subgroup G) ⊓ h.K := le_inf (le_sup_right.trans hS) hPK
-  have hSK2 : IsPGroup 2 ((S : Subgroup G) ⊓ h.K : Subgroup G) := S.isPGroup'.to_le inf_le_left
+  have hSK2 : IsPGroup 2 ((S : Subgroup G) ⊓ h.K : Subgroup G) := S.isPGroup.to_le inf_le_left
   have hdvd := hPmax _ inf_le_right hSK2
   have hle := Subgroup.card_le_of_le hPle
   have hpos : 0 < Nat.card ((S : Subgroup G) ⊓ h.K : Subgroup G) := Nat.card_pos
@@ -146,7 +146,7 @@ theorem T_le_K : fr.T ≤ h.K := inf_le_right
 
 theorem T_le_S : fr.T ≤ (fr.S : Subgroup G) := inf_le_left
 
-theorem isPGroup_T : IsPGroup 2 fr.T := fr.S.isPGroup'.to_le inf_le_left
+theorem isPGroup_T : IsPGroup 2 fr.T := fr.S.isPGroup.to_le inf_le_left
 
 theorem comm_of_mem_S {x y : G} (hx : x ∈ (fr.S : Subgroup G)) (hy : y ∈ (fr.S : Subgroup G)) :
     x * y = y * x :=
@@ -234,7 +234,7 @@ theorem H_inf_centralizer_T : h.H ⊓ Subgroup.centralizer (fr.T : Set G) = fr.C
 theorem isInternalDirectProduct_CS :
     JT.IsInternalDirectProduct (fr.S : Subgroup G) fr.E fr.CS ∧
       ∀ y ∈ fr.CS, Odd (orderOf y) → y ∈ fr.E := by
-  refine isInternalDirectProduct_oddPart fr.S_le_CS fr.S.isPGroup' ?_ ?_
+  refine isInternalDirectProduct_oddPart fr.S_le_CS fr.S.isPGroup ?_ ?_
   · intro h2
     exact fr.S.not_dvd_index (h2.trans (Subgroup.relIndex_dvd_index_of_le fr.S_le_CS))
   · intro s hs
@@ -398,7 +398,7 @@ theorem index_CS_and_normalizer_T :
       rw [Subgroup.mem_subgroupOf, ← fr.H_inf_centralizer_T]
       refine ⟨x.2.1, ?_⟩
       have hle := fr.le_centralizer_T_of_isPGroup (P := (P : Subgroup N).map N.subtype)
-        ((Subgroup.map_subtype_le _).trans inf_le_right) (P.isPGroup'.map _)
+        ((Subgroup.map_subtype_le _).trans inf_le_right) (P.isPGroup.map _)
       exact hle ⟨x, hx, rfl⟩
     exact P.not_dvd_index (h2.trans (Subgroup.index_dvd_of_le hPC))
   have h12 := PSL2Sub.card_inf_normalizer h.iso h.odd_p h.f_pos h.mod_eight fr.T_le_K hT

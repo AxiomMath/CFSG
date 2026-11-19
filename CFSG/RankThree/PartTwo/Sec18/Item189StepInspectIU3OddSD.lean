@@ -12,7 +12,7 @@ open Matrix CFSG.LieType.Steinberg CFSG.LocalAnalysis.ComponentInitial
 
 variable {K : Type} [Field K] {p f : ℕ}
 
-theorem eq_one_of_mem_normalizer_sd_u3odd189 (hK : UnitaryFieldData p f K) (hp2 : p ≠ 2)
+theorem eq_one_of_mem_normalizer_sd_u3odd189 (hK : UnitaryFieldData p f K) (_hp2 : p ≠ 2)
     (hq3 : p ^ f % 3 = 1) (hq4 : p ^ f % 4 = 1) {z : Kˣ}
     (hz : orderOf z = 2 * 2 ^ (p ^ f - 1).factorization 2)
     {u τ : SUgram hK.bar (!![0, 1, 0; 1, 0, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) K)}
@@ -156,7 +156,7 @@ theorem eq_one_of_mem_normalizer_sd_u3odd189 (hK : UnitaryFieldData p f K) (hp2 
       (fun h => h02 (Units.ext h)) (fun h => h12 (Units.ext h))
     intro a b hab
     apply hinj
-    fin_cases a <;> fin_cases b <;> simpa [hdz] using hab
+    fin_cases a <;> fin_cases b <;> simp [hdz] at hab ⊢ <;> exact hab
   have hYU : Y * diagonal dz = diagonal dz * Y := by
     have h1 : y * u = u * y := by
       calc y * u = y * u * y⁻¹ * y := by group

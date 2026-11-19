@@ -17,6 +17,7 @@ open CFSG.QuasithinUnique.Setup.Campbell CFSG.QuasithinUnique.Setup.SL2Modules
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem eleven_nine_mem_centralizer_conjugate_iff {L : Subgroup G} {x y : G}
     (hx : conjugate L x = L) :
     y ∈ Subgroup.centralizer (L : Set G) ↔
@@ -41,7 +42,7 @@ private theorem eleven_nine_mem_centralizer_conjugate_iff {L : Subgroup G} {x y 
     have hl' : x⁻¹ * l * x ∈ L := by
       have hmem : x⁻¹ * l * x ∈ conjugate L x := by
         show x⁻¹ * l * x ∈ (L.map (MulAut.conj x⁻¹).toMonoidHom)
-        exact Subgroup.mem_map.mpr ⟨l, hl, by simp [MulAut.conj_apply]⟩
+        exact Subgroup.mem_map.mpr ⟨l, hl, by simp⟩
       rwa [hx] at hmem
     have h := hy (x⁻¹ * l * x) hl'
     calc l * (x * y * x⁻¹) = x * ((x⁻¹ * l * x) * y) * x⁻¹ := by group
@@ -58,6 +59,7 @@ private theorem eleven_nine_mem_centralizer_conjugate_iff {L : Subgroup G} {x y 
       _ = x⁻¹ * ((x * y * x⁻¹) * (x * l * x⁻¹)) * x := by rw [h]
       _ = y * l := by group
 
+omit [Finite G] in
 private theorem eleven_nine_conjugate_eq_self_of_le_centralizer {A V : Subgroup G} {q : G}
     (hA : A ≤ V) (hq : q ∈ Subgroup.centralizer (V : Set G)) :
     conjugate A q = A := by
@@ -119,6 +121,7 @@ private theorem eleven_nine_addEquiv_of_ker_invariant
     Multiplicative.toAdd (Ψ (α a))
   rw [ofAdd_toAdd, hΦm a]
 
+omit [Finite G] in
 private theorem eleven_nine_conjugate_eq_of_mem_normalizer {L : Subgroup G} {x : G}
     (hxN : x ∈ Subgroup.normalizer (L : Set G)) : conjugate L x = L := by
   apply le_antisymm
@@ -138,6 +141,7 @@ private noncomputable def eleven_nine_conjEquiv (L : Subgroup G) (x : G)
   right_inv u := Subtype.ext (by group)
   map_mul' u v := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
 
+omit [Finite G] in
 private theorem eleven_nine_conjEquiv_ker {L : Subgroup G} {x : G}
     (hxN : x ∈ Subgroup.normalizer (L : Set G))
     {n : ℕ} {ψ : ↥(blockU L) →* Multiplicative (Fin 2 → GaloisField 2 n)}
@@ -182,6 +186,7 @@ private theorem eleven_nine_conjEquiv_ker {L : Subgroup G} {x : G}
     rw [← ThreeFromEight.mem_conjugate_iff, hconjZ]
   exact (hker u).trans (hiff.trans (hker (eleven_nine_conjEquiv L x hxN u)).symm)
 
+omit [Finite G] in
 private theorem eleven_nine_normalizes_of_conjEquiv {L : Subgroup G} {n : ℕ}
     {α : ↥L →* Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 n)}
     (hαsurj : Function.Surjective α)
@@ -249,7 +254,7 @@ theorem eleven_nine_le_normalizer
     (hL : IsBlockOfInX (Subgroup.centralizer (U : Set G)) L) (hLM : ¬ L ≤ M)
     (h78 : IsLTwoBlockType L n) :
     Q ≤ Subgroup.normalizer (L : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQCV : Q ≤ Subgroup.centralizer (V : Set G) := hset.sylowQ.1.trans inf_le_right
   have hQCU : Q ≤ Subgroup.centralizer (U : Set G) := hQCV.trans (Subgroup.centralizer_le hU.1)
   have hchar : IsCharacteristicP 2 ↥(Subgroup.centralizer (U : Set G)) :=
@@ -313,7 +318,7 @@ theorem eleven_nine_two
     (h78 : IsLTwoBlockType L n) :
     ∀ x ∈ Q, ∃ s ∈ L ⊓ Q, ∃ c ∈ Q ⊓ centralizerModCore L, x = s * c := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x hxQ
   obtain ⟨α, ψ, hαsurj, hαker, hψsurj, hψker, hψeq⟩ := CGT6.isNatSL_blockU hL.2.2.1 h78.2.1
   have hαker' : α.ker = (oTwoIn L).subgroupOf L := eleven_nine_ker_eq hL.2.2.1 h78.2.1 hαker

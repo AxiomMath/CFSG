@@ -30,6 +30,7 @@ private theorem seventeenFourTorus_exists_odd_lift {H : Type*} [Group H] [Finite
     exact hm
   · rw [map_pow]
 
+omit [Finite G] in
 private theorem seventeenFourTorus_orbit_subset_Dalpha (hC : HypothesisC D) {β₀ : Set G}
     (hβ₀ : β₀ ∈ Dalpha D hC.alpha) :
     seventeenFourTorus_orbit hC β₀ ⊆ Dalpha D hC.alpha := by
@@ -61,7 +62,7 @@ private theorem seventeenFourTorus_dvd_card_of_perm {X : Type*} [Finite X]
     {n : ℕ} (σ : Equiv.Perm X) (hno : ∀ x, σ x ≠ x)
     (hcyc : ∀ i : ℕ, ∀ x : X, (σ ^ i) x = x → n ∣ i) : n ∣ Nat.card X := by
   classical
-  letI : Fintype X := Fintype.ofFinite X
+  let : Fintype X := Fintype.ofFinite X
   rw [Nat.card_eq_fintype_card]
   have hsupp : σ.support = Finset.univ := by
     rw [Finset.eq_univ_iff_forall]
@@ -92,7 +93,7 @@ private theorem seventeenFourTorus_cimg_z_mem_orbit (h113 : PartThree.Theorem11_
     (hn3 : ¬ ∀ d ∈ D, ∀ e ∈ D, orderOf (d * e) ∈ ({1, 2, 3} : Set ℕ))
     (hHns : ¬ Group.IsSolvable (Halpha D hC.alpha))
     {v : Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)}
-    {b₀ : Halpha D hC.alpha} (hb₀ : b₀ ∈ DstarH hC)
+    {b₀ : Halpha D hC.alpha} (_hb₀ : b₀ ∈ DstarH hC)
     (hmkb₀ : QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) b₀ = v)
     {β₀ : Set G} (hβ₀ : β₀ ∈ Dalpha D hC.alpha) (hb₀β₀ : (b₀ : G) ∈ β₀)
     {z : Halpha D hC.alpha}
@@ -229,13 +230,13 @@ private theorem seventeenFourTorus_exists_fixed_of_stable (hC : HypothesisC D) {
   let H' : Subgroup H := Q ⊔ A
   let Φ : Set (Set G) := seventeenFourTorus_orbit hC β₀
   let φ : H' →* MulAut G := MulAut.conj.comp (H.subtype.comp H'.subtype)
-  letI : MulAction H' G := MulAction.compHom G φ
-  letI : MulAction H' (Set G) := Set.mulActionSet
+  let : MulAction H' G := MulAction.compHom G φ
+  let : MulAction H' (Set G) := Set.mulActionSet
   let P : SubMulAction H' (Set G) :=
     { carrier := Φ, smul_mem' := fun c S hS => hstable (c : H) c.2 S hS }
-  haveI : Nonempty P := ⟨⟨β₀, ⟨1, (Malpha D hC.alpha).one_mem, by simp [cimg]⟩⟩⟩
+  have : Nonempty P := ⟨⟨β₀, ⟨1, (Malpha D hC.alpha).one_mem, by simp [cimg]⟩⟩⟩
   let Ssub : Subgroup H' := Q.subgroupOf H'; let Bsub : Subgroup H' := A.subgroupOf H'
-  haveI : Ssub.Normal := (CFSG.pCore_normal (G := H) (p := 2)).subgroupOf H'
+  have : Ssub.Normal := (CFSG.pCore_normal (G := H) (p := 2)).subgroupOf H'
   have hSp : IsPGroup 2 Ssub := (CFSG.pCore_isPGroup (G := H) (p := 2)).comap_subtype
   have hBo : Odd (Nat.card Bsub) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (le_sup_right : A ≤ H')).toEquiv,
@@ -527,6 +528,7 @@ private theorem seventeenFourTorus_orderOf_dvd_of_fixes (h89 : PartThree.Lemma8_
     hβ hγ hb hc hbc hnebc hβv hγw hsemi hmkz hp hdH i hfix
   exact orderOf_dvd_iff_pow_eq_one.mpr h1
 
+omit [Finite G] in
 private theorem seventeenFourTorus_cimg_mem_line_diff (hC : HypothesisC D) {β γ : Set G}
     {z : Halpha D hC.alpha} (hzβ : cimg (z : G) β = β) (hzγ : cimg (z : G) γ = γ)
     {p : Set G} (hp : p ∈ blockLine D β γ \ {β, γ}) :
@@ -558,6 +560,7 @@ private theorem seventeenFourTorus_cimg_mem_line_diff (hC : HypothesisC D) {β �
     rw [hpγ]
     exact Set.mem_insert_iff.mpr (Or.inr rfl)
 
+omit [Finite G] in
 private theorem seventeenFourTorus_mem_line_diff_of_cimg (hC : HypothesisC D) {β γ : Set G}
     {z : Halpha D hC.alpha} (hzβ : cimg (z : G) β = β) (hzγ : cimg (z : G) γ = γ)
     {p : Set G} (hp : cimg (z : G) p ∈ blockLine D β γ \ {β, γ}) :
@@ -579,6 +582,7 @@ private theorem seventeenFourTorus_mem_line_diff_of_cimg (hC : HypothesisC D) {�
   · exact Or.inl (by rw [h, hzβ])
   · exact Or.inr (by rw [h, hzγ])
 
+omit [Finite G] in
 private theorem seventeenFourTorus_line_invariant (hC : HypothesisC D) {β γ : Set G}
     {z : Halpha D hC.alpha} (hzβ : cimg (z : G) β = β) (hzγ : cimg (z : G) γ = γ) :
     ∀ p : Set G, p ∈ blockLine D β γ \ {β, γ} ↔
@@ -617,7 +621,7 @@ private theorem seventeenFourTorus_dvd_of_line_core (h89 : PartThree.Lemma8_9)
     {z : Halpha D hC.alpha}
     (hmkz : QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) z = g')
     (hzβ : cimg (z : G) β = β) (hzγ : cimg (z : G) γ = γ)
-    {δ : Set G} (hδ : δ ∈ Dalpha D hC.alpha)
+    {δ : Set G} (_hδ : δ ∈ Dalpha D hC.alpha)
     (hcard : (blockLine D β γ \ {β, γ}).ncard =
       (blockLine D hC.alpha δ).ncard - 2) :
     orderOf g' ∣ (blockLine D hC.alpha δ).ncard - 2 := by
@@ -687,7 +691,7 @@ private theorem seventeenFourTorus_ncard_line_diff (h89 : PartThree.Lemma8_9)
     rcases hx with rfl | rfl
     · exact hβΛ
     · exact hγΛ
-  rw [Set.ncard_diff hpairsub (Set.toFinite _), Set.ncard_pair hβγne,
+  rw [Set.ncard_sdiff hpairsub (Set.toFinite _), Set.ncard_pair hβγne,
     ncard_blockLine_eq hC hβ.1 hγDβ hδ]
 
 private theorem seventeenFourTorus_dvd_of_line (h89 : PartThree.Lemma8_9)
@@ -735,7 +739,7 @@ private theorem seventeenFourTorus_nebc_and_ne (h89 : PartThree.Lemma8_9)
     (hMZ : ¬ CFSG.solvableRadical (Halpha D hC.alpha) ≤ Subgroup.center (Halpha D hC.alpha))
     {v w : Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)}
     (hne : perpMem (imageClass hC) v ≠ perpMem (imageClass hC) w)
-    {β γ : Set G} (hβD : β ∈ Dalpha D hC.alpha) (hγD : γ ∈ Dalpha D hC.alpha)
+    {β γ : Set G} (_hβD : β ∈ Dalpha D hC.alpha) (hγD : γ ∈ Dalpha D hC.alpha)
     {bH cH : Halpha D hC.alpha} (hbHβ : (bH : G) ∈ β) (hcHγ : (cH : G) ∈ γ)
     (hβv : perpMem (imageClass hC)
         (QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) bH) =

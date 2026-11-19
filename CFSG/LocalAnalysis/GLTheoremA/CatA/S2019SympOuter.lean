@@ -25,7 +25,7 @@ theorem s2019FixCentralizes_conj_fieldAut_sp (hr : 2 ≤ r) {p : ℕ} (hp : p.Pr
     (σ : K ≃+* K) (hσ : σ ^ p = 1) (hk : ¬(r = 2 ∧ Nat.card (descentField σ) = 2))
     (γ : MulAut (StatedProj (StatedSp r K))) :
     S2019FixCentralizes p (γ * fieldAut r K σ * γ⁻¹) := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have hX : fixSubgroup (fieldAut r K σ) = (subfieldProj (r := r) σ).range := by
     rw [← spFixedGroup_fieldAut_eq_range (hp.odd_of_ne_two hp2) hσ]
     exact Subgroup.ext fun x => mem_fixSubgroup.trans mem_spFixedGroup.symm
@@ -47,11 +47,11 @@ end Field
 theorem s2019SympOuter (Qs : ℕ → Prop) : S2019SympOuter Qs := by
   intro p q hp hp2 hq hq2 hqp _ G _ n f hG β hβ hnot
   obtain ⟨⟨-, hf, hn, -⟩, K, _, _, hK, ⟨e⟩⟩ := hG
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : Finite G := Finite.of_equiv _ e.toEquiv.symm
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Finite G := Finite.of_equiv _ e.toEquiv.symm
   refine s2019FixCentralizes_of_congr hp e β ?_
   set β' := MulAut.congr e β with hβ'def
   have hβ' : β' ^ p = 1 := by rw [hβ'def, ← map_pow, hβ, map_one]
@@ -62,7 +62,7 @@ theorem s2019SympOuter (Qs : ℕ → Prop) : S2019SympOuter Qs := by
     rw [hβ'def, MulEquiv.symm_apply_apply] at h1
     rw [h1]
     ext x
-    simp [MulAut.congr_apply, MulAut.conj_apply]
+    simp [MulAut.conj_apply]
   have hO := spOuter (K := K) hq hf hn hK
   have hodd : Odd (orderOf β') :=
     (hp.odd_of_ne_two hp2).of_dvd_nat (orderOf_dvd_of_pow_eq_one hβ')
@@ -80,7 +80,7 @@ theorem s2019SympOuter (Qs : ℕ → Prop) : S2019SympOuter Qs := by
   have hk : ¬(n = 2 ∧ Nat.card (descentField σ) = 2) := by
     rintro ⟨-, h2⟩
     have h2' : ((2 : ℕ) : descentField σ) = 0 := by
-      haveI := Fintype.ofFinite (descentField σ)
+      have := Fintype.ofFinite (descentField σ)
       have := FiniteField.cast_card_eq_zero (descentField σ)
       rwa [← Nat.card_eq_fintype_card, h2] at this
     have h2K : ((2 : ℕ) : K) = 0 := by

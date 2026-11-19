@@ -92,7 +92,7 @@ section Notation1617
 
 variable (D : Data G) (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (L : Subgroup G)
 
-@[expose] noncomputable def Concl1617 (A : Subgroup G) (g : G) (Δ : Set (Subgroup G)) : Prop :=
+@[expose] noncomputable def Concl1617 (_A : Subgroup G) (g : G) (Δ : Set (Subgroup G)) : Prop :=
   Δ.ncard = 2 ∧ (∀ I ∈ Δ, I ≤ V) ∧ sSupIndep Δ ∧ sSup Δ = V ∧
     (Case168_2 D V₀ V hV L → ∀ I ∈ Δ, imgTil V₀ V hV I ∈ irrBar L V₀ V hV) ∧
     (Case168_4At D V₀ V hV L 3 3 →

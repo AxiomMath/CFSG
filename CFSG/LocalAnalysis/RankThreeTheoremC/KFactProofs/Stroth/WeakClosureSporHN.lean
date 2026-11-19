@@ -15,7 +15,7 @@ set_option maxRecDepth 4000
 
 private theorem wcOn_JH_three
     [Finite ↥CFSG.Sporadic.HNSchreier.JH] : WCOn 3 ↥CFSG.Sporadic.HNSchreier.JH := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨S, hS⟩, hcard, -, -, hcnt, -⟩ :=
     CFSG.Sporadic.HNSchreier.ctuc_hn_Sylow_three_complete_element_coverage
   have hnot : ¬ IsMulCommutative (S : Subgroup ↥CFSG.Sporadic.HNSchreier.JH) := by
@@ -26,8 +26,8 @@ private theorem wcOn_JH_three
 
 theorem wcOn_HN_three_aux
     [Finite CFSG.Blueprint.NativeSporadic.HN] : WCOn 3 CFSG.Blueprint.NativeSporadic.HN := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥CFSG.Sporadic.HNSchreier.JH :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥CFSG.Sporadic.HNSchreier.JH :=
     Finite.of_equiv _ CFSG.Sporadic.HNSchreier.hnEquivJ.toEquiv
   exact WCOn.of_mulEquiv (K := CFSG.Blueprint.NativeSporadic.HN)
     (L := ↥CFSG.Sporadic.HNSchreier.JH) CFSG.Sporadic.HNSchreier.hnEquivJ wcOn_JH_three
@@ -47,7 +47,7 @@ theorem wcSporadicAt_HN
   rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl
   · exact absurd rfl hq2
   · exact wcOn_HN_three
-  · haveI : Fact (Nat.Prime 5) := ⟨hq⟩
+  · have : Fact (Nat.Prime 5) := ⟨hq⟩
     exact WCOn.of_hasNoncommPair CFSG.RankThree.PartOne.CTP.hasNoncommPair_HN
   all_goals (exfalso; norm_num at hdvd)
 

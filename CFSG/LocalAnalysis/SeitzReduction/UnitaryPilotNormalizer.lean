@@ -85,7 +85,7 @@ theorem isCyclic_of_inf_eq_bot {F : Type} [Field F] {f n : ℕ} (h : UnitaryFiel
     exact Subtype.ext (Subgroup.mem_bot.mp hmem)
   have hθ2 : IsPGroup 2 θ.range :=
     hW2.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
-  haveI hcyc : IsCyclic ψ.range := by
+  have hcyc : IsCyclic ψ.range := by
     have h := isCyclic_map_outer_of_mulEquiv e.symm
       (fun B hB => isCyclic_map_outer_primeFormP h hn hq hCg hB) θ.range hθ2
     rw [← MonoidHom.range_comp] at h

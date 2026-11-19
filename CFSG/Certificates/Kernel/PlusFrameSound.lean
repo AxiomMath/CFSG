@@ -112,7 +112,7 @@ theorem initV_lt {a b p : Nat} (ha : a < 60) (hb : b < 60) (hp : p < 60) : initV
   unfold initV
   cases isFr p
   · cases Nat.beq p 0
-    · cases Nat.beq p 1 <;> simp [ha, hb]
+    · cases Nat.beq p 1 <;> simp [hb]
     · simpa using ha
   · simpa using hp
 
@@ -158,8 +158,8 @@ theorem der_inv {R DS : Nat → Nat} (hR : rowsOK R = true) (hDS : dsOK DS = tru
     · simp only [deriveFun, initArr, List.toList_toArray]
       apply List.map_congr_left
       intro q hq
-      rw [initK_rd ha hb 60 le_rfl, if_pos (List.mem_range.1 hq), initV_eq]
-    · rw [initK_rd ha hb 60 le_rfl, if_pos hq]
+      rw [initK_rd ha hb 60 le_rfl, ite_eq_left (List.mem_range.1 hq), initV_eq]
+    · rw [initK_rd ha hb 60 le_rfl, ite_eq_left hq]
       exact initV_lt ha hb hq
   | succ k ih =>
     intro hk
@@ -185,14 +185,14 @@ theorem der_inv {R DS : Nat → Nat} (hR : rowsOK R = true) (hDS : dsOK DS = tru
       unfold stepVal
       rw [es, eo]
       by_cases h0 : s = 0
-      · rw [if_pos h0, hv, h0, ← initV_eq]
+      · rw [ite_eq_left h0, hv, h0, ← initV_eq]
         rfl
       · have hb0 : Nat.beq s 0 = false := by
           cases h : Nat.beq s 0
           · rfl
           · exact absurd (Nat.eq_of_beq_eq_true h) h0
-        rw [if_neg h0, hv, hb0]
-        simp only [cond_false]
+        rw [ite_eq_right h0, hv, hb0]
+        simp only [Bool.cond_false]
         rw [get_of_map hf hx, get_of_map hf hy, plusT_eq hR (hbd _ hx) (hbd _ hy)]
     have eD : deriveFun a b (initArr a b) (k + 1) =
         (deriveFun a b (initArr a b) k).set! o v := by

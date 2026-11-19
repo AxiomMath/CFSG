@@ -144,7 +144,7 @@ private theorem factorization_subgroupOf_eq_of_eq_sup_coprime_normal
   classical
   let TB : Subgroup B := T.subgroupOf B
   let NB : Subgroup B := N.subgroupOf B
-  haveI : TB.Normal := by
+  have : TB.Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hTB).2
     exact hBnormT
   have hsupB : TB ⊔ NB = ⊤ := by
@@ -317,7 +317,7 @@ private theorem exists_ambient_sylow_of_full_normalizer_factorization
   have hPAW : PA ≤ W := hPANE.trans (hNENW.trans inf_le_left)
   let PW : Subgroup W := PA.subgroupOf W
   have hPAp : IsPGroup p PA := by
-    simpa [PA] using P.isPGroup'.map E.subtype
+    simpa [PA] using P.isPGroup.map E.subtype
   have hPWp : IsPGroup p PW :=
     hPAp.of_equiv (Subgroup.subgroupOfEquivOfLe hPAW).symm
   obtain ⟨SW, hPWSW⟩ := hPWp.exists_le_sylow
@@ -362,7 +362,7 @@ private theorem exists_ambient_sylow_of_full_normalizer_factorization
           exact (Subgroup.mem_normalizer_iff.mp hnPA (x : X)).mpr hxConj
     have hnormCard : Nat.card (Subgroup.normalizer (PW : Set W)) = Nat.card NW := by
       rw [hnormEq]
-      simpa using natCard_subgroupOf_eq NW W (by simpa [NW, normalizerIn])
+      simpa using natCard_subgroupOf_eq NW W (by simp [NW, normalizerIn])
     have hPWcard : Nat.card PW = Nat.card PNW := by
       calc
         Nat.card PW = Nat.card PA := by
@@ -409,7 +409,7 @@ private theorem section9_cyclic_extremal_normalizer_factor
   let V : Subgroup G := (P : Subgroup G) ⊓ N
   have hVN : V ≤ N := inf_le_right
   let VN : Subgroup N := V.subgroupOf N
-  have hVp : IsPGroup p V := IsPGroup.to_le P.isPGroup' inf_le_left
+  have hVp : IsPGroup p V := IsPGroup.to_le P.isPGroup inf_le_left
   have hVNp : IsPGroup p VN :=
     hVp.of_equiv (Subgroup.subgroupOfEquivOfLe hVN).symm
   have hVNcard : Nat.card VN = p ^ (Nat.card N).factorization p := by
@@ -427,17 +427,16 @@ private theorem section9_cyclic_extremal_normalizer_factor
   have hCN : C ≤ N := by
     simpa [C, N] using centralizer_le_normalizer U
   let CN : Subgroup N := C.subgroupOf N
-  haveI : CN.Normal := by
+  have : CN.Normal := by
     simpa [CN, C, N] using
       (External.hkt_normal_subgroupOf_centralizer_normalizer U)
-  letI : IsCyclic U := hUcyc
+  let : IsCyclic U := hUcyc
   have hAutComm : IsMulCommutative (MulAut U) := by
     let e := IsCyclic.mulAutMulEquiv (G := U)
     refine ⟨⟨fun a b => ?_⟩⟩
     apply e.injective
-    change e (a * b) = e (b * a)
     simp [mul_comm]
-  letI : IsMulCommutative (MulAut U) := hAutComm
+  let : IsMulCommutative (MulAut U) := hAutComm
   let K : Subgroup N := CN ⊔ VN
   have hconjVN : ∀ n : N, ∀ v : N, v ∈ VN → n * v * n⁻¹ ∈ K := by
     intro n v hv
@@ -454,7 +453,7 @@ private theorem section9_cyclic_extremal_normalizer_factor
     have hzv : z * v ∈ K :=
       K.mul_mem (Subgroup.mem_sup_left hzCN) (Subgroup.mem_sup_right hv)
     simpa [z, mul_assoc] using hzv
-  letI : K.Normal := by
+  let : K.Normal := by
     refine { conj_mem := ?_ }
     intro k hk n
     rcases Subgroup.mem_sup_of_normal_left.mp hk with
@@ -565,10 +564,10 @@ private theorem section9_factor_step
     intro x hx
     exact ⟨Subgroup.map_subtype_le S hx, Subgroup.le_normalizer hx⟩
   let SAN : Subgroup NW := SA.subgroupOf NW
-  haveI : SAN.Normal := by
+  have : SAN.Normal := by
     apply (Subgroup.normal_subgroupOf_iff_le_normalizer hSANW).2
     exact inf_le_right
-  have hSp : IsPGroup p S := IsPGroup.to_le Q.isPGroup' hSQ
+  have hSp : IsPGroup p S := IsPGroup.to_le Q.isPGroup hSQ
   have hSAp : IsPGroup p SA := by
     simpa [SA] using hSp.map W.subtype
   have hSANp : IsPGroup p SAN :=
@@ -593,7 +592,7 @@ private theorem section9_factor_step
       (oN : X)⁻¹ * (a : X) * (oN : X) =
           (oN : X)⁻¹ * ((a : X) * (oN : X)) := by simp [mul_assoc]
       _ = (oN : X)⁻¹ * ((oN : X) * (a : X)) := by rw [hoa]
-      _ = (a : X) := by simp [mul_assoc]
+      _ = (a : X) := by simp
   let eW : E.subgroupOf W := ⟨⟨e, hEW he.1⟩, he.1⟩
   change (oN : X) * e = (n : X) at hoe
   refine ⟨eW, ?_⟩
@@ -671,7 +670,7 @@ private theorem section9_factor_centric_decomposition
               exact (lt_irrefl _ hfacUV)
             have hVnoncyc : ¬ IsCyclic V := by
               intro hVcyc
-              letI : IsCyclic V := hVcyc
+              let : IsCyclic V := hVcyc
               have hVcent :
                   V ≤ subgroupCentralizerIn (Q : Subgroup W) U := by
                 intro v hv
@@ -889,7 +888,7 @@ public theorem lemma_9_4
             (normalizerIn E U : Set X)) := by
     intro h
     exact hA ((ii1Lemma44Ambient (W := W) (E := E) inf_le_left) h)
-  push_neg at hcriterion
+  push Not at hcriterion
   rcases hcriterion with ⟨P, U, hUP, hUshape, hbad⟩
   have hUE : U ≤ E :=
     hUP.trans (Subgroup.map_subtype_le (P : Subgroup E))
@@ -935,7 +934,7 @@ public theorem lemma_9_4
     exact Subgroup.map_mono hUE
   let Pamb : Subgroup X := (P : Subgroup E).map E.subtype
   have hPambP : IsPGroup p Pamb := by
-    simpa [Pamb] using P.isPGroup'.map E.subtype
+    simpa [Pamb] using P.isPGroup.map E.subtype
   let UP : Subgroup Pamb := U.subgroupOf Pamb
   have hUp : IsPGroup p U := by
     have hUPp : IsPGroup p UP := hPambP.to_subgroup UP
@@ -946,7 +945,7 @@ public theorem lemma_9_4
   have hNoI : ∀ (U1 : Subgroup X), U1 ≠ ⊥ → U1 ≤ U' →
       ¬ HasNontrivialPeterfalviNormalizer D t U1 := by
     intro U1 hU1ne hU1U' hIU1
-    haveI : Group.IsNilpotent U' :=
+    have : Group.IsNilpotent U' :=
       IsPGroup.isNilpotent (G := U') (p := p) hU'p
     have hsubnormal : (U1.subgroupOf U').IsSubnormal :=
       section8_isSubnormal_of_normalizerCondition

@@ -169,9 +169,9 @@ theorem exists_isSylowOf_ge {G : Type} [Group G] [Finite G] {D M : Subgroup G}
 theorem exists_mem_inf_center_of_normal {G : Type} [Group G] [Finite G] {P N : Subgroup G}
     (hP : IsPGroup 3 P) (hNP : N ≤ P) (hN : (N.subgroupOf P).Normal) (hN1 : N ≠ ⊥) :
     ∃ t ∈ N, t ≠ 1 ∧ t ^ 3 = 1 ∧ ∀ x ∈ P, x * t = t * x := by
-  haveI : Fact (IsPGroup 3 P) := ⟨hP⟩
-  haveI : (N.subgroupOf P).Normal := hN
-  haveI : Nontrivial (N.subgroupOf P) := by
+  have : Fact (IsPGroup 3 P) := ⟨hP⟩
+  have : (N.subgroupOf P).Normal := hN
+  have : Nontrivial (N.subgroupOf P) := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     intro h
     apply hN1
@@ -227,9 +227,9 @@ theorem inf_ne_bot_of_sylow {G : Type} [Group G] [Finite G] {M K P : Subgroup G}
 theorem eq_of_isPerfect_of_le_sup {G : Type} [Group G] [Finite G] {P N R : Subgroup G}
     (hP : Group.IsPerfect P) (hNP : N ≤ P) (hRP : R ≤ P) (hN : (N.subgroupOf P).Normal)
     (hR : Group.IsSolvable R) (hPNR : P ≤ N ⊔ R) : P = N := by
-  haveI := hP
-  haveI := hN
-  haveI := hR
+  have := hP
+  have := hN
+  have := hR
   have hPN : P ≤ Subgroup.normalizer (N : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNP).mp hN
   have hRN : R ≤ Subgroup.normalizer (N : Set G) := hRP.trans hPN
@@ -252,7 +252,7 @@ theorem eq_of_isPerfect_of_le_sup {G : Type} [Group G] [Finite G] {P N R : Subgr
   have hsolv : Group.IsSolvable (P ⧸ N.subgroupOf P) := Group.isSolvable_of_surjective hf
   have hsub : Subsingleton (P ⧸ N.subgroupOf P) := by
     by_contra hnt
-    haveI : Nontrivial (P ⧸ N.subgroupOf P) := not_subsingleton_iff_nontrivial.mp hnt
+    have : Nontrivial (P ⧸ N.subgroupOf P) := not_subsingleton_iff_nontrivial.mp hnt
     exact (Group.IsPerfect.not_isSolvable (P ⧸ N.subgroupOf P)) hsolv
   have htop : N.subgroupOf P = ⊤ := QuotientGroup.subgroup_eq_top_of_subsingleton _ hsub
   exact le_antisymm (Subgroup.subgroupOf_eq_top.mp htop) hNP

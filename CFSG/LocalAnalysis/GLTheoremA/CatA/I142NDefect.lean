@@ -116,7 +116,7 @@ section Quotient
 
 variable {A L : Type*} [Group A] [Group L]
 
-theorem sigma_of_quasisimple_mod_center (hL : IsQuasisimple L) (ρ : A →* MulAut L)
+theorem sigma_of_quasisimple_mod_center (_hL : IsQuasisimple L) (ρ : A →* MulAut L)
     (σ : A →* MulAut (L ⧸ Subgroup.center L))
     (hc : ∀ (a : A) (x : L), QuotientGroup.mk' (Subgroup.center L) (ρ a x) =
       σ a (QuotientGroup.mk' (Subgroup.center L) x))

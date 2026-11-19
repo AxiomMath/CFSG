@@ -59,7 +59,7 @@ theorem td4g2_frob_ne_one {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f) (hK : Nat.ca
     have := congrArg (fun τ : K ≃+* K => τ c) h1
     simpa [hσ] using this
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hQ : 1 < p ^ f := Nat.one_lt_pow (by omega) hp.one_lt
   have hdeg : (Polynomial.X ^ (p ^ f) - Polynomial.X : Polynomial K).natDegree = p ^ f :=
     FiniteField.X_pow_card_sub_X_natDegree_eq K hQ
@@ -98,7 +98,7 @@ theorem td4g2_blueprint_model {S : Type} [Group S] {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.trialityD4 q, hv⟩) :
     CFSG.Blueprint.LieModel S .trialityD4 0 q.p q.exponent := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hto : 0 < (CFSG.Blueprint.Chevalley.TwistTag.D4).order := by decide
   have hKc : Nat.card (GaloisField q.p (q.exponent * (CFSG.Blueprint.Chevalley.TwistTag.D4).order)) =
       (q.p ^ q.exponent) ^ (CFSG.Blueprint.Chevalley.TwistTag.D4).order := by
@@ -127,7 +127,7 @@ theorem td4g2_odd_false {S : Type} [Group S] {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid) (hp : q.p ≠ 2)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.trialityD4 q, hv⟩) (hchev : IsChevSimple 2 S) :
     False := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hodd := td4g2_blueprint_model hv e
   have hadm := CFSG.Blueprint.LieModel.admissible hodd
   have hO := CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput
@@ -199,8 +199,8 @@ theorem td4g2_fixSub_G2 {q : TauCeti.PrimePower} (hv : (TauCeti.LieTypeIndex.G2 
     (hσ : ∀ c, σ c = c ^ (q.p ^ q.exponent)) :
     Nonempty (↥(CFSG.RankThree.PartTwo.Sec4.autFix (fieldActor (t := TwistTag.D4) σ σ)) ≃*
       TauCeti.ValidLieTypeIndex.Group ⟨.G2 q, hv⟩) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (K ≃+* K) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun e : K ≃+* K => (e : K → K)) (fun a b h => RingEquiv.ext fun x => congrFun h x)
   have hq3 : 3 ≤ q.card :=
     (TauCeti.LieTypeIndex.inStandardRange_iff _).1 ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1

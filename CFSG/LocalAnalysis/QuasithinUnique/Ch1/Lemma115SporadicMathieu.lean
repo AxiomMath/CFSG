@@ -109,7 +109,7 @@ theorem sylow_card_dvd_fixSub [Finite K] (ψ : K ≃* N) (β : K ≃* K) (P : Sy
 
 theorem sylow_two_card_eq [Finite K] (P : Sylow 2 K) {m : ℕ} (hK : Nat.card K = m) :
     ∃ k i : ℕ, Nat.card (P : Subgroup K) = 2 ^ k ∧ 2 ^ k * i = m ∧ i % 2 = 1 := by
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   refine ⟨k, (P : Subgroup K).index, hk, ?_, ?_⟩
   · rw [← hk, Subgroup.card_mul_index, hK]
   · have := P.not_dvd_index

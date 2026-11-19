@@ -51,7 +51,7 @@ private def normalKleinFour : Subgroup (Equiv.Perm (Fin 4)) :=
     (alternatingGroup.kleinFour (Fin 4))
 
 private theorem normalKleinFour_normal : normalKleinFour.Normal := by
-  letI : (alternatingGroup.kleinFour (Fin 4)).Characteristic :=
+  let : (alternatingGroup.kleinFour (Fin 4)).Characteristic :=
     alternatingGroup.characteristic_kleinFour (by norm_num)
   exact ConjAct.normal_of_characteristic_of_normal
 
@@ -109,7 +109,7 @@ private theorem exists_dihedralSylow :
   have hcyc : IsPGroup 2 (Subgroup.zpowers orbitQuarter) :=
     IsPGroup.of_card hcycCard
   obtain ⟨Q, hQ⟩ := hcyc.exists_le_sylow
-  haveI : normalKleinFour.Normal := normalKleinFour_normal
+  have : normalKleinFour.Normal := normalKleinFour_normal
   have hnormal : normalKleinFour ≤ (Q : Subgroup (Equiv.Perm (Fin 4))) :=
     normalKleinFour_isPGroup.le_sylow_of_normal Q
   exact ⟨Q, hQ (Subgroup.mem_zpowers orbitQuarter),
@@ -130,7 +130,7 @@ private theorem closure_pair_isPGroup_two
     · exact hab.eq
     · exact hab.eq.symm
     · rfl
-  letI : IsMulCommutative V := Subgroup.isMulCommutative_closure (fun _ hx _ hy _ => hgenComm _ hx _ hy)
+  let : IsMulCommutative V := Subgroup.isMulCommutative_closure (fun _ hx _ hy _ => hgenComm _ hx _ hy)
   have hcommV : ∀ x y : V, x * y = y * x :=
     isMulCommutative_iff.mp (inferInstance : IsMulCommutative V)
   have hsquare : ∀ x : V, (x : L) ^ 2 = 1 := by
@@ -319,7 +319,7 @@ theorem exists_hall_quarterTurn_of_odd_stabilizer
   have hφsurj : Function.Surjective φ :=
     baseSubgroupQuotientHom_surjective h4 ef (Q : Subgroup _)
   let Sbar : Sylow 2 Q := Sylow.mapSurjective hφsurj S
-  have htopIsP : IsPGroup 2 (⊤ : Subgroup Q) := Q.isPGroup'.to_subgroup ⊤
+  have htopIsP : IsPGroup 2 (⊤ : Subgroup Q) := Q.isPGroup.to_subgroup ⊤
   have htop : (⊤ : Subgroup Q) = (Sbar : Subgroup Q) :=
     (Sbar.maximal_isPGroup.eq_of_le htopIsP le_top).symm
   let τQ : Q := ⟨ρ orbitQuarter, hτQ⟩
@@ -335,7 +335,7 @@ theorem exists_hall_quarterTurn_of_odd_stabilizer
   have hoddKer : Odd (Nat.card φ.ker) := by
     rw [natCard_baseSubgroupKer_eq_pointwiseStabilizer ef (Q : Subgroup _)]
     exact hoddEf
-  obtain ⟨r, hScard⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨r, hScard⟩ := S.isPGroup.exists_card_eq
   have hcoprime : (Nat.card (S : Subgroup L)).Coprime (Nat.card φ.ker) := by
     rw [hScard]
     exact (Nat.coprime_two_left.mpr hoddKer).pow_left r

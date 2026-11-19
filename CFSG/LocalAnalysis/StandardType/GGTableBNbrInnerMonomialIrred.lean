@@ -14,7 +14,7 @@ theorem addSubgroup_eq_bot_or_eq_top_of_monomial {p s : ℕ} [Fact p.Prime]
     (hA : ∀ (π : Equiv.Perm (Fin s)) (η : Fin s → (ZMod p)ˣ), (∀ i, η i ∈ O) →
       ∀ t ∈ A, (fun i => (η i : ZMod p) * t (π i)) ∈ A) :
     A = ⊥ ∨ A = ⊤ := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   by_cases hbot : A = ⊥
   · exact Or.inl hbot
   right
@@ -89,13 +89,13 @@ theorem addSubgroup_eq_bot_or_eq_top_of_monomial {p s : ℕ} [Fact p.Prime]
       rw [Pi.single_apply, Pi.single_apply]
       by_cases hk : k = j
       · subst hk
-        rw [Equiv.swap_apply_right, if_pos rfl, if_pos rfl]
+        rw [Equiv.swap_apply_right, ite_eq_left rfl, ite_eq_left rfl]
         simp
       · have hki : Equiv.swap i j k ≠ i := by
           intro h
           rw [Equiv.swap_apply_eq_iff, Equiv.swap_apply_left] at h
           exact hk h
-        rw [if_neg hki, if_neg hk]
+        rw [ite_eq_right hki, ite_eq_right hk]
         simp
     rwa [hfun] at hmove
   have hsum : ∀ u : Fin s → ZMod p,

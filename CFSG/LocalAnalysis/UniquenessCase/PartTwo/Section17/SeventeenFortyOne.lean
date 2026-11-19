@@ -97,7 +97,7 @@ theorem seventeen_fortyone_one (D : Data G) (V₀ V : Subgroup G)
   have hMs : D.M ≤ stabTil V₀ V := le_stabTil hpf.le_normalizer hpf.le_normalizer₀
   have hnorm : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     cTilde_subgroupOf_normal hV hpf.le_normalizer hpf.le_normalizer₀
-  haveI : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := hnorm
+  have : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := hnorm
   have hp5Mbar : CFSG.Open.pRank 5
       (Mbar D.M V₀ V hV) = 2 := s1741_pRank_five_mbar D h17_40 hKU c
   have hp5bar11 : CFSG.Open.pRank 5

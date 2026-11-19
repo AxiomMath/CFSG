@@ -62,7 +62,7 @@ theorem isSylowTwoOf_iff_exists {S H : Subgroup G} :
     change (S.subgroupOf H).map H.subtype = S
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hS.1]
   · rintro ⟨P, rfl⟩
-    refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map H.subtype, ?_⟩
+    refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map H.subtype, ?_⟩
     change ¬ 2 ∣ (((P : Subgroup H).map H.subtype).comap H.subtype).index
     rw [Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
     exact P.not_dvd_index

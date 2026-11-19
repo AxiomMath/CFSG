@@ -46,6 +46,7 @@ theorem c8_rk_vStar_eq (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup G}
     h2.symm.trans h1
   omega
 
+omit [Finite G] in
 private lemma c8_imgTil_mono {V₀ V A B : Subgroup G} (hV : IsElemAbelian 2 V) (h : A ≤ B) :
     imgTil V₀ V hV A ≤ imgTil V₀ V hV B := by
   intro q hq

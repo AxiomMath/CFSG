@@ -24,7 +24,7 @@ theorem s16h_normalizer_fix_summands {Q : Type} [CommGroup Q] [Finite Q]
         exact (iSup_of_empty I).symm
       have htriv : ∀ y : Q, y = 1 := fun y =>
         Subgroup.mem_bot.mp (by rw [hbot]; exact Subgroup.mem_top y)
-      have hx1 : x = 1 := MulEquiv.ext fun y => by simp [htriv (x y), htriv y]
+      have hx1 : x = 1 := MulEquiv.ext fun y => by simp [htriv y]
       rw [hx1]
       exact Subgroup.one_mem Λ
   | succ k =>

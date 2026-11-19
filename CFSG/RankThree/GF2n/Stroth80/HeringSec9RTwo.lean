@@ -20,6 +20,7 @@ theorem isSLModel_of_mulEquiv {X Y : Type} [Group X] [Group Y] {q : ℕ} (e : X 
   obtain ⟨K, hK, hfin, hcard, ⟨e'⟩⟩ := h
   exact ⟨K, hK, hfin, hcard, ⟨e.symm.trans e'⟩⟩
 
+omit [Finite G] in
 theorem mem_X_of_comm_mem_Q (hc : Ctx M Q Z B) {t : G} {X Y : Subgroup G}
     (hsplit : Split95 M Q Z B t X Y) (h4 : Sec4Concl M Q Z B X Y) {l : G}
     (hl : l ∈ LB M Q B) (hcomm : ∀ y ∈ Y, ⁅l, y⁆ ∈ Q) : l ∈ X := by
@@ -52,7 +53,7 @@ theorem mem_X_of_comm_mem_Q (hc : Ctx M Q Z B) {t : G} {X Y : Subgroup G}
   rw [← hab]
   exact X.mul_mem ha.2 (hQX hbQ)
 
-theorem relIndex_LB_inf_X (hc : Ctx M Q Z B) {t : G} {X Y : Subgroup G}
+theorem relIndex_LB_inf_X (_hc : Ctx M Q Z B) {t : G} {X Y : Subgroup G}
     (hsplit : Split95 M Q Z B t X Y) (h4 : Sec4Concl M Q Z B X Y) :
     (LB M Q B ⊓ X).relIndex (LB M Q B) = Nat.card Z := by
   obtain ⟨⟨hQX, hXR, hQY, hYR, hXY, hXYQ, hcXY⟩, hYsl, -⟩ := hsplit
@@ -70,6 +71,7 @@ theorem relIndex_LB_inf_X (hc : Ctx M Q Z B) {t : G} {X Y : Subgroup G}
     rw [← Subgroup.inf_relIndex_right (LB M Q B ⊓ X) (LB M Q B ⊓ Y), e]
   rw [h1, h2, h4.2.1]
 
+omit [Finite G] in
 theorem conj_Y_eq_of_conj_mem (hc : Ctx M Q Z B) {t : G} {X Y : Subgroup G}
     (hsplit : Split95 M Q Z B t X Y) (h1 : OneConcl hc X Y) {e g : G}
     (he : e ∈ LB M Q B ⊓ X) (heQ : e ∉ Q) (hg : g ∈ M)
@@ -159,7 +161,7 @@ theorem exists_conj_le_of_odd_relIndex {R P S : Subgroup G} (hSR : S ≤ R)
     (hP : IsPGroup 2 ↥P) (hS : IsPGroup 2 ↥S) (hidx : ¬ 2 ∣ P.relIndex R) :
     ∃ s ∈ R, S ≤ conjSubgroup s P := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₁, hS₁⟩ := (hS.comap_subtype (K := R)).exists_le_sylow
   let S₀ : Sylow 2 R := (hP.comap_subtype (K := R)).toSylow hidx
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq R S₀ S₁
@@ -322,7 +324,7 @@ theorem caseII_data (h34 : Stroth34Statement) (h311a : Stroth311aStatement) (hc 
     exact IsPGroup.of_card (n := 2 * e + a) (by rw [hcardP, ha, he]; ring)
   have hPR : LB M Q B ⊔ hc.CN x ≤ Rt M (LB M Q B) x := sup_le hLR hNR
   obtain ⟨K, fK, finK, hK, φ, hφ, hker, -⟩ := hII
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hRcard : Nat.card ↥(Rt M (LB M Q B) x) =
@@ -384,8 +386,7 @@ end HS9
 
 theorem sec97Two_of (h34 : Stroth34Statement) (h311a : Stroth311aStatement) :
     Sec97TwoStatement := by
-  intro G _ _ M Q Z B hc n t hs X Y hsplit h4 h1
-  intro x hx g hg hgx
+  intro G _ _ M Q Z B hc n t hs X Y hsplit h4 h1 x hx g hg hgx
   have hQn : M ≤ Subgroup.normalizer (Q : Set G) := hc.hyp.Q_normal.2
   by_cases hxQ : x ∈ Q
   · have hgQ : g * x * g⁻¹ ∈ Q := (Subgroup.mem_normalizer_iff.mp (hQn hg) x).mp hxQ

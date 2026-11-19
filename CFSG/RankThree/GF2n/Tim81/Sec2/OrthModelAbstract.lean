@@ -18,6 +18,7 @@ variable {F : Type} [Field F] [Fintype F] [CharP F 2] [Algebra (ZMod 2) F]
   {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
   {ρ : Representation (ZMod 2) SL(2, F) W}
 
+omit [Finite W] in
 theorem commSub_fieldAut_mem :
     ∀ {j : ℕ} {β : W ≃+ ↥(hermA l F)},
       (∀ g w, β (ρ g w) = hermAct l (sig_sig hF) (fieldAut F j g) (β w)) →
@@ -61,6 +62,7 @@ theorem commSub_fieldAut_mem :
         exact (commSub ρ A).add_mem hx hy
     simpa using hmem
 
+omit [Finite W] in
 theorem IsOrthModule.card_commSub (horth : IsOrthModule hF ρ) (A : Subgroup SL(2, F))
     (hA2 : ∀ a ∈ A, a * a = 1) (hA : Nat.card A = 2 ^ (2 * l)) :
     Nat.card ↥(commSub ρ A) = 2 ^ (3 * l) := by
@@ -97,6 +99,7 @@ theorem IsOrthModule.card_commSub (horth : IsOrthModule hF ρ) (A : Subgroup SL(
   Submodule.span (ZMod 2)
     {x | ∃ a ∈ A, ∃ v ∈ commSub ρ A, x = (ρ a - 1) v}
 
+omit [Finite W] in
 private theorem map_commCommSub_fieldAut {j : ℕ}
     {β : W ≃+ ↥(hermA l F)}
     (hβ : ∀ g w, β (ρ g w) = hermAct l (sig_sig hF) (fieldAut F j g) (β w))
@@ -122,6 +125,7 @@ private theorem map_commCommSub_fieldAut {j : ℕ}
     simp only [LinearMap.sub_apply, Module.End.one_apply, map_sub, hf, hβ,
       β.apply_symm_apply, hermRep_apply]
 
+omit [Fintype F] [CharP F 2] [Algebra (ZMod 2) F] [Finite W] in
 private theorem map_commCommSub_conj (n : SL(2, F)) (P : Subgroup SL(2, F)) :
     (IsOrthModule.commCommSub ρ P).map (ρ n) =
       IsOrthModule.commCommSub ρ (P.map (MulAut.conj n).toMonoidHom) := by
@@ -134,7 +138,6 @@ private theorem map_commCommSub_conj (n : SL(2, F)) (P : Subgroup SL(2, F)) :
       ρ n v, ?_, ?_⟩
     · rw [commSub_map_conj ρ n P]
       exact Submodule.mem_map_of_mem hv
-    change ρ n ((ρ a - 1) v) = (ρ (n * a * n⁻¹) - 1) (ρ n v)
     rw [conj_apply_sub ρ n a]
   · rintro ⟨a, ha, v, hv, rfl⟩
     obtain ⟨a', ha', rfl⟩ := ha
@@ -161,6 +164,7 @@ private theorem commCommSub_model_eq :
       IsOrthModule.commCommSub (hermRep l hF) upperSylow := by
   rw [IsOrthModule.commCommSub, commCommSub, toZModSubmodule_closure_eq_span]
 
+omit [Finite W] in
 theorem IsOrthModule.fixedSub_eq_span_commSub (horth : IsOrthModule hF ρ)
     (A : Subgroup SL(2, F)) (hA2 : ∀ a ∈ A, a * a = 1) (hA : Nat.card A = 2 ^ (2 * l)) :
     fixedSub ρ A = IsOrthModule.commCommSub ρ A := by
@@ -208,6 +212,7 @@ theorem IsOrthModule.fixedSub_eq_span_commSub (horth : IsOrthModule hF ρ)
   refine Submodule.map_injective_of_injective hf_inj ?_
   rw [hfixβ, hmodel, ← hcommβ]
 
+omit [Finite W] in
 theorem IsOrthModule.normalizer_transitive_fixed (horth : IsOrthModule hF ρ)
     (A : Subgroup SL(2, F)) (hA2 : ∀ a ∈ A, a * a = 1) (hA : Nat.card A = 2 ^ (2 * l))
     {v w : W} (hv : v ∈ fixedSub ρ A) (hw : w ∈ fixedSub ρ A) (hv0 : v ≠ 0) (hw0 : w ≠ 0) :

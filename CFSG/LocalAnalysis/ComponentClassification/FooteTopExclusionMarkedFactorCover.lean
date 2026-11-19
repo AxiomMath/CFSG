@@ -28,7 +28,7 @@ open CFSG Subgroup
 theorem footeMarkedFactorCover_of_rankThree (hRL : FooteMarkedRelativeLift)
     (h71 : FooteMarkedRankThreeAbsorption) : FooteMarkedFactorCover := by
   intro G _ _ t L 𝓢 hset N H hN hNH hH K hK
-  haveI : IsSimpleGroup (L ⧸ Open.fusionZStar L) :=
+  have : IsSimpleGroup (L ⧸ Open.fusionZStar L) :=
     (GrSLit.fusionZStar_quotient_of_isPComponent hset.2.1.1.2.2.1.2.1
       hset.2.1.1.2.2.1.2.2).1
   have hFam := hset.2.2.2.2.1

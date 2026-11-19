@@ -26,7 +26,7 @@ theorem nsIdx_lt {v : ℕ} (hv : v < 256) (hq : qNat v = true) : nsIdx[v]! < 120
 theorem nsArr_nsIdx {v : ℕ} (hv : v < 256) (hq : qNat v = true) : nsArr[nsIdx[v]!]! = v :=
   (ns_ok.2.2.2 v hv hq).2
 
-theorem gen_apply_pt {i : ℕ} (hi : i < 8) {k : ℕ} (hk : k < 3) {v : ℕ} (hv : v < 256)
+theorem gen_apply_pt {i : ℕ} (hi : i < 8) {k : ℕ} (_hk : k < 3) {v : ℕ} (hv : v < 256)
     (hq : qNat v = true) (p : Fin 360) (hp : (p : ℕ) = 120 * k + nsIdx[v]!) :
     ((gen i p : Fin 360) : ℕ) = 120 * k + nsIdx[eK i k v]! := by
   have hr := rep_gen (by omega : i < 10) p

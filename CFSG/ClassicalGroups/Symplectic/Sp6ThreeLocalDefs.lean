@@ -23,20 +23,20 @@ theorem blockMatrix_mul (g h : Fin 3 → Matrix (Fin 2) (Fin 2) K) :
   rw [fromBlocks_multiply]
   ext (i | i) (j | j) <;>
     by_cases hij : i = j <;>
-    simp [hij, Matrix.mul_apply, Fin.sum_univ_two, Matrix.diagonal_apply]
+    simp [hij, Matrix.mul_apply, Fin.sum_univ_two]
 
 theorem blockMatrix_one : blockMatrix (fun _ => (1 : Matrix (Fin 2) (Fin 2) K)) = 1 := by
   unfold blockMatrix
   ext (i | i) (j | j) <;>
     by_cases hij : i = j <;>
-    simp [hij, Matrix.one_apply, Matrix.diagonal_apply]
+    simp [hij, Matrix.one_apply]
 
 theorem blockMatrix_transpose_mul_J (m : Fin 3 → Matrix (Fin 2) (Fin 2) K) :
     (blockMatrix m)ᵀ * fromBlocks 0 1 (-1) 0 * blockMatrix m =
       fromBlocks 0 (diagonal fun i => (m i).det) (-diagonal fun i => (m i).det) 0 := by
   unfold blockMatrix
   rw [fromBlocks_transpose, fromBlocks_multiply, fromBlocks_multiply]
-  simp only [diagonal_transpose, Matrix.mul_zero, Matrix.zero_mul, Matrix.mul_one, Matrix.mul_neg,
+  simp only [diagonal_transpose, Matrix.mul_zero, Matrix.mul_one, Matrix.mul_neg,
     Matrix.neg_mul, zero_add, add_zero, diagonal_mul_diagonal]
   ext (i | i) (j | j) <;>
     simp [Matrix.diagonal_apply, Matrix.det_fin_two, fromBlocks_apply₁₁, fromBlocks_apply₁₂,
@@ -183,7 +183,7 @@ theorem c₀_ofAdd_single {s : SL(2, K)} (hs : IsCubeRootBlock s) (i : Fin 3) :
   by_cases h : j = i
   · subst h
     simp [h1]
-  · simp [h, Pi.single_apply]
+  · simp [h]
 
 theorem c₀_injective {s : SL(2, K)} (hs : IsCubeRootBlock s) : Function.Injective (c₀ hs) := by
   rw [injective_iff_map_eq_one]

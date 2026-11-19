@@ -140,6 +140,7 @@ theorem commutator_eq_range_rhoW (h4 : 4 ≤ Nat.card K) :
   rw [← hO, ← Subgroup.map_commutator, commutator_eq_range h4, MonoidHom.map_range]
   rfl
 
+omit [Finite K] in
 theorem reflK_mul_reflK_mem_range_rhoW {r s : W} (hr : Q r = 1) (hs : Q s = 1) :
     reflK Q r * reflK Q s ∈ (rhoW ψ).range := by
   have hr' : (ψ r).det = 1 := by rw [← hψ, hr]

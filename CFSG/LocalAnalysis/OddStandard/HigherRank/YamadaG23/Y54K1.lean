@@ -46,14 +46,14 @@ theorem y54_C2_cent_V {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) 
   group
 
 theorem y54_C2_norm_B {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
-    ∀ x ∈ s.C₂, ∀ b ∈ s.fr.B, x * b * x⁻¹ ∈ s.fr.B :=
-  fun x hx b hb =>
+    ∀ _x ∈ s.C₂, ∀ b ∈ s.fr.B, _x * b * _x⁻¹ ∈ s.fr.B :=
+  fun _x hx b hb =>
     (Subgroup.mem_normalizer_iff.mp (f3_X_le_normB hH (f3_C₂_le_X hH hx)) b).mp hb
 
 theorem y54_C2_comm_V (c : Ctx5 G L) (hH : F33Hyp c.s c.e) :
     ∀ x ∈ c.s.C₂, ∀ y ∈ c.s.C₂, ⁅x, y⁆ ∈ cen c.s.fr.B := by
   obtain ⟨hVn, hcomm⟩ := (y52_fact (c := c) hH).2.2.2
-  haveI := hVn
+  have := hVn
   intro x hx y hy
   have hq : QuotientGroup.mk' ((cen c.s.fr.B).subgroupOf c.s.C₂)
       (⟨⁅x, y⁆, by
@@ -81,7 +81,7 @@ theorem y54_C2_eq_M2t (c : Ctx5 G L) (hH : F33Hyp c.s c.e) :
 theorem y54_B_le_M2 (s : Setting3 G L) : s.fr.B ≤ M2 s :=
   le_sup_right
 
-private theorem y54_V_le_M2 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
+private theorem y54_V_le_M2 {s : Setting3 G L} {e : Setting3.Ext s} (_hH : F33Hyp s e) :
     cen s.fr.B ≤ M2 s :=
   (inf_le_left : cen s.fr.B ≤ s.fr.B).trans (y54_B_le_M2 s)
 

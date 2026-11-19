@@ -43,7 +43,7 @@ theorem cyc_of_exactShape {X : Type} [Group X] [Finite X] {t : X} {A : Subgroup 
   obtain ⟨P, hP⟩ := hzp.exists_le_sylow
   have hPeq : (P : Subgroup K) = zpowers t' := by
     by_contra hne
-    have hnil : Group.IsNilpotent (P : Subgroup K) := P.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent (P : Subgroup K) := P.isPGroup.isNilpotent
     have hlt : (zpowers t').subgroupOf (P : Subgroup K) < ⊤ := by
       refine lt_top_iff_ne_top.2 fun htop => hne ?_
       refine le_antisymm ?_ hP

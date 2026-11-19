@@ -27,8 +27,8 @@ theorem ρ3_apply (g : Matrix.SpecialLinearGroup (Fin 3) k) :
 theorem uu_zero_zero_sub_one_mulVec (c : k) (x : Fin 3 → k) :
     (ρ3 k (uu 0 0 c) - 1) *ᵥ x = (c * x 2) • (Pi.single 0 1 : Fin 3 → k) := by
   ext i
-  fin_cases i <;> simp [ρ3_apply, coe_uu, Matrix.sub_mulVec, Matrix.mulVec, dotProduct,
-    Fin.sum_univ_three, Pi.single_apply]
+  fin_cases i <;> simp [ρ3_apply, coe_uu, Matrix.mulVec, dotProduct,
+    Fin.sum_univ_three]
 
 theorem dich_pzz [Finite k] [CharP k 2] (hk : 4 ≤ Nat.card k) {Y : Subgroup (projectiveSL 3 k)}
     (hY : pa1 k ≤ Y) : Dich (pzz k) Y := by

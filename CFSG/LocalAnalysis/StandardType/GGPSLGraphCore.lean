@@ -37,10 +37,10 @@ theorem pslGraph_core {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
   obtain ⟨e1, he1P, he1nI⟩ := pslGraph_exists_not_typeI S P hP
   have hbound := pslGraph_torus_bound S
   obtain ⟨R, hRP, hRtrans, hnorm, hdim, hRdata⟩ := pslGraph_orbit_data S P hP hstar
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hf1, hf⟩ : ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = 2 ^ f := by
     obtain ⟨m, -, hm⟩ := FiniteField.card K 2
-    exact ⟨(m : ℕ), PNat.one_le m, by rw [Nat.card_eq_fintype_card, hm]⟩
+    exact ⟨(m : ℕ), (fun (n : ℕ+) => (one_le : 1 ≤ n)) m, by rw [Nat.card_eq_fintype_card, hm]⟩
   let kind : Matrix (Fin n) (Fin n) K → ℕ := fun r =>
     if pslTypeI G B r then 0 else if pslTypeII G B r then 1 else 2
   have hk2 : ∀ r, kind r = 2 ↔ formAdj (RingHom.id K) G r ≠ r := by
@@ -143,14 +143,14 @@ theorem pslGraphNone_holds : PSLGraphNone := by
   classical
   intro n K _ _ _ hn A B α hα2 hodd hcomm hfix L₁ hL₁
   obtain ⟨G, hS⟩ := pslGraph_setting_of_hyps hn A B hα2 hodd hcomm hfix
-  haveI : Group.IsSolvable ↥(pslChat B) := pslGraph_core hS
+  have : Group.IsSolvable ↥(pslChat B) := pslGraph_core hS
   have hle : L₁ ≤ (pslChat B).map (proj n K) := by
     intro g hg
     obtain ⟨x, rfl⟩ := proj_surjective n K g
     refine ⟨x, ?_, rfl⟩
     exact hL₁ _ hg
-  haveI : Group.IsSolvable ↥((pslChat B).map (proj n K)) :=
-    solvable_of_surjective (MonoidHom.subgroupMap_surjective (proj n K) (pslChat B))
-  exact solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+  have : Group.IsSolvable ↥((pslChat B).map (proj n K)) :=
+    Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective (proj n K) (pslChat B))
+  exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
 
 end CFSG.StandardType

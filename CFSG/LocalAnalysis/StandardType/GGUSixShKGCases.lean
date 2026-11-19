@@ -55,7 +55,7 @@ theorem ggUSixSh_perLineSh_of_frame {K : Type} [Field K] [Finite K] {n : ℕ}
     GGUSixShPerLineOn ψ Sh A := by
   obtain ⟨φ, hφs, hφker, hφa, -⟩ := UnitSixThreeKG.exists_model hKd hψ hker hperf hperfSU hP hcov'
   have hAp : ∀ a ∈ A, a ^ 3 = 1 := hA.2
-  haveI : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
+  have : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
     DFunLike.coe_injective
   have hPN := LineU.primeForm_mem_normalizer hKd hP
   have hdiag : ∀ a ∈ A, ∃ t : Fin 6 → K, LineU.ActsDiagU φ a t := by
@@ -70,7 +70,7 @@ theorem ggUSixSh_perLineSh_of_frame {K : Type} [Field K] [Finite K] {n : ℕ}
     exact ⟨Matrix.diag ((P⁻¹ * M * P : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K),
       P⁻¹ * M * P, hDN, hdiag', hφa a M (P⁻¹ * M * P) hMN hDN rfl hc⟩
   intro a₀ ha₀ ha₀1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf a₀ = 3 := orderOf_eq_prime (hAp a₀ ha₀) ha₀1
   have hΛp : Nat.card (Subgroup.zpowers a₀) = 3 := by rw [Nat.card_zpowers, hord]
   have hΛA : Subgroup.zpowers a₀ ≤ A := Subgroup.zpowers_le.mpr ha₀
@@ -86,7 +86,7 @@ theorem ggUSixSh_perLineSh_of_heisTriple {K : Type} [Field K] [Finite K] {n : �
     (hKd : UnitaryFieldData 2 n K) (hpq : 3 ∣ 2 ^ n + 1)
     {L' : Type} [Group L'] [Finite L'] {ψ : L' →* LargeEvenProj (unitarySU 2 n K 6)}
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤)
-    {A : Subgroup (MulAut L')} (hA : CFSG.Open.IsElemAbelian 3 A)
+    {A : Subgroup (MulAut L')} (_hA : CFSG.Open.IsElemAbelian 3 A)
     (hAI : ∀ a ∈ A, ∃ x ∈ LargeEvenMatConjImage (LargeEvenProjMk (unitarySU 2 n K 6))
       (LargeEvenGUSet (Fin 6) K (2 ^ n)), ∀ l : L', x (ψ l) = ψ (a l))
     (hcard : Nat.card A = 27) {x y z : GL (Fin 6) K}
@@ -251,8 +251,7 @@ theorem ggUSixSh_perLineSh_of_fieldTriple {K : Type} [Field K] [Finite K] {n : �
     have h1 : φ w * (a (φ w))⁻¹ = φ (w * (LineU.conjN (X ^ i * Y ^ j * Z ^ k) hM w)⁻¹) := by
       rw [hact w, ← map_inv, ← map_mul]
     constructor
-    · change (n₀ * (a n₀)⁻¹) ^ 3 = 1
-      rw [show n₀ = φ w from rfl, h1]
+    · rw [show n₀ = φ w from rfl, h1]
       exact hpow
     · intro a' ha'
       obtain ⟨i', j', k', hM', hi', hj', hk', hx'⟩ := monoData a' ha'
@@ -360,8 +359,6 @@ theorem ggUSixSh_perLineSh_of_fieldTriple {K : Type} [Field K] [Finite K] {n : �
             ((w : ↥(unitarySU 2 n K 6))⁻¹ * s * w) * w⁻¹) := by
       intro s
       rw [MulAut.conj_apply]
-      change n₀ * φ (LineU.conjN (X ^ i * Y ^ j * Z ^ k) hM
-          ((w : ↥(unitarySU 2 n K 6))⁻¹ * s * w)) * n₀⁻¹ = _
       rw [show n₀ = φ w from rfl, ← map_inv, ← map_mul, ← map_mul]
     have hstep4 : ∀ s : ↥(unitarySU 2 n K 6),
         w * LineU.conjN (X ^ i * Y ^ j * Z ^ k) hM

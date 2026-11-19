@@ -131,18 +131,18 @@ theorem wI_c {t : ℕ} (ht : t < 42) : wI t = wcode 6 (wP t) := by
   rw [nIf_ite]
   by_cases h : t < 36
   · have hb : Nat.blt t 36 = true := Nat.blt_eq.mpr h
-    rw [if_pos hb, if_pos h, ← code_s (j := t / 6) (by omega), ← code_s (j := t % 6) (by omega),
+    rw [ite_eq_left hb, ite_eq_left h, ← code_s (j := t / 6) (by omega), ← code_s (j := t % 6) (by omega),
       ← code_si (j := t / 6) (by omega), ← code_si (j := t % 6) (by omega), m6c, m6c, m6c]
   · have e4 : sT (t - 36) ^ 4 = sT (t - 36) * (sT (t - 36) * (sT (t - 36) * (sT (t - 36) * 1))) := by
       rw [pow_succ', pow_succ', pow_succ', pow_succ', pow_zero]
     have hb : ¬ Nat.blt t 36 = true := fun e => h (Nat.blt_eq.mp e)
-    rw [if_neg hb, if_neg h, e4, i32c, ← code_s (j := t - 36) (by omega), m6c, m6c, m6c, m6c]
+    rw [ite_eq_right hb, ite_eq_right h, e4, i32c, ← code_s (j := t - 36) (by omega), m6c, m6c, m6c, m6c]
 
 theorem wP_cases {t : ℕ} (ht : t < 42) :
     (∃ a < 6, ∃ b < 6, wP t = sT a * sT b * (sT a)⁻¹ * (sT b)⁻¹) ∨ ∃ a < 6, wP t = sT a ^ 4 := by
   by_cases h : t < 36
-  · exact Or.inl ⟨t / 6, by omega, t % 6, Nat.mod_lt _ (by norm_num), by rw [wP, if_pos h]⟩
-  · exact Or.inr ⟨t - 36, by omega, by rw [wP, if_neg h]⟩
+  · exact Or.inl ⟨t / 6, by omega, t % 6, Nat.mod_lt _ (by norm_num), by rw [wP, ite_eq_left h]⟩
+  · exact Or.inr ⟨t - 36, by omega, by rw [wP, ite_eq_right h]⟩
 
 theorem inD_spec {t : ℕ} : ∀ {D : List ℕ}, inD D t = true → ∃ i < D.length, t = D.getD i 0
   | [], h => (Bool.false_ne_true h).elim

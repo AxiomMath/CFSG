@@ -80,6 +80,7 @@ theorem le_normalizer_inf_centralizer' {Y : Subgroup G}
   exact ⟨by simpa [mul_assoc] using Y.mul_mem (Y.mul_mem (Y.inv_mem hx) hc.1) hx,
     by simpa [mul_assoc] using h1⟩
 
+omit [Finite G] in
 theorem autOn_le_normalizer_autOn {Y L : Subgroup G}
     (hYL : Y ≤ Subgroup.normalizer (L : Set G)) :
     autOn Y V ≤ Subgroup.normalizer (autOn L V : Set (MulAut ↥V)) :=

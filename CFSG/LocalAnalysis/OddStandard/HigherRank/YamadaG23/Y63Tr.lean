@@ -27,18 +27,19 @@ theorem y63Img_card (ψ : ↥P ≃* Y63TG) {H : Subgroup G} (hHP : H ≤ P) :
       left_inv := fun x => Subtype.ext (by simp)
       right_inv := fun h => Subtype.ext (by simp) }
 
-theorem y63Img_normal (ψ : ↥P ≃* Y63TG) {H : Subgroup G} (hHP : H ≤ P)
+theorem y63Img_normal (ψ : ↥P ≃* Y63TG) {H : Subgroup G} (_hHP : H ≤ P)
     (hPN : P ≤ normalizer (H : Set G)) : (y63Img ψ H).Normal := by
   refine ⟨fun n hn g => ?_⟩
   rw [mem_y63Img] at hn ⊢
   have h := (Subgroup.mem_normalizer_iff.mp (hPN (ψ.symm g).2) _).mp hn
   simpa using h
 
+omit [Group Y63TG] in
 theorem y63_decomp {S M : Subgroup G} (hSP : S ≤ P) (hMP : M ≤ P)
     (hPN : P ≤ normalizer (M : Set G)) (hSM : S ⊔ M = P) :
     ∀ x ∈ P, ∃ s ∈ S, ∃ m ∈ M, x = s * m := by
   intro x hx
-  haveI : (M.subgroupOf P).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hMP).mpr hPN
+  have : (M.subgroupOf P).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hMP).mpr hPN
   have hsup : S.subgroupOf P ⊔ M.subgroupOf P = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hSP hMP, hSM, Subgroup.subgroupOf_self]
   have hx' : (⟨x, hx⟩ : ↥P) ∈ S.subgroupOf P ⊔ M.subgroupOf P := by

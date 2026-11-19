@@ -119,7 +119,7 @@ theorem exists_sylow_quot_equiv {N : Subgroup X} [N.Normal] (hN : Odd (Nat.card 
   obtain ⟨e⟩ := e
   have hker : Odd (Nat.card (QuotientGroup.mk' N).ker) := by rwa [QuotientGroup.ker_mk']
   have hinj := CFSG.RankThree.OddKernel.injective_restrict_of_odd (QuotientGroup.mk' N) hker
-    T.isPGroup'
+    T.isPGroup
   refine ⟨T.mapSurjective (QuotientGroup.mk'_surjective N), ⟨?_⟩⟩
   have hr : ((QuotientGroup.mk' N).comp (T : Subgroup X).subtype).range =
       ((T.mapSurjective (QuotientGroup.mk'_surjective N) : Sylow 2 (X ⧸ N)) :

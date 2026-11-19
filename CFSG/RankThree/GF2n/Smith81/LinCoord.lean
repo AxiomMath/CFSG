@@ -50,7 +50,7 @@ theorem SectionAct.exists_comm_not_mem {ι : Type} [Fintype ι] [DecidableEq ι]
     (h : SectionAct K S V Z φ act) (a : ↥S) (ha : act (φ a) ≠ 1) :
     ∃ v ∈ V, ⁅(a : G), v⁆ ∉ Z := by
   obtain ⟨hS, hN, ψ, hψ⟩ := h
-  haveI := hN
+  have := hN
   obtain ⟨w, hw⟩ : ∃ w : ι → K, act (φ a) *ᵥ w ≠ w := by
     by_contra hcon
     push Not at hcon
@@ -129,7 +129,7 @@ private theorem LinSetup.sections_bounds {M Q Z B : Subgroup G} {n : ℕ} {V₁ 
 
 private theorem charP_two_of_card_eq_two_pow {K : Type} [Field K] [Finite K] {k : ℕ}
     (h : Nat.card K = 2 ^ k) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, hp, hm⟩ := FiniteField.card K (ringChar K)
   have hd : ringChar K ∣ 2 ^ k := by
     rw [← h, Nat.card_eq_fintype_card, hm]
@@ -164,7 +164,7 @@ theorem exists_linCoord [Finite G] {M Q Z B : Subgroup G} {n : ℕ}
   obtain ⟨C, hCΦ⟩ := exists_natDualCoord_of_equivariant (φ.comp (Subgroup.inclusion hSH)) φ' hn
     hrange (by rw [h.card, hFcard]) Φ hΦ
   have hq4 := hc.hyp.q4
-  haveI : CharP F 2 := charP_of_injective_ringHom (f := C.θ₁.toRingHom) C.θ₁.injective 2
+  have : CharP F 2 := charP_of_injective_ringHom (f := C.θ₁.toRingHom) C.θ₁.injective 2
   have hps : ∀ t : ↥(H0 M Z), C.Preserves (φ t) ∨ C.Swaps (φ t) := by
     intro t
     refine C.preserves_or_swaps hn hrange (φ t) fun g => ?_
@@ -269,7 +269,7 @@ theorem linRankBoundStatement_holds : LinRankBoundStatement := by
   intro G _ _ M Q Z B n V₁ V₂ hc hS a haL haQ haaQ
   obtain ⟨K, _, _, hcard, φ, -, hker, hZV₁, -, hZV₂, -, -, -, hs₁, hs₂, -, -⟩ := hS
   obtain ⟨_, _, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hcard.trans hZ2)
   set a' : ↥(Lgen M (LB M Q B)) := ⟨a, haL⟩
   have hφ1 : φ a' ≠ 1 := by
     intro h

@@ -28,7 +28,7 @@ theorem isSylow_S_of_caseA (hSa : IsSylowIn h.S (centralizer ({h.a} : Set X)))
     refine le_antisymm (fun x hx => ?_) hV
     have : (⟨x, hx⟩ : ↥(V : Subgroup X)) ∈ h.S.subgroupOf (V : Subgroup X) := htop ▸ mem_top _
     exact mem_subgroupOf.mp this
-  have : Group.IsNilpotent ↥(V : Subgroup X) := V.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(V : Subgroup X) := V.isPGroup.isNilpotent
   obtain ⟨g, hgN, hgS⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hgN' : (g : X) ∈ normalizer (h.S : Set X) := by
     rw [mem_normalizer_iff]
@@ -45,7 +45,7 @@ theorem isSylow_S_of_caseA (hSa : IsSylowIn h.S (centralizer ({h.a} : Set X)))
       exact mem_subgroupOf.mp this
   obtain ⟨hSC, R, hR⟩ := hSa
   have hW2 : IsPGroup 2 ↥((h.S ⊔ zpowers (g : X)).subgroupOf (centralizer ({h.a} : Set X))) :=
-    (V.isPGroup'.to_le (sup_le hV (zpowers_le.mpr g.2))).comap_subtype
+    (V.isPGroup.to_le (sup_le hV (zpowers_le.mpr g.2))).comap_subtype
   have hle : (R : Subgroup ↥(centralizer ({h.a} : Set X))) ≤
       (h.S ⊔ zpowers (g : X)).subgroupOf (centralizer ({h.a} : Set X)) := by
     rw [hR]

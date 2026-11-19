@@ -55,7 +55,7 @@ private theorem two_part_mem_B (F : Sec8T84Base) (hE : Sec8E G t L S z g B E)
     have h := B89.rhoG_B hE F.h8B ((Nsub8 t B).mul_mem hm₁N hm₁N)
       (⟨b, B89.B_le_E hE hb⟩ : ↥E) hb
     rw [hρsq, MulAut.one_apply] at h
-    simp only [Subtype.coe_mk] at h
+    simp only at h
     calc b * ((m₀ ^ q) * (m₀ ^ q))
         = (((m₀ ^ q) * (m₀ ^ q)) * b * ((m₀ ^ q) * (m₀ ^ q))⁻¹) *
             ((m₀ ^ q) * (m₀ ^ q)) := by rw [h.symm]
@@ -129,11 +129,11 @@ theorem exists_involution_lift (F : Sec8T84Base) (hE : Sec8E G t L S z g B E)
   obtain ⟨m₀, hm₀L, hm₀B, ha₀eq⟩ := B89.exists_of_mem_Abar hE ha₀
   obtain ⟨m₁, hm₁L, hm₁B, hm₁N, hm₁sq_B, hrho⟩ :=
     two_part_mem_B F hE hm₀L hm₀B ha₀eq h1 h2
-  letI : CommGroup ↥B :=
+  let : CommGroup ↥B :=
     { (inferInstance : Group ↥B) with
       mul_comm := fun a b =>
         Subtype.ext (B89.E_comm hE (B89.B_le_E hE a.2) (B89.B_le_E hE b.2)) }
-  haveI : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hE.ctx.B_e16.2]; norm_num)
+  have : Finite ↥B := Nat.finite_of_card_ne_zero (by rw [hE.ctx.B_e16.2]; norm_num)
   have hsq : ∀ v : ↥B, v * v = 1 := fun v => Subtype.ext (B89.E_sq hE (B89.B_le_E hE v.2))
   have hcard : Nat.card ↥B = Nat.card {v : ↥B // sec1011_conjAut B m₁ hm₁B v = v} ^ 2 :=
     card_fix_conjAut F hE hm₁N hm₁B hrho h4

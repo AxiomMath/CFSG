@@ -488,7 +488,7 @@ theorem exists_t (c : Loc49 G z) :
     rw [← map_pow, show tNX ^ 2 = 1 from Subtype.ext (by simpa [tNX, pow_two] using ht2), map_one]
   have horder : orderOf (c.conjNX tNX) = 2 :=
     orderOf_eq_prime hφt_sq hφt_ne
-  haveI : IsCyclic ↥c.X := isCyclic_of_prime_card (p := 3) (by rw [c.card_X])
+  have : IsCyclic ↥c.X := isCyclic_of_prime_card (p := 3) (by rw [c.card_X])
   have hcardAut : Nat.card (MulAut ↥c.X) = 2 := by
     rw [IsCyclic.card_mulAut ↥c.X, c.card_X, Nat.totient_prime (by norm_num)]
   have hzp_top : Subgroup.zpowers (c.conjNX tNX) = ⊤ := by

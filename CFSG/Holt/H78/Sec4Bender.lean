@@ -160,7 +160,7 @@ private theorem existsUnique_fixed_of_benderType [IsPreprimitive G Ω] (hG : IsS
     omega
   have : IsPretransitive N Ω := CFSG.GroupActions.isPretransitive_of_normal_ne_bot N hNbot
   obtain ⟨Q⟩ : Nonempty (Sylow 2 N) := inferInstance
-  obtain ⟨α, hQα⟩ := fixSet_nonempty_of_odd hG.odd_card Q.isPGroup'
+  obtain ⟨α, hQα⟩ := fixSet_nonempty_of_odd hG.odd_card Q.isPGroup
   rw [mem_fixSet_iff_le_stabilizer] at hQα
   have hne : stabilizer N α ≠ ⊤ := by
     intro htop
@@ -173,7 +173,7 @@ private theorem existsUnique_fixed_of_benderType [IsPreprimitive G Ω] (hG : IsS
   have hincl : ∀ g ∈ stabilizer G α, ∀ h ∈ P, g * h * g⁻¹ ∈ P := by
     rintro g hg _ ⟨y, hy, rfl⟩
     set R : Subgroup N := (Q : Subgroup N).map (MulAut.conjNormal g).toMonoidHom with hR
-    have hR2 : IsPGroup 2 R := Q.isPGroup'.map _
+    have hR2 : IsPGroup 2 R := Q.isPGroup.map _
     have hRα : R ≤ stabilizer N α := by
       rintro _ ⟨z, hz, rfl⟩
       rw [mem_stabilizer_iff, Subgroup.smul_def]
@@ -195,7 +195,7 @@ private theorem existsUnique_fixed_of_benderType [IsPreprimitive G Ω] (hG : IsS
   have hPtop : Subgroup.normalizer (P : Set G) ≠ ⊤ := by
     intro htop
     have hPbot := eq_bot_of_normal_of_isPGroup_two hG.odd_card h1
-      (Subgroup.normalizer_eq_top_iff.mp htop) (Q.isPGroup'.map N.subtype)
+      (Subgroup.normalizer_eq_top_iff.mp htop) (Q.isPGroup.map N.subtype)
     rw [hP, Subgroup.map_eq_bot_iff_of_injective _ N.subtype_injective] at hPbot
     exact Q.ne_bot_of_dvd_card (hxN' ▸ orderOf_dvd_natCard _) hPbot
   have heq : stabilizer G α = Subgroup.normalizer (P : Set G) := by

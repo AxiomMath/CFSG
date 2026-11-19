@@ -71,23 +71,23 @@ private theorem norm_a_add_gamma_t'_add_c :
       -2 + 2 * F.γ + F.γ := by
     simp [map_add, map_smul, smul_eq_mul, F.norm_a, F.norm_c, F.isotropic_t,
       F.isotropic_t', a_orth_t, a_orth_t', a_orth_c, F.t_orth_a, F.t'_orth_a, F.c_orth_a,
-      t_orth_c, t'_orth_c, F.c_orth_t, F.c_orth_t', F.pair_t, t'_orth_t] <;> ring
+      t_orth_c, t'_orth_c, F.c_orth_t, F.c_orth_t', F.pair_t, t'_orth_t]; ring
   rw [h]
   exact coeff_four F.γ
 
 private theorem pair_a_a_add_t : f F.a (F.a + F.t) ≠ 0 := by
-  simp [map_add, F.norm_a, a_orth_t] <;> decide
+  simp [map_add, F.norm_a, a_orth_t]; decide
 
 private theorem pair_a_a_add_t' : f F.a (F.a + F.t') ≠ 0 := by
-  simp [map_add, F.norm_a, a_orth_t'] <;> decide
+  simp [map_add, F.norm_a, a_orth_t']; decide
 
 private theorem pair_a_a_add_gamma_t'_add_c :
     f F.a (F.a + F.t + F.γ • F.t' + F.c) ≠ 0 := by
-  simp [map_add, map_smul, smul_eq_mul, F.norm_a, a_orth_t, a_orth_t', a_orth_c] <;>
+  simp [map_add, map_smul, smul_eq_mul, F.norm_a, a_orth_t, a_orth_t', a_orth_c];
     decide
 
 private theorem pair_t'_a_add_t : f F.t' (F.a + F.t) ≠ 0 := by
-  simp [map_add, F.t'_orth_a, t'_orth_t] <;> decide
+  simp [map_add, F.t'_orth_a, t'_orth_t]
 
 private def goodSpan (F : OrthFrameThree f) : Submodule (ZMod 3) (Fin 6 → ZMod 3) :=
   Submodule.span (ZMod 3) {v | v ∈ F.U ∧ f v v = -2 ∧ f F.a v ≠ 0}
@@ -117,29 +117,29 @@ private theorem gamma_eq_one_or_two : F.γ = 1 ∨ F.γ = 2 := by
   · exact Or.inr h2
 
 private theorem norm_t_sub_t' : f (F.t - F.t') (F.t - F.t') = -2 := by
-  simp [map_sub, F.isotropic_t, F.isotropic_t', F.pair_t, t'_orth_t] <;> decide
+  simp [map_sub, F.isotropic_t, F.isotropic_t', F.pair_t, t'_orth_t]; decide
 
 private theorem norm_t_add_c_of_gamma_one (hγ : F.γ = 1) :
     f (F.t + F.c) (F.t + F.c) = -2 := by
   have hcc : f F.c F.c = 1 := by rw [F.norm_c, hγ]
-  simp [map_add, F.isotropic_t, hcc, t_orth_c, F.c_orth_t] <;> decide
+  simp [map_add, F.isotropic_t, hcc, t_orth_c, F.c_orth_t]; decide
 
 private theorem norm_t'_add_c_of_gamma_one (hγ : F.γ = 1) :
     f (F.t' + F.c) (F.t' + F.c) = -2 := by
   have hcc : f F.c F.c = 1 := by rw [F.norm_c, hγ]
-  simp [map_add, F.isotropic_t', hcc, t'_orth_c, F.c_orth_t'] <;> decide
+  simp [map_add, F.isotropic_t', hcc, t'_orth_c, F.c_orth_t']; decide
 
 private theorem norm_t_add_t'_add_c_of_gamma_two (hγ : F.γ = 2) :
     f (F.t + F.t' + F.c) (F.t + F.t' + F.c) = -2 := by
   have hcc : f F.c F.c = 2 := by rw [F.norm_c, hγ]
   simp [map_add, F.isotropic_t, F.isotropic_t', F.pair_t, t'_orth_t, hcc, t_orth_c,
-    t'_orth_c, F.c_orth_t, F.c_orth_t'] <;> decide
+    t'_orth_c, F.c_orth_t, F.c_orth_t']; decide
 
 private theorem norm_t_add_t'_sub_c_of_gamma_two (hγ : F.γ = 2) :
     f (F.t + F.t' - F.c) (F.t + F.t' - F.c) = -2 := by
   have hcc : f F.c F.c = 2 := by rw [F.norm_c, hγ]
   simp [map_sub, map_add, F.isotropic_t, F.isotropic_t', F.pair_t, t'_orth_t, hcc,
-    t_orth_c, t'_orth_c, F.c_orth_t, F.c_orth_t'] <;> decide
+    t_orth_c, t'_orth_c, F.c_orth_t, F.c_orth_t']; decide
 
 private theorem t_add_t'_eq_neg :
     F.t + F.t' = -((F.t + F.t' + F.c) + (F.t + F.t' - F.c)) := by
@@ -299,7 +299,7 @@ theorem siegel_mem_orthConjSup :
       exact ⟨hxU,
         by simpa using F.toOrthFrame.siegel_smul_mem_orthConjSup hp hxU hxnorm hxa 1⟩
     · exact ⟨F.U.zero_mem, by
-        simpa [F.siegel_zero] using (orthConjSup f F.a).one_mem⟩
+        simp [F.siegel_zero]⟩
     · intro x y _ _ ihx ihy
       have hx0 : f x F.s = 0 := (F.mem_U.1 ihx.1).1
       have hy0 : f y F.s = 0 := (F.mem_U.1 ihy.1).1

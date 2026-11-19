@@ -13,10 +13,11 @@ section Pieces
 variable {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [Finite G] {V : Type} [AddCommGroup V]
   [Module (ZMod p) V] [Finite V] {ρ : Representation (ZMod p) G V} {D : Subgroup G}
 
+omit [Finite G] in
 theorem fixV_ne_bot_of_pGroup [Nontrivial V] {A : Subgroup G} (hA : IsPGroup p A) :
     fixV ρ A ≠ ⊥ := by
   classical
-  letI : MulAction A V :=
+  let : MulAction A V :=
     { smul := fun a v => ρ a v
       one_smul := fun v => by
         show ρ (1 : A) v = v
@@ -24,7 +25,7 @@ theorem fixV_ne_bot_of_pGroup [Nontrivial V] {A : Subgroup G} (hA : IsPGroup p A
       mul_smul := fun a b v => by
         show ρ ((a * b : A) : G) v = ρ a (ρ b v)
         simp }
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hcard : p ∣ Nat.card V := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod p), Nat.card_zmod]
     exact dvd_pow_self p (Module.finrank_pos (R := ZMod p) (M := V)).ne'
@@ -43,8 +44,8 @@ theorem fixV_ne_bot_of_pGroup [Nontrivial V] {A : Subgroup G} (hA : IsPGroup p A
 
 theorem p_ne_three (h : Hyp45 p G V ρ D) : p ≠ 3 := by
   intro hp3
-  haveI := h.irred
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra (ZMod p) G) ρ.asModule
+  have := h.irred
+  have : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra (ZMod p) G) ρ.asModule
   have hD3 : IsPGroup p D := by
     apply IsPGroup.of_card (n := 1)
     rw [h.card_three, hp3]; norm_num
@@ -60,8 +61,8 @@ theorem no_abelian_two (hK42 : K42) (h : Hyp45 p G V ρ D) (A : Subgroup G) (hA2
 
 theorem uc45_Op (h : Hyp45 p G V ρ D) : CFSG.pCore p G = ⊥ := by
   classical
-  haveI := h.irred
-  haveI : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra (ZMod p) G) ρ.asModule
+  have := h.irred
+  have : Nontrivial V := IsSimpleModule.nontrivial (MonoidAlgebra (ZMod p) G) ρ.asModule
   have hfix : fixV ρ (CFSG.pCore p G) ≠ ⊥ := fixV_ne_bot_of_pGroup (CFSG.pCore_isPGroup)
   let R : Subrepresentation ρ :=
     ⟨fixV ρ (CFSG.pCore p G), fun g v hv n hn => by
@@ -88,8 +89,8 @@ theorem uc45_Op (h : Hyp45 p G V ρ D) : CFSG.pCore p G = ⊥ := by
     exact hv n hn
 
 theorem uc45_center (h : Hyp45 p G V ρ D) : IsCyclic (Subgroup.center G) := by
-  haveI := h.irred
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have := h.irred
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   exact CFSG.center_cyclic_of_representation_faithful_irreducible ρ h.faithful
 
 end Pieces
@@ -101,10 +102,10 @@ theorem three_dvd_two_pow_sub_one {n : ℕ} (hn : Even n) : 3 ∣ 2 ^ n - 1 := b
 theorem sl2_involution_eq_neg_one {F : Type} [Field F] [Finite F] (hF : Odd (Nat.card F))
     {u : SL(2, F)} (hu : u ^ 2 = 1) (hu1 : u ≠ 1) :
     (u : Matrix (Fin 2) (Fin 2) F) = -1 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hchar : (2 : F) ≠ 0 := by
     intro h2
-    haveI : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+    have : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
     obtain ⟨k, hk⟩ := FiniteField.card F 2
     rw [Nat.card_eq_fintype_card, hk.2] at hF
     have : Even (2 ^ (k : ℕ)) := (Nat.even_pow.2 ⟨even_two, k.ne_zero⟩)
@@ -119,7 +120,7 @@ theorem sl2_involution_eq_neg_one {F : Type} [Field F] [Finite F] (hF : Odd (Nat
   have e10 := congrFun (congrFun hM2 1) 0
   have e11 := congrFun (congrFun hM2 1) 1
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply_eq, Matrix.one_apply_ne,
-    Fin.zero_eta, Fin.mk_one, ne_eq, zero_ne_one, one_ne_zero, not_false_eq_true] at e00 e01 e10 e11
+    ne_eq, zero_ne_one, one_ne_zero, not_false_eq_true] at e00 e01 e10 e11
   set a := (u : Matrix (Fin 2) (Fin 2) F) 0 0 with ha
   set b := (u : Matrix (Fin 2) (Fin 2) F) 0 1 with hb
   set c := (u : Matrix (Fin 2) (Fin 2) F) 1 0 with hc
@@ -215,7 +216,7 @@ theorem sl2_semiregular {p : ℕ} [Fact p.Prime] (hp : 2 < p) {G : Type} [Group 
     (ρ : Representation (ZMod p) G V) (hρ : Function.Injective ρ) (hirr : ρ.IsIrreducible)
     (hodd : ∀ (r : ℕ) (A : Subgroup G), r.Prime → r ≠ 2 → Nat.card A = r → fixV ρ A = ⊥) :
     ∀ g : G, g ≠ 1 → ∀ v : V, ρ g v = v → v = 0 := by
-  haveI := hirr
+  have := hirr
   intro g hg v hv
   have hpow : ∀ n : ℕ, ρ (g ^ n) v = v := by
     intro n

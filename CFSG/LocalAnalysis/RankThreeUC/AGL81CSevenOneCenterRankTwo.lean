@@ -79,7 +79,7 @@ theorem kFactCenterRankTwo_holds
   · subst hp3
     by_contra hcon
     have hle3 : CFSG.Open.pRank 3 L ≤ 3 := by omega
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hNcop : Nat.Coprime 3 (Nat.card (GL83.I243.Cover.primeCentre 3 ↥L)) :=
       GL83.I243.Cover.coprime_card_primeCentre
     have hN3 : ¬ 3 ∣ Nat.card (GL83.I243.Cover.primeCentre 3 ↥L) :=

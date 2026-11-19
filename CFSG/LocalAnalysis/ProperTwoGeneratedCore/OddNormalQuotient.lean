@@ -67,7 +67,7 @@ theorem sylow_subgroup_rank_eq_odd_quotient
     rw [QuotientGroup.ker_mk']
     exact Nat.coprime_two_left.mpr hRodd
   obtain ⟨e⟩ := coprime_kernel_pGroup_equiv_image 2 Nat.prime_two
-    (QuotientGroup.mk' R) hkernel U (IsPGroup.to_le S.isPGroup' hUS)
+    (QuotientGroup.mk' R) hkernel U (IsPGroup.to_le S.isPGroup hUS)
   calc
     _ = twoRank (U.map (QuotientGroup.mk' R)) :=
       pRank_subgroup_eq_internal_top 2 (by decide) _
@@ -93,7 +93,7 @@ theorem gamma_image_odd_normal_quotient
     apply iSup_le
     intro hUr
     rw [coprime_quotient_normalizer_image 2 Nat.prime_two R U
-      (Nat.coprime_two_left.mpr hRodd) (IsPGroup.to_le S.isPGroup' hUS)]
+      (Nat.coprime_two_left.mpr hRodd) (IsPGroup.to_le S.isPGroup hUS)]
     exact (gamma_le_iff _ _ k).mp le_rfl (U.map pi) (Subgroup.map_mono hUS)
       (by rwa [sylow_subgroup_rank_eq_odd_quotient S R hRodd U hUS])
   · apply (gamma_le_iff _ _ k).mpr
@@ -111,7 +111,7 @@ theorem gamma_image_odd_normal_quotient
       rw [himage] at hrank
       rwa [← hrank]
     rw [← himage, ← coprime_quotient_normalizer_image 2 Nat.prime_two R U
-      (Nat.coprime_two_left.mpr hRodd) (IsPGroup.to_le S.isPGroup' hUS)]
+      (Nat.coprime_two_left.mpr hRodd) (IsPGroup.to_le S.isPGroup hUS)]
     exact Subgroup.map_mono ((gamma_le_iff _ _ k).mp le_rfl U hUS hUr)
 
 theorem full_core_eq_top_iff_odd_normal_quotient

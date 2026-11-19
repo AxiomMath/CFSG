@@ -76,7 +76,7 @@ theorem not_dvd_card_centralizer_of_sylow {r : ℕ} (hr : r.Prime) {y : G} (hy :
     (hr2 : ¬ r ^ 2 ∣ Nat.card G) (hC : ∀ s : G, s * y = y * s → s ^ 3 = 1 → s = 1) {s : G}
     (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) : ¬ r ∣ Nat.card (Subgroup.centralizer ({s} : Set G)) := by
   intro hdvd
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.centralizer ({s} : Set G)) r hdvd
   have hgs : (g : G) * s = s * g := Subgroup.mem_centralizer_singleton_iff.mp g.2
   have hg' : orderOf (g : G) = r := by rw [Subgroup.orderOf_coe, hg]
@@ -155,8 +155,8 @@ theorem good429_of_not_dvd {C : Subgroup S} {N B : ℕ} (hCN : Nat.card C ∣ N)
     (hall : (typeOrders N B).all (fun t => rs.any (fun r => decide (r ∣ t))) = true) :
     Good429 C := by
   intro K hKC hKp hKs hT
-  haveI := hKp
-  haveI := nontrivial_of_isType429 hT
+  have := hKp
+  have := nontrivial_of_isType429 hT
   obtain ⟨a, ha⟩ := exists_card_eq_mul_two_pow K
   have h1 : Nat.card (K ⧸ CFSG.pCore 2 K) ∣ Nat.card C :=
     (show Nat.card (K ⧸ CFSG.pCore 2 K) ∣ Nat.card K from ha ▸ Dvd.intro _ rfl).trans

@@ -121,10 +121,10 @@ open scoped commutatorElement
 
 set_option maxRecDepth 4000 in
 theorem noCardComp_s1 : NoCardComp 360 (sJ 0) := by
-  haveI : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
+  have : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
   obtain ⟨-, -, hcomm⟩ := CJ_s1_structure
   have hder := commutator_CJ_s1
-  haveI hsimple : IsSimpleGroup ↥L1J := by
+  have hsimple : IsSimpleGroup ↥L1J := by
     have := alt3_simple
     exact MulEquiv.isSimpleGroup (alt3.equivMapOfInjective iotaA iotaA_injective).symm
   have hcard : Nat.card ↥L1J = 181440 := by
@@ -155,11 +155,11 @@ theorem noCardComp_s1 : NoCardComp 360 (sJ 0) := by
   exact L1J.mul_mem h1 hl
 
 theorem noCardComp_JH (k : ↥JH) (hk : k ^ 3 = 1) : NoCardComp 360 k := by
-  haveI : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
+  have : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
   by_cases h1 : k = 1
   · subst h1
-    haveI hHN : IsSimpleGroup NativeSporadic.HN := CFSG.Sporadic.HN.isSimpleGroup_HN
-    haveI : IsSimpleGroup ↥JH := @MulEquiv.isSimpleGroup _ _ _ _ hHN hnEquivJ.symm
+    have hHN : IsSimpleGroup NativeSporadic.HN := CFSG.Sporadic.HN.isSimpleGroup_HN
+    have : IsSimpleGroup ↥JH := @MulEquiv.isSimpleGroup _ _ _ _ hHN hnEquivJ.symm
     have hp : ¬ (Nat.card ↥JH).Prime := by rw [card_JH]; norm_num
     exact noCardComp_one
       (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (S := ↥JH) hp)
@@ -178,7 +178,7 @@ set_option maxRecDepth 100000 in
 theorem noCardComp_HN {S : Type} [Group S] [Finite S]
     (e : S ≃* (TauCeti.CFSGIndex.sporadic .HN).Group) (x : S) (hx : x ^ 3 = 1) :
     NoCardComp 360 x := by
-  haveI : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
+  have : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.HN.nonempty_mulEquiv
   have hb : ↥JH ≃* (TauCeti.CFSGIndex.sporadic .HN).Group := hnEquivJ.symm.trans b
   refine noCardComp_of_model (Q := ↥JH) e ?_ ?_ x hx
@@ -209,7 +209,7 @@ theorem exists_simple_card_360 {Y : Type} [Group Y] [Finite Y] {τ : MulAut Y} (
 theorem i1431InspHN_holds : I1431InspHN := by
   intro Y _ _ hY _ hcat τ hτ A hA hT
   obtain ⟨β, J', hβ, hJ', hc360⟩ := exists_simple_card_360 hτ hA hT
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
   have hncS : ∃ a b : Y ⧸ Subgroup.center Y, a * b ≠ b * a :=
     ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hY
   obtain ⟨i, hi, ⟨e⟩⟩ := hcat

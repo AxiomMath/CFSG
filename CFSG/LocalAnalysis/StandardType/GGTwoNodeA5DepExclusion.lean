@@ -159,8 +159,8 @@ theorem ggDepA_mem_span_of_commute {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V :
       · right; simp; omega
     have h_int : CartanMatrix.A (N - 1) j i = -1 := by
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hji]
-      rw [if_pos (Or.symm hadj)]
+      rw [ite_eq_right hji]
+      rw [ite_eq_left (Or.symm hadj)]
     rw [hfr.pair j i, h_int]
     norm_num
 
@@ -211,10 +211,10 @@ private lemma ggWeyl_key_lemma {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Typ
     intro w
     have h1 : g w - w = -((β - β'') w) • c := by
       rw [hg_eq w]
-      simp only [LinearMap.sub_apply, sub_smul, one_smul]
+      simp only [LinearMap.sub_apply, sub_smul]
       rw [sub_sub_cancel_left, neg_smul, sub_smul]
     rw [h1]
-    simp [map_neg, map_smul, hgc]
+    simp [map_smul, hgc]
   by_contra hne
   have hδne : β - β'' ≠ 0 := by
     intro hδ
@@ -237,7 +237,7 @@ private lemma ggWeyl_key_lemma {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Typ
             rw [← hv]
             change g v - v = -((β - β'') v) • c
             rw [hg_eq v]
-            simp only [LinearMap.sub_apply, sub_smul, one_smul]
+            simp only [LinearMap.sub_apply, sub_smul]
             rw [sub_sub_cancel_left, neg_smul, sub_smul]
           rw [hx']
           exact Submodule.smul_mem _ _ (Submodule.subset_span (by simp))

@@ -58,7 +58,7 @@ theorem t263SelWP_td4Hard :
       case trialityD4 q =>
         obtain ⟨hq2, hpq⟩ : q.p = 2 ∧ ¬ p ∣ q.card ^ 2 - 1 := hi
         obtain ⟨hp5, hpf⟩ := five_le_and_not_dvd_of_not_dvd_sq_sub_one hp hp2 hq2 hpq
-        haveI : Finite X :=
+        have : Finite X :=
           @Finite.of_equiv _ _ (CFSG.Assembly.lie_finite_simple ⟨.trialityD4 q, hv⟩).1
             e.symm.toEquiv
         have hrank := CFSG.RankThree.PartOne.kf123ExcD4NoRankTwo X q.exponent

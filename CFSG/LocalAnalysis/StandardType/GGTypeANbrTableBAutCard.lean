@@ -14,6 +14,7 @@ namespace TypeANbrDvd
 
 variable {d p : ℕ} {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem exists_diagonal_of_actsDiag_conj [Finite K] {L' : Type} [Group L']
     {φ' : SpecialLinearGroup (Fin d) K →* L'}
     (hφker : ∀ g, φ' g = 1 → g ∈ scalars d K)
@@ -59,6 +60,7 @@ theorem exists_diagonal_of_actsDiag_conj [Finite K] {L' : Type} [Group L']
       Matrix.mul_one]
   rw [h1, hc, scalar_apply, hE, diagonal_mul_diagonal]
 
+omit [CharP K 2] in
 theorem ActsDiag.conj_of_mul_diagonal {L' : Type} [Group L']
     {φ' : SpecialLinearGroup (Fin d) K →* L'} {a : MulAut L'} {t t' : Fin d → K}
     (ha : ActsDiag φ' a t) {s : SpecialLinearGroup (Fin d) K}

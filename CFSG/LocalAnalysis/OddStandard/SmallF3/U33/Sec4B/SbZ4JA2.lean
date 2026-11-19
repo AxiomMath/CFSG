@@ -13,55 +13,68 @@ open scoped commutatorElement
 variable {X : Type} [Group X] [Finite X] {N Q Y V V' B : Subgroup X}
   {ρ t τ l y z v₁ v₂ : X} [N.Normal]
 
+omit [Finite X] [N.Normal] in
 private lemma zj_isPGroup_Q (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     IsPGroup 2 Q :=
   IsPGroup.of_card (n := 6) (by rw [h.card_Q]; norm_num)
 
+omit [Finite X] [N.Normal] in
 private lemma zj_V_le_Q (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) : V ≤ Q := by
   calc V ≤ V ⊔ V' := le_sup_left
     _ = Y := h.Y_eq.symm
     _ ≤ Q := h.Y_le_Q
 
+omit [Finite X] [N.Normal] in
 private lemma zj_V'_le_Q (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) : V' ≤ Q := by
   calc V' ≤ V ⊔ V' := le_sup_right
     _ = Y := h.Y_eq.symm
     _ ≤ Q := h.Y_le_Q
 
+omit [Finite X] [N.Normal] in
 private lemma zj_y_mem_V (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) : y ∈ V := by
   rw [h.V_eq]
   exact Subgroup.subset_closure (Set.mem_insert _ _)
 
+omit [Finite X] [N.Normal] in
 private lemma zj_z_mem_V (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) : z ∈ V := by
   rw [h.V_eq]
   exact Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))
 
+omit [Finite X] [N.Normal] in
 private lemma zj_y_mem_Y (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) : y ∈ Y := by
   rw [h.Y_eq]
   exact Subgroup.mem_sup_left (zj_y_mem_V h)
 
+omit [Finite X] [N.Normal] in
 private lemma zj_z_mem_Y (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) : z ∈ Y := by
   rw [h.Y_eq]
   exact Subgroup.mem_sup_left (zj_z_mem_V h)
 
+omit [Finite X] [N.Normal] in
 private lemma zj_v₁_mem_V' (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) : v₁ ∈ V' := by
   rw [h.V'_eq]
   exact Subgroup.subset_closure (Set.mem_insert _ _)
 
+omit [Finite X] [N.Normal] in
 private lemma zj_v₂_mem_V' (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) : v₂ ∈ V' := by
   rw [h.V'_eq]
   exact Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))
 
+omit [Finite X] [N.Normal] in
 private lemma zj_v₁_mem_Y (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) : v₁ ∈ Y := by
   rw [h.Y_eq]
   exact Subgroup.mem_sup_right (zj_v₁_mem_V' h)
 
+omit [Finite X] [N.Normal] in
 private lemma zj_v₂_mem_Y (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) : v₂ ∈ Y := by
   rw [h.Y_eq]
   exact Subgroup.mem_sup_right (zj_v₂_mem_V' h)
 
+omit [N.Normal] in
 private lemma zj_Q_inf_N (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) : Q ⊓ N = ⊥ :=
   z4i_inf_N_eq_bot N h.odd_N (zj_isPGroup_Q h)
 
+omit [Finite X] in
 private lemma zj_Q_comm (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     ∀ a ∈ Q.map (z4iπ N), ∀ b ∈ Q.map (z4iπ N), a * b = b * a := by
   rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
@@ -80,18 +93,22 @@ private lemma zj_cent_Q (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
   exact z4i_commute_of_map N (zj_Q_inf_N h) (fun x hx => h.normal_Q g₀ x hx) hq
     (hg (z4iπ N q) (Subgroup.mem_map_of_mem (z4iπ N) hq))
 
+omit [Finite X] in
 private lemma zj_Q_eq (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     Q.map (z4iπ N) = B.map (z4iπ N) ⊔ V'.map (z4iπ N) := by
   rw [← Subgroup.map_sup, ← h.Q_eq]
 
+omit [Finite X] in
 private lemma zj_B_le_Q (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     B.map (z4iπ N) ≤ Q.map (z4iπ N) :=
   Subgroup.map_mono h.B_le_Q
 
+omit [Finite X] in
 private lemma zj_Y_le_Q (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     Y.map (z4iπ N) ≤ Q.map (z4iπ N) :=
   Subgroup.map_mono h.Y_le_Q
 
+omit [Finite X] in
 private lemma zj_Y_eq (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     Y.map (z4iπ N) = V.map (z4iπ N) ⊔ V'.map (z4iπ N) := by
   rw [← Subgroup.map_sup, ← h.Y_eq]
@@ -114,11 +131,13 @@ private lemma zj_card_B (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     Nat.card (B.map (z4iπ N)) = 16 := by
   rw [z4i_card_map N h.odd_N ((zj_isPGroup_Q h).to_le h.B_le_Q), h.card_B]
 
+omit [Finite X] in
 private lemma zj_sq_mem_V (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     ∀ q ∈ Q.map (z4iπ N), q ^ 2 ∈ V.map (z4iπ N) := by
   rintro _ ⟨q, hq, rfl⟩
   simpa only [map_pow] using Subgroup.mem_map_of_mem (z4iπ N) (h.sq_mem_V q hq)
 
+omit [Finite X] in
 private lemma zj_Y_sq (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     ∀ u ∈ Y.map (z4iπ N), u * u = 1 := by
   rintro _ ⟨u, hu, rfl⟩
@@ -136,6 +155,7 @@ private lemma zj_Y_mem (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
   have hqq : q * q = 1 := Subgroup.mem_bot.1 hmem
   exact Subgroup.mem_map_of_mem (z4iπ N) (h.Y_mem q hq hqq)
 
+omit [Finite X] in
 private lemma zj_normal {A : Subgroup X}
     (hA : ∀ g x : X, x ∈ A → g * x * g⁻¹ ∈ A) :
     ∀ g x : X ⧸ N, x ∈ A.map (z4iπ N) → g * x * g⁻¹ ∈ A.map (z4iπ N) := by
@@ -145,26 +165,32 @@ private lemma zj_normal {A : Subgroup X}
   rw [← map_mul, ← map_inv, ← map_mul]
   exact Subgroup.mem_map_of_mem (z4iπ N) (hA g0 x0 hx0)
 
+omit [Finite X] in
 private lemma zj_V_eq (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     V.map (z4iπ N) = closure ({z4iπ N y, z4iπ N z} : Set (X ⧸ N)) := by
   rw [h.V_eq, MonoidHom.map_closure, Set.image_pair]
 
+omit [Finite X] in
 private lemma zj_V'_eq (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     V'.map (z4iπ N) = closure ({z4iπ N v₁, z4iπ N v₂} : Set (X ⧸ N)) := by
   rw [h.V'_eq, MonoidHom.map_closure, Set.image_pair]
 
+omit [Finite X] in
 private lemma zj_y_ne_one (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N y ≠ 1 :=
   z4i_map_ne_one N h.odd_N (h.Y_sq y (zj_y_mem_Y h)) h.y_ne_one
 
+omit [Finite X] in
 private lemma zj_z_ne_one (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N z ≠ 1 :=
   z4i_map_ne_one N h.odd_N (h.Y_sq z (zj_z_mem_Y h)) h.z_ne_one
 
+omit [Finite X] in
 private lemma zj_v₁_ne_one (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N v₁ ≠ 1 :=
   z4i_map_ne_one N h.odd_N (h.Y_sq v₁ (zj_v₁_mem_Y h)) h.v₁_ne_one
 
+omit [Finite X] in
 private lemma zj_v₂_ne_one (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N v₂ ≠ 1 :=
   z4i_map_ne_one N h.odd_N (h.Y_sq v₂ (zj_v₂_mem_Y h)) h.v₂_ne_one
@@ -181,11 +207,13 @@ private lemma zj_v₁_ne_v₂ (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂)
   exact h.v₁_ne_v₂ (z4iπ_injOn N h.odd_N (zj_isPGroup_Q h)
     (zj_V'_le_Q h (zj_v₁_mem_V' h)) (zj_V'_le_Q h (zj_v₂_mem_V' h)) heq)
 
+omit [Finite X] in
 private lemma zj_rho_pow_three (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     (z4iπ N ρ) ^ 3 = 1 := by
   have h3 : z4iπ N (ρ ^ 3) = 1 := by rw [h.rho_pow_three, map_one]
   simpa only [map_pow] using h3
 
+omit [Finite X] in
 private lemma zj_norm {A : Subgroup X} {a : X} (ha : ∀ x ∈ A, a * x * a⁻¹ ∈ A) :
     ∀ x ∈ A.map (z4iπ N), z4iπ N a * x * (z4iπ N a)⁻¹ ∈ A.map (z4iπ N) := by
   rintro _ ⟨x, hx, rfl⟩
@@ -207,55 +235,68 @@ private lemma zj_rho_fpf_Q (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
   have hq1 : q = 1 := h.rho_fpf_Q q hq hfix
   rw [hq1, map_one]
 
+omit [Finite X] in
 private lemma zj_tau_inv (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     ∀ q ∈ Q.map (z4iπ N), z4iπ N τ * q * (z4iπ N τ)⁻¹ = q⁻¹ := by
   rintro _ ⟨q, hq, rfl⟩
   rw [← map_mul, ← map_inv, ← map_mul, h.tau_inv q hq, map_inv]
 
+omit [Finite X] in
 private lemma zj_tau_not_mem_Q (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N τ ∉ Q.map (z4iπ N) :=
   fun hmem => h.tau_not_mem_Q ((z4iπ_mem_map_iff N (A := Q) (x := τ)).mp hmem)
 
+omit [Finite X] in
 private lemma zj_t_ne_one (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N t ≠ 1 :=
   z4i_map_ne_one N h.odd_N h.t_sq h.t_ne_one
 
+omit [Finite X] in
 private lemma zj_t_sq (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N t * z4iπ N t = 1 := by
   rw [← map_mul, h.t_sq, map_one]
 
+omit [Finite X] in
 private lemma zj_tau_sq (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N τ * z4iπ N τ = 1 := by
   rw [← map_mul, h.tau_sq, map_one]
 
+omit [Finite X] in
 private lemma zj_l_sq (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N l * z4iπ N l = 1 := by
   rw [← map_mul, h.l_sq, map_one]
 
+omit [Finite X] in
 private lemma zj_t_tau (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N t * z4iπ N τ = z4iπ N τ * z4iπ N t := by
   rw [← map_mul, ← map_mul, h.t_tau]
 
+omit [Finite X] in
 private lemma zj_t_l (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N t * z4iπ N l = z4iπ N l * z4iπ N t := by
   rw [← map_mul, ← map_mul, h.t_l]
 
+omit [Finite X] in
 private lemma zj_tau_l (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N τ * z4iπ N l = z4iπ N l * z4iπ N τ := by
   rw [← map_mul, ← map_mul, h.tau_l]
 
+omit [Finite X] in
 private lemma zj_t_rho (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N t * z4iπ N ρ = z4iπ N ρ * z4iπ N t := by
   rw [← map_mul, ← map_mul, h.t_rho]
 
+omit [Finite X] in
 private lemma zj_tau_rho (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N τ * z4iπ N ρ = z4iπ N ρ * z4iπ N τ := by
   rw [← map_mul, ← map_mul, h.tau_rho]
 
+omit [Finite X] in
 private lemma zj_l_rho (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N l * z4iπ N ρ * (z4iπ N l)⁻¹ = (z4iπ N ρ)⁻¹ := by
   rw [← map_mul, ← map_inv, ← map_mul, h.l_rho, map_inv]
 
+omit [Finite X] in
 private lemma zj_B_cent_t (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     ∀ b ∈ B.map (z4iπ N), z4iπ N t * b = b * z4iπ N t := by
   rintro _ ⟨b, hb, rfl⟩
@@ -267,6 +308,7 @@ private lemma zj_cent_t_Q (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
   exact Subgroup.mem_map_of_mem (z4iπ N) (h.cent_t_Q q hq
     (z4i_commute_of_map N (zj_Q_inf_N h) (fun x hx => h.normal_Q t x hx) hq hcomm))
 
+omit [Finite X] in
 private lemma zj_V_cent_t (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     ∀ v ∈ V.map (z4iπ N), z4iπ N t * v = v * z4iπ N t := by
   rintro _ ⟨v, hv, rfl⟩
@@ -279,26 +321,31 @@ private lemma zj_Y_cent_t (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     (z4i_commute_of_map N (zj_Q_inf_N h) (fun x hx => h.normal_Q t x hx) (h.Y_le_Q hu)
       hcomm))
 
+omit [Finite X] in
 private lemma zj_t_v₁ (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N t * z4iπ N v₁ * (z4iπ N t)⁻¹ = z4iπ N v₁ * z4iπ N y := by
   have h1 := congrArg (z4iπ N) h.t_v₁
   simpa only [map_mul, map_inv] using h1
 
+omit [Finite X] in
 private lemma zj_t_v₂ (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N t * z4iπ N v₂ * (z4iπ N t)⁻¹ = z4iπ N v₂ * (z4iπ N y * z4iπ N z) := by
   have h1 := congrArg (z4iπ N) h.t_v₂
   simpa only [map_mul, map_inv] using h1
 
+omit [Finite X] in
 private lemma zj_l_y (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N l * z4iπ N y * (z4iπ N l)⁻¹ = z4iπ N y * z4iπ N z := by
   have h1 := congrArg (z4iπ N) h.l_y
   simpa only [map_mul, map_inv] using h1
 
+omit [Finite X] in
 private lemma zj_l_z (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     z4iπ N l * z4iπ N z * (z4iπ N l)⁻¹ = z4iπ N z := by
   have h1 := congrArg (z4iπ N) h.l_z
   simpa only [map_mul, map_inv] using h1
 
+omit [Finite X] in
 private lemma zj_lt_v₁ (h : Z4JData N Q Y V V' B ρ t τ l y z v₁ v₂) :
     (z4iπ N l * z4iπ N t) * z4iπ N v₁ * (z4iπ N l * z4iπ N t)⁻¹ = z4iπ N v₂ := by
   have h1 := congrArg (z4iπ N) h.lt_v₁

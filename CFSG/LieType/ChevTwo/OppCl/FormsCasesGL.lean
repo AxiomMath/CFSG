@@ -23,6 +23,7 @@ variable {Φ : ReflForm F V} {Sing : V → Prop} {TS : Submodule F V → Prop}
 private theorem perm_apply_inv_self {α : Type} (r : Equiv.Perm α) (v : α) : r (r⁻¹ v) = v :=
   r.apply_symm_apply v
 
+omit [Finite F] [CharP F 2] [Finite V] in
 private theorem preserves_of_conj {r : Equiv.Perm V} (hr : r ∈ Rh) {g' h : H}
     (hh : ∀ v, r (ρ g' v) = ρ h (r v)) (U : Submodule F V)
     (hU : ∀ r ∈ Rh, ∀ v ∈ U, r v ∈ U) (hg' : ∀ v ∈ U, ρ g' v ∈ U) :
@@ -33,6 +34,7 @@ private theorem preserves_of_conj {r : Equiv.Perm V} (hr : r ∈ Rh) {g' h : H}
   rw [← h1]
   exact hU r hr _ (hg' _ (hU r⁻¹ (inv_mem hr) v hv))
 
+omit [Finite F] in
 theorem lift_levi_core (hp2 : p ≠ 2) (C : RaiseCtx Φ Sing TS ρ p Rh X m M W') (g : V →ₗ[F] V)
     (hgc : ∀ r ∈ Rh, ∀ v, r (g v) = g (r v)) (u₀ : H) (hu₀ : LevProp Φ ρ (X m) g u₀) :
     ∃ y : H, CommR ρ Rh y ∧ LevProp Φ ρ (X m) g y := by

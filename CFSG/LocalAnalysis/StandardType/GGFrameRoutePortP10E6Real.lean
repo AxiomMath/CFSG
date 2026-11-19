@@ -81,8 +81,7 @@ theorem p10real_descent {G : Type} [Group G] {Bs K : Subgroup G} {C : Type} [Gro
     exact ⟨l, rfl⟩
   have hZ : ψ.ker = Subgroup.center ↥K := by
     ext x
-    simp only [MonoidHom.mem_ker, ψ, MonoidHom.comp_apply, QuotientGroup.mk'_apply,
-      MulEquiv.coe_toMonoidHom]
+    simp only [MonoidHom.mem_ker, ψ, MonoidHom.comp_apply, QuotientGroup.mk'_apply]
     refine ⟨fun h => ?_, fun h => ?_⟩
     · have h1 : (QuotientGroup.mk x : ↥K ⧸ Subgroup.center ↥K) = 1 :=
         θ'.injective (h.trans (map_one θ').symm)
@@ -189,10 +188,10 @@ theorem p10real_langCube
     exact hA6
   have hF1 : Nat.card F = (2 ^ 1) ^ 2 := hFcard
   have hσ1 : ∀ c, σ c = c ^ 2 ^ 1 := hσpow
-  haveI : CharP F 2 := charP_two_of_card (m := 2) (by rw [hF1]; norm_num)
-  haveI : CharP (AlgebraicClosure F) 2 :=
+  have : CharP F 2 := charP_two_of_card (m := 2) (by rw [hF1]; norm_num)
+  have : CharP (AlgebraicClosure F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
-  haveI : ExpChar (AlgebraicClosure F) 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar (AlgebraicClosure F) 2 := ExpChar.prime Nat.prime_two
   let Fr : AlgebraicClosure F →+* AlgebraicClosure F := iterateFrobenius (AlgebraicClosure F) 2 1
   have hFr : ∀ c, Fr c = c ^ 2 ^ 1 := fun _ => rfl
   obtain ⟨g, hg, hgn, hSlang⟩ := TwE6DD2.exists_eq_langCube (n := 1) le_rfl hF1 σ hσ1
@@ -215,8 +214,8 @@ theorem p10_twE6_realization
               ε • TwE6NormThree.weylDual w (Multiplicative.toAdd (e a)) := by
   obtain ⟨-, -, F, instF, instFin, σ, hF, hσ, Fr, hFr, _, D, g, hDinj, -, hg, hgn, hS⟩ :=
     p10real_langCube hBs hcard hn hz hz1 hN hker hBstar hK
-  haveI : CharP F 2 := charP_two_of_card (m := 2) (by rw [hF]; norm_num)
-  haveI : CharP (AlgebraicClosure F) 2 :=
+  have : CharP F 2 := charP_two_of_card (m := 2) (by rw [hF]; norm_num)
+  have : CharP (AlgebraicClosure F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
   have hM := p10_twE6_model_realization hF σ hσ Fr hFr hg hgn
   have hS' : P10ModelReal ↥(twistedE6RootGroup F σ) ((ggGamma K hN).range.map D) := by

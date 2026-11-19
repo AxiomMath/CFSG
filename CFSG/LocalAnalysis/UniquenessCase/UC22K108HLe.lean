@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22rS_sup_img_eq_top {K B : Subgroup G} (hBK : B ≤ normalizer (K : Set G)) :
     uc22p22rS K B hBK ⊔ uc22p22rImg hBK B = ⊤ := by
   rw [eq_top_iff]
@@ -43,7 +44,7 @@ theorem uc22p22r_le_of_k108H207_hall (hK : F10.K108H207) {K B T' M : Subgroup G}
   have hXB : X ≤ B := Subgroup.zpowers_le.2 hxB
   have hXq : Nat.card X = q := by rw [hXdef, Nat.card_zpowers, hxo]
   have hxM : x ∈ M := hBM hxB
-  haveI hSn : (uc22p22rS K B hBK).Normal := uc22p22rS_normal hBK
+  have hSn : (uc22p22rS K B hBK).Normal := uc22p22rS_normal hBK
   have h0B : ∀ Y : Subgroup G, B ≤ Y → Y ≤ M → ∀ n ∈ K ⊔ B, n ∈ normalizer (Y : Set G) → n ∈ M :=
     fun Y hBY hYM n hn hnY => h0 Y (hXB.trans hBY) hYM n hn hnY
   have hker : ∀ n : ↥(K ⊔ B), uc22p22rPi K B hBK n = 1 → (n : G) ∈ M := fun n hn =>

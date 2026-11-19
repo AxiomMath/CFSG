@@ -13,15 +13,15 @@ variable {G : Type} [Group G] {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
 theorem rep_eq_one_of_central_pow_two [Finite W] {σ : Representation (ZMod 2) G W}
     (hirr : σ.IsIrreducible) {z : G} (hz : z ∈ Subgroup.center G) {k : ℕ}
     (hk : σ (z ^ 2 ^ k) = 1) : σ z = 1 := by
-  haveI : Nontrivial W := by
+  have : Nontrivial W := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
-    haveI := h
-    haveI : Subsingleton (Subrepresentation σ) :=
+    have := h
+    have : Subsingleton (Subrepresentation σ) :=
       ⟨fun S T => Subrepresentation.toSubmodule_injective (Subsingleton.elim _ _)⟩
     obtain ⟨x, y, hxy⟩ := hirr.exists_pair_ne
     exact hxy (Subsingleton.elim x y)
-  haveI hchar : CharP (Module.End (ZMod 2) W) 2 := by
+  have hchar : CharP (Module.End (ZMod 2) W) 2 := by
     refine CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero ?_
     ext w
     simp [two_smul, ZModModule.add_self]
@@ -83,8 +83,8 @@ theorem le_center_of_normal_ne_top (hq : CFSG.Assembly.IsQuasisimple G) {K : Sub
     (hK : K ≠ ⊤) : K ≤ Subgroup.center G := by
   let Z := Subgroup.center G
   let q := QuotientGroup.mk' Z
-  haveI : IsSimpleGroup (G ⧸ Z) := hq.2
-  haveI hnormal : (K.map q).Normal :=
+  have : IsSimpleGroup (G ⧸ Z) := hq.2
+  have hnormal : (K.map q).Normal :=
     Subgroup.Normal.map (inferInstance : K.Normal) q (QuotientGroup.mk'_surjective Z)
   rcases Subgroup.Normal.eq_bot_or_eq_top (K.map q) with hbot | htop
   · intro k hk
@@ -110,14 +110,14 @@ theorem le_center_of_normal_ne_top (hq : CFSG.Assembly.IsQuasisimple G) {K : Sub
 
 theorem commutator_quotient_eq_top (h : commutator G = ⊤) (K : Subgroup G) [K.Normal] :
     commutator (G ⧸ K) = ⊤ := by
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr h
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr h
   exact Group.IsPerfect.commutator_eq_top
 
 theorem exists_mem_center_of_mem_center_quotient (hq : CFSG.Assembly.IsQuasisimple G)
     {K : Subgroup G} [K.Normal] (hK : K ≤ Subgroup.center G) {z : G ⧸ K}
     (hz : z ∈ Subgroup.center (G ⧸ K)) :
     ∃ g ∈ Subgroup.center G, (g : G ⧸ K) = z := by
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr hq.1
   obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective K z
   refine ⟨g, ?_, ?_⟩
   · have hgz : (QuotientGroup.mk' (Subgroup.center G)) g ∈

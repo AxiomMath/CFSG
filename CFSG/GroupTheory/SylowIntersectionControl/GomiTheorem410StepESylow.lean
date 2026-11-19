@@ -37,7 +37,7 @@ private lemma autOn_map_subtype_eq_map_gomiBar_esyl {K : Subgroup ↥G} :
 
 private lemma isSylowTwoOf_map_subtype_esyl (P : Sylow 2 ↥G) :
     IsSylowTwoOf (P.1.map G.subtype) G := by
-  refine ⟨Subgroup.map_subtype_le P.1, P.isPGroup'.map G.subtype, ?_⟩
+  refine ⟨Subgroup.map_subtype_le P.1, P.isPGroup.map G.subtype, ?_⟩
   rw [subgroupOf_map_subtype_eq_esyl]
   exact Sylow.not_dvd_index P
 

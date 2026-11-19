@@ -26,7 +26,7 @@ private noncomputable def blockWeyl1
 
 private theorem rankOneGroupTwo_le_parabolicSubgroup
     {K : Type} [Field K] [Finite K] [CharP K ReeTag.F4.prime] {m : ℕ}
-    (hK : Nat.card K = ReeTag.F4.prime ^ (2 * m + 1)) :
+    (_hK : Nat.card K = ReeTag.F4.prime ^ (2 * m + 1)) :
     rankOneGroupTwo K m ≤ parabolicSubgroup F4.tag K reeJ := by
   rw [rankOneGroupTwo]
   refine (Subgroup.closure_le (parabolicSubgroup F4.tag K reeJ)).mpr ?_
@@ -258,7 +258,7 @@ private theorem reeNa_reeSz₂_eq
     calc reeNa K m * (reeNa K m * reeNb K m * reeNa K m)
         = (reeNa K m * reeNa K m) * reeNb K m * reeNa K m := by group
       _ = reeNb K m * reeNa K m := by rw [hna, one_mul]
-  simp only [reeSz₂, MonoidHom.comp_apply, MulAut.conj_apply]
+  simp only [reeSz₂, MonoidHom.comp_apply]
   calc reeNa K m * ((reeNa K m * reeNb K m * reeNa K m) * reeSz₁ hK hm x *
           (reeNa K m * reeNb K m * reeNa K m)⁻¹) * (reeNa K m)⁻¹
       = (reeNa K m * (reeNa K m * reeNb K m * reeNa K m)) * reeSz₁ hK hm x *

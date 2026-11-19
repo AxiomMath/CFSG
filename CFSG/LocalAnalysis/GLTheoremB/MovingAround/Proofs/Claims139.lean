@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem glaPPrimeCore_eq_pCore_two_of_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G}
     (hbot : GLAPPrimeCore p (↥L ⧸ CFSG.pCore 2 ↥L) = ⊥) :
     GLAPPrimeCore p ↥L = CFSG.pCore 2 ↥L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop2 : Nat.Coprime p (Nat.card ↥(CFSG.pCore 2 ↥L)) := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 (CFSG.pCore_isPGroup (p := 2) (G := ↥L))
     rw [hn]
@@ -34,7 +34,7 @@ theorem glaPPrimeCore_eq_pCore_two_of_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     CFSG.le_pPrimeCore_of_normal_coprime (CFSG.pCore_normal (p := 2) (G := ↥L)) hcop2
   refine le_antisymm (fun x hx => ?_) hle1
   set f : ↥L →* ↥L ⧸ CFSG.pCore 2 ↥L := QuotientGroup.mk' (CFSG.pCore 2 ↥L) with hf
-  haveI : ((GLAPPrimeCore p ↥L).map f).Normal :=
+  have : ((GLAPPrimeCore p ↥L).map f).Normal :=
     Subgroup.Normal.map inferInstance f (QuotientGroup.mk'_surjective _)
   have hdvd : Nat.card ↥((GLAPPrimeCore p ↥L).map f) ∣ Nat.card ↥(GLAPPrimeCore p ↥L) :=
     Subgroup.card_map_dvd (GLAPPrimeCore p ↥L) f
@@ -71,12 +71,12 @@ theorem not_isOmegaTwo_of_alt_seven {X : Type} [Group X] [Finite X]
   have hcard : Nat.card X = 2520 := (Nat.card_congr e.toEquiv).trans card_alt_seven
   have hns : ¬ Group.IsSolvable X := by
     intro hs
-    haveI : Nontrivial ↥(alternatingGroup (Fin 7)) := by
+    have : Nontrivial ↥(alternatingGroup (Fin 7)) := by
       rw [← Finite.one_lt_card_iff_nontrivial, card_alt_seven]
       norm_num
     have hperf : commutator ↥(alternatingGroup (Fin 7)) = ⊤ :=
       commutator_alternatingGroup_eq_top (by simp)
-    haveI := hs
+    have := hs
     exact OmegaFacts.not_isSolvable_of_perfect hperf
       (Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom) e.symm.injective)
   rcases OmegaFacts.omega_data hX with ⟨h1, -, -⟩ | ⟨h1, -, -, -⟩ | ⟨-, -, h3, -⟩ |
@@ -92,12 +92,12 @@ theorem lemma137_noA7_of_prop134 (h134 : Prop134_of_cexStatement) : Lemma137_noA
   intro G _ _ m p B M E A D T h L hL hp3 hA7
   have hp : p.Prime := GLStanding.prime h.standing
   have hp2 : p ≠ 2 := GLStanding.ne_two h.standing
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, -, L0, hL0, rfl⟩ := Lemma137b.istar_component' hp hL
   obtain ⟨eA⟩ := hA7
   have hbot : GLAPPrimeCore p (↥(GLBConj g L0) ⧸ CFSG.pCore 2 ↥(GLBConj g L0)) = ⊥ := by
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-    haveI : IsSimpleGroup (↥(GLBConj g L0) ⧸ CFSG.pCore 2 ↥(GLBConj g L0)) := eA.isSimpleGroup
+    have : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (↥(GLBConj g L0) ⧸ CFSG.pCore 2 ↥(GLBConj g L0)) := eA.isSimpleGroup
     refine OmegaFacts.pPrimeCore_eq_bot_of_simple hp ?_
     rw [Nat.card_congr eA.toEquiv, card_alt_seven, hp3]
     norm_num
@@ -131,6 +131,7 @@ noncomputable def centerQuotCongr {X Y : Type*} [Group X] [Group Y] (e : X ≃* 
     (X ⧸ Subgroup.center X) ≃* (Y ⧸ Subgroup.center Y) :=
   QuotientGroup.congr _ _ e (Subgroup.map_center_eq e)
 
+omit [Finite G] in
 theorem gLBConj_pow_cycled {p : ℕ} {L : ZMod p → Subgroup G} {x : G}
     (hcyc : ∀ i, GLBConj x (L i) = L (i + 1)) (j : ZMod p) :
     ∀ k : ℕ, GLBConj (x ^ k) (L j) = L (j + k)
@@ -143,8 +144,8 @@ theorem gLBConj_pow_cycled {p : ℕ} {L : ZMod p → Subgroup G} {x : G}
 
 theorem input18_3DiagZ_holds : Lemma1313Z.Input18_3DiagZ := by
   intro p hp hp2 G _ _ hsimple hnab hKpr x y hx hy hxy J hJ L hL hinj hcyc hKeq i
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set C := Subgroup.centralizer ({y} : Set G) with hCdef
   have hxC : x ∈ C := Subgroup.mem_centralizer_singleton_iff.2 hxy
   set K := ⨆ i, L i with hKdef
@@ -206,7 +207,7 @@ theorem input18_3DiagZ_holds : Lemma1313Z.Input18_3DiagZ := by
     have h3 : a + 1 = a := hinj h2
     have h4 : (1 : ZMod p) = 0 := by
       have := congrArg (fun t => t - a) h3
-      simpa using this
+      simp at this
     exact one_ne_zero h4
   have hQ : GLAPComponent p (barX p C K ⊓ Subgroup.centralizer ({xb} : Set (↥C ⧸ GLAPPrimeCore p ↥C)))
       (barX p C J) :=
@@ -234,7 +235,7 @@ variable {Q : Type} [Group Q] [Finite Q]
 theorem quasisimple_normal {H : Type*} [Group H] (hQ : CFSG.Open.IsQuasisimple H) {N : Subgroup H}
     (hN : N.Normal) : N = ⊤ ∨ N ≤ Subgroup.center H := by
   obtain ⟨hp, hs⟩ := hQ
-  haveI : IsSimpleGroup (H ⧸ Subgroup.center H) := hs
+  have : IsSimpleGroup (H ⧸ Subgroup.center H) := hs
   have := hN.map (QuotientGroup.mk' (Subgroup.center H)) (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' (Subgroup.center H)))
     with h | h
@@ -296,8 +297,8 @@ theorem mul_comm_of_ne_comp {X X' : Subgroup Q} (hX : IsComponentOf X ⊤) (hX' 
   exact hmem
 
 theorem le_centralizer_of_ne_comp {X X' : Subgroup Q} (hX : IsComponentOf X ⊤)
-    (hX' : IsComponentOf X' ⊤) (hne : X ≠ X') : X' ≤ Subgroup.centralizer (X : Set Q) := fun b hb =>
-  Subgroup.mem_centralizer_iff.2 fun a ha => mul_comm_of_ne_comp hX hX' hne ha hb
+    (hX' : IsComponentOf X' ⊤) (hne : X ≠ X') : X' ≤ Subgroup.centralizer (X : Set Q) := fun _b hb =>
+  Subgroup.mem_centralizer_iff.2 fun _a ha => mul_comm_of_ne_comp hX hX' hne ha hb
 
 variable {𝒦 : Set (Subgroup Q)}
 
@@ -310,6 +311,7 @@ theorem sSup_le_normalizer_comp (h𝒦 : ∀ X ∈ 𝒦, IsComponentOf X ⊤) {X
   · exact (le_centralizer_of_ne_comp (h𝒦 X hX) (h𝒦 X' hX') (Ne.symm h)).trans
       (Subgroup.centralizer_le_normalizer _)
 
+omit [Finite Q] in
 theorem conj_injective_of_center {X : Subgroup Q} (hZ : Subgroup.center ↥X = ⊥) :
     Function.Injective (MulAut.conj : ↥X →* MulAut ↥X) := by
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -390,7 +392,7 @@ theorem le_centralizer_of_proj_ne_top (h𝒦 : ∀ X ∈ 𝒦, IsComponentOf X �
     by_cases hb : (H.subgroupOf (sSup 𝒦)).map (projA5 h𝒦 hX hZ eA) = ⊥
     · exact le_bot_iff.1 (hb ▸ Subgroup.map_mono hYle)
     · have htop := a5_perfect_eq_top _ hP hb
-      haveI hn : ((Y.subgroupOf (sSup 𝒦)).map (projA5 h𝒦 hX hZ eA)).Normal := by
+      have hn : ((Y.subgroupOf (sSup 𝒦)).map (projA5 h𝒦 hX hZ eA)).Normal := by
         refine ⟨fun n hn g => ?_⟩
         have hg : g ∈ (H.subgroupOf (sSup 𝒦)).map (projA5 h𝒦 hX hZ eA) := htop ▸ Subgroup.mem_top g
         obtain ⟨h, hh, rfl⟩ := Subgroup.mem_map.1 hg
@@ -557,7 +559,8 @@ theorem caseB_data {p : ℕ} (hp : p.Prime) {M D : Subgroup G} (h139b : Prop139b
     rw [sSup_range]
     exact Lemma1311.barX_istar_le_iSup_pComp hp M D
 
-theorem barX_le_normalizer_barX (p : ℕ) {M A B : Subgroup G} (hAM : A ≤ M) (hBM : B ≤ M)
+omit [Finite G] in
+theorem barX_le_normalizer_barX (p : ℕ) {M A B : Subgroup G} (_hAM : A ≤ M) (_hBM : B ≤ M)
     (hAB : A ≤ Subgroup.normalizer (B : Set G)) :
     barX p M A ≤ Subgroup.normalizer ((barX p M B : Subgroup (↥M ⧸ GLAPPrimeCore p ↥M)) :
       Set (↥M ⧸ GLAPPrimeCore p ↥M)) := by
@@ -577,6 +580,7 @@ theorem barX_le_normalizer_barX (p : ℕ) {M A B : Subgroup G} (hAM : A ≤ M) (
   have h1 := key a⁻¹ (by simpa using (Subgroup.normalizer (B : Set G)).inv_mem haN) _ hz
   simpa [mul_assoc] using h1
 
+omit [Finite G] in
 theorem not_dvd_card_barX {p : ℕ} {M Y : Subgroup G} (hYM : Y ≤ M) (hY : ¬ p ∣ Nat.card Y) :
     ¬ p ∣ Nat.card (barX p M Y) := by
   intro h
@@ -588,7 +592,7 @@ theorem not_dvd_card_barX {p : ℕ} {M Y : Subgroup G} (hYM : Y ≤ M) (hY : ¬ 
 theorem core_le_of_perfect_caseB {p : ℕ} (hp : p.Prime) {M D L : Subgroup G}
     (h139b : Prop139b p M D) (hLI : L ≤ Istar p M D) (hperf : ⁅L, L⁆ = L) :
     GLAPPrimeCoreOf p L ≤ GLAPPrimeCoreOf p M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨h𝒦, hZ, hA, hIS⟩ := caseB_data hp h139b
   have hp3 : p = 3 := h139b.1
   have hLM : L ≤ M := hLI.trans (istar_le_M p M D)
@@ -622,7 +626,7 @@ theorem inputL0CoreB_holds : Lemma1313i.InputL0CoreB := by
 theorem nontrivial_of_isQuasisimple {H : Type*} [Group H] (hQ : CFSG.Open.IsQuasisimple H) :
     Nontrivial H := by
   obtain ⟨-, hs⟩ := hQ
-  haveI : IsSimpleGroup (H ⧸ Subgroup.center H) := hs
+  have : IsSimpleGroup (H ⧸ Subgroup.center H) := hs
   obtain ⟨a, b, hab⟩ := exists_pair_ne (H ⧸ Subgroup.center H)
   obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
   obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -632,7 +636,7 @@ theorem le_normalizer_map_subtype {Q : Type} [Group Q] (H : Subgroup Q) (N : Sub
     (hN : N.Normal) : H ≤ Subgroup.normalizer ((N.map H.subtype : Subgroup Q) : Set Q) := by
   have h1 : (N.map H.subtype).subgroupOf H = N :=
     Subgroup.comap_map_eq_self_of_injective H.subtype_injective N
-  haveI : ((N.map H.subtype).subgroupOf H).Normal := by rw [h1]; exact hN
+  have : ((N.map H.subtype).subgroupOf H).Normal := by rw [h1]; exact hN
   exact Subgroup.le_normalizer_of_normal_subgroupOf (Subgroup.map_subtype_le N)
 
 theorem exists_pComp_istar {p : ℕ} (hp : p.Prime) {M D S : Subgroup G} (hSI : S ≤ Istar p M D)
@@ -647,7 +651,7 @@ theorem gap1311Iso_caseB {m p : ℕ} {B M E A D T : Subgroup G} (h : Sec13 G m p
     (hJ : GLAPComponent p (piLayer p (Istar p M D ⊓ Cg d)) J) :
     ∃ K : Subgroup G, GLAPComponent p (Istar p M D) K ∧ Nonempty (barOf p J ≃* barOf p K) := by
   have hp : p.Prime := GLStanding.prime h.standing
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hS, hPiS, hJS⟩ := Lemma1311.pComp_piLayer_summand hp hJ
   rw [hJS]
   obtain ⟨h𝒦, hZ, hA, hIS⟩ := caseB_data hp h139b
@@ -697,7 +701,7 @@ theorem gap1311Iso_caseB {m p : ℕ} {B M E A D T : Subgroup G} (h : Sec13 G m p
       obtain ⟨eA⟩ := hA X hX
       exact le_centralizer_of_central h𝒦 hX (hZ X hX) eA hHS hHp hYH hYc hwY)
   have hHne : barX p M S ≠ ⊥ := by
-    haveI := nontrivial_of_isQuasisimple hHq
+    have := nontrivial_of_isQuasisimple hHq
     exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
   obtain ⟨φ, hφ⟩ := exists_surj_of_perfect h𝒦 hZ hA hHS hHp hHne
   have hker : φ.ker ≤ Subgroup.center ↥(barX p M S) := by
@@ -735,7 +739,7 @@ theorem gap1311Iso_caseA (hPi : InputPiCenter) {m p : ℕ} {B M E A D T : Subgro
     ∃ K : Subgroup G, GLAPComponent p (Istar p M D) K ∧ Nonempty (barOf p J ≃* barOf p K) := by
   have hp : p.Prime := GLStanding.prime h.standing
   have hp2 : p ≠ 2 := GLStanding.ne_two h.standing
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 < p := h139a.1
   obtain ⟨S, hS, hPiS, hJS⟩ := Lemma1311.pComp_piLayer_summand hp hJ
   rw [hJS]
@@ -761,8 +765,8 @@ theorem gap1311Iso_caseA (hPi : InputPiCenter) {m p : ℕ} {B M E A D T : Subgro
       (barX p M S) := by
     have := Prop115b.barX_glaPComponent_of_le hp (inf_le_left.trans hIM) hS
     rwa [hcent] at this
-  haveI hsX : IsSimpleGroup ↥(barX p M (Istar p M D)) := by
-    haveI : IsSimpleGroup
+  have hsX : IsSimpleGroup ↥(barX p M (Istar p M D)) := by
+    have : IsSimpleGroup
         (↥(barX p M (Istar p M D)) ⧸ Subgroup.center ↥(barX p M (Istar p M D))) := hK1.2.2.2
     exact ((QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot).symm.isSimpleGroup
   have e1 := Prop126b.barOfBarX hp hSM
@@ -792,7 +796,7 @@ theorem gap1311Iso_caseA (hPi : InputPiCenter) {m p : ℕ} {B M E A D T : Subgro
       rw [hle, Subgroup.card_bot] at h3
       omega
     have hZS : Subgroup.center (barOf p S) = ⊥ := hPi _ p hp hp2 hPiS hnh
-    haveI : Nontrivial (barOf p S) := nontrivial_of_isQuasisimple hPiS.1
+    have : Nontrivial (barOf p S) := nontrivial_of_isQuasisimple hPiS.1
     have hpS : p ∣ Nat.card (barOf p S) := Lemma137.dvd_card_of_pPrimeCore_eq_bot hp hPiS.2.1
     have hpH : p ∣ Nat.card ↥(barX p M S) := by
       rw [Nat.card_congr e1.toEquiv] at hpS
@@ -966,18 +970,19 @@ theorem glaPLayer_ne_bot_of_simple {p : ℕ} (hp : p.Prime) {J : Subgroup X} (hs
   exact hab (Subtype.ext (by rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.mem_bot.1 a.2,
     Subgroup.mem_bot.1 b.2]))
 
+omit [Finite X] in
 theorem isSimpleGroup_of_type2710 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {J : Subgroup X}
     (hpJ : p ∣ Nat.card ↥J) (hnab : ∃ a b : ↥J, a * b ≠ b * a) (htype : Type2710 p J) :
     IsSimpleGroup ↥J := by
   rcases htype with ⟨k, hk, ⟨e⟩⟩ | ⟨k, ⟨e⟩⟩ | ⟨n, ⟨e⟩⟩ | ⟨ε, n, hn, hΩ, hfp⟩
-  · haveI : IsSimpleGroup (alternatingGroup (Fin (k * p))) :=
+  · have : IsSimpleGroup (alternatingGroup (Fin (k * p))) :=
       alternatingGroup.isSimpleGroup (by simpa using hk)
     exact e.isSimpleGroup
   · have hk : 5 ≤ k * p + 2 := by
       rcases Nat.eq_zero_or_pos k with h0 | h0
       · exfalso
         subst h0
-        haveI : Nontrivial (Fin (0 * p + 2)) := Fin.nontrivial_iff_two_le.2 (by omega)
+        have : Nontrivial (Fin (0 * p + 2)) := Fin.nontrivial_iff_two_le.2 (by omega)
         have h2 := two_mul_nat_card_alternatingGroup (α := Fin (0 * p + 2))
         rw [Nat.card_eq_fintype_card (α := Equiv.Perm _), Fintype.card_perm, Fintype.card_fin] at h2
         simp only [zero_mul, zero_add, Nat.factorial_two] at h2
@@ -987,7 +992,7 @@ theorem isSimpleGroup_of_type2710 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {J : 
         exact hp.one_lt.ne' (Nat.dvd_one.1 hpJ)
       · have := Nat.mul_le_mul h0 (show 3 ≤ p by have := hp.two_le; omega)
         omega
-    haveI : IsSimpleGroup (alternatingGroup (Fin (k * p + 2))) :=
+    have : IsSimpleGroup (alternatingGroup (Fin (k * p + 2))) :=
       alternatingGroup.isSimpleGroup (by simpa using hk)
     exact e.isSimpleGroup
   ·
@@ -1003,7 +1008,7 @@ theorem isSimpleGroup_of_type2710 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {J : 
     rcases (show n = 0 ∨ n = 1 ∨ n = 2 ∨ 3 ≤ n by omega) with h0 | h1 | h2 | h3
     · exfalso
       subst h0
-      haveI := OmegaFacts.subsingleton_statedSp_zero
+      have := OmegaFacts.subsingleton_statedSp_zero
       obtain ⟨u, v, huv⟩ := hCnab
       exact huv (Subtype.ext (Subsingleton.elim _ _))
     · exfalso
@@ -1013,7 +1018,7 @@ theorem isSimpleGroup_of_type2710 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {J : 
         decide
       have hne : commutator ↥S ≠ ⊤ := by
         intro htop
-        haveI : Nontrivial ↥S := by
+        have : Nontrivial ↥S := by
           rw [← Finite.one_lt_card_iff_nontrivial, h6]
           norm_num
         have hsolv : Group.IsSolvable ↥S :=
@@ -1034,8 +1039,8 @@ theorem isSimpleGroup_of_type2710 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {J : 
         · rfl
         · norm_num at hdvd
         · norm_num at hdvd
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-      haveI : IsCyclic ↥(commutator ↥S) := isCyclic_of_prime_card h3
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : IsCyclic ↥(commutator ↥S) := isCyclic_of_prime_card h3
       obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(commutator ↥S))
       obtain ⟨u, v, huv⟩ := hCnab
       obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 (hg u)
@@ -1047,10 +1052,10 @@ theorem isSimpleGroup_of_type2710 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {J : 
         rw [_root_.commutator_def, Subgroup.map_commutator,
           Subgroup.map_top_of_surjective _ e0.surjective, ← _root_.commutator_def,
           alternatingGroup.commutator_perm_eq (by simp)]
-      haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+      have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
       exact ((Subgroup.equivMapOfInjective (commutator ↥S) e0.toMonoidHom e0.injective).trans
         (MulEquiv.subgroupCongr hmap)).isSimpleGroup
-    · haveI : IsSimpleGroup ↥S := OmegaFacts.isSimpleGroup_statedSp_zmod_two h3
+    · have : IsSimpleGroup ↥S := OmegaFacts.isSimpleGroup_statedSp_zmod_two h3
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator ↥S) with hb | htop
       · exfalso
         obtain ⟨u, v, huv⟩ := hCnab
@@ -1062,7 +1067,7 @@ theorem isSimpleGroup_of_type2710 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {J : 
   · cases ε with
     | false =>
       obtain ⟨f⟩ := hΩ
-      haveI := CFSG.ComponentClassification.RankTwoClassical.ORigid.isSimpleGroup_statedOmega_quadMinus_of_two_le
+      have := CFSG.ComponentClassification.RankTwoClassical.ORigid.isSimpleGroup_statedOmega_quadMinus_of_two_le
         (K := ZMod 2) (b := 1) (c := 1) (m := n + 1) (by omega) (by decide)
       exact f.isSimpleGroup
     | true =>
@@ -1071,13 +1076,13 @@ theorem isSimpleGroup_of_type2710 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {J : 
         · exact absurd hfp (CFSG.HardMathSupport.Timmesfeld.Proving.not_hasFixedPointFreeOrder_plus_one hp hp2)
         · exact h2
       obtain ⟨f⟩ := hΩ
-      haveI := CFSG.ComponentClassification.RankTwoClassical.ORigid.isSimpleGroup_statedOmega_quadPlus_of_three_le
+      have := CFSG.ComponentClassification.RankTwoClassical.ORigid.isSimpleGroup_statedOmega_quadPlus_of_three_le
         (K := ZMod 2) (k := n + 1) (by omega)
       exact f.isSimpleGroup
 
 theorem card_eq_pow_pRank {p : ℕ} (hp : p.Prime) {E : Subgroup X} (hE : IsElemAbelian p E) :
     Nat.card E = p ^ CFSG.Open.pRank p E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := (CFSG.Open.IsElemAbelian.isPGroup hE).exists_card_eq
   have h1 : k ≤ CFSG.Open.pRank p E := CFSG.SectionRank.le_pRank hp.one_lt le_rfl hE hk
   have h2 : CFSG.Open.pRank p E ≤ k := CFSG.SectionRank.pRank_le hp.one_lt fun F hFE _ =>
@@ -1128,7 +1133,7 @@ theorem core_alt {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {J F : Subgroup X}
     ∃ F₀ : Subgroup X, F₀ ≤ F ∧ Nat.card F = p ^ 2 * Nat.card ↥F₀ ∧
       GLAPLayer p (J ⊓ Subgroup.centralizer (F₀ : Set X)) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   let φ : ↥J →* Equiv.Perm (Fin n) := (alternatingGroup (Fin n)).subtype.comp e.toMonoidHom
   have hφ : Function.Injective φ := (Subgroup.subtype_injective _).comp e.injective
@@ -1259,8 +1264,8 @@ theorem core_alt {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {J F : Subgroup X}
   have hsn : Nat.card ↥s = s.card := Nat.card_eq_finsetCard s
   let eL : ↥L ≃* alternatingGroup ↥s :=
     (GL83.PiGen.subAltEquiv e (s : Set (Fin n))).trans (GL83.PiGen.altOnEquiv s)
-  haveI : IsSimpleGroup (alternatingGroup ↥s) := alternatingGroup.isSimpleGroup (by omega)
-  haveI : IsSimpleGroup ↥L := eL.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup ↥s) := alternatingGroup.isSimpleGroup (by omega)
+  have : IsSimpleGroup ↥L := eL.isSimpleGroup
   have hnab : ∃ a b : ↥L, a * b ≠ b * a := by
     by_contra hc
     push Not at hc
@@ -1270,12 +1275,12 @@ theorem core_alt {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {J F : Subgroup X}
         rw [map_mul, map_mul]
         exact hc _ _
     rw [alternatingGroup.center_eq_bot (by omega)] at hZ
-    haveI : Nontrivial (alternatingGroup ↥s) :=
+    have : Nontrivial (alternatingGroup ↥s) :=
       alternatingGroup.nontrivial_of_three_le_card (by omega)
     exact bot_ne_top hZ
   have hpL : p ∣ Nat.card ↥L := by
     rw [Nat.card_congr eL.toEquiv]
-    haveI : Nontrivial ↥s := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+    have : Nontrivial ↥s := Finite.one_lt_card_iff_nontrivial.mp (by omega)
     have h2 := two_mul_nat_card_alternatingGroup (α := ↥s)
     rw [Nat.card_perm, hsn] at h2
     have hdvd : p ∣ Nat.factorial s.card := Nat.dvd_factorial hp.pos (by omega)
@@ -1303,7 +1308,7 @@ theorem core_of_input (hC : InputI2710Core) {p : ℕ} (hp : p.Prime) (hp2 : p �
 
 theorem inputI2710_of_core (hC : InputI2710Core) : InputI2710 := by
   intro X _ _ p hp hp2 J B hpJ htype hB hBN hsup hinf hrank h2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hFel : IsElemAbelian p (B ⊓ J) := isElemAbelian_mono hB inf_le_left
   have hCel : IsElemAbelian p (B ⊓ Subgroup.centralizer (J : Set X)) := isElemAbelian_mono hB inf_le_left
   have hcomm : ∀ x ∈ B ⊓ J, ∀ y ∈ B ⊓ Subgroup.centralizer (J : Set X), x * y = y * x :=
@@ -1411,8 +1416,8 @@ theorem pPrime_le_glbCore {p : ℕ} [hp : Fact p.Prime] {A₁ Y : Subgroup G} {s
     refine Finite.one_lt_card_iff_nontrivial.mp ?_
     rw [hcard]
     exact Nat.one_lt_pow (by omega) hp.out.one_lt
-  letI : MulDistribMulAction ↥A₁ ↥Y := Subgroup.conjMulDistribMulActionOfLeNormalizer A₁ Y hAN
-  haveI : CFSG.IsElementaryAbelian p ↥A₁ := CFSG.Open.IsElemAbelian.isElementaryAbelian hA₁
+  let : MulDistribMulAction ↥A₁ ↥Y := Subgroup.conjMulDistribMulActionOfLeNormalizer A₁ Y hAN
+  have : CFSG.IsElementaryAbelian p ↥A₁ := CFSG.Open.IsElemAbelian.isElementaryAbelian hA₁
   have hgen := CFSG.SolvableHall.coprime_hyperplane_generation (p := p) (A := ↥A₁) (H := ↥Y) hcop
   have key : ∀ B : Subgroup ↥A₁, B.index = p → ∀ y ∈ CFSG.fixedPointSubgroup B ↥Y,
       (y : G) ∈ GLBCore p 2 A₁ := by
@@ -1465,7 +1470,7 @@ theorem frattiniBound_of_inputs (hL137i : Lemma137_iStatement) (hF : InputFratti
   intro G _ _ m p B M E A D T h
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hlt
   push Not at hlt
   have hBel : IsElemAbelian p B := h.bOne.1.1
@@ -1522,7 +1527,7 @@ theorem B_le_normalizer_L1 (h133 : Lemma133Statement) {m p : ℕ} {B M E A D T R
     {d : G} (h : Cex1310 G m p B M E A D T R L0 d) :
     B ≤ Subgroup.normalizer ((L1of p M D L0 : Subgroup G) : Set G) := by
   have hp : p.Prime := GLStanding.prime h.standing
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBM : B ≤ M := Lemma1312b.B_le_M h
   have hdM : d ∈ M := Lemma1312b.d_mem_M h
   have hL1I : L1of p M D L0 ≤ Istar p M D := Lemma1312b.L1_le_istar h
@@ -1594,7 +1599,7 @@ theorem a5_facts : a5a ^ 2 = 1 ∧ a5b ^ 2 = 1 ∧ a5a * a5b = a5b * a5a ∧ a5a
 theorem not_three_dvd_card_sylow_two {X : Type*} [Group X] [Finite X]
     (e : X ≃* ↥(alternatingGroup (Fin 5))) : ¬ 3 ∣ Nat.card (Sylow 2 X) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ha2, hb2, hab, ha1, hb1, hba, hc3, hc1, hca, hcb⟩ := a5_facts
   have hoa : orderOf a5a = 2 := orderOf_eq_prime ha2 ha1
   have hob : orderOf a5b = 2 := orderOf_eq_prime hb2 hb1
@@ -1755,8 +1760,8 @@ theorem card_iSup_eq_prod {Q : Type} [Group Q] [Finite Q] (𝒮 : Finset (Subgro
 
 theorem card_sylow_two_of_card_sixty {X : Type*} [Group X] [Finite X] (hX : Nat.card X = 60)
     (S : Sylow 2 X) : Nat.card (S : Subgroup X) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hidx := S.not_dvd_index
   have hmul := (S : Subgroup X).card_mul_index
   rw [hk, hX] at hmul
@@ -1770,6 +1775,7 @@ theorem card_sylow_two_of_card_sixty {X : Type*} [Group X] [Finite X] (hX : Nat.
   · exfalso; apply hidx; rw [show (S : Subgroup X).index = 30 by omega]; norm_num
   · rw [hk]; norm_num
 
+omit [Finite G] in
 theorem mem_normalizer_preimage {M : Subgroup G} {N : Subgroup ↥M} [N.Normal] {V : Subgroup (↥M ⧸ N)}
     {b : G} (hbM : b ∈ M)
     (hbV : QuotientGroup.mk' N ⟨b, hbM⟩ ∈ Subgroup.normalizer (V : Set (↥M ⧸ N))) :
@@ -1799,8 +1805,8 @@ theorem t1CaseB_of_inputs (h133 : Lemma133Statement) : Lemma1313i.T1CaseB := by
   intro G _ _ m p B M E A D T R L0 d h h139b
   classical
   have hp : p.Prime := GLStanding.prime h.standing
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp3 : p = 3 := h139b.1
   obtain ⟨h𝒦, hZ, hA, -⟩ := caseB_data hp h139b
   obtain ⟨L, hL, hV⟩ := Lemma1312b.orbit_of_cex h133 h
@@ -1830,7 +1836,7 @@ theorem t1CaseB_of_inputs (h133 : Lemma133Statement) : Lemma1313i.T1CaseB := by
   obtain ⟨Wf, hWfdef⟩ : ∃ Wf : Subgroup (↥M ⧸ GLAPPrimeCore p ↥M) → Subgroup (↥M ⧸ GLAPPrimeCore p ↥M),
       ∀ X (hX : X ∈ compSet p M D), Wf X = (Sf X hX : Subgroup ↥X).map X.subtype :=
     ⟨fun X => if hX : X ∈ compSet p M D then ((Sf X hX : Subgroup ↥X).map X.subtype) else ⊥,
-      fun X hX => dif_pos hX⟩
+      fun X hX => dite_eq_left hX⟩
   have hWfX : ∀ X ∈ compSet p M D, Wf X ≤ X := fun X hX => by
     rw [hWfdef X hX]
     exact Subgroup.map_subtype_le _
@@ -1930,7 +1936,7 @@ theorem t1CaseB_of_inputs (h133 : Lemma133Statement) : Lemma1313i.T1CaseB := by
   have hPcard : Nat.card P = Nat.card (S : Subgroup ↥Y) :=
     Subgroup.card_map_of_injective Y.subtype_injective
   have hP2 : IsPGroup 2 ↥(P.subgroupOf (L1of p M D L0)) := by
-    refine IsPGroup.of_equiv S.isPGroup' ?_
+    refine IsPGroup.of_equiv S.isPGroup ?_
     exact ((S : Subgroup ↥Y).equivMapOfInjective Y.subtype Y.subtype_injective).trans
       (Subgroup.subgroupOfEquivOfLe hPL1).symm
   have hidx : ¬ 2 ∣ (P.subgroupOf (L1of p M D L0)).index := by

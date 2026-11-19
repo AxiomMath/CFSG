@@ -40,12 +40,12 @@ theorem SylowShape.quotient {p r e : ℕ} {Γ : Type*} [Group Γ] [Finite Γ] (h
   have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective N
   let S₀ : Sylow p Γ := Classical.arbitrary _
   set S : Subgroup Γ := (S₀ : Subgroup Γ) with hS
-  obtain ⟨φ⟩ := h S S₀.isPGroup' S₀.not_dvd_index
-  have hŜp : IsPGroup p ↥(S.map π) := S₀.isPGroup'.map π
+  obtain ⟨φ⟩ := h S S₀.isPGroup S₀.not_dvd_index
+  have hŜp : IsPGroup p ↥(S.map π) := S₀.isPGroup.map π
   have hŜidx : ¬ p ∣ (S.map π).index := fun hd =>
     S₀.not_dvd_index (hd.trans (Subgroup.index_map_dvd S hsurj))
   have hNS : N ⊓ S = ⊥ := by
-    have hp' : IsPGroup p ↥(N ⊓ S) := S₀.isPGroup'.to_inf_right
+    have hp' : IsPGroup p ↥(N ⊓ S) := S₀.isPGroup.to_inf_right
     obtain ⟨j, hj⟩ := (IsPGroup.iff_card).1 hp'
     have hdvd : Nat.card ↥(N ⊓ S) ∣ Nat.card N := Subgroup.card_dvd_of_le inf_le_left
     rw [hj] at hdvd

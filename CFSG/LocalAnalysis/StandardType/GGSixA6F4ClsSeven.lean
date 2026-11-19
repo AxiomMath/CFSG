@@ -23,7 +23,7 @@ open CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalle
 open CFSG.StandardType.ExcFramesHalf (IsToralSubgroup)
 
 private theorem ggA6F4_isElemAbelian_map {G H : Type*} [Group G] [Group H] {p : ℕ}
-    {D : Subgroup G} (f : G →* H) (hinj : Function.Injective f) (hD : IsElemAbelian p D) :
+    {D : Subgroup G} (f : G →* H) (_hinj : Function.Injective f) (hD : IsElemAbelian p D) :
     IsElemAbelian p (D.map f) := by
   constructor
   · rw [isMulCommutative_iff]
@@ -44,14 +44,14 @@ theorem ggA6F4_not_seven
     (hDc : Nat.card D = 7 ^ 2) (hJ : Nonempty (↥J ≃* alternatingGroup (Fin 6)))
     (hDJ : D ≤ Subgroup.centralizer (J : Set G)) : False := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = 2 ^ 1 := by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow hcardK
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := charP_of_card_eq_prime_pow hcardK
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Φ, hΦ, ι, hιinj, hιrange⟩ := ggA6F4_embed (K := K) hK
   let f : G →* ModGL Tag.F4 (AlgebraicClosure K) := ι.comp e.toMonoidHom
   let A : Subgroup (ModGL Tag.F4 (AlgebraicClosure K)) := D.map f

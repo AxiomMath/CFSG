@@ -21,6 +21,7 @@ private lemma zpowers_eq_one_or_self_of_orderOf {G : Type*} [Group G] {u : G}
   · left; rw [h, zpow_zero]
   · right; rw [h, zpow_one]
 
+omit [(zpowers g).Normal] in
 private lemma zpowers_le_closure_pair : zpowers g ≤ closure ({g, t} : Set C) :=
   Subgroup.zpowers_le.mpr (Subgroup.subset_closure (by simp))
 

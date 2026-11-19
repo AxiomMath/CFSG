@@ -10,8 +10,8 @@ theorem card_modEq_five_fixed {V : Type} [Finite V] (S : Set V) (σ : V → V)
     (h5 : ∀ v, σ (σ (σ (σ (σ v)))) = v) (hS : ∀ v ∈ S, σ v ∈ S) :
     Nat.card S ≡ Nat.card {v : V // v ∈ S ∧ σ v = v} [MOD 5] := by
   classical
-  haveI := Fintype.ofFinite S
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := Fintype.ofFinite S
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let f : Function.End S := fun s => ⟨σ s, hS s s.2⟩
   have hf : f ^ 5 ^ 1 = 1 := by
     funext s

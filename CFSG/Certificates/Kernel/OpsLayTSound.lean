@@ -24,15 +24,15 @@ theorem getRD_setR (d : Nat) : ∀ (T : RT) (t a r : Nat),
     rw [setR_node, domR_node]
     by_cases ht0 : t = 0
     · subst ht0
-      rw [if_pos rfl, getRD_node, getRD_node]
+      rw [ite_eq_left rfl, getRD_node, getRD_node]
       by_cases hr : r = 0 <;> simp [hr]
-    · rw [if_neg ht0]
+    · rw [ite_eq_right ht0]
       by_cases ht : t % 2 = 1
-      · rw [if_pos ht, if_pos ht, getRD_node, getRD_node, getRD_setR d l]
+      · rw [ite_eq_left ht, ite_eq_left ht, getRD_node, getRD_node, getRD_setR d l]
         by_cases hr0 : r = 0
         · simp [hr0, ht0, Ne.symm ht0]
         · by_cases hr : r % 2 = 1
-          · simp only [hr0, hr, if_false, if_true]
+          · simp only [hr0, hr, ite_false, ite_true]
             by_cases hd : domR l ((t - 1) / 2) = true
             · by_cases hrt : r = t
               · subst hrt
@@ -42,13 +42,13 @@ theorem getRD_setR (d : Nat) : ∀ (T : RT) (t a r : Nat),
             · simp [hd, ht0]
           · have : r ≠ t := by omega
             simp [hr0, hr, this]
-      · rw [if_neg ht, if_neg ht, getRD_node, getRD_node, getRD_setR d rt]
+      · rw [ite_eq_right ht, ite_eq_right ht, getRD_node, getRD_node, getRD_setR d rt]
         by_cases hr0 : r = 0
         · simp [hr0, Ne.symm ht0]
         · by_cases hr : r % 2 = 1
           · have : r ≠ t := by omega
             simp [hr0, hr, this]
-          · simp only [hr0, hr, if_false]
+          · simp only [hr0, hr, ite_false]
             by_cases hd : domR rt ((t - 1) / 2) = true
             · by_cases hrt : r = t
               · subst hrt
@@ -72,19 +72,19 @@ theorem getRD_mkT (d : Nat) : ∀ (fuel n : Nat) (f : Nat → Nat), n ≤ fuel �
     by_cases hn : n = 0
     · subst hn
       simp [getRD]
-    · rw [if_neg hn, getRD_node]
+    · rw [ite_eq_right hn, getRD_node]
       have hl := getRD_mkT d fuel (n / 2) (fun j => f (2 * j + 1)) (by omega) ((r - 1) / 2)
       have hr := getRD_mkT d fuel ((n - 1) / 2) (fun j => f (2 * j + 2)) (by omega) ((r - 1) / 2)
       by_cases hr0 : r = 0
       · subst hr0
         simp [Nat.pos_of_ne_zero hn]
       · by_cases h2 : r % 2 = 1
-        · simp only [hr0, h2, if_false, if_true, hl]
+        · simp only [hr0, h2, ite_false, ite_true, hl]
           have e : 2 * ((r - 1) / 2) + 1 = r := by omega
           rw [e]
           have : (r - 1) / 2 < n / 2 ↔ r < n := by omega
           simp only [this]
-        · simp only [hr0, h2, if_false, hr]
+        · simp only [hr0, h2, ite_false, hr]
           have e : 2 * ((r - 1) / 2) + 2 = r := by omega
           rw [e]
           have : (r - 1) / 2 < (n - 1) / 2 ↔ r < n := by omega
@@ -111,9 +111,9 @@ theorem getD_set (d : Nat) (L : List Nat) (t x r : Nat) :
   · by_cases hr : r = t
     · subst hr
       simp [List.getD_eq_getElem?_getD, ht]
-    · rw [if_neg (fun h => hr h.2)]
+    · rw [ite_eq_right (fun h => hr h.2)]
       simp [List.getD_eq_getElem?_getD, List.getElem?_set_ne (Ne.symm hr)]
-  · rw [List.set_eq_of_length_le (by omega), if_neg (fun h => ht h.1)]
+  · rw [List.set_eq_of_length_le (by omega), ite_eq_right (fun h => ht h.1)]
 
 theorem stepVG_getR (c : Lay) (R : List Nat) (o : Op) : stepVG c (getR c R) o = stepV c R o := by
   cases o <;> rfl
@@ -135,9 +135,9 @@ theorem invD_init (c : Lay) (A B n : Nat) : InvD c.ONE (initRT c A B n) (initR c
   · rw [initRT, getRD_mkT c.ONE n n _ (Nat.le_refl n) r]
     simp only [initR, List.getD_eq_getElem?_getD, List.getElem?_map]
     by_cases hr : r < n
-    · rw [if_pos hr, List.getElem?_range hr]
+    · rw [ite_eq_left hr, List.getElem?_range hr]
       simp only [Option.map_some, Option.getD_some, initF, brecE]
-    · rw [if_neg hr, List.getElem?_eq_none (by simpa using hr)]
+    · rw [ite_eq_right hr, List.getElem?_eq_none (by simpa using hr)]
       rfl
   · rw [initRT, (mkT_spec n n _ (Nat.le_refl n) r).2]
     simp [initR]

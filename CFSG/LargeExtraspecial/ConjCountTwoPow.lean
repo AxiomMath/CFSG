@@ -215,7 +215,7 @@ theorem card_conj_mod_two_pow (S : Setting G) {k : ℕ} (hk : k ≤ S.width + 1)
   have hsplit : Nat.card {x : G | IsConj S.z x} =
       Nat.card {x : G | IsConj S.z x ∧ x ∈ S.QG} + Nat.card (Setting.conjOutside S) := by
     rw [Nat.card_coe_set_eq, Nat.card_coe_set_eq, Nat.card_coe_set_eq]
-    exact (Set.ncard_inter_add_ncard_diff_eq_ncard {x : G | IsConj S.z x}
+    exact (Set.ncard_inter_add_ncard_sdiff_eq_ncard {x : G | IsConj S.z x}
       (S.QG : Set G)).symm
   obtain ⟨t, ht⟩ := hdvd
   rw [hsplit, ht]
@@ -230,7 +230,7 @@ theorem card_conj_inter_QG_eq (H : Hyp4 S g) (hF : S6.FusionCtl S g) :
   set a : G := g * S.z * g⁻¹ with ha
   set A : Set G := {x | ∃ m : S.M, x = (m : G) * a * (m : G)⁻¹} with hA
   set O : Set S.Qt := MulAction.orbit S.Mbar (S.cl a) with hO
-  haveI : Fintype O := Fintype.ofFinite O
+  have : Fintype O := Fintype.ofFinite O
   have haQ : a ∈ S.QG := by rw [ha]; exact H.conj_mem
   have hane : a ≠ S.z := by rw [ha]; exact H.conj_ne
   have hclane : S.cl a ≠ 0 := S.cl_conj_z_ne_zero haQ hane
@@ -242,7 +242,7 @@ theorem card_conj_inter_QG_eq (H : Hyp4 S g) (hF : S6.FusionCtl S g) :
     exact hclane ((LinearEquiv.map_eq_zero_iff _).mp hm')
   have hset : {x : G | IsConj S.z x ∧ x ∈ S.QG} = insert S.z A := by
     ext x
-    rw [Set.mem_ofPred_eq, Set.mem_insert_iff, hA, Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq, Set.mem_insert_iff, hA, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hc, hxQ⟩
       by_cases hxz : x = S.z
@@ -318,7 +318,7 @@ theorem card_conj_inter_QG_eq (H : Hyp4 S g) (hF : S6.FusionCtl S g) :
       refine ⟨?_, hx⟩
       by_contra hxQ
       have hx0 : S.cl x = 0 := by
-        simp only [Setting.cl, dif_neg hxQ]
+        simp only [Setting.cl, dite_eq_right hxQ]
       exact h0O (hx0 ▸ hx)
   have hfiber : ∀ b ∈ O.toFinset, Nat.card {x : G // S.cl x = b} = 2 := by
     intro b hb
@@ -337,7 +337,7 @@ theorem card_conj_inter_QG_eq (H : Hyp4 S g) (hF : S6.FusionCtl S g) :
       by_contra hyq
       have hb0 : b = 0 := by
         rw [← y.2]
-        simp only [Setting.cl, dif_neg hyq]
+        simp only [Setting.cl, dite_eq_right hyq]
       exact h0O (hb0 ▸ hbO)
     have hcl : S.cl x₀ = S.cl y.1 := by rw [hx₀, y.2]
     rcases (S.cl_eq_cl_iff hx₀Q hyQ).mp hcl with h | h

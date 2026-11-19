@@ -39,7 +39,7 @@ theorem refl_eq_orthogonal {V : Type*} [AddCommGroup V] [Module (ZMod 3) V] {ι 
     (A : Subgroup (V ≃ₗ[ZMod 3] V)) (hA : TransvectionFree A)
     (hW : ∀ γ, Module.reflection (hα γ) ∈ A)
     {c : V} {φ : Dual (ZMod 3) V} (hφ : φ c = 2) (ht : Module.reflection hφ ∈ A)
-    (hc : ∀ γ, c ∉ Submodule.span (ZMod 3) {h γ})
+    (_hc : ∀ γ, c ∉ Submodule.span (ZMod 3) {h γ})
     (hconn : ∀ γ δ, α γ c ≠ 0 → α δ c ≠ 0 →
       Relation.ReflTransGen (fun γ' δ' => α γ' c ≠ 0 ∧ α δ' c ≠ 0 ∧ α γ' (h δ') ≠ 0) γ δ) :
     ∃ ε : ZMod 3, (ε = 1 ∨ ε = -1) ∧ ∀ v, φ v = ε * β c v := by

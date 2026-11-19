@@ -17,10 +17,10 @@ theorem sevenOneThree_pClosed_of_pRank_le_one
     (hrk : CFSG.Open.pRank p L ≤ 1) :
     CFSG.LocalAnalysis.RankThreeUC.AGL81C.IsPClosedMod p
       (L ⊔ Subgroup.centralizer (L : Set X)) := by
-  haveI := hLn
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect ↥L := hL.1.1
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
+  have := hLn
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥L := hL.1.1
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
   have hq : CFSG.Open.IsQuasisimple ↥L := ⟨Group.isPerfect_def.mp hL.1.1, hL.1.2.1⟩
   have hnab : ∃ a b : ↥L ⧸ Subgroup.center ↥L, a * b ≠ b * a :=
     CFSG.LocalAnalysis.RankThreeUC.S15.K7145Proof.quotient_center_nonabelian hq
@@ -76,13 +76,13 @@ theorem sevenOneThree_threeRank_three_of_sevenOneSeven
       le_antisymm hX3 (hge.trans hmono)
     rcases h7 X hK L hL hLn hL3 hX3eq with hU | hPSL
     ·
-      haveI := hLn
+      have := hLn
       have hUn : (L ⊔ Subgroup.centralizer (L : Set X)).Normal := inferInstance
       exact ⟨_, hUn, le_rfl, ⟨0, by rw [Subgroup.relIndex_self, pow_zero]⟩, hU⟩
     ·
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-      haveI : Group.IsPerfect ↥L := hL.1.1
-      haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Group.IsPerfect ↥L := hL.1.1
+      have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
       have hOutQ : ∀ S : Sylow 3 (Outer (↥L ⧸ Subgroup.center ↥L)),
           (S : Subgroup (Outer (↥L ⧸ Subgroup.center ↥L))).Normal := by
         obtain ⟨e⟩ := hPSL

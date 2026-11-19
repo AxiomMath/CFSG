@@ -19,8 +19,8 @@ theorem qTwo_barData {G : Type} [Group G] [Finite G]
       GGSecFiveBarData 3 B Bs x L D J ι U Abar ρ ∧
         (Module.finrank (ZMod 3) U = m ∨ Module.finrank (ZMod 3) U + 1 = m) := by
   classical
-  haveI : Finite V := Finite.of_injective (ι.symm : V → Additive ↥Bs) ι.symm.injective
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_injective (ι.symm : V → Additive ↥Bs) ι.symm.injective
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hNT : GGNoTransvection 3 Bs := hcfg.1.2.2.2.1
   have hW' : GGSecFiveWeylCase' 3 B Bs x D J := hcfg.2.1
   let I : Type := Option {q : G × Subgroup G // GGNbr 3 B x D J q.1 q.2}
@@ -109,9 +109,9 @@ theorem qTwo_ainf_weyl {G : Type} [Group G] [Finite G]
     GGWeylReflectionGroup 3 (ggAInf 3 B Bs x L D J) := by
   obtain ⟨V, _, _, ⟨ι⟩⟩ := exists_ggLinData (p := 3) hLM.elemAb
   obtain ⟨U, Abar, ρ, hD, hdim⟩ := qTwo_barData hcfg hm hLM hC ι
-  haveI : Finite V := Finite.of_injective (ι.symm : V → Additive ↥Bs) ι.symm.injective
-  haveI : Finite ↥U := Subtype.finite
-  haveI : Module.Finite (ZMod 3) ↥U := Module.Finite.of_finite
+  have : Finite V := Finite.of_injective (ι.symm : V → Additive ↥Bs) ι.symm.injective
+  have : Finite ↥U := Subtype.finite
+  have : Module.Finite (ZMod 3) ↥U := Module.Finite.of_finite
   have hFam : ZS.Family 3 Abar :=
     hZS (p := 3) (U := ↥U) (A := Abar) (by norm_num) hD.1 hD.2.1 hD.2.2.1
   exact ggSecFive_weyl_of_linWeyl hD

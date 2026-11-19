@@ -100,7 +100,7 @@ theorem ext_lin_data {p : ℕ} {Ω : Type} [Group Ω] {S B : Subgroup Ω} {lab :
     simp only [GLAInLambda2, LargeEvenInLambda2] at hlab
     obtain ⟨hn, -⟩ := hlab
     dsimp only [GLARawDatum, LargeEvenRawDatum] at hraw
-    rw [if_pos rfl] at hraw
+    rw [ite_eq_left rfl] at hraw
     obtain ⟨K, hF, hfin, hK, -, -, θ, hsplit, hN, hind⟩ := hraw
     exact ⟨n, 4, K, hF, hfin, θ, hK, hn, by norm_num, fun h => absurd h (by norm_num),
       ext_split_untwisted (t := .D) trivial hsplit, hN, hind⟩
@@ -111,7 +111,7 @@ theorem ext_lin_data {p : ℕ} {Ω : Type} [Group Ω] {S B : Subgroup Ω} {lab :
     simp only [GLAInLambda2, LargeEvenInLambda2] at hlab
     obtain ⟨hn, -⟩ := hlab
     dsimp only [GLARawDatum, LargeEvenRawDatum] at hraw
-    rw [if_pos rfl] at hraw
+    rw [ite_eq_left rfl] at hraw
     obtain ⟨K, hF, hfin, hK, -, -, θ, hsplit, hN, hind⟩ := hraw
     have hcard : Nat.card K = 2 ^ (2 * n) := by
       rw [hK, ← pow_mul, mul_comm n 2]
@@ -154,7 +154,7 @@ theorem ext_uni_data {p : ℕ} {Ω : Type} [Group Ω] {S B : Subgroup Ω} {lab :
     simp only [GLAInLambda2, LargeEvenInLambda2] at hlab
     obtain ⟨hn, -⟩ := hlab
     dsimp only [GLARawDatum, LargeEvenRawDatum] at hraw
-    rw [if_neg (by decide : ¬ ((3 : ℕ) = 2)), if_pos rfl] at hraw
+    rw [ite_eq_right (by decide : ¬ ((3 : ℕ) = 2)), ite_eq_left rfl] at hraw
     obtain ⟨K, hF, hfin, hK, -, -, θ, hsplit, hN, hind⟩ := hraw
     have hdiv : p ∣ 2 ^ n + 1 := by
       rcases ext_split_twD hsplit with h | h | ⟨h1, h2⟩

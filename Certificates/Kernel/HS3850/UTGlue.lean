@@ -150,7 +150,7 @@ theorem pc_ptw {p q e : Nat} (cp : CK p) (cq : CK q) (ce : CK e)
   unfold eqA
   rw [allLt_iff]
   intro x hx
-  simp only [CFSG.KC.BfsPin.unpack_getElem!, if_pos hx, beq_iff_eq]
+  simp only [CFSG.KC.BfsPin.unpack_getElem!, ite_eq_left hx, beq_iff_eq]
   unfold pc
   rw [CFSG.KS.PackFld.pg_pcomp (by norm_num) hx]
   exact h x hx
@@ -381,11 +381,11 @@ theorem elt_eq (k : Nat) : hsUTab.elt k = unpack 3850 12 (xE k) := by
   unfold InvTab.elt xE
   rw [hm]
   by_cases hk : k < 191
-  · rw [if_pos hk, Nat.blt_eq.mpr hk]
+  · rw [ite_eq_left hk, Nat.blt_eq.mpr hk]
     unfold hsUTab
     rw [build_xs, uinv_get hk]
     rfl
-  · rw [if_neg hk, show Nat.blt k 191 = false from Bool.eq_false_iff.2 fun h => hk (Nat.blt_eq.mp h),
+  · rw [ite_eq_right hk, show Nat.blt k 191 = false from Bool.eq_false_iff.2 fun h => hk (Nat.blt_eq.mp h),
       hidA]
     rfl
 
@@ -415,13 +415,13 @@ theorem commAt_eq (i j : Nat) : hsUTab.commAt i j = cK i j := by
     rw [build_commAt hsUInv [0, 5] hi hj, uinv_get h.1, uinv_get h.2, keyMul_eq (cX h.2),
       keyMul_eq (cX h.1), list2_beq]
     unfold cK
-    rw [if_pos h]
+    rw [ite_eq_left h]
     have e := bbeq (allN_spec (allN_spec comm i h.1) j h.2)
     exact e.symm
   · unfold InvTab.commAt cK
-    rw [hm, if_neg h, if_neg h]
+    rw [hm, ite_eq_right h, ite_eq_right h]
 
-theorem kk_inj {a b c d : Nat} (ha : a < 3850) (hb : b < 3850) (hc : c < 3850) (hd : d < 3850)
+theorem kk_inj {a b c d : Nat} (_ha : a < 3850) (hb : b < 3850) (_hc : c < 3850) (hd : d < 3850)
     (h : Nat.add (Nat.mul a 4096) b = Nat.add (Nat.mul c 4096) d) : a = c ∧ b = d := by
   simp only [Nat.add_eq, Nat.mul_eq] at h
   omega
@@ -459,7 +459,7 @@ theorem prodAt_eq (i j : Nat) : hsUTab.prodAt i j = pK i j := by
     rw [build_prodAt hsUInv [0, 5] hi hj, uinv_get h.1, uinv_get h.2, keyMul_eq (cX h.2),
       keyMul_eq (cX h.1), list2_beq, uinv_size]
     unfold pK
-    rw [if_pos h.1, if_pos h.2]
+    rw [ite_eq_left h.1, ite_eq_left h.2]
     have ec := bbeq (allN_spec (allN_spec comm i h.1) j h.2)
     rw [show (Nat.beq (pg 12 (mask 12) (X i) (pg 12 (mask 12) (X j) 0))
         (pg 12 (mask 12) (X j) (pg 12 (mask 12) (X i) 0)) &&
@@ -467,11 +467,11 @@ theorem prodAt_eq (i j : Nat) : hsUTab.prodAt i j = pK i j := by
           (pg 12 (mask 12) (X j) (pg 12 (mask 12) (X i) 5))) = Nat.testBit (CM i) j from ec.symm]
     cases hb : Nat.testBit (CM i) j
     · rw [hb] at hp
-      simp only [CFSG.KS.Raw.Orb.bIf_eq] at hp
+      simp only at hp
       simp only [Bool.false_eq_true, ↓reduceIte]
       exact (Nat.eq_of_beq_eq_true (by simpa using hp)).symm
     · rw [hb] at hp
-      simp only [CFSG.KS.Raw.Orb.bIf_eq, ↓reduceIte, Bool.and_eq_true, Nat.ble_eq] at hp
+      simp only [Bool.and_eq_true, Nat.ble_eq] at hp
       simp only [↓reduceIte]
       obtain ⟨hle, hkey⟩ := hp
       set q := fget (PR i) j 8 with hq
@@ -519,8 +519,8 @@ theorem prodAt_eq (i j : Nat) : hsUTab.prodAt i j = pK i j := by
     rw [hm]
     by_cases hi : i < 191
     · have hj : ¬ j < 191 := fun hj => h ⟨hi, hj⟩
-      rw [if_pos hi, if_pos hi, if_neg hj, if_neg hj]
-    · rw [if_neg hi, if_neg hi]
+      rw [ite_eq_left hi, ite_eq_left hi, ite_eq_right hj, ite_eq_right hj]
+    · rw [ite_eq_right hi, ite_eq_right hi]
 
 theorem pg_swap {f g e : Nat → Nat} {n : Nat} (hg : ∀ x < n, g x < n) (he : ∀ x < n, e x < n)
     (ff : ∀ x < n, f (f x) = x) (gg : ∀ x < n, g (g x) = x) (ee : ∀ x < n, e (e x) = x)
@@ -549,7 +549,7 @@ theorem xE_invol (k : Nat) :
   · have e : ∀ z < 3850, pg 12 (mask 12) idn z = z := fun z hz => by
       unfold idn
       exact CFSG.KS.PF.pg_pidn (by norm_num) (by norm_num) hz
-    simp only [cond_false]
+    simp only [Bool.cond_false]
     rw [e y hy, e y hy]
   · exact uX_invol (Nat.blt_eq.mp h) y hy
 
@@ -570,7 +570,7 @@ theorem prod_kl {i j : Nat} (hij : i ≤ j) (hj : j < 191) (hc : Nat.testBit (CM
   have hi : i < 191 := by omega
   have hpk := allN_spec (allN_spec prodk i hi) j hj
   rw [hc] at hpk
-  simp only [CFSG.KS.Raw.Orb.bIf_eq, ↓reduceIte, Bool.and_eq_true, Nat.ble_eq] at hpk
+  simp only [Bool.and_eq_true, Nat.ble_eq] at hpk
   obtain ⟨hle, hkey⟩ := hpk
   obtain ⟨t, ht, et⟩ := closY _ (inv_mem hj).1 _ (inv_mem hi).1
   obtain ⟨m, hm, em⟩ := xE_mem hle
@@ -634,10 +634,10 @@ theorem check_true : hsUTab.check 4 = true := by
     have hi' : i < hsUInv.size := by rw [uinv_size]; exact hi
     have hj' : j < hsUInv.size := by rw [uinv_size]; exact hj
     by_cases hji : j < i
-    · rw [if_pos hji]
+    · rw [ite_eq_left hji]
       unfold hsUTab
       exact build_symOK hsUInv [0, 5] hi' hj'
-    · rw [if_neg hji]
+    · rw [ite_eq_right hji]
       unfold InvTab.pairOK
       cases hc : hsUTab.commAt i j
       · simp only [Bool.false_eq_true, ↓reduceIte]
@@ -649,14 +649,14 @@ theorem check_true : hsUTab.check 4 = true := by
       · simp only [↓reduceIte]
         rw [commAt_eq] at hc
         unfold cK at hc
-        rw [if_pos ⟨hi, hj⟩] at hc
+        rw [ite_eq_left ⟨hi, hj⟩] at hc
         obtain ⟨p1, p2⟩ := prod_spec (by omega) hj hc
         have hpk := allN_spec (allN_spec prodk i hi) j hj
         rw [hc] at hpk
-        simp only [CFSG.KS.Raw.Orb.bIf_eq, ↓reduceIte, Bool.and_eq_true, Nat.ble_eq] at hpk
+        simp only [Bool.and_eq_true, Nat.ble_eq] at hpk
         rw [prodAt_eq, hm, Bool.and_eq_true, decide_eq_true_eq]
         unfold pK
-        rw [if_pos hi, if_pos hj]
+        rw [ite_eq_left hi, ite_eq_left hj]
         refine ⟨hpk.1, ?_⟩
         have hx : ∀ k < 191, hsUTab.xs[k]! = unpack 3850 12 (X k) := fun k hk => by
           unfold hsUTab

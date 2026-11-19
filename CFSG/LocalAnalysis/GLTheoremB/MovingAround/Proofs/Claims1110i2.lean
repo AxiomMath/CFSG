@@ -46,7 +46,7 @@ section AutD4
 theorem card_le_of_isD4Comp {Y L F : Subgroup G} (hL : IsD4Comp Y L)
     (hF : IsElemAbelian 5 F) (hFL : F ≤ Subgroup.normalizer (L : Set G)) :
     Nat.card ↥F ≤ 5 ^ 2 * Nat.card ↥(centModIn F L) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set T := barOf 5 L ⧸ Subgroup.center (barOf 5 L) with hT
   have hTm : StatedClassicalModel T .POmegaPlus 4 2 1 := by
     rcases hL.2.2 with h | ⟨h4, -⟩
@@ -103,7 +103,7 @@ open CFSG.Monster.B.Fischer CFSG.AGLEmbedding.KFactProofs.Fi22Five CFSG.EvenSmal
 theorem inputFi22GammaThree_holds :
     InputFi22GammaThree := by
   intro X _ _ hX P hPp hPc
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨-, hf5, h25, -⟩ := CFSG.HardMathSupport.Solomon.Proving.fi22Facts_holds X hX
   have hPc' : Nat.card P = 5 ^ (Nat.card X).factorization 5 := by rw [hPc, hf5]
   have hPsyl : IsSylowIn 5 ⊤ P :=
@@ -180,6 +180,7 @@ theorem pRank_le_of_isSylowIn {p : ℕ} [Fact p.Prime] {X Q : Subgroup G} (hQ : 
   exact CFSG.SectionRank.le_pRank (Fact.out : p.Prime).one_lt hES (Claims1110.isElemAbelian_conj x hEel)
     (by rw [Claims1110.card_conj, hEc])
 
+omit [Finite G] in
 theorem conj_mem_centModIn_of_gLBConj {R L : Subgroup G} {g c : G} (hg : g ∈ R)
     (hc : c ∈ centModIn R (GLBConj g L)) : g * c * g⁻¹ ∈ centModIn R L := by
   obtain ⟨hcR, hcN, hcL⟩ := mem_centModIn.1 hc
@@ -236,7 +237,7 @@ theorem le_sup_normalizer_of_isSylowIn {p : ℕ} [Fact p.Prime] {M J S : Subgrou
 
 theorem exists_mem_normalizer_of_lt_of_isPGroup {p : ℕ} [Fact p.Prime] {Q Q' : Subgroup G} (hQ' : IsPGroup p ↥Q')
     (hlt : Q < Q') : ∃ x ∈ Q', x ∉ Q ∧ x ∈ Subgroup.normalizer (Q : Set G) := by
-  haveI : Group.IsNilpotent ↥Q' := hQ'.isNilpotent
+  have : Group.IsNilpotent ↥Q' := hQ'.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥Q')
   set H : Subgroup ↥Q' := Q.subgroupOf Q' with hH
   have hHtop : H < ⊤ := by
@@ -246,7 +247,7 @@ theorem exists_mem_normalizer_of_lt_of_isPGroup {p : ℕ} [Fact p.Prime] {Q Q' :
     intro x hx
     have : (⟨x, hx⟩ : ↥Q') ∈ H := htop ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 this
-  obtain ⟨⟨x, hxQ'⟩, hxN, hxH⟩ := SetLike.exists_of_lt (hnc H hHtop)
+  obtain ⟨⟨x, hxQ'⟩, hxN, hxH⟩ := _root_.IsConcreteLE.exists_of_lt (hnc H hHtop)
   refine ⟨x, hxQ', fun hxQ => hxH (Subgroup.mem_subgroupOf.2 hxQ), ?_⟩
   rw [Subgroup.mem_normalizer_iff]
   intro y
@@ -262,6 +263,7 @@ theorem exists_mem_normalizer_of_lt_of_isPGroup {p : ℕ} [Fact p.Prime] {Q Q' :
     have h1 := (Subgroup.mem_normalizer_iff.1 hxN ⟨y, hyQ'⟩).2 (Subgroup.mem_subgroupOf.2 (by simpa using hy))
     exact Subgroup.mem_subgroupOf.1 h1
 
+omit [Finite G] in
 theorem le_normalizer_iSup_of_invariant {Y : Subgroup G} {𝒟 : Set (Subgroup G)}
     (h𝒟 : ∀ L ∈ 𝒟, ∀ g ∈ Y, GLBConj g L ∈ 𝒟) :
     Y ≤ Subgroup.normalizer ((⨆ L ∈ 𝒟, L : Subgroup G) : Set G) := by
@@ -277,6 +279,7 @@ theorem le_normalizer_iSup_of_invariant {Y : Subgroup G} {𝒟 : Set (Subgroup G
   have h1 := gLBConj_mono g (key g⁻¹ (Y.inv_mem hg))
   rwa [gLBConj_gLBConj_inv] at h1
 
+omit [Finite G] in
 theorem isD4Comp_gLBConj {Y L : Subgroup G} (hL : IsD4Comp Y L) {g : G} (hg : g ∈ Y) :
     IsD4Comp Y (GLBConj g L) := by
   refine ⟨?_, ?_⟩
@@ -294,7 +297,7 @@ theorem eq_one_of_forall_centModIn {M R K₁ A₀ : Subgroup G} {𝒞 𝒟 : Set
     (hs : IsSimpleGroup (barOf 5 K₁)) (hnab : ∃ u v : barOf 5 K₁, u * v ≠ v * u) (hA₀K₁ : A₀ ≤ K₁)
     (hA₀el : IsElemAbelian 5 A₀) (hZ : omegaOne 5 (centerOf R) ≤ A₀) {r : G} (hr : r ∈ R)
     (hc : ∀ L ∈ 𝒟, r ∈ centModIn R L) : r = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set C : Subgroup G := R ⊓ ⨅ L ∈ 𝒟, centModIn R L with hC
   have hmemC : ∀ x, x ∈ C ↔ x ∈ R ∧ ∀ L ∈ 𝒟, x ∈ centModIn R L := by
     intro x
@@ -341,8 +344,8 @@ theorem step6WreathClaim_of_inputs (h119 : Lemma119Statement)
     hnab hlie 𝒞 h𝒞 hK₁𝒞 h𝒞st h𝒞tr hcase
   obtain ⟨rfl, hfi⟩ := hb
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   obtain ⟨hrk, -, -, -⟩ := h119 h
@@ -355,7 +358,7 @@ theorem step6WreathClaim_of_inputs (h119 : Lemma119Statement)
   have ha5 : a ^ 5 = 1 := hAel.2 a haA
   have hK₁M : K₁ ≤ M := hK₁.1.trans inf_le_left
   have hZ₁ : Subgroup.center (barOf 5 K₁) = ⊥ := by
-    haveI := hs
+    have := hs
     exact CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab
   have hlieZ : CFSG.Models.LieModel (barOf 5 K₁ ⧸ Subgroup.center (barOf 5 K₁)) .POmegaPlus 4 2 1 :=
     CFSG.Models.LieModel.of_mulEquiv
@@ -416,7 +419,7 @@ theorem step6WreathClaim_of_inputs (h119 : Lemma119Statement)
       obtain ⟨-, hfN, hfc⟩ := mem_centModIn.1 (hfL L hL)
       exact mem_centModIn.2 ⟨hBT hf, hfN, hfc⟩
     classical
-    haveI : Fintype ↥𝒟 := Fintype.ofFinite _
+    have : Fintype ↥𝒟 := Fintype.ofFinite _
     let H : ↥𝒟 → Subgroup ↥F := fun L => (centModIn F L.1).subgroupOf F
     have hbot : (⨅ L, H L) = ⊥ := by
       rw [eq_bot_iff]

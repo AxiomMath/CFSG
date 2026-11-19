@@ -23,7 +23,7 @@ theorem exists_mem_of_word {S : Subgroup (V₀ ≃ₗ[ZMod 2] V₀)} {gens : Lis
   have hX : ∀ q ∈ w, X q ∈ S ∧ Code.HasCode (X q : V₀ →ₗ[ZMod 2] V₀) (nthS 0 gens q) := by
     intro q hq
     have h := hw q hq
-    simp only [X, dif_pos h, nthS_eq]
+    simp only [X, dite_eq_left h, nthS_eq]
     exact Classical.choose_spec (hS q h)
   have h := cd_wvS w (fun q hq => (hX q hq).2) cd_one
   rw [one_mul] at h

@@ -338,6 +338,7 @@ theorem commute_of_swap_lift (hk : Nat.card k = 3) {G : Type*} [Group G] {π : E
   · rw [MonoidHom.mem_ker, map_mul, map_inv, map_mul, map_mul, map_inv, hπY, hπY₁, hñ, h2,
       inv_mul_cancel]
 
+omit [Finite k] in
 theorem commute_of_conj_lift {G : Type*} [Group G] {π : E →* G}
     (hcen : π.ker ≤ Subgroup.center E) (hπ : Function.Surjective π) {x x₁ x₂ x₃ : k → G}
     {Y Y₁ Y₂ Y₃ : k → E} (hπY : ∀ s, π (Y s) = x s) (hπY₁ : ∀ s, π (Y₁ s) = x₁ s)

@@ -62,7 +62,7 @@ theorem pGoodOut_three_or_of_catalog (hD4 : D4ThreeRankFour) (hE6 : E6ThreeRankF
 theorem kDOutDerived_of_threeRank (hD4 : D4ThreeRankFour) (hE6 : E6ThreeRankFour)
     (hT : TwistedE6ThreeRankFour) : KDOutDerived := by
   intro p hp hp2 L _ _ hs hnab hcat _ α hαp hαc hαi
-  haveI : IsSimpleGroup L := hs
+  have : IsSimpleGroup L := hs
   by_cases hLU : IsLinearOrUnitaryAt p L
   · exact Or.inl hLU
   · by_cases hp3 : p = 3

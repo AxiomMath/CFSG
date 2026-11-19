@@ -82,7 +82,7 @@ private theorem exists_mask {m : Nat} (c : Fin m → ZMod 2) (hc : c ≠ 0) :
   have hJbit : ∀ i : Fin m, (maskOf b m).testBit i = decide (c i = 1) := by
     intro i
     rw [testBit_maskOf, decide_eq_true i.isLt, Bool.true_and]
-    simp only [b, dif_pos i.isLt]
+    simp only [b, dite_eq_left i.isLt]
   refine ⟨maskOf b m, Nat.pos_of_ne_zero fun h0 => hc ?_, maskOf_lt b m, hJbit⟩
   funext i
   have e := hJbit i
@@ -234,10 +234,10 @@ theorem forestOK_sound {Fb : List (List Nat)} {S SA SB : List Nat} {V0 V1 k : Na
     cases hpar : Nat.beq (Nat.land c (nat_lit 1)) (nat_lit 1)
     · have hne : c &&& 1 ≠ 1 := Nat.ne_of_beq_eq_false hpar
       rw [Nat.and_one_is_mod] at hne
-      rw [if_pos (by omega)]
+      rw [ite_eq_left (by omega)]
     · have e : c &&& 1 = 1 := Nat.eq_of_beq_eq_true hpar
       rw [Nat.and_one_is_mod] at e
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
   ·
     rw [hble] at hnode
     dsimp only at hnode
@@ -379,14 +379,14 @@ theorem testN_zero {S Da Db : List Nat} {Al Ba Bb : Nat} (hS : wfMat S = true)
     rw [vrow_rowOf, Pi.zero_apply]
     have hq : 64 * j.val + t < 279680 := by omega
     have e := testBit_testN S Da Db Al Ba Bb (64 * j.val + t)
-    rw [h0, Nat.zero_testBit, if_pos hq] at e
+    rw [h0, Nat.zero_testBit, ite_eq_left hq] at e
     rw [← e]
     rfl
   have hV : vrow (rowOf (Nat.xor (mulS S Bb) (mulS Db (mulS S Al))) t) = 0 := by
     funext j
     rw [vrow_rowOf, Pi.zero_apply]
     have e := testBit_testN S Da Db Al Ba Bb (279680 + (64 * j.val + t))
-    rw [h0, Nat.zero_testBit, if_neg (by omega), Nat.add_sub_cancel_left,
+    rw [h0, Nat.zero_testBit, ite_eq_right (by omega), Nat.add_sub_cancel_left,
       decide_eq_true (by omega : 64 * j.val + t < 279680), Bool.true_and] at e
     rw [← e]
     rfl
@@ -438,14 +438,14 @@ theorem tests3_sound {S₁ S₂ S₃ Da Db : List Nat} {Al Ba Bb : Nat} (hS₁ :
     Finset.sum_range]
   simp only [hget, hcJ, testBit_testN]
   by_cases hq : q < 279680
-  · simp only [if_pos hq]
+  · simp only [ite_eq_left hq]
     have := congrFun (hc (q % 64) (Nat.mod_lt _ (by norm_num))).1 ⟨q / 64, by omega⟩
     rw [Finset.sum_apply, Pi.zero_apply] at this
     rw [← this]
     refine Finset.sum_congr rfl fun i _ => ?_
     rw [Pi.smul_apply, smul_eq_mul, bz_testBit_eq_vrow _ q hq,
       vrow_rowOf_part (hSi i) hA Al Ba (Nat.mod_lt _ (by norm_num))]
-  · simp only [if_neg hq]
+  · simp only [ite_eq_right hq]
     by_cases hq2 : q - 279680 < 279680
     · simp only [decide_eq_true hq2, Bool.true_and]
       have := congrFun (hc ((q - 279680) % 64) (Nat.mod_lt _ (by norm_num))).2

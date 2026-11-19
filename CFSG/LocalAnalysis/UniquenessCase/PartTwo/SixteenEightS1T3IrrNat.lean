@@ -26,7 +26,7 @@ private theorem s16t3_map_mem_fixV_iff {H : Subgroup (MulAut W)} {g : MulAut W}
       _ = g w := by rw [h1]
 
 private theorem s16t3_stableUnder_commSub {L : Subgroup (MulAut W)} {J : Subgroup W}
-    (hJ : StableUnder L J) : StableUnder L (commSub J L) := by
+    (_hJ : StableUnder L J) : StableUnder L (commSub J L) := by
   intro l hl i hi
   unfold commSub at hi ⊢
   induction hi using Subgroup.closure_induction with

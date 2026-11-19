@@ -52,6 +52,8 @@ theorem Q_le_Lgen (M Q B : Subgroup G) : Q ≤ Lgen M (LB M Q B) := by
 
 variable [Finite G]
 
+omit [(Q.subgroupOf M).Normal] in
+omit [Finite G] in
 theorem Lgen_le_M (hc : Ctx M Q Z B) : Lgen M (LB M Q B) ≤ M := by
   refine iSup₂_le fun m hm => ?_
   calc conjSubgroup m (LB M Q B) ≤ conjSubgroup m M := Subgroup.map_mono hc.LB_le_M
@@ -66,6 +68,7 @@ theorem Lgen_eq_XbarPre_of_le (hc : Ctx M Q Z B)
   exact (eq_of_bar_eq (Q_le_Lgen M Q B) (Lgen_le_M hc) (Q_le_XbarPre hc)
     (XbarPre_le_M hc) hbar).ge
 
+omit [(Q.subgroupOf M).Normal] [Finite G] in
 theorem caseVICore_of_data {S : Subgroup G} {n : ℕ} {K : Type} [Field K] [Finite K]
     {φ : S →* GL (Fin n) K} (hK : Nat.card K = Nat.card Z)
     (hrange : φ.range = StatedSL n K) (hker : φ.ker = Q.subgroupOf S)

@@ -18,7 +18,7 @@ theorem ob5_card_GF16 : Nat.card (GaloisField 2 4) = 16 := by
   norm_num
 
 theorem ob5_card_SL : Nat.card ob5SL = 4080 := by
-  haveI : Fintype (GaloisField 2 4) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 4) := Fintype.ofFinite _
   have h16 : Fintype.card (GaloisField 2 4) = 16 := by
     rw [← Nat.card_eq_fintype_card, ob5_card_GF16]
   rw [Matrix.card_SL_field, h16]
@@ -57,11 +57,11 @@ theorem ob5_card_PSL : Nat.card (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (Ga
   exact Nat.card_congr (Equiv.ofBijective ob5Proj ⟨ob5_proj_injective, ob5_proj_surjective⟩).symm
 
 theorem ob5_normal_two_SL (N : Subgroup ob5SL) [N.Normal] (hN : IsPGroup 2 N) : N = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : 4 ≤ Nat.card (GaloisField 2 4) := by rw [ob5_card_GF16]; norm_num
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 4)) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 4)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hF
-  haveI : (N.map ob5Proj).Normal := Subgroup.Normal.map inferInstance ob5Proj ob5_proj_surjective
+  have : (N.map ob5Proj).Normal := Subgroup.Normal.map inferInstance ob5Proj ob5_proj_surjective
   rcases Subgroup.Normal.eq_bot_or_eq_top (N.map ob5Proj) with h | h
   · rw [eq_bot_iff]
     intro n hn
@@ -76,7 +76,7 @@ theorem ob5_normal_two_SL (N : Subgroup ob5SL) [N.Normal] (hN : IsPGroup 2 N) : 
     rw [h, Subgroup.card_top, ob5_card_PSL] at hk
     have hk12 : k < 12 := by
       by_contra hc
-      push_neg at hc
+      push Not at hc
       have := Nat.pow_le_pow_right (by norm_num : 1 ≤ 2) hc
       omega
     interval_cases k <;> norm_num at hk

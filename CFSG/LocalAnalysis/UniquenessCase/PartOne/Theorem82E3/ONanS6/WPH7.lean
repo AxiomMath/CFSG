@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G] {D : Data G}
 
 theorem Step42Opp_holds'
     (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     {x : G} (hx : x ∈ P ⊓ c.L) (hx3 : orderOf x = 3) (hxZ : x ∉ zSub P c.L) :
     Step42Opp c P x := by
@@ -72,7 +72,7 @@ theorem frame_commutator_le_Zs_wPH7 (c : Ctx82E3 D)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     ⁅P ⊓ c.L, P ⊓ c.L⁆ ≤ zSub P c.L := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   let Q : Subgroup G := P ⊓ c.L
@@ -148,7 +148,7 @@ theorem card_inf_L_of_onan_wPH7 (c : Ctx82E3 D)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     Nat.card ↥(P ⊓ c.L) = 3 ^ 5 := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   let Q : Subgroup G := P ⊓ c.L
@@ -187,11 +187,11 @@ theorem card_inf_L_of_onan_wPH7 (c : Ctx82E3 D)
 theorem exists_E27_of_onan_wPH7
     (c : Ctx82E3 D) (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    {x : G} (hx : x ∈ P ⊓ c.L) (hx3 : orderOf x = 3) (hxZ : x ∉ zSub P c.L) :
+    {x : G} (hx : x ∈ P ⊓ c.L) (_hx3 : orderOf x = 3) (hxZ : x ∉ zSub P c.L) :
     ∃ A : Subgroup G, A ≤ P ⊓ c.L ∧ x ∈ A ∧ CFSG.Open.IsElemAbelian 3 A ∧
       Nat.card A = 27 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Q : Subgroup G := P ⊓ c.L
   have hxQ : x ∈ Q := hx
   have hcardQ : Nat.card ↥Q = 3 ^ 5 := card_inf_L_of_onan_wPH7 c hON hP
@@ -237,7 +237,7 @@ theorem two_le_pRank_pHstar_wPH7
     {x : G} (hx : x ∈ P ⊓ c.L) (hx3 : orderOf x = 3) (hxZ : x ∉ zSub P c.L) :
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (pHstar x)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨A, hAQ, hxA, hAea, hAcard⟩ := exists_E27_of_onan_wPH7 c hON hP hx hx3 hxZ
   have hAH : A ≤ pH x := by
     intro a ha
@@ -245,7 +245,7 @@ theorem two_le_pRank_pHstar_wPH7
     exact Subgroup.mem_centralizer_singleton_iff.mpr (hAea.comm ha hxA)
   let f : ↥A →* pHstar x :=
     (QuotientGroup.mk' (pK x)).comp (Subgroup.inclusion hAH)
-  haveI : IsMulCommutative ↥A := hAea.1
+  have : IsMulCommutative ↥A := hAea.1
   have hAtop : CFSG.Open.IsElemAbelian 3 (⊤ : Subgroup ↥A) := by
     refine ⟨⟨⟨fun a b => Subtype.ext (mul_comm' a.1 b.1)⟩⟩, ?_⟩
     intro a _
@@ -316,10 +316,10 @@ theorem isStronglyPEmbedded_map_mulEquiv_wPH7 {A B : Type} [Group A] [Finite A]
     exact hnot
 
 theorem propositionH_step2'_wPH7
-    (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (_hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
     {x : G} (hx : x ∈ P ⊓ c.L) (hx3 : orderOf x = 3) (hxZ : x ∉ zSub P c.L)
     (h1 : IsStronglyPEmbedded 3 (pNstar x D.M)) :
     IsStronglyPEmbedded 3 (pNbar x D.M) ∧
@@ -327,7 +327,7 @@ theorem propositionH_step2'_wPH7
       2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (pX x)) ∧
       CFSG.Open.IsKGroup (pX x) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let H := pH x
   let K := pK x
   let DK := pDK x
@@ -355,8 +355,8 @@ theorem propositionH_step2'_wPH7
       (Subgroup.mem_centralizer_singleton_iff.mp h.2).symm
     rw [← hn]
     exact (hcomm.zpow_left n).eq.symm
-  haveI : K.Normal := pK_normal x
-  haveI : DK.Normal := pDK_normal x
+  have : K.Normal := pK_normal x
+  have : DK.Normal := pDK_normal x
   have hOstar : CFSG.pPrimeCore 3 (pHstar x) = DK.map (QuotientGroup.mk' K) := by
     have h := CFSG.central_p_subgroup_prime_core_quotient (p := 3) (G := H)
       (Z := K) hKcenter hK3
@@ -390,7 +390,7 @@ theorem propositionH_step2'_wPH7
     exact he_mk n
   have h2 : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (pHstar x)) :=
     two_le_pRank_pHstar_wPH7 c hON hP hx hx3 hxZ
-  haveI : (CFSG.pPrimeCore 3 (pHstar x)).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore 3 (pHstar x)).Normal := CFSG.pPrimeCore_normal
   have hOle : CFSG.pPrimeCore 3 (pHstar x) ≤ pNstar x D.M :=
     CFSG.LocalAnalysis.UniquenessCase.UCK.pPrimeCore_le_of_stronglyPEmbedded h1 h2
   have hcop : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 (pHstar x)) :=
@@ -417,7 +417,7 @@ theorem propositionH_step2'_wPH7
     exact hd.2.1
   have hHproper : pH x ≠ ⊤ := by
     intro htop
-    haveI : IsSimpleGroup G := D.standing.simple
+    have : IsSimpleGroup G := D.standing.simple
     have hcenter : Subgroup.center G = ⊥ :=
       CFSG.AGLEmbedding.center_eq_bot_of_isSimpleGroup_nonabelian D.standing.nonab
     have hxcenter : x ∈ Subgroup.center G := by
@@ -438,7 +438,7 @@ theorem exists_cube_eq_of_isCyclic_three_wPH7 {U : Type} [Group U] [Finite U] [I
     (hU3 : IsPGroup 3 U) (hcard : 3 < Nat.card U) {x : U} (hx3 : orderOf x = 3) :
     ∃ v : U, v ^ 3 = x := by
   classical
-  letI : CommGroup U := IsCyclic.commGroup
+  let : CommGroup U := IsCyclic.commGroup
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hU3
   have hn2 : 2 ≤ n := by
     rcases n with _ | _ | n
@@ -492,16 +492,16 @@ theorem exists_cube_eq_of_isCyclic_three_wPH7 {U : Type} [Group U] [Finite U] [I
   exact ⟨v, by simpa [f] using hv⟩
 
 theorem propositionH_F4'_wPH7
-    (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (_hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
+    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
     {x : G} (hx : x ∈ P ⊓ c.L) (hx3 : orderOf x = 3) (hxZ : x ∉ zSub P c.L) :
     Subgroup.zpowers x < P ⊓ Subgroup.centralizer ({x} : Set G) ∧
       ∀ U : Subgroup G, U ≤ P ⊓ Subgroup.centralizer ({x} : Set G) →
         Subgroup.zpowers x < U → ¬ IsCyclic U := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZcard : Nat.card ↥(zSub P c.L) = 3 := c.card_inf_centralizer_of_onan hON hP
   have hZle : zSub P c.L ≤ P ⊓ Subgroup.centralizer ({x} : Set G) := by
     refine le_inf ((inf_le_left.trans inf_le_left)) ?_
@@ -637,7 +637,7 @@ theorem propositionH_step1_wPH7
       (Subgroup.centralizer ({x} : Set G)))
     (hnot : ¬ Subgroup.centralizer ({x} : Set G) ≤ D.M) :
     IsStronglyPEmbedded 3 (pNstar x D.M) := by
-  haveI : ((Subgroup.zpowers x).subgroupOf
+  have : ((Subgroup.zpowers x).subgroupOf
       (Subgroup.centralizer ({x} : Set G))).Normal := pK_normal x
   obtain ⟨hxT, hnc⟩ := propositionH_F4'_wPH7 hK2 c hON h7 hP hNZ hx hx3 hxZ
   have h := strongly_embedded_quot_of_gamma (M := D.M) (P := P)
@@ -696,7 +696,7 @@ theorem not_isStronglyPEmbedded_of_normal_pQuotient_wPH7 {Y : Type} [Group Y] [F
   have hEp : IsPGroup p E := IsPGroup.of_card (n := 2) hEcard
   obtain ⟨Q, hEQ⟩ := hEp.exists_le_sylow
   have hQsyl : IsSylowOf p (Q : Subgroup Y) ⊤ :=
-    ⟨le_top, Q.isPGroup', by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
+    ⟨le_top, Q.isPGroup, by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
   obtain ⟨g, hg⟩ := hS.exists_conj_ge hQsyl
   exact hcore (CFSG.RankThree.PartOne.StrongP.conjSub g S) (hS.conj g) (hEQ.trans hg)
 
@@ -718,11 +718,11 @@ theorem exists_elemAbelian_card_nine_of_isTripleCover_wPH7 {Q : Type*} [Group Q]
     (hT : CFSG.RankThree.PartTwo.Sec4.IsTripleCover Q (alternatingGroup (Fin 6))) :
     ∃ E : Subgroup Q, IsElemAbelian 3 E ∧ Nat.card E = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAne : Nonempty (Q ⧸ Subgroup.center Q ≃* alternatingGroup (Fin 6)) := hT.2
   obtain ⟨eA⟩ := hAne
   let Z : Subgroup Q := Subgroup.center Q
-  haveI : Z.Normal := by dsimp [Z]; infer_instance
+  have : Z.Normal := by dsimp [Z]; infer_instance
   have hZcard : Nat.card Z = 3 := hT.1
   let q : Q →* Q ⧸ Z := QuotientGroup.mk' Z
   let φ : Q →* alternatingGroup (Fin 6) := eA.toMonoidHom.comp q
@@ -730,7 +730,7 @@ theorem exists_elemAbelian_card_nine_of_isTripleCover_wPH7 {Q : Type*} [Group Q]
     eA.surjective.comp (QuotientGroup.mk'_surjective Z)
   have hkerφ : φ.ker = Z := by
     ext x
-    simpa [φ, q] using QuotientGroup.eq_one_iff (N := Z) x
+    simp [φ, q]
   obtain ⟨E, hEel, hEge⟩ := CFSG.RankThree.PartTwo.Sec4.HeringOF.hasE9_alternatingGroup_six
   have hEp : IsPGroup 3 E := by
     rw [isPGroup_iff_exists_pow_pow_eq_one]
@@ -789,7 +789,7 @@ theorem hasE9_of_exists_elemAbelian_card_nine_wPH7 {Q : Type*} [Group Q] [Finite
     CFSG.GroupTheory.ThreeTranspositions.HasE9 Q := by
   classical
   obtain ⟨E, hE, hcard⟩ := h
-  haveI hEnt : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
+  have hEnt : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp (by rw [hcard]; norm_num)
   obtain ⟨x, hx1⟩ := exists_ne (1 : E)
   have hxE : (x : Q) ∈ E := x.2
   have hx3 : (x : Q) ^ 3 = 1 := hE.2 (x : Q) x.2
@@ -937,7 +937,7 @@ theorem propositionH_step43''_wPH7
   classical
   let I := perfectCoreL c x
   let N : Subgroup ↥I := CFSG.pCore 2 ↥I
-  haveI hNnormal : N.Normal := CFSG.pCore_normal
+  have hNnormal : N.Normal := CFSG.pCore_normal
   have hIeq : I = pI x c.L := by
     dsimp [I]
     symm
@@ -956,8 +956,8 @@ theorem propositionH_step43''_wPH7
     exists_elemAbelian_card_nine_of_quotient_wPH7 (Y := ↥I) (N := N) hpN hQ9
   let Zbar : Subgroup (↥I ⧸ N) := Subgroup.center (↥I ⧸ N)
   let M : Subgroup ↥I := Zbar.comap (QuotientGroup.mk' N)
-  haveI hZbarNormal : Zbar.Normal := by dsimp [Zbar]; infer_instance
-  haveI hMnormal : M.Normal := inferInstance
+  have hZbarNormal : Zbar.Normal := by dsimp [Zbar]; infer_instance
+  have hMnormal : M.Normal := inferInstance
   have hNM : N ≤ M := by
     intro n hn
     simp only [M, Subgroup.mem_comap]
@@ -1062,10 +1062,10 @@ theorem propositionH_step43''_wPH7
       (Nat.Coprime.pow_right k (by norm_num))
   exact hno (S.comap φbar) (stronglyPEmbedded_comap_of_surjective_wPH7 φbar hφbar hpker hS)
 
-theorem propositionH_step44'_wPH7 (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
-    {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    {x : G} (hx : x ∈ P ⊓ c.L) (hx3 : orderOf x = 3) (hxZ : x ∉ zSub P c.L)
+theorem propositionH_step44'_wPH7 (_hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
+    (_hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
+    {P : Subgroup G} (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
+    {x : G} (_hx : x ∈ P ⊓ c.L) (_hx3 : orderOf x = 3) (_hxZ : x ∉ zSub P c.L)
     (hNbar : IsStronglyPEmbedded 3 (pNbar x D.M))
     (h43 : ∀ S : Subgroup ↥(pIbar x c.L), ¬ IsStronglyPEmbedded 3 S)
     (h42 : ¬ CFSG.HallHigman.IsPSolvable 3 ↥(pIbar x c.L) ∧
@@ -1073,7 +1073,7 @@ theorem propositionH_step44'_wPH7 (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
       pIbar x c.L ≤ Opp 3 (⊤ : Subgroup (pX x))) :
     ∃ g : pX x, pIbar x c.L ≤ (pNbar x D.M).map (MulAut.conj g).toMonoidHom := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3dvd : 3 ∣ Nat.card ↥(pIbar x c.L) := by
     by_contra h3
     have hcop : Nat.Coprime 3 (Nat.card ↥(pIbar x c.L)) :=
@@ -1083,9 +1083,9 @@ theorem propositionH_step44'_wPH7 (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
         (T.index_dvd_card.trans (Subgroup.card_subgroup_dvd_card H)) hcop))
   obtain ⟨Q⟩ : Nonempty (Sylow 3 ↥(pIbar x c.L)) := inferInstance
   let Q' : Subgroup (pX x) := (Q : Subgroup ↥(pIbar x c.L)).map (pIbar x c.L).subtype
-  obtain ⟨P', hQ'P'⟩ := Q.isPGroup'.map (pIbar x c.L).subtype |>.exists_le_sylow
+  obtain ⟨P', hQ'P'⟩ := Q.isPGroup.map (pIbar x c.L).subtype |>.exists_le_sylow
   have hP'syl : CFSG.RankThree.PartOne.IsSylowOf 3 (P' : Subgroup (pX x)) ⊤ :=
-    ⟨le_top, P'.isPGroup', by
+    ⟨le_top, P'.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact P'.not_dvd_index⟩
   obtain ⟨g, hg⟩ := hNbar.exists_conj_ge hP'syl
@@ -1097,7 +1097,7 @@ theorem propositionH_step44'_wPH7 (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
     apply Sylow.ne_bot_of_dvd_card Q h3dvd
     exact (Subgroup.map_eq_bot_iff_of_injective _ (pIbar x c.L).subtype_injective).mp hbot
   have hpQ' : 3 ∣ Nat.card Q' := by
-    rcases (Q.isPGroup'.map (pIbar x c.L).subtype).card_eq_or_dvd with h | h
+    rcases (Q.isPGroup.map (pIbar x c.L).subtype).card_eq_or_dvd with h | h
     · exact absurd (Subgroup.card_eq_one.mp h) hQ'ne
     · exact h
   have hdvd : 3 ∣ Nat.card (pIbar x c.L ⊓ conjSub g (pNbar x D.M) : Subgroup (pX x)) :=

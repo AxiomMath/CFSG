@@ -13,7 +13,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.Open CF
 
 
 theorem pow_natCard_eq' {K : Type} [Field K] [Finite K] (c : K) : c ^ Nat.card K = c := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card]
   exact FiniteField.pow_card c
 
@@ -36,7 +36,7 @@ theorem twoRankLow_twE6_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (
       rw [hK', h] at h1
       simp at h1
     · exact h
-  haveI : CharP K 2 := charP_two_of_card' hK'
+  have : CharP K 2 := charP_two_of_card' hK'
   let σ : K →+* K := iterateFrobenius K 2 n
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => rfl
   have hσsurj : Function.Surjective σ := Finite.surjective_of_injective σ.injective
@@ -52,9 +52,9 @@ theorem twoRankLow_twE6_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) (
   have e0 : LargeEvenCenterQuot (LargeEvenTwistedH (LargeEvenCartanE 6) K LargeEvenRhoE6 n) ≃*
       DerivedCentralQuotient (twistedFixedGroup TwistTag.E6 K σ) :=
     (CFSG.StandardType.centerQuot_twistedH_equiv K TwistTag.E6 n σ hσ).some
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenTwistedH (LargeEvenCartanE 6) K LargeEvenRhoE6 n)) :=
+  have : Finite (LargeEvenCenterQuot (LargeEvenTwistedH (LargeEvenCartanE 6) K LargeEvenRhoE6 n)) :=
     Finite.of_equiv _ θ.toEquiv
-  haveI : Finite (DerivedCentralQuotient (twistedFixedGroup TwistTag.E6 K σ)) :=
+  have : Finite (DerivedCentralQuotient (twistedFixedGroup TwistTag.E6 K σ)) :=
     Finite.of_equiv _ e0.toEquiv
   rw [CFSG.LocalAnalysis.GLTheoremA.I107L.pRank_eq_of_quotient θ hna,
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 2) e0,

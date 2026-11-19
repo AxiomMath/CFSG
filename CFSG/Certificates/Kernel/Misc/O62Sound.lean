@@ -134,7 +134,7 @@ theorem wcK_sound {minus : Bool} {Tw : List (List ℕ)} {C : List (ℕ × List �
     by_cases hcond3 : (Check.comm (wordC w₁) (wordC w₂) && Check.comm (wordC w₁) (wordC w₃) &&
         Check.comm (wordC w₂) (wordC w₃) && !(spanC [wordC w₁]).contains (wordC w₂) &&
         !(spanC [wordC w₂, wordC w₁]).contains (wordC w₃)) = true
-    · rw [if_pos hcond3]
+    · rw [ite_eq_left hcond3]
       simp only [Bool.and_eq_true, Bool.not_eq_true', List.contains_eq_mem,
         decide_eq_false_iff_not] at hcond3
       obtain ⟨⟨⟨⟨hxy, hxz⟩, hyz⟩, hy⟩, hz⟩ := hcond3
@@ -155,7 +155,7 @@ theorem wcK_sound {minus : Bool} {Tw : List (List ℕ)} {C : List (ℕ × List �
           · exfalso
             apply hev
             simpa [Bool.and_eq_true, and_assoc] using hb
-    · rw [if_neg hcond3]
+    · rw [ite_eq_right hcond3]
   · rfl
 
 end CFSG.KC.Misc.O62

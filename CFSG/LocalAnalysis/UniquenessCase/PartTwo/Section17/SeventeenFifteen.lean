@@ -14,6 +14,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem inU_of_uniqueMax {M X : Subgroup G} (hM : rankThreeIsMaxTwoLocal M)
     (h : UniqueMax M X) : UC6.InU M X where
   left := by
@@ -27,6 +28,7 @@ theorem inU_of_uniqueMax {M X : Subgroup G} (hM : rankThreeIsMaxTwoLocal M)
     rw [h] at hmem
     exact Set.mem_singleton_iff.mp hmem
 
+omit [Finite G] in
 theorem twoResidual_not_le_conjSubgroup_of_inU {M X H : Subgroup G} {g : G}
     (hM : Subgroup.normalizer (M : Set G) = M) (hU : UC6.InU M X)
     (hXH : X ≤ twoResidual H) (hg : g ∉ M) :
@@ -35,6 +37,7 @@ theorem twoResidual_not_le_conjSubgroup_of_inU {M X H : Subgroup G} {g : G}
   have hXg : X ≤ uniqueFourConj g M := hXH.trans hle
   exact (UC6.inU_iff_not_le hM).1 hU |>.2 g hg hXg
 
+omit [Finite G] in
 theorem twoResidual_not_le_conjSubgroup_of_uniqueMax {M X H : Subgroup G} {g : G}
     (hM : rankThreeIsMaxTwoLocal M) (hUX : UniqueMax M X)
     (hXH : X ≤ twoResidual H) (hg : g ∉ M) :

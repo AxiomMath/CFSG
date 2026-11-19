@@ -35,14 +35,14 @@ theorem burnsideF45_single_mem_flag_one :
   rw [LinearFlag.mem_flagSpace]
   intro j hj
   have hj0 : j ≠ 0 := fun h => by subst h; simp at hj
-  simp [Pi.single_apply, hj0]
+  simp [hj0]
 
 theorem burnsideF45_single_mem_flag_two {i : Fin 3} (hi : (i : ℕ) < 2) :
     (Pi.single i 1 : Fin 3 → K) ∈ LinearFlag.flagSpace 3 K 2 := by
   rw [LinearFlag.mem_flagSpace]
   intro j hj
   have hji : j ≠ i := fun h => by subst h; omega
-  simp [Pi.single_apply, hji]
+  simp [hji]
 
 theorem burnsideF45_eq_q1_of_entries {A : SpecialLinearGroup (Fin 3) K}
     (h00 : (A : Matrix (Fin 3) (Fin 3) K) 0 0 = 1) (h10 : (A : Matrix (Fin 3) (Fin 3) K) 1 0 = 0)
@@ -88,7 +88,7 @@ theorem burnsideF45_mem_elation_one {A : SpecialLinearGroup (Fin 3) K} :
     have e12 := c2 1 le_rfl
     have e22 := c2 2 (by decide)
     simp only [burnsideF45_mulVec_single, Pi.sub_apply] at e00 e10 e20 e11 e21 e12 e22
-    simp [Pi.single_apply] at e00 e10 e20 e11 e21 e12 e22
+    simp at e00 e10 e20 e11 e21 e12 e22
     exact ⟨_, _, burnsideF45_eq_q1_of_entries e00 e10 e20 (sub_eq_zero.mp e11) e12 e21
       (sub_eq_zero.mp e22)⟩
   · rintro ⟨a, c, rfl⟩
@@ -125,7 +125,7 @@ theorem burnsideF45_mem_elation_two {A : SpecialLinearGroup (Fin 3) K} :
     have e21 := congrFun c1 2
     have e22 := c2 2 le_rfl
     simp only [burnsideF45_mulVec_single, Pi.sub_apply] at e00 e10 e20 e01 e11 e21 e22
-    simp [Pi.single_apply] at e00 e10 e20 e01 e11 e21 e22
+    simp at e00 e10 e20 e01 e11 e21 e22
     exact ⟨_, _, burnsideF45_eq_q2_of_entries e00 e01 e10 e11 e20 e21 (sub_eq_zero.mp e22)⟩
   · rintro ⟨b, c, rfl⟩
     refine LinearFlag.mem_elationSubgroup_of_mem
@@ -296,7 +296,7 @@ theorem burnsideF45_pCoreOf_le_projUnitriangular {d : ℕ} :
   have hPN : P ≤ Subgroup.normalizer (pCoreOf p P : Set (LinearFlag.projectiveSL 3 K)) :=
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf p P
   obtain ⟨S, hS⟩ := LinearFlag.exists_sylow_projUnitriangular (K := K) p (n := 3) (by norm_num)
-  have hUp : IsPGroup p (LinearFlag.projUnitriangular 3 K) := hS ▸ S.isPGroup'
+  have hUp : IsPGroup p (LinearFlag.projUnitriangular 3 K) := hS ▸ S.isPGroup
   have hsup : IsPGroup p (pCoreOf p P ⊔ LinearFlag.projUnitriangular 3 K :
       Subgroup (LinearFlag.projectiveSL 3 K)) :=
     hQp.to_sup_of_normal_left' hUp (hUP.trans hPN)
@@ -304,6 +304,7 @@ theorem burnsideF45_pCoreOf_le_projUnitriangular {d : ℕ} :
   rw [hS] at hmax
   exact le_sup_left.trans hmax.le
 
+omit [Finite K] [Fact (Nat.Prime p)] in
 theorem burnsideF45_V1_le_pCoreOf :
     burnsideF45_V1 K ≤
       pCoreOf p ((LinearFlag.stabilizer (LinearFlag.flagSpace 3 K 1)).map (LinearFlag.proj 3 K)) :=
@@ -314,6 +315,7 @@ theorem burnsideF45_V1_le_pCoreOf :
         (Subgroup.le_normalizer_map _))
     ((CFSG.AGLEmbedding.LinearThreeKit.isPGroup_elationSubgroup p _).map _)
 
+omit [Finite K] [Fact (Nat.Prime p)] in
 theorem burnsideF45_V2_le_pCoreOf :
     burnsideF45_V2 K ≤
       pCoreOf p ((LinearFlag.stabilizer (LinearFlag.flagSpace 3 K 2)).map (LinearFlag.proj 3 K)) :=
@@ -574,12 +576,12 @@ open CFSG.ASVolI.ChF.ClassicalRoots CFSG.LocalAnalysis.ComponentInitial
 theorem burnsideF45_facts45L_L3 {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .L3 p f Gp M₁ M₂) (hp : p.Prime) (hm : 3 ≤ GLKind.L3.m) :
     (burnsideF45_setting hyp hp hm).Facts45L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨chart, -, hpts, hlines⟩ := hyp.lie_amalgam
   obtain ⟨marking, -, h2, h3, -⟩ := burnsideF4f_L3_marking chart
-  haveI : Finite marking.field := marking.finiteField
+  have : Finite marking.field := marking.finiteField
   have hK : Nat.card marking.field = p ^ f := by simpa using marking.field_card
-  haveI : CharP marking.field p :=
+  have : CharP marking.field p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp
       marking.exponent_pos hK
   have hsub : ∀ (M : Subgroup E) (b : Bool), Gp ⊓ M = (marking.parabolic b).map Gp.subtype →

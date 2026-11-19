@@ -49,7 +49,7 @@ theorem mem_range_torus3_of_commute {t : adjointGroup .F4 K} (ht : t ∈ sylT K)
 theorem le_range_torus3_of_le_sylT [Finite K] (hK : Nat.card K = 2)
     {B : Subgroup (adjointGroup .F4 K)} (hBT : B ≤ sylT K)
     (hBc : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x) (hB : 3 ^ 3 ≤ Nat.card B) :
-    B ≤ (TableBF4Two.torus3 K).range := fun b hb =>
+    B ≤ (TableBF4Two.torus3 K).range := fun _b hb =>
   mem_range_torus3_of_commute (hBT hb) (hBc _ hb _ (torusGen_zero_mem_of_le_sylT hK hBT hBc hB))
 
 theorem exists_mulEquiv_le_range_torus3 [Finite K] (hK : Nat.card K = 2)

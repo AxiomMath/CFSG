@@ -56,7 +56,7 @@ private theorem c2d_td4_data {X : Type} [Group X] (h : catalogIs X S9.isTD4two) 
 
 private theorem c2d_eq_bot_of_central_two {S C : Subgroup Ω} (hcore : GLAPPrimeCore 3 ↥S = ⊥)
     (hCS : C ≤ S) (hCc : C ≤ Subgroup.centralizer (S : Set Ω)) (hC2 : IsPGroup 2 C) : C = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnorm : (C.subgroupOf S).Normal := ⟨fun c hc s => by
     rw [Subgroup.mem_subgroupOf] at hc ⊢
     have hcs : (s : Ω) * c = c * s := Subgroup.mem_centralizer_iff.1 (hCc hc) s s.2
@@ -83,7 +83,7 @@ private theorem c2d_big_elem_abelian {S E₀ U : Subgroup Ω} {x : Ω} (hE₀ : 
     IsElemAbelian 3 (E₀ ⊔ Subgroup.zpowers x) ∧
       E₀ ⊔ Subgroup.zpowers x ≤ Subgroup.normalizer (U : Set Ω) ∧
       3 ^ 5 ≤ Nat.card ↥(E₀ ⊔ Subgroup.zpowers x) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hCz : Subgroup.zpowers x ≤ Subgroup.center Ω :=
     Subgroup.zpowers_le.2 (Subgroup.mem_center_iff.2 hxc)
   have hCN : Subgroup.zpowers x ≤ Subgroup.normalizer (E₀ : Set Ω) :=

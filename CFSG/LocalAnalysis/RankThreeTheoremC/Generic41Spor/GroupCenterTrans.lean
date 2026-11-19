@@ -135,7 +135,7 @@ theorem heis_exists_eq_pow_mul_center {p : ℕ} [Fact p.Prime] {G : Type*} [Grou
     {Q : Subgroup G} (D : HeisCoordData p Q) (q : Q) :
     ∃ w ∈ Subgroup.center Q, q = D.x ^ (Multiplicative.toAdd (D.π q) 0).val *
       D.y ^ (Multiplicative.toAdd (D.π q) 1).val * w := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   set v := Multiplicative.toAdd (D.π q) with hv
   set u : Q := D.x ^ (v 0).val * D.y ^ (v 1).val with hu
   have hπu : D.π u = D.π q := by
@@ -174,7 +174,7 @@ theorem heis_conj_comm_eq {p : ℕ} [Fact p.Prime] {G : Type*} [Group G] {Q : Su
     (hz : orderOf (⁅(D.x : G), (D.y : G)⁆) = p) (n : normalizer (Q : Set G)) :
     (n : G) * ⁅(D.x : G), (D.y : G)⁆ * (n : G)⁻¹ =
       ⁅(D.x : G), (D.y : G)⁆ ^ (Matrix.det (D.actMat n)).val := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hzc : ⁅D.x, D.y⁆ ∈ Subgroup.center Q := by
     rw [hZ]
     exact Subgroup.mem_zpowers _

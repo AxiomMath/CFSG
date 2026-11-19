@@ -28,7 +28,7 @@ variable {K L : Type} [Field K] [Field L] [Algebra K L]
 
 theorem langPhi_apply (g₀ : ModGL Tag.E8 L) (y : adjointGroup Tag.E8 K) :
     langPhi K g₀ y = g₀⁻¹ * adjEmb Tag.E8 K L y * g₀ := by
-  simp [langPhi, MulAut.conj_apply]
+  simp [langPhi]
 
 theorem langPhi_injective (g₀ : ModGL Tag.E8 L) : Function.Injective (langPhi (L := L) K g₀) :=
   (MulAut.conj g₀⁻¹).injective.comp adjEmb_injective
@@ -82,6 +82,7 @@ theorem card_langTorusRat [IsAlgClosed L] {ℓ : ℕ} [Fact ℓ.Prime] [CharP L 
   rw [← h1, h2]
   exact natCard_twistedTorus_E8W (L := L) (ℓ := ℓ) (Fr := Fr) (q := Nat.card K) hFr hℓK
 
+omit [Algebra.IsAlgebraic K L] in
 theorem mem_langTorusRat_of_commute {Fr : L →+* L} (hFr : ∀ c, Fr c = c ^ Nat.card K) {ζ : Lˣ}
     (hζo : orderOf ζ = 5) (hζ : ζ ^ 5 = 1) {lam : ZMod 5} (hlam : lam * lam = -1)
     {g₀ : ModGL Tag.E8 L} (hg₀C : g₀ ∈ adjointGroup Tag.E8 L)
@@ -112,6 +113,7 @@ theorem mem_langTorusRat_of_commute {Fr : L →+* L} (hFr : ∀ c, Fr c = c ^ Na
   rw [langPhi_apply, map_mul, map_mul, map_inv, hg₀, adjEmb_frobenius Fr hFr y]
   group
 
+omit [Finite K] [Algebra.IsAlgebraic K L] in
 theorem exists_centE8W_conj_of_langTorsion {ζ : Lˣ} (hζo : orderOf ζ = 5) (hζ : ζ ^ 5 = 1)
     {lam : ZMod 5} (hlam : lam * lam = -1) {g₀ : ModGL Tag.E8 L}
     (hg₀C : g₀ ∈ adjointGroup Tag.E8 L)

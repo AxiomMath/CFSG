@@ -40,7 +40,7 @@ theorem not_isA5xA5_of_isAlt_five {X : Type} [Group X] (h : IsAlt X 5) :
   obtain ⟨e⟩ := h
   intro hA
   exact not_isSimpleGroup_of_isA5xA5 (e.isSimpleGroup_congr.mpr
-    alternatingGroup.isSimpleGroup_five) hA
+    (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)) hA
 
 theorem jM_eq_five_of_mem_calL5Star
     {D : Data G} {p : ℕ}
@@ -131,6 +131,7 @@ theorem p_eq_five_of_eq_self
     hm2 ▸ hm⟩
 
 
+omit [Finite G] in
 theorem eq_bot_of_isPGroup_two_of_eq_pElementSubgroup {H : Subgroup G} {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (h2 : IsPGroup 2 ↥H) (hH : H = Opp p H) : H = ⊥ := by
   rw [hH, Opp, eq_bot_iff]
@@ -155,7 +156,7 @@ theorem exists_cyclic_barImage_Sp (D : Data G) {V₀ V : Subgroup G} (hV : Hyp12
     (h23 : R17_2_3At D V₀ V hV) (h57 : R17_57At D V₀ V) (hspne : Sp D 5 ≠ ⊥) :
     ∃ e : ℕ, 1 ≤ e ∧ Nat.card ↥(barImage D.M (Sp D 5)) = 5 ^ e ∧
       IsCyclic ↥(barImage D.M (Sp D 5)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hle : barImage D.M (Sp D 5) ≤ CFSG.pCore 5 (Bar2 D.M) :=
     barImage_Sp_le_pCore D hV h54 hThin hCyc h638 h33 h22 h23
   have hP : IsPGroup 5 ↥(barImage D.M (Sp D 5)) := by
@@ -198,10 +199,10 @@ theorem false_of_isL2U3Product_two {D : Data G} (h54 : Hyp1754 D 5)
     (hHinf : Hinf D.M = Lp D 5) (hEmpty : calL4Star D 5 = ∅)
     (hu3 : IsL2U3Product (Bar2 (Lp D 5)) 2) : False := by
   obtain ⟨A, B, gA, gB, ⟨eAB⟩, hA2, hB2⟩ := hu3
-  letI := gA
-  letI := gB
-  haveI : IsSimpleGroup A := LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hA2
-  haveI : IsSimpleGroup B := LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hB2
+  let := gA
+  let := gB
+  have : IsSimpleGroup A := LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hA2
+  have : IsSimpleGroup B := LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hB2
   have hAab : ¬ ∀ x y : A, x * y = y * x := by
     obtain ⟨a, b, hab⟩ :=
       CFSG.ComponentClassification.HarrisLit.nonabelian_of_lieModel_psl2 (p := 2) (f := 2) hA2
@@ -232,8 +233,8 @@ theorem false_of_isL2U3Product_two {D : Data G} (h54 : Hyp1754 D 5)
 theorem isAlt_five_of_isL2_two {X : Type} [Group X]
     (h : IsL2 X 2) : IsAlt X 5 := by
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := LieModel.statedClassicalModel h (by decide)
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have h4 : Nat.card K = 4 := by simpa using hK
   obtain ⟨e5⟩ :=
     CFSG.ClassicalModels.nonempty_statedLinearModel_equiv_alternating_five K (Or.inl h4)
@@ -258,7 +259,7 @@ theorem isA5A5Cyclic5_of_eq_self
     IsA5A5Cyclic5
       ↥(CFSG.RankThree.PartOne.pElementSubgroup 5 (⊤ : Subgroup (Bar2 D.M))) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hLstar : L ∈ calLpStar D 5 := (mem_calLpStar).2 ⟨L, hL, hXeq.symm⟩
   have hL5 : L ∈ calL5Star D 5 := ⟨hLstar, hAlt⟩
   have hj5 : jM D 5 = 5 := jM_eq_five_of_mem_calL5Star hL hL0 hL5
@@ -287,8 +288,8 @@ theorem isA5A5Cyclic5_of_eq_self
     (CFSG.Open.IsSubnormal.step (s13_Lp_le D.M 5) (s13_Lp_normal D.M 5)
       (CFSG.Open.IsSubnormal.refl D.M))
   obtain ⟨A₀, B₀, gA₀, gB₀, ⟨e0⟩, hA₀, hB₀⟩ := hL2sq
-  letI := gA₀
-  letI := gB₀
+  let := gA₀
+  let := gB₀
   obtain ⟨eA₀⟩ := isAlt_five_of_isL2_two (X := A₀) hA₀
   obtain ⟨eB₀⟩ := isAlt_five_of_isL2_two (X := B₀) hB₀
   have hAiso : ↥A ≃* alternatingGroup (Fin 5) × alternatingGroup (Fin 5) :=
@@ -337,7 +338,7 @@ theorem isA5A5Cyclic5_of_eq_self
 
 theorem pRank_five_alternating_five :
     CFSG.Open.pRank 5 (⊤ : Subgroup (alternatingGroup (Fin 5))) = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcardA5 : Nat.card (alternatingGroup (Fin 5)) = 60 :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.Om8Excl.card_isAlt_five
       (X := alternatingGroup (Fin 5)) ⟨MulEquiv.refl _⟩
@@ -385,7 +386,7 @@ theorem pRank_five_eq_three {D : Data G}
   have hA5 : CFSG.Open.pRank 5 (⊤ : Subgroup (alternatingGroup (Fin 5))) = 1 :=
     pRank_five_alternating_five
   have hZ : CFSG.Open.pRank 5 (⊤ : Subgroup (Multiplicative (ZMod (5 ^ e)))) = 1 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact CFSG.LocalAnalysis.RankThreeUC.S15.RankChevProof.pRank_multiplicative_zmod he1
   have h2 : CFSG.Open.pRank 5
       (⊤ : Subgroup (alternatingGroup (Fin 5) × (alternatingGroup (Fin 5) ×
@@ -532,7 +533,7 @@ theorem commutator_le_pCoreOf_of_isA5xA5
   have hs1 : s ≠ 1 := by
     rintro rfl
     exact hcon (by simp)
-  haveI : Fintype ↥S := Fintype.ofFinite _
+  have : Fintype ↥S := Fintype.ofFinite _
   have hspow : s ^ r = 1 := by
     have h := pow_card_eq_one (x := (⟨s, hs⟩ : ↥S))
     rw [show Fintype.card ↥S = r by rw [← Nat.card_eq_fintype_card, hScard]] at h
@@ -598,7 +599,7 @@ theorem commutator_le_pCoreOf_of_isA5xA5
     rcases Nat.Prime.eq_one_or_self_of_dvd hr _ hdvd_ord with h1 | h1
     · exact absurd (orderOf_eq_one_iff.mp h1) hφ1
     · exact h1
-  haveI : Fintype (Bar2 X) := Fintype.ofFinite _
+  have : Fintype (Bar2 X) := Fintype.ofFinite _
   have hdvd : r ∣ Nat.card (MulAut (Bar2 X)) := by
     rw [Nat.card_eq_fintype_card, ← hord]
     exact orderOf_dvd_card
@@ -617,9 +618,9 @@ theorem false_of_prime_order_acting_trivially
     (hND : Subgroup.normalizer (S : Set G) ≤ CFSG.Quasithin.conjSubgroup D.M g) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime r) := ⟨hr⟩
-  haveI : Fintype ↥X := Fintype.ofFinite _
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime r) := ⟨hr⟩
+  have : Fintype ↥X := Fintype.ofFinite _
   have h5card : 5 ∣ Fintype.card ↥X := by
     rw [← Nat.card_eq_fintype_card]
     exact h5X
@@ -634,10 +635,10 @@ theorem false_of_prime_order_acting_trivially
     rw [hR, Nat.card_zpowers, Subgroup.orderOf_coe, hzord]
   have hRp : IsPGroup 5 ↥R := IsPGroup.of_card (n := 1) (by rw [hRcard]; norm_num)
   have hRel : IsElemAbelian 5 R := by
-    haveI : IsCyclic ↥R := Subgroup.isCyclic_zpowers (z : G)
+    have : IsCyclic ↥R := Subgroup.isCyclic_zpowers (z : G)
     refine ⟨IsCyclic.isMulCommutative, ?_⟩
     intro y hy
-    haveI : Fintype ↥R := Fintype.ofFinite _
+    have : Fintype ↥R := Fintype.ofFinite _
     have h := pow_card_eq_one (x := (⟨y, hy⟩ : ↥R))
     rw [show Fintype.card ↥R = 5 by rw [← Nat.card_eq_fintype_card, hRcard]] at h
     exact Subtype.ext_iff.mp h

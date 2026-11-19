@@ -169,7 +169,7 @@ public theorem secondCase_a7_U_inter_M_isPGroup_three
     let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     let Q : Sylow q B := Classical.choice Sylow.nonempty
     let P : Subgroup G := (Q : Subgroup B).map B.subtype
-    have hPp : IsPGroup q P := Q.isPGroup'.map B.subtype
+    have hPp : IsPGroup q P := Q.isPGroup.map B.subtype
     have hPleB : P ≤ B := Subgroup.map_subtype_le (Q : Subgroup B)
     have hPleU : P ≤ c.U := hPleB.trans hBleU
     have hFUnormalU : IsNormalIn c.FU c.U :=

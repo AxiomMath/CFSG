@@ -31,7 +31,7 @@ theorem pow_add (a b : ZMod 3) : ζ.pow (a + b) = ζ.pow a * ζ.pow b := by
 theorem pow_zero : ζ.pow 0 = 1 := by simp [pow]
 
 theorem pow_eq_one_iff (k : ZMod 3) : ζ.pow k = 1 ↔ k = 0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have horder : orderOf ζ.ω = 3 := orderOf_eq_prime ζ.pow_three ζ.ne_one
   rw [pow, ← orderOf_dvd_iff_pow_eq_one, horder]
   exact ⟨fun h => (ZMod.val_eq_zero k).mp (Nat.eq_zero_of_dvd_of_lt h (ZMod.val_lt k)),
@@ -40,14 +40,14 @@ theorem pow_eq_one_iff (k : ZMod 3) : ζ.pow k = 1 ↔ k = 0 := by
 @[expose] def powHom : Multiplicative (ZMod 3) →* Lˣ where
   toFun k := ζ.pow (Multiplicative.toAdd k)
   map_one' := ζ.pow_zero
-  map_mul' a b := ζ.pow_add _ _
+  map_mul' _a _b := ζ.pow_add _ _
 
 theorem map_pow_eq (k : ZMod 3) : σ ((ζ.pow k : Lˣ) : L) = (ζ.pow k : Lˣ) := by
   rw [pow, Units.val_pow_eq_pow_val, map_pow, ζ.map_eq]
 
 theorem exists_of_card [Finite L] {q : ℕ} (hq : q % 3 = 1) (hL : Nat.card L = q ^ 2)
     (hσ : ∀ c, σ c = c ^ q) : Nonempty (FixedCubeRoot σ) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq1 : 1 ≤ q := by omega
   have h3 : 3 ∣ Nat.card Lˣ := by
     rw [Nat.card_units, hL]
@@ -76,7 +76,7 @@ end FixedCubeRoot
 
 theorem wt_add (v w : Fin 3 → ZMod 3) (a : Fin n) : wt n (v + w) a = wt n v a + wt n w a := by
   unfold wt
-  split_ifs <;> simp [neg_add] <;> abel
+  split_ifs <;> simp; abel
 
 theorem wt_zero (a : Fin n) : wt n (0 : Fin 3 → ZMod 3) a = 0 := by
   unfold wt
@@ -90,15 +90,15 @@ theorem wt_rev (h6 : 6 ≤ n) (v : Fin 3 → ZMod 3) (a : Fin n) :
   by_cases h1 : a.val < 3
   · have h2 : ¬ n - (a.val + 1) < 3 := by omega
     have h3 : n ≤ n - (a.val + 1) + 3 := by omega
-    rw [dif_neg h2, dif_pos h3, dif_pos h1]
+    rw [dite_eq_right h2, dite_eq_left h3, dite_eq_left h1]
     exact congrArg (fun x : Fin 3 => -v x) (Fin.ext (by simp only; omega))
   · by_cases h2 : n ≤ a.val + 3
     · have h3 : n - (a.val + 1) < 3 := by omega
-      rw [dif_pos h3, dif_neg h1, dif_pos h2, neg_neg]
+      rw [dite_eq_left h3, dite_eq_right h1, dite_eq_left h2, neg_neg]
       exact congrArg v (Fin.ext (by simp only; omega))
     · have h3 : ¬ n - (a.val + 1) < 3 := by omega
       have h4 : ¬ n ≤ n - (a.val + 1) + 3 := by omega
-      rw [dif_neg h3, dif_neg h4, dif_neg h1, dif_neg h2, neg_zero]
+      rw [dite_eq_right h3, dite_eq_right h4, dite_eq_right h1, dite_eq_right h2, neg_zero]
 
 theorem sum_wt (h6 : 6 ≤ n) (v : Fin 3 → ZMod 3) : ∑ a, wt n v a = 0 := by
   have h1 : ∑ a, wt n v a = ∑ a, wt n v (Fin.rev a) :=
@@ -154,7 +154,7 @@ theorem pos_cases (hn : n = 6 ∨ n = 7) (a : Fin n) :
 theorem wt_eq_zero_of_mid (v : Fin 3 → ZMod 3) {a : Fin n} (h1 : 3 ≤ a.val)
     (h2 : a.val + 3 < n) : wt n v a = 0 := by
   unfold wt
-  rw [dif_neg (by omega), dif_neg (by omega)]
+  rw [dite_eq_right (by omega), dite_eq_right (by omega)]
 
 theorem wt_ne_zero_of {v v' : Fin 3 → ZMod 3} (hv : ∀ i, v i ≠ 0) {a : Fin n}
     (h : wt n v' a ≠ 0) : wt n v a ≠ 0 := by
@@ -194,7 +194,7 @@ theorem conjTr_diagGL_mul_antidiag_mul {σ : L ≃+* L} (d : Fin n → Lˣ)
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
   by_cases hb : b = Fin.rev a
   · subst hb
-    simp only [antidiag, Matrix.of_apply, if_true, mul_one]
+    simp only [antidiag, Matrix.of_apply, ite_true, mul_one]
     exact h1 a
   · simp [antidiag, hb]
 
@@ -292,7 +292,7 @@ theorem fix_iff (hn : n = 6 ∨ n = 7) (v : Multiplicative (Fin 3 → ZMod 3)) :
   · intro h i hi
     have hw1 : (Pi.single (pos hn i) 1 : Fin n → L) ∈
         {w : Fin n → L | ((c₀ ζ hn v : SU σ n) : GL (Fin n) L).val *ᵥ w = w} := by
-      rw [Set.mem_setOf_eq, c₀_mulVec_eq_self_iff]
+      rw [Set.mem_ofPred_eq, c₀_mulVec_eq_self_iff]
       intro a
       by_cases ha : a = pos hn i
       · subst ha
@@ -300,7 +300,7 @@ theorem fix_iff (hn : n = 6 ∨ n = 7) (v : Multiplicative (Fin 3 → ZMod 3)) :
         rw [wt_pos]
         exact hi
       · right
-        simp [Pi.single_apply, ha]
+        simp [ha]
     rw [h] at hw1
     have h2 := hw1 (Multiplicative.ofAdd (Pi.single i 1))
     rw [c₀_mulVec_eq_self_iff] at h2
@@ -310,7 +310,7 @@ theorem fix_iff (hn : n = 6 ∨ n = 7) (v : Multiplicative (Fin 3 → ZMod 3)) :
     · simp at h3
   · intro h
     ext w
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · intro hw v'
       rw [c₀_mulVec_eq_self_iff] at hw ⊢

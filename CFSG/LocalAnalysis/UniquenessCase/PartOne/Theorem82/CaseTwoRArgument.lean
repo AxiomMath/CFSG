@@ -69,7 +69,7 @@ private theorem permHom_eq_one_of_orderOf_prime_to_three {g : ↥t.Xz}
   have hσn : σ ^ orderOf g = 1 := by
     have hgm : (⟨g, t.hdM.symm ▸ hgM⟩ : ↥t.d.M) ^ orderOf g = 1 := by
       have hord : orderOf (⟨g, t.hdM.symm ▸ hgM⟩ : ↥t.d.M) = orderOf g := by
-        simpa using (Subgroup.orderOf_coe (⟨g, t.hdM.symm ▸ hgM⟩ : ↥t.d.M)).symm
+        simp
       rw [← hord]
       exact pow_orderOf_eq_one _
     change (t.d.permHom t.hinj (hperm_d t) ⟨g, t.hdM.symm ▸ hgM⟩) ^ orderOf g = 1
@@ -528,7 +528,6 @@ private theorem card_Lhat_eq (i : Fin 3) : Nat.card ↥(t.Lhat i) = Nat.card ↥
     rw [show t.Lhat 2 = (t.Lhat 1).map (MulAut.conj (t.ybar)).toMonoidHom from
       (t.Lhat_conj 1).symm]
     rw [Subgroup.card_map_of_injective (MulAut.conj (t.ybar)).injective]
-    change Nat.card ↥(t.Lhat 1) = Nat.card ↥(t.Lhat 0)
     rw [show t.Lhat 1 = (t.Lhat 0).map (MulAut.conj (t.ybar)).toMonoidHom from
       (t.Lhat_conj 0).symm]
     exact Subgroup.card_map_of_injective (MulAut.conj (t.ybar)).injective
@@ -591,7 +590,7 @@ private theorem two_le_pRank_sup_Lhat01 {r : ℕ} [Fact r.Prime] (hr2 : r ≠ 2)
     (G := t.Mb) (q := r) (M := t.Lhat 0 ⊔ t.Lhat 1) (L := t.Lhat 0) (X := t.Lhat 1)
     hr2 le_sup_left le_sup_right hcomm hX hqX
   have h1 : 1 ≤ CFSG.Open.pRank r (t.Lhat 0) := by
-    haveI : Fact r.Prime := ⟨Fact.out⟩
+    have : Fact r.Prime := ⟨Fact.out⟩
     obtain ⟨u, huord⟩ := exists_prime_orderOf_dvd_card' (G := ↥(t.Lhat 0)) r hrLhat0
     exact one_le_pRank_Lhat_zero t huord
   omega
@@ -622,7 +621,7 @@ private theorem pow_centralizes_Kyhat {x : t.Xhat} (hxY : x ∈ t.Yhat)
   induction n with
   | zero =>
       intro k hk
-      simpa using t.O2Kyhat.one_mem
+      simp
   | succ n ih =>
       intro k hk
       have hxnorm : x ∈ Subgroup.normalizer (t.O2Kyhat : Set t.Xhat) :=
@@ -656,7 +655,7 @@ private theorem gbar_commutes_image_L_of_mem_inf_N {g : ↥t.Xz}
     _ = t.qmk lM := by rw [hq, one_mul]
 
 private theorem orderOf_qmk_eq_of_not_mem_Kq {x : ↥t.M} {r : ℕ} (hr : r.Prime)
-    (hr2 : r ≠ 2) (hxord : orderOf x = r) (hxKq : x ∉ t.Kq) :
+    (hr2 : r ≠ 2) (hxord : orderOf x = r) (_hxKq : x ∉ t.Kq) :
     orderOf (t.qmk x) = r := by
   have hdvd : orderOf (t.qmk x) ∣ r := by
     have h := orderOf_map_dvd (t.qmk) x
@@ -685,8 +684,8 @@ theorem centralizer_y_le_of_centralizes_Kyhat (hK32 : CFSG.LocalAnalysis.Uniquen
     (hfK : ∀ k ∈ t.Kyhat, f * k * f⁻¹ * k⁻¹ ∈ t.O2Kyhat) :
     Subgroup.centralizer ({t.y} : Set G) ≤ c.S.M := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g0, hg0M, hg0f⟩ := Subgroup.mem_map.mp hfY
   have hg0M' : (g0 : G) ∈ c.S.M := Subgroup.mem_subgroupOf.mp hg0M
   have hr_dvd_n : r ∣ orderOf g0 := by

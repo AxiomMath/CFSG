@@ -14,8 +14,8 @@ open Equiv Subgroup
 private theorem le_alternatingGroup_of_mulEquiv {K : Subgroup (Perm (Fin 10))}
     (e : K ≃* alternatingGroup (Fin 7)) : K ≤ alternatingGroup (Fin 10) := by
   classical
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup K := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup K := e.isSimpleGroup
   have hcardK : Nat.card K = 2520 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     decide
@@ -42,8 +42,8 @@ theorem eq_bot_of_le_normalizer {K T : Subgroup (Perm (Fin 10))}
     (hKT : K ≤ Subgroup.normalizer (T : Set (Perm (Fin 10)))) : T = ⊥ := by
   classical
   obtain ⟨e⟩ := hK
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup K := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup K := e.isSimpleGroup
   let gK : K := e.symm ⟨cSeven, cSeven_mem⟩
   let yK : K := e.symm ⟨cFive, cFive_mem⟩
   have hgK : (gK : Perm (Fin 10)) ∈ K := gK.property
@@ -68,7 +68,7 @@ theorem eq_bot_of_le_normalizer {K T : Subgroup (Perm (Fin 10))}
         Subgroup.inf_normalizer_le_normalizer_inf
     have hNnormal : ((T ⊓ K).subgroupOf K).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mpr hKN
-    haveI := hNnormal
+    have := hNnormal
     rcases Subgroup.Normal.eq_bot_or_eq_top ((T ⊓ K).subgroupOf K) with hbot | htop
     · rw [eq_bot_iff]
       intro x hx
@@ -100,7 +100,7 @@ theorem eq_bot_of_le_normalizer {K T : Subgroup (Perm (Fin 10))}
     intro N hNK hKN hyN
     have hNnormal : (N.subgroupOf K).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr hKN
-    haveI := hNnormal
+    have := hNnormal
     have hNtop : N.subgroupOf K = ⊤ := by
       rcases Subgroup.Normal.eq_bot_or_eq_top (N.subgroupOf K) with hbot | htop
       · exfalso

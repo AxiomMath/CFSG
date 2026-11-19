@@ -147,7 +147,7 @@ theorem pow_padicValNat_dvd_card_orbit_of_sylow {N X : Type*} [Group N] [MulActi
     rw [htop]
     exact Subgroup.card_mul_index (MulAction.stabilizer N ω)
   have hPc : ∃ c : ℕ, Nat.card ↥(P : Subgroup N) = p ^ c :=
-    P.isPGroup'.exists_card_eq
+    P.isPGroup.exists_card_eq
   have hP : ∀ m : ℕ, p ^ m ∣ Nat.card (⊤ : Subgroup N) →
       p ^ m ∣ Nat.card ↥(P : Subgroup N) := by
     intro m hm
@@ -163,7 +163,7 @@ theorem exists_orbit_card_eq_pow_padicValNat_of_sylow {N X : Type*} [Group N] [M
   classical
   have hX0 : Nat.card X ≠ 0 := Nat.card_ne_zero.mpr ⟨inferInstance, inferInstance⟩
   exact CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.exists_orbit_card_eq_of_not_dvd
-    (K := ↥P) (Ω := X) (p := p) P.isPGroup' (padicValNat p (Nat.card X))
+    (K := ↥P) (Ω := X) (p := p) P.isPGroup (padicValNat p (Nat.card X))
     (fun x => pow_padicValNat_dvd_card_orbit_of_sylow P x)
     (pow_succ_padicValNat_not_dvd hX0)
 

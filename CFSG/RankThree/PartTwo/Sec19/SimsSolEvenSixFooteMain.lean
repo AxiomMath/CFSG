@@ -27,7 +27,7 @@ theorem inCatalog_of_strothSigma6_footeMain
     (hN : IsQuotIso (Subgroup.normalizer (A : Set G)) (Subgroup.centralizer (A : Set G))
       (Equiv.Perm (Fin 6)))
     (hSyl : IsSylowIn 2 (Subgroup.centralizer (A : Set G)) A) : CFSG.Assembly.InCatalog G := by
-  haveI := hs
+  have := hs
   have hN' : IsQuotIso (normIn ⊤ A) (centIn ⊤ A) (Equiv.Perm (Fin 6)) := by
     simp only [normIn, centIn, top_inf_eq]
     exact hN

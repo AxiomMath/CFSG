@@ -37,13 +37,13 @@ theorem singerUG_natCast_sub_one {p : ℕ} [NeZero p] {k : ℕ} (hk : 1 ≤ k) (
     (k : Fin p) - 1 = ((k - 1 : ℕ) : Fin p) := by
   apply Fin.ext
   rw [singerUG_val_sub_one _ (by omega), singerUG_val_natCast hkp,
-    singerUG_val_natCast (by omega : k - 1 < p), if_neg (by omega)]
+    singerUG_val_natCast (by omega : k - 1 < p), ite_eq_right (by omega)]
 
 theorem singerUG_zero_sub_one {p : ℕ} [NeZero p] (hp : 2 ≤ p) :
     (0 : Fin p) - 1 = ((p - 1 : ℕ) : Fin p) := by
   apply Fin.ext
   rw [singerUG_val_sub_one _ (by omega), singerUG_val_natCast (by omega), Fin.val_zero,
-    if_pos rfl]
+    ite_eq_left rfl]
 
 theorem singerUG_star_mulVec (h : UnitaryFieldData ℓ f K) {p : ℕ} [NeZero p] (hodd : Odd p)
     {c ε : K} (hc : c ≠ 0) (hE : c + h.bar ε ^ p ≠ 0) (v : Fin p → K) (k : Fin p) :
@@ -76,9 +76,9 @@ theorem singerUG_rhs_natCast {p : ℕ} [NeZero p] (c e : K) (v : Fin p → K) {l
   have h2' : ((l - 1 : ℕ) : Fin p) - 1 = ((l - 2 : ℕ) : Fin p) := by
     rw [singerUG_natCast_sub_one (by omega) (by omega), show l - 1 - 1 = l - 2 by omega]
   rw [thmU_companionMat_mulVec c v (l : Fin p),
-    thmU_companionMat_mulVec c (companionMat p c *ᵥ v) (l : Fin p), if_neg h1]
+    thmU_companionMat_mulVec c (companionMat p c *ᵥ v) (l : Fin p), ite_eq_right h1]
   simp only [one_mul]
-  rw [h1', thmU_companionMat_mulVec c v ((l - 1 : ℕ) : Fin p), if_neg h2, one_mul, h2']
+  rw [h1', thmU_companionMat_mulVec c v ((l - 1 : ℕ) : Fin p), ite_eq_right h2, one_mul, h2']
 
 theorem singerUG_rhs_zero {p : ℕ} [NeZero p] (c e : K) (v : Fin p → K) (hp : 3 ≤ p) :
     (companionMat p c *ᵥ v) 0 + e * (companionMat p c *ᵥ (companionMat p c *ᵥ v)) 0 =
@@ -88,8 +88,8 @@ theorem singerUG_rhs_zero {p : ℕ} [NeZero p] (c e : K) (v : Fin p → K) (hp :
   have hz2 : ((p - 1 : ℕ) : Fin p) - 1 = ((p - 2 : ℕ) : Fin p) := by
     rw [singerUG_natCast_sub_one (by omega) (by omega), show p - 1 - 1 = p - 2 by omega]
   rw [thmU_companionMat_mulVec c v 0, thmU_companionMat_mulVec c (companionMat p c *ᵥ v) 0,
-    if_pos rfl, hz]
-  rw [thmU_companionMat_mulVec c v ((p - 1 : ℕ) : Fin p), if_neg hz0, one_mul, hz2]
+    ite_eq_left rfl, hz]
+  rw [thmU_companionMat_mulVec c v ((p - 1 : ℕ) : Fin p), ite_eq_right hz0, one_mul, hz2]
 
 theorem singerUG_rhs_one {p : ℕ} [NeZero p] (c e : K) (v : Fin p → K) (hp : 3 ≤ p) :
     (companionMat p c *ᵥ v) 1 + e * (companionMat p c *ᵥ (companionMat p c *ᵥ v)) 1 =
@@ -100,9 +100,9 @@ theorem singerUG_rhs_one {p : ℕ} [NeZero p] (c e : K) (v : Fin p → K) (hp : 
     have := congrArg Fin.val h0
     rw [Fin.val_one', Fin.val_zero, Nat.mod_eq_of_lt (by omega : 1 < p)] at this
     omega
-  rw [thmU_companionMat_mulVec c v 1, if_neg h1, one_mul, sub_self,
-    thmU_companionMat_mulVec c (companionMat p c *ᵥ v) 1, if_neg h1, one_mul, sub_self,
-    thmU_companionMat_mulVec c v 0, if_pos rfl, hz]
+  rw [thmU_companionMat_mulVec c v 1, ite_eq_right h1, one_mul, sub_self,
+    thmU_companionMat_mulVec c (companionMat p c *ᵥ v) 1, ite_eq_right h1, one_mul, sub_self,
+    thmU_companionMat_mulVec c v 0, ite_eq_left rfl, hz]
 
 theorem singerUG_beta_zero (h : UnitaryFieldData ℓ f K) {p : ℕ} [NeZero p] (hodd : Odd p)
     (hp3 : 3 ≤ p) {c ε : K} (hc : c ≠ 0) (hE : h.bar ε ^ p + c ≠ 0) :
@@ -116,7 +116,7 @@ theorem singerUG_beta_natCast (h : UnitaryFieldData ℓ f K) {p : ℕ} [NeZero p
     thmU_cayleyMat h p c ε (k : Fin p) 0 =
       (-1) ^ (k - 1) * h.bar ε ^ (p - k) * (1 - h.bar ε * ε) / (h.bar ε ^ p + c) := by
   rw [thmU_cayleyMat_apply_zero h hodd hp3 hc hE (k : Fin p), singerUG_val_natCast hkp,
-    if_neg (by omega), if_neg (by omega)]
+    ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem singerUG_beta_succ (h : UnitaryFieldData ℓ f K) {p : ℕ} [NeZero p] (hodd : Odd p)
     (hp3 : 3 ≤ p) {c ε : K} (hc : c ≠ 0) (hE : h.bar ε ^ p + c ≠ 0) (hd : h.bar ε ≠ 0)
@@ -273,11 +273,11 @@ theorem singerUG_three_coords (h : UnitaryFieldData ℓ f K) {p : ℕ} [NeZero p
   have hcontra : ∀ s0 s1 : K, h.norm s0 = 1 → h.norm s1 = 1 → s1 = h.norm ε * s0 → False :=
     fun s0 s1 h0 h1 hr => singerUG_norm_false h hnfix hnn h0 h1 hr
   have hA : (companionMat p c *ᵥ w) 0 = c * w ((p - 1 : ℕ) : Fin p) := by
-    rw [thmU_companionMat_mulVec c w 0, if_pos rfl, singerUG_zero_sub_one (p := p) (by omega)]
+    rw [thmU_companionMat_mulVec c w 0, ite_eq_left rfl, singerUG_zero_sub_one (p := p) (by omega)]
   have hP1 : w 1 ≠ 0 := by
     intro hw1
     have hL : (companionMat p c *ᵥ w) 1 + h.bar ε * w 1 = 0 := by
-      rw [thmU_companionMat_mulVec c w 1, if_neg (singerUG_one_ne_zero (p := p) (by omega)),
+      rw [thmU_companionMat_mulVec c w 1, ite_eq_right (singerUG_one_ne_zero (p := p) (by omega)),
         one_mul, sub_self, hw0, hw1, mul_zero, add_zero]
     have hR := hS 1
     rw [hL, singerUG_rhs_one c ε v hp3, hv 0, hv ((p - 1 : ℕ) : Fin p),
@@ -311,12 +311,12 @@ theorem singerUG_three_coords (h : UnitaryFieldData ℓ f K) {p : ℕ} [NeZero p
     exact hcontra (s ((p - 2 : ℕ) : Fin p)) (s ((p - 1 : ℕ) : Fin p)) (hs _) (hs _) hrel
   have hP4 : w ((3 : ℕ) : Fin p) ≠ 0 ∨ w ((4 : ℕ) : Fin p) ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨h3, h4⟩ := hcon
     have hL : (companionMat p c *ᵥ w) ((4 : ℕ) : Fin p) +
         h.bar ε * w ((4 : ℕ) : Fin p) = 0 := by
       rw [thmU_companionMat_mulVec c w ((4 : ℕ) : Fin p),
-        if_neg (singerUG_natCast_ne_zero (k := 4) (by norm_num) (by omega)), one_mul,
+        ite_eq_right (singerUG_natCast_ne_zero (k := 4) (by norm_num) (by omega)), one_mul,
         singerUG_natCast_sub_one (k := 4) (by norm_num) (by omega), show 4 - 1 = 3 from rfl,
         h3, h4, mul_zero, add_zero]
     have hR := hS ((4 : ℕ) : Fin p)
@@ -346,7 +346,7 @@ theorem singerUG_three_coords (h : UnitaryFieldData ℓ f K) {p : ℕ} [NeZero p
         hP1, hPl, hne⟩
     have hLA : (companionMat p c *ᵥ w) ((p - 1 : ℕ) : Fin p) = 0 := by
       rw [thmU_companionMat_mulVec c w ((p - 1 : ℕ) : Fin p),
-        if_neg (singerUG_natCast_ne_zero (k := p - 1) (by omega) (by omega)), one_mul,
+        ite_eq_right (singerUG_natCast_ne_zero (k := p - 1) (by omega) (by omega)), one_mul,
         singerUG_natCast_sub_one (k := p - 1) (by omega) (by omega),
         show p - 1 - 1 = 3 by omega, hw3]
     have hS0 := hS 0
@@ -535,43 +535,43 @@ theorem singerUG_pm2_ne (p : ℕ) [NeZero p] (hp : 5 ≤ p) :
 theorem singerUG_s_zero (A ρ E : K) {p : ℕ} [NeZero p] :
     singerUG_s K A ρ E (0 : Fin p) = A * E⁻¹ := by
   unfold singerUG_s
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem singerUG_s_one {p : ℕ} [NeZero p] (hp : 5 ≤ p) (A ρ E : K) :
     singerUG_s K A ρ E (1 : Fin p) = E ^ 2 := by
   unfold singerUG_s
-  rw [if_neg (singerUG_one_ne_zero (by omega)), if_pos rfl]
+  rw [ite_eq_right (singerUG_one_ne_zero (by omega)), ite_eq_left rfl]
 
 theorem singerUG_s_two {p : ℕ} [NeZero p] (hp : 5 ≤ p) (A ρ E : K) :
     singerUG_s K A ρ E (2 : Fin p) = E⁻¹ := by
   unfold singerUG_s
-  rw [if_neg (singerUG_two_ne_zero (by omega)), if_neg (singerUG_two_ne_one (by omega)),
-    if_pos rfl]
+  rw [ite_eq_right (singerUG_two_ne_zero (by omega)), ite_eq_right (singerUG_two_ne_one (by omega)),
+    ite_eq_left rfl]
 
 theorem singerUG_s_pm1 {p : ℕ} [NeZero p] (hp : 5 ≤ p) (A ρ E : K) :
     singerUG_s K A ρ E ((p - 1 : ℕ) : Fin p) = -(E ^ 2) := by
   obtain ⟨h0, h1, h2⟩ := singerUG_pm1_ne p hp
   unfold singerUG_s
-  rw [if_neg h0, if_neg h1, if_neg h2, if_pos rfl]
+  rw [ite_eq_right h0, ite_eq_right h1, ite_eq_right h2, ite_eq_left rfl]
 
 theorem singerUG_s_pm2 {p : ℕ} [NeZero p] (hp : 5 ≤ p) (A ρ E : K) :
     singerUG_s K A ρ E ((p - 2 : ℕ) : Fin p) = ρ * E⁻¹ := by
   obtain ⟨h0, h1, h2, h3⟩ := singerUG_pm2_ne p hp
   unfold singerUG_s
-  rw [if_neg h0, if_neg h1, if_neg h2, if_neg h3, if_pos rfl]
+  rw [ite_eq_right h0, ite_eq_right h1, ite_eq_right h2, ite_eq_right h3, ite_eq_left rfl]
 
 theorem singerUG_s_rest {p : ℕ} [NeZero p] (A ρ E : K) {j : Fin p}
     (hj : j ∈ singerUG_rest p) : singerUG_s K A ρ E j = singerUG_mid K j := by
   simp only [singerUG_rest, Finset.mem_erase, Finset.mem_univ, and_true] at hj
   obtain ⟨h1, h2, h3, h4, h5⟩ := hj
   unfold singerUG_s
-  rw [if_neg h5, if_neg h4, if_neg h2, if_neg h3, if_neg h1]
+  rw [ite_eq_right h5, ite_eq_right h4, ite_eq_right h2, ite_eq_right h3, ite_eq_right h1]
 
 theorem singerUG_neg_mem_rest {p : ℕ} [NeZero p] (hp : 5 ≤ p) {j : Fin p}
     (hj : j ∈ singerUG_rest p) : -j ∈ singerUG_rest p := by
   rw [singerUG_mem_rest hp] at hj ⊢
   have hjne : j ≠ 0 := fun e => by rw [e, Fin.val_zero] at hj; omega
-  have hval : ((-j : Fin p) : ℕ) = p - (j : ℕ) := by rw [Fin.val_neg, if_neg hjne]
+  have hval : ((-j : Fin p) : ℕ) = p - (j : ℕ) := by rw [Fin.val_neg, ite_eq_right hjne]
   rw [hval]
   have hj' := j.isLt
   omega
@@ -580,7 +580,7 @@ theorem singerUG_mid_neg {p : ℕ} [NeZero p] (hodd : p % 2 = 1) (hp : 5 ≤ p) 
     (hj : j ∈ singerUG_rest p) : singerUG_mid K (-j) = -singerUG_mid K j := by
   rw [singerUG_mem_rest hp] at hj
   have hjne : j ≠ 0 := fun e => by rw [e, Fin.val_zero] at hj; omega
-  have hval : ((-j : Fin p) : ℕ) = p - (j : ℕ) := by rw [Fin.val_neg, if_neg hjne]
+  have hval : ((-j : Fin p) : ℕ) = p - (j : ℕ) := by rw [Fin.val_neg, ite_eq_right hjne]
   unfold singerUG_mid
   rw [hval]
   split_ifs <;> first | (exfalso; omega) | norm_num
@@ -630,7 +630,7 @@ theorem singerUG_w0_decomp {p : ℕ} [NeZero p] (hodd : p % 2 = 1) (hp : 5 ≤ p
     intro j hj e
     rw [singerUG_mem_rest (by omega)] at hj
     have hjne : j ≠ 0 := fun e0 => by rw [e0, Fin.val_zero] at hj; omega
-    have hval : ((-j : Fin p) : ℕ) = p - (j : ℕ) := by rw [Fin.val_neg, if_neg hjne]
+    have hval : ((-j : Fin p) : ℕ) = p - (j : ℕ) := by rw [Fin.val_neg, ite_eq_right hjne]
     have := congrArg Fin.val e
     rw [hval] at this
     omega
@@ -677,7 +677,7 @@ theorem singerUG_w0_zero (h : UnitaryFieldData ℓ f K) {p : ℕ} [NeZero p] (ho
   have hb02 : thmU_cayleyMat h p c ε 0 2 =
       c * thmU_cayleyMat h p c ε ((p - 2 : ℕ) : Fin p) 0 := by
     rw [thmU_commute_companion_entry c hb 0 2,
-      if_neg (show ¬ (((2 : Fin p) : ℕ) ≤ ((0 : Fin p) : ℕ)) by
+      ite_eq_right (show ¬ (((2 : Fin p) : ℕ) ≤ ((0 : Fin p) : ℕ)) by
         rw [singerUG_val_two hp3, Fin.val_zero]; omega),
       singerUG_mulVec_single0, singerUG_zero_sub_two hp3]
   have hb00 : thmU_cayleyMat h p c ε 0 0 = c * (1 - h.bar ε * ε) / (h.bar ε ^ p + c) :=

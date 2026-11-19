@@ -85,22 +85,22 @@ theorem exists_actual_connected_unipotent_radical_of_ne_one
       recipeMatrixHom σ ε (ψ := ψ) g ∈ M ∧
       H ≤ Subgroup.normalizer (M : Set (ModGL Tag.E6 Ω)) := by
   classical
-  letI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  let : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hcharK : CharP K 2 :=
     CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  letI : CharP K 2 := hcharK
-  letI : CharP Ω 2 :=
+  let : CharP K 2 := hcharK
+  let : CharP Ω 2 :=
     charP_of_injective_algebraMap (algebraMap K Ω).injective 2
   obtain ⟨k, hk, hkfin, hchar, κ, ι, hcomp, e_k, j_k, he_k, hj_k, hconj, hinj⟩ :=
     exists_finite_actor_descent (K := K) (L' := L') (ψ := ψ) (A := A)
       hn hK σ hσ Fr hFr ε hε hψ hker hperf hAI
-  letI : Finite k := hkfin
-  letI : CharP k 2 := hchar
+  let : Finite k := hkfin
+  let : CharP k 2 := hchar
   let n0 : actorNormalizer A := ⟨g, hg⟩
   let R : Subgroup (ModGL Tag.E6 k) := Subgroup.zpowers (j_k n0).val
   have hRG : R ≤ adjointGroup Tag.E6 k := Subgroup.zpowers_le.mpr (j_k n0).2
   have hR2 : IsPGroup 2 R := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hn0 : n0 ^ 2 ^ m = 1 := by
       apply Subtype.ext
       simpa only [Subgroup.coe_pow, Subgroup.coe_one] using hgm
@@ -178,7 +178,7 @@ theorem exists_actual_connected_unipotent_radical_of_ne_one
     rw [← subgroupPoints_map]
     exact (PrimeSpectrum.isIrreducible_iff_vanishingIdeal_isPrime).2 hQconn.isPrime
   have hQ2 : IsPGroup 2 Q := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact isPGroup_of_le_posFiltration (pos := Label.position) (τ := Tag.E6)
       (K := Ω) (N := Fintype.card (Label Tag.E6)) 2
       Label.position_lt_card
@@ -295,13 +295,13 @@ theorem recipeMatrixHom_mem_connected_fixed_subgroup_of_two_pow
   by_cases ht1 : (recipeMatrixHom σ ε (ψ := ψ) g : ModGL Tag.E6 Ω) = 1
   · rw [ht1]
     exact Subgroup.one_mem _
-  haveI : Finite A := Subtype.finite
+  have : Finite A := Subtype.finite
   have hcharK : CharP K 2 :=
     CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  letI : CharP K 2 := hcharK
-  letI : CharP Ω 2 :=
+  let : CharP K 2 := hcharK
+  let : CharP Ω 2 :=
     charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  letI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  let : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   let H : Subgroup (ModGL Tag.E6 Ω) :=
     rgrpModel hn hK σ hσ Fr hFr ε
       (TypeA.inducedSub ψ ((φ.toMonoidHom.eqLocus (MonoidHom.id A)).map A.subtype))
@@ -351,9 +351,9 @@ theorem recipeMatrixHom_mem_connected_fixed_subgroup_of_two_pow
       closedIdentityComponent
         (adjointGroup Tag.E6 Ω ⊓
           Subgroup.centralizer (H : Set (ModGL Tag.E6 Ω))) := by
-    letI : Finite H := hHfin
-    letI : Algebra.Smooth Ω (MatrixComponents.coordinateHopf M) := hMsmooth
-    letI : ConnectedSpace (PrimeSpectrum (MatrixComponents.coordinateHopf M)) :=
+    let : Finite H := hHfin
+    let : Algebra.Smooth Ω (MatrixComponents.coordinateHopf M) := hMsmooth
+    let : ConnectedSpace (PrimeSpectrum (MatrixComponents.coordinateHopf M)) :=
       hMconn.connectedSpace
     exact le_closedIdentityComponent_inf_centralizer_of_finite_elemAbelian_three
       M H hMpc hM2 hH3 hHM hMle h3 ⟨htM, htC⟩
@@ -428,13 +428,13 @@ theorem negative_recipe_actor_mem_connected_hyperplane_of_reflection
                 ((φ.toMonoidHom.eqLocus (MonoidHom.id A)).map A.subtype)) :
               Set (ModGL Tag.E6 Ω))) := by
   classical
-  haveI : Finite A := Subtype.finite
+  have : Finite A := Subtype.finite
   have hcharK : CharP K 2 :=
     CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  letI : CharP K 2 := hcharK
-  letI : CharP Ω 2 :=
+  let : CharP K 2 := hcharK
+  let : CharP Ω 2 :=
     charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  letI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  let : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   let H : Subgroup (ModGL Tag.E6 Ω) :=
     rgrpModel hn hK σ hσ Fr hFr ε
       (TypeA.inducedSub ψ ((φ.toMonoidHom.eqLocus (MonoidHom.id A)).map A.subtype))

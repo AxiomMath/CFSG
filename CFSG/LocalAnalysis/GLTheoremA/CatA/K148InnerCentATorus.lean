@@ -25,7 +25,7 @@ theorem exists_units_pow_two_pow_eq {L : Type} [Field L] [IsAlgClosed L] (c : L�
 theorem torusGroup_eq_one_of_pow_two_pow {τ : Tag} {L : Type} [Field L] [CharP L 2]
     {h : ModGL τ L}
     (hh : h ∈ torusGroup τ L) {k : ℕ} (hk : h ^ (2 ^ k) = 1) : h = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨l, rfl⟩ := exists_rootDiagUnit_eq_of_mem_torusGroup hh
   have h1 : l ^ (2 ^ k) = 1 := by
     refine rootDiagUnit_injective (K := L) ?_

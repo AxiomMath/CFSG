@@ -19,7 +19,7 @@ section G28
 theorem noSylowNormalizesTwo_g28 {F : Type} [Field F] [Finite F] [CharP F 2]
     (hF : Nat.card F = 8) : NoSylowNormalizesTwo 3 (adjointGroup .G2 F) := by
   classical
-  haveI : Fintype (WeylGroup .G2) := Fintype.ofFinite _
+  have : Fintype (WeylGroup .G2) := Fintype.ofFinite _
   refine noSylowNormalizesTwo_adjoint_of_parabolic .G2 fun J hJ hdvd => ?_
   obtain ⟨i, hi⟩ := (Set.ne_univ_iff_exists_notMem J).1 hJ
   have hex : ∀ i : Fin Tag.G2.rank, ∃ j : Fin Tag.G2.rank, ∀ k, k ≠ i → k = j := by decide
@@ -37,7 +37,7 @@ theorem noSylowNormalizesTwo_g28 {F : Type} [Field F] [Finite F] [CharP F 2]
 
 theorem card_outer_g28 {F : Type} [Field F] [Finite F] [CharP F 2] (hF : Nat.card F = 8) :
     Nat.card (Outer (adjointGroup .G2 F)) = 3 := by
-  haveI : Finite (ModGL .G2 F) := finite_modGL
+  have : Finite (ModGL .G2 F) := finite_modGL
   have hI : Nat.card (inner (adjointGroup .G2 F)) = Nat.card (adjointGroup .G2 F) :=
     (Nat.card_congr (MonoidHom.ofInjective
       CFSG.AGLEmbedding.KFactProofs.G28.conj_injective_X).toEquiv).symm
@@ -61,7 +61,7 @@ theorem eq_bot_of_normalizes_g28 {d : TauCeti.ValidLieTypeIndex}
   have hZ : Subgroup.center (adjointGroup .G2 (GaloisField 2 3)) = ⊥ := center_adjointGroup_eq_bot
   let θ : K ≃* adjointGroup .G2 (GaloisField 2 3) := e.trans (φ.symm.trans
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZK : Subgroup.center K = ⊥ := by
     have h := center_map_equiv θ.symm
     rw [hZ, Subgroup.map_bot] at h
@@ -76,7 +76,7 @@ theorem kFactNineThreeNoTwoAt_g28 {d : TauCeti.ValidLieTypeIndex}
     (hd : ∃ q : TauCeti.PrimePower, q.p = 2 ∧ q.exponent = 3 ∧ d.1 = .G2 q) :
     KFactNineThreeNoTwoAt 3 (.lie d) := by
   intro X _ _ K hK hiso _ T S hS hTS
-  haveI := hK
+  have := hK
   exact le_centralizer_of_aut (T := (T : Subgroup K).map K.subtype) (Subgroup.map_subtype_le _)
     (fun V hV hN => eq_bot_of_normalizes_g28 hd hiso T hV fun t ht => hN t ⟨t, ht, rfl⟩) hS
     hTS

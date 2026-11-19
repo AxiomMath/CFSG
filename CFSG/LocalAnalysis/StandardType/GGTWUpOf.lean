@@ -55,7 +55,7 @@ theorem l05nUO_exists_psi {G : Type} [Group G] {p : ℕ} [Fact p.Prime]
 theorem ggTWUpCfg_of_aligned (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
-    (hxL : x ∉ L) {N k : ℕ} (hk : k = 1 ∨ k = 2)
+    (hxL : x ∉ L) {N k : ℕ} (_hk : k = 1 ∨ k = 2)
     (hN : N = 5 ∨ N = 6 ∨ N = 7 ∨ N = 9 ∨ N = 10) (hpN : p ∣ N)
     (hCard : Nat.card ↥Bs = p ^ N) (hA : GGTWAligned p N k Bs L J K) :
     GGTWUpCfg p N k Bs L J K := by
@@ -63,9 +63,9 @@ theorem ggTWUpCfg_of_aligned (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput)
   obtain ⟨pos, Λ, hΛf, hΛd, b₁, b₂, Λa, hΛaf, hΛad, ML, CL, MK, CK, V, hVadd, hVmod,
     ι, φ, h, α, e, hb12, hcardΛa, hpos, hMLeq, hMLweyl, hCLcartan, hMKweyl, hCKcartan,
     hk2, hform, hrefl, hpairL, hpairK, hAL, hAK, hAJ⟩ := hA
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hp2 : p ≠ 2 := by
     have hβ : p ∈ LargeEvenBeta 4 G := hH.1.1.2.2.2.2.2.1
     exact hβ.2.1
@@ -102,7 +102,7 @@ theorem ggTWUpCfg_of_aligned (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput)
     intro i
     simpa using hframe.x_ker (e.symm i)
   have hfinrank : Module.finrank (ZMod p) V = N := by
-    haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod p) V := Module.Finite.of_finite
     have hVcard : Nat.card V = p ^ Module.finrank (ZMod p) V := by
       have h := Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)
       rwa [Nat.card_zmod] at h

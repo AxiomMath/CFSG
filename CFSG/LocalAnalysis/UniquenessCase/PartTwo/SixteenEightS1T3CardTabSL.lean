@@ -53,7 +53,7 @@ private theorem s16t3_not_pow_three_dvd (N : ℕ) (hN : N ∣ s16t3_M) :
 
 private theorem s16t3_card_statedSL_zero {K : Type} [Field K] [Finite K] :
     Nat.card (StatedSL 0 K) = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hGL : Nat.card (GL (Fin 0) K) = 1 := by
     rw [Matrix.card_GL_field]
     simp
@@ -64,7 +64,7 @@ private theorem s16t3_card_statedSL_zero {K : Type} [Field K] [Finite K] :
 
 private theorem s16t3_card_statedSL_one {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) : Nat.card (StatedSL 1 K) = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [CFSG.Open.StatedAPI.card_statedSL, Matrix.card_SL_field, Fin.prod_univ_one,
     ← Nat.card_eq_fintype_card, hK]
   norm_num
@@ -76,26 +76,26 @@ private theorem s16t3_card_statedSL_two {K : Type} [Field K] [Finite K]
 
 private theorem s16t3_card_statedSL_six {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) : Nat.card (StatedSL 6 K) = 20158709760 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [CFSG.Open.StatedAPI.card_statedSL, Matrix.card_SL_field, Fin.prod_univ_six,
     ← Nat.card_eq_fintype_card, hK]
   rfl
 
 private theorem s16t3_card_statedSL_seven {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) : Nat.card (StatedSL 7 K) = 163849992929280 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [CFSG.Open.StatedAPI.card_statedSL, Matrix.card_SL_field, Fin.prod_univ_seven,
     ← Nat.card_eq_fintype_card, hK]
   rfl
 
-theorem s16t3_val_card_sl {X : Type} [Group X] [Finite X] (hq : CFSG.Open.IsQuasisimple X)
+theorem s16t3_val_card_sl {X : Type} [Group X] [Finite X] (_hq : CFSG.Open.IsQuasisimple X)
     {n : ℕ} (hX : IsSLn X n 1) (hn : n < 8) :
     (∀ p : ℕ, p.Prime → 5 ≤ p → ¬ p ^ 3 ∣ Nat.card X) ∧
       (7 ^ 2 ∣ Nat.card X → IsSLn X 6 1 ∨ IsSLn X 7 1) := by
   have hXmem : IsSLn X n 1 := hX
   obtain ⟨K, hKf, hKfin, hK, ⟨e⟩⟩ := hX
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hK2 : Nat.card K = 2 := by simpa using hK
   have hcard : Nat.card X = Nat.card (StatedSL n K) := Nat.card_congr e.toEquiv
   have hn8 : n = 0 ∨ n = 1 ∨ n = 2 ∨ n = 3 ∨ n = 4 ∨ n = 5 ∨ n = 6 ∨ n = 7 := by omega

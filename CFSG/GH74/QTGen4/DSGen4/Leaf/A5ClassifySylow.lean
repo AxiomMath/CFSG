@@ -20,6 +20,7 @@ section SylowMap
 
 variable {G' : Type*} [Group G']
 
+omit [Finite G] in
 theorem isSylowTwoOf_map {φ : G →* G'} {S L : Subgroup G} (h : IsSylowTwoOf S L) :
     IsSylowTwoOf (S.map φ) (L.map φ) := by
   refine ⟨Subgroup.map_mono h.1, h.2.1.map φ, ?_⟩
@@ -37,6 +38,7 @@ theorem isSylowTwoOf_map {φ : G →* G'} {S L : Subgroup G} (h : IsSylowTwoOf S
   intro h2
   exact h.2.2 (h2.trans hdvd)
 
+omit [Finite G] in
 theorem isSylowTwoOf_map_iff {φ : G →* G'} (hφ : Function.Injective φ) {S L : Subgroup G} :
     IsSylowTwoOf (S.map φ) (L.map φ) ↔ IsSylowTwoOf S L := by
   refine ⟨fun h => ⟨(Subgroup.map_le_map_iff_of_injective hφ).1 h.1,
@@ -64,6 +66,7 @@ section Cards
 
 variable {H : Finset Mat4}
 
+omit [Finite G] in
 theorem A5Model.mem_map_iff (M : A5Model P L E K H) (u : GL (Fin 4) (ZMod 2)) :
     u ∈ (L.subgroupOf P).map M.F.M ↔ glMat u ∈ H := by
   constructor
@@ -73,6 +76,7 @@ theorem A5Model.mem_map_iff (M : A5Model P L E K H) (u : GL (Fin 4) (ZMod 2)) :
     obtain ⟨l, hl, hlu⟩ := M.surjL _ hu
     exact ⟨l, Subgroup.mem_subgroupOf.mpr hl, Units.ext hlu⟩
 
+omit [Finite G] in
 theorem A5Model.card_map (M : A5Model P L E K H) :
     Nat.card ((L.subgroupOf P).map M.F.M) = H.card := by
   classical
@@ -86,6 +90,7 @@ theorem A5Model.card_map (M : A5Model P L E K H) :
       exact ⟨⟨M.F.M l, (M.mem_map_iff _).mpr (by rw [hlm]; exact hm)⟩, Subtype.ext hlm⟩
   rw [Nat.card_congr (Equiv.ofBijective f hf), Nat.card_eq_fintype_card, Fintype.card_coe]
 
+omit [Finite G] in
 theorem A5Model.sylow_card (hH : GroupFacts H) (h : A5Pre P L E K) (M : A5Model P L E K H)
     {T : Subgroup G} (hT : IsSylowTwoOf T L) :
     Nat.card ((T.subgroupOf P).map M.F.M) = 4 := by
@@ -121,6 +126,7 @@ theorem A5Model.sylow_card (hH : GroupFacts H) (h : A5Pre P L E K) (M : A5Model 
   · exfalso; apply hodd; simp at hidx; omega
   · simpa using hk
 
+omit [Finite G] in
 theorem A5Model.sylow_sq (hH : GroupFacts H) (h : A5Pre P L E K) (M : A5Model P L E K H)
     {T : Subgroup G} (hT : IsSylowTwoOf T L) {a : GL (Fin 4) (ZMod 2)}
     (ha : a ∈ (T.subgroupOf P).map M.F.M) : a * a = 1 := by
@@ -147,7 +153,7 @@ theorem exists_klein_elements_of_group {X : Type*} [Group X] [Finite X] (hcard :
     ∃ u₁ u₂ : X, u₁ ≠ 1 ∧ u₂ ≠ 1 ∧ u₁ ≠ u₂ ∧ u₁ * u₂ = u₂ * u₁ ∧
       ∀ a : X, a = 1 ∨ a = u₁ ∨ a = u₂ ∨ a = u₁ * u₂ := by
   classical
-  haveI : Fintype X := Fintype.ofFinite _
+  have : Fintype X := Fintype.ofFinite _
   have hinv : ∀ a : X, a⁻¹ = a := fun a => inv_eq_of_mul_eq_one_left (hsq a)
   obtain ⟨u₁, hu₁⟩ : ∃ u₁ : X, u₁ ≠ 1 := by
     by_contra hcon
@@ -317,6 +323,7 @@ theorem A5Model.exists_sylowData (hH : GroupFacts H) (h : A5Pre P L E K)
   exact ⟨⟨x, y, hHmem _ u₁.2, hHmem _ u₂.2, ⟨hx1, hy1, hxy, hxx, hyy, hxyc⟩, toA, ofA, toB,
     ofB⟩⟩
 
+omit [Finite G] in
 theorem SylowData.mem_kleinGroups {H : Finset Mat4} {M : A5Model P L E K H} {T : Subgroup G}
     (sd : SylowData M T) : klein sd.x sd.y ∈ Certificates.A5GL42.kleinGroups H := by
   unfold Certificates.A5GL42.kleinGroups
@@ -325,6 +332,7 @@ theorem SylowData.mem_kleinGroups {H : Finset Mat4} {M : A5Model P L E K H} {T :
   rw [Finset.mem_filter]
   exact ⟨Finset.mem_product.mpr ⟨sd.hx, sd.hy⟩, sd.isKlein⟩
 
+omit [Finite G] in
 theorem img_mem_invSubspaces_of {H : Finset Mat4} (hF : Certificates.A5GL42.Facts)
     (h : A5Pre P L E K) (M : A5Model P L E K H) {B : Finset Mat4} {X : Subgroup G}
     (hB : ∀ b ∈ B, ∃ n : ↥P, (n : G) ∈ Subgroup.normalizer (X : Set G) ∧
@@ -343,6 +351,7 @@ theorem img_mem_invSubspaces_of {H : Finset Mat4} (hF : Certificates.A5GL42.Fact
   rw [coe_conjE]
   exact (Subgroup.mem_normalizer_iff.mp hn _).mp heX
 
+omit [Finite G] in
 theorem img_mem_invSubspaces {H : Finset Mat4} (hF : Certificates.A5GL42.Facts)
     (h : A5Pre P L E K) (M : A5Model P L E K H) {T : Subgroup G} (sd : SylowData M T)
     {X : Subgroup G}
@@ -352,6 +361,7 @@ theorem img_mem_invSubspaces {H : Finset Mat4} (hF : Certificates.A5GL42.Facts)
     obtain ⟨n, hn, hnb⟩ := sd.ofB b hb
     exact ⟨n, hXN hn, hnb⟩
 
+omit [Finite G] in
 theorem A5Model.eq_or_eq_of_normalizes {H : Finset Mat4} (hF : Certificates.A5GL42.Facts)
     (hH : GroupFacts H) (h : A5Pre P L E K) (M : A5Model P L E K H) {X : Subgroup G}
     (hKX : K ≤ X) (hXE : X ≤ E) (hLX : L ≤ Subgroup.normalizer (X : Set G)) :
@@ -369,6 +379,7 @@ theorem A5Model.eq_or_eq_of_normalizes {H : Finset Mat4} (hF : Certificates.A5GL
   · right
     exact ext_of_img M.F hKX hXE h.sec.1 le_rfl (by rw [hW, img_top])
 
+omit [Finite G] in
 theorem A5Model.exists_act_eq_of_mem_sup (M : A5Model P L E K H) (h : A5Pre P L E K)
     {T : Subgroup G} (hT : IsSylowTwoOf T L) {s : G} (hs : s ∈ T ⊔ pCoreOf 2 P) :
     ∃ hsP : s ∈ P, ∃ t : ↥P, (t : G) ∈ T ∧ M.F.M ⟨s, hsP⟩ = M.F.M t ∧ s * (t : G)⁻¹ ∈ pCoreOf 2 P := by

@@ -155,7 +155,7 @@ private theorem gammaB_sigma {x : G} (hxW : conjSubgroup x (wOf V H) = wOf V H) 
   let σ : (Fin n ⊕ Fin n → GaloisField 2 f) →+ (Fin n ⊕ Fin n → GaloisField 2 f) :=
     { toFun := fun u => ψ.symm (Additive.ofMul (cx (Additive.toMul (ψ u))))
       map_zero' := by
-        simp [bigRW_psi_zero]
+        simp
       map_add' := fun u v => by
         show ψ.symm (Additive.ofMul (cx (Additive.toMul (ψ (u + v))))) =
           ψ.symm (Additive.ofMul (cx (Additive.toMul (ψ u)))) +
@@ -243,7 +243,7 @@ private theorem gammaB_conj_point [Finite G] (h : BigEndHyp M V Q P H)
       ∀ w, y * ψG w * y⁻¹ = ψG (w + (μ * CaseM.spForm b₀ w) • b₀) := by
   have hc : MinCex M V Q P H := h.setup.mc.toMinCex
   have hVH : V ≤ H := hc.V_le_H
-  obtain ⟨v, hvV, hvW⟩ := SetLike.not_le_iff_exists.mp hc.not_V_le_wOf
+  obtain ⟨v, hvV, hvW⟩ := IsConcreteLE.not_le_iff_exists.mp hc.not_V_le_wOf
   obtain ⟨μ, hμ, hact₀⟩ := bigRW_conj_act_eq_trans hVH hNat hT hTV hvV hvW
   set y : G := (h₀ : G) * v * (h₀ : G)⁻¹ with hy
   have hactv : ∀ w, y * ψG w * y⁻¹ =

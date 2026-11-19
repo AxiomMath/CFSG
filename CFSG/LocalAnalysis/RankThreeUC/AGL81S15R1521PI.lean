@@ -47,9 +47,9 @@ theorem exists_conj_centralized_aux_main {X : Type} [Group X] [Finite X] {L N E 
     (hE : IsPGroup r E) (hEL : E ≤ L) (hP₀ : IsPGroup q P₀)
     (hcomm : ∀ y ∈ P₀, ∀ l ∈ L, y * l * y⁻¹ * l⁻¹ ∈ N) :
     ∃ x ∈ N, ∀ e ∈ E, ∀ y ∈ P₀, y * (x * e * x⁻¹) = (x * e * x⁻¹) * y := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEN : E ≤ Subgroup.normalizer (N : Set X) := hEL.trans hLN
   have hdisj : E ⊓ N = ⊥ := disjoint_iff.1 (IsPGroup.disjoint_of_ne r 2 hr2 E N hE hN)
   set F : Subgroup X := N ⊔ E with hF
@@ -96,7 +96,7 @@ theorem exists_conj_centralized_aux_main {X : Type} [Group X] [Finite X] {L N E 
     exact hs2 ((Nat.prime_dvd_prime_iff_eq hs Nat.prime_two).1 (hs.dvd_of_dvd_pow hdvd))
   have hE' : IsPGroup r (E.subgroupOf F) := hE.comap_subtype
   let S0 : Sylow r ↥F := hE'.toSylow (hnd2 r hr hr2)
-  letI : MulDistribMulAction ↥P₀ ↥F := MulDistribMulAction.compHom ↥F (Subgroup.inclusion hPF)
+  let : MulDistribMulAction ↥P₀ ↥F := MulDistribMulAction.compHom ↥F (Subgroup.inclusion hPF)
   have hfix := hP₀.card_modEq_card_fixedPoints (Sylow r ↥F)
   have hnd : ¬ q ∣ Nat.card (Sylow r ↥F) := fun h =>
     hnd2 q hq hq2 (h.trans (Sylow.card_dvd_index S0))
@@ -109,7 +109,7 @@ theorem exists_conj_centralized_aux_main {X : Type} [Group X] [Finite X] {L N E 
   obtain ⟨⟨S1, hS1⟩⟩ := hne
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥F S0 S1
   set E1 : Subgroup X := (S1 : Subgroup ↥F).map F.subtype with hE1
-  have hE1p : IsPGroup r E1 := S1.isPGroup'.map F.subtype
+  have hE1p : IsPGroup r E1 := S1.isPGroup.map F.subtype
   have hinv : ∀ y ∈ P₀, ∀ z ∈ E1, y * z * y⁻¹ ∈ E1 := by
     intro y hy z hz
     obtain ⟨f, hf, rfl⟩ := hz
@@ -353,7 +353,7 @@ theorem pRank_lift_eq_one_of_isLThreeOdd_gen (hT : LieOddRankTable) (hKSML3 : KS
     have h1 := hT.chev _ hK d hd' ⟨e1.trans e⟩ 3 Nat.prime_three (by norm_num)
     rw [h1, hz, hd]
     have hQc : Q.card = 2 ^ n := by rw [TauCeti.PrimePower.card_def, hQp, hQe]
-    simp only [mRankChev, rkLin, hQc, eP_two_pow_three, if_neg (Nat.not_even_iff_odd.2 hn)]
+    simp only [mRankChev, rkLin, hQc, eP_two_pow_three, ite_eq_right (Nat.not_even_iff_odd.2 hn)]
     norm_num
 
 theorem pRank_lift_eq_one_of_isLThreeOdd (hT : LieOddRankTable) (hKSML3 : KSML3) {X : Type}

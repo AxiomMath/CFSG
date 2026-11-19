@@ -34,7 +34,7 @@ theorem commute_cycleFactors_of_isPerfect {τ : Perm (Fin n)}
       map_one' := rfl
       map_mul' := fun _ _ => rfl }
   let ρ : K →* Perm τ.cycleFactorsFinset := (OnCycleFactors.toPermHom τ).comp ι
-  haveI : Group.IsPerfect ρ.range :=
+  have : Group.IsPerfect ρ.range :=
     Group.IsPerfect.ofSurjective (f := ρ.rangeRestrict) ρ.rangeRestrict_surjective
   have hcard : Nat.card ρ.range ∣ 2 ^ 3 * 3 ^ 1 := by
     have h1 : Nat.card ρ.range ∣ Nat.card (Perm τ.cycleFactorsFinset) :=
@@ -44,7 +44,7 @@ theorem commute_cycleFactors_of_isPerfect {τ : Perm (Fin n)}
     exact h1.trans ((Nat.factorial_dvd_factorial hF).trans (by decide))
   have hpf : (Nat.card ρ.range).primeFactors.card ≤ 2 :=
     primeFactors_card_le_two_of_dvd Nat.prime_two Nat.prime_three hcard
-  haveI := subsingleton_of_isPerfect_of_card_primeFactors hpf
+  have := subsingleton_of_isPerfect_of_card_primeFactors hpf
   have h1 : ρ ⟨x, hx⟩ = 1 := by
     have : (⟨ρ ⟨x, hx⟩, ⟨_, rfl⟩⟩ : ρ.range) = 1 := Subsingleton.elim _ _
     exact congrArg Subtype.val this
@@ -83,9 +83,9 @@ theorem good427_alternating {τ : Perm (Fin n)} (hk : Multiset.card τ.cycleType
     MonoidHom.ofInjective alternatingGroup.ofSubtype_injective
   by_cases h5 : 5 ≤ Fintype.card ↥(τ.supportᶜ)
   · have h6 : 6 ≤ Fintype.card ↥(τ.supportᶜ) := by omega
-    haveI : IsSimpleGroup (alternatingGroup ↥(τ.supportᶜ)) :=
+    have : IsSimpleGroup (alternatingGroup ↥(τ.supportᶜ)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card]; omega)
-    haveI : IsSimpleGroup (alternatingGroup.ofSubtype τ.supportᶜ).range := ψ.symm.isSimpleGroup
+    have : IsSimpleGroup (alternatingGroup.ofSubtype τ.supportᶜ).range := ψ.symm.isSimpleGroup
     have hna : ∃ a b : (alternatingGroup.ofSubtype τ.supportᶜ).range, a * b ≠ b * a := by
       have hnc : ¬ IsMulCommutative (alternatingGroup ↥(τ.supportᶜ)) := by
         rw [alternatingGroup.isMulCommutative_iff_card_le_three, Nat.card_eq_fintype_card]
@@ -101,7 +101,7 @@ theorem good427_alternating {τ : Perm (Fin n)} (hk : Multiset.card τ.cycleType
       omega
     exact good427_of_le_simple hEC hna hcard hle
   · intro K hKC hKq _ hT
-    haveI : Group.IsPerfect K := hKq.1
+    have : Group.IsPerfect K := hKq.1
     have hKE := hle K hKC inferInstance
     obtain ⟨a, ha⟩ := exists_card_eq_sixty_mul hT
     have h1 : Nat.card K ≤ Nat.card (alternatingGroup.ofSubtype τ.supportᶜ).range :=
@@ -170,7 +170,7 @@ theorem rowOf427_alternating
     RowOf427 (alternatingGroup (Fin n)) := by
   refine rowOf427_of_noCfgS fun S _ _ _ _ ⟨e⟩ =>
     ⟨NoCfgS427.of_mulEquiv e (noCfgS427_alternating hn5 hn h8 h11), noONS427_of_card ?_⟩
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
   interval_cases n <;> norm_num [Nat.factorial] at *
 

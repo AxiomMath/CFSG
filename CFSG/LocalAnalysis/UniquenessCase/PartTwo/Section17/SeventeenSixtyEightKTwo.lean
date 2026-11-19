@@ -86,7 +86,7 @@ theorem exists_isSylowTwoOf_one_le_pRank_three_of_isAlt_five {Q : Type} [Group Q
   have hKsyl : IsSylowTwoOf K ⊤ := by
     change IsSylowTwoOf (CFSG.OddStandard.SymFive.kleinSylow :
       Subgroup (alternatingGroup (Fin 5))) ⊤
-    refine ⟨le_top, CFSG.OddStandard.SymFive.kleinSylow.isPGroup', ?_⟩
+    refine ⟨le_top, CFSG.OddStandard.SymFive.kleinSylow.isPGroup, ?_⟩
     have e1 : ((CFSG.OddStandard.SymFive.kleinSylow :
         Subgroup (alternatingGroup (Fin 5))).subgroupOf ⊤).index =
         (CFSG.OddStandard.SymFive.kleinSylow :
@@ -104,8 +104,7 @@ theorem exists_isSylowTwoOf_one_le_pRank_three_of_isAlt_five {Q : Type} [Group Q
     simpa [g, K] using CFSG.OddStandard.SymFive.threeCycle_mem_normalizer
   have hnot : CFSG.OddStandard.SymFive.threeCycle ∉ K := by
     simp only [K, CFSG.OddStandard.SymFive.coe_kleinSylow,
-      CFSG.OddStandard.SymFive.mem_kleinAlt, CFSG.OddStandard.SymFive.mem_klein,
-      CFSG.OddStandard.SymFive.coe_threeCycle]
+      CFSG.OddStandard.SymFive.mem_kleinAlt, CFSG.OddStandard.SymFive.coe_threeCycle]
     decide +kernel
   let x : Subgroup.normalizerQuotient S :=
     Subgroup.normalizerQuotientMk S ⟨g, hgN⟩
@@ -128,7 +127,7 @@ theorem exists_isSylowTwoOf_one_le_pRank_three_of_isAlt_five {Q : Type} [Group Q
       have h := (Subgroup.mem_map_equiv (f := e.symm)).mp hmem
       simpa [g] using h
     exact hnot h3K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxcard : Nat.card (Subgroup.zpowers x) = 3 := by
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime hx3 hx1

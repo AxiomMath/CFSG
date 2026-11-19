@@ -94,7 +94,7 @@ theorem ggE6Two_model_of_innerDiag (hRig : GGLabelRigidInput) {G : Type} [Group 
   subst hEq
   obtain ⟨Fq, _instFq, _finFq, hFqcard, hQ⟩ := hraw
   obtain ⟨-, -, θ, -, hN, hBsI⟩ := hQ
-  haveI : CharP Fq 2 := charP_two_of_card hFqcard
+  have : CharP Fq 2 := charP_two_of_card hFqcard
   have hK : Nat.card Fq = 2 := by simpa using hFqcard
   have hlift : GGTorusLift 3 4 (TableBExc.RecipeGroup .E6 Fq) :=
     TableBExc.E6Three.ggTorusLift_E6_two

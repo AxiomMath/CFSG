@@ -22,8 +22,8 @@ theorem twin_false_psp4_odd {r n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Sub
     {S : Sylow 2 R} {t : Y} (h : PerpHypR r n Y R S t) {K : Type} [Field K] [Finite K]
     (hodd : Odd (Nat.card K)) (h5 : 5 ≤ Nat.card K)
     (e : ↥(genFittingFStar Y) ≃* StatedProj (StatedSp 2 K)) : False := by
-  haveI := h.core.simple
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have := h.core.simple
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
   have h2 : (2 : K) ≠ 0 := two_ne_zero_of_odd_card hodd

@@ -51,7 +51,7 @@ theorem q49_exists_hom_crossed {V S S₅ F₅ F : Subgroup G} (κ : G → G)
     ∃ Ψ : V →* S ⧸ F.subgroupOf S,
       (∀ (x : V) (s : S), ∀ y ∈ F₅, κ x = s * y → Ψ x = QuotientGroup.mk s) ∧
       ∀ (x : V) (s : S), Ψ x = QuotientGroup.mk s → ∃ y ∈ F₅, κ x = s * y := by
-  haveI := hFn
+  have := hFn
   have hdec : ∀ x : V, ∃ σ ∈ S, ∃ f ∈ F₅, κ (x : G) = σ * f := fun x => hS₅ _ (hκ x x.2)
   choose σ hσ f hf hκx using hdec
   have huniq : ∀ {σ₁ σ₂ f₁ f₂ : G}, σ₁ ∈ S → σ₂ ∈ S → f₁ ∈ F₅ → f₂ ∈ F₅ →
@@ -238,6 +238,7 @@ theorem q49_normalizer_yamadaR₅_le_normalizers (hW : CFSG.Walter.WalterOrderFo
     q49_normalizer_le_normalizer_of_characteristic_of_le hD cD,
     q49_normalizer_le_normalizer_of_characteristic_of_le hS cS⟩
 
+omit [Finite G] [Finite K] in
 theorem q49_normalizer_yamadaR₂_le_normalizer_yamadaR₅ (d : G2Data L K) (t : G) :
     normalizer (yamadaR₂ d t : Set G) ≤ normalizer (yamadaR₅ d t : Set G) :=
   LieType.BorelTits.le_normalizer_pCoreOf 2 _
@@ -253,11 +254,13 @@ theorem q49_J_le_normalizer_yamadaR₅ (h : Setup G L f t) (d : G2Data L K) (hK 
   (h.J_le_centralizer_inf_normalizer_S d).trans
     (h.q49_centralizer_inf_normalizer_S_le_normalizer_yamadaR₅ d hK hD)
 
+omit [Finite G] [Finite K] in
 theorem q49_mem_yamadaV₈ {d : G2Data L K} {x : G} :
     x ∈ q49_yamadaV₈ d t ↔ x ∈ normalizer (yamadaR₅ d t : Set G) ∧
       x ∈ normalizer (yamadaF₅ d t : Set G) ∧
         ∀ s ∈ yamadaS₅ d t, x * s * x⁻¹ * s⁻¹ ∈ yamadaF₅ d t := Iff.rfl
 
+omit [Finite G] [Finite K] in
 theorem q49_yamadaV₈_le_normalizer (d : G2Data L K) (t : G) :
     q49_yamadaV₈ d t ≤ normalizer (yamadaR₅ d t : Set G) := inf_le_left
 
@@ -286,6 +289,7 @@ theorem q49_crossed_mem_yamadaS₅ (hW : CFSG.Walter.WalterOrderForm) (h : Setup
   obtain ⟨hR, htS, htnS⟩ := (h.yamada_5_37_2 hW d hK hQ).2.1
   exact q49_crossed_mem_of_mem_normalizer h.t_mul_t hR htS htnS hx (hHS hx)
 
+omit [Finite G] [Finite K] in
 theorem q49_yamadaF₂_le_yamadaF₅ (d : G2Data L K) (t : G) : yamadaF₂ d t ≤ yamadaF₅ d t :=
   (le_sup_right : yamadaF₂ d t ≤ yamadaF₃ d t).trans le_sup_left
 
@@ -510,6 +514,7 @@ theorem q49_yamadaR₇_le_yamadaV₈ (hW : CFSG.Walter.WalterOrderForm) (h : Set
     h.q49_commutator_mem_yamadaF₅_of_le hW d hK hQ (h.q49_isPGroup_yamadaR₇ d) hS₅R₇ hR₇H
       (h.q49_J_le_normalizer_yamadaR₇ d hK hD) x hx⟩
 
+omit [Finite G] [Finite K] in
 theorem q49_yamadaY₂_le_yamadaF₅ (d : G2Data L K) (t : G) : yamadaY₂ d t ≤ yamadaF₅ d t :=
   (le_sup_right : yamadaY₂ d t ≤ yamadaF₂ d t).trans (q49_yamadaF₂_le_yamadaF₅ d t)
 
@@ -533,7 +538,7 @@ theorem q49_crossed_mem_yamadaM₅ (hW : CFSG.Walter.WalterOrderForm) (h : Setup
     (h.crossed_mem_yamadaM₂ d hK hQ.doubling
       (h.yamadaR₆_le_normalizer_yamadaL₂ d hx))
 
-theorem q49_crossed_mul_of_commute (h : Setup G L f t) {x s : G} (hst : s * t = t * s) :
+theorem q49_crossed_mul_of_commute (_h : Setup G L f t) {x s : G} (hst : s * t = t * s) :
     t * (x * s) * t * (x * s)⁻¹ = t * x * t * x⁻¹ := by
   calc t * (x * s) * t * (x * s)⁻¹ = t * x * (s * t * s⁻¹) * x⁻¹ := by group
     _ = t * x * t * x⁻¹ := by rw [hst]; group
@@ -571,7 +576,7 @@ theorem q49_exists_mem_yamadaR₆_crossed (hW : CFSG.Walter.WalterOrderForm) (h 
   rw [e]
   group
 
-theorem q49_exists_mem_yamadaR₇_crossed (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
+theorem q49_exists_mem_yamadaR₇_crossed (_hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) {δ : G} (hδ : δ ∈ d.D) :
     ∃ b ∈ yamadaR₇ d t, ∃ f ∈ yamadaF₅ d t, t * b * t * b⁻¹ = δ * f := by
   have hD := hQ.doubling
@@ -702,10 +707,12 @@ theorem q49_mem_normalizer_yamadaR₂_of_crossed_mem (hW : CFSG.Walter.WalterOrd
   rw [← h.yamada_5_47 hW d hK hQ]
   exact Subgroup.mem_inf.2 ⟨hx, hxE⟩
 
+omit [Finite K] in
 theorem q49_yamadaR₅_le_yamadaR₈ (d : G2Data L K) (t : G) : yamadaR₅ d t ≤ yamadaR₈ d t :=
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   LieType.BorelTits.le_pCoreOf_normalizer 2 _ (LieType.BorelTits.pCoreOf_isPGroup 2 _)
 
+omit [Finite K] in
 theorem q49_yamadaR₈_inf_normalizer_yamadaR₂ (d : G2Data L K) (t : G) :
     yamadaR₈ d t ⊓ normalizer (yamadaR₂ d t : Set G) = yamadaR₅ d t := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -716,12 +723,14 @@ theorem q49_yamadaR₈_inf_normalizer_yamadaR₂ (d : G2Data L K) (t : G) :
       (Subgroup.le_normalizer hg))
     ((LieType.BorelTits.pCoreOf_isPGroup 2 _).to_le inf_le_left)
 
+omit [Finite G] in
 theorem q49_mul_self_mem_F_of_mem_S (d : G2Data L K) (hK4 : 4 ≤ Nat.card K) {s : G} (hs : s ∈ d.S) :
     s * s ∈ d.F := by
   have h1 : s ^ 2 ∈ closure {z | ∃ g ∈ d.S, z = g ^ 2} := subset_closure ⟨s, hs, rfl⟩
   rw [(d.yamada_3_12_mho hK4).2.2, sq] at h1
   exact h1
 
+omit [Finite G] in
 theorem q49_commutator_mem_F_of_mem_S (d : G2Data L K) (hK4 : 4 ≤ Nat.card K) {s m : G}
     (hs : s ∈ d.S) (hm : m ∈ d.S) : s * m * s⁻¹ * m⁻¹ ∈ d.F := by
   have := Subgroup.commutator_mem_commutator hs hm
@@ -900,6 +909,7 @@ theorem q49_mem_F_of_forall_J (h : Setup G L f t) (d : G2Data L K) (hK : Nat.car
     ⟨h.q49_mem_D_of_forall_J₄ d hK hQ hs fun j hj => hFD (hfix j (hJ₄ hj)),
       h.q49_mem_M_of_forall_J₃ d hK hQ hs fun j hj => hFM (hfix j (hJ₃ hj))⟩
 
+omit [Finite G] [CharP K 2] in
 theorem q49_S_inf_centralizer_J (d : G2Data L K) (h4 : 4 ≤ Nat.card K) :
     d.S ⊓ centralizer (d.J : Set G) = ⊥ := by
   rw [G2Data.S, G2Data.J, ← d.image_inf_centralizer _ (Model.J_le_adjointGroup K),
@@ -949,6 +959,7 @@ theorem q49_eq_one_of_mem_yamadaS₂_of_forall_J (h : Setup G L f t) (d : G2Data
     (h.q49_yamadaS₂_inf_centralizer_J_le d hK hQ
       (Subgroup.mem_inf.2 ⟨hy, mem_centralizer_iff.2 hfix⟩)) hfix
 
+omit [Finite K] [CharP K 2] in
 theorem q49_centralizer_le_normalizer_S (d : G2Data L K) :
     centralizer (L : Set G) ≤ normalizer (d.S : Set G) := fun z hz =>
   mem_normalizer_of_conj_mem fun x hx => by
@@ -1100,6 +1111,7 @@ theorem q49_yamadaP_le_yamadaR₈ (h : Setup G L f t) (d : G2Data L K) (hK : Nat
     exact mul_mem hx ((mem_normalizer_iff.1 (h.q49_J_le_normalizer_yamadaR₈ d hK hD hj) x⁻¹).1
       (inv_mem hx))
 
+omit [Finite K] in
 theorem q49_yamadaR₈_le_normalizer_yamadaP (d : G2Data L K) (t : G) :
     yamadaR₈ d t ≤ normalizer (yamadaP d t : Set G) :=
   le_normalizer_commutator_left _ _
@@ -1108,6 +1120,7 @@ theorem q49_J_le_normalizer_yamadaP (h : Setup G L f t) (d : G2Data L K) (hK : N
     (hD : h.DoublingFacts d) : d.J ≤ normalizer (yamadaP d t : Set G) := fun _ hj =>
   mem_normalizer_commutator (h.q49_J_le_normalizer_yamadaR₈ d hK hD hj) (Subgroup.le_normalizer hj)
 
+omit [Finite K] in
 theorem q49_isPGroup_yamadaR₈ (d : G2Data L K) (t : G) : IsPGroup 2 (yamadaR₈ d t) :=
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   LieType.BorelTits.pCoreOf_isPGroup 2 _

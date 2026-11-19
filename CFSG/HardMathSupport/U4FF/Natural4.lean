@@ -15,8 +15,8 @@ open scoped Matrix
 theorem natural4Input_holds : Natural4Input := by
   intro S _ n L hL hirr K _ _ _ hK η E _ _ ι ε R hR k _ _ P i₀ hP
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   let β : E →+* k := algebraMap E k
   let fr : K →+* K := iterateFrobenius K 2 i₀
   let f : K →+* E := ι.comp fr

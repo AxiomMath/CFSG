@@ -18,7 +18,7 @@ theorem l2_branch {A : Type} [Group A] (T : Subgroup A) [T.Normal] (hT : SmallL2
     (hb : ψ * MulAut.conjNormal b = MulAut.conjNormal b * ψ) :
     ψ = 1 ∨ ψ = MulAut.conjNormal (x ^ 4) := by
   obtain ⟨p, f, K, hKf, hKfin, hp, hpodd, hf, h3, hKcard, ⟨e⟩⟩ := soc_l2_data hT
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hOdd : IsOddPrimePower (Nat.card K) := ⟨p, f, hp, hpodd, hf, hKcard⟩
   have hcard : 3 < Nat.card K := by rw [hKcard]; exact h3
   have h2 : (2 : K) ≠ 0 := by

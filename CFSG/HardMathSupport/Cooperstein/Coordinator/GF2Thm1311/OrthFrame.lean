@@ -69,7 +69,7 @@ theorem exists_comb_singular [Finite K] [CharP K 2] (σ : K ≃+* K) (Q : Quadra
       exact Subtype.ext (congrFun h0 i)
     · have h1 : (k.subtype (eval x P)) = 0 := by rw [hx, map_zero]
       have h2 : k.subtype (eval x P) = ∑ i, ∑ j, γ i j * ((x i : K) * (x j : K)) := by
-        simp [P, eval_sum, map_sum]
+        simp [P, map_sum]
       rw [h2, Fin.sum_univ_three, Fin.sum_univ_three, Fin.sum_univ_three, Fin.sum_univ_three] at h1
       rw [Q_three]
       have g00 : γ 0 0 = Q (z 0) := by simp [γ]
@@ -171,10 +171,12 @@ def framePerp {r : ℕ} (F : Frame Q T r) : Submodule K V :=
   LinearMap.ker (LinearMap.pi fun p : Fin r ⊕ Fin r =>
     (polarBilin Q).flip (Sum.elim F.e F.f p))
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem mem_framePerp {r : ℕ} (F : Frame Q T r) (v : V) :
     v ∈ framePerp F ↔ ∀ p : Fin r ⊕ Fin r, polar Q v (Sum.elim F.e F.f p) = 0 := by
   simp [framePerp, LinearMap.mem_ker, funext_iff]
 
+omit [Finite K] [CharP K 2] in
 theorem finrank_framePerp {r : ℕ} (F : Frame Q T r) :
     finrank K V ≤ finrank K (framePerp F) + 2 * r := by
   have h := LinearMap.finrank_range_add_finrank_ker (LinearMap.pi fun p : Fin r ⊕ Fin r =>
@@ -188,6 +190,7 @@ theorem finrank_framePerp {r : ℕ} (F : Frame Q T r) :
   omega
 
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem polar_frame_cases {r : ℕ} (F : Frame Q T r) (u : V) (j : Fin r) :
     polar Q (u - ∑ i, polar Q u (F.f i) • F.e i - ∑ i, polar Q u (F.e i) • F.f i) (F.e j) = 0 ∧
     polar Q (u - ∑ i, polar Q u (F.f i) • F.e i - ∑ i, polar Q u (F.e i) • F.f i) (F.f j) = 0 := by
@@ -196,14 +199,15 @@ theorem polar_frame_cases {r : ℕ} (F : Frame Q T r) (u : V) (j : Fin r) :
   constructor
   · rw [polar_sub_left, polar_sub_left, polar_sum_smul_left, polar_sum_smul_left]
     simp only [F.ee, hfe, mul_zero, Finset.sum_const_zero, mul_ite, mul_one, Finset.sum_ite_eq,
-      Finset.mem_univ, if_true, sub_zero]
+      Finset.mem_univ, ite_true, sub_zero]
     ring
   · rw [polar_sub_left, polar_sub_left, polar_sum_smul_left, polar_sum_smul_left]
     simp only [F.ff, F.ef, mul_zero, Finset.sum_const_zero, mul_ite, mul_one, Finset.sum_ite_eq',
-      Finset.mem_univ, if_true, sub_zero]
+      Finset.mem_univ, ite_true, sub_zero]
     ring
 
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem T_mem_framePerp (hTQ : ∀ v, Q (T v) = σ (Q v)) {r : ℕ} (F : Frame Q T r) {v : V}
     (hv : v ∈ framePerp F) : T v ∈ framePerp F := by
   rw [mem_framePerp] at hv ⊢
@@ -217,6 +221,7 @@ theorem T_mem_framePerp (hTQ : ∀ v, Q (T v) = σ (Q v)) {r : ℕ} (F : Frame Q
     _ = σ (polar Q v (Sum.elim F.e F.f p)) := polar_semilinear T hTQ _ _
     _ = 0 := by rw [h1, map_zero]
 
+omit [Finite K] in
 theorem exists_fixed_partner (hQ : (polarBilin Q).Nondegenerate) (hσσ : ∀ x, σ (σ x) = x)
     (hσ1 : σ ≠ 1) (hTT : ∀ v, T (T v) = v) (hTQ : ∀ v, Q (T v) = σ (Q v)) {r : ℕ}
     (F : Frame Q T r) {w : V} (hwS : w ∈ framePerp F) (hw0 : w ≠ 0) (hTw : T w = w)
@@ -282,7 +287,7 @@ theorem exists_fixed_partner (hQ : (polarBilin Q).Nondegenerate) (hσσ : ∀ x,
   · rw [map_add, map_smulₛₗ, RingHom.coe_coe, hTf₁, hTw, hσQ]
   · rw [QuadraticMap.map_add Q, QuadraticMap.map_smul, hQw, polar_smul_right,
       polar_comm Q f₁ w, hwf₁]
-    simp only [smul_eq_mul, mul_zero, mul_one, zero_mul, add_zero]
+    simp only [smul_eq_mul, mul_zero, mul_one, add_zero]
     exact CharTwo.add_self_eq_zero _
   · rw [polar_add_right, hwf₁, polar_smul_right, polar_self_char_two, smul_zero, add_zero]
 

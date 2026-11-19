@@ -369,7 +369,7 @@ private theorem representation_dual_irreducible_of_pf53
     [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     (ρ : Representation ℂ G V) (hρ : Representation.IsIrreducible ρ) :
     Representation.IsIrreducible ρ.dual := by
-  letI : Representation.IsIrreducible ρ := hρ
+  let : Representation.IsIrreducible ρ := hρ
   refine
     { exists_pair_ne := ?_
       eq_bot_or_eq_top := ?_ }
@@ -759,9 +759,9 @@ private theorem signed_irreducible_of_virtual_norm_one_pf53
     Section3.isVirtualCharacter_isClassFunction hvirt
   rcases Theory.Character.irreducible_characters_form_basis (G := G) with
     ⟨ι, hι, χ, hχ, _b, _hb⟩
-  letI : Fintype ι := hι
-  letI : Finite ι := Finite.of_fintype ι
-  letI : Fintype ι := Fintype.ofFinite ι
+  let : Fintype ι := hι
+  let : Finite ι := Finite.of_fintype ι
+  let : Fintype ι := Fintype.ofFinite ι
   rcases hχ with ⟨hirr, hall, _hinj⟩
   let ψ : ι → Section1.ClassFunction G := fun i => Section1.ofConjClassFunction (χ i)
   have hψclass : ∀ i, Section1.IsClassFunction (ψ i) := by
@@ -1580,7 +1580,7 @@ private theorem theorem_5_3_b_pairwise_orthogonal_pf53
     (hInd : inducedFromNonkernelFamily_statement K H S) :
     hypothesis_5_2_c_statement S := by
   classical
-  letI : K.Normal := normal_K_of_hypothesis_4_6_pf53 h46
+  let : K.Normal := normal_K_of_hypothesis_4_6_pf53 h46
   intro χ ψ hχ hψ hneq
   rcases hInd χ hχ with ⟨B, hBirr, _hBker, hχeq⟩
   rcases hInd ψ hψ with ⟨C, hCirr, _hCker, hψeq⟩
@@ -4352,8 +4352,8 @@ public theorem theorem_5_3_b_core_context_of_full_pf53
           Section1.scalarProduct W α β := by
     have h31 : Section3.hypothesis_3_1_statement W1 W2 W :=
       hypothesis_3_1_of_hypothesis_4_6_pf53 h46
-    letI : IsCyclic W := h31.2.2.2.1
-    letI : CommGroup W := IsCyclic.commGroup
+    let : IsCyclic W := h31.2.2.2.1
+    let : CommGroup W := IsCyclic.commGroup
     intro α β
     exact hσiso α β (isClassFunction_of_commGroup_pf53 α)
       (isClassFunction_of_commGroup_pf53 β)
@@ -4436,8 +4436,8 @@ public theorem theorem_5_3_b_core_context_of_supported_pf53
           Section1.scalarProduct W α β := by
     have h31 : Section3.hypothesis_3_1_statement W1 W2 W :=
       hypothesis_3_1_of_hypothesis_4_6_pf53 h46
-    letI : IsCyclic W := h31.2.2.2.1
-    letI : CommGroup W := IsCyclic.commGroup
+    let : IsCyclic W := h31.2.2.2.1
+    let : CommGroup W := IsCyclic.commGroup
     intro α β
     exact hσiso α β (isClassFunction_of_commGroup_pf53 α)
       (isClassFunction_of_commGroup_pf53 β)

@@ -38,7 +38,7 @@ theorem listA_deg : ∀ β ∈ e8ListA, β 7 = 0 := by decide +kernel
 theorem sigmaSet_eq : sigmaSetE8A4 e8VB = {r | r ∈ e8ListB} := by
   rw [sigmaSetE8A4_eq]
   ext r
-  simp only [Set.mem_setOf_eq, sigmaRootE8A4_eq_smul, e8VB_smul]
+  simp only [Set.mem_ofPred_eq, sigmaRootE8A4_eq_smul, e8VB_smul]
   constructor
   · rintro ⟨i, j, hij, rfl⟩
     exact e8B_img i j hij

@@ -86,6 +86,7 @@ private instance (Q : M → ZMod 2) (z a₀ b₀ a₁ b₁ : M) :
   unfold s15k_witOK
   infer_instance
 
+omit [Fintype M] [DecidableEq M] in
 private theorem s15k_P1_of_witOK {Q : M → ZMod 2} {z a₀ b₀ a₁ b₁ : M}
     (h : s15k_witOK Q z a₀ b₀ a₁ b₁) : s15k_tsix_P1 Q z := by
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14⟩ := h

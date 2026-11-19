@@ -33,7 +33,7 @@ private theorem abs6_exists_mem_of_prime_dvd {Y : Type*} [Group Y] [Finite Y] (X
     (hcop : ∀ (y : Y) (n : ℕ), y ^ n = 1 → Nat.Coprime n 6 → y ∈ X) {p : ℕ} (hp : p.Prime)
     (hpd : p ∣ Nat.card ↥(Subgroup.centralizer (X : Set Y))) (h2 : p ≠ 2) (h3 : p ≠ 3) :
     ∃ c : Y, c ∈ X ⊓ Subgroup.centralizer (X : Set Y) ∧ orderOf c = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' p hpd
   refine ⟨(c : Y), Subgroup.mem_inf.2 ⟨?_, c.2⟩, ?_⟩
   · have hcop' : Nat.Coprime p 6 := by
@@ -79,7 +79,7 @@ theorem centralizer_eq_bot_of_three {Y : Type*} [Group Y] [Finite Y] (X : Subgro
     · rcases hprime p hp hpd with rfl | rfl
       · exact absurd hpo (by decide)
       · exact hpd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' 3 h3
   have hcent : ∀ S : Subgroup Y, S ≤ X →
       S ≤ Subgroup.centralizer (Subgroup.zpowers (c : Y) : Set Y) := by
@@ -130,8 +130,8 @@ theorem centralizer_le_of_center_three {Y : Type*} [Group Y] [Finite Y] (X : Sub
     have heq : X ⊓ C = C := Subgroup.eq_of_le_of_card_ge hZC (by omega)
     exact heq.symm.le.trans inf_le_left
   · exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨t₀, ht₀⟩ := exists_prime_orderOf_dvd_card' 2 (show 2 ∣ Nat.card ↥C by omega)
     obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' 3 (show 3 ∣ Nat.card ↥(X ⊓ C) by omega)
     obtain ⟨t, htC, ht2⟩ : ∃ t : Y, t ∈ C ∧ orderOf t = 2 :=

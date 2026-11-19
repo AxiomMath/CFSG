@@ -25,7 +25,7 @@ variable {K : Type} [Field K] {V : Type u} [AddCommGroup V] [Module K V]
   {x : LinearMap.GeneralLinearGroup K V}
 
 theorem apply_eq_self_of_supportedUnitary_of_primaryProjection_eq_zero
-    (H : UnitaryPrimaryData σ B x) {a : K[X]} (ha : a ∈ primaryFactors (x : Module.End K V))
+    (H : UnitaryPrimaryData σ B x) {a : K[X]} (_ha : a ∈ primaryFactors (x : Module.End K V))
     {g : LinearMap.GeneralLinearGroup K V} (hg : g ∈ supportedUnitary B x {a}) {v : V}
     (hv : primaryProjection (x : Module.End K V) a v = 0) :
     (g : Module.End K V) v = v := by
@@ -169,6 +169,7 @@ variable {ℓ f : ℕ} {K : Type} [Field K] {hK : UnitaryFieldData ℓ f K} {V :
   [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {B : V →ₛₗ[hK.bar] V →ₗ[K] K} {x : LinearMap.GeneralLinearGroup K V}
 
+omit [FiniteDimensional K V] in
 theorem blockApply_conj_specialBlock
     {a : primaryFactors (x : Module.End K V)}
     {G : Subgroup (blockGL (x : Module.End K V) (a : K[X]))}
@@ -222,6 +223,7 @@ variable {ℓ f : ℕ} {K : Type} [Field K] {hK : UnitaryFieldData ℓ f K} {V :
   [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {B : V →ₛₗ[hK.bar] V →ₗ[K] K} {x : LinearMap.GeneralLinearGroup K V}
 
+omit [FiniteDimensional K V] in
 private theorem mu_ne_zero_of_mul_commute
     {lam μ : K} {m : LinearMap.GeneralLinearGroup K V} {v : V} (hv : v ≠ 0)
     (hx : (x : Module.End K V) v = lam • v) (hlam : lam ≠ 0)
@@ -444,7 +446,7 @@ private theorem map_primeFormConjSU_eq_self
         (MulEquiv.subgroupCongr hFmap)
     exact CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm
       ((specialBlockFacts_of_good H hq a ha).quasisimple ha.1)
-  haveI : Group.IsPerfect ↥(unitaryPreimageBlock h (x := x) (a : K[X])) := hQF.1
+  have : Group.IsPerfect ↥(unitaryPreimageBlock h (x := x) (a : K[X])) := hQF.1
   have hFcomm : ⁅unitaryPreimageBlock h (x := x) (a : K[X]),
       unitaryPreimageBlock h (x := x) (a : K[X])⁆ =
       unitaryPreimageBlock h (x := x) (a : K[X]) := Subgroup.commutator_eq_self
@@ -484,8 +486,8 @@ private theorem map_primeFormConjSU_eq_self
   have hFX : (unitaryPreimageBlock h (x := x) (a : K[X])).map
       (primeFormConjSU h (idGram K n) X).toMonoidHom ≤
       unitaryPreimageBlock h (x := x) (a : K[X]) := hkey X hstab
-  haveI : Finite K := h.finite
-  haveI : Finite ↥(unitaryPreimageBlock h (x := x) (a : K[X])) := inferInstance
+  have : Finite K := h.finite
+  have : Finite ↥(unitaryPreimageBlock h (x := x) (a : K[X])) := inferInstance
   have hcard : Nat.card ↥(unitaryPreimageBlock h (x := x) (a : K[X])) ≤
       Nat.card ↥((unitaryPreimageBlock h (x := x) (a : K[X])).map
         (primeFormConjSU h (idGram K n) X).toMonoidHom) :=
@@ -592,7 +594,7 @@ noncomputable def specialBlockEquiv
     ↥(unitaryPreimageBlock h (x := x) (a : K[X])) ≃*
       ↥(specialBlock (idForm h n) x (a : K[X])) :=
   (Subgroup.equivMapOfInjective _ (toLinSU h n) toLinSU_injective).trans
-    (MulEquiv.subgroupCongr (Subgroup.map_comap_eq_self fun g hg =>
+    (MulEquiv.subgroupCongr (Subgroup.map_comap_eq_self fun _g hg =>
       mem_range_toLinSU (specialBlock_le_sesqSpecialUnitaryGroup_of_good H hq a ha hg)))
 
 theorem specialBlockEquiv_apply_coe

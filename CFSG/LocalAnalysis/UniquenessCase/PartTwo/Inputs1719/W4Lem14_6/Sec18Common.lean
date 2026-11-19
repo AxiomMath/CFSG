@@ -48,7 +48,7 @@ theorem exists_mem_pset_commutator_ne_bot {W : Type} [CommGroup W] [Finite W]
     rw [← hii, hzero]
   have hmap1 : L.map (MulAut.conj (1 : MulAut W)).toMonoidHom = L := by
     ext x
-    simp [MulAut.conj_apply]
+    simp
   have hLX : L ≤ X := by
     rw [hX]
     calc L = L.map (MulAut.conj (1 : MulAut W)).toMonoidHom := hmap1.symm
@@ -61,9 +61,9 @@ theorem commSub_commSub_eq_bot_of_isIrrOn {W : Type} [CommGroup W] [Finite W]
     (hgN : g ∉ normIn Y L) :
     commSub (commSub (⊤ : Subgroup W) L) (L.map (MulAut.conj g).toMonoidHom) = ⊥ := by
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
-  haveI : CFSG.AGLEmbeddingD2.McLaughlin.TightPairAndPureRank.ExpTwo W :=
+  have : CFSG.AGLEmbeddingD2.McLaughlin.TightPairAndPureRank.ExpTwo W :=
     ⟨fun w => by rw [← pow_two]; exact hW w⟩
   let K : Subgroup (MulAut W) := L.map (MulAut.conj g).toMonoidHom
   have hKcomp : IsComponentOf K Y := CFSG.Quasithin.B113.isComponentOf_conj hL hg
@@ -161,7 +161,7 @@ theorem bParam_le_of_normalCase {W : Type} [CommGroup W] [Finite W] (hW : ∀ w 
       T ≤ Subgroup.normalizer (L : Set (MulAut W)) → bParam L (L ⊔ T) ≤ B) :
     bParam L Y ≤ B := by
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   have hLne : L ≠ ⊥ := B15P4.ne_bot_of_isComponentOf hL
   have hWnt : Nontrivial W := by
@@ -170,7 +170,7 @@ theorem bParam_le_of_normalCase {W : Type} [CommGroup W] [Finite W] (hW : ∀ w 
     have : Subsingleton (MulAut W) :=
       ⟨fun a b => MulEquiv.ext fun w => hsub.elim (a w) (b w)⟩
     exact hLne (Subgroup.eq_bot_of_subsingleton L)
-  haveI : Nontrivial W := hWnt
+  have : Nontrivial W := hWnt
   obtain ⟨T, hT⟩ := E1.exists_isSylowIn_two Y
   have hNLY : Y ≤ Subgroup.normalizer (L : Set (MulAut W)) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hL.1).mp hLn
@@ -210,8 +210,8 @@ private theorem exists_mul_ne_of_isSimpleGroup_of_centralizer_bot {W : Type} [Co
       ⟨hXY hx, hXle hx⟩
     rw [hC] at hsub
     exact le_bot_iff.mp hsub
-  haveI : Nontrivial ↥X := hs.toNontrivial
-  haveI : Subsingleton ↥X := by
+  have : Nontrivial ↥X := hs.toNontrivial
+  have : Subsingleton ↥X := by
     rw [hbot]
     infer_instance
   exact (not_subsingleton_iff_nontrivial.mpr ‹Nontrivial ↥X›) ‹Subsingleton ↥X›
@@ -223,12 +223,12 @@ theorem fstar_eq_of_centralizer {W : Type} [CommGroup W] [Finite W]
       (IsL2 ↥X 6 → Nat.card ↥(Y ⊓ Subgroup.centralizer (X : Set (MulAut W))) = 3 →
         IsZ3xL2_64 ↥(Fstar Y)) := by
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   constructor
   · intro hC
     have hnab := exists_mul_ne_of_isSimpleGroup_of_centralizer_bot hXY hC hs
-    haveI : IsSimpleGroup ↥X := hs
+    have : IsSimpleGroup ↥X := hs
     have hqo : CFSG.Open.IsQuasisimple ↥X :=
       (CFSG.ComponentClassification.UnbalancingLocal.isQuasisimple_open_iff ↥X).mpr
         (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnab).1
@@ -237,8 +237,8 @@ theorem fstar_eq_of_centralizer {W : Type} [CommGroup W] [Finite W]
     rw [inf_comm, hC]
     exact bot_le
   · intro hL2 hcard
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-    haveI : IsSimpleGroup ↥X := hs
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : IsSimpleGroup ↥X := hs
     have hq2 : CFSG.Open.IsQuasisimple ↥X := UC22.NatParMax.isQuasisimple_of_isL2 hL2
     have hq2F : CFSG.IsQuasisimple ↥X :=
       (CFSG.ComponentClassification.UnbalancingLocal.isQuasisimple_open_iff ↥X).mp hq2
@@ -265,7 +265,7 @@ theorem fstar_eq_of_centralizer {W : Type} [CommGroup W] [Finite W]
     have hCnil : Group.IsNilpotent ↥(Subgroup.centralizer (NY : Set ↥Y)) := by
       have hcyc : IsCyclic ↥(Subgroup.centralizer (NY : Set ↥Y)) :=
         isCyclic_of_prime_card hCardCent
-      letI : CommGroup ↥(Subgroup.centralizer (NY : Set ↥Y)) := hcyc.commGroup
+      let : CommGroup ↥(Subgroup.centralizer (NY : Set ↥Y)) := hcyc.commGroup
       infer_instance
     have hFstarGen : CFSG.generalizedFitting ↥Y =
         NY ⊔ Subgroup.centralizer (NY : Set ↥Y) :=

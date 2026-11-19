@@ -18,7 +18,7 @@ variable {G : Type*} [Group G] (ι : ↥Tsp →* G)
 variable {ι}
 
 theorem ιe_apply {m : Msp} (h : m ∈ Tsp) : ιe ι m = ι ⟨m, h⟩ := by
-  unfold ιe; rw [dif_pos h]
+  unfold ιe; rw [dite_eq_left h]
 
 theorem ιe_mul {a b : Msp} (ha : a ∈ Tsp) (hb : b ∈ Tsp) : ιe ι (a * b) = ιe ι a * ιe ι b := by
   rw [ιe_apply (mul_mem ha hb), ιe_apply ha, ιe_apply hb, ← map_mul]; rfl
@@ -195,7 +195,7 @@ theorem mem_normalizer_trS_Esp (hι : Function.Injective ι) {g : G}
   have := conj_mem_trS_Esp hι (inv_mem hgA) (inv_mem hgAE) h
   simpa [mul_assoc] using this
 
-theorem exists_Dsp_mul_mem (hι : Function.Injective ι) {g : G} (hg : g ∈ ι.range) :
+theorem exists_Dsp_mul_mem (_hι : Function.Injective ι) {g : G} (hg : g ∈ ι.range) :
     ∃ d, d ∈ Dsp ∧ d ∈ Tsp ∧ g * (ιe ι d)⁻¹ ∈ trS ι Asp := by
   obtain ⟨m, hmT, rfl⟩ := exists_ιe_eq hg
   obtain ⟨d, hdD, hmd⟩ := exists_mem_Dsp hmT
@@ -217,7 +217,7 @@ theorem spUV_mem_Tsp : spUV ∈ Tsp := Esp_le_Tsp spUV_mem_Esp
 theorem spT_mem_Tsp : spT ∈ Tsp := Esp_le_Tsp spT_mem_Esp
 theorem spU_mem_Tsp : spU ∈ Tsp := Dsp_le_Tsp spU_mem_Dsp
 
-theorem ιe_ite (p : Prop) [Decidable p] {m : Msp} (hm : m ∈ Tsp) :
+theorem ιe_ite (p : Prop) [Decidable p] {m : Msp} (_hm : m ∈ Tsp) :
     ιe ι (if p then m else 1) = if p then ιe ι m else 1 := by
   split_ifs
   · rfl

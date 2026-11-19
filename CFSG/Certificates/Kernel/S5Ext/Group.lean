@@ -15,7 +15,7 @@ theorem perm_apply_inv (s : Equiv.Perm (Fin 32)) (x : Fin 32) : s (s⁻¹ x) = x
   carrier := {σ | ∀ i j, σ (extraMulFin i j) = extraMulFin (σ i) (σ j)}
   one_mem' := fun _ _ => rfl
   mul_mem' := fun {a b} ha hb i j => by
-    simp only [Set.mem_setOf_eq, Equiv.Perm.coe_mul, Function.comp_apply] at *
+    simp only [Set.mem_ofPred_eq, Equiv.Perm.coe_mul, Function.comp_apply] at *
     rw [hb, ha]
   inv_mem' := fun {a} ha i j => by
     apply a.injective

@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem s21_normalSp4_of (D : Data G) (Ch : Choice2011 G) (hSg : UC6S846.SigmaStd D)
     (h211 : S21_1 D Ch) : S21_NormalSp4 D Ch := by
   intro hH c L hL n hn hX
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLM : L ≤ D.M := hL.1.le
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer hLM]
   by_contra hML
@@ -28,7 +28,7 @@ theorem s21_normalSp4_of (D : Data G) (Ch : Choice2011 G) (hSg : UC6S846.SigmaSt
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn3
   obtain ⟨r, hr, hrn⟩ := Nat.exists_prime_and_dvd (show 2 ^ n - 1 ≠ 1 by omega)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := uc22p218c_ne_two_of_dvd (by omega) hrn
   have hZ : ¬ r ∣ Nat.card (center (Bar2 L)) := by
     rw [uc22p218d_center_eq_bot_sp4 hX, Subgroup.card_bot]

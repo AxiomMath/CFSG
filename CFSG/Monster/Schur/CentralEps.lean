@@ -3,7 +3,7 @@ module
 public import CFSG.Monster.Schur.Defs
 public import CFSG.Certificates.CosetTablePresented
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

@@ -253,7 +253,7 @@ theorem exists_normal_pGroup_of_card_two_three {H : Type*} [Group H] [Finite H] 
     exact Nat.eq_of_mul_eq_mul_left (by positivity) h1
   have : (S : Subgroup H).FiniteIndex := ⟨by rw [hidx]; positivity⟩
   refine ⟨(S : Subgroup H).normalCore, inferInstance,
-    S.isPGroup'.to_le (Subgroup.normalCore_le _), ?_⟩
+    S.isPGroup.to_le (Subgroup.normalCore_le _), ?_⟩
   have hdvd : (S : Subgroup H).normalCore.index ∣ (2 ^ a).factorial := by
     have h1 := Subgroup.index_normalCore_dvd_factorial_index (S : Subgroup H)
     rwa [hidx] at h1

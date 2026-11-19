@@ -22,12 +22,12 @@ theorem card_B : Nat.card B = 27 := by
   simpa using this
 
 theorem comm_B {x y : G} (hx : x ∈ B) (hy : y ∈ B) : x * y = y * x := by
-  haveI := h.mono.1.1
+  have := h.mono.1.1
   have := (IsMulCommutative.is_comm (M := ↥B)).comm (⟨x, hx⟩ : ↥B) ⟨y, hy⟩
   exact congrArg Subtype.val this
 
 theorem pow3_B {x : G} (hx : x ∈ B) : x ^ 3 = 1 := by
-  haveI := h.mono.1.1
+  have := h.mono.1.1
   exact elemPow_eq_one_of_isElementaryAbelian x hx
 
 theorem b_mem : b ∈ B := by
@@ -75,11 +75,11 @@ theorem β_mem : b₁ * b₂ ∈ B := B.mul_mem h.b₁_mem h.b₂_mem
 theorem γ_mem : b₁ ^ 2 * b₂ ∈ B := B.mul_mem (B.pow_mem h.b₁_mem 2) h.b₂_mem
 
 theorem ord_β : orderOf (b₁ * b₂) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (h.pow3_B h.β_mem) h.β_ne_one
 
 theorem ord_γ : orderOf (b₁ ^ 2 * b₂) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (h.pow3_B h.γ_mem) h.γ_ne_one
 
 theorem comm_bγ : b * (b₁ ^ 2 * b₂) = (b₁ ^ 2 * b₂) * b := h.comm_B h.b_mem h.γ_mem
@@ -96,7 +96,7 @@ theorem Cen_β_ne_top : Cen (b₁ * b₂) ≠ ⊤ := by
     intro g
     have : g ∈ Cen (b₁ * b₂) := by rw [htop]; exact Subgroup.mem_top _
     exact (m42_cen_comm this).symm
-  haveI := h.simple
+  have := h.simple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center G) with h0 | h0
   · rw [h0, Subgroup.mem_bot] at hcen
     exact h.β_ne_one hcen
@@ -124,14 +124,17 @@ theorem closure_ne_top {x y : G} (hx : x ∈ B) (hy : y ∈ B) (hox : orderOf x 
 
 end FF79Sec4
 
+omit [Finite G] in
 theorem m42_OUp_le (p : ℕ) (M : Subgroup G) : OUp p M ≤ M := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem m42_OUp_conj_mem {p : ℕ} {M : Subgroup G} {g z : G} (hg : g ∈ M) (hz : z ∈ OUp p M) :
     g * z * g⁻¹ ∈ OUp p M := by
   obtain ⟨z', hz', rfl⟩ := Subgroup.mem_map.mp hz
   refine Subgroup.mem_map.mpr ⟨⟨g, hg⟩ * z' * ⟨g, hg⟩⁻¹, ?_, by simp⟩
   exact (Subgroup.normalClosure_normal).conj_mem z' hz' ⟨g, hg⟩
 
+omit [Finite G] in
 theorem m42_mem_OUp {p : ℕ} {M : Subgroup G} {g : G} (hg : g ∈ M)
     (hc : Nat.Coprime p (orderOf g)) : g ∈ OUp p M := by
   refine Subgroup.mem_map.mpr ⟨⟨g, hg⟩, Subgroup.subset_normalClosure ?_, rfl⟩

@@ -252,7 +252,7 @@ theorem FusedPkg.four_le
   classical
   have hc := h.data.comps
   have hs := h.data.syl
-  have hSp : IsPGroup 2 ↥(S' : Subgroup Gs) := S'.isPGroup'
+  have hSp : IsPGroup 2 ↥(S' : Subgroup Gs) := S'.isPGroup
   obtain ⟨hz'S, hz'c⟩ := comm_of_center hs.z_cen
   have hz'o : orderOf z' = 2 := hs.z_inv
   have hsq : z' * z' = 1 := by

@@ -346,7 +346,7 @@ theorem RefData.eichHom_eq_one_of_mem_scalars {V : Type*} [AddCommGroup V] [Modu
     apply Multiplicative.toAdd.injective
     rw [toAdd_pow, toAdd_one]
     funext k
-    simp [ZMod.natCast_self]
+    simp
   have h1 : (D.eichHom c ^ p) (D.v (.inl 0)) = l ^ p • D.v (.inl 0) :=
     pow_apply_of_eigen (hl _) p
   rw [← map_pow, hcp, map_one] at h1
@@ -470,11 +470,11 @@ theorem involution_typeB3 : InvolutionAt FamB3 := by
   subst hdq'
   have hchar' : p = q.p := by simpa using hchar
   subst hchar'
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   obtain ⟨-, F, hF, hFfin, hcard, ⟨e'⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeB_odd r q hv hp2 hr e
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F q.p :=
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F q.p :=
     charP_of_card_eq_prime_pow (f := q.exponent)
       (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   obtain ⟨t, ht, E, hEc, hE, hcard'⟩ := exists_involution_of_refData (K := F) (p := q.p) hp2
@@ -491,11 +491,11 @@ theorem involution_typeD4 : InvolutionAt FamD4 := by
   subst hdq'
   have hchar' : p = q.p := by simpa using hchar
   subst hchar'
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   obtain ⟨-, F, hF, hFfin, hcard, ⟨e'⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeD r q hv e
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F q.p :=
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F q.p :=
     charP_of_card_eq_prime_pow (f := q.exponent)
       (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   obtain ⟨t, ht, E, hEc, hE, hcard'⟩ := exists_involution_of_refData (K := F) (p := q.p) hp2
@@ -511,11 +511,11 @@ theorem involution_typeTwistedD4 : InvolutionAt FamTwistedD4 := by
   subst hdq'
   have hchar' : p = q.p := by simpa using hchar
   subst hchar'
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   obtain ⟨-, F, hF, hFfin, hcard, b, c, hirr, ⟨e'⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeTwistedD r q hv e
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F q.p :=
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F q.p :=
     charP_of_card_eq_prime_pow (f := q.exponent)
       (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   obtain ⟨t, ht, E, hEc, hE, hcard'⟩ := exists_involution_of_refData (K := F) (p := q.p) hp2

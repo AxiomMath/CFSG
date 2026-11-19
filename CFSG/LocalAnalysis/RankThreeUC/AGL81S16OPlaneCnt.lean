@@ -21,10 +21,12 @@ private def s4Add (w : Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F) : OW F :=
     (Sum.elim (Fin.cons 0 (fun i : Fin 1 => w (Sum.inr (Sum.inl i))) : Fin 2 → F)
       (fun k : Fin 2 => w (Sum.inr (Sum.inr k))))
 
+omit [Finite F] [CharP F 2] in
 private theorem s4Drop_zero : s4Drop (0 : OW F) = 0 := by
   funext s
   rcases s with i | i | k <;> rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem s4Drop_s4Add (w : Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F) : s4Drop (s4Add w) = w := by
   funext s
   rcases s with i | i | k
@@ -34,6 +36,7 @@ private theorem s4Drop_s4Add (w : Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F) : s4Drop (s4A
     rfl
   · rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem s4Add_s4Drop {v : OW F} (h0 : v (Sum.inl idx0) = 0)
     (h1 : v (Sum.inr (Sum.inl idx0)) = 0) : s4Add (s4Drop v) = v := by
   funext s
@@ -46,6 +49,7 @@ private theorem s4Add_s4Drop {v : OW F} (h0 : v (Sum.inl idx0) = 0)
     · rfl
   · rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem s4Drop_ne_zero {v : OW F} (h0 : v (Sum.inl idx0) = 0)
     (h1 : v (Sum.inr (Sum.inl idx0)) = 0) (hv : v ≠ 0) : s4Drop v ≠ 0 := by
   intro h
@@ -60,6 +64,7 @@ private theorem s4Drop_ne_zero {v : OW F} (h0 : v (Sum.inl idx0) = 0)
     · exact congrFun h (Sum.inr (Sum.inl 0))
   · exact congrFun h (Sum.inr (Sum.inr k))
 
+omit [Finite F] [CharP F 2] in
 private theorem s4Add_ne_zero {w : Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F} (hw : w ≠ 0) : s4Add w ≠ 0 := by
   intro h
   apply hw
@@ -67,23 +72,30 @@ private theorem s4Add_ne_zero {w : Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F} (hw : w ≠ 
   rw [s4Drop_s4Add, s4Drop_zero] at h2
   exact h2
 
+omit [Finite F] [CharP F 2] in
 private theorem s4Add_fst (w : Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F) : s4Add w (Sum.inl idx0) = 0 := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem s4Add_snd (w : Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F) :
     s4Add w (Sum.inr (Sum.inl idx0)) = 0 := rfl
 
+omit [Field F] [Finite F] [CharP F 2] in
 private theorem s4Drop_inl (v : OW F) : s4Drop v (Sum.inl 0) = v (Sum.inl idx1) := rfl
 
+omit [Field F] [Finite F] [CharP F 2] in
 private theorem s4Drop_inr_inl (v : OW F) :
     s4Drop v (Sum.inr (Sum.inl 0)) = v (Sum.inr (Sum.inl idx1)) := rfl
 
+omit [Field F] [Finite F] [CharP F 2] in
 private theorem s4Drop_inr_inr (v : OW F) (k : Fin 2) :
     s4Drop v (Sum.inr (Sum.inr k)) = v (Sum.inr (Sum.inr k)) := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem sum_fin_sub_two (g : Fin (3 - 1) → F) :
     ∑ i : Fin (3 - 1), g i = g idx0 + g idx1 :=
   Fin.sum_univ_two g
 
+omit [Finite F] [CharP F 2] in
 private theorem quadMinus_three_apply (v : OW F) :
     CFSG.LieType.Universal.Spin.quadMinus 3 F b c v =
       v (Sum.inl idx0) * v (Sum.inr (Sum.inl idx0)) + v (Sum.inl idx1) * v (Sum.inr (Sum.inl idx1)) +
@@ -91,12 +103,14 @@ private theorem quadMinus_three_apply (v : OW F) :
         c * v (Sum.inr (Sum.inr 1)) ^ 2 := by
   rw [CFSG.LieType.Universal.Spin.quadMinus_apply, sum_fin_sub_two]
 
+omit [Finite F] [CharP F 2] in
 private theorem quadMinus_two_apply (w : Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F) :
     CFSG.LieType.Universal.Spin.quadMinus (1 + 1) F b c w =
       w (Sum.inl 0) * w (Sum.inr (Sum.inl 0)) + w (Sum.inr (Sum.inr 0)) ^ 2 +
         b * w (Sum.inr (Sum.inr 0)) * w (Sum.inr (Sum.inr 1)) + c * w (Sum.inr (Sum.inr 1)) ^ 2 := by
   rw [CFSG.LieType.Universal.Spin.quadMinus_apply, Fin.sum_univ_one]
 
+omit [Finite F] [CharP F 2] in
 private theorem quadMinus_s4Drop {v : OW F} (h0 : v (Sum.inl idx0) = 0)
     (h1 : v (Sum.inr (Sum.inl idx0)) = 0) :
     CFSG.LieType.Universal.Spin.quadMinus (1 + 1) F b c (s4Drop v) =
@@ -105,6 +119,7 @@ private theorem quadMinus_s4Drop {v : OW F} (h0 : v (Sum.inl idx0) = 0)
     s4Drop_inr_inr, s4Drop_inr_inr]
   ring
 
+omit [Finite F] [CharP F 2] in
 private theorem quadMinus_s4Add (w : Fin 1 ⊕ Fin 1 ⊕ Fin 2 → F) :
     CFSG.LieType.Universal.Spin.quadMinus 3 F b c (s4Add w) =
       CFSG.LieType.Universal.Spin.quadMinus (1 + 1) F b c w := by

@@ -82,7 +82,7 @@ theorem w183fu_E25 {Y T L₁ L₂ : Subgroup (LGL 2 V)} (hT : IsSylowIn 2 T Y)
   obtain ⟨z₁, hz₁, hz₁o⟩ := w183fu_five_borel hshape₁ hQ₁
   obtain ⟨z₂, hz₂, hz₂o⟩ := w183fu_five_borel hshape₂ hQ₂
   have hL12 : L₁ ⊓ L₂ = ⊥ := by
-    haveI := htwo.simple₁
+    have := htwo.simple₁
     exact w183_inf_eq_bot_of_commute htwo.nonab₁ htwo.comm
   have hcomm : z₁ * z₂ = z₂ * z₁ := htwo.comm z₁ hz₁.1 z₂ hz₂.1
   have hdisj : Subgroup.zpowers z₁ ⊓ Subgroup.zpowers z₂ = ⊥ := by

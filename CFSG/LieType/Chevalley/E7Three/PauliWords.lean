@@ -28,6 +28,7 @@ variable {K : Type} [Field K] [CharP K 2]
   blockSL K 3 2 0 (by omega) (sl2Diag K ζ) *
     blockSL K 3 2 1 (by omega) (sl2Diag K (ζ ^ 2))
 
+omit [CharP K 2] in
 theorem centralWord_val (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     (centralWord ζ : Matrix (Fin 3) (Fin 3) K) = Matrix.scalar (Fin 3) (ζ : K) := by
   have hinv : ζ⁻¹ = ζ ^ 2 := by
@@ -47,6 +48,7 @@ theorem centralWord_val (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     simp [sl2Diag, Matrix.scalar, Matrix.diagonal, Matrix.mul_apply, Fin.sum_univ_three,
       hinv, hinv2, ← pow_add, h4]
 
+omit [CharP K 2] in
 theorem centralWord_commute (ζ : Kˣ) (hζ : ζ ^ 3 = 1) (A : SL(3, K)) :
     Commute (centralWord ζ) A := by
   change centralWord ζ * A = A * centralWord ζ
@@ -54,6 +56,7 @@ theorem centralWord_commute (ζ : Kˣ) (hζ : ζ ^ 3 = 1) (A : SL(3, K)) :
   simpa only [Matrix.SpecialLinearGroup.coe_mul, centralWord_val ζ hζ]
     using (Matrix.scalar_commute (ζ : K) (fun r => Commute.all _ _) (A : Matrix (Fin 3) (Fin 3) K)).eq
 
+omit [CharP K 2] in
 theorem centralWord_pow_three (ζ : Kˣ) (hζ : ζ ^ 3 = 1) : centralWord ζ ^ 3 = 1 := by
   have h3 : (ζ : K) ^ 3 = 1 := by
     simpa only [Units.val_pow_eq_pow_val, Units.val_one]
@@ -63,6 +66,7 @@ theorem centralWord_pow_three (ζ : Kˣ) (hζ : ζ ^ 3 = 1) : centralWord ζ ^ 3
   change (Matrix.scalar (Fin 3) (ζ : K)) ^ 3 = 1
   rw [← map_pow, h3, map_one]
 
+omit [CharP K 2] in
 theorem diagonalWord_val (ζ : Kˣ) (hζ : ζ ^ 3 = 1) :
     (diagonalWord ζ : Matrix (Fin 3) (Fin 3) K) = heisXMat (ζ : K) := by
   have hinv : ζ⁻¹ = ζ ^ 2 := by

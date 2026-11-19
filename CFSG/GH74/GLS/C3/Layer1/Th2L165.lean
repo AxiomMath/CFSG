@@ -52,6 +52,7 @@ theorem pGroup_le_of_centralizer_le {p : ℕ} [Fact p.Prime] {R M : Subgroup G}
   rw [Subgroup.mem_centralizer_singleton_iff]
   exact hzcent r hr
 
+omit [Finite G] in
 theorem mem_CMK_of_cover {M K K0 : Subgroup G} {x : G}
     (hxM : x ∈ M) (hxK : x ∈ normalizer (K : Set G))
     (hxO : x ∈ normalizer (pPrimeCoreOf 2 K : Set G))
@@ -99,7 +100,7 @@ theorem centralizerSylow_le_of_comparison
   obtain ⟨Q, hQ⟩ := hRsyl
   have hR2 : IsPGroup 2 ↥R := by
     rw [← hQ]
-    exact (Q.isPGroup').map (CMK N I).subtype
+    exact (Q.isPGroup).map (CMK N I).subtype
   have hRM : R ≤ M :=
     pGroup_le_of_centralizer_le (p := 2) hR2 hne hcent
   exact ⟨hRM, fun r hr => hcomp ⟨hr, hRM hr⟩⟩
@@ -120,6 +121,7 @@ theorem oddCore_le_of_fourCentralizers {M N E : Subgroup G}
       centralizer ({e} : Set G)).trans (hpreN e he he1)
   exact CFSG.GH74.Uniqueness.le_of_inf_centralizer_le_of_four hNodd hE4 hE2 hWN hK
 
+omit [Finite G] in
 theorem K_le_of_oddCore_cover {N K K0 : Subgroup G}
     (hK0N : K0 ≤ N) (hOKN : pPrimeCoreOf 2 K ≤ N)
     (hcover : ∀ k ∈ K, ∃ k0 ∈ K0, ∃ o ∈ pPrimeCoreOf 2 K, k = k0 * o) :
@@ -139,6 +141,7 @@ theorem oddCore_and_K_le_of_fourCentralizers {M N K K0 E : Subgroup G}
   ⟨oddCore_le_of_fourCentralizers hE4 hE2 hEM hpreN,
     K_le_of_oddCore_cover hK0N hOKN hcover⟩
 
+omit [Finite G] in
 theorem coreAction_of_mem_CMK {N I K K0 : Subgroup G} {x : G}
     (hxI : x ∈ CMK N I) (hK0I : K0 ≤ I)
     (hxK0 : x ∈ normalizer (K0 : Set G))
@@ -162,7 +165,7 @@ theorem coreAction_of_mem_CMK {N I K K0 : Subgroup G} {x : G}
     exact K0.inv_mem hxcommK0
   exact hOdd ⟨hcommI, hcommK0⟩
 theorem oddCore_le_of_sectionSylow_rank {M N Q : Subgroup G}
-    (hQM : Q ≤ M) (hQN : Q ≤ N) (hrank : 2 ≤ CFSG.Open.pRank 2 Q)
+    (hQM : Q ≤ M) (_hQN : Q ≤ N) (hrank : 2 ≤ CFSG.Open.pRank 2 Q)
     (hpreN : ∀ e ∈ Q, e ≠ 1 → centralizer ({e} : Set G) ≤ N) :
     pPrimeCoreOf 2 M ≤ N := by
   obtain ⟨E, hEQ, hEab, hE4⟩ :=
@@ -242,6 +245,7 @@ theorem K_and_I_le_of_oddCores {M N K I K0 : Subgroup G}
   ⟨K_le_of_oddCore_of_isPCompIn hK hOMN hK0N hcoverK,
     K_le_of_oddCore_of_isPCompIn hI hONM hK0M hcoverI⟩
 
+omit [Finite G] in
 theorem isSubnormalIn_inf_of_isSubnormalIn {M0 K I : Subgroup G}
     (hK : IsSubnormalIn K M0) (hI : IsSubnormalIn I M0) :
     IsSubnormalIn (K ⊓ I) M0 := by
@@ -257,6 +261,7 @@ theorem isSubnormalIn_inf_of_isSubnormalIn {M0 K I : Subgroup G}
   refine ⟨inf_le_left.trans hK.1, ?_⟩
   exact (CFSG.Open.IsSubnormal.iff_subgroupOf (inf_le_left.trans hK.1)).1 hKI_M0
 
+omit [Finite G] in
 theorem isSubnormalIn_inf_of_isPCompIn {M K I : Subgroup G}
     (hK : IsPCompIn 2 M K) (hI : IsPCompIn 2 M I) :
     IsSubnormalIn (K ⊓ I) M :=
@@ -343,7 +348,7 @@ theorem isSylowOf_inf_of_isPCompIn_ne {N I L R : Subgroup G}
   obtain ⟨Q, hQmap⟩ := hRsyl
   have hQtop : IsSylowOf 2 (Q : Subgroup H) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, Q.isPGroup', by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
+    exact ⟨le_top, Q.isPGroup, by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
   have hInter := CFSG.GH74.GLS.Stage1.Thm3.Sec6.isSylowOf_inf_subnormal49 hQtop hLsubH
   have hQmapR : (Q : Subgroup H).map H.subtype = R := by
     simpa [H] using hQmap
@@ -513,7 +518,7 @@ theorem isSylowOf_inf_cmk_of_normal {M K S1 : Subgroup G}
   exact hS1.inf_of_le_normalizer hCMKleM hMnorm
 
 theorem exists_fourSub_of_normal_component {M N K I L R : Subgroup G}
-    (hK : IsPCompIn 2 M K) (hI : IsPCompIn 2 N I) (hL : IsPCompIn 2 N L)
+    (_hK : IsPCompIn 2 M K) (hI : IsPCompIn 2 N I) (hL : IsPCompIn 2 N L)
     (hILne : I ≠ L) (hLnormal : (L.subgroupOf N).Normal)
     (hKnormal : ∀ m ∈ M, ∀ k ∈ K, m * k * m⁻¹ ∈ K)
     (hRsyl : IsSylowOf 2 R (CMK N I))
@@ -557,7 +562,7 @@ theorem exists_fourSub_of_normal_component {M N K I L R : Subgroup G}
     intro hbot
     have hdis : Disjoint S S1 := (Subgroup.subgroupOf_eq_bot).1 hbot
     exact hSne (by simpa [disjoint_iff, inf_eq_left.mpr hSS1] using hdis)
-  haveI : Group.IsNilpotent ↥S1 := hS1.isPGroup.isNilpotent
+  have : Group.IsNilpotent ↥S1 := hS1.isPGroup.isNilpotent
   have hcenterNe : Ssub ⊓ center ↥S1 ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hSsubNe
   obtain ⟨t, ht, htord⟩ :=
@@ -628,7 +633,7 @@ theorem false_of_two_distinct_isPCompIn_of_pRank_le_one {H I L : Subgroup G}
     (hI : IsPCompIn 2 H I) (hL : IsPCompIn 2 H L) (hne : I ≠ L)
     (hrank : CFSG.Open.pRank 2 H ≤ 1) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Y := CFSG.GH74.GLS.Th2.P85.Mb H
   let Ib : Subgroup Y := CFSG.GH74.GLS.Th2.P85.imgM H I
   let Lb : Subgroup Y := CFSG.GH74.GLS.Th2.P85.imgM H L
@@ -687,7 +692,7 @@ theorem false_of_two_distinct_isPCompIn_of_pRank_le_one {H I L : Subgroup G}
   let P : Sylow 2 Y := default
   have hPtop : IsSylowOf 2 (P : Subgroup Y) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, P.isPGroup', by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
+    exact ⟨le_top, P.isPGroup, by rw [Subgroup.relIndex_top_right]; exact P.not_dvd_index⟩
   have hRtype : IsCyclic (P : Subgroup Y) ∨
       CFSG.ComponentClassification.AschbacherTheorem3.IsDihedralTwoGroup (P : Subgroup Y) ∨
       CFSG.ComponentClassification.AschbacherTheorem3.IsQuaternionTwoGroup (P : Subgroup Y) := by
@@ -723,6 +728,7 @@ theorem false_of_two_distinct_isPCompIn_of_pRank_le_one {H I L : Subgroup G}
     (X := Y) (K := K) (Q := ⊤) (R := (P : Subgroup Y))
     hK (fun _ => le_top) hcomm hPtop hRtype
   exact absurd (huniq 0 1) (by decide)
+omit [Finite G] in
 theorem cmk_cmap {N L : Subgroup G} {u : G} (hu : u ∈ N) :
     cmap u (CMK N L) = CMK N (cmap u L) := by
   have hN : cmap u N = N :=
@@ -763,7 +769,7 @@ theorem normal_of_not_normal_of_pRank_le_one {N I L : Subgroup G}
   have hnotnorm : ¬ N ≤ normalizer (L : Set G) := by
     intro h
     exact hnotnormal ((Subgroup.normal_subgroupOf_iff_le_normalizer hL.1).2 h)
-  rw [SetLike.le_def] at hnotnorm
+  rw [_root_.IsConcreteLE.le_iff] at hnotnorm
   push Not at hnotnorm
   obtain ⟨u, huN, huNotNorm⟩ := hnotnorm
   have hLune : cmap u L ≠ L := by
@@ -788,6 +794,7 @@ theorem normal_of_not_normal_of_pRank_le_one {N I L : Subgroup G}
   exact false_of_two_distinct_isPCompIn_of_pRank_le_one hLcompH hLucompH
     (Ne.symm hLune) (by simpa [H] using hrankI)
 
+omit [Finite G] in
 theorem normal_and_card_of_conj {M N K L : Subgroup G} {g : G}
     (hN : N = cmap g M) (hK : L = cmap g K) (hLN : L ≤ N)
     (hLnormal : (L.subgroupOf N).Normal) :
@@ -960,7 +967,7 @@ theorem isPCompIn_le_pLayerOf_of_cover {M N I1 I0 : Subgroup G}
   exact hx'
 
 theorem pLayerOf_le_pLayerOf_of_capture {M N K : Subgroup G} [IsSimpleGroup G]
-    (hKM : IsPCompIn 2 M K) (hKN : IsPCompIn 2 N K)
+    (hKM : IsPCompIn 2 M K) (_hKN : IsPCompIn 2 N K)
     (hLayerM : pLayerOf 2 N ≤ M)
     (hcapture : ∀ I1 : Subgroup G, IsPCompIn 2 N I1 → I1 ≠ K →
       ∃ I0 : Subgroup G, I0 ≤ I1 ∧ I0 ≤ pLayerOf 2 M ∧
@@ -994,7 +1001,7 @@ theorem mem_of_pLayerOf_eq {M N K : Subgroup G} {g : G} [IsSimpleGroup G]
   have hKne : K ≠ ⊥ := by
     intro hbot
     have hne := CFSG.ComponentClassification.CatalogueBPrimeJoin.pComponent_ne_bot hKM.2
-    exact hne (by simpa [hbot] using hne)
+    exact hne (by simp [hbot])
   have hKle : K ≤ H := le_sSup hKM
   have hHne : H ≠ ⊥ := by
     intro hbot
@@ -1242,7 +1249,7 @@ theorem commonComponent_mem_of_source16_6 {M N K I L R K0 : Subgroup G} {g : G}
 
 
 
-theorem commonComponent_mem_of_kproper {M N J L : Subgroup G} {g : G} [Finite G]
+theorem commonComponent_mem_of_kproper {M N J L : Subgroup G} {g : G}
     (hG : CFSG.GH74.GLS.IsKProperSimple G) (hM : IsCoatom M)
     (hJM : IsPCompIn 2 M J)
     (hpreM : ∀ t ∈ CMK M J, orderOf t = 2 → centralizer ({t} : Set G) ≤ M)
@@ -1251,12 +1258,11 @@ theorem commonComponent_mem_of_kproper {M N J L : Subgroup G} {g : G} [Finite G]
     (hLB : CFSG.Open.LBalanceStatement)
     (hbridge : CFSG.Assembly.CatalogImp CFSG.Blueprint.Catalog CFSG.Assembly.InCatalog) :
     g ∈ M := by
-  haveI : IsSimpleGroup G := hG.1
+  have : IsSimpleGroup G := hG.1
   exact commonComponent_mem_of_isPCompIn hM hJM hpreM hN hL hJN hLB hbridge
     (CFSG.GH74.GLS.isKGroupNative_of_kProper hG.2.2 hM.lt_top.ne)
 
 theorem commonComponent_mem_of_source16_6_kproper {M N K I L R K0 : Subgroup G} {g : G}
-    [Finite G]
     (hG : CFSG.GH74.GLS.IsKProperSimple G) (hM : IsCoatom M)
     (hK : IsPCompIn 2 M K) (hI : IsPCompIn 2 N I) (hL : IsPCompIn 2 N L)
     (hRsyl : IsSylowOf 2 R (CMK N I)) (hRleCMK : R ≤ CMK M K)
@@ -1271,7 +1277,7 @@ theorem commonComponent_mem_of_source16_6_kproper {M N K I L R K0 : Subgroup G} 
     (hLB : CFSG.Open.LBalanceStatement)
     (hbridge : CFSG.Assembly.CatalogImp CFSG.Blueprint.Catalog CFSG.Assembly.InCatalog) :
     g ∈ M := by
-  haveI : IsSimpleGroup G := hG.1
+  have : IsSimpleGroup G := hG.1
   exact commonComponent_mem_of_source16_6 hM hK hI hL hRsyl hRleCMK hpreM hpreN
     hrankL hrankCMKM hNconj hKconj hK0K hK0I hcoverK hcoverI hLB hbridge
     (CFSG.GH74.GLS.isKGroupNative_of_kProper hG.2.2 hM.lt_top.ne)

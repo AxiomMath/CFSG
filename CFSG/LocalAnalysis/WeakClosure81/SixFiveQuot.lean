@@ -25,10 +25,12 @@ section Bookkeeping
 
 variable (M V : Subgroup G) (g : G) [((NOf M V g).subgroupOf (LOf V g)).Normal]
 
+omit [Finite G] in
 theorem mk_eq_one_iff_mem_N (y : ↥(LOf V g)) :
     QuotientGroup.mk' ((NOf M V g).subgroupOf (LOf V g)) y = 1 ↔ (y : G) ∈ NOf M V g := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 private theorem s65_SixFiveQuot_mem_N_of_comm {y y' : ↥(LOf V g)}
     (hc : QuotientGroup.mk' ((NOf M V g).subgroupOf (LOf V g)) y *
         QuotientGroup.mk' ((NOf M V g).subgroupOf (LOf V g)) y' =
@@ -40,6 +42,7 @@ private theorem s65_SixFiveQuot_mem_N_of_comm {y y' : ↥(LOf V g)}
   have hmem := (mk_eq_one_iff_mem_N M V g ⁅y, y'⁆).1 h
   simpa only [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv] using hmem
 
+omit [Finite G] in
 private theorem s65_SixFiveQuot_comm_of_mem_N {y y' : ↥(LOf V g)}
     (h : (y : G) * y' * y⁻¹ * y'⁻¹ ∈ NOf M V g) :
     QuotientGroup.mk' ((NOf M V g).subgroupOf (LOf V g)) y *
@@ -50,6 +53,7 @@ private theorem s65_SixFiveQuot_comm_of_mem_N {y y' : ↥(LOf V g)}
   exact (mk_eq_one_iff_mem_N M V g ⁅y, y'⁆).2 (by
     simpa only [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv] using h)
 
+omit [Finite G] in
 private theorem s65_SixFiveQuot_comm_of_mem_abelian {A : Subgroup G} (hA : IsElemAbelian 2 A)
     {y y' : ↥(LOf V g)} (hy : (y : G) ∈ A) (hy' : (y' : G) ∈ A) :
     QuotientGroup.mk' ((NOf M V g).subgroupOf (LOf V g)) y *
@@ -61,6 +65,7 @@ private theorem s65_SixFiveQuot_comm_of_mem_abelian {A : Subgroup G} (hA : IsEle
     exact hA.comm hy hy')
   rw [← map_mul, ← map_mul, h]
 
+omit [Finite G] in
 private theorem s65_SixFiveQuot_pi_eq_mul {k b u : G} (hk : k = b * u)
     (hbL : b ∈ LOf V g) (huL : u ∈ LOf V g) (hkL : k ∈ LOf V g) :
     QuotientGroup.mk' ((NOf M V g).subgroupOf (LOf V g)) ⟨k, hkL⟩ =
@@ -76,6 +81,7 @@ namespace Hyp65
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem N_normal (h : Hyp65 n M V₀ V g) : ((NOf M V g).subgroupOf (LOf V g)).Normal := by
   have hNL : NOf M V g ≤ LOf V g := by
     rw [NOf, UOf, LOf]
@@ -84,9 +90,10 @@ theorem N_normal (h : Hyp65 n M V₀ V g) : ((NOf M V g).subgroupOf (LOf V g)).N
   intro x hx
   exact conjSubgroup_eq_iff_mem_normalizer.mp (conjSubgroup_N_eq h hx)
 
+omit [Finite G] in
 theorem commutator_K_K_mem_N (h : Hyp65 n M V₀ V g) :
     ∀ k ∈ KOf M V g, ∀ k' ∈ KOf M V g, k * k' * k⁻¹ * k'⁻¹ ∈ NOf M V g := by
-  haveI := N_normal h
+  have := N_normal h
   intro k hk k' hk'
   have hkL : k ∈ LOf V g := KOf_le_LOf M V g hk
   have hkL' : k' ∈ LOf V g := KOf_le_LOf M V g hk'
@@ -141,8 +148,9 @@ theorem commutator_K_K_mem_N (h : Hyp65 n M V₀ V g) :
     exact (hbb'.mul_right hbu').mul_left (hub'.mul_right huu')
   exact s65_SixFiveQuot_mem_N_of_comm (M := M) (V := V) (g := g) hcomm
 
+omit [Finite G] in
 theorem sq_K_mem_N (h : Hyp65 n M V₀ V g) : ∀ k ∈ KOf M V g, k * k ∈ NOf M V g := by
-  haveI := N_normal h
+  have := N_normal h
   intro k hk
   have hkL : k ∈ LOf V g := KOf_le_LOf M V g hk
   change k ∈ (KOf M V g : Set G) at hk
@@ -183,7 +191,8 @@ theorem sq_K_mem_N (h : Hyp65 n M V₀ V g) : ∀ k ∈ KOf M V g, k * k ∈ NOf
   have hmem := (mk_eq_one_iff_mem_N M V g (⟨k, hkL⟩ * ⟨k, hkL⟩)).1 h1
   simpa only [Subgroup.coe_mul] using hmem
 
-theorem N_le_U (h : Hyp65 n M V₀ V g) : NOf M V g ≤ UOf M V g := inf_le_left
+omit [Finite G] in
+theorem N_le_U (_h : Hyp65 n M V₀ V g) : NOf M V g ≤ UOf M V g := inf_le_left
 
 end Hyp65
 

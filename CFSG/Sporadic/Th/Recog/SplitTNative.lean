@@ -157,11 +157,11 @@ theorem relIndex_closure_g23PM {X : Type*} [Group X]
   have hmapne : (H.map f).index ≠ 0 := by
     intro h0
     exact hHfin.index_ne_zero (Nat.eq_zero_of_zero_dvd (h0 ▸ hdvd))
-  haveI : (H.map f).FiniteIndex := Subgroup.FiniteIndex.mk hmapne
+  have : (H.map f).FiniteIndex := Subgroup.FiniteIndex.mk hmapne
   have hmaple : (H.map f).index ≤ H.index :=
     Nat.le_of_dvd (Nat.pos_of_ne_zero hHfin.index_ne_zero) hdvd
   have hDle : (D.subgroupOf M).index ≤ (H.map f).index := Subgroup.index_antitone hHle
-  haveI : (D.subgroupOf M).FiniteIndex := Subgroup.finiteIndex_of_le hHle
+  have : (D.subgroupOf M).FiniteIndex := Subgroup.finiteIndex_of_le hHle
   have hDpos : 0 < (D.subgroupOf M).index :=
     Nat.pos_of_ne_zero (Subgroup.FiniteIndex.index_ne_zero)
   rw [← hrange]

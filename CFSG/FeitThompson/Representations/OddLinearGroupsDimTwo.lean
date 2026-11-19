@@ -19,6 +19,7 @@ open Matrix Subgroup
 
 variable {k : Type*} [Field k] [Finite k] {p f q : ℕ}
 
+omit [Finite k] in
 private theorem exists_sylow_of_isMulCommutative (hp : p.Prime) {G : Subgroup (GL (Fin 2) k)}
     (hab : IsMulCommutative G) (hnd : ¬ p ∣ Nat.card G) :
     ∃ P : Sylow p G, (P : Subgroup G).Normal ∧ IsMulCommutative (P : Subgroup G) ∧
@@ -98,7 +99,7 @@ theorem isMulCommutative_of_odd_of_not_dvd [CharP k p] (hp : p.Prime)
     IsMulCommutative G := by
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, -, -, hcomm, -, -⟩ := exists_normal_abelian_sylow_of_odd hp hGodd
-  obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
   have hn0 : n = 0 := by
     rcases Nat.eq_zero_or_pos n with h | h
     · exact h

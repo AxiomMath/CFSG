@@ -100,7 +100,7 @@ theorem exists_conj_zpow_eq {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.P
   have hcard : ∀ x : G, orderOf x = p → ∀ P : Sylow p G, Subgroup.zpowers x ≤ P →
       (P : Subgroup G) = Subgroup.zpowers x := by
     intro x hx P hP
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     have hdvd : p ^ k ∣ Nat.card G := hk ▸ Subgroup.card_subgroup_dvd_card (P : Subgroup G)
     have hk1 : k ≤ 1 := by
       by_contra hk1

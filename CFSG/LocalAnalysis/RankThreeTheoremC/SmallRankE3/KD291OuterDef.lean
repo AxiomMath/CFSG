@@ -73,7 +73,7 @@ theorem kd291_four_le_pRank_of_lieModel {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     [Finite L]
     {t : StatedLieTag} {n f : ℕ} (hf : 5 ≤ f)
     (h : CFSG.Blueprint.LieModel L t n p f) : 4 ≤ Open.pRank p (⊤ : Subgroup L) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hadm := h.admissible
   rcases h with ⟨-, hcl⟩ | ⟨-, ht, hmod⟩ | ⟨-, ht, hmod⟩ | ⟨-, rfl, -⟩
   ·

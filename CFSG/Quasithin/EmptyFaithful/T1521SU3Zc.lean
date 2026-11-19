@@ -157,7 +157,7 @@ theorem centralizes_center_of_sq_eq_one {n : ℕ} (hn : 2 ≤ n)
     rintro _ γ ⟨r, hr, rfl⟩ hγ
     refine ⟨γ r, (mem_autStab.mp hγ r).2 hr, ?_⟩
     exact (mul_conj_mul_inv γ r).symm
-  have hcRp : IsPGroup 2 cR := R.isPGroup'.map (MulAut.conj : X →* MulAut X)
+  have hcRp : IsPGroup 2 cR := R.isPGroup.map (MulAut.conj : X →* MulAut X)
   have hβp : IsPGroup 2 (Subgroup.zpowers β) := by
     have hk : β ^ 2 ^ 1 = 1 := by simpa using hβ2
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hk)
@@ -169,7 +169,7 @@ theorem centralizes_center_of_sq_eq_one {n : ℕ} (hn : 2 ≤ n)
   have hŜA : IsSylowTwoOf (Ŝ ⊓ A) A := A4.isSylowTwoOf_inf_normal hŜ hAN hAnormalizer
   have hcRcard : Nat.card cR = Nat.card (R : Subgroup X) :=
     Subgroup.card_map_of_injective hinj
-  obtain ⟨a, ha⟩ := (IsPGroup.iff_card).mp R.isPGroup'
+  obtain ⟨a, ha⟩ := (IsPGroup.iff_card).mp R.isPGroup
   have hAcard : Nat.card A = Nat.card cR * (2 * (2 ^ n + 1)) := by
     have hAnrm : A ≤ Subgroup.normalizer (cR : Set (MulAut X)) :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hcRA).mp hD3

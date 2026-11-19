@@ -27,7 +27,7 @@ theorem not_three_dvd_delta_centralizer_of_item143 (h143 : Item143 A (lB A))
 
   have hbot : (⊥ : Subgroup G) ∈
       invariantPiSubgroups (delta A (lB A) (Subgroup.centralizer ({b} : Set G))) A (piCompl 3) := by
-    simp only [invariantPiSubgroups, Set.mem_setOf_eq]
+    simp only [invariantPiSubgroups, Set.mem_ofPred_eq]
     refine ⟨bot_le, ?_, ?_⟩
     · intro p hp
       simp at hp

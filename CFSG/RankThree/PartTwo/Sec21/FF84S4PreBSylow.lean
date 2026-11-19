@@ -11,7 +11,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84
 
 variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 
-theorem B_le_cen_bb₁ (h : FF84Sec4 b L B K b₁ b₂) : B ≤ Cen (b * b₁) := fun y hy =>
+theorem B_le_cen_bb₁ (h : FF84Sec4 b L B K b₁ b₂) : B ≤ Cen (b * b₁) := fun _y hy =>
   Subgroup.mem_centralizer_singleton_iff.2 (comm_of_mem h (mul_mem_B h) hy).eq.symm
 
 theorem isPGroup_B (h : FF84Sec4 b L B K b₁ b₂) : IsPGroup 3 B := fun x =>
@@ -124,7 +124,7 @@ theorem three_elt_centralizes (h : FF84Sec4 b L B K b₁ b₂) {g : G} {k : ℕ}
   exact Subgroup.mem_centralizer_singleton_iff.1 (hgB hy)
 
 theorem S41_B_sylow (h : FF84Sec4 b L B K b₁ b₂) : IsSylowOf 3 B (Cen (b * b₁)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine isSylowOf_of_normalizer (B_le_cen_bb₁ h) (isPGroup_B h) ?_
   rintro g hgD hgN ⟨k, hk⟩
   have hgC := three_elt_centralizes h hgD hgN hk

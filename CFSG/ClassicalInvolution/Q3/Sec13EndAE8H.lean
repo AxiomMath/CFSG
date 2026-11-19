@@ -38,6 +38,7 @@ private theorem e8h_hypGen {P Ω : Set (Subgroup G)} (H : End18.Hyp Ω)
     (fun K hK J hJ hne => H.endHyp.thmD.hyp.omega4 K (hPΩ hK) J (hPΩ hJ) hne)
     (fun K hK J hJ hne => H.endHyp.thmD.hyp.omega5 K (hPΩ hK) J (hPΩ hJ) hne)
 
+omit [Finite G] in
 private theorem e8h_conjSub_le {X W M : Subgroup G} {n : G}
     (hnorm : ∀ x ∈ X, ∀ q ∈ W, x * q * x⁻¹ ∈ W) (hn : n ∈ X) (hM : M ≤ W) :
     conjSub n M ≤ W := by
@@ -46,6 +47,7 @@ private theorem e8h_conjSub_le {X W M : Subgroup G} {n : G}
   have h1 := hnorm n hn _ (hM hy)
   simpa [mul_assoc] using h1
 
+omit [Finite G] in
 private theorem e8h_conj_cyc (M : Subgroup G) (n : G) (hc : IsCyclic ↥M) :
     IsCyclic ↥(conjSub n M) ∧ Nat.card ↥(conjSub n M) = Nat.card ↥M := by
   let e := Subgroup.equivMapOfInjective M (MulAut.conj n).toMonoidHom (MulAut.conj n).injective
@@ -82,6 +84,7 @@ private theorem e8h_map_conjSub' {X Q : Type*} [Group X] [Group Q] (φ : X →* 
     · rw [map_mul, map_mul, map_inv, hmq]
       group
 
+omit [Finite G] in
 private theorem e8h_map_conjSub {X : Subgroup G} {L : Subgroup G} {n : ℕ}
     (φ : ↥X →* AE.AEQ n) (x : ↥X) :
     ((conjSub (x : G) L).subgroupOf X).map φ = conjSub (φ x) ((L.subgroupOf X).map φ) := by
@@ -298,6 +301,7 @@ private theorem e8h_false_of_aeIdentOn (H : End18.Hyp Ω) (hu : SectData Ω u) {
   · exact hbad1 (by rw [H.kPerp_eq_twinSet (hPΩ hL₀)]; exact htw)
   · exact hbad2 hst
 
+omit [Finite G] in
 theorem not_single (hu : SectData Ω u) :
     ¬ ∀ L ∈ Generic.centMembers Ω u, ∀ L' ∈ Generic.centMembers Ω u, L = L' := by
   intro h

@@ -118,7 +118,7 @@ private theorem ggtorus_exists_diag_pPart
       (∃ v : Fin d → K, ((s : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) = diagonal v) ∧
       (∃ k : ℕ, s ^ p ^ k = 1) ∧ φ s = c := by
   classical
-  haveI : Finite ↥(unitarySU 2 n K d) := by infer_instance
+  have : Finite ↥(unitarySU 2 n K d) := by infer_instance
   obtain ⟨m, hm⟩ := hcp
   have hN : orderOf s0 ≠ 0 := (orderOf_pos s0).ne'
   obtain ⟨e, n', hn'p, hN⟩ := Nat.exists_eq_pow_mul_and_not_dvd hN p hp.ne_one
@@ -163,13 +163,13 @@ theorem ggTorusGenTableBRk_PSU_six_one
         (LargeEvenGUSet (Fin 6) K (2 ^ 1))) (6 - 1) := by
   intro M _ _ L' E E₁ D' J' dm θ hE hpos hr hC hE₁E hE₁C hcard hN hD'E hCD' hD'E₁ hd1 hJ
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := TableBU.ne_two_of_dvd_two_pow_add_one le_rfl hpq
   let Z : Subgroup L' := sixOneZ L'
   have hZ : ∀ z : L', z ∈ Z ↔ z ∈ Subgroup.center L' ∧ ∃ k : ℕ, z ^ 2 ^ k = 1 :=
     fun _ => Iff.rfl
   have hZle : Z ≤ Subgroup.center L' := fun _ hz => hz.1
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZle
+  have : Z.Normal := Subgroup.normal_of_le_center hZle
   obtain ⟨φ, hmodel, hdiag⟩ :=
     exists_model_quotient_six_one hK hp hpq hpd hpos hr Z hZ
   have hZ2 : IsPGroup 2 Z := isPGroup_iff_pow_pow_eq_one.mpr (fun z => by

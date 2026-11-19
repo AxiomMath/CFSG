@@ -18,8 +18,8 @@ theorem signalizer_eq_bot_of_sc {X : Type} [Group X] [Finite X] {p : ℕ}
       GLAPPrimeCoreOf p (centralizer ({d} : Set X)) = ⊥) :
     ∀ T : Subgroup X, p.Coprime (Nat.card T) → D ≤ normalizer (T : Set X) → T = ⊥ := by
   intro T hT hDT
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsMulCommutative D := hD.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsMulCommutative D := hD.1
   have hDc : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a := fun a ha b hb => setLike_mul_comm ha hb
   have hcent : ∀ d ∈ D, d ≠ 1 → T ⊓ centralizer ({d} : Set X) = ⊥ := by
     intro d hd hd1
@@ -37,7 +37,7 @@ theorem signalizer_eq_bot_of_sc {X : Type} [Group X] [Finite X] {p : ℕ}
         D.subgroupOf (centralizer ({d} : Set X)) ≤ E' →
         E' = D.subgroupOf (centralizer ({d} : Set X)) := by
       intro E' hE' hBE'
-      haveI : IsMulCommutative E' := hE'.1
+      have : IsMulCommutative E' := hE'.1
       refine le_antisymm (fun y hy => ?_) hBE'
       have hyC : (y : X) ∈ centralizer (D : Set X) := by
         rw [Subgroup.mem_centralizer_iff]

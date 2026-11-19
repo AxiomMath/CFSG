@@ -48,7 +48,7 @@ theorem loopIP (X : ℕ) : ∀ n s (p q : ℕ),
     · have hb : Nat.beq (p % 2 ^ 576) idP = true := by rw [hp]; exact Nat.beq_refl _
       simp only [hb, ↓reduceIte]
       unfold ipK
-      rw [if_pos hp]
+      rw [ite_eq_left hp]
       rfl
     · have hb : Nat.beq (p % 2 ^ 576) idP = false := by
         cases e : Nat.beq (p % 2 ^ 576) idP
@@ -56,7 +56,7 @@ theorem loopIP (X : ℕ) : ∀ n s (p q : ℕ),
         · exact absurd (Nat.eq_of_beq_eq_true e) hp
       simp only [hb, Bool.false_eq_true, ↓reduceIte]
       unfold ipK
-      rw [if_neg hp, mulR_unpackR, ← oneR_eq]
+      rw [ite_eq_right hp, mulR_unpackR, ← oneR_eq]
       exact ih (s + 1) _ p
 
 theorem invPow_eq (x : Array ℕ) : invPow x =

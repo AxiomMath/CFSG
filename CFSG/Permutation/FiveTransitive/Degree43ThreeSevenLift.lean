@@ -29,7 +29,7 @@ theorem exists_seven_fixed_fifteen
   let F := sylowFixedPoints X P s S
   let _ : Fintype F := Fintype.ofFinite F
   let rho : N →* Equiv.Perm F := toPermHom N F
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   obtain ⟨hF,hAlt⟩ := Degree43ThreeFixed.three_fixed_card_and_image P hcard h5 hnotAlt s hs S hS
   have hFfin : Fintype.card F = 7 := by rwa [← Nat.card_eq_fintype_card]
@@ -42,7 +42,7 @@ theorem exists_seven_fixed_fifteen
     push Not at hn
     exact prime_not_dvd_range_card_of_sylow_le_ker T rho (fun z hz => hn z hz) hdiv
   obtain ⟨z,hzT,hzrho⟩ := hex
-  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' (⟨z,hzT⟩ : T)
+  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup (⟨z,hzT⟩ : T)
   have hzorder : orderOf z.val.val = 7 ^ e := by
     rw [Subgroup.orderOf_coe z.val,Subgroup.orderOf_coe z]
     exact (Subgroup.orderOf_coe (⟨z,hzT⟩ : T)).trans he

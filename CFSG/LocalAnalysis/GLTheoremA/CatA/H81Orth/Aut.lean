@@ -211,11 +211,11 @@ theorem commutator_orthDerived_eq {U : Type} [AddCommGroup U] [Module K U]
   set O := TauCeti.QuadraticMap.orthogonalGroup QU
   have hq :=
     CFSG.ComponentClassification.OddSelector.commutator_orthogonalGroup_quasisimple hodd QU hQU hdim
-  haveI : Group.IsPerfect ↥(commutator ↥O) := hq.1
+  have : Group.IsPerfect ↥(commutator ↥O) := hq.1
   let e : ↥(commutator ↥O) ≃* ↥(orthDerived QU) :=
     (Subgroup.equivMapOfInjective _ O.subtype O.subtype_injective).trans
       (MulEquiv.subgroupCongr (Subgroup.map_subtype_commutator O))
-  haveI : Group.IsPerfect ↥(orthDerived QU) :=
+  have : Group.IsPerfect ↥(orthDerived QU) :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   exact Subgroup.commutator_eq_self
 
@@ -224,10 +224,10 @@ variable [FiniteDimensional K V] {p : ℕ} {x : V ≃ₗ[K] V}
 theorem commutator_supportedFixedDerived_eq (hx : OddOrderIsometry Q p x)
     (hodd : Odd (Nat.card K)) (hW : 5 ≤ finrank K (fixedSpace x)) :
     ⁅supportedFixedDerived Q x, supportedFixedDerived Q x⁆ = supportedFixedDerived Q x := by
-  haveI : Group.IsPerfect ↥(orthDerived (Q.comp (fixedSpace x).subtype)) :=
+  have : Group.IsPerfect ↥(orthDerived (Q.comp (fixedSpace x).subtype)) :=
     Subgroup.isPerfect_iff.mpr
       (commutator_orthDerived_eq hodd _ hx.polarBilin_fixed_nondegenerate hW)
-  haveI : Group.IsPerfect ↥(supportedFixedDerived Q x) :=
+  have : Group.IsPerfect ↥(supportedFixedDerived Q x) :=
     Group.IsPerfect.ofSurjective (f := (supportedFixedDerivedEquiv hx).symm.toMonoidHom)
       (supportedFixedDerivedEquiv hx).symm.surjective
   exact Subgroup.commutator_eq_self
@@ -238,6 +238,7 @@ section Spaces
 
 variable [FiniteDimensional K V] {p : ℕ} {x : V ≃ₗ[K] V}
 
+omit [FiniteDimensional K V] in
 theorem exists_smul_of_projT_eq {g g' : ↥(orthDerived Q)} (h : projT Q g' = projT Q g) :
     ∃ c : K, ∀ v, (g' : V ≃ₗ[K] V) v = c • (g : V ≃ₗ[K] V) v := by
   have hmem : g⁻¹ * g' ∈ (scalars K V).subgroupOf (orthDerived Q) := QuotientGroup.eq.mp h.symm
@@ -304,6 +305,7 @@ section Main
 
 variable [Finite K] [FiniteDimensional K V] {p : ℕ}
 
+omit [Finite K] in
 theorem apply_comm_of_mem_supportedFixedDerived [Nontrivial V] {y : ↥(orthDerived Q)}
     (hy : OddOrderIsometry Q p (y : V ≃ₗ[K] V))
     (hS : ⁅supportedFixedDerived Q (y : V ≃ₗ[K] V), supportedFixedDerived Q (y : V ≃ₗ[K] V)⁆ =
@@ -345,7 +347,7 @@ theorem exists_eq_conj_of_similitude (hQ : (polarBilin Q).Nondegenerate) (hK : r
       (∀ v, (g' : V ≃ₗ[K] V) (σ v) = σ ((g : V ≃ₗ[K] V) v)) ∧ α (projT Q g) = projT Q g') :
     ∃ k : ℤ, α = MulAut.conj (projT Q y ^ k) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set x : V ≃ₗ[K] V := (y : V ≃ₗ[K] V) with hxdef
   set W := fixedSpace x with hWdef
   set R := othersSpace x.toLinearMap (X - 1) with hRdef
@@ -363,8 +365,8 @@ theorem exists_eq_conj_of_similitude (hQ : (polarBilin Q).Nondegenerate) (hK : r
     omega
   have hVW : finrank K V = finrank K W + 2 := by
     rw [← hR]; exact (Submodule.finrank_add_eq_of_isCompl hcompl).symm
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have hσS : ∀ s ∈ supportedFixedDerived Q x, ∀ v, σ (s v) = s (σ v) := fun s hs v =>
     apply_comm_of_mem_supportedFixedDerived hy (commutator_supportedFixedDerived_eq hy hodd hW) α
       hαJ σ hind hs v
@@ -567,9 +569,9 @@ theorem exists_eq_conj_of_similitude (hQ : (polarBilin Q).Nondegenerate) (hK : r
     exact hr0 ((Submodule.disjoint_def.mp hcompl.disjoint) r hrW hr)
   have hAz : A ∈ Subgroup.zpowers x := by
     set A' : Subgroup (V ≃ₗ[K] V) := Subgroup.closure ({A, x} : Set (V ≃ₗ[K] V)) with hA'def
-    haveI : IsMulCommutative ↥A' := Subgroup.isMulCommutative_closure
+    have : IsMulCommutative ↥A' := Subgroup.isMulCommutative_closure
       (Set.pairwise_pair.mpr fun _ => ⟨hAx, hAx.symm⟩)
-    letI : CommGroup ↥A' := { (inferInstance : Group ↥A') with mul_comm := fun a b => mul_comm' a b }
+    let : CommGroup ↥A' := { (inferInstance : Group ↥A') with mul_comm := fun a b => mul_comm' a b }
     have hcommA' : ∀ a ∈ A', ∀ b ∈ A', a * b = b * a := fun a ha b hb =>
       congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥A') ⟨b, hb⟩)
     have hexp : ∀ g ∈ A', g ^ p = 1 := by
@@ -602,7 +604,7 @@ theorem exists_eq_conj_of_similitude (hQ : (polarBilin Q).Nondegenerate) (hK : r
         intro v hv
         rw [LinearEquiv.coe_inv, LinearEquiv.symm_apply_eq]
         exact (iha v hv).symm
-    haveI : Finite (V ≃ₗ[K] V) := by
+    have : Finite (V ≃ₗ[K] V) := by
       have : Finite V := Module.finite_of_finite K
       exact Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
         fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
@@ -645,7 +647,7 @@ theorem exists_eq_conj_of_similitude (hQ : (polarBilin Q).Nondegenerate) (hK : r
     have h1 := hg' (A.symm v)
     rw [LinearEquiv.apply_symm_apply] at h1
     rw [h1, ← hk]
-    simp [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_zpow, hxdef]
+    simp [Subgroup.coe_mul, hxdef]
   change α (projT Q g) = _
   rw [hα', hg'eq, map_mul, map_mul, map_inv, map_zpow, MulAut.conj_apply]
 

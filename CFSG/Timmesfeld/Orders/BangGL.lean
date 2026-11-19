@@ -36,7 +36,7 @@ theorem not_dvd_card_GL_of_orderOf_two_eq_mul {K : Type} [Field K] [Finite K] {b
   have := Fintype.ofFinite K
   rw [Matrix.card_GL_field, ← Nat.card_eq_fintype_card, hK]
   intro hdvd
-  obtain ⟨i, -, hi⟩ := (Prime.dvd_finset_prod_iff hℓ.prime _).1 hdvd
+  obtain ⟨i, -, hi⟩ := (Prime.dvd_finsetProd_iff hℓ.prime _).1 hdvd
   exact not_dvd_two_pow_pow_sub_pow hℓ hb hord i.2 hk hi
 
 end CFSG.Timmesfeld.Bang

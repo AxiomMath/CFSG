@@ -74,7 +74,7 @@ theorem le_of_forall_commutator_mem {p : ℕ} [Fact p.Prime] (hp3 : p ≠ 3) {P 
       exact P₀.mul_mem h1 h2
     have hScard : Nat.card S = Nat.card P₀ := Nat.card_congr
       { toFun := fun y => ⟨x⁻¹ * y.1, y.2⟩
-        invFun := fun z => ⟨x * z.1, by change x⁻¹ * (x * z.1) ∈ P₀; simpa using z.2⟩
+        invFun := fun z => ⟨x * z.1, by change x⁻¹ * (x * z.1) ∈ P₀; simp⟩
         left_inv := fun y => Subtype.ext (by simp)
         right_inv := fun z => Subtype.ext (by simp) }
     have hF3' : IsPGroup 3 ↥F := hF3
@@ -241,6 +241,7 @@ theorem card_lB_quotTheta {A L B Lb : Subgroup G} {c b d : G} (h : Sec14Std G A 
   rw [← Item148HJ.lB_eq_residual h hB hc] at htc
   exact card_eq_of_isTripleCover_six htc
 
+omit [Finite G] in
 theorem inf_centralizer_le_of_mem {B P : Subgroup G} {b : G} (hbB : b ∈ B)
     (hfr : P ⊓ Subgroup.centralizer ({b} : Set G) ≤ (frattini ↥P).map P.subtype) :
     P ⊓ Subgroup.centralizer (B : Set G) ≤ (frattini ↥P).map P.subtype := fun _ hw =>

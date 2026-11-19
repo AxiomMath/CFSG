@@ -57,8 +57,8 @@ theorem twistedE6SCUnique_ge_seven {f p : ℕ} [Fact p.Prime] [NeZero p] (hp7 : 
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) {T : Subgroup ↥(graphFixedRootGroup TwistTag.E6 K σ)}
     {ι₀ : Multiplicative (Fin TwistTag.E6.tag.rank → ZMod p) →*
       ↥(graphFixedRootGroup TwistTag.E6 K σ)}
-    (hι₀ : Function.Injective ι₀) (hTcomm : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x)
-    (hrangeT : ι₀.range ≤ T) (htors : ∀ t ∈ T, t ^ p = 1 → t ∈ ι₀.range)
+    (_hι₀ : Function.Injective ι₀) (_hTcomm : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x)
+    (_hrangeT : ι₀.range ≤ T) (htors : ∀ t ∈ T, t ^ p = 1 → t ∈ ι₀.range)
     (hcent : ∀ c : ↥(graphFixedRootGroup TwistTag.E6 K σ),
       (∀ x ∈ ι₀.range, c * x = x * c) → c ∈ T)
     {A : Subgroup ↥(graphFixedRootGroup TwistTag.E6 K σ)} (hA : IsElemAbelian p A)
@@ -68,9 +68,9 @@ theorem twistedE6SCUnique_ge_seven {f p : ℕ} [Fact p.Prime] [NeZero p] (hp7 : 
       ι₀.range.map (MulAut.conj c).toMonoidHom = A := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : Finite K :=
+  have : Finite K :=
     Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero 2 (pow_ne_zero f (by norm_num)))
-  haveI : IsSimpleRing K := DivisionRing.isSimpleRing K
+  have : IsSimpleRing K := DivisionRing.isSimpleRing K
   have hσbij : Function.Bijective σ :=
     Finite.injective_iff_bijective.mp (RingHom.injective σ)
   let σ' : K ≃+* K := RingEquiv.ofBijective σ hσbij
@@ -87,7 +87,7 @@ theorem twistedE6SCUnique_ge_seven {f p : ℕ} [Fact p.Prime] [NeZero p] (hp7 : 
     rw [Nat.cast_add, Nat.cast_one] at h0
     rw [eq_neg_iff_add_eq_zero]
     exact h0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have he : orderOf (((2 ^ f : ℕ)) : ZMod p) = 2 := by
     apply orderOf_eq_prime
     · rw [h2f]; norm_num

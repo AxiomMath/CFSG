@@ -20,8 +20,8 @@ theorem ggL45NtRecOn_sp :
       (Q := GGL45NtRec p) (fun K _ _ hK => ?_) hraw
     intro _ _
     have hl2 : 2 ≤ l := hlab.2.1
-    haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
-    haveI : NeZero l := ⟨by omega⟩
+    have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+    have : NeZero l := ⟨by omega⟩
     refine ⟨?_, ?_, ?_⟩
     · intro r
       exact (RecipeFieldSp.mem_conjImage_iff_inn (K := K) (m := l)).mpr ⟨r, rfl⟩
@@ -34,8 +34,8 @@ theorem ggL45NtRecOn_sp :
       (Q := GGL45NtRec p) (fun K _ _ hK => ?_) hraw
     intro _ _
     have hl2 : 2 ≤ l := hlab.2.1
-    haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
-    haveI : NeZero l := ⟨by omega⟩
+    have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+    have : NeZero l := ⟨by omega⟩
     refine ⟨?_, ?_, ?_⟩
     · intro r
       exact (RecipeFieldSp.mem_conjImage_iff_inn (K := K) (m := l)).mpr ⟨r, rfl⟩

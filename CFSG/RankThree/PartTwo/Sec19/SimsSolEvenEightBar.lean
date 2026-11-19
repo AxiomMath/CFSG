@@ -396,7 +396,7 @@ variable {n : ℕ}
 theorem barParOn_mk {I : Finset (Fin n)} (hI : Even I.card) (x : Fin n → ZMod 2) :
     barParOn I (x : permBar n) = ∑ i ∈ I, x i := by
   unfold barParOn
-  rw [dif_pos hI]
+  rw [dite_eq_left hI]
   rfl
 
 @[expose] noncomputable def qbar0 (I : Finset (Fin n)) : AddSubgroup (permBar n) :=
@@ -516,10 +516,10 @@ theorem klein8_inv_apply (hI : I.card = 4) (hIc : Iᶜ.card = 4) {σ₁ σ₂ : 
     (σ₁ * σ₂)⁻¹ k = if k ∈ I then σ₁ k else σ₂ k := by
   rw [mul_inv_rev, klein4_inv hI h₁, klein4_inv hIc h₂, Perm.mul_apply]
   by_cases hk : k ∈ I
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     have hk' : σ₁ k ∈ I := (mem_setStab.1 ((klein4_fourGroup hI).stab h₁) k).2 hk
     exact klein4_fix hIc h₂ (fun h => (Finset.mem_compl.1 h) hk')
-  · rw [if_neg hk, klein4_fix hI h₁ hk]
+  · rw [ite_eq_right hk, klein4_fix hI h₁ hk]
 
 theorem exists_nontrivial_part (hI : I.card = 4) (hIc : Iᶜ.card = 4) {σ : Perm (Fin n)}
     (hσ : σ ∈ klein8 I) (hσ1 : σ ≠ 1) :
@@ -554,10 +554,10 @@ theorem barAct_qbar0 (hI : I.card = 4) (hIc : Iᶜ.card = 4) {σ : Perm (Fin n)}
     intro k
     rw [klein8_inv_apply hI hIc h₁ h₂]
     by_cases hk : k ∈ I
-    · rw [if_pos hk, if_pos hk, ha, pair_sum_eq hI h₁ hx1 hi₀ hk]
+    · rw [ite_eq_left hk, ite_eq_left hk, ha, pair_sum_eq hI h₁ hx1 hi₀ hk]
       exact zmod2_cancel _ _
     · have hk' : k ∈ Iᶜ := Finset.mem_compl.2 hk
-      rw [if_neg hk, if_neg hk, hb, pair_sum_eq hIc h₂ hx2 hk₀ hk']
+      rw [ite_eq_right hk, ite_eq_right hk, hb, pair_sum_eq hIc h₂ hx2 hk₀ hk']
       exact zmod2_cancel _ _
   rcases zmod_two_cases' a with ha0 | ha1 <;> rcases zmod_two_cases' b with hb0 | hb1
   · left
@@ -624,7 +624,7 @@ theorem barAct_ne_of_odd (hI : I.card = 4) (hIc : Iᶜ.card = 4) {σ : Perm (Fin
   intro heq
   rw [barAct_mk_eq_self_iff] at heq
   have hval : ∀ k ∈ J, x ((ρ₁ * ρ₂)⁻¹ k) = x (ρ₁ k) := fun k hk => by
-    rw [klein8_inv_apply hJc.1 hJc.2 h₁ h₂, if_pos hk]
+    rw [klein8_inv_apply hJc.1 hJc.2 h₁ h₂, ite_eq_left hk]
   apply hij
   rcases heq with h | h
   · have e1 := h i
@@ -667,8 +667,8 @@ theorem exists_moved_qbar0 (hI : I.card = 4) (hIc : Iᶜ.card = 4) {σ : Perm (F
     have hic : i ∉ Jᶜ := fun h => (Finset.mem_compl.1 h) hi
     have hjc : j ∉ Jᶜ := fun h => (Finset.mem_compl.1 h) hj
     constructor
-    · simp only [hx, Pi.add_apply, Finset.sum_add_distrib, Finset.sum_pi_single', if_pos hi,
-        if_pos hj]
+    · simp only [hx, Pi.add_apply, Finset.sum_add_distrib, Finset.sum_pi_single', ite_eq_left hi,
+        ite_eq_left hj]
       decide
     · simp [hx, Pi.add_apply, Finset.sum_add_distrib, Finset.sum_pi_single', hic, hjc]
   · intro heq
@@ -677,22 +677,22 @@ theorem exists_moved_qbar0 (hI : I.card = 4) (hIc : Iᶜ.card = 4) {σ : Perm (F
     have hρi : ρ₁ i ≠ i := hfree i hi
     have hρij : ρ₁ i ≠ j := fun h => hjr h.symm
     have hvi : x ((ρ₁ * ρ₂)⁻¹ i) = 0 := by
-      rw [klein8_inv_apply hJc.1 hJc.2 h₁ h₂, if_pos hi, hx]
-      simp [Pi.single_apply, hρi, hρij]
+      rw [klein8_inv_apply hJc.1 hJc.2 h₁ h₂, ite_eq_left hi, hx]
+      simp [hρi, hρij]
     have hxi : x i = 1 := by
-      simp [hx, Pi.single_apply, Ne.symm hji]
+      simp [hx, Ne.symm hji]
     have hρ₂k : ρ₂ k ∉ J := by
       have := (mem_setStab.1 ((klein4_fourGroup hJc.2).stab h₂) k).2 hk
       exact Finset.mem_compl.1 this
     have hvk : x ((ρ₁ * ρ₂)⁻¹ k) = 0 := by
-      rw [klein8_inv_apply hJc.1 hJc.2 h₁ h₂, if_neg hkJ, hx]
+      rw [klein8_inv_apply hJc.1 hJc.2 h₁ h₂, ite_eq_right hkJ, hx]
       have h1 : ρ₂ k ≠ i := fun h => hρ₂k (h ▸ hi)
       have h2 : ρ₂ k ≠ j := fun h => hρ₂k (h ▸ hj)
-      simp [Pi.single_apply, h1, h2]
+      simp [h1, h2]
     have hxk : x k = 0 := by
       have h1 : k ≠ i := fun h => hkJ (h ▸ hi)
       have h2 : k ≠ j := fun h => hkJ (h ▸ hj)
-      simp [hx, Pi.single_apply, h1, h2]
+      simp [hx, h1, h2]
     rcases heq with h | h
     · have := h i
       rw [hvi, hxi] at this
@@ -712,15 +712,15 @@ theorem exists_heart_not_qbar0 (hI : I.card = 4) (hIc : Iᶜ.card = 4) :
   set x : Fin n → ZMod 2 := Pi.single a 1 + Pi.single b 1 with hx
   have hsum : ∑ i, x i = 0 := by
     simp only [hx, Pi.add_apply, Finset.sum_add_distrib, Finset.sum_pi_single', Finset.mem_univ,
-      if_true]
+      ite_true]
     decide
   refine ⟨(x : permBar n), ?_, ?_⟩
   · obtain ⟨u, hu⟩ := mk_mem_range_heartToBar hsum
     exact ⟨u, hu⟩
   · rw [mem_qbar0_mk hIe hIce]
     rintro ⟨h1, -⟩
-    simp only [hx, Pi.add_apply, Finset.sum_add_distrib, Finset.sum_pi_single', if_pos ha,
-      if_neg hbI, add_zero] at h1
+    simp only [hx, Pi.add_apply, Finset.sum_add_distrib, Finset.sum_pi_single', ite_eq_left ha,
+      ite_eq_right hbI, add_zero] at h1
     exact one_ne_zero h1
 
 theorem barInd_mem_qbar0 (hI : I.card = 4) (hIc : Iᶜ.card = 4) : barInd I ∈ qbar0 I := by
@@ -728,10 +728,10 @@ theorem barInd_mem_qbar0 (hI : I.card = 4) (hIc : Iᶜ.card = 4) : barInd I ∈ 
   have hIce : Even Iᶜ.card := by rw [hIc]; decide
   rw [barInd, mem_qbar0_mk hIe hIce]
   constructor
-  · have h1 : ∀ i ∈ I, indVec I i = 1 := fun i hi => if_pos hi
+  · have h1 : ∀ i ∈ I, indVec I i = 1 := fun i hi => ite_eq_left hi
     rw [Finset.sum_congr rfl h1, Finset.sum_const, hI]
     decide
-  · exact Finset.sum_eq_zero (fun i hi => (if_neg (Finset.mem_compl.1 hi) : indVec I i = 0))
+  · exact Finset.sum_eq_zero (fun i hi => (ite_eq_right (Finset.mem_compl.1 hi) : indVec I i = 0))
 
 end Qbar
 
@@ -769,15 +769,15 @@ theorem card_common_fix_mul_le {α β : Type*} [DecidableEq α] (F : Finset α) 
         ≤ ∑ f ∈ F, (Y.card + if f = e then Y.card else 0) := by
           refine Finset.sum_le_sum fun f hf => ?_
           by_cases hfe : f = e
-          · rw [if_pos hfe]
+          · rw [ite_eq_left hfe]
             have := Finset.card_filter_le Y (fix f)
             omega
-          · rw [if_neg hfe]
+          · rw [ite_eq_right hfe]
             have := hsmall f hf hfe
             omega
       _ = F.card * Y.card + Y.card := by
           rw [Finset.sum_add_distrib, Finset.sum_const, smul_eq_mul, Finset.sum_ite_eq' F e,
-            if_pos heF]
+            ite_eq_left heF]
   have hCY : C = Y.filter (fun y => ∀ f ∈ F, fix f y) := by
     ext y
     rw [hC, Finset.mem_filter]
@@ -786,11 +786,11 @@ theorem card_common_fix_mul_le {α β : Type*} [DecidableEq α] (F : Finset α) 
       Finset.sum_mul, ← Finset.sum_add_distrib]
     refine Finset.sum_le_sum fun y hy => ?_
     by_cases hall : ∀ f ∈ F, fix f y
-    · rw [if_pos hall, one_mul]
+    · rw [ite_eq_left hall, one_mul]
       have : F.filter (fun f => fix f y) = F := Finset.filter_true_of_mem hall
       rw [this]
       omega
-    · rw [if_neg hall, zero_mul, add_zero, one_mul]
+    · rw [ite_eq_right hall, zero_mul, add_zero, one_mul]
       exact hhalf y hy
   have hY : Y.card * F.card = F.card * Y.card := Nat.mul_comm _ _
   omega
@@ -806,7 +806,7 @@ theorem card_fix_qbar0_mul_le (hI : I.card = 4) (hIc : Iᶜ.card = 4) {F : Subgr
     Nat.card ↥(Comb.fixSub (F : Set (Perm (Fin n))) ⊓ qbar0 I) * Nat.card F ≤
       Nat.card ↥(qbar0 I) := by
   classical
-  haveI : Fintype (permBar n) := Fintype.ofFinite _
+  have : Fintype (permBar n) := Fintype.ofFinite _
   set Yf : Finset (permBar n) := Finset.univ.filter (· ∈ qbar0 I) with hYf
   set Ff : Finset (Perm (Fin n)) := Finset.univ.filter (· ∈ F) with hFf
   have hYc : Nat.card ↥(qbar0 I) = Yf.card := by
@@ -860,7 +860,7 @@ theorem card_fix_qbar0_mul_le (hI : I.card = 4) (hIc : Iᶜ.card = 4) {F : Subgr
           (Ff.filter (fun σ => barAct σ v = v)).card := by
         refine Finset.card_le_card_of_injOn (fun σ => σ₀ * σ) (fun σ hσ => ?_)
           (fun σ _ τ _ h => mul_left_cancel h)
-        simp only [Finset.coe_filter, Set.mem_setOf_eq] at hσ ⊢
+        simp only [Finset.coe_filter, Set.mem_ofPred_eq] at hσ ⊢
         obtain ⟨hσF, hσv⟩ := hσ
         have hσF' : σ ∈ F := (Finset.mem_filter.1 hσF).2
         refine ⟨Finset.mem_filter.2 ⟨Finset.mem_univ _, F.mul_mem hσ₀F hσF'⟩, ?_⟩
@@ -915,7 +915,7 @@ theorem card_mul_card_lt_add (hI : I.card = 4) (hIc : Iᶜ.card = 4) {F : Subgro
       intro a b hab
       simp only [f] at hab
       by_cases ha : (a : permBar n) ∈ U <;> by_cases hb : (b : permBar n) ∈ U <;>
-        simp only [ha, hb, dif_pos, dif_neg, not_false_eq_true, Prod.mk.injEq, Subtype.mk.injEq,
+        simp only [ha, hb, dite_eq_left, dite_eq_right, not_false_eq_true, Prod.mk.injEq, Subtype.mk.injEq,
           reduceCtorEq, and_false, and_true] at hab
       · exact Subtype.ext hab
       · exact Subtype.ext (add_right_cancel hab)

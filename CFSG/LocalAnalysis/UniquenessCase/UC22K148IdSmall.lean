@@ -32,8 +32,8 @@ theorem not_isL2Odd_three {X : Type} [Group X] : ¬ IsL2Odd X 3 := fun h => by
 theorem nonempty_equiv_GL32_of_isL2Odd_seven {X : Type} [Group X] (h : IsL2Odd X 7) :
     Nonempty (X ≃* GL (Fin 3) (ZMod 2)) := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = Fintype.card (ZMod 7) := by
     rw [ZMod.card, ← Nat.card_eq_fintype_card, hK, pow_one]
   obtain ⟨g⟩ := CFSG.LocalAnalysis.ComponentInitial.nonempty_GL_three_two_equiv_PSL_two_seven

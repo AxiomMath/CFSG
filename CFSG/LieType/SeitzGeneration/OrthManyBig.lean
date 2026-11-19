@@ -160,7 +160,7 @@ section Main
 theorem closure_eq_top_of_noSingular_big {K V : Type} [Field K] [Finite K] [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] (Q : QuadraticForm K V)
     (hQ : (polarBilin Q).Nondegenerate)
-    (hT : ∃ T : Submodule K V, finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0) (hdim : 7 ≤ finrank K V)
+    (hT : ∃ T : Submodule K V, finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0) (_hdim : 7 ≤ finrank K V)
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpl : p ≠ ringChar K) (E : Subgroup (orthDerived Q))
     (hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hexp : ∀ x ∈ E, x ^ p = 1)
     (hcard : Nat.card E = p ^ 2) (hNS : OrthNoInvariantSingular Q E)
@@ -168,7 +168,7 @@ theorem closure_eq_top_of_noSingular_big {K V : Type} [Field K] [Finite K] [AddC
     Subgroup.closure {h : orthDerived Q | ∃ x ∈ E, x ≠ 1 ∧ h * x = x * h} = ⊤ := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Nontrivial V := nontrivial_of_three_singular hT
+  have : Nontrivial V := nontrivial_of_three_singular hT
   obtain ⟨hK, -⟩ := exists_kernelLineData_of_le hQ hp hp2 hpl E hcomm hexp hcard
   obtain ⟨n, P, hP, hPP, -, hPsp⟩ :=
     exists_piece_decomposition hQ hp hp2 hpl E hcomm hexp hcard hNS
@@ -176,7 +176,7 @@ theorem closure_eq_top_of_noSingular_big {K V : Type} [Field K] [Finite K] [AddC
   obtain ⟨i, j, hij⟩ := exists_pieces_diff_lines hK hp hpl hP hPsp (M := M)
     fun i => ⟨hMc i, hMP i⟩
   have hji : j ≠ i := fun h => hij (h ▸ rfl)
-  haveI : Nonempty {k : Fin n // k ≠ i} := ⟨⟨j, hji⟩⟩
+  have : Nonempty {k : Fin n // k ≠ i} := ⟨⟨j, hji⟩⟩
   have hEΩ : elementaryGroup Q ≤ orthDerived Q := (orthDerived_eq_and_le_closure hQ hT).1.ge
   have hEich : ∀ k : {k : Fin n // k ≠ i}, ∀ x ∈ planeFixSpace E ⊔ P i ⊔ P k,
       ∀ y ∈ planeFixSpace E ⊔ P i ⊔ P k, eichler Q x y ∈ orthCentralizerSpan Q E := by

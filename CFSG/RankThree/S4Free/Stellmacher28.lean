@@ -129,8 +129,7 @@ private theorem mem_flag_three_of_sub_rootElt_zero {w : F n} (hw : w ≠ 0) {x :
   rw [mem_flag_three]
   have e := h.1
   rw [Pi.sub_apply, act_rootElt] at e
-  simp only [Fin.isValue, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-    zero_pow_theta, zero_mul, add_zero] at e
+  simp only [Fin.isValue, Matrix.cons_val_zero, Matrix.cons_val_one, zero_pow_theta, zero_mul, add_zero] at e
   have h0 : (0 : F n) ^ (1 + 2 ^ (n + 1)) = 0 := zero_pow (by positivity)
   rw [h0, zero_add] at e
   have : w * x 3 = 0 := by linear_combination e
@@ -144,12 +143,12 @@ private theorem commElt_rootElt_zero_flag_three {w : F n} (hw : w ≠ 0) :
   · rintro ⟨v, hv, rfl⟩
     rw [mem_flag_three] at hv
     rw [act_rootElt]
-    simp [hv, zero_pow_theta]
+    simp [hv]
   · rintro ⟨h1, h2, h3⟩
     refine ⟨![0, 0, y 0 / w, 0], (mem_flag_three n).mpr rfl, ?_⟩
     rw [act_rootElt]
     ext j
-    fin_cases j <;> simp [h1, h2, h3, zero_pow_theta, mul_div_cancel₀ _ hw]
+    fin_cases j <;> simp [h1, h2, h3, mul_div_cancel₀ _ hw]
 
 
 private theorem exists_conj_rootElt (hn : 1 ≤ n) (P : Sylow 2 (Sz n)) {s : Sz n}
@@ -393,7 +392,7 @@ theorem map_mem_of_centralizes (D : Setting28Sz ψ c S W P)
       card_series D.one_le_n P (i := 1) (by norm_num)] at h1
     have := two_le_q (n := n)
     nlinarith
-  obtain ⟨v₀, hv₀2, hv₀1⟩ := SetLike.not_le_iff_exists.mp hlt
+  obtain ⟨v₀, hv₀2, hv₀1⟩ := IsConcreteLE.not_le_iff_exists.mp hlt
   set j₀ : Fin k := ⟨0, D.one_le_k⟩
   obtain ⟨y, hyW, hy⟩ := D.exists_mem_of_mem_series_two (Pi.single j₀ v₀) fun j => by
     by_cases hj : j = j₀
@@ -474,7 +473,7 @@ theorem exists_mem_not_centralizer (D : Setting28Sz ψ c S W P) :
     rw [inf_eq_left.mpr hle, D.card_P] at h1
     have := two_le_q (n := n)
     nlinarith
-  obtain ⟨p, hp, hpC⟩ := SetLike.not_le_iff_exists.mp hne
+  obtain ⟨p, hp, hpC⟩ := IsConcreteLE.not_le_iff_exists.mp hne
   rw [← D.map_S] at hp
   obtain ⟨s, hs, rfl⟩ := hp
   exact ⟨s, hs, D.map_S ▸ ⟨s, hs, rfl⟩, hpC⟩
@@ -785,7 +784,7 @@ theorem map_subgroupOf_cSub (D : Setting28Sz ψ c S W P) :
       exact hv j
     · rw [← ofAdd_toAdd (c y), hy, ofAdd_toAdd]
 
-theorem ker_inf_subgroupOf_cSub (D : Setting28Sz ψ c S W P) :
+theorem ker_inf_subgroupOf_cSub (_D : Setting28Sz ψ c S W P) :
     c.ker ⊓ (cSub c W P).subgroupOf ψ.ker = c.ker ⊓ W.subgroupOf ψ.ker := by
   refine le_antisymm (inf_le_inf_left _ fun y hy => hy.1) fun y ⟨hyk, hyW⟩ => ⟨hyk, hyW, ?_⟩
   refine mem_xSub.mpr ⟨y, rfl, fun j => ?_⟩
@@ -1026,7 +1025,7 @@ theorem ale_one_autOn_of_isNatSzExt {G : Type u} [Group G] [Finite G] {H S W : S
   have hWH : W ≤ H := hWS.trans hSH
   set S' := S.subgroupOf H with hS'
   set W' := W.subgroupOf H with hW'
-  haveI : IsMulCommutative W' := ⟨⟨fun a b => by
+  have : IsMulCommutative W' := ⟨⟨fun a b => by
     have h := congrArg (fun t : W => (t : G))
       (hWel.1.is_comm.comm (⟨(a : H), a.2⟩ : W) ⟨(b : H), b.2⟩)
     exact Subtype.ext (Subtype.ext h)⟩⟩

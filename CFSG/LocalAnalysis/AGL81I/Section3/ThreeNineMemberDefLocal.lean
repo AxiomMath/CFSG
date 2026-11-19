@@ -103,9 +103,9 @@ theorem normalizer_le_of_dvd (hd : d.Prime) (h : IsBorelDLocal p d Y) {H : Subgr
     (hHY : H ≤ Y) (hH : ∀ x ∈ H, ∀ y ∈ H, x * y = y * x) (hdH : d ∣ Nat.card H) :
     Subgroup.normalizer (H : Set G) ≤ Y := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow d ↥H))
-  haveI : IsMulCommutative ↥H := ⟨⟨fun (x y : ↥H) => Subtype.ext (hH x x.2 y y.2)⟩⟩
+  have : IsMulCommutative ↥H := ⟨⟨fun (x y : ↥H) => Subtype.ext (hH x x.2 y y.2)⟩⟩
   have hPchar : (P : Subgroup ↥H).Characteristic :=
     Sylow.characteristic_of_normal P inferInstance
   have hdvdP : d ∣ Nat.card (P : Subgroup ↥H) := by
@@ -122,27 +122,27 @@ theorem normalizer_le_of_dvd (hd : d.Prime) (h : IsBorelDLocal p d Y) {H : Subgr
     rw [hcardP] at hdvdP
     exact hd.not_dvd_one hdvdP
   intro g hg
-  exact h.normalizer_le ((P : Subgroup ↥H).map H.subtype) (P.isPGroup'.map H.subtype) hSne
+  exact h.normalizer_le ((P : Subgroup ↥H).map H.subtype) (P.isPGroup.map H.subtype) hSne
     ((Subgroup.map_subtype_le _).trans hHY)
     (CFSG.ABGLocalTools.mem_normalizer_map_subtype_of_characteristic hg)
 
 theorem not_dvd_index (hd : d.Prime) (h : IsBorelDLocal p d Y) : ¬ d ∣ Y.index := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨S, hSY⟩ := h.sylow_le
   intro hdY
   exact S.not_dvd_index (hdY.trans (Subgroup.index_dvd_of_le hSY))
 
 theorem index_modEq_one_of_dvd (hd : d.Prime) (h : IsBorelDLocal p d Y) (hdG : d ∣ Nat.card G) :
     Y.index ≡ 1 [MOD d] := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨S, hSY⟩ := h.sylow_le
   exact index_modEq_one_of_normalizer_le S
-    (h.normalizer_le S S.isPGroup' (S.ne_bot_of_dvd_card hdG) hSY)
+    (h.normalizer_le S S.isPGroup (S.ne_bot_of_dvd_card hdG) hSY)
 
 theorem exists_conj (hp : p.Prime) (h : IsBorelDLocal p d Y) (P₀ : Sylow p G) :
     ∃ g : G, IsBorelDLocal p d (Y.map (MulAut.conj g).toMonoidHom) ∧
       Subgroup.normalizer ((P₀ : Subgroup G) : Set G) ≤ Y.map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hPY⟩ := h.normalizer_sylow_le
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G P P₀
   refine ⟨g, h.map_equiv (MulAut.conj g), ?_⟩
@@ -198,7 +198,7 @@ theorem oPrimeModPrimeComplement_congr {G G' : Type} [Group G] [Finite G] [Group
         by rwa [Subgroup.card_map_of_injective e.symm.injective]⟩
     have hcomp : e.toMonoidHom.comp e.symm.toMonoidHom = MonoidHom.id ↥Y' := by
       ext x
-      simpa using e.apply_symm_apply x
+      simp
     have hle'' : CFSG.RankThreeEvenClassification.Helpers.primeComplementCore (G := ↥Y') d ≤
         (CFSG.RankThreeEvenClassification.Helpers.primeComplementCore (G := ↥Y) d).map
           e.toMonoidHom := by
@@ -219,14 +219,14 @@ theorem exists_normalizer_sylow_le (h : ThreeNineHyp K E D X₁ p d)
     (hZ : Subgroup.center ↥K = ⊥) (hout : ¬ p ∣ Nat.card (Outer ↥K)) :
     ∃ P : Sylow p ↥K, Subgroup.normalizer ((P : Subgroup ↥K) : Set ↥K) ≤ X₁.subgroupOf K := by
   obtain ⟨Ebar, -, hcard, -, hR⟩ := h.exists_barE hZ hout
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨P, hEP⟩ := (IsPGroup.of_card hcard).exists_le_sylow
-  exact ⟨P, hR P P.isPGroup' hEP⟩
+  exact ⟨P, hR P P.isPGroup hEP⟩
 
 private theorem normalizer_le_of_isBorelDLocal (h : ThreeNineHyp K E D X₁ p d)
     {R : Subgroup ↥K} (hR : IsPGroup d R) (hRne : R ≠ ⊥) (hRY : R ≤ X₁.subgroupOf K) :
     Subgroup.normalizer (R : Set ↥K) ≤ X₁.subgroupOf K := by
-  haveI : Fact d.Prime := ⟨h.d_prime⟩
+  have : Fact d.Prime := ⟨h.d_prime⟩
   set R' : Subgroup X := R.map K.subtype
   have hR'le : R' ≤ X₁ := by rintro x ⟨r, hr, rfl⟩; exact hRY hr
   have hR'ne : R' ≠ ⊥ := fun hbot =>
@@ -276,7 +276,7 @@ private theorem normalizer_le_of_isBorelDLocal (h : ThreeNineHyp K E D X₁ p d)
 theorem isBorelDLocal (h : ThreeNineHyp K E D X₁ p d) (hZ : Subgroup.center ↥K = ⊥)
     (hout : ¬ p ∣ Nat.card (Outer ↥K)) : IsBorelDLocal p d (X₁.subgroupOf K) := by
   have hB := h.exists_normalizer_sylow_le hZ hout
-  haveI : Fact d.Prime := ⟨h.d_prime⟩
+  have : Fact d.Prime := ⟨h.d_prime⟩
   have : K.Normal := h.normal
   have hDsylK : CFSG.ABGLocalTools.IsSylowOf d (D ⊓ K) K :=
     h.sylow.inf_of_le_normalizer le_top (by
@@ -294,7 +294,7 @@ theorem dvd_card_K (h : ThreeNineHyp K E D X₁ p d) (hZ : Subgroup.center ↥K 
   · rw [hout d h.d_prime h.d_ne_two hdo]
     exact h3
   · have hDK : D ≤ K := h.D_le_K_of_not_dvd hZ hdo
-    haveI : Fact d.Prime := ⟨h.d_prime⟩
+    have : Fact d.Prime := ⟨h.d_prime⟩
     have hdD : d ∣ Nat.card ↥D := by
       rcases h.isPGroup_D.card_eq_or_dvd with h1 | h1
       · exact absurd (Subgroup.card_eq_one.mp h1) h.D_ne_bot

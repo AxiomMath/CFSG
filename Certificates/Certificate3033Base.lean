@@ -9,7 +9,7 @@ open CFSG.Monster.B.Fischer
 
 namespace CertificateChecks.Batch3033
 
-@[expose] noncomputable def hm (i : ℕ) : ℕ := hexMask ((hexCat (hCat i)).map jEmb)
+noncomputable def hm (i : ℕ) : ℕ := hexMask ((hexCat (hCat i)).map jEmb)
 
 theorem hm_succ : ∀ i < 76, hm i < hm (i + 1) := by decide +kernel
 

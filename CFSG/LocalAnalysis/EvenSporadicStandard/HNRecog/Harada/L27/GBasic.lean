@@ -102,7 +102,7 @@ theorem qW_toW (h : Setting25 G t z z₁ ι zv R0 F) {x : G} (hx : x ∈ Rgrp h)
     simp [this, hx2]
   · have : ¬ (⟨⟨x, Rgrp_le_Ngrp h hx⟩, Subgroup.mem_subgroupOf.2 hx⟩ : Qsub h) ^ 2 = 1 :=
       fun hh => hx2 (by simpa using congrArg (fun q : Qsub h => (((q : ↥(Ngrp h)) : G))) hh)
-    simp [this, hx2]
+    simp [hx2]
 
 theorem polar_toW (h : Setting25 G t z z₁ ι zv R0 F) {x y : G} (hx : x ∈ Rgrp h)
     (hy : y ∈ Rgrp h) :

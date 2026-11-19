@@ -19,6 +19,7 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22qj_map_map_symm (m : G) (K : Subgroup G) :
     (K.map (MulAut.conj m).toMonoidHom).map (MulAut.conj m).symm.toMonoidHom = K := by
   have h : (MulAut.conj m).symm.toMonoidHom.comp (MulAut.conj m).toMonoidHom = MonoidHom.id G := by
@@ -26,6 +27,7 @@ theorem uc22p22qj_map_map_symm (m : G) (K : Subgroup G) :
     simp
   rw [Subgroup.map_map, h, Subgroup.map_id]
 
+omit [Finite G] in
 theorem uc22p22qj_layer_map (m : G) (K : Subgroup G) :
     rankThreeLayer (K.map (MulAut.conj m).toMonoidHom) =
       (rankThreeLayer K).map (MulAut.conj m).toMonoidHom := by
@@ -41,6 +43,7 @@ theorem uc22p22qj_layer_map (m : G) (K : Subgroup G) :
   · intro h
     exact CFSG.Fischer.Classification.Recognition.IsComponentOf.map_mulEquiv (MulAut.conj m) h
 
+omit [Finite G] in
 theorem uc22p22qj_relPPrimeCore_map (p : ℕ) (m : G) (K : Subgroup G) :
     relPPrimeCore p (K.map (MulAut.conj m).toMonoidHom) =
       (relPPrimeCore p K).map (MulAut.conj m).toMonoidHom := by
@@ -74,6 +77,7 @@ theorem uc22p22qj_normalizer_map (m : G) {Y N : Subgroup G}
   simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
   group
 
+omit [Finite G] in
 theorem uc22p22qj_map_map_inv (m : G) (K : Subgroup G) :
     (K.map (MulAut.conj m⁻¹).toMonoidHom).map (MulAut.conj m).toMonoidHom = K := by
   ext x
@@ -110,7 +114,7 @@ theorem uc22p22qj_clauseTwo_map {N P P₀ : Subgroup G} {p : ℕ} (m : G)
       have h2 := Subgroup.map_mono (f := (MulAut.conj m).symm.toMonoidHom) hS'
       rwa [uc22p22qj_map_map_symm] at h2
     have hcyc := h6 _ hS₀ (hSp.map _)
-    haveI := hcyc
+    have := hcyc
     exact isCyclic_of_surjective (Subgroup.equivMapOfInjective S (MulAut.conj m).symm.toMonoidHom
       (MulAut.conj m).symm.injective).symm (Subgroup.equivMapOfInjective S _ _).symm.surjective
   · have hfr := uc22p22qi_frobenius_map m h7
@@ -140,10 +144,10 @@ theorem uc22p22qj_exists_conj (hU : CFSG.Open.uniqueFourUnique G) {M N : Subgrou
     (hM : CFSG.Open.uniqueFourIsMaxTwoLocal M) (hN : CFSG.Open.uniqueFourIsMaxTwoLocal N) {p : ℕ}
     (hp : p ∈ CFSG.Open.uniqueFourSigma M) (hpN : p ∈ CFSG.Open.uniqueFourSigma N) :
     ∃ g : G, CFSG.Open.uniqueFourConj g N = M := by
-  haveI : Fact p.Prime := ⟨hp.1.1⟩
+  have : Fact p.Prime := ⟨hp.1.1⟩
   obtain ⟨PM, hPM, -⟩ := UC6.exists_sylow_le_of_sigma hU hM hp
   obtain ⟨PN, hPN, -⟩ := UC6.exists_sylow_le_of_sigma hU hN hpN
-  obtain ⟨g, hg⟩ := UC6.exists_le_uniqueFourConj_sylow (PM.isPGroup') PN
+  obtain ⟨g, hg⟩ := UC6.exists_le_uniqueFourConj_sylow (PM.isPGroup) PN
   have hPMN : (PM : Subgroup G) ≤ CFSG.Open.uniqueFourConj g N := hg.trans (UC6.uniqueFourConj_mono hPN g)
   have hN' : CFSG.Open.uniqueFourIsMaxTwoLocal (CFSG.Open.uniqueFourConj g N) :=
     UC6.isMaxTwoLocal_conj hN g
@@ -161,7 +165,7 @@ theorem uc22p22qj_exists_pair (hS : Standing4 G) (hU : CFSG.Open.uniqueFourUniqu
   have hp' := hp
   obtain ⟨hpσ, hβ, N, hN, hpN, P', hP'N, -, h5, -, hab, P₀', hcl⟩ := hp'
   obtain ⟨g, hg⟩ := uc22p22qj_exists_conj hU S.maxLocal hN hpσ hpN
-  haveI : Fact p.Prime := ⟨hpσ.1.1⟩
+  have : Fact p.Prime := ⟨hpσ.1.1⟩
   have hM : N.map (MulAut.conj g⁻¹).toMonoidHom = S.M := hg
   have hcl' := uc22p22qj_clauseTwo_map g⁻¹ hcl
   rw [hM] at hcl'
@@ -208,7 +212,7 @@ theorem r613cent_ofSetup4 (hS : Standing4 G) (hU : CFSG.Open.uniqueFourUnique G)
     UC6.R613Cent (UC6.dataOfSetup4 hS hU S) := by
   intro p P' P₀' hH'
   obtain ⟨P, P₀, hH, -, hab, -⟩ := uc22p22qj_exists_pair hS hU S hH'.mem_sig2
-  haveI : Fact p.Prime := ⟨(UC6.dataOfSetup4 hS hU S).sig_prime p (by
+  have : Fact p.Prime := ⟨(UC6.dataOfSetup4 hS hU S).sig_prime p (by
     rw [(UC6.dataOfSetup4 hS hU S).sig_sub]
     exact Or.inl (Or.inr hH'.mem_sig2)) |>.1⟩
   obtain ⟨k, -, hk⟩ := hH.sylow.exists_mem_conj hH'.sylow

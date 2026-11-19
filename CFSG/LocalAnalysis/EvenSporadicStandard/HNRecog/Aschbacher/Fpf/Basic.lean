@@ -15,6 +15,7 @@ open Module
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem disjoint_ker_range (γ : V →ₗ[ZMod 2] V) (h : γ ^ 5 = 1) :
     Disjoint (LinearMap.ker (γ - 1)) (LinearMap.range (γ - 1)) := by
   rw [disjoint_iff_inf_le]
@@ -132,16 +133,16 @@ private theorem four_dvd_finrank_of_fixedFree_aux
       have := congrArg (fun x : U => (x : V)) hgb
       simpa [hg_apply, f] using this
     rw [ha, hb]
-  haveI : Nonempty (MulAction.fixedPoints (Subgroup.zpowers g) U) := ⟨⟨0, hmem0⟩⟩
-  haveI : Subsingleton (MulAction.fixedPoints (Subgroup.zpowers g) U) := hsub
+  have : Nonempty (MulAction.fixedPoints (Subgroup.zpowers g) U) := ⟨⟨0, hmem0⟩⟩
+  have : Subsingleton (MulAction.fixedPoints (Subgroup.zpowers g) U) := hsub
   have hcard_fix : Nat.card (MulAction.fixedPoints (Subgroup.zpowers g) U) = 1 :=
     Nat.card_unique
   have hmod : Nat.card U ≡ 1 [MOD 5] := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     have h := hIsPGroup.card_modEq_card_fixedPoints U
     rwa [hcard_fix] at h
   have hUcard : Nat.card U = 2 ^ finrank (ZMod 2) U := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := U), Nat.card_zmod]
   have hmod2 : 2 ^ finrank (ZMod 2) U ≡ 1 [MOD 5] := by
     simpa [hUcard] using hmod

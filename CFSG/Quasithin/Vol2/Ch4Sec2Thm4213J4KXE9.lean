@@ -19,7 +19,7 @@ theorem exists_e9_of_isSporadic_M22 {X : Type} [Group X] (h : CFSG.Quasithin.IsS
 theorem exists_e9_of_quotient {Q : Type} [Group Q] [Finite Q] (N : Subgroup Q) [N.Normal]
     (E0 : Subgroup (Q ⧸ N)) (hE0 : IsElemAbelian 3 E0) (hE0c : Nat.card E0 = 9) :
     ∃ E : Subgroup Q, IsElemAbelian 3 E ∧ Nat.card E = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π : Q →* Q ⧸ N := QuotientGroup.mk' N with hπdef
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective N
   set P : Subgroup Q := E0.comap π with hPdef

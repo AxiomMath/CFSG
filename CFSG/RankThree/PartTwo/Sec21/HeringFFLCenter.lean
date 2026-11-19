@@ -17,7 +17,7 @@ open CFSG.Assembly.LowTwoRank (StatedClassicalModel)
 private theorem ffCenter_false_of_central_three {G : Type} [Group G] [Finite G] {X : Subgroup G}
     (hZ3 : ¬ 3 ∣ Nat.card (Subgroup.center ↥X)) (e : ↥X) (he : e ∈ Subgroup.center ↥X)
     (he3 : e ^ 3 = 1) (he1 : e ≠ 1) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let z : ↥(Subgroup.center ↥X) := ⟨e, he⟩
   have hz3 : z ^ 3 = 1 := Subtype.ext he3
   have hz1 : z ≠ 1 := fun h => he1 (congrArg (fun w : ↥(Subgroup.center ↥X) => (w : ↥X)) h)
@@ -25,7 +25,7 @@ private theorem ffCenter_false_of_central_three {G : Type} [Group G] [Finite G] 
 
 theorem ffCenterSp6_holds : FFCenterSp6 := by
   intro G _ _ A a X hpt h6 hXq _ _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAab := hpt.mem_S.1.1
   have ha3 : a ^ 3 = 1 := hAab.2 a hpt.mem
   have ha1 : a ≠ 1 := hpt.ne_one
@@ -81,7 +81,7 @@ theorem ffCenterSp6_holds : FFCenterSp6 := by
     hXzZ x (hPX hx) y hy
   have h2 : ¬ 2 ∣ Nat.card (Subgroup.center ↥X) := by
     intro h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.center ↥X)) 2 h2
     have hz1 : z ≠ 1 := by
       rintro rfl

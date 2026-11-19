@@ -73,7 +73,7 @@ theorem exists_noncyclic_le_normalizer_of_stab {D : Data G} {V X : Subgroup G}
     {p : ℕ} (hp : p.Prime) {P : Subgroup (MulAut (Vtil ⊥ V hV))} (hPM : P ≤ Mbar D.M ⊥ V hV)
     (hPp : IsPGroup p P) (hPc : ¬ IsCyclic P) (hP : P ≤ stabSub E) :
     ∃ Q : Subgroup G, Q ≤ normalizer (X : Set G) ∧ Q ≤ D.M ∧ IsPGroup p Q ∧ ¬ IsCyclic Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Q, hQpre, hQp, hQc⟩ := s16c167_exists_pSub_lift hV hPM hPp hPc
   refine ⟨Q, hQpre.trans (preBarSub_le_normalizer_of_stab hV hXV hE hP), ?_, hQp, hQc⟩
   intro q hq

@@ -182,12 +182,12 @@ theorem piX_dX_ne_one : piX dX ≠ 1 := by
   norm_num at h3
 
 theorem orderOf_piX_dX : orderOf (piX dX) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime piX_dX_pow_three piX_dX_ne_one
 
 theorem center_SX : Subgroup.center ↥SX = ⊥ := by
   obtain ⟨e⟩ := nonempty_SX_equiv
-  haveI := CFSG.HardMathSupport.Dickson.I271.isSimpleGroup_of_equiv_QP45 e
+  have := CFSG.HardMathSupport.Dickson.I271.isSimpleGroup_of_equiv_QP45 e
   obtain ⟨a, b, hab⟩ := CFSG.HardMathSupport.Dickson.I271.nonabelian_of_equiv_QP45 e
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥SX) with h | h
   · exact h
@@ -251,7 +251,7 @@ theorem prodMap_surjective : Function.Surjective prodMap := by
   have hS : Nat.card ↥SX = 25920 := by
     rw [Nat.card_congr e.toEquiv]
     exact CFSG.HardMathSupport.Dickson.I271.card_QP45_eq
-  haveI : Finite (↥XC ⧸ NX) := Nat.finite_of_card_ne_zero (by
+  have : Finite (↥XC ⧸ NX) := Nat.finite_of_card_ne_zero (by
     have := Subgroup.card_eq_card_quotient_mul_card_subgroup NX
     intro h0
     rw [h0, zero_mul] at this
@@ -296,7 +296,7 @@ theorem nonempty_pQuot_layer_XC :
     Nonempty (PQuot 3 (GLAPLayer 3 XC) ≃*
       ↥CFSG.ComponentClassification.CatFactsSmall.PSp43.QP45.originalSubgroup) := by
   obtain ⟨e⟩ := nonempty_SX_equiv
-  haveI := CFSG.HardMathSupport.Dickson.I271.isSimpleGroup_of_equiv_QP45 e
+  have := CFSG.HardMathSupport.Dickson.I271.isSimpleGroup_of_equiv_QP45 e
   obtain ⟨e₁⟩ := nonempty_pQuot_glaPLayer_of_quotient Nat.prime_three NX
     (by rw [card_NX]; norm_num) SX inferInstance
     (CFSG.HardMathSupport.Dickson.I271.nonabelian_of_equiv_QP45 e)
@@ -307,7 +307,7 @@ theorem nonempty_pQuot_layer_XC :
 
 theorem isTypeWithCenter_layer_XC : IsTypeWithCenter 3 (GLAPLayer 3 XC) isPSp43 1 := by
   obtain ⟨e⟩ := nonempty_pQuot_layer_XC
-  haveI := CFSG.HardMathSupport.Dickson.I271.isSimpleGroup_of_equiv_QP45 e
+  have := CFSG.HardMathSupport.Dickson.I271.isSimpleGroup_of_equiv_QP45 e
   obtain ⟨a, b, hab⟩ := CFSG.HardMathSupport.Dickson.I271.nonabelian_of_equiv_QP45 e
   have hZ : Subgroup.center (PQuot 3 (GLAPLayer 3 XC)) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal

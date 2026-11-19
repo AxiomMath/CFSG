@@ -134,7 +134,7 @@ theorem good_of_sameLength (i : KernelComponent χ) {α δ : Fin Tag.F4.rank →
     intro hr
     have := iform_self_cases noG2_F4 hr
     simp only [iform_sub_left, iform_sub_right, iform_add_left, iform_add_right,
-      iform_neg_left_eq, iform_neg_right_eq, neg_neg] at this
+      iform_neg_left_eq, iform_neg_right_eq] at this
     rw [iform_comm δ' α] at this
     omega
   have hC1 : C = 1 ∨ C = -1 := by
@@ -149,7 +149,7 @@ theorem neg_one_eq_one_of_two (hK2 : ∀ x : K, x = 0 ∨ x = 1) : (-1 : K) = 1 
   rcases hK2 (1 + 1) with h | h
   · exact neg_eq_of_add_eq_zero_right h
   · exfalso
-    have : (1 : K) = 0 := by simpa using h
+    have : (1 : K) = 0 := by simp at h
     exact one_ne_zero this
 
 theorem good_iff_one (hK2 : ∀ x : K, x = 0 ∨ x = 1) (i : KernelComponent χ)
@@ -175,7 +175,7 @@ theorem good_mixed (hK2 : ∀ x : K, x = 0 ∨ x = 1) (i : KernelComponent χ)
   rw [hform K 1 1] at hcomm
   have h1 : (C₁ : K) = 1 := by rcases hC₁ with h | h <;> simp [h, neg_one_eq_one_of_two hK2]
   have h2 : (C₂ : K) = 1 := by rcases hC₂ with h | h <;> simp [h, neg_one_eq_one_of_two hK2]
-  simp only [h1, h2, one_mul, mul_one, one_pow] at hcomm
+  simp only [h1, h2, mul_one, one_pow] at hcomm
   constructor
   · intro hx
     have := mul_mem (inv_mem hx) hcomm

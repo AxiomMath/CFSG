@@ -92,7 +92,7 @@ private theorem spU4_mem_fixedSubgroup {X : Type} [Group X] (σ : MulAut X) (x :
 private theorem spU4_fixedFacts_of_simple {S : Type} [Group S] (σ : MulAut S)
     (hs : IsSimpleGroup (fixedSubgroup σ)) (hz : Subgroup.center (fixedSubgroup σ) = ⊥) :
     FixedFactsAt σ := by
-  haveI := hs
+  have := hs
   left
   refine ⟨⊤, inferInstance, Subgroup.topEquiv.isSimpleGroup, ?_, ?_⟩
   · intro hc
@@ -121,8 +121,8 @@ private theorem spU4_fixedFacts_of_perm_six {S : Type} [Group S] (σ : MulAut S)
     have hy0 : Equiv.swap (0 : Fin 6) 1 * Equiv.swap 0 3 ∈ alternatingGroup (Fin 6) :=
       spU4_swap_mul_swap_mem_alt (by decide) (by decide)
     have hcomm := hc
-      ⟨e.symm (Equiv.swap 0 1 * Equiv.swap 0 2), by simpa using hx0⟩
-      ⟨e.symm (Equiv.swap 0 1 * Equiv.swap 0 3), by simpa using hy0⟩
+      ⟨e.symm (Equiv.swap 0 1 * Equiv.swap 0 2), by simp⟩
+      ⟨e.symm (Equiv.swap 0 1 * Equiv.swap 0 3), by simp⟩
     have key := congrArg (fun p : (alternatingGroup (Fin 6)).comap e.toMonoidHom =>
       e (p : fixedSubgroup σ)) hcomm
     simp only [Subgroup.coe_mul, map_mul, MulEquiv.apply_symm_apply] at key
@@ -185,12 +185,12 @@ private theorem spU4_fixedFacts_statedProj {F : Type} [Field F] [Finite F] [Char
     exact hσ (KFacts.conjAut_mem_inner_of_charTwo A)
   obtain ⟨σ₀, hσ₀, H, rfl⟩ := KFacts.sp4_even_order_three_field_descent σ hσ3 hnot
   obtain ⟨k, hk1, hk⟩ : ∃ k : ℕ, 1 ≤ k ∧ Nat.card (fixedField σ₀) = 2 ^ k := by
-    haveI : Fintype (fixedField σ₀) := Fintype.ofFinite _
+    have : Fintype (fixedField σ₀) := Fintype.ofFinite _
     obtain ⟨m, -, hm⟩ := FiniteField.card (fixedField σ₀) 2
     exact ⟨m, m.pos, by rw [Nat.card_eq_fintype_card, hm]⟩
   obtain ⟨ψ⟩ := spU4_nonempty_fixedSubgroup σ₀ H
   rcases (show k = 1 ∨ 2 ≤ k by omega) with rfl | hk2
-  · haveI : Fintype (fixedField σ₀) := Fintype.ofFinite _
+  · have : Fintype (fixedField σ₀) := Fintype.ofFinite _
     have hfc : Fintype.card (fixedField σ₀) = 2 := by
       rw [← Nat.card_eq_fintype_card, hk]
       norm_num
@@ -200,7 +200,7 @@ private theorem spU4_fixedFacts_statedProj {F : Type} [Field F] [Finite F] [Char
       rw [hk]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk2
-    haveI hS : IsSimpleGroup (StatedProj (StatedSp 2 (fixedField σ₀))) :=
+    have hS : IsSimpleGroup (StatedProj (StatedSp 2 (fixedField σ₀))) :=
       CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp (fixedField σ₀) 2
         (by norm_num) (Or.inl (Or.inr h4))
     have hZ : Subgroup.center (StatedProj (StatedSp 2 (fixedField σ₀))) = ⊥ :=
@@ -220,7 +220,7 @@ section SpU4
 
 theorem not_isSimpleGroup_projSp_two_two_one :
     ¬ IsSimpleGroup (projSp 2 (GaloisField 2 1)) := by
-  haveI : Fintype (GaloisField 2 1) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 1) := Fintype.ofFinite _
   have hcard : Fintype.card (GaloisField 2 1) = 2 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 1 (by norm_num)]
     norm_num
@@ -228,7 +228,7 @@ theorem not_isSimpleGroup_projSp_two_two_one :
   let e : projSp 2 (GaloisField 2 1) ≃* Equiv.Perm (Fin 6) :=
     (KFacts.statedSpEquivProjSpOfCharTwo (GaloisField 2 1)).symm.trans e₁
   intro hS
-  haveI := hS
+  have := hS
   have hperm : IsSimpleGroup (Equiv.Perm (Fin 6)) := e.symm.isSimpleGroup
   rcases hperm.eq_bot_or_eq_top_of_normal (alternatingGroup (Fin 6)) with h | h
   · have hmem : Equiv.swap (0 : Fin 6) 1 * Equiv.swap 0 2 ∈ alternatingGroup (Fin 6) :=
@@ -244,7 +244,7 @@ theorem not_isSimpleGroup_projSp_two_two_one :
     revert hs
     decide
 
-theorem noOmega_projSp_two_two {n : ℕ} (hn : 2 ≤ n) :
+theorem noOmega_projSp_two_two {n : ℕ} (_hn : 2 ≤ n) :
     NoOmega (projSp 2 (GaloisField 2 n)) := by
   open CFSG.Assembly.LowTwoRank CFSG.Adapters.RankTwoModelTransports in
   have e : projSp 2 (GaloisField 2 n) ≃* StatedProj (StatedSp 2 (GaloisField 2 n)) :=

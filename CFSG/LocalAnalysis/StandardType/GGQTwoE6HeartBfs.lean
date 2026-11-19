@@ -87,11 +87,11 @@ theorem compOf_nodup (pm : List ℕ) (s : ℕ) (hpm : pm.Nodup) :
   have hpred := (List.mem_filter.mp hb).2
   rw [Bool.and_eq_true] at hpred
   have hc : seen.contains a = false := by simpa using hpred.1
-  have htrue : seen.contains a = true := List.contains_iff.mpr ha
+  have htrue : seen.contains a = true := _root_.List.contains_iff_mem.mpr ha
   rw [htrue] at hc
   exact nomatch hc
 
-theorem reach_mem_compOf (pm : List ℕ) (s : ℕ) (hs : s ∈ pm)
+theorem reach_mem_compOf (pm : List ℕ) (s : ℕ) (_hs : s ∈ pm)
     (hcl : Certificates.E6Heart.closedIn pm (Certificates.E6Heart.compOf pm s) = true) :
     ∀ j, Relation.ReflTransGen (AdjOn pm) s j → j ∈ Certificates.E6Heart.compOf pm s := by
   intro j h
@@ -104,11 +104,11 @@ theorem reach_mem_compOf (pm : List ℕ) (s : ℕ) (hs : s ∈ pm)
     have hcj : (Certificates.E6Heart.compOf pm s).contains c = false := by
       cases hh : (Certificates.E6Heart.compOf pm s).contains c with
       | false => rfl
-      | true => exact absurd (List.contains_iff.mp hh) hjc
+      | true => exact absurd (_root_.List.contains_iff_mem.mp hh) hjc
     rw [Certificates.E6Heart.closedIn] at hcl
     have hall := (List.all_eq_true.mp hcl) c hcpm
     rw [hcj] at hall
-    simp only [Bool.false_or, Bool.not_eq_true] at hall
+    simp only [Bool.false_or] at hall
     have hany : (Certificates.E6Heart.compOf pm s).any
         (fun i => Certificates.E6Heart.adjB i c) = true :=
       List.any_eq_true.mpr ⟨_, ih, hadj⟩

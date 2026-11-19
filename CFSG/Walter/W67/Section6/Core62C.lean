@@ -16,7 +16,7 @@ theorem card_eq_of_normalizer {r : ℕ} [Fact r.Prime] {P : Subgroup G} (hP : Is
     (h : ∀ Q : Subgroup G, IsPGroup r Q → P ≤ Q → Q ≤ Subgroup.normalizer (P : Set G) →
       Q ≤ P) : Nat.card P = r ^ (Nat.card G).factorization r := by
   obtain ⟨T, hT⟩ := hP.exists_le_sylow
-  have := eq_of_le_of_normalizer_le T.isPGroup' hT h
+  have := eq_of_le_of_normalizer_le T.isPGroup hT h
   rw [this, Sylow.card_eq_multiplicity]
 
 theorem weaklyClosedIn_self {r : ℕ} [Fact r.Prime] (P : Sylow r G) :
@@ -175,7 +175,7 @@ theorem factorization_two_le_of {Q : Subgroup G} (hQ : IsPGroup r Q)
     have h2le : 2 ≤ (Nat.card N).factorization 2 := hlt
     exact (show 4 ∣ 2 ^ 2 by norm_num).trans (pow_dvd_pow 2 h2le)
   set T' := (T : Subgroup N).map N.subtype with hT'
-  have hT'2 : IsPGroup 2 T' := T.isPGroup'.map _
+  have hT'2 : IsPGroup 2 T' := T.isPGroup.map _
   have hT'card : 4 ∣ Nat.card T' := by
     rw [hT', Subgroup.card_map_of_injective N.subtype_injective]
     exact hT4
@@ -259,7 +259,7 @@ theorem exists_sylow : ∃ S : Subgroup G, P₀ ⊔ P₁ ≤ S ∧ IsPGroup r S 
     intro x hx
     have := (hSr.comap_subtype (K := N)).le_sylow_of_normal R
     exact ⟨⟨x, Subgroup.le_normalizer hx⟩, this hx, rfl⟩
-  have hR'r : IsPGroup r R' := R.isPGroup'.map _
+  have hR'r : IsPGroup r R' := R.isPGroup.map _
   have hJR' : J ∈ Subgroup.normalizer (R' : Set G) := by
     apply JT.mem_normalizer_of_conj_mem
     rintro _ ⟨y, hy, rfl⟩

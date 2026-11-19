@@ -64,7 +64,7 @@ theorem le_of_prime_dvd {r N b : ℕ} (hr : r.Prime) (hd : r ∣ N) (hN : N ≠ 
 theorem downCompOK_of_conj_pow {s : TauCeti.SporadicName} {p : ℕ} (hp : p.Prime) {Q : Type} [Group Q]
     [Finite Q] {t x m : Q} {k : ℕ} (ht : orderOf t = p) (hk : t ^ k ≠ 1) (hm : m * x * m⁻¹ = t ^ k)
     (h : DownCompOK s p t) : DownCompOK s p x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : DownCompOK s p (t ^ k) := downCompOK_of_centralizer_eq
     (CFSG.HardMathSupport.Timmesfeld.SporadicBalance.centralizer_pow_eq_of_prime ht hk).symm h
   have h2 := downCompOK_of_mulEquiv hp (MulAut.conj m⁻¹) h1
@@ -216,9 +216,9 @@ section S_sporDownRow_Fi23_five
 
 set_option maxRecDepth 100000 in
 theorem sporDownRow_Fi23_five (h : Fi23FiveNoA6) : SporDownRow .Fi23 5 := by
-  haveI hJ : Finite CFSG.Sporadic.Fi23.J :=
+  have hJ : Finite CFSG.Sporadic.Fi23.J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi23.card_J]; norm_num)
-  haveI hf : Finite CFSG.Blueprint.NativeSporadic.Fi23 :=
+  have hf : Finite CFSG.Blueprint.NativeSporadic.Fi23 :=
     Finite.of_equiv CFSG.Sporadic.Fi23.J
       (CFSG.Sporadic.Fi23.fi23EquivJ :
         CFSG.Blueprint.NativeSporadic.Fi23 ≃* CFSG.Sporadic.Fi23.J).symm.toEquiv
@@ -380,7 +380,7 @@ section S_downCompOK_B_xSeven
 open CFSG.HardMathSupport.Timmesfeld.SporadicBalance.BSeven (xSeven) in
 theorem downCompOK_B_xSeven
     (h : BSevenNoL28) : DownCompOK .B 7 xSeven := by
-  haveI : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have P := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.BSeven.bSevenElem_parts
   have hxS : orderOf xSeven = 7 := orderOf_eq_prime P.x_pow P.x_ne
   intro I hI q hq hq2 hq7 hC
@@ -397,7 +397,7 @@ section S_sporDownRow_B_seven
 
 theorem sporDownRow_B_seven
     (h : BSevenNoL28) : SporDownRow .B 7 := by
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
   have P := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.BSeven.bSevenElem_parts
   have hxS : orderOf CFSG.HardMathSupport.Timmesfeld.SporadicBalance.BSeven.xSeven = 7 :=
     orderOf_eq_prime P.x_pow P.x_ne
@@ -416,7 +416,7 @@ open CFSG.AGLEmbedding.Norton.MON5_7 (gw) in
 open CFSG.AGLEmbedding.Norton.Gen11 (gen11W0 gen11W1 gen11W2 gen11W3) in
 open CFSG.Monster.Generated (Gmat) in
 theorem sporDownRow_M_eleven (h : MElevenDown) : SporDownRow .M 11 := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   obtain ⟨e1⟩ : Nonempty (Gmat ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
   refine sporDownRow_of_model' (by norm_num) e1 fun s hs => ?_
@@ -449,7 +449,7 @@ section S_sporDownRow_M_thirteen
 open CFSG.AGLEmbedding.Norton.MON5_7 (gw) in
 open CFSG.Monster.Generated (Gmat) in
 theorem sporDownRow_M_thirteen (hA : MThirteenADown) (hB : MThirteenBDown) : SporDownRow .M 13 := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   obtain ⟨e1⟩ : Nonempty (Gmat ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
   refine sporDownRow_of_model' (by norm_num) e1 fun s hs => ?_
@@ -469,7 +469,7 @@ open CFSG.Monster.Generated (Gmat) in
 theorem mElevenDown_of_card (h : ∀ I : Subgroup Gmat, GLAPComponent 11 (Subgroup.centralizer
       ({gw CFSG.AGLEmbedding.Norton.Gen11.gen11W0} : Set Gmat)) I → Nat.card (PSimple 11 I) = 95040) :
     MElevenDown := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   intro I hI
   exact downTypeOK_of_not_chev (not_isChevSimple_of_card_bound (h I hI) (by norm_num) (by norm_num)
     (by simp only [Nat.primeFactorsList_ofNat]; decide +kernel) (by decide) (by decide))

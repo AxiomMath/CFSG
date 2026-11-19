@@ -19,6 +19,7 @@ private lemma mulVec_pow_eq_smul_L02 {Γ : Subgroup (GL ι K)} (γ : ↥Γ) {e�
   | succ n ih =>
       rw [pow_succ, ← Matrix.mulVec_mulVec, hc, Matrix.mulVec_smul, ih, smul_smul, pow_succ']
 
+omit [Fintype ι] [DecidableEq ι] in
 private lemma pow_eq_one_of_smul_eq_self_L02 {e₀ : ι → K} (he0 : e₀ ≠ 0) {c : K} {n : ℕ}
     (h : c ^ n • e₀ = e₀) : c ^ n = 1 := by
   obtain ⟨i, hi⟩ : ∃ i, e₀ i ≠ 0 := by
@@ -33,7 +34,7 @@ theorem exists_sylow_le_lineStab [Finite K] {Γ : Subgroup (GL ι K)} {e₀ : ι
     (hline : KTabC.SylowFixedLine Γ e₀) :
     ∃ U : Sylow 2 ↥Γ, (U : Subgroup ↥Γ) ≤ KTabD.lineStab Γ e₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := hline (default : Sylow 2 ↥Γ)
   refine ⟨x⁻¹ • (default : Sylow 2 ↥Γ), ?_⟩
   intro u hu
@@ -55,9 +56,9 @@ theorem mulVec_eq_of_mem_sylow_le_lineStab [Finite K] [CharP K 2] {Γ : Subgroup
     (hU : (U : Subgroup ↥Γ) ≤ KTabD.lineStab Γ e₀) {u : ↥Γ} (hu : u ∈ (U : Subgroup ↥Γ)) :
     ((u : GL ι K) : Matrix ι ι K) *ᵥ e₀ = e₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc⟩ := KTabD.mem_lineStab.mp (hU hu)
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf (p := 2)).mp U.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf (p := 2)).mp U.isPGroup
     (⟨u, hu⟩ : (U : Subgroup ↥Γ))
   have horder : orderOf u = 2 ^ k := (Subgroup.orderOf_mk u hu).symm.trans hk
   have hcoe : (((u ^ orderOf u : ↥Γ) : GL ι K) : Matrix ι ι K)
@@ -77,7 +78,7 @@ theorem mulVec_eq_of_mem_sylow_le_lineStab [Finite K] [CharP K 2] {Γ : Subgroup
     rw [Nat.card_units] at h
     exact orderOf_dvd_iff_pow_eq_one.mpr (by
       simpa [Units.val_pow_eq_pow_val] using congrArg (fun z : Kˣ => (z : K)) h)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hcard⟩ := FiniteField.card K 2
   have hcard' : Nat.card K = 2 ^ (m : ℕ) := Nat.card_eq_fintype_card.trans hcard
   have hOdd : Odd (Nat.card K - 1) := by

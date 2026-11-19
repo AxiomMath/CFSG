@@ -114,7 +114,7 @@ theorem isSylowOf_top_of_fusion {x : G} {W : Subgroup G} (hW : IsSylowOf 2 W M) 
     exact Sylow.card_eq_multiplicity P
   have hWeq : W = (P : Subgroup G) := by
     by_contra hne
-    have hnil : Group.IsNilpotent ↥(P : Subgroup G) := (P.isPGroup').isNilpotent
+    have hnil : Group.IsNilpotent ↥(P : Subgroup G) := (P.isPGroup).isNilpotent
     set W' : Subgroup ↥(P : Subgroup G) := W.subgroupOf (P : Subgroup G) with hW'
     have hlt : W' < ⊤ := by
       refine lt_top_iff_ne_top.2 fun htop => hne ?_
@@ -128,7 +128,7 @@ theorem isSylowOf_top_of_fusion {x : G} {W : Subgroup G} (hW : IsSylowOf 2 W M) 
     have h2 : (g : G) * x * (g : G)⁻¹ ∈ W := h1
     have hgM : (g : G) ∈ M := hF _ (hW.le h2)
     have h3 : W ⊔ zpowers (g : G) ≤ (P : Subgroup G) := sup_le hWP (zpowers_le.2 g.2)
-    have h4 : IsPGroup 2 ↥(W ⊔ zpowers (g : G)) := P.isPGroup'.to_le h3
+    have h4 : IsPGroup 2 ↥(W ⊔ zpowers (g : G)) := P.isPGroup.to_le h3
     have h5 := hW.eq_of_le (le_sup_left : W ≤ W ⊔ zpowers (g : G))
       (sup_le hW.le (zpowers_le.2 hgM)) h4
     apply hgW

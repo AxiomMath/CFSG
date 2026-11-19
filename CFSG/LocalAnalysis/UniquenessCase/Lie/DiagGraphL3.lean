@@ -70,6 +70,7 @@ open CFSG.Assembly.LowTwoRank CFSG.ASVolI.ChA CFSG.Open
   (projectiveSpecialLinearGroupEquivStatedProj n K).symm.trans
     (LinearCover.projectiveSpecialLinearEquivProjectiveSL n K)
 
+omit [Finite K] [CharP K 2] in
 theorem uc22pdiag_stated_mk (A : SpecialLinearGroup (Fin n) K) :
     uc22pdiag_statedEquiv n K (QuotientGroup.mk (specialLinearGroupEquivStatedSL n K A)) =
       proj n K A := by
@@ -81,6 +82,7 @@ theorem uc22pdiag_stated_mk (A : SpecialLinearGroup (Fin n) K) :
   rw [← h, MulEquiv.symm_apply_apply]
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem uc22pdiag_congr_proj (φ : MulAut (StatedProj (StatedSL n K))) (A : SpecialLinearGroup (Fin n) K) :
     MulAut.congr (uc22pdiag_statedEquiv n K) φ (proj n K A) =
       uc22pdiag_statedEquiv n K (φ (QuotientGroup.mk (specialLinearGroupEquivStatedSL n K A))) := by
@@ -137,7 +139,7 @@ open CFSG.Blueprint (LieModel)
 theorem uc22pdiag_twoClasses_projSL3 {K : Type} [Field K] [Finite K] [CharP K 2]
     (V₀ : Sylow 2 (projectiveSL 3 K)) (hV₀ : (V₀ : Subgroup _) = projUnitriangular 3 K) :
     uc22pdiag_TwoClasses (projectiveSL 3 K) (V₀ : Subgroup (projectiveSL 3 K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : normalizer ((V₀ : Subgroup (projectiveSL 3 K)) : Set (projectiveSL 3 K)) =
       projUpperTriangular 3 K := by
     rw [hV₀]; exact normalizer_projUnitriangular 2
@@ -188,9 +190,9 @@ theorem uc22pdiag_twoClasses_projSL3 {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem uc22pdiag_twoClasses_L3 {M : Type} [Group M] [Finite M] {n : ℕ} (h : LieModel M .PSL 3 2 n)
     (V : Sylow 2 M) : uc22pdiag_TwoClasses M (V : Subgroup M) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := LinearCover.exists_mulEquiv_projectiveSL_of_lieModel h
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   obtain ⟨V₀, hV₀⟩ := exists_sylow_projUnitriangular (K := K) 2 (n := 3) (by norm_num)
   let VN : Sylow 2 (projectiveSL 3 K) := Sylow.mapSurjective (f := e.toMonoidHom) e.surjective V
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq (projectiveSL 3 K) V₀ VN

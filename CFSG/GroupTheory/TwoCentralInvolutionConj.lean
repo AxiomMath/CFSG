@@ -60,6 +60,7 @@ theorem exists_sylow_mem_le_centralizer {p : ℕ} [Fact p.Prime] (P : Sylow p X)
   have huSup : u ∈ (Q : Subgroup X) ⊔ Subgroup.zpowers u := Subgroup.mem_sup_right (by simp)
   rwa [hSupEq] at huSup
 
+omit [Finite X] in
 theorem conj_inv_mul_mem_center_of_sylow_smul (P Q : Sylow 2 X) {g u : X}
     (hg : g • P = Q) (huQ : u ∈ (Q : Subgroup X))
     (huc : (Q : Subgroup X) ≤ centralizer ({u} : Set X)) :
@@ -83,8 +84,7 @@ theorem conj_inv_mul_mem_center_of_sylow_smul (P Q : Sylow 2 X) {g u : X}
   intro x
   have hxQ : g * (x : X) * g⁻¹ ∈ (Q : Subgroup X) := by
     rw [hgmap]
-    simpa [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] using
-      Subgroup.mem_map_of_mem (MulAut.conj g).toMonoidHom x.2
+    simp [MulAut.conj_apply]
   have hux : Commute u (g * (x : X) * g⁻¹) :=
     (Subgroup.mem_centralizer_singleton_iff.mp (huc hxQ)).symm
   have h := hux.map (MulAut.conj g⁻¹).toMonoidHom
@@ -95,6 +95,7 @@ theorem conj_inv_mul_mem_center_of_sylow_smul (P Q : Sylow 2 X) {g u : X}
   rw [hx] at h
   simpa [MulAut.conj_apply] using h
 
+omit [Finite X] in
 theorem eq_of_mem_center_of_card_center_eq_two (P : Sylow 2 X)
     (hZ : Nat.card (center ↥(P : Subgroup X)) = 2) {a t : X}
     (haP : a ∈ (P : Subgroup X)) (htP : t ∈ (P : Subgroup X))
@@ -122,7 +123,7 @@ theorem isConj_of_card_center_eq_two (P Q : Sylow 2 X)
     (huQ : u ∈ (Q : Subgroup X)) (huc : (Q : Subgroup X) ≤ centralizer ({u} : Set X))
     (hu : orderOf u = 2) : IsConj t u := by
   classical
-  haveI : Finite (Sylow 2 X) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 2 X) := Sylow.finite_of_finiteIndex P
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X P Q
   obtain ⟨haP, ha_comm⟩ := conj_inv_mul_mem_center_of_sylow_smul P Q hg huQ huc
   have ha_center : (⟨g⁻¹ * u * g, haP⟩ : ↥(P : Subgroup X)) ∈ center ↥(P : Subgroup X) := by

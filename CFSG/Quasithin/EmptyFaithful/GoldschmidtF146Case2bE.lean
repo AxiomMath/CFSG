@@ -38,7 +38,7 @@ theorem le_of_two_group_quotient {Z : Type*} [Group Z] [Finite Z]
   have hP' : ((P : Subgroup ↥R).map R.subtype).Normal := by
     have : (P : Subgroup ↥R).Characteristic := Sylow.characteristic_of_normal P inferInstance
     infer_instance
-  have hbot := hZ _ hP' (P.isPGroup'.map R.subtype)
+  have hbot := hZ _ hP' (P.isPGroup.map R.subtype)
   have hPbot : (P : Subgroup ↥R) = ⊥ := by
     exact (Subgroup.map_eq_bot_iff_of_injective _ R.subtype_injective).mp hbot
   have hodd : ¬ 2 ∣ Nat.card ↥R := by

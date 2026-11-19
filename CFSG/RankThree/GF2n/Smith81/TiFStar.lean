@@ -71,7 +71,7 @@ theorem exists_component_eq_generalizedFitting (H : StrothHyp M Q Z) :
       · have := hKn.conj_mem _ hxK t⁻¹
         simpa [mul_assoc] using this
   obtain ⟨⟨y, hy⟩, hy1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
-    (inf_center_ne_bot_of_normalized T.isPGroup' inf_le_left hTn hne)
+    (inf_center_ne_bot_of_normalized T.isPGroup inf_le_left hTn hne)
   obtain ⟨⟨hyT, hyK⟩, hyTT, hyC⟩ := (by simpa [Subgroup.mem_inf] using hy :
     (y ∈ (T : Subgroup G) ∧ y ∈ K) ∧ y ∈ (T : Subgroup G) ∧
       y ∈ Subgroup.centralizer ((T : Subgroup G) : Set G))

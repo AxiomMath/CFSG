@@ -54,7 +54,7 @@ theorem bnd_sound : ∀ (fuel : Nat) (c : List V) (k : Nat), bnd fuel c k = true
     · cases c with
       | nil => exact absurd (Nat.zero_le k) hlen
       | cons v rest =>
-        simp only [bnd, hlen, if_false, Bool.and_eq_true] at h
+        simp only [bnd, hlen, ite_false, Bool.and_eq_true] at h
         obtain ⟨h1, h2⟩ := h
         by_cases hv : v ∈ S
         · cases k with

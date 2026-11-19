@@ -13,8 +13,8 @@ variable {G : Type*} [Group G] {D : Set G}
 
 theorem sylow_inter_commute_of_setup (hS : Setup G D) (T : Sylow 2 G) {a b : G}
     (haT : a ∈ (T : Set G)) (hbT : b ∈ (T : Set G)) (haD : a ∈ D) (hbD : b ∈ D)
-    (hne : a ≠ b) : Commute a b :=
-  hS.oddT.commute_of_isPGroup T.isPGroup' haD hbD haT hbT
+    (_hne : a ≠ b) : Commute a b :=
+  hS.oddT.commute_of_isPGroup T.isPGroup haD hbD haT hbT
 
 theorem exists_sylow_of_pairwise_commuting_of_setup (hS : Setup G D) {S : Finset G}
     (hSD : (↑S : Set G) ⊆ D)
@@ -25,7 +25,7 @@ theorem exists_sylow_of_pairwise_commuting_of_setup (hS : Setup G D) {S : Finset
   have hpair : ((↑S : Set G)).Pairwise Commute := by
     intro x hx y hy hxy
     exact hcomm x hx y hy hxy
-  haveI : IsMulCommutative H := Subgroup.isMulCommutative_closure hpair
+  have : IsMulCommutative H := Subgroup.isMulCommutative_closure hpair
   have hsq : ∀ x : H, x ^ 2 = 1 := by
     have hsq_mem : ∀ g (hg : g ∈ H), (⟨g, hg⟩ : H) ^ 2 = 1 := by
       intro g hg

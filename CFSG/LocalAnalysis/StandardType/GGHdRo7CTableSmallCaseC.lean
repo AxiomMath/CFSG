@@ -64,10 +64,10 @@ theorem hdRo7CSmallAux_case_cm1_k2
   have hc0 : cc 0 = 1 := rfl
   have hσi1 : σ i1 = j1 := by
     simp only [σ, Equiv.Perm.mul_apply, Equiv.swap_apply_def]
-    simp [hi1j2, hi1j1, hd12]
+    simp [hi1j2, hd12]
   have hσi2 : σ i2 = j2 := by
     simp only [σ, Equiv.Perm.mul_apply, Equiv.swap_apply_def]
-    simp [hi2j1, hi2j2, hd12, hj2i1, hj2j1]
+    simp [hj2i1, hj2j1]
   have hcc1 : cc i1 = 1 := rfl
   have hcc2 : cc i2 = 1 := rfl
   let h : V ≃ₗ[ZMod 3] V := hdRo7CSmallAux_signedPerm b σ cc hcc
@@ -90,24 +90,23 @@ theorem hdRo7CSmallAux_case_cm1_k2
     simp only [map_add, map_smul, hb0, hbi1, hbi2]
   have hphi : φ (h u) = 1 := by
     rw [hhu]
-    simp only [map_add, map_smul, smul_eq_mul, hnf.hφ0, hcoef i1 hi1ne, hcoef i2 hi2ne,
-      hcoef j1 hj1ne, hcoef j2 hj2ne, hcj1, hcj2, mul_one, one_mul, mul_zero, add_zero]
+    simp only [map_add, map_smul, smul_eq_mul, hnf.hφ0, hcoef j1 hj1ne, hcoef j2 hj2ne, hcj1, hcj2, mul_one, mul_zero, add_zero]
     rw [hu0val]
   have hinv0 : h⁻¹ (b 0) = b 0 := by
     rw [hh, hdRo7CSmallAux_signedPerm_inv, hdRo7CSmallAux_signedPerm_apply,
       show σ.symm = σ⁻¹ from rfl]
     simp only [Function.comp_apply]
-    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, h0i1, h0j1, h0i2, h0j2, hd12, hi2i1, hi1j1, hj1i1, hi2j1, hj1i2, hi1j2, hj2i1, hi2j2, hj2i2, hj12, hj2j1]
+    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, h0i1, h0j1, h0i2, h0j2]
   have hinv1 : h⁻¹ (b i1) = b j1 := by
     rw [hh, hdRo7CSmallAux_signedPerm_inv, hdRo7CSmallAux_signedPerm_apply,
       show σ.symm = σ⁻¹ from rfl]
     simp only [Function.comp_apply]
-    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, h0i1, h0j1, h0i2, h0j2, hd12, hi2i1, hi1j1, hj1i1, hi2j1, hj1i2, hi1j2, hj2i1, hi2j2, hj2i2, hj12, hj2j1]
+    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, hj1i2, hj12]
   have hinv2 : h⁻¹ (b i2) = b j2 := by
     rw [hh, hdRo7CSmallAux_signedPerm_inv, hdRo7CSmallAux_signedPerm_apply,
       show σ.symm = σ⁻¹ from rfl]
     simp only [Function.comp_apply]
-    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, h0i1, h0j1, h0i2, h0j2, hd12, hi2i1, hi1j1, hj1i1, hi2j1, hj1i2, hi1j2, hj2i1, hi2j2, hj2i2, hj12, hj2j1]
+    simp [σ, cc, Equiv.Perm.mul_apply, Equiv.swap_apply_def, hi2i1, hi2j1]
   have hhu_inv : h⁻¹ u = b.coord 0 u • b 0 + b.coord i1 u • b j1 + b.coord i2 u • b j2 := by
     conv_lhs => rw [hu2]
     simp only [map_add, map_smul, hinv0, hinv1, hinv2]

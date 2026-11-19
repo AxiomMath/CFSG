@@ -18,6 +18,7 @@ section SL2
 variable {F : Type} [Field F] [Fintype F] [CharP F 2]
   {W : Type} [AddCommMonoid W] [Module (ZMod 2) W]
 
+omit [Fintype F] [CharP F 2] in
 private theorem utriElt_mulVec (s : F) (v : Fin 2 → F) :
     (utriElt s : Matrix (Fin 2) (Fin 2) F).mulVec v = ![v 0 + s * v 1, v 1] := by
   have h : v = ![v 0, v 1] := by ext i; fin_cases i <;> simp
@@ -26,6 +27,7 @@ private theorem utriElt_mulVec (s : F) (v : Fin 2 → F) :
   fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, utriElt_apply_00,
     utriElt_apply_01, utriElt_apply_10, utriElt_apply_11]
 
+omit [Fintype F] [CharP F 2] in
 private theorem ltriElt_mulVec (s : F) (v : Fin 2 → F) :
     (ltriElt s : Matrix (Fin 2) (Fin 2) F).mulVec v = ![v 0, s * v 0 + v 1] := by
   have h : v = ![v 0, v 1] := by ext i; fin_cases i <;> simp
@@ -34,6 +36,7 @@ private theorem ltriElt_mulVec (s : F) (v : Fin 2 → F) :
   fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, ltriElt_apply_00,
     ltriElt_apply_01, ltriElt_apply_10, ltriElt_apply_11]
 
+omit [Fintype F] [CharP F 2] in
 private theorem mem_fixedSub_utri_iff {ρ : Representation (ZMod 2) SL(2, F) W}
     {φ : W ≃+ (Fin 2 → F)}
     (hφ : ∀ g w, φ (ρ g w) = (g : Matrix (Fin 2) (Fin 2) F).mulVec (φ w)) {w : W} :
@@ -55,6 +58,7 @@ private theorem mem_fixedSub_utri_iff {ρ : Representation (ZMod 2) SL(2, F) W}
     ext i
     fin_cases i <;> simp [hw]
 
+omit [Fintype F] [CharP F 2] in
 private theorem mem_fixedSub_ltri_iff {ρ : Representation (ZMod 2) SL(2, F) W}
     {φ : W ≃+ (Fin 2 → F)}
     (hφ : ∀ g w, φ (ρ g w) = (g : Matrix (Fin 2) (Fin 2) F).mulVec (φ w)) {w : W} :
@@ -67,7 +71,7 @@ private theorem mem_fixedSub_ltri_iff {ρ : Representation (ZMod 2) SL(2, F) W}
       rw [← hφ, h1]
     rw [ltriElt_mulVec] at h2
     have h3 := congrFun h2 1
-    simp only [Matrix.cons_val_one, Matrix.head_cons, one_mul] at h3
+    simp only [Matrix.cons_val_one, one_mul] at h3
     exact add_right_cancel (a := (φ w) 0) (b := (φ w) 1) (c := 0) (by simpa using h3)
   · intro hw u hu
     obtain ⟨t, rfl⟩ := mem_ltri_iff.1 hu
@@ -76,6 +80,7 @@ private theorem mem_fixedSub_ltri_iff {ρ : Representation (ZMod 2) SL(2, F) W}
     ext i
     fin_cases i <;> simp [hw]
 
+omit [Fintype F] [CharP F 2] in
 theorem sup_fixedSub_conj_utri_eq_top (ρ : Representation (ZMod 2) SL(2, F) W)
     (hρ : IsNaturalModule ρ) {a b : SL(2, F)}
     (hne : conjSubgroup a (utri F) ≠ conjSubgroup b (utri F)) :
@@ -113,11 +118,13 @@ section Sz
 variable {a : ℕ} {K : Type} [Field K] [CharP K 2] [Fintype K]
   {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [CharP K 2] [Fintype K] in
 private theorem suzukiS_zero_one_map_pow (c : ℕ) :
     (suzukiS a (0 : K) (1 : K)).map (· ^ 2 ^ c) = suzukiS a (0 : K) (1 : K) := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [suzukiS, suzukiN, Matrix.map_apply]
 
+omit [CharP K 2] [Fintype K] in
 private theorem suzukiS_zero_map_pow_mulVec (c : ℕ) (v : K) (u : Fin 4 → K)
     (h0 : u 0 = 0) (h1 : u 1 = 0) :
     ((suzukiS a 0 v).map (· ^ 2 ^ c)).mulVec u = u := by
@@ -126,11 +133,13 @@ private theorem suzukiS_zero_map_pow_mulVec (c : ℕ) (v : K) (u : Fin 4 → K)
     simp [suzukiS, suzukiN, Matrix.map_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_four,
       h0, h1]
 
+omit [CharP K 2] [Fintype K] in
 private theorem suzukiW_map_pow (c : ℕ) :
     (suzukiW K).map (· ^ 2 ^ c) = suzukiW K := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [suzukiW, Matrix.map_apply]
 
+omit [Finite W] [CharP K 2] in
 theorem mem_fixedSub_suzukiZ0_iff (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) {c : ℕ} {φ : W ≃+ (Fin 4 → K)}
     (hφ : ∀ g w, φ (ρ g w) =
@@ -160,6 +169,7 @@ theorem mem_fixedSub_suzukiZ0_iff (hK : Nat.card K = 2 ^ (2 * a + 1))
     rw [hφ]
     exact suzukiS_zero_map_pow_mulVec c v (φ w) h0 h1
 
+omit [Finite W] [CharP K 2] in
 private theorem mem_fixedSub_szZ_iff (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) {c : ℕ} {φ : W ≃+ (Fin 4 → K)}
     (hφ : ∀ g w, φ (ρ g w) =
@@ -177,9 +187,10 @@ private theorem mem_fixedSub_szZ_iff (hK : Nat.card K = 2 ^ (2 * a + 1))
       rw [suzukiWElt_inv]; exact coe_suzukiWElt (a := a) (K := K)
     rw [hcoe, suzukiW_map_pow, suzukiW_mulVec]
   rw [hW]
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
   exact ⟨fun h => ⟨h.2, h.1⟩, fun h => ⟨h.2, h.1⟩⟩
 
+omit [Finite W] [CharP K 2] in
 theorem natCard_fixedSub_suzukiZ0 (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) (hρ : IsSzNatural ρ) :
     Nat.card (fixedSub ρ (suzukiZ0 a K)) = Nat.card K ^ 2 := by
@@ -199,6 +210,7 @@ theorem natCard_fixedSub_suzukiZ0 (hK : Nat.card K = 2 ^ (2 * a + 1))
     rw [Nat.card_congr e, Nat.card_prod, pow_two]
   rw [h1, h2]
 
+omit [Finite W] [CharP K 2] in
 private theorem natCard_fixedSub_szZ (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) (hρ : IsSzNatural ρ) :
     Nat.card (fixedSub ρ (szZ a K)) = Nat.card K ^ 2 := by
@@ -230,6 +242,7 @@ private theorem natCard_fixedSub_szZ (hK : Nat.card K = 2 ^ (2 * a + 1))
   rw [h1]
   exact natCard_fixedSub_suzukiZ0 hK ρ hρ
 
+omit [Finite W] [CharP K 2] in
 private theorem sup_fixedSub_szZ_szZ0 (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) (hρ : IsSzNatural ρ) :
     fixedSub ρ (szZ a K) ⊔ fixedSub ρ (suzukiZ0 a K) = ⊤ := by
@@ -251,6 +264,7 @@ private theorem sup_fixedSub_szZ_szZ0 (hK : Nat.card K = 2 ^ (2 * a + 1))
     simp [v1]
   · rw [← φ.symm.map_add, ← huv, AddEquiv.symm_apply_apply]
 
+omit [CharP K 2] in
 private theorem suzukiB_le_normalizer_suzukiZ0 (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     suzukiB a K ≤ Subgroup.normalizer (suzukiZ0 a K : Set ↥(suzukiGroup a K)) := by
   have hU : suzukiU a K ≤ Subgroup.centralizer (suzukiZ0 a K : Set ↥(suzukiGroup a K)) := by
@@ -273,6 +287,7 @@ private theorem suzukiB_le_normalizer_suzukiZ0 (hK : Nat.card K = 2 ^ (2 * a + 1
   exact sup_le (hU.trans (Subgroup.centralizer_le_normalizer
     (G := ↥(suzukiGroup a K)) (suzukiZ0 a K : Set _))) hT
 
+omit [CharP K 2] in
 private theorem exists_conj_eq_szZ_suzukiZ0 (hK : Nat.card K = 2 ^ (2 * a + 1))
     {x y : ↥(suzukiGroup a K)}
     (hne : conjSubgroup x (szZ a K) ≠ conjSubgroup y (szZ a K)) :
@@ -351,6 +366,7 @@ private theorem exists_conj_eq_szZ_suzukiZ0 (hK : Nat.card K = 2 ^ (2 * a + 1))
   · rw [hy, conjSubgroup_conjSubgroup]
     exact mem_normalizer_iff_conjSubgroup_eq.1 (suzukiB_le_normalizer_suzukiZ0 hK hB2)
 
+omit [Finite W] [CharP K 2] in
 theorem natCard_fixedSub_conj_szZ (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) (hρ : IsSzNatural ρ)
     (x : ↥(suzukiGroup a K)) :
@@ -379,6 +395,7 @@ theorem natCard_fixedSub_conj_szZ (hK : Nat.card K = 2 ^ (2 * a + 1))
   rw [h1]
   exact natCard_fixedSub_szZ hK ρ hρ
 
+omit [Finite W] [CharP K 2] in
 theorem sup_fixedSub_conj_szZ_eq_top (hK : Nat.card K = 2 ^ (2 * a + 1))
     (ρ : Representation (ZMod 2) ↥(suzukiGroup a K) W) (hρ : IsSzNatural ρ)
     {x y : ↥(suzukiGroup a K)}

@@ -84,7 +84,7 @@ theorem s16t_false_of_case153_2_gen (D : Data G) (h1217 : R1217 D) {V₀ V L : S
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D V₀ V L hV) (h : Case153_2 D V₀ V hV L) :
     False := by
   obtain ⟨K₀, p, hKL, hshape, hdir, hsig, -, hrs, hrs1⟩ := h
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   have hsmall : mSub V₀ ≤ 2 := hc.setting.hyp16.small
   have hr1 : 0 < (conjSet (barSub V₀ V hV K₀)
       (Mbar D.M V₀ V hV ⊓ normalizer ((lBar V₀ V hV L : Subgroup _) : Set _))).ncard := by

@@ -69,8 +69,8 @@ theorem u81_mem_uniqueSet_of_residual (u : U4X D L K n)
   have hns := UC6S846.not_solvable_of_mem_calC u.hL
   have hsp := UC6S846.sp_of_mem_sig hSg hns u.hσ
   have hr := u.prime_r
-  haveI : Fact n.Prime := ⟨u.prime_n⟩
-  haveI : Fact (2 ^ n - 1).Prime := ⟨hr⟩
+  have : Fact n.Prime := ⟨u.prime_n⟩
+  have : Fact (2 ^ n - 1).Prime := ⟨hr⟩
   have hr3 : CFSG.Open.pRank (2 ^ n - 1) D.M ≤ 3 := by
     by_contra h4
     exact hnsp (UC6S846.sp_of_mem_sig hSg hns (hSg.four_mem _ hr u.r_ne_two (by omega)))

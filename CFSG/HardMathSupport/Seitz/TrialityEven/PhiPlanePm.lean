@@ -34,7 +34,7 @@ theorem exists_plane_of_dvd_phi_pm {ℓ f : ℕ} [Fact ℓ.Prime] (hf : 1 ≤ f)
   have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := inferInstance
   let S : Sylow r (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := default
   obtain ⟨φ⟩ := hshape ((S : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)))
-    S.isPGroup' S.not_dvd_index
+    S.isPGroup S.not_dvd_index
   obtain ⟨E₁, -, hE₁p, hE₁c⟩ := CFSG.HardMathSupport.Seitz.TrialityOdd.Inner.exists_plane_of_sylowShape_gen
     he (S : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) φ
   exact ⟨E₁, hE₁p, hE₁c⟩

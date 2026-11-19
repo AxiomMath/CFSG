@@ -86,7 +86,7 @@ theorem coe_qTwoStdTheta_of_lt (m : ℕ) (hm : 3 ≤ m) {i j : Fin (m + 1)} (h :
     (a : Su K 2 1 3) :
     ((qTwoStdTheta E m hm i j a : ↥(CFSG.RankThree.Classical2.orthDerived (Qn E (m + 1)))) :
       (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K)) = (stdFamilyV E m hm).θ i j a := by
-  rw [qTwoStdTheta, if_pos h]
+  rw [qTwoStdTheta, ite_eq_left h]
   rfl
 
 private theorem qts_label_three_symm {m : ℕ} {i j : Fin (m + 1)}
@@ -96,7 +96,7 @@ private theorem qts_label_three_symm {m : ℕ} {i j : Fin (m + 1)}
 
 theorem qTwoStdTheta_of_gt (m : ℕ) (hm : 3 ≤ m) {i j : Fin (m + 1)} (h : j < i) :
     qTwoStdTheta E m hm i j = (qTwoStdTheta E m hm j i).comp (revSU3 K 2 1).toMonoidHom := by
-  rw [qTwoStdTheta, if_neg (not_lt.mpr (le_of_lt h)), qTwoStdTheta, if_pos h]
+  rw [qTwoStdTheta, ite_eq_right (not_lt.mpr (le_of_lt h)), qTwoStdTheta, ite_eq_left h]
 
 theorem coe_qTwoStdIota_castSucc (m : ℕ) (hm : 3 ≤ m) (k : Fin m) (a : Su K 2 1 2) :
     ((qTwoStdIota E m hm (Fin.castSucc k) a :
@@ -130,7 +130,7 @@ theorem coe_qTwoStdTheta_chain (m : ℕ) (hm : 3 ≤ m) {i : Fin (m + 1)} {j : F
     omega
   rw [coe_qTwoStdTheta_of_lt E m hm hij, stdFamilyV_θ, stdTheta_castSucc]
   unfold stdThetaAt
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   rfl
 
 theorem coe_qTwoStdTheta_fork (m : ℕ) (hm : 3 ≤ m) (b : Su K 2 1 3) :
@@ -187,7 +187,7 @@ private theorem qts_stdTheta_eq_win_chain {m a : ℕ} (hm : 3 ≤ m) (ha : a + 2
   conv_lhs => rw [hjcast]
   rw [stdTheta_castSucc]
   unfold stdThetaAt
-  rw [dif_pos (by show a + 1 = a + 1; omega)]
+  rw [dite_eq_left (by show a + 1 = a + 1; omega)]
   unfold stdChainTheta qtwoStdWin
   rfl
 
@@ -315,17 +315,17 @@ private theorem qts_theta_mem_qtwoStdW {m : ℕ} (hm : 3 ≤ m) {j k : Fin (m + 
       (Fin (m + 1) → K) ≃ₗ[F] (Fin (m + 1) → K)) ∈ qtwoStdW E m hm j k := by
   have hne : j ≠ k := by
     rintro rfl
-    rw [CFSG.StandardType.ggCoxeterMatrixD_apply, if_pos rfl] at h1
+    rw [CFSG.StandardType.ggCoxeterMatrixD_apply, ite_eq_left rfl] at h1
     omega
   by_cases hlt : j < k
   · rw [coe_qTwoStdTheta_of_lt E m hm hlt b]
     unfold qtwoStdW
-    rw [if_pos h1, if_pos hlt]
+    rw [ite_eq_left h1, ite_eq_left hlt]
     exact ⟨b, rfl⟩
   · have hkj : k < j := lt_of_le_of_ne (le_of_not_gt hlt) (Ne.symm hne)
     rw [qTwoStdTheta_of_gt E m hm hkj]
     unfold qtwoStdW
-    rw [if_pos h1, if_neg (not_lt.mpr (le_of_lt hkj))]
+    rw [ite_eq_left h1, ite_eq_right (not_lt.mpr (le_of_lt hkj))]
     refine ⟨revSU3 K 2 1 b, ?_⟩
     rw [MonoidHom.comp_apply, coe_qTwoStdTheta_of_lt E m hm hkj]
     rfl
@@ -338,7 +338,7 @@ private theorem qts_theta_mem_qtwoStdW {m : ℕ} (hm : 3 ≤ m) {j k : Fin (m + 
   left i j hM := by
     have hne : i ≠ j := by
       rintro rfl
-      rw [CFSG.StandardType.ggCoxeterMatrixD_apply, if_pos rfl] at hM
+      rw [CFSG.StandardType.ggCoxeterMatrixD_apply, ite_eq_left rfl] at hM
       omega
     rcases lt_or_gt_of_ne hne with hij | hji
     · apply MonoidHom.ext
@@ -349,7 +349,7 @@ private theorem qts_theta_mem_qtwoStdW {m : ℕ} (hm : 3 ≤ m) {j k : Fin (m + 
         coe_qTwoStdIota]
       exact DFunLike.congr_fun ((stdFamilyV E m hm).left i j hij hM) a
     · rw [qTwoStdTheta_of_gt E m hm hji, MonoidHom.comp_assoc, revSU3_comp_embSUid_two K 2 1,
-        qTwoStdTheta, if_pos hji]
+        qTwoStdTheta, ite_eq_left hji]
       apply MonoidHom.ext
       intro a
       apply Subtype.ext
@@ -359,7 +359,7 @@ private theorem qts_theta_mem_qtwoStdW {m : ℕ} (hm : 3 ≤ m) {j k : Fin (m + 
   right i j hM := by
     have hne : i ≠ j := by
       rintro rfl
-      rw [CFSG.StandardType.ggCoxeterMatrixD_apply, if_pos rfl] at hM
+      rw [CFSG.StandardType.ggCoxeterMatrixD_apply, ite_eq_left rfl] at hM
       omega
     rcases lt_or_gt_of_ne hne with hij | hji
     · apply MonoidHom.ext
@@ -370,7 +370,7 @@ private theorem qts_theta_mem_qtwoStdW {m : ℕ} (hm : 3 ≤ m) {j k : Fin (m + 
         coe_qTwoStdIota]
       exact DFunLike.congr_fun ((stdFamilyV E m hm).right i j hij hM) a
     · rw [qTwoStdTheta_of_gt E m hm hji, MonoidHom.comp_assoc, revSU3_comp_embSUid_zero K 2 1,
-        qTwoStdTheta, if_pos hji]
+        qTwoStdTheta, ite_eq_left hji]
       apply MonoidHom.ext
       intro a
       apply Subtype.ext
@@ -380,14 +380,14 @@ private theorem qts_theta_mem_qtwoStdW {m : ℕ} (hm : 3 ≤ m) {j k : Fin (m + 
   rev i j hM := by
     have hne : i ≠ j := by
       rintro rfl
-      rw [CFSG.StandardType.ggCoxeterMatrixD_apply, if_pos rfl] at hM
+      rw [CFSG.StandardType.ggCoxeterMatrixD_apply, ite_eq_left rfl] at hM
       omega
     have hK' : Nat.card K = (2 ^ 1) ^ 2 := by
       rw [hK]
       norm_num
     rcases lt_or_gt_of_ne hne with hij | hji
-    · rw [qTwoStdTheta, if_neg (not_lt.mpr (le_of_lt hij)), qTwoStdTheta, if_pos hij]
-    · rw [qTwoStdTheta, if_pos hji, qTwoStdTheta, if_neg (not_lt.mpr (le_of_lt hji))]
+    · rw [qTwoStdTheta, ite_eq_right (not_lt.mpr (le_of_lt hij)), qTwoStdTheta, ite_eq_left hij]
+    · rw [qTwoStdTheta, ite_eq_left hji, qTwoStdTheta, ite_eq_right (not_lt.mpr (le_of_lt hji))]
       apply MonoidHom.ext
       intro a
       simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]

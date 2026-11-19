@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem le_normalizer_commutator {X A B : Subgroup G}
     (hA : X ≤ Subgroup.normalizer (A : Set G)) (hB : X ≤ Subgroup.normalizer (B : Set G)) :
     X ≤ Subgroup.normalizer ((⁅A, B⁆ : Subgroup G) : Set G) := by
@@ -23,6 +24,7 @@ private theorem le_normalizer_commutator {X A B : Subgroup G}
     Subgroup.mem_normalizer_iff_map_conj_eq.mp (hA hx),
     Subgroup.mem_normalizer_iff_map_conj_eq.mp (hB hx)]
 
+omit [Finite G] in
 private theorem commutator_eq_bot_of_perfect {X A : Subgroup G} (hA : ⁅A, A⁆ = A)
     (h : ⁅⁅X, A⁆, A⁆ = ⊥) : ⁅X, A⁆ = ⊥ := by
   have h1 : ⁅⁅A, X⁆, A⁆ = ⊥ := by rw [Subgroup.commutator_comm A X]; exact h
@@ -31,6 +33,7 @@ private theorem commutator_eq_bot_of_perfect {X A : Subgroup G} (hA : ⁅A, A⁆
   rw [Subgroup.commutator_comm]
   exact h3
 
+omit [Finite G] in
 private theorem commutator_commutator_le_of_rotate {N H₁ H₂ H₃ : Subgroup G}
     (h₁ : H₁ ≤ Subgroup.normalizer (N : Set G)) (h₂ : H₂ ≤ Subgroup.normalizer (N : Set G))
     (h₃ : H₃ ≤ Subgroup.normalizer (N : Set G)) (h1 : ⁅⁅H₂, H₃⁆, H₁⁆ ≤ N)
@@ -87,6 +90,7 @@ private theorem le_normalizer_inf_centralizer {X Q : Subgroup G}
     _ = x * (n * (x⁻¹ * q * x)) * x⁻¹ := by rw [hc]
     _ = x * n * x⁻¹ * q := by group
 
+omit [Finite G] in
 private theorem pCoreOf_le_pCoreOf_of_subnormal {H K : Subgroup G} (h : IsSubnormal H K) :
     pCoreOf 2 H ≤ pCoreOf 2 K := by
   induction h with
@@ -101,6 +105,7 @@ private theorem pCoreOf_le_pCoreOf_of_subnormal {H K : Subgroup G} (h : IsSubnor
       (Subgroup.normal_subgroupOf_iff_le_normalizer hle).mp hN hm
     exact CFSG.RankThree.PartTwo.Sec19.SimsTheoremC.normalizer_le_normalizer_pCoreOf H hmH
 
+omit [Finite G] in
 private theorem pCoreOf_ne_bot_of_max {M : Subgroup G} (hM : GLBIsMaxTwoLocal M) :
     pCoreOf 2 M ≠ ⊥ := by
   obtain ⟨P, hP0, hP2, hMP⟩ := hM.1
@@ -111,11 +116,13 @@ private theorem pCoreOf_ne_bot_of_max {M : Subgroup G} (hM : GLBIsMaxTwoLocal M)
   rw [h] at this
   exact le_bot_iff.mp this
 
+omit [Finite G] in
 private theorem normalizer_eq_of_max {M Y : Subgroup G} (hM : GLBIsMaxTwoLocal M)
     (hY : Y ≤ pCoreOf 2 M) (hY0 : Y ≠ ⊥) (hMY : M ≤ Subgroup.normalizer (Y : Set G)) :
     Subgroup.normalizer (Y : Set G) = M :=
   hM.2 _ ⟨Y, hY0, (CFSG.RankThree.PartTwo.Sec19.SimsTheoremC.isPGroup_pCoreOf M).to_le hY, rfl⟩ hMY
 
+omit [Finite G] in
 private theorem mem_centralizerModTwoCore {J : Subgroup G} {x : G}
     (hx : x ∈ centralizerModTwoCore J) :
     x ∈ Subgroup.normalizer (J : Set G) ∧ ∀ y ∈ J, x * y * x⁻¹ * y⁻¹ ∈ pCoreOf 2 J := by
@@ -125,7 +132,7 @@ private theorem mem_centralizerModTwoCore {J : Subgroup G} {x : G}
   clear hx
   induction hx' using Subgroup.closure_induction with
   | mem g hg => exact hg
-  | one => exact ⟨one_mem _, fun y _ => by simpa using (pCoreOf 2 J).one_mem⟩
+  | one => exact ⟨one_mem _, fun y _ => by simp⟩
   | mul a b _ _ iha ihb =>
     refine ⟨mul_mem iha.1 ihb.1, fun y hy => ?_⟩
     have e : a * b * y * (a * b)⁻¹ * y⁻¹ =
@@ -339,6 +346,7 @@ private theorem forall_conj_mem_of_not_abelian {M J M₁ R : Subgroup G}
   rw [e]
   exact hy
 
+omit [Finite G] in
 private theorem isFooteBlock_normalizer_of_forall_conj_mem {M J M₁ R : Subgroup G}
     (hJ : IsFooteBlock M J) (hsub : IsSubnormal J M₁)
     (hJR : J ≤ Subgroup.normalizer (R : Set G))
@@ -351,7 +359,7 @@ private theorem isFooteBlock_normalizer_of_forall_conj_mem {M J M₁ R : Subgrou
         have e : g * (a * b) * g⁻¹ = (g * a * g⁻¹) * (g * b * g⁻¹) := by group
         rw [e]
         exact M₁.mul_mem (ha.2 g hg) (hb.2 g hg)⟩
-      one_mem' := ⟨N.one_mem, fun g _ => by simpa using M₁.one_mem⟩
+      one_mem' := ⟨N.one_mem, fun g _ => by simp⟩
       inv_mem' := fun {a} ha => ⟨N.inv_mem ha.1, fun g hg => by
         have e : g * a⁻¹ * g⁻¹ = (g * a * g⁻¹)⁻¹ := by group
         rw [e]

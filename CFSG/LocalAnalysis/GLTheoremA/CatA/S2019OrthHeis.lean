@@ -99,13 +99,13 @@ private theorem eB_e₁ (t : K) : D.eB t D.P₁.e = D.P₁.e := by
 private theorem eA_a (s t : K) : D.eA s (t • D.a) = t • D.a + (-(D.γ * s * t)) • D.P₁.e := by
   rw [eA, eichler_apply D.P₁.Q_e (D.pe₁ s), polar_smul_left_eq, polar_comm, D.polar_e₁_a,
     polar_smul_left_eq, polar_smul_right_eq, OrthHeisData.γ]
-  simp only [mul_zero, zero_smul, add_zero, zero_mul]
+  simp only [mul_zero, zero_smul, add_zero]
   module
 
 private theorem eB_a (s t : K) : D.eB t (s • D.a) = s • D.a + (-(D.γ * s * t)) • D.P₂.e := by
   rw [eB, eichler_apply D.P₂.Q_e (D.pe₂ t), polar_smul_left_eq, polar_comm, D.polar_e₂_a,
     polar_smul_left_eq, polar_smul_right_eq, OrthHeisData.γ]
-  simp only [mul_zero, zero_smul, add_zero, zero_mul]
+  simp only [mul_zero, zero_smul, add_zero]
   module
 
 theorem eB_mem (t : K) : D.eB t ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
@@ -176,7 +176,7 @@ private theorem polar_elt_f₁ (s t : K) : polar Q (D.elt s t 0 D.P₁.f) D.a = 
   rw [elt, D.eC_zero, mul_one, LinearEquiv.mul_apply, hBf, eA,
     eichler_apply D.P₁.Q_e (D.pe₁ s)]
   simp only [polar_add_left, polar_sub_left, polar_smul_left_eq, polar_smul_right_eq,
-    D.P₁.polar_fe, D.polar_f₁_a, D.polar_a_e₁, D.polar_e₁_a, OrthHeisData.γ]
+    D.P₁.polar_fe, D.polar_f₁_a, D.polar_e₁_a, OrthHeisData.γ]
   ring
 
 private theorem polar_elt_f₂ (s t : K) : polar Q (D.elt s t 0 D.P₂.f) D.a = D.γ * t := by
@@ -193,8 +193,7 @@ private theorem polar_elt_f₂ (s t : K) : polar Q (D.elt s t 0 D.P₂.f) D.a = 
     have := D.eA_a s 1
     rwa [one_smul] at this
   rw [hAa]
-  simp only [polar_add_left, polar_sub_left, polar_smul_left_eq, D.polar_a_f₂,
-    D.polar_f₂_a, D.polar_a_e₁, D.polar_e₁_a, D.polar_a_e₂, D.polar_e₂_a, OrthHeisData.γ]
+  simp only [polar_add_left, polar_sub_left, polar_smul_left_eq, D.polar_f₂_a, D.polar_e₁_a, D.polar_e₂_a, OrthHeisData.γ]
   ring
 
 theorem elt_injective (hγ : D.γ ≠ 0) {s t s' t' : K} (h : D.elt s t 0 = D.elt s' t' 0) :
@@ -211,7 +210,7 @@ theorem eC_injective {c c' : K} (h : D.eC c = D.eC c') : c = c' := by
   rw [eichler_apply D.P₁.Q_e (D.pe₁₂ c), eichler_apply D.P₁.Q_e (D.pe₁₂ c')] at h1
   simp only [polar_add_left, polar_sub_left, polar_smul_left_eq, polar_smul_right_eq,
     D.P₁.polar_fe, D.P₂.polar_ef, D.orth.ff, D.orth.ef, polar_comm Q D.P₁.f D.P₂.e,
-    D.orth.fe, polar_self_eq_zero D.P₂.Q_e, D.P₂.Q_e, map_smul_eq_sq] at h1
+    D.P₂.Q_e, map_smul_eq_sq] at h1
   linear_combination h1
 
 theorem elt_pow_three [CharP K 3] (s t c : K) : D.elt s t c ^ 3 = 1 := by

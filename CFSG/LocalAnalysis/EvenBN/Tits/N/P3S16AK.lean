@@ -55,6 +55,7 @@ section KLevel
 
 variable {Γ : Type*} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem mem_zpowers_cases {a b : Γ} (ha : a * a = 1) (hb : b ∈ zpowers a) : b = 1 ∨ b = a := by
   obtain ⟨k, rfl⟩ := mem_zpowers_iff.mp hb
   obtain ⟨m, rfl | rfl⟩ := Int.even_or_odd' k
@@ -79,15 +80,19 @@ structure KHyp (K V S : Subgroup Γ) (t : Γ) : Prop where
 
 variable {K V S : Subgroup Γ} {t : Γ}
 
+omit [Finite Γ] in
 theorem KHyp.S_le (h : KHyp K V S t) : S ≤ K := h.S_sylow.1
 
+omit [Finite Γ] in
 theorem KHyp.t_notMem_S (h : KHyp K V S t) : t ∉ S := fun hts => h.t_notMem (h.S_le hts)
 
+omit [Finite Γ] in
 theorem KHyp.V_pGroup (h : KHyp K V S t) : IsPGroup 2 V := fun g =>
   ⟨1, by
     apply Subtype.ext
     simpa using h.V_elem.2 g g.2⟩
 
+omit [Finite Γ] in
 theorem KHyp.V_le_S (h : KHyp K V S t) : V ≤ S := by
   have hc : ∀ v ∈ V, ∀ y ∈ S, v * y * v⁻¹ = y := fun v hv y hy => by
     rw [h.V_central v hv y (h.S_le hy)]
@@ -109,6 +114,7 @@ theorem KHyp.V_le_S (h : KHyp K V S t) : V ≤ S := by
   have := h.S_sylow.2.2 (V ⊔ S) (sup_le h.V_le h.S_le) hsup le_sup_right
   exact this ▸ le_sup_left
 
+omit [Finite Γ] in
 theorem KHyp.t_normS (h : KHyp K V S t) : t ∈ normalizer (S : Set Γ) := by
   rw [mem_normalizer_iff]
   intro x
@@ -119,10 +125,12 @@ theorem KHyp.t_normS (h : KHyp K V S t) : t ∈ normalizer (S : Set Γ) := by
       _ = x := by rw [h.t_sq]; group
   rwa [e] at h1
 
+omit [Finite Γ] in
 theorem KHyp.zpowers_le_normalizer (h : KHyp K V S t) : zpowers t ≤ normalizer (S : Set Γ) := by
   rw [zpowers_le]
   exact h.t_normS
 
+omit [Finite Γ] in
 theorem KHyp.mem_P (h : KHyp K V S t) {x : Γ} :
     x ∈ S ⊔ zpowers t ↔ x ∈ S ∨ ∃ s ∈ S, x = s * t := by
   have hcoe := coe_mul_of_right_le_normalizer_left S (zpowers t) h.zpowers_le_normalizer
@@ -139,6 +147,7 @@ theorem KHyp.mem_P (h : KHyp K V S t) {x : Γ} :
     · exact ⟨x, hx, 1, one_mem _, by simp⟩
     · exact ⟨s, hs, t, mem_zpowers t, rfl⟩
 
+omit [Finite Γ] in
 theorem KHyp.isPGroup_P (h : KHyp K V S t) : IsPGroup 2 ↥(S ⊔ zpowers t) := by
   have hz : IsPGroup 2 (zpowers t) := fun g => ⟨1, by
     apply Subtype.ext
@@ -148,6 +157,7 @@ theorem KHyp.isPGroup_P (h : KHyp K V S t) : IsPGroup 2 ↥(S ⊔ zpowers t) := 
       simpa using h.t_sq⟩
   exact h.S_sylow.2.1.to_sup_of_normal_left' hz h.zpowers_le_normalizer
 
+omit [Finite Γ] in
 theorem card_subgroupOf_inf_centralizer {P A : Subgroup Γ} (hAP : A ≤ P) {t : Γ} (htP : t ∈ P) :
     Nat.card ↥(A.subgroupOf P ⊓ centralizer ({(⟨t, htP⟩ : ↥P)} : Set ↥P)) =
       Nat.card ↥(A ⊓ centralizer ({t} : Set Γ)) := by
@@ -163,7 +173,7 @@ theorem card_subgroupOf_inf_centralizer {P A : Subgroup Γ} (hAP : A ≤ P) {t :
 theorem KHyp.pHyp (h : KHyp K V S t) :
     PHyp (S.subgroupOf (S ⊔ zpowers t)) (V.subgroupOf (S ⊔ zpowers t))
       (⟨t, mem_sup_right (mem_zpowers t)⟩ : ↥(S ⊔ zpowers t)) := by
-  haveI := h.V_elem.1
+  have := h.V_elem.1
   have htP : t ∈ S ⊔ zpowers t := mem_sup_right (mem_zpowers t)
   have hSP : S ≤ S ⊔ zpowers t := le_sup_left
   have hVP : V ≤ S ⊔ zpowers t := h.V_le_S.trans hSP

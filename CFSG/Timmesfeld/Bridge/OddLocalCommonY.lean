@@ -108,7 +108,7 @@ theorem not_commute_pair {e : G} (he : e ∈ D) (hed : Commute e d) (hey : Commu
 theorem not_commute_of_mem_sylow {S : Sylow 2 G} (hdS : d ∈ S) {e : G} (he : e ∈ D)
     (heS : e ∈ S) : ¬ Commute e y := fun hey =>
   not_commute_pair hS hd hx hdx hy hyc hdy hno he
-    (hS.oddT.commute_of_isPGroup S.isPGroup' he hd heS hdS) hey
+    (hS.oddT.commute_of_isPGroup S.isPGroup he hd heS hdS) hey
 
 theorem mem_hClass_of_mem_sylow {S : Sylow 2 G} (hdS : d ∈ S) {e : G} (he : e ∈ D)
     (heS : e ∈ S) : e ∈ hClass (yGroup D S y) y := by
@@ -179,7 +179,7 @@ theorem yGroup_le_centralizer {S : Sylow 2 G} (hdS : d ∈ S) (hd₁S : d₁ ∈
     rintro e (rfl | ⟨he, heS⟩)
     · exact Subgroup.mem_centralizer_singleton_iff.mpr hzy.eq.symm
     · have hc : ∀ f ∈ D, f ∈ S → Commute e f := fun f hf hfS =>
-        hS.oddT.commute_of_isPGroup S.isPGroup' he hf heS hfS
+        hS.oddT.commute_of_isPGroup S.isPGroup he hf heS hfS
       rw [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff, hzeq]
       exact (((hc d hd hdS).mul_right (hc d₁ hd₁ hd₁S)).mul_right (hc _ hw hwS)).eq
 
@@ -354,12 +354,12 @@ theorem exists_yData (hn1 : 1 < n) (h14 : OddTranspThirdKind) (h16 : OddTranspZS
     exact not_commute_pair hS hd hx hdx hy hyc hdy hno hf
       ((Commute.refl d).mul_left hacomm) hfy
   have hSY2 : IsPGroup 2 ((S : Subgroup G).subgroupOf Y) :=
-    S.isPGroup'.comap_of_injective Y.subtype Subtype.coe_injective
+    S.isPGroup.comap_of_injective Y.subtype Subtype.coe_injective
   obtain ⟨SY, hSSY⟩ := hSY2.exists_le_sylow
   have hPSY : P ≤ SY := hP2.le_sylow_of_normal SY
   have hmemSY : ∀ {e : G} (he : e ∈ Y), e ∈ S → (⟨e, he⟩ : Y) ∈ SY := fun he heS =>
     hSSY (Subgroup.mem_subgroupOf.mpr heS)
-  obtain ⟨Sst, hSst⟩ := (SY.isPGroup'.map Y.subtype).exists_le_sylow
+  obtain ⟨Sst, hSst⟩ := (SY.isPGroup.map Y.subtype).exists_le_sylow
   have haSst : a ∈ Sst := by
     have : a' ∈ SY := SY.mul_mem (SY.mul_mem (hPSY hqP) (hmemSY _ hdS)) (SY.inv_mem (hPSY hqP))
     exact hSst ⟨a', this, rfl⟩
@@ -367,7 +367,7 @@ theorem exists_yData (hn1 : 1 < n) (h14 : OddTranspThirdKind) (h16 : OddTranspZS
     refine mem_sylow_of_commute hS S haD fun f hf hfS => ?_
     have hfSst : f ∈ Sst := hSst ⟨⟨f, mem_yGroup_of_mem hf hfS⟩,
       hmemSY (mem_yGroup_of_mem hf hfS) hfS, rfl⟩
-    exact hS.oddT.commute_of_isPGroup Sst.isPGroup' haD hf haSst hfSst
+    exact hS.oddT.commute_of_isPGroup Sst.isPGroup haD hf haSst hfSst
   set y' : Y := ⟨y, hyY⟩ with hy'
   set d₁' : Y := ⟨d₁, mem_yGroup_of_mem hd₁ hd₁S⟩ with hd₁'
   have htriY : IsTriangle (((↑) : Y → G) ⁻¹' hClass Y y) d' y' d₁' :=

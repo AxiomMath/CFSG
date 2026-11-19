@@ -41,15 +41,15 @@ private theorem omegaConj {g : Fin 5 → X} (hg : IsE5 g) {ν : X} {c : Fin 5 �
         Fin 5 → Fin 5 → ZMod 2) i) := by
     intro i
     fin_cases i
-    · simp [hg.mono_add, hg.mono_single, h0]
-    · simp [hg.mono_single, h1]
-    · simp [hg.mono_single, h2]
-    · simp [hg.mono_single, h3]
+    · simp [hg.mono_add, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single, h0]
+    · simp [CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single, h1]
+    · simp [CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single, h2]
+    · simp [CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single, h3]
     · simpa using h4
   rw [hg.conj_mono ν _ hcc v]
   congr 1
   funext j
-  fin_cases j <;> simp [omegaPsi, Fin.sum_univ_five, Pi.single_apply]
+  fin_cases j <;> simp [omegaPsi, Fin.sum_univ_five]
 
 private theorem omegaConjPow3 (ν y : X) :
     ν ^ 3 * y * (ν ^ 3)⁻¹ = ν * (ν * (ν * y * ν⁻¹) * ν⁻¹) * ν⁻¹ := by
@@ -95,8 +95,8 @@ theorem omega_fix [Finite X] {g : Fin 5 → X} (hg : IsE5 g) (hinj : Function.In
     obtain ⟨c0, c1, c2, c3, rfl⟩ : ∃ c0 c1 c2 c3 : ZMod 2, c = ![c0, c1, c2, c3, 0] :=
       ⟨c 0, c 1, c 2, c 3, by funext i; fin_cases i <;> simp [hc40]⟩
     have h := hψ ![c1, c0 + c1, c2, c3, 1]
-    rw [omegaPsi_step1, hg.mono_zero, conj_eq_one_iff] at h
-    have h' := hinj (h.trans hg.mono_zero.symm)
+    rw [omegaPsi_step1, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_zero, conj_eq_one_iff] at h
+    have h' := hinj (h.trans CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_zero.symm)
     have := congrFun h' 4
     simp at this
   obtain ⟨c0, c1, c2, c3, rfl⟩ : ∃ c0 c1 c2 c3 : ZMod 2, c = ![c0, c1, c2, c3, 1] :=
@@ -108,19 +108,19 @@ theorem omega_fix [Finite X] {g : Fin 5 → X} (hg : IsE5 g) (hinj : Function.In
   have hz1 : Commute (ν ^ 3) (g 1) := by
     have := hcube 0 1 0 0
     rw [show (![0, 1, 0, 0, 0] : Fin 5 → ZMod 2) = Pi.single 1 1 by decide,
-      hg.mono_single] at this
+      CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single] at this
     exact omegaCommute this
   have hne01 : g 0 ≠ g 1 := by
     intro h
     have h' : mono g (Pi.single 0 1) = mono g (Pi.single 1 1) := by
-      rw [hg.mono_single, hg.mono_single]
+      rw [CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single]
       exact h
     have := congrFun (hinj h') 0
     simp at this
   have hne0 : g 0 ≠ 1 := by
     intro h
     have h' : mono g (Pi.single 0 1) = mono g 0 := by
-      rw [hg.mono_single, hg.mono_zero]
+      rw [CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_zero]
       exact h
     have := congrFun (hinj h') 0
     simp at this
@@ -156,7 +156,7 @@ theorem omega_fix [Finite X] {g : Fin 5 → X} (hg : IsE5 g) (hinj : Function.In
     have : (![0, 0, c2, c3, 1] : Fin 5 → ZMod 2) = Pi.single 4 1 + ![0, 0, c2, c3, 0] := by
       funext i
       fin_cases i <;> simp
-    rw [this, hg.mono_add, hg.mono_single]
+    rw [this, hg.mono_add, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single]
   have hza : ν ^ 3 * mono g ![0, 0, c2, c3, 0] * (ν ^ 3)⁻¹ = mono g ![0, 0, c2, c3, 0] :=
     hcube 0 0 c2 c3
   have hfj := omegaPowConj hz4 hza j
@@ -172,7 +172,7 @@ theorem omega_fix [Finite X] {g : Fin 5 → X} (hg : IsE5 g) (hinj : Function.In
       rw [← hfj]
       simp
     exact mul_left_cancel this
-  have hu : (![0, 0, c2, c3, 0] : Fin 5 → ZMod 2) = 0 := hinj (ha1.trans hg.mono_zero.symm)
+  have hu : (![0, 0, c2, c3, 0] : Fin 5 → ZMod 2) = 0 := hinj (ha1.trans CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_zero.symm)
   have hc2 : c2 = 0 := by simpa using congrFun hu 2
   have hc3 : c3 = 0 := by simpa using congrFun hu 3
   subst hc2 hc3
@@ -181,6 +181,6 @@ theorem omega_fix [Finite X] {g : Fin 5 → X} (hg : IsE5 g) (hinj : Function.In
   have : (![c0, c1, 0, 0, 1] : Fin 5 → ZMod 2) = Pi.single 4 1 + ![c0, c1, 0, 0, 0] := by
     funext i
     fin_cases i <;> simp
-  rw [this, hg.mono_add, hg.mono_single]
+  rw [this, hg.mono_add, CFSG.ComponentClassification.SolMax.Sig36.E32.IsE5.mono_single]
 
 end CFSG.ComponentClassification.SolMax.Sig36.E32

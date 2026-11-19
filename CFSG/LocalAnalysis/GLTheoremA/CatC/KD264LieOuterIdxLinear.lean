@@ -24,7 +24,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.KD264Lie
 
 private theorem exists_quotient_center_catalogue_projectiveSL {n : ℕ} (hn : 2 ≤ n) {K : Type}
     [Field K] [Finite K] (k : Subfield K) {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hp : p.Prime)
-    (hp2 : p ≠ 2) (hpf : p ∣ f) (hcard : Nat.card ↥k = ℓ ^ (f / p))
+    (_hp2 : p ≠ 2) (hpf : p ∣ f) (hcard : Nat.card ↥k = ℓ ^ (f / p))
     (hkp : Nat.card ↥k ^ p = ℓ ^ f) :
     ∃ i : TauCeti.CFSGIndex,
       Nonempty (↥(linearSubfieldInclusion (n + 1) k).range ⧸
@@ -39,18 +39,18 @@ private theorem exists_quotient_center_catalogue_projectiveSL {n : ℕ} (hn : 2 
   let eT : ↥T ≃* projectiveSL (n + 1) ↥k := (MonoidHom.ofInjective hinj).symm
   let eProj : ↥T ≃* ProjectiveSpecialLinearGroup (Fin (n + 1)) ↥k :=
     eT.trans (LinearCover.projectiveSpecialLinearEquivProjectiveSL (n + 1) ↥k).symm
-  haveI hsimplePSL : IsSimpleGroup (ProjectiveSpecialLinearGroup (Fin (n + 1)) ↥k) :=
+  have hsimplePSL : IsSimpleGroup (ProjectiveSpecialLinearGroup (Fin (n + 1)) ↥k) :=
     (CFSG.LinearGroups.linear_projective_simple (n := n + 1) (by omega)
       (Or.inl (by omega))).2.1
   have hperfPSL : Group.IsPerfect (ProjectiveSpecialLinearGroup (Fin (n + 1)) ↥k) :=
     CFSG.LinearGroups.linear_projective_perfect (n := n + 1) (by omega) (Or.inl (by omega))
-  haveI hntPSL : Nontrivial (ProjectiveSpecialLinearGroup (Fin (n + 1)) ↥k) :=
+  have hntPSL : Nontrivial (ProjectiveSpecialLinearGroup (Fin (n + 1)) ↥k) :=
     CFSG.LinearGroups.linear_projective_nontrivial (n := n + 1) (by omega)
   obtain ⟨a, ha⟩ := not_forall.mp
     (not_comm_of_commutator_eq_top hperfPSL.commutator_eq_top)
   obtain ⟨b, hb⟩ := not_forall.mp ha
   have hZT : Subgroup.center ↥T = ⊥ := by
-    haveI : IsSimpleGroup ↥T := eProj.isSimpleGroup
+    have : IsSimpleGroup ↥T := eProj.isSimpleGroup
     have hnaT : ∃ x y : ↥T, x * y ≠ y * x :=
       ⟨eProj.symm a, eProj.symm b, fun h => hb (by simpa using congrArg eProj h)⟩
     exact CFSG.CGT.Timmesfeld75.center_eq_bot_of_simple_nonabelian ↥T hnaT
@@ -101,27 +101,27 @@ private theorem exists_quotient_center_catalogue_psl2 {F : Type} [Field F] [Fini
     ∃ i : TauCeti.CFSGIndex,
       Nonempty (↥(pslIncl σ).range ⧸ Subgroup.center ↥(pslIncl σ).range ≃* i.Group) ∧
       subRelC p (.A 1 ⟨ℓ, f, hℓ, hf⟩) i := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hf0 : 0 < f / p := Nat.div_pos (Nat.le_of_dvd (by omega) hpf) hp.pos
   have hodd : Odd (orderOf σ) := by rw [hσ]; exact hp.odd_of_ne_two hp2
   let k := fixedField σ
-  haveI : Fintype ↥k := Fintype.ofInjective (Subtype.val : ↥k → F) Subtype.val_injective
+  have : Fintype ↥k := Fintype.ofInjective (Subtype.val : ↥k → F) Subtype.val_injective
   let q₀ : TauCeti.PrimePower := ⟨ℓ, f / p, hℓ, hf0⟩
   have hq₀ : q₀.card = Nat.card ↥k := (TauCeti.PrimePower.card_def q₀).trans hcardf.symm
   let T := (pslIncl σ).range
   let eT : ↥T ≃* PSL2 ↥k := (MonoidHom.ofInjective (pslIncl_injective σ)).symm
-  haveI hsimple : IsSimpleGroup (PSL2 ↥k) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple
+  have hsimple : IsSimpleGroup (PSL2 ↥k) := Matrix.ProjectiveSpecialLinearGroup.rank_two_simple
     (by omega)
   have hperf : Group.IsPerfect (PSL2 ↥k) := by
     obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset ↥k)) (n := 4)
       (by rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; exact h4)
     exact CFSG.LinearGroups.linear_projective_perfect (n := 2) (by norm_num) (Or.inr ⟨s, hs⟩)
-  haveI hnt : Nontrivial (PSL2 ↥k) :=
+  have hnt : Nontrivial (PSL2 ↥k) :=
     CFSG.LinearGroups.linear_projective_nontrivial (by norm_num)
   obtain ⟨a, ha⟩ := not_forall.mp (not_comm_of_commutator_eq_top hperf.commutator_eq_top)
   obtain ⟨b, hb⟩ := not_forall.mp ha
   have hZT : Subgroup.center ↥T = ⊥ := by
-    haveI : IsSimpleGroup ↥T := eT.isSimpleGroup
+    have : IsSimpleGroup ↥T := eT.isSimpleGroup
     have hnaT : ∃ x y : ↥T, x * y ≠ y * x :=
       ⟨eT.symm a, eT.symm b, fun h => hb (by simpa using congrArg eT h)⟩
     exact CFSG.CGT.Timmesfeld75.center_eq_bot_of_simple_nonabelian ↥T hnaT
@@ -209,7 +209,7 @@ private theorem idxCoreAt_psl2_fieldAut {F : Type} [Field F] [Finite F] {p : ℕ
     (hpdvd : p ∣ Nat.card (PSL2 F)) {σ : F ≃+* F} (hσ : orderOf σ = p) {ℓ f : ℕ}
     (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hFc : Nat.card F = ℓ ^ f) :
     IdxCoreAt p (.A 1 ⟨ℓ, f, hℓ, hf⟩) (psl2FieldAut F σ) := by
-  haveI : Finite (PSL2 F) := Finite.of_surjective
+  have : Finite (PSL2 F) := Finite.of_surjective
     (QuotientGroup.mk' (Subgroup.center (SpecialLinearGroup (Fin 2) F)))
     (QuotientGroup.mk'_surjective _)
   have hodd : Odd (orderOf σ) := by rw [hσ]; exact hp.odd_of_ne_two hp2
@@ -271,10 +271,10 @@ private theorem outerIdxAt_projectiveSL {n : ℕ} (hn : 2 ≤ n) {F : Type} [Fie
     {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hF : Nat.card F = ℓ ^ f) (hp : p.Prime)
     (hp2 : p ≠ 2) (hpF : ¬ p ∣ Nat.card F) (hpdvd : p ∣ Nat.card (projectiveSL (n + 1) F)) :
     OuterIdxAt p (.A n ⟨ℓ, f, hℓ, hf⟩) (projectiveSL (n + 1) F) := by
-  haveI : Finite (projectiveSL (n + 1) F) :=
+  have : Finite (projectiveSL (n + 1) F) :=
     Finite.of_surjective (proj (n + 1) F) (proj_surjective (n := n + 1) (K := F))
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   refine outerIdxAt_of_idxCoreAt hp ?_
   intro x hxp hxo
   have hxin : x ∉ inner (projectiveSL (n + 1) F) :=
@@ -305,10 +305,10 @@ private theorem outerIdxAt_psl2 {F : Type} [Field F] [Finite F] {q : TauCeti.Pri
     (hFq : Nat.card F = q.card) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpF : ¬ p ∣ Nat.card F) (hF8 : p = 3 → Nat.card F ≠ 8)
     (hpdvd : p ∣ Nat.card (PSL2 F)) : OuterIdxAt p (.A 1 q) (PSL2 F) := by
-  haveI : Finite (PSL2 F) := Finite.of_surjective
+  have : Finite (PSL2 F) := Finite.of_surjective
     (QuotientGroup.mk' (Subgroup.center (SpecialLinearGroup (Fin 2) F)))
     (QuotientGroup.mk'_surjective _)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hFpow : Nat.card F = q.p ^ q.exponent := hFq.trans (TauCeti.PrimePower.card_def q)
   refine outerIdxAt_of_idxCoreAt hp ?_
   intro x hxp hxo
@@ -325,7 +325,7 @@ theorem lieOuterIdx_linear : LieOuterIdx isLinearIdx := by
     have hpq : q.p ≠ p := by
       rw [TauCeti.LieTypeIndex.characteristic_A] at hpc
       exact fun hqp => hpc hqp.symm
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     let F := GaloisField q.p q.exponent
     have hFpow : Nat.card F = q.p ^ q.exponent := by
       dsimp only [F]
@@ -342,12 +342,12 @@ theorem lieOuterIdx_linear : LieOuterIdx isLinearIdx := by
         intro hp3 h8
         refine hExc (Or.inl ⟨hp3, Or.inl ⟨q, Or.inl rfl, ?_⟩⟩)
         rw [← hFcard]; exact h8
-      haveI : Finite (PSL2 F) := Finite.of_surjective
+      have : Finite (PSL2 F) := Finite.of_surjective
         (QuotientGroup.mk' (Subgroup.center (SpecialLinearGroup (Fin 2) F)))
         (QuotientGroup.mk'_surjective _)
       have eModel : (TauCeti.CFSGIndex.lie ⟨.A 1 q, hd⟩).Group ≃* PSL2 F :=
         CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hd
-      haveI : Finite (TauCeti.CFSGIndex.lie ⟨.A 1 q, hd⟩).Group :=
+      have : Finite (TauCeti.CFSGIndex.lie ⟨.A 1 q, hd⟩).Group :=
         Finite.of_equiv (PSL2 F) eModel.toEquiv.symm
       have hpdvdM : p ∣ Nat.card (PSL2 F) := by
         rw [← Nat.card_congr eModel.toEquiv]; exact hpdvd
@@ -356,12 +356,12 @@ theorem lieOuterIdx_linear : LieOuterIdx isLinearIdx := by
     · have hn2 : 2 ≤ n := by
         have := hrange.1
         omega
-      haveI : Finite (projectiveSL (n + 1) F) :=
+      have : Finite (projectiveSL (n + 1) F) :=
         Finite.of_surjective (proj (n + 1) F) (proj_surjective (n := n + 1) (K := F))
       have eModel : (TauCeti.CFSGIndex.lie ⟨.A n q, hd⟩).Group ≃* projectiveSL (n + 1) F :=
         (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL n q hd).trans
           (LinearCover.projectiveSpecialLinearEquivProjectiveSL (n + 1) F)
-      haveI : Finite (TauCeti.CFSGIndex.lie ⟨.A n q, hd⟩).Group :=
+      have : Finite (TauCeti.CFSGIndex.lie ⟨.A n q, hd⟩).Group :=
         Finite.of_equiv (projectiveSL (n + 1) F) eModel.toEquiv.symm
       have hpdvdM : p ∣ Nat.card (projectiveSL (n + 1) F) := by
         rw [← Nat.card_congr eModel.toEquiv]; exact hpdvd

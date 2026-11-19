@@ -14,7 +14,7 @@ open CFSG.Assembly.LowTwoRank CFSG.LieType.Multipliers.U43 CFSG.ClassicalGroups.
   CFSG.LocalAnalysis.ComponentInitial TauCeti CFSG.HardMathSupport.Meierfrankenfeld.FFToolkit
 
 theorem u43_center_eq_bot : Subgroup.center X₀ = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hs : IsSimpleGroup X₀ := by
     have := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F9 3 1
       (by rw [Nat.card_eq_fintype_card, F9.card_eq]; norm_num) 4 (by norm_num) (by norm_num)
@@ -65,7 +65,7 @@ theorem hgen_transport (φ : P ≃* Y)
   · rw [← map_pow, hy i, map_one]
   · have hψ : ∀ a, ψ (φ a) = φ (((MulAut.congr φ).symm ψ) a) := fun a => by
       have := congrArg (fun f : MulAut Y => f (φ a)) ((MulAut.congr φ).apply_symm_apply ψ).symm
-      simpa using this
+      simp
     rw [hψ, hx, map_inv]
 
 theorem autTwoRankLE_transport (φ : P ≃* Y) {m : ℕ} (H : AutTwoRankLE P m) : AutTwoRankLE Y m := by

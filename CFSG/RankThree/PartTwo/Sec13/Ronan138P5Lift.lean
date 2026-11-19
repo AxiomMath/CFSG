@@ -21,6 +21,7 @@ noncomputable abbrev rho (L : Subgroup G) :
     Subgroup.normalizer (L : Set G) →* MulAut (L ⧸ aschbacherSolvableCore 3 L) :=
   (Sec4.thetaQuotMulAut L).comp (Sec4.compAction L)
 
+omit [Finite G] in
 theorem false_of_mem_partTwoE_lt (hEF : partTwoF G = partTwoE G) {B B' : Subgroup G}
     (hB : B ∈ partTwoE G) (hB' : CFSG.Assembly.IsElemAbelian 3 B') (hBB' : B ≤ B')
     (hne : B ≠ B') : False := by
@@ -119,6 +120,7 @@ theorem exists_pow_lift_three {L : Subgroup G} (m : L) {d : L ⧸ aschbacherSolv
         (KFacts.not_three_dvd_card_aschbacherSolvableCore L))
     exact orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes hcop2 h1 h2)
 
+omit [Finite G] in
 theorem mem_normalizer_inf_centralizer {L : Subgroup G} {x y : G}
     (hyN : y ∈ Subgroup.normalizer (L : Set G)) (hxy : x * y = y * x) :
     y ∈ Subgroup.normalizer ((L ⊓ Subgroup.centralizer ({x} : Set G) : Subgroup G) : Set G) := by
@@ -150,6 +152,7 @@ noncomputable abbrev preimageIn (L : Subgroup G) (V : Subgroup (L ⧸ aschbacher
     Subgroup G :=
   (V.comap (QuotientGroup.mk' (aschbacherSolvableCore 3 L))).map L.subtype
 
+omit [Finite G] in
 theorem mem_preimageIn {L : Subgroup G} {V : Subgroup (L ⧸ aschbacherSolvableCore 3 L)} {g : G} :
     g ∈ preimageIn L V ↔ ∃ hg : g ∈ L,
       ((⟨g, hg⟩ : L) : L ⧸ aschbacherSolvableCore 3 L) ∈ V := by

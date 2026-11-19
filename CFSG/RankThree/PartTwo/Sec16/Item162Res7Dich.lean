@@ -23,6 +23,7 @@ open CFSG.RankThree.PartTwo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem a7Rep_comp_inclusion_mem_alternatingGroup (K S : Subgroup G)
     (hSK : S ≤ Subgroup.normalizer (K : Set G))
     (φ : ↥K ⧸ CFSG.pCore 2 ↥K ≃* alternatingGroup (Fin 7))
@@ -82,6 +83,7 @@ private noncomputable def theta (K S : Subgroup G)
     (fun x => a7Rep_comp_inclusion_mem_alternatingGroup K S hSK φ hSV
       (sup_le Subgroup.le_normalizer hSK) x)
 
+omit [Finite G] in
 private theorem theta_apply (K S : Subgroup G)
     (hSK : S ≤ Subgroup.normalizer (K : Set G))
     (φ : ↥K ⧸ CFSG.pCore 2 ↥K ≃* alternatingGroup (Fin 7))
@@ -124,6 +126,7 @@ private theorem theta_eq_one_iff (K S : Subgroup G) (hS : IsPGroup 2 S)
       simpa [hincl] using h.mpr h1
     simpa [theta] using h2
 
+omit [Finite G] in
 private theorem theta_surjective (K S : Subgroup G)
     (hSK : S ≤ Subgroup.normalizer (K : Set G))
     (φ : ↥K ⧸ CFSG.pCore 2 ↥K ≃* alternatingGroup (Fin 7))
@@ -172,6 +175,7 @@ private theorem relIndex_eq_card_map_theta (K S : Subgroup G) (hS : IsPGroup 2 S
   rw [theta_ker K S hS hSK hZ φ hSV]
   exact Subgroup.relIndex_subgroupOf hFJ
 
+omit [Finite G] in
 theorem le_normalizer_sup_zpowers {K S : Subgroup G} {t : G}
     (htK : t ∈ Subgroup.normalizer (K : Set G))
     (htS : t ∈ Subgroup.normalizer (S : Set G)) :
@@ -181,6 +185,7 @@ theorem le_normalizer_sup_zpowers {K S : Subgroup G} {t : G}
     Subgroup.inf_normalizer_le_normalizer_sup K S ⟨htK, htS⟩
   exact sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr htJ)
 
+omit [Finite G] in
 theorem le_normalizer_pCoreOf_sup {K S : Subgroup G} {t : G}
     (htK : t ∈ Subgroup.normalizer (K : Set G))
     (htS : t ∈ Subgroup.normalizer (S : Set G)) :
@@ -189,6 +194,7 @@ theorem le_normalizer_pCoreOf_sup {K S : Subgroup G} {t : G}
   (le_normalizer_sup_zpowers htK htS).trans
     (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 (K ⊔ S))
 
+omit [Finite G] in
 private theorem le_normalizer_omegaOneCenterOf_pCoreOf_sup {K S : Subgroup G} {t : G}
     (htK : t ∈ Subgroup.normalizer (K : Set G))
     (htS : t ∈ Subgroup.normalizer (S : Set G)) :
@@ -202,6 +208,7 @@ private theorem le_normalizer_omegaOneCenterOf_pCoreOf_sup {K S : Subgroup G} {t
     (CFSG.Quasithin.centerOf (CFSG.Open.pCoreOf 2 (K ⊔ S)))
   simpa [CFSG.Quasithin.omegaOneCenterOf] using hQ.trans (hZ.trans hU)
 
+omit [Finite G] in
 private theorem theta_conj (K S : Subgroup G)
     (hSK : S ≤ Subgroup.normalizer (K : Set G))
     (φ : ↥K ⧸ CFSG.pCore 2 ↥K ≃* alternatingGroup (Fin 7))
@@ -226,6 +233,7 @@ private theorem theta_conj (K S : Subgroup G)
     Subtype.ext rfl
   rw [harg, map_mul, map_mul, map_inv, theta_apply]
 
+omit [Finite G] in
 private theorem theta_mem_vTwo (K S F : Subgroup G)
     (hSK : S ≤ Subgroup.normalizer (K : Set G))
     (φ : ↥K ⧸ CFSG.pCore 2 ↥K ≃* alternatingGroup (Fin 7))
@@ -282,7 +290,7 @@ private theorem card_mul_card_lt_of_chief_factor {K S R₁ R₂ F X : Subgroup G
     (hchief : ∀ Y : Subgroup G, R₂ ≤ Y → Y ≤ R₁ →
       K ⊔ S ⊔ Subgroup.zpowers t ≤ Subgroup.normalizer (Y : Set G) →
       Y = R₂ ∨ Y = R₁)
-    {j : G} (hjK : j ∈ K) (hj : Odd (orderOf j))
+    {j : G} (hjK : j ∈ K) (_hj : Odd (orderOf j))
     (hwit : ∃ r ∈ R₁, j * r * j⁻¹ * r⁻¹ ∉ R₂)
     (hFS : F ≤ S) (hFQ : ¬ F ≤ CFSG.Open.pCoreOf 2 (K ⊔ S))
     (hX₂ : R₂ ≤ X) (hX₁ : X ≤ R₁)
@@ -402,6 +410,7 @@ private theorem card_le_card_relIndex_mul_card {Q U R₁ 𝔈 X S : Subgroup G}
     _ ≤ (𝔈 ⊓ Q).relIndex 𝔈 * Nat.card X := Nat.mul_le_mul_right _ hchain
     _ = Q.relIndex 𝔈 * Nat.card X := by rw [Subgroup.inf_relIndex_left]
 
+omit [Finite G] in
 theorem commutator_mem_of_mem_sup_centralizer {R₁ R₂ A X : Subgroup G}
     (hRlt : R₂ < R₁) (hR₁₂ : R₁ ≤ Subgroup.normalizer (R₂ : Set G))
     (hNA : A ≤ Subgroup.normalizer (R₂ : Set G))
@@ -409,7 +418,7 @@ theorem commutator_mem_of_mem_sup_centralizer {R₁ R₂ A X : Subgroup G}
     ∀ x ∈ X, ∀ a ∈ A, a * x * a⁻¹ * x⁻¹ ∈ R₂ := by
   intro x hx a ha
   let C := Subgroup.centralizer (A : Set G)
-  haveI hN : (R₂.subgroupOf R₁).Normal :=
+  have hN : (R₂.subgroupOf R₁).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRlt.le).mpr hR₁₂
   have hxR₁ : x ∈ R₁ := by
     rw [hX] at hx

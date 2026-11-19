@@ -121,7 +121,7 @@ omit [Finite K] [CharP K 2] in
     (h : (flagGraph σ 3).Adj U.1 W.1) :
     expandCompEdge (Or.inl h : (compGraph σ).Adj U W) = Walk.cons h Walk.nil := by
   unfold expandCompEdge
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 omit [Finite K] [CharP K 2] in
 theorem expandCompEdge_of_flipColl {U W : CompVert σ}
@@ -133,7 +133,7 @@ theorem expandCompEdge_of_flipColl {U W : CompVert σ}
   have hnot : ¬ (flagGraph σ 3).Adj U.1 W.1 :=
     not_flagGraph_adj_of_finrank_one hU.2 hW.2
   unfold expandCompEdge
-  rw [dif_neg hnot]
+  rw [dite_eq_right hnot]
 
 omit [Finite K] [CharP K 2] in
 theorem expandCompEdge_symm_of_flagGraph {U W : CompVert σ}
@@ -142,7 +142,7 @@ theorem expandCompEdge_symm_of_flagGraph {U W : CompVert σ}
     expandCompEdge h.symm = Walk.cons hfg.symm Walk.nil := by
   subst hh
   unfold expandCompEdge
-  rw [dif_pos hfg.symm]
+  rw [dite_eq_left hfg.symm]
 
 omit [Finite K] [CharP K 2] in
 theorem expandCompEdge_symm_of_flipColl {U W : CompVert σ}
@@ -156,7 +156,7 @@ theorem expandCompEdge_symm_of_flipColl {U W : CompVert σ}
   have hnot : ¬ (flagGraph σ 3).Adj W.1 U.1 :=
     not_flagGraph_adj_of_finrank_one hW.2 hU.2
   unfold expandCompEdge
-  rw [dif_neg hnot]
+  rw [dite_eq_right hnot]
 
 omit [Finite K] [CharP K 2] in
 theorem flagGraph_adj_of_compGraph_adj_of_not_both_points {X Y : CompVert σ}
@@ -353,6 +353,7 @@ theorem expandCompEdge_triangle_retained {U V W : CompVert σ}
     simpa using homotopic_cons_cons_nil hwu'.symm
   simpa using h1.trans h2
 
+omit [Finite K] in
 theorem expandCompEdge_triangle_three_points (hσ : IsUnitaryInvolution σ)
     (hK : Nat.card K = 4) {U V W : CompVert σ}
     (hU1 : Module.finrank K U.1.1 = 1) (hV1 : Module.finrank K V.1.1 = 1)
@@ -443,6 +444,7 @@ theorem expandCompEdge_triangle_three_points (hσ : IsUnitaryInvolution σ)
     (homotopic_cone_triangle (Walk.cons hUSC' Walk.nil) (Walk.cons hVSC' Walk.nil)
       (Walk.cons hWSC' Walk.nil))
 
+omit [Finite K] in
 theorem expandCompEdge_triangle (hσ : IsUnitaryInvolution σ) (hK : Nat.card K = 4)
     {U V W : CompVert σ}
     (huv : (compGraph σ).Adj U V) (hvw : (compGraph σ).Adj V W) (hwu : (compGraph σ).Adj W U) :

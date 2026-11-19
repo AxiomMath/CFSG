@@ -122,7 +122,7 @@ theorem e7Cent_mem_Uθ_of_heisCoord_eq {q₁ q₂ : ModGL .E7 K}
   exact add_neg_cancel _
 
 theorem e7Cent_mem_rootSpan_of_coord_support {S : Set (Fin (Tag.rank .E7) → ℤ)}
-    (hS : ∀ μ ∈ S, IsRoot .E7 μ) (hθ : highRoot .E7 ∈ S) {q : ModGL .E7 K}
+    (_hS : ∀ μ ∈ S, IsRoot .E7 μ) (hθ : highRoot .E7 ∈ S) {q : ModGL .E7 K}
     (hq : q ∈ Qθ .E7 K) (hs : ∀ μ, heisCoord .E7 K q μ ≠ 0 → μ ∈ S) :
     q ∈ rootSpan .E7 K S := by
   classical

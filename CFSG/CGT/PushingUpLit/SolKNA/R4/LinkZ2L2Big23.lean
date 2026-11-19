@@ -17,7 +17,7 @@ lemma odd_sq_mod_eight {x : ℕ} (hx : Odd x) : x ^ 2 % 8 = 1 := by
   have h2 : x % 2 = 1 := Nat.odd_iff.mp hx
   have hx8 : x % 8 = 1 ∨ x % 8 = 3 ∨ x % 8 = 5 ∨ x % 8 = 7 := by omega
   rw [Nat.pow_mod]
-  rcases hx8 with h | h | h | h <;> rw [h] <;> norm_num
+  rcases hx8 with h | h | h | h <;> rw [h]
 
 lemma two_pow_dvd_sq_sub_one {x j : ℕ} (hx : Odd x) (h : 2 ^ (j + 3) ∣ x - 1) :
     2 ^ (j + 4) ∣ x ^ 2 - 1 := by

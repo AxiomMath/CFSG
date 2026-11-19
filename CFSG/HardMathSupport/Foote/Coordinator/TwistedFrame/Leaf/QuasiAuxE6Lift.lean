@@ -222,8 +222,8 @@ theorem e6Sc : E6ScStatement := by
     parabolicLevi_le_adjointGroup (τ := TwClass.e6Six.tag) (K := D.L) (Jθ _) D.g_mem
   obtain ⟨M, hMfin, ⟨A₀, B₀, hA₀, hB₀⟩, g₀, hg₀, hg₀e⟩ :=
     QuasiFin.exists_finite_subfield D s₀.1 s₀.2 hg
-  haveI : Module.Finite K ↥M := hMfin
-  haveI : Finite ↥M := Module.finite_of_finite K
+  have : Module.Finite K ↥M := hMfin
+  have : Finite ↥M := Module.finite_of_finite K
   let ι : ↥M →+* D.L := (M.val : ↥M →+* D.L)
   let κ : K →+* ↥M := algebraMap K ↥M
   have hικ : ι.comp κ = algebraMap K D.L := RingHom.ext fun _ => rfl

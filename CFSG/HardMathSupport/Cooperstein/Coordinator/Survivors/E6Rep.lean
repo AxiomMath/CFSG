@@ -19,7 +19,7 @@ theorem e6_dominant : ∀ a : Fin e6Data.d, (∀ i, e6Data.wt a i ≠ -1) → a 
 
 theorem e6_reach : reachCheck e6Data 0 20 = true := by decide +kernel
 
-@[expose] abbrev e6n0 : Fin TwistTag.E6.tag.rank := ⟨0, by decide⟩
+abbrev e6n0 : Fin TwistTag.E6.tag.rank := ⟨0, by decide⟩
 
 theorem e6_wt_zero_aux : ∀ s : Fin (Tag.rank .E6),
     e6Data.wt 0 s = if s = (⟨0, by decide⟩ : Fin (Tag.rank .E6)) then 1 else 0 := by
@@ -89,7 +89,7 @@ theorem e6Rep27_isCoverType :
     have h1' : ∀ u : Kˣ, (u : K) = 1 := fun u => by
       have := h1 u
       change e6Chi27 (e6Data_valid.hm K e6n0 u) = 1 at this
-      rwa [e6Chi27_hm, if_pos rfl, zpow_one] at this
+      rwa [e6Chi27_hm, ite_eq_left rfl, zpow_one] at this
     have h3 : (e6CoverData K).datum.heckeT (e6Rep27 K) e6n0 e6Y27 = -(∑ c : K, c) • e6Y27 :=
       (e6_heckeT_y e6n0).trans (sum_xm_nm_of_wt_one (hV := e6Data_valid)
         (a₀ := ⟨0, by decide⟩) (s := e6n0) e6_wt_one)
@@ -97,11 +97,11 @@ theorem e6Rep27_isCoverType :
     exact e6Y27_ne_zero (by simpa using h2)
   · have hw : e6Data.wt (↑(⟨0, by decide⟩ : Fin e6Data.d)) s = 0 := by
       have := e6_wt_zero s
-      rw [if_neg hs] at this
+      rw [ite_eq_right hs] at this
       exact this
     refine ⟨fun _ => ⟨fun u => ?_, ?_⟩, fun _ => Finset.mem_erase.2 ⟨hs, Finset.mem_univ _⟩⟩
     · change e6Chi27 (e6Data_valid.hm K s u) = 1
-      rw [e6Chi27_hm, if_neg hs, zpow_zero]
+      rw [e6Chi27_hm, ite_eq_right hs, zpow_zero]
       rfl
     · exact (e6_heckeT_y s).trans (sum_xm_nm_of_wt_zero (hV := e6Data_valid)
         (a₀ := ⟨0, by decide⟩) (s := s) hw)

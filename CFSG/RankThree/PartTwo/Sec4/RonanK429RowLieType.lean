@@ -33,7 +33,7 @@ theorem exists_e9_lift (N : Subgroup Y) [N.Normal] (hN : ¬ 3 ∣ Nat.card N)
     rw [hP, Subgroup.card_map_of_injective (Subgroup.subtype_injective H), hP₀]
     norm_num
   have hPN : P ⊓ N = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hP9, show (9 : ℕ) = 3 ^ 2 by norm_num]
     exact Nat.Coprime.pow_left 2 ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hN)
   have hPH : P ≤ H := by
@@ -91,7 +91,7 @@ theorem exists_e9_of_type429 {K : Subgroup S} [hKperf : Group.IsPerfect K]
       Nat.card E = 9 ∧ ∀ z ∈ E, (∀ k ∈ K, z * k = k * z) → z = 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup K := CFSG.pCore 2 K with hNdef
-  haveI hNn : N.Normal := CFSG.pCore_normal
+  have hNn : N.Normal := CFSG.pCore_normal
   have hN2 : IsPGroup 2 N := CFSG.pCore_isPGroup
   have hN3 : ¬ 3 ∣ Nat.card N := by
     intro h3

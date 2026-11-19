@@ -64,7 +64,7 @@ theorem gamma_member {X T J : Subgroup G} (hR : E111Reduced G X T) (hJ : IsComp 
     (hV' (A1b.mem_conjSub_of_mem hv)).1
   obtain ⟨Z, hZA, hZV, hZsup⟩ := exists_compl hA₁ab
     (inf_le_left : A1b.conjSub s A ⊓ Subgroup.normalizer (J : Set G) ≤ A1b.conjSub s A)
-  haveI : Fintype ↥Z := Fintype.ofFinite _
+  have : Fintype ↥Z := Fintype.ofFinite _
   have hDS : DiagSetting X T (A1b.conjSub s A) J Z := ⟨hR, hA₁T, hA₁ab, hJ, hZA, hZV⟩
   obtain ⟨x, hxX, hxT, hxeq⟩ := norm_trick hDS hZsup hj hjS
   set A'' := A1b.conjSub x (A1b.conjSub s A) with hA''

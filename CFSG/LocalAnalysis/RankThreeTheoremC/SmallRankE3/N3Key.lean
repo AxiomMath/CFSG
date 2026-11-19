@@ -81,7 +81,7 @@ theorem key_K {S : Subgroup Γ} {z : Γ} {Zc : Subgroup Γ} {Ψ : ↥S →* Mult
     rw [Subgroup.coe_mul, hmul _ _ hsa hsb] at hl
     simp only [hF, hl]
     rcases hlam_val _ hsa with h1 | h1 <;> rcases hlam_val _ hsb with h2 | h2 <;>
-      simp [h1, h2, hS.z_ne_one, hS.z_mul_self] <;> decide
+      simp [h1, h2, hS.z_ne_one, hS.z_mul_self]; decide
   obtain ⟨c, hc⟩ := dual_V4 F hF_add
   obtain ⟨s₁, hs₁⟩ := hΨ.surj (Multiplicative.ofAdd c)
   have hsc : Multiplicative.toAdd (Ψ s₁) = c := congrArg Multiplicative.toAdd hs₁
@@ -90,9 +90,9 @@ theorem key_K {S : Subgroup Γ} {z : Γ} {Zc : Subgroup Γ} {Ψ : ↥S →* Mult
     intro P Q h
     by_cases hP : P <;> by_cases hQ : Q
     · exact ⟨fun _ => hQ, fun _ => hP⟩
-    · rw [if_pos hP, if_neg hQ] at h
+    · rw [ite_eq_left hP, ite_eq_right hQ] at h
       exact absurd h (by decide)
-    · rw [if_neg hP, if_pos hQ] at h
+    · rw [ite_eq_right hP, ite_eq_left hQ] at h
       exact absurd h (by decide)
     · exact ⟨fun h' => absurd h' hP, fun h' => absurd h' hQ⟩
   have hE : ∀ s ∈ S, (if lam s = 1 then (0 : ZMod 2) else 1)

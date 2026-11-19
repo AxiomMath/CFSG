@@ -138,7 +138,7 @@ theorem eq_one_of_transfer [Finite H] {Y P : Subgroup H} (hY : ⁅Y, Y⁆ = Y) (
     (hP : ∀ a ∈ P, ∀ b ∈ P, a * b = b * a) (hodd : Odd (P.relIndex Y)) {z : H} (hz : z ∈ P)
     (hzY : ∀ y ∈ Y, y * z = z * y) {k : ℕ} (hzk : z ^ (2 ^ k) = 1) : z = 1 := by
   classical
-  haveI : IsMulCommutative (P.subgroupOf Y) :=
+  have : IsMulCommutative (P.subgroupOf Y) :=
     ⟨⟨fun a b => Subtype.ext (Subtype.ext (hP _ a.2 _ b.2))⟩⟩
   let τ : Y →* P.subgroupOf Y := (MonoidHom.id (P.subgroupOf Y)).transfer
   have hperf : commutator Y = ⊤ := by
@@ -289,7 +289,7 @@ theorem dElt_mul_uElt (z : Fˣ) (t : F) :
   ext i j
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   have hz : (z : F) ≠ 0 := z.ne_zero
-  fin_cases i <;> fin_cases j <;> simp [dElt, uElt, Matrix.mul_apply, Fin.sum_univ_two] <;>
+  fin_cases i <;> fin_cases j <;> simp [dElt, uElt, Matrix.mul_apply, Fin.sum_univ_two];
     field_simp
 
 theorem dElt_mul' (a b : Fˣ) : dElt (a * b) = dElt a * dElt b := by
@@ -326,7 +326,7 @@ theorem exists_torus [Fintype F] [CharP F 2] (hF : 4 ≤ Fintype.card F) (U : Su
   classical
   obtain ⟨x, hx⟩ := CFSG.Quasithin.MS93.S46.exists_eq_conj_uElt U hU hUc
   have hunits : 1 < Fintype.card Fˣ := by rw [Fintype.card_units]; omega
-  haveI : Nontrivial Fˣ := Fintype.one_lt_card_iff_nontrivial.mp hunits
+  have : Nontrivial Fˣ := Fintype.one_lt_card_iff_nontrivial.mp hunits
   obtain ⟨z, hz⟩ := exists_ne (1 : Fˣ)
   set w : F := ((z⁻¹ : Fˣ) : F) with hw
   have hww : w * w ≠ 1 := by
@@ -430,7 +430,7 @@ theorem normal_prod_cases [IsSimpleGroup S] (hS : ∃ a b : S, a * b ≠ b * a)
   have hK₁ : ∀ c : S, c ≠ 1 → ((c, 1) : S × S) ∈ N → ∀ a : S, ((a, 1) : S × S) ∈ N := by
     intro c hc hcN a
     let K₁ : Subgroup S := N.comap (MonoidHom.inl S S)
-    haveI : K₁.Normal := ⟨fun u hu g => by
+    have : K₁.Normal := ⟨fun u hu g => by
       have h1 := Subgroup.Normal.conj_mem (inferInstance : N.Normal) _ hu ((g, 1) : S × S)
       simpa [K₁] using h1⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K₁ with h | h
@@ -443,7 +443,7 @@ theorem normal_prod_cases [IsSimpleGroup S] (hS : ∃ a b : S, a * b ≠ b * a)
   have hK₂ : ∀ c : S, c ≠ 1 → ((1, c) : S × S) ∈ N → ∀ a : S, ((1, a) : S × S) ∈ N := by
     intro c hc hcN a
     let K₂ : Subgroup S := N.comap (MonoidHom.inr S S)
-    haveI : K₂.Normal := ⟨fun u hu g => by
+    have : K₂.Normal := ⟨fun u hu g => by
       have h1 := Subgroup.Normal.conj_mem (inferInstance : N.Normal) _ hu ((1, g) : S × S)
       simpa [K₂] using h1⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K₂ with h | h
@@ -543,7 +543,7 @@ theorem card_le_of_isPGroup_statedSL {K : Type} [Field K] [Finite K] [CharP K 2]
   have hdvd : Nat.card U ∣ Nat.card ↥(StatedSL 2 K) := Subgroup.card_subgroup_dvd_card U
   rw [StatedAPI.card_statedSL_two, hk] at hdvd
   rw [hk]
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hq : Nat.card K = 2 ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hm]
   have h2 : 2 ∣ Nat.card K := by
@@ -567,7 +567,7 @@ theorem factor (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec9Hyp hc n t) {x : G
         ∀ g : ↥(Rt M (LB M Q B) t), (g : G) ∈ Sec9R0 hc t x ↔ (ψ g).2 = 1 := by
   obtain ⟨K, fK, finK, hch, hK, ψ, hψs, hψk⟩ := HS9.exists_psi91 hs
   have h4 : 4 ≤ Nat.card K := by rw [hK]; exact hc.hyp.q4
-  haveI : IsSimpleGroup ↥(StatedSL 2 K) :=
+  have : IsSimpleGroup ↥(StatedSL 2 K) :=
     CFSG.Quasithin.H13.NQRigid.isSimpleGroup_statedSL_two_charTwo h4
   have hnonab : ∃ a b : ↥(StatedSL 2 K), a * b ≠ b * a :=
     sec9_nonabelian_of_commutator_eq_top
@@ -576,12 +576,12 @@ theorem factor (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec9Hyp hc n t) {x : G
   have hxR : x ∈ Rt M (LB M Q B) t := le_Rt (M := M) (LB M Q B) ht hxL
   have hR₀R : Sec9R0 hc t x ≤ Rt M (LB M Q B) t := Sec9R0_le_Rt hc hxR
   have hNR₀ : hc.CN t ≤ Sec9R0 hc t x := CN_le_Sec9R0 hc t x
-  haveI hnormR₀ : ((Sec9R0 hc t x).subgroupOf (Rt M (LB M Q B) t)).Normal := by
+  have hnormR₀ : ((Sec9R0 hc t x).subgroupOf (Rt M (LB M Q B) t)).Normal := by
     refine ⟨fun a ha g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     exact Sec9R0_conj_mem hc ht g.2 ha
   set H₀ := ((Sec9R0 hc t x).subgroupOf (Rt M (LB M Q B) t)).map ψ with hH₀
-  haveI : H₀.Normal := Subgroup.Normal.map hnormR₀ ψ hψs
+  have : H₀.Normal := Subgroup.Normal.map hnormR₀ ψ hψs
   have hmemker : ∀ g : ↥(Rt M (LB M Q B) t), ψ g = 1 → (g : G) ∈ Sec9R0 hc t x := by
     intro g hg
     have : g ∈ ψ.ker := hg
@@ -707,15 +707,15 @@ theorem split_of_elem (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
   have hRM : R ≤ M := hc.Rt_le_M t
   have hLR : LB M Q B ≤ R := le_Rt (M := M) (LB M Q B) ht
   obtain ⟨K, fK, finK, hch, hK, ψ, hψs, hψk, hψR₀⟩ := factor hc hs hxL hxN hlt
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have h4 : 4 ≤ Nat.card K := by rw [hK]; exact hc.hyp.q4
   have hqpos : 0 < Nat.card K := Nat.card_pos
-  haveI hsimp : IsSimpleGroup ↥(StatedSL 2 K) :=
+  have hsimp : IsSimpleGroup ↥(StatedSL 2 K) :=
     CFSG.Quasithin.H13.NQRigid.isSimpleGroup_statedSL_two_charTwo h4
   have hnonab : ∃ a b : ↥(StatedSL 2 K), a * b ≠ b * a :=
     sec9_nonabelian_of_commutator_eq_top
       (statedSL_quasisimple_of_card 2 K le_rfl h4).1.commutator_eq_top
-  haveI hQn : (Q.subgroupOf R).Normal := ⟨fun a ha g => by
+  have hQn : (Q.subgroupOf R).Normal := ⟨fun a ha g => by
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 (hRM g.2)) a).mp ha⟩
   set π : ↥R →* ↥R ⧸ Q.subgroupOf R := QuotientGroup.mk' (Q.subgroupOf R) with hπ
@@ -736,12 +736,12 @@ theorem split_of_elem (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
   set θ : (↥R ⧸ Q.subgroupOf R) →* SL(2, K) := e.symm.toMonoidHom.comp θ' with hθ
   have hθ'π : ∀ g, θ' (π g) = (ψ g).2 := fun g => by simp [hθ', hψbπ]
   have hθπ : ∀ g, θ (π g) = e.symm (ψ g).2 := fun g => by simp [hθ, hθ'π]
-  haveI hnormR₀ : (R₀.subgroupOf R).Normal := by
+  have hnormR₀ : (R₀.subgroupOf R).Normal := by
     refine ⟨fun a ha g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     exact Sec9R0_conj_mem hc ht g.2 ha
   set Rb₀ := (R₀.subgroupOf R).map π with hRb₀
-  haveI : Rb₀.Normal := Subgroup.Normal.map hnormR₀ π hπs
+  have : Rb₀.Normal := Subgroup.Normal.map hnormR₀ π hπs
   have hmemRb₀ : ∀ g : ↥R, π g ∈ Rb₀ ↔ (g : G) ∈ R₀ := by
     intro g
     refine ⟨?_, fun hg => ⟨g, hg, rfl⟩⟩
@@ -776,7 +776,7 @@ theorem split_of_elem (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
     simp only [map_mul, hψbπ, Prod.fst_mul, hr] at h2
     exact h2.symm
   set C := Subgroup.centralizer (Rb₀ : Set (↥R ⧸ Q.subgroupOf R)) with hCdef
-  haveI : C.Normal := Subgroup.normal_centralizer
+  have : C.Normal := Subgroup.normal_centralizer
   have hg₀C : π ⟨g₀, hg₀R⟩ ∈ C := by
     rw [hCdef, Subgroup.mem_centralizer_iff]
     rintro h ⟨a, ha, rfl⟩
@@ -790,7 +790,7 @@ theorem split_of_elem (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
     obtain ⟨g, hg⟩ := hψs (1, s)
     exact ⟨π g, by rw [hθ'π, hg]⟩
   have hCθ' : C.map θ' = ⊤ := by
-    haveI : (C.map θ').Normal := Subgroup.Normal.map inferInstance θ' hθ's
+    have : (C.map θ').Normal := Subgroup.Normal.map inferInstance θ' hθ's
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (C.map θ') with h | h
     · exfalso
       have hmem : θ' (π ⟨g₀, hg₀R⟩) ∈ C.map θ' := ⟨_, hg₀C, rfl⟩
@@ -942,7 +942,7 @@ theorem split_of_elem (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
         have h1 : π (Subgroup.inclusion hYR y) = 1 := (hπone _).mpr hyQ
         show θ (π (Subgroup.inclusion hYR y)) = 1
         rw [h1, map_one]
-    haveI hnQY : (Q.subgroupOf Y).Normal := hfker ▸ f.normal_ker
+    have hnQY : (Q.subgroupOf Y).Normal := hfker ▸ f.normal_ker
     refine ⟨hnQY, K, fK, finK, hK, ⟨?_⟩⟩
     exact ((QuotientGroup.quotientMulEquivOfEq hfker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective f hfs)).trans e

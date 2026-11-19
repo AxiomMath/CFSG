@@ -14,6 +14,7 @@ open Subgroup Equiv Equiv.Perm
 
 variable {G : Type} [Group G] [Finite G] {z : G} {ι : Perm (Fin 10) →* G}
 
+omit [Finite G] in
 private theorem exists_conj_iota_τ₀_eq (hC : CentData z ι) {g : G}
     (hg : g ∈ centralizer ({z} : Set G)) :
     ∃ σ : Perm (Fin 10), g * ι τ₀ * g⁻¹ = ι (σ * τ₀ * σ⁻¹) := by

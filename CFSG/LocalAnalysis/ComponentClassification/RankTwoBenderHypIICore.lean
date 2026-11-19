@@ -160,7 +160,7 @@ theorem even_card_of_bender {X : Type} [Group X] [Finite X] (hX : fusionIsBender
   obtain ⟨U⟩ := (inferInstance : Nonempty (Sylow 2 X))
   obtain ⟨-, -, hU4⟩ := bender_sylow_facts hX U
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp U.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp U.isPGroup
   have hk0 : k ≠ 0 := by
     rintro rfl
     rw [pow_zero] at hk

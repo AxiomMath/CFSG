@@ -58,7 +58,7 @@ theorem order_of {X q : Nat} {g : ↥GA} (hq : q.Prime) (hX : MRep (unpack 24 24
     rw [Subgroup.coe_pow, Subgroup.coe_one]
     exact e.eq MRep.one
   have h2 : g ≠ 1 := fun e => ne_one_of_neK hX hn (by rw [e]; rfl)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   exact orderOf_eq_prime h1 h2
 
 section Facts
@@ -129,7 +129,7 @@ theorem order_three {X : Nat} {g : ↥GA} (hX : MRep (unpack 24 24 X) (g : GL24)
 open scoped Matrix
 
 theorem ncard_kOrbit_dvd (K : Subgroup GL24) (v : Vec24) : (kOrbit K v).ncard ∣ Nat.card K := by
-  letI : MulAction ↥K Vec24 :=
+  let : MulAction ↥K Vec24 :=
     { smul := fun g v => ((g : GL24) : Matrix (Fin 24) (Fin 24) (ZMod 2)) *ᵥ v
       one_smul := fun v => by
         change (((1 : ↥K) : GL24) : Matrix (Fin 24) (Fin 24) (ZMod 2)) *ᵥ v = v

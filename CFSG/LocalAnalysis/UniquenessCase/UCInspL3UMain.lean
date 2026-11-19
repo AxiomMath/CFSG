@@ -18,6 +18,7 @@ section Core
 
 variable {K : Type} [Field K] [Finite K] {p f : ℕ} [Fact p.Prime] [CharP K p]
 
+omit [Finite K] [Fact (Nat.Prime p)] [CharP K p] in
 theorem su_cube_facts (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ p ^ f) (hq : p ^ f % 3 = 1)
     {d : SU σ 3} (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1) :
     ((d : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *
@@ -57,7 +58,7 @@ theorem su_cube_facts (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ p ^ f) (hq :
       by_cases hij : i = j
       · subst hij
         simp [conjTr]
-      · simp [conjTr, Matrix.one_apply, hij, Ne.symm hij]
+      · simp [conjTr, hij, Ne.symm hij]
     have e2 : (σ c • (1 : Matrix (Fin 3) (Fin 3) K)) * antidiag 3 * (c • 1) =
         (σ c * c) • antidiag 3 := by
       simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, Matrix.one_mul, Matrix.mul_one]

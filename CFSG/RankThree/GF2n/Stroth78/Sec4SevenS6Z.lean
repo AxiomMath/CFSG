@@ -102,8 +102,8 @@ theorem rhoZ_commutator_Xsub_eq_one_s6 (S : Setting z E F) {a : G} {w : ℕ} (h 
       exact mul_mem_alternatingGroup_of_isSwap hΨe hΨe'
     have hKn : ((ρ.ker).map Ψ.toMonoidHom).Normal :=
       Subgroup.Normal.map (MonoidHom.normal_ker ρ) _ Ψ.surjective
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-    haveI hN : (((ρ.ker).map Ψ.toMonoidHom).subgroupOf (alternatingGroup (Fin 6))).Normal :=
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have hN : (((ρ.ker).map Ψ.toMonoidHom).subgroupOf (alternatingGroup (Fin 6))).Normal :=
       hKn.subgroupOf _
     rcases Subgroup.Normal.eq_bot_or_eq_top
       (((ρ.ker).map Ψ.toMonoidHom).subgroupOf (alternatingGroup (Fin 6))) with hb | ht

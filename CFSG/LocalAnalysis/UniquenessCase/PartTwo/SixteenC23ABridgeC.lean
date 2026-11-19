@@ -10,13 +10,15 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma c23a_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   intro x y h
   rw [mkTil_eq_iff] at h
   exact IntMod.val_injective (mul_inv_eq_one.1 (Subgroup.mem_bot.1 h))
 
-private lemma c23a_commElt_le {V : Subgroup G} (hV : IsElemAbelian 2 V) {t : G}
+omit [Finite G] in
+private lemma c23a_commElt_le {V : Subgroup G} (_hV : IsElemAbelian 2 V) {t : G}
     (ht : t ∈ stabTil (⊥ : Subgroup G) V) : commElt V t ≤ V := by
   refine (Subgroup.closure_le _).2 ?_
   rintro x ⟨w, hw, rfl⟩
@@ -26,6 +28,7 @@ private lemma c23a_commElt_le {V : Subgroup G} (hV : IsElemAbelian 2 V) {t : G}
   rw [he]
   exact V.mul_mem (V.inv_mem hw) h1
 
+omit [Finite G] in
 private lemma c23a_actStab_inv_mul_val {V : Subgroup G} (hV : IsElemAbelian 2 V) {t : G}
     (ht : t ∈ stabTil (⊥ : Subgroup G) V) (y : IntMod V hV) :
     (actStab (⊥ : Subgroup G) V hV ⟨t, ht⟩⁻¹ y * y⁻¹).val =
@@ -36,6 +39,7 @@ private lemma c23a_actStab_inv_mul_val {V : Subgroup G} (hV : IsElemAbelian 2 V)
   rw [hcoe, inv_inv]
   group
 
+omit [Finite G] in
 private lemma c23a_tau_inv_mul_inv {V : Subgroup G} (hV : IsElemAbelian 2 V) {t : G}
     (ht : t ∈ stabTil (⊥ : Subgroup G) V) (y : IntMod V hV) :
     ∃ z : IntMod V hV, z.val = y.val⁻¹ * t⁻¹ * y.val * t ∧
@@ -92,6 +96,7 @@ private lemma c23a_commSub_zpowers_le {W : Type*} [CommGroup W] (τ : MulAut W)
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
   exact c23a_zpow_mul_inv_mem τ C' hB1 hB2 k u
 
+omit [Finite G] in
 theorem c23a_preTil_commSub_zpowers {V : Subgroup G} (hV : IsElemAbelian 2 V) {t : G}
     (ht : t ∈ stabTil (⊥ : Subgroup G) V) :
     preTil (⊥ : Subgroup G) V hV

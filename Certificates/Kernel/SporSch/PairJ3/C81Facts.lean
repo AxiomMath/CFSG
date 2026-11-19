@@ -112,7 +112,7 @@ theorem cover : ∀ t ∈ j3P ⊔ zpowers U, orderOf t = 2 →
       refine ⟨x * U * (U * c * U) * (U * Tb 21),
         toJ (P3.mul_mem (P3.mul_mem hxU' (conjU_mem hc)) hUt), ?_⟩
       rw [ht']
-      simp only [mul_assoc, mul_inv_rev, Uinv, T21inv, UU, TT]
+      simp only [mul_assoc, mul_inv_rev, T21inv, UU, TT]
 
 theorem rows : ∀ r ∈ j3Rows, tp 6156 r.rep ∈ j3P ⊔ zpowers U ∧
     orderOf (tp 6156 r.rep) = 2 ∧ (r.outer = true ↔ tp 6156 r.rep ∉ j3P) ∧

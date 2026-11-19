@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace TwelveEightSetup
 
+omit [Finite G] in
 theorem uniqueMaxLocal_of_uniqueMax {M X : Subgroup G} (h : UniqueMax M X) :
     X ≤ M ∧ ∀ H : Subgroup G, rankThreeIsMaxTwoLocal H → X ≤ H → H = M := by
   have hM : M ∈ calMOf X := by rw [h]; exact Set.mem_singleton M
@@ -23,6 +24,7 @@ theorem uniqueMaxLocal_of_uniqueMax {M X : Subgroup G} (h : UniqueMax M X) :
   rw [h] at hH'
   exact hH'
 
+omit [Finite G] in
 theorem ne_bot_of_not_isTI {V : Subgroup G} (h : ¬ IsTI V) : V ≠ ⊥ := by
   rintro rfl
   exact h fun g => Or.inl (bot_inf_eq _)

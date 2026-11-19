@@ -8,6 +8,7 @@ namespace CFSG.RankThree.PartTwo.Sec8.Hering611
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_pCoreOf_centralizer (V : Subgroup G) :
     Subgroup.normalizer (V : Set G) ≤
       Subgroup.normalizer
@@ -33,11 +34,13 @@ theorem normalizer_le_normalizer_pCoreOf_centralizer (V : Subgroup G) :
   have := key n⁻¹ (inv_mem hn) (n * c * n⁻¹) hc
   rwa [inv_inv, show n⁻¹ * (n * c * n⁻¹) * n = c by group] at this
 
+omit [Finite G] in
 theorem isPGroup_sup_of_le_normalizer {p : ℕ} [Fact p.Prime] {U P : Subgroup G}
     (hU : IsPGroup p U) (hP : IsPGroup p P) (hPU : P ≤ Subgroup.normalizer (U : Set G)) :
     IsPGroup p (U ⊔ P : Subgroup G) :=
   IsPGroup.to_sup_of_normal_left' hU hP hPU
 
+omit [Finite G] in
 theorem mem_normalizer_sup {U W : Subgroup G} {x : G}
     (hU : x ∈ Subgroup.normalizer (U : Set G)) (hW : x ∈ Subgroup.normalizer (W : Set G)) :
     x ∈ Subgroup.normalizer ((U ⊔ W : Subgroup G) : Set G) := by

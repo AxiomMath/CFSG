@@ -29,7 +29,7 @@ namespace R869S
 theorem two_le_pRank_quotient_pPrimeCore {p : ℕ} (hp : p.Prime) {M H : Subgroup G}
     (hrank : 2 ≤ CFSG.Open.pRank p (H ⊓ M)) :
     2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (↥H ⧸ CFSG.pPrimeCore p ↥H)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : CFSG.Open.pRank p (H ⊓ M) ≤ CFSG.Open.pRank p (⊤ : Subgroup ↥H) := by
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup H]
     exact CFSG.SectionRank.pRank_mono hp.one_lt inf_le_left
@@ -41,7 +41,7 @@ theorem isStronglyPEmbedded_map_quotient_pPrimeCore {p : ℕ} (hp : p.Prime) {M 
     (hM : IsStronglyPEmbedded p M) (hHM : ¬ H ≤ M) (hrank : 2 ≤ CFSG.Open.pRank p (H ⊓ M)) :
     IsStronglyPEmbedded p
       (((H ⊓ M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ Nat.card (H ⊓ M : Subgroup G) :=
     (dvd_pow_self p (by norm_num : (2 : ℕ) ≠ 0)).trans
       ((pow_dvd_pow p hrank).trans

@@ -104,7 +104,7 @@ theorem transfer_eq_prod_theta [inst : Fintype (G ⧸ N)] (ϕ : N →* A) {c : G
   have hcinv : c⁻¹ = c := by rw [inv_eq_iff_mul_eq_one, hcc]
   have hinst : inst = N.fintypeQuotientOfFiniteIndex := Subsingleton.elim _ _
   subst hinst
-  letI : Fintype (G ⧸ N) := N.fintypeQuotientOfFiniteIndex
+  let : Fintype (G ⧸ N) := N.fintypeQuotientOfFiniteIndex
   let T : N.LeftTransversal := default
   let u : G ⧸ N → G := fun q => (T.2.leftQuotientEquiv q : G)
   have hu : ∀ q, (u q : G ⧸ N) = q := fun q => T.2.quotientGroupMk_leftQuotientEquiv q
@@ -184,6 +184,7 @@ theorem ofAdd_one_pow_ne_one {n : ℕ} (hn : Odd n) :
   rw [← ofAdd_nsmul, nsmul_one, ZMod.natCast_eq_one_iff_odd.mpr hn]
   decide
 
+omit [Finite G] in
 theorem commutator_le_ker {A : Type*} [CommGroup A] (V : G →* A) :
     _root_.commutator G ≤ V.ker := by
   change ⁅(⊤ : Subgroup G), ⊤⁆ ≤ V.ker
@@ -192,6 +193,7 @@ theorem commutator_le_ker {A : Type*} [CommGroup A] (V : G →* A) :
   rw [MonoidHom.mem_ker, map_commutatorElement, commutatorElement_eq_one_iff_mul_comm]
   exact mul_comm _ _
 
+omit [Finite G] in
 theorem not_mem_commutator_of_hom {A : Type*} [CommGroup A] (V : G →* A) {c : G}
     (hc : V c ≠ 1) : c ∉ _root_.commutator G :=
   fun hcomm => hc (MonoidHom.mem_ker.mp (commutator_le_ker V hcomm))
@@ -204,7 +206,7 @@ theorem transfer_ne_one_of_fixed_parity (hN : ¬ 2 ∣ N.index)
     MonoidHom.transfer ϕ c ≠ 1 := by
   classical
   intro hV
-  haveI : Fintype (G ⧸ N) := Fintype.ofFinite _
+  have : Fintype (G ⧸ N) := Fintype.ofFinite _
   rw [transfer_eq_prod_theta ϕ hc] at hV
   let F : SubMulAction H (G ⧸ N) :=
     { carrier := {q | theta ϕ c q ≠ 1}

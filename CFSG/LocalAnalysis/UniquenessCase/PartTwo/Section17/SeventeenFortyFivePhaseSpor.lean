@@ -25,8 +25,8 @@ theorem phase45_false_of_sporadic {X : Type} [Group X] [Finite X] {L A₁ A₂ :
     (e : ↥L ≃* (TauCeti.CFSGIndex.sporadic s).Group) (hA1 : Nat.card A₁ = 31)
     (hA2 : Nat.card A₂ = 31) (hA12 : A₁ ⊓ A₂ = ⊥) (hA12c : A₁ ≤ centralizer (A₂ : Set X)) :
     False := by
-  haveI hLnorm : L.Normal := hLn
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have hLnorm : L.Normal := hLn
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hbr : ∀ t : TauCeti.SporadicName,
       Nonempty (CFSG.Blueprint.NativeSporadic.Carrier t ≃*
         (TauCeti.CFSGIndex.sporadic t).Group) :=

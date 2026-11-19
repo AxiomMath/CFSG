@@ -153,7 +153,7 @@ private theorem lift_fixed [Finite P] (x : MulAut P) (hx : x * x = 1) (g₁ : P)
     rw [map_mul, hxx, ← mul_assoc, hxo₀, one_mul]
   have hOdd : Odd (Nat.card O) :=
     Nat.coprime_two_left.mp (pPrimeCore_coprime_card (p := 2) (G := P))
-  haveI : Fintype ↥O := Fintype.ofFinite _
+  have : Fintype ↥O := Fintype.ofFinite _
   have hσ : (hφ.toPerm φ) ^ 2 ^ 1 = 1 := by
     rw [pow_one, pow_two]
     exact Equiv.ext fun o => hφ o
@@ -422,7 +422,7 @@ theorem exactGenerationInput_of_core
     · exact hU _ h
     · exact hP _ h
     · exact hJ _ h
-  haveI : Group.IsPerfect ↥N := GSThmB.B5a.isPerfect_of_isPComponent_subgroupOf hNY hNpc
+  have : Group.IsPerfect ↥N := GSThmB.B5a.isPerfect_of_isPComponent_subgroupOf hNY hNpc
   have htN : ∀ n ∈ N, t * n * t⁻¹ ∈ N := by
     intro n hn
     have h : (MulAut.conj t) n ∈ conjBy N t := Subgroup.mem_map_of_mem _ hn

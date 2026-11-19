@@ -73,7 +73,7 @@ theorem heisUVec_mul {G : Type*} [CommGroup G] (m : ℕ) (c c' : Fin 4 → G) :
     heisUVec m (c * c') = heisUVec m c * heisUVec m c' := by
   funext i
   refine Fin.addCases (fun j => ?_) (fun j => ?_) i
-  · fin_cases j <;> simp [heisUVec, mul_comm, mul_left_comm, mul_assoc, mul_inv]
+  · fin_cases j <;> simp [heisUVec, mul_comm, mul_left_comm, mul_assoc]
   · simp [heisUVec]
 
 theorem prod_heisUVec {G : Type*} [CommGroup G] (m : ℕ) (c : Fin 4 → G) :

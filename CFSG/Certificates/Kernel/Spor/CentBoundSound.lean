@@ -63,12 +63,12 @@ theorem cbS_distinct (n : Nat) (p : Nat → Nat) : ∀ (l : List Nat) (M : Nat),
     have hk : M.testBit (p k) = false := by
       by_contra hc
       rw [Bool.not_eq_false] at hc
-      rw [if_pos hc] at h
+      rw [ite_eq_left hc] at h
       have e := cbS_mono n p l (M ||| 2 ^ n) n (by rw [Nat.testBit_or, Nat.testBit_two_pow_self,
         Bool.or_true])
       rw [e] at h
       exact absurd h (by decide)
-    rw [if_neg (by rw [hk]; decide)] at h
+    rw [ite_eq_right (by rw [hk]; decide)] at h
     obtain ⟨hnd, hl⟩ := cbS_distinct n p l _ h
     have key : ∀ k' ∈ l, p k' ≠ p k ∧ M.testBit (p k') = false := by
       intro k' hk'
@@ -114,7 +114,7 @@ theorem cbS_level {n w nh nl : Nat} {H L : Nat → Nat} {h : Nat → Equiv.Perm 
       | zero => omega
       | succ k => rfl
     rw [hb] at e2
-    simp only [Orb.strictB_eq, Orb.bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.ble_eq] at e2
+    simp only [Bool.and_eq_true, Nat.blt_eq, Nat.ble_eq] at e2
     obtain ⟨a1, a2, a3, a4⟩ := e2
     exact ⟨a1, a2, a3, Nat.eq_of_beq_eq_true a4⟩
   set x0 : Fin n := ⟨tpt w (mask w) (L t) 0, (hx 0 hc0).1⟩ with hx0
@@ -137,7 +137,6 @@ theorem cbS_level {n w nh nl : Nat} {H L : Nat → Nat} {h : Nat → Equiv.Perm 
     unfold tmaskK
     rw [Orb.foldUp_eq]
     refine congrArg (fun f => List.foldl f 0 (List.range c)) (funext fun M => funext fun k => ?_)
-    beta_reduce
     rw [Orb.strictN_eq, Orb.nIf_eq, Orb.hasBit_eq]
     change (if M.testBit _ = true then M ||| 1 <<< n else M ||| 1 <<< _) = _
     rw [Nat.one_shiftLeft, Nat.one_shiftLeft]
@@ -155,7 +154,7 @@ theorem cbS_level {n w nh nl : Nat} {H L : Nat → Nat} {h : Nat → Equiv.Perm 
   have hfx : ∀ l, s' ≤ l → l < nh → h l x0 = x0 := by
     intro l h1 h2
     have e := hfix (l - s') (by omega)
-    simp only [Nat.add_eq, Nat.sub_eq] at e
+    simp only [Nat.add_eq] at e
     rw [Nat.add_sub_cancel' h1] at e
     apply Fin.ext
     rw [← hH l h2 x0]
@@ -203,10 +202,10 @@ theorem towerProdK_sound {n w nh nl : Nat} {H L : Nat → Nat} {h : Nat → Equi
   have hat : ∀ t < nl, tstAt w (mask w) nh nl L t = tst w (mask w) (L t) := by
     intro t ht
     unfold tstAt
-    rw [Orb.nIf_eq, if_pos (by rw [Nat.blt_eq]; exact ht)]
+    rw [Orb.nIf_eq, ite_eq_left (by rw [Nat.blt_eq]; exact ht)]
   have hatn : tstAt w (mask w) nh nl L nl = nh := by
     unfold tstAt
-    rw [Orb.nIf_eq, if_neg (by rw [Nat.blt_eq]; omega)]
+    rw [Orb.nIf_eq, ite_eq_right (by rw [Nat.blt_eq]; omega)]
   have key : ∀ d t, t + d = nl → ∏ u ∈ Finset.Ico t nl, tcnt w (mask w) (L u) ≤
       Nat.card ↥(Subgroup.closure (h '' {l | tstAt w (mask w) nh nl L t ≤ l ∧ l < nh})) := by
     intro d

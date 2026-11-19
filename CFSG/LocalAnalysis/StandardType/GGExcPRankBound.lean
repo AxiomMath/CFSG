@@ -53,7 +53,7 @@ theorem excPRankBound
     rcases hτ with rfl | rfl | rfl <;> (rw [h] at hd; exact absurd hd (by decide))
   have h1 : ¬ p ∣ Nat.card K - 1 := ggR1_not_dvd_sub_one hq1 hdne1
   have h2 : ¬ p ∣ Nat.card K + 1 := ggR1_not_dvd_add_one hp hp2 hdne2
-  haveI : Finite (adjointGroup τ K) := generated_group_finite τ K
+  have : Finite (adjointGroup τ K) := generated_group_finite τ K
   have hcardE : Nat.card E = p ^ CFSG.Open.pRank p E :=
     CFSG.GroupTheory.card_eq_pow_pRank_of_isElemAbelian (G := adjointGroup τ K) (E := E) hp hE
   rcases hτ with rfl | rfl | rfl

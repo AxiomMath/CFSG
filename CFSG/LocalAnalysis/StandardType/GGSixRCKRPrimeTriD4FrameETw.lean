@@ -110,8 +110,8 @@ theorem rckTriD4Frame_E_twisted {p₀ : ℕ} (S : LangSetup Tag.E6 GGL p₀) {h 
   have hq'' : S.D.q = 2 ^ f := by rwa [hℓ2] at hq'
   have hfh : f = h := Nat.pow_right_injective (le_refl 2) (hq''.symm.trans hq)
   have hh : 1 ≤ h := hfh ▸ hf
-  haveI : CharP GGL 2 := hℓ2 ▸ hchar
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : CharP GGL 2 := hℓ2 ▸ hchar
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   obtain ⟨u, hu, w₀, hw₀, πJ, hleaf, hlin, hθ'⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.K155X.l154r4_tw_action S hρw i v hΨ hρ
   have hπ1 : πJ ≠ 1 :=
@@ -330,7 +330,7 @@ theorem rckTriD4Frame_E_twisted {p₀ : ℕ} (S : LangSetup Tag.E6 GGL p₀) {h 
           refine Subgroup.mem_map.2 ⟨k⁻¹ * u * k,
             mul_mem (mul_mem (inv_mem hkQ) huQ) hkQ, ?_⟩
           rw [← huy]
-          simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
+          simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
             mul_inv_rev, inv_inv]
           group
         refine ⟨hyY, ?_⟩
@@ -355,7 +355,7 @@ theorem rckTriD4Frame_E_twisted {p₀ : ℕ} (S : LangSetup Tag.E6 GGL p₀) {h 
             from congrArg Subtype.val (hΞcoe ⟨y, hyY⟩)] at h1
         refine Subgroup.mem_map.2 ⟨(φ ⟨y, hyY⟩ : ModGL Tag.E6 GGL), hqmem, ?_⟩
         rw [hφcoe]
-        simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
+        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
           mul_inv_rev, inv_inv]
         group
     refine Exists.intro z ?_

@@ -161,7 +161,7 @@ theorem exists_smul_statedSp_of_normalizes [Finite K] [CharP K 2] (hm : 1 ≤ m)
       rw [Matrix.mulVec_mulVec, hG, ← Units.val_mul, inv_mul_cancel, Units.val_one,
         Matrix.one_mulVec]
     rw [h3, h2, Matrix.mulVec_zero]
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨μ, hμ⟩ := FiniteField.isSquare_of_char_two (ringChar.eq K 2) c
   have hμ0 : μ ≠ 0 := by
     rintro rfl
@@ -176,7 +176,7 @@ theorem exists_smul_statedSp_of_normalizes [Finite K] [CharP K 2] (hm : 1 ≤ m)
   · rw [mem_statedSp_iff_forall]
     intro x y
     rw [hs, hs]
-    simp only [LinearMap.map_smul₂, map_smul, LinearMap.smul_apply, smul_eq_mul]
+    simp only [map_smul, LinearMap.smul_apply, smul_eq_mul]
     have h1 : spForm m K (G *ᵥ x) (G *ᵥ y) = c * spForm m K x y := hc x y
     rw [h1, hμ]
     field_simp

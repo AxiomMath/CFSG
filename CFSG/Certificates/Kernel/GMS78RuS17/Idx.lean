@@ -33,14 +33,14 @@ private theorem fget_lor_shl {X v a : Nat} (hv : v < 512) (hX : fget X a 9 = 0) 
   by_cases hb : b < 9
   · by_cases hj : j = a
     · subst hj
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have h1 : X.testBit (j * 9 + b) = false := by
         have := congrArg (fun x => x.testBit b) hX
         simp only [testBit_fget, Nat.zero_testBit] at this
         simpa [hb] using this
       rw [h1, show j * 9 + b - 9 * j = b by omega]
       simp [hb, show 9 * j ≤ j * 9 + b by omega]
-    · rw [if_neg hj, testBit_fget]
+    · rw [ite_eq_right hj, testBit_fget]
       have : (decide (j * 9 + b ≥ 9 * a) && v.testBit (j * 9 + b - 9 * a)) = false := by
         rcases Nat.lt_or_gt_of_ne hj with h | h
         · have : ¬ j * 9 + b ≥ 9 * a := by omega
@@ -72,13 +72,13 @@ private theorem idxRec_fget : ∀ (l : List Nat) (i : Nat), l.Nodup → i + l.le
     have hnd' := List.nodup_cons.1 hnd
     have hlen' : i + 1 + l.length < 512 := by simp at hlen; omega
     have hx : fget (idxRec l (i + 1)) x 9 = 0 := by
-      rw [idxRec_fget l (i + 1) hnd'.2 hlen', if_neg hnd'.1]
+      rw [idxRec_fget l (i + 1) hnd'.2 hlen', ite_eq_right hnd'.1]
     rw [e, fget_lor_shl (by simp at hlen; omega) hx, idxRec_fget l (i + 1) hnd'.2 hlen']
     by_cases h : y = x
     · subst h
       simp
     · by_cases hy : y ∈ l
-      · simp [h, hy, List.idxOf_cons, Ne.symm h]
+      · simp [h, hy, Ne.symm h]
         omega
       · simp [h, hy]
 
@@ -99,7 +99,7 @@ theorem sClosed_mem {m : Nat → Nat → Nat} {C : List Nat} (hnd : C.Nodup) (hl
   rw [P117.notB_iff, Bool.eq_false_iff] at h2
   by_contra hn
   apply h2
-  rw [P117.beq_eq, sIdx_fget hnd hlen, if_neg hn]
+  rw [P117.beq_eq, sIdx_fget hnd hlen, ite_eq_right hn]
   rfl
 
 private def pv8 : List Nat → Nat

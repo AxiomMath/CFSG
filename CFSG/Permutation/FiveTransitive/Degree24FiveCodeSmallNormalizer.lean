@@ -40,7 +40,7 @@ theorem five_point_stabilizer_card_ne_six_hundred_and_ne_twelve_hundred
     Nat.card (fixingSubgroup P s) ≠ 600 ∧
       Nat.card (fixingSubgroup P s) ≠ 1200 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   have hP5 :
       MulAction.IsMultiplyPretransitive P X 5 := by
@@ -60,7 +60,7 @@ theorem five_point_stabilizer_card_ne_six_hundred_and_ne_twelve_hundred
       (fixingSubgroup P s).index = 5100480
     omega
   have hHindexCard := H.index_mul_card
-  letI : Fintype s := Fintype.ofFinite s
+  let : Fintype s := Fintype.ofFinite s
   have hsCard : Fintype.card s = 5 := by
     rw [← Nat.card_eq_fintype_card,
       Nat.card_coe_set_eq, hs]

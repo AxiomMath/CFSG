@@ -21,8 +21,8 @@ theorem suK6rFacts_holds (n : ℕ) : SUK6rFacts n := by
   obtain ⟨ζ⟩ := FixedCubeRoot.exists_of_card hq hL hσq
   refine ⟨c₀ ζ hn, c₀_signedCoords ζ htr hn, ?_⟩
   intro r hr hChar _
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hChar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hChar
   exact ⟨⟨two_le_pRank_centralizer_c₀_weight_one hσ htr ζ hn,
       two_le_pRank_centralizer_c₀_weight_two hσ htr ζ hn,
       two_le_pRank_centralizer_c₀_weight_three hσ htr ζ hn⟩,
@@ -34,10 +34,10 @@ theorem suK7Facts_holds (n : ℕ) : SUK7Facts n := by
   obtain ⟨ζ⟩ := FixedCubeRoot.exists_of_card hq hL hσq
   refine ⟨c₀ ζ hn, c₀_signedCoords ζ htr hn, ?_, ?_⟩
   · intro ℓ hℓ _ hdvd
-    haveI : Fact ℓ.Prime := ⟨hℓ⟩
+    have : Fact ℓ.Prime := ⟨hℓ⟩
     exact two_le_pRank_centralizer_range_of_dvd_sub_one hσ ζ hn hL hdvd
   · intro ℓ hℓ _ hdvd
-    haveI : Fact ℓ.Prime := ⟨hℓ⟩
+    have : Fact ℓ.Prime := ⟨hℓ⟩
     exact ⟨two_le_pRank_centralizer_range_of_dvd_add_one hσ ζ hn hL hdvd,
       fun h7 => three_le_pRank_centralizer_range_of_dvd_add_one hσ ζ hn h7 hL hdvd⟩
 

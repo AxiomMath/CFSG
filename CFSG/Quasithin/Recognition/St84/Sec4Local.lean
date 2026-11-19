@@ -67,7 +67,7 @@ theorem isSylowTwoOf_edgeSylow_Gi_succ (i : ℤ) :
 
 theorem le_edgeSylow_of_le_inf {U : Subgroup G} (k : ℤ) (hU : IsPGroup 2 U)
     (hG : U ≤ X.Gi k ⊓ X.Gi (k + 1)) : U ≤ X.edgeSylow k := by
-  haveI : Finite ↥(X.Gi k ⊓ X.Gi (k + 1)) :=
+  have : Finite ↥(X.Gi k ⊓ X.Gi (k + 1)) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi k ⊓ X.Gi (k + 1)) inf_le_left
   exact le_of_normal_isSylowTwoOf (S := X.edgeSylow k) (H := X.Gi k ⊓ X.Gi (k + 1))
     (X.isSylowTwoOf_edgeSylow k) (X.edgeSylow_subgroupOf_normal k) hG hU
@@ -94,7 +94,7 @@ theorem pCoreOf_arcStab_le_Q_of_lt_of_lt {a c j : ℤ} (haj : a < j) (hjc : j < 
 
 theorem exists_generator_Ki (i : ℤ) (hn : 2 ≤ X.n i) :
     ∃ k ∈ X.Ki i, k ≠ 1 ∧ orderOf k = 2 ^ X.n i - 1 ∧ Subgroup.zpowers k = X.Ki i := by
-  haveI : IsCyclic ↥(X.Ki i) := X.isCyclic_Ki i
+  have : IsCyclic ↥(X.Ki i) := X.isCyclic_Ki i
   obtain ⟨k, hk⟩ := IsCyclic.exists_generator (α := ↥(X.Ki i))
   have hkKi : (k : G) ∈ X.Ki i := k.2
   have hkord : orderOf (k : G) = 2 ^ X.n i - 1 := by
@@ -108,7 +108,7 @@ theorem exists_generator_Ki (i : ℤ) (hn : 2 ≤ X.n i) :
       omega
     exact hne (by rw [← hkord, h, orderOf_one])
   refine ⟨(k : G), hkKi, hk1, hkord, ?_⟩
-  haveI : Finite ↥(X.Ki i) :=
+  have : Finite ↥(X.Ki i) :=
     finite_of_le_stabilizer X.hyp (inf_le_right.trans (X.L_le_Gi i))
   refine Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hkKi) ?_
   rw [Nat.card_zpowers, hkord, X.card_Ki i]
@@ -148,7 +148,7 @@ private theorem map_subgroupOf_L_eq_pointSylow (i : ℤ) {A : Subgroup G} {a : V
   have hN : IsLocL2 Γ G (X.vert i) (X.n i) (X.L i) := X.hyp.isLocL2_oTwoPrime (X.vert i)
   have hadj := X.hyp.adj_smul
   have hfin : Finite (MulAction.stabilizer G (X.vert i)) := X.hyp.finite_stab _
-  haveI : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (X.L_le_Gi i)
+  have : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (X.L_le_Gi i)
   have hcard : Nat.card (Γ.neighborSet (X.vert i)) = 2 ^ X.n i + 1 :=
     (X.hyp.valency (X.vert i)).2
   have hn1 : 1 ≤ X.n i := (X.hyp.valency (X.vert i)).1
@@ -262,7 +262,7 @@ theorem centerOf_L_le_Z (hc : CharTwoStab (V := V) (G := G)) (i : ℤ) :
   have hQL : X.Q i ≤ X.L i := X.Q_le_L i
   have hzQ : z ∈ X.Q i :=
     (hc (X.vert i)) ⟨hzGi, (Subgroup.centralizer_le hQL) hzC⟩
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
   obtain ⟨P, hP, -⟩ := exists_isSylowTwoOf_ge_of_finite
     (J := X.Gi i) (pCoreOf_isPGroup' (X.Gi i)) (X.Q_le_Gi i)
   have hPL : P ≤ X.L i := le_oTwoPrime_of_isPGroup hP.2.1 hP.1
@@ -282,7 +282,7 @@ theorem L_eq_commutator_sup_Q {n : ℕ} (i : ℤ) (hn : 2 ≤ n)
     rw [hcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI hperf : Group.IsPerfect (oTwoQuot ↥(X.L i)) := by
+  have hperf : Group.IsPerfect (oTwoQuot ↥(X.L i)) := by
     obtain ⟨e⟩ := hq
     exact CFSG.ClassicalInvolution.isPerfect_of_equiv_sl2 (F := GaloisField 2 n) h4
       (e.trans (CFSG.Quasithin.pslTwoGf2EquivSl n))
@@ -381,7 +381,7 @@ theorem Gi_le_normalizer_centerOf_L (i : ℤ) :
   (le_normalizer_oTwoPrime (X.Gi i)).trans
     (CFSG.Quasithin.normalizer_le_normalizer_centerOf (X.L i))
 
-theorem centerOf_L_inf_succ (hc : CharTwoStab (V := V) (G := G)) (i : ℤ) :
+theorem centerOf_L_inf_succ (_hc : CharTwoStab (V := V) (G := G)) (i : ℤ) :
     centerOf (X.L i) ⊓ centerOf (X.L (i + 1)) = ⊥ := by
   apply eq_bot_of_normal_in_oTwoPrime X.hyp (X.adj i)
   · exact inf_le_left.trans inf_le_left
@@ -423,7 +423,7 @@ theorem centerOf_sylow_le_Z (hc : CharTwoStab (V := V) (G := G)) (i : ℤ)
     {P : Subgroup G} (hP : IsSylowTwoOf P (X.Gi i)) :
     centerOf P ≤ X.Z i ∧
       X.Z i ⊓ Subgroup.centralizer (P : Set G) = centerOf P := by
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
   have hQP : X.Q i ≤ P := pCoreOf_le_of_isSylowTwoOf hP
   have hle : centerOf P ≤ centerOf P ⊓ X.Q i := by
     refine le_inf le_rfl ?_
@@ -442,8 +442,8 @@ theorem Z_eq_centerOf_of_centralizes (hc : CharTwoStab (V := V) (G := G)) (i : �
     {P : Subgroup G} (hP : IsSylowTwoOf P (X.Gi i))
     (hL : X.L i ≤ Subgroup.centralizer (centerOf P : Set G)) :
     X.Z i = centerOf P ∧ X.Z i = centerOf (X.L i) := by
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
-  haveI : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (X.L_le_Gi i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (X.L_le_Gi i)
   have hPL : P ≤ X.L i := le_oTwoPrime_of_isPGroup hP.2.1 hP.1
   have hPsyl : IsSylowTwoOf P (X.L i) :=
     F7.isSylowTwoOf_mono_right hP hPL (X.L_le_Gi i)
@@ -457,8 +457,7 @@ theorem Z_eq_centerOf_of_centralizes (hc : CharTwoStab (V := V) (G := G)) (i : �
     apply iSup_le
     intro P'
     apply iSup_le
-    intro hP'
-    intro x hxterm
+    intro hP' x hxterm
     obtain ⟨hxP', -⟩ := Subgroup.mem_inf.mp hxterm
     obtain ⟨g, hgL, hP'eq⟩ := hconj hP'
     rw [hP'eq, centerOf_conjSub] at hxP'
@@ -555,7 +554,7 @@ theorem card_S_eq_prod (hs : IsSingularity Γ G s) :
       (∏ r ∈ Finset.Icc 1 (s - 1), (2 : ℕ) ^ X.n (r : ℤ)) *
         Nat.card (pCoreOf 2 (X.arcStab 0 s)) := by
   have hs1 : 1 ≤ s := hs.1
-  haveI : Finite ↥(X.K) := finite_of_le_stabilizer X.hyp (X.K_le_Gi 0)
+  have : Finite ↥(X.K) := finite_of_le_stabilizer X.hyp (X.K_le_Gi 0)
   have harc1 : X.arcStab 0 1 = X.Gi 0 ⊓ X.Gi 1 :=
     X.arcStab_eq_inf (show (0 : ℤ) ≤ 1 by norm_num)
   have hKle : X.K ≤ X.arcStab 0 (s : ℤ) := by
@@ -614,7 +613,7 @@ private theorem fixes_neighbors_of_centralizes (i : ℤ)
         ((X.isSylowTwoOf_edgeSylow i).1.trans inf_le_left)
     · have hPleS : P ≤ X.edgeSylow (i - 1) := le_sup_left.trans (le_of_eq he)
       have hSle : X.edgeSylow (i - 1) ≤ X.Gi i :=
-        ((X.isSylowTwoOf_edgeSylow (i - 1)).1).trans (by simpa using inf_le_right)
+        ((X.isSylowTwoOf_edgeSylow (i - 1)).1).trans (by simp)
       exact hPleS.trans hSle
   have hPnormQ : P ≤ Subgroup.normalizer (X.Q i : Set G) :=
     hPleGi.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi i))
@@ -764,9 +763,9 @@ private theorem exists_eq_mul_of_mem_L (i : ℤ) {U : Subgroup G} (hU : U ≤ X.
     hUleGi.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi i))
   have hUQ : U ⊓ X.Q i = ⊥ :=
     eq_bot_mono (inf_le_inf_right _ hU) (X.K_inf_Q_eq_bot i)
-  haveI : Finite ↥(X.Q i) :=
+  have : Finite ↥(X.Q i) :=
     finite_of_le_stabilizer X.hyp (H := X.Q i) (X.Q_le_Gi i)
-  haveI : Finite ↥(U ⊔ X.Q i) :=
+  have : Finite ↥(U ⊔ X.Q i) :=
     finite_of_le_stabilizer X.hyp (H := U ⊔ X.Q i) (sup_le hUleGi (X.Q_le_Gi i))
   have hFnormQ : U ⊔ X.Q i ≤ Subgroup.normalizer (X.Q i : Set G) :=
     sup_le hUnormQ Subgroup.le_normalizer
@@ -804,8 +803,8 @@ private theorem exists_eq_mul_of_mem_L (i : ℤ) {U : Subgroup G} (hU : U ≤ X.
     hUF hlF hlNQ (by rw [sup_comm (X.Q i) U]) (by rw [inf_comm]; exact hUQ)
   exact ⟨n * l, hnl, n⁻¹, (X.Q i).inv_mem hnQ, by group⟩
 
-theorem fix_nbrs_of_centralizes (hc : CharTwoStab (V := V) (G := G)) (i : ℤ)
-    {U P : Subgroup G} (hU : U ≤ X.K) (hP : IsPGroup 2 P)
+theorem fix_nbrs_of_centralizes (_hc : CharTwoStab (V := V) (G := G)) (i : ℤ)
+    {U P : Subgroup G} (hU : U ≤ X.K) (_hP : IsPGroup 2 P)
     (hPS : P ⊔ X.Q i = X.edgeSylow i ∨ P ⊔ X.Q i = X.edgeSylow (i - 1))
     (hPU : P ≤ Subgroup.centralizer (U : Set G)) :
     (∀ w, Γ.Adj (X.vert i) w → ∀ u ∈ U, u • w = w) ∧
@@ -860,11 +859,11 @@ theorem conjSub_relCent (g : G) {E Z A : Subgroup G}
       rw [mem_conjSub] at hz
       have h2 : g⁻¹ * x * g * (g⁻¹ * z * g) * (g⁻¹ * x * g)⁻¹ ∈ Z := hiff.mp hz
       rw [mem_conjSub]
-      convert h2 using 1 <;> group
+      convert h2 using 1; group
     · intro hz
       rw [mem_conjSub] at hz
       have h2 : g⁻¹ * x * g * (g⁻¹ * z * g) * (g⁻¹ * x * g)⁻¹ ∈ Z := by
-        convert hz using 1 <;> group
+        convert hz using 1; group
       have h3 := hiff.mpr h2
       rw [← mem_conjSub] at h3
       exact h3
@@ -886,7 +885,7 @@ theorem conjSub_relCent (g : G) {E Z A : Subgroup G}
     · intro a ha
       have ha' : g * a * g⁻¹ ∈ conjSub g A := by
         rw [mem_conjSub]
-        convert ha using 1 <;> group
+        convert ha using 1; group
       have h := hc (g * a * g⁻¹) ha'
       rw [mem_conjSub] at h
       convert h using 1
@@ -938,12 +937,12 @@ theorem NatQuot.conj {L E Z : Subgroup G} {n : ℕ} (h : NatQuot L E Z n) (g : G
       intro hmem
       apply hxE
       rw [mem_conjSub]
-      convert hmem using 1 <;> group
+      convert hmem using 1
     have heE' : g⁻¹ * e * g ∈ E := by rwa [mem_conjSub] at heE
     have hcomm' : ⁅g⁻¹ * e * g, g⁻¹ * x * g⁆ ∈ Z := by
       have h := hcomm
       rw [mem_conjSub] at h
-      convert h using 1 <;> (simp only [commutatorElement_def]; group)
+      convert h using 1; (simp only [commutatorElement_def]; group)
     have hodd : Odd (orderOf (g⁻¹ * x * g)) := by
       have hconj : orderOf (g⁻¹ * x * g) = orderOf x :=
         (SemiconjBy.orderOf_eq (a := g⁻¹) (x := x) (y := g⁻¹ * x * g)
@@ -951,7 +950,7 @@ theorem NatQuot.conj {L E Z : Subgroup G} {n : ℕ} (h : NatQuot L E Z n) (g : G
       rwa [hconj]
     have hz := h.fpf (g⁻¹ * x * g) hxL' hodd hxE' (g⁻¹ * e * g) heE' hcomm'
     rw [mem_conjSub]
-    convert hz using 1 <;> group
+    convert hz using 1
   · intro A hZA hAE hnorm
     obtain ⟨A', rfl⟩ : ∃ A', A = conjSub g A' :=
       ⟨conjSub g⁻¹ A, (conjSub_inv_conjSub g A).symm⟩

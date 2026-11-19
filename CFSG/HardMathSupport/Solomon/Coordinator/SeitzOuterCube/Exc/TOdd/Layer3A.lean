@@ -34,7 +34,7 @@ theorem layer_le_closure_fixed_A0_odd (P : D4ParOdd ℓ f X σ) {E : Subgroup (M
     (hx : MulAut.conj x ∈ E) (hx1 : x ≠ 1) (hxA : x ∈ A0sub σ) :
     layerSub σ x ≤ Subgroup.closure {l | l ∈ layerSub σ x ∧ ∃ y ∈ E,
       y ∉ Subgroup.zpowers (MulAut.conj x : MulAut (C0 σ)) ∧ y l = l} := by
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   have hx3 : x ^ 3 = 1 := pow_three_of_conj_mem P hE hx
   have hxX : IsClassX σ x := ⟨hx3, hx1, 1, by simpa using (Subgroup.mem_inf.1 hxA).1⟩
   have hinj := conj_injective_odd P
@@ -93,7 +93,7 @@ theorem layer_le_closure_fixed_odd (P : D4ParOdd ℓ f X σ) {E : Subgroup (MulA
     (hx : MulAut.conj x ∈ E) (hx1 : x ≠ 1) (hxX : IsClassX σ x) :
     layerSub σ x ≤ Subgroup.closure {l | l ∈ layerSub σ x ∧ ∃ y ∈ E,
       y ∉ Subgroup.zpowers (MulAut.conj x : MulAut (C0 σ)) ∧ y l = l} := by
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   obtain ⟨hx3, -, g₀, hg₀⟩ := hxX
   have hx₁3 : (g₀ * x * g₀⁻¹) ^ 3 = 1 := by
     rw [← MulAut.conj_apply, ← map_pow, hx3, map_one]

@@ -27,6 +27,7 @@ structure TwelveCtx (G : Type) [Group G] [Finite G] (M : Subgroup G) (p : ℕ) (
   mem_QSet : Q ∈ QSet M p
   mem_H4Star : H ∈ H4StarFam p M Q
 
+omit [Finite G] in
 theorem mem_H2StarFam_of_le {M E Q H : Subgroup G} (hE : E ≤ Q)
     (hH : H ∈ H2StarFam M Q) : H ∈ H2StarFam M E := by
   refine ⟨⟨hH.1.1, ⟨hE.trans hH.1.2.1, hH.1.2.2.1, hH.1.2.2.2⟩⟩, fun H' hH' hHH' => ?_⟩
@@ -45,9 +46,11 @@ abbrev modPrimeComplement (d : ℕ) (Y : Subgroup G) : Type :=
 @[expose] def jSub (M H : Subgroup G) : Subgroup G :=
   sSup (weakBlockSet M H)
 
+omit [Finite G] in
 theorem le_jSub {M H L : Subgroup G} (hL : L ∈ weakBlockSet M H) : L ≤ jSub M H :=
   le_sSup hL
 
+omit [Finite G] in
 theorem jSub_le (M H : Subgroup G) : jSub M H ≤ M :=
   sSup_le fun _ hL => hL.le
 
@@ -80,7 +83,7 @@ theorem pCore_two_inter (h : TwelveCtx G M p Q H) :
     pCoreOf 2 H = pCoreOf 2 (H ⊓ M) := h.H_mem_H4.2.2
 
 theorem Q_ne_bot (h : TwelveCtx G M p Q H) : Q ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   obtain ⟨E, hEQ, hE, hEc⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := p) (k := 2) h.two_le_pRank
   intro hbot
@@ -89,7 +92,7 @@ theorem Q_ne_bot (h : TwelveCtx G M p Q H) : Q ≠ ⊥ := by
   exact (Nat.one_lt_pow two_ne_zero h.p_prime.one_lt).ne hEc
 
 theorem H_twoLocal (h : TwelveCtx G M p Q H) : IsTwoLocal H := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   exact CFSG.LocalAnalysis.AGL81TheoremCD.Section14.isTwoLocal_of_mem_H2StarFam
     h.cstar.nonab h.cstar.charTwo h.Q_ne_bot h.H_mem_H2Star
 
@@ -101,7 +104,7 @@ theorem p_not_mem_sigma (h : TwelveCtx G M p Q H) : p ∉ sigmaSet G M := by
 theorem exists_E_sq (h : TwelveCtx G M p Q H) :
     ∃ E : Subgroup G, E ≤ Q ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 2 ∧
       rankThreeGamma 1 p E ≤ M := by
-  haveI : Fact p.Prime := ⟨h.p_prime⟩
+  have : Fact p.Prime := ⟨h.p_prime⟩
   exact QSet.exists_isElemAbelian_card_sq h.mem_QSet h.p_not_mem_sigma
 
 theorem hypCGen {E : Subgroup G} (h : TwelveCtx G M p Q H) (hEQ : E ≤ Q)

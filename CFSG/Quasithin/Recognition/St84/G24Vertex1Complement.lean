@@ -190,7 +190,7 @@ theorem G24Vertex1.fixedModSubgroup_eq_centerOf [Finite G]
       have hle : ⁅C, C⁆ ≤ C ⊓ centerOf (dsQ L1 L2 S) :=
         le_inf (Subgroup.commutator_le_self C) hCcommZ
       rwa [hCZ] at hle
-    haveI : IsMulCommutative C := by
+    have : IsMulCommutative C := by
       refine ⟨⟨fun a b => Subtype.ext ?_⟩⟩
       have h : ⁅(a : G), (b : G)⁆ ∈ (⊥ : Subgroup G) := by
         rw [← hCcommBot]
@@ -208,7 +208,7 @@ theorem G24Vertex1.fixedModSubgroup_eq_centerOf [Finite G]
 theorem G24Vertex1.inf_centralizer_eq_bot [Finite G]
     {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S) (h1 : VA5 L1) (h2 : VA5 L2)
     (hD : G24LocalData L1 L2 S) {k : G} (hkB : k ∈ bigB L1 L2 S)
-    (hk3 : orderOf k = 3) (hkL : k ∉ L1)
+    (_hk3 : orderOf k = 3) (hkL : k ∉ L1)
     (hfix : ∀ x ∈ dsQ L1 L2 S,
       k * x * k⁻¹ * x⁻¹ ∈ centerOf (dsQ L1 L2 S) → x ∈ centerOf (dsQ L1 L2 S)) :
     dsQ L1 L2 S ⊓ Subgroup.centralizer ({k} : Set G) = ⊥ := by

@@ -79,7 +79,7 @@ private theorem QG_map_conj_eq (C : ThCore G)
     rw [phi_range C]
     exact hc
   obtain ⟨y, hy⟩ := MonoidHom.mem_range.mp hc_range
-  haveI hN : (Max3.Q.subgroupOf Max3.M).Normal := Max3.normal_Q_subgroupOf_M
+  have hN : (Max3.Q.subgroupOf Max3.M).Normal := Max3.normal_Q_subgroupOf_M
   have hy_norm : y ∈ Subgroup.normalizer
       ((Max3.Q.subgroupOf Max3.M) : Set ↥Max3.M) := by
     rw [Subgroup.normalizer_eq_top]
@@ -91,7 +91,7 @@ private theorem QG_map_conj_eq (C : ThCore G)
   have hcomp : (MulAut.conj (phi C y)).toMonoidHom.comp (phi C) =
       (phi C).comp (MulAut.conj y).toMonoidHom := by
     ext x
-    simp only [MonoidHom.comp_apply, MulAut.conj_apply]
+    simp only [MonoidHom.comp_apply]
     change (phi C y) * (phi C x) * (phi C y)⁻¹ = phi C (y * x * y⁻¹)
     rw [phi_apply C y, phi_apply C x, phi_apply C (y * x * y⁻¹)]
     rw [map_mul, map_mul, map_inv]

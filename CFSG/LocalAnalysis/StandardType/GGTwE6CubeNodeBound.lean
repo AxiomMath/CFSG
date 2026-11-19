@@ -21,7 +21,7 @@ theorem card_le_three_mul_inf_of_sup [Finite G] {X D : Subgroup G} (hX : IsCycli
   set N : Subgroup G := X ⊔ D with hN
   have hle : N ≤ Subgroup.normalizer (D : Set G) :=
     sup_le (hXD.trans (Subgroup.centralizer_le_normalizer _)) Subgroup.le_normalizer
-  haveI hnorm : (D.subgroupOf N).Normal := by
+  have hnorm : (D.subgroupOf N).Normal := by
     rw [Subgroup.normal_subgroupOf_iff le_sup_right]
     intro d k hd hk
     exact (Subgroup.mem_normalizer_iff.1 (hle hk) d).1 hd
@@ -42,7 +42,7 @@ theorem card_le_three_mul_inf_of_sup [Finite G] {X D : Subgroup G} (hX : IsCycli
     have hq : q ∈ (X.subgroupOf N).map π := by rw [h2]; trivial
     obtain ⟨n, hn, rfl⟩ := hq
     exact ⟨⟨n.1, hn⟩, rfl⟩
-  haveI : IsCyclic (N ⧸ D.subgroupOf N) := isCyclic_of_surjective _ hXsurj
+  have : IsCyclic (N ⧸ D.subgroupOf N) := isCyclic_of_surjective _ hXsurj
   let f : E →* N ⧸ D.subgroupOf N := π.comp (Subgroup.inclusion hEN)
   have hmem : ∀ e : E, f e = 1 ↔ (e : G) ∈ D := fun e => by
     change (QuotientGroup.mk (Subgroup.inclusion hEN e) : N ⧸ D.subgroupOf N) = 1 ↔ _

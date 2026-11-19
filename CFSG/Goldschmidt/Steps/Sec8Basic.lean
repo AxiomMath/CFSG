@@ -290,7 +290,7 @@ theorem le_normalizer (hset : GoldSetting G S A) :
 
 theorem le_centralizer (hset : GoldSetting G S A) (h4 : Nat.card A = 4) :
     (S : Subgroup G) ≤ Subgroup.centralizer (A : Set G) := fun s hs => by
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
   exact mem_centralizer_of_pow_two hset h4 (le_normalizer hset hs)
     (by simpa using congrArg Subtype.val hk)
 

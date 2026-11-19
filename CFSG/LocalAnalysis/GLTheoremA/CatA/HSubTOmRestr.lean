@@ -242,7 +242,7 @@ private noncomputable def restrictHom (ht3 : t ^ 3 = 1) :
         (v : Fin 4 ⊕ Fin 4 → ZMod 2))
     rw [spEnd_mul, Module.End.mul_apply]
 
-private noncomputable def restrictOmegaHom (ht3 : t ^ 3 = 1) (ht1 : t ≠ 1)
+private noncomputable def restrictOmegaHom (ht3 : t ^ 3 = 1) (_ht1 : t ≠ 1)
     (hQ : (fixQ t).polarBilin.Nondegenerate) :
     ↥(spSupported t {(X - 1 : (ZMod 2)[X])} ⊓ OmInSp CFSG.AGLEmbedding.Om8) →*
       ↥(omegaGroup (fixQ t) hQ) :=
@@ -321,10 +321,10 @@ private theorem restrictOmegaHom_surjective (ht3 : t ^ 3 = 1) (ht1 : t ≠ 1)
     simpa [restrictOmegaHom, restrictHom, MonoidHom.codRestrict] using hres
   · have hbot : fixV t = ⊥ :=
       primaryComponent_eq_bot_of_not_mem irreducible_X_sub_one monic_X_sub_one hmem
-    haveI : Subsingleton ↥(fixV t) := by rw [hbot]; infer_instance
-    haveI : Subsingleton (↥(fixV t) ≃ₗ[ZMod 2] ↥(fixV t)) :=
+    have : Subsingleton ↥(fixV t) := by rw [hbot]; infer_instance
+    have : Subsingleton (↥(fixV t) ≃ₗ[ZMod 2] ↥(fixV t)) :=
       ⟨fun f g => LinearEquiv.ext fun x => Subsingleton.elim (f x) (g x)⟩
-    haveI : Subsingleton ↥(omegaGroup (fixQ t) hQ) :=
+    have : Subsingleton ↥(omegaGroup (fixQ t) hQ) :=
       ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
     exact ⟨1, Subsingleton.elim _ h⟩
 
@@ -341,10 +341,10 @@ theorem ncard_fixQ_of_mult_one (ht3 : t ^ 3 = 1) (ht1 : t ≠ 1)
     (htΩ : t ∈ OmInSp CFSG.AGLEmbedding.Om8) (hm : primaryMultiplicity (spEnd t) q2 = 1) :
     {v | fixQ t v = 1}.ncard = 36 := by
   classical
-  haveI : Finite ↥(fixV t) := Module.finite_of_finite (ZMod 2)
-  haveI : Finite ↥(movV t) := Module.finite_of_finite (ZMod 2)
+  have : Finite ↥(fixV t) := Module.finite_of_finite (ZMod 2)
+  have : Finite ↥(movV t) := Module.finite_of_finite (ZMod 2)
   have hV2dim : Module.finrank (ZMod 2) ↥(movV t) = 2 * primaryMultiplicity (spEnd t) q2 := by
-    haveI : Fact (Irreducible q2) := ⟨q2_irreducible⟩
+    have : Fact (Irreducible q2) := ⟨q2_irreducible⟩
     rw [movV, finrank_primaryComponent, natDegree_q2]
   have hV2card : Nat.card ↥(movV t) = 4 ^ primaryMultiplicity (spEnd t) q2 := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := ↥(movV t)), hV2dim, Nat.card_zmod]
@@ -429,10 +429,10 @@ theorem ncard_fixQ_of_mult_two (ht3 : t ^ 3 = 1) (ht1 : t ≠ 1)
     (htΩ : t ∈ OmInSp CFSG.AGLEmbedding.Om8) (hm : primaryMultiplicity (spEnd t) q2 = 2) :
     {v | fixQ t v = 1}.ncard = 6 := by
   classical
-  haveI : Finite ↥(fixV t) := Module.finite_of_finite (ZMod 2)
-  haveI : Finite ↥(movV t) := Module.finite_of_finite (ZMod 2)
+  have : Finite ↥(fixV t) := Module.finite_of_finite (ZMod 2)
+  have : Finite ↥(movV t) := Module.finite_of_finite (ZMod 2)
   have hV2dim : Module.finrank (ZMod 2) ↥(movV t) = 2 * primaryMultiplicity (spEnd t) q2 := by
-    haveI : Fact (Irreducible q2) := ⟨q2_irreducible⟩
+    have : Fact (Irreducible q2) := ⟨q2_irreducible⟩
     rw [movV, finrank_primaryComponent, natDegree_q2]
   have hV2card : Nat.card ↥(movV t) = 4 ^ primaryMultiplicity (spEnd t) q2 := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := ↥(movV t)), hV2dim, Nat.card_zmod]

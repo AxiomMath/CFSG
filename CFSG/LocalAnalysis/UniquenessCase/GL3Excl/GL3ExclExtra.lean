@@ -25,9 +25,9 @@ theorem false_of_extraspecial {r : ℕ} [Fact r.Prime] (hr2 : r ≠ 2)
     (ht₁d : (t₁ : Matrix (Fin 3) (Fin 3) (ZMod r)) = diagonal ![-1, 1, 1]) (ht₂ : t₂ ∈ W)
     (ht₂d : (t₂ : Matrix (Fin 3) (Fin 3) (ZMod r)) = diagonal ![1, -1, 1]) : False := by
   have hneg : (-1 : ZMod r) ≠ 1 := by
-    haveI : Fact (2 < r) := ⟨lt_of_le_of_ne (Fact.out : r.Prime).two_le (Ne.symm hr2)⟩
+    have : Fact (2 < r) := ⟨lt_of_le_of_ne (Fact.out : r.Prime).two_le (Ne.symm hr2)⟩
     exact ZMod.neg_one_ne_one
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hnc : ∃ a ∈ K, ∃ b ∈ K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := CFSG.RankThree.PartOne.N1322.ext27_noncomm hcard hext
     exact ⟨a, a.2, b, b.2, fun hc => hab (Subtype.ext hc)⟩

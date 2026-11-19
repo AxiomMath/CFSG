@@ -333,7 +333,7 @@ private theorem trc_cell_A {Λ : Type} [Fintype Λ] [DecidableEq Λ] {C : Matrix
         ⟨n + 2, Fin.revPerm.trans e, by omega, hb_rev, hrev⟩
       have hc' : c = e' ⟨m - 1, by omega⟩ :=
         eq_of_forkShapeA (by omega) hb' hC'
-          (by rw [hF.bL c hF.ne.symm, if_pos rfl])
+          (by rw [hF.bL c hF.ne.symm, ite_eq_left rfl])
       exact ⟨by rw [hc']; exact exists_weyl_ggAttachCartan_forkShapeA_c hm hC',
         by rw [← hb']; exact exists_weyl_ggAttachCartan_forkShapeA_b hC'⟩
     · have hb_last : e (Fin.last (n + 2)) = b := by
@@ -343,7 +343,7 @@ private theorem trc_cell_A {Λ : Type} [Fintype Λ] [DecidableEq Λ] {C : Matrix
         ⟨n + 2, e, by omega, hb_last, hA⟩
       have hc' : c = e' ⟨m - 1, by omega⟩ :=
         eq_of_forkShapeA (by omega) hb' hC'
-          (by rw [hF.bL c hF.ne.symm, if_pos rfl])
+          (by rw [hF.bL c hF.ne.symm, ite_eq_left rfl])
       exact ⟨by rw [hc']; exact exists_weyl_ggAttachCartan_forkShapeA_c hm hC',
         by rw [← hb']; exact exists_weyl_ggAttachCartan_forkShapeA_b hC'⟩
 

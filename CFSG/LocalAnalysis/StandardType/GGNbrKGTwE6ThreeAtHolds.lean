@@ -14,7 +14,7 @@ theorem ggTwoLocalLift_of_at {p r s : ℕ} {R : Type} [Group R] {I F : Set (MulA
     (hs : IsSimpleGroup R) (hna : ∃ a b : R, a * b ≠ b * a)
     (h : GGTwoLocalAt p r s R I F) : GGTwoLocalLift p r s R I F := by
   intro L' _ _ ψ hψ hker hperf a ha hφmem hainn
-  haveI : Finite R := Finite.of_surjective ψ hψ
+  have : Finite R := Finite.of_surjective ψ hψ
   have hZ : Subgroup.center R = ⊥ := by
     rcases hs.eq_bot_or_eq_top_of_normal (Subgroup.center R) with hc | hc
     · exact hc

@@ -37,9 +37,9 @@ private theorem sp6_blocks (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) :
   have hinj : Function.Injective (proj 3 (ZMod 2)) := by
     rw [← MonoidHom.ker_eq_bot_iff, SymplecticHigher.ker_proj, ← Subgroup.card_eq_one,
       card_spScalars_eq_gcd (ZMod 2) (r := 3) (by norm_num)]
-    simp [Nat.card_zmod]
+    simp
   exact (symplectic_cross_prime_primary_centralizer_blocks Nat.prime_two le_rfl
-    (by simp [Nat.card_zmod]) Nat.prime_three (by norm_num) (by norm_num) (by norm_num)
+    (by simp) Nat.prime_three (by norm_num) (by norm_num) (by norm_num)
     (proj 3 (ZMod 2) s) (by rw [orderOf_injective _ hinj s, hs])).2 s rfl hs
 
 private theorem squarefree_minpoly (hs3 : s ^ 3 = 1) :
@@ -121,8 +121,8 @@ private theorem commute_supported (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1)
 private theorem primaryMultiplicity_q2_eq_zero (hq : q2 ∉ primaryFactors (spEnd s)) :
     primaryMultiplicity (spEnd s) q2 = 0 := by
   have hbot := primaryComponent_eq_bot_of_not_mem (y := spEnd s) q2_irreducible monic_q2 hq
-  haveI : Fact (Irreducible q2) := ⟨q2_irreducible⟩
-  haveI : Subsingleton ↥(primaryComponent (spEnd s) q2) := by rw [hbot]; infer_instance
+  have : Fact (Irreducible q2) := ⟨q2_irreducible⟩
+  have : Subsingleton ↥(primaryComponent (spEnd s) q2) := by rw [hbot]; infer_instance
   exact Module.finrank_zero_of_subsingleton
 
 open CFSG.RankThree.PartOne.KCOrthogonal in
@@ -137,12 +137,12 @@ private theorem dimension_count (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) :
   refine h3.trans (congrArg (s₀ + ·) ?_)
   rw [Finset.sum_filter, Finset.sum_eq_single q2]
   · by_cases hq : q2 ∈ primaryFactors (spEnd s)
-    · rw [if_pos ⟨reciprocal_eq_self hs3 hq, q2_ne_X_sub_one⟩, natDegree_q2]
+    · rw [ite_eq_left ⟨reciprocal_eq_self hs3 hq, q2_ne_X_sub_one⟩, natDegree_q2]
       simp
     · rw [primaryMultiplicity_q2_eq_zero hq]
       simp
   · intro h hh hne
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨-, hne1⟩
     rcases mem_primaryFactors_pow_three (spEnd_pow hs3) hh with h' | h'
     · exact hne1 h'
@@ -172,7 +172,7 @@ theorem exists_sp6Class_spSupported (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) :
   have blocks := sp6_blocks hs3 hs1
   have hsq := squarefree_minpoly hs3
   have hq := q2_mem_primaryFactors hs3 hs1
-  haveI : Fact (Irreducible q2) := ⟨q2_irreducible⟩
+  have : Fact (Irreducible q2) := ⟨q2_irreducible⟩
   obtain ⟨s₀, hs₀, hsum⟩ := dimension_count hs3 hs1
   refine ⟨s₀, ⟨hsum.symm, ?_, centralizer_eq_sup hs3 hs1, ?_, inf_supported_eq_bot hs3, ?_, ?_,
     by rw [← blocks.fixed_eq]; exact hs₀⟩⟩

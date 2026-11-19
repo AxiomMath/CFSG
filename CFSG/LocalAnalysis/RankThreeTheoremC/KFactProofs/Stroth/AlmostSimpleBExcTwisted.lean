@@ -20,7 +20,7 @@ theorem centralizer_pPart_of_sylowShape {p r e : ℕ} (hp : p.Prime) (hS : Sylow
     (Nat.card X).factorization p ≤
       (Nat.card (Subgroup.centralizer ({d} : Set X))).factorization p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdP : IsPGroup p (Subgroup.zpowers d) := by
     intro g
     obtain ⟨n, hn⟩ := g.2
@@ -29,7 +29,7 @@ theorem centralizer_pPart_of_sylowShape {p r e : ℕ} (hp : p.Prime) (hS : Sylow
     simp only [pow_one, Subgroup.coe_pow, Subgroup.coe_one]
     rw [← hn, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hdp, one_zpow]
   obtain ⟨Q, hdQ⟩ := hdP.exists_le_sylow
-  obtain ⟨φ⟩ := hS (Q : Subgroup X) Q.isPGroup' Q.not_dvd_index
+  obtain ⟨φ⟩ := hS (Q : Subgroup X) Q.isPGroup Q.not_dvd_index
   have hcomm : ∀ a ∈ (Q : Subgroup X), ∀ b ∈ (Q : Subgroup X), a * b = b * a := by
     intro a ha b hb
     have h1 : φ ⟨a, ha⟩ * φ ⟨b, hb⟩ = φ ⟨b, hb⟩ * φ ⟨a, ha⟩ := mul_comm _ _
@@ -48,7 +48,7 @@ theorem pClosureOdd_of_sylowShape {p r e : ℕ} (hp : p.Prime) (hS : SylowShape 
     (h : NoSylowNormalizesTwo p X) : PClosureOdd p X := by
   intro d _ hdp
   refine OddPCoreInClosure.of_odd_core fun N hN hcop => ?_
-  haveI := hN
+  have := hN
   exact odd_card_of_normal_of_noSylowNormalizes hp h (Subgroup.centralizer ({d} : Set X))
     (centralizer_pPart_of_sylowShape hp hS hdp) N hcop
 

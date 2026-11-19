@@ -45,8 +45,8 @@ theorem r925_mem_of_map_mem {Γ : Type} [Group Γ] [Finite Γ] {Z : Subgroup Γ}
 theorem r925_centralizes_of_centralizes_fstar {Γ : Type} [Group Γ] [Finite Γ] {J : Subgroup Γ}
     [J.Normal] (hJ : ∀ x ∈ J, ¬ 3 ∣ orderOf x) {D : Subgroup Γ} (hD : Nat.card D = 3)
     (hDF : D ≤ centralizer (Fstar J : Set Γ)) : D ≤ centralizer (J : Set Γ) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hNchar : (genFittingFStar ↥J).Characteristic :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hNchar : (genFittingFStar ↥J).Characteristic :=
     CFSG.ComponentClassification.GeneralizedFitting.characteristic ↥J
   have hnormalizes : J ≤ Subgroup.normalizer (Fstar J : Set Γ) := by
     have h := Subgroup.le_normalizer_map (H := genFittingFStar ↥J) J.subtype
@@ -106,19 +106,19 @@ theorem r925_centralizes_of_centralizes_fstar {Γ : Type} [Group Γ] [Finite Γ]
 theorem r925_im_centralizer_le {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgroup Γ}
     (h : R925Ctx Γ Y K M) (hnot : ¬ CFSG.pPrimeCore 3 Γ ≤ M) :
     centralizer (Fstar (CFSG.pPrimeCore 3 Γ) : Set Γ) ≤ CFSG.pPrimeCore 3 Γ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set J : Subgroup Γ := CFSG.pPrimeCore 3 Γ with hJdef
   set Z₀ : Subgroup Γ := centralizer (Fstar J : Set Γ) with hZdef
-  haveI hJchar : J.Characteristic := CFSG.pPrimeCore_characteristic
-  haveI hNchar : (genFittingFStar ↥J).Characteristic :=
+  have hJchar : J.Characteristic := CFSG.pPrimeCore_characteristic
+  have hNchar : (genFittingFStar ↥J).Characteristic :=
     CFSG.ComponentClassification.GeneralizedFitting.characteristic ↥J
-  haveI hFchar : (Fstar J).Characteristic :=
+  have hFchar : (Fstar J).Characteristic :=
     Subgroup.characteristic_of_characteristic_of_characteristic (H := J)
       (K := genFittingFStar ↥J)
-  haveI hZ₀c : Z₀.Characteristic := by
+  have hZ₀c : Z₀.Characteristic := by
     rw [hZdef]
     exact Subgroup.characteristic_centralizer
-  haveI hZ₀n : Z₀.Normal := inferInstance
+  have hZ₀n : Z₀.Normal := inferInstance
   have hJnot : ¬ J ≤ M := hnot
   by_contra hle
   have hZ₀map_ne : Z₀.map (toModO3p Γ) ≠ ⊥ := by
@@ -129,9 +129,9 @@ theorem r925_im_centralizer_le {Γ : Type} [Group Γ] [Finite Γ] {Y K M : Subgr
     rw [hbot, Subgroup.mem_bot] at hzmap
     rw [hJdef]
     exact (QuotientGroup.eq_one_iff (N := CFSG.pPrimeCore 3 Γ) z).mp hzmap
-  haveI hKbN : (K.map (toModO3p Γ)).Normal :=
+  have hKbN : (K.map (toModO3p Γ)).Normal :=
     h.normal_k.map _ (QuotientGroup.mk'_surjective _)
-  haveI hZmapN : (Z₀.map (toModO3p Γ)).Normal :=
+  have hZmapN : (Z₀.map (toModO3p Γ)).Normal :=
     hZ₀n.map _ (QuotientGroup.mk'_surjective _)
   have hKbar_le : K.map (toModO3p Γ) ≤ Z₀.map (toModO3p Γ) :=
     r925_le_of_normal (r925_kbar_simple h) (r925_kbar_centralizer h) hZ₀map_ne
@@ -162,14 +162,14 @@ theorem r925_im_Y_inf_centralizer (hKSch : UCK.KSch) {Γ : Type} [Group Γ] [Fin
     Y ⊓ centralizer (r925PCoreGe5 Γ : Set Γ) = ⊥ := by
   set C : Subgroup Γ := centralizer (r925PCoreGe5 Γ : Set Γ) with hCdef
   set X : Subgroup Γ := Y ⊓ C with hXdef
-  haveI hPchar : (r925PCoreGe5 Γ).Characteristic := by
+  have hPchar : (r925PCoreGe5 Γ).Characteristic := by
     rw [r925PCoreGe5]
     infer_instance
-  haveI hCchar : C.Characteristic := by
+  have hCchar : C.Characteristic := by
     rw [hCdef]
     exact Subgroup.characteristic_centralizer
-  haveI hCn : C.Normal := inferInstance
-  haveI hXn : (X.subgroupOf Y).Normal := by
+  have hCn : C.Normal := inferInstance
+  have hXn : (X.subgroupOf Y).Normal := by
     rw [hXdef, Subgroup.inf_subgroupOf_left]
     infer_instance
   have hfit_le : r925FittingIn (CFSG.pPrimeCore 3 Γ) ≤ r925PCoreGe5 Γ :=

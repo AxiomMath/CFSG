@@ -83,7 +83,7 @@ theorem dvd_card_centerQuotientImage {J L : Subgroup G} (hq : CFSG.Assembly.IsQu
     rintro _ ⟨j, -, rfl⟩
     exact ⟨inclusion hJL j, mem_subgroupOf.2 j.2, rfl⟩
   have hbot : (P : Subgroup J).map ψ = ⊥ := by
-    obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 (P.isPGroup'.map ψ)
+    obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 (P.isPGroup.map ψ)
     have hdvd := Subgroup.card_dvd_of_le hPψ
     rcases m with _ | m
     · rw [pow_zero] at hm
@@ -101,7 +101,7 @@ theorem dvd_card_centerQuotientImage {J L : Subgroup G} (hq : CFSG.Assembly.IsQu
     exact Subtype.ext (show ((g * j : J) : G) = ((j * g : J) : G) from
       congrArg (fun z : L => (z : G)) (mem_center_iff.1 hjZ (inclusion hJL g)))
   have hcop : Nat.Coprime (Nat.card (P : Subgroup J)) (P : Subgroup J).index := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 P.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 P.isPGroup
     rw [hn]
     exact Nat.Coprime.pow_left n
       ((Nat.Prime.coprime_iff_not_dvd Fact.out).2 (Sylow.not_dvd_index P))

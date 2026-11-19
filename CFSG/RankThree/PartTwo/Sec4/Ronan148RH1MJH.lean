@@ -51,7 +51,7 @@ theorem good427_m24 (s : Blueprint.NativeSporadic.M24) (hs : orderOf s = 3) :
   have hφs : ((φ s : Blueprint.NativeSporadic.M24) : Equiv.Perm (Fin 24)) = tp 24 r.rep := by
     have : ((φ s : Blueprint.NativeSporadic.M24) : Equiv.Perm (Fin 24)) =
         g⁻¹ * (s : Equiv.Perm (Fin 24)) * g := by
-      simp [hφ, hgP, MulAut.conj_apply]
+      simp [hφ, hgP]
     rw [this, hgr]
     group
   refine Good427.of_mulEquiv_centralizer φ ?_
@@ -150,7 +150,7 @@ theorem noCfgS427_j2 :
   refine ⟨noCfgS427_of_inner (RonanK429H.center_eq_bot_of_simple_nonab hna)
     (not_three_dvd_outer_of_mulEquiv e spor_j2.1) fun y hy => ?_,
     noONS427_of_card (by rw [hcard]; norm_num)⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy3 : y ^ 3 = 1 := by rw [← hy]; exact pow_orderOf_eq_one y
   have hyp : IsPGroup 3 (Subgroup.zpowers y) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hy, pow_one])

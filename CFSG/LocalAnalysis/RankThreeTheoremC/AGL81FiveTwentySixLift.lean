@@ -24,7 +24,7 @@ private theorem conj_mem_pElementSubgroup_two {A : Subgroup X} {a : X} (ha : a �
     have hord : orderOf (a * y * a⁻¹) = orderOf y := by
       simpa only [MulAut.conj_apply] using MulEquiv.orderOf_eq (MulAut.conj a) y
     rw [hord, hk]
-  · simpa using Subgroup.one_mem (Subgroup.closure {z : X | z ∈ A ∧ ∃ k : ℕ, orderOf z = 2 ^ k})
+  · simp
   · intro y z _ _ hy hz
     rw [show a * (y * z) * a⁻¹ = (a * y * a⁻¹) * (a * z * a⁻¹) by group]
     exact Subgroup.mul_mem _ hy hz
@@ -123,17 +123,17 @@ private theorem sup_inf_subgroupOf_normal {C P B : Subgroup X} [C.Normal]
   exact hfwd p hp h1
 
 private theorem not_two_dvd_index_of_isSylowTwoOf_le {P M S : Subgroup X}
-    (hSM : S ≤ M) (hS : IsSylowTwoOf S P) (hMP : M ≤ P) :
+    (hSM : S ≤ M) (hS : IsSylowTwoOf S P) (_hMP : M ≤ P) :
     ¬ 2 ∣ (M.subgroupOf P).index := by
   intro h2
   apply hS.2.2
   have hle : S.subgroupOf P ≤ M.subgroupOf P := Subgroup.subgroupOf_mono P hSM
   exact h2.trans (Subgroup.index_dvd_of_le hle)
 
-theorem pElementSubgroup_two_le_of_odd_index {P N : Subgroup X} (hNP : N ≤ P)
+theorem pElementSubgroup_two_le_of_odd_index {P N : Subgroup X} (_hNP : N ≤ P)
     (hN : (N.subgroupOf P).Normal) (hodd : ¬ 2 ∣ (N.subgroupOf P).index) :
     pElementSubgroup 2 P ≤ N := by
-  letI := hN
+  let := hN
   refine (Subgroup.closure_le N).mpr ?_
   rintro x ⟨hxP, k, hxk⟩
   let y : ↥P ⧸ N.subgroupOf P := QuotientGroup.mk' (N.subgroupOf P) ⟨x, hxP⟩
@@ -291,7 +291,7 @@ theorem pElementSubgroup_two_map_inf_le [Finite X] {C L B S : Subgroup X} [C.Nor
 
 theorem pElementSubgroup_two_eq_of_perfect [Finite X] {L : Subgroup X} (hL : ⁅L, L⁆ = L) :
     pElementSubgroup 2 L = L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWL : pElementSubgroup 2 L ≤ L := pElementSubgroup_le L
   have hconj : ∀ l ∈ L, ∀ x ∈ pElementSubgroup 2 L, l * x * l⁻¹ ∈ pElementSubgroup 2 L :=
     fun l hl _ hx => conj_mem_pElementSubgroup_two hl hx
@@ -310,7 +310,7 @@ theorem pElementSubgroup_two_eq_of_perfect [Finite X] {L : Subgroup X} (hL : ⁅
       rw [Subgroup.mem_subgroupOf]
       unfold pElementSubgroup
       refine Subgroup.subset_closure ⟨x.2, ?_⟩
-      obtain ⟨n, hn⟩ := S.isPGroup' ⟨x, hx⟩
+      obtain ⟨n, hn⟩ := S.isPGroup ⟨x, hx⟩
       have h1 : (x : ↥L) ^ 2 ^ n = 1 := congrArg Subtype.val hn
       obtain ⟨k, -, hk⟩ :=
         (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one (congrArg Subtype.val h1))
@@ -322,14 +322,14 @@ theorem pElementSubgroup_two_eq_of_perfect [Finite X] {L : Subgroup X} (hL : ⁅
       rw [even_iff_two_dvd]
       exact fun h => hnd (h.trans hdvd))
   refine le_antisymm hWL ?_
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hL
   have htop : (pElementSubgroup 2 L).subgroupOf L = ⊤ := by
     have hperf : Group.IsPerfect (↥L ⧸ (pElementSubgroup 2 L).subgroupOf L) :=
       Group.IsPerfect.ofSurjective
         (f := QuotientGroup.mk' ((pElementSubgroup 2 L).subgroupOf L))
         (QuotientGroup.mk'_surjective _)
     by_contra hne
-    haveI : Nontrivial (↥L ⧸ (pElementSubgroup 2 L).subgroupOf L) :=
+    have : Nontrivial (↥L ⧸ (pElementSubgroup 2 L).subgroupOf L) :=
       QuotientGroup.nontrivial_iff.mpr hne
     have hsolv : Group.IsSolvable (↥L ⧸ (pElementSubgroup 2 L).subgroupOf L) :=
       CFSG.FeitThompson.isSolvable_of_odd_natCard _ (by rwa [Subgroup.index_eq_card] at hodd)

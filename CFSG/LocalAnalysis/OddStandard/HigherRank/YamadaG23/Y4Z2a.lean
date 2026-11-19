@@ -53,7 +53,7 @@ theorem y4_cenT2_eq (c : Ctx4 s e) : cen s.T₂ = s.fr.Z := by
     exact absurd (mul_right_cancel (show ⁅x₁, s.t⁆ * s.t = 1 * s.t by rw [ht, one_mul])) hψ1
 
 theorem y4_normIn_zt (c : Ctx4 s e) : normIn s.T₂ (zt s) = e.T₁ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : s.T ⊓ centralizer (L : Set G) = zpowers s.t := s3_Q_eq s c.hS c.hZ c.hOut
   have hcenR : cen s.R = zt s := s3_cen_R_eq s c.hS c.hZ hQ
   have hT1Q : e.T₁ ≤ normIn s.T₂ (zt s) := by
@@ -83,7 +83,7 @@ theorem y4_Z2_le_T1 (c : Ctx4 s e) : zSeries 2 s.T₂ ≤ e.T₁ := by
     refine y4_mem_normalizer_of_conj_mem ?_
     intro u hu
     rcases (s3_mem_zt_iff s c.hA).mp hu with rfl | rfl | rfl | rfl
-    · simpa using Subgroup.one_mem (zt s)
+    · simp
     · rw [hzconj]; exact hz_zt
     · rw [y4_conj_t]; exact Subgroup.mul_mem _ hψzt ht_zt
     · have hL : x * (s.fr.z * s.t) * x⁻¹ = s.fr.z * (⁅x, s.t⁆ * s.t) := by

@@ -101,10 +101,10 @@ theorem bv_rowT (M : ℕ) (i : Fin 10) : bv (rowT M i.val) = MatP 10 M i := by
 theorem bv_two_pow_vecMul (i : Fin 10) (X : M10) : Matrix.vecMul (bv (2 ^ i.val)) X = X i := by
   funext j
   rw [Matrix.vecMul, dotProduct, Finset.sum_eq_single i]
-  · simp [bv, Nat.testBit_two_pow]
+  · simp [bv]
   · intro k _ hk
     have : i.val ≠ k.val := fun e => hk (Fin.ext e).symm
-    simp [bv, Nat.testBit_two_pow, this]
+    simp [bv, this]
   · simp
 
 theorem vmF_lt' (P v : ℕ) : vmF 10 P v < 1024 := vmF_lt 10 P v
@@ -208,6 +208,7 @@ theorem cancel_left {t x y : M22} (ht : t ^ 32 = 1) (h : t * x = t * y) : x = y 
 variable (hgen : jGenK GJ = true) (henum : jEnumK GJ JE JS = true)
 
 include hgen henum in
+omit henum in
 theorem jm_xor {a b : ℕ} : jm (a ^^^ b) = jm a * jm b :=
   bitProd_xor (jGen_sound hgen).1 (jGen_sound hgen).2 a b 10 le_rfl
 
@@ -244,7 +245,7 @@ theorem jm_bij : Set.BijOn jm (Set.Iio 1024) (genJ GJ) := by
     | mul y z _ _ hy hz =>
       obtain ⟨a, ha, rfl⟩ := hy
       obtain ⟨b, hb, rfl⟩ := hz
-      refine ⟨a ^^^ b, ?_, jm_xor hgen henum⟩
+      refine ⟨a ^^^ b, ?_, jm_xor hgen⟩
       exact Nat.xor_lt_two_pow (n := 10) ha hb
 
 variable (hin : jInTK G GJ JW JL = true) (hco : coordAllK G GJ JE MK = true)
@@ -278,7 +279,7 @@ theorem acts_gen {k : ℕ} (hk : k < 5) : ActsP jm (MatP 22 (G k)) (MK k) := by
   have hc := coord_sound hco k hk l hi
   rw [((jEnum_sound henum).1 _ (rowT_lt _ _)).2] at hc
   rw [bitProd_gray _ hi hu, vmF_gray _ hi hu, ← mul_assoc, ih u (by omega) (by omega), mul_assoc,
-    hc, ← mul_assoc, ← jm_xor hgen henum, Nat.xor_comm]
+    hc, ← mul_assoc, ← jm_xor hgen, Nat.xor_comm]
 
 variable (hpow : ∀ x ∈ genMon G, x ^ 32 = 1)
 
@@ -333,7 +334,7 @@ theorem genJ_sub_centJ : (genJ GJ : Set M22) ⊆ centJ G GJ := by
   intro x hx
   obtain ⟨a, ha, rfl⟩ := (jm_bij hgen henum).2.2 hx
   refine ⟨genJ_le hin ((jm_bij hgen henum).1 ha), fun v _ => ?_⟩
-  rw [← jm_xor hgen henum, ← jm_xor hgen henum, Nat.xor_comm]
+  rw [← jm_xor hgen, ← jm_xor hgen, Nat.xor_comm]
 
 include hgen henum in
 theorem card_genJ : Nat.card (genJ GJ : Set M22) = 1024 := by

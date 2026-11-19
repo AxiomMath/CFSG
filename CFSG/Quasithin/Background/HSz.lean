@@ -446,7 +446,6 @@ theorem dEnt_injective (hK : Nat.card K = 2 ^ (2 * a + 1)) {l : Kˣ} (hl : l ≠
     rwa [_root_.zpow_neg, inv_eq_one] at h
   intro i j hij
   fin_cases i <;> fin_cases j <;> simp only [dEnt] at hij ⊢ <;> first
-    | rfl
     | (exfalso; have h := hA hij; first
         | (apply e1; convert h using 2; ring1)
         | (apply e2; convert h using 2; ring1)

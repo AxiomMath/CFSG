@@ -190,7 +190,7 @@ theorem isNonabsPlane_subquadrangle_iff (hΓ : IsThasQuadrangle Γ c q) {P' : Se
     rw [heq, val_image_subquadrangleTrace hΓ hF hTP]
   · rintro ⟨y, z, hy0, hyz, hTP, hval⟩
     have hTcard : (traceSet Γ y z).ncard = q ^ 3 + 1 := by
-      rw [ncard_trace hP hyz, hΓ.deg y, if_pos hy0]
+      rw [ncard_trace hP hyz, hΓ.deg y, ite_eq_left hy0]
     have hXcard : X.ncard = q ^ 3 + 1 := by
       rw [← Set.ncard_image_of_injective _ Subtype.val_injective, hval, hTcard]
     have hXeq : X = subquadrangleTrace Γ c P' y z := by

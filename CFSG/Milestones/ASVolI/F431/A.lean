@@ -24,7 +24,7 @@ theorem burnsideF4m_oPPrime_eq_of_borel {E : Type} [Group E] [Finite E] {H S : S
     exact Subgroup.subset_closure ⟨hx.1, k, by rw [← Subgroup.orderOf_mk x hx]; exact hk⟩
   refine le_antisymm (burnsideF4d_oPPrime_le H) ?_
   have hNle : oPPrime 2 H ≤ H := burnsideF4d_oPPrime_le H
-  haveI hN : ((oPPrime 2 H).subgroupOf H).Normal :=
+  have hN : ((oPPrime 2 H).subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNle).mpr (burnsideF4d_le_normalizer_oPPrime H)
   have hS'2 : IsPGroup 2 ↥(S.subgroupOf H) := hS2.comap_subtype
   have hSi' : ¬ 2 ∣ (S.subgroupOf H).index := hSi
@@ -55,7 +55,7 @@ set_option linter.unusedSectionVars false
 theorem burnsideF4m_torusGroup_eq_bot {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
     {τ : Tag} : torusGroup τ K = ⊥ := by
   have h2 : Nat.card Kˣ = 1 := by rw [Nat.card_units, hK]
-  haveI : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.1 h2).1
+  have : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.1 h2).1
   rw [eq_bot_iff, torusGroup, Subgroup.closure_le]
   rintro _ ⟨⟨i, u⟩, rfl⟩
   rw [Subsingleton.elim u 1]
@@ -64,7 +64,7 @@ theorem burnsideF4m_torusGroup_eq_bot {K : Type} [Field K] [Finite K] (hK : Nat.
 theorem burnsideF4m_isPGroup_g2_fullImage {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
     {H : Type} [Group H] (marking : G2Native.FullModel K ≃* H) :
     IsPGroup 2 ↥(G2Native.fullImage K marking (G2Native.positiveBorel K)) := by
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     have : Fintype K := Fintype.ofFinite K
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hK, pow_one])
@@ -122,7 +122,7 @@ set_option linter.unusedSectionVars false
 theorem burnsideF4m_genByTwoRest : burnsideF4j_GenByTwoInputRest := by
   intro κ f E _ Gp M₁ M₂ hyp hκ hf
   subst hf
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨⟨S, hS, hB⟩, -⟩ := burnsideF4jb_parabolics ChF.nativeChartCompatibility hyp
   have h2 := burnsideF4m_isPGroup_borel hyp hκ
   rw [hB] at h2

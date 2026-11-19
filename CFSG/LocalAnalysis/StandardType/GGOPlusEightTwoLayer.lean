@@ -15,6 +15,7 @@ open Polynomial Module CFSG.Assembly CFSG.RankThree.PartOne.KCOrthogonal
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem fixes_of_commSpace_two (hK1 : ∀ c : K, c ^ 3 = 1 → c = 1)
     {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q 3 x)
     (hx2 : finrank K (CFSG.RankThree.PartOne.LIT.commSpace x) = 2) {Y : Submodule K V}

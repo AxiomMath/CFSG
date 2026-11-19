@@ -81,11 +81,11 @@ theorem stdAut_scalarElement (A : GL (Fin n) K) (σ : K ≃+* K) (ε : ℕ) (hε
           · rw [inv_pow, h, inv_one]) := by
   unfold stdAut
   rcases Nat.le_one_iff_eq_zero_or_eq_one.1 hε with rfl | rfl
-  · simp only [pow_zero, mul_one, if_true]
+  · simp only [pow_zero, mul_one, ite_true]
     change CatalogueBHigherLinearAction.slConjugation n K A
         (CatalogueBHigherLinearField.slFieldAut (Fin n) K σ (scalarElement c hc)) = _
     rw [slFieldAut_scalarElement, slConjugation_scalarElement]
-  · simp only [pow_one, one_ne_zero, if_false]
+  · simp only [pow_one, one_ne_zero, ite_false]
     change CatalogueBHigherLinearAction.slConjugation n K A
         (CatalogueBHigherLinearField.slFieldAut (Fin n) K σ
           (CatalogueBGraphForm.slGraphAut n K (scalarElement c hc))) = _
@@ -97,8 +97,8 @@ theorem exists_exponent [Finite K] (σ : K ≃+* K) (ε : ℕ) :
       (if ε = 0 then Units.map (σ : K →* K) x else (Units.map (σ : K →* K) x)⁻¹) = x ^ e := by
   obtain ⟨s, hs⟩ := MonoidHom.map_cyclic (Units.map (σ : K →* K))
   by_cases hε : ε = 0
-  · exact ⟨s, fun x => by simp only [hε, if_true]; exact hs x⟩
-  · exact ⟨-s, fun x => by simp only [hε, if_false]; rw [hs x, _root_.zpow_neg]⟩
+  · exact ⟨s, fun x => by simp only [hε, ite_true]; exact hs x⟩
+  · exact ⟨-s, fun x => by simp only [hε, ite_false]; rw [hs x, _root_.zpow_neg]⟩
 
 end Scalars
 
@@ -242,9 +242,9 @@ private theorem conj_formula_std (B A : GL (Fin n) K) (σ : K ≃+* K) (ε : ℕ
         (if ε = 0 then A else GeneralLinearGroup.inverseTranspose A) * B⁻¹) := by
   have htrans := standard_automorphism_transport (K := K) (n := n)
   rcases Nat.le_one_iff_eq_zero_or_eq_one.1 hε with rfl | rfl
-  · simp only [pow_zero, mul_one, if_true]
+  · simp only [pow_zero, mul_one, ite_true]
     exact conj_formula B A σ
-  · simp only [pow_one, one_ne_zero, if_false]
+  · simp only [pow_one, one_ne_zero, ite_false]
     have hδ : (dualAut n K)⁻¹ = dualAut n K := inv_eq_of_mul_eq_one_right htrans.2.2.2.1
     calc (conjAut n K B * fieldAut n K σ * dualAut n K) * conjAut n K A *
           (conjAut n K B * fieldAut n K σ * dualAut n K)⁻¹

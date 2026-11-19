@@ -39,10 +39,10 @@ theorem g5G1_ne_cA6 : g5G1 ≠ cA6 := by
   exact h2 h1
 
 theorem g5G1_le : g5G1 ≤ alternatingGroup (Fin 6) :=
-  fun σ hσ => Equiv.Perm.mem_alternatingGroup.mpr hσ.1
+  fun _σ hσ => Equiv.Perm.mem_alternatingGroup.mpr hσ.1
 
 theorem cA6_le : cA6 ≤ alternatingGroup (Fin 6) :=
-  fun σ hσ => Equiv.Perm.mem_alternatingGroup.mpr hσ.2
+  fun _σ hσ => Equiv.Perm.mem_alternatingGroup.mpr hσ.2
 
 theorem T0_le : g5G1 ⊓ cA6 ≤ alternatingGroup (Fin 6) :=
   inf_le_of_left_le g5G1_le
@@ -117,7 +117,7 @@ theorem exists_conj_of_isSylowTwoOf {T S : Subgroup (Perm (Fin 6))}
     (isPGroup_subgroupOf hT).toSylow hT.2.2
   let Q : Sylow 2 (alternatingGroup (Fin 6)) :=
     (isPGroup_subgroupOf hS).toSylow hS.2.2
-  haveI : Finite (Sylow 2 (alternatingGroup (Fin 6))) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 2 (alternatingGroup (Fin 6))) := Sylow.finite_of_finiteIndex P
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥(alternatingGroup (Fin 6))) P Q
   refine ⟨(g : Perm (Fin 6)), g.2, fun t ht => ?_⟩
   have htA : t ∈ alternatingGroup (Fin 6) := hT.1 ht
@@ -149,8 +149,8 @@ end Aux
 
 theorem exists_conj_g5G1_cA6_iff {T G₁ G₂ : Subgroup (Perm (Fin 6))}
     (hsyl : IsSylowTwoOf T (alternatingGroup (Fin 6)))
-    (index₁ : G₁.relIndex (alternatingGroup (Fin 6)) = 15)
-    (index₂ : G₂.relIndex (alternatingGroup (Fin 6)) = 15)
+    (_index₁ : G₁.relIndex (alternatingGroup (Fin 6)) = 15)
+    (_index₂ : G₂.relIndex (alternatingGroup (Fin 6)) = 15)
     (only : ∀ H : Subgroup (Perm (Fin 6)), H ≤ alternatingGroup (Fin 6) → T ≤ H →
       H.relIndex (alternatingGroup (Fin 6)) = 15 → H = G₁ ∨ H = G₂) :
     ∃ c : Perm (Fin 6), c ∈ alternatingGroup (Fin 6) ∧
@@ -184,10 +184,10 @@ theorem exists_conj_g5G1_cA6_iff {T G₁ G₂ : Subgroup (Perm (Fin 6))}
 
 theorem exists_conj_g5G1_cA6 {T G₁ G₂ : Subgroup (Perm (Fin 6))}
     (hsyl : IsSylowTwoOf T (alternatingGroup (Fin 6)))
-    (le₁ : G₁ ≤ alternatingGroup (Fin 6)) (le₂ : G₂ ≤ alternatingGroup (Fin 6))
-    (T_le₁ : T ≤ G₁) (T_le₂ : T ≤ G₂)
+    (_le₁ : G₁ ≤ alternatingGroup (Fin 6)) (_le₂ : G₂ ≤ alternatingGroup (Fin 6))
+    (_T_le₁ : T ≤ G₁) (_T_le₂ : T ≤ G₂)
     (index₁ : G₁.relIndex (alternatingGroup (Fin 6)) = 15)
-    (index₂ : G₂.relIndex (alternatingGroup (Fin 6)) = 15) (ne : G₁ ≠ G₂)
+    (index₂ : G₂.relIndex (alternatingGroup (Fin 6)) = 15) (_ne : G₁ ≠ G₂)
     (only : ∀ H : Subgroup (Perm (Fin 6)), H ≤ alternatingGroup (Fin 6) → T ≤ H →
       H.relIndex (alternatingGroup (Fin 6)) = 15 → H = G₁ ∨ H = G₂) :
     ∃ c : Perm (Fin 6), c ∈ alternatingGroup (Fin 6) ∧

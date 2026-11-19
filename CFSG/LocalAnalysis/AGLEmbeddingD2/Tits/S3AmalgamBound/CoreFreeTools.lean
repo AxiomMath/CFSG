@@ -100,7 +100,7 @@ theorem eq_of_card_eq_prime_of_pRank_le_one {p : ℕ} (hp : p.Prime) {S Y P : Su
     have hWcomm : ∀ w w' : G, w ∈ W → w' ∈ W → w * w' = w' * w := by
       intro w w' hw hw'
       have hcyc : IsCyclic W := isCyclic_of_prime_card hW
-      letI : CommGroup W := IsCyclic.commGroup
+      let : CommGroup W := IsCyclic.commGroup
       exact congrArg Subtype.val (mul_comm (⟨w, hw⟩ : W) ⟨w', hw'⟩)
     have hZcomm : ∀ x x' : G, x ∈ Z₁ → x' ∈ Z₁ → x * x' = x' * x := by
       intro x x' hx hx'
@@ -138,7 +138,7 @@ theorem eq_of_card_eq_prime_of_pRank_le_one {p : ℕ} (hp : p.Prime) {S Y P : Su
 theorem exists_conj_of_pRank_le_one {p : ℕ} (hp : p.Prime) {H Y P : Subgroup G}
     (hrank : pRank p H ≤ 1) (hYH : Y ≤ H) (hPH : P ≤ H) (hY : Nat.card Y = p)
     (hP : Nat.card P = p) : ∃ h ∈ H, Y.map (MulAut.conj h).toMonoidHom = P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPp : IsPGroup p (P.subgroupOf H) := by
     have : IsPGroup p P := by
       rw [IsPGroup.iff_card]; exact ⟨1, by rw [hP]; simp⟩
@@ -146,7 +146,7 @@ theorem exists_conj_of_pRank_le_one {p : ℕ} (hp : p.Prime) {H Y P : Subgroup G
   obtain ⟨T, hT⟩ := hPp.exists_le_sylow
   set S : Subgroup G := (T : Subgroup H).map H.subtype with hS
   have hSH : S ≤ H := Subgroup.map_subtype_le _
-  have hSp : IsPGroup p S := T.isPGroup'.map H.subtype
+  have hSp : IsPGroup p S := T.isPGroup.map H.subtype
   have hPS : P ≤ S := by
     intro x hx
     exact ⟨⟨x, hPH hx⟩, hT hx, rfl⟩

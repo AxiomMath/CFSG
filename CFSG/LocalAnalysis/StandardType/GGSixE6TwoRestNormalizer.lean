@@ -35,7 +35,7 @@ theorem e6rn_w2_yA4 :
     e6rn_w2 • E6Pilot.yA4 = a5Root (blk 0 1) (blk 2 1) := by
   have hroot3 : Tag.E6.rootCertificate.root 3 = E6Pilot.yA4 := by
     have h := E6Pilot.e6RepPos_map 1
-    simp [E6Pilot.e6RepPos, E6Pilot.e6RepFrame, E6Pilot.yA4] at h
+    simp [E6Pilot.e6RepPos, E6Pilot.e6RepFrame] at h
     exact h.2
   rw [← hroot3]
   change weylOfWord .E6 [2, 4, 3, 5, 4] • Tag.E6.rootCertificate.root 3 = _
@@ -107,7 +107,7 @@ private theorem e6rn_mem_sup_of_le_normalizer {G : Type*} [Group G] {Q M : Subgr
       · group
 
 private theorem e6rn_inf_sup_eq_of_le {G : Type*} [Group G] {A Q M : Subgroup G} (hQA : Q ≤ A)
-    (hAM : A ≤ Q ⊔ M) (hMQ : M ≤ Subgroup.normalizer (Q : Set G)) :
+    (_hAM : A ≤ Q ⊔ M) (hMQ : M ≤ Subgroup.normalizer (Q : Set G)) :
     A ⊓ (Q ⊔ M) = Q ⊔ (A ⊓ M) := by
   refine le_antisymm ?_ (sup_le (le_inf hQA le_sup_left)
     (le_inf inf_le_left (inf_le_right.trans le_sup_right)))
@@ -210,8 +210,8 @@ private theorem e6rn_pCoreOf_conj (g x : EC) :
         (Subgroup.centralizer ({g * x * g⁻¹} : Set EC)))
       = (CFSG.Open.pCoreOf 2 (CFSG.Quasithin.perfectCore
           (Subgroup.centralizer ({x} : Set EC)))).map (MulAut.conj g).toMonoidHom := by
-  haveI : Finite EC := by
-    haveI : Finite (ModGL .E6 F2) := finite_modGL
+  have : Finite EC := by
+    have : Finite (ModGL .E6 F2) := finite_modGL
     exact Finite.of_injective Subtype.val Subtype.val_injective
   rw [← e6rn_map_centralizer_conj g x,
     ← CFSG.Quasithin.map_perfectCore (MulAut.conj g).toMonoidHom

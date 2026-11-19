@@ -34,8 +34,7 @@ theorem ten_fixed_free {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     linear_combination h - h2
   have hM : ∀ w, β (tenMulF4 (ω + 1) w) = p (β w) + β w := by
     intro w
-    induction w using TensorProduct.induction_on with
-    | zero => simp
+    induction w using TensorProduct.inductionOn with
     | tmul a b =>
       rw [tenMulF4_tmul, add_mul, one_mul, TensorProduct.tmul_add, map_add, hmul]
     | add x y hx hy => rw [map_add, map_add, hx, hy, map_add, map_add]; abel
@@ -45,8 +44,7 @@ theorem ten_fixed_free {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
   have hN : ∀ w' : ↥(permCore 6) ⊗[ZMod 2] GaloisField 2 2,
       tenMulF4 (ω + 1)⁻¹ (tenMulF4 (ω + 1) w') = w' := by
     intro w'
-    induction w' using TensorProduct.induction_on with
-    | zero => simp
+    induction w' using TensorProduct.inductionOn with
     | tmul a b =>
       rw [tenMulF4_tmul, tenMulF4_tmul, ← mul_assoc, inv_mul_cancel₀ hc0, one_mul]
     | add x y hx hy => rw [map_add, map_add, hx, hy]
@@ -212,11 +210,11 @@ theorem ten_permAct_mem {n : ℕ} (σ : Equiv.Perm (Fin n)) {x : Fin n → ZMod 
   rw [Equiv.sum_comp σ⁻¹ x]
   exact hx
 
-theorem ten_pair_mem {n : ℕ} {i j : Fin n} (h : i ≠ j) :
+theorem ten_pair_mem {n : ℕ} {i j : Fin n} (_h : i ≠ j) :
     (Pi.single i (1 : ZMod 2) + Pi.single j 1 : Fin n → ZMod 2) ∈ permCore n := by
   show ∑ k, (Pi.single i (1 : ZMod 2) + Pi.single j 1 : Fin n → ZMod 2) k = 0
   rw [Finset.sum_congr rfl (fun k _ => Pi.add_apply _ _ k), Finset.sum_add_distrib]
-  simp [Pi.single_apply, h, h.symm]
+  simp [Pi.single_apply]
   decide
 
 theorem ten_inner_three_le {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
@@ -255,7 +253,7 @@ theorem ten_inner_three_le {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fini
     exact σ.injective (by rw [← hd, h])
   obtain ⟨f, hfS⟩ : ∃ f, f ∉ S := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have huniv : S = Finset.univ := Finset.eq_univ_of_forall hall
     rw [huniv, Finset.card_univ, Fintype.card_fin] at hσc
     omega
@@ -285,7 +283,7 @@ theorem ten_inner_three_le {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fini
     exact ten_cancel3 ten_fin6_add_self _ _ _
   obtain ⟨ω, h0, h1⟩ : ∃ ω : GaloisField 2 2, ω ≠ 0 ∧ ω ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsurj : Function.Surjective (fun i : Fin 2 => if i = 0 then (0 : GaloisField 2 2) else 1) := by
       intro x
       by_cases hx : x = 0
@@ -335,12 +333,12 @@ theorem ten_inner_three_le {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Fini
       simp only [TensorProduct.add_tmul, map_add, ← TensorProduct.smul_tmul', map_smul]
     have hsum := hexp.trans hg
     obtain ⟨hp, hq⟩ := ten_key β hker h0 h1 (g 0 • Ac + g 1 • Bc) (g 2 • Ac) hsum
-    have hAf : A f = 0 := by simp [hA, Pi.single_apply, hfa, hfb]
-    have hAa : A a = 1 := by simp [hA, Pi.single_apply, Ne.symm hab]
-    have hAc' : A c = 0 := by simp [hA, Pi.single_apply, hca, hcb]
-    have hBf : B f = 0 := by simp [hB, Pi.single_apply, hfc, hfd]
-    have hBa : B a = 0 := by simp [hB, Pi.single_apply, Ne.symm hca, Ne.symm hda]
-    have hBc' : B c = 1 := by simp [hB, Pi.single_apply, hcd]
+    have hAf : A f = 0 := by simp [hA, hfa, hfb]
+    have hAa : A a = 1 := by simp [hA, Ne.symm hab]
+    have hAc' : A c = 0 := by simp [hA, hca, hcb]
+    have hBf : B f = 0 := by simp [hB, hfc, hfd]
+    have hBa : B a = 0 := by simp [hB, Ne.symm hca, Ne.symm hda]
+    have hBc' : B c = 1 := by simp [hB, hcd]
     have hcoordp : ∀ k, ((g 0 • Ac + g 1 • Bc : ↥(permCore 6)) : Fin 6 → ZMod 2) k =
         g 0 * A k + g 1 * B k := by
       intro k

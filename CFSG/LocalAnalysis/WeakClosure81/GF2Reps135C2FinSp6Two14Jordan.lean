@@ -37,10 +37,10 @@ private theorem w183JBlockIdx_add {a m n : ℕ} (hn : n = a + a + m) {j : Fin n}
     (h : (j : ℕ) < a) :
     w183JBlockIdx a m hn ⟨(j : ℕ) + a, by omega⟩ = Sum.inr (Sum.inl ⟨j, h⟩) := by
   rw [w183JBlockIdx_of_mid hn (j := ⟨(j : ℕ) + a, by omega⟩)
-    (by simp only [Fin.val_mk]; omega) (by simp only [Fin.val_mk]; omega)]
+    (by simp only; omega) (by simp only; omega)]
   simp only [Sum.inr.injEq, Sum.inl.injEq]
   apply Fin.ext
-  simp only [Fin.val_mk]
+  simp only
   omega
 
 private theorem w183JBlockIdx_injective {a m n : ℕ} (hn : n = a + a + m) :
@@ -134,7 +134,7 @@ theorem sq_zero_jordan {n : ℕ} (t : Matrix (Fin n) (Fin n) (ZMod 2)) (ht : t *
     fun j => Sum.elim w (Sum.elim y v) (w183JBlockIdx a m hn j)
   have hf : LinearIndependent (ZMod 2) f := hg.comp _ (w183JBlockIdx_injective hn)
   let P : Matrix (Fin n) (Fin n) (ZMod 2) := Matrix.of fun i j => f j i
-  have hP : IsUnit P := Matrix.linearIndependent_cols_iff_isUnit.mp hf
+  have hP : IsUnit P := Matrix.linearIndependent_col_iff_isUnit.mp hf
   have hact : ∀ j : Fin n,
       φ (f j) = if h : (j : ℕ) < a then f ⟨j + a, by omega⟩ else 0 := by
     intro j

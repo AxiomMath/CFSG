@@ -12,16 +12,19 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem H_conj_mem_J (g : ↥(H z)) {x : G} (hx : x ∈ J z) : (g : G) * x * (g : G)⁻¹ ∈ J z := by
   have h1 := (conjJ' z g ⟨x, hx⟩).2
   rwa [conjJ'_apply_coe] at h1
 
+omit [Finite G] in
 theorem conjV_pi_conj (h : Tim79a.ParrottHyp z) (g : ↥(H z)) {x : G} (hx : x ∈ J z) :
     conjV h g (QuotientV.pi z ⟨x, hx⟩) =
       QuotientV.pi z ⟨(g : G) * x * (g : G)⁻¹, H_conj_mem_J g hx⟩ := by
   rw [conjV_mk]
   congr 1
 
+omit [Finite G] in
 theorem pi_eq_one_iff_mem_centerIn {x : G} (hx : x ∈ J z) :
     QuotientV.pi z ⟨x, hx⟩ = 1 ↔ x ∈ centerIn (J z) := by
   rw [← MonoidHom.mem_ker, QuotientV.pi_ker, Subgroup.mem_subgroupOf]

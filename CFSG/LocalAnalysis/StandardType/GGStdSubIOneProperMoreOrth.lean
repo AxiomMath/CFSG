@@ -96,7 +96,7 @@ end IOneMore
 section Certs
 
 
-theorem recipeOmegaMinus_iRank_nonsplit {m n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem recipeOmegaMinus_iRank_nonsplit {m n p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hpn : p ∣ 2 ^ n + 1) (hm : 3 ≤ m) (hmo : Odd m) {Q : LargeEvenRawCont}
     (h : LargeEvenRecipeOmegaMinus m (2 ^ n) Q) :
     LargeEvenRecipeOmegaMinus m (2 ^ n) fun R _ I F =>

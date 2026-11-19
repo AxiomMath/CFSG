@@ -249,7 +249,7 @@ theorem exists_gl3_model (S : Type) [Group S] [Finite S] (hcomm : ∀ s t : S, s
       ext i j
       rw [LinearMap.toMatrix_apply]
       fin_cases j <;> fin_cases i <;>
-        simp [Wm, e0, e1, e2, Finsupp.single_apply]
+        simp [Wm, e0, e1, e2]
     show ((ψ (ρ₀ ⟨w, hwY⟩) : Matrix.GeneralLinearGroup (Fin 3) F4) : Matrix (Fin 3) (Fin 3) F4) =
       Wm μ
     rw [hψ]

@@ -13,6 +13,7 @@ section Count
 
 variable {E X : Type} [Group E] [Group X] [Finite E] [Finite X]
 
+omit [Finite E] in
 theorem card_comap_eq_card_ker_mul (π : E →* X) (hπ : Function.Surjective π)
     (S : Subgroup X) : Nat.card (S.comap π) = Nat.card π.ker * Nat.card S := by
   have h1 := Subgroup.card_ker_mul_card_of_surjective hπ

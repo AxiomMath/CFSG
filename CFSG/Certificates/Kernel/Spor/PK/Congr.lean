@@ -47,7 +47,7 @@ private theorem cg_maskL_levLast_take {n w LT NL : Nat} (bs : List Nat) (i : Nat
   | succ i ih =>
     by_cases hi : i < bs.length
     · have h1 : bs.take (i + 1) = bs.take i ++ [bs.getD i 0] := by
-        rw [List.take_succ]
+        rw [List.take_add_one]
         simp [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hi]
       have h2 : min (i + 1) bs.length = i + 1 := by omega
       have h3 : min i bs.length = i := by omega
@@ -141,9 +141,9 @@ private theorem cg_step_congr {F G : Nat → Nat → Nat} {lv : List Nat} {n : N
     BS.step F lv s i = BS.step G lv s i ∧ ∀ q ∈ (BS.step F lv s i).pts, q < n := by
   unfold BS.step
   by_cases hi : i < s.pts.length
-  · rw [if_pos hi, if_pos hi]
+  · rw [ite_eq_left hi, ite_eq_left hi]
     exact cg_foldl_letter_congr hF h (hs _ (cg_getD_mem hi)) lv (fun _ hl => hl) s hs
-  · rw [if_neg hi, if_neg hi]
+  · rw [ite_eq_right hi, ite_eq_right hi]
     exact ⟨rfl, hs⟩
 
 private theorem cg_foldl_step_congr {F G : Nat → Nat → Nat} {lv : List Nat} {n : Nat}
@@ -171,11 +171,11 @@ theorem run_congr {F G : Nat → Nat → Nat} {lv : List Nat} {n r : Nat} (hr : 
 private theorem cg_trans_pos (F : Nat → Nat → Nat) (s : BS) {k : Nat} (hk0 : 0 < k)
     (hpar : s.par.getD k 0 < k) (x : Nat) :
     BS.trans F s k x = F (s.lab.getD k 0) (BS.trans F s (s.par.getD k 0) x) := by
-  rw [BS.trans, dif_pos ⟨hk0, hpar⟩]
+  rw [BS.trans, dite_eq_left ⟨hk0, hpar⟩]
 
 private theorem cg_trans_zero (F : Nat → Nat → Nat) (s : BS) (x : Nat) :
     BS.trans F s 0 x = x := by
-  rw [BS.trans, dif_neg (by simp)]
+  rw [BS.trans, dite_eq_right (by simp)]
 
 private theorem cg_trans_lt {F : Nat → Nat → Nat} {lv : List Nat} {n r : Nat} {s : BS}
     (hs : RunOK n F lv r s) (hF : ∀ l ∈ lv, ∀ x < n, F l x < n) {k : Nat}
@@ -246,9 +246,9 @@ private theorem cg_absSift_congr {F G : Nat → Nat → Nat} {n : Nat} :
 
 theorem absSift_congr {F G : Nat → Nat → Nat} {n : Nat} {L : List (List Nat × Nat × BS)}
     (hL : ∀ e ∈ L, LevelOK n F e.1 e.2.1 e.2.2) (h : ∀ e ∈ L, ∀ l ∈ e.1, ∀ x < n, F l x = G l x)
-    {g : Nat → Nat} (hg : ∀ x < n, g x < n) :
+    {g : Nat → Nat} (_hg : ∀ x < n, g x < n) :
     absSift n F (L.map fun e => e.2.2) g = absSift n G (L.map fun e => e.2.2) g := by
-  clear hg
+  clear _hg
   exact cg_absSift_congr L hL h fun _ _ => rfl
 
 theorem absSch_congr {F G : Nat → Nat → Nat} {n : Nat} {lv : List Nat} {r : Nat} {s : BS}

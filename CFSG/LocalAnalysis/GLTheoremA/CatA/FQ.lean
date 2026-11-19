@@ -60,7 +60,7 @@ theorem recUnitary_stOrder {d n : ℕ} (hd : 3 ≤ d) (hn : 1 ≤ n) {p : ℕ} (
     (hp2 : p ≠ 2) (Q : LargeEvenRawCont) (h : LargeEvenRecipeUnitary d (2 ^ n) Q) :
     LargeEvenRecipeUnitary d (2 ^ n) (fun R _ I F => Q R I F ∧ StOrderCond p R I F) := by
   obtain ⟨K, hF, hfin, hK, hQ⟩ := h
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 2 * n)
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 2 * n)
     (by rw [hK, ← pow_mul, mul_comm])
   exact ⟨K, hF, hfin, hK, hQ, fun _ _ _ => stOrderBody_unitary hd hn hK hp hp2 _⟩
 

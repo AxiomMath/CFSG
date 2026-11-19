@@ -181,7 +181,7 @@ theorem ThreeDichotomy.clauses {J : Subgroup W} (h : ThreeDichotomy J) : ThreeSy
   · refine ⟨fun Q hQ => ?_, fun u hu v hv hu9 hv9 _ => ?_,
       fun _ _ _ _ _ _ _ _ _ U hUJ hU => ?_, fun _ => hE⟩
     · have hU := hE ((Q : Subgroup J).map J.subtype) (Subgroup.map_subtype_le _)
-        (Q.isPGroup'.map _)
+        (Q.isPGroup.map _)
       obtain ⟨g, hg⟩ := hQ.exists_generator
       have h3 : g ^ 3 = 1 := by
         have := hU.2 ((g : J) : W) ⟨g, g.2, rfl⟩

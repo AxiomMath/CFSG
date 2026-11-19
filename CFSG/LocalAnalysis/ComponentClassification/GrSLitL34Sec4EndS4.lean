@@ -33,7 +33,7 @@ theorem exists_conj_eq_of_transvection (hT : L34EightTransvectionFact)
     exact inv_mul_eq_one.mp h1
   obtain ⟨g, hg⟩ := hcls c (hBP hcB) (hB8.1.2 c hcB) hc1
   obtain ⟨P, hPS⟩ := hSyl
-  have hS2 : IsPGroup 2 S := hPS ▸ P.isPGroup'
+  have hS2 : IsPGroup 2 S := hPS ▸ P.isPGroup
   set T : Subgroup G := S ⊓ centralizer (B : Set G) with hTdef
   have hSC : (P : Subgroup G) ≤ centralizer ({a} : Set G) := fun s hs =>
     mem_centralizer_singleton_iff.mpr (hcent s (hPS ▸ hs))

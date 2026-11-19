@@ -10,11 +10,11 @@ open Subgroup CFSG.OddStandard.HigherRank.G2Three.Sec1
 open scoped commutatorElement
 
 theorem y7c_odd_splits {G : Type} [Group G] (M K J F Q : Subgroup G) (t : G)
-    (hMK : ∀ k ∈ K, ∀ m ∈ M, k * m * k⁻¹ ∈ M) (hMle : M ≤ K)
+    (_hMK : ∀ k ∈ K, ∀ m ∈ M, k * m * k⁻¹ ∈ M) (_hMle : M ≤ K)
     (ht2 : t ^ 2 = 1) (htM : ∀ m ∈ M, t * m * t⁻¹ ∈ M) (htK : ∀ k ∈ K, t * k * t⁻¹ ∈ K)
     (hFM : F ≤ M) (hFJ : F ≤ J) (hJK : J ≤ K) (hJt : ∀ j ∈ J, j * t = t * j)
     (hcent : ∀ m ∈ M, t * m * t⁻¹ = m → m ∈ F)
-    (hQK : Q ≤ K) (hQ1 : ∀ x ∈ Q, x ∈ M → x = 1) (hQc : ∀ q ∈ Q, ∀ k ∈ K, ⁅k, q⁆ ∈ M)
+    (_hQK : Q ≤ K) (hQ1 : ∀ x ∈ Q, x ∈ M → x = 1) (hQc : ∀ q ∈ Q, ∀ k ∈ K, ⁅k, q⁆ ∈ M)
     (hQt : ∀ q ∈ Q, t * q * t⁻¹ ∈ Q)
     (hQM : ∀ m ∈ M, (∀ q ∈ Q, q * m * q⁻¹ = m) → m = 1)
     (hFr : ∀ k ∈ K, ∃ m ∈ M, ∃ n ∈ K, (∀ q ∈ Q, n * q * n⁻¹ ∈ Q) ∧ k = m * n) :

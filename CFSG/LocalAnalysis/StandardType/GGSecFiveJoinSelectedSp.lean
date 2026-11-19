@@ -217,7 +217,7 @@ theorem GuardedLargeEvenLabel.isEmpty_altSix
     IsEmpty (X ≃* alternatingGroup (Fin 6)) := by
   have ht : lab.tag ≠ .B2der := by
     intro h
-    simpa [GuardedLargeEvenLabel, h] using hg
+    simp [GuardedLargeEvenLabel, h] at hg
   have hne := ggMarkedModel_card_ne_three_sixty ht hM
   refine ⟨fun e => ?_⟩
   let eQ : X ⧸ Subgroup.center X ≃*

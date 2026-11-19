@@ -22,9 +22,9 @@ theorem insB_eq (a : Nat) : ∀ l : List Nat, insB a l = l.orderedInsert (· ≤
     rw [e, insB_eq a t, List.orderedInsert_cons]
     by_cases h : a ≤ b
     · have hb : Nat.ble a b = true := by simpa using h
-      rw [hb, if_pos h]
+      rw [hb, ite_eq_left h]
     · have hb : Nat.ble a b = false := Bool.eq_false_iff.2 fun hh => h (by simpa using hh)
-      rw [hb, if_neg h]
+      rw [hb, ite_eq_right h]
 
 theorem srtB_eq : ∀ l : List Nat, srtB l = l.insertionSort (· ≤ ·)
   | [] => by

@@ -129,7 +129,7 @@ theorem eq_one_of_mem_center
     exact h3
   have hS2 : ∀ S : Sylow 2 L, (S : Subgroup L) ≤ L' := by
     intro S y hy
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨y, hy⟩
     exact h2mem y k (congrArg Subtype.val hk)
   set P₃ := L' ⊓ T with hP₃def
   have hP₃c : Nat.card P₃ = 9 := card_inf_derived hL'n hL'c h1512 hT3 hTc
@@ -235,10 +235,10 @@ theorem eq_one_of_mem_center
           exact congrArg Subtype.val h1
         have hoy : orderOf y = 2 := orderOf_eq_prime (by rw [pow_two]; exact hy2) hy1
         exact Sylow.smul_eq_iff_mem_normalizer.mp ((hmemD y).mp (hinv y hoy) S₀)
-      have hp := IsPGroup.to_sup_of_normal_right' S.isPGroup' S₀.isPGroup' hSD
+      have hp := IsPGroup.to_sup_of_normal_right' S.isPGroup S₀.isPGroup hSD
       have h1 := S₀.maximal_isPGroup.eq_of_ge hp le_sup_right
       have h2 : (S : Subgroup L) ≤ S₀ := h1 ▸ le_sup_left
-      exact Sylow.ext (S.maximal_isPGroup.eq_of_ge S₀.isPGroup' h2).symm
+      exact Sylow.ext (S.maximal_isPGroup.eq_of_ge S₀.isPGroup h2).symm
     have : Nat.card (Sylow 2 L) ≤ 1 := by
       rw [Finite.card_le_one_iff_subsingleton]
       exact ⟨fun S S' => (hall S).trans (hall S').symm⟩

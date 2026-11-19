@@ -197,7 +197,7 @@ theorem exists_torusData (F : E8P4Frame K L ℓ f p) (hf : 1 ≤ f) (hK : Nat.ca
     rw [pow_one]
     exact Subtype.ext (hQ x x.2)⟩
   obtain ⟨S, hS⟩ := hQp.exists_le_sylow
-  obtain ⟨c, hc⟩ := F.hconj (S : Subgroup (adjointGroup .E8 K)) S.isPGroup'
+  obtain ⟨c, hc⟩ := F.hconj (S : Subgroup (adjointGroup .E8 K)) S.isPGroup
   have hc' : ∀ x ∈ (S : Subgroup (adjointGroup .E8 K)), psiC F.toE8P4Frame0 c x ∈
       twistedTorusOf F.n (Units.map (entrywiseHom (iterateFrobenius L ℓ f))) := fun x hx => by
     rw [psiC_apply]

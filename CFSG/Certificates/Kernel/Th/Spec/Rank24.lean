@@ -102,7 +102,7 @@ private theorem bspan_succ (B k : ℕ) :
   rw [← Submodule.span_insert]
   congr 1
   ext x
-  simp only [Set.mem_insert_iff, Set.mem_setOf_eq]
+  simp only [Set.mem_insert_iff, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨i, hi, rfl⟩
     rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
@@ -393,7 +393,7 @@ theorem rank24_eq (A : ℕ) : OutS.rank24 A = Matrix.rank (toMat A) := by
   rw [e, Matrix.rank_eq_finrank_span_row (toMat A), ← bspan_rows, ← hg.hspan,
     finrank_bspan hg.hne hg.htri]
 
-theorem invRank_iff {r σ : ℕ} (hσ : σ < 2 ^ 576) :
+theorem invRank_iff {r σ : ℕ} (_hσ : σ < 2 ^ 576) :
     OutS.invRank r σ = true ↔ toMat σ * toMat σ = 1 ∧ Matrix.rank (toMat σ + 1) = r := by
   have h1 : mul24 σ σ = ident24 ↔ toMat σ * toMat σ = 1 := by
     constructor

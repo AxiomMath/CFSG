@@ -36,17 +36,20 @@ theorem s15_Thirteen_lt_rParam (D : Data G) {V₀ V L : Subgroup G} (h : Hyp154 
   refine lt_of_lt_of_le ?_ h1
   exact_mod_cast Nat.lt_of_lt_of_le hk (Nat.le_add_right _ _)
 
+omit [Finite G] in
 private theorem s15_ThirteenC_conjSubgroup_sup (A B : Subgroup G) (g : G) :
     conjSubgroup (A ⊔ B) g = conjSubgroup A g ⊔ conjSubgroup B g := by
   unfold conjSubgroup
   exact Subgroup.map_sup _ _ _
 
+omit [Finite G] in
 private theorem s15_ThirteenC_commElt_mono {A B : Subgroup G} {t : G} (hAB : A ≤ B) :
     commElt A t ≤ commElt B t := by
   rw [commElt, Subgroup.closure_le]
   rintro c ⟨a, ha, rfl⟩
   exact Subgroup.subset_closure ⟨a, hAB ha, rfl⟩
 
+omit [Finite G] in
 private theorem s15_ThirteenC_commElt_le_of_conj_eq_self {X : Subgroup G} {t : G}
     (h : conjSubgroup X t = X) : commElt X t ≤ X := by
   rw [commElt, Subgroup.closure_le]
@@ -61,6 +64,7 @@ private theorem s15_ThirteenC_commElt_le_of_conj_eq_self {X : Subgroup G} {t : G
   rw [hgen]
   exact X.mul_mem (X.inv_mem hx) hmem
 
+omit [Finite G] in
 private theorem s15_ThirteenC_commElt_le_sup_conj (X : Subgroup G) (t : G) :
     commElt X t ≤ X ⊔ conjSubgroup X t := by
   rw [commElt, Subgroup.closure_le]
@@ -74,6 +78,7 @@ private theorem s15_ThirteenC_commElt_le_sup_conj (X : Subgroup G) (t : G) :
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left (X.inv_mem hx))
     (Subgroup.mem_sup_right hmem)
 
+omit [Finite G] in
 private theorem s15_ThirteenC_le_centralizer_of_commElt_bot {X : Subgroup G} {t : G}
     (h : commElt X t = ⊥) : X ≤ centralizer ({t} : Set G) := by
   intro x hx

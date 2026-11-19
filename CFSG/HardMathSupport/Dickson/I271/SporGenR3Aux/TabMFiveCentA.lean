@@ -29,7 +29,7 @@ theorem hG5_MGriess (hE : MonsterExistenceStatement MGriess) :
   intro A hAc hAe h8
   obtain ⟨⟨hfin, -, -, -⟩, a, z, ha, hz, -, hcls, hA, hB, hgraph⟩ := id hE
   obtain ⟨-, c, -, -, hc1, -, -, -, -, hshape, -⟩ := hgraph
-  haveI : Finite MGriess := hfin
+  have : Finite MGriess := hfin
   obtain ⟨u, hu, hzu⟩ := exists_twoB_of_elemAbelian babyTableIII babyTableIV
     CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterTwoBGmat.nineteen_dvd_of_lieModel ha hA
     hc1 hshape hcls A hAc hAe h8

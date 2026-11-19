@@ -19,6 +19,7 @@ section Lift
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem preimage_zpowers_comm (t : Y ⧸ Subgroup.center Y) :
     ∀ a b : ↥((Subgroup.zpowers t).comap (QuotientGroup.mk' (Subgroup.center Y))),
       a * b = b * a := by
@@ -154,7 +155,7 @@ theorem wMat_transpose : Matrix.transpose (wMat : Matrix (Fin 3) (Fin 3) K) = wM
 theorem wMat_not_scalar (c : K) : (wMat : Matrix (Fin 3) (Fin 3) K) ≠ Matrix.scalar (Fin 3) c := by
   intro h
   have := congrFun (congrFun h 0) 1
-  simp [wMat, Matrix.scalar_apply, Matrix.diagonal_apply] at this
+  simp [wMat, Matrix.scalar_apply] at this
 
 @[expose] def wSL : Matrix.SpecialLinearGroup (Fin 3) K := ⟨wMat, wMat_det⟩
 

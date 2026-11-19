@@ -63,7 +63,7 @@ theorem l05nBL_closure_conj {E : Type} [Group E] (S : Subgroup E) (u : E) (hu : 
 
 theorem l05nBL_rankOne {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {f f' : Module.Dual (ZMod p) V} {x x' : V}
-    (hf : f x = 2) (hf' : f' x' = 2) (h : ∀ v, f v • x = f' v • x') :
+    (hf : f x = 2) (_hf' : f' x' = 2) (h : ∀ v, f v • x = f' v • x') :
     ∃ c : (ZMod p)ˣ, x' = (c : ZMod p) • x ∧ f' = (↑(c⁻¹) : ZMod p) • f := by
   have h2 : (2 : ZMod p) ≠ 0 := zmod_two_ne_zero hp2
   have hx0 : x ≠ 0 := by
@@ -156,7 +156,7 @@ theorem l05nBL_reindex_trans {ι κ ν : Type} (M : CoxeterMatrix ι) (e : ι �
     (f : κ ≃ ν) : (M.reindex e).reindex f = M.reindex (e.trans f) := by
   apply CoxeterMatrix.ext
   funext x y
-  simp only [CoxeterMatrix.reindex_apply, Equiv.trans_apply, Equiv.symm_trans_apply]
+  simp only [CoxeterMatrix.reindex_apply, Equiv.symm_trans_apply]
 
 theorem l05nBL_weyl_reindex {ι κ : Type} {M : CoxeterMatrix ι} (h : GGIsWeylMatrix M)
     (f : ι ≃ κ) : GGIsWeylMatrix (M.reindex f) := by
@@ -253,7 +253,7 @@ theorem l05nBL_sum_of_one {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prim
     {Bs X J : Subgroup G} (h : GGResSideDatum p Bs X J) : l05nBL_sideSum 1 p Bs X J := by
   obtain ⟨Λ, i1, i2, b, M, C, MJ, V, i3, i4, ι, φ, hc, α, hWM, hC, hWMJ, hMJ, hlin, hrefl,
     hpair, hf, hclos, hfJ, hclosJ, hconj⟩ := h
-  letI := i1; letI := i2; letI := i3; letI := i4
+  let := i1; let := i2; let := i3; let := i4
   obtain ⟨f, hf⟩ := hf
   obtain ⟨fJ, hfJ⟩ := hfJ
   let e : {j : Λ // j ≠ b} ⊕ Unit ≃ Λ :=
@@ -264,13 +264,13 @@ theorem l05nBL_sum_of_one {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prim
       left_inv := by
         intro o
         cases o with
-        | inl j => simp [dif_neg j.2]
+        | inl j => simp [dite_eq_right j.2]
         | inr u => simp
       right_inv := by
         intro i
         by_cases hi : i = b
-        · simp [dif_pos hi, hi]
-        · simp [dif_neg hi] }
+        · simp [hi]
+        · simp [dite_eq_right hi] }
   exact l05nBL_reindex 1 (p := p) (X := X) (J := J) e ι φ hc α (by simp) (by simp) (by simp)
     hWM hC hWMJ (fun j j' => hMJ j j') hlin hrefl hpair f hf hclos fJ hfJ hclosJ hconj
 
@@ -279,7 +279,7 @@ theorem l05nBL_sum_of_levi {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pri
     ∃ k, 2 ≤ k ∧ k ≤ 3 ∧ l05nBL_sideSum k p Bs X J := by
   obtain ⟨Λ, i1, i2, S, M, C, MJ, V, i3, i4, ι, φ, h, α, hS1, hS2, hWM, hC, hWMJ, hMJ,
     hlin, hrefl, hpair, hfx, hclos, hfJx, hclosJ, hconj⟩ := h
-  letI := i1; letI := i2; letI := i3; letI := i4
+  let := i1; let := i2; let := i3; let := i4
   obtain ⟨f, hf⟩ := hfx
   obtain ⟨fJ, hfJ⟩ := hfJx
   let e : {i : Λ // i ∉ S} ⊕ {i : Λ // i ∈ S} ≃ Λ :=
@@ -486,14 +486,14 @@ theorem ggGamma_card_ge_cartan_rank {G : Type} [Group G] [Finite G]
     intro hz
     have hdiv : p ∣ 2 := (CharP.cast_eq_zero_iff (ZMod p) p 2).mp hz
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp hdiv)
-  haveI : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hA : IsElemAbelian p (ggGamma X hN).range :=
     isElemAbelian_range (fun a b => hBs.1.is_comm.comm a b)
       (fun b => Subtype.ext (hBs.2 b b.2)) (ggGamma X hN)
   obtain ⟨W, iW, iWmod, ⟨ξ⟩⟩ := exists_ggLinData hA
-  haveI : Finite W := Finite.of_equiv (Additive (ggGamma X hN).range) ξ.toEquiv
-  haveI : Module.Finite (ZMod p) W := Module.Finite.of_finite
+  have : Finite W := Finite.of_equiv (Additive (ggGamma X hN).range) ξ.toEquiv
+  have : Module.Finite (ZMod p) W := Module.Finite.of_finite
   let q : V →ₗ[ZMod p] W :=
     (ξ.toAddMonoidHom.comp ((ggGamma X hN).rangeRestrict.toAdditive.comp
       ι.symm.toAddMonoidHom)).toZModLinearMap p
@@ -552,13 +552,13 @@ private theorem card_ge_pow_three_of_perm_four {p : ℕ} [Fact p.Prime] (hp2 : p
   classical
   have hp : p.Prime := Fact.out
   obtain ⟨V, iV, iM, ⟨ι⟩⟩ := exists_ggLinData hA
-  haveI : Finite V := Finite.of_equiv (Additive A) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive A) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   let τ := (ggLin (p := p) ι).comp ρ
   have hτ : Function.Injective τ := (ggLin_injective ι).comp hρ
   have hV : Nontrivial V := by
     by_contra hn
-    haveI : Subsingleton V := not_nontrivial_iff_subsingleton.mp hn
+    have : Subsingleton V := not_nontrivial_iff_subsingleton.mp hn
     have heq : τ (Equiv.swap (0 : Fin 4) 1) = τ 1 :=
       LinearEquiv.ext fun _ => Subsingleton.elim _ _
     have h01 := congrArg (fun σ : Equiv.Perm (Fin 4) => σ 0) (hτ heq)
@@ -625,7 +625,7 @@ theorem ggRes_exactThree_singular_chart_of_axis_bound {G : Type} [Group G] [Fini
     (α : Λ → Module.Dual (ZMod p) V) (hM : GGIsWeylMatrix M) (hC : GGIntCartan M C)
     (hlin : ∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i)
     (hrefl : ∀ i, GGIsReflection p (φ i))
-    (hpair : ∀ i j, α i (h j) = (C i j : ZMod p))
+    (_hpair : ∀ i j, α i (h j) = (C i j : ZMod p))
     (haxis : Matrix.rank (C.map (Int.castRingHom (ZMod p))) + 1 ≤
       Module.finrank (ZMod p) V)
     (S : Finset Λ) (hS : S.card = 3)
@@ -705,8 +705,8 @@ theorem ggResLeviExact3_automizerJ_eq_bot_of_card_le_four
   let := i4
   let := i5
   let := i6
-  haveI : Finite V := Finite.of_equiv _ ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv _ ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hpow : p ^ Module.finrank (ZMod p) V ≤ p ^ 4 := by
     rw [FiniteField.pow_finrank_eq_natCard p V, ← card_eq_of_ggLin ι]
     exact hcard
@@ -730,7 +730,7 @@ theorem ggResLeviExact3_automizerJ_eq_bot_of_card_le_four
     have hle : S.card ≤ Fintype.card Λ := Finset.card_le_univ S
     have heq : S = Finset.univ := Finset.eq_univ_of_card S (by omega)
     simp [heq]
-  haveI : IsEmpty {i : Λ // i ∉ S} := ⟨fun i => i.2 (hfull i.1)⟩
+  have : IsEmpty {i : Λ // i ∉ S} := ⟨fun i => i.2 (hfull i.1)⟩
   simpa only [Set.range_eq_empty, Subgroup.closure_empty] using hgenJ
 
 end CFSG.StandardType

@@ -41,7 +41,7 @@ theorem conc_of_fixedSub {X : Type} [Group X] [Finite X] (F : Subgroup (MulAut X
     (hF : CFSG.Open.IsElemAbelian 3 F) {f : MulAut X} (hf : f ∈ F)
     (hQ : ∀ F₀ : Subgroup (MulAut ↥(fixedSub f)), CFSG.Open.IsElemAbelian 3 F₀ →
       Conc ↥(fixedSub f) F₀) : Conc X F := by
-  haveI : Finite (MulAut X) := Finite.of_injective (fun g : MulAut X => (g : X → X))
+  have : Finite (MulAut X) := Finite.of_injective (fun g : MulAut X => (g : X → X))
     DFunLike.coe_injective
   obtain ⟨r, hr⟩ := exists_resHom F hF.1 hf
   have hcomm : IsMulCommutative r.range := by

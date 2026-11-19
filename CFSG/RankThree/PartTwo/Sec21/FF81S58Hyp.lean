@@ -48,11 +48,11 @@ variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ b
 
 theorem isQuasisimple_of_model {H : Type} [Group H] (hH : StatedClassicalModel H .PSp 3 2 1) :
     CFSG.IsQuasisimple H := by
-  haveI : IsSimpleGroup H :=
+  have : IsSimpleGroup H :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp H 3 2 1 hH
   refine CFSG.HardMathSupport.Timmesfeld.CrossChar.isQuasisimple_of_simple_nonabelian ?_
   intro hcomm
-  haveI : IsMulCommutative H := ⟨⟨fun a b => hcomm a b⟩⟩
+  have : IsMulCommutative H := ⟨⟨fun a b => hcomm a b⟩⟩
   have hp := (Group.is_simple_iff_prime_card (α := H)).mp inferInstance
   rw [card_of_model hH] at hp
   norm_num at hp

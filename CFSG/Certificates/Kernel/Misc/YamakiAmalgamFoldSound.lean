@@ -194,12 +194,12 @@ theorem setFold_spec (t : Array ℕ) (hb : ∀ i < 64, t[i]! < 64)
     by_cases he : t[m]! = t[i]!
     · have hmi := hinj _ (by omega) _ (by omega) he
       subst hmi
-      rw [if_pos rfl, if_pos (by rw [s]; exact hb _ (by omega))]
+      rw [ite_eq_left rfl, ite_eq_left (by rw [s]; exact hb _ (by omega))]
     · have hlt : i < m := by
         rcases Nat.lt_or_ge i m with h | h
         · exact h
         · exact absurd (by rw [show i = m by omega]) he
-      rw [if_neg he]
+      rw [ite_eq_right he]
       exact g i hlt
 
 theorem invA_get {t : Array ℕ} (hb : ∀ i < 64, t[i]! < 64)

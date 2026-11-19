@@ -42,8 +42,7 @@ theorem rckBlockRS_flag
     refine ⟨W.subtype (a • b j), ?_⟩
     show b.coord j (A.rangeRestrict (W.subtype (a • b j))) = a
     rw [hrangeRestrict a j]
-    change b.coord j (a • b j) = a
-    rw [map_smul, Module.Basis.coord_apply, Module.Basis.repr_self_apply, if_pos rfl, smul_eq_mul, mul_one]
+    rw [map_smul, Module.Basis.coord_apply, Module.Basis.repr_self_apply, ite_eq_left rfl, smul_eq_mul, mul_one]
   refine ⟨((K ∙ b i).restrictScalars (GaloisField 2 g)).map W.subtype, c.ker, ?_, ?_⟩
   · rintro x ⟨y, hy, rfl⟩
     have hy' : y ∈ K ∙ b i := by simpa using hy
@@ -51,15 +50,14 @@ theorem rckBlockRS_flag
     rw [LinearMap.mem_ker]
     show b.coord j (A.rangeRestrict (W.subtype (a • b i))) = 0
     rw [hrangeRestrict a i]
-    change b.coord j (a • b i) = 0
-    rw [map_smul, Module.Basis.coord_apply, Module.Basis.repr_self_apply, if_neg hij, smul_eq_mul, mul_zero]
+    rw [map_smul, Module.Basis.coord_apply, Module.Basis.repr_self_apply, ite_eq_right hij, smul_eq_mul, mul_zero]
   · intro t ht
     have hsingle : Matrix.toLin b b (Matrix.single i j t) = (b.coord j).smulRight (t • b i) := by
       have hmat : Matrix.single i j t = Matrix.vecMulVec (b.repr (t • b i)) (b.coord j ∘ b) := by
         ext i' l
         by_cases hi : i = i' <;> by_cases hj : j = l <;>
-          simp_all [Matrix.single_apply, Matrix.vecMulVec_apply, Module.Basis.coord_apply,
-            Module.Basis.repr_self, map_smul, Finsupp.smul_apply, Finsupp.single_apply]
+          simp_all [Matrix.vecMulVec_apply, Module.Basis.coord_apply,
+            Module.Basis.repr_self, map_smul]
       rw [← Matrix.toLin_toMatrix b b ((b.coord j).smulRight (t • b i)),
         LinearMap.toMatrix_smulRight, hmat]
     have hfv : ∀ v : Fin (m + 1) → GaloisField 2 g,
@@ -105,8 +103,7 @@ theorem rckBlockRS_flag
         have hcv : c (W.subtype ((t⁻¹ * a) • b j)) = t⁻¹ * a := by
           show b.coord j (A.rangeRestrict (W.subtype ((t⁻¹ * a) • b j))) = t⁻¹ * a
           rw [hrangeRestrict (t⁻¹ * a) j]
-          change b.coord j ((t⁻¹ * a) • b j) = t⁻¹ * a
-          rw [map_smul, Module.Basis.coord_apply, Module.Basis.repr_self_apply, if_pos rfl, smul_eq_mul, mul_one]
+          rw [map_smul, Module.Basis.coord_apply, Module.Basis.repr_self_apply, ite_eq_left rfl, smul_eq_mul, mul_one]
         have hsc : t * (t⁻¹ * a) = a := by rw [← mul_assoc, mul_inv_cancel₀ ht, one_mul]
         rw [hcv, hsc]
     · apply le_antisymm

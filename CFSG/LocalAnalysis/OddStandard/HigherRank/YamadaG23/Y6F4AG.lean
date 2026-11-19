@@ -11,7 +11,7 @@ open Subgroup CFSG.OddStandard.HigherRank.G2Three
 theorem y6f4a_no_z4cube_aut_g23 (hG : G23Facts) {Q : Type} [Group Q] [Finite Q] (hQ : HRG23 Q)
     {M : Type} [Group M] (hM : Nonempty (M ≃* (Fin 3 → Multiplicative (ZMod 4))))
     (ρ : M →* MulAut Q) (hρ : Function.Injective ρ) : False := by
-  haveI : IsMulCommutative M :=
+  have : IsMulCommutative M :=
     IsMulCommutative.of_comm fun a b =>
       hM.some.injective (by rw [map_mul, map_mul]; exact mul_comm _ _)
   have hcommR : IsMulCommutative ρ.range := Subgroup.range_isMulCommutative ρ

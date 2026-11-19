@@ -58,7 +58,7 @@ theorem exists_fixed_nonabelian_linear [Finite K] (p : ℕ) [Fact p.Prime] [Char
     ∃ R : Subgroup X, IsPGroup p R ∧ (∀ r ∈ R, α r = r) ∧
       ∃ u ∈ R, ∃ v ∈ R, u * v ≠ v * u := by
   obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := K) p (n := 3) (by norm_num)
-  have hU : IsPGroup p (projUnitriangular 3 K) := hS ▸ S.isPGroup'
+  have hU : IsPGroup p (projUnitriangular 3 K) := hS ▸ S.isPGroup
   set R0 : Subgroup (projectiveSL 3 K) :=
     Subgroup.closure {proj 3 K (elemOneTwo K), proj 3 K (elemTwoThree K)} with hR0
   have hR0U : R0 ≤ projUnitriangular 3 K := by

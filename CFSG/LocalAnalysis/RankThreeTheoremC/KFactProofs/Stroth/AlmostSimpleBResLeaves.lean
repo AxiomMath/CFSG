@@ -230,16 +230,16 @@ theorem chevTwoOuterFixesPair_suzuki : ChevTwoOuterFixesPair LieIndexSuzuki := b
   obtain ⟨d, hv⟩ := d
   cases d with
   | suzuki m =>
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hm : 0 < m := (TauCeti.LieTypeIndex.inStandardRange_iff _).1
       ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
     let eL : L ≃* CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup m :=
       e.trans (CFSG.BenderSuzuki.Catalog.groupEquivSuzukiMatrixGroup hv)
     obtain ⟨E, hE, hEc⟩ := exists_elemAbelian_sq_of_pRank_eq_two hp hrk
-    haveI : Finite (CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup m) :=
+    have : Finite (CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup m) :=
       Finite.of_equiv L eL.toEquiv
     set E' := E.map eL.toMonoidHom with hE'
-    haveI := isElementaryAbelian_of_isElemAbelian (CFSG.Open.IsElemAbelian.map hE eL.toMonoidHom)
+    have := isElementaryAbelian_of_isElemAbelian (CFSG.Open.IsElemAbelian.map hE eL.toMonoidHom)
     have hE'c : Nat.card E' = p ^ 2 := by
       rw [hE', Subgroup.card_map_of_injective eL.injective]
       exact hEc

@@ -10,7 +10,6 @@ namespace Certificates
 
 open CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThreeBNF in
 theorem certificate136205 :     FibreRoots 2 := by
-  intros
   exact CFSG.KC.M3BF.m3bf_roots2 (Certificates.certificate136200)
 
 end Certificates

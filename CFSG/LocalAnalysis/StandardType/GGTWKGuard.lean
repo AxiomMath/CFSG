@@ -32,19 +32,19 @@ private theorem l05nG1_A_ends (N : ℕ) (hN : 5 ≤ N) (a b : Fin (N - 3)) :
   simp only [CartanMatrix.A, Matrix.of_apply, Fin.mk.injEq]
   split_ifs <;> omega
 
-theorem ggTWHKGuard_holds (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput) : GGTWHKGuard := by
+theorem ggTWHKGuard_holds (_hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput) : GGTWHKGuard := by
   intro G _ _ p N k _ B Bs x L D J y K hH hxL hk hp hpN hN hcard hA
   classical
   obtain ⟨pos, Λ, hΛf, hΛd, b₁, b₂, Λa, hΛaf, hΛad, ML, CL, MK, CK, V, hVadd, hVmod,
     ι, φ, h, α, e, hb12, hcardΛa, hpos, hMLeq, hMLweyl, hCLcartan, hMKweyl, hCKcartan,
     hk2, hform, hrefl, hpairL, hpairK, hAL, hAK, hAJ⟩ := hA
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  letI : Fintype Λ := hΛf
-  letI : DecidableEq Λ := hΛd
-  letI : Fintype Λa := hΛaf
-  letI : DecidableEq Λa := hΛad
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  let : Fintype Λ := hΛf
+  let : DecidableEq Λ := hΛd
+  let : Fintype Λa := hΛaf
+  let : DecidableEq Λa := hΛad
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hp2 : p ≠ 2 := by omega
   have hN5 : 5 ≤ N := by rcases hN with h' | h' | h' <;> omega
   have hx : x ∈ Bs := hH.1.tableB_facts.2.2.1
@@ -166,7 +166,7 @@ theorem ggTWHKGuard_holds (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput) : GGTW
         rw [ha, hb, hpairL, hcartan, l05nG1_A_ends N hN5 a b]
   obtain ⟨eS, hpairJ⟩ := hpairJ
   have hfinrank : Module.finrank (ZMod p) V = N - 1 := by
-    haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod p) V := Module.Finite.of_finite
     have hVcard : Nat.card V = p ^ Module.finrank (ZMod p) V := by
       have h := Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)
       rwa [Nat.card_zmod] at h
@@ -192,7 +192,7 @@ theorem ggTWHKGuard_holds (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput) : GGTW
       map_add' := by intro u v; ext o; simp
       map_smul' := by intro c v; ext o; simp }
   have hkerfin : Module.finrank (ZMod p) (LinearMap.ker T) ≤ 1 := by
-    haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod p) V := Module.Finite.of_finite
     have hrn := LinearMap.finrank_range_add_finrank_ker (f := T)
     rw [hfinrank] at hrn
     have hrange : N - 2 ≤ Module.finrank (ZMod p) (LinearMap.range T) := by

@@ -208,8 +208,8 @@ private theorem exists_fixedCharTuple_eq {K : Type} [Field K] [Finite K]
     ∃ z ∈ Ã, F.g0⁻¹ * adjEmb Tag.E7 K L (z : adjointGroup Tag.E7 K) * F.g0 =
       rootDiagUnit Tag.E7 (fun i => ζ ^ (e7T3ZColumn ε (Nat.card K : ZMod p) i).val) := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
   set q₀ : ZMod p := (Nat.card K : ZMod p) with hq₀
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   have hFr : ∀ c, Fr c = c ^ Nat.card K := fun c => by rw [iterateFrobenius_def, hK]
@@ -251,7 +251,7 @@ private theorem exists_fixedCharTuple_eq {K : Type} [Field K] [Finite K]
     b ∈ fixedCharTuples (ε • e7T3W) Fr ∧ ∀ i, b i ^ p = 1} with hKp
   have hKpcard : Nat.card Kp = p ^ 3 :=
     natCard_e7T3_fixedPTorsion hp hp3 hε L Fr hℓq hFr hq
-  haveI : Finite Kp := Nat.finite_of_card_ne_zero (by rw [hKpcard]; positivity)
+  have : Finite Kp := Nat.finite_of_card_ne_zero (by rw [hKpcard]; positivity)
   let g : ↥Ã → Kp := fun y => ⟨b y, hbmem y, hbpow y⟩
   have hginj : Function.Injective g := fun y y' h =>
     hbinj (congrArg Subtype.val h)
@@ -259,9 +259,9 @@ private theorem exists_fixedCharTuple_eq {K : Type} [Field K] [Finite K]
     refine le_antisymm ?_ hAcard
     calc Nat.card ↥Ã ≤ Nat.card Kp := Nat.card_le_card_of_injective g hginj
       _ = p ^ 3 := hKpcard
-  haveI : Finite ↥Ã := Subtype.finite
-  haveI : Fintype ↥Ã := Fintype.ofFinite _
-  haveI : Fintype Kp := Fintype.ofFinite _
+  have : Finite ↥Ã := Subtype.finite
+  have : Fintype ↥Ã := Fintype.ofFinite _
+  have : Fintype Kp := Fintype.ofFinite _
   have hAcard' : Fintype.card ↥Ã = p ^ 3 := by
     rw [← Nat.card_eq_fintype_card]; exact hcardA
   have hKpcard' : Fintype.card Kp = p ^ 3 := by
@@ -283,7 +283,7 @@ private theorem exists_fixedCharTuple_eq {K : Type} [Field K] [Finite K]
 
 private theorem secondPoint_not_mem_zpowers {K : Type} [Field K] [Finite K]
     {ℓ f p : ℕ} [Fact ℓ.Prime] {L : Type} [Field L] [Algebra K L] [IsAlgClosure K L]
-    [CharP L ℓ] {ε : ℤ} (F : E7ThreeFrame K L ℓ f p ε) (hp : p.Prime) (hp3 : 3 < p)
+    [CharP L ℓ] {ε : ℤ} (F : E7ThreeFrame K L ℓ f p ε) (hp : p.Prime) (_hp3 : 3 < p)
     (hε : ε = 1 ∨ ε = -1) {ζ : Lˣ} (hζ : IsPrimitiveRoot ζ p)
     {q₀ : ZMod p} (hq0ne : q₀ ≠ 0) (hq : q₀ ^ 2 + (ε : ZMod p) * q₀ + 1 = 0)
     {bx : Fin Tag.E7.rank → Lˣ}
@@ -295,9 +295,9 @@ private theorem secondPoint_not_mem_zpowers {K : Type} [Field K] [Finite K]
     (hψx : psiC F.g0 1 x = rootDiagUnit Tag.E7 bx) :
     z ∉ Subgroup.zpowers x := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
   set bz : Fin Tag.E7.rank → Lˣ := fun i => ζ ^ (e7T3ZColumn ε q₀ i).val with hbzdef
   intro hzmem
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 hzmem
@@ -313,7 +313,7 @@ private theorem secondPoint_not_mem_zpowers {K : Type} [Field K] [Finite K]
   have hxbe6 : toVec Tag.E7.rank [0, 0, 0, 0, 0, 0, 1] ∈ rootCharKernel bx := by
     rw [hkerbx]; exact ⟨_, he6mem, rfl⟩
   have hzbe6 : toVec Tag.E7.rank [0, 0, 0, 0, 0, 0, 1] ∈ rootCharKernel bz := by
-    rw [rootCharKernel, Set.mem_setOf_eq, hbz_eq]
+    rw [rootCharKernel, Set.mem_ofPred_eq, hbz_eq]
     refine ⟨he6root, ?_⟩
     rw [rootChar_zpow_tuple, hxbe6.2, _root_.one_zpow]
   have h0 : charVal (e7T3ZColumn ε q₀) (toVec Tag.E7.rank [0, 0, 0, 0, 0, 0, 1]) = 0 :=
@@ -339,7 +339,7 @@ theorem exists_selection_secondPoint_explicit {K : Type} [Field K] [Finite K]
     (hAcard : p ^ 3 ≤ Nat.card Ã) [Finite ↥(adjointGroup Tag.E7 K)]
     (hAfix : ∀ y ∈ Ã, F.g0⁻¹ * adjEmb Tag.E7 K L y * F.g0 ∈
       twistedTorusOf F.n (Units.map (entrywiseHom (iterateFrobenius L ℓ f))))
-    {x : adjointGroup Tag.E7 K} (hx : x ∈ Ã) {ζ : Lˣ} (hζ : IsPrimitiveRoot ζ p)
+    {x : adjointGroup Tag.E7 K} (_hx : x ∈ Ã) {ζ : Lˣ} (hζ : IsPrimitiveRoot ζ p)
     (hxcol : F.g0⁻¹ * adjEmb Tag.E7 K L x * F.g0 =
       rootDiagUnit Tag.E7 (fun i => ζ ^ (e7T3XColumn ε (Nat.card K : ZMod p) i).val)) :
     ∃ z ∈ Ã, z ∉ Subgroup.zpowers x ∧
@@ -350,9 +350,9 @@ theorem exists_selection_secondPoint_explicit {K : Type} [Field K] [Finite K]
           α ∈ rootCharKernel (fun i => ζ ^ (e7T3XColumn ε (Nat.card K : ZMod p) i).val)) ↔
           α ∈ e7T3A5SubA2) := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
   set q₀ : ZMod p := (Nat.card K : ZMod p) with hq₀
   have hq : q₀ ^ 2 + (ε : ZMod p) * q₀ + 1 = 0 := by
     have h := (ZMod.intCast_zmod_eq_zero_iff_dvd
@@ -360,7 +360,7 @@ theorem exists_selection_secondPoint_explicit {K : Type} [Field K] [Finite K]
     simpa [hq₀, sq] using h
   have hq0ne : q₀ ≠ 0 := by
     intro h0
-    have h1 : (1 : ZMod p) = 0 := by simpa [h0] using hq
+    have h1 : (1 : ZMod p) = 0 := by simp [h0] at hq
     exact one_ne_zero h1
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   have hFr : ∀ c, Fr c = c ^ Nat.card K := fun c => by rw [iterateFrobenius_def, hK]
@@ -388,7 +388,7 @@ theorem exists_selection_secondPoint_explicit {K : Type} [Field K] [Finite K]
     · rintro ⟨hzb', hxb⟩
       rw [hkerbx] at hxb
       obtain ⟨l, hl, rfl⟩ := hxb
-      rw [rootCharKernel, Set.mem_setOf_eq] at hzb'
+      rw [rootCharKernel, Set.mem_ofPred_eq] at hzb'
       obtain ⟨-, h1⟩ := hzb'
       have h0 : charVal (e7T3ZColumn ε q₀) (toVec Tag.E7.rank l) = 0 :=
         (rootChar_zetaPow_eq_one_iff_charVal hζ (e7T3ZColumn ε q₀) _).1 h1
@@ -404,7 +404,7 @@ theorem exists_selection_secondPoint_explicit {K : Type} [Field K] [Finite K]
       have hAD := (e7T3ZA_eq_zero_iff_mem l hl5).2 hl
       have hroot := isRoot_toVec (e7T3CertA5_good.2.2.1 l hl5)
       refine ⟨?_, ?_⟩
-      · rw [rootCharKernel, Set.mem_setOf_eq]
+      · rw [rootCharKernel, Set.mem_ofPred_eq]
         exact ⟨hroot, (rootChar_zetaPow_eq_one_iff_charVal hζ (e7T3ZColumn ε q₀) _).2
           ((e7T3ZA_eq_zero_iff_charVal_eq_zero hp hp3 hε hq hroot).2 hAD)⟩
       · rw [hkerbx]

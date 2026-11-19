@@ -18,14 +18,14 @@ theorem s16k_false_of_su4_z (h : S16gRowCtx D V₀ V L hV)
     (hSU : IsSUn ↥(lBar V₀ V hV L) 4 1)
     (hN : NatSUn (lBar V₀ V hV L) (commSub ⊤ (lBar V₀ V hV L))
       (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) 4 1)
-    (hσ : 3 ∈ D.sig) (hrk : 4 ≤ CFSG.Open.pRank 3 (Mbar D.M V₀ V hV))
+    (hσ : 3 ∈ D.sig) (_hrk : 4 ≤ CFSG.Open.pRank 3 (Mbar D.M V₀ V hV))
     (hZ : fixV (lBar V₀ V hV L) ≠ ⊥) : False := by
   have hV0 : V₀ = ⊥ := s16k_su4z_v0 h hZ
   have hstd : s16c4v1_Std D := ⟨h.std.hx, h.std.hSg, h.std.h1219, h.std.h61, h.std.h126,
     h.std.h111, r129_1_of_r127 D h.std.h127, h.std.h1217, h.std.h4⟩
   have hne : barSub V₀ V hV L ≠ ⊥ := fun hb => by
-    haveI := h.quasi.2.toNontrivial
-    haveI : Nontrivial ↥(lBar V₀ V hV L) :=
+    have := h.quasi.2.toNontrivial
+    have : Nontrivial ↥(lBar V₀ V hV L) :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥(lBar V₀ V hV L))).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).1 ‹_› hb
   have h4 : Case167_4 D V₀ V hV L := s16k_su4z_case4 h hGA hSU hN hσ hV0

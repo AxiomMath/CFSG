@@ -60,12 +60,12 @@ theorem mul_inv_mem_of_relIndex_eq_two {H K : Subgroup G} (h : H.relIndex K = 2)
   simpa [Subgroup.mem_subgroupOf] using hmem
 
 theorem coprime_two_relIndex_of_forall_isPGroup_le [Finite G] {C W : Subgroup G}
-    (hW : W ≤ C) (hW2 : IsPGroup 2 W)
+    (_hW : W ≤ C) (hW2 : IsPGroup 2 W)
     (hmax : ∀ Q : Subgroup G, IsPGroup 2 Q → Q ≤ C → Q ≤ W) :
     Nat.Coprime 2 (W.relIndex C) := by
   classical
   obtain ⟨P⟩ := Sylow.nonempty (p := 2) (G := ↥C)
-  have hP2 : IsPGroup 2 ((P : Subgroup ↥C).map C.subtype) := P.isPGroup'.map C.subtype
+  have hP2 : IsPGroup 2 ((P : Subgroup ↥C).map C.subtype) := P.isPGroup.map C.subtype
   have hPle : (P : Subgroup ↥C) ≤ W.subgroupOf C := by
     intro x hx
     exact hmax _ hP2 (Subgroup.map_subtype_le _) (Subgroup.mem_map.mpr ⟨x, hx, rfl⟩)
@@ -89,7 +89,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M L : Subgroup G} {R : Subgroup G}
   {rep : Fin 64 → G}
 
-theorem commute_of_mem_L_pCoreOf_centralizer (S : Setting G M L) {l w : G}
+theorem commute_of_mem_L_pCoreOf_centralizer (_S : Setting G M L) {l w : G}
     (hl : l ∈ L)
     (hw : w ∈ CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G))) :
     l * w = w * l := by
@@ -97,7 +97,7 @@ theorem commute_of_mem_L_pCoreOf_centralizer (S : Setting G M L) {l w : G}
     CFSG.LieType.BorelTits.pCoreOf_le 2 _ hw
   exact Subgroup.mem_centralizer_iff.mp hwC l hl
 
-theorem pow_relIndex_pCoreOf_centralizer_mem (S : Setting G M L) {c : G}
+theorem pow_relIndex_pCoreOf_centralizer_mem (_S : Setting G M L) {c : G}
     (hc : c ∈ Subgroup.centralizer (L : Set G)) :
     c ^ (CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G))).relIndex
         (Subgroup.centralizer (L : Set G)) ∈
@@ -106,13 +106,13 @@ theorem pow_relIndex_pCoreOf_centralizer_mem (S : Setting G M L) {c : G}
   let W : Subgroup G := CFSG.Open.pCoreOf 2 C
   have hWsub : W.subgroupOf C = CFSG.pCore 2 ↥C := by
     simpa [W, C] using CFSG.openPCoreOf_subgroupOf 2 C
-  haveI : (W.subgroupOf C).Normal := by
+  have : (W.subgroupOf C).Normal := by
     rw [hWsub]
     infer_instance
   have hpow := Subgroup.pow_index_mem (W.subgroupOf C) (⟨c, hc⟩ : ↥C)
   simpa [W, C, Subgroup.relIndex, Subgroup.mem_subgroupOf] using hpow
 
-theorem coprime_two_relIndex_pCoreOf_centralizer (S : Setting G M L)
+theorem coprime_two_relIndex_pCoreOf_centralizer (_S : Setting G M L)
     (hW2 : ∀ Q : Subgroup G, IsPGroup 2 Q →
       Q ≤ Subgroup.centralizer (L : Set G) →
       Q ≤ CFSG.Open.pCoreOf 2 (Subgroup.centralizer (L : Set G))) :

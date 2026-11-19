@@ -48,7 +48,7 @@ private theorem auxHom_injective (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t 
   intro a b hab
   exact Subgroup.inclusion_injective inf_le_right ((auxProdEquiv hQ htt).symm.injective hab)
 
-private theorem aux_finrank_commSp_eq (hQ : Q.Nondegenerate) {t : OGroup Q} {α : ℤˣ}
+private theorem aux_finrank_commSp_eq (_hQ : Q.Nondegenerate) {t : OGroup Q} {α : ℤˣ}
     (hty : invType t = (3, α)) : Module.finrank (ZMod 3) (commSp t) = 3 := by
   have h := congrArg Prod.fst hty
   simpa only [invType, invDim] using h
@@ -69,13 +69,13 @@ theorem ff_K3_solvable (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V 
   obtain ⟨e, _⟩ := ff_fixEquiv hQ hdim hsgn htt
   have hdimC := aux_finrank_commSp_eq hQ hty
   have hdimU := aux_finrank_fixSp_eq hQ hdim hty
-  haveI hsol1 : Group.IsSolvable (OGroup (Q.restrict (fixSp t))) :=
+  have hsol1 : Group.IsSolvable (OGroup (Q.restrict (fixSp t))) :=
     ff_orth3_solvable (nondegenerate_restrict_fixSp hQ htt) hdimU
-  haveI hsol2 : Group.IsSolvable (OGroup (Q.restrict (commSp t))) :=
+  have hsol2 : Group.IsSolvable (OGroup (Q.restrict (commSp t))) :=
     ff_orth3_solvable (nondegenerate_restrict_commSp hQ htt) hdimC
-  haveI hsolC : Group.IsSolvable ↥(Subgroup.centralizer ({t} : Set (OGroup Q))) :=
+  have hsolC : Group.IsSolvable ↥(Subgroup.centralizer ({t} : Set (OGroup Q))) :=
     ff_solvable_congr (auxProdEquiv hQ htt) inferInstance
-  haveI hsolA :
+  have hsolA :
       Group.IsSolvable ↥(omegaGroup hQ ⊓ Subgroup.centralizer ({t} : Set (OGroup Q))) :=
     Group.isSolvable_of_isSolvable_injective (f := auxHom hQ htt) (auxHom_injective hQ htt)
   rw [← hyx']
@@ -92,8 +92,8 @@ theorem ff_K3_xTwoCore (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V 
   have hdimU := aux_finrank_fixSp_eq hQ hdim hty
   have h1 := ff_orth3_series (nondegenerate_restrict_fixSp hQ htt) hdimU
   have h2 := ff_orth3_series (nondegenerate_restrict_commSp hQ htt) hdimC
-  haveI : Finite (OGroup (Q.restrict (fixSp t))) := inferInstance
-  haveI : Finite (OGroup (Q.restrict (commSp t))) := inferInstance
+  have : Finite (OGroup (Q.restrict (fixSp t))) := inferInstance
+  have : Finite (OGroup (Q.restrict (commSp t))) := inferInstance
   rw [← hyx']
   exact ff_xTwoCore_of_prod h1 h2 (auxHom hQ htt |>.comp e.symm.toMonoidHom)
     (fun a b hab => e.symm.injective (auxHom_injective hQ htt hab))

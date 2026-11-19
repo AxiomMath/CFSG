@@ -93,6 +93,7 @@ theorem exists_sub_Irr_of_cfInner_self_eq_two {z : G → ℂ}
   · rw [hni, hnj] at heval
     exact absurd (by linear_combination -heval) hpos
 
+omit [Fintype G] in
 theorem sub_mem_span_Irr_of_mem_Irr {η θ : G → ℂ} (hη : η ∈ Irr G) (hθ : θ ∈ Irr G) :
     η - θ ∈ Submodule.span ℤ (Irr G) :=
   sub_mem (Submodule.subset_span hη) (Submodule.subset_span hθ)

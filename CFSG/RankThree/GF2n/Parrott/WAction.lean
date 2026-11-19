@@ -21,21 +21,26 @@ theorem Wsub_eq_range :
     commutatorV h (sigma1Nine (z := z) D) from rfl]
   exact commutatorV_eq_range (z := z) h (sigma1Nine_order (z := z) D)
 
+omit hN in
+omit [Finite G] in
 theorem conjVLinearMap_mul (x y : ↥(H z)) :
     conjVLinearMap h (x * y) =
       conjVLinearMap h x * conjVLinearMap h y := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   ext v
   simp [conjVLinearMap_apply, map_mul, MulAut.mul_apply, Module.End.mul_apply]
 
+omit hN in
+omit [Finite G] in
 theorem conjVLinearMap_one :
     conjVLinearMap h (1 : ↥(H z)) = 1 := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   ext v
   simp [conjVLinearMap_apply]
 
+omit hN [Finite G] in
 theorem conjVLinearMap_pow (x : ↥(H z)) (n : ℕ) :
     conjVLinearMap h x ^ n = conjVLinearMap h (x ^ n) := by
   induction n with
@@ -68,8 +73,8 @@ theorem conjV_comm_of_mem_O3H (u : ↥(O3H D)) :
 theorem conjVLinearMap_mem_WsubModule (u : ↥(O3H D)) :
     ∀ v ∈ WsubModule (z := z) (D := D) h,
       conjVLinearMap h (u : ↥(H z)) v ∈ WsubModule (z := z) (D := D) h := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   intro v hv
   have hcomm := conjV_comm_of_mem_O3H (z := z) (D := D) h u
   have hvW : Additive.toMul v ∈ Wsub h (sigma1Nine (z := z) D) := by
@@ -96,8 +101,8 @@ theorem conjVLinearMap_mem_WsubModule (u : ↥(O3H D)) :
 
 theorem Wact_one :
     Wact (z := z) (D := D) h (1 : ↥(O3H D)) = 1 := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   apply LinearMap.ext
   intro v
   apply Subtype.ext
@@ -107,8 +112,8 @@ theorem Wact_one :
 theorem Wact_mul (u v : ↥(O3H D)) :
     Wact (z := z) (D := D) h (u * v) =
       Wact (z := z) (D := D) h u * Wact (z := z) (D := D) h v := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   apply LinearMap.ext
   intro w
   apply Subtype.ext
@@ -150,8 +155,8 @@ theorem card_Wsub :
 
 theorem finrank_WsubModule :
     Module.finrank (ZMod 2) (WsubModule (z := z) (D := D) h) = 6 := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   have hcard : Nat.card ↥(WsubModule (z := z) (D := D) h) = 2 ^ 6 := by
     rw [← card_Wsub (z := z) (D := D) h]
     refine Nat.card_congr ?_
@@ -170,8 +175,8 @@ theorem WsubModule_eq_range_add_one :
     letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
     WsubModule (z := z) (D := D) h =
       LinearMap.range (conjVLinearMap h (sigma1Nine (z := z) D) + 1) := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   ext v
   rw [mem_WsubModule_iff]
   constructor
@@ -203,8 +208,8 @@ theorem rhoO3H_omega_apply (u : Additive (QuotientV.V z)) :
       conjVLinearMap h (sigma1Nine (z := z) D)
         (conjVLinearMap h (sigma1Nine (z := z) D) u + u) +
       (conjVLinearMap h (sigma1Nine (z := z) D) u + u) = 0 := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   have h2 : ∀ x : Additive (QuotientV.V z), x + x = 0 := by
     intro x
     rw [← two_smul (ZMod 2) x, show (2 : ZMod 2) = 0 by decide, zero_smul]
@@ -270,8 +275,8 @@ theorem rhoO3H_omega :
     let c : ↥(O3H D) := ⟨sigma1Nine (z := z) D, sigma1Nine_mem_O3H (z := z) D⟩
     rhoO3H (z := z) (D := D) h c * rhoO3H (z := z) (D := D) h c +
         rhoO3H (z := z) (D := D) h c + 1 = 0 := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   let c : ↥(O3H D) := ⟨sigma1Nine (z := z) D, sigma1Nine_mem_O3H (z := z) D⟩
   apply LinearMap.ext
   intro w
@@ -298,8 +303,8 @@ theorem fixW_eq_map_ker (x : ↥(O3H D)) :
     fixW (z := z) (D := D) h (x : ↥(H z)) =
       (LinearMap.ker (rhoO3H (z := z) (D := D) h x - 1)).map
         (WsubModule (z := z) (D := D) h).subtype := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   ext v
   rw [show fixW (z := z) (D := D) h (x : ↥(H z)) =
     fixSubmodule h (x : ↥(H z)) ⊓ WsubModule (z := z) (D := D) h from rfl]
@@ -328,8 +333,8 @@ theorem finrank_fixW_eq_two (x : ↥(O3H D))
     (hx : x ∉ Subgroup.zpowers
       (⟨sigma1Nine (z := z) D, sigma1Nine_mem_O3H (z := z) D⟩ : ↥(O3H D))) :
     Module.finrank (ZMod 2) (fixW (z := z) (D := D) h (x : ↥(H z))) = 2 := by
-  letI : CommGroup (QuotientV.V z) := commGroupV h
-  letI : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
+  let : CommGroup (QuotientV.V z) := commGroupV h
+  let : Module (ZMod 2) (Additive (QuotientV.V z)) := moduleV h
   let c : ↥(O3H D) := ⟨sigma1Nine (z := z) D, sigma1Nine_mem_O3H (z := z) D⟩
   have hker := finrank_ker_heisenbergFour (ρ := rhoO3H (z := z) (D := D) h)
     (c := c) (card_O3H (z := z) h D) (isHeisenberg_O3H (z := z) h D).1

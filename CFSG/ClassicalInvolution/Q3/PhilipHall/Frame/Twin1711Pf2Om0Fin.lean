@@ -141,7 +141,7 @@ theorem om0_h4 (hg : Om0GenFacts) (B : Set (Subgroup omegaT)) (N : Subgroup omeg
     exact this ▸ hm
 
 theorem noSandwichIn_omegaT_of_gen (hg : Om0GenFacts) : NoSandwichIn omegaT :=
-  noSandwichIn_of_ident R0H (xOm 0) (fun R t hC => coreData_ident hC)
+  noSandwichIn_of_ident R0H (xOm 0) (fun _R _t hC => coreData_ident hC)
     (fun B N hR hS => om0_h4 hg B N hR hS)
 
 theorem om0_of_gen (hg : Om0GenFacts) : NoSandwichAt ModOm0 :=

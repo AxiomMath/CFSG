@@ -24,7 +24,7 @@ theorem exists_elation91 (h34 : Stroth34Statement) {n : ℕ} {C B₁ A₁ : Subg
   classical
   have hcard := stroth_3_5 h34 hcC hw hn hnoC hgenC
   obtain ⟨nn, γ, M₀, -, h⟩ := stroth_globalModelDataGF hcC.hyp
-  haveI : Finite M₀.E := Module.finite_of_finite (GaloisField 2 nn)
+  have : Finite M₀.E := Module.finite_of_finite (GaloisField 2 nn)
   obtain ⟨bC, hbC0, -, hBC, -, -⟩ := hcC.dictB h
   obtain ⟨bB, hbB0, -, hBB, -, -⟩ := hcB.dictB h
   obtain ⟨bA, hbA0, -, hBA, -, -⟩ := hcA.dictB h

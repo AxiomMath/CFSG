@@ -18,9 +18,9 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_commute_of_card_dvd_seven {H : Type} [Group H]
     (h : Nat.card H ∣ 7) (a b : H) : a * b = b * a := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI : IsCyclic H := isCyclic_of_card_dvd_prime h
-  letI : CommGroup H := IsCyclic.commGroup
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : IsCyclic H := isCyclic_of_card_dvd_prime h
+  let : CommGroup H := IsCyclic.commGroup
   exact mul_comm a b
 
 theorem s16h_sl28_autSub_card_map_conj {W : Type} [CommGroup W]
@@ -29,7 +29,7 @@ theorem s16h_sl28_autSub_card_map_conj {W : Type} [CommGroup W]
       Nat.card ↥(autSub X U) := by
   have hcongr : congrHom t = (MulAut.conj t).toMonoidHom :=
     MonoidHom.ext fun x => MulEquiv.ext fun w => by
-      simp [congrHom_apply, MulAut.conj_apply]
+      simp [MulAut.conj_apply]
   have hU : ∀ v, v ∈ U ↔ t v ∈ U.map t.toMonoidHom := by
     intro v
     rw [Subgroup.mem_map]
@@ -40,7 +40,7 @@ theorem s16h_sl28_autSub_card_map_conj {W : Type} [CommGroup W]
     (f := congrHom (resEquiv t hU)) (congrHom_injective (resEquiv t hU))]
 
 theorem s16h_sl28_centralizer_aut_card_dvd_seven_conj
-    (D : Data G) (S : s16h_Std D) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (D : Data G) (_S : s16h_Std D) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
     (hrow : s16h_H5RowSL2 (lBar ⊥ V h.hyp151.isElemAbelian L)
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))
       (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L) ⊓

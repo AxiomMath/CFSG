@@ -173,12 +173,12 @@ theorem ggTBJ_sp_blockData {K : Type} [Field K] [Finite K] [CharP K 2] (hK4 : 4 
     · obtain ⟨d, mm, E, hEfield, hEfin, hd, hEcard, hrank, hdeg, ⟨eiso⟩⟩ :=
         @blockGroup_iso_Sp_linear K _ F _ m b hb hodd ε e1 (formAdj (RingHom.id K) Gr e1)
           hε he1 hstar (fun h => hfixne h.symm) hεsum
-      letI : Field E := hEfield
-      letI : Fintype E := hEfin
+      let : Field E := hEfield
+      let : Fintype E := hEfin
       obtain ⟨nE, -, hnE⟩ := @FiniteField.card K _ F 2 (inferInstance : CharP K 2)
       have hEpow : Nat.card E = 2 ^ ((nE : ℕ) * d) := by
         rw [@Nat.card_eq_fintype_card E _, hEcard, hnE, ← pow_mul]
-      letI : CharP E 2 := charP_two_of_card hEpow
+      let : CharP E 2 := charP_two_of_card hEpow
       let S : Subgroup (GL (Fin mm) E) := StatedSL mm E
       have hcompJ : IsComponentOf (J.subgroupOf Gε) ⊤ := by
         have hC₀ : (J.subgroupOf Gε).map Gε.subtype = J := by
@@ -279,13 +279,13 @@ theorem ggTBJ_sp_blockData {K : Type} [Field K] [Finite K] [CharP K 2] (hK4 : 4 
           rcases a with i | i
           · have hti : t i = 1 := Units.ext (by simpa using hta)
             have hxi : x i = 1 := hx1 i hti
-            simpa [hxi]
+            simp [hxi]
           · have hti : t i = 1 := by
               apply Units.ext
               have h' : ((t i)⁻¹ : K) = 1 := by simpa using hta
               rwa [inv_eq_one] at h'
             have hxi : x i = 1 := hx1 i hti
-            simpa [hxi]
+            simp [hxi]
         intro a b ha hb _
         rw [hA a ha, hA b hb]
       · obtain ⟨c, hc⟩ := hc
@@ -302,7 +302,7 @@ theorem ggTBJ_sp_blockData {K : Type} [Field K] [Finite K] [CharP K 2] (hK4 : 4 
           rcases a with i | i
           · have hti : t i = lam := (hlam_iff (t i)).mpr (by simpa using h)
             have hxi : x i = c := (hc i).1 hti
-            simpa [hxi]
+            simp [hxi]
           · have hti : t i = lam⁻¹ := by
               apply (hlam_inv_iff (t i)).mpr
               have h' : ((t i : K))⁻¹ = lam0 := by simpa using h
@@ -316,7 +316,7 @@ theorem ggTBJ_sp_blockData {K : Type} [Field K] [Finite K] [CharP K 2] (hK4 : 4 
           rcases a with i | i
           · have hti : t i = lam⁻¹ := (hlam_inv_iff (t i)).mpr (by simpa using h)
             have hxi : x i = c⁻¹ := (hc i).2 hti
-            simpa [hxi]
+            simp [hxi]
           · have hti : t i = lam := by
               apply (hlam_iff (t i)).mpr
               have h' : ((t i : K))⁻¹ = lam0⁻¹ := by simpa using h
@@ -328,8 +328,8 @@ theorem ggTBJ_sp_blockData {K : Type} [Field K] [Finite K] [CharP K 2] (hK4 : 4 
             (if diagSpEntry t a = lam0 then c else c⁻¹) := by
           intro a ha
           rcases hsupp0 a ha with h | h
-          · rw [if_pos h]; exact hdv_lam a ha h
-          · rw [if_neg (fun hh => hlam0_ne_inv (hh.symm.trans h))]
+          · rw [ite_eq_left h]; exact hdv_lam a ha h
+          · rw [ite_eq_right (fun hh => hlam0_ne_inv (hh.symm.trans h))]
             exact hdv_lam_inv a ha h
         intro a b ha hb hab
         rw [hdv' a ha, hdv' b hb, hab]

@@ -97,10 +97,10 @@ theorem mem_range_conj_of_card {Y : Type} [Group Y] [Finite Y] (hZ : Subgroup.ce
   classical
   have hinj : Function.Injective (MulAut.conj : Y →* MulAut Y) :=
     conj_injective_of_center_eq_bot hZ
-  haveI : Finite (MulAut Y) := Finite.of_injective (fun f : MulAut Y => (f : Y → Y))
+  have : Finite (MulAut Y) := Finite.of_injective (fun f : MulAut Y => (f : Y → Y))
     (fun f g h => MulEquiv.ext fun x => congrFun h x)
   set N : Subgroup (MulAut Y) := (MulAut.conj : Y →* MulAut Y).range with hN
-  haveI : N.Normal := ⟨by
+  have : N.Normal := ⟨by
     rintro _ ⟨y, rfl⟩ φ
     exact ⟨φ y, (mulAut_mul_conj_mul_inv φ y).symm ▸ rfl⟩⟩
   have hNcard : Nat.card N = Nat.card Y :=

@@ -75,7 +75,7 @@ theorem card_of_alt5 {K : Subgroup G} (φ : ↥K ≃* alternatingGroup (Fin 5)) 
 theorem eq_of_thirty_dvd {K H : Subgroup G} (φ : ↥K ≃* alternatingGroup (Fin 5))
     (hHK : H ≤ K) (h30 : 30 ∣ Nat.card H) : H = K := by
   have hK : Nat.card K = 60 := card_of_alt5 φ
-  haveI : Finite ↥K :=
+  have : Finite ↥K :=
     Finite.of_injective (φ : ↥K → alternatingGroup (Fin 5)) φ.injective
   have hdvd : Nat.card H ∣ Nat.card K := Subgroup.card_dvd_of_le hHK
   have hcardHsub : Nat.card (H.subgroupOf K) = Nat.card H := by
@@ -102,9 +102,9 @@ theorem eq_of_thirty_dvd {K H : Subgroup G} (φ : ↥K ≃* alternatingGroup (Fi
       have h := Subgroup.card_mul_index ((H.subgroupOf K).map φ.toMonoidHom)
       rw [hcard', card_a5] at h
       omega
-    haveI : ((H.subgroupOf K).map φ.toMonoidHom).Normal :=
+    have : ((H.subgroupOf K).map φ.toMonoidHom).Normal :=
       Subgroup.normal_of_index_eq_two hidx
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((H.subgroupOf K).map φ.toMonoidHom) with h | h
     · rw [h, Subgroup.card_bot] at hcard'
@@ -195,13 +195,13 @@ theorem exists_ne_one_mem_centralizer {K E : Subgroup G}
 theorem not_isPerfect_klein_prod_alt5 : ¬ Group.IsPerfect
     ((Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) × alternatingGroup (Fin 5)) := by
   intro h
-  haveI := h
+  have := h
   let f : ((Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) ×
       alternatingGroup (Fin 5)) →*
       (Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) := MonoidHom.fst _ _
   have hV : Group.IsPerfect (Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) :=
     Group.IsPerfect.ofSurjective (f := f) fun x => ⟨(x, 1), rfl⟩
-  haveI : Group.IsPerfect (Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) := hV
+  have : Group.IsPerfect (Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) := hV
   have hnc : ¬ IsMulCommutative
       (Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) :=
     Group.IsPerfect.not_isMulCommutative

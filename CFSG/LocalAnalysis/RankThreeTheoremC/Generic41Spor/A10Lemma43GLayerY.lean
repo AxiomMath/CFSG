@@ -13,6 +13,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem a10t1_ly_mem_W {M : Subgroup G} {x w : G} :
     w ∈ M ⊓ Subgroup.centralizer ({x} : Set G) ↔ w ∈ M ∧ x * w = w * x := by
   simp [Subgroup.mem_centralizer_iff]
@@ -24,7 +25,7 @@ theorem a10t1_ly_f_data {M : Subgroup G} {x : G} (hxM : x ∈ M) (hx : x ^ 5 = 1
       ∀ w : ↥(M ⊓ Subgroup.centralizer ({x} : Set G)),
         ((f w : ↥(Subgroup.centralizer ({a10π M ⟨x, hxM⟩} : Set (A10Y M)))) : A10Y M) =
           a10π M ⟨(w : G), (a10t1_ly_mem_W.mp w.2).1⟩ := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hWM : M ⊓ Subgroup.centralizer ({x} : Set G) ≤ M := inf_le_left
   let g : ↥(M ⊓ Subgroup.centralizer ({x} : Set G)) →* A10Y M :=
     (a10π M).comp (Subgroup.inclusion hWM)
@@ -67,6 +68,7 @@ theorem a10t1_ly_f_data {M : Subgroup G} {x : G} (hxM : x ∈ M) (hx : x ^ 5 = 1
       Nat.Coprime.coprime_dvd_right hdvd (primeComplementCore_coprime (G := ↥M) 5)
     exact ((Nat.Prime.coprime_iff_not_dvd (by norm_num)).mp hcop) h5
 
+omit [Finite G] in
 theorem a10t1_ly_img_map {M : Subgroup G} {x : G} (hxM : x ∈ M)
     (f : ↥(M ⊓ Subgroup.centralizer ({x} : Set G)) →*
         ↥(Subgroup.centralizer ({a10π M ⟨x, hxM⟩} : Set (A10Y M))))
@@ -114,7 +116,7 @@ theorem a10_layer_Y {M : Subgroup G} {x : G} {E₁ E₂ : Subgroup G} (hxM : x �
         alternatingGroup (Fin 5)) ∧
       Nonempty (↥(a10Img M E₂) ⧸ primeComplementCore (G := ↥(a10Img M E₂)) 5 ≃*
         alternatingGroup (Fin 5)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hp5 : Nat.Prime 5 := by norm_num
   set W : Subgroup G := M ⊓ Subgroup.centralizer ({x} : Set G) with hW
   set D : Subgroup (A10Y M) :=

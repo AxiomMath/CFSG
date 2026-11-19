@@ -33,7 +33,7 @@ end K21bCubicProof
 theorem exists_root_cubic_of_card_eight (F : Type) [Field F] [Finite F] (hF : Nat.card F = 8) :
     (2 : F) = 0 ∧ ∃ t : F, t ^ 3 + t + 1 = 0 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, hp, hcard⟩ := FiniteField.card F (ringChar F)
   have h8 : ringChar F ^ (n : ℕ) = 8 := by
     rw [← hcard, ← Nat.card_eq_fintype_card, hF]
@@ -124,7 +124,7 @@ theorem exists_orderOf_nine_sl3 (F : Type) [Field F] (h2 : (2 : F) = 0) {t : F}
       (g : Matrix (Fin 3) (Fin 3) F) = !![0, 1, 0; 1, t, 0; 0, 0, 1] :=
     ⟨⟨!![0, 1, 0; 1, t, 0; 0, 0, 1], hdet⟩, rfl⟩
   refine ⟨g, ?_⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnot : ¬ g ^ (3 ^ 1) = 1 := by
     intro h
     have h' : ((g ^ (3 ^ 1) : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =

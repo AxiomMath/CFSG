@@ -31,6 +31,7 @@ variable {G : Type} [Group G] [DecidableEq G]
 @[expose] def gbad (m : Nat) (g t : G) : Bool :=
   !(decide (g * t * g⁻¹ = t)) && (gorb m g t).all fun c => decide (t * c = c * t)
 
+omit [DecidableEq G] in
 theorem mem_gspan (bs : List G) (s : G) :
     s ∈ gspan bs ↔ ∃ S : List G, S.Sublist bs ∧ S.prod = s := by
   induction bs generalizing s with
@@ -48,19 +49,20 @@ theorem mem_gspan (bs : List G) (s : G) :
       obtain ⟨S, hS, e⟩ := (ih (gmask bs (m / 2))).1 ⟨m / 2, by omega, rfl⟩
       rw [gmask]
       split
-      · exact ⟨b :: S, hS.cons₂ b, by rw [List.prod_cons, e]⟩
+      · exact ⟨b :: S, hS.cons_cons b, by rw [List.prod_cons, e]⟩
       · exact ⟨S, hS.cons b, by rw [one_mul, e]⟩
     · rintro ⟨S, hS, rfl⟩
       rcases List.sublist_cons_iff.1 hS with hS | ⟨r, rfl, hr⟩
       · obtain ⟨m, hm, e⟩ := (ih S.prod).2 ⟨S, hS, rfl⟩
         have h2 : 2 * m / 2 = m := by omega
         refine ⟨2 * m, by omega, ?_⟩
-        rw [gmask, if_neg (by omega), one_mul, h2, e]
+        rw [gmask, ite_eq_right (by omega), one_mul, h2, e]
       · obtain ⟨m, hm, e⟩ := (ih r.prod).2 ⟨r, hr, rfl⟩
         have h2 : (2 * m + 1) / 2 = m := by omega
         refine ⟨2 * m + 1, by omega, ?_⟩
-        rw [gmask, if_pos (by omega), h2, e, List.prod_cons]
+        rw [gmask, ite_eq_left (by omega), h2, e, List.prod_cons]
 
+omit [DecidableEq G] in
 theorem pairwise_commute {S : List G} (h : ∀ a ∈ S, ∀ b ∈ S, Commute a b) :
     S.Pairwise Commute := by
   induction S with
@@ -69,6 +71,7 @@ theorem pairwise_commute {S : List G} (h : ∀ a ∈ S, ∀ b ∈ S, Commute a b
     exact List.Pairwise.cons (fun b hb => h x List.mem_cons_self b (List.mem_cons_of_mem _ hb))
       (ih fun a ha b hb => h a (List.mem_cons_of_mem _ ha) b (List.mem_cons_of_mem _ hb))
 
+omit [DecidableEq G] in
 theorem mem_gspan_perm {L L' : List G} (hp : L.Perm L') (hc : ∀ a ∈ L, ∀ b ∈ L, Commute a b)
     {s : G} : s ∈ gspan L → s ∈ gspan L' := by
   rw [mem_gspan, mem_gspan]
@@ -108,9 +111,11 @@ theorem range_mul_mod_perm {a p : Nat} (hp : 1 < p) (hc : Nat.Coprime a p) :
     rw [e, h1, Nat.mod_eq_of_lt hi, Nat.mod_eq_of_lt hj] at this
     exact this.symm
 
+omit [DecidableEq G] in
 theorem pow_mod_eq {g : G} {p : Nat} (hg : g ^ p = 1) (k : Nat) : g ^ k = g ^ (k % p) := by
   conv_lhs => rw [← Nat.mod_add_div k p, pow_add, pow_mul, hg, one_pow, mul_one]
 
+omit [DecidableEq G] in
 theorem gorb_pow_perm {g t : G} {p a : Nat} (hg : g ^ p = 1) (hp : 1 < p)
     (hc : Nat.Coprime a p) : (gorb p (g ^ a) t).Perm (gorb p g t) := by
   have e : gorb p (g ^ a) t =
@@ -122,6 +127,7 @@ theorem gorb_pow_perm {g t : G} {p a : Nat} (hg : g ^ p = 1) (hp : 1 < p)
   rw [e, gorb]
   exact (range_mul_mod_perm hp hc).map _
 
+omit [DecidableEq G] in
 theorem conj_eq_iff_pow {g t : G} {p a : Nat} (hg : g ^ p = 1) (hp : 1 < p)
     (hc : Nat.Coprime a p) : g ^ a * t * (g ^ a)⁻¹ = t ↔ g * t * g⁻¹ = t := by
   have key : ∀ x : G, x * t * x⁻¹ = t ↔ Commute x t := fun x => by
@@ -205,8 +211,8 @@ theorem sg_pmask (hsz : szOK n w = true) :
     have hb : PP n w b := h b List.mem_cons_self
     rw [pmask, List.map_cons, gmask]
     by_cases hm : m % 2 = 1
-    · rw [if_pos hm, if_pos hm, sg_pc hb (PP_pmask hsz bs hbs _), sg_pmask hsz bs hbs]
-    · rw [if_neg hm, if_neg hm, sg_pc (PP.id hsz) (PP_pmask hsz bs hbs _),
+    · rw [ite_eq_left hm, ite_eq_left hm, sg_pc hb (PP_pmask hsz bs hbs _), sg_pmask hsz bs hbs]
+    · rw [ite_eq_right hm, ite_eq_right hm, sg_pc (PP.id hsz) (PP_pmask hsz bs hbs _),
         sg_pmask hsz bs hbs, sg_id hsz]
 
 theorem pspan_map (hsz : szOK n w = true) {bs : List Nat} (h : ∀ b ∈ bs, PP n w b) :

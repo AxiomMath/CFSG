@@ -64,11 +64,11 @@ private theorem l94q_card_le_of_normalizes_coprime_even {G : Type} [Group G] [Fi
     CFSG.ABGLocalTools.exists_invariant_isSylowOf_ge_of_coprime (q := 3) (r := 2)
       Nat.prime_three Nat.prime_two (isPGroup_of_isElemAbelian hQ) hQY hY3 bot_le
       IsPGroup.of_bot (fun g _ => Subgroup.mem_normalizer_iff.2 fun h => by
-        simp only [SetLike.mem_coe, Subgroup.mem_bot]
+        simp only [Subgroup.mem_bot]
         constructor <;> intro hh <;> simp_all)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : (S : Subgroup Y) ≠ ⊥ := S.ne_bot_of_dvd_card hY2
-  refine card_le_pow_glaTwoLocalRank Nat.prime_three hQ ?_ (S.isPGroup'.map _) hQR
+  refine card_le_pow_glaTwoLocalRank Nat.prime_three hQ ?_ (S.isPGroup.map _) hQR
   intro h
   exact hS ((Subgroup.map_eq_bot_iff_of_injective _ Y.subtype_injective).1 h)
 
@@ -78,8 +78,8 @@ private theorem l94q_core {X Q : Type} [Group X] [Group Q] [Finite X] [Finite Q]
     (hPW : P ≤ Subgroup.normalizer (W : Set Q)) :
     ∃ K Y : Subgroup X, IsElemAbelian 3 K ∧ Nat.card K = Nat.card P ∧
       K ≤ Subgroup.normalizer (Y : Set X) ∧ ¬ 3 ∣ Nat.card Y ∧ 2 ∣ Nat.card Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hW2
   have hn0 : n ≠ 0 := by
     rintro rfl
@@ -126,7 +126,7 @@ private theorem l94q_core {X Q : Type} [Group X] [Group Q] [Finite X] [Finite Q]
     rw [Subgroup.mem_normalizer_iff]
     intro h
     have hh := Subgroup.mem_normalizer_iff.1 (hPW hkP) (π h)
-    simp only [SetLike.mem_coe, Subgroup.mem_comap, map_mul, map_inv] at hh ⊢
+    simp only [Subgroup.mem_comap, map_mul, map_inv] at hh ⊢
     exact hh
   · rw [hYc, Nat.Prime.dvd_mul Nat.prime_three]
     rintro (h | h)
@@ -141,7 +141,7 @@ theorem l94_card_le_of_quot {G : Type} [Group G] [Finite G] {C : Subgroup G}
     {P W : Subgroup (↥C ⧸ GLAPPrimeCore 3 ↥C)} (hP : IsElemAbelian 3 P) (hW2 : IsPGroup 2 W)
     (hW : W ≠ ⊥) (hPW : P ≤ Subgroup.normalizer (W : Set (↥C ⧸ GLAPPrimeCore 3 ↥C))) :
     Nat.card P ≤ 3 ^ GLATwoLocalRank 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO : Nat.Coprime 3 (Nat.card (QuotientGroup.mk' (GLAPPrimeCore 3 ↥C)).ker) := by
     rw [QuotientGroup.ker_mk']
     exact CFSG.pPrimeCore_coprime_card

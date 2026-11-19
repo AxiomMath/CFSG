@@ -57,8 +57,8 @@ private theorem theorem_13_5_subgroup_restriction_raw_energy_eq_ambient
     (Nat.card H : ℝ) * Section5.cfNormSq phiH =
       (Nat.card M : ℝ) * Section5.cfNormSq phiM := by
   classical
-  letI : Fintype H := Fintype.ofFinite H
-  letI : Fintype M := Fintype.ofFinite M
+  let : Fintype H := Fintype.ofFinite H
+  let : Fintype M := Fintype.ofFinite M
   rcases hres with ⟨hHM, hres⟩
   let e : H.subgroupOf M ≃ H :=
     (Subgroup.subgroupOfEquivOfLe hHM).toEquiv
@@ -114,7 +114,7 @@ private theorem theorem_13_5_punctured_energy_eq_card_mul_cfNormSq_sub_one
     Section7.subgroupSupportEnergy H (Section7.puncturedSubgroupSet H) phi =
       (Nat.card H : ℝ) * Section5.cfNormSq phi - Complex.normSq (phi 1) := by
   classical
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype H := Fintype.ofFinite H
   have henergy :
       Section7.subgroupSupportEnergy H (Section7.puncturedSubgroupSet H) phi =
         ∑ x : H, if x = 1 then 0 else Complex.normSq (phi x) := by
@@ -228,7 +228,7 @@ private theorem theorem_13_5_subgroupRestriction_inducedCF_orthogonal_of_kernel
   classical
   rcases htheta_irreducible with ⟨n, rho, hrho_irreducible, htheta⟩
   subst theta
-  letI orbitFintype : Fintype (Section1.conjugateOrbitIndex H rho.character) :=
+  let orbitFintype : Fintype (Section1.conjugateOrbitIndex H rho.character) :=
     Quotient.fintype (Section1.conjugateOrbitSetoid H rho.character)
   have horbit_zero : ∀ i : Section1.conjugateOrbitIndex H rho.character,
       Section1.scalarProduct H
@@ -238,7 +238,7 @@ private theorem theorem_13_5_subgroupRestriction_inducedCF_orthogonal_of_kernel
         Section1.IsIrreducibleCharacterOnGroup
           (Section1.conjugateOrbitConj H rho.character i) := by
       refine ⟨n, Section1.conjugateOrbitRepresentation H rho i, ?_, ?_⟩
-      · letI : Representation.IsIrreducible rho := hrho_irreducible
+      · let : Representation.IsIrreducible rho := hrho_irreducible
         exact Section1.irreducible_conjugateRepresentation H rho (Quotient.out i)
       · exact Section1.conjugateOrbitConj_representationCharacter H rho i
     have horbit_ne : Section1.conjugateOrbitConj H rho.character i ≠ psi := by
@@ -304,15 +304,15 @@ private theorem theorem_13_5_restriction_inducedCF_orthogonal_kernelConstituent
     intro x hx
     change ((x : M) : K) ∈ H
     exact hPH (by simpa [Subgroup.mem_subgroupOf] using hx)
-  letI : (H.subgroupOf M).Normal := hHnormal
-  letI : (P.subgroupOf M).Normal := hPnormal
+  let : (H.subgroupOf M).Normal := hHnormal
+  let : (P.subgroupOf M).Normal := hPnormal
   rcases halpha with ⟨halpha_virtual, halpha_kernel⟩
   have halpha_class : Section1.IsClassFunction alpha :=
     Section1.isVirtualCharacter_isClassFunction halpha_virtual
   rcases Theory.Character.irreducible_characters_form_basis (G := H) with
     ⟨ι, hι, chi, hchi, b, hb⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := Classical.decEq ι
+  let : Fintype ι := hι
+  let : DecidableEq ι := Classical.decEq ι
   let psi : ι → Section1.ClassFunction H :=
     fun i => Section1.ofConjClassFunction (chi i)
   have hpsi_irreducible : ∀ i,
@@ -424,8 +424,8 @@ private theorem theorem_13_5_support_energy_punctured_subgroup_eq
   refine Finset.sum_congr rfl ?_
   intro x _hx
   by_cases hx : (x : K) ∈ Section7.puncturedSubgroupSet H
-  · rw [if_pos hx, if_pos hx, hagree x hx.2]
-  · rw [if_neg hx, if_neg hx]
+  · rw [ite_eq_left hx, ite_eq_left hx, hagree x hx.2]
+  · rw [ite_eq_right hx, ite_eq_right hx]
 
 private noncomputable def theorem_13_5_crossSum
     {K : Type u}
@@ -504,8 +504,8 @@ private theorem theorem_13_5_subgroup_energy_cast_add
         r * theorem_13_5_crossSum H A psi phi +
         (Section7.subgroupSupportEnergy H A psi : ℂ) := by
   classical
-  letI : DecidablePred (fun x : K => x ∈ H) := Classical.decPred _
-  letI : Fintype H := H.instFintypeSubtypeMemOfDecidablePred
+  let : DecidablePred (fun x : K => x ∈ H) := Classical.decPred _
+  let : Fintype H := H.instFintypeSubtypeMemOfDecidablePred
   have hcast : ∀ f : Section1.ClassFunction H,
       ((∑ x : H, if (x : K) ∈ A then Complex.normSq (f x) else 0 : ℝ) : ℂ) =
         ∑ x : H, if (x : K) ∈ A then f x * star (f x) else 0 := by
@@ -518,7 +518,7 @@ private theorem theorem_13_5_subgroup_energy_cast_add
         refine Finset.sum_congr rfl ?_
         intro x _hx
         by_cases hx : (x : K) ∈ A
-        · simp only [hx, if_pos]
+        · simp only [hx, ite_eq_left]
           calc
             ((Complex.normSq (f x) : ℝ) : ℂ) = star (f x) * f x :=
               Complex.normSq_eq_conj_mul_self
@@ -582,7 +582,7 @@ private theorem theorem_13_5_isMulCommutative_sup_of_le_centralizer
           y = a⁻¹ * y' * a := by simp [y', mul_assoc]
           _ = y' := hconj
       simpa [hy_eq] using hy'Y
-  haveI : YD.Normal := by
+  have : YD.Normal := by
     simpa [D, YD] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := A) (N := Y) hA_norm_Y)
@@ -883,8 +883,8 @@ private theorem theorem_13_5_normalized_induced_restriction_kernel_package
   have hPHS : PS ≤ HS := by
     intro x hx
     exact hPH hx
-  letI : HS.Normal := hHnormal
-  letI : PS.Normal := hPnormal
+  let : HS.Normal := hHnormal
+  let : PS.Normal := hPnormal
   have hθchar : Section1.IsCharacter θ :=
     Section6.theorem_6_8_isCharacter_of_irreducible hθirr
   rcases hθirr with ⟨m, θrep, hθrepirr, hθeq⟩
@@ -978,8 +978,8 @@ private theorem theorem_13_5_expansion_source
             χ (x : G) =
               (a / (Section5.cfNormSq ζ1 : ℂ)) * ζ1H x + α x := by
   classical
-  letI : Fintype Smax := Fintype.ofFinite Smax
-  letI : Fintype (H.subgroupOf Smax) := Fintype.ofFinite (H.subgroupOf Smax)
+  let : Fintype Smax := Fintype.ofFinite Smax
+  let : Fintype (H.subgroupOf Smax) := Fintype.ofFinite (H.subgroupOf Smax)
   rcases _hhyp with
     ⟨hH, hS1, hζ0S1, hζ1S1, hζ01, hχvirt, ha, hzero⟩
   have hHS : H ≤ Smax := hS1.1
@@ -999,8 +999,8 @@ private theorem theorem_13_5_expansion_source
       _hW1norm, _hDercomp, _hMFnotcyc, _hsecond, _hfitDef, _hfitDer,
       _hW2le, _hW2cyc, _hW2ne, _hcent, _hnorm⟩
   rcases hMF with ⟨⟨_hPSmax, hPnormal, _hPnil, _hPHall⟩, _hPmax⟩
-  letI : (H.subgroupOf Smax).Normal := hHnormal
-  letI : IsMulCommutative (H.subgroupOf Smax) :=
+  let : (H.subgroupOf Smax).Normal := hHnormal
+  let : IsMulCommutative (H.subgroupOf Smax) :=
     theorem_13_5_H_subgroupOf_isMulCommutative
       Smax Tmax W W1 W2 P Q U V C D H Sfam Tfam τS τT
         p q u v c d _hsource hH hHS
@@ -1341,7 +1341,7 @@ private theorem theorem_13_5_squareSumFormula_source
       _hW1norm, _hDercomp, _hMFnotcyc, _hsecond, _hfitDef, _hfitDer,
       _hW2le, _hW2cyc, _hW2ne, _hcent, _hnorm⟩
   rcases hMF with ⟨⟨_hPSmax, hPnormal, _hPnil, _hPHall⟩, _hPmax⟩
-  letI : (H.subgroupOf Smax).Normal := hHnormal
+  let : (H.subgroupOf Smax).Normal := hHnormal
   have hζ1support :
       Section1.supportedOn ζ1 (H.subgroupOf Smax : Set Smax) := by
     rw [Section1.supportedOn_iff]
@@ -1572,8 +1572,8 @@ public theorem theorem_13_5_virtualCharacterKernelConstituent_subgroupInKernel
     Section1.isVirtualCharacter_isClassFunction hvirt
   rcases Theory.Character.irreducible_characters_form_basis (G := H) with
     ⟨ι, hι, χ, hχ, b, hb⟩
-  letI : Fintype ι := hι
-  letI : DecidableEq ι := Classical.decEq ι
+  let : Fintype ι := hι
+  let : DecidableEq ι := Classical.decEq ι
   let ψ : ι → Section1.ClassFunction H := fun i => Section1.ofConjClassFunction (χ i)
   have hψirr : ∀ i, Section1.IsIrreducibleCharacterOnGroup (ψ i) := by
     intro i

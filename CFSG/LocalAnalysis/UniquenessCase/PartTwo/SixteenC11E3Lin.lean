@@ -114,7 +114,7 @@ theorem s1611e3_three_le_rkIdx_of_normalizes {V : Type} [CommGroup V] [Finite V]
     have hY : IsPGroup 7 ↥(Subgroup.zpowers z) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hz]; norm_num)
     have hdvd3 : 3 ∣ rk ↥(commSub (⊤ : Subgroup V) (Subgroup.zpowers t)) := by
-      haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
       have hdvd := CFSG.GroupTheory.orderOf_two_dvd_rk_of_inf_fixV_eq_bot (V := V) (p := 7)
         h2 (Y := Subgroup.zpowers z) hY hW_inv hfixU
       rwa [horder2] at hdvd

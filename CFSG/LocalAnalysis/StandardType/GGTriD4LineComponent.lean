@@ -61,7 +61,7 @@ private lemma triD4Line_commutator_mem_N0 (k K : Type) [Field k] [Field K] [Alge
     have hcb : (b : GL (Fin 3) k × Kˣ) = (g', c') := rfl
     rw [hca, hcb, triD4Line_commutatorElement_prod]
     have hcc : ⁅c, c'⁆ = 1 := commutatorElement_eq_one_iff_mul_comm.2 (mul_comm c c')
-    simp only [hcc, Prod.mk.injEq, true_and]
+    simp only [hcc]
   have hdet : Matrix.GeneralLinearGroup.det ⁅g, g'⁆ =
       Units.map (Algebra.norm k (S := K)) 1 := by
     have hmem := (⁅a, b⁆ : triD4LineFibre k K).2
@@ -105,7 +105,7 @@ theorem triD4LineN0_unique_component (k K : Type) [Field k] [Field K] [Algebra k
     have hJperf : ⁅J, J⁆ = J := triD4Line_perfect_of_isQuasisimple hJq
     have hJne : J ≠ ⊥ := by
       have hnt : Nontrivial ↥J := by
-        haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJq.2.toNontrivial
+        have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJq.2.toNontrivial
         exact (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
       exact (Subgroup.nontrivial_iff_ne_bot J).1 hnt
     have hJN : J ≤ triD4LineN0 k K := by

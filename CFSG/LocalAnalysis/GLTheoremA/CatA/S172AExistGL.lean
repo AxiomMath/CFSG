@@ -59,10 +59,10 @@ theorem quad_of_mem_comSp {e : V ≃ₗ[ZMod 2] V} (h3 : e ^ 3 = 1) {a : V} (ha 
     e (e a) + e a + a = 0 := by
   obtain ⟨y, rfl⟩ := mem_comSp.1 ha
   have h := cube h3 y
-  simp only [map_sub, sub_V, map_add]
+  simp only [sub_V, map_add]
   have : e (e (e y)) + e (e y) + (e (e y) + e y) + (e y + y) = y + y + (e (e y) + e (e y)) + (e y + e y) := by
     rw [h]; abel
-  rw [this]; simp only [add_self_V, add_zero, zero_add]
+  rw [this]; simp only [add_self_V]
 
 theorem isCompl_fixSp_comSp {e : V ≃ₗ[ZMod 2] V} (h3 : e ^ 3 = 1) :
     IsCompl (fixSp e) (comSp e) := by
@@ -82,7 +82,7 @@ theorem isCompl_fixSp_comSp {e : V ≃ₗ[ZMod 2] V} (h3 : e ^ 3 = 1) :
       rw [sub_V]; abel
     ·
       have : v + e v + e (e v) + (e v + e (e v)) = v + (e v + e v) + (e (e v) + e (e v)) := by abel
-      rw [this]; simp only [add_self_V, add_zero, zero_add]
+      rw [this]; simp only [add_self_V, add_zero]
 
 
 section Glue
@@ -142,10 +142,12 @@ section One
 
 variable [FiniteDimensional (ZMod 2) V] {e : V ≃ₗ[ZMod 2] V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem e_mem_comSp {a : V} (ha : a ∈ comSp e) : e a ∈ comSp e := by
   obtain ⟨y, rfl⟩ := mem_comSp.1 ha
   exact mem_comSp.2 ⟨e y, by simp [map_sub]⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem e_fix {w : V} (hw : w ∈ fixSp e) : e w = w := mem_fixSp.1 hw
 
 @[expose] noncomputable def Nsub (h3 : e ^ 3 = 1) : Subgroup (V ≃ₗ[ZMod 2] V) :=
@@ -178,6 +180,7 @@ theorem mem_Nsub {h3 : e ^ 3 = 1} {h : V ≃ₗ[ZMod 2] V} :
     congr 1
 
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem cent_fix {g : V ≃ₗ[ZMod 2] V} (hg : g * e = e * g) {w : V} (hw : w ∈ fixSp e) :
     g w ∈ fixSp e := by
   rw [mem_fixSp]
@@ -185,6 +188,7 @@ theorem cent_fix {g : V ≃ₗ[ZMod 2] V} (hg : g * e = e * g) {w : V} (hw : w �
   simp only [LinearEquiv.mul_apply] at h1
   rw [h1, e_fix hw]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem cent_com {g : V ≃ₗ[ZMod 2] V} (hg : g * e = e * g) {a : V} (ha : a ∈ comSp e) :
     g a ∈ comSp e := by
   obtain ⟨y, rfl⟩ := mem_comSp.1 ha
@@ -206,6 +210,7 @@ theorem Nsub_le_cent (h3 : e ^ 3 = 1) :
   simp only [LinearEquiv.mul_apply, map_add]
   rw [e_fix u.2, hA _ (e_mem_comSp u'.2), hA _ u'.2, e_fix (hW _ u.2)]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_pow_of_cent (h3 : e ^ 3 = 1) (hfr : Module.finrank (ZMod 2) (comSp e) = 2)
     {g : V ≃ₗ[ZMod 2] V} (hg : g * e = e * g) : ∃ k : ℕ, ∀ a ∈ comSp e, g a = (e ^ k) a := by
   have hne : comSp e ≠ ⊥ := by
@@ -386,7 +391,7 @@ theorem vecAut_simple_nonab {k : ℕ} (hk : 3 ≤ k) :
     IsSimpleGroup (VecAut k) ∧ ∃ a b : VecAut k, a * b ≠ b * a := by
   let σ : ZMod 2 ≃+* ZMod 2 := RingEquiv.refl _
   let Φ := projEquiv (K := ZMod 2) k σ
-  haveI : IsSimpleGroup (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL k (ZMod 2)) :=
+  have : IsSimpleGroup (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL k (ZMod 2)) :=
     CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.isSimpleGroup_projectiveSL hk
   refine ⟨Φ.isSimpleGroup_congr.1 inferInstance, ?_⟩
   obtain ⟨a, b, hab⟩ := CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.exists_noncomm_projectiveSL
@@ -426,14 +431,14 @@ theorem Nsub_isQuasisimple {r : ℕ} (hV : Module.finrank (ZMod 2) V = 2 * r + 1
     (h3 : e ^ 3 = 1) (hfr : Module.finrank (ZMod 2) (comSp e) = 2) :
     CFSG.Open.IsQuasisimple (Nsub h3) := by
   obtain ⟨hs, hn⟩ := Nsub_simple_nonab hV hr h3 hfr
-  haveI := hs
+  have := hs
   exact isQuasisimple_of_simple_nonab hn
 
 theorem Nsub_center {r : ℕ} (hV : Module.finrank (ZMod 2) V = 2 * r + 1) (hr : 3 ≤ r)
     (h3 : e ^ 3 = 1) (hfr : Module.finrank (ZMod 2) (comSp e) = 2) :
     Subgroup.center (Nsub h3) = ⊥ := by
   obtain ⟨hs, hn⟩ := Nsub_simple_nonab hV hr h3 hfr
-  haveI := hs
+  have := hs
   exact center_eq_bot_of_simple_nonab hn
 
 
@@ -486,7 +491,7 @@ theorem exists_oneBlock {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 
     (hV : Module.finrank (ZMod 2) V = 2 * r + 1) (hr : 1 ≤ r) (hge : 3 ^ r ≤ Nat.card E) :
     ∃ e ∈ E, e ^ 3 = 1 ∧ Module.finrank (ZMod 2) (comSp e) = 2 := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hge' : 3 ^ (Module.finrank (ZMod 2) V / 2) ≤ Fintype.card E := by
     have h2 : (2 * r + 1) / 2 = r := by omega
     rw [hV, h2, ← Nat.card_eq_fintype_card]
@@ -518,7 +523,7 @@ theorem exists_oneBlock {E : Subgroup (V ≃ₗ[ZMod 2] V)} (hE : IsElemAbelian 
     · have h := expo_spec ((hplane j hjp).2 e heE) x hx
       have hne : (⟨j, hjp⟩ : {i // Module.finrank (ZMod 2) (X i) = 2}) ≠ p := fun h' =>
         hj (congrArg Subtype.val h')
-      rw [h, hexp ⟨j, hjp⟩, if_neg hne]
+      rw [h, hexp ⟨j, hjp⟩, ite_eq_right hne]
       simp
     · exact hline j hjp e heE x hx
   have hinv : ∀ x ∈ X p.1, ρf p.1 x ∈ X p.1 := fun x hx =>
@@ -568,10 +573,12 @@ theorem exists_torus_fixed {r : ℕ} (hV : Module.finrank (ZMod 2) V = 2 * r + 1
   · rintro g ⟨_, ⟨u, rfl⟩, rfl⟩
     simp [conjHom, blockHom, blockAct, LinearEquiv.prodCongr_apply]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem inv_apply_of_fix {g : V ≃ₗ[ZMod 2] V} {v : V} (hg : g v = v) : g⁻¹ v = v := by
   calc g⁻¹ v = g⁻¹ (g v) := by rw [hg]
     _ = v := by rw [← LinearEquiv.mul_apply, inv_mul_cancel]; rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem apply_inv_apply (g : V ≃ₗ[ZMod 2] V) (v : V) : g (g⁻¹ v) = v := by
   rw [← LinearEquiv.mul_apply, mul_inv_cancel]; rfl
 
@@ -590,9 +597,11 @@ theorem apply_inv_apply (g : V ≃ₗ[ZMod 2] V) (v : V) : g (g⁻¹ v) = v := b
     show (v + f v • v₀) + f (v + f v • v₀) • v₀ = v
     rw [map_add, map_smul, hf, smul_zero, add_zero, add_assoc, add_self_V, add_zero]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem tv_apply (v₀ : V) (f : V →ₗ[ZMod 2] ZMod 2) (hf : f v₀ = 0) (v : V) :
     tv v₀ f hf v = v + f v • v₀ := rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_twoGroup (hn : 2 ≤ Module.finrank (ZMod 2) V) {v₀ : V} (hv₀ : v₀ ≠ 0) :
     ∃ P : Subgroup (V ≃ₗ[ZMod 2] V), P ≠ ⊥ ∧ IsPGroup 2 P ∧
       ∀ g : V ≃ₗ[ZMod 2] V, g v₀ = v₀ → g ∈ Subgroup.normalizer (P : Set (V ≃ₗ[ZMod 2] V)) := by

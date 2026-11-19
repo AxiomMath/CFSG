@@ -26,11 +26,11 @@ theorem tw1i_exists_frameSetup {p₀ : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = (2
       ∀ a : Fin Tag.E6.rank → (AlgebraicClosure K)ˣ,
         rootDiagUnit Tag.E6 a ∈ S.D.torus ↔ ∀ i, a i ^ (2 ^ n + 1) = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   let D := ggTBJTwE6FrameDatum F
   let D' := CFSG.LocalAnalysis.GLTheoremA.Y10F.twE6EnnolaDatum (ℓ := 2)
@@ -142,11 +142,11 @@ theorem tw1i_class_setup
     change (ζ ^ (t₀ i).val) ^ p = 1
     rw [← pow_mul, mul_comm, pow_mul, hζ, one_pow]
   have hpL : (p : AlgebraicClosure K) ≠ 0 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 2)
       (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul])
-    haveI : CharP (AlgebraicClosure K) 2 :=
+    have : CharP (AlgebraicClosure K) 2 :=
       charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
     rw [Ne, CharP.cast_eq_zero_iff (AlgebraicClosure K) 2]
     intro h2
@@ -196,7 +196,7 @@ theorem tw1i_class_setup
       have : ψ' x ∈ J.map ψ' := Subgroup.mem_map_of_mem ψ' hx
       rw [hbot, Subgroup.mem_bot] at this
       exact this
-    haveI : Nontrivial J := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
+    have : Nontrivial J := CFSG.ComponentClassification.Quasisimple.nontrivial hJ.2.2
     have hJcomm : ⁅J, J⁆ = ⊥ := by
       rw [eq_bot_iff, Subgroup.commutator_le]
       intro x hx z hz

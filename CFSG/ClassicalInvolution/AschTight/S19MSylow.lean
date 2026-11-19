@@ -71,12 +71,12 @@ theorem exists_sylow_le_normalizer_of_dEdgeless [Finite G] {Ω : Set (Subgroup G
   obtain ⟨P₀⟩ : Nonempty (Sylow 2 N) := inferInstance
   set T : Subgroup G := (P₀ : Subgroup N).map N.subtype with hT
   have hTN : T ≤ N := Subgroup.map_subtype_le _
-  have hT2 : IsPGroup 2 T := P₀.isPGroup'.map N.subtype
+  have hT2 : IsPGroup 2 T := P₀.isPGroup.map N.subtype
   obtain ⟨S, hTS⟩ := hT2.exists_le_sylow
   refine ⟨S, ?_⟩
   by_contra hSN
   have hSNT : (S : Subgroup G) ⊓ N ≤ T := by
-    have hQ : IsPGroup 2 ((S : Subgroup G).subgroupOf N) := S.isPGroup'.comap_subtype
+    have hQ : IsPGroup 2 ((S : Subgroup G).subgroupOf N) := S.isPGroup.comap_subtype
     have hle : (P₀ : Subgroup N) ≤ (S : Subgroup G).subgroupOf N := fun x hx =>
       hTS ⟨x, hx, rfl⟩
     have heq := P₀.maximal_isPGroup.eq_of_ge hQ hle
@@ -94,7 +94,7 @@ theorem exists_sylow_le_normalizer_of_dEdgeless [Finite G] {Ω : Set (Subgroup G
       rw [htop]
       trivial
     exact hTN hx
-  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   obtain ⟨s, hsN, hsT⟩ := IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent _ hTlt)
   have hsT' : (s : G) ∈ Subgroup.normalizer (T : Set G) := by

@@ -82,7 +82,7 @@ theorem nodeIn : ∀ k < 28098, NodeIn GA TS k :=
 
 theorem matK_nodeG {k : Nat} (h : k < 28098) : matK (TS k) = ι (nodeG k) := by
   unfold nodeG
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact (nodeIn k h).choose_spec.2
 
 theorem nodeG_eq {k : Nat} (hk : k < 28098) (g : ↥GA)
@@ -133,14 +133,14 @@ theorem eqG {k : Nat} (hk : k < 4) {s t u w : Nat} (hq : [s, t, u, w] ∈ Q.getD
 
 theorem termG_nd (n : Nat) : termG (2 * n) = nodeG n := by
   unfold termG termM
-  rw [if_pos (Nat.mul_mod_right 2 n), Nat.mul_div_cancel_left n (by norm_num)]
+  rw [ite_eq_left (Nat.mul_mod_right 2 n), Nat.mul_div_cancel_left n (by norm_num)]
 
 theorem termG_pt {g : Nat} (hg : g < 4) (v : Nat) :
     termG (2 * (g + 4 * v) + 1) = epM nodeG 3 (KernelCo1Three.GL.getD g []) v 1 := by
   unfold termG termM
   have h1 : (2 * (g + 4 * v) + 1) / 2 % 4 = g := by omega
   have h2 : (2 * (g + 4 * v) + 1) / 8 = v := by omega
-  rw [if_neg (by omega), h1, h2]
+  rw [ite_eq_right (by omega), h1, h2]
 
 @[expose] noncomputable def eG (v : Nat) : ↥GA := epM nodeG 3 [2, 3, 4, 5, 6, 7] v 1
 

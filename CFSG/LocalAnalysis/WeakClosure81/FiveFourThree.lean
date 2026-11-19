@@ -66,7 +66,7 @@ theorem five_four_three {H M A X : Subgroup G} (h : Sec5Hyp H M A) (hM : maxOver
     (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).2 (hYH.trans hHnorm)
   have hTwoClosed : E1.IsTwoClosed (kerMOf M H) :=
     ⟨T ⊓ kerMOf M H, hPY, hPYnorm⟩
-  haveI : ((T ⊓ kerMOf M H).subgroupOf (kerMOf M H)).Normal := hPYnorm
+  have : ((T ⊓ kerMOf M H).subgroupOf (kerMOf M H)).Normal := hPYnorm
   have hsupp : ∀ K : Subgroup G, K ≤ H → T ≤ K → kerMOf M H ⊔ K = H → K = H := by
     intro K hKH hTK hYK
     refine h2 K hKH (hAT.trans hTK) ?_
@@ -86,7 +86,7 @@ theorem five_four_three {H M A X : Subgroup G} (h : Sec5Hyp H M A) (hM : maxOver
   have hle' : (T ⊓ kerMOf M H).subgroupOf (kerMOf M H)
       ≤ (pCore 2 ↥(kerMOf M H)).comap (MonoidHom.id ↥(kerMOf M H)) := by
     simpa using hle
-  haveI : Group.IsNilpotent
+  have : Group.IsNilpotent
       (↥(kerMOf M H) ⧸ (T ⊓ kerMOf M H).subgroupOf (kerMOf M H)) := hNilYP
   refine Group.nilpotent_of_surjective
     (QuotientGroup.map ((T ⊓ kerMOf M H).subgroupOf (kerMOf M H))

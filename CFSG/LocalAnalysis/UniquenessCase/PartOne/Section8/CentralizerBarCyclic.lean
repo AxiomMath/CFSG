@@ -31,7 +31,7 @@ theorem isCyclic_centralizerBar_of_pRank {P Q L : Subgroup G}
     (hker : centralizerBar P L ⊓ L ≤ CFSG.Open.pCoreOf 2 L)
     (hQnormP : (Q.subgroupOf P).Normal) :
     IsCyclic (centralizerBar P L) := by
-  haveI hQn : (Q.subgroupOf P).Normal := hQnormP
+  have hQn : (Q.subgroupOf P).Normal := hQnormP
   have hPQ : P ≤ Subgroup.normalizer (Q : Set G) :=
     Subgroup.le_normalizer_of_normal_subgroupOf hQP
   have hcommBot : ⁅Q, centralizerBar P L⁆ = ⊥ :=

@@ -24,7 +24,7 @@ theorem lt_dParam_of_two_pow_sub_one_le {k p : ℕ} (hk : 1 ≤ k) (hp : p.Prime
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ (k + 1) := Nat.pow_le_pow_right (by norm_num) h2
     omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h2 : (2 : ZMod p) ≠ 0 := by
     intro hzero
     have hdvd : p ∣ 2 := (ZMod.natCast_eq_zero_iff 2 p).1 hzero
@@ -86,9 +86,9 @@ theorem eq_of_dvd_two_pow_sub_one {k p e : ℕ} (hk : k = 1 ∨ k = 2) (hp : p.P
 theorem exists_generator_of_card_eq_prime {H : Type*} [Group H] {X : Subgroup H} {p : ℕ}
     (hp : p.Prime) (hX : Nat.card X = p) : ∃ x : H, orderOf x = p ∧ X = Subgroup.zpowers x := by
   have hp0 : Nat.card X ≠ 0 := by rw [hX]; exact hp.ne_zero
-  haveI : Finite X := Nat.finite_of_card_ne_zero hp0
+  have : Finite X := Nat.finite_of_card_ne_zero hp0
   have h2 : 1 < Nat.card X := by rw [hX]; exact hp.one_lt
-  haveI : Nontrivial X := Finite.one_lt_card_iff_nontrivial.mp h2
+  have : Nontrivial X := Finite.one_lt_card_iff_nontrivial.mp h2
   obtain ⟨y, hy⟩ := exists_ne (1 : X)
   have hx_ne : (y : H) ≠ 1 := fun h => hy (Subtype.ext h)
   have hdvd : orderOf (y : H) ∣ p := by
@@ -106,7 +106,7 @@ theorem exists_generator_of_card_eq_prime {H : Type*} [Group H] {X : Subgroup H}
   exact (Subgroup.eq_of_le_of_card_ge hle hcard).symm
 
 theorem mul_mul_inv_eq_inv_of_not_commute {H : Type*} [Group H] {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) {x b : H} (hx : orderOf x = p) (hb : orderOf b = 2)
+    (_hp2 : p ≠ 2) {x b : H} (hx : orderOf x = p) (hb : orderOf b = 2)
     (hbx : b * x * b⁻¹ ∈ Subgroup.zpowers x) (hnc : b * x ≠ x * b) :
     b * x * b⁻¹ = x⁻¹ := by
   have hb2 : b ^ 2 = 1 := by simpa [hb] using pow_orderOf_eq_one b
@@ -147,7 +147,7 @@ theorem mul_mul_inv_eq_inv_of_not_commute {H : Type*} [Group H] {p : ℕ} (hp : 
 
 theorem card_eq_two_mul_card_inf_centralizer {H : Type*} [Group H] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) {x : H} (hx : orderOf x = p) {B : Subgroup H} [Finite B]
-    (hBab : ∀ a ∈ B, ∀ c ∈ B, a * c = c * a) (hB2 : ∀ a ∈ B, a ^ 2 = 1)
+    (_hBab : ∀ a ∈ B, ∀ c ∈ B, a * c = c * a) (hB2 : ∀ a ∈ B, a ^ 2 = 1)
     (hBx : ∀ a ∈ B, a * x * a⁻¹ ∈ Subgroup.zpowers x) {b : H} (hbB : b ∈ B)
     (hbx : b * x ≠ x * b) :
     Nat.card B = 2 * Nat.card ↥(B ⊓ Subgroup.centralizer ({x} : Set H)) := by
@@ -165,7 +165,7 @@ theorem card_eq_two_mul_card_inf_centralizer {H : Type*} [Group H] {p : ℕ} (hp
     have ha1 : a ≠ 1 := by
       intro h; exact hane (by rw [h, one_mul, mul_one])
     have hord : orderOf a = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (hB2 a ha) ha1
     exact mul_mul_inv_eq_inv_of_not_commute hp hp2 hx hord (hBx a ha) hane
   have hrel : D.relIndex B = 2 := by
@@ -243,11 +243,11 @@ theorem pCoreOf_eq_bot_of_irreducible {W : Type} [CommGroup W] [Finite W] [Nontr
   have h1mem : (1 : W) ∈ MulAction.fixedPoints Q W := by
     rw [MulAction.mem_fixedPoints]
     intro q
-    simp [Subgroup.smul_def, MulAut.smul_def]
+    simp
   have hW2 : 2 ∣ Nat.card W := by
     obtain ⟨w, hw⟩ := exists_ne (1 : W)
     have hord : orderOf w = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (hW w) hw
     exact hord ▸ orderOf_dvd_natCard w
   have hcong : Nat.card W ≡ Nat.card (MulAction.fixedPoints Q W) [MOD 2] :=

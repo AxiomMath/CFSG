@@ -23,7 +23,7 @@ theorem card_modEq_card_inf_centralizer {p : ℕ} [Fact p.Prime] {B : Subgroup G
     (hgB : ∀ b ∈ B, g * b * g⁻¹ ∈ B) (hgp : g ^ p = 1) :
     Nat.card B ≡ Nat.card ↥(B ⊓ Subgroup.centralizer ({g} : Set G)) [MOD p] := by
   classical
-  haveI : Fintype B := Fintype.ofFinite B
+  have : Fintype B := Fintype.ofFinite B
   have hp1 : 1 ≤ p := (Fact.out : Nat.Prime p).one_lt.le
   have hginv : g ^ (p - 1) = g⁻¹ := by
     rw [eq_inv_iff_mul_eq_one, ← pow_succ, Nat.sub_add_cancel hp1, hgp]
@@ -97,7 +97,7 @@ theorem forall_commute_of_pow_five {A D : Subgroup G} {g : G} (hcardA : Nat.card
     (hDA : D ≤ A) (hcardD : Nat.card D = 8) (hgA : ∀ a ∈ A, g * a * g⁻¹ ∈ A)
     (hgD : ∀ d ∈ D, g * d * g⁻¹ ∈ D) (hg5 : g ^ 5 = 1) :
     ∀ a ∈ A, g * a = a * g := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hdvdD : Nat.card ↥(D ⊓ Subgroup.centralizer ({g} : Set G)) ∣ Nat.card D :=
     Subgroup.card_dvd_of_le inf_le_left
   rw [hcardD] at hdvdD

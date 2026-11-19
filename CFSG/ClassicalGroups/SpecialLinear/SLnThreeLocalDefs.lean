@@ -152,7 +152,7 @@ theorem embMat_one (hn : n = 6 ∨ n = 7) : embMat hn (1 : Matrix Blk Blk K) = 1
 
 theorem det_embMat (hn : n = 6 ∨ n = 7) (X : Matrix Blk Blk K) :
     (embMat hn X).det = X.det := by
-  simp [embMat, Matrix.det_reindex_self, Matrix.det_fromBlocks_zero₂₁]
+  simp [embMat]
 
 theorem embMat_injective (hn : n = 6 ∨ n = 7) : Function.Injective (embMat (K := K) hn) := by
   intro X Y h
@@ -246,7 +246,7 @@ theorem blkGL_blockPowGL_zero (hn : n = 6 ∨ n = 7) :
   toFun v := ⟨blkGL hn fun i => blockPowGL K (Multiplicative.toAdd v i),
     blkGL_blockPowGL_mem hn _⟩
   map_one' := Subtype.ext (blkGL_blockPowGL_zero hn)
-  map_mul' v w := Subtype.ext (blkGL_blockPowGL_add hn _ _)
+  map_mul' _v _w := Subtype.ext (blkGL_blockPowGL_add hn _ _)
 
 theorem coe_c₀ (hn : n = 6 ∨ n = 7) (v : Multiplicative (Fin 3 → ZMod 3)) :
     ((c₀ K hn v : StatedSL n K) : GL (Fin n) K) =
@@ -347,7 +347,7 @@ theorem fix_iff (hn : n = 6 ∨ n = 7) (v : Multiplicative (Fin 3 → ZMod 3)) :
       simp [blkVec, w]
     have hw1 : w ∈ {w : Fin n → K |
         ((c₀ K hn v : StatedSL n K) : GL (Fin n) K).val.mulVec w = w} := by
-      rw [Set.mem_setOf_eq, c₀_mulVec_eq_self_iff, hwx]
+      rw [Set.mem_ofPred_eq, c₀_mulVec_eq_self_iff, hwx]
       intro j
       by_cases hj : j = i
       · subst hj
@@ -355,7 +355,7 @@ theorem fix_iff (hn : n = 6 ∨ n = 7) (v : Multiplicative (Fin 3 → ZMod 3)) :
         simp
       · have : (fun q => x (q, j)) = 0 := by
           funext q
-          simp [hx, Pi.single_apply, hj]
+          simp [hx, hj]
         rw [this]
         simp
     rw [h] at hw1
@@ -371,7 +371,7 @@ theorem fix_iff (hn : n = 6 ∨ n = 7) (v : Multiplicative (Fin 3 → ZMod 3)) :
     exact blockS_mulVec_ne_self h3
   · intro h
     ext w
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · intro hw v'
       rw [c₀_mulVec_eq_self_iff] at hw ⊢

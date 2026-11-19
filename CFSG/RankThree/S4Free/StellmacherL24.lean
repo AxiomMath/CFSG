@@ -290,7 +290,7 @@ theorem IsL24.eq_of_le (h : IsL24 S M A L) (hKL : K ≤ L) (hAK : A ≤ K) (hKM 
 
 theorem IsL24.eq_of_inf_lt (h : IsL24 S M A L) (hAM : A ≤ M) (hKL : K ≤ L) (hlt : M ⊓ L < K) :
     K = L := by
-  obtain ⟨x, hxK, hxML⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x, hxK, hxML⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hxM : x ∉ M := fun hxM => hxML ⟨hxM, hKL hxK⟩
   exact h.eq_of_le hKL ((le_inf hAM h.le).trans hlt.le) fun hKM => hxM (hKM hxK)
 
@@ -423,6 +423,7 @@ theorem exists_minimal_subgroup (P : Subgroup H → Prop) (hP : ∃ K, P K) :
   obtain ⟨K, hK⟩ := exists_minimal_of_wellFoundedLT P hP
   exact ⟨K, hK.1, fun K' hK' hle => le_antisymm hle (hK.2 hK' hle)⟩
 
+omit [Finite H] in
 theorem relIndex_map_of_ker_le {H' : Type*} [Group H'] (f : H →* H') {S : Subgroup H}
     (hker : f.ker ≤ S) (L : Subgroup H) : (S.map f).relIndex (L.map f) = S.relIndex L := by
   rw [← relIndex_comap, comap_map_eq, sup_of_le_left hker]
@@ -513,7 +514,7 @@ theorem exists_isL24_of_sup_normalCore [Group.IsSolvable H] (ih : IH24.{u} (Nat.
         rw [htop]
         exact mem_top _
       exact this
-    · obtain ⟨k, hkK, hkM⟩ := SetLike.exists_of_lt hK
+    · obtain ⟨k, hkK, hkM⟩ := _root_.IsConcreteLE.exists_of_lt hK
       have hKD : K.map U.subtype ⊔ D = ⊤ := by
         apply h.isCoatom.2
         refine lt_of_le_of_ne (fun m hm => ?_) fun heq => hkM ?_
@@ -699,7 +700,7 @@ theorem exists_isL24_of_comap_ne_top [Group.IsSolvable H] (ih : IH24.{u} (Nat.ca
         rw [htop]
         exact mem_top _
       exact this
-    · obtain ⟨k, hkK, hkM⟩ := SetLike.exists_of_lt hK
+    · obtain ⟨k, hkK, hkM⟩ := _root_.IsConcreteLE.exists_of_lt hK
       have hkM' : (k : H) ∉ M := by rwa [mem_subgroupOf] at hkM
       set K₁ := K.map L₁.subtype with hK₁
       have hMK : M ⊓ L₁ ≤ K₁ := by
@@ -803,7 +804,7 @@ theorem isL24_top_of_comap_eq_top (h : Hyp24 S M A) (hO : oTwo H = ⊥)
   refine ⟨le_top, fun htop => h.isCoatom.1 (eq_top_iff.mpr htop), ?_, fun x _ hx => hsup x hx, ?_⟩
   · rw [relIndex_top_right]
     exact h.not_dvd_index
-  obtain ⟨x, -, hxM⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr h.isCoatom.1)
+  obtain ⟨x, -, hxM⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr h.isCoatom.1)
   obtain ⟨⟨a, haA⟩, ha1⟩ := ne_bot_iff_exists_ne_one.mp hAbot
   have ha1' : a ≠ 1 := fun h' => ha1 (Subtype.ext h')
   have ha : a * a = 1 := by rw [← pow_two]; exact h.elemAb.2 a haA
@@ -834,7 +835,7 @@ theorem isL24_top_of_comap_eq_top (h : Hyp24 S M A) (hO : oTwo H = ⊥)
     have hg2 : g ^ 2 = 1 := by
       have : m ∣ 2 := by
         rcases (show m = 1 ∨ m = 2 by have := orderOf_pos g; omega) with h' | h' <;>
-          rw [h'] <;> norm_num
+          rw [h']; norm_num
       exact orderOf_dvd_iff_pow_eq_one.mp this
     have hab : a * b = b * a := by
       have := inv_eq_of_mul_eq_one_right (show g * g = 1 by rw [← pow_two]; exact hg2)
@@ -1229,7 +1230,7 @@ theorem exists_isL24_of_isSolvable {H : Type u} [Group H] [Finite H] [Group.IsSo
 
 theorem exists_isL24_of_isSolvable_subgroup {G : Type u} [Group G] [Finite G] {H : Subgroup G}
     [Group.IsSolvable H] {S M A : Subgroup G} (hS : IsPGroup 2 S) (hSH : S ≤ H)
-    (hSi : ¬ 2 ∣ S.relIndex H) (hMH : M ≤ H) (hM : IsCoatom (M.subgroupOf H)) (hSM : S ≤ M)
+    (hSi : ¬ 2 ∣ S.relIndex H) (_hMH : M ≤ H) (hM : IsCoatom (M.subgroupOf H)) (hSM : S ≤ M)
     (hAS : A ≤ S) (hA : CFSG.Open.IsElemAbelian 2 A)
     (hAD : ∃ h ∈ H, ∃ a ∈ A, h * a * h⁻¹ ∉ M) : ∃ L ≤ H, IsL24 S M A L := by
   have hAH : A ≤ H := hAS.trans hSH

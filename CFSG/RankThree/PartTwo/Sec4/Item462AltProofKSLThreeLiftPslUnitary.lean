@@ -17,7 +17,7 @@ theorem exists_lift_aut_psl_unitary {p f : ℕ} {K : Type} [Field K] (hK : PiFie
     ∃ ζ' : MulAut (slPi false 3 (p ^ f) K), ζ' ^ 3 = 1 ∧
       ∀ s, projOf (slPi false 3 (p ^ f) K) (ζ' s) = ζ (projOf (slPi false 3 (p ^ f) K) s) := by
   have h := hK.unitary
-  haveI := hK.finite
+  have := hK.finite
   set ψ := psuEquivUnitary h with hψ
   set α := MulAut.congr ψ ζ with hα
   have hα3 : α ^ 3 = 1 := by rw [hα, ← map_pow, hζ, map_one]

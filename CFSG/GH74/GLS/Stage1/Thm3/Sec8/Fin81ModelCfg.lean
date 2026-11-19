@@ -120,7 +120,7 @@ theorem isSylowOf_of_le [Finite Gs] (S : Sylow 2 Gs) {K : Subgroup Gs}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htop : CFSG.ABGLocalTools.IsSylowOf 2 (S : Subgroup Gs) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S.not_dvd_index
   exact htop.of_le hSK le_top
@@ -250,7 +250,7 @@ theorem fusedCfg_of_fusedPkg {Gs : Type} [Group Gs] [Finite Gs] {q : ℕ} {ε : 
         (ModelCfg.mem_zpowers_of_central_left hc hx hx')
       cen₂ := fun x hx hx' => Subgroup.zpowers_le.mpr (ModelCfg.z_mem_left hc)
         (ModelCfg.mem_zpowers_of_central_right hc hx hx')
-      pgroup := S'.isPGroup'
+      pgroup := S'.isPGroup
       norm := by
         rw [← hpkg.layer]
         exact hSC.trans (ModelCfg.centralizer_le_normalizer_Ez z')

@@ -12,7 +12,7 @@ open CFSG.Sporadic.Th.Native CFSG.Perm.Native CFSG.KS.TW CFSG.Sporadic.Mathieu.N
 @[expose] def gensT (n : Nat) (tA tB : Table) (z : Int) : Nat → Nat :=
   if z = 1 then ap tA else if z = -1 then finv n (ap tA) else if z = 2 then ap tB else finv n (ap tB)
 
-theorem compT_TR {n : Nat} (hn : n < 2 ^ 32) {P Q : Table} {f g : Nat → Nat} (hP : TR n P f)
+theorem compT_TR {n : Nat} (_hn : n < 2 ^ 32) {P Q : Table} {f g : Nat → Nat} (hP : TR n P f)
     (hQ : TR n Q g) : TR n (compT n P Q) fun x => f (g x) := by
   refine ⟨by simp [compT], fun i hi => ?_⟩
   obtain ⟨hq1, hq2⟩ := hQ.2 i hi
@@ -82,14 +82,14 @@ private theorem letTR {n : Nat} {gens : Int → Table} {G : Int → Nat → Nat}
     TR n (CFSG.Sporadic.Fi23.Native.slpLetterT gens L z) (letFn G M z) := by
   unfold CFSG.Sporadic.Fi23.Native.slpLetterT letFn
   by_cases h : z.natAbs ≤ 2
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     exact hG z
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
     have h3 : z.natAbs < j + 3 := hz.resolve_left h
     by_cases hp : 0 < z
-    · rw [if_pos hp, if_pos hp]
+    · rw [ite_eq_left hp, ite_eq_left hp]
       exact hL _ (by omega)
-    · rw [if_neg hp, if_neg hp]
+    · rw [ite_eq_right hp, ite_eq_right hp]
       exact hL _ (by omega)
 
 private def stepL (n : Nat) (gens : Int → Table) (L : Array Table) (w : List Int) : Array Table :=
@@ -186,30 +186,30 @@ private theorem gens_TR {n : Nat} {D : Data} (hn : n < 2 ^ 32) (hA : TR n D.tA (
     TR n (genAB n D z) (gensT n D.tA D.tB z) := by
   unfold genAB gensT
   by_cases h1 : z = 1
-  · simp only [h1, if_true]
+  · simp only [h1, ite_true]
     exact hA
   by_cases h2 : z = -1
-  · simp only [h1, h2, if_true, if_false]
+  · simp only [h2, ite_true]
     exact invT_TR' hn hA hA'
   by_cases h3 : z = 2
-  · simp only [h1, h2, h3, if_true, if_false]
+  · simp only [h3, ite_true]
     exact hB
-  · simp only [h1, h2, h3, if_true, if_false]
+  · simp only [h1, h2, h3, ite_false]
     exact invT_TR' hn hB hB'
 
 private theorem gens_perm {n : Nat} {D : Data} (hA' : IsPermN n (ap D.tA))
     (hB' : IsPermN n (ap D.tB)) (z : Int) : IsPermN n (gensT n D.tA D.tB z) := by
   unfold gensT
   by_cases h1 : z = 1
-  · simp only [h1, if_true]
+  · simp only [h1, ite_true]
     exact hA'
   by_cases h2 : z = -1
-  · simp only [h1, h2, if_true, if_false]
+  · simp only [h2, ite_true]
     exact hA'.finv
   by_cases h3 : z = 2
-  · simp only [h1, h2, h3, if_true, if_false]
+  · simp only [h3, ite_true]
     exact hB'
-  · simp only [h1, h2, h3, if_true, if_false]
+  · simp only [h1, h2, h3, ite_false]
     exact hB'.finv
 
 theorem letters_TR {n : Nat} {D : Data} (hn : n < 2 ^ 32) (hA : TR n D.tA (ap D.tA))
@@ -322,7 +322,7 @@ theorem lettersOK_letters {n : Nat} {D : Data} (hn : n < 2 ^ 32) (hD : D.words.s
     have hj : j < D.words.size := by omega
     have hinv : invL (2 * j + 1) = 2 * j := by
       unfold invL
-      rw [if_neg hev]
+      rw [ite_eq_right hev]
       omega
     rw [hinv, hT (2 * j) (by omega) x hx]
     have hfp := hP (2 * j) (by omega)

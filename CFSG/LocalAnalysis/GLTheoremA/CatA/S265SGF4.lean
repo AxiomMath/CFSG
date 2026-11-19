@@ -81,11 +81,11 @@ theorem SG.exists_f4_conj_of_innLabelOf {Ω : Type} [Group Ω] [Finite Ω] {S B 
       obtain ⟨z, rfl⟩ := Φ.surjective y
       obtain ⟨l, rfl⟩ := chevQuotHom_surjective 3 S z
       exact ⟨l, rfl⟩
-    have hl := hφ l (S.normalizerMonoidHom ⟨d, hdN⟩ l) (by rw [inv_inv] <;> rfl)
+    have hl := hφ l (S.normalizerMonoidHom ⟨d, hdN⟩ l) (by rw [inv_inv]; rfl)
     simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
     rw [chevAut_chevQuotHom, hΦ, hΦ, ← hl, MulAut.conj_apply, MulAut.conj_apply, map_mul,
       map_mul, map_inv]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd3 : (⟨d, hdN⟩ : ↥(Subgroup.normalizer (S : Set Ω))) ^ 3 = 1 :=
     Subtype.ext (by rw [Subgroup.coe_pow]; exact hc.elem.2 d (hDB hdD))
   have hα1 : chevAut 3 S ⟨d, hdN⟩ ≠ 1 := fun h1 =>
@@ -154,7 +154,7 @@ theorem qsF3ResF4_holds : QSF3ResF4 := by
     exact congrArg (fun s : ↥S => (s : Ω))
       (Subgroup.mem_center_iff.1 hk' (Subgroup.inclusion hKS k'))
   obtain ⟨hsimp, t, m, ht, hLie⟩ := SG.lieModel_of_tyF hcat
-  haveI : Nontrivial (PSimple 3 K) := hsimp.toNontrivial
+  have : Nontrivial (PSimple 3 K) := hsimp.toNontrivial
   obtain ⟨eK⟩ := SF.nonempty_centerQuot_equiv_pSimple (p := 3) hKc.2.2
   obtain ⟨eR⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_centralQuotient_mulEquiv
     hKc.2.2.1 f.rangeRestrict f.rangeRestrict_surjective

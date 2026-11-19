@@ -14,42 +14,38 @@ namespace OmTorus
 variable {F W : Type} [Field F] [CharP F 2] [AddCommGroup W] [Module F W]
   {Q : QuadraticForm F W}
 
+omit [CharP F 2] in
 theorem polar_plusPlaneA_gens (P P' : HypPair Q) (h : P.Orth P') (c : F) :
     polar Q (P.e + P.f) (P.e + c • P'.e + P'.f) = 1 := by
-  simp only [QuadraticMap.map_add Q, QuadraticMap.map_smul Q, polar_add_left, polar_add_right,
-    polar_smul_left_eq, polar_smul_right_eq, P.polar_ee, P.polar_ff, P'.polar_ee, P'.polar_ff,
-    P.polar_ef, P'.polar_ef, P.polar_fe, P'.polar_fe, P.Q_e, P.Q_f, P'.Q_e, P'.Q_f, h.ee, h.ef,
+  simp only [polar_add_left, polar_add_right,
+    polar_smul_right_eq, P.polar_ee, P.polar_fe, h.ee, h.ef,
     h.fe, h.ff]
   ring
 
+omit [CharP F 2] in
 theorem Q_plusPlaneA_snd (P P' : HypPair Q) (h : P.Orth P') (c : F) :
     Q (P.e + c • P'.e + P'.f) = c := by
-  simp only [QuadraticMap.map_add Q, QuadraticMap.map_smul Q, polar_add_left, polar_add_right,
-    polar_smul_left_eq, polar_smul_right_eq, P.polar_ee, P.polar_ff, P'.polar_ee, P'.polar_ff,
-    P.polar_ef, P'.polar_ef, P.polar_fe, P'.polar_fe, P.Q_e, P.Q_f, P'.Q_e, P'.Q_f, h.ee, h.ef,
-    h.fe, h.ff]
+  simp only [QuadraticMap.map_add Q, QuadraticMap.map_smul Q, polar_add_left, polar_smul_left_eq, polar_smul_right_eq, P'.polar_ef, P.Q_e, P'.Q_e, P'.Q_f, h.ee, h.ef]
   ring
 
+omit [CharP F 2] in
 theorem Q_plusPlaneB_fst (P P' : HypPair Q) (h : P.Orth P') :
     Q (P.e + P.f + P'.e) = 1 := by
-  simp only [QuadraticMap.map_add Q, QuadraticMap.map_smul Q, polar_add_left, polar_add_right,
-    polar_smul_left_eq, polar_smul_right_eq, P.polar_ee, P.polar_ff, P'.polar_ee, P'.polar_ff,
-    P.polar_ef, P'.polar_ef, P.polar_fe, P'.polar_fe, P.Q_e, P.Q_f, P'.Q_e, P'.Q_f, h.ee, h.ef,
-    h.fe, h.ff]
+  simp only [QuadraticMap.map_add Q, polar_add_left, P.polar_ef, P.Q_e, P.Q_f, P'.Q_e, h.ee, h.fe]
   ring
 
-theorem Q_plusPlaneB_snd (P P' : HypPair Q) (h : P.Orth P') (c : F) :
+omit [CharP F 2] in
+theorem Q_plusPlaneB_snd (P P' : HypPair Q) (_h : P.Orth P') (c : F) :
     Q (c • P'.e + P'.f) = c := by
-  simp only [QuadraticMap.map_add Q, QuadraticMap.map_smul Q, polar_add_left, polar_add_right,
-    polar_smul_left_eq, polar_smul_right_eq, P'.polar_ee, P'.polar_ff, P'.polar_ef,
-    P'.Q_e, P'.Q_f, h.ee, h.ef, h.fe, h.ff]
+  simp only [QuadraticMap.map_add Q, QuadraticMap.map_smul Q, polar_smul_left_eq, P'.polar_ef,
+    P'.Q_e, P'.Q_f]
   ring
 
+omit [CharP F 2] in
 theorem polar_plusPlaneB_gens (P P' : HypPair Q) (h : P.Orth P') (c : F) :
     polar Q (P.e + P.f + P'.e) (c • P'.e + P'.f) = 1 := by
-  simp only [QuadraticMap.map_add Q, QuadraticMap.map_smul Q, polar_add_left, polar_add_right,
-    polar_smul_left_eq, polar_smul_right_eq, P.polar_ee, P.polar_ff, P'.polar_ee, P'.polar_ff,
-    P.polar_ef, P'.polar_ef, P.polar_fe, P'.polar_fe, P.Q_e, P.Q_f, P'.Q_e, P'.Q_f, h.ee, h.ef,
+  simp only [polar_add_left, polar_add_right,
+    polar_smul_right_eq, P'.polar_ee, P'.polar_ef, h.ee, h.ef,
     h.fe, h.ff]
   ring
 
@@ -104,10 +100,9 @@ theorem plusPlane_orthogonal (P P' : HypPair Q) (h : P.Orth P') (c : F)
   have h2 : polar Q P'.e P.f = 0 := by rw [polar_comm]; exact h.fe
   have h3 : polar Q P'.f P.e = 0 := by rw [polar_comm]; exact h.ef
   have h4 : polar Q P'.f P.f = 0 := by rw [polar_comm]; exact h.ff
-  simp only [QuadraticMap.map_add Q, QuadraticMap.map_smul Q, polar_add_left, polar_add_right,
+  simp only [polar_add_left, polar_add_right,
     polar_smul_left_eq, polar_smul_right_eq, P.polar_ee, P.polar_ff, P'.polar_ee, P'.polar_ff,
-    P.polar_ef, P'.polar_ef, P.polar_fe, P'.polar_fe, P.Q_e, P.Q_f, P'.Q_e, P'.Q_f,
-    h.ee, h.ef, h.fe, h.ff, h1, h2, h3, h4]
+    P.polar_ef, P'.polar_ef, P.polar_fe, P'.polar_fe, h.ee, h.ef, h.fe, h.ff, h1, h2, h3, h4]
   linear_combination (α * γ + γ * β + δ * c * β) * (CharTwo.two_eq_zero (R := F))
 
 end OmTorus

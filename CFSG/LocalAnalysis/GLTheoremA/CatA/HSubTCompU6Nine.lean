@@ -24,13 +24,13 @@ open CFSG.LocalAnalysis.GLTheoremA.LevelLieU6
 
 theorem catalogIs_L2eight_of_sl2 (F : Type) [Field F] [Finite F] (hF8 : Nat.card F = 8) :
     catalogIs (StatedProj (StatedSL 2 F)) S10.isL2eight := by
-  haveI : Fact ppEight.p.Prime := ⟨ppEight.prime_p⟩
+  have : Fact ppEight.p.Prime := ⟨ppEight.prime_p⟩
   have hv : (TauCeti.LieTypeIndex.A 1 ppEight).Valid := by
     simp [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
       TauCeti.LieTypeIndex.isDuplicateRepresentative_iff, ppEight, TauCeti.PrimePower.card_def]
   have e : StatedProj (StatedSL 2 F) ≃* (TauCeti.CFSGIndex.lie ⟨.A 1 ppEight, hv⟩).Group :=
     (CFSG.ClassicalModels.statedLinearModelEquivGaloisPSL F 2 2 3 (by norm_num)
-      (by rw [hF8] <;> norm_num)).trans
+      (by rw [hF8]; norm_num)).trans
       (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 ppEight hv).symm
   refine ⟨TauCeti.CFSGIndex.lie ⟨.A 1 ppEight, hv⟩, ?_, ⟨e⟩⟩
   show ppEight.card = 8
@@ -44,7 +44,7 @@ theorem typed_nine_gram (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4ˣ} (hc 
   obtain ⟨H, a, huniq, hself, hmult, hdeg⟩ := data_of_nine A hc hA
   have hq : 2 ≤ 2 ^ 1 := by norm_num
   have hgood : IsGoodBlock hF4 (xOf (A : GL (Fin 6) F4)) a :=
-    ⟨by omega, fun _ => by simp [hmult, hdeg]⟩
+    ⟨by omega, fun _ => by simp [hdeg]⟩
   let α := primeFormConjSU hF4 (idGram F4 6) A
   let K₀ : Subgroup ↥(gramSU hF4 (idGram F4 6)) :=
     (specialBlock (idForm hF4 6) (xOf (A : GL (Fin 6) F4)) a).comap (toLinSU hF4 6)
@@ -63,7 +63,7 @@ theorem typed_nine_gram (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4ˣ} (hc 
       ((specialBlockFacts_of_good H hq a hgood).quasisimple hgood.1)
   have hperf := glaPComponent_perfect hJ
   have hJC : J ≤ fixSubgroup α := hJ.1
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hperf
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.2 hperf
   have hJK₀ : J ≤ K₀ := by
     intro g hg
     rw [Subgroup.mem_comap, mem_specialBlock]
@@ -92,24 +92,24 @@ theorem typed_nine_gram (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4ˣ} (hc 
           (h (show (⟨x.1, hJK₀ x.2⟩ : ↥K₀) ∈ J.subgroupOf K₀ from x.2)) ⟨y.1, hJK₀ y.2⟩
         have h2 := congrArg (fun z : ↥K₀ => (z : ↥(gramSU hF4 (idGram F4 6)))) this.symm
         exact Subtype.ext h2
-      haveI : IsMulCommutative ↥J := ⟨⟨hcomm⟩⟩
-      haveI : Subsingleton ↥J := Group.IsPerfect.subsingleton_of_isMulCommutative
+      have : IsMulCommutative ↥J := ⟨⟨hcomm⟩⟩
+      have : Subsingleton ↥J := Group.IsPerfect.subsingleton_of_isMulCommutative
       exact glaPComponent_ne_bot' hJ (Subgroup.eq_bot_iff_forall _ |>.2 fun x hx =>
         congrArg Subtype.val (Subsingleton.elim (⟨x, hx⟩ : ↥J) 1))
   obtain ⟨hE, Hf, hHf, hHfl, ⟨e2⟩⟩ :=
     nonempty_specialBlock_mulEquiv_sesqSU hself (selfDualPrimaryBlock H a hself)
   obtain ⟨e3⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl
     (by exact hmult)
-  haveI : Finite hE.fixedField := inferInstance
-  letI : Fintype hE.fixedField := Fintype.ofFinite _
+  have : Finite hE.fixedField := inferInstance
+  let : Fintype hE.fixedField := Fintype.ofFinite _
   have hcardF : Fintype.card hE.fixedField = 2 ^ (1 * (a : F4[X]).natDegree) := by
     rw [← Nat.card_eq_fintype_card]
     exact hE.card_fixedField
   have hF8 : Nat.card hE.fixedField = 8 := by
     rw [Nat.card_eq_fintype_card, hcardF, hdeg]
     norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP hE.fixedField 2 := charP_of_card_eq_prime_pow hcardF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP hE.fixedField 2 := charP_of_card_eq_prime_pow hcardF
   let eS := CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 hE.fixedField
   let eP : StatedProj (StatedSL 2 hE.fixedField) ≃* StatedSL 2 hE.fixedField :=
     (QuotientGroup.quotientMulEquivOfEq
@@ -117,10 +117,10 @@ theorem typed_nine_gram (A : primeFormUnitary hF4 (idGram F4 6)) {c : F4ˣ} (hc 
       QuotientGroup.quotientBot
   let eKP : ↥K₀ ≃* StatedProj (StatedSL 2 hE.fixedField) :=
     ((eK.trans e2).trans e3).trans (eS.trans eP.symm)
-  haveI hsimpP : IsSimpleGroup (StatedProj (StatedSL 2 hE.fixedField)) :=
+  have hsimpP : IsSimpleGroup (StatedProj (StatedSL 2 hE.fixedField)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL (d := 2) _ le_rfl
       (Or.inr (by omega)) (Or.inr (by omega))
-  haveI : IsSimpleGroup ↥K₀ := eKP.isSimpleGroup
+  have : IsSimpleGroup ↥K₀ := eKP.isSimpleGroup
   have hJ' : GLAPComponent 3 (fixSubgroup α) K₀ := hJeq ▸ hJ
   obtain ⟨ePS⟩ := nonempty_pSimple_equiv_of_simple hJ'
   rw [hJeq]

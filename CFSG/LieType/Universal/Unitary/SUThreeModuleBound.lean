@@ -64,7 +64,7 @@ private lemma exists_order_prime_not_mem_center {F : Type} [Field F] [Finite F] 
       orderOf g = r ∧ g ∉ Subgroup.center (SU (unitaryInvolution F 2 f) 3) := by
   obtain ⟨r, hr, hrdvd⟩ := exists_primitivePrimeDivisor_dvd_card_SU_three hF hf
   have hr3 : 3 < r := hr.three_lt_of_two_lt (by omega)
-  haveI : Fact r.Prime := ⟨hr.prime⟩
+  have : Fact r.Prime := ⟨hr.prime⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' r hrdvd
   refine ⟨r, g, hr, hg, ?_⟩
   intro hgcen

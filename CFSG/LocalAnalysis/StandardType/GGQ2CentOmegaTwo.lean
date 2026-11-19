@@ -60,10 +60,10 @@ theorem omegaTwoTransportInput_holds :
   intro Q hQ
   rcases ht with ⟨rfl, hl⟩ | ⟨rfl, hl⟩
   · dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg (by omega)] at hQ ⊢
+    rw [ite_eq_right (by omega)] at hQ ⊢
     exact recipeOmegaPlus_q2Cent hl hQ
   · dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg (by omega), if_neg (by omega)] at hQ ⊢
+    rw [ite_eq_right (by omega), ite_eq_right (by omega)] at hQ ⊢
     exact recipeOmegaMinus_q2Cent (by omega) hQ
 
 end CFSG.StandardType.GGQ2CentPort

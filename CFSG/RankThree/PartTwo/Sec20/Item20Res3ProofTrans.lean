@@ -43,7 +43,7 @@ theorem exists_isPGroup_of_le_autIn {p : ℕ} [Fact p.Prime] {H B : Subgroup G}
   have htop : (S₀ : Subgroup P).map f = ⊤ := by
     rw [← Sylow.coe_mapSurjective hf]
     exact ((S₀.mapSurjective hf).maximal_isPGroup.eq_of_le (hQp.to_subgroup ⊤) le_top)
-  refine ⟨(S₀ : Subgroup P).map (NB.subtype.comp P.subtype), ?_, S₀.isPGroup'.map _, ?_⟩
+  refine ⟨(S₀ : Subgroup P).map (NB.subtype.comp P.subtype), ?_, S₀.isPGroup.map _, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact (x : NB).2
   · intro σ hσ

@@ -43,8 +43,8 @@ theorem s8_glue_data {Γ : Type} [Group Γ] [Finite Γ] {G0 V1 V2 : Subgroup Γ}
     (hV1 : V1 ≤ G0) (hV2 : V2 ≤ G0) (hG0 : G0.index = 2) {t : Γ} (ht : t ∉ G0)
     (hv : V1.map (MulAut.conj t).toMonoidHom = V2) :
     ∃ K : Subgroup Γ, K ⊓ (V1 ⊔ V2) = ⊥ ∧ K ⊔ (V1 ⊔ V2) = ⊤ := by
-  haveI : G0.Normal := Subgroup.normal_of_index_eq_two hG0
-  haveI : Finite ↥G0 := Subtype.finite
+  have : G0.Normal := Subgroup.normal_of_index_eq_two hG0
+  have : Finite ↥G0 := Subtype.finite
   let V1' : Subgroup ↥G0 := V1.subgroupOf G0
   let V2' : Subgroup ↥G0 := V2.subgroupOf G0
   let c : MulAut ↥G0 := MulAut.conjNormal t

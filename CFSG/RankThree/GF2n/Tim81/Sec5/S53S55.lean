@@ -47,9 +47,9 @@ theorem conj_Pc_conj_eq_iff (h : RootHyp M V) (hS : Sec45Shape M V H h₀) {p : 
       exact (Subgroup.map_mono (f := (MulAut.conj y).toMonoidHom)
         h.toHyp.le_normalizer_Pc) hpMy
     obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-    letI := hField
-    letI := hFintype
-    letI := hCharP
+    let := hField
+    let := hFintype
+    let := hCharP
     have hpimg : piK V H ⟨p, hS.Pc_le hp⟩ ∈ imgK V H (Pc M V) :=
       Subgroup.mem_map.mpr
         ⟨⟨p, hS.Pc_le hp⟩, Subgroup.mem_subgroupOf.mpr hp, rfl⟩
@@ -117,8 +117,9 @@ private theorem notMem_borel_of_conjSubgroup_ne
         hy H.one_mem himg
   exact hPy_ne hPyeq
 
+omit [Finite G] in
 private theorem exists_Pc_imgK_eq_of_bruhat
-    (h : RootHyp M V) (hS : Sec45Shape M V H h₀) {y y₀ : G}
+    (_h : RootHyp M V) (hS : Sec45Shape M V H h₀) {y y₀ : G}
     (hy : y ∈ H) (hy₀ : y₀ ∈ H)
     {F : Type} [Field F] [Fintype F] [CharP F 2] (ψ : HBar V H ≃* SL(2, F))
     {T T' : Subgroup SL(2, F)} {c : SL(2, F)} {ybar : HBar V H}
@@ -184,9 +185,9 @@ private theorem exists_Pc_imgK_eq (h : RootHyp M V) (hS : Sec45Shape M V H h₀)
       imgK V H (conjSubgroup (p * y₀) (Pc M V)) := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   set U : Subgroup (HBar V H) := imgK V H (Pc M V) with hUdef
   set U' : Subgroup (HBar V H) := imgK V H (conjSubgroup y₀ (Pc M V)) with hU'def
   set T : Subgroup SL(2, F) := U.map ψ.toMonoidHom with hTdef
@@ -198,10 +199,10 @@ private theorem exists_Pc_imgK_eq (h : RootHyp M V) (hS : Sec45Shape M V H h₀)
   obtain ⟨-, hcard, a, b, hUa, hUb, hneab⟩ :=
     RootHyp.imgK_map_sl2 h hS.Pc_le hS.le_pCore hS.hH hS.not_le ψ
   have hTmap : T = (imgK V H (Pc M V)).map ψ.toMonoidHom := by
-    simpa [hTdef, hUdef]
+    simp [hTdef, hUdef]
   have hT'map : T' =
       (imgK V H (conjSubgroup y₀ (Pc M V))).map ψ.toMonoidHom := by
-    simpa [hT'def, hU'def]
+    simp [hT'def, hU'def]
   have hT : T = conjSubgroup a (utri F) := by
     simpa [hTdef, hUdef] using hUa
   have hT' : T' = conjSubgroup b (utri F) := by
@@ -278,7 +279,7 @@ private noncomputable def commutatorQuotHom
     map_one' := by
       apply (QuotientGroup.eq_one_iff _).mpr
       rw [Subgroup.mem_subgroupOf]
-      simpa using commutatorElement_one_left v
+      simp
     map_mul' := fun p₁ p₂ => by
       set a : ↥(P ⊓ W) := ⟨⁅(p₁ : G), v⁆, commutator_mem_inf_xOf h hS hy hyV hv p₁.2⟩
         with ha
@@ -292,7 +293,7 @@ private noncomputable def commutatorQuotHom
       have hx : (⟨⁅((p₁ * p₂ : ↥P) : G), v⁆,
           commutator_mem_inf_xOf h hS hy hyV hv (p₁ * p₂).2⟩ : ↥(P ⊓ W)) = c * b * a := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul]
         rw [commutatorElement_mul_left_eq_conj_mul,
           show (p₁ : G) * (b : G) * (p₁ : G)⁻¹ = ⁅(p₁ : G), (b : G)⁆ * (b : G) by
             rw [← MulAut.conj_apply, conj_eq_commutatorElement_mul]]
@@ -392,7 +393,7 @@ theorem exists_commutator_mul_eq (h : RootHyp M V) (hS : Sec45Shape M V H h₀)
   have hVPW : V ≤ Pc M V ⊓ Tim79a.xOf V H := le_inf hVP hVW
   have hPW_M : Pc M V ⊓ Tim79a.xOf V H ≤ M :=
     (inf_le_left.trans h.toHyp.Pc_le_M)
-  haveI hVnorm : (V.subgroupOf (Pc M V ⊓ Tim79a.xOf V H)).Normal :=
+  have hVnorm : (V.subgroupOf (Pc M V ⊓ Tim79a.xOf V H)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVPW).mpr
       (hPW_M.trans h.toHyp.le_normalizer)
   let φ : ↥(Pc M V) →*
@@ -626,6 +627,7 @@ private theorem stmt53_le_kOf
     rwa [hC] at h1
   exact ⟨hEU', hEU⟩
 
+omit [Finite G] in
 private theorem stmt53_centralizes_commutators
     {g g' y y' : G}
     (hyH : y ∈ hOf M V g) (hVy : conjSubgroup g V = conjSubgroup y V)
@@ -801,7 +803,7 @@ theorem Sec5Hyp.stmt54 (hS : Sec5Hyp M V) : Sec5.Stmt54 M V := by
   obtain ⟨k, -, hU'k⟩ := hU'
   obtain ⟨xH, hx1H⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
   set x : G := (xH : G) with hxdef
-  have hx : x ∈ U' ⊓ (conjSubgroup g V ⊔ V) := by simpa [hxdef] using xH.2
+  have hx : x ∈ U' ⊓ (conjSubgroup g V ⊔ V) := by simp [hxdef]
   have hx1 : x ≠ 1 := by
     intro h1
     exact hx1H (Subtype.ext h1)
@@ -982,6 +984,7 @@ private theorem stmt55_hKeq
   rw [hWeq] at h1
   exact h1.symm.trans h2
 
+omit [Finite G] in
 private theorem stmt55_p_mem_xOf
     {g k : G} (hSU : Sec45Shape M V (hOf M V g) g)
     {y' x u p : G}
@@ -1012,9 +1015,9 @@ private theorem stmt55_p_mem_xOf
       Subgroup.centralizer ((Pc M V ⊓ kOf V (hOf M V g) : Subgroup G) : Set G) :=
     Subgroup.mem_inf.mpr ⟨Subgroup.mem_inf.mpr ⟨hpP, hpK⟩, hpC⟩
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hSU.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hpW : p ∈ Tim79a.xOf V (hOf M V g) := by
     have hcenter := hw.center_PK
     rw [hcenter] at hpZ
@@ -1067,7 +1070,7 @@ theorem Sec5Hyp.stmt55 (hS : Sec5Hyp M V) : Sec5.Stmt55 M V := by
   obtain ⟨xH, hx1H⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
   set x : G := (xH : G) with hxdef
   have hx : x ∈ conjSubgroup k V ⊓ (conjSubgroup g V ⊔ Pc M V) := by
-    simpa [hxdef] using xH.2
+    simp [hxdef]
   have hx1 : x ≠ 1 := by
     intro h1
     exact hx1H (Subtype.ext h1)

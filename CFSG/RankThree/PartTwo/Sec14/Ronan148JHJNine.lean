@@ -118,7 +118,7 @@ theorem false_of_exp_three_of_le [Finite Γ] {Aq C E Z : Subgroup Γ}
     P.pow_dvd_card_of_pow_dvd_card (by simpa using h9)
   have hPexp : ∀ y ∈ (P : Subgroup ↥Z), ((y : Γ)) ^ 3 = 1 := by
     intro y hy
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨y, hy⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨y, hy⟩
     refine pow_three_eq_one_of_pow_three_pow hexp y.2 m ?_
     simpa using congrArg (fun t : ↥(P : Subgroup ↥Z) => ((t : ↥Z) : Γ)) hm
   obtain ⟨y, hyP, hyk, hyn⟩ : ∃ y ∈ (P : Subgroup ↥Z), y * k' = k' * y ∧
@@ -133,9 +133,9 @@ theorem false_of_exp_three_of_le [Finite Γ] {Aq C E Z : Subgroup Γ}
       exact ⟨y, hyP, hc y hyP, hyn⟩
     · push Not at hc
       obtain ⟨p0, hp0P, hp0⟩ := hc
-      haveI : Nontrivial ↥(P : Subgroup ↥Z) :=
+      have : Nontrivial ↥(P : Subgroup ↥Z) :=
         ⟨⟨⟨k', hk'P⟩, 1, fun h => hk'1 (congrArg Subtype.val h)⟩⟩
-      haveI := P.isPGroup'.center_nontrivial
+      have := P.isPGroup.center_nontrivial
       obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center ↥(P : Subgroup ↥Z))
       set zP : ↥(P : Subgroup ↥Z) := (z : ↥(P : Subgroup ↥Z)) with hzP
       have hzc : ∀ q : ↥(P : Subgroup ↥Z), q * zP = zP * q := fun q =>

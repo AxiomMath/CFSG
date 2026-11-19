@@ -73,7 +73,7 @@ theorem step77FromOneMeet_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310
     (hA : Sec7AExistsStatement) : Step77FromOneMeetStatement := by
   intro G _ _ M Q Z B hc n t hs hno hom Z0 hZ0 g hgM s hs1 hs2 hs3 hV y hy
   classical
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   obtain ⟨K, fK, finK, γ, M₀, ρ, b, hS⟩ := tensorSetup_of_34 h34 G M Q Z B hc n hs.toSec5.width
     hs.toSec5.n_gt hs.toSec5.noA2 hs.toSec5.gen
   obtain ⟨hHcard, hUcard⟩ := sec7_Hset_card h34 hRoot hc hs hom M₀ ρ b hS
@@ -130,7 +130,7 @@ theorem step77FromOneMeet_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310
       rw [conjSubgroup_sup', conjSubgroup_inf, QB_conj, hc.conj_Z_eq hgM]
     rw [hS'eq, sec7_card_img_conj hc M₀ ρ b hS hgM le_sup_right]
     exact hHcard
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hnotinj : ¬ Function.Injective
       (fun u : ↥(hc.VtSub hS.model t) =>
         (⟨ν (u : M₀.E) - (u : M₀.E), hrange u⟩ : ↥(M₀.img S'))) := by

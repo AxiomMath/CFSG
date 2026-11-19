@@ -34,10 +34,10 @@ private theorem s16e_two_perfect_of_commutator_top {Γ : Type*} [Group Γ] {S : 
 private theorem s16e_two_perfect_of_simple {Γ : Type*} [Group Γ] {S : Subgroup Γ}
     (hS : IsSimpleGroup ↥S) (hnp : ¬ (Nat.card ↥S).Prime) : ⁅S, S⁆ = S := by
   apply s16e_two_perfect_of_commutator_top
-  haveI := hS
+  have := hS
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (_root_.commutator ↥S) with h | h
   · exfalso
-    haveI : IsMulCommutative ↥S := ⟨⟨fun a b => by
+    have : IsMulCommutative ↥S := ⟨⟨fun a b => by
       have hc : ⁅a, b⁆ ∈ _root_.commutator ↥S :=
         Subgroup.commutator_mem_commutator (Subgroup.mem_top a) (Subgroup.mem_top b)
       rw [h, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hc
@@ -81,7 +81,7 @@ theorem s16e_two_card_mulAut_dvd {S : Type} [Group S] {k : ℕ} (hz : Subgroup.c
 theorem s16e_two_card_aut_dvd_of_le {S : Type} [Group S] [Finite S]
     (hz : Subgroup.center S = ⊥) (h : Nat.card (MulAut S) ≤ 2 * Nat.card S) :
     Nat.card (MulAut S) ∣ 2 * Nat.card S := by
-  haveI : Finite (MulAut S) := Finite.of_injective (fun f : MulAut S => (f : S → S))
+  have : Finite (MulAut S) := Finite.of_injective (fun f : MulAut S => (f : S → S))
     DFunLike.coe_injective
   obtain ⟨d, hd⟩ := Subgroup.card_subgroup_dvd_card
     (CFSG.ComponentClassification.OuterAutomorphisms.inner S)
@@ -102,11 +102,11 @@ theorem s16e_two_card_aut_dvd_of_le {S : Type} [Group S] [Finite S]
 
 private theorem s16e_two_center_bot_of_simple {X : Type} [Group X] (hS : IsSimpleGroup X)
     (hnp : ¬ (Nat.card X).Prime) : Subgroup.center X = ⊥ := by
-  haveI := hS
+  have := hS
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center X) with h | h
   · exact h
   · exfalso
-    haveI : IsMulCommutative X := ⟨⟨fun a b => by
+    have : IsMulCommutative X := ⟨⟨fun a b => by
       have ha : a ∈ Subgroup.center X := by
         rw [h]
         exact Subgroup.mem_top a
@@ -152,8 +152,8 @@ theorem s16e_two_fam_alt (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbelia
     (hsum : SumOfNat (fun H U Z => AlternatingNatural H U Z n)
       (lStar D.M V₀ V hV L) (wStar D.M V₀ V hV L) ⊥ 2) :
     s16e_two_Fam D V₀ V L hV (fun H U Z => AlternatingNatural H U Z n) where
-  natFacts := ⟨fun J hJ => s16c167_mem_irrSet_alt hn5 hJ,
-    fun J hJ => s16c167_cfg2_fix_alt hn5 hJ, fun J hJ => s16c167_endUnits_alt hn5 hJ⟩
+  natFacts := ⟨fun _J hJ => s16c167_mem_irrSet_alt hn5 hJ,
+    fun _J hJ => s16c167_cfg2_fix_alt hn5 hJ, fun _J hJ => s16c167_endUnits_alt hn5 hJ⟩
   simple := s16c167_cfg2_simple_alt hn5 hA
   perfect := s16e_two_perfect_of_commutator_top (s16c1610_commutator_of_isAlt hn5 hA)
   sum := hsum
@@ -409,11 +409,11 @@ theorem s16e_two_ln_card_outer_five {X : Type} [Group X] (h : IsLn X 5 1) :
     Nat.card (Outer X) ∣ 2 := by
   obtain ⟨K, hF, hFin, hK, ⟨e⟩⟩ :=
     CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel h
-  letI : Field K := hF
+  let : Field K := hF
   have hK2 : Nat.card K = 2 := by simpa using hK
   obtain ⟨hfin, hle⟩ := CFSG.SeitzReduction.SeitzQ2.card_outer_le_two_of_mulEquiv_PSL_two
     (by norm_num) hK2 e
-  haveI := hfin
+  have := hfin
   have hpos : 0 < Nat.card (Outer X) := Nat.card_pos
   rcases (by omega : Nat.card (Outer X) = 1 ∨ Nat.card (Outer X) = 2) with h1 | h1 <;> rw [h1]
   exact one_dvd _
@@ -422,7 +422,7 @@ theorem s16e_two_ln_card_aut_dvd {X : Type} [Group X] {m : ℕ} (hm3 : 3 ≤ m) 
     (h : IsLn X m 1) : Nat.card (MulAut X) ∣ 2 * Nat.card X := by
   have hz : Subgroup.center X = ⊥ :=
     s16e_two_center_bot_of_simple (s16c167_cfg2_simple_ln h) (s16e_two_ln_not_prime hm3 h)
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by
+  have : Finite X := Nat.finite_of_card_ne_zero (by
     rcases s16e_two_ln_card_cases hm3 hm5 h with h | h | h <;> rw [h] <;> norm_num)
   rcases (by omega : m = 3 ∨ m = 4 ∨ m = 5) with rfl | rfl | rfl
   · exact s16e_two_card_aut_dvd_of_le hz (s15k_six_l3 h).2
@@ -485,7 +485,7 @@ theorem s16e_two_fam_ln_main (D : Data G) (hx : DataExt D) (h4 : 3 < CFSG.Open.e
     IsSym ↥(kBar D.M V₀ V hV L) 3 ∧
       IsInternalDirect (kBar D.M V₀ V hV L) (lBar V₀ V hV L) (Mbar D.M V₀ V hV) :=
   s16e_two_route_autFrom D hx h4 h61 h127 h1214 h638 hV hset hL hs h3
-    (s16e_two_fam_ln D hV hm3 hLm hsum) (fun J hJ => s16e_two_ln_autFromGroup hJ)
+    (s16e_two_fam_ln D hV hm3 hLm hsum) (fun _J hJ => s16e_two_ln_autFromGroup hJ)
     (s16e_two_ln_not_cube hm3 hm5 hLm)
 
 end Ln
@@ -522,13 +522,13 @@ theorem s16e_two_om_card_aut_dvd {X : Type} [Group X] {n : ℕ} (hn : n = 6 ∨ 
     (h : IsOmegaMinus X n 1) : Nat.card (MulAut X) ∣ 2 * Nat.card X := by
   have hz := s16e_two_om_center_bot hn h
   rcases hn with rfl | rfl
-  · haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [(s15k_six_om6 h).1]; norm_num)
+  · have : Finite X := Nat.finite_of_card_ne_zero (by rw [(s15k_six_om6 h).1]; norm_num)
     exact s16e_two_card_aut_dvd_of_le hz (s15k_six_om6 h).2
   · exact s16e_two_card_mulAut_dvd hz (s16e_two_om_card_outer_eight h)
 
 theorem s16e_two_om_card_aut_le {X : Type} [Group X] {n : ℕ} (hn : n = 6 ∨ n = 8)
     (h : IsOmegaMinus X n 1) : Nat.card (MulAut X) ≤ 2 * Nat.card X := by
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by
+  have : Finite X := Nat.finite_of_card_ne_zero (by
     rcases s16e_two_om_card_cases hn h with hc | hc <;> rw [hc] <;> norm_num)
   exact Nat.le_of_dvd (Nat.mul_pos two_pos Nat.card_pos) (s16e_two_om_card_aut_dvd hn h)
 
@@ -536,8 +536,8 @@ open CFSG.LieType.ChevTwo CFSG.HardMathSupport.Foote.E27 in
 theorem s16e_two_om_isOMinus_mulAut {X : Type} [Group X] {n : ℕ} (hn : n = 6 ∨ n = 8)
     (h : IsOmegaMinus X n 1) : IsOMinus (MulAut X) n 1 := by
   obtain ⟨hev, K', hK'field, hK'finite, b', c', hK'card, hpoly', ⟨eY⟩⟩ := h
-  letI : Field K' := hK'field
-  letI : Finite K' := hK'finite
+  let : Field K' := hK'field
+  let : Finite K' := hK'finite
   rw [pow_one] at hK'card
   have e1 : X ≃* ↥(StatedOmega (StatedQuadMinus (n / 2) (ZMod 2) 1 1)) := by
     refine eY.trans (Q2.statedProjOmegaEquiv (StatedQuadMinus (n / 2) K' b' c') hK'card

@@ -30,10 +30,10 @@ theorem str86_orth_case_z2_eq
     (hn : 2 ≤ n) (hL2 : IsL2Quot n (oTwoQuot ↥L2))
     (hB2 : VBig L2)
     (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
-    (hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
-    (h376 : Nat.card (Z2 L1 L2 S) ≤ (2 ^ k * 2 ^ n) ^ 2)
+    (_hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
+    (_h376 : Nat.card (Z2 L1 L2 S) ≤ (2 ^ k * 2 ^ n) ^ 2)
     {W : Subgroup G} (hstepW : IsChiefStep (u3H L1 L2 S) (Q2 L1 L2 S) ⊥ W)
-    (hncW : ¬ IsCentralStep (u3H L1 L2 S) ⊥ W) (hWZ2 : W ≤ Z2 L1 L2 S)
+    (_hncW : ¬ IsCentralStep (u3H L1 L2 S) ⊥ W) (hWZ2 : W ≤ Z2 L1 L2 S)
     (hcomm : ⁅Z2 L1 L2 S, u3H L1 L2 S⁆ = W)
     (hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W))
     (e : oTwoQuot ↥(u3H L1 L2 S) ≃* SL(2, GaloisField 2 n))
@@ -47,17 +47,17 @@ theorem str86_orth_case_z2_eq
   classical
   let H := u3H L1 L2 S
   let hUH : Q2 L1 L2 S ≤ H := q2_le_u3H L1 L2 S
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let ρ := l2ChiefSectionRep hstepW hUH hE e
   have horth' : IsOrthModule hl ρ := horth
   let θ := chiefModBotMulEquiv W
   have hHnormZ : H ≤ Subgroup.normalizer (Z2 L1 L2 S : Set G) :=
     str86_z2_normal_u3H L1 L2 S
-  letI : CommGroup ↥(Z2 L1 L2 S) :=
+  let : CommGroup ↥(Z2 L1 L2 S) :=
     commGroupOfElemAbelian (SmithC27.isElemAbelian_omegaOneCenterOf (Q2 L1 L2 S))
-  letI : H.Normalizes (Z2 L1 L2 S) := ⟨hHnormZ⟩
-  letI : MulDistribMulAction ↥H ↥(Z2 L1 L2 S) :=
+  let : H.Normalizes (Z2 L1 L2 S) := ⟨hHnormZ⟩
+  let : MulDistribMulAction ↥H ↥(Z2 L1 L2 S) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer H (Z2 L1 L2 S) hHnormZ
   have hWN : H ≤ Subgroup.normalizer (W : Set G) :=
     D14.le_normalizer_of_isNormalIn hstepW.1
@@ -162,7 +162,7 @@ theorem str86_orth_case_z2_eq
         rw [← hw0]
         rw [l2ChiefSectionRep_apply_mk (hstep := hstepW) (hUH := q2_le_u3H L1 L2 S)
           (hE := hE) (e := e)]
-        rw [chiefModBotMulEquiv_conj (hUH := q2_le_u3H L1 L2 S)]
+        rw [chiefModBotMulEquiv_conj (_hUH := q2_le_u3H L1 L2 S)]
       rw [h1] at hh
       have h2 : Additive.ofMul (θ wconj) - Additive.ofMul (θ w0) =
           Additive.ofMul (θ ⟨(((h • wZ) * wZ⁻¹ : ↥(Z2 L1 L2 S)) : G), hmem h wZ⟩) := by
@@ -254,12 +254,12 @@ theorem str86_third_case_false
     (hU3 : Nonempty (oTwoQuot ↥L1 ≃* StatedSU 3 (2 ^ k) F) ∨
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
     (hn : 2 ≤ n) (hL2 : IsL2Quot n (oTwoQuot ↥L2))
-    (hB2 : VBig L2)
-    (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
+    (_hB2 : VBig L2)
+    (_hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
     (hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
-    (h376 : Nat.card (Z2 L1 L2 S) ≤ (2 ^ k * 2 ^ n) ^ 2)
+    (_h376 : Nat.card (Z2 L1 L2 S) ≤ (2 ^ k * 2 ^ n) ^ 2)
     {W : Subgroup G} (hstepW : IsChiefStep (u3H L1 L2 S) (Q2 L1 L2 S) ⊥ W)
-    (hncW : ¬ IsCentralStep (u3H L1 L2 S) ⊥ W) (hWZ2 : W ≤ Z2 L1 L2 S)
+    (_hncW : ¬ IsCentralStep (u3H L1 L2 S) ⊥ W) (hWZ2 : W ≤ Z2 L1 L2 S)
     (hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W))
     (e : oTwoQuot ↥(u3H L1 L2 S) ≃* SL(2, GaloisField 2 n))
     (T : Sylow 2 (oTwoQuot ↥(u3H L1 L2 S)))
@@ -276,13 +276,13 @@ theorem str86_third_case_false
   classical
   let H := u3H L1 L2 S
   let hUH : Q2 L1 L2 S ≤ H := q2_le_u3H L1 L2 S
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let ρ := l2ChiefSectionRep hstepW hUH hE e
   let A : Subgroup (SL(2, GaloisField 2 n)) := (T : Subgroup _).map e.toMonoidHom
   have hfixcard' : Nat.card (fixedSub ρ A) = 2 ^ l := hfixcard
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
-  obtain ⟨g, hgL1, hgborel⟩ := SetLike.exists_of_lt (F1.lt_borelOf hR)
+  obtain ⟨g, hgL1, hgborel⟩ := _root_.IsConcreteLE.exists_of_lt (F1.lt_borelOf hR)
   have hgB : g ∉ bigB L1 L2 S := by
     intro h
     apply hgborel
@@ -377,7 +377,7 @@ theorem str86_prop377
   classical
   obtain ⟨n, hL2⟩ := h2
   have hn : 2 ≤ n := CFSG.Quasithin.F112R.two_le_of_isL2Quot_of_vBig hF.1.h2.listed hB2 hL2
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have h376 : Nat.card (Z2 L1 L2 S) ≤ (2 ^ k * 2 ^ n) ^ 2 :=
     str86_card_z2_le_sq hF hSB hk hFc hU3 hn hL2 hZQ hB2 hZI
   have h1 : VU3Big L1 := ⟨k, hk, F, inferInstance, inferInstance, hFc, hU3⟩
@@ -389,8 +389,8 @@ theorem str86_prop377
   let hUH : Q2 L1 L2 S ≤ H := q2_le_u3H L1 L2 S
   have hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W) :=
     isElemAbelian_chiefMod hstepW hUH (pCoreOf_isPGroup 2 (P2 L1 L2 S))
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   obtain ⟨e₀⟩ := str86_isL2Quot_u3H hF.toW hL2
   let e : oTwoQuot ↥H ≃* SL(2, GaloisField 2 n) :=
     e₀.trans (CFSG.CGT.Timmesfeld75.pslMulEquivSL (F := GaloisField 2 n))
@@ -423,7 +423,7 @@ theorem str86_prop377
       _ = 2 ^ n := hTcard
   have hnt : ∃ g, ρ g ≠ 1 := l2ChiefSectionRep_nontrivial hstepW hUH hE e hncW
   have hirr : ρ.IsIrreducible := l2ChiefSectionRep_irreducible hstepW hUH hE e
-  haveI : Fact ρ.IsIrreducible := ⟨hirr⟩
+  have : Fact ρ.IsIrreducible := ⟨hirr⟩
   have hWcardEq : Nat.card W = Nat.card (Additive (Ch3z.chiefMod ⊥ W)) := by
     calc Nat.card W = Nat.card (Ch3z.chiefMod ⊥ W) :=
           Nat.card_congr (chiefModBotMulEquiv W).toEquiv

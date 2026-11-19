@@ -228,7 +228,7 @@ private theorem ggTUClD_lambda2_blockA_two {r n : ℕ} (hn : 1 ≤ n) (hr : 4 �
     LargeEvenInLambda2 o.lab := by
   rw [ho]
   unfold ggMultBlockA
-  rw [if_neg (by decide : ¬((2:ℕ) = 1))]
+  rw [ite_eq_right (by decide : ¬((2:ℕ) = 1))]
   by_cases hr4 : r = 4
   · subst r
     have hn2 : 2 ≤ n := by
@@ -236,10 +236,10 @@ private theorem ggTUClD_lambda2_blockA_two {r n : ℕ} (hn : 1 ≤ n) (hr : 4 �
       have hn1 : n = 1 := by omega
       have hq : (ggMultBlockA (4 - 2) n 2).qs = true := by simpa [ho] using hqs
       simp [ggMultBlockA, hn1] at hq
-    rw [if_pos (by omega : 2 ≤ 4 - 2)]
+    rw [ite_eq_left (by omega : 2 ≤ 4 - 2)]
     simp [LargeEvenInLambda2, hn, hn2]
   · have h3 : 3 ≤ r - 2 := by omega
-    rw [if_pos (by omega : 2 ≤ r - 2)]
+    rw [ite_eq_left (by omega : 2 ≤ r - 2)]
     simp [LargeEvenInLambda2, hn]
     omega
 
@@ -346,22 +346,22 @@ private theorem ggTUClD_hpos_le {m0 d : ℕ} {eps0 : Bool} {posF : List ℕ}
     (hrZ' : (if m0 = 1 ∧ ((eps0 = true ∧ d = 1) ∨ (eps0 = false ∧ d = 2))
       then posF.length + 1 else posF.length) ≤ 1) : posF.length ≤ 1 := by
   by_cases he : m0 = 1 ∧ ((eps0 = true ∧ d = 1) ∨ (eps0 = false ∧ d = 2))
-  · rw [if_pos he] at hrZ'
+  · rw [ite_eq_left he] at hrZ'
     omega
-  · rw [if_neg he] at hrZ'
+  · rw [ite_eq_right he] at hrZ'
     exact hrZ'
 
 private theorem ggTUClD_hmemF {H : ℕ} {m posF : List ℕ}
     (hposF : posF = (List.range (H + 1)).filter (fun j => decide (1 ≤ j ∧ 0 < m.getD j 0))) :
     ∀ k, k ∈ posF ↔ k < H + 1 ∧ 1 ≤ k ∧ 0 < m.getD k 0 := by
   intro k
-  simp [hposF, List.mem_range, and_assoc]
+  simp [hposF, List.mem_range]
 
 private theorem ggTUClD_hmemJ {H : ℕ} {m posJ : List ℕ}
     (hposJ : posJ = (List.range (H + 1)).filter (fun j => decide (1 ≤ j ∧ 2 ≤ m.getD j 0))) :
     ∀ k, k ∈ posJ ↔ k < H + 1 ∧ 1 ≤ k ∧ 2 ≤ m.getD k 0 := by
   intro k
-  simp [hposJ, List.mem_range, and_assoc]
+  simp [hposJ, List.mem_range]
 
 private theorem ggTUClD_hmemL {H : ℕ} :
     ∀ k, k ∈ (List.range H).map (· + 1) ↔ 1 ≤ k ∧ k ≤ H := by
@@ -514,7 +514,7 @@ private theorem ggTUClD_single_facts {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
     intro he
     have hpos_len1 : S.posF.length = 1 := by rw [hsingle]; simp
     have h := S.hrZ'
-    rw [if_pos he] at h
+    rw [ite_eq_left he] at h
     omega
   exact ⟨hj_lt, hj1, hmj_pos, hzero_other, S.m.getD j 0, rfl, hsum_eq, hr_eq,
     heps_eq, hextra_false⟩
@@ -566,7 +566,7 @@ private theorem ggTUClD_posF_nil_high {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
       LargeEvenInLambda2 labJ ∧ GGTablePRow p labJ ⟨if tw then .twD else .D, r, n⟩ := by
   rw [ggTUClD_v0_of_ge_four hm04] at hv0
   by_cases he : S.eps0 = true
-  · rw [if_pos he] at hv0
+  · rw [ite_eq_left he] at hv0
     simp at hv0
     have ho : o = ⟨⟨.D, S.m0, n⟩, true⟩ := hv0.symm
     have htw : tw = false := by
@@ -588,7 +588,7 @@ private theorem ggTUClD_posF_nil_high {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
       rcases Bool.eq_false_or_eq_true S.eps0 with h | h
       · exact absurd h he
       · exact h
-    rw [if_neg he] at hv0
+    rw [ite_eq_right he] at hv0
     simp at hv0
     have ho : o = ⟨⟨.twD, S.m0, n⟩, true⟩ := hv0.symm
     have htw : tw = true := by
@@ -676,14 +676,14 @@ private theorem ggTUClD_d1_m0_0 {r p n : ℕ} {tw : Bool} {D : GGKacDatum} {o : 
   have holab : o.lab = ⟨.A, r - 1, n⟩ := by
     rw [ho, hd1]
     unfold ggMultBlockA
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   have hoΛ : LargeEvenInLambda2 o.lab := by
     rw [holab]
     simp [LargeEvenInLambda2]
     omega
   have hrow : GGTablePRow p o.lab ⟨if tw then .twD else .D, r, n⟩ := by
     rw [holab, htw]
-    rw [if_neg (by decide : ¬((false : Bool) = true))]
+    rw [ite_eq_right (by decide : ¬((false : Bool) = true))]
     have h := ggTUClD_row_A_D (p := p) (n := n) (m := r - 1) (by omega) hp1
     simpa [show r - 1 + 1 = r by omega] using h
   exact ⟨hoΛ, ⟨o.lab, Or.inl rfl, hoΛ, hrow⟩⟩
@@ -721,14 +721,14 @@ private theorem ggTUClD_d1_m0_1 {r p n : ℕ} {tw : Bool} {D : GGKacDatum} {o : 
   have holab : o.lab = ⟨.A, r - 2, n⟩ := by
     rw [ho, hd1]
     unfold ggMultBlockA
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
   have hoΛ : LargeEvenInLambda2 o.lab := by
     rw [holab]
     simp [LargeEvenInLambda2]
     omega
   have hrow : GGTablePRow p o.lab ⟨if tw then .twD else .D, r, n⟩ := by
     rw [holab, htw]
-    rw [if_pos (by decide : (true : Bool) = true)]
+    rw [ite_eq_left (by decide : (true : Bool) = true)]
     have h := ggTUClD_row_A_twD (p := p) (n := n) (m := r - 2) (by omega) hp1
     simpa [show r - 2 + 2 = r by omega] using h
   exact ⟨hoΛ, ⟨o.lab, Or.inl rfl, hoΛ, hrow⟩⟩
@@ -764,7 +764,7 @@ private theorem ggTUClD_d1_m0_3_true {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
     omega
   have hrow : GGTablePRow p o.lab ⟨if tw then .twD else .D, r, n⟩ := by
     rw [hoA, htw, hr4]
-    rw [if_neg (by decide : ¬((false : Bool) = true))]
+    rw [ite_eq_right (by decide : ¬((false : Bool) = true))]
     exact ggTUClD_row_A_D (p := p) (n := n) (m := 3) (by omega) hp1
   exact ⟨hoΛ, ⟨o.lab, Or.inl rfl, hoΛ, hrow⟩⟩
 
@@ -799,7 +799,7 @@ private theorem ggTUClD_d1_m0_3_false {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
     omega
   have hrow : GGTablePRow p o.lab ⟨if tw then .twD else .D, r, n⟩ := by
     rw [hoA, htw, hr4]
-    rw [if_pos (by decide : (true : Bool) = true)]
+    rw [ite_eq_left (by decide : (true : Bool) = true)]
     exact ggTUClD_row_twA3_twD4 (p := p) (n := n) hp1
   exact ⟨hoΛ, ⟨o.lab, Or.inl rfl, hoΛ, hrow⟩⟩
 
@@ -827,7 +827,7 @@ private theorem ggTUClD_d1_m0_ge4_true {r p n : ℕ} {tw : Bool} {D : GGKacDatum
   have hn := S.hn
   have h := S.hDo'
   rw [ggTUClD_v0_of_ge_four hm04] at h
-  rw [if_pos he] at h
+  rw [ite_eq_left he] at h
   simp at h
   have horbJ_nil : S.orbJ = [] := h.2
   have hoD0 : o = ⟨⟨.D, S.m0, n⟩, true⟩ := h.1.symm
@@ -851,7 +851,7 @@ private theorem ggTUClD_d1_m0_ge4_true {r p n : ℕ} {tw : Bool} {D : GGKacDatum
     omega
   have hrow : GGTablePRow p o.lab ⟨if tw then .twD else .D, r, n⟩ := by
     rw [hoD, htw]
-    rw [if_neg (by decide : ¬((false : Bool) = true))]
+    rw [ite_eq_right (by decide : ¬((false : Bool) = true))]
     have hh := ggTUClD_row_D_D (p := p) (n := n) (m := r - 1) hp1
     simpa [show r - 1 + 1 = r by omega] using hh
   exact ⟨hoΛ, ⟨o.lab, Or.inl rfl, hoΛ, hrow⟩⟩
@@ -891,7 +891,7 @@ private theorem ggTUClD_d1_m0_ge4_false {r p n : ℕ} {tw : Bool} {D : GGKacDatu
     omega
   have hrow : GGTablePRow p o.lab ⟨if tw then .twD else .D, r, n⟩ := by
     rw [hoD, htw]
-    rw [if_pos (by decide : (true : Bool) = true)]
+    rw [ite_eq_left (by decide : (true : Bool) = true)]
     have hh := ggTUClD_row_twD_twD (p := p) (n := n) (m := r - 1) (by omega) hp1
     simpa [show r - 1 + 1 = r by omega] using hh
   exact ⟨hoΛ, ⟨o.lab, Or.inl rfl, hoΛ, hrow⟩⟩
@@ -932,7 +932,7 @@ private theorem ggTUClD_d2_m0_0_odd {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
     simpa [hd2, ha] using heps_eq
   have htw : tw = true := by
     have h := heps2
-    rw [if_pos haodd] at h
+    rw [ite_eq_left haodd] at h
     rw [hε] at h
     exact h.symm
   have hEven : Even (r - 1) := by
@@ -941,14 +941,14 @@ private theorem ggTUClD_d2_m0_0_odd {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
   have holab : o.lab = ⟨.twA, r - 1, n⟩ := by
     rw [ho, hd2]
     unfold ggMultBlockA
-    rw [if_neg (by decide : ¬((2:ℕ) = 1)), if_pos (by omega : 2 ≤ r - 1)]
+    rw [ite_eq_right (by decide : ¬((2:ℕ) = 1)), ite_eq_left (by omega : 2 ≤ r - 1)]
   have hoΛ : LargeEvenInLambda2 o.lab := by
     rw [holab]
     simp [LargeEvenInLambda2]
     omega
   have hrow : GGTablePRow p o.lab ⟨if tw then .twD else .D, r, n⟩ := by
     rw [holab, htw]
-    rw [if_pos (by decide : (true : Bool) = true)]
+    rw [ite_eq_left (by decide : (true : Bool) = true)]
     have h := ggTUClD_row_twA_twD_even (p := p) (n := n) (m := r - 1) (by omega) hEven hp2
     simpa [show r - 1 + 1 = r by omega] using h
   exact ⟨hoΛ, ⟨o.lab, Or.inl rfl, hoΛ, hrow⟩⟩
@@ -976,7 +976,7 @@ private theorem ggTUClD_d2_m0_0_even {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
     simpa [hd2, ha] using heps_eq
   have htw : tw = false := by
     have h := heps2
-    rw [if_neg haeven] at h
+    rw [ite_eq_right haeven] at h
     rw [hε] at h
     cases tw with
     | false => rfl
@@ -987,14 +987,14 @@ private theorem ggTUClD_d2_m0_0_even {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
   have holab : o.lab = ⟨.twA, r - 1, n⟩ := by
     rw [ho, hd2]
     unfold ggMultBlockA
-    rw [if_neg (by decide : ¬((2:ℕ) = 1)), if_pos (by omega : 2 ≤ r - 1)]
+    rw [ite_eq_right (by decide : ¬((2:ℕ) = 1)), ite_eq_left (by omega : 2 ≤ r - 1)]
   have hoΛ : LargeEvenInLambda2 o.lab := by
     rw [holab]
     simp [LargeEvenInLambda2]
     omega
   have hrow : GGTablePRow p o.lab ⟨if tw then .twD else .D, r, n⟩ := by
     rw [holab, htw]
-    rw [if_neg (by decide : ¬((false : Bool) = true))]
+    rw [ite_eq_right (by decide : ¬((false : Bool) = true))]
     have h := ggTUClD_row_twA_D_odd (p := p) (n := n) (m := r - 1) (by omega) hOdd hp2
     simpa [show r - 1 + 1 = r by omega] using h
   exact ⟨hoΛ, ⟨o.lab, Or.inl rfl, hoΛ, hrow⟩⟩
@@ -1036,12 +1036,12 @@ private theorem ggTUClD_d2_m0_1_odd {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
   have holab : o.lab = ⟨.twA, r - 2, n⟩ := by
     rw [ho]
     unfold ggMultBlockA
-    rw [if_neg (by decide : ¬((2:ℕ) = 1)), if_pos (by omega : 2 ≤ r - 2)]
+    rw [ite_eq_right (by decide : ¬((2:ℕ) = 1)), ite_eq_left (by omega : 2 ≤ r - 2)]
   have heps2 : S.eps0 = if S.m.getD j 0 % 2 = 1 then tw else !tw := by
     simpa [hd2, ha] using heps_eq
   have htw : tw = true := by
     have h := heps2
-    rw [if_pos haodd] at h
+    rw [ite_eq_left haodd] at h
     rw [hε] at h
     exact h.symm
   have hEven : Even (r - 2) := by
@@ -1051,7 +1051,7 @@ private theorem ggTUClD_d2_m0_1_odd {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
     ggTUClD_lambda2_blockA_two (r := r) (n := n) S.hn S.hr ho S.hqs
   have hrow : GGTablePRow p o.lab ⟨if tw then .twD else .D, r, n⟩ := by
     rw [holab, htw]
-    rw [if_pos (by decide : (true : Bool) = true)]
+    rw [ite_eq_left (by decide : (true : Bool) = true)]
     have h := ggTUClD_row_twA_twD_even2 (p := p) (n := n) (m := r - 2)
       (by omega) hEven hp2
     simpa [show r - 2 + 2 = r by omega] using h
@@ -1085,12 +1085,12 @@ private theorem ggTUClD_d2_m0_1_even {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
   have holab : o.lab = ⟨.twA, r - 2, n⟩ := by
     rw [ho]
     unfold ggMultBlockA
-    rw [if_neg (by decide : ¬((2:ℕ) = 1)), if_pos (by omega : 2 ≤ r - 2)]
+    rw [ite_eq_right (by decide : ¬((2:ℕ) = 1)), ite_eq_left (by omega : 2 ≤ r - 2)]
   have heps2 : S.eps0 = if S.m.getD j 0 % 2 = 1 then tw else !tw := by
     simpa [hd2, ha] using heps_eq
   have htw : tw = false := by
     have h := heps2
-    rw [if_neg haeven] at h
+    rw [ite_eq_right haeven] at h
     rw [hε] at h
     cases tw with
     | false => rfl
@@ -1102,7 +1102,7 @@ private theorem ggTUClD_d2_m0_1_even {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
     ggTUClD_lambda2_blockA_two (r := r) (n := n) S.hn S.hr ho S.hqs
   have hrow : GGTablePRow p o.lab ⟨if tw then .twD else .D, r, n⟩ := by
     rw [holab, htw]
-    rw [if_neg (by decide : ¬((false : Bool) = true))]
+    rw [ite_eq_right (by decide : ¬((false : Bool) = true))]
     have h := ggTUClD_row_twA_D_odd2 (p := p) (n := n) (m := r - 2)
       (by omega) hOdd hp2
     simpa [show r - 2 + 2 = r by omega] using h
@@ -1138,7 +1138,7 @@ private theorem ggTUClD_d2_m0_3_true {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
     simpa [hd2, ha] using heps_eq
   have htw : tw = true := by
     have h := heps2
-    rw [← ha, if_pos (by omega : a % 2 = 1)] at h
+    rw [← ha, ite_eq_left (by omega : a % 2 = 1)] at h
     rw [he] at h
     exact h.symm
   have hoΛ : LargeEvenInLambda2 o.lab := by
@@ -1151,7 +1151,7 @@ private theorem ggTUClD_d2_m0_3_true {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
   · rw [hoA]
     exact Or.inr (Or.inr (Or.inr (Or.inl ⟨rfl, rfl⟩)))
   · rw [htw, hr4]
-    rw [if_pos (by decide : (true : Bool) = true)]
+    rw [ite_eq_left (by decide : (true : Bool) = true)]
     exact ggTUClD_row_D3_twD4 (p := p) (n := n) hp2
 
 private theorem ggTUClD_d2_m0_3_false {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
@@ -1176,7 +1176,7 @@ private theorem ggTUClD_d2_m0_3_false {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
     simpa [hd2, ha] using heps_eq
   have htw : tw = false := by
     have h := heps2
-    rw [← ha, if_pos (by omega : a % 2 = 1)] at h
+    rw [← ha, ite_eq_left (by omega : a % 2 = 1)] at h
     rw [hef] at h
     exact h.symm
   have hoΛ : LargeEvenInLambda2 o.lab := by
@@ -1185,7 +1185,7 @@ private theorem ggTUClD_d2_m0_3_false {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
     omega
   have hrow : GGTablePRow p o.lab ⟨if tw then .twD else .D, r, n⟩ := by
     rw [hoA, htw, hr4]
-    rw [if_neg (by decide : ¬((false : Bool) = true))]
+    rw [ite_eq_right (by decide : ¬((false : Bool) = true))]
     exact ggTUClD_row_twA_D_odd (p := p) (n := n) (m := 3) (by omega) (by decide) hp2
   exact ⟨hoΛ, ⟨o.lab, Or.inl rfl, hoΛ, hrow⟩⟩
 
@@ -1213,7 +1213,7 @@ private theorem ggTUClD_d2_m0_ge4_true {r p n : ℕ} {tw : Bool} {D : GGKacDatum
   have hn := S.hn
   have h := S.hDo'
   rw [ggTUClD_v0_of_ge_four hm04] at h
-  rw [if_pos he] at h
+  rw [ite_eq_left he] at h
   simp at h
   have horbJ_nil : S.orbJ = [] := h.2
   have hoD0 : o = ⟨⟨.D, S.m0, n⟩, true⟩ := h.1.symm
@@ -1228,7 +1228,7 @@ private theorem ggTUClD_d2_m0_ge4_true {r p n : ℕ} {tw : Bool} {D : GGKacDatum
     simpa [hd2, ha] using heps_eq
   have htw : tw = true := by
     have h := heps2
-    rw [if_pos (by omega : S.m.getD j 0 % 2 = 1)] at h
+    rw [ite_eq_left (by omega : S.m.getD j 0 % 2 = 1)] at h
     rw [he] at h
     exact h.symm
   have hoΛ : LargeEvenInLambda2 o.lab := by
@@ -1237,7 +1237,7 @@ private theorem ggTUClD_d2_m0_ge4_true {r p n : ℕ} {tw : Bool} {D : GGKacDatum
     omega
   have hrow : GGTablePRow p o.lab ⟨if tw then .twD else .D, r, n⟩ := by
     rw [hoD, htw]
-    rw [if_pos (by decide : (true : Bool) = true)]
+    rw [ite_eq_left (by decide : (true : Bool) = true)]
     have hh := ggTUClD_row_D_twD (p := p) (n := n) (m := r - 1) hp2
     simpa [show r - 1 + 1 = r by omega] using hh
   exact ⟨hoΛ, ⟨o.lab, Or.inl rfl, hoΛ, hrow⟩⟩
@@ -1268,7 +1268,7 @@ private theorem ggTUClD_d2_m0_ge4_false {r p n : ℕ} {tw : Bool} {D : GGKacDatu
     simpa [hd2, ha] using heps_eq
   have htw : tw = false := by
     have h := heps2
-    rw [if_pos (by omega : S.m.getD j 0 % 2 = 1)] at h
+    rw [ite_eq_left (by omega : S.m.getD j 0 % 2 = 1)] at h
     rw [hef] at h
     exact h.symm
   have hoΛ : LargeEvenInLambda2 o.lab := by
@@ -1277,7 +1277,7 @@ private theorem ggTUClD_d2_m0_ge4_false {r p n : ℕ} {tw : Bool} {D : GGKacDatu
     omega
   have hrow : GGTablePRow p o.lab ⟨if tw then .twD else .D, r, n⟩ := by
     rw [hoD, htw]
-    rw [if_neg (by decide : ¬((false : Bool) = true))]
+    rw [ite_eq_right (by decide : ¬((false : Bool) = true))]
     have hh := ggTUClD_row_twD_D (p := p) (n := n) (m := r - 1) (by omega) hp2
     simpa [show r - 1 + 1 = r by omega] using hh
   exact ⟨hoΛ, ⟨o.lab, Or.inl rfl, hoΛ, hrow⟩⟩

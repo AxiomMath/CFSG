@@ -20,6 +20,6 @@ theorem kFunSplit_holds :
     CFSG.le_sup_centralizer_of_forall_mem_range_conj hBN fun b hb =>
       odd_normalizer_inner_of_isFundamentalOver_general hK.1 (hBN hb)
           (Odd.of_dvd_nat hBo (Subgroup.orderOf_dvd_natCard B hb))
-  exact funSplit_of_le_sup_centralizer hK hBc hBo hB3 P.isPGroup' hperm hBK
+  exact funSplit_of_le_sup_centralizer hK hBc hBo hB3 P.isPGroup hperm hBK
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

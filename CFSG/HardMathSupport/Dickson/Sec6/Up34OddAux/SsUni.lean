@@ -43,7 +43,7 @@ theorem noL34InnAt_psu (hO : LieOrderFormulasInput) :
   intro P _ _ t n p f hadm ht hF hp5 hm ψ hψ3 hψ
   obtain ⟨rfl, hn3⟩ := hF
   obtain ⟨K, _, h, ⟨e0⟩⟩ := exists_psu_model hadm hm
-  haveI : Finite (primeFormP h (idGram K n)) := Finite.of_equiv P e0.toEquiv
+  have : Finite (primeFormP h (idGram K n)) := Finite.of_equiv P e0.toEquiv
   refine noL34Layer_congr e0 ?_
   have hψ3' : (MulAut.congr e0 ψ) ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   obtain ⟨s, hs⟩ := (mem_inner_primeFormP h (idGram K n) _).mp

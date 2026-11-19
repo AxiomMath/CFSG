@@ -22,7 +22,7 @@ open scoped commutatorElement
 theorem card_subgroup_GL_le {ι K : Type} [Fintype ι] [DecidableEq ι] [Field K] [Finite K]
     (H : Subgroup (GL ι K)) : Nat.card H ≤ Nat.card K ^ (Fintype.card ι * Fintype.card ι) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h1 : Nat.card H ≤ Nat.card (GL ι K) := Nat.card_le_card_of_injective _ Subtype.val_injective
   have h2 : Nat.card (GL ι K) ≤ Nat.card (Matrix ι ι K) :=
     Nat.card_le_card_of_injective (fun g : GL ι K => (g : Matrix ι ι K)) Units.val_injective
@@ -227,7 +227,7 @@ theorem twF4CentOrder_holds : TwF4CentOrder := by
   intro G _ _ L b hF lab htag hn hM
   have hp : Nat.Prime 3 := Nat.prime_three
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨hβp, hβi⟩ := FR.Res.fieldOn_outer hp hp2 hF
   set β := indAut 3 L b hF.1 with hβ
   have hβ1 : β ≠ 1 := fun h => hβi ⟨1, by rw [h]; ext x; simp⟩
@@ -241,7 +241,7 @@ theorem twF4CentOrder_holds : TwF4CentOrder := by
   have ha : 1 ≤ a := by
     rcases Nat.eq_zero_or_pos a with h0 | h0
     · subst h0
-      exact absurd hfa (by simpa using hp.ne_one)
+      exact absurd hfa (by simp)
     · exact h0
   have hK' : Nat.card K = 2 ^ (2 * a + 1) := by rw [hK, hfa]
   obtain ⟨-, b₀, hb, k, _, _, _, hk, ⟨eF⟩⟩ :=

@@ -29,8 +29,8 @@ private theorem uvM_eq (i j : Fin 3) :
 
 private theorem tM_eq (i j : Fin 3) :
     Type321.tM i j = (!![1, 0, 28; 1, 3, -6; 2, 0, -5] : IntMat) i j := by
-  fin_cases i <;> fin_cases j <;> simp [Type321.uvM, Type321.uvA, Type321.tM, Type321.ρM,
-    ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three, Matrix.mul_apply]
+  fin_cases i <;> fin_cases j <;> simp [Type321.uvA, Type321.tM, Type321.ρM,
+    ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
 
 private theorem ρM_eq (i j : Fin 3) :
     Type321.ρM i j = (!![1, 0, 4; 0, 0, -1; 0, 1, -1] : IntMat) i j := by
@@ -41,21 +41,21 @@ theorem uv_gens (x y z : ℤ) : Type321.action.φuv (x • g0 + y • g1 + z •
   rw [show Type321.action.φuv = matAct Type321.k Type321.uvM Type321.compat_uv from rfl,
     matAct_zsmul_gens]
   simp only [uvM_eq]
-  simp [Matrix.of_apply] <;> ring_nf
+  simp [Matrix.of_apply]; ring_nf
 
 theorem t_gens (x y z : ℤ) : Type321.action.φt (x • g0 + y • g1 + z • g2) =
     (x + 28 * z) • g0 + (x + 3 * y - 6 * z) • g1 + (2 * x - 5 * z) • g2 := by
   rw [show Type321.action.φt = matAct Type321.k Type321.tM Type321.compat_t from rfl,
     matAct_zsmul_gens]
   simp only [tM_eq]
-  simp [Matrix.of_apply] <;> ring_nf
+  simp [Matrix.of_apply]; ring_nf
 
 theorem rho_gens (x y z : ℤ) : Type321.action.φρ (x • g0 + y • g1 + z • g2) =
     (x + 4 * z) • g0 + (-z) • g1 + (y - z) • g2 := by
   rw [show Type321.action.φρ = matAct Type321.k Type321.ρM Type321.compat_rho from rfl,
     matAct_zsmul_gens]
   simp only [ρM_eq]
-  simp [Matrix.of_apply] <;> ring_nf
+  simp [Matrix.of_apply]; ring_nf
 
 private theorem gens_sub (a b c a' b' c' : ℤ) :
     (a • g0 + b • g1 + c • g2) - (a' • g0 + b' • g1 + c' • g2) =
@@ -186,7 +186,6 @@ theorem rho_orbit (v w : Torus Type321.k) (hv2 : v + v = 0) (hv0 : v ≠ 0)
   | exact Or.inr (Or.inl (eq_of_dvd (by omega) (by omega) (by omega)))
   | exact Or.inr (Or.inr (Or.inl (eq_of_dvd (by omega) (by omega) (by omega))))
   | exact Or.inr (Or.inr (Or.inr (eq_of_dvd (by omega) (by omega) (by omega))))
-  | (exfalso; omega)
 
 end Type321
 
@@ -203,8 +202,8 @@ private theorem uvM_eq (i j : Fin 3) :
 
 private theorem tM_eq (i j : Fin 3) :
     Type331.tM i j = (!![1, 0, 28; 1, 3, -6; -2, 0, -5] : IntMat) i j := by
-  fin_cases i <;> fin_cases j <;> simp [Type331.uvM, Type331.uvA, Type331.tM, Type331.ρM,
-    ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three, Matrix.mul_apply]
+  fin_cases i <;> fin_cases j <;> simp [Type331.uvA, Type331.tM, Type331.ρM,
+    ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
 
 private theorem ρM_eq (i j : Fin 3) :
     Type331.ρM i j = (!![1, 0, 4; 0, 0, -1; 0, 1, -1] : IntMat) i j := by
@@ -215,21 +214,21 @@ theorem uv_gens (x y z : ℤ) : Type331.action.φuv (x • g0 + y • g1 + z •
   rw [show Type331.action.φuv = matAct Type331.k Type331.uvM Type331.compat_uv from rfl,
     matAct_zsmul_gens]
   simp only [uvM_eq]
-  simp [Matrix.of_apply] <;> ring_nf
+  simp [Matrix.of_apply]
 
 theorem t_gens (x y z : ℤ) : Type331.action.φt (x • g0 + y • g1 + z • g2) =
     (x + 28 * z) • g0 + (x + 3 * y - 6 * z) • g1 + (-2 * x - 5 * z) • g2 := by
   rw [show Type331.action.φt = matAct Type331.k Type331.tM Type331.compat_t from rfl,
     matAct_zsmul_gens]
   simp only [tM_eq]
-  simp [Matrix.of_apply] <;> ring_nf
+  simp [Matrix.of_apply]; ring_nf
 
 theorem rho_gens (x y z : ℤ) : Type331.action.φρ (x • g0 + y • g1 + z • g2) =
     (x + 4 * z) • g0 + (-z) • g1 + (y - z) • g2 := by
   rw [show Type331.action.φρ = matAct Type331.k Type331.ρM Type331.compat_rho from rfl,
     matAct_zsmul_gens]
   simp only [ρM_eq]
-  simp [Matrix.of_apply] <;> ring_nf
+  simp [Matrix.of_apply]; ring_nf
 
 private theorem gens_sub (a b c a' b' c' : ℤ) :
     (a • g0 + b • g1 + c • g2) - (a' • g0 + b' • g1 + c' • g2) =
@@ -360,7 +359,6 @@ theorem rho_orbit (v w : Torus Type331.k) (hv2 : v + v = 0) (hv0 : v ≠ 0)
   | exact Or.inr (Or.inl (eq_of_dvd (by omega) (by omega) (by omega)))
   | exact Or.inr (Or.inr (Or.inl (eq_of_dvd (by omega) (by omega) (by omega))))
   | exact Or.inr (Or.inr (Or.inr (eq_of_dvd (by omega) (by omega) (by omega))))
-  | (exfalso; omega)
 
 end Type331
 

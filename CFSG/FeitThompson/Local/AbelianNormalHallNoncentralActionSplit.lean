@@ -267,7 +267,7 @@ theorem isCyclic_quotient_ker_conjAction [Finite G] {p q : ℕ} {P Q : Subgroup 
       P ⊓ centralizer (X : Set G) = ⊥ ∨ P ⊓ centralizer (X : Set G) = P) :
     IsCyclic (↥Q ⧸ (conjAction hQN).ker) := by
   have hqf := Fact.mk hq
-  letI : CommGroup ↥P := @IsMulCommutative.instCommGroup ↥P _ hPab
+  let : CommGroup ↥P := @IsMulCommutative.instCommGroup ↥P _ hPab
   have hPntv : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).2 hPnt
   have hqW : ¬ q ∣ Nat.card ↥P := by
     rw [hk]
@@ -360,7 +360,7 @@ theorem exists_sylow_not_le_centralizer [Finite G] {p : ℕ} {U P : Subgroup G}
     refine hnc fun x hx => ⟨hPU hx, Subgroup.mem_centralizer_iff.2 fun y hy => ?_⟩
     exact (Subgroup.mem_centralizer_iff.1 (h hy) x hx).symm
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   refine hUC (le_centralizer_of_forall_sylow_map_le_centralizer fun q hq S => ?_)
   have hSU : (S : Subgroup ↥U).map U.subtype ≤ U := Subgroup.map_subtype_le _
   have hScard : Nat.card ↥((S : Subgroup ↥U).map U.subtype)

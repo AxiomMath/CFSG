@@ -69,13 +69,13 @@ theorem a10t1_gf_card_alt5 : Nat.card (alternatingGroup (Fin 5)) = 60 := by
 theorem a10t1_gf_fiveRes_eq_of_iso {K : Type} [Group K] [Finite K] {Λ : Subgroup K}
     (e : ↥Λ ≃* alternatingGroup (Fin 5)) : fiveRes Λ = Λ := by
   refine le_antisymm (a10t1_gf_fiveRes_le Λ) ?_
-  haveI hsimple : IsSimpleGroup ↥Λ := e.isSimpleGroup
-  haveI hN : ((fiveRes Λ).subgroupOf Λ).Normal := ⟨fun x hx g => by
+  have hsimple : IsSimpleGroup ↥Λ := e.isSimpleGroup
+  have hN : ((fiveRes Λ).subgroupOf Λ).Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact a10t1_gf_fiveRes_conj Λ g.2 hx⟩
   have hcard : Nat.card ↥Λ = 60 := by
     rw [Nat.card_congr e.toEquiv]; exact a10t1_gf_card_alt5
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥Λ) 5 (by rw [hcard]; norm_num)
   rcases hsimple.eq_bot_or_eq_top_of_normal ((fiveRes Λ).subgroupOf Λ) with h | h
   · exfalso
@@ -168,7 +168,7 @@ theorem a10t1_gf_sup_norm_right {K : Type} [Group K] {A B : Subgroup K}
 
 theorem a10t1_gf_inf_normal {K : Type} [Group K] {A T : Subgroup K} (hA : IsSimpleGroup ↥A)
     (hn : ∀ a ∈ A, ∀ t ∈ T, a * t * a⁻¹ ∈ T) : T ⊓ A = ⊥ ∨ A ≤ T := by
-  haveI : ((T ⊓ A).subgroupOf A).Normal := ⟨fun x hx g => by
+  have : ((T ⊓ A).subgroupOf A).Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     obtain ⟨hxT, hxA⟩ := hx
     exact ⟨hn g.1 g.2 x hxT, A.mul_mem (A.mul_mem g.2 hxA) (A.inv_mem g.2)⟩⟩
@@ -369,9 +369,9 @@ theorem a10g_aut5 (hX : A10Facts) (hXe : A10Ext) {K : Type} [Group K] [Finite K]
     rcases hmax (Subgroup.normalizer ((A10Gamma K (S : Subgroup K) : Subgroup K) : Set K))
         Subgroup.le_normalizer with hn | hn
     · rwa [hn] at hqN
-    · haveI : (A10Gamma K (S : Subgroup K)).Normal := Subgroup.normalizer_eq_top_iff.mp hn
-      haveI : IsSimpleGroup (alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup (by simp)
-      haveI : IsSimpleGroup K := eK.isSimpleGroup
+    · have : (A10Gamma K (S : Subgroup K)).Normal := Subgroup.normalizer_eq_top_iff.mp hn
+      have : IsSimpleGroup (alternatingGroup (Fin 10)) := alternatingGroup.isSimpleGroup (by simp)
+      have : IsSimpleGroup K := eK.isSimpleGroup
       obtain ⟨e₁⟩ := h.iso₁
       have hΛ₁ne : Λ₁ ≠ ⊥ := (Subgroup.isSimpleGroup_iff.mp e₁.isSimpleGroup).1
       rcases Subgroup.Normal.eq_bot_or_eq_top (A10Gamma K (S : Subgroup K)) with h1 | h1

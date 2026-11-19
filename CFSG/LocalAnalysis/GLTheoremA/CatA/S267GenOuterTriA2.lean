@@ -33,10 +33,10 @@ theorem compsNormal_a2Plus {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 �
   have hφ := a2_hφ_of_class (σ := σ) (d := d) hs
   obtain ⟨ρ, hρ, hcard, -⟩ :=
     exists_hom_fixSub hA.toCore (MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ) hφ
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   obtain ⟨hker, hN, hsolv⟩ := sl3_hom_structure ρ hρ hcard
-  haveI := hN
-  haveI : Fintype (fixedField σ.toRingHom) := Fintype.ofFinite _
+  have := hN
+  have : Fintype (fixedField σ.toRingHom) := Fintype.ofFinite _
   have hquasi : CFSG.IsQuasisimple SL(3, fixedField σ.toRingHom) :=
     CFSG.ComponentClassification.CatalogueBGeneralLinear.specialLinear_quasisimple 3 _
       (by norm_num) (Or.inl (by norm_num)) (Or.inl (by norm_num))
@@ -63,7 +63,7 @@ private theorem compsNormal_unitary_core {p f : ℕ} [Fact p.Prime] (hp2 : p ≠
             graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) := by
   classical
   have hp : p.Prime := Fact.out
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   set q := p ^ f with hqdef
   set q₄ := q ^ 4 with hq₄def
   have hq2 : 2 ≤ q := by omega
@@ -106,7 +106,7 @@ private theorem compsNormal_unitary_core {p f : ℕ} [Fact p.Prime] (hp2 : p ≠
       | zero => simp
       | succ n ih =>
         rw [pow_succ, pow_mul, ih]
-        haveI : Fintype K := Fintype.ofFinite K
+        have : Fintype K := Fintype.ofFinite K
         rw [Nat.card_eq_fintype_card, FiniteField.pow_card]
     have : q ^ 9 * (q ^ 9 * (q ^ 9 * q ^ 9)) = Nat.card K ^ 3 := by
       rw [hN, hq₄def]
@@ -125,14 +125,14 @@ private theorem compsNormal_unitary_core {p f : ℕ} [Fact p.Prime] (hp2 : p ≠
   have hcompat := tau_rho_compat hA.toCore φ₄ ρ hμε h1 h2 h3 h4 h5 h6
   have hFcard : Nat.card (fixSubfield σ) = q₄ :=
     CFSG.GH74.GLS.Stage4.Hex.card_fixedField_of_cube σ.toRingHom hA.two_le hA.card hA.frob
-  haveI hFchar : CharP (fixSubfield σ) p :=
+  have hFchar : CharP (fixSubfield σ) p :=
     ((fixSubfield σ).subtype.charP_iff (fixSubfield σ).subtype_injective p).2 inferInstance
   let σQ : fixSubfield σ ≃+* fixSubfield σ := fixSubfieldRestrict ε σ
   have hσQ : ∀ c : fixSubfield σ, σQ c = c ^ (p ^ f) :=
     eps_restrict_frob (Q := p ^ f) rfl hσ hε
   obtain ⟨F₂, hF₂, ⟨e⟩⟩ := stdUnitary_equiv_fin (ℓ := p) (f := f) (ν := 3) hp
     (L := ↥(fixSubfield σ)) hf σQ hσQ le_rfl (by rw [hFcard])
-  haveI hF₂char : CharP ↥F₂ p := (F₂.subtype.charP_iff F₂.subtype_injective p).2 inferInstance
+  have hF₂char : CharP ↥F₂ p := (F₂.subtype.charP_iff F₂.subtype_injective p).2 inferInstance
   let θ : SL(3, fixSubfield σ) ≃* SL(3, fixSubfield σ) := stdUnitaryEquiv (ν := 3) σQ
   let S : Subgroup SL(3, fixSubfield σ) := fixSubgroup θ
   have hSmem : ∀ x, x ∈ S ↔ θ x = x := fun x => mem_fixSubgroup
@@ -159,7 +159,7 @@ private theorem compsNormal_unitary_core {p f : ℕ} [Fact p.Prime] (hp2 : p ≠
       exact ⟨x, Subtype.ext hx⟩
     · rintro ⟨x, hx⟩
       exact ⟨x, congrArg Subtype.val hx⟩
-  haveI hN' : (ρY.range.subgroupOf (fixSubO φ₄)).Normal := by
+  have hN' : (ρY.range.subgroupOf (fixSubO φ₄)).Normal := by
     rw [hrng]
     exact hN
   have hsolv' : Group.IsSolvable (↥(fixSubO φ₄) ⧸ ρY.range.subgroupOf (fixSubO φ₄)) := by
@@ -177,7 +177,7 @@ private theorem compsNormal_unitary_core {p f : ℕ} [Fact p.Prime] (hp2 : p ≠
   set C' := foldFix (φ₄ : graphFixedRootGroup TwistTag.D4 K σ.toRingHom ≃*
         graphFixedRootGroup TwistTag.D4 K σ.toRingHom) ⊓ foldFix (τ : graphFixedRootGroup
           TwistTag.D4 K σ.toRingHom ≃* graphFixedRootGroup TwistTag.D4 K σ.toRingHom) with hC'def
-  haveI hJN := hNorm
+  have hJN := hNorm
   let J : Subgroup ↥C' := (S.map ρY).subgroupOf C'
   let ρS : ↥S →* ↥C' := (ρY.comp S.subtype).codRestrict C' (fun x => hSle ⟨x, x.2, rfl⟩)
   let gS : ↥S →* ↥J := ρS.codRestrict J (fun x => ⟨x, x.2, rfl⟩)
@@ -206,8 +206,8 @@ private theorem compsNormal_unitary_core {p f : ℕ} [Fact p.Prime] (hp2 : p ≠
     apply Subtype.ext
     rw [map_mul, map_mul, Subgroup.coe_mul, Subgroup.coe_mul]
     exact Subgroup.mem_center_iff.1 hz _
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype ↥F₂ := Fintype.ofFinite _
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype ↥F₂ := Fintype.ofFinite _
   have hnq : (3, p ^ f) ≠ (3, 2) := fun h => by
     have := congrArg Prod.snd h
     simp only at this
@@ -223,7 +223,7 @@ theorem compsNormal_a2Minus {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p 
     {σ : K ≃+* K} (hσ : ∀ c, σ c = c ^ (p ^ f)) {s : graphFixedRootGroup TwistTag.D4 K σ.toRingHom}
     (hs : D4MinusToral p f hp K σ s) :
     CompsNormal ↥(fixSubgroup (MulAut.conj s * fieldActor (t := TwistTag.D4) σ σ)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K₄, _, _, hCh, hK₄, σ₄, ε, hσ₄, hε, b, hb3, hb1, s₄, hs₄, ψ₄, hinj, hint, hfix⟩ :=
     un_frame hp hf hq K hK σ hσ s hs
   have hp5 : 5 ≤ p := by

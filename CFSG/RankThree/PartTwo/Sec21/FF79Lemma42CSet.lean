@@ -52,8 +52,8 @@ theorem solvable_C0 (hX : Odd (Nat.card (Opp 3 (Cen b)))) :
     obtain ⟨i, rfl⟩ := hgen q
     obtain ⟨j, rfl⟩ := hgen q'
     exact (Commute.zpow_zpow_self _ i j).eq
-  haveI : Group.IsSolvable (↥Z ⧸ X') := isSolvable_of_comm hquot
-  exact solvable_of_ker_le_range X'.subtype (QuotientGroup.mk' X')
+  have : Group.IsSolvable (↥Z ⧸ X') := _root_.Group.isSolvable_of_comm hquot
+  exact Group.isSolvable_of_ker_le_range X'.subtype (QuotientGroup.mk' X')
     (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
 
 end Setup14

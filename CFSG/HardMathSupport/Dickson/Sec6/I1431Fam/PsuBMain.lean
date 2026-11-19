@@ -27,11 +27,11 @@ theorem s1431_false_psu_bad_three (hO : CFSG.ComponentClassification.CatLeaf.Lie
     (hA : ∀ a ∈ A, ∃ B : primeFormUnitary h (idGram K 3), primeFormConjHom h (idGram K 3) B = a) :
     False := by
   classical
-  haveI := h.finite
-  haveI : Finite (GL (Fin 3) K) :=
+  have := h.finite
+  have : Finite (GL (Fin 3) K) :=
     Finite.of_injective (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K)) Units.val_injective
-  haveI : Finite ↥(gramSU h (idGram K 3)) := inferInstance
-  haveI : Finite (primeFormP h (idGram K 3)) := inferInstance
+  have : Finite ↥(gramSU h (idGram K 3)) := inferInstance
+  have : Finite (primeFormP h (idGram K 3)) := inferInstance
   have hne : ¬(3 = 3 ∧ ℓ ^ f = 2) := fun hh => hq2 hh.2
   have hker : (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K 3)) 3)).ker ≤
       Subgroup.center ↥(gramSU h (idGram K 3)) := by

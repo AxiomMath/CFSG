@@ -24,6 +24,7 @@ private theorem ffOutFF6PSyl1_relIndex_map_dvd {M P : Type*} [Group M] [Group P]
   exact Subgroup.index_dvd_of_le fun b hb =>
     Subgroup.mem_comap.mpr (Subgroup.mem_map.mpr ⟨b, hb, rfl⟩)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff6p_thetaImg_isSylow2Of (θ : ↥(Subgroup.normalizer (L : Set G)) →* ProjSim Q)
     {H S₁ : Subgroup G} (hHN : H ≤ Subgroup.normalizer (L : Set G)) (hS : IsSylow2Of S₁ H) :
     IsSylow2Of (ffThetaImg θ S₁) (ffThetaImg θ H) := by
@@ -49,12 +50,12 @@ theorem ff6p_ts_mem_thetaImg [Finite G] (hQ : Q.Nondegenerate)
     ffTs fr ∈ ffThetaImg (ffTheta6P hQ hdim hsgn e) S₁ := by
   have h2 : 2 ≤ Module.finrank (ZMod 3) V := by omega
   have hπ := ff_piOrth_not_mem_omegaGroup_six_plus hQ hdim hsgn
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun f : V ≃ₗ[ZMod 3] V => (f : V → V))
       (fun f g h => LinearEquiv.ext (congrFun h))
-  haveI : Finite (simGroup Q) := Subtype.finite
-  haveI : Finite (ProjSim Q) := inferInstance
+  have : Finite (simGroup Q) := Subtype.finite
+  have : Finite (ProjSim Q) := inferInstance
   let T : Subgroup (ProjSim Q) := ffThetaImg (ffTheta6P hQ hdim hsgn e) H ⊓
     Subgroup.normalizer (((ffP1p hQ fr).map (ffOmegaToSim hQ) :
       Subgroup (ProjSim Q)) : Set (ProjSim Q))

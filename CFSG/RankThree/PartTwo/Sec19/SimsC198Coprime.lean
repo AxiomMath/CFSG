@@ -175,7 +175,7 @@ end CoprimeAux
 theorem AutDatum.surj_fixIn (h : AutDatum S c L 𝒟) (t : L ⧸ aschbacherSolvableCore 3 L) :
     ∃ l : L, (l : S) ∈ fixIn 𝒟 L ∧ ((l : L) : L ⧸ aschbacherSolvableCore 3 L) = t := by
   obtain ⟨l₀, rfl⟩ := QuotientGroup.mk_surjective t
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA : IsPGroup 3 𝒟 := IsPGroup.of_card (n := 2) (by rw [h.card]; norm_num)
   have hinv : ∀ a : 𝒟, ∀ x : S, (l₀ : S)⁻¹ * x ∈ thetaIn L →
       (l₀ : S)⁻¹ * (a : MulAut S) x ∈ thetaIn L := by
@@ -272,7 +272,7 @@ theorem AutDatum.card_comap_inf_le (h : AutDatum S c L 𝒟) (hZ : Subgroup.cent
     (Subgroup.mem_comap.mp t.2.1) s.2.2 t.2.2 (congrArg Subtype.val hst))
 
 theorem AutDatum.comm (h : AutDatum S c L 𝒟) : ∀ φ ∈ 𝒟, ∀ ψ ∈ 𝒟, φ * ψ = ψ * φ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : IsMulCommutative 𝒟 :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [h.card]; norm_num)
   intro φ hφ ψ hψ

@@ -47,10 +47,10 @@ theorem testBit_sigRec (a : Array ℕ) (w : ℕ) :
     by_cases hj : j = n
     · subst hj
       by_cases hb : w.testBit a[j]! = true
-      · simp [hb, Nat.testBit_two_pow]
+      · simp [hb]
       · simp [hb]
     · have e : (if w.testBit a[n]! = true then 2 ^ n else 0 : ℕ).testBit j = false := by
-        split <;> simp [Nat.testBit_two_pow, Ne.symm hj]
+        split <;> simp [Ne.symm hj]
       have e2 : (j < n + 1) ↔ (j < n) := by omega
       rw [e, Bool.xor_false]
       simp only [e2]
@@ -132,9 +132,9 @@ theorem sqTerm_eq {p d : ℕ} (hp : canonK 24 5 (mask 5) (24 * 5) p = true)
       sqTermP d p := by
   unfold sqTermP
   by_cases h : amul (unpack 24 5 p) (unpack 24 5 p) = idArr
-  · rw [if_pos h, if_pos ((sq_unpack hp).1 h), sumCount_eq ha h hd, cntS_eq]
+  · rw [ite_eq_left h, ite_eq_left ((sq_unpack hp).1 h), sumCount_eq ha h hd, cntS_eq]
     simp only [linP_eq]
-  · rw [if_neg h, if_neg fun h' => h ((sq_unpack hp).2 h')]
+  · rw [ite_eq_right h, ite_eq_right fun h' => h ((sq_unpack hp).2 h')]
 
 theorem sqOK_sound {T : ℕ → ℕ} {N d n : ℕ} (h : sqOK T N d n = true) : sqK T N d = n :=
   Nat.eq_of_beq_eq_true h

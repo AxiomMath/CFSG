@@ -45,17 +45,17 @@ theorem hh_centralizes (hd : Module.finrank F W + 2 ≤ p)
   have hGcoe : (G : Set (LinearMap.GeneralLinearGroup F W)) =
       (N : Set (LinearMap.GeneralLinearGroup F W)) * (zpowers x : Set (LinearMap.GeneralLinearGroup F W)) :=
     coe_mul_of_right_le_normalizer_left N (zpowers x) hzN
-  haveI : Finite G := by
+  have : Finite G := by
     have hfin : ((N : Set (LinearMap.GeneralLinearGroup F W)) *
         (zpowers x : Set (LinearMap.GeneralLinearGroup F W))).Finite :=
       Set.Finite.mul (Set.toFinite _) (Set.toFinite _)
     rw [← hGcoe] at hfin
     exact hfin.to_subtype
   set N' : Subgroup G := N.subgroupOf G with hN'
-  haveI hN'n : N'.Normal := (normal_subgroupOf_iff_le_normalizer hNG).2 hGn
+  have hN'n : N'.Normal := (normal_subgroupOf_iff_le_normalizer hNG).2 hGn
   have hN'card : Nat.card N' = Nat.card N := Nat.card_congr (subgroupOfEquivOfLe hNG).toEquiv
   set xG : G := ⟨x, hxG⟩ with hxG'
-  haveI hcyc : IsCyclic (G ⧸ N') := by
+  have hcyc : IsCyclic (G ⧸ N') := by
     refine ⟨QuotientGroup.mk xG, fun y => ?_⟩
     induction y using QuotientGroup.induction_on with
     | H y =>
@@ -178,7 +178,7 @@ theorem centralizes_of_faithful_lift (hd : Module.finrank F W + 2 ≤ p)
     {u : P} (hu : orderOf u = p) {V : Subgroup P} (hV : ¬ p ∣ Nat.card V)
     (hnorm : u ∈ normalizer (V : Set P)) :
     ∀ v ∈ V, u * v = v * u := by
-  haveI : Finite S := Finite.of_injective ρ hρ
+  have : Finite S := Finite.of_injective ρ hρ
   have hp' : p.Prime := hp.out
   have hker' : Nat.Coprime p (Nat.card π.ker) := (Nat.Prime.coprime_iff_not_dvd hp').2 hker
   have hup : u ^ p = 1 := by rw [← hu]; exact pow_orderOf_eq_one u
@@ -209,7 +209,7 @@ theorem centralizes_of_faithful_lift (hd : Module.finrank F W + 2 ≤ p)
     rw [mem_normalizer_iff]
     intro h
     have hV' := (mem_normalizer_iff.1 hnorm) (π h)
-    simp only [hVl, SetLike.mem_coe, mem_comap, map_mul, map_inv, hπul]
+    simp only [hVl, mem_comap, map_mul, map_inv, hπul]
     exact hV'
   have hVlp : ¬ p ∣ Nat.card Vl := by
     intro hdvd
@@ -223,7 +223,7 @@ theorem centralizes_of_faithful_lift (hd : Module.finrank F W + 2 ≤ p)
     · have hmem : ((y : Vl) : S) ∈ π.ker := hπy
       have h1 : orderOf (⟨((y : Vl) : S), hmem⟩ : π.ker) = p := by
         rw [← Subgroup.orderOf_coe]
-        simp only [Subgroup.coe_mk]
+        simp only
         rw [Subgroup.orderOf_coe, hy]
       exact hker (h1 ▸ orderOf_dvd_natCard _)
     · have hpow : (π ((y : Vl) : S)) ^ p = 1 := by rw [← map_pow, hyp, map_one]
@@ -234,7 +234,7 @@ theorem centralizes_of_faithful_lift (hd : Module.finrank F W + 2 ≤ p)
         rw [← Subgroup.orderOf_coe]
         exact h2
       exact hV (h3 ▸ orderOf_dvd_natCard _)
-  haveI : Finite Vl := inferInstance
+  have : Finite Vl := inferInstance
   have hNcop : Nat.Coprime p (Nat.card (Vl.map ρ)) := by
     rw [Subgroup.card_map_of_injective hρ]
     exact (Nat.Prime.coprime_iff_not_dvd hp').2 hVlp
@@ -264,11 +264,11 @@ theorem kFactU3UnipotentCentralizing :
   obtain ⟨-, hf, hq, K', _, _, J, hJ, hK', hfix, ⟨e⟩⟩ :=
     CFSG.AGLEmbedding.UnitaryModel.exists_equiv_psu
       (CFSG.AGLEmbedding.UnitaryModel.statedClassicalModel hd he)
-  haveI : Fintype K' := Fintype.ofFinite K'
-  haveI : CharP K' p := charP_of_card_eq_prime_pow (p := p) (f := d.1.fieldExponent * 2)
+  have : Fintype K' := Fintype.ofFinite K'
+  have : CharP K' p := charP_of_card_eq_prime_pow (p := p) (f := d.1.fieldExponent * 2)
     (by rw [Fintype.card_eq_nat_card, hK', ← pow_mul])
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin 3) K') := inferInstance
-  haveI : Finite (LinearMap.GeneralLinearGroup K' (Fin 3 → K')) :=
+  have : Finite (Matrix.GeneralLinearGroup (Fin 3) K') := inferInstance
+  have : Finite (LinearMap.GeneralLinearGroup K' (Fin 3 → K')) :=
     Finite.of_equiv _ (Matrix.GeneralLinearGroup.toLin (n := Fin 3) (R := K')).toEquiv
   set S : Subgroup (Matrix.GeneralLinearGroup (Fin 3) K') := J.specialSubgroup with hS
   let π₀ : ↥S →* ↥(ProjectiveSpecialUnitaryMatrixGroup J) :=

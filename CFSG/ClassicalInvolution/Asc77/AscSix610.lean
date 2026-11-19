@@ -173,12 +173,12 @@ theorem eta_acts_of_cyc66 [Finite G] (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ : Hy
   refine ⟨fun R hR hRS r hr V hV => ?_, fun U hU hUS u hu V hV => ?_⟩
   · obtain ⟨J, hJ, hRJ⟩ := exists_isSylow2In_of_mem_RSet hR
     have hJS : J ⊓ (S : Subgroup G) = R :=
-      hRJ.eq_of_le (S.isPGroup'.to_inf_right) inf_le_left (le_inf hRJ.1 hRS)
+      hRJ.eq_of_le (S.isPGroup.to_inf_right) inf_le_left (le_inf hRJ.1 hRS)
     have hsyl : IsSylow2In (J ⊓ (S : Subgroup G)) J := hJS ▸ hRJ
     exact eta_conj_of_sylow hp hq hΩ hηS' habel hUW hJ hsyl r (hJS ▸ hr) V hV
   · obtain ⟨R₀, -, J, hJ, hR₀J, hUR₀, -, hcard, -⟩ := hΩ.exists_data_of_mem_USet hp hU
     have hUJ : U ≤ J := hUR₀.trans hR₀J.1
-    have hT2 : IsPGroup 2 ↥(J ⊓ (S : Subgroup G)) := S.isPGroup'.to_inf_right
+    have hT2 : IsPGroup 2 ↥(J ⊓ (S : Subgroup G)) := S.isPGroup.to_inf_right
     obtain ⟨R₁, hR₁, hTR₁⟩ := IsSylow2In.exists_ge hT2 (inf_le_left : J ⊓ (S : Subgroup G) ≤ J)
     have hR₁card : Nat.card R₁ = 2 * Nat.card U := by rw [← hcard, hR₁.natCard_eq hR₀J]
     have hUT : U ≤ J ⊓ (S : Subgroup G) := le_inf hUJ hUS

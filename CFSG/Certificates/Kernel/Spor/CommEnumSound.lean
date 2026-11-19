@@ -66,7 +66,7 @@ theorem repOK_facts {O : ℕ} {R : List RepRec} {q : RepRec}
     fun s hs => lettersOK_iff.1 (hss s hs), fun s hs => Nat.eq_of_beq_eq_true (hsb s hs), hc,
     fun y hy hf => ?_⟩
   have := hall y hy
-  rw [bIf_eqC, if_pos hf, anyL_iff] at this
+  rw [bIf_eqC, ite_eq_left hf, anyL_iff] at this
   obtain ⟨c, hc', e⟩ := this
   exact ⟨c, hc', Nat.eq_of_beq_eq_true e⟩
 

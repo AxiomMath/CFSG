@@ -101,12 +101,14 @@ section Basic
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem pslFieldAut_mul_inner (σ : K ≃+* K) (A : GL (Fin 2) K) :
     pslFieldAut (Fin 2) K σ * innerDiagonalAction 2 K A =
       innerDiagonalAction 2 K (glFieldAut (Fin 2) K σ A) * pslFieldAut (Fin 2) K σ := by
   have h := semilinearAction_mul 2 K 1 A σ 1
   simpa [semilinearAction] using h
 
+omit [Finite K] in
 theorem ringEquiv_mul_comm_of_frob {τ : K ≃+* K} (hτ : ∀ x, τ x = x ^ 9) (ρ : K ≃+* K) :
     τ * ρ = ρ * τ := by
   refine RingEquiv.ext fun x => ?_
@@ -156,6 +158,7 @@ theorem ringChar_ne_two_of_card (hK : Nat.card K = 81) : ringChar K ≠ 2 :=
   CFSG.ComponentClassification.CatalogueBHigherLinearInner.ringChar_ne_two_of_odd_card K
     (by rw [hK]; decide)
 
+omit [Finite K] in
 theorem glFieldAut_scalar (σ : K ≃+* K) (c : Kˣ) :
     glFieldAut (Fin 2) K σ (GeneralLinearGroup.scalar (Fin 2) c) =
       GeneralLinearGroup.scalar (Fin 2) (Units.map σ.toMonoidHom c) :=
@@ -196,6 +199,7 @@ theorem isSquare_det_of_glFieldAut (hK : Nat.card K = 81) {τ : K ≃+* K}
     _ = c * c ^ 9 := by rw [hd, ← pow_mul, ← pow_succ']
     _ = 1 := by rw [← hτu c, hc]
 
+omit [Finite K] in
 theorem conj_mk_eq_innerDiagonalAction {n : ℕ} (g : SpecialLinearGroup (Fin n) K) :
     MulAut.conj (QuotientGroup.mk g : ProjectiveSpecialLinearGroup (Fin n) K) =
       innerDiagonalAction n K (SpecialLinearGroup.toGL g) := by
@@ -215,6 +219,7 @@ theorem conj_mk_eq_innerDiagonalAction {n : ℕ} (g : SpecialLinearGroup (Fin n)
   rw [toGL_slConjugation]
   simp
 
+omit [Finite K] in
 theorem innerDiagonalAction_mem_range_of_isSquare_det {A : GL (Fin 2) K}
     (hA : IsSquare (GeneralLinearGroup.det A)) :
     innerDiagonalAction 2 K A ∈ (MulAut.conj : PSL₂ K →* MulAut (PSL₂ K)).range := by
@@ -269,7 +274,7 @@ theorem not_outerKlein_pslFieldAut (hK : Nat.card K = 81) {τ : K ≃+* K}
   rintro ⟨α, β, hαF, hβF, hα2, hβ2, -, hα, hβ, hαβ⟩
   set I : Subgroup (MulAut (PSL₂ K)) :=
     (MulAut.conj : PSL₂ K →* MulAut (PSL₂ K)).range with hI
-  haveI hIn : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.innerNormal (PSL₂ K)
+  have hIn : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.innerNormal (PSL₂ K)
   obtain ⟨A, ρ, rfl⟩ := CFSG.ComponentClassification.CatLeafProof.psl_two_normal_form α
   obtain ⟨B, ρ', rfl⟩ := CFSG.ComponentClassification.CatLeafProof.psl_two_normal_form β
   have hiA := inner_part_of_commute hK hτ hαF

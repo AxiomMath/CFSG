@@ -24,7 +24,7 @@ theorem exists_sylow_eq_of_normalizer_le_of_isSylowTwoIn {S M : Subgroup G} (hS 
     refine lt_top_iff_ne_top.mpr fun htop => hQS fun q hq => ?_
     have : (⟨q, hq⟩ : Q) ∈ S.subgroupOf Q := by rw [htop]; exact mem_top _
     exact mem_subgroupOf.mp this
-  have hnil : Group.IsNilpotent Q := Q.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent Q := Q.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyS⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hyN' : (y : G) ∈ normalizer (S : Set G) := by
@@ -43,7 +43,7 @@ theorem exists_sylow_eq_of_normalizer_le_of_isSylowTwoIn {S M : Subgroup G} (hS 
       exact mem_subgroupOf.mp ((mem_normalizer_iff.mp hyN _).mpr h1)
   have hyM : (y : G) ∈ M := hN hyN'
   have hQ' : IsPGroup 2 ↥(S ⊔ zpowers (y : G)) :=
-    Q.isPGroup'.to_le (sup_le hSQ (zpowers_le.mpr y.2))
+    Q.isPGroup.to_le (sup_le hSQ (zpowers_le.mpr y.2))
   have heq := hS.eq_of_le le_sup_left (sup_le hS.1 (zpowers_le.mpr hyM)) hQ'
   have hyS' : (y : G) ∈ S ⊔ zpowers (y : G) := mem_sup_right (mem_zpowers (y : G))
   rw [heq] at hyS'
@@ -126,7 +126,7 @@ theorem false_of_stronglyClosed_le_zStarIn (hGold : GoldschmidtStronglyClosedInp
     have h2 := conj_mem_oddIn hl h1
     rwa [show l * (l⁻¹ * f * l * f⁻¹) * l⁻¹ = f * l * f⁻¹ * l⁻¹ by group] at h2
   have hcov := le_pLayer_inf_centralizer_sup hJa hJc (hAJ'.trans hJa)
-    (P.isPGroup'.to_le hAP)
+    (P.isPGroup.to_le hAP)
     (hAJ'.trans le_normalizer) hAcen
   set C : Subgroup G := J ⊓ centralizer (A : Set G) with hC
   have hCs : Group.IsSolvable C :=

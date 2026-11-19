@@ -16,16 +16,19 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {hQ : Q.Nondegenerate}
 
+omit [Finite G] in
 private theorem sec5m1t_aux_normalizer {φ : ↥L →* omegaGroup hQ} {s : G} {x : simGroup Q}
     (h : CoverAct L φ s x) : s ∈ Subgroup.normalizer (L : Set G) := by
   with_unfolding_all exact h.1
 
+omit [Finite G] in
 private theorem sec5m1t_aux_apply {φ : ↥L →* omegaGroup hQ} {s : G} {x : simGroup Q}
     (h : CoverAct L φ s x) {l l' : ↥L} (hl : (l' : G) = s * l * s⁻¹) :
     ((φ l' : omegaGroup hQ) : OGroup Q) =
       simAct Q x ((φ l : omegaGroup hQ) : OGroup Q) := by
   with_unfolding_all exact h.2 l l' hl
 
+omit [Finite G] in
 theorem sec5m1t_coverAct_sq {φ : ↥L →* omegaGroup hQ} {c : G} {x : simGroup Q}
     (hx : CoverAct L φ c x) {l l₂ : ↥L} (hl₂ : (l₂ : G) = (c * c) * (l : G) * (c * c)⁻¹) :
     ((φ l₂ : omegaGroup hQ) : OGroup Q) =
@@ -46,6 +49,7 @@ theorem sec5m1t_coverAct_sq {φ : ↥L →* omegaGroup hQ} {c : G} {x : simGroup
     group
   rw [← hEq, hl₂', hl₁, map_mul (simAct Q) x x, MulAut.mul_apply]
 
+omit [Finite G] in
 theorem sec5m1t_sq_act {φ : ↥L →* omegaGroup hQ} (hs : Function.Surjective φ) {z c : G}
     (hz : z ∈ L) {x : simGroup Q} (hx : CoverAct L φ c x)
     (hcz : ∀ y ∈ L, (c * c) * y * (c * c)⁻¹ = z * y * z⁻¹) :
@@ -72,6 +76,7 @@ theorem sec5m1t_sq_act {φ : ↥L →* omegaGroup hQ} (hs : Function.Surjective 
     rw [simAct_orthToSim, hlcoe]
   exact h1.symm.trans h2
 
+omit [Finite G] in
 theorem sec5m1t_comm_odd {φ : ↥L →* omegaGroup hQ} (hφ : Function.Injective φ)
     (hs : Function.Surjective φ) {z c : G} (hz : z ∈ L) {x : simGroup Q}
     (hx : CoverAct L φ c x)
@@ -108,6 +113,7 @@ theorem sec5m1t_comm_odd {φ : ↥L →* omegaGroup hQ} (hφ : Function.Injectiv
       _ = (h : V ≃ₗ[ZMod 3] V) * (x : V ≃ₗ[ZMod 3] V) := by rw [hh']
   exact Subtype.ext (by simpa only [Subgroup.coe_mul, coe_orthToSim] using hmul)
 
+omit [Finite G] in
 theorem sec5m1t_cent_equiv {φ : ↥L →* omegaGroup hQ} (hφ : Function.Injective φ)
     (hs : Function.Surjective φ) {d : G} {p : OGroup Q} (hd : CoverAct L φ d (orthToSim Q p)) :
     ∃ ψ : ↥(L ⊓ centralizer ({d} : Set G)) ≃*

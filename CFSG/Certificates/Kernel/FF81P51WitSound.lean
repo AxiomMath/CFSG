@@ -18,6 +18,7 @@ theorem mem_nonzeroD_of_memOmD {c : CfgD} {x : V4} (h : memOmD c x = true) : x �
   simp only [Bool.and_eq_true, decide_eq_true_eq] at h
   exact hnz x h.1
 
+omit hnz in
 theorem c4aD_of_c4aB {c : CfgD} {k : ℕ} (h : c4aB c k = true) : C4aD c k := by
   intro w _ hw
   have := List.all_eq_true.1 h w ‹_›
@@ -29,7 +30,7 @@ theorem not_c4D_of {c : CfgD} {k : ℕ} {w w' : V4} (ha : c4aB c k = true)
   unfold c4bFail at hb
   simp only [Bool.and_eq_true, Bool.not_eq_true', decide_eq_false_iff_not] at hb
   obtain ⟨⟨hw, hw'⟩, hne⟩ := hb
-  exact hne (h4 (c4aD_of_c4aB hnz ha) w (mem_nonzeroD_of_memOmD hnz hw) hw w'
+  exact hne (h4 (c4aD_of_c4aB ha) w (mem_nonzeroD_of_memOmD hnz hw) hw w'
     (mem_nonzeroD_of_memOmD hnz hw') hw')
 
 theorem fwitOK_sound (c : CfgD) (t : FWit) (h : fwitOK c t = true) : CfgImp c := by

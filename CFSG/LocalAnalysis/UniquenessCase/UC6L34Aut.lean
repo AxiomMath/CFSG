@@ -78,7 +78,7 @@ theorem absKN_of_card (hk : Nat.card k = 4) {E : Subgroup (projectiveSL 3 k)} (h
   intro X hXn hX3
   have hcard : ¬ 3 ∣ Nat.card X := by
     intro h3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := X) 3 h3
     have hx' : orderOf (x : MulAut (projectiveSL 3 k)) = 3 := by
       rw [Subgroup.orderOf_coe]; exact hx
@@ -99,7 +99,7 @@ theorem absKN_of_card (hk : Nat.card k = 4) {E : Subgroup (projectiveSL 3 k)} (h
 
 theorem isSylowOf_eZero (hk : Nat.card k = 4) : IsSylowOf 3 (eZero k) ⊤ := by
   have := LinearFieldFour.finite_of_card_eq_four hk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact isSylowOf_of_card le_top (by rw [Subgroup.card_top]; exact card_eZero_eq hk)
 
 end Concrete
@@ -115,7 +115,7 @@ theorem kc633_of_l34 (h620 : m.C620) (hr3 : m.r = 3) (hL : LieModel m.Lbar .PSL 
   obtain ⟨K, _, _, hK, ⟨φ⟩⟩ := CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hL
   have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
   have := LinearFieldFour.finite_of_card_eq_four hK4
-  haveI : Finite (projectiveSL 3 K) := by
+  have : Finite (projectiveSL 3 K) := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [card_projectiveSL hK4]; norm_num
   refine m.kc633_of_model h620 φ (by rw [hr3]; exact factorization_card hK4)
@@ -128,7 +128,7 @@ theorem kn633_of_l34 (h620 : m.C620) (hr3 : m.r = 3) (hL : LieModel m.Lbar .PSL 
   obtain ⟨K, _, _, hK, ⟨φ⟩⟩ := CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hL
   have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
   have := LinearFieldFour.finite_of_card_eq_four hK4
-  haveI : Finite (projectiveSL 3 K) := by
+  have : Finite (projectiveSL 3 K) := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [card_projectiveSL hK4]; norm_num
   refine m.kn633_of_model h620 φ (by rw [hr3]; exact factorization_card hK4)
@@ -146,7 +146,7 @@ theorem kinv633_of_l34 (h620 : m.C620) (hr3 : m.r = 3) (hL : LieModel m.Lbar .PS
   obtain ⟨K, _, _, hK, ⟨φ⟩⟩ := CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hL
   have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
   have := LinearFieldFour.finite_of_card_eq_four hK4
-  haveI : Finite (projectiveSL 3 K) := by
+  have : Finite (projectiveSL 3 K) := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [card_projectiveSL hK4]; norm_num
   exact m.kinv633_of_model h620 φ (by rw [hr3]; exact factorization_card hK4)

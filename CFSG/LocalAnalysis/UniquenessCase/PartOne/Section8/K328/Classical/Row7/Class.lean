@@ -604,7 +604,7 @@ private theorem k328r7c_conj (F : Type) [Field F] [Fintype F] [DecidableEq F] [C
     rw [Matrix.col_apply]
     rfl
   have hlin' : LinearIndependent F M.col := by rw [hMcol]; exact hlin
-  have hunit : IsUnit M := (Matrix.linearIndependent_cols_iff_isUnit).mp hlin'
+  have hunit : IsUnit M := (Matrix.linearIndependent_col_iff_isUnit).mp hlin'
   have hdet : M.det ≠ 0 := (Matrix.isUnit_iff_isUnit_det (A := M)).mp hunit |>.ne_zero
   let g₀ : GL (Fin 3 ⊕ Fin 3) F := Matrix.GeneralLinearGroup.mkOfDetNeZero M hdet
   have hg₀coe : (g₀ : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F) = M := rfl

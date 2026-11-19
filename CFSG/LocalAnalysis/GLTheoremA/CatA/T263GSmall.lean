@@ -66,7 +66,7 @@ theorem t263Vac_ambAlt : T263Vac t263GAmbAlt := by
   intro p hp hp2 Ω _ _ S B hSn hSq hSp hQ hF2 hB h4 hT hC
   classical
   have hvh := t263VHyp_of_data hSn hSq hSp hB hp h4 hT
-  haveI : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
+  have : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
   obtain ⟨i, ⟨hamb, hnu⟩, ⟨e⟩⟩ := hQ
   rcases CFSG.StandardType.ChevTwo.ambiguousChev_two_cases hamb with
     ⟨h5, rfl⟩ | ⟨h6, rfl⟩ | ⟨h8, rfl⟩ | ⟨q, hv, hq, rfl⟩ | ⟨q, hv, hq, rfl⟩
@@ -121,7 +121,7 @@ theorem t263Vac_ambU33 : T263Vac t263GAmbU33 := by
   have hm := statedClassicalModel_of_fU33 hc
   have hS : Nat.card (↥S ⧸ Subgroup.center ↥S) = 6048 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_three_three hm
-  haveI : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
+  have : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
   have hZ : Subgroup.center (↥S ⧸ Subgroup.center ↥S) = ⊥ :=
     center_eq_bot_of_simple_nonprime hS (by norm_num)
   have hinj : Function.Injective
@@ -166,7 +166,7 @@ theorem t263Vac_l28 : T263Vac t263GL28 := by
   have hAut := card_mulAut_fL28 hc
   by_cases hp3 : p = 3
   · subst hp3
-    haveI : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
+    have : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
     have hZ : Subgroup.center (↥S ⧸ Subgroup.center ↥S) = ⊥ :=
       center_eq_bot_of_simple_nonprime hcard (by norm_num)
     have hOutc : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer (↥S ⧸ Subgroup.center ↥S)) = 3 := by
@@ -196,11 +196,11 @@ theorem t263Vac_tits : T263Vac t263GTits := by
   have hvh := t263VHyp_of_data hSn hSq hSp hB hp h4 hT
   have hc : catalogIs (↥S ⧸ Subgroup.center ↥S) fTits := S10.catalogIs_imp (fun i hi => hi) hQ
   obtain ⟨e⟩ := titsEquiv_of_catalog hc
-  haveI : Finite (↥S ⧸ Subgroup.center ↥S) := inferInstance
-  haveI : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
+  have : Finite (↥S ⧸ Subgroup.center ↥S) := inferInstance
+  have : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
   have hcardS : Nat.card (↥S ⧸ Subgroup.center ↥S) = 17971200 := by
     rw [Nat.card_congr e.toEquiv, card_titsD]
-  haveI : IsSimpleGroup titsD := e.symm.isSimpleGroup
+  have : IsSimpleGroup titsD := e.symm.isSimpleGroup
   have hZ : Subgroup.center titsD = ⊥ :=
     center_eq_bot_of_simple_nonprime (n := 17971200)
       (by rw [← Nat.card_congr e.toEquiv]; exact hcardS) (by norm_num)

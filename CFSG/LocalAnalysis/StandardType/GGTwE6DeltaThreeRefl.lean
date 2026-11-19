@@ -130,7 +130,7 @@ theorem exists_fixed_of_reflData {R L' : Type} [Group R] [Group L'] [Finite L'] 
     · rintro x (hx | ⟨i, rfl⟩)
       · exact hZ3' x hx
       · exact hη3 i
-  haveI : Finite R := Finite.of_surjective ψ hψ
+  have : Finite R := Finite.of_surjective ψ hψ
   let f : E →* R := ψ.comp E.subtype
   have hZf : Nat.card (Subgroup.center L') ≤ Nat.card f.ker := by
     refine Nat.card_le_card_of_injective

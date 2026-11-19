@@ -36,13 +36,13 @@ private theorem w183_two_le_of_isSLn {X : Type} [Group X] {n a : ℕ}
   by_contra hlt
   have hn : n < 2 := by omega
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hshape
-  letI := hKf
-  haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin n) K) :=
+  let := hKf
+  have : Subsingleton (Matrix.SpecialLinearGroup (Fin n) K) :=
     w183_subsingleton_specialLinear_of_lt_two hn
-  haveI : Subsingleton ↥(StatedSL n K) :=
+  have : Subsingleton ↥(StatedSL n K) :=
     (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL n K).toEquiv.symm.subsingleton
   have hnt : Nontrivial X := by
-    haveI : Nontrivial (X ⧸ Subgroup.center X) := hq.2.toNontrivial
+    have : Nontrivial (X ⧸ Subgroup.center X) := hq.2.toNontrivial
     exact (QuotientGroup.mk'_surjective (Subgroup.center X)).nontrivial
   exact (not_subsingleton_iff_nontrivial (α := X)).mpr hnt e.toEquiv.subsingleton
 
@@ -81,14 +81,14 @@ private theorem w183_sq_not_dvd_168 {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :
 private theorem w183_statedClassicalModel_psl_two_of_isSLn {X : Type} [Group X] {m : ℕ}
     (hm : 2 ≤ m) (h : IsSLn X 2 m) : StatedClassicalModel X .PSL 2 2 m := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hKeven : Fintype.card K % 2 = 0 := by
     rw [Fintype.card_eq_nat_card, hKcard]
     exact Nat.dvd_iff_mod_eq_zero.mp (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 := (FiniteField.even_card_iff_char_two (F := K)).mpr hKeven
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   have hbot : (StatedScalars (Fin 2) K).subgroupOf (StatedSL 2 K) = ⊥ :=
     CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot
   let q : StatedProj (StatedSL 2 K) ≃* ↥(StatedSL 2 K) :=
@@ -116,8 +116,8 @@ theorem s16nt_range_sl {n a : ℕ} (hq : CFSG.Open.IsQuasisimple Y)
   have hnot : ¬ (n = 3 ∧ 2 ≤ a) := fun hh => hcon (Or.inr hh)
   have h2 : 2 ≤ n := w183_two_le_of_isSLn hq h
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have ha1 : 1 ≤ a := w183_one_le_of_card hKcard
   rcases lt_or_eq_of_le ha1 with ha2 | ha1eq
   · rcases Nat.lt_or_ge n 3 with hn3 | hn3
@@ -161,8 +161,8 @@ theorem s16nt_false_l32
   have hSCM : StatedClassicalModel Y .PSL 3 2 1 :=
     CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hSCM
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hK2 : Nat.card K = 2 := by simpa using hKcard
   have e' : Y ≃* Matrix.SpecialLinearGroup (Fin 3) (ZMod 2) :=
     e.trans (CFSG.QuasithinUnique.Setup.Family.statedProjSL_equiv_of_card_two 3 K hK2)

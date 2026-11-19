@@ -28,7 +28,7 @@ theorem catalogIs_setupLU_of_isU6n {S : Type} [Group S] {n : ℕ} (hn : Odd n) (
     cases d with
     | twistedA r q =>
       rcases r with _ | _ | _ | _ | _ | _ | r
-      all_goals first | (simp [S10.isU6n, onLie] at hi; done) | skip
+      all_goals try (simp [S10.isU6n, onLie] at hi; done)
       simp only [S10.isU6n, onLie] at hi
       obtain ⟨hp, hnq⟩ := hi
       refine ⟨q, Or.inr rfl, hp, ?_⟩
@@ -67,7 +67,7 @@ theorem catalogIs_t158Shape_of_isU6n {S : Type} [Group S] {n : ℕ} (hn : Odd n)
     cases d with
     | twistedA r q =>
       rcases r with _ | _ | _ | _ | _ | _ | r
-      all_goals first | (simp [S10.isU6n, onLie] at hi; done) | skip
+      all_goals try (simp [S10.isU6n, onLie] at hi; done)
       simp only [S10.isU6n, onLie] at hi
       obtain ⟨hp, hnq⟩ := hi
       refine Or.inr (Or.inl ⟨hp, ?_⟩)

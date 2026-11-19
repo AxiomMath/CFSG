@@ -22,7 +22,7 @@ theorem relIndex_eq_two_pow_of_elemAb [Finite G] {C U : Subgroup G}
         ((g : G) * (w : G) * (g : G)⁻¹ * (w : G)⁻¹) * (w : G) := by group
     rw [heq]
     exact mul_mem hcomm hw
-  haveI : W.Normal := hWnormal
+  have : W.Normal := hWnormal
   have hsq : ∀ x : U ⧸ W, x * x = 1 := by
     intro x
     refine QuotientGroup.induction_on x ?_
@@ -30,7 +30,7 @@ theorem relIndex_eq_two_pow_of_elemAb [Finite G] {C U : Subgroup G}
     rw [← QuotientGroup.mk_mul, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
     simpa only [Subgroup.coe_mul] using (hab (a : G) a.2 (a : G) a.2).2
   have hP : IsPGroup 2 (U ⧸ W) := fun x => ⟨1, by rw [pow_one, pow_two]; exact hsq x⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hP
   exact ⟨n, by rw [show C.relIndex U = Nat.card (U ⧸ W) from rfl, hn]⟩
 

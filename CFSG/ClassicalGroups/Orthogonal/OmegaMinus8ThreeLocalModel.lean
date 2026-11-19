@@ -14,7 +14,7 @@ variable {K : Type} [Field K]
   toFun p := (-p.2, p.1 - p.2)
   invFun p := (p.2 - p.1, -p.1)
   map_add' p q := by ext <;> simp <;> ring
-  map_smul' c p := by ext <;> simp <;> ring
+  map_smul' c p := by ext <;> simp; ring
   left_inv p := by ext <;> simp
   right_inv p := by ext <;> simp
 
@@ -102,7 +102,7 @@ theorem cmEquiv_add (v w : Fin 3 → ZMod 3) :
     Multiplicative (Fin 3 → ZMod 3) →* (ModelSpace K ≃ₗ[K] ModelSpace K) where
   toFun v := cmEquiv K (Multiplicative.toAdd v)
   map_one' := cmEquiv_zero
-  map_mul' a b := cmEquiv_add _ _
+  map_mul' _a _b := cmEquiv_add _ _
 
 theorem cm_apply (v : Multiplicative (Fin 3 → ZMod 3)) (x : ModelSpace K) :
     cm K v x = cmEquiv K (Multiplicative.toAdd v) x :=
@@ -240,8 +240,8 @@ theorem cmEquiv_apply_eq_self_iff (h3 : (3 : K) ≠ 0) (v : Fin 3 → ZMod 3) (x
 @[expose] def wExtend (K : Type) [Field K] :
     ((K × K) ≃ₗ[K] (K × K)) →* (ModelSpace K ≃ₗ[K] ModelSpace K) where
   toFun g := (LinearEquiv.refl K (Fin 3 → K × K)).prodCongr g
-  map_one' := LinearEquiv.ext fun x => rfl
-  map_mul' g h := LinearEquiv.ext fun x => rfl
+  map_one' := LinearEquiv.ext fun _x => rfl
+  map_mul' _g _h := LinearEquiv.ext fun _x => rfl
 
 theorem wExtend_apply (g : (K × K) ≃ₗ[K] (K × K)) (x : ModelSpace K) :
     wExtend K g x = (x.1, g x.2) :=
@@ -265,7 +265,7 @@ theorem wExtend_mem_modelO {b c : K} {g : (K × K) ≃ₗ[K] (K × K)}
 
 theorem wExtend_commute_cmEquiv (g : (K × K) ≃ₗ[K] (K × K)) (v : Fin 3 → ZMod 3) :
     Commute (wExtend K g) (cmEquiv K v) :=
-  LinearEquiv.ext fun x => rfl
+  LinearEquiv.ext fun _x => rfl
 
 @[expose] def planeExtend (K : Type) [Field K] (i : Fin 3) :
     ((K × K) ≃ₗ[K] (K × K)) →* (ModelSpace K ≃ₗ[K] ModelSpace K) where
@@ -278,7 +278,7 @@ theorem wExtend_commute_cmEquiv (g : (K × K) ≃ₗ[K] (K × K)) (v : Fin 3 →
     by_cases hk : k = i
     · subst hk
       simp
-    · simp [Pi.mulSingle_apply, hk]
+    · simp [hk]
 
 theorem planeExtend_apply (i : Fin 3) (g : (K × K) ≃ₗ[K] (K × K)) (x : ModelSpace K) :
     planeExtend K i g x = (Function.update x.1 i (g (x.1 i)), x.2) := by
@@ -286,7 +286,7 @@ theorem planeExtend_apply (i : Fin 3) (g : (K × K) ≃ₗ[K] (K × K)) (x : Mod
   by_cases hk : k = i
   · subst hk
     simp [planeExtend]
-  · simp [planeExtend, Pi.mulSingle_apply, hk]
+  · simp [planeExtend, hk]
 
 theorem planeExtend_apply_planeVec_self (i : Fin 3) (g : (K × K) ≃ₗ[K] (K × K)) (p : K × K) :
     planeExtend K i g (planeVec i p) = planeVec i (g p) := by
@@ -295,7 +295,7 @@ theorem planeExtend_apply_planeVec_self (i : Fin 3) (g : (K × K) ≃ₗ[K] (K �
   by_cases hk : k = i
   · subst hk
     simp [planeVec]
-  · simp [planeVec, Function.update_of_ne hk, Pi.single_apply, hk]
+  · simp [planeVec, hk]
 
 theorem planeExtend_apply_planeVec_of_ne {i j : Fin 3} (hij : j ≠ i) (g : (K × K) ≃ₗ[K] (K × K))
     (p : K × K) : planeExtend K i g (planeVec j p) = planeVec j p := by
@@ -303,7 +303,7 @@ theorem planeExtend_apply_planeVec_of_ne {i j : Fin 3} (hij : j ≠ i) (g : (K �
   refine Prod.ext (funext fun k => ?_) rfl
   by_cases hk : k = i
   · subst hk
-    simp [planeVec, Pi.single_apply, hij]
+    simp [planeVec, hij]
   · simp [planeVec, Function.update_of_ne hk]
 
 theorem planeExtend_injective (i : Fin 3) : Function.Injective (planeExtend K i) := fun g h hgh =>

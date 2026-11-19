@@ -153,7 +153,7 @@ theorem card_le_card_inf_centMod_mul_pow {p : ℕ} (hp : p.Prime) {S B : Subgrou
       have : x ^ p = 1 := Subtype.ext (hB.2 x x.2)
       rw [this, map_one]
   have hRp : IsPGroup p f.range := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     refine fun g => ⟨1, ?_⟩
     rw [pow_one]
     exact Subtype.ext (by simpa using hR.2 g g.2)

@@ -50,13 +50,13 @@ theorem exists_tildeULin {H J X : Subgroup G} (hJ : IsFooteBlock H J)
     fun x u hu =>
       (Subgroup.mem_normalizer_iff.mp (C1.mem_normalizer_blockZ (hX x.2)) u).mp hu
   set N : Subgroup ↥(blockU J) := (blockZ J).subgroupOf (blockU J) with hN
-  letI : CommGroup (↥(blockU J) ⧸ N) :=
+  let : CommGroup (↥(blockU J) ⧸ N) :=
     { (inferInstance : Group (↥(blockU J) ⧸ N)) with mul_comm := hcomm }
   have h2 : ∀ x : Additive (↥(blockU J) ⧸ N), (2 : ℕ) • x = 0 := by
     intro x
     rw [two_nsmul]
     exact congrArg Additive.ofMul (hsq (Additive.toMul x))
-  letI : Module (ZMod 2) (Additive (↥(blockU J) ⧸ N)) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive (↥(blockU J) ⧸ N)) := AddCommGroup.zmodModule h2
   let c : ↥X → (↥(blockU J) →* ↥(blockU J)) := fun x =>
     { toFun := fun u => ⟨(x : G) * u * (x : G)⁻¹, hconj x u u.2⟩
       map_one' := by ext; simp
@@ -136,28 +136,35 @@ variable {J X : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
 @[expose] def vecImg (A : Subgroup G) : Submodule (ZMod 2) V :=
   Submodule.span (ZMod 2) {v | ∃ u : ↥(blockU J), (u : G) ∈ A ∧ lin.vec u = v}
 
+omit [Finite G] in
 theorem vec_mul (u v : ↥(blockU J)) : lin.vec (u * v) = lin.vec u + lin.vec v := by
   simp [vec]
 
+omit [Finite G] in
 private theorem vec_one : lin.vec 1 = 0 := by
   simp [vec]
 
+omit [Finite G] in
 private theorem vec_inv (u : ↥(blockU J)) : lin.vec u⁻¹ = - lin.vec u := by
   simp [vec]
 
+omit [Finite G] in
 theorem vec_eq_zero_iff (u : ↥(blockU J)) : lin.vec u = 0 ↔ (u : G) ∈ blockZ J := by
   rw [← Subgroup.mem_subgroupOf, ← lin.ker_eq, MonoidHom.mem_ker]
   simp [vec]
 
+omit [Finite G] in
 theorem vec_surjective : Function.Surjective lin.vec := fun v => by
   obtain ⟨u, hu⟩ := lin.surj (Multiplicative.ofAdd v)
   exact ⟨u, by simp [vec, hu]⟩
 
+omit [Finite G] in
 theorem ρ_vec (x : ↥X) (u v : ↥(blockU J)) (h : (v : G) = x * u * (x : G)⁻¹) :
     lin.ρ x (lin.vec u) = lin.vec v :=
   (lin.spec x u v h).symm
 
-theorem mem_vecImg_iff {A : Subgroup G} (hA : A ≤ blockU J) (v : V) :
+omit [Finite G] in
+theorem mem_vecImg_iff {A : Subgroup G} (_hA : A ≤ blockU J) (v : V) :
     v ∈ lin.vecImg A ↔ ∃ u : ↥(blockU J), (u : G) ∈ A ∧ lin.vec u = v := by
   refine ⟨fun h => ?_, fun h => Submodule.subset_span h⟩
   let S : AddSubgroup V :=
@@ -173,6 +180,7 @@ theorem mem_vecImg_iff {A : Subgroup G} (hA : A ≤ blockU J) (v : V) :
     Submodule.span_le.mpr fun w hw => hw
   exact hle h
 
+omit [Finite G] in
 private theorem vec_eq_vec_iff (u v : ↥(blockU J)) :
     lin.vec u = lin.vec v ↔ (u : G) * (v : G)⁻¹ ∈ blockZ J := by
   have h : lin.vec (u * v⁻¹) = lin.vec u - lin.vec v := by
@@ -180,6 +188,7 @@ private theorem vec_eq_vec_iff (u v : ↥(blockU J)) :
   rw [← sub_eq_zero, ← h, lin.vec_eq_zero_iff]
   rfl
 
+omit [Finite G] in
 theorem ρ_eq_one_iff (x : ↥X) :
     lin.ρ x = 1 ↔ ∀ u ∈ blockU J, (x : G) * u * (x : G)⁻¹ * u⁻¹ ∈ blockZ J := by
   have hconj : ∀ u : G, u ∈ blockU J → (x : G) * u * (x : G)⁻¹ ∈ blockU J := fun u hu =>
@@ -204,13 +213,15 @@ theorem ρ_eq_one_of_mem_blockQ {H : Subgroup G} (hJ : IsFooteBlock H J) (x : �
   exact IsFooteBlock.commutator_blockU_blockQ_le hJ h
 
 include lin in
+omit [Finite G] in
 theorem nontrivial {H : Subgroup G} (hJ : IsFooteBlock H J) : Nontrivial V := by
-  obtain ⟨g, hgU, hgZ⟩ := SetLike.exists_of_lt hJ.chief.1
+  obtain ⟨g, hgU, hgZ⟩ := _root_.IsConcreteLE.exists_of_lt hJ.chief.1
   exact ⟨⟨lin.vec ⟨g, hgU⟩, 0, fun h => hgZ ((lin.vec_eq_zero_iff ⟨g, hgU⟩).mp h)⟩⟩
 
 private def preU (S : Submodule (ZMod 2) V) : Subgroup G :=
   (AddSubgroup.toSubgroup S.toAddSubgroup |>.comap lin.π).map (blockU J).subtype
 
+omit [Finite G] in
 private theorem mem_preU {S : Submodule (ZMod 2) V} {g : G} :
     g ∈ lin.preU S ↔ ∃ h : g ∈ blockU J, lin.vec ⟨g, h⟩ ∈ S := by
   constructor
@@ -219,6 +230,7 @@ private theorem mem_preU {S : Submodule (ZMod 2) V} {g : G} :
   · rintro ⟨h, hv⟩
     exact ⟨⟨g, h⟩, hv, rfl⟩
 
+omit [Finite G] in
 private theorem conj_mem_preU {J₁ : Subgroup G} (hJ₁X : J₁ ≤ X) {S : Submodule (ZMod 2) V}
     (hS : Invariant (lin.img J₁) S) {j g : G} (hj : j ∈ J₁) (hg : g ∈ lin.preU S) :
     j * g * j⁻¹ ∈ lin.preU S := by
@@ -243,7 +255,7 @@ private theorem preU_dichotomy {H₁ J₁ : Subgroup G} (hJ₁ : IsFooteBlock H�
 
 theorem isIrr_img {H : Subgroup G} (hJ : IsFooteBlock H J) (hJX : J ≤ X) :
     IsIrr (lin.img J) ⊤ := by
-  haveI := lin.nontrivial hJ
+  have := lin.nontrivial hJ
   unfold IsIrr IrrSec
   refine ⟨fun _ _ _ _ => Submodule.mem_top, bot_lt_top, ?_⟩
   intro Y hY _ _
@@ -314,7 +326,7 @@ theorem odd_card_ker_ρbar {H : Subgroup G} (hJ : IsFooteBlock H J) (hJX : J ≤
     Odd (Nat.card (lin.ρbar hJ hJX).ker) := by
   by_contra hodd
   rw [Nat.not_odd_iff_even, even_iff_two_dvd] at hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := (lin.ρbar hJ hJX).ker) 2 hodd
   have hxc : ((x : (lin.ρbar hJ hJX).ker) : ↥J ⧸ CFSG.pCore 2 ↥J) ∈
       Subgroup.center (↥J ⧸ CFSG.pCore 2 ↥J) := lin.ker_ρbar_le_center hJ hJX x.2
@@ -339,6 +351,7 @@ theorem isQuasisimple_img {H : Subgroup G} (hJ : IsFooteBlock H J) (hJX : J ≤ 
   exact CFSG.ComponentClassification.Quasisimple.range_quasisimple_of_ker_ne_top hJ.quasisimple _
     (lin.ker_ρbar_ne_top hJ hJX)
 
+omit [Finite G] in
 theorem blockU_le_blockU {J₁ : Subgroup G} (hJ₁J : J₁ ≤ J)
     (hU : blockU J₁ = ⁅blockQ J, J₁⁆) : blockU J₁ ≤ blockU J := by
   rw [hU]
@@ -355,7 +368,8 @@ private theorem commutator_mem_blockU_of_blockU_eq {J₁ : Subgroup G}
   rw [Subgroup.commutator_comm, ← hU] at h
   exact h
 
-private theorem vec_mem_fixedSpace_of_mem_blockZ {J₁ : Subgroup G} (hJ₁X : J₁ ≤ X)
+omit [Finite G] in
+private theorem vec_mem_fixedSpace_of_mem_blockZ {J₁ : Subgroup G} (_hJ₁X : J₁ ≤ X)
     {z : ↥(blockU J)} (hz : (z : G) ∈ blockZ J₁) : lin.vec z ∈ fixedSpace (lin.img J₁) := by
   rintro _ ⟨y, hy, rfl⟩
   have hyJ₁ : (y : G) ∈ J₁ := Subgroup.mem_subgroupOf.mp hy
@@ -364,10 +378,12 @@ private theorem vec_mem_fixedSpace_of_mem_blockZ {J₁ : Subgroup G} (hJ₁X : J
   exact lin.ρ_vec y z z hcomm.symm
 
 include lin in
+omit [Finite G] in
 private theorem conj_mem_blockU' (x : ↥X) {g : G} (hg : g ∈ blockU J) :
     (x : G) * g * (x : G)⁻¹ ∈ blockU J :=
   (Subgroup.mem_normalizer_iff.mp (C1.mem_normalizer_blockU (lin.normalizes x.2)) g).mp hg
 
+omit [Finite G] in
 private theorem ρ_vec_sub (x : ↥X) (u : ↥(blockU J)) :
     lin.ρ x (lin.vec u) - lin.vec u =
       lin.vec ⟨(x : G) * u * (x : G)⁻¹ * (u : G)⁻¹,
@@ -377,7 +393,7 @@ private theorem ρ_vec_sub (x : ↥X) (u : ↥(blockU J)) :
   rw [lin.ρ_vec x u ⟨(x : G) * u * (x : G)⁻¹, lin.conj_mem_blockU' x u.2⟩ rfl]
   exact h1.symm
 
-theorem commSpace_img_eq {H H₁ J₁ : Subgroup G} (hJ : IsFooteBlock H J)
+theorem commSpace_img_eq {H H₁ J₁ : Subgroup G} (_hJ : IsFooteBlock H J)
     (hJ₁ : IsFooteBlock H₁ J₁) (hJ₁X : J₁ ≤ X) (hJ₁J : J₁ ≤ J)
     (hU : blockU J₁ = ⁅blockQ J, J₁⁆) : commSpace (lin.img J₁) ⊤ = lin.vecImg (blockU J₁) := by
   have hUU : blockU J₁ ≤ blockU J := blockU_le_blockU hJ₁J hU
@@ -459,7 +475,7 @@ theorem hasIrrTildeV_img {H H₁ J₁ : Subgroup G} (hJ : IsFooteBlock H J)
     lin.vec_mem_tildeVBot_iff hJ hJ₁ hJ₁X hJ₁J hU u hu
   unfold HasIrrTildeV IrrSec
   refine ⟨?_, ?_⟩
-  · obtain ⟨g, hgU, hgZ⟩ := SetLike.exists_of_lt hJ₁.chief.1
+  · obtain ⟨g, hgU, hgZ⟩ := _root_.IsConcreteLE.exists_of_lt hJ₁.chief.1
     refine lt_of_le_of_ne inf_le_right fun h => hgZ ?_
     have hv : lin.vec ⟨g, hUU hgU⟩ ∈ commSpace (lin.img J₁) ⊤ := by
       rw [hcomm]
@@ -485,8 +501,8 @@ theorem hasIrrTildeV_img {H H₁ J₁ : Subgroup G} (hJ : IsFooteBlock H J)
       rintro _ ⟨u, hu, rfl⟩
       exact ((lin.mem_preU).mp (h hu)).2
 
-theorem commutator_mem_blockZ_of_ρ_eq_one {H H₁ J₁ : Subgroup G} (hJ : IsFooteBlock H J)
-    (hJ₁ : IsFooteBlock H₁ J₁) (hJ₁X : J₁ ≤ X) (hJ₁J : J₁ ≤ J)
+theorem commutator_mem_blockZ_of_ρ_eq_one {H H₁ J₁ : Subgroup G} (_hJ : IsFooteBlock H J)
+    (_hJ₁ : IsFooteBlock H₁ J₁) (_hJ₁X : J₁ ≤ X) (hJ₁J : J₁ ≤ J)
     (hU : blockU J₁ = ⁅blockQ J, J₁⁆) (x : ↥X) (hx : (x : G) ∈ J₁) (h1 : lin.ρ x = 1)
     (u : G) (hu : u ∈ blockU J₁) : (x : G) * u * (x : G)⁻¹ * u⁻¹ ∈ blockZ J₁ := by
   have hUU : blockU J₁ ≤ blockU J := blockU_le_blockU hJ₁J hU

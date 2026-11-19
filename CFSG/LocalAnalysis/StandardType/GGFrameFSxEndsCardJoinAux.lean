@@ -47,6 +47,7 @@ private noncomputable def bstarConjAction {Bs L : Subgroup G}
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G)) : Bs →* MulAut L :=
   (Subgroup.normalizerMonoidHom (H := L)).comp (Subgroup.inclusion hNL)
 
+omit [Finite G] in
 private theorem bstarConjAction_apply {Bs L : Subgroup G}
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G)) (b : Bs) (l : L) :
     ((bstarConjAction hNL b) l : G) = (b : G) * l * (b : G)⁻¹ := by
@@ -259,6 +260,7 @@ theorem card_sup_zpowers_le_three_mul_card_inf {Bs L : Subgroup G} {x : G}
         Nat.le_mul_of_pos_right _ Nat.card_pos
     _ = 3 * Nat.card ↥(Bs ⊓ L) := hc
 
+omit [Finite G] in
 theorem ne_bstar_of_stdType_twoGroup {B Bs : Subgroup G} {x : G} {L : Subgroup G}
     (hT : ∃ T : Subgroup G, T ≤ Subgroup.centralizer ({x} : Set G) ∧ IsPGroup 2 T ∧
       B ≤ Subgroup.normalizer (T : Set G) ∧ (⁅T, B⁆ : Subgroup G) ≠ ⊥)

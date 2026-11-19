@@ -59,8 +59,8 @@ private theorem apply_eq_zero_of_fix_transvection {K : Type} [Field K] {n : ℕ}
   by_contra hne
   have h1 := hμ x y
   have h2 := hμ x x
-  rw [if_neg hyx.symm, if_neg hyx, add_zero] at h1
-  rw [if_neg hyx.symm, if_pos rfl, add_zero] at h2
+  rw [ite_eq_right hyx.symm, ite_eq_right hyx, add_zero] at h1
+  rw [ite_eq_right hyx.symm, ite_eq_left rfl, add_zero] at h2
   have hμ1 : (1 : K) = μ := mul_right_cancel₀ hne (by rw [one_mul]; exact h1)
   rw [← hμ1, one_mul, show ((1 : K ≃+* K) 1) = 1 from rfl, mul_one] at h2
   exact hne (add_left_cancel ((add_zero _).trans h2)).symm

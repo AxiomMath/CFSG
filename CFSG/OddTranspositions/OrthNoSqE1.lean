@@ -80,13 +80,13 @@ theorem odd_card_ne_zero_vectors {W : Type*} [AddCommGroup W] [Module (ZMod 2) W
     [FiniteDimensional (ZMod 2) W] [Finite W] (hW : 1 ≤ Module.finrank (ZMod 2) W) :
     ¬ 2 ∣ Nat.card {w : W // w ≠ 0} := by
   classical
-  letI : Fintype W := Fintype.ofFinite W
+  let : Fintype W := Fintype.ofFinite W
   have hcardW : Nat.card W = 2 ^ Module.finrank (ZMod 2) W := by
     rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 2) (V := W), ZMod.card]
   have hcardX : Nat.card {w : W // w ≠ 0} = Nat.card W - 1 := by
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
     have h := Fintype.card_subtype_compl (fun w : W => w = 0)
-    simpa using h
+    simp
   rw [hcardX, hcardW]
   intro hdvd
   have h2n : 2 ∣ 2 ^ Module.finrank (ZMod 2) W :=
@@ -124,7 +124,7 @@ theorem pCore_bilinIsometryGroup_eq_bot {W : Type*} [AddCommGroup W] [Module (ZM
     apply LinearMap.ext
     intro w
     by_cases hw : w = 0
-    · simpa [hw]
+    · simp [hw]
     · have h1 := congrArg Subtype.val (hgh ⟨w, hw⟩)
       have h2 : ((g • (⟨w, hw⟩ : X) : X) : W) =
           ((g : LinearMap.GeneralLinearGroup (ZMod 2) W) : W →ₗ[ZMod 2] W) w := rfl
@@ -132,12 +132,12 @@ theorem pCore_bilinIsometryGroup_eq_bot {W : Type*} [AddCommGroup W] [Module (ZM
           ((h : LinearMap.GeneralLinearGroup (ZMod 2) W) : W →ₗ[ZMod 2] W) w := rfl
       rw [h2, h3] at h1
       exact h1
-  letI : FaithfulSMul G X := hfaith
+  let : FaithfulSMul G X := hfaith
   have hpre : MulAction.IsPretransitive G X := by
     refine ⟨fun u v => ?_⟩
     obtain ⟨g, hg⟩ := htr u.1 v.1 u.2 v.2
     exact ⟨g, Subtype.ext hg⟩
-  letI : MulAction.IsPretransitive G X := hpre
+  let : MulAction.IsPretransitive G X := hpre
   have hodd : ¬ 2 ∣ Nat.card X :=
     odd_card_ne_zero_vectors (W := W) (by omega)
   exact pCore_two_eq_bot_of_faithful_pretransitive_odd hodd
@@ -261,7 +261,7 @@ theorem rho_ker_eq_zpowers {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
         rw [← hab]
         change y - (a • v + b • y) = a • v
         rw [hb1, one_smul]
-        simp [sub_eq_add_neg, ZMod.neg_eq_self_mod_two]
+        simp [sub_eq_add_neg]
         rw [← neg_smul, ZMod.neg_eq_self_mod_two]
       have hcav : ((c : TauCeti.QuadraticMap.orthogonalGroup Q) : V ≃ₗ[ZMod 2] V) (a • v) =
           a • v := by
@@ -476,11 +476,11 @@ attribute [-instance] instCommGroupOfIsSimpleGroupOfIsNilpotent
   instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem noSqE1_of_orth {G : Type} [Group G] {D : Set G}
-    (hP : CFSG.Blueprint.Fischer.Pair G D) (hZ : Subgroup.center G = ⊥)
+    (_hP : CFSG.Blueprint.Fischer.Pair G D) (_hZ : Subgroup.center G = ⊥)
     {m : ℕ} (hm : 2 ≤ m)
     (Q : QuadraticForm (ZMod 2) (Fin (2 * m) → ZMod 2))
     (hnd : ∀ x, (∀ y, QuadraticMap.polar Q x y = 0) → x = 0)
-    (hex : m = 2 → ¬ ∃ W : Submodule (ZMod 2) (Fin (2 * m) → ZMod 2),
+    (_hex : m = 2 → ¬ ∃ W : Submodule (ZMod 2) (Fin (2 * m) → ZMod 2),
       Module.finrank (ZMod 2) W = 2 ∧ ∀ w ∈ W, Q w = 0)
     (hM : CFSG.Open.fischerLinearModel D
       (CFSG.Open.fischerMatrixGroup fun A : Matrix (Fin (2 * m)) (Fin (2 * m)) (ZMod 2) =>

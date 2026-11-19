@@ -24,7 +24,7 @@ private theorem orderOf_two_zmod_nine : orderOf (2 : ZMod (3 ^ 2)) = 6 := by
 
 private theorem exists_pow_eq_of_cube_eq_one {F₀ : Type} [Field F₀] [Finite F₀] {a b : F₀ˣ}
     (ha : a ^ 3 = 1) (ha1 : a ≠ 1) (hb : b ^ 3 = 1) : ∃ j : ℕ, a ^ j = b := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hprim : IsPrimitiveRoot a 3 :=
     IsPrimitiveRoot.iff_orderOf.mpr (orderOf_eq_prime ha ha1)
   have hb' : b ∈ rootsOfUnity 3 F₀ := by

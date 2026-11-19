@@ -23,6 +23,7 @@ private theorem w16g_conj_pow_inv {A : Type*} [Group A] {u x : A}
     _ = (x⁻¹) ^ m := by rw [hconj]
     _ = (x ^ m)⁻¹ := inv_pow x m
 
+omit [Finite W] in
 private theorem w16g_conj_conj_eq_self (htt : t * t = 1) (x : MulAut W) :
     t * (t * x * t⁻¹) * t⁻¹ = x := by
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_left htt
@@ -31,7 +32,7 @@ private theorem w16g_conj_conj_eq_self (htt : t * t = 1) (x : MulAut W) :
     _ = x := by rw [htt]; group
 
 private theorem w16g_conj_mem_central (h : Cfg132 t P) {c : MulAut W}
-    (hcP : c ∈ P) (hcC : ∀ y ∈ P, y * c = c * y) :
+    (_hcP : c ∈ P) (hcC : ∀ y ∈ P, y * c = c * y) :
     ∀ y ∈ P, y * (t * c * t⁻¹) = (t * c * t⁻¹) * y := by
   intro y hy
   have htt : t * t = 1 := by
@@ -160,7 +161,7 @@ theorem w16h_minLe (h131 : W4Lem13_1) (n : ℕ) : W4Lem13_2MinLe n := by
     have h131' := h131 W hW t ht hrk p P hp hP hne hn hc
     by_cases hgood : 3 < p ∨ InducesTransvection t ⊤
     · have hcardp : Nat.card P = p := h131'.2 hgood
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hcyc : IsCyclic ↥P := isCyclic_of_prime_card hcardp
       exact Or.inl ⟨hcyc, by rw [hcardp]; omega⟩
     · have hp3 : p = 3 := by

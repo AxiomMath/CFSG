@@ -22,7 +22,7 @@ section Generic
 
 private theorem exists_pow_eq_one_g28 {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {S : Subgroup G} (hS : IsPGroup p S) (hne : S ≠ ⊥) : ∃ x ∈ S, x ≠ 1 ∧ x ^ p = 1 := by
-  haveI : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr hne
+  have : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr hne
   have hdvd : p ∣ Nat.card S := by
     rcases hS.card_eq_or_dvd with h | h
     · exact absurd h Finite.one_lt_card.ne'
@@ -106,7 +106,7 @@ private theorem txElt_inj_g28 {i j : ℕ} (hi : i < 243) (hj : j < 243)
   · exact txL_spec.2.2.1 j hj i hlt hc.symm
   · exact txL_spec.2.2.1 i hi j hlt hc
 
-private theorem aElt_eq_txElt_g28 {t : ℕ} (ht : t < 81) :
+private theorem aElt_eq_txElt_g28 {t : ℕ} (_ht : t < 81) :
     aElt M t = txElt M (27 * (t / 9) + 3 * (t % 9)) := by
   have e1 : (27 * (t / 9) + 3 * (t % 9)) / 27 = t / 9 := by omega
   have e2 : (27 * (t / 9) + 3 * (t % 9)) / 3 % 9 = t % 9 := by omega
@@ -123,7 +123,7 @@ private theorem bE_notMem_Asub_g28 : bE M tB1 ∉ Asub M := by
 
 private theorem mem_zpowers_zE_of_central_g28 {x : adjointGroup .G2 F} (hx : x ∈ TX M)
     (hc : ∀ t ∈ TX M, x * t = t * x) (hx3 : x ^ 3 = 1) : x ∈ Subgroup.zpowers (zE M) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hz3 : tzE M ^ 3 ∈ TX M := Subgroup.pow_mem _ (tzE_mem_TX M) 3
   have hxA : x ∈ Asub M := by
     by_contra hxA
@@ -220,7 +220,7 @@ private theorem isSimpleGroup_X_g28 (hF : Nat.card F = 8) : IsSimpleGroup (adjoi
 
 private theorem exists_ne_comm_X_g28 (hF : Nat.card F = 8) :
     ∃ a b : adjointGroup .G2 F, a * b ≠ b * a := by
-  haveI := isSimpleGroup_X_g28 hF
+  have := isSimpleGroup_X_g28 hF
   by_contra h
   push Not at h
   have htop : Subgroup.center (adjointGroup .G2 F) = ⊤ :=
@@ -238,8 +238,8 @@ private theorem isSolvable_outer_X_g28 (hF : Nat.card F = 8) :
       (CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup .G2 F))
     rw [card_aut hF, hinner] at h
     exact (Nat.eq_of_mul_eq_mul_right Nat.card_pos h).symm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic (Outer (adjointGroup .G2 F)) := isCyclic_of_prime_card hcard
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic (Outer (adjointGroup .G2 F)) := isCyclic_of_prime_card hcard
   infer_instance
 
 end Model
@@ -282,7 +282,7 @@ private theorem exists_equiv_map_TX_g28 (hF : Nat.card F = 8) {Y : Type} [Group 
     {K : Subgroup Y} [K.Normal] (R : Sylow 3 Y) (e : K ≃* adjointGroup .G2 F) :
     ∃ ε : K ≃* adjointGroup .G2 F,
       (TX M).map (K.subtype.comp ε.symm.toMonoidHom) = (R : Subgroup Y) ⊓ K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T, hT⟩ := CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_normal R K
   have hs : Function.Surjective e.toMonoidHom := e.surjective
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (adjointGroup .G2 F) (Sylow.mapSurjective hs T)
@@ -315,7 +315,7 @@ private theorem gElt_mem_of_witness_g28 {Y : Type} [Group Y] [Finite Y] {K Y₀ 
       ∀ q ∈ QX M (bIdx j), w * ι q = ι q * w) :
     ∀ j < 4, ι (gElt M j) ∈ Y₀ := by
   intro j hj
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨w, hwR, hwK, hw3, hwc⟩ := hw j hj
   have hq : qOK txL tzc (bIdx j) (if j < 2 then tY1 else tY2) = true := by
     unfold bIdx
@@ -365,7 +365,7 @@ private theorem gElt_mem_of_inf_eq_bot_g28 (hF : Nat.card F = 8) {Y : Type} [Gro
     (hRC : (R : Subgroup Y) ⊓ Subgroup.centralizer (K : Set Y) = ⊥)
     (h3 : 3 ≤ CFSG.Open.pRank 3 (R : Subgroup Y)) :
     ∃ ε : K ≃* adjointGroup .G2 F, ∀ j < 4, ((ε.symm (gElt M j) : K) : Y) ∈ Y₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set c := actHom K e
   have hinjR : Function.Injective (c.comp (R : Subgroup Y).subtype) := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -384,7 +384,7 @@ private theorem gElt_mem_of_inf_eq_bot_g28 (hF : Nat.card F = 8) {Y : Type} [Gro
     rw [card_aut hF, card_X' hF]
     ring
   have hRcard : Nat.card (R : Subgroup Y) = 3 ^ 6 := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp R.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp R.isPGroup
     have hdvd : Nat.card (R : Subgroup Y) ∣ 3 ^ 6 * 17816092672 := by
       rw [← hcardA, ← Nat.card_range_of_injective hinjR]
       exact Subgroup.card_subgroup_dvd_card (c.comp (R : Subgroup Y).subtype).range
@@ -502,7 +502,7 @@ private theorem gElt_mem_of_not_three_le_g28 (hF : Nat.card F = 8) {Y : Type} [G
     (hER : E ≤ R) (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 9)
     (hcore : GLBCore 3 1 E ≤ Y₀) (h3 : ¬ 3 ≤ CFSG.Open.pRank 3 (R : Subgroup Y)) :
     ∃ ε : K ≃* adjointGroup .G2 F, ∀ j < 4, ((ε.symm (gElt M j) : K) : Y) ∈ Y₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ε, hιT⟩ := exists_equiv_map_TX_g28 M hF R e
   set ι : adjointGroup .G2 F →* Y := K.subtype.comp ε.symm.toMonoidHom with hιdef
   have hι : Function.Injective ι := K.subtype_injective.comp ε.symm.injective
@@ -514,9 +514,9 @@ private theorem gElt_mem_of_not_three_le_g28 (hF : Nat.card F = 8) {Y : Type} [G
     have h1 : (⟨ι (zE M), hz.1⟩ : (R : Subgroup Y)) ∈ K.subgroupOf (R : Subgroup Y) := hz.2
     rw [hbot, Subgroup.mem_bot] at h1
     exact zE_ne_one M (hι ((congrArg Subtype.val h1).trans (map_one ι).symm))
-  haveI : Group.IsNilpotent (R : Subgroup Y) := R.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (R : Subgroup Y) := R.isPGroup.isNilpotent
   have hS := Group.IsNilpotent.inf_center_ne_bot_of_normal hne
-  obtain ⟨x, hxS, hx1, hx3⟩ := exists_pow_eq_one_g28 (R.isPGroup'.to_subgroup _) hS
+  obtain ⟨x, hxS, hx1, hx3⟩ := exists_pow_eq_one_g28 (R.isPGroup.to_subgroup _) hS
   set z₀ : Y := ((x : (R : Subgroup Y)) : Y) with hz₀
   have hz₀K : z₀ ∈ K := hxS.1
   have hz₀R : z₀ ∈ (R : Subgroup Y) := x.2
@@ -566,16 +566,16 @@ private theorem exists_equiv_gElt_mem_g28 (hF : Nat.card F = 8) {Y : Type} [Grou
     (hcore : (if 3 ≤ pRank 3 (R : Subgroup Y) then GLBWeakCore 3 (R : Subgroup Y)
       else GLBCore 3 1 E) ≤ Y₀) :
     ∃ ε : K ≃* adjointGroup .G2 F, ∀ j < 4, ((ε.symm (gElt M j) : K) : Y) ∈ Y₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases h3 : 3 ≤ pRank 3 (R : Subgroup Y)
-  · rw [if_pos h3] at hcore
+  · rw [ite_eq_left h3] at hcore
     rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
     by_cases hRC : (R : Subgroup Y) ⊓ Subgroup.centralizer (K : Set Y) = ⊥
     · exact gElt_mem_of_inf_eq_bot_g28 M hF e R hcore hRC h3
     · obtain ⟨c, hc, hc1, hc3⟩ :=
-        exists_pow_eq_one_g28 (R.isPGroup'.to_le inf_le_left) hRC
+        exists_pow_eq_one_g28 (R.isPGroup.to_le inf_le_left) hRC
       exact gElt_mem_of_centralizer_g28 M hF e R hcore hc.1 hc.2 hc1 hc3
-  · rw [if_neg h3] at hcore
+  · rw [ite_eq_right h3] at hcore
     rw [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
     exact gElt_mem_of_not_three_le_g28 M hF e R hER hE hEc hcore h3
 
@@ -622,7 +622,7 @@ theorem threeFourTwoAt_g28 :
   refine threeFourTwoAt_of_forall (isSimpleGroup_X_g28 hF8) (exists_ne_comm_X_g28 hF8)
     (isSolvable_outer_X_g28 hF8) ?_
   intro Y _ _ K Y₀ E R _ _ hKn hKX _ _ _ hER hE hEc hcore _ hKY J hJ hne hJp hJs _
-  haveI := hKn
+  have := hKn
   obtain ⟨e⟩ := hKX
   obtain ⟨ε, hε⟩ := exists_equiv_gElt_mem_g28 M hF8 e R hER hE (by rw [hEc]; norm_num) hcore
   set ι : adjointGroup .G2 F →* Y := K.subtype.comp ε.symm.toMonoidHom with hιdef

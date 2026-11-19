@@ -10,6 +10,7 @@ open Subgroup
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 private theorem wc813pdes_relIndex_inf_sup {R S J : Subgroup Q} [R.Normal] (hRS : R ≤ S) :
     (S ⊓ J).relIndex J = S.relIndex (J ⊔ R) := by
   have hker : MonoidHom.ker (QuotientGroup.mk' R : Q →* Q ⧸ R) = R := QuotientGroup.ker_mk' R
@@ -31,7 +32,7 @@ private theorem wc813pdes_relIndex_inf_sup {R S J : Subgroup Q} [R.Normal] (hRS 
   rw [Subgroup.inf_relIndex_right, hSJ, ← hSJR]
 
 theorem exists_subgroup_sup_eq_of_odd {R J S : Subgroup Q} [R.Normal]
-    (hodd : Odd (Nat.card ↥(J ⊓ R))) (hRS : R ≤ S) (hSL : S ≤ J ⊔ R)
+    (_hodd : Odd (Nat.card ↥(J ⊓ R))) (hRS : R ≤ S) (hSL : S ≤ J ⊔ R)
     (h2 : ∀ s ∈ S, ∃ k : ℕ, s ^ (2 ^ k) ∈ R) (hidx : ¬ 2 ∣ S.relIndex (J ⊔ R)) :
     ∃ S' : Subgroup Q, S' ≤ J ∧ (∀ s ∈ S', ∃ k : ℕ, s ^ (2 ^ k) = 1) ∧
       ¬ 2 ∣ S'.relIndex J ∧ S' ⊔ R = S := by
@@ -49,7 +50,7 @@ theorem exists_subgroup_sup_eq_of_odd {R J S : Subgroup Q} [R.Normal]
       exact (Subgroup.mem_sup_of_normal_right (s := M) (t := R)).mpr
         ⟨j, hM.le ⟨hjS, hj⟩, r, hr, hjr⟩
     · exact sup_le hMS_le hRS
-  haveI hN : (R.subgroupOf M).Normal := Subgroup.Normal.subgroupOf inferInstance M
+  have hN : (R.subgroupOf M).Normal := Subgroup.Normal.subgroupOf inferInstance M
   let f : ↥M →* ↥M ⧸ (R.subgroupOf M) := QuotientGroup.mk' (R.subgroupOf M)
   have hf : Function.Surjective f := QuotientGroup.mk'_surjective (R.subgroupOf M)
   have hX2 : IsPGroup 2 (↥M ⧸ (R.subgroupOf M)) := by

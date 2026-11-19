@@ -17,7 +17,7 @@ theorem fix_lift_gen (Q : Subgroup Γ) (hQ : Nat.Coprime 3 (Nat.card Q)) (σ : M
     (h3 : ∀ x, σ (σ (σ x)) = x) (hσQ : ∀ q ∈ Q, σ q ∈ Q) (c₀ : Γ)
     (h : (σ c₀)⁻¹ * c₀ ∈ Q) : ∃ q ∈ Q, σ (c₀ * q) = c₀ * q := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X : Type _ := {x : Γ // c₀⁻¹ * x ∈ Q}
   have hmem : ∀ x : X, c₀⁻¹ * σ x.1 ∈ Q := by
     intro x
@@ -40,10 +40,10 @@ theorem fix_lift_gen (Q : Subgroup Γ) (hQ : Nat.Coprime 3 (Nat.card Q)) (σ : M
   have hXcard : Nat.card X = Nat.card Q := by
     refine Nat.card_congr
       { toFun := fun x => ⟨c₀⁻¹ * x.1, x.2⟩
-        invFun := fun q => ⟨c₀ * q.1, by simpa using q.2⟩
+        invFun := fun q => ⟨c₀ * q.1, by simp⟩
         left_inv := fun x => by ext; simp
         right_inv := fun q => by ext; simp }
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   have hndvd : ¬ 3 ∣ Fintype.card X := by
     rw [← Nat.card_eq_fintype_card, hXcard]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hQ
@@ -55,7 +55,7 @@ theorem fix_lift_gen (Q : Subgroup Γ) (hQ : Nat.Coprime 3 (Nat.card Q)) (σ : M
 
 theorem isSylowOf_sup_normal (Q P : Subgroup Γ) [Q.Normal] (hQ : Nat.Coprime 3 (Nat.card Q))
     (hP : IsPGroup 3 P) : IsSylowOf 3 P (Q ⊔ P) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPR : P ≤ Q ⊔ P := le_sup_right
   have hQR : Q ≤ Q ⊔ P := le_sup_left
   let P' : Subgroup ↥(Q ⊔ P) := P.subgroupOf (Q ⊔ P)
@@ -77,7 +77,7 @@ theorem isSylowOf_sup_normal (Q P : Subgroup Γ) [Q.Normal] (hQ : Nat.Coprime 3 
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQR).toEquiv]
       exact hQ
     have h1 := eq_one_of_pgroup_of_coprime (P := (S : Subgroup ↥(Q ⊔ P)))
-      (Q := Q.subgroupOf (Q ⊔ P)) S.isPGroup' hcop hqS (show _ ∈ Q.subgroupOf (Q ⊔ P) from hq)
+      (Q := Q.subgroupOf (Q ⊔ P)) S.isPGroup hcop hqS (show _ ∈ Q.subgroupOf (Q ⊔ P) from hq)
     have hq1 : q = 1 := congrArg Subtype.val h1
     show (s : Γ) ∈ P
     rw [← hqp, hq1, one_mul]
@@ -90,6 +90,7 @@ theorem isSylowOf_sup_normal (Q P : Subgroup Γ) [Q.Normal] (hQ : Nat.Coprime 3 
   rw [h2]
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr S.not_dvd_index
 
+omit [Finite Γ] in
 theorem tau_mem_nor {P : Subgroup Γ} (τ : MulAut Γ) (h3 : ∀ x, τ (τ (τ x)) = x)
     (hτP : ∀ x, x ∈ P ↔ τ x ∈ P) {y : Γ} (hy : ∀ x ∈ P, y * x * y⁻¹ ∈ P) :
     ∀ x ∈ P, τ y * x * (τ y)⁻¹ ∈ P := by
@@ -111,7 +112,7 @@ theorem sigma_frattini_fix (Q : Subgroup Γ) [Q.Normal] (hQ : Nat.Coprime 3 (Nat
     rintro _ ⟨y, hy, rfl⟩
     exact hgP y hy
   have hQ₂p : IsPGroup 3 (conjBy g P) := hP.map _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hkR, hk⟩ := L41.exists_conj_le_sylowOf_p hS hQ₂R hQ₂p
   obtain ⟨q, hq, p, hp, hqp⟩ := Subgroup.mem_sup_of_normal_left.mp hkR
   have hq₁ : p⁻¹ * q * p ∈ Q := by

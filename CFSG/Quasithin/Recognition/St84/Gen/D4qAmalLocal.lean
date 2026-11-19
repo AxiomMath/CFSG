@@ -18,28 +18,31 @@ open scoped MatrixGroups Pointwise
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 theorem D4qLocalData.one_le (hD : D4qLocalData L1 L2 S f) : 1 ≤ f := by
   obtain ⟨F, hField, hFintype, hFcard, -⟩ := hD.nat_right
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have htwo : 2 ≤ Fintype.card F := Fintype.one_lt_card
   by_contra hf
   have hf0 : f = 0 := by omega
   rw [hf0, pow_zero] at hFcard
   omega
 
+omit [Finite G] in
 theorem D4qLocalData.twoPart_left (hD : D4qLocalData L1 L2 S f)
     (h1 : IsL2Quot (3 * f) (oTwoQuot ↥L1)) : twoPart L1 = 2 ^ (12 * f) := by
   have hf : 1 ≤ f := hD.one_le
   have h := twoPart_of_isL2Quot (a := 9 * f) (f := 3 * f) (by omega) h1 hD.card_left
   rwa [show 9 * f + 3 * f = 12 * f by ring] at h
 
+omit [Finite G] in
 theorem D4qLocalData.twoPart_right (hD : D4qLocalData L1 L2 S f) :
     twoPart L2 = 2 ^ (12 * f) := by
   have hf : 1 ≤ f := hD.one_le
   obtain ⟨F, hField, hFintype, hFcard, α, hαsurj, hαker, -⟩ := hD.nat_right
-  letI := hField
-  letI := hFintype
+  let := hField
+  let := hFintype
   have hker : α.ker = CFSG.pCore 2 ↥L2 := hαker
   have hquot : Nat.card (oTwoQuot ↥L2) = 2 ^ f * ((2 ^ f) ^ 2 - 1) := by
     have h1 : Nat.card (↥L2 ⧸ α.ker) =

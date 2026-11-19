@@ -16,7 +16,7 @@ open CFSG.Assembly.RankThreeEven (projImage projSL projSU)
 open Matrix (ProjGenLinGroup)
 
 theorem exists_sl2_slPi_two {π : Bool} {p f : ℕ} {Kf : Type} [Field Kf]
-    (hKf : PiField π p f Kf) (hq : ModThree π (p ^ f)) (hq2 : 2 < p ^ f) :
+    (hKf : PiField π p f Kf) (hq : ModThree π (p ^ f)) (_hq2 : 2 < p ^ f) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F), Nat.card F = p ^ f ∧
       Nonempty (slPi π 2 (p ^ f) Kf ≃* Matrix.SpecialLinearGroup (Fin 2) F) := by
   have := hKf.finite

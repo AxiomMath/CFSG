@@ -37,8 +37,8 @@ theorem i166On_famA5Four_of_transport
   subst hp5
   obtain ⟨F, hField, hFinite, hCard, ⟨e⟩⟩ :=
     exists_mulEquiv_projectiveSL_six_of_hasLabel hK hz
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   have hmodel : ∃ q B' x' J, Concl166S (LinearFlag.projectiveSL 6 F) 5 q B' x' J :=
     exists_concl166S_projectiveSL_six (F := F) hCard
   exact htr e hmodel

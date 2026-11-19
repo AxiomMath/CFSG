@@ -60,7 +60,7 @@ theorem twoPart_card_inf_entrywise (F : Subgroup (ModGL TwistTag.E6.tag K)) (σ'
   have hJΓ : J ≤ Γ := fixedFieldImage_le
   set N : Subgroup ↥Γ := J.subgroupOf Γ with hN
   set A : Subgroup ↥Γ := F.subgroupOf Γ with hA
-  haveI : N.Normal := fixedFieldImage_normal
+  have : N.Normal := fixedFieldImage_normal
   have h2 : N.relIndex A * Nat.card ↥(N ⊓ A) = Nat.card ↥A := Subgroup.relIndex_mul_card N A
   obtain ⟨-, hdq⟩ := fixedFieldImage_index_dvd_card (τ := TwistTag.E6.tag) σ'
   have hodd : Odd (N.relIndex A) := by
@@ -86,9 +86,11 @@ section TwE6Fixed
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem twistedFixedGroup_le_adjoint (σ : K →+* K) :
     twistedFixedGroup TwistTag.E6 K σ ≤ adjointGroup TwistTag.E6.tag K := inf_le_left
 
+omit [Finite K] in
 theorem twistedE6_perfect_card {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 2 ^ (2 * f))
     (σ : K ≃+* K) (hσ2 : σ ^ 2 = 1) (hσ1 : σ ≠ 1) :
     ⁅twistedFixedGroup TwistTag.E6 K σ.toRingHom, twistedFixedGroup TwistTag.E6 K σ.toRingHom⁆ =
@@ -111,6 +113,7 @@ theorem twistedE6_perfect_card {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 2 ^ (
   · rw [← hcard]
     exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv).symm
 
+omit [Finite K] in
 theorem center_twistedFixedGroup_E6 (σ : K ≃+* K) (hσσ : ∀ c, σ (σ c) = c) :
     Subgroup.center ↥(twistedFixedGroup TwistTag.E6 K σ.toRingHom) = ⊥ := by
   rw [CFSG.SeitzReduction.TwistedE6Pilot.twistedFixedGroup_eq_graphFixedRootGroup_twistedE6 hσσ]
@@ -252,7 +255,7 @@ theorem stOrderBody_twE6 {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K
   have hcenH : Nat.card (Subgroup.center ↥(LargeEvenTwistedH TwistTag.E6.tag.cartan K
       TwistTag.E6.perm n)) = 1 := by
     rw [card_center_twistedH, largeEvenIsRoot_eq_isRoot, twCenterS_eq K n σe hσe hperf hσσ]
-  haveI : Finite ↥(LargeEvenTwistedH TwistTag.E6.tag.cartan K TwistTag.E6.perm n) := by
+  have : Finite ↥(LargeEvenTwistedH TwistTag.E6.tag.cartan K TwistTag.E6.perm n) := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [hcardH]
     obtain ⟨r, hr, h⟩ := (CFSG.SeitzReduction.F4Pilot.EvenExc.profile_ordTwistedE6' hn).two

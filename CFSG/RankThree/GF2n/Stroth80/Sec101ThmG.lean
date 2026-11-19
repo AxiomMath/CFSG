@@ -43,6 +43,7 @@ theorem GlobalModelAction.halfPair {K : Type} [Field K] [Finite K] {γ : G → K
         hD hDX' hC hCX hmt hms hmsQ ((Pk.phi_mem_normalizer_iff hcD ms).mp hsN)
         ((Pk.phi_comm_iff mt ms).mp hts))
 
+omit [Finite G] in
 private theorem IsSaturated101.B_line_eq_zero_of_mem_normalizer
     {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     {C D : Subgroup G} {c₀ d₀ : M₀.E} (hcl : IsLineGen M₀ C c₀)
@@ -154,7 +155,7 @@ private theorem IsSaturated101.false_of_two_flag_groups
     (Pk : GlobalModelAction M Q Z K γ M₀)
     (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n)
     {X X' : Subgroup G} (hX : IsMaxClique101 M Q Z B X)
-    (hsat : IsSaturated101 M Q Z B X) (hX' : IsClique101 M Q Z B X')
+    (hsat : IsSaturated101 M Q Z B X) (_hX' : IsClique101 M Q Z B X')
     (hsat' : IsSaturated101 M Q Z B X') (hXX' : X ⊓ X' = Z)
     {C D : Subgroup G} (hC : IsRootB M B C) (hCX : C ≤ X)
     (hD : IsRootB M B D) (hDX' : D ≤ X') {c₀ d₀ : M₀.E}
@@ -181,8 +182,8 @@ private theorem IsSaturated101.false_of_two_flag_groups
   have hcC : Ctx M Q Z C := hC.ctx hc
   have hcD : Ctx M Q Z D := hD.ctx hc
   have HC : Sec10Hyp hcC n := hC.sec10 H
-  haveI := Pk.finite_lam C
-  haveI := Pk.finite_lam D
+  have := Pk.finite_lam C
+  have := Pk.finite_lam D
   have hτH : τ ∈ H0 M Z := hcD.LB_le_H0_cb hτ
   have hf1 : Pk.φ ⟨τ, hτH⟩ ≠ 1 := fun h1 => hτQ ((Pk.hφker _).mp h1)
   have hfF : Pk.φ ⟨τ, hτH⟩ ∈ Pk.lam D ⊓ Subgroup.normalizer (Pk.lam C : Set _) :=
@@ -234,8 +235,8 @@ private theorem IsSaturated101.false_of_halfPair_data
   have hcC : Ctx M Q Z C := hC.ctx hc
   have hcD : Ctx M Q Z D := hD.ctx hc
   have h4 : 4 ≤ n := H.four_le h34
-  haveI := Pk.finite_lam C
-  haveI := Pk.finite_lam D
+  have := Pk.finite_lam C
+  have := Pk.finite_lam D
   have hτH : τ ∈ H0 M Z := hcD.LB_le_H0_cb hτ
   have hf1 : Pk.φ ⟨τ, hτH⟩ ≠ 1 := fun h1 => hτQ ((Pk.hφker _).mp h1)
   have hfF : Pk.φ ⟨τ, hτH⟩ ∈ Pk.lam D ⊓ Subgroup.normalizer (Pk.lam C : Set _) :=

@@ -34,6 +34,7 @@ theorem le_normalizer_sSup_thetaComponentsAt (h45 : Sec4.Item4_5) (hTF : Theorem
 section ON
 
 
+omit [Finite G] in
 theorem isQuasisimple_thetaQuotient_sSup {d : G} {𝒳 : Set (Subgroup G)}
     (h𝒳 : 𝒳 ⊆ thetaComponentsAt 3 d)
     (hON : Sec4.IsTripleCover (↥(sSup 𝒳) ⧸ aschbacherSolvableCore 3 ↥(sSup 𝒳))
@@ -43,12 +44,12 @@ theorem isQuasisimple_thetaQuotient_sSup {d : G} {𝒳 : Set (Subgroup G)}
     Sec17.Proof171Steps.isPerfect_sSup fun M hM =>
       Sec6.isPerfect_of_mem_thetaComponentsAt (h𝒳 hM)
   have hperfQ : Group.IsPerfect (↥(sSup 𝒳) ⧸ aschbacherSolvableCore 3 ↥(sSup 𝒳)) := by
-    haveI := hperf
+    have := hperf
     exact Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective _)
   have hsimple : IsSimpleGroup
       ((↥(sSup 𝒳) ⧸ aschbacherSolvableCore 3 ↥(sSup 𝒳)) ⧸
         Subgroup.center (↥(sSup 𝒳) ⧸ aschbacherSolvableCore 3 ↥(sSup 𝒳))) := by
-    haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.ON :=
+    have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.ON :=
       CFSG.Sporadic.ON.isSimpleGroup_ON
     obtain ⟨e⟩ := hON.2
     exact e.isSimpleGroup
@@ -57,7 +58,7 @@ theorem isQuasisimple_thetaQuotient_sSup {d : G} {𝒳 : Set (Subgroup G)}
     obtain ⟨e⟩ := hON.2
     by_contra hc
     push Not at hc
-    haveI : IsMulCommutative CFSG.Blueprint.NativeSporadic.ON :=
+    have : IsMulCommutative CFSG.Blueprint.NativeSporadic.ON :=
       ⟨⟨fun a b => by simpa using congrArg e (hc (e.symm a) (e.symm b))⟩⟩
     have hprime : Nat.Prime (Nat.card CFSG.Blueprint.NativeSporadic.ON) :=
       (Group.is_simple_iff_prime_card (α := CFSG.Blueprint.NativeSporadic.ON)).mp

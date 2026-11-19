@@ -60,7 +60,7 @@ private theorem ggStdSubLinearThreeAux_label_arith {lab : LargeEvenLabel}
     by_cases hl2 : l = 2
     · simp [hl2] at h2
     · by_cases hl3 : l = 3
-      · simp [hl2, hl3] at h2
+      · simp [hl3] at h2
       · simp [hl2, hl3] at h2
 
 private theorem ggStdSubLinearThreeAux_label

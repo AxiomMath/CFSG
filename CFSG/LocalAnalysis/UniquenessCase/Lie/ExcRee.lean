@@ -79,8 +79,8 @@ theorem uc22pwex_f4_borelWit {G : Type} [Group G] [Finite G] {n : ℕ}
       (h1.trans (map_one _).symm)
     have e0 := congrFun h2 j0
     have e1 := congrFun h2 j1
-    simp [ι, Pi.mul_apply, Pi.mulSingle_apply, h01, h01.symm, h0p0, h0p0.symm, h0p1, h0p1.symm,
-      h1p0, h1p0.symm, h1p1, h1p1.symm] at e0 e1
+    simp [ι, Pi.mul_apply, h01, h01.symm, h0p0.symm, h0p1.symm,
+      h1p0.symm, h1p1.symm] at e0 e1
     exact Prod.ext e0 e1
   have hA : Nat.card (μ × μ) = p ^ 2 := by rw [Nat.card_prod, hμc, sq]
   obtain ⟨hE, hc⟩ := uc22pwex_elemAbelian_range Φ hinj (fun a b => mul_comm a b)
@@ -103,7 +103,7 @@ theorem uc22pwex_f4_borelWit {G : Type} [Group G] [Finite G] {n : ℕ}
       exact ⟨hx'.1 h1, hz2⟩
     · rintro ⟨h1, h2⟩
       exact ⟨hx'.2 h1, y.2⟩
-  haveI : CharP K 2 := uc22pwex_charP_two hK
+  have : CharP K 2 := uc22pwex_charP_two hK
   exact uc22pwex_borelWit_of_equiv e _
     (ReeTag.isPGroup_reeFixedPosUnipotent_subgroupOf (t := ReeTag.F4) (K := K) (a := a))
     (ReeTag.not_dvd_index_reeFixedPosUnipotent (t := ReeTag.F4) (K := K) (a := a)) Φ.range hN hE hc

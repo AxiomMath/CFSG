@@ -53,13 +53,13 @@ theorem eq_or_eq_sup_of_normal_of_isL2Quot {L1 L2 S K : Subgroup G} (hF : F112Hy
     rw [GaloisField.card 2 n (by omega)]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : IsSimpleGroup
+  have : IsSimpleGroup
       (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcard
-  haveI : IsSimpleGroup (oTwoQuot ↥L2) := eL.isSimpleGroup
+  have : IsSimpleGroup (oTwoQuot ↥L2) := eL.isSimpleGroup
   have eQ : (↥H ⧸ Q.subgroupOf H) ≃* oTwoQuot ↥H :=
     QuotientGroup.quotientMulEquivOfEq hcore.symm
-  haveI : IsSimpleGroup (↥H ⧸ Q.subgroupOf H) := (eQ.trans eH).isSimpleGroup
+  have : IsSimpleGroup (↥H ⧸ Q.subgroupOf H) := (eQ.trans eH).isSimpleGroup
   have hKnorm : (K.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hK).mpr hKn
   have hmapN : ((K.subgroupOf H).map π).Normal :=
@@ -92,6 +92,7 @@ theorem eq_or_eq_sup_of_normal_of_isL2Quot {L1 L2 S K : Subgroup G} (hF : F112Hy
     rw [heq]
     exact K.mul_mem hkK' (hQK hdiff)
 
+omit [Finite G] in
 theorem inf_centralizer_le_omegaOneCenterOf_of_eq {L1 L2 S : Subgroup G}
     (hS2 : S = (S ⊓ L2) ⊔ Q2 L1 L2 S) :
     Z2 L1 L2 S ⊓

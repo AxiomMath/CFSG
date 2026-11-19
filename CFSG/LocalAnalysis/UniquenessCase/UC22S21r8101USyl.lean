@@ -19,7 +19,7 @@ theorem u81_dvd_card_centralizer {M B : Subgroup G} (hBM : B ≤ M) {r : ℕ} (h
     (hz : orderOf z = p)
     (hzB : z ∈ centralizer ((barImage M B : Subgroup (Bar2 M)) : Set (Bar2 M))) :
     p ∣ Nat.card (centralizer (B : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hker : IsPGroup 2 (uc22p21cPi M).ker := by
     rw [QuotientGroup.ker_mk']
     exact CFSG.pCore_isPGroup
@@ -72,8 +72,8 @@ theorem u81_omega_decomp (u : U4X D L K n) {R B : Subgroup G}
       ∃ c ∈ barImage D.M B ⊓ centralizer
         ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M)),
         β = x₀ * x₁ * c := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (2 ^ n - 1).Prime := ⟨u.prime_r⟩
   have hmem : ∀ {H : Subgroup (Bar2 D.M)}, Nat.card ↥(barImage D.M R ⊓ H) = 2 ^ n - 1 →
       ∀ x ∈ barImage D.M R ⊓ H, x ∈ barImage D.M B := by
     intro H hH x hx

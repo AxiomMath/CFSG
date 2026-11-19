@@ -46,7 +46,7 @@ theorem seitzExcHighTwE6Six_proved : SeitzExcHighTwE6Six := by
   SeitzExcHighForAt IsE8Index fun d p => p < 7 ∧ ClassRange LieTypeIndex.E8 (fun _ => True) 1 d p
 
 theorem seitzExcHighE8One_of_lt_seven (h : SeitzExcHighE8OneLtSeven) : SeitzExcHighE8One :=
-  SeitzExcHighForAt.union (fun d p _ _ hQ => (Nat.lt_or_ge p 7).elim
+  SeitzExcHighForAt.union (fun _d p _ _ hQ => (Nat.lt_or_ge p 7).elim
     (fun h' => Or.inr ⟨h', hQ⟩) (fun h' => Or.inl ⟨hQ, h'⟩))
     seitzExcHighE8One_of_ge_seven h
 

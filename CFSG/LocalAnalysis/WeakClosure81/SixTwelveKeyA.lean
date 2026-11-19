@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem Hyp612H3.swapH3 {n : ℕ} {M V : Subgroup G} {g : G} (h : Hyp612H3 n M V g)
     (hd : H3Cond n (conjSubgroup M g) (conjSubgroup V g) g⁻¹) :
     Hyp612H3 n (conjSubgroup M g) (conjSubgroup V g) g⁻¹ :=
@@ -22,6 +23,7 @@ namespace Hyp612Sym
 
 variable {n : ℕ} {M V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem commutator_conj_mem_NOf (h : Hyp612Sym n M V g) {v w k : G} (hv : v ∈ LOf V g)
     (hvw : ⁅v, w⁆ ∈ CKOf M V g) (hk : k ∈ KOf M V g) (hkw : ⁅k, w⁆ ∈ NOf M V g) :
     ⁅v * k * v⁻¹, w⁆ ∈ NOf M V g := by
@@ -159,16 +161,18 @@ namespace KLPair
 
 variable {n : ℕ} {M V A C : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem ofV (h : Hyp612Sym n M V g) : KLPair M V g V (UOf M V g) :=
   ⟨h.elemAbelian, le_sup_left, ⟨1, (conjSubgroup_one V).symm⟩, inf_le_left,
     le_sup_left, inf_le_left,
-    fun a ha haU k hk hc => h.mem_UOf_of_commutator_mem_N ha haU hk hc, rfl, rfl⟩
+    fun _a ha haU _k hk hc => h.mem_UOf_of_commutator_mem_N ha haU hk hc, rfl, rfl⟩
 
 theorem ofConjV (h : Hyp612Sym n M V g) : KLPair M V g (conjSubgroup V g) (BOf M V g) :=
   ⟨h.elemAbelian_conj, le_sup_right, ⟨g, rfl⟩, inf_le_left, le_sup_right, inf_le_right,
-    fun a ha haB k hk hc => h.mem_BOf_of_commutator_mem_N ha haB hk hc,
+    fun _a ha haB _k hk hc => h.mem_BOf_of_commutator_mem_N ha haB hk hc,
     h.card_UOf_eq_card_BOf.symm, h.mQuot_conjV_BOf⟩
 
+omit [Finite G] in
 theorem mem_conjSubgroup_iff (h : Hyp612Sym n M V g) (P : KLPair M V g A C) {a h' k : G}
     (ha : a ∈ A) (haC : a ∉ C) (hh' : h' ∈ LOf V g) (hk : k ∈ KOf M V g) :
     ⁅k, h'⁻¹ * a * h'⁆ ∈ NOf M V g ↔ k ∈ conjSubgroup C h' := by

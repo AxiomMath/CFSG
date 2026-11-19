@@ -49,13 +49,13 @@ theorem ggDetAut_of_surjective (p : ℕ) (hP : p.Prime) {H H' : Type} [Group H] 
     (hπ : Function.Surjective π) {c : MulAut H} {a : MulAut H'}
     (hca : ∀ x : H, π (c x) = a (π x)) (hfix : ∀ v ∈ π.ker, c v = v) :
     ggDetAut p hP hc hp c = ggDetAut p hP hc' hp' a := by
-  haveI : Fact p.Prime := ⟨hP⟩
-  letI : CommGroup H := { (inferInstance : Group H) with mul_comm := hc }
-  letI : CommGroup H' := { (inferInstance : Group H') with mul_comm := hc' }
-  letI : Module (ZMod p) (Additive H) := AddCommGroup.zmodModule (n := p) fun a => by
+  have : Fact p.Prime := ⟨hP⟩
+  let : CommGroup H := { (inferInstance : Group H) with mul_comm := hc }
+  let : CommGroup H' := { (inferInstance : Group H') with mul_comm := hc' }
+  let : Module (ZMod p) (Additive H) := AddCommGroup.zmodModule (n := p) fun a => by
     have h : (Additive.toMul a) ^ p = 1 := hp _
     rw [← ofMul_toMul a, ← ofMul_pow, h, ofMul_one]
-  letI : Module (ZMod p) (Additive H') := AddCommGroup.zmodModule (n := p) fun a => by
+  let : Module (ZMod p) (Additive H') := AddCommGroup.zmodModule (n := p) fun a => by
     have h : (Additive.toMul a) ^ p = 1 := hp' _
     rw [← ofMul_toMul a, ← ofMul_pow, h, ofMul_one]
   show ggDetLin (p := p) (H := H) c = ggDetLin (p := p) (H := H') a

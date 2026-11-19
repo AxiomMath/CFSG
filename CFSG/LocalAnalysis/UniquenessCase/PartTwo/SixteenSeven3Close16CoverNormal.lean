@@ -17,12 +17,13 @@ variable {G : Type} [Group G] [Finite G]
 private theorem close16_perfect_quot_two {X : Type*} [Group X] [Finite X]
     (hperf : Group.IsPerfect X) (N : Subgroup X) [N.Normal]
     (h : IsPGroup 2 (X ⧸ N)) : N = ⊤ := by
-  haveI : Group.IsPerfect X := hperf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect X := hperf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hNt
-  haveI : Nontrivial (X ⧸ N) := QuotientGroup.nontrivial_iff.mpr hNt
+  have : Nontrivial (X ⧸ N) := QuotientGroup.nontrivial_iff.mpr hNt
   exact Group.IsPerfect.not_isNilpotent (X ⧸ N) h.isNilpotent
 
+omit [Finite G] in
 private theorem close16_commutator_le_of_subgroupOf {X C : Subgroup G} (hCX : C ≤ X)
     (h : ⁅(⊤ : Subgroup ↥X), ⊤⁆ ≤ C.subgroupOf X) : ⁅X, X⁆ ≤ C := by
   have hmap := Subgroup.map_mono (f := Subgroup.subtype X) h
@@ -104,11 +105,11 @@ theorem close16_normal_of_cover {M C X Y : Subgroup G}
         have hleY1 : ⁅Y, Y₁⁆ ≤ Y₁ :=
           (Subgroup.le_normalizer_iff_commutator_le_right).mp (hYX.trans hY1normX)
         exact (le_inf hleY hleY1).trans hN_le_C
-      haveI : (Y.subgroupOf X).Normal :=
+      have : (Y.subgroupOf X).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hYX).mpr hXY
-      haveI : (C.subgroupOf X).Normal :=
+      have : (C.subgroupOf X).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hCX).mpr hXnormC
-      haveI : (Y₁.subgroupOf X).Normal :=
+      have : (Y₁.subgroupOf X).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hY1X).mpr hY1normX
       have hconjX : conjSubgroup X m = X :=
         conjSubgroup_eq_iff_mem_normalizer.mpr (hXnormM hm)
@@ -143,7 +144,7 @@ theorem close16_normal_of_cover {M C X Y : Subgroup G}
         exact hmain
       exact hXab (close16_commutator_le_of_subgroupOf hCX htop)
     · have hperfY : Group.IsPerfect ↥Y := (Subgroup.isPerfect_iff (H := Y)).mpr hYperf
-      haveI : ((Y ⊓ Y₁).subgroupOf Y).Normal :=
+      have : ((Y ⊓ Y₁).subgroupOf Y).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer (inf_le_left : Y ⊓ Y₁ ≤ Y)).mpr
           (hYX.trans hNnormX)
       have hD2 : IsPGroup 2 ↥((Y ⊓ C).subgroupOf Y) :=
@@ -155,7 +156,7 @@ theorem close16_normal_of_cover {M C X Y : Subgroup G}
         intro y
         have hsupNC : ((Y ⊓ Y₁).subgroupOf X) ⊔ C.subgroupOf X = ⊤ := by
           rw [← Subgroup.subgroupOf_sup hN_le_X hCX, hNC, Subgroup.subgroupOf_self]
-        haveI : (C.subgroupOf X).Normal :=
+        have : (C.subgroupOf X).Normal :=
           (Subgroup.normal_subgroupOf_iff_le_normalizer hCX).mpr hXnormC
         have hyx : (⟨(y : G), hYX y.2⟩ : ↥X)
             ∈ (Y ⊓ Y₁).subgroupOf X ⊔ C.subgroupOf X := by

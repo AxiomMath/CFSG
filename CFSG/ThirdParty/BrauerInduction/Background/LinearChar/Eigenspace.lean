@@ -379,13 +379,13 @@ lemma psiEigenspace_eq_top_of_inertia_eq_top
   let σ : FDRep k G := psiEigenspaceFDRepOfInertiaEqTop ρ A ψ hI
   let i : σ ⟶ ρ := psiEigenspaceInclOfInertiaEqTop ρ A ψ hI
   have hi_ne : i ≠ 0 := psiEigenspaceInclOfInertiaEqTop_ne_zero ρ A ψ hI hW
-  haveI : Mono i := by
+  have : Mono i := by
     apply ConcreteCategory.mono_of_injective
       (C := FDRep k G)
     exact
       (Set.injective_codRestrict Subtype.property).mp
         fun ⦃a₁ a₂⦄ h ↦ h
-  haveI : IsIso i := by
+  have : IsIso i := by
     exact isIso_of_mono_of_nonzero (f:=i) hi_ne
   apply eq_top_iff.mpr
   intro x hx

@@ -32,7 +32,7 @@ theorem exists_twE6_model {Q : Type} [Group Q]
   | twistedE6 q =>
     obtain ⟨K, fK, σ, hK, hσ, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
     have hq : q.p ^ q.exponent = 2 ^ 3 := by rw [hd.1, hd.2]
-    haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+    have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
     exact ⟨K, fK, inferInstance, σ, by rw [hK, hq], fun c => by rw [hσ, hq], ⟨e.trans eC⟩⟩
   | _ => exact hd.elim
 

@@ -33,10 +33,10 @@ theorem letF_eq (I : TabI M inv c RW PAR LAB INV) {t : List Nat} (ht : ∀ x ∈
   unfold letF
   cases hb : Nat.beq (l % 2) 0
   · have h : ¬ l % 2 = 0 := Nat.ne_of_beq_eq_false hb
-    rw [if_neg h]
+    rw [ite_eq_right h]
     exact I.inv_eq _ (getD_lt ht _)
   · have h : l % 2 = 0 := Nat.eq_of_beq_eq_true hb
-    rw [if_pos h]
+    rw [ite_eq_left h]
 
 private theorem foldl_lt (I : TabI M inv c RW PAR LAB INV) (t : List Nat) :
     ∀ (w : List Nat) (acc : Nat), acc < 2048 →
@@ -99,12 +99,12 @@ private theorem homVal_kHV (I : TabI M inv c RW PAR LAB INV) {t : List Nat}
     unfold homVal
     cases hb : Nat.beq a 0
     · have h : ¬ a = 0 := Nat.ne_of_beq_eq_false hb
-      rw [if_neg h, I.par_eq a ha, I.lab_eq a ha,
+      rw [ite_eq_right h, I.par_eq a ha, I.lab_eq a ha,
         I.mt_eq _ (getD_lt ht _) _ (homVal_lt I t _ _), homVal_kHV I ht f _ (fget11_lt _ _),
         czPack_fget ht]
       rfl
     · have h : a = 0 := Nat.eq_of_beq_eq_true hb
-      rw [if_pos h]
+      rw [ite_eq_left h]
 
 theorem homVal_eq (I : TabI M inv c RW PAR LAB INV) {t : List Nat} (ht : ∀ x ∈ t, x < 2048)
     {a : Nat} (ha : a < 2048) : homVal M c t 2048 a = czHomVal RW PAR LAB (czPack t) a :=

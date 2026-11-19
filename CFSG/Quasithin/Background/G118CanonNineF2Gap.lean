@@ -22,7 +22,7 @@ open scoped TensorProduct
 
 @[expose] def F2TensorGap : Prop :=
   ∀ (V : Type) [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
-    (H : Subgroup (GLV V)) (I : Submodule (ZMod 2) V) (hHI : Invariant H I) (D : E11Data H I)
+    (H : Subgroup (GLV V)) (I : Submodule (ZMod 2) V) (_hHI : Invariant H I) (D : E11Data H I)
     (C Dg : Subgroup (GLV V)) (e : ↥C ≃* Equiv.Perm (Fin 3))
     (φ : ↥H ≃* ↥(alternatingGroup (Fin 5))) (σ : ↥Dg → Equiv.Perm (Fin 5)),
     Module.finrank (ZMod 2) V = 8 → Module.finrank D.F D.U = 2 → Nat.card D.F = 2 →

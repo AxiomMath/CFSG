@@ -26,7 +26,7 @@ theorem exists_comp_of_twistedE6_q
       P ≤ J ⊔ (fixSubgroup β ⊓ Subgroup.centralizer (J : Set ↥(twistedE6RootGroup K σ))) := by
   have hK2 : ringChar K = 2 := ringChar_eq_two_of_card_eq_pow (n := f * 2)
     (by rw [hK, ← pow_mul])
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   obtain ⟨h, rfl⟩ := mem_range_twistedE6InndiagConj_of_mem_innAutDerived Nat.prime_two hf hK σ hσ
     hβmem
   have hp1 : h ^ p = 1 := twistedE6InndiagConj_injective Nat.prime_two hf hK σ hσ

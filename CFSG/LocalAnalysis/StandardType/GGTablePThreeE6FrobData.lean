@@ -109,7 +109,7 @@ theorem frobRootMap_e6_admissible
       exact hz
   · ext γ
     rw [kernelRoots_rootCharHom]
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     refine and_congr_right fun _ => ?_
     rw [hrootChar γ, hω₀.zpow_eq_one_iff_dvd, ← ZMod.intCast_zmod_eq_zero_iff_dvd,
       ← e6_zmod_sum_val v γ]

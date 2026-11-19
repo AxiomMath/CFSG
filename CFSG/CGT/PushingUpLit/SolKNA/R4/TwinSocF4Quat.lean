@@ -17,7 +17,7 @@ structure QRel8 {G : Type*} [Group G] (x b : G) : Prop where
 
 theorem quaternion_qrel8 (m : ℕ) (hm : 2 ≤ m) :
     QRel8 ((a 1 : QuaternionGroup (2 ^ m)) ^ (2 ^ (m - 2))) (xa 0) := by
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
   obtain ⟨j, rfl⟩ : ∃ j, m = j + 2 := ⟨m - 2, by omega⟩
   have hk8 : 2 ^ (j + 2 - 2) * 8 = 2 * 2 ^ (j + 2) := by
     rw [Nat.add_sub_cancel, pow_succ, pow_succ]; ring
@@ -80,7 +80,7 @@ theorem exists_qrel8_of_datum {r : ℕ} (hr : 4 ≤ r) {A : Type} [Group A] [Fin
 
 theorem quaternion_pow_exp (m : ℕ) (hm : 1 ≤ m) (x : QuaternionGroup (2 ^ m)) :
     x ^ 2 ^ (m + 1) = 1 := by
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
   have hN : 2 ^ (m + 1) = 2 * 2 ^ m := by rw [pow_succ']
   rcases x with i | i
   · have h1 : (a i : QuaternionGroup (2 ^ m)) = (a 1) ^ i.val := by
@@ -112,7 +112,7 @@ theorem exists_quat_full {G : Type*} [Group G] {Q : Subgroup G} {r : ℕ} (hr : 
     (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2))) :
     ∃ x b : G, x ∈ Q ∧ b ∈ Q ∧ orderOf x = 2 ^ (r - 1) ∧ b * x * b⁻¹ = x⁻¹ ∧
       b * b = x ^ 2 ^ (r - 2) := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   let φ : QuaternionGroup (2 ^ (r - 2)) →* G := Q.subtype.comp e.symm.toMonoidHom
   have hφ : Function.Injective φ := Q.subtype_injective.comp e.symm.injective
   refine ⟨φ (a 1), φ (xa 0), (e.symm _).2, (e.symm _).2, ?_, ?_, ?_⟩

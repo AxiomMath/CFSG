@@ -24,22 +24,26 @@ variable {Mh : Subgroup H} (hMh : IsZJMh y z v₁ v₂ Mh) include hMh
 
 variable {Mc : Subgroup H} (hMc : IsZJMc ρ Q Mh Mc) include hMc
 
+omit [Finite H] hMh hMc in
 private theorem lt_mul_self : (l * t) * (l * t) = 1 := by
   calc (l * t) * (l * t) = l * (t * l) * t := by group
     _ = l * (l * t) * t := by rw [h.t_l]
     _ = (l * l) * (t * t) := by group
     _ = 1 := by rw [h.l_sq, h.t_sq, one_mul]
 
+omit [Finite H] hMh hMc in
 private theorem ttau_mul_self : (t * τ) * (t * τ) = 1 := by
   calc (t * τ) * (t * τ) = t * (τ * t) * τ := by group
     _ = t * (t * τ) * τ := by rw [← h.t_tau]
     _ = (t * t) * (τ * τ) := by group
     _ = 1 := by rw [h.t_sq, h.tau_sq, one_mul]
 
+omit [Finite H] hMh hMc in
 private theorem lt_ttau_mul_left : (l * t) * (t * τ) = l * τ := by
   calc (l * t) * (t * τ) = l * (t * t) * τ := by group
     _ = l * τ := by rw [h.t_sq]; group
 
+omit [Finite H] hMh hMc in
 private theorem ttau_lt_mul : (t * τ) * (l * t) = l * τ := by
   calc (t * τ) * (l * t) = t * (τ * l) * t := by group
     _ = t * (l * τ) * t := by rw [h.tau_l]
@@ -48,9 +52,11 @@ private theorem ttau_lt_mul : (t * τ) * (l * t) = l * τ := by
     _ = l * (t * t) * τ := by group
     _ = l * τ := by rw [h.t_sq]; group
 
+omit [Finite H] hMh hMc in
 private theorem lt_ttau_comm : (l * t) * (t * τ) = (t * τ) * (l * t) :=
-  (lt_ttau_mul_left h hMh hMc).trans (ttau_lt_mul h hMh hMc).symm
+  (lt_ttau_mul_left h).trans (ttau_lt_mul h).symm
 
+omit [Finite H] hMh hMc in
 private theorem lt_conj_y : (l * t) * y * (l * t)⁻¹ = y * z := by
   have hyV : y ∈ V := by
     rw [h.V_eq]
@@ -75,7 +81,7 @@ private theorem lt_conj_mem_C {x : H} (hx : x ∈ Mc ⊓ centralizer ({t * τ} :
   have hxCent : x ∈ centralizer ({t * τ} : Set H) := hx.2
   rw [Subgroup.mem_centralizer_singleton_iff] at hxCent ⊢
   have hxs : Commute x (t * τ) := hxCent
-  have hσcomm : Commute (l * t) (t * τ) := lt_ttau_comm h hMh hMc
+  have hσcomm : Commute (l * t) (t * τ) := lt_ttau_comm h
   have hsconj : Commute ((l * t) * x * (l * t)⁻¹)
       ((l * t) * (t * τ) * (l * t)⁻¹) := hxs.conj (l * t)
   have hsfix : (l * t) * (t * τ) * (l * t)⁻¹ = t * τ := hσcomm.mul_inv_cancel
@@ -89,7 +95,7 @@ private theorem exists_N_of_order_eight
     (hc4 : c * c * (c * c) = y) :
     ∃ N ∈ Mc ⊓ centralizer ({t * τ} : Set H),
       orderOf N = 8 ∧ (l * t) * N * (l * t)⁻¹ = N := by
-  have hσσ : (l * t) * (l * t) = 1 := lt_mul_self h hMh hMc
+  have hσσ : (l * t) * (l * t) = 1 := lt_mul_self h
   have hσinv : (l * t)⁻¹ = l * t := inv_eq_of_mul_eq_one_right hσσ
   let c1 : H := (l * t) * c * (l * t)⁻¹
   have hc1C : c1 ∈ Mc ⊓ centralizer ({t * τ} : Set H) := lt_conj_mem_C h hMh hMc hcC
@@ -116,7 +122,7 @@ private theorem exists_N_of_order_eight
   have hN4 : N ^ 4 = z := by
     show (c * c1) ^ 4 = z
     have hcomm : Commute c c1 := hNcomm
-    rw [hcomm.mul_pow 4, hc4', hc1pow, lt_conj_y h hMh hMc]
+    rw [hcomm.mul_pow 4, hc4', hc1pow, lt_conj_y h]
     calc y * (y * z) = (y * y) * z := by group
       _ = z := by rw [h.Y_sq y hyY]; group
   have hN8 : N ^ 8 = 1 := by
@@ -146,6 +152,7 @@ private theorem exists_N_of_order_eight
       _ = c * c1 := hNcomm.symm
   exact ⟨N, hNC, hordN, hNσfix⟩
 
+omit [Finite H] hMh hMc in
 private theorem closure_isPGroup_comm {N : H}
     (hNC : N ∈ Mc ⊓ centralizer ({t * τ} : Set H)) (hordN : orderOf N = 8)
     (hNσfix : (l * t) * N * (l * t)⁻¹ = N) :
@@ -157,7 +164,7 @@ private theorem closure_isPGroup_comm {N : H}
       calc N * (l * t) = ((l * t) * N * (l * t)⁻¹) * (l * t) := by rw [hNσfix]
         _ = (l * t) * N := by group
     exact h2
-  have hsσ : Commute (t * τ) (l * t) := (lt_ttau_comm h hMh hMc).symm
+  have hsσ : Commute (t * τ) (l * t) := (lt_ttau_comm h).symm
   let A : Subgroup H := Subgroup.closure ({N, t * τ, l * t} : Set H)
   have hpw : ({N, t * τ, l * t} : Set H).Pairwise Commute := by
     intro a ha b hb hne
@@ -172,7 +179,7 @@ private theorem closure_isPGroup_comm {N : H}
     · exact hNσ.symm
     · exact hsσ.symm
     · exact absurd rfl hne
-  haveI hAcomm : IsMulCommutative A := Subgroup.isMulCommutative_closure hpw
+  have hAcomm : IsMulCommutative A := Subgroup.isMulCommutative_closure hpw
   have hAab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
     intro a ha b hb
     exact congrArg Subtype.val (IsMulCommutative.is_comm.comm (⟨a, ha⟩ : A) (⟨b, hb⟩ : A))
@@ -181,10 +188,10 @@ private theorem closure_isPGroup_comm {N : H}
   have hσA : (l * t) ∈ A := Subgroup.subset_closure (by simp)
   have hN8 : N ^ 8 = 1 := by rw [← hordN]; exact pow_orderOf_eq_one N
   have hs8 : (t * τ) ^ 8 = 1 := by
-    rw [show (8 : ℕ) = 2 * 4 by norm_num, pow_mul, pow_two, ttau_mul_self h hMh hMc,
+    rw [show (8 : ℕ) = 2 * 4 by norm_num, pow_mul, pow_two, ttau_mul_self h,
       one_pow]
   have hσ8 : (l * t) ^ 8 = 1 := by
-    rw [show (8 : ℕ) = 2 * 4 by norm_num, pow_mul, pow_two, lt_mul_self h hMh hMc,
+    rw [show (8 : ℕ) = 2 * 4 by norm_num, pow_mul, pow_two, lt_mul_self h,
       one_pow]
   have h8 : ∀ a ∈ A, a ^ 8 = 1 := by
     intro a ha
@@ -215,23 +222,23 @@ private theorem closure_isPGroup_comm {N : H}
   exact ⟨A, hApg, hAab, hNA, hsA, hσA⟩
 
 private theorem card_gt_sixteen {N : H} {A : Subgroup H}
-    (hApg : IsPGroup 2 A) (hAab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
+    (hApg : IsPGroup 2 A) (_hAab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     (hNA : N ∈ A) (hsA : (t * τ) ∈ A) (hσA : (l * t) ∈ A)
     (hNMc : N ∈ Mc) (hordN : orderOf N = 8) : 16 < Nat.card A := by
-  haveI : IsMulCommutative A :=
-    IsMulCommutative.of_comm (fun a b => Subtype.ext (hAab a a.2 b b.2))
-  have hσσ : (l * t) * (l * t) = 1 := lt_mul_self h hMh hMc
+  have : IsMulCommutative A :=
+    IsMulCommutative.of_comm (fun a b => Subtype.ext (_hAab a a.2 b b.2))
+  have hσσ : (l * t) * (l * t) = 1 := lt_mul_self h
   have hσinv : (l * t)⁻¹ = l * t := inv_eq_of_mul_eq_one_right hσσ
   have hsMc : (t * τ) ∉ Mc := by
     intro hs
     have hτMh : τ ∈ Mh := tau_mem_Mh h hMh
-    have hmem : (t * τ) * τ ∈ Mh := Mh.mul_mem (Mc_le_Mh h hMh hMc hs) hτMh
+    have hmem : (t * τ) * τ ∈ Mh := Mh.mul_mem (Mc_le_Mh hMc hs) hτMh
     have heq : (t * τ) * τ = t := by rw [mul_assoc, h.tau_sq, mul_one]
     rw [heq] at hmem
     exact t_not_mem_Mh h hMh hmem
   have hσMc : (l * t) ∉ Mc := by
     intro hs
-    have hσMh : (l * t) ∈ Mh := Mc_le_Mh h hMh hMc hs
+    have hσMh : (l * t) ∈ Mh := Mc_le_Mh hMc hs
     have hinv : (l * t)⁻¹ ∈ Mh := Mh.inv_mem hσMh
     have heq : (l * t)⁻¹ = t * l := by
       rw [mul_inv_rev, inv_eq_of_mul_eq_one_right h.t_sq,
@@ -240,7 +247,7 @@ private theorem card_gt_sixteen {N : H} {A : Subgroup H}
     exact tl_not_mem_Mh h hMh hinv
   have hlτMc : l * τ ∉ Mc := by
     intro hs
-    have hMh' : l * τ ∈ Mh := Mc_le_Mh h hMh hMc hs
+    have hMh' : l * τ ∈ Mh := Mc_le_Mh hMc hs
     have hτMh : τ ∈ Mh := tau_mem_Mh h hMh
     have hmem : (l * τ) * τ ∈ Mh := Mh.mul_mem hMh' hτMh
     have heq : (l * τ) * τ = l := by rw [mul_assoc, h.tau_sq, mul_one]
@@ -257,7 +264,7 @@ private theorem card_gt_sixteen {N : H} {A : Subgroup H}
           Nat.card_congr (Subgroup.subgroupOfEquivOfLe hzpow_le).toEquiv
       _ = orderOf N := Nat.card_zpowers N
       _ = 8 := hordN
-  haveI : K.Normal := Subgroup.normal_of_isMulCommutative K
+  have : K.Normal := Subgroup.normal_of_isMulCommutative K
   let sA : A := ⟨t * τ, hsA⟩
   let σA : A := ⟨l * t, hσA⟩
   have hsAK : sA ∉ K := fun h => hsNz (Subgroup.mem_subgroupOf.mp h)
@@ -283,7 +290,7 @@ private theorem card_gt_sixteen {N : H} {A : Subgroup H}
     have hval : (((sA * σA⁻¹ : A) : H)) = l * τ := by
       change (t * τ) * (l * t)⁻¹ = l * τ
       rw [hσinv]
-      exact ttau_lt_mul h hMh hMc
+      exact ttau_lt_mul h
     have hzmem : l * τ ∈ Subgroup.zpowers N := by
       have h := Subgroup.mem_subgroupOf.mp hmem
       rwa [hval] at h
@@ -312,7 +319,7 @@ theorem exists_abelian_big
   obtain ⟨c, hcC, hc4⟩ := hy
   obtain ⟨N, hNC, hordN, hNσfix⟩ := exists_N_of_order_eight h hMh hMc hab hcC hc4
   obtain ⟨A, hApg, hAab, hNA, hsA, hσA⟩ :=
-    closure_isPGroup_comm h hMh hMc hNC hordN hNσfix
+    closure_isPGroup_comm h hNC hordN hNσfix
   have hAcard : 16 < Nat.card A :=
     card_gt_sixteen h hMh hMc hApg hAab hNA hsA hσA hNC.1 hordN
   exact ⟨A, hApg, hAab, hσA, ⟨N, hNA, hordN⟩, hAcard⟩
@@ -361,7 +368,7 @@ theorem Il_t (hb : ZJBound t)
       _ = (m * m) * (t * t) := by group
       _ = m * m := by rw [h.t_sq]; group
   have hmmC : m * m ∈ Q ⊓ centralizer ({t * τ} : Set H) := by
-    have hc := comm_t_mem_Cq h hMh (Mc_le_Mh h hMh hMc hm)
+    have hc := comm_t_mem_Cq h hMh (Mc_le_Mh hMc hm)
     rw [hconj] at hc
     exact hc
   have hmQ : m ∈ Q := by

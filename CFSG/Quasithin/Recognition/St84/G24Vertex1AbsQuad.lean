@@ -206,7 +206,7 @@ theorem G24Frame1.z1Frame_spec [Finite G] (F : G24Frame1 L1 L2 S)
         F.k * (F.k * z * F.k⁻¹) * F.k⁻¹ from by
         simp [z1Frame]]
       rw [z1Frame_k_sq (F := F) hD hz]
-      simp [z1Frame]
+      simp
   exact ⟨hmem, hinj, hcov, ha, hb, hk⟩
 
 private theorem eElt_z1Frame_comm (hD : G24LocalData L1 L2 S)
@@ -306,7 +306,7 @@ theorem G24Frame1.exists_quad [Finite G] (F : G24Frame1 L1 L2 S)
   have hcm : ∀ i j, i < j → ⁅v1Frame F.k F.e j, v1Frame F.k F.e i⁆ =
       eElt (z1Frame F.k z) (cm i j) := by
     intro i j hij
-    simp only [cm, dif_pos hij]
+    simp only [cm, dite_eq_left hij]
     exact Classical.choose_spec (hcov _ (hcmmem i j))
   have hqa : ∀ v, quadMapOfCoeffs sq cm (v1Diag aO *ᵥ v) = quadMapOfCoeffs sq cm v :=
     quad_diag_eq F hD hz hsq hcm hinj hcov (g := F.a) aO (fun j => F.act_a j) hact
@@ -332,7 +332,7 @@ theorem G24Frame1.exists_quad [Finite G] (F : G24Frame1 L1 L2 S)
         exact commutatorElement_eq_one_iff_mul_comm.mp h1
     have hH : ∀ a ∈ Subgroup.closure (Set.range (v1Frame F.k F.e)),
         ∀ b ∈ Subgroup.closure (Set.range (v1Frame F.k F.e)), a * b = b * a := by
-      haveI : IsMulCommutative (Subgroup.closure (Set.range (v1Frame F.k F.e))) :=
+      have : IsMulCommutative (Subgroup.closure (Set.range (v1Frame F.k F.e))) :=
         Subgroup.isMulCommutative_closure (by
           rintro _ ⟨i, rfl⟩ _ ⟨j, rfl⟩ -
           exact hcomm_frame i j)

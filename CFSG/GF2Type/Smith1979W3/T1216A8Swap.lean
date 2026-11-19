@@ -10,6 +10,7 @@ open CFSG.LargeExtraspecial
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conj_mem_and_comm (S : Setting G) {h a x : G} (hzh : h * S.z * h⁻¹ = a)
     (hah : h * a * h⁻¹ = S.z) (hxM : x ∈ S.M) (hxa : x * a = a * x) :
     h * x * h⁻¹ ∈ S.M ∧ (h * x * h⁻¹) * a = a * (h * x * h⁻¹) := by

@@ -93,7 +93,7 @@ theorem isQuasisimple_map_eta {X : Type} [Group X] {G₀ J : Subgroup X} {τ : T
       rw [Subgroup.mem_center_iff]
       intro b
       exact Subtype.ext (Subgroup.mem_center_iff.1 (hker (hle a.2)) b.1)
-    haveI : Nontrivial (↥(J.subgroupOf G₀) ⧸ Subgroup.center ↥(J.subgroupOf G₀)) :=
+    have : Nontrivial (↥(J.subgroupOf G₀) ⧸ Subgroup.center ↥(J.subgroupOf G₀)) :=
       hJ'.2.toNontrivial
     obtain ⟨a, b, hab⟩ := exists_pair_ne
       (↥(J.subgroupOf G₀) ⧸ Subgroup.center ↥(J.subgroupOf G₀))

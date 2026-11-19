@@ -40,7 +40,7 @@ private theorem mem_centralizer_layer_of_forall_component {J0 : Type} [Group J0]
 
 private theorem le_centralizer_of_component_le_of_solvable {J0 : Type} [Group J0] [Finite J0]
     {M0 X0 J : Subgroup J0} (hXM : X0 ≤ M0) (hXn : (X0.subgroupOf M0).Normal)
-    (hXs : IsSolvable ↥X0) (hJ : IsComponentOf J ⊤) (hJM : J ≤ M0) :
+    (hXs : Group.IsSolvable ↥X0) (hJ : IsComponentOf J ⊤) (hJM : J ≤ M0) :
     X0 ≤ centralizer (J : Set J0) := by
   have hcomp : IsComponentOf (J.subgroupOf M0) ⊤ :=
     CFSG.ComponentClassification.LocalComponents.of_overgroup hJ hJM
@@ -265,8 +265,8 @@ private theorem isSylowOf_sup_of_isSylowOf_of_commute {G : Type*} [Group G] [Fin
           = Nat.card (↥(SJ : Subgroup J) × ↥(SC : Subgroup C)) :=
             Nat.card_congr (Subgroup.prodEquiv _ _).toEquiv
         _ = Nat.card (SJ : Subgroup J) * Nat.card (SC : Subgroup C) := Nat.card_prod _ _
-    obtain ⟨m, hm⟩ := SJ.isPGroup'.exists_card_eq
-    obtain ⟨n, hn⟩ := SC.isPGroup'.exists_card_eq
+    obtain ⟨m, hm⟩ := SJ.isPGroup.exists_card_eq
+    obtain ⟨n, hn⟩ := SC.isPGroup.exists_card_eq
     refine IsPGroup.of_card (n := m + n) ?_
     rw [hcard, hm, hn, pow_add]
   have hS_index : ¬ p ∣ ((SJ : Subgroup J).prod (SC : Subgroup C)).index := by
@@ -349,7 +349,7 @@ theorem layer_decomp_of_isSylow {J0 : Type} [Group J0] [Finite J0] {P J : Subgro
 
 theorem component_alt_of_solvable_normal {J0 : Type} [Group J0] [Finite J0]
     {M0 X0 E J : Subgroup J0} (hXM : X0 ≤ M0) (hXn : (X0.subgroupOf M0).Normal)
-    (hXs : IsSolvable ↥X0) (hEX : E ≤ X0)
+    (hXs : Group.IsSolvable ↥X0) (hEX : E ≤ X0)
     (hC : ∀ a ∈ E, a ≠ 1 → centralizer ({a} : Set J0) ≤ M0) (hJ : IsComponentOf J ⊤) :
     E ≤ centralizer (J : Set J0) ∨ E ⊓ centralizer (J : Set J0) = ⊥ := by
   by_cases hbot : E ⊓ centralizer (J : Set J0) = ⊥
@@ -989,7 +989,7 @@ private theorem mem_pCore_of_unique_active {J0 : Type} [Group J0] [Finite J0]
 
 theorem le_component_of_unique_active {J0 : Type} [Group J0] [Finite J0]
     {P M0 X0 E T J : Subgroup J0} (hXM : X0 ≤ M0) (hXn : (X0.subgroupOf M0).Normal)
-    (hXs : IsSolvable ↥X0) (hEX : E ≤ X0) (hE3 : ∀ a ∈ E, a ^ 3 = 1)
+    (hXs : Group.IsSolvable ↥X0) (hEX : E ≤ X0) (hE3 : ∀ a ∈ E, a ^ 3 = 1)
     (hO : CFSG.pPrimeCore 3 J0 = ⊥) (hTX : T ≤ X0) (hTN : T ≤ normalizer (E : Set J0))
     (hInv : ∃ t ∈ ⁅T, T⁆, ∀ e ∈ E, t * e * t⁻¹ = e⁻¹)
     (hXF : X0 ≤ centralizer (CFSG.pCore 3 J0 : Set J0))

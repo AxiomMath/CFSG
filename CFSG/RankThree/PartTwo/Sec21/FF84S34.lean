@@ -16,6 +16,7 @@ open CFSG.LocalAnalysis.GLTheoremA.CatB (A8 a8P0 a8c a8d a8c8 a8d8 a8c8_mem_P0 a
 
 variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B : Subgroup G}
 
+omit [Finite G] in
 theorem zpow_eq_one_of_two_pow (hb : orderOf b = 3) {k : ℤ} {n : ℕ}
     (h : (b ^ k) ^ (2 ^ n) = 1) : b ^ k = 1 := by
   rw [← zpow_natCast, ← zpow_mul] at h
@@ -32,6 +33,7 @@ theorem zpow_eq_one_of_two_pow (hb : orderOf b = 3) {k : ℤ} {n : ℕ}
       omega
   exact orderOf_dvd_iff_zpow_eq_one.1 (by rw [hb]; exact_mod_cast h3)
 
+omit [Finite G] in
 theorem eq_one_or_eq_of_two_pow (hb : orderOf b = 3) {σ w : G} (hσ : σ * b = b * σ)
     (hσ2 : σ * σ = 1) (hw : w ∈ Subgroup.zpowers b ∨ w * σ⁻¹ ∈ Subgroup.zpowers b) {n : ℕ}
     (hn : w ^ (2 ^ n) = 1) : w = 1 ∨ w = σ := by
@@ -73,6 +75,7 @@ namespace ThetaData
 
 variable {Q : Subgroup G} (T : ThetaData b L Q)
 
+omit [Finite G] in
 theorem comm_iff (c : ↥(Cen b)) (l : ↥L) :
     Commute (T.θ c) ((T.φ l : alternatingGroup (Fin 8)) : Perm (Fin 8)) ↔
       (c : G) * l = l * c := by
@@ -105,6 +108,7 @@ theorem mem_zpowers_of_one (hs : FF84Sec3 b L B b₁ b₂) (hO : Opp 3 (Cen b) =
     (c : G) ∈ Subgroup.zpowers b :=
   mem_zpowers_of_cen_cen hs hO hZ c.2 (T.ker c hc)
 
+omit [Finite G] in
 theorem commute_P0 {c : ↥(Cen b)} (hc : ∀ z ∈ Q, (z : G) * c = c * z) {p : A8} (hp : p ∈ a8P0) :
     Commute (T.θ c) (p : Perm (Fin 8)) := by
   have hl := (T.hP (T.φ.symm p)).1 (by simpa using hp)
@@ -163,7 +167,7 @@ theorem exists_thetaData (hs : FF84Sec3 b L B b₁ b₂) (hZ : Subgroup.center L
     · intro s hs w hw
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs hw
       rcases hs with h | h <;> rcases hw with h' | h' <;> rw [h, h'] <;>
-        first | rfl | exact hc | exact hc.symm
+        first | exact hc | exact hc.symm
   obtain ⟨h, hh⟩ := exists_conj_into_P0 hPg
   let φ : ↥L ≃* alternatingGroup (Fin 8) := φ0.trans (MulAut.conj h)
   have hφ : ∀ z, φ z = h * φ0 z * h⁻¹ := fun z => by simp [φ, MulAut.conj_apply]
@@ -215,6 +219,7 @@ theorem exists_thetaData (hs : FF84Sec3 b L B b₁ b₂) (hZ : Subgroup.center L
     rw [← hcl, h1, h2]
     exact a1.trans a2.symm
 
+omit [Finite G] in
 theorem zpow_cube' {w : G} (hw : w ^ 3 = 1) (k : ℤ) : (w ^ k) ^ 3 = 1 := by
   rw [← zpow_natCast (w ^ k) 3, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hw, one_zpow]
 
@@ -295,7 +300,7 @@ theorem caseB (hs : FF84Sec3 b L B b₁ b₂) (hO : Opp 3 (Cen b) = ⊥) (hZ : S
     (hgen : ∀ U : Subgroup G, IsPGroup 2 U → B ≤ Nor U →
       (U ⊓ Cen b₁) ⊔ (U ⊓ Cen b₂) ⊔ (U ⊓ Cen b) = U)
     {c0 : ↥(Cen b)} (hc0 : sign (T.θ c0) = -1) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hb : orderOf b = 3 := hs.hyp.ord
   have hb3 : b ^ 3 = 1 := hb ▸ pow_orderOf_eq_one b
   have hbC : b ∈ Cen b := Subgroup.mem_centralizer_singleton_iff.2 rfl

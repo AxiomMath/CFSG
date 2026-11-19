@@ -51,7 +51,7 @@ theorem swapped_correspondence_large_kernel_centralizer_replacement {a b : G} {J
   have haa : a * a = 1 := by rw [← pow_two, ← hao, pow_orderOf_eq_one]
   obtain ⟨P₀, hP₀⟩ := hSsyl
   have hS2 : IsPGroup 2 S := by
-    have h1 : IsPGroup 2 ((P₀ : Subgroup HJ).map HJ.subtype) := P₀.isPGroup'.map HJ.subtype
+    have h1 : IsPGroup 2 ((P₀ : Subgroup HJ).map HJ.subtype) := P₀.isPGroup.map HJ.subtype
     rwa [hP₀, map_subgroupOf_eq_of_le hSH] at h1
   have hQJN : HJ ≤ normalizer (QJ : Set G) := fun g hg =>
     normalizer_inf_mem (le_normalizer hg)

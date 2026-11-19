@@ -77,7 +77,7 @@ theorem noStronglyClosed_projectiveSL [Finite K] [CharP K 2] (hn : 3 ≤ n) :
   obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := K) 2 hn1
   have hQ₀ : IsSylowTwoOf (projUnitriangular n K) ⊤ := by
     rw [← hS]
-    exact isSylowTwoOf_top_iff.mpr ⟨S.isPGroup', S.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨S.isPGroup, S.not_dvd_index⟩
   refine noStronglyClosedElemAbelian_of_sylow _ hQ₀ fun A hW => ?_
   by_contra hne
   have hAn : ∀ a ∈ A, ∀ q ∈ projUnitriangular n K, q⁻¹ * a * q ∈ A := by

@@ -126,7 +126,7 @@ theorem le_posUnipotent_of_isPGroup {K : Type*} [Group K] {D : UniversalRootDatu
   have hxa : x ^ 2 ^ a = 1 := by simpa using congrArg Subtype.val ha
   have hxB := hPB hx
   have hle : posUnipotent D ≤ borel D H := posUnipotent_le_borel
-  haveI hN : ((posUnipotent D).subgroupOf (borel D H)).Normal :=
+  have hN : ((posUnipotent D).subgroupOf (borel D H)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hle).2 (borel_le_normalizer_posUnipotent hct)
   have hcardN : Nat.card ((posUnipotent D).subgroupOf (borel D H)) = Nat.card (posUnipotent D) :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv
@@ -300,7 +300,7 @@ theorem normalizer_negUnipotent {K : Type*} [Group K]
   · intro hg x
     have := hg ((nrep hct w₀)⁻¹ * x * nrep hct w₀)
     rw [mem_negUnipotent_iff hct hw₀, mem_negUnipotent_iff hct hw₀]
-    convert this using 2 <;> group
+    convert this using 2; group
 
 theorem borel_inf_negBorel {K : Type*} [Group K]
     {D : UniversalRootDatum K} {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K}
@@ -400,7 +400,7 @@ theorem steinbergAut_iSup_le_normalizer_negUnipotent {K : Type*} [Group K]
     (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
       (weylAction D.isFiniteType) D.roots D.rootGroup n H) :
     (⨆ i, H i : Subgroup K) ≤ Subgroup.normalizer (negUnipotent D : Set K) :=
-  le_normalizer_iSup₂ fun t ht γ hγ y hy =>
+  le_normalizer_iSup₂ fun _t ht _γ hγ y hy =>
     rootGroup_le_negUnipotent hγ.1 hγ.2
       ((Subgroup.mem_normalizer_iff.1 (iSup_le_normalizer_rootGroup hct hγ.1 ht) y).1 hy)
 
@@ -826,7 +826,7 @@ theorem exists_eq_single_of_nonneg_of_sum_eq_one {r : ℕ} {γ : Fin r → ℤ} 
   · have hj := Finset.single_le_sum (fun x _ => h0 x)
       (Finset.mem_erase.2 ⟨hjk, Finset.mem_univ j⟩)
     have hj0 : 0 ≤ γ j := h0 j
-    simp only [Pi.single_apply, hjk, if_false]
+    simp only [Pi.single_apply, hjk, ite_false]
     omega
 
 theorem ht_sum_smul {r : ℕ} (c : Fin r → ℤ) (v : Fin r → Fin r → ℤ) :
@@ -879,7 +879,7 @@ theorem exists_perm_weylAction_w₀ {K : Type*} [Group K] {D : UniversalRootDatu
       rwa [weylAction_inv_apply_apply, weylAction_inv_apply_apply] at this
     by_contra hne
     have := congrFun e i
-    simp [Pi.single_apply, hne] at this
+    simp [hne] at this
   exact ⟨Equiv.ofBijective σ (Finite.injective_iff_bijective.1 hinj), hσ⟩
 
 theorem rootGroup_single_le_centralizer {K : Type*} [Group K]
@@ -893,7 +893,7 @@ theorem rootGroup_single_le_centralizer {K : Type*} [Group K]
     intro a b hab
     have hi := congrFun hab i
     have hk := congrFun hab k
-    simp [Pi.single_apply, hik, Ne.symm hik] at hi hk
+    simp [hik, Ne.symm hik] at hi hk
     exact ⟨hi, hk⟩
   have hempty : openCone D.roots (Pi.single i 1) (-Pi.single k 1) = ∅ := by
     ext γ
@@ -901,10 +901,10 @@ theorem rootGroup_single_le_centralizer {K : Type*} [Group K]
     rintro ⟨hγ, a, b, ha, hb, rfl⟩
     rcases nonneg_or_nonpos D.isFiniteType D.divisible hγ with h | h
     · have := h k
-      simp [Pi.single_apply, Ne.symm hik] at this
+      simp [Ne.symm hik] at this
       omega
     · have := h i
-      simp [Pi.single_apply, hik] at this
+      simp [hik] at this
       omega
   have hc := hext.commutator_mem _ ((RootSystem.ofCartan D.isFiniteType D.divisible).single_mem i)
     _ (steinbergAut_neg_single_mem_roots k) hlin x hx y hy

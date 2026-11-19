@@ -26,22 +26,26 @@ variable {W : Type} [CommGroup W] [Finite W]
     Set (Subgroup (MulAut W)) :=
   {U | U ≤ X ∧ ∃ V ∈ Ω, U ≤ V ∧ E3.mQuot V U = k}
 
+omit [Finite W] in
 theorem Wk_le (k : ℕ) (X : Subgroup (MulAut W)) (Ω : Set (Subgroup (MulAut W))) :
     Wk k X Ω ≤ X := by
   unfold Wk
   exact iSup_le fun _ => iSup_le fun hUX => iSup_le fun _ => hUX
 
+omit [Finite W] in
 theorem le_Wk_of {k : ℕ} {X U V : Subgroup (MulAut W)} {Ω : Set (Subgroup (MulAut W))}
     (hUX : U ≤ X) (hV : V ∈ Ω) (hUV : U ≤ V) (hm : E3.mQuot V U = k) :
     U ≤ Wk k X Ω := by
   unfold Wk
   exact le_iSup_of_le U (le_iSup_of_le hUX (le_iSup_of_le ⟨V, hV, hUV, hm⟩ le_rfl))
 
+omit [Finite W] in
 theorem le_Wk_genSet {k : ℕ} {X : Subgroup (MulAut W)} {Ω : Set (Subgroup (MulAut W))}
     {U : Subgroup (MulAut W)} (hU : U ∈ WkGenSet k X Ω) : U ≤ Wk k X Ω := by
   obtain ⟨hUX, V, hVΩ, hUV, hm⟩ := hU
   exact le_Wk_of hUX hVΩ hUV hm
 
+omit [Finite W] in
 theorem Wk_eq_iSup (k : ℕ) (X : Subgroup (MulAut W)) (Ω : Set (Subgroup (MulAut W))) :
     Wk k X Ω = ⨆ U ∈ WkGenSet k X Ω, U := by
   apply le_antisymm
@@ -50,6 +54,7 @@ theorem Wk_eq_iSup (k : ℕ) (X : Subgroup (MulAut W)) (Ω : Set (Subgroup (MulA
     exact le_iSup₂_of_le U ⟨hUX, h⟩ le_rfl
   · exact iSup₂_le fun U hU => le_Wk_genSet hU
 
+omit [Finite W] in
 theorem Wk_map_conj_le {k : ℕ} {T Y : Subgroup (MulAut W)}
     {Ω : Set (Subgroup (MulAut W))}
     (hTY : T ≤ Y) (hΩ : ∀ A ∈ Ω, ∀ g ∈ Y, A.map (MulAut.conj g).toMonoidHom ∈ Ω)
@@ -66,6 +71,7 @@ theorem Wk_map_conj_le {k : ℕ} {T Y : Subgroup (MulAut W)}
     have h := E3.mQuot_conjSubgroup V U t⁻¹
     simpa [conjSubgroup, inv_inv] using h.trans hm)
 
+omit [Finite W] in
 theorem Wk_map_conj_eq {k : ℕ} {T Y : Subgroup (MulAut W)}
     {Ω : Set (Subgroup (MulAut W))}
     (hTY : T ≤ Y) (hΩ : ∀ A ∈ Ω, ∀ g ∈ Y, A.map (MulAut.conj g).toMonoidHom ∈ Ω)
@@ -107,6 +113,7 @@ theorem corankSet_subset_aSet {Y : Subgroup (MulAut W)} {Ω : Set (Subgroup (Mul
   have hlt' : E3.mQuot A B < k + 1 := by omega
   rw [hfix B' (hB'B.trans hBA) hlt, hfix B hBA hlt']
 
+omit [Finite W] in
 theorem corankSet_conj {Y : Subgroup (MulAut W)} {Ω : Set (Subgroup (MulAut W))} {j : ℕ}
     (hΩ : ∀ A ∈ Ω, ∀ g ∈ Y, A.map (MulAut.conj g).toMonoidHom ∈ Ω)
     {B : Subgroup (MulAut W)} (hB : B ∈ corankSet Ω j)
@@ -158,7 +165,7 @@ theorem Wk_shift {i j : ℕ} {T : Subgroup (MulAut W)} {Ω : Set (Subgroup (MulA
   exact le_Wk_of hUT hAΩ (hUB.trans hBA) hm
 
 theorem Wk_ne_bot {k j : ℕ} {Y T : Subgroup (MulAut W)} {Ω : Set (Subgroup (MulAut W))}
-    (hTY : T ≤ Y) (hsyl : IsSylowIn 2 T Y) (hΩne : Ω.Nonempty)
+    (_hTY : T ≤ Y) (hsyl : IsSylowIn 2 T Y) (hΩne : Ω.Nonempty)
     (hΩinv : ∀ A ∈ Ω, ∀ g ∈ Y, A.map (MulAut.conj g).toMonoidHom ∈ Ω)
     (hΩa : ∀ A ∈ Ω, A ∈ E3.aSet (k + 1) Y) (hj : j ≤ k) :
     Wk j T Ω ≠ ⊥ := by
@@ -218,7 +225,7 @@ theorem fIndex_ne_top_of_mem {G : Type} [Group G] [Finite G]
     {H : Subgroup G} (hH : H ∈ Δ) : fIndex H ≠ ⊤ := by
   have hle : fIndex H ≤ fIndexSum Δ := fIndexSum_le_of_mem hfin hH
   rw [hk] at hle
-  exact ne_top_of_le_ne_top (ENat.coe_ne_top k) hle
+  exact ne_top_of_le_ne_top (ENat.natCast_ne_top k) hle
 
 theorem add_toNat_fIndex_le {G : Type} [Group G] [Finite G] {Γ Δ : Set (Subgroup G)}
     {H : Subgroup G} {j k : ℕ} (hΓΔ : Γ ⊆ Δ) (hΔfin : Δ.Finite)
@@ -227,7 +234,7 @@ theorem add_toNat_fIndex_le {G : Type} [Group G] [Finite G] {Γ Δ : Set (Subgro
     (fIndexSum (insert H Γ)).toNat = j + (fIndex H).toNat ∧
       j + (fIndex H).toNat ≤ k := by
   have hHfin : fIndex H ≠ ⊤ := fIndex_ne_top_of_mem hΔfin hkSum hHΔ
-  have hi : fIndex H = ((fIndex H).toNat : ℕ∞) := (ENat.coe_toNat hHfin).symm
+  have hi : fIndex H = ((fIndex H).toNat : ℕ∞) := (ENat.natCast_toNat hHfin).symm
   have hins : fIndexSum (insert H Γ) = fIndex H + fIndexSum Γ :=
     fIndexSum_insert_of_not_mem hHΓ (hΔfin.subset hΓΔ)
   have hsub : insert H Γ ⊆ Δ := by
@@ -244,11 +251,11 @@ theorem add_toNat_fIndex_le {G : Type} [Group G] [Finite G] {Γ Δ : Set (Subgro
   have h2 : (fIndex H).toNat + j ≤ k := by
     have h3 : (((fIndex H).toNat + j : ℕ) : ℕ∞) ≤ (k : ℕ∞) := by
       simpa only [Nat.cast_add] using h1
-    exact ENat.coe_le_coe.mp h3
+    exact ENat.natCast_le_natCast.mp h3
   have hid : fIndexSum (insert H Γ) = ((j + (fIndex H).toNat : ℕ) : ℕ∞) := by
     rw [hins, hi, hΓsum, Nat.cast_add]
     exact add_comm _ _
-  exact ⟨by rw [hid]; exact ENat.toNat_coe _, by omega⟩
+  exact ⟨by rw [hid]; exact ENat.toNat_natCast _, by omega⟩
 
 theorem w4Lem4_16_case_one {Y L T : Subgroup (MulAut W)} {Ω : Set (Subgroup (MulAut W))}
     {Δ Γ : Set (Subgroup (MulAut W))} {k j : ℕ}
@@ -348,7 +355,7 @@ theorem w4Lem4_16_case_two_core (h45 : W4Lem4_5K)
     (hΩinv : ∀ A ∈ Ω, ∀ g ∈ Y, A.map (MulAut.conj g).toMonoidHom ∈ Ω)
     (hΩa : ∀ A ∈ Ω, A ∈ E3.aSet (k + 1) Y)
     (hΓΔ : Γ ⊆ Δ) (hΓsum : fIndexSum Γ = (j : ℕ∞))
-    (hP : ∀ H' ∈ Γ, commSub (fixV (Wk j T Ω)) (twoResidual H') = ⊥)
+    (_hP : ∀ H' ∈ Γ, commSub (fixV (Wk j T Ω)) (twoResidual H') = ⊥)
     {H : Subgroup (MulAut W)} (hHΔ : H ∈ Δ) (hHΓ : H ∉ Γ)
     (hHnot : ¬ H ≤ Subgroup.normalizer (Wk j T Ω : Set (MulAut W)))
     (hΔfin : Δ.Finite) (hkSum : fIndexSum Δ = (k : ℕ∞)) :
@@ -522,11 +529,11 @@ theorem w4Lem4_16_part_one (h45 : W4Lem4_5K) (hw : ∀ w : W, w ^ 2 = 1)
   have hjle : fIndexSum Γ ≤ (k : ℕ∞) := by
     rw [← hkSum]
     exact fIndexSum_subset_le hsSub hΔfin
-  have hjtop : fIndexSum Γ ≠ ⊤ := ne_top_of_le_ne_top (ENat.coe_ne_top k) hjle
-  have hjcoo : fIndexSum Γ = (j : ℕ∞) := (ENat.coe_toNat hjtop).symm
+  have hjtop : fIndexSum Γ ≠ ⊤ := ne_top_of_le_ne_top (ENat.natCast_ne_top k) hjle
+  have hjcoo : fIndexSum Γ = (j : ℕ∞) := (ENat.natCast_toNat hjtop).symm
   have hjk : j ≤ k := by
     have h1 : ((j : ℕ∞)) ≤ (k : ℕ∞) := hjcoo ▸ hjle
-    exact ENat.coe_le_coe.mp h1
+    exact ENat.natCast_le_natCast.mp h1
   by_contra hne
   by_cases hcase : ∀ H ∈ Δ, H ∉ Γ →
       H ≤ Subgroup.normalizer (Wk j T Ω : Set (MulAut W))
@@ -570,6 +577,7 @@ theorem w4Lem4_16_part_one (h45 : W4Lem4_5K) (hw : ∀ w : W, w ^ 2 = 1)
     rw [Finset.card_insert_of_notMem hHs] at hmax
     omega
 
+omit [Finite W] in
 theorem aParam_le_of_part_one {Y L T : Subgroup (MulAut W)} {k : ℕ}
     (hTY : T ≤ Y) (hLT : L ⊔ T = Y)
     (h1 : ∀ Ω : Set (Subgroup (MulAut W)), Ω.Nonempty →

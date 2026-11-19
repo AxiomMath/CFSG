@@ -62,6 +62,7 @@ noncomputable def bar2TopMulEquiv {K : Subgroup G} :
     (Subgroup.topEquiv : ↥(⊤ : Subgroup ↥K) ≃* ↥K)
     (CFSG.pCore_map_iso 2 (Subgroup.topEquiv : ↥(⊤ : Subgroup ↥K) ≃* ↥K))
 
+omit [Finite G] in
 theorem nonempty_barImage_mulEquiv_quotient {X X₁ J : Subgroup G} (hJX : J ≤ X)
     (hJX₁ : J ≤ X₁)
     [hNX₁ : ((CFSG.Open.pCoreOf 2 X).subgroupOf X₁).Normal]
@@ -120,7 +121,7 @@ theorem inFSq_X1_of_extension_clause {X T P₁ J₁ X₁ : Subgroup G} {P : Subg
     (hT2 : IsPGroup 2 T) :
     InFSq n X₁ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N₀ : Subgroup G := CFSG.Open.pCoreOf 2 X with hN₀def
   have hN₀2 : IsPGroup 2 N₀ := by
     rw [hN₀def]
@@ -162,8 +163,8 @@ theorem inFSq_X1_of_extension_clause {X T P₁ J₁ X₁ : Subgroup G} {P : Subg
     rw [h1]
     exact hN₀2.of_equiv (Subgroup.subgroupOfEquivOfLe hN₀X₁).symm
   let J_E : Subgroup E := (J₁.subgroupOf X₁).map πE
-  haveI hJEnorm : J_E.Normal := hJ₁norm.map πE hπE
-  haveI hN₀J₁norm : ((CFSG.Open.pCoreOf 2 X).subgroupOf J₁).Normal :=
+  have hJEnorm : J_E.Normal := hJ₁norm.map πE hπE
+  have hN₀J₁norm : ((CFSG.Open.pCoreOf 2 X).subgroupOf J₁).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hN₀J₁).mpr (hJ₁P₁.trans (hP₁X.trans hN₀X))
   have hiso : Nonempty (↥J_E ≃* ↥(Opp 2 P)) := by
     obtain ⟨e1⟩ := nonempty_barImage_mulEquiv_quotient (X := X) (X₁ := X₁) (J := J₁)
@@ -208,6 +209,7 @@ theorem inFSq_X1_of_extension_clause {X T P₁ J₁ X₁ : Subgroup G} {P : Subg
     (bar2TopMulEquiv (K := X₁)).symm.trans (e2a.trans e2b)
   exact (inFSq_iff_bar2_inF_mulEquiv e n).2 hE
 
+omit [Finite G] in
 theorem barImage_map_pCoreQuotMulAut {M K : Subgroup G} {t : G}
     (ht : t ∈ Subgroup.normalizer (M : Set G)) (hKM : K ≤ M) :
     (UC22.barImage M K).map
@@ -243,6 +245,7 @@ theorem barImage_map_pCoreQuotMulAut {M K : Subgroup G} {t : G}
     congr 1
     exact Subtype.ext hkm
 
+omit [Finite G] in
 theorem mem_normalizer_barPreimage {M : Subgroup G} {Y : Subgroup (Bar2 M)} {t : G}
     (ht : t ∈ Subgroup.normalizer (M : Set G))
     (hY : Y.map (CFSG.pCoreQuotMulAut ↥M (Subgroup.normalizerMonoidHom M ⟨t, ht⟩)).toMonoidHom
@@ -439,7 +442,7 @@ theorem u5_noncyclic {D : Data G} {p : ℕ}
   have hJ₁P₁ : J₁ ≤ P₁ := by
     rw [hJ₁]
     exact CFSG.LocalAnalysis.RankThreeUC.pElementSubgroup_le 2 P₁
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbr5 : CFSG.pRank 5 ↥(⊤ : Subgroup (Bar2 (Opp 2 P))) =
       CFSG.Open.pRank 5 (⊤ : Subgroup (Bar2 (Opp 2 P))) :=
     (CFSG.SectionRank.pRank_eq_open_pRank_top 5
@@ -689,7 +692,7 @@ theorem u4_X1_data {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {L : Subgroup G}
     inFSq_X1_of_extension_clause (X := X) (T := D.T) (P₁ := P₁) (J₁ := J₁) (X₁ := X₁)
       (P := P) hP₁X hX₁def hJ₁def hTN₀ hTP hTX₁ hJX₁ hN₀P₁ hbP hext hT2
   have hN₀_le_T : CFSG.Open.pCoreOf 2 X ≤ D.T := by
-    haveI : (CFSG.pCore 2 ↥X).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore 2 ↥X).Normal := CFSG.pCore_normal
     have hle := (CFSG.pCore_isPGroup (p := 2) (G := ↥X)).le_sylow_of_normal hSylS.toSylow
     intro z hz
     obtain ⟨y, hy, hyz⟩ := Subgroup.mem_map.mp hz
@@ -712,7 +715,7 @@ theorem u4_X1_data {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {L : Subgroup G}
   have hcardTX : Nat.card ↥(D.T ⊓ X) =
       Nat.card (CFSG.Open.pCoreOf 2 X) * Nat.card Sbar := by
     rw [← hpreS, UC22.uc22p22u_card_barPreimage X Sbar]
-  haveI : Fact (Nat.Prime p) := ⟨h.p_prime⟩
+  have : Fact (Nat.Prime p) := ⟨h.p_prime⟩
   have hY₀p : IsPGroup p ↥Y₀ := by
     rw [IsPGroup.iff_card]
     exact ⟨1, by simpa using hY₀card⟩
@@ -788,8 +791,8 @@ theorem u4_H_inFSq {p : ℕ}
     (hcardH : Nat.card ↥H = p * Nat.card ↥T) :
     InFSq n H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcardTpos : 0 < Nat.card ↥T := Nat.card_pos
   have hidx : T.relIndex H = p := by
     have h1 := Subgroup.relIndex_mul_card T H
@@ -820,7 +823,7 @@ theorem u4_H_inFSq {p : ℕ}
   have hY : Nat.card ↥H = Nat.card A * 2 ^ k := by rw [hcardH, hAcard, hk]
   have hperm : Permutes A T := uc22p22r_permutes_of_hall hAH hAo hY hTsylOf
   have hinf : A ⊓ T = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hAcard, hk]
     exact Nat.Coprime.pow_right k (hp.odd_of_ne_two hp2).coprime_two_right
   have hcardAT : Nat.card ↥(A ⊔ T) = p * Nat.card ↥T := by
@@ -836,6 +839,7 @@ noncomputable def bar2RestrictMap {X J₁ N : Subgroup G} (h : J₁ ⊔ N ≤ X)
     ↥(J₁ ⊔ N) →* Bar2 X :=
   (uc22p21cPi X).comp (Subgroup.inclusion h)
 
+omit [Finite G] in
 theorem bar2RestrictMap_ker {X J₁ N : Subgroup G} (h : J₁ ⊔ N ≤ X) :
     (bar2RestrictMap h).ker = (CFSG.Open.pCoreOf 2 X).subgroupOf (J₁ ⊔ N) := by
   ext z
@@ -902,7 +906,7 @@ theorem u4_noncyclic {p : ℕ}
       (CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p21c_isPGroup_pCoreOf X).of_equiv
         (Subgroup.subgroupOfEquivOfLe (le_sup_of_le_left hN₀J₁)).symm
     exact CFSG.GroupTheory.not_dvd_card_of_isPGroup h2 hp hp2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨A', hA'el, -, hA'card⟩ :=
     CFSG.LieType.SeitzGeneration.ExcHigh.TwFive.exists_lift_of_le_range
       (bar2RestrictMap hJNX) hkerp (S := E) (hEle.trans hrange) hEel

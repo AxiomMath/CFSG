@@ -58,7 +58,7 @@ theorem exists_orderOf_eq_of_quotient {X S : Type*} [Group X] [Finite X] [Group 
     (hS : Subgroup.center S = ⊥) {d : ℕ} (f : X →* GL (Fin d) (ZMod 2)) (hf : f ≠ 1) (s : S) :
     ∃ g : GL (Fin d) (ZMod 2), orderOf g = orderOf s := by
   obtain ⟨x, rfl⟩ := hψ s
-  haveI : Finite (GL (Fin d) (ZMod 2)) := inferInstance
+  have : Finite (GL (Fin d) (ZMod 2)) := inferInstance
   have hdvd : orderOf (ψ x) ∣ orderOf (f x) :=
     orderOf_dvd_orderOf_of_ker_le_center f (ker_le_center_of_isQuasisimple hX f hf) ψ hψ hS x
   exact ⟨f x ^ (orderOf (f x) / orderOf (ψ x)),
@@ -76,10 +76,10 @@ theorem le_of_orderOf_eq_ppd {d k p : ℕ} (hp : IsPrimitivePrimeDivisor p k) (h
 
 theorem six_le_of_orderOf_eq_nine {d : ℕ} (g : GL (Fin d) (ZMod 2)) (hg : orderOf g = 9) :
     6 ≤ d := by
-  letI : AddCommGroup (Fin d → ZMod 2) :=
+  let : AddCommGroup (Fin d → ZMod 2) :=
     { Pi.addCommGroup with toAddCommMonoid := Pi.addCommMonoid }
-  letI : Module (ZMod 2) (Fin d → ZMod 2) := Pi.Function.module (Fin d) (ZMod 2) (ZMod 2)
-  haveI : FiniteDimensional (ZMod 2) (Fin d → ZMod 2) := inferInstance
+  let : Module (ZMod 2) (Fin d → ZMod 2) := Pi.Function.module (Fin d) (ZMod 2) (ZMod 2)
+  have : FiniteDimensional (ZMod 2) (Fin d → ZMod 2) := inferInstance
   let σ : (Fin d → ZMod 2) ≃ₗ[ZMod 2] (Fin d → ZMod 2) :=
     LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) (Fin d → ZMod 2)
       (Matrix.GeneralLinearGroup.toLin g)

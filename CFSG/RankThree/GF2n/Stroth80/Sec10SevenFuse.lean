@@ -72,6 +72,7 @@ private theorem root_group_le_of_mem_C (h34 : Stroth34Statement)
   exact ⟨hc.hyp.le_QB_of_le_QB hA'.conj hD.conj (Ne.symm hne) hAD, hne,
     Sit.mem_QB_of_le_QB hsy hD (hDC.trans inf_le_right)⟩
 
+omit [Finite G] in
 private theorem root_witness_conj {M Q Z X : Subgroup G} {y : G} (hsy : Sit M Q Z X y)
     (k : G) : ∃ g, ∃ z ∈ conjSubgroup k Z, z ≠ 1 ∧ g * z * g⁻¹ = y := by
   obtain ⟨g, hg⟩ := hsy.conj

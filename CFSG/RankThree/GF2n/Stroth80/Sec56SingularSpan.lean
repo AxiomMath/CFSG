@@ -23,7 +23,7 @@ private theorem polar_smul_add_smul_add {K V : Type} [Field K] [CharP K 2] [AddC
     (hv : polar Q d v = 0) : polar Q (l • d + u) (m • d + v) = polar Q u v := by
   have hu' : polar Q u d = 0 := by rw [polar_comm]; exact hu
   simp only [polar_add_left, polar_add_right, polar_smul_left, polar_smul_right,
-    polar_self_eq_zero_of_charTwo, hu, hv, hu', smul_zero, zero_add, add_zero]
+    polar_self_eq_zero_of_charTwo, hv, hu', smul_zero, zero_add, add_zero]
 
 private theorem exists_singular_lift_mem {K V : Type} [Field K] [Finite K] [CharP K 2]
     [AddCommGroup V] [Module K V] {Q : QuadraticForm K V} {S : AddSubgroup V} {d y : V}

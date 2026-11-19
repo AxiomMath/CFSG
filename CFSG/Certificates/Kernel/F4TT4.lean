@@ -219,7 +219,7 @@ theorem closeOK_spec {Om : List (List Nat)} {reps : List (List Nat)} {ms : List 
       hmaskT (matN R) Om = m ∧ ∀ g ∈ gens7T, inT ms (hmaskT (mMulT g (matN R)) Om) = true := by
     intro R m hRm
     have := hall _ hRm
-    simp only [Bool.and_eq_true, Nat.beq_eq, List.all_eq_true] at this
+    simp only at this
     exact ⟨this.1.1.1, this.1.1.2, this.1.2, this.2⟩
   have hmask : ∀ m ∈ ms, ∃ R ∈ reps, hmaskT (matN R) Om = m := by
     intro m hm
@@ -333,7 +333,7 @@ theorem t4WordsOK_spec {Om : List (List Nat)} {r : List Nat} {reps : List (List 
   refine ⟨hc, hd, hm, fun R hR => ?_⟩
   obtain ⟨w, hw⟩ := fst_mem_zip hlen hR
   have := hall _ hw
-  simp only [Bool.and_eq_true] at this
+  simp only at this
   exact ⟨this.1, w, this.2⟩
 
 theorem t4WordsOK_append {Om : List (List Nat)} {r : List Nat} {L₁ L₂ : List (List Nat)}
@@ -352,7 +352,7 @@ theorem T4_of_data (i : Fin 6) {Om : List (List Nat)}
     P i < Y → Y ≤ SLsub → Y = SLsub := by
   intro hPY hYS
   have hPle : P i ≤ Y := hPY.le
-  obtain ⟨y, hyY, hyP⟩ := SetLike.exists_of_lt hPY
+  obtain ⟨y, hyY, hyP⟩ := _root_.IsConcreteLE.exists_of_lt hPY
   have hdety : (y : Matrix (Fin 3) (Fin 3) F4).det = 1 := hYS hyY
   obtain ⟨R, hR, himg⟩ := orbit_of_closeOK hOm hclose y (hYS hyY)
   have hcov := cover_of_ImgIn hΩ himg

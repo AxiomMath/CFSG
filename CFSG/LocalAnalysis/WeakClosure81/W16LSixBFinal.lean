@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 theorem BarConf.centralInSylow {X : Type} [Group X] [Finite X] {B P : Subgroup X}
     (hc : BarConf X B P) (hB : Nat.card B = 2) : CentralInSylow X B := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨hc.isPGroup.toSylow hc.index_odd, hc.le, ?_⟩
   intro s hs p hp
   by_cases hs1 : s = 1

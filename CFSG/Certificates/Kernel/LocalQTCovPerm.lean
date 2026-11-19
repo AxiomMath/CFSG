@@ -52,7 +52,7 @@ private theorem code_gen22 (l : Nat) {cA cB : Nat} (hA : P.code m22gA = cA)
       cases h : Nat.beq l 0
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true h) hl
-    rw [this, if_neg hl]
+    rw [this, ite_eq_right hl]
     exact hB.symm
 
 private theorem wP_go {cA cB : Nat} (hA : P.code m22gA = cA) (hB : P.code m22gB = cB) :
@@ -123,8 +123,6 @@ private theorem el_eq (hwd : d.words = D.words.toArray) (v : Nat) :
   rw [List.getElem!_toArray, List.getD_eq_getElem?_getD]
   first
     | exact getElem!_def _ _
-    | simp [getElem!_def]
-    | (cases h : D.words[v]? <;> simp_all [getElem!_neg, getElem!_pos])
 
 theorem arr_get (l : List Nat) (i : Nat) : (l.toArray)[i]! = l.getD i 0 := by
   rw [CFSG.KC.LQT.BW.Pf.arr_getN, List.toList_toArray]
@@ -180,8 +178,7 @@ theorem goodK_sound {cA cB : Nat} (hA : P.code m22gA = cA) (hB : P.code m22gB = 
     rw [e] at hw0 ⊢
     simpa using hw0
   · have hm := (allLtK_iff _ _).1 (hmain v hv) i hi
-    simp only [CFSG.KC.LQT.BW.Pf.allBs_cons, CFSG.KC.LQT.BW.Pf.allBs_nil, Bool.and_true,
-      Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, sgetK_eq, Nat.add_eq, Nat.mul_eq] at hm
+    simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, sgetK_eq, Nat.add_eq, Nat.mul_eq] at hm
     obtain ⟨ht, hb, he, hbt⟩ := hm
     obtain ⟨ht', htd⟩ := getD_dflt ht
     obtain ⟨hb', hbd⟩ := getD_dflt hb
@@ -225,8 +222,6 @@ theorem list_get (l : List Nat) (j : Nat) : l[j]! = l.getD j 0 := by
   rw [List.getD_eq_getElem?_getD]
   first
     | exact getElem!_def _ _
-    | simp [getElem!_def]
-    | (cases h : l[j]? <;> simp_all [getElem!_neg, getElem!_pos])
 
 private theorem invCand_eq_foldl (n : ℕ) (t : Array ℕ) :
     invCand n t = (List.range n).foldl (fun r i => r.set! t[i]! i) (Array.replicate n 0) := by
@@ -313,8 +308,7 @@ theorem blkK_sound {cA cB : Nat} (hA : P.code m22gA = cA) (hB : P.code m22gB = c
   simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, allLt_iff]
   refine ⟨⟨⟨isInvA_of_rep hGa hGi, hl⟩, h32⟩, fun j hj => ?_⟩
   have hm := hall j hj
-  simp only [CFSG.KC.LQT.BW.Pf.allBs_cons, CFSG.KC.LQT.BW.Pf.allBs_nil, Bool.and_true,
-    Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, sgetK_eq] at hm
+  simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, sgetK_eq] at hm
   obtain ⟨ha, hb, he⟩ := hm
   obtain ⟨-, had⟩ := getD_dflt ha
   obtain ⟨-, hbd⟩ := getD_dflt hb

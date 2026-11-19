@@ -14,7 +14,7 @@ open CFSG.RankThree.PartOne.KCUnitaryModel
 variable {K : Type} [Field K]
 
 private theorem units_pow_three_of_card (hK : Nat.card K = 4) (u : Kˣ) : u ^ 3 = 1 := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   have hc : Nat.card Kˣ = 3 := by
     have := Nat.card_units K
     rw [hK] at this
@@ -130,7 +130,7 @@ theorem eq_one_of_commute_diagonal_pair_six (hK : Nat.card K = 4) {Y : Matrix (F
     (hY : Y ^ 11 = 1) {a b : Fin 6 → K} (hYa : Y * diagonal a = diagonal a * Y)
     (hYb : Y * diagonal b = diagonal b * Y) {k k' : Fin 6} (hkk' : k ≠ k')
     (ha : ∀ i, i ≠ k → a i ≠ a k) (hb : ∀ i, i ≠ k' → b i ≠ b k') : Y = 1 := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   by_contra hne
   obtain ⟨F, hF, h1⟩ := CFSG.HardMathSupport.Dickson.Sec6.I923.finrank_fixed_eq_one hK Y hY hne
   have hkF : (Pi.single k 1 : Fin 6 → K) ∈ F :=
@@ -142,7 +142,7 @@ theorem eq_one_of_commute_diagonal_pair_six (hK : Nat.card K = 4) {Y : Matrix (F
     simp at e
   obtain ⟨t, ht⟩ := (finrank_eq_one_iff_of_nonzero' _ hnz).1 h1 ⟨_, hk'F⟩
   have e := congrArg (fun v : F => (v : Fin 6 → K) k') ht
-  simp [Pi.single_apply, hkk'.symm] at e
+  simp [hkk'.symm] at e
 
 end CFSG.LocalAnalysis.GLTheoremA.S265.BSCl
 

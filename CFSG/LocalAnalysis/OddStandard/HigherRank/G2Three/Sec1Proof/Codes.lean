@@ -95,7 +95,7 @@ theorem decPc_mulPc (x y : List ℕ) : decPc (mulPc x y) = decPc x * decPc y := 
   have dy : decPc y = if pcFlag y = true then wanti (dec14 (pcA y)) (dec14 (pcB y))
       else wdiag (dec14 (pcA y)) (dec14 (pcB y)) := rfl
   cases hx : pcFlag x <;> cases hy : pcFlag y <;> simp only [hx, hy] at dx dy <;>
-    simp only [mulPc, hx, hy, Bool.false_eq_true, if_false, if_true] at dx dy ⊢
+    simp only [mulPc, hx, hy, Bool.false_eq_true, ite_false, ite_true] at dx dy ⊢
   · rw [decPc_mkPc_false h1 h2, dx, dy, wdiag_mul, dec14_mul14, dec14_mul14]
   · rw [decPc_mkPc_true h1 h2, dx, dy, wdiag_mul_wanti, dec14_mul14, dec14_mul14]
   · rw [decPc_mkPc_true h3 h4, dx, dy, wanti_mul_wdiag, dec14_mul14, dec14_mul14]
@@ -154,7 +154,7 @@ theorem decPc_injective {x y : List ℕ} (hx : canonPc x = true) (hy : canonPc y
       dec14 (pcB x) = dec14 (pcB y) := by
     unfold decPc at h
     cases hfx : pcFlag x <;> cases hfy : pcFlag y <;> simp only [hfx, hfy] at h ⊢ <;>
-      simp only [Bool.false_eq_true, if_false, if_true, wdiag, wanti,
+      simp only [Bool.false_eq_true, ite_false, ite_true, wdiag, wanti,
         Matrix.fromBlocks_inj] at h
     · exact ⟨trivial, h.1, h.2.2.2⟩
     · exact absurd h.1 nx

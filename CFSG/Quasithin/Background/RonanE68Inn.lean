@@ -31,7 +31,7 @@ theorem autSubInduced_eq_map_conj (hVN : V ≤ Subgroup.normalizer (L : Set G)) 
     have hlW : (l : G) ∈ W := Subgroup.mem_subgroupOf.1 hl
     exact ⟨l, ⟨hWV hlW, hVN (hWV hlW)⟩, fun x => rfl⟩
 
-theorem autSubInduced_sup_eq_range (hVN : V ≤ Subgroup.normalizer (L : Set G)) (hWV : W ≤ V)
+theorem autSubInduced_sup_eq_range (hVN : V ≤ Subgroup.normalizer (L : Set G)) (_hWV : W ≤ V)
     (hWL : W ≤ L)
     (hdec : ∀ v ∈ V, ∃ w ∈ W, ∀ x ∈ L, v * x * v⁻¹ = w * x * w⁻¹) :
     autSubInduced L (L ⊔ V) = (MulAut.conj : ↥L →* MulAut ↥L).range := by

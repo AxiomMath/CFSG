@@ -81,7 +81,7 @@ theorem eq_top_of_involutions {S : Subgroup (GL (Fin 3) (ZMod 2))}
 
 theorem eq_top_of_normal_t01 {S : Subgroup (GL (Fin 3) (ZMod 2))} (hS : S.Normal)
     (h : t01 ∈ S) : S = ⊤ := by
-  haveI := hS
+  have := hS
   rcases isSimpleGroup_GL3.eq_bot_or_eq_top_of_normal S with h' | h'
   · rw [h', mem_bot] at h
     exact absurd h t01_ne_one
@@ -152,7 +152,7 @@ private theorem exists_conj_eq_of_sylow [Finite G] {T O : Subgroup G}
     ∃ o ∈ O, (S : Subgroup ↥(T ⊔ O)).map (T ⊔ O).subtype = conjSub o T := by
   obtain ⟨a, ha⟩ := hT.exists_card_eq
   have hOT : O ⊓ T = ⊥ :=
-    inf_eq_bot_of_coprime (by rw [ha]; exact (Nat.Coprime.pow_left a hO).symm)
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [ha]; exact (Nat.Coprime.pow_left a hO).symm)))
   have hcard : Nat.card ↥(T ⊔ O) = Nat.card T * Nat.card O := by
     rw [sup_comm, card_sup_of_inf_eq_bot hTN hOT, mul_comm]
   have hTK : T ≤ T ⊔ O := le_sup_left
@@ -571,7 +571,7 @@ theorem comm_E_of_mem_ocore {o : G} (ho : o ∈ Ocore θ c.hn8 z)
     rw [show o * e * o⁻¹ * e⁻¹ = o * (e * o⁻¹ * e⁻¹) by group]
     exact mul_mem ho (ocore_conj c heN (inv_mem ho))
   have hbot : E θ c.hn8 ⊓ Ocore θ c.hn8 z = ⊥ := by
-    apply inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     rw [card_E, show (8 : ℕ) = 2 ^ 3 by norm_num]
     exact Nat.Coprime.pow_left 3 (coprime_card_oddCoreOf _)
   rw [hbot, mem_bot] at h2

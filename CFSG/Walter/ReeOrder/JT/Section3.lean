@@ -87,7 +87,7 @@ theorem eq_bot_of_normal_of_odd
   f := h.f
   five_lt := h.five_lt
   abelian_sylow := fun P => by
-    obtain ⟨S, hS⟩ := (P.isPGroup'.map H.subtype).exists_le_sylow
+    obtain ⟨S, hS⟩ := (P.isPGroup.map H.subtype).exists_le_sylow
     have hab := h.abelian_sylow S
     refine ⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩
     have := hab.is_comm.comm ⟨((a : H) : G), hS ⟨a, a.2, rfl⟩⟩ ⟨((b : H) : G), hS ⟨b, b.2, rfl⟩⟩

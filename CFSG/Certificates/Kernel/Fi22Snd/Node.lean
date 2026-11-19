@@ -50,10 +50,10 @@ private theorem memL_iff (l : List Nat) (x : Nat) : memL l x = true ↔ x ∈ l 
     have e : memL (a :: l) x = bIf(Nat.beq a x, true, memL l x) := rfl
     rw [e, Orb.bIf_eq, List.mem_cons]
     by_cases h : Nat.beq a x = true
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       have := (beq_iff' a x).1 h
       simp [this]
-    · rw [if_neg h, ih]
+    · rw [ite_eq_right h, ih]
       have : ¬ a = x := fun h' => h ((beq_iff' a x).2 h')
       have h2 : ¬ x = a := fun h' => this h'.symm
       simp [h2]
@@ -111,7 +111,7 @@ private theorem succ_bit (s w q : Nat) : (Nat.add (Nat.lor (Nat.sub s (Nat.land 
   rw [Nat.testBit_add_one, show (((s - s % 2) ||| 2 ^ (w + 1)) + 1) / 2 =
     ((s - s % 2) ||| 2 ^ (w + 1)) / 2 by omega, ← Nat.testBit_add_one, Nat.testBit_or, h1,
     Nat.testBit_two_pow]
-  simp [eq_comm]
+  simp
 
 private def Good (M : Nat → Prop) (s : Nat) : Prop :=
   s % 2 = 1 → ∀ q, s.testBit (q + 1) = true → M q
@@ -319,7 +319,7 @@ theorem leafOK_of_leafK {n na k D T Cs : Nat} {S AC : Nat → Nat} {N : SNode}
   simp only [CFSG.KC.Pack.strictB_eq] at h
   rw [Orb.bIf_eq] at h
   by_cases ho : Nat.beq N.out 1 = true
-  · rw [if_pos ho] at h
+  · rw [ite_eq_left ho] at h
     obtain ⟨hh1, hh2⟩ := CFSG.KC.Pack.band_iff.1 h
     have hout : N.out = 1 := Nat.eq_of_beq_eq_true ho
     have hnacc : N.acc < na := Nat.le_of_ble_eq_true hh1
@@ -349,7 +349,7 @@ theorem leafOK_of_leafK {n na k D T Cs : Nat} {S AC : Nat → Nat} {N : SNode}
     have hAcc : N.acc < acc.size := by rw [hacc]; exact hnacc
     unfold leafOK
     dsimp only
-    rw [if_pos (beq_iff_eq.2 hout)]
+    rw [ite_eq_left (beq_iff_eq.2 hout)]
     simp only [Bool.and_eq_true]
     refine ⟨⟨?_, ?_⟩, ?_⟩
     · rw [CFSG.Monster.B.Co2.allLt_iff]
@@ -362,7 +362,7 @@ theorem leafOK_of_leafK {n na k D T Cs : Nat} {S AC : Nat → Nat} {N : SNode}
       intro i hi
       rw [beq_iff_eq, hAC N.acc hnacc, unpack12_get hi, ← hadef]
       exact hcinj _ (hfull i hi).1 _ (ha i hi).1 (by rw [(hfull i hi).2, hca i hi])
-  · rw [if_neg ho] at h
+  · rw [ite_eq_right ho] at h
     obtain ⟨hh1, hh2⟩ := CFSG.KC.Pack.band_iff.1 h
     have hout : N.out = 2 := Nat.eq_of_beq_eq_true hh1
     obtain ⟨hh3, hh4⟩ := CFSG.KC.Pack.band_iff.1 hh2
@@ -387,7 +387,7 @@ theorem leafOK_of_leafK {n na k D T Cs : Nat} {S AC : Nat → Nat} {N : SNode}
       rw [hout]
       decide
     have hn2 : (N.out == 2) = true := beq_iff_eq.2 hout
-    rw [if_neg hn1, if_pos hn2, if_neg hfull_false]
+    rw [ite_eq_right hn1, ite_eq_left hn2, ite_eq_right hfull_false]
     have hms : ∃ v < n, missSearch n (colMatch n c src) = v ∧ n ≤ (colMatch n c src)[v]! := by
       unfold missSearch
       cases hfind : (List.range n).find? (fun v => decide (n ≤ (colMatch n c src)[v]!)) with

@@ -22,9 +22,9 @@ variable {G : Type} [Group G] [Finite G]
 private theorem exists_component_not_centralized (hO2 : CFSG.pCore 2 G = ⊥) {t : G}
     (ht : orderOf t = 2) (htF : ∀ x ∈ CFSG.fittingSubgroup G, t * x = x * t) :
     ∃ L : Subgroup G, IsComponent L ∧ ∃ l ∈ L, t * l ≠ l * t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hle : CFSG.generalizedFitting G ≤ Subgroup.centralizer ({t} : Set G) := by
     rw [CFSG.generalizedFitting.eq_sup, CFSG.layer.eq_sSup]
     refine sup_le (fun x hx => ?_) (sSup_le fun K hK x hx => ?_)
@@ -58,6 +58,7 @@ private theorem exists_component_not_centralized (hO2 : CFSG.pCore 2 G = ⊥) {t
   rw [ht1, orderOf_one] at ht
   exact absurd ht (by norm_num)
 
+omit [Finite G] in
 private theorem apply_mem_fixedSubmodule_of_commute {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     (ρ : Representation (ZMod 2) G V) (E : Subgroup G) {x : G} (hx : ∀ d ∈ E, x * d = d * x)
     {u : V} (hu : u ∈ fixedSubmodule ρ E) : ρ x u ∈ fixedSubmodule ρ E := by
@@ -75,11 +76,11 @@ theorem lt_commRank_of_centralizes_fittingSubgroup {p : ℕ} {P T B : Subgroup G
   classical
   have hS : Setting G p P T B := hc.oddPrimeClassTwoAction.setting
   have hF := hc.faithfulBinaryIrreducibleAction
-  haveI : FiniteDimensional (ZMod 2) V :=
+  have : FiniteDimensional (ZMod 2) V :=
     CFSG.LinearAlgebra.CoprimeActions.IrreducibleFiniteGroupFiniteDimensional.finiteDimensional_of_irreducible
       ρ hF.irreducible
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hmul : ∀ (a b : G) (w : V), ρ (a * b) w = ρ a (ρ b w) := fun a b w => by rw [map_mul]; rfl
   have hone : ∀ w : V, ρ 1 w = w := fun w => by rw [map_one]; rfl
   have hinv' : ∀ (a : G) (w : V), ρ a⁻¹ (ρ a w) = w := fun a w => by
@@ -124,7 +125,7 @@ theorem lt_commRank_of_centralizes_fittingSubgroup {p : ℕ} {P T B : Subgroup G
   obtain ⟨hind, hsup⟩ := hdec
   have hl₀ρ : ∃ D₀ : ↥(Delta p P ρ), ∃ w ∈ fixedSubmodule ρ (D₀ : Subgroup G), ρ l₀ w ≠ w := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hker : (⨆ D : ↥(Delta p P ρ), fixedSubmodule ρ (D : Subgroup G)) ≤
         LinearMap.ker (ρ l₀ - 1) := iSup_le fun D w hw => by
       simpa [sub_eq_zero] using hno D w hw
@@ -152,7 +153,7 @@ theorem lt_commRank_of_centralizes_fittingSubgroup {p : ℕ} {P T B : Subgroup G
       ∃ u ∈ fixedSubmodule ρ (E : Subgroup G), ρ t u ≠ u := by
     intro E
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨l, hl, w, hw, hne⟩ := hLact E
     have hEP : (E : Subgroup G) ≤ P := ((mem_Delta_iff p P ρ E).1 E.2).1
     have hpres : ∀ x : G, (∀ d ∈ P, x * d = d * x) → ∀ u ∈ fixedSubmodule ρ (E : Subgroup G),
@@ -183,7 +184,7 @@ theorem lt_commRank_of_centralizes_fittingSubgroup {p : ℕ} {P T B : Subgroup G
       (fun E : ↥(Delta p P ρ) => (⟨(ρ t - 1) (u E), LinearMap.mem_range_self _ _⟩ :
         ↥(LinearMap.range (ρ t - 1)))) :=
     LinearIndependent.of_comp (LinearMap.range (ρ t - 1)).subtype hli
-  haveI : Fintype ↥(Delta p P ρ) := Fintype.ofFinite _
+  have : Fintype ↥(Delta p P ρ) := Fintype.ofFinite _
   calc e + 1 < Nat.card ↥(Delta p P ρ) := hΔ
     _ = Fintype.card ↥(Delta p P ρ) := Nat.card_eq_fintype_card
     _ ≤ commRank ρ t := hli'.fintype_card_le_finrank

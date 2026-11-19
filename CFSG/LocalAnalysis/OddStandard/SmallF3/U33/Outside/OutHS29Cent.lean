@@ -14,6 +14,7 @@ private noncomputable def fixSubQuotHom (x : MulAut T) :
     ↥(fixSub x) →* T ⧸ center T :=
   (QuotientGroup.mk' (center T)).comp (fixSub x).subtype
 
+omit [Finite T] in
 private theorem fixSubQuotHom_apply (x : MulAut T) (g : ↥(fixSub x)) :
     fixSubQuotHom x g = QuotientGroup.mk g.1 := rfl
 

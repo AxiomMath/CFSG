@@ -24,7 +24,7 @@ theorem q2_orthogonalMinus : Q2RowSolverInput .orthogonalMinus := by
   obtain ⟨hperfL, lab, hlab, hraw⟩ := hminus
   rcases lab with ⟨tag, rank, n⟩
   obtain ⟨R0, hR0, I0, F0, hQ0⟩ := largeEvenRawDatum_exists hraw
-  letI : Group R0 := hR0
+  let : Group R0 := hR0
   obtain ⟨-, -, θ0, hP0⟩ := hQ0
   have htag : tag = .twD := hP0.1.2.2.2.2.1
   subst tag
@@ -38,14 +38,14 @@ theorem q2_orthogonalMinus : Q2RowSolverInput .orthogonalMinus := by
     have hp3 : 2 ≤ p := hp.two_le
     omega
   dsimp only [LargeEvenRawDatum, CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw
-  rw [if_neg (by omega : ¬ d + 1 = 2), if_neg (by omega : ¬ d + 1 = 3)] at hraw
+  rw [ite_eq_right (by omega : ¬ d + 1 = 2), ite_eq_right (by omega : ¬ d + 1 = 3)] at hraw
   unfold LargeEvenRecipeOmegaMinus at hraw
   obtain ⟨F, hFfield, hFfin, hFcard, β, γ, hβγ, hQ⟩ := hraw
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hFfield
+  let : Finite F := hFfin
+  have : Fintype F := Fintype.ofFinite F
   have hcharF : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hFcard
-  letI : CharP F 2 := hcharF
+  let : CharP F 2 := hcharF
   let Φ : QuadraticForm F (LargeEvenMinusIdx d → F) :=
     (TableBOrth.qMinusForm F d β γ).copy (LargeEvenQMinus d β γ)
       (TableBOrth.coe_qMinusForm d β γ).symm
@@ -84,8 +84,8 @@ theorem q2_orthogonalMinus : Q2RowSolverInput .orthogonalMinus := by
   let A : Subgroup (MulAut (LargeEvenProj (LargeEvenOmega ⇑Φ))) :=
     (ggGamma L hNL).range.map (ggInducedAut θL)
   have hAcomm : IsMulCommutative ↥A := by
-    haveI : IsMulCommutative ↥Bs := hcfg.2.1.2.1.1
-    haveI : IsMulCommutative ↥(ggGamma L hNL).range := inferInstance
+    have : IsMulCommutative ↥Bs := hcfg.2.1.2.1.1
+    have : IsMulCommutative ↥(ggGamma L hNL).range := inferInstance
     exact Subgroup.map_isMulCommutative (H := (ggGamma L hNL).range) (ggInducedAut θL)
   have hAI : ∀ a ∈ A, a ∈ LargeEvenInnSet (LargeEvenProj (LargeEvenOmega ⇑Φ)) := by
     intro a ha
@@ -191,9 +191,9 @@ theorem q2_orthogonalMinus : Q2RowSolverInput .orthogonalMinus := by
   dsimp only at hrest
   obtain ⟨hεP, hεall, -, hCε, hmd, hEcard, ⟨eε⟩, -, -⟩ := hrest
   have hε := hεall ε hεP
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
-  letI : CharP E 2 := hEchar
+  let : Field E := hEfield
+  let : Finite E := hEfin
+  let : CharP E 2 := hEchar
   have hCεA : CFSG.Assembly.IsComponentOf C
       (glBlockCentralizer (LargeEvenOmega ⇑Φ).subtype
         ({(s : GL (LargeEvenMinusIdx d) F)} : Set (GL (LargeEvenMinusIdx d) F)) ε) :=
@@ -214,14 +214,14 @@ theorem q2_orthogonalMinus : Q2RowSolverInput .orthogonalMinus := by
     rw [← hcent_eq]
     rw [Subgroup.mem_centralizer_singleton_iff]
     obtain ⟨a, rfl⟩ := hx
-    haveI : IsMulCommutative ↥AΩ := hσcomm
+    have : IsMulCommutative ↥AΩ := hσcomm
     have hc : (⟨σ a, ⟨a, rfl⟩⟩ : ↥AΩ) * ⟨s, ⟨⟨v, hvA⟩, rfl⟩⟩ =
         ⟨s, ⟨⟨v, hvA⟩, rfl⟩⟩ * ⟨σ a, ⟨a, rfl⟩⟩ := mul_comm' _ _
     exact congrArg Subtype.val hc
   let ρσ : ↥AΩ →* GL (Fin m) E := ρ.comp (Subgroup.inclusion hAΩCc)
   let Gsub : Subgroup (GL (Fin m) E) := ρσ.range
   have hGcomm : IsMulCommutative ↥Gsub := by
-    haveI : IsMulCommutative ↥AΩ := hσcomm
+    have : IsMulCommutative ↥AΩ := hσcomm
     exact inferInstance
   have hm2 : 2 ≤ m := by omega
   let V : Subgroup (GL (Fin m) E) :=

@@ -44,6 +44,7 @@ section PerfectCentralizes
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizes_of_perfect_of_solvable_fixed {V X Q : Subgroup G}
     (hVN : V ≤ Subgroup.normalizer (X : Set G))
     (hQV : Q ≤ Subgroup.centralizer (V : Set G))

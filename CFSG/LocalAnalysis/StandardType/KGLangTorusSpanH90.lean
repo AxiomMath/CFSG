@@ -39,7 +39,7 @@ private theorem kgLangCSpanAux_adjoin_comm_reduced {ι : Type} [Fintype ι] [Dec
     ∀ x ∈ Algebra.adjoin 𝕂 ((fun g : GL ι 𝕂 => (g : Matrix ι ι 𝕂)) '' (P : Set _)),
       IsNilpotent x → x = 0 := by
   rcases isEmpty_or_nonempty ι with hι | hι
-  · haveI := hι
+  · have := hι
     exact ⟨fun x _ y _ => Subsingleton.elim _ _, fun x _ _ => Subsingleton.elim _ _⟩
   · set s : Set (Matrix ι ι 𝕂) :=
       (fun g : GL ι 𝕂 => (g : Matrix ι ι 𝕂)) '' (P : Set _) with hs
@@ -52,21 +52,21 @@ private theorem kgLangCSpanAux_adjoin_comm_reduced {ι : Type} [Fintype ι] [Dec
       rw [commute_iff_eq, ← Matrix.GeneralLinearGroup.coe_mul, ← Matrix.GeneralLinearGroup.coe_mul,
         hab g hg h hh]
     have hcomm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x := by
-      haveI : IsMulCommutative S := Algebra.isMulCommutative_adjoin 𝕂 hs_pair
+      have : IsMulCommutative S := Algebra.isMulCommutative_adjoin 𝕂 hs_pair
       intro x hx y hy
       have hcommS : ∀ a b : S, a * b = b * a :=
         isMulCommutative_iff.mp (inferInstance : IsMulCommutative S)
       simpa using congrArg Subtype.val (hcommS ⟨x, hx⟩ ⟨y, hy⟩)
     refine ⟨hcomm, ?_⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Algebra (ZMod 2) 𝕂 := ZMod.algebra 𝕂 2
-    letI : Fintype 𝕂 := Fintype.ofFinite 𝕂
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Algebra (ZMod 2) 𝕂 := ZMod.algebra 𝕂 2
+    let : Fintype 𝕂 := Fintype.ofFinite 𝕂
     let f := Module.finrank (ZMod 2) 𝕂
     let m := Nat.card P
     let k := f * Nat.totient m
     have hcard : 2 ^ f = Nat.card 𝕂 := FiniteField.pow_finrank_eq_natCard 2 𝕂
     have hm_pos : 0 < m := by
-      haveI : Nonempty P := ⟨⟨1, one_mem P⟩⟩
+      have : Nonempty P := ⟨⟨1, one_mem P⟩⟩
       change 0 < Nat.card P
       exact Nat.card_pos
     have hf_pos : 0 < f := by
@@ -177,12 +177,12 @@ theorem kgLangC_span_h90 {p : ℕ} (hp : p.Prime) {ι 𝕂 : Type} [Fintype ι] 
     rw [commute_iff_eq, ← Matrix.GeneralLinearGroup.coe_mul, ← Matrix.GeneralLinearGroup.coe_mul,
       hab g hg h hh]
   have hcomm := (kgLangCSpanAux_adjoin_comm_reduced P hab hodd).1
-  letI : CommRing ↥(Algebra.adjoin 𝕂 s) :=
+  let : CommRing ↥(Algebra.adjoin 𝕂 s) :=
     { (inferInstance : Ring ↥(Algebra.adjoin 𝕂 s)) with
       mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
-  haveI : Finite ↥(Algebra.adjoin 𝕂 s) := inferInstance
+  have : Finite ↥(Algebra.adjoin 𝕂 s) := inferInstance
   have hred := (kgLangCSpanAux_adjoin_comm_reduced P hab hodd).2
-  haveI : IsReduced ↥(Algebra.adjoin 𝕂 s) :=
+  have : IsReduced ↥(Algebra.adjoin 𝕂 s) :=
     ⟨fun x hx => Subtype.ext (hred (x : Matrix ι ι 𝕂) x.2 (hx.map (Algebra.adjoin 𝕂 s).val))⟩
   have hβB : ∀ a ∈ Algebra.adjoin 𝕂 s, β a ∈ Algebra.adjoin 𝕂 s := by
     intro a ha
@@ -404,10 +404,10 @@ theorem kgLangC_span_h90_unitary {p : ℕ} (hp : p.Prime) {ι 𝕂 : Type} [Fint
       ∃ s : GL ι 𝕂, (s : Matrix ι ι 𝕂) ∈ B ∧ (s : Matrix ι ι 𝕂) * τ s = 1 ∧
         (x : Matrix ι ι 𝕂) = ((s⁻¹ : GL ι 𝕂) : Matrix ι ι 𝕂) * β (s : Matrix ι ι 𝕂) := by
   rcases isEmpty_or_nonempty ι with hι | hι
-  · haveI := hι
+  · have := hι
     intro x _hx _hxτ _hnorm
     exact ⟨1, Subalgebra.one_mem _, Subsingleton.elim _ _, Subsingleton.elim _ _⟩
-  · haveI : Nonempty ι := hι
+  · have : Nonempty ι := hι
     subst hB
     set s : Set (Matrix ι ι 𝕂) :=
       (fun g : GL ι 𝕂 => (g : Matrix ι ι 𝕂)) '' (P : Set _) with hs
@@ -419,12 +419,12 @@ theorem kgLangC_span_h90_unitary {p : ℕ} (hp : p.Prime) {ι 𝕂 : Type} [Fint
       rw [commute_iff_eq, ← Matrix.GeneralLinearGroup.coe_mul, ← Matrix.GeneralLinearGroup.coe_mul,
         hab g hg h hh]
     have hcomm := (kgLangCSpanAux_adjoin_comm_reduced P hab hodd).1
-    letI : CommRing ↥(Algebra.adjoin 𝕂 s) :=
+    let : CommRing ↥(Algebra.adjoin 𝕂 s) :=
       { (inferInstance : Ring ↥(Algebra.adjoin 𝕂 s)) with
         mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
-    haveI : Finite ↥(Algebra.adjoin 𝕂 s) := inferInstance
+    have : Finite ↥(Algebra.adjoin 𝕂 s) := inferInstance
     have hred := (kgLangCSpanAux_adjoin_comm_reduced P hab hodd).2
-    haveI : IsReduced ↥(Algebra.adjoin 𝕂 s) :=
+    have : IsReduced ↥(Algebra.adjoin 𝕂 s) :=
       ⟨fun x hx => Subtype.ext (hred (x : Matrix ι ι 𝕂) x.2 (hx.map (Algebra.adjoin 𝕂 s).val))⟩
     have hβB : ∀ a ∈ Algebra.adjoin 𝕂 s, β a ∈ Algebra.adjoin 𝕂 s := by
       intro a ha
@@ -566,7 +566,7 @@ theorem kgLangC_span_h90_unitary {p : ℕ} (hp : p.Prime) {ι 𝕂 : Type} [Fint
       apply Subtype.ext
       change β (τ (a : Matrix ι ι 𝕂)) = τ (β (a : Matrix ι ι 𝕂))
       exact (hτβ a a.2).symm
-    haveI : CharP ↥(Algebra.adjoin 𝕂 s) 2 := by
+    have : CharP ↥(Algebra.adjoin 𝕂 s) 2 := by
       have halg_inj : Function.Injective (algebraMap 𝕂 ↥(Algebra.adjoin 𝕂 s)) := by
         intro a b hab
         have ha := congrArg (fun z : ↥(Algebra.adjoin 𝕂 s) => (z : Matrix ι ι 𝕂)) hab

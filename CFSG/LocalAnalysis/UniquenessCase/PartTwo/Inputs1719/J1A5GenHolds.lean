@@ -272,7 +272,7 @@ theorem k_J1A5Gen_holds :
   have hT : IsPGroup 2 T := hS.comap_of_injective φ hinjφ
   obtain ⟨P, hTP⟩ := hT.exists_le_sylow
   have hPsyl : CFSG.QuasithinUnique.IsSylowTwoOf (P : Subgroup X) ⊤ :=
-    CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.mpr ⟨P.isPGroup', P.not_dvd_index⟩
+    CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.mpr ⟨P.isPGroup, P.not_dvd_index⟩
   have hXab : CFSG.Walter.HasAbelianSylowTwo X := by
     let f : X ≃* CFSG.Open.walterJ1 := e.trans CFSG.Walter.walterJ1EquivNative.symm
     let fh : CFSG.Open.walterJ1 →* X := f.symm
@@ -427,8 +427,7 @@ theorem k_J1A5Gen_holds :
       intro x hx
       change x ∈ CFSG.GorensteinWalter.kleinFourOfCommutingInvolutions
         t₁ t₂ hsq1 hsq2 hcomm at hx
-      simp only [CFSG.GorensteinWalter.kleinFourOfCommutingInvolutions,
-        Set.mem_insert_iff, Set.mem_singleton_iff] at hx
+      simp only [CFSG.GorensteinWalter.kleinFourOfCommutingInvolutions] at hx
       rcases hx with rfl | rfl | rfl | rfl
       · exact (Subgroup.centralizer (B₁ : Set X)).mul_mem ht₁CB ht₂CB
       · exact ht₁CB

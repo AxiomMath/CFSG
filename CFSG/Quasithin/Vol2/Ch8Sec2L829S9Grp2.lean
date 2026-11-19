@@ -74,7 +74,7 @@ theorem s9g2_isParabolic_map_top {A B : Type} [Group A] [Group B] (e : A ≃* B)
     rw [Subgroup.mem_normalizer_iff] at hbN ⊢
     intro a
     have h1 := hbN (e a)
-    simp only [SetLike.mem_coe, Subgroup.mem_map_equiv, MulEquiv.symm_apply_apply,
+    simp only [Subgroup.mem_map_equiv, MulEquiv.symm_apply_apply,
       map_mul, map_inv] at h1
     simpa using h1
   have hR' : e.symm b ∈ R := hN (Subgroup.mem_inf.mpr ⟨Subgroup.mem_top _, hb'⟩)
@@ -213,7 +213,7 @@ theorem s9g2_maxParabolic_subgroup {Y : Type} [Group Y] {L : Subgroup Y} {R : Su
         have e : y * (a : Y) * y⁻¹ = ((⟨y, hyL⟩ * a * (⟨y, hyL⟩ : ↥L)⁻¹ : ↥L) : Y) := by
           simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         rw [e] at h1
-        simp only [SetLike.mem_coe, s9g2_mem_map_subtype] at h1
+        simp only [s9g2_mem_map_subtype] at h1
         exact h1
       have hxR := hN_L (Subgroup.mem_inf.mpr ⟨Subgroup.mem_top _, hxN⟩)
       exact (s9g2_mem_map_subtype _).mpr hxR
@@ -250,7 +250,7 @@ theorem s9g2_normalizer_map {A B : Type} [Group A] [Group B] (e : A ≃* B) {S :
   intro g
   obtain ⟨b, rfl⟩ := e.surjective g
   have h := ha b
-  simp only [SetLike.mem_coe, Subgroup.mem_map_equiv, MulEquiv.symm_apply_apply, map_mul,
+  simp only [Subgroup.mem_map_equiv, MulEquiv.symm_apply_apply, map_mul,
     map_inv] at h ⊢
   exact h
 

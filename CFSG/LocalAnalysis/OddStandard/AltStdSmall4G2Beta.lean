@@ -27,7 +27,7 @@ theorem exists_mem_normalizer_not_mem_of_lt {X S : Subgroup G} (hS : IsPGroup 2 
       exact this
     have := Subgroup.card_le_of_le hSX
     omega
-  obtain ⟨⟨y, hyS⟩, hyN, hyX⟩ := SetLike.exists_of_lt
+  obtain ⟨⟨y, hyS⟩, hyN, hyX⟩ := _root_.IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent (X.subgroupOf S) hlt')
   refine ⟨y, hyS, mem_normalizer_iff.2 fun h => ⟨fun hh => ?_, fun hh => ?_⟩, fun h => hyX h⟩
   · exact (mem_normalizer_iff.1 hyN ⟨h, hXS hh⟩).1 hh
@@ -44,7 +44,7 @@ theorem exists_pgroup_le {H X P : Subgroup G} (hX : X ≤ H) (hXp : IsPGroup 2 X
   have hP' : IsPGroup 2 (P.subgroupOf H) := hPp.of_equiv (subgroupOfEquivOfLe hP).symm
   obtain ⟨S₂, hS₂⟩ := hX'.exists_le_sylow
   obtain ⟨S₁, hS₁⟩ := hP'.exists_le_sylow
-  refine ⟨(S₂ : Subgroup H).map H.subtype, map_subtype_le _, S₂.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(S₂ : Subgroup H).map H.subtype, map_subtype_le _, S₂.isPGroup.map _, ?_, ?_⟩
   · intro x hx
     exact ⟨⟨x, hX hx⟩, hS₂ hx, rfl⟩
   · rw [card_map_of_injective H.subtype_injective,
@@ -88,6 +88,10 @@ theorem KA_le_centralizer : KA L z A ≤ centralizer ({z} : Set G) := fun _ h =>
 
 theorem KA_le_Lfree : KA L z A ≤ Lfree L z := fun _ h => (Subgroup.mem_inf.1 h).2
 
+theorem betaHat_conj {k : ℕ} {κ : G} (hκ : κ ∈ KA L z A) (r : G) :
+    betaHat k z (κ * r * κ⁻¹) = κ * betaHat k z r * κ⁻¹ :=
+  betaHat_conj_of_comm (mem_centralizer_singleton_iff.1 (KA_le_centralizer hκ)) r
+
 end Conj
 
 section Beta
@@ -104,6 +108,7 @@ omit h in
 theorem RA_le_centralizer_E : RA θ c.hn8 z A ≤ centralizer (E θ c.hn8 : Set G) := fun _ hr =>
   (Subgroup.mem_inf.1 hr).2
 
+omit h in
 theorem z_mem_centralizer_E : z ∈ centralizer (E θ c.hn8 : Set G) := by
   rw [mem_centralizer_iff]
   intro e he
@@ -112,7 +117,7 @@ theorem z_mem_centralizer_E : z ∈ centralizer (E θ c.hn8 : Set G) := by
 theorem sup_le_RA : A ⊔ zpowers z ≤ RA θ c.hn8 z A := by
   refine le_inf Subgroup.le_normalizer (sup_le h.le_centralizer_E ?_)
   rw [zpowers_le]
-  exact z_mem_centralizer_E c h
+  exact z_mem_centralizer_E c
 
 theorem conj_z_not_mem (r : G) : r * z * r⁻¹ ∉ A := by
   intro hr
@@ -132,6 +137,7 @@ theorem betaHat_mem_E {r : G} (hr : r ∈ RA θ c.hn8 z A) : betaHat k z r ∈ E
   h.pow_mem_E (beta_mem c h hr)
 
 omit c h in
+omit [Finite G] in
 theorem betaHat_one : betaHat k z (1 : G) = 1 := by
   simp [betaHat]
 
@@ -195,10 +201,6 @@ theorem KA_conj_mem_RA {κ : G} (hκ : κ ∈ KA L z A) {r : G} (hr : r ∈ RA �
   calc e * (κ * r * κ⁻¹) = κ * ((κ⁻¹ * e * κ) * r) * κ⁻¹ := by group
     _ = κ * (r * (κ⁻¹ * e * κ)) * κ⁻¹ := by rw [hre]
     _ = κ * r * κ⁻¹ * e := by group
-
-theorem betaHat_conj {κ : G} (hκ : κ ∈ KA L z A) (r : G) :
-    betaHat k z (κ * r * κ⁻¹) = κ * betaHat k z r * κ⁻¹ :=
-  betaHat_conj_of_comm (mem_centralizer_singleton_iff.1 (KA_le_centralizer hκ)) r
 
 theorem betaHat_inv {r : G} (hr : r ∈ RA θ c.hn8 z A) :
     betaHat k z r⁻¹ = (betaHat k z r)⁻¹ := by
@@ -313,7 +315,7 @@ theorem terminal_or_onto :
       (M : Matrix (Fin 3) (Fin 3) (ZMod 2)) *ᵥ v ∈ W := by
     rintro M v ⟨r, hr, hrv⟩
     obtain ⟨κ, hκ, hκv⟩ := h.cover M
-    exact ⟨κ * r * κ⁻¹, KA_conj_mem_RA c h hκ hr, by rw [betaHat_conj c h hκ, hrv, hκv]⟩
+    exact ⟨κ * r * κ⁻¹, KA_conj_mem_RA c h hκ hr, by rw [betaHat_conj hκ, hrv, hκv]⟩
   rcases IRR_of_zero_mem W hW0 (hWM x2G) (hWM y2G) with h0 | hall
   · left
     intro P hP hPE
@@ -353,7 +355,7 @@ theorem exists_P (hT : ¬ Terminal θ c.hn8 A) :
   obtain ⟨S, hS⟩ := hX'.exists_le_sylow
   set P := (S : Subgroup R).map R.subtype with hP
   have hPR : P ≤ R := map_subtype_le _
-  have hPp : IsPGroup 2 P := S.isPGroup'.map _
+  have hPp : IsPGroup 2 P := S.isPGroup.map _
   have hXP : A ⊔ zpowers z ≤ P := fun x hx => ⟨⟨x, hXR hx⟩, hS hx, rfl⟩
   have hker : ∀ p ∈ P, betaHat k z p = 1 → p ∈ A ⊔ zpowers z := fun p hp hp1 =>
     mem_sup_of_betaHat_eq_one c h hPR hPp (le_sup_left.trans hXP) hp hp1

@@ -91,8 +91,7 @@ theorem el_eq_el_iff (hn : 2 ≤ n) {d e : Fin 4 → ZMod (2 ^ n)} {π σ : Fin8
     apply SemidirectProduct.ext
     · apply Multiplicative.toAdd.injective
       funext i
-      simp only [SemidirectProduct.mul_left, SemidirectProduct.inv_left, toAdd_mul, toAdd_inv,
-        Pi.add_apply, Pi.neg_apply, Pi.sub_apply]
+      simp only [SemidirectProduct.mul_left, SemidirectProduct.inv_left, toAdd_mul, Pi.add_apply]
       rw [toAdd_actL4, toAdd_actL4]
       simp only [toAdd_ofAdd, Pi.neg_apply, pv, Pi.sub_apply, toAdd_inv,
         SemidirectProduct.inv_right, InvMemClass.coe_inv, inv_inv]

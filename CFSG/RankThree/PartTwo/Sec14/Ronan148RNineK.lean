@@ -82,7 +82,7 @@ theorem diagGL_mul_swapGL (a c : Kˣ) :
     diagGL ![a, c, c] * swapGL = swapGL * diagGL ![a, c, c] := by
   apply Units.ext
   rw [Units.val_mul, Units.val_mul, coe_diagGL, coe_swapGL]
-  ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, diagonal]
+  ext i j; fin_cases i <;> fin_cases j <;> simp [mul_apply, diagonal]
 
 theorem glAut_diagGL (σ : K ≃+* K) {x : Fin 3 → Kˣ} (hx : ∀ i, σ (x i : K) = x i) :
     glAut σ (diagGL x) = diagGL x := by

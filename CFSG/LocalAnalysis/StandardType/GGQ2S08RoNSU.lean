@@ -250,8 +250,8 @@ theorem ggQ2s08rN_exists_monomial [NeZero N] (hF : Nat.card F = 4) {A : GL (Fin 
   ext l i
   rw [Units.val_mul, coe_diagHom, Matrix.mul_diagonal, TableBUE.permGL_apply]
   by_cases hli : l = π i
-  · rw [if_pos (Equiv.Perm.inv_eq_iff_eq.mpr hli), one_mul, hli, Units.val_mk0]
-  · rw [if_neg (fun h => hli (Equiv.Perm.inv_eq_iff_eq.mp h)), zero_mul]
+  · rw [ite_eq_left (Equiv.Perm.inv_eq_iff_eq.mpr hli), one_mul, hli, Units.val_mk0]
+  · rw [ite_eq_right (fun h => hli (Equiv.Perm.inv_eq_iff_eq.mp h)), zero_mul]
     by_contra hne
     exact hli ((hπ i l).mp hne)
 

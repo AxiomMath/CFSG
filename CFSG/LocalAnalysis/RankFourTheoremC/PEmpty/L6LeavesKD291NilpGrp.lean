@@ -79,7 +79,7 @@ theorem le_normalizer_and_mem_of_elemAbelian {Q : Subgroup G} (hQ : IsElemAbelia
     refine ⟨fun g hg => ?_, fun g hg hg3 => hRQ g (hRP ▸ hg) hg3⟩
     rw [← hRP] at hg
     exact (Subgroup.mem_inf.1 hg).2
-  haveI hnil : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(P : Subgroup G) := P.isPGroup.isNilpotent
   have hnc := (normalizerCondition_iff_only_full_group_self_normalizing.1
     (Group.normalizerCondition_of_isNilpotent (G := ↥(P : Subgroup G)))) (R.subgroupOf P)
   have hself : normalizer ((R.subgroupOf P : Subgroup ↥(P : Subgroup G)) :
@@ -149,6 +149,7 @@ section Pair
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ} [hp : Fact p.Prime]
 
+omit [Finite X] hp in
 theorem isElemAbelian_zpowers {c : X} (hc : c ^ p = 1) : IsElemAbelian p (zpowers c) := by
   rw [Subgroup.zpowers_eq_closure]
   refine IsElemAbelian.closure_of_commute (fun u hu w hw => ?_) (fun u hu => ?_)

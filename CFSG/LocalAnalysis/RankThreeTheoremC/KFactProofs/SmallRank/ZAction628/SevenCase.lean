@@ -101,6 +101,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem sevenFalse_conj_zpowers {x t m : K} (hxt : x * t = t * x) (hm : m ∈ zpowers t) :
     x * m * x⁻¹ = m := by
   obtain ⟨n, rfl⟩ := mem_zpowers_iff.mp hm
@@ -109,6 +110,7 @@ theorem sevenFalse_conj_zpowers {x t m : K} (hxt : x * t = t * x) (hm : m ∈ zp
   rw [mul_inv_eq_iff_eq_mul]
   exact this
 
+omit [Finite K] in
 theorem sevenFalse_mem_normalizer_zpowers {g t : K} (h : g * t = t * g) :
     g ∈ normalizer (zpowers t : Set K) := by
   rw [mem_normalizer_iff]
@@ -125,6 +127,7 @@ theorem sevenFalse_mem_normalizer_zpowers {g t : K} (h : g * t = t * g) :
     rw [h2]
     exact hm
 
+omit [Finite K] in
 theorem sevenFalse_isPGroup_seven {z : K} (hz : z ^ 7 = 1) : IsPGroup 7 (zpowers z) := by
   intro g
   refine ⟨1, ?_⟩
@@ -141,7 +144,7 @@ theorem sevenFalse_module {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^
       (∀ x ∈ R, ∀ y ∈ R, π (x * y) = π x + π y) ∧ (∀ x ∈ R, π x = 0 ↔ x ∈ zpowers t) ∧
       (∀ w : W, ∃ x ∈ R, π x = w) ∧ (∀ x ∈ R, ζ (π x) = π (z * x * z⁻¹)) ∧ ζ ^ 7 = 1 ∧
       (∀ w, ζ w = w → w = 0) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzt_le : zpowers t ≤ R := zpowers_le.mpr hR.t_mem
   have hzpR : zpowers z ≤ normalizer (R : Set K) := zpowers_le.mpr hzR
   obtain ⟨W, iW, mW, fW, π, ρ, hadd, hzero, hsurj, hρ⟩ :=
@@ -177,7 +180,7 @@ theorem sevenFalse_module {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^
       refine (hzero _ (R.mul_mem (R.inv_mem hx) hgx)).mp ?_
       rw [hadd _ (R.inv_mem hx) _ hgx, hpow g hg, ← hadd _ (R.inv_mem hx) _ hx, inv_mul_cancel]
       exact (hzero 1 R.one_mem).mpr (one_mem _)
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hTM : zpowers z ≤ normalizer (zpowers t : Set K) :=
       zpowers_le.mpr (sevenFalse_mem_normalizer_zpowers hzt)
     have hq : ¬ 7 ∣ Nat.card (zpowers t) := by
@@ -194,6 +197,7 @@ theorem sevenFalse_module {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^
       simpa using this
     exact (hzero x hx).mpr hxt
 
+omit [Finite K] in
 theorem sevenFalse_exists_sub {W : Type} [AddCommGroup W] [Module (ZMod 2) W] {R : Subgroup K}
     {π : K → W} (hπ : ∀ x ∈ R, ∀ y ∈ R, π (x * y) = π x + π y) (U : Submodule (ZMod 2) W) :
     ∃ A : Subgroup K, A ≤ R ∧ ∀ x, x ∈ A ↔ x ∈ R ∧ π x ∈ U := by
@@ -223,6 +227,7 @@ theorem sevenFalse_exists_sub {W : Type} [AddCommGroup W] [Module (ZMod 2) W] {R
   · intro x
     rfl
 
+omit [Finite K] in
 theorem sevenFalse_card_sub {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
     [Module.Finite (ZMod 2) W] {R A : Subgroup K} {t : K} {π : K → W}
     (hπ : ∀ x ∈ R, ∀ y ∈ R, π (x * y) = π x + π y)
@@ -271,6 +276,7 @@ theorem sevenFalse_card_sub {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
       Nat.card_zmod]
   rw [← hcard, hk, hU]
 
+omit [Finite K] in
 theorem sevenFalse_normalizer_sub {W : Type} [AddCommGroup W] [Module (ZMod 2) W] {R A : Subgroup K}
     {z : K} {π : K → W} {ζ : Module.End (ZMod 2) W} (hzR : z ∈ normalizer (R : Set K))
     (hζπ : ∀ x ∈ R, ζ (π x) = π (z * x * z⁻¹)) (h7 : ζ ^ 7 = 1) (U : Submodule (ZMod 2) W)
@@ -298,6 +304,7 @@ theorem sevenFalse_normalizer_sub {W : Type} [AddCommGroup W] [Module (ZMod 2) W
     rw [hx, hζπ x hxR']
     exact hpow 6 _ hxU
 
+omit [Finite K] in
 theorem sevenFalse_normalizer_center {A : Subgroup K} {z : K} (hzA : z ∈ normalizer (A : Set K)) :
     z ∈ normalizer ((A ⊓ centralizer (A : Set K) : Subgroup K) : Set K) := by
   have hz' : ∀ x, x ∈ A ↔ z * x * z⁻¹ ∈ A := fun x => mem_normalizer_iff.mp hzA x
@@ -336,7 +343,7 @@ theorem seven_false {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^ 7 = 1
   have ht2 : Nat.card (zpowers t) = 2 := by
     rw [Nat.card_zpowers]; exact orderOf_eq_prime hR.t_sq hR.t_ne
   have hzt_le : zpowers t ≤ R := zpowers_le.mpr hR.t_mem
-  haveI : Nontrivial W := by
+  have : Nontrivial W := by
     obtain ⟨x, hxR, hxt⟩ : ∃ x ∈ R, x ∉ zpowers t := by
       by_contra hcon
       push Not at hcon

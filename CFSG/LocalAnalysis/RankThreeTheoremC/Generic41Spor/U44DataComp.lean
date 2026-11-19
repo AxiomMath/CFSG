@@ -73,7 +73,7 @@ theorem exists_fixed_mul_normal {G : Type*} [Group G] [Finite G] (N : Subgroup G
     (hj : j⁻¹ * a * j * a⁻¹ ∈ N) :
     ∃ z : G, j⁻¹ * z ∈ N ∧ a * z * a⁻¹ = z := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let S : Type _ := {z : G // j⁻¹ * z ∈ N}
   have hmem : ∀ z : S, j⁻¹ * (a * z.1 * a⁻¹) ∈ N := by
     intro z
@@ -101,9 +101,9 @@ theorem exists_fixed_mul_normal {G : Type*} [Group G] [Finite G] (N : Subgroup G
     ext z
     rw [pow_one, hσ, ha]
     simp
-  let eS : S ≃ N := ⟨fun z => ⟨j⁻¹ * z.1, z.2⟩, fun n => ⟨j * n.1, by simpa using n.2⟩,
+  let eS : S ≃ N := ⟨fun z => ⟨j⁻¹ * z.1, z.2⟩, fun n => ⟨j * n.1, by simp⟩,
     fun z => by simp, fun n => by simp⟩
-  letI : Fintype S := Fintype.ofFinite S
+  let : Fintype S := Fintype.ofFinite S
   have hcard : ¬ 5 ∣ Fintype.card S := by
     rw [← Nat.card_eq_fintype_card, Nat.card_congr eS]
     intro h
@@ -208,7 +208,7 @@ theorem not_mem_zpowers_of_mem_component {x : K}
   rw [hc, Subgroup.mem_bot, map_eq_one_iff _ e.injective, QuotientGroup.eq_one_iff] at himg
   have hdvd : orderOf â ∣ Nat.card N₁ := Subgroup.orderOf_dvd_natCard N₁ himg
   have hord : orderOf â = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     refine orderOf_eq_prime ?_ ?_
     · exact Subtype.ext (by simpa using ha5)
     · intro h

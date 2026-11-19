@@ -140,6 +140,7 @@ theorem Sec10Hyp.conj_of_mem {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n) {g
   (H.conjG g).of_eq (hc.conj_of_mem hg) (hc.conj_M_eq hg) (hc.conj_Q_eq hg)
     (hc.conj_Z_eq hg) rfl
 
+omit [Finite G] in
 theorem SLMNat.conj_of_mem_iff {hc : Ctx M Q Z B} {g : G} (hg : g ∈ M) {t : G} {m : ℕ} :
     SLMNat (hc.conj_of_mem hg) t m ↔ SLMNat hc t m := by
   unfold SLMNat

@@ -262,7 +262,7 @@ theorem projStabilizer_perfect_odd_isCyclic [Finite k] [CharP k 2] {d : ℕ}
   have hScyc : IsCyclic (S : Subgroup Y) := by
     have h1 := isCyclic_of_le_commutator_stabilizer_flagSpace hd hr2
       (E := (S : Subgroup Y).map Y.subtype) (by rintro _ ⟨y, -, rfl⟩; exact y.2.1)
-      (S.isPGroup'.map Y.subtype)
+      (S.isPGroup.map Y.subtype)
     have e : (S : Subgroup Y) ≃* (S : Subgroup Y).map Y.subtype :=
       (S : Subgroup Y).equivMapOfInjective _ Y.subtype_injective
     exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
@@ -284,10 +284,10 @@ theorem projectiveSL_three_perfect_odd_isCyclic [Finite k] [CharP k 2]
     linear_order (K := k) 2 (Nat.card k) rfl (n := 3) (by norm_num)
   have hUsyl : IsSylowOf 2 (projUnitriangular 3 k) ⊤ := by
     rw [isSylowOf_iff, relIndex_top_right, ← hP]
-    exact ⟨le_top, P.isPGroup', P.not_dvd_index⟩
+    exact ⟨le_top, P.isPGroup, P.not_dvd_index⟩
   have hTsyl : IsSylowOf 2 (T : Subgroup (projectiveSL 3 k)) ⊤ := by
     rw [isSylowOf_iff, relIndex_top_right]
-    exact ⟨le_top, T.isPGroup', T.not_dvd_index⟩
+    exact ⟨le_top, T.isPGroup, T.not_dvd_index⟩
   obtain ⟨c, -, hU, hlt⟩ := exists_conj_sup_of_isSylowOf hUsyl hTsyl hBT
   obtain ⟨i, hi1, hi3, hle⟩ :=
     (CFSG.QuasithinUnique.Setup.X7a.linear_unitriangular_overgroup_subflag_containment
@@ -477,10 +477,10 @@ theorem statedSp_two_perfect_odd_isCyclic [Finite k] [CharP k 2] (T : Sylow 2 (S
     symplectic_higher_order_and_Sylow (K := k) 2 (Nat.card k) rfl (r := 2) (by norm_num)
   have hUsyl : IsSylowOf 2 (unipotent 2 k) ⊤ := by
     rw [isSylowOf_iff, relIndex_top_right, ← hP]
-    exact ⟨le_top, P.isPGroup', P.not_dvd_index⟩
+    exact ⟨le_top, P.isPGroup, P.not_dvd_index⟩
   have hTsyl : IsSylowOf 2 (T : Subgroup (StatedSp 2 k)) ⊤ := by
     rw [isSylowOf_iff, relIndex_top_right]
-    exact ⟨le_top, T.isPGroup', T.not_dvd_index⟩
+    exact ⟨le_top, T.isPGroup, T.not_dvd_index⟩
   obtain ⟨c, -, hU, hlt⟩ := exists_conj_sup_of_isSylowOf hUsyl hTsyl hBT
   obtain ⟨hle, hiff⟩ :=
     (CFSG.QuasithinUnique.Setup.X7a.symplectic_unitriangular_overgroup_subflag_containment

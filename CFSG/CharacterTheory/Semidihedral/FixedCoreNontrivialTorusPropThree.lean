@@ -101,12 +101,12 @@ theorem EqualParameterData.false_of_card_sylow_of_facts {G : Type} [Group G] [Fi
   set P : Subgroup G := (P₀ : Subgroup H).map H.subtype with hPdef
   have hPsyl : IsSylowOf p P H := ⟨P₀, rfl⟩
   obtain ⟨hPcard, hPK, hHP⟩ := hHfacts hPsyl
-  have hPp : IsPGroup p P := P₀.isPGroup'.map _
+  have hPp : IsPGroup p P := P₀.isPGroup.map _
   let Q₀ : Sylow p (C t) := default
   set Q₁ : Subgroup G := (Q₀ : Subgroup (C t)).map (C t).subtype with hQ₁def
   have hQsyl : IsSylowOf p Q₁ (C t) := ⟨Q₀, rfl⟩
   obtain ⟨hQcard, hQJ, -, hCQ, -⟩ := hCfacts hQsyl
-  have hQp : IsPGroup p Q₁ := Q₀.isPGroup'.map _
+  have hQp : IsPGroup p Q₁ := Q₀.isPGroup.map _
   have hQC : Q₁ ≤ C t := Subgroup.map_subtype_le _
   obtain ⟨TP, hTP⟩ := exists_sylow_eq_of_card hPp hsyl hPcard
   obtain ⟨TQ, hTQ⟩ := exists_sylow_eq_of_card hQp hsyl hQcard
@@ -178,7 +178,7 @@ theorem EqualParameterData.false_of_card_sylow_of_facts {G : Type} [Group G] [Fi
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, Subgroup.orderOf_mk, hu2, pow_one])
   obtain ⟨S, hS⟩ := hZ.exists_le_sylow
   set S' : Subgroup G := (S : Subgroup Fc).map Fc.subtype with hS'def
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map _
   have huS' : u ∈ S' := ⟨u', hS (Subgroup.mem_zpowers u'), rfl⟩
   have hS'F : S' ≤ Fc := Subgroup.map_subtype_le _
   have hPne : P ≠ ⊥ := by
@@ -292,7 +292,7 @@ theorem EqualParameterData.false_of_card_sylow_of_facts {G : Type} [Group G] [Fi
     intro hbot
     exact Wr₀.ne_bot_of_dvd_card hrW
       ((Subgroup.map_eq_bot_iff_of_injective _ W.subtype_injective).mp hbot)
-  have hWrp : IsPGroup r Wr := Wr₀.isPGroup'.map _
+  have hWrp : IsPGroup r Wr := Wr₀.isPGroup.map _
   have hWrF : Wr ≤ Fc := hWrW.trans hWF
   have hidx : ¬ r ∣ (Wr.subgroupOf Fc).index := by
     change ¬ r ∣ Wr.relIndex Fc

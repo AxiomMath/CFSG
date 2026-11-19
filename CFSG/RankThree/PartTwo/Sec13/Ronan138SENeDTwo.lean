@@ -33,6 +33,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commute_of_mem_zpowers {d g z : G} (hdg : Commute d g) (hz : z ∈ Subgroup.zpowers d) :
     Commute z g := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hz

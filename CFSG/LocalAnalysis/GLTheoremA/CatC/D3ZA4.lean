@@ -30,7 +30,7 @@ theorem d3A4Regular_of_levi (hL : D3A4Levi) : D3A4Regular := by
   intro K _ _ n hK b t₁ t₂ hb3 hbQ ht₁2 ht₂2 hcomm h1 h2 h12 hbt₁ hbt₂ A hA hAbig hfb hf1 hf2 S
     hAS hSb hSt
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn : 1 ≤ n := by
     by_contra hn0
     have hn0' : n = 0 := by omega

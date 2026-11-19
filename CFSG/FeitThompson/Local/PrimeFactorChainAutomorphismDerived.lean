@@ -165,7 +165,7 @@ theorem of_dvd_sub [(N.subgroupOf A).Normal] (hb : ActsAsZPowOn b A N m)
 theorem not_dvd [(N.subgroupOf A).Normal] (hidx : N.relIndex A = p)
     (hbN : b • N = N) (hnle : ¬ A ≤ N) (hb : ActsAsZPowOn b A N m) : ¬ (p : ℤ) ∣ m := by
   intro hdvd
-  obtain ⟨x, hx, hxN⟩ := SetLike.not_le_iff_exists.1 hnle
+  obtain ⟨x, hx, hxN⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
   have h0 : ActsAsZPowOn b A N 0 :=
     hb.of_dvd_sub (by rw [hidx, sub_zero]; exact hdvd)
   exact hxN (mem_of_apply_mem hbN (actsAsZPowOn_zero_iff.1 h0 x hx))
@@ -211,7 +211,7 @@ theorem not_le_succ (hp : p.Prime) (hc : IsPrimeFactorChain p Hc n) {i : ℕ} (h
 
 theorem exists_mem_not_mem (hp : p.Prime) (hc : IsPrimeFactorChain p Hc n) {i : ℕ} (hi : i < n) :
     ∃ x ∈ Hc i, x ∉ Hc (i + 1) :=
-  SetLike.not_le_iff_exists.1 (hc.not_le_succ hp hi)
+  IsConcreteLE.not_le_iff_exists.1 (hc.not_le_succ hp hi)
 
 theorem card_eq_pow (hc : IsPrimeFactorChain p Hc n) {i : ℕ} (hi : i ≤ n) :
     Nat.card (Hc i) = p ^ (n - i) := by

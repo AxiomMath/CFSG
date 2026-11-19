@@ -20,7 +20,7 @@ theorem h196LQ_innerAut {p : ℕ} (hL : LieQConstrained p) (hA : I196AmbLQ p)
     (hchI : CFSG.HardMathSupport.Solomon.Coordinator.IsChevOfChar p ↥(innerAut K) ∨
       catalogIs ↥(innerAut K) (ambiguousChev p))
     {H : Subgroup (MulAut K)} (hH : innerAut K ≤ H) : H196LQ p H (innerAut K) := by
-  haveI : Finite (MulAut K) := finite_mulAut K
+  have : Finite (MulAut K) := finite_mulAut K
   have hSn : ((innerAut K).subgroupOf H).Normal :=
     Subgroup.Normal.subgroupOf (innerAut_normal K) H
   have hsimp : IsSimpleGroup ↥((innerAut K).subgroupOf H) :=
@@ -51,7 +51,7 @@ theorem h196_inner {p : ℕ} [hp : Fact p.Prime]
     (hDN : D ≤ Subgroup.normalizer (H : Set (MulAut K)))
     {x : MulAut K} (hxD : x ∈ D) (hxI : x ∈ innerAut K) (hx1 : x ≠ 1) :
     GLAPPrimeCoreOf p (H ⊓ Subgroup.centralizer (D : Set (MulAut K))) = ⊥ := by
-  haveI : Finite (MulAut K) := finite_mulAut K
+  have : Finite (MulAut K) := finite_mulAut K
   have hLQ := hLQall hH
   have hxp : x ^ p = 1 := hDel.2 x hxD
   have hDp : IsPGroup p ↥D := fun g => ⟨1, Subtype.ext (by simpa using hDel.2 g.1 g.2)⟩
@@ -95,7 +95,7 @@ theorem GLAPPrimeCoreOf_eq_bot_of_innerAut {p : ℕ} [hp : Fact p.Prime]
     (hK : CFSG.Open.IsQuasisimple K) (hch : IsChevSimple p (K ⧸ Subgroup.center K))
     (hC2 : I196ChevCard p) {H : Subgroup (MulAut K)} (hH : innerAut K ≤ H) :
     GLAPPrimeCoreOf p H = ⊥ := by
-  haveI : Finite (MulAut K) := finite_mulAut K
+  have : Finite (MulAut K) := finite_mulAut K
   set O := GLAPPrimeCoreOf p H with hO
   set V : Subgroup (MulAut K) := O ⊓ innerAut K with hV
   have hVn : (V.subgroupOf (innerAut K)).Normal := by
@@ -156,7 +156,7 @@ theorem h196_outer_aux {p : ℕ} [hp : Fact p.Prime]
     (hWn : ∀ c ∈ H ⊓ Subgroup.centralizer (D : Set (MulAut K)), ∀ w ∈ W, c * w * c⁻¹ ∈ W)
     (hWp : ¬ p ∣ Nat.card ↥W) :
     W = ⊥ ∨ (p = 3 ∧ catalogIs (K ⧸ Subgroup.center K) (onLie (isL2 27))) := by
-  haveI : Finite (MulAut K) := finite_mulAut K
+  have : Finite (MulAut K) := finite_mulAut K
   by_cases hWb : W = ⊥
   · exact Or.inl hWb
   right
@@ -276,7 +276,7 @@ theorem h196_outer {p : ℕ} [hp : Fact p.Prime]
     (hD1 : D ≠ ⊥) (hDI : D ⊓ innerAut K = ⊥) :
     GLAPPrimeCoreOf p (H ⊓ Subgroup.centralizer (D : Set (MulAut K))) = ⊥ ∨
       (p = 3 ∧ catalogIs (K ⧸ Subgroup.center K) (onLie (isL2 27))) := by
-  haveI : Finite (MulAut K) := finite_mulAut K
+  have : Finite (MulAut K) := finite_mulAut K
   exact h196_outer_aux hLQall hp2 hK hch hF1 hF2 hH hDel hDN hD1 hDI (GLAPPrimeCoreOf_le p _)
     (fun c hc w hw => GLAPPrimeCoreOf_conj p _ hc hw) (not_dvd_card_GLAPPrimeCoreOf p _)
 
@@ -290,7 +290,7 @@ theorem h196_main {p : ℕ} [hp : Fact p.Prime]
     GLAPPrimeCoreOf p (H ⊓ Subgroup.centralizer (D : Set (MulAut K))) = ⊥ ∨
       (D ≠ ⊥ ∧ D ⊓ innerAut K = ⊥ ∧ p = 3 ∧
         catalogIs (K ⧸ Subgroup.center K) (onLie (isL2 27))) := by
-  haveI : Finite (MulAut K) := finite_mulAut K
+  have : Finite (MulAut K) := finite_mulAut K
   by_cases hDI : D ⊓ innerAut K = ⊥
   · by_cases hD1 : D = ⊥
     · left

@@ -28,7 +28,7 @@ theorem twPlane_cayley_hamilton (M : Matrix (Fin 3) (Fin 3) K) :
     rw [Matrix.det_eq_sign_charpoly_coeff M]
     norm_num
   rw [hsum] at hch
-  simp only [map_add, map_pow, Polynomial.aeval_X, map_sum, map_mul, Polynomial.aeval_C,
+  simp only [map_add, map_pow, Polynomial.aeval_X, map_mul, Polynomial.aeval_C,
     Algebra.algebraMap_eq_smul_one, Finset.sum_range_succ, Finset.range_zero, Finset.sum_empty,
     zero_add, smul_mul_assoc, one_mul, pow_zero, pow_one, map_one] at hch
   rw [htr, hdet]

@@ -25,7 +25,7 @@ noncomputable def splitModelHom {Φ' : SL(6, L) ≃* SL(6, L)} {H : SL(6, L)}
   toFun Y := ⟨H * Matrix.SpecialLinearGroup.map (algebraMap K L) Y * H⁻¹, (hfix _).2 ⟨Y, rfl⟩⟩
   map_one' := Subtype.ext (by simp)
   map_mul' Y Z := Subtype.ext (by
-    simp only [Subtype.coe_mk, Subgroup.coe_mul, map_mul]
+    simp only [Subgroup.coe_mul, map_mul]
     group)
 
 omit [Finite K] in
@@ -62,15 +62,15 @@ theorem exists_elemAbelian_pRank_three_of_fixSubgroup_split
     (hfix : ∀ X : SL(6, L), X ∈ fixSubgroup Φ' ↔
       ∃ Y : SL(6, K), X = H * Matrix.SpecialLinearGroup.map (algebraMap K L) Y * H⁻¹)
     {J : Type*} [Group J] [Finite J] (ρ : ↥(fixSubgroup Φ') →* J)
-    (hρ : Function.Surjective ρ)
-    (hc : ∀ z ∈ ρ.ker, ∀ u : ↥(fixSubgroup Φ'), z * u = u * z)
+    (_hρ : Function.Surjective ρ)
+    (_hc : ∀ z ∈ ρ.ker, ∀ u : ↥(fixSubgroup Φ'), z * u = u * z)
     (hk : Nat.card ρ.ker ∣ 6) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hdvd : q ∣ Nat.card K - 1) :
     ∃ F : Subgroup J, IsElemAbelian q F ∧ 3 ≤ CFSG.Open.pRank q F := by
   classical
-  haveI hFfin : Finite ↥(fixSubgroup Φ') := splitModel_finite hfix
-  haveI : NeZero q := ⟨hq.ne_zero⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have hFfin : Finite ↥(fixSubgroup Φ') := splitModel_finite hfix
+  have : NeZero q := ⟨hq.ne_zero⟩
+  have : Fact q.Prime := ⟨hq⟩
   set E : Subgroup ↥(fixSubgroup Φ') :=
     (LinEngine.diagSLSub (F := K) 5 q).map (splitModelHom hfix) with hEdef
   have hEel : IsElemAbelian q E :=

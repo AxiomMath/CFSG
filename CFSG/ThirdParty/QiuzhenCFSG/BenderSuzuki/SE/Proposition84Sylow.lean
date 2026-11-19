@@ -39,16 +39,16 @@ public theorem exists_sylow_inf_of_normal_sylow
       { toFun := fun r => ⟨(r : G), r.property.1⟩
         map_one' := rfl
         map_mul' := fun _ _ => rfl }
-    exact P.isPGroup'.of_injective f (by
+    exact P.isPGroup.of_injective f (by
       intro a b hab
       apply Subtype.ext
       apply Subtype.ext
       exact congrArg (fun z : (P : Subgroup G) => (z : G)) hab)
   obtain ⟨Q, hRHQ⟩ := hRHp.exists_le_sylow
   have hQmapP : IsPGroup p ((Q : Subgroup H).map H.subtype) :=
-    Q.isPGroup'.map H.subtype
+    Q.isPGroup.map H.subtype
   obtain ⟨T, hQT⟩ := hQmapP.exists_le_sylow
-  letI : Unique (Sylow p G) := Sylow.unique_of_normal P hPnormal
+  let : Unique (Sylow p G) := Sylow.unique_of_normal P hPnormal
   have hTP : T = P := Subsingleton.elim _ _
   have hQleP : (Q : Subgroup H).map H.subtype ≤ (P : Subgroup G) := by
     rw [← hTP]
@@ -118,8 +118,7 @@ public theorem exists_sylow_map_eq_inf_of_normal_sylow_map
           exact Subgroup.map_inf _ _ _ G.subtype_injective
     _ = (P : Subgroup G).map G.subtype ⊓ H := by
           rw [show K.map G.subtype = H by
-            simpa [K, inf_eq_left.mpr hHG] using
-              Subgroup.subgroupOf_map_subtype H G]
+            simp [K, inf_eq_left.mpr hHG]]
 
 /-- A characteristic subgroup of a subgroup normal in `N` is normal in `N`,
 after all subgroup inclusions are mapped into the same ambient group. -/
@@ -132,7 +131,6 @@ public theorem normal_subgroupOf_map_of_characteristic_of_normal
     (K.subgroupOf N).Normal := by
   rw [Subgroup.normal_subgroupOf_iff hKN]
   intro k n hk hn
-  change n * k * n⁻¹ ∈ K
   have hnNormH : n ∈ Subgroup.normalizer (H : Set X) :=
     ((Subgroup.normal_subgroupOf_iff_le_normalizer hHN).mp hHnormal) hn
   rw [hKmap] at hk ⊢
@@ -221,7 +219,7 @@ public theorem sylow_lift_of_central_odd_core
   let P : Sylow 2 H := default
   let Pmap : Sylow 2 B := P.mapSurjective (f := qH) hqHsurj
   have hPmap : (Pmap : Subgroup B) = (Pbar : Subgroup B) := by
-    letI : Unique (Sylow 2 B) :=
+    let : Unique (Sylow 2 B) :=
       Sylow.unique_of_normal Pbar hPbarNormal
     exact congrArg Sylow.toSubgroup (Subsingleton.elim Pmap Pbar)
   have hPmapSub :
@@ -240,11 +238,11 @@ public theorem sylow_lift_of_central_odd_core
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKH).toEquiv
   have hP_Kcop : Nat.Coprime (Nat.card (P : Subgroup H))
       (Nat.card (K.subgroupOf H)) := by
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     rw [hn, hK_Hcard]
     exact hKodd.pow_left n
   have hPKbot : (P : Subgroup H) ⊓ K.subgroupOf H = ⊥ :=
-    Subgroup.inf_eq_bot_of_coprime hP_Kcop
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hP_Kcop))
   let E : Subgroup H := (Pbar : Subgroup B).comap qH
   have hP_le_E : (P : Subgroup H) ≤ E := by
     intro p hp
@@ -295,9 +293,9 @@ public theorem sylow_lift_of_central_odd_core
       KE.IsComplement' PE := by
     let PE : Subgroup E := (P : Subgroup H).subgroupOf E
     let KE : Subgroup E := (K.subgroupOf H).subgroupOf E
-    letI : (K.subgroupOf H).Normal :=
+    let : (K.subgroupOf H).Normal :=
       (inferInstance : K.Normal).subgroupOf H
-    letI : KE.Normal :=
+    let : KE.Normal :=
       (inferInstance : (K.subgroupOf H).Normal).subgroupOf E
     have hdisj : Disjoint KE PE := by
       rw [Subgroup.disjoint_def]
@@ -316,10 +314,10 @@ public theorem sylow_lift_of_central_odd_core
       KE PE hdisj hsup
   let PE : Subgroup E := (P : Subgroup H).subgroupOf E
   let KE : Subgroup E := (K.subgroupOf H).subgroupOf E
-  letI : (K.subgroupOf H).Normal :=
+  let : (K.subgroupOf H).Normal :=
     (inferInstance : K.Normal).subgroupOf H
-  letI : E.Normal := hE_normal_H
-  letI : KE.Normal :=
+  let : E.Normal := hE_normal_H
+  let : KE.Normal :=
     (inferInstance : (K.subgroupOf H).Normal).subgroupOf E
   have hPEcentral : PE ≤ Subgroup.centralizer (KE : Set E) := by
     intro p hp
@@ -343,7 +341,7 @@ public theorem sylow_lift_of_central_odd_core
       simpa [PEsyl, PE, Sylow.coe_subtype] using hPENormal
     let Pconj : Sylow 2 E :=
       PEsyl.mapSurjective (f := e.toMonoidHom) e.surjective
-    letI : Unique (Sylow 2 E) :=
+    let : Unique (Sylow 2 E) :=
       Sylow.unique_of_normal PEsyl hPEsylNormal
     have hPconj : (Pconj : Subgroup E) = (PEsyl : Subgroup E) :=
       congrArg Sylow.toSubgroup (Subsingleton.elim Pconj PEsyl)
@@ -425,16 +423,16 @@ private theorem exists_sylow_map_eq_of_normalizer_le_low
   classical
   let P0sub : Subgroup G := (P : Subgroup M).map M.subtype
   have hP0p : IsPGroup p P0sub :=
-    IsPGroup.map P.isPGroup' M.subtype
+    IsPGroup.map P.isPGroup M.subtype
   refine ⟨⟨P0sub, hP0p, ?_⟩, rfl⟩
   intro Q hQp hP0Q
   have hQ_le_P0 : Q ≤ P0sub := by
     let K : Subgroup Q := P0sub.subgroupOf Q
-    haveI : Fact (IsPGroup p Q) := ⟨hQp⟩
+    have : Fact (IsPGroup p Q) := ⟨hQp⟩
     have hQnil : Group.IsNilpotent Q :=
       IsPGroup.isNilpotent (p := p) (G := Q) hQp
     have hnc : NormalizerCondition Q := by
-      letI : Group.IsNilpotent Q := hQnil
+      let : Group.IsNilpotent Q := hQnil
       exact Group.normalizerCondition_of_isNilpotent (G := Q)
     have hnormalizerK_le : Subgroup.normalizer (K : Set Q) ≤ K := by
       intro x hxnormalizer
@@ -499,7 +497,7 @@ private theorem exists_sylow_map_eq_of_le_of_sylow_map_eq
     exact (Subgroup.map_subgroupOf_eq_of_le hYE).symm
   let YH : Subgroup H := Y.subgroupOf H
   have hYp : IsPGroup p Y := by
-    have hPp := P.isPGroup'.map E.subtype
+    have hPp := P.isPGroup.map E.subtype
     rw [hPmap] at hPp
     exact hPp
   have hYHp : IsPGroup p YH := by
@@ -560,7 +558,7 @@ private theorem sylow_sup_of_sylow_right_of_two_left
   let Ysup : Subgroup ↥(S ⊔ H : Subgroup G) :=
     Y.subgroupOf (S ⊔ H : Subgroup G)
   have hYp : IsPGroup p Y := by
-    have hPp := P.isPGroup'.map H.subtype
+    have hPp := P.isPGroup.map H.subtype
     rw [hPmap] at hPp
     exact hPp
   have hYsupp : IsPGroup p Ysup := by
@@ -780,9 +778,7 @@ public theorem normal_sup_normalizerIn_eq_of_sylow
           (M.subtype.comp N.subtype) := by
         rw [show (PN : Subgroup N) =
             (P : Subgroup C).map e.symm.toMonoidHom by
-          simpa [PN] using
-            (Sylow.coe_mapSurjective
-              (f := e.symm.toMonoidHom) e.symm.surjective P)]
+          simp [PN]]
       _ = (P : Subgroup C).map
           ((M.subtype.comp N.subtype).comp e.symm.toMonoidHom) := by
         rw [Subgroup.map_map]
@@ -791,9 +787,9 @@ public theorem normal_sup_normalizerIn_eq_of_sylow
       _ = Y := hPmap
       _ = (Y.subgroupOf M).map M.subtype := by
         symm
-        simpa [Subgroup.subgroupOf_map_subtype,
+        simp [Subgroup.subgroupOf_map_subtype,
           inf_eq_left.mpr hYM]
-  letI : N.Normal := by simpa [N] using hCnormal
+  let : N.Normal := by simpa [N] using hCnormal
   have hFrattini :
       Subgroup.normalizer ((Y.subgroupOf M : Subgroup M) : Set M) ⊔
         N = ⊤ := by

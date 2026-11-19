@@ -463,7 +463,7 @@ theorem examExcludes_d4
   have hU : IsSylowTwoOf ((graphFixedPosUnipotent TwistTag.D4 F σ.toRingHom).subgroupOf
       (graphFixedRootGroup TwistTag.D4 F σ.toRingHom)) ⊤ := by
     rw [← hP']
-    exact isSylowTwoOf_top_iff.mpr ⟨P'.isPGroup', P'.not_dvd_index⟩
+    exact isSylowTwoOf_top_iff.mpr ⟨P'.isPGroup, P'.not_dvd_index⟩
   obtain ⟨R₀, A₀, A₀', hRU, hnorm, hne, hA, hA', hel, hstrong⟩ :=
     h.toAbs.exists_RprimeE θ hθsurj hker _ hU
   exact D4Exam.d4_false σ hσ3 R₀ A₀ A₀' hRU hU hnorm hne hA hA' hel hstrong

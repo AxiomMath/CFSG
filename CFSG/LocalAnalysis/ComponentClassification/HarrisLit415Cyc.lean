@@ -145,7 +145,7 @@ theorem sq_comm_of_fix (hA : AutPSL2RCentralizerInput) {p n : ℕ} (hp : p.Prime
     exact (comap_map_eq_self_of_injective K.subtype_injective _).symm
   have hcardR : 8 ≤ Nat.card ↥((P ⊓ K).subgroupOf K) := by
     rw [Nat.card_congr (subgroupOfEquivOfLe (inf_le_right : P ⊓ K ≤ K)).toEquiv]
-    have hp' : IsPGroup 2 ↥(P ⊓ K) := hQ ▸ (Q.isPGroup'.map K.subtype)
+    have hp' : IsPGroup 2 ↥(P ⊓ K) := hQ ▸ (Q.isPGroup.map K.subtype)
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hp'
     rw [hm] at h8 ⊢
     have hm3 : 3 ≤ m := by

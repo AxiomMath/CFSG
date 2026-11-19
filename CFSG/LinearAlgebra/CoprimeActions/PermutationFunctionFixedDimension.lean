@@ -78,8 +78,8 @@ theorem orbitRel_iff (σ : Equiv.Perm X) (x y : X) :
 
 theorem finrank_eq_orbits [Finite X] (σ : Equiv.Perm X) :
     finrank F (fixedSpace F σ) = Nat.card (OrbitQuot σ) := by
-  haveI : Finite (OrbitQuot σ) := Quotient.finite _
-  haveI := Fintype.ofFinite (OrbitQuot σ)
+  have : Finite (OrbitQuot σ) := Quotient.finite _
+  have := Fintype.ofFinite (OrbitQuot σ)
   rw [(fixedEquiv σ).finrank_eq, Module.finrank_fintype_fun_eq_card, Nat.card_eq_fintype_card]
 
 open Classical in
@@ -132,9 +132,9 @@ theorem prime_semiregular_formula [Finite X] (σ : Equiv.Perm X) (r : ℕ) (hr :
     r * finrank F (fixedSpace F σ) = Nat.card X + r - 1 := by
   classical
   rw [finrank_eq_orbits]
-  haveI : Finite (OrbitQuot σ) := Quotient.finite _
-  haveI := Fintype.ofFinite (OrbitQuot σ)
-  haveI := Fintype.ofFinite X
+  have : Finite (OrbitQuot σ) := Quotient.finite _
+  have := Fintype.ofFinite (OrbitQuot σ)
+  have := Fintype.ofFinite X
   set mk : X → OrbitQuot σ := Quotient.mk _ with hmk
   have hsum : Nat.card X = ∑ q : OrbitQuot σ, Nat.card {y : X // mk y = q} := by
     rw [Nat.card_eq_fintype_card, Fintype.card_congr (Equiv.sigmaFiberEquiv mk).symm,
@@ -145,9 +145,9 @@ theorem prime_semiregular_formula [Finite X] (σ : Equiv.Perm X) (r : ℕ) (hr :
     intro q hq
     obtain ⟨x, rfl⟩ := Quotient.mk_surjective q
     have hx : x ≠ x0 := fun h => hq (by rw [h])
-    rw [fiber_card σ r hr hσ x0 hfix x, if_neg hx]
+    rw [fiber_card σ r hr hσ x0 hfix x, ite_eq_right hx]
   have h0 : Nat.card {y : X // mk y = mk x0} = 1 := by
-    rw [fiber_card σ r hr hσ x0 hfix x0, if_pos rfl]
+    rw [fiber_card σ r hr hσ x0 hfix x0, ite_eq_left rfl]
   rw [hsum, ← Finset.add_sum_erase _ _ (Finset.mem_univ (mk x0)), h0,
     Finset.sum_congr rfl (fun q hq => hq0 q (Finset.ne_of_mem_erase hq)), Finset.sum_const,
     Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ, smul_eq_mul, Nat.card_eq_fintype_card]

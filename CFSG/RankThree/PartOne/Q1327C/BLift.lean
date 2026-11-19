@@ -21,7 +21,7 @@ theorem exists_lift_elementary {M N : Type} [Group M] [Group N] [Finite M] [Fini
   obtain ⟨Q⟩ : Nonempty (Sylow p Pt) := inferInstance
   let Q' : Subgroup M := (Q : Subgroup ↥Pt).map Pt.subtype
   have hQ'Pt : Q' ≤ Pt := Subgroup.map_subtype_le _
-  have hQ'p : IsPGroup p Q' := Q.isPGroup'.map Pt.subtype
+  have hQ'p : IsPGroup p Q' := Q.isPGroup.map Pt.subtype
   have hdis : Disjoint Q' π.ker := N143.disjoint_ker_of_isPGroup π hp hQ'p hker
   have hker_le : π.ker ≤ Pt := fun x hx => by
     show π x ∈ P'

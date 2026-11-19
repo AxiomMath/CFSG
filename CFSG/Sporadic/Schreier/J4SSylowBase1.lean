@@ -66,7 +66,7 @@ theorem exists_uElt :
       rw [heq]
       exact actsBy_mul hgA (kgen_acts hg)
 
-@[expose] def uElt
+def uElt
     (e : ℕ) : J := if h : e < 1024 then Classical.choose (exists_uElt e h) else 1
 
 theorem uElt_spec
@@ -144,7 +144,7 @@ theorem N_le_S0 : N ≤ S0 := by
   rintro _ ⟨g, hg, rfl⟩
   exact S0.mul_mem (S0.mul_mem (U_le_S0 hg) vS_mem_S0) (S0.inv_mem (U_le_S0 hg))
 
-@[expose] def NU : Subgroup J where
+def NU : Subgroup J where
   carrier := {s | ∃ n ∈ N, ∃ u ∈ U, s = n * u}
   mul_mem' := by
     rintro _ _ ⟨n, hn, u, hu, rfl⟩ ⟨n', hn', u', hu', rfl⟩

@@ -77,7 +77,7 @@ theorem Std81.exists_S₁ (s : Std81 T T₁) (hInd : SimpleCaseUpTo (Nat.card G)
   have hS₁2 : IsPGroup 2 S₁ := by
     intro x
     obtain ⟨y, hy, hyx⟩ := (Subgroup.mem_map.1 x.2)
-    obtain ⟨n, hn⟩ := 𝒮.isPGroup' ⟨y, hy⟩
+    obtain ⟨n, hn⟩ := 𝒮.isPGroup ⟨y, hy⟩
     refine ⟨n, Subtype.ext ?_⟩
     have := congrArg (fun z : ↥(𝒮 : Subgroup ↥C) => (((z : ↥C)) : G)) hn
     simp only [Subgroup.coe_pow, Subgroup.coe_one] at this ⊢

@@ -322,7 +322,7 @@ theorem three_dvd_automizerIndex_of_subset_mul [Finite G] {K M O H T : Subgroup 
 theorem exists_ne_one_mem_T_of_even [Finite G] {σ : Setting G} (hσ : σ.IsValid)
     (hC : CStructure σ) {X : Subgroup G} (hDX : σ.D ≤ Subgroup.normalizer (X : Set G))
     (heven : Even (Nat.card X)) : ∃ t ∈ σ.T, t ≠ 1 ∧ t ∈ X := by
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   obtain ⟨z, hzX, hzD, hzord⟩ := exists_orderOf_eq_two_mem_centralizer hD2 hDX heven
   have hzC : z ∈ σ.C := Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr (σ.T_le_D hσ)) hzD
   have hCeq := hC.C_eq

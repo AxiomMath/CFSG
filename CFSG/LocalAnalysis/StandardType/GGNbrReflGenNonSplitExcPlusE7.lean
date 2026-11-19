@@ -105,7 +105,7 @@ theorem excPlusFrameModel_E7_threeFive
     Irred937.exists_langFrame_of_sc (Or.inl rfl) hp35 K hpq E hE hcard hsc
   obtain ⟨m, hm⟩ := exists_simpleRealization_of_frame hFr
     (fun X hX hXC hXF => by
-      haveI := hX
+      have := hX
       exact finite_fixed_le_map_adjointGroup_E7 Fr hFr X hXC hXF) hg0C hg0 hcent hbase
   exact ⟨ι₀, m, hι₀, hrange, hm,
     fun g hg => exists_weyl_of_mem_normalizer_of_frame hg0C hι₀ hrange hbase hg⟩

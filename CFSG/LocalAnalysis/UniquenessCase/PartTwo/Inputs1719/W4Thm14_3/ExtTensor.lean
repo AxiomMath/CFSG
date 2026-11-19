@@ -75,6 +75,7 @@ private theorem exists_aexp_eq_two_pow {n : ℕ} {J : Finset ℕ} {j : ℕ}
 section Tensor
 variable {F : Type} [Field F] [Fintype F] [CharP F 2] {E : Type} [Field E] [Algebra F E]
   [CharP E 2]
+omit [Fintype F] [CharP F 2] in
 theorem frobTensor_uElt_apply_zero (J : Finset ℕ) (s : F) (v : (J → Fin 2) → E) :
     frobTensor F E J (uElt s) v (fun _ => 0) =
       ∑ x : J → Fin 2, algebraMap F E s ^ aexp (fun i : J => (i : ℕ)) x * v x := by

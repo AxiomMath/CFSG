@@ -13,7 +13,7 @@ open CFSG.ABGLocalTools (IsSylowOf)
 
 variable {G : Type} [Group G] [Finite G] {A M N L : Subgroup G}
 
-theorem mem_map_inf_of_fixed {M L : Subgroup G} (hO2M : CFSG.Open.pCoreOf 2 L ≤ M)
+theorem mem_map_inf_of_fixed {M L : Subgroup G} (_hO2M : CFSG.Open.pCoreOf 2 L ≤ M)
     {X : Subgroup G} (hXN : X ≤ Subgroup.normalizer (L : Set G)) (hX3 : IsPGroup 3 X)
     (hXM : Subgroup.normalizer (X : Set G) ≤ M) {y : ↥L ⧸ CFSG.pCore 2 ↥L}
     (hy : ∀ (x : G) (hx : x ∈ X), Sec3.Sims321.barAut L ⟨x, hXN hx⟩ y = y) :
@@ -26,7 +26,7 @@ theorem mem_map_inf_of_fixed {M L : Subgroup G} (hO2M : CFSG.Open.pCoreOf 2 L �
     convert (CFSG.mem_openPCoreOf_iff _).mpr (Subgroup.inv_mem _ h1) using 1
     simp only [Subgroup.coe_mul, Subgroup.coe_inv, mul_inv_rev, inv_inv]
   have hN3 : ¬ 3 ∣ Nat.card (CFSG.Open.pCoreOf 2 L) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L).exists_card_eq
     rw [hk]
     intro h3

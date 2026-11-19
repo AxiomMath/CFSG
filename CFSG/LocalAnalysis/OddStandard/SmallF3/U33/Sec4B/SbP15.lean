@@ -15,11 +15,13 @@ section Abstract
 
 variable {G : Type} [Group G] [Finite G] {Q Y : Subgroup G} {τ : G}
 
+omit [Finite G] in
 private theorem tau_mul_eq (hinv : ∀ a ∈ Q, τ * a * τ⁻¹ = a⁻¹) {a : G} (ha : a ∈ Q) :
     τ * a = a⁻¹ * τ := by
   calc τ * a = τ * a * τ⁻¹ * τ := by group
     _ = a⁻¹ * τ := by rw [hinv a ha]
 
+omit [Finite G] in
 theorem mem_sup_zpowers_iff (hτ2 : τ ^ 2 = 1) (hinv : ∀ a ∈ Q, τ * a * τ⁻¹ = a⁻¹) {x : G} :
     x ∈ Q ⊔ zpowers τ ↔ x ∈ Q ∨ ∃ q ∈ Q, x = q * τ := by
   have hττ : τ * τ = 1 := by rw [← pow_two]; exact hτ2
@@ -60,6 +62,7 @@ theorem mem_sup_zpowers_iff (hτ2 : τ ^ 2 = 1) (hinv : ∀ a ∈ Q, τ * a * τ
     · exact mem_sup_left hx
     · exact mul_mem (mem_sup_left hq) (mem_sup_right (mem_zpowers τ))
 
+omit [Finite G] in
 theorem card_sup_zpowers_inv (hτ2 : τ ^ 2 = 1) (hinv : ∀ a ∈ Q, τ * a * τ⁻¹ = a⁻¹)
     (hτQ : τ ∉ Q) :
     Nat.card ↥(Q ⊔ zpowers τ) = 2 * Nat.card Q ∧ Q.relIndex (Q ⊔ zpowers τ) = 2 := by
@@ -86,7 +89,8 @@ theorem card_sup_zpowers_inv (hτ2 : τ ^ 2 = 1) (hinv : ∀ a ∈ Q, τ * a * �
   rw [hinf] at hcard
   exact ⟨by rw [← hcard, hrel], hrel⟩
 
-theorem inf_centralizer_coset_eq (hcomm : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a) (hτ2 : τ ^ 2 = 1)
+omit [Finite G] in
+theorem inf_centralizer_coset_eq (hcomm : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a) (_hτ2 : τ ^ 2 = 1)
     (hinv : ∀ a ∈ Q, τ * a * τ⁻¹ = a⁻¹) (hY : ∀ a, a ∈ Y ↔ a ∈ Q ∧ a ^ 2 = 1) {q : G}
     (hq : q ∈ Q) : Q ⊓ centralizer ({q * τ} : Set G) = Y := by
   ext a

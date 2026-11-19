@@ -15,10 +15,10 @@ theorem lit_two_mem_of_central [Finite G] {A C : Subgroup G} (hAC : A ≤ C)
     (hcent : ∀ a ∈ A, ∀ c ∈ C, a * c = c * a) (hA : IsPGroup 2 A)
     (hidx : ¬ 2 ∣ A.relIndex C) {c : G} (hc : c ∈ C) {k : ℕ} (hk : c ^ 2 ^ k = 1) :
     c ∈ A := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   let A' : Subgroup ↥C := A.subgroupOf C
   have hA' : IsPGroup 2 A' := hA.of_equiv (Subgroup.subgroupOfEquivOfLe hAC).symm
-  haveI hA'norm : A'.Normal := ⟨fun n hn g => by
+  have hA'norm : A'.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have h := hcent (n : G) hn (g : G) g.2
     have hgoal : ((g * n * g⁻¹ : ↥C) : G) = (n : G) := by
@@ -49,8 +49,8 @@ theorem lit_two_mem_of_central [Finite G] {A C : Subgroup G} (hAC : A ≤ C)
 theorem lit_inf_ne_bot_of_sylow [Finite G] {M U L : Subgroup G} (hUM : U ≤ M) (hU : IsPGroup 2 U)
     (hidx : ¬ 2 ∣ U.relIndex M) (hLM : L ≤ M) (hL : ∀ m ∈ M, ∀ l ∈ L, m * l * m⁻¹ ∈ L)
     (hLeven : Even (Nat.card L)) : U ⊓ L ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : Finite (Sylow 2 ↥M) := by
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Finite (Sylow 2 ↥M) := by
     obtain ⟨P⟩ := (Sylow.nonempty : Nonempty (Sylow 2 ↥M))
     exact Sylow.finite_of_finiteIndex P
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 2 (even_iff_two_dvd.mp hLeven)
@@ -101,9 +101,9 @@ theorem lit_inf_ne_bot_of_sylow [Finite G] {M U L : Subgroup G} (hUM : U ≤ M) 
 theorem lit_normal_inf_center [Finite G] {T N : Subgroup G} (hT : IsPGroup 2 T) (hNT : N ≤ T)
     (hN : ∀ t ∈ T, ∀ n ∈ N, t * n * t⁻¹ ∈ N) (hne : N ≠ ⊥) :
     ∃ z ∈ N, z ≠ 1 ∧ ∀ t ∈ T, z * t = t * z := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
-  haveI hNnorm : (N.subgroupOf T).Normal := ⟨fun n hn t => by
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
+  have hNnorm : (N.subgroupOf T).Normal := ⟨fun n hn t => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hN (t : G) t.2 (n : G) hn⟩
   have hne' : N.subgroupOf T ≠ ⊥ := by
@@ -127,22 +127,22 @@ theorem lit_normal_inf_center [Finite G] {T N : Subgroup G} (hT : IsPGroup 2 T) 
 theorem lit_inf_normal_sylow [Finite G] (T : Sylow 2 G) (M : Subgroup G) [M.Normal] :
     IsPGroup 2 (M ⊓ (T : Subgroup G) : Subgroup G) ∧
       ¬ 2 ∣ (M ⊓ (T : Subgroup G)).relIndex M := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : Finite (Sylow 2 G) := by
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Finite (Sylow 2 G) := by
     obtain ⟨P⟩ := (Sylow.nonempty : Nonempty (Sylow 2 G))
     exact Sylow.finite_of_finiteIndex P
-  haveI : Finite (Sylow 2 ↥M) := by
+  have : Finite (Sylow 2 ↥M) := by
     obtain ⟨P⟩ := (Sylow.nonempty : Nonempty (Sylow 2 ↥M))
     exact Sylow.finite_of_finiteIndex P
   let N : Subgroup G := M ⊓ (T : Subgroup G)
-  refine ⟨T.isPGroup'.to_inf_right, ?_⟩
+  refine ⟨T.isPGroup.to_inf_right, ?_⟩
   change ¬ 2 ∣ N.relIndex M
   have hNmP : IsPGroup 2 (N.subgroupOf M) :=
-    (T.isPGroup'.to_inf_right).of_equiv
+    (T.isPGroup.to_inf_right).of_equiv
       (Subgroup.subgroupOfEquivOfLe (inf_le_left : N ≤ M)).symm
   obtain ⟨S, hNmS⟩ := hNmP.exists_le_sylow
   let SG : Subgroup G := (S : Subgroup ↥M).map M.subtype
-  have hSGp : IsPGroup 2 SG := (S.isPGroup').map M.subtype
+  have hSGp : IsPGroup 2 SG := (S.isPGroup).map M.subtype
   obtain ⟨Q, hSGQ⟩ := hSGp.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G T Q
   have hSG_conjT : SG ≤ MulAut.conj g • (T : Subgroup G) := by

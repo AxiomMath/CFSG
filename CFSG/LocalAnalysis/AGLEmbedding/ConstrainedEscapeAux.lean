@@ -107,7 +107,7 @@ theorem exists_isElemAbelian_normalizer_not_le (h : ReducedNongeneration p X R X
     omega
   obtain ⟨D₁, hD₁Q, hD₁n, hD₁, hD₁card⟩ :=
     odd_pGroup_normal_noncyclic_has_ambient_normal_elementary_rank_two p h.ne_two _
-      R.isPGroup' (Q.subgroupOf R) inferInstance rfl
+      R.isPGroup (Q.subgroupOf R) inferInstance rfl
       (fun hcyc => hnc ((Subgroup.subgroupOfEquivOfLe hQR).isCyclic.mp hcyc))
   have hD₀Q : D₁.map (R : Subgroup X).subtype ≤ Q :=
     (Subgroup.map_mono hD₁Q).trans (Subgroup.map_subgroupOf_eq_of_le hQR).le
@@ -198,7 +198,7 @@ theorem normalizer_zpowers_le {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p
     calc n * x * n⁻¹ * z = n * (x * (n⁻¹ * z * n)) * n⁻¹ := by group
       _ = n * (n⁻¹ * z * n * x) * n⁻¹ := by rw [hcomm]
       _ = z * (n * x * n⁻¹) := by group
-  obtain ⟨c, hc⟩ := exists_conjugate_le_sylow_of_le p P hPz hconj (P.isPGroup'.map _)
+  obtain ⟨c, hc⟩ := exists_conjugate_le_sylow_of_le p P hPz hconj (P.isPGroup.map _)
   have hcn : (c : G) * n ∈ Subgroup.normalizer ((P : Subgroup G) : Set G) := by
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     refine Subgroup.eq_of_le_of_card_ge ?_

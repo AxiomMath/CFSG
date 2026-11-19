@@ -112,7 +112,7 @@ theorem szN8_index_le_three {L P C : Subgroup G} (hP3 : IsPGroup 3 P) (hPe : ∀
       Nat.factorization_eq_zero_of_not_dvd (show ¬ 3 ∣ 2 by norm_num)]
   let S' : Subgroup G := (S : Subgroup ↥E).map E.subtype
   have hS'E : S' ≤ E := Subgroup.map_subtype_le _
-  have hS'p : IsPGroup 3 ↥S' := S.isPGroup'.map E.subtype
+  have hS'p : IsPGroup 3 ↥S' := S.isPGroup.map E.subtype
   have hS'card : Nat.card ↥S' = 3 ^ (s - r) := by
     rw [Subgroup.card_map_of_injective E.subtype_injective, hScard]
   have hS'e : ∀ x ∈ S', x ^ 3 = 1 := by

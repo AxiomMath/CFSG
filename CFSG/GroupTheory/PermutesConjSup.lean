@@ -148,7 +148,7 @@ theorem exists_permutes_sup_conj {H : Type*} [Group H] [Finite H] {K T A : Subgr
       simp [orb]
     rw [h]
     exact (Set.toFinite (T : Set H)).image f
-  letI : Fintype ι := Set.Finite.fintype hfin
+  let : Fintype ι := Set.Finite.fintype hfin
   let tOf : ι → H := fun i =>
     if h : (i : Subgroup H) = K then 1
     else Classical.choose (show ∃ t : H, t ∈ T ∧ f t = (i : Subgroup H) from i.2)
@@ -170,7 +170,7 @@ theorem exists_permutes_sup_conj {H : Type*} [Group H] [Finite H] {K T A : Subgr
   let i₀ : ι := ⟨K, ⟨1, T.one_mem, by simp only [f, map_one]; exact Subgroup.map_id K⟩⟩
   have tOf_i₀ : tOf i₀ = 1 := by
     unfold tOf
-    rw [dif_pos rfl]
+    rw [dite_eq_left rfl]
   let AOf : ι → Subgroup H := fun i => A.map (MulAut.conj (tOf i)).toMonoidHom
   let Cof : ι → Subgroup H := fun i => B₁.map (MulAut.conj (tOf i)).toMonoidHom
   let Rof : ι → Subgroup H := fun i => T ⊓ (i : Subgroup H)

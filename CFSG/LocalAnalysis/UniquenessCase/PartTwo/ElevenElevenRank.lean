@@ -17,7 +17,7 @@ theorem pRank_ctilde_le_two (D : Data G) (h61 : UC6.R6_1 D) {V₀ V : Subgroup G
     CFSG.Open.pRank p (F11.CTilde D.M V₀ V) ≤ 2 := by
   have hpP : p.Prime := (D.sig_prime p hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   by_contra hlt
   push Not at hlt
   obtain ⟨E, hEC, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank hpP.one_lt (F11.CTilde D.M V₀ V)
@@ -92,7 +92,7 @@ theorem pRank_ctilde_le_two (D : Data G) (h61 : UC6.R6_1 D) {V₀ V : Subgroup G
 theorem pRank_sub_two_le {p : ℕ} (hp : p.Prime) {M C : Subgroup G}
     [(C.subgroupOf M).Normal] (hC : CFSG.Open.pRank p C ≤ 2) :
     CFSG.Open.pRank p M - 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup (↥M ⧸ C.subgroupOf M)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEM, hE, hcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt M
   set r := CFSG.Open.pRank p M with hr
   let π : ↥M →* ↥M ⧸ C.subgroupOf M := QuotientGroup.mk' (C.subgroupOf M)

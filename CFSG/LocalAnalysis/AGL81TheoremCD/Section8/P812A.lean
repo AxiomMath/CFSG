@@ -45,7 +45,7 @@ private theorem card_pPrimeCore_subgroupOf_eq {G : Type*} [Group G] [Finite G]
 private theorem eq_one_of_mem_pgroup_of_mem_not_dvd {X : Type*} [Group X] [Finite X]
     {q : ℕ} (hq : q.Prime) {S D : Subgroup X} (hS : IsPGroup q S)
     (hD : ¬ q ∣ Nat.card D) {z : X} (hzS : z ∈ S) (hzD : z ∈ D) : z = 1 := by
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Fact (Nat.Prime q) := ⟨hq⟩
   have hordS : orderOf z ∣ Nat.card S := Subgroup.orderOf_dvd_natCard S hzS
   obtain ⟨n, hn⟩ := hS.exists_card_eq
   have hqpow : orderOf z ∣ q ^ n := hn ▸ hordS
@@ -69,7 +69,7 @@ theorem mem_uniqueSet_of_isStronglyPEmbedded_three {G : Type} [Group G] [Finite 
     {M A : Subgroup G} (hM : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 M)
     (hAM : A ≤ M) (hA : Nat.card A = 3) :
     A ∈ CFSG.LocalAnalysis.RankThreeUC.uniqueSet M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨hAM, fun g hAg => ?_⟩
   by_cases hg : g ∈ M
   · exact Subgroup.mem_normalizer_iff_map_conj_eq.mp (Subgroup.le_normalizer hg)
@@ -84,11 +84,11 @@ private theorem dvd_card_center_quotient_of_prime_order
       ⁅a, b⁆ ∈ (CFSG.pPrimeCore p ↥K).map K.subtype) :
     q ∣ Nat.card (Subgroup.center (↥K ⧸ CFSG.pPrimeCore p ↥K)) := by
   classical
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Fact (Nat.Prime q) := ⟨hq⟩
   let core : Subgroup ↥K := CFSG.pPrimeCore p ↥K
   let Q := ↥K ⧸ core
   let qmap : ↥K →* Q := QuotientGroup.mk' core
-  haveI : core.Normal := CFSG.pPrimeCore_normal
+  have : core.Normal := CFSG.pPrimeCore_normal
   obtain ⟨aA, haAord⟩ := exists_prime_orderOf_dvd_card' (G := ↥A) q (by rw [hAq])
   let aK : ↥K := ⟨(aA : X), hA aA.2⟩
   have haKord : orderOf aK = q := by
@@ -102,7 +102,7 @@ private theorem dvd_card_center_quotient_of_prime_order
         (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hA).toEquiv).trans hAq]
       exact (Nat.Prime.coprime_iff_not_dvd hq).mpr hcore
     have haA' : aK ∈ A.subgroupOf K :=
-      Subgroup.mem_subgroupOf.mpr (by simpa [aK] using aA.2)
+      Subgroup.mem_subgroupOf.mpr (by simp [aK])
     have hbot : A.subgroupOf K ⊓ core = ⊥ := hdisj.eq_bot
     have hmem : aK ∈ A.subgroupOf K ⊓ core := ⟨haA', ha⟩
     rw [hbot] at hmem
@@ -127,7 +127,7 @@ private theorem dvd_card_center_quotient_of_prime_order
       have hzK : z = ⁅aK, bK⁆ := by
         apply K.subtype_injective
         rw [hzval]
-        simpa [aK] using (map_commutatorElement K.subtype aK bK).symm
+        simp [aK]
       exact hzK ▸ hz
     have hq1 : qmap ⁅aK, bK⁆ = 1 := (QuotientGroup.eq_one_iff (⁅aK, bK⁆)).mpr hmem
     have hqcomm : ⁅qmap aK, qmap bK⁆ = 1 := by
@@ -147,7 +147,7 @@ theorem not_forall_commutator_mem_pPrimeCore {X : Type} [Group X] [Finite X] {p 
     ¬ ∀ b ∈ K, ⁅a, b⁆ ∈ (CFSG.pPrimeCore p ↥K).map K.subtype := by
   classical
   intro hcentral
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Fact (Nat.Prime q) := ⟨hq⟩
   have hA : Subgroup.zpowers a ≤ K := Subgroup.zpowers_le.mpr ha
   have hAq : Nat.card (Subgroup.zpowers a) = q := by
     rw [Nat.card_zpowers, haq]
@@ -171,8 +171,8 @@ theorem not_forall_commutator_mem_pPrimeCore {X : Type} [Group X] [Finite X] {p 
     dvd_card_center_quotient_of_prime_order hq hA hAq hcore hcentralA
   let core : Subgroup ↥K := CFSG.pPrimeCore p ↥K
   let Q := ↥K ⧸ core
-  haveI : core.Normal := CFSG.pPrimeCore_normal
-  letI : Group.IsPerfect ↥K :=
+  have : core.Normal := CFSG.pPrimeCore_normal
+  let : Group.IsPerfect ↥K :=
     CFSG.ComponentClassification.CatalogueBAlternating.pComponent_perfect hK
   have hQrank : CFSG.Open.pRank q (⊤ : Subgroup Q) = 1 := by
     rw [CFSG.SectionRank.pRank_quotient_eq core hcore,
@@ -214,7 +214,7 @@ theorem not_le_of_isPComponent {X : Type} [Group X] [Finite X] {p q : ℕ}
     (hA : A ≤ K₁) (hAq : Nat.card A = q) : ¬ A ≤ K₂ := by
   classical
   intro hA2
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Fact (Nat.Prime q) := ⟨hq⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := ↥A) q (by rw [hAq])
   have haA : (a : X) ∈ A := a.2
   have haK₁ : (a : X) ∈ K₁ := hA haA

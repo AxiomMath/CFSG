@@ -49,7 +49,7 @@ theorem centA0Check_of {RA PA PB PAA PBA : ℕ → ℕ} {o : ℕ}
     change i < 512 * (i / 512) + 512
     omega
   have e := (CFSG.KC.Misc.Clos.allR_iff _ _ _).1 hcq i hlo hhi
-  rw [Nat.blt_eq.mpr hi, cond_true, CFSG.KC.YamakiRepF.strictY_eq] at e
+  rw [Nat.blt_eq.mpr hi, _root_.Bool.cond_true, CFSG.KC.YamakiRepF.strictY_eq] at e
   rw [e4 i hi]
   beta_reduce
   rw [commOK_gA0 hG]
@@ -115,7 +115,7 @@ theorem centAlphaCheck_of {RX PA PB PAX PBX P : ℕ → ℕ} {o oX : ℕ}
     (hN : BInvE (fun t => arrN (recX R o t)) PA PB 10752 (enumN ()))
     (hX : BInvE (fun t => arrN (recX RX oX t)) PAX PBX 1536 (enumX ()))
     (hG : ∀ j : Fin 12, yamakiMat6 j = pkMat 6 (R j.val))
-    (hlt : ∀ t < 10752, recX R o t < 2 ^ 36) (h5 : R 5 < 2 ^ 36)
+    (_hlt : ∀ t < 10752, recX R o t < 2 ^ 36) (_h5 : R 5 < 2 ^ 36)
     (hc : ∀ q < 21, cAlChunk R o 10752 RX oX 1536 P 512 q = true) : centAlphaCheck () = true := by
   obtain ⟨e1, -, -, e4, -⟩ := hN
   simp only [centAlphaCheck, allLt_iff]
@@ -130,7 +130,7 @@ theorem centAlphaCheck_of {RX PA PB PAX PBX P : ℕ → ℕ} {o oX : ℕ}
     change i < 512 * (i / 512) + 512
     omega
   have e := (CFSG.KC.Misc.Clos.allR_iff _ _ _).1 hcq i hlo hhi
-  rw [Nat.blt_eq.mpr hi, cond_true, CFSG.KC.YamakiRepF.strictY_eq] at e
+  rw [Nat.blt_eq.mpr hi, _root_.Bool.cond_true, CFSG.KC.YamakiRepF.strictY_eq] at e
   rw [e4 i hi]
   beta_reduce
   rw [genA_eq12 hG (by norm_num : 5 < 12), arrN_mul, arrN_mul,

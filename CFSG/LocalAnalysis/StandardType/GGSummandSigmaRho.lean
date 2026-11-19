@@ -13,6 +13,7 @@ section Config
 variable {X : Type} [Group X] [Finite X] (V E K : Subgroup X)
   [hN : ((ggRCSU V E K).subgroupOf (E ⊔ K)).Normal]
 
+omit [Finite X] in
 theorem ggSum_sigma_surjective : Function.Surjective (ggSumSigma V E K) := by
   intro y
   obtain ⟨x, hx, hxy⟩ := Subgroup.mem_map.mp y.2
@@ -24,11 +25,13 @@ theorem ggSum_sigma_surjective : Function.Surjective (ggSumSigma V E K) := by
       from Subtype.ext rfl]
   exact hxy
 
+omit [Finite X] in
 theorem ggSum_rho_surjective : Function.Surjective (ggSumRho V E K) := by
   rw [ggSumRho]
   exact (QuotientGroup.mk'_surjective (N := CFSG.pCore 2 ↥(ggSumT V E K))).comp
     (ggSum_sigma_surjective V E K)
 
+omit [Finite X] in
 theorem ggSum_sigma_eq_one (h : ↥(E ⊔ (K ⊓ V))) :
     ggSumSigma V E K h = 1 ↔ (h : X) ∈ ggRCSU V E K := by
   constructor
@@ -50,6 +53,7 @@ theorem ggSum_sigma_eq_one (h : ↥(E ⊔ (K ⊓ V))) :
     exact (QuotientGroup.eq_one_iff _).mpr
       (by rwa [Subgroup.mem_subgroupOf, Subgroup.coe_inclusion])
 
+omit [Finite X] in
 theorem ggSum_exists_pow_mem_U (h : ↥(E ⊔ (K ⊓ V))) (hh : ggSumRho V E K h = 1) :
     ∃ k : ℕ, (h : X) ^ (2 ^ k) ∈ ggRCSU V E K := by
   have hmem : ggSumSigma V E K h ∈ CFSG.pCore 2 ↥(ggSumT V E K) := by
@@ -69,6 +73,7 @@ theorem ggSum_exists_pow_mem_U (h : ↥(E ⊔ (K ⊓ V))) (hh : ggSumRho V E K h
   have := (ggSum_sigma_eq_one V E K (h ^ (2 ^ k))).mp hpow
   simpa [Subgroup.coe_pow] using this
 
+omit [Finite X] in
 theorem ggSum_rho_eq_one_of_mem_pCore (hEV : E ≤ V) (hEK : E ≤ Subgroup.normalizer (K : Set X))
     (h : ↥(E ⊔ (K ⊓ V))) (hh : (h : X) ∈ pCoreOf 2 (K ⊓ V)) : ggSumRho V E K h = 1 := by
   have hQ0norm : ((pCoreOf 2 (K ⊓ V)).subgroupOf (E ⊔ (K ⊓ V))).Normal :=

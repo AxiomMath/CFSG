@@ -25,6 +25,7 @@ variable {G : Type} [Group G] [Finite G]
       ⁅CFSG.Open.pCoreOf 2 I, Subgroup.zpowers t⁆ ≠ ⊥ →
         ∃ n : ℕ, Odd n ∧ Nonempty (H ≃* CFSG.PGLModel.projSL 3 (GaloisField 2 n))
 
+omit [Finite G] in
 theorem mem_normalizer_zpowers_of {y c : G} (h1 : y * c * y⁻¹ ∈ Subgroup.zpowers c)
     (h2 : y⁻¹ * c * y ∈ Subgroup.zpowers c) :
     y ∈ Subgroup.normalizer (Subgroup.zpowers c : Set G) := by
@@ -53,7 +54,7 @@ theorem kfact26At_of_star {A : Subgroup G} {c : G} {L Y₀ : Subgroup G} (h : Se
   set X := normalClosureIn (Subgroup.centralizer (E : Set G)) c with hXdef
   set K := pPrimeCoreOf 3 X with hKdef
   set W := CFSG.Open.pCoreOf 2 (Subgroup.centralizer (Y₀ : Set G)) with hWdef
-  haveI : (pPrimeCore 3 ↥X).Normal := pPrimeCore_normal
+  have : (pPrimeCore 3 ↥X).Normal := pPrimeCore_normal
   set K' := pPrimeCore 3 ↥X with hK'def
   have hcA : c ∈ A := h.mem_A
   have hM : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (W : Set G) :=
@@ -98,7 +99,7 @@ theorem kfact26At_of_star {A : Subgroup G} {c : G} {L Y₀ : Subgroup G} (h : Se
       ((h176 hΩ).1 _ hCE hcCE).le
   have hO : pPrimeCore 3 (↥X ⧸ K') = ⊥ := CFSG.GH74.pPrimeCore_quotient_pPrimeCore_eq_bot ↥X 3
   have hsimp : IsSimpleGroup (↥X ⧸ K') := by
-    haveI : Nontrivial (↥X ⧸ K') := ⟨⟨t, 1, fun h1 => by rw [h1, orderOf_one] at ht3; omega⟩⟩
+    have : Nontrivial (↥X ⧸ K') := ⟨⟨t, 1, fun h1 => by rw [h1, orderOf_one] at ht3; omega⟩⟩
     set T : Set ↥X := {y | ∃ m ∈ Subgroup.centralizer (E : Set G), (y : G) = m * c * m⁻¹}
       with hTdef
     have hT : Subgroup.closure T = ⊤ := by

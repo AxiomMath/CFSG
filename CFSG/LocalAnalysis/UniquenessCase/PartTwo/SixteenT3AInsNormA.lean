@@ -33,8 +33,8 @@ theorem s16t_a_exists_stable_line {Γ : Type} [Group Γ] {Λ Λ₀ B : Subgroup 
     (hBΛ₀ : ∀ b ∈ B, ∀ f ∈ Λ₀, b * f * b⁻¹ ∈ Λ₀) :
     ∃ a ∈ Λ, a ∉ Λ₀ ∧ orderOf a = 3 ∧ ∀ b ∈ B, b * a * b⁻¹ ∈ Subgroup.zpowers a := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥Λ₀ := Nat.finite_of_card_ne_zero (by rw [hcard₀]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥Λ₀ := Nat.finite_of_card_ne_zero (by rw [hcard₀]; norm_num)
   have hcardΛ : Nat.card ↥Λ = 9 := by simpa using s16t_a_card hΛ
   have hcommΛ : ∀ u v : ↥Λ, u * v = v * u := (s16t_a_rank_comm_pow hΛ).1
   have hexpΛ : ∀ u : ↥Λ, u ^ 3 = 1 := (s16t_a_rank_comm_pow hΛ).2
@@ -89,7 +89,7 @@ theorem s16t_a_exists_stable_line {Γ : Type} [Group Γ] {Λ Λ₀ B : Subgroup 
   let Ω : Set (Subgroup Γ) := {H | H ≤ Λ ∧ Nat.card ↥H = 3 ∧ H ≠ Λ₀}
   have hΩeq : Ω = T \ {Λ₀} := by
     ext H
-    simp only [Ω, T, Set.mem_sdiff, Set.mem_singleton_iff, Set.mem_setOf_eq]
+    simp only [Ω, T, Set.mem_sdiff, Set.mem_singleton_iff, Set.mem_ofPred_eq]
     tauto
   have hΛ₀T : Λ₀ ∈ T := by
     change Λ₀ ≤ Λ ∧ Nat.card ↥Λ₀ = 3
@@ -125,7 +125,7 @@ theorem s16t_a_exists_stable_line {Γ : Type} [Group Γ] {Λ Λ₀ B : Subgroup 
     s16t_a_exists_conj_stable_set hB hΩstable (by rw [hΩcard]; exact ⟨1, rfl⟩)
   have hH' : H ≤ Λ ∧ Nat.card ↥H = 3 ∧ H ≠ Λ₀ := hHΩ
   obtain ⟨hHle, hHcard, hHne⟩ := hH'
-  haveI : Finite ↥H := Nat.finite_of_card_ne_zero (by rw [hHcard]; norm_num)
+  have : Finite ↥H := Nat.finite_of_card_ne_zero (by rw [hHcard]; norm_num)
   obtain ⟨g, hg⟩ := (isCyclic_of_prime_card (p := 3) hHcard).exists_generator
   let a : Γ := (g : Γ)
   have hmemH : a ∈ H := g.2

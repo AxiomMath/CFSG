@@ -103,7 +103,7 @@ theorem regE_xor {r : ℕ} (h1 : 52 ≤ r) (h2 : r < 76) : regE (Nat.xor r 1) = 
   have h5 : ¬ r < 10 := by omega
   have h6 : r - 52 < 24 := by omega
   unfold regE
-  rw [if_neg h3, if_neg h5, h4, pairG_xor h6]
+  rw [ite_eq_right h3, ite_eq_right h5, h4, pairG_xor h6]
 
 theorem wE_conj {h : List ℕ} (hh : wokK h = true) (v : List ℕ) :
     wE (appK h (appK v (rinvK h))) = wE h * wE v * (wE h)⁻¹ := by
@@ -129,7 +129,6 @@ theorem slLen_ne {s : ℕ} (h : s ≠ 30) : slLen s = 1024 := by
   have hb : Nat.beq s 30 = false := Bool.eq_false_iff.2 fun hb => h (Nat.eq_of_beq_eq_true hb)
   unfold slLen
   rw [hb]
-  all_goals rfl
 
 theorem all_of_slices {f : ℕ → Bool} (h : ∀ s < 31, allBlk (Nat.mul s 1024) f (slLen s) = true)
     {x : ℕ} (hx : x < 31671) : f x = true := by
@@ -155,7 +154,6 @@ theorem rootK_ne {PAR : ℕ → ℕ} {f k : ℕ} (hk : k ≠ 0) :
   have hb : Nat.beq k 0 = false := Bool.eq_false_iff.2 fun hb => hk (Nat.eq_of_beq_eq_true hb)
   change Bool.rec (motive := fun _ => Bool) (rootK PAR f (PAR k)) true (Nat.beq k 0) = _
   rw [hb]
-  all_goals rfl
 
 theorem climb0_zero {PAR LAB F : ℕ → ℕ} (f x : ℕ) : climb0 PAR LAB F (f + 1) 0 x = x := rfl
 
@@ -164,7 +162,7 @@ theorem climb0_ne {PAR LAB F : ℕ → ℕ} {f k : ℕ} (x : ℕ) (hk : k ≠ 0)
   change Bool.rec (motive := fun _ => ℕ) (strictN (PAR k) fun p =>
     strictN (tb F (Nat.add 52 (Nat.xor (LAB k) 1)) x) fun y => climb0 PAR LAB F f p y) x
     (Nat.beq k 0) = _
-  rw [nRec_eq, if_neg (by rw [Nat.beq_eq]; exact hk), sN_eq, sN_eq]
+  rw [nRec_eq, ite_eq_right (by rw [Nat.beq_eq]; exact hk), sN_eq, sN_eq]
   all_goals rfl
 
 theorem pos_spec {x : ℕ} (h : posK G POS0 PTS0 PAR0 LAB0 x = true) :
@@ -247,24 +245,24 @@ theorem memK_iff (l : List ℕ) (x : ℕ) : memK l x = true ↔ x ∈ l := by
     change Bool.rec (motive := fun _ => Bool) (memK l x) true (Nat.beq p x) = true ↔ _
     rw [bRec_eq, List.mem_cons]
     by_cases h : p = x
-    · rw [if_pos (beq_true h)]
+    · rw [ite_eq_left (beq_true h)]
       exact ⟨fun _ => Or.inl h.symm, fun _ => rfl⟩
-    · rw [if_neg fun hb => h (Nat.eq_of_beq_eq_true hb), ih]
+    · rw [ite_eq_right fun hb => h (Nat.eq_of_beq_eq_true hb), ih]
       exact ⟨Or.inr, fun h' => h'.resolve_left fun e => h e.symm⟩
 
 theorem newK_eq (l : List ℕ) (x : ℕ) : newK l x = if x ∈ l then 0 else 1 := by
   unfold newK
   rw [nRec_eq]
   by_cases h : x ∈ l
-  · rw [if_pos ((memK_iff l x).2 h), if_pos h]
-  · rw [if_neg (mt (memK_iff l x).1 h), if_neg h]
+  · rw [ite_eq_left ((memK_iff l x).2 h), ite_eq_left h]
+  · rw [ite_eq_right (mt (memK_iff l x).1 h), ite_eq_right h]
 
 theorem card_step (s : Finset ℕ) (l : List ℕ) (hs : ∀ y, y ∈ s ↔ y ∈ l) (x : ℕ) :
     (insert x s).card = s.card + newK l x := by
   rw [newK_eq, Finset.card_insert_eq_ite]
   by_cases h : x ∈ l
-  · rw [if_pos ((hs x).2 h), if_pos h, add_zero]
-  · rw [if_neg (mt (hs x).1 h), if_neg h]
+  · rw [ite_eq_left ((hs x).2 h), ite_eq_left h, add_zero]
+  · rw [ite_eq_right (mt (hs x).1 h), ite_eq_right h]
 
 theorem cnt5_card (v a b c e : ℕ) :
     cnt5K v a b c e = (insert e (insert c (insert b (insert a ({v} : Finset ℕ))))).card := by

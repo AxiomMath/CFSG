@@ -45,8 +45,8 @@ theorem bigEpsParam_mul {u u' : Fin n ⊕ Fin n → F} {c c' : F} {p p' : G}
   have e : p * p' * φ β * (p * p')⁻¹ = p * (p' * φ β * p'⁻¹) * p⁻¹ := by group
   rw [e, hp' β, hp _]
   congr 1
-  simp only [spForm_add_left, spForm_add_right, spForm_smul_left', spForm_smul_right',
-    spForm_self, hu, hu', hua, mul_zero, zero_mul, add_zero, zero_add]
+  simp only [spForm_add_left, spForm_add_right, spForm_smul_right',
+    spForm_self, hu', hua, mul_zero, add_zero]
   module
 
 theorem bigEpsParam_one : BigEpsParam φ a (1 : G) 0 0 := by
@@ -65,8 +65,7 @@ theorem bigEpsParam_inv [CharP F 2] {u : Fin n ⊕ Fin n → F} {c : F} {p : G}
       spForm a (β + spForm a β • u + spForm u β • a + (c * spForm a β) • a) • u +
       spForm u (β + spForm a β • u + spForm u β • a + (c * spForm a β) • a) • a +
       (c * spForm a (β + spForm a β • u + spForm u β • a + (c * spForm a β) • a)) • a = β := by
-    simp only [spForm_add_right, spForm_smul_right', spForm_self, hu, hua, mul_zero, zero_mul,
-      add_zero, zero_add]
+    simp only [spForm_add_right, spForm_smul_right', spForm_self, hu, hua, mul_zero, add_zero]
     linear_combination (norm := module) hX (spForm a β) u + hX (spForm u β) a +
       hX (c * spForm a β) a
   have h1 := hp (β + spForm a β • u + spForm u β • a + (c * spForm a β) • a)
@@ -95,7 +94,7 @@ theorem spForm_perp_add_smul {c₁ u : Fin n ⊕ Fin n → F} (μ : F) (hc₁ : 
   rw [spForm_add_right, spForm_smul_right', hu, hc₁, mul_zero, add_zero]
 
 theorem bigEpsParam_conj [CharP F 2] {c₁ u : Fin n ⊕ Fin n → F} {μ c : F} {r p : G}
-    (hc₁ : spForm a c₁ = 0) (hu : spForm a u = 0)
+    (hc₁ : spForm a c₁ = 0) (_hu : spForm a u = 0)
     (hr : ∀ y, r * φ y * r⁻¹ = φ (y + (μ * spForm c₁ y) • c₁))
     (hp : BigEpsParam φ a p u c) :
     BigEpsParam φ a (r * p * r⁻¹) (u + (μ * spForm c₁ u) • c₁) c := by
@@ -123,7 +122,7 @@ theorem bigEpsParam_conj [CharP F 2] {c₁ u : Fin n ⊕ Fin n → F} {μ c : F}
   rw [e, hconj β, hp _, hr _]
   congr 1
   simp only [spForm_add_left, spForm_add_right, spForm_smul_left', spForm_smul_right',
-    spForm_self, hc₁, hca, hcu, mul_zero, zero_mul, add_zero, zero_add]
+    spForm_self, hc₁, hca, hcu, mul_zero, add_zero]
   linear_combination (norm := module) hcancel
 
 theorem bigEpsParam_comm_root [CharP F 2] {c₁ u : Fin n ⊕ Fin n → F} {μ c : F} {r p : G}
@@ -233,6 +232,7 @@ section BigEpsTwoB
 variable {G : Type} [Group G] {F : Type} [Field F] [CharP F 2] {n : ℕ}
   {φ : (Fin n ⊕ Fin n → F) → G} {a : Fin n ⊕ Fin n → F} {M P Q B V : Subgroup G}
 
+omit [CharP F 2] in
 theorem BigEpsCfg.good_mul (h : BigEpsCfg φ a M P Q B) (hx : BigEpsExtra φ a M P Q B V)
     {t s₁ s₂ : G} (hs₁ : s₁ ∈ P) (hA₁ : BigEpsInA φ a ⁅t, s₁⁆) (hA₂ : BigEpsInA φ a ⁅t, s₂⁆) :
     BigEpsInA φ a ⁅t, s₁ * s₂⁆ := by
@@ -337,7 +337,7 @@ theorem BigEpsCfg.comm_inA (h : BigEpsCfg φ a M P Q B)
     intro β
     rw [hmul β]
     congr 1
-    simp [spForm_zero_left]
+    simp
   obtain ⟨x, hxa, hx'⟩ := hx.kerP (p * s⁻¹) (P.mul_mem hp (P.inv_mem hsP)) htriv
   have hps : p = φ x * s := by
     rw [← hx']
@@ -353,7 +353,7 @@ section BigEpsTwoC
 variable {G : Type} [Group G] {F : Type} [Field F] [CharP F 2] {n : ℕ}
   {φ : (Fin n ⊕ Fin n → F) → G} {a : Fin n ⊕ Fin n → F} {M P Q B V : Subgroup G}
 
-theorem BigEpsCfg.zero_param_decomp (h : BigEpsCfg φ a M P Q B)
+theorem BigEpsCfg.zero_param_decomp (_h : BigEpsCfg φ a M P Q B)
     (hx : BigEpsExtra φ a M P Q B V) {z : G} (hz : z ∈ P) {d : F}
     (hzp : BigEpsParam φ a z 0 d) :
     ∃ x, spForm a x = 0 ∧ ∃ v ∈ V, z = φ x * v := by
@@ -368,7 +368,7 @@ theorem BigEpsCfg.zero_param_decomp (h : BigEpsCfg φ a M P Q B)
     intro β
     rw [hmul β]
     congr 1
-    simp [spForm_zero_left]
+    simp
   obtain ⟨x, hxa, hxz⟩ := hx.kerP (z * v⁻¹) (P.mul_mem hz (P.inv_mem (hx.VP hvV))) htriv
   exact ⟨x, hxa, v, hvV, by rw [← hxz]; group⟩
 
@@ -376,6 +376,7 @@ theorem BigEpsCfg.zero_param_decomp (h : BigEpsCfg φ a M P Q B)
     (t p : G) (y : Fin n ⊕ Fin n → F) : Prop :=
   spForm a y = 0 ∧ ∃ v ∈ V, ⁅t, p⁆ = φ y * v
 
+omit [CharP F 2] in
 theorem BigEpsCfg.rel_unique (h : BigEpsCfg φ a M P Q B) (hx : BigEpsExtra φ a M P Q B V)
     {t p : G} {y y' : Fin n ⊕ Fin n → F} (hy : BigEpsRel φ a V t p y)
     (hy' : BigEpsRel φ a V t p y') : ∃ l : F, y' = y + l • a := by
@@ -394,6 +395,7 @@ theorem BigEpsCfg.rel_unique (h : BigEpsCfg φ a M P Q B) (hx : BigEpsExtra φ a
   obtain ⟨l, hl⟩ := hx.VW (y - y') h2
   exact ⟨-l, by rw [neg_smul, ← hl]; abel⟩
 
+omit [CharP F 2] in
 theorem BigEpsExtra.comm_four (hx : BigEpsExtra φ a M P Q B V) {g₁ g₂ v₁ v₂ : G}
     (hg₁ : g₁ ∈ P) (hg₂ : g₂ ∈ P) (hv₁ : v₁ ∈ V) (hv₂ : v₂ ∈ V)
     (hg : g₁ * g₂ = g₂ * g₁) :
@@ -409,6 +411,7 @@ theorem BigEpsExtra.comm_four (hx : BigEpsExtra φ a M P Q B V) {g₁ g₂ v₁ 
     _ = g₂ * (v₂ * g₁) * v₁ := by rw [h2]
     _ = (g₂ * v₂) * (g₁ * v₁) := by group
 
+omit [CharP F 2] in
 theorem BigEpsCfg.param_trivial_u (h : BigEpsCfg φ a M P Q B) {t : G} (ht : t ∈ M)
     {β₀ : Fin n ⊕ Fin n → F} (hβ₀B : φ β₀ ∈ B) (hβ₀ : spForm a β₀ = 1)
     (hB : ∀ b ∈ B, b⁻¹ * (t * b * t⁻¹) ∈ Q)
@@ -454,6 +457,7 @@ section BigEpsTwoD
 variable {G : Type} [Group G] {F : Type} [Field F] [CharP F 2] {n : ℕ}
   {φ : (Fin n ⊕ Fin n → F) → G} {a : Fin n ⊕ Fin n → F} {M P Q B V : Subgroup G}
 
+omit [CharP F 2] in
 theorem BigEpsCfg.rel_left_mul (h : BigEpsCfg φ a M P Q B) (hx : BigEpsExtra φ a M P Q B V)
     {t : G} (ht : t ∈ M) (hc : ∀ x, spForm a x = 0 → ∃ l : F, t * φ x * t⁻¹ = φ (x + l • a))
     {x : Fin n ⊕ Fin n → F} (hxa : spForm a x = 0) {v₃ : G} (hv₃ : v₃ ∈ V) {g : G}
@@ -495,6 +499,7 @@ theorem BigEpsCfg.rel_left_mul (h : BigEpsCfg φ a M P Q B) (hx : BigEpsExtra φ
   rw [spForm_add_right, spForm_smul_right', hya, spForm_self]
   ring
 
+omit [CharP F 2] in
 theorem BigEpsCfg.rel_mul (h : BigEpsCfg φ a M P Q B) (hx : BigEpsExtra φ a M P Q B V)
     {t p p' : G} (hp : p ∈ P) {u : Fin n ⊕ Fin n → F} {c : F}
     (hpar : BigEpsParam φ a p u c) {y y' : Fin n ⊕ Fin n → F}
@@ -531,6 +536,7 @@ theorem BigEpsCfg.rel_mul (h : BigEpsCfg φ a M P Q B) (hx : BigEpsExtra φ a M 
       _ = (φ y * φ (y' + spForm u y' • a)) * (v * v') := by group
       _ = φ (y + y' + spForm u y' • a) * (v * v') := by rw [← h.add, add_assoc]
 
+omit [CharP F 2] in
 theorem BigEpsCfg.rel_conj_root (h : BigEpsCfg φ a M P Q B) (hx : BigEpsExtra φ a M P Q B V)
     {t r p : G} (hrM : r ∈ M) (htr : ⁅t, r⁆ ∈ Q) (hrV : ∀ v ∈ V, r * v * r⁻¹ = v)
     {c₁ : Fin n ⊕ Fin n → F} {μ : F}

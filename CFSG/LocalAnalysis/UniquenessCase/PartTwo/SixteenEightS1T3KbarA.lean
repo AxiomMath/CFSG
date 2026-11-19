@@ -45,7 +45,7 @@ theorem s16t3_gl3_index_two {R : Subgroup (Matrix.GeneralLinearGroup (Fin 3) (ZM
     {S : Subgroup ↥R}
     (hprop : ∀ x y z : ↥R, x⁻¹ * y ∈ S ∨ x⁻¹ * z ∈ S ∨ y⁻¹ * z ∈ S) :
     S = ⊤ := by
-  haveI : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) := s16t3_gl3_isSimpleGroup
+  have : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) := s16t3_gl3_isSimpleGroup
   rcases s16t3_index_eq_two_of_thirds S hprop with htop | hidx
   · exact htop
   · exfalso
@@ -56,7 +56,7 @@ theorem s16t3_gl3_index_two {R : Subgroup (Matrix.GeneralLinearGroup (Fin 3) (ZM
     · have hcard := S.card_mul_index
       rw [hidx, h21] at hcard
       omega
-    · haveI : IsSimpleGroup ↥R := by
+    · have : IsSimpleGroup ↥R := by
         rw [htopR]
         exact (Subgroup.topEquiv (G := Matrix.GeneralLinearGroup (Fin 3) (ZMod 2))).isSimpleGroup
       have hN : S.Normal := Subgroup.normal_of_index_eq_two hidx
@@ -77,7 +77,7 @@ theorem s16t3_structure_of_seven (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet 
       (Nat.card ↥(s1t3KBar A L) = 7 ∨ Nat.card ↥(s1t3KBar A L) = 21 ∨
         (Nat.card ↥(s1t3KBar A L) = 168 ∧ IsSimpleGroup ↥(s1t3KBar A L))) := by
   classical
-  haveI : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) := s16t3_gl3_isSimpleGroup
+  have : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) := s16t3_gl3_isSimpleGroup
   obtain ⟨r, hr1, hrtrans⟩ := h.exists_fano_rep h7
   let K : Subgroup (MulAut W) := s1t3KBar A L
   have hKA : K ≤ A := inf_le_left
@@ -269,16 +269,16 @@ theorem s16t3_structure_of_seven (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet 
     show Nat.card K = 21
     rw [hcardK, hcardK', hR21]
   · right; right
-    haveI : IsSimpleGroup ↥R := by
+    have : IsSimpleGroup ↥R := by
       rw [hRtop]
       exact (Subgroup.topEquiv (G := Matrix.GeneralLinearGroup (Fin 3) (ZMod 2))).isSimpleGroup
-    haveI : IsSimpleGroup ↥K' := (MulEquiv.ofBijective φ ⟨hφinj, hφsurj⟩).isSimpleGroup
+    have : IsSimpleGroup ↥K' := (MulEquiv.ofBijective φ ⟨hφinj, hφsurj⟩).isSimpleGroup
     refine ⟨?_, ?_⟩
     · show Nat.card K = 168
       rw [hcardK, hcardK']
       rw [hRtop, Subgroup.card_top, CFSG.ComponentClassification.GHarris.card_GL32_gh]
     · show IsSimpleGroup ↥K
-      haveI : IsSimpleGroup ↥K := by
+      have : IsSimpleGroup ↥K := by
         rw [← hK'map]
         exact (Subgroup.equivMapOfInjective K' A.subtype A.subtype_injective).symm.isSimpleGroup
       exact ‹IsSimpleGroup ↥K›

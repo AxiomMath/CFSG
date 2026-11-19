@@ -28,7 +28,7 @@ structure I271FamiliesRest : Prop where
 
 theorem fi22Catalogue_isSimpleGroup :
     IsSimpleGroup (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.Fi22).Group := by
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Fi22) :=
     CFSG.Sporadic.Fi22.isSimpleGroup_Fi22
   exact (CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group .Fi22).some.symm.isSimpleGroup
 

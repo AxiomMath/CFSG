@@ -174,7 +174,7 @@ theorem a2l_center_eq_bot_of_cover {K M : Type} [Group K] [Finite K] [Group.IsPe
 
 theorem a2l_two_le_card_center {K : Type} [Group K] [Finite K] (h2 : IsPGroup 2 ↥(center K))
     (hZ : center K ≠ ⊥) : 2 ≤ Nat.card (center K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := h2.exists_card_eq
   have hn0 : n ≠ 0 := fun h0 => hZ (Subgroup.card_eq_one.1 (by rw [hn, h0, pow_zero]))
   rw [hn]
@@ -212,7 +212,7 @@ theorem a2l_scalars_sl_three_eq_bot {F : Type} [Field F] [Fintype F] (hF : Finty
 
 theorem a2l_scalars_su_three_eq_bot {F : Type} [Field F] [Finite F] [CharP F 3]
     (hF : Nat.card F = 9) : (StatedScalars (Fin 3) F).subgroupOf (StatedSU 3 (3 ^ 1) F) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hexp⟩ := LieType.Steinberg.isCyclic_scalars_statedSU (K := F) (p := 3) (f := 1)
     (by rw [hF]; norm_num) (n := 3) (by norm_num)
   rw [eq_bot_iff]
@@ -227,7 +227,7 @@ theorem a2l_scalars_su_three_eq_bot {F : Type} [Field F] [Finite F] [CharP F 3]
 theorem a2l_card_scalars_su_four_le {F : Type} [Field F] [Finite F] [CharP F 3]
     (hF : Nat.card F = 9) :
     Nat.card ((StatedScalars (Fin 4) F).subgroupOf (StatedSU 4 (3 ^ 1) F)) ≤ 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hcyc, hexp⟩ := LieType.Steinberg.isCyclic_scalars_statedSU (K := F) (p := 3) (f := 1)
     (by rw [hF]; norm_num) (n := 4) (by norm_num)
   obtain ⟨z, hz⟩ := hcyc.exists_generator

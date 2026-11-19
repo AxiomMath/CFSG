@@ -36,7 +36,7 @@ theorem sec1011_wfour_ne_zero' (i : Fin 5) : sec1011_wfour i ≠ 0 := by
   intro h
   have hw := sec1011_wfour_weight i
   rw [h] at hw
-  simpa [vecWeight] using hw
+  simp [vecWeight] at hw
 
 theorem sec1011_card_orbit_mul_card_stabilizer {G α : Type} [Group G] [MulAction G α]
     (b : α) : Nat.card (MulAction.orbit G b) * Nat.card (MulAction.stabilizer G b) =
@@ -44,6 +44,7 @@ theorem sec1011_card_orbit_mul_card_stabilizer {G α : Type} [Group G] [MulActio
   rw [← Nat.card_prod]
   exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup G b)
 
+omit [Finite A] in
 theorem Sec1011A1.card_K (h : Sec1011A1 B t K φ) :
     Nat.card ↥K = 16 * Nat.card ↥(K ⊓ MulAction.stabilizer (MulAut A) t) := by
   have horb_eq : (MulAction.orbit ↥K t : Set A) = sec1011_orb K t := by
@@ -89,6 +90,7 @@ theorem Sec1011A1.card_K (h : Sec1011A1 B t K φ) :
   rw [horb, hcard_stab] at hOS
   exact hOS.symm
 
+omit [Finite A] in
 theorem Sec1011A1.card_K_cases (h : Sec1011A1 B t K φ) :
     Nat.card ↥K = 960 ∨ Nat.card ↥K = 1920 := by
   have hK := h.card_K
@@ -105,6 +107,7 @@ theorem Sec1011A1.card_K_cases (h : Sec1011A1 B t K φ) :
       rw [Nat.card_congr e.toEquiv, sec1011_card_perm_five]
     rw [hK, hcard]
 
+omit [Finite A] in
 theorem Sec1011A1.exists_three (h : Sec1011A1 B t K φ) {v0 : Fin 5 → ZMod 2}
     (hv0 : IsEvenVec v0) (hw : vecWeight v0 = 4) :
     ∃ α ∈ K, α ≠ 1 ∧ α ^ 3 = 1 ∧ α (φ v0) = φ v0 := by

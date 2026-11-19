@@ -45,7 +45,7 @@ private lemma map_eq_smul_of_div_mem_center (τ : F →+* F)
   rw [← hmul, Matrix.smul_eq_diagonal_mul, ← Matrix.scalar_apply]
 
 theorem fix_psl2FieldAut_eq_subfieldSubgroup
-    {F : Type} [Field F] (σ : F ≃+* F) (hσ2 : σ * σ = 1)
+    {F : Type} [Field F] (σ : F ≃+* F) (_hσ2 : σ * σ = 1)
     (K : Subfield F) (hK : ∀ x : F, x ∈ K ↔ σ x = x)
     (t : F) (ht_sq : t ^ 2 ∈ K) (ht_ne : t ∉ K) :
     {q : PSL2 F | psl2FieldAut F σ q = q} =
@@ -69,7 +69,7 @@ theorem fix_psl2FieldAut_eq_subfieldSubgroup
       have h : psl2FieldAut F σ (QuotientGroup.mk'
           (Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F)) A) =
           QuotientGroup.mk' (Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F)) A := by
-        simpa only [Set.mem_setOf_eq, QuotientGroup.mk'_apply] using hq
+        simpa only [Set.mem_ofPred_eq, QuotientGroup.mk'_apply] using hq
       simp only [QuotientGroup.mk'_apply] at h
       rw [psl2FieldAut_eq_psl2Map, psl2Map_mk] at h
       simpa only [QuotientGroup.mk'_apply] using h

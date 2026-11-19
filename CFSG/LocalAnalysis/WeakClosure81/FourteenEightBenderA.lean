@@ -11,6 +11,7 @@ open Subgroup
 
 variable {K : Type*} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem s148_W148BenderA_mem_borel_of_conjugate_eq {P : Subgroup K} {c : K}
     (h : CFSG.conjugate P c = P) : c ∈ borel P := by
   rw [CFSG.GH74.Uniqueness.Bender.borel, Subgroup.mem_normalizer_iff]
@@ -18,6 +19,7 @@ theorem s148_W148BenderA_mem_borel_of_conjugate_eq {P : Subgroup K} {c : K}
   have hx : x ∈ P ↔ x ∈ CFSG.conjugate P c := by rw [h]
   rw [hx, mem_conjugate_iff_mul_inv]
 
+omit [Finite K] in
 theorem s148_W148BenderA_conjugate_eq_iff (P : Subgroup K) (c c' : K) :
     CFSG.conjugate P c = CFSG.conjugate P c' ↔ c' * c⁻¹ ∈ borel P := by
   constructor
@@ -38,11 +40,13 @@ theorem s148_W148BenderA_conjugate_eq_iff (P : Subgroup K) (c c' : K) :
           rw [conjugate_conjugate, inv_mul_cancel]
           exact conjugate_eq_of_mem_borel (CFSG.GH74.Uniqueness.Bender.borel _).one_mem
 
+omit [Finite K] in
 theorem s148_W148BenderA_coe_smul_sylow (P : Sylow 2 K) (g : K) :
     ((g • P : Sylow 2 K) : Subgroup K) = CFSG.conjugate (P : Subgroup K) g⁻¹ := by
   ext y
   rw [mem_sylow_smul_iff, mem_conjugate_iff_mul_inv, inv_inv]
 
+omit [Finite K] in
 theorem rootCenter_conjugate (P : Subgroup K) (c : K) :
     rootCenter (CFSG.conjugate P c) = CFSG.conjugate (rootCenter P) c := by
   rw [CFSG.conjugate, rootCenter_map, CFSG.conjugate]

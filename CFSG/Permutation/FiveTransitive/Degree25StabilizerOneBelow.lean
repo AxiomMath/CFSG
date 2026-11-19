@@ -85,7 +85,7 @@ private theorem three_seventh_not_dvd_five_point_stabilizer_of_not_alternating
       Nat.factorization_mul (by norm_num) hHne,
       Finsupp.add_apply, hindexFactorization,
       hHfactorization]
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let S : Sylow 3 P := Sylow.nonempty.some
   have hScard : Nat.card S = 19683 := by
     rw [S.card_eq_multiplicity, hPfactorization]
@@ -168,7 +168,7 @@ private theorem two_seventeenth_not_dvd_five_point_stabilizer_of_not_alternating
       Nat.factorization_mul (by norm_num) hHne,
       Finsupp.add_apply, hindexFactorization,
       hHfactorization]
-  letI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   let S : Sylow 2 P := Sylow.nonempty.some
   have hScard : Nat.card S = 2097152 := by
     rw [S.card_eq_multiplicity, hPfactorization]
@@ -373,7 +373,7 @@ private theorem two_sixteenth_not_dvd_five_point_stabilizer_of_not_alternating
       Nat.factorization_mul (by norm_num) hHne,
       Finsupp.add_apply, hindexFactorization,
       hHfactorization]
-  letI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   let S : Sylow 2 P := Sylow.nonempty.some
   have hScard : Nat.card S = 1048576 := by
     rw [S.card_eq_multiplicity, hPfactorization]
@@ -517,7 +517,7 @@ private theorem two_fifteenth_not_dvd_five_point_stabilizer_of_not_alternating
       Nat.factorization_mul (by norm_num) hHne,
       Finsupp.add_apply, hindexFactorization,
       hHfactorization]
-  letI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   let S : Sylow 2 P := Sylow.nonempty.some
   have hScard : Nat.card S = 524288 := by
     rw [S.card_eq_multiplicity, hPfactorization]

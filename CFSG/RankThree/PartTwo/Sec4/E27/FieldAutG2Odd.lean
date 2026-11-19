@@ -16,7 +16,7 @@ open CFSG.ComponentClassification.UnbalancedCatalog (even_G2_exact_automorphism_
 section Main
 
 
-theorem fieldAutData_G2_odd {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem fieldAutData_G2_odd {p f : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hf : 2 ≤ f) {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ f)
     (hpair : ∀ (σ : K ≃+* K), orderOf σ = p → ∀ g : adjointGroup .G2 K,
       (g2Fixed σ).map (MulAut.conj g).toMonoidHom ≠ g2Fixed σ →

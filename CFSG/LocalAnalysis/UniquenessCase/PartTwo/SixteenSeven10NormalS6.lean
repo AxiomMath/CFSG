@@ -41,7 +41,7 @@ theorem s16c1610_not_isS6Cover_of_normal {G X N : Subgroup (MulAut W)} (hXN : X 
     simp only [hfrange, Subgroup.card_top]
   have hcard := Subgroup.card_ker_mul_card_range f
   rw [hcardker, hcardrange, hcardN₀] at hcard
-  haveI : Nonempty ↥X := ⟨⟨1, X.one_mem⟩⟩
+  have : Nonempty ↥X := ⟨⟨1, X.one_mem⟩⟩
   have hXpos : 0 < Nat.card X := Nat.card_pos
   have hQcard : Nat.card Q = 3 ∨ Nat.card Q = 9 := by
     rcases hord with h | h
@@ -56,7 +56,7 @@ theorem s16c1610_not_isS6Cover_of_normal {G X N : Subgroup (MulAut W)} (hXN : X 
   have hQnontriv : Nontrivial Q :=
     Finite.one_lt_card_iff_nontrivial.mp
       (by rcases hQcard with h | h <;> rw [h] <;> norm_num)
-  haveI : Q.Normal := hQnormal
+  have : Q.Normal := hQnormal
   have hAle : alternatingGroup (Fin 6) ≤ Q :=
     Equiv.Perm.alternatingGroup_le_of_normal (α := Fin 6) (by norm_num [Nat.card_fin]) hQnontriv
   have hle : Nat.card (alternatingGroup (Fin 6)) ≤ Nat.card Q := Subgroup.card_le_of_le hAle

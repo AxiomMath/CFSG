@@ -222,9 +222,9 @@ private theorem testBit_foldl_stepM_mono (m i : ℕ) :
       rw [List.foldl_cons]
       apply ih
       by_cases hma : m.testBit a = true
-      · rw [stepM, if_pos hma]
+      · rw [stepM, ite_eq_left hma]
         simp [Nat.testBit_or, h]
-      · rw [stepM, if_neg hma]
+      · rw [stepM, ite_eq_right hma]
         exact h
 
 private theorem testBit_foldl_stepM_of_mem (m i : ℕ) (l : List ℕ) (a : ℕ)
@@ -234,7 +234,7 @@ private theorem testBit_foldl_stepM_of_mem (m i : ℕ) (l : List ℕ) (a : ℕ)
   intro acc
   rw [List.foldl_append, List.foldl_cons]
   apply testBit_foldl_stepM_mono
-  rw [stepM, if_pos hma]
+  rw [stepM, ite_eq_left hma]
   rw [Nat.testBit_or, Bool.or_eq_true]
   right
   rw [Nat.testBit_two_pow, hUi, decide_eq_true_eq]
@@ -298,15 +298,15 @@ private theorem closed15_mOf {I : Finset ℕ} (hcl : CjClosed I) :
   intro a ha
   rw [List.mem_range] at ha
   cases hma : (mOf I).testBit a
-  · simp [hma]
-  · simp only [hma, Bool.not_true, Bool.false_or]
+  · simp
+  · simp only [Bool.not_true, Bool.false_or]
     rw [List.all_eq_true]
     intro b hb
     rw [List.mem_range] at hb
     have hma' := (mOf_testBit I a).mp hma
     cases hmb : (mOf I).testBit b
-    · simp [hmb]
-    · simp only [hmb, Bool.not_true, Bool.false_or]
+    · simp
+    · simp only [Bool.not_true, Bool.false_or]
       have hmb' := (mOf_testBit I b).mp hmb
       obtain ⟨hclt, hcj⟩ := cj15_fact a hma'.1 b hmb'.1
       rw [mOf_testBit]

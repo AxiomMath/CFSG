@@ -116,7 +116,7 @@ theorem desc_of_fixed (Fr : L →+* L) (hFr : ∀ a : L, Fr a = a → a ∈ Set.
   obtain ⟨T, hTW, hcT⟩ := Submodule.mem_span_finite_of_mem_span hc
   set W₀ : Submodule K V := Submodule.span K (T : Set V) with hW₀
   have hW₀W : W₀ ≤ W := Submodule.span_le.2 hTW
-  haveI : FiniteDimensional K W₀ := inferInstance
+  have : FiniteDimensional K W₀ := inferInstance
   let B := Module.finBasis K W₀
   set b : Fin (Module.finrank K W₀) → V := fun j => (B j : V) with hb
   have hbW : ∀ j, b j ∈ W := fun j => hW₀W (B j).2

@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G] {D : Data G} {V₀ V L : Subgroup G}
 
 
 theorem s16k_su4z_case4 (h : S16gRowCtx D V₀ V L hV)
-    (hGA : CFSG.Open.GriessAllModelsStatement)
+    (_hGA : CFSG.Open.GriessAllModelsStatement)
     (hSU : IsSUn ↥(lBar V₀ V hV L) 4 1)
     (hN : NatSUn (lBar V₀ V hV L) (commSub ⊤ (lBar V₀ V hV L))
       (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) 4 1)

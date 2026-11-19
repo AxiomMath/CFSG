@@ -21,8 +21,8 @@ theorem unitary_three_mem_primeFormD {f : ℕ} {K : Type} [Field K] (hU : Unitar
     (hL : ∀ y : primeFormP hU (idC K), ∃ l ∈ L, ψ l = MulAut.conj y) {x : X} (hx : x ^ 3 = 1) :
     ψ x ∈ primeFormD hU (idC K) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K 2 := hU.charP
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := hU.charP
   have hn3 : 3 ≤ 3 := le_rfl
   have hq : ¬ (3 = 3 ∧ 2 ^ f = 2) := by
     rintro ⟨-, h⟩

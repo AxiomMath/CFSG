@@ -49,7 +49,7 @@ private theorem ne_three_of_pow_mod {p f r : ℕ} (hf : 1 ≤ f) (hr : r ≠ 0) 
 
 private theorem exists_cube_root_gf {p f : ℕ} [Fact p.Prime] (hf : 1 ≤ f) (hq : p ^ f % 3 = 1) :
     ∃ ω : GaloisField p f, ω ^ 2 + ω + 1 = 0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card (GaloisField p f)ˣ := by
     rw [Nat.card_units, GaloisField.card p f (by omega)]
     omega
@@ -73,7 +73,7 @@ private theorem exists_cube_root_gf {p f : ℕ} [Fact p.Prime] (hf : 1 ≤ f) (h
 private theorem noroot_gf {p f : ℕ} [Fact p.Prime] (hf : 1 ≤ f) (hq : p ^ f % 3 = 2)
     (hp3 : p ≠ 3) : ∀ c : GaloisField p f, c ^ 2 + c + 1 ≠ 0 := by
   intro c hc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 := three_ne_zero_gf (p := p) (f := f) hp3
   have hc0 : c ≠ 0 := by
     rintro rfl
@@ -93,13 +93,13 @@ private theorem noroot_gf {p f : ℕ} [Fact p.Prime] (hf : 1 ≤ f) (hq : p ^ f 
 
 theorem goodRow_psl2_27 {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
     (hna : ∃ a b : S, a * b ≠ b * a) (h : LieModel S .PSL 2 3 3) : GoodRow S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := nonempty_projSL_of_lieModel h
   exact rowOf_projSL_two (GaloisField 3 3) S hs hna ⟨e⟩
 
 theorem goodRow_psp4_three_one {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
     (hna : ∃ a b : S, a * b ≠ b * a) (h : LieModel S .PSp 2 3 1) : GoodRow S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : LieModel S .PSU 4 2 1 :=
     Or.inl ⟨by decide, CFSG.ClassicalModels.statedClassicalModel_PSU_four_two_of_PSp_two_three
       (h.statedClassicalModel (by decide))⟩
@@ -108,7 +108,7 @@ theorem goodRow_psp4_three_one {S : Type} [Group S] [Finite S] (hs : IsSimpleGro
 
 theorem goodRow_psp4 {S : Type} [Group S] [Finite S] {p f : ℕ} (h : LieModel S .PSp 2 p f)
     (hp3 : p ≠ 3) : GoodRow S := by
-  haveI : Fact p.Prime := ⟨h.admissible.1⟩
+  have : Fact p.Prime := ⟨h.admissible.1⟩
   obtain ⟨e⟩ := nonempty_projSp_of_lieModel h
   have hlist : ListRow (projSp 2 (GaloisField p f)) := listRow_projSp_two (three_ne_zero_gf hp3)
   by_cases hp2 : p = 2
@@ -131,7 +131,7 @@ theorem three_le_pRank_of_psp4_char_three {L : Type} [Group L] [Finite L] {f : �
 
 theorem outerRow_psl4 (hR : K332Rows) {S : Type} [Group S] [Finite S] {p f : ℕ}
     (h : LieModel S .PSL 4 p f) (hp3 : p ≠ 3) : OuterRow S := by
-  haveI : Fact p.Prime := ⟨h.admissible.1⟩
+  have : Fact p.Prime := ⟨h.admissible.1⟩
   by_cases hf1 : f = 1
   · subst hf1
     obtain ⟨e⟩ := nonempty_projSL_of_lieModel h
@@ -140,7 +140,7 @@ theorem outerRow_psl4 (hR : K332Rows) {S : Type} [Group S] [Finite S] {p f : ℕ
 
 theorem outerRow_psu4 (hR : K332Rows) {S : Type} [Group S] [Finite S] {p f : ℕ}
     (h : LieModel S .PSU 4 p f) (hp3 : p ≠ 3) : OuterRow S := by
-  haveI : Fact p.Prime := ⟨h.admissible.1⟩
+  have : Fact p.Prime := ⟨h.admissible.1⟩
   have hf : 1 ≤ f := h.admissible.2.1
   obtain ⟨e⟩ := nonempty_projSU_of_lieModel h
   by_cases hp2 : p = 2
@@ -153,7 +153,7 @@ theorem outerRow_psu4 (hR : K332Rows) {S : Type} [Group S] [Finite S] {p f : ℕ
 
 theorem goodRow_psl4_of_mod_two (hR : K332Rows) {S : Type} [Group S] [Finite S] {p f : ℕ}
     (h : LieModel S .PSL 4 p f) (hq : p ^ f % 3 = 2) : GoodRow S := by
-  haveI : Fact p.Prime := ⟨h.admissible.1⟩
+  have : Fact p.Prime := ⟨h.admissible.1⟩
   have hp3 : p ≠ 3 := ne_three_of_pow_mod h.admissible.2.1 (by norm_num) hq
   obtain ⟨e⟩ := nonempty_projSL_of_lieModel h
   exact ⟨ListRow.of_mulEquiv e.symm (listRow_projSL_four_of_noroot (three_ne_zero_gf hp3)
@@ -161,7 +161,7 @@ theorem goodRow_psl4_of_mod_two (hR : K332Rows) {S : Type} [Group S] [Finite S] 
 
 theorem goodRow_psl4_of_mod_one (hR : K332Rows) {S : Type} [Group S] [Finite S] {p f : ℕ}
     (h : LieModel S .PSL 4 p f) (hq : p ^ f % 3 = 1) : GoodRow S := by
-  haveI : Fact p.Prime := ⟨h.admissible.1⟩
+  have : Fact p.Prime := ⟨h.admissible.1⟩
   have hp3 : p ≠ 3 := ne_three_of_pow_mod h.admissible.2.1 (by norm_num) hq
   obtain ⟨e⟩ := nonempty_projSL_of_lieModel h
   obtain ⟨ω, hω⟩ := exists_cube_root_gf h.admissible.2.1 hq
@@ -170,7 +170,7 @@ theorem goodRow_psl4_of_mod_one (hR : K332Rows) {S : Type} [Group S] [Finite S] 
 
 theorem goodRow_psu4_of_mod_one (hR : K332Rows) {S : Type} [Group S] [Finite S] {p f : ℕ}
     (h : LieModel S .PSU 4 p f) (hq : p ^ f % 3 = 1) : GoodRow S := by
-  haveI : Fact p.Prime := ⟨h.admissible.1⟩
+  have : Fact p.Prime := ⟨h.admissible.1⟩
   have hp3 : p ≠ 3 := ne_three_of_pow_mod h.admissible.2.1 (by norm_num) hq
   obtain ⟨e⟩ := nonempty_projSU_of_lieModel h
   exact ⟨ListRow.of_mulEquiv e.symm (listRow_projSU_four_of_dvd h.admissible.2.1 (by omega)),
@@ -178,7 +178,7 @@ theorem goodRow_psu4_of_mod_one (hR : K332Rows) {S : Type} [Group S] [Finite S] 
 
 theorem goodRow_psu4_of_mod_two (hR : K332Rows) {S : Type} [Group S] [Finite S] {p f : ℕ}
     (h : LieModel S .PSU 4 p f) (hq : p ^ f % 3 = 2) : GoodRow S := by
-  haveI : Fact p.Prime := ⟨h.admissible.1⟩
+  have : Fact p.Prime := ⟨h.admissible.1⟩
   have hp3 : p ≠ 3 := ne_three_of_pow_mod h.admissible.2.1 (by norm_num) hq
   obtain ⟨e⟩ := nonempty_projSU_of_lieModel h
   exact ⟨ListRow.of_mulEquiv e.symm (listRow_projSU_four_of_dvd_succ h.admissible.2.1 (by omega)),
@@ -187,7 +187,7 @@ theorem goodRow_psu4_of_mod_two (hR : K332Rows) {S : Type} [Group S] [Finite S] 
 theorem goodRow_psl5 {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
     (hna : ∃ a b : S, a * b ≠ b * a) {p f : ℕ} (h : LieModel S .PSL 5 p f)
     (hq : p ^ f % 3 = 2) : GoodRow S := by
-  haveI : Fact p.Prime := ⟨h.admissible.1⟩
+  have : Fact p.Prime := ⟨h.admissible.1⟩
   obtain ⟨e⟩ := nonempty_projSL_of_lieModel h
   exact ⟨listRowOf_projSL_five p f hq S hs hna ⟨e⟩, outerRowOf_projSL_five p f hq S hs hna ⟨e⟩⟩
 

@@ -13,7 +13,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.HardMathSupport.Foote.Coordina
 
 theorem e8tK_vec_ofFn (v : Fin Tag.E8.rank → ℤ) : e8tK_vec (List.ofFn v) = v := by
   funext i
-  simp [e8tK_vec, List.getD_eq_getElem]
+  simp [e8tK_vec]
 
 theorem e8tK_mem_iff {v : Fin Tag.E8.rank → ℤ} :
     v ∈ rootFinset Tag.E8 ↔ List.ofFn v ∈ Tag.E8.artifactRoots :=

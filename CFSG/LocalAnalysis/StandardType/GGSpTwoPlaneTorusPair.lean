@@ -450,8 +450,8 @@ private theorem planeBlockE_eq (a : Multiplicative (ZMod 3)) :
     planeBlockE (K := K) a = if a = 1 then 1 else 0 := by
   rcases mul_zmod_three_cases a with rfl | rfl | rfl
   · rw [planeBlockE_one]; simp
-  · rw [planeBlockE_ofAdd_one, if_neg (by decide)]
-  · rw [planeBlockE_ofAdd_two, if_neg (by decide)]
+  · rw [planeBlockE_ofAdd_one, ite_eq_right (by decide)]
+  · rw [planeBlockE_ofAdd_two, ite_eq_right (by decide)]
 
 private theorem planeBlockF_one : planeBlockF (K := K) 1 = 0 := by
   simp [planeBlockF, CharTwo.add_self_eq_zero]
@@ -482,28 +482,28 @@ private theorem planeBlockF_eq (a : Multiplicative (ZMod 3)) :
     planeBlockF (K := K) a = if a = 1 then 0 else 1 := by
   rcases mul_zmod_three_cases a with rfl | rfl | rfl
   · rw [planeBlockF_one]; simp
-  · rw [planeBlockF_ofAdd_one, if_neg (by decide)]
-  · rw [planeBlockF_ofAdd_two, if_neg (by decide)]
+  · rw [planeBlockF_ofAdd_one, ite_eq_right (by decide)]
+  · rw [planeBlockF_ofAdd_two, ite_eq_right (by decide)]
 
 private theorem planeEOp_fix_of_eq_one {f : Fin r → Multiplicative (ZMod 3)} {k : Fin r}
     (h : f k = 1) (u : Fin 2 → K) :
     planeEOp f (planeBlockIncl k u) = planeBlockIncl k u := by
-  rw [planeEOp_planeBlockIncl, planeBlockE_eq, if_pos h, Matrix.one_mulVec]
+  rw [planeEOp_planeBlockIncl, planeBlockE_eq, ite_eq_left h, Matrix.one_mulVec]
 
 private theorem planeEOp_kill_of_ne_one {f : Fin r → Multiplicative (ZMod 3)} {k : Fin r}
     (h : f k ≠ 1) (u : Fin 2 → K) :
     planeEOp f (planeBlockIncl k u) = 0 := by
-  rw [planeEOp_planeBlockIncl, planeBlockE_eq, if_neg h, Matrix.zero_mulVec, map_zero]
+  rw [planeEOp_planeBlockIncl, planeBlockE_eq, ite_eq_right h, Matrix.zero_mulVec, map_zero]
 
 private theorem planeFOp_fix_of_ne_one {f : Fin r → Multiplicative (ZMod 3)} {k : Fin r}
     (h : f k ≠ 1) (u : Fin 2 → K) :
     planeFOp f (planeBlockIncl k u) = planeBlockIncl k u := by
-  rw [planeFOp_planeBlockIncl, planeBlockF_eq, if_neg h, Matrix.one_mulVec]
+  rw [planeFOp_planeBlockIncl, planeBlockF_eq, ite_eq_right h, Matrix.one_mulVec]
 
 private theorem planeFOp_kill_of_eq_one {f : Fin r → Multiplicative (ZMod 3)} {k : Fin r}
     (h : f k = 1) (u : Fin 2 → K) :
     planeFOp f (planeBlockIncl k u) = 0 := by
-  rw [planeFOp_planeBlockIncl, planeBlockF_eq, if_pos h, Matrix.zero_mulVec, map_zero]
+  rw [planeFOp_planeBlockIncl, planeBlockF_eq, ite_eq_left h, Matrix.zero_mulVec, map_zero]
 
 private theorem eq_or_inv_of_ne_one {a b : Multiplicative (ZMod 3)}
     (ha : a ≠ 1) (hb : b ≠ 1) : b = a ∨ b = a⁻¹ := by
@@ -704,9 +704,9 @@ private theorem planeQFamily_mapsTo {k : Fin r}
   have hmem : fOf l ∈ Y' := (hfOf l hlk).1
   dsimp [planeQFamily]
   by_cases hfk : fOf l k = 1
-  · rw [if_pos hfk]
+  · rw [ite_eq_left hfk]
     exact planeEOp_mapsTo (fOf l) W (hW (fOf l) hmem) w hw
-  · rw [if_neg hfk]
+  · rw [ite_eq_right hfk]
     exact planeFOp_mapsTo (fOf l) W (hW (fOf l) hmem) w hw
 
 private theorem planeQFamily_fix (k : Fin r)
@@ -716,8 +716,8 @@ private theorem planeQFamily_fix (k : Fin r)
   intro l hl u
   dsimp [planeQFamily]
   by_cases hfk : fOf l k = 1
-  · rw [if_pos hfk]; exact planeEOp_fix_of_eq_one hfk u
-  · rw [if_neg hfk]; exact planeFOp_fix_of_ne_one hfk u
+  · rw [ite_eq_left hfk]; exact planeEOp_fix_of_eq_one hfk u
+  · rw [ite_eq_right hfk]; exact planeFOp_fix_of_ne_one hfk u
 
 private theorem planeQFamily_kill {k : Fin r}
     (Y' : Subgroup (Fin r → Multiplicative (ZMod 3)))
@@ -731,13 +731,13 @@ private theorem planeQFamily_kill {k : Fin r}
   have hspec := (hfOf l hlk).2
   dsimp [planeQFamily]
   by_cases hfk : fOf l k = 1
-  · rw [if_pos hfk]
+  · rw [ite_eq_left hfk]
     have hll : fOf l l ≠ 1 := by
       rcases hspec with h | h
       · exact h.2
       · exact absurd hfk h.1
     exact planeEOp_kill_of_ne_one hll u
-  · rw [if_neg hfk]
+  · rw [ite_eq_right hfk]
     have hll : fOf l l = 1 := by
       rcases hspec with h | h
       · exact absurd h.1 hfk
@@ -761,7 +761,7 @@ private theorem planeBlockProj_mapsTo_of_not_cases
       ((fOf l k = 1 ∧ fOf l l ≠ 1) ∨ (fOf l k ≠ 1 ∧ fOf l l = 1)) := by
     intro l hl
     dsimp [fOf]
-    rw [dif_neg hl]
+    rw [dite_eq_right hl]
     exact Classical.choose_spec (exists_exactly_one_one Y' hnota hnotb hnotc (Ne.symm hl))
   let Q := planeQFamily (K := K) (r := r) k fOf
   have hcomm := planeQFamily_comm (K := K) (r := r) k fOf
@@ -1031,7 +1031,7 @@ private theorem update_inv_swap_eq {f : Fin r → Multiplicative (ZMod 3)} {k l 
   · by_cases hjl : j = l
     · subst hjl
       rw [Equiv.swap_apply_right]
-      simpa [Function.update_of_ne (Ne.symm hjk), hf] using inv_inv (f j)
+      simp [Function.update_of_ne (Ne.symm hjk), hf]
     · rw [Equiv.swap_apply_of_ne_of_ne hjk hjl]
       simp [Function.update_of_ne hjk, Function.update_of_ne hjl]
 

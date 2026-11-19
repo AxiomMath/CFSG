@@ -14,7 +14,7 @@ theorem comm_mem_of_two_part {D J Q : Subgroup G} (hQn : D ≤ Subgroup.normaliz
     (hJD : J ≤ D) (hJc : ∀ x ∈ J, ∀ y ∈ D, x * y * x⁻¹ * y⁻¹ ∈ Q)
     (hodd : ∀ y ∈ J, (∃ k : ℕ, y ^ 2 ^ k ∈ Q) → y ∈ Q) {a b : G} (ha : a ∈ D) (hb : b ∈ D)
     (hc : a * b * a⁻¹ * b⁻¹ ∈ J) (m : ℕ) (hm : a ^ 2 ^ m ∈ J) : a * b * a⁻¹ * b⁻¹ ∈ Q := by
-  haveI := normal_subgroupOf_of_le_normalizer hQn
+  have := normal_subgroupOf_of_le_normalizer hQn
   let φ : ↥D →* ↥D ⧸ Q.subgroupOf D := QuotientGroup.mk' (Q.subgroupOf D)
   have hcD : a * b * a⁻¹ * b⁻¹ ∈ D := hJD hc
   have hcentral : ∀ x (hx : x ∈ J), ∀ e : ↥D ⧸ Q.subgroupOf D,

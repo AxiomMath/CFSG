@@ -47,10 +47,10 @@ theorem exists_mem_statedSU_pow_three_eq_one {K : Type} [Field K] [Finite K] {n 
         β (QuotientGroup.mk g) = QuotientGroup.mk g' := by
   have hn1 : 1 ≤ n := by omega
   have hd1 : 1 ≤ d := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : UnitaryFieldData 2 n K :=
     ⟨Nat.prime_two, hn1, by rw [hK, ← pow_mul, Nat.mul_comm]⟩
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   let bar : K ≃+* K := unitaryInvolution K 2 n
   have hbar : IsUnitaryInvolution bar := isUnitaryInvolution_unitaryInvolution hK
   have hbarapp : ∀ x, bar x = x ^ (2 ^ n) := fun x => unitaryInvolution_apply K 2 n x

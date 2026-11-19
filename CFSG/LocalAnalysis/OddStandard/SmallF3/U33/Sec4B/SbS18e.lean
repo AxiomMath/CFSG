@@ -26,6 +26,7 @@ private theorem l18_inv_t (hc : Ctx13 t L S x₁ x₂ lam rho tau om) : t⁻¹ =
 private theorem l18_inv_lam (hc : Ctx13 t L S x₁ x₂ lam rho tau om) : lam⁻¹ = lam :=
   inv_eq_of_mul_eq_one_right (l18_tlam_invol_comm hc).2.1
 
+omit [Finite G] in
 theorem l18_C_le_cent :
     ctxCY t tau x₁ x₂ rho ≤ centralizer ((ctxYq t tau x₁ x₂ rho : Subgroup G) : Set G) :=
   inf_le_right

@@ -1475,7 +1475,7 @@ private theorem n1cBe6RootList_nodup : e6RootList.Nodup := by
 private lemma n1cBkerReflSet_eq (x : X3) :
     kerReflSet x = ↑(n1cBkerReflList x).toFinset := by
   ext M
-  simp only [kerReflSet, kerRoots, Set.mem_setOf_eq, Finset.mem_coe, List.mem_toFinset,
+  simp only [kerReflSet, kerRoots, Set.mem_ofPred_eq, Finset.mem_coe, List.mem_toFinset,
     List.mem_map, List.mem_filter, decide_eq_true_eq, n1cBkerReflList, n1cBkerList]
   constructor
   · rintro ⟨α, ⟨hroot, hpair⟩, rfl⟩
@@ -1489,7 +1489,7 @@ private theorem n1cBncard_kerRoots (x : X3) :
     n1cBe6RootList_nodup.filter _
   have hset : kerRoots x = ↑(n1cBkerList x).toFinset := by
     ext α
-    simp only [kerRoots, Set.mem_setOf_eq, Finset.mem_coe, List.mem_toFinset, List.mem_filter,
+    simp only [kerRoots, Set.mem_ofPred_eq, Finset.mem_coe, List.mem_toFinset, List.mem_filter,
       decide_eq_true_eq, n1cBkerList]
     rw [isRoot_iff_mem_e6RootList]
   rw [hset, Set.ncard_coe_finset, List.toFinset_card_of_nodup hnod]

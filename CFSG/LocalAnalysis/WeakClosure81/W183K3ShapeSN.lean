@@ -32,7 +32,7 @@ private theorem w183K3ShapeSN_nonab_of_simple_not_prime {X : Type} [Group X]
   have hcomm : IsMulCommutative X := IsMulCommutative.of_comm (fun a b => by
     by_contra hab
     exact hnab ⟨a, b, hab⟩)
-  letI : IsMulCommutative X := hcomm
+  let : IsMulCommutative X := hcomm
   exact hn (CommGroup.is_simple_iff_prime_card.mp hs)
 
 private theorem w183K3ShapeSN_card_alt6 {X : Type} [Group X] (h : IsAlt X 6) :
@@ -67,9 +67,9 @@ private theorem w183K3ShapeSN_card_PSp_2_2_2 {X : Type} [Group X] (hO : LieOrder
   have hd : lieOrderDivisor .PSp 2 (2 ^ 2) = 1 := by decide
   rw [hd, mul_one] at hM
   rw [hM]
-  simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide, Finset.prod_pair]
+  simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide]
 
-private lemma w183K3ShapeSN_three_dvd_sq_sub_one {p : ℕ} (hp : p.Prime) (hne : p ≠ 2) :
+private lemma w183K3ShapeSN_three_dvd_sq_sub_one {p : ℕ} (hp : p.Prime) (_hne : p ≠ 2) :
     3 ∣ p ^ 2 - 1 ∨ p = 3 := by
   by_cases h3 : p = 3
   · exact Or.inr h3
@@ -101,14 +101,13 @@ private lemma w183K3ShapeSN_three_dvd_PSp_num {p : ℕ} (hp : p.Prime) (hne : p 
       exact dvd_mul_of_dvd_left h _
     rw [show lieOrderNumerator .PSp 2 (p ^ 1) =
         (p ^ 1) ^ (2 ^ 2) * (((p ^ 1) ^ (2 * 1) - 1) * ((p ^ 1) ^ (2 * 2) - 1)) by
-      simp [lieOrderNumerator, show Finset.Icc 1 2 = ({1, 2} : Finset ℕ) by decide,
-        Finset.prod_pair]]
+      simp [lieOrderNumerator, show Finset.Icc 1 2 = ({1, 2} : Finset ℕ) by decide]]
     exact dvd_mul_of_dvd_right hprod _
   · norm_num [lieOrderNumerator, show Finset.Icc 1 2 = ({1, 2} : Finset ℕ) by decide,
       Finset.prod_pair]
 
 private lemma w183K3ShapeSN_not_prime_of_PSp {X : Type} [Group X] (hO : LieOrderFormulasInput)
-    {p : ℕ} (hp : p.Prime) (hne : p ≠ 2) (h : LieModel X .PSp 2 p 1) :
+    {p : ℕ} (_hp : p.Prime) (_hne : p ≠ 2) (h : LieModel X .PSp 2 p 1) :
     ¬ (Nat.card X).Prime := by
   obtain ⟨-, -, hfact⟩ := hO X .PSp 2 p 1 h.admissible h
   have hfac : (Nat.card X).factorization p = 4 := by
@@ -162,6 +161,7 @@ theorem kshape_simple_nonab (hO : LieOrderFormulasInput) {X : Type} [Group X]
     exact ⟨hs, w183K3ShapeSN_nonab_of_simple_not_prime hs
       (w183K3ShapeSN_not_prime_of_PSp hO hp hne hSp)⟩
 
+omit [Finite G] in
 theorem kshape_three_dvd (hO : LieOrderFormulasInput) {K L : Subgroup G}
     (h : HasQuotShape L (K : Set G) (fun X _ => KShapeList X)) : 3 ∣ K.relIndex L := by
   obtain ⟨X, hXg, φ, hs, hk, hP⟩ := h

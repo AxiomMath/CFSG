@@ -68,7 +68,7 @@ theorem T_mem_cen_barImage_top {T : Sylow 2 H} {z : H} (S : SetC H T z) :
   have hcard : Nat.card (barImage (centralizer ({z} : Set H)) (T : Subgroup H)) =
       Nat.card (CBar H z) := by
     rw [S.hC4, ← S.hT4]
-    exact (Nat.card_congr (mulEquivBarImage (centralizer ({z} : Set H)) T.isPGroup'
+    exact (Nat.card_congr (mulEquivBarImage (centralizer ({z} : Set H)) T.isPGroup
       (T_le_cen S.hzc)).toEquiv).symm
   exact Subgroup.eq_top_of_card_eq _ hcard
 
@@ -312,7 +312,7 @@ theorem big_branch {T : Sylow 2 H} {z : H} (S : SetC H T z) {L : Subgroup H} [L.
     (hLi : Odd L.index) {K : Type} [Field K] [Finite K] (hF : L2Field K) (e : L ≃* L2 K) :
     (OC H z = ⊥ ∧ LieModel H .PSL 2 5 1) ∨
       (Nat.card (OC H z) = 3 ∧ (LieModel H .PSL 2 11 1 ∨ LieModel H .PSL 2 13 1)) := by
-  have hTL : (T : Subgroup H) ≤ L := le_of_isPGroup_of_odd_index hLi T.isPGroup'
+  have hTL : (T : Subgroup H) ≤ L := le_of_isPGroup_of_odd_index hLi T.isPGroup
   have hq := q_cases S hF e hTL
   have hZ : Subgroup.center L = ⊥ :=
     center_eq_bot_of_mulEquiv (e.trans (CFSG.GH74.GLS.IVK.L2.equivPSL K)) (psl2_center_eq_bot K)
@@ -368,7 +368,7 @@ theorem isKleinFour_T {T : Sylow 2 H} {z : H} (hzc : ∀ t ∈ (T : Subgroup H),
     intro a b hab
     have h1 : proj C (Subgroup.inclusion (T_le_cen hzc) a) =
         proj C (Subgroup.inclusion (T_le_cen hzc) b) := e.injective hab
-    have h2 := eq_of_proj_eq_of_isPGroup C T.isPGroup' (T_le_cen hzc)
+    have h2 := eq_of_proj_eq_of_isPGroup C T.isPGroup (T_le_cen hzc)
       (a := Subgroup.inclusion (T_le_cen hzc) a) (b := Subgroup.inclusion (T_le_cen hzc) b)
       a.2 b.2 h1
     exact Subgroup.inclusion_injective _ h2

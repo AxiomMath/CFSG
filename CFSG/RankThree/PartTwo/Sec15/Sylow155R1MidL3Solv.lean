@@ -141,7 +141,7 @@ private theorem commute_of_commute_sl {K : Type} [Field K] (h3 : (3 : K) ≠ 0)
 theorem res1AutSolv_projSL_three {n : ℕ} (hn : Odd n) :
     Res1AutSolv ↥(CFSG.PGLModel.projSL 3 (GaloisField 2 n)) := by
   have hn0 : n ≠ 0 := hn.pos.ne'
-  haveI : NeZero n := ⟨hn0⟩
+  have : NeZero n := ⟨hn0⟩
   have hK : Nat.card (GaloisField 2 n) % 3 = 2 := by
     rw [GaloisField.card 2 n hn0]
     exact CFSG.two_pow_mod_three_of_odd hn

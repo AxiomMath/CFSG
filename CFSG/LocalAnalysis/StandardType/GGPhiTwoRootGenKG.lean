@@ -26,7 +26,7 @@ private theorem finite_fixed_le_map_adjointGroup_E7_E8
     (hXC : X ≤ adjointGroup τ (AlgebraicClosure K))
     (hXF : ∀ x ∈ X, Units.map (entrywiseHom Fr) x = x) :
     X ≤ (adjointGroup τ K).map (baseChangeGL (algebraMap K (AlgebraicClosure K))) := by
-  haveI := hX
+  have := hX
   rcases hτ with rfl | rfl
   · exact finite_fixed_le_map_adjointGroup_E7 Fr hFr X hXC hXF
   · exact Subgroup.relIndex_eq_one.1 (Nat.dvd_one.1
@@ -62,7 +62,7 @@ theorem ggTorusModelAt_phiTwo_of_sc
     (hSC : ∀ x ∈ Subgroup.centralizer (E : Set (adjointGroup τ K)), x ^ p = 1 → x ∈ E) :
     GGTorusModelAt p E := by
   classical
-  haveI : NeZero p := ⟨Nat.Prime.ne_zero Fact.out⟩
+  have : NeZero p := ⟨Nat.Prime.ne_zero Fact.out⟩
   have hτ4 : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4 := by
     rcases hτ with rfl | rfl
     · exact Or.inr (Or.inl rfl)
@@ -86,7 +86,7 @@ theorem ggTorusModelAt_phiTwo_of_sc
       (∀ t : Fin τ.rank → ZMod p, ∑ j, (α j : ZMod p) * t j = 0 →
         ∑ j, (β j : ZMod p) * t j = 0) → β = α ∨ β = -α :=
     fun α β hα hβ h => ExcSplitRootGen.eq_or_eq_neg_of_forall_sum_eq_zero hτ4 hp2 hα hβ h
-  haveI : Nonempty {α : Fin τ.rank → ℤ // IsRoot τ α} :=
+  have : Nonempty {α : Fin τ.rank → ℤ // IsRoot τ α} :=
     ⟨⟨Pi.single ⟨0, τ.rank_pos⟩ 1, isRoot_single τ _⟩⟩
   have hres : GGTorusModelAt p T.range := by
     refine ggTorusModelAt_of_reflFamily hTinj (fun β : {α : Fin τ.rank → ℤ // IsRoot τ α} =>
@@ -123,8 +123,8 @@ theorem ggTorusRootGenAvoidKG_excPlus_of_lss92
     (hpq : p ∣ Nat.card K + 1) (hK : 4 ≤ Nat.card K) :
     GGTorusRootGenAvoidKG p (τ.rank - 1) (TableBExc.RecipeGroup τ K) (TableBExc.RecipeID τ K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (TableBExc.RecipeGroup τ K) := TableBExc.finite_recipeGroup τ K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (TableBExc.RecipeGroup τ K) := TableBExc.finite_recipeGroup τ K
   let _ : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hf⟩ := FiniteField.card K 2
   have hfK : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hf]

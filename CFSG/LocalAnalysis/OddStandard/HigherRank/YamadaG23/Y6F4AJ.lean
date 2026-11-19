@@ -26,7 +26,7 @@ private noncomputable abbrev Out8 : Type :=
 private noncomputable instance : Fintype F8 := Fintype.ofFinite _
 
 private lemma card_F8 : Fintype.card F8 = 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Fintype.card_eq_nat_card, GaloisField.card 2 3 (by norm_num)]
   norm_num
 
@@ -57,23 +57,23 @@ private lemma card_PSL8 : Nat.card PSL8 = 504 := by
   rw [Nat.card_congr pslEquivSL8.toEquiv, card_SL8]
 
 private lemma simple_PSL8 : IsSimpleGroup PSL8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine Matrix.ProjectiveSpecialLinearGroup.rank_two_simple ?_
   rw [GaloisField.card 2 3 (by norm_num)]
   norm_num
 
 private lemma not_comm_PSL8 : ¬ IsMulCommutative PSL8 := by
   intro hc
-  haveI : IsSimpleGroup PSL8 := simple_PSL8
-  haveI : IsMulCommutative PSL8 := hc
-  letI : CommGroup PSL8 := { (inferInstance : Group PSL8) with
+  have : IsSimpleGroup PSL8 := simple_PSL8
+  have : IsMulCommutative PSL8 := hc
+  let : CommGroup PSL8 := { (inferInstance : Group PSL8) with
     mul_comm := fun a b => mul_comm' a b }
   have hp : (Nat.card PSL8).Prime := IsSimpleGroup.prime_card (α := PSL8)
   rw [card_PSL8] at hp
   exact absurd hp (by norm_num)
 
 private lemma center_PSL8 : Subgroup.center PSL8 = ⊥ := by
-  haveI : IsSimpleGroup PSL8 := simple_PSL8
+  have : IsSimpleGroup PSL8 := simple_PSL8
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center PSL8) with h | h
   · exact h
   · exact absurd (Subgroup.center_eq_top_iff.mp h) not_comm_PSL8
@@ -99,6 +99,7 @@ variable {C : Type*} [Group C] [Finite C]
 private noncomputable def Jsub (P : Subgroup C) (e : ↥P ≃* MulAut PSL8) : Subgroup C :=
   (Inn.comap e.toMonoidHom).map P.subtype
 
+omit [Finite C] in
 private lemma Jsub_le (P : Subgroup C) (e : ↥P ≃* MulAut PSL8) : Jsub P e ≤ P :=
   Subgroup.map_subtype_le (Inn.comap e.toMonoidHom)
 
@@ -111,6 +112,7 @@ private noncomputable def JEquiv (P : Subgroup C) (e : ↥P ≃* MulAut PSL8) :
           (Subgroup.map_comap_eq_self_of_surjective e.surjective Inn)).trans
         (MonoidHom.ofInjective conj_injective_PSL8).symm))
 
+omit [Finite C] in
 private lemma Jsub_conj_mem (P : Subgroup C) (e : ↥P ≃* MulAut PSL8) {x : C} (hx : x ∈ P)
     {j : C} (hj : j ∈ Jsub P e) : x * j * x⁻¹ ∈ Jsub P e := by
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hj
@@ -120,25 +122,29 @@ private lemma Jsub_conj_mem (P : Subgroup C) (e : ↥P ≃* MulAut PSL8) {x : C}
       (e y) (Subgroup.mem_comap.mp hy) (e ⟨x, hx⟩)
   · simp
 
+omit [Finite C] in
 private lemma Jsub_simple (P : Subgroup C) (e : ↥P ≃* MulAut PSL8) :
     IsSimpleGroup ↥(Jsub P e) :=
   (MulEquiv.isSimpleGroup_congr (JEquiv P e)).mpr simple_PSL8
 
+omit [Finite C] in
 private lemma Jsub_card (P : Subgroup C) (e : ↥P ≃* MulAut PSL8) :
     Nat.card ↥(Jsub P e) = 504 := by
   rw [Nat.card_congr (JEquiv P e).toEquiv, card_PSL8]
 
+omit [Finite C] in
 private lemma Jsub_not_comm (P : Subgroup C) (e : ↥P ≃* MulAut PSL8) :
     ¬ IsMulCommutative ↥(Jsub P e) := by
   intro hc
-  haveI : IsSimpleGroup ↥(Jsub P e) := Jsub_simple P e
-  haveI : IsMulCommutative ↥(Jsub P e) := hc
-  letI : CommGroup ↥(Jsub P e) := { (inferInstance : Group ↥(Jsub P e)) with
+  have : IsSimpleGroup ↥(Jsub P e) := Jsub_simple P e
+  have : IsMulCommutative ↥(Jsub P e) := hc
+  let : CommGroup ↥(Jsub P e) := { (inferInstance : Group ↥(Jsub P e)) with
     mul_comm := fun a b => mul_comm' a b }
   have hp : (Nat.card ↥(Jsub P e)).Prime := IsSimpleGroup.prime_card (α := ↥(Jsub P e))
   rw [Jsub_card P e] at hp
   exact absurd hp (by norm_num)
 
+omit [Finite C] in
 private lemma Jsub_centralizer (P : Subgroup C) (e : ↥P ≃* MulAut PSL8) {x : C} (hx : x ∈ P)
     (hcomm : ∀ j ∈ Jsub P e, x * j = j * x) : x = 1 := by
   let xP : ↥P := ⟨x, hx⟩
@@ -173,6 +179,7 @@ private lemma Jsub_centralizer (P : Subgroup C) (e : ↥P ≃* MulAut PSL8) {x :
   have hxP1 : xP = 1 := e.injective (hg1.trans (map_one e).symm)
   simpa [xP] using congrArg (fun q : ↥P => (q : C)) hxP1
 
+omit [Finite C] in
 private lemma Jsub_subgroupOf_eq (P : Subgroup C) (e : ↥P ≃* MulAut PSL8) :
     (Jsub P e).subgroupOf P = Inn.comap e.toMonoidHom := by
   rw [← Subgroup.comap_subtype (H := Jsub P e) (K := P)]
@@ -185,21 +192,22 @@ private instance Jsub_normal (P : Subgroup C) (e : ↥P ≃* MulAut PSL8) :
   infer_instance
 
 private lemma lieModel_PSL8 : LieModel PSL8 .PSL 2 2 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact Or.inl ⟨by decide,
     CFSG.Assembly.LowTwoRank.statedClassicalModel_psl_two_of_mulEquiv PSL8 2 3
       (by norm_num) (MulEquiv.refl _)⟩
 
+omit [Finite C] in
 private lemma Jsub_quot_solvable (P : Subgroup C) (e : ↥P ≃* MulAut PSL8)
     (hSch : CFSG.LocalAnalysis.ComponentInitial.SchreierFor Catalog) :
     Group.IsSolvable (↥P ⧸ (Jsub P e).subgroupOf P) := by
-  haveI : IsSimpleGroup PSL8 := simple_PSL8
+  have : IsSimpleGroup PSL8 := simple_PSL8
   have hnoncomm : ∃ a b : PSL8, a * b ≠ b * a := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact not_comm_PSL8 (IsMulCommutative.of_comm h)
   have hcat : Catalog PSL8 := lieModel_catalog PSL8 .PSL 2 2 3 lieModel_PSL8
-  haveI hout : Group.IsSolvable Out8 := hSch PSL8 hnoncomm hcat
+  have hout : Group.IsSolvable Out8 := hSch PSL8 hnoncomm hcat
   let qiso : (↥P ⧸ (Jsub P e).subgroupOf P) ≃* Out8 :=
     (QuotientGroup.quotientMulEquivOfEq (Jsub_subgroupOf_eq P e)).trans
       (QuotientGroup.congr (Inn.comap e.toMonoidHom) Inn e
@@ -209,10 +217,11 @@ private lemma Jsub_quot_solvable (P : Subgroup C) (e : ↥P ≃* MulAut PSL8)
 private lemma Jsub_perfect_le (P : Subgroup C) (e : ↥P ≃* MulAut PSL8)
     (hSch : CFSG.LocalAnalysis.ComponentInitial.SchreierFor Catalog)
     {B : Subgroup C} (hBP : B ≤ P) (hB : Group.IsPerfect ↥B) : B ≤ Jsub P e := by
-  haveI : Group.IsSolvable (↥P ⧸ (Jsub P e).subgroupOf P) := Jsub_quot_solvable P e hSch
+  have : Group.IsSolvable (↥P ⧸ (Jsub P e).subgroupOf P) := Jsub_quot_solvable P e hSch
   exact y6f4a_perfect_le_of_solvable_sub (X := C) (D := P) (A := Jsub P e)
     (Jsub_le P e) hBP hB
 
+omit [Finite C] in
 private lemma Jsub_aut_four (P : Subgroup C) (e : ↥P ≃* MulAut PSL8)
     (h4 : ∀ p ∈ P, p ^ 4 = 1 → p ^ 2 = 1)
     (α : MulAut ↥(Jsub P e)) (hα : α ^ 4 = 1) : α ^ 2 = 1 := by

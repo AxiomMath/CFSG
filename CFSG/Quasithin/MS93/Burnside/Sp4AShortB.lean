@@ -171,8 +171,8 @@ theorem burnsideSp4A_zq_le (hC : burnsideSp4A_LemmaC) (hR : burnsideSp4A_LemmaR)
   have hDM : Dq M L ≤ M := inf_le_left.trans (pCoreOf_le' M)
   have hN : ((Uq M T L ⊔ Dq M L).subgroupOf M).Normal := by
     rw [Subgroup.subgroupOf_sup hUM hDM]
-    haveI := S4A.Uq_normal h
-    haveI := S4A.Dq_normal h
+    have := S4A.Uq_normal h
+    have := S4A.Dq_normal h
     infer_instance
   exact normalClosureIn_le_of (sup_le hUM hDM) hN
     (inf_le_left.trans (burnsideSp4A_omega_le hC hR h hU))

@@ -39,7 +39,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22s213_inf_centralizerBar_eq_bot {P Q L : Subgroup G} (hQL : Q ≤ L)
     (hQ3 : IsPGroup 3 Q) (hZ : ¬ 3 ∣ Nat.card (center (Bar2 L))) :
     Q ⊓ PartOne.Section8.centralizerBar P L = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQO2 : Q ⊓ CFSG.Open.pCoreOf 2 L = ⊥ :=
     (IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _ hQ3 (UC6S846.isPGroup_pCoreOf L)).eq_bot
   rw [eq_bot_iff]
@@ -51,7 +51,7 @@ theorem uc22s213_inf_centralizerBar_eq_bot {P Q L : Subgroup G} (hQL : Q ≤ L)
   have hdvd3 : orderOf (QuotientGroup.mk (⟨z, hQL hzQ⟩ : ↥L) : Bar2 L) ∣ 3 ^ k := by
     refine (orderOf_map_dvd (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) _).trans ?_
     have h := orderOf_dvd_of_pow_eq_one hk
-    rwa [Subgroup.orderOf_mk] at h ⊢
+    rw [Subgroup.orderOf_mk] at h ⊢; assumption
   have hcop : Nat.Coprime (3 ^ k) (Nat.card (center (Bar2 L))) :=
     ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hZ).pow_left k
   have h1 : orderOf (QuotientGroup.mk (⟨z, hQL hzQ⟩ : ↥L) : Bar2 L) = 1 :=
@@ -85,8 +85,8 @@ theorem uc22s213_strong_of_center (hS : Standing4 G) (hU : uniqueFourUnique G) (
     (h2 : CFSG.Open.pRank 3 L = 2) (hm3 : CFSG.Open.pRank 3 S.M ≤ 2)
     (hp : CFSG.Open.pRank S.p L ≤ 1) : IsStronglyPEmbedded 3 S.M := by
   by_contra hnot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLM : L ≤ S.M := CFSG.Quasithin.A3.subnormal_le hL.1
   have hMN : S.M ≤ normalizer (L : Set G) := by
     by_contra hMN
@@ -141,7 +141,7 @@ theorem uc22s213_strong_of_center (hS : Standing4 G) (hU : uniqueFourUnique G) (
     hnot (isStronglyPEmbedded_three_of_mem_uniqueFourBeta hU S hσ h)
   have hpp : S.p.Prime := S.hp.1.1
   have hp2 : S.p ≠ 2 := S.hp.1.2.1
-  haveI : Fact S.p.Prime := ⟨hpp⟩
+  have : Fact S.p.Prime := ⟨hpp⟩
   have hsp := PartOne.Section8.isStronglyPEmbedded_of_mem_sigma_of_calC hS hU S hL S.hp
   have h76 : Conclusion76 S.M S.p := UC6.conclusion76_dataOfSetup4 hSE hS hU S h3β S.hp hsp
   obtain ⟨B, hBM, hBel, hBc⟩ :=
@@ -182,7 +182,7 @@ theorem uc22s213_not_centralizesBar_of_spor (hS : Standing4 G)
     (hN : CFSG.Open.pRank S.p (normalizer ((zpowers a : Subgroup G) : Set G) ⊓ S.M) ≤ 1) :
     ¬ CentralizesBar a L := by
   intro haL
-  haveI := (uc22p20c_barInf_simple (uc22p20e_cComp_of_calC hL)).1
+  have := (uc22p20c_barInf_simple (uc22p20e_cComp_of_calC hL)).1
   obtain ⟨s, hs, hX⟩ : ∃ s : TauCeti.SporadicName, (s = .M12 ∨ s = .M24 ∨ s = .Ru ∨ s = .J4) ∧
       IsSpor (BarInf L) s := by
     rcases hs with h | h | h | h

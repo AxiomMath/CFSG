@@ -31,6 +31,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {hQ : Q.Nondegenerate} {φ : ↥L →* omegaGroup hQ}
 
+omit [Finite G] in
 theorem fx_aut6_coverAct_mul_piSim {s : G} {x k : simGroup Q} (hk : k ∈ piSim Q)
     (h : CoverAct L φ s (x * k)) : CoverAct L φ s x := by
   refine ⟨h.1, fun l l' hl => ?_⟩
@@ -42,7 +43,7 @@ theorem fx_aut6_mem_layer_of_odd (hL : IsOm6Z2 L) (hφ : IsCoverMap L φ)
     {α : ℤˣ} (hty : invType g = (1, α)) (hact : CoverAct L φ s (orthToSim Q g)) {u : G}
     (hu : u ∈ L ⊓ centralizer ({s} : Set G)) (hodd : Odd (orderOf u)) :
     u ∈ layerCent L s := by
-  haveI := fg_kind2_E0_normal hQ hgg
+  have := fg_kind2_E0_normal hQ hgg
   let c : ↥(L ⊓ centralizer ({s} : Set G)) := ⟨u, hu⟩
   have hρinj : Function.Injective (FGKind2Rho hact) := by
     intro a b h

@@ -129,7 +129,7 @@ theorem inf_W_of_mem_D (hΩ : HypOmegaGen Ω)
     obtain ⟨S₀, hηS₀, -⟩ := hη
     exact (hηS₀.1 h611).1
   have hKS : K ⊓ (S' : Subgroup G) = R :=
-    hRK.eq_of_le (S'.isPGroup'.to_inf_right) inf_le_left hRle
+    hRK.eq_of_le (S'.isPGroup.to_inf_right) inf_le_left hRle
   have hKWR : K ⊓ W ≤ R := by
     rw [← hKS]
     exact inf_le_inf_left K hWS'

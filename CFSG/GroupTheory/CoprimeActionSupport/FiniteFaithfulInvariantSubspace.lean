@@ -49,6 +49,7 @@ theorem exists_submodule (ρ : Representation F G V) (hρ : Function.Injective �
     have := LinearMap.congr_fun hg ⟨v g, hmem⟩
     simpa using congrArg Subtype.val this
 
+omit [Finite G] in
 theorem fixed_kernel_eq_bot (ρ : Representation F G V) (W : Submodule F V)
     (hW : ∀ g, W ≤ W.comap (ρ g)) (d : G)
     (h : LinearMap.ker (ρ d - 1) = ⊥) :

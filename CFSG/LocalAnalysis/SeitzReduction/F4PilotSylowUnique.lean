@@ -85,7 +85,7 @@ theorem exists_sylow_mem_le_of_unique (htM : t ∈ M) (huniq : ∀ g : G, g⁻¹
     (∀ S : Sylow p G, t ∈ S → (S : Subgroup G) ≤ M) ∧
       ∃ S : Sylow p G, t ∈ S ∧ (S : Subgroup G) ≤ M := by
   have hle : ∀ S : Sylow p G, t ∈ S → (S : Subgroup G) ≤ M := fun S htS =>
-    le_of_isPGroup_of_unique htM huniq S.isPGroup' htS
+    le_of_isPGroup_of_unique htM huniq S.isPGroup htS
   obtain ⟨S, hS⟩ := ht.exists_le_sylow
   exact ⟨hle, S, hS (mem_zpowers t), hle S (hS (mem_zpowers t))⟩
 
@@ -102,7 +102,7 @@ theorem exists_sylow_eq_map_of_unique (htM : t ∈ M) (huniq : ∀ g : G, g⁻¹
     rw [index_map_subtype]
     exact (Fact.out : p.Prime).not_dvd_mul P.not_dvd_index
       (not_dvd_index_of_unique_of_isPGroup htM huniq ht)
-  exact ⟨(P.isPGroup'.map M.subtype).toSylow hidx, rfl⟩
+  exact ⟨(P.isPGroup.map M.subtype).toSylow hidx, rfl⟩
 
 theorem centralizer_le_and_sylow_le_of_unique {M : Subgroup G} {t : G} (ht : orderOf t = 2)
     (htM : t ∈ M) (huniq : ∀ g : G, g⁻¹ * t * g ∈ M → g ∈ M) :

@@ -60,7 +60,7 @@ theorem stmt1547_of (hGN : InputGNC128Solv) (h1391 : Input1391)
         le_inf ((thompsonJ_le_self _).trans hTM) hJ
       set R : Subgroup G := (S : Subgroup G) ⊓ Subgroup.centralizer (V : Set G) with hRdef
       have hRC : R ≤ C := inf_le_inf_right _ hTM
-      have hRp : IsPGroup 2 R := S.isPGroup'.to_le inf_le_left
+      have hRp : IsPGroup 2 R := S.isPGroup.to_le inf_le_left
       have hRodd : ¬ 2 ∣ R.relIndex C := by
         have h1 := not_two_dvd_relIndex_inf_of_normalizer (S := (S : Subgroup G)) (D := C)
           (K := M) hTM inf_le_left (isSylowTwoOf_of_sylow S hTM).2.2 (hTM.trans hMC)
@@ -115,7 +115,7 @@ theorem stmt1547_of (hGN : InputGNC128Solv) (h1391 : Input1391)
       · exact false_of_wreath h1391 hyp.nonabelian hyp.qtke S hM hF hZ2 hV₁V hV₂V hV₁4 hV₂4
           hV12 hV12' hswap hperm hodd h8 hX hXM hXs hXV
   have hC₂2 : IsPGroup 2 C₂ :=
-    S.isPGroup'.to_le (hC₂S.trans inf_le_left)
+    S.isPGroup.to_le (hC₂S.trans inf_le_left)
   obtain ⟨Mf, hMf, hNMf⟩ :=
     exists_maxTwoLocal_ge (H := Subgroup.normalizer (C₂ : Set G)) ⟨C₂, hC₂ne, hC₂2, rfl⟩
   have hMfT : InM (S : Subgroup G) Mf := ⟨hMf, hTC₂.trans hNMf⟩

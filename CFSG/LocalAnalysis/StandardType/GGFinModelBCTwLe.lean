@@ -33,7 +33,7 @@ theorem ggBC_twistedE6_le
   intro g hg
   rw [Subgroup.mem_comap]
   change g ∈ twistedRootGroup (GaloisField 2 (2 * f)) (frobQ 2 f) β at hg
-  simp only [twistedRootGroup, Subgroup.mem_subgroupOf, Subgroup.mem_inf] at hg
+  simp only [twistedRootGroup] at hg
   obtain ⟨hg1, hg2⟩ := hg
   rw [ggIotaK_twistedE6_apply n f hf g]
   let h : e6Data_valid.minGroup (GaloisField 2 (2 * f)) :=

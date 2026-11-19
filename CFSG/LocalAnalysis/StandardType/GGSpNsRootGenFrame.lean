@@ -60,7 +60,7 @@ theorem exists_coherentFrame_of_selfCentralizing_gsp
         CharTwo.add_self_eq_zero]
     have hf0 : f ≠ 0 := by
       rintro rfl
-      simpa using hpol
+      simp at hpol
     have hff' : (QuadraticMap.polarBilin Q) f f' = 1 := by
       rw [QuadraticMap.polarBilin_apply_apply]
       exact hpol

@@ -28,7 +28,7 @@ theorem pRank_twistedE6_le_four_of_mem {F : Type} [Field F] [Finite F] {n m : �
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hm : m ∈ [3, 4, 6, 8, 10, 12, 18])
     (he : orderOf (((2 ^ n : ℕ)) : ZMod p) = m) :
     CFSG.Open.pRank p (⊤ : Subgroup ↥(twistedE6RootGroup F σ)) ≤ 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   simp only [List.mem_cons, List.not_mem_nil, or_false] at hm
   rcases hm with rfl | rfl | rfl | rfl | rfl | rfl | rfl
   · exact (pRank_le_of_sylowTorusDatum
@@ -131,8 +131,8 @@ theorem rk2_twoLocalRank_twe6_le_four_of_not_dvd_add_one {K : Type} [Group K] [F
     CFSG.Open.twoLocalPrimeRank p K ≤ 4 := by
   obtain ⟨F, hField, hFin, σ, hcard, hσ, ⟨e⟩⟩ :=
     exists_twistedE6RootGroup_of_isLabel hK ht hc
-  letI : Field F := hField
-  letI : Finite F := hFin
+  let : Field F := hField
+  let : Finite F := hFin
   have hpK : CFSG.Open.pRank p (⊤ : Subgroup K) =
       CFSG.Open.pRank p (⊤ : Subgroup ↥(twistedE6RootGroup F σ)) :=
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt e
@@ -145,8 +145,8 @@ theorem twoLocalPrimeRank_twistedE6RootGroup_le_five {F : Type} [Field F] [Finit
     (hLev : Rk2TwE6LeviRankInputMaximal) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hrq : r ∣ 2 ^ n + 1) :
     CFSG.Open.twoLocalPrimeRank r ↥(twistedE6RootGroup F σ) ≤ 5 := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (k := n * 2) (by omega) (by rw [hF, pow_mul])
   have hmodel : TwistedChevalleyModel ↥(twistedE6RootGroup F σ) .E6 (2 ^ n) :=
@@ -166,8 +166,8 @@ theorem rk2_twoLocalRank_twe6_le_five_of_dvd_add_one {K : Type} [Group K] [Finit
     CFSG.Open.twoLocalPrimeRank p K ≤ 5 := by
   obtain ⟨F, hField, hFin, σ, hcard, hσ, ⟨e⟩⟩ :=
     exists_twistedE6RootGroup_of_isLabel hK ht hc
-  letI : Field F := hField
-  letI : Finite F := hFin
+  let : Field F := hField
+  let : Finite F := hFin
   have hGL : CFSG.Open.twoLocalPrimeRank p K =
       CFSG.Open.twoLocalPrimeRank p ↥(twistedE6RootGroup F σ) := by
     have h := CFSG.HardMathSupport.Timmesfeld.Tables.Census.glaTwoLocalRank_congr

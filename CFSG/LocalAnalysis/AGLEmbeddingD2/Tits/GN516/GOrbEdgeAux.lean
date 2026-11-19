@@ -70,8 +70,8 @@ theorem commutatorElement_mul_central_right {r y z : G} (hz : z ∈ Subgroup.cen
 
 theorem commute_of_isSimpleGroup_of_isPGroup_two {Y : Type*} [Group Y] [Finite Y] [IsSimpleGroup Y]
     (hY : IsPGroup 2 Y) (a b : Y) : a * b = b * a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial (Subgroup.center Y) := hY.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial (Subgroup.center Y) := hY.center_nontrivial
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Y) with h0 | h1
   · exfalso
     obtain ⟨z, hz⟩ := exists_ne (1 : ↥(Subgroup.center Y))
@@ -90,8 +90,8 @@ theorem normal_le_center_or_eq_top_of_isQuasisimpleTwoNonab {E : Type*} [Group E
     (h : IsQuasisimpleTwoNonab E) (R : Subgroup E) [R.Normal] :
     R ≤ Subgroup.center E ∨ R = ⊤ := by
   obtain ⟨hperf, hs, -, -, -⟩ := h
-  haveI := hs
-  haveI : (R.map (QuotientGroup.mk' (Subgroup.center E))).Normal :=
+  have := hs
+  have : (R.map (QuotientGroup.mk' (Subgroup.center E))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (R.map (QuotientGroup.mk' (Subgroup.center E))) with h0 | h1
@@ -125,7 +125,7 @@ theorem normal_le_center_or_eq_top_of_isQuasisimpleTwoNonab {E : Type*} [Group E
 
 theorem eq_bot_of_normal_isPGroup_two_of_isQuasisimpleTwoNonab {E : Type*} [Group E] [Finite E]
     (h : IsQuasisimpleTwoNonab E) (R : Subgroup E) [R.Normal] (hR : IsPGroup 2 R) : R = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases normal_le_center_or_eq_top_of_isQuasisimpleTwoNonab h R with hle | htop
   · rw [eq_bot_iff]
     intro r hr
@@ -134,7 +134,7 @@ theorem eq_bot_of_normal_isPGroup_two_of_isQuasisimpleTwoNonab {E : Type*} [Grou
     exact Subgroup.mem_bot.2 (eq_one_of_odd_orderOf_of_pow_two (h.2.2.2.1 r (hle hr)) hk')
   · exfalso
     obtain ⟨hperf, hs, -, -, Q, hQ, a, ha, b, hb, hab⟩ := h
-    haveI := hs
+    have := hs
     have hE : IsPGroup 2 E := by
       intro g
       have hgR : g ∈ R := by
@@ -181,9 +181,9 @@ theorem isQuasisimpleTwoNonab_of_central_odd_image {E F : Type*} [Group E] [Fini
     (ψ : E →* F) (hψ : Function.Surjective ψ)
     (hker : ∀ e ∈ ψ.ker, e ∈ Subgroup.center E ∧ Odd (orderOf e))
     (h : IsQuasisimpleTwoNonab E) : IsQuasisimpleTwoNonab F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hperf, hs, hn, ho, Q, hQ, a, ha, b, hb, hab⟩ := h
-  haveI := hs
+  have := hs
   have hcen : ∀ x : E, ψ x ∈ Subgroup.center F → x ∈ Subgroup.center E :=
     fun x hx => mem_center_of_map_mem_center ψ (fun e he => (hker e he).1) hperf hx
   let χ : E →* F ⧸ Subgroup.center F := (QuotientGroup.mk' (Subgroup.center F)).comp ψ
@@ -293,7 +293,7 @@ theorem quasisimpleModTwoNonab_of_factor [Finite S] {V L' P : Subgroup S}
     (hPT : P ≤ twoResidual (V ⊔ L'))
     (hP : IsQuasisimpleTwoNonab ↥P) :
     QuasisimpleModTwoNonab ↥(twoResidual (V ⊔ L')) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVL : ∀ y ∈ L', ∀ v ∈ V, y * v * y⁻¹ ∈ V := fun y hy v hv =>
     (Subgroup.mem_normalizer_iff.mp (hL'V hy) v).mp hv
   have hL'N : L' ≤ Subgroup.normalizer ((V ⊔ P : Subgroup S) : Set S) := by
@@ -335,7 +335,7 @@ theorem quasisimpleModTwoNonab_of_factor [Finite S] {V L' P : Subgroup S}
   set A : Subgroup S := twoResidual (V ⊔ L') with hAdef
   have hAW : A ≤ V ⊔ L' := twoResidual_le _
   have hWV : V ⊔ L' ≤ Subgroup.normalizer (V : Set S) := sup_le Subgroup.le_normalizer hL'V
-  haveI hMn : ((V ⊓ A).subgroupOf A).Normal := by
+  have hMn : ((V ⊓ A).subgroupOf A).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     obtain ⟨hnV, hnA⟩ := Subgroup.mem_inf.1 hn
@@ -353,7 +353,7 @@ theorem quasisimpleModTwoNonab_of_factor [Finite S] {V L' P : Subgroup S}
   let ι : ↥P →* ↥A := Subgroup.inclusion hPT
   let g : ↥P →* ↥A ⧸ CFSG.pCore 2 ↥A := (QuotientGroup.mk' (CFSG.pCore 2 ↥A)).comp ι
   have hR : (CFSG.pCore 2 ↥A).comap ι = ⊥ := by
-    haveI : ((CFSG.pCore 2 ↥A).comap ι).Normal :=
+    have : ((CFSG.pCore 2 ↥A).comap ι).Normal :=
       (CFSG.pCore_normal (p := 2) (G := ↥A)).comap ι
     exact eq_bot_of_normal_isPGroup_two_of_isQuasisimpleTwoNonab hP _
       ((CFSG.pCore_isPGroup (p := 2) (G := ↥A)).comap_of_injective ι

@@ -34,7 +34,7 @@ theorem e7A1D6_le_iSup_phiTwoComp
     (hθ : rootPairE7 K e7Theta ≤ phiTwoComp g0 e7Theta) :
     e7A1D6 K ≤ ⨆ γ : {γ : Fin Tag.E7.rank → ℤ // IsRoot .E7 γ}, phiTwoComp g0 γ.1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨fv, -, hfv⟩ := FiniteField.card K 2
   have hKcard : Nat.card K = 2 ^ (fv : ℕ) := by rw [Nat.card_eq_fintype_card, hfv]
   have hn : 2 ≤ (fv : ℕ) := by

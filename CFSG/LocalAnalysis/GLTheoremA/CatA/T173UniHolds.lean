@@ -21,6 +21,7 @@ open Polynomial Module QuadraticMap CFSG.ClassicalGroups.Orthogonal CFSG.LieType
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [CharP F 2] in
 private theorem exists_threeSingular_and_nonsingular (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n : ℕ}
     (hdim : Module.finrank F V = 2 * n) (hn : 4 ≤ n) :
     (∃ T : Submodule F V, Module.finrank F T = 3 ∧ ∀ x ∈ T, Q x = 0) ∧ ∃ v, Q v ≠ 0 := by
@@ -63,7 +64,7 @@ private theorem catalogIs_layer_of_fullSupport (hQ : (QuadraticMap.polarBilin Q)
       (specialBlock Q (d : V ≃ₗ[F] V) h).subgroupOf (orthDerived Q))
     (hk : 4 ≤ n - 1 ∨ 4 ≤ Nat.card F) :
     catalogIs (PSimple p (GLALayer (Subgroup.centralizer {d}))) (isUnA (n - 1) (Nat.card F)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf d = p := orderOf_eq_prime (hF.isElemAbelian.2 d hd) hd1
   have hmult := primaryMultiplicity_eq_of_frame hQ hdim hn hp hp2 hpq hF hd hh hh1 hUh
   have hm4 : 4 ≤ n - 1 ∨ ((n - 1 = 2 ∨ n - 1 = 3) ∧ 4 ≤ Nat.card F) := by
@@ -85,7 +86,7 @@ private theorem false_of_weight_one_isUnA (hb : CatDistinct.OrderBridge)
       (supportedFixedDerived Q (d : V ≃ₗ[F] V)).subgroupOf (orthDerived Q))
     {S : Type} [Group S] [Finite S] (φ : PSimple p (GLALayer (Subgroup.centralizer {d})) ≃* S)
     (hS : catalogIs S (isUnA (n - 1) (Nat.card F))) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨f, hf1, hf⟩ := exists_natCard_eq_two_pow F
   have hord : orderOf d = p := orderOf_eq_prime (hF.isElemAbelian.2 d hd) hd1
   have hx : OddOrderIsometry Q p (d : V ≃ₗ[F] V) :=

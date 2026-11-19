@@ -19,11 +19,13 @@ variable {p : ℕ} {N : Subgroup G} {f : ↥N →* Q} {L Bs Z : Subgroup G}
   (f.comp (Subgroup.inclusion hD.LN)).codRestrict (img N f L)
     (fun l => mem_img.2 ⟨Subgroup.inclusion hD.LN l, l.2, rfl⟩)
 
+omit [Finite G] in
 theorem Datum.fL_surjective (hD : Datum p N f L Bs Z) : Function.Surjective hD.fL := by
   intro y
   obtain ⟨u, hu, hy⟩ := mem_img.1 y.2
   exact ⟨⟨(u : G), hu⟩, Subtype.ext hy⟩
 
+omit [Finite G] in
 theorem Datum.fL_eq_one_iff (hD : Datum p N f L Bs Z) (l : ↥L) : hD.fL l = 1 ↔ (l : G) ∈ Z := by
   constructor
   · intro h
@@ -33,6 +35,7 @@ theorem Datum.fL_eq_one_iff (hD : Datum p N f L Bs Z) (l : ↥L) : hD.fL l = 1 �
     apply Subtype.ext
     exact (hD.mem_ker_iff ⟨(l : G), hD.LN l.2⟩).2 h
 
+omit [Finite G] in
 theorem Datum.mem_center_of_mem (hD : Datum p N f L Bs Z) {l : ↥L} (hl : (l : G) ∈ Z) :
     l ∈ Subgroup.center ↥L := by
   rw [Subgroup.mem_center_iff]
@@ -41,6 +44,7 @@ theorem Datum.mem_center_of_mem (hD : Datum p N f L Bs Z) {l : ↥L} (hl : (l : 
 
 variable {R : Type} [Group R]
 
+omit [Finite G] in
 theorem Datum.exists_eta (hD : Datum p N f L Bs Z) (θ : ↥L ⧸ Subgroup.center ↥L ≃* R) :
     ∃ η : ↥(img N f L) →* R, ∀ l : ↥L, η (hD.fL l) = θ (QuotientGroup.mk l) := by
   let g : ↥L →* R := θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥L))
@@ -55,6 +59,7 @@ theorem Datum.exists_eta (hD : Datum p N f L Bs Z) (θ : ↥L ⧸ Subgroup.cente
   exact MonoidHom.liftOfRightInverse_comp_apply hD.fL (Function.surjInv hD.fL_surjective)
     (Function.rightInverse_surjInv hD.fL_surjective) ⟨g, hker⟩ l
 
+omit [Finite G] in
 theorem Datum.eta_surjective (hD : Datum p N f L Bs Z) {θ : ↥L ⧸ Subgroup.center ↥L ≃* R}
     {η : ↥(img N f L) →* R} (hη : ∀ l : ↥L, η (hD.fL l) = θ (QuotientGroup.mk l)) :
     Function.Surjective η := by
@@ -63,6 +68,7 @@ theorem Datum.eta_surjective (hD : Datum p N f L Bs Z) {θ : ↥L ⧸ Subgroup.c
   obtain ⟨l, rfl⟩ := QuotientGroup.mk_surjective c
   exact ⟨hD.fL l, hη l⟩
 
+omit [Finite G] in
 theorem Datum.eta_ker_le_center (hD : Datum p N f L Bs Z) {θ : ↥L ⧸ Subgroup.center ↥L ≃* R}
     {η : ↥(img N f L) →* R} (hη : ∀ l : ↥L, η (hD.fL l) = θ (QuotientGroup.mk l)) :
     η.ker ≤ Subgroup.center ↥(img N f L) := by
@@ -75,12 +81,13 @@ theorem Datum.eta_ker_le_center (hD : Datum p N f L Bs Z) {θ : ↥L ⧸ Subgrou
   obtain ⟨l', rfl⟩ := hD.fL_surjective y'
   rw [← map_mul, ← map_mul, hl l']
 
+omit [Finite G] in
 theorem Datum.eta_ker_coprime_four [Finite Q] (hD : Datum p N f L Bs Z)
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* R} {η : ↥(img N f L) →* R}
     (hη : ∀ l : ↥L, η (hD.fL l) = θ (QuotientGroup.mk l))
     (hmax : ∀ l : ↥L, l ∈ Subgroup.center ↥L → (∃ k : ℕ, l ^ (2 ^ k) = 1) → (l : G) ∈ Z) :
     Nat.Coprime (Nat.card η.ker) 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnd : ¬ 2 ∣ Nat.card η.ker := by
     intro h2
     obtain ⟨y, hy2⟩ := exists_prime_orderOf_dvd_card' 2 h2
@@ -114,6 +121,7 @@ theorem Datum.eta_ker_coprime_four [Finite Q] (hD : Datum p N f L Bs Z)
   have h4 : Nat.Coprime (2 ^ 2) (Nat.card η.ker) := Nat.Coprime.pow_left 2 hcop
   exact (Nat.coprime_comm.1 (by simpa using h4))
 
+omit [Finite G] in
 theorem Datum.eta_induces (hD : Datum p N f L Bs Z) {θ : ↥L ⧸ Subgroup.center ↥L ≃* R}
     {η : ↥(img N f L) →* R} (hη : ∀ l : ↥L, η (hD.fL l) = θ (QuotientGroup.mk l))
     (hBsL : Bs ≤ Subgroup.normalizer (L : Set G)) {b : G} (hb : b ∈ Bs) {φ : MulAut R}

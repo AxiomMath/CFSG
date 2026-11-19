@@ -43,11 +43,12 @@ variable {G : Type} [Group G] [Finite G]
 
 variable {V H E : Subgroup G}
 
+omit [Finite G] in
 theorem barSub_eq_zpowers {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
     (hV2 : Nat.card (barSub K φ V) = 2) {v : ↥K} (hvV : (v : G) ∈ V) (hv1 : φ v ≠ 1) :
     barSub K φ V = Subgroup.zpowers (φ v) := by
   have htV : φ v ∈ barSub K φ V := mem_barSub.mpr ⟨v, hvV, rfl⟩
-  haveI : Finite ↥(barSub K φ V) := Nat.finite_of_card_ne_zero (by rw [hV2]; norm_num)
+  have : Finite ↥(barSub K φ V) := Nat.finite_of_card_ne_zero (by rw [hV2]; norm_num)
   have hdvd : orderOf (φ v) ∣ Nat.card (barSub K φ V) :=
     Subgroup.orderOf_dvd_natCard (barSub K φ V) htV
   rw [hV2] at hdvd
@@ -59,6 +60,7 @@ theorem barSub_eq_zpowers {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* 
   refine (Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr htV) ?_).symm
   rw [hV2, Nat.card_zpowers, hord]
 
+omit [Finite G] in
 private theorem mem_conjSubgroup_conj_mul_map {K : Subgroup G} {X : Type} [Group X]
     {φ : ↥K →* X} {v : ↥K} (hvV : (v : G) ∈ V) (k : ↥K) :
     ((k⁻¹ * v * k : ↥K) : G) ∈ conjSubgroup V (k : G) ∧
@@ -73,6 +75,7 @@ private theorem mem_conjSubgroup_conj_mul_map {K : Subgroup G} {X : Type} [Group
     exact hvV
   · simp
 
+omit [Finite G] in
 theorem exists_mem_sup_map_eq {X : Type} [Group X] {φ : ↥(kSub V H E) →* X}
     {v k₂ k₃ : ↥(kSub V H E)} (hvV : (v : G) ∈ V) {g : X}
     (hg : g ∈ Subgroup.closure
@@ -160,6 +163,7 @@ theorem sevenSevenCfg_of_szBarTriple (h : Hyp711 V H E) {X : Type} [Group X]
   · rw [hconj₂, hconj₃]
     exact commutator_zpowers_ne_bot hT.not_comm₂₃
 
+omit [Finite G] in
 private theorem exists_conj_w_of_szBarTriple {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} {v k₂ k₃ : ↥(kSub V H E)} {g : X}
     (hvV : (v : G) ∈ V) (hT : SzBarTriple (φ v) (φ k₂) (φ k₃) g) :
@@ -171,6 +175,7 @@ private theorem exists_conj_w_of_szBarTriple {X : Type} [Group X]
   rw [hmap]
   exact hT.not_isPGroup
 
+omit [Finite G] in
 private theorem not_isPGroup_of_not_isPGroup_closure {K X₀ : Subgroup G} {d e : ↥K}
     (hX₀K : X₀ ≤ K) (hd : (d : G) ∈ X₀) (he : (e : G) ∈ X₀)
     (hnp : ¬ IsPGroup 2 ↥(Subgroup.closure ({(d : G), (e : G)} : Set G))) :
@@ -195,6 +200,7 @@ private theorem not_isPGroup_of_not_isPGroup_closure {K X₀ : Subgroup G} {d e 
   rw [hmap_eq] at hmapP
   exact hnp hmapP
 
+omit [Finite G] in
 private theorem not_isPGroup_sup_conj_of_szBarTriple (h : Hyp711 V H E) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} {v k₂ k₃ : ↥(kSub V H E)} {g : X}
     (hvV : (v : G) ∈ V) (hT : SzBarTriple (φ v) (φ k₂) (φ k₃) g) :

@@ -10,6 +10,7 @@ open CFSG.Assembly CFSG.Open
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem E6QTwo.y_ne_one_of_notMem_closure {Bs K' : Subgroup G} {y : G} (hyB : y ∈ Bs)
     (hyC : (⟨y, hyB⟩ : ↥Bs) ∉
       Subgroup.closure {b : ↥Bs | ∃ φ ∈ ggAutomizer K' Bs, ∃ c : ↥Bs, b = φ c * c⁻¹}) :
@@ -20,6 +21,7 @@ theorem E6QTwo.y_ne_one_of_notMem_closure {Bs K' : Subgroup G} {y : G} (hyB : y 
   rw [h1]
   exact (Subgroup.closure _).one_mem
 
+omit [Finite G] in
 theorem E6QTwo.closure_map_subtype_le_of_le_normalizer {Bs K' : Subgroup G}
     (hBsN : Bs ≤ Subgroup.normalizer (K' : Set G)) :
     (Subgroup.closure {b : ↥Bs | ∃ φ ∈ ggAutomizer K' Bs, ∃ c : ↥Bs, b = φ c * c⁻¹}).map
@@ -37,6 +39,7 @@ theorem E6QTwo.closure_map_subtype_le_of_le_normalizer {Bs K' : Subgroup G}
   rw [show g * (c : G) * g⁻¹ * (c : G)⁻¹ = g * ((c : G) * g⁻¹ * (c : G)⁻¹) by group]
   exact K'.mul_mem hgK hc
 
+omit [Finite G] in
 private theorem E6QTwo.mem_zpowers_of_mem_inf_centralizer {Bs K' : Subgroup G} {y : G}
     (hyB : y ∈ Bs)
     (hfix : ∀ b : ↥Bs, (∀ φ ∈ ggAutomizer K' Bs, φ b = b) →
@@ -51,13 +54,14 @@ private theorem E6QTwo.mem_zpowers_of_mem_inf_centralizer {Bs K' : Subgroup G} {
   show g * (b : G) * g⁻¹ = (b : G)
   rw [Subgroup.mem_centralizer_iff.mp hbK g hgK, mul_inv_cancel_right]
 
+omit [Finite G] in
 private theorem E6QTwo.aut_eq_one_or_isTransvection {Bs : Subgroup G} {y : G}
     (hyBs : y ∈ Bs) (hy1 : y ≠ 1) (hBs : IsElemAbelian 3 Bs) {ψ : MulAut ↥Bs}
     (hψy : ψ ⟨y, hyBs⟩ = ⟨y, hyBs⟩)
     (hψ : ∀ b : ↥Bs, ((b⁻¹ * ψ b : ↥Bs) : G) ∈ Subgroup.zpowers y) :
     ψ = 1 ∨ GGIsTransvection 3 ψ := by
   classical
-  haveI : IsMulCommutative ↥Bs := hBs.1
+  have : IsMulCommutative ↥Bs := hBs.1
   let c : ↥Bs := ⟨y, hyBs⟩
   have hψc : ψ c = c := by simpa only [c] using hψy
   have hc3 : c ^ 3 = 1 := by
@@ -133,6 +137,7 @@ private theorem E6QTwo.aut_eq_one_or_isTransvection {Bs : Subgroup G} {y : G}
     · rw [h3] at hcardD
       exact hcardD
 
+omit [Finite G] in
 theorem E6QTwo.centralizes_of_mem_center_inf_normalizer {Bs K' : Subgroup G} {y : G}
     (hBs : IsElemAbelian 3 Bs) (hNT : GGNoTransvection 3 Bs) (hyB : y ∈ Bs) (hy1 : y ≠ 1)
     (hK'y : K' ≤ Subgroup.centralizer ({y} : Set G)) (hBsN : Bs ≤ Subgroup.normalizer (K' : Set G))

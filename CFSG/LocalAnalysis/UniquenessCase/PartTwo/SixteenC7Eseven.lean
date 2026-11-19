@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c7_card_mul_card_preBarSub {V₀ V E : Subgroup G} (hV : IsElemAbelian 2 V)
     (hE : E ≤ stabTil V₀ V) {Q : Subgroup (MulAut (Vtil V₀ V hV))}
     (hQ : Q ≤ barSub V₀ V hV E) :
@@ -57,6 +58,7 @@ theorem s16c7_card_mul_card_preBarSub {V₀ V E : Subgroup G} (hV : IsElemAbelia
     _ = Nat.card (preBarSub E V₀ V hV Q) * Nat.card (barSub V₀ V hV E) := by
           rw [hpre, hrange, Subgroup.card_map_of_injective E.subtype_injective]
 
+omit [Finite G] in
 theorem s16c7_not_isCyclic_of_elemAbelian {p : ℕ} (hp : p.Prime) {C : Subgroup G}
     (hC : IsElemAbelian p C) (hcard : p ^ 2 ≤ Nat.card C) : ¬ IsCyclic ↥C := by
   intro hcyc

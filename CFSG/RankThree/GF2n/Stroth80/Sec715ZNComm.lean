@@ -39,9 +39,9 @@ theorem sec715ZNComm_holds (h51 : Stroth51Statement) (hA : Sec7AExistsStatement)
     exact Q.inv_mem (hZn.comm_mem hy hk)
   obtain ⟨M₀, iM₀, iA₀, κ₀, hκ₀, hkerκ₀⟩ := exists_sectionModule_ker hker hsec₀
     (fun k hk y hy => hQZ0 (hNQ k hk y hy))
-  haveI : Finite M₀ := hκ₀.finite
+  have : Finite M₀ := hκ₀.finite
   obtain ⟨Mm, iMm, iAm, κ, hκ, hkerκ⟩ := exists_sectionModule_ker hker hsecQ hNQ
-  haveI : Finite Mm := hκ.finite
+  have : Finite Mm := hκ.finite
   have hΦ := viaMatrix_surjective (e := E.equiv) φ hrange
   have hk₀ : ∀ y ∈ (viaMatrix _ E.equiv φ hrange).ker, ∀ a : M₀, y • a = a := by
     intro y hy a
@@ -51,9 +51,9 @@ theorem sec715ZNComm_holds (h51 : Stroth51Statement) (hA : Sec7AExistsStatement)
     intro y hy a
     rw [ker_viaMatrix] at hy
     exact hkerκ y hy a
-  letI i₀ : DistribMulAction (Gom (quadPlus 4 K)) M₀ :=
+  let i₀ : DistribMulAction (Gom (quadPlus 4 K)) M₀ :=
     descendAction (viaMatrix _ E.equiv φ hrange) hΦ hk₀
-  letI i₁ : DistribMulAction (Gom (quadPlus 4 K)) Mm :=
+  let i₁ : DistribMulAction (Gom (quadPlus 4 K)) Mm :=
     descendAction (viaMatrix _ E.equiv φ hrange) hΦ hk₁
   have hsm₀ : ∀ (y : ↥(Rt M (LB M Q B) t)) (a : M₀),
       viaMatrix _ E.equiv φ hrange y • a = y • a := fun y a =>

@@ -115,7 +115,7 @@ theorem scalarTorus_conj_Qθ (c : Kˣ) {q : ModGL τ K} (hq : q ∈ Qθ τ K) :
     by_cases hγ : γ = β
     · subst hγ
       simp
-    · simp [Pi.single_apply, hγ]
+    · simp [hγ]
   · intro t
     rw [ScalarTorusAux.torus_conj_pinnedX (isRoot_highRoot τ) (isRoot_highRoot τ) c t]
     refine ⟨pinnedX_highRoot_mem_Qθ _, ?_⟩
@@ -268,15 +268,15 @@ theorem coord_conj_n {w : WeylGroup τ} (hw : w • highRoot τ = highRoot τ) :
     rw [e, (heisCoord_spec τ L).mul _ hxQ _ hyQ, (heisCoord_spec τ L).mul _ hx _ hy, Pi.add_apply,
       Pi.add_apply, hxc α, hyc α]
     by_cases hα : α ∈ Deg1 τ
-    · rw [if_pos hα, if_pos hα, if_pos hα, mul_add]
-    · rw [if_neg hα, if_neg hα, if_neg hα, add_zero]
+    · rw [ite_eq_left hα, ite_eq_left hα, ite_eq_left hα, mul_add]
+    · rw [ite_eq_right hα, ite_eq_right hα, ite_eq_right hα, add_zero]
   · rintro x hx ⟨hxQ, hxc⟩
     have e : n⁻¹ * x⁻¹ * n = (n⁻¹ * x * n)⁻¹ := by group
     refine ⟨by rw [e]; exact inv_mem hxQ, fun α => ?_⟩
     rw [e, heisCoord_inv hxQ, heisCoord_inv hx, Pi.neg_apply, Pi.neg_apply, hxc α]
     by_cases hα : α ∈ Deg1 τ
-    · rw [if_pos hα, if_pos hα, mul_neg]
-    · rw [if_neg hα, if_neg hα, neg_zero]
+    · rw [ite_eq_left hα, ite_eq_left hα, mul_neg]
+    · rw [ite_eq_right hα, ite_eq_right hα, neg_zero]
   · intro μ hμ t
     have hμr : IsRoot τ μ := (CoordAux.mem_Deg1.1 hμ).1
     have hαD : w⁻¹ • μ ∈ Deg1 τ :=
@@ -287,12 +287,12 @@ theorem coord_conj_n {w : WeylGroup τ} (hw : w • highRoot τ = highRoot τ) :
     rw [(heisCoord_spec τ L).pinnedX_deg1 _ hαD, (heisCoord_spec τ L).pinnedX_deg1 μ hμ]
     by_cases hγ : γ = w⁻¹ • μ
     · subst hγ
-      rw [if_pos hαD, Pi.single_eq_same, smul_inv_smul, Pi.single_eq_same]
+      rw [ite_eq_left hαD, Pi.single_eq_same, smul_inv_smul, Pi.single_eq_same]
     · rw [Pi.single_eq_of_ne hγ]
       by_cases hγD : γ ∈ Deg1 τ
       · have hne : w • γ ≠ μ := fun h => hγ (by rw [← h, inv_smul_smul])
-        rw [if_pos hγD, Pi.single_eq_of_ne hne, mul_zero]
-      · rw [if_neg hγD]
+        rw [ite_eq_left hγD, Pi.single_eq_of_ne hne, mul_zero]
+      · rw [ite_eq_right hγD]
   · intro t
     have hθ := isRoot_highRoot τ
     rw [hconj _ hθ t, hw']

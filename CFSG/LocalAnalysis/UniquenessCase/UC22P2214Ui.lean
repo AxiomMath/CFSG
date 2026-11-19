@@ -57,7 +57,7 @@ theorem uc22p2214_two_le_pRank_use (D : Data G)
         ((P2214R.three_dvd_card_u3 hsu.2 hodd).trans (Subgroup.card_quotient_dvd_card _))
         (CFSG.LocalAnalysis.EvenBN.GMSK.not_three_dvd_card_of_lieModel_twistedB2 hSz)
   ·
-    haveI := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL
+    have := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL
     rcases hpre with h | ⟨hSz, -⟩
     · refine P2214R.two_le_pRank_pair hKC hc2 hpp hp2
         (P2214R.dvd_index_center_bar2 D c hKC hq ?_)
@@ -66,7 +66,7 @@ theorem uc22p2214_two_le_pRank_use (D : Data G)
       exact (P2214R.dvd_sq_sub_one (P2214R.dvd_of_cong h)).mul_left _
     · exact (P2214S.false_of_isSz_of_isL2 hSz hL).elim
   ·
-    haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
+    have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
     rcases hpre with h | ⟨-, h⟩
     · exact (P2214S.false_of_weak D Ch h2115 h17 hJ h1930 c hKC hSz hc2 hp h).elim
     · refine P2214R.two_le_pRank_pair hKC hc2 hpp hp2
@@ -123,7 +123,7 @@ theorem uc22p2214_s22_14_of_faith (D : Data G) (Ch : Choice2011 G)
     (hJ1 : uc22p22d_J1Nontrivial) (h8 : S22_8 D Ch) (hSg : UC6S846.SigmaStd D)
     (hV : S22_V D Ch) (hn3 : ∀ c : Ctx22b D Ch, 3 ≤ c.n) (h846 : F08.R846 D)
     (h2121 : S21_21Used D Ch)
-    (hfaith : ∀ (h1930 : H1930 D) (c : Ctx22b D Ch) (p : ℕ), p ∈ D.sig →
+    (hfaith : ∀ (_h1930 : H1930 D) (c : Ctx22b D Ch) (p : ℕ), p ∈ D.sig →
       ∀ (K : Subgroup G) (n : ℕ), K ∈ calC D.M →
       ((2 : ℤ) ^ n ≡ -1 [ZMOD (p : ℤ)] ∨
         (IsSz ↥(mbarImage D.M c.V K) n ∧ (2 : ℤ) ^ (2 * n) ≡ -1 [ZMOD (p : ℤ)])) →
@@ -134,27 +134,27 @@ theorem uc22p2214_s22_14_of_faith (D : Data G) (Ch : Choice2011 G)
       ∀ b ∈ c.B0, b ≠ 1 →
         ∃ K' ∈ conjSetOf D.M K, ∃ k ∈ K', b * k * b⁻¹ * k⁻¹ ∉ centralizer (c.V : Set G)) :
     S22_14 D Ch := by
-  intro h1930 c p hp K n hK
+  intro _h1930 c p hp K n hK
   obtain ⟨hKC, hpre, hcl⟩ := hK
   have hmain : ((IsSp4 ↥(mbarImage D.M c.V K) n ∧ Odd n) ∨
       (IsSU3 ↥(mbarImage D.M c.V K) n ∧ n ≡ 1 [MOD 6]) ∨
       ((2 < n ∧ (IsL2 ↥(mbarImage D.M c.V K) n ∨ IsSz ↥(mbarImage D.M c.V K) n)) ∧
         (conjSetOf D.M K).ncard = 2)) → c.n ≤ n := fun hcl' => by
     have hcl'' := hcl'.imp_right (Or.imp_right (And.imp_left And.right))
-    exact uc22p2214_s22_14_main_faith D Ch h17 hn hJ hJL h8 hSg hV hn3 h846 h1930 c hp hKC hpre
-      hcl'' (hfaith h1930 c p hp K n hKC (uc22p2214_pre_of_not_j1 D c hJ hJL hpre hcl'') hcl')
+    exact uc22p2214_s22_14_main_faith D Ch h17 hn hJ hJL h8 hSg hV hn3 h846 _h1930 c hp hKC hpre
+      hcl'' (hfaith _h1930 c p hp K n hKC (uc22p2214_pre_of_not_j1 D c hJ hJL hpre hcl'') hcl')
   rcases hcl with ⟨hsp, hodd, -⟩ | ⟨hsu, hmod⟩ | ⟨hLS | ⟨hJK, hn3'⟩, hc2⟩ | ⟨hH, -, hpow⟩
   · exact hmain (Or.inl ⟨hsp, hodd⟩)
   · exact hmain (Or.inr (Or.inl ⟨hsu, hmod⟩))
   · exact hmain (Or.inr (Or.inr ⟨hLS, hc2⟩))
-  · exact uc22p2214_j1 D Ch h17 hJ hJL hV h1930 c hKC hJK hJ1 hn3' hc2
+  · exact uc22p2214_j1 D Ch h17 hJ hJL hV _h1930 c hKC hJK hJ1 hn3' hc2
   · have hpn : (2 : ℤ) ^ n ≡ -1 [ZMOD (p : ℤ)] := by
       rcases hpre with ⟨-, rfl, -, -⟩ | h | ⟨hSz, -⟩
       · exact absurd hpow (uc22p22a_not_isPowTwo_of_odd (by decide) (by decide))
       · exact h
       · obtain ⟨-, -, -, -, hodd', h3⟩ := CFSG.Blueprint.LieModel.admissible hSz
         exact absurd hpow (uc22p22a_not_isPowTwo_of_odd hodd' (by omega))
-    exact uc22p2214_clause4 D Ch h2121 h1930 c hp hH hpow hpn
+    exact uc22p2214_clause4 D Ch h2121 _h1930 c hp hH hpow hpn
 
 theorem uc22p2214_s22_14_of_use5 (D : Data G) (Ch : Choice2011 G)
     (h869 : F08.R869NS5 D) (h2115 : S21_15C D Ch) (h17 : S21_17 D Ch) (hn : SpU3NotList D)

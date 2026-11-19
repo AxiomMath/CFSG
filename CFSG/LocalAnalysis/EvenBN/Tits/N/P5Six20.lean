@@ -22,7 +22,7 @@ theorem exists_le_fusionIsSylowIn_two {D X : Subgroup Γ} (hD : IsPGroup 2 D) (h
   obtain ⟨P, hP⟩ := (hD.comap_subtype (K := X)).exists_le_sylow
   refine ⟨(P : Subgroup X).map X.subtype,
     fun u hu => ⟨⟨u, hDX hu⟩, hP (show (⟨u, hDX hu⟩ : X) ∈ D.comap X.subtype from hu), rfl⟩,
-    Subgroup.map_subtype_le _, P.isPGroup'.map _, fun Q hQX hQ hPQ => ?_⟩
+    Subgroup.map_subtype_le _, P.isPGroup.map _, fun Q hQX hQ hPQ => ?_⟩
   have h1 : Q.subgroupOf X = P := P.maximal_isPGroup.eq_of_ge hQ.comap_subtype
     (fun x hx => hPQ ⟨x, hx, rfl⟩)
   refine le_antisymm (fun q hq => ⟨⟨q, hQX hq⟩, ?_, rfl⟩) hPQ
@@ -150,7 +150,7 @@ theorem six20 (hmax : maxElemAbelian2 K = {W}) {g : Γ} (hg : g ∈ Hs)
     · exact one_mem _
     · exact absurd haZ.1 hsW
   have hsord : orderOf s = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hs2 hs1
   set E := Z ⊔ zpowers s with hEdef
   have hEcard : Nat.card E = Nat.card Z * 2 := by

@@ -71,7 +71,7 @@ theorem isV7_mul {A B : Matrix (Fin 3) (Fin 3) (ZMod 7)} (hA : IsV7 A) (hB : IsV
   rw [Matrix.diagonal_mul_diagonal]
   congr 1
   ext i
-  fin_cases i <;> simp <;> ring
+  fin_cases i <;> simp; ring
 
 theorem isV7_sq {A : Matrix (Fin 3) (Fin 3) (ZMod 7)} (hA : IsV7 A) : A * A = 1 := by
   obtain ⟨a, b, ha, hb, rfl⟩ := hA
@@ -425,7 +425,7 @@ theorem twoInvCent_psl_three_seven :
       rw [Subgroup.map_map, Subgroup.map_map] at this
       have e1 : (MulAut.conj h⁻¹).toMonoidHom.comp (MulAut.conj h).toMonoidHom =
           MonoidHom.id PSL37 := by
-        ext x; simp [MulAut.conj_apply]
+        ext x; simp
       have e2 : (MulAut.conj h⁻¹).toMonoidHom.comp (MulAut.conj (h * (fSL7 : PSL37))).toMonoidHom =
           (MulAut.conj (fSL7 : PSL37)).toMonoidHom := by
         ext x; simp [MulAut.conj_apply, mul_assoc]

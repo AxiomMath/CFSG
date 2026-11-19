@@ -54,13 +54,13 @@ theorem not_statedSL {n : ℕ} (hn : 2 ≤ n) (e : G ≃* ↥(StatedSL n (ZMod 2
       have hmul := K.card_mul_index
       rw [hKi, hG] at hmul
       omega
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI := isCyclic_of_prime_card hK
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have := isCyclic_of_prime_card hK
     obtain ⟨a, b, hab⟩ := hKna
-    letI := IsCyclic.commGroup (α := K)
+    let := IsCyclic.commGroup (α := K)
     exact hab (mul_comm a b)
-  · haveI := mcltf_isSimpleGroup_SL h
-    haveI : IsSimpleGroup ↥(StatedSL n (ZMod 2)) := (mcltf_SLEquiv n).symm.isSimpleGroup
+  · have := mcltf_isSimpleGroup_SL h
+    have : IsSimpleGroup ↥(StatedSL n (ZMod 2)) := (mcltf_SLEquiv n).symm.isSimpleGroup
     exact not_isSimpleGroup hKn hKi hKna e.isSimpleGroup
 
 theorem rank2_perm_six : Rank2 (⊤ : Subgroup (Equiv.Perm (Fin 6))) := by
@@ -82,7 +82,7 @@ theorem not_statedSp {n : ℕ} (hn : 2 ≤ n) (e : G ≃* ↥(StatedSp n (ZMod 2
       rank2_perm_six)
   · have hs := CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp (ZMod 2) n
       (by omega) (Or.inr (Or.inr ⟨Nat.card_zmod 2, h⟩))
-    haveI : IsSimpleGroup ↥(StatedSp n (ZMod 2)) := (mcltf_spProjEquiv n).isSimpleGroup
+    have : IsSimpleGroup ↥(StatedSp n (ZMod 2)) := (mcltf_spProjEquiv n).isSimpleGroup
     exact not_isSimpleGroup hKn hKi hKna e.isSimpleGroup
 
 end LinearSymplectic

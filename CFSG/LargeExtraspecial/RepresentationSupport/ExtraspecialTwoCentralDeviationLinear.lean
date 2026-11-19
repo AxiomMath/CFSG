@@ -12,6 +12,7 @@ open CFSG.LargeExtraspecial.RepresentationSupport.ExtraspecialOddQuotientAutFait
 
 variable {E : Type*} [Group E] [Finite E] [h : Fact (CFSG.IsExtraspecialPGroup 2 E)]
 
+omit [Finite E] h in
 theorem mem_center_of_quotientHom_eq_one (α : MulAut E) (hα : quotientHom E α = 1) (x : E) :
     α x * x⁻¹ ∈ Subgroup.center E := by
   have h1 : quotientHom E α (x : E ⧸ Subgroup.center E) = (x : E ⧸ Subgroup.center E) := by
@@ -27,6 +28,7 @@ theorem mem_center_of_quotientHom_eq_one (α : MulAut E) (hα : quotientHom E α
       _ = x⁻¹ * α x := by group
   rwa [h4]
 
+omit [Finite E] in
 theorem fixes_center (α : MulAut E) (hα : quotientHom E α = 1) :
     ∀ z ∈ Subgroup.center E, α z = z :=
   CFSG.GroupTheory.AutomorphismAction.fixes_center_of_derived_eq α

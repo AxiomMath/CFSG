@@ -31,7 +31,7 @@ theorem vm_lt (m v : Nat) : vm m v < 16 := by
   have h : ∀ a b : Nat, b < 2 → a % 16 * b < 16 := by
     intro a b hb
     have := Nat.mod_lt a (show 16 > 0 by omega)
-    rcases (show b = 0 ∨ b = 1 by omega) with rfl | rfl <;> simpa using this
+    rcases (show b = 0 ∨ b = 1 by omega) with rfl | rfl <;> simp at this ⊢ <;> exact this
   unfold vm
   exact xor_lt16 (xor_lt16 (xor_lt16 (h _ _ (Nat.mod_lt _ (by omega)))
     (h _ _ (Nat.mod_lt _ (by omega)))) (h _ _ (Nat.mod_lt _ (by omega))))
@@ -148,7 +148,7 @@ theorem eqR_eq (R R' : Array Nat) : eqR R R' = (pk R == pk R') := by
   · intro h i hi
     rcases (show i = 0 ∨ i = 1 ∨ i = 2 ∨ i = 3 by omega) with rfl | rfl | rfl | rfl <;> omega
 
-theorem gK_mk {g h : Nat} (s : Bool) (hg : g < 65536) (hh : h < 65536) : gK (mk g h s) = g := by
+theorem gK_mk {g h : Nat} (s : Bool) (hg : g < 65536) (_hh : h < 65536) : gK (mk g h s) = g := by
   cases s <;> simp [gK, mk] <;> omega
 
 theorem hK_mk {g h : Nat} (s : Bool) (hg : g < 65536) (hh : h < 65536) : hK (mk g h s) = h := by
@@ -213,7 +213,7 @@ theorem pk_invRows (R : Array Nat) : pk (invRows R) = invMK (pk R) := by
   have hr : ∀ j : Nat, j < 4 → rc (invRows R) j = invRowK (pk R) j % 16 := by
     intro j hj
     unfold rc invRows invRowK
-    simp [Array.getElem?_ofFn, hj, vecMulN_mod]
+    simp [hj, vecMulN_mod]
   unfold invMK
   conv => lhs; unfold pk
   rw [hr 0 (by omega), hr 1 (by omega), hr 2 (by omega), hr 3 (by omega)]

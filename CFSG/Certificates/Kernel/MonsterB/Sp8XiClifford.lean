@@ -247,10 +247,10 @@ theorem kcoord_keyVec {κ κ' : Model.Key} (h : NW κ) (h' : NW κ') :
   have hw : wvec 0 = 1 := by simp [wvec]
   rw [hw, mul_one, Evec, E, Pi.single_apply]
   by_cases hk2 : (2, e', c') = κ
-  · rw [if_pos hk2, if_pos]
+  · rw [ite_eq_left hk2, ite_eq_left]
     rw [← hk2]
     rfl
-  · rw [if_neg hk2, if_neg]
+  · rw [ite_eq_right hk2, ite_eq_right]
     intro hi
     exact hk2 (kidx_inj h' h (by rw [hi]; rfl))
 

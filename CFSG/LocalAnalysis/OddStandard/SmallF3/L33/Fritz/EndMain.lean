@@ -15,7 +15,7 @@ theorem smallF3L33Core_of_inputs
     (hGH74 : UFrontier.GH74ModelsInput) (hH : HaradaInput) (hGH : GorensteinHarrisInput) :
     SmallF3L33Core := by
   intro G _ _ L hS hC hL
-  haveI := hS.simple
+  have := hS.simple
   obtain ⟨t, h⟩ := fritzHyp_of_smallF3 hGH74 hS hC hL
   exact false_of_ghRel_sylow hGH h (exists_ghRel_sylow hH hS.nonab h)
 

@@ -21,7 +21,7 @@ theorem reflTwoN_smul_zmod {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ 
     (hM : MoufangCondition D Γ n) (k : ZMod (2 * n)) :
     ((reflTwoN (D := D) (Γ := Γ) (n := n) t ht hn hP hT hM : ↥(moufangN D Γ n t)) : D) •
         t k = t (2 * (n : ZMod (2 * n)) - k) := by
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   have hcast : ((2 * (n : ℤ) - (k.val : ℤ) : ℤ) : ZMod (2 * n)) =
       2 * (n : ZMod (2 * n)) - k := by
     push_cast
@@ -33,7 +33,7 @@ theorem reflTwoN_smul_zmod {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ 
       = (reflTwo ht hn hP hT hM) • apt t (k.val : ℤ) := by
         rw [reflTwoN_coeD]
         congr 1
-        simpa [apt] using congrArg t hk.symm
+        simp [apt]
     _ = apt t (2 * (n : ℤ) - (k.val : ℤ)) :=
         reflTwo_smul (t := t) ht hn hP hT hM (k.val : ℤ)
     _ = t (2 * (n : ZMod (2 * n)) - k) := by
@@ -52,13 +52,15 @@ theorem reflTwoN_smul_aptEdge {t : ZMod (2 * n) → V} (ht : IsPolygonApartment 
     show 2 * (n : ZMod (2 * n)) - k - 1 + 1 = 2 * (n : ZMod (2 * n)) - k by ring,
     Set.pair_comm]
 
+omit [Fintype V] in
 theorem aptEdge_baseChamber (t : ZMod (2 * n) → V) :
     aptEdge t (n : ZMod (2 * n)) = baseChamber t := by
   rw [aptEdge, baseChamber, show (n : ZMod (2 * n)) + 1 = n + 1 by ring]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem aptEdge_adj {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     (hn : 2 ≤ n) (p : ZMod (2 * n)) : Γ.Adj (t p) (t (p + 1)) := by
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   have h := apt_adj ht (p.val : ℤ)
   have h0 : apt t (p.val : ℤ) = t p := by
     show t (((p.val : ℤ) : ZMod (2 * n))) = t p
@@ -72,9 +74,10 @@ theorem aptEdge_adj {t : ZMod (2 * n) → V} (ht : IsPolygonApartment Γ n t)
     rw [ZMod.natCast_zmod_val]
   rwa [h0, h1] at h
 
+omit [FaithfulSMul D V] in
 theorem stabilizer_of_moved_edge_subset {t : ZMod (2 * n) → V}
     (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n) (hP : IsGeneralizedPolygon Γ n)
-    (hT : IsThick Γ) (hM : MoufangCondition D Γ n)
+    (hT : IsThick Γ) (_hM : MoufangCondition D Γ n)
     (nN : ↥(moufangN D Γ n t)) (s : WeylGroup (moufangB D Γ n t) (moufangN D Γ n t))
     (hclass : (nN : WeylGroup (moufangB D Γ n t) (moufangN D Γ n t)) = s)
     (p : ZMod (2 * n))
@@ -92,9 +95,9 @@ theorem stabilizer_of_moved_edge_subset {t : ZMod (2 * n) → V}
       moufangCartan_normal (t := t) ht hn hP hT
     g ∈ (moufangB D Γ n t : Set ↥(littleGroup D Γ n)) ∪
       dc (moufangB D Γ n t) (moufangN D Γ n t) s := by
-  letI : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
+  let : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
     moufangCartan_normal (t := t) ht hn hP hT
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   classical
   by_cases hc : ((g : ↥(littleGroup D Γ n)) : D) • baseChamber t = baseChamber t
   · left
@@ -277,9 +280,10 @@ theorem reflTwo_moved_chamber {t : ZMod (2 * n) → V} (ht : IsPolygonApartment 
   congr 2
   ring
 
+omit [FaithfulSMul D V] in
 theorem stabilizer_of_moved_edge_subset_swapped {t : ZMod (2 * n) → V}
     (ht : IsPolygonApartment Γ n t) (hn : 3 ≤ n) (hP : IsGeneralizedPolygon Γ n)
-    (hT : IsThick Γ) (hM : MoufangCondition D Γ n)
+    (hT : IsThick Γ) (_hM : MoufangCondition D Γ n)
     (nN : ↥(moufangN D Γ n t)) (s : WeylGroup (moufangB D Γ n t) (moufangN D Γ n t))
     (hclass : (nN : WeylGroup (moufangB D Γ n t) (moufangN D Γ n t)) = s)
     (p : ZMod (2 * n))
@@ -299,9 +303,9 @@ theorem stabilizer_of_moved_edge_subset_swapped {t : ZMod (2 * n) → V}
       moufangCartan_normal (t := t) ht hn hP hT
     g ∈ (moufangB D Γ n t : Set ↥(littleGroup D Γ n)) ∪
       dc (moufangB D Γ n t) (moufangN D Γ n t) s := by
-  letI : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
+  let : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
     moufangCartan_normal (t := t) ht hn hP hT
-  haveI : NeZero (2 * n) := ⟨by omega⟩
+  have : NeZero (2 * n) := ⟨by omega⟩
   classical
   by_cases hc : ((g : ↥(littleGroup D Γ n)) : D) • baseChamber t = baseChamber t
   · left

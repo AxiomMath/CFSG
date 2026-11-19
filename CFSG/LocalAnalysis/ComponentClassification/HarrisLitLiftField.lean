@@ -258,7 +258,7 @@ theorem dihedral_inf_centralizerResidual (hg : g ∈ normalizer (L : Set X))
       rw [MonoidHom.mem_ker]
       have := congrArg Subtype.val hx
       simpa using this
-    obtain ⟨k, hk⟩ := Q.isPGroup' x
+    obtain ⟨k, hk⟩ := Q.isPGroup x
     have h1 : orderOf x ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk
     have h2 : orderOf (x : ↥(centralizerResidual L g)) ∣ Nat.card φ.ker :=
       Subgroup.orderOf_dvd_natCard φ.ker hxk

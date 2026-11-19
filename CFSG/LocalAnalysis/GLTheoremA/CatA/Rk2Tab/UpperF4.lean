@@ -31,12 +31,12 @@ theorem rk2_up_F4 {K : Type} [Group K] [Finite K] {lab : GLALabel} (hK : Rk2IsLa
   simp only [CFSG.Blueprint.ChevalleyExceptionalModel,
     CFSG.Blueprint.UntwistedChevalleyModel] at hCE
   obtain ⟨F, hF, hFin, hcardF, ⟨e0⟩⟩ := hCE.2
-  letI : Field F := hF
-  letI : Finite F := hFin
-  haveI : CharP F 2 :=
+  let : Field F := hF
+  let : Finite F := hFin
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (k := n) (by omega) hcardF
-  haveI : Finite (adjointGroup .F4 F) := CFSG.LieType.Chevalley.generated_group_finite .F4 F
+  have : Finite (adjointGroup .F4 F) := CFSG.LieType.Chevalley.generated_group_finite .F4 F
   have hpq : ¬ p ∣ Nat.card F - 1 := by
     intro hd1
     rw [hcardF] at hd1

@@ -20,7 +20,7 @@ theorem exists_frameElt {K : Type} [Field K] [Finite K] [CharP K 2]
       Matrix.SpecialLinearGroup.map Fr g₀ = g₀ * nSL (1 : (AlgebraicClosure K)ˣ) := by
   let L := AlgebraicClosure K
   have hcard : 2 ≤ Nat.card K := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact Nat.succ_le_of_lt Fintype.one_lt_card
   have hroot : ∃ a : L, a ^ Nat.card K - a + 1 = 0 := by

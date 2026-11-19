@@ -21,8 +21,8 @@ theorem card_le_prime_mul_inf_inner {p : ℕ} (hp : p.Prime) (hcyc : IsCyclic (O
     {A : Subgroup (MulAut S)} (hA : IsElemAbelian p A) :
     Nat.card A ≤ p * Nat.card ↥(A ⊓ inner S) := by
   classical
-  haveI : Finite (MulAut S) := finite_mulAut_of_finite
-  haveI := hcyc
+  have : Finite (MulAut S) := finite_mulAut_of_finite
+  have := hcyc
   let φ : ↥A →* Outer S := (QuotientGroup.mk' (inner S)).comp A.subtype
   have h1 := Subgroup.card_ker_mul_card_range φ
   have hker : Nat.card φ.ker = Nat.card ↥(A ⊓ inner S) := by
@@ -49,6 +49,7 @@ theorem card_le_prime_mul_inf_inner {p : ℕ} (hp : p.Prime) (hcyc : IsCyclic (O
     _ ≤ Nat.card ↥(A ⊓ inner S) * p := Nat.mul_le_mul_left _ hrange
     _ = p * Nat.card ↥(A ⊓ inner S) := Nat.mul_comm _ _
 
+omit [Finite S] in
 theorem inner_part_elemAbelian {p : ℕ} (hZ : Subgroup.center S = ⊥) {A : Subgroup (MulAut S)}
     (hA : IsElemAbelian p A) :
     IsElemAbelian p (A.comap (MulAut.conj : S →* MulAut S)) ∧

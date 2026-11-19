@@ -27,7 +27,7 @@ theorem fixed_ne_six
   let F := sylowFixedPoints X P s S
   let _ : Fintype F := Fintype.ofFinite F
   let rho : N →* Equiv.Perm F := toPermHom N F
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   have hFfin : Fintype.card F = 6 := by rwa [← Nat.card_eq_fintype_card]
   have hexp : ∀ a b : Fin 5 → X, Function.Injective a → Function.Injective b →
@@ -58,7 +58,7 @@ theorem fixed_ne_six
     push Not at hn
     exact prime_not_dvd_range_card_of_sylow_le_ker T rho (fun z hz => hn z hz) hdivI
   obtain ⟨z,hzT,hzne⟩ := hex
-  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' (⟨z,hzT⟩ : T)
+  obtain ⟨e,he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup (⟨z,hzT⟩ : T)
   have hzo : orderOf z.val = 5 ^ e := (Subgroup.orderOf_coe z).trans
     ((Subgroup.orderOf_coe (⟨z,hzT⟩ : T)).trans he)
   have hzpow : z ^ 5 = 1 := Subtype.ext

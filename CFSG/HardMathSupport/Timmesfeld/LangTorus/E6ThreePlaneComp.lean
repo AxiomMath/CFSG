@@ -208,7 +208,7 @@ theorem false_of_common_component_of_le_torus_E6 (hq : 4 ≤ S.D.q)
     (hc : Nat.card D₁ = 3 ^ 2) {J : Subgroup (ModGL Tag.E6 L)}
     (hJ : ∀ x ∈ D₁, x ≠ 1 → IsComponentOf J (S.Γ ⊓ Subgroup.centralizer {x})) : False := by
   classical
-  haveI : Finite D₁ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite D₁ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   have hrat : ∀ b : Fin Tag.E6.rank → Lˣ, rootDiagUnit Tag.E6 b ∈ D₁ →
       rootDiagUnit Tag.E6 b ≠ 1 →
       ∃ j : KernelComponent (rootCharHom b), J = rationalComponent S.ρ S.Γ (rootCharHom b) j := by
@@ -360,8 +360,8 @@ theorem false_of_fix_componentRoots {L : Type} [Field L] {a : Fin Tag.E6.rank �
         IsRoot.smul (isRoot_single Tag.E6 j) s⁻¹
       refine ⟨hr, (hs _ hr).2 ?_⟩
       rw [smul_inv_smul, mem_parabolicRoots_d4Support_iff']
-      exact ⟨isRoot_single Tag.E6 j, by simp [Pi.single_apply, hj0.symm],
-        by simp [Pi.single_apply, hj5.symm]⟩
+      exact ⟨isRoot_single Tag.E6 j, by simp [hj0.symm],
+        by simp [hj5.symm]⟩
     have hsγ₀ := (hs γ₀ hγ₀k.1).1 hγ₀k.2
     rw [mem_parabolicRoots_d4Support_iff'] at hsγ₀
     obtain ⟨j₁, hj₁0, hj₁5, hj₁⟩ := d4_exists_simple _ (mem_rootFinset.2 hsγ₀.1) hsγ₀.2.1
@@ -447,6 +447,7 @@ section HeisMain
 variable
   {L : Type} [Field L] [IsAlgClosed L] (S : LangSetup Tag.E6 L 3)
 
+omit [IsAlgClosed L] in
 theorem rootSpan_kernel_le_normalizer {a : Fin Tag.E6.rank → Lˣ}
     (i : KernelComponent (rootCharHom a)) :
     rootSpan Tag.E6 L (rootCharKernel a) ≤

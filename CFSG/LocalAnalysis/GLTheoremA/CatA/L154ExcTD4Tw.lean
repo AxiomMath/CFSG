@@ -41,8 +41,8 @@ theorem l154td4_langPicture_twE6 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : 
   have hxN := l154_mem_normalizer_of_normal hSn x
   obtain ⟨K, _, _, e, k, σ, θ, φx, φy, h, T, hchar, he, hK, hσ, hT, hh, hhp, hfix, -, hφx, hφy,
     hindx, hindy⟩ := excTwE6_marking_data hp hp2 hQ hxp hyp hxy hInn hF
-  haveI := hchar
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv _ θ.toEquiv
+  have := hchar
+  have : Finite ↥(twistedE6RootGroup K σ) := Finite.of_equiv _ θ.toEquiv
   have hh1 : h ≠ 1 := by
     rintro rfl
     exact hcm (l154_centMod_of_conj_one hqS hxN θ φx hφx hindx)

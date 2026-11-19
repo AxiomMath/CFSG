@@ -25,7 +25,7 @@ private lemma jSub_eq_map_jOn (s : Setting3 G L) {X : Subgroup G} (hX : X ≤ s.
     rw [Subgroup.mem_subgroupOf] at ht
     exact ⟨t, ht, htα ▸ jOn_actsAs L (s3_S_le_N s) t⟩
 
-private lemma jSub_closure_of_actsAs' (S : Set G) (hS : ∀ x ∈ S, x ∈ normalizer (L : Set G))
+private lemma jSub_closure_of_actsAs' (S : Set G) (_hS : ∀ x ∈ S, x ∈ normalizer (L : Set G))
     (f : G → MulAut (L ⧸ center L)) (hf : ∀ x ∈ S, ActsAs L x (f x)) :
     jSub L (closure S) = closure (f '' S) := by
   refine le_antisymm ?_ ?_
@@ -52,6 +52,7 @@ private lemma jSub_closure_of_actsAs' (S : Set G) (hS : ∀ x ∈ S, x ∈ norma
     rintro β ⟨x, hxS, rfl⟩
     exact (mem_jSub L).mpr ⟨x, Subgroup.subset_closure hxS, hf x hxS⟩
 
+omit [Finite G] in
 private lemma jSub_sup' {V W : Subgroup G} (hV : V ≤ normalizer (L : Set G))
     (hW : W ≤ normalizer (L : Set G)) : jSub L (V ⊔ W) = jSub L V ⊔ jSub L W := by
   rw [jSub, jSub, jSub, Subgroup.subgroupOf_sup hV hW, Subgroup.map_sup]
@@ -212,7 +213,7 @@ theorem s3_jSub_J0B (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
         rw [show B₀.map (jOn L (s3_S_le_N s)) = jSub L s.fr.B from
           (jSub_eq_map_jOn s hBS).symm, s3_jSub_B hS hZ s]
 
-theorem s3_jSub_E (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L))) (s : Setting3 G L) :
+theorem s3_jSub_E (_hS : HRSetting G L) (_hZ : Odd (Nat.card ↥(center ↥L))) (s : Setting3 G L) :
     jSub L s.fr.E = s.fr'.E := by
   obtain ⟨ha₁, hb₁, ha₂, hb₂, -, hz⟩ := s3_actsAs_gens s
   have hT : ({s.fr.b₁ * s.fr.b₂, s.fr.a₁ * s.fr.b₁ * s.fr.a₂, s.fr.z} : Set G) ⊆ s.fr.S := by
@@ -249,7 +250,7 @@ theorem s3_jSub_E (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L))) (s
     exact jSub_closure_of_actsAs' _ (fun x hx => s3_S_le_N s (hT hx)) f hf
   rw [hstep, image_triple_eq_of_values f h1 h2 h3, SFrame.E]
 
-theorem s3_jSub_F (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L))) (s : Setting3 G L) :
+theorem s3_jSub_F (_hS : HRSetting G L) (_hZ : Odd (Nat.card ↥(center ↥L))) (s : Setting3 G L) :
     jSub L s.fr.F = s.fr'.F := by
   obtain ⟨ha₁, hb₁, ha₂, hb₂, -, hz⟩ := s3_actsAs_gens s
   have hT : ({s.fr.a₁ * s.fr.a₂, s.fr.b₁ * s.fr.b₂, s.fr.z} : Set G) ⊆ s.fr.S := by
@@ -291,7 +292,7 @@ theorem s3_jSub_EF (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
   have hF : s.fr.F ≤ normalizer (L : Set G) := (s3_F_le_A s).trans (s3_A_le_N s)
   rw [jSub_sup' hE hF, s3_jSub_E hS hZ s, s3_jSub_F hS hZ s]
 
-theorem s3_jSub_K1 (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L))) (s : Setting3 G L) :
+theorem s3_jSub_K1 (_hS : HRSetting G L) (_hZ : Odd (Nat.card ↥(center ↥L))) (s : Setting3 G L) :
     jSub L (closure {s.fr.a₁, s.fr.b₁}) = closure {s.fr'.a₁, s.fr'.b₁} := by
   obtain ⟨ha₁, hb₁, -, -, -, -⟩ := s3_actsAs_gens s
   have hT : ({s.fr.a₁, s.fr.b₁} : Set G) ⊆ s.fr.S := by
@@ -321,7 +322,7 @@ theorem s3_jSub_K1 (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L))) (
     jSub_closure_of_actsAs' _ (fun x hx => s3_S_le_N s (hT hx)) f hf
   rw [hstep, image_pair_eq_of_values f h1 h2]
 
-theorem s3_jSub_K2 (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L))) (s : Setting3 G L) :
+theorem s3_jSub_K2 (_hS : HRSetting G L) (_hZ : Odd (Nat.card ↥(center ↥L))) (s : Setting3 G L) :
     jSub L (closure {s.fr.a₂, s.fr.b₂}) = closure {s.fr'.a₂, s.fr'.b₂} := by
   obtain ⟨-, -, ha₂, hb₂, -, -⟩ := s3_actsAs_gens s
   have hT : ({s.fr.a₂, s.fr.b₂} : Set G) ⊆ s.fr.S := by

@@ -15,7 +15,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
 private lemma mul_comm_of_isE {F : Type} [Group F] (hF : IsE 3 F) : ∀ a b : F, a * b = b * a := by
-  haveI : IsMulCommutative (⊤ : Subgroup F) := hF.1.1
+  have : IsMulCommutative (⊤ : Subgroup F) := hF.1.1
   exact fun a b => congrArg Subtype.val (mul_comm' (M := (⊤ : Subgroup F))
     ⟨a, Subgroup.mem_top a⟩ ⟨b, Subgroup.mem_top b⟩)
 
@@ -49,7 +49,7 @@ private lemma notMem_span_pair {A : Type*} [AddCommGroup A] [Module (ZMod 2) A] 
     (hc : c ≠ 0) (hac : c ≠ a) (hbc : c ≠ b) (habc : c ≠ a + b) :
     c ∉ Submodule.span (ZMod 2) (Set.range ![a, b]) := by
   have hr : Set.range (![a, b] : Fin 2 → A) = ({a, b} : Set A) := by
-    ext x; simp [Fin.exists_fin_two, or_comm, or_left_comm, or_assoc]
+    ext x; simp [or_comm]
   rw [hr, Submodule.mem_span_pair]
   rintro ⟨u, v, huv⟩
   have h01 : ∀ w : ZMod 2, w = 0 ∨ w = 1 := by
@@ -80,12 +80,12 @@ private theorem mulAut_triple {F : Type} [Group F] (hF : IsE 3 F)
     (hab' : a' ≠ b') (hac' : a' ≠ c') (hbc' : b' ≠ c') (habc' : a' * b' ≠ c') :
     ∃ α : MulAut F, α a = a' ∧ α b = b' ∧ α c = c' := by
   have hcomm := mul_comm_of_isE hF
-  letI : CommGroup F := { ‹Group F› with mul_comm := hcomm }
+  let : CommGroup F := { ‹Group F› with mul_comm := hcomm }
   have h2 : ∀ x : F, x ^ 2 = 1 := fun x => hF.1.2 x trivial
-  letI : Module (ZMod 2) (Additive F) := AddCommGroup.zmodModule (n := 2) fun x => by
+  let : Module (ZMod 2) (Additive F) := AddCommGroup.zmodModule (n := 2) fun x => by
     rw [← toMul_eq_one, toMul_nsmul, h2]
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF.2]; norm_num)
-  haveI : Fintype (Additive F) := Fintype.ofFinite (Additive F)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF.2]; norm_num)
+  have : Fintype (Additive F) := Fintype.ofFinite (Additive F)
   have hcardV : Fintype.card (Additive F) = 8 := by
     rw [Fintype.card_eq_nat_card, ← Nat.card_congr Additive.ofMul, hF.2]; norm_num
   have hfr := Module.card_eq_pow_finrank (K := ZMod 2) (V := Additive F)
@@ -125,7 +125,7 @@ private theorem isCoatom_subgroupOf_of_isMaximalIn {Γ : Type} [Group Γ] {V M :
     exact Subgroup.mem_subgroupOf.mp hmem
   · intro K hKne hMK
     by_contra hKM
-    obtain ⟨k, hkK, hkM⟩ := SetLike.not_le_iff_exists.mp hKM
+    obtain ⟨k, hkK, hkM⟩ := IsConcreteLE.not_le_iff_exists.mp hKM
     let N : Subgroup Γ := K.map V.subtype
     have hNV : N ≤ V := by rintro x ⟨y, -, rfl⟩; exact y.2
     have hMN : M ≤ N := by
@@ -156,7 +156,7 @@ private lemma y56_h0_mem_normalizer_E {s : Setting3 G L} {e : Setting3.Ext s} (h
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hAT1).mp hH.h32.1.2)
   have hBmax : IsMaximalIn s.fr.S s.fr.B := hH.hLF.fact14.2.2.1.2.2.1
   have hcoatom : IsCoatom (s.fr.B.subgroupOf s.fr.S) := isCoatom_subgroupOf_of_isMaximalIn hBmax
-  haveI : Group.IsNilpotent ↥s.fr.S := (s3_isPGroup_S s).isNilpotent
+  have : Group.IsNilpotent ↥s.fr.S := (s3_isPGroup_S s).isNilpotent
   have hBnorm : (s.fr.B.subgroupOf s.fr.S).Normal :=
     Subgroup.NormalizerCondition.normal_of_coatom (s.fr.B.subgroupOf s.fr.S)
       (Group.normalizerCondition_of_isNilpotent (G := ↥s.fr.S)) hcoatom
@@ -230,7 +230,6 @@ theorem y56_A_le_NE {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     s.fr.A ≤ normIn L s.fr.E := by
   have hA : LFactsA s := lfactsA_of_setting hH.hS hH.hZ s
   refine le_inf (s3_A_le_L s) fun a ha => ?_
-  change a ∈ Subgroup.normalizer (s.fr.E : Set G)
   rw [Subgroup.mem_normalizer_iff]
   refine fun f => ⟨fun hf => ?_, fun hf => ?_⟩
   · have heq : a * f * a⁻¹ = ⁅a, f⁆ * f := by rw [commutatorElement_def]; group
@@ -281,7 +280,7 @@ theorem y56_card_NE {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     Nat.card ↥(normIn L s.fr.E) = 192 := by
   have hA : s.fr.A ≤ normIn L s.fr.E := y56_A_le_NE hH
   obtain ⟨hN, hP⟩ := hH.hLF.fact18.2.2.1.2.2.1
-  letI := hN
+  let := hN
   obtain ⟨e⟩ := hP
   have hquot : Nat.card
       (↥(normIn L s.fr.E) ⧸ (zL L ⊔ s.fr.A).subgroupOf (normIn L s.fr.E)) = 6 := by
@@ -357,7 +356,7 @@ theorem y56_aut_surj {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e)
       · intro hx
         obtain ⟨β, hβ⟩ := gl_trans1 hE (a := zE) (a' := x) hzE1 hx
         exact ⟨β, by rwa [MulAut.smul_def]⟩
-    haveI : Fintype ↥s.fr.E := Fintype.ofFinite _
+    have : Fintype ↥s.fr.E := Fintype.ofFinite _
     rw [Nat.card_coe_set_eq, horbit]
     have hset : ({x : ↥s.fr.E | x ≠ 1} : Set ↥s.fr.E) = Set.univ \ ({1} : Set ↥s.fr.E) := by
       ext x; simp
@@ -442,7 +441,7 @@ theorem y56_stab_v0 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
   have hv0E1 : v0E ≠ 1 := fun h => hv01 (Subtype.ext_iff.mp h)
   have hv0Ez : v0E ≠ zE := fun h => hv0z (Subtype.ext_iff.mp h)
   have hzE1 : zE ≠ 1 := fun h => (y56_v0 hH).2.2.2.1 (Subtype.ext_iff.mp h)
-  letI : MulAction ↥(normIn L s.fr.E) ↥s.fr.E := MulAction.compHom ↥s.fr.E (y56Conj s)
+  let : MulAction ↥(normIn L s.fr.E) ↥s.fr.E := MulAction.compHom ↥s.fr.E (y56Conj s)
   have horbit : MulAction.orbit ↥(normIn L s.fr.E) v0E =
       {x : ↥s.fr.E | x ≠ 1 ∧ x ≠ zE} := by
     ext x
@@ -473,7 +472,7 @@ theorem y56_stab_v0 {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
       rw [y56Conj_apply]
       exact hconj
   have hcardOrbit : Nat.card ↥(MulAction.orbit ↥(normIn L s.fr.E) v0E) = 6 := by
-    haveI : Fintype ↥s.fr.E := Fintype.ofFinite _
+    have : Fintype ↥s.fr.E := Fintype.ofFinite _
     rw [Nat.card_coe_set_eq, horbit]
     have hset : ({x : ↥s.fr.E | x ≠ 1 ∧ x ≠ zE} : Set ↥s.fr.E) =
         (Set.univ \ ({1} : Set ↥s.fr.E)) \ ({zE} : Set ↥s.fr.E) := by ext x; simp

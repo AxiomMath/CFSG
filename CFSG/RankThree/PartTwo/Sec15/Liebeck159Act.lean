@@ -56,7 +56,7 @@ private theorem exists_act_map_mk {M Γ : Type*} [Group M] [Group Γ] (K J' : Su
 
 omit [Finite G] in
 theorem exists_act_img148 {A J : Subgroup G} [(ker148 A J).Normal]
-    (hAJ : A ≤ Subgroup.normalizer (J : Set G)) :
+    (_hAJ : A ≤ Subgroup.normalizer (J : Set G)) :
     ∃ act : ↥(Subgroup.normalizer (J : Set G) ⊓ Subgroup.normalizer (A : Set G)) →*
         MulAut ↥(img148 A J J),
       ∀ (n : ↥(Subgroup.normalizer (J : Set G) ⊓ Subgroup.normalizer (A : Set G)))
@@ -103,7 +103,7 @@ theorem center_img148_eq_bot {A J : Subgroup G} [(ker148 A J).Normal] {k : ℕ} 
         (PGLModel.projSUEquivStatedProj 3 2 1)) hφ
 
 theorem act_facts {A J L : Subgroup G} [(ker148 A J).Normal]
-    (hAJ : A ≤ Subgroup.normalizer (J : Set G)) (hBJ : A ⊓ L ≤ J)
+    (_hAJ : A ≤ Subgroup.normalizer (J : Set G)) (_hBJ : A ⊓ L ≤ J)
     (act : ↥(Subgroup.normalizer (J : Set G) ⊓ Subgroup.normalizer (A : Set G)) →*
         MulAut ↥(img148 A J J))
     (hact : ∀ (n : ↥(Subgroup.normalizer (J : Set G) ⊓ Subgroup.normalizer (A : Set G)))

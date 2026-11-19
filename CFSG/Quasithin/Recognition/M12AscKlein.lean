@@ -138,7 +138,7 @@ theorem exists_conj_mem [Finite I] (h : KleinCore K V z y) {x : I} (hxK : x ∈ 
     (Nat.card_congr (Subgroup.equivMapOfInjective W K.subtype K.subtype_injective)).symm
   have hS0card : Nat.card (S0 : Subgroup K) ≤ 4 := by
     have hp : IsPGroup 2 ((S0 : Subgroup K).map K.subtype) := by
-      obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 S0.isPGroup'
+      obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 S0.isPGroup
       refine (IsPGroup.iff_card).2 ⟨n, ?_⟩
       rw [hmapcard, hn]
     have := h.syl _ (Subgroup.map_subtype_le _) hp

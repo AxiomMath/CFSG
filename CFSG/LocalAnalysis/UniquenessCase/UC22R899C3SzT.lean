@@ -23,7 +23,7 @@ theorem uc22r899c3_suzuki_normalizer_torus {a : ℕ} {K : Type}
     have h8 : 8 ≤ 2 ^ (2 * a + 1) :=
       calc 8 = 2 ^ 3 := by norm_num
         _ ≤ 2 ^ (2 * a + 1) := Nat.pow_le_pow_right (by norm_num) (by omega)
-    haveI : Nontrivial Kˣ :=
+    have : Nontrivial Kˣ :=
       Finite.one_lt_card_iff_nontrivial.1 (by rw [Nat.card_units, hK]; omega)
     exact exists_ne 1
   obtain ⟨μ, hμ⟩ := mem_suzukiT_iff.1 (hg _ (suzukiDElt_mem_suzukiT a K l))
@@ -56,7 +56,7 @@ theorem uc22r899c3_suzuki_fixes {a : ℕ} {K : Type} [Field K]
     (hn : 2 * a + 1 = p * m) (hp : p.Prime) (hp2 : p ≠ 2) (α : MulAut (suzukiGroup a K))
     (hαT : ∀ x, x ∈ suzukiT a K ↔ α x ∈ suzukiT a K) (hαp : α ^ p = 1) {l : Kˣ}
     (hl : l ^ 2 ^ m = l) : α (suzukiDElt a K l) = suzukiDElt a K l := by
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   obtain ⟨-, ⟨e, he⟩, -⟩ :=
     CFSG.RankThree.Automorphisms.Suzuki_full_field_automorphism_splitting a ha K hK
   obtain ⟨⟨x, τ⟩, hxτ⟩ := e.surjective α
@@ -153,11 +153,11 @@ theorem uc22r899c3_suzuki_torus_frame {X : Type} [Group X]
     rw [Nat.card_congr e₀.toEquiv]
     exact h1.trans (Subgroup.card_subgroup_dvd_card _)
   have hQq : q ∣ Nat.card Q := Q.dvd_card_of_dvd_card hqX
-  haveI : Nontrivial Q := by
+  have : Nontrivial Q := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     exact lt_of_lt_of_le (Fact.out : q.Prime).one_lt (Nat.le_of_dvd Nat.card_pos hQq)
-  have hQp : IsPGroup q Q := Q.isPGroup'
-  haveI := hQp.center_nontrivial
+  have hQp : IsPGroup q Q := Q.isPGroup
+  have := hQp.center_nontrivial
   have hZq : q ∣ Nat.card (Subgroup.center Q) := by
     rcases (hQp.to_subgroup (Subgroup.center Q)).card_eq_or_dvd with h1 | h1
     · exact absurd h1 (Nat.ne_of_gt Finite.one_lt_card)

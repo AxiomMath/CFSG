@@ -111,7 +111,7 @@ theorem card_center_centralizer_eq_two {G : Type*} [Group G] (c : G) (hc2 : c * 
     (hZ : ∀ z ∈ Subgroup.center ↥(Subgroup.centralizer ({c} : Set G)),
       (z : G) = 1 ∨ (z : G) = c) :
     Nat.card (Subgroup.center ↥(Subgroup.centralizer ({c} : Set G))) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcC : c ∈ Subgroup.centralizer ({c} : Set G) :=
     Subgroup.mem_centralizer_iff.2 fun h hh => by rw [Set.mem_singleton_iff.1 hh]
   let c' : ↥(Subgroup.centralizer ({c} : Set G)) := ⟨c, hcC⟩

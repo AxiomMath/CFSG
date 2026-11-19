@@ -14,7 +14,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.Y10GNegBC
 
 open CFSG.Open CFSG.Assembly CFSG.Timmesfeld.ClassicalOrders
 
-theorem prod_icc_two_six {Q : ℕ} (hQ : 1 ≤ Q) :
+theorem prod_icc_two_six {Q : ℕ} (_hQ : 1 ≤ Q) :
     ∏ i ∈ Finset.Icc 2 6, (((Q : ℕ) : ℤ) ^ i - (-1) ^ i).toNat =
       (Q ^ 2 - 1) * (Q ^ 3 + 1) * (Q ^ 4 - 1) * (Q ^ 5 + 1) * (Q ^ 6 - 1) := by
   have h : Finset.Icc 2 6 = {2, 3, 4, 5, 6} := by decide
@@ -55,7 +55,7 @@ theorem not_dvd_u6_prod {Q : ℕ} (hQ : 2 ≤ Q) (hQ2 : 2 ∣ Q) :
     have : 1 ≤ Q ^ 4 := Nat.one_le_pow _ _ (by omega)
     omega
   obtain ⟨ℓ, hℓ, hℓd⟩ := Nat.exists_prime_and_dvd hne
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hℓX := dvd_trans hℓd h
   have hℓ2 : ℓ ≠ 2 := by
     rintro rfl

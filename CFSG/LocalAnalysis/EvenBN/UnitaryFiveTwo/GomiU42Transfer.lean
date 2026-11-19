@@ -10,17 +10,20 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {Bs : Subgroup G} {t : G}
 
+omit [Finite G] in
 private theorem subtype_conj_comp (ht : t ∈ Bs) :
     Bs.subtype.comp (MulAut.conj (⟨t, ht⟩ : ↥Bs)).toMonoidHom =
       (MulAut.conj t).toMonoidHom.comp Bs.subtype := by
   ext y
   simp [MulAut.conj_apply]
 
+omit [Finite G] in
 private theorem map_subtype_map_conj (ht : t ∈ Bs) (K : Subgroup ↥Bs) :
     (K.map (MulAut.conj (⟨t, ht⟩ : ↥Bs)).toMonoidHom).map Bs.subtype =
       (K.map Bs.subtype).map (MulAut.conj t).toMonoidHom := by
   rw [Subgroup.map_map, Subgroup.map_map, subtype_conj_comp ht]
 
+omit [Finite G] in
 theorem layer_transfer (ht : t ∈ Bs) {J₀ : Subgroup G} (hJ₀ : J₀ ≤ Bs)
     (hI : CFSG.layer ↥Bs ⊓ centralizer ({(⟨t, ht⟩ : ↥Bs)} : Set ↥Bs) = J₀.subgroupOf Bs)
     (hdisj : CFSG.Blueprint.LieModel ↥(CFSG.layer ↥Bs) .PSL 4 2 2 ∨

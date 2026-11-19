@@ -41,7 +41,7 @@ theorem exps_equal_two {j : ℕ} (hj : j < 2) {α β : Fin (Tag.rank .E7) → �
   exact H α hα β hβ hαp hβp h
 
 theorem exps_equal_small {f j : ℕ} (hf : 3 ≤ f) (hj : j + 2 ≤ f) {α β : Fin (Tag.rank .E7) → ℤ}
-    (hα : IsRoot .E7 α) (hαp : 0 < ht α) (hβ : IsRoot .E7 β) (hβp : 0 < ht β)
+    (hα : IsRoot .E7 α) (_hαp : 0 < ht α) (hβ : IsRoot .E7 β) (_hβp : 0 < ht β)
     (h : ∀ i, ((2 : ℤ) ^ f - 1) ∣ MinData.toWeight β i - 2 ^ j * MinData.toWeight α i) : α = β := by
   have hpow1 : (2 : ℤ) ^ (j + 2) ≤ 2 ^ f := pow_le_pow_right₀ (by norm_num) hj
   have hpow2 : (8 : ℤ) ≤ 2 ^ f := by

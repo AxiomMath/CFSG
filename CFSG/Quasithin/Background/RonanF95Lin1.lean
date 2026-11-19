@@ -236,6 +236,7 @@ theorem ni_mem_Y (x : E) : S.ni x ∈ S.Y := by
 
 variable [Finite E]
 
+omit [Finite E] in
 theorem nv_mem_X (y : E) : S.nv y ∈ S.X := by
   show S.v y + y ∈ S.X
   exact S.hvX y

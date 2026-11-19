@@ -67,7 +67,7 @@ theorem exists_large_conj_into_langTorus {τ : Tag} {C : Type} [Group C] [Finite
     obtain ⟨P0⟩ : Nonempty (Sylow p X) := inferInstance
     set P1 : Subgroup (ModGL τ L) := (P0 : Subgroup X).map X.subtype with hP1
     have hP1X : P1 ≤ X := Subgroup.map_subtype_le _
-    have hP1p : IsPGroup p P1 := P0.isPGroup'.map _
+    have hP1p : IsPGroup p P1 := P0.isPGroup.map _
     have hP1range : P1 ≤ ι.range := hpg P1 hP1X hP1p
     have hcard1 : Nat.card (P1.comap ι) = p ^ (Nat.card X).factorization p := by
       have hmap : (P1.comap ι).map ι = P1 := by

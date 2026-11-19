@@ -13,7 +13,7 @@ theorem five_fixed {G : Type} [Group G] [Finite G] (hG : Gen4 G) (W : Subgroup G
     ∀ w ∈ W, x * w * x⁻¹ = w → w = 1 := by
   classical
   have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  letI : Fintype W := Fintype.ofFinite W
+  let : Fintype W := Fintype.ofFinite W
   have hcard : Nat.card W ≤ 16 := by
     have := SectionalTwoRankLE.card_le_of_elementary (r := 4) hG W hW
     simpa using this
@@ -114,8 +114,8 @@ theorem exists_five_acting {G : Type} [Group G] [Finite G] (K W : Subgroup G)
         = (g : G) * (((g : G)⁻¹ * w * g) * c) * (g : G)⁻¹ := by group
       _ = (g : G) * (c * ((g : G)⁻¹ * w * g)) * (g : G)⁻¹ := by rw [hcw]
       _ = ((g : G) * c * (g : G)⁻¹) * w := by group
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI hmapn : (C.map φ).Normal := Subgroup.Normal.map hCn φ hφ
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have hmapn : (C.map φ).Normal := Subgroup.Normal.map hCn φ hφ
   rcases (IsSimpleGroup.eq_bot_or_eq_top_of_normal (C.map φ)) with hbot | htop
   swap
   · exfalso
@@ -157,7 +157,7 @@ theorem exists_five_acting {G : Type} [Group G] [Finite G] (K W : Subgroup G)
       exact Nat.mul_div_cancel 5 (by positivity)
     refine ⟨(x₁ : G), x₁.2, by rw [Subgroup.orderOf_coe]; exact hord1, ?_⟩
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hxC : x₁ ∈ C := (hmemC _).2 fun w hw => by
       have h := hcon w hw
       calc w * (x₁ : G) = (x₁ : G) * w * (x₁ : G)⁻¹ * (x₁ : G) := by rw [h]

@@ -277,6 +277,7 @@ private theorem center_le₀ (d : EqData z σ J₀ J₁) : centerIn (J z) ≤ J�
 omit [Finite G] in
 private theorem center_le₁ (d : EqData z σ J₀ J₁) : centerIn (J z) ≤ J₁ := d.inf ▸ inf_le_right
 
+omit [Finite G] in
 private theorem z_mem_center (d : EqData z σ J₀ J₁) : z ∈ centerIn (J z) :=
   ⟨z_mem_J d.hyp, z_centralizes_J d.hyp⟩
 
@@ -635,12 +636,12 @@ private theorem five_dvd_card_inf_centralizer
       ⟨d.center_le₁ hx, centerIn_J_sq d.hyp hx⟩
     have hTS : T = S \ (centerIn (J z) : Set G) := by
       ext x
-      simp only [hT, hS, Set.mem_setOf_eq, Set.mem_diff, SetLike.mem_coe]
+      simp only [hT, hS, Set.mem_ofPred_eq, Set.mem_sdiff, SetLike.mem_coe]
       tauto
     have hZcard : (centerIn (J z) : Set G).ncard = 4 := by
       rw [← Nat.card_coe_set_eq]
       exact card_centerIn_J d.hyp
-    have h1 := Set.ncard_diff hZS
+    have h1 := Set.ncard_sdiff hZS
     rw [hTS, h1, hZcard]
     omega
   have hOle : O.ncard ≤ 140 := (Set.ncard_le_ncard hOT (Set.toFinite T)).trans hT140
@@ -1361,7 +1362,7 @@ private theorem no_conj_z_eq (d : EqData z σ J₀ J₁)
     rw [← Subgroup.map_subgroupOf_eq_of_le hTM]
     exact Subgroup.map_mono hTS
   have hSgM : Sg ≤ M := Subgroup.map_subtype_le _
-  have hSg2 : IsPGroup 2 Sg := S.isPGroup'.map M.subtype
+  have hSg2 : IsPGroup 2 Sg := S.isPGroup.map M.subtype
   rcases eq_or_lt_of_le hTSg with heq | hlt
   ·
     obtain ⟨S', hQS'⟩ := (hQ2.comap_subtype : IsPGroup 2 (Q.subgroupOf M)).exists_le_sylow
@@ -1376,7 +1377,7 @@ private theorem no_conj_z_eq (d : EqData z σ J₀ J₁)
     omega
   ·
     obtain ⟨y, hyN, hyT⟩ :=
-      SetLike.exists_of_lt (CFSG.GroupTheory.lt_inf_normalizer_of_isPGroup hSg2 hlt)
+      _root_.IsConcreteLE.exists_of_lt (CFSG.GroupTheory.lt_inf_normalizer_of_isPGroup hSg2 hlt)
     obtain ⟨hySg, hyNT⟩ := Subgroup.mem_inf.mp hyN
     obtain ⟨hyb, hyj⟩ := Subgroup.mem_inf.mp (hSgM hySg)
     have hyz : y * z ≠ z * y := by

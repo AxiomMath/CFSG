@@ -15,7 +15,7 @@ open Subgroup CFSG.ABGLocalTools CFSG.GH74.GLS CFSG.GH74.GLS.Bg.Thompson
 variable {G : Type} [Group G] [Finite G]
 
 theorem involution_quot_cyclic {S M₀ : Subgroup G} (hn : ∀ s ∈ S, ∀ q ∈ M₀, s * q * s⁻¹ ∈ M₀)
-    (hM₀S : M₀ ≤ S) (hcyc : ∃ b ∈ S, ∀ t ∈ S, ∃ k : ℤ, (b ^ k)⁻¹ * t ∈ M₀) {t t' : G}
+    (_hM₀S : M₀ ≤ S) (hcyc : ∃ b ∈ S, ∀ t ∈ S, ∃ k : ℤ, (b ^ k)⁻¹ * t ∈ M₀) {t t' : G}
     (ht : t ∈ S) (ht' : t' ∈ S) (ht2 : t * t ∈ M₀) (ht'2 : t' * t' ∈ M₀) (hn1 : t ∉ M₀)
     (hn2 : t' ∉ M₀) : t⁻¹ * t' ∈ M₀ := by
   classical

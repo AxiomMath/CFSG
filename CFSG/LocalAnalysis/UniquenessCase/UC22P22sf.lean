@@ -135,7 +135,7 @@ theorem eq_bot_of_perfect_of_card_dvd_six {P : Subgroup X} (hP : ⁅P, P⁆ = P)
   exact (Finset.card_le_card hsub).trans h62.le
 
 theorem card_sl2_galoisField_one : Nat.card SL(2, GaloisField 2 1) = 6 := by
-  letI : Fintype (GaloisField 2 1) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 1) := Fintype.ofFinite _
   have hq : Fintype.card (GaloisField 2 1) = 2 := by
     rw [← Nat.card_eq_fintype_card]
     simpa using GaloisField.card 2 1 (by norm_num)
@@ -166,9 +166,10 @@ theorem le_alternatingGroup_of_perfect {m : ℕ} {P : Subgroup (Equiv.Perm (Fin 
   rw [Equiv.Perm.mem_alternatingGroup, map_commutatorElement, commutatorElement_eq_one_iff_mul_comm]
   exact mul_comm _ _
 
+omit [Finite X] in
 theorem eq_bot_or_eq_of_isSimpleGroup {D N : Subgroup X} (hD : IsSimpleGroup ↥D) (hND : N ≤ D)
     (hDN : D ≤ normalizer (N : Set X)) : N = ⊥ ∨ N = D := by
-  haveI : (N.subgroupOf D).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hND).2 hDN
+  have : (N.subgroupOf D).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hND).2 hDN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf D) with h | h
   · left
     rw [Subgroup.subgroupOf_eq_bot] at h
@@ -190,16 +191,19 @@ variable {X : Type} [Group X] [Finite X] {s : ℕ} {J Q : Subgroup X} {Hs : Fin 
     Subgroup X :=
   ((Hs i).subtype.comp (projHom h hQJ i)).range
 
+omit [Finite X] in
 theorem projImage_le (h : CFSG.ASVolI.ChB.IsIntDirProd J Hs) (hQJ : Q ≤ J) (i : Fin s) :
     projImage h hQJ i ≤ Hs i := by
   rintro _ ⟨q, rfl⟩
   exact (projHom h hQJ i q).2
 
+omit [Finite X] in
 theorem projImage_perfect (h : CFSG.ASVolI.ChB.IsIntDirProd J Hs) (hQJ : Q ≤ J) (i : Fin s)
     (hQp : ⁅Q, Q⁆ = Q) : ⁅projImage h hQJ i, projImage h hQJ i⁆ = projImage h hQJ i := by
-  haveI : Group.IsPerfect ↥Q := Subgroup.isPerfect_iff.2 hQp
+  have : Group.IsPerfect ↥Q := Subgroup.isPerfect_iff.2 hQp
   exact Subgroup.isPerfect_iff.1 (Group.IsPerfect.range _)
 
+omit [Finite X] in
 theorem inf_le_projImage (h : CFSG.ASVolI.ChB.IsIntDirProd J Hs) (hQJ : Q ≤ J) (i : Fin s) :
     Q ⊓ Hs i ≤ projImage h hQJ i := by
   rintro x ⟨hxQ, hxi⟩
@@ -207,6 +211,7 @@ theorem inf_le_projImage (h : CFSG.ASVolI.ChB.IsIntDirProd J Hs) (hQJ : Q ≤ J)
   change ((dirProj h i ⟨x, hQJ hxQ⟩ : ↥(Hs i)) : X) = x
   exact dirProj_of_mem h hxi
 
+omit [Finite X] in
 theorem commutator_projImage (h : CFSG.ASVolI.ChB.IsIntDirProd J Hs) (hQJ : Q ≤ J) (i : Fin s) :
     ⁅Q, Hs i⁆ = ⁅projImage h hQJ i, Hs i⁆ := by
   apply le_antisymm
@@ -219,6 +224,7 @@ theorem commutator_projImage (h : CFSG.ASVolI.ChB.IsIntDirProd J Hs) (hQJ : Q �
     rw [← commutatorElement_eq_dirProj h ⟨q, hQJ q.2⟩ hx]
     exact Subgroup.commutator_mem_commutator q.2 hx
 
+omit [Finite X] in
 theorem le_normalizer_projImage (h : CFSG.ASVolI.ChB.IsIntDirProd J Hs) (hQJ : Q ≤ J) (i : Fin s)
     (hJQ : J ≤ normalizer (Q : Set X)) : Hs i ≤ normalizer (projImage h hQJ i : Set X) := by
   refine le_normalizer_of_conj fun x hx p hp => ?_
@@ -256,6 +262,7 @@ theorem uc22p22sf_le_J (hHJ : Hst ≤ normalizer (J : Set X)) (hprod : (J : Set 
     exact (J ⊔ T).mul_mem (Subgroup.mem_sup_left hj) (Subgroup.mem_sup_right ht)
   exact le_of_commutator_eq_self hT2 (hTH.trans hHJ) (hQH.trans hHJT) hQp
 
+omit [Finite X] in
 theorem uc22p22sf_commutator_ne_bot (hTH : T ≤ Hst) (hHQ : Hst ≤ normalizer (Q : Set X)) (hQJ : Q ≤ J)
     (hdir : CFSG.ASVolI.ChB.IsIntDirProd J Hs)
     (htrans : ∀ i j, ∃ t ∈ T, (Hs i).map (MulAut.conj t).toMonoidHom = Hs j) (hQp : ⁅Q, Q⁆ = Q)
@@ -315,7 +322,7 @@ theorem uc22p22sf_factor (hdir : CFSG.ASVolI.ChB.IsIntDirProd J Hs) (hQJ : Q ≤
   · rcases Nat.lt_or_ge e 2 with he | he
     · obtain rfl : e = 1 := by omega
       exact (hD2 (card_sl2_galoisField_one ▸ dvd_rfl) ⟨ψ⟩).elim
-    · haveI : IsSimpleGroup ↥(Hs i) := (ψ.isSimpleGroup_congr).2 (isSimpleGroup_sl2_galoisField he)
+    · have : IsSimpleGroup ↥(Hs i) := (ψ.isSimpleGroup_congr).2 (isSimpleGroup_sl2_galoisField he)
       have hDH : D = Hs i := by
         rcases eq_bot_or_eq_of_isSimpleGroup (D := Hs i) inferInstance inf_le_right
           (fun x hx => mem_normalizer_inf' (hHQ hx) (Subgroup.le_normalizer hx)) with h | h
@@ -336,14 +343,14 @@ theorem uc22p22sf_factor (hdir : CFSG.ASVolI.ChB.IsIntDirProd J Hs) (hQJ : Q ≤
           calc 4 = 2 ^ 2 := by norm_num
             _ ≤ 2 ^ k := Nat.pow_le_pow_right (by norm_num) hk
         omega
-      haveI hsA : IsSimpleGroup (alternatingGroup (Fin m)) :=
+      have hsA : IsSimpleGroup (alternatingGroup (Fin m)) :=
         alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hm5)
       set f' : ↥Q →* ↥(Hs i) := projHom hdir hQJ i with hf'
       have hPrange : P = f'.range.map (Hs i).subtype := by
         rw [hPdef, projImage, MonoidHom.range_comp]
       set P' : Subgroup (Equiv.Perm (Fin m)) := ((ψ : ↥(Hs i) →* Equiv.Perm (Fin m)).comp f').range with hP'def
       have hP'p : ⁅P', P'⁆ = P' := by
-        haveI : Group.IsPerfect ↥Q := Subgroup.isPerfect_iff.2 hQp
+        have : Group.IsPerfect ↥Q := Subgroup.isPerfect_iff.2 hQp
         exact Subgroup.isPerfect_iff.1 (Group.IsPerfect.range _)
       have hP'A : P' ≤ alternatingGroup (Fin m) := le_alternatingGroup_of_perfect hP'p
       have hP'ne : P' ≠ ⊥ := by
@@ -416,6 +423,7 @@ theorem uc22p22sf_structure (hHJ : Hst ≤ normalizer (J : Set X)) (hprod : (J :
   exact ⟨hp, hne, hsimp, fun e he1 hψ => ⟨(hsl e he1 hψ).1, (hsl e he1 hψ).2.1⟩,
     fun k hψ => ⟨(hsym k hψ).1, (hsym k hψ).2.1⟩⟩
 
+omit [Finite X] in
 theorem uc22p22sf_eq_factor (hdir : CFSG.ASVolI.ChB.IsIntDirProd J Hs) (hQJ : Q ≤ J)
     (hQeq : Q = ⨆ i, Q ⊓ Hs i)
     (hD : ∀ i, ⁅Q ⊓ Hs i, Q ⊓ Hs i⁆ = Q ⊓ Hs i ∧ Q ⊓ Hs i ≠ ⊥ ∧ IsSimpleGroup ↥(Q ⊓ Hs i))

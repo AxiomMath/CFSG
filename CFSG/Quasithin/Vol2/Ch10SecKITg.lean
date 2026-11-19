@@ -38,6 +38,7 @@ theorem card_ext {PV PY : ∀ (V : Type) [Group V], Prop} (h : IsExt ↥B PV PY)
   obtain ⟨V, hV, hPV, hPY⟩ := h
   exact ⟨V, hV, hPV, hPY, by rw [V.card_eq_card_quotient_mul_card_subgroup, mul_comm]⟩
 
+omit [Finite Q] in
 theorem card_ext_E16_A5 (h : IsExt ↥B (fun V _ => IsE2 4 V) (fun Y _ => IsAlt 5 Y)) :
     Nat.card ↥B = 960 := by
   obtain ⟨V, _, hV, hY, hc⟩ := card_ext h

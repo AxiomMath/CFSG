@@ -46,7 +46,7 @@ private theorem form_aux {K : Type} [Field K] [Finite K]
     (hα : α ^ p = 1) (hnin : ∀ h : adjointGroup ReeTag.F4.tag K, α ≠ MulAut.conj h) :
     ∃ (σ : K ≃+* K) (g : adjointGroup ReeTag.F4.tag K), σ ≠ 1 ∧ σ ^ p = 1 ∧
       α = MulAut.conj g * entrywiseAdjointAut ReeTag.F4.tag σ := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K ReeTag.F4.prime
   have hK : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]; rfl
   have hf : 1 ≤ (n : ℕ) := n.pos
@@ -91,7 +91,7 @@ theorem exists_field_form {K : Type} [Field K] [Finite K]
     (hα : α ^ p = 1) (hnin : ∀ h : adjointGroup .F4 K, α ≠ MulAut.conj h) :
     ∃ (σ : K ≃+* K) (g : adjointGroup .F4 K), σ ≠ 1 ∧ σ ^ p = 1 ∧
       α = MulAut.conj g * entrywiseAdjointAut .F4 σ := by
-  haveI : CharP K ReeTag.F4.prime := ‹CharP K 2›
+  have : CharP K ReeTag.F4.prime := ‹CharP K 2›
   exact form_aux hp hp2 hα hnin
 
 end Form

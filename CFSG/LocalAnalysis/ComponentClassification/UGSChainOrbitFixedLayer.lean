@@ -190,9 +190,9 @@ theorem core_trivial_orbit_fixed_layer_containment {G : Type} [Group G]
   exact ⟨heL, heLa, hcoreL, hcoreLa, hTbe, hTpc, hTV, hVE, hmul, hcore, φ, hφ⟩
 
 theorem kProper_core_trivial_orbit_fixed_layer_containment_of_schreier {G : Type} [Group G]
-    [Finite G] (hS : SchreierFor Blueprint.Catalog) (hK : Assembly.KProper Blueprint.Catalog G)
+    [Finite G] (_hS : SchreierFor Blueprint.Catalog) (_hK : Assembly.KProper Blueprint.Catalog G)
     {a b e : G} (hb : orderOf b = 2) (he : orderOf e = 2) (hab : a * b = b * a)
-    (hbe : b * e = e * b) (heZ : e ∉ center G) {L : Subgroup G}
+    (hbe : b * e = e * b) (_heZ : e ∉ center G) {L : Subgroup G}
     (hLb : L ≤ centralizer ({b} : Set G))
     (hL : IsPComponent 2 (L.subgroupOf (centralizer ({b} : Set G))))
     (hKe : ∀ k ∈ L ⊔ conjugate L a, k⁻¹ * e⁻¹ * k * e ∈

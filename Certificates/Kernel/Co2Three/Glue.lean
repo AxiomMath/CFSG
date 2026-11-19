@@ -103,8 +103,8 @@ theorem kdGen_comm : ∀ i < 4, ∀ j < 4, Commute (dGenP i) (dGenP j) := by
   exact kD_parts.2.1 i hi j hj
 
 theorem kdGen_facts :
-    ∀ i < 4, validA 2300 (dGens ())[i]! = true ∧ dGenP i ∈ co2P ∧ dGenP i ^ 3 = 1 :=
-  fun i hi => ⟨kdGen_valid hi, mem_co2P_of_inP (krep_dGen hi) (dGens_inP hi), kdGen_pow hi⟩
+    ∀ _i < 4, validA 2300 (dGens ())[_i]! = true ∧ dGenP _i ∈ co2P ∧ dGenP _i ^ 3 = 1 :=
+  fun _i hi => ⟨kdGen_valid hi, mem_co2P_of_inP (krep_dGen hi) (dGens_inP hi), kdGen_pow hi⟩
 
 theorem krep_dElt {k : ℕ} (hk : k < 81) : Rep 2300 (dElts ())[k]! (dGenP 0 ^ digit3 k 0 *
     (dGenP 1 ^ digit3 k 1 * (dGenP 2 ^ digit3 k 2 * dGenP 3 ^ digit3 k 3))) := by

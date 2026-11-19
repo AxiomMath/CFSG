@@ -46,7 +46,7 @@ theorem _root_.CFSG.AGLEmbedding.D1Extremal.of_maxTwoLocal_ge {p : ℕ} {P : Syl
     by_contra hne
     have hlt : R < (T : Subgroup H').map H'.subtype := lt_of_le_of_ne hRT' (Ne.symm hne)
     obtain ⟨x, hxT, hxN, hxR⟩ :=
-      exists_mem_normalizer_not_mem_of_lt (T.isPGroup'.map H'.subtype) hlt
+      exists_mem_normalizer_not_mem_of_lt (T.isPGroup.map H'.subtype) hlt
     have hXT : R ⊔ Subgroup.zpowers x ≤ (T : Subgroup H').map H'.subtype :=
       sup_le hRT' (Subgroup.zpowers_le.mpr hxT)
     have hXM : R ⊔ Subgroup.zpowers x ≤ M :=
@@ -54,7 +54,7 @@ theorem _root_.CFSG.AGLEmbedding.D1Extremal.of_maxTwoLocal_ge {p : ℕ} {P : Syl
     have hXH : R ⊔ Subgroup.zpowers x ≤ H' ⊓ M :=
       le_inf (hXT.trans (Subgroup.map_subtype_le _)) hXM
     have hcard := h.extremal H' hH'.1 hH'M (h.three_le_pRank.trans
-      (pRank_mono p hp (le_inf hRH' h.le_M))) _ hXH ((T.isPGroup'.map H'.subtype).to_le hXT)
+      (pRank_mono p hp (le_inf hRH' h.le_M))) _ hXH ((T.isPGroup.map H'.subtype).to_le hXT)
     have hRX : R < R ⊔ Subgroup.zpowers x :=
       lt_of_le_of_ne le_sup_left fun heq => hxR (heq ▸ Subgroup.mem_sup_right
         (Subgroup.mem_zpowers x))

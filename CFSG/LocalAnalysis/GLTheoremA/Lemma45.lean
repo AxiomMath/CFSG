@@ -11,6 +11,7 @@ open CFSG.HardMathSupport.Solomon.UniquenessMaximal
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_sSup {S : Set (Subgroup G)} {g : G}
     (h : ∀ L ∈ S, g ∈ Subgroup.normalizer (L : Set G)) :
     g ∈ Subgroup.normalizer ((sSup S : Subgroup G) : Set G) := by
@@ -24,6 +25,7 @@ theorem mem_normalizer_sSup {S : Set (Subgroup G)} {g : G}
   have h' := gLBConj_mono (g := g) (key g⁻¹ fun L hL => Subgroup.inv_mem _ (h L hL))
   rwa [gLBConj_gLBConj, inv_mul_cancel, gLBConj_one] at h'
 
+omit [Finite G] in
 theorem card_eq_card_pQuot_mul (p : ℕ) (K : Subgroup G) :
     Nat.card K = Nat.card (PQuot p K) * Nat.card (GLAPPrimeCoreOf p K) := by
   rw [GLAPPrimeCoreOf, Subgroup.card_map_of_injective K.subtype_injective]

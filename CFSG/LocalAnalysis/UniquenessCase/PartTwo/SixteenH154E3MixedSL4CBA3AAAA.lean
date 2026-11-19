@@ -11,8 +11,8 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 theorem s16h_three_dvd_card_of_isSLn_two {X : Type} [Group X] [Finite X]
     (h : IsSLn X 2 2) : 3 ∣ Nat.card X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_two, hKcard]
   norm_num
 
@@ -20,7 +20,7 @@ theorem s16h_e9_of_commuting_isSLn_two {Q : Type} [Group Q] [Finite Q] {A B : Su
     (hA : IsSLn ↥A 2 2) (hB : IsSLn ↥B 2 2)
     (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     ∃ E : Subgroup Q, E ≤ A ⊔ B ∧ IsElemAbelian 3 E ∧ 9 ≤ Nat.card ↥E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3A : 3 ∣ Nat.card ↥A := s16h_three_dvd_card_of_isSLn_two hA
   have h3B : 3 ∣ Nat.card ↥B := s16h_three_dvd_card_of_isSLn_two hB
   obtain ⟨a, ha_ord⟩ := exists_prime_orderOf_dvd_card' 3 h3A

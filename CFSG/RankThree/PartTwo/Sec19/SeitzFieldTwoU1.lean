@@ -68,14 +68,14 @@ theorem seitzU1_planeRank2 {p f : ℕ} {K : Type} [Field K] [Finite K]
 
 theorem not_le_psuConj_range_of_not_narrow {p f : ℕ} {K : Type} [Field K] [Finite K]
     {h : UnitaryFieldData p f K} (h3 : (3 : K) ≠ 0) (hq : 2 < p ^ f)
-    {E : Subgroup (MulAut (unitaryPSU h 3))} (hE : IsElemAbelian 3 E)
+    {E : Subgroup (MulAut (unitaryPSU h 3))} (_hE : IsElemAbelian 3 E)
     (hN : ¬ NarrowScope 3 E) : ¬ E ≤ (psuConj h).range :=
   fun hD => hN (And.intro (seitzU1_rankLE2_unitaryPSU h3 hq) (Or.inr (seitzU1_planeRank2 h3 hD)))
 
 theorem exists_ne_one_inf_psuConj_range {p f : ℕ} {K : Type} [Field K] [Finite K]
-    {h : UnitaryFieldData p f K} (h3 : (3 : K) ≠ 0) (hq : 2 < p ^ f)
+    {h : UnitaryFieldData p f K} (_h3 : (3 : K) ≠ 0) (hq : 2 < p ^ f)
     {E : Subgroup (MulAut (unitaryPSU h 3))} (hE : IsElemAbelian 3 E)
-    (hc : Nat.card E = 9) (hn : ¬ E ≤ (psuConj h).range) :
+    (hc : Nat.card E = 9) (_hn : ¬ E ≤ (psuConj h).range) :
     ∃ y ∈ E, y ∈ (psuConj h).range ∧ y ≠ 1 := by
   have := h.finite
   set N := (psuConj h).range with hNdef

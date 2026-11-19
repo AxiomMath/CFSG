@@ -20,6 +20,7 @@ section Generic
 
 variable {K : Type} [Group K] [Finite K] {p : ℕ} [Fact p.Prime]
 
+omit [Finite K] [Fact (Nat.Prime p)] in
 theorem smul_le_of_le {Y : Subgroup K} {z : K} (hz : z ∈ Y) {P : Sylow p K}
     (hP : (P : Subgroup K) ≤ Y) : ((z • P : Sylow p K) : Subgroup K) ≤ Y := by
   intro x hx
@@ -65,7 +66,7 @@ theorem eq_top_of_le_of_not_le_normalizer [IsSimpleGroup K] (T : Sylow p K)
     rw [mem_normalizer_iff]
     intro z
     rw [hbot]
-    simp only [SetLike.mem_coe, mem_bot]
+    simp only [mem_bot]
     constructor
     · rintro rfl
       group
@@ -107,7 +108,7 @@ theorem psl2FieldAut_weylPSL (σ : F ≃+* F) : psl2FieldAut F σ (weylPSL F) = 
   rw [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, Matrix.map_apply]
   fin_cases i <;> fin_cases j <;> simp [weylSL]
 
-theorem orderOf_weylPSL (h2 : (2 : F) ≠ 0) : orderOf (weylPSL F) = 2 := by
+theorem orderOf_weylPSL (_h2 : (2 : F) ≠ 0) : orderOf (weylPSL F) = 2 := by
   have hsq : weylPSL F ^ 2 = 1 := by
     rw [weylPSL, ← map_pow, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff,
       Matrix.SpecialLinearGroup.mem_center_iff]
@@ -129,7 +130,7 @@ theorem isOddPrimePower_card_galoisField : IsOddPrimePower (Nat.card (GaloisFiel
 theorem exists_fixed_involution (α : MulAut (PSL2 (GaloisField 3 3))) (h3 : α ^ 3 = 1)
     (hout : α ∉ (MulAut.conj : PSL2 (GaloisField 3 3) →* MulAut (PSL2 (GaloisField 3 3))).range) :
     ∃ c : PSL2 (GaloisField 3 3), α c = c ∧ orderOf c = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD : α ∉ (pglAction (GaloisField 3 3)).range := by
     rintro ⟨g, rfl⟩
     apply hout
@@ -174,8 +175,8 @@ theorem closure_eq_top_psl2_galoisField (α : MulAut (PSL2 (GaloisField 3 3))) (
     (hout : α ∉ (MulAut.conj : PSL2 (GaloisField 3 3) →* MulAut (PSL2 (GaloisField 3 3))).range)
     (S : Sylow 3 (PSL2 (GaloisField 3 3))) :
     closure ((S : Set (PSL2 (GaloisField 3 3))) ∪ {k | α k = k}) = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup (PSL2 (GaloisField 3 3)) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup (PSL2 (GaloisField 3 3)) :=
     CFSG.AGLEmbedding.isSimpleGroup_psl2GF (by norm_num)
   obtain ⟨c, hc, hc2⟩ := exists_fixed_involution α h3 hout
   have hS27 : Nat.card S = 27 := by
@@ -217,7 +218,7 @@ open CFSG.RankThree.PartTwo.KFacts in
 theorem l227Generation_holds : L227Generation := by
   intro d he27 ε hε3 hout S
   obtain ⟨e⟩ := he27
-  haveI : Finite (CatGrp d) := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite (CatGrp d) := Finite.of_equiv _ e.symm.toEquiv
   set α : MulAut (CFSG.AGLEmbedding.PSL2GF 3 3) := MulAut.congr e ε with hαdef
   have hα3 : α ^ 3 = 1 := by rw [hαdef, ← map_pow, hε3, map_one]
   have hαout : α ∉ (MulAut.conj : CFSG.AGLEmbedding.PSL2GF 3 3 →*

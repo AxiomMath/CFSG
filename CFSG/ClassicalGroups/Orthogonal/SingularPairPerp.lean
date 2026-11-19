@@ -68,6 +68,6 @@ theorem exists_singular_pair_of_le_perp {ι : Type} [Fintype ι] [DecidableEq ι
   refine ⟨a + α₁ • d, U.add_mem ha (U.smul_mem _ hdU), b' + α₂ • d,
     U.add_mem hb'mem (U.smul_mem _ hdU), h1, h2, ?_⟩
   simp only [polar_add_left, polar_add_right, polar_smul_left, polar_smul_right, hda, hdb',
-    hdd, hab', smul_zero, add_zero, zero_add, smul_eq_mul, mul_zero]
+    hdd, hab', add_zero, smul_eq_mul, mul_zero]
 
 end CFSG.ClassicalGroups.Orthogonal

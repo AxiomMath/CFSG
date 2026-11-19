@@ -12,10 +12,10 @@ open CFSG Subgroup CFSG.RankThree.PartOne.OutStructure
 theorem card_le_of_comparable {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (hexp : ∀ g : G, g ^ p = 1)
     (hcmp : ∀ a b : G, a ∈ Subgroup.zpowers b ∨ b ∈ Subgroup.zpowers a) : Nat.card G ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hlt
   rw [not_le] at hlt
-  haveI : Nontrivial G := Finite.one_lt_card_iff_nontrivial.1 (by have := hp.two_le; omega)
+  have : Nontrivial G := Finite.one_lt_card_iff_nontrivial.1 (by have := hp.two_le; omega)
   obtain ⟨g, hg1⟩ := exists_ne (1 : G)
   have hog : orderOf g = p := orderOf_eq_prime (hexp g) hg1
   have hex : ∃ a : G, a ∉ Subgroup.zpowers g := by
@@ -49,7 +49,7 @@ theorem relIndex_le_of_outPChain {S : Type} [Group S] [Finite S] {p : ℕ} (hp :
   have hPD : ∀ z : MulAut S, z ∈ P → z ∈ D → z ∈ Inn S := fun z hz hzD =>
     hD z hzD 1 (by rw [pow_one, hP z hz]; exact (Inn S).one_mem)
   rw [Subgroup.inf_relIndex_left]
-  haveI : (Inn S).Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S
+  have : (Inn S).Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S
   change ((Inn S).subgroupOf P).index ≤ p
   have hidx : ((Inn S).subgroupOf P).index = Nat.card (↥P ⧸ (Inn S).subgroupOf P) := rfl
   rw [hidx]

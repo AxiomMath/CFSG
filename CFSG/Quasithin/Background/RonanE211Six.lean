@@ -57,7 +57,7 @@ variable {Q : Type} [Group Q] [Finite Q]
 theorem center_commutator_eq_bot_of_alt_six (hKG : KGI22One) (J₀ : Subgroup Q) [J₀.Normal]
     (hJc : J₀ ≤ Subgroup.center Q) (hJ2 : IsPGroup 2 J₀)
     (ρ : Q →* P6) (hρk : ρ.ker = J₀) (hρr : ρ.range = alternatingGroup (Fin 6))
-    {v t : Q} (hv : v * v = 1) (hρv : ρ v = zA) (hρt : ρ t = sD) (hvt : v * t = t * v) :
+    {v t : Q} (_hv : v * v = 1) (hρv : ρ v = zA) (hρt : ρ t = sD) (hvt : v * t = t * v) :
     Subgroup.center (commutator Q) = ⊥ := by
   by_contra hne
   set eQ := altSixEquiv J₀ ρ hρk hρr with heQ
@@ -289,7 +289,7 @@ theorem sq_eq_one_of_perm_six_aux (hKG : KGI22One) (hOdd : OddCoverExact P6) (J�
     ((QuotientGroup.quotientMulEquivOfEq hρk.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective ρ hρs)) hgen'
   set Q₁ : Subgroup Q := (alternatingGroup (Fin 6)).comap ρ with hQ₁
-  haveI : Q₁.Normal := Subgroup.Normal.comap inferInstance ρ
+  have : Q₁.Normal := Subgroup.Normal.comap inferInstance ρ
   have hmemQ₁ : ∀ x : Q, x ∈ Q₁ ↔ ρ x ∈ alternatingGroup (Fin 6) := fun x => Iff.rfl
   have hJQ₁ : J₀ ≤ Q₁ := fun j hj => by
     rw [hmemQ₁, hρJ j hj]
@@ -307,7 +307,7 @@ theorem sq_eq_one_of_perm_six_aux (hKG : KGI22One) (hOdd : OddCoverExact P6) (J�
     · intro ha
       obtain ⟨x, rfl⟩ := hρs a
       exact ⟨⟨x, ha⟩, rfl⟩
-  haveI : (J₀.subgroupOf Q₁).Normal := Subgroup.Normal.subgroupOf inferInstance Q₁
+  have : (J₀.subgroupOf Q₁).Normal := Subgroup.Normal.subgroupOf inferInstance Q₁
   have hJc₁ : J₀.subgroupOf Q₁ ≤ Subgroup.center ↥Q₁ := by
     rintro x hx
     rw [Subgroup.mem_center_iff]
@@ -325,7 +325,7 @@ theorem sq_eq_one_of_perm_six_aux (hKG : KGI22One) (hOdd : OddCoverExact P6) (J�
       (Subtype.ext hvt)
   set Λ : Subgroup Q := (commutator ↥Q₁).map Q₁.subtype with hΛ
   have hΛ' : Λ = ⁅Q₁, Q₁⁆ := Subgroup.map_subtype_commutator Q₁
-  haveI : Λ.Normal := by rw [hΛ']; infer_instance
+  have : Λ.Normal := by rw [hΛ']; infer_instance
   have hS₁ := altSix_perfect (J₀.subgroupOf Q₁) ρ₁ hρ₁k hρ₁r
   have hsimp₁ := altSix_simple (J₀.subgroupOf Q₁) ρ₁ hρ₁k hρ₁r
   have hna₁ := altSix_nonabelian (J₀.subgroupOf Q₁) ρ₁ hρ₁k hρ₁r

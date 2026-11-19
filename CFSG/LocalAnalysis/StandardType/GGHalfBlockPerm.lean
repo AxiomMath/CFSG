@@ -154,7 +154,7 @@ private theorem slPerm_swap_zero_one_conj_halfTorus (n : ℕ) (hn : 0 < n) :
     ∀ t ∈ halfTorus n,
       slPerm gf2_two (Equiv.swap (0 : Fin (n + 1)) 1) * t *
         (slPerm gf2_two (Equiv.swap (0 : Fin (n + 1)) 1))⁻¹ ∈ halfTorus n := by
-  haveI : NeZero n := ⟨hn.ne'⟩
+  have : NeZero n := ⟨hn.ne'⟩
   refine mem_conj_closure_of_mem_conj_gens
     {x | ∃ k : Fin n, k.val % 2 = 0 ∧ x = omegaBlock n k} (halfTorus n)
     (slPerm gf2_two (Equiv.swap (0 : Fin (n + 1)) 1)) rfl ?_
@@ -164,7 +164,7 @@ private theorem slPerm_swap_zero_one_conj_halfTorus (n : ℕ) (hn : 0 < n) :
     have hc : (0 : Fin n).castSucc = (0 : Fin (n + 1)) := Fin.castSucc_zero
     have hs : (0 : Fin n).succ = (1 : Fin (n + 1)) := by
       apply Fin.ext
-      simp only [Fin.val_succ, Fin.val_zero, Fin.coe_ofNat_eq_mod,
+      simp only [Fin.val_succ, Fin.coe_ofNat_eq_mod,
         Nat.mod_eq_of_lt (show (1:ℕ) < n + 1 by omega), Nat.zero_mod]
     have h0 : Equiv.swap (0 : Fin (n + 1)) 1 (0 : Fin n).castSucc = (0 : Fin n).succ := by
       rw [hc, hs, Equiv.swap_apply_left]
@@ -429,7 +429,7 @@ theorem weylRep_last_conj_halfTorusK (m : ℕ)
   rintro x ⟨k, hk, rfl⟩
   rcases hk with hkA | ⟨hk2, hkB⟩
   · have hk_eq : k = kL := by
-      apply Fin.ext; simp only [kL, Fin.val_mk]; omega
+      apply Fin.ext; simp only [kL]; omega
     rw [hk_eq]
     have h0 : Equiv.swap kL.castSucc kL.succ kL.castSucc = kL.succ :=
       Equiv.swap_apply_left _ _
@@ -470,7 +470,7 @@ theorem slPerm_tau_conj_halfTorusK (m : ℕ) (hm : 1 ≤ m)
   rintro x ⟨k, hk, rfl⟩
   rcases hk with hkA | ⟨hk2, hkB⟩
   · have hk_eq : k = kL := by
-      apply Fin.ext; simp only [kL, Fin.val_mk]; omega
+      apply Fin.ext; simp only [kL]; omega
     rw [hk_eq]
     have h0 : tauPerm m kL.castSucc = (0 : Fin (m + 1 + 1)).castSucc := by
       rw [show kL.castSucc = (Fin.last (m + 1)).castSucc from by apply Fin.ext; rfl,

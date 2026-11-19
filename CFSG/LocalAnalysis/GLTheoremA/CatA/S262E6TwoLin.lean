@@ -118,6 +118,7 @@ theorem perfect_closure_of_word_identities {G : Type*} [Group G] {x y : G}
   | true :: w => wx ++ expand wx wy w
   | false :: w => wy ++ expand wx wy w
 
+omit [CharP K 2] in
 theorem tvSLWord_expand (wx wy : List (Fin 6 × Fin 6)) (w : List Bool) :
     tvSLWord (K := K) (expand wx wy w) =
       wordElt (tvSLWord (K := K) wx) (tvSLWord (K := K) wy) w := by

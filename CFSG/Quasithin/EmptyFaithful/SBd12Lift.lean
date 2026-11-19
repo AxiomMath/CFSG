@@ -19,7 +19,7 @@ theorem exists_normal_three_of_normalizing (P : Sylow 3 X) (h9 : 9 ∣ Nat.card 
   have hWN : (P : Subgroup X) ⊔ A ≤ Subgroup.normalizer (P : Set X) :=
     sup_le Subgroup.le_normalizer hAN
   have hcop : Nat.Coprime (Nat.card P) (Nat.card A) :=
-    IsPGroup.coprime_card_of_ne 3 2 (by norm_num) (P : Subgroup X) A P.isPGroup' hA
+    IsPGroup.coprime_card_of_ne 3 2 (by norm_num) (P : Subgroup X) A P.isPGroup hA
   have hdvdW : Nat.card P * Nat.card A ∣ Nat.card ((P : Subgroup X) ⊔ A : Subgroup X) :=
     hcop.mul_dvd_of_dvd_of_dvd (Subgroup.card_dvd_of_le le_sup_left)
       (Subgroup.card_dvd_of_le le_sup_right)
@@ -70,8 +70,8 @@ theorem mem_normalizer_of_map_mem_normalizer {Y Z : Type*} [Group Y] [Finite Y] 
     obtain ⟨p', hp', hp'e⟩ := Subgroup.mem_map.1 h1
     have hkK : p'⁻¹ * (w * p * w⁻¹) ∈ ψ.ker := by
       rw [MonoidHom.mem_ker, map_mul, map_inv, hp'e, inv_mul_cancel]
-    obtain ⟨a, ha⟩ := P.isPGroup' ⟨p, hp⟩
-    obtain ⟨a', ha'⟩ := P.isPGroup' ⟨p', hp'⟩
+    obtain ⟨a, ha⟩ := P.isPGroup ⟨p, hp⟩
+    obtain ⟨a', ha'⟩ := P.isPGroup ⟨p', hp'⟩
     have hpa : p ^ (3 ^ (a + a')) = 1 := by
       have := congrArg Subtype.val ha
       simp only [Subgroup.coe_pow, Subgroup.coe_one] at this

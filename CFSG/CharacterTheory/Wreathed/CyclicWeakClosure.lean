@@ -82,7 +82,7 @@ theorem weakClosure_map_quotient
     have hmem : h⁻¹ * b * h ∈ ((S : Subgroup G).map q).comap q := hmap
     simpa only [Subgroup.comap_map_eq, q, QuotientGroup.ker_mk', sup_comm] using hmem
   have hP : IsPGroup p (Subgroup.zpowers (h⁻¹ * b * h)) := by
-    have hz := (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (hAS hb))).map
+    have hz := (S.isPGroup.to_le (Subgroup.zpowers_le.mpr (hAS hb))).map
       (MulAut.conj h⁻¹).toMonoidHom
     rw [MonoidHom.map_zpowers] at hz
     change IsPGroup p (Subgroup.zpowers (h⁻¹ * b * (h⁻¹)⁻¹)) at hz
@@ -134,7 +134,7 @@ theorem normal_cyclic_two_subgroup_central_of_sylow
     B ≤ Subgroup.center G := by
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAut := CFSG.TwoRankLowerBound.Helpers.cyclic_two_group_automorphisms_isPGroup
-    B (S.isPGroup'.to_le hBS)
+    B (S.isPGroup.to_le hBS)
   have htrivial : ∀ g : G, MulAut.conjNormal (H := B) g = 1 := by
     apply CFSG.GorensteinWalter.hom_to_pGroup_eq_one_of_sylow hAut _ S
     intro s
@@ -182,7 +182,7 @@ theorem cyclic_weakClosure_central_of_oddCore_eq_bot
   let q := QuotientGroup.mk' C
   let T := S.mapSurjective (QuotientGroup.mk'_surjective C)
   let D : Subgroup (G ⧸ C) := A.map q
-  have hCtwo : IsPGroup 2 C := (S.isPGroup'.to_le hAS).to_inf_left
+  have hCtwo : IsPGroup 2 C := (S.isPGroup.to_le hAS).to_inf_left
   have hQcore : CFSG.oddCore (G ⧸ C) = ⊥ :=
     oddCore_quotient_eq_bot_of_central_two C hCcentral hCtwo hcore
   have hDT : D ≤ (T : Subgroup (G ⧸ C)) := by
@@ -192,7 +192,7 @@ theorem cyclic_weakClosure_central_of_oddCore_eq_bot
     rw [show (T : Subgroup (G ⧸ C)) = (S : Subgroup G).map q from
       Sylow.coe_mapSurjective (QuotientGroup.mk'_surjective C) S]
     exact weakClosure_map_centralizes q A (S : Subgroup G) hAC
-  have hDtwo : IsPGroup 2 D := (S.isPGroup'.to_le hAS).map q
+  have hDtwo : IsPGroup 2 D := (S.isPGroup.to_le hAS).map q
   have hDnot : D ≠ ⊥ := by
     intro hD
     have hAC' : A ≤ C := by
@@ -359,7 +359,7 @@ theorem weakClosure_normal_centralizer_factorization
   let q := QuotientGroup.mk' R
   let f := (MulAut.conj g⁻¹).toMonoidHom
   let P := A.map f
-  have hP : IsPGroup p P := (S.isPGroup'.to_le hAS).map f
+  have hP : IsPGroup p P := (S.isPGroup.to_le hAS).map f
   have hPRS : P ≤ R ⊔ (S : Subgroup G) := by
     rintro x ⟨a, ha, rfl⟩
     have hacen := hcen (Subgroup.mem_map_of_mem q ha)

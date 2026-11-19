@@ -84,7 +84,7 @@ theorem frobLinear_sq_eq_one
   obtain ⟨v,rfl⟩ := M.nodeMap_surj x
   have hv : v = ∑ i, v i • (Pi.single i 1 : Fin M.row.diagram.marks.length → ℤ) := by
     funext j
-    simp [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply]
+    simp [Finset.sum_apply, Pi.single_apply]
   rw [hv, map_sum, map_sum, map_sum]
   apply Finset.sum_congr rfl
   intro i _
@@ -129,7 +129,7 @@ theorem kind_twoD_of_rank_four_label
     rw [hs,Nat.mul_one,one_smul,Function.iterate_succ_apply',Function.iterate_one]
     exact hInv gamma hg
   unfold twistKind
-  rw [if_neg hNotInner,if_neg (by simp only [hr,hc];simp [hInner2]),if_pos ⟨by omega,hcD⟩]
+  rw [ite_eq_right hNotInner,ite_eq_right (by simp only [hr,hc];simp [hInner2]),ite_eq_left ⟨by omega,hcD⟩]
 
 theorem component_ncard_eq_twentyFour
     {τ : Tag} (hTau : τ = .E6) {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]

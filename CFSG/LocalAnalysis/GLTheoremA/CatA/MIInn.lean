@@ -43,7 +43,7 @@ theorem canonRawInn {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEvenLab
       obtain ⟨K, hF, hfin, hK, hQ⟩ := h
       have hK2 : Nat.card K = 2 := by simpa using hK
       refine ⟨K, hF, hfin, hK, hQ, ?_⟩
-      simp only [show (1 - 1) / 2 = 0 from rfl, if_true]
+      simp only [show (1 - 1) / 2 = 0 from rfl, ite_true]
       exact chevParentID_rawInnField _ hK2 _ _ hp.ne_one
   · exact (canonAll_iff_legacyAll hlab hd _).2
       (ggRawInnFieldInput_holds p hp hp2 lab hlab)

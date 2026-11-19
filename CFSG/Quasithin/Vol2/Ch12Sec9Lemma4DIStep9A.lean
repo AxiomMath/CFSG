@@ -13,7 +13,7 @@ theorem relIndex_sup_eq_of_normalizes {T K : Subgroup G}
     T.relIndex (K ⊔ T) = T.relIndex K := by
   let K' : Subgroup ↥(K ⊔ T) := K.subgroupOf (K ⊔ T)
   let T' : Subgroup ↥(K ⊔ T) := T.subgroupOf (K ⊔ T)
-  haveI hKn : K'.Normal := ⟨fun n hn g => by
+  have hKn : K'.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have h := hK g.1 g.2 n.1 hn
     simpa using h⟩

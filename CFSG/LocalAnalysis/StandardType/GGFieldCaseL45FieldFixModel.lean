@@ -82,8 +82,8 @@ theorem gff_torsion_model {τ : Tag} (hτ : τ = .F4 ∨ τ = .E8) {K : Type} [F
     simp only [m, MulEquiv.trans_apply, MulEquiv.symm_apply_apply, gffIsoOfCenterBot_apply]
     rw [hind _ _ rfl]
   obtain ⟨E'⟩ := gff_nonempty_equiv_fixed m ψ g (entrywiseAdjointAut τ σ) key E
-  haveI : IsSimpleGroup ↥(adjointGroup τ k) := gff_isSimpleGroup_adjoint hτ k
-  haveI : IsSimpleGroup ↥(ggAutFixedSubgroup ψ) := E'.isSimpleGroup
+  have : IsSimpleGroup ↥(adjointGroup τ k) := gff_isSimpleGroup_adjoint hτ k
+  have : IsSimpleGroup ↥(ggAutFixedSubgroup ψ) := E'.isSimpleGroup
   have hQeq : Q = ggAutFixedSubgroup ψ :=
     CFSG.ComponentClassification.ExcSelector.eq_of_isComponentOf_of_isSimpleGroup hQ
   subst hQeq

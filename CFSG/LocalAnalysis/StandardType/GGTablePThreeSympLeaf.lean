@@ -50,8 +50,8 @@ private theorem sympFrame {X : Type} [Group X] [Finite X] {A : Subgroup (MulAut 
     obtain ⟨K, hfieldK, hfiniteK, hcardK, hQ⟩ := hraw
     obtain ⟨-, -, hθP⟩ := hQ
     obtain ⟨θ, -, hsplit, hin⟩ := hθP
-    letI := hfieldK
-    letI := hfiniteK
+    let := hfieldK
+    let := hfiniteK
     have hthree : 3 ∣ 2 ^ n - 1 ∨ n = 1 :=
       sympSplit_of_tag_B_or_C (lab := ⟨.B, rank, n⟩) (Or.inl rfl) hsplit
     exact ⟨n, hshape K n rank hcardK hthree X hcomm θ A δ J hK huniq h27 hin, h27⟩
@@ -60,8 +60,8 @@ private theorem sympFrame {X : Type} [Group X] [Finite X] {A : Subgroup (MulAut 
     obtain ⟨K, hfieldK, hfiniteK, hcardK, hQ⟩ := hraw
     obtain ⟨-, -, hθP⟩ := hQ
     obtain ⟨θ, -, hsplit, hin⟩ := hθP
-    letI := hfieldK
-    letI := hfiniteK
+    let := hfieldK
+    let := hfiniteK
     have hthree : 3 ∣ 2 ^ n - 1 ∨ n = 1 :=
       sympSplit_of_tag_B_or_C (lab := ⟨.C, rank, n⟩) (Or.inr rfl) hsplit
     exact ⟨n, hshape K n rank hcardK hthree X hcomm θ A δ J hK huniq h27 hin, h27⟩

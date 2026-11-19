@@ -27,7 +27,7 @@ theorem ccheck_full {r N w k sz NE : Nat} {T G D S GE TE E SE : Nat → Nat} {SK
     (hres : ∀ s < (cAll r).size, resK N w T (cF r s) (G s) = true)
     (hcomm : ∀ j < (onSevenCArrs r).size, onP (fun y => cF r j (cF r (onSevenCArrs r).size y))
       (fun y => cF r (onSevenCArrs r).size (cF r j y)) = true)
-    (hw : szOK N w = true) (hGE : ∀ s < k, GE s = G s) (hp : ∀ s < k, permB N w (G s) = true)
+    (_hw : szOK N w = true) (hGE : ∀ s < k, GE s = G s) (hp : ∀ s < k, permB N w (G s) = true)
     (hbk : bfsK N w k GE NE TE E SE = true) (hK : keysSK N w kbA.toList NE TE SK = true)
     (hf : NE ≤ 1400) (hsz : NE = sz) :
     onSevenCCheck (onSevenCR r) (onSevenRepArr r) (onSevenCArrs r) (onSevenCTabs r)

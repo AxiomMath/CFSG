@@ -39,8 +39,8 @@ private noncomputable def centCard_SL_ringEquiv {K K' : Type*} [Field K] [Field 
 private theorem centCard_card_SL_field_eq {m : ℕ} {K K' : Type*} [Field K] [Field K']
     [Finite K] [Finite K'] (h : Nat.card K = Nat.card K') :
     Nat.card (SpecialLinearGroup (Fin m) K) = Nat.card (SpecialLinearGroup (Fin m) K') := by
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype K' := Fintype.ofFinite K'
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype K' := Fintype.ofFinite K'
   have h' : Fintype.card K = Fintype.card K' := by
     rwa [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
   exact Nat.card_congr
@@ -52,7 +52,7 @@ theorem natCard_classBlk {n s r : ℕ}
     Nat.card (classBlk ε k) =
       Nat.card (SpecialLinearGroup (Fin (ones k)) (GaloisField 2 2)) := by
   have hS := card_classSet k hk
-  haveI : Finite (AdjoinRoot phi3) :=
+  have : Finite (AdjoinRoot phi3) :=
     Nat.finite_of_card_ne_zero (by rw [natCard_adjoinRoot_phi3]; norm_num)
   have hmap : Nat.card (classBlk ε k) =
       Nat.card (coordBlockSL (AdjoinRoot phi3) (classSet (fun i => (k i : ZMod 3)) 1)) := by

@@ -29,11 +29,11 @@ theorem odd_centralizer_centralizes_of_component_A
   obtain ⟨F, hFfield, hFfinite, hFchar, π, hFcard, hπsurj, hker⟩ :=
     CFSG.ClassicalGroups.SpecialLinear.exists_central_cover_specialLinear_of_ne_two_four
       hL m (by omega) Q hQ hv e hne
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
-  letI : CharP F 2 := hFchar
+  let : Field F := hFfield
+  let : Finite F := hFfinite
+  let : CharP F 2 := hFchar
   let SL := Matrix.SpecialLinearGroup (Fin (m + 1)) F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsubtop_index : ∀ H : Subgroup SL, (H.subgroupOf ⊤).index = H.index := by
     intro H
     have h := Subgroup.index_map_of_injective (H := H.subgroupOf ⊤)

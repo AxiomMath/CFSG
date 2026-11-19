@@ -46,6 +46,7 @@ theorem isSubnormal_sup_sup (h₁ : L₁ ∈ calC M) (h₂ : L₂ ∈ calC M) (h
   have hs₃ : (L₃.subgroupOf M).IsSubnormal := CFSG.Open.IsSubnormal.subgroupOf h₃.1
   exact CFSG.GroupTheory.isSubnormal_sup (CFSG.GroupTheory.isSubnormal_sup hs₁ hs₂) hs₃
 
+omit [Finite G] in
 theorem commutator_sup_sup (h₁ : L₁ ∈ calC M) (h₂ : L₂ ∈ calC M) (h₃ : L₃ ∈ calC M) :
     ⁅L₁ ⊔ L₂ ⊔ L₃, L₁ ⊔ L₂ ⊔ L₃⁆ = L₁ ⊔ L₂ ⊔ L₃ := by
   apply le_antisymm
@@ -67,8 +68,8 @@ theorem commutator_sup_sup (h₁ : L₁ ∈ calC M) (h₂ : L₂ ∈ calC M) (h�
 
 theorem isElemAbelian_of_card_prime {Y : Type} [Group Y] {p : ℕ} (hp : p.Prime)
     {E : Subgroup Y} [Finite E] (hE : Nat.card E = p) : IsElemAbelian p E := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsCyclic E := isCyclic_of_prime_card (p := p) hE
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsCyclic E := isCyclic_of_prime_card (p := p) hE
   refine ⟨inferInstance, fun x hx => ?_⟩
   have hx' : (⟨x, hx⟩ : E) ^ p = 1 := by
     have := pow_card_eq_one' (G := E) (x := ⟨x, hx⟩)
@@ -80,7 +81,7 @@ theorem two_lt_pRank_sup_sup (h₁ : L₁ ∈ calC M) (h₂ : L₂ ∈ calC M) (
     (s₂ : IsL3 (Bar2 L₂) 1) (s₃ : IsL3 (Bar2 L₃) 1) :
     2 < Open.pRank 3 (L₁ ⊔ L₂ ⊔ L₃ : Subgroup G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set L : Subgroup G := L₁ ⊔ L₂ ⊔ L₃ with hL
   let Lfam : Fin 3 → Subgroup G :=
     fun i => if (i : ℕ) = 0 then L₁ else if (i : ℕ) = 1 then L₂ else L₃
@@ -215,7 +216,7 @@ theorem permutesPair (h : Hyp141 D L₁ L₂ X) (h82 : F08.R82 D)
   · exfalso
     exact h.ne (Subgroup.map_injective f.injective (hA.trans hB.symm))
 
-theorem M_le_normalizer_sup (h : Hyp141 D L₁ L₂ X) (hperm : PermutesPair D.M L₁ L₂) :
+theorem M_le_normalizer_sup (_h : Hyp141 D L₁ L₂ X) (hperm : PermutesPair D.M L₁ L₂) :
     D.M ≤ normalizer ((L₁ ⊔ L₂ : Subgroup G) : Set G) := by
   intro m hm
   rw [UC6S846.mem_normalizer_iff_map_conj, Subgroup.map_sup]
@@ -224,7 +225,7 @@ theorem M_le_normalizer_sup (h : Hyp141 D L₁ L₂ X) (hperm : PermutesPair D.M
   · rw [h1, h2]
     exact sup_comm _ _
 
-theorem le_normalizer_of_isPGroup (h : Hyp141 D L₁ L₂ X) (hperm : PermutesPair D.M L₁ L₂)
+theorem le_normalizer_of_isPGroup (_h : Hyp141 D L₁ L₂ X) (hperm : PermutesPair D.M L₁ L₂)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {P : Subgroup G} (hP : IsPGroup p P) (hPM : P ≤ D.M) :
     P ≤ normalizer (L₁ : Set G) ⊓ normalizer (L₂ : Set G) := by
   intro x hx
@@ -257,9 +258,9 @@ theorem le_normalizer_of_isPGroup (h : Hyp141 D L₁ L₂ X) (hperm : PermutesPa
     obtain ⟨j, hj⟩ := hodd
     have hx_eq : x = ((x ^ 2) ^ j)⁻¹ := by
       apply eq_inv_of_mul_eq_one_right
-      have h := hk'
-      rw [hj, pow_succ, pow_mul] at h
-      exact h
+      have _h := hk'
+      rw [hj, pow_succ, pow_mul] at _h
+      exact _h
     have hxN1 : x ∈ normalizer (L₁ : Set G) := by
       rw [hx_eq]
       exact (Subgroup.normalizer _).inv_mem ((Subgroup.normalizer _).pow_mem hsq1 j)
@@ -325,7 +326,7 @@ variable {D : Data G} {L₁ L₂ X : Subgroup G}
 
 theorem pCoreOf_sup_le_aux (h : Hyp141 D L₁ L₂ X) :
     pCoreOf 2 L₁ ⊔ pCoreOf 2 L₂ ≤ pCoreOf 2 (L₁ ⊔ L₂) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have n12 : L₂ ≤ normalizer (L₁ : Set G) := calC_le_normalizer_of_ne h.mem₁ h.mem₂ h.ne
   have n21 : L₁ ≤ normalizer (L₂ : Set G) :=
     calC_le_normalizer_of_ne h.mem₂ h.mem₁ h.ne.symm
@@ -353,7 +354,7 @@ theorem acts_trivially_sup_iff (h : Hyp141 D L₁ L₂ X) {w : G} (hw₁ : w ∈
     (∀ l ∈ L₁ ⊔ L₂, w * l * w⁻¹ * l⁻¹ ∈ pCoreOf 2 (L₁ ⊔ L₂)) ↔
       ((∀ l ∈ L₁, w * l * w⁻¹ * l⁻¹ ∈ pCoreOf 2 L₁) ∧
         (∀ l ∈ L₂, w * l * w⁻¹ * l⁻¹ ∈ pCoreOf 2 L₂)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q := pCoreOf 2 (L₁ ⊔ L₂)
   have hQ₁ : pCoreOf 2 L₁ ≤ Q := le_sup_left.trans (Hyp141.pCoreOf_sup_le_aux h)
   have hQ₂ : pCoreOf 2 L₂ ≤ Q := le_sup_right.trans (Hyp141.pCoreOf_sup_le_aux h)
@@ -406,8 +407,8 @@ theorem eq_sup_centralizer_of_acts_trivially {L W : Subgroup G} {p : ℕ} (hp : 
     (hp2 : p ≠ 2) (hW : IsPGroup p W) (hWn : W ≤ normalizer (L : Set G))
     (hWc : ∀ w ∈ W, ∀ l ∈ L, w * l * w⁻¹ * l⁻¹ ∈ pCoreOf 2 L) :
     L = (L ⊓ centralizer (W : Set G)) ⊔ pCoreOf 2 L := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q := pCoreOf 2 L
   apply le_antisymm
   · intro l hl
@@ -465,12 +466,13 @@ theorem eq_sup_centralizer_of_acts_trivially {L W : Subgroup G} {p : ℕ} (hp : 
     group
   · exact sup_le inf_le_left (CFSG.LieType.BorelTits.pCoreOf_le 2 L)
 
+omit [Finite G] in
 theorem acts_trivially_of_isPGroup {L W : Subgroup G} (hL : IsL3 (Bar2 L) 1) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (hp7 : p ≠ 7) (hW : IsPGroup p W)
     (hWn : W ≤ normalizer (L : Set G)) :
     ∀ w ∈ W, ∀ l ∈ L, w * l * w⁻¹ * l⁻¹ ∈ pCoreOf 2 L := by
   intro w hw l hl
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let N := normalizer (L : Set G)
   let m : ↥N := ⟨w, hWn hw⟩
   let ρ := UC6S846.rhoL L
@@ -508,8 +510,8 @@ theorem exists_mem_acts_eq {L A P : Subgroup G} (hL : IsL3 (Bar2 L) 1) (hP : IsP
     (hPn : P ≤ normalizer (L : Set G)) (hAP : A ≤ P) (hAL : A ≤ L) (hAc : Nat.card A = 3)
     {p : G} (hp : p ∈ P) :
     ∃ a ∈ A, ∀ l ∈ L, (a⁻¹ * p) * l * (a⁻¹ * p)⁻¹ * l⁻¹ ∈ pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N := normalizer (L : Set G)
   let ρ := UC6S846.rhoL L
   let P' : Subgroup ↥N := P.subgroupOf N

@@ -33,7 +33,7 @@ private theorem frameMB_negSwapAut_apply {a b : Fin k} (hab : a ≠ b)
     simp [hab]
   · by_cases hjb : j = b
     · subst hjb
-      simp [hja, Ne.symm hab]
+      simp [hja]
     · rw [Equiv.swap_apply_of_ne_of_ne hja hjb]
       simp [hja, hjb]
 
@@ -73,22 +73,22 @@ private theorem frameMB_isSignedPerm_negSwapAut {a b : Fin k} (hab : a ≠ b) :
   · intro i
     dsimp only
     by_cases h : i = a ∨ i = b
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact Or.inr rfl
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact Or.inl rfl
   · intro f i
     dsimp only
     by_cases hia : i = a
     · subst hia
       rw [Equiv.swap_apply_left, frameMB_negSwapAut_apply hab]
-      rw [if_neg (Ne.symm hab), if_pos rfl, if_pos (Or.inl rfl), toAdd_inv, neg_one_mul]
+      rw [ite_eq_right (Ne.symm hab), ite_eq_left rfl, ite_eq_left (Or.inl rfl), toAdd_inv, neg_one_mul]
     · by_cases hib : i = b
       · subst hib
         rw [Equiv.swap_apply_right, frameMB_negSwapAut_apply hab]
-        rw [if_pos rfl, if_pos (Or.inr rfl), toAdd_inv, neg_one_mul]
+        rw [ite_eq_left rfl, ite_eq_left (Or.inr rfl), toAdd_inv, neg_one_mul]
       · rw [Equiv.swap_apply_of_ne_of_ne hia hib, frameMB_negSwapAut_apply hab]
-        rw [if_neg hia, if_neg hib, if_neg (by tauto), one_mul]
+        rw [ite_eq_right hia, ite_eq_right hib, ite_eq_right (by tauto), one_mul]
 
 private theorem frameMB_negSwapAut_sq {a b : Fin k} (hab : a ≠ b) :
     (negSwapAut a b : MulAut (Fin k → Multiplicative (ZMod 3))) ^ 2 = 1 := by
@@ -97,10 +97,10 @@ private theorem frameMB_negSwapAut_sq {a b : Fin k} (hab : a ≠ b) :
   simp only [frameMB_negSwapAut_apply hab]
   by_cases hja : j = a
   · subst hja
-    simp [Ne.symm hab, toAdd_inv]
+    simp [Ne.symm hab]
   · by_cases hjb : j = b
     · subst hjb
-      simp [hja, toAdd_inv]
+      simp [hja]
     · simp [hja, hjb]
 
 private theorem frameMB_card_fix_negSwapAut {a b : Fin k} (hab : a ≠ b) :
@@ -116,7 +116,7 @@ private theorem frameMB_card_fix_negSwapAut {a b : Fin k} (hab : a ≠ b) :
     · intro h
       have h1 := congrArg (fun g => toAdd (g a)) h
       rw [frameMB_negSwapAut_apply hab] at h1
-      simp only [if_pos rfl, toAdd_inv, if_true] at h1
+      simp only [toAdd_inv, ite_true] at h1
       have h2 : toAdd (f b) - (-1) * toAdd (f a) = 0 := by linear_combination -h1
       rw [h2, ofAdd_zero]
     · intro h
@@ -127,13 +127,13 @@ private theorem frameMB_card_fix_negSwapAut {a b : Fin k} (hab : a ≠ b) :
       rw [frameMB_negSwapAut_apply hab]
       by_cases hja : j = a
       · subst hja
-        rw [if_pos rfl, toAdd_inv]
+        rw [ite_eq_left rfl, toAdd_inv]
         linear_combination -h1
       · by_cases hjb : j = b
         · subst hjb
-          rw [if_neg (Ne.symm hab), if_pos rfl, toAdd_inv]
+          rw [ite_eq_right (Ne.symm hab), ite_eq_left rfl, toAdd_inv]
           linear_combination -h1
-        · rw [if_neg hja, if_neg hjb]
+        · rw [ite_eq_right hja, ite_eq_right hjb]
   rw [hker]
   exact hcard
 
@@ -143,11 +143,11 @@ private def frameMB_fixedSubgroup (u : MulAut (Fin k → Multiplicative (ZMod 3)
   one_mem' := by simp
   mul_mem' := by
     intro f g hf hg
-    simp only [Set.mem_setOf_eq] at hf hg ⊢
+    simp only [Set.mem_ofPred_eq] at hf hg ⊢
     rw [map_mul, hf, hg]
   inv_mem' := by
     intro f hf
-    simp only [Set.mem_setOf_eq] at hf ⊢
+    simp only [Set.mem_ofPred_eq] at hf ⊢
     rw [map_inv, hf]
 
 private lemma frameMB_card_ker_eval (i : Fin k) :
@@ -175,7 +175,7 @@ private lemma frameMB_forward_pi_one {u : MulAut (Fin k → Multiplicative (ZMod
   omega
 
 private lemma frameMB_forward_pi_one_eq {u : MulAut (Fin k → Multiplicative (ZMod 3))}
-    {ε : Fin k → ZMod 3} (hε : ∀ i, ε i = 1 ∨ ε i = -1)
+    {ε : Fin k → ZMod 3} (_hε : ∀ i, ε i = 1 ∨ ε i = -1)
     (hu : ∀ f i, toAdd (u f i) = ε i * toAdd (f i))
     (hcard : Nat.card (frameMB_fixedSubgroup u) * 3 =
       Nat.card (Fin k → Multiplicative (ZMod 3)))
@@ -211,7 +211,7 @@ private lemma frameMB_forward_pi_one_eq {u : MulAut (Fin k → Multiplicative (Z
     have happ := IsSignedPerm.apply_mulSingle (π := 1) (ε := ε) hu j 1
     rw [he'] at happ
     have h2 := congrArg (fun g => toAdd (g j)) happ
-    simp only [toAdd_mulSingle, Equiv.Perm.one_apply, if_true, mul_one] at h2
+    simp only [toAdd_mulSingle, Equiv.Perm.one_apply, ite_true, mul_one] at h2
     exact h2.symm
   refine MulEquiv.ext fun f => eq_of_toAdd_eq fun j => ?_
   by_cases hji : j = i
@@ -227,7 +227,7 @@ private structure frameMB_SignedData (u : MulAut (Fin k → Multiplicative (ZMod
   hu : ∀ f i, toAdd (u f (π i)) = ε i * toAdd (f i)
 
 private lemma frameMB_fixedSubgroup_le_ker {u : MulAut (Fin k → Multiplicative (ZMod 3))}
-    (D : frameMB_SignedData u) {i : Fin k} (hi : D.π i ≠ i) :
+    (D : frameMB_SignedData u) {i : Fin k} (_hi : D.π i ≠ i) :
     frameMB_fixedSubgroup u ≤ (frameMB_delta i (D.π i) (D.ε i)).ker := by
   intro f hf
   rw [MonoidHom.mem_ker, frameMB_delta_apply]
@@ -315,7 +315,7 @@ private lemma frameMB_signedData_apply_inv {u : MulAut (Fin k → Multiplicative
     (D : frameMB_SignedData u) (f : Fin k → Multiplicative (ZMod 3)) (j : Fin k) :
     toAdd (u f j) = D.ε (D.π⁻¹ j) * toAdd (f (D.π⁻¹ j)) := by
   have h1 : D.π (D.π⁻¹ j) = j := by
-    simpa using (Equiv.apply_symm_apply D.π j)
+    simp
   calc toAdd (u f j) = toAdd (u f (D.π (D.π⁻¹ j))) := by rw [h1]
     _ = D.ε (D.π⁻¹ j) * toAdd (f (D.π⁻¹ j)) := D.hu f (D.π⁻¹ j)
 
@@ -357,17 +357,17 @@ private lemma frameMB_forward_ne_one_eps_neg {u : MulAut (Fin k → Multiplicati
     have hπj : D.π⁻¹ i = D.π i := by
       rw [hπinv, Equiv.swap_inv]
       exact Equiv.swap_apply_left i (D.π i)
-    rw [hπj, hεb', if_pos rfl, toAdd_inv, neg_one_mul]
+    rw [hπj, hεb', ite_eq_left rfl, toAdd_inv, neg_one_mul]
   · by_cases hjb : j = D.π i
     · rw [hjb]
       have hπj : D.π⁻¹ (D.π i) = i := by
         rw [hπinv, Equiv.swap_inv]
         exact Equiv.swap_apply_right i (D.π i)
-      rw [hπj, hεi, if_neg hi, if_pos rfl, toAdd_inv, neg_one_mul]
+      rw [hπj, hεi, ite_eq_right hi, ite_eq_left rfl, toAdd_inv, neg_one_mul]
     · have hπj : D.π⁻¹ j = j := by
         rw [hπinv, Equiv.swap_inv]
         exact Equiv.swap_apply_of_ne_of_ne hji hjb
-      rw [hπj, (hout j hji hjb).2, one_mul, if_neg hji, if_neg hjb]
+      rw [hπj, (hout j hji hjb).2, one_mul, ite_eq_right hji, ite_eq_right hjb]
 
 end
 

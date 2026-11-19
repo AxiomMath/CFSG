@@ -25,9 +25,9 @@ theorem ggCoverPTableBRk_PSU
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) K (2 ^ n)))
         (LargeEvenGUSet (Fin d) K (2 ^ n))) (d - 1) := by
   intro M _ _ L' E θ hE hP hr6 a ha
-  haveI : Finite (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) :=
+  have : Finite (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) :=
     finite_largeEvenProj_PSU _
-  haveI : Finite (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)))) :=
+  have : Finite (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)))) :=
     Finite.of_injective
       (fun f : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) =>
         (f : LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)) →
@@ -43,7 +43,7 @@ theorem ggCoverPTableBRk_PSU
       LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) K (2 ^ n)))
         (LargeEvenGUSet (Fin d) K (2 ^ n)) := by
     intro b hb
-    simp only [ggLAutImage, Subgroup.mem_map] at hb
+    simp only [ggLAutImage] at hb
     obtain ⟨x, hx, rfl⟩ := hb
     have hxe : (⟨(x : M), hE hx⟩ : Subgroup.normalizer (L' : Set M)) = x :=
       Subtype.ext rfl

@@ -18,8 +18,8 @@ private theorem nat_transvection_mulVec {K : Type*} [Field K] {n : ℕ} (a b : F
   rw [Matrix.transvection, Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec]
   by_cases hi : i = a
   · subst hi
-    simp [Function.update_apply, Pi.single_apply]
-  · simp [Function.update_apply, Pi.single_apply, hi]
+    simp
+  · simp [hi]
 
 private theorem nat_transvection_transpose {K : Type*} [Field K] {n : ℕ} (a b : Fin n) (c : K) :
     (Matrix.transvection a b c)ᵀ = Matrix.transvection b a c := by
@@ -47,7 +47,7 @@ private theorem nat_not_dual_of_transvections {K : Type*} [Field K] {n : ℕ}
     exact add_left_cancel h
   have hv2 : f (Pi.single p 1) j₂ = 0 := by
     rw [key p j₁ h₁]
-    simp [Pi.single_apply, Ne.symm h₁₂]
+    simp [Ne.symm h₁₂]
   have hc2 : f (Pi.single j₂ 1) p = 0 := by
     have h := congrFun (key p j₂ h₂) j₂
     rw [hv2, Pi.single_eq_same] at h

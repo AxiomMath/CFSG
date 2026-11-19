@@ -288,8 +288,8 @@ theorem perfectCore_P0_sup_eq_top {K : Type} [Field K] [Finite K] [CharP K 2]
   have hns : ¬ Group.IsSolvable ↥(perfectCore (P0.subgroupOf C)) := by
     obtain ⟨g, hg, hk⟩ := exists_levi_hom_fixed (t := TwistTag.D4) σ fa0 hU2 hL4
     intro hs
-    haveI : Group.IsSolvable ↥(perfectCore (P0.subgroupOf C)) := hs
-    haveI : IsSimpleGroup (SL2 ↥(orbitField TwistTag.D4 K σ.toRingHom fa0)) :=
+    have : Group.IsSolvable ↥(perfectCore (P0.subgroupOf C)) := hs
+    have : IsSimpleGroup (SL2 ↥(orbitField TwistTag.D4 K σ.toRingHom fa0)) :=
       sl2_isSimple (K := ↥(orbitField TwistTag.D4 K σ.toRingHom fa0)) hL4
     obtain ⟨a, b, hab⟩ := sl2_nonabelian (K := ↥(orbitField TwistTag.D4 K σ.toRingHom fa0)) hL4
     exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr
@@ -348,7 +348,7 @@ theorem perfectCore_P0_sup_eq_top {K : Type} [Field K] [Finite K] [CharP K 2]
       · exact Or.inr ⟨h0, h1⟩
       · exfalso
         exact (by decide : (0 : Fin 2) ≠ 1) (d4Index_injective (h0.trans h1.symm))
-    haveI hsolv : Group.IsSolvable ↥(P0.subgroupOf C ⊓ P1.subgroupOf C) := by
+    have hsolv : Group.IsSolvable ↥(P0.subgroupOf C ⊓ P1.subgroupOf C) := by
       rcases hd01 with ⟨h0, h1⟩ | ⟨h0, h1⟩
       · have hh : Group.IsSolvable ↥((graphFixedParabolic TwistTag.D4 K σ.toRingHom
             {d4Index (0 : Fin 2)}).subgroupOf
@@ -380,8 +380,8 @@ theorem k_3D4TwoParabolicGen_holds :
     LieModel.chevalleyExceptionalModel hD (by decide)
   obtain ⟨K, hF, hFin, σ, φ, hK, hσ, hUφ, -, -⟩ :=
     CFSG.QuasithinUnique.Setup.X6.even_rank_two_residual_triality hCE hS
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   have hK3 : Nat.card K = 2 ^ (3 * 1) := by rw [hK, ← pow_mul, mul_comm]
   have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic

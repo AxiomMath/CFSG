@@ -78,24 +78,24 @@ theorem sec2_of (hd : RegData 256 gens E p) (hgs : gens.size = 7)
     rw [inv_eq hd (INV := fun a => pg 9 (mask 9) IVP a) (fun a ha => ?_) a]
     · rfl
     · have h := bind_parts hb ha
-      have e : iR IVP a = pg 9 (mask 9) IVP a := by unfold iR; rw [if_pos ha]
+      have e : iR IVP a = pg 9 (mask 9) IVP a := by unfold iR; rw [ite_eq_left ha]
       rw [← e]
       exact ⟨h.2.2.1, by rw [hm]; exact h.2.2.2.1⟩
   have hg : ∀ j, M.g j = g j := fun j => by
     change (gens.map fun t => t[0]!)[j]! = gR G j
     unfold gR
     by_cases hj : j < 7
-    · rw [if_pos hj, getElem!_pos _ _ (by simpa [hgs] using hj), Array.getElem_map,
+    · rw [ite_eq_left hj, getElem!_pos _ _ (by simpa [hgs] using hj), Array.getElem_map,
         ← getElem!_pos gens j (by rw [hgs]; exact hj), (hG.2 j hj).1, unpack_get' (by omega)]
-    · rw [if_neg hj, getElem!_neg _ _ (by simpa [hgs] using hj)]
+    · rw [ite_eq_right hj, getElem!_neg _ _ (by simpa [hgs] using hj)]
       rfl
   have hT : TreeSpec M := hd.tree hgs
   have hord : ∀ i, M.order[i]! = oR T i := fun i => by
     unfold oR
     by_cases hi : i < 256
     · change (E.tabs.map fun t => t[0]!)[i]! = _
-      rw [if_pos hi, hd.order_get hi, tabs_get hE hi, unpack_get' (by omega)]
-    · rw [if_neg hi, getElem!_neg _ _ (by rw [hT.size_order]; exact hi)]
+      rw [ite_eq_left hi, hd.order_get hi, tabs_get hE hi, unpack_get' (by omega)]
+    · rw [ite_eq_right hi, getElem!_neg _ _ (by rw [hT.size_order]; exact hi)]
       rfl
   have hpar : ∀ i, M.parent[i]! = pR T PL i := fun i => by
     change (E.par.map fun q => (E.tabs[q]!)[0]!)[i]! = _
@@ -106,20 +106,20 @@ theorem sec2_of (hd : RegData 256 gens E p) (hgs : gens.size = 7)
         subst hE
         rw [penumRec_eq, getElem!_pos _ _ (by simpa using hi), Array.getElem_ofFn]
       have hpl := (bind_parts hb hi).2.2.2.2
-      rw [if_pos hi, hp, tabs_get hE hpl, unpack_get' (by omega)]
+      rw [ite_eq_left hi, hp, tabs_get hE hpl, unpack_get' (by omega)]
     · have hp : E.par[i]! = 0 := by
         subst hE
         rw [penumRec_eq, getElem!_neg _ _ (by simpa using hi)]
         rfl
-      rw [if_neg hi, hp, hd.tab_zero_zero]
+      rw [ite_eq_right hi, hp, hd.tab_zero_zero]
   have hlab : ∀ i, M.label[i]! = lR PL i := fun i => by
     change E.lab[i]! = _
     unfold lR
     by_cases hi : i < 256
     · subst hE
-      rw [if_pos hi, penumRec_eq, getElem!_pos _ _ (by simpa using hi), Array.getElem_ofFn]
+      rw [ite_eq_left hi, penumRec_eq, getElem!_pos _ _ (by simpa using hi), Array.getElem_ofFn]
     · subst hE
-      rw [if_neg hi, penumRec_eq, getElem!_neg _ _ (by simpa using hi)]
+      rw [ite_eq_right hi, penumRec_eq, getElem!_neg _ _ (by simpa using hi)]
       rfl
   have hA : ∀ k P, autRecK m inv g T PL α k P = true → ∀ x, (autArr M α k)[x]! = aR P x := by
     intro k P hk x
@@ -128,8 +128,8 @@ theorem sec2_of (hd : RegData 256 gens E p) (hgs : gens.size = 7)
     rw [autMap_get hT (by rw [hN]; omega) _ h0 (fun i h0 hi => ?_) x]
     · unfold aR
       by_cases hx : x < 256
-      · rw [hN, if_pos hx, if_pos hx]
-      · rw [hN, if_neg hx, if_neg hx]
+      · rw [hN, ite_eq_left hx, ite_eq_left hx]
+      · rw [hN, ite_eq_right hx, ite_eq_right hx]
     · obtain ⟨-, -, -, hl, -⟩ := hT.step i h0 hi
       rw [hord, hpar, hm, tabImgs_get hm hinv hg (by omega) hl, hlab]
       exact hr i h0 hi

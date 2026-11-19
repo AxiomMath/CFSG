@@ -21,9 +21,9 @@ theorem neB_iff (a b : Nat) : neB a b = true ↔ a ≠ b := by
   unfold neB
   rw [bIf_eq]
   cases e : Nat.beq a b
-  · simp only [Bool.false_eq_true, if_false, true_iff]
+  · simp only [Bool.false_eq_true, ite_false, true_iff]
     exact Nat.ne_of_beq_eq_false e
-  · simp only [if_true, Bool.false_eq_true, false_iff, not_not]
+  · simp only [ite_true, Bool.false_eq_true, false_iff, not_not]
     exact Nat.eq_of_beq_eq_true e
 
 theorem prep_unique {P : Nat} {g h : Equiv.Perm (Fin n)} (hg : PRep n w P g) (hh : PRep n w P h) :
@@ -72,7 +72,6 @@ theorem kFailK_sound (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {t c k wk : Nat}
   generalize Nat.shiftRight wk (nat_lit 3) = x at h
   split_ifs at h
   · exact hk1 (eq_one_of_pidn hn hw hk h)
-  all_goals try exact absurd h (by decide)
   all_goals obtain ⟨x', rfl⟩ : ∃ x' : Fin n, x'.val = x := ⟨⟨x, ‹x < n›⟩, rfl⟩
   all_goals rw [neB_iff] at h
   · rw [hk x', hk (κ x')] at h
@@ -118,7 +117,6 @@ theorem cFailK_sound (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {t y c wc N : Nat}
   · unfold relK at h
     simp only [strictB_eq, bIf_eq, Nat.blt_eq] at h
     split_ifs at h with ha hb hd hpos
-    all_goals try exact absurd h (by decide)
     have he := h
     have hcp : PRep n w (cpP n w t c) (τ * γ * τ⁻¹) := by
       rw [hti]
@@ -128,7 +126,6 @@ theorem cFailK_sound (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {t y c wc N : Nat}
     obtain ⟨ra, rb, rd⟩ := hrel _ _ _ ha hb hd e1
     rw [ra, rb, rd] at hpos
     exact absurd hpos (by decide)
-  all_goals try exact absurd h (by decide)
   all_goals obtain ⟨x', rfl⟩ : ∃ x' : Fin n, x'.val = x := ⟨⟨x, ‹x < n›⟩, rfl⟩
   all_goals rw [neB_iff] at h
   · rw [hc x', hc (γ x'), hc (γ (γ x'))] at h
@@ -166,8 +163,7 @@ theorem treeK_at {G Y YP YL : Nat → Nat} {nG N lo len : Nat}
   simp only [strictB_eq, bIf_eq, Nat.add_eq, Nat.add_sub_cancel' h1, Nat.blt_eq, Nat.beq_eq,
     hi, hi0, ↓reduceIte] at e
   split_ifs at e with e1 e2
-  · exact ⟨e1, e2, by first | exact e | exact Nat.eq_of_beq_eq_true e⟩
-  all_goals exact absurd e (by decide)
+  · exact ⟨e1, e2, by first | exact Nat.eq_of_beq_eq_true e⟩
 
 theorem sortK_inj {Y SG : Nat → Nat} {N : Nat} (h : sortK Y SG N = true) :
     ∀ i < N, ∀ j < N, Y i = Y j → i = j := by
@@ -182,7 +178,7 @@ theorem sortK_inj {Y SG : Nat → Nat} {N : Nat} (h : sortK Y SG N = true) :
     rw [bIf_eq] at e2
     refine ⟨by simpa [Nat.blt_eq] using e1, fun h1 => ?_⟩
     have hb : Nat.blt (Nat.succ i) N = true := by simpa [Nat.blt_eq] using h1
-    rw [if_pos hb] at e2
+    rw [ite_eq_left hb] at e2
     simpa [Nat.blt_eq] using e2
   have hlt : ∀ b, b < N → ∀ a < b, Y (SG a) < Y (SG b) := by
     intro b

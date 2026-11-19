@@ -94,7 +94,7 @@ noncomputable def permT (t : List ℕ) : Equiv.Perm (Fin 2048) :=
 theorem permT_apply {t : List ℕ} (ht : t ∈ tabL) (c : Fin 2048) :
     (permT hinv t c).val = actT t c := by
   unfold permT
-  rw [dif_pos ht, Equiv.ofBijective_apply, actF_val (tabL_ok t ht)]
+  rw [dite_eq_left ht, Equiv.ofBijective_apply, actF_val (tabL_ok t ht)]
 
 theorem permT_comp {t s : List ℕ} (ht : t ∈ tabL) (hs : s ∈ tabL) :
     permT hinv (compT t s) = permT hinv t * permT hinv s := by
@@ -249,7 +249,7 @@ theorem fixCount_eq (t : List ℕ) :
   unfold fixCount
   rfl
 
-theorem card_le_fix_mul {t : List ℕ} (ht : lenOK t = true) :
+theorem card_le_fix_mul {t : List ℕ} (_ht : lenOK t = true) :
     2048 ≤ fixCount t * ((Finset.range 2048).image (comF t)).card := by
   have h := Finset.card_le_mul_card_image (f := comF t) (Finset.range 2048) (fixCount t) ?_
   · simpa using h
@@ -259,8 +259,8 @@ theorem card_le_fix_mul {t : List ℕ} (ht : lenOK t = true) :
   rw [fixCount_eq]
   refine Finset.card_le_card_of_injOn (fun x => x ^^^ c0) ?_ ?_
   · intro x hx
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hx
-    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq, beq_iff_eq]
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hx
+    simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq, beq_iff_eq]
     refine ⟨by simpa using Nat.xor_lt_two_pow (by simpa using hx.1 : x < 2 ^ 11) hc0', ?_⟩
     have h2 := hx.2
     unfold comF at h2

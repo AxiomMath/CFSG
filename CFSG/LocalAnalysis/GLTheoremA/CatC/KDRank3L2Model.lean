@@ -16,7 +16,7 @@ open CFSG.Open (StatedClassicalModel StatedLieTag StatedProj StatedSL)
 
 theorem center_eq_bot_of_simple {G : Type*} [Group G] (hs : IsSimpleGroup G)
     (hna : ∃ a b : G, a * b ≠ b * a) : Subgroup.center G = ⊥ := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center G) with h | h
   · exact h
   · obtain ⟨a, b, hab⟩ := hna
@@ -42,7 +42,7 @@ theorem exists_numerator_dvd {p ℓ f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S :
     (hnot : ¬ E ≤ inner S) (hE0 : Nat.card ↥(E ⊓ inner S) = p ^ 2) :
     ∃ f₀ : ℕ, f = p * f₀ ∧
       p ^ 2 ∣ CFSG.ComponentClassification.CatLeaf.lieOrderNumerator .PSL 2 (ℓ ^ f₀) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : Subgroup.center S = ⊥ := center_eq_bot_of_simple hs hna
   have hconj : Function.Injective (MulAut.conj : S →* MulAut S) :=
     conj_injective_of_center_eq_bot hZ
@@ -73,7 +73,7 @@ theorem rank3Concl_linTwo {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Type} 
     (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a)
     (hm : StatedClassicalModel S .PSL 2 p f) {E : Subgroup (MulAut S)} (hE : IsElemAbelian p E)
     (hnot : ¬ E ≤ inner S) (hE0 : Nat.card ↥(E ⊓ inner S) = p ^ 2) : Rank3Concl p S E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : Subgroup.center S = ⊥ := center_eq_bot_of_simple hs hna
   have hm' := hm
   obtain ⟨⟨-, hf1, -⟩, F, hF, hFin, hFcard, ⟨e⟩⟩ := hm'

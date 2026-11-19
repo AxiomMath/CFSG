@@ -106,7 +106,7 @@ section Normalizer
 theorem mem_EGrp_of_normalizes [Finite K] [CharP K 2] {T : (Module.End K (V K))ˣ}
     (hT : ∀ g ∈ EGrp K, T * g * T⁻¹ ∈ EGrp K) {k : ℕ} (hk : T ^ (2 ^ k) = 1) : T ∈ EGrp K := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hTn : ∀ n : ℕ, ∀ y ∈ EGrp K, T ^ n * y * (T ^ n)⁻¹ ∈ EGrp K := by
     intro n
     induction n with

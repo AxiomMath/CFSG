@@ -128,6 +128,7 @@ section Order
 
 variable {p m : ℕ} [NeZero p] {ζ : kˣ}
 
+omit [Fintype k] in
 theorem torusElem_single_proj_ne_one (hp : p.Prime) (hζo : orderOf ζ = p)
     (hζ : ζ ^ p = 1) (hm : 2 ≤ m) :
     (QuotientGroup.mk' (Subgroup.center SL(m + 1, k))
@@ -167,9 +168,9 @@ theorem torusElem_single_proj_ne_one (hp : p.Prime) (hζo : orderOf ζ = p)
     rwa [ZMod.natCast_eq_zero_iff] at h2
   exact hp.not_dvd_one hd
 
-theorem p_dvd_card_psl (hp : p.Prime) (hp2 : p ≠ 2) (hm : 2 ≤ m)
+theorem p_dvd_card_psl (hp : p.Prime) (_hp2 : p ≠ 2) (hm : 2 ≤ m)
     (hpq : p ∣ Fintype.card k - 1) : p ∣ Nat.card (PSL(m + 1, k)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : p ∣ Nat.card kˣ := by
     rw [Nat.card_units, Nat.card_eq_fintype_card]
     exact hpq
@@ -195,8 +196,8 @@ end Order
 theorem lowerLin_holds : LowerLin := by
   intro G _ _ L p N hp hp2 hN hq hcat
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨m, rfl⟩ : ∃ m, N = m + 1 := ⟨N - 1, by omega⟩
   obtain ⟨i, hQi, ⟨eCat⟩⟩ := hcat
   rcases i with ⟨pr, hpr⟩ | ⟨deg, hdeg⟩ | d | s
@@ -212,9 +213,9 @@ theorem lowerLin_holds : LowerLin := by
     have hmem : StatedLieTag.PSL ∈ CFSG.Blueprint.classicalTags := by decide
     obtain ⟨hadm, K, hKfield, hKfin, hKcard, ⟨eStated⟩⟩ :=
       CFSG.Blueprint.LieModel.statedClassicalModel hlm hmem
-    letI := hKfield
-    letI := hKfin
-    haveI : Fintype K := Fintype.ofFinite K
+    let := hKfield
+    let := hKfin
+    have : Fintype K := Fintype.ofFinite K
     have hKcard' : Nat.card K = 2 ^ q.exponent := hKcard
     have hKcardF : Fintype.card K = 2 ^ q.exponent := by
       rw [← Nat.card_eq_fintype_card]; exact hKcard'
@@ -223,7 +224,7 @@ theorem lowerLin_holds : LowerLin := by
       rw [hKcardF, ← h1]
       exact hpq
     have hK2 : ringChar K = 2 := by
-      haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := q.exponent) hKcardF
+      have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := q.exponent) hKcardF
       exact ringChar.eq K 2
     have hpL : p ∣ Nat.card ↥L := by
       have hpsl : p ∣ Nat.card (PSL(m + 1, K)) :=
@@ -246,7 +247,7 @@ theorem lowerLin_holds : LowerLin := by
       exact hp.one_lt.ne' (Nat.Coprime.eq_one_of_dvd hc hpL)
     have hOZ : GLAPPrimeCore p ↥L ≤ Subgroup.center ↥L :=
       CFSG.LocalAnalysis.GLTheoremA.le_center_of_normal_of_isQuasisimple hq inferInstance hO
-    haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
+    have : Group.IsPerfect ↥L := ⟨hq.1⟩
     let eP : (↥L ⧸ Subgroup.center ↥L) ≃* PSimple p L :=
       CFSG.LocalAnalysis.GLTheoremA.S172A.pSimpleEquivCenterQuot p hOZ
     let eAll : (↥L ⧸ Subgroup.center ↥L) ≃* PSL(m + 1, K) :=
@@ -289,8 +290,8 @@ theorem lowerLin_holds : LowerLin := by
         have hm1 : m + 1 - 2 = m - 1 := by omega
         rw [hm1]
         by_cases hpdiv : p ∣ m + 1
-        · rw [if_pos hpdiv]
-        · rw [if_neg hpdiv]
+        · rw [ite_eq_left hpdiv]
+        · rw [ite_eq_right hpdiv]
           exact Nat.pow_le_pow_right (by have := hp.two_le; omega) (by omega)
       rw [h1, h2]
       rw [hkerE] at hEcard

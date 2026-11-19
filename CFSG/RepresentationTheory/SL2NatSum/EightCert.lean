@@ -331,7 +331,7 @@ private theorem toMat_one {K : Type} [Field K] (σ : GF8 ≃+* K) :
   have h1 : (g 1 : GF8) = 1 := by decide +kernel
   have h0 : (g 0 : GF8) = 0 := by decide +kernel
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [toMat, tOne, h1, h0, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [toMat, tOne, h1, h0]
 
 private theorem toMat_det {K : Type} [Field K] (σ : GF8 ≃+* K) (p : T) :
     (toMat σ p).det = σ (tDet p) := by

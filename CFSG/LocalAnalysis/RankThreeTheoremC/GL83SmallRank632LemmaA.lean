@@ -59,7 +59,7 @@ private theorem lemmaA_false_of_embedding {Y : Type} [Group Y]
   obtain ⟨Q₀⟩ := (Sylow.nonempty : Nonempty (Sylow 2 H))
   have hQ := hnear ((Q₀ : Subgroup H).map δ)
     (by rintro _ ⟨s, -, rfl⟩; exact hδN s)
-    (Q₀.isPGroup'.map δ)
+    (Q₀.isPGroup.map δ)
     (by rintro _ ⟨s, -, rfl⟩; exact hδx s)
   exact SuzukiModel.not_nearCyclic_sylow hH Q₀
     (NearCyclic.of_mulEquiv ((Q₀ : Subgroup H).equivMapOfInjective δ hδ) hQ)

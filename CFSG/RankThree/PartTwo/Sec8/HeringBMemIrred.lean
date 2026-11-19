@@ -162,7 +162,7 @@ theorem irred_model {E S H₀ U : Subgroup H6} {u g : H6}
   obtain ⟨x, hx⟩ := Item812Res5.exists_map_conj_le_wreathW hW hR
   set c : H6 →* H6 := (MulAut.conj x⁻¹).toMonoidHom with hc
   have hcinj : Function.Injective c := (MulAut.conj x⁻¹).injective
-  have hcxy : ∀ y, c y = x⁻¹ * y * x := fun y => by simp [hc, MulAut.conj_apply]
+  have hcxy : ∀ y, c y = x⁻¹ * y * x := fun y => by simp [hc]
   have hEW : E.map c ≤ wreathW zH CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIII.tH := (Subgroup.map_mono le_sup_left).trans hx
   have hEA : E.map c = baseA zH :=
     eq_baseA_of_le_wreathW hf h81 hEW (Item812Res5.isElemAbelian_map_hom c hE)
@@ -252,7 +252,7 @@ theorem irred_model {E S H₀ U : Subgroup H6} {u g : H6}
     funext i
     by_cases hi : i = k₀
     · subst hi; simp
-    · simp [Pi.single_apply, hi, hxk i hi]
+    · simp [hi, hxk i hi]
   set sk : H6 := CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIII.tH ^ ((k₀ : ℕ) + 1) * sH6 * (CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIII.tH ^ ((k₀ : ℕ) + 1))⁻¹ with hsk
   have hsk_comm : sk * c u = c u * sk := by
     rw [← hxu, hxsingle]

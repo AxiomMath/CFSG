@@ -89,13 +89,13 @@ theorem w1Tab : heGS36W1Tab = unpack 8330 14 w1 := by
 
 theorem cnw1 : cn w1 = true := cnpc (cnpc parts.2.2.1 cnG.1) parts.2.2.2.1
 
-theorem tgt_eq {p : Nat} (hp : p < 4) : heGS36Target p = unpack 8330 14 (tgt p) := by
+theorem tgt_eq {p : Nat} (_hp : p < 4) : heGS36Target p = unpack 8330 14 (tgt p) := by
   unfold heGS36Target tgt
   cases hb : Nat.beq (p % 2) 0
-  · rw [if_neg (Nat.ne_of_beq_eq_false hb)]
+  · rw [ite_eq_right (Nat.ne_of_beq_eq_false hb)]
     unfold heGS36W2Tab
     rw [w1Tab, heT1_eq, cmp cnw1 cnW.1]
-  · rw [if_pos (Nat.eq_of_beq_eq_true hb), w1Tab]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb), w1Tab]
 
 theorem g36tgt_eq (p : Nat) : g36tgt p = tgt p := by
   unfold g36tgt tgt g36w1 w1 cI

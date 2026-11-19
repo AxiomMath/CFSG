@@ -132,7 +132,7 @@ section Perfect
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem isPerfect_GL_two (hn : 3 ≤ n) : Group.IsPerfect (GL (Fin n) (ZMod 2)) := by
-  haveI := CFSG.GroupTheory.GLnTwoSplitting.isPerfect_linearEquiv (E := Fin n → ZMod 2)
+  have := CFSG.GroupTheory.GLnTwoSplitting.isPerfect_linearEquiv (E := Fin n → ZMod 2)
     (by simpa using hn)
   let e : ((Fin n → ZMod 2) ≃ₗ[ZMod 2] (Fin n → ZMod 2)) ≃* GL (Fin n) (ZMod 2) :=
     (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) (Fin n → ZMod 2)).symm.trans
@@ -141,7 +141,7 @@ theorem isPerfect_GL_two (hn : 3 ≤ n) : Group.IsPerfect (GL (Fin n) (ZMod 2)) 
 
 end Perfect
 
-theorem eq_one_of_forall_commute_GL {B : GL (Fin n) (ZMod 2)} (hn : 2 ≤ n)
+theorem eq_one_of_forall_commute_GL {B : GL (Fin n) (ZMod 2)} (_hn : 2 ≤ n)
     (h : ∀ X : GL (Fin n) (ZMod 2), B * X = X * B) : B = 1 := by
   have hB : B ∈ Subgroup.center (GL (Fin n) (ZMod 2)) :=
     Subgroup.mem_center_iff.mpr fun X => (h X).symm

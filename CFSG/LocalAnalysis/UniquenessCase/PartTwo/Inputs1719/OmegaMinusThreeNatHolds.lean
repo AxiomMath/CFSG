@@ -343,7 +343,7 @@ theorem k_O6m4_ThreeNatM_holds : K_O6m4_ThreeNatM := by
       omega
   unfold E3.mParam
   by_cases hev : Even (Nat.card Y)
-  · rw [if_pos hev]
+  · rw [ite_eq_left hev]
     have hne : {n : ℕ | ∃ t ∈ Y, orderOf t = 2 ∧
         n = rkIdx (fixV (Subgroup.zpowers t))}.Nonempty := by
       obtain ⟨t, ht⟩ :=
@@ -352,7 +352,7 @@ theorem k_O6m4_ThreeNatM_holds : K_O6m4_ThreeNatM := by
     refine le_csInf hne ?_
     rintro n ⟨t, htY, ht2, rfl⟩
     exact hinv t htY ht2
-  · rw [if_neg hev]
+  · rw [ite_eq_right hev]
     have hle : rk ↥(I 0) ≤ rk W := by
       have h := rk_mono (G := W) (H := I 0) (K := ⊤) (le_top : I 0 ≤ ⊤)
       rwa [rk_top] at h

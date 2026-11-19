@@ -65,14 +65,14 @@ open CFSG.KC CFSG.KC.Loop CFSG.KC.LceS CFSG.KC.Fi24Net CFSG.KC.Fi24NetPt CFSG.KC
 @[expose] noncomputable def pp (r : Nat) : Bool :=
   letB (plF (m r) (F r)) (fun P =>
     andB (allL (fun W => Nat.beq (bitN P (ptC NW NT W 0)) 1) (hc r))
-    (andB (allI (fun k b => andB (Nat.blt b (m r)) (Nat.beq (pt (F r) b) (ptC NW NT (nthL [] (bw r) k) 0)))
+    (andB (allI (fun k _b => andB (Nat.blt _b (m r)) (Nat.beq (pt (F r) _b) (ptC NW NT (nthL [] (bw r) k) 0)))
         (bp r) 0)
     (andB (eqL (nthL [1] (hc r) 0) [])
     (andB (Nat.beq (lenL (lt r)) (lenL (lw r)))
     (andB (Nat.beq (lenL (nw r)) (lenL (hc r)))
     (andB (cdOK (Nat.succ (lenL (bp r))) (cd r))
     (andB (allL (fun u => allL (fun l => Nat.blt l (lenL (lt r))) u) (gw r))
-      (allI (fun k b => eqL (nthL [] (gw r) k) [0, Nat.add (lenL (hc r)) k]) (bp r) 0))))))))
+      (allI (fun k _b => eqL (nthL [] (gw r) k) [0, Nat.add (lenL (hc r)) k]) (bp r) 0))))))))
 
 @[expose] noncomputable def cv (r : Nat) : Bool :=
   covW NW NT (List.map dW (hc r)) (hd r) (nat_lit 1) (Nat.xor ptsM (plF (m r) (F r)))

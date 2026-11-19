@@ -30,7 +30,7 @@ theorem acts {k : Nat} (hk : k < 6) : actsOK k = true := by
   unfold actsOK
   simp only [tab hk, allBelow, List.all_eq_true, List.mem_range, beq_iff_eq]
   intro i hi
-  rw [CFSG.KC.BfsPin.unpack_getElem!, if_pos (label_lt hi)]
+  rw [CFSG.KC.BfsPin.unpack_getElem!, ite_eq_left (label_lt hi)]
   exact Nat.eq_of_beq_eq_true (allN_spec (allN_spec actK k hk) i hi)
 
 theorem check : hsU35Check () = true := by

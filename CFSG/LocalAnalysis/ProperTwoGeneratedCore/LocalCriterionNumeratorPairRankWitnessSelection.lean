@@ -117,7 +117,7 @@ theorem odd_index_involution_has_native_four_group
     rw [CFSG.ComponentClassification.TwoRankSylow.invariant T]
     exact hrank
   obtain ⟨b, hb, hba, hab, _hV, _hcard⟩ :=
-    two_group_rank_two_involution_in_four_group T.isPGroup' hrankT aT haTorder
+    two_group_rank_two_involution_in_four_group T.isPGroup hrankT aT haTorder
   have hbG : orderOf (b : G) = 2 := (Subgroup.orderOf_coe b).trans hb
   have hbaG : (b : G) ≠ (a : G) := fun heq => hba (Subtype.ext heq)
   have habG : Commute (a : G) (b : G) := congrArg Subtype.val hab.eq

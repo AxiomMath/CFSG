@@ -111,10 +111,10 @@ theorem false_of_split {L : Subgroup G} {F : Type} [Field F] [Fintype F] [CharP 
     (hιM : ∀ u, ∀ m ∈ M, ρ (ι u) m ∈ M) (hιmov : ∀ u, u ≠ 1 → ∃ m ∈ M, ρ (ι u) m ≠ m) :
     False := by
   classical
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   have hR : Nat.card ↥(rootSub F) = 2 ^ (2 * s) := natCard_rootSub.trans hs
   have hRp : IsPGroup 2 ↥(rootSub F) := IsPGroup.of_card hR
-  haveI := nontrivial_rootSub (by omega) hs
+  have := nontrivial_rootSub (by omega) hs
   obtain ⟨u₀, hu₀⟩ := exists_ne (1 : ↥(rootSub F))
   have hM0 : M ≠ ⊥ := fun h => hU0 (eq_bot_iff.mpr ((le_sup_left.trans hUC.le).trans h.le))
   let P : Submodule (ZMod 2) V := M ⊓ fixSub (ρ.comp ι) ⊤
@@ -217,13 +217,13 @@ theorem IsPair.not_mem_normalizer_of_fixSub_eq_bot {G V : Type} [Group G] [Finit
     rw [hFn]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
-  haveI : IsSimpleGroup SL(2, F) := P22y.isSimpleGroup_sl2 h4
-  haveI : IsSimpleGroup ↥L := e.isSimpleGroup
+  have : IsSimpleGroup SL(2, F) := P22y.isSimpleGroup_sl2 h4
+  have : IsSimpleGroup ↥L := e.isSimpleGroup
   obtain ⟨e₂'⟩ := hP.nonempty_mulEquiv
   let e₂ : ↥L₂ ≃* SL(2, F) := e₂'.trans e
-  haveI : IsSimpleGroup ↥L₂ := e₂.isSimpleGroup
-  haveI := nontrivial_rootSub (by omega) hF
-  haveI := hP.sup_normal
+  have : IsSimpleGroup ↥L₂ := e₂.isSimpleGroup
+  have := nontrivial_rootSub (by omega) hF
+  have := hP.sup_normal
   have hBL := hP.fixSub_eq_bot hB
   have hfix : fixSub ρ L ⊓ fixSub ρ L₂ = ⊥ := by rw [hB, inf_bot_eq]
   have hρt : ρ t ≠ 1 := fun h => ht1 (hρ (h.trans (map_one ρ).symm))

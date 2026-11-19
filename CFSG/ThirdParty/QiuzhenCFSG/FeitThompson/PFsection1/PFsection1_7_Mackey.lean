@@ -155,7 +155,7 @@ public theorem mackeySummandAmbientInner_self_eq_card_mul_of_mem
               (S.mul_mem ha
                 (S.mul_mem (S.mul_mem x.2 k.2) (S.inv_mem x.2)))
               (S.inv_mem ha)
-          rw [dif_pos hmem]
+          rw [dite_eq_left hmem]
           let ax : S := ⟨a * (x : G), S.mul_mem ha x.2⟩
           have hclass := hphi ax k
           have harg :
@@ -346,8 +346,8 @@ public theorem scalarProduct_conjugateOnNormal_eq_zero_of_ne
       _ = theta := htheta.symm
   rw [hconjRepTheta]
   rw [htheta]
-  letI : Representation.IsIrreducible rho := hirr
-  letI : Representation.IsIrreducible (conjugateRepresentation H rho a) :=
+  let : Representation.IsIrreducible rho := hirr
+  let : Representation.IsIrreducible (conjugateRepresentation H rho a) :=
     irreducible_conjugateRepresentation H rho a
   exact scalarProduct_representation_char_eq_zero_of_ne rho
     (conjugateRepresentation H rho a) hne'
@@ -707,7 +707,7 @@ public theorem mackeyDoubleParamSum_eq_card_mul_inner
               ((x : G) * a * (y : G)) * (k : G) *
                 (((x : G) * a * (y : G))⁻¹) ∈ S :=
             hmem_iff.mpr hb
-          rw [dif_pos hp, dif_pos hb]
+          rw [dite_eq_left hp, dite_eq_left hb]
           let xb : S := ⟨x, x.2⟩
           let bs : S := ⟨b, hb⟩
           have hclass := hphi xb bs
@@ -724,7 +724,7 @@ public theorem mackeyDoubleParamSum_eq_card_mul_inner
                 (((x : G) * a * (y : G))⁻¹) ∈ S := by
             intro h
             exact hb (hmem_iff.mp h)
-          rw [dif_neg hp, dif_neg hb]
+          rw [dite_eq_right hp, dite_eq_right hb]
     _ = (Nat.card S : ℂ) * mackeySummandAmbientInner S K a phi k := by
         unfold mackeySummandAmbientInner
         simp [Finset.card_univ]
@@ -834,8 +834,8 @@ public theorem finite_sum_fiberwise_univ
       ∑ j ∈ (@Finset.univ κ (Fintype.ofFinite κ)),
         ∑ i ∈ (@Finset.univ ι (Fintype.ofFinite ι)) with g i = j, f i := by
   classical
-  letI : Fintype ι := Fintype.ofFinite ι
-  letI : Fintype κ := Fintype.ofFinite κ
+  let : Fintype ι := Fintype.ofFinite ι
+  let : Fintype κ := Fintype.ofFinite κ
   simpa using
     (Finset.sum_fiberwise (s := (Finset.univ : Finset ι)) (g := g) (f := f)).symm
 

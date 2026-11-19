@@ -33,7 +33,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22r3e5c_pCoreOf_eq_inf {X L : Subgroup G} (hLX : L ≤ X)
     (hLXn : X ≤ normalizer (L : Set G)) :
     pCoreOf 2 L = pCoreOf 2 X ⊓ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm (le_inf (CFSG.GroupTheory.pCoreOf_le_pCoreOf_of_le_normalizer 2 hLX hLXn)
     (CFSG.LieType.BorelTits.pCoreOf_le 2 L)) ?_
   have h2 : IsPGroup 2 ↥(pCoreOf 2 X ⊓ L : Subgroup G) :=
@@ -45,6 +45,7 @@ theorem uc22r3e5c_pCoreOf_eq_inf {X L : Subgroup G} (hLX : L ≤ X)
       (L.inv_mem hs)⟩
   exact CFSG.ASVolI.ChH.le_pCoreOf_of_isPGroup_normal inf_le_right hN h2
 
+omit [Finite G] in
 theorem uc22r3e5c_bar2_map_range {X L : Subgroup G} (hLX : L ≤ X) :
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥X)).comp (Subgroup.inclusion hLX)).range =
       (L.subgroupOf X).map (QuotientGroup.mk' (CFSG.pCore 2 ↥X)) := by
@@ -60,7 +61,7 @@ theorem uc22r3e5c_bar2_map_ker {X L : Subgroup G} (hLX : L ≤ X)
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥X)).comp (Subgroup.inclusion hLX)).ker =
       CFSG.pCore 2 ↥L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup ↥X := CFSG.pCore 2 ↥X
   let π : ↥X →* Bar2 X := QuotientGroup.mk' Q
   have hQker : π.ker = Q := QuotientGroup.ker_mk' Q
@@ -94,7 +95,7 @@ theorem uc22r3e5c_bar2_map_mulEquiv {X L : Subgroup G} (hLX : L ≤ X)
     (hLXn : X ≤ normalizer (L : Set G)) :
     Nonempty (Bar2 L ≃* (L.subgroupOf X).map (QuotientGroup.mk' (CFSG.pCore 2 ↥X))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : ↥X →* Bar2 X := QuotientGroup.mk' (CFSG.pCore 2 ↥X)
   let φ : ↥L →* Bar2 X := π.comp (Subgroup.inclusion hLX)
   have hφrange : φ.range = (L.subgroupOf X).map π := uc22r3e5c_bar2_map_range hLX
@@ -126,6 +127,7 @@ theorem uc22r3e5c_mulEquiv_prod_of_internal {Y : Type} [Group Y] [Finite Y]
         exact ⟨u, hu, v, hv, huv⟩)).trans Subgroup.topEquiv
   exact ⟨mE.symm⟩
 
+omit [Finite G] in
 theorem uc22r3e5c_bar2_sup_comm {X L K : Subgroup G}
     (hcomm : ⁅L, K⁆ ≤ pCoreOf 2 X) :
     ∀ u ∈ (L.subgroupOf X).map (QuotientGroup.mk' (CFSG.pCore 2 ↥X)),
@@ -152,6 +154,7 @@ theorem uc22r3e5c_bar2_sup_comm {X L K : Subgroup G}
     _ = π b * π a := h2
     _ = π (b * a) := (map_mul π b a).symm
 
+omit [Finite G] in
 theorem uc22r3e5c_bar2_sup_eq_top {X L K : Subgroup G} (hLX : L ≤ X) (hKX : K ≤ X)
     (hsup : L ⊔ K = X) :
     (L.subgroupOf X).map (QuotientGroup.mk' (CFSG.pCore 2 ↥X)) ⊔
@@ -185,7 +188,7 @@ theorem uc22r3e5c_bar2_sup_mulEquiv {X L K : Subgroup G}
     (hLc : Subgroup.center (Bar2 L) = ⊥) :
     Nonempty (Bar2 X ≃* Bar2 L × Bar2 K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup ↥X := CFSG.pCore 2 ↥X
   let π : ↥X →* Bar2 X := QuotientGroup.mk' Q
   let LX : Subgroup ↥X := L.subgroupOf X
@@ -261,7 +264,7 @@ theorem uc22r3e5c_prod_map_fst_prod_snd {A B : Type} [Group A] [Finite A] [Group
     {P : Subgroup (A × B)} (hP : IsSylowTwoOf P ⊤) :
     (P.map (MonoidHom.fst A B)).prod (P.map (MonoidHom.snd A B)) = P := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let πA : A × B →* A := MonoidHom.fst A B
   let πB : A × B →* B := MonoidHom.snd A B
   have hPidx : ¬ 2 ∣ P.index := by
@@ -290,7 +293,7 @@ theorem uc22r3e5c_solvable_map_fst_le_normalizer {n : ℕ}
     H.map (MonoidHom.fst A B) ≤
       Subgroup.normalizer ((P.map (MonoidHom.fst A B) : Subgroup A) : Set A) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let πA : A × B →* A := MonoidHom.fst A B
   let PA : Subgroup A := P.map πA
   have hPidx : ¬ 2 ∣ P.index := by
@@ -304,7 +307,7 @@ theorem uc22r3e5c_solvable_map_fst_le_normalizer {n : ℕ}
   refine CFSG.Quasithin.SzQ.le_normalizer_of_solvable hn eA sPA ?_ ?_
   · rw [hsPA]
     exact Subgroup.map_mono hHP
-  · haveI := hHs
+  · have := hHs
     exact Group.isSolvable_of_surjective (πA.subgroupMap_surjective H)
 
 theorem uc22r3e5c_solvable_map_snd_le_normalizer {n : ℕ}
@@ -314,7 +317,7 @@ theorem uc22r3e5c_solvable_map_snd_le_normalizer {n : ℕ}
     H.map (MonoidHom.snd A B) ≤
       Subgroup.normalizer ((P.map (MonoidHom.snd A B) : Subgroup B) : Set B) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let πB : A × B →* B := MonoidHom.snd A B
   let PB : Subgroup B := P.map πB
   have hPidx : ¬ 2 ∣ P.index := by
@@ -328,7 +331,7 @@ theorem uc22r3e5c_solvable_map_snd_le_normalizer {n : ℕ}
   refine CFSG.Quasithin.SzQ.le_normalizer_of_solvable hn eB sPB ?_ ?_
   · rw [hsPB]
     exact Subgroup.map_mono hHP
-  · haveI := hHs
+  · have := hHs
     exact Group.isSolvable_of_surjective (πB.subgroupMap_surjective H)
 
 theorem uc22r3e5c_solvable_prod_le_normalizer
@@ -365,20 +368,22 @@ theorem uc22r3e5c_odd_card_B0 {D : Data G} {Ch : Choice2011 G} (c : Ctx21 D Ch) 
   rw [Subgroup.orderOf_coe, hx] at h1
   exact (by decide : ¬ Odd 2) h1
 
+omit [Finite G] in
 theorem uc22r3e5c_comap_barImage {X S : Subgroup G} (hO2 : pCoreOf 2 X ≤ S) :
     (barImage X S).comap (QuotientGroup.mk' (CFSG.pCore 2 ↥X)) = S.subgroupOf X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine Subgroup.comap_map_eq_self ?_
   rw [QuotientGroup.ker_mk']
   intro q hq
   exact Subgroup.mem_subgroupOf.mpr (hO2 ((CFSG.mem_openPCoreOf_iff q).mpr hq))
 
+omit [Finite G] in
 theorem uc22r3e5c_mem_of_barImage_normalizer {X Y S : Subgroup G} (hYX : Y ≤ X)
     (hSX : S ≤ X) (hO2 : pCoreOf 2 X ≤ S)
     (hbar : barImage X Y ≤ Subgroup.normalizer (barImage X S : Set (Bar2 X))) :
     ∀ y ∈ Y, ∀ s ∈ S, y * s * y⁻¹ ∈ S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : ↥X →* Bar2 X := QuotientGroup.mk' (CFSG.pCore 2 ↥X)
   have hcomap : (barImage X S).comap π = S.subgroupOf X := uc22r3e5c_comap_barImage hO2
   intro y hy s hs
@@ -404,12 +409,13 @@ theorem uc22r3e5c_mem_of_barImage_normalizer {X Y S : Subgroup G} (hYX : Y ≤ X
   rw [hcomap] at hmem'
   exact Subgroup.mem_subgroupOf.mp hmem'
 
+omit [Finite G] in
 theorem uc22r3e5c_le_normalizer_of_barImage {X Y S : Subgroup G} (hYX : Y ≤ X) (hSX : S ≤ X)
     (hO2 : pCoreOf 2 X ≤ S)
     (hbar : barImage X Y ≤ Subgroup.normalizer (barImage X S : Set (Bar2 X))) :
     Y ≤ Subgroup.normalizer (S : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro y hy
   rw [Subgroup.mem_normalizer_iff]
   intro s
@@ -424,7 +430,7 @@ theorem uc22r3e5c_le_normalizer_of_barImage {X Y S : Subgroup G} (hYX : Y ≤ X)
 theorem uc22r3e5c_isSylowTwoOf_map_mulEquiv {Y Y' : Type} [Group Y] [Finite Y] [Group Y']
     [Finite Y'] (e : Y ≃* Y') {S : Subgroup Y} (h : IsSylowTwoOf S ⊤) :
     IsSylowTwoOf (S.map e.toMonoidHom) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h' : CFSG.ABGLocalTools.IsSylowOf 2 S ⊤ :=
     CFSG.QuasithinUnique.Setup.X6.isSylowTwoOf_iff_isSylowOf.mp h
   have h'' : CFSG.ABGLocalTools.IsSylowOf 2 (S.map e.toMonoidHom) ⊤ := by
@@ -444,11 +450,13 @@ theorem uc22r3e5c_isSylowTwoOf_of_le {S X Y : Subgroup G} (hS : IsSylowTwoOf S X
   CFSG.QuasithinUnique.Setup.X6.isSylowTwoOf_iff_isSylowOf.mpr
     ((CFSG.QuasithinUnique.Setup.X6.isSylowTwoOf_iff_isSylowOf.mp hS).of_le hSY hYX)
 
+omit [Finite G] in
 theorem uc22r3e5c_le_normalizer_inf {Z X : Subgroup G}
     (hZX : Z ≤ Subgroup.normalizer (X : Set G)) :
     Z ≤ Subgroup.normalizer ((Z ⊓ X : Subgroup G) : Set G) :=
   (le_inf Subgroup.le_normalizer hZX).trans Subgroup.inf_normalizer_le_normalizer_inf
 
+omit [Finite G] in
 theorem uc22r3e5c_pCoreOf_le_of_sylow {X S : Subgroup G} (hS : IsSylowTwoOf S X) :
     pCoreOf 2 X ≤ S := by
   have hcore : CFSG.pCore 2 ↥X ≤ S.subgroupOf X :=
@@ -457,10 +465,11 @@ theorem uc22r3e5c_pCoreOf_le_of_sylow {X S : Subgroup G} (hS : IsSylowTwoOf S X)
     _ ≤ (S.subgroupOf X : Subgroup ↥X).map X.subtype := Subgroup.map_mono hcore
     _ = S := Subgroup.map_subgroupOf_eq_of_le hS.1
 
+omit [Finite G] in
 theorem uc22r3e5c_pCore_eq_subgroupOf_of_sylow_normal {S Y : Subgroup G}
     (hS : IsSylowTwoOf S Y) (hN : (S.subgroupOf Y).Normal) :
     S.subgroupOf Y = CFSG.pCore 2 ↥Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS2 : IsPGroup 2 ↥(S.subgroupOf Y) :=
     hS.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hS.1).symm
   have hSidx : ¬ 2 ∣ (S.subgroupOf Y).index := hS.2.2
@@ -469,7 +478,7 @@ theorem uc22r3e5c_pCore_eq_subgroupOf_of_sylow_normal {S Y : Subgroup G}
     exact le_iSup_of_le (S.subgroupOf Y) (le_iSup_of_le hN (le_iSup_of_le hS2 le_rfl))
   · let sY : Sylow 2 ↥Y := hS2.toSylow hSidx
     have hsY : (sY : Subgroup ↥Y) = S.subgroupOf Y := IsPGroup.toSylow_coe hS2 hSidx
-    haveI : (CFSG.pCore 2 ↥Y).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore 2 ↥Y).Normal := CFSG.pCore_normal
     have h := IsPGroup.le_sylow_of_normal (p := 2) (N := CFSG.pCore 2 ↥Y)
       CFSG.pCore_isPGroup sY
     rwa [hsY] at h
@@ -478,8 +487,8 @@ theorem uc22r3e5c_exists_sz_equiv {X : Type} [Group X] [Finite X] {n : ℕ} (h :
     ∃ a : ℕ, 1 ≤ a ∧ n = 2 * a + 1 ∧ Nonempty (X ≃* ↥(Sz a)) := by
   obtain ⟨-, -, a, ha, K, hK, hKf, hf, hcard, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.twistedB2_iff.1 h
-  letI : Field K := hK
-  letI : Finite K := hKf
+  let : Field K := hK
+  let : Finite K := hKf
   have hcard' : Nat.card K = 2 ^ (2 * a + 1) := by
     rw [← hf]
     exact hcard
@@ -487,6 +496,7 @@ theorem uc22r3e5c_exists_sz_equiv {X : Type} [Group X] [Finite X] {n : ℕ} (h :
   exact (MulEquiv.subgroupCongr (CFSG.LieType.BorelTits.suzukiGroup_eq_glaSzGroup a K)).trans
     (CFSG.ShultStronglyClosedTI.glaSzEquivNative a ha hcard')
 
+omit [Finite G] in
 theorem uc22r3e5c_isSz_of_mem_conjSetOf {M L K : Subgroup G} {n : ℕ}
     (hK : K ∈ conjSetOf M L) (hSz : IsSz (Bar2 L) n) : IsSz (Bar2 K) n := by
   obtain ⟨g, -, rfl⟩ := hK
@@ -504,15 +514,16 @@ theorem uc22r3e5c_exists_sz_pair_equiv {M L K : Subgroup G} {n : ℕ}
   subst aK
   exact ⟨a, ha, hna, ⟨eL⟩, ⟨eK⟩⟩
 
+omit [Finite G] in
 theorem uc22r3e5c_isSolvable_barImage {X Y : Subgroup G} (hYX : Y ≤ X)
     (hY : Group.IsSolvable ↥Y) : Group.IsSolvable ↥(barImage X Y) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let eY : ↥(Y.subgroupOf X) ≃* ↥Y := Subgroup.subgroupOfEquivOfLe hYX
   have hYsub : Group.IsSolvable ↥(Y.subgroupOf X) := by
-    haveI := hY
+    have := hY
     exact Group.isSolvable_of_isSolvable_injective (f := eY.toMonoidHom) eY.injective
-  haveI := hYsub
+  have := hYsub
   exact Group.isSolvable_of_surjective
     ((QuotientGroup.mk' (CFSG.pCore 2 ↥X)).subgroupMap_surjective (Y.subgroupOf X))
 
@@ -523,7 +534,7 @@ theorem uc22r3e5c_isSolvable_inf_sup_B0 {D : Data G} {Ch : Choice2011 G} (c : Ct
   have hTp : IsPGroup 2 D.T := (CFSG.ABGLocalTools.isSylowOf_iff.1 D.sylowM).2.1
   have hZsolv : Group.IsSolvable ↥(c.B0 ⊔ D.T) :=
     uc22p2214_isSolvable_sup hB0odd hB0c hTp hperm
-  haveI := hZsolv
+  have := hZsolv
   exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective inf_le_left)
 
 theorem uc22r3e5c_isSylowTwoOf_inf {D : Data G} {L : Subgroup G} (hL : L ∈ calC D.M) :
@@ -542,7 +553,7 @@ theorem uc22r3e5c_bar2_conjClosure_mulEquiv {D : Data G} {L K : Subgroup G}
     (hset : conjSetOf D.M L = {L, K}) {n : ℕ} (hSz : IsSz (Bar2 L) n) :
     Nonempty (Bar2 (conjClosure D.M L) ≃* Bar2 L × Bar2 K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : Subgroup G := conjClosure D.M L
   have hXsup : X = L ⊔ K := conjClosure_eq_sup_of_conjSetOf_eq hset
   have hLX : L ≤ X := by rw [hXsup]; exact le_sup_left
@@ -568,7 +579,7 @@ theorem uc22r3e5c_le_normalizer_of_mulEquiv_prod {n : ℕ}
   have hS' : IsSylowTwoOf (S.map e.toMonoidHom) ⊤ :=
     uc22r3e5c_isSylowTwoOf_map_mulEquiv e hS
   have hY' : Group.IsSolvable ↥(Y.map e.toMonoidHom) := by
-    haveI := hY
+    have := hY
     exact Group.isSolvable_of_surjective (e.toMonoidHom.subgroupMap_surjective Y)
   have hH := uc22r3e5c_solvable_prod_le_normalizer hn eP eQ hS' (Subgroup.map_mono hSY) hY'
   have hmapN : (Subgroup.normalizer (S : Set B2)).map e.toMonoidHom =
@@ -580,14 +591,14 @@ theorem uc22r3e5c_le_normalizer_of_mulEquiv_prod {n : ℕ}
   rwa [e.injective hwz] at hw
 
 theorem uc22r3e5c_barImage_inf_le_normalizer {D : Data G}
-    {Ch : Choice2011 G} (h5 : S21_5 D Ch) (h1930 : H1930 D) (c : Ctx21 D Ch)
+    {Ch : Choice2011 G} (_h5 : S21_5 D Ch) (_h1930 : H1930 D) (c : Ctx21 D Ch)
     {L : Subgroup G} (hL : L ∈ calC D.M) (hc2 : (conjSetOf D.M L).ncard = 2) {n : ℕ}
-    (hn : 2 < n) (hSz : IsSz (Bar2 L) n) :
+    (_hn : 2 < n) (hSz : IsSz (Bar2 L) n) :
     barImage (conjClosure D.M L) ((c.B0 ⊔ D.T) ⊓ conjClosure D.M L) ≤
       Subgroup.normalizer (barImage (conjClosure D.M L) (D.T ⊓ conjClosure D.M L) :
         Set (Bar2 (conjClosure D.M L))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hKne, hset, hKC⟩ := uc22s21ru4e_exists_second_member hc2 hL
   have hKmem : K ∈ conjSetOf D.M L := by rw [hset]; simp
   let X : Subgroup G := conjClosure D.M L
@@ -628,7 +639,7 @@ theorem uc22r3e5c_normalizes_inf {D : Data G}
     (hn : 2 < n) (hSz : IsSz (Bar2 L) n) :
     ∀ a ∈ c.B0, a ∈ normalizer ((D.T ⊓ conjClosure D.M L : Subgroup G) : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let X : Subgroup G := conjClosure D.M L
   let S : Subgroup G := D.T ⊓ X
   let Z : Subgroup G := c.B0 ⊔ D.T

@@ -38,8 +38,8 @@ theorem exists_model_sl {X : Type} [Group X] (hXq : IsQuasisimple X) {p e : ℕ}
     have hcardX : Nat.card X = 216 := by
       rw [Nat.card_congr eX.toEquiv]
       exact CFSG.RankThree.CentralLiftU.card_statedSU_three_two hU rfl
-    haveI : Finite X := Finite.of_equiv _ eX.symm.toEquiv
-    haveI := Fintype.ofFinite X
+    have : Finite X := Finite.of_equiv _ eX.symm.toEquiv
+    have := Fintype.ofFinite X
     have hsolv : Group.IsSolvable X :=
       CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow (a := 3) (b := 3)
         Nat.prime_two Nat.prime_three (by norm_num)

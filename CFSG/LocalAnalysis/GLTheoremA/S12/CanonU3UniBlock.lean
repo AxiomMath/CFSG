@@ -197,6 +197,7 @@ variable {ℓ f : ℕ} {K : Type} [Field K] {hK : UnitaryFieldData ℓ f K}
   {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {B : V →ₛₗ[hK.bar] V →ₗ[K] K} {x : LinearMap.GeneralLinearGroup K V}
 
+omit [FiniteDimensional K V] in
 theorem specialBlock_eq_kerImage {a : K[X]} {Ω : Type*} [Group Ω]
     (φ : orbitFactor B x a ≃* Ω) (ι : Ω →* blockGL (x : Module.End K V) a)
     (D : Ω →* (AdjoinRoot a)ˣ) (hD : ∀ w, D w = blockGLDet (x : Module.End K V) a (ι w))
@@ -282,8 +283,8 @@ theorem exists_surjective_specialBlock (hq : 2 ≤ ℓ ^ f)
             toLinSU h n v = (u : LinearMap.GeneralLinearGroup K (Fin n → K)) ∧
               v ∈ normOneScalars h (gramSU h (idGram K n)) n := by
   classical
-  haveI := h.finite
-  haveI : Finite ↥(gramSU h (idGram K n)) := inferInstance
+  have := h.finite
+  have : Finite ↥(gramSU h (idGram K n)) := inferInstance
   have hSle : specialBlock (idForm h n) x (a.1 : K[X]) ≤ (toLinSU h n).range := fun g hg =>
     mem_range_toLinSU (specialBlock_le_sesqSpecialUnitaryGroup_of_good H hq a.1 a.2 hg)
   let F : Subgroup ↥(gramSU h (idGram K n)) :=
@@ -369,8 +370,8 @@ theorem exists_surjective_specialBlock_of_selfDual
             toLinSU h n v = (u : LinearMap.GeneralLinearGroup K (Fin n → K)) ∧
               v ∈ normOneScalars h (gramSU h (idGram K n)) n := by
   classical
-  haveI := h.finite
-  haveI : Finite ↥(gramSU h (idGram K n)) := inferInstance
+  have := h.finite
+  have : Finite ↥(gramSU h (idGram K n)) := inferInstance
   have hSle : specialBlock (idForm h n) x (a : K[X]) ≤ (toLinSU h n).range := fun g hg =>
     mem_range_toLinSU (specialBlock_le_sesqSpecialUnitaryGroup_of_selfDual H hself hg)
   let F : Subgroup ↥(gramSU h (idGram K n)) :=
@@ -438,7 +439,7 @@ theorem toLin_scalar_apply (c : Kˣ) (w : Fin n → K) :
     by_cases hij : i = j
     · subst hij
       simp [Matrix.scalar_apply]
-    · simp [Matrix.scalar_apply, Matrix.one_apply, hij]
+    · simp [Matrix.scalar_apply, hij]
   change (Matrix.scalar (Fin n) (c : K)) *ᵥ w = (c : K) • w
   rw [hscalar, Matrix.smul_mulVec, Matrix.one_mulVec]
 
@@ -511,7 +512,7 @@ theorem ordTwistedA_two_pow_mul_three (hn : Odd n) :
 theorem padicValNat_card_specialLinear {E : Type} [Field E] [Finite E] {m e : ℕ}
     (hm : 1 ≤ m) (he : 1 ≤ e) (hE : Nat.card E = 2 ^ e) :
     padicValNat 2 (Nat.card (SpecialLinearGroup (Fin m) E)) = e * (m * (m - 1) / 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.LocalAnalysis.ComponentInitial.LinearFlag.card_SL_eq (K := E) (n := m) hm, hE]
   have hprodpos : 0 < ∏ j ∈ Finset.Icc 2 m, ((2 ^ e) ^ j - 1) := by
     refine Finset.prod_pos fun j hj => ?_
@@ -594,9 +595,9 @@ theorem exists_scalar_of_primaryComponent_eq_top (hn : 1 ≤ n)
       (a : K[X]) = ⊤) :
     ∃ c : Kˣ, A = GeneralLinearGroup.scalar (Fin n) c := by
   classical
-  haveI : Inhabited (Fin n) := ⟨Fin.mk 0 (by omega)⟩
-  haveI : Nontrivial (Fin n → K) := Pi.nontrivial
-  haveI : Nontrivial (Module.End K (Fin n → K)) := inferInstance
+  have : Inhabited (Fin n) := ⟨Fin.mk 0 (by omega)⟩
+  have : Nontrivial (Fin n → K) := Pi.nontrivial
+  have : Nontrivial (Module.End K (Fin n → K)) := inferInstance
   have hmonic : (a : K[X]).Monic := monic_of_mem_primaryFactors a.2
   obtain ⟨β, hβ⟩ : ∃ β : K, (a : K[X]) = Polynomial.X - Polynomial.C β := by
     refine ⟨-(a : K[X]).coeff 0, ?_⟩
@@ -631,7 +632,7 @@ theorem exists_scalar_of_primaryComponent_eq_top (hn : 1 ≤ n)
 
 end WholeSpace
 
-theorem su_block_solution {f d m n : ℕ} (hf : 1 ≤ f) (hd : 1 ≤ d) (hm : 3 ≤ m)
+theorem su_block_solution {f d m n : ℕ} (_hf : 1 ≤ f) (hd : 1 ≤ d) (hm : 3 ≤ m)
     (hmd : d * m ≤ 6) (hn : Odd n)
     (h : f * d * (m * (m - 1) / 2) = 3 * n) :
     (m = 3 ∧ d = 1 ∧ f = n) ∨ (m = 6 ∧ d = 1 ∧ n = 5 * f) := by
@@ -681,7 +682,7 @@ theorem padicValNat_two_of_central_surjective {G T : Type*} [Group G] [Group T] 
     (hZodd : Odd (Nat.card (Subgroup.center G))) {n r : ℕ} (hr : Odd r)
     (ht : t = 2 ^ (3 * n) * r) :
     padicValNat 2 (Nat.card G) = 3 * n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsplit :=
     card_eq_card_centerQuotient_mul_card_center_of_surjective
       hperf f hf hker
@@ -727,13 +728,13 @@ theorem exists_field_factor_of_selfDual (hq : 2 ≤ ℓ ^ f)
         Nonempty (↥(specialBlock B x (a : K[X])) ≃*
           ↥(StatedSU (primaryMultiplicity (x : Module.End K V) (a : K[X]))
             (ℓ ^ (f * (a : K[X]).natDegree)) E))) := by
-  haveI := hK.finite
-  haveI : CharP K ℓ := hK.charP
+  have := hK.finite
+  have : CharP K ℓ := hK.charP
   have hd : 1 ≤ (a : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors a.2)
   have hfd : 1 ≤ f * (a : K[X]).natDegree := Nat.mul_pos hK.one_le hd
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
-  letI : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  let : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
   have hcharE : ringChar (AdjoinRoot (a : K[X])) = ℓ :=
     (Algebra.ringChar_eq K (AdjoinRoot (a : K[X]))).symm.trans (ringChar.eq K ℓ)
   have hm2 : 2 ≤ primaryMultiplicity (x : Module.End K V) (a : K[X]) := ha.1
@@ -751,13 +752,13 @@ theorem exists_field_factor_of_selfDual (hq : 2 ≤ ℓ ^ f)
       exact h2
     obtain ⟨e2⟩ :=
       CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-    haveI : Finite hE.fixedField := inferInstance
-    letI : Fintype hE.fixedField := Fintype.ofFinite _
+    have : Finite hE.fixedField := inferInstance
+    let : Fintype hE.fixedField := Fintype.ofFinite _
     have hcardF : Fintype.card hE.fixedField = ℓ ^ (f * (a : K[X]).natDegree) := by
       rw [← Nat.card_eq_fintype_card]
       exact hE.card_fixedField
-    haveI : Fact ℓ.Prime := ⟨hK.prime⟩
-    haveI : CharP hE.fixedField ℓ := charP_of_card_eq_prime_pow hcardF
+    have : Fact ℓ.Prime := ⟨hK.prime⟩
+    have : CharP hE.fixedField ℓ := charP_of_card_eq_prime_pow hcardF
     have hcharF : ringChar hE.fixedField = ℓ := ringChar.eq _ _
     have h4 : 4 ≤ Fintype.card hE.fixedField := by
       rw [hcardF]
@@ -870,7 +871,7 @@ theorem false_of_paired_goodBlock
     {x : LinearMap.GeneralLinearGroup K (Fin N → K)}
     (H : UnitaryPrimaryData h.bar (idForm h N) x)
     (a : {a : primaryFactors (x : Module.End K (Fin N → K)) // IsGoodBlock h x a})
-    (hself : dualPoly h.bar (a.1 : K[X]) ≠ (a.1 : K[X])) (hN : N ≤ 6) (hn : Odd n)
+    (hself : dualPoly h.bar (a.1 : K[X]) ≠ (a.1 : K[X])) (_hN : N ≤ 6) (hn : Odd n)
     {T : Subgroup (primeFormP h (idGram K N))}
     {gS : ↥(specialBlock (idForm h N) x (a.1 : K[X])) →* ↥T}
     (hgSsurj : Function.Surjective gS)
@@ -880,8 +881,8 @@ theorem false_of_paired_goodBlock
     (hcard : Nat.card (↥T ⧸ Subgroup.center ↥T) = CFSG.Open.ordTwistedA 2 (2 ^ n)) :
     False := by
   classical
-  haveI := h.finite
-  haveI : Fact (Irreducible (a.1 : K[X])) :=
+  have := h.finite
+  have : Fact (Irreducible (a.1 : K[X])) :=
     ⟨irreducible_of_mem_primaryFactors a.1.2⟩
   have hm : 2 ≤ primaryMultiplicity (x : Module.End K (Fin N → K)) (a.1 : K[X]) := a.2.1
   have hd : 1 ≤ (a.1 : K[X]).natDegree :=
@@ -898,8 +899,8 @@ theorem false_of_paired_goodBlock
     pairedPrimaryBlock H a.1 (Ne.symm hself)
   obtain ⟨eSL⟩ := nonempty_specialBlock_mulEquiv_SL hP
   let E := AdjoinRoot (a.1 : K[X])
-  haveI : Finite E := Module.finite_of_finite K
-  letI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Module.finite_of_finite K
+  let : Fintype E := Fintype.ofFinite E
   have hEcard : Nat.card E = 2 ^ (2 * (f * (a.1 : K[X]).natDegree)) :=
     natCard_adjoinRoot (hK := h) (a := (a.1 : K[X]))
   have h4 : 4 ≤ Fintype.card E := by
@@ -1013,7 +1014,7 @@ theorem false_of_sl2_centralQuotient {f d n : ℕ} {F : Type} [Field F] [Fintype
     omega
   exact (card_SL_two_ne_ordTwistedA hn1 hn) (hGeq.symm.trans hcardG)
 
-theorem three_dvd_card_center_of_center_card_three {f N n : ℕ} {K : Type} [Field K]
+theorem three_dvd_card_center_of_center_card_three {f N _n : ℕ} {K : Type} [Field K]
     {h : UnitaryFieldData 2 f K}
     {x : LinearMap.GeneralLinearGroup K (Fin N → K)}
     (H : UnitaryPrimaryData h.bar (idForm h N) x)
@@ -1032,7 +1033,7 @@ theorem three_dvd_card_center_of_center_card_three {f N n : ℕ} {K : Type} [Fie
           v ∈ normOneScalars h (gramSU h (idGram K N)) N) :
     3 ∣ Nat.card ↥(Subgroup.center ↥T) := by
   classical
-  haveI : Nontrivial ↥(Subgroup.center G) :=
+  have : Nontrivial ↥(Subgroup.center G) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hZ3]; norm_num)
   obtain ⟨z0, hz0ne⟩ := exists_ne (1 : ↥(Subgroup.center G))
   have hpow3c : z0 ^ 3 = 1 := by
@@ -1097,8 +1098,8 @@ theorem exists_block_of_component_primeForm (h : UnitaryFieldData 2 f K)
         (X - C μ) ≠ ⊤ ∧
       T = blockImage h (Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K)) (X - C μ) := by
   classical
-  haveI := h.finite
-  haveI : CharP K 2 := h.charP
+  have := h.finite
+  have : CharP K 2 := h.charP
   have hq : 2 ≤ 2 ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) h.prime.one_lt
     omega
@@ -1107,7 +1108,7 @@ theorem exists_block_of_component_primeForm (h : UnitaryFieldData 2 f K)
   have hH : UnitaryPrimaryData h.bar (idForm h N) x :=
     primaryData_toLin' h A.2 Nat.prime_three (by norm_num) hA
   obtain ⟨a, haT⟩ := exists_good_block_of_component hq A rfl hH T hT
-  haveI : Fact (Irreducible (a.1 : K[X])) :=
+  have : Fact (Irreducible (a.1 : K[X])) :=
     ⟨irreducible_of_mem_primaryFactors a.1.2⟩
   have hm : 2 ≤ primaryMultiplicity (x : Module.End K (Fin N → K)) (a.1 : K[X]) := a.2.1
   have hd : 1 ≤ (a.1 : K[X]).natDegree :=
@@ -1132,12 +1133,12 @@ theorem exists_block_of_component_primeForm (h : UnitaryFieldData 2 f K)
   · rcases exists_field_factor_of_selfDual hq hH a.1 hself a.2 with
       ⟨F, hF, hFt, hcharF, hFcard, h4, ⟨eSL2⟩⟩ |
       ⟨E, hE, hEt, hcharE, hEcard, hm3, hne, ⟨eSU⟩⟩
-    · letI : Field F := hF
-      letI : Fintype F := hFt
+    · let : Field F := hF
+      let : Fintype F := hFt
       exact (false_of_sl2_centralQuotient (f := f) (d := (a.1 : K[X]).natDegree) (n := n)
         hFcard h4 eSL2 gS hgSsurj hgSker hr hn hord hcard).elim
-    · letI : Field E := hE
-      letI : Fintype E := hEt
+    · let : Field E := hE
+      let : Fintype E := hEt
       have hN3 : 3 ≤ N := by
         have h3dm : 3 ≤ (a.1 : K[X]).natDegree *
             primaryMultiplicity (x : Module.End K (Fin N → K)) (a.1 : K[X]) := by
@@ -1153,11 +1154,11 @@ theorem exists_block_of_component_primeForm (h : UnitaryFieldData 2 f K)
           (primaryMultiplicity (x : Module.End K (Fin N → K)) (a.1 : K[X]))
           (2 ^ (f * (a.1 : K[X]).natDegree)) hEcard hm3 hne).perfect
       obtain ⟨g, hg, hker⟩ := exists_central_surjection_of_mulEquiv eSU gS hgSsurj hgSker
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hEnat : Nat.card E = (2 ^ (f * (a.1 : K[X]).natDegree)) ^ 2 := by
         rw [Nat.card_eq_fintype_card]
         exact hEcard
-      haveI : CharP E 2 :=
+      have : CharP E 2 :=
         CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2)
           (f := f * (a.1 : K[X]).natDegree) hEnat
       have hQ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
@@ -1196,13 +1197,13 @@ theorem exists_block_of_component_primeForm (h : UnitaryFieldData 2 f K)
       · by_cases hN3eq : N = 3
         · have hVtop : primaryComponent (x : Module.End K (Fin N → K)) (a.1 : K[X]) = ⊤ := by
             apply Submodule.eq_top_of_finrank_eq
-            simpa [hfr, hd1, hm3eq, hN3eq, Module.finrank_fin_fun]
+            simp [hfr, hd1, hm3eq, hN3eq]
           exact (hβ (primeFormConjHom_eq_one_of_primaryComponent_top hN1 A hd1 hVtop)).elim
         · have hVne : primaryComponent (x : Module.End K (Fin N → K)) (a.1 : K[X]) ≠ ⊤ := by
             intro htop
             have hfr3 : Module.finrank K
                 (primaryComponent (x : Module.End K (Fin N → K)) (a.1 : K[X])) = 3 := by
-              simpa [hfr, hd1, hm3eq]
+              simp [hfr, hd1, hm3eq]
             have hfrN : Module.finrank K
                 (primaryComponent (x : Module.End K (Fin N → K)) (a.1 : K[X])) = N := by
               rw [htop, finrank_top, Module.finrank_fin_fun]
@@ -1250,7 +1251,7 @@ theorem exists_block_of_component_primeForm (h : UnitaryFieldData 2 f K)
         have hN6 : N = 6 := by omega
         have hVtop : primaryComponent (x : Module.End K (Fin N → K)) (a.1 : K[X]) = ⊤ := by
           apply Submodule.eq_top_of_finrank_eq
-          simpa [hfr, hd1, hm6eq, hN6, Module.finrank_fin_fun]
+          simp [hfr, hd1, hm6eq, hN6]
         exact (hβ (primeFormConjHom_eq_one_of_primaryComponent_top hN1 A hd1 hVtop)).elim
   · exact (false_of_paired_goodBlock (n := n) hH a hself hN hn hgSsurj hgSker hr hord hcard).elim
 
@@ -1265,8 +1266,8 @@ theorem three_dvd_card_center_of_component_primeForm (h : UnitaryFieldData 2 f K
     (hcard : Nat.card (↥T ⧸ Subgroup.center ↥T) = CFSG.Open.ordTwistedA 2 (2 ^ n)) :
     3 ∣ Nat.card ↥(Subgroup.center ↥T) := by
   classical
-  haveI := h.finite
-  haveI : CharP K 2 := h.charP
+  have := h.finite
+  have : CharP K 2 := h.charP
   let x : LinearMap.GeneralLinearGroup K (Fin N → K) :=
     Matrix.GeneralLinearGroup.toLin (A : GL (Fin N) K)
   have hH : UnitaryPrimaryData h.bar (idForm h N) x :=
@@ -1290,11 +1291,11 @@ theorem three_dvd_card_center_of_component_primeForm (h : UnitaryFieldData 2 f K
     simpa [blockImage, a, x] using hTb
   obtain ⟨gS, hgSsurj, -, hgSkerProp⟩ :=
     exists_surjective_specialBlock_of_selfDual hH a hself T hTb'
-  haveI : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
+  have : Fact (Irreducible (a : K[X])) := ⟨irreducible_of_mem_primaryFactors a.2⟩
   obtain ⟨hE, Hf, hHf, hHfl, ⟨e₁⟩⟩ :=
     nonempty_specialBlock_mulEquiv_sesqSU hself (selfDualPrimaryBlock hH a hself)
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
-  letI : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  let : Fintype (AdjoinRoot (a : K[X])) := Fintype.ofFinite _
   obtain ⟨β, hβbasis⟩ := hE.exists_orthonormal_basis hHf hHfl
   obtain ⟨e₂⟩ :=
     CFSG.RankThree.CentralLift.nonempty_sesqSpecialUnitaryGroup_mulEquiv_gramSU hE β
@@ -1324,8 +1325,8 @@ theorem three_dvd_card_center_of_component_primeForm (h : UnitaryFieldData 2 f K
     rw [hm3]
     exact CFSG.Open.StatedCenterThree.card_center_statedSU_three
       (K := AdjoinRoot (a : K[X])) hEnat h3
-  haveI : Finite G := inferInstance
-  exact three_dvd_card_center_of_center_card_three (n := f * (a : K[X]).natDegree)
+  have : Finite G := inferInstance
+  exact three_dvd_card_center_of_center_card_three (_n := f * (a : K[X]).natDegree)
     hH hself hbne e₃ hZ3 hgSsurj hgSkerProp
 
 end Main

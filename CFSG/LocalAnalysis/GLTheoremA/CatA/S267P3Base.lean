@@ -50,7 +50,7 @@ structure P3Hyp (q : ℕ) {Ω : Type} [Group Ω] [Finite Ω] (S B : Subgroup Ω)
 theorem P3Hyp.exists_cube {q : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
     (H : P3Hyp q S B) :
     ∃ E : Subgroup (MulAut (PSimple 3 S)), IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h := card_le_card_inf_centMod_mul_pow Nat.prime_three H.normal H.perfect H.elem
   rw [H.card, H.cent] at h
   set m := CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut (PSimple 3 S))) with hm
@@ -95,11 +95,11 @@ theorem no_cube_A1 (Q : TauCeti.PrimePower) (hQ3 : Q.p ≠ 3)
     (hv : (TauCeti.LieTypeIndex.A 1 Q).Valid) :
     ¬ ∃ E : Subgroup (MulAut (TauCeti.CFSGIndex.lie ⟨.A 1 Q, hv⟩).Group),
       IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 3 := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   intro h
   obtain ⟨E, hE, hEc⟩ :=
     exists_cube_of_mulEquiv (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 Q hv) h
-  haveI : NeZero ((3 : ℕ) : GaloisField Q.p Q.exponent) := ⟨three_ne_zero_galois hQ3⟩
+  have : NeZero ((3 : ℕ) : GaloisField Q.p Q.exponent) := ⟨three_ne_zero_galois hQ3⟩
   exact CFSG.RankThree.PartOne.K133.noRankThree_psl2 (K := GaloisField Q.p Q.exponent)
     Nat.prime_three (by norm_num)
     ⟨E, (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 E).2 hE, hEc⟩
@@ -108,7 +108,7 @@ theorem no_cube_A2 (Q : TauCeti.PrimePower) (hQ3 : Q.p ≠ 3) (hQ : ¬ 3 ∣ Q.c
     (hv : (TauCeti.LieTypeIndex.A 2 Q).Valid) :
     ¬ ∃ E : Subgroup (MulAut (TauCeti.CFSGIndex.lie ⟨.A 2 Q, hv⟩).Group),
       IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 3 := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   intro h
   obtain ⟨E, hE, hEc⟩ := exists_cube_of_mulEquiv
     ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 Q hv).trans
@@ -187,8 +187,8 @@ private theorem ambiguousChev_lie {r : ℕ} {d : TauCeti.ValidLieTypeIndex}
   simp only [ambiguousChev] at h
   split at h
   · rcases h with ⟨-, h⟩ | ⟨-, h⟩ <;> simp [h]
-  · rcases h with ⟨-, h⟩ <;> simp [h]
-  · rcases h with ⟨-, h⟩ <;> simp [h]
+  · rcases h with ⟨-, h⟩; simp [h]
+  · rcases h with ⟨-, h⟩; simp [h]
   · exact absurd h (by simp)
 
 theorem s267FactP3_of_open (h : ∀ d : TauCeti.ValidLieTypeIndex, ¬ P3Closed d.1 → P3At d) :

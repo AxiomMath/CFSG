@@ -81,7 +81,7 @@ theorem commutes_if_weights_span {F V E : Type*} [Field F] [AddCommGroup V] [Mod
       (χ : E →* Fˣ) (hχ : weightSpace τ χ ≠ ⊥) :
       χ.comp α.toMonoidHom = χ := by
     classical
-    haveI : NeZero r := ⟨(Fact.out : r.Prime).ne_zero⟩
+    have : NeZero r := ⟨(Fact.out : r.Prime).ne_zero⟩
     by_contra hne
     set β : MulAut E := α⁻¹ with hβdef
     have hβ : β ^ r = 1 := by rw [hβdef, inv_pow, hα, inv_one]

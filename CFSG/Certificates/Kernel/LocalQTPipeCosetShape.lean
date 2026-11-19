@@ -12,7 +12,7 @@ open CFSG.KC.LQT.PP CFSG.KC.LQT.BW.Pf CFSG.KC.LQT.PPB
 open CFSG.QuasithinUnique.Setup.X1 CFSG.QuasithinUnique.K1.SporadicPerm
 open CFSG.KC.LQT.P (letB impB allL anyL orB_iff andB_iff notB_iff impB_iff beq_iff blt_iff letB_eq)
 
-theorem foldl_repList {N : Nat} (repR : Array Nat) (hN : ∀ i, i < N → True) :
+theorem foldl_repList {N : Nat} (repR : Array Nat) (_hN : ∀ i, i < N → True) :
     ∀ (l : List Nat) (acc : List Nat), (∀ i ∈ l, i < N) → (∀ y ∈ acc, ∃ i < N, y = repR.getD i 0) →
       (∀ y ∈ l.foldl (fun acc i =>
           if acc.contains (repR.getD i 0) then acc else repR.getD i 0 :: acc) acc,
@@ -37,16 +37,16 @@ theorem foldl_repList {N : Nat} (repR : Array Nat) (hN : ∀ i, i < N → True) 
         simp only [List.foldl_cons]
         apply ihl
         by_cases h : acc.contains (repR.getD j 0) = true
-        · rw [if_pos h]; exact hy
-        · rw [if_neg h]; exact List.mem_cons_of_mem _ hy
+        · rw [ite_eq_left h]; exact hy
+        · rw [ite_eq_right h]; exact List.mem_cons_of_mem _ hy
     by_cases h : (acc.contains (repR.getD i 0)) = true
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       obtain ⟨a1, a2⟩ := ih acc hl' hacc
       refine ⟨a1, fun j hj => ?_⟩
       rcases List.mem_cons.1 hj with rfl | hj
       · exact mono l acc _ (List.contains_iff_mem.1 h)
       · exact a2 j hj
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have hacc' : ∀ y ∈ repR.getD i 0 :: acc, ∃ i < N, y = repR.getD i 0 := by
         intro y hy
         rcases List.mem_cons.1 hy with rfl | hy

@@ -10,6 +10,7 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22q_mem_ctilde {M V₀ V : Subgroup G} {c : G} :
     c ∈ F11.CTilde M V₀ V ↔ c ∈ M ∧ c ∈ normalizer (V₀ : Set G) ∧
       ∀ v ∈ V, c * v * c⁻¹ * v⁻¹ ∈ V₀ := by
@@ -20,6 +21,7 @@ theorem uc22p22q_mem_ctilde {M V₀ V : Subgroup G} {c : G} :
   · rintro ⟨h1, h2, h3⟩ v hv
     exact ⟨h1, h2, h3 v hv⟩
 
+omit [Finite G] in
 theorem uc22p22q_ctilde_conj_mem {M V₀ V : Subgroup G} (hV : M ≤ normalizer (V : Set G))
     (hV₀ : M ≤ normalizer (V₀ : Set G)) {m c : G} (hm : m ∈ M) (hc : c ∈ F11.CTilde M V₀ V) :
     m * c * m⁻¹ ∈ F11.CTilde M V₀ V := by
@@ -34,6 +36,7 @@ theorem uc22p22q_ctilde_conj_mem {M V₀ V : Subgroup G} (hV : M ≤ normalizer 
       m * c * m⁻¹ * v * (m * c * m⁻¹)⁻¹ * v⁻¹ := by group
   rwa [e] at h2
 
+omit [Finite G] in
 theorem uc22p22q_conj_eq_of_trivial_action {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {V₀ : Subgroup G}
     (hV₀exp : ∀ d ∈ V₀, d ^ 2 = 1) {e v : G} (hep : e ^ p = 1) (he0 : ∀ d ∈ V₀, e * d * e⁻¹ = d)
     (hv : e * v * e⁻¹ * v⁻¹ ∈ V₀) : e * v * e⁻¹ = v := by
@@ -63,6 +66,7 @@ theorem uc22p22q_conj_eq_of_trivial_action {p : ℕ} (hp : p.Prime) (hp2 : p ≠
     exact hfp
   rw [hfv, hf1, one_mul]
 
+omit [Finite G] in
 theorem uc22p22q_exists_fixed_in_coset {V₀ V : Subgroup G} {x u : G}
     (hVab : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) (hV₀exp : ∀ d ∈ V₀, d ^ 2 = 1) (hV₀V : V₀ ≤ V)
     (hxV₀ : ∀ w ∈ V₀, x * w * x⁻¹ ∈ V₀) (hx3 : x ^ 3 = 1) (hu : u ∈ V)
@@ -115,7 +119,7 @@ theorem uc22p22q_exists_fixed_in_coset {V₀ V : Subgroup G} {x u : G}
 theorem uc22p22q_pRank_sub_one_le {p : ℕ} (hp : p.Prime) {M C : Subgroup G}
     [(C.subgroupOf M).Normal] (hC : CFSG.Open.pRank p C ≤ 1) :
     CFSG.Open.pRank p M - 1 ≤ CFSG.Open.pRank p (⊤ : Subgroup (↥M ⧸ C.subgroupOf M)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEM, hE, hcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt M
   set r := CFSG.Open.pRank p M with hr
   let π : ↥M →* ↥M ⧸ C.subgroupOf M := QuotientGroup.mk' (C.subgroupOf M)

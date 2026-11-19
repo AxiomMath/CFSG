@@ -19,7 +19,7 @@ open scoped Classical in
   if h : g ∈ normalizer (L : Set G) then F.φ ⟨g, h⟩ else 1
 
 theorem phiG_of_mem {g : G} (h : g ∈ normalizer (L : Set G)) : F.phiG g = F.φ ⟨g, h⟩ :=
-  dif_pos h
+  dite_eq_left h
 
 theorem phiG_mul {g h : G} (hg : g ∈ normalizer (L : Set G)) (hh : h ∈ normalizer (L : Set G)) :
     F.phiG (g * h) = F.phiG g * F.phiG h := by
@@ -152,7 +152,7 @@ theorem isPGroup_imgS {X : Subgroup G} (hXS : X ≤ S) : IsPGroup 2 (F.imgS S X)
 
 theorem card_eq_ker {X : Subgroup G} (hXS : X ≤ S) :
     ∃ k : ℕ, Nat.card X = k * Nat.card (F.imgS S X) ∧ (t ∈ X → k = 2) ∧ (t ∉ X → k = 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN := hXS.trans h.S_le_N
   let f : ↥X →* P45 := F.φ.comp (Subgroup.inclusion hN)
   have hker : ∀ x : ↥X, x ∈ f.ker ↔ (x : G) = 1 ∨ (x : G) = t := by

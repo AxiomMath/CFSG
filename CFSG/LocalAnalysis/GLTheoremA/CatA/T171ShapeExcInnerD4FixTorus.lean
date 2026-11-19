@@ -20,6 +20,7 @@ section Coords
 
 variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
 
+omit [IsAlgClosed L] in
 theorem coordTuple_fixed_of_rootChar_fixed {Δ : Finset (Fin τ.rank → ℤ)}
     (hΔroot : ∀ β ∈ Δ, IsRoot τ β)
     (hdet : (Matrix.of fun β γ : Δ => corootPair (β : Fin τ.rank → ℤ) γ).det = 4)
@@ -83,7 +84,7 @@ theorem innerD4Fix_HSL_eq_prod (u : Lˣ) :
   simp only [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [HSL, uSL, vSL, Matrix.mul_apply, Fin.sum_univ_two, Units.mul_inv, Units.inv_mul]
+    simp [HSL, uSL, vSL, Matrix.mul_apply, Fin.sum_univ_two]
 
 end HSLProd
 

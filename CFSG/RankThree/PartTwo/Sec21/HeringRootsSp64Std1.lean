@@ -19,7 +19,7 @@ section Ring
 
 variable {R : Type*} [Ring R]
 
-theorem blk_inv_aux (E X X' : R) (hEE : E * E = E) (hXE : X * E = E * X)
+theorem blk_inv_aux (E X X' : R) (hEE : E * E = E) (_hXE : X * E = E * X)
     (hX'E : X' * E = E * X') (hXX' : X * X' = 1) :
     (X * E + (1 - E)) * (X' * E + (1 - E)) = 1 := by
   have hEF : E * (1 - E) = 0 := by rw [mul_sub, mul_one, hEE, sub_self]
@@ -124,7 +124,7 @@ theorem blk_isBlockDiag {α : Type*} {t : Fin 3 ⊕ Fin 3 → α} {X : Mat6} (hX
     (e : Fin 3 ⊕ Fin 3 → F4) : IsBlockDiag t (X * diagonal e + (1 - diagonal e)) := by
   intro x y hxy
   have hne : x ≠ y := fun h => hxy (h ▸ rfl)
-  rw [blk_apply, hX x y hxy, if_neg hne]
+  rw [blk_apply, hX x y hxy, ite_eq_right hne]
   simp
 
 theorem blk_isIdOutside {α : Type*} {t : Fin 3 ⊕ Fin 3 → α} {X : Mat6} (hX : IsBlockDiag t X)
@@ -143,7 +143,7 @@ theorem blk_isIdOutside {α : Type*} {t : Fin 3 ⊕ Fin 3 → α} {X : Mat6} (hX
     have h0 : e x = 0 := by rcases hxy' with h | h <;> exact h
     rw [h0, Matrix.one_apply_eq]
     simp
-  · rw [Matrix.one_apply_ne hxyeq, if_neg hxyeq]
+  · rw [Matrix.one_apply_ne hxyeq, ite_eq_right hxyeq]
     rcases hxy' with hx0 | hy0
     ·
       rcases he y with hy0 | hy1
@@ -171,8 +171,8 @@ theorem exists_blk (e : Fin 3 ⊕ Fin 3 → F4) (he : ∀ x, e x * e x = e x)
     ext x y
     rw [hE, Matrix.diagonal_mul, Matrix.mul_diagonal, Jm_apply]
     by_cases h : y = x.swap
-    · rw [if_pos h, h, hs x, mul_one, one_mul]
-    · rw [if_neg h]
+    · rw [ite_eq_left h, h, hs x, mul_one, one_mul]
+    · rw [ite_eq_right h]
       simp
   have hXX' : X * X' = 1 := mat_mul_inv g
   have hX'X : X' * X = 1 := mat_inv_mul g
@@ -212,9 +212,9 @@ theorem e1_swap (x : Fin 3 ⊕ Fin 3) : e1 x.swap = e1 x := by
   rw [ext_swap]
   by_cases h : ext (std 1) x = 0
   · have h0 : -ext (std 1) x = 0 := by rw [h]; decide
-    rw [if_pos h0, if_pos h]
+    rw [ite_eq_left h0, ite_eq_left h]
   · have h' : ¬ -ext (std 1) x = 0 := fun h0 => h (neg_eq_zero.mp h0)
-    rw [if_neg h', if_neg h]
+    rw [ite_eq_right h', ite_eq_right h]
 
 theorem e1_fibre (i j : Fin 3 ⊕ Fin 3) (h : ext (std 1) i = ext (std 1) j) : e1 i = e1 j := by
   unfold e1
@@ -233,7 +233,7 @@ theorem e1'_set : {x | (fun y => 1 - e1 y) x = 1} = c01 := by
 
 theorem e1_inl (a : Fin 3) (h : a = 0 ∨ a = 1) : e1 (Sum.inl a) = 0 := by
   unfold e1
-  rw [if_neg]
+  rw [ite_eq_right]
   rcases h with rfl | rfl <;> decide
 
 theorem decomp_C1 (g : Sp) (hg : g ∈ C1) (hd : d2 ⟨g, hg⟩ = 1) :

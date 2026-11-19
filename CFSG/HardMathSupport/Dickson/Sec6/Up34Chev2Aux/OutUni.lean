@@ -44,10 +44,10 @@ theorem noL34_of_commutator_solvable {P : Type} [Group P] [Finite P] (ψ : MulAu
     calc A = ⁅A, A⁆ := hperf.symm
       _ ≤ ⁅fixSubgroup ψ, fixSubgroup ψ⁆ := Subgroup.commutator_mono hAD hAD
       _ ≤ S := hcomm
-  haveI : Group.IsSolvable ↥A :=
+  have : Group.IsSolvable ↥A :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hAS)
-  haveI : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr hperf
-  haveI : Nontrivial ↥A := (Subgroup.nontrivial_iff_ne_bot A).mpr (glaPComponent_ne_bot hA)
+  have : Group.IsPerfect ↥A := Subgroup.isPerfect_iff.mpr hperf
+  have : Nontrivial ↥A := (Subgroup.nontrivial_iff_ne_bot A).mpr (glaPComponent_ne_bot hA)
   exact Group.IsPerfect.not_isSolvable ↥A inferInstance
 
 section Field
@@ -83,19 +83,19 @@ theorem noL34Layer_fieldAut_psu (h : UnitaryFieldData 2 f K) (hn : 3 ≤ n) {σ 
   ·
     obtain ⟨rfl, hq2⟩ := hq0
     have hcard72 := card_primeFormP_three_two h₀ hq2
-    haveI : Group.IsSolvable (primeFormP h₀ ((1 : GL (Fin 3) (fixSubfield σ)) :
+    have : Group.IsSolvable (primeFormP h₀ ((1 : GL (Fin 3) (fixSubfield σ)) :
         Matrix (Fin 3) (Fin 3) (fixSubfield σ))) :=
       CFSG.SignalizerFunctorTheorem.McBride.UnitaryHeisenberg.isSolvable_of_card_dvd_seventy_two
         (by rw [hcard72])
-    haveI : Group.IsSolvable ↥j.range :=
+    have : Group.IsSolvable ↥j.range :=
       Group.isSolvable_of_isSolvable_injective (f := eJ.symm.toMonoidHom) eJ.symm.injective
     exact noL34_of_commutator_solvable _ j.range hCC inferInstance
   ·
     have hs₀ := isSimpleGroup_primeFormP_one h₀ hn hq0
     have hnc₀ := not_commute_primeFormP_one h₀ hn hq0
-    haveI : IsSimpleGroup (primeFormP h₀ ((1 : GL (Fin n) (fixSubfield σ)) :
+    have : IsSimpleGroup (primeFormP h₀ ((1 : GL (Fin n) (fixSubfield σ)) :
         Matrix (Fin n) (Fin n) (fixSubfield σ))) := hs₀
-    haveI : IsSimpleGroup ↥j.range := eJ.symm.isSimpleGroup
+    have : IsSimpleGroup ↥j.range := eJ.symm.isSimpleGroup
     have hnab : ∃ a b : ↥j.range, a * b ≠ b * a := by
       by_contra hcon
       push Not at hcon
@@ -110,7 +110,7 @@ theorem noL34Layer_fieldAut_psu (h : UnitaryFieldData 2 f K) (hn : 3 ≤ n) {σ 
       exact Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
     have hJCC : j.range ≤ ⁅fixSubgroup (primeFormFieldHom h (isPrimeFormGram_one (n := n)) σ),
         fixSubgroup (primeFormFieldHom h (isPrimeFormGram_one (n := n)) σ)⁆ := by
-      haveI := hperf₀
+      have := hperf₀
       calc j.range = ⁅j.range, j.range⁆ := range_eq_commutator_of_perfect j
         _ ≤ _ := Subgroup.commutator_mono hJC hJC
     have hadm₀ : StatedLieAdmissible .PSU n 2 (f / 3) :=
@@ -131,8 +131,8 @@ theorem up34C2Out_uni_model {n f : ℕ} (hn : 3 ≤ n) (hD : Up34C2OutDiagUniAt 
     (hm : Blueprint.LieModel S .PSU n 2 f) (α : MulAut S)
     (hα : α ∉ (MulAut.conj : S →* MulAut S).range) (hp : Up34Pumpup S α) : False := by
   obtain ⟨K, _, h, ⟨e⟩⟩ := exists_psu_model hadm hm
-  haveI := h.finite
-  haveI : Finite (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
+  have := h.finite
+  have : Finite (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :=
     Finite.of_equiv S e.toEquiv
   have hne : ¬(n = 3 ∧ 2 ^ f = 2) := fun ⟨h1, h2⟩ => hadm.2.2.2 (by rw [h1, h2])
   have hψ3 : MulAut.congr e α ^ 3 = 1 := by rw [← map_pow, ((up34Pumpup_iff α).1 hp).1, map_one]

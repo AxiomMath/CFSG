@@ -50,7 +50,7 @@ theorem eight_le_card_of_guarded_component_of_statedOmega
     largeEvenMarking_exists_markedModel hmark
   have hmarkedC : MarkedModel lab (C ⧸ Subgroup.center C) :=
     MarkedModel.of_mulEquiv theta.symm hmarked
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hcardK⟩ := FiniteField.card K 2
   have hf : 1 ≤ (f : ℕ) := f.pos
   have hcard : Nat.card K = 2 ^ (f : ℕ) := by
@@ -123,8 +123,8 @@ theorem eight_le_finrank_of_guarded_fixed_omega_block
     RCKRP.rckIsComponentOf_top_of_commutator hC
   obtain ⟨ι₁, hfin, hdec, Q₁, hcard, ⟨Φ₁, heq, hnd⟩, hcases⟩ :=
     blockGroup_iso_Omega_one Φ hΦ h8 b hb hodd hε hfix
-  letI : Fintype ι₁ := hfin
-  letI : DecidableEq ι₁ := hdec
+  let : Fintype ι₁ := hfin
+  let : DecidableEq ι₁ := hdec
   rcases hcases with ⟨⟨eH⟩, -⟩ | ⟨-, -, hsol, -⟩
   · let eH' : H ≃* StatedOmega ⇑Φ₁ := heq.symm ▸ eH
     let g : H →* GL ι₁ K := (StatedOmega ⇑Φ₁).subtype.comp eH'.toMonoidHom
@@ -144,7 +144,7 @@ theorem eight_le_finrank_of_guarded_fixed_omega_block
       largeEvenMarking_of_mulEquiv eC.symm hmark
     have hd := eight_le_card_of_guarded_component_of_statedOmega Φ₁ hnd hCo' hmark'
     rwa [hcard] at hd
-  · letI : Group.IsSolvable H := hsol
+  · let : Group.IsSolvable H := hsol
     exact (ResU3Three.not_isSolvable_of_isQuasisimple hCo.2.2
       (inferInstance : Group.IsSolvable (C.subgroupOf H))).elim
 

@@ -17,7 +17,7 @@ theorem exists_conj_of_forall_mul_inv_mem_center {Q : Type} [Group Q] [Finite Q]
     (hE : IsExtraspecialPGroup 2 Q) (γ : Q ≃* Q)
     (hγ : ∀ x : Q, γ x * x⁻¹ ∈ Subgroup.center Q) : ∃ q : Q, ∀ x : Q, γ x = q * x * q⁻¹ := by
   classical
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hE
   have hmul : ∀ x y : Q, ind (γ (x * y) * (x * y)⁻¹) =
       ind (γ x * x⁻¹) + ind (γ y * y⁻¹) := by

@@ -139,7 +139,7 @@ theorem p_dvd_card_J (ha₀ : GGLNoncyclicInput) (hcfg : GGSecFiveRouteCfg p B B
       simpa [hz] using this
     exact this
   have hzp : z ^ p = 1 := hel z hzB
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf z = p := (orderOf_eq_prime hzp hz1)
   have := Subgroup.orderOf_dvd_natCard J hzJ
   rwa [hord] at this
@@ -193,8 +193,9 @@ theorem exists_conj_le_ggHyperplane
   have hmem : g₀ * d * g₀⁻¹ ∈ ggHyperplane Bs r := by
     rw [← hmap]
     exact Subgroup.mem_map.mpr ⟨d, hdH, rfl⟩
-  exact Subgroup.mem_map.mpr ⟨g₀ * d * g₀⁻¹, hmem, by simp [MulAut.conj_apply, mul_assoc]⟩
+  exact Subgroup.mem_map.mpr ⟨g₀ * d * g₀⁻¹, hmem, by simp [mul_assoc]⟩
 
+omit [Finite G] in
 theorem card_centralizer_inf_map_conj {X H : Subgroup G} {g : G} (hg : g ∈ X) :
     Nat.card ↥(Subgroup.centralizer (X : Set G) ⊓
         Subgroup.centralizer ((H.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G)) =
@@ -235,23 +236,26 @@ theorem commutator_eq_bot_of_isComponentOf_of_two {H K R : Subgroup G}
     CFSG.Assembly.IsComponentOf K (K ⊔ R)) hRs with h | h
   · exfalso
     have hK2 : IsPGroup 2 ↥K := hR.to_le h
-    haveI : Group.IsNilpotent ↥K := hK2.isNilpotent
+    have : Group.IsNilpotent ↥K := hK2.isNilpotent
     have hqs := hK.2.2
-    haveI : Nontrivial (↥K ⧸ Subgroup.center ↥K) := hqs.2.toNontrivial
-    haveI : Nontrivial ↥K := (QuotientGroup.mk_surjective (s := Subgroup.center ↥K)).nontrivial
+    have : Nontrivial (↥K ⧸ Subgroup.center ↥K) := hqs.2.toNontrivial
+    have : Nontrivial ↥K := (QuotientGroup.mk_surjective (s := Subgroup.center ↥K)).nontrivial
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (G := ↥K)).ne hqs.1
   · exact h
 
+omit [Finite G] in
 theorem commutator_eq_bot_of_perfect {J R : Subgroup G} (hJ : ⁅J, J⁆ = J)
     (h : ⁅⁅R, J⁆, J⁆ = ⊥) : ⁅J, R⁆ = ⊥ := by
   have h2 : ⁅⁅J, R⁆, J⁆ = ⊥ := by rw [Subgroup.commutator_comm J R]; exact h
   have := Subgroup.commutator_commutator_eq_bot_of_rotate (H₁ := J) (H₂ := J) (H₃ := R) h2 h
   rwa [hJ] at this
 
+omit [Finite G] in
 theorem commutator_self_of_isComponentOf {H K : Subgroup G} (hK : CFSG.Assembly.IsComponentOf K H) :
     ⁅K, K⁆ = K := by
   rw [← Subgroup.map_subtype_commutator, hK.2.2.1, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
 
+omit [Finite G] in
 theorem le_centralizer_of_commute {X T : Subgroup G} (hX : ⁅X, X⁆ = X)
     (h : ∀ t ∈ T, ∀ g ∈ X, ∀ k ∈ X, Commute (t * g * t⁻¹ * g⁻¹) k) :
     T ≤ Subgroup.centralizer (X : Set G) := by
@@ -389,7 +393,7 @@ theorem weyl_ad_or_e_or_small {ι : Type} {M : CoxeterMatrix ι} (hM : GGIsWeylM
       have hne : e ⟨n - 1, by omega⟩ ≠ e ⟨n - 2, by omega⟩ := by
         intro hh
         have hv := congrArg Fin.val (e.injective hh)
-        simp only [Fin.val_mk] at hv
+        simp only at hv
         omega
       have hle := h3 (e ⟨n - 1, by omega⟩) (e ⟨n - 2, by omega⟩) hne
       rw [hB] at hle
@@ -400,7 +404,7 @@ theorem weyl_ad_or_e_or_small {ι : Type} {M : CoxeterMatrix ι} (hM : GGIsWeylM
         have hneFin : (⟨n - 1, by omega⟩ : Fin n) ≠ ⟨n - 2, by omega⟩ := by
           intro hh
           have hv := congrArg Fin.val hh
-          simp only [Fin.val_mk] at hv
+          simp only at hv
           omega
         simp [CoxeterMatrix.B, Matrix.of_apply, hneFin]
       rw [hlab] at hle
@@ -446,11 +450,11 @@ theorem exists_nonadj_pair {ι : Type} {M : CoxeterMatrix ι} (hM : GGIsWeylMatr
       exact coxeterMatrixA_eq_two n _ _ (by simp)
     · rw [hB, CoxeterMatrix.reindex_apply, Equiv.symm_apply_apply, Equiv.symm_apply_apply]
       have hne : (⟨0, by omega⟩ : Fin n) ≠ ⟨2, by omega⟩ := by simp [Fin.ext_iff]
-      simp only [CoxeterMatrix.B, Matrix.of_apply, if_neg hne]
+      simp only [CoxeterMatrix.B, Matrix.of_apply, ite_eq_right hne]
       split_ifs <;> first | rfl | (exfalso; simp_all; try omega)
     · rw [hD, CoxeterMatrix.reindex_apply, Equiv.symm_apply_apply, Equiv.symm_apply_apply]
       refine ggCoxeterMatrixD_eq_two hn4 _ _ (by simp [Fin.ext_iff]) ?_ ?_ <;>
-        simp only [CFSG.Timmesfeld.edgeD, Fin.val_mk] <;> omega
+        simp only [CFSG.Timmesfeld.edgeD] <;> omega
   · refine ⟨e 0, e 1, e.injective.ne (by decide), ?_⟩
     rw [hE, CoxeterMatrix.reindex_apply, Equiv.symm_apply_apply, Equiv.symm_apply_apply]
     rfl
@@ -514,12 +518,12 @@ theorem isWeylMatrixAD_or_E
       obtain ⟨k, rfl⟩ := e'.surjective i
       by_cases hk : k.val = 0
       · exact Or.inl (congrArg e' (Fin.ext hk))
-      · exact Or.inr (congrArg e' (Fin.ext (by simp only [Fin.val_mk]; omega)))
+      · exact Or.inr (congrArg e' (Fin.ext (by simp only; omega)))
     · intro hab
       have hn2' : n = 2 := by
         by_contra hne2
         apply hab
-        exact congrArg e' (Fin.ext (by simp only [Fin.val_mk]; omega))
+        exact congrArg e' (Fin.ext (by simp only; omega))
       subst hn2'
       rw [hM, CoxeterMatrix.reindex_apply, Equiv.symm_apply_apply, Equiv.symm_apply_apply]
       exact coxeterMatrixA_eq_three 2 _ _ (by simp)
@@ -570,9 +574,9 @@ theorem le_centralizer_ggG0
 
 theorem not_isPGroup_two_of_isQuasisimple {K : Subgroup G} (hK : CFSG.Assembly.IsQuasisimple K)
     (h : IsPGroup 2 ↥K) : False := by
-  haveI : Group.IsNilpotent ↥K := h.isNilpotent
-  haveI : Nontrivial (↥K ⧸ Subgroup.center ↥K) := hK.2.toNontrivial
-  haveI : Nontrivial ↥K := (QuotientGroup.mk_surjective (s := Subgroup.center ↥K)).nontrivial
+  have : Group.IsNilpotent ↥K := h.isNilpotent
+  have : Nontrivial (↥K ⧸ Subgroup.center ↥K) := hK.2.toNontrivial
+  have : Nontrivial ↥K := (QuotientGroup.mk_surjective (s := Subgroup.center ↥K)).nontrivial
   exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (G := ↥K)).ne hK.1
 
 theorem exists_commutator_ne_bot (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦)
@@ -626,7 +630,7 @@ theorem exists_commutator_ne_bot (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦)
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.mpr hle
 
 theorem commutator_eq_bot_of_component {T K : Subgroup G} {d : G}
-    (hT2 : IsPGroup 2 T) (hK : CFSG.Assembly.IsComponentOf K (Subgroup.centralizer ({d} : Set G)))
+    (_hT2 : IsPGroup 2 T) (hK : CFSG.Assembly.IsComponentOf K (Subgroup.centralizer ({d} : Set G)))
     (hJK : J ≤ K) (hKT : K ≤ Subgroup.centralizer (T : Set G)) :
     ⁅J, pCoreOf 2 (Subgroup.normalizer (T : Set G)) ⊓ Subgroup.centralizer ({d} : Set G)⁆ = ⊥ := by
   have hR2 : IsPGroup 2 ↥(pCoreOf 2 (Subgroup.normalizer (T : Set G)) ⊓
@@ -644,7 +648,7 @@ theorem commutator_eq_bot_of_component {T K : Subgroup G} {d : G}
       Subgroup.le_normalizer (hK.1 hk)
     rw [Subgroup.mem_normalizer_iff] at h1 h2 ⊢
     intro h
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     rw [h1 h, h2 h]
   have := commutator_eq_bot_of_isComponentOf_of_two hK inf_le_right hR2 hKN
   exact le_bot_iff.mp (this ▸ Subgroup.commutator_mono hJK le_rfl)
@@ -675,18 +679,18 @@ theorem comm_le_pPrimeCoreOf_of_cover {p : ℕ} [Fact p.Prime] {Y X J V : Subgro
   exact ggLe_pPrimeCoreOf_of_map_eq_bot p (Subgroup.commutator_le.mpr fun a ha b hb =>
     commutatorElement_mem_of_mem (hJY ha) (hVY hb)) hc
 
-theorem commutator_eq_bot_of_cover (ha₀ : GGLNoncyclicInput) (hL : GGLBalanceInput)
+theorem commutator_eq_bot_of_cover (_ha₀ : GGLNoncyclicInput) (hL : GGLBalanceInput)
     (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦) (hpJ : p ∣ Nat.card J) {d : G}
     (hD : D = Subgroup.closure {x, d})
     (hcov : ggLayerClosure p (Subgroup.centralizer ({d} : Set G)) J =
       J ⊔ LargeEvenPPrimeCoreOf p (ggLayerClosure p (Subgroup.centralizer ({d} : Set G)) J))
-    {T : Subgroup G} (hT2 : IsPGroup 2 T)
+    {T : Subgroup G} (_hT2 : IsPGroup 2 T)
     (hT : T ≤ Subgroup.centralizer (D : Set G) ⊓ Subgroup.centralizer (J : Set G)) :
     ⁅J, pCoreOf 2 (Subgroup.normalizer (T : Set G)) ⊓ Subgroup.centralizer ({d} : Set G)⁆ = ⊥ := by
   have hI : GGThmIHyp p B x L := hcfg.1.1.1
   have hDJ : LargeEvenStdSub p B x L D J := hcfg.1.1.2.2
   have hp : p.Prime := hI.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hXpc, hJX, -, -⟩ := pumpup_of_stdSub (ggPumpupInput_of_lBalance hL) hI hDJ hpJ hD
   obtain ⟨-, -, hd1, -⟩ := facts_of_closure_pair hI hDJ hD
   have hdD : d ∈ D := hD ▸ Subgroup.subset_closure (Set.mem_insert_of_mem x rfl)
@@ -710,7 +714,7 @@ theorem commutator_eq_bot_of_cover (ha₀ : GGLNoncyclicInput) (hL : GGLBalanceI
     have h2 : j ∈ Subgroup.normalizer (Y : Set G) := Subgroup.le_normalizer (hJY hj)
     rw [Subgroup.mem_normalizer_iff] at h1 h2 ⊢
     intro h
-    simp only [SetLike.mem_coe, hR, Subgroup.mem_inf]
+    simp only [hR, Subgroup.mem_inf]
     rw [h1 h, h2 h]
   have hO : ⁅J, R⁆ ≤ LargeEvenPPrimeCoreOf p Y :=
     comm_le_pPrimeCoreOf_of_cover hXpc hJX hcov inf_le_right hJR hR2

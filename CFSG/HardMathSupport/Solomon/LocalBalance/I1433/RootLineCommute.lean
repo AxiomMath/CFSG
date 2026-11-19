@@ -49,7 +49,7 @@ theorem apply_single_eq_smul_of_commute {D : Set (Fin τ.rank → Kˣ)}
   by_cases hc : β = c
   · subst hc
     simp
-  · rw [if_neg hc, mul_zero]
+  · rw [ite_eq_right hc, mul_zero]
     obtain ⟨a, ha, hne⟩ := hsep c (Ne.symm hc)
     have h1 : rootDiag a (u (Finsupp.single β 1)) =
         diagEig a β • u (Finsupp.single β (1 : K)) := by

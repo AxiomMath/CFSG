@@ -25,7 +25,7 @@ theorem exists_conj_of_free_card {X W : Subgroup G}
     have h1 : Nat.card ↥S = Nat.card ↥W - 1 := by
       have : S = ((Set.univ : Set ↥W) \ {1}) := by
         ext a; simp [S]
-      rw [this, Nat.card_coe_set_eq, Set.ncard_diff_singleton_of_mem (Set.mem_univ _),
+      rw [this, Nat.card_coe_set_eq, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _),
         Set.ncard_univ]
     omega
   let f : ↥X → ↥S := fun x => ⟨⟨(x : G) * v * (x : G)⁻¹, hXW x x.2 v hv⟩, by
@@ -57,6 +57,7 @@ section Clause
 
 variable {G : Type} [Group G] [Finite G] {T M V U L X : Subgroup G}
 
+omit [Finite G] in
 theorem commutator_le_of_normalizes (hVN : ∀ v ∈ V, v ∈ Subgroup.normalizer (L : Set G))
     (hXL : X ≤ L) : ⁅V, X⁆ ≤ L := by
   rw [Subgroup.commutator_le]

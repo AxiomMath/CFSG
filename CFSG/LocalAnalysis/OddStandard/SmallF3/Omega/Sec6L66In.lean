@@ -85,7 +85,7 @@ theorem sec66_inner_decomp [Finite G] (h82 : Asc82Lemma82) {t : G} {L : Subgroup
       intro hv
       exact hst (by rw [hsv', hv, one_mul])
     have hv2 : orderOf v = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (p := 2) (by rwa [pow_two]) hv_ne
     exact ⟨v, hvL, hv2, Or.inr hsv'⟩
 

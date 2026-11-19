@@ -29,7 +29,7 @@ theorem exists_elemAbelian_sq_slP {p : ℕ} [Fact p.Prime] [Finite F] {m : ℕ} 
     have := pow_card_eq_one' (G := C) (x := x)
     rwa [hCcard] at this
   let f : (Fin 2 → C) →* SpecialLinearGroup (Fin m) F :=
-    (linTorus F 2 (by omega)).comp (Pi.monoidHom fun i => C.subtype.comp (Pi.evalMonoidHom _ i))
+    (linTorus F 2 (by omega)).comp (_root_.MonoidHom.pi fun i => C.subtype.comp (Pi.evalMonoidHom _ i))
   have hfinj : Function.Injective f := by
     refine (linTorus_injective (by omega)).comp ?_
     intro a b hab

@@ -16,9 +16,10 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 theorem pQuot_primeCore_eq_bot {p : ℕ} (hp : p.Prime) (L : Subgroup G) : GLAPPrimeCore p (PQuot p L) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot p
 
+omit [Finite G] in
 theorem isAltPType_catalogIs {K : Subgroup G} {m : ℕ} (hm : 5 ≤ m) (h : IsAltPType 3 K m) :
     catalogIs (PQuot 3 K ⧸ Subgroup.center (PQuot 3 K)) (isAltN m) := by
   obtain ⟨e⟩ := h
@@ -32,7 +33,7 @@ theorem isAltPType_catalogIs {K : Subgroup G} {m : ℕ} (hm : 5 ≤ m) (h : IsAl
       have := Subgroup.mem_center_iff.1 hq (e.symm g')
       have h2 := congrArg e this
       simpa using h2
-    haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
     have h4 : 4 ≤ Nat.card (Fin m) := by simp; omega
     rw [alternatingGroup.center_eq_bot h4, Subgroup.mem_bot] at hcen
     simpa using hcen
@@ -61,14 +62,14 @@ theorem le_three_of_isSTriple {B K : Subgroup G} {a : G} (hS : IsSTriple 3 B a K
   rw [hd] at h
   unfold tripleLevel at h
   by_cases hG : IsGStar 3 B K
-  · rw [if_pos hG] at h; omega
-  · rw [if_neg hG] at h
+  · rw [ite_eq_left hG] at h; omega
+  · rw [ite_eq_right hG] at h
     exact ⟨hG, by omega⟩
 
 theorem tripleLevel_eq_three {B K : Subgroup G} (hG : ¬ IsGStar 3 B K)
     (h : fullCoverLevel 3 (PQuot 3 K) = 3) : tripleLevel 3 B K = 3 := by
   unfold tripleLevel
-  rw [if_neg hG, h]
+  rw [ite_eq_right hG, h]
   rfl
 
 theorem l73_card_B_inf_I (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G}
@@ -100,15 +101,15 @@ theorem perfect_le_of_sup_solvable {H : Type*} [Group H] {N C P : Subgroup H} [N
   have h2 : P.map π ≤ C.map π := by
     have := Subgroup.map_mono (f := π) hPNC
     rwa [Subgroup.map_sup, hN, bot_sup_eq] at this
-  haveI := hC
-  haveI hCs : Group.IsSolvable ↥(C.map π) :=
+  have := hC
+  have hCs : Group.IsSolvable ↥(C.map π) :=
     Group.isSolvable_of_surjective (f := π.subgroupMap C) (MonoidHom.subgroupMap_surjective π C)
-  haveI hPs : Group.IsSolvable ↥(P.map π) :=
+  have hPs : Group.IsSolvable ↥(P.map π) :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective h2)
-  haveI : Group.IsPerfect ↥(P.map π) := Subgroup.isPerfect_iff.2 h1
+  have : Group.IsPerfect ↥(P.map π) := Subgroup.isPerfect_iff.2 h1
   have h3 : P.map π = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥(P.map π) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have : Nontrivial ↥(P.map π) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
     exact Group.IsPerfect.not_isSolvable ↥(P.map π) hPs
   intro g hg
   have : π g ∈ P.map π := ⟨g, hg, rfl⟩
@@ -120,17 +121,18 @@ theorem perfect_le_of_quotient_solvable {H : Type*} [Group H] {M P : Subgroup H}
   set π := QuotientGroup.mk' M with hπ
   have h1 : ⁅P.map π, P.map π⁆ = P.map π := by
     rw [← Subgroup.map_commutator, hP]
-  haveI hPs : Group.IsSolvable ↥(P.map π) := inferInstance
-  haveI : Group.IsPerfect ↥(P.map π) := Subgroup.isPerfect_iff.2 h1
+  have hPs : Group.IsSolvable ↥(P.map π) := inferInstance
+  have : Group.IsPerfect ↥(P.map π) := Subgroup.isPerfect_iff.2 h1
   have h3 : P.map π = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥(P.map π) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have : Nontrivial ↥(P.map π) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
     exact Group.IsPerfect.not_isSolvable ↥(P.map π) hPs
   intro g hg
   have : π g ∈ P.map π := ⟨g, hg, rfl⟩
   rw [h3, Subgroup.mem_bot] at this
   exact (QuotientGroup.eq_one_iff g).1 this
 
+omit [Finite G] in
 theorem imageMod_perfect {p : ℕ} {L P : Subgroup G} (hPL : P ≤ L) (h : ⁅P, P⁆ = P) :
     ⁅imageMod p L P, imageMod p L P⁆ = imageMod p L P := by
   have h1 : ⁅P.subgroupOf L, P.subgroupOf L⁆ = P.subgroupOf L := by
@@ -139,6 +141,7 @@ theorem imageMod_perfect {p : ℕ} {L P : Subgroup G} (hPL : P ≤ L) (h : ⁅P,
   unfold imageMod
   rw [← Subgroup.map_commutator, h1]
 
+omit [Finite G] in
 theorem layer_perfect {p : ℕ} (X : Subgroup G) : ⁅GLAPLayer p X, GLAPLayer p X⁆ = GLAPLayer p X := by
   refine le_antisymm (commutator_le_left_of_normalizes Subgroup.le_normalizer) (sSup_le fun K hK => ?_)
   have hK' : GLAPComponent p X K := hK
@@ -149,13 +152,13 @@ theorem l73_comm_B_ne {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G
     (hn : n = 10 ∨ n = 11) {a : G} {K T I Sg : Subgroup G} (C : L73Ctx B x L n y J a K T I Sg)
     (hBI : B ⊓ I ≠ ⊥) (hB3 : IsPGroup 3 B) : (⁅Sg, B⁆ : Subgroup G) ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hSB
   have hBC : B ≤ Subgroup.centralizer (Sg : Set G) := by
     rw [Subgroup.commutator_comm] at hSB
     exact Subgroup.commutator_eq_bot_iff_le_centralizer.1 hSB
   set CI : Subgroup ↥I := (Subgroup.centralizer (Sg : Set G)).subgroupOf I with hCI
-  haveI hCIn : CI.Normal := by
+  have hCIn : CI.Normal := by
     refine ⟨fun c hc i => ?_⟩
     rw [hCI, Subgroup.mem_subgroupOf, Subgroup.mem_centralizer_iff] at hc ⊢
     intro s hs
@@ -177,9 +180,9 @@ theorem l73_comm_B_ne {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective O
   obtain ⟨f⟩ := C.ti.I_alt
   have hm : 5 ≤ Nat.card (Fin (n - 4)) := by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin (n - 4))) := alternatingGroup.isSimpleGroup hm
-  haveI : IsSimpleGroup (PQuot 3 I) := f.isSimpleGroup
-  haveI : (Y.map π).Normal := Subgroup.Normal.map (Subgroup.normalClosure_normal) π hπs
+  have : IsSimpleGroup ↥(alternatingGroup (Fin (n - 4))) := alternatingGroup.isSimpleGroup hm
+  have : IsSimpleGroup (PQuot 3 I) := f.isSimpleGroup
+  have : (Y.map π).Normal := Subgroup.Normal.map (Subgroup.normalClosure_normal) π hπs
   have hcopO : Nat.Coprime 3 (Nat.card ↥O) := CFSG.pPrimeCore_coprime_card
   have hYtop : Y.map π = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Y.map π) with h | h
@@ -200,7 +203,7 @@ theorem l73_comm_B_ne {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G
     · exact h
   have h3Y : ∀ (g : ↥I) (k : ℕ), g ^ 3 ^ k = 1 → g ∈ Y := by
     intro g k hgk
-    haveI : Y.Normal := Subgroup.normalClosure_normal
+    have : Y.Normal := Subgroup.normalClosure_normal
     let ρ : ↥I →* ↥I ⧸ Y := QuotientGroup.mk' Y
     have hOs : O.map ρ = ⊤ := by
       rw [eq_top_iff]
@@ -233,20 +236,21 @@ theorem l73_comm_B_ne {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G
     exact Subgroup.commutator_eq_bot_iff_le_centralizer.2 hIC
   exact C.S_ne (le_bot_iff.1 (C.S_comm.trans hbot.le))
 
+omit [Finite G] in
 theorem l73_not_Q8 {B : Subgroup G} {x : G} {L : Subgroup G} {n : ℕ} {y : G} {J : Subgroup G}
     {a : G} {K T I Sg : Subgroup G} (C : L73Ctx B x L n y J a K T I Sg) :
     IsEmpty (↥Sg ≃* QuaternionGroup 2) := by
   refine ⟨fun e => ?_⟩
   have h24 : Nat.card (MulAut ↥Sg) = 24 :=
     CFSG.GH74.GLS.Stage2.Signalizer.Odd87.natCard_mulAut_of_quaternion e
-  haveI : Finite (MulAut ↥Sg) := Nat.finite_of_card_ne_zero (by rw [h24]; norm_num)
-  haveI : Fintype (MulAut ↥Sg) := Fintype.ofFinite _
-  haveI hsolv : Group.IsSolvable (MulAut ↥Sg) :=
+  have : Finite (MulAut ↥Sg) := Nat.finite_of_card_ne_zero (by rw [h24]; norm_num)
+  have : Fintype (MulAut ↥Sg) := Fintype.ofFinite _
+  have hsolv : Group.IsSolvable (MulAut ↥Sg) :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two Nat.prime_three
       (by norm_num) (a := 3) (b := 1) (by rw [← Nat.card_eq_fintype_card, h24]; norm_num)
   have hIN : I ≤ Subgroup.normalizer (Sg : Set G) := C.I_norm
   let φ : ↥I →* MulAut ↥Sg := Sg.normalizerMonoidHom.comp (Subgroup.inclusion hIN)
-  haveI : Group.IsSolvable (↥I ⧸ φ.ker) :=
+  have : Group.IsSolvable (↥I ⧸ φ.ker) :=
     Group.isSolvable_of_isSolvable_injective (QuotientGroup.kerLift_injective φ)
   have hperfI : ⁅I, I⁆ = I := by rw [C.ti.I_eq]; exact layer_perfect _
   have hperf : ⁅(⊤ : Subgroup ↥I), (⊤ : Subgroup ↥I)⁆ = ⊤ := by
@@ -293,14 +297,14 @@ theorem glaPLayer_eq_bot_of_solvable_image {p : ℕ} (hp : p.Prime) {L Y : Subgr
   have hΛL : GLAPLayer p Y ≤ L := hΛY.trans hYL
   have hperf : ⁅GLAPLayer p Y, GLAPLayer p Y⁆ = GLAPLayer p Y := layer_perfect Y
   have himg : imageMod p L (GLAPLayer p Y) = ⊥ := by
-    haveI := hsol
+    have := hsol
     have h2 : imageMod p L (GLAPLayer p Y) ≤ imageMod p L Y := imageMod_mono hΛY
-    haveI hs : Group.IsSolvable ↥(imageMod p L (GLAPLayer p Y)) :=
+    have hs : Group.IsSolvable ↥(imageMod p L (GLAPLayer p Y)) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective h2)
-    haveI : Group.IsPerfect ↥(imageMod p L (GLAPLayer p Y)) :=
+    have : Group.IsPerfect ↥(imageMod p L (GLAPLayer p Y)) :=
       Subgroup.isPerfect_iff.2 (imageMod_perfect hΛL hperf)
     by_contra hne
-    haveI : Nontrivial ↥(imageMod p L (GLAPLayer p Y)) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have : Nontrivial ↥(imageMod p L (GLAPLayer p Y)) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
     exact Group.IsPerfect.not_isSolvable _ hs
   have hbot : GLAPLayer p Y ≤ GLAPPrimeCoreOf p L := (imageMod_eq_bot_iff hΛL).1 himg
   have hgen := genByPElts_layer hp Y
@@ -326,7 +330,7 @@ theorem exists_two_threeCycles {Q : Type} [Group Q] (e : Q ≃* ↥(alternatingG
     ∃ q ∈ F, (permOfQ e q).cycleType = {3, 3} ∨ (permOfQ e q).cycleType = {3, 3, 3} := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   let φ : Q →* Equiv.Perm (Fin 10) := (alternatingGroup (Fin 10)).subtype.comp e.toMonoidHom
   have hφinj : Function.Injective φ := Subtype.val_injective.comp e.injective
   have hφ : ∀ q, φ q = permOfQ e q := fun q => rfl
@@ -391,7 +395,7 @@ theorem exists_two_threeCycles {Q : Type} [Group Q] (e : Q ≃* ↥(alternatingG
     have hdisj : Equiv.Perm.Disjoint σ (permOfQ e b) := by
       intro j
       by_contra hj
-      push_neg at hj
+      push Not at hj
       obtain ⟨hjσ, hjb⟩ := hj
       obtain ⟨k, hk⟩ := hbcyc.sameCycle hjb hbi
       have hcomm' : Commute ((permOfQ e b) ^ k) σ := hcomm.zpow_left k
@@ -454,19 +458,19 @@ theorem centralizer_solvable_of_two_threeCycles {Q : Type} [Group Q]
       congrArg (fun z : ↥(Subgroup.centralizer ({σ} : Set (Equiv.Perm (Fin 10)))) =>
         (z : Equiv.Perm (Fin 10))) hab
     exact Subtype.ext (hφinj h1)
-  haveI := hsolv
+  have := hsolv
   exact Group.isSolvable_of_isSolvable_injective (f := ψ) hψinj
 
 theorem perm_cent_solvable {Q : Type} [Group Q] (e : Q ≃* ↥(alternatingGroup (Fin 10))) {F : Subgroup Q}
     (hF : IsElemAbelian 3 F) (h9 : 9 ≤ Nat.card ↥F) :
     Group.IsSolvable ↥(Subgroup.centralizer (F : Set Q)) := by
   obtain ⟨q, hqF, hq⟩ := exists_two_threeCycles e hF h9
-  haveI := centralizer_solvable_of_two_threeCycles e hq
+  have := centralizer_solvable_of_two_threeCycles e hq
   exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective
     (Subgroup.centralizer_le (Set.singleton_subset_iff.2 hqF)))
 
 theorem l73_not_gstar_ten (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} {y : G}
-    {J : Subgroup G} (hB : IsSStarMax 3 B x L) (S : AltSetup 3 B x L 10 y J) (hyB : y ∈ B) :
+    {J : Subgroup G} (hB : IsSStarMax 3 B x L) (S : AltSetup 3 B x L 10 y J) (_hyB : y ∈ B) :
     ¬ IsGStar 3 B L := by
   rintro ⟨E, hEB, hEel, hE27, hne⟩
   rw [closureIn_eq_self (IsSStarMax.normalizes hB)] at hne
@@ -491,7 +495,7 @@ theorem l73_not_gstar_ten (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgrou
     rw [heq, hBL27, hE27] at h1
     rw [hB81] at hle
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have : Nat.card ↥((B ⊓ L : Subgroup G) ⊔ E) * Nat.card ↥(E ⊓ L : Subgroup G) ≤ 3 ^ 4 * 8 :=
       Nat.mul_le_mul hle (by omega)
     omega
@@ -511,7 +515,7 @@ theorem l73_not_gstar_ten (hc : S6Ctx G 3) {B : Subgroup G} {x : G} {L : Subgrou
     rw [← map_mul, ← map_mul]
     congr 1
     exact Subtype.ext hcomm
-  haveI := hsolv
+  have := hsolv
   exact glaPLayer_eq_bot_of_solvable_image hc.prime inf_le_left
     (Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective himg))
 
@@ -555,7 +559,7 @@ theorem centralizer_rootAlt_seven {Q : Type} [Group Q] (e : Q ≃* ↥(alternati
     (h : IsRootAlt e H 6) : Subgroup.centralizer (H : Set Q) = ⊥ := by
   classical
   obtain ⟨⟨φ⟩, -⟩ := h
-  haveI : Finite Q := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite Q := Finite.of_equiv _ e.toEquiv.symm
   have hA6 : Nat.card ↥(alternatingGroup (Fin 6)) = 360 := by
     rw [nat_card_alternatingGroup]
     simp [Nat.factorial]
@@ -606,7 +610,7 @@ theorem centralizer_rootAlt_seven {Q : Type} [Group Q] (e : Q ≃* ↥(alternati
       alternatingGroup.isSimpleGroup (by simp)
     have hcardN : Nat.card ↥(H.map e.toMonoidHom) = 360 := by
       rw [Subgroup.card_map_of_injective e.injective, hH]
-    haveI : (H.map e.toMonoidHom).Normal := Subgroup.Normal.map hnorm e.toMonoidHom e.surjective
+    have : (H.map e.toMonoidHom).Normal := Subgroup.Normal.map hnorm e.toMonoidHom e.surjective
     rcases hsimple.eq_bot_or_eq_top_of_normal (H.map e.toMonoidHom) with hb | ht
     · rw [hb, Subgroup.card_bot] at hcardN
       norm_num at hcardN
@@ -665,6 +669,7 @@ private theorem y5x_map_map_symm_eq {X Y : Type} [Group X] [Group Y] (α : X ≃
     simp
   rw [Subgroup.map_map, hid, Subgroup.map_id]
 
+omit [Finite G] in
 theorem l73_root_transport {J I : Subgroup G} {Q : Type} [Group Q]
     (eJ : PQuot 3 J ≃* ↥(alternatingGroup (Fin 7))) (hroot : IsRootAlt eJ (imageMod 3 J I) 6)
     (ψ : PSimple 3 J ≃* Q) :
@@ -788,6 +793,7 @@ theorem l73_prod_S_le_core (i2prod : I2ProdAt G) (i2013 : I2013At) {B : Subgroup
     l73_two_group_trivial_of_roots i2013 π₁ π₂ π₃ hinj e₁ e₂ e₃ hR2 hHR (hH₁ ▸ he₁) (hH₂ ▸ he₂) (hH₃ ▸ he₃)
   exact l73_le_core_of_image_center C.S_le_K C.S_two hbot
 
+omit [Finite G] in
 private theorem y5x_glbConj_le {C A : Subgroup G} {g : G} (hg : g ∈ C) (hA : A ≤ C) :
     GLBConj g A ≤ C := by
   intro y hy
@@ -796,16 +802,19 @@ private theorem y5x_glbConj_le {C A : Subgroup G} {g : G} (hg : g ∈ C) (hA : A
   rw [e]
   exact C.mul_mem (C.mul_mem (C.inv_mem hg) (hA hy)) hg
 
+omit [Finite G] in
 private theorem y5x_card_glbConj (g : G) (H : Subgroup G) :
     Nat.card ↥(GLBConj g H) = Nat.card ↥H := by
   unfold GLBConj
   exact Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective
 
+omit [Finite G] in
 private theorem y5x_glbConj_commutator (M O : Subgroup G) (g : G) (hg : GLBConj g O = O) :
     ⁅GLBConj g M, O⁆ = GLBConj g ⁅M, O⁆ := by
   unfold GLBConj at hg ⊢
   rw [Subgroup.map_commutator, hg]
 
+omit [Finite G] in
 private theorem y5x_map_conj_glbConj (c x : G) (H : Subgroup G) :
     (GLBConj x H).map (MulAut.conj c).toMonoidHom = GLBConj (x * c⁻¹) H := by
   unfold GLBConj
@@ -815,6 +824,7 @@ private theorem y5x_map_conj_glbConj (c x : G) (H : Subgroup G) :
   simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
   group
 
+omit [Finite G] in
 private theorem y5x_normalizer_sup {A B : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hB : g ∈ Subgroup.normalizer (B : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊔ B : Subgroup G) : Set G) := by
@@ -822,13 +832,14 @@ private theorem y5x_normalizer_sup {A B : Subgroup G} {g : G}
   unfold GLBConj at hA hB ⊢
   rw [Subgroup.map_sup, hA, hB]
 
+omit [Finite G] in
 private theorem y5x_odd_iSup_of_normalized {O : Subgroup G} {ι : Type} [Finite ι]
     (f : ι → Subgroup G) (hle : ∀ i, f i ≤ O)
     (hn : ∀ i, O ≤ Subgroup.normalizer ((f i : Subgroup G) : Set G))
     (hodd : ∀ i, Odd (Nat.card ↥(f i))) :
     Odd (Nat.card ↥(⨆ i, f i)) := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   have key : ∀ s : Finset ι, Odd (Nat.card ↥(s.sup f)) ∧ s.sup f ≤ O ∧
       O ≤ Subgroup.normalizer ((s.sup f : Subgroup G) : Set G) := by
     intro s

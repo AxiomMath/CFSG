@@ -105,7 +105,7 @@ private theorem exists_natRep_cases {F : Type} [Field F] [CharP F 2] {j : ℕ} {
   exists_natRep_equiv_id_or_tauSL hℓ
 
 private theorem exists_natural_or_dual {F : Type} [Field F] [CharP F 2] [Fintype F] {f : ℕ}
-    (hF : Fintype.card F = 2 ^ f) (hf : 1 ≤ f) {U : Type} [AddCommGroup U] [Module (ZMod 2) U]
+    (hF : Fintype.card F = 2 ^ f) (_hf : 1 ≤ f) {U : Type} [AddCommGroup U] [Module (ZMod 2) U]
     (ρ : Representation (ZMod 2) SL(3, F) U) {n : ℕ} (bas : Module.Basis (Fin n) (ZMod 2) U)
     (hirr : ρ.IsIrreducible) {a b : Fin f → Bool}
     (hS : X7a.cntS a b = 1) (hH : X7a.cntH a b = 0)
@@ -137,7 +137,7 @@ theorem false_of_isGraphType_of_homogeneous {W : Type} [CommGroup W] [Finite W]
     (h₂ : IsIrrOn L W₂ ⊥) (hint : W₁ ⊓ W₂ = ⊥) (hsup : W₁ ⊔ W₂ = ⊤) {c : MulAut W}
     (hc : ∀ l ∈ L, c * l = l * c) (hcW : W₁.map c.toMonoidHom = W₂) : False := by
   classical
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule (n := 2) fun t => by
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule (n := 2) fun t => by
     have h2 : (Additive.toMul t) ^ 2 = 1 := hW _
     have h3 : Additive.toMul (2 • t) = 1 := by rw [toMul_nsmul]; exact h2
     exact toMul_eq_one.1 h3
@@ -292,14 +292,14 @@ theorem false_of_isGraphType_of_homogeneous {W : Type} [CommGroup W] [Finite W]
       obtain ⟨a, ha, b, hb, hab⟩ := Subgroup.mem_sup.mp hw
       rw [← hab, map_mul, hfix₁ ⟨l, hl⟩ a ha, hfix₂ ⟨l, hl⟩ b hb]
     have hsimple : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2
-    haveI := hsimple
+    have := hsimple
     obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (↥L ⧸ Subgroup.center ↥L)).exists_pair_ne
-    haveI hsub : Subsingleton ↥L := by rw [hLbot]; infer_instance
+    have hsub : Subsingleton ↥L := by rw [hLbot]; infer_instance
     have hsubq : Subsingleton (↥L ⧸ Subgroup.center ↥L) := inferInstance
     exact hab (hsubq.elim a b)
   obtain ⟨f, hf0, hcard⟩ := CFSG.CGT.Timmesfeld75.exists_natCard_eq_two_pow (F := K)
   have hf1 : 1 ≤ f := Nat.succ_le_of_lt hf0
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard' : Fintype.card K = 2 ^ f := by
     rw [← Nat.card_eq_fintype_card]; exact hcard
   let bas : Module.Basis (Fin (Module.finrank (ZMod 2) ↥U₁)) (ZMod 2) ↥U₁ :=
@@ -438,9 +438,9 @@ theorem false_of_isGraphType_of_homogeneous {W : Type} [CommGroup W] [Finite W]
       (fun s u hu => ⟨hNinv s u hu.1, hU₂ρ s u hu.2⟩)
   let π₁ : Additive W →ₗ[ZMod 2] ↥U₁ := U₁.projectionOnto U₂ hcompl
   have hπ₁_left : ∀ x : ↥U₁, π₁ (x : Additive W) = x :=
-    Submodule.linearProjOfIsCompl_apply_left hcompl
+    Submodule.projectionOnto_apply_left hcompl
   have hπ₁_right : ∀ x : ↥U₂, π₁ (x : Additive W) = 0 :=
-    Submodule.linearProjOfIsCompl_apply_right hcompl
+    Submodule.projectionOnto_apply_right hcompl
   have hπ₁_add : ∀ (x : ↥U₁) (y : ↥U₂), π₁ ((x : Additive W) + y) = x := by
     intro x y
     rw [map_add, hπ₁_left, hπ₁_right, add_zero]
@@ -501,7 +501,7 @@ theorem false_of_isGraphType_of_homogeneous {W : Type} [CommGroup W] [Finite W]
           rw [map_sub, huv', sub_self]
         have h2 : (u : Additive W) - (v : Additive W) ∈ π₁.ker := (LinearMap.mem_ker).mpr h1
         have h3 : (u : Additive W) - (v : Additive W) ∈ U₂ := by
-          rwa [Submodule.linearProjOfIsCompl_ker hcompl] at h2
+          rwa [Submodule.ker_projectionOnto hcompl] at h2
         have h4 : (u : Additive W) - (v : Additive W) ∈ N := N.sub_mem u.2 v.2
         have h5 : (u : Additive W) - (v : Additive W) = 0 := by
           have h6 : (u : Additive W) - (v : Additive W) ∈ N ⊓ U₂ := ⟨h4, h3⟩

@@ -16,6 +16,7 @@ section DerivedLePH
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 
+omit [Finite G] in
 theorem commutator_H_le_map_P_H : ⁅H z, H z⁆ ≤ (P_H D).map (H z).subtype := by
   have hidx := index_P_H D
   rw [Subgroup.commutator_le]
@@ -33,6 +34,7 @@ section Cover
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 
+omit [Finite G] in
 theorem conj_z_mem_P_H_eq_of_cosets (h : Tim79a.ParrottHyp z)
     (hJ : ∀ j : G, j ∈ J z → orderOf j = 2 → j ≠ z → ∀ g : G, g * z * g⁻¹ ≠ j)
     (ht : ∀ x : G, cosetJ (z := z) (tH D) x → orderOf x = 2 → ∀ g : G, g * z * g⁻¹ ≠ x)
@@ -83,6 +85,7 @@ theorem conj_z_mem_P_H_eq_of_cosets (h : Tim79a.ParrottHyp z)
     have h6 := (P_H D).mul_mem ((P_H D).inv_mem (uH_mem_P_H D)) h5
     rwa [inv_mul_cancel_left] at h6
 
+omit [Finite G] in
 theorem conj_z_mem_derived_eq_of_cosets (h : Tim79a.ParrottHyp z)
     (hJ : ∀ j : G, j ∈ J z → orderOf j = 2 → j ≠ z → ∀ g : G, g * z * g⁻¹ ≠ j)
     (ht : ∀ x : G, cosetJ (z := z) (tH D) x → orderOf x = 2 → ∀ g : G, g * z * g⁻¹ ≠ x)

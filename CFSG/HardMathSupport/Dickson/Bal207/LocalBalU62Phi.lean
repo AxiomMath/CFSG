@@ -80,11 +80,11 @@ theorem u62lb_phi_main {N : Subgroup (primeFormP h (idGram K 6))} (hN : TorusInv
       · rw [Equiv.swap_apply_left]
       · rw [Equiv.swap_apply_right]
   obtain ⟨ω, hω⟩ : ∃ ω : Kˣ, ω ≠ 1 := by
-    haveI := h.finite
+    have := h.finite
     have h3 : 1 < Nat.card Kˣ := by
       rw [u62lb_card_units h]
       norm_num
-    haveI : Nontrivial Kˣ := Finite.one_lt_card_iff_nontrivial.1 h3
+    have : Nontrivial Kˣ := Finite.one_lt_card_iff_nontrivial.1 h3
     exact exists_ne 1
   set μ : Fin 6 → Kˣ := Pi.mulSingle u ω * Pi.mulSingle v ω⁻¹ with hμdef
   have hμu : μ u = ω := by
@@ -116,11 +116,11 @@ theorem u62lb_phi_main {N : Subgroup (primeFormP h (idGram K 6))} (hN : TorusInv
       ((s' : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) a b = 0 := by
     intro a b hab
     rw [hM', u62lb_phi_prod_entry (Equiv.swap u v) (Equiv.swap_apply_self u v) M hmono _ _ a b,
-      if_neg (Ne.symm hab)]
+      ite_eq_right (Ne.symm hab)]
   have hdiag := u62lb_phi_diag_entries h s' (u62lb_phi_coprime_order h hc hs'N) hoff u v
   rw [hM', u62lb_phi_prod_entry (Equiv.swap u v) (Equiv.swap_apply_self u v) M hmono _ _ u u,
-    u62lb_phi_prod_entry (Equiv.swap u v) (Equiv.swap_apply_self u v) M hmono _ _ v v, if_pos rfl,
-    if_pos rfl, Equiv.swap_apply_left, Equiv.swap_apply_right] at hdiag
+    u62lb_phi_prod_entry (Equiv.swap u v) (Equiv.swap_apply_self u v) M hmono _ _ v v, ite_eq_left rfl,
+    ite_eq_left rfl, Equiv.swap_apply_left, Equiv.swap_apply_right] at hdiag
   simp only [hμu, hμv, inv_inv] at hdiag
   have hAB : M u v * M v u ≠ 0 := mul_ne_zero hsuv hvu
   have e : (ω : K) * ω = ((ω⁻¹ : Kˣ) : K) * ((ω⁻¹ : Kˣ) : K) := by

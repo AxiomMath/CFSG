@@ -18,8 +18,9 @@ private theorem s168e3_seven_card_of_elem {X : Type*} [Group X] {p n : ℕ}
   have h1 : Nat.card X = Nat.card (Multiplicative (Fin n → ZMod p)) := Nat.card_congr e.toEquiv
   rw [h1, show Nat.card (Multiplicative (Fin n → ZMod p)) = Nat.card (Fin n → ZMod p) from rfl,
     Nat.card_fun]
-  simp [Nat.card_eq_fintype_card, ZMod.card, Fintype.card_fin]
+  simp [Nat.card_eq_fintype_card, Fintype.card_fin]
 
+omit [Finite W] in
 private lemma s168e3_seven_stab_of_map_eq {U : Subgroup W} {φ : MulAut W}
     (h : U.map φ.toMonoidHom = U) : φ ∈ stabSub U := by
   intro u
@@ -35,6 +36,7 @@ private lemma s168e3_seven_stab_of_map_eq {U : Subgroup W} {φ : MulAut W}
     rw [h] at hu'
     exact hu'
 
+omit [Finite W] in
 private lemma s168e3_seven_conj_mem_of_map_conj_eq {L : Subgroup (MulAut W)} {n : MulAut W}
     (h : L.map (MulAut.conj n).toMonoidHom = L) {l : MulAut W} (hl : l ∈ L) :
     n * l * n⁻¹ ∈ L := by
@@ -62,6 +64,7 @@ theorem s168e3_seven_card_line (h : s16e_d3_Ctx A L r Δ σ) (i : Fin (r + 1)) :
   rw [hr, pow_succ, mul_comm (7 ^ (r - 1)) 7] at hcm
   exact Nat.mul_left_cancel (by norm_num) hcm
 
+omit [Finite W] in
 theorem s168e3_seven_conj_line (h : s16e_d3_Ctx A L r Δ σ) (g : ↥A) {i : Fin (r + 1)}
     {l : MulAut W} (hl : l ∈ L ⊓ centSub (Δ i)) :
     (g : MulAut W) * l * (g : MulAut W)⁻¹ ∈ L ⊓ centSub (Δ (σ g i)) := by
@@ -72,7 +75,7 @@ theorem s168e3_seven_conj_line (h : s16e_d3_Ctx A L r Δ σ) (g : ↥A) {i : Fin
     rw [← h.cfg.map_eq g i] at hx
     obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.mp hx
     rw [← hyx]
-    simp [MulAut.mul_apply, MulAut.inv_apply_self, mem_centSub.mp hlC y hy]
+    simp [MulAut.mul_apply, mem_centSub.mp hlC y hy]
 
 theorem s168e3_seven_fix_of_sq (h : s16e_d3_Ctx A L r Δ σ) {s : ↥A} (hs : s ^ 2 = 1)
     {k : Fin (r + 1)} (hk : σ s k = k) : ∀ x ∈ Δ k, (s : MulAut W) x = x := by

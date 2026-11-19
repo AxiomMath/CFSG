@@ -37,6 +37,7 @@ theorem tabLy_isPGroup_cent (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, LyData.orderOf_x₁ S, pow_one])
   exact hp.to_le hle
 
+omit [Finite G] in
 theorem tabLy_three_dvd (S : LyStd ρ x₁ x₂ x₃) :
     3 ∣ Nat.card ↥(centralizer ({(x₁ : G)} : Set G)) := by
   have h := orderOf_dvd_natCard (⟨(x₁ : G), self_mem_centralizer_singleton _⟩ :
@@ -61,7 +62,7 @@ theorem tabLy_quasisimple (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
 theorem tabLy_core (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :
     GLAPPrimeCore 3 ↥(centralizer ({(x₁ : G)} : Set G)) = ⊥ :=
   glaPPrimeCore_eq_bot_of_normal_quasisimple Nat.prime_three le_rfl
-    (fun g hg l hl => Subgroup.mul_mem _ (Subgroup.mul_mem _ hg hl) (Subgroup.inv_mem _ hg))
+    (fun _g hg _l hl => Subgroup.mul_mem _ (Subgroup.mul_mem _ hg hl) (Subgroup.inv_mem _ hg))
     (tabLy_quasisimple D S) (tabLy_three_dvd S) (tabLy_isPGroup_cent D S)
 
 theorem tabLy_pSimple (D : LyData G t ρ) (S : LyStd ρ x₁ x₂ x₃) :

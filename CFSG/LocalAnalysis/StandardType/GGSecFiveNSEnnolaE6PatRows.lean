@@ -36,8 +36,8 @@ theorem ggNEE_torusE6Pat_of_weyl {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ 
     · intro i j
       fin_cases i <;> fin_cases j <;> decide
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hN : ∀ i, MulAut.conj (w i) ∈ Subgroup.normalizer (A : Set (MulAut L')) :=
     fun i => conj_mem_normalizer_of_torusWeylElt hsc (hw i)
   let ρ : Fin τ.rank → MulAut ↥A := fun i => ggConjAut A (hN i)
@@ -199,7 +199,7 @@ theorem ggTorusE6Pat_of_twE6Model {p r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R 
     ∀ (L' : Type) [Group L'] [Finite L'] (ψ : L' →* R) (A : Subgroup (MulAut L')),
       GGTorusTBGroup p r R I L' ψ A → GGTorusE6Pat p A := by
   intro L' _ _ ψ A hA
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨hψ, hker, hperf, hAe, hAI, hr, h3, hsc⟩ := hA
   obtain ⟨Φ, w, hw, hact⟩ := h L' ψ hψ hker hperf A hAe hAI hr h3 hsc
   refine ggNEE_torusE6Pat_of_weyl (τ := .E6) (Or.inl rfl) hp hp2 hsc Φ w hw ?_
@@ -216,7 +216,7 @@ theorem ggRowE6Pat_ETwE6_ge5
     : GGRowE6Pat fun p lab => ggRowP_ETwE6 p lab ∧ 5 ≤ p := by
   intro p hp hp2 lab hlab hS
   obtain ⟨hrow, hp5⟩ := hS
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine TwE6Delta.labelAll hrow.1 fun K _ _ hK => ⟨5, ?_, ?_⟩
   · have hl := ggTorusLift_twE6Add_holds hlab.1 hK hp hrow.2
     rwa [TwE6Delta.liftRank_of_ne (by omega)] at hl

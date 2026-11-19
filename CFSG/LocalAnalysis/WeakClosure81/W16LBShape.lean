@@ -36,15 +36,15 @@ theorem w16l_isSymplecticTransvection_of_l2 {X : Type} [Group X] [Finite X] {n :
     (hs2 : s * s = 1) (hs1 : s ≠ 1) : IsSymplecticTransvection X 2 n s := by
   classical
   obtain ⟨F, hF, hFin, hFcard, ⟨eL⟩⟩ := hL2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := by
     by_contra h
     have hn0 : n = 0 := by omega
     rw [hn0, pow_zero] at hFcard
     have h1 : 1 < Nat.card F := Finite.one_lt_card
     omega
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := n) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := n) (by
     rw [← Nat.card_eq_fintype_card]
     exact hFcard)
   let Z : Subgroup X := Subgroup.center X
@@ -89,7 +89,7 @@ theorem w16l_isSymplecticTransvection_of_l2 {X : Type} [Group X] [Finite X] {n :
 private theorem w16l_centralInSylow_of_card_two {X : Type} [Group X] [Finite X]
     {B P : Subgroup X} (hc : BarConf X B P) (hB2 : Nat.card B = 2) :
     CentralInSylow X B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnorm : ∀ p ∈ P, p ∈ Subgroup.normalizer (B : Set X) := by
     intro p hp
     exact hc.normalizer_le p (Subgroup.le_normalizer hp)
@@ -120,7 +120,7 @@ theorem w16l_hat_shape {X : Type} [Group X] [Finite X] {B P : Subgroup X} {n : �
     (hc : BarConf X B P) (hB : B ≠ ⊥) (hcard : Nat.card B = 2 ^ n)
     (hAlt : SevenElevenAlt X B) (h85 : NoHyp85 X B) : HatShape166 X B n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZo : Odd (Nat.card (Subgroup.center X)) :=
     odd_card_center_of_pCore_eq_bot hc.pCore_eq_bot
   have hn1 : 1 ≤ n := by
@@ -231,7 +231,7 @@ theorem w16l_hat_shape {X : Type} [Group X] [Finite X] {B P : Subgroup X} {n : �
           have hn'1 : 1 ≤ n' := one_le_of_isSpGp (w16l_isSpGp_two_of_isL2Gp hL2)
           rcases Nat.lt_or_ge 1 n' with hngt | hn'le
           · have hex : ∃ s ∈ B, s ≠ 1 := by
-              letI : Fintype B := Fintype.ofFinite B
+              let : Fintype B := Fintype.ofFinite B
               have hlt : 1 < Fintype.card B := by
                 rw [← Nat.card_eq_fintype_card, hB2]
                 norm_num

@@ -121,15 +121,15 @@ theorem exists_mulAut_eq_zNF {F : Type} [Field F] [Finite F] [CharP F 2] {f : �
       P * (zNF F : Matrix (Fin 3) (Fin 3) F) := by
     rw [CFSG.AGLEmbedding.LinearThreeKit.mul_transpose_of_iff]
     intro j
-    fin_cases j <;> simp [b, P, zNF, hux, hUuw, Fin.sum_univ_three]
+    fin_cases j <;> simp [b, zNF, hux, hUuw, Fin.sum_univ_three]
   let A : GL (Fin 3) F := (Matrix.GeneralLinearGroup.mkOfDetNeZero P hPdet.ne_zero)⁻¹
   refine ⟨CFSG.ComponentClassification.CatalogueBHigherLinearAction.slConjugation 3 F A, ?_⟩
   apply Subtype.ext
   rw [CFSG.ComponentClassification.CatalogueBHigherLinearAction.slConjugation_matrix]
   have hA : (A : Matrix (Fin 3) (Fin 3) F) = P⁻¹ := by
-    simp [A, Matrix.GeneralLinearGroup.val_mkOfDetNeZero, Units.val_inv_eq_inv_val]
+    simp [A, Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
   have hAinv : ((A⁻¹ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) = P := by
-    simp [A, Matrix.GeneralLinearGroup.val_mkOfDetNeZero, Units.val_inv_eq_inv_val]
+    simp [A, Matrix.GeneralLinearGroup.val_mkOfDetNeZero]
   rw [hA, hAinv]
   calc P⁻¹ * (u : Matrix (Fin 3) (Fin 3) F) * P
       = P⁻¹ * ((u : Matrix (Fin 3) (Fin 3) F) * P) := by rw [Matrix.mul_assoc]
@@ -145,8 +145,8 @@ theorem l3Overgroup_psl_two (hM : L3OvMatrix) {X : Type} [Group X] [Finite X] {f
     (hQ : CFSG.Open.pCoreOf 2 K ≠ ⊥) : L3OvAlt Y K := by
   obtain ⟨F, hField, hFinite, hcard, ⟨eX⟩⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hL
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   have hnotdvd : ¬ 3 ∣ Nat.card F - 1 := by
     rw [hcard]
     intro hd
@@ -156,7 +156,7 @@ theorem l3Overgroup_psl_two (hM : L3OvMatrix) {X : Type} [Group X] [Finite X] {f
       rw [show 2 ^ f = 3 * k + 1 by omega, Nat.add_mod, Nat.mul_mod]
       omega
     omega
-  letI : CharP F 2 :=
+  let : CharP F 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hcard
   have hfold : Odd f := by
     rcases Nat.even_or_odd f with he | ho

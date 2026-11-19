@@ -77,7 +77,8 @@ theorem exists_Y_of_witness (e : ι → G) (e₀ : G) (y : ι → G) (hee : ∀ 
   · rw [← Fintype.card_option]
     exact hbound.trans (Subgroup.card_le_card_group _)
 
-theorem mem_Y_iff (e : ι → G) (e₀ : G) (hee : ∀ i j, Commute (e i) (e j))
+omit [Finite G] [Fintype ι] [DecidableEq ι] in
+theorem mem_Y_iff (e : ι → G) (e₀ : G) (_hee : ∀ i j, Commute (e i) (e j))
     (he₀ : ∀ i, Commute (e i) e₀) {z : G}
     (hz : z ∈ Subgroup.closure (Set.range (optFam e e₀))) :
     ∃ a ∈ Subgroup.closure (Set.range e), ∃ m : ℤ, z = a * e₀ ^ m := by
@@ -120,6 +121,7 @@ theorem mem_Y_iff (e : ι → G) (e₀ : G) (hee : ∀ i j, Commute (e i) (e j))
       _ = a⁻¹ * (e₀ ^ m)⁻¹ := (hae.inv_left.inv_right).eq.symm
       _ = a⁻¹ * e₀ ^ (-m) := by rw [zpow_neg]
 
+omit [Finite G] in
 theorem eq_one_of_mem_Y (e : ι → G) (e₀ : G) (y : ι → G) (hee : ∀ i j, Commute (e i) (e j))
     (he₀ : ∀ i, Commute (e i) e₀) (he3 : ∀ i, e i ^ 3 = 1) (he₀3 : e₀ ^ 3 = 1)
     (hy : ∀ i j, i ≠ j → Commute (y i) (e j)) (hy₀ : ∀ i, Commute (y i) e₀)

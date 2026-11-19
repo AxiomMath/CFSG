@@ -107,7 +107,7 @@ theorem gen5_P_decomp (hG : Gen5Global G) (hl : Gen5Local G p P M x) :
   obtain ⟨hPx, hPab⟩ := gen5_P_abelian hG hl
   obtain ⟨hxZ, -, hZcyc⟩ := gen5_Z hG hl
   have hcyc : IsCyclic ↥((P : Subgroup G) ⊓ centralizer ((gen5L x : Subgroup G) : Set G)) :=
-    hZcyc _ P.isPGroup'.to_inf_left inf_le_right
+    hZcyc _ P.isPGroup.to_inf_left inf_le_right
   refine ⟨le_antisymm ?_ (sup_le inf_le_left inf_le_left), ?_, hcyc, ?_⟩
   · intro g hg
     have hgU : ∀ u ∈ gen5U (P : Subgroup G) x, g * u = u * g := fun u hu => by
@@ -174,7 +174,7 @@ theorem gen5_weakly_closed (hG : Gen5Global G) (hl : Gen5Local G p P M x)
     (zpowers x).map (MulAut.conj g).toMonoidHom = zpowers x := by
   have : Fact p.Prime := ⟨gen5_prime hl⟩
   have hsylG : ∀ S : Sylow p G, IsSylowOf p (S : Subgroup G) ⊤ := fun S =>
-    isSylowOf_iff.2 ⟨le_top, S.isPGroup', by
+    isSylowOf_iff.2 ⟨le_top, S.isPGroup, by
       rw [Subgroup.relIndex_top_right]
       exact S.not_dvd_index⟩
   have hQC : (Q : Subgroup G) ≤ centralizer ({x} : Set G) := fun q hq => by

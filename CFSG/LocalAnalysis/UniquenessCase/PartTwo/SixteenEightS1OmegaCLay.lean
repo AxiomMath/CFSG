@@ -30,7 +30,7 @@ theorem s16e_omc_le_layer_of_equiv_prod {H : Type} [Group H] [Finite H] {N : Sub
 
 private theorem s16e_omc_alt_five_nonabelian :
     ∃ a b : alternatingGroup (Fin 5), a * b ≠ b * a := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   by_contra h
   have hcomm : ∀ a b : alternatingGroup (Fin 5), a * b = b * a := fun a b =>
     by_contra fun hne => h ⟨a, b, hne⟩
@@ -45,7 +45,7 @@ private theorem s16e_omc_alt_five_nonabelian :
 theorem s16e_omc_le_layer_of_equiv_alt_five {H : Type} [Group H] [Finite H] {N : Subgroup H}
     [N.Normal] (e : ↥N ≃* alternatingGroup (Fin 5) × alternatingGroup (Fin 5)) :
     N ≤ CFSG.layer H := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   exact s16e_omc_le_layer_of_equiv_prod s16e_omc_alt_five_nonabelian e
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

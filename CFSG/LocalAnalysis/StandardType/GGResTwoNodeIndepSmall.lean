@@ -77,11 +77,11 @@ private lemma l6sm_cell {p N : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hdvd : p ∣
   have hp_le : p ≤ N := Nat.le_of_dvd (by omega) hdvd
   have hNlt10 : N < 10 := by
     by_cases hp3 : p = 3
-    · rw [if_pos hp3] at hhi; omega
-    · rw [if_neg hp3] at hhi; omega
+    · rw [ite_eq_left hp3] at hhi; omega
+    · rw [ite_eq_right hp3] at hhi; omega
   have hNlt9 : p = 3 → N < 9 := by
     intro hp3
-    rw [if_pos hp3] at hhi; omega
+    rw [ite_eq_left hp3] at hhi; omega
   have hp_cases : p = 2 ∨ p = 3 ∨ p = 5 ∨ p = 7 := by
     have h2 : 2 ≤ p := hp.two_le
     have h10 : p < 10 := by omega
@@ -150,8 +150,8 @@ public theorem ggResTwoNodeSmallA_indep_datum_rank {G : Type} [Group G] [Finite 
     exact l6sm_prime_dvd_four (Fact.out) hp4 hp2
   have hhi : labX.rank + 1 < (if p = 3 then 9 else 10) := by
     by_cases hp3 : p = 3
-    · rw [if_pos hp3] at hsmall ⊢; omega
-    · rw [if_neg hp3] at hsmall ⊢; omega
+    · rw [ite_eq_left hp3] at hsmall ⊢; omega
+    · rw [ite_eq_right hp3] at hsmall ⊢; omega
   have hcell : lr6SmallCellA p (labX.rank + 1) := l6sm_cell (Fact.out) hp2 hpN hN5 hhi
   have hXI : GGResXDatumAIndep p Bs X labX.rank := by
     rcases hD G p B Bs x L D J y K hH X z hXz labJ labX hJΛ hXΛ hJlab hXlab

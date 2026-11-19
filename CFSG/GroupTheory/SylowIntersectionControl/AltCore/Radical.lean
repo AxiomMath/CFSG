@@ -14,11 +14,11 @@ variable {α : Type} [Fintype α] [DecidableEq α]
 @[expose] def setStab (O : Set α) : Subgroup (Perm α) where
   carrier := {g | ∀ x, g x ∈ O ↔ x ∈ O}
   mul_mem' {a b} ha hb x := by
-    simp only [Set.mem_setOf_eq, Perm.mul_apply] at *
+    simp only [Set.mem_ofPred_eq, Perm.mul_apply] at *
     rw [ha, hb]
   one_mem' _ := Iff.rfl
   inv_mem' {a} ha x := by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     have := ha (a⁻¹ x)
     rwa [show a (a⁻¹ x) = x from a.apply_symm_apply x, Iff.comm] at this
 

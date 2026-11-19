@@ -29,7 +29,7 @@ theorem s16c167_card_le_four_of_sevenCfg (h : SevenCfg M L Z) {X : Subgroup (Mul
   have hcardS : Nat.card ↥(conjSubs M Z) = 4 := by
     rw [Nat.card_coe_set_eq]
     exact h.ncard
-  haveI : Finite ↥(conjSubs M Z) :=
+  have : Finite ↥(conjSubs M Z) :=
     Nat.finite_of_card_ne_zero (by rw [hcardS]; norm_num)
   have hrange : ∀ y ∈ ρ.range, y * y = 1 := by
     rintro _ ⟨x, rfl⟩

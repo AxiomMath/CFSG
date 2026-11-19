@@ -19,12 +19,14 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem orderOf_eq_two_of_mem_center {R : Subgroup G} (hR : timmesfeldIsExtraspecial ↥R)
     {z : G} (hz : z ∈ (Subgroup.center ↥R).map R.subtype) (hz1 : z ≠ 1) : orderOf z = 2 := by
   have hdvd := Subgroup.orderOf_dvd_natCard _ hz
   rw [card_center_map_eq_two hR rfl] at hdvd
   exact ((Nat.dvd_prime Nat.prime_two).1 hdvd).resolve_left fun h => hz1 (orderOf_eq_one_iff.1 h)
 
+omit [Finite G] in
 private theorem not_comm_of_extraspecial {R : Subgroup G} (hR : timmesfeldIsExtraspecial ↥R)
     (h : ∀ x ∈ R, ∀ y ∈ R, x * y = y * x) : False := by
   have hc : commutator ↥R = ⊥ :=
@@ -33,6 +35,7 @@ private theorem not_comm_of_extraspecial {R : Subgroup G} (hR : timmesfeldIsExtr
   rw [← hR.2.2.1, ← hR.2.1, hc, Subgroup.card_bot] at h2
   exact absurd h2 (by norm_num)
 
+omit [Finite G] in
 private theorem false_of_quot_center {K : Type*} [Group K] [Finite K] {p r : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hrk : GLATwoLocalRank p K < r) {z : G} (hz2 : orderOf z = 2)
     (hZ : (Subgroup.center (cent z)).map (cent z).subtype = Subgroup.zpowers z)
@@ -79,11 +82,11 @@ theorem isConj_xGriess_of_extraspecial {p r : ℕ} [Fact p.Prime] (hp2 : p ≠ 2
     (hBR0 : B ≤ Subgroup.normalizer (R0 : Set MGriess)) : IsConj xGriess z := by
   have hE : MonsterExistenceStatement MGriess :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite MGriess := hE.1.1
+  have : Finite MGriess := hE.1.1
   have hz2 := orderOf_eq_two_of_mem_center hR0 hz hz1
   obtain ⟨-, a, z₀, -, -, -, hcls, hA, hZ₀, -⟩ := id hE
   rcases hcls z hz2 with h | h
-  · haveI : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  · have : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
     have hcat : catalogIs CFSG.Blueprint.NativeSporadic.B (S8.sporIs .B) :=
       ⟨TauCeti.CFSGIndex.sporadic .B, rfl, CFSG.Sporadic.Bridge.B.nonempty_mulEquiv⟩
     have hrk : GLATwoLocalRank p CFSG.Blueprint.NativeSporadic.B < r :=

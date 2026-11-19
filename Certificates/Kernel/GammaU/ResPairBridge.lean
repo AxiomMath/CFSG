@@ -44,16 +44,16 @@ theorem resPair_of {i : Nat} {N2 : List Nat} {NN : Nat} {c : Array ℕ} {Ci : Na
     intro e he
     unfold letT
     by_cases hlt : e < NN
-    · rw [blt_true hlt, cond_true]
+    · rw [blt_true hlt, _root_.Bool.cond_true]
       obtain ⟨V, hV, hVP⟩ := hN e hlt
       exact ⟨V, Subgroup.mem_sup_left hV, hVP⟩
-    · rw [blt_false hlt, cond_false]
+    · rw [blt_false hlt, Bool.cond_false]
       obtain ⟨V, hV, hVP⟩ := hN (e - NN) (by change e < NN + NN at he; omega)
       exact ⟨_, Subgroup.mem_sup_right ⟨V, hV, rfl⟩, isP_conj hU hUi hVP⟩
   cases ht : Nat.beq tg 0
-  · rw [ht, cond_false, Bool.and_eq_true] at h
+  · rw [ht, Bool.cond_false, Bool.and_eq_true] at h
     exact d1OK_spec h.2 hf hL hL'
-  · rw [ht, cond_true] at h
+  · rw [ht, _root_.Bool.cond_true] at h
     exact d2aOK_spec h hf hTH hL
 
 theorem resConj_zero (i : Nat) (h : 0 < (ResPair.resConj i).length) :

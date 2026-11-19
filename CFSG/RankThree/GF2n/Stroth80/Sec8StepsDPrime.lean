@@ -23,7 +23,7 @@ theorem sec8DPrime_of (h51 : Stroth51Statement) (hA : Sec8AExistsStatement)
   have hZL : Z0 ≤ LB M Q B := sec8_Z0_le_LB h51 hA hc hs hZ0
   have hnormQ : ∀ ρ ∈ Rt M (LB M Q B) t, ∀ y ∈ Q, ρ * y * ρ⁻¹ ∈ Q := fun ρ hρ y hy =>
     (Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 (hc.Rt_le_M t hρ)) y).mp hy
-  obtain ⟨u, hu, huZ⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨u, hu, huZ⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   obtain ⟨hu1, hu2⟩ := Subgroup.mem_inf.mp hu
   obtain ⟨h, hhR, huh⟩ := hT3 G M Q Z B hc n t hs u hu1 huZ
   have hhM : h ∈ M := hc.Rt_le_M t hhR

@@ -293,7 +293,7 @@ section Classification
 
 variable [Finite A]
 
-private theorem card_four_of_le_L {P : Sylow 2 A} (hne : P ≠ C.T)
+private theorem card_four_of_le_L {P : Sylow 2 A} (_hne : P ≠ C.T)
     (hbot : ((C.T : Subgroup A) ⊓ (P : Subgroup A)) ≠ ⊥)
     (hbotZ : ((C.T : Subgroup A) ⊓ (P : Subgroup A)) ⊓ C.Z = ⊥)
     (hsubL : ((C.T : Subgroup A) ⊓ (P : Subgroup A)) ≤ C.L)
@@ -448,7 +448,7 @@ private theorem inf_eq_L_or_M_of_mem_ZP {P : Sylow 2 A} (hne : P ≠ C.T) {v : A
 private theorem inf_eq_four_of_disjoint {P : Sylow 2 A} (hne : P ≠ C.T)
     (hbot : ((C.T : Subgroup A) ⊓ (P : Subgroup A)) ≠ ⊥)
     (hnoZ : ∀ v ∈ (C.T : Subgroup A) ⊓ (P : Subgroup A), v ≠ 1 → v ∉ C.Z)
-    (hnoZP : ∀ v ∈ (C.T : Subgroup A) ⊓ (P : Subgroup A), v ≠ 1 →
+    (_hnoZP : ∀ v ∈ (C.T : Subgroup A) ⊓ (P : Subgroup A), v ≠ 1 →
       v ∉ C.point P ⊓ C.line P) :
     (((C.T : Subgroup A) ⊓ (P : Subgroup A)) ≤ C.L ∨
       ((C.T : Subgroup A) ⊓ (P : Subgroup A)) ≤ C.M) ∧
@@ -482,8 +482,8 @@ private theorem inf_eq_four_of_disjoint {P : Sylow 2 A} (hne : P ≠ C.T)
     by_contra hcon
     push Not at hcon
     obtain ⟨hconL, hconM⟩ := hcon
-    obtain ⟨x, hxD, hxL⟩ := SetLike.not_le_iff_exists.mp hconL
-    obtain ⟨y, hyD, hyM⟩ := SetLike.not_le_iff_exists.mp hconM
+    obtain ⟨x, hxD, hxL⟩ := IsConcreteLE.not_le_iff_exists.mp hconL
+    obtain ⟨y, hyD, hyM⟩ := IsConcreteLE.not_le_iff_exists.mp hconM
     have hx2 : x * x = 1 := hsq x hxD
     have hy2 : y * y = 1 := hsq y hyD
     have hx1 : x ≠ 1 := fun h => hxL (h ▸ C.L.one_mem)
@@ -782,7 +782,7 @@ theorem exists_centreSylow {P : Sylow 2 A}
     intro w hw
     rw [Set.mem_singleton_iff] at hw
     rw [hw]
-    haveI := C.isElemAbelian_L.1
+    have := C.isElemAbelian_L.1
     exact congrArg Subtype.val (mul_comm' (⟨x, hxL⟩ : ↥C.L) ⟨v, hvL⟩).symm
   have hvZP : v ∉ C.point P ⊓ C.line P := by
     intro hmem
@@ -907,7 +907,7 @@ theorem ncard_sylowThroughL : C.sylowThroughL.ncard = 4 := by
       exact ⟨h1, h2⟩
     · rintro ⟨h1, h2⟩
       exact ⟨h1, h2⟩
-  rw [hset, Set.ncard_diff_singleton_of_mem (show C.T ∈ {P : Sylow 2 A | C.L ≤ (P : Subgroup A)}
+  rw [hset, Set.ncard_sdiff_singleton_of_mem (show C.T ∈ {P : Sylow 2 A | C.L ≤ (P : Subgroup A)}
     from C.L_le), C.ncard_sylow_ge_L]
 
 theorem ncard_line_fiber {Q : Sylow 2 A} (hLQ : C.L ≤ (Q : Subgroup A)) (hQ : Q ≠ C.T) :
@@ -920,7 +920,7 @@ theorem ncard_line_fiber {Q : Sylow 2 A} (hLQ : C.L ≤ (Q : Subgroup A)) (hQ : 
       refine ⟨C.line_le_of_inf_eq hLQ hQ hP, ?_⟩
       intro hPQ
       rw [Set.mem_singleton_iff] at hPQ
-      rw [Set.mem_setOf_eq] at hP
+      rw [Set.mem_ofPred_eq] at hP
       rw [hPQ] at hP
       have h1 : (C.T : Subgroup A) ⊓ (Q : Subgroup A) = C.L :=
         C.inf_eq_L_of_ne C.L_le hLQ (Ne.symm hQ)
@@ -934,7 +934,7 @@ theorem ncard_line_fiber {Q : Sylow 2 A} (hLQ : C.L ≤ (Q : Subgroup A)) (hQ : 
   rw [show Nat.card {P : Sylow 2 A // (C.T : Subgroup A) ⊓ (P : Subgroup A) = C.L ⊓ C.line Q}
       = ({P : Sylow 2 A | (C.T : Subgroup A) ⊓ (P : Subgroup A) = C.L ⊓ C.line Q}).ncard from
     Nat.card_coe_set_eq ({P : Sylow 2 A | (C.T : Subgroup A) ⊓ (P : Subgroup A) = C.L ⊓ C.line Q})]
-  rw [hset, Set.ncard_diff_singleton_of_mem
+  rw [hset, Set.ncard_sdiff_singleton_of_mem
     (show Q ∈ {P : Sylow 2 A | C.line Q ≤ (P : Subgroup A)} from C.line_le Q),
     C.ncard_sylow_ge_line]
 
@@ -969,7 +969,7 @@ private theorem zcaseLProj_bijective : Function.Bijective C.zcaseLProj := by
 
 theorem ncard_zcaseL : C.zcaseL.ncard = 16 := by
   classical
-  haveI : Fintype (Sylow 2 A) := Fintype.ofFinite _
+  have : Fintype (Sylow 2 A) := Fintype.ofFinite _
   have hcard := Nat.card_congr (Equiv.ofBijective C.zcaseLProj C.zcaseLProj_bijective)
   have hsum : Nat.card (Σ Q : {Q : Sylow 2 A // Q ∈ C.sylowThroughL},
       {P : Sylow 2 A // (C.T : Subgroup A) ⊓ (P : Subgroup A) = C.L ⊓ C.line Q.1}) = 16 := by

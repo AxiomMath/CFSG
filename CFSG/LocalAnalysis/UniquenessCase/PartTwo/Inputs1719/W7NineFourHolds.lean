@@ -14,6 +14,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 CFSG.LocalAnalysis.UniquenessCase.Pa
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem w7_9_4_commutator_le {M I X L : Subgroup G} (hIM : I ≤ M)
     (hIn : (I.subgroupOf M).Normal) (hXI : S17.oUpperTwo X ≤ I) :
     ⁅Opp 2 (M ⊓ L), S17.oUpperTwo X⁆ ≤ I := by

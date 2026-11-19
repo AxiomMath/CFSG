@@ -13,7 +13,7 @@ open Matrix
 variable {L : Type} [Field L]
 
 theorem exists_perm_conj_diag_two {C C' : Matrix (Fin 2) (Fin 2) L} (h1 : C * C' = 1)
-    (h2 : C' * C = 1) {y : L} (hy : y ≠ 0) (hy2 : y ≠ y⁻¹)
+    (_h2 : C' * C = 1) {y : L} (_hy : y ≠ 0) (hy2 : y ≠ y⁻¹)
     (hd01 : (C * Matrix.diagonal ![y, y⁻¹] * C') 0 1 = 0)
     (hd10 : (C * Matrix.diagonal ![y, y⁻¹] * C') 1 0 = 0) :
     ∃ ρ : Equiv.Perm (Fin 2), ∀ v : Fin 2 → L,
@@ -69,7 +69,7 @@ theorem exists_perm_conj_diag_two {C C' : Matrix (Fin 2) (Fin 2) L} (h1 : C * C'
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.diagonal_apply, ha, h00, h11,
         Matrix.det_fin_two] <;>
-      field_simp <;> ring
+      field_simp
   · have h01 : C 0 1 = 0 := by
       rcases mul_eq_zero.1 hp1 with h | h
       · exact absurd h h00
@@ -84,7 +84,7 @@ theorem exists_perm_conj_diag_two {C C' : Matrix (Fin 2) (Fin 2) L} (h1 : C * C'
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.diagonal_apply, ha, h01, h10,
         Matrix.det_fin_two] <;>
-      field_simp <;> ring
+      field_simp
 
 end KSGen
 

@@ -127,7 +127,7 @@ theorem str83_partTwo_centralizer_sup_z1_eq_bot
       rw [h1, show x⁻¹ * z ^ k * x = z ^ k from by simpa using hconj x⁻¹ hxz' k]
       exact Subgroup.zpow_mem_zpowers z k
   have h2 : IsPGroup 2 (Subgroup.zpowers z) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     by_cases hz1 : z = 1
     · rw [hz1, Subgroup.zpowers_one_eq_bot]
       exact IsPGroup.of_bot
@@ -142,7 +142,7 @@ theorem str83_partTwo_centralizer_sup_z1_eq_bot
 theorem str83_partTwo_generator_data
     (hF : F112HypW L1 L2 S) (hB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
     (ha : 1 ≤ a) (hSz : Nonempty (oTwoQuot ↥L1 ≃* Sz a))
-    (hL2 : IsL2Quot (2 * a + 1) (oTwoQuot ↥L2))
+    (_hL2 : IsL2Quot (2 * a + 1) (oTwoQuot ↥L2))
     (hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
     (hJ : ¬ jAtLeast (2 ^ pRank 2 S) (2 ^ (2 * a + 1)) S ≤ Q1 L1 L2 S) :
     ∃ E X0 : Subgroup G,
@@ -342,7 +342,7 @@ theorem str83_partTwo_generator_data
         rw [hinf2] at h2'
         exact h2'.symm
       exact h1''.trans h2''.symm
-    rwa [hcard]
+    rw [hcard]
   have hCX0 : Z1 L1 L2 S ⊓ Subgroup.centralizer (X0 : Set G) =
       Z1 L1 L2 S ⊓ Subgroup.centralizer (E : Set G) := by
     rw [← hsupEq]

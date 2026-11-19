@@ -88,7 +88,7 @@ theorem perfectInLayer_conj_exc
     {d : ↥(adjointGroup τ F)} (hd1 : d ≠ 1) (hdp : d ^ p = 1)
     (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) :
     PerfectInLayer (MulAut.conj d) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hnpos : 0 < n := by
     rcases Nat.eq_zero_or_pos n with h | h
     · exfalso
@@ -174,7 +174,7 @@ theorem rootSubgroup_le_stdLayer
     (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     {α : Fin τ.rank → ℤ} (hα : α ∈ rootCharKernel a) :
     (rootSubgroup τ F α).subgroupOf (adjointGroup τ F) ≤ stdLayer d := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hn_ge2 : 2 ≤ n := by
     rcases Nat.lt_or_ge n 2 with h | h
     · interval_cases n

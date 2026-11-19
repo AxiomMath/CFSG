@@ -133,13 +133,13 @@ theorem isReflection_permSU_swap [Finite L'] (hK : UnitaryFieldData 2 n K) (hp :
       Subgroup.normalizer (A : Set (MulAut L'))) :
     GGIsReflection p (ggConjAut A hn) := by
   classical
-  haveI : Finite (MulAut L') :=
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) fun f g h => by
       ext x
       exact congrFun h x
-  haveI : Finite ↥A := Subtype.finite
+  have : Finite ↥A := Subtype.finite
   have hp2 : p ≠ 2 := TableBU.ne_two_of_dvd_two_pow_add_one hK.one_le hpq
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let σ : Equiv.Perm (Fin d) := Equiv.swap i j
   let g : MulAut L' := MulAut.conj (φ (permSU hK σ))
   let f : MulAut ↥A := ggConjAut A hn
@@ -228,8 +228,8 @@ theorem isReflection_permSU_swap [Finite L'] (hK : UnitaryFieldData 2 n K) (hp :
         _ = (a₁ : MulAut L') * g := by rw [h1]
     have htij := (commute_conj_permSU_swap_iff hK hd hφker hφs
       (actsDiagU_conj hD₁) i j).mp hcomm
-    rw [ggPairVec_apply, ggPairVec_apply, if_pos rfl, if_neg hij, mul_one,
-      if_neg hij.symm, if_pos rfl, one_mul] at htij
+    rw [ggPairVec_apply, ggPairVec_apply, ite_eq_left rfl, ite_eq_right hij, mul_one,
+      ite_eq_right hij.symm, ite_eq_left rfl, one_mul] at htij
     have h2 : (η : K) * (η : K) = 1 := by
       nth_rewrite 2 [htij]
       exact mul_inv_cancel₀ η.ne_zero
@@ -279,12 +279,12 @@ private theorem exists_diag_eq_of_not_mem (hK : UnitaryFieldData 2 n K) (hp : p.
     intro h
     exact hac (by rw [← h]; exact Finset.mem_insert_of_mem (Finset.mem_singleton_self e))
   have haa : ggPairVec a m (η : K) a = (η : K) := by
-    rw [ggPairVec_apply, if_pos rfl, if_neg ham, mul_one]
+    rw [ggPairVec_apply, ite_eq_left rfl, ite_eq_right ham, mul_one]
   have hmm : ggPairVec a m (η : K) m = (η : K)⁻¹ := by
-    rw [ggPairVec_apply, if_neg (Ne.symm ham), if_pos rfl, one_mul]
+    rw [ggPairVec_apply, ite_eq_right (Ne.symm ham), ite_eq_left rfl, one_mul]
   have hone : ∀ x : Fin d, x ≠ a → x ≠ m → ggPairVec a m (η : K) x = 1 := by
     intro x hxa hxm
-    rw [ggPairVec_apply, if_neg hxa, if_neg hxm, one_mul]
+    rw [ggPairVec_apply, ite_eq_right hxa, ite_eq_right hxm, one_mul]
   refine ⟨ggPairVec a m (η : K), fun x => pow_ggPairVec hηp x,
     prod_ggPairVec (η : K) η.ne_zero, ?_, ?_⟩
   · rw [haa]

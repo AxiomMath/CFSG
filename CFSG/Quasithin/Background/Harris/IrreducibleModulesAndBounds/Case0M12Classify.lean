@@ -34,7 +34,7 @@ theorem rep10_endo_scalar
   have hentry : ∀ i j, ψ (F i j) = if i = j then a else 0 := by
     intro i j
     have := congrFun (hT (Pi.single j 1)) i
-    simp [Matrix.mulVec_single_one, Pi.single_apply] at this
+    simp [Pi.single_apply] at this
     exact this
   have h00 : ψ (F 0 0) = a := by simpa using hentry 0 0
   ext i j
@@ -42,7 +42,7 @@ theorem rep10_endo_scalar
   rw [hentry]
   by_cases hij : i = j
   · subst hij
-    simp [h00, hentry]
+    simp [h00]
   · simp [hij]
 
 theorem m12_classify

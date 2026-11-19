@@ -44,11 +44,11 @@ private theorem ggHalfGraphCent_sZero_comm_J {G : Type} [Group G] [Finite G] {p 
       (Equiv.swap ((⟨0, by omega⟩ : Fin (m + 1 + 1)).castSucc)
         ((⟨0, by omega⟩ : Fin (m + 1 + 1)).succ)) i = i := by
     intro i hi
-    simp only [Set.mem_setOf_eq] at hi
+    simp only [Set.mem_ofPred_eq] at hi
     refine Equiv.swap_apply_of_ne_of_ne ?_ ?_ <;>
       (intro hh
        have hv := congrArg Fin.val hh
-       simp only [Fin.val_castSucc, Fin.val_succ, Fin.val_mk] at hv
+       simp only [Fin.val_castSucc, Fin.val_succ] at hv
        omega)
   have hmem : slLower2Hom m s ∈
       slOn (m + 1 + 1 + 1) {i : Fin (m + 1 + 1 + 1) | 2 ≤ i.val} := by
@@ -69,7 +69,7 @@ private theorem ggHalfGraphCent_zpowers_conj_sZero_y {G : Type} [Group G] [Finit
     simpa only [vElt] using h.zpowers_y
   have hf : (MulAut.conj (sZero φ₁)).toMonoidHom (vElt φ₁) = (vElt φ₁)⁻¹ := by
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
-    exact h.s0_v
+    exact CFSG.StandardType.GGHalfCtx.s0_v
   calc Subgroup.zpowers (sZero φ₁ * y * (sZero φ₁)⁻¹)
       = (Subgroup.zpowers y).map (MulAut.conj (sZero φ₁)).toMonoidHom := by
         rw [MonoidHom.map_zpowers]
@@ -110,7 +110,7 @@ private theorem ggHalfGraphCent_mulAut_eq_one_of_levi_upper {m : ℕ} (hm : 2 �
     have hsub : ρ '' {i : Fin (m + 1 + 1 + 1) | 2 ≤ i.val} ⊆
         {i : Fin (m + 1 + 1 + 1) | i.val ≤ m} := by
       rintro i ⟨j, hj, rfl⟩
-      simp only [Set.mem_setOf_eq] at hj ⊢
+      simp only [Set.mem_ofPred_eq] at hj ⊢
       rw [Fin.revPerm_apply, Fin.val_rev]
       omega
     have hmemMap : conjP (slLower2Hom m s) ∈
@@ -134,19 +134,19 @@ private theorem ggHalfGraphCent_mulAut_eq_one_of_levi_upper {m : ℕ} (hm : 2 �
       (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).castSucc := by
     apply Fin.ext
     rw [Fin.revPerm_apply, Fin.val_rev, Fin.val_one', Nat.mod_eq_of_lt (by omega)]
-    simp only [Fin.val_castSucc, Fin.val_mk]
+    simp only [Fin.val_castSucc]
     omega
   have hρlastC : ρ ((⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).castSucc) =
       (0 : Fin (m + 1 + 1)).succ := by
     apply Fin.ext
     rw [Fin.revPerm_apply, Fin.val_rev]
-    simp only [Fin.val_castSucc, Fin.val_mk, Fin.val_succ, Fin.val_zero]
+    simp only [Fin.val_castSucc, Fin.val_succ, Fin.val_zero]
     omega
   have hρlastS : ρ ((⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).succ) =
       (0 : Fin (m + 1 + 1)).castSucc := by
     apply Fin.ext
     rw [Fin.revPerm_apply, Fin.val_rev]
-    simp only [Fin.val_succ, Fin.val_mk, Fin.val_castSucc, Fin.val_zero]
+    simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_zero]
     omega
   have hconj0 : conjP (omegaBlock (m + 1 + 1) ⟨0, by omega⟩) =
       (omegaBlock (m + 1 + 1) ⟨m + 1, by omega⟩)⁻¹ := by
@@ -189,7 +189,7 @@ private theorem ggHalfGraphCent_sZero_normalizes_K {G : Type} [Group G] [Finite 
     {φ₁ φ₂ : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2 →* G}
     (h : GGHalfCtx p B Bs x L D J m y K φ₁ φ₂) :
     K.map (MulAut.conj (sZero φ₁)).toMonoidHom = K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hm3 : 3 ≤ m := by have := h.nbr.2.2.1; omega
   have hJ₂ : J = (φ₂.comp (slUpper2Hom m)).range := by
     rw [← h.coords.rangeJ, h.coords.agree]
@@ -216,9 +216,9 @@ private theorem ggHalfGraphCent_sZero_normalizes_K {G : Type} [Group G] [Finite 
     apply Subgroup.map_mono
     apply slOn_perfect
     refine ⟨⟨2, by omega⟩, ⟨3, by omega⟩, ⟨4, by omega⟩, ?_, ?_, ?_, ?_, ?_, ?_⟩
-    · simp only [Set.mem_setOf_eq, Fin.val_mk]; omega
-    · simp only [Set.mem_setOf_eq, Fin.val_mk]; omega
-    · simp only [Set.mem_setOf_eq, Fin.val_mk]; omega
+    · simp only [Set.mem_ofPred_eq]; omega
+    · simp only [Set.mem_ofPred_eq]; omega
+    · simp only [Set.mem_ofPred_eq]; omega
     · exact Fin.ne_of_val_ne (by norm_num)
     · exact Fin.ne_of_val_ne (by norm_num)
     · exact Fin.ne_of_val_ne (by norm_num)

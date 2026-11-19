@@ -206,14 +206,14 @@ theorem inf_theta_eq_bot_of_A6 {X : Type*} [Group X] [Finite X] {I J : Subgroup 
     I ⊓ inSubgroup (aschbacherSolvableCore 3) J = ⊥ := by
   have hA6 : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
-  haveI : IsSimpleGroup ↥I := @MulEquiv.isSimpleGroup _ _ _ _ hA6 e
+  have : IsSimpleGroup ↥I := @MulEquiv.isSimpleGroup _ _ _ _ hA6 e
   set N : Subgroup X := I ⊓ inSubgroup (aschbacherSolvableCore 3) J with hN
   have hNnorm : (N.subgroupOf I).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left]
     intro x hx
     exact mem_normalizer_inf' (Subgroup.le_normalizer hx)
       (Sec6.normalizer_le_normalizer_theta J (Subgroup.le_normalizer (hIJ hx)))
-  haveI := hNnorm
+  have := hNnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf I) with h1 | h1
   · rw [eq_bot_iff]
     intro x hx
@@ -225,7 +225,7 @@ theorem inf_theta_eq_bot_of_A6 {X : Type*} [Group X] [Finite X] {I J : Subgroup 
       intro x hx
       have : (⟨x, hx⟩ : ↥I) ∈ N.subgroupOf I := by rw [h1]; exact Subgroup.mem_top _
       exact (Subgroup.mem_subgroupOf.1 this).2
-    haveI : Group.IsSolvable ↥(inSubgroup (aschbacherSolvableCore 3) J) :=
+    have : Group.IsSolvable ↥(inSubgroup (aschbacherSolvableCore 3) J) :=
       isSolvable_inSubgroup_theta J
     have hsol : Group.IsSolvable ↥I :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hIθ)

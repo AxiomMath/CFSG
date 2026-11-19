@@ -23,11 +23,11 @@ theorem ch3 (M : Matrix (Fin 3) (Fin 3) F) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.trace_fin_three, Matrix.det_fin_three,
-      sInv, Matrix.one_apply] <;> ring
+      sInv] <;> ring
 
 theorem det_sub_one (M : Matrix (Fin 3) (Fin 3) F) :
     (M - 1).det = M.det - 1 + M.trace - sInv M := by
-  simp [Matrix.det_fin_three, Matrix.trace_fin_three, sInv, Matrix.one_apply]
+  simp [Matrix.det_fin_three, Matrix.trace_fin_three, sInv]
   ring
 
 theorem charpoly_cube_of_not_scalar (M : Matrix (Fin 3) (Fin 3) F) (hM3 : M * M * M = 1)

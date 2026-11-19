@@ -48,9 +48,9 @@ theorem exists_rank_three_qTorus_centralizer_normalizer_of_charTwo (hE6 : E6Laye
   subst hq3
   subst hℓ
   subst hf1
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : Infinite L := IsAlgClosed.instInfinite
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : Infinite L := IsAlgClosed.instInfinite
   set r : ZMod p := (Nat.card K : ZMod p) with hrdef
   have hr : r ^ 2 + (ε : ZMod p) * r + 1 = 0 := by
     have h := (ZMod.intCast_zmod_eq_zero_iff_dvd
@@ -79,7 +79,7 @@ theorem exists_rank_three_qTorus_centralizer_normalizer_of_charTwo (hE6 : E6Laye
       (hnm := hnm) (hnW := hnW) (g0 := g0) (hg0C := hg0C) (hg0 := hg0) (hperf := hperf)
       (hT := e8T3_twistedTorus n hnm hnW (iterateFrobenius L 2 1)) (hx := hx) (c := c)
       (hh := hh) (b := fun i => ζ ^ (e8T3XColumn ε r i).val) (hb := hb) (hS := hS)
-      (hq := hq) (hq2 := hq2) (hqp := hqp)
+      (hq := hq) (_hq2 := hq2) (_hqp := hqp)
       (hprov := fun _ _ hm₁ hstd => exists_three_qTorus_stdLayer_charTwo hm₁ hstd)
   refine ⟨F, hFx, ?_, hFel, hF3⟩
   exact hFx.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hJx).mp hJn)

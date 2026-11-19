@@ -42,11 +42,13 @@ theorem n18_normalizes_U0 (htt : t * t = 1) (htU : ∀ u ∈ U, t * u = u * t) {
     rw [e]
     exact hpU' _ hy
 
+omit [Finite X] in
 theorem n18_isElemAbelian (hF : IsF20 U x v) : IsElemAbelian 2 U :=
   ⟨⟨⟨fun a b => Subtype.ext (hF.comm a a.2 b b.2)⟩⟩, fun a ha => by
     rw [pow_two]
     exact hF.sq a ha⟩
 
+omit [Finite X] in
 theorem n18_U0_data (hF : IsF20 U x v) (htt : t * t = 1) (htU : ∀ u ∈ U, t * u = u * t)
     (htnU : t ∉ U) :
     IsElemAbelian 2 (U ⊔ zpowers t) ∧ Nat.card ↥(U ⊔ zpowers t : Subgroup X) = 32 := by
@@ -56,6 +58,7 @@ theorem n18_U0_data (hF : IsF20 U x v) (htt : t * t = 1) (htU : ∀ u ∈ U, t *
   rintro a ha b ⟨n, rfl⟩
   exact (Commute.zpow_right (show Commute a t from (htU a ha).symm) n).eq
 
+omit [Finite X] in
 theorem n18_Pgrp_le_normalizer (hF : IsF20 U x v) :
     IsF20.Pgrp U x v ≤ normalizer (U : Set X) :=
   sup_le Subgroup.le_normalizer
@@ -105,7 +108,7 @@ theorem n18_mem_K_of_conj (hF : IsF20 U x v) (htt : t * t = 1) (htnU : t ∉ U)
   constructor
   · intro hy
     have h1 : g⁻¹ * y * g ∈ (U ⊔ zpowers t : Subgroup X).map (MulAut.conj g⁻¹).toMonoidHom :=
-      ⟨y, hy, by simp [MulAut.conj_apply]⟩
+      ⟨y, hy, by simp⟩
     rw [hDU0] at h1
     exact h1
   · intro hy
@@ -119,6 +122,7 @@ theorem n18_mem_K_of_conj (hF : IsF20 U x v) (htt : t * t = 1) (htnU : t ∉ U)
     rw [← this]
     exact hu'
 
+omit [Finite X] in
 theorem n18_exists_ne_one (hU : Nat.card U = 16) : ∃ u ∈ U, u ≠ 1 := by
   by_contra h
   push Not at h

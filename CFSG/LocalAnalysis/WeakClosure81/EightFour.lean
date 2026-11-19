@@ -31,8 +31,9 @@ private theorem four_le_card_of_not_isCyclic' {A : Subgroup G} (hA : IsElemAbeli
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ (k + 2) := Nat.pow_le_pow_right (by norm_num) (by omega)
 
+omit [Finite G] in
 theorem commutator_le_centralizer_of_le_centralizer {A B E : Subgroup G}
-    (hAE : A ≤ Subgroup.normalizer (E : Set G)) (hBE : B ≤ Subgroup.normalizer (E : Set G))
+    (hAE : A ≤ Subgroup.normalizer (E : Set G)) (_hBE : B ≤ Subgroup.normalizer (E : Set G))
     (hB : B ≤ Subgroup.centralizer (E : Set G)) :
     ⁅A, B⁆ ≤ Subgroup.centralizer (E : Set G) := by
   have hBEbot : ⁅B, E⁆ = ⊥ := by
@@ -228,11 +229,13 @@ theorem wClos_zero_eq_iSup {V X : Subgroup G} (hV : IsElemAbelian 2 V) :
     rw [E3.wClos]
     exact le_iSup₂_of_le (conjSubgroup V g) ⟨hg, g, le_rfl, E3.mQuot_self _⟩ le_rfl
 
+omit [Finite G] in
 theorem conjSubgroup_le_wClos_zero {V X : Subgroup G} {g : G} (hg : conjSubgroup V g ≤ X) :
     conjSubgroup V g ≤ E3.wClos V 0 X := by
   rw [E3.wClos]
   exact le_iSup₂_of_le (conjSubgroup V g) ⟨hg, g, le_rfl, E3.mQuot_self _⟩ le_rfl
 
+omit [Finite G] in
 theorem wClos_zero_le (V X : Subgroup G) : E3.wClos V 0 X ≤ X := by
   rw [E3.wClos]
   exact iSup₂_le fun _ hA => hA.1
@@ -242,6 +245,7 @@ private theorem coe_conjSubgroup_of_conjSet {X : Type*} [Group X] {A : Subgroup 
   ext x
   rw [SetLike.mem_coe, CFSG.Quasithin.mem_conjSubgroup_iff, mem_conjSet_iff, SetLike.mem_coe]
 
+omit [Finite G] in
 theorem map_conjSubgroup_subgroupOf {A H : Subgroup G} (hAH : A ≤ H) {x : G} (hx : x ∈ H) :
     (conjSubgroup (A.subgroupOf H) ⟨x, hx⟩).map H.subtype = conjSubgroup A x := by
   ext y
@@ -259,6 +263,7 @@ theorem map_conjSubgroup_subgroupOf {A H : Subgroup G} (hAH : A ≤ H) {x : G} (
     rw [CFSG.Quasithin.mem_conjSubgroup_iff, Subgroup.mem_subgroupOf]
     simpa using hy
 
+omit [Finite G] in
 private theorem map_subtype_injective' {H : Subgroup G} {A B : Subgroup ↥H}
     (h : A.map H.subtype = B.map H.subtype) : A = B := by
   ext x
@@ -320,7 +325,7 @@ theorem exists_conjSubgroup_eq_of_weaklyClosedIn {V W T H : Subgroup G}
     {h : G} (hh : h ∈ H)
     (hWVh : W ≤ Subgroup.normalizer (conjSubgroup V h : Set G)) :
     ∃ n ∈ H ⊓ Subgroup.normalizer (W : Set G), conjSubgroup V n = conjSubgroup V h := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set WJ : Subgroup ↥H := W.subgroupOf H with hWJdef
   set VJ : Subgroup ↥H := V.subgroupOf H with hVJdef
   set BJ : Subgroup ↥H := (conjSubgroup V h).subgroupOf H with hBJdef

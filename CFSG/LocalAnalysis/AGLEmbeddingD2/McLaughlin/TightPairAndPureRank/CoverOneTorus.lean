@@ -122,6 +122,7 @@ theorem false_short_long [Finite K] (h : BorelQuotient D n H π 3) (h4 : 4 ≤ N
   exact CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.not_isPSolvable_map_rankOne_of_sl2Node h h4 hnode
     (hC E _ hEC hsC hel hcard)
 
+omit [Finite Y] in
 theorem noncomm_of_card_six_of_hasOrderThree {M : ℕ} (h : BorelQuotient D n H π M) {i : Fin D.rank}
     (h6 : Nat.card (rankOne D.rootGroup i) = 6) (h3 : HasOrderThree D i) :
     ∃ a ∈ rankOne D.rootGroup i, ∃ b ∈ rankOne D.rootGroup i, a * b ≠ b * a := by

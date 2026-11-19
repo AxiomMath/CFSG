@@ -222,7 +222,7 @@ theorem outer_not_isRootInv : ¬ IsRootInv A x := by
     have e : c * (c⁻¹ * a * c) * c⁻¹ = a := by group
     rwa [e] at h1
   have hQp : IsPGroup 2 (rightConjugate Q c⁻¹) :=
-    (S.isPGroup'.to_le (hQ ▸ inf_le_left)).map (MulAut.conj c⁻¹⁻¹).toMonoidHom
+    (S.isPGroup.to_le (hQ ▸ inf_le_left)).map (MulAut.conj c⁻¹⁻¹).toMonoidHom
   have hQ32 : 32 ≤ Nat.card (rightConjugate Q c⁻¹) := by
     rw [rightConjugate_card, ← hQ]
     exact h.outer_card_centralizer hP hPC hx hIIa hV' hGold hGs hP64 S hS₁S
@@ -307,7 +307,7 @@ theorem outer_false : False := by
     · exact h.outer_isRootInv_of_mem_V' hP hPC hx hIIa hV' hGold hGs hP64 S hS₁S
         (hV'.inv u huP hu2 huV) hu0
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨k, hkU, hkext, hkC⟩ := exists_extremal_conj hGs h.not_isPGroup_two S.isPGroup'
+  obtain ⟨k, hkU, hkext, hkC⟩ := exists_extremal_conj hGs h.not_isPGroup_two S.isPGroup
     S.not_dvd_index inf_le_left
     (h.outer_relIndex_centralizer_V₀ hP hPC hx hIIa hV' hGold hGs hP64 S hS₁S) hxS
     (fun h' => hxC (mem_inf.mp h').2) hx.sq
@@ -362,7 +362,7 @@ theorem outer_false : False := by
     rw [e, h1, mul_one, mul_inv_cancel]
     exact one_mem P
   have hSy : (S : Subgroup G) ≤ centralizer ({k⁻¹ * x * k} : Set G) :=
-    le_centralizer_of_isExtremalIn S.isPGroup' hzS
+    le_centralizer_of_isExtremalIn S.isPGroup hzS
       (h.isConj_of_mem_V₀ hx.z_mem hx.z_ne hyV₀ hy1) hkext
   have hyz : k⁻¹ * x * k = z := by
     rcases hx.fix_V₀ _ hyV₀ (mem_centralizer_singleton_iff.mp (hSy hxS)) with h1 | h1

@@ -68,7 +68,7 @@ theorem mul_self_eq_one_of_fix (q : QuadraticForm (ZMod 2) V)
 
 theorem card_linearEquiv_of_finrank_three {W : Type*} [AddCommGroup W] [Module (ZMod 2) W]
     (hW : finrank (ZMod 2) W = 3) : Nat.card (W ≃ₗ[ZMod 2] W) = 168 := by
-  haveI : Module.Finite (ZMod 2) W := Module.finite_of_finrank_pos (by rw [hW]; norm_num)
+  have : Module.Finite (ZMod 2) W := Module.finite_of_finrank_pos (by rw [hW]; norm_num)
   let b : Module.Basis (Fin 3) (ZMod 2) W := Module.finBasisOfFinrankEq (ZMod 2) W hW
   calc
     Nat.card (W ≃ₗ[ZMod 2] W)

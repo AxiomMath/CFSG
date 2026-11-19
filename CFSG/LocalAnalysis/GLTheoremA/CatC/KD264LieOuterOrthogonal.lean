@@ -31,10 +31,10 @@ namespace CFSG.LocalAnalysis.GLTheoremA.KD264Lie
 
 theorem fieldCoreAt_of_descent_of_dvd {P P' : Type*} [Group P] [Finite P] [Group P'] {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hinj : Function.Injective (MulAut.conj : P →* MulAut P))
-    {a : MulAut P} (hap : a ^ p = 1) (haH : a ∉ innerAut P) (hpdvd : p ∣ Nat.card P)
+    {a : MulAut P} (hap : a ^ p = 1) (_haH : a ∉ innerAut P) (hpdvd : p ∣ Nat.card P)
     {Θ : P ≃* P'} {δ : MulAut P'} (hΘ : MulAut.congr Θ a = δ) (hF : FixedData p δ) :
     FieldCoreAt p a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y, hy, hy1, hyp, hcomm⟩ := exists_innerAut_orderOf_prime_commute hp hinj hap hpdvd
   exact fieldCoreAt_of_descent hp hp2 hinj Θ hΘ hF hy hy1 hyp hcomm
 
@@ -179,7 +179,7 @@ theorem pomegaOdd_mem_image_not_linear {n ℓ f p : ℕ} {K : Type} [Field K] [F
     (haH : a ∉ inner (matrixProjectiveDerived (coordinateQuadOdd n K))) :
     a ∈ matrixProjectiveImage (coordinateQuadOdd n K) ∧
       a ∉ (linearConjugationHom (coordinateQuadOdd n K)).range := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hℓ, hf, hn3, hℓ2⟩ := h.1
   have hg := orthogonal_large_prime_semilinear_field_and_diagonal_gates G .POmegaOdd (Or.inl rfl)
     n ℓ f h K hK e
@@ -211,7 +211,7 @@ theorem fieldCoreAt_pomegaOdd_of_outer {n ℓ f p : ℕ} {K : Type} [Field K] [F
     (haH : a ∉ inner (matrixProjectiveDerived (coordinateQuadOdd n K)))
     (hpdvd : p ∣ Nat.card (matrixProjectiveDerived (coordinateQuadOdd n K))) :
     FieldCoreAt p a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨haE, haD⟩ := pomegaOdd_mem_image_not_linear h hp hp2 hpℓ hK e hap haH
   have ha1 : a ≠ 1 := fun h1 => haH (h1 ▸ one_mem _)
   exact fieldCoreAt_pomegaOdd_of_mem_image h hp hp2 hpℓ hK e haE haD
@@ -226,7 +226,7 @@ theorem pomegaPlus_mem_image_not_linear {n ℓ f p : ℕ} {K : Type} [Field K] [
     (haH : a ∉ inner (matrixProjectiveDerived (coordinateQuadPlus n K))) :
     a ∈ matrixProjectiveImage (coordinateQuadPlus n K) ∧
       a ∉ (linearConjugationHom (coordinateQuadPlus n K)).range := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hg := orthogonal_large_prime_semilinear_field_and_diagonal_gates G .POmegaPlus
     (Or.inr (Or.inl rfl)) n ℓ f h K hK e
   refine ⟨?_, ?_⟩
@@ -259,7 +259,7 @@ theorem fieldCoreAt_pomegaPlus_of_outer {n ℓ f p : ℕ} {K : Type} [Field K] [
     (haH : a ∉ inner (matrixProjectiveDerived (coordinateQuadPlus n K)))
     (hpdvd : p ∣ Nat.card (matrixProjectiveDerived (coordinateQuadPlus n K))) :
     FieldCoreAt p a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨haE, haD⟩ := pomegaPlus_mem_image_not_linear h hn hp hp2 hpℓ hK e hap haH
   have ha1 : a ≠ 1 := fun h1 => haH (h1 ▸ one_mem _)
   exact fieldCoreAt_pomegaPlus_of_mem_image h hp hp2 hpℓ hK e haE haD
@@ -275,7 +275,7 @@ theorem pomegaMinus_mem_image_not_linear {n ℓ f p : ℕ} (hn : 1 ≤ n) {K : T
     (haH : a ∉ inner (matrixProjectiveDerived (coordinateQuadMinus n K hn b c))) :
     a ∈ matrixProjectiveImage (coordinateQuadMinus n K hn b c) ∧
       a ∉ (linearConjugationHom (coordinateQuadMinus n K hn b c)).range := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, hn4⟩ := h.1
   have hg := orthogonal_large_prime_semilinear_field_and_diagonal_gates G .POmegaMinus
     (Or.inr (Or.inr rfl)) n ℓ f h hn K hK b c hirr e
@@ -306,7 +306,7 @@ theorem fieldCoreAt_pomegaMinus_of_outer {n ℓ f p : ℕ} (hn : 1 ≤ n) {K : T
     (haH : a ∉ inner (matrixProjectiveDerived (coordinateQuadMinus n K hn b c)))
     (hpdvd : p ∣ Nat.card (matrixProjectiveDerived (coordinateQuadMinus n K hn b c))) :
     FieldCoreAt p a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨haE, haD⟩ := pomegaMinus_mem_image_not_linear hn h hp hp2 hpℓ hK b c hirr e hap haH
   have ha1 : a ≠ 1 := fun h1 => haH (h1 ▸ one_mem _)
   exact fieldCoreAt_pomegaMinus_of_mem_image hn h hp hp2 hpℓ hK b c hirr e haE haD
@@ -318,8 +318,8 @@ theorem outerPLayerAt_pomegaOdd {n ℓ f p : ℕ} {G : Type} [Group G] [Finite G
     OuterPLayerAt p G := by
   have h' := h
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := h
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   refine outerPLayerAt_of_mulEquiv_of_fieldCoreAt hp (coordinateOddWitnessEquiv K e) ?_
   intro x hxp hxo
   have hpdvdM : p ∣ Nat.card (matrixProjectiveDerived (coordinateQuadOdd n K)) := by
@@ -334,8 +334,8 @@ theorem outerPLayerAt_pomegaPlus {n ℓ f p : ℕ} {G : Type} [Group G] [Finite 
     OuterPLayerAt p G := by
   have h' := h
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := h
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   refine outerPLayerAt_of_mulEquiv_of_fieldCoreAt hp (coordinatePlusWitnessEquiv K e) ?_
   intro x hxp hxo
   have hpdvdM : p ∣ Nat.card (matrixProjectiveDerived (coordinateQuadPlus n K)) := by

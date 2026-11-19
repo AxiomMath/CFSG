@@ -17,6 +17,7 @@ namespace Setup8
 variable {G : Type} [Group G] [Finite G] {z : G} {S K₁ K₂ W₁ W₂ U : Subgroup G} {u h : G}
   {Y : Subgroup G} {t w : G}
 
+omit [Finite G] in
 theorem Nh_comm_w (cfg : Cfg88 z S K₁ W₂ U u h Y t w) : ∀ d ∈ Nh S h, d * w = w * d := by
   have hle : Nh S h ≤ centralizer ({w} : Set G) := by
     rw [cfg.hDeq]

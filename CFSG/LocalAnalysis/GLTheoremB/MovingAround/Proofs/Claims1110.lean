@@ -163,7 +163,7 @@ theorem e4_subset_D0 (h31 : Input31_7_3) {m : ℕ} {B M E A : Subgroup G} {a : G
     (hZ : omegaOne 5 (centerOf R) = E ⊓ A) {U : Subgroup G} (hU : IsEkIn 5 2 R U)
     (hUn : (U.subgroupOf R).Normal) (hUZ : U ≠ omegaOne 5 (centerOf R)) :
     ∀ F : Subgroup G, IsEkIn 5 4 R F → inD0 5 M F := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hEsc := (lemma104_ii_holds hS h.pair).1
   have hA0el : IsElemAbelian 5 (E ⊓ A) := l1110_isElemAbelian_of_le hEsc.2.1 inf_le_left
@@ -204,14 +204,14 @@ theorem a_not_mem_E {m p : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
 
 theorem orderOf_a {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
     (h : Cex117 G m 5 B M E A a K) : orderOf a = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hAel := (lemma104_ii_holds h.toCex117Base.toSec11.toSec10Fails h.pair).2.2.1
   exact orderOf_eq_of_pow (hAel.2 a h.ha.1) h.ha.2
 
 theorem card_A {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
     (h : Cex117 G m 5 B M E A a K) {R : Subgroup G} (hEAR : E ⊔ A ≤ R)
     (hD0 : ∀ F : Subgroup G, IsEkIn 5 4 R F → inD0 5 M F) : Nat.card A = 5 ^ 3 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hAel := (lemma104_ii_holds hS h.pair).2.2.1
   have hA3 : 3 ≤ CFSG.Open.pRank 5 A := h.pair.1.2.1.1.2
@@ -241,7 +241,7 @@ theorem card_A {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
 theorem A_eq_sup {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
     (h : Cex117 G m 5 B M E A a K) (hrk : CFSG.Open.pRank 5 (E ⊓ A) = 2)
     (hA : Nat.card A = 5 ^ 3) : A = (E ⊓ A) ⊔ Subgroup.zpowers a := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   have hAel := hsc.2.2.1
@@ -313,6 +313,7 @@ theorem fi22_facts (hF : Fi22Facts) {K : Subgroup G} (hK : IsFiTwentyTwo (barOf 
         ((hp.coprime_iff_not_dvd).1 (coprime_card_gLAPPrimeCore_aux 5 ↥K))]
   exact ⟨hZ, hSyl, hInn, hv, hfac⟩
 
+omit [Finite G] in
 theorem barAut_of_mem {p : ℕ} {K : Subgroup G} {k : G} (hk : k ∈ K) :
     barAut p K ⟨k, Subgroup.le_normalizer hk⟩ =
       MulAut.conj (QuotientGroup.mk (⟨k, hk⟩ : K) : barOf p K) := by
@@ -322,6 +323,7 @@ theorem barAut_of_mem {p : ℕ} {K : Subgroup G} {k : G} (hk : k ∈ K) :
     rw [barAut_mk, MulAut.conj_apply]
     rfl
 
+omit [Finite G] in
 theorem barAut_eq_one_of_comm {p : ℕ} {K : Subgroup G} {c : G}
     (hcN : c ∈ Subgroup.normalizer (K : Set G)) (hc : ∀ y ∈ K, c * y = y * c) :
     barAut p K ⟨c, hcN⟩ = 1 := by
@@ -353,6 +355,7 @@ theorem eq_one_of_mem_of_trivial {K : Subgroup G} (hZ : Subgroup.center (barOf 5
       (Subgroup.orderOf_dvd_natCard _ hc)
   exact congrArg Subtype.val h1
 
+omit [Finite G] in
 theorem mem_normalizer_of_le_cg {c : G} {K : Subgroup G} (hK : K ≤ Cg c) :
     c ∈ Subgroup.normalizer (K : Set G) := by
   have hcomm : ∀ y ∈ K, c * y = y * c := fun y hy =>
@@ -371,6 +374,7 @@ theorem mem_normalizer_of_le_cg {c : G} {K : Subgroup G} (hK : K ≤ Cg c) :
     rw [h2] at hy
     exact hy
 
+omit [Finite G] in
 theorem mem_centBar_iff' {p : ℕ} {X L : Subgroup G} {v : G} :
     v ∈ centBar p X L ↔ v ∈ X ∧ ∃ hv : v ∈ Subgroup.normalizer (L : Set G), barAut p L ⟨v, hv⟩ = 1 := by
   constructor
@@ -419,7 +423,7 @@ theorem A_inf_K (hF : Fi22Facts) {m : ℕ} {B M E A : Subgroup G} {a : G} {K : S
     A ≤ Subgroup.normalizer (K : Set G) ∧ Nat.card ↥(A ⊓ K) = 5 ^ 2 ∧ IsElemAbelian 5 (A ⊓ K) ∧
       a ∉ K ∧ A = (A ⊓ K) ⊔ Subgroup.zpowers a := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hAsc := (lemma104_ii_holds hS h.pair).2
   have hAel := hAsc.2.1
@@ -456,6 +460,7 @@ theorem A_inf_K (hF : Fi22Facts) {m : ℕ} {B M E A : Subgroup G} {a : G} {K : S
     norm_num
   exact ⟨hAN, hcard, hel, haK, (Subgroup.eq_of_le_of_card_ge hle (by rw [hAc, hc2])).symm⟩
 
+omit [Finite G] in
 theorem zpowers_le_centralizer {a : G} {K : Subgroup G} (hKa : K ≤ Cg a) :
     Subgroup.zpowers a ≤ Subgroup.centralizer (K : Set G) := by
   rw [Subgroup.zpowers_le, Subgroup.mem_centralizer_iff]
@@ -490,7 +495,7 @@ theorem card_le_five_of_centBar (hF : Fi22Facts) {A K : Subgroup G} {a : G}
     (hAK : A = (A ⊓ K) ⊔ Subgroup.zpowers a) (hKa : K ≤ Cg a)
     {V : Subgroup G} (hV : V ≤ centBar 5 (Cg a) K) (hVel : IsElemAbelian 5 V) : Nat.card V ≤ 5 := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   obtain ⟨hZ, hSyl, hInn, hv, hfac⟩ := fi22_facts hF hK
   have hAel := hAsc.2.1
   have hVN : V ≤ Subgroup.normalizer (K : Set G) := fun v hv => (mem_centBar_iff'.1 (hV hv)).2.1
@@ -579,6 +584,7 @@ theorem card_le_five_of_centBar (hF : Fi22Facts) {A K : Subgroup G} {a : G}
             (Subgroup.mem_zpowers a))))
   rwa [hV'def, card_conj] at hVc
 
+omit [Finite G] in
 theorem mem_centBar_iff_forall' {p : ℕ} {X L : Subgroup G} {c : G} :
     c ∈ centBar p X L ↔ c ∈ X ∧ ∃ _ : c ∈ Subgroup.normalizer (L : Set G),
       ∀ l ∈ L, c * l * c⁻¹ * l⁻¹ ∈ GLAPPrimeCoreOf p L := by
@@ -616,6 +622,7 @@ theorem mem_centBar_iff_forall' {p : ℕ} {X L : Subgroup G} {c : G} :
   · rintro ⟨hX, hN, h⟩
     exact ⟨⟨⟨c, hN⟩, (key ⟨c, hN⟩).2 h, rfl⟩, hX⟩
 
+omit [Finite G] in
 theorem mem_normalizer_of_subgroupOf' {K S : Subgroup G} (hSK : S ≤ K) {n : ↥K}
     (hn : n ∈ Subgroup.normalizer ((S.subgroupOf K : Subgroup ↥K) : Set ↥K)) :
     (n : G) ∈ Subgroup.normalizer (S : Set G) := by
@@ -635,7 +642,7 @@ theorem mem_normalizer_of_subgroupOf' {K S : Subgroup G} (hSK : S ≤ K) {n : �
 
 theorem le_centBar_of_ne' {p : ℕ} (hp : p.Prime) {X L J : Subgroup G} (hL : GLAPComponent p X L)
     (hJ : GLAPComponent p X J) (hne : J ≠ L) : J ≤ centBar p X L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hLs := (CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent hp).1 hL
   have hJs := (CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent hp).1 hJ
   have hne' : J.subgroupOf X ≠ L.subgroupOf X := by
@@ -693,7 +700,7 @@ theorem sylow_facts (hF : Fi22Facts) {A K : Subgroup G} {a : G}
       ∀ x ∈ As, ∃ f ∈ A ⊓ K, ∃ hfx : f⁻¹ * x ∈ Subgroup.normalizer (K : Set G),
         barAut 5 K ⟨f⁻¹ * x, hfx⟩ = 1 := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   obtain ⟨hZ, hSyl, hInn, hv, hfac⟩ := fi22_facts hF hK
   have hAsN : As ≤ Subgroup.normalizer (K : Set G) := hAs.1.trans hCaN
   let ψ : ↥As →* MulAut ↥K := K.normalizerMonoidHom.comp (Subgroup.inclusion hAsN)
@@ -766,7 +773,7 @@ theorem card_le_of_le_sylow (hF : Fi22Facts) {A K : Subgroup G} {a : G}
         barAut 5 K ⟨f⁻¹ * x, hfx⟩ = 1)
     {F : Subgroup G} (hFAs : F ≤ As) (hFel : IsElemAbelian 5 F) : Nat.card F ≤ 5 ^ 3 := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   obtain ⟨hZ, -, -, -, -⟩ := fi22_facts hF hK
   have hAKel : IsElemAbelian 5 (A ⊓ K) := l1110_isElemAbelian_of_le hAsc.2.1 inf_le_left
   have hFA2 : F ≤ Subgroup.centralizer ((A ⊓ K : Subgroup G) : Set G) :=
@@ -867,7 +874,7 @@ theorem exists_conj_of_conj_mod {Y : Type} [Group Y] [Finite Y] {p : ℕ} [hp : 
   obtain ⟨c, hcH, hc⟩ := exists_conj_eq_of_card hyH hzH hpy hpz hcy hcz
   have hw : c⁻¹ * z * c ∈ Subgroup.zpowers y := by
     rw [← hc, mem_gLBConj]
-    simpa [mul_assoc] using Subgroup.mem_zpowers z
+    simp [mul_assoc]
   have hcbar : (c : Y ⧸ O) ∈ Subgroup.zpowers (y : Y ⧸ O) := hcH
   have hwbar : ((c⁻¹ * z * c : Y) : Y ⧸ O) = y := by
     obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.1 hcbar
@@ -887,7 +894,7 @@ theorem exists_conj_of_conj_mod {Y : Type} [Group Y] [Finite Y] {p : ℕ} [hp : 
 theorem exists_conj_in_K (hI : InputFi22OneClassFive) {K : Subgroup G}
     (hK : IsSporType .Fi22 (barOf 5 K)) {x y : G} (hxK : x ∈ K) (hyK : y ∈ K)
     (hx : orderOf x = 5) (hy : orderOf y = 5) : ∃ k ∈ K, k * x * k⁻¹ = y := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hcop := coprime_card_gLAPPrimeCore_aux 5 ↥K
   have hx' : orderOf (⟨x, hxK⟩ : K) = 5 := by rw [Subgroup.orderOf_mk, hx]
   have hy' : orderOf (⟨y, hyK⟩ : K) = 5 := by rw [Subgroup.orderOf_mk, hy]
@@ -909,7 +916,7 @@ theorem card_of_isSylowIn {p : ℕ} [Fact p.Prime] {X R : Subgroup G} (hR : IsSy
   have hRp : IsPGroup p ↥(R.subgroupOf X) :=
     hR.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hR.1).symm
   obtain ⟨Q, hQ⟩ := hRp.exists_le_sylow
-  have hQp : IsPGroup p ↥((Q : Subgroup X).map X.subtype) := Q.isPGroup'.map X.subtype
+  have hQp : IsPGroup p ↥((Q : Subgroup X).map X.subtype) := Q.isPGroup.map X.subtype
   have hRQ : R ≤ (Q : Subgroup X).map X.subtype := fun x hx =>
     ⟨⟨x, hR.1 hx⟩, hQ (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   have heq := hR.2.2 _ (Subgroup.map_subtype_le _) hQp hRQ
@@ -936,7 +943,7 @@ open CFSG.HardMathSupport.Solomon.LocalBalance (barAut_mk coprime_card_gLAPPrime
 
 theorem comm_of_comm_pow {a x : G} (ha : orderOf a = 5) {i : ℕ} (hi : ¬ 5 ∣ i)
     (h : x * a ^ i = a ^ i * x) : x * a = a * x := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hai1 : a ^ i ≠ 1 := fun h1 => hi (ha ▸ orderOf_dvd_of_pow_eq_one h1)
   have hai5 : (a ^ i) ^ 5 = 1 := by
     rw [← pow_mul, mul_comm, pow_mul, ← ha, pow_orderOf_eq_one, one_pow]
@@ -961,28 +968,28 @@ theorem conj_le_cg {a g : G} (ha : orderOf a = 5) {i : ℕ} (hi : ¬ 5 ∣ i) {T
 theorem exists_T {A As : Subgroup G} (hAs : IsPGroup 5 As) (hnot : ¬ IsSylowIn 5 ⊤ As)
     (hcen : As ≤ Subgroup.centralizer (A : Set G)) (hAAs : A ≤ As) (hAsc : IsSCp 5 ⊤ A) :
     ∃ T : Subgroup G, IsPGroup 5 T ∧ As < T ∧ T ≤ Subgroup.normalizer (A : Set G) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨S, hS⟩ := hAs.exists_le_sylow
   have hne : As ≠ (S : Subgroup G) := by
     intro h
     apply hnot
     rw [h]
-    exact ⟨le_top, S.isPGroup', fun _ _ hR'p hle => S.maximal_isPGroup.eq_of_ge hR'p hle⟩
-  haveI : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup'.isNilpotent
+    exact ⟨le_top, S.isPGroup, fun _ _ hR'p hle => S.maximal_isPGroup.eq_of_ge hR'p hle⟩
+  have : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup.isNilpotent
   have hlt : As.subgroupOf S < ⊤ := by
     refine lt_top_iff_ne_top.2 fun htop => hne (le_antisymm hS ?_)
     intro x hx
     have : (⟨x, hx⟩ : ↥(S : Subgroup G)) ∈ As.subgroupOf S := htop ▸ Subgroup.mem_top _
     exact this
   have hnlt := Group.normalizerCondition_of_isNilpotent (As.subgroupOf S) hlt
-  obtain ⟨t, htN, htA⟩ := SetLike.exists_of_lt hnlt
+  obtain ⟨t, htN, htA⟩ := IsConcreteLE.exists_of_lt hnlt
   have htNG : (t : G) ∈ Subgroup.normalizer (As : Set G) := mem_normalizer_of_subgroupOf' hS htN
   have htAs : (t : G) ∉ As := fun h => htA (Subgroup.mem_subgroupOf.2 h)
   have hzt : IsPGroup 5 (Subgroup.zpowers (t : G)) :=
-    S.isPGroup'.to_le ((Subgroup.zpowers_le).2 t.2)
+    S.isPGroup.to_le ((Subgroup.zpowers_le).2 t.2)
   refine ⟨As ⊔ Subgroup.zpowers (t : G),
     IsPGroup.to_sup_of_normal_left' hAs hzt ((Subgroup.zpowers_le).2 htNG), ?_, ?_⟩
-  · exact SetLike.lt_iff_le_and_exists.2 ⟨le_sup_left, (t : G), Subgroup.mem_sup_right
+  · exact IsConcreteLE.lt_iff_le_and_exists.2 ⟨le_sup_left, (t : G), Subgroup.mem_sup_right
       (Subgroup.mem_zpowers _), htAs⟩
   · refine sup_le (hcen.trans (Subgroup.centralizer_le_normalizer _)) ?_
     rw [Subgroup.zpowers_le]
@@ -1026,6 +1033,7 @@ theorem exists_decomp {A K : Subgroup G} {a : G} (hAel : IsElemAbelian 5 A)
   obtain ⟨j, rfl⟩ := (Submonoid.mem_powers_iff _ _).1 (mem_powers_iff_mem_zpowers.2 ht)
   exact ⟨x, hx, j, rfl⟩
 
+omit [Finite G] in
 theorem pow_eq_one_of_dvd {a : G} (ha : orderOf a = 5) {i : ℕ} (h : 5 ∣ i) : a ^ i = 1 := by
   obtain ⟨c, rfl⟩ := h
   rw [pow_mul, ← ha, pow_orderOf_eq_one, one_pow]
@@ -1037,7 +1045,7 @@ theorem fused (hI : InputFi22OneClassFive) {A K As T : Subgroup G} {a : G}
     (hT : IsPGroup 5 T) (hAsT : As < T) (hTN : T ≤ Subgroup.normalizer (A : Set G)) :
     ∀ b ∈ A, b ∉ K → ∃ g : G, ∃ i : ℕ, ¬ 5 ∣ i ∧ b = g * a ^ i * g⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set X : Set G := {b | b ∈ A ∧ ∃ g : G, ∃ i : ℕ, ¬ 5 ∣ i ∧ b = g * a ^ i * g⁻¹} with hXdef
   have hzA : Subgroup.zpowers a ≤ A := by
     rw [hAK]
@@ -1063,7 +1071,7 @@ theorem fused (hI : InputFi22OneClassFive) {A K As T : Subgroup G} {a : G}
     ⟨hzA (Subgroup.npow_mem_zpowers a i), 1, i, hi, by group⟩
   have hTX : ∀ t ∈ T, ∀ b ∈ X, t * b * t⁻¹ ∈ X := fun t ht b hb =>
     hXconj b hb t ((Subgroup.mem_normalizer_iff.1 (hTN ht) b).1 hb.1)
-  letI := conjActSet T X hTX
+  let := conjActSet T X hTX
   have hmod := hT.card_modEq_card_fixedPoints ↥X
   have hfix : Nat.card (MulAction.fixedPoints ↥T ↥X) = 0 := by
     rw [Nat.card_eq_zero]
@@ -1186,7 +1194,7 @@ theorem fused (hI : InputFi22OneClassFive) {A K As T : Subgroup G} {a : G}
   have hcoe : ∀ H : Subgroup G, ((H : Set G)).ncard = Nat.card H := fun H =>
     (Nat.card_coe_set_eq (H : Set G)).symm
   have hS₂ : S₂.ncard = 4 := by
-    rw [hS₂def, Set.ncard_diff_singleton_of_mem (Subgroup.one_mem _), hcoe, Nat.card_zpowers, ha]
+    rw [hS₂def, Set.ncard_sdiff_singleton_of_mem (Subgroup.one_mem _), hcoe, Nat.card_zpowers, ha]
   have hS₁ : S₁.ncard = 0 ∨ S₁.ncard = 24 := by
     by_cases hne : S₁.Nonempty
     · right
@@ -1198,7 +1206,7 @@ theorem fused (hI : InputFi22OneClassFive) {A K As T : Subgroup G} {a : G}
           exact ⟨hyAK, hX1 y hyX⟩
         · rintro ⟨hyAK, hy1⟩
           exact ⟨hXK ⟨x, hxX, (Subgroup.mem_inf.1 hxAK).2⟩ y hyAK hy1, hyAK⟩
-      rw [hS₁eq, Set.ncard_diff_singleton_of_mem (Subgroup.one_mem _), hcoe, hAKc]
+      rw [hS₁eq, Set.ncard_sdiff_singleton_of_mem (Subgroup.one_mem _), hcoe, hAKc]
       norm_num
     · left
       rw [Set.not_nonempty_iff_eq_empty.1 hne, Set.ncard_empty]
@@ -1213,7 +1221,7 @@ theorem A0_eq_A2 {A K As A0 R : Subgroup G} {a : G} (ha : orderOf a = 5)
     (hAKc : Nat.card ↥(A ⊓ K) = 5 ^ 2)
     (hfus : ∀ b ∈ A, b ∉ K → ∃ g : G, ∃ i : ℕ, ¬ 5 ∣ i ∧ b = g * a ^ i * g⁻¹) :
     A0 = A ⊓ K := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hle : A0 ≤ A ⊓ K := by
     intro e he
     refine Subgroup.mem_inf.2 ⟨hA0A he, ?_⟩
@@ -1239,7 +1247,7 @@ theorem A_eq_As (hF : Fi22Facts) {A K As : Subgroup G} {a : G}
         barAut 5 K ⟨f⁻¹ * x, hfx⟩ = 1)
     (hfus : ∀ b ∈ A, b ∉ K → ∃ g : G, ∃ i : ℕ, ¬ 5 ∣ i ∧ b = g * a ^ i * g⁻¹) : A = As := by
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   obtain ⟨hZ, -, -, -, -⟩ := fi22_facts hF hK
   have hAel := hAsc.2.1
   have hzA : Subgroup.zpowers a ≤ A := by
@@ -1424,6 +1432,7 @@ theorem sylow_fusion' {p : ℕ} [Fact p.Prime] {R : Subgroup G} (hR : IsSylowIn 
     _ = c⁻¹ * y * c := rfl
     _ = y := by rw [mul_assoc, ← hcy]; group
 
+omit [Finite G] in
 theorem conj_mem_commutator_omegaOne {p : ℕ} {R : Subgroup G} {n : G}
     (hn : n ∈ Subgroup.normalizer (R : Set G)) {y : G}
     (hy : y ∈ ⁅omegaOne p R, omegaOne p R⁆) : n * y * n⁻¹ ∈ ⁅omegaOne p R, omegaOne p R⁆ := by
@@ -1452,6 +1461,7 @@ theorem conj_mem_commutator_omegaOne {p : ℕ} {R : Subgroup G} {n : G}
   rw [← h2]
   exact ⟨y, hy, rfl⟩
 
+omit [Finite G] in
 theorem exists_pow_of_order_p {p : ℕ} [hp : Fact p.Prime] {z : G} {k : ℕ} (hk : z ^ (p ^ k) = 1)
     (hz1 : z ≠ 1) : ∃ n : ℕ, (z ^ n) ^ p = 1 ∧ z ^ n ≠ 1 := by
   obtain ⟨k', -, hk'⟩ := (Nat.dvd_prime_pow hp.out).1 (orderOf_dvd_of_pow_eq_one hk)
@@ -1475,7 +1485,7 @@ theorem ke_le_M (hI : InputFi22OneClassFive) {m : ℕ} {B M E A : Subgroup G} {a
     (h4 : ∀ e ∈ E ⊓ A, e ≠ 1 → ¬ GLAPLayer 5 (K ⊓ Cg e) ≤ M →
       e ∉ ⁅omegaOne 5 R, omegaOne 5 R⁆) :
     ∀ e ∈ E ⊓ A, e ≠ 1 → GLAPLayer 5 (K ⊓ Cg e) ≤ M := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   intro e he he1
   by_contra hKe
   have hS := h.toCex117Base.toSec11.toSec10Fails
@@ -1507,7 +1517,7 @@ theorem ke_le_M (hI : InputFi22OneClassFive) {m : ℕ} {B M E A : Subgroup G} {a
   have hWR : W ≤ R := hWO.trans (omegaOne_le' 5 R)
   have hWbot : W = ⊥ := by
     by_contra hWne
-    haveI : Group.IsNilpotent ↥R := (hR.2.1).isNilpotent
+    have : Group.IsNilpotent ↥R := (hR.2.1).isNilpotent
     have hWn : (W.subgroupOf R).Normal := by
       refine ⟨fun n hn g => ?_⟩
       rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -1573,7 +1583,7 @@ theorem card_le_mul_inf_centralizer {p : ℕ} [hp : Fact p.Prime] {P U : Subgrou
     (hP : IsPGroup p P) (hU : Nat.card U = p ^ 2) (hPU : P ≤ Subgroup.normalizer (U : Set G)) :
     Nat.card P ≤ p * Nat.card ↥(P ⊓ Subgroup.centralizer (U : Set G)) := by
   classical
-  letI := conjActOn' P U hPU
+  let := conjActOn' P U hPU
   set S := U ⊓ Subgroup.centralizer (P : Set G) with hSdef
   have hSU : S ≤ U := inf_le_left
   have hfix : Nat.card (MulAction.fixedPoints P U) = Nat.card S := by
@@ -1795,7 +1805,7 @@ theorem chain_transfer {p k : ℕ} [Fact p.Prime] {R X B B' C : Subgroup G}
 
 theorem input31_7_3_holds : Input31_7_3 := by
   intro G _ _ p hp R hR U₁ U₂ hU₁ hU₂ hU₁n hU₂n hne hcomm A hA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : p ^ 3 ≤ p ^ 4 := Nat.pow_le_pow_right hp.pos (by norm_num)
   let Ch : Subgroup G → Prop := fun B => ∃ U V : Subgroup G, IsEkIn p 3 R U ∧ IsEkIn p 3 R V ∧
     A ≤ Subgroup.centralizer (U : Set G) ∧ Relation.ReflTransGen (IsKConnStep p 3 R) U V ∧
@@ -1871,7 +1881,7 @@ theorem exists_sylowIn_above'' {p : ℕ} [Fact p.Prime] {X P : Subgroup G} (hPX 
   have hP' : IsPGroup p ↥(P.subgroupOf X) := hP.of_equiv (Subgroup.subgroupOfEquivOfLe hPX).symm
   obtain ⟨Q, hQ⟩ := hP'.exists_le_sylow
   refine ⟨(Q : Subgroup X).map X.subtype, isSylowIn_of_card (Subgroup.map_subtype_le _)
-    (Q.isPGroup'.map X.subtype) ?_, fun x hx => ⟨⟨x, hPX hx⟩, hQ (Subgroup.mem_subgroupOf.2 hx), rfl⟩⟩
+    (Q.isPGroup.map X.subtype) ?_, fun x hx => ⟨⟨x, hPX hx⟩, hQ (Subgroup.mem_subgroupOf.2 hx), rfl⟩⟩
   rw [Subgroup.card_map_of_injective X.subtype_injective]
   exact Sylow.card_eq_multiplicity Q
 
@@ -1882,7 +1892,7 @@ theorem false_of_typeB (h119 : Lemma119Statement) (hF : Fi22Facts)
     {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
     (h : Cex117 G m p B M E A a K) (hb : Type117b p K) : False := by
   obtain ⟨rfl, hfi⟩ := hb
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hS := h.toCex117Base.toSec11.toSec10Fails
   have hsc := lemma104_ii_holds hS h.pair
   obtain ⟨hrk, hA0N, -, -⟩ := h119 h

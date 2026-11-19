@@ -70,7 +70,7 @@ theorem polarDet_mVec {a b : F} (hab : a ^ 2 + b ^ 2 = -1) (j k : Fin 4) :
     polarDet (mVec a b j) (mVec a b k) = if j = k then 2 else 0 := by
   fin_cases j <;> fin_cases k <;>
     simp [mVec_zero, mVec_one, mVec_two, mVec_three, polarDet, mB, mW] <;> ring_nf <;>
-    first | rfl | (linear_combination (-2 : F) * hab)
+    (linear_combination (-2 : F) * hab)
 
 theorem mW_mul_mVec {a b : F} (hab : a ^ 2 + b ^ 2 = -1) :
     mW a b * mVec a b 0 = mVec a b 2 ∧ mW a b * mVec a b 1 = mVec a b 3 ∧

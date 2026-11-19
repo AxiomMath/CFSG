@@ -96,7 +96,7 @@ private theorem Sec108Data.smul_dotProduct_axis_eq_zero (D : Sec108Data hc t Y)
 
 private theorem Sec108Data.sq_mem_Q_of_mem_CN (D : Sec108Data hc t Y) {n : G}
     (hn : n ∈ hc.CN t) : n ^ 2 ∈ Q := by
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have hnM : n ∈ M := hc.Rt_le_M t (Ctx.mem_CN.mp hn).1
   have hmem : QuotientGroup.mk' (Q.subgroupOf M) ⟨n, hnM⟩ ∈ bar M Q (hc.CN t) :=
     Subgroup.mem_map_of_mem _ hn
@@ -168,7 +168,7 @@ private theorem Sec108Data.card_phiMatLB (D : Sec108Data hc t Y)
               (D.mem_phiMatLB AM).mp A.2⟩
             invFun := fun m => ⟨Multiplicative.toAdd
                 (m : Multiplicative (Matrix (Fin 3) (Fin 3) AM.K)),
-              (D.mem_phiMatLB AM).mpr (by simpa using m.2)⟩
+              (D.mem_phiMatLB AM).mpr (by simp)⟩
             left_inv := fun A => by ext; simp
             right_inv := fun m => by ext; simp }
       _ = Nat.card Z ^ 2 := hcardT

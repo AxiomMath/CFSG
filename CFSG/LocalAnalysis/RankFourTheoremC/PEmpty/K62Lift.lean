@@ -19,7 +19,7 @@ theorem not_dvd_card_comap (hp : p.Prime) (hp2 : p ≠ 2) {D : Subgroup X} [D.No
     (hD : ¬ p ∣ Nat.card D) {S : Subgroup (X ⧸ D)} (hS : IsPGroup 2 S) :
     ¬ p ∣ Nat.card (S.comap (QuotientGroup.mk' D)) := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hgS : QuotientGroup.mk' D (g : X) ∈ S := g.2
   obtain ⟨k, hk⟩ := hS ⟨_, hgS⟩
@@ -40,6 +40,7 @@ theorem not_dvd_card_comap (hp : p.Prime) (hp2 : p ≠ 2) {D : Subgroup X} [D.No
   rw [← hg, ← Subgroup.orderOf_coe g, ← Subgroup.orderOf_mk (g : X) hgD]
   exact orderOf_dvd_natCard _
 
+omit [Finite X] in
 theorem mem_normalizer_comap {D : Subgroup X} [D.Normal] {S : Subgroup (X ⧸ D)} {w : X}
     (h : QuotientGroup.mk' D w ∈ normalizer (S : Set (X ⧸ D))) :
     w ∈ normalizer ((S.comap (QuotientGroup.mk' D) : Subgroup X) : Set X) := by
@@ -48,6 +49,7 @@ theorem mem_normalizer_comap {D : Subgroup X} [D.Normal] {S : Subgroup (X ⧸ D)
   have := (mem_normalizer_iff.mp h) (QuotientGroup.mk' D g)
   simpa [mem_comap, map_mul, map_inv] using this
 
+omit [Finite X] in
 theorem le_normalizer_comap {D : Subgroup X} [D.Normal] {B : Subgroup X} {S : Subgroup (X ⧸ D)}
     (h : B.map (QuotientGroup.mk' D) ≤ normalizer (S : Set (X ⧸ D))) :
     B ≤ normalizer ((S.comap (QuotientGroup.mk' D) : Subgroup X) : Set X) :=
@@ -65,7 +67,7 @@ theorem fusionIsSylowIn_of_isMax (hp : p.Prime) {B T K : Subgroup X} (hB : IsPGr
 theorem isMaxTwoInvariantIn_map (hp : p.Prime) (hp2 : p ≠ 2) {D B T : Subgroup X} [D.Normal]
     (hD : ¬ p ∣ Nat.card D) (hB : IsPGroup p B) (hT : IsMaxTwoInvariantIn B ⊤ T) :
     IsMaxTwoInvariantIn (B.map (QuotientGroup.mk' D)) ⊤ (T.map (QuotientGroup.mk' D)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π := QuotientGroup.mk' D with hπ
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective D
   obtain ⟨⟨-, hT2, hBT⟩, hmax⟩ := hT
@@ -92,6 +94,7 @@ theorem isMaxTwoInvariantIn_map (hp : p.Prime) (hp2 : p ≠ 2) {D B T : Subgroup
       exact ⟨s, hsP, rfl⟩
     exact ⟨s, hsT, congrArg Subtype.val hs⟩
 
+omit [Finite X] in
 theorem mem_map_conj_iff {S : Subgroup X} {w x : X} :
     x ∈ S.map (MulAut.conj w).toMonoidHom ↔ w⁻¹ * x * w ∈ S := by
   constructor
@@ -100,6 +103,7 @@ theorem mem_map_conj_iff {S : Subgroup X} {w x : X} :
   · intro h
     exact ⟨w⁻¹ * x * w, h, by simp [MulAut.conj_apply, mul_assoc]⟩
 
+omit [Finite X] in
 theorem fusionIsSylowIn_map_conj {q : ℕ} {S K : Subgroup X} (hS : fusionIsSylowIn q S K) {w : X}
     (hw : w ∈ normalizer (K : Set X)) :
     fusionIsSylowIn q (S.map (MulAut.conj w).toMonoidHom) K := by
@@ -118,7 +122,7 @@ theorem fusionIsSylowIn_map_conj {q : ℕ} {S K : Subgroup X} (hS : fusionIsSylo
         simpa [MulAut.conj_apply] using (hconj y (hPK hy)).2
       · intro s hs
         refine ⟨w * s * w⁻¹, hSP ⟨s, hs, rfl⟩, ?_⟩
-        simp [MulAut.conj_apply, mul_assoc]
+        simp [mul_assoc]
     ext y
     constructor
     · intro hy
@@ -139,8 +143,8 @@ theorem normalizer_map_le_map_normalizer (hp : p.Prime) (hp2 : p ≠ 2) {D T : S
     (hsyl : fusionIsSylowIn 2 T ((T.map (QuotientGroup.mk' D)).comap (QuotientGroup.mk' D))) :
     normalizer ((T.map (QuotientGroup.mk' D) : Subgroup (X ⧸ D)) : Set (X ⧸ D)) ≤
       (normalizer (T : Set X)).map (QuotientGroup.mk' D) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK3 : ¬ p ∣ Nat.card ((T.map (QuotientGroup.mk' D)).comap (QuotientGroup.mk' D)) :=
     not_dvd_card_comap hp hp2 hD (hT2.map _)
   intro wb hwb

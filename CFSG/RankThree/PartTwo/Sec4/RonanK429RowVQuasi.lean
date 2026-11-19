@@ -98,7 +98,7 @@ theorem noCfgS429_of_inner_quasi {S : Type} [Group S] [Finite S] (hZ : Subgroup.
     · rw [map_pow, map_one]
       exact hc.isE27.1.2 _ hx
   have hsE : s ∈ E := hc.mem
-  haveI : Group.IsPerfect K := hc.isPerfect
+  have : Group.IsPerfect K := hc.isPerfect
   have hle : K ≤ Subgroup.centralizer ({s} : Set S) := by
     rw [← autFix_conj_eq_centralizer]
     exact hc.le_autFix

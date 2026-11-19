@@ -37,12 +37,12 @@ theorem hypPlane_iff_polar91 (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : �
   have hVR := hc.Rt_normalizes_Vt ht
   have hBV : B ≤ Vt M (LB M Q B) B Z t := hc.B_le_Vt ht
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hq4 : 4 ≤ Nat.card K := hK ▸ hc.hyp.q4
   obtain ⟨c0, hc0, hc1⟩ := exists_ne_zero_ne_one_of_nat_card_ge_four hq4
-  haveI : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
   have h3 : 3 ≤ Module.finrank K (Fin 2 ⊕ Fin 2 → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
     omega
@@ -134,7 +134,7 @@ theorem exists_plane91 (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} {t
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
     omega
   have hQ := nondegenerate_polarBilin_quadPlus 2 K
-  haveI : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
   obtain ⟨P', hPe⟩ := exists_hypPair hQ P.sing P.ne_zero
   have hPf0 : P'.f ≠ 0 := fun h0 => by
     have := P'.polar_ef
@@ -175,7 +175,7 @@ theorem sec9AExists_of (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
     (hNC : Sec9NCommStatement) : Sec9AExistsStatement := by
   intro G _ _ M Q Z B hc n t hs
   obtain ⟨K, fK, finK, hch, E, hn, φ, ψ, u, P⟩ := HS9.exists_pts91 h34 hs
-  haveI := hn
+  have := hn
   obtain ⟨r, hr, hplane, hgen⟩ := HS9.exists_plane91 h34 hs P
   have hs5 := hs.toSec5
   have h35 := (stroth_3_5 h34 hc hs5.width hs5.n_gt hs5.noA2 hs5.gen).2.1

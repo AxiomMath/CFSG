@@ -308,7 +308,7 @@ theorem SpInv.step {acc : List ℕ} {m g : ℕ} (h : SpInv acc m) (hg : g < 64) 
   · have hb : bitN m g = true := by
       rw [bitN_eq]
       exact ((h g).1 (by simpa using hc)).2
-    rw [if_pos hc]
+    rw [ite_eq_left hc]
     unfold addSp
     rw [hb]
     exact h
@@ -317,7 +317,7 @@ theorem SpInv.step {acc : List ℕ} {m g : ℕ} (h : SpInv acc m) (hg : g < 64) 
       cases e : m.testBit g
       · rfl
       · exact absurd (by simpa using (h g).2 ⟨hg, e⟩) hc
-    rw [if_neg hc]
+    rw [ite_eq_right hc]
     unfold addSp
     rw [hb]
     intro x

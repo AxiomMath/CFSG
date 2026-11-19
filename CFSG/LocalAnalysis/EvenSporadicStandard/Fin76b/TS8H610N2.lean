@@ -91,6 +91,7 @@ theorem sigma_not_FB (hM : OuterMFacts E S z t) {α : G} (hα : AlphaSpec S z t 
 
 
 omit h in
+omit [Finite G] in
 theorem sigma_mem_M {α σ : G} (hσ : OuterSigma L z T E S α σ) :
     σ ∈ normalizer ((S ⊔ E : Subgroup G) : Set G) := by
   have hσi : σ⁻¹ = σ := inv_eq_of_mul_eq_one_right hσ.sq

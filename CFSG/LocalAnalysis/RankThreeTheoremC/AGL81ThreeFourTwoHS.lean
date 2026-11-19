@@ -51,7 +51,7 @@ theorem nonempty_mulEquiv_hsOUA_of_normalizer_le
     have hcard : Nat.card ↥Y = 2 ^ 4 * 5 ^ 3 := by
       rw [h, ← hsON0_eq_normalizer, card_hsON0]
       norm_num
-    haveI := Fintype.ofFinite ↥Y
+    have := Fintype.ofFinite ↥Y
     have hsol : Group.IsSolvable ↥Y :=
       CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
         Nat.prime_five (by norm_num) (by rw [← Nat.card_eq_fintype_card, hcard])
@@ -77,7 +77,7 @@ theorem nonempty_mulEquiv_hsOUA_of_le
     {S H J : Subgroup ↥hs100P} (hS : Nat.card S = 5 ^ 3) (hSH : normalizer (S : Set ↥hs100P) ≤ H)
     (hH : H ≠ ⊤) (hJH : J ≤ H) (hJ1 : J ≠ ⊥) (hJp : ⁅J, J⁆ = J) (hJs : IsSubnormal J H) :
     Nonempty (↥J ≃* ↥hsOUA) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set ι := hs100P.subtype with hι
   have hιi : Function.Injective ι := hs100P.subtype_injective
   set S' := S.map ι with hS'
@@ -151,31 +151,31 @@ private theorem card_center_eq_card_inf_centralizer {G : Type*} [Group G] (A : S
 theorem threeFourTwoAt_hs100P :
     ThreeFourTwoAt 5 ↥hs100P := by
   have eP : CFSG.Blueprint.NativeSporadic.HS ≃* ↥hs100P := hs100Equiv
-  haveI : IsSimpleGroup ↥hs100P :=
+  have : IsSimpleGroup ↥hs100P :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.HS.isSimpleGroup_HS eP.symm
   have hnab : ∃ a b : ↥hs100P, a * b ≠ b * a := by
     by_contra hc
     push Not at hc
-    letI : CommGroup ↥hs100P := { (inferInstance : Group ↥hs100P) with mul_comm := hc }
+    let : CommGroup ↥hs100P := { (inferInstance : Group ↥hs100P) with mul_comm := hc }
     have hq : (Nat.card ↥hs100P).Prime := IsSimpleGroup.prime_card
     rw [card_hs100P] at hq
     norm_num at hq
   have houtc : 0 < Nat.card (Outer ↥hs100P) ∧ Nat.card (Outer ↥hs100P) ≤ 2 :=
     ⟨Nat.card_pos, outer_card_hs100P⟩
   have hout : Group.IsSolvable (Outer ↥hs100P) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2 : IsPGroup 2 (Outer ↥hs100P) := by
       rcases (by omega : Nat.card (Outer ↥hs100P) = 2 ^ 0 ∨ Nat.card (Outer ↥hs100P) = 2 ^ 1)
         with h | h
       · exact IsPGroup.of_card h
       · exact IsPGroup.of_card h
-    haveI := h2.isNilpotent
+    have := h2.isNilpotent
     infer_instance
   obtain ⟨eC⟩ := CFSG.Sporadic.Bridge.HS.nonempty_mulEquiv
   refine threeFourTwoAt_of_forall_model inferInstance hnab hout ?_
   intro Y _ _ K Y₀ E R hp hp2 hKn e hrk hC hcomp hER hE hEc hcore hRY hKY J hJ hne hJp hJs hQ
-  haveI := hKn
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := hKn
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set H : Subgroup ↥hs100P := (Y₀.subgroupOf K).map e.toMonoidHom with hHdef
   have hH : H ≠ ⊤ := by
     intro htop

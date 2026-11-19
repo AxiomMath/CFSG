@@ -18,6 +18,7 @@ private theorem isSubnormal_map_iff {A B : Type*} [Group A] [Group B] (f : A ≃
       Subgroup.IsSubnormal.map (f := f.symm.toMonoidHom) f.symm.surjective h,
    fun h => Subgroup.IsSubnormal.map (f := f.toMonoidHom) f.surjective h⟩
 
+omit [Finite G] in
 private theorem subnormal_subgroupOf_iff {K C Y : Subgroup G} (hCY : C ≤ Y) :
     ((K.subgroupOf Y).subgroupOf (C.subgroupOf Y)).IsSubnormal ↔
       (K.subgroupOf C).IsSubnormal := by
@@ -29,10 +30,11 @@ private theorem subnormal_subgroupOf_iff {K C Y : Subgroup G} (hCY : C ≤ Y) :
     exact Iff.rfl
   rw [← h, isSubnormal_map_iff]
 
+omit [Finite G] in
 private theorem isComponent_subgroupOf_iff {K C Y : Subgroup G} (hKC : K ≤ C) (hCY : C ≤ Y)
     (hn : ∀ y ∈ Y, ∀ c ∈ C, y * c * y⁻¹ ∈ C) :
     IsComponent (K.subgroupOf Y) ↔ IsComponent (K.subgroupOf C) := by
-  haveI : (C.subgroupOf Y).Normal := ⟨fun c hc y => by
+  have : (C.subgroupOf Y).Normal := ⟨fun c hc y => by
     simpa [Subgroup.mem_subgroupOf] using hn y y.2 c hc⟩
   let e1 : ↥(K.subgroupOf Y) ≃* ↥K := Subgroup.subgroupOfEquivOfLe (hKC.trans hCY)
   let e2 : ↥(K.subgroupOf C) ≃* ↥K := Subgroup.subgroupOfEquivOfLe hKC
@@ -46,12 +48,14 @@ private theorem isComponent_subgroupOf_iff {K C Y : Subgroup G} (hKC : K ≤ C) 
       (Subgroup.Normal.isSubnormal inferInstance)
     exact hKC hx
 
+omit [Finite G] in
 private theorem le_lay_of_isComponent {K Y : Subgroup G} (hKY : K ≤ Y)
     (hK : IsComponent (K.subgroupOf Y)) : K ≤ Lay Y := by
   have h : K = (K.subgroupOf Y).map Y.subtype := (Subgroup.map_subgroupOf_eq_of_le hKY).symm
   rw [h]
   exact Subgroup.map_mono (le_sSup hK)
 
+omit [Finite G] in
 theorem lay_eq_of_perfect {C Y : Subgroup G} (hCY : C ≤ Y)
     (hn : ∀ y ∈ Y, ∀ c ∈ C, y * c * y⁻¹ ∈ C)
     (hP : ∀ S : Subgroup G, S ≤ Y → Group.IsPerfect ↥S → S ≤ C) : Lay Y = Lay C := by
@@ -60,7 +64,7 @@ theorem lay_eq_of_perfect {C Y : Subgroup G} (hCY : C ≤ Y)
     refine Subgroup.map_le_iff_le_comap.mp ?_
     have hperf : Group.IsPerfect ↥Q := hQ.1.1
     have hKY : Q.map Y.subtype ≤ Y := Subgroup.map_subtype_le Q
-    haveI : Group.IsPerfect ↥(Q.map Y.subtype) := Group.IsPerfect.map Y.subtype
+    have : Group.IsPerfect ↥(Q.map Y.subtype) := Group.IsPerfect.map Y.subtype
     have hKC : Q.map Y.subtype ≤ C := hP _ hKY inferInstance
     have hsub : (Q.map Y.subtype).subgroupOf Y = Q :=
       Subgroup.comap_map_eq_self_of_injective Subtype.val_injective Q
@@ -76,6 +80,7 @@ theorem lay_eq_of_perfect {C Y : Subgroup G} (hCY : C ≤ Y)
     rw [isComponent_subgroupOf_iff hKC hCY hn, hsub]
     exact hQ
 
+omit [Finite G] in
 theorem perfect_le_of_comm_mem {C Y : Subgroup G}
     (hab : ∀ y ∈ Y, ∀ y' ∈ Y, y * y' * y⁻¹ * y'⁻¹ ∈ C) :
     ∀ S : Subgroup G, S ≤ Y → Group.IsPerfect ↥S → S ≤ C := by
@@ -84,7 +89,8 @@ theorem perfect_le_of_comm_mem {C Y : Subgroup G}
   rw [← h1]
   exact Subgroup.commutator_le.mpr fun s hs t ht => hab s (hS hs) t (hS ht)
 
-theorem lay_eq_lay_inf_of_normal {D J Y : Subgroup G} (hJD : J ≤ D)
+omit [Finite G] in
+theorem lay_eq_lay_inf_of_normal {D J Y : Subgroup G} (_hJD : J ≤ D)
     (hJn : ∀ d ∈ D, ∀ j ∈ J, d * j * d⁻¹ ∈ J) (hYD : Y ≤ D)
     (hP : ∀ S : Subgroup G, S ≤ D → Group.IsPerfect ↥S → S ≤ J) : Lay Y = Lay (J ⊓ Y) :=
   lay_eq_of_perfect inf_le_right
@@ -95,7 +101,7 @@ private theorem comm_aut_inner {X : Type} [Group X] (δ : MulAut X)
     (hform : ∀ α : MulAut X, ∃ s : X, ∃ ε : ℕ, ε ≤ 1 ∧ α = MulAut.conj s * δ ^ ε)
     (α β : MulAut X) : ∃ s : X, α * β * α⁻¹ * β⁻¹ = MulAut.conj s := by
   let N : Subgroup (MulAut X) := (MulAut.conj : X →* MulAut X).range
-  haveI : N.Normal := ⟨fun a ⟨s, hs⟩ g => ⟨g s, by
+  have : N.Normal := ⟨fun a ⟨s, hs⟩ g => ⟨g s, by
     rw [← hs]
     ext x
     simp [MulAut.conj_apply]⟩⟩
@@ -131,9 +137,11 @@ private def conjHom {D J : Subgroup G} (hJn : ∀ d ∈ D, ∀ j ∈ J, d * j * 
     ext x
     simp [mul_assoc]
 
+omit [Finite G] in
 private theorem conjHom_apply {D J : Subgroup G} (hJn : ∀ d ∈ D, ∀ j ∈ J, d * j * d⁻¹ ∈ J)
     (d : ↥D) (x : ↥J) : ((conjHom hJn d x : ↥J) : G) = d * x * d⁻¹ := rfl
 
+omit [Finite G] in
 private theorem comm_acts_inner {D J : Subgroup G} (hJn : ∀ d ∈ D, ∀ j ∈ J, d * j * d⁻¹ ∈ J)
     {X : Type} [Group X] (f : ↥J ≃* X) (δ : MulAut X)
     (hform : ∀ α : MulAut X, ∃ s : X, ∃ ε : ℕ, ε ≤ 1 ∧ α = MulAut.conj s * δ ^ ε)
@@ -155,6 +163,7 @@ private theorem comm_acts_inner {D J : Subgroup G} (hJn : ∀ d ∈ D, ∀ j ∈
     simp [MulAut.conj_apply]
   exact (conjHom_apply hJn _ x).symm.trans (congrArg Subtype.val h3)
 
+omit [Finite G] in
 private theorem perfect_le_of_aut_form {D J : Subgroup G} (hJD : J ≤ D)
     (hJn : ∀ d ∈ D, ∀ j ∈ J, d * j * d⁻¹ ∈ J) {X : Type} [Group X] (f : ↥J ≃* X)
     (δ : MulAut X)
@@ -162,16 +171,16 @@ private theorem perfect_le_of_aut_form {D J : Subgroup G} (hJD : J ≤ D)
     (hZ : Group.IsSolvable ↥(D ⊓ CenS J)) :
     ∀ S : Subgroup G, S ≤ D → Group.IsPerfect ↥S → S ≤ J := by
   intro S hSD hS
-  haveI hJnorm : (J.subgroupOf D).Normal := ⟨fun c hc y => by
+  have hJnorm : (J.subgroupOf D).Normal := ⟨fun c hc y => by
     simpa [Subgroup.mem_subgroupOf] using hJn y y.2 c hc⟩
   let π : ↥D →* ↥D ⧸ J.subgroupOf D := QuotientGroup.mk' (J.subgroupOf D)
   let Z : Subgroup G := D ⊓ CenS J
   have hZD : Z ≤ D := inf_le_left
-  haveI : Group.IsSolvable ↥(Z.subgroupOf D) :=
-    solvable_of_solvable_injective (f := (Subgroup.subgroupOfEquivOfLe hZD).toMonoidHom)
+  have : Group.IsSolvable ↥(Z.subgroupOf D) :=
+    Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hZD).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hZD).injective
   let ζ : ↥(Z.subgroupOf D) →* ↥D ⧸ J.subgroupOf D := π.comp (Z.subgroupOf D).subtype
-  haveI : Group.IsSolvable ↥ζ.range := solvable_of_surjective ζ.rangeRestrict_surjective
+  have : Group.IsSolvable ↥ζ.range := Group.isSolvable_of_surjective ζ.rangeRestrict_surjective
   have hcomm : ∀ a b : ↥D ⧸ J.subgroupOf D, a * b * a⁻¹ * b⁻¹ ∈ ζ.range := by
     intro a b
     obtain ⟨d, rfl⟩ := QuotientGroup.mk_surjective a
@@ -197,11 +206,11 @@ private theorem perfect_le_of_aut_form {D J : Subgroup G} (hJD : J ≤ D)
     simp [QuotientGroup.mk_mul]
   have hP := perfect_le_of_comm_mem (C := ζ.range) (Y := ⊤) (fun y _ y' _ => hcomm y y')
   let g : ↥S →* ↥D ⧸ J.subgroupOf D := π.comp (Subgroup.inclusion hSD)
-  haveI := hS
-  haveI : Group.IsPerfect ↥g.range := Group.IsPerfect.range g
+  have := hS
+  have : Group.IsPerfect ↥g.range := Group.IsPerfect.range g
   have hle : g.range ≤ ζ.range := hP g.range le_top inferInstance
-  haveI : Group.IsSolvable ↥g.range :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+  have : Group.IsSolvable ↥g.range :=
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
   intro x hx
   by_contra hxJ
   have hnt : Nontrivial ↥g.range := by
@@ -215,12 +224,13 @@ private noncomputable def slGL5 :
     Matrix.SpecialLinearGroup (Fin 5) (ZMod 2) ≃* GL (Fin 5) (ZMod 2) :=
   MulEquiv.ofBijective Matrix.SpecialLinearGroup.toGL
     ⟨Matrix.SpecialLinearGroup.toGL_injective, fun g => by
-      haveI : Subsingleton (ZMod 2)ˣ := ⟨by decide⟩
+      have : Subsingleton (ZMod 2)ˣ := ⟨by decide⟩
       have hker : g ∈ (Matrix.GeneralLinearGroup.det : GL (Fin 5) (ZMod 2) →* (ZMod 2)ˣ).ker :=
         MonoidHom.mem_ker.mpr (Subsingleton.elim _ _)
       rw [← Matrix.SpecialLinearGroup.range_toGL_eq_ker_det] at hker
       exact hker⟩
 
+omit [Finite G] in
 theorem perfect_le_of_cen_solvable {D J : Subgroup G} (hJD : J ≤ D)
     (hJn : ∀ d ∈ D, ∀ j ∈ J, d * j * d⁻¹ ∈ J) (e : J ≃* GL (Fin 5) (ZMod 2))
     (hZ : Group.IsSolvable ↥(D ⊓ CenS J)) :
@@ -230,6 +240,7 @@ theorem perfect_le_of_cen_solvable {D J : Subgroup G} (hJD : J ≤ D)
       obtain ⟨s, ε, hε, h⟩ := TLn.autForm (Or.inr rfl) α
       exact ⟨s, ε, hε, h⟩) hZ
 
+omit [Finite G] in
 theorem lay_conjBy (n : G) (Y : Subgroup G) : Lay (conjBy n Y) = conjBy n (Lay Y) := by
   let f : G ≃* G := MulAut.conj n
   let g : ↥Y ≃* ↥(conjBy n Y) := Subgroup.equivMapOfInjective Y f.toMonoidHom f.injective
@@ -243,6 +254,7 @@ theorem lay_conjBy (n : G) (Y : Subgroup G) : Lay (conjBy n Y) = conjBy n (Lay Y
   rw [← hlay, Subgroup.map_map, Subgroup.map_map]
   congr 1
 
+omit [Finite G] in
 theorem isLnq_conjBy_iff (n : G) (Y : Subgroup G) (a p f : ℕ) :
     IsLnq a p f (conjBy n Y) ↔ IsLnq a p f Y := by
   let g : ↥Y ≃* ↥(conjBy n Y) :=
@@ -251,6 +263,7 @@ theorem isLnq_conjBy_iff (n : G) (Y : Subgroup G) (a p f : ℕ) :
   exact ⟨fun h => CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv g.symm h,
     fun h => CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv g h⟩
 
+omit [Finite G] in
 theorem conjBy_inf_cen {J : Subgroup G} {n : G} (hn : n ∈ Nor J) (x : G) :
     conjBy n (J ⊓ Cen x) = J ⊓ Cen (n * x * n⁻¹) := by
   have hJ := Subgroup.mem_normalizer_iff.mp hn

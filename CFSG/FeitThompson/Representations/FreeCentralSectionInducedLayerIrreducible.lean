@@ -51,6 +51,7 @@ theorem centralLinearChar_ne_zero (hθ : θ ∈ Irr Q) (hA : A ≤ center Q) (z 
   rw [centralLinearChar_apply]
   exact div_ne_zero (apply_ne_zero_of_mem_center hθ (hA z.2)) (apply_one_ne_zero_of_mem_Irr hθ)
 
+omit [Finite Q] in
 theorem centralLinearChar_eq_one_iff (hθ : θ ∈ Irr Q) (hA : A ≤ center Q) :
     (∀ z : A, centralLinearChar hθ hA z = 1) ↔ (A : Set Q) ⊆ charValueKernel θ := by
   have h := centralLinearChar_ne_one_iff hθ hA
@@ -265,7 +266,7 @@ theorem indFamDetect_eq_irrDetect (hZP : Z ≤ P) (hZc : Z ≤ centralizer (P : 
     exact hθker
   · rintro hf
     classical
-    haveI : Fintype ↥P := Fintype.ofFinite _
+    have : Fintype ↥P := Fintype.ofFinite _
     obtain ⟨hfIrr, hfker⟩ := mem_irrDetect.1 hf
     rw [← Irr_eq_irrChar] at hfIrr
     obtain ⟨θ, hθcon, hθker⟩ :=
@@ -279,7 +280,7 @@ theorem indFamDetect_eq_irrDetect (hZP : Z ≤ P) (hZc : Z ≤ centralizer (P : 
     have hrow := cfInner_eq_ite_of_mem_Irr hind hfIrr
     have heq : indClassFun P θ = f := by
       by_contra hne
-      rw [if_neg hne, ] at hrow
+      rw [ite_eq_right hne, ] at hrow
       rw [hrow] at hpos
       exact absurd hpos (by simp)
     rw [← heq]

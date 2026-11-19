@@ -250,6 +250,7 @@ section Facts
 variable [Finite G] {x w a b : G} (H : RecHyp P R x w a b)
 include H
 
+omit [Finite G] in
 theorem RecHyp.comm_d {y : G} (hya : a * y = y * a) (hyb : b * y = y * b) :
     ∀ d ∈ Subgroup.closure ({⁅a, b⁆, b} : Set G), d * y = y * d := by
   have hA : Commute a y := hya
@@ -266,6 +267,7 @@ theorem RecHyp.comm_d {y : G} (hya : a * y = y * a) (hyb : b * y = y * b) :
   | mul s t _ _ hs ht => exact (Commute.mul_left hs ht).eq
   | inv s _ hs => exact (Commute.inv_left hs).eq
 
+omit [Finite G] in
 theorem RecHyp.center_trivial {t : G} (ht : t ∈ Subgroup.closure ({⁅a, b⁆, b} : Set G))
     (hc : ∀ d ∈ Subgroup.closure ({⁅a, b⁆, b} : Set G), d * t = t * d) : t = 1 := by
   set D := Subgroup.closure ({⁅a, b⁆, b} : Set G)
@@ -283,6 +285,7 @@ theorem RecHyp.center_trivial {t : G} (ht : t ∈ Subgroup.closure ({⁅a, b⁆,
     have := Subgroup.mem_center_iff.1 h1 ⟨b, Subgroup.subset_closure (by simp)⟩
     exact H.nab (congrArg Subtype.val this).symm
 
+omit [Finite G] in
 theorem RecHyp.d_le_P : Subgroup.closure ({⁅a, b⁆, b} : Set G) ≤ P := by
   rw [Subgroup.closure_le]
   rintro _ (rfl | rfl)
@@ -290,16 +293,19 @@ theorem RecHyp.d_le_P : Subgroup.closure ({⁅a, b⁆, b} : Set G) ≤ P := by
     exact P.mul_mem (P.mul_mem (P.mul_mem H.aP H.bP) (P.inv_mem H.aP)) (P.inv_mem H.bP)
   · exact H.bP
 
+omit [Finite G] in
 theorem RecHyp.orderOf_w : orderOf w = 2 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine orderOf_eq_prime (by rw [pow_two]; exact H.w2) fun h => H.wP ?_
   rw [h]
   exact P.one_mem
 
+omit [Finite G] in
 theorem RecHyp.orderOf_x : orderOf x = 5 := by
   have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime H.x5 H.x1
 
+omit [Finite G] in
 theorem RecHyp.xpow_inj {e e' : ℕ} (he : e < 5) (he' : e' < 5) (h : x ^ e = x ^ e') :
     e = e' := by
   have ho := H.orderOf_x
@@ -313,11 +319,13 @@ theorem RecHyp.zpow_form {z : G} (hz : z ∈ Subgroup.zpowers x) : ∃ k < 5, z 
   obtain ⟨k, hk, rfl⟩ := hz'
   exact ⟨k, Finset.mem_range.1 hk, rfl⟩
 
+omit [Finite G] in
 theorem RecHyp.comm_zx {d : G} (hd : d ∈ Subgroup.closure ({⁅a, b⁆, b} : Set G)) {z : G}
     (hz : z ∈ Subgroup.zpowers x) : d * z = z * d := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz
   exact (Commute.zpow_right (H.comm_d H.ax H.bx d hd) n).eq
 
+omit [Finite G] in
 theorem RecHyp.same {d d' : G} (hd : d ∈ Subgroup.closure ({⁅a, b⁆, b} : Set G))
     (hd' : d' ∈ Subgroup.closure ({⁅a, b⁆, b} : Set G)) {e e' : ℕ} (he : e < 5) (he' : e' < 5)
     (h : d * x ^ e = d' * x ^ e') : d = d' ∧ e = e' := by
@@ -390,6 +398,7 @@ theorem RecHyp.elt_inj {d d' : G} (hd : d ∈ Subgroup.closure ({⁅a, b⁆, b} 
     obtain ⟨h1, h2⟩ := H.same hd hd' he he' (mul_left_cancel h0)
     exact ⟨h1, h2, rfl, rfl⟩
 
+omit [Finite G] in
 theorem RecHyp.C_le_cx :
     Subgroup.closure ({x, a, b, w} : Set G) ≤ Subgroup.centralizer {x} := by
   rw [Subgroup.closure_le]
@@ -397,6 +406,7 @@ theorem RecHyp.C_le_cx :
     rw [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
   exacts [H.ax, H.bx, H.wx]
 
+omit [Finite G] in
 theorem RecHyp.C_le_cw :
     Subgroup.closure ({x, a, b, w} : Set G) ≤ Subgroup.centralizer {w} := by
   rw [Subgroup.closure_le]
@@ -404,11 +414,13 @@ theorem RecHyp.C_le_cw :
     rw [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
   exacts [H.wx.symm, H.aw, H.bw]
 
+omit [Finite G] in
 theorem RecHyp.C_le_R : Subgroup.closure ({x, a, b, w} : Set G) ≤ R := by
   rw [Subgroup.closure_le]
   rintro _ (rfl | rfl | rfl | rfl)
   exacts [H.hPR H.xP, H.hPR H.aP, H.hPR H.bP, H.wR]
 
+omit [Finite G] in
 theorem RecHyp.D_le_C :
     Subgroup.closure ({⁅a, b⁆, b} : Set G) ≤ Subgroup.closure ({x, a, b, w} : Set G) := by
   have haC : a ∈ Subgroup.closure ({x, a, b, w} : Set G) := Subgroup.subset_closure (by simp)

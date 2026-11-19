@@ -480,7 +480,7 @@ private theorem frameR_centralizer :
     rw [centIdx_val] at hval
     exact beq_iff_eq.mpr hval
   have hstab := allLt_spec stabCheck_true hi
-  simp only [MinusFrame.stabCheck] at hstab
+  simp only at hstab
   rw [hfixi] at hstab
   simp only [Bool.not_true, Bool.false_or, Bool.or_eq_true] at hstab
   rcases hstab with h1 | ht
@@ -589,7 +589,7 @@ private theorem enumPerm_surjective : Function.Surjective enumPerm := by
 
 private noncomputable def enumEquiv : Fin (minusEnum ()).pts.size ≃ minusPerm :=
   Equiv.ofBijective enumPerm (by
-    haveI : Fintype minusPerm := Fintype.ofFinite _
+    have : Fintype minusPerm := Fintype.ofFinite _
     rw [Fintype.bijective_iff_surjective_and_card]
     exact ⟨enumPerm_surjective, by
       rw [Fintype.card_fin, ← Nat.card_eq_fintype_card, card_minusPerm, minusEnum_spec.2.1]⟩)
@@ -597,13 +597,13 @@ private noncomputable def enumEquiv : Fin (minusEnum ()).pts.size ≃ minusPerm 
 private theorem frameR_card_centralizer :
     Nat.card (Subgroup.centralizer ({t} : Set minusPerm)) = 240 := by
   classical
-  haveI : Fintype minusPerm := Fintype.ofFinite _
-  haveI : Fintype (Subgroup.centralizer ({t} : Set minusPerm)) := Fintype.ofFinite _
+  have : Fintype minusPerm := Fintype.ofFinite _
+  have : Fintype (Subgroup.centralizer ({t} : Set minusPerm)) := Fintype.ofFinite _
   have hcount := cardCentralCheck_true
-  simp only [cardCentralCheck, Bool.and_eq_true, beq_iff_eq] at hcount
+  simp only [cardCentralCheck, beq_iff_eq] at hcount
   rw [← hcount]
   rw [Nat.card_eq_fintype_card]
-  haveI : Fintype {i : Fin (minusEnum ()).pts.size //
+  have : Fintype {i : Fin (minusEnum ()).pts.size //
       enumPerm i ∈ Subgroup.centralizer ({t} : Set minusPerm)} := Fintype.ofFinite _
   rw [show Fintype.card (Subgroup.centralizer ({t} : Set minusPerm)) =
       Fintype.card {i : Fin (minusEnum ()).pts.size //
@@ -811,8 +811,8 @@ private theorem card_quotient :
   omega
 
 private theorem phi_bijective : Function.Bijective phi := by
-  haveI : Fintype Asubperm := Fintype.ofFinite _
-  haveI : Fintype (localGroup minusClass t ⧸ Subgroup.center (localGroup minusClass t)) :=
+  have : Fintype Asubperm := Fintype.ofFinite _
+  have : Fintype (localGroup minusClass t ⧸ Subgroup.center (localGroup minusClass t)) :=
     Fintype.ofFinite _
   rw [Fintype.bijective_iff_injective_and_card]
   exact ⟨phi_injective, by
@@ -826,10 +826,10 @@ private noncomputable def AsubEquivQuotient :
 private theorem frameR_bender :
     Nonempty (localGroup minusClass t ⧸
       Subgroup.center (localGroup minusClass t) ≃* CFSG.Theory.Comparator.PSL2Model 2) := by
-  haveI : IsSimpleGroup Asubperm := Asubperm_simple
+  have : IsSimpleGroup Asubperm := Asubperm_simple
   obtain ⟨eA⟩ := CFSG.QuasithinUnique.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty
     (G := Asubperm) Asubperm_card
-  haveI : IsSimpleGroup (CFSG.Theory.Comparator.PSL2Model 2) :=
+  have : IsSimpleGroup (CFSG.Theory.Comparator.PSL2Model 2) :=
     CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup
       (CFSG.BenderSuzuki.IsBenderGroup.isPSL2 2 (by norm_num) (MulEquiv.refl _))
   obtain ⟨eP⟩ := CFSG.QuasithinUnique.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty
@@ -866,8 +866,8 @@ private theorem conj_image_minusClass (g : minusPerm) :
 theorem minusPerm_frame : ∀ T : Sylow 2 minusPerm, ∃ r : Fin 3 → minusPerm,
     O4MinusFrame minusClass (T : Subgroup minusPerm) r := by
   intro T
-  haveI : Finite (Sylow 2 minusPerm) := inferInstance
-  haveI := Sylow.isPretransitive_of_finite (p := 2) (G := minusPerm)
+  have : Finite (Sylow 2 minusPerm) := inferInstance
+  have := Sylow.isPretransitive_of_finite (p := 2) (G := minusPerm)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq minusPerm T0 T
   refine ⟨fun i => MulAut.conj g (frameR i), ?_⟩
   have hmap := O4MinusFrame.map (MulAut.conj g) (conj_image_minusClass g) frame_T0

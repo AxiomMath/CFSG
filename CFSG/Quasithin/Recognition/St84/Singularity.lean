@@ -96,7 +96,7 @@ theorem rightTransitive_rev_iff {m : ℕ} (P : Arc Γ m) (hm : 1 ≤ m) :
   simp only [RightTransitive, LeftTransitive]
   rw [hstab, hlast, hpen]
 
-theorem leftTransitive_rev_iff {m : ℕ} (P : Arc Γ m) (hm : 1 ≤ m) :
+theorem leftTransitive_rev_iff {m : ℕ} (P : Arc Γ m) (_hm : 1 ≤ m) :
     LeftTransitive Γ G P.rev.vert 0 m ↔ RightTransitive Γ G P.vert 0 m := by
   have hstab : stabRange G P.rev.vert 0 m = stabRange G P.vert 0 m := by
     have hfun : P.rev.vert = fun i => P.vert (m - i) := funext (fun i => Arc.rev_vert P i)
@@ -346,7 +346,7 @@ theorem exists_adj_of_isSingularity (hT : Γ.IsTree) (hs : IsSingularity Γ G s)
     ∀ v, ∃ w, Γ.Adj v w := by
   have hs1 : 1 ≤ s := hs.1
   obtain ⟨P, -⟩ := hs.2.2
-  haveI : Nontrivial V := ⟨P.vert 0, P.vert 1, (P.adj 0 (by omega)).ne⟩
+  have : Nontrivial V := ⟨P.vert 0, P.vert 1, (P.adj 0 (by omega)).ne⟩
   exact hT.connected.preconnected.exists_adj_of_nontrivial
 
 theorem exists_not_leftTransitive_arc_of_rightSingular
@@ -599,7 +599,7 @@ theorem exists_odd_orbit (hT : Γ.IsTree)
     (hloc : ∀ v a b : V, Γ.Adj v a → Γ.Adj v b →
       ∃ g ∈ MulAction.stabilizer G v, g • a = b)
     (hET : EdgeTransitive Γ (⊤ : Subgroup G)) (hP : PreservesParts Γ G)
-    (hs : IsSingularity Γ G s) (hodd : Odd s) :
+    (hs : IsSingularity Γ G s) (_hodd : Odd s) :
     ∃ o : V, (∀ m, s ≤ m → ∀ P : Arc Γ m,
         (Odd (Γ.dist o (P.vert m)) → ¬ RightTransitive Γ G P.vert 0 m) ∧
         (Odd (Γ.dist o (P.vert 0)) → ¬ LeftTransitive Γ G P.vert 0 m)) ∧
@@ -639,12 +639,12 @@ theorem singularity_dichotomy (hT : Γ.IsTree)
     obtain ⟨o, ho, -⟩ := exists_odd_orbit hT hadj hloc hET hP hs hodd
     exact ⟨hodd, o, ho⟩
 
-theorem regular_even_of_le (hT : Γ.IsTree)
-    (hadj : ∀ (g : G) (u v : V), Γ.Adj (g • u) (g • v) ↔ Γ.Adj u v)
-    (hloc : ∀ v a b : V, Γ.Adj v a → Γ.Adj v b →
+theorem regular_even_of_le (_hT : Γ.IsTree)
+    (_hadj : ∀ (g : G) (u v : V), Γ.Adj (g • u) (g • v) ↔ Γ.Adj u v)
+    (_hloc : ∀ v a b : V, Γ.Adj v a → Γ.Adj v b →
       ∃ g ∈ MulAction.stabilizer G v, g • a = b)
-    (hET : EdgeTransitive Γ (⊤ : Subgroup G)) (hP : PreservesParts Γ G)
-    (hs : IsSingularity Γ G s) (hodd : Odd s) {o : V}
+    (_hET : EdgeTransitive Γ (⊤ : Subgroup G)) (_hP : PreservesParts Γ G)
+    (_hs : IsSingularity Γ G s) (_hodd : Odd s) {o : V}
     (ho : ∀ m, s ≤ m → ∀ P : Arc Γ m,
       (Odd (Γ.dist o (P.vert m)) → ¬ RightTransitive Γ G P.vert 0 m) ∧
       (Odd (Γ.dist o (P.vert 0)) → ¬ LeftTransitive Γ G P.vert 0 m)) :
@@ -667,7 +667,7 @@ theorem exists_adj_ne_ne {v a b : V} (hdeg : 3 ≤ Nat.card (Γ.neighborSet v)) 
   have h2 : ({a, b} : Set V).ncard ≤ 2 := by
     by_cases hab : a = b
     · subst hab; simp
-    · rw [Set.ncard_insert_of_notMem (s := {b}) (by simpa [hab])]
+    · rw [Set.ncard_insert_of_notMem (s := {b}) (by simp [hab])]
       simp
   have hle : Nat.card (Γ.neighborSet v) ≤ 2 := by
     rw [Nat.card_coe_set_eq]
@@ -675,8 +675,8 @@ theorem exists_adj_ne_ne {v a b : V} (hdeg : 3 ≤ Nat.card (Γ.neighborSet v)) 
   omega
 
 theorem exists_isSingularity (hT : Γ.IsTree)
-    (hadj : ∀ (g : G) (u v : V), Γ.Adj (g • u) (g • v) ↔ Γ.Adj u v)
-    (hloc : ∀ v a b : V, Γ.Adj v a → Γ.Adj v b →
+    (_hadj : ∀ (g : G) (u v : V), Γ.Adj (g • u) (g • v) ↔ Γ.Adj u v)
+    (_hloc : ∀ v a b : V, Γ.Adj v a → Γ.Adj v b →
       ∃ g ∈ MulAction.stabilizer G v, g • a = b)
     (hfin : ∀ v : V, Finite (MulAction.stabilizer G v))
     (hdeg : ∀ v : V, 3 ≤ Nat.card (Γ.neighborSet v)) :
@@ -695,13 +695,13 @@ theorem exists_isSingularity (hT : Γ.IsTree)
     exfalso
     obtain ⟨v0⟩ := hT.connected.nonempty
     have hv0 : 0 < Nat.card (Γ.neighborSet v0) := by have := hdeg v0; omega
-    haveI : Finite (Γ.neighborSet v0) := Nat.finite_of_card_ne_zero (by omega)
+    have : Finite (Γ.neighborSet v0) := Nat.finite_of_card_ne_zero (by omega)
     obtain ⟨⟨v1, hv1⟩⟩ := Finite.card_pos_iff.mp hv0
     have exists_adj_ne : ∀ prev v : V, ∃ w, Γ.Adj v w ∧ w ≠ prev := by
       intro prev v
       by_contra h
       push Not at h
-      haveI : Finite (Γ.neighborSet v) := Nat.finite_of_card_ne_zero (by have := hdeg v; omega)
+      have : Finite (Γ.neighborSet v) := Nat.finite_of_card_ne_zero (by have := hdeg v; omega)
       have hsub : Subsingleton (Γ.neighborSet v) :=
         ⟨fun a b => Subtype.ext ((h a.1 a.2).trans (h b.1 b.2).symm)⟩
       have hle : Nat.card (Γ.neighborSet v) ≤ 1 := Finite.card_le_one_iff_subsingleton.mpr hsub
@@ -739,7 +739,7 @@ theorem exists_isSingularity (hT : Γ.IsTree)
     have hfinH0 : Finite (H 0) := by
       simpa [H, stabRange_self] using hfin (x 0)
     have hfinH : ∀ k, Finite (H k) := by
-      haveI : Finite (H 0) := hfinH0
+      have : Finite (H 0) := hfinH0
       intro k
       exact Finite.of_injective
         (fun y : H k => (⟨y.1, stabRange_anti x (Nat.zero_le 0) (Nat.zero_le k) y.2⟩ : H 0))
@@ -786,8 +786,8 @@ theorem exists_isSingularity (hT : Γ.IsTree)
       have := hdec (Nat.card (H 1))
       omega
     have hpos : 0 < Nat.card (H (1 + Nat.card (H 1))) := by
-      haveI : Finite (H (1 + Nat.card (H 1))) := hfinH _
-      haveI : Nonempty (H (1 + Nat.card (H 1))) := ⟨⟨1, (H _).one_mem⟩⟩
+      have : Finite (H (1 + Nat.card (H 1))) := hfinH _
+      have : Nonempty (H (1 + Nat.card (H 1))) := ⟨⟨1, (H _).one_mem⟩⟩
       exact Finite.card_pos
     omega
 

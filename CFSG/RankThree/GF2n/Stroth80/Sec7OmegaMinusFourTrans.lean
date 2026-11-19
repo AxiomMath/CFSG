@@ -42,32 +42,37 @@ abbrev i₀ : Fin (2 - 1) := ⟨0, by norm_num⟩
   | .inr (.inl _) => d
   | .inr (.inr j) => if j = 0 then s else t
 
+omit [Finite K] [CharP K 2] in
 theorem quadMinus_vec (a d s t : K) :
     quadMinus 2 K b c (vec a d s t) = a * d + (s ^ 2 + b * s * t + c * t ^ 2) := by
   rw [quadMinus_apply]
   simp [vec]
   ring
 
+omit [Finite K] [CharP K 2] in
 theorem polar_e_vec (a d s t : K) :
     polar (quadMinus 2 K b c) (minusPair K b c i₀).e (vec a d s t) = d := by
   rw [minusPair_e, polar_single_inl_quadMinus]
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem polar_f_vec (a d s t : K) :
     polar (quadMinus 2 K b c) (minusPair K b c i₀).f (vec a d s t) = a := by
   rw [minusPair_f, polar_single_inr_quadMinus]
   rfl
 
+omit [Field K] [Finite K] [CharP K 2] in
 theorem eq_vec (x : Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → K) :
     x = vec (x (.inl i₀)) (x (.inr (.inl i₀))) (x (.inr (.inr 0))) (x (.inr (.inr 1))) := by
   funext k
   rcases k with i | i | j
-  · have hi : i = i₀ := Fin.ext (by have := i.isLt; simp only [i₀]; omega)
+  · have hi : i = i₀ := Fin.ext (by have := i.isLt; simp only; omega)
     rw [hi]; rfl
-  · have hi : i = i₀ := Fin.ext (by have := i.isLt; simp only [i₀]; omega)
+  · have hi : i = i₀ := Fin.ext (by have := i.isLt; simp only; omega)
     rw [hi]; rfl
   · fin_cases j <;> rfl
 
+omit [Finite K] [CharP K 2] in
 theorem binary_eq_zero (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) {s t : K}
     (h : s ^ 2 + b * s * t + c * t ^ 2 = 0) : s = 0 ∧ t = 0 := by
   by_cases ht : t = 0

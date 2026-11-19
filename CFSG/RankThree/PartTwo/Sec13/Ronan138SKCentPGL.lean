@@ -193,8 +193,8 @@ theorem step138CentPGL_of (h131 : Item131) (hspor : SporadicModels131) : Step138
   have hq' : π = false → ModThree false (p ^ f) := fun h => by subst h; exact hq
   have hKq := Sec6.isQuasisimple_of_mem_thetaComponentsAt hK.1
   have hq2 : 2 < p ^ f := Item138Proof.two_lt_of_mulEquiv hKq hPi hq ψ
-  haveI : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
-  haveI : Group.IsPerfect (projImage (slPi π 3 (p ^ f) Fld)) :=
+  have : Group.IsPerfect (K ⧸ aschbacherSolvableCore 3 K) := hKq.1
+  have : Group.IsPerfect (projImage (slPi π 3 (p ^ f) Fld)) :=
     Group.IsPerfect.ofSurjective (f := ψ.toMonoidHom) ψ.surjective
   have hCEset := sectionCentralizer_eq_inf hK.2.1
   rw [hK.2.2.1] at hCEset

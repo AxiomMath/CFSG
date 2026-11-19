@@ -13,7 +13,7 @@ open CFSG CFSG.Assembly TableB Multiplicative
 private theorem ggKGUe1_center_card_dvd {d n : ℕ} {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ n) ^ 2) (hd : 3 ≤ d) (hdq : (d, 2 ^ n) ≠ (3, 2)) :
     Nat.card (Subgroup.center (LargeEvenSUGroup (Fin d) K (2 ^ n))) ∣ 2 ^ n + 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcen : Subgroup.center (LargeEvenSUGroup (Fin d) K (2 ^ n)) =
       (LargeEvenScalars (Fin d) K).subgroupOf (LargeEvenSUGroup (Fin d) K (2 ^ n)) :=
     (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (F := K) hK hd hdq).2
@@ -31,7 +31,7 @@ theorem ggTorusSignedElt_unitary_split_odd {K : Type} [Field K] [Finite K] {n r 
     fun E hE hcard _ => ggKGUs_signed_frame_hypSU_odd h hp hp2 hpq (by omega) E hE hcard
   have hSU : GGTorusSignedElt p r (LargeEvenSUGroup (Fin (2 * r + 1)) K (2 ^ n)) :=
     ggTorusSignedElt_of_mulEquiv (CFSG.ClassicalGroups.UnitaryFlag.hypTransport h hR).symm hhyp
-  haveI : Finite (LargeEvenSUGroup (Fin (2 * r + 1)) K (2 ^ n)) := Finite.of_injective
+  have : Finite (LargeEvenSUGroup (Fin (2 * r + 1)) K (2 ^ n)) := Finite.of_injective
     (fun x : LargeEvenSUGroup (Fin (2 * r + 1)) K (2 ^ n) =>
       ((x : GL (Fin (2 * r + 1)) K) : Matrix (Fin (2 * r + 1)) (Fin (2 * r + 1)) K))
     (fun x y hxy => Subtype.ext (Units.ext hxy))
@@ -64,7 +64,7 @@ private theorem ggKGUe1_recipeUnitarySplitOdd_lattice
   obtain ⟨K, _, _, hK, hQ⟩ := hQ
   refine ⟨K, inferInstance, inferInstance, hK, hQ, ?_⟩
   have hp2 : p ≠ 2 := ne_two_of_dvd_two_pow_sub_one hn hpq
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hK
   have hd : 3 ≤ 2 * r + 1 := by omega
   have hdq : (2 * r + 1, 2 ^ n) ≠ (3, 2) := by
     intro h

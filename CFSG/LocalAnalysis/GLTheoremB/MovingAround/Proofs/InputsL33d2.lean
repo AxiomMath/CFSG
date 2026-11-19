@@ -135,7 +135,7 @@ theorem noL33_entrywise_field {τ : Tag} {c : TauCeti.PrimePower → TauCeti.Lie
   obtain ⟨q, hqp, hqcard⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.exists_primePower_card_subfield hK3
       (fixSubfield σ)
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hk3 : τ = .G2 → 3 ≤ Nat.card (fixSubfield σ) := fun _ => by
     rw [hqcard, TauCeti.PrimePower.card_def, hqp]
     exact Nat.le_self_pow q.exponent_pos.ne' 3
@@ -149,17 +149,17 @@ theorem noL33_entrywise_field {τ : Tag} {c : TauCeti.PrimePower → TauCeti.Lie
   have hZ : Subgroup.center ↥(adjointGroup τ (fixSubfield σ)) = ⊥ := center_adjointGroup_eq_bot
   let eX : ↥(adjointGroup τ (fixSubfield σ)) ≃* (TauCeti.CFSGIndex.lie ⟨c q, hv⟩).Group :=
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.trans eq
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨ι, hι, hJC, hJn, hsol⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.exists_fixed_structure τ σ
   let e : ↥(adjointGroup τ (fixSubfield σ)) ≃* ι.range := MonoidHom.ofInjective hι
-  haveI := hs
+  have := hs
   have hJs : IsSimpleGroup ι.range := e.symm.isSimpleGroup
   have hJnc : ∃ x y : ι.range, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨e x, e y, fun h => hxy (e.injective (by simpa using h))⟩
   have hJq : CFSG.IsQuasisimple ↥ι.range := isQuasisimple_of_isSimpleGroup hJs hJnc
-  haveI := hJn
+  have := hJn
   have hJc : IsComponentOf ι.range (fixSubgroup (entrywiseAdjointAut τ σ)) :=
     ⟨hJC, CFSG.Open.IsSubnormal.step hJC inferInstance (CFSG.Open.IsSubnormal.refl _),
       open_isQuasisimple hJq⟩
@@ -167,12 +167,12 @@ theorem noL33_entrywise_field {τ : Tag} {c : TauCeti.PrimePower → TauCeti.Lie
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.eq_of_isComponentOf_of_perfect_le hJc
       (fun P hPC hP => perfect_le_of_solvable_quotient hJC hsol hPC hP) hJ
   subst hJeq
-  haveI : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
-  haveI : Finite ↥(adjointGroup τ (fixSubfield σ)) := Subtype.finite
+  have : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
+  have : Finite ↥(adjointGroup τ (fixSubfield σ)) := Subtype.finite
   have hcard : Nat.card ↥ι.range = lieOrderFormula (c q) := by
     rw [← Nat.card_congr e.toEquiv]
     exact CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds ⟨c q, hv⟩ _ ⟨eX⟩
-  haveI := hJs
+  have := hJs
   have hZJ : Subgroup.center ↥ι.range = ⊥ :=
     CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hJnc
   exact not_isLpType_of_center_eq_bot hZJ
@@ -265,7 +265,7 @@ theorem eq_of_isComponentOf_of_derived_eq_simple {G : Type*} [Group G] [Finite G
   have hJC : J ≤ C := by
     rw [← hder]
     exact Subgroup.commutator_le_self C
-  haveI hJnorm : (J.subgroupOf C).Normal := by
+  have hJnorm : (J.subgroupOf C).Normal := by
     rw [← hder]
     have h := Subgroup.normal_subgroupOf_commutator_sup C C
     rwa [sup_idem] at h
@@ -315,10 +315,10 @@ theorem noL33_twE6_field {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K
   set C := graphFixedRootGroup TwistTag.E6 K σ.toRingHom with hC
   set Jf := subfieldRootGroupImage TwistTag.E6 (fixSubfield κ) (fixSubfieldRestrict T κ) with hJdef
   set δ := fieldActor (t := TwistTag.E6) σ ε with hδdef
-  haveI : Finite (fixSubfield κ) := Subtype.finite
-  haveI : Finite C := Subtype.finite
+  have : Finite (fixSubfield κ) := Subtype.finite
+  have : Finite C := Subtype.finite
   have eJC : Jf.subgroupOf C ≃* Jf := Subgroup.subgroupOfEquivOfLe hJC
-  haveI := hsimpleJ
+  have := hsimpleJ
   have hJs : IsSimpleGroup (Jf.subgroupOf C) := eJC.isSimpleGroup
   have hJn : ∃ x y : Jf.subgroupOf C, x * y ≠ y * x := by
     by_contra hcon
@@ -356,7 +356,7 @@ theorem noL33_twE6_field {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K
   have hZ : Subgroup.center ↥(Jf.subgroupOf C) = ⊥ :=
     CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hJn
   refine not_isLpType_of_center_eq_bot hZ ?_ hL'
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.E6 (fixSubfield κ)
+  have : Finite ↥(graphFixedRootGroup TwistTag.E6 (fixSubfield κ)
       (fixSubfieldRestrict T κ).toRingHom) := Finite.of_equiv _ eX.toEquiv.symm
   rw [← Nat.card_congr eX.toEquiv,
     CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds ⟨.twistedE6 q', hv'⟩ _
@@ -371,7 +371,7 @@ theorem noL33_twE6 (q : TauCeti.PrimePower)
   classical
   have hp13 : (13 : ℕ).Prime := by norm_num
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
   let e' : S ≃* ↥(twistedE6RootGroup K σ) := e.trans eK
@@ -462,8 +462,8 @@ theorem card_graphFixedRootGroup_cubic {ℓ f' : ℕ} (hℓ : ℓ.Prime) (hf' : 
   obtain ⟨eCat⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.catEquiv_trialityD4_of_field q' hv' K hKq σ₁
       hσ₁
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ₁.toRingHom) := Subtype.finite
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ₁.toRingHom) := Subtype.finite
   rw [Nat.card_congr e.toEquiv]
   exact CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds ⟨.trialityD4 q', hv'⟩ _
     ⟨eCat.symm⟩
@@ -478,7 +478,7 @@ theorem noL33_triD4_field {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {f : ℕ} (hf
     (hJ : IsComponentOf J (fixSubgroup φ)) : ¬ IsLpType 3 3 (↥J ⧸ Subgroup.center ↥J) := by
   classical
   have hℓ : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hφ1 : φ ≠ 1 := fun h => hφout (h ▸ one_mem _)
   have hφord : orderOf φ = p := orderOf_eq_prime hφp hφ1
   obtain ⟨-, -, Θ, hΘ, -⟩ := triality_normal_form_data hℓ hf K hK σ hσ
@@ -523,7 +523,7 @@ theorem noL33_triD4_field {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {f : ℕ} (hf
   obtain ⟨-, -, hk, -, -, -, hfixJ, hsimpJ, hncJ, -⟩ :=
     triality_canonical_field_full_centralizer_and_pointwise_kernel hℓ hd hp.two_le hm3 K hK' σ
       hσ' δc hδc
-  haveI := hsimpJ
+  have := hsimpJ
   set δ₀ := fieldActor (t := TwistTag.D4) σ δc with hδ₀
   have e3 : ↥(fixSubgroup δ₀) ≃* ↥(trialityFieldImage σ δc) :=
     (Subgroup.equivMapOfInjective _ (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype
@@ -531,13 +531,13 @@ theorem noL33_triD4_field {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {f : ℕ} (hf
       (MulEquiv.subgroupCongr hfixJ)
   have hsimE : IsSimpleGroup ↥(fixSubgroup δ₀) := e3.isSimpleGroup
   have hncE : ∃ a b : ↥(fixSubgroup δ₀), a * b ≠ b * a := by
-    simp only [not_forall, ne_eq] at hncJ
+    simp only [not_forall] at hncJ
     obtain ⟨a, b, hab⟩ := hncJ
     refine ⟨e3.symm a, e3.symm b, fun h => hab ?_⟩
     have h' := congrArg e3 h
     simp only [map_mul, MulEquiv.apply_symm_apply] at h'
     exact h'
-  haveI : Finite (fixSubfield δc) := Subtype.finite
+  have : Finite (fixSubfield δc) := Subtype.finite
   have hk3 : Nat.card (fixSubfield δc) = (3 ^ f') ^ 3 := by rw [hk, ← pow_mul, mul_comm]
   obtain ⟨r, hr, hσr⟩ := exists_cubic_exponent_exc hp (by omega) (fixSubfield δc) hk σ hσ'
   have eJ : graphFixedRootGroup TwistTag.D4 (fixSubfield δc)
@@ -550,8 +550,8 @@ theorem noL33_triD4_field {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {f : ℕ} (hf
     (CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_isQuasisimple_of_simple hncE).1
   have hder : ⁅fixSubgroup δ₀, fixSubgroup δ₀⁆ = fixSubgroup δ₀ :=
     Subgroup.isPerfect_iff.1 ⟨hperf⟩
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have hJ1 := isComponentOf_map_congr (MulAut.conj h₀ :
     ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) ≃* ↥(graphFixedRootGroup TwistTag.D4 K
       σ.toRingHom)) hJ

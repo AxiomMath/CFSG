@@ -18,7 +18,7 @@ open CFSG CFSG.Assembly
 
 private theorem charP_two_of_card_pow {F : Type} [Field F] [Finite F] {k : ℕ} (hk : 1 ≤ k)
     (h : Nat.card F = 2 ^ k) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   apply ringChar.of_eq
   rw [FiniteField.even_card_iff_char_two, ← Nat.card_eq_fintype_card, h]
   apply Nat.mod_eq_zero_of_dvd
@@ -37,7 +37,7 @@ private theorem label_eq_of_rank {lab : LargeEvenLabel} {r : ℕ} (htag : lab.ta
   cases lab
   simp_all
 
-private def LinFrame (X : Type) [Group X] (A : Subgroup (MulAut X)) (δ : MulAut X)
+private def LinFrame (X : Type) [Group X] (A : Subgroup (MulAut X)) (_δ : MulAut X)
     (J : Subgroup X) : Prop :=
   ∃ (lab : LargeEvenLabel) (E : Type) (_ : Field E) (_ : Finite E) (m j : ℕ),
     lab.tag = .A ∧ 1 ≤ lab.n ∧ 3 ^ 3 ≤ Nat.card A ∧
@@ -120,8 +120,8 @@ private theorem linCell1
   intro hmarkG2
   obtain ⟨lab, E, hfieldE, hfiniteE, m, j, htag, hn1, h27, hmark, hLinJ, hcharE, hj1, hj3,
     hcardE, hj3p, hq2, hm3p, hm2p⟩ := linFrame hd
-  letI := hfieldE
-  letI := hfiniteE
+  let := hfieldE
+  let := hfiniteE
   exact linJNoG2_holds J m E hcharE hLinJ hmarkG2
 
 private theorem linCell2
@@ -135,8 +135,8 @@ private theorem linCell2
         (lab.tag = .twA ∧ lab.rank = 8 ∧ 3 ∣ 2 ^ lab.n + 1) := by
   obtain ⟨lab, E, hfieldE, hfiniteE, m, j, htag, hn1, h27, hmark, hLinJ, hcharE, hj1, hj3,
     hcardE, hj3p, hq2, hm3p, hm2p⟩ := linFrame hd
-  letI := hfieldE
-  letI := hfiniteE
+  let := hfieldE
+  let := hfiniteE
   obtain ⟨hcommJ, lab', hlab', hraw'⟩ := hmarkJ
   obtain ⟨R', hR', I', F', hQ'⟩ := largeEvenRawDatum_exists hraw'
   obtain ⟨hsimple', hna', hθA2⟩ := hQ'
@@ -187,15 +187,15 @@ private theorem linCell3
     {X : Type} [Group X] [Finite X] {A : Subgroup (MulAut X)}
     {δ : MulAut X} {J : Subgroup X} (hd : DatumOn (fam 0) X A δ J)
     (hmarkJ : LargeEvenMarking J (fun lab _ _ _ _ _ => GGLabelA2 lab ∧ lab.tag = .twA))
-    (hZ : Subgroup.center J ≠ ⊥) :
+    (_hZ : Subgroup.center J ≠ ⊥) :
     GGMarkingAll (K := X) fun lab _ _ _ _ _ => LargeEvenSplit 3 lab →
       (lab.tag = .twA ∧ lab.rank = 3) ∨ (lab.tag = .twD ∧ (lab.rank = 3 ∨ lab.rank = 4)) ∨
         (lab.tag = .twA ∧ lab.rank = 4 ∧ 3 ∣ 2 ^ lab.n + 1 ∧ Nat.card A = 3 ^ 3) ∨
         (lab.tag = .twA ∧ lab.rank = 8 ∧ 3 ∣ 2 ^ lab.n + 1) := by
   obtain ⟨lab, E, hfieldE, hfiniteE, m, j, htag, hn1, h27, hmark, hLinJ, hcharE, hj1, hj3,
     hcardE, hj3p, hq2, hm3p, hm2p⟩ := linFrame hd
-  letI := hfieldE
-  letI := hfiniteE
+  let := hfieldE
+  let := hfiniteE
   exact absurd hmarkJ (linJNoTwA2_holds J m E hcharE hLinJ)
 
 private theorem linCell4
@@ -206,8 +206,8 @@ private theorem linCell4
       (lab.tag = .E6 ∧ 3 ∣ 2 ^ lab.n - 1) ∨ (lab.tag = .twE6 ∧ 3 ∣ 2 ^ lab.n + 1) := by
   obtain ⟨lab, E, hfieldE, hfiniteE, m, j, htag, hn1, h27, hmark, hLinJ, hcharE, hj1, hj3,
     hcardE, hj3p, hq2, hm3p, hm2p⟩ := linFrame hd
-  letI := hfieldE
-  letI := hfiniteE
+  let := hfieldE
+  let := hfiniteE
   exact absurd hmarkJ (linJNoTriD4_holds J m E hcharE hLinJ)
 
 private theorem linCell5
@@ -220,8 +220,8 @@ private theorem linCell5
         (lab.tag = .twD ∧ lab.rank = 7 ∧ lab.n = 1) := by
   obtain ⟨lab, E, hfieldE, hfiniteE, m, j, htag, hn1, h27, hmark, hLinJ, hcharE, hj1, hj3,
     hcardE, hj3p, hq2, hm3p, hm2p⟩ := linFrame hd
-  letI := hfieldE
-  letI := hfiniteE
+  let := hfieldE
+  let := hfiniteE
   exact absurd hmarkJ (linJNoD4Odd_holds J m E hcharE hLinJ)
 
 private theorem linCell6
@@ -234,8 +234,8 @@ private theorem linCell6
           (lab.tag = .twA ∧ lab.rank = 5 ∧ 3 ∣ 2 ^ lab.n + 1) := by
   obtain ⟨lab, E, hfieldE, hfiniteE, m, j, htag, hn1, h27, hmark, hLinJ, hcharE, hj1, hj3,
     hcardE, hj3p, hq2, hm3p, hm2p⟩ := linFrame hd
-  letI := hfieldE
-  letI := hfiniteE
+  let := hfieldE
+  let := hfiniteE
   have hm2 : m = 2 := linJA1_holds J m E hcharE hLinJ hmarkA1
   have hj3 : j = 3 := by
     by_contra hjne
@@ -268,8 +268,8 @@ private theorem linCell7
     ¬ ∃ U : Subgroup (MulAut X), U ≠ ⊥ ∧ IsPGroup 2 U ∧ ∀ a ∈ A, ∀ u ∈ U, a * u * a⁻¹ ∈ U := by
   obtain ⟨lab, E, hfieldE, hfiniteE, m, j, htag, hn1, h27, hmark, hLinJ, hcharE, hj1, hj3,
     hcardE, hj3p, hq2, hm3p, hm2p⟩ := linFrame hd
-  letI := hfieldE
-  letI := hfiniteE
+  let := hfieldE
+  let := hfiniteE
   have hm2 : m = 2 := linJA1_holds J m E hcharE hLinJ hmarkA1
   have hj3 : j = 3 := by
     by_contra hjne
@@ -297,16 +297,16 @@ private theorem linCell7
 private theorem linCell8
     {X : Type} [Group X] [Finite X] {A : Subgroup (MulAut X)}
     {δ : MulAut X} {J : Subgroup X} (hd : DatumOn (fam 0) X A δ J)
-    (hcardA : Nat.card A = 3 ^ 3)
-    (hmarkX : LargeEvenMarking X (fun lab _ _ _ _ _ =>
+    (_hcardA : Nat.card A = 3 ^ 3)
+    (_hmarkX : LargeEvenMarking X (fun lab _ _ _ _ _ =>
       lab.tag = .twA ∧ lab.rank = 4 ∧ 3 ∣ 2 ^ lab.n + 1))
     (hmarkJ : LargeEvenMarking J (fun lab _ _ _ _ _ => GGLabelA2 lab ∧ lab.tag = .twA))
-    (hZ : Subgroup.center J ≠ ⊥) :
+    (_hZ : Subgroup.center J ≠ ⊥) :
     ¬ ∃ U : Subgroup (MulAut X), U ≠ ⊥ ∧ IsPGroup 2 U ∧ ∀ a ∈ A, ∀ u ∈ U, a * u * a⁻¹ ∈ U := by
   obtain ⟨lab, E, hfieldE, hfiniteE, m, j, htag, hn1, h27, hmark, hLinJ, hcharE, hj1, hj3,
     hcardE, hj3p, hq2, hm3p, hm2p⟩ := linFrame hd
-  letI := hfieldE
-  letI := hfiniteE
+  let := hfieldE
+  let := hfiniteE
   exact absurd hmarkJ (linJNoTwA2_holds J m E hcharE hLinJ)
 
 theorem leafLin_holds :

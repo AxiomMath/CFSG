@@ -9,7 +9,7 @@ namespace CFSG.Timmesfeld.Bridge.Asc72
 variable {G : Type*} [Group G] {D : Set G}
 
 theorem IsOddTransp.commute_iff_of_mul_mem (hD : IsOddTransp D) {d e : G} (hd : d ∈ D)
-    (he : e ∈ D) (hne : d ≠ e) (hc : Commute d e) (hde : d * e ∈ D) :
+    (he : e ∈ D) (_hne : d ≠ e) (hc : Commute d e) (hde : d * e ∈ D) :
     ∀ w ∈ D, (Commute w d ↔ Commute w e) := by
   intro w hw
   have hdd : d * d = 1 := hD.mul_self_eq_one hd

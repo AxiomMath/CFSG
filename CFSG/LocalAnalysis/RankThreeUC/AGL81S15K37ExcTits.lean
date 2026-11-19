@@ -22,8 +22,8 @@ theorem le_centralizer_tits (h : K37Setting X K E S) (hZ : Subgroup.center ↥K 
     (e : ↥K ≃* (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group) :
     S ≤ Subgroup.centralizer (K : Set X) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmodel := CFSG.RankThree.PartOne.CTP.reeTitsModel_tits (S := ↥K) ⟨hv, ⟨e⟩⟩
   obtain ⟨eT⟩ := CFSG.Sporadic.Schreier.Tits.titsModelEquiv ↥K 2 1 hmodel
   have hout := (CFSG.Sporadic.Schreier.Tits.AT_Tits_model_Schreier ↥K 2 1 hmodel).1

@@ -208,11 +208,11 @@ theorem e9Move_projSp44 : E9Move (projSp 2 (GaloisField 2 2)) :=
   e9Move_S.of_mulEquiv projEquiv
 
 theorem rankTwo_projSp44 : RankTwoData (projSp 2 (GaloisField 2 2)) := by
-  haveI : Finite (projSp 2 (GaloisField 2 2)) :=
+  have : Finite (projSp 2 (GaloisField 2 2)) :=
     Nat.finite_of_card_ne_zero (by rw [card_projSp]; norm_num)
   refine ⟨cubeInner_of_mulEquiv projEquiv fun τ hτ =>
     Item434SmallTwoOther.mem_range_conj_of_pow_three_sp44 τ hτ, fun E hE => ?_, ?_⟩
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hp : IsPGroup 3 E := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hE.2 _ g.2)⟩
     obtain ⟨k, hk⟩ := hp.exists_card_eq
     have hd : 3 ^ k ∣ Nat.card (projSp 2 (GaloisField 2 2)) :=
@@ -246,7 +246,7 @@ section Row
 
 theorem rowOf427_sp44
     : RowOf427 (projSp 2 (GaloisField 2 2)) := by
-  haveI : Finite (projSp 2 (GaloisField 2 2)) :=
+  have : Finite (projSp 2 (GaloisField 2 2)) :=
     Nat.finite_of_card_ne_zero (by rw [card_projSp]; norm_num)
   refine rowOf427_of_e9Move ?_ rankTwo_projSp44
     (fun S _ _ ⟨e⟩ => e9Move_projSp44.of_mulEquiv e) (by rw [card_projSp]; norm_num)

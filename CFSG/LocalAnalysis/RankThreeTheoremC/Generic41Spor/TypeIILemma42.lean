@@ -20,7 +20,7 @@ theorem j4_lemma42 {P : Sylow 11 G} {M : Subgroup G} {x : G} {J : Subgroup G} (h
     (hfus : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) ∧ U3LineWC x (P : Subgroup G)) :
     ∀ a ∈ u3U0 P x J, a ∉ Subgroup.zpowers x → Subgroup.centralizer ({a} : Set G) ≤ M := by
   intro a ha hax
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨hel, -, hle, -, -, -, -⟩ := typeII_U0_facts hX hc
   exact lemma42_routeW hS hU0 hD1 hClass (by norm_num) hc.sigma hc.core hc.fail hc.larger
     hc.generic.2.1.2.1 hc.generic.2.1.2.2.1 hfus.1 hfus.2 (typeII_x_not_mem_commutator hX hc hfus.1)
@@ -37,7 +37,7 @@ theorem mcl_lemma42 {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G} (h
     {U : Subgroup G} (hU : IIPlane 5 P x J U) :
     ∀ a ∈ U, a ∉ Subgroup.zpowers x → Subgroup.centralizer ({a} : Set G) ≤ M := by
   intro a ha hax
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hTcard, hTexp, hTnab, -⟩ := typeII_T_structure hX hc
   obtain ⟨Z, hZcyc, hxZ, hZS, hZT, hTZ, hsup⟩ := typeII_S_decomp hX hc
   have hSP : u3S P x = (P : Subgroup G) := inf_eq_left.2 hfus.1

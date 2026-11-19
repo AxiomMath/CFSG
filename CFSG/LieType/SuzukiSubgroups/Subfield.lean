@@ -14,6 +14,7 @@ open CFSG.Open Subgroup
 
 variable {n : ℕ} {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 private lemma isPGroup_centralizer_subgroup (hH : CFSG.Quasithin.IsSz n H)
     {U : Subgroup H} {z : H} (hzU : z ∈ U) (hz : orderOf z = 2) :
     IsPGroup 2 (Subgroup.centralizer ({⟨z, hzU⟩} : Set ↥U)) := by
@@ -41,7 +42,7 @@ private lemma exists_central_involution_map_sylow
       ∃ z ∈ (Subgroup.center T).map T.subtype, z ≠ 1 ∧ orderOf z = 2 ∧
         T ≤ Subgroup.centralizer ({z} : Set ↥U) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNsz : CFSG.Quasithin.IsSz (2 * a + 1) ↥N := isSz_of_mulEquiv ha e
   let T : Subgroup ↥U := (P : Subgroup ↥N).map N.subtype
   have hB := fusionBenderBorel_of_isSz (n := 2 * a + 1) (H := ↥N) hNsz
@@ -92,9 +93,9 @@ private lemma centralizer_le_map_sylow_of_odd_index (hH : CFSG.Quasithin.IsSz n 
     (hTleC : (P : Subgroup ↥N).map N.subtype ≤ Subgroup.centralizer ({z} : Set ↥U)) :
     Subgroup.centralizer ({z} : Set ↥U) ≤ (P : Subgroup ↥N).map N.subtype := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T : Subgroup ↥U := (P : Subgroup ↥N).map N.subtype
-  have hTp : IsPGroup 2 T := P.isPGroup'.map N.subtype
+  have hTp : IsPGroup 2 T := P.isPGroup.map N.subtype
   have hTodd : Odd T.index := by
     rw [Subgroup.index_map_subtype (P : Subgroup ↥N)]
     exact (Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp P.not_dvd_index)).mul hNodd
@@ -116,7 +117,7 @@ private lemma card_normalizer_map_sylow
         = (2 ^ (2 * a + 1)) ^ 2 * (2 ^ (2 * a + 1) - 1) ∧
       Subgroup.normalizer (((P : Subgroup ↥N).map N.subtype : Subgroup ↥U) : Set ↥U) ≤ N := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNsz : CFSG.Quasithin.IsSz (2 * a + 1) ↥N := isSz_of_mulEquiv ha e
   let T : Subgroup ↥U := (P : Subgroup ↥N).map N.subtype
   let S : Subgroup ↥U := Subgroup.normalizer (T : Set ↥U)
@@ -158,15 +159,16 @@ private lemma eq_top_of_normal_sz
     (hH : CFSG.Quasithin.IsSz n H) {U : Subgroup H} {N : Subgroup ↥U} (hN : N.Normal)
     (hNodd : Odd N.index) {a : ℕ} (ha : 1 ≤ a) (e : ↥N ≃* ↥(Sz a)) : N = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 ↥N := Sylow.nonempty.some
-  haveI : Finite (Sylow 2 ↥N) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 2 ↥N) := Sylow.finite_of_finiteIndex P
   obtain ⟨-, hSleN⟩ := card_normalizer_map_sylow hH hNodd ha e P
   have hfratt := Sylow.normalizer_sup_eq_top (p := 2) (N := N) P
   rw [sup_comm] at hfratt
   rw [sup_eq_left.mpr hSleN] at hfratt
   exact hfratt
 
+omit [Finite H] in
 private lemma isPGroup_odd_index_map {U : Subgroup H} {a : ℕ} {T S : Subgroup ↥U}
     (hTS : T ≤ S) (hTp : IsPGroup 2 T)
     (hTcard : Nat.card T = (2 ^ (2 * a + 1)) ^ 2)
@@ -200,7 +202,7 @@ private lemma inf_eq_of_isPGroup_of_odd_index {G : Type} [Group G] [Finite G]
     (hT2 : IsPGroup 2 (T.subgroupOf R)) (hTodd : Odd (T.subgroupOf R).index)
     (hQ2 : IsPGroup 2 Q) : R ⊓ Q = T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS2 : IsPGroup 2 ((R ⊓ Q).subgroupOf R) :=
     (hQ2.to_le inf_le_right).comap_of_injective R.subtype R.subtype_injective
   let TS : Sylow 2 R := hT2.toSylow hTodd.not_two_dvd_nat
@@ -242,14 +244,14 @@ private lemma dvd_of_normal_sz
     (hNodd : Odd N.index) {a : ℕ} (ha : 1 ≤ a) (e : ↥N ≃* ↥(Sz a)) :
     2 * a + 1 ∣ n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNsz : CFSG.Quasithin.IsSz (2 * a + 1) ↥N := isSz_of_mulEquiv ha e
   let P : Sylow 2 ↥N := Sylow.nonempty.some
   obtain ⟨hScard, -⟩ := card_normalizer_map_sylow hH hNodd ha e P
   let T : Subgroup ↥U := (P : Subgroup ↥N).map N.subtype
   let S : Subgroup ↥U := Subgroup.normalizer (T : Set ↥U)
   have hScard' : Nat.card S = (2 ^ (2 * a + 1)) ^ 2 * (2 ^ (2 * a + 1) - 1) := hScard
-  have hTp : IsPGroup 2 T := P.isPGroup'.map N.subtype
+  have hTp : IsPGroup 2 T := P.isPGroup.map N.subtype
   have hTcard : Nat.card T = (2 ^ (2 * a + 1)) ^ 2 := by
     rw [Subgroup.card_map_of_injective N.subtype_injective]
     exact (fusionBenderBorel_of_isSz (n := 2 * a + 1) (H := ↥N) hNsz P).2.2.2.2
@@ -269,7 +271,7 @@ private lemma dvd_of_normal_sz
     hRnormT.trans (normalizer_le_normalizer_sylow_of_isSz hH Q hTQ hT1ne)
   have hT1leR1 : T₁ ≤ R₁ := Subgroup.map_mono (Subgroup.le_normalizer (H := T))
   have hinf : R₁ ⊓ (Q : Subgroup H) = T₁ :=
-    inf_eq_of_isPGroup_of_odd_index hT1leR1 hTQ hT1p' hT1odd Q.isPGroup'
+    inf_eq_of_isPGroup_of_odd_index hT1leR1 hTQ hT1p' hT1odd Q.isPGroup
   have hQcard : Nat.card (Q : Subgroup H) = (2 ^ n) ^ 2 :=
     (fusionBenderBorel_of_isSz (n := n) (H := H) hH Q).2.2.2.2
   have hNQcard : Nat.card (Subgroup.normalizer (Q : Set H)) =

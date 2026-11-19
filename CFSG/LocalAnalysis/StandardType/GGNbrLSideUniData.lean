@@ -49,7 +49,7 @@ open CFSG.LieType.SemisimpleCentralizers.Held (heldGU heldSU)
 private theorem uni_three_dvd_card_projectiveSL {F : Type} [Field F] [Finite F]
     (h : 3 ∣ Nat.card F - 1) : 3 ∣ Nat.card (projectiveSL 3 F) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3u : 3 ∣ Nat.card Fˣ := by rwa [Nat.card_units]
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) 3 h3u
   have hω3 : ω ^ 3 = 1 := by simpa [hω] using pow_orderOf_eq_one ω
@@ -156,7 +156,7 @@ theorem ggNbrLSideUni_dich (hDet : GGNbrLSideClsDet)
     refine MulEquiv.ext fun x => ?_
     obtain ⟨h, rfl⟩ := QuotientGroup.mk'_surjective _ x
     exact hu h h (by rw [hcomm])
-  haveI : IsSimpleGroup (CFSG.Yardstones.Md0ec50421ce4.PSimple 3 J) :=
+  have : IsSimpleGroup (CFSG.Yardstones.Md0ec50421ce4.PSimple 3 J) :=
     (CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ3).2
   obtain ⟨eS⟩ := CFSG.LocalAnalysis.GLTheoremA.HSubT.psimple_nonempty_equiv_quotCenter 3 J hJ.2.2
     inferInstance

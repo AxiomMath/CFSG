@@ -85,7 +85,7 @@ private theorem k7L4Mech_sl {Y : Type} [Group Y] [Finite Y] {f : ℕ} {K : Type}
   have h3 : 3 ∣ Nat.card K - 1 := by rw [hK]; omega
   obtain ⟨ζ⟩ := CubeRoot.exists_of_dvd h3
   have hD : D₀ ζ ≤ StatedSL 4 K := d₀_le_sl ζ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hU := uniqueElemSylow_statedProj_statedSL_four h3
   refine ⟨?_, ?_⟩
   · refine not_dvd_card_centralizer_of_model
@@ -126,7 +126,7 @@ private theorem k7L4Mech_su {Y : Type} [Group Y] [Finite Y] {f : ℕ} {K : Type}
   have hD : D₀ ζ ≤ StatedSU 4 (2 ^ f) K := d₀_le_statedSU hq3 ζ
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f K :=
     ⟨Nat.prime_two, hf, by rw [hK, ← pow_mul, Nat.mul_comm f 2]⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hUS := uniqueElemSylow_statedProj_statedSU_four hK hq3
   refine ⟨?_, ?_⟩
   · refine not_dvd_card_centralizer_of_model
@@ -159,11 +159,11 @@ theorem k7L4Mech_holds :
   obtain ⟨-, hf, ⟨K, _, _, hK, hmod, ⟨e⟩⟩ | ⟨K, _, _, hK, hmod, ⟨e⟩⟩⟩ :=
     exists_equiv_statedProj_of_isLie811_l4 hY
   · have hpq' : p ∣ 2 ^ f + 1 := by
-      rw [qPlusPi, if_pos hmod] at hpq
+      rw [qPlusPi, ite_eq_left hmod] at hpq
       exact hpq
     exact k7L4Mech_sl hK hmod e hZ hp hp5 hpq' hA h27
   · have hpq' : p ∣ 2 ^ f - 1 := by
-      rw [qPlusPi, if_neg (by omega : ¬ 2 ^ f % 3 = 1)] at hpq
+      rw [qPlusPi, ite_eq_right (by omega : ¬ 2 ^ f % 3 = 1)] at hpq
       exact hpq
     exact k7L4Mech_su hf hK hmod e hZ hp hp5 hpq' hA h27
 

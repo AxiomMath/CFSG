@@ -101,7 +101,7 @@ theorem r3_isPGroup_iSup {N : Type} [Group N] [Finite N] {q : ℕ} {ι : Type*} 
     (hS : ∀ i, IsPGroup q (S i))
     (hc : ∀ i j, S i = S j ∨ ∀ x ∈ S i, ∀ y ∈ S j, x * y = y * x) :
     IsPGroup q (⨆ i, S i : Subgroup N) := by
-  haveI : Finite (Subgroup N) :=
+  have : Finite (Subgroup N) :=
     Finite.of_injective (fun H : Subgroup N => (H : Set N)) SetLike.coe_injective
   rw [← sSup_range]
   exact r3c_isPGroup_sSup S hS hc (Set.range S) (Set.toFinite _) (fun _ h => h)
@@ -154,7 +154,6 @@ theorem r3_orbit_two {N : Type} [Group N] [Finite N] {J S F : Subgroup N}
   · refine r3_isPGroup_iSup (fun f : F => S.map (MulAut.conj (f : N)).toMonoidHom)
       (fun f => IsPGroup.map hS2 (MulAut.conj (f : N)).toMonoidHom) ?_
     intro f f'
-    try dsimp only
     have hJf := CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj (f : N)) hJ
     have hJf' := CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj (f' : N)) hJ
     rcases CFSG.LocalCores.distinct_components_commute hJf hJf' with hJeq | hcomm

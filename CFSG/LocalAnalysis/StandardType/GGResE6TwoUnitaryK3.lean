@@ -147,7 +147,7 @@ theorem GGResHyp.residual_K_six_two_cell_or_card_dvd
   have hlift := ggTorusLift_unitary hFK hn (by omega : 3 ≤ rank + 1) hdq hp hpq
   have hr := pow_le_card_range_ggGamma_bstar_of_torusLift hH.1 hnb hperf θ hN hlift
   have hrk : ggUnitaryTorusRank 3 (rank + 1) = rank + 1 - 3 := by
-    simp only [ggUnitaryTorusRank, if_pos hdvd]
+    simp only [ggUnitaryTorusRank, ite_eq_left hdvd]
   rw [hrk] at hr
   have hyB : y ∈ B := hSy.2.1
   have hy1 : y ≠ 1 := hSy.2.2.1

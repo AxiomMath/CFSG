@@ -164,8 +164,8 @@ theorem pRank_projectiveSL_two_le_one_of_not_dvd {F : Type} [Field F] [Finite F]
     Nat.prime_three (by norm_num) (by norm_num) hpF hdiv
   rw [hform]
   by_cases h : 3 ∣ Nat.card F - 1
-  · rw [if_pos h]
-  · rw [if_neg h]
+  · rw [ite_eq_left h]
+  · rw [ite_eq_right h]
     have hFact : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hq0 : (Nat.card F : ZMod 3) ≠ 0 := by
       intro h0

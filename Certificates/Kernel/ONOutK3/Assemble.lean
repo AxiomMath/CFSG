@@ -59,8 +59,8 @@ theorem step_eq {l : Nat} (hl : l < 3) {k : Nat} (hk : k < 161280) :
   rw [(hArrs_get hl a).1, (hArrs_get hl b).1, (hArrs_get hl c).1]
 
 theorem RM : R3 (arrStep hArrs) 3 base3 161280 (Tn ONK3N) parN labN
-    (fun h j => posF (nrec ONK3N h) j) :=
-  R3_congr (node_replay hN hS) fun i hi j hj => step_eq hj hi
+    (fun h _j => posF (nrec ONK3N h) _j) :=
+  R3_congr (node_replay hN hS) fun _i hi _j hj => step_eq hj hi
 
 theorem mTree_eq : mTree = (Array.ofFn (n := 161280) fun i => parN i.val,
     Array.ofFn (n := 161280) fun i => labN i.val, Array.ofFn (n := 161280) fun i => Tn ONK3N i.val) :=
@@ -200,7 +200,7 @@ theorem filter_len (p : Nat → Bool) (n : Nat) :
   | zero => rfl
   | succ n ih =>
     rw [List.range_succ, List.filter_append, List.length_append, ih, sumBlk_succ', Nat.zero_add]
-    cases h : p n <;> simp [h, List.filter_cons, Nat.add_comm]
+    cases h : p n <;> simp [h, Nat.add_comm]
 
 theorem tVal_le (k : Nat) : tVal ONK3N k = 0 ∨ tVal ONK3N k = 1 := by
   unfold tVal

@@ -62,7 +62,7 @@ theorem ParabolicA.exists_block (hA : AmalgamS3 G₀ G₁ G₂ T L) (hM : Parabo
     have hprime : ((pCoreOf 2 G₁).relIndex M).Prime := by
       rw [hM.relIndex]
       exact Nat.prime_three
-    obtain ⟨x, hxK, hxQ⟩ := SetLike.exists_of_lt hK
+    obtain ⟨x, hxK, hxQ⟩ := _root_.IsConcreteLE.exists_of_lt hK
     exact le_antisymm hKM
       (CFSG.GroupTheory.SmallFixedTwoGroup.le_of_relIndex_prime hK.le hKM hprime hxK hxQ)
   have hmin : MinParabolic M (pCoreOf 2 G₁) (pCoreOf 2 G₁) :=
@@ -258,7 +258,7 @@ theorem ParabolicA.exists_block (hA : AmalgamS3 G₀ G₁ G₂ T L) (hM : Parabo
       exact (Subgroup.mem_centralizer_iff.mp (hleC hk) z hzK').symm
     have hsubQ : (pCoreOf 2 K).subgroupOf K = CFSG.pCore 2 ↥K := by
       ext x
-      simp [pCoreOf, Subgroup.mem_subgroupOf]
+      simp [pCoreOf]
     have hrelK : (blockQ K).relIndex K = 3 := by
       change Nat.card (↥K ⧸ (pCoreOf 2 K).subgroupOf K) = 3
       rw [hsubQ]
@@ -320,7 +320,7 @@ theorem ParabolicA.exists_block (hA : AmalgamS3 G₀ G₁ G₂ T L) (hM : Parabo
         exact (Nat.eq_of_mul_eq_mul_right (by norm_num) h3).symm
       obtain ⟨m, hm⟩ := (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K).exists_card_eq
       exact IsPGroup.of_card (n := m) (by rw [hcardQeq]; simpa [blockQ] using hm)
-    haveI : ((Subgroup.zpowers z).subgroupOf K).Normal := hNnormal
+    have : ((Subgroup.zpowers z).subgroupOf K).Normal := hNnormal
     have htop := hKshort.1 ((Subgroup.zpowers z).subgroupOf K) hquot2
     have hKleZ : K ≤ Subgroup.zpowers z := Subgroup.subgroupOf_eq_top.mp htop
     have hQbot : blockQ K = ⊥ := by
@@ -455,7 +455,7 @@ theorem ParabolicA.exists_block (hA : AmalgamS3 G₀ G₁ G₂ T L) (hM : Parabo
     norm_num at h31
   have hsubQ : (pCoreOf 2 K).subgroupOf K = CFSG.pCore 2 ↥K := by
     ext x
-    simp [pCoreOf, Subgroup.mem_subgroupOf]
+    simp [pCoreOf]
   have hrelK' : (blockQ K).relIndex K = 3 := by
     change Nat.card (↥K ⧸ (pCoreOf 2 K).subgroupOf K) = 3
     rw [hsubQ]
@@ -560,7 +560,7 @@ theorem ParabolicA.exists_block (hA : AmalgamS3 G₀ G₁ G₂ T L) (hM : Parabo
           intro hcard
           exact hne (Subgroup.eq_of_le_of_card_ge hCWle (le_of_eq hcard.symm))
         rwa [hWcard] at hcardlt
-      haveI : Nontrivial ↥CW := by
+      have : Nontrivial ↥CW := by
         obtain ⟨x, hx, hx1⟩ := Subgroup.exists_mem_ne_one_of_ne_bot hCW_ne_bot
         exact ⟨⟨⟨x, hx⟩, ⟨1, CW.one_mem⟩,
           fun h => hx1 (congrArg Subtype.val h)⟩⟩

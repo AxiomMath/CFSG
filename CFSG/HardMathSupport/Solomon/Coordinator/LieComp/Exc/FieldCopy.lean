@@ -159,7 +159,7 @@ theorem exists_conj_eq_entrywiseAdjointAut (τ : Tag) {p : ℕ} (hp : p.Prime)
     intro h
     rw [hαdef, MulAut.mul_apply, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_mul,
       Subgroup.coe_inv, coe_exactNormalAut, exactQ_zero]
-    simp only [w, mul_inv_rev, one_mul, inv_one, mul_one]
+    simp only [w, mul_inv_rev, inv_one, mul_one]
     group
   let ιC : adjointGroup τ K → inndiagGroup τ K := fun h => ⟨h, adjointGroup_le_inndiagGroup h.2⟩
   obtain ⟨X, hXdef⟩ : ∃ X : MulAut (inndiagGroup τ K),

@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G] {t τ ρ : G} {L : Subgroup G}
 
 theorem card_closure_pair (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (hτ2 : τ ^ 2 = 1)
     (htτ : t * τ = τ * t) (hτt : τ ∉ zpowers t) : Nat.card ↥(closure ({t, τ} : Set G)) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hτ1 : τ ≠ 1 := fun h => hτt (h ▸ Subgroup.one_mem (zpowers t))
   have hcl : closure ({t, τ} : Set G) = zpowers t ⊔ zpowers τ := by
     rw [Set.insert_eq, Subgroup.closure_union, ← Subgroup.zpowers_eq_closure,
@@ -52,10 +52,10 @@ theorem card_closure_pair (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (hτ2 : τ ^ 2 = 1)
 theorem card_eq_of_isSylowIn {K T : Subgroup G} (hT : IsSylowIn 2 T K) :
     Nat.card T = 2 ^ (Nat.card K).factorization 2 := by
   obtain ⟨hle, hp, hndvd⟩ := hT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := ↥T)).mp hp
-  haveI : Nonempty ↥T := ⟨⟨1, T.one_mem⟩⟩
-  haveI : Nonempty ↥K := ⟨⟨1, K.one_mem⟩⟩
+  have : Nonempty ↥T := ⟨⟨1, T.one_mem⟩⟩
+  have : Nonempty ↥K := ⟨⟨1, K.one_mem⟩⟩
   have hrel : T.relIndex K * Nat.card ↥T = Nat.card ↥K := by
     have h := Subgroup.relIndex_mul_card T K
     rwa [inf_of_le_left hle] at h

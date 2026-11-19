@@ -42,7 +42,7 @@ theorem sum_SL2 {F : Type} [CommRing F] [Fintype F] [DecidableEq F]
   let f : Matrix (Fin 2) (Fin 2) F → ℤ := fun A => if h : A.det = 1 then g ⟨A, h⟩ else 0
   have h1 : ∑ M : Matrix.SpecialLinearGroup (Fin 2) F, g M =
       ∑ M : Matrix.SpecialLinearGroup (Fin 2) F, f M.1 :=
-    Finset.sum_congr rfl fun M _ => by simp only [f, dif_pos M.2]; rfl
+    Finset.sum_congr rfl fun M _ => by simp only [f, dite_eq_left M.2]; rfl
   have h2 : ∑ M : Matrix.SpecialLinearGroup (Fin 2) F, f M.1 =
       ∑ A ∈ Finset.univ.filter (fun A : Matrix (Fin 2) (Fin 2) F => A.det = 1), f A :=
     (Finset.sum_subtype _ (fun A => by simp) f).symm
@@ -51,8 +51,8 @@ theorem sum_SL2 {F : Type} [CommRing F] [Fintype F] [DecidableEq F]
     rw [Finset.sum_filter]
     refine Finset.sum_congr rfl fun A _ => ?_
     by_cases h : A.det = 1
-    · rw [if_pos h]
-    · rw [if_neg h]; simp only [f, dif_neg h]
+    · rw [ite_eq_left h]
+    · rw [ite_eq_right h]; simp only [f, dite_eq_right h]
   have h4 : ∑ A, f A = ∑ p : F × F × F × F, f (mat4 p) :=
     (Fintype.sum_equiv mat4 (fun p => f (mat4 p)) f (fun _ => rfl)).symm
   rw [h1, h2, h3, h4, Fintype.sum_prod_type]
@@ -64,8 +64,8 @@ theorem sum_SL2 {F : Type} [CommRing F] [Fintype F] [DecidableEq F]
   refine Finset.sum_congr rfl fun d _ => ?_
   show (if h : (!![a, b; c, d]).det = 1 then g ⟨!![a, b; c, d], h⟩ else 0) = _
   by_cases h : a * d - b * c = 1
-  · rw [dif_pos h, dif_pos ((Matrix.det_fin_two_of a b c d).trans h)]
-  · rw [dif_neg h, dif_neg (fun h' => h ((Matrix.det_fin_two_of a b c d).symm.trans h'))]
+  · rw [dite_eq_left h, dite_eq_left ((Matrix.det_fin_two_of a b c d).trans h)]
+  · rw [dite_eq_right h, dite_eq_right (fun h' => h ((Matrix.det_fin_two_of a b c d).symm.trans h'))]
 
 theorem sum_Lg (f : Lg → ℤ) :
     ∑ l : Lg, f l = ∑ M : SL2, f ⟨M, 1⟩ + ∑ M : SL2, f ⟨M, Multiplicative.ofAdd 1⟩ := by

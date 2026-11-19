@@ -18,7 +18,7 @@ variable {z : G} {w : ℕ} {Z A : Subgroup G}
 
 theorem centerAt_eq_Z (hD : Z4Data z w Z A) (hz : orderOf z = 2) (hF2 : IsPGroup 2 (Fz z)) :
     centerAt z = Z :=
-  Subgroup.ext (fun x => mem_centerAt_iff hD hz hF2)
+  Subgroup.ext (fun _x => mem_centerAt_iff hD hz hF2)
 
 theorem mem_center_F_iff' (hD : Z4Data z w Z A) (hz : orderOf z = 2) (hF2 : IsPGroup 2 (Fz z))
     (x : ↥(Fz z)) : x ∈ Subgroup.center ↥(Fz z) ↔ (x : G) ∈ Z := by
@@ -70,7 +70,7 @@ theorem config_of_z4star [IsSimpleGroup G] (hnab : ∃ a b : G, a * b ≠ b * a)
       z1 := fun h => by simp [h] at hz
       comm := fun f hf g hg => comm_F hD hz hf hg
       sq := fun f hf => sq_F hD hz hf }
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hbounds := bounds_F (z := z) hF w (card_Fz hD hz) Z
     (fun x => mem_center_F_iff' hD hz hF2 x) (isCyclic_center_F' hD hz hF2)
     (card_center_F' hD hz hF2)
@@ -119,7 +119,7 @@ theorem config_of_z4star [IsSimpleGroup G] (hnab : ∃ a b : G, a * b ≠ b * a)
 theorem leafWidthGeThree_holds : Asc76LeafWidthGeThree := by
   intro G _ _ z hS w hw hZ
   obtain ⟨Z, A, hD⟩ := exists_Z4Data hZ
-  haveI := hS.1
+  have := hS.1
   exact (config_of_z4star hS.2.1 hD hS.2.2.1 hS.2.2.2.1 hw).false
 
 end Width

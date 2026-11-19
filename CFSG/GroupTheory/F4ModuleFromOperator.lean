@@ -84,8 +84,8 @@ theorem isScalarTower_f4Module (C : W →ₗ[ZMod 2] W) (hC : C * C + C + 1 = 0)
     letI : Algebra (ZMod 2) F4 := ZMod.algebra F4 2
     letI := f4Module C hC
     IsScalarTower (ZMod 2) F4 W := by
-  letI : Algebra (ZMod 2) F4 := ZMod.algebra F4 2
-  letI := f4Module C hC
+  let : Algebra (ZMod 2) F4 := ZMod.algebra F4 2
+  let := f4Module C hC
   refine ⟨fun r s v => ?_⟩
   change CFSG.Fischer.Classification.O2Mod.f4End C (C_apply_sq C hC)
       (algebraMap (ZMod 2) F4 r * s) v =

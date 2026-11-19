@@ -41,11 +41,11 @@ theorem no_abelian_sixteen {A : Subgroup S3} (hA : Nat.card A = 16)
   have hAQ : A = (QA : Subgroup S3) :=
     Subgroup.eq_of_le_of_card_ge hQA (by
       rw [hA]
-      exact Nat.le_of_dvd (by norm_num) (card_dvd_sixteen QA.isPGroup'))
+      exact Nat.le_of_dvd (by norm_num) (card_dvd_sixteen QA.isPGroup))
   have hTQ : T16 = (QT : Subgroup S3) :=
     Subgroup.eq_of_le_of_card_ge hQT (by
       rw [card_T16]
-      exact Nat.le_of_dvd (by norm_num) (card_dvd_sixteen QT.isPGroup'))
+      exact Nat.le_of_dvd (by norm_num) (card_dvd_sixteen QT.isPGroup))
   let e : QA ≃* QT := Sylow.equiv QA QT
   apply not_comm_T16
   intro a ha b hb

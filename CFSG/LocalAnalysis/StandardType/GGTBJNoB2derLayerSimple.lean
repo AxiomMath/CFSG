@@ -48,8 +48,7 @@ private lemma l48gS_mem_iff {K : Type} [Field K] [Finite K] [CharP K 2]
     intro u hu
     exact (congrArg (fun f : Module.End K (Fin 4 ⊕ Fin 4 → K) => f u)
       (l48gS_eiso_coe s)).trans (hs u hu)
-  · intro hs
-    intro u hu
+  · intro hs u hu
     exact (congrArg (fun f : Module.End K (Fin 4 ⊕ Fin 4 → K) => f u)
       (l48gS_eiso_coe s)).symm.trans (hs.2 u hu)
 
@@ -110,7 +109,7 @@ theorem ggB2der_spFixPerp_simple {K : Type} [Field K] [Finite K] [CharP K 2] (hK
   let eSW : ↥SW ≃* ↥(A6Red.ggA6SpFixer (SmallRule.spBilin K 4) P) :=
     MulEquiv.ofBijective res hbij
   have hSW_simple : IsSimpleGroup ↥SW := by
-    haveI : IsSimpleGroup ↥(A6Red.ggA6SpFixer (SmallRule.spBilin K 4) P) := hTsimple
+    have : IsSimpleGroup ↥(A6Red.ggA6SpFixer (SmallRule.spBilin K 4) P) := hTsimple
     exact eSW.isSimpleGroup
   obtain ⟨e1, -⟩ := A6Red.ggA6_sp_restr_equiv (SmallRule.spBilin K 4) hB_alt hB_nd W hWnd
   obtain ⟨e2⟩ := A6Red.ggA6_sp_std_equiv (V := Fin 4 ⊕ Fin 4 → K)
@@ -129,7 +128,7 @@ theorem ggB2der_spFixPerp_simple {K : Type} [Field K] [Finite K] [CharP K 2] (hK
   have h7SW : 7 ∣ Nat.card ↥SW := dvd_trans (by norm_num : 7 ∣ 63) h63SW
   have hSWnotcomm : ¬ IsMulCommutative ↥SW := by
     intro hcomm
-    haveI : IsMulCommutative ↥SW := hcomm
+    have : IsMulCommutative ↥SW := hcomm
     have hp : Nat.Prime (Nat.card ↥SW) :=
       (Group.is_simple_iff_prime_card (α := ↥SW)).mp hSW_simple
     rcases hp.eq_one_or_self_of_dvd 63 h63SW with h | h
@@ -137,10 +136,10 @@ theorem ggB2der_spFixPerp_simple {K : Type} [Field K] [Finite K] [CharP K 2] (hK
     · rw [← h] at hp
       norm_num at hp
   have hSWperf : Group.IsPerfect ↥SW := by
-    haveI : IsSimpleGroup ↥SW := hSW_simple
+    have : IsSimpleGroup ↥SW := hSW_simple
     exact TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hSWnotcomm
   have hSWcomm : ⁅SW, SW⁆ = SW := by
-    haveI : Group.IsPerfect ↥SW := hSWperf
+    have : Group.IsPerfect ↥SW := hSWperf
     exact Subgroup.commutator_eq_self
   exact ⟨hSW_simple, hSWcomm, h7SW⟩
 

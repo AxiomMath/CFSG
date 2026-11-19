@@ -51,7 +51,7 @@ theorem sec67_conj_mem_centralizer {L : Subgroup G} {t y : G}
 theorem sec67_odd_order [Finite G] {L : Subgroup G}
     (hcyc : ∀ P : Subgroup G, IsSylow2Of P (centralizer (L : Set G)) → IsCyclic P)
     {t y : G} (ht2 : orderOf t = 2) (htC : t ∈ centralizer (L : Set G))
-    (hy2 : orderOf y = 2) (hyN : y ∈ normalizer (L : Set G)) :
+    (_hy2 : orderOf y = 2) (hyN : y ∈ normalizer (L : Set G)) :
     Odd (orderOf (t * (y * t * y⁻¹))) := by
   set t' := y * t * y⁻¹ with ht'def
   set w := t * t' with hw

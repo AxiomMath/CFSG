@@ -49,6 +49,7 @@ private lemma qTwoLMDivCoordInner_tclnorm_matrix_smul {F0 : Type} [Field F0] {m 
     simpa only [Units.val_mul] using h
   rw [hmat, hZ, ← Matrix.smul_eq_mul_diagonal, Matrix.smul_mul]
 
+omit [Finite G] in
 theorem qTwoLMDivCoordInner_tcl_norm {B Bs L : Subgroup G} (hBs : GGBstar 3 B Bs)
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) {m : ℕ} (hm : 4 ≤ m) (h3 : 3 ∣ m)
     {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {L0 : Type} [Group L0]

@@ -18,7 +18,7 @@ theorem mulAut_eq_one_or_transvection {V : Type*} [Group V] [Finite V] {p : ℕ}
       map_one' := by simp
       map_mul' := by
         intro v w
-        letI : CommGroup V := { ‹Group V› with mul_comm := hVc }
+        let : CommGroup V := { ‹Group V› with mul_comm := hVc }
         simp only [map_mul, mul_inv_rev]
         ac_rfl }
   have hfval : ∀ v : V, f v = v⁻¹ * κ v := fun v => rfl
@@ -67,7 +67,7 @@ theorem mulAut_eq_one_or_transvection {V : Type*} [Group V] [Finite V] {p : ℕ}
       rw [← horder]
       exact Subgroup.orderOf_dvd_natCard f.range ha
     have hcard_pos : 0 < Nat.card f.range := by
-      haveI : Nonempty ↥f.range := ⟨⟨a, ha⟩⟩
+      have : Nonempty ↥f.range := ⟨⟨a, ha⟩⟩
       exact Finite.card_pos
     have hcard_range : Nat.card f.range = p :=
       le_antisymm hcard_range_le_p (Nat.le_of_dvd hcard_pos hdvd)

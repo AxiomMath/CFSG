@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {n : ℕ} {P : Subgroup G}
 private theorem pCore_le_centralizer_of_isComponentOf {L : Subgroup G}
     (hL : CFSG.Open.IsComponentOf L ⊤) :
     CFSG.pCore 3 G ≤ Subgroup.centralizer (L : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Group.IsNilpotent (CFSG.pCore 3 G) :=
     (CFSG.pCore_isPGroup (p := 3) (G := G)).isNilpotent
   have h := CFSG.ComponentClassification.LocalComponents.commutes_with_solvable_subnormal L
@@ -24,10 +24,12 @@ private theorem pCore_le_centralizer_of_isComponentOf {L : Subgroup G}
   rw [Subgroup.commutator_comm, Subgroup.commutator_eq_bot_iff_le_centralizer] at h
   exact h
 
+omit [Finite G] in
 private theorem zOf_normal {L : Subgroup G} (hLn : L.Normal) : (zOf L).Normal := by
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   exact ConjAct.normal_of_characteristic_of_normal
 
+omit [Finite G] in
 private theorem zOf_le_pCore {L : Subgroup G} (hLn : L.Normal)
     (hz : Nat.card (Subgroup.center ↥L) = 3) :
     zOf L ≤ CFSG.pCore 3 G := by
@@ -37,6 +39,7 @@ private theorem zOf_le_pCore {L : Subgroup G} (hLn : L.Normal)
   change zOf L ≤ sSup {K : Subgroup G | K.Normal ∧ IsPGroup 3 K}
   exact le_sSup ⟨zOf_normal hLn, hZp⟩
 
+omit [Finite G] in
 private theorem pCore_ne_bot_of_component {L : Subgroup G} (hLn : L.Normal)
     (hz : Nat.card (Subgroup.center ↥L) = 3) : CFSG.pCore 3 G ≠ ⊥ := by
   intro hbot
@@ -54,7 +57,7 @@ private theorem comp_coprime_mem_centralizer_pCore (h : Hyp326 G n P) {L : Subgr
     {c : G} (hc : c ∈ Subgroup.centralizer (L : Set G))
     (hc_cop : Nat.Coprime (orderOf c) 3) :
     c ∈ Subgroup.centralizer (CFSG.pCore 3 G : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLn : L.Normal :=
     comp_normal (fun L₁ L₂ h₁ h₂ => (hu L₁ h₁).trans (hu L₂ h₂).symm) hL
   have hQ : CFSG.pCore 3 G ≠ ⊥ := pCore_ne_bot_of_component hLn hz
@@ -120,7 +123,7 @@ private theorem comp_coprime_mem_centralizer_pCore (h : Hyp326 G n P) {L : Subgr
       group
     have hconj : ∀ m : ℕ, x * c ^ m * x⁻¹ = (x * c * x⁻¹) ^ m := by
       intro m
-      simpa [MulAut.conj_apply] using (map_pow (MulAut.conj x) c m)
+      simp
     have hpow : ∀ m : ℕ, x * c ^ m * x⁻¹ = y ^ m * c ^ m := by
       intro m
       rw [hconj m, hxc, hyc.mul_pow m]
@@ -140,7 +143,7 @@ private theorem comp_coprime_mem_pCore (h : Hyp326 G n P) {L : Subgroup G}
     {c : G} (hc : c ∈ Subgroup.centralizer (L : Set G))
     (hc_cop : Nat.Coprime (orderOf c) 3) :
     c ∈ CFSG.pCore 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLn : L.Normal :=
     comp_normal (fun L₁ L₂ h₁ h₂ => (hu L₁ h₁).trans (hu L₂ h₂).symm) hL
   have hcQ : c ∈ Subgroup.centralizer (CFSG.pCore 3 G : Set G) :=
@@ -197,10 +200,10 @@ theorem comp_centralizer_le_pCore (h : Hyp326 G n P) {L : Subgroup G}
     (hu : ∀ L' : Subgroup G, CFSG.Open.IsComponentOf L' ⊤ → L' = L)
     (hz : Nat.card (Subgroup.center ↥L) = 3) :
     Subgroup.centralizer (L : Set G) ≤ CFSG.pCore 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLn : L.Normal :=
     comp_normal (fun L₁ L₂ h₁ h₂ => (hu L₁ h₁).trans (hu L₂ h₂).symm) hL
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   have hCp : IsPGroup 3 (Subgroup.centralizer (L : Set G)) := by
     intro g
     have hn0 : orderOf (g : G) ≠ 0 := (orderOf_pos (g : G)).ne'

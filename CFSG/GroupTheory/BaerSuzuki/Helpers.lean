@@ -168,7 +168,7 @@ theorem exists_conjugate_enlargement
   by_cases hSnP : (S.subgroupOf P).Normal
   · have hPle : P ≤ Subgroup.normalizer (S : Set G) :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hSP).mp hSnP
-    obtain ⟨a, haK, haS⟩ := SetLike.not_le_iff_exists.mp hSnK
+    obtain ⟨a, haK, haS⟩ := IsConcreteLE.not_le_iff_exists.mp hSnK
     refine ⟨a, haK, haS, ?_⟩
     rintro y ⟨s, hs, rfl⟩
     have hconjP : a * s * a⁻¹ ∈ P :=
@@ -186,7 +186,7 @@ theorem exists_conjugate_enlargement
       intro hEq
       exact hBne ((normalizerCondition_iff_only_full_group_self_normalizing.mp
         Group.normalizerCondition_of_isNilpotent) B hEq.symm)
-    obtain ⟨a, haB, haNB⟩ := SetLike.exists_of_lt hBlt
+    obtain ⟨a, haB, haNB⟩ := _root_.IsConcreteLE.exists_of_lt hBlt
     refine ⟨(a : G), hPK a.2, ?_, ?_⟩
     · intro haS
       apply haNB

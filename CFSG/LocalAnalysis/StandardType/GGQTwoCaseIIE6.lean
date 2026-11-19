@@ -19,9 +19,9 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 private theorem ggQ2xE6_finiteGL (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 6 ≃ D.ι) :
     Finite (D.V ≃ₗ[ZMod 3] D.V) := by
-  haveI : Nonempty D.ι := ⟨e 0⟩
+  have : Nonempty D.ι := ⟨e 0⟩
   let b0 : Basis D.ι (ZMod 3) D.V := basisOfLinearIndependentOfCardEqFinrank hbas.1 hbas.2
-  haveI : Fintype D.V := Fintype.ofEquiv (D.ι → ZMod 3) b0.equivFun.symm
+  have : Fintype D.V := Fintype.ofEquiv (D.ι → ZMod 3) b0.equivFun.symm
   exact Finite.of_injective (fun f : D.V ≃ₗ[ZMod 3] D.V => (f : D.V → D.V))
     (fun f g h => LinearEquiv.ext (congrFun h))
 
@@ -47,7 +47,7 @@ private lemma ggQ2xE6_tau_coroot (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 6 ≃
   rw [Basis.equivFun_self]
   by_cases h : i = j
   · subst h; simp [Pi.single_eq_same]
-  · rw [if_neg h, Pi.single_eq_of_ne (Ne.symm h)]
+  · rw [ite_eq_right h, Pi.single_eq_of_ne (Ne.symm h)]
 
 private lemma ggQ2xE6_cartan_eq (D : GGQ2Lin 3) (e : Fin 6 ≃ D.ι)
     (hE : D.coxeter = CoxeterMatrix.E₆.reindex e) (i j : Fin 6) :
@@ -380,8 +380,7 @@ private lemma ggQ2xE6_refl_centre (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 6 �
     rw [ht_eq]
     apply LinearEquiv.ext; intro v
     rw [ggLinConj_apply, Module.reflection_apply, Module.reflection_apply]
-    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.symm_apply_apply,
-      LinearEquiv.apply_symm_apply, map_sub, map_smul]
+    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply, map_sub, map_smul]
   have ht' : Module.reflection hφ'
       ∈ A.map (ggLinConj (ggQ2xE6_tauC D hbas e)).toMonoidHom := by
     rw [heq]
@@ -433,7 +432,7 @@ private theorem ggQ2xE6_innerE (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 6 ≃ D
     (hE : D.coxeter = CoxeterMatrix.E₆.reindex e) :
     GGQ2QuandleInner (ggQ2xQ_isConjRefl D) (D.weyl : Set (D.V ≃ₗ[ZMod 3] D.V)) := by
   intro π hπT hinj hπ
-  haveI : Finite (D.V ≃ₗ[ZMod 3] D.V) := ggQ2xE6_finiteGL D hbas e
+  have : Finite (D.V ≃ₗ[ZMod 3] D.V) := ggQ2xE6_finiteGL D hbas e
   have hfin : (ggQ2xQ_isConjRefl D).Finite :=
     Set.finite_univ.subset (Set.subset_univ _)
   have hsurj : Set.SurjOn π (ggQ2xQ_isConjRefl D) (ggQ2xQ_isConjRefl D) :=
@@ -475,7 +474,7 @@ private lemma ggQ2xE6z_shift_self_iso (z : Fin 6 → ZMod 3) (l : ZMod 3) :
     ggEBil 6 (z + l • ggQ2xE6_rho) (z + l • ggQ2xE6_rho) = ggEBil 6 z z := by
   rw [ggQ2xE6z_bil_add_left, ggQ2xE6z_bil_add_right, ggQ2xE6z_bil_add_right]
   rw [ggQ2xE6_bil_smul_left, ggQ2xE6_bil_smul_right, ggQ2xE6_bil_smul_right]
-  simp only [ggQ2xE6_rho_rad, ggQ2xE6z_bil_rho_right, mul_zero, zero_add, add_zero]
+  simp only [ggQ2xE6_rho_rad, ggQ2xE6z_bil_rho_right, mul_zero, add_zero]
 
 private lemma ggQ2xE6z_shift_bil (z : Fin 6 → ZMod 3) (l : ZMod 3) (v : Fin 6 → ZMod 3) :
     ggEBil 6 (z + l • ggQ2xE6_rho) v = ggEBil 6 z v := by
@@ -528,7 +527,7 @@ private noncomputable def ggQ2xE6z_psiD (D : GGQ2Lin 3)
   (ggQ2xE6z_psiCoord z c l).comp τ.toLinearMap
 
 private lemma ggQ2xE6_Z_lift (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 6 ≃ D.ι)
-    (hE : D.coxeter = CoxeterMatrix.E₆.reindex e) (A : Subgroup (D.V ≃ₗ[ZMod 3] D.V))
+    (_hE : D.coxeter = CoxeterMatrix.E₆.reindex e) (A : Subgroup (D.V ≃ₗ[ZMod 3] D.V))
     (hTF : TransvectionFree A) {z : Fin 6 → ZMod 3}
     (hz : z ∈ ggQ2xE6_Z D (ggQ2xE6_tauC D hbas e) A) {l : ZMod 3} (hl : l ≠ 0) :
     z + l • ggQ2xE6_rho ∉ ggQ2xE6_Z D (ggQ2xE6_tauC D hbas e) A := by
@@ -570,7 +569,7 @@ private lemma ggQ2xE6_Z_lift (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 6 ≃ D.�
       exact neg_ne_zero.mpr (mul_ne_zero (by decide : (2 : ZMod 3) ≠ 0) hl)
     intro h0
     rw [h0] at hne
-    simpa using hne
+    simp at hne
   · have hρτ : τ (τ.symm ggQ2xE6_rho) = ggQ2xE6_rho :=
       LinearEquiv.apply_symm_apply τ ggQ2xE6_rho
     rw [hψD, hρτ]
@@ -1196,7 +1195,7 @@ private lemma ggQ2xE6d_roots_mem_aux : ∀ n : ℕ, n < 72 →
     · have h6ge : 6 ≤ n := by omega
       have hj : n - 6 < 66 := by omega
       have hp := ggQ2xE6d_parents_ok ⟨n - 6, hj⟩
-      simp only [Fin.val_mk] at hp
+      simp only at hp
       have h6' : n - 6 + 6 = n := by omega
       have hroot : ggQ2xE6d_roots.getD n 0 =
           ggESimple 6 (Fin.ofNat 6 (ggQ2xE6d_parents.getD (n - 6) (0, 0)).1)
@@ -1344,7 +1343,7 @@ private lemma ggQ2xE6_core (Z : Set (Fin 6 → ZMod 3)) (hZ0 : ∀ z ∈ Z, ggEB
     have hneg_eq : -(ggERefl 6 δ (ggERefl 6 γ z)) = z + (s * μ) • ggQ2xE6_rho := by
       rw [hw, hzγδ, neg_neg]
       funext i
-      simp only [Pi.add_apply, Pi.sub_apply, Pi.neg_apply, Pi.smul_apply, smul_eq_mul]
+      simp only [Pi.add_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
       have h3 : (3 : ZMod 3) = 0 := by decide
       linear_combination (-(s * μ * ggQ2xE6_rho i)) * h3
     exact absurd (hneg_eq ▸ hnegwZ) (hlift z hz (s * μ) hsμ)
@@ -1410,7 +1409,7 @@ theorem ggQ2xE6_main (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 6 ≃ D.ι)
 
 theorem ggQ2_caseII_E6_pm (D : GGQ2Lin 3) (hsym : ∀ i j, D.cartan i j = D.cartan j i)
     (hII : D.CaseII) (e : Fin 6 ≃ D.ι)
-    (hE : D.coxeter = CoxeterMatrix.E₆.reindex e) (ha : D.a = e 0 ∨ D.a = e 5) (x : D.V)
+    (hE : D.coxeter = CoxeterMatrix.E₆.reindex e) (_ha : D.a = e 0 ∨ D.a = e 5) (x : D.V)
     (hx : ∀ v, (∀ g ∈ D.parab {k | k ≠ D.a}, g v = v) ↔ v ∈ Submodule.span (ZMod 3) {x})
     (A : Subgroup (D.V ≃ₗ[ZMod 3] D.V)) (hW : D.weyl ≤ A) (hTF : TransvectionFree A)
     (hHL : ∀ φ ∈ A, φ x ∈ Submodule.span (ZMod 3) {x} →
@@ -1421,7 +1420,7 @@ theorem ggQ2_caseII_E6_pm (D : GGQ2Lin 3) (hsym : ∀ i j, D.cartan i j = D.cart
     rw [← Fintype.card_congr e, Fintype.card_fin]
     omega
   have hnon := ggQ2_caseII_nonsplit D hII h4 x hx A hW hHL
-  haveI : FiniteDimensional (ZMod 3) D.V :=
+  have : FiniteDimensional (ZMod 3) D.V :=
     Module.finite_of_finrank_pos (by rw [← hII.1]; omega)
   have hbas' : (D.dual hsym).Basis := (ggQ2_dual_basis_iff D hsym hII.1).mpr hnon
   have hWd : (D.dual hsym).weyl ≤ A.map ggContra := by

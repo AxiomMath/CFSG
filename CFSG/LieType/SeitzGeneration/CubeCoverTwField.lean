@@ -260,7 +260,7 @@ theorem seitzHyperGamma_eq_top_twE6_field_cube {K : Type} [Group K] [Finite K]
     refine hplane.trans (Subgroup.closure_mono ?_)
     rintro s ⟨hs, ⟨j, hj⟩, b, hb, hb1, hbs⟩
     exact ⟨hs, ⟨ringChar k ^ j, hr3 j, hj⟩, b, hb, hb1, hbs⟩
-  haveI : D.Normal := hDn
+  have : D.Normal := hDn
   obtain ⟨J', hJ'x, hJ'g, hJ'f, hJ'm⟩ :=
     exists_overgroupData_of_conj_coprime (p := 3) (D := D) (E := coverImage θ E)
       hψ (twFJ_le_twR σ η) hplane' hfaith

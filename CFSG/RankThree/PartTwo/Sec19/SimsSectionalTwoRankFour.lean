@@ -17,7 +17,7 @@ namespace CFSG.RankThree.PartTwo.Sec19
 theorem sectionalTwoRankFourCatalog_holds :
     SectionalTwoRankFourCatalog := by
   intro G _ _ hsimple hnonab _ _ hsect
-  haveI : IsSimpleGroup G := hsimple
+  have : IsSimpleGroup G := hsimple
   refine CFSG.Open.QTFaithfulEmptyTauCeti.inCatalog_of_catalog G ?_
   rcases le_or_gt (CFSG.Open.twoRank G) 2 with hr | hr
   · refine CFSG.Milestones.cls_low_two_rank_classification G hnonab ?_ hr

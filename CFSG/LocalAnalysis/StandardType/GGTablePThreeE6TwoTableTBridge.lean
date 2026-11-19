@@ -129,14 +129,14 @@ private theorem e6tBridge_classAux_repD5 :
     · exact absurd h1 (by decide +kernel)
     · rw [e6tBridge_classAux_succ]
       rw [e6tBridge_classStep_repD5_2]
-      simp only [List.isEmpty_nil, if_true]
-      simp [e6tBridge_lD5, List.singleton_append]
+      simp only [List.isEmpty_nil, ite_true]
+      simp [e6tBridge_lD5]
 
 private theorem e6tBridge_kerRoots_repD5_subset : ∀ x ∈ kerRoots repD5, x ∈ e6tBridge_lD5 := by
   have h : (kerRoots repD5).all (fun x => e6tBridge_lD5.contains x) = true := by
     decide +kernel
   intro x hx
-  exact List.contains_iff.mp (List.all_eq_true.mp h x hx)
+  exact _root_.List.contains_iff_mem.mp (List.all_eq_true.mp h x hx)
 
 private theorem e6tBridge_foldl_repD5_skip (acc : List (List Vec)) (L : List Vec)
     (hL : ∀ y ∈ L, y ∈ e6tBridge_lD5) :
@@ -148,7 +148,7 @@ private theorem e6tBridge_foldl_repD5_skip (acc : List (List Vec)) (L : List Vec
   | nil => rfl
   | cons x xs ih =>
     rw [List.foldl_cons]
-    have hx : e6tBridge_lD5.contains x = true := List.contains_iff.mpr (hL x (by simp))
+    have hx : e6tBridge_lD5.contains x = true := _root_.List.contains_iff_mem.mpr (hL x (by simp))
     rw [hx]
     exact ih acc (fun y hy => hL y (List.mem_cons_of_mem x hy))
 
@@ -167,8 +167,7 @@ private theorem e6tBridge_classesOf_repD5 : classesOf (kerRoots repD5) = [e6tBri
   rw [show kerRoots repD5 = e6tBridge_xD5 :: t from hKt.symm]
   unfold classesOf
   rw [List.foldl_cons]
-  simp only [List.contains_nil, Bool.false_or, Bool.false_eq_true, if_false, List.append_nil,
-    List.nil_append]
+  simp only [List.contains_nil, Bool.false_eq_true, ite_false, List.nil_append]
   rw [hKt, e6tBridge_classAux_repD5]
   have hskip := e6tBridge_foldl_repD5_skip [e6tBridge_lD5] t (fun y hy =>
     e6tBridge_kerRoots_repD5_subset y (by rw [hK]; exact List.mem_cons_of_mem a hy))
@@ -259,16 +258,16 @@ theorem e6Two_classes_facts (k : Fin 5) :
       exact beq_iff_eq.mp (List.all_eq_true.mp hlen x hx)
     · exact List.isEmpty_eq_false_iff.mp (by simpa [Bool.not_eq_true'] using hne)
     · intro x hx
-      exact List.contains_iff.mp (List.all_eq_true.mp h2 x hx)
+      exact _root_.List.contains_iff_mem.mp (List.all_eq_true.mp h2 x hx)
     · intro x hx y hy hif
       have hy' := List.all_eq_true.mp (List.all_eq_true.mp h3 x hx) y hy
       rw [Bool.or_eq_true_iff, Bool.not_eq_true', bne_eq_false_iff_eq] at hy'
       rcases hy' with h0 | hyl
       · exact absurd h0 hif
-      · exact List.contains_iff.mp hyl
+      · exact _root_.List.contains_iff_mem.mp hyl
   · intro x hx
     rcases List.any_eq_true.mp (hcv x hx) with ⟨l, hl, hc'⟩
-    exact ⟨l, hl, List.contains_iff.mp hc'⟩
+    exact ⟨l, hl, _root_.List.contains_iff_mem.mp hc'⟩
 
 private abbrev e6tBridge_ofVec (x : Fin Tag.E6.rank → ℤ) : Vec := List.ofFn x
 
@@ -300,7 +299,7 @@ private lemma e6tBridge_act_length (b : List Vec) (x : Vec)
   rw [show List.range 6 = [0, 1, 2, 3, 4, 5] from rfl]
   simp only [List.foldl_cons, List.foldl_nil]
   simp only [e6tBridge_length_add, Certificates.Data.E6TableT.scalarMul, List.length_map,
-    List.length_ofFn, List.length_replicate, h0, h1, h2, h3, h4, h5, max_self]
+    List.length_replicate, h0, h1, h2, h3, h4, h5, max_self]
 
 private lemma e6tBridge_sum_apply_smul (x : Fin 6 → ℤ) (g : Fin 6 → (Fin 6 → ℤ)) (k : Fin 6) :
     (∑ i, x i • g i) k = ∑ i, x i * g i k := by
@@ -318,23 +317,22 @@ private lemma e6tBridge_act_ofVec (g : Fin 6 → (Fin 6 → ℤ)) (x : Fin 6 →
       unfold act
       rw [show List.range 6 = [0, 1, 2, 3, 4, 5] from rfl]
       simp only [List.foldl_cons, List.foldl_nil, e6tBridge_intList_add_eq,
-        List.zipWithAll_cons_cons, List.getElem?_zipWithAll, List.getElem?_map,
+        List.getElem?_zipWithAll, List.getElem?_map,
         Certificates.Data.E6TableT.scalarMul, e6tBridge_ofVec6, List.getElem?_ofFn,
-        List.getElem?_replicate, List.getD_eq_getElem?_getD, Option.getD_some, Option.getD_none,
-        Option.map_some]
-      interval_cases k <;> simp [Fin.sum_univ_six] <;> ring
+        List.getElem?_replicate, List.getD_eq_getElem?_getD]
+      interval_cases k <;> simp [Fin.sum_univ_six]
     have hR : (e6tBridge_ofVec6 (∑ i, x i • g i))[k]? =
         some (∑ i : Fin 6, x i * g i ⟨k, hk⟩) := by
-      rw [e6tBridge_ofVec6, List.getElem?_ofFn, dif_pos hk, e6tBridge_sum_apply_smul,
+      rw [e6tBridge_ofVec6, List.getElem?_ofFn, dite_eq_left hk, e6tBridge_sum_apply_smul,
         Fin.sum_univ_six]
     rw [hL, hR]
   · have hk' : ¬ k < 6 := hk
     have hL : (act (List.ofFn fun i => e6tBridge_ofVec6 (g i)) (e6tBridge_ofVec6 x))[k]? = none := by
       rw [List.getElem?_eq_none_iff]
       rw [e6tBridge_act_length (List.ofFn fun i => e6tBridge_ofVec6 (g i)) (e6tBridge_ofVec6 x)
-        (by simp [e6tBridge_ofVec6, List.length_ofFn]) (by simp [e6tBridge_ofVec6, List.length_ofFn])
-        (by simp [e6tBridge_ofVec6, List.length_ofFn]) (by simp [e6tBridge_ofVec6, List.length_ofFn])
-        (by simp [e6tBridge_ofVec6, List.length_ofFn]) (by simp [e6tBridge_ofVec6, List.length_ofFn])]
+        (by simp [e6tBridge_ofVec6]) (by simp [e6tBridge_ofVec6])
+        (by simp [e6tBridge_ofVec6]) (by simp [e6tBridge_ofVec6])
+        (by simp [e6tBridge_ofVec6]) (by simp [e6tBridge_ofVec6])]
       exact Nat.le_of_not_lt hk
     have hR : (e6tBridge_ofVec6 (∑ i, x i • g i))[k]? = none := by
       rw [List.getElem?_eq_none_iff]

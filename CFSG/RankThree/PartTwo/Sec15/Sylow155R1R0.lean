@@ -141,7 +141,7 @@ theorem res1_exists_inner {A : Subgroup G} {c : G} {L M : Subgroup G}
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(Res1C A L)) w)⁻¹ = y * z * y⁻¹ := by
   by_contra hno
   obtain ⟨hhyp, -, -, ⟨hYcomp, hcY, -⟩, g, hg, hgZ, -, hgnot⟩ := hY
-  haveI hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
+  have hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
   have hgA : g ∈ Subgroup.centralizer (A : Set G) := pPrimeCoreOf_le 3 _ (Subgroup.mem_inf.mp hg).1
   have hgC : g ∈ Res1C A L := by
     rw [Subgroup.mem_centralizer_iff]

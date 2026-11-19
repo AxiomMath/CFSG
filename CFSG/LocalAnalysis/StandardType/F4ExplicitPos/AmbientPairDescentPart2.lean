@@ -26,6 +26,7 @@ variable {τ : Tag} {K Ω : Type} [Field K] [Finite K] [Field Ω] [Algebra K Ω]
 section F4Native
 variable [IsAlgClosed Ω] [CharP Ω 2]
 
+omit [IsAlgClosed Ω] [CharP Ω 2] in
 theorem f4_rootSubgroup_conj_weyl_transport
     (w : WeylGroup Tag.F4) {β α : Fin Tag.F4.rank → ℤ} (hβ : IsRoot Tag.F4 β)
     (hw : w • β = α) (g : ModGL Tag.F4 Ω) :
@@ -42,6 +43,7 @@ theorem f4_rootSubgroup_conj_weyl_transport
     group,
     ← Subgroup.map_map, hweyl]
 
+omit [IsAlgClosed Ω] [CharP Ω 2] in
 theorem f4_rootSubgroup_conj_weyl_transport_neg
     (w : WeylGroup Tag.F4) {β α : Fin Tag.F4.rank → ℤ} (hβ : IsRoot Tag.F4 β)
     (hw : w • β = α) (g : ModGL Tag.F4 Ω) :
@@ -51,6 +53,7 @@ theorem f4_rootSubgroup_conj_weyl_transport_neg
   have hw' : w • (-β) = -α := by rw [smul_neg, hw]
   exact f4_rootSubgroup_conj_weyl_transport (Ω := Ω) w (IsRoot.neg hβ) hw' g
 
+omit [IsAlgClosed Ω] [CharP Ω 2] in
 theorem f4_fixed_conj_rootSubgroup
     (Fr : Ω →+* Ω) (hFr : ∀ c, Fr c = c ^ Nat.card K)
     (β : Fin Tag.F4.rank → ℤ) {u : ModGL Tag.F4 Ω}
@@ -62,6 +65,7 @@ theorem f4_fixed_conj_rootSubgroup
   rw [map_conj_fixed_eq (Units.map (entrywiseHom Fr)) hu (rootSubgroup Tag.F4 Ω β),
     rootSubgroup_map_bcGL_eq_fixed (τ := Tag.F4) Fr hFr β]
 
+omit [IsAlgClosed Ω] in
 theorem f4_fixed_frobenius_mem_map
     (f : ℕ) (hcard : Nat.card K = 2 ^ f)
     {u : ModGL Tag.F4 Ω}
@@ -75,6 +79,7 @@ theorem f4_fixed_frobenius_mem_map
   rw [heq]
   exact Subgroup.mem_inf.2 ⟨huA, hufix⟩
 
+omit [IsAlgClosed Ω] [CharP Ω 2] in
 theorem finite_map_map_conj_rootSubgroup
     (β : Fin Tag.F4.rank → ℤ) (uΩ : ModGL Tag.F4 Ω) :
     Finite ↥(((rootSubgroup Tag.F4 K β).map

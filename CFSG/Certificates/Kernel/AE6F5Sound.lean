@@ -260,7 +260,7 @@ theorem exists_blkS {FP FS : Nat}
   have hJx : (r 0 + 6 * r 1 + 36 * r 2 + 216 * r 3) / 6 ^ (x.val / 3) % 6 = r ⟨x.val / 3, hb4⟩ :=
     hJ ⟨x.val / 3, hb4⟩
   have hρx := hre ⟨x.val / 3, hb4⟩ ⟨x.val % 3, Nat.mod_lt _ (by norm_num)⟩
-  simp only [Fin.val_mk] at hπx hρx
+  simp only at hπx hρx
   have ex : σ ⟨3 * (x.val / 3) + x.val % 3, by omega⟩ = σ x :=
     congrArg σ (Fin.ext (by change 3 * (x.val / 3) + x.val % 3 = x.val; omega))
   rw [ex] at hρx
@@ -280,14 +280,14 @@ theorem genF_mem_H (l : Nat) (hl : l < 9) : genF l ∈
     Subgroup.closure (Set.range ae6LetterHatPerm ∪ Set.range ae6GammaHatPerm) := by
   unfold genF
   by_cases h7 : l < 7
-  · rw [dif_pos h7]
+  · rw [dite_eq_left h7]
     exact Subgroup.subset_closure (Or.inl ⟨_, rfl⟩)
-  · rw [dif_neg h7, dif_pos (by omega)]
+  · rw [dite_eq_right h7, dite_eq_left (by omega)]
     exact Subgroup.subset_closure (Or.inr ⟨_, rfl⟩)
 
 theorem genF_mem_C (l : Nat) (hl : l < 7) : genF l ∈ Subgroup.closure (Set.range ae6LetterHatPerm) := by
   unfold genF
-  rw [dif_pos hl]
+  rw [dite_eq_left hl]
   exact Subgroup.subset_closure ⟨_, rfl⟩
 
 theorem genF_mem_ins (σ : Equiv.Perm (Fin 12)) (l : Nat) (hl : l < 7) :
@@ -335,9 +335,9 @@ theorem entry_sound {GN CT CP HT HP s e : Nat} {σ : Equiv.Perm (Fin 12)}
       (Finset.univ.filter fun b : Fin 4 => ∃ n, ae6Blk n = b ∧ τ n ≠ n).card = 1 := by
   unfold entryOK at he
   cases hb : Nat.blt e 32768
-  · simp only [hb, cond_false, PK.bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at he
+  · simp only [hb, Bool.cond_false, PK.bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at he
     exact absurd (tree_case hH hG hS he.1 he.2) hnot
-  · simp only [hb, cond_true, PK.bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at he
+  · simp only [hb, _root_.Bool.cond_true, PK.bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at he
     obtain ⟨hx, hcc, -, hperm, hw⟩ := he
     exact wit_case hC hG hS hx hcc hperm hw
 

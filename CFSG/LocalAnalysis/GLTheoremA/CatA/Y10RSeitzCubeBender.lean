@@ -24,9 +24,9 @@ theorem seitzTwoGen_of_stronglyEmbedded {X : Type} [Group X] [Finite X] (hs : Is
     (hX : ∀ T : Sylow 2 X, fusionStronglyEmbedded (Subgroup.normalizer ((T : Subgroup X) : Set X)) ∧
       Nat.card (Sylow 2 X) = Nat.card (T : Subgroup X) + 1) :
     SeitzTwoGen X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro q hq hq2 E hE ⟨U, hU0, hU2, hUinv⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨T, hUT⟩ := hU2.exists_le_sylow
   have huniq : ∀ P : Sylow 2 X, U ≤ P → P = T := by
     intro P hUP
@@ -59,7 +59,7 @@ theorem seitzTwoGen_of_stronglyEmbedded {X : Type} [Group X] [Finite X] (hs : Is
     have hdvd : q ∣ Nat.card (T : Subgroup X) := by
       have := (Nat.modEq_iff_dvd' (by omega)).mp hmod.symm
       rwa [Nat.add_sub_cancel] at this
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup
     rw [hk] at hdvd
     exact hq2 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).mp (hq.dvd_of_dvd_pow hdvd))
   have hT'map : ∀ α ∈ E, (T' : Subgroup X).map α.toMonoidHom = (T' : Subgroup X) := by
@@ -92,7 +92,7 @@ theorem seitzTwoGen_of_stronglyEmbedded {X : Type} [Group X] [Finite X] (hs : Is
     have := hmap (Subgroup.mem_map_of_mem (MulAut.conj g).toMonoidHom hn)
     simpa only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] using this
   have htop : (T : Subgroup X) ⊔ (T' : Subgroup X) = ⊤ := by
-    haveI := hHnorm
+    have := hHnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((T : Subgroup X) ⊔ (T' : Subgroup X)) with
       h | h
     · exfalso
@@ -101,7 +101,7 @@ theorem seitzTwoGen_of_stronglyEmbedded {X : Type} [Group X] [Finite X] (hs : Is
         (hX T).1.2.1.two_dvd.trans (Subgroup.card_subgroup_dvd_card _)
       exact Sylow.ne_bot_of_dvd_card T h2 hTbot
     · exact h
-  exact ⟨(T : Subgroup X), (T' : Subgroup X), T.isPGroup', T'.isPGroup',
+  exact ⟨(T : Subgroup X), (T' : Subgroup X), T.isPGroup, T'.isPGroup,
     fun φ hφ u hu => by
       have hmem := Subgroup.mem_map_of_mem φ.toMonoidHom hu
       rwa [hTmap φ hφ] at hmem,

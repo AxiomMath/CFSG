@@ -62,13 +62,14 @@ private theorem nat_gcd_three_four_pow_add_one (k : ℕ) : Nat.gcd 3 (4 ^ k + 1)
     omega
   exact (Nat.prime_three.coprime_iff_not_dvd.mpr hnot).gcd_eq_one
 
+omit [Finite G] in
 private theorem le_fStarMod {N H : Subgroup G} (hNH : N ≤ H) (hN : (N.subgroupOf H).Normal) :
     N ≤ fStarMod N H := by
   intro n hn
   rw [fStarMod]
   refine Subgroup.mem_map.mpr ⟨⟨n, hNH hn⟩, ?_, rfl⟩
   rw [Subgroup.mem_comap]
-  haveI := hN
+  have := hN
   have h1 : (QuotientGroup.mk' (N.subgroupOf H).normalCore) ⟨n, hNH hn⟩ = 1 :=
     (QuotientGroup.eq_one_iff (N := (N.subgroupOf H).normalCore) ⟨n, hNH hn⟩).mpr (by
       rw [Subgroup.normalCore_eq_self]
@@ -76,6 +77,7 @@ private theorem le_fStarMod {N H : Subgroup G} (hNH : N ≤ H) (hN : (N.subgroup
   rw [h1]
   exact (genFittingFStar _).one_mem
 
+omit [Finite G] in
 private theorem fStarMod_normal (N H : Subgroup G) : ((fStarMod N H).subgroupOf H).Normal := by
   let K : Subgroup ↥H := (genFittingFStar (↥H ⧸ (N.subgroupOf H).normalCore)).comap
     (QuotientGroup.mk' (N.subgroupOf H).normalCore)
@@ -98,9 +100,9 @@ private theorem false_of_borel_lift
     {φ : ↥L →* X} (hφ : Function.Surjective φ)
     (hkerK : ∀ l : ↥L, φ l = 1 ↔ (l : G) ∈ K) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hXsimple : IsSimpleGroup X :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hXsimple : IsSimpleGroup X :=
     CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hBender
   obtain ⟨hpr, hsp, hno⟩ := not_concl881_iff.mp h1
   let M : Subgroup G := normalizer (V : Set G)
@@ -132,7 +134,7 @@ private theorem false_of_borel_lift
     intro htop
     obtain ⟨e3, he3⟩ := exists_prime_orderOf_dvd_card' (G := X) 3 h3X
     have he3T : e3 ∈ (T₀ : Subgroup X) := by rw [htop]; trivial
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp T₀.isPGroup' ⟨e3, he3T⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp T₀.isPGroup ⟨e3, he3T⟩
     have hk' : orderOf (e3 : X) = 2 ^ k := by simpa using hk
     rw [he3] at hk'
     have hne : (2 : ℕ) ^ k ≠ 3 := by
@@ -151,7 +153,6 @@ private theorem false_of_borel_lift
   have hTnormSK : T ≤ Subgroup.normalizer (SK : Set G) := by
     intro t ht
     refine mem_normalizer_iff_map_conj.mpr ?_
-    change SK.map (MulAut.conj t).toMonoidHom = SK
     rw [hSKdef, Subgroup.map_sup, (mem_normalizer_iff_map_conj.mp (hTnormS ht)),
       (mem_normalizer_iff_map_conj.mp (hTnormK ht))]
   have normS_false : H ≤ Subgroup.normalizer (S : Set G) → False := by
@@ -159,7 +160,7 @@ private theorem false_of_borel_lift
     have hSLn : (S.subgroupOf L).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hSL).mpr (hLH.trans hHnormS)
     have hN : ((S.subgroupOf L).map φ).Normal := hSLn.map φ hφ
-    haveI : (T₀ : Subgroup X).Normal := by rw [hT0coe]; exact hN
+    have : (T₀ : Subgroup X).Normal := by rw [hT0coe]; exact hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T₀ : Subgroup X) with hbot | htop
     · exact hT0ne_bot hbot
     · exact hT0ne_top htop
@@ -176,7 +177,7 @@ private theorem false_of_borel_lift
         intro k hk
         exact Subgroup.mem_sup_right (by rw [MonoidHom.mem_ker, hkerK]; exact hk)
       · exact Subgroup.map_mono (Subgroup.subgroupOf_mono L le_sup_left)
-    haveI : (T₀ : Subgroup X).Normal := by
+    have : (T₀ : Subgroup X).Normal := by
       rw [hT0coe, ← heq]
       exact hSKLn.map φ hφ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T₀ : Subgroup X) with hbot | htop

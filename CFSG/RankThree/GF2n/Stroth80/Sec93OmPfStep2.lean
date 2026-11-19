@@ -47,10 +47,10 @@ theorem n12Lemma2_of_chi (h34 : Stroth34Statement) {G : Type} [Group G] [Finite 
       ⟨hZQ, hcomm, hsq, fun r hr x hx => by rw [Subgroup.mem_bot] at hr; simpa [hr] using hx,
         fun r hr x hx => by rw [Subgroup.mem_bot] at hr; simpa [hr] using hx⟩
     obtain ⟨Mo, iM, iA, κ, hκ⟩ := exists_sectionModule hsec
-    haveI : Finite Mo := hκ.finite
-    letI : Module (ZMod 2) Mo := AddCommGroup.zmodModule (fun a => by
+    have : Finite Mo := hκ.finite
+    let : Module (ZMod 2) Mo := AddCommGroup.zmodModule (fun a => by
       rw [two_nsmul]; exact hκ.two a)
-    haveI : FiniteDimensional (ZMod 2) Mo := Module.Finite.of_finite
+    have : FiniteDimensional (ZMod 2) Mo := Module.Finite.of_finite
     obtain ⟨f, hfnd, hfalt, hfκ⟩ := exists_lamForm lam hcomm hZc hκ hnd
     let Sub : Subgroup G → Submodule (ZMod 2) Mo := fun U =>
       AddSubgroup.toZModSubmodule 2 (secSub κ U)
@@ -77,7 +77,7 @@ theorem n12Lemma2_of_chi (h34 : Stroth34Statement) {G : Type} [Group G] [Finite 
       unfold comm2
       have : (⟨⁅(v : G), (a' : G)⁆, hcomm _ v.2 _ a'.2⟩ : ↥Z) = 1 := Subtype.ext h1
       rw [this, map_one, toAdd_one]
-    haveI : (Z.subgroupOf V).Normal :=
+    have : (Z.subgroupOf V).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
         hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hVQ hv)))
     have hcardχ := card_mul_card_of_isChiIso hchi hWQ hZV
@@ -104,7 +104,7 @@ theorem n12Lemma2_of_chi (h34 : Stroth34Statement) {G : Type} [Group G] [Finite 
       intro n' hn'
       obtain ⟨v, rfl⟩ := hrep n'
       have hv : (v : G) ∈ V := (hmemU V hZV v).1 hn'
-      rw [hfκ, comm2_symm lam hcomm hZc, comm2_eq_zero_iff lam hcomm]
+      rw [hfκ, comm2_symm lam hcomm, comm2_eq_zero_iff lam hcomm]
       exact hperp v hv
     rw [← heq] at hao
     exact (hmemU W hZW ⟨a, haQ⟩).1 hao

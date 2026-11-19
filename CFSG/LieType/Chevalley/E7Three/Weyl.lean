@@ -75,7 +75,7 @@ theorem gamma_ne_one : gamma ≠ 1 := by
   norm_num [gammaMat] at e
 
 theorem orderOf_gamma : orderOf gamma = 3 := by
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime_iff.mpr ⟨gamma_pow_three, gamma_ne_one⟩
 
 theorem move_pow_two : move ^ 2 = 1 := by

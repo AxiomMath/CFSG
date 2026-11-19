@@ -39,6 +39,7 @@ section Core
 
 variable {X : Type} [Group X] [Finite X] {M : Subgroup X}
 
+omit [Finite X] in
 theorem not_isSolvable_of_card [IsSimpleGroup M] {z : M} (hz : orderOf z = 2)
     (hcard : Nat.card M = 1451520) : ¬ Group.IsSolvable M := by
   intro hsol
@@ -253,7 +254,7 @@ theorem false_of_holtData [IsSimpleGroup M] (hcard : Nat.card M = 1451520) {z : 
           { toFun := fun m => ⟨⟨φ m, ((hmemP _).mp (hmP m)).1⟩, ((hmemP _).mp (hmP m)).2⟩
             map_one' := by ext; simp
             map_mul' := fun a b => by ext; simp }
-        exact solvable_of_solvable_injective (f := ψ) fun a b hab =>
+        exact Group.isSolvable_of_isSolvable_injective (f := ψ) fun a b hab =>
           hinj (congrArg (fun y : stabilizer F c => ((y : F) : Equiv.Perm (D.Ψc i))) hab)
 
 end Core

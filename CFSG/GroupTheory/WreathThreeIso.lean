@@ -33,7 +33,6 @@ private noncomputable def yPow (hy : y ^ 3 = 1) (hy1 : y ≠ 1) :
       rw [hval]
       set a := q.toAdd.val
       set b := r.toAdd.val
-      change y ^ ((a + b) % 3) = y ^ a * y ^ b
       rw [show 3 = orderOf y from hord.symm, pow_mod_orderOf, pow_add]
     simpa using hrew
 
@@ -107,8 +106,8 @@ private theorem baseProd_mul (h : IsWreathThree S y) (hy : y ^ 3 = 1)
     (hy1 : y ≠ 1) (n : ℕ) (e : WD n ≃* S) (f g : WQ → WD n) (q : WQ) :
     baseProd h hy hy1 n e (f * fun x => g (q⁻¹ * x)) =
       baseProd h hy hy1 n e f * conjBaseHom h hy hy1 q (baseProd h hy hy1 n e g) := by
-  letI : IsMulCommutative (base S y) := isMulCommutative_base h
-  letI : CommGroup (base S y) := IsMulCommutative.instCommGroup
+  let : IsMulCommutative (base S y) := isMulCommutative_base h
+  let : CommGroup (base S y) := IsMulCommutative.instCommGroup
   simp only [baseProd, Pi.mul_apply, map_mul]
   rw [Finset.prod_mul_distrib]
   congr 1
@@ -178,15 +177,15 @@ private theorem phiG_single (h : IsWreathThree S y) (hy : y ^ 3 = 1) (hy1 : y �
     phiG h hy hy1 n e ⟨Pi.mulSingle i d, 1⟩ = (factorD h hy hy1 n e i d : G) := by
   have hprod : baseProd h hy hy1 n e (Pi.mulSingle i d) =
       factorD h hy hy1 n e i d := by
-    letI : IsMulCommutative (base S y) := isMulCommutative_base h
-    letI : CommGroup (base S y) := IsMulCommutative.instCommGroup
+    let : IsMulCommutative (base S y) := isMulCommutative_base h
+    let : CommGroup (base S y) := IsMulCommutative.instCommGroup
     rw [baseProd, Finset.prod_eq_single i]
     · simp
     · intro b _ hb
       rw [Pi.mulSingle_eq_of_ne hb, map_one]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
-  simp only [phiG, hprod, Subgroup.coe_mul, Subgroup.coe_one, one_mul]
+  simp only [phiG, hprod]
   simp
 
 private theorem phiG_range (h : IsWreathThree S y) (hy : y ^ 3 = 1) (hy1 : y ≠ 1)
@@ -251,7 +250,7 @@ private theorem phi_surjective (h : IsWreathThree S y) (hy : y ^ 3 = 1) (hy1 : y
   exact ⟨w, Subtype.ext hw⟩
 
 private theorem card_WD (n : ℕ) : Nat.card (WD n) = 3 ^ n := by
-  haveI : NeZero (3 ^ n) := ⟨pow_ne_zero n (by norm_num)⟩
+  have : NeZero (3 ^ n) := ⟨pow_ne_zero n (by norm_num)⟩
   rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
 
 private theorem card_WQ : Nat.card WQ = 3 := by
@@ -259,7 +258,7 @@ private theorem card_WQ : Nat.card WQ = 3 := by
 
 private theorem card_wreath (n : ℕ) :
     Nat.card (WD n ≀ᵣ WQ) = 3 ^ (3 * n + 1) := by
-  haveI : NeZero (3 ^ n) := ⟨pow_ne_zero n (by norm_num)⟩
+  have : NeZero (3 ^ n) := ⟨pow_ne_zero n (by norm_num)⟩
   rw [RegularWreathProduct.card, card_WD, card_WQ, ← pow_mul, ← pow_succ]
   congr 1
   omega
@@ -276,8 +275,8 @@ theorem exists_mulEquiv_regularWreathProduct [Finite G] {S : Subgroup G} {y : G}
     ∃ n : ℕ, 1 ≤ n ∧ Nat.card S = 3 ^ n ∧
       Nonempty (↥(base S y ⊔ Subgroup.zpowers y) ≃*
         (Multiplicative (ZMod (3 ^ n)) ≀ᵣ Multiplicative (ZMod 3))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite S := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite S := Subtype.finite
   obtain ⟨n, hcard⟩ := IsPGroup.exists_card_eq h.isPGroup
   have hn : 1 ≤ n := by
     have hn0 : n ≠ 0 := by
@@ -289,14 +288,14 @@ theorem exists_mulEquiv_regularWreathProduct [Finite G] {S : Subgroup G} {y : G}
   let e : WD n ≃* S :=
     (MulEquiv.cast (M := fun k => Multiplicative (ZMod k)) hcard.symm).trans
       (zmodCyclicMulEquiv h.isCyclic)
-  haveI : NeZero (3 ^ n) := ⟨pow_ne_zero n (by norm_num)⟩
-  haveI : Fintype (WD n) := inferInstance
-  haveI : Fintype WQ := inferInstance
-  haveI : Fintype (WD n ≀ᵣ WQ) :=
+  have : NeZero (3 ^ n) := ⟨pow_ne_zero n (by norm_num)⟩
+  have : Fintype (WD n) := inferInstance
+  have : Fintype WQ := inferInstance
+  have : Fintype (WD n ≀ᵣ WQ) :=
     Fintype.ofEquiv ((WQ → WD n) × WQ)
       (RegularWreathProduct.equivProd (WD n) WQ).symm
-  haveI : Finite ↥(base S y ⊔ Subgroup.zpowers y) := Subtype.finite
-  haveI : Fintype ↥(base S y ⊔ Subgroup.zpowers y) := Fintype.ofFinite _
+  have : Finite ↥(base S y ⊔ Subgroup.zpowers y) := Subtype.finite
+  have : Fintype ↥(base S y ⊔ Subgroup.zpowers y) := Fintype.ofFinite _
   have hcardDom : Nat.card (WD n ≀ᵣ WQ) = 3 ^ (3 * n + 1) := card_wreath n
   have hcardP : Nat.card ↥(base S y ⊔ Subgroup.zpowers y) = 3 ^ (3 * n + 1) :=
     card_P h hy n hcard

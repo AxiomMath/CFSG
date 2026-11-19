@@ -26,7 +26,7 @@ theorem card_griessHopfMultiplier_psu3 (hG : CFSG.Open.GriessAllModelsStatement)
 theorem u3Center_of_griess (hG : CFSG.Open.GriessAllModelsStatement) : U3Center := by
   intro X _ _ n hX
   obtain ⟨hq, hU⟩ := hX
-  haveI : Group.IsPerfect X := Group.isPerfect_def.2 hq.1
+  have : Group.IsPerfect X := Group.isPerfect_def.2 hq.1
   let e : (X ⧸ center X) ≃* (X ⧸ center X) := MulEquiv.refl _
   let q := CFSG.RankThree.PerfectCover.centralQuotientMap e
   have hqs : Function.Surjective q := CFSG.RankThree.PerfectCover.centralQuotientMap_surjective e

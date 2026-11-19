@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem c23_card_wTil_conj {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) {x : G}
     (hx : x ∈ stabTil V₀ V) (L : Subgroup G) :
     Nat.card (wTil V₀ V hV (conjSubgroup L x)) = Nat.card (wTil V₀ V hV L) := by
@@ -59,6 +60,7 @@ theorem c23_fix_wTil_conj {D : Data G} {V₀ V L : Subgroup G} (h : Hyp151 D V�
           congrArg _ (hfix (MulAut.conj (actTil V₀ V hV ⟨x, hxs⟩) a) ha' y' hy')
     _ = y := hyeq
 
+omit [Finite G] in
 theorem c23_exists_trans_conj {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V) {x : G}
     (hx : x ∈ stabTil V₀ V)
     (htr : ∀ u ∈ wTil V₀ V hV L, u ≠ 1 → ∀ u' ∈ wTil V₀ V hV L, u' ≠ 1 →
@@ -82,7 +84,7 @@ theorem c23_exists_trans_conj {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V) {
         = (MulAut.conj (actTil V₀ V hV ⟨x, hx⟩)⁻¹ φ)
             ((actTil V₀ V hV ⟨x, hx⟩)⁻¹ u) := by rw [hueq']
       _ = (actTil V₀ V hV ⟨x, hx⟩)⁻¹ (φ u) := by
-            simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MulAut.mul_apply,
+            simp only [MulAut.conj_apply, MulAut.mul_apply,
               inv_inv, MulAut.apply_inv_self]
       _ = (actTil V₀ V hV ⟨x, hx⟩)⁻¹ u' := by rw [hφu]
       _ = y' := hu'eq

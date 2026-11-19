@@ -34,7 +34,7 @@ theorem five_not_dvd_five_fixer_card
   have hQcard : Nat.card Q = Nat.card S := Nat.card_congr
     ((S : Subgroup (fixingSubgroup P s)).equivMapOfInjective
       (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm
-  have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := by
     ext x
     constructor

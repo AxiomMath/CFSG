@@ -11,6 +11,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} (s : Setting3 G L)
 
+omit [Finite G] in
 private theorem actsAs_pow {g : G} {α : MulAut (L ⧸ center L)} (h : ActsAs L g α) (n : ℕ) :
     ActsAs L (g ^ n) (α ^ n) := by
   induction n with
@@ -169,7 +170,7 @@ theorem s3_inj_on_S (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L))) 
     have h := actsAs_mul L (actsAs_inv L hax) hay
     simpa [d] using h
   have hdC : d ∈ centralizer (L : Set G) := by
-    haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+    have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
     exact (actsAs_one_iff L).mp hact
   have hz : (⟨d, hdL⟩ : ↥L) ∈ center ↥L := by
     rw [Subgroup.mem_center_iff]

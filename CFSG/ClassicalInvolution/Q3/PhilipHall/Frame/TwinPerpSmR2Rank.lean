@@ -182,7 +182,7 @@ theorem gl2_eq_one_or_neg_one {F : Type*} [Field F] (h2 : (2 : F) ≠ 0) {A : GL
   have e10 := congrFun (congrFun hM 1) 0
   have e11 := congrFun (congrFun hM 1) 1
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply_eq, Matrix.one_apply_ne, ne_eq,
-    Fin.zero_eta, Fin.isValue, zero_ne_one, not_false_eq_true, one_ne_zero] at e00 e01 e10 e11
+    Fin.isValue, zero_ne_one, not_false_eq_true, one_ne_zero] at e00 e01 e10 e11
   rw [Matrix.det_fin_two] at hd
   have hs : (M 0 0 + M 1 1) ^ 2 = 2 * 2 := by linear_combination e00 + e11 + 2 * hd
   have hne : M 0 0 + M 1 1 ≠ 0 := by

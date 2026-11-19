@@ -103,7 +103,7 @@ private theorem not_dvd_card_inf_map_conj {G : Type} [Group G] [Finite G]
       ¬ 3 ∣ Nat.card ↥((X ⊓ M).subgroupOf X ⊓
         ((X ⊓ M).subgroupOf X).map (MulAut.conj g).toMonoidHom) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro g hg hdvd
   let N : Subgroup ↥X := (X ⊓ M).subgroupOf X
   obtain ⟨b, hbord⟩ := exists_prime_orderOf_dvd_card'
@@ -157,7 +157,7 @@ private theorem isStronglyPEmbedded_subgroupOf_inf {G : Type} [Group G] [Finite 
     (hcard : Nat.card A = 3) (hrank : CFSG.Open.pRank 3 X = 1) (hXM : ¬ X ≤ M) :
     CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 ((X ⊓ M).subgroupOf X) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥X := (X ⊓ M).subgroupOf X
   refine ⟨?_, ?_, ?_⟩
   · intro htop
@@ -183,7 +183,7 @@ private theorem exists_conj_eq_of_sylow {G : Type} [Group G] [Finite G]
     ∃ y ∈ X ⊓ M,
       S.map (MulAut.conj m).toMonoidHom = S.map (MulAut.conj y).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXmap : X.map (MulAut.conj m).toMonoidHom = X :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mp hmX
   have hSmSylX : CFSG.ABGLocalTools.IsSylowOf 2
@@ -229,10 +229,10 @@ private theorem exists_conj_eq_of_mem_normalizer {G : Type} [Group G] [Finite G]
     ∃ x y m : G, x ∈ X ∧ y ∈ X ⊓ M ∧ m ∈ H ⊓ M ∧ h = x * m ∧
       S.map (MulAut.conj x⁻¹).toMonoidHom = S.map (MulAut.conj y).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXH : X ≤ H := le_sup_left.trans (le_of_eq hH.symm)
   have hKH : H ⊓ M ≤ H := le_sup_right.trans (le_of_eq hH.symm)
-  haveI : (X.subgroupOf H).Normal :=
+  have : (X.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hXH).mpr hXnorm
   have hsup : X.subgroupOf H ⊔ (H ⊓ M).subgroupOf H = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hXH hKH]
@@ -274,7 +274,7 @@ private theorem normalizer_inf_le_of_eq_sup {G : Type} [Group G] [Finite G]
     (hNX : Subgroup.normalizer (S : Set G) ⊓ X ≤ M) :
     Subgroup.normalizer (S : Set G) ⊓ H ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro h hh
   obtain ⟨x, y, m, hxG, hy, hmG, hh_eq, hx_inv_eq⟩ :=
     exists_conj_eq_of_mem_normalizer hH hXnorm hSyl hSM hh
@@ -310,13 +310,13 @@ private theorem le_normalizer_inf_of_sylow {G : Type} [Group G] [Finite G]
 private theorem exists_sylow_of_normalClosure {G : Type} [Group G] [Finite G]
     {H X M SX : Subgroup G} (hXH : X ≤ H)
     (hXnorm : H ≤ Subgroup.normalizer (X : Set G))
-    (hSXsyl : CFSG.ABGLocalTools.IsSylowOf 2 SX X) (hSXM : SX ≤ M)
-    (hNX : Subgroup.normalizer (SX : Set G) ⊓ X ≤ M)
+    (hSXsyl : CFSG.ABGLocalTools.IsSylowOf 2 SX X) (_hSXM : SX ≤ M)
+    (_hNX : Subgroup.normalizer (SX : Set G) ⊓ X ≤ M)
     (hNH : Subgroup.normalizer (SX : Set G) ⊓ H ≤ M) :
     ∃ S : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 2 S H ∧ S ≤ M ∧
       Subgroup.normalizer (S : Set G) ⊓ H ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := H ⊓ Subgroup.normalizer (SX : Set G)
   obtain ⟨S, hSK⟩ := CFSG.ABGLocalTools.exists_isSylowOf 2 K
   have hSXK : SX ≤ K := by
@@ -410,12 +410,12 @@ private theorem exists_sylow_norm_le_of_k89Sp {G : Type} [Group G] [Finite G]
     ∃ SX : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 2 SX X ∧ SX ≤ M ∧
       Subgroup.normalizer (SX : Set G) ⊓ X ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥X := (X ⊓ M).subgroupOf X
   have hNsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 N :=
     isStronglyPEmbedded_subgroupOf_inf hM hA hAX hcard hrank hXM
   have hKX : CFSG.Open.IsKGroup ↥X := by
-    haveI : IsSimpleGroup G := hC.simple
+    have : IsSimpleGroup G := hC.simple
     have hXtop : X ≠ ⊤ := fun htop => hHne (top_le_iff.mp (htop ▸ hXH))
     exact CFSG.LocalAnalysis.GLTheoremB.isKGroup_of_isKProper hC.kProper hXtop
   have hNrank : CFSG.Open.pRank 3 N ≤ 1 := by
@@ -467,7 +467,7 @@ theorem o89At_of_kFact76MaxRankThree
   classical
   have hK89 : K89Sp := k89Sp_holds
   intro H hH hH3 L hLle hcomp hrk hLq A hAL hAc hAu hweak
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL3 : IsLThreeTwoPow (↥L ⧸ CFSG.pPrimeCore 3 ↥L) :=
     isLThreeTwoPow_pPrimeCore_of_pCore hLq
   have h : Hyp83 M H L A := Hyp83.mk_of_args H hH L hLle hcomp hrk A hAL hAc hAu hweak
@@ -487,7 +487,7 @@ theorem o89At_of_kFact76MaxRankThree
       exact sup_le hXM inf_le_right
     obtain ⟨S, hS⟩ := CFSG.ABGLocalTools.exists_isSylowOf 2 H
     exact ⟨S, hS, hS.le.trans hHM, inf_le_right.trans hHM⟩
-  · haveI : IsSimpleGroup G := hC.simple
+  · have : IsSimpleGroup G := hC.simple
     have hHne : H ≠ ⊤ :=
       CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top hC.nonab H h.twoLocal
     obtain ⟨SX, hSXsyl, hSXM, hSXnorm⟩ :=

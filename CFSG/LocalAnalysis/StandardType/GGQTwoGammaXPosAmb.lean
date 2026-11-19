@@ -147,7 +147,7 @@ lemma ggQ2xa_D_succ_succ {k : ℕ} (hk : 2 ≤ k) (i j : Fin (2 * k)) :
   simp only [CartanMatrix.D, Matrix.of_apply]
   rw [if_congr (show i.succ = j.succ ↔ i = j from
     ⟨fun h => Fin.succ_injective (2 * k) h, fun h => by rw [h]⟩) rfl ?_]
-  rw [if_neg (by omega : ¬ 2 * k + 1 ≤ 2), if_neg (by omega : ¬ 2 * k ≤ 2)]
+  rw [ite_eq_right (by omega : ¬ 2 * k + 1 ≤ 2), ite_eq_right (by omega : ¬ 2 * k ≤ 2)]
   have hsi : (i.succ : Fin (2 * k + 1)).val = i.val + 1 := rfl
   have hsj : (j.succ : Fin (2 * k + 1)).val = j.val + 1 := rfl
   have h1 : (i.succ.val + 1 = j.succ.val ∧ j.succ.val + 2 < 2 * k + 1) ↔

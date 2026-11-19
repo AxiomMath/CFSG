@@ -97,6 +97,7 @@ private theorem fixedSub_inf_commSub_eq_bot_model {A A' : Subgroup SL(2, F)}
       exact ((conjSubgroup_eq_conjSubgroup_iff (a := d) (b := c)
         (T := upperSylow)).mpr hmem).symm)
 
+omit [Finite W] in
 theorem IsOrthModule.fixedSub_inf_commSub_eq_bot (horth : IsOrthModule hF ρ)
     {A A' : Subgroup SL(2, F)} (hA2 : ∀ a ∈ A, a * a = 1) (hA : Nat.card A = 2 ^ (2 * l))
     (hA2' : ∀ a ∈ A', a * a = 1) (hA' : Nat.card A' = 2 ^ (2 * l)) (hAA' : A ≠ A') :

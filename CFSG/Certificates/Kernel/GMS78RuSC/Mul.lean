@@ -23,7 +23,7 @@ private theorem land3 (x : Nat) : Nat.land x 3 = x % 4 := by
 
 private theorem shr (x k : Nat) : Nat.shiftRight x k = x / 2 ^ k := Nat.shiftRight_eq_div_pow x k
 
-private theorem pack_eq {c T D : Nat} (hc : c < 256) (hT : T < 8) (hD : D < 8) :
+private theorem pack_eq {c T D : Nat} (hc : c < 256) (hT : T < 8) (_hD : D < 8) :
     Nat.lor c (Nat.lor (Nat.shiftLeft T 8) (Nat.shiftLeft D 11)) = c + 256 * T + 2048 * D := by
   have e1 : T <<< 8 = T * 256 := Nat.shiftLeft_eq T 8
   have e2 : D <<< 11 = D * 2048 := Nat.shiftLeft_eq D 11

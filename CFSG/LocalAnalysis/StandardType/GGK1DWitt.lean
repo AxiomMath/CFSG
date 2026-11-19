@@ -30,13 +30,13 @@ open Matrix
 
 private theorem ggK1Dw_charP_two {K : Type} [Field K] [Finite K] {nf : ℕ}
     (hK : Nat.card K = 2 ^ nf) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (p := 2) (f := nf)
     (by rw [← Nat.card_eq_fintype_card]; exact hK)
 
 private theorem ggK1Dw_prime_cast_ne_zero {K : Type} [Field K] [Finite K] {p nf : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = 2 ^ nf) : (p : K) ≠ 0 := by
-  haveI : CharP K 2 := ggK1Dw_charP_two hK
+  have : CharP K 2 := ggK1Dw_charP_two hK
   intro h
   rw [CharP.cast_eq_zero_iff K 2] at h
   exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h).symm
@@ -59,7 +59,7 @@ private lemma ggK1Dw_lin_pow {ι K : Type*} [Fintype ι] [DecidableEq ι] [Field
   | succ n ih => rw [pow_succ, pow_succ, ggK1Dw_lin_mul, ih]
 
 private theorem ggK1Dw_omegaLift_plus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
     {x : ↥(LargeEvenOmega (LargeEvenQPlus K r))} (hx : x ^ p = 1) :
     OddOrderIsometry (TableBOrth.qPlusForm K r) p
       (ggK1DLin (x : GL (Fin r ⊕ Fin r) K)) := by
@@ -80,7 +80,7 @@ private theorem ggK1Dw_omegaLift_plus {p nf r : ℕ} {K : Type} [Field K] [Finit
       exact hv w)
 
 private theorem ggK1Dw_omegaLift_minus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) {b c : K}
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {x : ↥(LargeEvenOmega (LargeEvenQMinus (r - 1) b c))} (hx : x ^ p = 1) :
     OddOrderIsometry (TableBOrth.qMinusForm K (r - 1) b c) p
@@ -209,7 +209,7 @@ private theorem ggK1Dw_ne_reciprocal_of_dvd_sub_one {K V : Type} [Field K] [Fini
     have hdvd : X ∣ (X ^ p - 1 : K[X]) := hX ▸ hdvdX
     have hcoeff : (X ^ p - 1 : K[X]).coeff 0 = 0 := Polynomial.X_dvd_iff.mp hdvd
     have hcoeff' : (X ^ p - 1 : K[X]).coeff 0 = -1 := by
-      simp [coeff_X_pow, hp.ne_zero, Ne.symm hp.ne_zero]
+      simp [coeff_X_pow, Ne.symm hp.ne_zero]
     exact one_ne_zero (neg_eq_zero.mp (hcoeff.symm.trans hcoeff').symm)
   have hc0eq : h.coeff 0 = (h.coeff 0)⁻¹ := by
     rw [← coeff_zero_reciprocalPolynomial hmon]
@@ -291,8 +291,8 @@ private theorem ggK1Dw_isPlusType_prod_decomp {K V : Type} [Field K] [Finite K]
     isPlusType_congr eV
   by_cases hs : s = 0
   · have hW0 : Module.finrank K W = 0 := by rw [hWdim, hs, mul_zero]
-    haveI : Subsingleton ↥W := Module.finrank_zero_iff.mp hW0
-    haveI : Unique ↥W := uniqueOfSubsingleton 0
+    have : Subsingleton ↥W := Module.finrank_zero_iff.mp hW0
+    have : Unique ↥W := uniqueOfSubsingleton 0
     have hWplus : IsPlusType (Q.comp W.subtype) := isPlusType_of_subsingleton _
     have hprod : IsPlusType ((Q.comp W.subtype).prod (Q.comp R.subtype)) ↔
         IsPlusType (Q.comp R.subtype) :=
@@ -301,8 +301,8 @@ private theorem ggK1Dw_isPlusType_prod_decomp {K V : Type} [Field K] [Finite K]
     simp [hWplus]
   · by_cases hk : k = 0
     · have hR0 : Module.finrank K R = 0 := by rw [hRdim, hk, mul_zero]
-      haveI : Subsingleton ↥R := Module.finrank_zero_iff.mp hR0
-      haveI : Unique ↥R := uniqueOfSubsingleton 0
+      have : Subsingleton ↥R := Module.finrank_zero_iff.mp hR0
+      have : Unique ↥R := uniqueOfSubsingleton 0
       have hRplus : IsPlusType (Q.comp R.subtype) := isPlusType_of_subsingleton _
       have hprod : IsPlusType ((Q.comp W.subtype).prod (Q.comp R.subtype)) ↔
           IsPlusType (Q.comp W.subtype) :=
@@ -399,14 +399,14 @@ private theorem ggK1Dw_head_eq {ι K : Type*} [Fintype ι] [DecidableEq ι] [Fie
   exact h
 
 private theorem ggK1Dw_false_of_r_zero {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
     (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {x : ↥(LargeEvenOmega (LargeEvenQMinus (r - 1) b c))} {m : List ℕ}
     (hm : GGK1DMultOf p nf (ggMultOrd p nf) r K (x : GL (LargeEvenMinusIdx (r - 1)) K) m)
     (hx : x ^ p = 1) (hr : r = 0) : False := by
   classical
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have hxO := ggK1Dw_omegaLift_minus hp hp2 hnf hK hirr hx
   have hsum0 : m.sum = 0 := by rw [hm.sum_eq, hr]
   have hall : ∀ a ∈ m, a = 0 := List.sum_eq_zero_iff.mp hsum0
@@ -444,8 +444,8 @@ private theorem ggK1Dw_false_of_r_zero {p nf r : ℕ} {K : Type} [Field K] [Fini
       rw [hK]
       by_contra h2
       have h1 : ggMultOrd p nf = 1 := hd1
-      rw [ggMultOrd, if_neg h2] at h1
-      split_ifs at h1 <;> exact absurd h1 (by norm_num)
+      rw [ggMultOrd, ite_eq_right h2] at h1
+      split_ifs at h1; exact absurd h1 (by norm_num)
     have hno : ∀ h ∈ primaryFactors (ggK1DOrthEnd (x : GL (LargeEvenMinusIdx (r - 1)) K)),
         h ≠ X - 1 → h ≠ reciprocalPolynomial h :=
       fun h hh hne => ggK1Dw_ne_reciprocal_of_dvd_sub_one hxO hp hp2 hpq hh hne
@@ -455,8 +455,8 @@ private theorem ggK1Dw_false_of_r_zero {p nf r : ℕ} {K : Type} [Field K] [Fini
     obtain ⟨h, hh⟩ := Finset.nonempty_iff_ne_empty.mpr hpf
     have hne1 : h ≠ X - 1 := fun hh1 => hXne (hh1 ▸ hh)
     rcases hP.2.1 h hh (hno h hh hne1) with hmem | hmem
-    · rw [hPempty] at hmem; simpa using hmem
-    · rw [hPempty] at hmem; simpa using hmem
+    · rw [hPempty] at hmem; simp at hmem
+    · rw [hPempty] at hmem; simp at hmem
   · have hSD0 : ggK1DSelfDualFactors (x : GL (LargeEvenMinusIdx (r - 1)) K) = ∅ := by
       have h1 : (ggK1DSelfDualFactors (x : GL (LargeEvenMinusIdx (r - 1)) K)).val.map
           (primaryMultiplicity (ggK1DOrthEnd (x : GL (LargeEvenMinusIdx (r - 1)) K))) = 0 := by
@@ -480,7 +480,7 @@ theorem ggK1D_v0_witt_plus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
     (CFSG.GroupTheory.WeirSylow.IsPlusType
         (Qf.restrict (primaryComponent (ggK1DOrthEnd (x : GL (Fin r ⊕ Fin r) K)) (X - 1))) ↔
       ggMultEps0 p (ggMultOrd p nf) false m = true) := by
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have hxO := ggK1Dw_oddOrder_plus hp hp2 hnf hK hx Qf hQ
   have hhead := ggK1Dw_head_eq (x := (x : GL (Fin r ⊕ Fin r) K)) hm.head_eq
   have hVdim : Module.finrank K (Fin r ⊕ Fin r → K) = 2 * r := by
@@ -507,7 +507,7 @@ theorem ggK1D_v0_witt_plus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
       hd1, ggK1Dw_eps0_one]
     simp [hWplus]
   · have hd2 : ggMultOrd p nf = 2 := by
-      rw [ggMultOrd, if_neg hsub]
+      rw [ggMultOrd, ite_eq_right hsub]
       split_ifs with h2
       · rfl
       · exact absurd (hdvd.resolve_left hsub) h2
@@ -565,7 +565,7 @@ theorem ggK1D_v0_witt_minus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
         (Qf.restrict (primaryComponent
           (ggK1DOrthEnd (x : GL (LargeEvenMinusIdx (r - 1)) K)) (X - 1))) ↔
       ggMultEps0 p (ggMultOrd p nf) true m = true) := by
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have hr0 : r ≠ 0 := fun hr => (ggK1Dw_false_of_r_zero hp hp2 hdvd hnf hK hirr hm hx hr).elim
   have hr1 : 1 ≤ r := Nat.one_le_iff_ne_zero.mpr hr0
   have hxO := ggK1Dw_oddOrder_minus hp hp2 hnf hK hirr hx Qf hQ
@@ -595,7 +595,7 @@ theorem ggK1D_v0_witt_minus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
       hd1, ggK1Dw_eps0_one]
     simp [hWminus]
   · have hd2 : ggMultOrd p nf = 2 := by
-      rw [ggMultOrd, if_neg hsub]
+      rw [ggMultOrd, ite_eq_right hsub]
       split_ifs with h2
       · rfl
       · exact absurd (hdvd.resolve_left hsub) h2

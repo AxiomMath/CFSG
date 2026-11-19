@@ -15,7 +15,7 @@ private lemma two_pow_eq_two_mul {n : ℕ} (hn : 1 ≤ n) : 2 ^ n = 2 * 2 ^ (n -
   conv_lhs => rw [← Nat.sub_add_cancel hn]
   rw [pow_succ, mul_comm]
 
-private lemma pow_eq_one_zmod {n : ℕ} (hn : 1 ≤ n) : (2 : Z n) ^ n = 1 := by
+private lemma pow_eq_one_zmod {n : ℕ} (_hn : 1 ≤ n) : (2 : Z n) ^ n = 1 := by
   change (((2 : ℕ) : Z n) ^ n) = 1
   rw [← Nat.cast_pow]
   have h : 2 ^ n = (2 ^ n - 1) + 1 := (Nat.sub_add_cancel Nat.one_le_two_pow).symm
@@ -80,7 +80,7 @@ private lemma two_add_pow_add_pow_ne {n l m : ℕ} (hn : 4 ≤ n)
       subst hl_eq
       omega
 
-private lemma pow_eq_pow_add_one_imp {n l m : ℕ} (hn : 4 ≤ n) (hl : l < n)
+private lemma pow_eq_pow_add_one_imp {n l m : ℕ} (_hn : 4 ≤ n) (hl : l < n)
     (hm : m < n) (h : 2 ^ l = 2 ^ m + 1) : l = 1 := by
   by_cases hl0 : l = 0
   · subst hl0; have := Nat.two_pow_pos m; omega
@@ -200,8 +200,8 @@ private lemma pow_two_zmod_three (i : ℕ) : (2 : ZMod 3) ^ i = 1 ∨ (2 : ZMod 
   have h2 : (2 : ZMod 3) = -1 := by decide
   rw [h2, neg_one_pow_eq_ite]
   by_cases hi : Even i
-  · exact Or.inl (by rw [if_pos hi])
-  · exact Or.inr (by rw [if_neg hi])
+  · exact Or.inl (by rw [ite_eq_left hi])
+  · exact Or.inr (by rw [ite_eq_right hi])
 
 private lemma isTorusWt_two_iff (a : ZMod 3) : IsTorusWt 2 a ↔ a = 1 ∨ a = 2 := by
   constructor

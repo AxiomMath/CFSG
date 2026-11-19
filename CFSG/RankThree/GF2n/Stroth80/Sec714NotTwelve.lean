@@ -54,7 +54,7 @@ variable {K : Type} [Field K]
   invFun T := e.trans (T.trans e.symm)
   left_inv T := by ext x; simp
   right_inv T := by ext x; simp
-  map_mul' T S := by ext x; simp [mul_assoc]
+  map_mul' T S := by ext x; simp
 
 theorem map_orthogonalGroup_stroth714Conj {E F : Type} [AddCommGroup E] [Module K E]
     [AddCommGroup F] [Module K F] (Q : QuadraticForm K E) (Q' : QuadraticForm K F)
@@ -117,7 +117,7 @@ theorem commutator_eq_of_mulEquiv {A B : Type} [Group A] [Group B] (S : Subgroup
 theorem finite_linEquiv_self {V : Type} [AddCommGroup V] [Module K V] [Finite V] [Finite K] :
     Finite (V ≃ₗ[K] V) :=
   Finite.of_injective (fun f : V ≃ₗ[K] V => (f : V → V))
-    (fun a b h => LinearEquiv.ext fun x => congrFun h x)
+    (fun _a _b h => LinearEquiv.ext fun x => congrFun h x)
 
 end Transport
 
@@ -209,7 +209,7 @@ theorem inducesOmega_of_range {H : Type} [Group H] {P Z : Subgroup H} {K : Type}
     rw [hΓ', Subgroup.card_map_of_injective c.injective]
     exact Nat.card_congr φ0.toEquiv
   have hcardO := natCard_statedOmega_eq_omega 4 (StatedQuadPlus 4 K) (coe_quadPlus 4 K)
-  haveI : Finite ((Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K)) := finite_linEquiv_self
+  have : Finite ((Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K)) := finite_linEquiv_self
   have heq : Γ' = ⁅TauCeti.QuadraticMap.orthogonalGroup (quadPlus 4 K),
       TauCeti.QuadraticMap.orthogonalGroup (quadPlus 4 K)⁆ :=
     Subgroup.eq_of_le_of_card_ge hle (by rw [← hcardO, hcardΓ])
@@ -237,7 +237,7 @@ theorem false_of_range_model {H : Type} [Group H] {P Z X : Subgroup H} {K : Type
     (hPlus : QuadraticPlusTypeStatement)
     (hγ : Nonempty (ψ.range ≃* StatedOmega (StatedQuadPlus 4 K))) : False := by
   classical
-  haveI := hchar
+  have := hchar
   have hΓO : ψ.range ≤ TauCeti.QuadraticMap.orthogonalGroup M₀.toQuadraticForm := by
     rintro _ ⟨g, rfl⟩
     exact TauCeti.QuadraticMap.mem_orthogonalGroup_iff.mpr fun v => hiso g v
@@ -259,7 +259,7 @@ theorem step714NotTwelve_of_model (hModel : Sec714ModelStatement)
     (hPerf : StatedOmegaPlusFourPerfectStatement) (hPlus : QuadraticPlusTypeStatement) :
     Step714NotTwelveStatement := by
   intro G _ _ M Q Z B hc n t hs hn4 hn12
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   obtain ⟨Z0, hZ0⟩ := exists_isCentrePre (hc.Q_le_Rt ht)
   have hQCN : Q ≤ hc.CN t := sec8_Q_le_CN hc ht

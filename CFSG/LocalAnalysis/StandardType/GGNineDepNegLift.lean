@@ -47,7 +47,7 @@ theorem ggNineDep_eq_zero_of_mem_fix (C : GGNineDepCase 3 9 h α r s x) {v : V}
 
 theorem ggNineDep_finrank_eq_nine (C : GGNineDepCase 3 9 h α r s x) :
     Module.finrank (ZMod 3) V = 9 := by
-  haveI : Module.Finite (ZMod 3) V := l04nD2_finite C
+  have : Module.Finite (ZMod 3) V := l04nD2_finite C
   have h2 := C.two
   have h9 := C.lin.dim_le
   set S := Submodule.span (ZMod 3) (Set.range fun j : Fin 7 => h (ggNineSeven j))

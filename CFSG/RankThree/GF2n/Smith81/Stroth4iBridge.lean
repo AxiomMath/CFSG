@@ -51,7 +51,7 @@ theorem centTrivial_of_34_44 (h34 : Stroth34Statement) (h44 : Stroth44Statement)
     {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} (hc : Ctx M Q Z B) {n : ℕ}
     (hw : Width Q Z n) (hn : 2 < n) (hno : NoA2 Q Z (LB M Q B)) (hgen : GenByB M Q B) :
     CentTrivial M Q Z (Lgen M (LB M Q B)) := by
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   set T := Lgen M (LB M Q B) with hT
   have hLT : bar M Q (LB M Q B) ≤ bar M Q T :=
     Subgroup.map_mono (fun x hx => le_Lgen (LB M Q B) (show (x : G) ∈ LB M Q B from hx))

@@ -77,7 +77,7 @@ private theorem card_le_of_isElemAbelian_pgl_two {F : Type*} [Field F] [Finite F
     (Q : Subgroup (Matrix.ProjGenLinGroup (Fin 2) F)) (hQ : IsElemAbelian p Q) :
     Nat.card Q ≤ p := by
   classical
-  haveI : NeZero (p : F) := ⟨hpF⟩
+  have : NeZero (p : F) := ⟨hpF⟩
   have hpodd : Odd p := (Fact.out : p.Prime).odd_of_ne_two hp
   have hQH : Q ≤ (Matrix.ProjectiveSpecialLinearGroup.toPGL (n := Fin 2) (R := F)).range := by
     intro x hx
@@ -103,11 +103,11 @@ private theorem card_le_of_isElemAbelian_pgl_two {F : Type*} [Field F] [Finite F
 
 theorem not_pSq_pgl_two {F : Type*} [Field F] [Fintype F] {p : ℕ} [Fact p.Prime] (hp : p ≠ 2)
     (hpF : (p : F) ≠ 0) (B : Subgroup (GL (Fin 2) F))
-    (hZ : Subgroup.center (GL (Fin 2) F) ≤ B)
+    (_hZ : Subgroup.center (GL (Fin 2) F) ≤ B)
     (hB : IsElemAbelian p (⊤ : Subgroup (B ⧸ (Subgroup.center (GL (Fin 2) F)).subgroupOf B))) :
     Nat.card (B ⧸ (Subgroup.center (GL (Fin 2) F)).subgroupOf B) ≤ p := by
   classical
-  haveI : NeZero (p : F) := ⟨hpF⟩
+  have : NeZero (p : F) := ⟨hpF⟩
   let f : B →* (GL (Fin 2) F ⧸ Subgroup.center (GL (Fin 2) F)) :=
     (QuotientGroup.mk' (Subgroup.center (GL (Fin 2) F))).comp B.subtype
   have hker : f.ker = (Subgroup.center (GL (Fin 2) F)).subgroupOf B := by

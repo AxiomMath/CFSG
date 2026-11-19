@@ -22,11 +22,14 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] noncomputable def W0 (T K : Subgroup G) : Subgroup G := conjClosure (blockU K) T
 
+omit [Finite G] in
 theorem W0_le_T {T K : Subgroup G} (hUT : blockU K ≤ T) : W0 T K ≤ T :=
-  conjClosure_le fun h hh z hz => T.mul_mem (T.mul_mem hh (hUT hz)) (T.inv_mem hh)
+  conjClosure_le fun _h hh _z hz => T.mul_mem (T.mul_mem hh (hUT hz)) (T.inv_mem hh)
 
+omit [Finite G] in
 theorem blockU_le_W0 (T K : Subgroup G) : blockU K ≤ W0 T K := le_conjClosure _ _
 
+omit [Finite G] in
 theorem conj_mem_W0 {T K : Subgroup G} {t u : G} (ht : t ∈ T) (hu : u ∈ blockU K) :
     t * u * t⁻¹ ∈ W0 T K :=
   Subgroup.subset_closure ⟨t, ht, u, hu, rfl⟩
@@ -110,7 +113,7 @@ theorem K_le_normalizer_W0 {P T K : Subgroup G} (hP : CharTwo P) (hTP : T ≤ P)
           rw [← hc]; group
         rw [this]
         exact conj_mem_W0 ht hu
-    | one => simpa using (W0 T K).one_mem
+    | one => simp
     | mul x y _ _ hx hy =>
       have e : k * (x * y) * k⁻¹ = (k * x * k⁻¹) * (k * y * k⁻¹) := by group
       rw [e]
@@ -127,6 +130,7 @@ theorem K_le_normalizer_W0 {P T K : Subgroup G} (hP : CharTwo P) (hTP : T ≤ P)
     have := key k⁻¹ (K.inv_mem hk) _ hx
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem three_subgroups_mod' {X Y Z N : Subgroup G}
     (hX : X ≤ Subgroup.normalizer (N : Set G)) (hY : Y ≤ Subgroup.normalizer (N : Set G))
     (hZ : Z ≤ Subgroup.normalizer (N : Set G)) (h1 : ⁅⁅X, Y⁆, Z⁆ ≤ N) (h2 : ⁅⁅Y, Z⁆, X⁆ ≤ N) :
@@ -156,6 +160,7 @@ theorem three_subgroups_mod' {X Y Z N : Subgroup G}
   rw [key Z X Y hZ hX hY]
   exact Subgroup.commutator_commutator_eq_bot_of_rotate h1 h2
 
+omit [Finite G] in
 theorem le_normalizer_commutator' {A B X : Subgroup G} (hA : X ≤ Subgroup.normalizer (A : Set G))
     (hB : X ≤ Subgroup.normalizer (B : Set G)) :
     X ≤ Subgroup.normalizer ((⁅A, B⁆ : Subgroup G) : Set G) := by
@@ -262,6 +267,7 @@ theorem pCoreOf_le_centralizer_blockU {P K : Subgroup G} (hK : IsBlock2 P K) :
   have hcomm : ⁅N, U⁆ = ⊥ := by rw [Subgroup.commutator_comm]; exact hAbot
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.1 hcomm
 
+omit [Finite G] in
 theorem T_le_normalizer_W0 (T K : Subgroup G) : T ≤ Subgroup.normalizer (W0 T K : Set G) :=
   le_normalizer_conjClosure _ _
 
@@ -295,6 +301,7 @@ theorem pCoreOf_le_centralizer_W0 {P T K : Subgroup G} (hK : IsBlock2 P K) (hTP 
   intro w hw
   exact Subgroup.mem_centralizer_singleton_iff.1 (key hw)
 
+omit [Finite G] in
 theorem not_le_centralizer_W0 {P T K : Subgroup G} (hK : IsBlock2 P K) :
     ¬ K ≤ Subgroup.centralizer (W0 T K : Set G) := by
   intro h
@@ -331,6 +338,7 @@ theorem not_thompsonJ_le_centralizer_W0 {P T K : Subgroup G} (hP : CharTwo P) (h
     _ = (k * j * k⁻¹ * j⁻¹) * (j * w * j⁻¹) := by group
     _ = (k * j * k⁻¹ * j⁻¹) * w := by rw [show j * w * j⁻¹ = w by rw [← h2]; group]
 
+omit [Finite G] in
 theorem pow_mul_mem_of_pow_mem {C : Subgroup G} {d c : G}
     (hd : d ∈ Subgroup.normalizer (C : Set G)) (hc : c ∈ C) {n : ℕ} (h : d ^ n ∈ C) :
     (d * c) ^ n ∈ C := by

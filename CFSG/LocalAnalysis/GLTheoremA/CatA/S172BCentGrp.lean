@@ -28,7 +28,7 @@ theorem normal_subgroupOf_of_commutator_le (h : ⁅X, X⁆ ≤ H) : (H.subgroupO
 
 theorem isSolvable_quotient_of_commutator_le [(H.subgroupOf X).Normal] (h : ⁅X, X⁆ ≤ H) :
     Group.IsSolvable (↥X ⧸ H.subgroupOf X) := by
-  haveI : IsMulCommutative (↥X ⧸ H.subgroupOf X) :=
+  have : IsMulCommutative (↥X ⧸ H.subgroupOf X) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.2 (commutator_le_subgroupOf_of_commutator_le h)
   infer_instance
 

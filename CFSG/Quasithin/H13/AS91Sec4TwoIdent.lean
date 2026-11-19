@@ -236,7 +236,7 @@ theorem sPrime_mem
     (hOut : KG82HatM22Out) (hTw : KG82HatM22Twelve) :
     D.sPrime ∈ h.setting.Mbar.map h.setting.O.subtype := by
   classical
-  haveI : Finite (h.setting.Qt ≃ₗ[ZMod 2] h.setting.Qt) :=
+  have : Finite (h.setting.Qt ≃ₗ[ZMod 2] h.setting.Qt) :=
     Finite.of_injective (fun e : h.setting.Qt ≃ₗ[ZMod 2] h.setting.Qt => (e : _ → _))
       DFunLike.coe_injective
   obtain ⟨τ, hτM, hτθ⟩ := D.outer
@@ -310,10 +310,10 @@ theorem sPrime_mem
           ((k : h.setting.Qt ≃ₗ[ZMod 2] h.setting.Qt) * l *
             (k : h.setting.Qt ≃ₗ[ZMod 2] h.setting.Qt)⁻¹) * x := by rw [h1]
       _ = l * y := by rw [hy]; group
-  haveI : Finite h.setting.Qt := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (Multiplicative h.setting.Qt) := inferInstanceAs (Finite h.setting.Qt)
+  have : Finite h.setting.Qt := Module.finite_of_finite (ZMod 2)
+  have : Finite (Multiplicative h.setting.Qt) := inferInstanceAs (Finite h.setting.Qt)
   have hcard : Nat.card (Multiplicative h.setting.Qt) = 2 ^ 12 := by
-    haveI : Module.Finite (ZMod 2) h.setting.Qt := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) h.setting.Qt := Module.Finite.of_finite
     rw [Nat.card_congr Multiplicative.toAdd, Module.natCard_eq_pow_finrank (K := ZMod 2),
       Nat.card_zmod, h.setting.finrank_Qt_eq_two_mul_width, h.setting_width]
   have hsq : ∀ w : Multiplicative h.setting.Qt, w ^ 2 = 1 := fun w => by

@@ -47,7 +47,7 @@ theorem isSolvable_of_permBar_le (E : Subgroup (AEQ k)) (Q : Subgroup (Equiv.Per
       have := congrArg Subtype.val (MonoidHom.mem_ker.mp b.2)
       simpa [φ] using this
     exact permBar_comm_of_ker ha hb
-  haveI : Group.IsSolvable ↥φ.ker := Group.isSolvable_of_comm hker
+  have : Group.IsSolvable ↥φ.ker := Group.isSolvable_of_comm hker
   exact Group.isSolvable_of_ker_le_range φ.ker.subtype φ (by rw [Subgroup.range_subtype])
 
 theorem V4S_comm (α : Finset (Fin k)) (h : α.card = 4) (b : Bool) :
@@ -63,7 +63,7 @@ theorem isSolvable_Ea_of_uniq {𝒜 : Set (Finset (Fin k))} {a : AEQ k}
     Group.IsSolvable ↥(Ea (aeMembers k 𝒜) a) := by
   by_cases hc : ∃ α ∈ 𝒜, CenSet a α
   · obtain ⟨α₀, hα₀, h₀, b₀, hM₀⟩ := hc
-    haveI : Group.IsSolvable ↥(V4S α₀ h₀ b₀) :=
+    have : Group.IsSolvable ↥(V4S α₀ h₀ b₀) :=
       Group.isSolvable_of_comm fun x y => Subtype.ext (V4S_comm α₀ h₀ b₀ x x.2 y y.2)
     refine isSolvable_of_permBar_le _ (V4S α₀ h₀ b₀) ?_
     rw [Subgroup.map_le_iff_le_comap]
@@ -73,7 +73,7 @@ theorem isSolvable_Ea_of_uniq {𝒜 : Set (Finset (Fin k))} {a : AEQ k}
     subst hγ0
     rw [← Subgroup.map_le_iff_le_comap]
     exact (V4S_bool γ hγc b b₀).le
-  · haveI : Group.IsSolvable ↥(⊥ : Subgroup (Equiv.Perm (Fin k))) := inferInstance
+  · have : Group.IsSolvable ↥(⊥ : Subgroup (Equiv.Perm (Fin k))) := inferInstance
     refine isSolvable_of_permBar_le _ ⊥ ?_
     rw [Subgroup.map_le_iff_le_comap]
     refine Ea_le fun M hM hMc => ?_

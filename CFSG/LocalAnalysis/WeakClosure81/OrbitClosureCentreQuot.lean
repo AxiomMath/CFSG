@@ -39,6 +39,7 @@ theorem orbitClosure_le_or_le_inf_centralizer
     refine Or.inr (le_inf ?_ hYleCF)
     exact hYleCF.trans (centralizer_orbitClosure_le hO2 hT hKT)
 
+omit [Finite Q] in
 theorem mem_centralizer_of_comm_mem_center_of_quasisimple {K' : Subgroup Q}
     (hK' : CFSG.IsQuasisimple K') {x : Q} (hx : x ∈ Subgroup.normalizer (K' : Set Q))
     (h : ∀ k ∈ K', x * k * x⁻¹ * k⁻¹ ∈ Subgroup.centralizer (K' : Set Q)) :
@@ -48,6 +49,7 @@ theorem mem_centralizer_of_comm_mem_center_of_quasisimple {K' : Subgroup Q}
   exact ((CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.commute_of_comm_central hK' hx
     (fun k hk z hz => (Subgroup.mem_centralizer_iff.mp (h k hk) z hz).symm)) k hk).symm
 
+omit [Finite Q] in
 theorem orbitClosure_map {Q' : Type} [Group Q'] (π : Q →* Q') (K T : Subgroup Q) :
     (orbitClosure K T).map π = orbitClosure (K.map π) (T.map π) := by
   apply le_antisymm
@@ -60,6 +62,7 @@ theorem orbitClosure_map {Q' : Type} [Group Q'] (π : Q →* Q') (K T : Subgroup
     rw [← CFSG.LieType.Steinberg.map_map_conj]
     exact Subgroup.map_mono (map_conj_le_orbitClosure K ht)
 
+omit [Finite Q] in
 theorem conj_pow_four_not_mem_centralizer {K : Subgroup Q} {x y : Q}
     (h : x ^ 4 ∉ Subgroup.centralizer (K : Set Q)) :
     (y * x * y⁻¹) ^ 4 ∉
@@ -72,7 +75,7 @@ theorem conj_pow_four_not_mem_centralizer {K : Subgroup Q} {x y : Q}
     Subgroup.mem_map.mpr ⟨k, hk, rfl⟩
   have h1 := hmem (y * k * y⁻¹) hk'
   have hconj4 : (y * x * y⁻¹) ^ 4 = y * x ^ 4 * y⁻¹ := by
-    simpa using map_pow (MulAut.conj y).toMonoidHom x 4
+    simp
   rw [hconj4] at h1
   have h2 : y * (k * x ^ 4) * y⁻¹ = y * (x ^ 4 * k) * y⁻¹ := by
     have e1 : y * (k * x ^ 4) * y⁻¹ = (y * k * y⁻¹) * (y * x ^ 4 * y⁻¹) := by group
@@ -161,6 +164,7 @@ theorem cFAutInFGroup_one_of_component_A6 (h410 : W4Lem4_10) {K S : Subgroup Q}
   · intro hmem
     exact conj_pow_four_not_mem_centralizer ht4 (hsL ▸ hmem)
 
+omit [Finite Q] in
 theorem isComponent_map_of_inf_eq_center {Q' : Type} [Group Q'] (π : Q →* Q')
     (hπ : Function.Surjective π) {K Z : Subgroup Q} (hK : CFSG.IsComponent K)
     (hker : π.ker = Z) (hKZ : K ⊓ Z = (Subgroup.center ↥K).map K.subtype) :
@@ -216,6 +220,7 @@ theorem isComponent_map_of_inf_eq_center {Q' : Type} [Group Q'] (π : Q →* Q')
       (QuotientGroup.quotientKerEquivOfSurjective f hfsurj)
   exact ⟨⟨hquasi, hsub⟩, ⟨e.symm⟩⟩
 
+omit [Finite Q] in
 theorem pow_four_not_mem_centralizer_map {Q' : Type} [Group Q'] (π : Q →* Q')
     {K Z : Subgroup Q} (hK : CFSG.IsQuasisimple K)
     (hZ : Z ≤ Subgroup.centralizer (K : Set Q)) (hker : π.ker = Z) {x : Q}

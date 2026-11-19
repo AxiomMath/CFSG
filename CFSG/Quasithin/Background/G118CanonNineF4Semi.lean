@@ -82,7 +82,7 @@ theorem exists_semilin_coords {Bsp : Type} [AddCommGroup Bsp] [Module (ZMod 2) B
       (∀ (A : Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 2)) (t : Bool), ∃ g : G,
         ∀ b : Bsp, lam (ρ g b) = (A : Matrix (Fin 2) (Fin 2) (GaloisField 2 2)).mulVec
           (if t then sqVec (lam b) else lam b)) := by
-  haveI : Module.Finite (ZMod 2) Bsp := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) Bsp := Module.Finite.of_finite
   let b : Bsp ≃ₗ[ZMod 2] (Fin 4 → ZMod 2) :=
     (Module.finBasisOfFinrankEq (ZMod 2) Bsp hB).equivFun
   let ρ4 : G →* GL4 :=

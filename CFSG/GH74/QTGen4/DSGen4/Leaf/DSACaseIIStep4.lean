@@ -23,13 +23,13 @@ private def dss24a5V0 : Subgroup (alternatingGroup (Fin 5)) where
   carrier := {x | x = 1 ∨ x = dss24a5A ∨ x = dss24a5B ∨ x = dss24a5A * dss24a5B}
   mul_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rcases hx with rfl | rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl | rfl <;>
       decide +kernel
   one_mem' := Or.inl rfl
   inv_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rcases hx with rfl | rfl | rfl | rfl <;> decide +kernel
 
 private theorem dss24a5V0_mem (x : alternatingGroup (Fin 5)) :
@@ -207,8 +207,8 @@ theorem dss24_relIndex_normalizer_sylow_five {G : Type} [Group G] [Finite G] {L 
 
 theorem dss24_commutator_commutator_eq_bot {G : Type} [Group G] {E Q X : Subgroup G}
     (hE : IsElemAbelian 2 E) (hEX : X ≤ Subgroup.normalizer (E : Set G))
-    (hQE : ∀ e ∈ E, ∀ q ∈ Q, ⁅e, q⁆ = 1) (hQX : Q ≤ X)
-    (hXQ : X ≤ Subgroup.normalizer (Q : Set G)) (hidx : Q.relIndex X = 2) :
+    (hQE : ∀ e ∈ E, ∀ q ∈ Q, ⁅e, q⁆ = 1) (_hQX : Q ≤ X)
+    (_hXQ : X ≤ Subgroup.normalizer (Q : Set G)) (hidx : Q.relIndex X = 2) :
     ⁅⁅E, X⁆, X⁆ = ⊥ := by
   obtain ⟨hcomm, hsq⟩ := hE
   have hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := by
@@ -283,11 +283,11 @@ theorem dss24_commutator_commutator_eq_bot {G : Type} [Group G] {E Q X : Subgrou
 
 theorem dss24_card_le_of_comm_sq {G : Type} [Group G] [Finite G]
     (hR : ∀ R : Subgroup G, IsPGroup 2 R → (dsFrattini R).relIndex R ≤ 16)
-    (V Z : Subgroup G) (hV : IsPGroup 2 V) (hZV : Z ≤ V)
+    (V Z : Subgroup G) (hV : IsPGroup 2 V) (_hZV : Z ≤ V)
     (hcomm : ∀ a ∈ V, ∀ b ∈ V, ⁅a, b⁆ ∈ Z) (hsq : ∀ a ∈ V, a ^ 2 ∈ Z) :
     Nat.card V ≤ 16 * Nat.card Z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hN : (Z.subgroupOf V).Normal := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hN : (Z.subgroupOf V).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have h1 : ((g * n * g⁻¹ : V) : G) = ⁅(g : G), (n : G)⁆ * (n : G) := by
@@ -387,7 +387,7 @@ theorem dss24_cover_of_five {G : Type} [Group G] [Finite G] {V Z : Subgroup G}
     (hint : ∀ X ∈ 𝒳, ∀ Y ∈ 𝒳, X ≠ Y → X ⊓ Y = Z) (hV : Nat.card V ≤ 64) :
     ∀ v ∈ V, ∃ X ∈ 𝒳, v ∈ X := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   intro v hv
   let S : Subgroup G → Finset G := fun H => Finset.univ.filter (fun g => g ∈ H)
   have hmemS : ∀ H : Subgroup G, ∀ g, g ∈ S H ↔ g ∈ H := fun H g => by simp [S]
@@ -457,7 +457,7 @@ theorem dss24_cover_of_five {G : Type} [Group G] [Finite G] {V Z : Subgroup G}
 theorem dss24_ncard_conj_orbit {G : Type} [Group G] [Finite G] (K Y : Subgroup G) :
     Set.ncard {X : Subgroup G | ∃ g ∈ K, X = Y.map (MulAut.conj g).toMonoidHom} =
       (K ⊓ Subgroup.normalizer (Y : Set G)).relIndex K := by
-  letI : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
+  let : MulAction (MulAut G) (Subgroup G) := Subgroup.pointwiseMulAction
   have hsmul : ∀ (f : MulAut G) (X : Subgroup G), f • X = X.map f.toMonoidHom :=
     fun _ _ => rfl
   have hstab : (MulAction.stabilizer (MulAut G) Y).comap MulAut.conj =
@@ -468,7 +468,7 @@ theorem dss24_ncard_conj_orbit {G : Type} [Group G] [Finite G] (K Y : Subgroup G
   have horb : {X : Subgroup G | ∃ g ∈ K, X = Y.map (MulAut.conj g).toMonoidHom} =
       MulAction.orbit (K.map MulAut.conj) Y := by
     ext X
-    simp only [Set.mem_setOf_eq, MulAction.mem_orbit_iff]
+    simp only [Set.mem_ofPred_eq, MulAction.mem_orbit_iff]
     constructor
     · rintro ⟨g, hg, rfl⟩
       exact ⟨⟨MulAut.conj g, Subgroup.mem_map_of_mem _ hg⟩, rfl⟩
@@ -487,13 +487,13 @@ private theorem mem_cj {G : Type} [Group G] {g : G} {H : Subgroup G} {y : G} :
   constructor
   · rintro ⟨z, hz, rfl⟩
     have e : g⁻¹ * (MulAut.conj g).toMonoidHom z * g = z := by
-      simp only [MulAut.conj_apply, MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom]
+      simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
       group
     rw [e]
     exact hz
   · intro hy
     exact ⟨g⁻¹ * y * g, hy, by
-      simp only [MulAut.conj_apply, MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom]
+      simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
       group⟩
 
 private theorem cj_mul {G : Type} [Group G] (g h : G) (H : Subgroup G) :
@@ -712,12 +712,12 @@ private theorem dss24_cj_centralizer {G : Type} [Group G] {S : Subgroup G} {b : 
 private theorem cj_elemAbelian {G : Type} [Group G] (g : G) {A : Subgroup G}
     (hA : IsElemAbelian 2 A) : IsElemAbelian 2 (cj g A) :=
   dss24_isElemAbelian_of_comm _
-    (fun a ha b hb => cj_comm (fun e he f hf => dss24_comm_of_elemAbelian hA he hf) a ha b hb)
-    (fun a ha => cj_sq (fun e he => hA.2 e he) a ha)
+    (fun a ha b hb => cj_comm (fun _e he _f hf => dss24_comm_of_elemAbelian hA he hf) a ha b hb)
+    (fun a ha => cj_sq (fun _e he => hA.2 _e he) a ha)
 
 private theorem dss24_endgame {G : Type} [Group G] [Finite G]
     {P2 B Z1 Z Q2 : Subgroup G} {x : G}
-    (hR : ∀ E : Subgroup G, IsElemAbelian 2 E → Nat.card E ≤ 16)
+    (_hR : ∀ E : Subgroup G, IsElemAbelian 2 E → Nat.card E ≤ 16)
     (hRF : ∀ R : Subgroup G, IsPGroup 2 R → (dsFrattini R).relIndex R ≤ 16)
     (hBN : P2 ⊓ Subgroup.normalizer (Z1 : Set G) = B) (hBP : B ≤ P2)
     (hBr : ∀ s ∈ P2, s ∉ B → ∀ g ∈ P2, g ∈ B ∨ ∃ b₁ ∈ B, ∃ b₂ ∈ B, g = b₁ * s * b₂)
@@ -839,8 +839,7 @@ private theorem dss24_endgame {G : Type} [Group G] [Finite G]
 
 
 theorem leafDSACaseIIStep4 [DSLeaf LeafDSANoField] [DSLeaf LeafDSACaseIIOmega] [DSLeaf LeafDSACaseIIQQ] [DSLeaf LeafZiStructure] [DSLeaf LeafZiChief] [DSLeaf LeafM3] [DSLeaf LeafM4] [DSLeaf LeafBruhat] [DSLeaf LeafRankBounds] [DSLeaf LeafSylowS] : LeafDSACaseIIStep4 := by
-  intro G _ _ L1 L2 S h c2 c1
-  intro hZle
+  intro G _ _ L1 L2 S h c2 c1 hZle
   have hG := (Finite4.gen4 (G := G))
   have hqL1 : IsL2Quot 2 (oTwoQuot ↥L1) :=
     CFSG.GH74.QTGen4.U42.VertexGen4.isL2Quot_two_of_gen4 hG h.hyp.hyp.h1 h.ns1
@@ -958,7 +957,7 @@ theorem leafDSACaseIIStep4 [DSLeaf LeafDSANoField] [DSLeaf LeafDSACaseIIOmega] [
     rw [h1, h2, hinfB2, h5]
   have step1 : ∃ x ∈ P2, ¬ cj x Z1 ≤ Q1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcomm1 : ∀ g ∈ P2, ∀ g' ∈ P2, ∀ a ∈ cj g Z1, ∀ b ∈ cj g' Z1, ⁅a, b⁆ = 1 := by
       intro g hg g' hg' a ha b hb
       have hh : ∀ e ∈ Z1, ∀ f ∈ cj (g⁻¹ * g') Z1, ⁅e, f⁆ ∈ (⊥ : Subgroup G) := by
@@ -1027,7 +1026,7 @@ theorem leafDSACaseIIStep4 [DSLeaf LeafDSANoField] [DSLeaf LeafDSACaseIIOmega] [
   have hWne : ∀ y ∈ P2, ¬ cj y Z1 ≤ Q1 → ∃ e ∈ Z1, ∃ f ∈ cj y Z1, e * f ≠ f * e := by
     intro y hy hyQ
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hEq : cj y Z1 = Z1 :=
       dss24_eq_of_commute hR hZ1el (cj_elemAbelian y hZ1el) hZ1c
         (by rw [cj_card, hZ1c]) hno
@@ -1213,7 +1212,7 @@ theorem leafDSACaseIIStep4 [DSLeaf LeafDSANoField] [DSLeaf LeafDSACaseIIOmega] [
       rw [inf_eq_left.mpr hYZ1, hZ1c] at hm
       have hrel : Y.relIndex Z1 ≤ 4 := (hOff.trans hAx).trans hA4.le
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       have := Nat.mul_le_mul hrel (show Nat.card Y ≤ 3 by omega)
       omega
     obtain ⟨hM3N, hM3nN⟩ := m3 hA5 hS1Syl

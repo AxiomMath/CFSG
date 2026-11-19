@@ -137,6 +137,7 @@ private theorem conj_aux {G : Type*} [Group G] {x x' zw zf : G} (h1 : x * x' * x
 
 variable {X X' : F → F → H} {y z : F → H}
 
+omit [CharP F 2] in
 private theorem HeisCtx.z_zero (C : HeisCtx σ X X' y z) : z 0 = 1 := by
   have h := C.z_add 0 0
   rw [add_zero] at h
@@ -145,6 +146,7 @@ private theorem HeisCtx.z_zero (C : HeisCtx σ X X' y z) : z 0 = 1 := by
 private theorem HeisCtx.z_mul_self (C : HeisCtx σ X X' y z) (w : F) : z w * z w = 1 := by
   rw [← C.z_add, CharTwo.add_self_eq_zero, C.z_zero]
 
+omit [CharP F 2] in
 private theorem HeisCtx.z_mul_comm (C : HeisCtx σ X X' y z) (a b : F) :
     z a * z b = z b * z a := by
   rw [← C.z_add, ← C.z_add, add_comm]
@@ -238,6 +240,7 @@ private theorem tw_identity (hσ : ∀ c, σ (σ c) = c) (e : Bool) {u v : F} (h
     linear_combination (-(σ s' * s)) * hV +
       (σ s' * s * σ v - σ s * s * v - σ s' * s' * v) * h2
 
+omit [CharP F 2] in
 private theorem tw_div_mul (hσ : ∀ c, σ (σ c) = c) (e : Bool) {u u' : F} (hu : u ≠ 0) :
     RelBuild.tw σ e (u' / u) * (σ u * u) = RelBuild.tw σ e (σ u * u') := by
   have hσu : σ u ≠ 0 := (map_ne_zero σ).2 hu

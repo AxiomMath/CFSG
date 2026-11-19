@@ -75,13 +75,13 @@ private theorem pairFrameOrd_std {A B : M4} (hok : pairFrameOrd A B = true) {a b
   rw [hne, Bool.false_or] at h
   constructor
   · intro hcomm
-    rw [if_pos (R.commb_of_commute'' hxcρ hxdρ hcomm), beq_iff_eq] at h
+    rw [ite_eq_left (R.commb_of_commute'' hxcρ hxdρ hcomm), beq_iff_eq] at h
     rw [R.cls_eq hxc hxcρ, R.cls_eq hxd hxdρ, h]
   · intro hcomm
     have hb : commb (Rm xc) (Rm xd) = false := by
       by_contra hb
       exact hcomm (R.commute_of_commb'' hxcρ hxdρ (Bool.not_eq_false _ ▸ hb))
-    rw [if_neg (by simp [hb])] at h
+    rw [ite_eq_right (by simp [hb])] at h
     exact R.orderOf_eq_four_of_ord4b hxcρ hxdρ h
 
 theorem cls_eq_or_orderOf_eq_four_of_pairFrame {a b c d : W} (ha : R.IsRefl a)

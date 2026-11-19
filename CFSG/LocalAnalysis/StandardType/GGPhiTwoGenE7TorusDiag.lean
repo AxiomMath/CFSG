@@ -106,10 +106,10 @@ theorem rootDiagUnit_zetaVec_mem_rootSpan_D6
       exact H.one_mem
     · have hmemk : (Pi.single k 1 : Fin Tag.E7.rank → ℤ) ∈ e7D6Roots := by
         refine ⟨isRoot_single .E7 k, ?_⟩
-        simp [Pi.single_apply, Ne.symm hk0]
+        simp [Ne.symm hk0]
       have hmemk' : -(Pi.single k 1 : Fin Tag.E7.rank → ℤ) ∈ e7D6Roots := by
         refine ⟨IsRoot.neg (isRoot_single .E7 k), ?_⟩
-        simp [Pi.single_apply, Ne.symm hk0]
+        simp [Ne.symm hk0]
       show rootDiagUnit .E7 (a k) ∈ rootSpan .E7 L e7D6Roots
       rw [← hk k]
       exact rootRankOneGroup_le_rootSpan (isRoot_single .E7 k) hmemk hmemk' ⟨_, rfl⟩
@@ -126,7 +126,7 @@ theorem rootDiagUnit_zetaVec_mem_rootSpan_D6
     congr 2
     rw [← hu i]
     push_cast
-    simp [ZMod.natCast_zmod_val]
+    simp
   show zetaVec ζ hζ t ∈ H
   rw [hz]
   exact Subgroup.prod_mem _ fun k _ => haH k

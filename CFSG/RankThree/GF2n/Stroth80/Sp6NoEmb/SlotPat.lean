@@ -108,8 +108,7 @@ variable {k G V E R : Type} [Field k] [Monoid G] [AddCommGroup V] [Module k V] [
     simp only [LinearMap.coe_comp, LinearEquiv.coe_coe, Function.comp_apply,
       LinearEquiv.trans_apply, he, piRep_apply]
     generalize e v = t
-    induction t using TensorProduct.induction_on with
-    | zero => simp
+    induction t using TensorProduct.inductionOn with
     | tmul x r =>
       simp [TensorProduct.piScalarRight_apply, TensorProduct.piScalarRightHom_tmul]
     | add t t' ht ht' => simp only [map_add, Pi.add_apply, ht, ht']
@@ -176,7 +175,7 @@ theorem sum_pat_slPat (hK : Fintype.card K = 2 ^ n) (s : Fin 3) (J'' : Finset �
       ∑ J ∈ labels n, pat ρ J * slPat ((cubeRep K J).comp (slot K s)) J'' :=
   sum_pat hK (fun {V} _ _ _ ρ => slPat (ρ.comp (slot K s)) J'')
     (fun {V} _ _ _ ρ hsub => by
-      haveI := hsub
+      have := hsub
       exact slPat_of_subsingleton _ _)
     (fun {V W} _ _ _ _ _ _ ρ σ e => slPat_congr (equivComp e (slot K s)) _)
     (fun {V} _ _ _ ρ U => repMultiplicity_sub_quot (ρ.comp (slot K s)) (subComp U (slot K s)) _)

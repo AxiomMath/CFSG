@@ -96,7 +96,7 @@ theorem res_land_rep (hO : PLaw np O) {S m x p : ℕ} (hm : m < 2 ^ S) (hp : p <
     rw [Nat.testBit_and, hO.rep_testBit hm hb hp, hmp, Bool.and_false]
   · exact resPN_congr fun b hb => by rw [Nat.testBit_and, hO.rep_testBit hm hb hp, hmp, Bool.and_true]
 
-theorem res_lor {S x y p : ℕ} (hp : p < S)
+theorem res_lor {S x y p : ℕ} (_hp : p < S)
     (h : (∀ b < np, x.testBit (b * S + p) = false) ∨ ∀ b < np, y.testBit (b * S + p) = false) :
     resPN np S (x ||| y) p = resPN np S x p + resPN np S y p := by
   rcases h with h | h
@@ -105,7 +105,7 @@ theorem res_lor {S x y p : ℕ} (hp : p < S)
   · rw [res_of_zero h, add_zero]
     exact resPN_congr fun b hb => by rw [Nat.testBit_or, h b hb, Bool.or_false]
 
-theorem res_dsw_rep (hO : PLaw np O) {S d m x p : ℕ} (hv : Benes.ValidIn S d m) (hx : Bd np S x)
+theorem res_dsw_rep (hO : PLaw np O) {S d m x p : ℕ} (hv : Benes.ValidIn S d m) (_hx : Bd np S x)
     (hp : p < S) :
     resPN np S (dsw d (O.rep S m) x) p = resPN np S x (Benes.swp d m p) := by
   have hR := rep_of_law hO (Benes.lt_of_validIn hv)
@@ -120,7 +120,7 @@ theorem bd_dsw_rep (hO : PLaw np O) {S d m x : ℕ} (hv : Benes.ValidIn S d m) (
   exact tb_hi hx hi
 
 theorem res_shr_land (hO : PLaw np O) {S o m x p : ℕ} (ho : o ≤ S) (hm : m < 2 ^ (S - o))
-    (hx : Bd np S x) (hp : p < S) :
+    (_hx : Bd np S x) (hp : p < S) :
     resPN np S ((x >>> o) &&& O.rep S m) p = if m.testBit p then resPN np S x (p + o) else 0 := by
   have hm' : m < 2 ^ S := Benes.lt_two_pow_mono hm (by omega)
   rw [res_land_rep hO hm' hp]
@@ -134,7 +134,7 @@ theorem res_shr_land (hO : PLaw np O) {S o m x p : ℕ} (ho : o ≤ S) (hm : m <
 
 namespace LawAux
 
-theorem testBit_shl_pl {np S o x b p : ℕ} (hx : Bd np S x)
+theorem testBit_shl_pl {np S o x b p : ℕ} (_hx : Bd np S x)
     (hs : ∀ b < np, ∀ q < S, S - o ≤ q → x.testBit (b * S + q) = false) (hb : b < np) (hp : p < S) :
     (x <<< o).testBit (b * S + p) = if o ≤ p then x.testBit (b * S + (p - o)) else false := by
   rw [Nat.testBit_shiftLeft]
@@ -339,14 +339,17 @@ theorem zero_iff {S x p : ℕ} : Zero n S x p ↔ ∀ k : ZMod n, pf n S x p k =
     have := h b
     rwa [pf, ZMod.val_natCast, Nat.mod_eq_of_lt hb] at this
 
+omit [NeZero n] in
 theorem pf_xor (S x y p : ℕ) (k : ZMod n) :
     pf n S (Nat.xor x y) p k = (pf n S x p k ^^ pf n S y p k) := by
   simp only [pf, nxor, Nat.testBit_xor]
 
+omit [NeZero n] in
 theorem pf_and (S x y p : ℕ) (k : ZMod n) :
     pf n S (Nat.land x y) p k = (pf n S x p k && pf n S y p k) := by
   simp only [pf, nland, Nat.testBit_and]
 
+omit [NeZero n] in
 theorem pf_or (S x y p : ℕ) (k : ZMod n) :
     pf n S (Nat.lor x y) p k = (pf n S x p k || pf n S y p k) := by
   simp only [pf, nlor, Nat.testBit_or]
@@ -375,6 +378,7 @@ theorem kLoop_succ (S n P0 G0 i : ℕ) : kLoop S n P0 G0 (i + 1) =
   obtain ⟨G, P⟩ := r
   exact strictNP_eq _ _
 
+omit [NeZero n] in
 theorem gen_step {g q G P : ZMod n → Bool} {L : ℕ}
     (hG : ∀ k, G k = true ↔ ∃ d < L, g (k - d) = true ∧ ∀ e < d, q (k - e) = true)
     (hP : ∀ k, P k = true ↔ ∀ e < L, q (k - e) = true) (k : ZMod n) :
@@ -411,6 +415,7 @@ theorem gen_step {g q G P : ZMod n → Bool} {L : ℕ}
     · intro h
       exact ⟨fun e he => h e (by omega), fun e he => h (L + e) (by omega)⟩
 
+omit [NeZero n] in
 theorem cast_shl_mod (i : ℕ) : ((Nat.mod (Nat.shiftLeft 1 i) n : ℕ) : ZMod n) = ((2 ^ i : ℕ) : ZMod n) := by
   change (((1 <<< i) % n : ℕ) : ZMod n) = _
   rw [ZMod.natCast_mod, Nat.shiftLeft_eq, Nat.one_mul]
@@ -503,6 +508,7 @@ theorem lin_aux (P s c a b cc : ℕ) (h : s + 2 * c = a + b + cc) :
   rw [mul_assoc, ← mul_add, h]
   ring
 
+omit [NeZero n] in
 theorem vv_add {a b c s : ZMod n → Bool} (hs : ∀ k, s k = ((a k ^^ b k) ^^ c k))
     (hc : ∀ k, c (k + 1) = ((a k && b k) || ((a k ^^ b k) && c k))) :
     (vv n s : ZMod (2 ^ n - 1)) = vv n a + vv n b := by
@@ -560,9 +566,11 @@ theorem pf_addN {S lg x y p : ℕ} (hlg : n ≤ 2 ^ lg) (hx : x < 2 ^ (n * S)) (
       simp only [hx0, Bool.false_and] at h1
       exact absurd h1 (by decide)
 
+omit [NeZero n] in
 theorem nNeg_bd {S m x : ℕ} (hm : m < 2 ^ S) (hx : x < 2 ^ (n * S)) :
     negMN S n m x < 2 ^ (n * S) := Nat.xor_lt_two_pow hx (repN_lt hm)
 
+omit [NeZero n] in
 theorem nNeg_bit {S m x b p : ℕ} (hm : m < 2 ^ S) (hb : b < n) (hp : p < S) :
     (negMN S n m x).testBit (b * S + p) = (x.testBit (b * S + p) ^^ m.testBit p) := by
   rw [negMN, nxor, Nat.testBit_xor, testBit_repN hm hb hp]
@@ -579,11 +587,13 @@ theorem nNeg_res {S m x p : ℕ} (hm : m < 2 ^ S) (hp : p < S) :
       rw [nNeg_bit hm (ZMod.val_lt k) hp, hmp, Bool.xor_true]
     rw [e, vv_not]
 
+omit [NeZero n] in
 theorem nNeg_zero {S m x p : ℕ} (hm : m < 2 ^ S) (hp : p < S) (h0 : m.testBit p = false)
     (hz : Zero n S x p) : Zero n S (negMN S n m x) p := fun b hb => by
   rw [nNeg_bit hm hb hp, hz b hb, h0]
   rfl
 
+omit [NeZero n] in
 theorem nAdd_bd {S lg x y : ℕ} (hx : x < 2 ^ (n * S)) (hy : y < 2 ^ (n * S)) :
     addN S n lg x y < 2 ^ (n * S) := by
   rw [addN_eq]
@@ -618,11 +628,13 @@ theorem nRot_zero {S k x p : ℕ} (hk : k ≤ n) (hx : x < 2 ^ (n * S)) (hp : p 
 
 theorem netN_eq (S n k N x : ℕ) : netN S n k N x = CFSG.KC.KDense.netP S k n N x := rfl
 
+omit [NeZero n] in
 theorem nNet_bit {S k N x b p : ℕ} (hS : S = 2 ^ k) (h : CFSG.KC.KDense.netOK k N = true)
     (hb : b < n) (hp : p < S) :
     (netN S n k N x).testBit (b * S + p) = x.testBit (b * S + Benes.benesPerm k N p) := by
   rw [netN_eq, Nat.mul_comm b S, (Benes.testBit_netP hS h x).1 b hb p hp]
 
+omit [NeZero n] in
 theorem nNet_bd {S k N x : ℕ} (hS : S = 2 ^ k) (h : CFSG.KC.KDense.netOK k N = true)
     (hx : x < 2 ^ (n * S)) : netN S n k N x < 2 ^ (n * S) :=
   bd_of_testBit fun i hi => by
@@ -735,7 +747,7 @@ theorem nXsw_bit {k b x b' p : ℕ} (hb : b < k) (hx : x < 2 ^ (n * 2 ^ k)) (hb'
     congr 1
     omega
   · have h : 2 ^ b ≤ p := Nat.ge_two_pow_of_testBit hpb
-    rw [Bool.not_true, Bool.and_false, Bool.false_or, if_pos h, nland, Nat.testBit_and,
+    rw [Bool.not_true, Bool.and_false, Bool.false_or, ite_eq_left h, nland, Nat.testBit_and,
       hlo b' hb' _ (lt_of_le_of_lt (Nat.sub_le p _) hp), xor_set hpb]
     have := bit_sub h
     rw [hpb] at this
@@ -883,7 +895,7 @@ theorem nBfly {k lg b R x : ℕ} (hlg : n ≤ 2 ^ lg) (hb : b < k) (hR : R < 2 ^
     have e : resPN n S (bflyN S n lg b R x) p = resPN n S T3 (p - 2 ^ b) := by
       refine res_move fun c hc => ?_
       rw [hbits c hc p hp, hRp, Bool.not_true, Bool.and_false, Bool.false_or, (zT p hp hl0).1 c hc,
-        Bool.false_or, if_pos h]
+        Bool.false_or, ite_eq_left h]
     rw [e]
     cases hr : R.testBit (p - 2 ^ b)
     · simp only [Bool.false_eq_true, ↓reduceIte]
@@ -927,7 +939,7 @@ theorem testBit_compactN (o Z : ℕ) : ∀ c i, (compactN c o Z).testBit i =
         have a1 : c * SA ≤ i := by omega
         have a2 : i - c * SA < SA := by omega
         simp only [h1, h2, a1, a2, hd, decide_true, decide_false, Bool.false_and, Bool.false_or,
-          Bool.true_and, Bool.and_true, ge_iff_le]
+          Bool.true_and, Bool.and_true]
         congr 1
         omega
       · have a2 : ¬ i - c * SA < SA := by omega
@@ -967,13 +979,13 @@ theorem testBit_expandN {o Z : ℕ} (ho : o + SA ≤ SX) : ∀ c b p, p < SX →
         · have a2 : o + b * SX ≤ b * SX + p := by omega
           have a3 : b * SX + p - (o + b * SX) < SA := by omega
           simp only [a0, a1, a2, a3, h1, h2, and_self, decide_true, decide_false, Bool.false_and,
-            Bool.false_or, Bool.true_and, Bool.and_true, ge_iff_le]
+            Bool.false_or, Bool.true_and, Bool.and_true]
           congr 1
           omega
         · have a3 : ¬ b * SX + p - (o + b * SX) < SA := by omega
-          simp [a0, a1, a3, h2]
+          simp [a1, a3, h2]
       · have a2 : ¬ o + b * SX ≤ b * SX + p := by omega
-        simp [a0, a1, a2, h1]
+        simp [a1, a2, h1]
     · have := Nat.mul_le_mul_right SX (by omega : c + 1 ≤ b)
       rw [Nat.succ_mul] at this
       have a0 : ¬ b < c := by omega
@@ -1015,14 +1027,14 @@ theorem opsN_law {n lg : ℕ} (hn : 2 ≤ n) (hlg : n ≤ 2 ^ lg) : PLaw n (opsN
       subst hS
       have H := nBfly hlg hb hR hx
       by_cases h1 : R.testBit p = false
-      · rw [if_pos h1]
+      · rw [ite_eq_left h1]
         exact resPN_congr fun c hc' => H.2.1 hc p hp h1 c hc'
-      · rw [if_neg h1]
+      · rw [ite_eq_right h1]
         have h1' : R.testBit p = true := by simpa using h1
         by_cases h2 : p.testBit b = false
-        · rw [if_pos h2]
+        · rw [ite_eq_left h2]
           exact H.2.2.1 p hp h1' h2
-        · rw [if_neg h2]
+        · rw [ite_eq_right h2]
           exact H.2.2.2 p hp h1' (by simpa using h2)
     net_bd := fun hS h hx => nNet_bd hS h hx
     net_res := fun hS h _ hp => res_move fun b hb => nNet_bit hS h hb hp

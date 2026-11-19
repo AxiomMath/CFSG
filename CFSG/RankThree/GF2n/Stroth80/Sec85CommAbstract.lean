@@ -27,7 +27,7 @@ theorem comm_fixed_coset [Finite H] {N : Subgroup H} {x y : H} (hN2 : IsPGroup 2
   exact mul_inv_cancel (x * n)
 
 theorem comm_N_trivial {N Zc R : Subgroup H} {x y : H} (hZN : Zc ≤ N) (hNR : N ≤ R)
-    (hZc : ∀ z ∈ Zc, ∀ r ∈ R, r * z = z * r) (hNN : ∀ a ∈ N, ∀ b ∈ N, ⁅a, b⁆ ∈ Zc)
+    (hZc : ∀ z ∈ Zc, ∀ r ∈ R, r * z = z * r) (_hNN : ∀ a ∈ N, ∀ b ∈ N, ⁅a, b⁆ ∈ Zc)
     (hxZ : ∀ z ∈ Zc, ⁅x, z⁆ = 1) (hxN : ∀ n ∈ N, ⁅x, n⁆ ∈ Zc) (hxy : ⁅y, x⁆ = 1) (hyR : y ∈ R)
     (hyN : ∀ n ∈ N, y * n * y⁻¹ ∈ N)
     (hsurj : ∀ n ∈ N, ∃ m ∈ N, ⁅y, m⁆ * n⁻¹ ∈ Zc) : ∀ n ∈ N, ⁅x, n⁆ = 1 := by
@@ -192,7 +192,7 @@ theorem comm_surj_of_fpf [Finite H] {N Zc : Subgroup H} {y : H} (hZN : Zc ≤ N)
     ⟨hZN, hNN, hNsq, fun r hr w hw => (Subgroup.mem_normalizer_iff.mp (hzN hr) w).mp hw,
       fun r hr w hw => (Subgroup.mem_normalizer_iff.mp (hzI hr) w).mp hw⟩
   obtain ⟨Mo, iMo, iAct, κ, hκ⟩ := exists_sectionModule hsec
-  haveI : Finite Mo := hκ.finite
+  have : Finite Mo := hκ.finite
   set g : ↥(Subgroup.zpowers y) := ⟨y, Subgroup.mem_zpowers y⟩ with hg
   have hker : (comm Mo g).ker = ⊥ := by
     rw [CFSG.ClassicalGroups.F2Fixed.ker_comm, eq_bot_iff]

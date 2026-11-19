@@ -13,23 +13,23 @@ open CFSG.ABGLocalTools CFSG.ComponentClassification.AschbacherTightEmbedding
 open CFSG.ComponentClassification.RankTwoStandard CFSG.ComponentClassification.AS81
 
 @[expose] def He42Input426 : Prop :=
-  ∀ (hF6 : L52.F6Model) (G : Type) [Group G] [Finite G] (z : G) (e : ↥(Cz z) ≃* L52.Hc),
+  ∀ (_hF6 : L52.F6Model) (G : Type) [Group G] [Finite G] (z : G) (e : ↥(Cz z) ≃* L52.Hc),
     IsSimpleGroup G → CFSG.Assembly.KProper CFSG.Blueprint.Catalog G →
-    ∀ (S : Setting G z e) (h1 : normalizer (tr e L52.U1 : Set G) = Cz z)
-      (h2 : normalizer (tr e L52.U2 : Set G) = Cz z) (a x : G)
-      (ha : a ∈ tr e L52.A1 ⊓ tr e L52.A2) (ham : HeJ.mG e a = 1)
-      (hxN : x ∈ normalizer ((tr e L52.A1 ⊔ tr e L52.A2 : Subgroup G) : Set G))
-      (hxa : x ∈ centralizer ({a} : Set G)) (hx3 : orderOf x = 3),
+    ∀ (_S : Setting G z e) (_h1 : normalizer (tr e L52.U1 : Set G) = Cz z)
+      (_h2 : normalizer (tr e L52.U2 : Set G) = Cz z) (a x : G)
+      (_ha : a ∈ tr e L52.A1 ⊓ tr e L52.A2) (_ham : HeJ.mG e a = 1)
+      (_hxN : x ∈ normalizer ((tr e L52.A1 ⊔ tr e L52.A2 : Subgroup G) : Set G))
+      (_hxa : x ∈ centralizer ({a} : Set G)) (_hx3 : orderOf x = 3),
       centralizer ((HeB e x : Subgroup G) : Set G) ≤ HeL e (HeB e x)
 
 @[expose] def He42Input427 : Prop :=
-  ∀ (hF6 : L52.F6Model) (G : Type) [Group G] [Finite G] (z : G) (e : ↥(Cz z) ≃* L52.Hc),
+  ∀ (_hF6 : L52.F6Model) (G : Type) [Group G] [Finite G] (z : G) (e : ↥(Cz z) ≃* L52.Hc),
     IsSimpleGroup G → CFSG.Assembly.KProper CFSG.Blueprint.Catalog G →
-    ∀ (S : Setting G z e) (h1 : normalizer (tr e L52.U1 : Set G) = Cz z)
-      (h2 : normalizer (tr e L52.U2 : Set G) = Cz z) (a x : G)
-      (ha : a ∈ tr e L52.A1 ⊓ tr e L52.A2) (ham : HeJ.mG e a = 1)
-      (hxN : x ∈ normalizer ((tr e L52.A1 ⊔ tr e L52.A2 : Subgroup G) : Set G))
-      (hxa : x ∈ centralizer ({a} : Set G)) (hx3 : orderOf x = 3),
+    ∀ (_S : Setting G z e) (_h1 : normalizer (tr e L52.U1 : Set G) = Cz z)
+      (_h2 : normalizer (tr e L52.U2 : Set G) = Cz z) (a x : G)
+      (_ha : a ∈ tr e L52.A1 ⊓ tr e L52.A2) (_ham : HeJ.mG e a = 1)
+      (_hxN : x ∈ normalizer ((tr e L52.A1 ⊔ tr e L52.A2 : Subgroup G) : Set G))
+      (_hxa : x ∈ centralizer ({a} : Set G)) (_hx3 : orderOf x = 3),
       centralizer ({a} : Set G) ≤ normalizer ((HeB e x : Subgroup G) : Set G)
 
 theorem he42_of_inputs

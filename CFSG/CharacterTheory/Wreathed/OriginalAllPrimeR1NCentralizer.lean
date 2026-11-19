@@ -44,7 +44,7 @@ theorem exists_eq_inl_mul_inr {p f : ℕ} (hp : p.Prime) (hpodd : Odd p) (hf : 1
     rw [map_pow, map_one, Subgroup.coe_pow, OneMemClass.coe_one, ← hxy, hxr]
   have hy1 : y.1 = 1 := by
     have h1 : y.1 ^ r = 1 := by rw [← Prod.pow_fst, hy, Prod.fst_one]
-    obtain ⟨s, hs⟩ := P.isPGroup' y.1
+    obtain ⟨s, hs⟩ := P.isPGroup y.1
     have hcop : Nat.Coprime r (2 ^ s) := Nat.Coprime.pow_right s (Nat.coprime_two_right.mpr hr)
     have h := pow_gcd_eq_one.mpr ⟨h1, hs⟩
     rwa [Nat.Coprime.gcd_eq_one hcop, pow_one] at h

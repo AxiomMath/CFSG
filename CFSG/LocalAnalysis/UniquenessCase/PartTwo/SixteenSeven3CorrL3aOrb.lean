@@ -10,13 +10,13 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open CFSG.Quasithin
 
 theorem s16c167_invariant_eq_bot_or_card {W : Type} [CommGroup W] [Finite W]
-    (hW : ∀ x : W, x * x = 1) (hcard : Nat.card W = 2 ^ 6) {L : Subgroup (MulAut W)}
+    (_hW : ∀ x : W, x * x = 1) (hcard : Nat.card W = 2 ^ 6) {L : Subgroup (MulAut W)}
     (hL : IsPOnePlusTwo 3 ↥L) (U : Subgroup W) (hU : ∀ ℓ ∈ L, ∀ u ∈ U, ℓ u ∈ U)
     (hfix : ∀ ℓ : ↥L, ℓ ∈ Subgroup.center ↥L → ℓ ≠ 1 →
       ∀ u ∈ U, (ℓ : MulAut W) u = u → u = 1) :
     U = ⊥ ∨ Nat.card U = 2 ^ 6 := by
   classical
-  haveI hExt : CFSG.IsExtraspecial 3 ↥L := hL.1
+  have hExt : CFSG.IsExtraspecial 3 ↥L := hL.1
   have hLcard : Nat.card ↥L = 27 := by
     rw [hL.2.1]
     norm_num
@@ -63,9 +63,9 @@ theorem s16c167_invariant_eq_bot_or_card {W : Type} [CommGroup W] [Finite W]
     have hdvd : Nat.card S ∣ 27 := by
       simpa [hLcard] using Subgroup.card_subgroup_dvd_card S
     have hnormal : S.Normal := hnormal_aux S hgt hdvd
-    haveI : S.Normal := hnormal
+    have : S.Normal := hnormal
     have hcomm : _root_.commutator ↥L ≤ Subgroup.center ↥L := by
-      haveI : IsElementaryAbelian 3 (↥L ⧸ Subgroup.center ↥L) :=
+      have : IsElementaryAbelian 3 (↥L ⧸ Subgroup.center ↥L) :=
         CFSG.IsExtraspecial.quotient_elementary_abelian 3 ↥L
       exact Subgroup.Normal.quotient_commutative_iff_commutator_le.mp inferInstance
     rw [_root_.commutator_def] at hcomm
@@ -94,7 +94,7 @@ theorem s16c167_invariant_eq_bot_or_card {W : Type} [CommGroup W] [Finite W]
       apply x.2.2
       have h1 : (ℓ : MulAut W) 1 = 1 := map_one _
       exact (ℓ : MulAut W).injective (h.trans h1.symm)⟩
-  letI : MulAction ↥L X :=
+  let : MulAction ↥L X :=
     { smul := act
       one_smul := fun x => by
         apply Subtype.ext
@@ -191,8 +191,8 @@ theorem s16c167_invariant_eq_bot_or_card {W : Type} [CommGroup W] [Finite W]
   rcases hr0or6 with rfl | rfl
   · left
     apply Subgroup.eq_bot_of_card_eq
-    simpa [hUr]
+    simp [hUr]
   · right
-    simpa [hUr]
+    simp [hUr]
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

@@ -15,10 +15,11 @@ open CFSG.Blueprint (LieModel)
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isSpor_M11
     (h : IsSpor X .M11) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M11 :=
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M11 :=
     CFSG.Sporadic.Mathieu.fam_m11_simplicity.2.2
   have hcard : ¬ (Nat.card CFSG.Blueprint.NativeSporadic.M11).Prime := by
     rw [CFSG.Sporadic.Mathieu.card_M11]
@@ -31,10 +32,11 @@ theorem not_three_dvd_center_of_isSpor_M11
   rw [hX, Subgroup.card_bot]
   norm_num
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isSpor_M12
     (h : IsSpor X .M12) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M12 :=
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M12 :=
     CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
   have hcard : ¬ (Nat.card CFSG.Blueprint.NativeSporadic.M12).Prime := by
     rw [CFSG.Sporadic.Mathieu.card_M12]
@@ -47,10 +49,11 @@ theorem not_three_dvd_center_of_isSpor_M12
   rw [hX, Subgroup.card_bot]
   norm_num
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isSpor_M22
     (h : IsSpor X .M22) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M22 :=
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M22 :=
     CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2
   have hcard : ¬ (Nat.card CFSG.Blueprint.NativeSporadic.M22).Prime := by
     rw [CFSG.Sporadic.Mathieu.card_M22]
@@ -63,10 +66,11 @@ theorem not_three_dvd_center_of_isSpor_M22
   rw [hX, Subgroup.card_bot]
   norm_num
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isSpor_M23
     (h : IsSpor X .M23) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M23 :=
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M23 :=
     CFSG.Sporadic.Mathieu.fam_m23_simplicity.2.2
   have hcard : ¬ (Nat.card CFSG.Blueprint.NativeSporadic.M23).Prime := by
     rw [CFSG.RankThree.PartOne.CTP.card_M23]
@@ -79,10 +83,11 @@ theorem not_three_dvd_center_of_isSpor_M23
   rw [hX, Subgroup.card_bot]
   norm_num
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isSpor_M24
     (h : IsSpor X .M24) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M24 :=
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.M24 :=
     CFSG.Sporadic.Mathieu.fam_m24_simplicity.2.2
   have hcard : ¬ (Nat.card CFSG.Blueprint.NativeSporadic.M24).Prime := by
     rw [CFSG.Sporadic.Mathieu.card_M24]
@@ -95,6 +100,7 @@ theorem not_three_dvd_center_of_isSpor_M24
   rw [hX, Subgroup.card_bot]
   norm_num
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isMathieu
     (h : IsMathieu X) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   rcases h with h | h | h | h | h
@@ -104,10 +110,11 @@ theorem not_three_dvd_center_of_isMathieu
   · exact not_three_dvd_center_of_isSpor_M23 h
   · exact not_three_dvd_center_of_isSpor_M24 h
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isSpor_J2
     (h : IsSpor X .J2) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 := CFSG.Sporadic.J2.isSimpleGroup_J2
   have hcard : ¬ (Nat.card CFSG.Blueprint.NativeSporadic.J2).Prime := by
     rw [CFSG.Sporadic.J2.card_J2]
     norm_num
@@ -119,10 +126,11 @@ theorem not_three_dvd_center_of_isSpor_J2
   rw [hX, Subgroup.card_bot]
   norm_num
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isSpor_HS
     (h : IsSpor X .HS) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.HS := CFSG.Sporadic.HS.isSimpleGroup_HS
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.HS := CFSG.Sporadic.HS.isSimpleGroup_HS
   have hcard : ¬ (Nat.card CFSG.Blueprint.NativeSporadic.HS).Prime := by
     rw [CFSG.Sporadic.HS.card_HS]
     norm_num
@@ -134,10 +142,11 @@ theorem not_three_dvd_center_of_isSpor_HS
   rw [hX, Subgroup.card_bot]
   norm_num
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isSpor_Ru
     (h : IsSpor X .Ru) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.Ru := CFSG.Sporadic.Ru.isSimpleGroup_Ru
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.Ru := CFSG.Sporadic.Ru.isSimpleGroup_Ru
   have hcard : ¬ (Nat.card CFSG.Blueprint.NativeSporadic.Ru).Prime := by
     rw [CFSG.Sporadic.Ru.card_Ru]
     norm_num
@@ -149,10 +158,11 @@ theorem not_three_dvd_center_of_isSpor_Ru
   rw [hX, Subgroup.card_bot]
   norm_num
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isSpor_J4
     (h : IsSpor X .J4) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J4 := CFSG.Sporadic.J4.isSimpleGroup_J4
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J4 := CFSG.Sporadic.J4.isSimpleGroup_J4
   have hcard : ¬ (Nat.card CFSG.Blueprint.NativeSporadic.J4).Prime := by
     rw [CFSG.Sporadic.J4.card_J4]
     norm_num
@@ -164,6 +174,7 @@ theorem not_three_dvd_center_of_isSpor_J4
   rw [hX, Subgroup.card_bot]
   norm_num
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isAlt {n : ℕ} (hn : 6 ≤ n) (h : IsAlt X n) :
     ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   obtain ⟨e⟩ := h
@@ -173,18 +184,21 @@ theorem not_three_dvd_center_of_isAlt {n : ℕ} (hn : 6 ≤ n) (h : IsAlt X n) :
   rw [hX, Subgroup.card_bot]
   norm_num
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_lieModel_PSL_five_two
     (h : LieModel X .PSL 5 2 1) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   have hZ := CFSG.EvenSporadicStandard.HSStd.Zassenhaus.ONan.center_eq_bot_of_lieModel_psl_five_two h
   rw [hZ, Subgroup.card_bot]
   norm_num
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_lieModel_PSL_three_three_one
     (h : LieModel X .PSL 3 3 1) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   have hZ := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.CentralQuotient.center_eq_bot_of_lieModel_psl3 h
   rw [hZ, Subgroup.card_bot]
   norm_num
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isSp4 {n : ℕ} (h : IsSp4 X n) :
     ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   have hn1 : 1 ≤ n := h.admissible.2.1
@@ -216,6 +230,7 @@ theorem not_three_dvd_center_of_isSp4 {n : ℕ} (h : IsSp4 X n) :
   rw [hZ, Subgroup.card_bot]
   norm_num
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isG2Der
     {n : ℕ} (h : IsG2Der X n) : ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   rcases h with ⟨rfl, h⟩ | ⟨-, h⟩
@@ -255,6 +270,7 @@ theorem not_three_dvd_center_of_isSU5 (hGA : CFSG.Open.GriessAllModelsStatement)
   intro h3
   exact absurd (h3.trans (hdvd'.trans (Nat.gcd_dvd_left 5 (2 ^ m + 1)))) (by norm_num)
 
+omit [Finite X] in
 theorem not_three_dvd_center_of_isSU5Four (h : IsSU5Four X) :
     ¬ 3 ∣ Nat.card (Subgroup.center X) := by
   rw [h.2]

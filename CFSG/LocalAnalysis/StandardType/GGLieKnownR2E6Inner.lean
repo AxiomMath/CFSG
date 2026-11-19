@@ -160,7 +160,7 @@ private theorem l10se6i_a_mem_parabolic_of_conj_theta
   have hconj : h * pinnedX .E6 K (highRoot .E6) 1 * h⁻¹ =
       pinnedX .E6 K (highRoot .E6) l₀ := by
     have hexp : ∑ j, Tag.cartan .E6 l10se6i_i₀ j * highRoot .E6 j = 1 := by
-      rw [(l10se6i_a_highRootData).coPair l10se6i_i₀, if_pos rfl]
+      rw [(l10se6i_a_highRootData).coPair l10se6i_i₀, ite_eq_left rfl]
     rw [conj_pinnedX_of_mem_torusGroup (torusElt_mem_torusGroup l10se6i_i₀ u) hθ.1 1,
       torusRootChar_torusElt l10se6i_i₀ u hθ.1, hexp, zpow_one, mul_one]
     simp [u]
@@ -190,7 +190,7 @@ private theorem l10se6i_a_exactNormalAutGL_mem_subsystem
     fin_cases ε
     · show i ∈ E6GraphLevi.setA
       exact hi
-    · simp only [E6GraphLevi.setA, Set.mem_setOf_eq] at hi ⊢
+    · simp only [E6GraphLevi.setA] at hi ⊢
       intro h
       have h' : TwistTag.E6.perm i = 1 := h
       exact hi (by
@@ -302,8 +302,8 @@ private theorem l10se6i_a_normal_form_PA
       y = MulAut.conj g * exactNormalAut .E6 (GaloisField 2 f) a σ ε ∧
       (g : ModGL .E6 (GaloisField 2 f)) ∈
         parabolicSubgroup .E6 (GaloisField 2 f) l10se6i_J := by
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
-  haveI : Finite (GaloisField 2 f) := inferInstance
+  have : CharP (GaloisField 2 f) 2 := inferInstance
+  have : Finite (GaloisField 2 f) := inferInstance
   obtain ⟨g, a, σ, ε, hyeq⟩ := exists_conj_mul_exactNormalAut
     (K := GaloisField 2 f)
     (Or.inl rfl : Tag.E6 = Tag.E6 ∨ Tag.E6 = Tag.E7 ∨ Tag.E6 = Tag.E8) y
@@ -420,7 +420,7 @@ private theorem l10se6i_a_beta_fixes_subsystem
     have hβmod : (((MulAut.conj q⁻¹ * y) x) * x⁻¹ : ModGL .E6 K) =
         (q : ModGL .E6 K)⁻¹ * (y x * x⁻¹ : ModGL .E6 K) *
           ((x : ModGL .E6 K) * (q : ModGL .E6 K) * (x : ModGL .E6 K)⁻¹) := by
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [Subgroup.coe_inv]
       rw [hβx]
       group
     rw [hβmod]
@@ -429,7 +429,7 @@ private theorem l10se6i_a_beta_fixes_subsystem
       (parabolicSubgroup_le_normalizer_parabolicRadical l10se6i_J hxP) q).1 hq
   have hβs_prod : (((MulAut.conj q⁻¹ * y) x) * x⁻¹ : ModGL .E6 K) ∈
       subsystemGroup .E6 K E6GraphLevi.setA := by
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_inv]
     exact mul_mem hβs (inv_mem hx)
   have hzmem : ((((MulAut.conj q⁻¹ * y) x) * x⁻¹ : adjointGroup .E6 K) : ModGL .E6 K) ∈
       subsystemGroup .E6 K E6GraphLevi.setA ⊓ parabolicRadical .E6 K l10se6i_J :=
@@ -562,8 +562,8 @@ private theorem l10se6i_inner_maxHeight
       ∑ i, δ i ≤ ∑ i, γ₀ i) :
     GGRootNormInner ((adjDatum (rootOperatorFamily .E6) (GaloisField 2 f)).rootGroup γ₀) := by
   intro y hy2 hyR hytriv
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
-  haveI : Finite (GaloisField 2 f) := inferInstance
+  have : CharP (GaloisField 2 f) 2 := inferInstance
+  have : Finite (GaloisField 2 f) := inferInstance
   have hcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hγ : IsRoot .E6 γ₀ := mem_adjDatum_roots.1 hγ₀
   have hθmem : highRoot .E6 ∈ (adjDatum (rootOperatorFamily .E6) (GaloisField 2 f)).roots :=

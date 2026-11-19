@@ -29,7 +29,7 @@ set_option linter.unusedSectionVars false
 
 section Statements
 
-@[expose] abbrev LangE8Ten (K : Type) [Field K] [Finite K] : Type 1 :=
+abbrev LangE8Ten (K : Type) [Field K] [Finite K] : Type 1 :=
   LangLevi Tag.E8 K ((coxeterSystem Tag.E8).wordProd TwClass.wordE8Ten)
 
 end Statements

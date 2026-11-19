@@ -20,10 +20,10 @@ theorem s16c1_not_le_pCoreOf {D : Data G} {V₀ V : Subgroup G} (hV : InCalV D.M
     ¬ V ≤ pCoreOf 2 (centralizer ({z} : Set G)) := by
   intro hVQ
   obtain ⟨hInO, K, hKn, hKset, hQ, ⟨l, hlL, hVl⟩, -, -, -⟩ := hO
-  haveI : (K.subgroupOf (V ⊔ conjSubgroup V g)).Normal := hKn
+  have : (K.subgroupOf (V ⊔ conjSubgroup V g)).Normal := hKn
   let S : Type := ↥(V ⊔ conjSubgroup V g) ⧸ K.subgroupOf (V ⊔ conjSubgroup V g)
   have hVH : V ≤ centralizer ({z} : Set G) := by
-    haveI : IsMulCommutative ↥V := hV.2.2.2.1
+    have : IsMulCommutative ↥V := hV.2.2.2.1
     intro v hv
     refine Subgroup.mem_centralizer_iff.mpr ?_
     intro y hy
@@ -33,7 +33,7 @@ theorem s16c1_not_le_pCoreOf {D : Data G} {V₀ V : Subgroup G} (hV : InCalV D.M
   have hVgH : conjSubgroup V g ≤ centralizer ({z} : Set G) := by
     have hVg2 : IsElemAbelian 2 (conjSubgroup V g) :=
       CFSG.LocalAnalysis.WeakClosure81.isElemAbelian_conjSubgroup' hV.2.2.2 g
-    haveI : IsMulCommutative ↥(conjSubgroup V g) := hVg2.1
+    have : IsMulCommutative ↥(conjSubgroup V g) := hVg2.1
     intro v hv
     refine Subgroup.mem_centralizer_iff.mpr ?_
     intro y hy
@@ -61,7 +61,7 @@ theorem s16c1_not_le_pCoreOf {D : Data G} {V₀ V : Subgroup G} (hV : InCalV D.M
       CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hL2
     have h3 : 3 ∣ Nat.card S :=
       CFSG.Open.StatedAPI.three_dvd_card_of_statedClassicalModel_psl_two_two hc
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).mp hPLq
     rw [hk] at h3
     have h32 : 3 ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3

@@ -358,7 +358,7 @@ public theorem exists_centralizerSetup
       Nat.card (↥R) = orderOf a := Nat.card_zpowers a
       _ = orderOf (DihedralGroup.r 1) := by
         have heq := e.orderOf_eq a
-        simpa [a] using heq
+        simp [a]
       _ = 2 ^ m := DihedralGroup.orderOf_r_one
   have hcardS0 : Nat.card (↥S0) = 2 ^ m := by
     exact

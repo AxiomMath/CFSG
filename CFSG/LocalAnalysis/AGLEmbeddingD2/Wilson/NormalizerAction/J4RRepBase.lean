@@ -209,7 +209,7 @@ theorem mem_Qgrp_nf
 
 section Matrices
 
-@[expose] def nfOf (idx : ℕ) : J := Coordinator.qNF (decide (4096 ≤ idx)) (idx % 4096)
+def nfOf (idx : ℕ) : J := Coordinator.qNF (decide (4096 ≤ idx)) (idx % 4096)
 
 end Matrices
 
@@ -218,7 +218,7 @@ theorem conj_step' {G : Type*} [Group G] (w g p p' : G) (h : g * p = p' * g) :
   rw [mul_assoc w g p, h]
   group
 
-@[expose] def genEl (g : ℕ) : J :=
+def genEl (g : ℕ) : J :=
   if g = 0 then Coordinator.cA else if g = 1 then Coordinator.cB else Coordinator.cZ
 
 theorem genEl_mem (g : ℕ) : genEl g ∈ Coordinator.C0p := by
@@ -237,7 +237,7 @@ theorem Mx_genEl
   · exact Mx_cB
   · exact Mx_cZ
 
-@[expose] def Good (p : J) : Prop :=
+def Good (p : J) : Prop :=
   ∃ i : Fin 7, ∃ w ∈ Coordinator.C0p, ∃ q ∈ Coordinator.Q8set,
     w * p * w⁻¹ = Coordinator.rRep i * q
 

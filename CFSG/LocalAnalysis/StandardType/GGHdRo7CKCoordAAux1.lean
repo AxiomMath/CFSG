@@ -65,7 +65,7 @@ theorem hdRo7CKCoordAux_torus_data
     (hRig : GGLabelRigidInput) (hH : GGResHyp p B Bs x L D J y K)
     (hrow : GGResRowAt ggRowCorank2C p J K) :
     ∃ (R : Type) (_ : Group R) (I : Set (MulAut R)) (θ : ↥K ⧸ Subgroup.center ↥K ≃* R)
-      (hBsN : Bs ≤ Subgroup.normalizer (K : Set G)),
+      (_hBsN : Bs ≤ Subgroup.normalizer (K : Set G)),
       commutator ↥K = ⊤ ∧ GGTorusSignedEltSC p R ∧ GGCenterPrime p R ∧
       Subgroup.center R = ⊥ ∧ I ⊆ Set.range (MulAut.conj : R →* MulAut R) ∧
       (∀ b ∈ Bs, ∃ φ ∈ I,
@@ -80,14 +80,14 @@ theorem hdRo7CKCoordAux_torus_data
     rcases htagK with hB | hC
     · rw [hB] at h; exact h.2.1
     · rw [hC] at h; exact h.2.1
-  haveI : NeZero labK.rank := ⟨by omega⟩
+  have : NeZero labK.rank := ⟨by omega⟩
   have hnbr : GGNbr p B x D J y K := hH.2.2.2.2.1
   have hID : GGInnerDiagOn Bs K := hH.2.2.1.2 y K hnbr
   have hmark := ggInnerDiagOn_relabel hRig hID hK2 hHasK
   obtain ⟨hperf, lab', hlab'_2, hraw'⟩ := hmark
   have hlab'_eq : lab' = labK := by
     obtain ⟨R0, hR0grp, I0, F0, hQ0⟩ := largeEvenRawDatum_exists hraw'
-    letI : Group R0 := hR0grp
+    let : Group R0 := hR0grp
     obtain ⟨_, _, hθ0⟩ := hQ0
     obtain ⟨_, hlab, _, _⟩ := hθ0
     exact hlab
@@ -101,12 +101,12 @@ theorem hdRo7CKCoordAux_torus_data
   obtain ⟨K', hK'field, hK'fin, hK'char, hK'card, hQK⟩ :=
     hdRo7CLCoordAux_recipe_symplectic htagK hrawK
   obtain ⟨_, _, hθ⟩ := hQK
-  obtain ⟨θ, _hlab', hBsN, hBs3⟩ := hθ
+  obtain ⟨θ, _hlab', _hBsN, hBs3⟩ := hθ
   have hpK : p ∣ Nat.card K' + 1 := by rw [hK'card, hnK, hp3]; norm_num
   exact ⟨LargeEvenProj (LargeEvenSpGroup K' labK.rank), inferInstance,
     LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K' labK.rank))
       (LargeEvenGSpSet K' labK.rank),
-    θ, hBsN, hperf,
+    θ, _hBsN, hperf,
     ggSpNonsplitSignedEltInput_holds K' labK.rank p h2rank hp hpK,
     ggCenterPrime_sp (K := K') hp hp2,
     TableBSymp.center_spProj_eq_bot,

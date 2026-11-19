@@ -37,8 +37,8 @@ private theorem l10lG7_ratOrbit_eq_of_image_eq {τ : Tag}
 theorem ggLieF4A2in_derived
     {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] {D : LangDatum Tag.F4 L}
     {ρ : Equiv.Perm (Fin Tag.F4.rank → ℤ)} {a₁ a₂ : Fin Tag.F4.rank → Lˣ}
-    (h : GGLieF4PlaneHyp D ρ a₁ a₂)
-    {f : ℕ} (hf : 1 ≤ f) (hqf : D.q = 2 ^ f) (i : KernelComponent (jointChar a₁ a₂))
+    (_h : GGLieF4PlaneHyp D ρ a₁ a₂)
+    {f : ℕ} (hf : 1 ≤ f) (_hqf : D.q = 2 ^ f) (i : KernelComponent (jointChar a₁ a₂))
     (hρΨ : (ρ : (Fin Tag.F4.rank → ℤ) → (Fin Tag.F4.rank → ℤ)) ''
       componentRoots (jointChar a₁ a₂) i = componentRoots (jointChar a₁ a₂) i)
     (hΓ : D.Γ = D.model)
@@ -69,7 +69,7 @@ theorem ggLieF4A2in_derived
   have hLM : LieModel (↥M ⧸ Subgroup.center ↥M) .PSL 3 2 f :=
     CFSG.StandardType.TableCRes.lieModel_of_slCover (G := ModGL Tag.F4 L) (X := M)
       (K := K) (ν := 3) (f := f) hf hKcard (by norm_num)
-      (by intro h; exact absurd h (by norm_num)) e.toMonoidHom e.surjective hgker
+      (by intro _h; exact absurd _h (by norm_num)) e.toMonoidHom e.surjective hgker
   refine Or.inr ?_
   rw [hrat, hcomm]
   exact hLM

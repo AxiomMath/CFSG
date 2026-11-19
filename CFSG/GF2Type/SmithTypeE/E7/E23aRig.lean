@@ -72,12 +72,12 @@ theorem ea7_inF0_lt {p : ℕ} (h : ea7InF0 p = true) : p < 365211 := by
 
 theorem ea7_triple_lt {k y : ℕ} (hk : k < 365211) (hy : y ∈ ea7Triple k) : y < 4096 := by
   obtain ⟨-, h1, h2, h3, -⟩ := lineFacts.entry k hk
-  simp only [ea7Triple, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hy
+  simp only [ea7Triple, List.mem_cons, List.not_mem_nil, or_false] at hy
   omega
 
 theorem ea7_mem_lineSet {k c : ℕ} (h : c ∈ ea7Triple k) : dec12 c ∈ lineSet k := by
   rw [lineSet_eq]
-  simp only [ea7Triple, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at h
+  simp only [ea7Triple, List.mem_cons, List.not_mem_nil, or_false] at h
   rcases h with rfl | rfl | rfl
   · exact Finset.mem_insert_self _ _
   · exact Finset.mem_insert_of_mem (Finset.mem_insert_self _ _)

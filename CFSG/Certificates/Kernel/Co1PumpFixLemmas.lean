@@ -174,7 +174,7 @@ theorem pf_cntK (mem : ℕ → Bool) (J : ℕ) : ∀ (F : List (ℕ × ℕ × �
     simp only [ih, pfL]
     cases J.testBit q
     · simp
-    · simp only [if_true, List.countP_append]
+    · simp only [ite_true, List.countP_append]
       omega
 
 theorem pf_L_fixed {M J : ℕ} : ∀ {F : List (ℕ × ℕ × ℕ)} {q x : ℕ}, entsK M J F q = true →
@@ -248,10 +248,10 @@ theorem pf_L_length {M J : ℕ} : ∀ {F : List (ℕ × ℕ × ℕ)} {q x : ℕ}
     split
     · rename_i hq
       rw [List.length_append, pf_L_length h2, pf_L_length h2]
-      simp [hq, pow_succ, mul_two]
+      simp [pow_succ, mul_two]
     · rename_i hq
       rw [pf_L_length h2]
-      simp [hq]
+      simp
 
 theorem pf_L_exists {M J : ℕ} : ∀ {F : List (ℕ × ℕ × ℕ)} {q x v : ℕ}, entsK M J F q = true →
     (∀ j, J.testBit j = true → j < q → v.testBit j = x.testBit j) →
@@ -318,7 +318,6 @@ theorem pf_popK (J : ℕ) : popK J = (List.range' 0 24).countP fun j => J.testBi
       (fun i s => if J.testBit i = true then Nat.succ s else s) 0 := by
     refine (MatL.foldN_eq _ _).trans ?_
     simp only [MatL.nIf_eq, MatL.hasBit_eq]
-    try rfl
   rw [e, ← List.range_eq_range']
   generalize List.range 24 = l
   induction l with

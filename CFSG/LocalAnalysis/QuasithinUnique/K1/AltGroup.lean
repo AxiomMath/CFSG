@@ -208,7 +208,7 @@ private theorem false_of_qlevel_core {H S U L : Subgroup G} (hD : StrongClosureC
                 _ = (t * z) * (t * z) := by group
           _ = 1 := by rw [← hyz]; exact hy2
       exact eq_inv_of_mul_eq_one_right h1
-    obtain ⟨k, hk⟩ := Tsyl.isPGroup' (⟨t, htT⟩ : Tsyl)
+    obtain ⟨k, hk⟩ := Tsyl.isPGroup (⟨t, htT⟩ : Tsyl)
     have htk : t ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hzk : z ^ 2 ^ (k + 1) = 1 := by
       calc z ^ 2 ^ (k + 1) = (z * z) ^ 2 ^ k := by
@@ -274,7 +274,7 @@ private theorem exists_iso_sylow_le {L : Subgroup G} (Tsyl : Sylow 2 L) {n : ℕ
     obtain ⟨q, rfl⟩ := φ.surjective x
     obtain ⟨g, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center L) q
     exact ⟨g, rfl⟩
-  have hP₀p : IsPGroup 2 ((Tsyl : Subgroup L).map π₀) := Tsyl.isPGroup'.map π₀
+  have hP₀p : IsPGroup 2 ((Tsyl : Subgroup L).map π₀) := Tsyl.isPGroup.map π₀
   have hP₀i : ¬ 2 ∣ ((Tsyl : Subgroup L).map π₀).index := by
     intro h2
     have h1 : ((Tsyl : Subgroup L).map π₀).index = (((Tsyl : Subgroup L).map π₀).comap π₀).index :=

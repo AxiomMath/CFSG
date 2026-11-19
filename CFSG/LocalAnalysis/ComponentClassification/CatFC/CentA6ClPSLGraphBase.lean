@@ -26,11 +26,13 @@ variable {n : ℕ} {K : Type} [Field K] [Finite K] (A : GL (Fin n) K)
 noncomputable def pgPsi : MulAut (SpecialLinearGroup (Fin n) K) :=
   slConjugation n K A * slGraphAut n K
 
+omit [Finite K] in
 theorem pgPsi_inv :
     (center (SpecialLinearGroup (Fin n) K)).map (pgPsi A).toMonoidHom =
       center (SpecialLinearGroup (Fin n) K) :=
   Subgroup.map_center_eq (pgPsi A)
 
+omit [Finite K] in
 theorem pureGraphAction_eq_onQuotient :
     pureGraphAction n K A = CatalogueBFixedCentralQuotient.onQuotient
       (center (SpecialLinearGroup (Fin n) K)) (pgPsi A) (pgPsi_inv A) := by
@@ -43,6 +45,7 @@ theorem pureGraphAction_eq_onQuotient :
       CatalogueBFixedCentralQuotient.onQuotient_mk]
     exact CatalogueBGraphForm.pureGraphAction_mk n K A g
 
+omit [Finite K] in
 theorem pgFix_iff (x : GL (Fin n) K) :
     A * glGraphAut n K x * A⁻¹ = x ↔ glTranspose n K x * A⁻¹ * x = A⁻¹ := by
   have hT : glGraphAut n K x = (glTranspose n K x)⁻¹ := (inv_inv _).symm
@@ -57,6 +60,7 @@ theorem pgFix_iff (x : GL (Fin n) K) :
         A * (glTranspose n K x)⁻¹ * (glTranspose n K x * A⁻¹ * x) := by rw [h]
       _ = x := by group
 
+omit [Finite K] in
 theorem fixedSL_map_eq :
     (fixedSubgroup (pgPsi A)).map SpecialLinearGroup.toGL =
       CatalogueBGraphForm.isometryGroup n K A⁻¹ ⊓
@@ -77,6 +81,7 @@ theorem fixedSL_map_eq :
     rw [pgPsi, MulAut.mul_apply, toGL_slConjugation, CatalogueBGraphForm.toGL_slGraphAut]
     exact (pgFix_iff A _).mpr hyI
 
+omit [Finite K] in
 theorem pureGraph_component_transfer
     {L : Subgroup (fixedSubgroup (pureGraphAction n K A))} (hL : IsComponent L) :
     ∃ N : Subgroup ↥(CatalogueBGraphForm.isometryGroup n K A⁻¹), IsComponent N ∧
@@ -127,6 +132,7 @@ noncomputable def pgTheta :
       change pureGraphAction n K A (QuotientGroup.mk' _ x.1) = QuotientGroup.mk' _ x.1
       rw [pureGraphAction_eq_onQuotient A, CatalogueBFixedCentralQuotient.onQuotient_mk, hx])
 
+omit [Finite K] in
 theorem pgTheta_eq_one_iff (b : ↥(fixedSubgroup (pgPsi A))) :
     pgTheta A b = 1 ↔ b.1 ∈ center (SpecialLinearGroup (Fin n) K) := by
   constructor
@@ -154,11 +160,13 @@ noncomputable def pgJ : X →* ↥(CatalogueBGraphForm.isometryGroup n K A⁻¹ 
 noncomputable def pgPhi : X →* ↥(fixedSubgroup (pureGraphAction n K A)) :=
   (pgTheta A).comp ((pgFixEquiv A).symm.toMonoidHom.comp (pgJ A j hdet))
 
+omit [Finite K] in
 theorem pgJ_injective (hj : Function.Injective j) : Function.Injective (pgJ A j hdet) := by
   intro a b h
   have h' : (pgJ A j hdet a).1 = (pgJ A j hdet b).1 := congrArg Subtype.val h
   exact hj (Subtype.ext h')
 
+omit [Finite K] in
 theorem pgPhi_ker_le_center (hj : Function.Injective j) : (pgPhi A j hdet).ker ≤ center X := by
   intro x hx
   have hxc : ((pgFixEquiv A).symm (pgJ A j hdet x)).1 ∈ center (SpecialLinearGroup (Fin n) K) :=
@@ -178,6 +186,7 @@ section Kill
 
 variable {S : Type} [Group S] [Finite S] {σ : MulAut S} {D : Subgroup ↥(fixedSubgroup σ)}
 
+omit [Finite S] in
 theorem A6Hyp.center_eq_bot (h : A6Hyp σ D) : center ↥D = ⊥ := by
   obtain ⟨-, ⟨eD⟩, -⟩ := h
   have h1 := Subgroup.map_center_eq eD

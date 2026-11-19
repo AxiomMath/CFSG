@@ -38,7 +38,7 @@ theorem s16c11_normalizer_le_of_bigAlt (D : Data G) (hin : In10 D) {V₀ V L : S
       norm_num
     unfold rk
     rw [hcard]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact padicValNat.prime_pow 8
   rw [hrk8] at h1
   have hpR : CFSG.Open.pRank 2 (Mbar D.M V₀ V hV) ≤ 6 := by

@@ -26,7 +26,7 @@ theorem excTLInnerTwo_of_ne_G2 {τ : Tag} (hτ : τ ≠ .G2) : ExcTLInnerTwo τ 
       ⟨a₁, ha₁, a₂, ha₂, a₃, ha₃, n1, n2, n3, p12, p23, p13⟩
   · obtain ⟨hfin, hcard⟩ := excTL_two_card_le hτ hK hγr hδr nγ nδ hform
       (S := componentRoots χ i) hsub
-    haveI : Finite ↥(componentRootSpan K χ i) := hfin
+    have : Finite ↥(componentRootSpan K χ i) := hfin
     exact excTL_false_of_card φ (by rw [hF]; exact hq) hcard
   · exact excTL_two_false_of_chain hτ hK φ ha₁ ha₂ ha₃ n1 n2 n3 p12 p23 p13
 

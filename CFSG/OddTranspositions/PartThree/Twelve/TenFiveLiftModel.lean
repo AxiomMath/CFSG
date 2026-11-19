@@ -13,7 +13,7 @@ open Matrix
 
 theorem fiveForm_castSucc_self {k : ℕ} {ε : Bool} (i : Fin k) :
     fiveForm k ε (Pi.single i.castSucc 1) (Pi.single i.castSucc 1) = 1 := by
-  rw [fiveForm_single, if_neg i.castSucc_lt_last.ne, Pi.single_eq_same, mul_one]
+  rw [fiveForm_single, ite_eq_right i.castSucc_lt_last.ne, Pi.single_eq_same, mul_one]
 
 theorem fiveForm_castSucc_castSucc {k : ℕ} {ε : Bool} {i j : Fin k} (hij : i ≠ j) :
     fiveForm k ε (Pi.single i.castSucc 1) (Pi.single j.castSucc 1) = 0 := by
@@ -22,7 +22,7 @@ theorem fiveForm_castSucc_castSucc {k : ℕ} {ε : Bool} {i j : Fin k} (hij : i 
 
 theorem fiveForm_castSucc_last {k : ℕ} {ε : Bool} (i : Fin k) :
     fiveForm k ε (Pi.single i.castSucc 1) (Pi.single (Fin.last k) 1) = 0 := by
-  rw [fiveForm_single, if_pos rfl, Pi.single_eq_of_ne' i.castSucc_lt_last.ne, mul_zero]
+  rw [fiveForm_single, ite_eq_left rfl, Pi.single_eq_of_ne' i.castSucc_lt_last.ne, mul_zero]
 
 theorem fiveForm_last_castSucc {k : ℕ} {ε : Bool} (i : Fin k) :
     fiveForm k ε (Pi.single (Fin.last k) 1) (Pi.single i.castSucc 1) = 0 := by
@@ -172,7 +172,7 @@ theorem exists_commuting_fiveReflections_notMem_center {k : ℕ} (hk : 4 ≤ k) 
         rw [Matrix.GeneralLinearGroup.coe_mul, ← Matrix.mulVec_mulVec, hrv_w, hru_w] at hw_eq
         have hneg1 : (((-1 : GL (Fin (k + 1)) (ZMod 5)) :
             Matrix (Fin (k + 1)) (Fin (k + 1)) (ZMod 5)) *ᵥ w) = -w := by
-          rw [Units.coe_neg_one, Matrix.neg_mulVec, Matrix.one_mulVec] <;> rfl
+          rw [Units.coe_neg_one, Matrix.neg_mulVec, Matrix.one_mulVec]
         rw [hneg1] at hw_eq
         exact hneg_w hw_eq.symm
   ·
@@ -247,7 +247,7 @@ theorem exists_commuting_fiveReflections_notMem_center {k : ℕ} (hk : 4 ≤ k) 
         rw [Matrix.GeneralLinearGroup.coe_mul, ← Matrix.mulVec_mulVec, hrv_w, hru_w] at hw_eq
         have hneg1 : (((-1 : GL (Fin (k + 1)) (ZMod 5)) :
             Matrix (Fin (k + 1)) (Fin (k + 1)) (ZMod 5)) *ᵥ w) = -w := by
-          rw [Units.coe_neg_one, Matrix.neg_mulVec, Matrix.one_mulVec] <;> rfl
+          rw [Units.coe_neg_one, Matrix.neg_mulVec, Matrix.one_mulVec]
         rw [hneg1] at hw_eq
         exact hneg_w hw_eq.symm
 

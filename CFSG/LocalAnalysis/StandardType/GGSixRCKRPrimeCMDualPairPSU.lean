@@ -27,7 +27,7 @@ theorem rckDP_blockEquiv_PSU {n g : ℕ} {s : GL (Fin n) (PSUF g)} (hsU : s ∈ 
       ∀ b ∈ ({s} : Set (GL (Fin n) (PSUF g))), Commute a b := by
     intro a ha b hb
     rw [Set.mem_singleton_iff] at ha hb
-    simpa [ha, hb]
+    simp [ha, hb]
   have hoddS : ∀ a ∈ ({s} : Set (GL (Fin n) (PSUF g))), Odd (orderOf a) := by
     intro a ha
     rw [Set.mem_singleton_iff] at ha
@@ -35,9 +35,9 @@ theorem rckDP_blockEquiv_PSU {n g : ℕ} {s : GL (Fin n) (PSUF g)} (hsU : s ∈ 
     exact hodd
   obtain ⟨K, hKfield, hKalg, hKfinite, π, hπsurj, hπker, -⟩ :=
     exists_blockField (F := PSUF g) (S := ({s} : Set (GL (Fin n) (PSUF g)))) hS hoddS he
-  letI : Field K := hKfield
-  letI : Algebra (PSUF g) K := hKalg
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Algebra (PSUF g) K := hKalg
+  let : Finite K := hKfinite
   have hCharK : CharP K 2 :=
     charP_of_injective_algebraMap (algebraMap (PSUF g) K).injective 2
   have hSU : ∀ a ∈ ({s} : Set (GL (Fin n) (PSUF g))),

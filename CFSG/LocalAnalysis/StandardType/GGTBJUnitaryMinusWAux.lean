@@ -43,7 +43,7 @@ private theorem flipCoords_mem_spSignedGroup (T : Finset (Fin r)) :
         by_cases ht : t = a
         · subst ht
           simp [ha]
-        · rw [Function.update_apply, if_neg ht, flipCoords_apply]
+        · rw [Function.update_apply, ite_eq_right ht, flipCoords_apply]
           simp [Finset.mem_insert, ht]
       rw [hstep]
       exact Subgroup.mul_mem _ (coordInv_mem_spSignedGroup a) ih
@@ -155,24 +155,24 @@ theorem card_constSubgroup {m p : ℕ} {S : Finset (Fin m)} (hS : S.Nonempty) :
       ↥(constSubgroup (p := p) S) :=
     fun q => ⟨fun i => if h : i ∈ S then q.1 else q.2 ⟨i, by simpa using h⟩, by
       intro i hi j hj
-      simp only [dif_pos hi, dif_pos hj]⟩
+      simp only [dite_eq_left hi, dite_eq_left hj]⟩
   have hleft : Function.LeftInverse g f := by
     rintro ⟨v, hv⟩
     apply Subtype.ext
     funext i
     show (if h : i ∈ S then v i₀ else v ⟨i, _⟩) = v i
     by_cases hi : i ∈ S
-    · simp only [dif_pos hi]
+    · simp only [dite_eq_left hi]
       exact (hv i hi i₀ hi₀).symm
-    · simp only [dif_neg hi]
+    · simp only [dite_eq_right hi]
   have hright : Function.RightInverse g f := by
     rintro ⟨c, u⟩
     apply Prod.ext
     · show (if h : i₀ ∈ S then c else u ⟨i₀, _⟩) = c
-      simp only [dif_pos hi₀]
+      simp only [dite_eq_left hi₀]
     · funext i
       show (if h : i.1 ∈ S then c else u ⟨i.1, _⟩) = u i
-      simp only [dif_neg (Finset.mem_compl.mp i.2)]
+      simp only [dite_eq_right (Finset.mem_compl.mp i.2)]
   have hcard : Nat.card ↥(constSubgroup (p := p) S) =
       Nat.card (Multiplicative (ZMod p) × (↥(Sᶜ) → Multiplicative (ZMod p))) :=
     Nat.card_congr (Equiv.ofBijective f ⟨hleft.injective, hright.surjective⟩)
@@ -191,21 +191,21 @@ theorem card_trivSubgroup {m p : ℕ} {S : Finset (Fin m)} :
   let g : (↥(Sᶜ) → Multiplicative (ZMod p)) → ↥(trivSubgroup (p := p) S) :=
     fun u => ⟨fun i => if h : i ∈ S then 1 else u ⟨i, by simpa using h⟩, by
       intro i hi
-      simp only [dif_pos hi]⟩
+      simp only [dite_eq_left hi]⟩
   have hleft : Function.LeftInverse g f := by
     rintro ⟨v, hv⟩
     apply Subtype.ext
     funext i
     show (if h : i ∈ S then (1 : Multiplicative (ZMod p)) else v ⟨i, _⟩) = v i
     by_cases hi : i ∈ S
-    · simp only [dif_pos hi]
+    · simp only [dite_eq_left hi]
       exact (hv i hi).symm
-    · simp only [dif_neg hi]
+    · simp only [dite_eq_right hi]
   have hright : Function.RightInverse g f := by
     intro u
     funext i
     show (if h : i.1 ∈ S then (1 : Multiplicative (ZMod p)) else u ⟨i.1, _⟩) = u i
-    simp only [dif_neg (Finset.mem_compl.mp i.2)]
+    simp only [dite_eq_right (Finset.mem_compl.mp i.2)]
   have hcard : Nat.card ↥(trivSubgroup (p := p) S) =
       Nat.card (↥(Sᶜ) → Multiplicative (ZMod p)) :=
     Nat.card_congr (Equiv.ofBijective f ⟨hleft.injective, hright.surjective⟩)
@@ -275,13 +275,13 @@ theorem leviSU_commute_splitTorus (h : UnitaryFieldData 2 n K) {ζ : K}
         by_contra hi
         have h1 := CFSG.RankThree.CALinearPlane.mem_coordBlockSL_iff.mp
           (Subgroup.inv_mem (CFSG.RankThree.CALinearPlane.coordBlockSL K S) hA) j i (Or.inr hi)
-        rw [h1, if_neg (Ne.symm hij)] at hne
+        rw [h1, ite_eq_right (Ne.symm hij)] at hne
         exact hne rfl
       have hj : j ∈ S := by
         by_contra hj
         have h1 := CFSG.RankThree.CALinearPlane.mem_coordBlockSL_iff.mp
           (Subgroup.inv_mem (CFSG.RankThree.CALinearPlane.coordBlockSL K S) hA) j i (Or.inl hj)
-        rw [h1, if_neg (Ne.symm hij)] at hne
+        rw [h1, ite_eq_right (Ne.symm hij)] at hne
         exact hne rfl
       rw [ht i hi j hj]
 
@@ -298,8 +298,8 @@ theorem hypBlock_mono {h : UnitaryFieldData 2 n K} {T T' : Set (HypIndex r ε)}
 theorem lineCoords_subset_zeroCoords {S : Finset (Fin r)} {i : Fin r} (hi : i ∈ S) :
     lineCoords (ε := ε) i ⊆ zeroCoords (ε := ε) S := by
   intro a ha
-  simp only [lineCoords, Set.mem_setOf_eq] at ha
-  simp only [zeroCoords, Set.mem_setOf_eq]
+  simp only [lineCoords, Set.mem_ofPred_eq] at ha
+  simp only [zeroCoords, Set.mem_ofPred_eq]
   rcases ha with rfl | ⟨k, rfl⟩ | rfl
   · exact Or.inl ⟨i, hi, rfl⟩
   · exact Or.inr (Or.inl ⟨k, rfl⟩)
@@ -346,9 +346,9 @@ theorem leviSU_mem_hypBlock (h : UnitaryFieldData 2 n K) {S : Finset (Fin r)}
         (hab.elim Or.inr Or.inl)
     rw [hX]
     by_cases hji : j = i
-    · rw [if_pos hji, map_one]
+    · rw [ite_eq_left hji, map_one]
       simp [Matrix.one_apply, hji]
-    · rw [if_neg hji, map_zero]
+    · rw [ite_eq_right hji, map_zero]
       simp [Ne.symm hji]
 
 theorem hypBlock_commute_diagonal (h : UnitaryFieldData 2 n K) {T : Set (HypIndex r ε)}

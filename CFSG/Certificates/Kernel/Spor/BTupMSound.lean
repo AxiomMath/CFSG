@@ -26,7 +26,7 @@ theorem btClsSl_spec {k cnt r0 kw km cntL lo len : Nat} {K R RT KL TG E : Nat �
   have e : Nat.add lo (i - lo) = i := by
     change lo + (i - lo) = i
     omega
-  rw [e, if_pos (Nat.blt_eq.mpr hi)] at h'
+  rw [e, ite_eq_left (Nat.blt_eq.mpr hi)] at h'
   exact h'
 
 section Mul
@@ -110,7 +110,7 @@ theorem btConj_spec {cnt' : Nat} {E : Nat → Nat} {i p : Nat} (hi : i < cnt)
       cases e : Nat.beq s (nat_lit 0)
       · rfl
       · exact absurd (Nat.beq_eq.mp e) hs0
-    rw [CFSG.KS.Raw.Orb.bIf_eq, hs0', if_neg Bool.false_ne_true] at h3
+    rw [CFSG.KS.Raw.Orb.bIf_eq, hs0', ite_eq_right Bool.false_ne_true] at h3
     have e9 : Nat.add 9 s = 9 + s := rfl
     rw [e9] at h3
     exact Nat.blt_eq.mp h3
@@ -161,7 +161,7 @@ theorem btCls_sound {r0 cntL : Nat} {KL TG E : Nat → Nat} {L : Subgroup (Equiv
     (hcl : ∀ i < cnt, btClsK k cnt r0 kw km cntL K R RT KL TG E i = true)
     (hL : ∀ q < cntL, ∃ l ∈ L, ∀ t : Fin d, pg w (mask w) (btKey kw km KL q) t = l (b t))
     (hext : ∀ x ∈ genSub n k gp, ∀ l ∈ L, (∀ t, x (b t) = l (b t)) → x = l)
-    {e : Equiv.Perm (Fin n)} (heH : e ∈ genSub n k gp) (he2 : e * e = 1) (he1 : e ≠ 1)
+    {e : Equiv.Perm (Fin n)} (heH : e ∈ genSub n k gp) (he2 : e * e = 1) (_he1 : e ≠ 1)
     (heL : e ∉ L) :
     9 ≤ Nat.card ↥{x : Equiv.Perm (Fin n) | ∃ g ∈ genSub n k gp, x = g * e * g⁻¹} := by
   obtain ⟨i, hi, he⟩ := btKey_cover hg hb hp hc heH

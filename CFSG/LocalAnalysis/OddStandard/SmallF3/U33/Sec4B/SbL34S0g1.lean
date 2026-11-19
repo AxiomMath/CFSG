@@ -125,7 +125,7 @@ include hc hs
 
 theorem card_CQ_tl :
     Nat.card ↥(ctxQ t tau x₁ x₂ rho ⊓ centralizer ({t * lam} : Set G)) = 8 :=
-  card_CQ_tl_of hc (Q_nonab hc hs)
+  card_CQ_tl_of hc (Q_nonab hs)
 
 end Main
 

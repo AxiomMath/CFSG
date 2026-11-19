@@ -97,7 +97,7 @@ theorem exists_fixed_of_mk_fixed [Finite I] [K.Normal] (hK : ActInv ρ K) {a : Y
     rw [← Nat.card_eq_fintype_card]
     refine Nat.card_congr ⟨fun z => ⟨x⁻¹ * z.1, ?_⟩, fun k => ⟨x * k.1, ?_⟩, ?_, ?_⟩
     · exact (QuotientGroup.eq.1 z.2.symm)
-    · exact (QuotientGroup.eq.2 (by simpa using k.2)).symm
+    · exact (QuotientGroup.eq.2 (by simp)).symm
     · intro z; apply Subtype.ext; simp
     · intro k; apply Subtype.ext; simp
   by_contra hno

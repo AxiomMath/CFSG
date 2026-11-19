@@ -99,6 +99,7 @@ section Group
 
 variable {S : Type*} [Group S] [Finite S] {B : Subgroup S} {m : ℕ} {hm : 2 ≤ m}
 
+omit [Finite S] in
 theorem ec_conjBy_ρ_mul_inv310 (D : StrothTypeData B (StrothTypeIndex.t310 m hm)) (y : B) :
     D.ec (conjBy D.ρ_mem y * y⁻¹) =
       (StrothTypeIndex.t310 m hm).action.φρ (D.ec y) - D.ec y := by
@@ -106,6 +107,7 @@ theorem ec_conjBy_ρ_mul_inv310 (D : StrothTypeData B (StrothTypeIndex.t310 m hm
   congr 1
   exact D.ρ_conj y
 
+omit [Finite S] in
 theorem ec_conjBy_t_mul_inv310 (D : StrothTypeData B (StrothTypeIndex.t310 m hm)) (y : B) :
     D.ec (conjBy D.t_mem y * y⁻¹) =
       (StrothTypeIndex.t310 m hm).action.φt (D.ec y) - D.ec y := by
@@ -113,6 +115,7 @@ theorem ec_conjBy_t_mul_inv310 (D : StrothTypeData B (StrothTypeIndex.t310 m hm)
   congr 1
   exact D.t_conj y
 
+omit [Finite S] in
 theorem t310_fixed_rho_t_of_mem (D : StrothTypeData B (StrothTypeIndex.t310 m hm)) {y : B}
     (hρ : conjBy D.ρ_mem y = y) (ht : conjBy D.t_mem y = y) : y = 1 := by
   have hρ' : (StrothTypeIndex.t310 m hm).action.φρ (D.ec y) = D.ec y := by
@@ -123,6 +126,7 @@ theorem t310_fixed_rho_t_of_mem (D : StrothTypeData B (StrothTypeIndex.t310 m hm
       D.t_conj y, ht]
   exact D.ec_eq_zero_iff.mp (t310_fixed_rho_t m hm (D.ec y) hρ' ht')
 
+omit [Finite S] in
 theorem t310_fixed_rho_t_mod_four_of_mem (D : StrothTypeData B (StrothTypeIndex.t310 m hm))
     {y : B} (hρ : conjBy D.ρ_mem y * y⁻¹ ∈ fourB D) (ht : conjBy D.t_mem y * y⁻¹ ∈ fourB D) :
     y ∈ fourB D := by
@@ -131,6 +135,7 @@ theorem t310_fixed_rho_t_mod_four_of_mem (D : StrothTypeData B (StrothTypeIndex.
   rw [ec_conjBy_t_mul_inv310] at ht
   exact t310_fixed_rho_t_mod m hm 4 (D.ec y) hρ ht
 
+omit [Finite S] in
 theorem t310_fixed_rho_t_mod_two_of_mem (D : StrothTypeData B (StrothTypeIndex.t310 m hm))
     {y : B}
     (hρ : ∃ z : Torus (StrothTypeIndex.t310 m hm).k, 2 • z = D.ec (conjBy D.ρ_mem y * y⁻¹))

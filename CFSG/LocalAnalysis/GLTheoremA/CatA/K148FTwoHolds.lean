@@ -182,8 +182,8 @@ private theorem k2h_catalog_u33 {Y : Type} [Group Y] (h : CFSG.Blueprint.LieMode
     norm_num
   obtain ⟨-, K₀, _, _, hK₀, ⟨e₀⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 2 q hv (MulEquiv.refl _)
-  haveI : Fintype K₀ := Fintype.ofFinite _
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype K₀ := Fintype.ofFinite _
+  have : Fintype F := Fintype.ofFinite F
   have hKK : Fintype.card F = Fintype.card K₀ := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK₀, hF]
   let eK : F ≃+* K₀ := FiniteField.ringEquivOfCardEq hKK
@@ -299,7 +299,7 @@ private theorem k2h_g2_branch {P : Type} [Group P] [Finite P] (X : Subgroup P)
     unfold CFSG.pPrimeCore
     apply sSup_le
     rintro L ⟨hL, hcop⟩
-    haveI := hL
+    have := hL
     have hmeet : L ⊓ commutator ↥X = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (L.subgroupOf (commutator ↥X)) with h | h
       · exact disjoint_iff.1 (Subgroup.subgroupOf_eq_bot.1 h)
@@ -327,7 +327,7 @@ private theorem k2h_g2_branch {P : Type} [Group P] [Finite P] (X : Subgroup P)
     exact hLZ
   have hcen : Subgroup.centralizer ((commutator ↥X : Subgroup ↥X) : Set ↥X) = ⊥ :=
     centralizer_eq_bot_of_index_two (commutator ↥X) hidx hZC hZX
-  haveI hsimpD : IsSimpleGroup ↥(derivedIn X) := simple_derivedIn hR
+  have hsimpD : IsSimpleGroup ↥(derivedIn X) := simple_derivedIn hR
   have hcardD : Nat.card ↥(derivedIn X) = 6048 := by rw [hDI]; exact hcardT
   have hOD : GLAPPrimeCore 3 ↥(derivedIn X) = ⊥ :=
     gLAPPrimeCore_eq_bot_of_simple _ (by rw [hcardD]; norm_num)
@@ -414,13 +414,13 @@ theorem k148FTwoFact_holds : K148FTwoFact := by
         rw [← hγ] at e1
         exact ⟨(eF.trans e1).trans
           (MulEquiv.subgroupCongr (k2h_autFix_inv _))⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨hG2⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_fixSubgroup_fieldActor_equiv_G2
       (ℓ := 2) (f := 1) (by norm_num) le_rfl (Or.inl rfl) hK σ hσ
     have hfixeq : fixSubgroup (fieldActor (t := TwistTag.D4) σ σ) =
         Sec4.autFix (fieldActor (t := TwistTag.D4) σ σ) :=
       Subgroup.ext fun _ => Iff.rfl
-    haveI : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
+    have : Finite (CFSG.LieType.Chevalley.fixSubfield σ) := Subtype.finite
     have hk2 : Nat.card (CFSG.LieType.Chevalley.fixSubfield σ) = 2 := by
       rw [CFSG.RankThree.PartOne.KGD.card_fixSubfield_cube Nat.prime_two le_rfl hK σ hσ]
       norm_num
@@ -441,9 +441,9 @@ theorem k148FTwoFact_holds : K148FTwoFact := by
     obtain ⟨e2⟩ := he2
     obtain ⟨F, _, _, hF, ⟨e3⟩⟩ := CFSG.RankThree.PartTwo.Sec8.kF82D4SecondCentY0_holds 1 odd_one K σ hK hσ
     have hPi : CFSG.RankThree.PartTwo.Sec4.PiField false 2 1 F := ⟨Nat.prime_two, le_rfl, hF⟩
-    haveI := CFSG.RankThree.PartTwo.Sec13.isSolvable_projImage_glPi_two hPi (by norm_num)
-    haveI : Group.IsSolvable ↥(Sec4.autFix τ) :=
-      solvable_of_solvable_injective (f := ((eF.trans e2).trans e3).toMonoidHom)
+    have := CFSG.RankThree.PartTwo.Sec13.isSolvable_projImage_glPi_two hPi (by norm_num)
+    have : Group.IsSolvable ↥(Sec4.autFix τ) :=
+      Group.isSolvable_of_isSolvable_injective (f := ((eF.trans e2).trans e3).toMonoidHom)
         ((eF.trans e2).trans e3).injective
     exact ⟨fun S _ hS _ => (not_pComp_of_solvable hS).elim, fun S hS => (not_pComp_of_solvable hS).elim,
       fun _ _ _ S hS _ _ _ _ => (not_pComp_of_solvable hS).elim⟩

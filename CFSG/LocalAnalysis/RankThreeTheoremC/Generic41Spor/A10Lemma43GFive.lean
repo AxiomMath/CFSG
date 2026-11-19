@@ -15,6 +15,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3 (u3S u3T u3K0)
 
 variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
 
+omit [Finite G] in
 theorem a10t1_pre_le_M {Q : Type} [Group Q] (ψ : ↥J →* Q) {O : Subgroup G}
     (hker : ψ.ker = O.subgroupOf J) (hOM : O ≤ M) {Λ : Subgroup Q}
     (hΛ : Λ ≤ ((M ⊓ J).subgroupOf J).map ψ) : a10Pre J ψ Λ ≤ M := by
@@ -27,6 +28,7 @@ theorem a10t1_pre_le_M {Q : Type} [Group Q] (ψ : ↥J →* Q) {O : Subgroup G}
   have h2 : (m : G) * ((m⁻¹ * j : ↥J) : G) ∈ M := mul_mem hmM (hOM h1)
   simpa using h2
 
+omit [Finite G] in
 theorem a10t1_gamma_map_le {Q : Type} [Group Q] {W : Subgroup G} (hWM : W ≤ M)
     (hWN : W ≤ Subgroup.normalizer (J : Set G)) (ψ : ↥J →* Q) (ρ : ↥W →* MulAut Q)
     (hρ : ∀ (w : ↥W) (j : ↥J) (hj : (w : G) * (j : G) * (w : G)⁻¹ ∈ J),
@@ -41,6 +43,7 @@ theorem a10t1_gamma_map_le {Q : Type} [Group Q] {W : Subgroup G} (hWM : W ≤ M)
   exact ⟨⟨(w : G) * (j : G) * (w : G)⁻¹, hjJ⟩,
     Subgroup.mem_subgroupOf.mpr ⟨hwjM, hjJ⟩, (hρ w j hjJ).symm⟩
 
+omit [Finite G] in
 theorem a10t1_gamma_map_eq {Q : Type} [Group Q] {W : Subgroup G} (hWM : W ≤ M)
     (hWN : W ≤ Subgroup.normalizer (J : Set G)) (ψ : ↥J →* Q) (ρ : ↥W →* MulAut Q)
     (hρ : ∀ (w : ↥W) (j : ↥J) (hj : (w : G) * (j : G) * (w : G)⁻¹ ∈ J),

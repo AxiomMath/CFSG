@@ -32,14 +32,14 @@ private theorem s16h_mem_stabSub_of_mem_normalizer {W : Type} [CommGroup W]
 
 private theorem s16h_le_stabSub_commSub_top {W : Type} [CommGroup W]
     (L : Subgroup (MulAut W)) : L ≤ stabSub (commSub ⊤ L) :=
-  fun l hl => s16h_mem_stabSub_of_mem_normalizer (Subgroup.le_normalizer hl)
+  fun _l hl => s16h_mem_stabSub_of_mem_normalizer (Subgroup.le_normalizer hl)
 
 private theorem s16h_map_subtype_mem_irrSet {W : Type} [CommGroup W]
     {L : Subgroup (MulAut W)} {U : Subgroup W} (hLU : L ≤ stabSub U)
     {J : Subgroup U} (hJ : J ∈ irrSet (autSub L U)) :
     J.map U.subtype ∈ irrSet L := by
   set I : Subgroup W := J.map U.subtype with hI
-  rw [irrSet, Set.mem_setOf_eq] at hJ
+  rw [irrSet, Set.mem_ofPred_eq] at hJ
   obtain ⟨hJcomm, hJIrr⟩ := hJ
   rw [IsIrrOn] at hJIrr
   obtain ⟨hJlt, hJstab, hJNstab, hJmax⟩ := hJIrr
@@ -129,20 +129,20 @@ theorem s16h_L3_res_trans {W : Type} [CommGroup W] [Finite W] {A L : Subgroup (M
   exact hgeq
 
 theorem s16h_trans_of_commSub_mem_irrSet {W : Type} [CommGroup W] [Finite W]
-    {A L : Subgroup (MulAut W)} (hq : CFSG.Open.IsQuasisimple ↥L)
+    {A L : Subgroup (MulAut W)} (_hq : CFSG.Open.IsQuasisimple ↥L)
     (h : commSub ⊤ L ∈ irrSet L) :
     ∀ I₁ ∈ irrSet L, ∀ I₂ ∈ irrSet L,
       ∃ g ∈ A ⊓ Subgroup.normalizer (L : Set (MulAut W)), I₂ = I₁.map g.toMonoidHom := by
   have hU' : commSub (commSub ⊤ L) L = commSub ⊤ L ∧
       IsIrrOn L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) := by
-    simpa only [irrSet, Set.mem_setOf_eq] using h
+    simpa only [irrSet, Set.mem_ofPred_eq] using h
   obtain ⟨hUcomm, hUirr⟩ := hU'
   rw [IsIrrOn] at hUirr
   obtain ⟨hZU, hstU, hstZ, hmax⟩ := hUirr
   have key : ∀ I ∈ irrSet L, I = commSub ⊤ L := by
     intro I hI
     have hI' : commSub I L = I ∧ IsIrrOn L I (I ⊓ fixV L) := by
-      simpa only [irrSet, Set.mem_setOf_eq] using hI
+      simpa only [irrSet, Set.mem_ofPred_eq] using hI
     obtain ⟨hIcomm, hIirr⟩ := hI'
     rw [IsIrrOn] at hIirr
     obtain ⟨hIlt, hIstab, hIinfstab, hImax⟩ := hIirr

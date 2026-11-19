@@ -80,7 +80,7 @@ theorem exists_rational_of_frob_fixed_E6 {K : Type} [Field K] [Finite K] [CharP 
   let X : Subgroup (ModGL .E6 (AlgebraicClosure K)) :=
     adjointGroup .E6 (AlgebraicClosure K) ⊓
       (entrywiseFrobGL .E6 (AlgebraicClosure K) 2 f).eqLocus (MonoidHom.id _)
-  haveI : Finite X := Set.Finite.to_subtype
+  have : Finite X := Set.Finite.to_subtype
     ((finite_setOf_entrywiseFrobGL_eq (τ := .E6) (k := AlgebraicClosure K) 2 hf).subset
       fun g hg => (Subgroup.mem_inf.1 hg).2)
   have hFr : ∀ c : AlgebraicClosure K,
@@ -124,7 +124,7 @@ theorem exists_weyl_of_inverted_family {L : Type} [Field L] [IsAlgClosed L] {ι 
   exact hqinv.symm
 
 theorem psi_conj_rootDiagUnit {L : Type} [Field L] (b : Fin (Tag.E6.rank) → Lˣ)
-    (hb : ∀ i, b i ^ 3 = 1) :
+    (_hb : ∀ i, b i ^ 3 = 1) :
     (canonicalRep (coxeterSystem .E6) L twE6W0)⁻¹ *
       e6DiagramMap L *
       rootDiagUnit .E6 b *
@@ -138,7 +138,7 @@ theorem psi_conj_rootDiagUnit {L : Type} [Field L] (b : Fin (Tag.E6.rank) → L�
     have h := diagramMap_mul_rootDiagUnit (K := L) (t := TwistTag.E6) b
     have h' : e6DiagramMap L * rootDiagUnit .E6 b =
         rootDiagUnit .E6 (fun i => b (e6Rho.symm i)) * e6DiagramMap L := by
-      convert h using 2 <;> rfl
+      convert h using 2; rfl
     calc P * rootDiagUnit .E6 b * P⁻¹ = (P * rootDiagUnit .E6 b) * P⁻¹ := rfl
       _ = (rootDiagUnit .E6 (fun i => b (e6Rho.symm i)) * P) * P⁻¹ := by rw [hP, h']
       _ = rootDiagUnit .E6 (fun i => b (e6Rho.symm i)) := by group
@@ -238,8 +238,8 @@ theorem exists_conj_eq_of_toral_E6 {K : Type} [Field K] [Finite K] [CharP K 2]
     (β : MulAut (adjointGroup .E6 K)) :
     ∃ r : adjointGroup .E6 K, ∀ x ∈ E, β x = r * x * r⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   let : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hKf⟩ := FiniteField.card K 2

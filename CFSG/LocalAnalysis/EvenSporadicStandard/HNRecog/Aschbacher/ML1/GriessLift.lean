@@ -120,7 +120,7 @@ theorem exists_mulEquiv_of_isometry (hE : IsExtraspecialPGroup 2 Q) (hE' : IsExt
   have hΔcenter : Δ ≤ Subgroup.center F := by
     change Subgroup.zpowers g ≤ Subgroup.center F
     exact Subgroup.zpowers_le.mpr hg_center
-  haveI : Δ.Normal := Subgroup.normal_of_le_center hΔcenter
+  have : Δ.Normal := Subgroup.normal_of_le_center hΔcenter
   have hzF_ne_one : hzF ≠ 1 := by
     intro h
     exact hz1 (congrArg (fun t : F => (t : Q × Q').1) h)
@@ -138,7 +138,7 @@ theorem exists_mulEquiv_of_isometry (hE : IsExtraspecialPGroup 2 Q) (hE' : IsExt
     intro h
     exact hz1 (congrArg (fun t : F => (t : Q × Q').1) h)
   have hord : orderOf g = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hg_sq hg1
   have hzΔ : hzF ∉ Δ := by
     change hzF ∉ Subgroup.zpowers g
@@ -180,20 +180,20 @@ theorem exists_mulEquiv_of_isometry (hE : IsExtraspecialPGroup 2 Q) (hE' : IsExt
       constructor
       · intro h
         by_contra hne
-        rw [if_neg hne] at h
+        rw [ite_eq_right hne] at h
         exact one_ne_zero h
       · intro h
-        rw [if_pos h]
+        rw [ite_eq_left h]
     have hy0 : extraspecialQuadForm hE' (ofQ' y) = 0 ↔ y ^ 2 = 1 := by
       change extraspecialQuadForm hE' (Additive.ofMul (Abelianization.of y)) = 0 ↔ y ^ 2 = 1
       rw [extraspecialQuadForm_apply]
       constructor
       · intro h
         by_contra hne
-        rw [if_neg hne] at h
+        rw [ite_eq_right hne] at h
         exact one_ne_zero h
       · intro h
-        rw [if_pos h]
+        rw [ite_eq_left h]
     have hiff : x ^ 2 = 1 ↔ y ^ 2 = 1 := hx0.symm.trans (hquad.trans hy0)
     have ht2eq : (t : Q × Q') ^ 2 = (x ^ 2, y ^ 2) := Prod.ext rfl rfl
     rcases hx2 with hx1 | hxz

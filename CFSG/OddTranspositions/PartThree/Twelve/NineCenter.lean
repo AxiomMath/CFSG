@@ -53,7 +53,7 @@ theorem eq_of_commSet_eq [Finite G] (hC : HypothesisC D) (hα : hC.alpha = {hC.d
     rw [hT, smul_twinSet hN g₁ a, smul_twinSet hN g₂ a]
     have heq : commSet D (g₁ • a) = commSet D (g₂ • a) := hx₁.2.symm.trans hx₂.2
     ext x
-    simp only [twinSet, Set.mem_setOf_eq]
+    simp only [twinSet, Set.mem_ofPred_eq]
     rw [heq]
   by_cases hTD : T = D
   ·

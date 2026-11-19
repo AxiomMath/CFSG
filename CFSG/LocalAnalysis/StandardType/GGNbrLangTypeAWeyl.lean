@@ -505,7 +505,7 @@ theorem ggNbrInnerWeylOn_typeASplit (hframe : GGTypeASplitFrameInput)
       refine ⟨F, inferInstance, inferInstance, hF, hs, hna, θ, hPθ, fun _ hxI => ?_⟩
       exact weyl_of_linear hframe hnonreg hC hK hN hxK hperf (by omega) hF hpn hpd θ hxI
     · subst hl
-      simp only [LargeEvenRawDatum, ↓reduceIte] at hraw ⊢
+      simp only at hraw ⊢
       obtain ⟨F, _, _, hF, hs, hna, θ, hPθ⟩ := hraw
       refine ⟨F, inferInstance, inferInstance, hF, hs, hna, θ, hPθ, fun _ hxI => ?_⟩
       exact weyl_of_linear hframe hnonreg hC hK hN hxK hperf (by omega) hF hpn hpd θ hxI

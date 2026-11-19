@@ -27,10 +27,10 @@ private theorem nonempty_statedProjEquiv_galoisField {G : Type} [Group G]
   classical
   have hCM := hL.statedClassicalModel (by simp [CFSG.Blueprint.classicalTags])
   obtain ⟨-, F, hF, hFfin, hFcard, ⟨eF⟩⟩ := hCM
-  letI : Field F := hF
-  letI : Finite F := hFfin
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Fintype (GaloisField 2 n₀) := Fintype.ofFinite _
+  let : Field F := hF
+  let : Finite F := hFfin
+  let : Fintype F := Fintype.ofFinite F
+  let : Fintype (GaloisField 2 n₀) := Fintype.ofFinite _
   have hcardF : Fintype.card F = Fintype.card (GaloisField 2 n₀) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hFcard.trans (hxZ.trans hcard.symm)

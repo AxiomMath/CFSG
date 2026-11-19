@@ -28,7 +28,7 @@ theorem card_le_of_sylow {G Sy : Subgroup Γ} (hSy : Sy ≤ G) (hSy2 : IsPGroup 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₁, hS₁⟩ := (hSy2.of_equiv (Subgroup.subgroupOfEquivOfLe hSy).symm).exists_le_sylow
   have hS₁Γ : (S₁ : Subgroup ↥G).map G.subtype = Sy := by
-    refine hmax _ ?_ (Subgroup.map_subtype_le _) (S₁.isPGroup'.map _)
+    refine hmax _ ?_ (Subgroup.map_subtype_le _) (S₁.isPGroup.map _)
     intro x hx
     exact ⟨⟨x, hSy hx⟩, hS₁ (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   intro Y hYG hY2
@@ -40,7 +40,7 @@ theorem card_le_of_sylow {G Sy : Subgroup Γ} (hSy : Sy ≤ G) (hSy2 : IsPGroup 
   exact h1
 
 theorem card_le_of_G10 (hG10 : CaseIIG10) {G P : Subgroup Γ} {z : Γ}
-    (hPG : P ≤ G ⊓ Subgroup.centralizer ({z} : Set Γ)) (hP2 : IsPGroup 2 ↥P)
+    (hPG : P ≤ G ⊓ Subgroup.centralizer ({z} : Set Γ)) (_hP2 : IsPGroup 2 ↥P)
     (hPc : Nat.card ↥P = 64) (hD : Nonempty (↥P ≃* DihedralGroup 4 × DihedralGroup 4))
     (hZ : Nat.card ↥(Subgroup.center ↥P) = 4) (hzP : z ∈ P) (hz2 : orderOf z = 2)
     (hmax : ∀ Y : Subgroup Γ, Y ≤ G ⊓ Subgroup.centralizer ({z} : Set Γ) → IsPGroup 2 ↥Y →
@@ -133,7 +133,7 @@ theorem card_le_of_G10 (hG10 : CaseIIG10) {G P : Subgroup Γ} {z : Γ}
   intro Y hPsY hYG hY2
   by_contra hne
   have hlt : Ps < Y := lt_of_le_of_ne hPsY (Ne.symm hne)
-  haveI : Group.IsNilpotent ↥Y := hY2.isNilpotent
+  have : Group.IsNilpotent ↥Y := hY2.isNilpotent
   have hT' : Ps.subgroupOf Y < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro h

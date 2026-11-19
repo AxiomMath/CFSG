@@ -19,8 +19,8 @@ private theorem inf_centralizer_ne_bot_of_le_normalizer {X T : Subgroup G}
     (hXT : X ≤ T) (hTX : T ≤ Subgroup.normalizer (X : Set G))
     (hT2 : IsPGroup 2 T) (hXne : X ≠ ⊥) :
     X ⊓ Subgroup.centralizer (T : Set G) ≠ ⊥ := by
-  haveI : Group.IsNilpotent ↥T := hT2.isNilpotent
-  haveI : (X.subgroupOf T).Normal :=
+  have : Group.IsNilpotent ↥T := hT2.isNilpotent
+  have : (X.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hXT).mpr hTX
   have hXsubne : X.subgroupOf T ≠ ⊥ := by
     intro h

@@ -53,11 +53,11 @@ theorem addB_eq {v w : Array ℕ} (hv : VOK v) (hw : VOK w) :
     unfold addV4
     rw [getD_ofFn6 _ _ hk]
   by_cases hp6 : p < 6
-  · rw [if_pos hp6, if_pos hp6, decide_eq_true (by omega : p < 12), Bool.true_and, testBit_nxor,
+  · rw [ite_eq_left hp6, ite_eq_left hp6, decide_eq_true (by omega : p < 12), Bool.true_and, testBit_nxor,
       testBit_land63, testBit_land63, decide_eq_true hp6, Bool.true_and, Bool.true_and,
       testBit_encV, testBit_encV, hd p hp6, (add_bits _ (hv p hp6) _ (hw p hp6)).1]
     simp [hp6, show p < 12 by omega]
-  · rw [if_neg hp6, if_neg hp6, testBit_nxor, testBit_nxor, testBit_shr6, testBit_shr6, testBit_land,
+  · rw [ite_eq_right hp6, ite_eq_right hp6, testBit_nxor, testBit_nxor, testBit_shr6, testBit_shr6, testBit_land,
       testBit_land63, testBit_land63, testBit_encV, testBit_encV, testBit_encV, testBit_encV]
     by_cases hp : p < 12
     · have hk : p - 6 < 6 := by omega
@@ -77,11 +77,11 @@ theorem negB_eq {v : Array ℕ} (hv : VOK v) : negB (encV v) = encV (negV4 v) :=
   rw [testBit_nxor, show Nat.shiftLeft (Nat.land (encV v) 63) 6 = (Nat.land (encV v) 63) <<< 6 from rfl,
     Nat.testBit_shiftLeft, testBit_encV, testBit_encV]
   by_cases hp6 : p < 6
-  · rw [if_pos hp6, if_pos hp6, hd p hp6, (neg_bits _ (hv p hp6)).1]
+  · rw [ite_eq_left hp6, ite_eq_left hp6, hd p hp6, (neg_bits _ (hv p hp6)).1]
     simp [show ¬ 6 ≤ p by omega]
   · by_cases hp : p < 12
     · have hk : p - 6 < 6 := by omega
-      rw [if_neg hp6, if_neg hp6, hd _ hk, (neg_bits _ (hv _ hk)).2, testBit_land63, testBit_encV]
+      rw [ite_eq_right hp6, ite_eq_right hp6, hd _ hk, (neg_bits _ (hv _ hk)).2, testBit_land63, testBit_encV]
       simp [hp, hk, show 6 ≤ p by omega, show p - 6 < 12 by omega]
     · rw [decide_eq_false hp]
       simp only [Bool.false_and, Bool.false_xor, decide_eq_true (by omega : 6 ≤ p), Bool.true_and,
@@ -152,11 +152,11 @@ theorem tmulK_eq {T : Array (Array ℕ)} {LT : Array (Array (Array ℕ))} {LP MT
   rw [← hT, xor_toNat, nIf_eq]
   simp only [Nat.add_eq, Nat.mul_eq]
   cases hgt : g.2.1
-  · rw [show ((false).toNat).beq 1 = false from rfl, if_neg (by simp), addB_eq hg hw]
-    simp only [Bool.false_eq_true, if_false]
+  · rw [show ((false).toNat).beq 1 = false from rfl, ite_eq_right (by simp), addB_eq hg hw]
+    simp only [Bool.false_eq_true, ite_false]
     ring
-  · rw [show ((true).toNat).beq 1 = true from rfl, if_pos rfl, negB_eq hw, addB_eq hg hn]
-    simp only [if_true]
+  · rw [show ((true).toNat).beq 1 = true from rfl, ite_eq_left rfl, negB_eq hw, addB_eq hg hn]
+    simp only [ite_true]
     ring
 
 theorem encV_twoV {q : ℕ} (hq : q < 64) : encV (twoV q) = q <<< 6 := by
@@ -167,14 +167,14 @@ theorem encV_twoV {q : ℕ} (hq : q < 64) : encV (twoV q) = q <<< 6 := by
     unfold twoV
     rw [getD_ofFn6 _ _ hk]
   by_cases hp6 : p < 6
-  · rw [if_pos hp6, hd p hp6, decide_eq_true (by omega : p < 12), decide_eq_false (by omega : ¬ 6 ≤ p)]
+  · rw [ite_eq_left hp6, hd p hp6, decide_eq_true (by omega : p < 12), decide_eq_false (by omega : ¬ 6 ≤ p)]
     split <;> rfl
   · by_cases hp : p < 12
-    · rw [if_neg hp6, hd _ (by omega), decide_eq_true hp, decide_eq_true (by omega : 6 ≤ p)]
+    · rw [ite_eq_right hp6, hd _ (by omega), decide_eq_true hp, decide_eq_true (by omega : 6 ≤ p)]
       by_cases hb : q.testBit (p - 6) = true
-      · rw [if_pos hb, hb]
+      · rw [ite_eq_left hb, hb]
         rfl
-      · rw [if_neg hb, Bool.eq_false_iff.2 hb]
+      · rw [ite_eq_right hb, Bool.eq_false_iff.2 hb]
         rfl
     · rw [decide_eq_false hp, decide_eq_true (by omega : 6 ≤ p), testBit_lt64 hq (by omega)]
       rfl
@@ -187,7 +187,7 @@ theorem vok_dig4 (n : ℕ) : VOK (dig4 n) := by
   unfold dig4
   exact vok_ofFn fun k => Nat.mod_lt _ (by norm_num)
 
-theorem qes_eq {c : ℕ} (hc : c < 8192) :
+theorem qes_eq {c : ℕ} (_hc : c < 8192) :
     qes c = encT (twoV (c % 64), (c / 64 % 2 == 1), c / 128) := by
   have hq : c % 64 < 64 := Nat.mod_lt _ (by norm_num)
   unfold qes encT
@@ -535,9 +535,7 @@ theorem comm_sound_proved {S : Array (Array ℕ)} {G C : ℕ → Array ℕ} {W :
   have hr' := tmulK_ok hB hg h641
   have hrr := tmulK_ok hB hr'.2 h64
   rw [strictN_eq] at hf
-  beta_reduce at hf
   rw [hl'.1, strictN_eq] at hf
-  beta_reduce at hf
   rw [hr'.1, hrr.1, nIf_eq] at hf
   rw [orB_eq, beq_encT hl'.2 hr'.2, beq_encT hl'.2 hrr.2] at hf
   by_cases hb : ((tmul (mulTabG S) (liftTabG G C W) (dig4 641, false, 0) (twoV q, e, s) ==
@@ -547,7 +545,7 @@ theorem comm_sound_proved {S : Array (Array ℕ)} {G C : ℕ → Array ℕ} {W :
         (dig4 641, false, 0)) (twoV 1, false, 0))) = true
   · rw [Bool.or_eq_true] at hb
     exact hb
-  · rw [if_neg hb] at hf
+  · rw [ite_eq_right hb] at hf
     exact absurd hf (by decide)
 
 end CFSG.KC.O8

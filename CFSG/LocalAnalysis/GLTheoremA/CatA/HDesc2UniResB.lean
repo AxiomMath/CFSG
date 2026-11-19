@@ -65,7 +65,7 @@ theorem card_le_three_of_le_primeFormD (h : UnitaryFieldData ℓ f K) [CharP K 2
     (hED : E ≤ primeFormD h (idGram K 3)) {t : primeFormP h (idGram K 3)} (ht : orderOf t = 2)
     (hfix : ∀ e ∈ E, e t = t) : Nat.card E ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have := h.finite
   have hne : ¬ (3 = 3 ∧ ℓ ^ f = 2) := fun h' => by omega
   by_contra hlt
@@ -183,7 +183,7 @@ theorem card_le_three_of_le_primeFormD (h : UnitaryFieldData ℓ f K) [CharP K 2
     · rfl
   have hcomm : ∀ x ∈ Subgroup.closure s, ∀ y ∈ Subgroup.closure s, x * y = y * x := by
     intro x hx y hy
-    haveI : IsMulCommutative (Subgroup.closure s) :=
+    have : IsMulCommutative (Subgroup.closure s) :=
       Subgroup.isMulCommutative_closure fun a ha b hb _ => hss a ha b hb
     exact setLike_mul_comm hx hy
   have hexp : ∀ x ∈ Subgroup.closure s, x ^ 3 = 1 := by
@@ -314,7 +314,7 @@ theorem card_le_three_mul_card_inf_primeFormD (h : UnitaryFieldData ℓ f K)
       rfl
     rw [h1, ← Subgroup.inf_subgroupOf_left]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
-  haveI : IsCyclic (K ≃+* K) := by
+  have : IsCyclic (K ≃+* K) := by
     obtain ⟨σ₀, -, -, htop, -⟩ :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality h.prime
         (by have := h.one_le; omega) h.card
@@ -786,12 +786,12 @@ theorem glaPLayer_ne_bot_of_unitary_diagonal (h : UnitaryFieldData ℓ f K) {σ 
     apply Subtype.ext
     show suTwoBlkGL hω F₀ g'' = (Y₁ : GL (Fin 3) K) * suTwoBlkGL hω F₀ g * (Y₁ : GL (Fin 3) K)⁻¹
     rw [hg'', hZ, hu, hB]
-  haveI : Fintype F₀ := Fintype.ofFinite F₀
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F₀) :=
+  have : Fintype F₀ := Fintype.ofFinite F₀
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F₀) :=
     CFSG.Quasithin.R3c21.isSimpleGroup_sl2_of_card_two_pow he
       (by rw [← Nat.card_eq_fintype_card, hF₀])
   let eJ : Matrix.SpecialLinearGroup (Fin 2) F₀ ≃* φ.range := MonoidHom.ofInjective hφinj
-  haveI : IsSimpleGroup φ.range := eJ.symm.isSimpleGroup
+  have : IsSimpleGroup φ.range := eJ.symm.isSimpleGroup
   have hnc : ∃ a b : φ.range, a * b ≠ b * a := by
     let t1 : Matrix.SpecialLinearGroup (Fin 2) F₀ := ⟨!![1, 1; 0, 1], by simp [Matrix.det_fin_two]⟩
     let t2 : Matrix.SpecialLinearGroup (Fin 2) F₀ := ⟨!![1, 0; 1, 1], by simp [Matrix.det_fin_two]⟩
@@ -815,13 +815,13 @@ theorem glaPLayer_ne_bot_of_unitary_diagonal (h : UnitaryFieldData ℓ f K) {σ 
       rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_one]
       show (!![0, 1; 1, 1] : Matrix (Fin 2) (Fin 2) F₀) ^ 3 = 1
       rw [pow_succ, pow_two, Matrix.mul_fin_two, Matrix.mul_fin_two, Matrix.one_fin_two]
-      simp only [mul_zero, zero_mul, mul_one, one_mul, zero_add, add_zero, h11]
+      simp only [mul_zero, mul_one, zero_add, add_zero, h11]
     have ht31 : t3 ≠ 1 := by
       intro h1
       have h1' := congrArg (fun A : Matrix.SpecialLinearGroup (Fin 2) F₀ =>
         (A : Matrix (Fin 2) (Fin 2) F₀) 0 0) h1
       simp [t3] at h1'
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [← orderOf_eq_prime ht3 ht31]
     exact orderOf_dvd_natCard t3
   have hle := le_glaPLayer_of_normal_simple Nat.prime_three hJY hJn hnc h3J
@@ -995,7 +995,7 @@ theorem glaPLayer_ne_bot_of_fieldHom_conjHom (h : UnitaryFieldData 2 f K) (hf : 
     GLAPLayer 3 (fixSubgroup (primeFormFieldHom h (isPrimeFormGram_idGram (K := K) (n := 3)) σ) ⊓
       fixSubgroup (primeFormConjHom h (idGram K 3) M)) ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have := h.finite
   obtain ⟨h3f, hK₀card⟩ := dvd_and_card_fixSubfield_unitary h Nat.prime_three (by norm_num) hσ
   set e := f / 3 with he
@@ -1337,9 +1337,9 @@ theorem goodSubAt_unitary (q : TauCeti.PrimePower)
     KD264Lie.exists_primeFormP_mulEquiv_of_isUnitaryIdx (d := ⟨.twistedA 2 q, hv⟩) trivial
   injection hdA with hr hqq
   subst hr hqq
-  haveI := hU.charP
-  haveI := hU.finite
-  haveI : CharP K 2 := CharP.congr q.p hq
+  have := hU.charP
+  have := hU.finite
+  have : CharP K 2 := CharP.congr q.p hq
   have hcard' := TauCeti.PrimePower.card_def q
   have hf1 : q.exponent ≠ 1 := fun h1 => hne ⟨rfl, by rw [hcard', hq, h1]; norm_num⟩
   have hf3 : q.exponent ≠ 3 := fun h3 => h8 (by rw [hcard', hq, h3]; norm_num)

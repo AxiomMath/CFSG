@@ -65,7 +65,7 @@ theorem eq_bot_of_odd_normal_pgroup {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) (h 
       (fun b hb hbc => h.fpf b (hRP hb) (by rw [hbc, mul_assoc, mul_inv_cancel, mul_one]))
   by_cases hcyc : IsCyclic R
   ·
-    haveI : IsCyclic R := hcyc
+    have : IsCyclic R := hcyc
     exact eq_bot_of_normal_cyclic R r s h.r_cube h.s_conj hfixR
   ·
     obtain ⟨n, hn_card⟩ := (IsPGroup.iff_card (p := p) (G := ↥R)).mp hRp

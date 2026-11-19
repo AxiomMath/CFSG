@@ -49,7 +49,7 @@ theorem inv_classes_G (hC : CSideFacts) {G : Type} [Group G] [Finite G] {a z : G
       IsOrbitPartition (Gx z) {q | q ∈ Qz z ∧ q ^ 2 = 1 ∧ q ∉ Subgroup.zpowers z} S ∧
         Nat.card ↥(S 0) = 150 ∧ Nat.card ↥(S 1) = 120 := by
   obtain ⟨Q, hQnorm, hQW, hQz⟩ := exists_Qz_eq h.cent_z
-  haveI : Q.Normal := hQnorm
+  have : Q.Normal := hQnorm
   have hirrC : CIrreducible ↥(Gx z) Q := (cIrreducible_iff h.orderOf_z hQW hQz).mpr hirr
   obtain ⟨S', hpart', hcard0', hcard1'⟩ := hC.inv_classes ↥(Gx z) Q hQW hirrC
   let f : ↥(Gx z) →* G := (Gx z).subtype

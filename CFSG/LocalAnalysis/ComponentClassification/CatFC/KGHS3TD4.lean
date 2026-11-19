@@ -40,7 +40,7 @@ theorem no_hsType_chevalley_D4 {S : Type} [Group S] [Finite S] {p f : ℕ} (hp3 
     rw [hcard]
     show (p ^ f) ^ 3 = p ^ (f * 3)
     rw [pow_mul]
-  haveI : Finite K' := inferInstance
+  have : Finite K' := inferInstance
   exact no_hsType_card_eq_eight (F := K') (ι := Fin 8) (by rw [hchar]; exact hp3)
     (by simp) (D4.castM K' D4.BZ) (D4.castM_BZ_isUnit_det K') Y₂ hY₂ horth
 

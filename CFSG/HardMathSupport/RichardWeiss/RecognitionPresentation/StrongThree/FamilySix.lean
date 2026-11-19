@@ -67,7 +67,7 @@ theorem alt6_sylow_card {X : Type} [Group X] [Finite X] (K : Subgroup X)
     rw [hPX]
     exact (show 9 ∣ 360 by norm_num).trans hKX
   have h9P : 9 ∣ Nat.card (P : Subgroup X) := hcop.dvd_of_dvd_mul_right h9X
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 P.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 P.isPGroup
   have hdvdP : Nat.card (P : Subgroup X) ∣ 1440 :=
     (Subgroup.card_subgroup_dvd_card (P : Subgroup X)).trans hX
   rw [hn] at h9P hdvdP ⊢

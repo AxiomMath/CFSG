@@ -18,7 +18,7 @@ private theorem natCard_A5WrTwo : Nat.card A5WrTwo = 7200 := by
 private theorem natCard_of_isExtraspecialPlusByA5WrTwo {C : Type} [Group C]
     (h : IsExtraspecialPlusByA5WrTwo C) : Nat.card C = 2 ^ 9 * 7200 := by
   obtain ⟨Q, hQ, hw⟩ := h
-  haveI : Q.Normal := hQ
+  have : Q.Normal := hQ
   obtain ⟨hplus, _hcent, hquot⟩ := hw
   obtain ⟨_hext, hcardQ, _E, _hEQ, _hEab, _hEcard⟩ := hplus
   obtain ⟨eQ⟩ := hquot
@@ -42,7 +42,7 @@ private theorem eq_of_mem_zpowers_of_orderOf_eq_two {G : Type} [Group G] [Decida
 
 private lemma two_mul_card_le_of_lt {G : Type} [Group G] {H K : Subgroup G} [Finite K]
     (h : H < K) : 2 * Nat.card ↥H ≤ Nat.card ↥K := by
-  haveI : Finite ↥H :=
+  have : Finite ↥H :=
     Finite.of_injective (Subgroup.inclusion h.le) (Subgroup.inclusion_injective h.le)
   have hdvd : Nat.card ↥H ∣ Nat.card ↥K := Subgroup.card_dvd_of_le h.le
   have hlt : Nat.card ↥H < Nat.card ↥K := Subgroup.card_lt_of_lt h
@@ -87,15 +87,15 @@ theorem qu_general {G : Type} [Group G] {a u : G} (ha : a ^ 2 = 1) (hu : u ^ 2 =
   have ha_not_T : a ∉ T := fun h => haQ h.1
   have hcard_Gu : Nat.card ↥(Gx u) = 2 ^ 9 * 7200 :=
     natCard_of_isExtraspecialPlusByA5WrTwo hC
-  haveI : Finite ↥(Gx u) := Nat.finite_of_card_ne_zero (by rw [hcard_Gu]; norm_num)
-  haveI : Finite ↥X :=
+  have : Finite ↥(Gx u) := Nat.finite_of_card_ne_zero (by rw [hcard_Gu]; norm_num)
+  have : Finite ↥X :=
     Finite.of_injective (Subgroup.inclusion hXu) (Subgroup.inclusion_injective hXu)
-  haveI : Finite ↥T :=
+  have : Finite ↥T :=
     Finite.of_injective (Subgroup.inclusion (hT_le_X.trans hXu))
       (Subgroup.inclusion_injective _)
   have huQz : u ∈ Qz u := by
     obtain ⟨Q, hQnorm, hQW, hQz_eq⟩ := exists_Qz_eq hC
-    haveI : Q.Normal := hQnorm
+    have : Q.Normal := hQnorm
     have hmem : (⟨u, self_mem_Gx u⟩ : ↥(Gx u)) ∈ Q := by
       apply hQW.centralizer_le
       rw [Subgroup.mem_centralizer_iff]
@@ -126,7 +126,7 @@ theorem qu_general {G : Type} [Group G] {a u : G} (ha : a ^ 2 = 1) (hu : u ^ 2 =
     · exact le_inf hN_le_Qz (hN_le_X.trans hXa)
   have hS_le_Gu : Subgroup.zpowers u ⊔ N ≤ Gx u :=
     sup_le (Subgroup.zpowers_le.mpr (self_mem_Gx u)) (hN_le_X.trans hXu)
-  haveI : Finite ↥(Subgroup.zpowers u ⊔ N) :=
+  have : Finite ↥(Subgroup.zpowers u ⊔ N) :=
     Finite.of_injective (Subgroup.inclusion hS_le_Gu) (Subgroup.inclusion_injective hS_le_Gu)
   have hN_card : Nat.card ↥N = 2 ^ 4 := hT.elem_two.2
   have hN_lt_S : N < Subgroup.zpowers u ⊔ N := by
@@ -142,7 +142,7 @@ theorem qu_general {G : Type} [Group G] {a u : G} (ha : a ^ 2 = 1) (hu : u ^ 2 =
     exact h
   have hT'_le_X : T ⊔ Subgroup.zpowers a ≤ X :=
     sup_le hT_le_X (Subgroup.zpowers_le.mpr haX)
-  haveI : Finite ↥(T ⊔ Subgroup.zpowers a) :=
+  have : Finite ↥(T ⊔ Subgroup.zpowers a) :=
     Finite.of_injective (Subgroup.inclusion hT'_le_X) (Subgroup.inclusion_injective hT'_le_X)
   have hT_le_norm_zp : T ≤ Subgroup.normalizer (Subgroup.zpowers a) := by
     have hcent_eq : Gx a = Subgroup.centralizer (Subgroup.zpowers a : Set G) := by

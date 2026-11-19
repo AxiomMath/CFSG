@@ -98,7 +98,7 @@ theorem wOfCode3_sixteen : wOfCode3 16 = ![0, 0, 1] := by
       codeOf3 (Multiplicative.toAdd a) ^^^ codeOf3 (Multiplicative.toAdd b)
     rw [toAdd_mul, codeOf3_add]
 
-theorem semilinear3_of_code {M : ℕ → ℕ} (s : ℕ) (hs : s < 2)
+theorem semilinear3_of_code {M : ℕ → ℕ} (s : ℕ) (_hs : s < 2)
     (hlt : ∀ n < 64, M n < 64)
     (h : ∀ c < 4, ∀ n < 64, M (smulCode3 c n) = smulCode3 (sigC s c) (M n)) (c : GF4)
     (w : Fin 3 → GF4) :

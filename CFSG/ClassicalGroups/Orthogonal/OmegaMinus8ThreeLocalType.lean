@@ -14,9 +14,9 @@ variable {K : Type} [Field K]
 
 theorem three_ne_zero_of_card_eq [Finite K] {r f : ℕ} [Fact r.Prime] (hq : Nat.card K = r ^ f)
     (hr : r ≠ 3) : (3 : K) ≠ 0 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hq' : Fintype.card K = r ^ f := by rw [← Nat.card_eq_fintype_card]; exact hq
-  haveI : CharP K r := charP_of_card_eq_prime_pow hq'
+  have : CharP K r := charP_of_card_eq_prime_pow hq'
   intro h3
   have hdvd : r ∣ 3 := (CharP.cast_eq_zero_iff K r 3).mp h3
   exact hr ((Nat.prime_dvd_prime_iff_eq Fact.out Nat.prime_three).mp hdvd)
@@ -114,10 +114,10 @@ theorem rotForm_apply (p : K × K) : rotForm K p = p.1 ^ 2 - p.1 * p.2 + p.2 ^ 2
   ring
 
 theorem wForm_of_isSplit {b c : K} (h : IsSplit K) : wForm b c = binForm b c := by
-  rw [wForm, if_pos h]
+  rw [wForm, ite_eq_left h]
 
 theorem wForm_of_not_isSplit {b c : K} (h : ¬ IsSplit K) : wForm b c = binForm (-1) 0 := by
-  rw [wForm, if_neg h]
+  rw [wForm, ite_eq_right h]
 
 theorem nondegenerate_polarBilin_rotForm (h3 : (3 : K) ≠ 0) :
     (polarBilin (rotForm K)).Nondegenerate := by
@@ -155,7 +155,7 @@ theorem exists_rotForm_eq [Finite K] (h3 : (3 : K) ≠ 0) (d : K) :
     obtain ⟨p, hp⟩ := exists_binForm_eq (b := -1) (c := 1) hirr d
     exact ⟨p, hp⟩
 
-theorem isPlusType_rotForm_iff (h3 : (3 : K) ≠ 0) : IsPlusType (rotForm K) ↔ IsSplit K := by
+theorem isPlusType_rotForm_iff (_h3 : (3 : K) ≠ 0) : IsPlusType (rotForm K) ↔ IsSplit K := by
   have hdim : finrank K (K × K) = 2 := by
     rw [Module.finrank_prod, Module.finrank_self]
   constructor

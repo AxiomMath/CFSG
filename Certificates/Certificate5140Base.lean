@@ -82,8 +82,8 @@ private theorem foldl_map (g : Pm) (seen : List Pm) : ∀ (L acc : List Pm),
         List.mem_map_of_injective cOf_injective]
     simp only [tab_eq]
     by_cases hc : g * s ∈ seen ∨ g * s ∈ acc
-    · rw [if_pos hc, if_pos (e.2 hc)]
-    · rw [if_neg hc, if_neg (mt e.1 hc), List.map_append, List.map_singleton, cOf_mul]
+    · rw [ite_eq_left hc, ite_eq_left (e.2 hc)]
+    · rw [ite_eq_right hc, ite_eq_right (mt e.1 hc), List.map_append, List.map_singleton, cOf_mul]
 
 private theorem bfs_map (gens : List Pm) : ∀ (n : ℕ) (seen front : List Pm),
     (bfsClosure gens n seen front).map cOf = bfsC (gens.map cOf) n (seen.map cOf) (front.map cOf)

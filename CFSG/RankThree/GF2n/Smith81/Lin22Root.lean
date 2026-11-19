@@ -25,6 +25,7 @@ private def w₁ : TM.M₀.E := TM.Φ.symm !![0, 0; 1, 0]
 
 private def w₂ : TM.M₀.E := TM.Φ.symm !![0, 0; 0, 1]
 
+omit [Finite G] in
 private theorem eps_B (e f : TM.M₀.E) :
     TM.ε (TM.M₀.B e f) =
       (TM.Φ e) 0 0 * (TM.Φ f) 1 1 + (TM.Φ e) 1 1 * (TM.Φ f) 0 0 -
@@ -35,36 +36,43 @@ private theorem eps_B (e f : TM.M₀.E) :
   simp only [Matrix.det_fin_two, Matrix.add_apply] at h
   linear_combination -h
 
+omit [Finite G] in
 private theorem B_v1_w1 : TM.M₀.B v₁ w₁ = 1 := by
   apply TM.ε.injective
   rw [eps_B, map_one]
   simp [v₁, w₁]
 
+omit [Finite G] in
 private theorem B_v2_w2 : TM.M₀.B v₂ w₂ = 1 := by
   apply TM.ε.injective
   rw [eps_B, map_one]
   simp [v₂, w₂]
 
+omit [Finite G] in
 private theorem B_v1_w2 : TM.M₀.B v₁ w₂ = 0 := by
   apply TM.ε.injective
   rw [eps_B, map_zero]
   simp [v₁, w₂]
 
+omit [Finite G] in
 private theorem B_v2_w1 : TM.M₀.B v₂ w₁ = 0 := by
   apply TM.ε.injective
   rw [eps_B, map_zero]
   simp [v₂, w₁]
 
+omit [Finite G] in
 private theorem B_v1_v2 : TM.M₀.B v₁ v₂ = 0 := by
   apply TM.ε.injective
   rw [eps_B, map_zero]
   simp [v₁, v₂]
 
+omit [Finite G] in
 private theorem B_w1_w2 : TM.M₀.B w₁ w₂ = 0 := by
   apply TM.ε.injective
   rw [eps_B, map_zero]
   simp [w₁, w₂]
 
+omit [Finite G] in
 private theorem Phi_rootB (m : TM.K) (e : TM.M₀.E) :
     TM.Φ (Satz5.rootB TM.M₀ v₁ v₂ m e) = !![1, TM.ε m; 0, 1] * TM.Φ e := by
   have hv₁ : TM.Φ v₁ = !![0, 1; 0, 0] := TM.Φ.apply_symm_apply _
@@ -78,8 +86,9 @@ private theorem Phi_rootB (m : TM.K) (e : TM.M₀.E) :
   simp only [Satz5.rootB, map_add, TM.smul, hv₁, hv₂, map_mul, hB₂, hB₁]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.smul_apply]
+    simp [Matrix.mul_apply, Fin.sum_univ_two]
 
+omit [Finite G] in
 private theorem Phi_rootA (l : TM.K) (e : TM.M₀.E) :
     TM.Φ (Satz5.rootA TM.M₀ v₂ w₁ l e) = TM.Φ e * !![1, 0; TM.ε l, 1] := by
   have hw₁ : TM.Φ w₁ = !![0, 0; 1, 0] := TM.Φ.apply_symm_apply _
@@ -93,7 +102,7 @@ private theorem Phi_rootA (l : TM.K) (e : TM.M₀.E) :
   simp only [Satz5.rootA, map_add, TM.smul, hw₁, hv₂, map_mul, hBw₁, hBv₂]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.smul_apply] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two] <;> ring
 
 theorem not_statedSL_le_Gamma (hc : Ctx M Q Z B) : ¬ StatedSL 2 TM.F ≤ TM.Gamma := by
   intro hSL

@@ -33,7 +33,7 @@ theorem two_le_pRank_of_surjective {G Q : Type} [Group G] [Finite G] [Group Q] {
   have hcycG : ∀ P : Sylow p G, IsCyclic ↥(P : Subgroup G) := by
     intro P
     by_contra hnc
-    have h2 := two_le_pRank_of_not_isCyclic hp hp2 P.isPGroup' hnc
+    have h2 := two_le_pRank_of_not_isCyclic hp hp2 P.isPGroup hnc
     have h3 := CFSG.SectionRank.pRank_le_map hp.one_lt (P : Subgroup G).subtype
       (P : Subgroup G).subtype_injective ⊤
     have h4 := CFSG.SectionRank.pRank_mono hp.one_lt

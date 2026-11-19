@@ -32,7 +32,7 @@ theorem s1611e3_case9_exists_three {D : Data G} (h : S1611e3Std D) {V₀ V L : S
     ∃ Xbar : Subgroup (MulAut (Vtil V₀ V hV)), Xbar ≤ Mbar D.M V₀ V hV ∧ IsPGroup 3 ↥Xbar ∧
       ¬ IsCyclic ↥Xbar ∧ (∀ x ∈ Xbar, x ^ 3 = 1) ∧ Permutes Xbar (barSub V₀ V hV D.T) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hxT, hcomm, hinf, hEeq, hfixB, hfixA, hWinf, hWsup, hsyl⟩ :=
     s1611e3_case9_prod h hc h9
   have h9' := h9
@@ -180,7 +180,7 @@ theorem s1611e3_case9_exists_three {D : Data G} (h : S1611e3Std D) {V₀ V L : S
           simp
         · rw [show (MulAut.conj x)⁻¹ = MulAut.conj x⁻¹ from map_inv MulAut.conj x]
           show MulAut.conj x (MulAut.conj x⁻¹ y) = y
-          simp only [MulAut.conj_apply, MulAut.mul_apply, inv_inv]
+          simp only [MulAut.conj_apply, inv_inv]
           group
     have hLpX : (Lb ⊓ centSub (Subgroup.zpowers w)).map (MulAut.conj x).toMonoidHom =
         Lp ⊓ centSub (Subgroup.zpowers u) := by

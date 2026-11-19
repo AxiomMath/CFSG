@@ -34,7 +34,7 @@ theorem enc_inv_invCK (hn : n ≤ 16) (σ : Perm (Fin n)) : enc σ⁻¹ = invCK 
       (fun i => (if h : i < n then ((σ⁻¹ ⟨i, h⟩ : Fin n) : ℕ) else 0) * 16 ^ i) n,
     ← Equiv.sum_comp σ]
   refine Finset.sum_congr rfl fun i _ => ?_
-  rw [dif_pos (σ i).isLt, rd_enc hn σ i]
+  rw [dite_eq_left (σ i).isLt, rd_enc hn σ i]
   simp
 
 @[expose] def decK (n c : ℕ) (i : Fin n) : Fin n := ⟨rd c i % n, Nat.mod_lt _ i.pos⟩

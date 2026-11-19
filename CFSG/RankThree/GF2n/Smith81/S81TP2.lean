@@ -33,10 +33,10 @@ theorem rootOp_neg_Pσ_one {β : Rt} (hβ : IsRoot .E7 β) (v : V K) :
   ext b
   rw [rootOp_apply (isRoot_neg hβ), rootOp_apply (isRoot_neg hβ)]
   by_cases h1 : pr b (-β) = 1
-  · rw [if_pos h1, if_pos h1, neg_neg, Pσ_apply]
+  · rw [ite_eq_left h1, ite_eq_left h1, neg_neg, Pσ_apply]
     have h2 : pr b β = -1 := by rw [pr_neg] at h1; omega
-    rw [if_pos (pr_shift_self hβ h2)]
-  · rw [if_neg h1, if_neg h1]
+    rw [ite_eq_left (pr_shift_self hβ h2)]
+  · rw [ite_eq_right h1, ite_eq_right h1]
 
 set_option maxRecDepth 20000 in
 theorem rootOp_xyx {α : Rt} (hα : IsRoot .E7 α) :
@@ -94,6 +94,7 @@ theorem xu_commutator_of_add {γ δ α : Rt} (hγ : IsRoot .E7 γ) (hδ : IsRoot
   have h2 : ∀ x : Module.End K (V K), x + x = 0 := fun x => add_self_eq_zero_of_charTwo (K := K) x
   exact commutator_alg h2 hxx hyy hxyx hyxy hc
 
+omit [CharP K 2] in
 theorem xu_commute_tOp {γ : Rt} (hγ : IsRoot .E7 γ) {S : List Rt} (hS : ∀ β ∈ S, IsRoot .E7 β)
     (h : ∀ β ∈ S, 0 ≤ ipR γ β) (c : K) :
     Commute (e7Data_valid.xu K γ c : Module.End K (V K)) (tOp K S) := by
@@ -164,7 +165,7 @@ theorem pr_ne_neg_one_of_support {α : Rt} (hα : IsRoot .E7 α) {s : V K}
   have hν1 : pr (shift α μ) α = 1 := pr_shift_self hα h
   have h1 := congrArg (fun x : V K => x (shift α μ)) hker
   simp only [Finsupp.zero_apply] at h1
-  rw [rootOp_apply hα, if_pos hν1, shift_neg_shift hα h] at h1
+  rw [rootOp_apply hα, ite_eq_left hν1, shift_neg_shift hα h] at h1
   exact hμ h1
 
 theorem support_inMtop {S : List Rt} (hS : SOrth S) {okD : Rt → Prop} {inL : Fin e7Data.d → Prop}

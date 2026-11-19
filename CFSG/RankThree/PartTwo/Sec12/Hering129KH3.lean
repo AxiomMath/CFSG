@@ -21,6 +21,7 @@ namespace Hering129KH3
 variable {P : Type} [Group P] [Finite P] {Yh Bh : Subgroup P} {xh bh ch : P}
   {K : Type} [Field K] {p f : ℕ} {π : Bool}
 
+omit [Finite P] in
 theorem conj_compat [Yh.Normal] (e : ↥Yh ≃* projImage (Sec4.slPi π 3 (p ^ f) K)) {g : P}
     {y : GL (Fin 3) K} (hy : Sec4.IsPGLAtP e g y) {l : P} (hl : l ∈ Yh) :
     ((e ⟨g * l * g⁻¹, Subgroup.Normal.conj_mem ‹_› l hl g⟩ : projImage (Sec4.slPi π 3 (p ^ f) K)) :
@@ -45,12 +46,12 @@ theorem hess_actions [Yh.Normal] (hD : HessData Yh Bh xh bh ch) (hK : Sec4.PiFie
       have hq1 : p ^ f % 3 = 1 := hq
       omega
     | false =>
-      haveI : Group.IsSolvable (projImage (Sec4.slPi false 3 (p ^ f) K)) :=
+      have : Group.IsSolvable (projImage (Sec4.slPi false 3 (p ^ f) K)) :=
         Sec13.isSolvable_projImage_slPi_two hK h2
-      haveI : Group.IsSolvable ↥Yh :=
+      have : Group.IsSolvable ↥Yh :=
         Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
       obtain ⟨Xh, hXY, -, hperfX, -, -, p', n, hp', h4, φ', hφ'⟩ := hD.comp
-      haveI : Group.IsSolvable ↥Xh :=
+      have : Group.IsSolvable ↥Xh :=
         Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hXY).toMonoidHom)
           (MulEquiv.surjective _)
       have hsub : Subsingleton ↥Xh := by
@@ -69,7 +70,7 @@ theorem hess_actions [Yh.Normal] (hD : HessData Yh Bh xh bh ch) (hK : Sec4.PiFie
         obtain ⟨y, rfl⟩ := hφ' b
         rw [Subsingleton.elim x y]
       exact (not_nontrivial_iff_subsingleton.mpr hsubP) inferInstance
-  haveI : IsSimpleGroup (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
+  have : IsSimpleGroup (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
     Sec8.Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
   have hMq : CFSG.IsQuasisimple (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup

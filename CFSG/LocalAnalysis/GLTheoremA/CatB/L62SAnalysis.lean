@@ -65,7 +65,7 @@ theorem lemmaA (I : Subgroup Gx) (eI : I ≃* alternatingGroup (Fin 7)) {d : Gx}
   by_cases hT : ∀ h ∈ T, h = 0
   · exact Or.inl hT
   right
-  push_neg at hT
+  push Not at hT
   obtain ⟨h0, hh0T, hh0⟩ := hT
   obtain ⟨u1, hu1U, hu1⟩ : ∃ u ∈ LinearMap.ker (epsE d), u ≠ 0 := by
     obtain ⟨x, hx⟩ := (Module.finrank_pos_iff_exists_ne_zero (R := ZMod 2)).1 (by rw [hU2]; norm_num)
@@ -145,17 +145,17 @@ theorem lemmaA (I : Subgroup Gx) (eI : I ≃* alternatingGroup (Fin 7)) {d : Gx}
       rw [← LinearMap.finrank_range_of_inj hinj]
       show Module.finrank (ZMod 2) Yw = 4
       rw [hYeq, hfinW]
-    haveI : Finite Ex := finite_end Vx
+    have : Finite Ex := finite_end Vx
     have hδ3 := rho_cube hd
     let RT : Module.End (ZMod 2) T :=
       { toFun := fun h => ⟨rho d * h * (rho d * rho d), hTd1 h h.2⟩
         map_add' := fun a b => Subtype.ext (by simp [mul_add, add_mul])
-        map_smul' := fun c a => Subtype.ext (by simp [mul_smul_comm, smul_mul_assoc]) }
+        map_smul' := fun c a => Subtype.ext (by simp) }
     let conjT : I →* Module.End (ZMod 2) T :=
       { toFun := fun i =>
           { toFun := fun h => ⟨rho (i : Gx) * h * rho (i : Gx)⁻¹, hTI (i : Gx) i.2 h h.2⟩
             map_add' := fun a b => Subtype.ext (by simp [mul_add, add_mul])
-            map_smul' := fun c a => Subtype.ext (by simp [mul_smul_comm, smul_mul_assoc]) }
+            map_smul' := fun c a => Subtype.ext (by simp) }
         map_one' := LinearMap.ext fun h => Subtype.ext (by simp)
         map_mul' := fun i j => LinearMap.ext fun h => Subtype.ext (by
           simp [mul_assoc, _root_.mul_inv_rev, map_mul, Module.End.mul_apply]) }
@@ -274,14 +274,14 @@ def HUs (d : Gx) : Submodule (ZMod 2) Ex where
 
 noncomputable def pairB (d : Gx) : HWs d →ₗ[ZMod 2] HUs d →ₗ[ZMod 2] ZMod 2 :=
   LinearMap.mk₂ (ZMod 2) (fun k h => LinearMap.trace (ZMod 2) Vx ((k : Ex) * (h : Ex)))
-    (fun a b h => by simp [add_mul, map_add]) (fun c a h => by simp [smul_mul_assoc, map_smul])
-    (fun k h1 h2 => by simp [mul_add, map_add]) (fun c k h => by simp [mul_smul_comm, map_smul])
+    (fun a b h => by simp [add_mul, map_add]) (fun c a h => by simp [map_smul])
+    (fun k h1 h2 => by simp [mul_add, map_add]) (fun c k h => by simp [map_smul])
 
 theorem pair_U_nondeg {d : Gx} (hd : d ^ 3 = 1) {k : Ex} (hk : IsHW d k) (hk0 : k ≠ 0) :
     ∃ h : Ex, IsHU d h ∧ LinearMap.trace (ZMod 2) Vx (k * h) ≠ 0 := by
   obtain ⟨u, hu, hku⟩ : ∃ u ∈ LinearMap.ker (epsE d), k u ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hk0 (zero_of_kill hd hk.2 hcon)
   have hy : k u ∈ LinearMap.range (epsE d) := hk.1 u
   obtain ⟨μ, hμy, -⟩ := Submodule.exists_dual_map_eq_bot_of_notMem (R := ZMod 2) (p := ⊥) (x := k u)
@@ -306,7 +306,7 @@ theorem pair_W_nondeg {d : Gx} (hd : d ^ 3 = 1) {h : Ex} (hh : IsHU d h) (hh0 : 
     ∃ k : Ex, IsHW d k ∧ LinearMap.trace (ZMod 2) Vx (k * h) ≠ 0 := by
   obtain ⟨w, hw, hhw⟩ : ∃ w ∈ LinearMap.range (epsE d), h w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hh0 (zero_of_kill hd hcon hh.2)
   obtain ⟨μ, hμx, -⟩ := Submodule.exists_dual_map_eq_bot_of_notMem (R := ZMod 2) (p := ⊥) (x := h w)
     (by rw [Submodule.mem_bot]; exact hhw) inferInstance

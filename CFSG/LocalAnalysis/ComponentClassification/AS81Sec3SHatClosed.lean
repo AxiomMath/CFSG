@@ -97,7 +97,7 @@ theorem exists_card_commutator_le_of_centralizer {Y : Type*} [Group Y] [Finite Y
     rwa [hV'def, GoldschmidtFour.rightConjugate_rightConjugate_inv] at h
   obtain ⟨n, hnN, R', hR'p, hSR', hnR'⟩ := GoldschmidtFour.exists_conj_le_of_isPGroup
     (GoldschmidtFour.isPGroup_rightConjugate (GoldschmidtFour.isPGroup_rightConjugate hV2p a) k⁻¹)
-    S.isPGroup' hstep
+    S.isPGroup hstep
     hV.le_normalizer
   have hR'S : R' = S := S.maximal_isPGroup.eq_of_ge hR'p hSR'
   rw [hR'S, rightConjugate_mul, rightConjugate_mul, ← mul_assoc] at hnR'

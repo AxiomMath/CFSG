@@ -15,7 +15,7 @@ private abbrev SL23 := Matrix.SpecialLinearGroup (Fin 2) (ZMod 3)
 
 private theorem odd_card_oddCore' (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -87,7 +87,7 @@ theorem exists_quaternion_of_isSL23Mod [Finite G] {K : Subgroup G} (hK : IsSL23M
     decide
   have hcardK : Nat.card ↥K = Nat.card (CFSG.oddCore ↥K) * 24 := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.oddCore ↥K), hquot, Nat.mul_comm]
-  haveI : Nonempty ↥(CFSG.oddCore ↥K) := ⟨⟨1, (CFSG.oddCore ↥K).one_mem⟩⟩
+  have : Nonempty ↥(CFSG.oddCore ↥K) := ⟨⟨1, (CFSG.oddCore ↥K).one_mem⟩⟩
   have hNfact : Nat.factorization (Nat.card (CFSG.oddCore ↥K)) 2 = 0 :=
     Nat.factorization_eq_zero_of_not_dvd fun h => hNodd.not_two_dvd_nat h
   have h24fact : Nat.factorization 24 2 = 3 := by

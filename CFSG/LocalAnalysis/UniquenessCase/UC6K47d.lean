@@ -18,7 +18,7 @@ variable {G : Type} [Group G]
 
 theorem exists_generator_uc6 [Finite G] {r : ℕ} (hr : r.Prime) {D : Subgroup G}
     (hD : Nat.card D = r) : ∃ x : G, D = Subgroup.zpowers x ∧ orderOf x = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hnt : ∃ y ∈ D, y ≠ 1 := by
     by_contra h
     push Not at h
@@ -93,7 +93,7 @@ theorem k47_one_uc6 (ρ : Representation (ZMod 2) G V) (hρ : Function.Injective
     have hzR' : c * x * c⁻¹ * x⁻¹ ∈ R := hzeq' ▸ zR.2
     have hzc : ∀ w ∈ R, w * (c * x * c⁻¹ * x⁻¹) = (c * x * c⁻¹ * x⁻¹) * w := fun w hw => by
       have := congrArg Subtype.val (Subgroup.mem_center_iff.1 hzR ⟨w, hw⟩)
-      rwa [← hzeq'] at *
+      rw [← hzeq'] at *; assumption
     have hxR : x ∈ R := hRD hxmem
     have hzx : (c * x * c⁻¹ * x⁻¹) * x = x * (c * x * c⁻¹ * x⁻¹) := (hzc x hxR).symm
     have hcz : c * (c * x * c⁻¹ * x⁻¹) = (c * x * c⁻¹ * x⁻¹) * c := hzc c hcR
@@ -199,19 +199,19 @@ theorem k47_two_uc6 (ρ : Representation (ZMod 2) G V) (hρ : Function.Injective
     (hQab : IsMulCommutative ↥Q) (hDQ : D ≤ normalizer (Q : Set G)) (hcomm : ⁅D, Q⁆ = Q) :
     IsCyclic ↥Q := by
   by_contra hnc
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (IsPGroup q ↥Q) := ⟨hQp⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (IsPGroup q ↥Q) := ⟨hQp⟩
   obtain ⟨x, hxD, hxord⟩ := exists_generator_uc6 hr hD
   have hx0 : x ∈ D := hxD ▸ Subgroup.mem_zpowers x
   have hfpf := fixedPointFree_of_commutator_eq_uc6 hxD hQab hDQ hcomm
   have hEQ : omegaCenter q Q ≤ Q := omegaCenter_le q Q
   have hxN : x ∈ normalizer (omegaCenter q Q : Set G) :=
     normalizer_le_normalizer_omegaCenter q Q (hDQ hx0)
-  haveI hEab : IsMulCommutative ↥(omegaCenter q Q) := (isElemAbelian_omegaCenter q Q).1
-  letI : CommGroup ↥(omegaCenter q Q) := IsMulCommutative.instCommGroup
+  have hEab : IsMulCommutative ↥(omegaCenter q Q) := (isElemAbelian_omegaCenter q Q).1
+  let : CommGroup ↥(omegaCenter q Q) := IsMulCommutative.instCommGroup
   have hbig : q < Nat.card ↥(omegaCenter q Q) := by
     obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a (R := ↥Q) (p := q) hq2 hnc
-    haveI := hSel
+    have := hSel
     have hS : S.map Q.subtype ≤ omegaCenter q Q := by
       rintro _ ⟨s, hs, rfl⟩
       refine ⟨s.2, ?_, fun y hy => ?_⟩

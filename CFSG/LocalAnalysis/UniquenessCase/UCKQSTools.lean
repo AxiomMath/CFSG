@@ -136,7 +136,7 @@ theorem of_surjective_coprime_ker {G K : Type} [Group G] [Finite G] [Group K] [F
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p G))
   have hinj : ∀ x ∈ (P : Subgroup G), f x = 1 → x = 1 := by
     intro x hx hfx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     have hxk : x ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hord : orderOf (⟨x, hfx⟩ : f.ker) ∣ p ^ k :=
       orderOf_dvd_of_pow_eq_one (Subtype.ext (by simpa using hxk))
@@ -159,7 +159,7 @@ theorem of_normal_coprime_index {G : Type} [Group G] [Finite G] {p : ℕ} [Fact 
   refine of_sylow P fun hcen hrk => ?_
   have hinj : ∀ x ∈ (P : Subgroup ↥N), N.subtype x = 1 → x = 1 :=
     fun x _ hx => N.subtype_injective (by rw [map_one]; exact hx)
-  have hPG : IsPGroup p ((P : Subgroup ↥N).map N.subtype) := P.isPGroup'.map N.subtype
+  have hPG : IsPGroup p ((P : Subgroup ↥N).map N.subtype) := P.isPGroup.map N.subtype
   have hidx' : ¬ p ∣ ((P : Subgroup ↥N).map N.subtype).index := by
     rw [Subgroup.index_map_subtype]
     intro hd
@@ -181,17 +181,17 @@ theorem of_sylow_comm {K : Type} [Group K] [Finite K] {p : ℕ} [Fact p.Prime]
 theorem of_sylow_cyclic {K : Type} [Group K] [Finite K] {p : ℕ} [Fact p.Prime]
     (h : ∀ S : Sylow p K, IsCyclic (S : Subgroup K)) : PCentralAbelianAt K p := by
   refine of_sylow_comm fun S => ?_
-  haveI := h S
-  letI : CommGroup ↥(S : Subgroup K) := IsCyclic.commGroup
+  have := h S
+  let : CommGroup ↥(S : Subgroup K) := IsCyclic.commGroup
   rw [isMulCommutative_iff]
   exact fun a b => mul_comm a b
 
 theorem pca_isCyclic_of_pRank_le_one {K : Type} [Group K] [Finite K] {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     {P : Subgroup K} (hP : IsPGroup p P) (hrk : CFSG.Open.pRank p P ≤ 1) : IsCyclic P := by
   by_contra hnc
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hp2 hnc
-  haveI := hSel
+  have := hSel
   have hE : CFSG.Open.IsElemAbelian p (S.map P.subtype) := by
     refine ⟨pca_comm_map _ inferInstance, ?_⟩
     rintro _ ⟨s, hs, rfl⟩
@@ -203,7 +203,7 @@ theorem pca_isCyclic_of_pRank_le_one {K : Type} [Group K] [Finite K] {p : ℕ} [
 
 theorem of_pRank_le_one {K : Type} [Group K] [Finite K] {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     (h : CFSG.Open.pRank p (⊤ : Subgroup K) ≤ 1) : PCentralAbelianAt K p :=
-  of_sylow_cyclic fun S => pca_isCyclic_of_pRank_le_one hp2 S.isPGroup'
+  of_sylow_cyclic fun S => pca_isCyclic_of_pRank_le_one hp2 S.isPGroup
     ((CFSG.SectionRank.pRank_mono (Fact.out : p.Prime).one_lt le_top).trans h)
 
 theorem of_four_le_pRank {K : Type} [Group K] [Finite K] {p : ℕ} (hp : p.Prime) {H : Subgroup K}
@@ -249,13 +249,13 @@ theorem of_factorization_le {K : Type} [Group K] [Finite K] {p : ℕ} [Fact p.Pr
   intro T hT hcen _
   obtain ⟨P, rfl⟩ := N588A.exists_sylow_of_isSylowOf_top hT
   by_contra hnab
-  haveI : Fact (IsPGroup p ↥(P : Subgroup K)) := ⟨P.isPGroup'⟩
+  have : Fact (IsPGroup p ↥(P : Subgroup K)) := ⟨P.isPGroup⟩
   have hnc : ¬ IsCyclic ↥(P : Subgroup K) := by
     intro hc
-    letI : CommGroup ↥(P : Subgroup K) := IsCyclic.commGroup
+    let : CommGroup ↥(P : Subgroup K) := IsCyclic.commGroup
     exact hnab (isMulCommutative_iff.mpr fun a b => mul_comm a b)
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hp2 hnc
-  haveI := hSel
+  have := hSel
   have hSZ : S ≤ Subgroup.center ↥(P : Subgroup K) := by
     intro s hs
     rw [Subgroup.mem_center_iff]
@@ -286,13 +286,13 @@ theorem of_factorization_le {K : Type} [Group K] [Finite K] {p : ℕ} [Fact p.Pr
     exact (Dvd.intro _ h2).trans h3
   have hcyc : IsCyclic (↥(P : Subgroup K) ⧸ Subgroup.center ↥(P : Subgroup K)) := by
     rcases (Nat.dvd_prime (Fact.out : p.Prime)).mp hQdvd with h1 | h1
-    · haveI := (Nat.card_eq_one_iff_unique.mp h1).1
+    · have := (Nat.card_eq_one_iff_unique.mp h1).1
       infer_instance
     · exact isCyclic_of_prime_card h1
   apply hnab
   rw [isMulCommutative_iff]
-  exact commutative_of_cyclic_center_quotient (QuotientGroup.mk' (Subgroup.center ↥(P : Subgroup K)))
-    (by rw [QuotientGroup.ker_mk'])
+  exact (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' (Subgroup.center ↥(P : Subgroup K)))
+    (by rw [QuotientGroup.ker_mk'])).is_comm.comm
 
 end PCentralAbelianAt
 

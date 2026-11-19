@@ -41,15 +41,15 @@ theorem wreathFacts_map {G X : Type} [Group G] [Group X] {ψ : G →* X}
 
 theorem rot3_single_zero : rot3 (Pi.single 0 1 : Fin 3 → ZMod 3) = Pi.single 1 1 := by
   funext k
-  fin_cases k <;> simp [rot3_apply_zero, rot3_apply_one, rot3_apply_two, Pi.single_apply]
+  fin_cases k <;> simp [rot3_apply_zero, rot3_apply_one, rot3_apply_two]
 
 theorem rot3_single_one : rot3 (Pi.single 1 1 : Fin 3 → ZMod 3) = Pi.single 2 1 := by
   funext k
-  fin_cases k <;> simp [rot3_apply_zero, rot3_apply_one, rot3_apply_two, Pi.single_apply]
+  fin_cases k <;> simp [rot3_apply_zero, rot3_apply_one, rot3_apply_two]
 
 theorem rot3_single_two : rot3 (Pi.single 2 1 : Fin 3 → ZMod 3) = Pi.single 0 1 := by
   funext k
-  fin_cases k <;> simp [rot3_apply_zero, rot3_apply_one, rot3_apply_two, Pi.single_apply]
+  fin_cases k <;> simp [rot3_apply_zero, rot3_apply_one, rot3_apply_two]
 
 theorem vec_sum : ∀ v : Fin 3 → ZMod 3,
     (v 0).val • (Pi.single 0 1 : Fin 3 → ZMod 3) + (v 1).val • (Pi.single 1 1 : Fin 3 → ZMod 3) +
@@ -103,7 +103,7 @@ theorem tau3_ne_permGL3 {K : Type} [Field K] {ω : Kˣ} (hω3 : ω ^ 3 = 1)
     (v : Fin 3 → ZMod 3) : tau3 hω3 (Multiplicative.ofAdd v) ≠ permGL3 := by
   intro h
   have h1 := congrArg (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K) 1 0) h
-  simp [tau3_apply, coe_permGL3, permMat3, TauCeti.diagGL_coe] at h1
+  simp [tau3_apply, coe_permGL3, permMat3] at h1
 
 theorem tau3_single_eq {K : Type} [Field K] (ω : Kˣ) (i : Fin 3) :
     (fun k : Fin 3 => ω ^ ((Pi.single i (1 : ZMod 3) : Fin 3 → ZMod 3) k).val) =
@@ -200,7 +200,7 @@ theorem outerRow_projSp6 : OuterRow (projSp 3 (GaloisField 2 2)) :=
 
 theorem row_sp64 : RowOf (projSp 3 (GaloisField 2 2)) := by
   intro S _ _ _ _ ⟨e⟩
-  haveI : Finite (projSp 3 (GaloisField 2 2)) := Finite.of_equiv S e.toEquiv
+  have : Finite (projSp 3 (GaloisField 2 2)) := Finite.of_equiv S e.toEquiv
   exact GoodRow.of_mulEquiv (S := projSp 3 (GaloisField 2 2)) e.symm
     ⟨listRow_projSp6, outerRow_projSp6⟩
 

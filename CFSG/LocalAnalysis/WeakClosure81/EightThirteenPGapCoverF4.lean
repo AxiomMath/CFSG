@@ -48,7 +48,7 @@ private theorem wcgapcf_oTwoMod_bot_eq_pCoreOf {Y : Type} [Group Y] [Finite Y]
         simpa using congrArg (fun x : ↥N => K.subtype (x : ↥K)) hj)⟩
 
 private theorem wcgapcf_pCoreOf_map {G₀ G : Type} [Group G₀] [Finite G₀] [Group G]
-    (α : G₀ →* G) (hα : Function.Surjective α) (hker : α.ker ≤ Subgroup.center G₀)
+    (α : G₀ →* G) (_hα : Function.Surjective α) (hker : α.ker ≤ Subgroup.center G₀)
     (hodd : Odd (Nat.card ↥α.ker)) (K₀ : Subgroup G₀) :
     CFSG.Open.pCoreOf 2 (K₀.map α) = (CFSG.Open.pCoreOf 2 K₀).map α := by
   let f : ↥K₀ →* ↥(K₀.map α) :=
@@ -57,8 +57,8 @@ private theorem wcgapcf_pCoreOf_map {G₀ G : Type} [Group G₀] [Finite G₀] [
     intro y
     obtain ⟨x, hx, hxy⟩ := Subgroup.mem_map.mp y.2
     exact ⟨⟨x, hx⟩, Subtype.ext hxy⟩
-  haveI : Finite ↥K₀ := Subtype.finite
-  haveI : Finite ↥(K₀.map α) := Finite.of_surjective f hf
+  have : Finite ↥K₀ := Subtype.finite
+  have : Finite ↥(K₀.map α) := Finite.of_surjective f hf
   have hfker : f.ker ≤ Subgroup.center ↥K₀ := by
     intro x hx
     rw [Subgroup.mem_center_iff]
@@ -114,7 +114,7 @@ private theorem wcgapcf_odd_inf_relIndex {Y : Type} [Group Y] {H K P : Subgroup 
     (hHodd : Odd (H.relIndex P)) (hKodd : Odd (K.relIndex P)) :
     Odd ((H ⊓ K).relIndex P) := by
   have hdvd : H.relIndex K ∣ H.relIndex P := by
-    haveI : (H.subgroupOf P).Normal := hHn
+    have : (H.subgroupOf P).Normal := hHn
     have h := Subgroup.relIndex_dvd_index_of_normal (H := H.subgroupOf P) (K := K.subgroupOf P)
     rw [Subgroup.relIndex_subgroupOf (H := H) (K := K) (L := P) hKP] at h
     exact h
@@ -144,7 +144,7 @@ private theorem wcgapcf_odd_oddResMod_relIndex {Y : Type} [Group Y] [Finite Y]
   classical
   let S := wcgapcf_oddSet (⊥ : Subgroup Y) P
   let idx := {Q : Subgroup Y // Q ∈ S}
-  haveI : Fintype idx := Fintype.ofFinite idx
+  have : Fintype idx := Fintype.ofFinite idx
   have hPmem : P ∈ S :=
     ⟨bot_le, le_rfl, by rw [Subgroup.subgroupOf_self]; infer_instance,
       by rw [Subgroup.relIndex_self]; norm_num⟩
@@ -185,7 +185,7 @@ private theorem wcgapcf_relIndex_map_map_dvd {G₀ G : Type} [Group G₀] [Group
   exact (A.subgroupOf B).index_map_dvd hf
 
 theorem normalizer_map_of_cover {G₀ G : Type} [Group G₀] [Finite G₀] [Group G] (α : G₀ →* G)
-    (hα : Function.Surjective α) (hker : α.ker ≤ Subgroup.center G₀)
+    (hα : Function.Surjective α) (_hker : α.ker ≤ Subgroup.center G₀)
     (hodd : Odd (Nat.card ↥α.ker)) {S₀ : Subgroup G₀} (hS₀ : IsPGroup 2 S₀) :
     normalizer ((S₀.map α : Subgroup G) : Set G) = (normalizer (S₀ : Set G₀)).map α :=
   (CFSG.ComponentClassification.OddKernelNormalizers.image α hα hodd S₀ hS₀).symm
@@ -194,7 +194,7 @@ theorem oTwoMod_bot_map_of_cover {G₀ G : Type} [Group G₀] [Finite G₀] [Gro
     (hα : Function.Surjective α) (hker : α.ker ≤ Subgroup.center G₀)
     (hodd : Odd (Nat.card ↥α.ker)) (K₀ : Subgroup G₀) :
     oTwoMod (⊥ : Subgroup G) (K₀.map α) = (oTwoMod (⊥ : Subgroup G₀) K₀).map α := by
-  haveI : Finite G := Finite.of_surjective α hα
+  have : Finite G := Finite.of_surjective α hα
   rw [wcgapcf_oTwoMod_bot_eq_pCoreOf (K₀.map α), wcgapcf_oTwoMod_bot_eq_pCoreOf K₀]
   exact wcgapcf_pCoreOf_map α hα hker hodd K₀
 
@@ -266,8 +266,8 @@ private theorem wcgapcf_center_eq_bot_of_isL2 {X : Type} [Group X] (h : IsL2 X 2
     Subgroup.center X = ⊥ := by
   obtain ⟨-, K, hField, hFinite, -, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel h (by decide)
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   let e' : X ≃* CFSG.GorensteinWalter.PSL2 K :=
     e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
   have hZ : Subgroup.center (CFSG.GorensteinWalter.PSL2 K) = ⊥ :=
@@ -282,7 +282,7 @@ private theorem wcgapcf_inf_ker_le_oTwoMod {G₀ G : Type} [Group G₀] [Finite 
     (h : HasQuotShape K (oTwoMod (⊥ : Subgroup G₀) K : Set G₀) (fun X _ => IsL2 X 2)) :
     K ⊓ α.ker ≤ oTwoMod (⊥ : Subgroup G₀) K := by
   obtain ⟨X, hX, φ, hφ, hkerφ, hL2⟩ := h
-  letI : Group X := hX
+  let : Group X := hX
   have hcenter : Subgroup.center X = ⊥ := wcgapcf_center_eq_bot_of_isL2 hL2
   intro z hz
   obtain ⟨hzK, hzker⟩ := Subgroup.mem_inf.mp hz
@@ -306,7 +306,7 @@ private theorem wcgapcf_hasQuotShape_map {G₀ G : Type} [Group G₀] [Group G]
     (hNK : N ≤ K) (hker : K ⊓ α.ker ≤ N) (h : HasQuotShape K (N : Set G₀) P) :
     HasQuotShape (K.map α) ((N.map α : Subgroup G) : Set G) P := by
   obtain ⟨X, hX, φ, hφ, hkerφ, hP⟩ := h
-  letI : Group X := hX
+  let : Group X := hX
   let f : ↥K →* ↥(K.map α) :=
     (α.comp K.subtype).codRestrict (K.map α) fun x => ⟨x, x.2, rfl⟩
   have hf : Function.Surjective f := by
@@ -500,7 +500,7 @@ theorem centralKData_of_cover {G₀ G : Type} [Group G₀] [Finite G₀] [Group 
     (h : CentralKData S₀ A₀) :
     CentralKData (S₀.map α) (A₀.map α) := by
   obtain ⟨K₀, hAK, hnO₂, hshape, hsyl, hidx⟩ := h
-  haveI : Finite G := Finite.of_surjective α hα
+  have : Finite G := Finite.of_surjective α hα
   have hinfker : K₀ ⊓ α.ker ≤ oTwoMod (⊥ : Subgroup G₀) K₀ :=
     wcgapcf_inf_ker_le_oTwoMod α hker hshape
   refine ⟨K₀.map α, Subgroup.map_mono hAK, ?_, ?_, ?_,
@@ -552,7 +552,7 @@ theorem rankTwoParabData_of_cover {G₀ G : Type} [Group G₀] [Finite G₀] [Gr
     (hS₀ : IsSylowIn 2 S₀ (⊤ : Subgroup G₀)) (h : RankTwoParabData S₀) :
     RankTwoParabData (S₀.map α) := by
   obtain ⟨P, hmax, hS, hshape, hidx, hcomm⟩ := h
-  haveI : Finite G := Finite.of_surjective α hα
+  have : Finite G := Finite.of_surjective α hα
   have hS2 : IsPGroup 2 S₀ := hS₀.isPGroup
   refine ⟨fun i => (P i).map α, ?_, ?_, ?_, ?_, ?_⟩
   · intro i

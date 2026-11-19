@@ -25,7 +25,7 @@ theorem kFactTenNineWCGammaM11 :
         ¬ IsWClosedIn (S : Subgroup (MulAut.conjNormal (H := K)).range) A Y := by
   intro B _ _ K _ ⟨e⟩ S A Y hA3 hY hwc
   obtain ⟨eC⟩ := CFSG.Sporadic.Bridge.M11.nonempty_mulEquiv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsp : CFSG.Blueprint.NativeSporadic.IsSporadic K .M11 := ⟨e.trans eC.symm⟩
   obtain ⟨M, hP, hA⟩ := M11.autModel hsp
   refine false_of_transitive_gamma ?_ ?_ ?_ ?_ S A hA3 Y hY hwc

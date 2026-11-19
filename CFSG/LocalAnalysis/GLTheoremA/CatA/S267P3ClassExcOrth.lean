@@ -39,7 +39,7 @@ theorem quadPlus_two_rhoOneSigned (A : SL(2, K)) (u : Fin 2 ⊕ Fin 2 → K) :
     StatedQuadPlus 2 K (rhoOneSignedMat A *ᵥ u) = StatedQuadPlus 2 K u := by
   have hdet := A.2
   rw [det_fin_two] at hdet
-  simp only [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two, rhoOneSignedMat_apply,
+  simp only [StatedQuadPlus, Fin.sum_univ_two, rhoOneSignedMat_apply,
     mulVec, dotProduct, Fintype.sum_sum_type, fromBlocks_apply₁₁, fromBlocks_apply₁₂,
     fromBlocks_apply₂₁, fromBlocks_apply₂₂, Matrix.smul_apply, smul_eq_mul, skewM, Matrix.one_apply]
   simp
@@ -171,7 +171,7 @@ theorem exists_four_commuting_SL2_omega (hSL : commutator SL(2, K) = ⊤)
       StatedQuadPlus 2 K (fun b => w (oe₂ (.inr b)))) :
     ∃ φ : Fin 4 → SL(2, K) →* StatedProj (StatedOmega Q), (∀ i, Function.Injective (φ i)) ∧
       ∀ i j, i ≠ j → ∀ A B : SL(2, K), φ i A * φ j B = φ j B * φ i A := by
-  haveI : Nonempty ι₂ := ⟨oe₂ (.inr (.inl 0))⟩
+  have : Nonempty ι₂ := ⟨oe₂ (.inr (.inl 0))⟩
   set π := QuotientGroup.mk' ((StatedScalars ι K).subgroupOf (StatedOmega Q)) with hπ
   set ψ₀ := oRhoTwo oe₁ hQ₁ hSL
   set ψ₁ := oRhoOneSigned oe₁ hQ₁ hSL
@@ -250,7 +250,7 @@ theorem hypTail_split (s : ℕ) {T : Type} (qT : (T → K) → K)
     (v : Fin (s + 2) ⊕ (Fin (s + 2) ⊕ T) → K) :
     hypTail (s + 2) qT v = hypTail s qT (fun a => v (oeTail s T (.inl a))) +
       StatedQuadPlus 2 K (fun b => v (oeTail s T (.inr b))) := by
-  simp only [hypTail, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_add]
+  simp only [hypTail, StatedQuadPlus, Fin.sum_univ_add]
   simp [oeTail, Fin.sum_univ_two]
   ring
 
@@ -260,7 +260,7 @@ theorem hypTail_split (s : ℕ) {T : Type} (qT : (T → K) → K)
 theorem quadPlus_split (s : ℕ) (v : Fin (s + 2) ⊕ Fin (s + 2) → K) :
     StatedQuadPlus (s + 2) K v = StatedQuadPlus s K (fun a => v (oePlus s (.inl a))) +
       StatedQuadPlus 2 K (fun b => v (oePlus s (.inr b))) := by
-  simp only [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_add]
+  simp only [StatedQuadPlus, Fin.sum_univ_add]
   simp [oePlus, Fin.sum_univ_two]
 
 theorem statedQuadMinus_eq (s : ℕ) (b c : K) (v : Fin s ⊕ (Fin s ⊕ Fin 2) → K) :
@@ -287,9 +287,9 @@ private theorem commutator_sl2_eq_top_of_ringChar {F : Type} [Field F] (h2 : rin
 
 private theorem ringChar_fixedField' (d : TauCeti.ValidLieTypeIndex) :
     ringChar d.fixedField = d.characteristic := by
-  haveI : Fintype d.fixedField := Fintype.ofFinite _
-  haveI : Fact d.characteristic.Prime := ⟨d.characteristic_prime⟩
-  haveI : CharP d.fixedField d.characteristic :=
+  have : Fintype d.fixedField := Fintype.ofFinite _
+  have : Fact d.characteristic.Prime := ⟨d.characteristic_prime⟩
+  have : CharP d.fixedField d.characteristic :=
     charP_of_card_eq_prime_pow (f := d.fieldExponent) (by
       rw [← Nat.card_eq_fintype_card, TauCeti.ValidLieTypeIndex.card_fixedField,
         TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow])

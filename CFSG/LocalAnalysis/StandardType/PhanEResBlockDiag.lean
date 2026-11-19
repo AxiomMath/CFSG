@@ -58,7 +58,7 @@ theorem plr_lt_cutBlock_succ {d : List ℕ} (hd : IsCut n d) {j : ℕ} (hj : j <
     |>.2.2 (Nat.lt_succ_self _) (Nat.succ_le_iff.mpr hb) (le_of_not_gt h)
 
 private theorem plr_cutBlock_add_one_le_of_lt {d : List ℕ} (hd : IsCut n d) {k i : ℕ}
-    (hi : i < d.length) (hk : k < d.getD i 0) : plr_cutBlock d k + 1 ≤ i := by
+    (_hi : i < d.length) (hk : k < d.getD i 0) : plr_cutBlock d k + 1 ≤ i := by
   by_contra h
   have h1 : i ≤ plr_cutBlock d k := by omega
   have h2 := plr_getD_mono hd i h1 (Nat.findGreatest_le (P := fun b => d.getD b 0 ≤ k) _)
@@ -72,6 +72,7 @@ private def plr_blockProj (n : ℕ) (lo hi : ℕ) : Matrix (Fin n) (Fin n) K :=
   ∀ i j : Fin n, (lo ≤ i.val ∧ i.val < hi) → ¬ (lo ≤ j.val ∧ j.val < hi) →
     A i j = 0 ∧ A j i = 0
 
+omit [Finite K] [CharP K 2] in
 private theorem plr_blockProj_comm {A : Matrix (Fin n) (Fin n) K} (hA : BlockDiag d A)
     {b : ℕ} (hb : b + 1 < d.length) :
     plr_blockProj n (d.getD b 0) (d.getD (b + 1) 0) * A =
@@ -80,14 +81,15 @@ private theorem plr_blockProj_comm {A : Matrix (Fin n) (Fin n) K} (hA : BlockDia
   rw [plr_blockProj, Matrix.diagonal_mul, Matrix.mul_diagonal]
   by_cases hi : d.getD b 0 ≤ i.val ∧ i.val < d.getD (b + 1) 0
   · by_cases hj : d.getD b 0 ≤ j.val ∧ j.val < d.getD (b + 1) 0
-    · rw [if_pos hi, if_pos hj]; ring
-    · rw [if_pos hi, if_neg hj, (hA b hb i j hi hj).1]; ring
+    · rw [ite_eq_left hi, ite_eq_left hj]; ring
+    · rw [ite_eq_left hi, ite_eq_right hj, (hA b hb i j hi hj).1]; ring
   · by_cases hj : d.getD b 0 ≤ j.val ∧ j.val < d.getD (b + 1) 0
-    · rw [if_neg hi, if_pos hj, (hA b hb j i hj hi).2]; ring
-    · rw [if_neg hi, if_neg hj]; ring
+    · rw [ite_eq_right hi, ite_eq_left hj, (hA b hb j i hj hi).2]; ring
+    · rw [ite_eq_right hi, ite_eq_right hj]; ring
 
+omit [Finite K] [CharP K 2] in
 private theorem plr_blockProj_comm_inv {A B : Matrix (Fin n) (Fin n) K}
-    (hAB : A * B = 1) (hBA : B * A = 1) {b : ℕ} (hb : b + 1 < d.length)
+    (hAB : A * B = 1) (hBA : B * A = 1) {b : ℕ} (_hb : b + 1 < d.length)
     (hcomm : plr_blockProj n (d.getD b 0) (d.getD (b + 1) 0) * A =
       A * plr_blockProj n (d.getD b 0) (d.getD (b + 1) 0)) :
     plr_blockProj n (d.getD b 0) (d.getD (b + 1) 0) * B =
@@ -104,12 +106,14 @@ private theorem plr_blockProj_comm_inv {A B : Matrix (Fin n) (Fin n) K}
           Matrix.mul_assoc (B * plr_blockProj n (d.getD b 0) (d.getD (b + 1) 0)) A B,
           hAB, mul_one]
 
+omit [Finite K] [CharP K 2] in
 theorem BlockDiag.one : BlockDiag d (1 : Matrix (Fin n) (Fin n) K) := by
   intro b hb i j hi hj
   constructor
   · exact Matrix.one_apply_ne (fun h => hj (h ▸ hi))
   · exact Matrix.one_apply_ne (fun h => hj (h.symm ▸ hi))
 
+omit [Finite K] [CharP K 2] in
 theorem BlockDiag.mul {A B : Matrix (Fin n) (Fin n) K} (hA : BlockDiag d A) (hB : BlockDiag d B) :
     BlockDiag d (A * B) := by
   intro b hb i j hi hj
@@ -125,6 +129,7 @@ theorem BlockDiag.mul {A B : Matrix (Fin n) (Fin n) K} (hA : BlockDiag d A) (hB 
       · rw [(hA b hb k j hk hj).2, zero_mul]
       · rw [(hB b hb i k hi hk).2, mul_zero]
 
+omit [Finite K] [CharP K 2] in
 theorem BlockDiag.inv {g : GL (Fin n) K} (hg : BlockDiag d (g : Matrix (Fin n) (Fin n) K)) :
     BlockDiag d ((g⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by
   let B : Matrix (Fin n) (Fin n) K := ((g⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)
@@ -145,19 +150,20 @@ theorem BlockDiag.inv {g : GL (Fin n) K} (hg : BlockDiag d (g : Matrix (Fin n) (
   constructor
   · have h1 : ((plr_blockProj (K := K) n (d.getD b 0) (d.getD (b + 1) 0) :
         Matrix (Fin n) (Fin n) K) * B) i j = B i j := by
-      rw [plr_blockProj, Matrix.diagonal_mul, if_pos hi, one_mul]
+      rw [plr_blockProj, Matrix.diagonal_mul, ite_eq_left hi, one_mul]
     have h2 : (B * (plr_blockProj (K := K) n (d.getD b 0) (d.getD (b + 1) 0) :
         Matrix (Fin n) (Fin n) K)) i j = 0 := by
-      rw [plr_blockProj, Matrix.mul_diagonal, if_neg hj, mul_zero]
+      rw [plr_blockProj, Matrix.mul_diagonal, ite_eq_right hj, mul_zero]
     rw [← h1, hcomm', h2]
   · have h1 : ((plr_blockProj (K := K) n (d.getD b 0) (d.getD (b + 1) 0) :
         Matrix (Fin n) (Fin n) K) * B) j i = 0 := by
-      rw [plr_blockProj, Matrix.diagonal_mul, if_neg hj, zero_mul]
+      rw [plr_blockProj, Matrix.diagonal_mul, ite_eq_right hj, zero_mul]
     have h2 : (B * (plr_blockProj (K := K) n (d.getD b 0) (d.getD (b + 1) 0) :
         Matrix (Fin n) (Fin n) K)) j i = B j i := by
-      rw [plr_blockProj, Matrix.mul_diagonal, if_pos hi, mul_one]
+      rw [plr_blockProj, Matrix.mul_diagonal, ite_eq_left hi, mul_one]
     rw [← h2, ← hcomm', h1]
 
+omit [Finite K] [CharP K 2] in
 theorem BlockDiag.stabV {g : GL (Fin n) K} (hd : IsCut n d)
     (hg : BlockDiag d (g : Matrix (Fin n) (Fin n) K)) :
     ∀ i, i < d.length → (Vsub n (d.getD i 0)).map (glLin g).toLinearMap = Vsub n (d.getD i 0) := by

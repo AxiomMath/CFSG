@@ -25,7 +25,7 @@ public theorem CFSG.section12_CA_msigma_split_E2_cyclic_factor_pre
         E₂ = subgroupCentralizerIn A (section10Msigma M) ⊔ Z := by
   classical
   let C : Subgroup G := subgroupCentralizerIn A (section10Msigma M)
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   have hE₂p : IsPGroup p.val E₂ :=
     section12_E2_isPGroup_of_tau2_singleton_pre
       (G := G) (M := M) (E := E) (E₁₂ := E₁₂)
@@ -37,7 +37,7 @@ public theorem CFSG.section12_CA_msigma_split_E2_cyclic_factor_pre
     rcases hSylow with ⟨Sbad, hSbad_noncomm⟩
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S Sbad
     have hconj_comm : IsMulCommutative ((g • S : Sylow p.val G) : Subgroup G) := by
-      letI : IsMulCommutative (S : Subgroup G) := hScomm
+      let : IsMulCommutative (S : Subgroup G) := hScomm
       rw [Sylow.coe_subgroup_smul]
       exact Subgroup.map_isMulCommutative
         (f := (MulAut.conj g).toMonoidHom) (H := (S : Subgroup G))
@@ -84,7 +84,7 @@ public theorem CFSG.section12_CA_msigma_split_E2_cyclic_factor_pre
         hM hE hp hA hSnonab hSnotM hCcard
   obtain ⟨Z, _hΩZ, hZcyc, hCdisjZ, hCS_eq⟩ :=
     lemma_10_13_b (G := G) (p := p) (A := A) (P := (S : Subgroup G))
-      (A₀ := C) hpG hA10 S.isPGroup' hSnonab hA_le_S hCprime hCneOmega
+      (A₀ := C) hpG hA10 S.isPGroup hSnonab hA_le_S hCprime hCneOmega
   have hE₂_le_centA : E₂ ≤ Subgroup.centralizer (A : Set G) :=
     section12_E2_le_centralizer_rankTwo_tau2_of_theorem_12_7_pre
       (G := G) (M := M) (E := E) (E₁₂ := E₁₂) (E₁ := E₁)
@@ -102,7 +102,7 @@ public theorem CFSG.section12_CA_msigma_split_E2_cyclic_factor_pre
   have hCS_le_E₂ : subgroupCentralizerIn (S : Subgroup G) A ≤ E₂ := by
     let K : Subgroup E := (subgroupCentralizerIn (S : Subgroup G) A).subgroupOf E
     have hCS_p : IsPGroup p.val (subgroupCentralizerIn (S : Subgroup G) A) :=
-      IsPGroup.to_le S.isPGroup' inf_le_left
+      IsPGroup.to_le S.isPGroup inf_le_left
     have hKp : IsPGroup p.val K :=
       hCS_p.of_equiv
         (Subgroup.subgroupOfEquivOfLe
@@ -186,13 +186,13 @@ public theorem CFSG.section12_CA_msigma_not_le_frattini_E2_pre
       (show C₂ ≤ Z₂ ⊔ frattini E₂ from
         (show C₂ ≤ frattini E₂ from by simpa [C₂, C] using hCΦ).trans le_sup_right)
       le_sup_left
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   have hE₂p : IsPGroup p.val E₂ :=
     section12_E2_isPGroup_of_tau2_singleton_pre
       (G := G) (M := M) (E := E) (E₁₂ := E₁₂)
       (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) (A := A) (p := p)
       hM hE hp hA hSylow
-  haveI : Fact (IsPGroup p.val E₂) := ⟨hE₂p⟩
+  have : Fact (IsPGroup p.val E₂) := ⟨hE₂p⟩
   have hZ₂top : Z₂ = ⊤ :=
     lemma_1_7_a (R := E₂) (p := p.val) (H := Z₂) hZΦ_top
   have hC_le_Z : C ≤ Z := by
@@ -247,7 +247,7 @@ public theorem CFSG.section12_E1_invariant_CA_msigma_subgroupOf_E2_pre
       ((subgroupCentralizerIn A (section10Msigma M)).subgroupOf E₂) := by
   classical
   let C : Subgroup G := subgroupCentralizerIn A (section10Msigma M)
-  letI : Subgroup.Normalizes E₁ E₂ :=
+  let : Subgroup.Normalizes E₁ E₂ :=
     ⟨section12_E1_le_normalizer_E2_pre (G := G) (M := M) hM hE⟩
   have hAnorm : section10NormalIn A E :=
     (corollary_12_6_a (G := G) (M := M) (E := E) (E₁₂ := E₁₂)
@@ -292,21 +292,21 @@ public theorem CFSG.section12_CA_msigma_complement_in_E2_pre
   let C₂ : Subgroup E₂ := C.subgroupOf E₂
   let Φ : Subgroup E₂ := frattini E₂
   let q : E₂ →* E₂ ⧸ Φ := QuotientGroup.mk' Φ
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   have hE₂p : IsPGroup p.val E₂ :=
     section12_E2_isPGroup_of_tau2_singleton_pre
       (G := G) (M := M) (E := E) (E₁₂ := E₁₂)
       (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) (A := A) (p := p)
       hM hE hp hA hSylow
-  haveI : Fact (IsPGroup p.val E₂) := ⟨hE₂p⟩
-  letI : Subgroup.Normalizes E₁ E₂ :=
+  have : Fact (IsPGroup p.val E₂) := ⟨hE₂p⟩
+  let : Subgroup.Normalizes E₁ E₂ :=
     ⟨section12_E1_le_normalizer_E2_pre (G := G) (M := M) hM hE⟩
   have hΦinv : IsInvariant E₁ E₂ Φ := by
     simpa [Φ] using isInvariant_of_characteristic (A := E₁) (G := E₂) (frattini E₂)
-  letI : IsInvariant E₁ E₂ Φ := hΦinv
-  haveI : Φ.Normal := by
+  let : IsInvariant E₁ E₂ Φ := hΦinv
+  have : Φ.Normal := by
     simpa [Φ] using (inferInstance : (frattini E₂).Normal)
-  letI : MulDistribMulAction E₁ (E₂ ⧸ Φ) :=
+  let : MulDistribMulAction E₁ (E₂ ⧸ Φ) :=
     quotientMulDistribMulAction (A := E₁) (G := E₂) Φ hΦinv
   have hC₂inv : IsInvariant E₁ E₂ C₂ := by
     simpa [C₂, C] using
@@ -314,16 +314,16 @@ public theorem CFSG.section12_CA_msigma_complement_in_E2_pre
         (G := G) (M := M) (E := E) (E₁₂ := E₁₂)
         (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) (A := A) (p := p)
         hM hE hp hA
-  letI : IsInvariant E₁ E₂ C₂ := hC₂inv
+  let : IsInvariant E₁ E₂ C₂ := hC₂inv
   let B : Subgroup (E₂ ⧸ Φ) := C₂.map q
   have hBinv : IsInvariant E₁ (E₂ ⧸ Φ) B := by
     simpa [B, q] using
       isInvariant_map_quotient
         (A := E₁) (G := E₂) (N := Φ) (H := C₂)
-  letI : IsInvariant E₁ (E₂ ⧸ Φ) B := hBinv
+  let : IsInvariant E₁ (E₂ ⧸ Φ) B := hBinv
   have hVelem : IsElementaryAbelian p.val (E₂ ⧸ Φ) := by
     simpa [Φ] using isElementaryAbelian_quotient_frattini (R := E₂) (p := p.val)
-  letI : IsElementaryAbelian p.val (E₂ ⧸ Φ) := hVelem
+  let : IsElementaryAbelian p.val (E₂ ⧸ Φ) := hVelem
   obtain ⟨Q, hBQ, hQinv⟩ :=
     section12_exists_isCompl_isInvariant_of_elementaryAbelian_coprime_pre
       (V := E₂ ⧸ Φ) (A := E₁) (p := p.val)
@@ -332,7 +332,7 @@ public theorem CFSG.section12_CA_msigma_complement_in_E2_pre
         (E₁ := E₁) (E₂ := E₂) (E₃ := E₃) (A := A) (p := p)
         hM hE hp hA) B
   let P₀sub : Subgroup E₂ := Q.comap q
-  letI : IsInvariant E₁ (E₂ ⧸ Φ) Q := hQinv
+  let : IsInvariant E₁ (E₂ ⧸ Φ) Q := hQinv
   have hqcompat : ∀ a : E₁, ∀ g : E₂, a • q g = q (a • g) := by
     intro a g
     simp [q, MulAction.Quotient.smul_mk]
@@ -366,7 +366,7 @@ public theorem CFSG.section12_CA_msigma_complement_in_E2_pre
         have hyD : yC ∈ D := by simp [hDtop]
         simpa [D, yC, Subgroup.mem_subgroupOf] using hyD
       exact hC₂_not_le_Φ hC₂_le_Φ
-    haveI : Fact (Nat.card C₂).Prime := ⟨by simpa [hC₂card] using p.2⟩
+    have : Fact (Nat.card C₂).Prime := ⟨by simpa [hC₂card] using p.2⟩
     have hD_bot : D = ⊥ := by
       rcases Subgroup.eq_bot_or_eq_top_of_prime_card D with hD | hD
       · exact hD
@@ -564,7 +564,7 @@ public theorem CFSG.section12_pack_complement_from_E2_pre
       (Subgroup.normal_subgroupOf_iff_le_normalizer hE3norm.1).1 hE3norm.2
     have hD_norm_E3 : D ≤ Subgroup.normalizer (E₃ : Set G) :=
       hDE.trans hE_norm_E3
-    haveI : (E₃.subgroupOf E₀).Normal := by
+    have : (E₃.subgroupOf E₀).Normal := by
       simpa [E₀] using
         (Subgroup.normal_subgroupOf_sup_of_le_normalizer
           (H := D) (N := E₃) hD_norm_E3)
@@ -609,7 +609,7 @@ public theorem CFSG.section12_pack_complement_from_E2_pre
       rw [← hdz_eq_x, hz_one, mul_one]
     have hdE2 : d ∈ E₂ := by
       simpa [hx_eq_d] using hxE2
-    haveI : (P₀.subgroupOf D).Normal := by
+    have : (P₀.subgroupOf D).Normal := by
       simpa [D] using
         (Subgroup.normal_subgroupOf_sup_of_le_normalizer
           (H := E₁) (N := P₀) hE₁normP₀)

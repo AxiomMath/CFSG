@@ -316,8 +316,8 @@ theorem cube_conj : ∀ i j k : ℕ, i < 7 → j < 7 → k < 7 → i + j + k ≠
   have hcC' : ConjYC (sev 66) (sev 67) (sev 67) := ⟨1, Or.inr (by group)⟩
   have hM3 := conj_facts hB (t := 3) (by decide)
   have hM21 := conj_facts hB (t := 21) (by decide)
-  rw [conj3, if_neg (by decide)] at hM3
-  rw [conj21, if_pos (by decide)] at hM21
+  rw [conj3, ite_eq_right (by decide)] at hM3
+  rw [conj21, ite_eq_left (by decide)] at hM21
   have e3 : cube7 3 = sev 67 ^ 3 := by simp [cube7]
   have e21 : cube7 21 = sev 66 ^ 3 := by simp [cube7]
   rw [e3] at hM3

@@ -40,7 +40,7 @@ theorem conjAut_mul (H : Subgroup G) {g k : G} (hg : g ∈ normalizer (H : Set G
     (hk : k ∈ normalizer (H : Set G)) (hgk : g * k ∈ normalizer (H : Set G)) :
     conjAut H (g * k) hgk = conjAut H g hg * conjAut H k hk := by
   ext h
-  simp only [conjAut_coe, MulAut.mul_apply, Subgroup.coe_mul]
+  simp only [conjAut_coe, MulAut.mul_apply]
   group
 
 theorem conjAut_one (H : Subgroup G) (h1 : (1 : G) ∈ normalizer (H : Set G)) :

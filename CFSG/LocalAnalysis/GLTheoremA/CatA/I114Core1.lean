@@ -10,6 +10,7 @@ open CFSG.Open
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem exists_mem_not_normalizer {B K : Subgroup Y}
     (hrel : (Subgroup.normalizer (K : Set Y)).relIndex B = 3) :
     ∃ x ∈ B, x ∉ Subgroup.normalizer (K : Set Y) := by
@@ -19,6 +20,7 @@ theorem exists_mem_not_normalizer {B K : Subgroup Y}
     Subgroup.relIndex_eq_one.2 (fun x hx => h x hx)
   omega
 
+omit [Finite Y] in
 theorem zpow_three_cases {x : Y} (hord : orderOf x = 3) (j : ℤ) :
     x ^ j = 1 ∨ x ^ j = x ∨ x ^ j = x * x := by
   have h := zpow_mod_orderOf x j
@@ -100,6 +102,7 @@ theorem closure_le_three {B K : Subgroup Y} (hB : IsElemAbelian 3 B) {x : Y} (hx
   · rw [h]; exact le_sup_right.trans le_sup_left
   · rw [h]; exact le_sup_right
 
+omit [Finite Y] in
 theorem cube_one_of_center {L : Subgroup Y} (hL : Nat.card (Subgroup.center ↥L) = 3) {b : Y}
     (hb : b ∈ L) (hc : ∀ l ∈ L, l * b = b * l) : b ^ 3 = 1 := by
   have hmem : (⟨b, hb⟩ : ↥L) ∈ Subgroup.center ↥L := by
@@ -112,6 +115,7 @@ theorem cube_one_of_center {L : Subgroup Y} (hL : Nat.card (Subgroup.center ↥L
   have := congrArg (fun z : Subgroup.center ↥L => (z : ↥L).1) hw
   simpa using this
 
+omit [Finite Y] in
 theorem eq_one_of_two_group_of_cube {T : Subgroup Y} (hT : IsPGroup 2 T) {t : Y} (ht : t ∈ T)
     (h3 : t ^ 3 = 1) : t = 1 := by
   obtain ⟨k, hk⟩ := hT ⟨t, ht⟩
@@ -124,6 +128,7 @@ theorem eq_one_of_two_group_of_cube {T : Subgroup Y} (hT : IsPGroup 2 T) {t : Y}
   rw [hcop, pow_one] at hg
   exact hg
 
+omit [Finite Y] in
 theorem two_group_le_pair_trivial {K K₂ K₃ T : Subgroup Y}
     (hKK₂ : ElemCommute K K₂) (hKK₃ : ElemCommute K K₃) (hK₂K₃ : ElemCommute K₂ K₃)
     (hZ₂ : Nat.card (Subgroup.center ↥K₂) = 3) (hZ₃ : Nat.card (Subgroup.center ↥K₃) = 3)

@@ -20,7 +20,7 @@ section Fibres
 variable {ι : Type*} [Fintype ι] [DecidableEq ι] {κ : Type*} [DecidableEq κ] {Ω : Type*} [Field Ω]
 
 theorem card_fiber_le_card_fiber_of_isUnit (wt : ι → κ) (inv : κ → κ)
-    (hinv : Function.Involutive inv) {M : Matrix ι ι Ω} (hM : IsUnit M)
+    (_hinv : Function.Involutive inv) {M : Matrix ι ι Ω} (hM : IsUnit M)
     (hMw : ∀ α β, M α β ≠ 0 → wt β = inv (wt α)) (k : κ) :
     (Finset.univ.filter fun α => wt α = k).card ≤
       (Finset.univ.filter fun α => wt α = inv k).card := by

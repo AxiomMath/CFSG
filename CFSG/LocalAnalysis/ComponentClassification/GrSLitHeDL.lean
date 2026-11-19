@@ -33,7 +33,7 @@ theorem exists_sylow_lift {W : Subgroup H} {E : Subgroup (H ⧸ pPrimeCore 2 H)}
     ((S.mapSurjective hf).maximal_isPGroup.eq_of_ge (hE.isPGroup.to_subgroup ⊤) le_top).symm
   rw [Sylow.coe_mapSurjective] at htop
   set Z := (S : Subgroup ↥W).map W.subtype with hZ
-  have hZp : IsPGroup 2 Z := S.isPGroup'.map W.subtype
+  have hZp : IsPGroup 2 Z := S.isPGroup.map W.subtype
   have hinj := GSThmB.OddQuot.injOn_of_isPGroup hZp
   have hZE : Z.map π = E := by
     ext e

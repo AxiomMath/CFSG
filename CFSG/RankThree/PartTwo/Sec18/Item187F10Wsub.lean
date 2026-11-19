@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem auto_eq_of_odd_pow {W : Type} [Group W] [Finite W]
     (hcomm : ∀ a b : W, a * b = b * a) (hW : IsPGroup 2 W) (β : MulAut W) {k : ℕ}
     (hk : Odd k) (hβk : β ^ k = 1) (h : ∀ w : W, w ^ 2 = 1 → β w = w) (w : W) : β w = w := by
-  letI : CommGroup W := { toGroup := inferInstance, mul_comm := hcomm }
+  let : CommGroup W := { toGroup := inferInstance, mul_comm := hcomm }
   obtain ⟨q, rfl⟩ := hk
   obtain ⟨P, hP⟩ : ∃ P : W →* W, ∀ x, P x = ∏ i ∈ Finset.range (2 * q + 1), (β ^ i) x :=
     ⟨{ toFun := fun x => ∏ i ∈ Finset.range (2 * q + 1), (β ^ i) x
@@ -74,7 +74,7 @@ private theorem auto_eq_of_odd_pow {W : Type} [Group W] [Finite W]
 theorem orderOf_pow_two_of_fixes_omega {W : Type} [Group W] [Finite W]
     (hcomm : ∀ a b : W, a * b = b * a) (hW : IsPGroup 2 W) (α : MulAut W)
     (h : ∀ w : W, w ^ 2 = 1 → α w = w) : ∃ n : ℕ, orderOf α = 2 ^ n := by
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun α : MulAut W => (α : W → W)) DFunLike.coe_injective
   have hpos : orderOf α ≠ 0 := (orderOf_pos_iff.mpr (isOfFinOrder_of_finite α)).ne'
   obtain ⟨a, k, hk, hm⟩ := Nat.exists_eq_two_pow_mul_odd hpos
@@ -100,20 +100,23 @@ theorem orderOf_pow_two_of_fixes_omega {W : Type} [Group W] [Finite W]
 
 abbrev W1 (X S : Subgroup G) : Subgroup G := Sec3.omegaG (Wsub X S)
 
-@[expose] def BadCase (A M H : Subgroup G) (X : Subgroup G) : Prop :=
+@[expose] def BadCase (_A M H : Subgroup G) (X : Subgroup G) : Prop :=
   2 ≤ CFSG.pRank 2 ↥(CFSG.Open.pCoreOf 2 (H ⊓ M)) ∧
     ¬ X ≤ Subgroup.normalizer (tripleOf (CFSG.Open.pCoreOf 2 (H ⊓ M)) 1 : Set G) ∧
     ¬ X ≤ Subgroup.normalizer (tripleOf (CFSG.Open.pCoreOf 2 (H ⊓ M)) 2 : Set G)
 
+omit [Finite G] in
 private theorem wsub_mem_of_gen (X S : Subgroup G) {x z : G} (hx : x ∈ X)
     (hz : z ∈ centerOf S) : x * z * x⁻¹ ∈ Wsub X S := by
   unfold Wsub
   exact Subgroup.subset_closure ⟨x, hx, z, hz, rfl⟩
 
+omit [Finite G] in
 private theorem wsub_centerOf_le (X S : Subgroup G) : centerOf S ≤ Wsub X S := by
   intro z hz
   simpa using wsub_mem_of_gen X S (Subgroup.one_mem X) hz
 
+omit [Finite G] in
 private theorem conj_mem_closure_gen {K : Set G} {g : G}
     (hK : ∀ y ∈ K, g * y * g⁻¹ ∈ Subgroup.closure K) {y : G} (hy : y ∈ Subgroup.closure K) :
     g * y * g⁻¹ ∈ Subgroup.closure K := by
@@ -127,6 +130,7 @@ private theorem conj_mem_closure_gen {K : Set G} {g : G}
     rw [show g * x⁻¹ * g⁻¹ = (g * x * g⁻¹)⁻¹ by group]
     exact inv_mem hx
 
+omit [Finite G] in
 private theorem wsub_conj_mem (X S : Subgroup G) {g : G} (hg : g ∈ X) {y : G}
     (hy : y ∈ Wsub X S) : g * y * g⁻¹ ∈ Wsub X S := by
   unfold Wsub at hy ⊢
@@ -135,6 +139,7 @@ private theorem wsub_conj_mem (X S : Subgroup G) {g : G} (hg : g ∈ X) {y : G}
   obtain ⟨a, ha, z, hz, rfl⟩ := hy'
   exact Subgroup.subset_closure ⟨g * a, mul_mem hg ha, z, hz, by group⟩
 
+omit [Finite G] in
 private theorem centerOf_conj_mem_of_normalizes {S : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (S : Set G)) {z : G} (hz : z ∈ centerOf S) :
     g * z * g⁻¹ ∈ centerOf S := by
@@ -150,6 +155,7 @@ private theorem centerOf_conj_mem_of_normalizes {S : Subgroup G} {g : G}
     _ = g * ((g⁻¹ * y * g) * z) * g⁻¹ := by rw [h1]
     _ = y * (g * z * g⁻¹) := by group
 
+omit [Finite G] in
 private theorem wsub_conj_mem_of_normalizes {X S : Subgroup G} {g : G}
     (hgX : g ∈ Subgroup.normalizer (X : Set G)) (hgS : g ∈ Subgroup.normalizer (S : Set G))
     {y : G} (hy : y ∈ Wsub X S) : g * y * g⁻¹ ∈ Wsub X S := by
@@ -161,6 +167,7 @@ private theorem wsub_conj_mem_of_normalizes {X S : Subgroup G} {g : G}
   have hgz : g * z * g⁻¹ ∈ centerOf S := centerOf_conj_mem_of_normalizes hgS hz
   exact Subgroup.subset_closure ⟨g * a * g⁻¹, hga, g * z * g⁻¹, hgz, by group⟩
 
+omit [Finite G] in
 private theorem wsub_le_normalizer_X (X S : Subgroup G) :
     X ≤ Subgroup.normalizer (Wsub X S : Set G) := by
   intro g hg
@@ -170,6 +177,7 @@ private theorem wsub_le_normalizer_X (X S : Subgroup G) :
   rw [show g⁻¹ * (g * h * g⁻¹) * g⁻¹⁻¹ = h by group] at h2
   exact h2
 
+omit [Finite G] in
 private theorem wsub_mem_normalizer_of_normalizes {X S : Subgroup G} {g : G}
     (hgX : g ∈ Subgroup.normalizer (X : Set G)) (hgS : g ∈ Subgroup.normalizer (S : Set G)) :
     g ∈ Subgroup.normalizer (Wsub X S : Set G) := by
@@ -179,6 +187,7 @@ private theorem wsub_mem_normalizer_of_normalizes {X S : Subgroup G} {g : G}
   rw [show g⁻¹ * (g * h * g⁻¹) * g⁻¹⁻¹ = h by group] at h2
   exact h2
 
+omit [Finite G] in
 private theorem cent_conj_iff {T : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (T : Set G)) {h : G} :
     h ∈ Subgroup.centralizer (T : Set G) ↔ g * h * g⁻¹ ∈ Subgroup.centralizer (T : Set G) := by
@@ -200,6 +209,7 @@ private theorem cent_conj_iff {T : Subgroup G} {g : G}
       _ = g⁻¹ * (g * h * g⁻¹ * (g * t * g⁻¹)) * g := by rw [h1]
       _ = h * t := by group
 
+omit [Finite G] in
 private theorem cent_inf_normalizer {K X T : Subgroup G}
     (hKX : K ≤ Subgroup.normalizer (X : Set G)) (hKT : K ≤ Subgroup.normalizer (T : Set G)) :
     K ≤ Subgroup.normalizer ((X ⊓ Subgroup.centralizer (T : Set G) : Subgroup G) : Set G) := by
@@ -217,6 +227,7 @@ private theorem cent_inf_normalizer {K X T : Subgroup G}
     have h1 := Subgroup.mem_inf.mp hh'
     exact Subgroup.mem_inf.mpr ⟨hX'.mpr h1.1, hC'.mpr h1.2⟩
 
+omit [Finite G] in
 private theorem cent_le_normalizer {K T W : Subgroup G} (hTW : T ≤ W)
     (hKW : K ≤ Subgroup.centralizer (W : Set G)) : K ≤ Subgroup.normalizer (T : Set G) := by
   intro v hv
@@ -226,6 +237,7 @@ private theorem cent_le_normalizer {K T W : Subgroup G} (hTW : T ≤ W)
     exact Subgroup.mem_centralizer_iff.mp (hKW hv) t (hTW ht)
   exact Subgroup.centralizer_le_normalizer (T : Set G) hvT
 
+omit [Finite G] in
 private theorem cent_conj_eq_of_hom_eq_one {W : Subgroup G}
     {g : Subgroup.normalizer (W : Set G)}
     (h : Subgroup.normalizerMonoidHom W g = 1) (t : G) (ht : t ∈ W) :
@@ -235,13 +247,16 @@ private theorem cent_conj_eq_of_hom_eq_one {W : Subgroup G}
     rw [h]
   exact key
 
+omit [Finite G] in
 private theorem omegaG_le_centerOf' (S : Subgroup G) : Sec3.omegaG S ≤ centerOf S := by
   intro t ht
   exact mem_centerOf_iff.mpr ⟨(Sec3.mem_omegaG.mp ht).1, (Sec3.mem_omegaG.mp ht).2.1⟩
 
+omit [Finite G] in
 private theorem omegaG_le_Wsub' (X S : Subgroup G) : Sec3.omegaG S ≤ Wsub X S :=
   (omegaG_le_centerOf' S).trans (wsub_centerOf_le X S)
 
+omit [Finite G] in
 private theorem le_centralizer_centerOf (S : Subgroup G) :
     S ≤ Subgroup.centralizer (centerOf S : Set G) := by
   intro s hs
@@ -254,7 +269,7 @@ private theorem tripleOf_two_eq_omegaG' (S : Subgroup G) : tripleOf S 2 = Sec3.o
 private theorem eq_of_isSylowOf_of_le {T C U : Subgroup G}
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T U) (hCU : C ≤ U) (hTC : T ≤ C)
     (hn : ∃ n : ℕ, Nat.card U = Nat.card C * 2 ^ n) : C = U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hn
   have hodd : ¬ 2 ∣ T.relIndex U := (CFSG.ABGLocalTools.isSylowOf_iff.mp hT).2.2
   have h1 := Subgroup.relIndex_mul_card C U
@@ -279,7 +294,7 @@ private theorem le_of_two_power_centralizer {X S U C : Subgroup G}
     (hXU : X ≤ Subgroup.normalizer (U : Set G)) (hCU : C ≤ U)
     (hUN : U ≤ Subgroup.normalizer (C : Set G)) (hTC : S ⊓ U ≤ C)
     (hcentral : ∀ u ∈ U, ∃ n : ℕ, u ^ 2 ^ n ∈ C) : U ≤ C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT : CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ U) U := hS.inf_of_le_normalizer hUX hXU
   obtain ⟨n, hn⟩ :=
     (CFSG.HardMathSupport.Solomon.UniquenessMaximal.Lemma85Aux.twoMod_iff hCU hUN).mpr hcentral
@@ -411,7 +426,7 @@ theorem MinCex.inf_centralizer_Wsub_inf_S (h186 : Item186H) (hX : MinCex A M H c
       CFSG.Open.pCoreOf 2 (H ⊓ M) = CFSG.Open.pCoreOf 2 X := by
   unfold BadCase at hbad
   obtain ⟨-, -, hbad2⟩ := hbad
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : CFSG.ABGLocalTools.IsSylowOf 2 (CFSG.Open.pCoreOf 2 (H ⊓ M)) X :=
     isSylowOf_of_mem_scriptX h186 hX.sec18H hX.hyp187 hX.mem
   have hXW : X ≤ Subgroup.normalizer (Wsub X (CFSG.Open.pCoreOf 2 (H ⊓ M)) : Set G) :=
@@ -445,7 +460,7 @@ theorem MinCex.centralizer_W1 (h186 : Item186H) (hX : MinCex A M H c X)
       X ⊓ Subgroup.centralizer (Wsub X (CFSG.Open.pCoreOf 2 (H ⊓ M)) : Set G) := by
   unfold BadCase at hbad
   obtain ⟨-, -, hbad2⟩ := hbad
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : CFSG.ABGLocalTools.IsSylowOf 2 (CFSG.Open.pCoreOf 2 (H ⊓ M)) X :=
     isSylowOf_of_mem_scriptX h186 hX.sec18H hX.hyp187 hX.mem
   have hXW : X ≤ Subgroup.normalizer (Wsub X (CFSG.Open.pCoreOf 2 (H ⊓ M)) : Set G) :=

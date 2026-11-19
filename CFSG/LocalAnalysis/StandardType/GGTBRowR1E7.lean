@@ -17,7 +17,7 @@ theorem ggExcReflTBWeylDatumQFourOn_rowR1E7
   intro G _ _ p B Bs x L D J hHyp _ _ hL _
   obtain ⟨hp, -, -, -, -⟩ := hHyp.1.tableB_facts
   have hp2 : p ≠ 2 := hHyp.1.1.2.2.2.2.2.1.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, f, ψ, hadm, hker, hrange, hpf⟩ :=
     ggR1E7_splitLie_tagged hp (ggInnerDiagOnLabel_r1Par_of_rowR1E7 hRig hHyp hL)
   have ht : StatedLieTag.E7 = .PSL ∨ StatedLieTag.E7 = .POmegaPlus ∨ StatedLieTag.E7 = .E6 ∨

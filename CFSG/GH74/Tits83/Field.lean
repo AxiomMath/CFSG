@@ -14,8 +14,8 @@ theorem exists_ringEquiv_comm {K K' : Type u} [Field K] [Field K'] [Finite K] [F
     (hσ' : ∀ t, σ' (σ' t) = t ^ 2) [CharP K 2] [CharP K' 2]
     (h : Nat.card K = Nat.card K') :
     ∃ θ : K ≃+* K', ∀ t, θ (σ t) = σ' (θ t) := by
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype K' := Fintype.ofFinite K'
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype K' := Fintype.ofFinite K'
   by_cases h2 : Nat.card K = 2
   ·
     have h2' : Nat.card K' = 2 := h.symm ▸ h2

@@ -112,7 +112,7 @@ theorem lf_plus_flag_ne {K : Type} [Field K] {n : ℕ} (hn : 3 ≤ n) :
     simp [Pi.single_apply]
   have hpol : polar (quadPlus n K) (Pi.single (Sum.inl a) 1) (Pi.single (Sum.inr b) 1) = 0 := by
     rw [polar_quadPlus_single_inr n K, Pi.single_apply,
-      if_neg (fun h => hab (Sum.inl_injective h).symm)]
+      ite_eq_right (fun h => hab (Sum.inl_injective h).symm)]
   have hfix : ∀ x ∈ OrthogonalSplit.flag n K 1,
       eichler (quadPlus n K) (Pi.single (Sum.inl a) 1) (Pi.single (Sum.inr b) 1) x = x := by
     intro x hx
@@ -124,12 +124,12 @@ theorem lf_plus_flag_ne {K : Type} [Field K] {n : ℕ} (hn : 3 ≤ n) :
       (Pi.single (Sum.inl b) 1) = Pi.single (Sum.inl b) 1 - Pi.single (Sum.inl a) 1 := by
     rw [eichler_apply hQu hpol, polar_quadPlus_single_inl n K _ a,
       polar_quadPlus_single_inr n K _ b, hQw]
-    simp [Pi.single_apply, hab]
+    simp
   have hbin : (Pi.single (Sum.inl b) 1 : Fin n ⊕ Fin n → K) ∈ OrthogonalSplit.flag n K 2 := by
     rw [mem_flag_iff_coord]
-    refine ⟨fun k => by simp [Pi.single_apply], fun k hk => ?_⟩
+    refine ⟨fun k => by simp, fun k hk => ?_⟩
     simp only [Pi.single_apply, Sum.inl.injEq]
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     subst h
     omega
@@ -155,13 +155,13 @@ theorem lf_plus_flag_ne {K : Type} [Field K] {n : ℕ} (hn : 3 ≤ n) :
     exact h
   have hbad := (mem_flag_iff_coord.1 hgb).2 a (by omega)
   rw [hcomp] at hbad
-  simp [Pi.single_apply, hab] at hbad
+  simp [hab] at hbad
 
 theorem lf_plus_sylowProps (hcov : POmegaPlusCover) (hchar : POmegaPlusCharTwo)
     (hcoat : POmegaPlusCoatom) {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2] (hn : 4 ≤ n)
     [IsSimpleGroup ↥(orthElementaryGroup (quadPlus n K))] :
     SylowProps ↥(orthElementaryGroup (quadPlus n K)) := by
-  haveI : Finite ↥(orthElementaryGroup (quadPlus n K)) := finite_orthElementaryGroup
+  have : Finite ↥(orthElementaryGroup (quadPlus n K)) := finite_orthElementaryGroup
   obtain ⟨S, hS⟩ := posUnip_isSylow (r := n) (K := K) 2 (by omega)
     (fun a ha => map_flag_top_ne_Xstar (r := n) (K := K) (by omega) ha)
   have hU : IsSylowTwoOf ((posUnip n K).subgroupOf (orthElementaryGroup (quadPlus n K))) ⊤ := by
@@ -201,7 +201,7 @@ theorem asLieTwoAt_pOmegaPlus_of_gaps (hcov : POmegaPlusCover) (hchar : POmegaPl
     (hcoat : POmegaPlusCoatom) : AsLieTwoAt .POmegaPlus := by
   intro n f X _ _ hS _ hmod
   obtain ⟨K, hK, hfin, hCh, -, hn, ⟨e⟩⟩ := exists_mulEquiv_elementaryGroup_of_lieModel hmod
-  haveI : IsSimpleGroup ↥(orthElementaryGroup (quadPlus n K)) :=
+  have : IsSimpleGroup ↥(orthElementaryGroup (quadPlus n K)) :=
     (MulEquiv.isSimpleGroup_congr e).1 hS
   have hE := lf_plus_sylowProps (K := K) hcov hchar hcoat hn
   exact ⟨Bridge.Over.Overgroups.of_mulEquiv e.symm hE.1,
@@ -319,12 +319,12 @@ theorem asLieTwoAt_pOmegaMinus_of_gaps (hcov : POmegaMinusCover) (hchar : POmega
     .POmegaMinus (Or.inr rfl) n 2 f hmc
   obtain ⟨⟨-, -, hn⟩, K, hK, hfin, hcard, b, c, hirr, ⟨e⟩⟩ := hmc
   have hB := hBI K hcard b c hirr
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hcard)
-  haveI : IsSimpleGroup (lfMinusModel n K b c) := (MulEquiv.isSimpleGroup_congr e).1 hS
-  haveI : Finite (lfMinusModel n K b c) := Finite.of_surjective e e.surjective
+  have : IsSimpleGroup (lfMinusModel n K b c) := (MulEquiv.isSimpleGroup_congr e).1 hS
+  have : Finite (lfMinusModel n K b c) := Finite.of_surjective e e.surjective
   have hM := lf_minus_sylowProps_model hcov hchar hcoat hn hirr hB
   exact ⟨Bridge.Over.Overgroups.of_mulEquiv e.symm hM.1,
     Bridge.SylowAutTrivial.of_mulEquiv e hM.2⟩

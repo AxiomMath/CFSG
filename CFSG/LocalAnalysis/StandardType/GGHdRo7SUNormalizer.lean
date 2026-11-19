@@ -21,7 +21,7 @@ private theorem hdRo7SUNormAux_coord_equiv {p : ℕ} {V : Type} [AddCommGroup V]
     by_cases hij : σ i = j
     · have hji : i = σ.symm j := by
         rw [← hij, Equiv.symm_apply_apply]
-      simp [hij, hji]
+      simp [hji]
     · have hji : i ≠ σ.symm j := by
         intro h'
         exact hij (by rw [h', Equiv.apply_symm_apply])
@@ -146,7 +146,7 @@ private theorem hdRo7SUNormAux_centralizer {p : ℕ} [Fact p.Prime] {V : Type} [
   · rw [hoi hki]
     simp only [map_add, map_smul, Module.Basis.coord_apply, Module.Basis.repr_self_apply,
       hdRo7SUNormAux_repr_ones]
-    rw [if_neg (fun h : i = k => hki h.symm)]
+    rw [ite_eq_right (fun h : i = k => hki h.symm)]
     ring_nf
 
 
@@ -279,7 +279,7 @@ theorem su_normalizer_holds : SUNormalizerLeaf := by
               rw [← Nat.cast_smul_eq_nsmul (ZMod 3) m (β₀ • SUOnes 3 b), smul_smul,
                 ← add_smul]
     have h1 := congrArg (b.coord i0) (hxval.symm.trans hxfix)
-    simp only [map_smul, hdRo7SUNormAux_coord_ones, mul_one] at h1
+    simp only [map_smul, hdRo7SUNormAux_coord_ones] at h1
     simpa using h1
   have hα_ne : α₀ ≠ 0 := by
     intro h0
@@ -316,7 +316,7 @@ theorem su_normalizer_holds : SUNormalizerLeaf := by
       rw [hα] at h
       have hmul : (m : ZMod 3) * β₀ = 2 := by
         have h' := congrArg (fun x : ZMod 3 => x + 1) h
-        simp only [add_assoc, add_comm (-1), add_left_comm] at h'
+        simp only [add_assoc, add_left_comm] at h'
         norm_num at h'
         exact h'
       rw [eq_div_iff hm_ne, mul_comm]

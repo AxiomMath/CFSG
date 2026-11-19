@@ -241,7 +241,7 @@ theorem le_centralizer_of_isElemAbelian [Fact p.Prime] (hp2 : p ≠ 2)
   have hxW : x ∈ W := mem_sup_right (mem_zpowers x)
   have hWP : W ≤ (P : Subgroup G) := sup_le (hVE.trans hEP) (zpowers_le.mpr h.mem)
   have hWN : W ≤ normalizer (V : Set G) := sup_le le_normalizer (zpowers_le.mpr hxN)
-  have hWp : IsPGroup p W := P.isPGroup'.to_le hWP
+  have hWp : IsPGroup p W := P.isPGroup.to_le hWP
   obtain ⟨⟨c, hcV, hcW⟩, hc1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
     (inf_centralizer_ne_bot_of_normalizes hWp (le_sup_left : V ≤ W) hWN hVne)
   have hc1' : c ≠ 1 := fun h1 => hc1 (Subtype.ext h1)

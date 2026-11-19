@@ -67,7 +67,7 @@ theorem rankLE1_projImage_of_lt {K : Type*} [Field K] [Finite K] {ι : Type*} [F
     (hN : ¬ r ∣ Nat.card ((Subgroup.center (GL ι K)).subgroupOf H))
     (hn : Fintype.card ι < 2 * CFSG.StandardType.OrdPNS.ordQ K r) :
     RankLE1 r (CFSG.PGLModel.projImage H) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   refine RankLE1.of_pRank hr ?_
   rw [CFSG.RankThree.PartOne.LIT.pRank_projImage_eq H hN]
   refine (pRank_le_div_ordQ hr hrK H).trans ?_
@@ -87,7 +87,7 @@ theorem two_le_ordQ {K : Type*} [Field K] [Finite K] {r : ℕ} (hr : r.Prime) (h
 theorem three_le_ordQ {K : Type*} [Field K] [Finite K] {r : ℕ} (hr : r.Prime) (hrK : (r : K) ≠ 0)
     (h1 : ((Nat.card K : ℕ) : ZMod r) ≠ 1) (h2 : ((Nat.card K : ℕ) : ZMod r) ≠ -1) :
     3 ≤ CFSG.StandardType.OrdPNS.ordQ K r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have h0 := two_le_ordQ hr hrK h1
   by_contra h
   have h2' : CFSG.StandardType.OrdPNS.ordQ K r = 2 := by omega
@@ -101,7 +101,7 @@ theorem three_le_ordQ {K : Type*} [Field K] [Finite K] {r : ℕ} (hr : r.Prime) 
 
 theorem rankLE1_projSL_two {K : Type} [Field K] [Finite K] {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hrK : (r : K) ≠ 0) : RankLE1 r (projSL 2 K) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let H : Subgroup (GL (Fin 2) K) := (GeneralLinearGroup.det : GL (Fin 2) K →* Kˣ).ker
   have hH : ∀ h ∈ H, (h : Matrix (Fin 2) (Fin 2) K).det = 1 := fun h hh => by
     have := MonoidHom.mem_ker.mp hh

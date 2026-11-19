@@ -154,7 +154,7 @@ private theorem k89mod_step_sylowThree {K : Type} [Group K] [Finite K] (T : Subg
   obtain ⟨R, hR⟩ := hzp.exists_le_sylow
   have hzR : z ∈ (R : Subgroup K) := hR (Subgroup.mem_zpowers z)
   have hdisj : Disjoint (R : Subgroup K) T :=
-    IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _ R.isPGroup' hT
+    IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _ R.isPGroup hT
   have hRT : ∀ a ∈ (R : Subgroup K), a ∈ T → a = 1 := fun a ha haT =>
     Subgroup.disjoint_def.mp hdisj ha haT
   have hf : Function.Surjective (QuotientGroup.mk' T) := QuotientGroup.mk'_surjective T
@@ -514,7 +514,7 @@ private theorem k89mod_step_invEigenFamily {F V G : Type*} [Field F] [AddCommGro
         _ = ρ g⁻¹ (ρ (g * a.1 * g⁻¹) v) := by rw [map_mul, Module.End.mul_apply]
         _ = ρ g⁻¹ (χ a • v) := by rw [hb]
         _ = χ a • ρ g⁻¹ v := map_smul _ _ _
-  refine ⟨Set.range t \ {⊥}, ?_, fun W hW => hW.2, hindE.sSupIndep_range.mono Set.diff_subset,
+  refine ⟨Set.range t \ {⊥}, ?_, fun W hW => hW.2, hindE.sSupIndep_range.mono Set.sdiff_subset,
     ?_, ?_⟩
   · by_contra hemp
     rw [Set.not_nonempty_iff_eq_empty] at hemp

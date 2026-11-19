@@ -43,7 +43,7 @@ theorem oddPCoreInClosure_of_simple_index_two {G : Type*} [Group G] [Finite G] {
       have hone : orderOf (x : G ⧸ Q) = 1 :=
         Nat.dvd_one.1 ((Nat.Coprime.pow_right k hcop2).gcd_eq_one ▸ Nat.dvd_gcd hd1 hd2)
       exact (QuotientGroup.eq_one_iff x).1 (orderOf_eq_one_iff.1 hone)
-    haveI : (K.subgroupOf Q).Normal := Subgroup.Normal.subgroupOf hK Q
+    have : (K.subgroupOf Q).Normal := Subgroup.Normal.subgroupOf hK Q
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.subgroupOf Q) with h0 | htop
     · have hKbot : K = ⊥ := by
         rw [eq_bot_iff]
@@ -67,7 +67,7 @@ open CFSG.ComponentClassification.PresentationLocal
 
 theorem oddPCoreInClosure_sympFour {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     OddPCoreInClosure p ↥sympFour := by
-  haveI : IsSimpleGroup ↥(commutator ↥sympFour) := isSimpleGroup_commutator_sympFour
+  have : IsSimpleGroup ↥(commutator ↥sympFour) := isSimpleGroup_commutator_sympFour
   have hidx : (commutator ↥sympFour).index = 2 :=
     (CFSG.RankThree.PartOne.derived_alt_index_of_mulEquiv_sympFour (MulEquiv.refl ↥sympFour)).2
   exact oddPCoreInClosure_of_simple_index_two hp hp2 (commutator ↥sympFour) hidx
@@ -78,6 +78,7 @@ section Sp
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem center_statedSp_eq_bot (s : ℕ) : Subgroup.center (StatedSp s K) = ⊥ := by
   rw [CFSG.LieType.Universal.Symplectic.center_eq s K]
   exact CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot
@@ -126,7 +127,7 @@ theorem oddPCoreInClosure_statedSp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (s :
       · exact absurd (Or.inl (Or.inr h)) hq
     have hs2 : s = 1 ∨ s = 2 := by
       by_contra hn
-      push_neg at hn
+      push Not at hn
       exact hq (Or.inr (Or.inr ⟨hK2', by omega⟩))
     rcases hs2 with rfl | rfl
     ·

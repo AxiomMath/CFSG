@@ -57,7 +57,7 @@ theorem isElemAbelian_closure_three_of_zpowers {G : Type} [Group G] [Finite G]
     (hzxy : ∀ k : ℕ, z * y ^ k ∉ Subgroup.zpowers x) :
     CFSG.Open.IsElemAbelian 3 (Subgroup.closure ({x, y, z} : Set G)) ∧
       Nat.card (Subgroup.closure ({x, y, z} : Set G)) = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcardx : Nat.card ↥(Subgroup.zpowers x) = 3 := by
     rw [Nat.card_zpowers, orderOf_eq_prime hx3 hx1]
   have hAx : CFSG.Open.IsElemAbelian 3 (Subgroup.zpowers x) :=
@@ -179,7 +179,7 @@ theorem false_of_twF4_torus {S : Type} [Group S] [Finite S] {labL : GLALabel}
   have hs₂_notin : s₂ ∉ Subgroup.zpowers s := by
     have h0 := hs₂_mul_notin 0
     simpa using h0
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hs₁1 : s₁ ≠ 1 := fun h1 => hs₁_notin (h1.symm ▸ Subgroup.one_mem _)
   have hs₂1 : s₂ ≠ 1 := fun h1 => hs₂_notin (h1.symm ▸ Subgroup.one_mem _)
   obtain ⟨hEel, hEcard⟩ :=
@@ -223,7 +223,7 @@ theorem false_of_twF4_torus {S : Type} [Group S] [Finite S] {labL : GLALabel}
     intro g hg h hh
     obtain ⟨x, rfl⟩ := MonoidHom.mem_range.mp hg
     obtain ⟨y, rfl⟩ := MonoidHom.mem_range.mp hh
-    haveI : IsMulCommutative ↥E := hEel'.1
+    have : IsMulCommutative ↥E := hEel'.1
     show ψ x * ψ y = ψ y * ψ x
     rw [← map_mul, ← map_mul, mul_comm' x y]
   have hE''exp : ∀ g ∈ E'', g ^ 3 = 1 := by

@@ -93,7 +93,7 @@ theorem exists_twoSylow_le [Finite X] {K P : Subgroup X} (hPK : P ≤ K) (hP : I
   have hP' : IsPGroup 2 (P.subgroupOf K) := hP.comap_subtype
   obtain ⟨R, hR⟩ := hP'.exists_le_sylow
   refine ⟨(R : Subgroup K).map K.subtype, fun x hx => ⟨⟨x, hPK hx⟩, hR hx, rfl⟩,
-    map_subtype_le _, R.isPGroup'.map _, ?_⟩
+    map_subtype_le _, R.isPGroup.map _, ?_⟩
   rw [card_map_of_injective K.subtype_injective, R.card_eq_multiplicity]
 
 theorem pPrimeCore_two_eq_bot [Finite X] [IsSimpleGroup X] {t : X} (ht : orderOf t = 2) :

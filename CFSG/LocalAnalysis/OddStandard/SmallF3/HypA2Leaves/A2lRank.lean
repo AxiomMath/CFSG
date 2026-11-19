@@ -14,7 +14,7 @@ theorem a2l_exists_central_involution {K : Type} [Group K] [Finite K]
     (hZ : IsPGroup 2 ↥(center K)) (hc : center K ≠ ⊥) :
     ∃ z : K, z ∈ center K ∧ z ≠ 1 ∧ z ^ 2 = 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥(center K) := (Subgroup.nontrivial_iff_ne_bot _).2 hc
+  have : Nontrivial ↥(center K) := (Subgroup.nontrivial_iff_ne_bot _).2 hc
   obtain ⟨k, hk⟩ := hZ.exists_card_eq
   have hdvd : 2 ∣ Nat.card ↥(center K) := by
     rcases k with _ | k
@@ -35,7 +35,7 @@ theorem a2l_two_le_pRank_of_center_bot {K : Type} [Group K]
     [Finite K] (hK : CFSG.IsQuasisimple K) (hc : center K = ⊥) : 2 ≤ CFSG.pRank 2 K := by
   let e : K ⧸ center K ≃* K :=
     (QuotientGroup.quotientMulEquivOfEq hc).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup K := (e.isSimpleGroup_congr).1 hK.2.1
+  have : IsSimpleGroup K := (e.isSimpleGroup_congr).1 hK.2.1
   have hnab : ∃ a b : K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hK.2.2
     exact ⟨e a, e b, fun h => hab (e.injective (by simpa using h))⟩

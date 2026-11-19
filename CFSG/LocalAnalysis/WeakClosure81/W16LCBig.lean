@@ -60,10 +60,10 @@ private theorem w16l_center_eq_bot_of_isSimpleGroup_of_perfect {X : Type} [Group
 private theorem w16l_not_isPGroup_two_of_isSimpleGroup_of_perfect {X : Type} [Group X] [Finite X]
     (hsimple : IsSimpleGroup X) (hperf : commutator X = ⊤) : ¬ IsPGroup 2 X := by
   intro h2
-  haveI : IsSimpleGroup X := hsimple
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : Group.IsNilpotent X := IsPGroup.isNilpotent h2
-  have hlt := IsSolvable.commutator_lt_top_of_nontrivial X
+  have : IsSimpleGroup X := hsimple
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Group.IsNilpotent X := IsPGroup.isNilpotent h2
+  have hlt := Group.IsSolvable.commutator_lt_top_of_nontrivial X
   rw [hperf] at hlt
   exact absurd hlt (lt_irrefl ⊤)
 
@@ -272,8 +272,8 @@ private theorem w16l_card_of_isSzGp {X : Type} [Group X] {n : ℕ} (h : IsSzGp X
   exact hcard
 
 theorem w16l_lift_L2 {L S₀ : Type} [Group L] [Finite L] [Group S₀] {n : ℕ} (hn : 1 < n)
-    (ψ : L →* S₀) (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L)
-    (hS : IsSpGp S₀ 2 n) {A : Subgroup L} (hcard : Nat.card A = 2 ^ n)
+    (ψ : L →* S₀) (_hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L)
+    (hS : IsSpGp S₀ 2 n) {A : Subgroup L} (_hcard : Nat.card A = 2 ^ n)
     (hgen : Subgroup.normalClosure (A : Set L) = ⊤) {l : L}
     (hJ : IsL2 ↥(A ⊔ A.map (MulAut.conj l).toMonoidHom) n ∨
       IsSz ↥(A ⊔ A.map (MulAut.conj l).toMonoidHom) n) :
@@ -281,7 +281,7 @@ theorem w16l_lift_L2 {L S₀ : Type} [Group L] [Finite L] [Group S₀] {n : ℕ}
   set J : Subgroup L := A ⊔ A.map (MulAut.conj l).toMonoidHom with hJdef
   have hJO : IsL2OrSz ↥J n := w16l_isL2OrSz_of_isL2_or_isSz hJ
   have hkerJ : (ψ.comp J.subtype).ker = ⊥ := w16l_ker_pair_eq_bot hn ψ hker hJO
-  haveI : Finite S₀ := finite_of_isL2Gp (isL2Gp_of_isSpGp_two hS)
+  have : Finite S₀ := finite_of_isL2Gp (isL2Gp_of_isSpGp_two hS)
   have hcardS : Nat.card S₀ = 2 ^ n * (4 ^ n - 1) := w16l_card_of_isSpGp_two hS
   rcases hJ with hJl2 | hJsz
   · have hcardJ : Nat.card ↥J = 2 ^ n * (4 ^ n - 1) := w16l_card_of_isL2 (by omega) hJl2
@@ -300,8 +300,8 @@ theorem w16l_lift_L2 {L S₀ : Type} [Group L] [Finite L] [Group S₀] {n : ℕ}
     exact w16l_ordSuzuki_not_dvd_L2 (by omega) hdvd
 
 theorem w16l_lift_Sz {L S₀ : Type} [Group L] [Finite L] [Group S₀] {n : ℕ} (hn : 1 < n)
-    (ψ : L →* S₀) (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L)
-    (hS : IsSzGp S₀ n) {A : Subgroup L} (hcard : Nat.card A = 2 ^ n)
+    (ψ : L →* S₀) (_hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L)
+    (hS : IsSzGp S₀ n) {A : Subgroup L} (_hcard : Nat.card A = 2 ^ n)
     (hgen : Subgroup.normalClosure (A : Set L) = ⊤) {l : L}
     (hJ : IsL2 ↥(A ⊔ A.map (MulAut.conj l).toMonoidHom) n ∨
       IsSz ↥(A ⊔ A.map (MulAut.conj l).toMonoidHom) n) :
@@ -309,7 +309,7 @@ theorem w16l_lift_Sz {L S₀ : Type} [Group L] [Finite L] [Group S₀] {n : ℕ}
   set J : Subgroup L := A ⊔ A.map (MulAut.conj l).toMonoidHom with hJdef
   have hJO : IsL2OrSz ↥J n := w16l_isL2OrSz_of_isL2_or_isSz hJ
   have hkerJ : (ψ.comp J.subtype).ker = ⊥ := w16l_ker_pair_eq_bot hn ψ hker hJO
-  haveI : Finite S₀ :=
+  have : Finite S₀ :=
     CFSG.LocalAnalysis.EvenBN.GMSK.finite_of_lieModel_twistedB2 (n := n)
       ((CFSG.Blueprint.LieModel.twistedB2_iff (G := S₀) (n := 0) (p := 2) (f := n)).mpr
         ⟨rfl, hS⟩)
@@ -331,7 +331,7 @@ theorem w16l_lift_Sz {L S₀ : Type} [Group L] [Finite L] [Group S₀] {n : ℕ}
 
 theorem w16l_lift_U3 {L S₀ : Type} [Group L] [Finite L] [Group S₀] {n : ℕ} (hn : 1 < n)
     (ψ : L →* S₀) (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L)
-    (hS : IsPSUGp S₀ 3 n) {A : Subgroup L} (hcard : Nat.card A = 2 ^ n)
+    (hS : IsPSUGp S₀ 3 n) {A : Subgroup L} (_hcard : Nat.card A = 2 ^ n)
     (hgen : Subgroup.normalClosure (A : Set L) = ⊤) {l : L}
     (hJ : IsL2 ↥(A ⊔ A.map (MulAut.conj l).toMonoidHom) n ∨
       IsSz ↥(A ⊔ A.map (MulAut.conj l).toMonoidHom) n) :
@@ -350,10 +350,10 @@ theorem w16l_lift_U3 {L S₀ : Type} [Group L] [Finite L] [Group S₀] {n : ℕ}
   have hperfL : commutator L = ⊤ := by
     rw [eq_top_iff, ← hgen]
     exact Subgroup.normalClosure_le_normal (fun a ha => hJle (Subgroup.mem_sup_left ha))
-  haveI : Finite S₀ := CFSG.LocalAnalysis.EvenBN.GMSK.finite_of_lieModel_PSU3 hS
+  have : Finite S₀ := CFSG.LocalAnalysis.EvenBN.GMSK.finite_of_lieModel_PSU3 hS
   have hsimpleS : IsSimpleGroup S₀ :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hS
-  haveI : Group.IsPerfect S₀ := CFSG.ClassicalGroups.Unitary.isPerfect_of_lieModel_psu3 hS
+  have : Group.IsPerfect S₀ := CFSG.ClassicalGroups.Unitary.isPerfect_of_lieModel_psu3 hS
   have hperfS : commutator S₀ = ⊤ := Group.IsPerfect.commutator_eq_top
   have hcenterS : Subgroup.center S₀ = ⊥ :=
     w16l_center_eq_bot_of_isSimpleGroup_of_perfect hperfS
@@ -369,7 +369,7 @@ theorem w16l_lift_U3 {L S₀ : Type} [Group L] [Finite L] [Group S₀] {n : ℕ}
   intro N hN hN2
   have hmapN_2 : IsPGroup 2 (N.map ψ) := hN2.map ψ
   have hmapN_bot : N.map ψ = ⊥ := by
-    haveI : (N.map ψ).Normal := hN.map ψ hψ
+    have : (N.map ψ).Normal := hN.map ψ hψ
     rcases hsimpleS.eq_bot_or_eq_top_of_normal (N.map ψ) with h | h
     · exact h
     · exfalso
@@ -383,7 +383,7 @@ theorem w16l_lift_U3 {L S₀ : Type} [Group L] [Finite L] [Group S₀] {n : ℕ}
       exact hmem))
   have hdvd : Nat.card N ∣ 3 := (Subgroup.card_dvd_of_le hNle).trans hU3.2.2
   have hcardN : Nat.card N = 1 := by
-    haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+    have : Fact (Nat.Prime 2) := Nat.fact_prime_two
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)).mp hN2
     have hdvd' : 2 ^ k ∣ 3 := by rw [← hk]; exact hdvd
     rcases (Nat.dvd_prime Nat.prime_three).mp hdvd' with h1 | h3

@@ -213,7 +213,7 @@ private theorem exists_lift {K : Type} [Field K] [Finite K] [CharP K 2] {V : Typ
     ∃ x : ↥(orthDerived Q), OddOrderIsometry Q p (x : V ≃ₗ[K] V) ∧
       Subgroup.centralizer ({b} : Set (ProjOrthDerived Q)) =
         centralizerImage Q (x : V ≃ₗ[K] V) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : (p : K) ≠ 0 := by
     rw [Ne, CharP.cast_eq_zero_iff K 2]
     exact fun h2 => hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h2).symm
@@ -254,10 +254,10 @@ theorem tcjOrth_quotCenter_cases_ennola {G : Type} [Group G] [Finite G] {t : Sta
     · rw [h0, pow_zero] at hK
       exact absurd hK (Finite.one_lt_card (α := K)).ne'
     · exact h0
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     ringChar.of_eq (CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq Nat.prime_two hf1 hK)
   have hpq' : p ∣ Nat.card K + 1 := by rw [hK]; exact hpq
-  haveI : Nontrivial V := by
+  have : Nontrivial V := by
     obtain ⟨U, hU, -⟩ := hT
     have := Submodule.finrank_le U
     exact Module.nontrivial_of_finrank_pos (R := K) (by omega)

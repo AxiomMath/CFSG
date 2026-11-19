@@ -16,14 +16,16 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22u_calC_mono {X M : Subgroup G} (hX : IsSubnormal X M) : calC X ⊆ calC M := by
   rintro K ⟨hsub, hperf, hq⟩
   exact ⟨CFSG.Quasithin.A3.subnormal_trans hsub hX, hperf, hq⟩
 
 theorem uc22p22u_isSolvable_pCoreOf (X : Subgroup G) : Group.IsSolvable ↥(pCoreOf 2 X) := by
-  haveI : Group.IsNilpotent ↥(pCoreOf 2 X) := (uc22p21c_isPGroup_pCoreOf X).isNilpotent
+  have : Group.IsNilpotent ↥(pCoreOf 2 X) := (uc22p21c_isPGroup_pCoreOf X).isNilpotent
   infer_instance
 
+omit [Finite G] in
 theorem uc22p22u_le_normalizer_pCoreOf {X K : Subgroup G} (hKX : K ≤ X) :
     K ≤ normalizer (pCoreOf 2 X : Set G) :=
   uc22p20e_le_normalizer_of_conj fun _ hy _ hx => uc22p21c_conj_mem_pCoreOf_self (hKX hy) hx
@@ -45,9 +47,9 @@ theorem uc22p22u_pCore_normalizes_calC {X K : Subgroup G} (hK : K ∈ calC X) :
 
 theorem uc22p22u_calC_ext {X K₁ K₂ : Subgroup G} (h₁ : K₁ ∈ calC X) (h₂ : K₂ ∈ calC X)
     (h : barImage X K₁ = barImage X K₂) : K₁ = K₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hPn : (CFSG.pCore 2 ↥X).Normal := CFSG.pCore_normal
-  haveI hPs := uc22p20d_pCore_solvable X
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hPn : (CFSG.pCore 2 ↥X).Normal := CFSG.pCore_normal
+  have hPs := uc22p20d_pCore_solvable X
   have hc₁ := uc22p20e_cComp_of_calC h₁
   have hc₂ := uc22p20e_cComp_of_calC h₂
   have hbij := CFSG.Quasithin.cComp_quotient_bijOn (CFSG.pCore 2 ↥X) hPs
@@ -57,6 +59,7 @@ theorem uc22p22u_calC_ext {X K₁ K₂ : Subgroup G} (h₁ : K₁ ∈ calC X) (h
   rwa [inf_eq_left.mpr (CFSG.Quasithin.le_of_mem_cComp hc₁),
     inf_eq_left.mpr (CFSG.Quasithin.le_of_mem_cComp hc₂)] at h2
 
+omit [Finite G] in
 theorem uc22p22u_commutator_mem_pCoreOf {X : Subgroup G} {a b : G} (ha : a ∈ X) (hb : b ∈ X)
     (h : uc22p21cPi X ⟨a, ha⟩ * uc22p21cPi X ⟨b, hb⟩ = uc22p21cPi X ⟨b, hb⟩ * uc22p21cPi X ⟨a, ha⟩) :
     ⁅a, b⁆ ∈ pCoreOf 2 X := by
@@ -108,6 +111,7 @@ theorem uc22p22u_calC_conj {X M K : Subgroup G} (hN : M ≤ normalizer (X : Set 
   exact ⟨CFSG.Quasithin.subnormal_of_mem_cComp h, CFSG.Quasithin.perfect_of_mem_cComp h,
     CFSG.Open.IsQuasisimple.of_mulEquiv e.symm hK.2.2⟩
 
+omit [Finite G] in
 theorem uc22p22u_prod_list_eq_iSup (l : List (Subgroup G))
     (h : ∀ A ∈ l, ∀ B ∈ l, A ≤ normalizer (B : Set G)) :
     (l.map fun A : Subgroup G => (A : Set G)).prod = ((⨆ A ∈ l, A : Subgroup G) : Set G) := by
@@ -184,7 +188,7 @@ theorem uc22p22u_exists_odd_prime_dvd_index_center {A : Type*} [Group A] [Finite
     ∃ r : ℕ, r.Prime ∧ r ≠ 2 ∧ r ∣ (Subgroup.center A).index := by
   by_contra hcon
   push Not at hcon
-  haveI : IsSimpleGroup (A ⧸ Subgroup.center A) := hq.2
+  have : IsSimpleGroup (A ⧸ Subgroup.center A) := hq.2
   obtain ⟨a, b, hab⟩ :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian A hq
   have hcard : Nat.card (A ⧸ Subgroup.center A) =
@@ -192,7 +196,7 @@ theorem uc22p22u_exists_odd_prime_dvd_index_center {A : Type*} [Group A] [Finite
     refine Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' fun {d} hd hdvd => ?_
     by_contra hd2
     exact hcon d hd hd2 (by rwa [Subgroup.index_eq_card])
-  haveI : Group.IsNilpotent (A ⧸ Subgroup.center A) := (IsPGroup.of_card hcard).isNilpotent
+  have : Group.IsNilpotent (A ⧸ Subgroup.center A) := (IsPGroup.of_card hcard).isNilpotent
   exact hab ((IsSimpleGroup.comm_iff_isSolvable.2 inferInstance) a b)
 
 theorem uc22p22u_sylow_not_le_center {A : Type*} [Group A] [Finite A] {r : ℕ} [Fact r.Prime]
@@ -213,8 +217,8 @@ theorem uc22p22u_noncyclic_of_commuting {Q : Type} [Group Q] [Finite Q] {A B : S
       ¬ IsCyclic ↥((SA : Subgroup A).map A.subtype ⊔ (SB : Subgroup B).map B.subtype) := by
   set R : Subgroup Q := (SA : Subgroup A).map A.subtype with hR
   set R' : Subgroup Q := (SB : Subgroup B).map B.subtype with hR'
-  have hRp : IsPGroup r R := SA.isPGroup'.map A.subtype
-  have hRp' : IsPGroup r R' := SB.isPGroup'.map B.subtype
+  have hRp : IsPGroup r R := SA.isPGroup.map A.subtype
+  have hRp' : IsPGroup r R' := SB.isPGroup.map B.subtype
   have hRA : R ≤ A := Subgroup.map_subtype_le _
   have hR'B : R' ≤ B := Subgroup.map_subtype_le _
   have hcommR : ∀ x ∈ R, ∀ y ∈ R', x * y = y * x := fun x hx y hy => hcomm x (hRA hx) y (hR'B hy)
@@ -263,6 +267,7 @@ theorem uc22p22u_noncyclic_of_commuting {Q : Type} [Group Q] [Finite Q] {A B : S
     intro y
     exact Subtype.ext (hcomm x (hRA (hle ⟨x, hx, rfl⟩)) y y.2).symm
 
+omit [Finite G] in
 theorem uc22p22u_barImage_mono {X K L : Subgroup G} (h : K ≤ L) : barImage X K ≤ barImage X L := by
   intro q hq
   obtain ⟨m, hm, rfl⟩ := uc22p21c_mem_barImage.1 hq
@@ -271,7 +276,7 @@ theorem uc22p22u_barImage_mono {X K L : Subgroup G} (h : K ≤ L) : barImage X K
 theorem uc22p22u_two_le_pRank_of_bar {X L : Subgroup G} (hLX : L ≤ X) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {P : Subgroup (Bar2 X)} (hP : IsPGroup p P) (hnc : ¬ IsCyclic ↥P) (hPL : P ≤ barImage X L) :
     2 ≤ CFSG.Open.pRank p L := by
-  haveI : (CFSG.pCore 2 ↥X).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥X).Normal := CFSG.pCore_normal
   have h2 := CFSG.LocalAnalysis.UniquenessCase.UC6.two_le_pRank_of_not_isCyclic hp hp2 hP hnc
   obtain ⟨E₀, hE₀P, hE₀, hcard⟩ := CFSG.PreuniquenessRankFour.Helpers.pRank_attained p hp P
   obtain ⟨E, hEL, hE, hEcard⟩ := uc22p20d_lift_elemAbelian (CFSG.pCore 2 ↥X) CFSG.pCore_isPGroup hp hp2
@@ -295,7 +300,7 @@ theorem uc22p22u_not_thin_of_conj {X K K' L : Subgroup G} (hK : K ∈ calC X) (h
   have hqA : CFSG.Open.IsQuasisimple ↥(barImage X K) :=
     CFSG.Open.IsQuasisimple.of_mulEquiv eA.symm hK.2.2
   obtain ⟨r, hr, hr2, hrA⟩ := uc22p22u_exists_odd_prime_dvd_index_center hqA
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hrB : r ∣ (Subgroup.center ↥(barImage X (uniqueFourConj g K))).index := by
     rwa [← uc22p22u_index_center_eq (eA.symm.trans (eC.trans eB))]
   obtain ⟨SA⟩ := (inferInstance : Nonempty (Sylow r ↥(barImage X K)))

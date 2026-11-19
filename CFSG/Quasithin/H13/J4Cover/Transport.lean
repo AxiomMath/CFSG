@@ -37,7 +37,7 @@ theorem j4CoverFacts_of_model
   let Ss : Sylow 2 Q := Sylow.ofCard S hSfac
   have hSylow : CFSG.QuasithinUnique.IsSylowTwoOf S ⊤ := by
     have h := CFSG.QuasithinUnique.K1.isSylowTwoOf_top_iff.2
-      ⟨Ss.isPGroup', Ss.not_dvd_index⟩
+      ⟨Ss.isPGroup, Ss.not_dvd_index⟩
     rwa [Sylow.coe_ofCard] at h
   obtain ⟨ψ, hψ⟩ := sylow_transport (Γ := J) isSylowTwoOf_P0 e hSylow
   let z₁ : Q := ψ.symm z0

@@ -60,7 +60,7 @@ theorem eps_pow (v : ℕ × ℕ) (k : ℕ) : eps x y v ^ k = eps x y (k * v.1, k
   | zero => simp [eps]
   | succ k ih =>
     rw [pow_succ, ih, eps_mul_eps hxy]
-    congr 1 <;> ring
+    congr 1; ring
 
 end Action
 
@@ -207,7 +207,7 @@ theorem card_epsSubgroup [Finite G] (hx1 : x ≠ 1) (hyx : ∀ k : ℕ, y ≠ x 
   rw [Nat.card_zpowers, orderOf_eq_prime hx hx1, hm] at hlt
   have hm1 : 2 ≤ m := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     interval_cases m <;> norm_num at hlt
   rw [hm, show m = 2 by omega]
 

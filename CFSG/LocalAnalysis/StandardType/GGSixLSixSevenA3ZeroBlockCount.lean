@@ -67,7 +67,7 @@ theorem card_eq_add_two_of_eq_vanishing [Fact p.Prime]
     (hcent : ∀ t : Fin s → ZMod p, (∀ i ∈ Z, t i = 0) → ι (ofAdd t) ∈ D) :
     s = Z.card + 2 := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let P : (Fin s → ZMod p) → Prop := fun t => ∀ i ∈ Z, t i = 0
   have hPeq : ∀ t, ι (ofAdd t) ∈ D ↔ P t := fun t => ⟨hZ t, hcent t⟩
   have hf : Function.Bijective
@@ -92,17 +92,17 @@ theorem card_eq_add_two_of_eq_vanishing [Fact p.Prime]
     { toFun := fun t i => t.1 i.1
       invFun := fun f => ⟨fun i => if h : i ∈ Z then 0 else f ⟨i, h⟩, by
         intro i hi
-        simp [dif_pos hi]⟩
+        simp [dite_eq_left hi]⟩
       left_inv := by
         intro t
         ext i
         by_cases h : i ∈ Z
-        · simp [dif_pos h, t.2 i h]
-        · simp [dif_neg h]
+        · simp [dite_eq_left h, t.2 i h]
+        · simp [dite_eq_right h]
       right_inv := by
         intro f
         ext ⟨i, hi⟩
-        simp [dif_neg hi] }
+        simp [dite_eq_right hi] }
   have hPcard : Nat.card {t : Fin s → ZMod p // P t} = p ^ (s - Z.card) := by
     have hZc : Fintype.card {i : Fin s // i ∈ Z} = Z.card := Fintype.card_coe Z
     rw [Nat.card_eq_fintype_card, Fintype.card_congr eS, Fintype.card_fun, ZMod.card,

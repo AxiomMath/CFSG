@@ -12,7 +12,7 @@ open scoped commutatorElement
 
 private theorem step4_card_le_four {X : Type} [Group X] [Finite X] (hX : Nat.card X = 60)
     {H : Subgroup X} (hH : IsPGroup 2 H) : Nat.card H ≤ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hH
   have hdvd : Nat.card H ∣ 60 := by
     rw [← hX]
@@ -55,7 +55,7 @@ private theorem step4_relIndex_le_four {G : Type} [Group G] [Finite G] {L1 S Q :
     (hq : IsL2Quot 2 (oTwoQuot ↥L1)) (hS2 : IsPGroup 2 S)
     (hSN : S ≤ Subgroup.normalizer (Q : Set G)) (hQS : Q ≤ S) (hSQ : S = (S ⊓ L1) ⊔ Q)
     (hRQ : pCoreOf 2 L1 ≤ Q) : Q.relIndex S ≤ 4 := by
-  haveI : (Q.subgroupOf S).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hQS).mpr hSN
+  have : (Q.subgroupOf S).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hQS).mpr hSN
   have hsup : (S ⊓ L1).subgroupOf S ⊔ Q.subgroupOf S = ⊤ := by
     rw [← Subgroup.subgroupOf_sup inf_le_left hQS, ← hSQ, Subgroup.subgroupOf_self]
   have key := Subgroup.relIndex_sup_right (H := (S ⊓ L1).subgroupOf S) (K := Q.subgroupOf S)

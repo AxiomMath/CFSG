@@ -64,7 +64,7 @@ theorem u42_factorization_three_pow_sub_pow {f k i : ℕ} (hf : 1 ≤ f) (hik : 
   rw [hq, Nat.factorization_mul hne2 hne1, Finsupp.add_apply,
     Nat.factorization_eq_zero_of_not_dvd hndvd, add_zero, ← pow_mul,
     Nat.Prime.factorization_pow Nat.prime_three]
-  simp [mul_comm]
+  simp
 
 theorem u42_factorization_three_prod_GL {f : ℕ} (hf : 1 ≤ f) (k : ℕ) :
     (∏ i : Fin k, ((3 ^ f) ^ k - (3 ^ f) ^ (i : ℕ))).factorization 3 = f * (k * (k - 1) / 2) := by
@@ -72,7 +72,7 @@ theorem u42_factorization_three_prod_GL {f : ℕ} (hf : 1 ≤ f) (k : ℕ) :
       have : (3 ^ f) ^ (i : ℕ) < (3 ^ f) ^ k :=
         Nat.pow_lt_pow_right (Nat.one_lt_pow (by omega) (by norm_num)) i.2
       omega)]
-  simp only [Finsupp.coe_finset_sum, Finset.sum_apply]
+  simp only [_root_.Finsupp.coe_finsetSum, Finset.sum_apply]
   rw [Finset.sum_congr rfl (fun i _ => u42_factorization_three_pow_sub_pow hf i.2)]
   rw [← Finset.mul_sum, Fin.sum_univ_eq_sum_range (fun i => i) k, Finset.sum_range_id]
 

@@ -41,7 +41,7 @@ theorem tens_eq_zero_iff {j n : ℕ} (a : Fin n → ZMod 2) (x : Fin j → ZMod 
     · right
       obtain ⟨k, hk⟩ : ∃ k, a k ≠ 0 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact ha (funext hcon)
       funext i
       have hik : x i * a k = 0 := by

@@ -211,7 +211,7 @@ theorem fp_of_frame (h : InvHyp A π) {bs : List ℕ} (hbs : bs.length ≤ 8) {p
   have hcard : Nat.card {x : Fin 693 // π x = x} = fx.length := by
     have e : {x : Fin 693 | π x = x} = {p : Fin 693 | p.val ∈ fx} := by
       ext x
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       rw [hfx]
       exact ⟨fun hx => ⟨x.2, hx⟩, fun ⟨_, hx⟩ => hx⟩
     change Nat.card ↥{x : Fin 693 | π x = x} = _

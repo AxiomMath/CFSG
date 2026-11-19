@@ -129,7 +129,7 @@ theorem decV_reflV (key x : ℕ) : decV (reflV key x) = reflK key *ᵥ decV x :=
   rw [reflV_eq, decV, h]
   unfold reflK
   rw [Matrix.add_mulVec, Matrix.one_mulVec]
-  simp only [Matrix.mulVec, Matrix.vecMulVec_apply, dotProduct, Fin.sum_univ_six] at hd ⊢
+  simp only [dotProduct, Fin.sum_univ_six] at hd ⊢
   fin_cases j <;> simp [Matrix.mulVec, dotProduct, Matrix.vecMulVec_apply, Fin.sum_univ_six,
     ZMod.natCast_mod, decV, hd] <;> ring
 

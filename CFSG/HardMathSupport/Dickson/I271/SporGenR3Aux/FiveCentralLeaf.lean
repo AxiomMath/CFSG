@@ -47,8 +47,8 @@ theorem five_central_leaf (hGA : GriessAllModelsStatement) (hSpM : SporadicMulti
   have hq' : CFSG.IsQuasisimple K :=
     ⟨⟨hq.1⟩, hq.2,
       CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq⟩
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : Group.IsPerfect K := ⟨hq.1⟩
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hdvd : Nat.card (K ⧸ Subgroup.center K) ∣ Nat.card K :=
     Subgroup.card_quotient_dvd_card _
   rcases centralQuotient_family hq hK with ⟨n, ⟨e⟩⟩ | ⟨d, ⟨e⟩⟩ | ⟨s, ⟨e⟩⟩

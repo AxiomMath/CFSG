@@ -13,7 +13,7 @@ theorem ggLinearOn_of_slConj {G : Type} [Group G] {J : Subgroup G} {t : MulAut G
     (hker : φ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin (m + 1)) F))
     (A : GL (Fin (m + 1)) F) (hA : ∀ B, t (φ B) = (φ (InnerDiagA.conjSL A B) : G)) :
     GGLinearOn J t := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨f, -, hf⟩ := FiniteField.card F 2
   have hfc : Nat.card F = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hf]
   have hf2 : 2 ≤ (f : ℕ) := by
@@ -31,13 +31,13 @@ theorem ggLinearOn_of_slConj {G : Type} [Group G] {J : Subgroup G} {t : MulAut G
       have hC : (C : Matrix (Fin 1) (Fin 1) F).det = 1 := C.2
       rw [Matrix.det_unique] at hB hC
       rw [Subsingleton.elim i default, Subsingleton.elim j default, hB, hC]
-    haveI : Subsingleton ↥J := ⟨fun a b => by
+    have : Subsingleton ↥J := ⟨fun a b => by
       obtain ⟨B, rfl⟩ := hφ a
       obtain ⟨C, rfl⟩ := hφ b
       rw [Subsingleton.elim B C]⟩
-    haveI : Subsingleton (↥J ⧸ Subgroup.center ↥J) :=
+    have : Subsingleton (↥J ⧸ Subgroup.center ↥J) :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).subsingleton
-    haveI := hJq.2
+    have := hJq.2
     exact not_nontrivial (↥J ⧸ Subgroup.center ↥J) inferInstance
   exact ⟨F, inferInstance, inferInstance, f, m, hfc, by omega, hm1, fun _ => hf2, φ, hφ, hker,
     A, hA⟩

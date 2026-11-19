@@ -28,6 +28,7 @@ variable {G : Type} [Group G] [Finite G]
     ∃ lab : LargeEvenLabel, LargeEvenInLambda2 lab ∧
       GGHasLabel lab (↥X ⧸ Subgroup.center ↥X) ∧ Nat.card F = 2 ^ lab.n
 
+omit [Finite G] in
 theorem GGRk1ConclEx.toConcl {p : ℕ} {Bs X : Subgroup G} {r : MulAut ↥Bs}
     (h : GGRk1ConclEx p Bs X r) : GGRk1Concl p Bs X r := by
   obtain ⟨F, hF, hFin, θ, hchar, hinj, hrange, hrep, hs, hns, hlab, -⟩ := h
@@ -69,8 +70,8 @@ theorem nsQFourInputOf_of_exactRk1 {T : ∀ {ι : Type}, CoxeterMatrix ι → Pr
       ggSecFiveBaseReflInput_of_rows hGenR G p B Bs x L D J 𝒦 hcfg hns ι M e hpres h3 hbig
     obtain ⟨F, hFfield, hFfin, θ, hchar, hinj, hrange, -, -, -, -, lab, hΛ, hhas, hFcard⟩ :=
       hRk1 G p B Bs x L D J 𝒦 hcfg hns ι M e hpres h3 L (Or.inl rfl) hns hU r₀ hA hC
-    letI : Field F := hFfield
-    letI : Finite F := hFfin
+    let : Field F := hFfield
+    let : Finite F := hFfin
     have hcard : Nat.card ↥(ggRankOneIn L Bs r₀) = Nat.card F * (Nat.card F ^ 2 - 1) := by
       rw [← hrange, ← ggSL2_card F]
       exact Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv.symm

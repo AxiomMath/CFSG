@@ -29,12 +29,15 @@ structure Frame2 (G : Type) [Group G] (z : G) extends Frame1 G z where
   AU_max : ∀ E : Subgroup G, IsElemAbelian 2 E →
     E ≤ Subgroup.centralizer ((A ⊓ U : Subgroup G) : Set G) → E ≤ A ∨ E ≤ U
 
+omit [Finite G] in
 theorem Frame2.isPGroup_A (F : Frame2 G z) : IsPGroup 2 F.A :=
   IsPGroup.of_card (n := 6) (by rw [F.card_A]; norm_num)
 
+omit [Finite G] in
 theorem Frame2.comm_A (F : Frame2 G z) {a b : G} (ha : a ∈ F.A) (hb : b ∈ F.A) : a * b = b * a :=
   congrArg Subtype.val (F.A_elem.1.is_comm.comm (⟨a, ha⟩ : F.A) ⟨b, hb⟩)
 
+omit [Finite G] in
 theorem Frame0.conjSubgroup_U (F : Frame0 G z) {n : G} (hn : n ∈ Cz z) :
     cjS n F.U = F.U :=
   Gen.mem_normalizer_iff_cj.1 (F.le_normalizer_U hn)
@@ -77,6 +80,7 @@ theorem s39_6_3 (F : Frame2 G z) {a b g : G} (ha : a ∈ F.A) (hb : b ∈ F.A)
     (Gen.weaklyClosedIn_of_sylow P hwc) (fun s hs => F.comm_A ha hs) (fun s hs => F.comm_A hb hs)
     hab
 
+omit [Finite G] in
 theorem cj_le_centralizer {D X : Subgroup G} {n : G}
     (hn : n ∈ Subgroup.normalizer (D : Set G)) (hX : ∀ x ∈ X, ∀ d ∈ D, d * x = x * d) :
     cjS n X ≤ Subgroup.centralizer (D : Set G) := by

@@ -42,22 +42,22 @@ private theorem latPerm_eq_self_of_rho_eq_neg
   exact (neg_inj.mp (by simpa using h)).symm
 
 theorem j4d_stableRoots_isRoot
-    {τ : Tag} (hτ : SimplyLacedTag τ) {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
+    {τ : Tag} (_hτ : SimplyLacedTag τ) {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     (S : LangSetup τ L p₀) {π : Equiv.Perm (Fin τ.rank)}
-    (hπ : ∀ j k, τ.cartan (π j) (π k) = τ.cartan j k)
-    {ε : ℤ} (hε : ε = -1)
-    (hρ : ∀ γ, IsRoot τ γ → S.ρ γ = ε • latPerm π γ)
+    (_hπ : ∀ j k, τ.cartan (π j) (π k) = τ.cartan j k)
+    {ε : ℤ} (_hε : ε = -1)
+    (_hρ : ∀ γ, IsRoot τ γ → S.ρ γ = ε • latPerm π γ)
     {Ψ : Set (Fin τ.rank → ℤ)} (hΨ : IsRootComponent Ψ)
-    {x : Fin τ.rank → ℤ} (hx : x ∈ Ψ) (hxρ : S.ρ x = -x) :
+    {x : Fin τ.rank → ℤ} (hx : x ∈ Ψ) (_hxρ : S.ρ x = -x) :
     IsRoot τ x :=
   hΨ.isRoot x hx
 
 theorem j4d_stableRoots_neg
-    {τ : Tag} (hτ : SimplyLacedTag τ) {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
+    {τ : Tag} (_hτ : SimplyLacedTag τ) {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     (S : LangSetup τ L p₀) {π : Equiv.Perm (Fin τ.rank)}
-    (hπ : ∀ j k, τ.cartan (π j) (π k) = τ.cartan j k)
-    {ε : ℤ} (hε : ε = -1)
-    (hρ : ∀ γ, IsRoot τ γ → S.ρ γ = ε • latPerm π γ)
+    (_hπ : ∀ j k, τ.cartan (π j) (π k) = τ.cartan j k)
+    {ε : ℤ} (_hε : ε = -1)
+    (_hρ : ∀ γ, IsRoot τ γ → S.ρ γ = ε • latPerm π γ)
     {Ψ : Set (Fin τ.rank → ℤ)} (hΨ : IsRootComponent Ψ)
     {x : Fin τ.rank → ℤ} (hx : x ∈ Ψ) (hxρ : S.ρ x = -x) :
     -x ∈ Ψ ∧ S.ρ (-x) = -(-x) := by
@@ -65,9 +65,9 @@ theorem j4d_stableRoots_neg
   rw [S.frob.neg_eq, hxρ]
 
 theorem j4d_stableRoots_add
-    {τ : Tag} (hτ : SimplyLacedTag τ) {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
+    {τ : Tag} (_hτ : SimplyLacedTag τ) {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     (S : LangSetup τ L p₀) {π : Equiv.Perm (Fin τ.rank)}
-    (hπ : ∀ j k, τ.cartan (π j) (π k) = τ.cartan j k)
+    (_hπ : ∀ j k, τ.cartan (π j) (π k) = τ.cartan j k)
     {ε : ℤ} (hε : ε = -1)
     (hρ : ∀ γ, IsRoot τ γ → S.ρ γ = ε • latPerm π γ)
     {Ψ : Set (Fin τ.rank → ℤ)} (hΨ : IsRootComponent Ψ)
@@ -85,9 +85,9 @@ theorem j4d_stableRoots_add
   simp only [neg_one_smul, neg_add]
 
 theorem j4d_stableRoots_reflection
-    {τ : Tag} (hτ : SimplyLacedTag τ) {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
+    {τ : Tag} (_hτ : SimplyLacedTag τ) {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     (S : LangSetup τ L p₀) {π : Equiv.Perm (Fin τ.rank)}
-    (hπ : ∀ j k, τ.cartan (π j) (π k) = τ.cartan j k)
+    (_hπ : ∀ j k, τ.cartan (π j) (π k) = τ.cartan j k)
     {ε : ℤ} (hε : ε = -1)
     (hρ : ∀ γ, IsRoot τ γ → S.ρ γ = ε • latPerm π γ)
     {Ψ : Set (Fin τ.rank → ℤ)} (hΨ : IsRootComponent Ψ)

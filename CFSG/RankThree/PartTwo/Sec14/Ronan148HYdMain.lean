@@ -28,7 +28,7 @@ theorem le_normalizer_inSubgroup_theta (d : G) :
         Subgroup G) : Set G) := by
   set C := Subgroup.centralizer ({d} : Set G) with hC
   obtain ⟨-, hθc, -, -, -⟩ := solvable_prime_complement_core_characterization (H := ↥C) Nat.prime_three
-  haveI : (aschbacherSolvableCore 3 ↥C).Normal := by haveI := hθc; infer_instance
+  have : (aschbacherSolvableCore 3 ↥C).Normal := by have := hθc; infer_instance
   intro x hx
   rw [Subgroup.mem_normalizer_iff]
   intro t
@@ -53,7 +53,7 @@ theorem mem_sectionCentralizer_of_le {d b : G} {A Yd LB : Subgroup G} (hbA : b �
   set C := Subgroup.centralizer ({d} : Set G) with hC
   set T := inSubgroup (aschbacherSolvableCore 3) C with hT
   obtain ⟨-, hθc, -, -, -⟩ := solvable_prime_complement_core_characterization (H := ↥C) Nat.prime_three
-  haveI : (aschbacherSolvableCore 3 ↥C).Normal := by haveI := hθc; infer_instance
+  have : (aschbacherSolvableCore 3 ↥C).Normal := by have := hθc; infer_instance
   have hTC : T ≤ C := Subgroup.map_subtype_le _
   have hCT : C ≤ Subgroup.normalizer (T : Set G) := by
     intro x hx
@@ -265,7 +265,7 @@ theorem step148HJTypeYdONA5_of_res (h131 : Item131) (h134 : Item134) (h48 : Sec4
     obtain ⟨e⟩ := hA5
     have hZ : Subgroup.center (↥YB ⧸ aschbacherSolvableCore 3 ↥YB) = ⊥ := by
       have hc5 : Subgroup.center (alternatingGroup (Fin 5)) = ⊥ := by
-        haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+        have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
         rcases (inferInstance : (Subgroup.center (alternatingGroup (Fin 5))).Normal).eq_bot_or_eq_top with h | h
         · exact h
         · exfalso

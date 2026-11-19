@@ -34,7 +34,7 @@ theorem mem_Nl {g : Perm (Fin 6)} : g ∈ Nl ↔ Pres g := by
 
 @[expose] def fin4 (n : ℕ) : Fin 4 := ⟨n % 4, Nat.mod_lt _ (by norm_num)⟩
 
-@[expose] def lab (c0 c1 c2 : Fin 6) : Fin 4 :=
+@[expose] def lab (c0 c1 _c2 : Fin 6) : Fin 4 :=
   fin4 (2 * (if (c0 : ℕ) < 3 then 0 else 1) + (if ((c1 : ℕ) + 6 - (c0 : ℕ)) % 3 = 1 then 0 else 1))
 
 @[expose] def act (g : Perm (Fin 6)) : Fin 4 → Fin 4 :=

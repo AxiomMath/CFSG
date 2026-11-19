@@ -298,7 +298,7 @@ theorem cv_row {i n : ℕ} (h : (cvN es cw cl ri ra i == n) = true) (hn : n = 1)
     rcases h1 with h1 | h1
     · exact Or.inl h1
     · exact Or.inr (Or.inl (by simpa using h1))
-  · rw [if_neg h1, strictN_eq] at h
+  · rw [ite_eq_right h1, strictN_eq] at h
     have h2' := toNat_eq_one (Nat.eq_one_of_mul_eq_one_right h)
     rw [Bool.and_eq_true, Nat.blt_eq] at h2'
     exact Or.inr (Or.inr ⟨h2'.1, h2'.2, toNat_eq_one (Nat.eq_one_of_mul_eq_one_left h)⟩)

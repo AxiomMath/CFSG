@@ -2,7 +2,7 @@ module
 
 public import CFSG.Permutation.FiveTransitive.OrbitBounds
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.GroupTheory.GroupAction.MultipleTransitivity
 public import Mathlib.GroupTheory.Transfer
 
@@ -38,7 +38,7 @@ theorem two_dvd_five_point_stabilizer_card
     ext i
     exact hq i
   have hP3 : MulAction.IsMultiplyPretransitive P X 3 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 3) (n := 5)
         (by omega) (by
@@ -78,7 +78,7 @@ theorem two_dvd_five_point_stabilizer_card
   have hJcard : Nat.card J = 462 * h := by
     rw [hJindex, hPcard] at hJindexCard
     omega
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hJfactorization :
       (462 * h).factorization 2 = 1 := by
     rw [show 462 = 2 * 231 by norm_num,
@@ -98,7 +98,7 @@ theorem two_dvd_five_point_stabilizer_card
     rw [T.card_eq_multiplicity, hJcard,
       hJfactorization]
     norm_num
-  letI : IsCyclic T := isCyclic_of_prime_card hTcard
+  let : IsCyclic T := isCyclic_of_prime_card hTcard
   let C : Subgroup J :=
     Subgroup.centralizer ((T : Subgroup J) : Set J)
   let N : Subgroup J :=
@@ -133,14 +133,14 @@ theorem two_dvd_five_point_stabilizer_card
   let transfer : J →* T :=
     MonoidHom.transferSylow T hnormalizer
   let Q : Subgroup J := transfer.ker
-  letI : Q.Normal := by
+  let : Q.Normal := by
     dsimp only [Q, transfer]
     infer_instance
   have hcomplement : IsComplement' Q T := by
     simpa only [Q, transfer] using
       MonoidHom.ker_transferSylow_isComplement'
         T hnormalizer
-  have hcardMul := hcomplement.card_mul
+  have hcardMul := hcomplement.card_mul_card
   have hQcard : Nat.card Q = 231 * h := by
     rw [hTcard, hJcard] at hcardMul
     nlinarith
@@ -155,7 +155,7 @@ theorem two_dvd_five_point_stabilizer_card
     omega
   have hJ2 :
       MulAction.IsMultiplyPretransitive J Z 2 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     change
       MulAction.IsMultiplyPretransitive
         (fixingSubgroup P (Set.range e))
@@ -163,9 +163,9 @@ theorem two_dvd_five_point_stabilizer_card
     apply SubMulAction.ofFixingSubgroup.isMultiplyPretransitive
       (m := 2) (n := 5) P (Set.range e)
     omega
-  letI : MulAction.IsPreprimitive J Z :=
+  let : MulAction.IsPreprimitive J Z :=
     MulAction.isPreprimitive_of_is_two_pretransitive hJ2
-  letI : Nonempty Z :=
+  let : Nonempty Z :=
     Fintype.card_pos_iff.mp (by
       rw [← Nat.card_eq_fintype_card, hZcard]
       norm_num)

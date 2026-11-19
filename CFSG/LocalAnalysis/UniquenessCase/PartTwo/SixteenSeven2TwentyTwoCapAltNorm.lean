@@ -63,7 +63,7 @@ theorem s16c167_altHeart_transvection_eq_swap {n : ℕ} (hn : 5 ≤ n)
     (hnorm : ∀ σ ∈ alternatingGroup (Fin n), ∃ σ' ∈ alternatingGroup (Fin n),
       ∀ v, t (altAct σ v) = altAct σ' (t v))
     {K : AddSubgroup (altHeart n)} (hK : K.index = 2) (htK : ∀ v ∈ K, t v = v)
-    (ht : ∀ v, t v - v ∈ K) (h1 : t ≠ AddEquiv.refl _) :
+    (_ht : ∀ v, t v - v ∈ K) (h1 : t ≠ AddEquiv.refl _) :
     ∃ σ : Equiv.Perm (Fin n), σ.IsSwap ∧ (∀ v, t v = altAct σ v) ∧
       ∀ v, altAct σ v = v ↔ v ∈ K := by
   obtain ⟨π, hπ⟩ := s16c167_normalizerIsSym hn t hnorm

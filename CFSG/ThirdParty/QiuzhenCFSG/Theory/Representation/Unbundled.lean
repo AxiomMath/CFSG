@@ -50,7 +50,7 @@ public theorem trace_pi_map_perm {R : Type*} [Field R]
   refine Finset.sum_congr rfl ?_
   intro i hi
   by_cases h : e i = i
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     rw [LinearMap.trace_eq_matrix_trace R b (L i)]
     simp only [Matrix.trace]
     refine Finset.sum_congr rfl ?_
@@ -61,7 +61,7 @@ public theorem trace_pi_map_perm {R : Type*} [Field R]
     simp [B, hT]
     rw [h]
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     rw [Finset.sum_eq_zero]
     intro a ha
     change (LinearMap.toMatrix B B T) ⟨i, a⟩ ⟨i, a⟩ = 0

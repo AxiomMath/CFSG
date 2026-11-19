@@ -59,7 +59,7 @@ theorem tc_ne_bot_of_nilpotent [Finite G] (L : Subgroup G) (hnil : Group.IsNilpo
   obtain ⟨P, hP⟩ := hz.exists_le_sylow
   have hPn : (P : Subgroup ↥L).Normal := Group.IsNilpotent.sylow_normal hnil 2 P
   have hPle : (P : Subgroup ↥L) ≤ CFSG.pCore 2 ↥L :=
-    le_sSup (s := {K : Subgroup ↥L | K.Normal ∧ IsPGroup 2 ↥K}) ⟨hPn, P.isPGroup'⟩
+    le_sSup (s := {K : Subgroup ↥L | K.Normal ∧ IsPGroup 2 ↥K}) ⟨hPn, P.isPGroup⟩
   have htP : t ∈ CFSG.pCore 2 ↥L := hPle (hP (Subgroup.mem_zpowers t))
   intro h
   have h1 : (t : G) ∈ tc L := ⟨t, htP, rfl⟩

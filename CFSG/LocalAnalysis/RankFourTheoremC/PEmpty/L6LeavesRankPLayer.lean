@@ -15,7 +15,7 @@ theorem center_eq_bot_of_simple {V : Type*} [Group V] {C : Subgroup V} (hC : IsC
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center C) with h | h
   · exact h
   · exfalso
-    haveI : IsSimpleGroup (C ⧸ center C) := hC.1.2.1
+    have : IsSimpleGroup (C ⧸ center C) := hC.1.2.1
     have hsub : Subsingleton (C ⧸ center C) := QuotientGroup.subsingleton_iff.mpr h
     exact not_subsingleton _ hsub
 
@@ -54,8 +54,8 @@ theorem normal_le_layer_eq_bot_or_layer_le {V : Type} [Group V] [Finite V]
     exact h.symm
   have hCN : C.1 ≤ N := by
     let M : Subgroup C.1 := N.subgroupOf C.1
-    haveI : M.Normal := Subgroup.normal_subgroupOf
-    haveI := hC C
+    have : M.Normal := Subgroup.normal_subgroupOf
+    have := hC C
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M with h | h
     · exfalso
       have hmem : (⟨n * c * n⁻¹ * c⁻¹, hmC⟩ : C.1) ∈ M := hmN
@@ -89,7 +89,7 @@ theorem dichotomy {X : Type} [Group X] [Finite X] (p : ℕ) [Fact p.Prime] (E : 
     ((pLayer X p ⊓ centralizer (E : Set X)).map (QuotientGroup.mk' (pPrimeCore p X)) = ⊥) ∨
       layer (X ⧸ pPrimeCore p X) ≤
         (pLayer X p ⊓ centralizer (E : Set X)).map (QuotientGroup.mk' (pPrimeCore p X)) := by
-  haveI : (pLayer X p).Characteristic :=
+  have : (pLayer X p).Characteristic :=
     CFSG.ComponentClassification.CatalogueBPrimeJoin.pLayer_characteristic (G := X) (p := p)
   set R := pPrimeCore p X with hR
   set π := QuotientGroup.mk' R with hπ
@@ -109,7 +109,7 @@ theorem dichotomy {X : Type} [Group X] [Finite X] (p : ℕ) [Fact p.Prime] (E : 
     calc e * (n * h * n⁻¹) = n * ((n⁻¹ * e * n) * h) * n⁻¹ := by group
       _ = n * (h * (n⁻¹ * e * n)) * n⁻¹ := by rw [hc]
       _ = (n * h * n⁻¹) * e := by group
-  haveI hNnorm : (H.map π).Normal := by
+  have hNnorm : (H.map π).Normal := by
     refine ⟨fun x hx v => ?_⟩
     obtain ⟨h, hh, rfl⟩ := hx
     obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective v

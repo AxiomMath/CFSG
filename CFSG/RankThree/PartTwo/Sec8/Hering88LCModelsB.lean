@@ -46,6 +46,7 @@ section Sp4
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem three_ne_zero_of_charTwo : (3 : F) ≠ 0 := by
   have h31 : (3 : F) = 1 := by
     have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
@@ -53,6 +54,7 @@ theorem three_ne_zero_of_charTwo : (3 : F) ≠ 0 := by
   rw [h31]
   exact one_ne_zero
 
+omit [CharP F 2] in
 theorem isPerfect_sl2 (hF : 4 ≤ Nat.card F) : Group.IsPerfect SL(2, F) := by
   classical
   apply CFSG.LinearGroups.special_linear_dimension_two_perfect
@@ -68,7 +70,7 @@ theorem commutator_range_eq {H M : Type*} [Group H] [Group M] [Group.IsPerfect H
 
 theorem lc2At_sp4T (hF : 4 ≤ Nat.card F) : LC2At (KFacts.sp4T F) := by
   have h3 := three_ne_zero_of_charTwo (F := F)
-  haveI := isPerfect_sl2 hF
+  have := isPerfect_sl2 hF
   refine lc2At_of_commutator (S := (KFacts.planeSp (F := F) 1).range) ?_
     (commutator_range_eq _) fun x hx y hy => ?_
   · rintro _ ⟨B, rfl⟩
@@ -93,7 +95,7 @@ theorem lc2At_sp4T (hF : 4 ≤ Nat.card F) : LC2At (KFacts.sp4T F) := by
     exact KFacts.mem_range_planeSp_one h3 hxy h1'
 
 theorem lc2At_yT (hF : 4 ≤ Nat.card F) : LC2At (Item84KFacts4.yT F) := by
-  haveI := isPerfect_sl2 hF
+  have := isPerfect_sl2 hF
   exact lc2At_of_commutator Item84KFacts4.range_levi_le_centralizer (commutator_range_eq _)
     fun x hx y hy => Item84KFacts4.commutator_mem_range_levi hx hy
 
@@ -128,7 +130,7 @@ theorem innerFacts_statedProj_eight :
     InnerFacts (StatedProj (StatedSp 2 (GaloisField 2 3))) := by
   have hF : Nat.card (GaloisField 2 3) = 8 := by rw [GaloisField.card 2 3 (by norm_num)]; norm_num
   have hF4 : 4 ≤ Nat.card (GaloisField 2 3) := by rw [hF]; norm_num
-  haveI : CharP (GaloisField 2 3) 2 := inferInstance
+  have : CharP (GaloisField 2 3) 2 := inferInstance
   refine ⟨fun z hz => ?_, fun τ hτ g hg3 hg1 hτg => ?_, fun g hg3 hg1 => ?_⟩
   · have hc : z ∈ Subgroup.center (StatedProj (StatedSp 2 (GaloisField 2 3))) :=
       Subgroup.mem_center_iff.mpr fun y => (hz y).symm
@@ -144,7 +146,6 @@ theorem innerFacts_statedProj_eight :
       ((StatedScalars (Fin 2 ⊕ Fin 2) (GaloisField 2 3)).subgroupOf
         (StatedSp 2 (GaloisField 2 3))) g
     have he3 : e ^ 3 = 1 := KFacts.proj_injective_of_charTwo (by
-      change proj 2 _ (e ^ 3) = proj 2 _ 1
       rw [map_pow, map_one]
       exact hg3)
     have he1 : e ≠ 1 := by

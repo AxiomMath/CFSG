@@ -50,7 +50,7 @@ open Matrix
 private lemma cardGL_two_eq (K : Type*) [Field K] [Finite K] :
     Nat.card (GL (Fin 2) K) = (Nat.card K ^ 2 - 1) * (Nat.card K ^ 2 - Nat.card K) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [Matrix.card_GL_field, Fin.prod_univ_two, Nat.card_eq_fintype_card]
   simp
 

@@ -33,7 +33,7 @@ theorem eq_of_noncyclic_inf {Y N N' U : Subgroup G} (hN : IsComponentOf N Y)
       rw [Subgroup.mem_center_iff]
       intro y
       exact Subtype.ext (Subgroup.mem_centralizer_iff.mp (hUcent hx) (y : G) y.2)
-    haveI : IsCyclic (Subgroup.center N) := hcyc
+    have : IsCyclic (Subgroup.center N) := hcyc
     have hcycU : IsCyclic (U.subgroupOf N) := Subgroup.isCyclic_of_le hUc
     exact (hUnc ((MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hUN)).mp hcycU)).elim
 

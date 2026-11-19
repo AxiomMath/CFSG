@@ -59,8 +59,8 @@ theorem burnsideF411a_g2_center_iff {K : Type} [Field K] (h3 : (3 : K) ≠ 0)
 
 theorem burnsideF411a_swap_G2_ne_three {p f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .G2 p f Gp M₁ M₂) (hp3 : p ≠ 3) (hGp : Gp ≠ ⊤) : burnsideF411_Swap M₁ M₂ := by
-  haveI : Finite E := hyp.finite
-  haveI : Gp.Normal := hyp.normal
+  have : Finite E := hyp.finite
+  have : Gp.Normal := hyp.normal
   obtain ⟨chart, hBch, hP1, hP2⟩ := hyp.lie_amalgam
   rcases chart.coordinates with
     ⟨c, hk, -⟩ | ⟨-, hp, hd, K, fK, finK, card, marking, h1, h2, h3, -, -⟩ | ⟨hk, -⟩ | ⟨hk, -⟩ |
@@ -68,10 +68,10 @@ theorem burnsideF411a_swap_G2_ne_three {p f : ℕ} {E : Type} [Group E] {Gp M₁
   · exact absurd hk (by cases c <;> decide)
   rotate_left
   iterate 4 exact absurd hk (by decide)
-  letI := fK
-  haveI := finK
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := burnsideF4h_cl_charP card
+  let := fK
+  have := finK
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := burnsideF4h_cl_charP card
   have e1 : ∀ L, G2Native.fullImage K marking L =
       (G2Native.fullLocal K L).map marking.toMonoidHom := fun L => rfl
   rw [e1] at h1 h2 h3

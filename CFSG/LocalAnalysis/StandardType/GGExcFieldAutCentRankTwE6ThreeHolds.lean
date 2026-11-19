@@ -44,7 +44,7 @@ theorem ggPsiInnerDiag_of_induces_twistedE6
           (z : e6Data_valid.minGroup (GaloisField 2 (2 * f))) :
         adjointGroup TwistTag.E6.tag (GaloisField 2 (2 * f))) :
           ModGL TwistTag.E6.tag (GaloisField 2 (2 * f))))
-    {G : Type} [Group G] (ψ : twistedE6Group 2 f →* G) (hkπ : ψ.ker ≤ π.ker) {c : G}
+    {G : Type} [Group G] (ψ : twistedE6Group 2 f →* G) (_hkπ : ψ.ker ≤ π.ker) {c : G}
     (hcN : c ∈ Subgroup.normalizer (ψ.range : Set G))
     {α : MulAut ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))}
     (hα : GGInduces π ψ c α) (hαD : α ∈ twInndiagAut f) :
@@ -55,7 +55,7 @@ theorem ggPsiInnerDiag_of_induces_twistedE6
   have hodd : Odd (Nat.card π.ker) := RootDetectTwE6.odd_card_ker f π hπval
   have hαinv : GGInduces π ψ c⁻¹ α⁻¹ := hα.inv
   have hαinvD : α⁻¹ ∈ twInndiagAut f := inv_mem hαD
-  haveI : (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
+  have : (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
       (frobQ 2 f)) →* MulAut ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
         (frobQ 2 f))).range.Normal :=
     RootCentExc.normal_range_mulAutConj
@@ -143,16 +143,16 @@ theorem exists_elemAbelian_fixed_fieldActor_lower
       (∀ x ∈ E, fieldActor (t := TwistTag.E6) σ η x = x) ∧
       p ^ (degCountTw e - 1) ≤ Nat.card E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK2 : Nat.card K = 2 ^ (2 * f) := by rw [hK, ← pow_mul, Nat.mul_comm]
   have hcord : orderOf η = p := orderOf_eq_prime hηp hη1
   have hoddp : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨hpdvd, hKfix⟩ := fixSubfield_card_of_odd hf hK η (by rw [hcord]; exact hoddp)
   rw [hcord] at hpdvd hKfix
   have hfdiv : 1 ≤ f / p := Nat.div_pos (Nat.le_of_dvd (by omega) hpdvd) hp.pos
-  haveI : Finite (fixSubfield η) :=
+  have : Finite (fixSubfield η) :=
     Finite.of_injective (Subtype.val : fixSubfield η → K) Subtype.val_injective
-  haveI : CharP (fixSubfield η) 2 := Subfield.charP (fixSubfield η) 2
+  have : CharP (fixSubfield η) 2 := Subfield.charP (fixSubfield η) 2
   have hσfix : ∀ c : ↥(fixSubfield η), fixSubfieldRestrict σ η c = c ^ (2 ^ (f / p)) := by
     refine fixSubfieldRestrict_eq_pow hKfix hoddp ?_
     intro c

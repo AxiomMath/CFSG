@@ -26,8 +26,8 @@ open CFSG.KC.RouteP CFSG.KD.RouteP CFSG.KS.RouteP
 theorem pgLens_eq (i : Nat) : pgLens i = if i < 16 then 891 else 21 := by
   unfold pgLens
   by_cases h : i < 16
-  · rw [if_pos h, (Nat.blt_eq.mpr h : Nat.blt i 16 = true)]
-  · rw [if_neg h, (Bool.eq_false_iff.mpr fun e => h (Nat.blt_eq.mp e) : Nat.blt i 16 = false)]
+  · rw [ite_eq_left h, (Nat.blt_eq.mpr h : Nat.blt i 16 = true)]
+  · rw [ite_eq_right h, (Bool.eq_false_iff.mpr fun e => h (Nat.blt_eq.mp e) : Nat.blt i 16 = false)]
 
 set_option maxHeartbeats 0 in
 theorem px_chk : nlChk PXE (fun _ => 24) (PX.chars.map Char.toNat) 0 0 0 0 0 1 (nlEnd 891) =

@@ -70,7 +70,7 @@ theorem mem_sylow_sl23 (P : Sylow 2 SL(2, ZMod 3)) {s : SL(2, ZMod 3)} (hs : s ^
     rw [hT, Finset.mem_filter] at hx
     rw [hF, Finset.mem_filter]
     refine ⟨Finset.mem_univ _, ?_⟩
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx.2⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx.2⟩
     exact sl23_pow_four_of_two_pow (congrArg Subtype.val hk)
   have hTcard : T.card = 8 := by
     rw [← hcard, Nat.card_eq_fintype_card, hT, ← Fintype.card_subtype]

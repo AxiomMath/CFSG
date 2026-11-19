@@ -21,20 +21,20 @@ private lemma p9uRMA_epsUnit_val (ε : DVec m) (hε : ∀ i, ε i = 1 ∨ ε i =
     (p9uRMA_epsUnit ε i : ZMod 3) = ε i := by
   unfold p9uRMA_epsUnit
   by_cases h : ε i = 1
-  · rw [if_pos h, h]; simp
+  · rw [ite_eq_left h, h]; simp
   · have h1 : ε i = -1 := by
       rcases hε i with h' | h' <;> [exact absurd h' h; exact h']
-    rw [if_neg h, h1]; simp
+    rw [ite_eq_right h, h1]; simp
 
 private lemma p9uRMA_epsUnit_inv_val (ε : DVec m)
     (hε : ∀ i, ε i = 1 ∨ ε i = -1) (i : Fin m) :
     ((p9uRMA_epsUnit ε i)⁻¹ : ZMod 3) = ε i := by
   unfold p9uRMA_epsUnit
   by_cases h : ε i = 1
-  · rw [if_pos h, h]; simp
+  · rw [ite_eq_left h, h]; simp
   · have h1 : ε i = -1 := by
       rcases hε i with h' | h' <;> [exact absurd h' h; exact h']
-    rw [if_neg h, h1]; simp
+    rw [ite_eq_right h, h1]; simp
 
 private noncomputable def p9uRMA_D (ε : DVec m) : DVec m ≃ₗ[ZMod 3] DVec m :=
   ZS.diagMap 3 (dBasis m) (p9uRMA_epsUnit ε)
@@ -61,7 +61,7 @@ private lemma p9uRMA_one_eq_sum : (1 : DVec m) = ∑ i, dBasis m i := by
   rw [Finset.sum_apply, Finset.sum_eq_single k]
   · simp [dBasis, Pi.basisFun_apply]
   · intro i _ hi
-    simp [dBasis, Pi.basisFun_apply, Pi.single_apply, hi]
+    simp [dBasis, Pi.basisFun_apply, hi]
   · intro hk; exact absurd (Finset.mem_univ k) hk
 
 private lemma p9uRMA_D_one (ε : DVec m) (hε : ∀ i, ε i = 1 ∨ ε i = -1) :
@@ -303,7 +303,7 @@ private lemma p9uRMA_vi (m : ℕ) (β : Equiv.Perm (Fin m)) (p q : ZMod 3) {i k 
     (hki : k ≠ i) (hkb : k ≠ β i) :
     (dBasis m i - p • dBasis m (β i) - q • (1 : DVec m) : DVec m) k = -q := by
   simp only [Pi.sub_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, dBasis, Pi.basisFun_apply,
-    Pi.single_apply, if_neg hki, if_neg hkb]
+    Pi.single_apply, ite_eq_right hki, ite_eq_right hkb]
   ring
 
 theorem qtwoDRMStab_A_reflection {m : ℕ} (hm : 5 ≤ m) {ε : DVec m}
@@ -383,12 +383,12 @@ theorem qtwoDRMStab_A_reflection {m : ℕ} (hm : 5 ≤ m) {ε : DVec m}
         rw [← hci i, ← hci j, hμ]
       have hii := congrFun hvi_eq i
       simp only [Pi.sub_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul, mul_one, mul_zero,
-        sub_zero, zero_sub, dBasis, Pi.basisFun_apply, Pi.single_apply, if_neg (Ne.symm hji),
-        if_neg (Ne.symm hjb), ↓reduceIte] at hii
+        sub_zero, zero_sub, dBasis, Pi.basisFun_apply, Pi.single_apply, ite_eq_right (Ne.symm hji),
+        ite_eq_right (Ne.symm hjb), ↓reduceIte] at hii
       by_cases hfix : i = β i
-      · exact ⟨hfix.symm, by rw [if_pos hfix] at hii; linear_combination -hii⟩
+      · exact ⟨hfix.symm, by rw [ite_eq_left hfix] at hii; linear_combination -hii⟩
       · exfalso
-        exact absurd (by rw [if_neg hfix] at hii; linear_combination hii) one_ne_zero
+        exact absurd (by rw [ite_eq_right hfix] at hii; linear_combination hii) one_ne_zero
     have hβ1 : β = 1 := Equiv.ext fun i => (hkey i).1
     have hp1 : p = 1 := (hkey ⟨0, by omega⟩).2
     have hform1 : ∀ v : DVec m, b v = v + q • (∑ i, v i) • (1 : DVec m) := by

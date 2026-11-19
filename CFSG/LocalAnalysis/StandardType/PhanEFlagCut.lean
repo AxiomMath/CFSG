@@ -211,7 +211,7 @@ private lemma q2cFPt_swap_prefix {N : ℕ} {a b : Fin N} {c : ℕ}
     · rw [Equiv.swap_apply_right]; exact h
     · rw [Equiv.swap_apply_of_ne_of_ne hka hkb]
 
-private lemma q2cFPt_adjSwap_mem {m : ℕ} {d : List ℕ} (hd : IsCut (m + 1) d)
+private lemma q2cFPt_adjSwap_mem {m : ℕ} {d : List ℕ} (_hd : IsCut (m + 1) d)
     {i : Fin m} (hi : i ∈ cutTypes m d) : adjSwap i ∈ q2cFPt_prefixSub (m + 1) d := by
   intro b hb k
   have hne : d.getD b 0 ≠ i.val + 1 := hi b hb
@@ -275,7 +275,7 @@ lemma q2cFPt_parabolic_eq_prefixSub {m : ℕ} {d : List ℕ} (hd : IsCut (m + 1)
     exact q2cFPt_adjSwap_mem hd hi
   · exact q2cFPt_prefixSub_le_parabolic hd
 
-theorem stdFlag_mem_refSet (hd : IsCut n d) : stdFlag K n ∈ refSet K n d := by
+theorem stdFlag_mem_refSet (_hd : IsCut n d) : stdFlag K n ∈ refSet K n d := by
   intro i _
   rfl
 
@@ -338,8 +338,7 @@ theorem residue_cutTypes_eq (hd : IsCut (m + 1) d) {x : FlagK K (m + 1)}
   ext y
   rw [mem_residue_iff_mem_parabolic isWeylDistanceBuilding_flag]
   constructor
-  · intro hy
-    intro b hb
+  · intro hy b hb
     have hpar : relPos x y ∈ (symCox m).parabolic (cutTypes m d) := by
       simpa [flagδ] using ((symCox m).parabolic (cutTypes m d)).inv_mem hy
     have hσ : relPos x y ∈ q2cFPt_prefixSub (m + 1) d := by

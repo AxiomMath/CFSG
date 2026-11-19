@@ -16,15 +16,18 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {hQ : Q.Nondegenerate}
 
+omit [Finite G] in
 private theorem coverAct_normalizer {φ : ↥L →* omegaGroup hQ} {s : G} {x : simGroup Q}
     (h : CoverAct L φ s x) : s ∈ Subgroup.normalizer (L : Set G) := by
   with_unfolding_all exact h.1
 
+omit [Finite G] in
 private theorem coverAct_apply {φ : ↥L →* omegaGroup hQ} {s : G} {x : simGroup Q}
     (h : CoverAct L φ s x) {l l' : ↥L} (hl : (l' : G) = s * l * s⁻¹) :
     ((φ l' : omegaGroup hQ) : OGroup Q) = simAct Q x ((φ l : omegaGroup hQ) : OGroup Q) := by
   with_unfolding_all exact h.2 l l' hl
 
+omit [Finite G] in
 private theorem coverAct_intro {φ : ↥L →* omegaGroup hQ} {s : G} {x : simGroup Q}
     (h1 : s ∈ Subgroup.normalizer (L : Set G))
     (h2 : ∀ l l' : ↥L, (l' : G) = s * l * s⁻¹ →
@@ -47,6 +50,7 @@ private theorem t5_ffSimOmegaAct_injective' {hQ : Q.Nondegenerate}
   have h := ffSimOmegaAct_injective hQ h5
   rwa [← t5_ffSimOmegaAct_h2_irrel (hQ := hQ) (h2a := h2)] at h
 
+omit [Finite G] in
 theorem t5_coverAct_mul_left {φ : ↥L →* omegaGroup hQ} {b : G} {s : OGroup Q}
     (hb : CoverAct L φ b (orthToSim Q s)) {u : G} (hu : u ∈ L) :
     CoverAct L φ (u * b) (orthToSim Q (((φ ⟨u, hu⟩ : omegaGroup hQ) : OGroup Q) * s)) := by
@@ -69,6 +73,7 @@ theorem t5_coverAct_mul_left {φ : ↥L →* omegaGroup hQ} {b : G} {s : OGroup 
   rw [hb2, simAct_orthToSim, simAct_orthToSim]
   group
 
+omit [Finite G] in
 theorem t5_inducesViaP_of_coverAct {φ : ↥L →* omegaGroup hQ}
     {e₀ : ↥L ⧸ Subgroup.center ↥L ≃* omegaProj hQ}
     (he₀ : ∀ l : ↥L, e₀ (QuotientGroup.mk l) = omegaToProj hQ (φ l)) {s : G} {x : simGroup Q}
@@ -78,6 +83,7 @@ theorem t5_inducesViaP_of_coverAct {φ : ↥L →* omegaGroup hQ}
   rw [he₀ l', he₀ l, coe_omegaToProj, coe_omegaToProj, projSimAct_mk, projActAux_toProj]
   exact congrArg (toProj Q) (coverAct_apply hx hl)
 
+omit [Finite G] in
 theorem t5_sq_mem_pi_of_coverAct {φ : ↥L →* omegaGroup hQ} (h : IsCoverMap L φ) {e : G}
     (he2 : e * e = 1) {g : OGroup Q} (he : CoverAct L φ e (orthToSim Q g)) :
     g * g = 1 ∨ g * g = piOrth Q := by

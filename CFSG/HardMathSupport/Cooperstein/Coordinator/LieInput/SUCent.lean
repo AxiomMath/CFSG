@@ -39,10 +39,10 @@ theorem cumE_toStd (n : ℕ) (γ : Fin (n / 2) → ℤ) (j : Fin (n / 2)) :
   by_cases hn : Even n
   · refine cumE_of_diff _ γ (fun a => if Even n ∧ a.val + 1 = n / 2 then 2 else 1) ?_ ?_ j
     · intro a
-      simp only [Unitary.toStd, hn, if_true, Symplectic.toStd, true_and]
+      simp only [Unitary.toStd, hn, ite_true, Symplectic.toStd, true_and]
     · intro a ha
       simp only [hn, true_and]
-      rw [if_neg]
+      rw [ite_eq_right]
       have := a.isLt
       omega
   · have h1 : (if Even n ∧ j.val + 1 = n / 2 then (2 : ℤ) else 1) = 1 := by simp [hn]
@@ -75,15 +75,15 @@ theorem cumE_weight {n : ℕ} (x : Fin n) (j : Fin (n / 2)) : cumE (weight n x) 
   have hx := x.isLt
   unfold weight phi
   by_cases h1 : x.val < n / 2
-  · rw [dif_pos h1, cumE_single]
+  · rw [dite_eq_left h1, cumE_single]
     have h3 : ¬ (n - 1 - x.val ≤ j.val) := by omega
-    simp only [Fin.le_def, if_neg h3]
+    simp only [Fin.le_def, ite_eq_right h3]
     simp
   · by_cases h2 : n - 1 - x.val < n / 2
-    · rw [dif_neg h1, dif_pos h2, cumE_neg, cumE_single]
+    · rw [dite_eq_right h1, dite_eq_left h2, cumE_neg, cumE_single]
       have h3 : ¬ (x.val ≤ j.val) := by omega
       simp [Fin.le_def, h3]
-    · rw [dif_neg h1, dif_neg h2]
+    · rw [dite_eq_right h1, dite_eq_right h2]
       have h3 : ¬ (x.val ≤ j.val) := by omega
       have h4 : ¬ (n - 1 - x.val ≤ j.val) := by omega
       simp [cumE, h3, h4]
@@ -103,9 +103,9 @@ theorem exists_gamma_toStd (e : Fin (n / 2) → ℤ)
   intro j
   rw [cumE_toStd]
   by_cases hc : Even n ∧ j.val + 1 = n / 2
-  · simp only [hc, and_self, if_true]
+  · simp only [hc, and_self, ite_true]
     exact Int.mul_ediv_cancel' (hdiv j hc.1 hc.2)
-  · simp only [hc, if_false]; simp
+  · simp only [hc, ite_false]; simp
 
 theorem pos_coord_iff (γ : Fin (n / 2) → ℤ) (j : Fin (n / 2)) :
     0 < γ j ↔ 0 < cumE (Unitary.toStd n γ) j := by
@@ -274,7 +274,7 @@ theorem shape_of_comm (G : Matrix (Fin n) (Fin n) F) (j : Fin (n / 2)) (aj : Fin
     intro a ha
     obtain ⟨L1, L2, L3⟩ := L a ha
     have h := hunit a (Fin.rev a)
-    rw [if_pos rfl, Finset.sum_eq_single a] at h
+    rw [ite_eq_left rfl, Finset.sum_eq_single a] at h
     · rw [← L3] at h; exact h
     · intro t _ ht; rw [L1 t ht, map_zero, zero_mul]
     · intro h; exact absurd (Finset.mem_univ a) h
@@ -284,7 +284,7 @@ theorem shape_of_comm (G : Matrix (Fin n) (Fin n) F) (j : Fin (n / 2)) (aj : Fin
     have key := congrFun (congrFun (hR a y ha hy hya hyy) a) v
     simp only [mul_rootMatrix_apply, rootMatrix_mul_apply, map_one, mul_one, one_mul] at key
     have hay : a ≠ Fin.rev y := fun e => hya (by rw [e, Fin.rev_rev])
-    simp only [hay, if_true, if_false, sub_zero] at key
+    simp only [hay, ite_true, ite_false, sub_zero] at key
     linear_combination -key
   have gsame : ∀ a, InA j a → G a a = G aj aj := by
     intro a ha
@@ -294,17 +294,17 @@ theorem shape_of_comm (G : Matrix (Fin n) (Fin n) F) (j : Fin (n / 2)) (aj : Fin
       have hyy : Fin.rev aj ≠ Fin.rev (Fin.rev aj) := by
         rw [Fin.rev_rev]; exact (InA_ne_rev hajA).symm
       have h1 := R a (Fin.rev aj) ha hrevaj hya hyy (Fin.rev aj)
-      simp only [if_true] at h1
+      simp only [ite_true] at h1
       have h2 : (Fin.rev aj : Fin n) ≠ Fin.rev a := hya
-      simp only [h2, if_false, sub_zero] at h1
+      simp only [h2, ite_false, sub_zero] at h1
       have h3 := (L aj hajA).2.2
       rw [h3, h1]
   have Lrow : ∀ v, G (Fin.rev aj) v = if v = Fin.rev aj then G aj aj else 0 := by
     intro v
     obtain ⟨L1, L2, L3⟩ := L aj hajA
     by_cases hv : v = Fin.rev aj
-    · rw [if_pos hv, hv, L3]
-    · rw [if_neg hv, L2 v hv]
+    · rw [ite_eq_left hv, hv, L3]
+    · rw [ite_eq_right hv, L2 v hv]
   have Hrow : ∀ k, Fin.rev k = k → ∀ v, G k v =
       (if v = k then G aj aj else 0) - (if v = Fin.rev aj then G aj k else 0) := by
     intro k hk v
@@ -313,20 +313,20 @@ theorem shape_of_comm (G : Matrix (Fin n) (Fin n) F) (j : Fin (n / 2)) (aj : Fin
     simp only [mul_heisenbergMatrix_apply, heisenbergMatrix_mul_apply, map_one, mul_one,
       one_mul] at key
     have hka : aj ≠ k := fun e => InA_ne_rev hajA (by rw [e, hk])
-    simp only [hka, if_true, if_false, sub_zero, add_zero, Lrow v] at key
+    simp only [hka, ite_true, ite_false, sub_zero, Lrow v] at key
     by_cases hv : v = Fin.rev aj
-    · simp only [hv, if_true] at key ⊢
+    · simp only [hv, ite_true] at key ⊢
       have hvk : (Fin.rev aj : Fin n) ≠ k := fun e => hka (by rw [← Fin.rev_rev aj, e, hk])
-      simp only [hvk, if_false] at key ⊢
+      simp only [hvk, ite_false] at key ⊢
       linear_combination -key
-    · simp only [hv, if_false] at key ⊢
+    · simp only [hv, ite_false] at key ⊢
       linear_combination -key
   refine ⟨G aj aj, hN aj hajA, fun x y hxy => ?_⟩
   by_cases hy : InA j y
   · obtain ⟨L1, L2, L3⟩ := L y hy
     by_cases hxy' : x = y
-    · subst hxy'; rw [if_pos rfl, gsame x hy]
-    · rw [if_neg hxy', L1 x hxy']
+    · subst hxy'; rw [ite_eq_left rfl, gsame x hy]
+    · rw [ite_eq_right hxy', L1 x hxy']
   · have hx : ¬ InA j x := fun hx => hxy (Or.inl ⟨hx, hy⟩)
     by_cases hx' : InA' j x
     · have hxa : InA j (Fin.rev x) := hx'
@@ -334,21 +334,21 @@ theorem shape_of_comm (G : Matrix (Fin n) (Fin n) F) (j : Fin (n / 2)) (aj : Fin
       have e : Fin.rev (Fin.rev x) = x := Fin.rev_rev x
       rw [e] at L2 L3
       by_cases hxy' : y = x
-      · rw [if_pos hxy'.symm, hxy']
+      · rw [ite_eq_left hxy'.symm, hxy']
         rw [← gsame _ hxa]
         exact L3.symm
-      · rw [if_neg (Ne.symm hxy'), L2 y hxy']
+      · rw [ite_eq_right (Ne.symm hxy'), L2 y hxy']
     · have hy' : ¬ InA' j y := fun hy' => hxy (Or.inr ⟨hx, hx', hy'⟩)
       have hyne : y ≠ Fin.rev aj := fun e => hy' (by
         simp only [InA', e, Fin.rev_rev]; exact hajA)
       by_cases hmid : x = Fin.rev x
       · have := Hrow x hmid.symm y
-        rw [this, if_neg hyne, sub_zero]
+        rw [this, ite_eq_right hyne, sub_zero]
         simp only [eq_comm]
       · have hxne : x ≠ Fin.rev aj := fun e => hx' (by
           simp only [InA', e, Fin.rev_rev]; exact hajA)
         have := R aj x hajA hx hxne hmid y
-        rw [this, if_neg hyne, sub_zero]
+        rw [this, ite_eq_right hyne, sub_zero]
         simp only [eq_comm]
 
 end ShapeSU
@@ -410,7 +410,7 @@ theorem sh_rowA' {j : Fin (n / 2)} {gs : F} {G : Matrix (Fin n) (Fin n) F} (hS :
 
 theorem sh_diagA {j : Fin (n / 2)} {gs : F} {G : Matrix (Fin n) (Fin n) F} (hS : ShS j gs G)
     {x : Fin n} (hx : InA j x) : G x x = gs := by
-  rw [sh_colA hS hx, if_pos rfl]
+  rw [sh_colA hS hx, ite_eq_left rfl]
 
 theorem stepX_root (G : Matrix (Fin n) (Fin n) F) {j : Fin (n / 2)} {gs : F} (hgs : gs ≠ 0)
     (hS : ShS j gs G) {x y : Fin n} (hx : InA j x) (hy : ¬ InA j y) (hy' : ¬ InA' j y)
@@ -429,8 +429,8 @@ theorem stepX_root (G : Matrix (Fin n) (Fin n) F) {j : Fin (n / 2)} {gs : F} (hg
       by_cases hvy : v = y
       · subst hvy
         have hu : ¬ InA j u := fun hu => huv (Or.inl ⟨hu, hy⟩)
-        rw [if_pos rfl, hcol u, if_neg (fun e => hu (by rw [e]; exact hx)), zero_mul]
-      · rw [if_neg hvy]
+        rw [ite_eq_left rfl, hcol u, ite_eq_right (fun e => hu (by rw [e]; exact hx)), zero_mul]
+      · rw [ite_eq_right hvy]
     have t2 : (if v = Fin.rev x then G u (Fin.rev y) * σ c else 0) = 0 := by
       by_cases hvx : v = Fin.rev x
       · subst hvx
@@ -438,14 +438,14 @@ theorem stepX_root (G : Matrix (Fin n) (Fin n) F) {j : Fin (n / 2)} {gs : F} (hg
         have hu2 : InA' j u := by
           by_contra hu'
           exact huv (Or.inr ⟨hu1, hu', hxA'⟩)
-        rw [if_pos rfl, sh_rowA' hS hu2 (Fin.rev y), if_neg, zero_mul]
+        rw [ite_eq_left rfl, sh_rowA' hS hu2 (Fin.rev y), ite_eq_right, zero_mul]
         intro e
         apply hy
         have : y = Fin.rev u := by rw [e, Fin.rev_rev]
         rw [this]; exact hu2
-      · rw [if_neg hvx]
+      · rw [ite_eq_right hvx]
     rw [t1, t2]; simp
-  · rw [mul_rootMatrix_apply, if_pos rfl, if_neg hyrx, sh_diagA hS hx, hc]
+  · rw [mul_rootMatrix_apply, ite_eq_left rfl, ite_eq_right hyrx, sh_diagA hS hx, hc]
     field_simp
     ring
   · intro x' y' hx' hy1 hy2 hne
@@ -454,12 +454,12 @@ theorem stepX_root (G : Matrix (Fin n) (Fin n) F) {j : Fin (n / 2)} {gs : F} (hg
       by_cases hvy : y' = y
       · subst hvy
         have : x' ≠ x := fun e => hne (by rw [e])
-        rw [if_pos rfl, hcol x', if_neg this, zero_mul]
-      · rw [if_neg hvy]
+        rw [ite_eq_left rfl, hcol x', ite_eq_right this, zero_mul]
+      · rw [ite_eq_right hvy]
     have t2 : (if y' = Fin.rev x then G x' (Fin.rev y) * σ c else 0) = 0 := by
       by_cases hvx : y' = Fin.rev x
       · exact absurd (by rw [hvx]; exact hxA') hy2
-      · rw [if_neg hvx]
+      · rw [ite_eq_right hvx]
     rw [t1, t2]; simp
 
 theorem stepX_heis (G : Matrix (Fin n) (Fin n) F) {j : Fin (n / 2)} {gs : F} (hgs : gs ≠ 0)
@@ -478,8 +478,8 @@ theorem stepX_heis (G : Matrix (Fin n) (Fin n) F) {j : Fin (n / 2)} {gs : F} (hg
       by_cases hvy : v = k
       · subst hvy
         have hu : ¬ InA j u := fun hu => huv (Or.inl ⟨hu, hk⟩)
-        rw [if_pos rfl, hcol u, if_neg (fun e => hu (by rw [e]; exact hx)), zero_mul]
-      · rw [if_neg hvy]
+        rw [ite_eq_left rfl, hcol u, ite_eq_right (fun e => hu (by rw [e]; exact hx)), zero_mul]
+      · rw [ite_eq_right hvy]
     by_cases hvx : v = Fin.rev x
     · subst hvx
       have hu1 : ¬ InA j u := fun hu => huv (Or.inl ⟨hu, InA'_not_InA hxA'⟩)
@@ -487,19 +487,19 @@ theorem stepX_heis (G : Matrix (Fin n) (Fin n) F) {j : Fin (n / 2)} {gs : F} (hg
         by_contra hu'
         exact huv (Or.inr ⟨hu1, hu', hxA'⟩)
       have e1 : G u k = 0 := by
-        rw [sh_rowA' hS hu2 k, if_neg]
+        rw [sh_rowA' hS hu2 k, ite_eq_right]
         intro e
         apply hk'
         rw [← e]; exact hu2
       have e2 : G u x = 0 := by
-        rw [hcol u, if_neg]
+        rw [hcol u, ite_eq_right]
         intro e
         exact hu1 (by rw [e]; exact hx)
       rw [e2, e1]; simp
     · rw [t1]; simp [hvx]
   · have hkx : k ≠ Fin.rev x := hkrx
-    rw [mul_heisenbergMatrix_apply, if_pos rfl, if_neg hkx, sh_diagA hS hx, hc]
-    simp only [if_neg hkx]
+    rw [mul_heisenbergMatrix_apply, ite_eq_left rfl, ite_eq_right hkx, sh_diagA hS hx, hc]
+    simp only [ite_eq_right hkx]
     field_simp
     ring
   · intro x' y' hx' hy1 hy2 hne
@@ -508,28 +508,28 @@ theorem stepX_heis (G : Matrix (Fin n) (Fin n) F) {j : Fin (n / 2)} {gs : F} (hg
       by_cases hvy : y' = k
       · subst hvy
         have : x' ≠ x := fun e => hne (by rw [e])
-        rw [if_pos rfl, hcol x', if_neg this, zero_mul]
-      · rw [if_neg hvy]
+        rw [ite_eq_left rfl, hcol x', ite_eq_right this, zero_mul]
+      · rw [ite_eq_right hvy]
     have hvx : ¬ y' = Fin.rev x := fun e => hy2 (by rw [e]; exact hxA')
-    simp only [hvx, if_false, t1]; ring
+    simp only [hvx, ite_false, t1]; ring
 
 theorem phi_A {j : Fin (n / 2)} {a : Fin n} (h : InA j a) : phi j a = 1 := by
   have := InA_not_InA' h
   simp only [InA, InA', Fin.val_rev, not_le] at h this
   have h1 : ¬ (n - 1 - a.val ≤ j.val) := by omega
   simp only [phi]
-  rw [if_pos h, if_neg h1]; norm_num
+  rw [ite_eq_left h, ite_eq_right h1]; norm_num
 
 theorem phi_A' {j : Fin (n / 2)} {a : Fin n} (h : InA' j a) : phi j a = -1 := by
   have := InA'_not_InA h
   simp only [InA, InA', Fin.val_rev, not_le] at h this
   have h1 : n - 1 - a.val ≤ j.val := by omega
   simp only [phi]
-  rw [if_neg (by omega), if_pos h1]; norm_num
+  rw [ite_eq_right (by omega), ite_eq_left h1]; norm_num
 
 theorem sh_diagA' {j : Fin (n / 2)} {gs : F} {G : Matrix (Fin n) (Fin n) F} (hS : ShS j gs G)
     {x : Fin n} (hx : InA' j x) : G x x = gs := by
-  rw [sh_rowA' hS hx, if_pos rfl]
+  rw [sh_rowA' hS hx, ite_eq_left rfl]
 
 @[expose] def ShS0 (j : Fin (n / 2)) (gs : F) (G : Matrix (Fin n) (Fin n) F) : Prop :=
   ∀ x y, ¬ (InA j x ∧ InA' j y) → G x y = if x = y then gs else 0
@@ -548,7 +548,7 @@ theorem relY {G : Matrix (Fin n) (Fin n) F} {j : Fin (n / 2)} {gs : F} (h : ShS0
     rw [Fin.rev_rev]
     intro e
     exact InA'_not_InA (InA_rev_InA' hd) (by rw [e]; exact hc)
-  rw [if_neg hcd] at key
+  rw [ite_eq_right hcd] at key
   have hne : d ≠ Fin.rev c := fun e => InA'_not_InA (InA_rev_InA' hc) (by rw [← e]; exact hd)
   rw [Finset.sum_eq_add d (Fin.rev c) hne] at key
   · have h1 : G (Fin.rev d) (Fin.rev d) = gs := sh_diagA' h.toShS (InA_rev_InA' hd)
@@ -559,9 +559,9 @@ theorem relY {G : Matrix (Fin n) (Fin n) F} {j : Fin (n / 2)} {gs : F} (h : ShS0
     by_cases hta : InA j t
     · have hrow := sh_rowA' h.toShS (InA_rev_InA' hta) (Fin.rev d)
       have : (Fin.rev t : Fin n) ≠ Fin.rev d := fun e => ht.1 (Fin.rev_injective e)
-      rw [hrow, if_neg this, mul_zero]
+      rw [hrow, ite_eq_right this, mul_zero]
     · have hcol := h t (Fin.rev c) (fun ⟨h1, _⟩ => hta h1)
-      rw [hcol, if_neg ht.2, map_zero, zero_mul]
+      rw [hcol, ite_eq_right ht.2, map_zero, zero_mul]
   · intro h'; exact absurd (Finset.mem_univ _) h'
   · intro h'; exact absurd (Finset.mem_univ _) h'
 
@@ -577,10 +577,10 @@ theorem stepY_long (G : Matrix (Fin n) (Fin n) F) {j : Fin (n / 2)} {gs : F}
       by_cases hy : y = Fin.rev a
       · subst hy
         have hx : x ≠ a := fun e => hxy ⟨by rw [e]; exact ha, InA_rev_InA' ha⟩
-        rw [if_pos rfl, hcol x, if_neg hx, zero_mul]
-      · rw [if_neg hy]
+        rw [ite_eq_left rfl, hcol x, ite_eq_right hx, zero_mul]
+      · rw [ite_eq_right hy]
     rw [this, add_zero]
-  · rw [mul_longRootMatrix_apply, if_pos rfl, hcol a, if_pos rfl]
+  · rw [mul_longRootMatrix_apply, ite_eq_left rfl, hcol a, ite_eq_left rfl]
     linear_combination hc
   · intro x y hxy
     rw [mul_longRootMatrix_apply]
@@ -588,8 +588,8 @@ theorem stepY_long (G : Matrix (Fin n) (Fin n) F) {j : Fin (n / 2)} {gs : F}
       by_cases hy : y = Fin.rev a
       · subst hy
         have hx : x ≠ a := fun e => hxy (by rw [e])
-        rw [if_pos rfl, hcol x, if_neg hx, zero_mul]
-      · rw [if_neg hy]
+        rw [ite_eq_left rfl, hcol x, ite_eq_right hx, zero_mul]
+      · rw [ite_eq_right hy]
     rw [this, add_zero]
 
 theorem stepY_root (G : Matrix (Fin n) (Fin n) F) {j : Fin (n / 2)} {gs : F}
@@ -625,7 +625,7 @@ theorem stepY_root (G : Matrix (Fin n) (Fin n) F) {j : Fin (n / 2)} {gs : F}
         · simp [h1, h3]
       · simp [h1]
     rw [e1, e2]; simp
-  · rw [hextra, if_pos rfl, if_pos rfl, if_neg hba]
+  · rw [hextra, ite_eq_left rfl, ite_eq_left rfl, ite_eq_right hba]
     linear_combination hc
   · intro x y h1 h2
     rw [hextra]
@@ -686,9 +686,9 @@ theorem stageY {gs : F} (hgs : gs ≠ 0) (hN : unitaryInvolution F p f gs * gs =
       by_cases hxy : InA j x ∧ InA' j y
       · rw [hz x y hxy.1 hxy.2]
         have : x ≠ y := fun e => InA_not_InA' hxy.1 (by rw [e]; exact hxy.2)
-        simp [Matrix.one_apply, this]
+        simp [this]
       · rw [hg x y hxy]
-        by_cases e : x = y <;> simp [Matrix.one_apply, e]
+        by_cases e : x = y <;> simp [e]
     refine Subgroup.mem_sup_right ?_
     rw [Subgroup.mem_center_iff]
     intro h
@@ -765,6 +765,7 @@ open Classical in
   (Finset.univ.filter fun q : Fin n × Fin n =>
     (InA j q.1 ∧ ¬ InA j q.2 ∧ ¬ InA' j q.2) ∧ G q.1 q.2 ≠ 0).card
 
+omit [Finite F] in
 theorem sh0_of_xZero {σ₀ : F ≃+* F} {G : Matrix (Fin n) (Fin n) F} {j : Fin (n / 2)} {gs : F}
     (hgs : gs ≠ 0) (hS : ShS j gs G)
     (hunit : ∀ a b, ∑ t, σ₀ (G t a) * G (Fin.rev t) b = if b = Fin.rev a then 1 else 0)
@@ -778,29 +779,29 @@ theorem sh0_of_xZero {σ₀ : F ≃+* F} {G : Matrix (Fin n) (Fin n) F} {j : Fin
       · by_cases hx : InA j x
         · exact absurd ⟨hx, hy'⟩ hxy
         · have hxy' : x ≠ y := fun e => hx' (by rw [e]; exact hy')
-          rw [if_neg hxy']
+          rw [ite_eq_right hxy']
           have hcolrx : ∀ s, G s (Fin.rev x) = if s = Fin.rev x then gs else 0 := by
             intro s
             have h1 : ¬ InA j (Fin.rev x) := hx'
             have h2 : ¬ InA' j (Fin.rev x) := by simpa [InA', Fin.rev_rev] using hx
             by_cases hs : InA j s
-            · rw [hX s _ hs h1 h2, if_neg]
+            · rw [hX s _ hs h1 h2, ite_eq_right]
               intro e; exact h1 (by rw [← e]; exact hs)
             · exact hS s _ (by
                 rintro (⟨h, _⟩ | ⟨_, _, h⟩)
                 · exact hs h
                 · exact h2 h)
           have key := hunit y (Fin.rev x)
-          rw [if_neg (fun e => hxy' (Fin.rev_injective e))] at key
+          rw [ite_eq_right (fun e => hxy' (Fin.rev_injective e))] at key
           rw [Finset.sum_eq_single x] at key
-          · rw [hcolrx (Fin.rev x), if_pos rfl] at key
+          · rw [hcolrx (Fin.rev x), ite_eq_left rfl] at key
             have h0 : σ₀ (G x y) = 0 := (mul_eq_zero.mp key).resolve_right hgs
             rw [(map_eq_zero_iff σ₀ σ₀.injective).mp h0]
           · intro t _ ht
-            rw [hcolrx (Fin.rev t), if_neg (fun e => ht (Fin.rev_injective e)), mul_zero]
+            rw [hcolrx (Fin.rev t), ite_eq_right (fun e => ht (Fin.rev_injective e)), mul_zero]
           · intro h'; exact absurd (Finset.mem_univ _) h'
     · by_cases hx : InA j x
-      · rw [hX x y hx hy hy', if_neg]
+      · rw [hX x y hx hy hy', ite_eq_right]
         intro e; exact hy (by rw [← e]; exact hx)
       · exact hS x y (by
           rintro (⟨h, _⟩ | ⟨_, _, h⟩)
@@ -868,7 +869,7 @@ theorem stageX {gs : F} (hgs : gs ≠ 0) (hN : unitaryInvolution F p f gs * gs =
           have h2 : ¬ (n - 1 - y.val ≤ j.val) := by
             simp only [InA', Fin.val_rev] at hy'; omega
           simp only [phi]
-          rw [if_neg h1, if_neg h2]; norm_num
+          rw [ite_eq_right h1, ite_eq_right h2]; norm_num
         rw [phi_A hx, this]; norm_num
       refine ⟨u, Subgroup.mem_sup_left (rootHom_mem_radical hF hxy hxi hk hyrx hpos2 _), ?_, ?_⟩
       · rw [hmu]; exact hS'
@@ -891,13 +892,13 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ} (hF : Nat.card F 
 theorem phi_nonpos {j : Fin (n / 2)} {y : Fin n} (hy : ¬ InA j y) : phi j y ≤ 0 := by
   have h1 : ¬ (y.val ≤ j.val) := hy
   simp only [phi]
-  rw [if_neg h1]
+  rw [ite_eq_right h1]
   split_ifs <;> norm_num
 
 theorem centOb_su {I : Set (Fin (rootDatum hF n).rank)} (hI : I ≠ Set.univ) :
     CentOb (rootDatum hF n) I := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ := unitaryInvolution_involutive (K := F) (p := 2) (f := f) hF
   set σ₀ := unitaryInvolution F 2 f with hσ₀
   obtain ⟨j, hj⟩ : ∃ j : Fin (rootDatum hF n).rank, j ∉ I := by

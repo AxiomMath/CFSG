@@ -22,7 +22,7 @@ theorem orderOf_permOfArr_of_orderFourOK {n : ℕ} {t : Array ℕ} (h : orderFou
     have := (eqA_iff (rep_powArr hrep 2) rep_idA).2 e
     rw [h2] at this
     exact Bool.false_ne_true this
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := orderOf_eq_prime_pow (p := 2) (n := 1) (x := permOfArr n t) (by simpa using e2)
     (by simpa using e4)
   simpa using this

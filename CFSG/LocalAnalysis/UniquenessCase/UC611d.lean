@@ -75,6 +75,7 @@ theorem uc611_ne_bot_of_one_le_pRank {Q : Subgroup G} (h : 1 ≤ CFSG.Open.pRank
   have h2 : 3 ^ 1 ≤ 3 ^ CFSG.Open.pRank 3 Q := Nat.pow_le_pow_right (by norm_num) h
   omega
 
+omit [Finite G] in
 theorem uc611_normalizer_zpowers_pow (y : G) (m : ℕ) :
     normalizer ((zpowers y : Subgroup G) : Set G) ≤ normalizer ((zpowers (y ^ m) : Subgroup G) : Set G) := by
   have key : ∀ n : G, n ∈ normalizer ((zpowers y : Subgroup G) : Set G) →
@@ -109,6 +110,7 @@ theorem uc611_zpowers_eq_of_mem {w a : G} (hw3 : w ^ 3 = 1) (hw1 : w ≠ 1) (ha 
   refine Subgroup.eq_of_le_of_card_ge ((Subgroup.zpowers_le).2 ha) ?_
   rw [Nat.card_zpowers, Nat.card_zpowers, orderOf_eq_prime ha3 ha1, orderOf_eq_prime hw3 hw1]
 
+omit [Finite G] in
 theorem uc611_centralizer_zpowers_eq (z : G) :
     centralizer ((zpowers z : Subgroup G) : Set G) = centralizer ({z} : Set G) := by
   ext x
@@ -120,6 +122,7 @@ theorem uc611_centralizer_zpowers_eq (z : G) :
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
     exact (Commute.zpow_left (show Commute z x from h) k).eq
 
+omit [Finite G] in
 theorem uc611_mem_normalizer_inf_centralizer {P Q X : Subgroup G} (hPQ : P ≤ normalizer (Q : Set G))
     (hXP : X ≤ P) {z : G} (hzP : z ∈ P) (hzcent : ∀ x ∈ P, z * x = x * z) :
     z ∈ normalizer ((Q ⊓ centralizer (X : Set G) : Subgroup G) : Set G) := by
@@ -152,7 +155,7 @@ theorem uc611_mem_normalizer_inf_centralizer {P Q X : Subgroup G} (hPQ : P ≤ n
 
 theorem uc611_exists_center_gen {P : Subgroup G} (e : ↥P ≃* W₃) :
     ∃ z : G, z ∈ (Subgroup.center ↥P).map P.subtype ∧ z ≠ 1 ∧ z ^ 3 = 1 ∧ ∀ x ∈ P, z * x = x * z := by
-  haveI : Nontrivial ↥(Subgroup.center ↥P) :=
+  have : Nontrivial ↥(Subgroup.center ↥P) :=
     Finite.one_lt_card_iff_nontrivial.1 (by rw [uc611_card_center e]; norm_num)
   obtain ⟨c, hc1⟩ := exists_ne (1 : ↥(Subgroup.center ↥P))
   refine ⟨((c : ↥P) : G), ⟨(c : ↥P), c.2, rfl⟩, fun h => hc1 (Subtype.ext (Subtype.ext h)), ?_, fun x hx =>
@@ -164,7 +167,7 @@ theorem uc611_exists_center_gen {P : Subgroup G} (e : ↥P ≃* W₃) :
 theorem uc611_exists_noncyclic_centralizing {P : Subgroup G} (e : ↥P ≃* W₃) {y : G} (hgAP : y ∈ P)
     (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1) (hgA : y ∉ thompsonSubgroup P) :
     ∃ E : Subgroup G, E ≤ P ∧ E ≤ centralizer ((zpowers y : Subgroup G) : Set G) ∧ ¬ IsCyclic ↥E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, hzZ, hz1, hz3, hzcent⟩ := uc611_exists_center_gen e
   have hzP : z ∈ P := by
     obtain ⟨c, -, hc'⟩ := hzZ
@@ -202,7 +205,7 @@ theorem uc611_not_centralizer_le (D : Data G) (h61 : R6_1 D) (h3 : 3 ∈ D.sig) 
     ¬ centralizer (X : Set G) ≤ D.M := by
   intro hCX
   apply hns
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP3 : IsPGroup 3 ↥P := hP.isPGroup
   have hPM : P ≤ D.M := hP.le
   obtain ⟨x, hxX, hXx, hx3, hxJ⟩ := uc611_exists_gen_of_card_three hXP hX3 hXA
@@ -289,7 +292,7 @@ theorem uc611_stronglyClosed (D : Data G) (h61 : R6_1 D) (h3 : 3 ∈ D.sig) {P :
     (hC : ∀ X : Subgroup G, X ≤ P → Nat.card X = 3 → ¬ X ≤ thompsonSubgroup P →
       ¬ centralizer (X : Set G) ≤ D.M) :
     CFSG.IsStronglyClosedIn P ((thompsonSubgroup P : Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAP : thompsonSubgroup P ≤ P := CFSG.Open.thompsonSubgroup_le_self P
   have hP3 : IsPGroup 3 ↥P := hP.isPGroup
   refine ⟨hAP, fun a ha g hgP => ?_⟩
@@ -353,7 +356,7 @@ theorem uc611_inU_thompson (D : Data G) (hstd : Sigma23Std D) (h3 : 3 ∈ D.sig)
     (hΓA : rankThreeGamma 1 3 (thompsonSubgroup P) ≤ D.M)
     (hsc : CFSG.IsStronglyClosedIn P ((thompsonSubgroup P : Subgroup G) : Set G))
     {Y : Subgroup G} (hYA : Y ≤ thompsonSubgroup P) (hY : Y ≠ ⊥) : InU D.M Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hM : normalizer (D.M : Set G) = D.M := normalizer_eq_of_isMaxTwoLocal D.maxLocal
   have hPG : IsSylowOf 3 P ⊤ := uc22p22q_isSylowOf_top D hstd h3 hP
   have hAP : thompsonSubgroup P ≤ P := CFSG.Open.thompsonSubgroup_le_self P
@@ -396,8 +399,8 @@ theorem uc611_inU_thompson (D : Data G) (hstd : Sigma23Std D) (h3 : 3 ∈ D.sig)
 theorem uc611_inU_of_stronglyEmbedded (D : Data G) (hstd : Sigma23Std D) (h3 : 3 ∈ D.sig) {P : Subgroup G}
     (hP : IsSylowOf 3 P D.M) (hΓ : rankThreeGamma 1 3 P ≤ D.M) {Y : Subgroup G} (hYM : Y ≤ D.M)
     (hY3 : IsPGroup 3 Y) (hY : Y ≠ ⊥) : InU D.M Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := D.standing.simple
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := D.standing.simple
   have hMtop : D.M ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab D.maxLocal.1
   have hPtop : IsSylowOf 3 P ⊤ := uc22p22q_isSylowOf_top D hstd h3 hP

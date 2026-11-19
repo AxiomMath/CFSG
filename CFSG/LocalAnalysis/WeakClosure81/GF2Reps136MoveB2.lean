@@ -18,6 +18,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_move_stable_commSub_self (L : Subgroup (MulAut W)) :
     StableUnder L (commSub ⊤ L) := by
   intro l hl c hc
@@ -32,6 +33,7 @@ private theorem w1369_move_stable_commSub_self (L : Subgroup (MulAut W)) :
   | mul x y _ _ hx hy => rw [map_mul]; exact mul_mem hx hy
   | inv x _ hx => rw [map_inv]; exact inv_mem hx
 
+omit [Finite W] in
 private theorem w1369_move_stable_fixV_self (L : Subgroup (MulAut W)) :
     StableUnder L (fixV L) := by
   intro l hl z hz
@@ -39,12 +41,14 @@ private theorem w1369_move_stable_fixV_self (L : Subgroup (MulAut W)) :
   intro l' hl'
   rw [hz l hl, hz l' hl']
 
+omit [Finite W] in
 private theorem w1369_move_stabPair_self (L : Subgroup (MulAut W)) :
     StabPair L (Wd L) (Cd L) :=
   fun l hl => ⟨w1369_move_stable_commSub_self L l hl,
     fun z hz => ⟨w1369_move_stable_commSub_self L l hl z hz.1,
       w1369_move_stable_fixV_self L l hl z hz.2⟩⟩
 
+omit [Finite W] in
 private theorem w1369_move_stabPair_comm {X L : Subgroup (MulAut W)}
     (hXL : ⁅X, L⁆ = ⊥) : StabPair X (Wd L) (Cd L) := by
   have hcomm : ∀ x ∈ X, ∀ l ∈ L, x * l = l * x := by
@@ -92,7 +96,7 @@ private theorem w1369_move_center_mulAut_eq_bot {U Z : Subgroup W}
 
 theorem move_cent_triv (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t : MulAut W}
     {L : Subgroup (MulAut W)} {I : Subgroup W} (S : Move136 Y t L I)
-    {X : Subgroup (MulAut W)} (hXY : X ≤ Y) (hXp : ⁅X, X⁆ = X) (hXL : ⁅X, L⁆ = ⊥) :
+    {X : Subgroup (MulAut W)} (_hXY : X ≤ Y) (hXp : ⁅X, X⁆ = X) (hXL : ⁅X, L⁆ = ⊥) :
     ∀ x ∈ X, ∀ u ∈ Wd L, x u * u⁻¹ ∈ Cd L := by
   obtain ⟨hC1, hC2⟩ := move_C hw2 S
   obtain ⟨hIcomm, hIirr⟩ := S.hI
@@ -166,7 +170,7 @@ theorem move_cent_triv (hw2 : ∀ w : W, w ^ 2 = 1) {Y : Subgroup (MulAut W)} {t
         · exact le_sup_right
       · exact sup_le (le_iSup J 0) (le_iSup J 1)
     rw [hsupJ]
-    simp only [J, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+    simp only [J, Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [move_W hw2 S]
     exact le_antisymm (sup_le (hCdI.trans le_sup_left) le_rfl) le_sup_right
   have hend : ∀ i : Fin 2,

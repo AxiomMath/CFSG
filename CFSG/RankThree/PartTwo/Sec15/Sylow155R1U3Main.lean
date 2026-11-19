@@ -27,8 +27,9 @@ open CFSG.Assembly.RankThreeEven (projSL)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem res1U3_centralizer_le_res1C (A L : Subgroup G) :
-    Subgroup.centralizer (A : Set G) ≤ Res1C A L := fun x hx =>
+    Subgroup.centralizer (A : Set G) ≤ Res1C A L := fun _x hx =>
   Subgroup.mem_centralizer_iff.mpr fun b hb =>
     Subgroup.mem_centralizer_iff.mp hx b (Subgroup.mem_inf.mp hb).1
 
@@ -69,6 +70,7 @@ private theorem res1U3_orderOf_point {A : Subgroup G} {c : G} {L : Subgroup G}
   rw [hc1, orderOf_one] at hc3
   omega
 
+omit [Finite G] in
 private theorem res1U3_comm_point {A L : Subgroup G} {c : G} (hcA : c ∈ A)
     {c' x : ↥(Res1C A L)} (hc' : (c' : G) = c)
     (hx : (x : G) ∈ Subgroup.centralizer (A : Set G)) :
@@ -83,6 +85,7 @@ private theorem res1U3_comm_point {A L : Subgroup G} {c : G} (hcA : c ∈ A)
   rw [hc']
   exact (Subgroup.mem_centralizer_iff.mp hx c hcA).symm
 
+omit [Finite G] in
 private theorem res1U3_conj_mem_pPrimeCoreOf {H : Subgroup G} {h x : G} (hh : h ∈ H)
     (hx : x ∈ pPrimeCoreOf 2 H) : h * x * h⁻¹ ∈ pPrimeCoreOf 2 H := by
   obtain ⟨x₀, hx₀, rfl⟩ := hx
@@ -127,7 +130,7 @@ theorem res1ZExclLeN_su3_of_centLeM_gen
   obtain ⟨hhyp, -, -, hYc, -⟩ := hY'
   have hYc' := hYc
   obtain ⟨hYcomp, hcY, -⟩ := hYc'
-  haveI hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
+  have hYn : Yc.Normal := res1_isComponent_normal hS hhyp hYcomp
   set C := Res1C A L with hCdef
   set π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥C) with hπdef
   let ρ : ↥C →* MulAut ↥Yc := (MulAut.conjNormal : Res1Q A L →* MulAut ↥Yc).comp π
@@ -170,7 +173,7 @@ theorem res1ZExclLeN_su3_of_centLeM_gen
   have ho1 : orderOf j₀ ≠ 1 := fun h => hj₀1' (orderOf_eq_one_iff.mp h)
   set p := (orderOf j₀).minFac with hpdef
   have hp : p.Prime := Nat.minFac_prime ho1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpo : p ∣ orderOf j₀ := Nat.minFac_dvd _
   have ho0 : orderOf j₀ ≠ 0 := (orderOf_pos j₀).ne'
   set j₁ := j₀ ^ (orderOf j₀ / p) with hj₁def

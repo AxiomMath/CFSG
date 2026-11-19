@@ -10,8 +10,8 @@ namespace CFSG.Quasithin
 theorem exists_sq_ne_one_of_isPSL_three_two {H : Type} [Group H] {f : ℕ}
     (hH : CFSG.Quasithin.IsPSL 3 2 f H) : ∃ g : H, g ^ 2 ^ 2 = 1 ∧ g ^ 2 ≠ 1 := by
   obtain ⟨-, K, _, _, hKcard, ⟨e⟩⟩ := hH
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   let M : Matrix (Fin 3) (Fin 3) K :=
     1 + Matrix.single (0 : Fin 3) (1 : Fin 3) (1 : K) +
       Matrix.single (1 : Fin 3) (2 : Fin 3) (1 : K)

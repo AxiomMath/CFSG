@@ -108,14 +108,12 @@ theorem levi_sound {n w m GP PP L : Nat} {G P : ℕ → Array ℕ} {ws : List �
   have hk2lt := lt_pcomp hn32 hklt hklt
   have hk4 := agL_compA hn32 hk2 hk2 hk2lt
   rw [strictN_eq] at h3
-  beta_reduce at h3
   rw [strictN_eq] at h3
-  beta_reduce at h3
   rw [nIf_eq, maskN_mask] at h3
   have h4 : pcomp n w (mask w) (pcomp n w (mask w) (wordPermK n w PP ws) (wordPermK n w PP ws))
       (pcomp n w (mask w) (wordPermK n w PP ws) (wordPermK n w PP ws)) = pidn n w := by
     by_contra hne
-    rw [if_neg (fun h' => hne (Nat.eq_of_beq_eq_true h'))] at h3
+    rw [ite_eq_right (fun h' => hne (Nat.eq_of_beq_eq_true h'))] at h3
     exact absurd h3 (by decide)
   simp only [leviCheckG]
   rw [hrows, beq_self_eq_true, Bool.true_and, eqA, CFSG.Monster.B.Co2.allLt_iff]

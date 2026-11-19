@@ -47,7 +47,7 @@ theorem transMem_altAct {f : alternatingGroup (Fin m) →* G} {μ₀ : Subgroup 
     transMem f μ₀ M₀ (altAct σ μ₀) = conjSub (f σ) M₀ := by
   have h : ∃ σ' : alternatingGroup (Fin m), altAct σ' μ₀ = altAct σ μ₀ := ⟨σ, rfl⟩
   unfold transMem
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   have h1 : altAct (σ⁻¹ * h.choose) μ₀ = μ₀ := by
     rw [altAct_mul, h.choose_spec, altAct_inv_altAct]
   have h2 := hstab _ h1
@@ -83,13 +83,13 @@ theorem CSetting.exists_moved_member (hS : CSetting 3 IH Ω K J) (hn : 5 ≤ n)
   have hodd : ∑ y ∈ insert x t3, (zOf (emb α hα)).vec y = 1 := by
     have h0 : (zOf (emb α hα)).vec x = 0 := by
       rw [zOf_vec_apply]
-      exact if_neg (by
+      exact ite_eq_right (by
         rw [range_emb]
         exact fun h => hxα (Finset.mem_coe.mp h))
     have h1 : ∀ y ∈ t3, (zOf (emb α hα)).vec y = 1 := by
       intro y hy
       rw [zOf_vec_apply]
-      exact if_pos (by rw [range_emb]; exact Finset.mem_coe.mpr (ht3 hy))
+      exact ite_eq_left (by rw [range_emb]; exact Finset.mem_coe.mpr (ht3 hy))
     rw [Finset.sum_insert hxt3, h0, Finset.sum_congr rfl h1, Finset.sum_const, hct3, zero_add]
     decide
   have hmove : conjSub u₀ M₁ ≠ M₁ := by

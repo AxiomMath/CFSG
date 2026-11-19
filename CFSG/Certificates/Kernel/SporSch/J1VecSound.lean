@@ -50,7 +50,7 @@ private theorem rowK_sound {v : Nat} {x : List Nat} {j : Nat} (h : rowK v x j = 
     intro t ht
     cases t with
     | zero =>
-      simp only [List.getD_cons_succ, List.getD_cons_zero]
+      simp only [List.getD_cons_zero]
       exact ⟨ha', by simpa using hae'⟩
     | succ t =>
       have htx : t < x.length := by simpa using ht
@@ -208,7 +208,7 @@ private theorem hasBit_lor_self (M k : Nat) :
   rw [hasBit_eq]
   change (M ||| 1 <<< k).testBit k = true
   rw [Nat.testBit_or, Nat.one_shiftLeft]
-  simp [Nat.testBit_two_pow]
+  simp
 
 private theorem sortFrom_mask {VT : Nat → Nat} {N : Nat} {O : List Nat} {c M prev : Nat}
     (h : sortFrom VT N O c M prev = true) :
@@ -433,7 +433,7 @@ private theorem fld_foldBlk_mul (g : Nat → Nat) (hg : ∀ r, g r < 16) :
   | b, 0, s, gs, hs => by
     refine CFSG.KS.PackFld.fld_congr hs (fun i => ?_)
     have hi : ¬ (b ≤ i ∧ i < b + 0) := by omega
-    simp [hi]
+    simp
   | b, len + 1, s, gs, hs => by
     rw [foldBlk_succ]
     set s' : Nat := Nat.lor s (Nat.shiftLeft (g (b + len)) (4 * (b + len))) with hs'def

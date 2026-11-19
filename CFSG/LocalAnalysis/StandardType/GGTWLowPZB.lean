@@ -242,7 +242,7 @@ theorem ggTWLPZTest_sound {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ 
     have hle : p ≤ w.c0 := Nat.le_of_dvd hc0 hdvd
     omega
   ·
-    haveI : Fintype (Module.End (ZMod p) (GGTWE p N)) :=
+    have : Fintype (Module.End (ZMod p) (GGTWE p N)) :=
       Fintype.ofInjective
         (fun f : Module.End (ZMod p) (GGTWE p N) => (f : GGTWE p N → GGTWE p N))
         (fun f g h => LinearMap.ext (fun x => congrFun h x))
@@ -277,7 +277,7 @@ theorem ggTWLPZTest_sound {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ 
           Submonoid.closure ((fun i : {i : Fin (N - 1) // ggTWInJ N pos i.val} =>
             ggTWRefl (ggTWh p N i.1) (ggTWα p N i.1)) '' Set.univ) := by
         have hgen : ggTWNGen p N news e.1 = (ggTWNH p N e.1, ggTWNA p N e.1) := by
-          rw [ggTWNGen, if_pos he1lt]
+          rw [ggTWNGen, ite_eq_left he1lt]
         rw [hgen]
         refine Submonoid.subset_closure ⟨⟨⟨e.1, he1lt'⟩, (ggTWNInJ_iff pos e.1).mp heJ⟩,
           Set.mem_univ _, ?_⟩
@@ -300,7 +300,7 @@ theorem ggTWLPZTest_sound {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ 
         have hglt : g + 1 < N := l05nLB_gen_lt_of_inJ hgJ
         have hglt' : g < N - 1 := by omega
         have hgen : ggTWNGen p N news g = (ggTWNH p N g, ggTWNA p N g) := by
-          rw [ggTWNGen, if_pos hglt]
+          rw [ggTWNGen, ite_eq_left hglt]
         rw [hgen]
         refine Submonoid.subset_closure ⟨⟨⟨g, hglt'⟩, hgJ⟩, Set.mem_univ _, ?_⟩
         change ggTWRefl (ggTWh p N ⟨g, hglt'⟩) (ggTWα p N ⟨g, hglt'⟩) =
@@ -455,7 +455,7 @@ theorem ggTWLPZTest_sound {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN : 5 ≤ 
           (z1 : Module.End (ZMod p) (GGTWE p N)) := congrArg Subtype.val hval
       apply hlin_a_ne
       simpa [z0, z1] using hcoe
-    haveI : Nontrivial {g : ↥M // ∀ h : ↥M, g * h = h * g} := ⟨z0, z1, hz01⟩
+    have : Nontrivial {g : ↥M // ∀ h : ↥M, g * h = h * g} := ⟨z0, z1, hz01⟩
     have h2 : 1 < ggTWCentreCard M := by
       rw [ggTWCentreCard]
       exact Finite.one_lt_card

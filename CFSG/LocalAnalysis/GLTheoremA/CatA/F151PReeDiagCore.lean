@@ -65,11 +65,11 @@ theorem inner_of_glaPComponent_reeF4_of_three_lt (m : ℕ)
   have hR := CFSG.LieType.SeitzGeneration.reeTitsModel_cat_reeF4 hv
   obtain ⟨K, hfield, hfinite, hchar, hKcard, ⟨eK⟩⟩ :=
     CFSG.LieType.ChevTwo.Semi.exists_mulEquiv_reeGamma hm1 hR
-  letI := hfield
-  letI := hfinite
-  haveI : CharP K ReeTag.F4.prime := hchar
+  let := hfield
+  let := hfinite
+  have : CharP K ReeTag.F4.prime := hchar
   let e : S ≃* ↥(ReeTag.F4.reeGamma K m) := eS.trans eK
-  letI : Finite ↥(ReeTag.F4.reeGamma K m) := Subtype.finite
+  let : Finite ↥(ReeTag.F4.reeGamma K m) := Subtype.finite
   have hX : orderOf (e x) = p :=
     (orderOf_injective e.toMonoidHom e.injective x).trans hx
   obtain ⟨N, hNle, -, huniq, hNcomp⟩ :=
@@ -107,9 +107,9 @@ theorem inner_of_glaPComponent_reeF4_three (m : ℕ) (hv : (TauCeti.LieTypeIndex
   have hR := CFSG.LieType.SeitzGeneration.reeTitsModel_cat_reeF4 hv
   obtain ⟨K, hfield, hfinite, hchar, hKcard, ⟨eK⟩⟩ :=
     CFSG.LieType.ChevTwo.Semi.exists_mulEquiv_reeGamma hm1 hR
-  letI := hfield
-  letI := hfinite
-  haveI : CharP K ReeTag.F4.prime := hchar
+  let := hfield
+  let := hfinite
+  have : CharP K ReeTag.F4.prime := hchar
   let e : S ≃* ↥(ReeTag.F4.reeGamma K m) := eS.trans eK
   have hX : orderOf (e x) = 3 :=
     (orderOf_injective e.toMonoidHom e.injective x).trans hx

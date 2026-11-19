@@ -25,7 +25,7 @@ theorem sum_inl_inr_eq_trace {m : ℕ} (Y : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ 
     Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁,
     Matrix.fromBlocks_apply₂₂, Matrix.zero_apply, zero_mul, Finset.sum_const_zero, zero_add,
     Matrix.neg_apply, Matrix.one_apply, neg_mul, Matrix.add_apply, Matrix.transpose_apply,
-    ite_mul, one_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true, Finset.sum_neg_distrib,
+    ite_mul, one_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true, Finset.sum_neg_distrib,
     add_zero]
   rw [Finset.sum_add_distrib, zmod2_neg, add_comm]
 
@@ -37,11 +37,11 @@ theorem exists_add_transpose {κ : Type*} [Fintype κ] (e : κ ≃ Fin (Fintype.
   ext x y
   simp only [Matrix.add_apply, Matrix.of_apply, Matrix.transpose_apply]
   rcases lt_trichotomy (e x) (e y) with h | h | h
-  · rw [if_pos h, if_neg (not_lt.mpr h.le), add_zero]
+  · rw [ite_eq_left h, ite_eq_right (not_lt.mpr h.le), add_zero]
   · have hxy : x = y := e.injective h
     subst hxy
     simp [hdiag]
-  · rw [if_neg (not_lt.mpr h.le), if_pos h, zero_add, hsymm]
+  · rw [ite_eq_right (not_lt.mpr h.le), ite_eq_left h, zero_add, hsymm]
 
 section HalfTrace
 
@@ -69,7 +69,7 @@ theorem exists_halfTrace {ω : LinearMap.BilinForm (ZMod 2) W} (halt : ∀ u, ω
     simp [Finset.sum_add_distrib]
   · have : ∀ i : Fin m, ω (b (Sum.inl i)) (b (Sum.inr i)) = 1 := fun i => by
       rw [hJ]
-      simp [Matrix.J, zmod2_neg]
+      simp [Matrix.J]
     simp only [this, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul, mul_one]
     subst hm
     decide

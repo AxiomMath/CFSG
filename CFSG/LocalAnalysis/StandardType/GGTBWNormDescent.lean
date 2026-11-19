@@ -76,7 +76,7 @@ theorem mem_normalizer_iff_redHom (hperf : commutator L' = ⊤) {A : Subgroup (M
       redHom (twoSub ψ.ker hker) σ ∈ Subgroup.normalizer
         ((redSub hker hAle).range : Set (MulAut (L' ⧸ twoSub ψ.ker hker))) := by
   have hmem := redHom_mem_range_redSub_iff hker hperf hAle
-  simp only [Subgroup.mem_normalizer_iff, SetLike.mem_coe]
+  simp only [Subgroup.mem_normalizer_iff]
   constructor
   · intro hσ x
     by_cases hx : x ∈ (redHom (twoSub ψ.ker hker)).range

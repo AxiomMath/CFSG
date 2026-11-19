@@ -30,7 +30,7 @@ theorem IsEmb.G3 (hE : IsEmb L t x K D t₀ x₀ ι) (M : Model K D t₀ x₀) :
         (centralizer ({x} : Set G) ⊓ centralizer ({t} : Set G))) := by
     rw [push_inf hE.inj, push_centralizer hE.inj hJ_C, hpushCx,
       hE.push_jOf hDK, hE.range_eq]
-    simp only [inf_assoc, inf_left_comm, inf_comm, inf_idem, inf_left_idem, inf_right_idem]
+    simp only [inf_assoc, inf_left_comm, inf_comm, inf_left_idem]
   obtain ⟨c₀, hc₀, y₀, hy₀, hcy⟩ := M.G3
   rw [hKx] at hc₀
   rw [hY] at hy₀

@@ -228,9 +228,11 @@ theorem sec54_inf_M_Abar (h : Sec3Ctx A Abar S₀ B) :
   rw [sup_comm] at this
   exact this
 
+omit [Finite G] in
 theorem sec54_M_le_S0 (h : Sec3Ctx A Abar S₀ B) : Section3.M A Abar ≤ S₀ :=
   sup_le (inf_le_left.trans h.a_le_s0) h.abar0_le_s0
 
+omit [Finite G] in
 theorem sec54_M_pgroup (h : Sec3Ctx A Abar S₀ B) : IsPGroup 2 ↥(Section3.M A Abar) :=
   h.isPGroup_s0.to_le (sec54_M_le_S0 h)
 
@@ -280,7 +282,7 @@ theorem sec54_rel_three (h53 : Tim77Sec53Statement) {A Abar' S₀' B' : Subgroup
   have hMX : Section3.M A Abar' ≤ Section3.X A Abar' := by
     unfold Section3.M Section3.X
     exact sup_le (le_sup_of_le_left inf_le_left) (le_sup_of_le_right inf_le_left)
-  haveI hMn : ((Section3.M A Abar').subgroupOf (Section3.X A Abar')).Normal :=
+  have hMn : ((Section3.M A Abar').subgroupOf (Section3.X A Abar')).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMX).mpr h'.setup.sup_le_normalizer_M
   obtain ⟨e⟩ := h53 G A Abar' S₀' B' h' hq' hnot'
   have hXa : a ∈ Section3.X A Abar' := Subgroup.mem_sup_left ha
@@ -312,6 +314,7 @@ theorem sec54_notation_of_choice (h : Sec3Ctx A Abar S₀ B) {Abar' : Subgroup G
       ne := hB2
       le := hB3 }⟩
 
+omit [Finite G] in
 theorem sec54_ctx_conj (h : Sec3Ctx A Abar S₀ B) {b : G} (hb : b ∈ B) :
     Sec3Ctx A (conjSubgroup b Abar) (conjSubgroup b S₀) (conjSubgroup b B) := by
   have hAb : conjSubgroup b A = A := conjSubgroup_eq_of_mem_centralizer (h.b_le_centralizer hb)
@@ -340,8 +343,8 @@ theorem sec54_of (h53 : Tim77Sec53Statement) (h43 : Tim77Sec43Statement)
   have hTI : IsTI (conjSubgroup b Abar) := isTI_conjSubgroup h.setup.ti_Ab b
   have ha0A : Section3.A0 A Abar ≤ A := inf_le_left
   have hbar0A : Section3.Abar0 A Abar ≤ Abar := inf_le_left
-  obtain ⟨α, hαA, hαA0⟩ := SetLike.exists_of_lt (lt_of_le_of_ne ha0A h.a0_ne)
-  obtain ⟨β, hβAbar, hβ0⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hbar0A h.abar0_ne)
+  obtain ⟨α, hαA, hαA0⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne ha0A h.a0_ne)
+  obtain ⟨β, hβAbar, hβ0⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hbar0A h.abar0_ne)
   obtain ⟨γ, hγdef⟩ : ∃ γ : G, γ = b * β * b⁻¹ := ⟨_, rfl⟩
   have hγAb : γ ∈ conjSubgroup b Abar := by
     rw [hγdef]; exact (mem_conjSubgroup_conj_t77 b β Abar).mpr hβAbar
@@ -587,10 +590,10 @@ theorem sec54_of (h53 : Tim77Sec53Statement) (h43 : Tim77Sec43Statement)
   have hAbarY : Abar ≤ Y := by rw [hYdef]; exact le_sup_of_le_left le_sup_right
   have hconjY : conjSubgroup b Abar ≤ Y := by rw [hYdef]; exact le_sup_right
   have hsolv : Group.IsSolvable ↥Y := by
-    haveI : (N.subgroupOf Y).Normal :=
+    have : (N.subgroupOf Y).Normal :=
       (Subgroup.normal_subgroupOf_iff hNY').mpr fun k₁ k₂ hk₁ hk₂ =>
         (Subgroup.mem_normalizer_iff.mp (hNnorm' k₂ hk₂) k₁).mp hk₁
-    haveI : IsMulCommutative ↥N := hNab'.1
+    have : IsMulCommutative ↥N := hNab'.1
     exact sec54_solvable_of_triangle_mod hNY' hYgen (hAY hαA) (hAbarY hβAbar) (hconjY hγAb)
       (sec54_sq_one hA hαA) (sec54_sq_one hAel hβAbar) hγγ hαβ hαγ hβγ
   exact hY' hsolv

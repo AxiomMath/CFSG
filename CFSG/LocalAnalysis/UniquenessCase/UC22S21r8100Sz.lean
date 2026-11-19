@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22s21r8100_card_le_of_isSz {X : Type} [Group X] [Finite X] {n p : ℕ} (hX : IsSz X n)
     (hp : p.Prime) (hp2 : p ≠ 2) {E : Subgroup X} (hE : IsElemAbelian p E) :
     Nat.card E ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hE.isPGroup.exists_card_eq
   have hk1 : k ≤ 1 :=
     (UC6S846.le_pRank' hp le_top hE hk).trans (pRank_le_one_of_isL2_or_isSz (Or.inr hX) hp hp2)
@@ -50,7 +50,7 @@ theorem uc22s21r8100_exists_centralizesBar_Sz {K : Subgroup G}
     · obtain ⟨a, ha⟩ : MulAut.conj (x : Bar2 K) ∈ φ.range := x.2
       obtain ⟨b, hb⟩ : MulAut.conj (y : Bar2 K) ∈ φ.range := y.2
       have hab : a * b = b * a := by
-        haveI := hB.1
+        have := hB.1
         exact mul_comm' a b
       rw [Subgroup.coe_mul, Subgroup.coe_mul, map_mul, map_mul, ← ha, ← hb, ← map_mul, hab,
         map_mul]

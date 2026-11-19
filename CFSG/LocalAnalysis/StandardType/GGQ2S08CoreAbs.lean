@@ -20,7 +20,7 @@ private lemma ggQ2s08k12_neg_sub_self {U : Type} [AddCommGroup U] [Module (ZMod 
   rw [h1, hneg2, one_smul]
 
 theorem ggQ2s08core_absIrred_of_irred {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
-    (A : Subgroup (U ≃ₗ[ZMod 3] U)) (hgen : A = Subgroup.closure {r | r ∈ A ∧ GGLinRefl r})
+    (A : Subgroup (U ≃ₗ[ZMod 3] U)) (_hgen : A = Subgroup.closure {r | r ∈ A ∧ GGLinRefl r})
     (hex : ∃ r ∈ A, GGLinRefl r)
     (hirr : ∀ S : Submodule (ZMod 3) U, (∀ a ∈ A, ∀ u ∈ S, a u ∈ S) → S = ⊥ ∨ S = ⊤) :
     ZS.AbsIrred 3 A := by

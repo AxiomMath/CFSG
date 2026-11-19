@@ -1327,7 +1327,7 @@ public theorem CFSG.appendixC_norm_character_sum_indicator
         (Algebra.norm (ZMod p) (S := appendixCField p q))
           (0 : appendixCField p q) ≠ 1 := by
       simp
-    rw [if_neg hnorm0]
+    rw [ite_eq_right hnorm0]
     apply Finset.sum_eq_zero
     intro χ _hχ
     simp [appendixCNormCharacter, MulChar.map_nonunit]

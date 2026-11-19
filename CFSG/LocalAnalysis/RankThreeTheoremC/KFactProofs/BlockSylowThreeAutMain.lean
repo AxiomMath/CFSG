@@ -29,13 +29,13 @@ open CFSG.Open CFSG.AGLEmbedding CFSG.AGLEmbedding.ParabHub CFSG.Assembly.LowTwo
 theorem coprime_three_card_of_perfect_of_solvable {W : Type*} [Group W] {J : Subgroup W}
     (hJ : Group.IsSolvable J) {U : Subgroup W} (hUJ : U ≤ J) (hU : ⁅U, U⁆ = U) :
     Nat.Coprime 3 (Nat.card U) := by
-  have hUs : Group.IsSolvable U := solvable_of_solvable_injective (Subgroup.inclusion_injective hUJ)
+  have hUs : Group.IsSolvable U := Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hUJ)
   by_cases hbot : U = ⊥
   · subst hbot
     simp
   · exfalso
-    haveI : Nontrivial U := (Subgroup.nontrivial_iff_ne_bot U).mpr hbot
-    haveI : Group.IsPerfect U := Subgroup.isPerfect_iff.mpr hU
+    have : Nontrivial U := (Subgroup.nontrivial_iff_ne_bot U).mpr hbot
+    have : Group.IsPerfect U := Subgroup.isPerfect_iff.mpr hU
     exact Group.IsPerfect.not_isSolvable U hUs
 
 theorem not_27_dvd_card_mulAut_of_parab
@@ -131,7 +131,7 @@ theorem kFactCompParabSylowThreeAut_of_inputs
   intro Y _ _ L P hcp hsolv hidx
   obtain ⟨T, hT, hNJ, hJ⟩ := exists_sylow_normalizer_subgroupOf_of_compParabE (CompParab.toE hcp)
   have hJsolv : Group.IsSolvable ↥(P.subgroupOf L) :=
-    solvable_of_solvable_injective (f := (Subgroup.subgroupOfEquivOfLe hcp.parab.1).toMonoidHom)
+    Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hcp.parab.1).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hcp.parab.1).injective
   exact not_27_dvd_card_mulAut_of_parab hGA hExc hWit hcp.comp.2.2 hcp.type hT hNJ hJ
     (fun U hUJ hU => coprime_three_card_of_perfect_of_solvable hJsolv hUJ hU) hidx

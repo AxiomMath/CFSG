@@ -13,6 +13,7 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremB CFSG.HardMathSupport.Solomon.LocalB
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barX_gLBConj (p : ℕ) {X : Subgroup G} {g : G} (hg : g ∈ X) (K : Subgroup G) :
     barX p X (GLBConj g K) =
       GLBConj (QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨g, hg⟩) (barX p X K) := by
@@ -38,6 +39,7 @@ theorem barX_gLBConj (p : ℕ) {X : Subgroup G} {g : G} (hg : g ∈ X) (K : Subg
       rw [this]
       group
 
+omit [Finite G] in
 theorem gLBConj_eq_iff_mem_normalizer (L : Subgroup G) (a b : G) :
     GLBConj a L = GLBConj b L ↔ b * a⁻¹ ∈ Subgroup.normalizer (L : Set G) := by
   rw [mem_normalizer_iff_gLBConj_eq]

@@ -27,7 +27,7 @@ private theorem SG.exists_joint_pair {ω : K} (hω : IsPrimitiveRoot ω 3) {ι :
     refine ⟨u₀, hu, (herm σ u₀ w₀)⁻¹ • w₀, W₂.smul_mem _ hw, by simp, by simp, ?_⟩
     rw [herm_smul_right, inv_mul_cancel₀ hne]
   | insert s T hs ih =>
-    haveI : NeZero (3 : ℕ) := ⟨by norm_num⟩
+    have : NeZero (3 : ℕ) := ⟨by norm_num⟩
     have hp0 : ((3 : ℕ) : K) ≠ 0 := (hω.neZero').out
     have hs₁ := h₁ s (Finset.mem_insert_self s T)
     have hs₂ := h₂ s (Finset.mem_insert_self s T)
@@ -123,7 +123,7 @@ private theorem SG.exists_piece_family (hσ : IsUnitaryInvolution σ) {ω : K}
     obtain ⟨b, hb⟩ := hc.eigen s (τ j)
     refine ⟨a, ha, fun h0 => ?_⟩
     have h1 := hS s (c j) (c (τ j))
-    rw [ha, hb, herm_smul_left, herm_smul_right, hc.gram, if_pos rfl, h0] at h1
+    rw [ha, hb, herm_smul_left, herm_smul_right, hc.gram, ite_eq_left rfl, h0] at h1
     simp at h1
   have hWst : ∀ s, ∀ x ∈ perp σ c, S s x ∈ perp σ c := by
     intro s x hx j

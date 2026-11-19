@@ -324,7 +324,7 @@ private theorem lemmaF_part_iv
     {L1 L2 S F : Subgroup G}
     (hF : F112Hyp L1 L2 S) (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
     (hB2 : VBig L2) (h2 : VL2 L2)
-    (hFQ : F ≤ Q2 L1 L2 S) (hFn : P2 L1 L2 S ≤ Subgroup.normalizer (F : Set G))
+    (_hFQ : F ≤ Q2 L1 L2 S) (hFn : P2 L1 L2 S ≤ Subgroup.normalizer (F : Set G))
     (hFH : ⁅F, oTwoUpper (u3H L1 L2 S)⁆ ≠ ⊥) :
     ¬ Z1 L1 L2 S ≤ Q2 L1 L2 S → ¬ F ≤ Q1 L1 L2 S := by
   intro hZ hFQ1
@@ -398,14 +398,14 @@ theorem str86_lemmaF_exists {L1 L2 S : Subgroup G}
       (le_sup_left : L2 ≤ u3H L1 L2 S).trans hHleQ2
     have hL2p : IsPGroup 2 L2 := (pCoreOf_isPGroup 2 (P2 L1 L2 S)).to_le hL2Q2
     have hL2solv : Group.IsSolvable ↥L2 := by
-      haveI : Group.IsNilpotent ↥L2 := hL2p.isNilpotent
+      have : Group.IsNilpotent ↥L2 := hL2p.isNilpotent
       infer_instance
     exact (VBig.not_isSolvable hF.1.h2.listed hB2) hL2solv
   have hmem : Q2 L1 L2 S ∈ {F : Subgroup G | F ≤ Q2 L1 L2 S ∧
       P2 L1 L2 S ≤ Subgroup.normalizer (F : Set G) ∧
       ⁅F, oTwoUpper (u3H L1 L2 S)⁆ ≠ ⊥} :=
     ⟨le_rfl, le_normalizer_pCoreOf 2 (P2 L1 L2 S), hHne⟩
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   obtain ⟨F, hFP, hFmin⟩ := Set.Finite.exists_minimalFor (fun F : Subgroup G => Nat.card F)
     {F : Subgroup G | F ≤ Q2 L1 L2 S ∧

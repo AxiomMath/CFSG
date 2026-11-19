@@ -29,7 +29,7 @@ private theorem ggLieCentOrbit_familyKernel_pair {τ : Tag} {L : Type} [Field L]
     (a₁ a₂ : Fin τ.rank → Lˣ) :
     familyKernel ![a₁, a₂] = kernelRoots (jointChar a₁ a₂) := by
   ext α
-  simp only [familyKernel, kernelRoots, Set.mem_setOf_eq]
+  simp only [familyKernel, kernelRoots, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hroot, hα⟩
     have h0 := hα 0
@@ -392,7 +392,7 @@ theorem ggLieCentOrbit_perfect_le_rootSpan
     (hperf : ⁅P, P⁆ = P) :
     P ≤ rootSpan τ L (kernelRoots (jointChar a₁ a₂)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C : Subgroup (ModGL τ L) := familyCentralizer τ L ![a₁, a₂] with hC
   set N : Subgroup (ModGL τ L) := familyGroup (K := L) ![a₁, a₂] with hN
   have hPC : P ≤ C := by
@@ -404,14 +404,14 @@ theorem ggLieCentOrbit_perfect_le_rootSpan
       ← ggLieCentOrbit_familyKernel_pair]
   let φ : C →* C ⧸ N.subgroupOf C := QuotientGroup.mk' (N.subgroupOf C)
   let Q : Subgroup (C ⧸ N.subgroupOf C) := (P.subgroupOf C).map φ
-  haveI : Finite ↥(P.subgroupOf C) :=
+  have : Finite ↥(P.subgroupOf C) :=
     Finite.of_injective
       (fun x : ↥(P.subgroupOf C) => (⟨(x.1 : ModGL τ L), Subgroup.mem_subgroupOf.1 x.2⟩ : P))
       (fun a b h => by
         have h' : ((a.1 : C) : ModGL τ L) = ((b.1 : C) : ModGL τ L) :=
           congrArg (fun z : P => (z : ModGL τ L)) h
         exact Subtype.ext (Subtype.ext h'))
-  haveI : Finite ↥Q :=
+  have : Finite ↥Q :=
     Finite.of_surjective
       (fun x : ↥(P.subgroupOf C) => (⟨φ x, Subgroup.mem_map_of_mem φ x.2⟩ : Q))
       (fun q => by
@@ -442,13 +442,13 @@ theorem ggLieCentOrbit_perfect_le_rootSpan
     have := Group.IsPerfect.map (f := φ) (H := P.subgroupOf C)
     simpa only [Q] using this
   have hsolv : Group.IsSolvable Q := by
-    haveI : Group.IsNilpotent Q := IsPGroup.isNilpotent hPGroup
+    have : Group.IsNilpotent Q := IsPGroup.isNilpotent hPGroup
     exact IsNilpotent.to_isSolvable
   have hQbot : Q = ⊥ := by
-    haveI : Subsingleton Q := by
+    have : Subsingleton Q := by
       by_contra h
       rw [not_subsingleton_iff_nontrivial] at h
-      haveI : Nontrivial Q := h
+      have : Nontrivial Q := h
       exact Group.IsPerfect.not_isSolvable (G := Q) hsolv
     exact Subgroup.eq_bot_of_subsingleton Q
   have hle : P.subgroupOf C ≤ N.subgroupOf C := by
@@ -502,8 +502,8 @@ theorem ggLieCentOrbit_component_le_orbitSpan
   have hΓfix : ∀ x ∈ D.Γ, D.step x = x := fun x hx => (hΓle hx).2
   have hKperf : ⁅K, K⁆ = K := Subgroup.isPerfect_iff.1 ⟨hK.2.2.1⟩
   have hKmodel : K ≤ D.model := (hK.1.trans inf_le_left).trans hΓle
-  haveI : Finite D.model := hfin
-  haveI : Finite ↥K :=
+  have : Finite D.model := hfin
+  have : Finite ↥K :=
     Finite.of_injective (Subgroup.inclusion hKmodel) (Subgroup.inclusion_injective _)
   have hKadj : K ≤ adjointGroup τ L ⊓ Subgroup.centralizer
       ((Subgroup.closure {rootDiagUnit τ a₁, rootDiagUnit τ a₂} : Subgroup (ModGL τ L)) :
@@ -511,9 +511,9 @@ theorem ggLieCentOrbit_component_le_orbitSpan
   have hKU : K ≤ rootSpan τ L (kernelRoots χ) :=
     ggLieCentOrbit_perfect_le_rootSpan hp hp2 a₁ a₂ h₁ h₂ hKadj hKperf
   have hkfin : (kernelRoots χ).Finite := (finite_setOf_isRoot τ).subset fun α h => h.1
-  haveI : Finite (kernelRoots χ) := hkfin.to_subtype
-  haveI : Finite (KernelComponent χ) := inferInstance
-  haveI : Finite (Set.range (ggLieCentOrbit_orbitRoots ρ χ)) := (Set.finite_range _).to_subtype
+  have : Finite (kernelRoots χ) := hkfin.to_subtype
+  have : Finite (KernelComponent χ) := inferInstance
+  have : Finite (Set.range (ggLieCentOrbit_orbitRoots ρ χ)) := (Set.finite_range _).to_subtype
   let A : Set.range (ggLieCentOrbit_orbitRoots ρ χ) → Subgroup (ModGL τ L) :=
     fun O => rootSpan τ L O.1
   have hc : ∀ O O', O ≠ O' → ∀ x ∈ A O, ∀ y ∈ A O', Commute x y := by
@@ -572,7 +572,7 @@ theorem ggLieCentOrbit_component_le_orbitSpan
       (Subgroup.closure {rootDiagUnit τ a₁, rootDiagUnit τ a₂} : Set (ModGL τ L)) :=
     iSup_le fun O => le_inf inf_le_right (inf_le_left.trans (hcent O))
   have hKP' : K ≤ P' := h2
-  haveI : Finite ↥P' := Finite.of_injective
+  have : Finite ↥P' := Finite.of_injective
     (Subgroup.inclusion (((hP'X.trans inf_le_left).trans hΓle) : P' ≤ D.model))
     (Subgroup.inclusion_injective _)
   have hKcomp : IsComponentOf K P' :=

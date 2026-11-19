@@ -70,8 +70,8 @@ theorem not_forall_induces_of_threeRankTwo {G : Type*} [Group G] {J : Subgroup G
     obtain ⟨l, rfl⟩ := exists_eq_mk θ y
     rw [MulAut.mul_apply, hval _ _ l, hval _ _ l, hval _ _ (restrictHom _ l)]
     rfl
-  haveI : IsMulCommutative ↥E := hE.1
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : IsMulCommutative ↥E := hE.1
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hrange : Nat.card Ψ.range ≤ 9 := by
     refine hB _ ⟨inferInstance, ?_⟩ ?_
     · rintro _ ⟨e, rfl⟩

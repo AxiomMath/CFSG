@@ -68,7 +68,7 @@ theorem om_aut_facts {n ℓ f : ℕ} (hn : 4 ≤ n) (hn1 : 1 ≤ n) {K : Type} [
     let y' : ↥(matrixProjectiveImage (coordinateQuadMinus n K hn1 b c)) :=
       ⟨y, htop ▸ Subgroup.mem_top y⟩
     have hcomm : Commute (ψ x') (ψ y') := by
-      haveI := hψcyc
+      have := hψcyc
       have := IsMulCommutative.is_comm.comm (⟨ψ x', x', rfl⟩ : ψ.range) ⟨ψ y', y', rfl⟩
       exact congrArg Subtype.val this
     have h1 : ψ ⁅x', y'⁆ = 1 := by
@@ -78,7 +78,7 @@ theorem om_aut_facts {n ℓ f : ℕ} (hn : 4 ≤ n) (hn1 : 1 ≤ n) {K : Type} [
     rw [hψker] at h2
     exact Subgroup.mem_subgroupOf.1 h2
   refine ⟨hcen, ?_, ?_⟩
-  · haveI := hψcyc
+  · have := hψcyc
     refine outCycAt_of_cyclic Nat.prime_three
       (matrixProjectiveImage (coordinateQuadMinus n K hn1 b c))
       (fun α _ => htop ▸ Subgroup.mem_top α) (ψ.rangeRestrict) ?_

@@ -39,7 +39,7 @@ private theorem false_of_abelian_center_lt {G : Type*} [Group G] {T : Sylow 2 G}
     rwa [pow_one] at this
   omega
 
-private theorem pow_four_ne_eight {m : ℕ} (hm : 1 ≤ m) : (4 : ℕ) ^ m ≠ 8 := by
+private theorem pow_four_ne_eight {m : ℕ} (_hm : 1 ≤ m) : (4 : ℕ) ^ m ≠ 8 := by
   intro h
   have h2 : (2 : ℕ) ^ (2 * m) = 2 ^ 3 := by
     rw [pow_mul, show (2 : ℕ) ^ 2 = 4 by norm_num, h,
@@ -59,7 +59,7 @@ theorem goldtype_elementary_sylow {K : Type} [Group K] [Finite K] [IsSimpleGroup
     ⟨p, f, hp, hpo, hf, hp5, h8, ⟨e⟩⟩ | ⟨m', hm', hcardK⟩ | ⟨he⟩
   ·
     right
-    haveI : Finite (PSL(2, GaloisField 2 f)) := Finite.of_equiv K e.toEquiv
+    have : Finite (PSL(2, GaloisField 2 f)) := Finite.of_equiv K e.toEquiv
     set T' : Sylow 2 (PSL(2, GaloisField 2 f)) :=
       T.mapSurjective (f := e.toMonoidHom) e.surjective
     have hT' : (T' : Subgroup (PSL(2, GaloisField 2 f))) =
@@ -88,7 +88,7 @@ theorem goldtype_elementary_sylow {K : Type} [Group K] [Finite K] [IsSimpleGroup
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) (by omega)
   ·
     left
-    haveI := hp
+    have := hp
     have hTcard : Nat.card (T : Subgroup K) = 4 :=
       (CFSG.Goldschmidt.GoldType.sylow_of_psl2_odd hpo hf h8 e T).1
     have hm1 : m = 1 := by

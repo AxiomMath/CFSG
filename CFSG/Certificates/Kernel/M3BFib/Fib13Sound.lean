@@ -240,10 +240,10 @@ theorem f13S_sum_piv (g : BasK → ℕ) {b : BasK} : ∀ l : List BasK, (l.map P
         refine List.sum_eq_zero fun x hx => ?_
         obtain ⟨b', hb', rfl⟩ := List.mem_map.1 hx
         have hne : b.1 ≠ b'.1 := fun e' => hn.1 (by rw [e']; exact List.mem_map.2 ⟨b', hb', rfl⟩)
-        rw [if_neg hne, mul_zero]
-      rw [hz, if_pos rfl, mul_one, add_zero]
+        rw [ite_eq_right hne, mul_zero]
+      rw [hz, ite_eq_left rfl, mul_one, add_zero]
     · have hne : b.1 ≠ a.1 := fun e' => hn.1 (by rw [← e']; exact List.mem_map.2 ⟨b, hb, rfl⟩)
-      rw [if_neg hne, mul_zero, zero_add, f13S_sum_piv g l hn.2 hb]
+      rw [ite_eq_right hne, mul_zero, zero_add, f13S_sum_piv g l hn.2 hb]
 
 theorem f13S_fold (c : ℕ) (hc : GoodRow c) : ∀ bs : List BasK, (∀ b ∈ bs, GoodRow b.2.1) →
     List.rec (motive := fun _ => ℕ) c
@@ -312,7 +312,7 @@ theorem basisChk_spec {ms : List AffK} {bs : List BasK} {fr : List ℕ}
     ∀ c, GoodRow c → ∃ i < 3 ^ fr.length, vz (ptQ fr i) = vz (redW bs c) := by
   unfold basisChk at h
   simp only [Bool.and_eq_true, List.all_eq_true, List.mem_range, beq_iff_eq, Nat.blt_eq,
-    cond_eq_if] at h
+    Bool.cond_eq_ite] at h
   obtain ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩ := h
   have hbg : ∀ b ∈ bs, GoodRow b.2.1 := fun b hb => by
     rw [(h4 b hb).1.2]
@@ -321,7 +321,7 @@ theorem basisChk_spec {ms : List AffK} {bs : List BasK} {fr : List ℕ}
     intro b hb
     by_contra hc
     have e := (h4 b hb).2 b hb
-    rw [if_pos rfl, f13S_lane_big (hbg b hb) (by omega)] at e
+    rw [ite_eq_left rfl, f13S_lane_big (hbg b hb) (by omega)] at e
     exact absurd e (by decide)
   have hcnt : ∀ j < 12, fr.count j + (bs.map Prod.fst).count j = 1 := fun j hj => by
     rw [← f13S_cnt, ← f13S_cnt]
@@ -371,7 +371,7 @@ theorem basisChk_spec {ms : List AffK} {bs : List BasK} {fr : List ℕ}
     have e1 : (dig3 c).getD k 0 < 3 := getD_mem_lt (dig3_lt c) (by norm_num) _
     have e2 : (bs.map fun b => (3 - lane c b.1) % 3 * (dig3 b.2.1).getD k 0).sum ≤
         (bs.map fun b => (3 - lane c b.1) % 3 * (dig3 b.2.1).getD k 0).length • 4 := by
-      refine List.sum_le_card_nsmul _ _ fun x hx => ?_
+      refine List.sum_le_length_nsmul _ _ fun x hx => ?_
       obtain ⟨b, _, rfl⟩ := List.mem_map.1 hx
       have e3 : (3 - lane c b.1) % 3 ≤ 2 := by omega
       have e4 : (dig3 b.2.1).getD k 0 ≤ 2 := by
@@ -409,12 +409,11 @@ theorem basisChk_spec {ms : List AffK} {bs : List BasK} {fr : List ℕ}
           (3 - lane c b.1) % 3 := by
         refine Eq.trans ?_ (f13S_sum_piv (fun b' => (3 - lane c b'.1) % 3) bs hpn hb)
         refine congrArg List.sum (List.map_congr_left fun b' hb' => ?_)
-        beta_reduce
         rw [← f13S_lane_eq (hbg b' hb') hb12, (h4 b' hb').2 b hb]
       have hl3 : lane c b.1 < 3 := by
         rw [f13S_lane_eq hc hb12]
         exact getD_mem_lt (dig3_lt c) (by norm_num) _
-      simp only [Fin.val_mk]
+      simp only
       rw [hs, ← f13S_lane_eq hc hb12, ← cast_mod3]
       have e : (lane c b.1 + (3 - lane c b.1) % 3) % 3 = 0 := by omega
       rw [e, Nat.cast_zero]
@@ -428,8 +427,8 @@ theorem basisChk_spec {ms : List AffK} {bs : List BasK} {fr : List ℕ}
     funext k
     rw [hiq, f13S_vz_sum h64 k]
     by_cases hk : (k : ℕ) ∈ fr
-    · rw [if_pos hk, ZMod.natCast_zmod_val]
-    · rw [if_neg hk, Nat.cast_zero]
+    · rw [ite_eq_left hk, ZMod.natCast_zmod_val]
+    · rw [ite_eq_right hk, Nat.cast_zero]
       have hc1 := hcnt k k.isLt
       rw [List.count_eq_zero.2 hk, zero_add] at hc1
       obtain ⟨b, hb, hbk⟩ := List.mem_map.1
@@ -476,7 +475,7 @@ theorem f13S_rowsK {ms : List AffK} {bs : List BasK} {fr : List ℕ} {n : ℕ} {
   | r :: rows, m, M, hm, h => by
     unfold rowsK at h
     dsimp only at h
-    rw [cond_eq_if] at h
+    rw [Bool.cond_eq_ite] at h
     split_ifs at h with hc
     simp only [Bool.and_eq_true, Nat.blt_eq, beq_iff_eq, f13S_bit] at hc
     obtain ⟨⟨⟨-, hb⟩, hlen⟩, he⟩ := hc
@@ -753,7 +752,7 @@ theorem fibre_roots_of_checks (hinv : letterInvCheck () = true) {k : ℕ} (hk : 
     have e : affV (ms.getD (2 * j) ([], 0)) w = w + vz ((transK ms).getD j 0) := by
       funext i
       rw [affV, hid j j.isLt, transK_getD ms j.isLt, Pi.add_apply]
-      simp only [vz_idRows, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.sum_ite_eq',
+      simp only [vz_idRows, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
         Finset.mem_univ, ite_true]
       ring
     rw [← e]
@@ -797,8 +796,8 @@ theorem fibre_roots_of_checks (hinv : letterInvCheck () = true) {k : ℕ} (hk : 
     rw [toD_fpt] at hx
     convert hx using 2
     · funext i
-      rw [hTd, fT, if_neg hk, toMat_adMat_row]
-    · rw [hTd, fLam, if_neg hk]
+      rw [hTd, fT, ite_eq_right hk, toMat_adMat_row]
+    · rw [hTd, fLam, ite_eq_right hk]
       rfl
   obtain ⟨hcg, hcv⟩ := encW_spec (vfun (unpack p))
   rw [← hcv] at hfib
@@ -812,7 +811,7 @@ theorem fibre_roots_of_checks (hinv : letterInvCheck () = true) {k : ℕ} (hk : 
   rw [eq_of_pdEq hvr, hTd, hNd, ← toD_comp] at e
   have hrep : repD k v = Timmesfeld.M3B.comp (B0 ()) (tD k) (nfD (B0 ()) (eOf v 0)) := by
     unfold repD
-    exact if_neg hk
+    exact ite_eq_right hk
   refine ⟨h1 * h2, tbL.mul_mem hh1 hh2, v, hv, ?_⟩
   have e2 : (h1 * h2)⁻¹ * x * (h1 * h2) = h2⁻¹ * (h1⁻¹ * x * h1) * h2 := by group
   rw [e2, hrep, ← e]

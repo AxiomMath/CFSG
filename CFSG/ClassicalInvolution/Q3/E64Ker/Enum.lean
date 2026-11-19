@@ -18,11 +18,11 @@ variable {Y : Type*} [Group Y]
 
 theorem codeVal_even (L : ℕ → Y) (i : ℕ) : codeVal L (2 * i) = L i := by
   unfold codeVal
-  rw [if_pos (show 2 * i % 2 = 0 by omega), show 2 * i / 2 = i by omega]
+  rw [ite_eq_left (show 2 * i % 2 = 0 by omega), show 2 * i / 2 = i by omega]
 
 theorem codeVal_odd (L : ℕ → Y) (i : ℕ) : codeVal L (2 * i + 1) = (L i)⁻¹ := by
   unfold codeVal
-  rw [if_neg (show ¬ (2 * i + 1) % 2 = 0 by omega), show (2 * i + 1) / 2 = i by omega]
+  rw [ite_eq_right (show ¬ (2 * i + 1) % 2 = 0 by omega), show (2 * i + 1) / 2 = i by omega]
 
 theorem evalWord_codeVal_map {Z : Type*} [Group Z] (f : Y →* Z) (L : ℕ → Y) (w : List ℕ) :
     evalWord (codeVal fun i => f (L i)) w = f (evalWord (codeVal L) w) := by
@@ -32,8 +32,8 @@ theorem evalWord_codeVal_map {Z : Type*} [Group Z] (f : Y →* Z) (L : ℕ → Y
     have hc : codeVal (fun i => f (L i)) c = f (codeVal L c) := by
       unfold codeVal
       by_cases h : c % 2 = 0
-      · rw [if_pos h, if_pos h]
-      · rw [if_neg h, if_neg h, map_inv]
+      · rw [ite_eq_left h, ite_eq_left h]
+      · rw [ite_eq_right h, ite_eq_right h, map_inv]
     rw [evalWord_cons, evalWord_cons, map_mul, hc, ih]
 
 theorem lift_mk_e64Letter (L : ℕ → Y) (w : List ℕ) (hw : ∀ c ∈ w, c < 2 * 28) :
@@ -98,7 +98,7 @@ theorem card_le_of_enum {X : Type} [Group X] [Finite X]
     (hpart : evalWord (codeVal gen) e64Partner ∈ Subgroup.zpowers n₀)
     {U : Subgroup X} (h0 : gen 0 ∈ U) (h1 : gen 1 ∈ U) (hU : Nat.card U ≤ 8) :
     Nat.card X ≤ 10752 * Nat.card (Subgroup.zpowers n₀) := by
-  haveI : (Subgroup.zpowers n₀).Normal :=
+  have : (Subgroup.zpowers n₀).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hn₀)
   let mk : X →* X ⧸ Subgroup.zpowers n₀ := QuotientGroup.mk' (Subgroup.zpowers n₀)
   have hrelsY : ∀ r ∈ e64Rels (), evalWord (codeVal fun i => mk (gen i)) r = 1 := by

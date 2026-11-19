@@ -21,7 +21,7 @@ theorem exists_cube_root [IsAlgClosed Ω] (h30 : (3 : Ω) ≠ 0) :
     ∃ ζ : Ωˣ, ζ ^ 3 = 1 ∧ orderOf ζ = 3 := by
   have : NeZero ((3 : ℕ) : Ω) := ⟨by exact_mod_cast h30⟩
   have := IsSepClosed.hasEnoughRootsOfUnity Ω 3
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω 3
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot Ω 3
   have hu : IsUnit ζ0 := hζ0.isUnit (by norm_num)
   have hζ3 : hu.unit ^ 3 = 1 := Units.ext (by simpa using hζ0.pow_eq_one)
   refine ⟨hu.unit, hζ3, orderOf_eq_prime hζ3 fun h => ?_⟩

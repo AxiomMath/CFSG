@@ -255,7 +255,7 @@ open CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoOther.U42 (SU42 mat mat_mul mat_
   nonempty_mulEquiv factorization_card_SU42)
 
 private theorem orderOf_ζ : orderOf ζ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime ζ_cube ζ_ne_one
 
 private theorem three_dvd_of_zeta_pow {n : ℕ} (h : ζ ^ n = 1) : 3 ∣ n := by
